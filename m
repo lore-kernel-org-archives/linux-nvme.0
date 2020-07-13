@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0796BC4345D
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1923DC43463
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C947F2072D
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D856520773
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 13:23:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UFDAnIFs";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kC1a/6Y3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C947F2072D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1e9+AHF1";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oDiXLMMy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D856520773
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,63 +27,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jtp0u+lH3bU1K+txR3VpMIPt4G6teDWZJFD3ht8wWqo=; b=UFDAnIFsJcKmC6inY5erXSzzlC
-	eUDZ02IentshREonFE+J8xBBReLste9MoKDSQvYEu6C3L9dRdOfrq7d6nDVxGyNc03sEKrRwKRkMM
-	2HCi16HAnONUncss1hD4qGCwsZ9tIqhBMH1+jsx0udhz4uLv+FnoExHV07q0OgfS7qQBA6i2+dqzp
-	skxrVjAEoS9iuYtDmzSNXE5uB4I0qR6GvLfbYoMAa3eX0QgYeo/9iYrgbCoTapja5BByI/in/+9gP
-	j+Ipw21cNFHCR9gcXeA2IfqFOtzv0TZYe5992hzONEWEpFdwgUVywa972wfUpguLynKuCwfLIcXBS
-	TKJ5ujnA==;
+	bh=vtj+UTPLxXET+q8nQS/9fCUiF7jysnX1VXp8YQcVchY=; b=1e9+AHF1C9BnUVAJV6YWOQmtX2
+	R628WQqaUzEGVSwaZhDvNKdfjGyhMdcQY5FlzHTCMI6gEyZ1zLw+geLAYpM1fXpBb7BYZqrFdeyWd
+	2xCzLfOIu10SFuIQUUlpTUAUVAaJWOFJH9gENdd8SmNLnbZO7R315XIW2GH9ejJ1KhNvGfFGCaeZ8
+	Fb3MM8YhU4beGV2T57HBgklKz41Fc3fSQ8sPElwTsqvOtuxG6z4m5Er1NzKVUnIPVBd+C1hFS+5PV
+	7LoVsUf4kKhy7kvNc7eqkfNWnOb18NstFOzNO5plcVMdMugxm9JA4X36KhREbkmr9Ry8F4iC7U6ho
+	DJHQiriQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1juyQ8-0006OK-2H; Mon, 13 Jul 2020 13:23:00 +0000
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542])
+	id 1juyQB-0006QJ-Dt; Mon, 13 Jul 2020 13:23:03 +0000
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1juyPy-0006Jo-RB
- for linux-nvme@lists.infradead.org; Mon, 13 Jul 2020 13:22:51 +0000
-Received: by mail-ed1-x542.google.com with SMTP id a8so13695349edy.1
- for <linux-nvme@lists.infradead.org>; Mon, 13 Jul 2020 06:22:50 -0700 (PDT)
+ id 1juyQ0-0006KN-FH
+ for linux-nvme@lists.infradead.org; Mon, 13 Jul 2020 13:22:53 +0000
+Received: by mail-ej1-x643.google.com with SMTP id y10so17168011eje.1
+ for <linux-nvme@lists.infradead.org>; Mon, 13 Jul 2020 06:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=3p7ZQxDsqAw6bxRKCsTTKpFTwnHOWTrmwbcNce8gSD0=;
- b=kC1a/6Y3ti+3Edy+d+cQbMBh/qldnRPwLHoSl2H23Cjje6H3rWM5692t38HrMqgY5A
- p1s+PqqNo+5RJ1dsUaLO/o5atjQ5iwPsNylHtq4N71vpa7Ravr+SjTHFmCGF2RNGVtz1
- 8grrGtS5fONExEzjvRwgkpnWiQSkXOqP+gu6uFJCY9CpTcNWRqKPPF4WQFX33thviMtu
- ZgQF1sl7N4Ol14HkF07patZboGe159hLEnRA8+C4BSQbknyJ9Wvo1B5TgHzQwmrrY4ka
- Ykaw7YcDuIa/pxfpmu3FfVjiWooxaEDWeaIztQdb2ec4JMk0kXnxi/RG1NJQ7mTJx21I
- a2cA==
+ bh=pbRPI5T6+CQlcjE3Ve13l43uBQozAmlKN702iYI4+CA=;
+ b=oDiXLMMy3B0TEHpeLRAA8vNGcLzfduiAQ+QAJdNsEevV2wQyULi7h1rsVLBU0QBd8y
+ 4LjXS26jKI0uEsMZ3UdV/cg+efVFpxA8EO0JRJtvjwrfx9wDZNmSEAkJedi2rmcmkC6H
+ IrZ0p9UJ3D8udE+6aKJUN/HcHK/A5s+unm9YnDwz/kgjWAY0+6+vxGd4t9UQUf2g0TmK
+ gP/D4CB0DB+UwLz0Pn0O0iHxIM6U8KNLOmW6Kt5dW5DyPHBZqcrUWBZRRCIMAcxoUPBb
+ CaIinXEHJ1jIAy4Z+NwSNDbb1xsx4djmFhPfF2P68dm1y6syHOuz+H/xwyqAifzy/izP
+ Q7OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=3p7ZQxDsqAw6bxRKCsTTKpFTwnHOWTrmwbcNce8gSD0=;
- b=fvLZkrxZs7u2j3onzYPzsnC4N2ONR9t0rHPiCVH5cNbucMpzlS9/n9biqCC8geoAr4
- HZ0l6VaefeQgKR/v1y5O+xHe22GA4TnGJNawaNMtBCkPAbib2kYGzt6pS50xn9FkKAwz
- 5CmsJzjgHFI5Hle+z7dlmhmRCpSBDaDtxHJe7u9UyTyTwlAZ42wPzt36jlDMSWrxvFPo
- 8fLLzf2LMPPXEZirRDVLd8ATIaAjVue4gmNZYGk1PB40M7/JvgzvJaF2to7TLiEV7kXi
- /K2X+MQCB+egH058pACHaXb/PNfK7okhTlymrWaRh0KV8wueMZs9OWKgfNmN1167sNgU
- 3v6Q==
-X-Gm-Message-State: AOAM533oyy2ou89/D6G5ejlzLzYJ3XZpkltO7MZL94nFdXAcRQjmB2PG
- gih5hxAEA6cq3yGD/ICYgZo=
-X-Google-Smtp-Source: ABdhPJwmht5srHkaTBLjOCr2Ce2Xe22jTAEZQo7y4UlcZf5gkxKXM5zk7Ce/DGTX6LLjYHYrZk6MDw==
-X-Received: by 2002:a50:ee87:: with SMTP id f7mr93706702edr.355.1594646569663; 
- Mon, 13 Jul 2020 06:22:49 -0700 (PDT)
+ bh=pbRPI5T6+CQlcjE3Ve13l43uBQozAmlKN702iYI4+CA=;
+ b=BEwER0QAC5b4DpCE6YYVdLvfnVLA4z06tYLtJ78i+iavzPqA7KYMoXHYixfV6bSdNL
+ nWV7yvzoA82+MOzYFAQIRl+qsDpMheV+d9RjSUhr+VMfU3/OJhH2z2PMbXQrFDCezmR7
+ 8SQYakrYcFd4MtSB9bu7z0je1d/J2K/LFSiyo6i3bYwfTVV4fSfmSK2QkgtoYFesvd8P
+ AXBDBnxp6i4MjrCGPclazZB+k+HmCvkLY/RkkW2AxX0A7vQGOvEQLtPTu4TgFor3Fla7
+ 2eraoNWkIPBZf4ZVHogufGB0diuSFC8OFOQp5d8L6vBBbc0ptfaKuE7IJlqlwJXaRrIh
+ r3EA==
+X-Gm-Message-State: AOAM532cXZ34rGrhFoeGUhTHmBAqw6t/VmttwjfeNAFzBB4hYS1TEltx
+ 8CJ6g5DPFdKqJKsmhvpNY78=
+X-Google-Smtp-Source: ABdhPJzLFoiuIquHARFKdvDNBo7G8zRr4UNzS9o5abkca8STc4RB8fWWh2+zFSwtRcAtOf/6bGWDbA==
+X-Received: by 2002:a17:906:cd19:: with SMTP id
+ oz25mr72103030ejb.36.1594646570989; 
+ Mon, 13 Jul 2020 06:22:50 -0700 (PDT)
 Received: from net.saheed (54007186.dsl.pool.telekom.hu. [84.0.113.134])
- by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.22.48
+ by smtp.gmail.com with ESMTPSA id n9sm11806540edr.46.2020.07.13.06.22.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 06:22:49 -0700 (PDT)
+ Mon, 13 Jul 2020 06:22:50 -0700 (PDT)
 From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 To: helgaas@kernel.org, Keith Busch <kbusch@kernel.org>,
  Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>
-Subject: [RFC PATCH 09/35] nvme-pci: Change PCIBIOS_SUCCESSFUL to 0
-Date: Mon, 13 Jul 2020 14:22:21 +0200
-Message-Id: <20200713122247.10985-10-refactormyself@gmail.com>
+Subject: [RFC PATCH 10/35] nvme-pci: Tidy Success/Failure checks
+Date: Mon, 13 Jul 2020 14:22:22 +0200
+Message-Id: <20200713122247.10985-11-refactormyself@gmail.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200713122247.10985-1-refactormyself@gmail.com>
 References: <20200713122247.10985-1-refactormyself@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200713_092250_941164_0F02FDA8 
-X-CRM114-Status: GOOD (  12.96  )
+X-CRM114-CacheID: sfid-20200713_092252_586530_9A66C05A 
+X-CRM114-Status: GOOD (  12.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,26 +106,25 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In reference to the PCI spec (Chapter 2), PCIBIOS* is an x86 concept.
-Their scope should be limited within arch/x86.
-
-Change all PCIBIOS_SUCCESSFUL to 0
+Remove unnecessary check for 0.
 
 Signed-off-by: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
 ---
+This patch depends on PATCH 09/35
+
  drivers/nvme/host/pci.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b1d18f0633c7..d426efb53f44 100644
+index d426efb53f44..a04f2d0375de 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
 @@ -1185,7 +1185,7 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
  
  	result = pci_read_config_word(to_pci_dev(dev->dev), PCI_STATUS,
  				      &pci_status);
--	if (result == PCIBIOS_SUCCESSFUL)
-+	if (result == 0)
+-	if (result == 0)
++	if (!result)
  		dev_warn(dev->ctrl.device,
  			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS=0x%hx\n",
  			 csts, pci_status);
