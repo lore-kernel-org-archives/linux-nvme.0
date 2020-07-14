@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7BEAC433F8
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2020 11:19:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0980C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2020 11:19:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 465C221D90
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2020 11:19:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BC21E2220C
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2020 11:19:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fSij2a17"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 465C221D90
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FE5ajnHb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC21E2220C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,34 +25,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DQ8rX/BoGzSaOrw/Pz8r+iPSbZH7XfRcjd1AlHME/0o=; b=fSij2a17N3ml3DN5GJuZW/TnT
-	mFPrA4njGrPW07zBh8WoKn0mnd8IpV6jXWlLBY2ntGrQjGo6L+sw4wZjhPBjsOdrgEm4l10wj3DPy
-	19vlS62sTvdHqr5NhsQyF+nX4L1JkTLKB9JhDcckRQw4tJhO5B1P5HZvV4FHm8lJ4GDA7PPvpiPqE
-	XXsjuC1eQt7Ty+eb5GXE1b75U8wxjiJIQIQTJeYwMWbr7dTlzhswVqxTiVZBklHuIvJl6u5XwRW3R
-	Mae7IyMGb99c5iZgfOJvzdkh1Sl7qPCdVRxb9BZo2Z7Fi6/8uK2oko/xUFu6RJAQxjVgFJzE7oEGo
-	+T3tbNvXA==;
+	 bh=a64vaSP66/ccVwzgMAp7UmA3rcrKyXOQSPpw2lUN5os=; b=FE5ajnHbMWhC2eDD7aCdUxnpt
+	pYSXXoA1773i4xd45L2C+Bg5ZmpClrt0vJbo7h2LkjoL1zbpUKt5V63LXcvUwrkryUaIk2PskJgxe
+	ju9JcFlbu+cWjI7rKAqtLQYZzqe9BVMph4wXcA22loJ8VKVOBzubQxIz3WY0v4klz0ifbWTLBaCVV
+	SttxNJQCpUnN1wZK+8biaJ/tOYseURxWNQuY8FzRrFHON4Iq3Wmx6KqinhKd3DMEZAnrD+tgtC3BC
+	VH0raec+RktML2jxFoyPNdO4HqXEKhDv8CxhusK5lT3JNouwpQW9cnusp9zSsR23MHxpuRZrPW9eL
+	SN5EysJqA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jvIxv-0005Kw-Mx; Tue, 14 Jul 2020 11:19:15 +0000
+	id 1jvIyK-0005ak-IU; Tue, 14 Jul 2020 11:19:40 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jvIwE-0004CW-66
- for linux-nvme@lists.infradead.org; Tue, 14 Jul 2020 11:17:32 +0000
+ id 1jvIwW-0004OS-LW
+ for linux-nvme@lists.infradead.org; Tue, 14 Jul 2020 11:17:50 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8C0D568CFC; Tue, 14 Jul 2020 13:17:27 +0200 (CEST)
-Date: Tue, 14 Jul 2020 13:17:27 +0200
+ id 6BE1368CFE; Tue, 14 Jul 2020 13:17:46 +0200 (CEST)
+Date: Tue, 14 Jul 2020 13:17:46 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] nvme: remove an unnecessary condition
-Message-ID: <20200714111727.GA17866@lst.de>
-References: <20200714105732.GD294318@mwanda>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Subject: Re: [PATCH] nvme: Remove redundant validation in nvme_start_ctrl()
+Message-ID: <20200714111746.GA17883@lst.de>
+References: <710eb90d9c1c125bdb37aae31ddc41a0f9782fa6.1594621435.git.baolin.wang@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200714105732.GD294318@mwanda>
+In-Reply-To: <710eb90d9c1c125bdb37aae31ddc41a0f9782fa6.1594621435.git.baolin.wang@linux.alibaba.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200714_071730_381434_C0B6E63F 
-X-CRM114-Status: UNSURE (   5.38  )
+X-CRM114-CacheID: sfid-20200714_071749_680156_D33E693E 
+X-CRM114-Status: UNSURE (   7.55  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -65,13 +65,17 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, kernel-janitors@vger.kernel.org,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: sagi@grimberg.me, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, axboe@fb.com, baolin.wang7@gmail.com,
+ kbusch@kernel.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
+
+On Mon, Jul 13, 2020 at 02:25:21PM +0800, Baolin Wang wrote:
+> We've already validated the 'kato' in nvme_start_keep_alive(), thus no
+> need to validate it again in nvme_start_ctrl(). Remove it.
 
 Thanks,
 
