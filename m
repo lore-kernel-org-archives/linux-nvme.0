@@ -2,90 +2,88 @@ Return-Path: <SRS0=z7iv=AZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40EC2C433F8
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2020 21:18:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99EBFC433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2020 23:31:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F3EC820658
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2020 21:18:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 644D62065E
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jul 2020 23:31:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CStcimP2";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="OVWrAVFo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F3EC820658
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XQyVlR9m";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="CN5/5bdS"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 644D62065E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9eJrTxZqRoJhS5pX7xeEBudPSblrJao4jux/tFLwzgE=; b=CStcimP2Z/avquYAhaqX2WFUO
-	aoWjA2jITxqMJSWY2n4+as8VsV1kB33rhu90ajLFcc+jcLeqlhiYu6VReL60qwffvLutSw9oyWZa3
-	8AU7fYeZeaSiBrVLo7A1uNE2jNG7SNSr3hF3xp+f+68WW8jJG7Jac0KbGxI3+BewV093YkklsRWRr
-	L/QiaMeyQiCa9AQlZKPvVm1Wy/glpZrj2nRgjXMmodxZ+OTiF0ibqJEE/Q8fr0Dy0RtyscHoqpmLw
-	ISIiQKxcFqVs9nUCEK93xcPVVQtL8aftg2+FB4JovFXN+nC7YpY4J46zjmA7HfijFZHWMRoFIb3W0
-	mMd1ugPGA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=o+hjOuCl4m1teXlsQa6LL9KVxTmQC+VUegzRYSIgt1M=; b=XQyVlR9m3Qm0y8+SJe+LsEanNu
+	eo1VadYN4WwXMkm3bClzCFqqL/8fqNi7bgyqVcTokOthiP8XB9Fy8IhxxFBcLFj+/0BdigUlaJ1DO
+	DXuPFiiqxMB+4BoA4TowWZC6Vwf3lRHpr5QV88nGrzCQ4eGVueRzDjOAjtKjVD+aI8/iNwUTLLRPJ
+	AohFzgJ0+Nv0Z/3pfuxpNkHWpHrmaHVz0/fRPaXXECe0pymlpA3viG/CmVKCXObQ00QhjnJW1nFTZ
+	kwzH9OKp55SVmGx0LBpxwZ0CbKeKxkVVwi/Us1maPFUVa24opAkWyWciY/tke8jl25fUZL8SH5CVh
+	EfmfY+Ug==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jvSKD-0005uC-VU; Tue, 14 Jul 2020 21:18:54 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1jvUOR-0005JQ-KD; Tue, 14 Jul 2020 23:31:23 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jvSK9-0005sX-Gh
- for linux-nvme@lists.infradead.org; Tue, 14 Jul 2020 21:18:51 +0000
+ id 1jvUOO-0005IW-Gs
+ for linux-nvme@lists.infradead.org; Tue, 14 Jul 2020 23:31:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594761529; x=1626297529;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=bWuqzbHA4O2WchwH+B4L7HQhS8/DqqEhr1nJBlmjemk=;
- b=OVWrAVFoO145N7HN0KlZdKIPPrsoAUEM1jf2x/Gil6Awo/vY4LVJEQlX
- qxZzD9YEoldtJEwgwASF7I6GutafCrZ8dbULXS89OSWCUspT4fYLHnHWC
- mJpqZy3WrdfC2q/yHRcuRghIJ6FH+xk2tPSFIhXoV4wT8HTMtnrWYPHwg
- MncRW+BSgIbyo+rcceIKsR0LsBXCRtFMyT1r/40EMIBCxt2WiuRJtS6o3
- c5ME1VmCaAfW56oWCSraB4+R6O5WcS90yJnzdsOd5Q2xihMNKOzrdz39z
- Wc9jCS25sYIyBVVIfVeKx/H+Qhlaus5YuvMg81B12kNUJAg13bfGknSOm Q==;
-IronPort-SDR: aOeJPjTTsje8cTL+nZSj4cvdlo0zNydHE9+3dwu7FDviZi5cnEkzScHc6zQ1l0EzM78uI1Riq5
- fVL/3/LwzI2sOYx5rPQUSHqFOfLDMNU0mFBvxD0CSdTl0DdYcYf8mge1gi7lmjmKTtx2ZFPaYW
- MOLIG2Ma3oGQW3Ufu+UKVulQy/2ygyGGb6Ay8yxzP2glduU5JlvEbByqjy5k3bdhz4jYf/PkNH
- V/mLJRwTLRj1aY6Qpkgslufl64ubphA4G17sn7+QyKcocJw2HYTiQRyFqr2JeX5vrOxQgzJJ+j
- kIY=
-X-IronPort-AV: E=Sophos;i="5.75,352,1589212800"; d="scan'208";a="251722329"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2020 05:18:48 +0800
-IronPort-SDR: oTixaYi5C4SUjQGfsm5KAvtl2fbUjpTK7c+exQ9ADVdV6CTla1g3JpLRhXoI1jpchfdAUZ4xkJ
- XAyhW8CUeow2k3YYR2XsYaY86bajId1pg=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2020 14:06:41 -0700
-IronPort-SDR: ZyAshRSo1jGSBw4ONlIVJTEHiIsC4Gtc+J1MCOqmJ+dJpE5uYoAOh+nX4qvWavHI7Yz4c6tdsJ
- F+s25NwdO/NA==
+ t=1594769481; x=1626305481;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wR2FQyAU/+FZnSG6DGPP2KHcI5q0t9dbIIOziTu0CDI=;
+ b=CN5/5bdSsSPqUVwHb8/2VOIKb5RQw7DnCMQ70843pJWeA+/QQIs6xSON
+ f18Xe0BTkagBVWu3DSFuxazl20L6YTISM6/WOsmeG7RfptIUMbzS33Aba
+ Z7sB3/BOMQK4WAoz2kmTmDyC4lZTbxxN0p+kKI1tpHEazPOLTieMytv6u
+ 9j+q/qXrh5u3d0QsW6uWPrQSEKzJQlP9LvXB7ynFngAoBeLUMHWst6Gid
+ o245PYhAz1xEz6re2t25XSVW5kgRD0fYEuMM4Fzw/Fdjnnr7Si9x8XVbs
+ 6uCITxgUTlwSfHfivZ3p/Ar04do/3vsdS2PGfqm4i1ga5XsgsBX6iabnz A==;
+IronPort-SDR: XN9lB/VOFr9Vk5AiQJoSkTbuMsOqSbPe/nK2nVwGTPgq+sr0NLrHXdztgnUk+Yd81JlZZ55VIV
+ gGmGwS4Tuqlj/CJzsYbeh4q6fLEDbL+XtjAiJ1ZoV3oEMfVspL8bNGAYomndA/3NJ4ivDCRMDB
+ 9nwQwmuFd3ViaH0ikA5Kp5lMDRcFDAkwgOnXQZ3e39qdFykpWLNym2/TbhmQpy5dJzCPbf/0LZ
+ asA2l0812XhsRKvHma1JXUpWTd70JIyNrFveXYocIxdW3LRwqioOwX/X4dOSE+/IgCA74MeSR3
+ Ro8=
+X-IronPort-AV: E=Sophos;i="5.75,353,1589212800"; d="scan'208";a="142609475"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2020 07:31:17 +0800
+IronPort-SDR: 0O+D9I5J7g0EcvRnzyfxp+y9nG7wI0zwKqzz1GU8eOfxZlCYQd5dFMgUsf/91ZjXaOuIXvSlDn
+ f/B7we3SzxZwiaRxPXBEd4I4985zHoQFc=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2020 16:19:42 -0700
+IronPort-SDR: 82FfOYakjmrVPdEt0FCGAbkvxIzWysGQb3TH46h8sXsX4KiJRyJjm7nkXaj72PjsBlH0RL1woS
+ hfUBR+0My1BA==
 WDCIronportException: Internal
-Received: from usa003306.ad.shared (HELO localhost.hgst.com) ([10.86.57.226])
- by uls-op-cesaip01.wdc.com with ESMTP; 14 Jul 2020 14:18:43 -0700
-From: Niklas Cassel <niklas.cassel@wdc.com>
-To: Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: [PATCH v3 2/2] block: add max_active_zones to blk-sysfs
-Date: Tue, 14 Jul 2020 23:18:24 +0200
-Message-Id: <20200714211824.759224-3-niklas.cassel@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200714211824.759224-1-niklas.cassel@wdc.com>
-References: <20200714211824.759224-1-niklas.cassel@wdc.com>
+Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
+ ([10.6.138.107])
+ by uls-op-cesaip02.wdc.com with ESMTP; 14 Jul 2020 16:31:16 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	willy@infradead.org
+Subject: [PATCH V3 00/10] nvme: use xarray for ns tracking
+Date: Tue, 14 Jul 2020 16:30:47 -0700
+Message-Id: <20200714233057.10915-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200714_171849_738925_7E0C3BF5 
-X-CRM114-Status: GOOD (  20.43  )
+X-CRM114-CacheID: sfid-20200714_193120_782634_269BA00B 
+X-CRM114-Status: GOOD (  16.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,141 +95,203 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier@javigon.com>,
- linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
- Damien Le Moal <damien.lemoal@wdc.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-QWRkIGEgbmV3IG1heF9hY3RpdmUgem9uZXMgZGVmaW5pdGlvbiBpbiB0aGUgc3lzZnMgZG9jdW1l
-bnRhdGlvbi4KVGhpcyBkZWZpbml0aW9uIHdpbGwgYmUgY29tbW9uIGZvciBhbGwgZGV2aWNlcyB1
-dGlsaXppbmcgdGhlIHpvbmVkIGJsb2NrCmRldmljZSBzdXBwb3J0IGluIHRoZSBrZXJuZWwuCgpF
-eHBvcnQgbWF4X2FjdGl2ZV96b25lcyBhY2NvcmRpbmcgdG8gdGhpcyBuZXcgZGVmaW5pdGlvbiBm
-b3IgTlZNZSBab25lZApOYW1lc3BhY2UgZGV2aWNlcywgWkFDIEFUQSBkZXZpY2VzICh3aGljaCBh
-cmUgdHJlYXRlZCBhcyBTQ1NJIGRldmljZXMgYnkKdGhlIGtlcm5lbCksIGFuZCBaQkMgU0NTSSBk
-ZXZpY2VzLgoKQWRkIHRoZSBuZXcgbWF4X2FjdGl2ZV96b25lcyBtZW1iZXIgdG8gc3RydWN0IHJl
-cXVlc3RfcXVldWUsIHJhdGhlcgp0aGFuIGFzIGEgcXVldWUgbGltaXQsIHNpbmNlIHRoaXMgcHJv
-cGVydHkgY2Fubm90IGJlIHNwbGl0IGFjcm9zcyBzdGFja2luZwpkcml2ZXJzLgoKRm9yIFNDU0kg
-ZGV2aWNlcywgZXZlbiB0aG91Z2ggbWF4IGFjdGl2ZSB6b25lcyBpcyBub3QgcGFydCBvZiB0aGUg
-WkJDL1pBQwpzcGVjLCBleHBvcnQgbWF4X2FjdGl2ZV96b25lcyBhcyAwLCBzaWduaWZ5aW5nICJu
-byBsaW1pdCIuCgpTaWduZWQtb2ZmLWJ5OiBOaWtsYXMgQ2Fzc2VsIDxuaWtsYXMuY2Fzc2VsQHdk
-Yy5jb20+ClJldmlld2VkLWJ5OiBKYXZpZXIgR29uesOhbGV6IDxqYXZpZXJAamF2aWdvbi5jb20+
-ClJldmlld2VkLWJ5OiBEYW1pZW4gTGUgTW9hbCA8ZGFtaWVuLmxlbW9hbEB3ZGMuY29tPgotLS0K
-IERvY3VtZW50YXRpb24vQUJJL3Rlc3Rpbmcvc3lzZnMtYmxvY2sgfCAgOSArKysrKysrKysKIERv
-Y3VtZW50YXRpb24vYmxvY2svcXVldWUtc3lzZnMucnN0ICAgfCAgNyArKysrKysrCiBibG9jay9i
-bGstc3lzZnMuYyAgICAgICAgICAgICAgICAgICAgIHwgMTQgKysrKysrKysrKysrKy0KIGRyaXZl
-cnMvbnZtZS9ob3N0L3pucy5jICAgICAgICAgICAgICAgfCAgMSArCiBkcml2ZXJzL3Njc2kvc2Rf
-emJjLmMgICAgICAgICAgICAgICAgIHwgIDEgKwogaW5jbHVkZS9saW51eC9ibGtkZXYuaCAgICAg
-ICAgICAgICAgICB8IDI1ICsrKysrKysrKysrKysrKysrKysrKysrKysKIDYgZmlsZXMgY2hhbmdl
-ZCwgNTYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50
-YXRpb24vQUJJL3Rlc3Rpbmcvc3lzZnMtYmxvY2sgYi9Eb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5n
-L3N5c2ZzLWJsb2NrCmluZGV4IGYxNTFkOWNmOTBkZS4uMjMyMmViNzQ4YjM4IDEwMDY0NAotLS0g
-YS9Eb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3N5c2ZzLWJsb2NrCisrKyBiL0RvY3VtZW50YXRp
-b24vQUJJL3Rlc3Rpbmcvc3lzZnMtYmxvY2sKQEAgLTI3Myw2ICsyNzMsMTUgQEAgRGVzY3JpcHRp
-b246CiAJCWRldmljZSAoImhvc3QtYXdhcmUiIG9yICJob3N0LW1hbmFnZWQiIHpvbmUgbW9kZWwp
-LiBGb3IgcmVndWxhcgogCQlibG9jayBkZXZpY2VzLCB0aGUgdmFsdWUgaXMgYWx3YXlzIDAuCiAK
-K1doYXQ6CQkvc3lzL2Jsb2NrLzxkaXNrPi9xdWV1ZS9tYXhfYWN0aXZlX3pvbmVzCitEYXRlOgkJ
-SnVseSAyMDIwCitDb250YWN0OglOaWtsYXMgQ2Fzc2VsIDxuaWtsYXMuY2Fzc2VsQHdkYy5jb20+
-CitEZXNjcmlwdGlvbjoKKwkJRm9yIHpvbmVkIGJsb2NrIGRldmljZXMgKHpvbmVkIGF0dHJpYnV0
-ZSBpbmRpY2F0aW5nCisJCSJob3N0LW1hbmFnZWQiIG9yICJob3N0LWF3YXJlIiksIHRoZSBzdW0g
-b2Ygem9uZXMgYmVsb25naW5nIHRvCisJCWFueSBvZiB0aGUgem9uZSBzdGF0ZXM6IEVYUExJQ0lU
-IE9QRU4sIElNUExJQ0lUIE9QRU4gb3IgQ0xPU0VELAorCQlpcyBsaW1pdGVkIGJ5IHRoaXMgdmFs
-dWUuIElmIHRoaXMgdmFsdWUgaXMgMCwgdGhlcmUgaXMgbm8gbGltaXQuCisKIFdoYXQ6CQkvc3lz
-L2Jsb2NrLzxkaXNrPi9xdWV1ZS9tYXhfb3Blbl96b25lcwogRGF0ZToJCUp1bHkgMjAyMAogQ29u
-dGFjdDoJTmlrbGFzIENhc3NlbCA8bmlrbGFzLmNhc3NlbEB3ZGMuY29tPgpkaWZmIC0tZ2l0IGEv
-RG9jdW1lbnRhdGlvbi9ibG9jay9xdWV1ZS1zeXNmcy5yc3QgYi9Eb2N1bWVudGF0aW9uL2Jsb2Nr
-L3F1ZXVlLXN5c2ZzLnJzdAppbmRleCBmMDFjZjg1MzBhZTQuLmYyNjFhNWM4NDE3MCAxMDA2NDQK
-LS0tIGEvRG9jdW1lbnRhdGlvbi9ibG9jay9xdWV1ZS1zeXNmcy5yc3QKKysrIGIvRG9jdW1lbnRh
-dGlvbi9ibG9jay9xdWV1ZS1zeXNmcy5yc3QKQEAgLTExNyw2ICsxMTcsMTMgQEAgTWF4aW11bSBu
-dW1iZXIgb2YgZWxlbWVudHMgaW4gYSBETUEgc2NhdHRlci9nYXRoZXIgbGlzdCB3aXRoIGludGVn
-cml0eQogZGF0YSB0aGF0IHdpbGwgYmUgc3VibWl0dGVkIGJ5IHRoZSBibG9jayBsYXllciBjb3Jl
-IHRvIHRoZSBhc3NvY2lhdGVkCiBibG9jayBkcml2ZXIuCiAKK21heF9hY3RpdmVfem9uZXMgKFJP
-KQorLS0tLS0tLS0tLS0tLS0tLS0tLS0tCitGb3Igem9uZWQgYmxvY2sgZGV2aWNlcyAoem9uZWQg
-YXR0cmlidXRlIGluZGljYXRpbmcgImhvc3QtbWFuYWdlZCIgb3IKKyJob3N0LWF3YXJlIiksIHRo
-ZSBzdW0gb2Ygem9uZXMgYmVsb25naW5nIHRvIGFueSBvZiB0aGUgem9uZSBzdGF0ZXM6CitFWFBM
-SUNJVCBPUEVOLCBJTVBMSUNJVCBPUEVOIG9yIENMT1NFRCwgaXMgbGltaXRlZCBieSB0aGlzIHZh
-bHVlLgorSWYgdGhpcyB2YWx1ZSBpcyAwLCB0aGVyZSBpcyBubyBsaW1pdC4KKwogbWF4X29wZW5f
-em9uZXMgKFJPKQogLS0tLS0tLS0tLS0tLS0tLS0tLQogRm9yIHpvbmVkIGJsb2NrIGRldmljZXMg
-KHpvbmVkIGF0dHJpYnV0ZSBpbmRpY2F0aW5nICJob3N0LW1hbmFnZWQiIG9yCmRpZmYgLS1naXQg
-YS9ibG9jay9ibGstc3lzZnMuYyBiL2Jsb2NrL2Jsay1zeXNmcy5jCmluZGV4IDQxNGYwNDU3OWQ3
-Ny4uN2RkYTcwOWYzY2NiIDEwMDY0NAotLS0gYS9ibG9jay9ibGstc3lzZnMuYworKysgYi9ibG9j
-ay9ibGstc3lzZnMuYwpAQCAtMzExLDYgKzMxMSwxMSBAQCBzdGF0aWMgc3NpemVfdCBxdWV1ZV9t
-YXhfb3Blbl96b25lc19zaG93KHN0cnVjdCByZXF1ZXN0X3F1ZXVlICpxLCBjaGFyICpwYWdlKQog
-CXJldHVybiBxdWV1ZV92YXJfc2hvdyhxdWV1ZV9tYXhfb3Blbl96b25lcyhxKSwgcGFnZSk7CiB9
-CiAKK3N0YXRpYyBzc2l6ZV90IHF1ZXVlX21heF9hY3RpdmVfem9uZXNfc2hvdyhzdHJ1Y3QgcmVx
-dWVzdF9xdWV1ZSAqcSwgY2hhciAqcGFnZSkKK3sKKwlyZXR1cm4gcXVldWVfdmFyX3Nob3cocXVl
-dWVfbWF4X2FjdGl2ZV96b25lcyhxKSwgcGFnZSk7Cit9CisKIHN0YXRpYyBzc2l6ZV90IHF1ZXVl
-X25vbWVyZ2VzX3Nob3coc3RydWN0IHJlcXVlc3RfcXVldWUgKnEsIGNoYXIgKnBhZ2UpCiB7CiAJ
-cmV0dXJuIHF1ZXVlX3Zhcl9zaG93KChibGtfcXVldWVfbm9tZXJnZXMocSkgPDwgMSkgfApAQCAt
-Njc4LDYgKzY4MywxMSBAQCBzdGF0aWMgc3RydWN0IHF1ZXVlX3N5c2ZzX2VudHJ5IHF1ZXVlX21h
-eF9vcGVuX3pvbmVzX2VudHJ5ID0gewogCS5zaG93ID0gcXVldWVfbWF4X29wZW5fem9uZXNfc2hv
-dywKIH07CiAKK3N0YXRpYyBzdHJ1Y3QgcXVldWVfc3lzZnNfZW50cnkgcXVldWVfbWF4X2FjdGl2
-ZV96b25lc19lbnRyeSA9IHsKKwkuYXR0ciA9IHsubmFtZSA9ICJtYXhfYWN0aXZlX3pvbmVzIiwg
-Lm1vZGUgPSAwNDQ0IH0sCisJLnNob3cgPSBxdWV1ZV9tYXhfYWN0aXZlX3pvbmVzX3Nob3csCit9
-OworCiBzdGF0aWMgc3RydWN0IHF1ZXVlX3N5c2ZzX2VudHJ5IHF1ZXVlX25vbWVyZ2VzX2VudHJ5
-ID0gewogCS5hdHRyID0gey5uYW1lID0gIm5vbWVyZ2VzIiwgLm1vZGUgPSAwNjQ0IH0sCiAJLnNo
-b3cgPSBxdWV1ZV9ub21lcmdlc19zaG93LApAQCAtNzc3LDYgKzc4Nyw3IEBAIHN0YXRpYyBzdHJ1
-Y3QgYXR0cmlidXRlICpxdWV1ZV9hdHRyc1tdID0gewogCSZxdWV1ZV96b25lZF9lbnRyeS5hdHRy
-LAogCSZxdWV1ZV9ucl96b25lc19lbnRyeS5hdHRyLAogCSZxdWV1ZV9tYXhfb3Blbl96b25lc19l
-bnRyeS5hdHRyLAorCSZxdWV1ZV9tYXhfYWN0aXZlX3pvbmVzX2VudHJ5LmF0dHIsCiAJJnF1ZXVl
-X25vbWVyZ2VzX2VudHJ5LmF0dHIsCiAJJnF1ZXVlX3JxX2FmZmluaXR5X2VudHJ5LmF0dHIsCiAJ
-JnF1ZXVlX2lvc3RhdHNfZW50cnkuYXR0ciwKQEAgLTgwNCw3ICs4MTUsOCBAQCBzdGF0aWMgdW1v
-ZGVfdCBxdWV1ZV9hdHRyX3Zpc2libGUoc3RydWN0IGtvYmplY3QgKmtvYmosIHN0cnVjdCBhdHRy
-aWJ1dGUgKmF0dHIsCiAJCSghcS0+bXFfb3BzIHx8ICFxLT5tcV9vcHMtPnRpbWVvdXQpKQogCQkJ
-cmV0dXJuIDA7CiAKLQlpZiAoYXR0ciA9PSAmcXVldWVfbWF4X29wZW5fem9uZXNfZW50cnkuYXR0
-ciAmJgorCWlmICgoYXR0ciA9PSAmcXVldWVfbWF4X29wZW5fem9uZXNfZW50cnkuYXR0ciB8fAor
-CSAgICAgYXR0ciA9PSAmcXVldWVfbWF4X2FjdGl2ZV96b25lc19lbnRyeS5hdHRyKSAmJgogCSAg
-ICAhYmxrX3F1ZXVlX2lzX3pvbmVkKHEpKQogCQlyZXR1cm4gMDsKIApkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9udm1lL2hvc3Qvem5zLmMgYi9kcml2ZXJzL252bWUvaG9zdC96bnMuYwppbmRleCAzZDgw
-YjljZjZiZmMuLjU3Y2ZkNzg3MzFmYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3Qvem5z
-LmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3Qvem5zLmMKQEAgLTk3LDYgKzk3LDcgQEAgaW50IG52
-bWVfdXBkYXRlX3pvbmVfaW5mbyhzdHJ1Y3QgZ2VuZGlzayAqZGlzaywgc3RydWN0IG52bWVfbnMg
-Km5zLAogCXEtPmxpbWl0cy56b25lZCA9IEJMS19aT05FRF9ITTsKIAlibGtfcXVldWVfZmxhZ19z
-ZXQoUVVFVUVfRkxBR19aT05FX1JFU0VUQUxMLCBxKTsKIAlibGtfcXVldWVfbWF4X29wZW5fem9u
-ZXMocSwgbGUzMl90b19jcHUoaWQtPm1vcikgKyAxKTsKKwlibGtfcXVldWVfbWF4X2FjdGl2ZV96
-b25lcyhxLCBsZTMyX3RvX2NwdShpZC0+bWFyKSArIDEpOwogZnJlZV9kYXRhOgogCWtmcmVlKGlk
-KTsKIAlyZXR1cm4gc3RhdHVzOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9zY3NpL3NkX3piYy5jIGIv
-ZHJpdmVycy9zY3NpL3NkX3piYy5jCmluZGV4IGFhMzU2NDEzOWI0MC4uZDhiMmM0OWQ2NDViIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL3Njc2kvc2RfemJjLmMKKysrIGIvZHJpdmVycy9zY3NpL3NkX3pi
-Yy5jCkBAIC03MjEsNiArNzIxLDcgQEAgaW50IHNkX3piY19yZWFkX3pvbmVzKHN0cnVjdCBzY3Np
-X2Rpc2sgKnNka3AsIHVuc2lnbmVkIGNoYXIgKmJ1ZikKIAkJYmxrX3F1ZXVlX21heF9vcGVuX3pv
-bmVzKHEsIDApOwogCWVsc2UKIAkJYmxrX3F1ZXVlX21heF9vcGVuX3pvbmVzKHEsIHNka3AtPnpv
-bmVzX21heF9vcGVuKTsKKwlibGtfcXVldWVfbWF4X2FjdGl2ZV96b25lcyhxLCAwKTsKIAlucl96
-b25lcyA9IHJvdW5kX3VwKHNka3AtPmNhcGFjaXR5LCB6b25lX2Jsb2NrcykgPj4gaWxvZzIoem9u
-ZV9ibG9ja3MpOwogCiAJLyogUkVBRDE2L1dSSVRFMTYgaXMgbWFuZGF0b3J5IGZvciBaQkMgZGlz
-a3MgKi8KZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvYmxrZGV2LmggYi9pbmNsdWRlL2xpbnV4
-L2Jsa2Rldi5oCmluZGV4IDhmNTU4YzZmZDE4Yi4uNjkyZGRhZjA3ZGM0IDEwMDY0NAotLS0gYS9p
-bmNsdWRlL2xpbnV4L2Jsa2Rldi5oCisrKyBiL2luY2x1ZGUvbGludXgvYmxrZGV2LmgKQEAgLTUx
-NCw2ICs1MTQsNyBAQCBzdHJ1Y3QgcmVxdWVzdF9xdWV1ZSB7CiAJdW5zaWduZWQgbG9uZwkJKmNv
-bnZfem9uZXNfYml0bWFwOwogCXVuc2lnbmVkIGxvbmcJCSpzZXFfem9uZXNfd2xvY2s7CiAJdW5z
-aWduZWQgaW50CQltYXhfb3Blbl96b25lczsKKwl1bnNpZ25lZCBpbnQJCW1heF9hY3RpdmVfem9u
-ZXM7CiAjZW5kaWYgLyogQ09ORklHX0JMS19ERVZfWk9ORUQgKi8KIAogCS8qCkBAIC03MzQsNiAr
-NzM1LDE3IEBAIHN0YXRpYyBpbmxpbmUgdW5zaWduZWQgaW50IHF1ZXVlX21heF9vcGVuX3pvbmVz
-KGNvbnN0IHN0cnVjdCByZXF1ZXN0X3F1ZXVlICpxKQogewogCXJldHVybiBxLT5tYXhfb3Blbl96
-b25lczsKIH0KKworc3RhdGljIGlubGluZSB2b2lkIGJsa19xdWV1ZV9tYXhfYWN0aXZlX3pvbmVz
-KHN0cnVjdCByZXF1ZXN0X3F1ZXVlICpxLAorCQl1bnNpZ25lZCBpbnQgbWF4X2FjdGl2ZV96b25l
-cykKK3sKKwlxLT5tYXhfYWN0aXZlX3pvbmVzID0gbWF4X2FjdGl2ZV96b25lczsKK30KKworc3Rh
-dGljIGlubGluZSB1bnNpZ25lZCBpbnQgcXVldWVfbWF4X2FjdGl2ZV96b25lcyhjb25zdCBzdHJ1
-Y3QgcmVxdWVzdF9xdWV1ZSAqcSkKK3sKKwlyZXR1cm4gcS0+bWF4X2FjdGl2ZV96b25lczsKK30K
-ICNlbHNlIC8qIENPTkZJR19CTEtfREVWX1pPTkVEICovCiBzdGF0aWMgaW5saW5lIHVuc2lnbmVk
-IGludCBibGtfcXVldWVfbnJfem9uZXMoc3RydWN0IHJlcXVlc3RfcXVldWUgKnEpCiB7CkBAIC03
-NTMsNiArNzY1LDEwIEBAIHN0YXRpYyBpbmxpbmUgdW5zaWduZWQgaW50IHF1ZXVlX21heF9vcGVu
-X3pvbmVzKGNvbnN0IHN0cnVjdCByZXF1ZXN0X3F1ZXVlICpxKQogewogCXJldHVybiAwOwogfQor
-c3RhdGljIGlubGluZSB1bnNpZ25lZCBpbnQgcXVldWVfbWF4X2FjdGl2ZV96b25lcyhjb25zdCBz
-dHJ1Y3QgcmVxdWVzdF9xdWV1ZSAqcSkKK3sKKwlyZXR1cm4gMDsKK30KICNlbmRpZiAvKiBDT05G
-SUdfQkxLX0RFVl9aT05FRCAqLwogCiBzdGF0aWMgaW5saW5lIGJvb2wgcnFfaXNfc3luYyhzdHJ1
-Y3QgcmVxdWVzdCAqcnEpCkBAIC0xNTQ1LDYgKzE1NjEsMTUgQEAgc3RhdGljIGlubGluZSB1bnNp
-Z25lZCBpbnQgYmRldl9tYXhfb3Blbl96b25lcyhzdHJ1Y3QgYmxvY2tfZGV2aWNlICpiZGV2KQog
-CXJldHVybiAwOwogfQogCitzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGludCBiZGV2X21heF9hY3Rp
-dmVfem9uZXMoc3RydWN0IGJsb2NrX2RldmljZSAqYmRldikKK3sKKwlzdHJ1Y3QgcmVxdWVzdF9x
-dWV1ZSAqcSA9IGJkZXZfZ2V0X3F1ZXVlKGJkZXYpOworCisJaWYgKHEpCisJCXJldHVybiBxdWV1
-ZV9tYXhfYWN0aXZlX3pvbmVzKHEpOworCXJldHVybiAwOworfQorCiBzdGF0aWMgaW5saW5lIGlu
-dCBxdWV1ZV9kbWFfYWxpZ25tZW50KGNvbnN0IHN0cnVjdCByZXF1ZXN0X3F1ZXVlICpxKQogewog
-CXJldHVybiBxID8gcS0+ZG1hX2FsaWdubWVudCA6IDUxMTsKLS0gCjIuMjYuMgoKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGlu
-ZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFk
-ZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Hi,
+
+This patch-series uses ctrl->namespaces with an xarray for host-core and
+target-core. We can see following performance improvement when running
+fio with 32 parallel jobs where first 16 namespaces and last 16
+namespaces are used for I/O using NVMeOF (nvme-loop) backed by nulli blk
+devices mapped 1:1 on target namespaces.
+
+For host even though nvme_find_get_ns() doesn't fall into the fast path
+yet it does for NVMeOF passthru. This prepares us to improve performance
+for future NVMeOF passthru backend which is under review which uses the
+similar data structure as target.
+
+Following are the performance numbers with NVMeOF (nvme-loop) backed by
+null_blk devices mapped 1:1 on NVMeOF target backend :-
+
+Bandwidth ~16.4198% increase with XArray (higher the better) :-
+-----------------------------------------------------------------------
+
+default-1.fio.log:  read:  IOPS=820k,  BW=3204MiB/s  (3360MB/s)(188GiB/60002msec)
+default-2.fio.log:  read:  IOPS=835k,  BW=3260MiB/s  (3418MB/s)(191GiB/60002msec)
+default-3.fio.log:  read:  IOPS=834k,  BW=3257MiB/s  (3415MB/s)(191GiB/60001msec)
+xarray-1.fio.log:   read:  IOPS=966k,  BW=3772MiB/s  (3955MB/s)(221GiB/60003msec)
+xarray-2.fio.log:   read:  IOPS=966k,  BW=3775MiB/s  (3958MB/s)(221GiB/60002msec)
+xarray-3.fio.log:   read:  IOPS=965k,  BW=3769MiB/s  (3952MB/s)(221GiB/60002msec)
+
+Latency (submission) ~25% decrease with XArray (lower the better) :-
+------------------------------------------------------------------------
+
+default-1.fio.log:  slat  (usec):  min=8,  max=26066,  avg=25.18,  stdev=47.72
+default-2.fio.log:  slat  (usec):  min=8,  max=907,    avg=20.24,  stdev=7.36
+default-3.fio.log:  slat  (usec):  min=8,  max=723,    avg=20.21,  stdev=7.16
+xarray-1.fio.log:   slat  (usec):  min=8,  max=639,    avg=14.84,  stdev=1.50
+xarray-2.fio.log:   slat  (usec):  min=8,  max=840,    avg=14.84,  stdev=1.51
+xarray-3.fio.log:   slat  (usec):  min=8,  max=2161,   avg=15.08,  stdev=9.56
+
+CPU usage (system) ~12.2807% decrease with XArray (lower the better) :-
+-----------------------------------------------------------------------
+
+default-1.fio.log:  cpu  :  usr=3.92%,  sys=57.25%,  ctx=2159595,  majf=0,  minf=2807
+default-2.fio.log:  cpu  :  usr=3.98%,  sys=57.99%,  ctx=1565139,  majf=0,  minf=2425
+default-3.fio.log:  cpu  :  usr=3.99%,  sys=57.85%,  ctx=1563792,  majf=0,  minf=2977
+xarray-1.fio.log:   cpu  :  usr=4.47%,  sys=50.88%,  ctx=1810927,  majf=0,  minf=2478
+xarray-2.fio.log:   cpu  :  usr=4.47%,  sys=50.88%,  ctx=1812184,  majf=0,  minf=2176
+xarray-3.fio.log:   cpu  :  usr=4.49%,  sys=50.86%,  ctx=1816963,  majf=0,  minf=2736
+
+We did not hear anything on XArray bits, it will be great to have some feedback
+from Matthew Willcox so we can atleast converge XArray part of this series.
+
+I'm still doing more deeper testing but basic things seems to work with
+performance numbers being consistent with couple of outstanding issues.
+(using xa for ns remove instead of list_head and overall xa comments from
+Matthew).
+
+Regards,
+Chaitanya
+
+* Changes from V2:-
+-------------------
+
+1.  Add Xarray __xa_load() API as a preparation patch.
+2.  Remove the id_ctrl call in nvme_dev_user_cmd().
+3.  Remove the switch error check for xa_insert().
+4.  Don't change the ns->kref code. when calling xa_erase().
+5.  Keep XArray for deletion in the nvme_remove_invalid_namespaces()
+    see [1].
+6.  Keep XArray for deletion in the nvme_remove_namespaces() see [1].
+7.  Remove randomly changed the lines to alingn the coding style in
+    nvmet patch.
+8.  Remove remaining #include nvme.h from the nvmet patch.
+9.  Remove the xa_empty() from nvmet_max_nsid().
+10. Centralize the blk-mq queue wrapper. The blk-mq queue related
+    wrapper functions nvme_kill_queues(), nvme_unfreeze(),
+    nvme_wait_freeze(), nvme_start_freeze(), nvme_stop_queues(),
+    nvme_start_queues(), nvme_start_queues(), and nvme_sync_queues()
+    differ in only one line i.e. blk_mq_queue_xxx() call. For the one
+    line we have 7 functions and 7 exported symbols. Using a 
+    centralize ctrl-queue action function and well defined enums
+    represnting names of the helpers we can minimize the code and
+    exported symbol and still maintain the redability.
+
+* Change from V1:-
+------------------
+
+1. Use xarray instead of rcu locks.
+
+[1] Keeping the Xarray for ns deletion in nvme_remove_namespaces() and
+    nvme_remove_invalid_namepaces() :-
+
+1.1. No impact on the fast patch :-
+
+    The list_head is only needed for the deletion purpose which and has no
+    impact on the fast path.
+
+1.2 Effects on cacheline size :-
+
+    Size of the struct nvme_ns without list head is 112 [1.3] which still
+    has some room for future members so that we can fit members in 2
+    cachelines before 3rd one is needed. With addition it becomes 128 i.e.
+    for any new member we will need 3rd cacheline the test machine has 
+    cacheline size == 64.
+
+    # getconf LEVEL1_DCACHE_LINESIZE
+    64
+
+    Even though nvme_fine_get_ns() is not in the fast path yet with
+    addtion of passthru it will be, also with any new field we will have
+    to fetch one extra cache line.
+
+
+[1.3] Without addition of the list_head size 112 :-
+
+# dmesg  -c
+[  737.953355] nvme_core_init 4601 sizeof(nvme_ns) 112 <---
+# git diff
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a8c39254dae1..89c10cb7f6ef 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4598,6 +4598,7 @@ static int __init nvme_core_init(void)
+ {
+        int result = -ENOMEM;
+ 
++       pr_info("%s %d sizeof(nvme_ns) %lu\n", __func__, __LINE__, sizeof(struct nvme_ns));
+        _nvme_check_size();
+ 
+        nvme_wq = alloc_workqueue("nvme-wq",
+
+[1.4] With addition of the list_head size becomes 128 :-
+
+# dmesg  -c
+[  772.513266] nvme_core_init 4601 sizeof(nvme_ns) 128 < ----
+# git diff
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a8c39254dae1..89c10cb7f6ef 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4598,6 +4598,7 @@ static int __init nvme_core_init(void)
+ {
+        int result = -ENOMEM;
+ 
++       pr_info("%s %d sizeof(nvme_ns) %lu\n", __func__, __LINE__, sizeof(struct nvme_ns));
+        _nvme_check_size();
+ 
+        nvme_wq = alloc_workqueue("nvme-wq",
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1e8dedee74df..2907f6fe0400 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -394,6 +394,7 @@ enum nvme_ns_features {
+ };
+ 
+ struct nvme_ns {
++       struct list_head list;
+        struct nvme_ctrl *ctrl;
+        struct request_queue *queue;
+        struct gendisk *disk;
+
+Chaitanya Kulkarni (10):
+  xarray: add __xa_load() version
+  nvme-core: use xarray for ctrl ns tracking
+  nvme: centralize queue action nvme_kill_queues()
+  nvme: centralize queue action nvme_unfreeze()
+  nvme: centralize queue action nvme_wait_freeze()
+  nvme: centralize queue action nvme_start_freeze()
+  nvme: centralize queue action nvme_stop_queues()
+  nvme: centralize queue action nvme_start_queues()
+  nvme: centralize queue action nvme_sync_queues()
+  nvmet: use xarray for ctrl ns storing
+
+ drivers/nvme/host/core.c        | 291 ++++++++++++++------------------
+ drivers/nvme/host/fc.c          |   4 +-
+ drivers/nvme/host/multipath.c   |  15 +-
+ drivers/nvme/host/nvme.h        |  23 +--
+ drivers/nvme/host/pci.c         |  28 +--
+ drivers/nvme/host/rdma.c        |   6 +-
+ drivers/nvme/host/tcp.c         |   6 +-
+ drivers/nvme/target/admin-cmd.c |  17 +-
+ drivers/nvme/target/core.c      |  58 ++-----
+ drivers/nvme/target/loop.c      |   2 +-
+ drivers/nvme/target/nvmet.h     |   3 +-
+ include/linux/xarray.h          |   1 +
+ lib/xarray.c                    |  26 ++-
+ 13 files changed, 212 insertions(+), 268 deletions(-)
+
+-- 
+2.26.0
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
