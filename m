@@ -2,141 +2,121 @@ Return-Path: <SRS0=D+H5=A2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC00C433E7
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 07:57:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 243AAC433E5
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 09:06:03 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 27FF02064C
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 07:57:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D57C220672
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 09:06:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CVzBjJQJ";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="mia0dPIk";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="sCkBZ92I"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27FF02064C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SVmWpoDm";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="lykmeZV1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D57C220672
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=gQ/O5nEsM943n6GGPmAwMQcmYXtt6bGIHMQuu9Uk9Xc=; b=CVzBjJQJlpViJf77457lUmmE4
-	ekzlJVoNiumMDokzRd8K/viHZus+6vwbAgHKiJ1b1Ug8O9FjAo0zFBsH3V5fAr2uxdYsKISOk97lE
-	JS50HBoZw9ckiLkRzNggHHws4oxH9oYxijYn1M1fTBIbW6B2L9BIYszJ/q++/24bM4a0P8gzC8kPV
-	l1kXf2/2pTN7z1I9D6gnv3h5PNOJehMRYlu2oewtTwjGVx/sXq//v5Wbwn/n/aMBf9sm6iqT/IClc
-	htlSLZ3UZcEWlRQHNXOeVxpg2Z470W2huhb3ZwgZSA40hBFOkm0ORcH+GRwhyeFEbCXkAErplDCY7
-	Bd3uJ4Zrw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=dfH/+9NhGu2g+SjTQuhvKKr/JxHp6rrsJqvdZvMAj1Q=; b=SVmWpoDmIRZ9W2bAAgTViCSGd
+	KDdf6c0fGQvBzJ6YgsND+MG28ks9V1VwC/7J58cwJXH6Nlm60yrdBRgv9t7mxvLUma5Y+OfcYqjqB
+	YTUcrL0M7J8sMkYX8c+h2ZMXUjl6b6n540r65GbDBHMeV7MP/8zpP3GytGNkKIvTNh3pzkwAxGAo6
+	lLet6vJTFeRuIijshk+MYKcwZfLuwBm4nlxAz69Cw/3IC7lURm7AxE2nd61sqUfPYyjcv14cijVhX
+	HoRvam+i0MDhQv1xaWm6MmsGXxJY4SpTpT9VOp8UymfcoILH8bfCIp5qLRaQR1msWJJWJiKWrKvVD
+	MdkDhwhcg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jvcIR-0007IW-6D; Wed, 15 Jul 2020 07:57:43 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1jvdMQ-0004de-Ax; Wed, 15 Jul 2020 09:05:54 +0000
+Received: from mail-eopbgr50083.outbound.protection.outlook.com ([40.107.5.83]
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jvcIN-0007Gr-OP
- for linux-nvme@lists.infradead.org; Wed, 15 Jul 2020 07:57:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594799860; x=1626335860;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
- b=mia0dPIkuFMpwZ8X3mTv4wXWyKDHNXoza3e7EoBrpaJs4akVK6i+NKzv
- waSr+F8qW1fh9N2kezgDpJ6CHqJqCeK/ITYoxefLZbxLN+7qxxMNEmvUg
- tDfbYbQUuusvDW96bcAndacZKeIHm3uThTWdC2ouWCSqgMvLtFFxLTLXe
- rhtcxbtsClLg3WetAqeuXY+4epxCxtjmR/H9ffn9b0YI0qcaCzhX6u9dK
- wa8sNwYUjmM1yZr9AY+S03lNk9IRPpm/AGPbHSWnxcWNy3dF+ZEF1O41M
- wMNBAASHQ0oSdRMArzp2s+m1VCdUp6aqpIi3uB/q7O3Ls+Kreb/sFyPdh A==;
-IronPort-SDR: cX5KbMLntV7xLJ+Bn/z1O3Yyy/Btz42Tddl3YPt4JKAVsZEnwmL3aNPpAuXWYEh+iuZuGL5sOg
- fxKEApQ/ELsH5jZLhcuGhCfjmzNNx9bP+llzARFfTxaVWXhvt//zoBYIMrPIopEqvz/sRhr5Wk
- uW5AkPT31WjzdjcOD9WhLwqbwa0Dd2gwoK2w+Y8v0vqBJAFx1rL78BfnbFVCR+iTEnDIYTaoji
- 10O2my9vEhBHMcWilY52FfbtcwptYpJKdb4rRcuDxv1T5ro151N+5CGnvxebhOhJEoq6/T25xJ
- n+A=
-X-IronPort-AV: E=Sophos;i="5.75,354,1589212800"; d="scan'208";a="146812075"
-Received: from mail-bn7nam10lp2106.outbound.protection.outlook.com (HELO
- NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.106])
- by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2020 15:57:37 +0800
+ id 1jvdLk-0004Eg-1e
+ for linux-nvme@lists.infradead.org; Wed, 15 Jul 2020 09:05:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Py5I41y3KEraBgknF37gZsZpWiYi/mALkVUPs83fjIHA3cIecJteMVqMD1I7cDKAJZmTOLT9lBFvkoe8V+Xc7qMVMXdPMy8BrSuFfNEIcN5KEmZ2n6CsLYp9afZk32tOqBMANJCH8YOYGAT9j7++KHAj4TYOP1g0K1sCIMHe5ShIgpS7YByAAHTtF69rtMkNVziGlJYyjm7da9bIcoPLEngBYSCqmLpuvz+TRQ4MetWJW1ucpTntwzzql17GShhJY7KqMEv+qttdAwwleCVE4+YCiPagAEuTSueJBQU2P3WhkEyBLzJ4NtXYHn+n7L1vlTJiE0aqpn8W2A7fUTiwxQ==
+ b=K4tgtGAcU4V9BEBsLzkPiNNQyNqqZPlj8XBAZMC+h8a0WaiTCcZmp1BLBh+8dpUNTMWIlH8V5BttI2eZVmbc34rD0QuFZ+jQdQ2FHwJd6DLcMuqX+/Kp/jWGxCTp9/RxEy2YO+L4L7y4D+QKubByurmX1yrf89jHN2NPyYHVEvE+EiPPMS3BWOiyYo/MRmJrozsE74PvD5ZtmEK5ios8GKOynU/724srndzWiWHZ6izXHpMqxXqnKVoinB+ot2V5fIZQPhVN8Jzk9ONYndrMsQfWEyv+VYWCFu4c/uBVcHi6wKy3Il8Y5xCjVwwe5q2ojl77df+iBf8dudRGBS+xeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
- b=oWP3grGaURt7/ECUyvC4N2LNhw4L7/aZWGkZlCsFWZKO088xQkp656qQgOcqJBok8MjLdr6+TLR+s2Uq2CHPTRatCQ0OOsox4auihqAObcpTyutp3GRhEDrDyrhTAgbnpvURC0qw76iKCWtLvuxgwwdupTVAnmihtG9aFnFqCknlkWugLbk2qRk2hiZSF2qUSoEAVxFgExzX646SrhL3ClooZ2DixHkgEm6H4OOZufskczgQOAwlnCmHJcIw6cpkW5iy4aZwSjj/WXLilXdZA9v1KXS6ShPomE55ka47sNlpy6R+Z7Nt3UF9A54DstdmmeBL7EqQAc1MYQ/4PG7uLg==
+ bh=6IUiBt36YBg6hsiSBQVrS0nut/YX9qFBWNNvA/f0D94=;
+ b=UiiYEsMH4mxhDEHg5/8mBoc1CO20Yvs4bCp+d8/r0Kb4wJywRFKG1hbubunzt0vhzORR1dLDmB9Ne4Owg6YJOccDOw6o+lECP1stOEeBXJKxd97ufVWuhZGBXvxFa4zqIzq4ppxxlqClIUWcBXODCuTA6jqPhlvfO0Q7OW61uzzvmACBwBX0FZaL3geGMCvY+uC71r0M/2Ga+V88fQzhKLN1ayLnj/0v4UxBWRDrzOLjTm47Gt1DANsovVkoxBute1WVU+j1ROMnHPmvH2U+yYUckGPUduKQgDb5qClVapbnZ8hyKWAuP0yaXN1DF3MK4lYEerjdhw+u2+XgA7mC6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
- b=sCkBZ92IEwaGExdKaa3YCD4jbNOUlQWXyYWwInFdhxq5lvlQ/TZxHQho5vwdY9zEPl3p4Hd+O+HeI2ZLMPY4Anh0AKxc/WL/3HfV00iPwRvppfCZ2PSkV5z63C97H5WX0BaCt2mBVkTNZ7uHvkq9LftckdGwtdfH3UeQYIyi1iM=
-Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
- (2603:10b6:803:47::21) by SN6PR04MB5248.namprd04.prod.outlook.com
- (2603:10b6:805:fc::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Wed, 15 Jul
- 2020 07:57:35 +0000
-Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
- ([fe80::1447:186c:326e:30b2]) by SN4PR0401MB3598.namprd04.prod.outlook.com
- ([fe80::1447:186c:326e:30b2%7]) with mapi id 15.20.3174.026; Wed, 15 Jul 2020
- 07:57:35 +0000
-From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To: Niklas Cassel <Niklas.Cassel@wdc.com>, Jonathan Corbet <corbet@lwn.net>,
- Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, "James E.J.
- Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>
-Subject: Re: [PATCH v3 2/2] block: add max_active_zones to blk-sysfs
-Thread-Topic: [PATCH v3 2/2] block: add max_active_zones to blk-sysfs
-Thread-Index: AQHWWiRjfWZ6hdXePEOmoN+no96YEA==
-Date: Wed, 15 Jul 2020 07:57:35 +0000
-Message-ID: <SN4PR0401MB3598093418CA2F80F019C70E9B7E0@SN4PR0401MB3598.namprd04.prod.outlook.com>
-References: <20200714211824.759224-1-niklas.cassel@wdc.com>
- <20200714211824.759224-3-niklas.cassel@wdc.com>
-Accept-Language: en-US
+ bh=6IUiBt36YBg6hsiSBQVrS0nut/YX9qFBWNNvA/f0D94=;
+ b=lykmeZV1aTLP4mwR7WhfRVwpn0sLCU8VOAeM1+i0FxwAsRsFnzLxctqV0p+E8vRiWG4Bd1VPJ5iAvpmDyCSQ8kmzM2lT3k8eayDpW2V6dhyF99u4vSBnMtVKSTduodpkZM7HnvWCeSyY1i+Fp483rxDq7Eus5hIYiXA0qwLVbm4=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=mellanox.com;
+Received: from AM0PR05MB5810.eurprd05.prod.outlook.com (2603:10a6:208:11f::18)
+ by AM0PR05MB6386.eurprd05.prod.outlook.com (2603:10a6:208:13c::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Wed, 15 Jul
+ 2020 09:05:06 +0000
+Received: from AM0PR05MB5810.eurprd05.prod.outlook.com
+ ([fe80::d05d:35af:3f2f:9110]) by AM0PR05MB5810.eurprd05.prod.outlook.com
+ ([fe80::d05d:35af:3f2f:9110%5]) with mapi id 15.20.3174.025; Wed, 15 Jul 2020
+ 09:05:06 +0000
+Subject: Re: [PATCH] nvme-fc: set max_segments to lldd max value
+To: James Smart <jsmart2021@gmail.com>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
+References: <20200714190336.119013-1-jsmart2021@gmail.com>
+From: Max Gurtovoy <maxg@mellanox.com>
+Message-ID: <75927cec-e607-0293-47d3-f8b6141425f0@mellanox.com>
+Date: Wed, 15 Jul 2020 12:04:58 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200714190336.119013-1-jsmart2021@gmail.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: wdc.com; dkim=none (message not signed)
- header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [2001:a62:1515:bd01:853f:9b43:c773:dd89]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d3dc1485-a16c-4906-4e77-08d82894bc70
-x-ms-traffictypediagnostic: SN6PR04MB5248:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR04MB5248A8FBBF187FA097314BEA9B7E0@SN6PR04MB5248.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:1728;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: i42W09O+1nTo+ObjXOkLQjE7JyOLwA1eoN1C6FNXKPtOOcfV/w3pIJHWqJ5XLU/shvSJzKlViSEbby8Ifx0xvZ5jaFr6Zsj2MKln8ucYFZYphEYw/5S14hoGMNvTArDnix5XoxFplYFV8ParUKICwLhhdg53OECMpW3mE8FI0v0h5vaZ7HvUBB/dS1aGS2dmSHJk4xIcpi5BU6d9amsRU4S5k/mPTI3eywkPKg3SoNZI/fh7aBTTiUyiIOOalfTyoJTs/HwTMWJClaONGQTop/WgoOI57tvzjQ4+pM8/30E4yTs8SrnvcHhHP4f6P44n//nm5HvwEEIelpO6LQ/Kbg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0401MB3598.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(366004)(396003)(136003)(376002)(346002)(478600001)(54906003)(8936002)(7696005)(7416002)(186003)(9686003)(110136005)(2906002)(6506007)(4326008)(55016002)(52536014)(33656002)(71200400001)(5660300002)(66446008)(64756008)(558084003)(19618925003)(4270600006)(76116006)(91956017)(66476007)(66556008)(66946007)(86362001)(316002)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: iv4I8vgzFjqjlNuq5x+pUwpVyItUOmMqnevtNtyZBlCylDGiC86w6MLQY1X/2ukD9cWRSncqEkt/p1XWzoP5BZmIRr5EeDdkJvBKMzpp9Dbn+h99/Ym6hyI21ai0BnLNx8Lou2aluPB4Yipi/c0nuZPATTTCLTceuOz6ndzx3l1A6LmeW7daSMIBh2r+zTS4fg2p3SLa6Iq5JOXfErxn9Lmw88/Rc/710XtEeI4yLWlLIJbf1MXWI/dlCpFi3HyEoytHgFlpWfJbHnLsEiAAupc/y/JZptqwGfyP4FdVIli9+tiPv9wWI6Q0GbAQQ6U7CeZeumbcT8sXMShGdiLCWYAku/5urMGGoJpuDm6Cz3NzuDMrDfFInmuyiaMLE7RvGfMwEeJna6+e+Fk20+FXsMCDCuGYWQ84bYqgja9CUYXAXUrpnNFLmFf4rWAULTl5gShGa8FAgDISPnFqPk25yVX/IYMWYae1w1sUwS3m77+7UP2aNL45aROVqUA0mnLkU3prAPSSLR1nFpDlXbNED7SxMWLIcgkzqYUq5OjqwIYZvCocQd2fp3WgmuMjE+nP
+X-ClientProxiedBy: AM0PR04CA0003.eurprd04.prod.outlook.com
+ (2603:10a6:208:122::16) To AM0PR05MB5810.eurprd05.prod.outlook.com
+ (2603:10a6:208:11f::18)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.0.0.10] (46.116.90.232) by
+ AM0PR04CA0003.eurprd04.prod.outlook.com (2603:10a6:208:122::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17 via Frontend
+ Transport; Wed, 15 Jul 2020 09:05:05 +0000
+X-Originating-IP: [46.116.90.232]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a39dc467-2e2c-49f7-a70d-08d8289e2aca
+X-MS-TrafficTypeDiagnostic: AM0PR05MB6386:
+X-Microsoft-Antispam-PRVS: <AM0PR05MB63867F5E131165693A6B5165B67E0@AM0PR05MB6386.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ke/bA/lJ8R6u1nYQasMbOUVNAqtBnuGgECO29RMZf5Jl9vtEvQhF3mFfqCdUuT9qIe2D+TdhM8IepdG5KGHZtphbjWFzcdxJxPhPqTtpc1g0iff4R4RL6djk71d3cMcHnP++K4UeSumKnn6Q7PjACJ9uwN+G9Ujodw6nZRSRHQO9PT+f/BKZ4ekFkb5aKQWQJJZ3+KiZ3Zh+xg1awrlKXeTu0ST8SPK7PBU9WM1FjJthPaWanlag9x+/nHVmuF8xdX9uU7/jMs9Xje54JZjCtYPs15jCxqF58m7WQCkBgnbZ5xP9+7jzD2ciz0+YVn3gCRj5VQJDGRF/2FWL8KPbEC1Ci5YaOXua56TsJrQ2jB8nfww3l4HbXIeaMM0WypP1
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR05MB5810.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(366004)(39860400002)(136003)(376002)(346002)(8676002)(66946007)(66556008)(478600001)(31686004)(66476007)(2906002)(83380400001)(31696002)(53546011)(186003)(86362001)(26005)(16526019)(52116002)(36756003)(16576012)(6486002)(8936002)(316002)(6666004)(110136005)(4326008)(2616005)(956004)(5660300002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 5d37aLyf+U//zlX0QOdBlkg20j57jXY+mxNBHz8inrMhYQQCYoTieTEGZXgtxWwawHa5/yUCh5jpdzJZcmCzsM68XyRr6tbYSRGdWNPWHsfnb1f2gOMyMZBTkSEnoXfSp9GkGPG2ibuEoXUlgu3l1FbSvSb7Isbj5b6I8ydD3xr3fkoyUjg6yAg9E4S0ONSKoYKeeXpedbw/aU/TMg41BBbP39wJRnG+Qw72vedAnIMf29OLRBvsLOe+9XJ5Il4ZcexF69JxFgHZET57+jhmDUeXscEVfuoaut1isZBngT3aIIF3rYZ2Tb3PRqAziT7cnXzW0dLGQj4oPZUVpDAQgWo3kUGj9Imy6hslb7VrUVZfp+z4TvOtyeLeEfoQL7OYDhkOOMJRn0XPmJbxz8PLiG/tS4ksNDXyf0vz0F60FXhXRGb/z+sMDf+r/HfOs4phmWa/4CtYS47Kf18SqHj/zqVDvDoKPyjnh4Emc9a2kYs=
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a39dc467-2e2c-49f7-a70d-08d8289e2aca
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR05MB5810.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3598.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3dc1485-a16c-4906-4e77-08d82894bc70
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2020 07:57:35.2993 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: euL1MeDHGcgwD9HRnEvmgxKarLxpahT7HxKhteCmWC7RhuS6fjFK8gGSbXexTQU4LASHLM2zJLxHhF+GM5tjXi6wsNsWG6xzZGTxnxysh8Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB5248
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2020 09:05:06.3381 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VxvYff2xGZhLGqHC/PTSi7sHlZvfFpLp+8jl+CQgnc1tuClHJL5uH3rr1tNTCdzl7lRDbcuyVoAM1ksLTPv4ig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR05MB6386
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200715_035739_996322_096F6331 
-X-CRM114-Status: UNSURE (   8.85  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200715_050512_298133_FFA226D6 
+X-CRM114-Status: GOOD (  20.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,20 +128,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: "Ewan D . Milne" <emilne@redhat.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+
+On 7/14/2020 10:03 PM, James Smart wrote:
+> Currently the FC transport is set max_hw_sectors based on the lldds
+> max sgl segment count. However, the block queue max segments is
+> set based on the controller's max_segments count, which the transport
+> does not set.  As such, the lldd is receiving sgl lists that are
+> exceeding its max segment count.
+>
+> Set the controller max segment count and derive max_hw_sectors from
+> the max segment count.
+>
+> Signed-off-by: James Smart <jsmart2021@gmail.com>
+> Reviewed-by: Ewan D. Milne <emilne@redhat.com>
+> CC: Max Gurtovoy <maxg@mellanox.com>
+>
+> ---
+> Looks like the setting of max_segments has been missing from all
+> fabric transports for a while. Rdma had a fixup (ff13c1b87c97) from
+> Max last fall that corrected this. But tcp and fc were still lacking.
+> Copying Max to look at tcp.
+
+The TCP stack is not limiting the IO size, I guess because of the fact 
+it's a streaming protocol.
+
+So I don't see a bug in the tcp driver but we can consider limiting the 
+IO size if it will improve performance in some cases.
+
+BTW, AFAIK the iscsi TCP acts the same.
+
+Sagi,
+
+do you see some benefits we can get by limiting the mdts for tcp ?
+
+
+> ---
+>   drivers/nvme/host/fc.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 6aa30bb5a762..e57e536546f7 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -3001,8 +3001,9 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>   	if (ret)
+>   		goto out_disconnect_admin_queue;
+>   
+> -	ctrl->ctrl.max_hw_sectors =
+> -		(ctrl->lport->ops->max_sgl_segments - 1) << (PAGE_SHIFT - 9);
+> +	ctrl->ctrl.max_segments = ctrl->lport->ops->max_sgl_segments;
+> +	ctrl->ctrl.max_hw_sectors = ctrl->ctrl.max_segments <<
+> +						(ilog2(SZ_4K) - 9);
+>   
+>   	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+>   
+
 Looks good,
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+
+Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
+
+
 
 _______________________________________________
 Linux-nvme mailing list
