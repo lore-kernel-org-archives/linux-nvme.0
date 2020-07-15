@@ -2,58 +2,140 @@ Return-Path: <SRS0=D+H5=A2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B8BC433E2
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 07:11:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B048BC433EA
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 07:56:41 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 195FB2065E
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 07:11:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 799C02064C
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 07:56:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="InKdI3Cj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 195FB2065E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sfYzsZ3U";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="rGP4l+wm";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="h3XWzUFC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 799C02064C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lANSjlbD81Qlw/ihhg9hyW/wzv9TkisGlztaR07tpDA=; b=InKdI3CjqgfiiReKMDYF9rIYX
-	siGIojso1WiGcagpS6UZ5eBwSnWkCcQvcmIWrEuvWGNCs/1cGnWPVzXF1TBwLq1T5YKx8TSIhrCyk
-	jjJu3Tf021MS8V0SDSD0pEheJ32JQTAhjNfdSUIMag5M1fnKbrtuuF8VNEqwZ6nkllPquSM7ZQvlM
-	O5LxjrHEiUhXKD/M2UdOFd8861m5tHTqKdeuiQd3Sn/yQHJ5Ad2X9Gahwrw6NNlbPiGCZsv1kJje5
-	n8IS97unli1xIp05DgD5Ke+8KQRVHSuWPsoU4e9IogbjCcsuDENTGwTTqu6S6ow5ASnG2YsyGltOP
-	LrztocoMg==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=gQ/O5nEsM943n6GGPmAwMQcmYXtt6bGIHMQuu9Uk9Xc=; b=sfYzsZ3U/nwYPKiol3uCbT2VF
+	bPAJKYLKRWOEXD+eQurmCPQbfbvZmo3GozfotHDRq5GbGOc5wDBZpWixNRUWCC0DJxNG6qovwWOUa
+	fNZa+nHGJJ4wvNx7j64CGARZpmojk+e0Rk3mPQ3O5CS1XBaTTTg2Ixv/1XDTn1fFqYbjNOYaeOtsa
+	tMKf1CKo+tueDm2KWoDdJ9aBpq3+hr74TmhlmIRTGNg2hTiTScjsZyqo3lav40pUzw11eB+fSatZW
+	qhTXxjWeQBwPnsEmsIVHCkq2WEOqSPiMMAWj5ZtENpGXRAkX7fOjIZAtfXZnf+fbCjOarr+YHEL3i
+	twxUaCXEQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jvba7-0000yo-2t; Wed, 15 Jul 2020 07:11:55 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1jvcHL-00071C-Fs; Wed, 15 Jul 2020 07:56:35 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jvba4-0000xH-D4
- for linux-nvme@lists.infradead.org; Wed, 15 Jul 2020 07:11:53 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id D39386736F; Wed, 15 Jul 2020 09:11:50 +0200 (CEST)
-Date: Wed, 15 Jul 2020 09:11:50 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH V3 03/10] nvme: centralize queue action nvme_kill_queues()
-Message-ID: <20200715071150.GC22320@lst.de>
-References: <20200714233057.10915-1-chaitanya.kulkarni@wdc.com>
- <20200714233057.10915-4-chaitanya.kulkarni@wdc.com>
+ id 1jvcHG-00070B-2U
+ for linux-nvme@lists.infradead.org; Wed, 15 Jul 2020 07:56:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1594799790; x=1626335790;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
+ b=rGP4l+wmijt74B4+6lMcTqbJ2HNepJahCitMjbnY+gg2LbQbR/puVRgD
+ 2/OZxJWWDOEY+p/nUk0ua5CNtRfBwjhEyBGr6HwTbAPl3qOzXAI7lWKwh
+ IIEaBXGAFlvr10/UyxktxB+deayjcMMCGu08+n6Gv8l6SJ7J+Lxt3UOaW
+ MkXfwjMiA6aHya2wMWVuVK0TjqlHqU9wRJzD+3RS05l/7TQvZ0l0Y7EeK
+ Ty15fYTlksI89aPOVLmJMiYOopxbvUlkZi7Sl5b70aZZWuGk4asUL++S2
+ 3DWDiefSnyt5Y18Lcwist9oFxUjUNHvAKpKB4EETik+5tIgRKE7jj51Xi A==;
+IronPort-SDR: cFrZNX8Er5/JdP6cioeU5DNoI8cas+gM6/y0ZbrPS7GbDdOm+MVGf0uF6akAswBbLVmua/K/OP
+ IJZn7rr72bXW7x/4X6clILfYuDJ4fz3VE7ib1NhKx5JOOUxEPZ3NyjGj5cQb8AfIvjPo4ArJus
+ X1tFOS7qYBZRESIfkr2vw2kK+oa0clQFkmFLWIgZEsw/u9eLt0IlK8Tt0m3uuT7y4uvqDsyZov
+ 6rgmUTt6gmwPRjPDVm5B4CmVdzf/YsAs1w1vu/ZrUKZijyzTO7+1lZyc6PoZIeM+Dl+F0RxjOc
+ b4k=
+X-IronPort-AV: E=Sophos;i="5.75,354,1589212800"; d="scan'208";a="251761914"
+Received: from mail-bn8nam11lp2174.outbound.protection.outlook.com (HELO
+ NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.174])
+ by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2020 15:56:26 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UuKPdxvizNm/1ohNV/QDTNmusGq+Mv8Qxkwqe2VylrThOaEj3qLgMOJwJDLv8mjf4W/pTtwW9lZebX0KU7ZCZxiuSPgurnoNR4aLRdg9dG4NvQrzBpktoSYGFeYhueXmal6F7185hb/idzwCpmNcx0t6FL1YnxDwTY/O7J6hXzytRJ/3WbZ7ePEJruQkB8HHM3veEBK/IaJp5zrauuoAdy6Fb5/r/2in/RCUOM6Ca4nh3vUjBIYT8JagMMDFZ7WgoLdi3NyCuJfGZde5mcB2fz0jplCHNaagXn1mNK3cMREMJAuLF/HEUgOefneFKYJOrvJxv1W+Ip1NnnWcG0bWcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
+ b=kq/4geSe0aZGRPbB3mRKuNCYoDGThZmh2arz305idF8f6nvfx9csisSpJbHBkEo4ASyGQKEiaX9qvR6ezKKgIETxzvcMT/v44Si7D7jQ+SrNXbp8KyarpFsxYrAL7IAp4wvSZVq9WqIi25mWc5HZ0jmcBCDbcClc8Qy9GkTFkNYzlNsd6rlDr7LO8y/zukdQgDr52sANqFFBSwXvkyatXb7YdBfF+3AQMINGI7t+m4ecZ4XRTEyfwrquKX3QtlUkMLSBpXUbELKVQ26jAhg84DWLXguS5SgrGF+nnJCSg631fZEIqM79G7qHFKzWk8dNw5LTK03PLXMtLc5gGhWYVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
+ b=h3XWzUFCm6AVr2Z+dxCB2hauURlqIXyaa2tL7mlfuivM0O27RFm8+J4HSo9gfFMaJxuxaGKPe5fio6guOFBfmpDP5wtPgftysZOapEvEA2GjRdHsHcgGIRB1DSWIbUg1blsTXlpm6woZOnqN720WpKOIOGVKnem8jd1knVMyUeI=
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ (2603:10b6:803:47::21) by SN6PR04MB5248.namprd04.prod.outlook.com
+ (2603:10b6:805:fc::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Wed, 15 Jul
+ 2020 07:56:24 +0000
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::1447:186c:326e:30b2]) by SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::1447:186c:326e:30b2%7]) with mapi id 15.20.3174.026; Wed, 15 Jul 2020
+ 07:56:24 +0000
+From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, "James E.J.
+ Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>
+Subject: Re: [PATCH v3 1/2] block: add max_open_zones to blk-sysfs
+Thread-Topic: [PATCH v3 1/2] block: add max_open_zones to blk-sysfs
+Thread-Index: AQHWWiRfm0muraPkfkuVjZaSpLS7Lg==
+Date: Wed, 15 Jul 2020 07:56:24 +0000
+Message-ID: <SN4PR0401MB359824D7C277AC260D94964B9B7E0@SN4PR0401MB3598.namprd04.prod.outlook.com>
+References: <20200714211824.759224-1-niklas.cassel@wdc.com>
+ <20200714211824.759224-2-niklas.cassel@wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2001:a62:1515:bd01:853f:9b43:c773:dd89]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 4ba75393-d640-4107-eab9-08d82894922d
+x-ms-traffictypediagnostic: SN6PR04MB5248:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR04MB5248472BBE4B6184DEE5A7059B7E0@SN6PR04MB5248.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:1728;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: H2gmGJBIn8CoxqAAtBqltrTDIQ9Kh4MTY52a40QLyGEGtEWh+I69b/0Ok8pcB9ykIhe4dbaoRoMecp/D4Efg88oYKgzKZgs6gWxieYbNEsHPBrS/DJk544hazAoTC6yeeFbufHEE/qKSjZ5Gd8On7qUE/snASgNXsGbzAqM1uBaPwPpovjWpEFv2jtMTFnLXsa92XEl/XZ7SBkOOo4wMQfEUxTLQ6Cd2w67QMEsgnCR6G4cE3BsZsF1OmKosXY62D+ogb6b9pXt9aRyDtuv34hmOYki/2vHYcy+Ut4rOf6MtZUkqgKuN+PPosgXbVO4149ihu35/gee05C4LxS1pHA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0401MB3598.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(366004)(396003)(136003)(376002)(346002)(478600001)(54906003)(8936002)(7696005)(7416002)(186003)(9686003)(110136005)(2906002)(6506007)(4326008)(55016002)(52536014)(33656002)(71200400001)(5660300002)(66446008)(64756008)(558084003)(19618925003)(4270600006)(76116006)(91956017)(66476007)(66556008)(66946007)(86362001)(316002)(8676002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: CwRpI8taTulQlUxEQM8dlryOj2cSydImPu+rh76L71q5Lwf2KSpoHatXrSW/pquPIkBoXlbpbmByqeekDrq+T6gro4vf7l7AMzyv1D0hLeEnucp62Hk/PKwCWllIR3dUJOx1BWjXR/QRpZDHVI5Xn0ZUwJrCcTKIICgZycE2Ggc3WYWSB3xPWnr/Xll0TT8y1UPoLCSlvsfs8DQXPA4DbA9pKi9qI8WaXDm7Qs6n2rIBD14HqxEjUhc5NTlp1J5TZOgYMrGgRqW0F5riJFmq0KtFP99uwARCSI50uSDdeSpPsJpXQ+FPBvEMrGt37bzBWggtHMyfcVyrPjsyBVqUZcf2LoZUdLIbkg8lBZrfrpSVnSry9pWLyoJy5iCDjM7XRzHXfRyA2SfuPFtlROuhkRM1IRbvcl6jb4lnLBvloNmqX9WZ3w5KjIkHQmA1GQAVGsUEtq3i+6MPRtPq4o5Q8BDCgPxwqnxXRmCtW26NrbeI0wI+YJ0rHREV8dQF6f5TFMHiNZ3l0RIPJwjiSFrot7EsqJup1cPfaJuu/9OpripCBHEfuILJnBvx7sHY8yCz
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200714233057.10915-4-chaitanya.kulkarni@wdc.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3598.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ba75393-d640-4107-eab9-08d82894922d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2020 07:56:24.4879 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rxVCPzdt/zzfeifdXbGoQn/IFYRDIyqKHlsF+qGd/4LlLYxe4zU9nk4jQWGN7D1idTnE6aH5qUpG5jtIAxUj1jR37cKdewZ5cK7Ah2w/4LE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB5248
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200715_031152_618740_A7727F1F 
-X-CRM114-Status: UNSURE (   8.04  )
+X-CRM114-CacheID: sfid-20200715_035630_256281_78F95A0F 
+X-CRM114-Status: UNSURE (   8.86  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -66,20 +148,20 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
- willy@infradead.org, sagi@grimberg.me
+Cc: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 14, 2020 at 04:30:50PM -0700, Chaitanya Kulkarni wrote:
-> There is no point in having 7 different functions which are differing
-> with just one line.
-
-Where the one line is the actual action they do if I follow this.
-NAK, don't create pointless multiplexers for these kinds of lines of
-code "optimizations" as that makes following the code much harder.
+Looks good,
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 
 _______________________________________________
 Linux-nvme mailing list
