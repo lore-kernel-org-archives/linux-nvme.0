@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,LONGWORDS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CFF0C433E1
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 03:08:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A39C433E1
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 04:04:05 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 380B920663
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 03:08:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 23388206D5
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 04:04:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K90EAksE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 380B920663
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KSiDiYov"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23388206D5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,48 +25,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=z5AOpvFO0CM07Dek8JgYuxviLUjIt3+SS4hNCPL+rPU=; b=K90EAksEb26sWCEN2gXPZRuVJT
-	6cfImanFYcaNWW2Rjswom0QwqkTDNM9bplYivIf3fzwggxJfhqRWAnT6ZDoKnfOaqgq+Lygkr3BeT
-	+41u61TeBo3WDh1Ku88dooa5HkAUNZEFvJm5etyCefy+ZSE1w5HBMRsC/RLBnj2/tphNcF2kw1f2S
-	4Hy3og0vi5fnLuf+NYZTfpA2wzmFu9Jl7EqdDVon4ST6bK4KTKq20P5wv0WVfxYEzE5SxWF2AVtan
-	baKR55Grq3cZg9CbO565t5LNt5uOp3mBcbxv2hxRciY9URzSO9Z0liio4osbKV7D/5daY/Bs6o9KP
-	j3plwZkQ==;
+	bh=qd74xBgRV7+pozcMIzDRACv7XuRCTQylFA/AvzgS8XQ=; b=KSiDiYovcE9M89FGAbAeNptMU0
+	mrQ1SmREgq4F/MCWnb4QOeRc8BLVhW74wFJAFgYdumaYUhxTNd/628ATXJdzlENG1Iv1zq170PKmn
+	5HXFijmcZQ3EmAHUFTBfHTneFotvsWiEVtA7fC4JeFNB3yCOHfyPuYpozQF+tsRdPMdppE1tsoDT1
+	3T1YJjMlNJNgsZyur9qad4ZmzKJF3YsnCDG2SAblVcEOCmuD7S0IOkZKMLahNcJnvQwUFv+kVpvph
+	d+Xa38LWdMk7wi1W0nUFXe9Xu5KR+F46cqokmCLQ679jXq0iQEzENhtuSXibidWVbC5p+Vt8dwYLC
+	1/U+EvMA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jvXma-00056H-PI; Wed, 15 Jul 2020 03:08:32 +0000
-Received: from mga18.intel.com ([134.134.136.126])
+	id 1jvYeF-0001og-QH; Wed, 15 Jul 2020 04:03:59 +0000
+Received: from mga14.intel.com ([192.55.52.115])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jvXmX-00054s-2r
- for linux-nvme@lists.infradead.org; Wed, 15 Jul 2020 03:08:30 +0000
-IronPort-SDR: UwoTZZ1Ws1Yv9GKfGTPxeV0mjq3XHbcQza162/Ws0P/xRnlpmP5PowgMb2i/SyvzI1ZCyNyOOV
- /03S08LMIDoA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="136528086"
-X-IronPort-AV: E=Sophos;i="5.75,353,1589266800"; d="scan'208";a="136528086"
+ id 1jvYeD-0001nw-NN
+ for linux-nvme@lists.infradead.org; Wed, 15 Jul 2020 04:03:58 +0000
+IronPort-SDR: 4yw5Nk1W9uiT8CK/hySmKq8kMWwy/5Fw1DiX01RbSsMBH2MQ1L4vEYhVId9IJC32fHrejNscrj
+ tk43iXlFinhQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="148227233"
+X-IronPort-AV: E=Sophos;i="5.75,353,1589266800"; d="scan'208";a="148227233"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2020 20:08:24 -0700
-IronPort-SDR: yrrc5w+tRNHajFGmBOAQ7uz5MssGLmvviJ+Hf2Ti40WO+QspqeQpT3NB/njr9rK/XtsOiLFUlN
- OfZyFswTnanw==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2020 21:03:51 -0700
+IronPort-SDR: kr6nSZ1tPR4D7HMUV1C5/uPJcMHi2ri0rU6sJN2Wv3KXyYle2mFloZ0PBHrv+OzW2TToP58PXG
+ xuo53bFJU3wA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,353,1589266800"; d="scan'208";a="281948289"
-Received: from lkp-server01.sh.intel.com (HELO e1edd1aee32c) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 14 Jul 2020 20:08:23 -0700
-Received: from kbuild by e1edd1aee32c with local (Exim 4.92)
+X-IronPort-AV: E=Sophos;i="5.75,353,1589266800"; d="scan'208";a="429986820"
+Received: from lkp-server01.sh.intel.com (HELO aed10363631f) ([10.239.97.150])
+ by orsmga004.jf.intel.com with ESMTP; 14 Jul 2020 21:03:50 -0700
+Received: from kbuild by aed10363631f with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1jvXmQ-00001o-PA; Wed, 15 Jul 2020 03:08:22 +0000
-Date: Wed, 15 Jul 2020 11:08:16 +0800
+ id 1jvYe5-00000n-Qv; Wed, 15 Jul 2020 04:03:49 +0000
+Date: Wed, 15 Jul 2020 12:02:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-5.9] BUILD SUCCESS
- 375a227e31c04360750cc0f2968975472a03c731
-Message-ID: <5f0e7320.A21aQ7V3yD09MRu3%lkp@intel.com>
+Subject: [linux-nvme:nvme-5.8] BUILD SUCCESS
+ b5d26bf0ba8719e34fd9e627cf2d955db2d8c099
+Message-ID: <5f0e7feb.sylY41RQuPhz6+SJ%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200714_230829_272601_9CF2FC55 
-X-CRM114-Status: UNSURE (   8.92  )
+X-CRM114-CacheID: sfid-20200715_000357_927267_726F042B 
+X-CRM114-Status: UNSURE (   9.30  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -85,13 +85,13 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git  nvme-5.9
-branch HEAD: 375a227e31c04360750cc0f2968975472a03c731  nvmet-rdma: use new shared CQ mechanism
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.8
+branch HEAD: b5d26bf0ba8719e34fd9e627cf2d955db2d8c099  nvme: explicitly update mpath disk capacity on revalidation
 
-elapsed time: 947m
+elapsed time: 1002m
 
-configs tested: 114
-configs skipped: 6
+configs tested: 120
+configs skipped: 5
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -112,12 +112,6 @@ arm                         s3c6400_defconfig
 m68k                         amcore_defconfig
 c6x                               allnoconfig
 i386                             allyesconfig
-xtensa                generic_kc705_defconfig
-mips                           ip27_defconfig
-mips                  mips_paravirt_defconfig
-c6x                        evmc6474_defconfig
-powerpc                      pasemi_defconfig
-sh                        dreamcast_defconfig
 arm                          moxart_defconfig
 sparc                               defconfig
 mips                        maltaup_defconfig
@@ -174,23 +168,35 @@ parisc                            allnoconfig
 parisc                              defconfig
 parisc                           allyesconfig
 parisc                           allmodconfig
+powerpc                             defconfig
 powerpc                          allyesconfig
 powerpc                          rhel-kconfig
 powerpc                          allmodconfig
 powerpc                           allnoconfig
-powerpc                             defconfig
 i386                 randconfig-a001-20200714
 i386                 randconfig-a005-20200714
 i386                 randconfig-a002-20200714
 i386                 randconfig-a006-20200714
 i386                 randconfig-a003-20200714
 i386                 randconfig-a004-20200714
+x86_64               randconfig-a012-20200714
+x86_64               randconfig-a011-20200714
+x86_64               randconfig-a016-20200714
+x86_64               randconfig-a014-20200714
+x86_64               randconfig-a013-20200714
+x86_64               randconfig-a015-20200714
 i386                 randconfig-a016-20200714
 i386                 randconfig-a011-20200714
 i386                 randconfig-a015-20200714
 i386                 randconfig-a012-20200714
 i386                 randconfig-a013-20200714
 i386                 randconfig-a014-20200714
+x86_64               randconfig-a005-20200715
+x86_64               randconfig-a006-20200715
+x86_64               randconfig-a002-20200715
+x86_64               randconfig-a001-20200715
+x86_64               randconfig-a003-20200715
+x86_64               randconfig-a004-20200715
 riscv                            allyesconfig
 riscv                             allnoconfig
 riscv                               defconfig
