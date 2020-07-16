@@ -2,92 +2,68 @@ Return-Path: <SRS0=tL+/=A3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 234E7C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 14:58:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F2EEC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 16:14:14 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E438E207BC
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 14:58:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1BB912071B
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 16:14:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PuwD/KRG";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="ln8xmXfw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E438E207BC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q/aMQyA0";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0zAVnDO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1BB912071B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=wa4DcNWcnteLI7ounJfTpqVG1g/2DQGY0k3KLvu65DE=; b=PuwD/KRGKGk1eJjIDON0MN2F6
-	RhnBps9KEIs5Ic88OXKmXrfF/9aCtng5L480/gOV70PGb30/eY5TF7bwE90EBEVaL44hzE4em9Od8
-	BP4CbloApu6yL5LgKtuno3D46ApdgnDrX6CfaIwF5r8wiqIJXd4YdLsR4R6jS/FAON+KP91NuQdvj
-	THrtI/NV0/nAaHvk8Ps0ZrAUfcngwd8vrJr4IjPWfX3T6qjQ+5r0eGjzp1VGZfhniZ/WIuYCQMLuL
-	iuCScdxJWF0OWQnDRwHBZJLjxJYXN80IoGcK6CsX3zv20GTsnrO9iN65EwGtP4TtHuvpcTOsaFqSh
-	Kz5dYHclQ==;
+	 bh=zWVmEuN5p7KqohF2xyu9DTRZEpEhHjj0c72XCSwxfnQ=; b=q/aMQyA0D6zRVrvIZYMzU3xJ3
+	BLJnfiBBAI32x5y4pG5xN3i94KZKNY7oBuawEauJMAUq/B6H2XLIJpUXX/5kHBfco/pkg42WCN0Gd
+	7NngJl+P99Pc3R6GExTVvBJq8Yde+0qPeSmYennz+Wi4vyEhNni7hk1+VfG52ePCVgTYYHm8VjnHj
+	4x8OJ85e5Wqt7iMHnHwZ/8Hpgn/gwatYWtuuZgZkD8t/6NHA8iD2XAcuT6HWVDH0i0GdZT2uPcPf7
+	rCjjPQa4Hs7C0YrZZ1xS/EvOxxDhywrCE9+oEvpAgWI27R71tj9HVFStGMjsfhXbT+W207EN9KzdT
+	d9BbzOQ8Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jw5LY-0003NV-2y; Thu, 16 Jul 2020 14:58:52 +0000
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143])
+	id 1jw6WO-0007Jc-Sz; Thu, 16 Jul 2020 16:14:08 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jw5LV-0003MD-Gd
- for linux-nvme@lists.infradead.org; Thu, 16 Jul 2020 14:58:50 +0000
-Received: by mail-il1-x143.google.com with SMTP id x9so5323536ila.3
- for <linux-nvme@lists.infradead.org>; Thu, 16 Jul 2020 07:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sbSSrPonKJfXJbjkODGw5kCeYi2eB9jEjMNe2MWe9po=;
- b=ln8xmXfwt0w2jAmcOb3H5wB7TSW0eNCcj/TOTdQTA/mv8BpAV/mSSA1vClJY4MUZIt
- L1MRoY1nkwneHe45S5yKdLgJkFGBa6xHbSho2ZkrAQSo8e5GnWvuA4v2mwVPxybrG3p8
- loApfClf2p6O3LVFfOPVwtAkY8xxQE35dmLc6VBouSkjIBIXsXYquhZWYyVDPyp7XWPe
- 0fJ/Nyh7ofzp6xfMrDi8E+mC5/g1K0wTvNORNJcXks3p6iFKoPw46LSHmTRal8/C6Hpl
- uFHGLV/G2YYCxMEll68QvyC03Cqcj7nslY7Tmc5LVgnsXw0XiBnFyynpNUkcrMQHWPqn
- R9lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sbSSrPonKJfXJbjkODGw5kCeYi2eB9jEjMNe2MWe9po=;
- b=r0ab19J8yh//DN2pTp8VuKoNpqjo+9T8Rmfwmi/BHn9tdB8iK6usEIdKibr9p7qDJg
- +8b5EKc4n9Mk6v7/VLQNriJYc3BspgmWWCw33+NZ4wOExNwgvqI7bL7Xd3Cqk0mZQaN0
- /l5KslJFowPVBai8acHmOWpbgGYJ+vvm5Pt4ago4Vn8HzXFk/71aGznIKo1feNuUigHU
- 7wBSRVxvmJb3HSLXt1sD+EYts1ZHSb3IhZwM9+vd05iYi5XC7hZoE+j/86gI3Gd8t69+
- LVicqtoB0UPWli3Ee11j/JOPPBmphxAScxquzZz/kjf0WxuApc99zV87G2eZfo9hJTIV
- tjXA==
-X-Gm-Message-State: AOAM530ksFIZNtXuIFRq4nnj7RjhpktD/czsAw4RzrA8EQ9rlguKux0y
- 5gXTUeDBZq1N9GHIRxo/UINDYE7M6iRUbw==
-X-Google-Smtp-Source: ABdhPJzIvvEXWrGMQ9FKZ0wfeJsFuBTqCmuAM56PUkcJsNVfl8zR1IoiMpo9B2TxvKd/2uBK5JmfBg==
-X-Received: by 2002:a92:d812:: with SMTP id y18mr5271885ilm.286.1594911526273; 
- Thu, 16 Jul 2020 07:58:46 -0700 (PDT)
-Received: from [192.168.1.58] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id s18sm2757180ilj.63.2020.07.16.07.58.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jul 2020 07:58:45 -0700 (PDT)
-Subject: Re: [GIT PULL] nvme fix for 5.8
-To: Christoph Hellwig <hch@infradead.org>
-References: <20200716144205.GA475287@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <1e305554-0f7d-06a6-cd3c-689249a2557c@kernel.dk>
-Date: Thu, 16 Jul 2020 08:58:44 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1jw6WM-0007IH-Cy
+ for linux-nvme@lists.infradead.org; Thu, 16 Jul 2020 16:14:07 +0000
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E15FE2071B;
+ Thu, 16 Jul 2020 16:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594916045;
+ bh=IsQlmNduJzeA8K1Kqpn59fkMWUZGOxWfixc27MP6dzU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=G0zAVnDO8NWsmmiYN+rhUPAyB7KFY+LQOLyh4YClWHQRWefZ2Jm+ImloAVXS1u+ZS
+ oVUsuBejKjoYoC5ek3a/739RY8E1veaC7aNYMTLK6cTSVEMw+H92Eb3Yac21VwNmOH
+ 5lNBq3cdm/e7bNYYAdDMmK/d7ott/hZBQf4w+7Jw=
+Date: Thu, 16 Jul 2020 18:13:58 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Subject: Re: [PATCH] mmc: core: Initial support for SD express card/host
+Message-ID: <20200716161358.GA3135454@kroah.com>
+References: <20200716141534.30241-1-ulf.hansson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200716144205.GA475287@infradead.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200716141534.30241-1-ulf.hansson@linaro.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200716_105849_575464_2FB1C31B 
-X-CRM114-Status: GOOD (  14.57  )
+X-CRM114-CacheID: sfid-20200716_121406_546539_92425896 
+X-CRM114-Status: GOOD (  15.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,39 +75,78 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Rui Feng <rui_feng@realsil.com.cn>,
+ linux-pci@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Adrian Hunter <adrian.hunter@intel.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/16/20 8:42 AM, Christoph Hellwig wrote:
-> The following changes since commit 579dd91ab3a5446b148e7f179b6596b270dace46:
-> 
->   nbd: Fix memory leak in nbd_add_socket (2020-07-08 15:42:18 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-5.8
-> 
-> for you to fetch changes up to 05b29021fba5e725dd385151ef00b6340229b500:
-> 
->   nvme: explicitly update mpath disk capacity on revalidation (2020-07-16 16:40:27 +0200)
-> 
-> ----------------------------------------------------------------
-> Anthony Iliopoulos (1):
->       nvme: explicitly update mpath disk capacity on revalidation
-> 
->  drivers/nvme/host/core.c |  1 +
->  drivers/nvme/host/nvme.h | 13 +++++++++++++
->  2 files changed, 14 insertions(+)
+On Thu, Jul 16, 2020 at 04:15:34PM +0200, Ulf Hansson wrote:
+> +int mmc_send_if_cond_pcie(struct mmc_host *host, u32 ocr)
+> +{
+> +	u32 resp = 0;
+> +	u8 pcie_bits = 0;
+> +	int ret;
+> +
+> +	if (host->caps2 & MMC_CAP2_SD_EXP) {
+> +		/* Probe card for SD express support via PCIe. */
+> +		pcie_bits = 0x10;
+> +		if (host->caps2 & MMC_CAP2_SD_EXP_1_2V)
+> +			/* Probe also for 1.2V support. */
+> +			pcie_bits = 0x30;
+> +	}
+> +
+> +	ret = __mmc_send_if_cond(host, ocr, pcie_bits, &resp);
+> +	if (ret)
+> +		return 0;
+> +
+> +	/* Continue with the SD express init, if the card supports it. */
+> +	resp &= 0x3000;
+> +	if (pcie_bits && resp) {
+> +		if (resp == 0x3000)
 
-Pulled, thanks.
+0x3000 should be some defined value, right?  Otherwise it just looks
+like magic bits :)
 
--- 
-Jens Axboe
+> --- a/include/linux/mmc/host.h
+> +++ b/include/linux/mmc/host.h
+> @@ -60,6 +60,8 @@ struct mmc_ios {
+>  #define MMC_TIMING_MMC_DDR52	8
+>  #define MMC_TIMING_MMC_HS200	9
+>  #define MMC_TIMING_MMC_HS400	10
+> +#define MMC_TIMING_SD_EXP	11
+> +#define MMC_TIMING_SD_EXP_1_2V	12
+>  
+>  	unsigned char	signal_voltage;		/* signalling voltage (1.8V or 3.3V) */
+>  
+> @@ -172,6 +174,9 @@ struct mmc_host_ops {
+>  	 */
+>  	int	(*multi_io_quirk)(struct mmc_card *card,
+>  				  unsigned int direction, int blk_size);
+> +
+> +	/* Initialize an SD express card, mandatory for MMC_CAP2_SD_EXP. */
+> +	int	(*init_sd_express)(struct mmc_host *host, struct mmc_ios *ios);
+>  };
+>  
+>  struct mmc_cqe_ops {
+> @@ -357,6 +362,8 @@ struct mmc_host {
+>  #define MMC_CAP2_HS200_1_2V_SDR	(1 << 6)        /* can support */
+>  #define MMC_CAP2_HS200		(MMC_CAP2_HS200_1_8V_SDR | \
+>  				 MMC_CAP2_HS200_1_2V_SDR)
+> +#define MMC_CAP2_SD_EXP		(1 << 7)	/* SD express via PCIe */
 
+BIT(7)?
+
+> +#define MMC_CAP2_SD_EXP_1_2V	(1 << 8)	/* SD express 1.2V */
+
+BIT(8)?
+
+thanks,
+
+greg k-h
 
 _______________________________________________
 Linux-nvme mailing list
