@@ -2,136 +2,87 @@ Return-Path: <SRS0=tL+/=A3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 760B1C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 01:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DACC6C433F2
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 14:16:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3F82B2078C
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 01:48:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 941FF207BC
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 14:16:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SYCZE/l+";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="gWqm8BMl";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="M2Xj0roH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F82B2078C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="x4+u5fbA";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CfjpSFsH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 941FF207BC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=7Jcxb2wpm628PRzK62l6eHMfJnnjocap1slNVsXsqLw=; b=SYCZE/l+kQ6DO9i/qsdvcnfqF
-	42gWmaMP2FiLRu9Yj4nNtQgLmja/pMGZAfrMh9dCRo/SIwaUZT5n4sRSnkM1BjeYaZpFHFPHnLVPC
-	YoIbOlS2H4rXjc842fngH8PCbEtwBUEAfqtC3XbWaQcZaLo3jgrb/1TPq6KVC5FGB+8K+wyHLYP9E
-	mG0yqQBZYfjvjBpgYrxOGyYZuDgkctaZvbAvfvU3hDzjfh9GKlXDaZTCfTnqoQsyFdjEu1PbJ0pc+
-	RwQ7y7wsY4yRTfimHhPr2w2kdM3A6IL50TtS/L3E5J6RqXSkzxKBeFBpR88kAuJGKkBeD5gDCB5/C
-	aK9tljNxQ==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3wAU92g+ebqlQGFJ/O0ztnf72ZGpZQHBtNdw5FRzq4o=; b=x4+u5fbAexjZ1LJ4w3Cdjpn4lG
+	scj9Ikd/s44fgkVLey2ZPzp/cH+AAVLeQOyJJpYhD0ASoU+uWykDGD64vEM5ED7U5iQp4xiW+tx/y
+	S6/cBOyfp0JevDUqOZN0xolVD9UAcsEzsrCoouriic+/tT38eyRC40fgHjo4zPczHlOlQHWJBqxo8
+	iWw9XJWobW3TrjP4GDfn/TN5GYBtqUJA90GfDXWLTY3RV6FNMXqOXaXr0ONaLvOI6k9dZsCn24VHx
+	EiqN60flySPUgDUCmqHhc9nXY89UGDUCjcXa0yG/1Mc6NPO+N5+A/CIfToz2m8TudkbFHc1Bzn6jt
+	CBcSL0wA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jvt10-0001kc-N7; Thu, 16 Jul 2020 01:48:50 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1jw4gf-0003Mo-SK; Thu, 16 Jul 2020 14:16:37 +0000
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jvt0w-0001jx-Vk
- for linux-nvme@lists.infradead.org; Thu, 16 Jul 2020 01:48:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594864164; x=1626400164;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=AZAGmkSjlk0NcL+yMYiHboZ7qcTxYY15/MKCdp2amBg=;
- b=gWqm8BMlFcBAePANvw80IahyibDZIVbHgCUXIUW5c3VbI9VVzvmRxjnA
- cHWKUKIoAN0NnieyppETWYhx33639HDvhoILnQrqz4sRDqNQPuuxNd85y
- 06/mZvkh/AMn0d1iCmLs1WFuCecZ7/vJ8M8YTpb5jwQYbgShuo+FLR3X9
- zX4LOqVF8VceskDg0dgFMHhdnuCKSYTZhKvADDUf2aHK0ILwEPPsTNFa2
- slifN2ONYr3YAGbDnBF/tWrdgL/PuHrq+W56pMoNqJwxBejAPsyHNR5qY
- PakaSQC3jtGZtGS9Hxl7mwbDtasif1yDM69jfSMU1sWFhKe6Ut0pwVoHm A==;
-IronPort-SDR: Dz4KFwt/hjhIbm+oDfBknypcgrogTr+5moRkYHY0tOMSeH836zeHu7/QTIrqp46GYormyCfhaL
- qDKjOQXQCaDkSjAnrf1Nct2gZUZ32vkNGCO/naJiWdCDbrBQLawWiGr3jNzDdQAiRkt85/feBP
- nx6aSI3DeUlfqw94c6P3wzYqzBin39tdjxNa2IbZDoKbcutp49OBcz2eWh9TpZfxfEzIh202wz
- J6D6PPlhlSMvZ2nTDwvG0onOXxgGW8q+nXdrYhWK0MdyxNR4F2VhNTdhEmWPecu7s1gKo8/IqE
- mRQ=
-X-IronPort-AV: E=Sophos;i="5.75,357,1589212800"; d="scan'208";a="245601568"
-Received: from mail-bn8nam12lp2171.outbound.protection.outlook.com (HELO
- NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.171])
- by ob1.hgst.iphmx.com with ESMTP; 16 Jul 2020 09:48:47 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F2J2Jzv7fyGc9vBJgW33KsxpRWRf7eODEOJrxVtSyPj6MGKp/KFaLj+FD7R8GWtdRkYf0VH7fi2Wir3XborMykEG2P+Mn+1NNfSavqFuBmJluDdli7Y4GaT+84Wlqwl/zeiw/3jxzKPiySTuFcddeaELI2AXcSRBRnLJijKZfx2wM2fuZ2KS1AoenhHK6vBFVtpbRJydIMnJ6huV68JfXCHY3UVr9kgnkMwmWLWOpnozTy89of/DLxvV0u+Nc3XVa0pKTxW3J7Rc//blGjGWOYeA8P4WYdonpcHV8DmibNazPY3hkrBPGEumU3XZl6LpPTHIRSrpW3JdVbqyGS9aEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Orh3MOID/fs6n+WIc9Ysgi1PsUV/G2T0htViVxrkJAU=;
- b=fSvRtxHnSQXAjf/kghpViuQs21ZY5OlKiVv1pEC+R9endHuX/rozzkMVf9HLRM0cNhzPMkffD4td8rqtxO14mbzPfCgP/LV3IF+pmmeIC/fw00dXzdQ2Qp0KIPJ4CipqbCYpx8VEuw/GMkDCe3a5lbVv5y1DW38bIafnbeNyRTLXO5M6o5ZJFoWmrLTfuiDz+IqPH0O2JqipHWOKVg3QgsWG82U8AWpjZA9/gjwBsLoSkE1439U3fYlhXgSM8mHMpHVqzdElEXDks9kYBVupgOQtCeIJ8E4N6fqTmKbc2CgBH3NQnsVq2GXfJbL+UVJ5J0b263lafH03Q9Ptb9mMag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Orh3MOID/fs6n+WIc9Ysgi1PsUV/G2T0htViVxrkJAU=;
- b=M2Xj0roHAL5PyCkP3gB66wz0/+9k7OXrV6+tt04hirKVh0lZWxzGg9kUg4B+inaIrEN2DmndkF1OQEdrLPhQfS4spT2/xVGmPCKK5QhmDqg6Wzggv6s520sgkcbg7pRNv5L+Wka++aSfyL47Z8nciIwAPxfdo//XIRUia89qcWM=
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BYAPR04MB6247.namprd04.prod.outlook.com (2603:10b6:a03:ea::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Thu, 16 Jul
- 2020 01:48:21 +0000
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::98a4:d2c9:58c5:dee4]) by BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::98a4:d2c9:58c5:dee4%5]) with mapi id 15.20.3195.018; Thu, 16 Jul 2020
- 01:48:21 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH V3 00/10] nvme: use xarray for ns tracking
-Thread-Topic: [PATCH V3 00/10] nvme: use xarray for ns tracking
-Thread-Index: AQHWWjbfkXJqkK13VEKRp+x7lckQDA==
-Date: Thu, 16 Jul 2020 01:48:21 +0000
-Message-ID: <BYAPR04MB496584229FBE1C69F5C6C65D867F0@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20200714233057.10915-1-chaitanya.kulkarni@wdc.com>
- <20200715070328.GA22320@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 19c84172-a441-4b29-a33e-08d8292a5246
-x-ms-traffictypediagnostic: BYAPR04MB6247:
-x-microsoft-antispam-prvs: <BYAPR04MB62474D15A467FF3D1CA554B0867F0@BYAPR04MB6247.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5ljySzZVFSpAbSP8g1qnt9UYlWQxWMVe9Ut1gyzloEi3EPRSMAjQo6H7tKVSyRkpumYh7kZXaN66Fi5ELQw2YrBNKM3poH2NWDkziJC24mBu4UasdnGKtjo03U/IOexXbFZbtAy2K5b5j4CyB/kc6hNtq+Z/pLm6e9agtQQs5n4Ak9hGLUp0005wn+gs1lsPevHewGTqT7c1LU1rjoFPaY5FIlqURtbZ5+VR3Z7OLFBwXf8wxnrDNi5SHFMjP1/Mhzs6FPHj10MYauw+LWQBJTzy0/bwqDXdOpc6D3snEfwlaGLf/cQHvOWYf06J5NKJ
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(346002)(376002)(136003)(39860400002)(396003)(9686003)(55016002)(2906002)(6506007)(71200400001)(8676002)(316002)(6916009)(8936002)(33656002)(4326008)(26005)(54906003)(5660300002)(83380400001)(7696005)(53546011)(66476007)(66556008)(66946007)(64756008)(52536014)(86362001)(186003)(66446008)(4744005)(478600001)(76116006);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 4BZ+MOHsWkb6yFKcZzWnCqrOHiCnqIbMb7xZWQsDypHOG5I/bE485Ds3p9essvoMoaULTpmWtPSpPuiwXbR40eXk0nHkgurRz+ozCvs2caf30XQcTH1/PUmFo4znC4TxRQtspGCjd84yqB7u9i6SeRW1l9tieQVBn4gCSSHQ72B2gdgPMbO60tDLfBFBSIHX3i2Gf/F1I4mlq+96i+ppslj0kv1xGd8PIwuel1ZfDenalpipka4ETpUf2kxAMsnNG2j3LDrA6XsEt8VlfAluvatDvzZr8VTL4et0D82cqVy4j/8jEsdjepCOUAJd3aCbbEnN10plvlGQupKqMiBiXE6y6M46vwhLkbY1Mf83OgJ8WVLJZyJlNIQSVrdtV7npNJnYjwYhhmA9q2L0159/bOGRH2UCsALqcyMEILyTB5b5GcRe4/dyuoqPHWmdOvZ8Yi3f4gO4tqDtnNTEB8oyqPF3+LSU00dUJK42th2PpqM=
-x-ms-exchange-transport-forked: True
+ id 1jw4gI-0003FL-Ek
+ for linux-nvme@lists.infradead.org; Thu, 16 Jul 2020 14:16:31 +0000
+Received: by mail-lj1-x244.google.com with SMTP id h19so7274397ljg.13
+ for <linux-nvme@lists.infradead.org>; Thu, 16 Jul 2020 07:16:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mXH7vVi3KBPuSpGgzBWwHA8EoTmgJyz0ffp69H08dxI=;
+ b=CfjpSFsHuv9lIfuFR3u9YVTn3D2/DVD0NybAdw9y/3tyKxpu/BwdPjXQp6sU7A642P
+ KkDVTZ4i+npcyyiqXOFgryTudvpB8dz+Kk0is0viOQkv3oqSMIdFfeJqAt1+cBQuRGsr
+ Rl8xKml+Wakc8wSfCWakO8h09LR2AAUwyVNZMfZuXXVWP+cDLG1jGRi8UgBXfbcg/DMW
+ luSc+6sy30Enj5lxct8bjqh2TxmI++ZnrtYrN427CK5Bpl1Tw+991mHGf1z+DpFkzTzx
+ XGtol4/58I0ScHG2T9qPvTxZ+vJ4luQ+OBv/bfDQ0BaqcMsnwW+vuMx3kZss1wUPTgGI
+ RXYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mXH7vVi3KBPuSpGgzBWwHA8EoTmgJyz0ffp69H08dxI=;
+ b=XHlhcQ3M+gjcl0TaycRVVw1xf/m8qiuo/+vg1h5CnYkzDM9EqjV/GDn9Cv3HK8XeSE
+ mvvuP34lA2bhSQCxAEBtKFf1Hq/n/saAC7FXSb2OSegSGe0ihfNAMYUjt9e+70JnhnS3
+ lAgGYyzIP7KMO0+LFZWEHdeWVIHCnzJ57MTB3UpmSeAxqdFgveYszzhMzNw3UsLkQiYn
+ 1xaX+tmIB1Zd2c2AUWVcC+cZjF4L9LbXBD0od8baJyvpPNV9GTflaQFF1ybNtNMP1x0z
+ Q30/LlUE0jEKjP8xSIR7CfXfu3Kjyp7fYr9IYqrWuZ0WMDUMvB8p/Ne8I7Nlv3ynCe9T
+ mgbA==
+X-Gm-Message-State: AOAM531dMEm2V+oljqLHqCWu6UzMQ+5Qkp5wcQAp/wi19mQUFgY76Hna
+ boHJTyvepHoGHLp0kdzr8rl2lNRfHQ0hkg==
+X-Google-Smtp-Source: ABdhPJw1htbppJl/Sb7eYbBder0jkiV1NnzJIDU6QIcD10aBY30vhSNCUz+quukA9UefrB3Zywn2lA==
+X-Received: by 2002:a2e:8559:: with SMTP id u25mr2078562ljj.52.1594908971254; 
+ Thu, 16 Jul 2020 07:16:11 -0700 (PDT)
+Received: from localhost.localdomain (h-98-128-181-7.NA.cust.bahnhof.se.
+ [98.128.181.7])
+ by smtp.gmail.com with ESMTPSA id x5sm1069418ljm.132.2020.07.16.07.16.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jul 2020 07:16:09 -0700 (PDT)
+From: Ulf Hansson <ulf.hansson@linaro.org>
+To: linux-mmc@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Arnd Bergmann <arnd@arndb.de>, Rui Feng <rui_feng@realsil.com.cn>
+Subject: [PATCH] mmc: core: Initial support for SD express card/host
+Date: Thu, 16 Jul 2020 16:15:34 +0200
+Message-Id: <20200716141534.30241-1-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19c84172-a441-4b29-a33e-08d8292a5246
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2020 01:48:21.7841 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 61LABfnObCyaIG0Nb+bgf8BbInTAKlj9yFAw6a42S87nUQ/7iI6VCW54KFSerPCPZGSZMNjyvyKNWWcH/fzUm14jWFuk6frEycXkZhOFckQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6247
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200715_214847_405264_704573F0 
-X-CRM114-Status: UNSURE (   9.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200716_101614_641914_3DAC6E2F 
+X-CRM114-Status: GOOD (  27.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,24 +94,233 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
- "willy@infradead.org" <willy@infradead.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/15/20 00:03, Christoph Hellwig wrote:
->> Following are the performance numbers with NVMeOF (nvme-loop) backed by
->> null_blk devices mapped 1:1 on NVMeOF target backend :-
-> Can you make sure the nvmet patch is the first in the series?  That one
-> is obviously useful, so as soon as everything is sorted out I'm happy
-> to apply it.  I'm not quite as sold on the host side.
-> 
+In the SD specification v7.10 the SD express card has been added. This new
+type of removable SD card, can be managed via a PCIe/NVMe based interface,
+while also allowing backwards compatibility towards the legacy SD
+interface.
 
-Okay, will do.
+To keep the backwards compatibility, it's required to start the
+initialization through the legacy SD interface. If it turns out that the
+mmc host and the SD card, both supports the PCIe/NVMe interface, then a
+switch should be allowed.
+
+Therefore, let's introduce some basic support for this type of SD cards to
+the mmc core. The mmc host, should set MMC_CAP2_SD_EXP if it supports this
+interface and MMC_CAP2_SD_EXP_1_2V, if also 1.2V is supported, as to inform
+the core about it.
+
+To deal with the switch to the PCIe/NVMe interface, the mmc host is
+required to implement a new host ops, ->init_sd_express(). Based on the
+initial communication between the host and the card, host->ios.timing is
+set to either MMC_TIMING_SD_EXP or MMC_TIMING_SD_EXP_1_2V, depending on if
+1.2V is supported or not. In this way, the mmc host can check these values
+in its ->init_sd_express() ops, to know how to proceed with the handover.
+
+Note that, to manage card insert/removal, the mmc core sticks with using
+the ->get_cd() callback, which means it's the host's responsibility to make
+sure it provides valid data, even if the card may be managed by PCIe/NVMe
+at the moment. As long as the card seems to be present, the mmc core keeps
+the card powered on.
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Rui Feng <rui_feng@realsil.com.cn>
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+---
+ drivers/mmc/core/core.c   | 15 ++++++++++--
+ drivers/mmc/core/host.h   |  6 +++++
+ drivers/mmc/core/sd_ops.c | 49 +++++++++++++++++++++++++++++++++++++--
+ drivers/mmc/core/sd_ops.h |  1 +
+ include/linux/mmc/host.h  |  7 ++++++
+ 5 files changed, 74 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+index 8ccae6452b9c..6673c0f33cc7 100644
+--- a/drivers/mmc/core/core.c
++++ b/drivers/mmc/core/core.c
+@@ -2137,8 +2137,12 @@ static int mmc_rescan_try_freq(struct mmc_host *host, unsigned freq)
+ 
+ 	mmc_go_idle(host);
+ 
+-	if (!(host->caps2 & MMC_CAP2_NO_SD))
+-		mmc_send_if_cond(host, host->ocr_avail);
++	if (!(host->caps2 & MMC_CAP2_NO_SD)) {
++		if (mmc_send_if_cond_pcie(host, host->ocr_avail))
++			goto out;
++		if (mmc_card_sd_express(host))
++			return 0;
++	}
+ 
+ 	/* Order's important: probe SDIO, then SD, then MMC */
+ 	if (!(host->caps2 & MMC_CAP2_NO_SDIO))
+@@ -2153,6 +2157,7 @@ static int mmc_rescan_try_freq(struct mmc_host *host, unsigned freq)
+ 		if (!mmc_attach_mmc(host))
+ 			return 0;
+ 
++out:
+ 	mmc_power_off(host);
+ 	return -EIO;
+ }
+@@ -2280,6 +2285,12 @@ void mmc_rescan(struct work_struct *work)
+ 		goto out;
+ 	}
+ 
++	/* If an SD express card is present, then leave it as is. */
++	if (mmc_card_sd_express(host)) {
++		mmc_release_host(host);
++		goto out;
++	}
++
+ 	for (i = 0; i < ARRAY_SIZE(freqs); i++) {
+ 		unsigned int freq = freqs[i];
+ 		if (freq > host->f_max) {
+diff --git a/drivers/mmc/core/host.h b/drivers/mmc/core/host.h
+index 5e3b9534ffb2..ba407617ed23 100644
+--- a/drivers/mmc/core/host.h
++++ b/drivers/mmc/core/host.h
+@@ -77,5 +77,11 @@ static inline bool mmc_card_hs400es(struct mmc_card *card)
+ 	return card->host->ios.enhanced_strobe;
+ }
+ 
++static inline bool mmc_card_sd_express(struct mmc_host *host)
++{
++	return host->ios.timing == MMC_TIMING_SD_EXP ||
++		host->ios.timing == MMC_TIMING_SD_EXP_1_2V;
++}
++
+ #endif
+ 
+diff --git a/drivers/mmc/core/sd_ops.c b/drivers/mmc/core/sd_ops.c
+index 22bf528294b9..d61ff811218c 100644
+--- a/drivers/mmc/core/sd_ops.c
++++ b/drivers/mmc/core/sd_ops.c
+@@ -158,7 +158,8 @@ int mmc_send_app_op_cond(struct mmc_host *host, u32 ocr, u32 *rocr)
+ 	return err;
+ }
+ 
+-int mmc_send_if_cond(struct mmc_host *host, u32 ocr)
++static int __mmc_send_if_cond(struct mmc_host *host, u32 ocr, u8 pcie_bits,
++			      u32 *resp)
+ {
+ 	struct mmc_command cmd = {};
+ 	int err;
+@@ -171,7 +172,7 @@ int mmc_send_if_cond(struct mmc_host *host, u32 ocr)
+ 	 * SD 1.0 cards.
+ 	 */
+ 	cmd.opcode = SD_SEND_IF_COND;
+-	cmd.arg = ((ocr & 0xFF8000) != 0) << 8 | test_pattern;
++	cmd.arg = ((ocr & 0xFF8000) != 0) << 8 | pcie_bits << 8 | test_pattern;
+ 	cmd.flags = MMC_RSP_SPI_R7 | MMC_RSP_R7 | MMC_CMD_BCR;
+ 
+ 	err = mmc_wait_for_cmd(host, &cmd, 0);
+@@ -186,6 +187,50 @@ int mmc_send_if_cond(struct mmc_host *host, u32 ocr)
+ 	if (result_pattern != test_pattern)
+ 		return -EIO;
+ 
++	if (resp)
++		*resp = cmd.resp[0];
++
++	return 0;
++}
++
++int mmc_send_if_cond(struct mmc_host *host, u32 ocr)
++{
++	return __mmc_send_if_cond(host, ocr, 0, NULL);
++}
++
++int mmc_send_if_cond_pcie(struct mmc_host *host, u32 ocr)
++{
++	u32 resp = 0;
++	u8 pcie_bits = 0;
++	int ret;
++
++	if (host->caps2 & MMC_CAP2_SD_EXP) {
++		/* Probe card for SD express support via PCIe. */
++		pcie_bits = 0x10;
++		if (host->caps2 & MMC_CAP2_SD_EXP_1_2V)
++			/* Probe also for 1.2V support. */
++			pcie_bits = 0x30;
++	}
++
++	ret = __mmc_send_if_cond(host, ocr, pcie_bits, &resp);
++	if (ret)
++		return 0;
++
++	/* Continue with the SD express init, if the card supports it. */
++	resp &= 0x3000;
++	if (pcie_bits && resp) {
++		if (resp == 0x3000)
++			host->ios.timing = MMC_TIMING_SD_EXP_1_2V;
++		else
++			host->ios.timing = MMC_TIMING_SD_EXP;
++
++		/*
++		 * According to the spec the clock shall also be gated, but
++		 * let's leave this to the host driver for more flexibility.
++		 */
++		return host->ops->init_sd_express(host, &host->ios);
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/mmc/core/sd_ops.h b/drivers/mmc/core/sd_ops.h
+index 2194cabfcfc5..3ba7b3cf4652 100644
+--- a/drivers/mmc/core/sd_ops.h
++++ b/drivers/mmc/core/sd_ops.h
+@@ -16,6 +16,7 @@ struct mmc_host;
+ int mmc_app_set_bus_width(struct mmc_card *card, int width);
+ int mmc_send_app_op_cond(struct mmc_host *host, u32 ocr, u32 *rocr);
+ int mmc_send_if_cond(struct mmc_host *host, u32 ocr);
++int mmc_send_if_cond_pcie(struct mmc_host *host, u32 ocr);
+ int mmc_send_relative_addr(struct mmc_host *host, unsigned int *rca);
+ int mmc_app_send_scr(struct mmc_card *card);
+ int mmc_sd_switch(struct mmc_card *card, int mode, int group,
+diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
+index c5b6e97cb21a..905cddc5e6f3 100644
+--- a/include/linux/mmc/host.h
++++ b/include/linux/mmc/host.h
+@@ -60,6 +60,8 @@ struct mmc_ios {
+ #define MMC_TIMING_MMC_DDR52	8
+ #define MMC_TIMING_MMC_HS200	9
+ #define MMC_TIMING_MMC_HS400	10
++#define MMC_TIMING_SD_EXP	11
++#define MMC_TIMING_SD_EXP_1_2V	12
+ 
+ 	unsigned char	signal_voltage;		/* signalling voltage (1.8V or 3.3V) */
+ 
+@@ -172,6 +174,9 @@ struct mmc_host_ops {
+ 	 */
+ 	int	(*multi_io_quirk)(struct mmc_card *card,
+ 				  unsigned int direction, int blk_size);
++
++	/* Initialize an SD express card, mandatory for MMC_CAP2_SD_EXP. */
++	int	(*init_sd_express)(struct mmc_host *host, struct mmc_ios *ios);
+ };
+ 
+ struct mmc_cqe_ops {
+@@ -357,6 +362,8 @@ struct mmc_host {
+ #define MMC_CAP2_HS200_1_2V_SDR	(1 << 6)        /* can support */
+ #define MMC_CAP2_HS200		(MMC_CAP2_HS200_1_8V_SDR | \
+ 				 MMC_CAP2_HS200_1_2V_SDR)
++#define MMC_CAP2_SD_EXP		(1 << 7)	/* SD express via PCIe */
++#define MMC_CAP2_SD_EXP_1_2V	(1 << 8)	/* SD express 1.2V */
+ #define MMC_CAP2_CD_ACTIVE_HIGH	(1 << 10)	/* Card-detect signal active high */
+ #define MMC_CAP2_RO_ACTIVE_HIGH	(1 << 11)	/* Write-protect signal active high */
+ #define MMC_CAP2_NO_PRESCAN_POWERUP (1 << 14)	/* Don't power up before scan */
+-- 
+2.20.1
+
 
 _______________________________________________
 Linux-nvme mailing list
