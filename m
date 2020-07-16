@@ -1,95 +1,70 @@
-Return-Path: <SRS0=D+H5=A2=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=tL+/=A3=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFBCDC433E7
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 20:26:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C902BC43446
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 00:27:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8D67620672
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jul 2020 20:26:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 995D22076C
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 00:27:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GOIsu4Rr";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="PpmzzilW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D67620672
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="z+XfwwD0";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZa7PeNw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 995D22076C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VJuJ56PgcyXaAlI1bcNhEmkiDvjScr0G6G0MYGGXA4w=; b=GOIsu4RrljZmgo1E/QL3qPlqQ
-	B0hZUZ+lCiyPSqKY4/QVVxoshNvnuF0giXmZt1SAZtsbI3kSyK+FAckFz0YVCW/Ou5ZhRUz70eYRS
-	UPRLxMjo9ej84qnEwtM6bNxzBEt6fjhPyD3sqBwO3fhEYRu1JWz+UCf3Z5ZTu4WbrNAwmh2jWNDBY
-	wvxYT3WmgGgmRcEZZI4uQjrovGLcQfKoRRAgajDang5pchmd2zwz1uR8vUeUIulblv3tD1soaouxt
-	MX/SbLrYefmkQfPDvwuld+XCYpprhlfCOGt56b3iJdoY4i37eCBegWyCclGCgFGsWTWvpJbGbZwNn
-	3BHsN1/2Q==;
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:References:In-Reply-To:Subject:To:From:
+	Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=N/lnZXweUpRhpCgnlRCNVCmEqXzffr2OHEOF7ZcD4dU=; b=z+XfwwD0w0cIngbRMehhktbP7t
+	FWj6bT5NC2cGTm6MUoWegg9s1ig3X4gQKdtPfZUkJHUcHEY/5tSb8o7NE/xRjAmiRv0O8PcY+dWbA
+	QkZ1jYYx6oYk5oe7uk0kodTDFd4v/A7bjk8ffO6nKAceudNVg7SO+14OTGPexlfJL00BF7d8BOang
+	hyKxs0YNJ114t4P63J6E1iCakCNP53J8ISXfMoWmM4ml5iS0n3YzlKQJm1NfpSOfh9T31LuHvKAr2
+	J1rG8jxhVuUgPjJkVY3b0siT7w8H/dS5RTsVZI6dS5CM5ZqdDDgXBmZEv1qTrZnCM2UWoaUFLEemS
+	NZ7uyBVg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jvnzS-0006yQ-AA; Wed, 15 Jul 2020 20:26:54 +0000
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41])
+	id 1jvrkZ-0002i1-RA; Thu, 16 Jul 2020 00:27:47 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jvnzP-0006xX-1S
- for linux-nvme@lists.infradead.org; Wed, 15 Jul 2020 20:26:52 +0000
-Received: by mail-io1-xd41.google.com with SMTP id c16so3640998ioi.9
- for <linux-nvme@lists.infradead.org>; Wed, 15 Jul 2020 13:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ef4z+9Yicabx/PBiZK3UH32DMjpUIF0+c5gTonOKaqA=;
- b=PpmzzilWUzM1i/qTP1Ch+MKMpdOU0msPV2HQZbI56F4OnSxOQ8SwWWVRNy6yrunVFH
- /w24G6AhWABCKBxq6W9DTrAwMGwhOuy74V6lF49lC3Dn3xWDMQqxDo1EWGsZ5dGjALMH
- eKhOy4CqgkZMRcuq/fqcecn9cyJ7H+Yv1MO8xjTUKm4TuhrfEkgXklAPRnIuQcUzN8xr
- vKSGMpt1eM60SB5Fe5mTpyKY675HJSLlKGPjEdl6bOa6o0Fpqvzrih5jCMxo5TfUO56l
- 5MIg7m2BAdA0m8B3lbtrPoqhWKvHW7RheAaBBo/OMNlQqwmamVkGPYNgmo7HwR9BQ84h
- kPBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ef4z+9Yicabx/PBiZK3UH32DMjpUIF0+c5gTonOKaqA=;
- b=nBHkol8sbQIyHdfZB249/SId00mP5XyDiT64vExl16+Fk4a3fPvdXk0Ii+Cju57rlx
- xBsoMEjcD6TzuNAdvZDwp/n1PZ7g60zmz4UKovHgjzhaxCMILLNJ41AjuP1x59CA/Pqg
- mUMLiJkr0aVG8PpGEobS5RSE3yL7pEpLl/JoJdIsCZbr9/XyTfQBs5zUc8gKcsc6+iS0
- ZSS/rmkzslv/KVNA3rSX3dgwlpYYOhOI4kZdErN6mSEU5pZlF02Mu2POc4SvpvWltv/X
- JG0LnuD9nX+oMpXLFG/pEvFhiq9XfPE2I5sn6K9umTgtEvh6uKYZD/9I8CXV/qRwjtKC
- N9LA==
-X-Gm-Message-State: AOAM5318m3RECkw6wX/xNMwC9HoYIySY4+nlUk2atMxCrNApJy61gNFm
- Q6ejZrMta+FBP35K3I3v0kRsEg==
-X-Google-Smtp-Source: ABdhPJxIVAK2QRW9sFfypKnRyRWe+EJVbCx66CK31VkDVrrWNAVS7DR5AIM8zVPWgrqC3n6xFAXg0A==
-X-Received: by 2002:a6b:640f:: with SMTP id t15mr1044364iog.175.1594844809116; 
- Wed, 15 Jul 2020 13:26:49 -0700 (PDT)
-Received: from [192.168.1.58] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id a11sm1736327iow.26.2020.07.15.13.26.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jul 2020 13:26:48 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] Export max open zones and max active zones to sysfs
-To: Niklas Cassel <niklas.cassel@wdc.com>, Jonathan Corbet <corbet@lwn.net>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, "James E.J. Bottomley"
- <jejb@linux.ibm.com>, "Martin K. Petersen" <martin.petersen@oracle.com>
-References: <20200714211824.759224-1-niklas.cassel@wdc.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <58eac7f6-ab09-7f96-eb02-a19e8153e89a@kernel.dk>
-Date: Wed, 15 Jul 2020 14:26:47 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200714211824.759224-1-niklas.cassel@wdc.com>
-Content-Language: en-US
+ id 1jvrkU-0002gO-BC
+ for linux-nvme@lists.infradead.org; Thu, 16 Jul 2020 00:27:43 +0000
+Received: from localhost (unknown [137.135.114.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 88C1B207BC;
+ Thu, 16 Jul 2020 00:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594859261;
+ bh=nngL0ckNf8/smwBwPZWSKAozcrsj4QkjLpABavd1ntw=;
+ h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:
+ In-Reply-To:References:From;
+ b=LZa7PeNwvjlt9hSHZ3aQDm+KNzcovhxphCXJDgGddbA0107aCwiuM+Y0CFw+ULvGV
+ mwsyJ+u53l/4xekIz9qgtEnjYEnDCJcvNOn+BW0AOhssIq4bZa3TQlR4vRZ0Xaoth8
+ tnfvGCH8XwiT28iQ8xbRf/6cSjW4A0NZkZAcO27s=
+Date: Thu, 16 Jul 2020 00:27:40 +0000
+From: Sasha Levin <sashal@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+To: Coly Li <colyli@suse.de>
+To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/2] nvme-tpc: don't use sendpage for pages not taking
+ reference counter
+In-Reply-To: <20200710132610.11756-1-colyli@suse.de>
+References: <20200710132610.11756-1-colyli@suse.de>
+Message-Id: <20200716002741.88C1B207BC@mail.kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200715_162651_519850_48BABF52 
-X-CRM114-Status: GOOD (  16.91  )
+X-CRM114-CacheID: sfid-20200715_202742_519957_9086942B 
+X-CRM114-Status: UNSURE (   8.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,47 +76,69 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-doc@vger.kernel.org
+Cc: Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@suse.com>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>, stable@vger.kernel.org,
+ Coly Li <colyli@suse.de>, Hannes Reinecke <hare@suse.de>,
+ Jan Kara <jack@suse.com>, Philipp Reisner <philipp.reisner@linbit.com>,
+ Christoph Hellwig <hch@lst.de>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/14/20 3:18 PM, Niklas Cassel wrote:
-> Export max open zones and max active zones to sysfs.
-> 
-> This patch series in based on Jens's linux-block/for-next branch.
-> 
-> All zoned block devices in the kernel utilize the "zoned block device
-> support" (CONFIG_BLK_DEV_ZONED).
-> 
-> The Zoned Namespace Command Set Specification defines two different
-> resource limits: Max Open Resources and Max Active Resources.
-> 
-> The ZAC and ZBC standards define a MAXIMUM NUMBER OF OPEN SEQUENTIAL WRITE
-> REQUIRED ZONES field.
-> 
-> 
-> Since the ZNS Max Open Resources field has the same purpose as the ZAC/ZBC
-> field, (the ZNS field is 0's based, the ZAC/ZBC field isn't), create a
-> common "max_open_zones" definition in the sysfs documentation, and export
-> both the ZNS field and the ZAC/ZBC field according to this new common
-> definition.
-> 
-> The ZNS Max Active Resources field does not have an equivalent field in
-> ZAC/ZBC, however, since both ZAC/ZBC and ZNS utilize the "zoned block
-> device support" in the kernel, create a "max_active_zones" definition in
-> the sysfs documentation, similar to "max_open_zones", and export it
-> according to this new definition. For ZAC/ZBC devices, this field will be
-> exported as 0, meaning "no limit".
+Hi
 
-Applied, thanks.
+[This is an automated email]
+
+This commit has been processed because it contains a -stable tag.
+The stable tag indicates that it's relevant for the following trees: all
+
+The bot has tested the following trees: v5.7.8, v5.4.51, v4.19.132, v4.14.188, v4.9.230, v4.4.230.
+
+v5.7.8: Build OK!
+v5.4.51: Build OK!
+v4.19.132: Failed to apply! Possible dependencies:
+    37c15219599f7 ("nvme-tcp: don't use sendpage for SLAB pages")
+    3f2304f8c6d6e ("nvme-tcp: add NVMe over TCP host driver")
+
+v4.14.188: Failed to apply! Possible dependencies:
+    37c15219599f7 ("nvme-tcp: don't use sendpage for SLAB pages")
+    3f2304f8c6d6e ("nvme-tcp: add NVMe over TCP host driver")
+
+v4.9.230: Failed to apply! Possible dependencies:
+    37c15219599f7 ("nvme-tcp: don't use sendpage for SLAB pages")
+    3f2304f8c6d6e ("nvme-tcp: add NVMe over TCP host driver")
+    b1ad1475b447a ("nvme-fabrics: Add FC transport FC-NVME definitions")
+    d6d20012e1169 ("nvme-fabrics: Add FC transport LLDD api definitions")
+    e399441de9115 ("nvme-fabrics: Add host support for FC transport")
+
+v4.4.230: Failed to apply! Possible dependencies:
+    07bfcd09a2885 ("nvme-fabrics: add a generic NVMe over Fabrics library")
+    1673f1f08c887 ("nvme: move block_device_operations and ns/ctrl freeing to common code")
+    1c63dc66580d4 ("nvme: split a new struct nvme_ctrl out of struct nvme_dev")
+    21d147880e489 ("nvme: fix Kconfig description for BLK_DEV_NVME_SCSI")
+    21d34711e1b59 ("nvme: split command submission helpers out of pci.c")
+    3f2304f8c6d6e ("nvme-tcp: add NVMe over TCP host driver")
+    4160982e75944 ("nvme: split __nvme_submit_sync_cmd")
+    4490733250b8b ("nvme: make SG_IO support optional")
+    6f3b0e8bcf3cb ("blk-mq: add a flags parameter to blk_mq_alloc_request")
+    7110230719602 ("nvme-rdma: add a NVMe over Fabrics RDMA host driver")
+    a07b4970f464f ("nvmet: add a generic NVMe target")
+    b1ad1475b447a ("nvme-fabrics: Add FC transport FC-NVME definitions")
+    d6d20012e1169 ("nvme-fabrics: Add FC transport LLDD api definitions")
+    e399441de9115 ("nvme-fabrics: Add host support for FC transport")
+
+
+NOTE: The patch will not be queued to stable trees until it is upstream.
+
+How should we proceed with this patch?
 
 -- 
-Jens Axboe
-
+Thanks
+Sasha
 
 _______________________________________________
 Linux-nvme mailing list
