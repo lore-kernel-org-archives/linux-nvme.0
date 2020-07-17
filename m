@@ -1,84 +1,89 @@
-Return-Path: <SRS0=tL+/=A3=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=QPGu=A4=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 925C3C433E4
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 20:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F54C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jul 2020 00:51:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5F156207FB
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jul 2020 20:33:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 79F3020787
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jul 2020 00:51:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="x3ItSzdB";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="ZWOXt3fE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F156207FB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vyzu4oHH";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="avom7G9K"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 79F3020787
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2MHkVuinGtOoIg78mblHd931ZD1NH7ZAkbNs/6aP5H0=; b=x3ItSzdBTkg1yKG8TClXF9C3z
-	WtI4PkeDBvPB747Vr2qzKZlASAZF75Xh9qlwadU2y86xiI+BVgZ8rD2ysUs4ohEXgnGl/spPtm9nL
-	9FOwuYqGHUmM+XrUquY+QqI2sAogkfm1+uD+Gj8O31n90wjmxC8BnXltbHIJTlkSF697uczL6J6I1
-	hHa0Ypf5ND+uCC+/Xw7rO/rvGVlWJ7HjQstDgfu/whPlfoPwjWpLaMwr1loJMQ3gH+Hl5RyVNuJCL
-	IsZKWdPmucjnewCsgJYH197I7n6oie6zXR1+i8Ldg6bkRXdZEkcrozHLb3iM6vn3IrRT3MvVZONbO
-	wUuDw8MeA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Der9SCLmRm/6u2ubFgXigF5rmcP46mykEs7J3sx4An0=; b=vyzu4oHHPcW8Wn7p9kA8W+JQ3a
+	QcWMWiNo5zs08X8c8ERJ1mFVhNej/YT7eBrnm62rwvdEMxLDx0PQAk9QZeKrAGrCmUSh9XnbnVgd8
+	5OHPMnyYFaB3nGu9WsB27Tl8Nxb3Bqjwmwk7NQfXjKQ/v/zuQPIPpoV3Y2PQPqnjuhPRP7FkmBXdF
+	+CVrtU3e1ivRCbnYoxZaXg5Yt0ZktHNAaddIBgwFMdVOyrNjt8jyqsyH+hleb2BAVYCMWXN7AvQGG
+	T06vC0OceSFmXmH5jYd7C4pXBZSMyAvopHhNR4XBzYXSEnU67xnz/Hmti7txxmYtXo0TnPt7zWCOM
+	iyDnaoCQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jwAZS-0007OI-S1; Thu, 16 Jul 2020 20:33:35 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1jwEbO-0008Co-Fl; Fri, 17 Jul 2020 00:51:50 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jwAZN-0007Ks-2j
- for linux-nvme@lists.infradead.org; Thu, 16 Jul 2020 20:33:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Y+jzSbXVvaGAj5ehPx9GFRrh0LwsI1Rxsrkj6tqzM/I=; b=ZWOXt3fEg5/BT5kbNGVRR4Dgop
- wB9IJI2xSxfo1veRo3U/KnB60/HQZGpcQAqI29O1bjtxfDD+46dWlekYeOnITdpLEVOREzWorrrpS
- f+Q8Eq9CEjN1fiBXtATSFbn+OcauBoY4gUsDs5pp3KK45Fgi2J/0kjmDpsR5fYuxAmOI8LfC17j8a
- rDEVQzJFRisAj6+UCGVB7B/n3ExzisP0IBkY0SLYX0QkJjkPHnJyvEc9gY0P8tieqVQwayfvXBdcU
- 7uWrJF5OjznBlivzYuIQTTx8AAGDgSZB5PULaSxj+kORrA6QApm8LTz0aZN6r5SzKqmwU2oOlbmAA
- AcJIPGhg==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1jwAZH-0005uI-GV; Thu, 16 Jul 2020 14:33:25 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
- (envelope-from <gunthorp@deltatee.com>)
- id 1jwAZE-0004BK-Gn; Thu, 16 Jul 2020 14:33:20 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Date: Thu, 16 Jul 2020 14:33:11 -0600
-Message-Id: <20200716203319.16022-2-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200716203319.16022-1-logang@deltatee.com>
-References: <20200716203319.16022-1-logang@deltatee.com>
+ id 1jwEbL-0008CV-0s
+ for linux-nvme@lists.infradead.org; Fri, 17 Jul 2020 00:51:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1594947108; x=1626483108;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hWTOKWBFM7goWtZtqelHtfpgK1ct42hT8L4fA1SBAi4=;
+ b=avom7G9KtT5BkUo3lJlhQuiFEw/2gS+eXgl1WcQh1QqkyV1t8UL1ndnG
+ BLoRruQJEn+1zrIOvgbtEh0MTswxM46XoPTMslpa9PNFHQ6WNbTAUP6qx
+ p9KkTjzLcnIskZo5k/rhAXdfUaiwGg4qJ8+A1zisdhITSMZ9g+EzWWoFT
+ 7PhGy94IlSQbPmbUVPY4R6CC7G9w/ktB61WyK/mvdIvgtKV3+kXA9Owak
+ StB97db/xGmfC0DsmN3MYjZp5bpZaq8mG37C/6t+mXD6s7t/fVcbzqNZC
+ 5ccqaq+hhONZ7kJfZGkbjZ7o77DHs0azFxB3V0q4f45ZtXhuHhlxzCHyT Q==;
+IronPort-SDR: JafTrEXCP1EosGHvWLfI00xzwucGh1S4PS4iUNvnNJEupdhsxorkAYJ+mJA022i49kpDWecDGo
+ QqOkSZINgLwmkJa1DTBdE0W1sVK7ZBfy49hGiipccwTOT0W21bGYB/tEhm8C+WNdWkknC5PjSW
+ rMJq1O+8sBOOSEyN6SyhMqxM5VwJasQq/XNZOXW2lsvg67MbOgTev+yDjH57NuUo2GwPYYmS3u
+ +H8UYrYAqaflN0Ztt1ZeJ6EdJSN/+BGPIW0yP6z9nTNmb5xN30wI14pANZypBAWVcHdtJEAIpR
+ CY0=
+X-IronPort-AV: E=Sophos;i="5.75,361,1589212800"; d="scan'208";a="245699426"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Jul 2020 08:51:44 +0800
+IronPort-SDR: bvCUQ5Ai4Yk2VyMvIOLLvr17R/3eef7LsvYGcqV66aZC428Qzokbg4ow7njYfxAvYZpBJDMP2e
+ dL+PUlweWmfjGll/UovJnNMPyaNHR0LLI=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2020 17:39:32 -0700
+IronPort-SDR: WTeyln2N6SXZbk2JeKBPMMJ0tfAUBuctq80O/OOCpubIViPYkpOLsnScYCUULQ7gPqP6qlefw3
+ bufU4SGIg4dw==
+WDCIronportException: Internal
+Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
+ ([10.6.138.107])
+ by uls-op-cesaip02.wdc.com with ESMTP; 16 Jul 2020 17:51:42 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Subject: [PATCH V4 0/3] nvme: fix iod size calculation in nvme_probe()
+Date: Thu, 16 Jul 2020 17:51:36 -0700
+Message-Id: <20200717005139.18923-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@fb.com,
- Chaitanya.Kulkarni@wdc.com, maxg@mellanox.com, sbates@raithlin.com,
- logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v15 1/9] nvme-core: Clear any SGL flags in passthru commands
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200716_163329_246257_E19045ED 
-X-CRM114-Status: GOOD (  10.13  )
+X-CRM114-CacheID: sfid-20200716_205147_278258_193512B2 
+X-CRM114-Status: UNSURE (   9.56  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,42 +95,64 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The host driver should decide whether to use SGLs or PRPs and they
-currently assume the flags are cleared after the call to
-nvme_setup_cmd(). However, passed-through commands may erroneously
-set these bits; so clear them for all cases.
+Hi,
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+This is a small patch series which fixes the IO size calulation in the
+nvme_probe.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f49085bcaa42..63a59186e68b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -759,6 +759,8 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 	case REQ_OP_DRV_IN:
- 	case REQ_OP_DRV_OUT:
- 		memcpy(cmd, nvme_req(req)->cmd, sizeof(*cmd));
-+		/* passthru commands should let the driver set the SGL flags */
-+		cmd->common.flags &= ~NVME_CMD_SGL_ALL;
- 		break;
- 	case REQ_OP_FLUSH:
- 		nvme_setup_flush(ns, cmd);
+The first patch replaces the ctrl->page_size with a macro. The second
+patch calculates the maximum value based on NVMe PRP and SGL size.
+
+I've tested this patch with different block sizes 4k-128k on NVMe QEMU
+and NVMe PCIe (non-SGL) controller.
+
+In this version I've also added 3rd patch to get rid of the division in
+nvme_unmap_data() since we've hardcoded the value of the ctrl page size
+in the macro.
+
+Regards,
+Chaitanya
+
+* Chagnes from V3:-
+-------------------
+
+1. Use (1 << NVME_CTRL_PAGE_SHIF)T for NVME_CTRL_PAGE_SIZE value.
+2. Remove size and nseg parameters for the nvme_pci_iod_alloc_size() and
+   hardcode them in the code.   
+3. Added 3rd patch to get rid of the division in nvme_unmap_data().
+
+* Changes from V2:-
+-------------------
+
+1. Modify commit log for patch 1.
+2. Repalace ilog2(NVME_CTRL_PAGE_SIZE) ->  NVME_CTRL_PAGE_SHIFT.
+
+* Changes from V1:-
+-------------------
+
+1. Remove the ctrl->page_size and use macro instead.
+2. Get rid of the conditional operater and use max_t() for SGL vs PRP
+   size calulation.
+
+Chaitanya Kulkarni (3):
+  nvme-core: replace ctrl page size with a macro
+  nvme-pci: use max of PRP or SGL for iod size
+  nvme-pci: get rid of the division in the fast path
+
+ drivers/nvme/host/core.c | 19 ++++--------
+ drivers/nvme/host/nvme.h |  9 +++++-
+ drivers/nvme/host/pci.c  | 65 +++++++++++++++++++---------------------
+ 3 files changed, 45 insertions(+), 48 deletions(-)
+
 -- 
-2.20.1
+2.26.0
 
 
 _______________________________________________
