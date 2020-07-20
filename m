@@ -2,21 +2,22 @@ Return-Path: <SRS0=fGVD=A7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC5BC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1197C433E2
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:47:03 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A7638207DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:41:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 90A3F2073A
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:47:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Kwa0Gfkc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7638207DF
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="isYeTrd8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 90A3F2073A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,61 +26,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sF7Gt+R1rfXXDlOydDTjVLPW+SrtNJH3VbMYf0PQr8g=; b=Kwa0GfkccTq9vypQrPzG+OHkl
-	GpijreG8CHNAwDapqVZgFVGO8EhKJiMC1A1//UpLrMkWItHduohykdQFZqfvNrRkgVMqfr+xwfuO2
-	AhORm0FpicxTxqriLYCkqs4pANEHdmGosHVXQs7OHGMfPKsDgAnRviKFZPFGRpaRTrr0AGuP+8gja
-	PufxlHj+v47qJYOn7Ev0GFiCkEDnWQk2RIf8DtXN5GNWwsUfqC8KfTa2j5S5+xEecssru3ZBR9ZYB
-	C8YmPmuIggAin8iF8gsvB5D6+4raZr9OmC2SJKw3wbxwcxnG8yobSa19doSRTl2Yju19pZ5JZ19TM
-	tC9PyEmuw==;
+	 bh=L8PQKylMMS1SATvWoFXZeo7H8gScjUKbYSVMRYe9nKY=; b=isYeTrd87sXxqzN+DfKy7bSQE
+	jI2bgVKVREzzpFkoMig6YyimVXjGelA5lJf47csimG9qDnjy7WQtEFnGJ3irt+lAxC7sLGcsVou6i
+	Piv1ov/X4B4vUENj+CnQ/TCgfM2aoZtnf8QWALYauNFQvvoOS/oFyS5MlVAt0jTSHjgq1mDgI1vOJ
+	4Djh01YL6AznntNNxFVd1/9Xfbrh1PpsKoYy9pZXv8N0Nd1bD5irWth7/IBRp/tTtmIVqBYD9Giwh
+	WFgsXyck1mqssNG80yBL1G5CREUTtKWampn7NDxUHMu2QQnPWjJzjjeUlZ/k1Gw8MeAnJ40a+DzzU
+	+kfKWXcbQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jxbf8-0001Pj-W9; Mon, 20 Jul 2020 19:41:23 +0000
+	id 1jxbkY-0001ye-Kj; Mon, 20 Jul 2020 19:46:58 +0000
 Received: from mail-pl1-f195.google.com ([209.85.214.195])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jxbf6-0001P7-T2
- for linux-nvme@lists.infradead.org; Mon, 20 Jul 2020 19:41:21 +0000
-Received: by mail-pl1-f195.google.com with SMTP id l6so9144737plt.7
- for <linux-nvme@lists.infradead.org>; Mon, 20 Jul 2020 12:41:20 -0700 (PDT)
+ id 1jxbkV-0001y6-3q
+ for linux-nvme@lists.infradead.org; Mon, 20 Jul 2020 19:46:55 +0000
+Received: by mail-pl1-f195.google.com with SMTP id x9so9171611plr.2
+ for <linux-nvme@lists.infradead.org>; Mon, 20 Jul 2020 12:46:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xq6rRkupV48/Q+eMS+zHlGiSC3TOvOgXF/JqrFNgXPc=;
- b=MgGAtUQxQwJMK4Ctdf/jTOrceyq/cPyfB1WcyJRzxOZj5qAinBNFLlnW6Q55lxmGFN
- XBvni5immQ+j2fOIrDz0VwigzbPT/iBrUtx/eRmuSw5F+Tcn+LDq1JUGhQ5D+Yu1+hOt
- QN+Gge/eEK+F6gLL/ja8kETWi3vL9jqr9BJNa6fZqHahNa99iWtR0jI4BEFBDaJpSZb6
- c5A6XF9mSbdvdvpUTXq6H4WwKfV8tCsrd3GJymxitL3PAAlHmLfffYVL5tEQyPtq7KMr
- tb7RxyKFmEHYU7tZbGfzH6o16RI0DKnkGKwjyGXFvE7lHaa7WSIcARrLcM2sLe5khH87
- bE1w==
-X-Gm-Message-State: AOAM532LkcgoohX00VGprgtG/+3N4LRBUCv38FLxbib7W98EhyL66TtR
- hlAN1pgodD3IxnnvOENHRQQECqfP
-X-Google-Smtp-Source: ABdhPJwy5xn/FdEEsWXNe9pEgf0EH2B76npy9WOHhhcAQvLjq6nvwfpslwp34IJbMhVDlq2XGKi0Mg==
-X-Received: by 2002:a17:90a:206a:: with SMTP id
- n97mr968836pjc.94.1595274079418; 
- Mon, 20 Jul 2020 12:41:19 -0700 (PDT)
+ bh=hF8palGIv8TI4BXkf/MtnUqfeyrr+QIHoD4KLAnuRtA=;
+ b=RNsmWhdjNeR+NXiler9JlzAouI5Tlxr3+0c9oddbpNhABXQKtLcdKy/OVhcGEodvIz
+ FYr5mTAFooa22Iw3UHAE4xZQP8V7YCBy3JjlBS1AfGLkZSuxJ5/lmmVknZ0bw1zT/QNF
+ ztrPZz35uZsHuUAA5A2irfwSHKz4sKjH8NSC92UXlgudL+g6PSPL9GodzT+p0GZtr0+o
+ cKJ2ZJSqJAwkzIkLpVRJUeX0jgjmMUQNgkmc4aEnf8XaMOu08xEbhxaEhOFKcYZJscYu
+ yEGeTixIXVtp+FhyIEzJNfTbQdsTfbnGlzmJkqNgTL+3Ot/LYS8AAjAZmYz2/qI3ZcyI
+ HAgg==
+X-Gm-Message-State: AOAM533QxVVJyK7Kk/0M7J1qzEfCJEUAl1iLlnIYCFIURZdqTQHe/1+B
+ DHt/0qHS2rwSZoo0yCLdqJ4=
+X-Google-Smtp-Source: ABdhPJxQ+Wt1oXs2Yt1z/f2sFOZ4lWJvrpfWgApnTaWJqLQpNjFxeO5byMOGFMOtE9bIim1Cgltyxg==
+X-Received: by 2002:a17:902:7284:: with SMTP id
+ d4mr18116121pll.164.1595274413951; 
+ Mon, 20 Jul 2020 12:46:53 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:81fd:84d6:3c38:f7ef?
  ([2601:647:4802:9070:81fd:84d6:3c38:f7ef])
- by smtp.gmail.com with ESMTPSA id y7sm367553pjy.54.2020.07.20.12.41.17
+ by smtp.gmail.com with ESMTPSA id f6sm18054206pfe.174.2020.07.20.12.46.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jul 2020 12:41:18 -0700 (PDT)
-Subject: Re: [PATCH V4 2/2] nvme-core: use xarray for ctrl ns tracking
-To: Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-References: <20200720033203.11474-1-chaitanya.kulkarni@wdc.com>
- <20200720033203.11474-3-chaitanya.kulkarni@wdc.com>
- <20200720133454.GA2837@lst.de>
+ Mon, 20 Jul 2020 12:46:53 -0700 (PDT)
+Subject: Re: [PATCH v2] nvme-tcp: don't use sendpage for pages not taking
+ reference counter
+To: Coly Li <colyli@suse.de>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bcache@vger.kernel.org, hch@lst.de
+References: <20200713124444.19640-1-colyli@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <bd710102-c37c-30a5-bc06-d175288f3c59@grimberg.me>
-Date: Mon, 20 Jul 2020 12:41:16 -0700
+Message-ID: <75efd1ba-284d-f5b0-faeb-ca8cefd673c0@grimberg.me>
+Date: Mon, 20 Jul 2020 12:46:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200720133454.GA2837@lst.de>
+In-Reply-To: <20200713124444.19640-1-colyli@suse.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200720_154120_942410_F41B4D03 
-X-CRM114-Status: GOOD (  12.58  )
+X-CRM114-CacheID: sfid-20200720_154655_191261_82FD6E44 
+X-CRM114-Status: GOOD (  28.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,26 +91,82 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Jens Axboe <axboe@kernel.dk>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Vlastimil Babka <vbabka@suse.com>, stable@vger.kernel.org,
+ Philipp Reisner <philipp.reisner@linbit.com>, Hannes Reinecke <hare@suse.de>,
+ Jan Kara <jack@suse.com>, Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cj4+IFRoaXMgcGF0Y2ggcmVwbGFjZXMgdGhlIGN0cmwtPm5hbWVzcGFjZXMgdHJhY2tpbmcgZnJv
-bSBsaW5rZWQgbGlzdCB0bwo+PiB4YXJyYXkgYW5kIGltcHJvdmVzIHRoZSBwZXJmb3JtYW5jZS4g
-Rm9yIGhvc3QgZXZlbiB0aG91Z2gKPj4gbnZtZV9maW5kX2dldF9ucygpIGRvZXNuJ3QgZmFsbCBp
-bnRvIHRoZSBmYXN0IHBhdGggeWV0IGl0IGRvZXMgZm9yCj4+IE5WTWVPRiBwYXNzdGhydSBwYXRj
-aC1zZXJpZXMgd2hpY2ggaXMgY3VycmVudGx5IHVuZGVyIHJldmlldy4gVGhpcwo+PiBwcmVwYXJl
-cyB1cyB0byBpbXByb3ZlIHBlcmZvcm1hbmNlIGZvciBmdXR1cmUgTlZNZU9GIHBhc3N0aHJ1IGJh
-Y2tlbmQKPj4gc2luY2UgbnZtZV9maW5kX2dldF9ucygpIHVzZXMgc2FtZSBkYXRhIHN0cnVjdHVy
-ZSBhcyBpdCBkb2VzIGluIHRhcmdldAo+PiB0byBmaW5kIG5hbWVzcGFjZSBpbiBJL08gcGF0Y2gg
-ZnJvbSBuc2lkIHNwZWNpZmllZCBpbiB0aGUgbnZtZV9yd19jbWQuCj4gCj4g0IYnbSBzdGlsbCBu
-b3QgcmVhbGx5IHNvbGQgb24gdGhhdCByYXRpb25hbGUuLgoKSSB0aGluayB0aGF0IHlvdXIgc3Vn
-Z2VzdGlvbiB0byBoYXZlIGEgcGFzc3RocnVfcSBpcyBhIG11Y2ggbW9yZQplbGVnYW50IHNvbHV0
-aW9uIChhbHRob3VnaCBpdCBwcm9iYWJseSBjYW5ub3QgYmUgdW5pZmllZCB3aXRoIHRoZQpjb25u
-ZWN0X3Egd2hpY2ggc2hvdWxkIGJlIGFibGUgdG8gbWFrZSBmb3J3YXJkIHByb2dyZXNzIG9uIGEg
-cXVpZXNjZWQKcXVldWUgYXMgd2VsbCBmb3IgZmFicmljcykuCgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGlu
-dXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
-aWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+
+
+On 7/13/20 5:44 AM, Coly Li wrote:
+> Currently nvme_tcp_try_send_data() doesn't use kernel_sendpage() to
+> send slab pages. But for pages allocated by __get_free_pages() without
+> __GFP_COMP, which also have refcount as 0, they are still sent by
+> kernel_sendpage() to remote end, this is problematic.
+> 
+> When bcache uses a remote NVMe SSD via nvme-over-tcp as its cache
+> device, writing meta data e.g. cache_set->disk_buckets to remote SSD may
+> trigger a kernel panic due to the above problem. Bcause the meta data
+> pages for cache_set->disk_buckets are allocated by __get_free_pages()
+> without __GFP_COMP.
+> 
+> This problem should be fixed both in upper layer driver (bcache) and
+> nvme-over-tcp code. This patch fixes the nvme-over-tcp code by checking
+> whether the page refcount is 0, if yes then don't use kernel_sendpage()
+> and call sock_no_sendpage() to send the page into network stack.
+> 
+> The code comments in this patch is copied and modified from drbd where
+> the similar problem already gets solved by Philipp Reisner. This is the
+> best code comment including my own version.
+> 
+> Signed-off-by: Coly Li <colyli@suse.de>
+> Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Hannes Reinecke <hare@suse.de>
+> Cc: Jan Kara <jack@suse.com>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>
+> Cc: Philipp Reisner <philipp.reisner@linbit.com>
+> Cc: Sagi Grimberg <sagi@grimberg.me>
+> Cc: Vlastimil Babka <vbabka@suse.com>
+> Cc: stable@vger.kernel.org
+> ---
+> Changelog:
+> v2: fix typo in patch subject.
+> v1: the initial version.
+>   drivers/nvme/host/tcp.c | 13 +++++++++++--
+>   1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 79ef2b8e2b3c..faa71db7522a 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -887,8 +887,17 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+>   		else
+>   			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+>   
+> -		/* can't zcopy slab pages */
+> -		if (unlikely(PageSlab(page))) {
+> +		/*
+> +		 * e.g. XFS meta- & log-data is in slab pages, or bcache meta
+> +		 * data pages, or other high order pages allocated by
+> +		 * __get_free_pages() without __GFP_COMP, which have a page_count
+> +		 * of 0 and/or have PageSlab() set. We cannot use send_page for
+> +		 * those, as that does get_page(); put_page(); and would cause
+> +		 * either a VM_BUG directly, or __page_cache_release a page that
+> +		 * would actually still be referenced by someone, leading to some
+> +		 * obscure delayed Oops somewhere else.
+> +		 */
+> +		if (unlikely(PageSlab(page) || page_count(page) < 1)) {
+
+Can we unify these checks to a common sendpage_ok(page) ?
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
