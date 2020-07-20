@@ -4,57 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A7DC433E3
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 14:16:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D46BEC433E5
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:35:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DA65820B1F
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 14:16:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 967B0207DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:35:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="v4VmIdeB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA65820B1F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ExO/DYDJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 967B0207DF
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=okLVf8VxUZsOUGdoNOfiHnlNhUbD4WUYbLjvepxfVaw=; b=v4VmIdeBTdqq/GMB9tdo2cQGD
-	c54QzlaM4uGOOW+o+FqTX8xBl6dma8g/aSgESzQcmBr4hUuMPldAbairC1qo6KNas1mh9+O+RmAg4
-	+R1rytwcSyX7u2Epn5Iy8yDj+w3DZHE5Q2mtlnVlr43SwYtyPBDbijEDqfmjx3S87gOvZRRDKUvbS
-	4EkzsNQruus4DFmnu7o5TJPYfyvoH8FyvcRa+55XhTDz0CJkTsl8XoDxR5tCLuHbCFYfJpwS3s3aJ
-	kB97LB2NkAa0A49YrUQxI9W2BELvf3KI7vdpNRIz16cE9qeOqkD8nn2I96k0EAwgs7yfW7il+vZjV
-	T4EuygLcQ==;
+	 bh=5cjF12APqPjHib7nSc5HvSnGiVumi4tXXQW1gbBH5wI=; b=ExO/DYDJt/cZdkTTYxVKlPJui
+	SeDH5zQMCv1xSR7p5J8bvKUVvcnEK8OsIkQrIFCOoPvKkZkfIMdtuhE09C8h1Y8lbTsLT/Hi7aSGL
+	k1WyxlJXtJhaQcTYjd3FhaMWHOjaYw6TKnWgq+OvhKrgqxKz+zn2lAHms4YtgbKEzxYajJuIasCtA
+	/rZJFoM5pNB/E52jDBbSO1LHX44KOlQ++KqAApYfItsivZMgF9cUAYiYNJkFy9UoCmNpiBjVgwKWB
+	PFyuYdRYQJOmYLzixKtOjIASJf+cFrHskGTRuNYNI0VEI9nsmy+hOkb85FkcMExD4/yjpcfoSbhl+
+	LbnIKy9QA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jxWaT-0001uA-Hj; Mon, 20 Jul 2020 14:16:13 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1jxbZI-0000sU-RH; Mon, 20 Jul 2020 19:35:20 +0000
+Received: from mail-pj1-f67.google.com ([209.85.216.67])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jxWaP-0001ss-1d
- for linux-nvme@lists.infradead.org; Mon, 20 Jul 2020 14:16:11 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 8A90468BFE; Mon, 20 Jul 2020 16:16:06 +0200 (CEST)
-Date: Mon, 20 Jul 2020 16:16:06 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Logan Gunthorpe <logang@deltatee.com>
+ id 1jxbZG-0000rn-Dt
+ for linux-nvme@lists.infradead.org; Mon, 20 Jul 2020 19:35:19 +0000
+Received: by mail-pj1-f67.google.com with SMTP id k1so336298pjt.5
+ for <linux-nvme@lists.infradead.org>; Mon, 20 Jul 2020 12:35:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FAwXDOVMSGZi/I7ZWIkACyNz/hh5wQgkUbg94T7/lP0=;
+ b=XZarWXRrAdyjIjWzAjfy6Oic2EZ1jqMb1SKh7GVzYlWi2KnsIdO+0mMKn9buHwpfes
+ HdnrUzSzzRI22WaET8ceASJlY+oumJ6RkTg5ZTXCfCbw0UqFd5/PTXTehCbcg30/rwot
+ xyY6Z/7eVIIrmCkhapKkKMlRd6ssK3anYIgBA4Mgp6gED+/wHKA52EPGzQ1rlne00l/p
+ wEL/FK9sJpbIgmA+c5J5fNmcmiAcd2KAtPpsTQJvCpdzsvnnwR1JQxoZUQcSdrb8zwde
+ fckR9Oc5VSKIgj3ffnklPm6fWkePMEHPjBPD103A5jDfusfd8Mh+QNiN7mqotcUysuaZ
+ oPbQ==
+X-Gm-Message-State: AOAM532RVSFCWkVnizdGFQT/CXuWJLoYZ1IdZO+hyf9uHEsCz1kuKO/g
+ h1zC+bFWUrdCCJh4juDunHU=
+X-Google-Smtp-Source: ABdhPJzdF+z//mhwQF07S3PExCuzsCXpZ0Kr+4nTeKZkNUDuKlHK2ZkqoHFZKnlhXhd+E6guqCWxDw==
+X-Received: by 2002:a17:90b:283:: with SMTP id az3mr992221pjb.38.1595273714639; 
+ Mon, 20 Jul 2020 12:35:14 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:81fd:84d6:3c38:f7ef?
+ ([2601:647:4802:9070:81fd:84d6:3c38:f7ef])
+ by smtp.gmail.com with ESMTPSA id n15sm388993pjf.12.2020.07.20.12.35.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jul 2020 12:35:13 -0700 (PDT)
 Subject: Re: [PATCH v15 7/9] nvmet-passthru: Add passthru code to process
  commands
-Message-ID: <20200720141606.GF4627@lst.de>
+To: Christoph Hellwig <hch@lst.de>, Logan Gunthorpe <logang@deltatee.com>
 References: <20200716203319.16022-1-logang@deltatee.com>
- <20200716203319.16022-8-logang@deltatee.com>
+ <20200716203319.16022-8-logang@deltatee.com> <20200720141606.GF4627@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <e939dd43-9e7f-8ef0-162b-2a27f53e6e1a@grimberg.me>
+Date: Mon, 20 Jul 2020 12:35:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200716203319.16022-8-logang@deltatee.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200720141606.GF4627@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200720_101609_339447_0101A067 
-X-CRM114-Status: GOOD (  24.06  )
+X-CRM114-CacheID: sfid-20200720_153518_501647_D46D59DE 
+X-CRM114-Status: GOOD (  18.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,112 +89,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>,
- Max Gurtovoy <maxg@mellanox.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 16, 2020 at 02:33:17PM -0600, Logan Gunthorpe wrote:
-> Add passthru command handling capability for the NVMeOF target and
-> export passthru APIs which are used to integrate passthru
-> code with nvmet-core.
+
+>> Add passthru command handling capability for the NVMeOF target and
+>> export passthru APIs which are used to integrate passthru
+>> code with nvmet-core.
+>>
+>> The new file passthru.c handles passthru cmd parsing and execution.
+>> In the passthru mode, we create a block layer request from the nvmet
+>> request and map the data on to the block layer request.
+>>
+>> Admin commands and features are on a white list as there are a number
+>> of each that don't make too much sense with passthrough. We use a
+>> white list so that new commands can be considered before being blindly
+>> passed through. In both cases, vendor specific commands are always
+>> allowed.
+>>
+>> We also blacklist reservation IO commands as the underlying device
+>> cannot differentiate between multiple hosts behind a fabric.
 > 
-> The new file passthru.c handles passthru cmd parsing and execution.
-> In the passthru mode, we create a block layer request from the nvmet
-> request and map the data on to the block layer request.
-> 
-> Admin commands and features are on a white list as there are a number
-> of each that don't make too much sense with passthrough. We use a
-> white list so that new commands can be considered before being blindly
-> passed through. In both cases, vendor specific commands are always
-> allowed.
-> 
-> We also blacklist reservation IO commands as the underlying device
-> cannot differentiate between multiple hosts behind a fabric.
+> I'm still not so happy about having to look up the namespace and still
+> wonder if we should generalize the connect_q to a passthrough_q.  But
+> I guess we can do that later and then reduce some of the exports here..
 
-I'm still not so happy about having to look up the namespace and still
-wonder if we should generalize the connect_q to a passthrough_q.  But
-I guess we can do that later and then reduce some of the exports here..
-
-A few more comments below:
-
-> +		struct {
-> +			struct request		*rq;
-> +			struct work_struct      work;
-> +			u16 (*end_req)(struct nvmet_req *req);
-> +		} p;
-
-Do we really need the callback for the two identify fixups, or
-should we just hardcode them to avoid indirection function calls?
-
-> +++ b/drivers/nvme/target/passthru.c
-> @@ -0,0 +1,457 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * NVMe Over Fabrics Target Passthrough command implementation.
-> + *
-> + * Copyright (c) 2017-2018 Western Digital Corporation or its
-> + * affiliates.
-> + */
-
-I think you forgot to add your own copyrights here.
-
-> +static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
-> +{
-> +	int sg_cnt = req->sg_cnt;
-> +	struct scatterlist *sg;
-> +	int op_flags = 0;
-> +	struct bio *bio;
-> +	int i, ret;
-> +
-> +	if (req->cmd->common.opcode == nvme_cmd_flush)
-> +		op_flags = REQ_FUA;
-> +	else if (nvme_is_write(req->cmd))
-> +		op_flags = REQ_SYNC | REQ_IDLE;
-> +
-> +
-
-Double empty line here..
-
-> +	bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
-> +	bio->bi_end_io = bio_put;
-> +
-> +	for_each_sg(req->sg, sg, req->sg_cnt, i) {
-> +		if (bio_add_page(bio, sg_page(sg), sg->length,
-> +				 sg->offset) != sg->length) {
-
-bio_add_pages is only for non-passthrough requests, this needs to use
-bio_add_pc_page.
-
-> +	if (blk_rq_nr_phys_segments(rq) > queue_max_segments(rq->q)) {
-> +		status = NVME_SC_INVALID_FIELD;
-> +		goto fail_out;
-> +	}
-> +
-> +	if ((blk_rq_payload_bytes(rq) >> 9) > queue_max_hw_sectors(rq->q)) {
-> +		status = NVME_SC_INVALID_FIELD;
-> +		goto fail_out;
-> +	}
-
-Which should also take care of these checks.
-
-> +static void nvmet_passthru_set_host_behaviour(struct nvmet_req *req)
-> +{
-> +	struct nvme_ctrl *ctrl = nvmet_req_passthru_ctrl(req);
-> +	struct nvme_feat_host_behavior *host;
-> +	u16 status;
-> +	int ret;
-> +
-> +	host = kzalloc(sizeof(*host) * 2, GFP_KERNEL);
-> +	ret = nvme_get_features(ctrl, NVME_FEAT_HOST_BEHAVIOR, 0,
-> +				host, sizeof(*host), NULL);
-
-Mising kzalloc return check.
+That is a neat idea! should be easy to do (and we can then lose the host
+xarray stuff). I don't mind having it on a later patch, but it should be
+easy enough to do even before...
 
 _______________________________________________
 Linux-nvme mailing list
