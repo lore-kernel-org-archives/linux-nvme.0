@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D46BEC433E5
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:35:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC5BC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:41:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 967B0207DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:35:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A7638207DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 19:41:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ExO/DYDJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 967B0207DF
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Kwa0Gfkc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7638207DF
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,59 +25,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=5cjF12APqPjHib7nSc5HvSnGiVumi4tXXQW1gbBH5wI=; b=ExO/DYDJt/cZdkTTYxVKlPJui
-	SeDH5zQMCv1xSR7p5J8bvKUVvcnEK8OsIkQrIFCOoPvKkZkfIMdtuhE09C8h1Y8lbTsLT/Hi7aSGL
-	k1WyxlJXtJhaQcTYjd3FhaMWHOjaYw6TKnWgq+OvhKrgqxKz+zn2lAHms4YtgbKEzxYajJuIasCtA
-	/rZJFoM5pNB/E52jDBbSO1LHX44KOlQ++KqAApYfItsivZMgF9cUAYiYNJkFy9UoCmNpiBjVgwKWB
-	PFyuYdRYQJOmYLzixKtOjIASJf+cFrHskGTRuNYNI0VEI9nsmy+hOkb85FkcMExD4/yjpcfoSbhl+
-	LbnIKy9QA==;
+	 bh=sF7Gt+R1rfXXDlOydDTjVLPW+SrtNJH3VbMYf0PQr8g=; b=Kwa0GfkccTq9vypQrPzG+OHkl
+	GpijreG8CHNAwDapqVZgFVGO8EhKJiMC1A1//UpLrMkWItHduohykdQFZqfvNrRkgVMqfr+xwfuO2
+	AhORm0FpicxTxqriLYCkqs4pANEHdmGosHVXQs7OHGMfPKsDgAnRviKFZPFGRpaRTrr0AGuP+8gja
+	PufxlHj+v47qJYOn7Ev0GFiCkEDnWQk2RIf8DtXN5GNWwsUfqC8KfTa2j5S5+xEecssru3ZBR9ZYB
+	C8YmPmuIggAin8iF8gsvB5D6+4raZr9OmC2SJKw3wbxwcxnG8yobSa19doSRTl2Yju19pZ5JZ19TM
+	tC9PyEmuw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jxbZI-0000sU-RH; Mon, 20 Jul 2020 19:35:20 +0000
-Received: from mail-pj1-f67.google.com ([209.85.216.67])
+	id 1jxbf8-0001Pj-W9; Mon, 20 Jul 2020 19:41:23 +0000
+Received: from mail-pl1-f195.google.com ([209.85.214.195])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jxbZG-0000rn-Dt
- for linux-nvme@lists.infradead.org; Mon, 20 Jul 2020 19:35:19 +0000
-Received: by mail-pj1-f67.google.com with SMTP id k1so336298pjt.5
- for <linux-nvme@lists.infradead.org>; Mon, 20 Jul 2020 12:35:15 -0700 (PDT)
+ id 1jxbf6-0001P7-T2
+ for linux-nvme@lists.infradead.org; Mon, 20 Jul 2020 19:41:21 +0000
+Received: by mail-pl1-f195.google.com with SMTP id l6so9144737plt.7
+ for <linux-nvme@lists.infradead.org>; Mon, 20 Jul 2020 12:41:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FAwXDOVMSGZi/I7ZWIkACyNz/hh5wQgkUbg94T7/lP0=;
- b=XZarWXRrAdyjIjWzAjfy6Oic2EZ1jqMb1SKh7GVzYlWi2KnsIdO+0mMKn9buHwpfes
- HdnrUzSzzRI22WaET8ceASJlY+oumJ6RkTg5ZTXCfCbw0UqFd5/PTXTehCbcg30/rwot
- xyY6Z/7eVIIrmCkhapKkKMlRd6ssK3anYIgBA4Mgp6gED+/wHKA52EPGzQ1rlne00l/p
- wEL/FK9sJpbIgmA+c5J5fNmcmiAcd2KAtPpsTQJvCpdzsvnnwR1JQxoZUQcSdrb8zwde
- fckR9Oc5VSKIgj3ffnklPm6fWkePMEHPjBPD103A5jDfusfd8Mh+QNiN7mqotcUysuaZ
- oPbQ==
-X-Gm-Message-State: AOAM532RVSFCWkVnizdGFQT/CXuWJLoYZ1IdZO+hyf9uHEsCz1kuKO/g
- h1zC+bFWUrdCCJh4juDunHU=
-X-Google-Smtp-Source: ABdhPJzdF+z//mhwQF07S3PExCuzsCXpZ0Kr+4nTeKZkNUDuKlHK2ZkqoHFZKnlhXhd+E6guqCWxDw==
-X-Received: by 2002:a17:90b:283:: with SMTP id az3mr992221pjb.38.1595273714639; 
- Mon, 20 Jul 2020 12:35:14 -0700 (PDT)
+ bh=xq6rRkupV48/Q+eMS+zHlGiSC3TOvOgXF/JqrFNgXPc=;
+ b=MgGAtUQxQwJMK4Ctdf/jTOrceyq/cPyfB1WcyJRzxOZj5qAinBNFLlnW6Q55lxmGFN
+ XBvni5immQ+j2fOIrDz0VwigzbPT/iBrUtx/eRmuSw5F+Tcn+LDq1JUGhQ5D+Yu1+hOt
+ QN+Gge/eEK+F6gLL/ja8kETWi3vL9jqr9BJNa6fZqHahNa99iWtR0jI4BEFBDaJpSZb6
+ c5A6XF9mSbdvdvpUTXq6H4WwKfV8tCsrd3GJymxitL3PAAlHmLfffYVL5tEQyPtq7KMr
+ tb7RxyKFmEHYU7tZbGfzH6o16RI0DKnkGKwjyGXFvE7lHaa7WSIcARrLcM2sLe5khH87
+ bE1w==
+X-Gm-Message-State: AOAM532LkcgoohX00VGprgtG/+3N4LRBUCv38FLxbib7W98EhyL66TtR
+ hlAN1pgodD3IxnnvOENHRQQECqfP
+X-Google-Smtp-Source: ABdhPJwy5xn/FdEEsWXNe9pEgf0EH2B76npy9WOHhhcAQvLjq6nvwfpslwp34IJbMhVDlq2XGKi0Mg==
+X-Received: by 2002:a17:90a:206a:: with SMTP id
+ n97mr968836pjc.94.1595274079418; 
+ Mon, 20 Jul 2020 12:41:19 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:81fd:84d6:3c38:f7ef?
  ([2601:647:4802:9070:81fd:84d6:3c38:f7ef])
- by smtp.gmail.com with ESMTPSA id n15sm388993pjf.12.2020.07.20.12.35.13
+ by smtp.gmail.com with ESMTPSA id y7sm367553pjy.54.2020.07.20.12.41.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jul 2020 12:35:13 -0700 (PDT)
-Subject: Re: [PATCH v15 7/9] nvmet-passthru: Add passthru code to process
- commands
-To: Christoph Hellwig <hch@lst.de>, Logan Gunthorpe <logang@deltatee.com>
-References: <20200716203319.16022-1-logang@deltatee.com>
- <20200716203319.16022-8-logang@deltatee.com> <20200720141606.GF4627@lst.de>
+ Mon, 20 Jul 2020 12:41:18 -0700 (PDT)
+Subject: Re: [PATCH V4 2/2] nvme-core: use xarray for ctrl ns tracking
+To: Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+References: <20200720033203.11474-1-chaitanya.kulkarni@wdc.com>
+ <20200720033203.11474-3-chaitanya.kulkarni@wdc.com>
+ <20200720133454.GA2837@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <e939dd43-9e7f-8ef0-162b-2a27f53e6e1a@grimberg.me>
-Date: Mon, 20 Jul 2020 12:35:12 -0700
+Message-ID: <bd710102-c37c-30a5-bc06-d175288f3c59@grimberg.me>
+Date: Mon, 20 Jul 2020 12:41:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200720141606.GF4627@lst.de>
+In-Reply-To: <20200720133454.GA2837@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200720_153518_501647_D46D59DE 
-X-CRM114-Status: GOOD (  18.04  )
+X-CRM114-CacheID: sfid-20200720_154120_942410_F41B4D03 
+X-CRM114-Status: GOOD (  12.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,42 +91,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->> Add passthru command handling capability for the NVMeOF target and
->> export passthru APIs which are used to integrate passthru
->> code with nvmet-core.
->>
->> The new file passthru.c handles passthru cmd parsing and execution.
->> In the passthru mode, we create a block layer request from the nvmet
->> request and map the data on to the block layer request.
->>
->> Admin commands and features are on a white list as there are a number
->> of each that don't make too much sense with passthrough. We use a
->> white list so that new commands can be considered before being blindly
->> passed through. In both cases, vendor specific commands are always
->> allowed.
->>
->> We also blacklist reservation IO commands as the underlying device
->> cannot differentiate between multiple hosts behind a fabric.
-> 
-> I'm still not so happy about having to look up the namespace and still
-> wonder if we should generalize the connect_q to a passthrough_q.  But
-> I guess we can do that later and then reduce some of the exports here..
-
-That is a neat idea! should be easy to do (and we can then lose the host
-xarray stuff). I don't mind having it on a later patch, but it should be
-easy enough to do even before...
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Cj4+IFRoaXMgcGF0Y2ggcmVwbGFjZXMgdGhlIGN0cmwtPm5hbWVzcGFjZXMgdHJhY2tpbmcgZnJv
+bSBsaW5rZWQgbGlzdCB0bwo+PiB4YXJyYXkgYW5kIGltcHJvdmVzIHRoZSBwZXJmb3JtYW5jZS4g
+Rm9yIGhvc3QgZXZlbiB0aG91Z2gKPj4gbnZtZV9maW5kX2dldF9ucygpIGRvZXNuJ3QgZmFsbCBp
+bnRvIHRoZSBmYXN0IHBhdGggeWV0IGl0IGRvZXMgZm9yCj4+IE5WTWVPRiBwYXNzdGhydSBwYXRj
+aC1zZXJpZXMgd2hpY2ggaXMgY3VycmVudGx5IHVuZGVyIHJldmlldy4gVGhpcwo+PiBwcmVwYXJl
+cyB1cyB0byBpbXByb3ZlIHBlcmZvcm1hbmNlIGZvciBmdXR1cmUgTlZNZU9GIHBhc3N0aHJ1IGJh
+Y2tlbmQKPj4gc2luY2UgbnZtZV9maW5kX2dldF9ucygpIHVzZXMgc2FtZSBkYXRhIHN0cnVjdHVy
+ZSBhcyBpdCBkb2VzIGluIHRhcmdldAo+PiB0byBmaW5kIG5hbWVzcGFjZSBpbiBJL08gcGF0Y2gg
+ZnJvbSBuc2lkIHNwZWNpZmllZCBpbiB0aGUgbnZtZV9yd19jbWQuCj4gCj4g0IYnbSBzdGlsbCBu
+b3QgcmVhbGx5IHNvbGQgb24gdGhhdCByYXRpb25hbGUuLgoKSSB0aGluayB0aGF0IHlvdXIgc3Vn
+Z2VzdGlvbiB0byBoYXZlIGEgcGFzc3RocnVfcSBpcyBhIG11Y2ggbW9yZQplbGVnYW50IHNvbHV0
+aW9uIChhbHRob3VnaCBpdCBwcm9iYWJseSBjYW5ub3QgYmUgdW5pZmllZCB3aXRoIHRoZQpjb25u
+ZWN0X3Egd2hpY2ggc2hvdWxkIGJlIGFibGUgdG8gbWFrZSBmb3J3YXJkIHByb2dyZXNzIG9uIGEg
+cXVpZXNjZWQKcXVldWUgYXMgd2VsbCBmb3IgZmFicmljcykuCgoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGlu
+dXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
+aWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
