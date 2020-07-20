@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58B83C433E3
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 03:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E302C433E1
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 03:32:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1830D207EA
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 03:32:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0214C207EA
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jul 2020 03:32:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="twRrD//a";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="IkScJzTo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1830D207EA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eUCLh+rK";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Svvg5uq8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0214C207EA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,65 +26,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sPE1E7p9azs3wj/P/C8JhR6BxYgJQjZdE6nV+vaLp6s=; b=twRrD//ayKa2DhkvdovP2Kcpg
-	WhUQUPyJ+OLFevAZSUCuuNw+Cra9GL1ko70krYd7QjuGSfrewGf84qHNW9EFwABZTiiQN3vD7eVL/
-	vSA5rhMLoacqx4Jy47DYhghNJ1Y2h8Va9bxgXCY8BcnFkqyN+xCke8B3siDbjv1b/137MGvds0SsD
-	R8i0PvhhlvC/ncAMNvZhWg8uR6tB7P2CRy6BVQ1+lWCIWQIioQTDZK9Ld6OpdX1ikT5UBgfkMkG4Y
-	WJF3pvMmJAolLRTjxkx18fN5/XkK/A6u6FTI3zBAyc8ZeSV0/HUwtUy3/mZfL8UDO6ubuB1rApgsE
-	VuJwMuHJQ==;
+	 bh=GRkJH5AoCQHA8CrcKxdqrd4XLRoIubtqck+gCFWOUfU=; b=eUCLh+rK6+9v0toNSWmj346W7
+	X4EvE31ZMbbE6DM886fCntYncN9KH5EElilMD3Cv/uRSw0tR7k1Ew+uZey7k2YTc4sJS3Vf6LU5qd
+	ZlA5RTC7JLjJDmE/sRg1ujpLlnM/1gs1oeRcmXRFYYdGqBAuc2Xe/JttyMfPEYF1AxzEcfCPt+3K0
+	134iZe7EYk/oMft3Z34DDF8ACBcx/0tAVOpUvtTM/OutPL2g2JtBpDf2a8az4HQl+H+aCFNffaUOQ
+	QNsLHbiQsN8ozy0SAUp4X9tV3PsLywwOdGU7yOiJEszGo4thJzH7owXv69P7atj0uAZTHQmG4Cbus
+	csae1qrVw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jxMXa-0002dR-Dl; Mon, 20 Jul 2020 03:32:34 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1jxMXb-0002dc-D8; Mon, 20 Jul 2020 03:32:35 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jxMXO-0002bH-Fc
- for linux-nvme@lists.infradead.org; Mon, 20 Jul 2020 03:32:23 +0000
+ id 1jxMXX-0002cx-Vh
+ for linux-nvme@lists.infradead.org; Mon, 20 Jul 2020 03:32:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1595215944; x=1626751944;
+ t=1595215952; x=1626751952;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0CCWKVeq+RRHYXBVFtaqBU7CdbYMQPeBUtpqtMLiJsE=;
- b=IkScJzTo5d506h7/9vw/w9jAzARU/NkYmH7MJf1iJlcq2iyd2GQTVL2n
- CZbRB2PPO0Ahk1q2AWc+9h/A7WzuChV05a52mzw9FkQfG+7ghaY/ocDMB
- warrYuFs6jNgrcZOuMymUovw3A1/D5dV0CSGF8OszdszwXRTee/N/WAe7
- qgNtau29RiRJMwXQwhNa0CZ9tqYNgK78o3Flc5MI/d8NOIIfWaWgadFvN
- xxXTtX3zscVPL2Cinx/wqoLI9bU7uiNdgDeIGBgEkK94cI+G0BTBJCvPD
- AKcXNhDwOTmcqoGL5Dkjimq7weuYbigeUWGAIgzGvlsm4y+PglLFMEBNx A==;
-IronPort-SDR: v2cS31QkGB0PgsMOgxX6A8RyNSyyv6Bfqw38gVU6jg77ngzI9VS61+Ou+I1nUjpIMnrTD8IPm+
- jj6G7SeD8+GH/FC3NOBkHATmJrAR2UoGDyUo4q4KdDIszwUsRqkRSJ2Z+nJScLh5ItSJpgicVd
- SL/I+d59xeTJcgTxd/QlB0BV1xcyZUG0OwYJZfPG4xGNG9ducHjqXER2QR12X93MamluiAYcUf
- 3FPjQK4gXyJvQCPlZDU9Vzr1Ezm6qOS/vTvUKi9/tuymLUdbIQCosP9noJ7zO+FBMU8QRQhcTJ
- Rkg=
-X-IronPort-AV: E=Sophos;i="5.75,373,1589212800"; d="scan'208";a="245915585"
+ bh=+8OVNZDzQr+h1C71w9olZsaXiXNdPUTf795F0Xz4EcE=;
+ b=Svvg5uq851m7v/1YVQmRYqbYkOv2rUHLH5P/74CL+IlNo1D5ssEc0czz
+ NuK8xrT/UBvGngAlPb6R1ssFSXCN75GRUh90F3+In55ZgXswKgsWgyy4V
+ 6yGgKsLioVPuv0fP6GFfYfn4gaQn4kY++xMXBOqKDWEkAMuB0Pffpk8Eg
+ IIrx2C/Itu2NuFLhP0LaqCmbrBgtbSojFIedh1AdpZVoPIKq8LhUDKVxg
+ yflpZGYARTWKxcM0DVglH1a/7mG3TI3Dv14a2jiQcmlhuKn38KSJ6XnHk
+ GnOACXMWKVdC5vyBCdKGgD6d7Fp0Ci7xmAB/Z1hJ/ha1yIYl5PqC2vl2p Q==;
+IronPort-SDR: 2LKPmph05nd0gyxn9wo3XRvYiwFd5JylYijVtTuS6pGklY0YfbL3319/PxuuS4gBDHkQDIzOJn
+ YdASH+TB0LiyFsjPrFuak0+Obx1PrkDulc8bfKzBdEXVJtiKcL30wrjZEO9PbZ/FEMkW49LOTg
+ edfQE9xRckV9GmyPhJS9gb6D1Q5GuoE8YOqelH7XGvz/KUVkeujXpxH/jG59n1qyN7uDR4BV16
+ vs6ZWgM/qR6F6yVCab49jx2yXI2EKef12T8oj1Q/oN0cZZ2sHM3HkBCPBgrjZVf4VZDnjIkKEg
+ YsQ=
+X-IronPort-AV: E=Sophos;i="5.75,373,1589212800"; d="scan'208";a="142880922"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jul 2020 11:32:24 +0800
-IronPort-SDR: YBGNXj4ycbzH/3A2cTxqKEJfKERVC8T2AHXKrqLsB7e8ikiyzIbp5pRnmICuBt5V3ynf5U4YtZ
- w4LyY5qEDSx/fC/ntL/APRZ4tN8YGYUUg=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jul 2020 11:32:30 +0800
+IronPort-SDR: whFtMJmjHwzEX5wCcjiDs0R5mZsLORzK+ONkOlbMtuHWlhLgnZ9y9+R71AZyitrq6iBi00kLeW
+ ahfdzfF5HWBUKkwrHA7RwD+AJPtrWFFXk=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2020 20:20:07 -0700
-IronPort-SDR: nKXV5MgygAQAotqZOe432D7WXRIr3ncuuajF7Ic0FegOz4UngcPa5h3mxCyL6NreUoaWGTNrs4
- Vs4MsMUYmpBQ==
+ 19 Jul 2020 20:20:15 -0700
+IronPort-SDR: UpBvdEuoF1ilowoTICFx01q3L6BtkoFye1GVBL/Ns5j8iV2owjyRL38kNajEQFDI5dmnuF77jm
+ oGbLXLOSJY8Q==
 WDCIronportException: Internal
 Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
  ([10.6.138.107])
- by uls-op-cesaip02.wdc.com with ESMTP; 19 Jul 2020 20:32:22 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 19 Jul 2020 20:32:30 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: kbusch@kernel.org,
 	hch@lst.de,
 	sagi@grimberg.me
-Subject: [PATCH V4 1/2] nvmet: use xarray for ctrl ns storing
-Date: Sun, 19 Jul 2020 20:32:02 -0700
-Message-Id: <20200720033203.11474-2-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V4 2/2] nvme-core: use xarray for ctrl ns tracking
+Date: Sun, 19 Jul 2020 20:32:03 -0700
+Message-Id: <20200720033203.11474-3-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200720033203.11474-1-chaitanya.kulkarni@wdc.com>
 References: <20200720033203.11474-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200719_233222_835281_E9F57389 
-X-CRM114-Status: GOOD (  16.61  )
+X-CRM114-CacheID: sfid-20200719_233232_216994_AB0F6781 
+X-CRM114-Status: GOOD (  20.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,294 +104,486 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 This patch replaces the ctrl->namespaces tracking from linked list to
-xarray and improves the performance when accessing one namespce :-
-
-XArray vs Default:-
-
-IOPS and BW (more the better) increase BW (~1.8%):-
----------------------------------------------------
-
- XArray :-
-  read:  IOPS=160k,  BW=626MiB/s  (656MB/s)(18.3GiB/30001msec)
-  read:  IOPS=160k,  BW=626MiB/s  (656MB/s)(18.3GiB/30001msec)
-  read:  IOPS=162k,  BW=631MiB/s  (662MB/s)(18.5GiB/30001msec)
-
- Default:-
-  read:  IOPS=156k,  BW=609MiB/s  (639MB/s)(17.8GiB/30001msec)
-  read:  IOPS=157k,  BW=613MiB/s  (643MB/s)(17.0GiB/30001msec)
-  read:  IOPS=160k,  BW=626MiB/s  (656MB/s)(18.3GiB/30001msec)
-
-Submission latency (less the better) decrease (~8.3%):-
--------------------------------------------------------
-
- XArray:-
-  slat  (usec):  min=7,  max=8386,  avg=11.19,  stdev=5.96
-  slat  (usec):  min=7,  max=441,   avg=11.09,  stdev=4.48
-  slat  (usec):  min=7,  max=1088,  avg=11.21,  stdev=4.54
-
- Default :-
-  slat  (usec):  min=8,   max=2826.5k,  avg=23.96,  stdev=3911.50
-  slat  (usec):  min=8,   max=503,      avg=12.52,  stdev=5.07
-  slat  (usec):  min=8,   max=2384,     avg=12.50,  stdev=5.28
-
-CPU Usage (less the better) decrease (~5.2%):-
-----------------------------------------------
-
- XArray:-
-  cpu  :  usr=1.84%,  sys=18.61%,  ctx=949471,  majf=0,  minf=250
-  cpu  :  usr=1.83%,  sys=18.41%,  ctx=950262,  majf=0,  minf=237
-  cpu  :  usr=1.82%,  sys=18.82%,  ctx=957224,  majf=0,  minf=234
-
- Default:-
-  cpu  :  usr=1.70%,  sys=19.21%,  ctx=858196,  majf=0,  minf=251
-  cpu  :  usr=1.82%,  sys=19.98%,  ctx=929720,  majf=0,  minf=227
-  cpu  :  usr=1.83%,  sys=20.33%,  ctx=947208,  majf=0,  minf=235.
+xarray and improves the performance. For host even though
+nvme_find_get_ns() doesn't fall into the fast path yet it does for
+NVMeOF passthru patch-series which is currently under review. This
+prepares us to improve performance for future NVMeOF passthru backend
+since nvme_find_get_ns() uses same data structure as it does in target
+to find namespace in I/O patch from nsid specified in the nvme_rw_cmd.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c | 17 ++++-----
- drivers/nvme/target/core.c      | 64 +++++++++++----------------------
- drivers/nvme/target/nvmet.h     |  3 +-
- 3 files changed, 27 insertions(+), 57 deletions(-)
+ drivers/nvme/host/core.c      | 184 ++++++++++++++++------------------
+ drivers/nvme/host/multipath.c |  15 ++-
+ drivers/nvme/host/nvme.h      |   5 +-
+ 3 files changed, 96 insertions(+), 108 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 95bb3bc4e335..55918fcef80b 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -113,11 +113,10 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 	u64 data_units_read = 0, data_units_written = 0;
- 	struct nvmet_ns *ns;
- 	struct nvmet_ctrl *ctrl;
-+	unsigned long idx;
- 
- 	ctrl = req->sq->ctrl;
--
--	rcu_read_lock();
--	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
-+	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
- 		/* we don't have the right data for file backed ns */
- 		if (!ns->bdev)
- 			continue;
-@@ -127,9 +126,7 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 		host_writes += part_stat_read(ns->bdev->bd_part, ios[WRITE]);
- 		data_units_written += DIV_ROUND_UP(
- 			part_stat_read(ns->bdev->bd_part, sectors[WRITE]), 1000);
--
- 	}
--	rcu_read_unlock();
- 
- 	put_unaligned_le64(host_reads, &slog->host_reads[0]);
- 	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
-@@ -230,14 +227,13 @@ static u32 nvmet_format_ana_group(struct nvmet_req *req, u32 grpid,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f49085bcaa42..3f09774d2d54 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1426,9 +1426,9 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ static void nvme_update_formats(struct nvme_ctrl *ctrl, u32 *effects)
  {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvmet_ns *ns;
-+	unsigned long idx;
- 	u32 count = 0;
- 
- 	if (!(req->cmd->get_log_page.lsp & NVME_ANA_LOG_RGO)) {
--		rcu_read_lock();
--		list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link)
-+		xa_for_each(&ctrl->subsys->namespaces, idx, ns)
- 			if (ns->anagrpid == grpid)
- 				desc->nsids[count++] = cpu_to_le32(ns->nsid);
--		rcu_read_unlock();
- 	}
- 
- 	desc->grpid = cpu_to_le32(grpid);
-@@ -556,6 +552,7 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
- 	static const int buf_size = NVME_IDENTIFY_DATA_SIZE;
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvmet_ns *ns;
-+	unsigned long idx;
- 	u32 min_nsid = le32_to_cpu(req->cmd->identify.nsid);
- 	__le32 *list;
- 	u16 status = 0;
-@@ -567,15 +564,13 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
- 		goto out;
- 	}
- 
--	rcu_read_lock();
--	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
-+	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
- 		if (ns->nsid <= min_nsid)
- 			continue;
- 		list[i++] = cpu_to_le32(ns->nsid);
- 		if (i == buf_size / sizeof(__le32))
- 			break;
- 	}
--	rcu_read_unlock();
- 
- 	status = nvmet_copy_to_sgl(req, 0, list, buf_size);
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 9cdc39c8b729..9b9e88bfc210 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -115,13 +115,14 @@ u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len)
- 
- static unsigned int nvmet_max_nsid(struct nvmet_subsys *subsys)
- {
--	struct nvmet_ns *ns;
-+	unsigned long nsid = 0;
-+	struct nvmet_ns *cur;
+ 	struct nvme_ns *ns;
 +	unsigned long idx;
  
--	if (list_empty(&subsys->namespaces))
--		return 0;
-+	xa_for_each(&subsys->namespaces, idx, cur)
-+		nsid = cur->nsid;
- 
--	ns = list_last_entry(&subsys->namespaces, struct nvmet_ns, dev_link);
--	return ns->nsid;
-+	return nsid;
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		if (_nvme_revalidate_disk(ns->disk))
+ 			nvme_set_queue_dying(ns);
+ 		else if (blk_queue_is_zoned(ns->disk->queue)) {
+@@ -1440,7 +1440,6 @@ static void nvme_update_formats(struct nvme_ctrl *ctrl, u32 *effects)
+ 			 */
+ 			*effects |= NVME_CMD_EFFECTS_NCC;
+ 		}
+-	up_read(&ctrl->namespaces_rwsem);
  }
  
- static u32 nvmet_async_event_result(struct nvmet_async_event *aen)
-@@ -410,28 +411,13 @@ static void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl)
- 	cancel_delayed_work_sync(&ctrl->ka_work);
+ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+@@ -3195,34 +3194,33 @@ static int nvme_dev_open(struct inode *inode, struct file *file)
+ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp)
+ {
+ 	struct nvme_ns *ns;
+-	int ret;
++	unsigned long idx;
++	int ret = -EINVAL;
++	int count = 0;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	if (list_empty(&ctrl->namespaces)) {
++	if (xa_empty(&ctrl->namespaces)) {
+ 		ret = -ENOTTY;
+-		goto out_unlock;
++		goto out;
+ 	}
+-
+-	ns = list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
+-	if (ns != list_last_entry(&ctrl->namespaces, struct nvme_ns, list)) {
+-		dev_warn(ctrl->device,
+-			"NVME_IOCTL_IO_CMD not supported when multiple namespaces present!\n");
+-		ret = -EINVAL;
+-		goto out_unlock;
++	xa_for_each(&ctrl->namespaces, idx, ns) {
++		if (count > 0)
++			goto err;
++		count++;
+ 	}
+ 
+ 	dev_warn(ctrl->device,
+ 		"using deprecated NVME_IOCTL_IO_CMD ioctl on the char device!\n");
+ 	kref_get(&ns->kref);
+-	up_read(&ctrl->namespaces_rwsem);
+ 
+ 	ret = nvme_user_cmd(ctrl, ns, argp);
+ 	nvme_put_ns(ns);
+-	return ret;
+ 
+-out_unlock:
+-	up_read(&ctrl->namespaces_rwsem);
++out:
+ 	return ret;
++err:
++	dev_warn(ctrl->device,
++			"NVME_IOCTL_IO_CMD not supported when multiple namespaces present!\n");
++	goto out;
  }
  
--static struct nvmet_ns *__nvmet_find_namespace(struct nvmet_ctrl *ctrl,
--		__le32 nsid)
+ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+@@ -3790,31 +3788,16 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+ 	return ret;
+ }
+ 
+-static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
 -{
--	struct nvmet_ns *ns;
+-	struct nvme_ns *nsa = container_of(a, struct nvme_ns, list);
+-	struct nvme_ns *nsb = container_of(b, struct nvme_ns, list);
 -
--	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
--		if (ns->nsid == le32_to_cpu(nsid))
--			return ns;
--	}
--
--	return NULL;
+-	return nsa->head->ns_id - nsb->head->ns_id;
 -}
 -
- struct nvmet_ns *nvmet_find_namespace(struct nvmet_ctrl *ctrl, __le32 nsid)
+ static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
  {
- 	struct nvmet_ns *ns;
+-	struct nvme_ns *ns, *ret = NULL;
++	struct nvme_ns *ns;
  
--	rcu_read_lock();
--	ns = __nvmet_find_namespace(ctrl, nsid);
-+	ns = xa_load(&ctrl->subsys->namespaces, nsid);
- 	if (ns)
- 		percpu_ref_get(&ns->ref);
--	rcu_read_unlock();
- 
- 	return ns;
- }
-@@ -586,24 +572,10 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 	if (ns->nsid > subsys->max_nsid)
- 		subsys->max_nsid = ns->nsid;
- 
--	/*
--	 * The namespaces list needs to be sorted to simplify the implementation
--	 * of the Identify Namepace List subcommand.
--	 */
--	if (list_empty(&subsys->namespaces)) {
--		list_add_tail_rcu(&ns->dev_link, &subsys->namespaces);
--	} else {
--		struct nvmet_ns *old;
--
--		list_for_each_entry_rcu(old, &subsys->namespaces, dev_link,
--					lockdep_is_held(&subsys->lock)) {
--			BUG_ON(ns->nsid == old->nsid);
--			if (ns->nsid < old->nsid)
--				break;
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
+-		if (ns->head->ns_id == nsid) {
+-			if (!kref_get_unless_zero(&ns->kref))
+-				continue;
+-			ret = ns;
+-			break;
 -		}
-+	ret = xa_insert(&subsys->namespaces, ns->nsid, ns, GFP_KERNEL);
-+	if (ret)
-+		goto out_restore_subsys_maxnsid;
- 
--		list_add_tail_rcu(&ns->dev_link, &old->dev_link);
+-		if (ns->head->ns_id > nsid)
+-			break;
 -	}
- 	subsys->nr_namespaces++;
- 
- 	nvmet_ns_changed(subsys, ns->nsid);
-@@ -612,6 +584,10 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- out_unlock:
- 	mutex_unlock(&subsys->lock);
- 	return ret;
+-	up_read(&ctrl->namespaces_rwsem);
+-	return ret;
++	rcu_read_lock();
++	ns = xa_load(&ctrl->namespaces, nsid);
++	ns = ns && kref_get_unless_zero(&ns->kref) ? ns : NULL;
++	rcu_read_unlock();
 +
-+out_restore_subsys_maxnsid:
-+	subsys->max_nsid = nvmet_max_nsid(subsys);
-+	percpu_ref_exit(&ns->ref);
- out_dev_put:
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
- 		pci_dev_put(radix_tree_delete(&ctrl->p2p_ns_map, ns->nsid));
-@@ -630,7 +606,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
- 		goto out_unlock;
++	return ns;
+ }
  
- 	ns->enabled = false;
--	list_del_rcu(&ns->dev_link);
-+	xa_erase(&ns->subsys->namespaces, ns->nsid);
- 	if (ns->nsid == subsys->max_nsid)
- 		subsys->max_nsid = nvmet_max_nsid(subsys);
+ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+@@ -3884,9 +3867,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		}
+ 	}
  
-@@ -681,7 +657,6 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
- 	if (!ns)
- 		return NULL;
+-	down_write(&ctrl->namespaces_rwsem);
+-	list_add_tail(&ns->list, &ctrl->namespaces);
+-	up_write(&ctrl->namespaces_rwsem);
++	ret = xa_insert(&ctrl->namespaces, nsid, ns, GFP_KERNEL);
++	if (ret)
++		goto out_unregister_nvm;
  
--	INIT_LIST_HEAD(&ns->dev_link);
- 	init_completion(&ns->disable_done);
+ 	nvme_get_ctrl(ctrl);
  
- 	ns->nsid = nsid;
-@@ -1263,14 +1238,14 @@ static void nvmet_setup_p2p_ns_map(struct nvmet_ctrl *ctrl,
- 		struct nvmet_req *req)
+@@ -3897,6 +3880,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	kfree(id);
+ 
+ 	return;
++ out_unregister_nvm:
++	if ((ctrl->quirks & NVME_QUIRK_LIGHTNVM) && id->vs[0] == 0x1)
++		nvme_nvm_unregister(ns);
+  out_put_disk:
+ 	/* prevent double queue cleanup */
+ 	ns->disk->queue = NULL;
+@@ -3929,6 +3915,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 		list_del_init(&ns->head->entry);
+ 	mutex_unlock(&ns->ctrl->subsys->lock);
+ 
++	xa_erase(&ns->ctrl->namespaces, ns->head->ns_id);
+ 	synchronize_rcu(); /* guarantee not available in head->list */
+ 	nvme_mpath_clear_current_path(ns);
+ 	synchronize_srcu(&ns->head->srcu); /* wait for concurrent submissions */
+@@ -3940,10 +3927,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 			blk_integrity_unregister(ns->disk);
+ 	}
+ 
+-	down_write(&ns->ctrl->namespaces_rwsem);
+-	list_del_init(&ns->list);
+-	up_write(&ns->ctrl->namespaces_rwsem);
+-
+ 	nvme_mpath_check_last_path(ns);
+ 	nvme_put_ns(ns);
+ }
+@@ -3974,19 +3957,31 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 					unsigned nsid)
  {
- 	struct nvmet_ns *ns;
+-	struct nvme_ns *ns, *next;
+-	LIST_HEAD(rm_list);
++	struct xarray rm_array;
++	unsigned long tnsid;
++	struct nvme_ns *ns;
++	unsigned long idx;
++	int ret;
+ 
+-	down_write(&ctrl->namespaces_rwsem);
+-	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
+-		if (ns->head->ns_id > nsid || test_bit(NVME_NS_DEAD, &ns->flags))
+-			list_move_tail(&ns->list, &rm_list);
++	xa_init(&rm_array);
++
++	xa_lock(&ctrl->namespaces);
++	xa_for_each(&ctrl->namespaces, idx, ns) {
++		tnsid = ns->head->ns_id;
++		if (tnsid > nsid || test_bit(NVME_NS_DEAD, &ns->flags)) {
++			__xa_erase(&ctrl->namespaces, tnsid);
++			xa_unlock(&ctrl->namespaces);
++			/* Even if insert fails keep going */
++			ret = xa_insert(&rm_array, nsid, ns, GFP_KERNEL);
++			if (ret)
++				pr_err("xa_insert %d\n", ret);
++			xa_lock(&ctrl->namespaces);
++		}
+ 	}
+-	up_write(&ctrl->namespaces_rwsem);
++	xa_unlock(&ctrl->namespaces);
+ 
+-	list_for_each_entry_safe(ns, next, &rm_list, list)
++	xa_for_each(&rm_array, idx, ns)
+ 		nvme_ns_remove(ns);
+-
+ }
+ 
+ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+@@ -4084,10 +4079,6 @@ static void nvme_scan_work(struct work_struct *work)
+ 	if (nvme_scan_ns_list(ctrl) != 0)
+ 		nvme_scan_ns_sequential(ctrl);
+ 	mutex_unlock(&ctrl->scan_lock);
+-
+-	down_write(&ctrl->namespaces_rwsem);
+-	list_sort(NULL, &ctrl->namespaces, ns_cmp);
+-	up_write(&ctrl->namespaces_rwsem);
+ }
+ 
+ /*
+@@ -4097,8 +4088,12 @@ static void nvme_scan_work(struct work_struct *work)
+  */
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_ns *ns, *next;
+-	LIST_HEAD(ns_list);
++	struct xarray rm_array;
++	struct nvme_ns *ns;
++	unsigned long idx;
++	int ret;
++
++	xa_init(&rm_array);
+ 
+ 	/*
+ 	 * make sure to requeue I/O to all namespaces as these
+@@ -4119,11 +4114,18 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	if (ctrl->state == NVME_CTRL_DEAD)
+ 		nvme_kill_queues(ctrl);
+ 
+-	down_write(&ctrl->namespaces_rwsem);
+-	list_splice_init(&ctrl->namespaces, &ns_list);
+-	up_write(&ctrl->namespaces_rwsem);
++	xa_lock(&ctrl->namespaces);
++	xa_for_each(&ctrl->namespaces, idx, ns) {
++		__xa_erase(&ctrl->namespaces, ns->head->ns_id);
++		xa_unlock(&ctrl->namespaces);
++		ret = xa_insert(&rm_array, ns->head->ns_id, ns, GFP_KERNEL);
++		if (ret)
++			pr_err("xa_insert %d\n", ret);
++		xa_lock(&ctrl->namespaces);
++	}
++	xa_unlock(&ctrl->namespaces);
+ 
+-	list_for_each_entry_safe(ns, next, &ns_list, list)
++	xa_for_each(&rm_array, idx, ns)
+ 		nvme_ns_remove(ns);
+ }
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+@@ -4344,6 +4346,10 @@ static void nvme_free_ctrl(struct device *dev)
+ 	if (subsys && ctrl->instance != subsys->instance)
+ 		ida_simple_remove(&nvme_instance_ida, ctrl->instance);
+ 
++	WARN_ON_ONCE(!xa_empty(&ctrl->namespaces));
++
++	xa_destroy(&ctrl->namespaces);
++
+ 	list_for_each_entry_safe(cel, next, &ctrl->cels, entry) {
+ 		list_del(&cel->entry);
+ 		kfree(cel);
+@@ -4378,9 +4384,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	ctrl->state = NVME_CTRL_NEW;
+ 	spin_lock_init(&ctrl->lock);
+ 	mutex_init(&ctrl->scan_lock);
+-	INIT_LIST_HEAD(&ctrl->namespaces);
+ 	INIT_LIST_HEAD(&ctrl->cels);
+-	init_rwsem(&ctrl->namespaces_rwsem);
++	xa_init(&ctrl->namespaces);
+ 	ctrl->dev = dev;
+ 	ctrl->ops = ops;
+ 	ctrl->quirks = quirks;
+@@ -4460,98 +4465,87 @@ EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
+-
+-	down_read(&ctrl->namespaces_rwsem);
 +	unsigned long idx;
  
- 	if (!req->p2p_client)
- 		return;
+ 	/* Forcibly unquiesce queues to avoid blocking dispatch */
+ 	if (ctrl->admin_q && !blk_queue_dying(ctrl->admin_q))
+ 		blk_mq_unquiesce_queue(ctrl->admin_q);
  
- 	ctrl->p2p_client = get_device(req->p2p_client);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		nvme_set_queue_dying(ns);
+-
+-	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_kill_queues);
  
--	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link,
--				lockdep_is_held(&ctrl->subsys->lock))
-+	xa_for_each(&ctrl->subsys->namespaces, idx, ns)
- 		nvmet_p2pmem_ns_add_p2p(ctrl, ns);
+ void nvme_unfreeze(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		blk_mq_unfreeze_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_unfreeze);
+ 
+ void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	xa_for_each(&ctrl->namespaces, idx, ns) {
+ 		timeout = blk_mq_freeze_queue_wait_timeout(ns->queue, timeout);
+ 		if (timeout <= 0)
+ 			break;
+ 	}
+-	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_wait_freeze_timeout);
+ 
+ void nvme_wait_freeze(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		blk_mq_freeze_queue_wait(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_wait_freeze);
+ 
+ void nvme_start_freeze(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		blk_freeze_queue_start(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_start_freeze);
+ 
+ void nvme_stop_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		blk_mq_quiesce_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_stop_queues);
+ 
+ void nvme_start_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		blk_mq_unquiesce_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_start_queues);
+ 
+-
+ void nvme_sync_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		blk_sync_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
+ 
+ 	if (ctrl->admin_q)
+ 		blk_sync_queue(ctrl->admin_q);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 74bad4e3d377..af486864a1dc 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -115,13 +115,12 @@ bool nvme_failover_req(struct request *req)
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	xa_for_each(&ctrl->namespaces, idx, ns) {
+ 		if (ns->head->disk)
+ 			kblockd_schedule_work(&ns->head->requeue_work);
+ 	}
+-	up_read(&ctrl->namespaces_rwsem);
  }
  
-@@ -1523,7 +1498,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	kref_init(&subsys->ref);
+ static const char *nvme_ana_state_names[] = {
+@@ -155,13 +154,12 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	unsigned long idx;
  
- 	mutex_init(&subsys->lock);
--	INIT_LIST_HEAD(&subsys->namespaces);
-+	xa_init(&subsys->namespaces);
- 	INIT_LIST_HEAD(&subsys->ctrls);
- 	INIT_LIST_HEAD(&subsys->hosts);
+ 	mutex_lock(&ctrl->scan_lock);
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	xa_for_each(&ctrl->namespaces, idx, ns)
+ 		if (nvme_mpath_clear_current_path(ns))
+ 			kblockd_schedule_work(&ns->head->requeue_work);
+-	up_read(&ctrl->namespaces_rwsem);
+ 	mutex_unlock(&ctrl->scan_lock);
+ }
  
-@@ -1535,8 +1510,9 @@ static void nvmet_subsys_free(struct kref *ref)
- 	struct nvmet_subsys *subsys =
- 		container_of(ref, struct nvmet_subsys, ref);
+@@ -495,6 +493,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 	u32 nr_nsids = le32_to_cpu(desc->nnsids), n = 0;
+ 	unsigned *nr_change_groups = data;
+ 	struct nvme_ns *ns;
++	unsigned long idx;
  
--	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
-+	WARN_ON_ONCE(!xa_empty(&subsys->namespaces));
+ 	dev_dbg(ctrl->device, "ANA group %d: %s.\n",
+ 			le32_to_cpu(desc->grpid),
+@@ -506,8 +505,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 	if (!nr_nsids)
+ 		return 0;
  
-+	xa_destroy(&subsys->namespaces);
- 	kfree(subsys->subsysnqn);
- 	kfree_rcu(subsys->model, rcuhead);
- 	kfree(subsys);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 6f8bd6a93575..49e14111446c 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -52,7 +52,6 @@
- 	(cpu_to_le32(offsetof(struct nvmf_connect_command, x)))
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	xa_for_each(&ctrl->namespaces, idx, ns) {
+ 		unsigned nsid = le32_to_cpu(desc->nsids[n]);
  
- struct nvmet_ns {
--	struct list_head	dev_link;
- 	struct percpu_ref	ref;
- 	struct block_device	*bdev;
- 	struct file		*file;
-@@ -219,7 +218,7 @@ struct nvmet_subsys {
- 	struct mutex		lock;
- 	struct kref		ref;
+ 		if (ns->head->ns_id < nsid)
+@@ -517,7 +515,6 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 		if (++n == nr_nsids)
+ 			break;
+ 	}
+-	up_read(&ctrl->namespaces_rwsem);
+ 	return 0;
+ }
  
--	struct list_head	namespaces;
-+	struct xarray		namespaces;
- 	unsigned int		nr_namespaces;
- 	unsigned int		max_nsid;
- 	u16			cntlid_min;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 13ca90bcd352..d1b9761aff9c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -212,8 +212,7 @@ struct nvme_ctrl {
+ 	int numa_node;
+ 	struct blk_mq_tag_set *tagset;
+ 	struct blk_mq_tag_set *admin_tagset;
+-	struct list_head namespaces;
+-	struct rw_semaphore namespaces_rwsem;
++	struct xarray namespaces;
+ 	struct device ctrl_device;
+ 	struct device *device;	/* char device */
+ 	struct cdev cdev;
+@@ -388,8 +387,6 @@ enum nvme_ns_features {
+ };
+ 
+ struct nvme_ns {
+-	struct list_head list;
+-
+ 	struct nvme_ctrl *ctrl;
+ 	struct request_queue *queue;
+ 	struct gendisk *disk;
 -- 
 2.26.0
 
