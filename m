@@ -2,88 +2,85 @@ Return-Path: <SRS0=ANVZ=BC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_ADSP_ALL,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62CB2C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2020 01:24:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 620D5C433E1
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2020 07:44:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 119B520737
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2020 01:24:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CB644208E4
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2020 07:44:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dmRZBDnK";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="rmg6ToYK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 119B520737
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qf6yRJyr";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="lv0Xdivk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB644208E4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:In-Reply-To:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
-	 bh=XHTmq/aeUOUDtafUsPq0PK8UMNGixnPmh2j4eFGpt30=; b=dmRZBDnKc8txWwn3KYk5fKsKR
-	y/sWKdeP+Wn524FIsW5gOKSTljZjBWCBVV2zMrh1JXc8Nqj59zZyOiwzHvdy7qfpX6B7XA6egK6TJ
-	Og4sIPH+NGC4EUgxK0IPju4kGiOWr8iUqblXArVqydCkbVX2a0qxGRbXSp+vRpsTOiryziKY2oho8
-	SiKso38fQLJWkfgIq8wqFSF9frMZiVWoKTvYH0dI9TApjf4bETVeTMb1c7w8N+uxvHuuM4EcGISs8
-	cvxN+QtIF4OVUxSF9iM3KQ2nb1d3dkqTfu08exR5bP51834RwvcIakYPAJrR6BXQawu30kqSV6vkV
-	NSgy0E4Ug==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Date:Message-ID:Subject:From:To:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Qt1aje6ESubN7JG3fICnfAZrmGyEvN2UYI2wK8YxNVE=; b=Qf6yRJyrGCcXPpSPduNQPDOBZ3
+	Ber1TEgOinFP6aICjmMAZtJEVtMyg7px4Mo7F4YSA6NiNFOJMbYRik06UbSkCuWlY7RXS94zP/cnt
+	aX96jQQF/v/gx1UQlDgnJmDHF79O1v8XYgtNRSoWGGc01BNGn/4M78JXyvUThKPyyG9wMgavaJIFo
+	yHHrmTUK8BhQ/qONlSkgLzBTALDJukzCqcWM+WJF2d74X5QyMpy1lEW353n995y0VniMLLd7z47DI
+	CiWz7aZnmrYnDtwnNlpQ76lCEVT7YeYOcUSX0Qjj7bkDekvaL8oCcjTA0dXh42lyAejG+TJ7G2THA
+	4MvhjcHA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jyPxp-0000YZ-KS; Thu, 23 Jul 2020 01:24:01 +0000
-Received: from mout.web.de ([212.227.17.11])
+	id 1jyVty-0008T4-Uq; Thu, 23 Jul 2020 07:44:27 +0000
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jyPxn-0000Xm-1V
- for linux-nvme@lists.infradead.org; Thu, 23 Jul 2020 01:23:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1595467427;
- bh=SzSf2rkCmIInSphZgi2IWvhjAodJ/qv908hUQ0j10ws=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:In-Reply-To:Date;
- b=rmg6ToYKaUj/cbPpM5WDOBuEvBNWZhaEL0YqmBD/Owfm2w03S2gvHr74JyzH0sBEd
- HSSDmdBo3c/6DaX7hqFTIWxPCv0tmCplsCirg0wcF3t2ytlQbHH+YGRZhVcR6ixXaz
- Fw4S7iuEA2Tj4pOGeofVtJ44GCEMtZp2gpBHlQwM=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from ingo ([84.143.241.7]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lh6QF-1kdmNw1N1b-00oYwV; Thu, 23
- Jul 2020 03:23:47 +0200
-From: Ingo Brunberg <ingo_brunberg@web.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme: Namepace identification descriptor list is optional
-In-Reply-To: <c92f9d41-de84-ab54-c003-8649d20deb50@grimberg.me> (message
- from Sagi Grimberg on Wed, 22 Jul 2020 16:23:24 -0700)
-Date: Thu, 23 Jul 2020 03:23:28 +0200
-Message-ID: <m3sgdj10tr.fsf@web.de>
+ id 1jyVs2-0006xK-KG
+ for linux-nvme@lists.infradead.org; Thu, 23 Jul 2020 07:42:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1595490147; x=1627026147;
+ h=to:from:subject:message-id:date:mime-version:
+ content-transfer-encoding;
+ bh=I4vKZmDN5Mg/2gUSO2RfG7Wpl0IlYoIXkh3vsWj0Gfk=;
+ b=lv0XdivkfFSu1siEEgYBybz0tG2nAKc85ka7SYNk7F+Svc/neCVHntpZ
+ Pye+AnJOBfMKbkQlB5LRAU8Fg/ju8AhXIYnjh6wrBhUzTjc0vptApzYwi
+ hASyap5vwtgrRGvUZtnW7kCP5BhuIE7l7Aso2UhOBq0uX6x+L7RB6Ij/7 U=;
+IronPort-SDR: +4ZwmvnjXq/DZRPox2XFyCIXAXIOdNJ5QmRI5WdXuc46tDSGY+5baiyKTOpmRYy1LY5MW+XglH
+ acKPg78hD0UA==
+X-IronPort-AV: E=Sophos;i="5.75,385,1589241600"; d="scan'208";a="43459460"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP;
+ 23 Jul 2020 07:42:22 +0000
+Received: from EX13MTAUWA001.ant.amazon.com
+ (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
+ by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS
+ id A0572A2622
+ for <linux-nvme@lists.infradead.org>; Thu, 23 Jul 2020 07:42:21 +0000 (UTC)
+Received: from EX13D32UWA004.ant.amazon.com (10.43.160.193) by
+ EX13MTAUWA001.ant.amazon.com (10.43.160.58) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 23 Jul 2020 07:42:20 +0000
+Received: from EX13MTAUWA001.ant.amazon.com (10.43.160.58) by
+ EX13D32UWA004.ant.amazon.com (10.43.160.193) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 22 Jul 2020 13:05:52 +0000
+Received: from u908889d5e8f057.ant.amazon.com (10.1.213.29) by
+ mail-relay.amazon.com (10.43.160.118) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Wed, 22 Jul 2020 13:05:51 +0000
+To: <linux-nvme@lists.infradead.org>
+From: <vrd@amazon.com>
+Subject: NVME io_poll with kernel 5.x
+Message-ID: <e5528438-eabc-acae-8516-d97cda739b33@amazon.com>
+Date: Wed, 22 Jul 2020 15:05:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:+ybu8HeaTTmAfpLkwhfJr3vHgu1xVXMknIIlv1tNZCEfvXFFewg
- GRp6jsAmXhKMRB3Q7lwiXHoM6B/AKzhFAK6LOFRQtlxNTIHM9vhDs5grH4l3mgQyqtcF7Dl
- BVyrxtLh+x76UQKTWkD/O1Nwm7Anxtq8P4agCZ1bXWaIfJuTubTaCykBuj/mzMrxGTkIhH3
- teTrAlbxNSrOg+oJ8sJCQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Rxh61qav6og=:EGy4cjqWKs3fZaSi4mW/Qu
- D1za4xicwYGGKLTDntXeuURkMgcQoP2dsqK/ODsjRvKsOLoAFPMBR2sWHU2bBn1nR9b5AJwFp
- DwQjwHWCby4qzW2QYV5StIOZfId3qcf0PZ/bsLaoH5Rn/JXzFtReavfa8ePhJ3cv+x6fFBxOO
- lAcACzyPQfnIiiY8IU0xpGr8QnsO/NKpbYAOlSlXQ10+XTvRDFqKa8nDXEp89oTV3LoZb2HD9
- lfjISWyzVowINiSzLkPQ/67pNn9llhEp0PCbfpe9SgMCCN9rej7LTPV/SiPI+oKjmOm7ni6kF
- xPg11hMbQ+EJ0Hq9qPxbkd/nBg1Qzif35sn1jEEVd9iplRH+xckGbs/nxkrr2RT9sXR9kW0a4
- 4kyihan7cYzaS7wORoHNq0eomS5e7HT+uW48v72YhJew3mqQF2GIipfHiELlOwNazHjrgqJOk
- 7gBFMrkoCseuKD8xbALixBxdS4NOo+LWqjg/MDWsfr7z1lX7/ABb49/tcckFYIT0tFfEO1fWp
- kPbL00VYns69ltRc7h33NFYVHjVWcKW7BqPJrYcsR37wCWFT584q+ItSO/ar6aisUWiL3/MYu
- 9eNXgciREHDdGeRqwUuS4b8Sw84CAqXPZ0bNupydkTbvKcJx4EKgoPBIG8mPKkIhBySXpNucs
- OT1G1KsGnIHWBwj09TlI5hDvwsceF3gSt2fbhZ/b3l0x2EJ/T7mhUBn1C0d2/iJ9dky3D+RcN
- hV5s+hgo706dUl3Huqdb1/hgz42NTL6v7G3taYUhGhZaAwwhGIzuUySuSyabuQKez0ZThV8lY
- nPshpJglgrVorxQWr2ZuyDr0JJ6Tk+f+74qGBk8P+XOyoaYCLKFKnbx+RAh0O5JaJWWo9kheu
- yLmMu/TJ0VQnRR/nJcow95Xwj0tpTvWfczp3q5Y/G6HKW5OsiUG2EhMYxhPoIwbX+23hASwMt
- r9PaBGLpPUxQodMsMVhXLOojv1kaf8wg+jt6MjaFBBsFU1PDzvVR/dH0q5n3yb1g77rWeqFnE
- SoxSThczpiKqzqm+HlwDKdvhCcD0bzHrfY4RwDVA8kBmHVCSaoyP6B23aQlxQTEHLkMmcDYVa
- wNXImW1F32riQdOjOQSLydECsE1F/FNXop5rusvWk7mtDAHW8Edgh5qkGTLQZcm2iOxnv3C+i
- tT9Il8Kyp5B9OyvxKsJJk6G0fkQFXy/EnVPn35d0fQF5T7iXzCCtCJhCXN6iLAbV22rsE6kE8
- KlzP7XVSGC0qfiw/UwFeEmJtEJw4+3FAYz3jNvQ==
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200722_212359_321959_A2BD3B60 
-X-CRM114-Status: UNSURE (   6.49  )
+X-CRM114-CacheID: sfid-20200723_034226_815247_C4344FE4 
+X-CRM114-Status: UNSURE (   9.09  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -96,29 +93,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sagi Grimberg <sagi@grimberg.me> writes:
+Hi,
 
->> With commit ea43d97, appearing now in kernel 5.7.8, you made my cheap
->> SSD disfunctional again. For reference, see bug 205679. Maybe you
->> remember the discussion.
->>
->> I do not know if this was intentional or not. Maybe you should introduce
->> a quirk for that particular controller.
->
-> Either we quirk this controller, or we are back to test specific errors...
->
-> What is the pci id of the device to test a quirk?
+Since commit a4668d9ba ("nvme: default to 0 poll queues") [1], the nvme driver needs to be explicitly configured with poll_queues > 0 to allow enabling io_poll.
 
-The PCI ID is 126f:2263
+However, prior to poll queues separation in 4b04cc6a8 ("nvme: add separate poll queue map") [2], io_poll was enabled by default on nvme block devices. How does this work on older kernels, without dedicated poll queues?
 
-Related old and new bugs on bugzilla.kernel.org with some actual drives
-listed are: 205679, 205645, 208583, 208585
+The commit [1] says:
+
+> We need a better way of configuring this, and given that polling is
+> (still) a bit niche, let's default to using 0 poll queues.
+
+Are there any plans / work needed for nvme to provide > 0 poll_queues by default?
+
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=a4668d9ba
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=4b04cc6a8
+
+Thanks,
+Varad
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
 
 _______________________________________________
 Linux-nvme mailing list
