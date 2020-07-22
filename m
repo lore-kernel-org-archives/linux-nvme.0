@@ -7,79 +7,76 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D40E2C433E1
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 22:58:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B41B9C433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 23:23:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A00D120825
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 22:58:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 75D0E22B47
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 23:23:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EKo571wE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A00D120825
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UHPvYDUW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75D0E22B47
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=BRKBtAo2i0DgkiCnmiGUpBlL7vtX66lUAMoQZhxMwTo=; b=EKo571wEnDNYjGCvy+jZOhpgI
-	je80tkMLkgJWjwvqm+z94ZEm4vfB2F+oUehtccCwekz6NNv8lLtQae2OuP2BCMEbg2fga8pTJoLaa
-	Vgln1iMEiJ2sBtxU6ycKMcNUtVTL8OXiGUwgjTMbkWuYm5QltebWklkpqC7Hw/O6zIbGDadY8yccl
-	jbH7kCDMVL/BteAjQ1u1kULM/MCHq7N8/wX12nPgY8asIlmlUx16aQLedmbKqfC6nRqBveklvcvF+
-	Vb7mENgGPAcyB+tVLnyfVY3KF42pviGSL5zMF9qZ/Nm2zK9O6vrt7d08CxI5y8C8WV93EnMaTxpVb
-	MbcLsx58Q==;
+	 bh=tUTqfSKY8yMZjRvP3Icc5/aFWpmg2+kSO/o0gdt+qlM=; b=UHPvYDUWRWi5khuTfkPDeijYQ
+	nB81o1t5Hjfbz/OerF37xNe+XJxEWS5TQv9nech5QmyaUFqSkgQ7QT/gpQxV6spGpH7rzUV0feklm
+	bxzeXShvchdfRUMwkqrCLdNX9ufOjyCR9paVWgC+nTGtRY+BI4XGxNeWkBlzH59FEm/ut/oYptEkO
+	D7gPY4tCVpz1GLO1P+Dzz3xnD6HyAX3tXLFAosAQuWrgQGIadwyQA+lsE7QuPbBaxLlkpM+x2IsAj
+	ZtaHpMM4I5VeEMrggse8jU0yH32MS7wh2HMJi3eETfMwZmzlkzEWPmc0fI8D05oTOBxkwtAvkr8Ja
+	SezOngPig==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jyNgn-0001C9-9k; Wed, 22 Jul 2020 22:58:17 +0000
-Received: from mail-wm1-f65.google.com ([209.85.128.65])
+	id 1jyO5N-0004Lu-CC; Wed, 22 Jul 2020 23:23:41 +0000
+Received: from mail-pl1-f194.google.com ([209.85.214.194])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jyNgl-0001Bg-Rv
- for linux-nvme@lists.infradead.org; Wed, 22 Jul 2020 22:58:16 +0000
-Received: by mail-wm1-f65.google.com with SMTP id c80so3318422wme.0
- for <linux-nvme@lists.infradead.org>; Wed, 22 Jul 2020 15:58:15 -0700 (PDT)
+ id 1jyO5K-0004LM-P2
+ for linux-nvme@lists.infradead.org; Wed, 22 Jul 2020 23:23:39 +0000
+Received: by mail-pl1-f194.google.com with SMTP id 72so1725969ple.0
+ for <linux-nvme@lists.infradead.org>; Wed, 22 Jul 2020 16:23:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wcKEf1fb2GJBmJb9D0A98NXtRxc8KX/LWJCjNZiGYRw=;
- b=oH5D7Ii8l9wu+2tWbi1GHQ3wzn2cV/VOM8YwyGCHaMzNVyMmAQosJO8DinM675T8H9
- pACX+CxJQLyNbQfdJIMAPXMaRNaYx4Rca6laCq/wOJaT3v96yXMMe7RBTBQvhzGM59O+
- 1TvxX68tnT/HwZJPUygSISI42Fs1qb/s/YXwMkRlw3rXNad23ge3NEpKS9KWYG9PfyYZ
- XNXGE1jnbwvUB/LBFWLoZUuwLJd4LI1FV+TdIRBh2cVMtbwoF1sjfr2uGt0Fy1zPPsm/
- GiItkVRrZsd7tbxbHyRovxPcAXo8UuljNpcA+oc5PMwBVF1KGaJ7UjLPRxFWSlmhQFtg
- 3Itw==
-X-Gm-Message-State: AOAM531p2OxhSLRGGN3Q5Og1/2hVIChBBZKs5kIpMnH9+4IjvB/se3V2
- Le8rzwuKnBsaVkhz/DYN2DaVWzX+
-X-Google-Smtp-Source: ABdhPJzg0lml4yvLaNz0G5tnR7rRSo6qTsdlHX6i0Ma5J1usWhT4KaLwJ5BDZPDshRLPt2g2FPPU0g==
-X-Received: by 2002:a05:600c:21cb:: with SMTP id
- x11mr1429538wmj.141.1595458694308; 
- Wed, 22 Jul 2020 15:58:14 -0700 (PDT)
+ bh=wIiRBu3eT3uuwmvJ5fd10KZFNkysX09cqyuWSnOH/Es=;
+ b=RR+JF+1hCJRT/vnrKwQQuBUPxMPMC+93Z/sNKnqVpWpUsCGw3i0Dz2Y/0lvXl/edPC
+ xIS9NARx1oT8piew4zbyiFvnWyNnQcDHqS8P1j/2aC/DDlyZkA026g3hZzS0G8AEFgsz
+ 0j7e4IgPeKm/785T6o+qYd6Ca8/X5EHVybhWAj0qrd0kEleD5YhVy3th7Wdbou9DQyNu
+ 3jzbEvuzuYyATHZZfdw+Nt+82nu8ceeqBuMfjFArOyhaFQa3Fzm7j1TxhH0ro3J8R4r2
+ 9k9gTX0IwEfHCe32TfMqkMRlvLYQbopTB9XOKVUtr0BbBIdGIbZlTM5IdxeJ6fNiVvvp
+ 6uAg==
+X-Gm-Message-State: AOAM531zKIlpoAKO+AJJ4+EQSdXULNWbjGJMUNE/2CSxRDVHNH5NRRtO
+ lp11Z85p82nAJt+kcP4y5qL01HBq
+X-Google-Smtp-Source: ABdhPJwH1PLnsFwNqBEAN/mnFblHXIW+kU43AWZV2o7qWylcMU/t/WdHXblqkaYWNuoAVfKtsm8fOg==
+X-Received: by 2002:a17:90b:3802:: with SMTP id
+ mq2mr1625467pjb.84.1595460216032; 
+ Wed, 22 Jul 2020 16:23:36 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:45ba:2951:1398:d100?
  ([2601:647:4802:9070:45ba:2951:1398:d100])
- by smtp.gmail.com with ESMTPSA id o4sm1113455wmc.13.2020.07.22.15.58.12
+ by smtp.gmail.com with ESMTPSA id g18sm699704pfk.40.2020.07.22.16.23.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jul 2020 15:58:13 -0700 (PDT)
-Subject: Re: [PATCH v2 rfc 1/3] nvme: split nvme_remove_namespaces
-To: Christoph Hellwig <hch@lst.de>
-References: <20200705075935.506535-1-sagi@grimberg.me>
- <20200705075935.506535-2-sagi@grimberg.me> <20200708151752.GA26154@lst.de>
- <c7c6c2da-8408-72e7-84ce-bf4f7a886ca6@grimberg.me>
- <20200714110635.GG16178@lst.de>
+ Wed, 22 Jul 2020 16:23:35 -0700 (PDT)
+Subject: Re: [PATCH] nvme: Namepace identification descriptor list is optional
+To: Ingo Brunberg <ingo_brunberg@web.de>, linux-nvme@lists.infradead.org
+References: <m3a707rd8y.fsf@web.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <5872f16c-c1c8-d041-8813-1c09c34bf909@grimberg.me>
-Date: Wed, 22 Jul 2020 15:58:11 -0700
+Message-ID: <c92f9d41-de84-ab54-c003-8649d20deb50@grimberg.me>
+Date: Wed, 22 Jul 2020 16:23:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200714110635.GG16178@lst.de>
+In-Reply-To: <m3a707rd8y.fsf@web.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200722_185815_961798_89053DDA 
-X-CRM114-Status: GOOD (  13.67  )
+X-CRM114-CacheID: sfid-20200722_192338_885267_85C29759 
+X-CRM114-Status: GOOD (  10.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,28 +88,22 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>,
- linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> I find the split rather confusing.  So I looked into alternatives
->>> and found that the state change should just be a no-op for the PCIe
->>> reset case.
->>
->> Looks like the original version, but the only thing that bothers me
->> is that in the reset handler, if we failed to setup any I/O queues,
->> we'll put the state in DELETING_NOIO while it's not deleting, I think
->> that the point of allowing this is to have the device still up for the
->> user to analyze and debug it.
+> With commit ea43d97, appearing now in kernel 5.7.8, you made my cheap
+> SSD disfunctional again. For reference, see bug 205679. Maybe you
+> remember the discussion.
 > 
-> Based on the state machine we can't really move from that state to
-> DELETING_NOIO as indicated in the comment I added, can we?
+> I do not know if this was intentional or not. Maybe you should introduce
+> a quirk for that particular controller.
 
-You're right. Let me prepare a patch
+Either we quirk this controller, or we are back to test specific errors...
+
+What is the pci id of the device to test a quirk?
 
 _______________________________________________
 Linux-nvme mailing list
