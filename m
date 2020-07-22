@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E3F2C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 22:57:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D40E2C433E1
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 22:58:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CAA920825
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 22:57:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A00D120825
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 22:58:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OezL+jN7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CAA920825
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EKo571wE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A00D120825
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,60 +25,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=UO0cYm0uyNmLXGLIYdBE/CBNJfkH8RBCY9BbR1N2LMY=; b=OezL+jN78e20GGHKWKthkw0Pb
-	JcoYBHLWdNmVnAOLko4G46sjZ9J/YRB6/aEp2WD3P2GoHSgxacU/n7ENMn79ZjzCiZNSh0W86NH+1
-	7lJdeMr0KpHEM9caQMMsDGeLPWZ2qp0yud9w82Q/dzKa5gSHTzLN4NTHxmg8v0kxXY+S7RNELbADM
-	EF6ZCezNlqKfQRVpaNAuDli02Q3s0fxerwwKi75M3HZ6zalJb0G7yY6mEWZW8SVzJrkDBfdePx9Qs
-	eKAbqiSLpNoKzBihEDF9MT07g8/gYJS+wXNkjldLalumxe9eqFvgM8VFA5ZFCl5sJ+9Qugq5ALt5+
-	XYD7jpVFg==;
+	 bh=BRKBtAo2i0DgkiCnmiGUpBlL7vtX66lUAMoQZhxMwTo=; b=EKo571wEnDNYjGCvy+jZOhpgI
+	je80tkMLkgJWjwvqm+z94ZEm4vfB2F+oUehtccCwekz6NNv8lLtQae2OuP2BCMEbg2fga8pTJoLaa
+	Vgln1iMEiJ2sBtxU6ycKMcNUtVTL8OXiGUwgjTMbkWuYm5QltebWklkpqC7Hw/O6zIbGDadY8yccl
+	jbH7kCDMVL/BteAjQ1u1kULM/MCHq7N8/wX12nPgY8asIlmlUx16aQLedmbKqfC6nRqBveklvcvF+
+	Vb7mENgGPAcyB+tVLnyfVY3KF42pviGSL5zMF9qZ/Nm2zK9O6vrt7d08CxI5y8C8WV93EnMaTxpVb
+	MbcLsx58Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jyNg6-00019V-II; Wed, 22 Jul 2020 22:57:34 +0000
-Received: from mail-wr1-f65.google.com ([209.85.221.65])
+	id 1jyNgn-0001C9-9k; Wed, 22 Jul 2020 22:58:17 +0000
+Received: from mail-wm1-f65.google.com ([209.85.128.65])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jyNg3-000197-MM
- for linux-nvme@lists.infradead.org; Wed, 22 Jul 2020 22:57:32 +0000
-Received: by mail-wr1-f65.google.com with SMTP id q5so3391292wru.6
- for <linux-nvme@lists.infradead.org>; Wed, 22 Jul 2020 15:57:31 -0700 (PDT)
+ id 1jyNgl-0001Bg-Rv
+ for linux-nvme@lists.infradead.org; Wed, 22 Jul 2020 22:58:16 +0000
+Received: by mail-wm1-f65.google.com with SMTP id c80so3318422wme.0
+ for <linux-nvme@lists.infradead.org>; Wed, 22 Jul 2020 15:58:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=azQc7BoTBU22vHJkPQgm5pNc6XaEySgQNMHhiU9fVXw=;
- b=rS4CTblsR9Yy/Ru3tFjyUTHuBKJ08+nVfywzRBYCfZX/wijElu9aN6Yh/2IYdIKa2L
- z5cBEMHislN3O6ksxe5x/lsRUPvOHNnQwr0CTQHeOuP61NHqZgIze2XtbifPeizzJ6kL
- 238acyLglanT3a/PZSdrUCanUQBjjAl87+FEKZazSFVU63gh4IBLwwD6mOdDivnaJF4e
- vnOKb2UAwXVp5ZFS5O3bNpXJikmQr2yntWLGI9YLVOkB9hLJuejS8158QLSQSNLb5YES
- JItDzAN0gw7q2mvjRlPON0S1tpMC7qtfdhilbZnnq1bfhaJ/mGN7m5TfcuZOabnnWf5A
- 0KWQ==
-X-Gm-Message-State: AOAM532SQ05i/a7tQVIAULySrDxc3vn8vE6wveS4AP1XjJh12bMJXQ7O
- MQjpsFAOs7QimW4Ra2ljPVg=
-X-Google-Smtp-Source: ABdhPJxDppN59rT91PyLmMVA+IdbXdubfx/B42o/3xokiIP8CLnHnYTJWeT32QrdwWVCkCgOCCgMag==
-X-Received: by 2002:adf:f007:: with SMTP id j7mr1323703wro.195.1595458650485; 
- Wed, 22 Jul 2020 15:57:30 -0700 (PDT)
+ bh=wcKEf1fb2GJBmJb9D0A98NXtRxc8KX/LWJCjNZiGYRw=;
+ b=oH5D7Ii8l9wu+2tWbi1GHQ3wzn2cV/VOM8YwyGCHaMzNVyMmAQosJO8DinM675T8H9
+ pACX+CxJQLyNbQfdJIMAPXMaRNaYx4Rca6laCq/wOJaT3v96yXMMe7RBTBQvhzGM59O+
+ 1TvxX68tnT/HwZJPUygSISI42Fs1qb/s/YXwMkRlw3rXNad23ge3NEpKS9KWYG9PfyYZ
+ XNXGE1jnbwvUB/LBFWLoZUuwLJd4LI1FV+TdIRBh2cVMtbwoF1sjfr2uGt0Fy1zPPsm/
+ GiItkVRrZsd7tbxbHyRovxPcAXo8UuljNpcA+oc5PMwBVF1KGaJ7UjLPRxFWSlmhQFtg
+ 3Itw==
+X-Gm-Message-State: AOAM531p2OxhSLRGGN3Q5Og1/2hVIChBBZKs5kIpMnH9+4IjvB/se3V2
+ Le8rzwuKnBsaVkhz/DYN2DaVWzX+
+X-Google-Smtp-Source: ABdhPJzg0lml4yvLaNz0G5tnR7rRSo6qTsdlHX6i0Ma5J1usWhT4KaLwJ5BDZPDshRLPt2g2FPPU0g==
+X-Received: by 2002:a05:600c:21cb:: with SMTP id
+ x11mr1429538wmj.141.1595458694308; 
+ Wed, 22 Jul 2020 15:58:14 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:45ba:2951:1398:d100?
  ([2601:647:4802:9070:45ba:2951:1398:d100])
- by smtp.gmail.com with ESMTPSA id d14sm1505835wre.44.2020.07.22.15.57.28
+ by smtp.gmail.com with ESMTPSA id o4sm1113455wmc.13.2020.07.22.15.58.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jul 2020 15:57:29 -0700 (PDT)
-Subject: Re: [PATCH v7] nvme-fabrics: reject I/O to offline device
+ Wed, 22 Jul 2020 15:58:13 -0700 (PDT)
+Subject: Re: [PATCH v2 rfc 1/3] nvme: split nvme_remove_namespaces
 To: Christoph Hellwig <hch@lst.de>
-References: <168ed5d66eae49ac8b445478b1bb362d@kioxia.com>
- <ca82af03-0cf7-bb71-cf55-caf88c278dfa@broadcom.com>
- <fee0ecca-3d31-a04f-af7c-7a3aada9d6fe@grimberg.me>
- <20200714110435.GF16178@lst.de>
+References: <20200705075935.506535-1-sagi@grimberg.me>
+ <20200705075935.506535-2-sagi@grimberg.me> <20200708151752.GA26154@lst.de>
+ <c7c6c2da-8408-72e7-84ce-bf4f7a886ca6@grimberg.me>
+ <20200714110635.GG16178@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <52eec097-606d-1e2c-edc3-81b60807ad5c@grimberg.me>
-Date: Wed, 22 Jul 2020 15:57:26 -0700
+Message-ID: <5872f16c-c1c8-d041-8813-1c09c34bf909@grimberg.me>
+Date: Wed, 22 Jul 2020 15:58:11 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200714110435.GF16178@lst.de>
+In-Reply-To: <20200714110635.GG16178@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200722_185731_766472_7CA66036 
-X-CRM114-Status: GOOD (  13.10  )
+X-CRM114-CacheID: sfid-20200722_185815_961798_89053DDA 
+X-CRM114-Status: GOOD (  13.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,22 +91,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <james.smart@broadcom.com>, "Ewan D. Milne" <emilne@redhat.com>,
- Victor Gladkov <Victor.Gladkov@kioxia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Keith Busch <kbusch@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>,
+ linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cj4+PiBMb29rcyBnb29kIHRvIG1lLsKgIE9ubHkgbml0IEkgc2VlIGlzIC0gd2h5IGFyZSB3ZSBj
-aGVja2luZyBjdHJsLT5vcHRzIGluCj4+PiB0aGUgeHh4X2ZhaWxmYXN0X3dvcmsoKSByb3V0aW5l
-cyA/Cj4+Cj4+IFdoaWNoIGJyaW5ncyBtZSB0byB0aGUgcXVlc3Rpb24sIGlzIHRoZXJlIGFueSBk
-ZXNpcmUgdG8gaGF2ZSB0aGlzCj4+IGJlaGF2aW9yIGluIHBjaSBhcyB3ZWxsPwo+IAo+IFdoZXJl
-IGlzIHRoaXMgZGlzY3Vzc2lvbiBjb21pbmcgZnJvbT8gIEluIGdlbmVyYWx5IGlmIHNvbWV0aGlu
-ZyBpcyBub3QKPiB0cmFuc3BvcnQgc3BlY2lmaWMgSSB0aGluayB3ZSBzaG91bGQgc3VwcG9ydCBp
-dCBmb3IgYWxsIHRyYW5zcG9ydHMuCgpBZ3JlZWQuCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1l
-QGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9saW51eC1udm1lCg==
+
+>>> I find the split rather confusing.  So I looked into alternatives
+>>> and found that the state change should just be a no-op for the PCIe
+>>> reset case.
+>>
+>> Looks like the original version, but the only thing that bothers me
+>> is that in the reset handler, if we failed to setup any I/O queues,
+>> we'll put the state in DELETING_NOIO while it's not deleting, I think
+>> that the point of allowing this is to have the device still up for the
+>> user to analyze and debug it.
+> 
+> Based on the state machine we can't really move from that state to
+> DELETING_NOIO as indicated in the comment I added, can we?
+
+You're right. Let me prepare a patch
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
