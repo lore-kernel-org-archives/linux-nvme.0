@@ -1,23 +1,23 @@
-Return-Path: <SRS0=MSYC=BA=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=li1X=BB=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91359C433E4
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jul 2020 17:20:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D64C433E1
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 05:35:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5C187207DD
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jul 2020 17:20:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7D2F020684
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Jul 2020 05:35:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YcTUowDG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C187207DD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="3TxpzNa+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D2F020684
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
@@ -25,62 +25,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=tUMS4T+rIOeeTmUYnyL3FtKVa8QIQWoQ4qVeHhzH4YQ=; b=YcTUowDGunsje4G/XM/kNqE4o
-	X6gaMZCGWB+QccT80+kBAqQ4fvpRFV9JXnjA3RygheUDCvFiQ5cX4Uu/2tbwKsDTqvlHb24dzCjst
-	u6QWm3qE23cibRnADlYdyb/8egoPiDvUoEnLloDznDlIfNpQ+ntyyoiRfP4W9HNdB9uq4Q24U+1Qm
-	Nl4hicj4dT9FEyU9wogThA4mqPIvDvxxRnaRZN5HeZ6HkvlqjJg1pYq0smXnK+9wUYvv19GE7LbhK
-	phbmMISr8YZjkWjfu7rpodJAscWsBMd4QZzWEvgSGZ3w2cN8fZCQx9Ju5pAjrJObfmvZqudIcvXmS
-	loBORTgQg==;
+	 bh=lvUVLTszskIgwTE5LR/4Y9bhBspgvxzbv5zot2Lh+fg=; b=3TxpzNa+kCIhjo7zFvIKxMi4m
+	/ADwgFI35COjN0BUJPeyluSJFE102NIk51k0/j4O9+u53PBIv+Ey5+f+J9dF/g/F/t540lpu4x0ZU
+	mnd9dL9OYNlINjc9O13cnZSqx5u3KYVQkLlyZorYTBU1EF74DhXJOYqlKc7zObEithIQVKfxckP+v
+	0UEcgD1tyBmgsQkURw/acB6X5nwe4UgxZNCHmq6gqGJYOvl6ZPF8U1ggCQxGmsQ1xDciYrHFc/dnB
+	h73MOnBgTpy+/I0fXEUrsvy3QgVEaylKftaa/S98QDWl2aokLIusspeLVwng0UsrgWR68ep2t7hAN
+	62AfGpZEQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jxvvv-0001xl-6d; Tue, 21 Jul 2020 17:20:03 +0000
-Received: from mail-pl1-f196.google.com ([209.85.214.196])
+	id 1jy7PL-0005Oa-NX; Wed, 22 Jul 2020 05:35:11 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jxvvt-0001wx-KP
- for linux-nvme@lists.infradead.org; Tue, 21 Jul 2020 17:20:02 +0000
-Received: by mail-pl1-f196.google.com with SMTP id 72so10546861ple.0
- for <linux-nvme@lists.infradead.org>; Tue, 21 Jul 2020 10:20:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zUTyD/ITNsuN1/WtpTQMRSFOnlHMru6uzVIamm/NO5A=;
- b=r0/GoGvbedRV9qzwxGjGvtCYJ+iWCJu03DUsLVKoo/9AxWcjx6dY+Dw/X0daQ+6Sq9
- Uh/OfZ7ON5LyLjh0o9x8ye7jW9A5f1cbifapCu7RPC5gVPD+PXRpG9apDY9ag3TInf2D
- PIEj8tY2Vva7U4FVE947SnUbo+t1a2occLtN9ngHF63NXrAE6ZfXwSGQ2VDMCqyh2vyh
- n4unflJV3279UKo+9KCaDH13opzOP49nbwRcguhSc0YVTXffAi/m6XxpqpV9gojd+bGs
- 3f6qlp9VIfGmkuoM/Sc75RzK0ZrV3v7FRbLYZxfT/fgq5U2o2j1wL2mjJVQ0lllMkgrx
- bm1w==
-X-Gm-Message-State: AOAM533prVfkvm8IDywfnkf6G/lnOrs8KVK0ykMAXQGR/Von3Mmwbhsg
- bCImX35y/aWnoA+7LvSK1AFXUFH5
-X-Google-Smtp-Source: ABdhPJz9QUYuFyO7dnstNV9KCDR+qDraK296h1dsWOnaS8V1/tcLOZYKUd36S44yfpzINHLfTIuoXw==
-X-Received: by 2002:a17:90a:b38b:: with SMTP id
- e11mr5993542pjr.120.1595352000158; 
- Tue, 21 Jul 2020 10:20:00 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:2022:491d:da4b:4d8e?
- ([2601:647:4802:9070:2022:491d:da4b:4d8e])
- by smtp.gmail.com with ESMTPSA id n2sm18542323pgv.37.2020.07.21.10.19.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jul 2020 10:19:59 -0700 (PDT)
+ id 1jy7PJ-0005OA-5O
+ for linux-nvme@lists.infradead.org; Wed, 22 Jul 2020 05:35:10 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BC703AD26;
+ Wed, 22 Jul 2020 05:35:13 +0000 (UTC)
 Subject: Re: [PATCH 1/2] nvme: multipath: round-robin: fix logic for
  non-optimized paths
-To: Hannes Reinecke <hare@suse.de>, mwilck@suse.com,
+To: Sagi Grimberg <sagi@grimberg.me>, mwilck@suse.com,
  Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@intel.com>
 References: <20200716195929.28399-1-mwilck@suse.com>
  <fcda06a3-ac59-60dc-7200-ce22b9c216bf@grimberg.me>
  <b2e59b6e-e71a-a9d8-c768-a4a052449cf6@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <c51e7fa1-2e89-e5e1-6962-bc16470afd59@grimberg.me>
-Date: Tue, 21 Jul 2020 10:19:57 -0700
+ <c51e7fa1-2e89-e5e1-6962-bc16470afd59@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <c8890576-31e5-a56c-53ab-b953b7e404b7@suse.de>
+Date: Wed, 22 Jul 2020 07:35:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <b2e59b6e-e71a-a9d8-c768-a4a052449cf6@suse.de>
+In-Reply-To: <c51e7fa1-2e89-e5e1-6962-bc16470afd59@grimberg.me>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200721_132001_694632_E436529A 
-X-CRM114-Status: GOOD (  13.75  )
+X-CRM114-CacheID: sfid-20200722_013509_355496_4B094300 
+X-CRM114-Status: GOOD (  19.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,29 +73,35 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: marting@netapp.com, linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> Handle the special case where we have exactly one optimized path,
->>> which we should keep using in this case. Also, use the next
->>> non-optimized path, not the last one.
->>
->> Not sure I understand, does this patch also use nonopt paths if we
->> have a single opt path?
-> 
-> Indeed, the latter change should be removed from this patch.
-
-Why should we even do this? we have a clear indication from the
-controller on ns access. If we have a optimized path we should never
-select any non-optimized path.
-
-What if a non-optimized path has a 50x higher access latency? it's just
-wrong to use this path...
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNy8yMS8yMCA3OjE5IFBNLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+IAo+Pj4+IEhhbmRsZSB0
+aGUgc3BlY2lhbCBjYXNlIHdoZXJlIHdlIGhhdmUgZXhhY3RseSBvbmUgb3B0aW1pemVkIHBhdGgs
+Cj4+Pj4gd2hpY2ggd2Ugc2hvdWxkIGtlZXAgdXNpbmcgaW4gdGhpcyBjYXNlLiBBbHNvLCB1c2Ug
+dGhlIG5leHQKPj4+PiBub24tb3B0aW1pemVkIHBhdGgsIG5vdCB0aGUgbGFzdCBvbmUuCj4+Pgo+
+Pj4gTm90IHN1cmUgSSB1bmRlcnN0YW5kLCBkb2VzIHRoaXMgcGF0Y2ggYWxzbyB1c2Ugbm9ub3B0
+IHBhdGhzIGlmIHdlCj4+PiBoYXZlIGEgc2luZ2xlIG9wdCBwYXRoPwo+Pgo+PiBJbmRlZWQsIHRo
+ZSBsYXR0ZXIgY2hhbmdlIHNob3VsZCBiZSByZW1vdmVkIGZyb20gdGhpcyBwYXRjaC4KPiAKPiBX
+aHkgc2hvdWxkIHdlIGV2ZW4gZG8gdGhpcz8gd2UgaGF2ZSBhIGNsZWFyIGluZGljYXRpb24gZnJv
+bSB0aGUKPiBjb250cm9sbGVyIG9uIG5zIGFjY2Vzcy4gSWYgd2UgaGF2ZSBhIG9wdGltaXplZCBw
+YXRoIHdlIHNob3VsZCBuZXZlcgo+IHNlbGVjdCBhbnkgbm9uLW9wdGltaXplZCBwYXRoLgo+IAo+
+IFdoYXQgaWYgYSBub24tb3B0aW1pemVkIHBhdGggaGFzIGEgNTB4IGhpZ2hlciBhY2Nlc3MgbGF0
+ZW5jeT8gaXQncyBqdXN0Cj4gd3JvbmcgdG8gdXNlIHRoaXMgcGF0aC4uLgoKRXJybS4gSSB0aGlu
+ayBNYXJ0aW4gZGlkbid0IHN0YXRlIGNsZWFybHkgd2hhdCB0aGUgcHJvYmxlbSB3YXMuCgpUaGUg
+cHJvYmxlbSBpcyB3aGVuIHRoZSBfY3VycmVudF8gcGF0aCBpcyB0aGUgb25seSBvcHRpbWl6ZWQg
+cGF0aCwgYW5kIAphbGwgb3RoZXIgcGF0aHMgYXJlIG5vbi1vcHRpbWl6ZWQ6CgoJZm9yIChucyA9
+IG52bWVfbmV4dF9ucyhoZWFkLCBvbGQpOwoJICAgICBucyAhPSBvbGQ7CgkgICAgIG5zID0gbnZt
+ZV9uZXh0X25zKGhlYWQsIG5zKSkgewoKV2Ugc3RhcnQgd2l0aCB0aGUgX25leHRfIHBhdGgsIGFu
+ZCBzdG9wIF9iZWZvcmVfIHdlIGNoZWNrIHRoZSAnb2xkJyAKcGF0aC4gQ29uc2VxdWVudGx5IHRo
+ZSAnb2xkJyBwYXRoIGlzIG5ldmVyIGNoZWNrZWQsIGFuZCBuZXZlciBzZWxlY3RlZC4KCkNoZWVy
+cywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgIFRlYW1sZWFkIFN0
+b3JhZ2UgJiBOZXR3b3JraW5nCmhhcmVAc3VzZS5kZSAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhm
+ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNj
+aMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1u
+dm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9saW51eC1udm1lCg==
