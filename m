@@ -2,66 +2,80 @@ Return-Path: <SRS0=ANVZ=BC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9329C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2020 08:06:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E66C433E3
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2020 08:59:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97CD82086A
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2020 08:06:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7F02D2071A
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jul 2020 08:59:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vNp0czJm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97CD82086A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ffxeP8YC";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="THUsuvph"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F02D2071A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=BrKtRLn/4NSiktbbuT4eT32hlFqEKt5wmMGzX/OeuXI=; b=vNp0czJmciTbzPdtvCZgFMbfl
-	V8MhSGfeYvKArQnW1hkKzYGZmUkXKfBT72fAFNtTTVB1rLYAfQmLimty6Uvlm5n2/LgvqbpKpciJ8
-	IA20B+ptg1qwUHxLABH7Zq0pRw1R92zHLKAsIq+vueRSv0qw0Ew2z+k0eZwGqaxrNMK7JL2CcV12J
-	s/VEc0UOhag0saeuvJz+mDN46AymV+rSQIolvfyQnJ7gsTuzbCI8CQ7JBdxp+WSMNS0FZLbSHyqI0
-	a6CAV51TjtqJCL1ZpOM93DiUGk2NCrYPqhf3+ccm+9mZTnhSim7E9zTHRzN7syOYmtvPiniN+RhDe
-	B4Nkn4vUQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:MIME-Version:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hyiiebldjy6/WM8Dj0mhgCHGTFPtdi7HdwcMRhwUNEQ=; b=ffxeP8YCYT83FjpTBKxDoszThJ
+	yNKW9dLQgtDdM3tfqEext9kwVZ8SX2EPlXidP52z0j9GUCs8OMLd2dwwpmkL+TlBAPAJg5uaqpkpJ
+	4ambxyxSsMM2prKk+KTJmgN+V6aXjxyjJTfI2yeHkNj9aB54HbZR56hz72xsJBoGMImZsUKDRPtL6
+	+mTArNCaddeoTYiljqc16ok3PoBr21FeON8X9VPFXZ1wUctZiSOch2e4QeKWVa9K0qIL9+W+pqnny
+	GdOBfb7dDVb4SsnuJ8GSztX65FNz4af80EOj1DX8SLRPK7aImmbHcurBdXkD4kZ+xXzEgyLJkZan2
+	j73tp1Vw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jyWFg-0000Bx-31; Thu, 23 Jul 2020 08:06:52 +0000
-Received: from szxga07-in.huawei.com ([45.249.212.35] helo=huawei.com)
+	id 1jyX4l-0000U0-NS; Thu, 23 Jul 2020 08:59:39 +0000
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jyWFc-0000BA-0X
- for linux-nvme@lists.infradead.org; Thu, 23 Jul 2020 08:06:49 +0000
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 06326559F49BED4A2E9E;
- Thu, 23 Jul 2020 16:06:36 +0800 (CST)
-Received: from [10.27.125.30] (10.27.125.30) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0;
- Thu, 23 Jul 2020 16:06:34 +0800
-Subject: Re: [PATCH] nvme-core: reduce io pause time when fail over
-To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-References: <20200722093633.31347-1-lengchao@huawei.com>
- <20200722160054.GA1363519@dhcp-10-100-145-180.wdl.wdc.com>
- <973d6470-05e8-8be4-2c8b-3162f37a971e@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <fffa2b82-f933-6531-7f98-2f6269fd0d11@huawei.com>
-Date: Thu, 23 Jul 2020 16:06:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1jyX4i-0000TH-Er
+ for linux-nvme@lists.infradead.org; Thu, 23 Jul 2020 08:59:37 +0000
+Received: by mail-ot1-x344.google.com with SMTP id 18so3829186otv.6
+ for <linux-nvme@lists.infradead.org>; Thu, 23 Jul 2020 01:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=Q+TEz2/R7ny7193rTVsz12koZcmFNadk6iGZqiWQMIY=;
+ b=THUsuvphto9N6yM6SSLvuHM2LCu5x70+F1E4ORwwMbLErcp2hCWf3CRrqkw3Lu1+Nd
+ WSu0YmFBbIZ9tvmHiXFZlF4+7374hJXrKbfGj6Gjj+wKBXXEbIajjGTlKI2R78WYg3Ex
+ cIR8ATk/YTpM7wIbVEczB4Sitl1nFhrLoqn6sDuDgPeigxUbC04JuSHQB/XhmeIJ2/xo
+ eNm7af8CatG8rWihjVxi7XZTHNvzKc9PkgdrYtMXeScD6x/RVBJnnsh/O2TDYcoB4LQk
+ s94DUklq0kQ0FR9EdKSyB/5pIfRy/lRXhO0+ADC+zOQCSFH16DwSdGYPnfzL7t8dz6yF
+ cYcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=Q+TEz2/R7ny7193rTVsz12koZcmFNadk6iGZqiWQMIY=;
+ b=rYliCrkuypnyvu3fz4HaWxf0s3CMHQg6mnPB/rZ3y+HPLbK31VTkyQgbI9O4YMbiWb
+ oyqMOowX4iKgwjyELqQUB5t5H+DN+wX4Z3X4MsXhgU86vMIoUlihk7rfYQU1YNsVGOt3
+ aOv6I0VVvAYGLJTU8dBEPA2cxNvUR4HZFuHO5NXBgYK0R2VvkiU41of2ClrAgU0E2SvB
+ CQ9z5zuWARi3ND3n3Al1r/HerArnLgNtQoRJ1Tap3qAp4TYX7yKpWeQ6Hc6o4t9Hfi+0
+ bU0axGeRRnbbWSuIe0+n413se1VeDRZBM+oAnzYBatBzUOut0sOMyjDsqEIUqz64vR37
+ smGA==
+X-Gm-Message-State: AOAM533fWFF5NpXs4M6JRGOjA61zb0FpOLfpASdVe3n9KVlx3l2vnOkJ
+ qQzpoIwX192PAJ6eGIv9lMW9UM+b5MiZEY08I2szHY3V22NL7A==
+X-Google-Smtp-Source: ABdhPJx0qZPKGyvUlS6DqiELdNc4A2/8nzGQ3ySvCBGYIx7teDmGXW5ZJfIy2vCrZ6kxgJyYpwhABZ19Yvy9O4cN6vY=
+X-Received: by 2002:a9d:12b5:: with SMTP id g50mr3230657otg.212.1595494772333; 
+ Thu, 23 Jul 2020 01:59:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <973d6470-05e8-8be4-2c8b-3162f37a971e@grimberg.me>
-Content-Language: en-US
-X-Originating-IP: [10.27.125.30]
-X-CFilter-Loop: Reflected
+From: Varad Gautam <varadgautam@gmail.com>
+Date: Thu, 23 Jul 2020 10:59:21 +0200
+Message-ID: <CAEidHJsDFmjzZ+sUcp1VHmd8A8vi-s91B3E0egkwGBx=XjOm=g@mail.gmail.com>
+Subject: Enabling poll_queues on NVME with kernel-5.x
+To: linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200723_040648_387749_8509829F 
-X-CRM114-Status: GOOD (  18.48  )
+X-CRM114-CacheID: sfid-20200723_045936_535599_AA6626B5 
+X-CRM114-Status: UNSURE (   6.14  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,83 +87,117 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@fb.com, hch@lst.de, linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: vrd@amazon.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ck9uIDIwMjAvNy8yMyAwOjEzLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+Cj4+PiBUbyByZWR1Y2Ug
-aW8gcGF1c2UgdGltZSwgbnZtZV9zdG9wX3F1ZXVlcyB1c2UKPj4+IGJsa19tcV9xdWllc2NlX3F1
-ZXVlX25vd2FpdCB0byBxdWllc2NlIHRoZSBxdWV1ZSwgbnZtZV9zdG9wX3F1ZXVlcyB3YWl0Cj4+
-PiBhbGwgb25nb2luZyBkaXNwYXRjaGVzIGNvbXBsZXRlZCBhZnRlciBhbGwgcXVldWVzIGhhcyBi
-ZWVuIHF1aWVzY2VkLgo+Pgo+PiBUaGUgY29tbWVudCBhYm92ZSBibGtfbXFfcXVpZXNjZV9xdWV1
-ZV9ub3dhaXQoKSB3YW50cyB0byByZW1vdmUgdGhpcwo+PiBmdW5jdGlvbi4gSSdtIG5vdCBzdXJl
-IHdlIHNob3VsZCBiZSBpbnRyb2R1Y2luZyBtb3JlIHVzZXJzIGlmIHRoYXQncyB0aGUKPj4gY2Fz
-ZS4KPj4KPj4gVXNpbmcgc3luY2hyb25pemVfcmN1KCkgYXQgdGhlIGVuZCBtYXkgYmUgbG9va2lu
-ZyB0byBtdWNoIGludG8gYmxrLW1xJ3MKPj4gaW50ZXJuYWwgcXVpZXNjZSBpbXBsZW1lbnRhdGlv
-bi4gSXQgaGFwcGVucyB0byBiZSB0aGUgcmlnaHQgdGhpbmcgdG8gZG8KPj4gZm9yIG5vbi1ibG9j
-a2luZyBoY3R4LCBzbyB0aGlzIHBhdGNoIGFzc3VtZXMgdGhhdCB3aWxsIGJlIHRydWUgZm9yIGFu
-eQo+PiBudm1lIHJlcXVlc3RfcXVldWUuCj4KPiBudm1lLXRjcCBiZWNhbWUgYSBibG9jayBoY3R4
-IHNpbmNlIHdlIG9wdGltaXplIHRvIGRvIG5ldHdvcmsgc2VuZHMgZnJvbQo+IGluc2lkZSBxdWV1
-ZV9ycS4gU28gdGhpcyBzaG91bGQgZWl0aGVyIHNwbGl0IGludG8gdHdvIGZ1bmN0aW9ucyBvcgo+
-IG52bWUtY29yZSBuZWVkcyB0byBsb29rIGludG8gQkxLX01RX0ZfQkxPQ0tJTkcgYW5kIGRvIHRo
-ZSByaWdodCB0aGluZy4KCkFub3RoZXIgc29sdXRpb27vvJppbnRyb2R1Y2UgYmxrX21xX3F1aWVz
-Y2VfcXVldWVfYXN5bmMsCmJsa19tcV9xdWllc2NlX3F1ZXVlX2FzeW5jIGRvIG5vdCB3YWl0IGFs
-bCBvbmdvaW5nIGRpc3BhdGNoZXMgY29tcGxldGVkLAppZiB0aGUgaGN0eCBpcyBub3QgYmxvY2sg
-aGN0eC4gVGhlIGNhbGxlciBzdWNoIGFzIG52bWVfc3RvcF9xdWV1ZXMKd2FpdCBhbGwgb25nb2lu
-ZyBkaXNwYXRjaGVzIGNvbXBsZXRlZCBhZnRlciBhbGwgcXVldWVzIGhhcyBiZWVuIHF1aWVzY2Vk
-LgoKLS0tCiDCoGJsb2NrL2Jsay1tcS5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyOCArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrCiDCoGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyB8wqAgNSAr
-KysrLQogwqBpbmNsdWRlL2xpbnV4L2Jsay1tcS5owqDCoCB8wqAgMSArCiDCoDMgZmlsZXMgY2hh
-bmdlZCwgMzMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2Jsb2Nr
-L2Jsay1tcS5jIGIvYmxvY2svYmxrLW1xLmMKaW5kZXggNGUwZDE3M2JlYWEzLi4wMDUzZmY0MmJi
-NDcgMTAwNjQ0Ci0tLSBhL2Jsb2NrL2Jsay1tcS5jCisrKyBiL2Jsb2NrL2Jsay1tcS5jCkBAIC0y
-MzUsNiArMjM1LDM0IEBAIHZvaWQgYmxrX21xX3F1aWVzY2VfcXVldWUoc3RydWN0IHJlcXVlc3Rf
-cXVldWUgKnEpCiDCoH0KIMKgRVhQT1JUX1NZTUJPTF9HUEwoYmxrX21xX3F1aWVzY2VfcXVldWUp
-OwoKKy8qCisgKiBibGtfbXFfcXVpZXNjZV9xdWV1ZV9hc3luYygpIC0gZG8gbm90IHdhaXQgZm9y
-IG5vbiBibG9jayBoY3R4CisgKiBAcTogcmVxdWVzdCBxdWV1ZS4KKyAqCisgKiBOb3RlOiB0aGlz
-IGZ1bmN0aW9uIGRvIG5vdCB3YWl0IGFsbCBvbmdvaW5nIGRpc3BhdGNoZXMgY29tcGxldGVkCisg
-KiBpZiB0aGUgaGN0eCBpcyBub3QgYmxvY2sgaGN0eC4gU2hvdWxkIGJlIHVzZWQgdG8gcmVkdWNl
-IHdhaXQgdGltZQorICogd2hlbiBxdWllc2NlIGJhdGNoIHF1ZXVlcyBhdCB0aGUgc2FtZSB0aW1l
-LiBUaGUgY2FsbGVyIHNob3VsZAorICogc3luY2hyb25vdXMgd2FpdCB1bnRpbCBhbGwgb25nb2lu
-ZyBkaXNwYXRjaGVzIGhhdmUgZmluaXNoZWQKKyAqIGFmdGVyIGFsbCBxdWV1ZXMgaGFzIGJlZW4g
-ZG9uZSB0aGlzLgorICovCitib29sIGJsa19tcV9xdWllc2NlX3F1ZXVlX2FzeW5jKHN0cnVjdCBy
-ZXF1ZXN0X3F1ZXVlICpxKQoreworwqDCoMKgIHN0cnVjdCBibGtfbXFfaHdfY3R4ICpoY3R4Owor
-wqDCoMKgIHVuc2lnbmVkIGludCBpOworwqDCoMKgIGJvb2wgcmN1ID0gZmFsc2U7CisKK8KgwqDC
-oCBibGtfbXFfcXVpZXNjZV9xdWV1ZV9ub3dhaXQocSk7CisKK8KgwqDCoCBxdWV1ZV9mb3JfZWFj
-aF9od19jdHgocSwgaGN0eCwgaSkgeworwqDCoMKgIMKgwqDCoCBpZiAoaGN0eC0+ZmxhZ3MgJiBC
-TEtfTVFfRl9CTE9DS0lORykKK8KgwqDCoCDCoMKgwqAgwqDCoMKgIHN5bmNocm9uaXplX3NyY3Uo
-aGN0eC0+c3JjdSk7CivCoMKgwqAgwqDCoMKgIGVsc2UKK8KgwqDCoCDCoMKgwqAgwqDCoMKgIHJj
-dSA9IHRydWU7CivCoMKgwqAgfQorwqDCoMKgIHJldHVybiByY3U7Cit9CitFWFBPUlRfU1lNQk9M
-X0dQTChibGtfbXFfcXVpZXNjZV9xdWV1ZV9hc3luYyk7CisKIMKgLyoKIMKgICogYmxrX21xX3Vu
-cXVpZXNjZV9xdWV1ZSgpIC0gY291bnRlcnBhcnQgb2YgYmxrX21xX3F1aWVzY2VfcXVldWUoKQog
-wqAgKiBAcTogcmVxdWVzdCBxdWV1ZS4KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L2Nv
-cmUuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwppbmRleCBhZGQwNDAxNjhlNjcuLmExOTE1
-ZjAyNzZlYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCisrKyBiL2RyaXZl
-cnMvbnZtZS9ob3N0L2NvcmUuYwpAQCAtNDMyMCwxMSArNDMyMCwxNCBAQCBFWFBPUlRfU1lNQk9M
-X0dQTChudm1lX3N0YXJ0X2ZyZWV6ZSk7CiDCoHZvaWQgbnZtZV9zdG9wX3F1ZXVlcyhzdHJ1Y3Qg
-bnZtZV9jdHJsICpjdHJsKQogwqB7CiDCoMKgwqDCoCBzdHJ1Y3QgbnZtZV9ucyAqbnM7CivCoMKg
-wqAgYm9vbCByY3UgPSBmYWxzZTsKCiDCoMKgwqDCoCBkb3duX3JlYWQoJmN0cmwtPm5hbWVzcGFj
-ZXNfcndzZW0pOwogwqDCoMKgwqAgbGlzdF9mb3JfZWFjaF9lbnRyeShucywgJmN0cmwtPm5hbWVz
-cGFjZXMsIGxpc3QpCi3CoMKgwqAgwqDCoMKgIGJsa19tcV9xdWllc2NlX3F1ZXVlKG5zLT5xdWV1
-ZSk7CivCoMKgwqAgwqDCoMKgIHJjdSA9IHJjdSB8fCBibGtfbXFfcXVpZXNjZV9xdWV1ZV9hc3lu
-Yyhucy0+cXVldWUpOwogwqDCoMKgwqAgdXBfcmVhZCgmY3RybC0+bmFtZXNwYWNlc19yd3NlbSk7
-CivCoMKgwqAgaWYgKHJjdSkKK8KgwqDCoCDCoMKgwqAgc3luY2hyb25pemVfcmN1KCk7CiDCoH0K
-IMKgRVhQT1JUX1NZTUJPTF9HUEwobnZtZV9zdG9wX3F1ZXVlcyk7CgpkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS9saW51eC9ibGstbXEuaCBiL2luY2x1ZGUvbGludXgvYmxrLW1xLmgKaW5kZXggZDZmY2Fl
-MTdkYTVhLi42YWQ4M2JmZDE3YjIgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvYmxrLW1xLmgK
-KysrIGIvaW5jbHVkZS9saW51eC9ibGstbXEuaApAQCAtNTE1LDYgKzUxNSw3IEBAIHZvaWQgYmxr
-X21xX3N0YXJ0X2h3X3F1ZXVlcyhzdHJ1Y3QgcmVxdWVzdF9xdWV1ZSAqcSk7CiDCoHZvaWQgYmxr
-X21xX3N0YXJ0X3N0b3BwZWRfaHdfcXVldWUoc3RydWN0IGJsa19tcV9od19jdHggKmhjdHgsIGJv
-b2wgYXN5bmMpOwogwqB2b2lkIGJsa19tcV9zdGFydF9zdG9wcGVkX2h3X3F1ZXVlcyhzdHJ1Y3Qg
-cmVxdWVzdF9xdWV1ZSAqcSwgYm9vbCBhc3luYyk7CiDCoHZvaWQgYmxrX21xX3F1aWVzY2VfcXVl
-dWUoc3RydWN0IHJlcXVlc3RfcXVldWUgKnEpOworYm9vbCBibGtfbXFfcXVpZXNjZV9xdWV1ZV9h
-c3luYyhzdHJ1Y3QgcmVxdWVzdF9xdWV1ZSAqcSk7CiDCoHZvaWQgYmxrX21xX3VucXVpZXNjZV9x
-dWV1ZShzdHJ1Y3QgcmVxdWVzdF9xdWV1ZSAqcSk7CiDCoHZvaWQgYmxrX21xX2RlbGF5X3J1bl9o
-d19xdWV1ZShzdHJ1Y3QgYmxrX21xX2h3X2N0eCAqaGN0eCwgdW5zaWduZWQgbG9uZyBtc2Vjcyk7
-CiDCoHZvaWQgYmxrX21xX3J1bl9od19xdWV1ZShzdHJ1Y3QgYmxrX21xX2h3X2N0eCAqaGN0eCwg
-Ym9vbCBhc3luYyk7Ci0tIAoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJh
-ZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51
-eC1udm1lCg==
+Hi,
+
+Since commit a4668d9ba ("nvme: default to 0 poll queues") [1], the
+nvme driver needs to be explicitly configured with poll_queues > 0 to
+allow enabling io_poll.
+
+However, prior to poll queues separation in 4b04cc6a8 ("nvme: add
+separate poll queue map") [2], io_poll was enabled by default on nvme
+block devices.
+
+This is leading to higher io latencies on nvme drives by default
+(nvme.poll_queues=0, io_poll=0), visible with fio slat/clat/lat below.
+
+The commit [1] says:
+
+> We need a better way of configuring this, and given that polling is
+> (still) a bit niche, let's default to using 0 poll queues.
+
+Are there any plans / work needed for nvme to provide > 0 poll_queues
+by default?
+
+kernel-5.4, io_poll=0
+---------------------
+bash-4.1$ sudo fio /tmp/fio-workload
+fio-workload: (g=0): rw=randrw, bs=16K-16K/16K-16K, ioengine=libaio, iodepth=1
+fio 1.55
+Starting 1 process
+Jobs: 1 (f=3), CR=2000/0 IOPS: [m] [97.3% done] [17006K/17219K /s]
+[1038 /1051  iops] [eta 00m:08s]]
+fio-workload: (groupid=0, jobs=1): err= 0: pid=51062
+  read : io=4564.1MB, bw=16013KB/s, iops=1000 , runt=291918msec
+    slat (usec): min=3 , max=75 , avg= 5.61, stdev= 2.33
+    clat (usec): min=59 , max=2584 , avg=173.86, stdev=307.87
+     lat (usec): min=78 , max=2590 , avg=180.07, stdev=307.88
+    bw (KB/s) : min=13140, max=19040, per=100.21%, avg=16045.14, stdev=1015.87
+  write: io=4565.4MB, bw=16014KB/s, iops=1000 , runt=291918msec
+    slat (usec): min=4 , max=86 , avg= 6.33, stdev= 2.85
+    clat (usec): min=3 , max=420 , avg=39.54, stdev= 5.31
+     lat (usec): min=40 , max=427 , avg=46.49, stdev= 6.53
+    bw (KB/s) : min=13090, max=19104, per=100.22%, avg=16049.96, stdev=1055.02
+  cpu          : usr=0.76%, sys=2.24%, ctx=587979, majf=0, minf=183
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued r/w/d: total=292153/292180/0, short=0/0/0
+     lat (usec): 4=0.01%, 10=0.01%, 20=0.01%, 50=48.66%, 100=11.94%
+     lat (usec): 250=35.31%, 500=2.28%, 750=0.24%, 1000=0.18%
+     lat (msec): 2=0.72%, 4=0.67%
+
+Run status group 0 (all jobs):
+   READ: io=4564.1MB, aggrb=16012KB/s, minb=16397KB/s, maxb=16397KB/s,
+mint=291918msec, maxt=291918msec
+  WRITE: io=4565.4MB, aggrb=16014KB/s, minb=16398KB/s, maxb=16398KB/s,
+mint=291918msec, maxt=291918msec
+
+Disk stats (read/write):
+  nvme0n1: ios=292073/292298, merge=0/135, ticks=50570/11593,
+in_queue=0, util=35.54%
+
+kernel-5.4 nvme.poll_queues=32 io_poll=1
+----------------------------------------
+bash-4.1$ sudo fio /tmp/fio-workload
+fio-workload: (g=0): rw=randrw, bs=16K-16K/16K-16K, ioengine=libaio, iodepth=1
+fio 1.55
+Starting 1 process
+Jobs: 1 (f=3), CR=2000/0 IOPS: [m] [97.3% done] [16809K/16678K /s]
+[1026 /1018  iops] [eta 00m:08s]
+fio-workload: (groupid=0, jobs=1): err= 0: pid=11017
+  read : io=4565.5MB, bw=16009KB/s, iops=1000 , runt=291994msec
+    slat (usec): min=3 , max=81 , avg= 5.41, stdev= 2.32
+    clat (usec): min=60 , max=2593 , avg=165.01, stdev=309.91
+     lat (usec): min=76 , max=2598 , avg=171.04, stdev=309.94
+    bw (KB/s) : min=13076, max=19008, per=100.20%, avg=16041.43, stdev=926.95
+  write: io=4565.2MB, bw=16010KB/s, iops=1000 , runt=291994msec
+    slat (usec): min=3 , max=84 , avg= 6.04, stdev= 2.78
+    clat (usec): min=2 , max=280 , avg=36.30, stdev= 4.14
+     lat (usec): min=37 , max=286 , avg=42.96, stdev= 5.19
+    bw (KB/s) : min=13085, max=19168, per=100.21%, avg=16042.78, stdev=978.02
+  cpu          : usr=0.68%, sys=2.28%, ctx=587989, majf=0, minf=186
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued r/w/d: total=292163/292170/0, short=0/0/0
+     lat (usec): 4=0.01%, 10=0.01%, 20=0.01%, 50=49.39%, 100=21.80%
+     lat (usec): 250=25.09%, 500=2.11%, 750=0.13%, 1000=0.12%
+     lat (msec): 2=0.65%, 4=0.70%
+
+Run status group 0 (all jobs):
+   READ: io=4565.5MB, aggrb=16009KB/s, minb=16393KB/s, maxb=16393KB/s,
+mint=291994msec, maxt=291994msec
+  WRITE: io=4565.2MB, aggrb=16009KB/s, minb=16393KB/s, maxb=16393KB/s,
+mint=291994msec, maxt=291994msec
+
+Disk stats (read/write):
+  nvme0n1: ios=292051/292222, merge=0/143, ticks=47967/10589,
+in_queue=0, util=34.31%
+
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=a4668d9ba
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=4b04cc6a8
+
+Thanks,
+Varad Gautam
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
