@@ -2,86 +2,83 @@ Return-Path: <SRS0=Gu9/=BD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E688C433E1
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 16:41:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC1AC433E5
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 17:25:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4AECB206F0
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 16:41:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5C04C206F6
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 17:25:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1SaNsVGS";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bNxqAhYH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4AECB206F0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="3JOVT/UE";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="fW5eJ/mg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C04C206F6
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LvJVAoISsmT5rl52Ghnzl2Fke8kY9DE5RfLGYtnGQO4=; b=1SaNsVGS0hNUTfCC6h7Q9paEKI
-	KpNa2ZDctFEIlHOhf4C6OF0ugfjmzGf/o+HOlPmZOFQwOJxWNZvNKqPJecivomHlS+UpBQxh6x5pQ
-	plZUFGd7secE1O9qQamR8L3OJbZzuF+edrrKl8kBNM0OTYBdTslEVwrhU5cOSRxCQ3CrC41tp0SV/
-	M3deSCBECG4ECkXXbZ2fKJ8yKPNi+OIEQOA0dgAnCMN2AF7rN27pKESWaXIZ9cd1uDQzGZKC5qmHo
-	CKAIm7XLF0y2N3/++PDtK0ivqgur2Dm1WGd/npnvzvIGif/atF3RJtf2d1qtJOKLA95kNUUaJGjyB
-	pS7ENsLQ==;
+	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=JQuilPcvK9tWK6TFTXgt6vAyYm4vNzsnHA88JUv8vno=; b=3JOVT/UE8traoEX1mb8f9zDRq
+	0WkIQ8UnFsMZMBDM0tS41Wm8DEUhmn7F3ZD6P9MV+7c0AhPBc3lQ2+VwhX3zMo0CYN8alCvubDejK
+	JHlP/PC8Y3+hOdIKPvly47mVxFsGM4onXUTjbZPNE36qalNTDqrtl3l9W6OSOhLGgjbbmcVKDNeHl
+	gZVnKNli4WFGNDmiS3MTCxATVcJ7qnOTiU0I92pyHmF/1i/l7SpHdnBfTdpnffVSLoWHzw+va9e0O
+	0HOToDdVhcWTKqdnTp6Qhrf2jVTKZvRf9+yGuhLj2ip6mViIDg9GCsXkk04cPNDzO/3HTsNM1fbKH
+	itnlx0PUA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jz0ko-0006na-JI; Fri, 24 Jul 2020 16:41:02 +0000
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543])
+	id 1jz1Rs-0003eL-Iw; Fri, 24 Jul 2020 17:25:32 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jz0km-0006mt-FR
- for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 16:41:01 +0000
-Received: by mail-pg1-x543.google.com with SMTP id d4so5551954pgk.4
- for <linux-nvme@lists.infradead.org>; Fri, 24 Jul 2020 09:41:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Zb7t5er96L+r13wSSvHuz6b+yAVDFlOhaazd6xK18Ak=;
- b=bNxqAhYHQL0u9qkIrgKfgeZZ3S0k8mPu2iyl7buSgJH5UE7AIFHVCUp4ln56H6QbnY
- XCbTyuOU0ng7BAa5O3/L7Le1xAFnr7uzj19PwzBOWFo4ipNmtkRMVRkwx7mgcws7V2lG
- 4b6YLUc6J1zY0fry4LOlG2z2itnv/XXwB1GEZ0LYVgHyuvgXWvN8WnHDMNLhpGr+MhQy
- 1lwQIkPlungHymlk2tLpsfDxvsuyVhNgfFptJ0OHvC3WVqLE/+cYNJp9YMseDscMRuWl
- zoWVXc0wu411R0zQO7SLSHW4/Cp3V94cSzZWQioICN0MmoDQ/Ej5jv2Mzp29T4zrmKs0
- iYfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Zb7t5er96L+r13wSSvHuz6b+yAVDFlOhaazd6xK18Ak=;
- b=IAwHVBH2RqknZY+pnVtmTz1OnXp2D9TTtFT8HWLprPiuSqeQR4uDauYrU1Wj6O1IOd
- /8RbhMhgemHY4sOV5apStkWgBUTtqdlx/2M5IVtSbVBa7M42o31onMAtcMtVF74A4NYT
- wy5Puv7UHtXAdvFwJSLG1vgHXmFLTLDvB/XZa/fGau6K63NJfPwBgj+O9xvl3X3W2eb4
- Bd9gRLGw8GwDxrfVNFEfv6Eok+0jITtOQY1EZPpMllseQvsxaSKhHUM49r9sppF0pNMa
- h/pZGNKTmdbzat4fzBW8Q/KRxfhD0xMMIKs1fSY3o652RA/CLaD8G7AuVjHn6USBzLpa
- xmmg==
-X-Gm-Message-State: AOAM531Jax/ELtVu0VCLK30wUbYv0JLRFmAZ89/g8zRKJ8RxaUzdsoUP
- bWPaQJKfOfWt76qoOP3kUdCwdLAy
-X-Google-Smtp-Source: ABdhPJwDAYlGQKiCxBxMWzVwyx1BrWq8SPEwWzBQetmIvPDTuj4Pv7GxC3kOPR8GHiA+TVNL0Xjdlg==
-X-Received: by 2002:a63:d944:: with SMTP id e4mr9261118pgj.376.1595608857965; 
- Fri, 24 Jul 2020 09:40:57 -0700 (PDT)
-Received: from localhost.localdomain.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id l207sm7431119pfd.79.2020.07.24.09.40.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jul 2020 09:40:57 -0700 (PDT)
-From: James Smart <jsmart2021@gmail.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet-fc: remove redundant del_work_active flag
-Date: Fri, 24 Jul 2020 09:40:48 -0700
-Message-Id: <20200724164048.49936-1-jsmart2021@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ id 1jz1Rn-0003bl-MG
+ for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 17:25:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=90mIqs/Rdt7ebnBY9w+aJugKi/FPdGKSj5lvcFCwxT4=; b=fW5eJ/mgZqfOmzmtqgMINjanWs
+ aUSSem16BLiBaT3iXXkqXW42tIrokQTfVsoBE4AvsZ7nRYZTmNd3Ew/QhX+K3Mm4M9JCijb9baJYp
+ yj3n4XrrS5mY1e25g+0UaNuynPozLISm6IIkrrye6uIq3yGZJbmTd/ZVaLVOeKzUmchC3Uk2i+LK6
+ kofA/QR8U6pYTYEnA2n91VU74AyGJxS7I92zooPXruTEh/jqq6MtP6jPCfACGze5DkYGshxkhwOnF
+ JkNvHIqVz6g2qDhbNCGfV2JoFJln5UArItOY8xcY8mccE8vsXIu+LRrFmzkuMnKn25z7WYJ50iLDD
+ mI16Ji1Q==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
+ id 1jz1Rk-0006yq-5m; Fri, 24 Jul 2020 11:25:26 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+ (envelope-from <gunthorp@deltatee.com>)
+ id 1jz1Ri-0004GF-AA; Fri, 24 Jul 2020 11:25:22 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Date: Fri, 24 Jul 2020 11:25:15 -0600
+Message-Id: <20200724172520.16318-5-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200724172520.16318-1-logang@deltatee.com>
+References: <20200724172520.16318-1-logang@deltatee.com>
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@fb.com,
+ Chaitanya.Kulkarni@wdc.com, maxg@mellanox.com, sbates@raithlin.com,
+ logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v16 4/9] nvme-core: Introduce nvme_ctrl_get_by_path()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200724_124100_591938_BD8EC3B1 
-X-CRM114-Status: GOOD (  11.33  )
+X-CRM114-CacheID: sfid-20200724_132527_786853_F748BDC7 
+X-CRM114-Status: GOOD (  14.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,124 +90,80 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <jsmart2021@gmail.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The transport has a del_work_active flag to avoid duplicate scheduling
-of the del_work item. This is redundant with the checks that
-schedule_work() makes.
+nvme_ctrl_get_by_path() is analogous to blkdev_get_by_path() except it
+gets a struct nvme_ctrl from the path to its char dev (/dev/nvme0).
+It makes use of filp_open() to open the file and uses the private
+data to obtain a pointer to the struct nvme_ctrl. If the fops of the
+file do not match, -EINVAL is returned.
 
-Remove the del_work_active flag.
+The purpose of this function is to support NVMe-OF target passthru
+and is exported under the NVME_TARGET_PASSTHRU namespace.
 
-Signed-off-by: James Smart <jsmart2021@gmail.com>
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/target/fc.c | 27 +++------------------------
- 1 file changed, 3 insertions(+), 24 deletions(-)
+ drivers/nvme/host/core.c | 23 +++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 24 insertions(+)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index c15356b5e09f..55bafd56166a 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -167,7 +167,6 @@ struct nvmet_fc_tgt_assoc {
- 	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES + 1];
- 	struct kref			ref;
- 	struct work_struct		del_work;
--	atomic_t			del_work_active;
- };
- 
- 
-@@ -1090,7 +1089,6 @@ nvmet_fc_delete_assoc(struct work_struct *work)
- 		container_of(work, struct nvmet_fc_tgt_assoc, del_work);
- 
- 	nvmet_fc_delete_target_assoc(assoc);
--	atomic_set(&assoc->del_work_active, 0);
- 	nvmet_fc_tgt_a_put(assoc);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ccca36f881d6..35b1d13db2e9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4575,6 +4575,29 @@ void nvme_sync_queues(struct nvme_ctrl *ctrl)
  }
+ EXPORT_SYMBOL_GPL(nvme_sync_queues);
  
-@@ -1123,7 +1121,6 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- 	INIT_LIST_HEAD(&assoc->a_list);
- 	kref_init(&assoc->ref);
- 	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc);
--	atomic_set(&assoc->del_work_active, 0);
- 	atomic_set(&assoc->terminating, 0);
++struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path)
++{
++	struct nvme_ctrl *ctrl;
++	struct file *f;
++
++	f = filp_open(path, O_RDWR, 0);
++	if (IS_ERR(f))
++		return ERR_CAST(f);
++
++	if (f->f_op != &nvme_dev_fops) {
++		ctrl = ERR_PTR(-EINVAL);
++		goto out_close;
++	}
++
++	ctrl = f->private_data;
++	nvme_get_ctrl(ctrl);
++
++out_close:
++	filp_close(f, NULL);
++	return ctrl;
++}
++EXPORT_SYMBOL_NS_GPL(nvme_ctrl_get_by_path, NVME_TARGET_PASSTHRU);
++
+ /*
+  * Check we didn't inadvertently grow the command structure sizes:
+  */
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index c43e0e4e0b97..4bec44ab5a96 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -787,5 +787,6 @@ static inline void nvme_hwmon_init(struct nvme_ctrl *ctrl) { }
+ u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			 u8 opcode);
+ void nvme_execute_passthru_rq(struct request *rq);
++struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path);
  
- 	while (needrandom) {
-@@ -1478,21 +1475,15 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
- {
- 	struct nvmet_fc_tgt_assoc *assoc, *next;
- 	unsigned long flags;
--	int ret;
- 
- 	spin_lock_irqsave(&tgtport->lock, flags);
- 	list_for_each_entry_safe(assoc, next,
- 				&tgtport->assoc_list, a_list) {
- 		if (!nvmet_fc_tgt_a_get(assoc))
- 			continue;
--		ret = atomic_cmpxchg(&assoc->del_work_active, 0, 1);
--		if (ret == 0) {
--			if (!schedule_work(&assoc->del_work))
--				nvmet_fc_tgt_a_put(assoc);
--		} else {
-+		if (!schedule_work(&assoc->del_work))
- 			/* already deleting - release local reference */
- 			nvmet_fc_tgt_a_put(assoc);
--		}
- 	}
- 	spin_unlock_irqrestore(&tgtport->lock, flags);
- }
-@@ -1534,7 +1525,6 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
- 	struct nvmet_fc_tgt_assoc *assoc, *next;
- 	unsigned long flags;
- 	bool noassoc = true;
--	int ret;
- 
- 	spin_lock_irqsave(&tgtport->lock, flags);
- 	list_for_each_entry_safe(assoc, next,
-@@ -1546,14 +1536,9 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
- 			continue;
- 		assoc->hostport->invalid = 1;
- 		noassoc = false;
--		ret = atomic_cmpxchg(&assoc->del_work_active, 0, 1);
--		if (ret == 0) {
--			if (!schedule_work(&assoc->del_work))
--				nvmet_fc_tgt_a_put(assoc);
--		} else {
-+		if (!schedule_work(&assoc->del_work))
- 			/* already deleting - release local reference */
- 			nvmet_fc_tgt_a_put(assoc);
--		}
- 	}
- 	spin_unlock_irqrestore(&tgtport->lock, flags);
- 
-@@ -1574,7 +1559,6 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
- 	struct nvmet_fc_tgt_queue *queue;
- 	unsigned long flags;
- 	bool found_ctrl = false;
--	int ret;
- 
- 	/* this is a bit ugly, but don't want to make locks layered */
- 	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
-@@ -1598,14 +1582,9 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
- 		nvmet_fc_tgtport_put(tgtport);
- 
- 		if (found_ctrl) {
--			ret = atomic_cmpxchg(&assoc->del_work_active, 0, 1);
--			if (ret == 0) {
--				if (!schedule_work(&assoc->del_work))
--					nvmet_fc_tgt_a_put(assoc);
--			} else {
-+			if (!schedule_work(&assoc->del_work))
- 				/* already deleting - release local reference */
- 				nvmet_fc_tgt_a_put(assoc);
--			}
- 			return;
- 		}
- 
+ #endif /* _NVME_H */
 -- 
-2.26.2
+2.20.1
 
 
 _______________________________________________
