@@ -5,19 +5,18 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 620B0C433E1
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 00:26:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81733C433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 01:03:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2F85B20888
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 00:26:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4630D20714
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 01:03:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eBXNodUt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F85B20888
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KVdoWgzd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4630D20714
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,43 +25,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
 	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CZLYkzp9rfsKk7awcHCw/FFSsB9q7bF6WYwoBlMBMvs=; b=eBXNodUtBBGu6gqHhS1zm+HxX
-	gpwpOdmcVCwTYGiTCp38tnaeU8Np2oEsHVzOOTyGNDXZ+K917dkVWGmR2BrEipmFWj88k/C3oxEh/
-	H38X0xJivgmZNt8n/vUhJpy6tn8w1XO+R9WFJcSaVmZoCvQcjxEWQdB8HZgqRPeRW9ZqKhAzTGodU
-	BTVJSJ+jclJUsnOT/n6lPMWXl3ns2+Zrt1ElXAIixdm0SAFDzmWoeP0C7SKXU5Tf4xLyWBcXwk4Es
-	gUoi6UNTJ9yLf6UUCP9oDEQyrsmR5NwyKkTk8aZa3ehCu24fR9hmlydE/C19W1u4UAOiEa/y4W6NZ
-	2IVcKfBOw==;
+	 bh=QljJy9NTP2QBxdlaPoj9gBAlsPbqN826306rpBJ67AU=; b=KVdoWgzdtEp6A6bLM6MwfXlnG
+	NXfUDQA2OYkGVYzIFreNebkjyuFhOd7OzMz84n/N2nzX/9VvuEXScrwil23Qy95BHEwrXb3q1ZNmT
+	4jnpVPNxle6n/bxS9E2NjazqOQTAfRh3KYmgVKI1txxWUKrxpLwAzRrhUPumcym9X7GLlb0FhgCik
+	oxnQ40P2rjA4noX4N/0XqG7hnABGetnpmEBW376GuxtGwsTH9gItHxq2cVPG6JqODlE4YsyVeEG2a
+	iME8n9XDJvi9MvC/+r+bKFabaOJnZYgrk+hsGm41BQciZY0gFvqcC0xmlEHxx5hXYatoB4u+tmbYm
+	9ZmNzzvJQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jylY5-00042J-9p; Fri, 24 Jul 2020 00:26:53 +0000
+	id 1jym7m-00073g-WD; Fri, 24 Jul 2020 01:03:47 +0000
 Received: from mail-wr1-f67.google.com ([209.85.221.67])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jylY2-00041s-89
- for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 00:26:51 +0000
-Received: by mail-wr1-f67.google.com with SMTP id r2so1667934wrs.8
- for <linux-nvme@lists.infradead.org>; Thu, 23 Jul 2020 17:26:49 -0700 (PDT)
+ id 1jym7i-00073H-VH
+ for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 01:03:44 +0000
+Received: by mail-wr1-f67.google.com with SMTP id f2so6798069wrp.7
+ for <linux-nvme@lists.infradead.org>; Thu, 23 Jul 2020 18:03:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hvL6A1V0k9Vj9KISBW9D8+UI848DQ0KC3aWJc3al/Sc=;
- b=P2B+lu3F8yxwlG7jwdGjl9eZShQMJ0HCShv1mZEd0ksidhSNOeQxJ+0SNEY2OEGnBs
- sF6dh1rklnm78nrmLTf2S7OCq8pB2QDJZDeTbt+//tHyzEnn/5pihMsfnL0kSFCkkqgJ
- qG5oo6rIhQ3rU6ifsRycfyt7dwUKadOLDdCTAhX7SqG1TvvxVwfGba8nNS1rm20/z7cW
- /Cm/gAjetdYVJgjq1ZMBVgKezNVti1L5OJS8wNRE7OMaxsTNzJanbpD9OQx+ow1s7qf9
- aM181aFooBnHwO9LfXofpaSq73alM33QvVXRUUyQZ6lKgnXMLQqXAIVFGIgjb3UrOIzs
- GIBg==
-X-Gm-Message-State: AOAM532g7VWG6o8u/AaVE+MAx1hRJJtRgbeG/37v6l+lgnyHgBne3bUW
- nKTPD3AnrJ25QFo3un6Vrzw=
-X-Google-Smtp-Source: ABdhPJyXJQuf7TF8aYsrHTvcvXBxZAGgUOscIRWjKaXDbslqLOH3co+lculuY3CRZWCN8j69I12AFw==
-X-Received: by 2002:adf:ded0:: with SMTP id i16mr6046832wrn.389.1595550408768; 
- Thu, 23 Jul 2020 17:26:48 -0700 (PDT)
+ bh=K+nKoomIiW7jRArOurTuoIZ+xOdx9M8hXcrK4deAZ4M=;
+ b=nQQwweIOL4AsXz3CWOhyrU1TzrHYLthQ6R6gsq50qRRpjf3ElJgsGd+RwLtOnGRVDZ
+ YmJMhurrePBTGPgiPzVkjBfXyHBHZVfLbD748tngeKBLdA0HBkFFb4Dhd1ooFPmgfYJB
+ RBTrMu7rxIYXrHqL1wxOTIMOhBsVQI/Rk6Uw3qdnR45dvefDw93327iuV1QGZnznP4by
+ QMK//zHHAc24zKDnDn0KWmR04NaU2r45MeeNUSjBjXjOKG285kL5e1L3vZEd8vXCMy/t
+ UO47ne10zJLDE/C+xL9l4agKd5r/s2u+H/VMB3KjnvN1TnVjC8yTOLdOJzFVGBOaSH46
+ DDKg==
+X-Gm-Message-State: AOAM533aFQ6wijYqdGXOR5DBfTplTEFajLRPxKx4Zkw+2uYQ8xbHH3RF
+ bbD65DJvRAmyikgMehiolrA=
+X-Google-Smtp-Source: ABdhPJwfIpoKTTZ85VX2pu8GgeCzmSUzOlnsnXWhvjDxEFj09vH6S1Yp+45hSaAaPD5iScsLjcZlNw==
+X-Received: by 2002:adf:f711:: with SMTP id r17mr6297387wrp.409.1595552621464; 
+ Thu, 23 Jul 2020 18:03:41 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:a07e:34d2:a5fa:d770?
  ([2601:647:4802:9070:a07e:34d2:a5fa:d770])
- by smtp.gmail.com with ESMTPSA id y189sm6199348wmd.27.2020.07.23.17.26.44
+ by smtp.gmail.com with ESMTPSA id u1sm7067221wrb.78.2020.07.23.18.03.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jul 2020 17:26:48 -0700 (PDT)
+ Thu, 23 Jul 2020 18:03:40 -0700 (PDT)
 Subject: Re: [PATCH v3 2/2] nvme-core: fix deadlock in disconnect during
  scan_work and/or ana_work
 From: Sagi Grimberg <sagi@grimberg.me>
@@ -72,16 +71,17 @@ References: <20200722233219.117326-1-sagi@grimberg.me>
  <20200722233219.117326-3-sagi@grimberg.me>
  <770b71ff-b3d9-886d-3455-cfae217c45c8@deltatee.com>
  <4da6f061-ee5b-d40a-7e81-6f705ac0fcb8@grimberg.me>
-Message-ID: <70424742-3af4-ded7-d3d0-b1f32d97905e@grimberg.me>
-Date: Thu, 23 Jul 2020 17:26:38 -0700
+ <70424742-3af4-ded7-d3d0-b1f32d97905e@grimberg.me>
+Message-ID: <b53211f1-d1e5-fd58-c1ca-b924eecab6ea@grimberg.me>
+Date: Thu, 23 Jul 2020 18:03:30 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <4da6f061-ee5b-d40a-7e81-6f705ac0fcb8@grimberg.me>
+In-Reply-To: <70424742-3af4-ded7-d3d0-b1f32d97905e@grimberg.me>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200723_202650_326430_3E8B70C1 
-X-CRM114-Status: GOOD (  18.42  )
+X-CRM114-CacheID: sfid-20200723_210343_056151_B7B4BDD8 
+X-CRM114-Status: GOOD (  21.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,59 +101,57 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> Fixes: 0d0b660f214d ("nvme: add ANA support")
->>> Reported-by: Anton Eidelman <anton@lightbitslabs.com>
->>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->> I just tested nvme-5.9 and, after bisecting, found that this commit is
->> hanging the nvme/031 test in blktests[1]. The test just rapidly creates,
->> connects and destroys nvmet subsystems. The dmesg trace is below but I
->> haven't really dug into root cause.
+> Actually, I think that the design was to unblock the scan_work and that
+> is why nvme_mpath_clear_ctrl_paths was placed before (as the comment
+> say).
 > 
-> Thanks for reporting Logan!
+> But looking at the implementation of nvme_mpath_clear_ctrl_paths, it's
+> completely unclear why it should take the scan_lock. It is just clearing
+> the paths..
 > 
-> The call to nvme_mpath_clear_ctrl_paths was delicate because it had
-> to do with an effects command coming in to a mpath device during
-> traffic and also controller reset.
+> I think that the correct patch would be to just not take the scan_lock
+> and only take the namespaces_rwsem.
 
-Actually, I think I'm confusing, the original report was from you Logan.
+OK, I was able to reproduce this on my setup.
 
-> But nothing afaict should prevent the scan_work from flushing before we
-> call nvme_mpath_clear_ctrl_paths, in fact, it even calls for a race
-> because the scan_work has the scan_lock taken.
-
-Actually, I think that the design was to unblock the scan_work and that
-is why nvme_mpath_clear_ctrl_paths was placed before (as the comment
-say).
-
-But looking at the implementation of nvme_mpath_clear_ctrl_paths, it's
-completely unclear why it should take the scan_lock. It is just clearing
-the paths..
-
-I think that the correct patch would be to just not take the scan_lock
-and only take the namespaces_rwsem.
-
-So a more appropriate patch would be:
+What was needed is that fabrics will allow I/O to pass in
+NVME_CTRL_DELETING, which needed this add-on:
 --
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 900b35d47ec7..83beffddbc0a 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -156,13 +156,11 @@ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl 
-*ctrl)
-  {
-         struct nvme_ns *ns;
+     nvme-fabrics: don't fast fail on ctrl state DELETING
 
--       mutex_lock(&ctrl->scan_lock);
-         down_read(&ctrl->namespaces_rwsem);
-         list_for_each_entry(ns, &ctrl->namespaces, list)
-                 if (nvme_mpath_clear_current_path(ns))
-                         kblockd_schedule_work(&ns->head->requeue_work);
-         up_read(&ctrl->namespaces_rwsem);
--       mutex_unlock(&ctrl->scan_lock);
+     This is now an state that allows for I/O to be sent to the
+     device, and when the device shall transition into
+     NVME_CTRL_DELETING_NOIO we shall fail the I/O.
+
+     Note that this is fine because the transport itself has
+     a queue state to protect against queue access.
+
+     Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index a0ec40ab62ee..a9c1e3b4585e 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -182,7 +182,8 @@ bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
+  static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct 
+request *rq,
+                 bool queue_live)
+  {
+-       if (likely(ctrl->state == NVME_CTRL_LIVE))
++       if (likely(ctrl->state == NVME_CTRL_LIVE ||
++                  ctrl->state == NVME_CTRL_DELETING))
+                 return true;
+         return __nvmf_check_ready(ctrl, rq, queue_live);
   }
 --
 
-I'll also prepare a setup and run the test.
+Logan,
+
+Can you verify that it works for you?
+
+BTW, I'm still seriously suspicious on why nvme_mpath_clear_ctrl_paths
+is taking the scan_lock. It appears that it shouldn't. I'm tempted to
+remove it and see if anyone complains...
 
 _______________________________________________
 Linux-nvme mailing list
