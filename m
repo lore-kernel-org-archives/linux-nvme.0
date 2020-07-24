@@ -7,70 +7,56 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1907C433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 01:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E754CC433E3
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 08:14:40 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7D3B420825
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 01:14:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B46D620748
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 08:14:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KRULQ7vg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D3B420825
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lNcVnE2t"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B46D620748
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
-	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=SsV4GPasL0LH7DMFPtfqQI+afnWdvKvEj0H7C2uZtYQ=; b=KRULQ7vgSb0Op30wxchKjTbYJj
-	gsRwAigTOzCeMT7jUc/ATf8KqQunUHti3Dgl1nfi5MCXSInv1bfjwYUnOoJnqBl5OzoML5YiiaT5D
-	q566LMjzLQDLSAa+m1P9KzKuytv/mncsl0wG47ruUr+x2lHibCfx/pGnV3o504FcxQDgeYct6N9OF
-	KfLZXQbRMDA2Hu3Qo982rEHVUMWP/KMEeB++bQtR0/Pw3aqOacC0jElzZ3suPOmmZEetR2I2JurU+
-	hWidXD28vA3bAITcV9AyqVhrFQg/p7yde3k9XrUMzePYypl5dXIdz8fKXXRMTzTrdUc71wX5dqEMW
-	yPJjzKoA==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=VHLF124Lu8RVwjwi6XJeshQ0YJ4jm6gtzsNqmFlLKHM=; b=lNcVnE2tFGmHnralHuTcmnuSNQ
+	Ig0s8HLujXlVDMollQCNXeUHzY9cZ0mCO6re1sw05gdGzskzMUvlzckS0/i50gZhl9IrBkmJkcDcg
+	ZtBzhMznZhMib6TyLnhBS7ErtszKOk+wp9hXhE8YqiSfJ73mOvTbHBUOG1+369f36c1XHucvafRQy
+	ycxiXBzpl7gRmQsndH/mIEKMFrgATJo94pNNt+esuyVjuN94dxQxUaISKm1IPPKmWt6Wj93mpY/+y
+	gWqGvNzX0cWzy+O7y9mK1f8VYtsxamsR7JceLNsi6wI+oyhG68Rwfd2uMIpQ7WKkL//hXSFgqufQj
+	1F7KTK0Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jymIA-0007SX-FG; Fri, 24 Jul 2020 01:14:30 +0000
-Received: from mail-wr1-f65.google.com ([209.85.221.65])
+	id 1jysqg-00053c-HI; Fri, 24 Jul 2020 08:14:34 +0000
+Received: from szxga05-in.huawei.com ([45.249.212.191] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jymI8-0007Ry-BC
- for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 01:14:28 +0000
-Received: by mail-wr1-f65.google.com with SMTP id a15so6804132wrh.10
- for <linux-nvme@lists.infradead.org>; Thu, 23 Jul 2020 18:14:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LZpVvioCrWeKzM+rCyo4gtpR1m8S1mMIbFddpezwBNs=;
- b=Kn3EeWRjbtmyP0UztnRRQLBUnX9HhW70AY65yOrStSp4VAqBkFG4/UqIh6U+cJ5eGh
- 58cJumUm16kAXjQpWDY3QtrHmKNmhCZViyf/MnR2pSlHV75gXU2QRBKDVa8wnBPijDE+
- d5aRJMHK5n/NqFSHHhrdj7juPdAfa3IEhTIPD7Q/3wOMvIaPkuaHo3Av5Dk87tOt2Vsc
- xmfoXyG7w1WF87GR7f76JUeT0glhPYuELwEvyblSsFSnnymanLjNMw70EyzTk+PO1iVP
- xvWjz36mqOi7/byU25bPERuDu6SLKg9Kvfg4/zhSfmuxbkCr8OHnEdu6gi81VyNiBCuI
- d5ig==
-X-Gm-Message-State: AOAM533AtdllLnYye9s379kjWPpVyF7OKGbpxxM+jE440tIRIDkR9wEz
- JjWrEvA59O2hWv79vxbT2veRcAnA
-X-Google-Smtp-Source: ABdhPJzVUSAIrYPf+zfR7n2dwKsPA/cevUIYLUFOiVpT0JfgtzaLcz+kRcpxc1xkZONaISktBgtHoA==
-X-Received: by 2002:adf:9cc9:: with SMTP id h9mr3991226wre.343.1595553264240; 
- Thu, 23 Jul 2020 18:14:24 -0700 (PDT)
-Received: from localhost.localdomain ([2601:647:4802:9070:a07e:34d2:a5fa:d770])
- by smtp.gmail.com with ESMTPSA id b23sm5272071wmd.37.2020.07.23.18.14.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 18:14:23 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme-hwmon: log the controller device name
-Date: Thu, 23 Jul 2020 18:14:10 -0700
-Message-Id: <20200724011410.495900-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.25.1
+ id 1jysqc-00050b-Sd
+ for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 08:14:32 +0000
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 21D9A7170E8EE2967AE4;
+ Fri, 24 Jul 2020 16:14:17 +0800 (CST)
+Received: from huawei.com (10.29.88.127) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Fri, 24 Jul 2020
+ 16:14:08 +0800
+From: Chao Leng <lengchao@huawei.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: [PATCH] nvme-core: optimize process for error status
+ NVME_SC_CMD_INTERRUPTED
+Date: Fri, 24 Jul 2020 16:14:07 +0800
+Message-ID: <20200724081407.19346-1-lengchao@huawei.com>
+X-Mailer: git-send-email 2.16.4
 MIME-Version: 1.0
+X-Originating-IP: [10.29.88.127]
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200723_211428_417202_9B5DE586 
-X-CRM114-Status: UNSURE (   9.84  )
+X-CRM114-CacheID: sfid-20200724_041431_674239_D7DFBD8F 
+X-CRM114-Status: UNSURE (   9.75  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -83,37 +69,60 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, lengchao@huawei.com,
+ sagi@grimberg.me
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Stay consistent with the rest of the driver
-
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/hwmon.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
-index 23ba8bf678ae..412a6c97c0d8 100644
---- a/drivers/nvme/host/hwmon.c
-+++ b/drivers/nvme/host/hwmon.c
-@@ -241,7 +241,8 @@ void nvme_hwmon_init(struct nvme_ctrl *ctrl)
- 
- 	err = nvme_hwmon_get_smart_log(data);
- 	if (err) {
--		dev_warn(dev, "Failed to read smart log (error %d)\n", err);
-+		dev_warn(ctrl->device,
-+			"Failed to read smart log (error %d)\n", err);
- 		devm_kfree(dev, data);
- 		return;
- 	}
--- 
-2.25.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+VGhlIHByb3RvY29sIE5WTS1FeHByZXNzLTEuNCBkZWZpbmU6CkNvbW1hbmQgSW50ZXJydXB0ZWQ6
+IENvbW1hbmQgcHJvY2Vzc2luZyB3YXMgaW50ZXJydXB0ZWQgYW5kIHRoZQpjb250cm9sbGVyIGlz
+IHVuYWJsZSB0byBzdWNjZXNzZnVsbHkgY29tcGxldGUgdGhlIGNvbW1hbmQuIFRoZSBob3N0CnNo
+b3VsZCByZXRyeSB0aGUgY29tbWFuZC4gSWYgdGhpcyBzdGF0dXMgY29kZSBpcyByZXR1cm5lZCwg
+dGhlbgp0aGUgY29udHJvbGxlciBzaGFsbCBjbGVhciB0aGUgRG8gTm90IFJldHJ5IGJpdCB0byDi
+gJgw4oCZIGluIHRoZSBTdGF0dXMKZmllbGQgb2YgdGhlIENRRSAocmVmZXIgdG8gRmlndXJlIDEy
+NCkuIFRoZSBjb250cm9sbGVyIHNoYWxsIG5vdCByZXR1cm4KdGhpcyBzdGF0dXMgY29kZSB1bmxl
+c3MgdGhlIGhvc3QgaGFzIHNldCB0aGUgQWR2YW5jZWQgQ29tbWFuZCBSZXRyeQpFbmFibGUgKEFD
+UkUpIGZpZWxkIHRvIDFoIGluIHRoZSBIb3N0IEJlaGF2aW9yIFN1cHBvcnQgZmVhdHVyZShyZWZl
+ciB0bwpzZWN0aW9uIDUuMjEuMS4yMikuCgpBY2NvcmRpbmcgdGhlIHByb3RvY29sIGRlZmluZSwg
+TlZNRV9TQ19DTURfSU5URVJSVVBURUQgbmVlZCByZXRyeS4KVGhlIGVycm9yIGNvZGUgTlZNRV9T
+Q19DTURfSU5URVJSVVBURUQgc2hvdWxkIG5vdCB0cmFuc2xhdGUgdG8KQkxLX1NUU19UQVJHRVQs
+IGJlY2F1c2UgaWYgdGhlIGVycm9yIGNvZGUgdHJhbnNsYXRlIHRvIEJMS19TVFNfVEFSR0VULApk
+bS1tdWx0aXBhaCB3aWxsIHJldHVybiBlcnJvciB0byBhcHBsaWNhdGlvbi4gTlZNRV9TQ19DTURf
+SU5URVJSVVBURUQKc2hvdWxkIHRyYW5zbGF0ZSB0byBCTEtfU1RTX0lPRVJSIGJ5IGRlZmF1bHQs
+IGRtLW11bHRpcGF0aCB3aWxsIGZhaWwKb3ZlciB0byBvdGhlciBwYXRoIHJldHJ5IHRoZSBpby4K
+CldlIG5lZWQgYSBtZWNoYW5pc20gZm9yIHJldHJ5IGluIHRoZSBjdXJyZW50IHBhdGggZmlyc3Qg
+aW4gc29tZQpzY2VuYXJpb3Mgc3VjaCBhcyB0aGUgdGFyZ2V0IGlzIGRlYWxpbmcgd2l0aCBhbiBp
+bXBvcnRhbnQgZW1lcmdlbmN5IGFuZApuZWVkIGhvc3QgcmV0cnkgdGhlIGlvIGFmdGVyIGEgZGVm
+aW5lZCB0aW1lLCBiZWNhdXNlIGRtLW11bHRpcGF0aCBjYW4Kbm90IGdldCBDb21tYW5kIFJldHJ5
+IERlbGF5IChDUkQpIHRvIGNvbnRyb2wgcmV0cnkgZGVsYXkgdGltZS4KYWNjb3JkaW5nIHRoZSBw
+cm90b2NvbCBkZWZpbmUsIHRoZSBlcnJvciBjb2RlIE5WTUVfU0NfQ01EX0lOVEVSUlVQVEVECmlz
+IGEgZ29vZCBjaG9pY2UuCgpTaWduZWQtb2ZmLWJ5OiBDaGFvIExlbmcgPGxlbmdjaGFvQGh1YXdl
+aS5jb20+Ci0tLQogZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIHwgMyArLS0KIGRyaXZlcnMvbnZt
+ZS9ob3N0L252bWUuaCB8IDYgKysrKysrCiAyIGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMg
+Yi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKaW5kZXggNjZlNmY3Y2E4OTQ3Li5iMzMwN2UzMTdl
+Y2UgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYworKysgYi9kcml2ZXJzL252
+bWUvaG9zdC9jb3JlLmMKQEAgLTIxMSw3ICsyMTEsNiBAQCBzdGF0aWMgYmxrX3N0YXR1c190IG52
+bWVfZXJyb3Jfc3RhdHVzKHUxNiBzdGF0dXMpCiAJY2FzZSBOVk1FX1NDX0NBUF9FWENFRURFRDoK
+IAkJcmV0dXJuIEJMS19TVFNfTk9TUEM7CiAJY2FzZSBOVk1FX1NDX0xCQV9SQU5HRToKLQljYXNl
+IE5WTUVfU0NfQ01EX0lOVEVSUlVQVEVEOgogCWNhc2UgTlZNRV9TQ19OU19OT1RfUkVBRFk6CiAJ
+CXJldHVybiBCTEtfU1RTX1RBUkdFVDsKIAljYXNlIE5WTUVfU0NfQkFEX0FUVFJJQlVURVM6CkBA
+IC0yNDMsNyArMjQyLDcgQEAgc3RhdGljIGJsa19zdGF0dXNfdCBudm1lX2Vycm9yX3N0YXR1cyh1
+MTYgc3RhdHVzKQogCiBzdGF0aWMgaW5saW5lIGJvb2wgbnZtZV9yZXFfbmVlZHNfcmV0cnkoc3Ry
+dWN0IHJlcXVlc3QgKnJlcSkKIHsKLQlpZiAoYmxrX25vcmV0cnlfcmVxdWVzdChyZXEpKQorCWlm
+ICghbnZtZV9yZXFfbG9jYWxfcmV0cnkocmVxKSAmJiBibGtfbm9yZXRyeV9yZXF1ZXN0KHJlcSkp
+CiAJCXJldHVybiBmYWxzZTsKIAlpZiAobnZtZV9yZXEocmVxKS0+c3RhdHVzICYgTlZNRV9TQ19E
+TlIpCiAJCXJldHVybiBmYWxzZTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L252bWUu
+aCBiL2RyaXZlcnMvbnZtZS9ob3N0L252bWUuaAppbmRleCAxZGUzZjliODI3YWEuLjMyMTNhYWU4
+OTg1YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oCisrKyBiL2RyaXZlcnMv
+bnZtZS9ob3N0L252bWUuaApAQCAtNzI1LDQgKzcyNSwxMCBAQCB2b2lkIG52bWVfaHdtb25faW5p
+dChzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsKTsKIHN0YXRpYyBpbmxpbmUgdm9pZCBudm1lX2h3bW9u
+X2luaXQoc3RydWN0IG52bWVfY3RybCAqY3RybCkgeyB9CiAjZW5kaWYKIAorc3RhdGljIGlubGlu
+ZSBib29sIG52bWVfcmVxX2xvY2FsX3JldHJ5KHN0cnVjdCByZXF1ZXN0ICpyZXEpCit7CisJaWYg
+KG52bWVfcmVxKHJlcSktPnN0YXR1cyA9PSBOVk1FX1NDX0NNRF9JTlRFUlJVUFRFRCkKKwkJcmV0
+dXJuIHRydWU7CisJcmV0dXJuIGZhbHNlOworfQogI2VuZGlmIC8qIF9OVk1FX0ggKi8KLS0gCjIu
+MTYuNAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxp
+bnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRw
+Oi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
