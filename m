@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBA5C433E3
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 23:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E6F1C433E5
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 23:06:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5A518206C1
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 23:06:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ED1C12070B
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 23:06:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zeSdRYuI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5A518206C1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SrtGFpk7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED1C12070B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,57 +25,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jEOEM0wagLBA6joAhvOpQqXvfpE84flWukMTCjkfWSM=; b=zeSdRYuICRi/Yt9JqCbKaQ1DR
-	hRuofQrfUGweXyRrmfEhvGPOSwAxJ5cgNqUJNXoicAqb3OYrzsxCsiPrfLNXiv47QKsxl+eePALrL
-	8rIUGp69oqfKjF6MVFL2O2KcWOUHyD6NT3gKe8zmEtgrI/PbzSy4CKnEFCR4v13xbWWYXc8kIiZw4
-	s8+vFIL5+o9Qh8Ccfq/b5IMB8GZAJGIO/QtcHZ2Jz15fXD7VEphty8gvdlSMwsXtH2rR08BMozJZS
-	wpOUf3Bl0ea95QdSWyWwQRbHev06K0nNGF0uk5GQmEHS68mmUAHqo+beJOp/exvq9V5Q5d+9Y22yj
-	LlNmzkTQA==;
+	 bh=K0Ax156hyhyJRT3zhCVYNyDTpdiorWvfldMeRZAuttU=; b=SrtGFpk7WJdEBXACD4txw7KbE
+	YlCw96gjhWRlTplT66VubVQHXLmtNY9jp8AV/Dt4zQCvyXCdvFtGq/gKwofJgxTK0FGt4EdB88VVe
+	rOtglj96Y80jEZgGBeusq2mQsYBapL73E7SFOzFbHTNwPNZiPfIJoUtNNJm8tf/AwlU6ZyfgkXY8j
+	fCSxW2o1DrSmP+lND6hIVnNJdI76wEpBfmukDwNqPuWg0R38misQ5mUd/hpqZu2iZMFWAjnjGTp8L
+	kH5xFv2Hti6HCsgqp0REnH+0d+5x0h4p4dD8ZUwvOQNhKNmJtDUCPULw4fFlbnab2Xx6RBzDrIQ24
+	/RiiMlJEA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jz6lY-0002hz-SF; Fri, 24 Jul 2020 23:06:12 +0000
-Received: from mail-pj1-f65.google.com ([209.85.216.65])
+	id 1jz6le-0002k1-1p; Fri, 24 Jul 2020 23:06:18 +0000
+Received: from mail-pf1-f195.google.com ([209.85.210.195])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jz6lW-0002gm-Cw
- for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 23:06:11 +0000
-Received: by mail-pj1-f65.google.com with SMTP id gc9so6213234pjb.2
- for <linux-nvme@lists.infradead.org>; Fri, 24 Jul 2020 16:06:10 -0700 (PDT)
+ id 1jz6la-0002iJ-R5
+ for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 23:06:16 +0000
+Received: by mail-pf1-f195.google.com with SMTP id t11so6066894pfq.11
+ for <linux-nvme@lists.infradead.org>; Fri, 24 Jul 2020 16:06:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TSrwdwo22++8+L8WBbIt0XvSdbbRDGl/LBklH/oQcr4=;
- b=FmWRdQGyV2H/RATfvxjQnnIoy9b1IhwfhTJKUpoZgKeJDJopsSuEfM6oz5xxPCmcPE
- BA73hpnVodG1+u1pat1bqvWlJ31OOAwBWjFXrCUqrbmpYUs2uIB+awGVLP/GZ0gWbzZJ
- YEA7rue3dWq6V1l1dwpLy86Eg1ThtNKU1apRAllkwyU1WfbgkO2ikkR+tdwBtUXhCjft
- +643KW7nuU+z/E9lo+TdIK+gKSP7s3NzBCL5TL6gmBTVJ6GTYVRhXTPg5j6ubZuyS2Gf
- AhNZxNgQs+glhglWeDsV9t7yVkOqUaqsFM2dQsWr6OhpY+GOCPO5r2FFXbczJKmvBgpL
- bw/A==
-X-Gm-Message-State: AOAM532tf3VUt5ZiRos/3rH7MbVJw6eREavpkgQmWE3dVZeC8shpPw+V
- u+XCRsikO2gXdMiWGUeAStRMpUyc
-X-Google-Smtp-Source: ABdhPJxMnWhpUjFbbEGjhDYnRh6iz8py0uazSGBztgDu+NIHT7CS38NdIkSgJqi4I6xTd3WkvPCwhw==
-X-Received: by 2002:a17:90a:14a5:: with SMTP id
- k34mr7928338pja.37.1595631968749; 
- Fri, 24 Jul 2020 16:06:08 -0700 (PDT)
+ bh=PcuqqoGtoWKgbECmGg9dz/IJPY+0/UqjCTR3wZRyJQ4=;
+ b=uUxi5FAGmE4aG6x7FkXrhvVNNuc2LFFM5ro+bDDTAOlJmMRS3t5Pzb3T7qoQHjdkEe
+ WvSBt2bEANrvRH8zdqnTf1Jfo4t2JcG0Z5iXstuX0vcAEPhs1ANkTVFSoH5LG+r7DFIH
+ 81RCEqMwG7HSP2INsPcJMPCC8Lm7u0FMaFfYPNh7aATkpriiOiAffkr9lnCdLFE9bxOV
+ hB6g8IVDpBTNSMfktT08Nqltwmg2HNk/YriodqU8OaCW/t8/RD0LCpYPqqs85xek2HoE
+ EsT+qvopD3Pux9KOxh5BpdA7jucgDGxPEaz5ky/gM6E3mBjloxudL/6pF6cEXdfvOgJU
+ AKUw==
+X-Gm-Message-State: AOAM533NFMFTbDhHuMQ32UAbwEDGRlHrqKfwGCzSDsTvVuuu5v9ol/tx
+ elzTjPzOWwQqAKdB7GG3qJaTbTEJ
+X-Google-Smtp-Source: ABdhPJyppk34sv5d0Y1S34kTnPk8lZOr31kqpe5ZbQFEUDs4sGf3DqNYEB469HvvTmTmQYNINOzmEQ==
+X-Received: by 2002:a62:7a56:: with SMTP id v83mr10812091pfc.114.1595631973277; 
+ Fri, 24 Jul 2020 16:06:13 -0700 (PDT)
 Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
  ([2601:647:4802:9070:ac47:9fc4:b59:66fa])
- by smtp.gmail.com with ESMTPSA id 129sm7552379pfv.161.2020.07.24.16.06.07
+ by smtp.gmail.com with ESMTPSA id 129sm7552379pfv.161.2020.07.24.16.06.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jul 2020 16:06:08 -0700 (PDT)
+ Fri, 24 Jul 2020 16:06:12 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>
-Subject: [PATCH rfc v2 1/4] blk-mq: add async quiesce interface for blocking
- hw queues
-Date: Fri, 24 Jul 2020 16:06:01 -0700
-Message-Id: <20200724230604.34625-2-sagi@grimberg.me>
+Subject: [PATCH for-testing v2 4/4] nvme-rdma: use blocking quiesce interface
+Date: Fri, 24 Jul 2020 16:06:04 -0700
+Message-Id: <20200724230604.34625-5-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200724230604.34625-1-sagi@grimberg.me>
 References: <20200724230604.34625-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200724_190610_493828_28BB2FCD 
-X-CRM114-Status: GOOD (  12.97  )
+X-CRM114-CacheID: sfid-20200724_190614_929615_0422A804 
+X-CRM114-Status: GOOD (  11.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,91 +91,41 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Drivers that use blocking hw queues may have to quiesce a large amount
-of request queues at once (e.g. controller or adapter reset). These
-drivers would benefit from an async quiesce interface such that
-the can trigger quiesce asynchronously and wait for all in parallel.
-
-This leaves the synchronization responsibility to the driver, but adds
-a convenient interface to quiesce async and wait in a single pass.
-
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- block/blk-mq.c         | 31 +++++++++++++++++++++++++++++++
- include/linux/blk-mq.h |  4 ++++
- 2 files changed, 35 insertions(+)
+ drivers/nvme/host/rdma.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index abcf590f6238..7326709ed2d1 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -209,6 +209,37 @@ void blk_mq_quiesce_queue_nowait(struct request_queue *q)
- }
- EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
- 
-+void blk_mq_quiesce_blocking_queue_async(struct request_queue *q)
-+{
-+	struct blk_mq_hw_ctx *hctx;
-+	unsigned int i;
-+
-+	blk_mq_quiesce_queue_nowait(q);
-+
-+	queue_for_each_hw_ctx(q, hctx, i) {
-+		if (!(hctx->flags & BLK_MQ_F_BLOCKING))
-+			continue;
-+		init_completion(&hctx->rcu_sync.completion);
-+		init_rcu_head(&hctx->rcu_sync.head);
-+		call_srcu(hctx->srcu, &hctx->rcu_sync.head, wakeme_after_rcu);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_quiesce_blocking_queue_async);
-+
-+void blk_mq_quiesce_blocking_queue_async_wait(struct request_queue *q)
-+{
-+	struct blk_mq_hw_ctx *hctx;
-+	unsigned int i;
-+
-+	queue_for_each_hw_ctx(q, hctx, i) {
-+		if (!(hctx->flags & BLK_MQ_F_BLOCKING))
-+			continue;
-+		wait_for_completion(&hctx->rcu_sync.completion);
-+		destroy_rcu_head(&hctx->rcu_sync.head);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_quiesce_blocking_queue_async_wait);
-+
- /**
-  * blk_mq_quiesce_queue() - wait until all ongoing dispatches have finished
-  * @q: request queue.
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 23230c1d031e..863b372d32aa 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -5,6 +5,7 @@
- #include <linux/blkdev.h>
- #include <linux/sbitmap.h>
- #include <linux/srcu.h>
-+#include <linux/rcupdate_wait.h>
- 
- struct blk_mq_tags;
- struct blk_flush_queue;
-@@ -170,6 +171,7 @@ struct blk_mq_hw_ctx {
- 	 */
- 	struct list_head	hctx_list;
- 
-+	struct rcu_synchronize	rcu_sync;
- 	/**
- 	 * @srcu: Sleepable RCU. Use as lock when type of the hardware queue is
- 	 * blocking (BLK_MQ_F_BLOCKING). Must be the last member - see also
-@@ -532,6 +534,8 @@ int blk_mq_map_queues(struct blk_mq_queue_map *qmap);
- void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
- 
- void blk_mq_quiesce_queue_nowait(struct request_queue *q);
-+void blk_mq_quiesce_blocking_queue_async(struct request_queue *q);
-+void blk_mq_quiesce_blocking_queue_async_wait(struct request_queue *q);
- 
- unsigned int blk_mq_rq_cpu(struct request *rq);
- 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 5c3848974ccb..edd3cf1d5138 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -793,6 +793,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+ 		set->reserved_tags = 2; /* connect + keep-alive */
+ 		set->numa_node = nctrl->numa_node;
++		set->flags = BLK_MQ_F_BLOCKING;
+ 		set->cmd_size = sizeof(struct nvme_rdma_request) +
+ 				NVME_RDMA_DATA_SGL_SIZE;
+ 		set->driver_data = ctrl;
+@@ -806,7 +807,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		set->queue_depth = nctrl->sqsize + 1;
+ 		set->reserved_tags = 1; /* fabric connect */
+ 		set->numa_node = nctrl->numa_node;
+-		set->flags = BLK_MQ_F_SHOULD_MERGE;
++		set->flags = BLK_MQ_F_SHOULD_MERGE | BLK_MQ_F_BLOCKING;
+ 		set->cmd_size = sizeof(struct nvme_rdma_request) +
+ 				NVME_RDMA_DATA_SGL_SIZE;
+ 		if (nctrl->max_integrity_segments)
+@@ -1008,7 +1009,7 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+ 	if (ctrl->ctrl.queue_count > 1) {
+-		nvme_stop_queues(&ctrl->ctrl);
++		nvme_stop_blocking_queues(&ctrl->ctrl);
+ 		nvme_rdma_stop_io_queues(ctrl);
+ 		if (ctrl->ctrl.tagset) {
+ 			blk_mq_tagset_busy_iter(ctrl->ctrl.tagset,
 -- 
 2.25.1
 
