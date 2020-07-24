@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B84FBC433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 17:25:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B01C433F2
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 17:25:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 89B4120748
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 17:25:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 57AAF20748
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 17:25:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BmjRM+ED";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="c5iKptOo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 89B4120748
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tFcj1oEz";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="eaAbosg+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 57AAF20748
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,43 +26,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=X7Cu0xPr6Pt9RWlBUf6RzriG45pU8MVCwPEZsYu/wB4=; b=BmjRM+EDjaUSXjpKdJ5OrNVUH
-	Pli2M5AqIDWv0C6vkAmb1G/NO+7fpJu2CfhDI91YpO3jOUdzR7tFQja4l/esNKqlKpJcuSRYbikto
-	z1O9ezcxY6O7oL4fFz3FfQ2we6nSuvl0mGdf0y/tLHEYgWmbrFDRSP/8r6YT9p3i5JhcwYA+bJo7H
-	URUpiFouxfrR0SKgx92gerfJZGPAzw0VnFjT6FpkzVGEIgfdiHrzumzTKZRO726CP22KXk6vLZfTN
-	c0U/1Tahvl7Nmm5aaqy0dAClCHFdxUanWh/qjIDBpTsRyY20Ux5Aj3gcur3wdA+8PvrbD/7N35LzA
-	HQW+W8KWw==;
+	 bh=N8GQGpr+qlTRzvKt8MeWna8jtYYq6zXE6TBWdi97j+Q=; b=tFcj1oEzOF1cPCRwDbgp5g0KG
+	RQOewDm+Ek4EgfjVqJFkFVoGs0gA43LXdSJeU9QtaqQPiT604qS3XAcjf4Q/Srig8cgBC0MLb9f+F
+	ZIiiWDCCAJXl7HXpbMPx5nSXXsvH1RFueCGrVJfko/nv7t8xb11XKWDQguVUWwDwlCrlkqYnmJZPb
+	GRWckUZ4C7QuDoi69yuQ9qiPHlUdYpE9AJiOOV0VxS5G0DBLTrWFJenC2lUxxo2Dxsx78NPGSddBF
+	A5ajj+jCLwq8ThYKxuUBQwrFK8OOX16Fu2g2vFohp5/sZi+tMJxYGXzISpvqxialm0mOSLFAEZgRx
+	x+p+HWjbw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jz1S8-0003lm-IQ; Fri, 24 Jul 2020 17:25:48 +0000
+	id 1jz1S1-0003iG-KZ; Fri, 24 Jul 2020 17:25:41 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jz1Rs-0003eC-2i
- for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 17:25:33 +0000
+ id 1jz1Rp-0003cu-Qq
+ for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 17:25:31 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=HTummlfcJChylKn5q0aTnwoB7yNX7mo9NGJZINB6kgQ=; b=c5iKptOot1yeTkPveU7uYpZsQp
- IfOcaPt0+i+rAD5p9rEJI5zDMYyP/0gvs5dDpK79i0uKxfBsX///H12YyxTw4SE13VcODQU0/8C1R
- w9iu8MswYUWQi32nDvm0EVh3MUUSSJkRV2YS2XKXgTqwL7g4bWqCWgsFXZC+Dckeo8Sm/gaSHpRNt
- gYYvlfhc9iTwrCspcFyH+Sm6SeB6u1rxAHaDM13PDI1wrsBifkJZGEL6InWfbSFIsApSb6rz+cR3p
- IMZaWj7O0G8ZhYLzS2aPp5sm0F6urcHpSeMHBUNefz7ie4buRFelWMAXVVbZpjV09wxE59FvCD0pk
- 3S8g9+nA==;
+ bh=JLjv2Vih/TZbLrwLSO1P4T0929e7FypKzTz3xvkWH/M=; b=eaAbosg+mL443thjIFhgxa3lLn
+ QjlsIkpSMwtpyVfadrHYaprydcBsGTomkOnXMcSNOivDtT1Uv7nDKpZhmpD1+hMmIcsuZghbsnUR9
+ S7kC8A4DJseUojZUbIUsNkFSukUvkSCFF+h1ydNIW349FwymX+1w0XCEOcmeDLG0NXUqFImwX9uc4
+ QcEQyxUhOfneiRuoB7RP9l7Mxm6x/VqmmR88tDNYy2xPkPFpUtN4mFTXySU23ojFLuum748CjnoJE
+ P9IZ8sb9d5Rfz6zdNMN+3dQAMleA9n2/yLk1yBv3Cgl/Scjj4V80igdyqlNrWqmuVpjT9tX/BsrRQ
+ V6g02VJQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1jz1Rq-0006yn-8k; Fri, 24 Jul 2020 11:25:31 -0600
+ id 1jz1Rk-0006yo-5m; Fri, 24 Jul 2020 11:25:29 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1jz1Ri-0004GO-Kj; Fri, 24 Jul 2020 11:25:22 -0600
+ id 1jz1Ri-0004G9-4B; Fri, 24 Jul 2020 11:25:22 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Date: Fri, 24 Jul 2020 11:25:18 -0600
-Message-Id: <20200724172520.16318-8-logang@deltatee.com>
+Date: Fri, 24 Jul 2020 11:25:13 -0600
+Message-Id: <20200724172520.16318-3-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200724172520.16318-1-logang@deltatee.com>
 References: <20200724172520.16318-1-logang@deltatee.com>
@@ -70,15 +70,15 @@ MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@fb.com,
- maxg@mellanox.com, sbates@raithlin.com, logang@deltatee.com,
- Chaitanya.Kulkarni@wdc.com, chaitanya.kulkarni@wdc.com
+ Chaitanya.Kulkarni@wdc.com, maxg@mellanox.com, sbates@raithlin.com,
+ logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v16 7/9] nvmet-passthru: Add enable/disable helpers
+Subject: [PATCH v16 2/9] nvme: Create helper function to obtain command effects
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200724_132532_253972_5A6EC863 
-X-CRM114-Status: GOOD (  18.25  )
+X-CRM114-CacheID: sfid-20200724_132529_993952_7D4FE031 
+X-CRM114-Status: GOOD (  18.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,7 +91,7 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
  Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
  Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
@@ -100,221 +100,244 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch adds helper functions which are used in the NVMeOF configfs
-when the user is configuring the passthru subsystem. Here we ensure
-that only one subsys is assigned to each nvme_ctrl by using an xarray
-on the cntlid.
+Separate the code to obtain command effects from the code
+to start a passthru request and move the nvme_passthru_start() and
+nvme_passthru_end() functions up above nvme_submit_user_cmd() in order
+that they may be used in a new helper a subsequent patch.
 
-The subsystem's version number is overridden by the passed through
-controller's version. However, if that version is less than 1.2.1,
-then we bump the advertised version to that and print a warning
-in dmesg.
+The new helper function will be necessary for nvmet passthru
+code to determine if we need to change out of interrupt context
+to handle the effects. It is exported in the NVME_TARGET_PASSTHRU
+namespace.
 
-Based-on-a-patch-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/target/configfs.c |  4 ++
- drivers/nvme/target/core.c     | 10 +++-
- drivers/nvme/target/nvmet.h    | 12 +++++
- drivers/nvme/target/passthru.c | 86 ++++++++++++++++++++++++++++++++++
- 4 files changed, 111 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 192 ++++++++++++++++++++-------------------
+ drivers/nvme/host/nvme.h |   3 +
+ 2 files changed, 103 insertions(+), 92 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index cdec47de89ed..61c258dea88a 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -879,6 +879,10 @@ static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
- 	int major, minor, tertiary = 0;
- 	int ret;
- 
-+	/* passthru subsystems use the underlying controller's version */
-+	if (nvmet_passthru_ctrl(subsys))
-+		return -EINVAL;
-+
- 	ret = sscanf(page, "%d.%d.%d\n", &major, &minor, &tertiary);
- 	if (ret != 2 && ret != 3)
- 		return -EINVAL;
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index c5a1c82e699b..b92f45f5cd5b 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -544,6 +544,12 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 
- 	mutex_lock(&subsys->lock);
- 	ret = 0;
-+
-+	if (nvmet_passthru_ctrl(subsys)) {
-+		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
-+		goto out_unlock;
-+	}
-+
- 	if (ns->enabled)
- 		goto out_unlock;
- 
-@@ -1473,7 +1479,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	if (!subsys)
- 		return ERR_PTR(-ENOMEM);
- 
--	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
-+	subsys->ver = NVMET_DEFAULT_VS;
- 	/* generate a random serial number as our controllers are ephemeral: */
- 	get_random_bytes(&subsys->serial, sizeof(subsys->serial));
- 
-@@ -1516,6 +1522,8 @@ static void nvmet_subsys_free(struct kref *ref)
- 	WARN_ON_ONCE(!xa_empty(&subsys->namespaces));
- 
- 	xa_destroy(&subsys->namespaces);
-+	nvmet_passthru_subsys_free(subsys);
-+
- 	kfree(subsys->subsysnqn);
- 	kfree_rcu(subsys->model, rcuhead);
- 	kfree(subsys);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 51719dc62083..9d0aa6560c0c 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -21,6 +21,8 @@
- #include <linux/radix-tree.h>
- #include <linux/t10-pi.h>
- 
-+#define NVMET_DEFAULT_VS		NVME_VS(1, 3, 0)
-+
- #define NVMET_ASYNC_EVENTS		4
- #define NVMET_ERROR_LOG_SLOTS		128
- #define NVMET_NO_ERROR_LOC		((u16)-1)
-@@ -245,6 +247,7 @@ struct nvmet_subsys {
- 
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
- 	struct nvme_ctrl	*passthru_ctrl;
-+	char			*passthru_ctrl_path;
- #endif /* CONFIG_NVME_TARGET_PASSTHRU */
- };
- 
-@@ -544,6 +547,9 @@ static inline u32 nvmet_dsm_len(struct nvmet_req *req)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6f80bd78eba6..bd07b4edd6fc 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -917,6 +917,106 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
+ 	return ERR_PTR(ret);
  }
  
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
-+void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys);
-+int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys);
-+void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys);
- u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req);
- u16 nvmet_parse_passthru_io_cmd(struct nvmet_req *req);
- static inline struct nvme_ctrl *nvmet_passthru_ctrl(struct nvmet_subsys *subsys)
-@@ -551,6 +557,12 @@ static inline struct nvme_ctrl *nvmet_passthru_ctrl(struct nvmet_subsys *subsys)
- 	return subsys->passthru_ctrl;
- }
- #else /* CONFIG_NVME_TARGET_PASSTHRU */
-+static inline void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
++static u32 nvme_known_admin_effects(u8 opcode)
 +{
-+}
-+static inline void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+}
- static inline u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
- {
- 	return 0;
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 311b74b40765..a260c09b5ab2 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -15,6 +15,11 @@
- 
- MODULE_IMPORT_NS(NVME_TARGET_PASSTHRU);
- 
-+/*
-+ * xarray to maintain one passthru subsystem per nvme controller.
-+ */
-+static DEFINE_XARRAY(passthru_subsystems);
-+
- static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
- {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-@@ -457,3 +462,84 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 	}
- }
-+
-+int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
-+{
-+	struct nvme_ctrl *ctrl;
-+	int ret = -EINVAL;
-+	void *old;
-+
-+	mutex_lock(&subsys->lock);
-+	if (!subsys->passthru_ctrl_path)
-+		goto out_unlock;
-+	if (subsys->passthru_ctrl)
-+		goto out_unlock;
-+
-+	if (subsys->nr_namespaces) {
-+		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
-+		goto out_unlock;
++	switch (opcode) {
++	case nvme_admin_format_nvm:
++		return NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
++			NVME_CMD_EFFECTS_CSE_MASK;
++	case nvme_admin_sanitize_nvm:
++		return NVME_CMD_EFFECTS_CSE_MASK;
++	default:
++		break;
 +	}
-+
-+	ctrl = nvme_ctrl_get_by_path(subsys->passthru_ctrl_path);
-+	if (IS_ERR(ctrl)) {
-+		ret = PTR_ERR(ctrl);
-+		pr_err("failed to open nvme controller %s\n",
-+		       subsys->passthru_ctrl_path);
-+
-+		goto out_unlock;
-+	}
-+
-+	old = xa_cmpxchg(&passthru_subsystems, ctrl->cntlid, NULL,
-+			 subsys, GFP_KERNEL);
-+	if (xa_is_err(old)) {
-+		ret = xa_err(old);
-+		goto out_put_ctrl;
-+	}
-+
-+	if (old)
-+		goto out_put_ctrl;
-+
-+	subsys->passthru_ctrl = ctrl;
-+	subsys->ver = ctrl->vs;
-+
-+	if (subsys->ver < NVME_VS(1, 2, 1)) {
-+		pr_warn("nvme controller version is too old: %llu.%llu.%llu, advertising 1.2.1\n",
-+			NVME_MAJOR(subsys->ver), NVME_MINOR(subsys->ver),
-+			NVME_TERTIARY(subsys->ver));
-+		subsys->ver = NVME_VS(1, 2, 1);
-+	}
-+
-+	mutex_unlock(&subsys->lock);
 +	return 0;
-+
-+out_put_ctrl:
-+	nvme_put_ctrl(ctrl);
-+out_unlock:
-+	mutex_unlock(&subsys->lock);
-+	return ret;
 +}
 +
-+static void __nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
++u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u8 opcode)
 +{
-+	if (subsys->passthru_ctrl) {
-+		xa_erase(&passthru_subsystems, subsys->passthru_ctrl->cntlid);
-+		nvme_put_ctrl(subsys->passthru_ctrl);
++	u32 effects = 0;
++
++	if (ns) {
++		if (ns->head->effects)
++			effects = le32_to_cpu(ns->head->effects->iocs[opcode]);
++		if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))
++			dev_warn(ctrl->device,
++				 "IO command:%02x has unhandled effects:%08x\n",
++				 opcode, effects);
++		return 0;
 +	}
-+	subsys->passthru_ctrl = NULL;
-+	subsys->ver = NVMET_DEFAULT_VS;
++
++	if (ctrl->effects)
++		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
++	effects |= nvme_known_admin_effects(opcode);
++
++	return effects;
++}
++EXPORT_SYMBOL_NS_GPL(nvme_command_effects, NVME_TARGET_PASSTHRU);
++
++static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++			       u8 opcode)
++{
++	u32 effects = nvme_command_effects(ctrl, ns, opcode);
++
++	/*
++	 * For simplicity, IO to all namespaces is quiesced even if the command
++	 * effects say only one namespace is affected.
++	 */
++	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK)) {
++		mutex_lock(&ctrl->scan_lock);
++		mutex_lock(&ctrl->subsys->lock);
++		nvme_mpath_start_freeze(ctrl->subsys);
++		nvme_mpath_wait_freeze(ctrl->subsys);
++		nvme_start_freeze(ctrl);
++		nvme_wait_freeze(ctrl);
++	}
++	return effects;
 +}
 +
-+void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
++static void nvme_update_formats(struct nvme_ctrl *ctrl, u32 *effects)
 +{
-+	mutex_lock(&subsys->lock);
-+	__nvmet_passthru_ctrl_disable(subsys);
-+	mutex_unlock(&subsys->lock);
++	struct nvme_ns *ns;
++
++	down_read(&ctrl->namespaces_rwsem);
++	list_for_each_entry(ns, &ctrl->namespaces, list)
++		if (_nvme_revalidate_disk(ns->disk))
++			nvme_set_queue_dying(ns);
++		else if (blk_queue_is_zoned(ns->disk->queue)) {
++			/*
++			 * IO commands are required to fully revalidate a zoned
++			 * device. Force the command effects to trigger rescan
++			 * work so report zones can run in a context with
++			 * unfrozen IO queues.
++			 */
++			*effects |= NVME_CMD_EFFECTS_NCC;
++		}
++	up_read(&ctrl->namespaces_rwsem);
 +}
 +
-+void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
++static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
 +{
-+	mutex_lock(&subsys->lock);
-+	__nvmet_passthru_ctrl_disable(subsys);
-+	mutex_unlock(&subsys->lock);
-+	kfree(subsys->passthru_ctrl_path);
++	/*
++	 * Revalidate LBA changes prior to unfreezing. This is necessary to
++	 * prevent memory corruption if a logical block size was changed by
++	 * this command.
++	 */
++	if (effects & NVME_CMD_EFFECTS_LBCC)
++		nvme_update_formats(ctrl, &effects);
++	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK)) {
++		nvme_unfreeze(ctrl);
++		nvme_mpath_unfreeze(ctrl->subsys);
++		mutex_unlock(&ctrl->subsys->lock);
++		nvme_remove_invalid_namespaces(ctrl, NVME_NSID_ALL);
++		mutex_unlock(&ctrl->scan_lock);
++	}
++	if (effects & NVME_CMD_EFFECTS_CCC)
++		nvme_init_identify(ctrl);
++	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC)) {
++		nvme_queue_scan(ctrl);
++		flush_work(&ctrl->scan_work);
++	}
 +}
++
+ static int nvme_submit_user_cmd(struct request_queue *q,
+ 		struct nvme_command *cmd, void __user *ubuffer,
+ 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+@@ -1383,98 +1483,6 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
+ }
+ 
+-static u32 nvme_known_admin_effects(u8 opcode)
+-{
+-	switch (opcode) {
+-	case nvme_admin_format_nvm:
+-		return NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
+-					NVME_CMD_EFFECTS_CSE_MASK;
+-	case nvme_admin_sanitize_nvm:
+-		return NVME_CMD_EFFECTS_CSE_MASK;
+-	default:
+-		break;
+-	}
+-	return 0;
+-}
+-
+-static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-								u8 opcode)
+-{
+-	u32 effects = 0;
+-
+-	if (ns) {
+-		if (ns->head->effects)
+-			effects = le32_to_cpu(ns->head->effects->iocs[opcode]);
+-		if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))
+-			dev_warn(ctrl->device,
+-				 "IO command:%02x has unhandled effects:%08x\n",
+-				 opcode, effects);
+-		return 0;
+-	}
+-
+-	if (ctrl->effects)
+-		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
+-	effects |= nvme_known_admin_effects(opcode);
+-
+-	/*
+-	 * For simplicity, IO to all namespaces is quiesced even if the command
+-	 * effects say only one namespace is affected.
+-	 */
+-	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK)) {
+-		mutex_lock(&ctrl->scan_lock);
+-		mutex_lock(&ctrl->subsys->lock);
+-		nvme_mpath_start_freeze(ctrl->subsys);
+-		nvme_mpath_wait_freeze(ctrl->subsys);
+-		nvme_start_freeze(ctrl);
+-		nvme_wait_freeze(ctrl);
+-	}
+-	return effects;
+-}
+-
+-static void nvme_update_formats(struct nvme_ctrl *ctrl, u32 *effects)
+-{
+-	struct nvme_ns *ns;
+-
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		if (_nvme_revalidate_disk(ns->disk))
+-			nvme_set_queue_dying(ns);
+-		else if (blk_queue_is_zoned(ns->disk->queue)) {
+-			/*
+-			 * IO commands are required to fully revalidate a zoned
+-			 * device. Force the command effects to trigger rescan
+-			 * work so report zones can run in a context with
+-			 * unfrozen IO queues.
+-			 */
+-			*effects |= NVME_CMD_EFFECTS_NCC;
+-		}
+-	up_read(&ctrl->namespaces_rwsem);
+-}
+-
+-static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+-{
+-	/*
+-	 * Revalidate LBA changes prior to unfreezing. This is necessary to
+-	 * prevent memory corruption if a logical block size was changed by
+-	 * this command.
+-	 */
+-	if (effects & NVME_CMD_EFFECTS_LBCC)
+-		nvme_update_formats(ctrl, &effects);
+-	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK)) {
+-		nvme_unfreeze(ctrl);
+-		nvme_mpath_unfreeze(ctrl->subsys);
+-		mutex_unlock(&ctrl->subsys->lock);
+-		nvme_remove_invalid_namespaces(ctrl, NVME_NSID_ALL);
+-		mutex_unlock(&ctrl->scan_lock);
+-	}
+-	if (effects & NVME_CMD_EFFECTS_CCC)
+-		nvme_init_identify(ctrl);
+-	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC)) {
+-		nvme_queue_scan(ctrl);
+-		flush_work(&ctrl->scan_work);
+-	}
+-}
+-
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			struct nvme_passthru_cmd __user *ucmd)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 92629758b77c..d4dbf7280500 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -784,4 +784,7 @@ void nvme_hwmon_init(struct nvme_ctrl *ctrl);
+ static inline void nvme_hwmon_init(struct nvme_ctrl *ctrl) { }
+ #endif
+ 
++u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++			 u8 opcode);
++
+ #endif /* _NVME_H */
 -- 
 2.20.1
 
