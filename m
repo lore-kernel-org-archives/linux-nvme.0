@@ -5,90 +5,88 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E38CAC433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E35C433E0
 	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 22:10:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A6E21206D7
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 22:10:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 094B6206D7
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jul 2020 22:10:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="J6oDL0Fo";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nokmOf/5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A6E21206D7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i9VUzv+o";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MwCp65oU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 094B6206D7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
-	:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:To:From:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+OjK37bV9n61Df6z+3uK3rk0W3+6Pmn1FX9xW4WlN8I=; b=J6oDL0FohuhWnGk6erw3D7msxx
-	Pae0bq+Y7RGd/n0I6LpRDSKPk5EnviEiag316wK6AD4MrzF2AKgSrC2oBLQbLn5DMBdWq1AP2HFwz
-	FpcAuk7b+sjcUrEuEpMYnXwyKFIJZxENdV7HkfzHcf+b/CvH4TtorHLY4fc4Snv48vv6cdl5MnhXM
-	/ArAN/Qwf7v4P60bh7cyYxnXh+VVnX4odZtaVqYIwP1Mm9kdOApYN8HEfTFCKkbEv8N5RUPW5s+WY
-	YsuAO+a5h9SuoX/5qHqHMewdVwMdvhSay2XyCs0DLteldrZVzco6y7aZZyR7hjOcj2yX7muxEPGcX
-	Xk7enh4A==;
+	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=qajUVGBlkCGiG8QO2bXE6ffpZYNm103H03134vizGG0=; b=i9VUzv+otu3hDmGfQko9HL/ztJ
+	HUOIZLHZan4RHXK9Ey6dOSYyX8TGTP4CQZgnPiriQBPvLt++ODUqaJSmLv+AgAkOyHPaJIzaDEVE2
+	jUtXGGgh4X4gO6gJpTgrlLjes1jgo/JA61c82VmaRo7w/CCKtyfmrfDW5lNBEdRD7O3MfDZnRyLLz
+	T6aow2Syj82L0skNordyBoPQ/WYxXwE0wtMf6Ii3PO9yrlnM23olxwYMfIFCOguLS+cJ7Tbu+Irv8
+	7GZpyoBJ0Fu1TT8aewEPvMtJQCUIhf80f3UQQCG8khbfocBGdzyGYOnYI5K8W+qmVAVFDe8UJDuXl
+	CD8AbvuQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jz5tZ-00077W-SA; Fri, 24 Jul 2020 22:10:25 +0000
+	id 1jz5tY-00077L-Vg; Fri, 24 Jul 2020 22:10:25 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jz5tY-000770-7B
- for linux-nvme@merlin.infradead.org; Fri, 24 Jul 2020 22:10:24 +0000
+ id 1jz5tX-000770-9s
+ for linux-nvme@merlin.infradead.org; Fri, 24 Jul 2020 22:10:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:
- Content-Type:Content-ID:Content-Description;
- bh=oynyD4pGJvO0s7XSXZf1vsygXINkxKKybRM0taR0t+o=; b=nokmOf/59I9+Q5D3+VNZtGmOnQ
- IoAGHqzJWWNvfY8o0rtHR1vOBrAfwPjC7YKtJ3poNwzMXOQJbeuIWW+BKdJv7zY0EoJAfT524Or6h
- ppbjuE30TrNewYuGa90ZugJ5dwpuljnBMvUg2qm15XpEx3jm3uGD76otFPpoSMnUoHYFA/HMJ/fPf
- 8m4Kjbi4rx7PsnLMo3ed0zVmqs+wygQJ2zaiwUGmLOd/GqJyAzWFJAkElQUJLc7Hr10hj5JCVCfxg
- rUJflpFj6Mi1qSogNwsNy3xBGSOYw/HPFovInO/RY/BG3AqC6mdIi3qj7WEYCewtNwPNtcW5trtz+
- zjFKiMCQ==;
-Received: from mail-pg1-f196.google.com ([209.85.215.196])
+ Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=IPOcMliK1GI5TzFR1nfWWjH6bfELej6689fV5QtJyUI=; b=MwCp65oUIEDBDGKptAIQ/k8UIr
+ BA523JGI6lUKi0KDs7y6WrhezDEdHGa/Gc0r9HudVT/3MSAcXkB8386BxeZDVzoPvQgyJF+41WMCs
+ 7YIHVz+tla0UO/Mcsdij7qBkPDfE0zuvbIGHh2UdVuokQ9T8SIHQ6/ZomgKVvVs/+8mVDVI3YdpcS
+ ruBrylxvKuSGm5i6lLt1XGx08GPx4SezxLrW5EFu+whVrWTqHMoEtBHWCJ9ogQa/9+zHD6/5KZI5+
+ G7W21mWg6ZPQNhFkrKBri90/iHqgPh1vyZ3w55W1qw5UYt4c1ku0PqPH2F9gTxqh2uIxEvLmbNlgM
+ PtIHONng==;
+Received: from mail-pg1-f194.google.com ([209.85.215.194])
  by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jz5tT-0003zn-G7
+ id 1jz5tT-0003zm-Cv
  for linux-nvme@lists.infradead.org; Fri, 24 Jul 2020 22:10:22 +0000
-Received: by mail-pg1-f196.google.com with SMTP id m22so6172076pgv.9
- for <linux-nvme@lists.infradead.org>; Fri, 24 Jul 2020 15:10:18 -0700 (PDT)
+Received: by mail-pg1-f194.google.com with SMTP id j19so6174301pgm.11
+ for <linux-nvme@lists.infradead.org>; Fri, 24 Jul 2020 15:10:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oynyD4pGJvO0s7XSXZf1vsygXINkxKKybRM0taR0t+o=;
- b=pF+fm+OdWsW6evcPEMZzbzBdBx+guJ6hy6gadRhXlk+yGEMjpG2QjbsgQVPTw9uOlb
- cmqJ/c4szZUT4UODKYNcKqntj5lZUT+yHDoNieYa1UvDHpjDDDy2J+Awgu3gGexiU0+J
- RBUT1eiCIwUFjAFZXEH8wXY30V77l7VDdwx+wZyGnXoyxevSmydvKufnjWzwj2n6tCWm
- cC6rPNJBY0+/IejU2KvGog4O4F0S/icTwDQ1BKaW6w9NZTt+GqHAtBYbQFcwBLtlfj4K
- 0pqot2C11m4uUyHdvLcSa5vxyJyL/Z5eFYNl9NTzu4qaraaTlRlu+O/ds/auLmYON7Q3
- hBYg==
-X-Gm-Message-State: AOAM533QnXcpecI4K2+45GEjyB10DyOCgg+fEUC84aYldcGWtQHrxTYI
- 9aAjeo3PvWJEu8T33SKSb68Ej62C
-X-Google-Smtp-Source: ABdhPJzH5eL126dsIpV83rPa5xMMfrK3lVGZC4Kx5YgxlY94BW3XHCh+lBZzN/T7J2bE+cUJUJqlrA==
-X-Received: by 2002:a63:2b91:: with SMTP id r139mr4234762pgr.61.1595628616675; 
- Fri, 24 Jul 2020 15:10:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IPOcMliK1GI5TzFR1nfWWjH6bfELej6689fV5QtJyUI=;
+ b=sD1sx8eHS9ch9zIofrfWCFiCX0SE0JvotGCx1yKP2Xqj8DrodYukXp+0CPnhgbYdXS
+ aqaUP03G0K+gQlX1Em6ktt0500veKHtcbcpXAUyN/NIvBovxXDuQI560nnwlEwdQtmnX
+ 9zpPCrIuXv05v6alGnbD6dvTiXgnYJ/WMw4uFidRncWeNYrF5w8/gmzpqIap/+dMokpm
+ +UMZBFNdt+jNqwcJFMsk/PbGpFE5R8zpMTIBPGFCBt3mTwOhV+gVtsayJ1J8l6WY7toL
+ Y/0TEE5Eg/MGdagaANQ1qj/Xtr15qEYyWhJ+V4Z9bIEd4EJ/TpQrYDCqM0M3BE5zTEa9
+ +RsQ==
+X-Gm-Message-State: AOAM530H4ZRJAwv6N2dBu0tZFQj2P/rdeViDpr8pzxUYbKMDzVrqzfss
+ 0m1WUbP1BbCJkoMH3ekKN15IwT7B
+X-Google-Smtp-Source: ABdhPJyM12ijfn2BJFe9sl+zrtJin9h/vqZSm+2t0dz3nVdlhGW5CFP7p7TM1eRHeWUXGWdId3WvHQ==
+X-Received: by 2002:a65:4484:: with SMTP id l4mr9965870pgq.96.1595628615306;
+ Fri, 24 Jul 2020 15:10:15 -0700 (PDT)
 Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
  ([2601:647:4802:9070:ac47:9fc4:b59:66fa])
- by smtp.gmail.com with ESMTPSA id c139sm7393956pfb.65.2020.07.24.15.10.15
+ by smtp.gmail.com with ESMTPSA id c139sm7393956pfb.65.2020.07.24.15.10.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jul 2020 15:10:16 -0700 (PDT)
+ Fri, 24 Jul 2020 15:10:14 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 2/2] nvme-rdma: fix controller reset hang during traffic
-Date: Fri, 24 Jul 2020 15:10:13 -0700
-Message-Id: <20200724221013.28828-2-sagi@grimberg.me>
+Subject: [PATCH 1/2] nvme-tcp: fix controller reset hang during traffic
+Date: Fri, 24 Jul 2020 15:10:12 -0700
+Message-Id: <20200724221013.28828-1-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200724221013.28828-1-sagi@grimberg.me>
-References: <20200724221013.28828-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200724_231019_836327_12141D35 
-X-CRM114-Status: GOOD (  15.63  )
+X-CRM114-CacheID: sfid-20200724_231019_759240_93DECE5E 
+X-CRM114-Status: GOOD (  14.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,45 +120,45 @@ This follows to how the pci driver handles resets.
 
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 12 +++++++++---
+ drivers/nvme/host/tcp.c | 12 +++++++++---
  1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 5c3848974ccb..d58231636d11 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -967,15 +967,20 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 			ret = PTR_ERR(ctrl->ctrl.connect_q);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 7953362e7bb5..62fbaecdc960 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1774,15 +1774,20 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 			ret = PTR_ERR(ctrl->connect_q);
  			goto out_free_tag_set;
  		}
 -	} else {
--		blk_mq_update_nr_hw_queues(&ctrl->tag_set,
--			ctrl->ctrl.queue_count - 1);
+-		blk_mq_update_nr_hw_queues(ctrl->tagset,
+-			ctrl->queue_count - 1);
  	}
  
- 	ret = nvme_rdma_start_io_queues(ctrl);
+ 	ret = nvme_tcp_start_io_queues(ctrl);
  	if (ret)
  		goto out_cleanup_connect_q;
  
 +	if (!new) {
-+		nvme_start_queues(&ctrl->ctrl);
-+		nvme_wait_freeze(&ctrl->ctrl);
-+		blk_mq_update_nr_hw_queues(&ctrl->ctrl.tagset,
-+			&ctrl->ctrl.>queue_count - 1);
-+		nvme_unfreeze(&ctrl->ctrl);
++		nvme_start_queues(ctrl);
++		nvme_wait_freeze(ctrl);
++		blk_mq_update_nr_hw_queues(ctrl->tagset,
++			ctrl->queue_count - 1);
++		nvme_unfreeze(ctrl);
 +	}
 +
  	return 0;
  
  out_cleanup_connect_q:
-@@ -1008,6 +1013,7 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
+@@ -1887,6 +1892,7 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
  {
- 	if (ctrl->ctrl.queue_count > 1) {
-+		nvme_start_freeze(ctrl);
- 		nvme_stop_queues(&ctrl->ctrl);
- 		nvme_rdma_stop_io_queues(ctrl);
- 		if (ctrl->ctrl.tagset) {
+ 	if (ctrl->queue_count <= 1)
+ 		return;
++	nvme_start_freeze(ctrl);
+ 	nvme_stop_queues(ctrl);
+ 	nvme_tcp_stop_io_queues(ctrl);
+ 	if (ctrl->tagset) {
 -- 
 2.25.1
 
