@@ -2,78 +2,78 @@ Return-Path: <SRS0=kRiD=BG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC63C433E5
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2020 23:10:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BB0C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2020 23:10:39 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 565A920729
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2020 23:10:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1154D20729
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2020 23:10:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bQpFHANT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 565A920729
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="p4LCyeco"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1154D20729
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=G6/ZPKtmn2mzDfaTwXfoQF4S9CSQEIGw4TNvU/QU66U=; b=bQpFHANTObGjVv+tz9gB0WKvIT
-	o1x4lzPQU5ni1jhBvYXHgCs48Ih7iHZMpOOaMaqzpvUE2JdPnBPf65QJCyxL53MrLLecHGqMg3reH
-	H3ovzE8TCg37J/TRYg8V0lagGZt4qlLiSlAsTmjJxVrarUKbfjuH4huuB2gokewCoJSsUUh6Vfq+V
-	kQ2+8JLzj18SYdH3w5qK/1MkOf3W/DNeu3bQ8a2kSDsu81yEL96BI2g7k3HMyKlDoC5xXNyakCo18
-	ixsFR0engmnE1wbCiAJWmg5CNgSdr84aj6pCeddpW/ghh2fTyYu1Vitf3Wx+qQPhmXXSd78eO+alL
-	YeMfPGvg==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=3oQsbZjhC1ICJh/5zQjOCV0jXiN+nNVsu+3KI4xDqDA=; b=p4LCyecoodciCvgwi6HyVqST5
+	OOic3LKTG5JKaTkCCtmyAOdJwb1yrVyS3SNGMETlj3XCXFFujobUzJoTHNA1ILfCyGfUDAsd8up9R
+	aWgcD8Q7ZpBFvVPl60ag0mv7IP3hOZFUOFg4kQhmYI00LI98TYYpIVP2ChTZqUdkodGNTbzCt8EJt
+	bfs5fqHnt5Rqc1zlUiyrmeOAmZmY4o9okZ1UWkaZSGY9EpwkRfvZBsAvP08REPMuCPYLveETK2I0K
+	2/gveCJA6Kgy7OgLFIlMIy32MEyOgc4Wi17SI+QK91hrrb/AhN/vNbG62w1BFmZKcYUoATbcT940i
+	IfWJ6L8MQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0CGK-0006Cn-VS; Mon, 27 Jul 2020 23:10:28 +0000
-Received: from mail-pl1-f195.google.com ([209.85.214.195])
+	id 1k0CGP-0006EH-EK; Mon, 27 Jul 2020 23:10:33 +0000
+Received: from mail-pg1-f196.google.com ([209.85.215.196])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0CGJ-0006CC-5D
- for linux-nvme@lists.infradead.org; Mon, 27 Jul 2020 23:10:28 +0000
-Received: by mail-pl1-f195.google.com with SMTP id k13so1135288plk.13
- for <linux-nvme@lists.infradead.org>; Mon, 27 Jul 2020 16:10:26 -0700 (PDT)
+ id 1k0CGM-0006Cs-09
+ for linux-nvme@lists.infradead.org; Mon, 27 Jul 2020 23:10:30 +0000
+Received: by mail-pg1-f196.google.com with SMTP id e8so10804454pgc.5
+ for <linux-nvme@lists.infradead.org>; Mon, 27 Jul 2020 16:10:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=s7HvE7cCk+QXElSFNz6NUM8zZE/EqHMoDCQdYPstf08=;
- b=IxWuTl1aLJQGckIjGkBstoJCgluXeP0fEPYebcgxNb3ERW+olf+NxBIDD/Dn81jndJ
- OuLFBOJIlKxQkwLVIkkHpomSDQYLNHgeOJVXXfyXtI504MpaLpwW8un3xvZP0WFBQM9b
- dkDLTQBiKd+PHW/TO0I699ZAu3EWAvv4okG2H+1HukgowEtieO588BPqhAH/0R8HNNpC
- KCpWMeq+AtplS+E8a/RbHZndoXLgyzz7Ns7rCLeVK1ig4hkA7M1pqzUURSMJbe3vHi/z
- +1iFvyj7mkcyTUIPODPZ1Fs33L2jWetltHG9o8JniCL+NDsJklfEjiNEKK51mzRBJVvy
- VQeQ==
-X-Gm-Message-State: AOAM533zdpXCAdktSVzXM5asxhXbLmgYYvCh2HbiEEBVRtSu+LjkwAsI
- hAkrN/arLtEIQlBmRBL/YOOURcF1
-X-Google-Smtp-Source: ABdhPJx7LHZGg8iU5uE+1Tv25WzLucK/Z41popy2MTwXO+9/xIZXLSbghsX29tkbwFA4+eDsITraiw==
-X-Received: by 2002:a17:902:7b85:: with SMTP id
- w5mr20109833pll.22.1595891425539; 
- Mon, 27 Jul 2020 16:10:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rhPI1AK8s0t5ZglX+PETgazcv0kHzfPuguyROZL/wxE=;
+ b=mM1OU8xv8wrQew6ic2BlKaGAGdwlsBbUHOBXad9Hv6AGWaZ64sSbGnEZqoAnXN1o3a
+ s+wC6Q0sVUhb9V5wOBYnClaC4YbUpb6aP8HSHANrHd+Y/YprQyRg8kEbtkGVSQJ78xFL
+ vbERqS4dbmXdGEpwMx/4w7B+dqLBA+IJx1o8mjIUi9+Rr72+eVUUOwmavDTERWy256Ko
+ wWY+TphCkEBQQH4Jl5fPtoxpQzBhAEPt2JL9GlYzzduSkaay+izyk5xyEh14+uOHSupw
+ V74lyFqDRTLWaQ3qjWDf5Ng9O01rTErwICNI9IgKSdv9pDJP/BZvwsQSR5aDlELBaUjn
+ uObw==
+X-Gm-Message-State: AOAM5316jvcUtNTqUV6nGFMeK1MY+d+4yqJrS3s9bkf78Opa46CEueDV
+ ymqqsSvoCnjrtxAIChFp4pMXitOo
+X-Google-Smtp-Source: ABdhPJwN/y5+qq3rd5tJTCca6/CBeuaY47jNx6qXZwnx26i6zeOQ5qwwrsmdbrP74v2FNbHJnC+6AA==
+X-Received: by 2002:a62:7942:: with SMTP id u63mr21722936pfc.54.1595891428381; 
+ Mon, 27 Jul 2020 16:10:28 -0700 (PDT)
 Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
  ([2601:647:4802:9070:5d7d:f206:b163:f30b])
- by smtp.gmail.com with ESMTPSA id z190sm7407171pfz.67.2020.07.27.16.10.23
+ by smtp.gmail.com with ESMTPSA id z190sm7407171pfz.67.2020.07.27.16.10.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 16:10:24 -0700 (PDT)
+ Mon, 27 Jul 2020 16:10:27 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH v5 0/2] improve nvme quiesce time for large amount of
- namespaces
-Date: Mon, 27 Jul 2020 16:10:20 -0700
-Message-Id: <20200727231022.307602-1-sagi@grimberg.me>
+Subject: [PATCH v5 2/2] nvme: use blk_mq_[un]quiesce_tagset
+Date: Mon, 27 Jul 2020 16:10:22 -0700
+Message-Id: <20200727231022.307602-3-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200727231022.307602-1-sagi@grimberg.me>
+References: <20200727231022.307602-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200727_191027_258062_6BC20413 
-X-CRM114-Status: GOOD (  12.60  )
+X-CRM114-CacheID: sfid-20200727_191030_115154_ADDF143F 
+X-CRM114-Status: GOOD (  13.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,45 +92,46 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This set improves the quiesce time when using a large set of
-namespaces, which also improves I/O failover time in a multipath environment.
+All controller namespaces share the same tagset, so we
+can use this interface which does the optimal operation
+for parallel quiesce based on the tagset type (e.g.
+blocking tagsets and non-blocking tagsets).
 
-We improve for both non-blocking hctxs and blocking hctxs introducing
-blk_mq_[un]quiesce_tagset which works on all request queues over a given
-tagset in parallel (which is the case in nvme) for both tagset types (blocking
-and non-blocking);
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/core.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-Changes from v4:
-- introduce blk_mq_[un]quiesce_tagset as one interface
-- move nvme core to use this interface
-
-Changes from v3:
-- make hctx->rcu_sync dynamically allocated from the heap instead
-  of a static member function
-
-Changes from v2:
-- made blk_mq_quiesce_queue_async operate on both blocking and
-  non-blocking hctxs.
-- removed separation between blocking vs. non-blocking queues
-- dropeed patch from Chao
-- dropped nvme-rdma test patch
-
-Changes from v1:
-- trivial typo fixes
-
-*** SUBJECT HERE ***
-
-*** BLURB HERE ***
-
-Sagi Grimberg (2):
-  blk-mq: add tagset quiesce interface
-  nvme: use blk_mq_[un]quiesce_tagset
-
- block/blk-mq.c           | 66 ++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/core.c | 14 ++-------
- include/linux/blk-mq.h   |  4 +++
- 3 files changed, 72 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 05aa568a60af..c41df20996d7 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4557,23 +4557,13 @@ EXPORT_SYMBOL_GPL(nvme_start_freeze);
+ 
+ void nvme_stop_queues(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_ns *ns;
+-
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		blk_mq_quiesce_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
++	blk_mq_quiesce_tagset(ctrl->tagset);
+ }
+ EXPORT_SYMBOL_GPL(nvme_stop_queues);
+ 
+ void nvme_start_queues(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_ns *ns;
+-
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		blk_mq_unquiesce_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
++	blk_mq_unquiesce_tagset(ctrl->tagset);
+ }
+ EXPORT_SYMBOL_GPL(nvme_start_queues);
+ 
 -- 
 2.25.1
 
