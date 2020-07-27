@@ -2,85 +2,61 @@ Return-Path: <SRS0=kRiD=BG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50C4AC433DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2020 06:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3462C433E4
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2020 08:01:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1BB4E20714
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2020 06:32:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7EB4020672
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jul 2020 08:01:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kd2MRvFM";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dnhBr7wi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1BB4E20714
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hEReHCgm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7EB4020672
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Wq22woZ5DxsL0RGYfcN9SRftp5ZZNFOIRQl9jNF3EaQ=; b=kd2MRvFMTsqlGMe3Jd3hGq46g
-	Xhl4wAb1f4AaZC4NeIlhmJU7eoiPdCAo/u6CrwlMnB8uQZOvvp3WvxSDxjOcMcRuemh6DPDacLKGu
-	agxknCZTfHgeGYBahvpa96bVMt+cdJDkehmfErvBSQTjg3dMyzxFQ2D2QTArndrhKFE6cN2yK3yJA
-	xFCfHFXwal00/JBDfZafp4g5dptUaKdN3ICFEvyX9gxZsENGsS9FQsN3fzSmm8JMLZVlu9y2vrBY1
-	jtBseDePxG9KjUsv+zErQoSTinpwgnhKAB/Gj7vio90W4mV9FblqAH0svgKKsUSpT7+PLxpN+XF7Q
-	WfMNKnI8g==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=QIERmeBxRACe2scgJXogkmkf6U7leQikylTyhnMNyW8=; b=hEReHCgmrMgFUFpSfVq0nlEs+b
+	eNMccVDY2yPEyZIyZXISgcdZOxPASq6k/jiXIpOo68f6pZ80x3n7ODJYl+4IPJ3ajLgzNRnwhzMPk
+	7i52rnjHvM7+FwAn5V9cjiNFoodjxGZZjPGF+4A0GtkuE3KindI+5NtsXBM3V9t7a1MtCbohBPf+6
+	YKPSJkxNsh1IIbBLPaziLtbWGWNBPlNMEVaeZzC4/byjL4Ayw8zjcYZ6CC66DsoWuy3pTqTFMPmqe
+	qiq6kIU/DUUzyLlM1je3DEPPJG8hzqp5oocdoPFv5QQUXkYNoVitM29OGkOh+CnADoOLak+fviEEi
+	egcEusZA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jzwgj-0001a6-J2; Mon, 27 Jul 2020 06:32:41 +0000
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1jzy4y-0007te-Os; Mon, 27 Jul 2020 08:01:48 +0000
+Received: from szxga05-in.huawei.com ([45.249.212.191] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jzwgf-0001ZX-MD
- for linux-nvme@lists.infradead.org; Mon, 27 Jul 2020 06:32:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595831556;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aJtngrEk2ZTwLRW9iKTKZSGysZhtZ1fNHYksyTSX2tM=;
- b=dnhBr7wiJJjcpCAwhOheppO7h9Ak/NPcnisY7lH2Hmt5ue/u03g+z4R7Zgx5i40wBrl5OE
- VXPK1SfdTWwgr3hzxFJ/zF/0jBfSqOAbBPDY9f5IKfhPE7GIjy2qiIRB/9eUBzAmPSZc2f
- NgN69QZVNyE4haglmvUOdtvuK/L7R1Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-Z_xYT0RHOvWRtl-nTClzRg-1; Mon, 27 Jul 2020 02:32:33 -0400
-X-MC-Unique: Z_xYT0RHOvWRtl-nTClzRg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B6C01DE0;
- Mon, 27 Jul 2020 06:32:32 +0000 (UTC)
-Received: from T590 (ovpn-12-208.pek2.redhat.com [10.72.12.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5302F5C1D3;
- Mon, 27 Jul 2020 06:32:24 +0000 (UTC)
-Date: Mon, 27 Jul 2020 14:32:20 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Chao Leng <lengchao@huawei.com>
-Subject: Re: [PATCH v3 1/2] blk-mq: add async quiesce interface
-Message-ID: <20200727063220.GA1144698@T590>
-References: <20200726002301.145627-1-sagi@grimberg.me>
- <20200726002301.145627-2-sagi@grimberg.me>
- <20200726093132.GD1110104@T590>
- <9ac5f658-31b3-bb19-e5fe-385a629a7d67@grimberg.me>
- <20200727020803.GC1129253@T590>
- <f9ed3baa-2a83-c483-6ba0-70a84d40f569@huawei.com>
- <20200727035033.GD1129253@T590>
- <79ab699e-3f50-26c0-3c85-1962ae4dedac@huawei.com>
+ id 1jzy4v-0007sH-F3
+ for linux-nvme@lists.infradead.org; Mon, 27 Jul 2020 08:01:47 +0000
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 90F70454A2BB147ACA2D;
+ Mon, 27 Jul 2020 16:01:37 +0800 (CST)
+Received: from huawei.com (10.29.88.127) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Mon, 27 Jul 2020
+ 16:01:27 +0800
+From: Chao Leng <lengchao@huawei.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: [PATCH] nvme-core: fix deadlock when delete ctrl due to reconnect fail
+Date: Mon, 27 Jul 2020 16:01:27 +0800
+Message-ID: <20200727080127.30058-1-lengchao@huawei.com>
+X-Mailer: git-send-email 2.16.4
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <79ab699e-3f50-26c0-3c85-1962ae4dedac@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Originating-IP: [10.29.88.127]
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200727_023237_849046_E72A2E98 
-X-CRM114-Status: GOOD (  20.95  )
+X-CRM114-CacheID: sfid-20200727_040146_413257_EA1D7479 
+X-CRM114-Status: UNSURE (   7.48  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,56 +68,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, lengchao@huawei.com,
+ sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 27, 2020 at 01:55:53PM +0800, Chao Leng wrote:
-> 
-> 
-> On 2020/7/27 11:50, Ming Lei wrote:
-> > On Mon, Jul 27, 2020 at 11:33:43AM +0800, Chao Leng wrote:
-> > > 
-> > > 
-> > > On 2020/7/27 10:08, Ming Lei wrote:
-> > > > > It is at the end and contains exactly what is needed to synchronize. Not
-> > > > The sync is simply single global synchronize_rcu(), and why bother to add
-> > > > extra >=40bytes for each hctx.
-> > > > 
-> > > > > sure what you mean by reuse hctx->srcu?
-> > > > You already reuses hctx->srcu, but not see reason to add extra rcu_synchronize
-> > > > to each hctx for just simulating one single synchronize_rcu().
-> > > 
-> > > To sync srcu together, the extra bytes must be needed, seperate blocking
-> > > and non blocking queue to two hctx may be a not good choice.
-> > > 
-> > > There is two choice: the struct rcu_synchronize is added in hctx or in srcu.
-> > > Though add rcu_synchronize in srcu has a  weakness: the extra bytes is
-> > > not need if which do not need batch sync srcu, I still think it's better
-> > > for the SRCU to provide the batch synchronization interface.
-> > 
-> > The 'struct rcu_synchronize' can be allocated from heap or even stack(
-> > if no too many NSs), which is just one shot sync and the API is supposed
-> > to be called in slow path. No need to allocate it as long lifetime variable.
-> > Especially 'struct srcu_struct' has already been too fat.
-> 
-> Stack is not suitable, stack can not provide so many space for
+A deadlock happens when test link blink for nvme over roce. If time out
+in reconneting process, nvme_rdma_timeout->nvme_rdma_teardown_io_queues
+will quiesce the io queues, and then the ctrl will be deleted after
+reconnect times exceed max_reconnects. If run fdisk from the time
+when the queue is quiesced to the time when the ctrl is deleted,
+delete ctrl will deadlock, the process: nvme_do_delete_ctrl->
+nvme_remove_namespaces->nvme_ns_remove->blk_cleanup_queue->
+blk_freeze_queue->blk_mq_freeze_queue_wait, blk_mq_freeze_queue_wait
+will wait until q_usage_counter of queue become 0, but the queue is
+quiesced, can not clean any request.
 
-Stack is fine if number of NS is small, for example, most of times,
-there is just one NS.
+Solution: nvme_rdma_timeout should call nvme_start_queues after
+call nvme_rdma_teardown_io_queues. further more, we need start queues
+regardless of whether the remove flag is set, after cancel requests
+in nvme_rdma_teardown_io_queues.
 
-> many name space. Heap maybe a choice, but need to add abnormal treat
-> when alloc memory failed, Thus io pause time can not be ensured.
-> So the extra space may must be needed for batch srcu sync.
+Signed-off-by: Chao Leng <lengchao@huawei.com>
+---
+ drivers/nvme/host/rdma.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-In case of allocation failure, you can switch to synchronize_srcu() simply.
-
-Thanks, 
-Ming
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index f8f856dc0c67..b381e2cde50a 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -989,8 +989,7 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 				nvme_cancel_request, &ctrl->ctrl);
+ 			blk_mq_tagset_wait_completed_request(ctrl->ctrl.tagset);
+ 		}
+-		if (remove)
+-			nvme_start_queues(&ctrl->ctrl);
++		nvme_start_queues(&ctrl->ctrl);
+ 		nvme_rdma_destroy_io_queues(ctrl, remove);
+ 	}
+ }
+@@ -1128,7 +1127,6 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 
+ 	nvme_stop_keep_alive(&ctrl->ctrl);
+ 	nvme_rdma_teardown_io_queues(ctrl, false);
+-	nvme_start_queues(&ctrl->ctrl);
+ 	nvme_rdma_teardown_admin_queue(ctrl, false);
+ 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+ 
+-- 
+2.16.4
 
 
 _______________________________________________
