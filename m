@@ -2,77 +2,103 @@ Return-Path: <SRS0=l2Ft=BH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F24BFC433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 14:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDABC433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 14:47:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C19012070B
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 14:13:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0AA0E206D4
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 14:47:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i6mkwB84";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+JjYgME"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C19012070B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FceelmGk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HE8c3kMl";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=web.de header.i=@web.de header.b="ZNclUPxz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0AA0E206D4
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=web.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kmYhTYqQfCoBjHz02u/UYjXJXEluX8hS/3i0oQxLscg=; b=i6mkwB84VZPvaqSVAH2VgbHLSI
-	//e+WEVZRgqO5siVR8buKP/0hL4CIqhQRCHEtGKl3DsQUHWCmHy+N0U6AQymtYU9ZLo8xSVU/4xXM
-	vDtzLhES4czoHP7TDzgNw3Y2NhXB5+5B/0r9AY7xG/br9XH4Z2inVzXikV/8X6yH8ppYypg6NQA67
-	6vTzZBhzJ4rmYi7WrNLQbjJrBIQEnipMW+y5fxIeOTtRWIoy5oaRKIFVbYY7UvzeFZj9SPtr+A0xv
-	3bm1kdO0ZsRwRJUL3OcyiXYSSCsD6kz4tjBaz5vnfU1aVVcaP3COfLzvMRGfeDFqrqPBpwN1/h1OG
-	8L09qVBA==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:In-Reply-To:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	 bh=Ogyml0VW1kBr/c1r38sZEz+TA6AtA2D7ZlABEa5eNeQ=; b=FceelmGkDSP/AO3B2pYoIPld1
+	M/VJrlWprUWRmy9BPuWXujiPyiJhCMl9m8cvx5pPBZqsslDmM+lHB7f0+eKNexk/Z0Af65ccok68v
+	LmUPtZ13sLva47Kof/UpilxPDyROjyZUM8zUj51yuqYA7ZnW4QjsWxltAOdkrWcawENJmJlVntvYG
+	jjMikmdOb3+RXgxHVVTM2u/8Y9ZkUVvpEulHmzTI0ICx+t2H2BZCZydGEbAQJ/65qjxtJ0bKpZ1xK
+	o5mT/AowfME3V5ebwngIZqKni7kufIHb2hXV55ffgqun7ZOisci7MbgXipHlKp17VchSjpXi4G+OC
+	DsGjB5hfg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0QMd-0006gZ-6s; Tue, 28 Jul 2020 14:13:55 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1k0Qsy-0002yJ-IR; Tue, 28 Jul 2020 14:47:20 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0QMa-0006fn-L1
- for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 14:13:53 +0000
-Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 27287206F5;
- Tue, 28 Jul 2020 14:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595945631;
- bh=RLKuIBfpnN/w8gaHsO2CAGK3XcIG8apzTyhe0SOY5bY=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=R+JjYgMEHindWzEoxkbOvYosRzYO5/zTHjQbuM5v+41kAYUp2pZH0M8vHcFTiOBJU
- htcWz5axLHSYjrhZ8nD8rzSDmWx6jEMTPRMKpszGbktW0rGjYZvqg1X9nOgRc2SeUR
- kqw6Khp1Gu5a9GvWkGBIlpemtxrE7tE6oHbqkB1o=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id DCBC53521362; Tue, 28 Jul 2020 07:13:50 -0700 (PDT)
-Date: Tue, 28 Jul 2020 07:13:50 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH v5 1/2] blk-mq: add tagset quiesce interface
-Message-ID: <20200728141350.GQ9247@paulmck-ThinkPad-P72>
-References: <20200727231022.307602-1-sagi@grimberg.me>
- <20200727231022.307602-2-sagi@grimberg.me>
- <20200728071859.GA21629@lst.de> <20200728091633.GB1326626@T590>
- <b1e7c2c5-dad5-778c-f397-6530766a0150@grimberg.me>
- <20200728093326.GC1326626@T590>
- <44f07df6-3107-3e7f-ee02-7bc43293ee6b@grimberg.me>
- <6a678d5d-22b2-5238-92c5-d68e2aafeb9e@grimberg.me>
- <20200728101042.GA1336890@T590>
+ id 1k0Qsw-0002y5-Mw
+ for linux-nvme@merlin.infradead.org; Tue, 28 Jul 2020 14:47:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-ID:Date:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:References;
+ bh=VvRog1H8sHTBC8+3X19pzVr2N1A0Tm2jd+84Hz2KBj4=; b=HE8c3kMlz2VM/ohPi3Q8IDsFZB
+ eHbT3Q/u/0NM1PD9MU5gzUg1tlGSNjsz7q6lFzhuSjpaYwcKGjw7o/sM203nzIs1GsPO4TPrgwrIu
+ vcm8c0+pATHmuV0/2UhNchHFxEVQR1c7l7/dML/9O+IC/G6tlpQ+3LNA3mWH5R9W7l0zpstl2A7iN
+ hu0SyOeDO+Ax2zh/gSDB/j7E7WHGJ1zZwDV5+8HO4jgjvAnN/HmRyKzVpcy17w+lIg+succcBhkVX
+ 5rfPJ5s/MHqpTOd5tpJg8q4t3tYvnr6/ruhw2wdoRkvb03AS8HYG3zviJiVv3TCRPFi2+N7XsG/L/
+ IX55WgPA==;
+Received: from mout.web.de ([212.227.17.11])
+ by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1k0Qst-0000yb-E9
+ for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 14:47:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1595947618;
+ bh=3yl99S+hB/YPmr8JsvFaO96PXM1hWykSDzCbK0UBdpA=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:In-Reply-To:Date;
+ b=ZNclUPxz7uzvfyKYe9EWsWW+27Xl68lc4ifyd8kJjmDFBGbSy/zlZtmQQFwJDWNF/
+ u4o+GpLUkssZr1GIK2rhfSQeW5rEBQs6Wa1YfK1s9z8thksPhPX9CL/50G1juoeDbl
+ ly47m8T7kuE0/NNGxcjTJ3JDBTUa9bZe8dGwlR8Q=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from ingo ([84.143.237.253]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lh6UN-1kXFJT0kb9-00oZfm; Tue, 28
+ Jul 2020 16:41:32 +0200
+From: Ingo Brunberg <ingo_brunberg@web.de>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH] nvme: Namepace identification descriptor list is optional
+In-Reply-To: <20200728110825.GA20833@infradead.org> (message from Christoph
+ Hellwig on Tue, 28 Jul 2020 12:08:25 +0100)
+Date: Tue, 28 Jul 2020 16:41:14 +0200
+Message-ID: <m3zh7jhfcl.fsf@web.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200728101042.GA1336890@T590>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Provags-ID: V03:K1:BWuAkAfXbUyQyds5E3cCxfOvdvB+kCRt63lWDg3Wzm1dJAdX2YQ
+ R0mYk1YQNIv/P+luhNMSb7mOAxjJRINZpy8AOgNGoVT7z/bSutj8kRTXFViQxy4kL/WP/gm
+ ApVyYzR+fIMHoJtCI4YdAxWn1+v09RlRCvwrIeZQQhTqkk/BoTid+phQB1V7ObTk8icN7J5
+ UuoVWgEdDbOiYCYb4XWQA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:F0K3pHIPXf8=:OvHT3qTSo3OPHSc/x4tQ9H
+ y/X288DbnzgDLth9FcVJK0K/XfCclleHYWQi6Tu/Bfk2Q/Za9L2oULOeXLecEnS/VX4JJckCS
+ D52gFwVyOe/CFsQ/y3O1pNBlagbvhHTSfP9yC9CMSzxU3+eNJslXN09R7Hdxn/F0bC4Bkv+8p
+ qlRviynM9eWFrBV4yDCD2fq6R4WQ+uLWSeFim/lJjm/MEBcJ/YdrR1/UIVdBfakOOWeC9sfuK
+ Jn2WhZBBLQW9aHnJAtMWPTYo9k1yIM2qwi5unolm/ZsfVWxV9NZmgVcn39yc85RUpcvQzKoGM
+ csD5zBvgS3SPvPmKFeYl6WibJwGJQtSs5hwVOYqIIGe3bTFcMWTvYBj8O/CAfehia5tZX2KWP
+ imG4fVRHwYoI9ze7IKq4bdvskZTcpKKNKhy1euC2qfrNjySjjN4u6jm5AHpZtsJzlS3i9wSPe
+ skkNAZwblXdXK/k6f5FQa9fRl6v7WJVnA4Vn2wixfJ6MiiZVDNInOcMRUze7R9q8HY/q6UHKS
+ dGorM1sx1OUF3L7D9v3bF9lBtufEBD88o77jtPi6NKdoqaeEi1heTNiDHcerVfMrZpszyoqHJ
+ ofuCmsmmz8YTUJobSNd4XrJeGs2lYn/tIAtUdlgoJmexWKvFlGGJkDHAazc+bSDhxm7DLPWuy
+ S1fYV/jiEPnemkrNCtOhDVtpUjlWp5ibzF1cN6MAxifEaM6ZepONx+oTSgYBuzBDcR0UgwBhT
+ Znh4OekLbrdX069uiHYUrInqyZgMvlBV7ITJ0HfPM4/fCjDtuYlHJeYa16wCVJM5PJKfVChUz
+ 8tLe8bQMJxlqEMVXjNPAkuieWr7yonaFCi+RIIRajrproAxchuw6JS6yvXjteX9cFiQUR947L
+ Yh5j3nQ7tGBL5HFjyMTXtsnRAfxg7TypNdMh45YcOG6CJQ/iPMNGrROxAPXUcB5OpiOqyB5UR
+ 4NRXkUB5fTaq9H+6yGb5XZi0yIn+pyKhMuivqiht22O1nOAo+L3jZJkd56cI5NYmVuiNjXn9q
+ /JBtP75tLqE8Km8vFCfyTlu+Umhj/bkAajiQQMdZnCSGDSadD4UK9w3sKfSC+wlqSYCundwaq
+ wr2FaGD+hk9C4R2g49bMlQjRBNOSQxk7eBEdtelhMEYCjHmknwmwTEPuV1fsjURADRfpfaj9B
+ 6H6GH20Hv+K5esLiJUTxSFQEJoX9W3WuyoBGF7oTKhNmPMGDAX7/TmYK0o4n+VB/Ya09Iecri
+ QYOo0r5iZD8DLwoZ3dyQTDUiVk5uM3j0HqrEENA==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200728_101352_875754_A0D497A2 
-X-CRM114-Status: GOOD (  46.16  )
+X-CRM114-CacheID: sfid-20200728_154715_716925_D93BA892 
+X-CRM114-Status: GOOD (  22.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,323 +110,84 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Chao Leng <lengchao@huawei.com>, Keith Busch <kbusch@kernel.org>,
- Ming Lin <mlin@kernel.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 28, 2020 at 06:10:42PM +0800, Ming Lei wrote:
-> On Tue, Jul 28, 2020 at 02:43:06AM -0700, Sagi Grimberg wrote:
-> > =
+Christoph Hellwig <hch@infradead.org> writes:
 
-> > > > > > > I like the tagset based interface.=A0 But the idea of doing a=
- per-hctx
-> > > > > > > allocation and wait doesn't seem very scalable.
-> > > > > > > =
-
-> > > > > > > Paul, do you have any good idea for an interface that waits on
-> > > > > > > multiple srcu heads?=A0 As far as I can tell we could just ha=
-ve a single
-> > > > > > > global completion and counter, and each call_srcu would just =
-just
-> > > > > > > decrement it and then the final one would do the
-> > > > > > > wakeup.=A0 It would just
-> > > > > > > be great to figure out a way to keep the struct rcu_synchroni=
-ze and
-> > > > > > > counter on stack to avoid an allocation.
-> > > > > > > =
-
-> > > > > > > But if we can't do with an on-stack object I'd much rather ju=
-st embedd
-> > > > > > > the rcu_head in the hw_ctx.
-> > > > > > =
-
-> > > > > > I think we can do that, please see the following patch which
-> > > > > > is against Sagi's V5:
-> > > > > =
-
-> > > > > I don't think you can send a single rcu_head to multiple
-> > > > > call_srcu calls.
-> > > > =
-
-> > > > OK, then one variant is to put the rcu_head into blk_mq_hw_ctx, and=
- put
-> > > > rcu_synchronize into blk_mq_tag_set.
-> > > =
-
-> > > I can cook up a spin,
-> > =
-
-> > Nope.. spoke too soon, the rcu_head needs to be in a context that has
-> > access to the counter (which is what you called blk_mq_srcu_sync).
-> > you want to add also a pointer to hctx? that is almost as big as
-> > rcu_synchronize...
-> =
-
-> We can just put rcu_head into hctx, and put the count & completion into
-> tag_set, and the tagset can be retrieved via hctx, something like the
-> following patch:
-
-A few questions and comments below, hopefully helpful ones.
-
-							Thanx, Paul
-
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index c3856377b961..129665da4dbd 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -27,6 +27,7 @@
->  #include <linux/crash_dump.h>
->  #include <linux/prefetch.h>
->  #include <linux/blk-crypto.h>
-> +#include <linux/rcupdate_wait.h>
->  =
-
->  #include <trace/events/block.h>
->  =
-
-> @@ -209,6 +210,34 @@ void blk_mq_quiesce_queue_nowait(struct request_queu=
-e *q)
->  }
->  EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
->  =
-
-> +static void blk_mq_wakeme_after_rcu(struct rcu_head *head)
-> +{
-> +
-> +	struct blk_mq_srcu_struct *srcu =3D container_of(head,
-> +			struct blk_mq_srcu_struct, head);
-> +	struct blk_mq_hw_ctx *hctx =3D (void *)srcu -
-> +		sizeof(struct blk_mq_hw_ctx);
-> +	struct blk_mq_tag_set *set =3D hctx->queue->tag_set;
-> +
-> +	if (atomic_dec_and_test(&set->quiesce_count))
-> +		complete(&set->quiesce_completion);
-> +}
-> +
-> +static void blk_mq_quiesce_blocking_queue_async(struct request_queue *q)
-> +{
-> +	struct blk_mq_hw_ctx *hctx;
-> +	unsigned int i;
-> +
-> +	blk_mq_quiesce_queue_nowait(q);
-> +
-> +	queue_for_each_hw_ctx(q, hctx, i) {
-
-This loop, combined with the second list_for_each_entry() in
-blk_mq_quiesce_tagset(), needs to have the name number of iterations as
-the first list_for_each_entry() in blk_mq_quiesce_tagset().
-
-This might be the case, but it is not obvious to me.  Then again, I
-freely admit that I don't know this code.
-
-> +		WARN_ON_ONCE(!(hctx->flags & BLK_MQ_F_BLOCKING));
-> +		init_rcu_head(&hctx->srcu->head);
-> +		call_srcu(&hctx->srcu->srcu, &hctx->srcu->head,
-> +				blk_mq_wakeme_after_rcu);
-
-So the SRCU readers are specific to a given blk_mq_hw_ctx?  This looks
-OK if so.
-
-> +	}
-> +}
-> +
->  /**
->   * blk_mq_quiesce_queue() - wait until all ongoing dispatches have finis=
-hed
->   * @q: request queue.
-> @@ -228,7 +257,7 @@ void blk_mq_quiesce_queue(struct request_queue *q)
->  =
-
->  	queue_for_each_hw_ctx(q, hctx, i) {
->  		if (hctx->flags & BLK_MQ_F_BLOCKING)
-> -			synchronize_srcu(hctx->srcu);
-> +			synchronize_srcu(&hctx->srcu->srcu);
-
-This waits only for an SRCU grace period (that is, for any relevant
-hctx_unlock() calls), not for the invocation of any callbacks from any
-prior call_srcu().  Is this what you need here?
-
-The ->srcu->srcu looks like it might become confusing, but I don't
-have any specific suggstions.
-
->  		else
->  			rcu =3D true;
+> Please try this patch:
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 05aa568a60af62..0602e0f3e77de9 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1287,18 +1287,6 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
+>  	if (status) {
+>  		dev_warn(ctrl->device,
+>  			"Identify Descriptors failed (%d)\n", status);
+> -		 /*
+> -		  * Don't treat non-retryable errors as fatal, as we potentially
+> -		  * already have a NGUID or EUI-64.  If we failed with DNR set,
+> -		  * we want to silently ignore the error as we can still
+> -		  * identify the device, but if the status has DNR set, we want
+> -		  * to propagate the error back specifically for the disk
+> -		  * revalidation flow to make sure we don't abandon the
+> -		  * device just because of a temporal retry-able error (such
+> -		  * as path of transport errors).
+> -		  */
+> -		if (status > 0 && (status & NVME_SC_DNR) && !nvme_multi_css(ctrl))
+> -			status = 0;
+>  		goto free_data;
 >  	}
-> @@ -700,23 +729,23 @@ void blk_mq_complete_request(struct request *rq)
->  EXPORT_SYMBOL(blk_mq_complete_request);
->  =
-
->  static void hctx_unlock(struct blk_mq_hw_ctx *hctx, int srcu_idx)
-> -	__releases(hctx->srcu)
-> +	__releases(&hctx->srcu->srcu)
->  {
->  	if (!(hctx->flags & BLK_MQ_F_BLOCKING))
->  		rcu_read_unlock();
->  	else
-> -		srcu_read_unlock(hctx->srcu, srcu_idx);
-> +		srcu_read_unlock(&hctx->srcu->srcu, srcu_idx);
-
-Oh, either RCU or SRCU.  Got it!
-
+>
+> @@ -1888,7 +1876,9 @@ static int nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
+>  		memcpy(ids->eui64, id->eui64, sizeof(id->eui64));
+>  	if (ctrl->vs >= NVME_VS(1, 2, 0))
+>  		memcpy(ids->nguid, id->nguid, sizeof(id->nguid));
+> -	if (ctrl->vs >= NVME_VS(1, 3, 0) || nvme_multi_css(ctrl))
+> +	if (nvme_multi_css(ctrl) ||
+> +	    (ctrl->vs >= NVME_VS(1, 3, 0) &&
+> +	     !(ctrl->quirks & NVME_QUIRK_NO_NS_DESC_LIST)))
+>  		return nvme_identify_ns_descs(ctrl, nsid, ids);
+>  	return 0;
 >  }
->  =
-
->  static void hctx_lock(struct blk_mq_hw_ctx *hctx, int *srcu_idx)
-> -	__acquires(hctx->srcu)
-> +	__acquires(&hctx->srcu->srcu)
->  {
->  	if (!(hctx->flags & BLK_MQ_F_BLOCKING)) {
->  		/* shut up gcc false positive */
->  		*srcu_idx =3D 0;
->  		rcu_read_lock();
->  	} else
-> -		*srcu_idx =3D srcu_read_lock(hctx->srcu);
-> +		*srcu_idx =3D srcu_read_lock(&hctx->srcu->srcu);
->  }
->  =
-
->  /**
-> @@ -2599,7 +2628,7 @@ static int blk_mq_hw_ctx_size(struct blk_mq_tag_set=
- *tag_set)
->  		     sizeof(struct blk_mq_hw_ctx));
->  =
-
->  	if (tag_set->flags & BLK_MQ_F_BLOCKING)
-> -		hw_ctx_size +=3D sizeof(struct srcu_struct);
-> +		hw_ctx_size +=3D sizeof(struct blk_mq_srcu_struct);
->  =
-
->  	return hw_ctx_size;
->  }
-> @@ -2684,7 +2713,7 @@ blk_mq_alloc_hctx(struct request_queue *q, struct b=
-lk_mq_tag_set *set,
->  		goto free_bitmap;
->  =
-
->  	if (hctx->flags & BLK_MQ_F_BLOCKING)
-> -		init_srcu_struct(hctx->srcu);
-> +		init_srcu_struct(&hctx->srcu->srcu);
->  	blk_mq_hctx_kobj_init(hctx);
->  =
-
->  	return hctx;
-> @@ -2880,6 +2909,43 @@ static void queue_set_hctx_shared(struct request_q=
-ueue *q, bool shared)
->  	}
->  }
->  =
-
-> +void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set)
-> +{
-> +	struct request_queue *q;
-> +
-> +	mutex_lock(&set->tag_list_lock);
-> +	if (set->flags & BLK_MQ_F_BLOCKING) {
-> +		int count =3D 0;
-> +
-> +		list_for_each_entry(q, &set->tag_list, tag_set_list)
-> +			count++;
-> +
-> +		atomic_set(&set->quiesce_count, count);
-> +		init_completion(&set->quiesce_completion);
-> +
-> +		list_for_each_entry(q, &set->tag_list, tag_set_list)
-> +			blk_mq_quiesce_blocking_queue_async(q);
-
-So Christoph would like the mutex_unlock() up here?
-
-> +		wait_for_completion(&set->quiesce_completion);
-> +	} else {
-> +		list_for_each_entry(q, &set->tag_list, tag_set_list)
-> +			blk_mq_quiesce_queue_nowait(q);
-
-And up here?
-
-> +		synchronize_rcu();
-> +	}
-> +	mutex_unlock(&set->tag_list_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(blk_mq_quiesce_tagset);
-> +
-> +void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set)
-> +{
-> +	struct request_queue *q;
-> +
-> +	mutex_lock(&set->tag_list_lock);
-> +	list_for_each_entry(q, &set->tag_list, tag_set_list)
-> +		blk_mq_unquiesce_queue(q);
-> +	mutex_unlock(&set->tag_list_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(blk_mq_unquiesce_tagset);
-> +
->  static void blk_mq_update_tag_set_depth(struct blk_mq_tag_set *set,
->  					bool shared)
->  {
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index 23230c1d031e..9ef7fdb809a7 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -9,6 +9,11 @@
->  struct blk_mq_tags;
->  struct blk_flush_queue;
->  =
-
-> +struct blk_mq_srcu_struct {
-> +	struct srcu_struct srcu;
-> +	struct rcu_head    head;
-> +};
-> +
->  /**
->   * struct blk_mq_hw_ctx - State for a hardware queue facing the hardware
->   * block device
-> @@ -175,7 +180,7 @@ struct blk_mq_hw_ctx {
->  	 * blocking (BLK_MQ_F_BLOCKING). Must be the last member - see also
->  	 * blk_mq_hw_ctx_size().
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index c5c1bac797aa5a..4cadaea9034ae4 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -137,6 +137,13 @@ enum nvme_quirks {
+>  	 * Don't change the value of the temperature threshold feature
 >  	 */
-> -	struct srcu_struct	srcu[];
-> +	struct blk_mq_srcu_struct	srcu[];
->  };
->  =
-
->  /**
-> @@ -254,6 +259,9 @@ struct blk_mq_tag_set {
->  =
-
->  	struct mutex		tag_list_lock;
->  	struct list_head	tag_list;
+>  	NVME_QUIRK_NO_TEMP_THRESH_CHANGE	= (1 << 14),
 > +
-> +	struct completion	quiesce_completion;
-> +	atomic_t		quiesce_count;
+> +	/*
+> +	 * The controller doesn't handle the Identify Namespace
+> +	 * Identification Descriptor list subcommand despite claiming
+> +	 * NVMe 1.3 compliance.
+> +	 */
+> +	NVME_QUIRK_NO_NS_DESC_LIST		= (1 << 15),
 >  };
->  =
+>
+>  /*
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 61e612d52d61d6..bac3a3f9c79e0d 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3181,6 +3181,8 @@ static const struct pci_device_id nvme_id_table[] = {
+>  	{ PCI_DEVICE(0x1cc1, 0x8201),   /* ADATA SX8200PNP 512GB */
+>  		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+>  				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+> +	{ PCI_DEVICE(0x126f, 0x2263),
+> +		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST, },
+>  	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
+>  		.driver_data = NVME_QUIRK_SINGLE_VECTOR },
 
->  /**
-> @@ -532,6 +540,8 @@ int blk_mq_map_queues(struct blk_mq_queue_map *qmap);
->  void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_qu=
-eues);
->  =
-
->  void blk_mq_quiesce_queue_nowait(struct request_queue *q);
-> +void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set);
-> +void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set);
->  =
-
->  unsigned int blk_mq_rq_cpu(struct request *rq);
->  =
-
-> =
-
-> -- =
-
-> Ming
-> =
-
+Thanks, the patch works. Maybe it is not too late to make its way into
+kernel 5.8.
 
 _______________________________________________
 Linux-nvme mailing list
