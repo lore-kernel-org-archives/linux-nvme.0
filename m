@@ -2,86 +2,85 @@ Return-Path: <SRS0=l2Ft=BH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 544D9C433E3
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 17:51:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36774C433E8
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 18:36:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 236C320672
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 17:51:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0CBB620786
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 18:36:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qGebydGB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 236C320672
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dzBNvDF1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CBB620786
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1FJN9yAAwXWfzRtDnpowyF9VC5ZoPu39eO6WqYNqQOs=; b=qGebydGBnXcccard7AiSacOiL
-	JrjCPZJkbZmu+fIqOIE4p3S3WfugKwX7YXbWReH/U0UorkVIx+ZAb0kuBHfVjwB8qPjcsWAzYql/k
-	sq7x/zdmKXZ9X6UnFtf/wXifsmJbCLk6osgYwXZ8IZRvJ4Xp0mk+m2pqVaiUKdF5Mib6IZaWtolML
-	Fryf0WdKbYRq+5COLjhYymtlD5skOwaKmo4RpIIr4WTbyxZCAkt6nqgN9QAlmnuhaSbMMG5D+kAe/
-	d11N+w8WAN5O+na3CDRKqUix5K5D+HAYA6TJVYUYjHNNIeZhKgNjufO7hhQRhevDvRV22uTqSdmhQ
-	h1Od8sbuw==;
+	 bh=emSgtTJFK5p3Wzr2N+5A1qXJU4JOD1oeYjeYmNZxsGw=; b=dzBNvDF1FP2b7lFF6eNAwmED0
+	cRG1sORFeYAOZDYdR/IpiIHFqZ2ZHLirlG5sXb/FI/vOpaZXlogsdgZHG0pjtdVPTGSQU5OPgFMa1
+	EeeIWM9yFuI0hwsiBViOscmdADalbjzmUwZLaQFVm1zX22W9F23qQZjaS+ZhplGcfA1LdaVmwct+l
+	7oKoVWq8KgPG+26sRwjOkFndRgUxjLkjNJkRPKqYSD/7kW70bAy2mjSXNLK+zfPe6kFZjUSsUbHGx
+	AlVffvgJo7ttvymCItyekPXn3ujWA8nMznXx54g4x04H3x3a7yfaaKoszBvI4Ovcb32kVSeHWtQrY
+	fg2FsgE+g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0Tkm-0004Ty-LE; Tue, 28 Jul 2020 17:51:04 +0000
-Received: from mail-pl1-f195.google.com ([209.85.214.195])
+	id 1k0USH-0006vA-4I; Tue, 28 Jul 2020 18:36:01 +0000
+Received: from mail-pj1-f68.google.com ([209.85.216.68])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0Tkj-0004Tc-Re
- for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 17:51:02 +0000
-Received: by mail-pl1-f195.google.com with SMTP id t1so1117864plq.0
- for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2020 10:50:59 -0700 (PDT)
+ id 1k0USE-0006uN-1d
+ for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 18:35:59 +0000
+Received: by mail-pj1-f68.google.com with SMTP id k71so329139pje.0
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2020 11:35:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3DbEA1qo0vM5OO/NfYF5qqowzJm2MsnALXmSz2MubeU=;
- b=eR/ea/VlH4PusTo0p1eJO5/WcwCr4ece22xq2TBVlsy2opVYuCGHK5KajMnHzu2I+s
- fYdwtt8o8x7mV+yV/xtsgnWQloKyRCLXTj7DG5LXdNyB8MjOlTRXe02FT2FU29gvqAI2
- V85xlqKCQ4K7TTj0eA2Wnq3yknqgJ9VbewphEgAIRVTODPjjhYNcICF+Bxy+EC8TpyNz
- CP6Z5jKgvkqyoOoLRU3lSETXiIC8+VNqFtadvTn79BOcgiTSEM5nLKa4oKxk6rwcQEak
- 2wROEB6Q3xS5I1kcqYPYhG/msNgwzCiHmpEnuo2k5iG2peDPIs/xukkJ5Tlo42r7c1na
- L24w==
-X-Gm-Message-State: AOAM531r9HW8PyY3bUJcKgUWbRjJEfGtlWdBV10u0yZ5EECt3wwnPm7G
- AP4SV2R3eoAH5NcOJiZsjEEZ0Fdg
-X-Google-Smtp-Source: ABdhPJxt/DE4zVV9yXpzpzi599YayT1T5Q23KytutZTQz3pBZ7Jjoxxp+v5wrzsjS8tOaJK675teyg==
-X-Received: by 2002:a17:90a:f192:: with SMTP id
- bv18mr5213392pjb.21.1595958659263; 
- Tue, 28 Jul 2020 10:50:59 -0700 (PDT)
+ bh=9i5BBHREORuTzj8FAN14ckMlGcQgcgOsiBwHPLWsVpE=;
+ b=Wcw9eFUDG5jL5PxmfuRWMPX4HQYKDnAYXKCQ1L3+8gohLT6pRDShHhgZG5wUUGFTz0
+ wcBksNgeZHq263Wg+QfafYj5rLQ+CXLEKTMYaFWqql+y7tfUAY1/UF18sVv+C3OT1fxv
+ 60njsjV6275nWBC2lMdbuZyQR+Id7/8xaM/FkcQQmlwecrGhOhDcTaM4hZm1VXfsVuZd
+ Z0w0KZcrkdikeIUdityu/0qQ/q0i8GADexCFKUNZmo10A0+1cyAygnfXKAMXhK8ZGbM2
+ 9lBVQpj3fU82YFrA+Q8oNzqX+oZ9mhAaOqVRgVE4QLB0R65EEVA+cmcgcJHcD426ucJj
+ 1vRQ==
+X-Gm-Message-State: AOAM533qyYn28xr7gcFds7NmyaauIGy6IlLRruMvF33XQQIdJtBDmx5k
+ Cb9cx4DFQfuEvRWZdBKSML4=
+X-Google-Smtp-Source: ABdhPJwJV/Nd3Zr81y3cR4096NvjviTeoZrcTQ//uuEkvRbHfzsey1tjXRxCYL7+JA/op/f/XWhQUA==
+X-Received: by 2002:a17:902:6b08:: with SMTP id
+ o8mr24268973plk.104.1595961356381; 
+ Tue, 28 Jul 2020 11:35:56 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:541c:8b1b:5ac:35fe?
  ([2601:647:4802:9070:541c:8b1b:5ac:35fe])
- by smtp.gmail.com with ESMTPSA id h23sm19338246pfo.166.2020.07.28.10.50.57
+ by smtp.gmail.com with ESMTPSA id s194sm19172559pgs.24.2020.07.28.11.35.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jul 2020 10:50:58 -0700 (PDT)
-Subject: Re: [PATCH] nvme-fabrics: allow to queue requests for live queues
-To: James Smart <james.smart@broadcom.com>, Chao Leng <lengchao@huawei.com>,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-References: <20200728053523.21657-1-sagi@grimberg.me>
- <8ff91295-9393-a548-a46f-85d415d9cbc9@huawei.com>
- <233d8e35-f85f-458e-05ad-5baba1b04bbb@grimberg.me>
- <c782f0c1-76b2-cc67-6770-eb55f9e2a3aa@broadcom.com>
+ Tue, 28 Jul 2020 11:35:55 -0700 (PDT)
+Subject: Re: Hang at NVME Host caused by Controller reset
+To: Krishnamraju Eraparaju <krishna2@chelsio.com>
+References: <20200727181944.GA5484@chelsio.com>
+ <9b8dae53-1fcc-3c03-5fcd-cfb55cd8cc80@grimberg.me>
+ <20200728115904.GA5508@chelsio.com>
+ <4d87ffbb-24a2-9342-4507-cabd9e3b76c2@grimberg.me>
+ <20200728174224.GA5497@chelsio.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <612f10f0-3cdd-a7c3-e666-ad9f5c835d00@grimberg.me>
-Date: Tue, 28 Jul 2020 10:50:56 -0700
+Message-ID: <3963dc58-1d64-b6e1-ea27-06f3030d5c6e@grimberg.me>
+Date: Tue, 28 Jul 2020 11:35:53 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <c782f0c1-76b2-cc67-6770-eb55f9e2a3aa@broadcom.com>
+In-Reply-To: <20200728174224.GA5497@chelsio.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200728_135101_931376_E8408929 
-X-CRM114-Status: GOOD (  27.27  )
+X-CRM114-CacheID: sfid-20200728_143558_103337_B94BF855 
+X-CRM114-Status: GOOD (  15.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,64 +92,76 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-rdma@vger.kernel.org, bharat@chelsio.com,
+ linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYyBiL2RyaXZlcnMv
-bnZtZS9ob3N0L2ZhYnJpY3MuYwo+Pj4+IGluZGV4IDRlYzQ4MjlkNjIzMy4uMmU3ODM4ZjQyZTM2
-IDEwMDY0NAo+Pj4+IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYwo+Pj4+ICsrKyBi
-L2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYwo+Pj4+IEBAIC01NjQsMjEgKzU2NCwxMyBAQCBi
-b29sIF9fbnZtZl9jaGVja19yZWFkeShzdHJ1Y3QgbnZtZV9jdHJsIAo+Pj4+ICpjdHJsLCBzdHJ1
-Y3QgcmVxdWVzdCAqcnEsCj4+Pj4gwqAgewo+Pj4+IMKgwqDCoMKgwqAgc3RydWN0IG52bWVfcmVx
-dWVzdCAqcmVxID0gbnZtZV9yZXEocnEpOwo+Pj4+IC3CoMKgwqAgLyoKPj4+PiAtwqDCoMKgwqAg
-KiBJZiB3ZSBhcmUgaW4gc29tZSBzdGF0ZSBvZiBzZXR1cCBvciB0ZWFyZG93biBvbmx5IGFsbG93
-Cj4+Pj4gLcKgwqDCoMKgICogaW50ZXJuYWxseSBnZW5lcmF0ZWQgY29tbWFuZHMuCj4+Pj4gLcKg
-wqDCoMKgICovCj4+Pj4gLcKgwqDCoCBpZiAoIWJsa19ycV9pc19wYXNzdGhyb3VnaChycSkgfHwg
-KHJlcS0+ZmxhZ3MgJiBOVk1FX1JFUV9VU0VSQ01EKSkKPj4+ICJpZiAoIWJsa19ycV9pc19wYXNz
-dGhyb3VnaChycSkpIiBzaG91bGQgbm90IGRlbGV0ZS4gQmVjYXVzZSBpZiB3ZSAKPj4+IGRlbGV0
-ZSwKPj4+IHRoZSBub3JtYWwgaW8gd2lsbCBiZSBzZW5kIHRvIHRhcmdldCwgdGhlIHRhcmdldCBj
-YW4gbm90IHRyZWF0IHRoZSBpbwo+Pj4gaWYgdGhlIHF1ZXVlIGlzIG5vdCBOVk1FX0NUUkxfTElW
-RS4KPj4KPj4gU3VyZSBpdCBkb2VzLCB0aGUgb25seSByZWFzb24gZm9yIHVzIHRvIGRlbnkgdGhp
-cyBJL08sIGlzIGlmIHRoZSBxdWV1ZQo+PiBpcyBub3QgbGl2ZS4gVGhlIGNvbnRyb2xsZXIgc3Rh
-dGUgc2hvdWxkIG9ubHkgX2FkdmlzZV8gdXMgaWYgd2UgbmVlZCB0bwo+PiBsb29rIGF0IHRoZSBx
-dWV1ZSBzdGF0ZS4KPiAKPiBJIGRpc2FncmVlIHN0cm9uZ2x5IHdpdGggcmVtb3ZpbmcgdGhlIGNo
-ZWNrIG9uIE5WTUVfUkVRX1VTRVJDTUQuIFdlJ3ZlIAo+IHNlZW4gY2xpIGlvY3RscyBnb2luZyB0
-byB0aGUgYWRtaW4gcXVldWUgd2hpbGUgd2UncmUgaW4gdGhlIG1pZGRsZSBvZiAKPiBkb2luZyBj
-b250cm9sbGVyIGluaXRpYWxpemF0aW9uIGFuZCBpdCdzIGhhcyBob3NlZCB0aGUgY29udHJvbGxl
-ciBzdGF0ZSAKPiBpbiBzb21lIGNhc2VzLiBXZSd2ZSBzZWVuIGNvbW1hbmRzIGlzc3VlZCBiZWZv
-cmUgdGhlIGNvbnRyb2xsZXIgaXMgaW4gCj4gdGhlIHByb3BlciBzdGF0ZS7CoCBUaGUgYWRtaW4g
-cXVldWUgbWF5IGJlIGxpdmUgLSBidXQgd2UgZG9uJ3QgCj4gbmVjZXNzYXJpbHkgd2FudCBvdGhl
-ciBpbyBzbmVha2luZyBpbi4KCkNhbiB5b3UgcGxlYXNlIGdpdmUgYW4gZXhhbXBsZT8gTlZNRV9S
-RVFfVVNFUkNNRCBzaG91bGQgbm90IGJlIGFueQpkaWZmZXJlbnQgZnJvbSBhbnkgb3RoZXIgdHlw
-ZSBvZiBJL08uCgpBbHNvLCBkbyBub3RlIHRoYXQgcGNpIGRvZXMgYWxsb3cgdG8gcXVldWUgYW55
-IHR5cGUgb2YgY29tbWFuZCBiYXNlZApvbiB0aGUgcXVldWUgc3RhdGUgb25seS4gZmFicmljcyBz
-aG91bGQgYmUgc2xpZ2h0bHkgZGlmZmVyZW50IGJlY2F1c2UKd2UgaGF2ZSB0aGUgQ09OTkVDVElO
-RyBzdGF0ZSB3aGVyZSB3ZSB3YW50IHRvIGxldCB0aGUgY29ubmVjdCBjb21tYW5kCm9ubHkgdG8g
-YmUgaXNzdWVkLgoKCj4gQXMgZm9yIHRoZSBibGtfcnFfaXNfcGFzc3Rocm91Z2ggY2hlY2sgLSBJ
-IGd1ZXNzIEkgY2FuIHNlZSBpdCBiZWluZyAKPiBiYXNlZCBvbiB0aGUgcXVldWUgc3RhdGUsIGFu
-ZCB0aGUgY2hlY2sgbG9va3Mgb2vCoCAod2Ugc2hvdWxkIG5ldmVyIHNlZSAKPiAhYmxrX3JxX2lz
-X3Bhc3N0aHJvdWdoIG9uIHRoZSBhZG1pbiBxKS4KPiBCdXQuLi4KPiAtIEkgZG9uJ3Qga25vdyB3
-aHkgaXQgd2FzIHRoYXQgaW1wb3J0YW50IHRvIGNoYW5nZSBpdC4gT24gdGhlIGNvbm5lY3Rpbmcg
-Cj4gcGF0aCwgYWxsIHlvdSdyZSBkb2luZyBpcyBsZXR0aW5nIGlvIHN0YXJ0IGZsb3dpbmcgYmVm
-b3JlIGFsbCB0aGUgcXVldWVzIAo+IGhhdmUgYmVlbiBjcmVhdGVkLsKgIERpZCB5b3UgcmVhbGx5
-IG5lZWQgdG8gc3RhcnQgdGhhdCBtdWNoIHNvb25lciA/CgpUaGUgaXNzdWUgaXMgdGhhdCBjb250
-cm9sbGVyIGluIFJFU0VUVElORyBzdGF0ZSB3aWxsIGhhdmUgcmVxdWVzdHMgdGhhdAphcmUgYmVp
-bmcgaXNzdWVkLCBhbmQgaWYgd2UgZG9uJ3QgbGV0IGl0IHBhc3MgdGhyb3VnaCwgaXQgd2lsbCBo
-YW5nCmFyb3VuZCBmb3JldmVyIGJlaW5nIHJlcXVldWVkIHByZXZlbnRpbmcgcXVldWUgZnJlZXpl
-IHRvIGNvbXBsZXRlLgoKU2VlIGJ1ZyByZXBvcnQgZnJvbSBLcmlzaG5hbXJhanUgRXJhcGFyYWp1
-LgoKPiAKPiAtIEJ1dCBvbiB0aGUgcmVzZXR0aW5nIHBhdGgsIG9yIGRlbGV0aW5nIGNhc2VzLCB5
-b3UndmUgYWRkZWQgYSBjb25kaXRpb24gCj4gbm93IHdoZXJlIHRoZSBjb250cm9sbGVyIHN0YXRl
-IHdhcyBjaGFuZ2VkLCBidXQgdGhlcmUgd2FzIGEgZGVsYXkgYmVmb3JlIAo+IHRoZSB0cmFuc3Bv
-cnQgbWFya2VkIHRoZSBxdWV1ZSBsaXZlLiBJdCdzIGNvbW1vbiBwcmFjdGljZSBpbiB0aGUgCj4g
-dHJhbnNwb3J0cyB0byBjaGFuZ2Ugc3RhdGUgdGhlbiBzY2hlZHVsZSBhIHdvcmsgZWxlbWVudCB0
-byBwZXJmb3JtIHRoZSAKPiBhY3R1YWwgc3RhdGUgY2hhbmdlLsKgIFdoeSB3b3VsZCB5b3Ugd2Fu
-dCBpbyB0byBjb250aW51ZSB0byBmbG93IGR1cmluZyAKPiB0aGF0IHdpbmRvdyA/wqDCoCBUaGlz
-IG1heSBicmluZyBvdXQgb3RoZXIgcHJvYmxlbXMgd2UndmUgYXZvaWRlZCBpbiB0aGUgCj4gcGFz
-dC4KCldoYXQgYXJlIHlvdSByZWZlcnJpbmcgdG8/IHRoZSBjaGFuZ2UgaGVyZT8gdGhlIGNvbnRy
-b2xsZXIgcmVzZXQgbXVzdAphbGxvdyByZXF1ZXN0cyB0aGF0IGNhbWUgaW4gYmVmb3JlIHdlIHN0
-YXJ0ZWQgcXVldWUgZnJlZXplIHRvIHBhc3MsCm90aGVyd2lzZSBmcmVlemUgd2lsbCBuZXZlciBj
-b21wbGV0ZS4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpo
-dHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+> Sagi,
+> 
+> Yes, Multipath is disabled.
+
+Thanks.
+
+> This time, with "nvme-fabrics: allow to queue requests for live queues"
+> patch applied, I see hang only at blk_queue_enter():
+
+Interesting, does the reset loop hang? or is it able to make forward
+progress?
+
+> [Jul28 17:25] INFO: task nvme:21119 blocked for more than 122 seconds.
+> [  +0.000061]       Not tainted 5.8.0-rc7ekr+ #2
+> [  +0.000052] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+> disables this message.
+> [  +0.000059] nvme            D14392 21119   2456 0x00004000
+> [  +0.000059] Call Trace:
+> [  +0.000110]  __schedule+0x32b/0x670
+> [  +0.000108]  schedule+0x45/0xb0
+> [  +0.000107]  blk_queue_enter+0x1e9/0x250
+> [  +0.000109]  ? wait_woken+0x70/0x70
+> [  +0.000110]  blk_mq_alloc_request+0x53/0xc0
+> [  +0.000111]  nvme_alloc_request+0x61/0x70 [nvme_core]
+> [  +0.000121]  nvme_submit_user_cmd+0x50/0x310 [nvme_core]
+> [  +0.000118]  nvme_user_cmd+0x12e/0x1c0 [nvme_core]
+> [  +0.000163]  ? _copy_to_user+0x22/0x30
+> [  +0.000113]  blkdev_ioctl+0x100/0x250
+> [  +0.000115]  block_ioctl+0x34/0x40
+> [  +0.000110]  ksys_ioctl+0x82/0xc0
+> [  +0.000109]  __x64_sys_ioctl+0x11/0x20
+> [  +0.000109]  do_syscall_64+0x3e/0x70
+> [  +0.000120]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> [  +0.000112] RIP: 0033:0x7fbe9cdbb67b
+> [  +0.000110] Code: Bad RIP value.
+> [  +0.000124] RSP: 002b:00007ffd61ff5778 EFLAGS: 00000246 ORIG_RAX:
+> 0000000000000010
+> [  +0.000170] RAX: ffffffffffffffda RBX: 0000000000000003 RCX:
+> 00007fbe9cdbb67b
+> [  +0.000114] RDX: 00007ffd61ff5780 RSI: 00000000c0484e43 RDI:
+> 0000000000000003
+> [  +0.000113] RBP: 0000000000000000 R08: 0000000000000001 R09:
+> 0000000000000000
+> [  +0.000115] R10: 0000000000000000 R11: 0000000000000246 R12:
+> 00007ffd61ff7219
+> [  +0.000123] R13: 0000000000000006 R14: 00007ffd61ff5e30 R15:
+> 000055e09c1854a0
+> [  +0.000115] Kernel panic - not syncing: hung_task: blocked tasks
+
+For some reason the ioctl is not woken up when unfreezing the queue...
+
+> You could easily reproduce this by running below, parallelly, for 10min:
+>   while [ 1 ]; do  nvme write-zeroes /dev/nvme0n1 -s 1 -c 1; done
+>   while [ 1 ]; do echo 1 > /sys/block/nvme0n1/device/reset_controller;
+> done
+>   while [ 1 ]; do ifconfig enp2s0f4 down; sleep 24; ifconfig enp2s0f4 up;
+> sleep 28; done
+>   
+>   Not sure using nvme-write this way is valid or not..
+
+sure it is, its I/O just like fs I/O.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
