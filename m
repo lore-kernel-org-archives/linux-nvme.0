@@ -2,83 +2,75 @@ Return-Path: <SRS0=l2Ft=BH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB44C433E3
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 00:13:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D5AC433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 00:32:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 75A9020786
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 00:13:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5014020714
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 00:32:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LoqwDpar"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75A9020786
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="wfo3KRm4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5014020714
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=F6Gdffsn+ZTNE6mqcpVf2//OKRCsGLRz44Em+UF8IKI=; b=LoqwDparbyaKGiA0RCyVvYh+M
-	IhWhto41aEWACTnOMOfl6bh3hxplQiy/3zhwSpXzIRFR00KHQxQS/O/IWkm5wbEg3wPE2aa8d5YeR
-	Ssa7fnMULQmZ8426lOUaNm7HdRj6avTmJfU8+bO5KZ0U6GcxwG/ywILJ/qJ8WPm0JNz0wt2uHpwBt
-	FeCompFO69EIdhzCWnxUMpDpSJHfnrNXvtqMEXf2sXDWVbygGOAkcIMQFu/xQ7KLni6UoA98bEAf5
-	1CSl0fqkTseXA+d1KINQHMlKtGoNcEtDdwRg16nMqOJv0UKOZye8Zhm8+5sX4MZeYUcPgcWKTbYjx
-	rqH6P09bA==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=1digpCz31RagqWc04QqBonkkdFzs0wFHF1CIrTLFYqU=; b=wfo3KRm4ymhCW4ryneH6a5FkgU
+	2I642kAmHG6XrdYHOi672p9UXbIEsWaBTmyAp4H+ocWQbqJEv7frEMns/zlxzxuX5IPxzjXh7jqXA
+	fy8xMI0945zwk6RQr5H6vnd+AopGbvBfjfkQjgToBrAliG1IDSoIIc13qLCmxWWbG3SF7ZHQFdbAU
+	Jbf35a6mR39zxlSBHcdghzo95grUbmgeRs1jiN97Vtn0RzipWOQJCfn1BDNXAwmGxJf5NRoYm/L/W
+	m8HsijqbZYPzA0zgbBUxEJqlm/qKu39dMHBnhEk98+gbx2WIk2fjbs2cv3SCEhJlF+bwnObz9k6Ss
+	M/+QaQ0Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0DEm-0006L4-Tt; Tue, 28 Jul 2020 00:12:56 +0000
-Received: from mail-pj1-f65.google.com ([209.85.216.65])
+	id 1k0DXa-0007F8-7f; Tue, 28 Jul 2020 00:32:22 +0000
+Received: from mail-wm1-f66.google.com ([209.85.128.66])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0DEj-0006Kf-Nw
- for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 00:12:55 +0000
-Received: by mail-pj1-f65.google.com with SMTP id o22so10522864pjw.2
- for <linux-nvme@lists.infradead.org>; Mon, 27 Jul 2020 17:12:53 -0700 (PDT)
+ id 1k0DXW-0007Ee-Fb
+ for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 00:32:20 +0000
+Received: by mail-wm1-f66.google.com with SMTP id 9so15671520wmj.5
+ for <linux-nvme@lists.infradead.org>; Mon, 27 Jul 2020 17:32:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LfVP1kKblrSBABZwodiPANe16VZ1uWUWSsP7qtO4DEA=;
- b=s75iju62SiGI7bUBmdgf4KA5X408TMSZs8833x1QM7kW5ud6uzRpK7KR2HMmy/2iTz
- X+fDagSNTjPkrQEZYqafiU/ehk1RTwLqY/y1ryH7CGF+KH0h1Nq4+r28aeB/WIHL+rhZ
- TojV4HtdNFEyauxF1dpkW15oH+nwrWjjFP5Lqdk7pJUdJ8k9MQ3gUr+wR5IY+dkGZiuF
- eXzykJxW2CBC6pn08SpYFLWBp/ZKfFXziTofJOpE6DKdSR2luXQ14nXP9fItxaF67oFR
- KXYggyO1LE65NRwZMIb3qUQl7wRmetIWMBPYVaobuM+AFGb6wRvfoXB2ETKoQjQFfZNH
- w0lQ==
-X-Gm-Message-State: AOAM531EzzlpR3gJIAFLW6wc+SaZ7OhX2ixuMRN7rD+n0xnUJoVbYPi5
- HqW82xrrWAAIwBT5VJt6XhA=
-X-Google-Smtp-Source: ABdhPJzHhR5439Dn4jhOGcw1RPSH9qal5fvG+CP0DRNjI6vTJgIuwRww1QwIiCaEezccXido6gBBnw==
-X-Received: by 2002:a17:90a:a68:: with SMTP id
- o95mr1687505pjo.148.1595895172505; 
- Mon, 27 Jul 2020 17:12:52 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:5d7d:f206:b163:f30b?
- ([2601:647:4802:9070:5d7d:f206:b163:f30b])
- by smtp.gmail.com with ESMTPSA id j5sm15230788pgi.42.2020.07.27.17.12.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jul 2020 17:12:51 -0700 (PDT)
-Subject: Re: [PATCH v5 1/2] blk-mq: add tagset quiesce interface
-To: Keith Busch <kbusch@kernel.org>
-References: <20200727231022.307602-1-sagi@grimberg.me>
- <20200727231022.307602-2-sagi@grimberg.me>
- <20200727233241.GA797782@dhcp-10-100-145-180.wdl.wdc.com>
+ bh=zFAcxMhUTIj88o8W1mqNMvLIkt81ixdpsjSfO2yJRnM=;
+ b=cMUfdxXzMcSBv+QpYwNeoQR6Xm9kJCvxzXEETodl9d5ZKr9N2ipN9zI+BhXKqCgIPb
+ XH5SXwXrVVbI+I6a7k9qnGtdPAZcVf/u8gtrCHiP//5aFrR/3g1n5YI4psdFy427BaO+
+ ONuG6DQVeHBd2WCrJvoH+ImTopa4TSaZ6ueFBk8za1fi7zTSDqGZSwP7H70jrLjN6Rte
+ 8C5kUmd8LNvKNJfe3N7DjICaj2F3h8H/2bwDIK7OwR4cwDl7ewQLIOC036iTcwDYjYwq
+ RiFOfp8dirdhMx3QIQs3I4cpR4qZ6tjzbKL3yEOtAqi5sgcu6/YSFM1rX46vwYYtEyIt
+ KcCQ==
+X-Gm-Message-State: AOAM532DK2Mh51L7u5/scO0r4ul2jYTZ7dy62Gx4MJLSZnFanhrTysXQ
+ NMSLV9iOiGnnhGwKOzhCyivZVARq
+X-Google-Smtp-Source: ABdhPJz1jYA2R9gfgh9pUm0ul8EmYeXXLRu0sR0IF98JnKlV08lMKUXujGsuuSsx2hktdiLm/diN9A==
+X-Received: by 2002:a7b:ca57:: with SMTP id m23mr1441591wml.35.1595896336789; 
+ Mon, 27 Jul 2020 17:32:16 -0700 (PDT)
+Received: from localhost.localdomain ([2601:647:4802:9070:5d7d:f206:b163:f30b])
+ by smtp.gmail.com with ESMTPSA id h5sm16584470wrc.97.2020.07.27.17.32.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 17:32:16 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <376f8e3d-a8db-9810-0e5b-a022696a893f@grimberg.me>
-Date: Mon, 27 Jul 2020 17:12:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 2/2 v2] nvme-rdma: fix controller reset hang during traffic
+Date: Mon, 27 Jul 2020 17:32:09 -0700
+Message-Id: <20200728003209.406197-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200727233241.GA797782@dhcp-10-100-145-180.wdl.wdc.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200727_201253_798657_74A2C393 
-X-CRM114-Status: GOOD (  13.78  )
+X-CRM114-CacheID: sfid-20200727_203219_467577_9629AA03 
+X-CRM114-Status: GOOD (  15.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,35 +82,73 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, Chao Leng <lengchao@huawei.com>,
- Ming Lin <mlin@kernel.org>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+commit fe35ec58f0d3 ("block: update hctx map when use multiple maps")
+exposed an issue where we may hang trying to wait for queue freeze
+during I/O. We call blk_mq_update_nr_hw_queues which in case of multiple
+queue maps (which we have now for default/read/poll) is attempting to
+freeze the queue. However we never started queue freeze when starting the
+reset, which means that we have inflight pending requests that entered the
+queue that we will not complete once the queue is quiesced.
 
->> +static void blk_mq_quiesce_blocking_queue_async_wait(struct request_queue *q)
->> +{
->> +	struct blk_mq_hw_ctx *hctx;
->> +	unsigned int i;
->> +
->> +	queue_for_each_hw_ctx(q, hctx, i) {
->> +		WARN_ON_ONCE(!(hctx->flags & BLK_MQ_F_BLOCKING));
->> +		if (!hctx->rcu_sync) {
->> +			synchronize_srcu(hctx->srcu);
->> +			continue;
->> +		}
->> +		wait_for_completion(&hctx->rcu_sync->completion);
->> +		destroy_rcu_head(&hctx->rcu_sync->head);
-> 
-> Leaking rcu_sync, and not clearing it across quiesce contexts. Needs:
-> 
-> 		kfree(hctx->rcu_sync);
-> 		hctx->rcu_sync = NULL;
+So start a freeze before we quiesce the queue, and unfreeze the queue
+after we successfully connected the I/O queues (and make sure to call
+blk_mq_update_nr_hw_queues only after we are sure that the queue was
+already frozen).
 
-Good catch, will wait for some more review and submit a v6.
+This follows to how the pci driver handles resets.
+
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+Changes from v1:
+- fix silly compilation errors
+
+ drivers/nvme/host/rdma.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 5c3848974ccb..44c76ffbb264 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -967,15 +967,20 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 			ret = PTR_ERR(ctrl->ctrl.connect_q);
+ 			goto out_free_tag_set;
+ 		}
+-	} else {
+-		blk_mq_update_nr_hw_queues(&ctrl->tag_set,
+-			ctrl->ctrl.queue_count - 1);
+ 	}
+ 
+ 	ret = nvme_rdma_start_io_queues(ctrl);
+ 	if (ret)
+ 		goto out_cleanup_connect_q;
+ 
++	if (!new) {
++		nvme_start_queues(&ctrl->ctrl);
++		nvme_wait_freeze(&ctrl->ctrl);
++		blk_mq_update_nr_hw_queues(ctrl->ctrl.tagset,
++			ctrl->ctrl.queue_count - 1);
++		nvme_unfreeze(&ctrl->ctrl);
++	}
++
+ 	return 0;
+ 
+ out_cleanup_connect_q:
+@@ -1008,6 +1013,7 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+ 	if (ctrl->ctrl.queue_count > 1) {
++		nvme_start_freeze(&ctrl->ctrl);
+ 		nvme_stop_queues(&ctrl->ctrl);
+ 		nvme_rdma_stop_io_queues(ctrl);
+ 		if (ctrl->ctrl.tagset) {
+-- 
+2.25.1
+
 
 _______________________________________________
 Linux-nvme mailing list
