@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78FDFC433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 10:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5CBC433E8
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 10:57:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 44D0820656
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 10:51:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DFB00204EA
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 10:57:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Hu1HlMsj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 44D0820656
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2rqiBWCO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DFB00204EA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qhmxKTHoIMz1TEksBtWtBv0bMoy2Cw5PGfV9hk9Swzo=; b=Hu1HlMsjPF+yZOOUH9NIzAFqr
-	LuyYaeIus9FrpMtEcRs2Gt7K9G8rYG6rRSLuawGQ6XNtTtbz78JHrmzGQLK3PY33s21HzWxSFvjDJ
-	QhQu+mmy6CYBv8m8ERBSuOP23I/d1Jj/FUpQCUuxqLHFk/ZM+VgRHYnOOclPyqhv/d4eblGaW2gJ8
-	sLSMsHTW9oyfEJi6s/+CeXCIykkQl3EetvrgFVj38A5BrUXBplJUvEPxibRWQKkJsmXAENyAo3XQf
-	W3bpdFmoLhIbLbt7E9TarID3n+ptRbclX2WMKlwS6zoSsi9E/fSYJ8CO/i3p3iLX3rBlxkR22ksjI
-	qsXQjPyWw==;
+	 bh=sKrXieyaVMmBaX1+auCL320jkgLv1toJngq7a//V/4U=; b=2rqiBWCO+iY+gcQfaKuJHg1S9
+	5zgpuRSot08FSUg66zgnFHefZBMIuEHnjtT5D5Gv6pfaMZE2tbv96UejGfOiahcZGzf+44LCv/e9o
+	aw3OsuXbAja8tXz7NqFdj5xfPuJLKGoJugldTikGe5QzLugSqKBa3WfwZRym+Az0Cf3/OmDPcMWJX
+	AsCrvLqGtVXTEH61lEbpwuwAwbl2yrn83p2dUMrcRpS7YDRr5v+RoMobL1xGHmIhBiuv7JTV9zs29
+	GVP8ZCcifMeTlKPfof5bPn6cHx0du5DnS9nBYtLQUqSTg07T+BmEqc/1yY3IO1JtPvuSEtEhUrwzP
+	o2nMdsFYA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0NCY-00028J-Ie; Tue, 28 Jul 2020 10:51:18 +0000
+	id 1k0NIo-0004k1-2Y; Tue, 28 Jul 2020 10:57:46 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0NCW-00027R-4b
- for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 10:51:16 +0000
+ id 1k0NIm-0004jB-6B
+ for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 10:57:44 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8DB3D68C4E; Tue, 28 Jul 2020 12:51:14 +0200 (CEST)
-Date: Tue, 28 Jul 2020 12:51:14 +0200
+ id AC52D68C4E; Tue, 28 Jul 2020 12:57:41 +0200 (CEST)
+Date: Tue, 28 Jul 2020 12:57:41 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 0/2] nvme-multipath: fixes for non-optimized paths
-Message-ID: <20200728105114.GA29651@lst.de>
-References: <20200727160803.55683-1-hare@suse.de>
+To: Ming Lei <ming.lei@redhat.com>
+Subject: Re: [PATCH v5 1/2] blk-mq: add tagset quiesce interface
+Message-ID: <20200728105741.GA29763@lst.de>
+References: <20200727231022.307602-1-sagi@grimberg.me>
+ <20200727231022.307602-2-sagi@grimberg.me> <20200728071859.GA21629@lst.de>
+ <20200728091633.GB1326626@T590>
+ <b1e7c2c5-dad5-778c-f397-6530766a0150@grimberg.me>
+ <20200728093326.GC1326626@T590>
+ <44f07df6-3107-3e7f-ee02-7bc43293ee6b@grimberg.me>
+ <6a678d5d-22b2-5238-92c5-d68e2aafeb9e@grimberg.me>
+ <20200728101042.GA1336890@T590>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200727160803.55683-1-hare@suse.de>
+In-Reply-To: <20200728101042.GA1336890@T590>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200728_065116_311957_E7AF2C68 
-X-CRM114-Status: UNSURE (   7.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200728_065744_378707_48DA7175 
+X-CRM114-Status: GOOD (  16.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,15 +71,57 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Martin Wilck <mwilck@suse.com>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ "Paul E. McKenney" <paulmck@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Chao Leng <lengchao@huawei.com>,
+ Keith Busch <kbusch@kernel.org>, Ming Lin <mlin@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Applied to nvme-5.9 with the tweak discussed earlier.
+On Tue, Jul 28, 2020 at 06:10:42PM +0800, Ming Lei wrote:
+> +	struct blk_mq_hw_ctx *hctx = (void *)srcu -
+> +		sizeof(struct blk_mq_hw_ctx);
+
+I think this should use container_of.
+
+> +{
+> +	struct blk_mq_hw_ctx *hctx;
+> +	unsigned int i;
+> +
+> +	blk_mq_quiesce_queue_nowait(q);
+> +
+> +	queue_for_each_hw_ctx(q, hctx, i) {
+> +		WARN_ON_ONCE(!(hctx->flags & BLK_MQ_F_BLOCKING));
+> +		init_rcu_head(&hctx->srcu->head);
+
+We only need to initialize the rcu head once when we allocate the hctx.
+
+> +	mutex_lock(&set->tag_list_lock);
+> +	if (set->flags & BLK_MQ_F_BLOCKING) {
+> +		int count = 0;
+> +
+> +		list_for_each_entry(q, &set->tag_list, tag_set_list)
+> +			count++;
+> +
+> +		atomic_set(&set->quiesce_count, count);
+> +		init_completion(&set->quiesce_completion);
+> +
+> +		list_for_each_entry(q, &set->tag_list, tag_set_list)
+> +			blk_mq_quiesce_blocking_queue_async(q);
+> +		wait_for_completion(&set->quiesce_completion);
+> +	} else {
+> +		list_for_each_entry(q, &set->tag_list, tag_set_list)
+> +			blk_mq_quiesce_queue_nowait(q);
+> +		synchronize_rcu();
+> +	}
+> +	mutex_unlock(&set->tag_list_lock);
+
+It would be great to do the wait_for_completion and synchronize_rcu
+outside the lock.  Also I think the blocking case probably wants to be
+split into a separate little helper.
 
 _______________________________________________
 Linux-nvme mailing list
