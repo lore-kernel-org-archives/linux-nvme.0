@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7158C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 10:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78FDFC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 10:51:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8566E20656
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 10:51:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 44D0820656
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 10:51:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2MvmdGjL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8566E20656
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Hu1HlMsj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 44D0820656
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,34 +25,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=MQnrUtn3Qak1TO813585WjzzVlcQMykhs2UU4vCkFVo=; b=2MvmdGjLYKCMYfDG108DWcqMU
-	6Ncvwbn6do9KJLm37cMKlVgOUarQr16lAAZ4c5IDBjFZ9TJoOMQsaKtc/agqa+cVE6o6TZxJ7YRXk
-	B8sPI0bdi/Sm2wNNmfyd8mcowNrZfQm1JOOgmxwGWRwn5/yQ2ZYNAoeFrQ3ixhg8UR1gA5g1zUEVT
-	9wvuGIgp8tn1jYxyNPvxJR7j+mmnyF3++ha08mqUW+1zgnWfMjguLP+SpnwuPrWI3yXgVqlPnvney
-	XIHGtwk5RaWJ3fenPi4w4xDUifNoEn5oWKVZ7jXEd2iZdSU9aNdNLcneZPcCgVIPIkEnAbG4pgSWt
-	ba2ywD5iQ==;
+	 bh=qhmxKTHoIMz1TEksBtWtBv0bMoy2Cw5PGfV9hk9Swzo=; b=Hu1HlMsjPF+yZOOUH9NIzAFqr
+	LuyYaeIus9FrpMtEcRs2Gt7K9G8rYG6rRSLuawGQ6XNtTtbz78JHrmzGQLK3PY33s21HzWxSFvjDJ
+	QhQu+mmy6CYBv8m8ERBSuOP23I/d1Jj/FUpQCUuxqLHFk/ZM+VgRHYnOOclPyqhv/d4eblGaW2gJ8
+	sLSMsHTW9oyfEJi6s/+CeXCIykkQl3EetvrgFVj38A5BrUXBplJUvEPxibRWQKkJsmXAENyAo3XQf
+	W3bpdFmoLhIbLbt7E9TarID3n+ptRbclX2WMKlwS6zoSsi9E/fSYJ8CO/i3p3iLX3rBlxkR22ksjI
+	qsXQjPyWw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0NCJ-00023I-Az; Tue, 28 Jul 2020 10:51:03 +0000
+	id 1k0NCY-00028J-Ie; Tue, 28 Jul 2020 10:51:18 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0NCG-00022U-A5
- for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 10:51:01 +0000
+ id 1k0NCW-00027R-4b
+ for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 10:51:16 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 67A3668C4E; Tue, 28 Jul 2020 12:50:58 +0200 (CEST)
-Date: Tue, 28 Jul 2020 12:50:58 +0200
+ id 8DB3D68C4E; Tue, 28 Jul 2020 12:51:14 +0200 (CEST)
+Date: Tue, 28 Jul 2020 12:51:14 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme-fabrics: allow to queue requests for live queues
-Message-ID: <20200728105058.GA29609@lst.de>
-References: <20200728053523.21657-1-sagi@grimberg.me>
+To: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 0/2] nvme-multipath: fixes for non-optimized paths
+Message-ID: <20200728105114.GA29651@lst.de>
+References: <20200727160803.55683-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200728053523.21657-1-sagi@grimberg.me>
+In-Reply-To: <20200727160803.55683-1-hare@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200728_065100_517279_D08D4BE5 
-X-CRM114-Status: UNSURE (   9.06  )
+X-CRM114-CacheID: sfid-20200728_065116_311957_E7AF2C68 
+X-CRM114-Status: UNSURE (   7.58  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -65,14 +65,15 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, James Smart <james.smart@broadcom.com>
+Cc: Martin Wilck <mwilck@suse.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Applied to nvme-5.9, thanks.
+Applied to nvme-5.9 with the tweak discussed earlier.
 
 _______________________________________________
 Linux-nvme mailing list
