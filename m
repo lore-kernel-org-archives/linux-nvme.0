@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE95C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 06:43:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED74CC433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 06:44:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CCD192065C
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 06:43:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B95BE2065C
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 06:44:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vnQANqsr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CCD192065C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dM73CRr2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B95BE2065C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
@@ -26,61 +26,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=bgO51YhtN0Wu+/AD4o85Uc2qD533wkB0+9HhwFaccFE=; b=vnQANqsrPCCWxObVrHIMBK+ao
-	HCvu57e8mQCPAyvZYsQV6qbbmJIohMRWW4TCE6Y8+yOTaXugD688yPB+G9z5F1hVzledt892oLzrk
-	7HxYNjbnqYQ0+8vjRreQjQPL3RzLnItTQWKp7/3C94eJx36iEOQa4ziFDLzPNxj5xYgEGJ0jKuw1n
-	1ZQGRKX7nPSoOhchKDOGwFTGZRzVEw2gi4y1/p3nz7ezQAzDxdjHsz8xk1CWvGRjQ3sQDzqLri0op
-	U5GGHc/7/HWKYjprfsZiCvpU16ltcdXIPJqZUYXy5+2kV6+I9gjS3mCwXLnd0rm34Pnfz9aD4+S3K
-	MTw83C2QQ==;
+	 bh=dWFs78z4t9ime27EJ66TyMTtwwH3HSusCwIjk6i38cI=; b=dM73CRr2N/jvGbvE9I615p71w
+	BI0ALFth4mhTR/uERB/cLKXu8mJ3JiQ8W09s9IsbJJNESjpQ89Dh0HcqpXVenaDSD0jtVGtZfWyTZ
+	0tx9jv//UQugFR8YsR/Je4PHcocLvvbb8uWzX3DSLH19W9WFxdiVhETqyyNYPObXAKzrCWe9tEcKt
+	FtJMEgwaWvNPjySMAUdjml/YckkyhvW73Oao+Npe2G0tpJxT8alYsOPWDbThxUaCBI9465/f90pdj
+	GdO7Om0WxRqSj8JVPBPf6SRyS1njKaGb2E/EnUbMTY2I5NM0m6Sl8O7c7NjJc9maJfJAQtgu9LnZo
+	JoYcMMB2w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0JKf-00025P-11; Tue, 28 Jul 2020 06:43:25 +0000
-Received: from mail-pf1-f196.google.com ([209.85.210.196])
+	id 1k0JLV-0002LA-Nu; Tue, 28 Jul 2020 06:44:17 +0000
+Received: from szxga07-in.huawei.com ([45.249.212.35] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0JKa-00023Z-Jd
- for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 06:43:23 +0000
-Received: by mail-pf1-f196.google.com with SMTP id s26so10380260pfm.4
- for <linux-nvme@lists.infradead.org>; Mon, 27 Jul 2020 23:43:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uUlyBkGjg9YdaNgelolxD3DUILuWiprQkDodBXV+H7A=;
- b=CZ7plGszenBZ9nQiGX0NMTLriheGI4EBCdKW7eMaTWuaHRmS6AwsoZJdGE1nCplrVT
- 0SsX8XZuuoJMGlJCY2aWd/BihwerLa5Z2jYzcmrxWX1Mju4n6VPJQyq8XmBf3Gc3NtHC
- jGO8u8cSsUkSDZMlLd5HCFzgL8VrEbjGW/p+hXzYkpj3fvdDom0zeYqdx3c9NGkI5LOa
- wPo64HehVf+G+p1byzArQJCI6YTu5p317j3d81/d7iqXU8ihG2y/YeKijdk9hyeNYNfk
- zw4JydGyR8kx01TEexra6YJGgMagpaLAVrJsxiEszUHCG/ZJDIwTdmoxCOZI3g0e90uK
- c1Bg==
-X-Gm-Message-State: AOAM531n01d3x6l5gvLGOstnaWTOuoZl4gGCVwBfJBKMKWFLYr2JFL31
- lKoUdW3Kj4C1WludsDBHX3G/yAby
-X-Google-Smtp-Source: ABdhPJyM6jJ2nhz5tiWFdGQb32NPlqCoefOvwgRlEFxfEZ8tjME5UBJyIi8IgpyA8zH9K6QlaH2L+Q==
-X-Received: by 2002:a63:d74c:: with SMTP id w12mr17255226pgi.260.1595918599103; 
- Mon, 27 Jul 2020 23:43:19 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:541c:8b1b:5ac:35fe?
- ([2601:647:4802:9070:541c:8b1b:5ac:35fe])
- by smtp.gmail.com with ESMTPSA id c139sm17267289pfb.65.2020.07.27.23.43.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jul 2020 23:43:18 -0700 (PDT)
-Subject: Re: [PATCH 2/2] nvme-multipath: do not fall back to
- __nvme_find_path() for non-optimized paths
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-References: <20200727160803.55683-1-hare@suse.de>
- <20200727160803.55683-3-hare@suse.de>
- <bb5ad6b6-c0b2-213e-e16a-a6bfcba394e1@grimberg.me>
- <25b94bcf-1730-da16-6a1f-b68ffa4b8970@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <9897ca64-5dfd-78dc-ae75-72ecc3578d77@grimberg.me>
-Date: Mon, 27 Jul 2020 23:43:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1k0JLS-0002JC-OK
+ for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 06:44:15 +0000
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id D2B5B416DAED251FF78F;
+ Tue, 28 Jul 2020 14:44:10 +0800 (CST)
+Received: from [10.27.125.30] (10.27.125.30) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0;
+ Tue, 28 Jul 2020 14:44:07 +0800
+Subject: Re: [PATCH] nvme-fabrics: allow to queue requests for live queues
+To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+References: <20200728053523.21657-1-sagi@grimberg.me>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <8ff91295-9393-a548-a46f-85d415d9cbc9@huawei.com>
+Date: Tue, 28 Jul 2020 14:44:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <25b94bcf-1730-da16-6a1f-b68ffa4b8970@suse.de>
+In-Reply-To: <20200728053523.21657-1-sagi@grimberg.me>
 Content-Language: en-US
+X-Originating-IP: [10.27.125.30]
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200728_024321_836466_6ED06B63 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20200728_024415_050253_C6C76629 
+X-CRM114-Status: GOOD (  22.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,41 +73,77 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, Martin Wilck <mwilck@suse.com>,
- Keith Busch <keith.busch@wdc.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: James Smart <james.smart@broadcom.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cj4+PiBXaGVuIG52bWVfcm91bmRfcm9iaW5fcGF0aCgpIGZpbmRzIGEgdmFsaWQgbmFtZXNwYWNl
-IHdlIHNob3VsZCBiZSAKPj4+IHVzaW5nIGl0Owo+Pj4gZmFsbGluZyBiYWNrIHRvIF9fbnZtZV9m
-aW5kX3BhdGgoKSBmb3Igbm9uLW9wdGltaXplZCBwYXRocyB3aWxsIGNhdXNlIAo+Pj4gdGhlCj4+
-PiByZXN1bHQgZnJvbSBudm1lX3JvdW5kX3JvYmluX3BhdGgoKSB0byBiZSBpZ25vcmVkIGZvciBu
-b24tb3B0aW1pemVkIAo+Pj4gcGF0aHMuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogTWFydGluIFdp
-bGNrIDxtd2lsY2tAc3VzZS5jb20+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBIYW5uZXMgUmVpbmVja2Ug
-PGhhcmVAc3VzZS5kZT4KPj4+IC0tLQo+Pj4gwqAgZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRo
-LmMgfCA1ICsrKystCj4+PiDCoCAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRl
-bGV0aW9uKC0pCj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L211bHRpcGF0
-aC5jIAo+Pj4gYi9kcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYwo+Pj4gaW5kZXggZmU4Zjdm
-MTIzZmFjLi45N2QzYzE5YjU2ODQgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL252bWUvaG9zdC9t
-dWx0aXBhdGguYwo+Pj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMKPj4+IEBA
-IC0yNzIsOCArMjcyLDExIEBAIGlubGluZSBzdHJ1Y3QgbnZtZV9ucyAqbnZtZV9maW5kX3BhdGgo
-c3RydWN0IAo+Pj4gbnZtZV9uc19oZWFkICpoZWFkKQo+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3QgbnZt
-ZV9ucyAqbnM7Cj4+PiDCoMKgwqDCoMKgIG5zID0gc3JjdV9kZXJlZmVyZW5jZShoZWFkLT5jdXJy
-ZW50X3BhdGhbbm9kZV0sICZoZWFkLT5zcmN1KTsKPj4+IC3CoMKgwqAgaWYgKFJFQURfT05DRSho
-ZWFkLT5zdWJzeXMtPmlvcG9saWN5KSA9PSBOVk1FX0lPUE9MSUNZX1JSICYmIG5zKQo+Pj4gK8Kg
-wqDCoCBpZiAoUkVBRF9PTkNFKGhlYWQtPnN1YnN5cy0+aW9wb2xpY3kpID09IE5WTUVfSU9QT0xJ
-Q1lfUlIgJiYgbnMpIHsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBucyA9IG52bWVfcm91bmRfcm9i
-aW5fcGF0aChoZWFkLCBub2RlLCBucyk7Cj4+PiArwqDCoMKgwqDCoMKgwqAgaWYgKG5zKQo+Pj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIG5zOwo+Pj4gK8KgwqDCoCB9Cj4+PiDCoMKg
-wqDCoMKgIGlmICh1bmxpa2VseSghbnMgfHwgIW52bWVfcGF0aF9pc19vcHRpbWl6ZWQobnMpKSkK
-Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBucyA9IF9fbnZtZV9maW5kX3BhdGgoaGVhZCwgbm9kZSk7
-Cj4+Cj4+IE1heWJlIGluc3RlYWQgb2YgdGhlIGVhcmx5IHJldHVybiBwdXQgdGhlIGZvbGxvd2lu
-ZyBjb25kaXRpb24gb24gZWxzZT8KPiAKPiBUaGF0IGRlcGVuZHMgb24gd2hldGhlciB3ZSB3YW50
-IHRvIGhhdmUgYSBmYWxsYmFjayB0byBfX252bWVfZmluZF9wYXRoKCkgCj4gb3Igbm90LiBXaXRo
-IHlvdXIgc3VnZ2VzdGlvbiB3ZSB3b3VsZCBsb3NlIHRoYXQ7IEknZCByYXRoZXIga2VlcCBpdC4K
-Ck9LLi4uCgpSZXZpZXdlZC1ieTogU2FnaSBHcmltYmVyZyA8c2FnaUBncmltYmVyZy5tZT4KCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUg
-bWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
-aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+
+
+On 2020/7/28 13:35, Sagi Grimberg wrote:
+> Right now we are failing requests based on the controller
+> state (which is checked inline in nvmf_check_ready) however
+> we should definitely accept requests if the queue is live.
+> 
+> When entering controller reset, we transition the controller
+> into NVME_CTRL_RESETTING, and then return BLK_STS_RESOURCE for
+> non-mpath requests (have blk_noretry_request set).
+> 
+> This is also the case for NVME_REQ_USER for some reason, but
+> there shouldn't be any reason for us to reject this I/O in a
+> controller reset.
+> 
+> In a non-mpath setup, this means that the requests will simply
+> be requeued over and over forever not allowing the q_usage_counter
+> to drop its final reference, causing controller reset to hang
+> if running concurrently with heavy I/O.
+> 
+> While we are at it, remove the redundant NVME_CTRL_NEW case, which
+> should never see any I/O as it must first transition to
+> NVME_CTRL_CONNECTING.
+> 
+> Fixes: 35897b920c8a ("nvme-fabrics: fix and refine state checks in __nvmf_check_ready")
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>   drivers/nvme/host/fabrics.c | 10 +---------
+>   1 file changed, 1 insertion(+), 9 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 4ec4829d6233..2e7838f42e36 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -564,21 +564,13 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   {
+>   	struct nvme_request *req = nvme_req(rq);
+>   
+> -	/*
+> -	 * If we are in some state of setup or teardown only allow
+> -	 * internally generated commands.
+> -	 */
+> -	if (!blk_rq_is_passthrough(rq) || (req->flags & NVME_REQ_USERCMD))
+"if (!blk_rq_is_passthrough(rq))" should not delete. Because if we delete,
+the normal io will be send to target, the target can not treat the io
+if the queue is not NVME_CTRL_LIVE.
+> -		return false;
+> -
+>   	/*
+>   	 * Only allow commands on a live queue, except for the connect command,
+>   	 * which is require to set the queue live in the appropinquate states.
+>   	 */
+>   	switch (ctrl->state) {
+> -	case NVME_CTRL_NEW:
+>   	case NVME_CTRL_CONNECTING:
+> -		if (nvme_is_fabrics(req->cmd) &&
+> +		if (blk_rq_is_passthrough(rq) && nvme_is_fabrics(req->cmd) &&
+If nvme_is_fabrics(req->cmd) is true, blk_rq_is_passthrough(rq) must
+be ture. why need add check blk_rq_is_passthrough(rq)?
+>   		    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
+>   			return true;
+>   		break;
+> 
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
