@@ -2,85 +2,93 @@ Return-Path: <SRS0=l2Ft=BH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36774C433E8
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 18:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AADEC433E4
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 20:11:50 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CBB620786
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 18:36:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F1D5220656
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jul 2020 20:11:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dzBNvDF1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CBB620786
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zxC5VA0k";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="M2iuIcQ1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1D5220656
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=emSgtTJFK5p3Wzr2N+5A1qXJU4JOD1oeYjeYmNZxsGw=; b=dzBNvDF1FP2b7lFF6eNAwmED0
-	cRG1sORFeYAOZDYdR/IpiIHFqZ2ZHLirlG5sXb/FI/vOpaZXlogsdgZHG0pjtdVPTGSQU5OPgFMa1
-	EeeIWM9yFuI0hwsiBViOscmdADalbjzmUwZLaQFVm1zX22W9F23qQZjaS+ZhplGcfA1LdaVmwct+l
-	7oKoVWq8KgPG+26sRwjOkFndRgUxjLkjNJkRPKqYSD/7kW70bAy2mjSXNLK+zfPe6kFZjUSsUbHGx
-	AlVffvgJo7ttvymCItyekPXn3ujWA8nMznXx54g4x04H3x3a7yfaaKoszBvI4Ovcb32kVSeHWtQrY
-	fg2FsgE+g==;
+	 bh=1LpoI38yXMNUCEeMQ2csFEQfHIFCn5NgPTBmZvWXMEE=; b=zxC5VA0kHQkAb2PKekbOBvd3R
+	PcO4uwviFAUQrplJ58RTgSV1w8A4Ae5AWQuYJpS3Dkni2WKL/X3aO/2yoGmQxu1G7kqUJeiUk6Oz6
+	ms94eb/12i3KoXZ8dKh6GydVTNYqluqq0q99dQUWf+EIywWjfcquEYmsqZVVKKLQi0SFlzdLslciR
+	uBPb6bw/QXlYkgTO13+csOOw+NrsV98dzfCB8undGFIWXbQlqq+EBoGgDC0dVgDXPhoXTSTKLi9Bb
+	HvD/x/gOAsqBura7iI+KHlH7gsZi4dEppnFBBeIcoHaCM9p1/6dkBLv+dnskvHKykheHoiVizBHPr
+	atvjuefVw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0USH-0006vA-4I; Tue, 28 Jul 2020 18:36:01 +0000
-Received: from mail-pj1-f68.google.com ([209.85.216.68])
+	id 1k0Vwr-0004zh-LC; Tue, 28 Jul 2020 20:11:42 +0000
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0USE-0006uN-1d
- for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 18:35:59 +0000
-Received: by mail-pj1-f68.google.com with SMTP id k71so329139pje.0
- for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2020 11:35:57 -0700 (PDT)
+ id 1k0Vwm-0004zM-0F
+ for linux-nvme@lists.infradead.org; Tue, 28 Jul 2020 20:11:38 +0000
+Received: by mail-wm1-x341.google.com with SMTP id p14so709095wmg.1
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2020 13:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=Y/2h3+lwMjxDq6OXF+2dSt4d2OKSmfmMiPtsIILI4OU=;
+ b=M2iuIcQ1psJhbp7kJt2VfkIXAJDiI34tAc+fbiDgY2HFloHqta56/VJ16o7aOMXisB
+ 78JuI4AZmlF4IYuiyQ6uvLwpmtYTQ2DjnaoGy3JMR723FkQHk4JHrtpubVPQmyXQ+y1b
+ caSkziXH8I7/sObLTSBMsfkA/g+XcsQvy2wms=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9i5BBHREORuTzj8FAN14ckMlGcQgcgOsiBwHPLWsVpE=;
- b=Wcw9eFUDG5jL5PxmfuRWMPX4HQYKDnAYXKCQ1L3+8gohLT6pRDShHhgZG5wUUGFTz0
- wcBksNgeZHq263Wg+QfafYj5rLQ+CXLEKTMYaFWqql+y7tfUAY1/UF18sVv+C3OT1fxv
- 60njsjV6275nWBC2lMdbuZyQR+Id7/8xaM/FkcQQmlwecrGhOhDcTaM4hZm1VXfsVuZd
- Z0w0KZcrkdikeIUdityu/0qQ/q0i8GADexCFKUNZmo10A0+1cyAygnfXKAMXhK8ZGbM2
- 9lBVQpj3fU82YFrA+Q8oNzqX+oZ9mhAaOqVRgVE4QLB0R65EEVA+cmcgcJHcD426ucJj
- 1vRQ==
-X-Gm-Message-State: AOAM533qyYn28xr7gcFds7NmyaauIGy6IlLRruMvF33XQQIdJtBDmx5k
- Cb9cx4DFQfuEvRWZdBKSML4=
-X-Google-Smtp-Source: ABdhPJwJV/Nd3Zr81y3cR4096NvjviTeoZrcTQ//uuEkvRbHfzsey1tjXRxCYL7+JA/op/f/XWhQUA==
-X-Received: by 2002:a17:902:6b08:: with SMTP id
- o8mr24268973plk.104.1595961356381; 
- Tue, 28 Jul 2020 11:35:56 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:541c:8b1b:5ac:35fe?
- ([2601:647:4802:9070:541c:8b1b:5ac:35fe])
- by smtp.gmail.com with ESMTPSA id s194sm19172559pgs.24.2020.07.28.11.35.54
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Y/2h3+lwMjxDq6OXF+2dSt4d2OKSmfmMiPtsIILI4OU=;
+ b=TlRQZ18bqdk+2tR79z19pKyxS1R5NdIyINP3D5Px3SKOe9Vg56clhyWoJL/ubVhbKw
+ WGiUPB3d5pWkaNQn5/r1U5ihfJwYDwCfNM4HU+iLCP0Gr5P0q0leKi9mjbEvgoGtV49w
+ /QG1/UzHR79L2OszTlZZvZDE+DiHWhCbblr8eV3ls7pbXjnpCY+9vtlYWW+xgMX0VKLk
+ GcT3b+p+CEzykcTDHPlg9t6mxYyBWKekbWg9LEIJp/YPXPbhPHtq6PrBI7Q9RvEoLf+/
+ Hvfn1vhsUyYNL3t0nBsAgoNA0W9T8duxbWgMAb429wo7JRJ5gE0uYQZshI4cdzW7Yg5A
+ Indg==
+X-Gm-Message-State: AOAM531IVMHBhEaPi5l9z9tZwRngNQz/P1t+EJi1XSp76+HOsiUE8jWy
+ lIV8H8yEx7TcinVRFAcEVEQYvw==
+X-Google-Smtp-Source: ABdhPJzWUtkaRGVirRRuVjbTPMvDzboKu/2E1xuWVhcM1AAawPNamVknEX4YQyUCj6nlV/yPJK6Hzw==
+X-Received: by 2002:a1c:7315:: with SMTP id d21mr5241792wmb.108.1595967094545; 
+ Tue, 28 Jul 2020 13:11:34 -0700 (PDT)
+Received: from [10.69.45.46] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id h11sm20924222wrb.68.2020.07.28.13.11.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jul 2020 11:35:55 -0700 (PDT)
-Subject: Re: Hang at NVME Host caused by Controller reset
-To: Krishnamraju Eraparaju <krishna2@chelsio.com>
-References: <20200727181944.GA5484@chelsio.com>
- <9b8dae53-1fcc-3c03-5fcd-cfb55cd8cc80@grimberg.me>
- <20200728115904.GA5508@chelsio.com>
- <4d87ffbb-24a2-9342-4507-cabd9e3b76c2@grimberg.me>
- <20200728174224.GA5497@chelsio.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <3963dc58-1d64-b6e1-ea27-06f3030d5c6e@grimberg.me>
-Date: Tue, 28 Jul 2020 11:35:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Tue, 28 Jul 2020 13:11:33 -0700 (PDT)
+Subject: Re: [PATCH] nvme-fabrics: allow to queue requests for live queues
+To: Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
+ linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+References: <20200728053523.21657-1-sagi@grimberg.me>
+ <8ff91295-9393-a548-a46f-85d415d9cbc9@huawei.com>
+ <233d8e35-f85f-458e-05ad-5baba1b04bbb@grimberg.me>
+ <c782f0c1-76b2-cc67-6770-eb55f9e2a3aa@broadcom.com>
+ <612f10f0-3cdd-a7c3-e666-ad9f5c835d00@grimberg.me>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <8de13e09-dff5-f988-2f99-b781ab826421@broadcom.com>
+Date: Tue, 28 Jul 2020 13:11:31 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200728174224.GA5497@chelsio.com>
+In-Reply-To: <612f10f0-3cdd-a7c3-e666-ad9f5c835d00@grimberg.me>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200728_143558_103337_B94BF855 
-X-CRM114-Status: GOOD (  15.44  )
+X-CRM114-CacheID: sfid-20200728_161136_344743_6DEC169A 
+X-CRM114-Status: GOOD (  35.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,76 +100,117 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, bharat@chelsio.com,
- linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Sagi,
-> 
-> Yes, Multipath is disabled.
-
-Thanks.
-
-> This time, with "nvme-fabrics: allow to queue requests for live queues"
-> patch applied, I see hang only at blk_queue_enter():
-
-Interesting, does the reset loop hang? or is it able to make forward
-progress?
-
-> [Jul28 17:25] INFO: task nvme:21119 blocked for more than 122 seconds.
-> [  +0.000061]       Not tainted 5.8.0-rc7ekr+ #2
-> [  +0.000052] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-> disables this message.
-> [  +0.000059] nvme            D14392 21119   2456 0x00004000
-> [  +0.000059] Call Trace:
-> [  +0.000110]  __schedule+0x32b/0x670
-> [  +0.000108]  schedule+0x45/0xb0
-> [  +0.000107]  blk_queue_enter+0x1e9/0x250
-> [  +0.000109]  ? wait_woken+0x70/0x70
-> [  +0.000110]  blk_mq_alloc_request+0x53/0xc0
-> [  +0.000111]  nvme_alloc_request+0x61/0x70 [nvme_core]
-> [  +0.000121]  nvme_submit_user_cmd+0x50/0x310 [nvme_core]
-> [  +0.000118]  nvme_user_cmd+0x12e/0x1c0 [nvme_core]
-> [  +0.000163]  ? _copy_to_user+0x22/0x30
-> [  +0.000113]  blkdev_ioctl+0x100/0x250
-> [  +0.000115]  block_ioctl+0x34/0x40
-> [  +0.000110]  ksys_ioctl+0x82/0xc0
-> [  +0.000109]  __x64_sys_ioctl+0x11/0x20
-> [  +0.000109]  do_syscall_64+0x3e/0x70
-> [  +0.000120]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [  +0.000112] RIP: 0033:0x7fbe9cdbb67b
-> [  +0.000110] Code: Bad RIP value.
-> [  +0.000124] RSP: 002b:00007ffd61ff5778 EFLAGS: 00000246 ORIG_RAX:
-> 0000000000000010
-> [  +0.000170] RAX: ffffffffffffffda RBX: 0000000000000003 RCX:
-> 00007fbe9cdbb67b
-> [  +0.000114] RDX: 00007ffd61ff5780 RSI: 00000000c0484e43 RDI:
-> 0000000000000003
-> [  +0.000113] RBP: 0000000000000000 R08: 0000000000000001 R09:
-> 0000000000000000
-> [  +0.000115] R10: 0000000000000000 R11: 0000000000000246 R12:
-> 00007ffd61ff7219
-> [  +0.000123] R13: 0000000000000006 R14: 00007ffd61ff5e30 R15:
-> 000055e09c1854a0
-> [  +0.000115] Kernel panic - not syncing: hung_task: blocked tasks
-
-For some reason the ioctl is not woken up when unfreezing the queue...
-
-> You could easily reproduce this by running below, parallelly, for 10min:
->   while [ 1 ]; do  nvme write-zeroes /dev/nvme0n1 -s 1 -c 1; done
->   while [ 1 ]; do echo 1 > /sys/block/nvme0n1/device/reset_controller;
-> done
->   while [ 1 ]; do ifconfig enp2s0f4 down; sleep 24; ifconfig enp2s0f4 up;
-> sleep 28; done
->   
->   Not sure using nvme-write this way is valid or not..
-
-sure it is, its I/O just like fs I/O.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiA3LzI4LzIwMjAgMTA6NTAgQU0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4KPj4+Pj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYyAKPj4+Pj4gYi9kcml2ZXJzL252
+bWUvaG9zdC9mYWJyaWNzLmMKPj4+Pj4gaW5kZXggNGVjNDgyOWQ2MjMzLi4yZTc4MzhmNDJlMzYg
+MTAwNjQ0Cj4+Pj4+IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYwo+Pj4+PiArKysg
+Yi9kcml2ZXJzL252bWUvaG9zdC9mYWJyaWNzLmMKPj4+Pj4gQEAgLTU2NCwyMSArNTY0LDEzIEBA
+IGJvb2wgX19udm1mX2NoZWNrX3JlYWR5KHN0cnVjdCBudm1lX2N0cmwgCj4+Pj4+ICpjdHJsLCBz
+dHJ1Y3QgcmVxdWVzdCAqcnEsCj4+Pj4+IMKgIHsKPj4+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3QgbnZt
+ZV9yZXF1ZXN0ICpyZXEgPSBudm1lX3JlcShycSk7Cj4+Pj4+IC3CoMKgwqAgLyoKPj4+Pj4gLcKg
+wqDCoMKgICogSWYgd2UgYXJlIGluIHNvbWUgc3RhdGUgb2Ygc2V0dXAgb3IgdGVhcmRvd24gb25s
+eSBhbGxvdwo+Pj4+PiAtwqDCoMKgwqAgKiBpbnRlcm5hbGx5IGdlbmVyYXRlZCBjb21tYW5kcy4K
+Pj4+Pj4gLcKgwqDCoMKgICovCj4+Pj4+IC3CoMKgwqAgaWYgKCFibGtfcnFfaXNfcGFzc3Rocm91
+Z2gocnEpIHx8IChyZXEtPmZsYWdzICYgCj4+Pj4+IE5WTUVfUkVRX1VTRVJDTUQpKQo+Pj4+ICJp
+ZiAoIWJsa19ycV9pc19wYXNzdGhyb3VnaChycSkpIiBzaG91bGQgbm90IGRlbGV0ZS4gQmVjYXVz
+ZSBpZiB3ZSAKPj4+PiBkZWxldGUsCj4+Pj4gdGhlIG5vcm1hbCBpbyB3aWxsIGJlIHNlbmQgdG8g
+dGFyZ2V0LCB0aGUgdGFyZ2V0IGNhbiBub3QgdHJlYXQgdGhlIGlvCj4+Pj4gaWYgdGhlIHF1ZXVl
+IGlzIG5vdCBOVk1FX0NUUkxfTElWRS4KPj4+Cj4+PiBTdXJlIGl0IGRvZXMsIHRoZSBvbmx5IHJl
+YXNvbiBmb3IgdXMgdG8gZGVueSB0aGlzIEkvTywgaXMgaWYgdGhlIHF1ZXVlCj4+PiBpcyBub3Qg
+bGl2ZS4gVGhlIGNvbnRyb2xsZXIgc3RhdGUgc2hvdWxkIG9ubHkgX2FkdmlzZV8gdXMgaWYgd2Ug
+bmVlZCB0bwo+Pj4gbG9vayBhdCB0aGUgcXVldWUgc3RhdGUuCj4+Cj4+IEkgZGlzYWdyZWUgc3Ry
+b25nbHkgd2l0aCByZW1vdmluZyB0aGUgY2hlY2sgb24gTlZNRV9SRVFfVVNFUkNNRC4gCj4+IFdl
+J3ZlIHNlZW4gY2xpIGlvY3RscyBnb2luZyB0byB0aGUgYWRtaW4gcXVldWUgd2hpbGUgd2UncmUg
+aW4gdGhlIAo+PiBtaWRkbGUgb2YgZG9pbmcgY29udHJvbGxlciBpbml0aWFsaXphdGlvbiBhbmQg
+aXQncyBoYXMgaG9zZWQgdGhlIAo+PiBjb250cm9sbGVyIHN0YXRlIGluIHNvbWUgY2FzZXMuIFdl
+J3ZlIHNlZW4gY29tbWFuZHMgaXNzdWVkIGJlZm9yZSB0aGUgCj4+IGNvbnRyb2xsZXIgaXMgaW4g
+dGhlIHByb3BlciBzdGF0ZS7CoCBUaGUgYWRtaW4gcXVldWUgbWF5IGJlIGxpdmUgLSBidXQgCj4+
+IHdlIGRvbid0IG5lY2Vzc2FyaWx5IHdhbnQgb3RoZXIgaW8gc25lYWtpbmcgaW4uCj4KPiBDYW4g
+eW91IHBsZWFzZSBnaXZlIGFuIGV4YW1wbGU/IE5WTUVfUkVRX1VTRVJDTUQgc2hvdWxkIG5vdCBi
+ZSBhbnkKPiBkaWZmZXJlbnQgZnJvbSBhbnkgb3RoZXIgdHlwZSBvZiBJL08uCgpLZWVwIGluIG1p
+bmTCoCAtIGluIG9yZGVyIHRvIHNlbmQgYW55IGNvbW1hbmQsIEZhYnJpYyBjb25uZWN0IGluY2x1
+ZGVkLCAKdGhlIGFkbWluIHF1ZXVlIG11c3QgYmUgdW5xdWllc2NlZC4KCkhlcmUncyB3aGF0IHdl
+IGhhdmUgdG9kYXk6CkF0IHRoZSB0aW1lIG9mIHRoZSByZXNldCBvciBpbW1lZGlhdGVseSBkdXJp
+bmcgdGhlIHJlc2V0LCBhbiBpb2N0bCBpcyAKZG9uZSAtIGl0IGNhbiAoYW5kIGhhcyBiZWVuIHNl
+ZW4pIHRvIGJlIHF1ZXVlZCBvbiB0aGUgcmVxdWVzdCBxdWV1ZSBhcyAKdGhlcmUgYXJlIG5vdCBz
+dGF0ZSBjaGVja3MuIFdoZW4gdGhpcyBpbyBnZXRzIHNjaGVkdWxlZCwgYXMgb2YgdGhlIApyZXNl
+dHRpbmcgb3IgZXZlbiB0aGUgY29ubmVjdGluZyBzdGF0ZSAtIGl0J3MgY3VycmVudGx5IGZhaWxp
+bmcgdGhlIApOVk1FX1JFUV9VU0VSQ01EIGNoZWNrLCB3aGljaCBmYWlscyBiYWNrIGludG8gCm52
+bWZfZmFpbF9ub25yZWFkeV9jb21tYW5kLCB3aGljaCBmYWlscyBiYWNrIHdpdGggQkxLX1NUU19S
+RVNPVVJDRSwgCndoaWNoIHJlc2NoZWR1bGVzIGl0LsKgIFRoaXMgcmVzY2hlZHVsaW5nIHJlb2Nj
+dXJzLCB1bnRpbCB0aGUgaXRzIHRyaWVkIAphZ2FpbiB3aXRoIHRoZSBjb250cm9sbGVyIHN0YXRl
+IGNoYW5nZWQgKHVzdWFsbHkgTElWRSkgd2hpY2ggdGhlbiBwYXNzZXMgCnRoZSBhZG1pbi1xdWV1
+ZSBsaXZlIGNoZWNrLiBJdCdzIGdvb2QgdG8gZ28uCgpXaXRoIHlvdXIgcGF0Y2g6ClRoZSBpb2N0
+bCB3aWxsIGF0IGxlYXN0IGJlIHJlcXVldWVkIHdpdGggQkxLX1NUU19SRVNPVVJDRSB1bnRpbCBh
+ZnRlciAKdGhlIEZhYnJpYyBDb25uZWN0IGlzIGNvbXBsZXRlZCAoQ29ubmVjdCBpcyBleHBsaWNp
+dGx5IGFsbG93ZWQgYnkgdGhlIApzdGF0ZS1zcGVjaWZpYyBjaGVjaykgYXMgaG9wZWZ1bGx5IHF1
+ZXVlLT5saXZlIGlzIGZhbHNlLiBJdCBtYXkgYWN0dWFsbHkgCmJlIGlzc3VlZCBpZiB3ZSdyZSBp
+biB0aGlzIHJlc2V0dGluZyBzdGF0ZSBvbmx5IHRvIGJlIHRlcm1pbmF0ZWQgCmFmdGVyd2FyZC4g
+QWxsIG9mIHRoZSB0cmFuc3BvcnRzIHNldCB0aGUgcXVldWUgbGl2ZSBmbGFnIGFzIG9mIEZhYnJp
+YyAKQ29ubmVjdCBjb21wbGV0ZS4gSWYgdGhlIGlvY3RsIGlzIHJldHJpZWQgYXMgb2YgdGhhdCBw
+b2ludCAtIGl0IG1heSBiZSAKaW1tZWRpYXRlbHkgc2VudCBvbiB0aGUgYWRtaW4gcXVldWUgLSBi
+ZWZvcmUgb3IgaW4tYmV0d2VlbiBhbnkgb2YgdGhlIApjb21tYW5kcyBpc3N1ZWQgYnkgbnZtZV9l
+bmFibGVfY3RybCgpIC0gaW5jbHVkaW5nIGJlZm9yZSBjb250cm9sbGVyIAplbmFibGVkLCBudm1l
+X2luaXRfaWRlbnRpZnkoKSwgYW5kIGJlZm9yZSBudm1lX3N0YXJ0X2N0cmwoKSBoYXMgYmVlbiAK
+Y2FsbGVkLsKgwqDCoCBIb3BlZnVsbHkgbm9uZSBvZiB0aGVzZSBjb21tYW5kcyB0cnkgdG8gc2V0
+L2NoYW5nZSAKY29uZmlndXJhdGlvbi7CoMKgIFRoZXkgc2ltcGx5IHNob3VsZG4ndCBiZSBhbGxv
+d2VkIHVudGlsIGFmdGVyIHRoZSAKY29udHJvbGxlciBoYXMgdHJhbnNpdGlvbmVkIHRvIExJVkUu
+IFRoZXJlJ3Mgbm8gbmVlZCB0byBhbGxvdyB0aGVtIAppbi1iZXR3ZWVuLgoKCj4KPiBBbHNvLCBk
+byBub3RlIHRoYXQgcGNpIGRvZXMgYWxsb3cgdG8gcXVldWUgYW55IHR5cGUgb2YgY29tbWFuZCBi
+YXNlZAo+IG9uIHRoZSBxdWV1ZSBzdGF0ZSBvbmx5LiBmYWJyaWNzIHNob3VsZCBiZSBzbGlnaHRs
+eSBkaWZmZXJlbnQgYmVjYXVzZQo+IHdlIGhhdmUgdGhlIENPTk5FQ1RJTkcgc3RhdGUgd2hlcmUg
+d2Ugd2FudCB0byBsZXQgdGhlIGNvbm5lY3QgY29tbWFuZAo+IG9ubHkgdG8gYmUgaXNzdWVkLgo+
+CgpUaGF0IGRvZXNuJ3QgbWFrZSBtZSBmZWVsIGFueSBiZXR0ZXIuwqAgUENJIGJpdC1iYW5ncyBy
+ZWdpc3RlciB3cml0ZXMsIAp0aGUgb2RkcyB0aGV5IGNhbiBmYWlsL2JlIGRpc2NhcmRlZCBvbiB0
+aGUgImZhYnJpYyIgaXMgbmVhciB6ZXJvLiBBZG1pbiAKQ29tbWFuZHMgLSBib3RoIHNlbmRpbmcv
+cHJvY2Vzc2luZy9yZXNwb25kaW5nIGlzIG11Y2ggbXVjaCBmYXN0ZXIgdGhhbiAKb24gYSBmYWJy
+aWMsIHdoZXJlIHRoZSBjbWQgY2FuIGJlIGRyb3BwZWQvZGVsYXllZCBieSBmYWJyaWMgcm91dGlu
+Zy4gCk9kZHMgb2YgaGF2aW5nIGNvcmUtZ2VuZXJhdGVkIGNvbW1hbmRzIGZhaWwgd2hpbGUgCnJl
+Y29ubmVjdGluZy9yZWluaXRpYWxpemluZyBhcmUgbXVjaCBtdWNoIGxvd2VyLsKgwqAgQWxsIHNh
+eXMgLSBmYWJyaWNzIApoYXZlIGEgbXVjaCBoaWdoZXIgY29tbWFuZCBhbmQgaW50ZXItY29tbWFu
+ZCBsYXRlbmN5IHRoYW4gcGNpZSBkb2VzIC0gc28gCnBjaWUgaXMgZ29pbmcgdG8gaGF2ZSBhIGhh
+cmRlciB0aW1lIHNlZWluZyB0aGVzZSBjYXNlcy4KCj4KPj4gQXMgZm9yIHRoZSBibGtfcnFfaXNf
+cGFzc3Rocm91Z2ggY2hlY2sgLSBJIGd1ZXNzIEkgY2FuIHNlZSBpdCBiZWluZyAKPj4gYmFzZWQg
+b24gdGhlIHF1ZXVlIHN0YXRlLCBhbmQgdGhlIGNoZWNrIGxvb2tzIG9rwqAgKHdlIHNob3VsZCBu
+ZXZlciAKPj4gc2VlICFibGtfcnFfaXNfcGFzc3Rocm91Z2ggb24gdGhlIGFkbWluIHEpLgo+PiBC
+dXQuLi4KPj4gLSBJIGRvbid0IGtub3cgd2h5IGl0IHdhcyB0aGF0IGltcG9ydGFudCB0byBjaGFu
+Z2UgaXQuIE9uIHRoZSAKPj4gY29ubmVjdGluZyBwYXRoLCBhbGwgeW91J3JlIGRvaW5nIGlzIGxl
+dHRpbmcgaW8gc3RhcnQgZmxvd2luZyBiZWZvcmUgCj4+IGFsbCB0aGUgcXVldWVzIGhhdmUgYmVl
+biBjcmVhdGVkLsKgIERpZCB5b3UgcmVhbGx5IG5lZWQgdG8gc3RhcnQgdGhhdCAKPj4gbXVjaCBz
+b29uZXIgPwo+Cj4gVGhlIGlzc3VlIGlzIHRoYXQgY29udHJvbGxlciBpbiBSRVNFVFRJTkcgc3Rh
+dGUgd2lsbCBoYXZlIHJlcXVlc3RzIHRoYXQKPiBhcmUgYmVpbmcgaXNzdWVkLCBhbmQgaWYgd2Ug
+ZG9uJ3QgbGV0IGl0IHBhc3MgdGhyb3VnaCwgaXQgd2lsbCBoYW5nCj4gYXJvdW5kIGZvcmV2ZXIg
+YmVpbmcgcmVxdWV1ZWQgcHJldmVudGluZyBxdWV1ZSBmcmVlemUgdG8gY29tcGxldGUuCgppcyBp
+dCByZWFsbHkgImZvcmV2ZXIiIG9yIGlzIGl0IHVudGlsIGNvbnRyb2xsZXIgbG9zcyB0aW1lb3V0
+ID8gZ3JhbnRlZCAKMTBtaW51dGVzIGRvZXMgc2VlbSBsaWtlIGZvcmV2ZXIKCgo+Cj4gU2VlIGJ1
+ZyByZXBvcnQgZnJvbSBLcmlzaG5hbXJhanUgRXJhcGFyYWp1LgoKSSdsbCBnbyBsb29rLgoKCj4K
+Pj4KPj4gLSBCdXQgb24gdGhlIHJlc2V0dGluZyBwYXRoLCBvciBkZWxldGluZyBjYXNlcywgeW91
+J3ZlIGFkZGVkIGEgCj4+IGNvbmRpdGlvbiBub3cgd2hlcmUgdGhlIGNvbnRyb2xsZXIgc3RhdGUg
+d2FzIGNoYW5nZWQsIGJ1dCB0aGVyZSB3YXMgYSAKPj4gZGVsYXkgYmVmb3JlIHRoZSB0cmFuc3Bv
+cnQgbWFya2VkIHRoZSBxdWV1ZSBsaXZlLiBJdCdzIGNvbW1vbiAKPj4gcHJhY3RpY2UgaW4gdGhl
+IHRyYW5zcG9ydHMgdG8gY2hhbmdlIHN0YXRlIHRoZW4gc2NoZWR1bGUgYSB3b3JrIAo+PiBlbGVt
+ZW50IHRvIHBlcmZvcm0gdGhlIGFjdHVhbCBzdGF0ZSBjaGFuZ2UuwqAgV2h5IHdvdWxkIHlvdSB3
+YW50IGlvIHRvIAo+PiBjb250aW51ZSB0byBmbG93IGR1cmluZyB0aGF0IHdpbmRvdyA/wqDCoCBU
+aGlzIG1heSBicmluZyBvdXQgb3RoZXIgCj4+IHByb2JsZW1zIHdlJ3ZlIGF2b2lkZWQgaW4gdGhl
+IHBhc3QuCj4KPiBXaGF0IGFyZSB5b3UgcmVmZXJyaW5nIHRvPyB0aGUgY2hhbmdlIGhlcmU/IHRo
+ZSBjb250cm9sbGVyIHJlc2V0IG11c3QKPiBhbGxvdyByZXF1ZXN0cyB0aGF0IGNhbWUgaW4gYmVm
+b3JlIHdlIHN0YXJ0ZWQgcXVldWUgZnJlZXplIHRvIHBhc3MsCj4gb3RoZXJ3aXNlIGZyZWV6ZSB3
+aWxsIG5ldmVyIGNvbXBsZXRlLgoKSSdtIHJlZmVycmluZyB0byB0aGUgaW8ncyB0aGF0IG5vdyBw
+YXNzIHRocm91Z2ggd2l0aCB0aGUgcGF0Y2ggYXMgdGhlIApjb250cm9sbGVyIHN0YXRlIGlzIG5v
+IGxvbmdlciBibG9ja2luZyB0aGVtIChlLmcuIHRoZSByZW1vdmFsIG9mIHRoZSAKIWJsa19ycV9p
+c19wYXNzdGhyb3VnaCBhbmQgTlZNRV9SRVFfVVNFUkNNRCBjaGVja3MpLiBUaGV5IHdpbGwgcGFz
+cyB0aGUgCnJlYWR5IGNoZWNrcyBhbmQgZ28gb3V0IG9uIHRoZSB3aXJlLCBjcmVhdGluZyBtb3Jl
+IGFjdGl2ZSBpbyB0aGF0IGhhcyB0byAKYmUgZGVsZXRlZCB3aGVuIHRoZSByZXNldCBmaW5hbGx5
+IHF1aWVzY2VzIGFuZCB0ZXJtaW5hdGVzIHRoZSBhY3RpdmUgaW8gCmxpc3QuIEZvciBGQywgd2Ug
+aGF2ZSB0byByZWFsIGxpbmsgdHJhZmZpYyBmb3IgYW55IGlvIHRoYXQgZ2V0cyBzdGFydGVkLCAK
+c28gaXQgcmFpc2VzIHRoZSBkZW1hbmRzLsKgwqAgU2hvdWxkIGJlIGZpbmUsIGJ1dCBpdCBpcyBj
+cmVhdGluZyBtb3JlIGxvYWQgCmF0IGEgcG9pbnQgd2hlcmUgaXQgY291bGQgaGF2ZSBiZWVuIGJs
+b2NrZWQuCgotLSBqYW1lcwoKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZy
+YWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
+dXgtbnZtZQo=
