@@ -2,50 +2,68 @@ Return-Path: <SRS0=jy92=BI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE6AC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 08:57:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF0DC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 09:28:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 441EF2075D
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 08:57:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3D0DF20663
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 09:28:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KHOw8f5p"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 441EF2075D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="s7WHS5l/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D0DF20663
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XgP87EbLbt+2Z9yAnDLPSv/r49+WFk52buVR3x4ddA4=; b=KHOw8f5p0MpcpNmjXYx/5t2g5
-	VqTmSpuS/57ULH1PhXvPuFbbUPoWr+Oxc8HI0eNiOYWqN1zDN9pZzU1A6dHNT/g/SCfL1UCg0dgZO
-	lZTmKRPs+wPWDscmOOGjDJPjiAf/+5/Jb9ejiiqVCdP+qgq7tFSjVteRC3STxVCVnYGVfUlX2Yss3
-	14LwPqQJM0BInmt7SOXVS1B9VFGhsYDWaG8sIqYBUypWIQpWceZtHwIBaWwOmyB6cJVWHqsdV7OuD
-	MCh6/7hoyhPq0by15EYZZ0ihMX5xbHRFvzJM4T4+wT9d8xcM18PLjHel2gQMSpCWbX0Fp5Ap+UAIP
-	TseUkgERg==;
+	 bh=LNjgeBcRk46Ow5KKaxN8ouaj+yzQ4Z7r2airgZGRwqU=; b=s7WHS5l/BobWnUIVFcfH2aQ1g
+	DDGdjW8GfAsgjvOTFgASW/CkN81zadFCfMx7QWNzbdZbsZ2BHrZeyRfMcJN1C7WESfKH38zoiU7sT
+	UTO72LUVUHIFL1faz8nDZREOkHpNefwkHZq8LfrbAWnTs3lcF3qTo2N/T1ihOihLvwGnZXN7b0KWx
+	m0ERDhKWs/w5E2xJBTE83Om4G/7Dw0KcL7A7UyhpWRRT2i8h3TMtwGG8+YNqLHS/TBpEvxzS1pZ5B
+	mSOLNGc5YNYJwwunpLBWzIofmcQ5w8EnZz6gjXObCWvh4gGLHOS15lHafAtZaynADjY+PFjFAKvF2
+	lQCQXHWfA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0htw-00040a-NY; Wed, 29 Jul 2020 08:57:28 +0000
-Received: from stargate.chelsio.com ([12.32.117.8])
+	id 1k0iNx-0000Cq-79; Wed, 29 Jul 2020 09:28:29 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0htt-0003yI-0O
- for linux-nvme@lists.infradead.org; Wed, 29 Jul 2020 08:57:26 +0000
-Received: from localhost (pvp1.blr.asicdesigners.com [10.193.80.26])
- by stargate.chelsio.com (8.13.8/8.13.8) with ESMTP id 06T8vDop008213;
- Wed, 29 Jul 2020 01:57:14 -0700
-Date: Wed, 29 Jul 2020 14:27:13 +0530
-From: Krishnamraju Eraparaju <krishna2@chelsio.com>
-To: Sagi Grimberg <sagi@grimberg.me>
+ id 1k0iNt-0000CR-6o
+ for linux-nvme@lists.infradead.org; Wed, 29 Jul 2020 09:28:26 +0000
+Received: by mail-wm1-f49.google.com with SMTP id f18so2229167wml.3
+ for <linux-nvme@lists.infradead.org>; Wed, 29 Jul 2020 02:28:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2Go+BIgVcM2YgspeZh+sMFROOfy2365hnPrdIAuV7Qo=;
+ b=Ide5Bv+Ptm4v3C/y5i4jzDnz5Y4yBdQqQxh3uYuN5aflvIw4fmM6cMEzvh5kEDmfGm
+ 7uhOZ6Pj7oxthomAZiwB9s5Ou5x62UNR41c3WVQeHZ25xmpzw5+h2hv5VtC9bWFcl+/8
+ UmEHN5YMCThiOwevh0xC1k0rjof+eRAg1FkqzWxYaHiFypYvlU2t/R2nskJCqErRN6nK
+ Tdaqeu5Q05/6ewA/uU0FfShPFSwVYkrXFrXrjJI5Ml4dXq+IVtz+BxUAJPLIlyMQppgQ
+ i38nEEASUdnZMYEzCUpZX0ctqi45PgWj6H+xxxX2Dt0Z3mythWKk/k2XF3GYVYunrAWb
+ OZBQ==
+X-Gm-Message-State: AOAM532PvkWx8ZqxpcGNAS9HBeqYHmn95sILuI/83FgA+U3ya0LFWNve
+ rKQS4VeazIT0TQPuivHaWQT6TIO+
+X-Google-Smtp-Source: ABdhPJyAPAIGD8TN+IWQ1sD8JzcanVqF6zoAOz3X6GPfpHLz5HVCj/f6mYqnmykPilJsdV0w1k6IGA==
+X-Received: by 2002:a7b:cf29:: with SMTP id m9mr5579575wmg.88.1596014903817;
+ Wed, 29 Jul 2020 02:28:23 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:8475:db3f:c2a2:c61c?
+ ([2601:647:4802:9070:8475:db3f:c2a2:c61c])
+ by smtp.gmail.com with ESMTPSA id c194sm4180010wme.8.2020.07.29.02.28.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jul 2020 02:28:23 -0700 (PDT)
 Subject: Re: Hang at NVME Host caused by Controller reset
-Message-ID: <20200729085711.GA5762@chelsio.com>
+To: Krishnamraju Eraparaju <krishna2@chelsio.com>
 References: <20200727181944.GA5484@chelsio.com>
  <9b8dae53-1fcc-3c03-5fcd-cfb55cd8cc80@grimberg.me>
  <20200728115904.GA5508@chelsio.com>
@@ -53,13 +71,18 @@ References: <20200727181944.GA5484@chelsio.com>
  <20200728174224.GA5497@chelsio.com>
  <3963dc58-1d64-b6e1-ea27-06f3030d5c6e@grimberg.me>
  <54cc5ecf-bd04-538c-fa97-7c4d2afd92d7@grimberg.me>
+ <20200729085711.GA5762@chelsio.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <4a7044cb-f85e-4a59-4ebc-273cbb483042@grimberg.me>
+Date: Wed, 29 Jul 2020 02:28:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <54cc5ecf-bd04-538c-fa97-7c4d2afd92d7@grimberg.me>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20200729085711.GA5762@chelsio.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200729_045725_250181_65D5B737 
-X-CRM114-Status: GOOD (  26.18  )
+X-CRM114-CacheID: sfid-20200729_052825_294990_21A5C466 
+X-CRM114-Status: GOOD (  23.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,207 +94,117 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, bharat@chelsio.com,
- linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: bharat@chelsio.com, linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tuesday, July 07/28/20, 2020 at 13:20:38 -0700, Sagi Grimberg wrote:
-> 
-> >>This time, with "nvme-fabrics: allow to queue requests for live queues"
-> >>patch applied, I see hang only at blk_queue_enter():
-> >
-> >Interesting, does the reset loop hang? or is it able to make forward
-> >progress?
-> 
-> Looks like the freeze depth is messed up with the timeout handler.
-> We shouldn't call nvme_tcp_teardown_io_queues in the timeout handler
-> because it messes with the freeze depth, causing the unfreeze to not
-> wake the waiter (blk_queue_enter). We should simply stop the queue
-> and complete the I/O, and the condition was wrong too, because we
-> need to do it only for the connect command (which cannot reset the
-> timer). So we should check for reserved in the timeout handler.
-> 
-> Can you please try this patch?
-Even with this patch I see hangs, as shown below:
-[  +0.000174] nvme nvme0: creating 1 I/O queues.
-[  +0.001145] nvme nvme0: mapped 1/0/0 default/read/poll queues.
-[ +24.026614] cxgb4 0000:02:00.4: Port 0 link down, reason: Link Down
-[  +0.553164] cxgb4 0000:02:00.4 enp2s0f4: link up, 40Gbps, full-duplex,
-Tx/Rx PAUSE
-[  +0.000933] IPv6: ADDRCONF(NETDEV_CHANGE): enp2s0f4: link becomes
-ready
-[Jul29 07:17] nvme nvme0: queue 0: timeout request 0xe type 4
-[ +13.816015] cxgb4 0000:02:00.4: Port 0 link down, reason: Link Down
-[  +1.782975] cxgb4 0000:02:00.4 enp2s0f4: link up, 40Gbps, full-duplex,
-Tx/Rx PAUSE
-[  +0.000882] IPv6: ADDRCONF(NETDEV_CHANGE): enp2s0f4: link becomes
-ready
-[Jul29 07:18] nvme nvme0: queue 0: timeout request 0xe type 4
-[  +4.413969] cxgb4 0000:02:00.4: Port 0 link down, reason: Link Down
-[  +0.555863] cxgb4 0000:02:00.4 enp2s0f4: link up, 40Gbps, full-duplex,
-Tx/Rx PAUSE
-[  +0.001006] IPv6: ADDRCONF(NETDEV_CHANGE): enp2s0f4: link becomes
-ready
-[Jul29 07:19] cxgb4 0000:02:00.4: Port 0 link down, reason: Link Down
-[  +0.617088] cxgb4 0000:02:00.4 enp2s0f4: link up, 40Gbps, full-duplex,
-Tx/Rx PAUSE
-[  +0.000864] IPv6: ADDRCONF(NETDEV_CHANGE): enp2s0f4: link becomes
-ready
-[  +4.369233] nvme nvme0: queue 0: timeout request 0xe type 4
-[ +12.288452] INFO: task bash:2749 blocked for more than 122 seconds.
-[  +0.000125]       Not tainted 5.8.0-rc7ekr+ #2
-[  +0.000115] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-[  +0.000181] bash            D13600  2749   2748 0x00000000
-[  +0.000123] Call Trace:
-[  +0.000122]  __schedule+0x32b/0x670
-[  +0.000117]  schedule+0x45/0xb0
-[  +0.000137]  schedule_timeout+0x216/0x330
-[  +0.000157]  ? enqueue_task_fair+0x196/0x7e0
-[  +0.000150]  wait_for_completion+0x81/0xe0
-[  +0.000164]  __flush_work+0x114/0x1c0
-[  +0.000121]  ? flush_workqueue_prep_pwqs+0x130/0x130
-[  +0.000129]  nvme_reset_ctrl_sync+0x25/0x40 [nvme_core]
-[  +0.000146]  nvme_sysfs_reset+0xd/0x20 [nvme_core]
-[  +0.000133]  kernfs_fop_write+0xbc/0x1a0
-[  +0.000122]  vfs_write+0xc2/0x1f0
-[  +0.000115]  ksys_write+0x5a/0xd0
-[  +0.000117]  do_syscall_64+0x3e/0x70
-[  +0.000117]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  +0.000119] RIP: 0033:0x7f37701ca317
-[  +0.000113] Code: Bad RIP value.
-[  +0.000112] RSP: 002b:00007fff64bb25e8 EFLAGS: 00000246 ORIG_RAX:
-0000000000000001
-[  +0.000212] RAX: ffffffffffffffda RBX: 0000000000000002 RCX:
-00007f37701ca317
-[  +0.000132] RDX: 0000000000000002 RSI: 000055b0821a8140 RDI:
-0000000000000001
-[  +0.000121] RBP: 000055b0821a8140 R08: 000000000000000a R09:
-0000000000000001
-[  +0.000120] R10: 000055b081b4d471 R11: 0000000000000246 R12:
-0000000000000002
-[  +0.000148] R13: 00007f37702a46a0 R14: 00007f37702a54a0 R15:
-00007f37702a48a0
-[  +0.000124] INFO: task nvme:21284 blocked for more than 122 seconds.
-[  +0.000119]       Not tainted 5.8.0-rc7ekr+ #2
-[  +0.000115] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-[  +0.000219] nvme            D14392 21284   2740 0x00004000
-[  +0.000121] Call Trace:
-[  +0.000123]  __schedule+0x32b/0x670
-[  +0.000136]  schedule+0x45/0xb0
-[  +0.000130]  blk_queue_enter+0x1e9/0x250
-[  +0.000118]  ? wait_woken+0x70/0x70
-[  +0.000117]  blk_mq_alloc_request+0x53/0xc0
-[  +0.000142]  nvme_alloc_request+0x61/0x70 [nvme_core]
-[  +0.000125]  nvme_submit_user_cmd+0x50/0x310 [nvme_core]
-[  +0.000128]  nvme_user_cmd+0x12e/0x1c0 [nvme_core]
-[  +0.000126]  ? _copy_to_user+0x22/0x30
-[  +0.000118]  blkdev_ioctl+0x100/0x250
-[  +0.000119]  block_ioctl+0x34/0x40
-[  +0.000118]  ksys_ioctl+0x82/0xc0
-[  +0.000117]  __x64_sys_ioctl+0x11/0x20
-[  +0.000125]  do_syscall_64+0x3e/0x70
-[  +0.000143]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  +0.000125] RIP: 0033:0x7f954ee8567b
-[  +0.000134] Code: Bad RIP value.
-[  +0.000138] RSP: 002b:00007ffcd9be20a8 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[  +0.000184] RAX: ffffffffffffffda RBX: 0000000000000003 RCX:
-00007f954ee8567b
-[  +0.000121] RDX: 00007ffcd9be20b0 RSI: 00000000c0484e43 RDI:
-0000000000000003
-[  +0.000120] RBP: 0000000000000000 R08: 0000000000000001 R09:
-0000000000000000
-[  +0.000151] R10: 0000000000000000 R11: 0000000000000246 R12:
-00007ffcd9be3219
-[  +0.000128] R13: 0000000000000006 R14: 00007ffcd9be2760 R15:
-000055aad89024a0
 
+>>>> This time, with "nvme-fabrics: allow to queue requests for live queues"
+>>>> patch applied, I see hang only at blk_queue_enter():
+>>>
+>>> Interesting, does the reset loop hang? or is it able to make forward
+>>> progress?
+>>
+>> Looks like the freeze depth is messed up with the timeout handler.
+>> We shouldn't call nvme_tcp_teardown_io_queues in the timeout handler
+>> because it messes with the freeze depth, causing the unfreeze to not
+>> wake the waiter (blk_queue_enter). We should simply stop the queue
+>> and complete the I/O, and the condition was wrong too, because we
+>> need to do it only for the connect command (which cannot reset the
+>> timer). So we should check for reserved in the timeout handler.
+>>
+>> Can you please try this patch?
+> Even with this patch I see hangs, as shown below:
 
-> --
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 62fbaecdc960..c3288dd2c92f 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -464,6 +464,7 @@ static void nvme_tcp_error_recovery(struct
-> nvme_ctrl *ctrl)
->         if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
->                 return;
-> 
-> +       dev_warn(ctrl->device, "starting error recovery\n");
->         queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
->  }
-> 
-> @@ -2156,33 +2157,37 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
->         struct nvme_tcp_ctrl *ctrl = req->queue->ctrl;
->         struct nvme_tcp_cmd_pdu *pdu = req->pdu;
-> 
-> -       /*
-> -        * Restart the timer if a controller reset is already scheduled. Any
-> -        * timed out commands would be handled before entering the
-> connecting
-> -        * state.
-> -        */
-> -       if (ctrl->ctrl.state == NVME_CTRL_RESETTING)
-> -               return BLK_EH_RESET_TIMER;
-> -
->         dev_warn(ctrl->ctrl.device,
->                 "queue %d: timeout request %#x type %d\n",
->                 nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
-> 
-> -       if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
-> +       switch (ctrl->ctrl.state) {
-> +       case NVME_CTRL_RESETTING:
->                 /*
-> -                * Teardown immediately if controller times out
-> while starting
-> -                * or we are already started error recovery. all outstanding
-> -                * requests are completed on shutdown, so we return
-> BLK_EH_DONE.
-> +                * Restart the timer if a controller reset is
-> already scheduled.
-> +                * Any timed out commands would be handled before
-> entering the
-> +                * connecting state.
->                  */
-> -               flush_work(&ctrl->err_work);
-> -               nvme_tcp_teardown_io_queues(&ctrl->ctrl, false);
-> -               nvme_tcp_teardown_admin_queue(&ctrl->ctrl, false);
-> -               return BLK_EH_DONE;
-> +               return BLK_EH_RESET_TIMER;
-> +       case NVME_CTRL_CONNECTING:
-> +               if (reserved) {
-> +                       /*
-> +                        * stop queue immediately if controller
-> times out while connecting
-> +                        * or we are already started error recovery.
-> all outstanding
-> +                        * requests are completed on shutdown, so we
-> return BLK_EH_DONE.
-> +                        */
-> +                       nvme_tcp_stop_queue(&ctrl->ctrl,
-> nvme_tcp_queue_id(req->queue));
-> +                       nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
-> +                       nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
-> +                       blk_mq_complete_request(rq);
-> +                       return BLK_EH_DONE;
-> +               }
-> +               /* fallthru */
-> +       default:
-> +       case NVME_CTRL_LIVE:
-> +               nvme_tcp_error_recovery(&ctrl->ctrl);
->         }
-> 
-> -       dev_warn(ctrl->ctrl.device, "starting error recovery\n");
-> -       nvme_tcp_error_recovery(&ctrl->ctrl);
-> -
->         return BLK_EH_RESET_TIMER;
->  }
-> --
+While it's omitted from the log you provided, its possible
+that we just reset the timer for timed out admin commands which
+makes the error recovery flow stuck.
+
+Can you please try this:
+--
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 62fbaecdc960..290804d2944f 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -464,6 +464,7 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl 
+*ctrl)
+         if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+                 return;
+
++       dev_warn(ctrl->device, "starting error recovery\n");
+         queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
+  }
+
+@@ -2156,33 +2157,41 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
+         struct nvme_tcp_ctrl *ctrl = req->queue->ctrl;
+         struct nvme_tcp_cmd_pdu *pdu = req->pdu;
+
+-       /*
+-        * Restart the timer if a controller reset is already scheduled. Any
+-        * timed out commands would be handled before entering the 
+connecting
+-        * state.
+-        */
+-       if (ctrl->ctrl.state == NVME_CTRL_RESETTING)
+-               return BLK_EH_RESET_TIMER;
+-
+         dev_warn(ctrl->ctrl.device,
+                 "queue %d: timeout request %#x type %d\n",
+                 nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
+
+-       if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
++       switch (ctrl->ctrl.state) {
++       case NVME_CTRL_RESETTING:
++               /*
++                * Restart the timer if a controller reset is already 
+scheduled.
++                * Any timed out commands would be handled before 
+entering the
++                * connecting state.
++                */
++               return BLK_EH_RESET_TIMER;
++       case NVME_CTRL_CONNECTING:
++               if (reserved || !nvme_tcp_queue_id(req->queue)) {
++                       /*
++                        * stop queue immediately and complete the request
++                        * if this is a connect sequence because these
++                        * requests cannot reset the timer when timed out.
++                        */
++                       nvme_tcp_stop_queue(&ctrl->ctrl, 
+nvme_tcp_queue_id(req->queue));
++                       nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
++                       nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
++                       blk_mq_complete_request(rq);
++                       return BLK_EH_DONE;
++               }
++               /* fallthru */
++       default:
+                 /*
+-                * Teardown immediately if controller times out while 
+starting
+-                * or we are already started error recovery. all outstanding
+-                * requests are completed on shutdown, so we return 
+BLK_EH_DONE.
++                * every other state should trigger the error recovery
++                * which will be handled by the flow and controller state
++                * machine
+                  */
+-               flush_work(&ctrl->err_work);
+-               nvme_tcp_teardown_io_queues(&ctrl->ctrl, false);
+-               nvme_tcp_teardown_admin_queue(&ctrl->ctrl, false);
+-               return BLK_EH_DONE;
++               nvme_tcp_error_recovery(&ctrl->ctrl);
+         }
+
+-       dev_warn(ctrl->ctrl.device, "starting error recovery\n");
+-       nvme_tcp_error_recovery(&ctrl->ctrl);
+-
+         return BLK_EH_RESET_TIMER;
+  }
+
+--
 
 _______________________________________________
 Linux-nvme mailing list
