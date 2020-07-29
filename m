@@ -2,68 +2,57 @@ Return-Path: <SRS0=jy92=BI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D3A3C433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 05:44:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDB9C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 05:45:09 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0523720786
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 05:44:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3D6D920786
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 05:45:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PUoMuVQo";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fo1RGdLe"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0523720786
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PqrnNLSI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D6D920786
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=n5n27GUNG91IPXGp8hneS6GadesOAj4tszbpzGN6rMk=; b=PUoMuVQo+xKXvZqq7uQ5TlwWYZ
-	PSo8HFe70OMPHi1suPkV8ECVHavceoEUNIOFXU/d+usZoxzrFGSeprctSwKqXREvRyQom/P9ykTCD
-	15IhBCvBixQ7I1fLoCg8+ckfNIsqZun0BlIz2/P0gwQbUcTKWnxWEodBjXR7/6MT6nYG/HZpyirqm
-	nnOFi3nxoAu8XiFZ92n51SHLEzKIQQJbL4QQOHOwwfL+jpAn/teQ6KFC7+/6fMVXok5FzMq6vVRdz
-	EIYn4ky1Wd+Myk2hI/ORIW00rkYGLlv4x7HrNI6zoaIQjlczVS4PRyrZnPsJcWbAvKBLkiakeUfxI
-	I6zYdW1w==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=1636yjmHoiIZ11h/rqgOw4Y0c2RjU6J7sCdZalWhdY4=; b=PqrnNLSImKcu+IQTwrhdv56wN
+	H1quTRnK4AqQz/jyPIVz3VByC6K9DXFGYlpyH2SPVjT1xjkndkWYC+lFCETxg29PcnY0/lDUgmWX6
+	yxhAo9GzGiOSbOjx6KWDYqP2DpyDSXvWM3K/xjCQ0khCJZZkVl44SkRb/V1rXvhHaqgLQZ7sWQ1cs
+	uyg3763KnpciG62kJIRpEotJCVMYBaH8gwOf9zS+Y86BcaGXAi+FlsRe2icS0HVRhlar+jB4upFgm
+	kLnwUcsJVOf1+DYDr9ANprrfiIY4glRAZogMpjlczmhtMCc+xZUoOO+P1zOV29KPCNGBZ+IO7nfj6
+	3p52uqJyg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0et7-0007GL-1n; Wed, 29 Jul 2020 05:44:25 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1k0etn-0007QP-BW; Wed, 29 Jul 2020 05:45:07 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0et5-0007Cx-IM
- for linux-nvme@merlin.infradead.org; Wed, 29 Jul 2020 05:44:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=Up9tpBFuVqmEjuU7wrYXJqvcP7rk5ZrSMzTJOLFM3Eo=; b=fo1RGdLe5ALD3fp4e+J0XE4gBW
- ISNOMD+id+Qo+Yes7kWOOq2/LWztYd0fL8bOHnv00Z61DoUH8yjUEXBl4NHuCCC+Iz8jFZ12YNoZa
- jfDYHlEkUq+xvHMqx1jgskAAPC0V6Alx5sjrdOHJ8ks/FmguucNSZHv5cPpaSGWsNrfz5OeBw8xXj
- tZ81tuTLoaRFY6Qu9mP6TrWoj+3QJsMrRbbEXzd6nF3UtsUvWv59fujVcnCm2OHNUkXFnQMfS/xxL
- avgbMZSrCy7mL9vn1gbmQr5e5xO7TrPe5E42DvsaQNS8TKbS9F21g2NUxfcVrKEbfBnkeLjNXIii2
- le03Txvg==;
-Received: from 089144218008.atnat0027.highway.a1.net ([89.144.218.8]
- helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0et4-000270-7K; Wed, 29 Jul 2020 05:44:22 +0000
+ id 1k0etk-0007Pt-Hj
+ for linux-nvme@lists.infradead.org; Wed, 29 Jul 2020 05:45:05 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 4647B68B05; Wed, 29 Jul 2020 07:45:00 +0200 (CEST)
+Date: Wed, 29 Jul 2020 07:45:00 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: kbusch@kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvme: add a Identify Namespace Identification Descriptor
- list quirk
-Date: Wed, 29 Jul 2020 07:44:20 +0200
-Message-Id: <20200729054420.9049-1-hch@lst.de>
-X-Mailer: git-send-email 2.27.0
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH] nvme-fabrics: allow to queue requests for live queues
+Message-ID: <20200729054500.GA31113@lst.de>
+References: <20200728053523.21657-1-sagi@grimberg.me>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Disposition: inline
+In-Reply-To: <20200728053523.21657-1-sagi@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200729_014504_751486_383DBEDE 
+X-CRM114-Status: GOOD (  25.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,96 +64,74 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Ingo Brunberg <ingo_brunberg@web.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org, James Smart <james.smart@broadcom.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a quirk for a device that does not support the Identify Namespace
-Identification Descriptor list despite claiming 1.3 compliance.
+Dropped from nvme-5.9 to wait to the discussion to finish as I want
+to send a PR to Jens today..
 
-Reported-by: Ingo Brunberg <ingo_brunberg@web.de>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Tested-by: Ingo Brunberg <ingo_brunberg@web.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
-
-Now actually against nvme-5.8, and with cosmetic modifications to
-reduce the amount of merge conflicts vs the 5.9 branch..
-
- drivers/nvme/host/core.c | 15 +++------------
- drivers/nvme/host/nvme.h |  7 +++++++
- drivers/nvme/host/pci.c  |  2 ++
- 3 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index add040168e67e2..4ee2330c603e77 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1102,6 +1102,9 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
- 	int pos;
- 	int len;
- 
-+	if (ctrl->quirks & NVME_QUIRK_NO_NS_DESC_LIST)
-+		return 0;
-+
- 	c.identify.opcode = nvme_admin_identify;
- 	c.identify.nsid = cpu_to_le32(nsid);
- 	c.identify.cns = NVME_ID_CNS_NS_DESC_LIST;
-@@ -1115,18 +1118,6 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
- 	if (status) {
- 		dev_warn(ctrl->device,
- 			"Identify Descriptors failed (%d)\n", status);
--		 /*
--		  * Don't treat non-retryable errors as fatal, as we potentially
--		  * already have a NGUID or EUI-64.  If we failed with DNR set,
--		  * we want to silently ignore the error as we can still
--		  * identify the device, but if the status has DNR set, we want
--		  * to propagate the error back specifically for the disk
--		  * revalidation flow to make sure we don't abandon the
--		  * device just because of a temporal retry-able error (such
--		  * as path of transport errors).
--		  */
--		if (status > 0 && (status & NVME_SC_DNR))
--			status = 0;
- 		goto free_data;
- 	}
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1de3f9b827aa56..09ffc3246f60e4 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -129,6 +129,13 @@ enum nvme_quirks {
- 	 * Don't change the value of the temperature threshold feature
- 	 */
- 	NVME_QUIRK_NO_TEMP_THRESH_CHANGE	= (1 << 14),
-+
-+	/*
-+	 * The controller doesn't handle the Identify Namespace
-+	 * Identification Descriptor list subcommand despite claiming
-+	 * NVMe 1.3 compliance.
-+	 */
-+	NVME_QUIRK_NO_NS_DESC_LIST		= (1 << 15),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 25a187e43dbe74..d4b1ff7471231b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3099,6 +3099,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
- 		.driver_data = NVME_QUIRK_IDENTIFY_CNS |
- 				NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+	{ PCI_DEVICE(0x126f, 0x2263),	/* Silicon Motion unidentified */
-+		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST, },
- 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
--- 
-2.27.0
-
+On Mon, Jul 27, 2020 at 10:35:23PM -0700, Sagi Grimberg wrote:
+> Right now we are failing requests based on the controller
+> state (which is checked inline in nvmf_check_ready) however
+> we should definitely accept requests if the queue is live.
+> 
+> When entering controller reset, we transition the controller
+> into NVME_CTRL_RESETTING, and then return BLK_STS_RESOURCE for
+> non-mpath requests (have blk_noretry_request set).
+> 
+> This is also the case for NVME_REQ_USER for some reason, but
+> there shouldn't be any reason for us to reject this I/O in a
+> controller reset.
+> 
+> In a non-mpath setup, this means that the requests will simply
+> be requeued over and over forever not allowing the q_usage_counter
+> to drop its final reference, causing controller reset to hang
+> if running concurrently with heavy I/O.
+> 
+> While we are at it, remove the redundant NVME_CTRL_NEW case, which
+> should never see any I/O as it must first transition to
+> NVME_CTRL_CONNECTING.
+> 
+> Fixes: 35897b920c8a ("nvme-fabrics: fix and refine state checks in __nvmf_check_ready")
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>  drivers/nvme/host/fabrics.c | 10 +---------
+>  1 file changed, 1 insertion(+), 9 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 4ec4829d6233..2e7838f42e36 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -564,21 +564,13 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>  {
+>  	struct nvme_request *req = nvme_req(rq);
+>  
+> -	/*
+> -	 * If we are in some state of setup or teardown only allow
+> -	 * internally generated commands.
+> -	 */
+> -	if (!blk_rq_is_passthrough(rq) || (req->flags & NVME_REQ_USERCMD))
+> -		return false;
+> -
+>  	/*
+>  	 * Only allow commands on a live queue, except for the connect command,
+>  	 * which is require to set the queue live in the appropinquate states.
+>  	 */
+>  	switch (ctrl->state) {
+> -	case NVME_CTRL_NEW:
+>  	case NVME_CTRL_CONNECTING:
+> -		if (nvme_is_fabrics(req->cmd) &&
+> +		if (blk_rq_is_passthrough(rq) && nvme_is_fabrics(req->cmd) &&
+>  		    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
+>  			return true;
+>  		break;
+> -- 
+> 2.25.1
+---end quoted text---
 
 _______________________________________________
 Linux-nvme mailing list
