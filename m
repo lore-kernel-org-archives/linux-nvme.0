@@ -5,19 +5,19 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 313CCC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 19:10:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26BF3C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 19:16:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 078542075D
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 19:10:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E71142053B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 19:16:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YN/Qdffa";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="coWKfw7k"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 078542075D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YripQDSt";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="SmB7UulX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E71142053B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,57 +26,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:Message-Id:Date:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vOvFuHai6/fDvdmIlcBpFnDTbPty3D0dM9PHmkhcoFo=; b=YN/Qdffa63zAOBm+x98unYGc0G
-	WGD64RMSo8od+lg/XB5OjpTRBXH+bnd4zv+L06At6mlVQKc158OWjHsmrmdi5s17Gff/TS6V5gYOC
-	g7R8GEwHDA1+CDO03G64VihDrEfN48Yn/zum54NNUFXXcJ6/QdBFUw4eJF8fK4YJEIDzU0MlbSQRh
-	a1+Ptpa9E7Zt9UyxZYx1BWMQ6B6LmC8u3wJaZzLAWIh379MPRx8UzLpvOyQLnA3EAXIMEDEXns4Bl
-	mcRyUdWFXEJDauGJG4sA7/Ezo1XYdEmuEPIav7bgt6YEQmaUCrgFHHdVXM4GVj3i92vVqE/QAH993
-	qHoYwVAw==;
+	bh=PgbzA1K/keYILhTWj8T0a/nKeNDNsjyLbln0ur1ozBc=; b=YripQDStLgA385fNfAhuO3IEKP
+	cq04qvN/87cDfXHYEWmi2cbUFrObCjsemy+tNpnuX+oDX0F3nMnRbYSWsvw8615XSFcOQKrmovZ2B
+	6EZK+NbdKnv90uVMSoBSaSdme9/WvGkQBM5efhqbc94Xng8DMBAPUJ7c7pDJvnjwZM/E5u+HT2tCN
+	J98/AnaWqnfYcYZcScJ8xirKjkm7KCr4Xtz9E9pRpdlQL5nyyzA2/ptNQC6Zyx5KO6yfWQglHtNsL
+	GvHmgU3UdPI7/Jp/0zw2L2Sdk2A9sfS+MSe9mOwuN3LOrnowNk58raIsgkV6xfOiNCELuY6ys4x8o
+	WWGQpoYA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0rT5-0003w0-E2; Wed, 29 Jul 2020 19:10:23 +0000
+	id 1k0rZB-0004dA-NP; Wed, 29 Jul 2020 19:16:41 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0rT3-0003uO-EF
- for linux-nvme@lists.infradead.org; Wed, 29 Jul 2020 19:10:22 +0000
+ id 1k0rZ8-0004cE-Qc
+ for linux-nvme@lists.infradead.org; Wed, 29 Jul 2020 19:16:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
  Message-Id:Date:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ytNmU6XECJ6mse7dyEPBYBvTEidvGF6L8NfDouGCEKo=; b=coWKfw7kgDX6kPpKypL29C8i6c
- 2UjCxfqsiR6FV8nDg6idbi7pN84McLwfQFl6SPR6ihkO7AGoiosPTcetEGznhcvc7eB+yP/VZU9TW
- gDRGwiioVibCBct9ai45bsHWxT77Bsx4fBZ5ZYKZmwzJva1pOffp1X2wY0WrX2tNzaQDHqDVLY8be
- fILaR3F8/UFrkDNddHzsIf3dtDF863P+5iIpKBABTygGcYhu1+5ZcRceDSEET3LIeqWs1u+nl9t6j
- cR4J8t1hSdW3dxBV1Y0d3TzaI5m5x7TH4LsV8ghmc8BxNYdzR31VwpAvHqo9mXHmV3SXXIZdYA0/W
- 4NQloHhw==;
+ bh=DMu/9cwtHmi0bix+JDlgrcS0fN7h/PuWcrGpUj9X+KI=; b=SmB7UulXmX8eWXCcTcGcEqgK70
+ 7ZRvPLKAbaAmUq6OCoufsd7b4Z3BNjxqSiPIx9de+Gt3qGhK8O/nN6S0jJUVvkQoRZbOVMCDavoXy
+ 51z1uz7oLa1tX4P0NZRXYJn3O5eb8lepOBB1OuSiC2eBqYNIXYNFHNaL7E+XuEPWd1F71cdwfDqlH
+ zUrZtKvJ2dlY7W9em0MgkSrvpAfPshaSXLGNoftFRozjiSrFi2EhYnLVNLl40ZnyagxrcAzd+0pjI
+ 3nUsyggzIbGsLicD6HtMPnAsHYRWeJ/qft9rWRfltVIjisHmo2req3bPjVsz3b6WCpXFcE/jHrEtZ
+ YKm2Q7Xg==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1k0rSz-0007XN-DQ; Wed, 29 Jul 2020 13:10:18 -0600
+ id 1k0rZ6-0007cQ-Ke; Wed, 29 Jul 2020 13:16:37 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1k0rSt-0001B4-12; Wed, 29 Jul 2020 13:10:11 -0600
+ id 1k0rZ3-0001FC-94; Wed, 29 Jul 2020 13:16:33 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Date: Wed, 29 Jul 2020 13:10:09 -0600
-Message-Id: <20200729191009.4485-1-logang@deltatee.com>
+To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>
+Date: Wed, 29 Jul 2020 13:16:28 -0600
+Message-Id: <20200729191628.4741-1-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@fb.com,
- Chaitanya.Kulkarni@wdc.com, maxg@mellanox.com, sbates@raithlin.com,
- logang@deltatee.com
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+ axboe@kernel.dk, martin.petersen@oracle.com, javier.gonz@samsung.com,
+ hare@suse.de, dwagner@suse.de, keith.busch@wdc.com, johannes.thumshirn@wdc.com,
+ matias.bjorling@wdc.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH] nvmet-passthru: Reject commands with non-sgl flags set
+Subject: [PATCH] nvme: Use spin_lock_irqsave() when taking the ctrl->lock
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200729_151021_519427_8DB882CD 
-X-CRM114-Status: GOOD (  12.26  )
+X-CRM114-CacheID: sfid-20200729_151638_871090_92A4EBDF 
+X-CRM114-Status: GOOD (  14.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,55 +89,132 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <keith.busch@wdc.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>,
+ =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier.gonz@samsung.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>,
+ =?UTF-8?q?Matias=20Bj=C3=B8rling?= <matias.bjorling@wdc.com>,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Any command with a non-SGL flag set (like fuse flags) should be
-rejected.
+When locking the ctrl->lock spinlock IRQs need to be disabled to avoid a
+dead lock. The new spin_lock() calls recently added produce the
+following lockdep warning when running the blktest nvme/003:
 
-Fixes: c1fef73f793b ("nvmet: add passthru code to process commands")
+    ================================
+    WARNING: inconsistent lock state
+    --------------------------------
+    inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} usage.
+    ksoftirqd/2/22 [HC0[0]:SC1[1]:HE0:SE0] takes:
+    ffff888276a8c4c0 (&ctrl->lock){+.?.}-{2:2}, at: nvme_keep_alive_end_io+0x50/0xc0
+    {SOFTIRQ-ON-W} state was registered at:
+      lock_acquire+0x164/0x500
+      _raw_spin_lock+0x28/0x40
+      nvme_get_effects_log+0x37/0x1c0
+      nvme_init_identify+0x9e4/0x14f0
+      nvme_reset_work+0xadd/0x2360
+      process_one_work+0x66b/0xb70
+      worker_thread+0x6e/0x6c0
+      kthread+0x1e7/0x210
+      ret_from_fork+0x22/0x30
+    irq event stamp: 1449221
+    hardirqs last  enabled at (1449220): [<ffffffff81c58e69>] ktime_get+0xf9/0x140
+    hardirqs last disabled at (1449221): [<ffffffff83129665>] _raw_spin_lock_irqsave+0x25/0x60
+    softirqs last  enabled at (1449210): [<ffffffff83400447>] __do_softirq+0x447/0x595
+    softirqs last disabled at (1449215): [<ffffffff81b489b5>] run_ksoftirqd+0x35/0x50
+
+    other info that might help us debug this:
+     Possible unsafe locking scenario:
+
+           CPU0
+           ----
+      lock(&ctrl->lock);
+      <Interrupt>
+        lock(&ctrl->lock);
+
+     *** DEADLOCK ***
+
+    no locks held by ksoftirqd/2/22.
+
+    stack backtrace:
+    CPU: 2 PID: 22 Comm: ksoftirqd/2 Not tainted 5.8.0-rc4-eid-vmlocalyes-dbg-00157-g7236657c6b3a #1450
+    Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.12.0-1 04/01/2014
+    Call Trace:
+     dump_stack+0xc8/0x11a
+     print_usage_bug.cold.63+0x235/0x23e
+     mark_lock+0xa9c/0xcf0
+     __lock_acquire+0xd9a/0x2b50
+     lock_acquire+0x164/0x500
+     _raw_spin_lock_irqsave+0x40/0x60
+     nvme_keep_alive_end_io+0x50/0xc0
+     blk_mq_end_request+0x158/0x210
+     nvme_complete_rq+0x146/0x500
+     nvme_loop_complete_rq+0x26/0x30 [nvme_loop]
+     blk_done_softirq+0x187/0x1e0
+     __do_softirq+0x118/0x595
+     run_ksoftirqd+0x35/0x50
+     smpboot_thread_fn+0x1d3/0x310
+     kthread+0x1e7/0x210
+     ret_from_fork+0x22/0x30
+
+Fixes: be93e87e7802 ("nvme: support for multiple Command Sets Supported and Effects log pages")
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
 
 Note: this patch may be squashed with the patch noted in the fixes
 tag, currently in nvme-5.9.
 
- drivers/nvme/target/passthru.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/nvme/host/core.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 89d91dc999a6..f69c3ac82e58 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -326,6 +326,10 @@ static u16 nvmet_setup_passthru_command(struct nvmet_req *req)
-
- u16 nvmet_parse_passthru_io_cmd(struct nvmet_req *req)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 05aa568a60af..ed8872022219 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2971,15 +2971,16 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, u8 csi,
+ static struct nvme_cel *nvme_find_cel(struct nvme_ctrl *ctrl, u8 csi)
  {
-+	/* Reject any commands with non-sgl flags set (ie. fused commands) */
-+	if (req->cmd->common.flags & ~NVME_CMD_SGL_ALL)
-+		return NVME_SC_INVALID_FIELD;
-+
- 	switch (req->cmd->common.opcode) {
- 	case nvme_cmd_resv_register:
- 	case nvme_cmd_resv_report:
-@@ -396,6 +400,10 @@ static u16 nvmet_passthru_get_set_features(struct nvmet_req *req)
+ 	struct nvme_cel *cel, *ret = NULL;
++	unsigned long flags;
 
- u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
+-	spin_lock(&ctrl->lock);
++	spin_lock_irqsave(&ctrl->lock, flags);
+ 	list_for_each_entry(cel, &ctrl->cels, entry) {
+ 		if (cel->csi == csi) {
+ 			ret = cel;
+ 			break;
+ 		}
+ 	}
+-	spin_unlock(&ctrl->lock);
++	spin_unlock_irqrestore(&ctrl->lock, flags);
+
+ 	return ret;
+ }
+@@ -2988,6 +2989,7 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 				struct nvme_effects_log **log)
  {
-+	/* Reject any commands with non-sgl flags set (ie. fused commands) */
-+	if (req->cmd->common.flags & ~NVME_CMD_SGL_ALL)
-+		return NVME_SC_INVALID_FIELD;
-+
- 	/*
- 	 * Passthru all vendor specific commands
- 	 */
+ 	struct nvme_cel *cel = nvme_find_cel(ctrl, csi);
++	unsigned long flags;
+ 	int ret;
+
+ 	if (cel)
+@@ -3006,9 +3008,9 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+
+ 	cel->csi = csi;
+
+-	spin_lock(&ctrl->lock);
++	spin_lock_irqsave(&ctrl->lock, flags);
+ 	list_add_tail(&cel->entry, &ctrl->cels);
+-	spin_unlock(&ctrl->lock);
++	spin_unlock_irqrestore(&ctrl->lock, flags);
+ out:
+ 	*log = &cel->log;
+ 	return 0;
 
 base-commit: b6cec06d19d90db5dbcc50034fb33983f6259b8b
 --
