@@ -2,76 +2,83 @@ Return-Path: <SRS0=jy92=BI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D80C433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 04:10:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78801C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 04:35:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 65BC420768
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 04:10:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 40EEE2070B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jul 2020 04:35:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Xo6GnrGP";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="OH1QkGNd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 65BC420768
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OZD4HkWN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40EEE2070B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vchKM8Fku1gLn5E/gX9FTtYHojBPIHqaPqzGze2ubE4=; b=Xo6GnrGPn5hDyhceoA4gbYzFok
-	3KN5z/rlObChutSRLR/AoNW5exFnNLsXsb5vr4EjoLdq+6O5qEa4sr2Vxk3Pjofcf5fk4uoOUHkUz
-	h7DwR25FJlmL9L32id/ZMyxc4JYOfk9tk0dO5+Q7c+VfXZVEb0kab1IIqBMF/K7sMc3e8cgf46qPB
-	N4/k1q92TeNPzIWQ1Pr5Gf7A4EvJbHhjbc+wLzRpBMKexAyqSHHqp16qO7xM7EbkCPYJIEpbpKkTN
-	HbrylrDknybClmRfiVNA/ieB2oerZEzu+1uwJEscroS9BJLa3avrk5VXAxwFmWqL0NlK1RXwW7oy6
-	tWF6d+/g==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=vvX4YyoSMB1+/sZzcauonrfCsToCEnjtNGann3OWM9A=; b=OZD4HkWN/ctYABq0zZfzCpH9D
+	teMOkVxGI8N2cbcYpEOyFcnBILMsLuJAEHm/8Cg2tiOpNZDNON94r7Kb/UTG3N2+I7CCAUPqDu/RE
+	0t/xZEq2JmwePq49Bp1LE0NNkXUAe+5aqkYL5vTi4RQNjrYma1tdB+5tp4OyxkeVHn/tLX096gZmH
+	oY9OIChnNlcLEp4kyq8A5+U5OhPd7YiJchfOh3xCD7mq/3tJ1NV4CZwpyYFhrxiXQMrrCF+yy/Y2X
+	+fcQRQDcJaKC8b+KgG70CAkN8FNnXOwcR3Z+buFb/HoCN6T1iJmgYzNdf4af7hEQa8Ws44jb3jeZf
+	X0YSpmGkQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0dPr-0006lR-G7; Wed, 29 Jul 2020 04:10:07 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1k0dob-0008KC-KX; Wed, 29 Jul 2020 04:35:41 +0000
+Received: from mail-pj1-f65.google.com ([209.85.216.65])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0dPq-0006ky-2r
- for linux-nvme@lists.infradead.org; Wed, 29 Jul 2020 04:10:06 +0000
-Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EA2C9206D7;
- Wed, 29 Jul 2020 04:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595995805;
- bh=IKuBNsl4qI263D75wzMMfJxggGK+N6Re79brmEIzMxA=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=OH1QkGNd8OQvbYtYzMt3W9axgOV4KN7144XsAoavF/F84RBlHJJIG75jz/4fq06/Y
- H347LXh6xgmmQ4rxh0sKnPuqwkgbQGfj+7P7BQFfpaFdX76IwSDQlUcNDQmUxelGKk
- UM3Go1sN/Nzwhz6ROLO3/Uy3rpGwcDvhQg/VfWjw=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id C7F783522621; Tue, 28 Jul 2020 21:10:04 -0700 (PDT)
-Date: Tue, 28 Jul 2020 21:10:04 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v5 1/2] blk-mq: add tagset quiesce interface
-Message-ID: <20200729041004.GV9247@paulmck-ThinkPad-P72>
-References: <20200727231022.307602-1-sagi@grimberg.me>
- <20200727231022.307602-2-sagi@grimberg.me>
- <20200728071859.GA21629@lst.de> <20200728091633.GB1326626@T590>
- <b1e7c2c5-dad5-778c-f397-6530766a0150@grimberg.me>
- <20200728135436.GP9247@paulmck-ThinkPad-P72>
- <d1ba2009-130a-d423-1389-c7af72e25a6a@grimberg.me>
- <20200729003124.GT9247@paulmck-ThinkPad-P72>
- <07c90cf1-bb6f-a343-b0bf-4c91b9acb431@grimberg.me>
+ id 1k0doZ-0008Jo-7y
+ for linux-nvme@lists.infradead.org; Wed, 29 Jul 2020 04:35:40 +0000
+Received: by mail-pj1-f65.google.com with SMTP id c6so1290900pje.1
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Jul 2020 21:35:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H1N6MYkV3QYH2b4Eayu5uhLDIzqScSmdjewq6O7FWck=;
+ b=Ru7cITIeEWTnh077lSWCZkfhQ3ISy0RPpT/pVFXB1M1dp8HPdr83OgRL0DzN7BB9G0
+ re8IB7ns9auJaf7cMEbIMtnZLLu9csIeo4eaSQpKzfWE1EaJdtIBzqZDkcEZ3tDxHMrE
+ JSh7oxyglZA2edlVL7i1uVYHdMnPGk4vEl4tmbL+HGIvSfwpk/3r4nmMe8CP85Wv+NkR
+ y4q+/zrOAFzY/kryzJSmAdVJV1RP+ZD653YFrNA30Mf7zPUi0EnQx+stQWLaHvFyAF14
+ ZmBjVSp5biLY5JCZNy0TKlqdJ9vUuBQcmr7UcSqbzyeDbvEUXidmfYf0LuK/2b/fFDPo
+ xy7Q==
+X-Gm-Message-State: AOAM531NJEFA2mhJg42HW8Qy4j0LKnq/uiKEKo5rOlpVT1Ref3E+cqjF
+ ppTIFcXbFqnqVJxr95hDrQ8=
+X-Google-Smtp-Source: ABdhPJxX0k+gkAQ/VekWE2Uqs41WPBvjsKQwqgY2wsQWxPj/kuWZ3+KIIAz5ywyZUsCy8ZaeTAiEXg==
+X-Received: by 2002:a17:90a:7184:: with SMTP id
+ i4mr7786823pjk.75.1595997336193; 
+ Tue, 28 Jul 2020 21:35:36 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:fcc5:69d8:6e20:4fd1?
+ ([2601:647:4802:9070:fcc5:69d8:6e20:4fd1])
+ by smtp.gmail.com with ESMTPSA id t29sm623471pfq.50.2020.07.28.21.35.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jul 2020 21:35:35 -0700 (PDT)
+Subject: Re: [PATCH 1/2] nvme-loop: set ctrl state connecting after init
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+References: <20200729023648.38677-1-chaitanya.kulkarni@wdc.com>
+ <20200729023648.38677-2-chaitanya.kulkarni@wdc.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <fdc2ae4c-1505-4157-46ea-179d44ac332f@grimberg.me>
+Date: Tue, 28 Jul 2020 21:35:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <07c90cf1-bb6f-a343-b0bf-4c91b9acb431@grimberg.me>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200729023648.38677-2-chaitanya.kulkarni@wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200729_001006_246294_C488182D 
-X-CRM114-Status: GOOD (  22.29  )
+X-CRM114-CacheID: sfid-20200729_003539_310691_0DF86C8E 
+X-CRM114-Status: GOOD (  13.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,41 +90,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Cc: Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
- Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
- Chao Leng <lengchao@huawei.com>, Keith Busch <kbusch@kernel.org>,
- Ming Lin <mlin@kernel.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: hch@lst.de
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 28, 2020 at 05:43:02PM -0700, Sagi Grimberg wrote:
+
+
+On 7/28/20 7:36 PM, Chaitanya Kulkarni wrote:
+> When creating a loop controller (ctrl) in nvme_loop_create_ctrl() ->
+> nvme_init_ctrl() we set the ctrl state to NVME_CTRL_NEW.
 > 
-> > > Dynamically allocating each one is possible but not very scalable.
-> > > 
-> > > The question is if there is some way, we can do this with on-stack
-> > > or a single on-heap rcu_head or equivalent that can achieve the same
-> > > effect.
-> > 
-> > If the hctx structures are guaranteed to stay put, you could count
-> > them and then do a single allocation of an array of rcu_head structures
-> > (or some larger structure containing an rcu_head structure, if needed).
-> > You could then sequence through this array, consuming one rcu_head per
-> > hctx as you processed it.  Once all the callbacks had been invoked,
-> > it would be safe to free the array.
-> > 
-> > Sounds too simple, though.  So what am I missing?
+> Prior to [1] NVME_CTRL_NEW state was allowed in nvmf_check_ready() for
+> fabrics command type connect. Now, this fails in the following code path
+> for fabrics connect command when creating admin queue :-
 > 
-> We don't want higher-order allocations...
+> nvme_loop_create_ctrl()
+>   nvme_loo_configure_admin_queue()
+>    nvmf_connect_admin_queue()
+>     __nvme_submit_sync_cmd()
+>      blk_execute_rq()
+>        nvme_loop_queue_rq()
+> 	nvmf_check_ready()
+> 
+> # echo  "transport=loop,nqn=fs" > /dev/nvme-fabrics
+> [ 6047.741327] nvmet: adding nsid 1 to subsystem fs
+> [ 6048.756430] nvme nvme1: Connect command failed, error wo/DNR bit: 880
 
-OK, I will bite...  Do multiple lower-order allocations (page size is
-still lower-order, correct?) and link them together.
+I have exactly the same patch to send tonight :)
 
-Sorry, couldn't resist...
-
-							Thanx, Paul
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Tested-by: Sagi Grimberg <sagi@grimberg.me>
 
 _______________________________________________
 Linux-nvme mailing list
