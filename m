@@ -2,67 +2,77 @@ Return-Path: <SRS0=YlYz=BJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCD4C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2020 01:50:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BED1C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2020 20:55:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EF7C72074B
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2020 01:50:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EB106204EA
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jul 2020 20:55:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PHS/yQ5o"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EF7C72074B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dWTPjUSU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB106204EA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=htjsxw5G9C6WVQy2isSLIkv4FQ5jTvbulnSAcyVXymo=; b=PHS/yQ5oLsQbkkDE5LYU5ZiAO
-	3NriZSAjLp3QO8JuFSu4fq6wrkwIcke/8u1Bj11Wa0Wn0mvVKdKUT8BLe5IFkUrwLKMq4kWW4Q1/t
-	OMWauDzvD6CO1E50c5zy1ZB8UnjLoadJka9ToNxl3dFPTNRWAa90kTQ5YIQE7K1CR0X8ZwnTGiXD/
-	UCDakP9Mh3zbQ5GpNLeyE1XlOLxIwYh2dlvjTKyrtwUfFX34s88CzXTv9hqw5Y/20JwiEQW2Y1Mvp
-	tBZs0NhOfmw3Bfs/t8LNrGUcL5AA/rSkSi9jYyueQk18fg4Cpi806SiHIovNBETruCxcT2Z6EO/TS
-	wm4jTarMQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UWwUhqeK+wn2d/1kepZL8U5eOl69m7EuD4e3Za4qBRY=; b=dWTPjUSUue1qZFihT1ML/Y/SpC
+	Niozh4kORYlFqGfytZbdmtjx5aKNInvz1Smu0m7nwWBqaYENzJApngpyZ+7qt9jMfCCBuVlKkaDAA
+	ghiTn1Crc6j5RkJtnENaVw7qJr6vJOyTYgD/EpL+hR8DnF0QcS9SXwKboTZq79nhULWC2ddymgjWh
+	8uLIkzaJhA3MqPRGouukgsBSmmTMibJB9M/FUmvFiD3JofzlwiqbU527YZ0s9F45BZm5Uo0QEr59U
+	aLndcOIFQSZ1NZYxFVDS+zugIcEQld7s/JtxjG1IDSHfk9HpwpghyhGrIfI8QCyzFaf+pm1YC3MUO
+	xmzfISfg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k0xiB-0004yZ-8z; Thu, 30 Jul 2020 01:50:23 +0000
-Received: from szxga04-in.huawei.com ([45.249.212.190] helo=huawei.com)
+	id 1k1FaI-0005tw-9N; Thu, 30 Jul 2020 20:55:26 +0000
+Received: from mail-pj1-f68.google.com ([209.85.216.68])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0xhv-0004ja-96
- for linux-nvme@lists.infradead.org; Thu, 30 Jul 2020 01:50:17 +0000
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 6EA78E437306F9660194;
- Thu, 30 Jul 2020 09:49:53 +0800 (CST)
-Received: from [10.27.125.30] (10.27.125.30) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0;
- Thu, 30 Jul 2020 09:49:48 +0800
-Subject: Re: [PATCH] nvme-core: fix io interrupt when work with dm-multipah
-To: Christoph Hellwig <hch@lst.de>
-References: <20200727055818.21430-1-lengchao@huawei.com>
- <20200728111956.GA31546@lst.de>
- <6df01884-5498-0809-b358-0c9f7d775a73@huawei.com>
- <20200729055903.GC31113@lst.de>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <43e5dee8-1a91-4d8b-fdb5-91f9679ddeb3@huawei.com>
-Date: Thu, 30 Jul 2020 09:49:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1k1FaC-0005sx-MC
+ for linux-nvme@lists.infradead.org; Thu, 30 Jul 2020 20:55:21 +0000
+Received: by mail-pj1-f68.google.com with SMTP id ha11so5686296pjb.1
+ for <linux-nvme@lists.infradead.org>; Thu, 30 Jul 2020 13:55:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eCqiFKrBZwhE2rascCXYzh/stm44cPTWoAZEh1GYr9w=;
+ b=GaKmynOfPHSQNwXsqPHx+nNlC8IyD2XdKmbd/BN04fjoN2Y68BUTXxCrUQPGcCWJ9k
+ Yinw/dbOC3sa5ZTMbep/A0rFzd+1e6UJ3+lEnwVyFZnGUgC3xQ9NC6azoSY4JzhfV7S6
+ H+LcMWKcBGGNKkifxt1khuDVB2uMFfScDeAn138Cn2MvWoizM2wplNJLKBe+aaYGsyTV
+ Y7h2cbZZ1SpS3n7J8S/JvsDCjIrhhYniiGlh1UD32mXs0l0kZTlfF98aPdeB2hqRslvt
+ nakDZpgSjMA0TmNgpUChpJW8zB+8TYDA0q4VSPZbsN+wgGB25sGxaeorgOVsBu66P1By
+ vKlw==
+X-Gm-Message-State: AOAM530GXRpP1XTDQnhV4tD1+H8Rwc/o972N5MdRhdWxaY8wSyuOWZZL
+ bzgpxFKOOVJQ3rXEEiYIJNH4YzVv
+X-Google-Smtp-Source: ABdhPJx1p5harUCRUoocCxSdQ/lMgWcV9V50k/G/9o0pZlmQWyMwKzCh5cHYrr1RT7UjQY3r6o+j2Q==
+X-Received: by 2002:a17:90b:19cc:: with SMTP id
+ nm12mr896651pjb.144.1596142519211; 
+ Thu, 30 Jul 2020 13:55:19 -0700 (PDT)
+Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
+ ([2601:647:4802:9070:9d7e:b2ea:15f4:b0b0])
+ by smtp.gmail.com with ESMTPSA id z67sm8374125pfc.162.2020.07.30.13.55.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jul 2020 13:55:18 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvmet: fix a memory leak
+Date: Thu, 30 Jul 2020 13:55:16 -0700
+Message-Id: <20200730205516.20954-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200729055903.GC31113@lst.de>
-Content-Language: en-US
-X-Originating-IP: [10.27.125.30]
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200729_215007_627592_7F617D69 
-X-CRM114-Status: GOOD (  22.41  )
+X-CRM114-CacheID: sfid-20200730_165520_741018_6FDB32D8 
+X-CRM114-Status: GOOD (  12.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,74 +84,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, axboe@fb.com, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, John.Meneghini@netapp.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAyMDIwLzcvMjkgMTM6NTksIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IE9uIFdlZCwg
-SnVsIDI5LCAyMDIwIGF0IDEwOjU0OjI5QU0gKzA4MDAsIENoYW8gTGVuZyB3cm90ZToKPj4KPj4K
-Pj4gT24gMjAyMC83LzI4IDE5OjE5LCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPj4+IE9uIE1v
-biwgSnVsIDI3LCAyMDIwIGF0IDAxOjU4OjE4UE0gKzA4MDAsIENoYW8gTGVuZyB3cm90ZToKPj4+
-PiBUaGUgcHJvdG9jb2wgTlZNLUV4cHJlc3MtMS40IGRlZmluZToKPj4+PiBDb21tYW5kIEludGVy
-cnVwdGVkOiBDb21tYW5kIHByb2Nlc3Npbmcgd2FzIGludGVycnVwdGVkIGFuZCB0aGUKPj4+PiBj
-b250cm9sbGVyIGlzIHVuYWJsZSB0byBzdWNjZXNzZnVsbHkgY29tcGxldGUgdGhlIGNvbW1hbmQu
-IFRoZSBob3N0Cj4+Pj4gc2hvdWxkIHJldHJ5IHRoZSBjb21tYW5kLiBJZiB0aGlzIHN0YXR1cyBj
-b2RlIGlzIHJldHVybmVkLCB0aGVuCj4+Pj4gdGhlIGNvbnRyb2xsZXIgc2hhbGwgY2xlYXIgdGhl
-IERvIE5vdCBSZXRyeSBiaXQgdG8g4oCYMOKAmSBpbiB0aGUgU3RhdHVzCj4+Pj4gZmllbGQgb2Yg
-dGhlIENRRSAocmVmZXIgdG8gRmlndXJlIDEyNCkuIFRoZSBjb250cm9sbGVyIHNoYWxsIG5vdCBy
-ZXR1cm4KPj4+PiB0aGlzIHN0YXR1cyBjb2RlIHVubGVzcyB0aGUgaG9zdCBoYXMgc2V0IHRoZSBB
-ZHZhbmNlZCBDb21tYW5kIFJldHJ5Cj4+Pj4gRW5hYmxlIChBQ1JFKSBmaWVsZCB0byAxaCBpbiB0
-aGUgSG9zdCBCZWhhdmlvciBTdXBwb3J0IGZlYXR1cmUocmVmZXIgdG8KPj4+PiBzZWN0aW9uIDUu
-MjEuMS4yMikuCj4+Pj4KPj4+PiBBY2NvcmRpbmcgdGhlIHByb3RvY29sIGRlZmluZSwgTlZNRV9T
-Q19DTURfSU5URVJSVVBURUQgbmVlZCByZXRyeS4KPj4+PiBUaGUgZXJyb3IgY29kZSBOVk1FX1ND
-X0NNRF9JTlRFUlJVUFRFRCBzaG91bGQgbm90IHRyYW5zbGF0ZSB0bwo+Pj4+IEJMS19TVFNfVEFS
-R0VULCBiZWNhdXNlIGlmIHRoZSBlcnJvciBjb2RlIHRyYW5zbGF0ZSB0byBCTEtfU1RTX1RBUkdF
-VCwKPj4+PiBkbS1tdWx0aXBhaCB3aWxsIHJldHVybiBlcnJvciB0byBhcHBsaWNhdGlvbi4gU28g
-aWYgdGFyZ2V0IHJldHVybiBlcnJvcgo+Pj4+IGNvZGUgTlZNRV9TQ19DTURfSU5URVJSVVBURUQs
-IGlvIHdpbGwgaW50ZXJydXB0LiBOVk1FX1NDX0NNRF9JTlRFUlJVUFRFRAo+Pj4+IHNob3VsZCB0
-cmFuc2xhdGUgdG8gQkxLX1NUU19JT0VSUiBieSBkZWZhdWx0LCBkbS1tdWx0aXBhdGggd2lsbCBm
-YWlsCj4+Pj4gb3ZlciB0byBvdGhlciBwYXRoIHJldHJ5IHRoZSBpby4KPj4+Cj4+PiBJT0VSUiBz
-dGlsbCBzZWVtcyB3cm9uZywgdGhvdWdoLgo+Pj4gLgo+Pgo+PiBCTEtfU1RTX1RBUkdFVCBtZWFu
-cyB0YXJnZXQgaGFzIGNyaXRpY2FsIGVycm9yLiBOVk1FX1NDX0NNRF9JTlRFUlJVUFRFRAo+PiBq
-dXN0IG1lYW5zIHRhcmdldCBuZWVkIHJldHJ5IGlvLiBJdCBpcyBub3Qgc3VpdGFibGUgdG8gdHJh
-bnNsYXRlCj4+IE5WTUVfU0NfQ01EX0lOVEVSUlVQVEVEIHRvIEJMS19TVFNfVEFSR0VULiBNYXli
-ZSB0cmFuc2xhdGUgdG8KPj4gQkxLX1NUU19JT0VSUiBpcyBhbHNvIG5vdCBzdWl0YWJsZSwgd2Ug
-c2hvdWxkIHRyYW5zbGF0ZQo+PiBOVk1FX1NDX0NNRF9JTlRFUlJVUFRFRCB0byBCTEtfU1RTX0FH
-QUlOLgo+PiBXZSBjYW4gZG8gbGlrZSB0aGlzOgo+IAo+IEJMS19TVFNfQUdBSU4gaXMgYSBiYWQg
-Y2hvaWNlIGFzIHdlIHVzZSBpdCBmb3IgY2FsbHMgdGhhdCBibG9jayB3aGVuCj4gdGhlIGNhbGxl
-cnMgYXNrZWQgZm9yIG5vbi1ibG9ja2luZyBzdWJtaXNzaW9uLiAgSSdtIHJlYWxseSBub3Qgc3Vy
-ZQo+IHdlIHdhbnQgdG8gY2hhbmdlIGFueXRoaW5nIGhlcmUgLSB0aGUgZXJyb3IgZGVmaW5pdGlv
-biBjbGVhcmx5IHN0YXRlcwo+IGl0IGlzIG5vdCBhIGZhaWx1cmUgYnV0IGEgcmVxdWVzdCB0byBy
-ZXRyeSBsYXRlci4KPiAuCj4gCkJMS19TVFNfQUdBSU4gaXMgbm90IGEgZ29vZCBjaG9pY2UsIGJ1
-dCBCTEtfU1RTX1RBUkdFVCBpcyBhbHNvIG5vdAphIGdvb2QgY2hvaWNlLiBJIGZpbmQgdGhlIHBh
-dGNoIHRoYXQgdHJhbnNsYXRlIE5WTUVfU0NfQ01EX0lOVEVSUlVQVEVECnRvIEJMS19TVFNfVEFS
-R0VULgoKY29tbWl0OjM1MDM4YmZmYTg3ZGEyODIwMTBiOTExMDhjYWRkMTMyMzhiYjViYmQKbnZt
-ZTogVHJhbnNsYXRlIG1vcmUgc3RhdHVzIGNvZGVzIHRvIGJsa19zdGF0dXNfdApEZWNvZGUgaW50
-ZXJydXB0ZWQgY29tbWFuZCBhbmQgbm90IHJlYWR5IG5hbWVzcGFjZSBudm1lIHN0YXR1cyBjb2Rl
-cyB0bwpCTEtfU1RTX1RBUkdFVC4gVGhlc2UgYXJlIG5vdCBnZW5lcmljIElPIGVycm9ycyBhbmQg
-c2hvdWxkIHVzZSBhIG5vbi1wYXRoCnNwZWNpZmljIGVycm9yIHNvIHRoYXQgaXQgY2FuIHVzZSB0
-aGUgbm9uLWZhaWxvdmVyIHJldHJ5IHBhdGguClJlcG9ydGVkLWJ5OiBKb2huIE1lbmVnaGluaSA8
-Sm9obi5NZW5lZ2hpbmlAbmV0YXBwLmNvbT4KCkluIHRoZSBvbGQgdmVyc2lvbiwgbmVlZCB0cmFu
-c2xhdGUgTlZNRV9TQ19DTURfSU5URVJSVVBURUQgdG8KQkxLX1NUU19UQVJHRVQsIGJlY2F1c2Ug
-bnZtZSBtdWx0aXBhdGggY2hlY2sgdGhlIGJsa19wYXRoX2Vycm9yLAp3ZSBleHBlY3QgcmV0cnkg
-SU8gaW4gdGhlIGN1cnJlbnQgcGF0aCwgc28gaGF2ZSB0byB0cmFuc2xhdGUKTlZNRV9TQ19DTURf
-SU5URVJSVVBURUQgdG8gQkxLX1NUU19UQVJHRVQuIEFsdGhvdWdoIGNvbnZlcnRpbmcgdG8KQkxL
-X1NUU19UQVJHRVQgaXMgbm90IGEgZ29vZCBjaG9pY2UsIHRoZXJlIHNlZW1zIHRvIGJlIG5vIGJl
-dHRlciBjaG9pY2UKZm9yIHRoZSBvbGQgdmVyc2lvbiBjb2RlLiBCdXQgbm93IHdlIGRvIG5vdCBu
-ZWVkIHRyYW5zbGF0ZQpOVk1FX1NDX0NNRF9JTlRFUlJVUFRFRCB0byBCTEtfU1RTX1RBUkdFVCwg
-bnZtZSBtdWx0aXBhdGggYWxyZWFkeQppbXByb3ZlIGFuZCBkb2VzIG5vdCBkZXBlbmQgb24gYmxr
-X3BhdGhfZXJyb3IuCgpBY2NvcmRpbmcgdG8gdGhlIGRlc2NyaXB0aW9uIG9mIEJMS19TVFNfVEFS
-R0VUOgpbQkxLX1NUU19UQVJHRVRdCT0geyAtRVJFTU9URUlPLAkiY3JpdGljYWwgdGFyZ2V0IiB9
-CkJMS19TVFNfVEFSR0VUIG1heSBlYXNpbHkgbWlzdGFrZW4gYXMgYSBmYXRhbCBlcnJvciBvbiB0
-aGUgc3RvcmFnZS4KSSBhbHJlYWR5IGNoZWNrIGFsbCB0aGUgZXJyb3IgY29kZSBvZiBCTEtfU1RT
-X3h4LCB0aGVyZSBpcyBubyBnb29kCmNob2ljZSBmb3IgTlZNRV9TQ19DTURfSU5URVJSVVBURUQg
-bm93LiBJbiB0aGUgYWJzZW5jZSBvZiBhIHN1aXRhYmxlCmVycm9yIGNvZGUsIGl0IGlzIGEgZ29v
-ZCBjaG9pY2UgdG8gcmV0YWluIHRoZSBkZWZhdWx0LiBTbyBJIHN0cm9uZ2x5CnN1Z2dlc3QgZGVs
-ZXRlIHRyYW5zbGF0ZSBOVk1FX1NDX0NNRF9JTlRFUlJVUFRFRCB0byBCTEtfU1RTX1RBUkdFVC4K
-CkpvaG4sIHdoYXQgZG8geW91IHRoaW5rPwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0
-cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGlu
-Zm8vbGludXgtbnZtZQo=
+We forgot to free new_model_number
+
+Fixes: 013b7ebe5a0d ("nvmet: make ctrl model configurable")
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/target/configfs.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 74b2b61c773b..37e1d7784e17 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1136,6 +1136,7 @@ static ssize_t nvmet_subsys_attr_model_store(struct config_item *item,
+ 	up_write(&nvmet_config_sem);
+ 
+ 	kfree_rcu(new_model, rcuhead);
++	kfree(new_model_number);
+ 
+ 	return count;
+ }
+-- 
+2.25.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
