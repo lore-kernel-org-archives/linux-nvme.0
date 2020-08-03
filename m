@@ -2,22 +2,22 @@ Return-Path: <SRS0=Ae0q=BN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A762EC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Aug 2020 10:25:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2965DC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Aug 2020 15:03:40 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 758DB20719
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Aug 2020 10:25:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DDE8020775
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Aug 2020 15:03:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1T751gTP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 758DB20719
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z4e76wf8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDE8020775
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
@@ -25,44 +25,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XHyHN7xwGM7Pacc0dQlK+oUTKj0f8OBmGYVGwI2Pygw=; b=1T751gTPGWl+IlBECFz21iv0n
-	/Y0NXZjBwdC5Gy6eFqwa08IvenLwsX5xb1TcIo5y/EWw14QK4+j0aDp6i5114zjNZnkq1U3dSbYHo
-	oykr7XQ3TouSp/AkYYqwKitbnY90F1IWzXhPNzjJnxLeW9yhi6umh5h+eXXayET+4SL/sr165wbqf
-	yNx+6xWmieblYcpBuFSVULRQyI2u54+gkpYexpTS0lUoOM4PATYN9qk0ZQ81r8jCmGByTynQ/+THq
-	5jnVIKnrMoTlSkTaPTWB5u/ZiS9Ko9p+l33SDJvekUjtEFcfNZjpLwOFE3QCAnXCfD4Cv8xkPvsLP
-	8+s9D+6+g==;
+	 bh=9mxpM+n4epvDuxAKovHdWq/uHCkbLBU0CIu+EQD9K1c=; b=Z4e76wf8iZGuzozBrKQf7X+QW
+	GTBNNNBlm6OYWwekzIyFip/AZr01fgvrhWZh7fVm3iSJsjBv2M4hR8S+WZIuxpy/Zx4CoWglhN1zJ
+	u3WU93tcTijyI6LjujIx0rhIr36gf/mUsFBJ+P3iS4qaulB1/aFQBBpYKiLkGdr/kx9oR//iM1LX4
+	w2RmXXc+52xnJJLQwOkpaKuTVAHhZjSUJ8kOw89tL3iJ20jOODH28QQfxHVo6slMlkxZKUiFc9gkb
+	bMAneiw6fT5oCfPRLnMvTUsRPO1Wh451jwdLiOvo3dtdmoR3aoReoOUyMr4kzYj689fJXrU9FmjTz
+	tGOYEIO2Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k2Xej-0000Ji-CS; Mon, 03 Aug 2020 10:25:21 +0000
-Received: from szxga04-in.huawei.com ([45.249.212.190] helo=huawei.com)
+	id 1k2bzy-0006vP-12; Mon, 03 Aug 2020 15:03:34 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k2Xef-0000IE-Vc
- for linux-nvme@lists.infradead.org; Mon, 03 Aug 2020 10:25:19 +0000
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id EC248A083D1D46847631;
- Mon,  3 Aug 2020 18:25:08 +0800 (CST)
-Received: from [10.169.42.93] (10.169.42.93) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0;
- Mon, 3 Aug 2020 18:25:05 +0800
+ id 1k2bzi-0006uv-EF
+ for linux-nvme@lists.infradead.org; Mon, 03 Aug 2020 15:03:20 +0000
+Received: by mail-wm1-f44.google.com with SMTP id c19so198033wmd.1
+ for <linux-nvme@lists.infradead.org>; Mon, 03 Aug 2020 08:03:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eff1ienRTz788VVG9RtArOjPyvtFHSuo97W4qvv1GgY=;
+ b=bCtmU/lNd88U2LK/ZGL+i+l9u1vgdvC45BprLRwvu4zMt64zLVyik//Ly4jnlrC8yc
+ TE5Mox98WbO1rFN3jES+7pyMVA3rVISPGP/COVZv15sN38AtTxNlbpIsUK3E0p5Vq59d
+ d/QWVuCQSNgLtJFJTaiS/mY5LeaMhgR3SPdFxUU/nqq4C7n1DtVt/Qjz3rVtLWG4MVAQ
+ VV8aaVHRntHfOwSEK69ARnlR5hI4KssFgWEI1FGhuwlpXbAZou71c8gHpR+3FOi+sqTb
+ GMYyIAqRSTqU3LjQEbZtZuzkkB3J28w3+f3Iq2E8fBQMo5jkBnMLPO0n8SIkYVP0++/e
+ Yshw==
+X-Gm-Message-State: AOAM5315FzOEfpXXaKDG09/jTIPTKIy3i+NE4B3mI9Kti3q04FvhhcUE
+ aWCS4CRFr4rIA/1OR2O3radpH4Xs
+X-Google-Smtp-Source: ABdhPJyInf8OIOhDHNhR73FAHkwzakrsVJ8jlxjC7XC53PZZu8F32CI0q5niA8wcrRpHe/hyOLVr4Q==
+X-Received: by 2002:a05:600c:2907:: with SMTP id
+ i7mr369557wmd.182.1596466996918; 
+ Mon, 03 Aug 2020 08:03:16 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:6dac:e394:c378:553e?
+ ([2601:647:4802:9070:6dac:e394:c378:553e])
+ by smtp.gmail.com with ESMTPSA id i14sm30768372wrc.19.2020.08.03.08.03.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Aug 2020 08:03:16 -0700 (PDT)
 Subject: Re: [PATCH 5/6] nvme-rdma: fix timeout handler
-To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, James Smart
- <james.smart@broadcom.com>
+To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ James Smart <james.smart@broadcom.com>
 References: <20200803065852.69987-1-sagi@grimberg.me>
  <20200803065852.69987-6-sagi@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <a918db0b-0979-c39f-aefa-e53de249beeb@huawei.com>
-Date: Mon, 3 Aug 2020 18:25:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ <a918db0b-0979-c39f-aefa-e53de249beeb@huawei.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <a05974ca-45cf-8baf-3f68-8c5e8e5ec5a1@grimberg.me>
+Date: Mon, 3 Aug 2020 08:03:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200803065852.69987-6-sagi@grimberg.me>
+In-Reply-To: <a918db0b-0979-c39f-aefa-e53de249beeb@huawei.com>
 Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200803_062518_561460_723C0546 
-X-CRM114-Status: GOOD (  27.14  )
+X-CRM114-CacheID: sfid-20200803_110318_529925_3EE5BDFA 
+X-CRM114-Status: GOOD (  15.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,141 +92,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2020/8/3 14:58, Sagi Grimberg wrote:
-> Currently we check if the controller state != LIVE, and
-> we directly fail the command under the assumption that this
-> is the connect command or an admin command within the
-> controller initialization sequence.
-> 
-> This is wrong, we need to check if the request risking
-> controller setup/teardown blocking if not completed and
-> only then fail.
-> 
-> The logic should be:
-> - RESETTING, only fail fabrics/admin commands otherwise
->    controller teardown will block. otherwise reset the timer
->    and come back again.
-> - CONNECTING, if this is a connect (or an admin command), we fail
->    right away (unblock controller initialization), otherwise we
->    treat it like anything else.
-> - otherwise trigger error recovery and reset the timer (the
->    error handler will take care of completing/delaying it).
-> 
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
->   drivers/nvme/host/rdma.c | 67 +++++++++++++++++++++++++++++-----------
->   1 file changed, 49 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 44c76ffbb264..a58c6deaf691 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1180,6 +1180,7 @@ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
->   	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
->   		return;
->   
-> +	dev_warn(ctrl->ctrl.device, "starting error recovery\n");
->   	queue_work(nvme_reset_wq, &ctrl->err_work);
->   }
->   
-> @@ -1946,6 +1947,22 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
->   	return 0;
->   }
->   
-> +static void nvme_rdma_complete_timed_out(struct request *rq)
-> +{
-> +	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-> +	struct nvme_rdma_queue *queue = req->queue;
-> +	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
-> +
-> +	/* fence other contexts that may complete the command */
-> +	flush_work(&ctrl->err_work);
-> +	nvme_rdma_stop_queue(queue);
-There maybe concurrent with error recovery, may cause abnormal because
-nvme_rdma_stop_queue will return but the queue is not stoped,
-maybe is stopping by the error recovery.
-> +	if (blk_mq_request_completed(rq))
-> +		return;
-> +	nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
-> +	nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
-> +	blk_mq_complete_request(rq);
-> +}
-> +
->   static enum blk_eh_timer_return
->   nvme_rdma_timeout(struct request *rq, bool reserved)
->   {
-> @@ -1956,29 +1973,43 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
->   	dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
->   		 rq->tag, nvme_rdma_queue_idx(queue));
->   
-> -	/*
-> -	 * Restart the timer if a controller reset is already scheduled. Any
-> -	 * timed out commands would be handled before entering the connecting
-> -	 * state.
-> -	 */
-> -	if (ctrl->ctrl.state == NVME_CTRL_RESETTING)
-> +	switch (ctrl->ctrl.state) {
-> +	case NVME_CTRL_RESETTING:
-> +		if (!nvme_rdma_queue_idx(queue)) {
-> +			/*
-> +			 * if we are in teardown we must complete immediately
-> +			 * because we may block the teardown sequence (e.g.
-> +			 * nvme_disable_ctrl timed out).
-> +			 */
-> +			nvme_rdma_complete_timed_out(rq);
-> +			return BLK_EH_DONE;
-> +		}
-> +		/*
-> +		 * Restart the timer if a controller reset is already scheduled.
-> +		 * Any timed out commands would be handled before entering the
-> +		 * connecting state.
-> +		 */
->   		return BLK_EH_RESET_TIMER;
-> -
-> -	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
-> +	case NVME_CTRL_CONNECTING:
-> +		if (reserved || !nvme_rdma_queue_idx(queue)) {
-> +			/*
-> +			 * if we are connecting we must complete immediately
-> +			 * connect (reserved) or admin requests because we may
-> +			 * block controller setup sequence.
-> +			 */
-> +			nvme_rdma_complete_timed_out(rq);
-> +			return BLK_EH_DONE;
-> +		}
-> +		/* fallthru */
-> +	default:
->   		/*
-> -		 * Teardown immediately if controller times out while starting
-> -		 * or we are already started error recovery. all outstanding
-> -		 * requests are completed on shutdown, so we return BLK_EH_DONE.
-> +		 * every other state should trigger the error recovery
-> +		 * which will be handled by the flow and controller state
-> +		 * machine
->   		 */
-> -		flush_work(&ctrl->err_work);
-> -		nvme_rdma_teardown_io_queues(ctrl, false);
-> -		nvme_rdma_teardown_admin_queue(ctrl, false);
-> -		return BLK_EH_DONE;
-> +		nvme_rdma_error_recovery(ctrl);
->   	}
->   
-> -	dev_warn(ctrl->ctrl.device, "starting error recovery\n");
-> -	nvme_rdma_error_recovery(ctrl);
-> -
->   	return BLK_EH_RESET_TIMER;
->   }
->   
-> 
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Cj4+IEBAIC0xOTQ2LDYgKzE5NDcsMjIgQEAgc3RhdGljIGludCBudm1lX3JkbWFfY21faGFuZGxl
+cihzdHJ1Y3QgCj4+IHJkbWFfY21faWQgKmNtX2lkLAo+PiDCoMKgwqDCoMKgIHJldHVybiAwOwo+
+PiDCoCB9Cj4+ICtzdGF0aWMgdm9pZCBudm1lX3JkbWFfY29tcGxldGVfdGltZWRfb3V0KHN0cnVj
+dCByZXF1ZXN0ICpycSkKPj4gK3sKPj4gK8KgwqDCoCBzdHJ1Y3QgbnZtZV9yZG1hX3JlcXVlc3Qg
+KnJlcSA9IGJsa19tcV9ycV90b19wZHUocnEpOwo+PiArwqDCoMKgIHN0cnVjdCBudm1lX3JkbWFf
+cXVldWUgKnF1ZXVlID0gcmVxLT5xdWV1ZTsKPj4gK8KgwqDCoCBzdHJ1Y3QgbnZtZV9yZG1hX2N0
+cmwgKmN0cmwgPSBxdWV1ZS0+Y3RybDsKPj4gKwo+PiArwqDCoMKgIC8qIGZlbmNlIG90aGVyIGNv
+bnRleHRzIHRoYXQgbWF5IGNvbXBsZXRlIHRoZSBjb21tYW5kICovCj4+ICvCoMKgwqAgZmx1c2hf
+d29yaygmY3RybC0+ZXJyX3dvcmspOwo+PiArwqDCoMKgIG52bWVfcmRtYV9zdG9wX3F1ZXVlKHF1
+ZXVlKTsKPiBUaGVyZSBtYXliZSBjb25jdXJyZW50IHdpdGggZXJyb3IgcmVjb3ZlcnksIG1heSBj
+YXVzZSBhYm5vcm1hbCBiZWNhdXNlCj4gbnZtZV9yZG1hX3N0b3BfcXVldWUgd2lsbCByZXR1cm4g
+YnV0IHRoZSBxdWV1ZSBpcyBub3Qgc3RvcGVkLAo+IG1heWJlIGlzIHN0b3BwaW5nIGJ5IHRoZSBl
+cnJvciByZWNvdmVyeS4KCmVycl93b3JrIGZsdXNoIHVzZWQgdG8gZmVuY2UsIG9uY2Ugd2UgZGlk
+IHF1ZXVlIHN0b3AsIGl0IHNob3VsZCBiZSBzYWZlCnRvIGNvbXBsZXRlIHRoZSBjb21tYW5kIGZy
+b20gdGhlIHRpbWVvdXQgaGFuZGxlci4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMu
+aW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2xpbnV4LW52bWUK
