@@ -2,73 +2,61 @@ Return-Path: <SRS0=ZkUF=BP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A18FDC433DF
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2020 06:27:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B1BAC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2020 06:33:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 599E9207FC
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2020 06:27:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 09BF6204EA
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2020 06:33:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cZOU0fkA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 599E9207FC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DOJ+aolK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09BF6204EA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=MJHxTY1KyHHVGy206SlPutEeve1Xs8nj0usXBcZwXUE=; b=cZOU0fkAVjOvk97FCvP5t5Cwp
-	KkkhXonvGMmMvcd/z//Ou8APLuvHeMXt/C5EJawXBirLXYrI8uO7Hi3KeCubtzSdIzvcwQlYdaFOO
-	4IM+IObdOrkT1uEsPAuZUQEcDal/hy32qfiSlZraxbk5DI12wAVIwXSjNPSuRvdUU8jDlBbHVjnHa
-	uaz8s9DfdO3zfN4XuFPvmU8M4RgAM0Ce3LzdiZZjiKH3cI2PJryXOxsNZTar9YmalyDzNZ1gC3cUO
-	mxsZ0Z89AP0SJoeLy2udTzRrUaOzxAICV97qhG0mtXkNqcmvZ1jdSW9zIgKJnfyzOaLeqyluXGIRF
-	pXOgcTNAQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=nNeH91GXES62eX0i0pClLU7/XHdj06Ea6bFIOicanhQ=; b=DOJ+aolK7qVCcqwPlsae3fESyA
+	J/VarmcFFJYcaMG9FTUbPlgZp8b19LrTGHI3B88xohDJ9k943XIJvwZW6iyGtSpJrMU2T+zuAAk4i
+	2VO/NQG0pWR52LjHYH8k+lWMgjhIcaySfDqj1orW/69JlGA6O2I6uNodKGRYkkdxJ7ezaG90GLfOo
+	gCQ3sv4r9SDtC/2bznuSgLlJ0295G52w3lJfEaqXTvhaXxcaFDhKCORPP+cmZpEzPU5+xT3PX9M/o
+	dIkCdaIwj5Pc1Hoiurpi+PskmiCOqWMd0ahM9opYO8PFLBmcVKp1HP1hMwnd3kIJ+raLK3KOj7ck1
+	yNZoSIPA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3CtS-0006fB-My; Wed, 05 Aug 2020 06:27:18 +0000
+	id 1k3Czp-0007pd-W3; Wed, 05 Aug 2020 06:33:54 +0000
 Received: from szxga04-in.huawei.com ([45.249.212.190] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k3CtP-0006bL-8r
- for linux-nvme@lists.infradead.org; Wed, 05 Aug 2020 06:27:16 +0000
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 886A2CAF0C150051F8AC;
- Wed,  5 Aug 2020 14:27:04 +0800 (CST)
-Received: from [10.169.42.93] (10.169.42.93) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0;
- Wed, 5 Aug 2020 14:27:01 +0800
-Subject: Re: [PATCH 5/6] nvme-rdma: fix timeout handler
-To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, James Smart
- <james.smart@broadcom.com>
-References: <20200803065852.69987-1-sagi@grimberg.me>
- <20200803065852.69987-6-sagi@grimberg.me>
- <a918db0b-0979-c39f-aefa-e53de249beeb@huawei.com>
- <a05974ca-45cf-8baf-3f68-8c5e8e5ec5a1@grimberg.me>
- <d0b6e574-eee1-02db-e27d-e9c88e5b0c80@huawei.com>
- <938aa34b-b4db-f8ca-2478-0b48954899ea@grimberg.me>
- <85b3a7e5-5769-c1b2-eff5-318671c6850f@huawei.com>
- <7250e072-c0f8-430e-3afe-d0837efe14ad@grimberg.me>
+ id 1k3Czm-0007nS-S0
+ for linux-nvme@lists.infradead.org; Wed, 05 Aug 2020 06:33:52 +0000
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 023F190E0E3C820C3865;
+ Wed,  5 Aug 2020 14:33:45 +0800 (CST)
+Received: from huawei.com (10.29.88.127) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Wed, 5 Aug 2020
+ 14:33:36 +0800
 From: Chao Leng <lengchao@huawei.com>
-Message-ID: <7a05ff5c-9ad6-786a-b1a6-9556d520f436@huawei.com>
-Date: Wed, 5 Aug 2020 14:27:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+To: <linux-nvme@lists.infradead.org>
+Subject: [PATCH] nvme-core: fix deadlock when reconnect failed due to
+ nvme_set_queue_count timeout
+Date: Wed, 5 Aug 2020 14:33:35 +0800
+Message-ID: <20200805063335.19882-1-lengchao@huawei.com>
+X-Mailer: git-send-email 2.16.4
 MIME-Version: 1.0
-In-Reply-To: <7250e072-c0f8-430e-3afe-d0837efe14ad@grimberg.me>
-Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
+X-Originating-IP: [10.29.88.127]
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200805_022716_115092_C121E1A5 
-X-CRM114-Status: GOOD (  15.05  )
+X-CRM114-CacheID: sfid-20200805_023351_654082_948FD9BD 
+X-CRM114-Status: GOOD (  10.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,40 +68,79 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, lengchao@huawei.com,
+ sagi@grimberg.me
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+A deadlock happens When we test nvme over roce with link blink. The
+reason: link blink will cause error recovery, and then reconnect.If
+reconnect fail due to nvme_set_queue_count timeout, the reconnect
+process will set the queue count as 0 and continue , and then
+nvme_start_ctrl will call nvme_enable_aen, and deadlock happens
+because the admin queue is quiesced.
 
+log:
+Aug  3 22:47:24 localhost kernel: nvme nvme2: I/O 22 QID 0 timeout
+Aug  3 22:47:24 localhost kernel: nvme nvme2: Could not set queue count
+(881)
+stack:
+root     23848  0.0  0.0      0     0 ?        D    Aug03   0:00
+[kworker/u12:4+nvme-wq]
+[<0>] blk_execute_rq+0x69/0xa0
+[<0>] __nvme_submit_sync_cmd+0xaf/0x1b0 [nvme_core]
+[<0>] nvme_features+0x73/0xb0 [nvme_core]
+[<0>] nvme_start_ctrl+0xa4/0x100 [nvme_core]
+[<0>] nvme_rdma_setup_ctrl+0x438/0x700 [nvme_rdma]
+[<0>] nvme_rdma_reconnect_ctrl_work+0x22/0x30 [nvme_rdma]
+[<0>] process_one_work+0x1a7/0x370
+[<0>] worker_thread+0x30/0x380
+[<0>] kthread+0x112/0x130
+[<0>] ret_from_fork+0x35/0x40
 
-On 2020/8/5 9:12, Sagi Grimberg wrote:
-> 
->>>> may interrupt by hard interrupt, and then timeout progress flush work
->>>> at this time. Thus error recovery and nvme_rdma_complete_timed_out may
->>>> concurrent to stop queue. will cause: error recovery may cancel request
->>>> or nvme_rdma_complete_timed_out may complete request, but the queue may
->>>> not be stoped. Thus will cause abnormal.
->>>
->>> We should be fine and safe to complete the I/O.
->>
->> Complete request in nvme_rdma_timeout or cancel request in
->> nvme_rdma_error_recovery_work or nvme_rdma_reset_ctrl_work is not safe.
->> Because the queue may be not really stoped, it may just cleard the flag:
->> NVME_RDMA_Q_ALLOCATED for the queue. Thus one request may concurrent
->> treat by two progress, it is not allowed.
-> 
-> The request being timed out cannot be completed after the queue is
-> stopped, that is the point of nvme_rdma_stop_queue. if it is only
-> ALLOCATED, we did not yet connect hence there is zero chance for
-> any command to complete.
-The request may already complete before stop queue, it is in the cq, but
-is not treated by software. If nvme_rdma_stop_queue concurrent, for example:
-The error recovery run first, it will clear the flag:NVME_RDMA_Q_LIVE,
-and then wait drain cq. At the same time nvme_rdma_timeout
-call nvme_rdma_stop_queue will return immediately, and then may call
-blk_mq_complete_request. but error recovery may drain cq at the same
-time, and may also treat the same request.
+Many functions which call __nvme_submit_sync_cmd treat error code in two
+modes: If error code less than 0, treat as command failed. If erroe code
+more than 0, treat as target not support or other. So cancel io with
+error code: NVME_SC_HOST_PATH_ERROR or NVME_SC_HOST_ABORTED_CMD, we need
+set the flag:NVME_REQ_CANCELLED. Thus __nvme_submit_sync_cmd will return
+error(less than 0), nvme_set_queue_count will return error, reconnect
+progress will fail instead of continue.
+
+Signed-off-by: Chao Leng <lengchao@huawei.com>
+---
+ drivers/nvme/host/core.c    | 1 +
+ drivers/nvme/host/fabrics.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c2c5bc4fb702..865645577f2c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -303,6 +303,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+ 	if (blk_mq_request_completed(req))
+ 		return true;
+ 
++	nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 	nvme_req(req)->status = NVME_SC_HOST_ABORTED_CMD;
+ 	blk_mq_force_complete_rq(req);
+ 	return true;
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 2a6c8190eeb7..4e745603a3af 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -552,6 +552,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+ 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+ 		return BLK_STS_RESOURCE;
+ 
++	nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
+ 	nvme_req(rq)->status = NVME_SC_HOST_PATH_ERROR;
+ 	blk_mq_start_request(rq);
+ 	nvme_complete_rq(rq);
+-- 
+2.16.4
+
 
 _______________________________________________
 Linux-nvme mailing list
