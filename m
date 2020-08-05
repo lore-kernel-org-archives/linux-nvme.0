@@ -7,87 +7,61 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE57C433E1
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2020 07:19:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3587C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2020 07:28:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A1DC22CAD
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2020 07:19:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B8BA72073E
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Aug 2020 07:28:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LWQtRz/K"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A1DC22CAD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hezawgIg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8BA72073E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mxFYknjd4IRTvir6td3I1suJ356jWykN+PDmqJtS00M=; b=LWQtRz/KUdU0DTxphP6QyJbsh
-	03UfTCKExO10mki4hNQr6NzDtXcPBhXjuv83x94/QaQz/7peEGgaULU9Zmc6jWPXTyLQrkkPzJJZh
-	7sawsIVZsblfUp/VUzZFGQJtXh/iqz7YWzfCtUjOioYbHiHc4Rq0V0DllDDMZh2H4ZoBIRhKif4Yt
-	MmuhyfDeRADmbaNl1qbfC1qwi0UFc6mggZ62z/exh/RY6caBL44Mgo3BIn4urThhmM1enZuBx6XGz
-	31mXxGFH+B+wEqcHBB4OG1hU+CT9IZwvv9T7dYNkynGCmSzCY5kf3X5UijkqLbNfYXXO0J+wJmLHK
-	f5n+Auumw==;
+	 bh=5AaTSRH1+GKARzgE7LIoNDBVAqpvZuPLTO3zwSR4pSI=; b=hezawgIgb8NhWfjmioodaRPs3
+	l3h8AbmH0W/Ci5Uj8EhngiVyluS3pA1nabKhwkSbIgP48lgYFH2+VcLcIQ4CQD+gqT5617T8RX6+h
+	3iYWtMQP7xjtudXOUJfOLwO5Nton5B1pBvo9A96tRtj+cgt2s5wZuJ37KLBbRpnUE9w6fp0/r8nYU
+	8s9PsD6lAOshytxprI1pZIhwR+mixhviadRj7DwXp2lL7YI0zx9L93Y7L3Wc+JATAV2aWyPNKzFMy
+	9IOTTbnjVOJ68TLyYB973JI9KSzAGH20FoylpASvnamnEAABdvITUixg3y2jsFvWJIYFMvNxvurYi
+	NbS1Bb3AA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3DiJ-0000AH-LJ; Wed, 05 Aug 2020 07:19:51 +0000
-Received: from mail-wm1-f67.google.com ([209.85.128.67])
+	id 1k3DqF-00016v-Sy; Wed, 05 Aug 2020 07:28:03 +0000
+Received: from szxga06-in.huawei.com ([45.249.212.32] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k3DiH-00009f-UX
- for linux-nvme@lists.infradead.org; Wed, 05 Aug 2020 07:19:50 +0000
-Received: by mail-wm1-f67.google.com with SMTP id g8so4839931wmk.3
- for <linux-nvme@lists.infradead.org>; Wed, 05 Aug 2020 00:19:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Gz0kkSVIv0Mifbaq8GuBJep9u6s5bB9Nds+vQeuzDzk=;
- b=PEUspT36xu0RAuGFpTimeb/N+T0URqFmPEyDx+DgFyf4QcyxlUMwi5rOCDtwJflWQF
- Hjr64nP6uiHVTfnAKMZhjyYhfhmg029Ntvv1Y70PcnN7UEjRaDkg7MKTq/WfbOxUhhtc
- wIO2a7NnxGzDkMorpPYSu+Pjq9m7u4l88wZm1Yd+izufSpDHUszbYq9v7NIel6x9+0xv
- uFYX7wpyY3qSZC7zemH+lHMOBQfjcMUjw8HuYnprGxihuWkG65Wjn/avUtRjhtZJJIyP
- dI0NnDYU9L0AZdF1j8aEnxp3GSPIWLIu0OxXdrEBoEtBaSjIL37WnzB/lw4Ayet8dIKw
- PWzA==
-X-Gm-Message-State: AOAM531bAKRmAbE4wFLOrr4QqbYOuKdxUIch3YRQmO9vgN82GRf5rt74
- ZrlTXJsj4wz4PPsRrpLXE6c=
-X-Google-Smtp-Source: ABdhPJz2VYPUbPD92gFXwgRXKZoPnfjShRhViUBBaTIwrZo1Vbj6i+lvBKF+4bR9Gux4devqsaF2Sw==
-X-Received: by 2002:a1c:9c0b:: with SMTP id f11mr1953629wme.0.1596611988445;
- Wed, 05 Aug 2020 00:19:48 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:e1a8:cb16:c589:8b34?
- ([2601:647:4802:9070:e1a8:cb16:c589:8b34])
- by smtp.gmail.com with ESMTPSA id f15sm1516870wrt.80.2020.08.05.00.19.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Aug 2020 00:19:47 -0700 (PDT)
-Subject: Re: [PATCH 5/6] nvme-rdma: fix timeout handler
-To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- James Smart <james.smart@broadcom.com>
-References: <20200803065852.69987-1-sagi@grimberg.me>
- <20200803065852.69987-6-sagi@grimberg.me>
- <a918db0b-0979-c39f-aefa-e53de249beeb@huawei.com>
- <a05974ca-45cf-8baf-3f68-8c5e8e5ec5a1@grimberg.me>
- <d0b6e574-eee1-02db-e27d-e9c88e5b0c80@huawei.com>
- <938aa34b-b4db-f8ca-2478-0b48954899ea@grimberg.me>
- <85b3a7e5-5769-c1b2-eff5-318671c6850f@huawei.com>
- <7250e072-c0f8-430e-3afe-d0837efe14ad@grimberg.me>
- <7a05ff5c-9ad6-786a-b1a6-9556d520f436@huawei.com>
- <ae787cff-f1a3-b464-f471-18b3d736c381@grimberg.me>
- <537c387f-61e2-77f4-a7ee-55689270bdfd@huawei.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <77794f62-2d4a-d2c9-f474-4ddbb361a308@grimberg.me>
-Date: Wed, 5 Aug 2020 00:19:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1k3DqC-00016K-Ch
+ for linux-nvme@lists.infradead.org; Wed, 05 Aug 2020 07:28:02 +0000
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 0A8443F6B7C8C406A541;
+ Wed,  5 Aug 2020 15:27:53 +0800 (CST)
+Received: from [10.169.42.93] (10.169.42.93) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0;
+ Wed, 5 Aug 2020 15:27:47 +0800
+Subject: Re: [PATCH] nvme-core: fix deadlock when reconnect failed due to
+ nvme_set_queue_count timeout
+To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>
+References: <20200805063335.19882-1-lengchao@huawei.com>
+ <02a20ae5-5af3-8595-c8b4-237449fbc1ee@grimberg.me>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <c0b91c52-6d5b-90d9-206e-780f836a1ed8@huawei.com>
+Date: Wed, 5 Aug 2020 15:27:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <537c387f-61e2-77f4-a7ee-55689270bdfd@huawei.com>
+In-Reply-To: <02a20ae5-5af3-8595-c8b4-237449fbc1ee@grimberg.me>
 Content-Language: en-US
+X-Originating-IP: [10.169.42.93]
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200805_031950_086552_10D14742 
-X-CRM114-Status: GOOD (  16.43  )
+X-CRM114-CacheID: sfid-20200805_032800_712747_04F8CC78 
+X-CRM114-Status: GOOD (  12.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,45 +73,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>> The request being timed out cannot be completed after the queue is
->>>> stopped, that is the point of nvme_rdma_stop_queue. if it is only
->>>> ALLOCATED, we did not yet connect hence there is zero chance for
->>>> any command to complete.
->>> The request may already complete before stop queue, it is in the cq, but
->>> is not treated by software.
->>
->> Not possible, ib_drain_cq completion guarantees that all cqes were
->> reaped and handled by SW.
->>
->>> If nvme_rdma_stop_queue concurrent
->>
->> Before we complete we make sure the queue is stopped (and drained and
->> reaped).
->>
->> , for
->>> example:
->>> The error recovery run first, it will clear the flag:NVME_RDMA_Q_LIVE,
->>> and then wait drain cq. At the same time nvme_rdma_timeout
->>> call nvme_rdma_stop_queue will return immediately, and then may call
->>> blk_mq_complete_request. but error recovery may drain cq at the same
->>> time, and may also treat the same request.
->>
->> We flush the err_work before running nvme_rdma_stop_queue exactly
->> because of that. your example cannot happen.
-> Flush work is not safe. See my previous email.
-
-How is it not safe? when flush_work returns, the work is guaranteed
-to have finished execution, and we only do that for states
-RESETTING/CONNECTING which means that it either has already started
-or already finished.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiAyMDIwLzgvNSAxNToxMCwgU2FnaSBHcmltYmVyZyB3cm90ZToKPiAKPj4gQSBkZWFkbG9j
+ayBoYXBwZW5zIFdoZW4gd2UgdGVzdCBudm1lIG92ZXIgcm9jZSB3aXRoIGxpbmsgYmxpbmsuIFRo
+ZQo+PiByZWFzb246IGxpbmsgYmxpbmsgd2lsbCBjYXVzZSBlcnJvciByZWNvdmVyeSwgYW5kIHRo
+ZW4gcmVjb25uZWN0LklmCj4+IHJlY29ubmVjdCBmYWlsIGR1ZSB0byBudm1lX3NldF9xdWV1ZV9j
+b3VudCB0aW1lb3V0LCB0aGUgcmVjb25uZWN0Cj4+IHByb2Nlc3Mgd2lsbCBzZXQgdGhlIHF1ZXVl
+IGNvdW50IGFzIDAgYW5kIGNvbnRpbnVlICwgYW5kIHRoZW4KPj4gbnZtZV9zdGFydF9jdHJsIHdp
+bGwgY2FsbCBudm1lX2VuYWJsZV9hZW4sIGFuZCBkZWFkbG9jayBoYXBwZW5zCj4+IGJlY2F1c2Ug
+dGhlIGFkbWluIHF1ZXVlIGlzIHF1aWVzY2VkLgo+IAo+IFdoeSBpcyB0aGUgYWRtaW4gcXVldWUg
+cXVpZXNjZWQ/IGlmIHdlIGFyZSBjYWxsaW5nIHNldF9xdWV1ZV9jb3VudAo+IGl0IHdhcyBhbHJl
+YWR5IHVucXVpZXNjZWQ/Cm52bWVfc2V0X3F1ZXVlX2NvdW50IHRpbWVvdXQgd2lsbCBudm1lX3Jk
+bWFfdGVhcmRvd25fYWRtaW5fcXVldWUsIHRoZSBhZG1pbiBxdWV1ZQp3aWxsIGJlIHF1aWVzY2Vk
+IGluIG52bWVfcmRtYV90ZWFyZG93bl9hZG1pbl9xdWV1ZS4KPiAKPj4gbG9nOgo+PiBBdWfCoCAz
+IDIyOjQ3OjI0IGxvY2FsaG9zdCBrZXJuZWw6IG52bWUgbnZtZTI6IEkvTyAyMiBRSUQgMCB0aW1l
+b3V0Cj4+IEF1Z8KgIDMgMjI6NDc6MjQgbG9jYWxob3N0IGtlcm5lbDogbnZtZSBudm1lMjogQ291
+bGQgbm90IHNldCBxdWV1ZSBjb3VudAo+PiAoODgxKQo+PiBzdGFjazoKPj4gcm9vdMKgwqDCoMKg
+IDIzODQ4wqAgMC4wwqAgMC4wwqDCoMKgwqDCoCAwwqDCoMKgwqAgMCA/wqDCoMKgwqDCoMKgwqAg
+RMKgwqDCoCBBdWcwM8KgwqAgMDowMAo+PiBba3dvcmtlci91MTI6NCtudm1lLXdxXQo+PiBbPDA+
+XSBibGtfZXhlY3V0ZV9ycSsweDY5LzB4YTAKPj4gWzwwPl0gX19udm1lX3N1Ym1pdF9zeW5jX2Nt
+ZCsweGFmLzB4MWIwIFtudm1lX2NvcmVdCj4+IFs8MD5dIG52bWVfZmVhdHVyZXMrMHg3My8weGIw
+IFtudm1lX2NvcmVdCj4+IFs8MD5dIG52bWVfc3RhcnRfY3RybCsweGE0LzB4MTAwIFtudm1lX2Nv
+cmVdCj4+IFs8MD5dIG52bWVfcmRtYV9zZXR1cF9jdHJsKzB4NDM4LzB4NzAwIFtudm1lX3JkbWFd
+Cj4+IFs8MD5dIG52bWVfcmRtYV9yZWNvbm5lY3RfY3RybF93b3JrKzB4MjIvMHgzMCBbbnZtZV9y
+ZG1hXQo+PiBbPDA+XSBwcm9jZXNzX29uZV93b3JrKzB4MWE3LzB4MzcwCj4+IFs8MD5dIHdvcmtl
+cl90aHJlYWQrMHgzMC8weDM4MAo+PiBbPDA+XSBrdGhyZWFkKzB4MTEyLzB4MTMwCj4+IFs8MD5d
+IHJldF9mcm9tX2ZvcmsrMHgzNS8weDQwCj4+Cj4+IE1hbnkgZnVuY3Rpb25zIHdoaWNoIGNhbGwg
+X19udm1lX3N1Ym1pdF9zeW5jX2NtZCB0cmVhdCBlcnJvciBjb2RlIGluIHR3bwo+PiBtb2Rlczog
+SWYgZXJyb3IgY29kZSBsZXNzIHRoYW4gMCwgdHJlYXQgYXMgY29tbWFuZCBmYWlsZWQuIElmIGVy
+cm9lIGNvZGUKPj4gbW9yZSB0aGFuIDAsIHRyZWF0IGFzIHRhcmdldCBub3Qgc3VwcG9ydCBvciBv
+dGhlci4KPiAKPiBXZSByZWx5IGluIGEgbG90IG9mIHBsYWNlcyBvbiB0aGUgbnZtZSBzdGF0dXMg
+YmVpbmcgcmV0dXJuZWQgZnJvbQo+IG52bWVfc3VibWl0X3N5bmNfY21kIChlc3BlY2lhbGx5IGlu
+IG52bWVfcmV2YWxpZGF0ZV9kaXNrIGFuZCBmb3IKPiBwYXRoL2Fib3J0ZWQgY2FuY2VsbGF0aW9u
+cyksIGFuZCB0aGlzIHBhdGNoIGJyZWFrcyBpdC4gWW91IG5lZWQgdG8gZmluZAo+IGEgc29sdXRp
+b24gdGhhdCBkb2VzIG5vdCBoaWRlIHRoZSBudm1lIHN0YXR1cyBjb2RlIGZyb20gcHJvcGFnYXRp
+bmcKPiBiYWNrLgpUaGUgZGlmZmVyZW5jZSBpcyBqdXN0IEVJTlRSIGFuZCBFSU8sIHRoZXJlIGlz
+IG5vIHJlYWwgaW1wYWN0LgpwY2kgZHJpdmVyIGlzIGFscmVhZHkgZG8gbGlrZSB0aGlzLgoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBt
+YWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5p
+bmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
