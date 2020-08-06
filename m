@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 665D3C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:11:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3322BC433E1
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:11:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 89F7E2086A
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:11:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5BC722086A
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:11:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pxqjrSYt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 89F7E2086A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mfCLoRap"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5BC722086A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,55 +25,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:To:From:
 	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ObdO0b0y+aRgde0M3iZMjokReojzIWFgPqmBqfPRcIk=; b=pxqjrSYtEGuxg4tcDwBnt7yb6d
-	I8tphTd64wOLRRH3nRYclacBkzUXv+as1k2583szjyVRzT+MDAdeYMckH6trgx3ut9mAp44XxM5EO
-	YKQUpKkJBip1YsG1R+ZegfR40jDgrJAbb8HvTkY+AKPdNUtDCVLTu8Rq4yETxvqwSrzERUajLm5Ab
-	pir7ESXt/z0S4jERl5MaUQRZ+fkuXu6JBSnV0mq0Lb05aFG06ngCxVgryWdBf87pzGXmFAE5iPSsN
-	ByMoc0v7ToTDliFEqUoVErrQZJl/d3mOmloKJD/wUxpxoPUy+GU9XY3ZbPiHLeGTUGwudAvnNHcqU
-	ZDQWEdLg==;
+	bh=uKAcoYA+ikf5drQIbsVBFNLEIlGavDruSIaiyNCwJN8=; b=mfCLoRaphPmXlKkdIkiAfzEYCQ
+	TZyQ9ZJALI7Mz7dOe93wwnrb2rUtr5mA9sATFBhviPHNW2YNrHgZs2txbxlRzdHy6Wbkd49qWiGLj
+	h+xi5YscmERxCJVWo51MQ4edhDE20xNOflLvyvH0MQIaith9bhjuemGKGnf9CuqeLIlc7DKn8dKYn
+	N7fw+4Pd8DuzKHI2lZzSggCiheArJY2NttfRFOm9o+cZ8i1e3RDH0lkUdt/I3bDEyOmQa0W64rQ6h
+	T17GF4ATEIKQXbaZXpWeMO9r+dc9N1HauNmcDb7DJVM01LwpK4FGoYqp3ky7IKF2pXxDL9RIgszQz
+	YbSjJJnQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3lIp-0008FD-2w; Thu, 06 Aug 2020 19:11:47 +0000
-Received: from mail-pj1-f67.google.com ([209.85.216.67])
+	id 1k3lIs-0008Gl-J5; Thu, 06 Aug 2020 19:11:50 +0000
+Received: from mail-pg1-f194.google.com ([209.85.215.194])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k3lIf-0008A7-2g
- for linux-nvme@lists.infradead.org; Thu, 06 Aug 2020 19:11:38 +0000
-Received: by mail-pj1-f67.google.com with SMTP id c6so7359140pje.1
- for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2020 12:11:37 -0700 (PDT)
+ id 1k3lIh-0008Ai-08
+ for linux-nvme@lists.infradead.org; Thu, 06 Aug 2020 19:11:39 +0000
+Received: by mail-pg1-f194.google.com with SMTP id o13so27473334pgf.0
+ for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2020 12:11:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bUCNMKoRSnKXYaKpfp4pxdCSA4kz4OLQQ6GbxkPD5AU=;
- b=sU2MiCaR2lEWyzRT8Pc9t9I666zXNGcRrU5Y6LWe0qJx8tJVCRKgSIqQPrkOI0a6Ih
- jyU5azIm9i6zlNtCMHIMiJcq2Zpe1OQjT6r3J/2C3HIp+e0kT037aUnN2Za1qiqYokQC
- Jaqj84M6vnx//HzcA/z/YGoHiC84tbt4noxXmTAGtZPgieB525tXl707+MTbf8p03ksL
- mh8DO9fXlX+iMReQ1VWAcEiRXyvQxm1HaN/5lyktQVUUzFi5GmR21twn5vordRVS9EQH
- /MW1+2YH5nuT0fkVxOdWzQD2FHXkrTwW2LUMFJ4wlvB+Cwv+liUuhOjCCKCGIIrrNT9v
- k3uA==
-X-Gm-Message-State: AOAM532PVBVm4wllogiDqjNpz1Cnl6ibOud9DT79W8mxs1qA4/Aa6n/V
- NuYjLDJRD3gPb65MrD1YR5LCbPpu
-X-Google-Smtp-Source: ABdhPJzSFnzj2aRXyPveLAb55clZn2+WMdR5ZXjtlX5cFD0zKEUQ3xvydBSRLRmjEC2c6U1q/9gZOQ==
-X-Received: by 2002:a17:902:8e89:: with SMTP id
- bg9mr9183381plb.126.1596741095938; 
- Thu, 06 Aug 2020 12:11:35 -0700 (PDT)
+ bh=ksHqrOVMuic4/yRWAjLO0K/reB59N3nyhRQ+j/kXQes=;
+ b=DYyp7C8mb37qXNc9iJ+bTuYP+Ahan4MUay2wJZCFjmK0MtqPrfI7ejRuFvr+NaRPkP
+ DAWUyHpGyiXEb/F/18GYp4cQfaeRzOjjX6OoUvHcPlkqyhibbkUzBFMn32HXQ6fO2IBa
+ pgURNph8998b/ag5bvhYs+31H0i0EJSKrMRx/1YuGolwCknwHXEJMCRxjzSZvejRbxWQ
+ w4PV+jIKWCa4xwhxCusj3wBmYtA7KenP5xH5NsA2EyC+eBGAhxjAAhN1YSWeA0eEH7+D
+ f7iHYS6DU7vG+Mn7o80eGbUz+JXpOe6esYhOAxIyg6WP7+XbTYXU0rBkSp1T8apSZVyU
+ Wvww==
+X-Gm-Message-State: AOAM532cQpCtkO4pJO1IpRwTzs/usF/cDWBBKi8+v3MC0JEgHDolqy//
+ e4Y1v1JeL0iOhWwWR8TszTsku7yY
+X-Google-Smtp-Source: ABdhPJyfDyFmCk2zeYaSX/lk46gkK7gO1/YT8MCUqpeZmHH4VU9LxN/Fr+fCb4qnC22PHqGEETsKWg==
+X-Received: by 2002:aa7:9ac2:: with SMTP id x2mr9531236pfp.57.1596741097505;
+ Thu, 06 Aug 2020 12:11:37 -0700 (PDT)
 Received: from localhost.localdomain ([2601:647:4802:9070:d88d:857c:b14c:519a])
- by smtp.gmail.com with ESMTPSA id gn13sm7801348pjb.17.2020.08.06.12.11.34
+ by smtp.gmail.com with ESMTPSA id gn13sm7801348pjb.17.2020.08.06.12.11.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 12:11:35 -0700 (PDT)
+ Thu, 06 Aug 2020 12:11:36 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>
-Subject: [PATCH v2 4/8] nvme-tcp: fix timeout handler
-Date: Thu,  6 Aug 2020 12:11:23 -0700
-Message-Id: <20200806191127.592062-5-sagi@grimberg.me>
+Subject: [PATCH v2 5/8] nvme-tcp: fix reset hang if controller died in the
+ middle of a reset
+Date: Thu,  6 Aug 2020 12:11:24 -0700
+Message-Id: <20200806191127.592062-6-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200806191127.592062-1-sagi@grimberg.me>
 References: <20200806191127.592062-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200806_151137_222252_DE12F6F0 
-X-CRM114-Status: GOOD (  19.21  )
+X-CRM114-CacheID: sfid-20200806_151139_090229_5D9D5376 
+X-CRM114-Status: GOOD (  15.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,138 +90,49 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently we check if the controller state != LIVE, and
-we directly fail the command under the assumption that this
-is the connect command or an admin command within the
-controller initialization sequence.
+If the controller becomes unresponsive in the middle of a reset, we
+will hang because we are waiting for the freeze to complete, but that
+cannot happen since we have commands that are inflight holding the
+q_usage_counter, and we can't blindly fail requests that times out.
 
-This is wrong, we need to check if the request risking
-controller setup/teardown blocking if not completed and
-only then fail.
-
-Moreover, we teardown the entire controller in the timeout
-handler, which does more than what we really want and it causes
-us to freeze the queues again. We need to only fence the I/O
-queue and the error recovery teardown.
-
-The logic should be:
-- RESETTING, only fail fabrics/admin commands otherwise
-  controller teardown will block. otherwise reset the timer
-  and come back again.
-- CONNECTING, if this is a connect (or an admin command), we fail
-  right away (unblock controller initialization), otherwise we
-  treat it like anything else.
-- otherwise trigger error recovery and reset the timer (the
-  error handler will take care of completing/delaying it).
+So give a timeout and if we cannot wait for queue freeze before
+unfreezing, fail and have the error handling take care how to
+proceed (either schedule a reconnect of remove the controller).
 
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 71 +++++++++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 20 deletions(-)
+ drivers/nvme/host/tcp.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 80af1b287cd0..d472fb5e79fc 100644
+index d472fb5e79fc..489a3350b9d3 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -465,6 +465,7 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
- 		return;
+@@ -1783,7 +1783,13 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
  
-+	dev_warn(ctrl->device, "starting error recovery\n");
- 	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
- }
- 
-@@ -2155,40 +2156,70 @@ static void nvme_tcp_submit_async_event(struct nvme_ctrl *arg)
- 	nvme_tcp_queue_request(&ctrl->async_req, true, true);
- }
- 
-+static void nvme_tcp_complete_timed_out(struct request *rq)
-+{
-+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-+	struct nvme_ctrl *ctrl = &req->queue->ctrl->ctrl;
-+
-+	/* fence other contexts that may complete the command */
-+	mutex_lock(&to_tcp_ctrl(ctrl)->teardown_lock);
-+	nvme_tcp_stop_queue(ctrl, nvme_tcp_queue_id(req->queue));
-+	if (blk_mq_request_completed(rq))
-+		goto out;
-+	nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
-+	blk_mq_complete_request(rq);
-+out:
-+	mutex_unlock(&to_tcp_ctrl(ctrl)->teardown_lock);
-+}
-+
- static enum blk_eh_timer_return
- nvme_tcp_timeout(struct request *rq, bool reserved)
- {
- 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
--	struct nvme_tcp_ctrl *ctrl = req->queue->ctrl;
-+	struct nvme_ctrl *ctrl = &req->queue->ctrl->ctrl;
- 	struct nvme_tcp_cmd_pdu *pdu = req->pdu;
- 
--	/*
--	 * Restart the timer if a controller reset is already scheduled. Any
--	 * timed out commands would be handled before entering the connecting
--	 * state.
--	 */
--	if (ctrl->ctrl.state == NVME_CTRL_RESETTING)
--		return BLK_EH_RESET_TIMER;
--
--	dev_warn(ctrl->ctrl.device,
-+	dev_warn(ctrl->device,
- 		"queue %d: timeout request %#x type %d\n",
- 		nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
- 
--	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
-+	switch (ctrl->state) {
-+	case NVME_CTRL_RESETTING:
-+		if (!nvme_tcp_queue_id(req->queue)) {
-+			/*
-+			 * if we are in teardown we must complete immediately
-+			 * because we may block the teardown sequence (e.g.
-+			 * nvme_disable_ctrl timed out).
+ 	if (!new) {
+ 		nvme_start_queues(ctrl);
+-		nvme_wait_freeze(ctrl);
++		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
++			/* if we timed out waiting for freeze we are
++			 * likely stuck, fail just to be safe
 +			 */
-+			nvme_tcp_complete_timed_out(rq);
-+			return BLK_EH_DONE;
++			ret = -ENODEV;
++			goto out_wait_freeze_timed_out;
 +		}
- 		/*
--		 * Teardown immediately if controller times out while starting
--		 * or we are already started error recovery. all outstanding
--		 * requests are completed on shutdown, so we return BLK_EH_DONE.
-+		 * Restart the timer if a controller reset is already scheduled.
-+		 * Any timed out commands would be handled before entering the
-+		 * connecting state.
- 		 */
--		flush_work(&ctrl->err_work);
--		nvme_tcp_teardown_io_queues(&ctrl->ctrl, false);
--		nvme_tcp_teardown_admin_queue(&ctrl->ctrl, false);
-+		return BLK_EH_RESET_TIMER;
-+	case NVME_CTRL_CONNECTING:
-+		/*
-+		 * if we are connecting we must complete immediately
-+		 * because we may block controller setup sequence
-+		 * - connect requests
-+		 * - initialization admin requests
-+		 * - I/O requests that entered when unquiesced and
-+		 *   the controller stopped responding
-+		 */
-+		nvme_tcp_complete_timed_out(rq);
- 		return BLK_EH_DONE;
-+	default:
-+		/*
-+		 * every other state should trigger the error recovery
-+		 * which will be handled by the flow and controller state
-+		 * machine
-+		 */
-+		nvme_tcp_error_recovery(ctrl);
- 	}
+ 		blk_mq_update_nr_hw_queues(ctrl->tagset,
+ 			ctrl->queue_count - 1);
+ 		nvme_unfreeze(ctrl);
+@@ -1791,6 +1797,9 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
  
--	dev_warn(ctrl->ctrl.device, "starting error recovery\n");
--	nvme_tcp_error_recovery(&ctrl->ctrl);
--
- 	return BLK_EH_RESET_TIMER;
- }
+ 	return 0;
  
++out_wait_freeze_timed_out:
++	nvme_stop_queues(ctrl);
++	nvme_tcp_stop_io_queues(ctrl);
+ out_cleanup_connect_q:
+ 	if (new)
+ 		blk_cleanup_queue(ctrl->connect_q);
 -- 
 2.25.1
 
