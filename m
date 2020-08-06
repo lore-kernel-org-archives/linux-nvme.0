@@ -2,61 +2,70 @@ Return-Path: <SRS0=CEZP=BQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F02C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:46:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7583BC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:54:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CCB9206B5
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:46:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6C08D2173E
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:54:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jgrmgGK4";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="Arsy43Sv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CCB9206B5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2bEG3WiX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C08D2173E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=X/bI4Bv7EVloWUN/y1QLabZRI4KJcOCdbERY+P2lS60=; b=jgrmgGK4yMKvdFjYtqnK10Zi3
-	/9gLdqltJ17ATO7n6SjiQ/N++OoH+n8Emo6eQ9Z10Ty4lyjWLSQKI0Cjk9wFAOqXXecE7ZwrDNkG8
-	+ZzfBT0gJO2mrGnSmb8zOnDtwHuVFpbkznd0TGiZ6UWM/eLjRFy6QmseF7pLULGklqdYXfZ0PMkNb
-	K4gT5ZbrtYHCjwkI/jzuQncsRI6QiVB0Smrvu12MCpFlUzhcj9dEaJr5q9vQDTx1t5NukGC7m1m+F
-	XvUrkpY8QP5a1VNVeCHtF6Vomd8HwJ7zcKW4xHYN3K4QFUmipInQ8zds6qeCAeC3Dh7CtgQPMQCe9
-	uaeTGiAFA==;
+	 bh=C2pJ0FsnAGhY5S7ogevReT9cxabp+2nqMr7yw2Ndjos=; b=2bEG3WiXJStoaVi3dJ2Xad0m+
+	M3nUAqqtabdAKgZIiXD6+i6Y6yWsSizKwb82KSKkdW266UAXxTQ9oiEEv0TjMdNd9GJLn8/lesyUM
+	9WAg+rQq+pk+EgQbyhk4kf3074lpz6EhKTp6jR0gemlKBXWyNrHNKleG0bsamixWfnJqemWIhTobH
+	wjuaGJW2bmqsv67k/LA444/UhYmNSWZtI4B0as1mFPlm59CEDRNpwAkf1RQr42GBrc/SPAVxsYzzG
+	WilWD6oZ/o0/jsL91ncIBuEpd42tZmbMiKVYx8djuCl3sHGd58qoSeJh6MkdG6l7IInTjS+tM+wyp
+	iqCweHV3A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3lpw-0000Un-LN; Thu, 06 Aug 2020 19:46:00 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1k3ly0-0001sD-Rg; Thu, 06 Aug 2020 19:54:20 +0000
+Received: from mail-pl1-f194.google.com ([209.85.214.194])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k3lpu-0000Tc-CV
- for linux-nvme@lists.infradead.org; Thu, 06 Aug 2020 19:45:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=qVur81/2HjVE9tKl2QwtjRjIZklf8gg+B8d37A0myPw=; b=Arsy43SvmIis4zT8OsIZu85mgW
- knWLH6afvPKVyu756Q12TUwrTyJ2xneOVEISlie31LxGKq+pVldC0Oo3+235C4vfDX53p5P1Y/GJ1
- AR2MCkuZy1c9ZxQtFXFIFHbe1UTaEOwEHLjeWwTgWOPfXI30lMBKldt4dCVh6ltEWu4Q1d+MV4qX3
- 6aLBiW9v8VDGibU08V+rXFDZvuELwmXWMA6uvXhPMVUKWKG8zAx29OQIX7ej7BETZJDHucFWtvdfA
- /JrZ7avzzkHggNfZ3+qc9X6dQxrmxwM3pzXxP6RqwSrkzwwBjwKJ37DptdqTWZ2LsHcLM50ycYk5t
- r1LbLtlg==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1k3lps-0001N0-2j; Thu, 06 Aug 2020 13:45:56 -0600
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ id 1k3lxx-0001rI-L7
+ for linux-nvme@lists.infradead.org; Thu, 06 Aug 2020 19:54:18 +0000
+Received: by mail-pl1-f194.google.com with SMTP id f10so3387346plj.8
+ for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2020 12:54:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Kw+jibfLXbNnio3Bcqweu+2X0xN9S4fVoQdSolbFQIM=;
+ b=sjaWQdxh6KEgu3E5Myyrl3u6Cq6j/1Bckuea62SGyZxY9Xd9gDuQAisR3lVNhz7eb9
+ 49VHvfJiuiYGzdZ9LAuFpzUqN5LnYB9ZIgI5em5I4zNaASjxFyXDV/GxvUc2giPvpamJ
+ rK7lk2dtbM1lcU6ZgTj3sPNRkxtaI5TPNHmURO4oFxTPmOdANtBQgLG4q1g3xOTgHA+n
+ M/lfeGA+ZTm2Ou4NUwNBsscRxssmrCjKtDYGyB6Gfjx/cl31oV8D2vEaG++onYUke5Qc
+ rqT+WjL6t6zlEgClV0yBohB1+EigThPjJd6qOFWXhgNRr7sTtAB6UWAgW1Gv0n1Q9BNH
+ nOGA==
+X-Gm-Message-State: AOAM530nKfmr4qI21ISpqvEhj0PsGOj2m3C53dEXgd5/HXTM1J2LG/Vf
+ vUeVb7uibX9uYqTOmWzJgDbOe6Q7
+X-Google-Smtp-Source: ABdhPJyTvBlZPkWrgsDi6diEIjZjFhixbyPeDjmgVTObBDAW+zhtcyWX8rhi0dO0fE5KLhW607Velw==
+X-Received: by 2002:a17:90b:358d:: with SMTP id
+ mm13mr7616952pjb.88.1596743656307; 
+ Thu, 06 Aug 2020 12:54:16 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:d88d:857c:b14c:519a?
+ ([2601:647:4802:9070:d88d:857c:b14c:519a])
+ by smtp.gmail.com with ESMTPSA id h19sm4152540pjv.41.2020.08.06.12.54.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Aug 2020 12:54:15 -0700 (PDT)
+Subject: Re: [PATCH 1/2] nvmet: fix oops in nvmet_execute_passthru_cmd()
+To: Logan Gunthorpe <logang@deltatee.com>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  Keith Busch <kbusch@kernel.org>
 References: <20200806073151.56061-1-chaitanya.kulkarni@wdc.com>
  <20200806073151.56061-2-chaitanya.kulkarni@wdc.com>
@@ -64,24 +73,18 @@ References: <20200806073151.56061-1-chaitanya.kulkarni@wdc.com>
  <1f6a1c73-fd0e-d05d-3254-03d0592ac998@deltatee.com>
  <20200806162602.GD3075319@dhcp-10-100-145-180.wdl.wdc.com>
  <BYAPR04MB49654162034AA3CBA2F4E49B86480@BYAPR04MB4965.namprd04.prod.outlook.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <5dd8cdbf-8864-ecd4-928e-daa74a9cd166@deltatee.com>
-Date: Thu, 6 Aug 2020 13:45:55 -0600
+ <5dd8cdbf-8864-ecd4-928e-daa74a9cd166@deltatee.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <f6944200-35cb-e38a-b799-92bb4036698e@grimberg.me>
+Date: Thu, 6 Aug 2020 12:54:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR04MB49654162034AA3CBA2F4E49B86480@BYAPR04MB4965.namprd04.prod.outlook.com>
+In-Reply-To: <5dd8cdbf-8864-ecd4-928e-daa74a9cd166@deltatee.com>
 Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me,
- kbusch@kernel.org, Chaitanya.Kulkarni@wdc.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 1/2] nvmet: fix oops in nvmet_execute_passthru_cmd()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200806_154558_529052_933DCAD3 
-X-CRM114-Status: GOOD (  16.44  )
+X-CRM114-CacheID: sfid-20200806_155417_779463_1D83DD0D 
+X-CRM114-Status: GOOD (  17.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,89 +96,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: "hch@lst.de" <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-On 2020-08-06 1:40 p.m., Chaitanya Kulkarni wrote:
-> Logan,
+>> This adds an extra label. Also I don't understand why we should change
+>> the order of nvmet_req_complete() and blk_put_request() in
+>> nvmet_passthru_execute_cmd() and make is inconsistent with in
+>> nvmet_passthru_req_done() ?
 > 
->>> diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
->>> index a260c09b5ab2..96bc9aa11ddb 100644
->>> --- a/drivers/nvme/target/passthru.c
->>> +++ b/drivers/nvme/target/passthru.c
->>> @@ -239,7 +239,6 @@ static void nvmet_passthru_execute_cmd(struct
->>> nvmet_req *req)
->>>
->>>   	rq = nvme_alloc_request(q, req->cmd, BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
->>>   	if (IS_ERR(rq)) {
->>> -		rq = NULL;
->>>   		status = NVME_SC_INTERNAL;
->>>   		goto fail_out;
->>>   	}
->>> @@ -248,7 +247,7 @@ static void nvmet_passthru_execute_cmd(struct
->>> nvmet_req *req)
->>>   		ret = nvmet_passthru_map_sg(req, rq);
->>>   		if (unlikely(ret)) {
->>>   			status = NVME_SC_INTERNAL;
->>> -			goto fail_out;
->>> +			goto fail_put_req;
->>>   		}
->>>   	}
->>>
->>> @@ -275,11 +274,12 @@ static void nvmet_passthru_execute_cmd(struct
->>> nvmet_req *req)
->>>
->>>   	return;
->>>
->>> +fail_put_req:
->>> +	blk_put_request(rq);
->>>   fail_out:
->>>   	if (ns)
->>>   		nvme_put_ns(ns);
->>>   	nvmet_req_complete(req, status);
->>> -	blk_put_request(rq);
->>>   }
->>>
->>>   /*
->>
+> I don't know why an extra label is an issue and I don't think the
+> inconsistency is important. This follows the common pattern where things
+> are cleaned up in the reverse order of their creation and labels are
+> used to control which cleanups happen based on how far it got:
 > 
-> This adds an extra label. Also I don't understand why we should change 
-> the order of nvmet_req_complete() and blk_put_request() in 
-> nvmet_passthru_execute_cmd() and make is inconsistent with in 
-> nvmet_passthru_req_done() ?
+> rc = setup1();
+> if (rc)
+>       return -1;
+> 
+> rc = setup2();
+> if (rc)
+>     goto out_teardown1;
+> 
+> 
+> rc = setup3();
+> if (rc)
+>     goto teardown2;
+> 
+> return;
+> 
+> out_teradown2:
+>      teardown2();
+> out_teardown1:
+>      teardown1();
+>      return -1;
+> 
 
-I don't know why an extra label is an issue and I don't think the
-inconsistency is important. This follows the common pattern where things
-are cleaned up in the reverse order of their creation and labels are
-used to control which cleanups happen based on how far it got:
-
-rc = setup1();
-if (rc)
-     return -1;
-
-rc = setup2();
-if (rc)
-   goto out_teardown1;
-
-
-rc = setup3();
-if (rc)
-   goto teardown2;
-
-return;
-
-out_teradown2:
-    teardown2();
-out_teardown1:
-    teardown1();
-    return -1;
+Can we also add a label to remove the if (ns) condition?
 
 _______________________________________________
 Linux-nvme mailing list
