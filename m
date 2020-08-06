@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A844C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62946C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:11:56 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5D32C2086A
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:11:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8A6C62086A
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:11:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qRBKsMjT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D32C2086A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XP370RFy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8A6C62086A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,55 +25,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:To:From:
 	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AnhkPbgUs3y9nLDnLsS4vvT93P9VObo6llAHMFDkY78=; b=qRBKsMjT4p4At1OWnJ2+M0QZFE
-	c8sXdnF6leG25Ze6SoZ3fKbHznw4oEEryQZ6oe6KzdYqLZyzsAc4reTxepqwbgcJ/0Yt2wiNobJhw
-	IvkXF3fSMSCWFjRt+lYVFf2/14gPsCcAZgThUToaEbFs5R23PgDzStr2bPhXPdL8NK86rJWpphgxD
-	HqCJlod3r42UZ5yBnyJLa4Ds/LrDcw0Z8g7bqkJQyidGQA+u1IuHnvwiJIPFQ169gOmO64nzneGXm
-	tbK4rAxvK696GFGCM+6EomJf8YlcdFvGVT5ZN3l/gGm/JxqlADQ6yQfuMy8aPYzL3U61fB08G9GiF
-	TF4bJ3pw==;
+	bh=F6COat+g7W24muY7J1dkeVky11/VhCAXydOC3dZTvV0=; b=XP370RFyRcYcrQcEHOgto7sd70
+	nw2b1MhYeICR1PWmvhOHmpLslwRs7WKmGGGpYNwWIlkeq61ePAxctFY2mtle/PKXsKlR+YX4/xTMJ
+	/OGEFTIBHjk4AgjnWaQiYuw5CIFDWoL36RZ2uc3xzwkvEVh/7D18bXthvg97PD8m2/D2Q0+pT9EX0
+	BRAlUKk1kzPycV/n+dlN6sYc+IW+f3qBt1BrYE3kV0jIs6IA9v5irTOBkDEo225EB0or/8JBUh+m5
+	WiM896OlenJMhUaxAFDzvxZZ3W0sjmodmXNNl8Xctw03VN34ofkhqJ8O/RMcg8ieaXQJf7wH7Si0k
+	ItLtPcbA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3lIu-0008Hf-1t; Thu, 06 Aug 2020 19:11:52 +0000
-Received: from mail-pj1-f66.google.com ([209.85.216.66])
+	id 1k3lIv-0008In-U6; Thu, 06 Aug 2020 19:11:53 +0000
+Received: from mail-pg1-f194.google.com ([209.85.215.194])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k3lIi-0008BR-Eu
- for linux-nvme@lists.infradead.org; Thu, 06 Aug 2020 19:11:41 +0000
-Received: by mail-pj1-f66.google.com with SMTP id kr4so7356056pjb.2
- for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2020 12:11:40 -0700 (PDT)
+ id 1k3lIj-0008CE-QU
+ for linux-nvme@lists.infradead.org; Thu, 06 Aug 2020 19:11:43 +0000
+Received: by mail-pg1-f194.google.com with SMTP id t6so27458796pgq.1
+ for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2020 12:11:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OTI+DFyBORBonNDj38KkbE47cCO+2BTte9xP7vDDyUg=;
- b=sOgZp4sBV9MOn2jxWW3YZrixGnXLpL6n6d9LLkkaRPqu8iXdjeC5KpOdtj0UQ2dnfb
- fvfSEk4aA7EWhNlB1jN55Nr6REr7oi5g4TalAzOrZmwNml2F3mrMukL7nPp190DldXIy
- byYXhNvmjMbIAUwzPbmQf93rvWXjPd5LPAbB564TKUIrk9gGS33KqMnEQXSoRLVJP6ni
- r6gFZTv6xK7bMzbMlyi4WkJmxgTKdyy5oW/ONFh7BdlU8x7qqvybJMoPWdgI6eugaKAF
- NAS6+nq0AJvlmbj9y74OaiiN0hmMGeOMG7XgGrMOErF47WaOy8SC7PZn6jngSq9MqHzp
- SrHQ==
-X-Gm-Message-State: AOAM531C0inV/VChly11p/tsuecHO/mNe3SgKq+0BamSwJf3uVf2v3RV
- d+0bScavJnMwy5N7yk+qHt6H8UcO
-X-Google-Smtp-Source: ABdhPJxxe4x1/ATQxuK1e2YRgCqv9XfKTFOTpwImBQTZN2Fjk8S987tf8sLiJVPQjFP6d+gmaBNqog==
-X-Received: by 2002:a17:902:700b:: with SMTP id
- y11mr9234971plk.290.1596741098997; 
- Thu, 06 Aug 2020 12:11:38 -0700 (PDT)
+ bh=6bERrZpYJ30phbQ4r3VJr05sEdhV5bjoZBsB31ML+QI=;
+ b=ns9gErDQzz1jvuUUrfm6TXhupHrV6RHJ9wQFXTFcRY2+YzignSn/Yl0E+Zln5BhHHZ
+ ahNN+HElri47iChekOxWAL+wjijohW6PqlYArVptjSF03XcGM9grwUHK3FqtI1BPZFg6
+ o86zVsOB1yeDeW398K4/PENvsOO9jZKUtmHzJGLfUasi6W0X7h0ejU0N66xxlDaVJBC2
+ dmXJUYsX/ca3SG45Efi8wYVKkgc9rM3vAI0ZNl96GyAzV00eKuKcWFyhpRiA2GWipeX5
+ F9k9kIFq+NDVWI0iizWM3bQ4KJaF/ztQbv8ykY1EerNNoAy05bMr5bHGzfaQWziKMwZJ
+ frzQ==
+X-Gm-Message-State: AOAM5322EdYUyN1vUmIFmT4ZqAegNMHvEL7aYmq/+EbgczRskVU4FZNh
+ XX/8O/qATEm27D28rPRCQc6wSTxK
+X-Google-Smtp-Source: ABdhPJz9UsEJF0I8gaZjkqmITm6mDdR9x/evSaF8kExrHhhUOKCSmvUvrT4gD3Yn+kR0EaocQrSYFQ==
+X-Received: by 2002:a05:6a00:790:: with SMTP id
+ g16mr9579723pfu.312.1596741100593; 
+ Thu, 06 Aug 2020 12:11:40 -0700 (PDT)
 Received: from localhost.localdomain ([2601:647:4802:9070:d88d:857c:b14c:519a])
- by smtp.gmail.com with ESMTPSA id gn13sm7801348pjb.17.2020.08.06.12.11.37
+ by smtp.gmail.com with ESMTPSA id gn13sm7801348pjb.17.2020.08.06.12.11.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 12:11:38 -0700 (PDT)
+ Thu, 06 Aug 2020 12:11:39 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>
-Subject: [PATCH v2 6/8] nvme-rdma: serialize controller teardown sequences
-Date: Thu,  6 Aug 2020 12:11:25 -0700
-Message-Id: <20200806191127.592062-7-sagi@grimberg.me>
+Subject: [PATCH v2 7/8] nvme-rdma: fix timeout handler
+Date: Thu,  6 Aug 2020 12:11:26 -0700
+Message-Id: <20200806191127.592062-8-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200806191127.592062-1-sagi@grimberg.me>
 References: <20200806191127.592062-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200806_151140_562483_9087B174 
-X-CRM114-Status: GOOD (  16.01  )
+X-CRM114-CacheID: sfid-20200806_151141_999369_5BB1F448 
+X-CRM114-Status: GOOD (  19.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,75 +90,128 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In the timeout handler we may need to complete a request because the
-request that timed out may be an I/O that is a part of a serial sequence
-of controller teardown or initialization. In order to complete the
-request, we need to fence any other context that may compete with us
-and complete the request that is timing out.
+Currently we check if the controller state != LIVE, and
+we directly fail the command under the assumption that this
+is the connect command or an admin command within the
+controller initialization sequence.
 
-In this case, we could have a potential double completion in case
-a hard-irq or a different competing context triggered error recovery
-and is running inflight request cancellation concurrently with the
-timeout handler.
+This is wrong, we need to check if the request risking
+controller setup/teardown blocking if not completed and
+only then fail.
 
-Protect using a ctrl teardown_lock to serialize contexts that may
-complete a cancelled request due to error recovery or a reset.
+The logic should be:
+- RESETTING, only fail fabrics/admin commands otherwise
+  controller teardown will block. otherwise reset the timer
+  and come back again.
+- CONNECTING, if this is a connect (or an admin command), we fail
+  right away (unblock controller initialization), otherwise we
+  treat it like anything else.
+- otherwise trigger error recovery and reset the timer (the
+  error handler will take care of completing/delaying it).
 
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/nvme/host/rdma.c | 68 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 50 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 44c76ffbb264..abc318737f35 100644
+index abc318737f35..30b401fcc06a 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -122,6 +122,7 @@ struct nvme_rdma_ctrl {
- 	struct sockaddr_storage src_addr;
+@@ -1185,6 +1185,7 @@ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
+ 		return;
  
- 	struct nvme_ctrl	ctrl;
-+	struct mutex		teardown_lock;
- 	bool			use_inline_data;
- 	u32			io_queues[HCTX_MAX_TYPES];
- };
-@@ -997,6 +998,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- static void nvme_rdma_teardown_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
-+	mutex_lock(&ctrl->teardown_lock);
- 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	if (ctrl->ctrl.admin_tagset) {
-@@ -1007,11 +1009,13 @@ static void nvme_rdma_teardown_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (remove)
- 		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
- 	nvme_rdma_destroy_admin_queue(ctrl, remove);
-+	mutex_unlock(&ctrl->teardown_lock);
++	dev_warn(ctrl->ctrl.device, "starting error recovery\n");
+ 	queue_work(nvme_reset_wq, &ctrl->err_work);
  }
  
- static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
+@@ -1951,6 +1952,23 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
+ 	return 0;
+ }
+ 
++static void nvme_rdma_complete_timed_out(struct request *rq)
++{
++	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
++	struct nvme_rdma_queue *queue = req->queue;
++	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
++
++	/* fence other contexts that may complete the command */
 +	mutex_lock(&ctrl->teardown_lock);
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_start_freeze(&ctrl->ctrl);
- 		nvme_stop_queues(&ctrl->ctrl);
-@@ -1025,6 +1029,7 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 			nvme_start_queues(&ctrl->ctrl);
- 		nvme_rdma_destroy_io_queues(ctrl, remove);
++	nvme_rdma_stop_queue(queue);
++	if (blk_mq_request_completed(rq))
++		goto out;
++	nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
++	blk_mq_complete_request(rq);
++out:
++	mutex_unlock(&ctrl->teardown_lock);
++}
++
+ static enum blk_eh_timer_return
+ nvme_rdma_timeout(struct request *rq, bool reserved)
+ {
+@@ -1961,29 +1979,43 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
+ 	dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
+ 		 rq->tag, nvme_rdma_queue_idx(queue));
+ 
+-	/*
+-	 * Restart the timer if a controller reset is already scheduled. Any
+-	 * timed out commands would be handled before entering the connecting
+-	 * state.
+-	 */
+-	if (ctrl->ctrl.state == NVME_CTRL_RESETTING)
++	switch (ctrl->ctrl.state) {
++	case NVME_CTRL_RESETTING:
++		if (!nvme_rdma_queue_idx(queue)) {
++			/*
++			 * if we are in teardown we must complete immediately
++			 * because we may block the teardown sequence (e.g.
++			 * nvme_disable_ctrl timed out).
++			 */
++			nvme_rdma_complete_timed_out(rq);
++			return BLK_EH_DONE;
++		}
++		/*
++		 * Restart the timer if a controller reset is already scheduled.
++		 * Any timed out commands would be handled before entering the
++		 * connecting state.
++		 */
+ 		return BLK_EH_RESET_TIMER;
+-
+-	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
++	case NVME_CTRL_CONNECTING:
++		if (reserved || !nvme_rdma_queue_idx(queue)) {
++			/*
++			 * if we are connecting we must complete immediately
++			 * connect (reserved) or admin requests because we may
++			 * block controller setup sequence.
++			 */
++			nvme_rdma_complete_timed_out(rq);
++			return BLK_EH_DONE;
++		}
++		/* fallthru */
++	default:
+ 		/*
+-		 * Teardown immediately if controller times out while starting
+-		 * or we are already started error recovery. all outstanding
+-		 * requests are completed on shutdown, so we return BLK_EH_DONE.
++		 * every other state should trigger the error recovery
++		 * which will be handled by the flow and controller state
++		 * machine
+ 		 */
+-		flush_work(&ctrl->err_work);
+-		nvme_rdma_teardown_io_queues(ctrl, false);
+-		nvme_rdma_teardown_admin_queue(ctrl, false);
+-		return BLK_EH_DONE;
++		nvme_rdma_error_recovery(ctrl);
  	}
-+	mutex_unlock(&ctrl->teardown_lock);
+ 
+-	dev_warn(ctrl->ctrl.device, "starting error recovery\n");
+-	nvme_rdma_error_recovery(ctrl);
+-
+ 	return BLK_EH_RESET_TIMER;
  }
  
- static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
-@@ -2278,6 +2283,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 		return ERR_PTR(-ENOMEM);
- 	ctrl->ctrl.opts = opts;
- 	INIT_LIST_HEAD(&ctrl->list);
-+	mutex_init(&ctrl->teardown_lock);
- 
- 	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
- 		opts->trsvcid =
 -- 
 2.25.1
 
