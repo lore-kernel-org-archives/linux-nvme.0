@@ -7,16 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 138CBC433DF
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:15:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71086C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:15:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 305C62177B
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:15:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 85E002177B
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Aug 2020 19:15:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yrqLko1o"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 305C62177B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="y8e9LYv3";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lsweflfQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 85E002177B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,54 +26,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=L/B9lb8jjz5EvegrP4M+8umzaLoQB0S9KKdjZF165Ug=; b=yrqLko1owL0UK/ISCPg/2t607
-	oOEWI0aICzaZKjNn9MU+bcN8MRrMAXCYWrqS8s09A3+k84OIJU+LYVmMlAzUN1PhPIqJqpYDHOqXd
-	QX4ufvPy+J++eGUlXsIROEipk6YhL0QeCRRfuVfDTLaQSi+L2nyAUad7BJMVne9YCvpV5jxIW5EvK
-	5aBv6rPUmRVmlcKq3zwJmw+VohkKMEg3xZuwuOmBnLt3ufHwiD3IrLybwHJRVViVD4a1aXf3ccsGI
-	NnfMzAVtG/7SaixclD0ibaziNnU/95y3/CSg2F3S0Fqv8bryP+U3HSc8Hg+8EGZBIu/plOoxU8o5g
-	noj63V+yQ==;
+	 bh=6yitjyM5/0xN89HjsXRLJWm+be4tnHqoAlmkCM1JXCM=; b=y8e9LYv3PocishX3a3ENmNdZL
+	75TuLWck9aroveMSoWGjqpkt5mrprMP5BCMhXGwOIB08aeYM5mJs9k/FSuOyqeaRfSVSpNN6ldgth
+	zWSkDY0Jp7daOeWQOHAPuaxDhYKaOWligopCfbQmwJ8GGXZlGym4Bbx+DdMdawsWgdg8qIHyd2sU+
+	HZ7hMUryrV+iZRraPvaKtLN1P3BniGrCte4J/+5sJUlPjAQN8Wen+qCXjNYSYdzTIoZ6nLNfDi3Y/
+	8CG/Io2J79D5k+drYgPpzAXfBx6mCvivOG2atynGjGN8IlL6DQMmt4vfRu1p7W0x9+dTlTuTxQ3hk
+	TGp5MRtHA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3lMl-000195-Ue; Thu, 06 Aug 2020 19:15:51 +0000
-Received: from mail-pg1-f171.google.com ([209.85.215.171])
+	id 1k3lMp-0001BE-0T; Thu, 06 Aug 2020 19:15:55 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k3lMT-00010n-Gr
+ id 1k3lMX-00012l-VC
+ for linux-nvme@merlin.infradead.org; Thu, 06 Aug 2020 19:15:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=mQg0QW5Ii5wVrkyjrYOAVjHAU5a8a/Cp+IYFCQV4S8g=; b=lsweflfQcz8uVXwzFkRDDl++YQ
+ 7+gk7guzJx38PO3qUBO7mkqoJQmKqBgmFsCBhAD3RZiu7KL6SVOcVUsELRlwEToepRYqibzKULKey
+ PuGQt7DNS5EXT8kHxJkGk9tSkGjVVw6aLlOosAdfACOsVsGLCCeW8wspDHZ13ub+09/D6tXtmxxtn
+ MwdyAH1SuBGMMJV86gfbyV7yQfL3SXegwdmarAnA4pQS+fAoFmy1EtFygnMJ+BhkuGo4ViWguBPCQ
+ Q1fZQNSueuueTWgzXgImjq0PkhsMKvrSqPeQnR7DA5djeSsMO6JZOHzAegxAbNhF0hp7uyNivojhJ
+ 7B18RQ9w==;
+Received: from mail-pj1-f67.google.com ([209.85.216.67])
+ by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1k3lMT-0003DB-RR
  for linux-nvme@lists.infradead.org; Thu, 06 Aug 2020 19:15:36 +0000
-Received: by mail-pg1-f171.google.com with SMTP id p8so11356913pgn.13
- for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2020 12:15:32 -0700 (PDT)
+Received: by mail-pj1-f67.google.com with SMTP id d4so7171529pjx.5
+ for <linux-nvme@lists.infradead.org>; Thu, 06 Aug 2020 12:15:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qtS7GN/DmlJ0+Y1Zkb7lIX2+dO3mjZPVKKexH9jrXr0=;
- b=CXQgzu5cZpnK9Rgckq0eM+N3Hbce8+UfIGXRWLiZHughdpKsWePZamrtABl2JJ31x5
- P52N3Tejx7NQ9uxryJgNyqgnGwY/NlvZSo9hkaLPIIombKmhlK2h8usB/Dr7+lkJnXCE
- DwnDB4dGfcX/JWObBlvCXwv1qNbf04Cgt6wXt55zmjwWDLSZkPNh3sZFF692LZlaG1VK
- /rwLGYYA2sz8ns3thly0CSy+Si99EeF2gdOMHXEAsKhtAY53/gPXbhqsbTpNa9cLYrns
- X5qpEvOI9fMc+2wbS4a/3qS2fGr8y/82UajN5PgK+W1TSeZHrxhAPaFBXOQUm2dkRmA7
- gC8A==
-X-Gm-Message-State: AOAM533ZhyYuOIO0fvVmzWvRJcOeOwj1itqazAV9nAnfrjDKFfDEeVaK
- oF24551zdOhka2tQ+AbdfaWhERhn
-X-Google-Smtp-Source: ABdhPJwUfzHJygCkt/ZSQ/NWtPPZ6XqymFrerPVgKv9FB03oB+ePVKrT3K5BtKY/Z6wfaoIjcAZ++g==
-X-Received: by 2002:a62:fb0e:: with SMTP id x14mr10096870pfm.34.1596741331662; 
- Thu, 06 Aug 2020 12:15:31 -0700 (PDT)
+ bh=mQg0QW5Ii5wVrkyjrYOAVjHAU5a8a/Cp+IYFCQV4S8g=;
+ b=Fkv2rVE6nYLhuOFdaQWXZSveB/YccgqsNTInODdOD71pO8PFR1V0lhSYPmotw5QdLL
+ DZN5oj2Uwx3F9YPTV00z8zwnhw7A3LpM7FaZvdDf6m1qpoBFP6q3xoGlU8BTQ8XWyxjE
+ C+aFiBVJM5ddLQZwxfL30ZA1g18nkzni//axm8vcUj5viATRBO0wO3ICn6DEkUnyNu1L
+ jCWoKwIMqvR6kUxQspkG1/jDBDCGBPbxve03LSASfvsDVFIhgMWzlahX0qqHaosod3Z/
+ 7ybNHiHpWvyGCX6o6Bd3KFdClEbDJFSYh7tFRgPo+Ab8aZ2YOALhUMFyern3+VSy7WOr
+ Ll1A==
+X-Gm-Message-State: AOAM532UZjtUr2iqedx56xAMLCY0VD0G7L1R6XSAEMC7BrT02srdtfI+
+ D7qVOAwZJHHa6WZg992l7s1q4tHw
+X-Google-Smtp-Source: ABdhPJxpKsWTAykfSJ0wzqMbrpgSPDXpwHBHIA/FIMsyOECQU+LDMn/kUKmdUMP/fDjvNhnD6Ap8RQ==
+X-Received: by 2002:a17:90a:fca:: with SMTP id 68mr9362904pjz.12.1596741330403; 
+ Thu, 06 Aug 2020 12:15:30 -0700 (PDT)
 Received: from localhost.localdomain ([2601:647:4802:9070:d88d:857c:b14c:519a])
- by smtp.gmail.com with ESMTPSA id q16sm9784014pfg.153.2020.08.06.12.15.30
+ by smtp.gmail.com with ESMTPSA id q16sm9784014pfg.153.2020.08.06.12.15.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 12:15:31 -0700 (PDT)
+ Thu, 06 Aug 2020 12:15:29 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  Omar Sandoval <osandov@osandov.com>
-Subject: [PATCH v2 7/7] nvme: support rdma transport type
-Date: Thu,  6 Aug 2020 12:15:18 -0700
-Message-Id: <20200806191518.593880-8-sagi@grimberg.me>
+Subject: [PATCH v2 6/7] common/multipath-over-rdma: don't retry module unload
+Date: Thu,  6 Aug 2020 12:15:17 -0700
+Message-Id: <20200806191518.593880-7-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200806191518.593880-1-sagi@grimberg.me>
 References: <20200806191518.593880-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200806_151534_339862_6EFAFA79 
-X-CRM114-Status: GOOD (  12.37  )
+X-CRM114-CacheID: sfid-20200806_201534_251849_58A68A36 
+X-CRM114-Status: GOOD (  12.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,58 +108,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+There is no need to retry module unload for rdma_rxe
+and siw. This also creates a dependency on
+tests/nvmeof/rc which prevents it from using in
+other test subsystems.
+
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- tests/nvme/rc | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ common/multipath-over-rdma | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 69ab7d2f3964..31d02fefa70e 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -5,6 +5,7 @@
- # Test specific to NVMe devices
- 
- . common/rc
-+. common/multipath-over-rdma
- 
- def_traddr="127.0.0.1"
- def_adrfam="ipv4"
-@@ -25,6 +26,12 @@ _nvme_requires() {
- 		_have_modules nvmet nvme-core nvme-tcp nvmet-tcp
- 		_have_configfs
- 		;;
-+	rdma)
-+		_have_modules nvmet nvme-core nvme-rdma nvmet-rdma
-+		_have_configfs
-+		_have_program rdma
-+		_have_modules rdma_rxe siw
-+		;;
- 	*)
- 		SKIP_REASON="unsupported nvme_trtype=${nvme_trtype}"
+diff --git a/common/multipath-over-rdma b/common/multipath-over-rdma
+index 676d2837fb06..e54b2a96153c 100644
+--- a/common/multipath-over-rdma
++++ b/common/multipath-over-rdma
+@@ -457,7 +457,7 @@ stop_soft_rdma() {
+ 				fi
+ 			done
+ 	)
+-	if ! unload_module rdma_rxe 10; then
++	if ! modprobe -r rdma_rxe; then
+ 		echo "Unloading rdma_rxe failed"
  		return 1
-@@ -115,6 +122,9 @@ _cleanup_nvmet() {
- 		modprobe -r nvmet-${nvme_trtype} 2>/dev/null
  	fi
- 	modprobe -r nvmet 2>/dev/null
-+	if [[ "${nvme_trtype}" == "rdma" ]]; then
-+		stop_soft_rdma
-+	fi
- }
- 
- _setup_nvmet() {
-@@ -124,6 +134,11 @@ _setup_nvmet() {
- 		modprobe nvmet-${nvme_trtype}
+@@ -469,7 +469,7 @@ stop_soft_rdma() {
+ 					echo "Failed to unbind the siw driver from ${i%_siw}"
+ 			done
+ 	)
+-	if ! unload_module siw 10; then
++	if ! modprobe -r siw; then
+ 		echo "Unloading siw failed"
+ 		return 1
  	fi
- 	modprobe nvme-${nvme_trtype}
-+	if [[ "${nvme_trtype}" == "rdma" ]]; then
-+		start_soft_rdma
-+		rdma_intfs=$(rdma_network_interfaces)
-+		def_traddr=$(get_ipv4_addr ${rdma_intfs[0]})
-+	fi
- }
- 
- _nvme_disconnect_ctrl() {
 -- 
 2.25.1
 
