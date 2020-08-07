@@ -7,76 +7,77 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62961C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2020 16:33:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8BF7C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2020 16:37:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3233520748
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2020 16:33:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AB13221744
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2020 16:37:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="h+lNnU7D"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3233520748
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GBU43kzV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB13221744
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=RACrlUPFelVqndeCkSma4fm455/lUupNFQKBMk674xY=; b=h+lNnU7Dc3yZHzNC3B0XaxQOf
-	4+V+IZo6FzXyICkXKlXZb64+KhsdnPfNhB7C9zsXHHz2aIXixcbTRCWkAH5hPm6EB9TzDC4++s8XN
-	36zxgoxak85kJQ4K8cgmHpoPoITp9FlI52txEF0DzXl2nMH1ub5+8Axb5khpoKkPyp+CvNQKnKn8n
-	gfQOd651uOYOB9mzGeLrjuZv/xy5eiFbtKSGsxZP7GKFqGpWdc/ahad69Z1e9bJbAx496c+s74+15
-	umMf858BfYHQoIOWWoaiCiF/FY2ce+G9d3qTImAyQMYiIIik8mkmwJccfGbktpVycLZSFbpFkB2Hp
-	YufJdUNKA==;
+	 bh=gKH8bndIZyEkdrZx9BLr7mb2Aw3cgUCldG3qD6AqceM=; b=GBU43kzVLoyogPEFiXRtwvvZz
+	ur9h2FinnwSuG/Cn8zJw7nhTywX8fxZQzWvh2L2NyPECB71DOKAxLu9JPleRSTDBjYATrkKiEJ65l
+	ScVXnmWEEmXfc71NNOybC3pz9y4o9G5b0sSEDp7iol5MZDdKvjBRNIUCO43hqJWKg0viI/tIUNB4f
+	vidYE5RDjZ3aJP0WU+i3SxlNGUubqJJHjz8RQaudjThvJLnEbn3VHRtAMF8tPcZ6dNEy31fnLpUJ4
+	jIbMzUx2GiLOHtdDG2O/mxpRIACWo5xsuzZBVkHdXHJ5BghGBBMZXJuFlk7lh9ILCDapGLHF7ikRX
+	uS+5yLHyA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k45JF-0005DN-9u; Fri, 07 Aug 2020 16:33:33 +0000
-Received: from mail-pf1-f193.google.com ([209.85.210.193])
+	id 1k45Mx-0006J5-1d; Fri, 07 Aug 2020 16:37:23 +0000
+Received: from mail-pj1-f66.google.com ([209.85.216.66])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k45JC-0005CZ-C2
- for linux-nvme@lists.infradead.org; Fri, 07 Aug 2020 16:33:31 +0000
-Received: by mail-pf1-f193.google.com with SMTP id d22so1271369pfn.5
- for <linux-nvme@lists.infradead.org>; Fri, 07 Aug 2020 09:33:29 -0700 (PDT)
+ id 1k45Mv-0006Ic-0n
+ for linux-nvme@lists.infradead.org; Fri, 07 Aug 2020 16:37:21 +0000
+Received: by mail-pj1-f66.google.com with SMTP id c10so6416731pjn.1
+ for <linux-nvme@lists.infradead.org>; Fri, 07 Aug 2020 09:37:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Xi6qNbxlm4nBqpkQhHd4iN49Q2+LzwqHrSx4XZx3xxQ=;
- b=jIstBhpr68125MQZyAdSWDbTiAdVK0XMqq6P6k0lHWxj/mm7vIRNz36QHTTK5PKF07
- zXKbHUwjLj+qVq9xpRAAz7uqlgaSWDk3D0ZJwJTVKUhfiY63kgEwFhNRiq9Feo4IUzGy
- KqQqqOn2eS70Y3WDlMVUwoV0/4DmyDfC3edhjXowYHf2zLx1vpT/1GoioEMwYwwWKEpq
- dOrOoBK/ue61B8UzBpXEMSuQTtGNOipcj5Hvv0FyfBkPi5GXght1I0keT3U7W1qBGUDH
- unXtuu5fVj8PD1XOdBdraW8guvcBiwl5MAxCrMgRh4MlIwnp0v7XNGYOa+9mN0waBHaP
- 7wiQ==
-X-Gm-Message-State: AOAM533/ExdI/gJ+x46a70SdiYKG2NtsLG38BHAhSg/7supJMyPRXtV/
- UWdmY5CPbedEzqM85h7Nyfw2V7M2wJA=
-X-Google-Smtp-Source: ABdhPJy8gHmfno0lan4fEBscR233mTlgfjCyIl3hujRibbm2PJxIZZfs4YdiYcZEChsCxE2MTpVJjA==
-X-Received: by 2002:a62:928d:: with SMTP id o135mr13232206pfd.22.1596818009105; 
- Fri, 07 Aug 2020 09:33:29 -0700 (PDT)
+ bh=IGOBihw2RaRydNVMv9yxROPAHrRNnsrTubbIJZmiX8U=;
+ b=uQRN865f8VosAuUoiZ/XwXwnqb1aK569kRfbs3cQWLPtiF8SBfqmuuPzNdnKzLxnCj
+ BCuxECjAq0ADq67FeNOS2BBiYfimQkVQLbI4PEosQYMQF3VOpGX5Dk+S4WeDbqJE+gpc
+ UFdSmk1g+14uVx95Hnf4McvTU+E/NzweaQYvKIaYlRLO1AgZuoGXgX/H49Zb5nZCuOvp
+ 8r7rPl/okB0WmZ7vPsgQNiFs23JIGNLQux6yC+PJHYRHRZZbTXXrnqIwATZwNGx/R/iR
+ RyAQ4mATj5bFNQxDZQGUUIUqh6o9eSkuX+vGe5no9wpAyvlfYFm+mBaS1HlLID8hX8kn
+ YyXA==
+X-Gm-Message-State: AOAM530I1GHNB0s0QsaqS4JfiQavomHaP69BZRsJvG3b1+z3KBNm2fMH
+ d2f4D5/xKHfl5Or3dQFgAjrYtomB5SY=
+X-Google-Smtp-Source: ABdhPJwolUnv+/WanlbsWum2u1Pemy3dezf66gK6kzbV1uxvZ/qoLd3mAya3yz/zSaGouUV280Ue5g==
+X-Received: by 2002:a17:90a:f2d7:: with SMTP id
+ gt23mr14578990pjb.0.1596818239526; 
+ Fri, 07 Aug 2020 09:37:19 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:d88d:857c:b14c:519a?
  ([2601:647:4802:9070:d88d:857c:b14c:519a])
- by smtp.gmail.com with ESMTPSA id i1sm13705454pfo.212.2020.08.07.09.33.28
+ by smtp.gmail.com with ESMTPSA id l63sm11093432pgl.24.2020.08.07.09.37.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Aug 2020 09:33:28 -0700 (PDT)
-Subject: Re: [PATCHv2] nvme: skip noiob for zoned devices
-To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, hch@lst.de
-References: <20200807163235.4155607-1-kbusch@kernel.org>
+ Fri, 07 Aug 2020 09:37:18 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] reduce quiesce time for lots of name spaces
+To: Ming Lei <ming.lei@redhat.com>, Chao Leng <lengchao@huawei.com>
+References: <20200807090559.29582-1-lengchao@huawei.com>
+ <20200807134932.GA2122627@T590>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <e0b2a374-9897-cd13-919d-1fe51cd2194f@grimberg.me>
-Date: Fri, 7 Aug 2020 09:33:27 -0700
+Message-ID: <d3bedf2b-58d5-667c-7f87-6334772a5772@grimberg.me>
+Date: Fri, 7 Aug 2020 09:37:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200807163235.4155607-1-kbusch@kernel.org>
+In-Reply-To: <20200807134932.GA2122627@T590>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200807_123330_444028_A848C5E1 
-X-CRM114-Status: UNSURE (   8.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200807_123721_096164_53C45C01 
+X-CRM114-Status: GOOD (  15.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,12 +89,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: linux-block@vger.kernel.org, kbusch@kernel.org, axboe@fb.com,
+ linux-nvme@lists.infradead.org, hch@lst.de
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Queued for nvme-5.9-rc
+
+>> nvme_stop_queues quiesce queues for all name spaces, now quiesce one by
+>> one, if there is lots of name spaces, sync wait long time(more than 10s).
+>> Multipath can not fail over to retry quickly, cause io pause long time.
+>> This is not expected.
+>> To reduce quiesce time, we introduce async mechanism for sync SRCUs
+>> and quiesce queue.
+>>
+> 
+> Frankly speaking, I prefer to replace SRCU with percpu_refcount:
+> 
+> - percpu_refcount has much less memory footprint than SRCU, so we can simply
+> move percpu_refcount into request_queue, instead of adding more bytes
+> into each hctx by this patch
+> 
+> - percpu_ref_get()/percpu_ref_put() isn't slower than srcu_read_lock()/srcu_read_unlock().
+> 
+> - with percpu_refcount, we can remove 'srcu_idx' from hctx_lock/hctx_unlock()
+
+Ming, I don't have an issue with your preference, but I don't want to
+tie it to what Chao is attempting to fix.
+
+So we should either move forward with an srcu approach, or you please
+provide evidence to your claims if you are replacing the fast-path
+synchronization mechanism, as this warrants a very good justification.
 
 _______________________________________________
 Linux-nvme mailing list
