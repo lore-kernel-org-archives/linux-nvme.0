@@ -7,81 +7,81 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACD78C433E1
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2020 02:20:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B70C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2020 02:20:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 888E820855
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2020 02:20:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2EA8120855
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Aug 2020 02:20:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JMFNINDE";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="kpCcNKIW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 888E820855
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ySYi4urU";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="SzM64/Bd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2EA8120855
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=I1AINN/z/flZc4MxEgQ4C5rKxpFNYdVJD21tQ7rOKbQ=; b=JMFNINDEtcdhHWsfc/6dQXFK3
-	tAPvJKttwyM7AM8nV8H4wSFYfbnOYscdTmdU2miKPgRmPB0PstRKxWdNs2P3L3O4PYocft87OlAUm
-	oktXVTUNhtxVlpPZuQEh5DiYN8YlZun1SAWwb1NhjXvFGEKCq3pPMArIW/ONFtBpAaAczNu2P3uds
-	d0XakPx7jZ+10R3mrAl6jKaI2I9cIE0t+KsK3MdeHXF2JIcyIOXKockb43q4PIqp367QAslq909Oi
-	gJZ6EQSfVmtVGpboeIHnDk7He2oN5Qk1Hl4qYd9dnimWhGOHgdyuLCPbndp70bKdDI0OkgHq/uHg8
-	AcvyWdNrA==;
+	 bh=jjCbhAFiElUjPj53vKnH/OBDfJC1jZINt+e1SDJtjdE=; b=ySYi4urUW7IBK/oP6ZAgat5PL
+	vErtKj9EB+8fVoOAH4AKkuA7r8UPaB7NwAxQs1YRF2w5D6QrcbdNmTpzH56IaVxwtaSrWq7j83uer
+	GWnmX+IbgeqJYBXfPoFbcgVt1KcBIFr/XAOPwHdkridmjY4DsmXiRFn61f6A/QpMxyE9x7blUhihA
+	HDGE8XzubxJ760G4s+bmCB67Axz0iinprmxRFd6+XNHRY8J7KedFcNUarZmiyI95bX5UAHAfNMzMF
+	xLDrGIeyC2bHjqFlPk8vQRsdMCmpzjCawkMCYb9KrkDgRPPDQ1/e7Q9SMyIWQP19J1BYUMA1ka53f
+	9dY2w9aHA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k3s03-0007Tj-IW; Fri, 07 Aug 2020 02:20:51 +0000
+	id 1k3s05-0007UU-0g; Fri, 07 Aug 2020 02:20:53 +0000
 Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k3s00-0007Ra-Im
- for linux-nvme@lists.infradead.org; Fri, 07 Aug 2020 02:20:49 +0000
+ id 1k3s02-0007Ra-Fm
+ for linux-nvme@lists.infradead.org; Fri, 07 Aug 2020 02:20:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1596766848; x=1628302848;
+ t=1596766850; x=1628302850;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Jee79AsQDOLOGhrzxMtbp2/esOPaAIssnRPz990UMJU=;
- b=kpCcNKIWbVVRW589dCBvGBGZ9GlRt98TKTEeyOO2M/8EeUj3hO5BjYn2
- uylz+cArDRAC7cRdI5pNibWgX81rJUcbUOYPqXHeoFApWFwuIu3O4HWto
- 4lsnj96kIKKhwaaVFrNf6p1M0e0vF2/Schjqf15gWuX5hlxXpMHVSL/BE
- 95yuyx9wqdZ9TIaCBYKXDSKiCruiJOywhDx7IzPK4sr4ib0SPijJHEF1/
- mPsIjamiGUCSkngAkL6Y79RveiF8wJG0QnSk84XIFVKyc8SQ4jbn/ceLm
- cLbMXSyMRlc8feYLx3d1WRjBbkV0PSA26osHjC0KZJYbMbuY3P6bGEmD+ A==;
-IronPort-SDR: j8B/8z492MkRkey6QSVfnV2pnh5NZ8lxGWHm3xySDVLNoqJ55nUC2DV7LS1VhNAeB4ZqtOpMSE
- WiZ7wv+YSSfoZctGi7pE+z6B82xlRaugnTC/i/rwKzGNGDSClvpYbI3ygy15PzoiIFC65g+a+g
- b1BhSODv1bhqFqa9w5HBxNTL4Nf+VJF8qHuliwSZrt0sPRSM3pQGxse5DIquAhIZrQcneoiecZ
- 2usXR7JpUNp4kKHHMmJ12cwGMRGNqEetp3mdTbMF3jYg1Q5vdmiZ0rqlMvBL0CFQGC8PrkHXrv
- xAw=
-X-IronPort-AV: E=Sophos;i="5.75,443,1589212800"; d="scan'208";a="253717280"
+ bh=woQTpRoQv9ERR5eBzc9/ltWBq4UmrGJQhBCitTDXFGI=;
+ b=SzM64/BdHdXJ+KS8iHQmIAN1qpGL9ftbJjSRYIDpDskPbdMBOFcrGXch
+ s7uK5uJemXrfZmuaQnGZ4CvU6hwGLeQOebLZhUfCgtJgvfc9Ndm7FvYmP
+ ecHznmag4mwQxxV3Qre/fZ2jzsOSrmpTl20W3gD/i0gDETYBaJAzSkwIH
+ rl9RfzLd1Ahv5zoiLqYNn1aScnxnoyewu7wh7H0xifIAaeEqBA2VdRc9c
+ sKAXQ7GsdgvwVDppQHlRRf0IeDA6RndZI5fYHwQrAxzsaCO8TrGLTAirE
+ u9ZO0Oqz45Xs8RxFJiovWm/nyp52Fcku5Cq7cP/m56Xi1crEVrj4BhxGm g==;
+IronPort-SDR: 2sYZ8xItyW+NkMjtDLnznFsFSIWZJdwVEpHtME611STzOJtEM2G/X24L5njpnUg5mVpM+45oqd
+ nW7l+URWiCb7yBxjwZho1CjH5M1V5mmN+Sltz2//4PV29MbgIJWDjQpkCCK/l1LtGIlt2nt3xf
+ 9YQ0bC5YBx+ny3Z+pJ4N9h0rdWxiN+07QCjDALjATvcx28e/nCHvicNszyhvjMuvQWelG22tgA
+ h63Nq5fTXnttxbVMm57Isk3FkHlpM8hxppQW2nMQgaMwBYMwrNHCRCLmTjgLb4foIVCsn00S5g
+ cks=
+X-IronPort-AV: E=Sophos;i="5.75,443,1589212800"; d="scan'208";a="253717283"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Aug 2020 10:20:48 +0800
-IronPort-SDR: hPksL+pFOBZnyGrxr5ye/OOrI6l+1j0Xl8UjAy3BL3YpB25qf7ecf7pZ53PDn93pRa7ChLxt/h
- nKUy0nWVUQhA==
+ by ob1.hgst.iphmx.com with ESMTP; 07 Aug 2020 10:20:49 +0800
+IronPort-SDR: dghwZi95sp9ZCWgtIT9d9KHNFUBre0VrdAtmr0+V1PQExm4w9lJB0MIVXZueGxTGQYrlwAeeNl
+ 5HHd0Hta/GlQ==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Aug 2020 19:08:04 -0700
-IronPort-SDR: MdWjTLeTfqgj4sbbM4UcKwgA6MEodBxUJYSI9l1h/fDrIw0iI881Ho/qQ/KTzdTwWKZmymIb86
- AY/2AYxjvwhg==
+ 06 Aug 2020 19:08:06 -0700
+IronPort-SDR: npgxWoPiWV/OdBTfCgFy8CgY3lJmo2q6Ie95KiKGczP1KvjLPWKfzurIE+adykjaYaZQM3vx6y
+ qBv4KdOWTc3w==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 06 Aug 2020 19:20:47 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 06 Aug 2020 19:20:49 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATVH V2 1/3] nvmet: add ns tear down label for pt-cmd handling
-Date: Thu,  6 Aug 2020 19:20:30 -0700
-Message-Id: <20200807022032.48873-2-chaitanya.kulkarni@wdc.com>
+Subject: [PATVH V2 2/3] nvmet: fix oops in pt cmd execution
+Date: Thu,  6 Aug 2020 19:20:31 -0700
+Message-Id: <20200807022032.48873-3-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20200807022032.48873-1-chaitanya.kulkarni@wdc.com>
 References: <20200807022032.48873-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200806_222049_126735_A26513CE 
-X-CRM114-Status: GOOD (  13.41  )
+X-CRM114-CacheID: sfid-20200806_222050_787880_7E13452E 
+X-CRM114-Status: GOOD (  14.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,88 +95,115 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: logang@deltatee.com, hch@lst.de,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, sagi@grimberg.me
-Content-Type: multipart/mixed; boundary="===============7269399632011215041=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============7269399632011215041==
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+In the existing NVMeOF Passthru core command handling on failure of
+nvme_alloc_request() it errors out with rq value set to NULL. In the
+error handling path it calls blk_put_request() without checking if
+rq is set to NULL or not which produces following Oops:-
 
-In the current implementation before submitting the passthru cmd we
-may come across error e.g. getting ns from passthru controller,
-allocating a request from passthru controller, etc. For all the failure
-cases it only uses single goto label fail_out.
+[ 1457.346861] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[ 1457.347838] #PF: supervisor read access in kernel mode
+[ 1457.348464] #PF: error_code(0x0000) - not-present page
+[ 1457.349085] PGD 0 P4D 0
+[ 1457.349402] Oops: 0000 [#1] SMP NOPTI
+[ 1457.349851] CPU: 18 PID: 10782 Comm: kworker/18:2 Tainted: G           OE     5.8.0-rc4nvme-5.9+ #35
+[ 1457.350951] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-59-gc9ba5276e3214
+[ 1457.352347] Workqueue: events nvme_loop_execute_work [nvme_loop]
+[ 1457.353062] RIP: 0010:blk_mq_free_request+0xe/0x110
+[ 1457.353651] Code: 3f ff ff ff 83 f8 01 75 0d 4c 89 e7 e8 1b db ff ff e9 2d ff ff ff 0f 0b eb ef 66 8
+[ 1457.355975] RSP: 0018:ffffc900035b7de0 EFLAGS: 00010282
+[ 1457.356636] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+[ 1457.357526] RDX: ffffffffa060bd05 RSI: 0000000000000000 RDI: 0000000000000000
+[ 1457.358416] RBP: 0000000000000037 R08: 0000000000000000 R09: 0000000000000000
+[ 1457.359317] R10: 0000000000000000 R11: 000000000000006d R12: 0000000000000000
+[ 1457.360424] R13: ffff8887ffa68600 R14: 0000000000000000 R15: ffff8888150564c8
+[ 1457.361322] FS:  0000000000000000(0000) GS:ffff888814600000(0000) knlGS:0000000000000000
+[ 1457.362337] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1457.363058] CR2: 0000000000000000 CR3: 000000081c0ac000 CR4: 00000000003406e0
+[ 1457.363973] Call Trace:
+[ 1457.364296]  nvmet_passthru_execute_cmd+0x150/0x2c0 [nvmet]
+[ 1457.364990]  process_one_work+0x24e/0x5a0
+[ 1457.365493]  ? __schedule+0x353/0x840
+[ 1457.365957]  worker_thread+0x3c/0x380
+[ 1457.366426]  ? process_one_work+0x5a0/0x5a0
+[ 1457.366948]  kthread+0x135/0x150
+[ 1457.367362]  ? kthread_create_on_node+0x60/0x60
+[ 1457.367934]  ret_from_fork+0x22/0x30
+[ 1457.368388] Modules linked in: nvme_loop(OE) nvmet(OE) nvme_fabrics(OE) null_blk nvme(OE) nvme_corer
+[ 1457.368414]  ata_piix crc32c_intel virtio_pci libata virtio_ring serio_raw t10_pi virtio floppy dm_]
+[ 1457.380849] CR2: 0000000000000000
+[ 1457.381288] ---[ end trace c6cab61bfd1f68fd ]---
+[ 1457.381861] RIP: 0010:blk_mq_free_request+0xe/0x110
+[ 1457.382469] Code: 3f ff ff ff 83 f8 01 75 0d 4c 89 e7 e8 1b db ff ff e9 2d ff ff ff 0f 0b eb ef 66 8
+[ 1457.384749] RSP: 0018:ffffc900035b7de0 EFLAGS: 00010282
+[ 1457.385393] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+[ 1457.386264] RDX: ffffffffa060bd05 RSI: 0000000000000000 RDI: 0000000000000000
+[ 1457.387142] RBP: 0000000000000037 R08: 0000000000000000 R09: 0000000000000000
+[ 1457.388029] R10: 0000000000000000 R11: 000000000000006d R12: 0000000000000000
+[ 1457.388914] R13: ffff8887ffa68600 R14: 0000000000000000 R15: ffff8888150564c8
+[ 1457.389798] FS:  0000000000000000(0000) GS:ffff888814600000(0000) knlGS:0000000000000000
+[ 1457.390796] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1457.391508] CR2: 0000000000000000 CR3: 000000081c0ac000 CR4: 00000000003406e0
+[ 1457.392525] Kernel panic - not syncing: Fatal exception
+[ 1457.394138] Kernel Offset: disabled
+[ 1457.394677] ---[ end Kernel panic - not syncing: Fatal exception ]---
 
-In the target code, we follow the pattern to have a separate label for
-each error out the case when setting up multiple things before the actual
-action.
+We fix this Oops by adding a new goto label out_put_req and reordering
+the blk_put_request call to avoid calling blk_put_request() with rq
+value is set to NULL. Here we also update the rest of the code
+accordingly.
 
-This patch follows the same pattern and renames generic fail_out label
-to out_put_ns and updates the error out cases in the
-nvmet_passthru_execute_cmd() where it is needed.
-
+Fixes: 06b7164dfdc0 ("nvmet: add passthru code to process commands")
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/passthru.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/nvme/target/passthru.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 89d91dc999a6..e7dbca12785d 100644
+index e7dbca12785d..aecabf423df2 100644
 --- a/drivers/nvme/target/passthru.c
 +++ b/drivers/nvme/target/passthru.c
-@@ -230,7 +230,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
- 		if (unlikely(!ns)) {
- 			pr_err("failed to get passthru ns nsid:%u\n", nsid);
- 			status = NVME_SC_INVALID_NS | NVME_SC_DNR;
--			goto fail_out;
-+			goto out;
- 		}
+@@ -238,7 +238,6 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
  
- 		q = ns->queue;
-@@ -240,14 +240,14 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
+ 	rq = nvme_alloc_request(q, req->cmd, BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
  	if (IS_ERR(rq)) {
- 		rq = NULL;
+-		rq = NULL;
  		status = NVME_SC_INTERNAL;
--		goto fail_out;
-+		goto out_put_ns;
+ 		goto out_put_ns;
  	}
- 
- 	if (req->sg_cnt) {
+@@ -247,7 +246,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
  		ret = nvmet_passthru_map_sg(req, rq);
  		if (unlikely(ret)) {
  			status = NVME_SC_INTERNAL;
--			goto fail_out;
-+			goto out_put_ns;
+-			goto out_put_ns;
++			goto out_put_req;
  		}
  	}
  
-@@ -274,9 +274,10 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
+@@ -274,12 +273,13 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
  
  	return;
  
--fail_out:
-+out_put_ns:
++out_put_req:
++	blk_put_request(rq);
+ out_put_ns:
  	if (ns)
  		nvme_put_ns(ns);
-+out:
+ out:
  	nvmet_req_complete(req, status);
- 	blk_put_request(rq);
+-	blk_put_request(rq);
  }
+ 
+ /*
 -- 
 2.22.1
 
-
-
---===============7269399632011215041==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============7269399632011215041==--
