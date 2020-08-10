@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C0BC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2020 18:56:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E272C433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2020 18:56:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 287CC20774
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2020 18:56:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2888A20774
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2020 18:56:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2PAPmpn3";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="DGTZiLK3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 287CC20774
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WWyaCUHp";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="bO07f0pZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2888A20774
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,62 +26,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=a1E53P43kIHEpXF8GFRSg9rTY0zaATxiiVkYUlkywZA=; b=2PAPmpn30SvmM1uQl0a37Jz+s
-	rD5yyGH+3a5S1YJCXwAJCePYz3KRHcP4RUQVYN46MPboE6WtcAk9GYwQEpmUTjfrYeiWAefIvQJkJ
-	AkYy0jCM05GyZZq2Sd8pTsscQc86dRVCx0BSzN1y14TPGMiizFDo8n09UB+8Ja88z85T3vRJ9R/6B
-	/3UzvxL7ZdFzIQQvwbGQjQvcXH4RnvvELZs9YJQO7GAZXgZZWvNGcHZLYgsw5mafacMjFcsRfV5wa
-	6AZqxvJm8hMH+zmSk6D1FM/1iAX1DzAOPOBJ2+OndLAqJY6bdiwVTDdcpzvaVjiCk+Bq7QT0nXatM
-	TOF7zNy8w==;
+	 bh=Ls/7DUXBFLC6tmmnvUCkjKak+zaGlebF+oKRDFDN8YA=; b=WWyaCUHpah33TFLzJsF6CYwV0
+	vTN3Q9V/7rRx8ll9N13gc3IvSHnATz2LxT4Rl3hOcI4RDTxpGvfqIMakcOmtTRB97lZXWb2ma3Lbu
+	q3w9PLDqjsAseEBoEw2robVQpPckx/aN48P2O92Ra63KSBjiAjX0f3CZ3hyXxUzRpZEIqdMk1pedU
+	A01lJAqhf6gj4S98MATAJHnUoCqy42e8s98IL7DCaX4vBuyMrs69ClbOqNxivY1xXejtA5r3oQXgr
+	MBox/OhgKZXuanoR4KW9XU1UlqudDMLZsP5ppmbWMuSJ+xrsl+5JqjbXQIwO5NqVDSK537n5cvZod
+	n/JsIRkRw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k5Cxz-0007HR-Ln; Mon, 10 Aug 2020 18:56:15 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1k5Cy7-0007Kz-H6; Mon, 10 Aug 2020 18:56:23 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k5Cxv-0007FK-L6
- for linux-nvme@lists.infradead.org; Mon, 10 Aug 2020 18:56:12 +0000
+ id 1k5Cy4-0007JQ-JP
+ for linux-nvme@lists.infradead.org; Mon, 10 Aug 2020 18:56:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1597085771; x=1628621771;
+ t=1597085785; x=1628621785;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Nv/VBPGalpNHmlL+5ib7YOFtNavHink+zV/6RUO8Sw0=;
- b=DGTZiLK3dMAnpiJm8y/3dksnwHtIw6KK9e8a92Hj2dLIp5djRZpnGkwQ
- k/2g0azz7+09cCSm3puKWqZemLoEovjsxMzcjd76t5OTtXI4TyzbPXHBz
- vR91mpQdtat2IEkfTPmB/Gx1Q/z2WsNKGZg9Z6UHOTcYM5JokHtcXeeTB
- zvo8LWxveOl+/lBYXmuRjx9jDTSFojlq/JXy31r+yfSjl4XHvAzSwY11M
- fEcWFYNcGCa5ExFXVl6Xrn7Woc+NTUpbjJOyccbnJfp9i2e4h+ef4WbK3
- ZNdA8O+cRVd/989G6Dnb9qKMQupc/6YWief3ol6myKRTNo/FPnDs1EloZ Q==;
-IronPort-SDR: Vq7Ouzu6OaLDQAAEeFXuRiwzXgK2fcHE4luN9nyPYl0ZtbYcGPdGhZhHqMvmIVRFVWGpLizl43
- 6xgJP3KLiKAtuuqeySP17A8FcxfAF+cXIeS4FwLlIRi2wOynpFnhD50z5gGPaUp4TyJ4FICK99
- oT1OuuFf0TUtFYExG38jqq4sd9GYdmm5Bglf4ARUtAu1yt1RHm2ItRVEzBTTQVRSRgkuaoajKs
- yGE3yaxC8ttyjVQoLLNDYWmX2iVQxJj2c3AsKTQCirw2Hld21XqYo06PzFz6mGHtNEdzoYuugz
- KtY=
-X-IronPort-AV: E=Sophos;i="5.75,458,1589212800"; d="scan'208";a="253987910"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ bh=JEc2rrJWU3CNzixzZowH6KKuyCOUMHbc11Hx1S5lwFM=;
+ b=bO07f0pZNkcq5Evh4l7YHCkMzCT1aGyM4ajihhx5nZa0MgY0x3QM7+P4
+ dD+qj/Lj9UnMlNH1SH2jHGC/rZ7Vq+8v7HvK7wJN+oWlkD5HKCx8AE7Jr
+ LMPBJKjdwbvLZJj5paTfN11nq1VsdZOshzjXF3QqyTaFq4nO+shac5yFH
+ +p63lPsHGAfV0Fy2ilAGdVKiFIsIqZt0IaUNyO8ksH8/TY5hIol0rtl+j
+ oY2A64O2Qmp+2/vKrdIJNoru7ORmHfyjLiCWyRSMQ3NH8JmP0GKKU46Z0
+ 5+Q3fFNVzuBi5yxVJ9qSGZ6IrjvxKu/6cZrybQ49x0TU+ZDgIEdJmCs8N A==;
+IronPort-SDR: HczeRSUo1eWcqlkQBWgrE5Qckf+ed2TLM+e5jCtusIZAKfYFqgCkkdgFRrZ/NkD16f7nMXCiMT
+ i7SgdSMgdysl7vHgyBTCtXSQDHdwuojTsvnn6K+Lnr/E1k1MUXjGP2Ce71ik5ed4+Jh4alN5Lm
+ 0K7RlcRUzCj+UoYD5ZaG8LAJqAz6hRVpWbnge9DqIXJ5NIlZMZ0b/Kk/8rc5obDjTQfu9oRPDv
+ Y1xOKHV+FezsSctil2ZZnHZ7FZKSspKE320x2WHA8iSCuSY2xFC8z5SmBsY49eSe31wcpdQmtk
+ QjY=
+X-IronPort-AV: E=Sophos;i="5.75,458,1589212800"; d="scan'208";a="247732533"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 Aug 2020 02:56:10 +0800
-IronPort-SDR: l189qxJKAW67lEXNjrEppUZImU0jEH4bfUyKw/hBKrJ39Z73DmRTXhcOGjxUnmZNA5YMMzwJex
- 3KTA2bqp5klw==
+ by ob1.hgst.iphmx.com with ESMTP; 11 Aug 2020 02:56:24 +0800
+IronPort-SDR: RbFlj1pijk4YLcU+wkE89PbySqhmJmPG3bsxNvxnAg4T2ph4l+gpvohW70gChVLpUjSS9hf0jL
+ owZhlmjBVg3g==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2020 11:44:04 -0700
-IronPort-SDR: 9Hkw213zshnfyaQmPDuL9DevP5LlGyFT+dJyqgNMNVSoBGyefNneTF2VqyZVFUGxnvKV/rDqG4
- AxYK9a9U3nrQ==
+ 10 Aug 2020 11:44:13 -0700
+IronPort-SDR: OKj96Y8zgsphiPmzKa9/a7WDudYg8FfMMfg12qVz13uXmoU7vZ6dUTpU7ooE9sfgJMTj1MNDwA
+ pyH9ToFsTYAw==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 10 Aug 2020 11:56:11 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 10 Aug 2020 11:56:20 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 09/14] nvmet: based on passthru req control use REQ_FUA
-Date: Mon, 10 Aug 2020 11:54:51 -0700
-Message-Id: <20200810185456.7713-10-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 10/14] nvmet: prep patch for pt ctrl put wrapper
+Date: Mon, 10 Aug 2020 11:54:52 -0700
+Message-Id: <20200810185456.7713-11-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20200810185456.7713-1-chaitanya.kulkarni@wdc.com>
 References: <20200810185456.7713-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200810_145611_897716_2D9ECD22 
-X-CRM114-Status: GOOD (  13.31  )
+X-CRM114-CacheID: sfid-20200810_145620_770809_BF6DADB0 
+X-CRM114-Status: GOOD (  13.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,41 +100,49 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The write request for passthru driver currently does not consider
-nvme control field which could be set in the nvme_rw_command from host
-side.
-
-Update op_flags with REQ_FUA when control field flag is set to
-NVME_RW_FUA.
+This is a preparation patch to cnetralize the passthru put controller
+action. Next patch actully fixes the bug in passthru code which needs
+this helper to avoid the duplication of the code.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/passthru.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/nvme/target/passthru.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 5f06f4290c52..a703f3f14b35 100644
+index a703f3f14b35..32f4951a1df7 100644
 --- a/drivers/nvme/target/passthru.c
 +++ b/drivers/nvme/target/passthru.c
-@@ -207,11 +207,15 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
- 	struct bio *bio;
- 	int i, ret;
+@@ -486,6 +486,11 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
+ 	}
+ }
  
--	if (nvme_is_write(req->cmd))
-+	if (nvme_is_write(req->cmd)) {
- 		op_flags = REQ_SYNC | REQ_IDLE;
--	else if (unlikely(nvmet_write_cmd_group(req->cmd->common.opcode)))
-+		if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
-+			op_flags |= REQ_FUA;
-+	} else if (unlikely(nvmet_write_cmd_group(req->cmd->common.opcode))) {
- 		op_flags = REQ_SYNC;
--	else if (unlikely(req->cmd->common.opcode == nvme_cmd_flush))
-+		if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
-+			op_flags |= REQ_FUA;
-+	} else if (unlikely(req->cmd->common.opcode == nvme_cmd_flush))
- 		op_flags = REQ_FUA;
++static void nvme_pt_put_ctrl(struct nvme_ctrl *ctrl)
++{
++	nvme_put_ctrl(ctrl);
++}
++
+ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
+ {
+ 	struct nvme_ctrl *ctrl;
+@@ -536,7 +541,7 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
+ 	return 0;
  
- 	bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
+ out_put_ctrl:
+-	nvme_put_ctrl(ctrl);
++	nvme_pt_put_ctrl(ctrl);
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+ 	return ret;
+@@ -546,7 +551,7 @@ static void __nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
+ {
+ 	if (subsys->passthru_ctrl) {
+ 		xa_erase(&passthru_subsystems, subsys->passthru_ctrl->cntlid);
+-		nvme_put_ctrl(subsys->passthru_ctrl);
++		nvme_pt_put_ctrl(subsys->passthru_ctrl);
+ 	}
+ 	subsys->passthru_ctrl = NULL;
+ 	subsys->ver = NVMET_DEFAULT_VS;
 -- 
 2.22.1
 
