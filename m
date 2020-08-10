@@ -2,22 +2,22 @@ Return-Path: <SRS0=L2sc=BU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74113C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2020 22:14:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA4D4C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2020 22:39:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3D44C20748
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2020 22:14:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8ED3B206DA
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Aug 2020 22:39:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kU/kScaS";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="QbYmILsl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D44C20748
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1LKAxph3";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="BsuoMBlX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8ED3B206DA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,56 +26,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
 	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=p9Y20uVrHg5bE1rTCwUmZcNEmTB6YksXDJgHwrZbdew=; b=kU/kScaS06mLRcpkeiFr73sVv
-	rYYDAbxkwSmjaWXga9CcFGS7/E1lclt6oqQ4AlAvFQZ//UTljdfewKEXRQ6PEFnZTFdk+QODhak91
-	e9pWfgbi9PDqFBH0ixlcWnmo4VffluSTBl7lnrdWAY2qrg0oTE1DbgPlx5xXta8bfhaF6v7pqt5iE
-	H6+ZFQf8+Nhp4brVMfL4r8YNngybynFhzQZqJmGzT8Q1vXOqc5eRRs/s006CmHv8AccZamHiI/o/8
-	5vK+nSZO0wyKIM954l+imkC3pzrDXxLwn01quMDpt1rlCeRfiasEAyOpiQEddhmxfr4yO6CAffkcM
-	tD/SbBtpA==;
+	 bh=o3vMvbf0L4R5lf/0CKHFC8zx0FiYLqWyA9h487K1EJw=; b=1LKAxph3uP8Q32A3JMqzUmh6T
+	FbyZIMWPUv1fe0zALw4PbFYMHPjA4NO0n9VASevY4tzDb4u3YsDQin6pADg4kAWef4Agp4BDtyOYh
+	zBsr95Hcik56iKBD2bp+w2TQfMW38Fy/KQFXfcLI0vFzVtHUJLUsr0z6EwW1falYDmULIEHFOh3z7
+	3KS08x1L8d746M/vRDlvA1CFNKAMT0o0ICrYRjm4uof+9Pkw7gyWBdS3cX1kW/2mtWkYSp7JThrRX
+	2WLf+XJueqCQKOtN2/AkHhkdZI3JgJ4YcI/65AEi/Fqgmb6DY/tWsjYr2TxppugS6/WjgHHXl2+kT
+	go8ln+sGA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k5G3X-0000rn-QU; Mon, 10 Aug 2020 22:14:11 +0000
+	id 1k5GSQ-0004vA-SW; Mon, 10 Aug 2020 22:39:54 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k5G3V-0000rM-8D
- for linux-nvme@lists.infradead.org; Mon, 10 Aug 2020 22:14:09 +0000
+ id 1k5GSN-0004um-QC
+ for linux-nvme@lists.infradead.org; Mon, 10 Aug 2020 22:39:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=RGCPrLSqDJ2RfjoN5WcerxBI7jeV/Fa5ZwBmBDtqP14=; b=QbYmILslydBU+kDFP+3lMTO18v
- CFHMQk6yx87lK0v6mSafhuK0HKXX2K6IT3t5E3VV7mUoMQdmqjiFL3cJIxOrZYrShISPFTllfD0zT
- wNoxKvoFT27In2nFnd6WBJ2zLgX7eQOZxRlqRR7NQysRaRCVsTuoD2OiUX8yyzF22k2zYXmtGUrNE
- rFBeeRqUZO45ft5YypChHAPa2qYtwBWIJYT0a2PbaaEnpI3vhO36Faa7TaofOrgH6LfFS1Scnf8tw
- RO3RjVM8KLPN4Jw22V39tA9mH4DDTB/4LnKY3zyjljBvwXFW1Bud+seBpEeHqmtHIbJKjdK3VqOeP
- VSD1XwLA==;
+ bh=Bkx14H9g6ZjU9N/XxWjv7Zey1/xy4rTbjVjrJ5x3U/0=; b=BsuoMBlXXh2qTmILjWcAU/eybJ
+ bxHZRgFmtuxrAkssLkgTgIzn0FoyTVdZbNAUc1vD9WShYaMrM9CEf+IU7fUYyZySWCogofVF3RdbC
+ vbEzyIQDGjHYs1XHezQWA6VJ9R0ss1iy2qV0apJF36cnj3SBzjNv+AXUnIAjLRsfQeUf5b4PxJmt/
+ s66QdRQ7CkouDhGBx3P/h1P6c8rPI6+0w1qdqn/P45Mk3t12b8WucZrTeEeaKSUEGlbROxr/kE4/7
+ l2/lzdowpWArZB0kz5k/YZAtvwHeWH4kFEfvoDwNmelgFvCW/Adrzena3/H01JTqcAd+N0IxDShIV
+ HBWttglg==;
 Received: from [172.16.1.162] by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1k5G3S-0000lL-6C; Mon, 10 Aug 2020 16:14:07 -0600
+ id 1k5GSK-000160-LF; Mon, 10 Aug 2020 16:39:49 -0600
 To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  linux-nvme@lists.infradead.org
 References: <20200810185456.7713-1-chaitanya.kulkarni@wdc.com>
- <20200810185456.7713-9-chaitanya.kulkarni@wdc.com>
+ <20200810185456.7713-12-chaitanya.kulkarni@wdc.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <ec013b0e-e9ac-f6b1-3285-d281a81f74a0@deltatee.com>
-Date: Mon, 10 Aug 2020 16:14:05 -0600
+Message-ID: <9f8b2a69-2ba8-f34b-fe30-ce9e5e83372e@deltatee.com>
+Date: Mon, 10 Aug 2020 16:39:47 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200810185456.7713-9-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20200810185456.7713-12-chaitanya.kulkarni@wdc.com>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: sagi@grimberg.me, hch@lst.de, linux-nvme@lists.infradead.org,
  chaitanya.kulkarni@wdc.com
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 08/14] nvmet: use nvme write cmd group setting op_flag
+Subject: Re: [PATCH 11/14] nvmet: fix nvme module ref count Oops
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200810_181409_335029_993A8FC8 
-X-CRM114-Status: GOOD (  21.02  )
+X-CRM114-CacheID: sfid-20200810_183952_286250_39A0AF46 
+X-CRM114-Status: GOOD (  17.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,51 +96,55 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 On 2020-08-10 12:54 p.m., Chaitanya Kulkarni wrote:
-> The function nvme_is_write() only checks the last bit of the opcode to
-> determine if command is a write command or not based on that it sets
-> the bio->bi_opf for passthru bio with REQ_SYNC | REQ_IDLE.
-> 
-> The condition is true for nvme_cmd_write (opcode 0x01), but there are
-> commands present in the NVMe command set and are part for NVM Write
-> Command Group that doesn't have a last bit set. e.g.
-> nvme_cmd_write_zeroes 0x08. With current implementation for these
-> commands we will never set the REQ_SYNC for bio->bi_opf even though
-> command is from NVMe write command set.
-> 
-> For passthru backend introduce nvmet_write_cmd_group() and use the
-> commands from NVMe 1.4 spec write command group to set the REQ_SYNC
-> flag for passthru bio and update nvmet_passthru_map_sg accordingly.
-> Since these are low frequency commands annotate condition with
-> unlikely respectively.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> ---
->  drivers/nvme/target/passthru.c | 31 ++++++++++++++++++++++++++++---
->  1 file changed, 28 insertions(+), 3 deletions(-)
-> 
+> In the passthru controller enable path current code doesn't take the
+> reference to the passthru ctrl module. Which produces following Oops :-
+
+Please mention the steps required to reproduce the oops.
+
+[snip]
+
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 05aa568a60af..ba019c0b514b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4608,6 +4608,11 @@ struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path)
+>  
+>  	ctrl = f->private_data;
+>  	nvme_get_ctrl(ctrl);
+> +	if (!try_module_get(ctrl->ops->module)) {
+> +		pr_err("try_module_get failed\n");
+> +		nvme_put_ctrl(ctrl);
+> +		ctrl = ERR_PTR(-EINVAL);
+> +	}
+This looks racy. If the module goes away after the nvme_get_ctrl(), then
+it will still crash.
+
+But there might be a similar problem here with the core code. If a user
+opens a char device, they get a pointer to the ctrl in private_data
+without a reference. If the ctrl then goes away and they try to do an
+ioctl, it will crash. Similarly, if the underlying driver module goes
+away it will probably crash in the same way as this oops.
+
+Looks to me like we need a reference taken to the ctrl and the module in
+nvme_dev_open() (which are put in the file release). Then we know the
+module can't go away inside nvme_ctrl_get_by_path().
+
+>  out_close:
+>  	filp_close(f, NULL);
 > diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-> index 0b18038c44bb..5f06f4290c52 100644
+> index 32f4951a1df7..5925e93c4682 100644
 > --- a/drivers/nvme/target/passthru.c
 > +++ b/drivers/nvme/target/passthru.c
-> @@ -176,6 +176,29 @@ static void nvmet_passthru_execute_cmd_work(struct work_struct *w)
->  	nvmet_passthru_req_done(rq, 0 /* this value is not used for request */);
->  }
+> @@ -488,6 +488,7 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
 >  
-> +static inline bool nvmet_write_cmd_group(__u8 opcode)
-> +{
-> +	bool ret;
-> +
-> +	/* NVM Express Revision 1.4 Figure 462. */
-> +	switch (opcode) {
-> +	case nvme_admin_format_nvm:
-> +	case nvme_admin_ns_attach:
-> +	case nvme_admin_ns_mgmt:
-> +	case nvme_admin_sanitize_nvm:
-> +	case nvme_admin_security_send:
+>  static void nvme_pt_put_ctrl(struct nvme_ctrl *ctrl)
+>  {
+> +	module_put(ctrl->ops->module);
+>  	nvme_put_ctrl(ctrl);
+>  }
 
-All of these admin commands are rejected as INVALID_OPCODE in
-nvmet_parse_passthru_admin_cmd(). So adding them here seems confusing at
-best.
+Given that this must be done for every caller of nvme_ctrl_get_by_path()
+shouldn't this be in the core code?
 
 Logan
 
