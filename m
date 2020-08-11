@@ -2,85 +2,77 @@ Return-Path: <SRS0=CGXy=BV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7137C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2020 20:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1EF0C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2020 21:01:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9C37A2076C
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2020 20:56:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9F33820782
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2020 21:01:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="izxi7tG8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C37A2076C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uOVR2xsx"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F33820782
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=40UVOCD8Qj7g2wcKk3QnYSW6zGKfnQhQxPiWp7S5zVg=; b=izxi7tG89Q0tgOC7qTfyUpe/N
-	vWZQRV+0JImqS0Cibebs6cWjQQZsxidPvSH1XT7jEhSt7vVeBYk+NVdUt4GYGM/H30znMtx+VAzcm
-	gTfaDE2Xl4OW5wrAcz71JQ4+UrcN0yuOhtxYzXQ1BszaUi2EPc4ZNo5qzv+6w6jMc9/YajOlz8XFV
-	qXQC17lxwHVvMwYUfGzGTV02NyzWTZ2+hC+tQCgpXTApMESEZHoRkZMsy29JBd/0NjTsv0lKufnTv
-	GWSQS3B92O5uP8fTG6/vEnaolRFzsYH0z6ZtWMoX40UEolHmOkq6FAL3SLZFD/C4gjGQZB2TTZnBl
-	edAZkKqpA==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=GP2OUkVcEnQNdCvOGTxOzUWklmBIvg0kh3fjDJFJI78=; b=uOVR2xsxHTIe/fFi7VcpH6MD2y
+	T0KjEPt5QdcSCvWjOLxZfS+dCBEJ7wNoFlNWKzgL8UXrqdrl0yv9cXbJ14IM3KEltgktsvSaSLBNq
+	O8lge/qCJoDIbDNt5VFQh2eo92HaZpsU1rsqL29AcePqnwOfH0Bd2NOkRXzHEL4qgu5JsUZNk8tHN
+	vhM6nXpRUXwWdB3BURkeklnWkods0X45rXPdl8ApICrg3+4IFOD3HD6cNnG4LKkTi8eMlzOxsWHWe
+	MvOFaIjG5Rmwa1xmsMCAP5eHCqdbmAcCrQFUmnoVrk02QyT/0S0cZQ3MkLxiH88wK03VCUJ9m+AL4
+	X2aM5uEA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k5bJb-0004tB-1h; Tue, 11 Aug 2020 20:56:11 +0000
-Received: from mail-pg1-f196.google.com ([209.85.215.196])
+	id 1k5bOQ-0005Er-EQ; Tue, 11 Aug 2020 21:01:10 +0000
+Received: from mail-pl1-f179.google.com ([209.85.214.179])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k5bJY-0004sm-7v
- for linux-nvme@lists.infradead.org; Tue, 11 Aug 2020 20:56:08 +0000
-Received: by mail-pg1-f196.google.com with SMTP id v15so7210231pgh.6
- for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2020 13:56:07 -0700 (PDT)
+ id 1k5bON-0005E6-Cb
+ for linux-nvme@lists.infradead.org; Tue, 11 Aug 2020 21:01:08 +0000
+Received: by mail-pl1-f179.google.com with SMTP id p1so116405pls.4
+ for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2020 14:01:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=7/XUmkSJ+96Yng6NiE2IgVm+Y2ym1XHJvEVV/pOG8Ik=;
- b=EQTsd9GT+4dGWtyZ9ZV3KAxeINIXGgQtQy7QZS2p8vR7o9Zw428K8vS8qSmL/apFu3
- gopfWhLDGAAzB7Id7oyZocPBmYlURaqDjiBSOtKOjBfpG/TbCSQePurjrKZuenvgs5KI
- SkqRTtBSdxdhfJEO+Y4ife3Z/ihD32d/C/xvNzxn/gorzGZ/Ow1x7xabtRqkI97fp1d6
- UOYcaFVwftEBAfBS6LRamZ/Y6YvduhPmsuPsrBZjYAof92rElKF1fK9Ww6iis6TQJaRc
- EQEm6b+opyCRVcMbMgn0fs+/KuUshUx9wRzrDvA1uRzTcLlOJXKyHOPKx5s4Ln7Dabaa
- Hlfw==
-X-Gm-Message-State: AOAM533aTcolvp3o4IoKu0moqHg1EUaX+OPOJJqa/54G+qD4s4DjiMnc
- yYcbmsLs9P7TS2aiSKLZwqA=
-X-Google-Smtp-Source: ABdhPJxw5MKeZ3nM+tTfHfyPSmp84ihj3CW0qSZKmwnXB/t3q4xH4PB3tw4v7SY57agqLiTm/3uPkA==
-X-Received: by 2002:aa7:8a4d:: with SMTP id n13mr8552045pfa.143.1597179367059; 
- Tue, 11 Aug 2020 13:56:07 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:b58b:5460:6ed2:8ff9?
- ([2601:647:4802:9070:b58b:5460:6ed2:8ff9])
- by smtp.gmail.com with ESMTPSA id q5sm60561pgi.31.2020.08.11.13.56.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Aug 2020 13:56:06 -0700 (PDT)
-Subject: Re: [PATCH v7] nvme-fabrics: reject I/O to offline device
-To: Victor Gladkov <Victor.Gladkov@kioxia.com>, Hannes Reinecke <hare@suse.de>
-References: <168ed5d66eae49ac8b445478b1bb362d@kioxia.com>
- <ca82af03-0cf7-bb71-cf55-caf88c278dfa@broadcom.com>
- <fee0ecca-3d31-a04f-af7c-7a3aada9d6fe@grimberg.me>
- <20200714110435.GF16178@lst.de>
- <52eec097-606d-1e2c-edc3-81b60807ad5c@grimberg.me>
- <45d34d7927354b6393859048c257cb86@kioxia.com>
+ bh=2M/NkPwr5H4y0EaA8vvnqwXlS7IQXN7YAERbtmkGJNY=;
+ b=tVnReNMp2ZaW2NZfjoH67NuHaPw3gzlaYjtoMG97THhG2ZwzIEAT2GgBnFnrxFEZN/
+ Qgr1clTOfImvTIBAybnrvloS4lgEcNCB8YAYneY/0S785AdbN9SGINAIg2W2TpafaO7Z
+ 2qGV95gMt+rnGjfVw6u3/8g9WyGaOTHM3rqGKp+r00Fp7sqKiXERr9nyhGQGFaz4HDEf
+ 3aDtcx3o/z+GG069UCdjVWqJjV7pGQWmCee1adXFqw4wrX2j4LZEi1C//pQXiB7XiZMy
+ uX7eE5LkuLrViCY340O0VYgWSdnNLJMuBcM2HWmfAWiQnJ66b4hl8RJhR84VR6uwNn6D
+ 37RA==
+X-Gm-Message-State: AOAM533s7XzDgm8OwE5/pgh3s0JpRWJpapDAOYt0qnNVb2lb31/zkpJa
+ VHiucXnYVZSQjPr2HrQUU61s2ISSh1Q=
+X-Google-Smtp-Source: ABdhPJxx/dr7cGE5Ub9Nwurqe4S+Z+H1ybsv0Bd9Fm1GGYZp2Ccrl3ctVztF1An6mET1ko9AkJPJyw==
+X-Received: by 2002:a17:90a:c505:: with SMTP id
+ k5mr2668093pjt.188.1597179665743; 
+ Tue, 11 Aug 2020 14:01:05 -0700 (PDT)
+Received: from localhost.localdomain ([2601:647:4802:9070:b58b:5460:6ed2:8ff9])
+ by smtp.gmail.com with ESMTPSA id o17sm59370pgn.73.2020.08.11.14.01.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Aug 2020 14:01:04 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <ad7afffa-40b5-6cf8-6dff-21a32328c552@grimberg.me>
-Date: Tue, 11 Aug 2020 13:56:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Omar Sandoval <osandov@osandov.com>
+Subject: [PATCH v3 0/7] blktests: Add support to run nvme tests with tcp/rdma
+ transports
+Date: Tue, 11 Aug 2020 14:00:55 -0700
+Message-Id: <20200811210102.194287-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <45d34d7927354b6393859048c257cb86@kioxia.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200811_165608_310950_840B11B6 
-X-CRM114-Status: GOOD (  17.62  )
+X-CRM114-CacheID: sfid-20200811_170107_830963_7F458463 
+X-CRM114-Status: GOOD (  13.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,40 +84,80 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, "Ewan D. Milne" <emilne@redhat.com>,
- Christoph Hellwig <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- James Smart <james.smart@broadcom.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Bart Van Assche <bvanassche@acm.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+We have a collection of nvme tests, but all run with nvme-loop. This
+is the easiest to run on a standalone machine. However its very much possible
+to run nvme-tcp and nvme-rdma using a loopback network. Add capability to run
+tests with a new environment variable to set the transport type $nvme_trtype.
 
->> Commands get stuck while Host NVMe controller (TCP or RDMA) is in
->> reconnect state. NVMe controller enters into reconnect state when it
->> loses connection with the target. It tries to reconnect every 10
->> seconds (default) until successful reconnection or until reconnect
->> time-out is reached. The default reconnect time out is 10 minutes.
->>
->> To fix this long delay due to the default timeout we introduce new
->> session parameter "fast_io_fail_tmo". The timeout is measured in
->> seconds from the controller reconnect, any command beyond that
->> timeout is rejected. The new parameter value may be passed during
->> 'connect'.
->> The default value of 0 means no timeout (similar to current behavior).
-> 
-> I'd like to remind you that this improvement is pending for commit.
-> Pay attention, please.
+$ nvme_trtype=[loop|tcp|rdma] ./check test/nvme
 
-I think we still have a question to why is this fabrics specific, and
-if this is needed in fabrics, why is it not needed in pci as well.
+This buys us some nice coverage on some more transport types. We also add
+some transport type specific helpers to mark tests that are relevant only
+for a single transport.
 
-Keith? Personally speaking, I also share Chirstoph's opinion that
-if it's not clearly fabrics specific, we should try to make pci
-and fabrics unified.
+Changes from v2:
+- changed patch 6 to move unload_module to common/rc
+- changed helper to be named _require_nvme_trtype_is_fabrics
+Changes from v1:
+- added patch to remove use of module_unload
+- move trtype agnostic logig helpers in patch #3
 
-Your thoughts on this?
+Sagi Grimberg (7):
+  nvme: consolidate nvme requirements based on transport type
+  nvme: consolidate some nvme-cli utility functions
+  nvme: make tests transport type agnostic
+  tests/nvme: restrict tests to specific transports
+  nvme: support nvme-tcp when runinng tests
+  common: move module_unload to common
+  nvme: support rdma transport type
+
+ common/rc          |  13 +++++
+ tests/nvme/002     |   8 +--
+ tests/nvme/003     |  10 ++--
+ tests/nvme/004     |  12 +++--
+ tests/nvme/005     |  15 +++---
+ tests/nvme/006     |   7 +--
+ tests/nvme/007     |   5 +-
+ tests/nvme/008     |  13 ++---
+ tests/nvme/009     |  11 ++--
+ tests/nvme/010     |  13 ++---
+ tests/nvme/011     |  13 ++---
+ tests/nvme/012     |  14 +++---
+ tests/nvme/013     |  13 ++---
+ tests/nvme/014     |  13 ++---
+ tests/nvme/015     |  12 +++--
+ tests/nvme/016     |   7 +--
+ tests/nvme/017     |   7 +--
+ tests/nvme/018     |  13 ++---
+ tests/nvme/019     |  13 ++---
+ tests/nvme/020     |  11 ++--
+ tests/nvme/021     |  13 ++---
+ tests/nvme/022     |  13 ++---
+ tests/nvme/023     |  13 ++---
+ tests/nvme/024     |  13 ++---
+ tests/nvme/025     |  13 ++---
+ tests/nvme/026     |  13 ++---
+ tests/nvme/027     |  13 ++---
+ tests/nvme/028     |  15 +++---
+ tests/nvme/029     |  13 ++---
+ tests/nvme/030     |   8 +--
+ tests/nvme/031     |  12 ++---
+ tests/nvme/032     |   4 ++
+ tests/nvme/rc      | 122 ++++++++++++++++++++++++++++++++++++++++++---
+ tests/nvmeof-mp/rc |  13 -----
+ 34 files changed, 322 insertions(+), 179 deletions(-)
+
+-- 
+2.25.1
+
 
 _______________________________________________
 Linux-nvme mailing list
