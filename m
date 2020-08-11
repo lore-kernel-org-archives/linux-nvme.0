@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4840DC433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2020 20:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7137C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2020 20:56:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0BF882076C
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2020 20:53:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9C37A2076C
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Aug 2020 20:56:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VCFpAtgO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0BF882076C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="izxi7tG8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C37A2076C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,62 +25,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AHxy/RBVjdjDmBGSQ+jliAxpxayQMAS862wZMTvtVwc=; b=VCFpAtgOsywZziTOgmhIhCx6n
-	4YeGfat8naVwdFTbBflX7qdT4g6P+hIwoBW8G8m6yQNeyycF99SFuCj1ac2Dfc459pePLywOlx2pP
-	EnjN9IZFXbWRuBF7XuwbLzU3wKOKENawrx+FgdOOi4KiYqfTdfsAp2wnh8HRmgVfVkrFARtz4JOJa
-	3ik8gtennSNuHf2QG9TH9IlGr2b7iOWmI7YZ9McVP+gzbEcZD6ikrzIC79D10/yjoXNP0HmkIuJXq
-	feQwpEATOqCIwrncFEKjrccH7SF/K6V8diOOWbNdQlKwmbQ0p1LUWfb+TXv6WrYB37jq3pvMtFHJF
-	fkfA8dnLQ==;
+	 bh=40UVOCD8Qj7g2wcKk3QnYSW6zGKfnQhQxPiWp7S5zVg=; b=izxi7tG89Q0tgOC7qTfyUpe/N
+	vWZQRV+0JImqS0Cibebs6cWjQQZsxidPvSH1XT7jEhSt7vVeBYk+NVdUt4GYGM/H30znMtx+VAzcm
+	gTfaDE2Xl4OW5wrAcz71JQ4+UrcN0yuOhtxYzXQ1BszaUi2EPc4ZNo5qzv+6w6jMc9/YajOlz8XFV
+	qXQC17lxwHVvMwYUfGzGTV02NyzWTZ2+hC+tQCgpXTApMESEZHoRkZMsy29JBd/0NjTsv0lKufnTv
+	GWSQS3B92O5uP8fTG6/vEnaolRFzsYH0z6ZtWMoX40UEolHmOkq6FAL3SLZFD/C4gjGQZB2TTZnBl
+	edAZkKqpA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k5bGi-0004ev-3V; Tue, 11 Aug 2020 20:53:12 +0000
-Received: from mail-pl1-f195.google.com ([209.85.214.195])
+	id 1k5bJb-0004tB-1h; Tue, 11 Aug 2020 20:56:11 +0000
+Received: from mail-pg1-f196.google.com ([209.85.215.196])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k5bGf-0004eR-It
- for linux-nvme@lists.infradead.org; Tue, 11 Aug 2020 20:53:10 +0000
-Received: by mail-pl1-f195.google.com with SMTP id o1so114797plk.1
- for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2020 13:53:07 -0700 (PDT)
+ id 1k5bJY-0004sm-7v
+ for linux-nvme@lists.infradead.org; Tue, 11 Aug 2020 20:56:08 +0000
+Received: by mail-pg1-f196.google.com with SMTP id v15so7210231pgh.6
+ for <linux-nvme@lists.infradead.org>; Tue, 11 Aug 2020 13:56:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gd7T+8eJ8mVx/b7wAbA1Z3nYKYy/7EXK0qxlAlojUJg=;
- b=FjR14SmHioynpfAxv+Oz+cIDDkevTYi5TktN9TcCi4aK6WAnOL3N2FVqh1+J+gjTLG
- XPP74L9A+qDII347H3wpvW4aHdUdUcRwIMGYlQzuUA5xLNqwyaPvcr7UUXnf1H0Olm2f
- cuBY1pg2TPXvJBDR1DAMIg7NjJNvkhOci4NO5s6BFgb2Ezpn8GY+b79hBiUgPlOw8/ej
- RLtbq5i5fgb6ULOwxXHn45hn/IGZUwB2h0VvCk2QMqEVnwKsvxNx+8/HJl8czqIwJhod
- WjNV6DWrg5XQ42GA68csvGp30z8dkcxcL/eoFVt8jaX/JQvbDF8CfcPnfybBhpFdxvTS
- opGQ==
-X-Gm-Message-State: AOAM532/y6ZNHzv6AGmTpV0Y6fwTa7/4Z1CSp/rktRXHn1RDb82RHeL3
- cGE/aNxWmA/dWokprgzIx4I=
-X-Google-Smtp-Source: ABdhPJxqu6C83I6tgr9J5Y+0EmFaUkC7oAfIdfeP6WTob9YDLecZlvnzH/njyR0r/y1VDIAB/jqm0A==
-X-Received: by 2002:a17:902:7781:: with SMTP id
- o1mr2481936pll.149.1597179186842; 
- Tue, 11 Aug 2020 13:53:06 -0700 (PDT)
+ bh=7/XUmkSJ+96Yng6NiE2IgVm+Y2ym1XHJvEVV/pOG8Ik=;
+ b=EQTsd9GT+4dGWtyZ9ZV3KAxeINIXGgQtQy7QZS2p8vR7o9Zw428K8vS8qSmL/apFu3
+ gopfWhLDGAAzB7Id7oyZocPBmYlURaqDjiBSOtKOjBfpG/TbCSQePurjrKZuenvgs5KI
+ SkqRTtBSdxdhfJEO+Y4ife3Z/ihD32d/C/xvNzxn/gorzGZ/Ow1x7xabtRqkI97fp1d6
+ UOYcaFVwftEBAfBS6LRamZ/Y6YvduhPmsuPsrBZjYAof92rElKF1fK9Ww6iis6TQJaRc
+ EQEm6b+opyCRVcMbMgn0fs+/KuUshUx9wRzrDvA1uRzTcLlOJXKyHOPKx5s4Ln7Dabaa
+ Hlfw==
+X-Gm-Message-State: AOAM533aTcolvp3o4IoKu0moqHg1EUaX+OPOJJqa/54G+qD4s4DjiMnc
+ yYcbmsLs9P7TS2aiSKLZwqA=
+X-Google-Smtp-Source: ABdhPJxw5MKeZ3nM+tTfHfyPSmp84ihj3CW0qSZKmwnXB/t3q4xH4PB3tw4v7SY57agqLiTm/3uPkA==
+X-Received: by 2002:aa7:8a4d:: with SMTP id n13mr8552045pfa.143.1597179367059; 
+ Tue, 11 Aug 2020 13:56:07 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:b58b:5460:6ed2:8ff9?
  ([2601:647:4802:9070:b58b:5460:6ed2:8ff9])
- by smtp.gmail.com with ESMTPSA id in12sm3573550pjb.29.2020.08.11.13.53.05
+ by smtp.gmail.com with ESMTPSA id q5sm60561pgi.31.2020.08.11.13.56.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Aug 2020 13:53:06 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] reduce quiesce time for lots of name spaces
-To: Chao Leng <lengchao@huawei.com>, Ming Lei <ming.lei@redhat.com>
-References: <20200807090559.29582-1-lengchao@huawei.com>
- <20200807134932.GA2122627@T590>
- <61a78a78-73aa-1c67-1e8c-eae8f7c3a4e0@huawei.com>
- <20200810031547.GB2202641@T590>
- <6dc6bb01-5bfd-bf13-f53a-1bc75a6b3991@huawei.com>
+ Tue, 11 Aug 2020 13:56:06 -0700 (PDT)
+Subject: Re: [PATCH v7] nvme-fabrics: reject I/O to offline device
+To: Victor Gladkov <Victor.Gladkov@kioxia.com>, Hannes Reinecke <hare@suse.de>
+References: <168ed5d66eae49ac8b445478b1bb362d@kioxia.com>
+ <ca82af03-0cf7-bb71-cf55-caf88c278dfa@broadcom.com>
+ <fee0ecca-3d31-a04f-af7c-7a3aada9d6fe@grimberg.me>
+ <20200714110435.GF16178@lst.de>
+ <52eec097-606d-1e2c-edc3-81b60807ad5c@grimberg.me>
+ <45d34d7927354b6393859048c257cb86@kioxia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <4dbd5fe2-b3df-dec5-81f2-6ff97472f62a@grimberg.me>
-Date: Tue, 11 Aug 2020 13:53:04 -0700
+Message-ID: <ad7afffa-40b5-6cf8-6dff-21a32328c552@grimberg.me>
+Date: Tue, 11 Aug 2020 13:56:04 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <6dc6bb01-5bfd-bf13-f53a-1bc75a6b3991@huawei.com>
+In-Reply-To: <45d34d7927354b6393859048c257cb86@kioxia.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200811_165309_636908_01E4BD31 
-X-CRM114-Status: GOOD (  14.50  )
+X-CRM114-CacheID: sfid-20200811_165608_310950_840B11B6 
+X-CRM114-Status: GOOD (  17.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,30 +92,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, kbusch@kernel.org, axboe@fb.com,
- linux-nvme@lists.infradead.org, hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>, "Ewan D. Milne" <emilne@redhat.com>,
+ Christoph Hellwig <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ James Smart <james.smart@broadcom.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> About using per_cpu to replace SRCU, I suggest separate discussion.
->>> Can you show the patch? This will make it easier to discuss.
->> https://lore.kernel.org/linux-block/20200728134938.1505467-1-ming.lei@redhat.com/ 
+>> Commands get stuck while Host NVMe controller (TCP or RDMA) is in
+>> reconnect state. NVMe controller enters into reconnect state when it
+>> loses connection with the target. It tries to reconnect every 10
+>> seconds (default) until successful reconnection or until reconnect
+>> time-out is reached. The default reconnect time out is 10 minutes.
 >>
-> Directly replace SRCU with percpu_ref, is not safe.
-> This may make quiesce queue wait extra time, in extreme scenario,
-> maybe wait for ever.
+>> To fix this long delay due to the default timeout we introduce new
+>> session parameter "fast_io_fail_tmo". The timeout is measured in
+>> seconds from the controller reconnect, any command beyond that
+>> timeout is rejected. The new parameter value may be passed during
+>> 'connect'.
+>> The default value of 0 means no timeout (similar to current behavior).
+> 
+> I'd like to remind you that this improvement is pending for commit.
+> Pay attention, please.
 
-Agree with Ming that this is not necessarily pressing as this issue
-existed in nvme for a long time.
+I think we still have a question to why is this fabrics specific, and
+if this is needed in fabrics, why is it not needed in pci as well.
 
-I don't resist to change the locking mechanism, but Ming needs to
-provide evidence that this change does not degrade reliability nor
-performance. Personally I'd like to see this specific issue solved
-first and then do a an infrastructure change.
+Keith? Personally speaking, I also share Chirstoph's opinion that
+if it's not clearly fabrics specific, we should try to make pci
+and fabrics unified.
 
+Your thoughts on this?
 
 _______________________________________________
 Linux-nvme mailing list
