@@ -2,58 +2,83 @@ Return-Path: <SRS0=KW74=BW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17EE4C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 15:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 616ABC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 15:49:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DDC882080C
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 15:13:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2E007207F7
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 15:49:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NYonqr7A"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDC882080C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lgauyaH3";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="rtCRHR6I"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E007207F7
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
+	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YNqbmj2+sBKmMET7GzaVQsppvCvBc5HdVSOHP1Wp1UI=; b=NYonqr7Akr6aduMDbtyhH7GZA
-	2MA6gglpK+vNh6475QccPljDO6MgJ4XJKbeHTuDpqencWMXR8ksN2jW0TEARzN012F9IxoIBgjKjb
-	HLLKN4KWRVBUcozS6ICRU9GYCjS2WSg2sFpQCpFv9FHTPPHufjo32MvNz/BPM+4qfSSMh4UKMxkQl
-	F4Arf30AFxCqFVZSfwG0AL7CGWsYGm/Sk/4rmtND8WQfz3VkCQ9RYR5Op5BMlqEfLeMX8zZf4YGKd
-	M3Lkn1v7OxShxJNIjAS3rQj7tQdi4+cIBVOwbmhlzN5SZ9i9U7aXoGK3Zl8ymS+LVf7/Yn411twMB
-	nNVnCD7Fg==;
+	 bh=+FXMo2sNYDo8VJY27+IYedTKhwEQwbCfgqx6LrdfsYI=; b=lgauyaH3le7mnHUCGRKLpai78
+	JChfaTyCy9NN8CM9PBdNgWghf7Ic2rlz62cJrbbwcUrUOlVMoUA2XJYWdULHjx5KMOtjCwG4o3T9F
+	Kmj2Ms/oEk9CupryM07T/gwIbRdwAAg377HgVUmppTBaaZ4wY/h4uJ/XrD0nFEbZh3phPVS00zuN8
+	eB/u3ZIZp1vRc8e7b8U3q6ANIk/MEU/PifISPoZA43OSQJsIbCCYMTT/oK+NcP95RVudc0RVg4uYZ
+	i/B6VN+AEyUXJNk/Awl1tURtgryXHcuDiPFMZ8leggVfy6E3k4e6tC5Eh78pqWWmPSPsO5SicfJA0
+	Tub9TsJFw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k5sRl-0000IN-Uv; Wed, 12 Aug 2020 15:13:46 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1k5t09-00033k-UZ; Wed, 12 Aug 2020 15:49:17 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k5sRj-0000Hy-LE
- for linux-nvme@lists.infradead.org; Wed, 12 Aug 2020 15:13:44 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 0E3086736F; Wed, 12 Aug 2020 17:13:41 +0200 (CEST)
-Date: Wed, 12 Aug 2020 17:13:40 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Chao Leng <lengchao@huawei.com>
-Subject: Re: [PATCH 3/3] nvme-core: delete the dependency on
- REQ_FAILFAST_TRANSPORT
-Message-ID: <20200812151340.GC29544@lst.de>
-References: <20200812081855.22277-1-lengchao@huawei.com>
+ id 1k5t08-00032u-JW
+ for linux-nvme@lists.infradead.org; Wed, 12 Aug 2020 15:49:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=JB5fOu0MsTdBRZDKxt7xZr3KS/kiteVH/AdQ/UiL814=; b=rtCRHR6Ivxlawovo8w/AdWu4z0
+ 2fw5+gdoUftD66BDu+7UYBCD3Cnkg/2EnW7+uOrKeBLlvUbcz2wEsPCur5ZHvBQkxwqNr+GItzbjt
+ 39p3xQaIViONT+U+orEn7/ef6D4e1Kn6YAJ0MUVO/mntWvKcPWS5zW2/1ZLQoOuWruDslEiAbqkgU
+ iIcepnocRWjw1F8qtNRjkbgGQ1L3078izwjnGt6iiIDJXhV/q43n0lFtCjL9WrYy+CKB3ry475Zbs
+ +lhrRYyhfeMCMD7QjDHOTR1ygsbYNMixO3IUce+XWEatE70BqbvH9J/eg2O4T7CMPJ6MHjSKjpPYD
+ R4o6DomA==;
+Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
+ helo=[192.168.0.10])
+ by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <logang@deltatee.com>)
+ id 1k5szx-0005m3-IW; Wed, 12 Aug 2020 09:49:06 -0600
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Omar Sandoval <osandov@osandov.com>
+References: <20200811210102.194287-1-sagi@grimberg.me>
+ <20200811210102.194287-3-sagi@grimberg.me>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <0bd39633-b0b9-1e56-dd5e-514285842ebd@deltatee.com>
+Date: Wed, 12 Aug 2020 09:49:04 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200812081855.22277-1-lengchao@huawei.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200811210102.194287-3-sagi@grimberg.me>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 24.64.145.4
+X-SA-Exim-Rcpt-To: bvanassche@acm.org, Chaitanya.Kulkarni@wdc.com, hch@lst.de,
+ kbusch@kernel.org, osandov@osandov.com, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, sagi@grimberg.me
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v3 2/7] nvme: consolidate some nvme-cli utility functions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200812_111343_822357_6BE68127 
-X-CRM114-Status: GOOD (  15.06  )
+X-CRM114-CacheID: sfid-20200812_114916_656354_C08BF648 
+X-CRM114-Status: GOOD (  13.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,39 +90,62 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@fb.com, sagi@grimberg.me, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, kbusch@kernel.org,
- hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Bart Van Assche <bvanassche@acm.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 12, 2020 at 04:18:55PM +0800, Chao Leng wrote:
-> REQ_FAILFAST_TRANSPORT may be designed for scsi, because scsi protocol
-> do not difine the local retry mechanism. SCSI implements a fuzzy local
-> retry mechanism, so need the REQ_FAILFAST_TRANSPORT for multipath
-> software, if work with multipath software, ultraPath determines
-> whether to retry and how to retry.
-> 
-> Nvme is different with scsi about this. It define local retry mechanism
-> and path error code, so nvme should retry local for non path error.
-> If path related error, whether to retry and how to retry is still
-> determined by ultraPath. REQ_FAILFAST_TRANSPORT just for non nvme
-> multipath software(like dm-multipath), but we do not need return an
-> error for REQ_FAILFAST_TRANSPORT first, because we need retry local
-> for non path error first.
 
-This doesn't look wrong, but these kinds of changes really need to
-go along with block layer documentation of the intended uses of the
-flags.  In fact the SCSI usage also looks really confused to me and at
-very least needs better documentation if not changes.  So I think
-you need to do a lot code archaeology, ping the authors and current
-maintainers and sort this out as well.
 
-More importantly if the above explanation makes sense we really need
-to kill blk_noretry_request off entirely and replace it with a check
-of the right set of flags in each caller as well.
+On 2020-08-11 3:00 p.m., Sagi Grimberg wrote:
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index 320aa4b2b475..6d57cf591300 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -64,7 +64,7 @@ _cleanup_nvmet() {
+>  		transport="$(cat "/sys/class/nvme/${dev}/transport")"
+>  		if [[ "$transport" == "loop" ]]; then
+>  			echo "WARNING: Test did not clean up loop device: ${dev}"
+> -			nvme disconnect -d "${dev}"
+> +			_nvme_disconnect_ctrl "${dev}"
+>  		fi
+>  	done
+>  
+> @@ -97,6 +97,33 @@ _setup_nvmet() {
+>  	modprobe nvme-loop
+>  }
+>  
+> +_nvme_disconnect_ctrl() {
+> +	local ctrl="$1"
+> +
+> +	nvme disconnect -d ${ctrl}
+
+We're missing some quotes here and in many other places in this
+patchset. Have you run shellcheck on this? I'd expect it to complain
+about these.
+
+> +}
+> +
+> +_nvme_disconnect_subsys() {
+> +	local subsysnqn="$1"
+> +
+> +	nvme disconnect -n ${subsysnqn}
+> +}
+> +
+> +_nvme_connect_subsys() {
+> +	local trtype="$1"
+> +	local subsysnqn="$2"
+> +
+> +	cmd="nvme connect -t ${trtype} -n ${subsysnqn}"
+> +	eval $cmd
+
+Why eval? It makes the quoting here questionable...
+
+
+Logan
 
 _______________________________________________
 Linux-nvme mailing list
