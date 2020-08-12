@@ -2,83 +2,80 @@ Return-Path: <SRS0=KW74=BW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 616ABC433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 15:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A967C433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 20:28:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2E007207F7
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 15:49:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EB28A20781
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 20:28:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lgauyaH3";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="rtCRHR6I"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E007207F7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UlbzEpBJ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Okp//CtX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB28A20781
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+FXMo2sNYDo8VJY27+IYedTKhwEQwbCfgqx6LrdfsYI=; b=lgauyaH3le7mnHUCGRKLpai78
-	JChfaTyCy9NN8CM9PBdNgWghf7Ic2rlz62cJrbbwcUrUOlVMoUA2XJYWdULHjx5KMOtjCwG4o3T9F
-	Kmj2Ms/oEk9CupryM07T/gwIbRdwAAg377HgVUmppTBaaZ4wY/h4uJ/XrD0nFEbZh3phPVS00zuN8
-	eB/u3ZIZp1vRc8e7b8U3q6ANIk/MEU/PifISPoZA43OSQJsIbCCYMTT/oK+NcP95RVudc0RVg4uYZ
-	i/B6VN+AEyUXJNk/Awl1tURtgryXHcuDiPFMZ8leggVfy6E3k4e6tC5Eh78pqWWmPSPsO5SicfJA0
-	Tub9TsJFw==;
+	 bh=H5Ac7D2XAHxDjiqkC7bJB5m5XpvoyN4EoBGU/oLdaSo=; b=UlbzEpBJZpG2CfIOMlLYGItBL
+	z60VHf6LvrT7d6MiKqZQvEJQyKffHz6e+CSq7WImTWZAO3Qh8vMbTQCVtxGrK2Ap1FpBeHidsdIrJ
+	MotD+cL0Y9opOm/ZBQD0KVj0K04WNu2a2xhVY9GkbmYA4iNray3+AmHpB/FONVJl2RnXUhuuX6rCG
+	C+Ds5wysYty+9tchAUGn1S41FJsLtwyeOAXEYjjgzoxEqrLUVKZE0oumr0jpyKa5IESWvYPH+W1ah
+	luga0YDzES0Djr0Qm/LfVEoGPlp4aN/HbR2WzSaRMjQgz7/KnCFnh4NeBccnqFVaNVGuBQ7QwPs3y
+	ecpWSZRkQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k5t09-00033k-UZ; Wed, 12 Aug 2020 15:49:17 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1k5xMW-0005Np-LA; Wed, 12 Aug 2020 20:28:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k5t08-00032u-JW
- for linux-nvme@lists.infradead.org; Wed, 12 Aug 2020 15:49:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JB5fOu0MsTdBRZDKxt7xZr3KS/kiteVH/AdQ/UiL814=; b=rtCRHR6Ivxlawovo8w/AdWu4z0
- 2fw5+gdoUftD66BDu+7UYBCD3Cnkg/2EnW7+uOrKeBLlvUbcz2wEsPCur5ZHvBQkxwqNr+GItzbjt
- 39p3xQaIViONT+U+orEn7/ef6D4e1Kn6YAJ0MUVO/mntWvKcPWS5zW2/1ZLQoOuWruDslEiAbqkgU
- iIcepnocRWjw1F8qtNRjkbgGQ1L3078izwjnGt6iiIDJXhV/q43n0lFtCjL9WrYy+CKB3ry475Zbs
- +lhrRYyhfeMCMD7QjDHOTR1ygsbYNMixO3IUce+XWEatE70BqbvH9J/eg2O4T7CMPJ6MHjSKjpPYD
- R4o6DomA==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1k5szx-0005m3-IW; Wed, 12 Aug 2020 09:49:06 -0600
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, Omar Sandoval <osandov@osandov.com>
-References: <20200811210102.194287-1-sagi@grimberg.me>
- <20200811210102.194287-3-sagi@grimberg.me>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <0bd39633-b0b9-1e56-dd5e-514285842ebd@deltatee.com>
-Date: Wed, 12 Aug 2020 09:49:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ id 1k5xMV-0005N6-9C
+ for linux-nvme@lists.infradead.org; Wed, 12 Aug 2020 20:28:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597264115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eJXYJZa0+jqjrR60z7t4R8Jwh4xDRotz1b/w46Emeyo=;
+ b=Okp//CtXmifekOri3Yq5/rzg+y5jxsFaWF/r8J6MG9fXTgCjAAXlclgJwcW8Xegr/+cL0R
+ 47pQ9B5XQE/aH/S2vvCVpI97ebPafnab+UuKAGBUgpA/TCsS0DM5TexlpjqMwt0xn/Tc4t
+ yoJAltbXK3xSY2XACxDikw/fcdRehYM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-N0dpFdX3Mkyf7NnFyJr_XA-1; Wed, 12 Aug 2020 16:28:33 -0400
+X-MC-Unique: N0dpFdX3Mkyf7NnFyJr_XA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 427A181CAFA;
+ Wed, 12 Aug 2020 20:28:32 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD15519D71;
+ Wed, 12 Aug 2020 20:28:30 +0000 (UTC)
+Date: Wed, 12 Aug 2020 16:28:30 -0400
+From: Mike Snitzer <snitzer@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 2/3] nvme-core: delete the dependency on blk status
+Message-ID: <20200812202829.GA586@redhat.com>
+References: <20200812081844.22224-1-lengchao@huawei.com>
+ <20200812151035.GB29544@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20200811210102.194287-3-sagi@grimberg.me>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: bvanassche@acm.org, Chaitanya.Kulkarni@wdc.com, hch@lst.de,
- kbusch@kernel.org, osandov@osandov.com, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, sagi@grimberg.me
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v3 2/7] nvme: consolidate some nvme-cli utility functions
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <20200812151035.GB29544@lst.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200812_114916_656354_C08BF648 
-X-CRM114-Status: GOOD (  13.51  )
+X-CRM114-CacheID: sfid-20200812_162839_371555_5EF470AF 
+X-CRM114-Status: GOOD (  13.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,62 +87,28 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Bart Van Assche <bvanassche@acm.org>
+Cc: linux-block@vger.kernel.org, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, axboe@fb.com, Chao Leng <lengchao@huawei.com>,
+ kbusch@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, Aug 12 2020 at 11:10am -0400,
+Christoph Hellwig <hch@lst.de> wrote:
 
+> On Wed, Aug 12, 2020 at 04:18:44PM +0800, Chao Leng wrote:
+> > nvme should not depend on blk status, just need check nvme status.
+> > Just need do translating nvme status to blk status for returning error.
+> 
+> While this doesn't look wrong it also doesn't save us a single
+> instruction and actually adds more lines of code.  Do you have a good
+> reason for this change?
 
-On 2020-08-11 3:00 p.m., Sagi Grimberg wrote:
-> diff --git a/tests/nvme/rc b/tests/nvme/rc
-> index 320aa4b2b475..6d57cf591300 100644
-> --- a/tests/nvme/rc
-> +++ b/tests/nvme/rc
-> @@ -64,7 +64,7 @@ _cleanup_nvmet() {
->  		transport="$(cat "/sys/class/nvme/${dev}/transport")"
->  		if [[ "$transport" == "loop" ]]; then
->  			echo "WARNING: Test did not clean up loop device: ${dev}"
-> -			nvme disconnect -d "${dev}"
-> +			_nvme_disconnect_ctrl "${dev}"
->  		fi
->  	done
->  
-> @@ -97,6 +97,33 @@ _setup_nvmet() {
->  	modprobe nvme-loop
->  }
->  
-> +_nvme_disconnect_ctrl() {
-> +	local ctrl="$1"
-> +
-> +	nvme disconnect -d ${ctrl}
+It certainly saves nvme_error_status(nvme_req(req)->status if
+nvme_req_needs_retry().
 
-We're missing some quotes here and in many other places in this
-patchset. Have you run shellcheck on this? I'd expect it to complain
-about these.
-
-> +}
-> +
-> +_nvme_disconnect_subsys() {
-> +	local subsysnqn="$1"
-> +
-> +	nvme disconnect -n ${subsysnqn}
-> +}
-> +
-> +_nvme_connect_subsys() {
-> +	local trtype="$1"
-> +	local subsysnqn="$2"
-> +
-> +	cmd="nvme connect -t ${trtype} -n ${subsysnqn}"
-> +	eval $cmd
-
-Why eval? It makes the quoting here questionable...
-
-
-Logan
 
 _______________________________________________
 Linux-nvme mailing list
