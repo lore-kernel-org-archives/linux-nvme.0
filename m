@@ -2,60 +2,71 @@ Return-Path: <SRS0=KW74=BW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA7AC433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 08:19:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D23EAC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 09:10:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2750020774
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 08:19:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9523E20774
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 09:10:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="W31/YW/f"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2750020774
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WvSYjJ3N"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9523E20774
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0P2NaxKFcicSlB6BQVRq0VhLcAepyzy2vXNvJSo0pdo=; b=W31/YW/flPrgvyJPFJtyrPxQWJ
-	YV2wiOB1j+88+WEqMebd2UG85908uGc+LqiODfXnOxu2KPOYcBF3s8JVMSraFzH6LnFlGF/c6ytgD
-	eUVfRllbPuOkU8D8yLq5+Fq81uGCtrR6OLpRJugdtEGBgR074DsGFVNN4/83Dp5RHiXNlNPRoiBVy
-	d7RQGJm7+bEoQ821vjP2LXhxwMWBVizi6IbrmrQe42pu123R+D/tUKexvYaPjw2ZnujPil63Qpzlm
-	VDw7bQE5sJYcFQBPwd5X89+mCODDuhW58yap5mH3xC57s43F3+9voBQY0dyNlIO+5FNX/euALr4TF
-	pxix/X5Q==;
+	bh=/116xBiia1gFwTqHMRtp0qV/0R0OIfEo2CIwv7jDbz8=; b=WvSYjJ3NWxjSXZ4B/tU0Uz8QQE
+	SXuTuErPg76XRECZZ+R5ArjvzYEypGoNJAYj7hCRUJAbqh4/a56rqBhqrt4dbCG2LCpfSYUNvNYf5
+	F0tWPWaFWNIiFLS+p0BTzFmYaDSOXM0WiKPzdgz3GiIbzvLBOrvOgfbIz0hmDBOLsv4t2T364+pd/
+	23ED5aASOu/93H3M+v5cUg52rSCqgVvsr6uI+Wleg6/3jfrS+upOLSNnwj2GdbuLaxqQu7REEKcXU
+	EuCEPxbmwwsoekBwJyPvMuQ5JpT4uUrWevqNP2I0vwbzZsEYUUnzv4TFGjKpv050tQjz37i8KkUT2
+	d+uijS9w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k5lyr-0001Nv-OB; Wed, 12 Aug 2020 08:19:29 +0000
-Received: from szxga05-in.huawei.com ([45.249.212.191] helo=huawei.com)
+	id 1k5mmE-0001hF-So; Wed, 12 Aug 2020 09:10:30 +0000
+Received: from mga18.intel.com ([134.134.136.126])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k5lyp-0001J8-0v
- for linux-nvme@lists.infradead.org; Wed, 12 Aug 2020 08:19:27 +0000
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 4B2E89D126F018B1108E;
- Wed, 12 Aug 2020 16:19:05 +0800 (CST)
-Received: from huawei.com (10.29.88.127) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Wed, 12 Aug 2020
- 16:18:55 +0800
-From: Chao Leng <lengchao@huawei.com>
-To: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>
-Subject: [PATCH 3/3] nvme-core: delete the dependency on REQ_FAILFAST_TRANSPORT
-Date: Wed, 12 Aug 2020 16:18:55 +0800
-Message-ID: <20200812081855.22277-1-lengchao@huawei.com>
-X-Mailer: git-send-email 2.16.4
+ id 1k5mmC-0001gS-PG
+ for linux-nvme@lists.infradead.org; Wed, 12 Aug 2020 09:10:29 +0000
+IronPort-SDR: fJCP5XHJdH/S4yWMtUgJwq5bM/Ky46woL3gommHB7m10lizygs6hxrwxYUKxypVIgG9Ew2Q2Os
+ n5Ri1tPwftwg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9710"; a="141533856"
+X-IronPort-AV: E=Sophos;i="5.76,303,1592895600"; d="scan'208";a="141533856"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2020 02:10:26 -0700
+IronPort-SDR: 4psiCfaXQNaVRrCw8UBuVG4ujMOUZYu5m4Pf6cBJYuSM7mFkv3KxsELmjAtdjTaHnaBSEN6oef
+ RaA8aVxcLxEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,303,1592895600"; d="scan'208";a="327139179"
+Received: from lkp-server01.sh.intel.com (HELO e03a785590b8) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 12 Aug 2020 02:10:25 -0700
+Received: from kbuild by e03a785590b8 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1k5mm9-0000Do-57; Wed, 12 Aug 2020 09:10:25 +0000
+Date: Wed, 12 Aug 2020 17:09:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: [linux-nvme:nvme-5.9-rc] BUILD SUCCESS
+ 4d3c0eaf0d44a4f8f7d53b7835e670eafc96c450
+Message-ID: <5f33b1d7.XB23j5zZoeWTmle5%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-Originating-IP: [10.29.88.127]
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200812_041927_310093_35EAF868 
-X-CRM114-Status: GOOD (  12.14  )
+X-CRM114-CacheID: sfid-20200812_051028_966973_9BEE3294 
+X-CRM114-Status: GOOD (  12.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,58 +78,103 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, lengchao@huawei.com,
- sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-REQ_FAILFAST_TRANSPORT may be designed for scsi, because scsi protocol
-do not difine the local retry mechanism. SCSI implements a fuzzy local
-retry mechanism, so need the REQ_FAILFAST_TRANSPORT for multipath
-software, if work with multipath software, ultraPath determines
-whether to retry and how to retry.
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.9-rc
+branch HEAD: 4d3c0eaf0d44a4f8f7d53b7835e670eafc96c450  nvmet: call blk_mq_free_request() directly
 
-Nvme is different with scsi about this. It define local retry mechanism
-and path error code, so nvme should retry local for non path error.
-If path related error, whether to retry and how to retry is still
-determined by ultraPath. REQ_FAILFAST_TRANSPORT just for non nvme
-multipath software(like dm-multipath), but we do not need return an
-error for REQ_FAILFAST_TRANSPORT first, because we need retry local
-for non path error first.
+elapsed time: 723m
 
-In this way, the mechanism of nvme multipath or other multipath will be
-same. The mechanism is: non path related error will be retry local,
-path related error treated by multipath.
+configs tested: 76
+configs skipped: 1
 
-If work with dm-multipath, The patch can also fix io interrupt when io
-return NVME_SC_CMD_INTERRUPTED or NVME_SC_NS_NOT_READY. Because
-NVME_SC_CMD_INTERRUPTED or NVME_SC_NS_NOT_READY will be translated to
-BLK_STS_TARGET. blk_path_error will treat BLK_STS_TARGET as retrying
-failover path will not help, will cause io interrupt.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: Chao Leng <lengchao@huawei.com>
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                            xcep_defconfig
+mips                          ath25_defconfig
+sh                           se7619_defconfig
+powerpc                        cell_defconfig
+m68k                          multi_defconfig
+i386                             alldefconfig
+c6x                         dsk6455_defconfig
+mips                          malta_defconfig
+m68k                       bvme6000_defconfig
+arm                          iop32x_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20200811
+x86_64               randconfig-a001-20200811
+x86_64               randconfig-a003-20200811
+x86_64               randconfig-a005-20200811
+x86_64               randconfig-a004-20200811
+x86_64               randconfig-a002-20200811
+i386                 randconfig-a005-20200811
+i386                 randconfig-a001-20200811
+i386                 randconfig-a002-20200811
+i386                 randconfig-a003-20200811
+i386                 randconfig-a006-20200811
+i386                 randconfig-a004-20200811
+i386                 randconfig-a016-20200811
+i386                 randconfig-a011-20200811
+i386                 randconfig-a015-20200811
+i386                 randconfig-a013-20200811
+i386                 randconfig-a012-20200811
+i386                 randconfig-a014-20200811
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 246988091c05..07471bd37f60 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -243,7 +243,7 @@ static blk_status_t nvme_error_status(u16 status)
- 
- static inline bool nvme_req_needs_retry(struct request *req)
- {
--	if (blk_noretry_request(req))
-+	if (req->cmd_flags & (REQ_FAILFAST_DEV | REQ_FAILFAST_DRIVER))
- 		return false;
- 	if (nvme_req(req)->status & NVME_SC_DNR)
- 		return false;
--- 
-2.16.4
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
