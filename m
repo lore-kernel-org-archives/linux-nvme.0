@@ -2,58 +2,65 @@ Return-Path: <SRS0=x9Yf=BX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BEF1C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 15:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1643DC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 15:50:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CB7920781
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 15:48:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C776E20781
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 15:50:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aq2FrRuA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CB7920781
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="wYiDRnr4";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AJOZfHRN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C776E20781
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DVfQD+Q6xlTI487It3KEFf2irhmjTNoTKiBIvnRf1E4=; b=aq2FrRuAw/7XzQqhQJjnF7WVU
-	CQiaMm6lC6HU/bhQAkGFavKDyY6YatkGV66b2sN8GGZ3aqxMn/roNZZxdA/AdX4+ekKd6aTa0K8N6
-	UJ7SdAQy2publtB+3RCcVRPesJkZbH/ZD584+TXwrS0bSqS3idEJrl9DcjvSvHYJVI6jdC0TBIsrW
-	i9DTNgFVKK0FTgy8xXzlEUe2ddN/1Mp1r0JH9lQ2cSp7bXrq+oCzt9p9JFBI8kyVYW6sHrFTZ1bza
-	5cKp511ZVbNAsKXxprY9COpogkGRiPJfp+K6uHARiaCYyDox9lZZMaSbcYsgbkNhWou4TYALAJB3z
-	mUFiefmag==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Message-ID:Subject:To:From:
+	Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	 bh=Iy9BIeBVdwrb9oiUXb+y2WdYVZwlYsahox9DbD8xkNI=; b=wYiDRnr4SQeJuMrfuQgLkjNLh
+	ErGu+SXoKIQtW4tG0sVjuhKGJbeZCJkStD6BIL5lfQgccXMnig3ju5+yck19nVxlnRyWACgPvL/VA
+	PwnB/ZGhYfBMgrr7rD4uVzYT+6Uw9Y5ZhijFyzCHqoBZwjhtcLzrUEvJptSNYtgqPNrCgrcE1zvr6
+	/xwZ793oo/oKjnJyKH3YpOo6Vl6xxc8pGbWb21oqZefybus4dac9b37kw+oe1Qf9OBsQa6mJM4mXC
+	jYNSmkT2bgnletegco87pXLFwWdSQTZOb5mPILLTi3sIAcIKxVgei/sw3KcKibzlmLYarws2SZurF
+	+3MeF7ClA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6FSV-0001z4-1d; Thu, 13 Aug 2020 15:48:03 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1k6FUb-0002bD-MM; Thu, 13 Aug 2020 15:50:13 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6FSS-0001xr-P8
- for linux-nvme@lists.infradead.org; Thu, 13 Aug 2020 15:48:01 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 21F4E68AFE; Thu, 13 Aug 2020 17:47:58 +0200 (CEST)
-Date: Thu, 13 Aug 2020 17:47:57 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Mike Snitzer <snitzer@redhat.com>
-Subject: Re: [PATCH 2/3] nvme-core: delete the dependency on blk status
-Message-ID: <20200813154757.GA14486@lst.de>
-References: <20200812081844.22224-1-lengchao@huawei.com>
- <20200812151035.GB29544@lst.de> <20200812202829.GA586@redhat.com>
+ id 1k6FUZ-0002aS-Pq
+ for linux-nvme@merlin.infradead.org; Thu, 13 Aug 2020 15:50:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+ Content-ID:Content-Description:References;
+ bh=hcRGhxjeGGcGlL0jZtmM6ynKLp4oPbSQ7Fim3MB2HL4=; b=AJOZfHRNcKSNOPpzUH+9Y0lsem
+ WVTwk3Q43JKKwOubbajp7NsJQfbX7H+m6a5MIkEGah3ohP5pAnx1ZiTWLtxBw7ucngZkZcVYC2DaG
+ Kc/TuCS7s1srPKV/MiGXCYS+Bz1SgHa8cqayJsXbOIbDd7HoOnNPKAetH4m2NIsMy0AoTUV+fxTfN
+ Dc7QB834JroqBZYOdhP5n0Mazpd88hcT5ITKnAn0ePWtGMabxZKh666skge4xMlX4yUhVHZq9Kf8R
+ SYGhJx4aiDNoNPEwlST4Xlw1Ff+2BaeT25kCCRn8yzw0e6CkG61pps9ACFx7Mc10GEHLhW04+b3w2
+ PVtT3gyA==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
+ Linux)) id 1k6FUX-0000kK-BX; Thu, 13 Aug 2020 15:50:09 +0000
+Date: Thu, 13 Aug 2020 16:50:09 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: John Garry <john.garry@huawei.com>
+Subject: Re: nvme crash - Re: linux-next: Tree for Aug 13
+Message-ID: <20200813155009.GA2303@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200812202829.GA586@redhat.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200813_114800_965318_62F65325 
-X-CRM114-Status: GOOD (  14.42  )
+In-Reply-To: <454c65b1-872a-a48c-662d-690044662772@huawei.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,32 +72,151 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, axboe@fb.com, Chao Leng <lengchao@huawei.com>,
- kbusch@kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme <linux-nvme@lists.infradead.org>, iommu@lists.linux-foundation.org,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 12, 2020 at 04:28:30PM -0400, Mike Snitzer wrote:
-> On Wed, Aug 12 2020 at 11:10am -0400,
-> Christoph Hellwig <hch@lst.de> wrote:
+On Thu, Aug 13, 2020 at 12:00:19PM +0100, John Garry wrote:
+> On 13/08/2020 07:58, Stephen Rothwell wrote:
+> > Hi all,
 > 
-> > On Wed, Aug 12, 2020 at 04:18:44PM +0800, Chao Leng wrote:
-> > > nvme should not depend on blk status, just need check nvme status.
-> > > Just need do translating nvme status to blk status for returning error.
+> Hi guys,
+> 
+> I have experienced this this crash below on linux-next for the last few days
+> on my arm64 system. Linus' master branch today also has it.
+
+Adding Robin and the iommu list as this seems to be in the dma-iommu
+code.
+
+> root@ubuntu:/home/john# insmod nvme.ko
+> [148.254564] nvme 0000:81:00.0: Adding to iommu group 21
+> [148.260973] nvme nvme0: pci function 0000:81:00.0
+> root@ubuntu:/home/john# [148.272996] Unable to handle kernel NULL pointer
+> dereference at virtual address 0000000000000010
+> [148.281784] Mem abort info:
+> [148.284584] ESR = 0x96000004
+> [148.287641] EC = 0x25: DABT (current EL), IL = 32 bits
+> [148.292950] SET = 0, FnV = 0
+> [148.295998] EA = 0, S1PTW = 0
+> [148.299126] Data abort info:
+> [148.302003] ISV = 0, ISS = 0x00000004
+> [148.305832] CM = 0, WnR = 0
+> [148.308794] user pgtable: 4k pages, 48-bit VAs, pgdp=00000a27bf3c9000
+> [148.315229] [0000000000000010] pgd=0000000000000000, p4d=0000000000000000
+> [148.322016] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+> [148.327577] Modules linked in: nvme nvme_core
+> [148.331927] CPU: 56 PID: 256 Comm: kworker/u195:0 Not tainted
+> 5.8.0-next-20200812 #27
+> [148.339744] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI RC0 -
+> V1.16.01 03/15/2019
+> [148.348260] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+> [148.353822] pstate: 80c00009 (Nzcv daif +PAN +UAO BTYPE=--)
+> [148.359390] pc : __sg_alloc_table_from_pages+0xec/0x238
+> [148.364604] lr : __sg_alloc_table_from_pages+0xc8/0x238
+> [148.369815] sp : ffff800013ccbad0
+> [148.373116] x29: ffff800013ccbad0 x28: ffff0a27b3d380a8
+> [148.378417] x27: 0000000000000000 x26: 0000000000002dc2
+> [148.383718] x25: 0000000000000dc0 x24: 0000000000000000
+> [148.389019] x23: 0000000000000000 x22: ffff800013ccbbe8
+> [148.394320] x21: 0000000000000010 x20: 0000000000000000
+> [148.399621] x19: 00000000fffff000 x18: ffffffffffffffff
+> [148.404922] x17: 00000000000000c0 x16: fffffe289eaf6380
+> [148.410223] x15: ffff800011b59948 x14: ffff002bc8fe98f8
+> [148.415523] x13: ff00000000000000 x12: ffff8000114ca000
+> [148.420824] x11: 0000000000000000 x10: ffffffffffffffff
+> [148.426124] x9 : ffffffffffffffc0 x8 : ffff0a27b5f9b6a0
+> [148.431425] x7 : 0000000000000000 x6 : 0000000000000001
+> [148.436726] x5 : ffff0a27b5f9b680 x4 : 0000000000000000
+> [148.442027] x3 : ffff0a27b5f9b680 x2 : 0000000000000000
+> [148.447328] x1 : 0000000000000001 x0 : 0000000000000000
+> [148.452629] Call trace:
+> [148.455065]__sg_alloc_table_from_pages+0xec/0x238
+> [148.459931]sg_alloc_table_from_pages+0x18/0x28
+> [148.464541]iommu_dma_alloc+0x474/0x678
+> [148.468455]dma_alloc_attrs+0xd8/0xf0
+> [148.472193]nvme_alloc_queue+0x114/0x160 [nvme]
+> [148.476798]nvme_reset_work+0xb34/0x14b4 [nvme]
+> [148.481407]process_one_work+0x1e8/0x360
+> [148.485405]worker_thread+0x44/0x478
+> [148.489055]kthread+0x150/0x158
+> [148.492273]ret_from_fork+0x10/0x34
+> [148.495838] Code: f94002c3 6b01017f 540007c2 11000486 (f8645aa5)
+> [148.501921] ---[ end trace 89bb2b72d59bf925 ]---
+> 
+> Anything to worry about? I guess not since we're in the merge window, but
+> mentioning just in case ...
+> 
+> Thanks,
+> john
+> 
 > > 
-> > While this doesn't look wrong it also doesn't save us a single
-> > instruction and actually adds more lines of code.  Do you have a good
-> > reason for this change?
+> > News: The merge window has opened, so please do not add any v5.10
+> > related material to your linux-next included branches until after the
+> > merge window closes again.
+> > 
+> > Changes since 20200812:
+> > 
+> > My fixes tree contains:
+> > 
+> >    73c7adb54169 ("device_cgroup: Fix RCU list debugging warning")
+> > 
+> > Linus' tree produces a WARNING in my qemu testing (see
+> > https://lore.kernel.org/lkml/20200813164654.061dbbd3@canb.auug.org.au/).
+> > 
+> > Non-merge commits (relative to Linus' tree): 946
+> >   1083 files changed, 28405 insertions(+), 9953 deletions(-)
+> > 
+> > ----------------------------------------------------------------------------
+> > 
+> > I have created today's linux-next tree at
+> > git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> > (patches at http://www.kernel.org/pub/linux/kernel/next/ ).  If you
+> > are tracking the linux-next tree using git, you should not use "git pull"
+> > to do so as that will try to merge the new linux-next release with the
+> > old one.  You should use "git fetch" and checkout or reset to the new
+> > master.
+> > 
+> > You can see which trees have been included by looking in the Next/Trees
+> > file in the source.  There are also quilt-import.log and merge.log
+> > files in the Next directory.  Between each merge, the tree was built
+> > with a ppc64_defconfig for powerpc, an allmodconfig for x86_64, a
+> > multi_v7_defconfig for arm and a native build of tools/perf. After
+> > the final fixups (if any), I do an x86_64 modules_install followed by
+> > builds for x86_64 allnoconfig, powerpc allnoconfig (32 and 64 bit),
+> > ppc44x_defconfig, allyesconfig and pseries_le_defconfig and i386, sparc
+> > and sparc64 defconfig and htmldocs. And finally, a simple boot test
+> > of the powerpc pseries_le_defconfig kernel in qemu (with and without
+> > kvm enabled).
+> > 
+> > Below is a summary of the state of the merge.
+> > 
+> > I am currently merging 327 trees (counting Linus' and 85 trees of bug
+> > fix patches pending for the current merge release).
+> > 
+> > Stats about the size of the tree over time can be seen at
+> > http://neuling.org/linux-next-size.html .
+> > 
+> > Status of my local build tests will be at
+> > http://kisskb.ellerman.id.au/linux-next .  If maintainers want to give
+> > advice about cross compilers/configs that work, we are always open to add
+> > more builds.
+> > 
+> > Thanks to Randy Dunlap for doing many randconfig builds.  And to Paul
+> > Gortmaker for triage and bug fixes.
+> > 
 > 
-> It certainly saves nvme_error_status(nvme_req(req)->status if
-> nvme_req_needs_retry().
-
-Yeah, but the retry path isn't exactly the fast path, is it?
-
-Not that I really care too much about this one..
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
 
 _______________________________________________
 Linux-nvme mailing list
