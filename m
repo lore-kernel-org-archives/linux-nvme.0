@@ -2,94 +2,88 @@ Return-Path: <SRS0=x9Yf=BX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5230FC433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 14:48:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62ADDC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 15:00:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 138B320781
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 14:48:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2823F20656
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 15:00:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BitQa8k8";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iZXqIDJ9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 138B320781
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MBKTr/YM";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="dMixVRYi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2823F20656
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=37FZ9KCWEATGTEj7+LlSY6srh5+o65+ZQ5DEwUijgNs=; b=BitQa8k8+rP3nIYQb7j3rMunZ
-	Th6KPpj61bhnOMM/Am3KPg4Lr6kjW9F9Bozc9IMnHBa5iQw2BeFkiNQ+zvlMxD/1UYDrnVZ2XdX1j
-	z4PuNRmHjrRpF9d0v2Kxt+5TbnJlrs8p3LNBVZwlmRScAVpm2yFXnmNMYhFdudLywtHYQXA55Kw7y
-	XpbEV6lIuDkt0l4xmvAhHHJJF4Oakt7TqK/Pb6p4m9E15AgG2IBvpchGYtPuPuMZuKdogFH8TEg6k
-	FrpszgOf+vYJQeTogfUrOShBRiZPAUcrCvO3m9+PJAJSN4pQyN+E+rURs7MI8vh9ab4UE7km09evk
-	4ZghVxkVA==;
+	 bh=zs6TfY4dqhYwTBIKvhJuuR8r6R+D2Cwcf+rKzMtEtJo=; b=MBKTr/YMWWzPzIBGgjsnX2p6p
+	ZH6kdCBYs9f5oPiH3Yim9bcsJK8AmYX/pERD7sD1GS9GnfiBcrZHE6lNwIp3zqpSz+7kPI4IcKelq
+	NlzS3450KtJNZgkyDe7vhqYyNV9VaqKOWEPoeN85dhdvu9VBUCAtunTr/Ko2zg5SBiIgKsxzjq8Iq
+	mmDHPrrYxsvpzhcrpYMrGHTUa7MrFhNfnn/tVNSY2lQhH7Cnxu8FxUX2ObsM2AtBZhpzjj8tqVEMK
+	k0FdOdCU7SNRiBCjgrRusz4Zqg/CdJqyl3pm/YGrlroruR0J+acaVUnLEqLDHtFshegdiReH94PVb
+	iE/g61wMQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6EWo-0004mR-DI; Thu, 13 Aug 2020 14:48:26 +0000
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1k6Eid-00066V-1z; Thu, 13 Aug 2020 15:00:39 +0000
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6EWl-0004l7-6Y
- for linux-nvme@lists.infradead.org; Thu, 13 Aug 2020 14:48:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597330102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mtFLtqk90hm7Trz8tx9yG9H2Uq8s9CYD4FDBZ5Dvw2Y=;
- b=iZXqIDJ99BQF7pQ09YzVK4ur7n7w9MftIT8DndhrIo1YH7A+lQ6ShB1QtvB5HKl+w8jrRD
- lnpZIVw/Ze37E63nC7VCZFnmUGo5hXq7AyCxxaYxaMG6iwBAHTdkHDeeW1pIro3ObWGx0h
- zN5zlk7KV9r2ioxjEosPs4XMFeSskS8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-KUujD57GOJOIEcXQW0k9Dg-1; Thu, 13 Aug 2020 10:48:20 -0400
-X-MC-Unique: KUujD57GOJOIEcXQW0k9Dg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E725E1005E67;
- Thu, 13 Aug 2020 14:48:17 +0000 (UTC)
-Received: from localhost (unknown [10.18.25.174])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FD68600C5;
- Thu, 13 Aug 2020 14:48:12 +0000 (UTC)
-Date: Thu, 13 Aug 2020 10:48:11 -0400
-From: Mike Snitzer <snitzer@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: [RESEND PATCH] nvme: explicitly use normal NVMe error handling when
- appropriate
-Message-ID: <20200813144811.GA5452@redhat.com>
-References: <E3390A8E-D582-47BA-A085-21663D883365@netapp.com>
- <20200806184057.GA27858@redhat.com>
- <20200806191943.GA27868@redhat.com>
- <6B826235-C504-4621-B8F7-34475B200979@netapp.com>
- <20200807000755.GA28957@redhat.com>
- <510f5aff-0437-b1ce-f7ab-c812edbea880@grimberg.me>
- <20200807045015.GA29737@redhat.com>
- <fec745aa-0091-ee1f-cb0f-da9e18cf0aa2@grimberg.me>
- <20200810143620.GA19127@redhat.com>
- <20200810172209.GA19535@redhat.com>
+ id 1k6EiZ-000668-Gq
+ for linux-nvme@lists.infradead.org; Thu, 13 Aug 2020 15:00:36 +0000
+Received: by mail-pf1-x443.google.com with SMTP id u128so2948311pfb.6
+ for <linux-nvme@lists.infradead.org>; Thu, 13 Aug 2020 08:00:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=Gmd4M80IEWsDHxiG/Ywnf/HBZn5+CO0GhB5I2n4yzJM=;
+ b=dMixVRYi9/AVtZ1hh8HUWIqPAu9hcNoS4Yyh2u3ONkAh6JgjsyelbT1HMNRHILKRt1
+ I6AZGT1qTYbgkQT5/r7iEuuuMDpftRzIsKZuF/EHp45+CCds2ObKIr7CJlkWHQ49x2qR
+ P4ZD5j/bQbdJxkYGYLGA9jlBN4FsYWR5A2nw8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Gmd4M80IEWsDHxiG/Ywnf/HBZn5+CO0GhB5I2n4yzJM=;
+ b=DBzk1dqT5OsKIzco5Ia7dK4I5KEzuJDq4qrIesZhn5QFeJMvNDRN6B2wt4Z7EczYVi
+ poN0HMyF4uvF7rk7gyaQ3qZsxoHsZxYorAyKrOlcgXFwjV/kOVKPt2cYjgLdqlbUJVVR
+ g0HtRgawx2xuXBnbPsXYtkH7yPM+ANtT9Qb9prdWSAOddReWDy8c1tVQ0k4vQft09aDW
+ fdut+9V2r5EOuQGVD31QG8lh5feK6hBhoO2ETGK0Q8Aa0FrkFTZarjk+9E4oNTMxmyIj
+ 8rnlA7YbYEe4opwElAlIC2/mOL22nuPIUnBj9ETrfOhkLkBU81RBJhtONaFPvWFUIXD7
+ G8kQ==
+X-Gm-Message-State: AOAM53100oJunSSO9gsHWeyQ9Skkrthyzerfq55/lwcDBFiqutnIjbCp
+ mlsbVu+hSys3RfivlEgXUmZ/Vw==
+X-Google-Smtp-Source: ABdhPJzlfCAE7TY3tQUawa+wxAJH6PmsPe+xrxJidUb5GKJ/3weRzY2NeL9fUWaHxMKAZLiV/uVPpw==
+X-Received: by 2002:a63:8249:: with SMTP id w70mr3995751pgd.293.1597330831422; 
+ Thu, 13 Aug 2020 08:00:31 -0700 (PDT)
+Received: from [10.230.185.151] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id y7sm6009105pjm.3.2020.08.13.08.00.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Aug 2020 08:00:30 -0700 (PDT)
+Subject: Re: [PATCH v7] nvme-fabrics: reject I/O to offline device
+To: Victor Gladkov <Victor.Gladkov@kioxia.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <168ed5d66eae49ac8b445478b1bb362d@kioxia.com>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <d79e8917-6c45-5120-5e5c-602750fc5013@broadcom.com>
+Date: Thu, 13 Aug 2020 08:00:25 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200810172209.GA19535@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=msnitzer@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+In-Reply-To: <168ed5d66eae49ac8b445478b1bb362d@kioxia.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200813_104823_274633_E14F59FA 
-X-CRM114-Status: GOOD (  16.59  )
+X-CRM114-CacheID: sfid-20200813_110035_855187_C68D42AD 
+X-CRM114-Status: GOOD (  21.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,86 +95,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@infradead.org>,
- dm-devel@redhat.com, Hannes Reinecke <hare@suse.de>,
- Chao Leng <lengchao@huawei.com>, Keith Busch <kbusch@kernel.org>, "Meneghini,
- John" <John.Meneghini@netapp.com>, Ewan Milne <emilne@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sagi Grimberg <sagi@grimberg.me>, "Ewan D. Milne" <emilne@redhat.com>,
+ Hannes Reinecke <hare@suse.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commit 764e9332098c0 ("nvme-multipath: do not reset on unknown
-status"), among other things, fixed NVME_SC_CMD_INTERRUPTED error
-handling by changing multipathing's nvme_failover_req() to short-circuit
-path failover and then fallback to NVMe's normal error handling (which
-takes care of NVME_SC_CMD_INTERRUPTED).
-
-This detour through native NVMe multipathing code is unwelcome because
-it prevents NVMe core from handling NVME_SC_CMD_INTERRUPTED independent
-of any multipathing concerns.
-
-Introduce nvme_status_needs_local_error_handling() to prioritize
-non-failover retry, when appropriate, in terms of normal NVMe error
-handling.  nvme_status_needs_local_error_handling() will naturely evolve
-to include handling of any other errors that normal error handling must
-be used for.
-
-nvme_failover_req()'s ability to fallback to normal NVMe error handling
-has been preserved because it may be useful for future NVME_SC that
-nvme_status_needs_local_error_handling() hasn't been trained for yet.
-
-Signed-off-by: Mike Snitzer <snitzer@redhat.com>
----
- drivers/nvme/host/core.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 88cff309d8e4..be749b690af7 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -252,6 +252,16 @@ static inline bool nvme_req_needs_retry(struct request *req)
- 	return true;
- }
- 
-+static inline bool nvme_status_needs_local_error_handling(u16 status)
-+{
-+	switch (status & 0x7ff) {
-+	case NVME_SC_CMD_INTERRUPTED:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- static void nvme_retry_req(struct request *req)
- {
- 	struct nvme_ns *ns = req->q->queuedata;
-@@ -270,7 +280,8 @@ static void nvme_retry_req(struct request *req)
- 
- void nvme_complete_rq(struct request *req)
- {
--	blk_status_t status = nvme_error_status(nvme_req(req)->status);
-+	u16 nvme_status = nvme_req(req)->status;
-+	blk_status_t status = nvme_error_status(nvme_status);
- 
- 	trace_nvme_complete_rq(req);
- 
-@@ -280,7 +291,8 @@ void nvme_complete_rq(struct request *req)
- 		nvme_req(req)->ctrl->comp_seen = true;
- 
- 	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
--		if ((req->cmd_flags & REQ_NVME_MPATH) && nvme_failover_req(req))
-+		if (!nvme_status_needs_local_error_handling(nvme_status) &&
-+		    (req->cmd_flags & REQ_NVME_MPATH) && nvme_failover_req(req))
- 			return;
- 
- 		if (!blk_queue_dying(req->q)) {
--- 
-2.18.0
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNy84LzIwMjAgODowNyBBTSwgVmljdG9yIEdsYWRrb3Ygd3JvdGU6Cj4gQ29tbWFuZHMgZ2V0
+IHN0dWNrIHdoaWxlIEhvc3QgTlZNZSBjb250cm9sbGVyIChUQ1Agb3IgUkRNQSkgaXMgaW4KPiBy
+ZWNvbm5lY3Qgc3RhdGUuIE5WTWUgY29udHJvbGxlciBlbnRlcnMgaW50byByZWNvbm5lY3Qgc3Rh
+dGUgd2hlbiBpdAo+IGxvc2VzIGNvbm5lY3Rpb24gd2l0aCB0aGUgdGFyZ2V0LiBJdCB0cmllcyB0
+byByZWNvbm5lY3QgZXZlcnkgMTAKPiBzZWNvbmRzIChkZWZhdWx0KSB1bnRpbCBzdWNjZXNzZnVs
+IHJlY29ubmVjdGlvbiBvciB1bnRpbCByZWNvbm5lY3QKPiB0aW1lLW91dCBpcyByZWFjaGVkLiBU
+aGUgZGVmYXVsdCByZWNvbm5lY3QgdGltZSBvdXQgaXMgMTAgbWludXRlcy4KPgo+IFRvIGZpeCB0
+aGlzIGxvbmcgZGVsYXkgZHVlIHRvIHRoZSBkZWZhdWx0IHRpbWVvdXQgd2UgaW50cm9kdWNlIG5l
+dwo+IHNlc3Npb24gcGFyYW1ldGVyICJmYXN0X2lvX2ZhaWxfdG1vIi4gVGhlIHRpbWVvdXQgaXMg
+bWVhc3VyZWQgaW4KPiBzZWNvbmRzIGZyb20gdGhlIGNvbnRyb2xsZXIgcmVjb25uZWN0LCBhbnkg
+Y29tbWFuZCBiZXlvbmQgdGhhdAo+IHRpbWVvdXQgaXMgcmVqZWN0ZWQuIFRoZSBuZXcgcGFyYW1l
+dGVyIHZhbHVlIG1heSBiZSBwYXNzZWQgZHVyaW5nCj4gJ2Nvbm5lY3QnLgo+IFRoZSBkZWZhdWx0
+IHZhbHVlIG9mIDAgbWVhbnMgbm8gdGltZW91dCAoc2ltaWxhciB0byBjdXJyZW50IGJlaGF2aW9y
+KS4KPgo+IFdlIGFkZCBhIG5ldyBjb250cm9sbGVyIE5WTUVfQ1RSTF9GQUlMRkFTVF9FWFBJUkVE
+IGFuZCByZXNwZWN0aXZlCj4gZGVsYXllZCB3b3JrIHRoYXQgdXBkYXRlcyB0aGUgTlZNRV9DVFJM
+X0ZBSUxGQVNUX0VYUElSRUQgZmxhZy4KPgo+IFdoZW4gdGhlIGNvbnRyb2xsZXIgaXMgZW50ZXJp
+bmcgdGhlIENPTk5FQ1RJTkcgc3RhdGUsIHdlIHNjaGVkdWxlCj4gdGhlIGRlbGF5ZWRfd29yayBi
+YXNlZCBvbiBmYWlsZmFzdCB0aW1lb3V0IHZhbHVlLiBJZiB0aGUgdHJhbnNpdGlvbgo+IGlzIG91
+dCBvZiBDT05ORUNUSU5HLCB0ZXJtaW5hdGUgZGVsYXllZCB3b3JrIGl0ZW0gYW5kIGVuc3VyZQo+
+IGZhaWxmYXN0X2V4cGlyZWQgaXMgZmFsc2UuIElmIGRlbGF5ZWQgd29yayBpdGVtIGV4cGlyZXMg
+dGhlbiBzZXQKPiAiTlZNRV9DVFJMX0ZBSUxGQVNUX0VYUElSRUQiIGZsYWcgdG8gdHJ1ZS4KPgo+
+IFdlIGFsc28gdXBkYXRlIG52bWZfZmFpbF9ub25yZWFkeV9jb21tYW5kKCkgYW5kCj4gbnZtZV9h
+dmFpbGFibGVfcGF0aCgpIGZ1bmN0aW9ucyB3aXRoIGNoZWNrIHRoZQo+ICJOVk1FX0NUUkxfRkFJ
+TEZBU1RfRVhQSVJFRCIgY29udHJvbGxlciBmbGFnLgo+Cj4gU2lnbmVkLW9mZi1ieTogVmljdG9y
+IEdsYWRrb3YgPHZpY3Rvci5nbGFka292IGF0IGtpb3hpYS5jb20+Cj4gU2lnbmVkLW9mZi1ieTog
+Q2hhaXRhbnlhIEt1bGthcm5pIDxjaGFpdGFueWEua3Vsa2FybmkgYXQgd2RjLmNvbT4KPiBSZXZp
+ZXdlZC1ieTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2UuZGU+CgpWaWN0b3IsCgp3aGVuIHdl
+IHRhbGtlZCBhYm91dCB3aGF0IGZhc3QgZmFpbCBkb2VzLCB3ZSBkaXNjdXNzZWQgaG93IGl0IHdh
+cyAKZGlmZmVyZW50IGZyb20gU0NTSSdzIG5vdGlvbiBvZiBmYXN0IGZhaWwsIHdoaWNoIHdhcyBp
+biBzdXBwb3J0IG9mIAptcGlvLsKgIG52bWUgZGlkbid0IG5lZWQgc2NzaSdzIGZhc3RfZmFpbCBi
+ZWhhdmlvciBhcyB0aGUgZmFicmljIGNoZWNrIApyZWFkeSdzIGFyZSBzcG90dGluZyB0aGUgbXBh
+dGggYXR0cmlidXRlcyBpbW1lZGlhdGVseS4gU28gdGhpcyBwYXRjaCBzZXQgCmlzIGZvciAibm9y
+bWFsIiBpbyB0aGF0IG5vcm1hbGx5IGVudGVycyByZXRyaWVzLsKgIFlvdSByZXBsaWVkIHdpdGgg
+YSAKdmVyeSBpbXBvcnRhbnQgZGlzdGluY3Rpb24gYWJvdXQgdGhpcyBwYXRjaCB0aGF0IGlzbid0
+IGRlc2NyaWJlZCBieSB0aGUgCmFib3ZlLgoKUGxlYXNlIGFkZCB0aGlzIHBhcmFncmFwaCB0byB0
+aGUgcGF0Y2ggZGVzY3JpcHRpb246CgogRnJvbSBlbWFpbCBmcm9tIFZpY3RvciBvbiAxMi8zLzIw
+MTkgYXQgMjowNCBhbSBVUyBQU1Q6CkFwcGxpY2F0aW9ucyBhcmUgZXhwZWN0aW5nIGNvbW1hbmRz
+IHRvIGNvbXBsZXRlIHdpdGggc3VjY2VzcyBvciBlcnJvciAKd2l0aGluIGEgY2VydGFpbiB0aW1l
+b3V0ICgzMCBzZWNvbmRzIGJ5IGRlZmF1bHQpLsKgIFRoZSBOVk1lIGhvc3QgaXMgCmVuZm9yY2lu
+ZyB0aGF0IHRpbWVvdXQgd2hpbGUgaXQgaXMgY29ubmVjdGVkLCBuZXZlciB0aGUgbGVzcywgZHVy
+aW5nIApyZWNvbm5lY3Rpb24sIHRoZSB0aW1lb3V0IGlzIG5vdCBlbmZvcmNlZCBhbmQgY29tbWFu
+ZHMgbWF5IGdldCBzdHVjayBmb3IgCmEgbG9uZyBwZXJpb2Qgb3IgZXZlbiBmb3JldmVyLgoKLS0g
+amFtZXMKCgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpo
+dHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
