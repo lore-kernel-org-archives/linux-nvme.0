@@ -1,81 +1,68 @@
-Return-Path: <SRS0=KW74=BW=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=x9Yf=BX=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B74C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 23:25:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C25E5C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 00:32:14 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C7A1520774
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Aug 2020 23:25:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8F983207DA
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 00:32:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n+RTfvt+";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="i127Eu4N"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C7A1520774
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pLkwP7SN";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZG+AL1r5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F983207DA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:MIME-Version:Message-Id:Date:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=WoMfJ9fxY+psevjvKso2H+nSbTvu2WeHpLh9xSm1CHc=; b=n+RTfvt+Y/1Sg9gGGnTxP6RCEa
-	qX8v7UHHYn6+w0p9ALGKts8+I/BeOd1fZ5aAX+hep4XpH2n9qbixkiWzP6fxAkPiQQ05BkuijqCKZ
-	eqDJTMzomWI2EAWlqNhplASY6w5ohxyjV8G4y/eRmsH7DQV6fuHsCC8BnFdrqGv0GNoCC+OTLqGoE
-	XMRFKh0WyPTrLN3DeLXw4Uqu6lL+51xf5HYzY6Ye8sIJnZ8vWyzUMb1G6lGe0vw1L5hP+OqKenCeJ
-	CRUVojYa85rgk85vAiqgD6iNh0er9DIH8mZMJmINQiB2XCA3/P7cxxVuFt1zb/7IsZ6E0eywFyK7u
-	cpj1YVcQ==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=tCXvOdDdQBU4RNTFWWYh7iWIrxnr4y1Ui6jtI2iBmBY=; b=pLkwP7SNnswi6tXiqL9PrEeHU
+	Zyn2gK5+BKphqF4zO2/Nb7HLyPR40YHIF8c6GcAoZA+8gAaGsr60zS9Mivn1Sj8PolLYmxUN66BBK
+	XLc1EJx7ed0m+1OarFBDjwX8SiPoqmfJYMYcE8jIzB5fRdhM7gSi5wtkW+YccEw5V/yIVQuFdIxuF
+	by/9Yen4hzVvDSWRiRNdfWAFRnVyP6NkgtFnXy+k5Dnc6XBBrjuhGhnEXApSUIxkpEtXnLDa0xMVv
+	AatZfeDmSWhAE/uHgkc8jn5S+0DoJc8buMP3KPFSsoNfNjl3JaBxdKmgnU17xiHoim2gVmvbLPrdV
+	RXY2If60g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6072-0005Hq-5L; Wed, 12 Aug 2020 23:24:52 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1k61A6-0001ps-LW; Thu, 13 Aug 2020 00:32:06 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6070-0005HV-8H
- for linux-nvme@lists.infradead.org; Wed, 12 Aug 2020 23:24:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=TPtqtUSHRpoKKZiX58w5ytMOwEvWGOTrGUOwe/e4iiY=; b=i127Eu4N9N115gMCTdogO/LVfO
- 7QxtBWFUmort9VlkNV+exxmd1xE1ZaP0kCf1gjofUrVN6R05BJWKGrtW7zP6hnuama9rhlWWgOtWL
- a0Ri5ub5jmRUxYnAI4ILAzJkHzrnptFH/5ArdqY+9ru5BcI64P74VESR4+XvyU9wPHhkt9makbFu0
- sVNGYCYS4Ukh71soqyLX+eqN73q0LO2mv9xeILQh6gsF7GJAmKYI71o+xaSaxSYPusxDLN3q3gJHp
- Uf4dtou0F13mb1527a+VZxrnQAc9izoot8Jz1GpYo+T9ZXjIvpLEYfGkAO/udWRKlLWkUrJOWqNVQ
- vPS+DZnA==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1k606y-0006NP-2I; Wed, 12 Aug 2020 17:24:49 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
- (envelope-from <gunthorp@deltatee.com>)
- id 1k606w-0004m3-NI; Wed, 12 Aug 2020 17:24:46 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>
-Date: Wed, 12 Aug 2020 17:24:44 -0600
-Message-Id: <20200812232444.18310-1-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
+ id 1k61A3-0001pF-RX
+ for linux-nvme@lists.infradead.org; Thu, 13 Aug 2020 00:32:04 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 421F620771;
+ Thu, 13 Aug 2020 00:32:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597278722;
+ bh=DK6cpoMIVfyVu3p4pB2161IxNHY/GDxfnQI+cNfyugo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZG+AL1r5NU/udFg4cl05Mi6MI9WssSOPQQ0fn9v5LXwYCDLVzjyTV+2PpGNeZiYkz
+ IGl9HF7xLFWVDGJHZnyU7fcZb3yy2mfQFSXT2/2xG97PjnegHQcIuFKcO4vQ5lRz15
+ Cnb3E4XqVMCm2ldp9MAzByXqshGGdUznUybWP5+w=
+Date: Wed, 12 Aug 2020 17:32:00 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Logan Gunthorpe <logang@deltatee.com>
+Subject: Re: [PATCH v2] nvme: Use spin_lock_irq() when taking the ctrl->lock
+Message-ID: <20200813003200.GA1640756@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200812232444.18310-1-logang@deltatee.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
- keith.busch@wdc.com, axboe@kernel.dk, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2] nvme: Use spin_lock_irq() when taking the ctrl->lock
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <20200812232444.18310-1-logang@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200812_192450_378679_9CD554AA 
-X-CRM114-Status: GOOD (  15.01  )
+X-CRM114-CacheID: sfid-20200812_203204_089408_AD6B94EB 
+X-CRM114-Status: UNSURE (   8.37  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,130 +74,19 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Logan Gunthorpe <logang@deltatee.com>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <keith.busch@wdc.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When locking the ctrl->lock spinlock IRQs need to be disabled to avoid a
-dead lock. The new spin_lock() calls recently added produce the
-following lockdep warning when running the blktest nvme/003:
+There's an unrelated whitespace change in nvme_init_identify().
+Otherwise, looks fine.
 
-    ================================
-    WARNING: inconsistent lock state
-    --------------------------------
-    inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} usage.
-    ksoftirqd/2/22 [HC0[0]:SC1[1]:HE0:SE0] takes:
-    ffff888276a8c4c0 (&ctrl->lock){+.?.}-{2:2}, at: nvme_keep_alive_end_io+0x50/0xc0
-    {SOFTIRQ-ON-W} state was registered at:
-      lock_acquire+0x164/0x500
-      _raw_spin_lock+0x28/0x40
-      nvme_get_effects_log+0x37/0x1c0
-      nvme_init_identify+0x9e4/0x14f0
-      nvme_reset_work+0xadd/0x2360
-      process_one_work+0x66b/0xb70
-      worker_thread+0x6e/0x6c0
-      kthread+0x1e7/0x210
-      ret_from_fork+0x22/0x30
-    irq event stamp: 1449221
-    hardirqs last  enabled at (1449220): [<ffffffff81c58e69>] ktime_get+0xf9/0x140
-    hardirqs last disabled at (1449221): [<ffffffff83129665>] _raw_spin_lock_irqsave+0x25/0x60
-    softirqs last  enabled at (1449210): [<ffffffff83400447>] __do_softirq+0x447/0x595
-    softirqs last disabled at (1449215): [<ffffffff81b489b5>] run_ksoftirqd+0x35/0x50
-
-    other info that might help us debug this:
-     Possible unsafe locking scenario:
-
-           CPU0
-           ----
-      lock(&ctrl->lock);
-      <Interrupt>
-        lock(&ctrl->lock);
-
-     *** DEADLOCK ***
-
-    no locks held by ksoftirqd/2/22.
-
-    stack backtrace:
-    CPU: 2 PID: 22 Comm: ksoftirqd/2 Not tainted 5.8.0-rc4-eid-vmlocalyes-dbg-00157-g7236657c6b3a #1450
-    Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.12.0-1 04/01/2014
-    Call Trace:
-     dump_stack+0xc8/0x11a
-     print_usage_bug.cold.63+0x235/0x23e
-     mark_lock+0xa9c/0xcf0
-     __lock_acquire+0xd9a/0x2b50
-     lock_acquire+0x164/0x500
-     _raw_spin_lock_irqsave+0x40/0x60
-     nvme_keep_alive_end_io+0x50/0xc0
-     blk_mq_end_request+0x158/0x210
-     nvme_complete_rq+0x146/0x500
-     nvme_loop_complete_rq+0x26/0x30 [nvme_loop]
-     blk_done_softirq+0x187/0x1e0
-     __do_softirq+0x118/0x595
-     run_ksoftirqd+0x35/0x50
-     smpboot_thread_fn+0x1d3/0x310
-     kthread+0x1e7/0x210
-     ret_from_fork+0x22/0x30
-
-Fixes: be93e87e7802 ("nvme: support for multiple Command Sets Supported and Effects log pages")
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
-
-v2 uses spin_lock_irq() instead of spin_lock_irqsave() as these
-functions should never be called in an interrupt disabled context.
-
- drivers/nvme/host/core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 15abc00db3d3..5e23fe029140 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2972,14 +2972,14 @@ static struct nvme_cel *nvme_find_cel(struct nvme_ctrl *ctrl, u8 csi)
- {
- 	struct nvme_cel *cel, *ret = NULL;
-
--	spin_lock(&ctrl->lock);
-+	spin_lock_irq(&ctrl->lock);
- 	list_for_each_entry(cel, &ctrl->cels, entry) {
- 		if (cel->csi == csi) {
- 			ret = cel;
- 			break;
- 		}
- 	}
--	spin_unlock(&ctrl->lock);
-+	spin_unlock_irq(&ctrl->lock);
-
- 	return ret;
- }
-@@ -3006,9 +3006,9 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
-
- 	cel->csi = csi;
-
--	spin_lock(&ctrl->lock);
-+	spin_lock_irq(&ctrl->lock);
- 	list_add_tail(&cel->entry, &ctrl->cels);
--	spin_unlock(&ctrl->lock);
-+	spin_unlock_irq(&ctrl->lock);
- out:
- 	*log = &cel->log;
- 	return 0;
-@@ -3179,7 +3179,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ret = nvme_configure_apst(ctrl);
- 	if (ret < 0)
- 		return ret;
--
-+
- 	ret = nvme_configure_timestamp(ctrl);
- 	if (ret < 0)
- 		return ret;
-
-base-commit: 4d3c0eaf0d44a4f8f7d53b7835e670eafc96c450
---
-2.20.1
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
 _______________________________________________
 Linux-nvme mailing list
