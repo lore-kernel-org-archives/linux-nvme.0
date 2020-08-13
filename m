@@ -7,78 +7,61 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29858C433E3
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 03:55:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F7CC433E1
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 04:06:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E503420715
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 03:55:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9396D2076C
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Aug 2020 04:06:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jYJCXQkS";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="K8LgK7r8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E503420715
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="R6l3L0rE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9396D2076C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9yqXcPLhC4EWYosIV7skmcW7Jee5lwu4ZbEE0dpUlus=; b=jYJCXQkSIYTanFux8OVXD2e42
-	BMUWm7T1TLcYelgwef5vd/ojR7wD8yW8sOUCZ4EfCZ+fTSK3jxcbQZeCdqh+7gIn/Frs7p7O3z4qn
-	LofbbwhJgJfHfV60ZM0UPV4t5AlY4tekmzcoSKFB3iLvPtEgXleQkktZVv/ggHj4VjnWuZCp5YTqk
-	uZJb5Mmz+KAo/CkVXyS/ycKa0wgZt86MVRk4sr1Ai7Gw0xlteTvzJgHkgzWHbuD9ZQSMbOoHJlaD4
-	v+FpbRl0HZp0XTq7o9b66RR459fgntEd5lD+UKXV2uMeQY8J/ft7ZDp3dZ/y7tZM7hUDJFeoy4N/a
-	WBX74d8Cg==;
+	 bh=PQ6nqTOxv1W+fBiHDJRzCeWVa3zA5Pxyq46SI0agiQ4=; b=R6l3L0rEJRa+dGeNEQ8N7NOgj
+	bMan3wkyG5r1cJqlgqgz88jcKVWZuaP6QT7RFKuzKhREC3Hy9nNy78uWIEEPTuisJeRjyl0FYK2S2
+	o72rHVD1E5XwoM9qFvdrm4wa/k0Gx2/5nOO4dC1bfpGkqoKOrV1oH2e1U775k+5ai/CnVvsN+/66U
+	DMTZVPUbsCjkZ5EAPp/w0HyXMibNzvPpHIVKs2yVQeQJ+plN7sX4RdMwooWl3iOUoteqvcYPlvQ2C
+	1zs+b63mV7UGgRbzi6FxtmdLpNzO8zPLpI8hr92CjvMdnxBaC6h94Ca599PBeyN/0yF6zcg53qG6f
+	pjo2Z8nIQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k64L7-00043D-3w; Thu, 13 Aug 2020 03:55:41 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1k64Vv-0004ua-Ea; Thu, 13 Aug 2020 04:06:51 +0000
+Received: from szxga05-in.huawei.com ([45.249.212.191] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k64L4-00042Q-DJ
- for linux-nvme@lists.infradead.org; Thu, 13 Aug 2020 03:55:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Mut7N42mh5vYAnOGpRQfTephvtNDrJcec2/m7aRKhb0=; b=K8LgK7r8nixrKQsEJO7cKuUmi5
- 85iU3LQed/6W8Jblqn1daLqQqiDKsepKA3iAsMumiAH5v3UVTRsBX7m/OVFVuyQUjHQqoffztqlzi
- +fpod/sxu2YxplgTD8K+g8EoMTXg9P6KbMdiOQ7CJCQtGxZknapgf4wYecK3B/OwVUPWMaCw4l08t
- WHUMrEtC3cKJTfUoVRXkKAfahj5gLCam/zHPgRNkhVZjpo2jbEdc4ybItCYYjdtIE2roKouxoeniX
- nKN2zs13wqbYsFeT5RGPM1FXmhK5+xn26xzBzXOEq+jGpqgL/kOdOXfn04ckjXOHoop/+yihs0ETg
- Pfcs7CVw==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1k64L1-0002aC-AP; Wed, 12 Aug 2020 21:55:36 -0600
-To: Keith Busch <kbusch@kernel.org>
-References: <20200812232444.18310-1-logang@deltatee.com>
- <20200813003200.GA1640756@dhcp-10-100-145-180.wdl.wdc.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <829bed01-44c9-cac7-eb1b-9d1ccca7fd47@deltatee.com>
-Date: Wed, 12 Aug 2020 21:55:33 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ id 1k64Vr-0004tz-0c
+ for linux-nvme@lists.infradead.org; Thu, 13 Aug 2020 04:06:49 +0000
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id AEF81B41A5826F961353;
+ Thu, 13 Aug 2020 12:06:35 +0800 (CST)
+Received: from [10.169.42.93] (10.169.42.93) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0;
+ Thu, 13 Aug 2020 12:06:13 +0800
+Subject: Re: [PATCH 3/3] nvme-core: delete the dependency on
+ REQ_FAILFAST_TRANSPORT
+To: Christoph Hellwig <hch@lst.de>
+References: <20200812081855.22277-1-lengchao@huawei.com>
+ <20200812151340.GC29544@lst.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <f7301c1a-909c-d090-95f9-34af76154547@huawei.com>
+Date: Thu, 13 Aug 2020 12:06:13 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200813003200.GA1640756@dhcp-10-100-145-180.wdl.wdc.com>
+In-Reply-To: <20200812151340.GC29544@lst.de>
 Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: hch@lst.de, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- keith.busch@wdc.com, sagi@grimberg.me, axboe@kernel.dk, kbusch@kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v2] nvme: Use spin_lock_irq() when taking the ctrl->lock
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+X-Originating-IP: [10.169.42.93]
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200812_235538_491517_E96842F1 
-X-CRM114-Status: UNSURE (   9.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200813_000647_862879_CC45A5EF 
+X-CRM114-Status: GOOD (  16.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,24 +73,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <keith.busch@wdc.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: axboe@fb.com, sagi@grimberg.me, linux-scsi@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, kbusch@kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2020-08-12 6:32 p.m., Keith Busch wrote:
-> There's an unrelated whitespace change in nvme_init_identify().
-> Otherwise, looks fine.
-
-Oops, sorry. can this be fixed up when it's merged?
-
-Logan
+On 2020/8/12 23:13, Christoph Hellwig wrote:
+> On Wed, Aug 12, 2020 at 04:18:55PM +0800, Chao Leng wrote:
+>> REQ_FAILFAST_TRANSPORT may be designed for scsi, because scsi protocol
+>> do not difine the local retry mechanism. SCSI implements a fuzzy local
+>> retry mechanism, so need the REQ_FAILFAST_TRANSPORT for multipath
+>> software, if work with multipath software, ultraPath determines
+>> whether to retry and how to retry.
+>>
+>> Nvme is different with scsi about this. It define local retry mechanism
+>> and path error code, so nvme should retry local for non path error.
+>> If path related error, whether to retry and how to retry is still
+>> determined by ultraPath. REQ_FAILFAST_TRANSPORT just for non nvme
+>> multipath software(like dm-multipath), but we do not need return an
+>> error for REQ_FAILFAST_TRANSPORT first, because we need retry local
+>> for non path error first.
+> 
+> This doesn't look wrong, but these kinds of changes really need to
+> go along with block layer documentation of the intended uses of the
+> flags.  In fact the SCSI usage also looks really confused to me and at
+> very least needs better documentation if not changes.  So I think
+Yes, SCSI do not define local retry, so complex processing logic is
+required.
+> you need to do a lot code archaeology, ping the authors and current
+> maintainers and sort this out as well.
+Now REQ_FAILFAST_TRANSPORT just used for multipath software, the patch
+use the advantages of nvme, looks no bad effect.
+> 
+> More importantly if the above explanation makes sense we really need
+> to kill blk_noretry_request off entirely and replace it with a check
+> of the right set of flags in each caller as well.
 
 _______________________________________________
 Linux-nvme mailing list
