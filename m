@@ -4,56 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF91C433E1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 06:57:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65987C433E1
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 07:02:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 871A920708
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 06:57:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 26CDB20708
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 07:02:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lWyiInmf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 871A920708
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n5gfptDm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 26CDB20708
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=dw4QDO/HELL5co48yjQ3x40FiH0OrjDJZE4BNUA//zU=; b=lWyiInmfZXily0n1PX+nsgCVX
-	3qzHXDu4ne3eEtrZWa849jmtNW/C18nrrP5Bet//1z0iJi6TcNmnm6vc9bUSMjwQ0G9nXznkVjA+y
-	2gtjnZvUUkbnqQbHUGickS9MP0n36V6I41L5uKkNJewMUbL3jNHjLaZlHuZ7tYSlTpkSPgNPi87xG
-	FnsZCWm8UG7DX61k9/CzXHl0WlcRKk05d7q1Lohr8dFxM/bC9+dQg06DuQkOz+IlCKDgH75oBUmJk
-	4rwRv2ygJYKSVIb3QaTX5AC7sE6evHrXW3ZCgQDnlAnPe1yYWZXjAYyB8iqYJFitrLxpHENkBMA2C
-	aM/Wt4NdA==;
+	 bh=fn04j9z0BVN6IaxavWXRmN6BtMq3jgK0tZXyGgWzDnQ=; b=n5gfptDmyt6+QrMni2/nfMbrp
+	8BovH7ryp+Z0TTihft27744ezRAgweIatq6DgUjwDygfdH5m6dyEQ7iRvLV3AVrHk5oNQjFXYc0FZ
+	wEViJr6NSQQ9KJEJo0OVSfwoNkVgFpOty2FPoFWI+0FE8IZjWEzQQsQKEgfvwHG9PZk8YkfqN5hOK
+	LgXkPwHa1eV+Bdvjgx1HaE9NAormnznisy2A+4TBPIwVeztIBbl/1Wcdc3s9pkUVjFsO3Owfm1vlW
+	CxrDGfkj5+qBYamCkrCkOMXYxy7+rmsGEjTX4yAHFTTxOZIH9T2KXEGTjws9b9u0D+OGBGmJXDa5M
+	rUXUstNlA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6TeP-00077f-IH; Fri, 14 Aug 2020 06:57:17 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1k6Tjl-0007nt-7D; Fri, 14 Aug 2020 07:02:49 +0000
+Received: from mail-wr1-f41.google.com ([209.85.221.41])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6TeM-000772-7Z
- for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 06:57:15 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id E4E5068CEE; Fri, 14 Aug 2020 08:57:11 +0200 (CEST)
-Date: Fri, 14 Aug 2020 08:57:11 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATVH V5] nvme-core: use xarray for ctrl ns tracking
-Message-ID: <20200814065711.GA2070@lst.de>
-References: <20200814021612.5161-1-chaitanya.kulkarni@wdc.com>
- <4654370f-40b9-1b35-1e22-864e762c3001@grimberg.me>
+ id 1k6Tji-0007mf-Gd
+ for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 07:02:48 +0000
+Received: by mail-wr1-f41.google.com with SMTP id f12so7385892wru.13
+ for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2020 00:02:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+ytoOyn3OrI2lGVFxmY4HgXuf5BgTgZI4BeBO5ABZrE=;
+ b=EidSUlWOhofv0NbSpZ7QcsmRfqXKaW6x/RZHxHZqDvlJ09vHhllDztTVMjZBVn31ph
+ PjAZ3WQfSJAdI+mcixVSIyqXsVD0XyS7TU5qrFiKcMt0VKS0YkZoiA8sJz9t4EW4MZOe
+ HLgp3ByU86UZPgJOvOXlzwf6xt1/QO7YY96BG7P1OX6T8GXJMKvlYSxJ3b2Qw5wTVK6V
+ HyriwQAiQZa09FgtaVgRf0CFa+gqLi7GMdFdr7/256I4NLOavinRCi8F7vD+yEyXF4Ff
+ u0qQ7WqXeuYSKSadRtsHOREi55xi3Hz8QTTZEAeMxAtlzl6jrfVsvx4BTxCYHMJJlk1Z
+ F8kA==
+X-Gm-Message-State: AOAM5333p06NtO8Xs3i0B+5led0ehh5VWIADjrr4P8+gIKxBMRhtGc/h
+ 4YiV9ews8Y5/Bpzs/DUCOTA=
+X-Google-Smtp-Source: ABdhPJwYqijp9QX7wIXUkWLCTJOejyUQdH0epva1BjXn3u3yZ8CT0jkomOJIJpcDXQoYokuCO2C0UQ==
+X-Received: by 2002:adf:b302:: with SMTP id j2mr1368441wrd.294.1597388559816; 
+ Fri, 14 Aug 2020 00:02:39 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:51f:3472:bc7:2f4f?
+ ([2601:647:4802:9070:51f:3472:bc7:2f4f])
+ by smtp.gmail.com with ESMTPSA id z8sm12425651wmf.10.2020.08.14.00.02.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Aug 2020 00:02:39 -0700 (PDT)
+Subject: Re: [RESEND PATCH] nvme: explicitly use normal NVMe error handling
+ when appropriate
+To: Christoph Hellwig <hch@infradead.org>
+References: <510f5aff-0437-b1ce-f7ab-c812edbea880@grimberg.me>
+ <20200807045015.GA29737@redhat.com>
+ <fec745aa-0091-ee1f-cb0f-da9e18cf0aa2@grimberg.me>
+ <20200810143620.GA19127@redhat.com> <20200810172209.GA19535@redhat.com>
+ <20200813144811.GA5452@redhat.com> <20200813153623.GA30905@infradead.org>
+ <20200813174704.GA6137@redhat.com> <20200813184349.GA8191@infradead.org>
+ <96aff2d0-5907-f5c9-9164-8fea0d030d95@grimberg.me>
+ <20200814065559.GA29917@infradead.org>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <9cced4a7-aafa-23c8-ad4b-d19e0b136585@grimberg.me>
+Date: Fri, 14 Aug 2020 00:02:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <4654370f-40b9-1b35-1e22-864e762c3001@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200814065559.GA29917@infradead.org>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200814_025714_440400_DF02FAAD 
-X-CRM114-Status: GOOD (  15.36  )
+X-CRM114-CacheID: sfid-20200814_030246_578846_A8802F6E 
+X-CRM114-Status: GOOD (  14.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,35 +95,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
+ dm-devel@redhat.com, Hannes Reinecke <hare@suse.de>,
+ Chao Leng <lengchao@huawei.com>, Keith Busch <kbusch@kernel.org>, "Meneghini,
+ John" <John.Meneghini@netapp.com>, Ewan Milne <emilne@redhat.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 13, 2020 at 11:33:41PM -0700, Sagi Grimberg wrote:
->
->> This patch replaces the ctrl->namespaces tracking from linked list to
->> xarray for better ns-mgmt on the host side. For host side
->> nvme_find_get_ns() falls into the fast path for NVMeOF passthru target.
->> This allows us to have better performance for NVMeOF passthru backend
->> since XArray has shows better performance numbers over having
->> a combination of read-write semapore read + linked list in the
->> nvme_find_get_ns() to find namespace in I/O patch from nsid specified
->> in the nvme_rw_cmd.
->
-> This patch scares me to be honest...
->
-> We have such non-trivial synchronization paths for ns scanning, ns
-> removal, quiescing, freezing, path handling... I'm not even sure
-> how many tests we'll need to verify that nothing breaks here.
 
-Yes, same concern here.  That being said I have plans for this or
-next merge window to fix a lot of crap in the block layer about
-the bdev mutex to update the size, which should lead to major
-simpliciations of the nvme ns scanning/removal path.  But I'd much
-rather sort that our first rather than touching this code now.
+>>> +	switch (nvme_req_disposition(req)) {
+>>> +	case COMPLETE:
+>>> +		nvme_complete_req(req);
+>>
+>> nvme_complete_rq calling nvme_complete_req... Maybe call it
+>> __nvme_complete_rq instead?
+> 
+> That's what I had first, but it felt so strangely out of place next
+> to the other nvme_*_req calls..
+> 
+> Maybe nvme_complete_rq needs to be renamed - what about nvme_req_done?
+
+I'd suggest to call nvme_complete_rq nvme_end_rq because it really calls
+blk_mq_end_request. That would confuse with nvme_end_request which
+calls blk_mq_complete_request... Maybe we need some naming improvements
+throughout.
+
+>> Maybe call nvme_req_disposition again locally here to not carry
+>> the is_ana_status. But not a biggy..
+> 
+> That means it would have to become non-static in scope, limiting
+> inlining possibilities, etc.
+
+I see.
 
 _______________________________________________
 Linux-nvme mailing list
