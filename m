@@ -2,83 +2,68 @@ Return-Path: <SRS0=5rXh=BY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E4EC433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 11:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42401C433E1
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 12:03:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AE35F207DA
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 11:53:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0EBAF20774
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 12:03:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0+XI/yj/";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kZrXEjqM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE35F207DA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FtiUGm5s"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0EBAF20774
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+RfP3q7lybGFSYtuuFhMhnXGJX2N7cOlqXkdnVr+FEs=; b=0+XI/yj/c7u56Pr8+fREvGTJ+
-	v0S7L9TWCQJbVHuGE2ZzC6UiKNuU7CAvOCwyf9CbiWqtUL3yvoTdn2YjkfxpfDYUw1iJz2T0btKHL
-	w4hyNfAivuhE98n/h6kY5OvIfe5FTpABzV7ZREm+r2JRohhfuc8OGMQcml7rox6NdNOuqoaXsfI72
-	J38mx6ahg8u6OW9R3gZtBW0yG2fJGDXVThtsbqK70h0KlUJm3veE42xF3+MwA1wMJeFg9cHIehEcK
-	Qb937htji6/zgiFdBg3+fNr48QIA9TLUxj8B6iYEIfnGJeM9q8bJZVhfQ8T2UPN3Pv98M8iK+m42j
-	zmfXYMsKQ==;
+	 bh=ClLGzO4YvxkxI6R2TOZPGaT+voWlnFUHGUx48zakGGU=; b=FtiUGm5sc+eCMBHT0VftThD0o
+	FvV2/Ry+z/LYxX2RkXeCdhTjoLIPxwAkSdiyM72MMCNu6O65b8NqoSqr1ARcqWQXvwDUUTSE2/1CW
+	zLPZTWz9t2s9cLHLUICQXbvahA/iCGL92wFP7SRqeHck913gUbxvMyXil0lvToheO1YekWLlBz+o0
+	SPslgPAYmUXZjRve8bKWOANQiZhtIIhNyeDHmVWqSlurpOFqC37fNSpTJzzINKTPhyNcFa52dmfsp
+	RmfC2gkKS2WWabJ2hH4P6X65Gr3H268CKNgkJ9JeTHLoRRcoN69YWod6Gfk2fIj5IT/Fb6yCu2RcB
+	+H0Mih2bw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6YH4-00040d-Ju; Fri, 14 Aug 2020 11:53:30 +0000
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41])
+	id 1k6YQJ-0006S9-HA; Fri, 14 Aug 2020 12:03:03 +0000
+Received: from lhrrgout.huawei.com ([185.176.76.210] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6YH2-000406-90
- for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 11:53:29 +0000
-Received: by mail-io1-xd41.google.com with SMTP id h4so10487755ioe.5
- for <linux-nvme@lists.infradead.org>; Fri, 14 Aug 2020 04:53:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8RJj+TkYMzHiac1xq1Tf3lQ5iLBSeYwuZiB6gfgnwbY=;
- b=kZrXEjqMlHaOP2Jvq3YGRQ4GTNlXxHsusr71weGy/oFdmmSRzXfR3o4wkjIRXQiIZ/
- 6t2FmVkzYveIYXX0fnxAdmZgZhq/VX+bIiZqTQHYr8FIDkvkx6T4vyAXpFlFfmj0Y6Dx
- XHRjn3Agg4TDT3zEe8+OjI+yJw4FrE3xhzk29qa2r5Xw0SxvrPnd7+7UzK3oY9uM30Pg
- O6Q78vHKCkfRnwPQygOuWpBQI9stVRTDDMpU7btgIQ5capgMNBK6BGKNJ7LPa+cl9ccN
- cbJGcwYjd0/uYXrO9BRullrXjFURQD0zsWiL7XSSg7Spemlq63Ff+Uqh58l1q7G06SMm
- IvMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8RJj+TkYMzHiac1xq1Tf3lQ5iLBSeYwuZiB6gfgnwbY=;
- b=QJdEklB1tAy7KsYBP3DDrzlb8CviKSG0N4kaqwyb/ATU6a7+lJWgbyqBUsPMvq/tUC
- f+wBxv3i9zrePPCMIHz+A1SP85rr4XdPlyk+yoGApGz/R8C9C9OVgSitoS0QArgPGi1K
- CSKlql2JQ+nXZGrW7UdNkQgOWl6jHYS8iB2hH/5QPq49IRvjuwf5IGdfCdP9qUjNATly
- tEGY+9Ptx7C6MGtCP5T8zAXPGuTtz+uCmm7qGIDi45eu2fpAfU/2eA7e73bVVkpRlVFk
- fyStNBqO5IfkPuuT+N1QRHkFk3HcRvmM0I28YuOpeaT7Tvjjc7rnvnxzmqIy3c3TBU6d
- Ae1Q==
-X-Gm-Message-State: AOAM532DLe89wruQwP1vNDJmm4/f0j8rYeZ+WpWAVLswPxN1t45nk5Cf
- RLPzku0Pmcla1e6+WeJipkXmhbS4axJhlTXbJSU=
-X-Google-Smtp-Source: ABdhPJwgpaBwFKnfbf8yPBtOw/1ZjX5D1yc5qFmBupXbTSR6wYkAeXzqmRCEIW7DAftD4q0gZBywXbirls+TkmKO4bY=
-X-Received: by 2002:a05:6638:214d:: with SMTP id
- z13mr2518690jaj.7.1597406006482; 
- Fri, 14 Aug 2020 04:53:26 -0700 (PDT)
+ id 1k6YQG-0006Qi-6R
+ for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 12:03:01 +0000
+Received: from lhreml724-chm.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id BDC3B1AA99F23CE61D1D;
+ Fri, 14 Aug 2020 13:02:46 +0100 (IST)
+Received: from [127.0.0.1] (10.47.4.107) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Fri, 14 Aug
+ 2020 13:02:46 +0100
+Subject: Re: nvme crash - Re: linux-next: Tree for Aug 13
+To: Christoph Hellwig <hch@infradead.org>
+References: <20200813155009.GA2303@infradead.org>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <81e42d30-ede3-d7b0-ad7b-8192bcf27a4c@huawei.com>
+Date: Fri, 14 Aug 2020 13:00:30 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-References: <20200814071431.201400-1-ztong0001@gmail.com>
- <20200814081647.GA10347@lst.de>
-In-Reply-To: <20200814081647.GA10347@lst.de>
-From: Tong Zhang <ztong0001@gmail.com>
-Date: Fri, 14 Aug 2020 07:53:15 -0400
-Message-ID: <CAA5qM4BSMiFGe=N9H_YCK79Y2jSurUEbPmdTcaPnVu8cFgmGEA@mail.gmail.com>
-Subject: Re: [PATCH] nvme-pci: cancel nvme device request before disabling
-To: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20200813155009.GA2303@infradead.org>
+Content-Language: en-US
+X-Originating-IP: [10.47.4.107]
+X-ClientProxiedBy: lhreml726-chm.china.huawei.com (10.201.108.77) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200814_075328_456179_6DAB84D6 
-X-CRM114-Status: GOOD (  15.30  )
+X-CRM114-CacheID: sfid-20200814_080300_453388_E8AC2154 
+X-CRM114-Status: GOOD (  19.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,39 +75,175 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, axboe@fb.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, sagi@grimberg.me
-Content-Type: text/plain; charset="us-ascii"
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, chaitanya.kulkarni@wdc.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme <linux-nvme@lists.infradead.org>, iommu@lists.linux-foundation.org,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Oops sorry for the duplicated email -- I forgot to turn off HTML when
-sending the previous one.
 
-Thanks Christoph,
-I did a couple of fixes on the commit log, please see v2 patch.
-Thanks!
--- Tong
+>> I have experienced this this crash below on linux-next for the last few days
+>> on my arm64 system. Linus' master branch today also has it.
+> Adding Robin and the iommu list as this seems to be in the dma-iommu
+> code.
+> 
+>> root@ubuntu:/home/john# insmod nvme.ko
+>> [148.254564] nvme 0000:81:00.0: Adding to iommu group 21
+>> [148.260973] nvme nvme0: pci function 0000:81:00.0
+>> root@ubuntu:/home/john# [148.272996] Unable to handle kernel NULL pointer
+>> dereference at virtual address 0000000000000010
+>> [148.281784] Mem abort info:
+>> [148.284584] ESR = 0x96000004
+>> [148.287641] EC = 0x25: DABT (current EL), IL = 32 bits
+>> [148.292950] SET = 0, FnV = 0
+>> [148.295998] EA = 0, S1PTW = 0
+>> [148.299126] Data abort info:
+>> [148.302003] ISV = 0, ISS = 0x00000004
+>> [148.305832] CM = 0, WnR = 0
+>> [148.308794] user pgtable: 4k pages, 48-bit VAs, pgdp=00000a27bf3c9000
+>> [148.315229] [0000000000000010] pgd=0000000000000000, p4d=0000000000000000
+>> [148.322016] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+>> [148.327577] Modules linked in: nvme nvme_core
+>> [148.331927] CPU: 56 PID: 256 Comm: kworker/u195:0 Not tainted
+>> 5.8.0-next-20200812 #27
+>> [148.339744] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI RC0 -
+>> V1.16.01 03/15/2019
+>> [148.348260] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+>> [148.353822] pstate: 80c00009 (Nzcv daif +PAN +UAO BTYPE=--)
+>> [148.359390] pc : __sg_alloc_table_from_pages+0xec/0x238
+>> [148.364604] lr : __sg_alloc_table_from_pages+0xc8/0x238
+>> [148.369815] sp : ffff800013ccbad0
+>> [148.373116] x29: ffff800013ccbad0 x28: ffff0a27b3d380a8
+>> [148.378417] x27: 0000000000000000 x26: 0000000000002dc2
+>> [148.383718] x25: 0000000000000dc0 x24: 0000000000000000
+>> [148.389019] x23: 0000000000000000 x22: ffff800013ccbbe8
+>> [148.394320] x21: 0000000000000010 x20: 0000000000000000
+>> [148.399621] x19: 00000000fffff000 x18: ffffffffffffffff
+>> [148.404922] x17: 00000000000000c0 x16: fffffe289eaf6380
+>> [148.410223] x15: ffff800011b59948 x14: ffff002bc8fe98f8
+>> [148.415523] x13: ff00000000000000 x12: ffff8000114ca000
+>> [148.420824] x11: 0000000000000000 x10: ffffffffffffffff
+>> [148.426124] x9 : ffffffffffffffc0 x8 : ffff0a27b5f9b6a0
+>> [148.431425] x7 : 0000000000000000 x6 : 0000000000000001
+>> [148.436726] x5 : ffff0a27b5f9b680 x4 : 0000000000000000
+>> [148.442027] x3 : ffff0a27b5f9b680 x2 : 0000000000000000
+>> [148.447328] x1 : 0000000000000001 x0 : 0000000000000000
+>> [148.452629] Call trace:
+>> [148.455065]__sg_alloc_table_from_pages+0xec/0x238
+>> [148.459931]sg_alloc_table_from_pages+0x18/0x28
+>> [148.464541]iommu_dma_alloc+0x474/0x678
+>> [148.468455]dma_alloc_attrs+0xd8/0xf0
+>> [148.472193]nvme_alloc_queue+0x114/0x160 [nvme]
+>> [148.476798]nvme_reset_work+0xb34/0x14b4 [nvme]
+>> [148.481407]process_one_work+0x1e8/0x360
+>> [148.485405]worker_thread+0x44/0x478
+>> [148.489055]kthread+0x150/0x158
+>> [148.492273]ret_from_fork+0x10/0x34
+>> [148.495838] Code: f94002c3 6b01017f 540007c2 11000486 (f8645aa5)
+>> [148.501921] ---[ end trace 89bb2b72d59bf925 ]---
+>>
+>> Anything to worry about? I guess not since we're in the merge window, but
+>> mentioning just in case ...
 
+I bisected, and this patch looks to fix it (note the comments below the 
+'---'):
 
-On Fri, Aug 14, 2020 at 4:16 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Fri, Aug 14, 2020 at 03:14:31AM -0400, Tong Zhang wrote:
-> >   This patch addresses an irq free warning and null pointer dereference
-> >   error problem when nvme devices got timeout error during initialization.
-> >   This problem happens when nvme_timeout() function is called while
-> >   nvme_reset_work() is still in execution. This patch fixed the problem by
-> >   setting flag of the problematic request to NVME_REQ_CANCELLED before
-> >   calling nvme_dev_disable() to make sure __nvme_submit_sync_cmd() returns
-> >   an error code and let nvme_submit_sync_cmd() fail gracefully.
-> >   The following is console output.
->
-> The commit log looks a little weird due to the extra indentation.
->
-> The patch itself looks good, though:
->
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+ From 263891a760edc24b901085bf6e5fe2480808f86d Mon Sep 17 00:00:00 2001
+From: John Garry <john.garry@huawei.com>
+Date: Fri, 14 Aug 2020 12:45:18 +0100
+Subject: [PATCH] nvme-pci: Use u32 for nvme_dev.q_depth
+
+Recently nvme_dev.q_depth was changed from int to u16 type.
+
+This falls over for the queue depth calculation in nvme_pci_enable(),
+where NVME_CAP_MQES(dev->ctrl.cap) + 1 may overflow, as NVME_CAP_MQES()
+gives a 16b number also. That happens for me, and this is the result:
+
+root@ubuntu:/home/john# [148.272996] Unable to handle kernel NULL pointer
+dereference at virtual address 0000000000000010
+[148.281784] Mem abort info:
+[148.284584] ESR = 0x96000004
+[148.287641] EC = 0x25: DABT (current EL), IL = 32 bits
+[148.292950] SET = 0, FnV = 0
+[148.295998] EA = 0, S1PTW = 0
+[148.299126] Data abort info:
+[148.302003] ISV = 0, ISS = 0x00000004
+[148.305832] CM = 0, WnR = 0
+[148.308794] user pgtable: 4k pages, 48-bit VAs, pgdp=00000a27bf3c9000
+[148.315229] [0000000000000010] pgd=0000000000000000, p4d=0000000000000000
+[148.322016] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+[148.327577] Modules linked in: nvme nvme_core
+[148.331927] CPU: 56 PID: 256 Comm: kworker/u195:0 Not tainted
+5.8.0-next-20200812 #27
+[148.339744] Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI RC0 -
+V1.16.01 03/15/2019
+[148.348260] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+[148.353822] pstate: 80c00009 (Nzcv daif +PAN +UAO BTYPE=--)
+[148.359390] pc : __sg_alloc_table_from_pages+0xec/0x238
+[148.364604] lr : __sg_alloc_table_from_pages+0xc8/0x238
+[148.369815] sp : ffff800013ccbad0
+[148.373116] x29: ffff800013ccbad0 x28: ffff0a27b3d380a8
+[148.378417] x27: 0000000000000000 x26: 0000000000002dc2
+[148.383718] x25: 0000000000000dc0 x24: 0000000000000000
+[148.389019] x23: 0000000000000000 x22: ffff800013ccbbe8
+[148.394320] x21: 0000000000000010 x20: 0000000000000000
+[148.399621] x19: 00000000fffff000 x18: ffffffffffffffff
+[148.404922] x17: 00000000000000c0 x16: fffffe289eaf6380
+[148.410223] x15: ffff800011b59948 x14: ffff002bc8fe98f8
+[148.415523] x13: ff00000000000000 x12: ffff8000114ca000
+[148.420824] x11: 0000000000000000 x10: ffffffffffffffff
+[148.426124] x9 : ffffffffffffffc0 x8 : ffff0a27b5f9b6a0
+[148.431425] x7 : 0000000000000000 x6 : 0000000000000001
+[148.436726] x5 : ffff0a27b5f9b680 x4 : 0000000000000000
+[148.442027] x3 : ffff0a27b5f9b680 x2 : 0000000000000000
+[148.447328] x1 : 0000000000000001 x0 : 0000000000000000
+[148.452629] Call trace:
+[148.455065]__sg_alloc_table_from_pages+0xec/0x238
+[148.459931]sg_alloc_table_from_pages+0x18/0x28
+[148.464541]iommu_dma_alloc+0x474/0x678
+[148.468455]dma_alloc_attrs+0xd8/0xf0
+[148.472193]nvme_alloc_queue+0x114/0x160 [nvme]
+[148.476798]nvme_reset_work+0xb34/0x14b4 [nvme]
+[148.481407]process_one_work+0x1e8/0x360
+[148.485405]worker_thread+0x44/0x478
+[148.489055]kthread+0x150/0x158
+[148.492273]ret_from_fork+0x10/0x34
+[148.495838] Code: f94002c3 6b01017f 540007c2 11000486 (f8645aa5)
+[148.501921] ---[ end trace 89bb2b72d59bf925 ]---
+
+Fix by making a u32.
+
+Fixes: 61f3b8963097 ("nvme-pci: use unsigned for io queue depth")
+Signed-off-by: John Garry <john.garry@huawei.com>
+---
+unsigned int may be better, and io_queue_depth() needs fixing also
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ba725ae47305..72c1402abfc3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -120,7 +120,7 @@ struct nvme_dev {
+  	unsigned max_qid;
+  	unsigned io_queues[HCTX_MAX_TYPES];
+  	unsigned int num_vecs;
+-	u16 q_depth;
++	u32 q_depth;
+  	int io_sqes;
+  	u32 db_stride;
+  	void __iomem *bar;
+@@ -2320,7 +2320,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+
+  	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+
+-	dev->q_depth = min_t(u16, NVME_CAP_MQES(dev->ctrl.cap) + 1,
++	dev->q_depth = min_t(u32, NVME_CAP_MQES(dev->ctrl.cap) + 1,
+  				io_queue_depth);
+  	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
+  	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
 
 _______________________________________________
 Linux-nvme mailing list
