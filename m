@@ -3,65 +3,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0ACC433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 15:04:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26789C433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 15:17:51 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 06C9720866
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 15:04:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E5715207DA
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 15:17:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1G87W/QL";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="CrTxXsd1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 06C9720866
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="F9JKKJhE";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PGIrcbUH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5715207DA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=zyTiJXxUMrbSn8gdfUpQkvtsNZb80biNyG4zsd9m8gg=; b=1G87W/QL8QvAe+i4PAKg5RRFT
-	ea/B6oiNWrRei6SpAF/+CfHn4qEdw/7jI+VGYtfWuLps+pPnobmhKbs2RBLt2WYyhA6Q9gc1Zjjes
-	qwvxwwAjS1uLb8ClMpKSHaThlmBT8rFPATAmIN34P5C9Rz9yySF+qLRgZUAVmTGJwKYEAGWdkKzUX
-	WPzuZlH2XH1hlcdTUKXcCq/4mry8fXB9z1X0KKCZmrb4NLCf8V3wwkxlEgf4JMbiot7D0Q/p73tgp
-	uoA7p8KoQTPgLu97znJOvaC9BjSArnH4ohyWQnlpwnDg5lDY7n6DEfUjXRAYtSfUWjlomKdXLU4Xq
-	4b/5U3Y9Q==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=QgiiGMabmcM1VzW/hedeJ/2/6aQL5qJ4K2OB+fm1Gac=; b=F9JKKJhExlByAIbNRulQqgZpWY
+	K1KHe0HnlDEQU3Wzp0HBOnPK4xBFpR0AlQGiN84W4DWced7yh2bx3gschNXBCnde6C7bLJovB501w
+	ZhGiCdNlqHZVRSLOt6OghidUVhv1RUV8zJPMChcrX+lDBvcAYppZoqoHU2oL22zKpXysAfHcaItk0
+	aZHoyOKMk0KHbq0nfJx72WVYs0Xrsy7qOljs0l8G34gRXxjthkoegR7sITLBlkGM1kPb37hnnatym
+	SMFBE/KGtXaQT+dJu1/IdFQvX8XF9YqtF8gup+Y64RpFxsyb3x1852vx2X/0bBtZJeGT8yh0yS2q9
+	qQEylW+w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6bG4-00049E-Su; Fri, 14 Aug 2020 15:04:41 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1k6bSl-0005JN-2r; Fri, 14 Aug 2020 15:17:47 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6bG1-00048i-Tj
- for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 15:04:38 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9396A20774;
- Fri, 14 Aug 2020 15:04:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597417476;
- bh=oisErVD0u+lyl37V1wBsI8bt6Y7+p7CbVMU/YvPDXtQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CrTxXsd1uArNVJnUs+ss6N08rc0GDHeyOnV/HaAHn0kjrRVBpJKfhpX7Q848Unzxm
- HTMX/XkrnvZztSYLgOghV6i4G0XxInbW0Gg6mYtsoc6uIKXUG2I9aVJwYa4o1dryRi
- fnPEdxXyrqpHLX83WXeO7t0EDMYe3WmxhPba1lyw=
-Date: Fri, 14 Aug 2020 08:04:33 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Tong Zhang <ztong0001@gmail.com>
-Subject: Re: [PATCH] nvme-pci: cancel nvme device request before disabling
-Message-ID: <20200814150433.GA3498391@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200814071431.201400-1-ztong0001@gmail.com>
+ id 1k6bSj-0005JD-D4
+ for linux-nvme@merlin.infradead.org; Fri, 14 Aug 2020 15:17:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=djWKqvQcBEm+Lokpt4tBTlEsuwB9bPzOrVUMGC5cC9o=; b=PGIrcbUH7B3RUP1JU05ggguQx5
+ SgB7hZiB7T9Mys7OazcUo/tsXEfB8LlkyCdPr5ysBuSoWXvFNoz2V8fbyvIvrTe+ri4KKrj3Fnw5p
+ BlUR9AavuaFsy6BVWCnEZtKQzC6ZkO3e4Wuj1wi04xD/BBEKDQJLuTAIvrNMYbDdNqZ/BZVd2TCQm
+ 3+a/VTHwJys2S5MmDuc3pbdvOs9z/9qrBCReJ8GtoSG0T+0cexig0F/2XzFh0G9JcBZNCRxf+dM83
+ fTDAsuUQCvcZz8/BitDWpRO5S0SoVopamTk4vNsgONHymFvktAjH+kwOzeLvo0AXi9Ar9x+RwD++Y
+ 8Gyjge5A==;
+Received: from 213-225-37-56.nat.highway.a1.net ([213.225.37.56]
+ helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1k6bSf-0002R5-GJ; Fri, 14 Aug 2020 15:17:41 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: linux-nvme@lists.infradead.org
+Subject: nvme completion handling refactor and fix
+Date: Fri, 14 Aug 2020 17:15:25 +0200
+Message-Id: <20200814151528.277465-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200814071431.201400-1-ztong0001@gmail.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200814_110438_028411_8555B8C3 
-X-CRM114-Status: GOOD (  12.91  )
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,32 +73,19 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@fb.com, sagi@grimberg.me, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Chao Leng <lengchao@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 14, 2020 at 03:14:31AM -0400, Tong Zhang wrote:
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index ba725ae47305..c4f1ce0ee1e3 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1249,8 +1249,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->  		dev_warn_ratelimited(dev->ctrl.device,
->  			 "I/O %d QID %d timeout, disable controller\n",
->  			 req->tag, nvmeq->qid);
-> -		nvme_dev_disable(dev, true);
->  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-> +		nvme_dev_disable(dev, true);
->  		return BLK_EH_DONE;
+Hi all,
 
-Shouldn't this flag have been set in nvme_cancel_request()?  It's not
-like the timeout out command is the only command to have been cancelled
-by this action, nor is it guaranteed that getting here will mean the
-request was in fact cancelled. The controller could still provide a real
-completion.
+the first two patches refactor the common nvme completion code
+to be a little less obsfucated, and the third one is the fix
+from Chao to redirect to a different path ported on top of these
+changes, which now make the fix very simple.
 
 _______________________________________________
 Linux-nvme mailing list
