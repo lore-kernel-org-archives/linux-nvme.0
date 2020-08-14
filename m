@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 276E2C433E1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 06:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F8EC433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 06:19:05 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E9E8220838
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 06:18:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5F35C20838
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 06:19:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yEyp6yn8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E9E8220838
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WGW4DpUx"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F35C20838
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,55 +25,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=LXYMzjQwTxeU4BSRJbYnvhjfQoxENbdi7QZywjxbAb8=; b=yEyp6yn8lLs5WAP3xp2kjyDsD
-	aEAsyq/1a3TPffCLPFQgGTiH0SVm6ABbiJ0qC5IXSmYjOyT/5GMUEiPfPID+9rVDwiyWV4pvv0i8J
-	nmE+gE9ivy8hmnu7k2G8QLUeVPDwazFgktFVdE4MVKW3Em+KYGI5qG0uL6cFMgxYRGJXNw5yI5Qpy
-	B8r4/dFBH5wyvL8LKYOEtAqZvY8h5GTZcABst89OErUiwDxeG7B06bfNaIh4o3Ogj1K8hm2xrP8Z5
-	hPhThuXqx/unR1V3mR+YwUmOzTwNmmfI5mJwiYM78UtVjL+WhyMO11eoM1hvZ6ZjEBmkRlbjqxfcU
-	tzO0Pi7pA==;
+	 bh=vxHR44EFL68Di+7VnSc2J2A+OesjxfSK82IC+B0FdJE=; b=WGW4DpUxa8UMU9lnKoolTdI0i
+	+6SD+5WCKDUmR/a4nkg2mHzQoXPOz/2spKoO+PptljPv1ADhqwq+pkb5QZJDCIXDUdxESrH1NLDxj
+	3fv2opNQZAm32cDMfUhX50zW2Jgvw6RL4p6C90Q/FrRKcTkcGd9Rbg8z45XDWxbe79snJ6phX8JNO
+	V5A8TK3ZZ5xGGJp78qtEJH4mKaNbrh8FK3iK5ezVibdZtLiYk58HRCzF2ZAdFZA6zVlAAf/yAgP2i
+	w71IGIZobTnU+6X/Vq+yamrbToJqBY1gUnxOCBM9pqs0uXsOMAweWH2RJm7Uup9H9WX2S2SoTwksu
+	d2M3JhnfQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6T3J-0002PM-MC; Fri, 14 Aug 2020 06:18:57 +0000
-Received: from mail-wm1-f65.google.com ([209.85.128.65])
+	id 1k6T3O-0002Ra-BL; Fri, 14 Aug 2020 06:19:02 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6T3G-0002Na-Fj
- for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 06:18:55 +0000
-Received: by mail-wm1-f65.google.com with SMTP id 184so6982562wmb.0
- for <linux-nvme@lists.infradead.org>; Thu, 13 Aug 2020 23:18:54 -0700 (PDT)
+ id 1k6T3K-0002PX-M3
+ for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 06:18:59 +0000
+Received: by mail-wr1-f47.google.com with SMTP id a15so7308900wrh.10
+ for <linux-nvme@lists.infradead.org>; Thu, 13 Aug 2020 23:18:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4OhW2rUuJwKjNaFcB34eClsm9+qjLIquHqcWEiCTCC0=;
- b=n0+SX5UiQUx+Py+9Age9wWzbZmVKAbBwPuKAXkq4MgsiihEZMBv8HUOAxJ7PmGkUzP
- ipUz3+w0oowKKtJ91R5vMa2ZlcHKcD1oihtYhVwA5YWR6TYV6NBTBHc9JWu199RQTHQz
- g/vmRKCcOtASIGbzZECV8RBq74Hhv3XY5/tGHNzeDbCVxC3Nt/IuIOgv2KdB03Gxdh95
- T4AsSnZmAMOV42B27kWkUGOVN6TNofka8BxWPOImKQ+eM6gbCrGl+VZLMjkvVy/HnTO7
- +M8MySaaPEf6VFoZoQRlR8bPd2YuNxNsmjiuiEQpJ12cJSZnPEAOevYU64LoxwHA9TIp
- 6/IA==
-X-Gm-Message-State: AOAM531ev2kBN5IHFm1zVbAhbSVW3KR3L5drc/t9EqD1ncN5RsaAoDkW
- Lloexz25v9aqtC9oSYb9eQl1J48jLzWjbQ==
-X-Google-Smtp-Source: ABdhPJxFuWPIMgqdzeQoLSZO22LFh5x90KpUs2OtVL5I2U3yepGIHVF7CmBH8ySTLVYcTr4SVKpWqQ==
-X-Received: by 2002:a1c:e907:: with SMTP id q7mr1110462wmc.155.1597385933249; 
- Thu, 13 Aug 2020 23:18:53 -0700 (PDT)
+ bh=YzAZ2SXXLc7iNppHmhrxi1E4xPI3+ZrsxT2yh+SoN/c=;
+ b=BcXbnnm0na8BCqb2mP0ZVrQX/LtD+TfOq6KhgwUH7nzyxNSOmU7ITlQ8g6JQNm6BL5
+ wXJ+cXjNBIzg7isWutF9HuxELQupNYOfJ/Sg2PrNLc8PAffjKLU83NmFKhBe94LMcLF6
+ yKP1aCjIso0mjp61Y2TVveqezrmuTTxHedvx5GBXVsQTCbjfANJj+HgonDF3K3er+luT
+ iB8GTfrBNYUqFrU5hx30rwYhYWX007Fc9IEPiLv/WYYf9QMO2Zh3thDPdu0fNgYCnLfa
+ 43z1cGBxalJQmlJj/6jHoCYAmu2iC3dPG3iEqCGvPJ/iTgGlE6OQbRiw4H+ilAg0UjUN
+ /98g==
+X-Gm-Message-State: AOAM532fAhdzUeG4mew9B3PeHGBRAx310qhP0svIgcMQC+81syO7/0Lw
+ zSc+OZLF04YLCiYXO72e5R6+yWIghqbYmA==
+X-Google-Smtp-Source: ABdhPJwvevobFTXZKCncDxkecs7/zrYPqWEQIV4UrRGbv7S4JgR4CgFY/JcVrtSe8e8OH7ZAIwKxNg==
+X-Received: by 2002:adf:eb05:: with SMTP id s5mr1367225wrn.0.1597385937091;
+ Thu, 13 Aug 2020 23:18:57 -0700 (PDT)
 Received: from localhost.localdomain ([2601:647:4802:9070:51f:3472:bc7:2f4f])
  by smtp.gmail.com with ESMTPSA id
- l21sm12278131wmj.25.2020.08.13.23.18.48
+ l21sm12278131wmj.25.2020.08.13.23.18.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 23:18:52 -0700 (PDT)
+ Thu, 13 Aug 2020 23:18:56 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  Omar Sandoval <osandov@osandov.com>
-Subject: [PATCH v4 6/7] common: move module_unload to common
-Date: Thu, 13 Aug 2020 23:18:14 -0700
-Message-Id: <20200814061815.536540-7-sagi@grimberg.me>
+Subject: [PATCH v4 7/7] nvme: support rdma transport type
+Date: Thu, 13 Aug 2020 23:18:15 -0700
+Message-Id: <20200814061815.536540-8-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200814061815.536540-1-sagi@grimberg.me>
 References: <20200814061815.536540-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200814_021854_554101_819BC891 
-X-CRM114-Status: GOOD (  14.20  )
+X-CRM114-CacheID: sfid-20200814_021858_773393_B33487FF 
+X-CRM114-Status: GOOD (  12.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,87 +93,58 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-It creates a dependency between multipath-over-rdma and test/nvmeof/rc
-(and test/srp/rc) which is not a natural home for it.
-
-Move it to common helpers.
-
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- common/rc          | 13 +++++++++++++
- tests/nvmeof-mp/rc | 13 -------------
- tests/srp/rc       | 13 -------------
- 3 files changed, 13 insertions(+), 26 deletions(-)
+ tests/nvme/rc | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/common/rc b/common/rc
-index 7f02103dc786..cdc0150ea5ea 100644
---- a/common/rc
-+++ b/common/rc
-@@ -291,3 +291,16 @@ _filter_xfs_io_error() {
- _uptime_s() {
- 	awk '{ print int($1) }' /proc/uptime
- }
-+
-+# Arguments: module to unload ($1) and retry count ($2).
-+unload_module() {
-+	local i m=$1 rc=${2:-1}
-+
-+	[ ! -e "/sys/module/$m" ] && return 0
-+	for ((i=rc;i>0;i--)); do
-+		modprobe -r "$m"
-+		[ ! -e "/sys/module/$m" ] && return 0
-+		sleep .1
-+	done
-+	return 1
-+}
-diff --git a/tests/nvmeof-mp/rc b/tests/nvmeof-mp/rc
-index e446db297ba1..829b26624b7f 100755
---- a/tests/nvmeof-mp/rc
-+++ b/tests/nvmeof-mp/rc
-@@ -145,19 +145,6 @@ remove_mpath_devs() {
- 	} &>> "$FULL"
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 3e97801bbb30..675acbfa7012 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -5,6 +5,7 @@
+ # Test specific to NVMe devices
+ 
+ . common/rc
++. common/multipath-over-rdma
+ 
+ def_traddr="127.0.0.1"
+ def_adrfam="ipv4"
+@@ -25,6 +26,12 @@ _nvme_requires() {
+ 		_have_modules nvmet nvme-core nvme-tcp nvmet-tcp
+ 		_have_configfs
+ 		;;
++	rdma)
++		_have_modules nvmet nvme-core nvme-rdma nvmet-rdma
++		_have_configfs
++		_have_program rdma
++		_have_modules rdma_rxe siw
++		;;
+ 	*)
+ 		SKIP_REASON="unsupported nvme_trtype=${nvme_trtype}"
+ 		return 1
+@@ -115,6 +122,9 @@ _cleanup_nvmet() {
+ 		modprobe -r nvmet-${nvme_trtype} 2>/dev/null
+ 	fi
+ 	modprobe -r nvmet 2>/dev/null
++	if [[ "${nvme_trtype}" == "rdma" ]]; then
++		stop_soft_rdma
++	fi
  }
  
--# Arguments: module to unload ($1) and retry count ($2).
--unload_module() {
--	local i m=$1 rc=${2:-1}
--
--	[ ! -e "/sys/module/$m" ] && return 0
--	for ((i=rc;i>0;i--)); do
--		modprobe -r "$m"
--		[ ! -e "/sys/module/$m" ] && return 0
--		sleep .1
--	done
--	return 1
--}
--
- start_nvme_client() {
- 	modprobe nvme-core dyndbg=+pmf &&
- 		modprobe nvme dyndbg=+pmf &&
-diff --git a/tests/srp/rc b/tests/srp/rc
-index 4013e9514767..c36515066ffb 100755
---- a/tests/srp/rc
-+++ b/tests/srp/rc
-@@ -320,19 +320,6 @@ remove_mpath_devs() {
- 	} &>> "$FULL"
+ _setup_nvmet() {
+@@ -124,6 +134,11 @@ _setup_nvmet() {
+ 		modprobe nvmet-${nvme_trtype}
+ 	fi
+ 	modprobe nvme-${nvme_trtype}
++	if [[ "${nvme_trtype}" == "rdma" ]]; then
++		start_soft_rdma
++		rdma_intfs=$(rdma_network_interfaces)
++		def_traddr=$(get_ipv4_addr ${rdma_intfs[0]})
++	fi
  }
  
--# Arguments: module to unload ($1) and retry count ($2).
--unload_module() {
--	local i m=$1 rc=${2:-1}
--
--	[ ! -e "/sys/module/$m" ] && return 0
--	for ((i=rc;i>0;i--)); do
--		modprobe -r "$m"
--		[ ! -e "/sys/module/$m" ] && return 0
--		sleep .1
--	done
--	return 1
--}
--
- # Load the SRP initiator driver with kernel module parameters $1..$n.
- start_srp_ini() {
- 	modprobe scsi_transport_srp || return $?
+ _nvme_disconnect_ctrl() {
 -- 
 2.25.1
 
