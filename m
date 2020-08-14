@@ -2,22 +2,23 @@ Return-Path: <SRS0=5rXh=BY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57662C433E1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 08:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2715BC433E3
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 08:17:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 21BD8206B2
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 08:16:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E0A5F206B2
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 08:17:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g+WokXAo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 21BD8206B2
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="o3JxcgKS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YiTlwITG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E0A5F206B2
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -25,34 +26,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6+21sMCXJTZ6kgk/Q/lnGuTgO+8Ys45ymWr6kLzTtBU=; b=g+WokXAod6qHfVKLs+oLt+5+J
-	DGXi1+clKp4vpHb3OK7i+vQSoMFmPH3y6ZhG+XfGhxFJE9R397tfJz8PjroBmgPz0KATI2XKHTQhl
-	RHSs2Ty0WrZlPvTzL7BD/t6Vn6vUW9HRy1OHzzn79DY7hzDjJ5SLv4QiwYmtB7EvXFKm+Pl1zJ9ro
-	O37b3j4yRQKeNAEZx6/L4kZxoiZOLvco5SVDV7Zd82LaGdkxSq/Rxmgy7URjZMpHrTlUUWqkM8LQH
-	7avQZ6dh6uBkeeH7EhMqbtuMapv39+NwF1+RgQCjRmylcHNHsuMcT2tnRhD2/Y2PuTA+isYZtCNRP
-	MeDHcYghw==;
+	 bh=alL1HNymuMOKHD7NMKxIi5+ijuxwMFLrYaTTypwL+KU=; b=o3JxcgKSwsXGi4CpOn5rPwpxn
+	eLvXxWn7MJ0SJwYXWDTXEAXsd8xw1kKug9ekyHhxiYsiRMIfwyiniNOKcUzOROKV33ZQj/rpR6EK/
+	KLq9T+hch8oULjzkhiv0LDKv0Ox9F/gAdasPxySy1mXSL/QUXJhus+XyClDm4TRkOOKMVXq3yQ4Pt
+	S4gbnMjm85+Q+shxRvsB/p0SOO4XECl+21k53UKJp4nLwOwI87FvLw5k/04L/IbetuygV5zBBeV2/
+	Kk8B8cE6huj9gykji+CYgb/BsjLScrOy/1OERc/XCzZt2O5A+1cNEfUrunrmSjoL3hFKgNmjzpW7r
+	HyC9Sp1Dw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6UtT-0006Br-K4; Fri, 14 Aug 2020 08:16:55 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1k6Utq-0006HC-Od; Fri, 14 Aug 2020 08:17:18 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6UtR-0006Au-9p
- for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 08:16:53 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 135BB68CEE; Fri, 14 Aug 2020 10:16:48 +0200 (CEST)
-Date: Fri, 14 Aug 2020 10:16:47 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Tong Zhang <ztong0001@gmail.com>
-Subject: Re: [PATCH] nvme-pci: cancel nvme device request before disabling
-Message-ID: <20200814081647.GA10347@lst.de>
-References: <20200814071431.201400-1-ztong0001@gmail.com>
+ id 1k6Utq-0006Gf-1L
+ for linux-nvme@merlin.infradead.org; Fri, 14 Aug 2020 08:17:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=g8PSEAUA7x2opNJ9a7x6NEXmPCi+/BopzEM5tlmpuYw=; b=YiTlwITG20aDN876I+mE/JX+xS
+ AeqYqW0mEmRrrc6vwVasr/wMYwOG3IBnH8h2+s46OQyWKhMp98c3i4/GlMAg/O5QBj+dJ+DNZ3ZuF
+ OhN8mNTpmBBvJIHzMJ3YdU0+El1b1sqM9yS1H1bhKaKVSWQbJgaDZDXcAuimgx0Hys8Swl7hyGjKT
+ QyjMs8b0FMM/Zobo6kAaxW6s0CHJGIXk1qa+Y9EZuYvflAikGe1fBA2LoMDUAMcCoQBRDlBRz8oZV
+ +uq86/ahtS6IhUc9nPLV11BilFUb52dwDczoHFcvjg8k3gvPjmyBkVZd39iZmCDDh3yy4x74tJZDI
+ JiRKFEQA==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
+ Linux)) id 1k6Utl-0004nA-DH; Fri, 14 Aug 2020 08:17:13 +0000
+Date: Fri, 14 Aug 2020 09:17:13 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Subject: Re: [PATCH] nvme-fc: Fix wrong return value in
+ __nvme_fc_init_request()
+Message-ID: <20200814081713.GA18371@infradead.org>
+References: <20200802111545.5566-1-tianjia.zhang@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200814071431.201400-1-ztong0001@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200814_041653_465283_532D18C3 
-X-CRM114-Status: GOOD (  11.43  )
+In-Reply-To: <20200802111545.5566-1-tianjia.zhang@linux.alibaba.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,26 +74,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, axboe@fb.com, kbusch@kernel.org, hch@lst.de
+Cc: sagi@grimberg.me, tianjia.zhang@alibaba.com, james.smart@broadcom.com,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, axboe@fb.com,
+ james_p_freyensee@linux.intel.com, jthumshirn@suse.de, kbusch@kernel.org,
+ hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 14, 2020 at 03:14:31AM -0400, Tong Zhang wrote:
->   This patch addresses an irq free warning and null pointer dereference
->   error problem when nvme devices got timeout error during initialization.
->   This problem happens when nvme_timeout() function is called while
->   nvme_reset_work() is still in execution. This patch fixed the problem by
->   setting flag of the problematic request to NVME_REQ_CANCELLED before
->   calling nvme_dev_disable() to make sure __nvme_submit_sync_cmd() returns
->   an error code and let nvme_submit_sync_cmd() fail gracefully.
->   The following is console output.
+On Sun, Aug 02, 2020 at 07:15:45PM +0800, Tianjia Zhang wrote:
+> On an error exit path, a negative error code should be returned
+> instead of a positive return value.
+> 
+> Fixes: e399441de9115 ("nvme-fabrics: Add host support for FC transport")
+> Cc: James Smart <jsmart2021@gmail.com>
+> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
 
-The commit log looks a little weird due to the extra indentation.
-
-The patch itself looks good, though:
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 
