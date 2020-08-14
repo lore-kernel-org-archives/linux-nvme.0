@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6BC9C433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 10:34:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8585C433E1
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 10:37:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 69087206A4
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 10:34:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 92A93206A4
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Aug 2020 10:37:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mlO5RR9S"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 69087206A4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yLToaHC4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92A93206A4
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,38 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GVWZYQ8zltLBBxX8J7T83p52AbPjkCPfG7/8yma9O2E=; b=mlO5RR9S3r2KGh70EVGTg5Jxp
-	WcPatY6i6GQ+THO4Tsk3a9AIMCa5kPl9iXHPPGy0C0RtpNoJAXTfDeCgBi3OQagmhoN0f/yzGn6sM
-	RKVQV3fFpvGHNoQupZW0VBZm5RxkLbkpg5ArHwnqDKJs8Kkz91luSbGLYPXfHG7fbZTaazKmKIuth
-	+yo/lSfW5COK6tskoAj78YKWiEdT0e+K4Xw8GdEdPOtKsO782yHu+n1bP3kIWb7e+YseythNPKyHR
-	qSPMD47TZ/M9OLjibOFEOP20+Hug1IRvp5G/SE5iJ4Pk+OqH98ZG4TqHxT3CAly0QKVRJL+seeMJw
-	X7MlT5TCg==;
+	 bh=3SZU3DSaY6JDrLyvAmOne+XBklrE7Vd5t2x03gDRqrA=; b=yLToaHC4CrFurEDJSLpVzwUCh
+	X+OWCC/aaQU1I43mjw+B8madx1KWnpBlwDtUVtq7mH+XXhunRS28X3fcRNfaG+chtgALmYQdmtgcN
+	lQFpF0TcutZwbl7/l/lebroO4a3z7PF87cMLjCreWj5mXhReOU1MeOhDB4z3mO2m6zSfMexwb3vBJ
+	jXasTdhM+ADfA1xsVn7FDKCYzG5fKd9uoEKMwluKiVLCbs38rFysEINYIMEVLR9Zh4MmlyxkQSDpW
+	v0M5L0lTx42sJcrIHg/8xjyqd7WxB087MOPLkWG7jB0cx3Z1guQVfSFP6MEX3tkA+2EspyeUXBQe1
+	uLUvT87BQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k6X2B-0003s4-IB; Fri, 14 Aug 2020 10:34:03 +0000
+	id 1k6X5E-0004rY-Nx; Fri, 14 Aug 2020 10:37:12 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k6X27-0003p1-Ap
- for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 10:34:00 +0000
+ id 1k6X5B-0004r0-IH
+ for linux-nvme@lists.infradead.org; Fri, 14 Aug 2020 10:37:10 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8C8B068C4E; Fri, 14 Aug 2020 12:33:56 +0200 (CEST)
-Date: Fri, 14 Aug 2020 12:33:56 +0200
+ id E830568C4E; Fri, 14 Aug 2020 12:37:06 +0200 (CEST)
+Date: Fri, 14 Aug 2020 12:37:06 +0200
 From: "hch@lst.de" <hch@lst.de>
-To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH 01/14] nvmet: for pt I/O cmds annotate req->sg_cnt likely
-Message-ID: <20200814103356.GA20513@lst.de>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH 07/14] nvmet: reuse pt-req-done for rq completion
+Message-ID: <20200814103706.GB20513@lst.de>
 References: <20200810185456.7713-1-chaitanya.kulkarni@wdc.com>
- <20200810185456.7713-2-chaitanya.kulkarni@wdc.com>
- <53dd1aa6-31a7-a9bd-6def-5cc18468845e@deltatee.com>
- <BYAPR04MB49653405F083DDACB0514D4186440@BYAPR04MB4965.namprd04.prod.outlook.com>
- <e432874f-6a22-e56a-777f-990e283114e7@deltatee.com>
+ <20200810185456.7713-8-chaitanya.kulkarni@wdc.com>
+ <367b5571-2981-8389-a5fe-f0bea20d2e33@deltatee.com>
+ <BYAPR04MB49657549B7E7DE0D0845CCF286440@BYAPR04MB4965.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <e432874f-6a22-e56a-777f-990e283114e7@deltatee.com>
+In-Reply-To: <BYAPR04MB49657549B7E7DE0D0845CCF286440@BYAPR04MB4965.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200814_063359_954947_1A1A846E 
-X-CRM114-Status: GOOD (  13.65  )
+X-CRM114-CacheID: sfid-20200814_063710_347404_1879A912 
+X-CRM114-Status: GOOD (  12.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +67,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
+Cc: Logan Gunthorpe <logang@deltatee.com>, "hch@lst.de" <hch@lst.de>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, "hch@lst.de" <hch@lst.de>
+ "sagi@grimberg.me" <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 10, 2020 at 04:55:54PM -0600, Logan Gunthorpe wrote:
-> 
-> 
-> On 2020-08-10 4:54 p.m., Chaitanya Kulkarni wrote:
-> > On 8/10/20 14:54, Logan Gunthorpe wrote:
-> >> Hey,
-> >>
-> >> You forgot to CC me again....
-> >>
-> > Ugghhh..
-> >> On 2020-08-10 12:54 p.m., Chaitanya Kulkarni wrote:
-> >>> I/O Commands (nvme_cmd_read, nvme_cmd_write) are most command commands
-> >>> when accessing passthru controller. For I/O commands data is represented
-> >>> in SG list, so sg_cnt != 0 in most cases.
-> >>>
-> >>> Annotate req->sg_cnt check with likely.
-> >> Does adding these likely annotations actually produce any benefit? Why
-> >> can't we rely on the branch predictor in these instances?
-> >>
+On Mon, Aug 10, 2020 at 11:02:01PM +0000, Chaitanya Kulkarni wrote:
+> On 8/10/20 15:10, Logan Gunthorpe wrote:
+> > Christoph had specifically requested open coding this in earlier feedback:
 > > 
-> > They are present in the target code. I don't see any problem having it 
-> > in a passthru code unless it shows severe performance degradation.
+> > https://lore.kernel.org/linux-block/20191010123406.GC28921@lst.de/
+> > 
+> > It was originally called nvmet_passthru_req_complete() and was open
+> > coded at his request.
+> > 
+> > I think the way it was merged ended up being cleaner and easier to read
+> > as well.
+> > 
+> > Logan
 > 
-> Isn't that backwards? Don't we only add performance optimizations (which
-> likely/unlikely are) when they show demonstrable increases in performance?
+> I don't understand the reason for this ? Christoph can you please explain ?
 
-Yes, this looks like pretty premature optimization.
+Because this just happens to be a few lines of code that looks the
+same.  But they are called from different context - one is a callback
+and thus has an extra argument for example.  I don't see how sharing
+that code really improves anything.
 
 _______________________________________________
 Linux-nvme mailing list
