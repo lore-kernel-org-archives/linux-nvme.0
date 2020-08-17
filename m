@@ -2,72 +2,85 @@ Return-Path: <SRS0=j3u6=B3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2C22C433E1
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2020 13:50:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E0AC433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2020 14:53:52 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6E2912065D
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2020 13:50:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 429D4204FD
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Aug 2020 14:53:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="z71Wgrne";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Zihd5bMM";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="J7GSAWZo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6E2912065D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IulsKCgV";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ujai0lJQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 429D4204FD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=wTqkSXDUidOKQoCoUwClTZtRKeDzpfuJh4DLfW4m+CU=; b=z71WgrneACBW/ogs+E7UPR2cVR
-	H/2gyZRBiSxZHxz1emAl14rktwBVPmxotZtH2IsGhrOADxWTERCLXF1Vt1rDanpwULH4mOK7qlFsw
-	dJC0tkuXu2a5zQIS3KyPtfBq0PkVkUibYi1AAxhL3NU5v3evSIFHZ3raJVYw5y5Q0MQ3ElSMQwBfU
-	OG/JJhwyS0e70lVwG+JebnAW2VaQITZWZRA7thXamGdOrWiiTC7PFbdGjiTYYYDXLq8oo9FzytgMx
-	w7cIX6dVDqvzRVR5Vf6Dv0Y226rzlyl5NSDlRhkGjAv6Yg6Y4eEubrM253l+/dZE5owe2yGe9SVXM
-	efLg3O2Q==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=ai4uyq5uUGcnsjuw8e+w5d9NbbqjLVHyVZDn1nFZCNg=; b=IulsKCgVgGWOfEeCkM/VgVWwV
+	VSu2zQihVQFcmgCCUyOb/jCHK7l4A4rBlDDLkACfg6N7Lwi8GH/ens2iR6qsu/VGxayoN7XxXMO7M
+	daWZaGc5piRklP7Mghd/8nirQxtPK7cBP6IF9Lgpwp0QB58+897gSAwZtm7dkK8U50sG0R5USFD9H
+	rrqu+qJPZf7fzM44SyQjzNMhhtbCmM2xOC3HuwxBU4cHaVZ+ep1T53NquRoOwxII4f7yrHHk/HxOV
+	eoyHqvATcWPW1bKJHBWODTd8zGcuab+yggZ2Ao7KsBo4t2fGc2IWO0qhNzc4xWLr1Pe9eES9rsEp7
+	rOx2MYbSA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k7fWj-00012h-3x; Mon, 17 Aug 2020 13:50:17 +0000
-Received: from galois.linutronix.de ([193.142.43.55])
+	id 1k7gW8-0001em-H8; Mon, 17 Aug 2020 14:53:44 +0000
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]
+ helo=us-smtp-delivery-1.mimecast.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k7fWg-00011b-VQ
- for linux-nvme@lists.infradead.org; Mon, 17 Aug 2020 13:50:15 +0000
-Date: Mon, 17 Aug 2020 15:50:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1597672210;
+ id 1k7gW2-0001dz-3i
+ for linux-nvme@lists.infradead.org; Mon, 17 Aug 2020 14:53:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1597676017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=wZ6DLhs3/Nle2hWXNU/DY83Ezlnj/RloUcwPjKzeXfI=;
- b=Zihd5bMMlDli86Taj4JtvwpYpUqC7EB6v73VVfmCMWtCf3kotBdF/bAROQfLV0uzZp/W2D
- 9OyxQ2HH3aAF1w584CRcligr7oDKrBME3pLt5tslArwX5Rkg0R7b+oUXTnpOUoVoLAAfM+
- Ii3OlPrxjTDZblfcNDHl+UQDVCoVC2R/8c95co5qZj3xvsGQ+K+PA94sQadXQbZWhM6vdM
- AqJHvU1CQ17k+rp83/olZR4VVJ5w/ep4IdhOqB9yWd2bb8u9SC6xpfiA4+FBLS92hCixUd
- YISQ+3bR0vXKyvYeZWUc5H2IlXnnsGzeQizcRRploB8o1ucvtwa6suLiGb5HvQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1597672210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=wZ6DLhs3/Nle2hWXNU/DY83Ezlnj/RloUcwPjKzeXfI=;
- b=J7GSAWZo8tw2hAmp1FL/4OEBW3f0peMwb4DvtSd0zsKCiDLEy/QXi/hws+Cl03z2LybWu1
- OJ8AVBIra937b/Cw==
-From: "Ahmed S. Darwish" <a.darwish@linutronix.de>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: v5.9-rc1 commit reliably breaks pci nvme detection
-Message-ID: <20200817135011.GA2072@lx-t490>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JkwsK9ufq447e+qbBgJadntYkkWCThVQGgCECvgkO4k=;
+ b=Ujai0lJQ11C7ykxPB9KCyC8otRwcEfnSY3JP1DkEAXNvkAS1R0fwLoxpg6gaew2hu6bauf
+ db4Abh6Q36lWxO8LDSFw9fnlEKC39IZ/4tBEjluEo3o5yyVxPNenPqathMtmBqssaz/UmE
+ yb2rEoIIZPerMjO4S6Ju2X+Aigbkvgg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-LIv2UaSCMeSNn_IvLDzvhA-1; Mon, 17 Aug 2020 10:53:35 -0400
+X-MC-Unique: LIv2UaSCMeSNn_IvLDzvhA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EFB51005E5F;
+ Mon, 17 Aug 2020 14:53:34 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EAB667A3AB;
+ Mon, 17 Aug 2020 14:53:33 +0000 (UTC)
+Date: Mon, 17 Aug 2020 10:53:33 -0400
+From: Mike Snitzer <snitzer@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 1/4] nvme: rename and document nvme_end_request
+Message-ID: <20200817145333.GA30005@redhat.com>
+References: <20200817081544.837699-1-hch@lst.de>
+ <20200817081544.837699-2-hch@lst.de>
 MIME-Version: 1.0
+In-Reply-To: <20200817081544.837699-2-hch@lst.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=msnitzer@redhat.com
+X-Mimecast-Spam-Score: 0.002
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200817_095015_192928_B579838F 
-X-CRM114-Status: UNSURE (   6.87  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200817_105338_197613_4A7BA9CB 
+X-CRM114-Status: GOOD (  28.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,46 +92,77 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-kernel@vger.kernel.org
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, Chao Leng <lengchao@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+On Mon, Aug 17 2020 at  4:15am -0400,
+Christoph Hellwig <hch@lst.de> wrote:
 
-Below v5.9-rc1 commit reliably breaks my boot on a Thinkpad e480
-laptop. PCI nvme detection fails, and the kernel becomes not able
-anymore to find the rootfs / parse "root=".
+> nvme_end_request is a bit misnamed, as it wraps around the
+> blk_mq_complete_* API.  It's semantics also are non-trivial, so give it
+> a more descriptive name and add a comment explaining the semantics.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>  Documentation/fault-injection/nvme-fault-injection.rst | 2 +-
+>  drivers/nvme/host/fc.c                                 | 2 +-
+>  drivers/nvme/host/nvme.h                               | 8 +++++++-
+>  drivers/nvme/host/pci.c                                | 2 +-
+>  drivers/nvme/host/rdma.c                               | 2 +-
+>  drivers/nvme/host/tcp.c                                | 4 ++--
+>  drivers/nvme/target/loop.c                             | 2 +-
+>  7 files changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
+> index cdb2e829228e3e..1d4427890d7591 100644
+> --- a/Documentation/fault-injection/nvme-fault-injection.rst
+> +++ b/Documentation/fault-injection/nvme-fault-injection.rst
+> @@ -3,7 +3,7 @@ NVMe Fault Injection
+>  Linux's fault injection framework provides a systematic way to support
+>  error injection via debugfs in the /sys/kernel/debug directory. When
+>  enabled, the default NVME_SC_INVALID_OPCODE with no retry will be
+> -injected into the nvme_end_request. Users can change the default status
+> +injected into the nvme_try_complete_req. Users can change the default status
+>  code and no retry flag via the debugfs. The list of Generic Command
+>  Status can be found in include/linux/nvme.h
+>  
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index eae43bb444e038..ba4f10144274db 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2035,7 +2035,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+>  	}
+>  
+>  	__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
+> -	if (!nvme_end_request(rq, status, result))
+> +	if (!nvme_try_complete_req(rq, status, result))
+>  		nvme_fc_complete_rq(rq);
+>  
+>  check_error:
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index ebb8c3ed388554..6d69cc7306d034 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -523,7 +523,13 @@ static inline u32 nvme_bytes_to_numd(size_t len)
+>  	return (len >> 2) - 1;
+>  }
+>  
+> -static inline bool nvme_end_request(struct request *req, __le16 status,
+> +/*
+> + * Fill in the status and result information from the CQE, and then figure
+> + * out if we blk-mq will need to use IPI magic to complete the request, and
 
-Bisecting v5.8=>v5.9-rc1 blames that commit. Reverting it *reliably*
-fixes the problem and makes me able to boot v5.9-rc1.
+s/we blk-mq/blk-mq/
 
-Please advise.
+Otherwise:
 
-commit 61f3b89630973037f67d8e25e5d26e80a51a7b37
-Author: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Date:   Wed Jun 17 10:05:13 2020 +0200
+Reviewed-by: Mike Snitzer <snitzer@redhat.com>
 
-    nvme-pci: use unsigned for io queue depth
-    
-    The NVMe PCIe declares module parameter io_queue_depth as int. Change
-    this to u16 as queue depth can never be negative. Now to reflect this
-    update module parameter getter function from param_get_int() ->
-    param_get_uint() and respective setter function with type of n changed
-    from int to u16 with param_set_int() to param_set_ushort(). Finally
-    update struct nvme_dev q_depth member to u16 and use u16 in min_t()
-    when calculating dev->q_depth in the nvme_pci_enable() (since q_depth is
-    now u16) and use unsigned int instead of int when calculating
-    dev->tagset.queue_depth as target variable tagset->queue_depth is of type
-    unsigned int in nvme_dev_add().
-
-Thanks,
-
---
-Ahmed S. Darwish
-Linutronix GmbH
 
 _______________________________________________
 Linux-nvme mailing list
