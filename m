@@ -2,61 +2,80 @@ Return-Path: <SRS0=NqxM=B4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF04C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA0AC433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:32:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ABF8D2075E
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:20:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DDE4B206B5
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:32:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MaGvkxus"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ABF8D2075E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="s2AJx33F"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDE4B206B5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xoDPWOzg99tn10C1HQMDq4wTmYaT9K4xETN5Oxa/Uz0=; b=MaGvkxus2XTm3aNFKuhKdRHzA
-	C2INbploo4zMLotRk023SFO3T5CM7m31q5St+Fwq4bSFb7uZ1Zczn/hKs8puHcmFGGTJ0LznRXNF6
-	7sGxgCqLmNDpo3cBfLDsrIOrIX94JfoACS/ZoXLB2Wqp56V4cP+dKo8yISWojQQLpOIwzzIK23lgi
-	Roh6jopMTzEszt01etyECZqXTjaxqA4wkfS6EcrQc8ON1qgfJMjeVTXg5ELhVAt8PTvnOltWvgpLu
-	xDkzxVDJ9orMRIQWJDWcTQm2lY2dqDtq0tz3mLM5HLgi91CS6CTk9OYfxq5pPb+j2zaTiBdQ2rH7f
-	ICa45qacA==;
+	 bh=sCwhiwt9qb7zmG3oCwkf+MkRhL6uvduYI/oC8MErVL8=; b=s2AJx33FSuayJGhm1N25rGdtt
+	0ZCJjq6JuCRZOPO+u650pqcVau/LMo8mTZroQa7N0E4GkC2VssKuyM+HgkXhmApl92hUDdjKoSHdE
+	YwGTtIrKCuuzSbNePHZ4FfG6K6MoY7U0cly5nV92ObUlQfUeCSRjDEPJO+mNdgg1gbC/nOBKEGIq+
+	XzKWUxyAJPWaNVN43lvSDqpl9auF9vRzY5VkxcW/06gn7/b7Q7NYTTJ26oXMD1gyGinyKDm6w06ME
+	qoYvo9TdZmd+CAopNWoRVY6h3clZwgn74P1I0XmCq03MXHAwl9qVLuM+dgBGqFK01CwkIgxp/ln2O
+	Zdnn88CnQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k87A8-0000rA-Eo; Tue, 18 Aug 2020 19:20:48 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1k87L0-0002J1-Py; Tue, 18 Aug 2020 19:32:02 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k87A6-0000qK-9f
- for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 19:20:47 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 651CE68AFE; Tue, 18 Aug 2020 21:20:43 +0200 (CEST)
-Date: Tue, 18 Aug 2020 21:20:43 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCHv3] nvme: skip noiob for zoned devices
-Message-ID: <20200818192043.GA30412@lst.de>
-References: <20200818162941.2674340-1-kbusch@kernel.org>
- <20200818172504.GA28474@lst.de>
- <20200818175054.GB3097355@dhcp-10-100-145-180.wdl.wdc.com>
- <20200818180205.GA29087@lst.de>
- <bbbaf51c-d4e0-ae45-a247-1e44666f866b@grimberg.me>
+ id 1k87Ky-0002IQ-RM
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 19:32:01 +0000
+Received: by mail-wm1-f41.google.com with SMTP id 3so18572wmi.1
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2020 12:31:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FjBvzK+Z1bv8y/dRMdzaF/cs6xVoOXy7zFXQkL6ZjtM=;
+ b=Jqo0oPLJ55UfGCqHiB+w5mHZQTmhAL3Nw995iZZW6EXKmWM/neVnEs/xsudQ9Na80c
+ Ci1dvNY5F/ojkVaD8Ms6zoPg+oEjNTzaloDHSvoafZcI8+9jU+JnNsrKASkvMXWUzlBb
+ BtS9hCzoZMFB5nLgPgWwZmvSANkeIG6K4isvN4FBG/XBekBoYSEdTt7QNjoLkY7DsbyG
+ PSSquqR3spgiiSWt8OvfSmzKEtdSWX1Mb6XfN5w92G8CDz2t5dwFD9bP2IaZxDCPjtqY
+ Ni1YOW6HPDePmNOW2iucuIzb7uHObAePoY/t9FtJnEOdm7KaNsr9CnueXdwFi7sdEp+B
+ QsAg==
+X-Gm-Message-State: AOAM530QmY7/oEBs/WrvdjqOlNB2dnG1LsIwgjweGdzq6OpOYqV/7ASw
+ 031ZLiu+H2FOKprcamiNqJ8=
+X-Google-Smtp-Source: ABdhPJymPK6yPyOyFFiOIyPRu6zHP+GU/9Os4L3A50z6dKN8YJxiY93V+ZpN8F8ptqSksswPsMXFWw==
+X-Received: by 2002:a1c:5451:: with SMTP id p17mr1441299wmi.180.1597779118575; 
+ Tue, 18 Aug 2020 12:31:58 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:3dce:63f2:5e83:391e?
+ ([2601:647:4802:9070:3dce:63f2:5e83:391e])
+ by smtp.gmail.com with ESMTPSA id d7sm37684168wra.29.2020.08.18.12.31.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Aug 2020 12:31:58 -0700 (PDT)
+Subject: Re: nvme completion handling refactor and fix v3
+To: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+References: <20200818071132.1136033-1-hch@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <4c769e1e-d8cd-3dcf-4507-09d4430bcd51@grimberg.me>
+Date: Tue, 18 Aug 2020 12:31:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bbbaf51c-d4e0-ae45-a247-1e44666f866b@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200818071132.1136033-1-hch@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200818_152046_459421_0A531D3A 
-X-CRM114-Status: GOOD (  10.67  )
+X-CRM114-CacheID: sfid-20200818_153200_926257_CB1F7563 
+X-CRM114-Status: GOOD (  16.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,18 +87,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 18, 2020 at 12:10:22PM -0700, Sagi Grimberg wrote:
-> I'll wait for a new version, reverting the existing patch
-> from nvme-5.9-rc for now...
+Looks good, queued to nvme-5.9-rc
 
-Let's just go back to v2, sorry for all the fuzz I caused.
+On 8/18/20 12:11 AM, Christoph Hellwig wrote:
+> Hi all,
+> 
+> the first two patches refactor the common nvme completion code
+> to be a little less obsfucated, and the third one is the fix
+> from Chao to redirect to a different path ported on top of these
+> changes, which now make the fix very simple.
+> 
+> Changes since v2:
+>   - fix a comment typo
+>   - drop incorrect comment masking in nvme_decide_disposition
+>   - add a comment to nvme_is_path_error
+> 
+> Changes since v1:
+>   - add a new patch to handle the path related errors using the
+>     SCT class
+> 
 
 _______________________________________________
 Linux-nvme mailing list
