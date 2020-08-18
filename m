@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B853C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 13:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FA5C433E3
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 13:13:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EEE8920706
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 13:13:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 61FE820706
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 13:13:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="E0xws4ur"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EEE8920706
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hd618ZKD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61FE820706
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,38 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=pcxk7ggy/ciUpqGBn5xBsT+bAlIQAQN82+xLC27CdmE=; b=E0xws4urqgQ2Ic/pK4H+zNu7I
-	JqYjhVter/eKTI4bVrVmq4se2PiG5KRznsgytdM8WrLlNJ6jnCXpJq9N28jdn1mjcDiG3VNHXl9ae
-	3aoNjgYtkqbi9PctlqoOmT6MLsb4iCYPdMHjqkwLIDiPo/ZZsa8y4MFjBhe3TapahtoRbIu/hVWjM
-	lI2WexovK8p+5I68UiacufzwAevHIngo8VC6WzhYlPiO6HfwekY1dYEdQCyOLeWfYlRfbQTh5qWTT
-	nftrlj+K4nVOZOPg83etyQZ5pXMEjnnC8onA32SE3TiH0WD83JA7LxC9CI+srGO0skGxZT6PMCx3s
-	qpbWvnJrQ==;
+	 bh=wHMDcpNJ+5Hja8gM9j9nKo+sGji/D0WNEDCCmIORfXs=; b=hd618ZKDYE/jtBbdyNsO96p5/
+	87z6Fj01tT38jagfZr62MeCFglrBGJr2XC34hYdeUj0ass1mUp5aOfeSWyieHZeBPfnt6pMetNae7
+	uj5pAzpOE07e06B3fdo38ZKSEmxJEM6TyiBsXh1nVasBLrJd6ro+0NXvNPpWSen0dp0z/tDKTBNPE
+	0igYwO87B8froQcnIopFcGEkd4elQB2cEHTMNdY/kbg/Kainsi946GMxyGFVhMz4FzuHOdmg/DHjA
+	z2QT+9W+P0Dyclfs5RHZ2xSnXDj59gnHzR2WbLRy/rVUKCBKFxWOQHvttLBtNthakDZt/zUL1bikK
+	0TCuyFKgw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k81Qh-0005mp-JW; Tue, 18 Aug 2020 13:13:31 +0000
+	id 1k81Qo-0005qI-MX; Tue, 18 Aug 2020 13:13:38 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k81Qe-0005lj-Gl
- for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 13:13:29 +0000
+ id 1k81Qk-0005nu-SZ
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 13:13:36 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 427FFB17A;
- Tue, 18 Aug 2020 13:13:53 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 929A8B17F;
+ Tue, 18 Aug 2020 13:13:59 +0000 (UTC)
 From: Coly Li <colyli@suse.de>
 To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, open-iscsi@googlegroups.com,
  linux-scsi@vger.kernel.org, ceph-devel@vger.kernel.org
-Subject: [PATCH v7 4/6] drbd: code cleanup by using sendpage_ok() to check
- page for kernel_sendpage()
-Date: Tue, 18 Aug 2020 21:12:25 +0800
-Message-Id: <20200818131227.37020-5-colyli@suse.de>
+Subject: [PATCH v7 5/6] scsi: libiscsi: use sendpage_ok() in
+ iscsi_tcp_segment_map()
+Date: Tue, 18 Aug 2020 21:12:26 +0800
+Message-Id: <20200818131227.37020-6-colyli@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818131227.37020-1-colyli@suse.de>
 References: <20200818131227.37020-1-colyli@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200818_091328_708225_732CC61B 
-X-CRM114-Status: GOOD (  16.69  )
+X-CRM114-CacheID: sfid-20200818_091335_103195_E4BDA54C 
+X-CRM114-Status: GOOD (  16.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,47 +68,52 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Philipp Reisner <philipp.reisner@linbit.com>, linux-kernel@vger.kernel.org,
- Coly Li <colyli@suse.de>
+Cc: Mike Christie <michaelc@cs.wisc.edu>, Cong Wang <amwang@redhat.com>,
+ linux-kernel@vger.kernel.org, Coly Li <colyli@suse.de>,
+ Chris Leech <cleech@redhat.com>, Hannes Reinecke <hare@suse.de>,
+ Lee Duncan <lduncan@suse.com>, Vasily Averin <vvs@virtuozzo.com>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In _drbd_send_page() a page is checked by following code before sending
-it by kernel_sendpage(),
-        (page_count(page) < 1) || PageSlab(page)
-If the check is true, this page won't be send by kernel_sendpage() and
-handled by sock_no_sendpage().
+In iscsci driver, iscsi_tcp_segment_map() uses the following code to
+check whether the page should or not be handled by sendpage:
+    if (!recv && page_count(sg_page(sg)) >= 1 && !PageSlab(sg_page(sg)))
 
-This kind of check is exactly what macro sendpage_ok() does, which is
-introduced into include/linux/net.h to solve a similar send page issue
-in nvme-tcp code.
+The "page_count(sg_page(sg)) >= 1 && !PageSlab(sg_page(sg)" part is to
+make sure the page can be sent to network layer's zero copy path. This
+part is exactly what sendpage_ok() does.
 
-This patch uses macro sendpage_ok() to replace the open coded checks to
-page type and refcount in _drbd_send_page(), as a code cleanup.
+This patch uses  use sendpage_ok() in iscsi_tcp_segment_map() to replace
+the original open coded checks.
 
 Signed-off-by: Coly Li <colyli@suse.de>
-Cc: Philipp Reisner <philipp.reisner@linbit.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Vasily Averin <vvs@virtuozzo.com>
+Cc: Cong Wang <amwang@redhat.com>
+Cc: Mike Christie <michaelc@cs.wisc.edu>
+Cc: Lee Duncan <lduncan@suse.com>
+Cc: Chris Leech <cleech@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Hannes Reinecke <hare@suse.de>
 ---
- drivers/block/drbd/drbd_main.c | 2 +-
+ drivers/scsi/libiscsi_tcp.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index cb687ccdbd96..55dc0c91781e 100644
---- a/drivers/block/drbd/drbd_main.c
-+++ b/drivers/block/drbd/drbd_main.c
-@@ -1553,7 +1553,7 @@ static int _drbd_send_page(struct drbd_peer_device *peer_device, struct page *pa
- 	 * put_page(); and would cause either a VM_BUG directly, or
- 	 * __page_cache_release a page that would actually still be referenced
- 	 * by someone, leading to some obscure delayed Oops somewhere else. */
--	if (drbd_disable_sendpage || (page_count(page) < 1) || PageSlab(page))
-+	if (drbd_disable_sendpage || !sendpage_ok(page))
- 		return _drbd_no_send_page(peer_device, page, offset, size, msg_flags);
+diff --git a/drivers/scsi/libiscsi_tcp.c b/drivers/scsi/libiscsi_tcp.c
+index 6ef93c7af954..31cd8487c16e 100644
+--- a/drivers/scsi/libiscsi_tcp.c
++++ b/drivers/scsi/libiscsi_tcp.c
+@@ -128,7 +128,7 @@ static void iscsi_tcp_segment_map(struct iscsi_segment *segment, int recv)
+ 	 * coalescing neighboring slab objects into a single frag which
+ 	 * triggers one of hardened usercopy checks.
+ 	 */
+-	if (!recv && page_count(sg_page(sg)) >= 1 && !PageSlab(sg_page(sg)))
++	if (!recv && sendpage_ok(sg_page(sg)))
+ 		return;
  
- 	msg_flags |= MSG_NOSIGNAL;
+ 	if (recv) {
 -- 
 2.26.2
 
