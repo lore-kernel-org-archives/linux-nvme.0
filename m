@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA0AC433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01900C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:32:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DDE4B206B5
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:32:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C2333206B5
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:32:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="s2AJx33F"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDE4B206B5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cRYNcD4p"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2333206B5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,57 +25,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sCwhiwt9qb7zmG3oCwkf+MkRhL6uvduYI/oC8MErVL8=; b=s2AJx33FSuayJGhm1N25rGdtt
-	0ZCJjq6JuCRZOPO+u650pqcVau/LMo8mTZroQa7N0E4GkC2VssKuyM+HgkXhmApl92hUDdjKoSHdE
-	YwGTtIrKCuuzSbNePHZ4FfG6K6MoY7U0cly5nV92ObUlQfUeCSRjDEPJO+mNdgg1gbC/nOBKEGIq+
-	XzKWUxyAJPWaNVN43lvSDqpl9auF9vRzY5VkxcW/06gn7/b7Q7NYTTJ26oXMD1gyGinyKDm6w06ME
-	qoYvo9TdZmd+CAopNWoRVY6h3clZwgn74P1I0XmCq03MXHAwl9qVLuM+dgBGqFK01CwkIgxp/ln2O
-	Zdnn88CnQ==;
+	 bh=VbMUTLsO8bXO4lDviQyEoL5w4h6+JhKZDXOVzmJhfJE=; b=cRYNcD4p1WFmUmUF4I0WJ+J67
+	EA7edkrTW71OPXLTxugyPmH/bcg8fQnz5rz0GY/P5O1IDGeacISXpxtLYx5uJaMDdV/QvnxEWiNP/
+	fQJSwEF9nmDw5yVS2IrJVhKxmNlD/V+hZRzvSKWKD+nktuDgoojl4zNWDNEdQ8huXcbSwz5J5a3ta
+	qJpGdZ3Mf+4VGYZZjt/S+8xIpZQuUFBLNvU7Hacw/XT7kUwJ44os/FSMDVtPmOab0dBQzqxYY6MFS
+	LwhmzX1/hoSgLY7WLBQFvBMrWAq/KBUpSPTuyMVzUmfIr1JghLW/opxzXMhIDLCUSxumS5trLDvil
+	DNoOHRs6A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k87L0-0002J1-Py; Tue, 18 Aug 2020 19:32:02 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1k87LI-0002Lb-2f; Tue, 18 Aug 2020 19:32:20 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k87Ky-0002IQ-RM
- for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 19:32:01 +0000
-Received: by mail-wm1-f41.google.com with SMTP id 3so18572wmi.1
- for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2020 12:31:59 -0700 (PDT)
+ id 1k87LF-0002Ku-Qy
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 19:32:18 +0000
+Received: by mail-wm1-f53.google.com with SMTP id d190so5922wmd.4
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2020 12:32:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FjBvzK+Z1bv8y/dRMdzaF/cs6xVoOXy7zFXQkL6ZjtM=;
- b=Jqo0oPLJ55UfGCqHiB+w5mHZQTmhAL3Nw995iZZW6EXKmWM/neVnEs/xsudQ9Na80c
- Ci1dvNY5F/ojkVaD8Ms6zoPg+oEjNTzaloDHSvoafZcI8+9jU+JnNsrKASkvMXWUzlBb
- BtS9hCzoZMFB5nLgPgWwZmvSANkeIG6K4isvN4FBG/XBekBoYSEdTt7QNjoLkY7DsbyG
- PSSquqR3spgiiSWt8OvfSmzKEtdSWX1Mb6XfN5w92G8CDz2t5dwFD9bP2IaZxDCPjtqY
- Ni1YOW6HPDePmNOW2iucuIzb7uHObAePoY/t9FtJnEOdm7KaNsr9CnueXdwFi7sdEp+B
- QsAg==
-X-Gm-Message-State: AOAM530QmY7/oEBs/WrvdjqOlNB2dnG1LsIwgjweGdzq6OpOYqV/7ASw
- 031ZLiu+H2FOKprcamiNqJ8=
-X-Google-Smtp-Source: ABdhPJymPK6yPyOyFFiOIyPRu6zHP+GU/9Os4L3A50z6dKN8YJxiY93V+ZpN8F8ptqSksswPsMXFWw==
-X-Received: by 2002:a1c:5451:: with SMTP id p17mr1441299wmi.180.1597779118575; 
- Tue, 18 Aug 2020 12:31:58 -0700 (PDT)
+ bh=GIIFF2W4gNjDyW1f14qTfO/zkxBdhfRCtn2xzsn+vbo=;
+ b=B820Au4AFqptSPizk7Uj/1sDRxu+LFtusNnIbQOuaeX6uI3xahjuJDhKharTEXncnA
+ Zk3hnOQcRco6u2YSqcm8luR5UcRFZ/QobIMOGBbAyy7oRBzgXJaGHux7frQIUbX34Xp8
+ Mn+JGXFMW/4vM2sQDESc/z/WH/5VQcHvY8udadPae4nSMrMbws7sqVm0cDJb+WMZEVCg
+ MRvNvSgeObtCQ7ejFE5rkyouF/NL3WL5+vzVitdX2bKWrNYhSnT2LOVDdpMxNWeyzI7V
+ YauB0bDFfBXQSXZqPTQLR/k+ByKDrr6lBnZ6vGTvyFocAwfeyphmzPnzS2hR/HSK5leI
+ yedQ==
+X-Gm-Message-State: AOAM531HArAGMm4ZL82jIEURyB1ciCTMR+NE0yVGt5imW3QkDpXNE7fw
+ PTIx8Y3ovgWAU8Fbkfa15bK+UhOsF7ptHQ==
+X-Google-Smtp-Source: ABdhPJy7A395WwH9bf3QsQ9bKD6n0ntrB8u7enEbZhsYX1wcUr+vV5FW3IDnPFfipf+7JxO7oQd6Og==
+X-Received: by 2002:a1c:5459:: with SMTP id p25mr1376665wmi.85.1597779136199; 
+ Tue, 18 Aug 2020 12:32:16 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:3dce:63f2:5e83:391e?
  ([2601:647:4802:9070:3dce:63f2:5e83:391e])
- by smtp.gmail.com with ESMTPSA id d7sm37684168wra.29.2020.08.18.12.31.57
+ by smtp.gmail.com with ESMTPSA id g7sm37521371wrv.82.2020.08.18.12.32.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Aug 2020 12:31:58 -0700 (PDT)
-Subject: Re: nvme completion handling refactor and fix v3
-To: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
-References: <20200818071132.1136033-1-hch@lst.de>
+ Tue, 18 Aug 2020 12:32:15 -0700 (PDT)
+Subject: Re: [PATCHv3] nvme: skip noiob for zoned devices
+To: Christoph Hellwig <hch@lst.de>
+References: <20200818162941.2674340-1-kbusch@kernel.org>
+ <20200818172504.GA28474@lst.de>
+ <20200818175054.GB3097355@dhcp-10-100-145-180.wdl.wdc.com>
+ <20200818180205.GA29087@lst.de>
+ <bbbaf51c-d4e0-ae45-a247-1e44666f866b@grimberg.me>
+ <20200818192043.GA30412@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <4c769e1e-d8cd-3dcf-4507-09d4430bcd51@grimberg.me>
-Date: Tue, 18 Aug 2020 12:31:54 -0700
+Message-ID: <d8ba555c-bcf1-5b98-caa7-4bd81c805de5@grimberg.me>
+Date: Tue, 18 Aug 2020 12:32:11 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200818071132.1136033-1-hch@lst.de>
+In-Reply-To: <20200818192043.GA30412@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200818_153200_926257_CB1F7563 
-X-CRM114-Status: GOOD (  16.75  )
+X-CRM114-CacheID: sfid-20200818_153217_927877_78A8E8EE 
+X-CRM114-Status: GOOD (  14.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,31 +92,21 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good, queued to nvme-5.9-rc
 
-On 8/18/20 12:11 AM, Christoph Hellwig wrote:
-> Hi all,
+On 8/18/20 12:20 PM, Christoph Hellwig wrote:
+> On Tue, Aug 18, 2020 at 12:10:22PM -0700, Sagi Grimberg wrote:
+>> I'll wait for a new version, reverting the existing patch
+>> from nvme-5.9-rc for now...
 > 
-> the first two patches refactor the common nvme completion code
-> to be a little less obsfucated, and the third one is the fix
-> from Chao to redirect to a different path ported on top of these
-> changes, which now make the fix very simple.
-> 
-> Changes since v2:
->   - fix a comment typo
->   - drop incorrect comment masking in nvme_decide_disposition
->   - add a comment to nvme_is_path_error
-> 
-> Changes since v1:
->   - add a new patch to handle the path related errors using the
->     SCT class
-> 
+> Let's just go back to v2, sorry for all the fuzz I caused.
+
+OK, requeued v2
 
 _______________________________________________
 Linux-nvme mailing list
