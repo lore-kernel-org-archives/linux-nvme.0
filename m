@@ -2,57 +2,93 @@ Return-Path: <SRS0=NqxM=B4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32810C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 17:25:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 247B7C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 17:29:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 01BE820658
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 17:25:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E9AE420658
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 17:29:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FXBE8ffi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 01BE820658
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="N+AC+JDI";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="0e9Zniyd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E9AE420658
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=k/hB2YLNSIM1Z3i4jF61gUJHW5gGA8LP7EUoOek3o84=; b=FXBE8ffiS06LbwPqigPhZT4h3
-	YXdLIUjTpDlwUUXNgvPkq8nGZpok3CDZaoL2iwSBuMfO4iPJMt58m3jgcZ/vF+etPtsEuKMA3d0nE
-	V5QzuR7rhVmR+zwGjb2a+f9i9XaQejYhbzG/asEupE02DEHO4pJnuplGsSmY5XBoECUtXQkz2jzzj
-	4IHxH3ogfZRTZQ2wvLA8sHr3rBFDMkCXDRjJfriezI+DkraSNFvF86PRY9DXZ8nnTcEIKsgCBHm5Q
-	LX3NgXG+k8o1pbHTWzl5bZOVS26g/JRA2kE4BIjpHbhJhu1HyNjvOyFkHfexAwuHm03eJpXh1Jrb4
-	ouI90fScA==;
+	 bh=IbGpK+hDfNJ0SBkfO8CkzH4qZJ8K5Z/UFyvFJ2xlEVI=; b=N+AC+JDICbe/q/U7GtTIQgJew
+	Pl6kzOqmamAsUNzEKJEzcwXVcV89pUCrsEPzpYj2BU97hCXN+eGQv+Ta5cdDVjteV/152Z7cAhhw+
+	SKlZPAWwC9DEwmUgorG4OVQ8PFJFYqGve+hR8lO/e/7anHBdGwwXhoXqxPaZvmLP95yBIHknj6bPU
+	5ImbGV5Tc4lihqPQnYnftix74CPDobyrP5oUnZiVYXeuEfm3HsIdDWoJW8Dcz8rzsQDBX37oUzJ5d
+	mIsuEzvZsLmXpXrl20RVDiyVdrBlh+VpWxPKWghcGJFZztRcQPUyBFyR9R9yCxjqYZleDs3QxpNjC
+	KDl00oDqQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k85MD-00085V-RB; Tue, 18 Aug 2020 17:25:09 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1k85QC-0008Sp-Hv; Tue, 18 Aug 2020 17:29:16 +0000
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k85MB-000856-CD
- for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 17:25:08 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 8912B68AFE; Tue, 18 Aug 2020 19:25:04 +0200 (CEST)
-Date: Tue, 18 Aug 2020 19:25:04 +0200
-From: Christoph Hellwig <hch@lst.de>
+ id 1k85QA-0008S9-Jk
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 17:29:15 +0000
+Received: by mail-ed1-x541.google.com with SMTP id i6so15887613edy.5
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2020 10:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=3/0UrSCWdiUFQjlCmwTT+sDLdgmMCbkkvjiVvm/Zb4Q=;
+ b=0e9ZniydNVaI5+0HNp4JTj3vU9pqBMNjVOiGh3ElOE5Ouu6Ediz5A/BEtJaR8Yvadb
+ C4WYUsAkrOXygNOwvi5dDs9VkD0FWK2suynMdogo87lgbhuPrF/lx8iymwJ/dkP0ZdPT
+ bYrooWf1aJmO6wNkqGTI0tLWXJhyg/lh2lp3I39BrVspTnnihjy0E3Fi1rSF9F2smTSP
+ tQcLx+EAsEWbVzaOiMsflFvTE74JcTRj6UETYLxS4QhgIf8dlDRdAd4Du4bokDZJuvDv
+ naDhBGIim5OWIpqv/ztnr7J/BT2RHKRabHTRXBw076UJhXZoS0Uf3BPhWuX4h7oQg84x
+ NvJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3/0UrSCWdiUFQjlCmwTT+sDLdgmMCbkkvjiVvm/Zb4Q=;
+ b=LVUJbP7aYdi+B3QpqVdJR+F+4f7u8KGealERFjifmycs5yZuoghfkcvoT6KsdhHWml
+ d84Vu8AVXyOtPwIV8qUVnVfKcN+IjxWvDfXgxrOjH5OTGnf0zjIuY2kQX+GgIgedn3YB
+ cy9fwcw+e99Mjt+gzlg4vtAq44I/PRLKeq3l1O7kECY/F1SUT6ucTSiH+6GI5TRCXfLU
+ cPy03essE2fjHFPREdaFOx8cjZUdBFwUXO0A4ipcC66EjlK2WV3hfXzBZUlTwtUtrmWg
+ RbCGi4lDWzsmEsFhi3wmr6apbWHHqoKcpPbr0Oknm1yPC1cxgu6qcfQTWKjEhL9T4ZZD
+ tsIQ==
+X-Gm-Message-State: AOAM531w3Rjuob1AGz5kmIiYN+I6nzDE8iptXcbmlV3MjXzw48IceQyX
+ Io/GIxwiAPe3rC5fOOKJtJ/Iyw==
+X-Google-Smtp-Source: ABdhPJzlBOCe1lDdHrtT3awmcFNNz4BOC3NXuiv9YMW6pUkc5e3zSKPkQFenrYEnw9XSdDgkG1B4Vg==
+X-Received: by 2002:aa7:db10:: with SMTP id t16mr20427706eds.196.1597771753518; 
+ Tue, 18 Aug 2020 10:29:13 -0700 (PDT)
+Received: from localhost (5.186.127.235.cgn.fibianet.dk. [5.186.127.235])
+ by smtp.gmail.com with ESMTPSA id l23sm16763331eje.46.2020.08.18.10.29.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Aug 2020 10:29:12 -0700 (PDT)
+Date: Tue, 18 Aug 2020 19:29:12 +0200
+From: Javier Gonzalez <javier@javigon.com>
 To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv3] nvme: skip noiob for zoned devices
-Message-ID: <20200818172504.GA28474@lst.de>
-References: <20200818162941.2674340-1-kbusch@kernel.org>
+Subject: Re: [PATCH 2/2] nvme: add emulation for zone-append
+Message-ID: <20200818172912.e54klrofz3tfhxhj@MacBook-Pro.localdomain>
+References: <20200818052936.10995-1-joshi.k@samsung.com>
+ <CGME20200818053256epcas5p46d0b66b3702192eb6617c8bba334c15f@epcas5p4.samsung.com>
+ <20200818052936.10995-3-joshi.k@samsung.com>
+ <20200818071249.GB2544@lst.de>
+ <20200818095033.h6ybdwiq3ljagl5a@mpHalley.local>
+ <20200818165811.GA2979311@dhcp-10-100-145-180.wdl.wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200818162941.2674340-1-kbusch@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200818165811.GA2979311@dhcp-10-100-145-180.wdl.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200818_132507_549008_1BBBE139 
-X-CRM114-Status: GOOD (  18.93  )
+X-CRM114-CacheID: sfid-20200818_132914_680933_548A21CC 
+X-CRM114-Status: GOOD (  11.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +100,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org, hch@lst.de
-Content-Type: text/plain; charset="us-ascii"
+Cc: axboe@kernel.dk, Damien.LeMoal@wdc.com,
+ SelvaKumar S <selvakuma.s1@samsung.com>, sagi@grimberg.me,
+ Kanchan Joshi <joshi.k@samsung.com>, johannes.thumshirn@wdc.com,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Nitesh Shetty <nj.shetty@samsung.com>, Christoph Hellwig <hch@lst.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 18, 2020 at 09:29:41AM -0700, Keith Busch wrote:
-> Zoned block devices reuse the chunk_sectors queue limit to define zone
-> boundaries. If a such a device happens to also report an optimal
-> boundary, log a warning of the conflicting attributes and do not use
-> that to define the chunk_sectors as that may intermittently interfere
-> with io splitting and zone size queries.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
-> v2 -> v3:
-> 
->  Emit a warning on the initial validation if a zoned device reports an
->  optimal boundary.
-> 
->  drivers/nvme/host/core.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 88cff309d8e4..10cf40d2cfef 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2075,8 +2075,13 @@ static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
->  		}
->  	}
->  
-> -	if (iob)
-> -		blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(iob));
-> +	if (iob) {
-> +		if (!blk_queue_is_zoned(disk->queue))
-> +			blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(iob));
-> +		else if (!(disk->flags & GENHD_FL_UP))
-> +			pr_warn("%s: zone namespace has unused IO boundary:%u\n",
-> +				disk->disk_name, iob);
+On 18.08.2020 09:58, Keith Busch wrote:
+>On Tue, Aug 18, 2020 at 11:50:33AM +0200, Javier Gonzalez wrote:
+>> a number of customers are requiring the use of normal writes, which we
+>> want to support.
+>
+>A device that supports append is completely usable for those customers,
+>too. There's no need to create divergence in this driver.
 
-This has some overly long line and looks fairly convoluted, what
-about something like:
+Not really. You know as well as I do that some features are disabled for
+a particular SSD model on customer requirements. Generic models
+implementing append can submit both I/Os, but those that remove append
+are left out.
 
-	if (iob) {
-		unsigned int chunk_sectors = rounddown_pow_of_two(iob);
+I would like to understand how we can enable these NVMe-compatible
+models in Linux. If it is a performance concern, we will address it.
 
-		if (blk_queue_is_zoned(disk->queue) &&
-		    chunk_sectors > blk_queue_zone_sectors(disk->queue))
-			pr_warn("%s: ignoring too large IO boundary: %u\n",
-				disk->disk_name, iob);
-		else
-			blk_queue_chunk_sectors(ns->queue, chunk_sectors);
-	}
 
 _______________________________________________
 Linux-nvme mailing list
