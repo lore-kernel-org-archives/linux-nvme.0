@@ -2,101 +2,61 @@ Return-Path: <SRS0=NqxM=B4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	TVD_RCVD_SPACE_BRACKET,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A669DC433E1
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 06:51:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC141C433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 07:00:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4AF4820639
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 06:51:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AB023206B5
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 07:00:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SH+yWaui";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="KRGk9R5Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4AF4820639
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2uGKiyKM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB023206B5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jbRMdF5UeqGTEzgq8gc9RKv6WL6YSOvQ420B4HJxWvY=; b=SH+yWaui2zcn2qyCMmH2071OcP
-	d3Zw3U5dlg4aL6LKdMx7yiOrRV00VeXFRjiy6KAGqDmPZLIzvb9NpKKKvWtdMDNekS5AbJVVJhVPH
-	mqlpn89l+bQq1u5HnRuok1maYE3HCLL1HSrX9Q7Ff8vMSODWryGv1ev+4vnKMFRTiHZrhLfdWByU+
-	9r478YJz+fJGOEjJ+/iqIAmmDF9+yu4H7f6U7Tv1OD25HB2gEylVcqZrFU8CY5o2JyaEkJgkgyNCr
-	qWZuiiUHn5+o5AY1Ld+0wCxe7eWGvsQEAtKJLd1Q8cloq1UA6txkwYRTRh8tl8Ur4cPdPs7QkA7MF
-	59914f3w==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=WVTqxJriyJVbrsAJyNssCIPIS4tB3PiBSFDMcFqLKQQ=; b=2uGKiyKMP0LdWzB9Wy3py83u6
+	hGz/wbB3/Bx1E8C1mdvtJVyEGC9kx/c4U8oIDNrWN2Oci5WiTVOqXUcia0gk4CpPrcwHv1lD/07pS
+	yC3xr38XE8QPxV89BIhRFRGSDucNnBFHDfuG8chJ25+Pn4h42t1f+DMTCZH3WLrErdwQIrqEjzZuj
+	UImoaMEkCnGAVObs70gqrpkX4hOCJwI5sE7PHfoDCqk6J3QiVo6mNLpXkYs7pViW+2rHxbBPFZtAq
+	eT2wICmMYwfdEPT8L11zsNGwXRx1rynnY2eBAq0EitQz/ANIhtmm3BBFX78evA7OBs6JbYsf89g7m
+	jdKze9qwA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k7vTC-0007bl-5x; Tue, 18 Aug 2020 06:51:42 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1k7vbT-0008RB-Uz; Tue, 18 Aug 2020 07:00:16 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k7vT9-0007ai-6S
- for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 06:51:40 +0000
-Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
- by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07I6g2Hm005812; Tue, 18 Aug 2020 02:51:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=4Czj3s31flC5dqFwzhFsKBXYwQ3LiyFoIESTsbpmCUs=;
- b=KRGk9R5QxYLEGcgH9tK9zPb0hHVJReInz2xWEdg/i/1Fnf/+Ked0UWcqdY7SsxtrfFuW
- 4SMSZIDRDRQx1v7ruUGRXPxq5wQEejTHgeq4D6VA5Okol/G0YLo102jb+z2AoaY7w8UR
- uaVHga3VZLrVYHVYHrxftwrANqZkViRT9One0yWz9w/MRBQ01RxYL7yAgo+ZRpEMWoPi
- jlMYLisd3F35/BsXpcwUH4PmLtlQjbb2Ab6mM4OeZMTwMR40HD8893oPwd8UsBnYOi2r
- kvoVSqN/b+qU7Yu8h1VX1xyrQEWw4YVFFOpqvZg51TCXcu6KNhKZnL8ko4MSpFhBplmm eg== 
-Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com
- [67.231.157.37])
- by mx0b-00154904.pphosted.com with ESMTP id 3304emgxxb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Aug 2020 02:51:37 -0400
-Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
- by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07I6jDBP118825; Tue, 18 Aug 2020 02:51:37 -0400
-Received: from mailuogwhop.emc.com (mailuogwhop-nat.lss.emc.com
- [168.159.213.141] (may be forged))
- by mx0b-00154901.pphosted.com with ESMTP id 3304k8un4d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 18 Aug 2020 02:51:36 -0400
-Received: from emc.com (localhost [127.0.0.1])
- by mailuogwprd01.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
- ESMTP id 07I6panR008757; Tue, 18 Aug 2020 02:51:36 -0400
-Received: from mailapphubprd03.lss.emc.com ([mailapphubprd03.lss.emc.com
- [10.253.24.70]]) by mailuogwprd01.lss.emc.com with ESMTP id 07I6pJ6s008698 ; 
- Tue, 18 Aug 2020 02:51:19 -0400
-Received: from vd-amite.xiolab.lab.emc.com ([10.55.225.210])
- by mailapphubprd03.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
- ESMTP id 07I6pHRX016236; Tue, 18 Aug 2020 02:51:18 -0400
-From: amit.engel@dell.com
-To: hch@lst.de, linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: Set ctrl->kato to a default NVMET_DISC_KATO value
-Date: Tue, 18 Aug 2020 09:51:14 +0300
-Message-Id: <20200818065114.57532-1-amit.engel@dell.com>
-X-Mailer: git-send-email 2.16.5
-X-Sentrion-Hostname: mailuogwprd01.lss.emc.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-18_04:2020-08-18,
- 2020-08-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- mlxscore=0 impostorscore=0 mlxlogscore=622 clxscore=1015
- lowpriorityscore=0 bulkscore=0 phishscore=0 spamscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008180046
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- suspectscore=0 phishscore=0
- mlxlogscore=768 spamscore=0 adultscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008180046
+ id 1k7vbR-0008QD-B2
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 07:00:14 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 20B3A68B02; Tue, 18 Aug 2020 09:00:11 +0200 (CEST)
+Date: Tue, 18 Aug 2020 09:00:10 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Cong Wang <xiyou.wangcong@gmail.com>
+Subject: Re: [PATCH v5 1/3] net: introduce helper sendpage_ok() in
+ include/linux/net.h
+Message-ID: <20200818070010.GA2365@lst.de>
+References: <20200816071518.6964-1-colyli@suse.de>
+ <CAM_iQpUFtZdrhfUbuYYODNeSVqPOqx8mio6Znp6v3Q5iDZeyqg@mail.gmail.com>
+ <20200817054538.GA11705@lst.de>
+ <CAM_iQpWnzm=cQZvZMcjKXez1L55tSVfWyadP3d0CUaT=D4nOhw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAM_iQpWnzm=cQZvZMcjKXez1L55tSVfWyadP3d0CUaT=D4nOhw@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200818_025139_388515_16D81A23 
-X-CRM114-Status: GOOD (  15.49  )
+X-CRM114-CacheID: sfid-20200818_030013_544824_D7AC805B 
+X-CRM114-Status: GOOD (  11.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,42 +68,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: amit.engel@dell.com
-MIME-Version: 1.0
+Cc: Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@suse.com>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>,
+ Linux Kernel Network Developers <netdev@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
+ Coly Li <colyli@suse.de>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Jan Kara <jack@suse.com>,
+ Philipp Reisner <philipp.reisner@linbit.com>, Christoph Hellwig <hch@lst.de>,
+ Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Amit Engel <amit.engel@dell.com>
+On Mon, Aug 17, 2020 at 12:12:12PM -0700, Cong Wang wrote:
+> 
+> So netdev people will have to understand and support PageSlab() or
+> page_count()?
 
-We want to avoid starting the keep-alive timer with a zero timeout value
+Yes.  As they came up with that contrived rule what is acceptable
+for sendpage.  No one else really knows and other subsystems like the
+block layer are perfectly fine with it.
 
-Signed-off-by: Amit Engel <amit.engel@dell.com>
----
- drivers/nvme/target/core.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> If it is unusual even for mm people, how could netdev people suppose
+> to understand this unusual mm bug? At least not any better.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b92f45f5cd5b..b7883435c5e4 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1363,11 +1363,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 
- 	ctrl->ops = req->ops;
- 
--	/*
--	 * Discovery controllers may use some arbitrary high value
--	 * in order to cleanup stale discovery sessions
--	 */
--	if ((ctrl->subsys->type == NVME_NQN_DISC) && !kato)
-+	if (!kato)
- 		kato = NVMET_DISC_KATO_MS;
- 
- 	/* keep-alive timeout in seconds */
--- 
-2.16.2
-
+It is not a mm bug, it is a networking quirk.
 
 _______________________________________________
 Linux-nvme mailing list
