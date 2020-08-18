@@ -2,75 +2,101 @@ Return-Path: <SRS0=NqxM=B4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	TVD_RCVD_SPACE_BRACKET,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE08C433E1
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 06:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A669DC433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 06:51:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 19CC02067C
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 06:36:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4AF4820639
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 06:51:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NPe84r12";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SCuSZeGZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 19CC02067C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SH+yWaui";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="KRGk9R5Q"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4AF4820639
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ymYAwJ7jVNGp/wHjZ6EwUKk23zzNLYJNzmcrbWPLABY=; b=NPe84r12CUTXM4ptHiAWpzVEB
-	RqC1UkTaqSr8fmdyrg05ydKY6oizC+U+dGb9ooJUVp+AAKwuNQsJm98KufHw6+6ngOWX9IWQIuPG8
-	mSRnB4zFRfr6xbBdIYZeWfCg4/myr4NV1Dec2jFuDv/ThGbC4Wbf2P57J1Ib4zZaSdPf9w3UoOUmf
-	HsK97GZaE8waePP6tcUtOHBLWFn34dXIcE9pC1sFIqnZEC0DjGLhDB3gy+XaeVeM/GRN3yw4z71/A
-	dp/epMMhxRyEnNhNKIBo7lko2OxUuv3EO1WlhHMfkHySET8PI/l5pr+ScUbuyEVTXZhz6dv9xncRY
-	V5k2Wq/RA==;
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=jbRMdF5UeqGTEzgq8gc9RKv6WL6YSOvQ420B4HJxWvY=; b=SH+yWaui2zcn2qyCMmH2071OcP
+	d3Zw3U5dlg4aL6LKdMx7yiOrRV00VeXFRjiy6KAGqDmPZLIzvb9NpKKKvWtdMDNekS5AbJVVJhVPH
+	mqlpn89l+bQq1u5HnRuok1maYE3HCLL1HSrX9Q7Ff8vMSODWryGv1ev+4vnKMFRTiHZrhLfdWByU+
+	9r478YJz+fJGOEjJ+/iqIAmmDF9+yu4H7f6U7Tv1OD25HB2gEylVcqZrFU8CY5o2JyaEkJgkgyNCr
+	qWZuiiUHn5+o5AY1Ld+0wCxe7eWGvsQEAtKJLd1Q8cloq1UA6txkwYRTRh8tl8Ur4cPdPs7QkA7MF
+	59914f3w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k7vES-0004Wn-HH; Tue, 18 Aug 2020 06:36:28 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1k7vTC-0007bl-5x; Tue, 18 Aug 2020 06:51:42 +0000
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k7vER-0004WV-CP
- for linux-nvme@merlin.infradead.org; Tue, 18 Aug 2020 06:36:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=8vYIBJGBXU1Wf1xvhyqVIcRUnFm2y/tYWcpiG02fXZg=; b=SCuSZeGZM5341Z9idGQ+Wm4AVk
- HkkBTBDUmRcaUQY/DkKfBmG1sIq8atKr3AQe8IJpQRaJra5AqAigE7FGiiGLFIV1TO68ddXN5LVku
- +2pD/FmCU9j1zon08jxOB5QMA7Q4WeTHU9yrf3qeD/kkZMr6rr2M5eu4S8hgaLGhtHv1OdHXAv4Ev
- U+XkaOanLT6BV8bb3WVCvQV0zAhKilCDgj8G0JCUypjmtqEtuyOXIczMlO8/3+5fpZ2O1nKpTmEbW
- EFdNDIDeqgsD6O7/hcbCmK/Mkkp2SHLiuP+oJbUjnp4ujqVyO29LFvVW+TNHF165h0wDh3lSU5Og/
- lRJmfT3w==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1k7vEP-0002WR-5E; Tue, 18 Aug 2020 06:36:25 +0000
-Date: Tue, 18 Aug 2020 07:36:25 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: nvme reservation commands during controller reset
-Message-ID: <20200818063625.GA9206@infradead.org>
-References: <MN2PR19MB3005A46208EE2B65E5F9B330EE440@MN2PR19MB3005.namprd19.prod.outlook.com>
- <20200810154846.GB4159317@dhcp-10-100-145-180.wdl.wdc.com>
- <462babf2-7cde-af4a-8bf9-a5b230e282b7@grimberg.me>
- <20200814082015.GB18371@infradead.org>
- <20200814100911.GA9975@infradead.org>
- <83dbae6f-01a0-a9a4-9271-de8c1cf06c66@grimberg.me>
- <20200815070134.GB20460@infradead.org>
- <e312ae98-5b40-d0ee-c13e-b65db1f3acd7@grimberg.me>
- <20200817081227.GA12680@infradead.org>
- <29359e09-f386-8004-7369-c8fc055e2c38@grimberg.me>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <29359e09-f386-8004-7369-c8fc055e2c38@grimberg.me>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+ id 1k7vT9-0007ai-6S
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 06:51:40 +0000
+Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
+ by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07I6g2Hm005812; Tue, 18 Aug 2020 02:51:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : cc : subject : date : message-id; s=smtpout1;
+ bh=4Czj3s31flC5dqFwzhFsKBXYwQ3LiyFoIESTsbpmCUs=;
+ b=KRGk9R5QxYLEGcgH9tK9zPb0hHVJReInz2xWEdg/i/1Fnf/+Ked0UWcqdY7SsxtrfFuW
+ 4SMSZIDRDRQx1v7ruUGRXPxq5wQEejTHgeq4D6VA5Okol/G0YLo102jb+z2AoaY7w8UR
+ uaVHga3VZLrVYHVYHrxftwrANqZkViRT9One0yWz9w/MRBQ01RxYL7yAgo+ZRpEMWoPi
+ jlMYLisd3F35/BsXpcwUH4PmLtlQjbb2Ab6mM4OeZMTwMR40HD8893oPwd8UsBnYOi2r
+ kvoVSqN/b+qU7Yu8h1VX1xyrQEWw4YVFFOpqvZg51TCXcu6KNhKZnL8ko4MSpFhBplmm eg== 
+Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com
+ [67.231.157.37])
+ by mx0b-00154904.pphosted.com with ESMTP id 3304emgxxb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Aug 2020 02:51:37 -0400
+Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
+ by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07I6jDBP118825; Tue, 18 Aug 2020 02:51:37 -0400
+Received: from mailuogwhop.emc.com (mailuogwhop-nat.lss.emc.com
+ [168.159.213.141] (may be forged))
+ by mx0b-00154901.pphosted.com with ESMTP id 3304k8un4d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 18 Aug 2020 02:51:36 -0400
+Received: from emc.com (localhost [127.0.0.1])
+ by mailuogwprd01.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
+ ESMTP id 07I6panR008757; Tue, 18 Aug 2020 02:51:36 -0400
+Received: from mailapphubprd03.lss.emc.com ([mailapphubprd03.lss.emc.com
+ [10.253.24.70]]) by mailuogwprd01.lss.emc.com with ESMTP id 07I6pJ6s008698 ; 
+ Tue, 18 Aug 2020 02:51:19 -0400
+Received: from vd-amite.xiolab.lab.emc.com ([10.55.225.210])
+ by mailapphubprd03.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
+ ESMTP id 07I6pHRX016236; Tue, 18 Aug 2020 02:51:18 -0400
+From: amit.engel@dell.com
+To: hch@lst.de, linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet: Set ctrl->kato to a default NVMET_DISC_KATO value
+Date: Tue, 18 Aug 2020 09:51:14 +0300
+Message-Id: <20200818065114.57532-1-amit.engel@dell.com>
+X-Mailer: git-send-email 2.16.5
+X-Sentrion-Hostname: mailuogwprd01.lss.emc.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-18_04:2020-08-18,
+ 2020-08-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ mlxscore=0 impostorscore=0 mlxlogscore=622 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 phishscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008180046
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ suspectscore=0 phishscore=0
+ mlxlogscore=768 spamscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2008180046
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200818_025139_388515_16D81A23 
+X-CRM114-Status: GOOD (  15.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,26 +108,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@kernel.org>,
- "Engel, Amit" <Amit.Engel@dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "Anner,
- Ran" <Ran.Anner@dell.com>
+Cc: amit.engel@dell.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 17, 2020 at 12:29:49PM -0700, Sagi Grimberg wrote:
-> So what is the semantics we want to provide? a best-effort one? not very
-> different than what we have today. We could, if we choose to, have the
-> pr context to wait for a path_map_changed completion and have
-> nvme_mpath_set_live and nvme_mpath_check_last_path do complete_all on
-> this completion.
-> 
-> But the question is what the semantics we want to provide...
+From: Amit Engel <amit.engel@dell.com>
 
-But it might never change..  We could give it the default max_retries
-based retries for any reasons if we want to be fancy.
+We want to avoid starting the keep-alive timer with a zero timeout value
+
+Signed-off-by: Amit Engel <amit.engel@dell.com>
+---
+ drivers/nvme/target/core.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index b92f45f5cd5b..b7883435c5e4 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1363,11 +1363,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 
+ 	ctrl->ops = req->ops;
+ 
+-	/*
+-	 * Discovery controllers may use some arbitrary high value
+-	 * in order to cleanup stale discovery sessions
+-	 */
+-	if ((ctrl->subsys->type == NVME_NQN_DISC) && !kato)
++	if (!kato)
+ 		kato = NVMET_DISC_KATO_MS;
+ 
+ 	/* keep-alive timeout in seconds */
+-- 
+2.16.2
+
 
 _______________________________________________
 Linux-nvme mailing list
