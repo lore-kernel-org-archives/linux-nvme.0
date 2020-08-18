@@ -2,68 +2,60 @@ Return-Path: <SRS0=NqxM=B4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5B8C433E1
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 07:12:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6379AC433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 07:12:14 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E08ED20658
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 07:12:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 34FAC2075B
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 07:12:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hxBr/hQg";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kHYpW7FZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E08ED20658
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JrR0uogk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 34FAC2075B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=IlyoGSu1N18vEvTwdPn3Ml2pliuiv1rpvdrn1pDQFzg=; b=hxBr/hQgl0boTHOqpxTmYu9ic
-	4obMZawlkaqd2dEb3dIimAQx5ATCs+P5hRpmJI1FGHxenjN0qSpMdrrNVMN0NSJ5+KqqM1m6B9xN4
-	qJ+tm2MiNQbESyfpVTpvlt5RFJOfcfSmlsjf2KRdVEK36cfL5e/yZZEy9ZeAQ6IU7F1HHeHozXR6Y
-	LQLHE4nWuqUiiPIGuFTI6ZRklk7wUcTfY1szvw6FquF9vdkUUb/yXAWOPzJdRgDXZApb9XJzyiQjT
-	9rpbcUOtV30K8P/NZKLuZdIFc07C7iA78yM09lRqt+64xRrmmuQeJl9HLSgzw4fN5bvfxmNdpA5CL
-	X6yRAovzg==;
+	 bh=UO8cj5kMMTzn7trfxhfD1zevQYauHN3NROzx60DOwOM=; b=JrR0uogkXV5CxU89O8YRX/dJ/
+	HXoJrG7yBPgp9s2y2T6rQ6sXFkMnJ6ULdUGNDoPpc1PHrbeqRwo0K3gMKvXMZX7lX4nJt6Q3ks6l+
+	Z2dvFiyhcqWQ5Y7ZqvaZU9CDpac4zrAji7XWX3rTukstGt0zmPE9h0fTEI5PRv2Epbnn1jCi5C//N
+	xbJccdf3C7Y8OiN9XQqsR+9PGYwi3D6qz5e4eD+ZI4bZNIlKVTqRaoIudVzqkPiX/xVSU+NtWDgi7
+	QpJfxmQV0J6fVKmgmQXq3au782ZcGmyH8XErnK49UyipfSRbpZZq6LrhrU2e4XhuD4VYbP2QYItMN
+	d8K3ylhpg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k7vmx-0001Dj-Qf; Tue, 18 Aug 2020 07:12:07 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1k7vn2-0001G3-8r; Tue, 18 Aug 2020 07:12:12 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k7vmb-00014Q-2b
- for linux-nvme@merlin.infradead.org; Tue, 18 Aug 2020 07:11:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=MifmZSPpFLXD0MTunSfN1TuIaNrf5GOpRSEmtCogPo0=; b=kHYpW7FZklGPzbOQPafUFEEH/7
- 1Vaci71LGtDgrdw+o9cSoQzIWpDtJopjXKzYS3+vdADlJhbfdLwMPX5wG87OheoOdlXq9Yi5zeqr9
- GbhyhFPrSERLxoelMP95uBIEmACBxLG8tHwdJckPyFar+hbTawdsqEl3M9kg8pYNh2VehTurwI9ap
- 0yRzmItg58mof5cm4TSan0aiw86I+0qzBYozWWuTnb1Cm9q4dWmEpdOXc9bH0sqmjsq1L4WSeP/YG
- kb2u4QwYeu9S8RqoxlZprNJEVGdlCmWk8vjL62Csqv89eaShP+72mdfxA2Fblz8DbZevaj4RVzqSo
- U0OCaqKQ==;
-Received: from [2001:4bb8:198:f3b2:a8c9:886a:f150:c8c6] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k7vmZ-0005Z3-II; Tue, 18 Aug 2020 07:11:44 +0000
+ id 1k7vma-00014I-Ix
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 07:11:46 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 807DD68B02; Tue, 18 Aug 2020 09:11:41 +0200 (CEST)
+Date: Tue, 18 Aug 2020 09:11:41 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH 3/4] nvme: just check the status code type in
- nvme_is_path_error
-Date: Tue, 18 Aug 2020 09:11:31 +0200
-Message-Id: <20200818071132.1136033-4-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200818071132.1136033-1-hch@lst.de>
-References: <20200818071132.1136033-1-hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH 1/2] nvme: set io-scheduler requirement for ZNS
+Message-ID: <20200818071141.GA2544@lst.de>
+References: <20200818052936.10995-1-joshi.k@samsung.com>
+ <CGME20200818053252epcas5p4ee61d64bba5f6a131105e40330984f5e@epcas5p4.samsung.com>
+ <20200818052936.10995-2-joshi.k@samsung.com>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Disposition: inline
+In-Reply-To: <20200818052936.10995-2-joshi.k@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200818_031145_444732_6ACB1E14 
+X-CRM114-Status: UNSURE (   8.33  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,51 +67,18 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Mike Snitzer <snitzer@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>
+Cc: axboe@kernel.dk, Damien.LeMoal@wdc.com, sagi@grimberg.me,
+ johannes.thumshirn@wdc.com, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Check the SCT sub-field for a path related status instead of enumerating
-invididual status code.  As of NVMe 1.4 this adds "Internal Path Error"
-and "Controller Pathing Error" to the list, but it also future proofs for
-additional status codes added to the category.
+On Tue, Aug 18, 2020 at 10:59:35AM +0530, Kanchan Joshi wrote:
+> Set elevator feature ELEVATOR_F_ZBD_SEQ_WRITE required for ZNS.
 
-Suggested-by: Chao Leng <lengchao@huawei.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Mike Snitzer <snitzer@redhat.com>
----
- drivers/nvme/host/nvme.h | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4ff6fd2890821d..e9cf29449dd17f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -537,16 +537,8 @@ static inline bool nvme_is_ana_error(u16 status)
- 
- static inline bool nvme_is_path_error(u16 status)
- {
--	switch (status & 0x7ff) {
--	case NVME_SC_HOST_PATH_ERROR:
--	case NVME_SC_HOST_ABORTED_CMD:
--	case NVME_SC_ANA_TRANSITION:
--	case NVME_SC_ANA_INACCESSIBLE:
--	case NVME_SC_ANA_PERSISTENT_LOSS:
--		return true;
--	default:
--		return false;
--	}
-+	/* check for a status code type of 'path related status' */
-+	return (status & 0x700) == 0x300;
- }
- 
- /*
--- 
-2.28.0
-
+No, it is not.
 
 _______________________________________________
 Linux-nvme mailing list
