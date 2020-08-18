@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FA5C433E3
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 13:13:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B4D0C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 13:13:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 61FE820706
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 13:13:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3B7D7207D3
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 13:13:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hd618ZKD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61FE820706
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jbn9SLFn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B7D7207D3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,38 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=wHMDcpNJ+5Hja8gM9j9nKo+sGji/D0WNEDCCmIORfXs=; b=hd618ZKDYE/jtBbdyNsO96p5/
-	87z6Fj01tT38jagfZr62MeCFglrBGJr2XC34hYdeUj0ass1mUp5aOfeSWyieHZeBPfnt6pMetNae7
-	uj5pAzpOE07e06B3fdo38ZKSEmxJEM6TyiBsXh1nVasBLrJd6ro+0NXvNPpWSen0dp0z/tDKTBNPE
-	0igYwO87B8froQcnIopFcGEkd4elQB2cEHTMNdY/kbg/Kainsi946GMxyGFVhMz4FzuHOdmg/DHjA
-	z2QT+9W+P0Dyclfs5RHZ2xSnXDj59gnHzR2WbLRy/rVUKCBKFxWOQHvttLBtNthakDZt/zUL1bikK
-	0TCuyFKgw==;
+	 bh=SqnrV8dFjsHy0DKDPECv7789QhuyzywcH7pUd2R1fbg=; b=jbn9SLFnLyxXSok451SKqhWVx
+	l2tM8TxC0OSQdz3o+ZcFlW4b5i9u2Jtt6mh+ayIeRnN/soSNskD3GQx5lGNpcIUw74YyPGNWNmkv+
+	+iANkRcsLoC2smjg5OruEi57YMHoUA4ih/BIWkwdIuHTaK/8XduHvWw/2ddmZB4G9+KVoIu6e0A0H
+	w8dnhUHPvrZhKIJwsUf0wKKbIqX7GU87HA0oZPsnLT8lIdDTkWKZyRxp3+63+qwYbt3eQT2P5Dmaa
+	Qlzq1x0nVugvNLNdRQzURzpP/8azj5pBnOyKNPcNwvWxC36vn32qFIHiUx8SH3krxVY6NuxtiSMj7
+	xnFUH11WA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k81Qo-0005qI-MX; Tue, 18 Aug 2020 13:13:38 +0000
+	id 1k81Qs-0005ry-8D; Tue, 18 Aug 2020 13:13:42 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k81Qk-0005nu-SZ
- for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 13:13:36 +0000
+ id 1k81Qp-0005qe-NM
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 13:13:40 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 929A8B17F;
- Tue, 18 Aug 2020 13:13:59 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 811D9B178;
+ Tue, 18 Aug 2020 13:14:04 +0000 (UTC)
 From: Coly Li <colyli@suse.de>
 To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, open-iscsi@googlegroups.com,
  linux-scsi@vger.kernel.org, ceph-devel@vger.kernel.org
-Subject: [PATCH v7 5/6] scsi: libiscsi: use sendpage_ok() in
- iscsi_tcp_segment_map()
-Date: Tue, 18 Aug 2020 21:12:26 +0800
-Message-Id: <20200818131227.37020-6-colyli@suse.de>
+Subject: [PATCH v7 6/6] libceph: use sendpage_ok() in ceph_tcp_sendpage()
+Date: Tue, 18 Aug 2020 21:12:27 +0800
+Message-Id: <20200818131227.37020-7-colyli@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200818131227.37020-1-colyli@suse.de>
 References: <20200818131227.37020-1-colyli@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200818_091335_103195_E4BDA54C 
-X-CRM114-Status: GOOD (  16.30  )
+X-CRM114-CacheID: sfid-20200818_091339_870107_A1519072 
+X-CRM114-Status: GOOD (  14.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,52 +67,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Mike Christie <michaelc@cs.wisc.edu>, Cong Wang <amwang@redhat.com>,
- linux-kernel@vger.kernel.org, Coly Li <colyli@suse.de>,
- Chris Leech <cleech@redhat.com>, Hannes Reinecke <hare@suse.de>,
- Lee Duncan <lduncan@suse.com>, Vasily Averin <vvs@virtuozzo.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Ilya Dryomov <idryomov@gmail.com>, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, Coly Li <colyli@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In iscsci driver, iscsi_tcp_segment_map() uses the following code to
-check whether the page should or not be handled by sendpage:
-    if (!recv && page_count(sg_page(sg)) >= 1 && !PageSlab(sg_page(sg)))
+In libceph, ceph_tcp_sendpage() does the following checks before handle
+the page by network layer's zero copy sendpage method,
+	if (page_count(page) >= 1 && !PageSlab(page))
 
-The "page_count(sg_page(sg)) >= 1 && !PageSlab(sg_page(sg)" part is to
-make sure the page can be sent to network layer's zero copy path. This
-part is exactly what sendpage_ok() does.
-
-This patch uses  use sendpage_ok() in iscsi_tcp_segment_map() to replace
-the original open coded checks.
+This check is exactly what sendpage_ok() does. This patch replace the
+open coded checks by sendpage_ok() as a code cleanup.
 
 Signed-off-by: Coly Li <colyli@suse.de>
-Cc: Vasily Averin <vvs@virtuozzo.com>
-Cc: Cong Wang <amwang@redhat.com>
-Cc: Mike Christie <michaelc@cs.wisc.edu>
-Cc: Lee Duncan <lduncan@suse.com>
-Cc: Chris Leech <cleech@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Hannes Reinecke <hare@suse.de>
+Cc: Ilya Dryomov <idryomov@gmail.com>
+Cc: Jeff Layton <jlayton@kernel.org>
 ---
- drivers/scsi/libiscsi_tcp.c | 2 +-
+ net/ceph/messenger.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/libiscsi_tcp.c b/drivers/scsi/libiscsi_tcp.c
-index 6ef93c7af954..31cd8487c16e 100644
---- a/drivers/scsi/libiscsi_tcp.c
-+++ b/drivers/scsi/libiscsi_tcp.c
-@@ -128,7 +128,7 @@ static void iscsi_tcp_segment_map(struct iscsi_segment *segment, int recv)
+diff --git a/net/ceph/messenger.c b/net/ceph/messenger.c
+index 27d6ab11f9ee..6a349da7f013 100644
+--- a/net/ceph/messenger.c
++++ b/net/ceph/messenger.c
+@@ -575,7 +575,7 @@ static int ceph_tcp_sendpage(struct socket *sock, struct page *page,
  	 * coalescing neighboring slab objects into a single frag which
  	 * triggers one of hardened usercopy checks.
  	 */
--	if (!recv && page_count(sg_page(sg)) >= 1 && !PageSlab(sg_page(sg)))
-+	if (!recv && sendpage_ok(sg_page(sg)))
- 		return;
- 
- 	if (recv) {
+-	if (page_count(page) >= 1 && !PageSlab(page))
++	if (sendpage_ok(page))
+ 		sendpage = sock->ops->sendpage;
+ 	else
+ 		sendpage = sock_no_sendpage;
 -- 
 2.26.2
 
