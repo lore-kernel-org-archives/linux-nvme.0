@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4521C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 17:14:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C91C433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 17:18:40 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 81D072067C
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 17:14:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E62E920658
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 17:18:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mp3ew1kn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81D072067C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KbHalHrK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E62E920658
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,58 +25,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6QGke3WuSwIEGF5d4NcZk1u9ijwoSN4lQXDfo5AvJCI=; b=mp3ew1knlJGw8HzlfIP74dPAC
-	buEVx4YR8+c0Mg4o5Zfb+sZ+PqfqaqRiT4d/zXRzAMoMUK7CKRa+B34wq54fetgb5Erj45v0msSIl
-	jt8F4DcYHsI2eyBOxkGTWvbvVF9IKnZRx5cV4nPARvdaswD+4EjIu6AQouI+gfTeB9TQdhA9rPp89
-	dUJgd8IvEiDdw6ck7Q6ccd/b78dy6W5jmQChOSotjrcFJhCXHikhOwz2Co0z607F1JiLOoyWOQShk
-	ru+Iny6SGjX1XCvRng7swLyYguV8mLLvYDwE77zChABkgF/qlNfzgPky76LedJ/5/mSAUIJVxuIKn
-	kvPucZm9w==;
+	 bh=0AIfCl33e8iySiIjCd7nfWp82JztQT2+dbX4EJ+6qPQ=; b=KbHalHrKHH4lXIdXXUpA6VsFK
+	T9YU2r8px+BMNnJ33NtE5vXm23Y6Thwp7B9jEwLgja7HzJHnuzIfCrHSeGBIuSGHSWkjoEASL8pry
+	bgdgdQU2X2uc0m2mwUmPFYTrEE/s2D/Dsm7dyNVzN2LajqYz89mdd/tW6jAVebaIjKYDdPlc8xS6G
+	EgfK5bVksFef/IwG5BtIUIL0V70KhTKMTseYI91K58nW/DTbioYGR/cEyItR89bDUgsFCwI3UcvVx
+	KurkUmcjFU418w6ZlYtreA/laQ2Jg5K0KFynH0ZMhV1oGqYmI2H9guXU1TYch96JbDfib7G6Jzg/m
+	fy4bMg0Kw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k85C6-0006Fm-23; Tue, 18 Aug 2020 17:14:42 +0000
-Received: from mail-wr1-f68.google.com ([209.85.221.68])
+	id 1k85Ft-000742-Kz; Tue, 18 Aug 2020 17:18:37 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k85C3-0006EV-RE
- for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 17:14:40 +0000
-Received: by mail-wr1-f68.google.com with SMTP id a15so18962358wrh.10
- for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2020 10:14:37 -0700 (PDT)
+ id 1k85Fq-00073C-UP
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 17:18:35 +0000
+Received: by mail-wm1-f51.google.com with SMTP id 9so16936563wmj.5
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2020 10:18:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vb3zGwE1WCHx+27JTR7GFIFm9G79r4Q2mIZjMGFpqGY=;
- b=pthvGHCiDmVan+294w8vrGvE9gz4KsIfAIubeGF2s5anHQ/8KYplNjMPyS6baLTnUg
- qrCGD6gei5pQ1kxKYDSB/Z3pCgXpL2a2iS8s4GKbiIjyxqMODc7B/kCwX27sAM6apk8Q
- 5u4u0EbtTIQcO6uc7G+p6BlMy0cEs8f+DkOJb5LJGL7qHgVRRN8fgR7i7MIncVOHQ35r
- jQFaMsGHNGTeycqCpaDRRiJXc7ekxGI//fiRvbd+zdOeFz+AVVEglkmnbRiLXzKJppI9
- 5IxpRvw9GYd+lV0QFdGkhSDfHg/TYwgEzQTq74A5p1XxLTKRonF0uZ0R0MwZvwa+CBI0
- mfXg==
-X-Gm-Message-State: AOAM533jAfipHylpwbvvnfTHpdZrRBEPzIhftE2kTM8UBVGArPEsWk7H
- 6T4/wH2TivgZoET0GfSdS+E=
-X-Google-Smtp-Source: ABdhPJyJHY/NJ3mG0RnRPvsuD1T6FVfsRe2a3gqSII96sXaJzw7NrhRfx5QMBsW4GuseFGLoY7t11w==
-X-Received: by 2002:adf:dfcf:: with SMTP id q15mr241953wrn.345.1597770876875; 
- Tue, 18 Aug 2020 10:14:36 -0700 (PDT)
+ bh=iUrwSVL0O1InvwGm4rIx94WIoSvs5TPYcB5lrfnt9Jw=;
+ b=YH+vJ3k74sBlZ9z8DsfePxccrwsmVENc2ClNBQ2nKPL/cX1xvcMhfSu1nnv77a/bUD
+ HdS+aPhzWUVcZvP1M2B0ujdWfOgYx8RSMDcJ4c8XSuG0Ige83WxQX+jwuEJI19n6O3qq
+ RO4v1qESk+slCMeOyFSHDw2CTO8wTQT/yiRTk85bwpme/WKspPgOXh5mCEmN3alTIzik
+ nw4F81LHWHoTuQPJ4QfhojH+H91hbp6VvLoH9c6yz+z3ljL4/oWIJDNe80y6/qCS0mHW
+ luMEB8tg9g74+SIMqidECNorL5igngVxZfrvgBtYxc8QqlIGvGimO2gpqk3QfVcOi62l
+ Vo7w==
+X-Gm-Message-State: AOAM532fiRveA27Np72BZKUK43SYTCeXBp+i1+pGsDrHMhgAI2FtdIWF
+ yLM43+7TvOAZi9dOLtzy9z45yqBsdaF0Vw==
+X-Google-Smtp-Source: ABdhPJyNEQp04IXY2pUo+83iYTjo46Mfzdp7D3EmS+3dWXD3px4sgy+pjbUxL0PeXGi6Ar1F3gQi9A==
+X-Received: by 2002:a05:600c:230e:: with SMTP id 14mr834248wmo.3.1597771113748; 
+ Tue, 18 Aug 2020 10:18:33 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:3dce:63f2:5e83:391e?
  ([2601:647:4802:9070:3dce:63f2:5e83:391e])
- by smtp.gmail.com with ESMTPSA id z127sm703344wme.44.2020.08.18.10.14.34
+ by smtp.gmail.com with ESMTPSA id f124sm777237wmf.7.2020.08.18.10.18.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Aug 2020 10:14:36 -0700 (PDT)
-Subject: Re: regression with "nvme-rdma: use new shared CQ mechanism" from
- v5.9-rc1
-To: Yi Zhang <yi.zhang@redhat.com>, linux-nvme@lists.infradead.org
-References: <1476432272.38046616.1597766884817.JavaMail.zimbra@redhat.com>
+ Tue, 18 Aug 2020 10:18:33 -0700 (PDT)
+Subject: Re: nvme reservation commands during controller reset
+To: Christoph Hellwig <hch@infradead.org>
+References: <MN2PR19MB3005A46208EE2B65E5F9B330EE440@MN2PR19MB3005.namprd19.prod.outlook.com>
+ <20200810154846.GB4159317@dhcp-10-100-145-180.wdl.wdc.com>
+ <462babf2-7cde-af4a-8bf9-a5b230e282b7@grimberg.me>
+ <20200814082015.GB18371@infradead.org> <20200814100911.GA9975@infradead.org>
+ <83dbae6f-01a0-a9a4-9271-de8c1cf06c66@grimberg.me>
+ <20200815070134.GB20460@infradead.org>
+ <e312ae98-5b40-d0ee-c13e-b65db1f3acd7@grimberg.me>
+ <20200817081227.GA12680@infradead.org>
+ <29359e09-f386-8004-7369-c8fc055e2c38@grimberg.me>
+ <20200818063625.GA9206@infradead.org>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <797037be-c908-6c95-e459-4e997de51679@grimberg.me>
-Date: Tue, 18 Aug 2020 10:14:32 -0700
+Message-ID: <e11f2af3-96eb-2869-3919-b07e1a8fa625@grimberg.me>
+Date: Tue, 18 Aug 2020 10:18:29 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1476432272.38046616.1597766884817.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20200818063625.GA9206@infradead.org>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200818_131439_917933_75170EF5 
-X-CRM114-Status: GOOD (  15.36  )
+X-CRM114-CacheID: sfid-20200818_131835_041078_671E9555 
+X-CRM114-Status: GOOD (  15.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,90 +96,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: yaminf@mellanox.com, kbusch@kernel.org, hch@lst.de,
- linux-rdma@vger.kernel.org
+Cc: Keith Busch <kbusch@kernel.org>, "Anner, Ran" <Ran.Anner@dell.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "Engel,
+ Amit" <Amit.Engel@dell.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-+linux-rdma
 
-On 8/18/20 9:08 AM, Yi Zhang wrote:
-> Hello
+>> So what is the semantics we want to provide? a best-effort one? not very
+>> different than what we have today. We could, if we choose to, have the
+>> pr context to wait for a path_map_changed completion and have
+>> nvme_mpath_set_live and nvme_mpath_check_last_path do complete_all on
+>> this completion.
+>>
+>> But the question is what the semantics we want to provide...
 > 
-> With Sagi's new blktests nvme rdma[1], I found one regresson that lead nvme/004 hang.
-> By bisecting, I found it was introduced from [2], could anyone help check this issue, thanks.
-> 
-> [1] https://marc.info/?l=linux-block&m=159738590701657&w=2
-> # nvme_trtype=rdma ./check nvme/004                      -------> hang and never finished
-> nvme/004 (test nvme and nvmet UUID NS descriptors)
->      runtime  1.647s  ...
-> 
-> # ps aux | grep rdma_rxe
-> root        1657  0.0  0.0   8292  1632 pts/0    D+   11:54   0:00 modprobe -r rdma_rxe
->          
-> # cat /proc/1657/stack
-> [<0>] disable_device+0xa2/0x130 [ib_core]
-> [<0>] __ib_unregister_device+0x37/0xa0 [ib_core]
-> [<0>] ib_unregister_driver+0x9d/0xd0 [ib_core]
-> [<0>] rxe_module_exit+0x16/0x7d [rdma_rxe]
-> [<0>] __do_sys_delete_module.constprop.0+0x170/0x2c0
-> [<0>] do_syscall_64+0x33/0x40
-> [<0>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> 
-> # dmesg
-> [  273.577444] run blktests nvme/004 at 2020-08-18 11:54:22
-> [  273.615610] rdma_rxe: loaded
-> [  273.623675] infiniband rxe0: set active
-> [  273.627962] infiniband rxe0: added eno1
-> [  273.639520] infiniband rxe1: set down
-> [  273.643611] infiniband rxe1: added eno2
-> [  273.655617] infiniband rxe0: set down
-> [  273.659713] infiniband rxe0: added eno3
-> [  273.673854] infiniband rxe0: set down
-> [  273.677946] infiniband rxe0: added eno4
-> [  273.695954] infiniband rxe0: set active
-> [  273.700236] infiniband rxe0: added enp130s0f0
-> [  273.717858] infiniband rxe0: set down
-> [  273.721954] infiniband rxe0: added enp130s0f1
-> [  273.739460] lo speed is unknown, defaulting to 1000
-> [  273.744941] lo speed is unknown, defaulting to 1000
-> [  273.750413] lo speed is unknown, defaulting to 1000
-> [  273.757853] infiniband rxe0: set active
-> [  273.762139] infiniband rxe0: added lo
-> [  273.766229] lo speed is unknown, defaulting to 1000
-> [  273.771681] lo speed is unknown, defaulting to 1000
-> [  273.777135] lo speed is unknown, defaulting to 1000
-> [  273.992958] loop: module loaded
-> [  274.024550] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [  274.039541] nvmet_rdma: enabling port 0 (10.16.221.68:4420)
-> [  274.066081] nvmet: creating controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:e5372c18c860491bb18adb3b5b025a20.
-> [  274.081395] nvme nvme0: creating 32 I/O queues.
-> [  274.120241] nvme nvme0: mapped 32/0/0 default/read/poll queues.
-> [  274.132037] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr 10.16.221.68:4420
-> [  275.171715] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
-> [  275.311794] rdma_rxe: not configured on eno1
-> [  275.321210] rdma_rxe: not configured on eno2
-> [  275.333410] rdma_rxe: not configured on eno3
-> [  275.347527] rdma_rxe: not configured on eno4
-> [  275.362830] rdma_rxe: not configured on enp130s0f0
-> [  275.383157] rdma_rxe: not configured on enp130s0f1
-> [  275.406067] rdma_rxe: not configured on lo
-> [  513.938222] infiniband rocep130s0f0: set active
-> [  558.930867] infiniband rocep130s0f0: set active
-> [  558.948955] infiniband rocep130s0f0: set active
-> [  603.930414] infiniband rocep130s0f0: set active
-> 
-> 
-> [2]
-> ca0f1a8055be nvmet-rdma: use new shared CQ mechanism
-> 287f329e3131 nvme-rdma: use new shared CQ mechanism
-> 
-> Best Regards,
->    Yi Zhang
-> 
-> 
+> But it might never change..  We could give it the default max_retries
+> based retries for any reasons if we want to be fancy.
+
+Is there a difference between sync read and pr ioctl on the mpath device 
+node?
+
+Currently the read will block until it absolutely cannot issue the
+request, but the ioctl will block until there is no available path.
+
+I think we should have the same semantics for both. Unless convinced
+otherwise..
 
 _______________________________________________
 Linux-nvme mailing list
