@@ -2,66 +2,80 @@ Return-Path: <SRS0=NqxM=B4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C7DC433E1
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 18:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65649C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:09:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D0587206B5
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 18:59:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 322A02076E
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Aug 2020 19:09:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Kax7qS14";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Acv0kch/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D0587206B5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JaBvDjPq"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 322A02076E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=iAIbHlWMU2HI2qHVaVBpkWEdFcFLXazg9Zqfjjlt9ms=; b=Kax7qS14svKPaJg4OOfae+5B6
-	e45uAz6ZXWDxqA2R0Xbb90QuL+50VqxXrPa4opos8ekZxxG/oADz2VoZc2kBW4rKyO0/UV76dmJuW
-	Wl9IuK3vz8/kVf4p1/biy6T8JPutNCptSnpM2n9DoP0cc5aEaBiXmLmoaTfCNy6t6OQiwrwe5Aqbf
-	33GIQ7pRTUy63I5bBFF718bD1G7ClKhWn1kaOQ9D2QvNth/D1n+KbyHsMw4yUC5/rRCjkt/pE3zG8
-	CSGycVzFP/vzwbSA+MOUHW+q+TlfCP1ZbIGmsyQOGQIA0LCluhmEqLP15p4GzyZsNHTCfY6ckdAUz
-	1CYTpxJvw==;
+	 bh=tY8uK0DMm3BnlgS+4p2mFWo5zLhaRkEBo96Uomh63d0=; b=JaBvDjPqUsLCNY0j06fBXqv/R
+	0kWYN1DX7eRh1htVAEc1WQ6kaUV727ekYdUcl/uIz4hyOWkwwX5NEOpV4rkHOYCxDBqZBLS9frRt0
+	EICeCKhSYEvgUcv4l3ptV3DQBQvg2G4vDXgazmPh7lLs5ca0K8BbzloVBYW7svkC3x1Q+IHfjVQCa
+	zR1tPQg37AguBnMeGSwU8ulYkj4j6G8x+Y5yHIUEy0zQK0zNk+DxVlkgOICnehf8DenHvU3FM9fvw
+	XMNuzdUfvrj8oPvDdzaj0Ag9br9DNwoZ7BKGqK9W+9/3sNDNAnOEjiuuiw+ldvYeswkS0JUORukvd
+	aSpNR8/pw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k86p6-0006Hd-Ji; Tue, 18 Aug 2020 18:59:04 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1k86z8-0007aC-FJ; Tue, 18 Aug 2020 19:09:26 +0000
+Received: from mail-wr1-f68.google.com ([209.85.221.68])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k86p4-0006Gc-33
- for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 18:59:03 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C45C1206B5;
- Tue, 18 Aug 2020 18:59:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597777141;
- bh=zotkWN8H+0Z7VnNI/OJDQxmrxWjS0kq2TXf5YjfuFss=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Acv0kch/4R/Ja/nNvHcUfa0cBFg/V6iNuWbK2WC0WAwDTlit8AEA/7J5Fw94hHm//
- 7M5PNWeqMNiVYEVoli9MIWjekQZ2p0M99B7QQfrRLsgnfY81gHdmPLhA1bDSG/Qw/t
- fGkfU1A3czxlrrMeBplLYXSBurFXQBFWCIFg9WBI=
-Date: Tue, 18 Aug 2020 11:58:59 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
+ id 1k86z6-0007ZG-Ns
+ for linux-nvme@lists.infradead.org; Tue, 18 Aug 2020 19:09:25 +0000
+Received: by mail-wr1-f68.google.com with SMTP id z18so19257621wrm.12
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Aug 2020 12:09:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ql7PmzAUcwWog6SDJza2XCcGdOGk7m64GsYNtNnJlRQ=;
+ b=GHzmO3uQCVZKmoYxvdtTsu2qHdxwX+YxsXnfUpax6dSsH68VgckYN3PYCeRF4OorAE
+ HGQEeWuov/oZpkHxF/Ih1JQCFlDbNJpWqDQGrcV5rhTTwrw3vQEI/pYFjewxAHe542S+
+ qzDOi5H34YAhBPCEiKcCo6r7/xEupPavp0fpPNfqiTxPGBBszzhn/3HRznG/Dgpe2klN
+ rR/W42UPPWrVmbOHlprTCYmyJ4b23BSyBhu9xZdxovE3Z3akNRmRYHYiezaIxX1aUy4f
+ k6hc2PSMUFDB7zrxvwkTBugRcTgepnXF+TyoFA3ySBHN5WobJLHATIBf+pDhlvmFNza5
+ a52w==
+X-Gm-Message-State: AOAM5304cAxX7QNrBfffzF1FtOxv6bEBrYKwYNMiUJfC0zCJAVjK97g2
+ 347b2g+C3z7rHfyqfPX4n5NHxAehuZ0Zug==
+X-Google-Smtp-Source: ABdhPJyMBzrGiZp9Kk3wYXEU3HiS4DuJfv2hUHu6SV/l09xElslkE+OPMfFCF8knltvP/yW/SrOOew==
+X-Received: by 2002:a5d:526d:: with SMTP id l13mr20407298wrc.279.1597777760841; 
+ Tue, 18 Aug 2020 12:09:20 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:3dce:63f2:5e83:391e?
+ ([2601:647:4802:9070:3dce:63f2:5e83:391e])
+ by smtp.gmail.com with ESMTPSA id f15sm38252787wrt.80.2020.08.18.12.09.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Aug 2020 12:09:20 -0700 (PDT)
 Subject: Re: [PATCH] nvme-pci: fix PRP pool size
-Message-ID: <20200818185859.GA3147270@dhcp-10-100-145-180.wdl.wdc.com>
+To: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org
 References: <20200818175159.1727735-1-hch@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <e167503f-d95f-bc1c-aac6-dc9da7c1876a@grimberg.me>
+Date: Tue, 18 Aug 2020 12:09:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
 In-Reply-To: <20200818175159.1727735-1-hch@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200818_145902_195915_E2693019 
-X-CRM114-Status: GOOD (  12.12  )
+X-CRM114-CacheID: sfid-20200818_150924_807942_8374CF69 
+X-CRM114-Status: GOOD (  10.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,20 +87,13 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 18, 2020 at 07:51:59PM +0200, Christoph Hellwig wrote:
-> All operations are based on the controller, not the host page size.
-> Switch the dma pool to use the controller page size as well to avoid
-> massive overallocations on large page size systems.
-
-Oof, we've been over-allocating for a while.
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Queued for 5.9-rc
 
 _______________________________________________
 Linux-nvme mailing list
