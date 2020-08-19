@@ -2,102 +2,95 @@ Return-Path: <SRS0=A4m9=B5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	TVD_RCVD_SPACE_BRACKET,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95819C433E1
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 08:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03E4DC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 08:34:02 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4C16420772
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 08:32:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C3AEF207DE
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 08:34:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i5k1FnFI";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="mzy4I9Ji"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C16420772
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="o89xByXd";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="0jLXOFs6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C3AEF207DE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=YqASvjrnaE/J5QXUcadnij5C1Cb8WCfFUcd7fQB9R7g=; b=i5k1FnFIBgdrg6aza7UnXBlnOb
-	BzGF8cL1K4zc7sXBhJHi+S/kTiReI/JyIQOb1xigoEhETzWwPerTCf5LfseUkhJOPyKzrtv4XPJrK
-	OCpcJ3hIMqAq2a86rPqKbOVR6A7xqqwCkyUCpiByxIH/x98krNcIb0zJgu1NSkxWqjXDK+0eGkVht
-	t1Cd7ozldDiHG8nLLJmVPv8qoWuQmxsQzln5GIJPGzOimEzaANjSzuJBzTsSmdCk8m4PfU1Y9gthM
-	AZcxvK/aQa9Egym3ctdQ7uxFewSfGNCzAJ18OnBsLJZI2zjOr6XDoGIDEvf5KdZGSxS2uLEpuufNl
-	rCakiwAQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=ADypPqwfzC95xhPOFNAQAdMsHSA3hpHQX6CrwOJUq+A=; b=o89xByXdgH2lJtRzidFNOg+5D
+	lV88inaZ2rimoh0Njti+w81xi9lBQ4wCT7o4+nmNlbSoHoxcJxBMXcVfC5yGHQXqSBjJ6u8XYuzSD
+	W93pT2spk6NIo9mhN1ixStLefojBLhavm1BPLHh5PjsH7gsnmNrW3AmqJlAJ4cLBW8uf5sIDyvsli
+	ykcL94ynW5lQx/nA+UIWniskTePzydhzmO44ET6sr40V16Rc4kSrwiBLi9PKXor0SGFkN84hrd8Vr
+	3AduhpFi2zsr/nE4ljT2vrkVyykmns/Z6vQeVBVWrMMc4wCw0J9yETQYcKLMN6tuWUepAasfcp39p
+	6aJFnWTWA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8JVj-0003Ia-UU; Wed, 19 Aug 2020 08:31:55 +0000
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
+	id 1k8JXj-0003XV-Lh; Wed, 19 Aug 2020 08:33:59 +0000
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8JVg-0003I7-RT
- for linux-nvme@lists.infradead.org; Wed, 19 Aug 2020 08:31:54 +0000
-Received: from pps.filterd (m0170392.ppops.net [127.0.0.1])
- by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07J8T85x005053; Wed, 19 Aug 2020 04:31:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=ifiZ5ojFR6yvrEdXLOGKkQKV4b0buBFMWO3GW3lZU7Y=;
- b=mzy4I9Jifvn8IAE9bVZY/1kr9N/xZsXLg7+ot1gBPAjCqtFpaTHsIbZcEZue3v3G3Xne
- G9NCtBeB2sjioP4SWLebJVI9OsuEmCdBOXqnUEqZEjGGp0hWyMMaQyqVd8qi2t7LgNpW
- dZU1e+ZtTyCLv8F0v9j8L8m8OitQ4VL8yRA3jBKGqE9BYpXaid8QpxWCyZKg3n7BCSdf
- aJXlNEphOxUaNRlBumo0eaDPelm/miFLIjKrZ0IOFuQJbKuFlkMEsv5tUn9mrMJpuEBj
- MVU4Li8ozbVbJLjZG9eEPdymSqsFbJElTLhl2JFHFYfrI8CI3izysECiE/eGdsQyMIDS xw== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
- [67.231.157.37])
- by mx0a-00154904.pphosted.com with ESMTP id 3304j0djkk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Aug 2020 04:31:49 -0400
-Received: from pps.filterd (m0144102.ppops.net [127.0.0.1])
- by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07J8Tflp057943; Wed, 19 Aug 2020 04:31:49 -0400
-Received: from mailuogwhop.emc.com (mailuogwhop-nat.lss.emc.com
- [168.159.213.141] (may be forged))
- by mx0b-00154901.pphosted.com with ESMTP id 3310410j76-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 19 Aug 2020 04:31:48 -0400
-Received: from emc.com (localhost [127.0.0.1])
- by mailuogwprd02.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
- ESMTP id 07J8VjkZ027927; Wed, 19 Aug 2020 04:31:48 -0400
-Received: from mailapphubprd02.lss.emc.com ([mailapphubprd02.lss.emc.com
- [10.253.24.52]]) by mailuogwprd02.lss.emc.com with ESMTP id 07J8VFPt027688 ; 
- Wed, 19 Aug 2020 04:31:16 -0400
-Received: from arwen3.xiolab.lab.emc.com (arwen3.xiolab.lab.emc.com
- [10.76.211.131])
- by mailapphubprd02.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
- ESMTP id 07J8VD4C023012; Wed, 19 Aug 2020 04:31:14 -0400
-From: amit.engel@dell.com
-To: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: Disable keep-alive timer when kato is cleared to 0h
-Date: Wed, 19 Aug 2020 11:31:11 +0300
-Message-Id: <20200819083111.4679-1-amit.engel@dell.com>
-X-Mailer: git-send-email 2.16.2
-X-Sentrion-Hostname: mailuogwprd02.lss.emc.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-19_04:2020-08-19,
- 2020-08-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- phishscore=0 adultscore=0 priorityscore=1501 spamscore=0 mlxlogscore=954
- impostorscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2008190072
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999
- malwarescore=0 bulkscore=0 adultscore=0 phishscore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008190072
+ id 1k8JXh-0003Wr-36
+ for linux-nvme@lists.infradead.org; Wed, 19 Aug 2020 08:33:58 +0000
+Received: by mail-wm1-x342.google.com with SMTP id p14so1245430wmg.1
+ for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2020 01:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5xasR+X+UEQtR9u6qcm8KE/Y6iy5pfp5FFfxCYCX1do=;
+ b=0jLXOFs6tYNjlMnwyLPvf7bjt2J75bLyh/fu26NBy6toCtHvAo5zecLkOQkVPdu/Uj
+ b2wJw645AJGu1rCM15cMo1uoeOUG/hFFtTL8eR5oZ8Tj6sb7mkI9HSxaz2TLhOCvEsMp
+ GI6UjI/WnasfSTcatQ7786KY81sl8xcdk7FkGMkXxhgCL2m6/4LDyz2mTumkqm8Bq71L
+ e8nk+0w9pzPhsN1lE0QRrkdTrM7R4dwtniylspCSJpcugB+CV8QPOireyGBbVmes3bmL
+ iQKEEt7qNCSTQs7hSHCOXGO7UJPRIM0TcfDC2Vgv+CLqzaDMtVHnyNYgTZa+XP9E7hzf
+ IcSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5xasR+X+UEQtR9u6qcm8KE/Y6iy5pfp5FFfxCYCX1do=;
+ b=Icgb5Ik/+QFIM3rGpJm2UCkFkkK00vB+yUMB1tfkWnnvOv/Fa4npeRLO6zECxjARsg
+ wjabOlWa0FWTOH63Ga6xqS6zh6/fVHMiSVNeGAzq9YsiSZvdi6EtHX9yQ9swYwlcuUEW
+ 9YUApsD62q3kcwtuBXslwZsO9eYR4PmYNCBAqb7Qsw09x50JsWVPeJDLGlU5pCaQOFjE
+ cv9dozTKyWS+z/QL0mx1PGJ8S+MsfkGZHqyigPrdBx2qHUhzUl9witAn32X+6GbDXU3o
+ 2OUD0QHi6LgzKvp290Z7jZcA7aJFm2g1+HY4+e6XPKozs5majjrwBEnRTSE8uItW/aGq
+ DFSA==
+X-Gm-Message-State: AOAM532CvqEcSOCohHdLqiznlCVAiJnJNZG+z++YOo2SaPk0O95/ROwZ
+ xXpwBrDfZyL5nU8Spf7hcR1u8g==
+X-Google-Smtp-Source: ABdhPJymHDpawgsT57RrkKK+R5UwTu/3ozzwA2cjMzvyw/HybeFPB5Gl8lnIb3WaylDaezP8/fNn5g==
+X-Received: by 2002:a1c:a446:: with SMTP id n67mr3724574wme.174.1597826035879; 
+ Wed, 19 Aug 2020 01:33:55 -0700 (PDT)
+Received: from localhost ([194.62.217.57])
+ by smtp.gmail.com with ESMTPSA id 68sm39096068wra.39.2020.08.19.01.33.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Aug 2020 01:33:55 -0700 (PDT)
+Date: Wed, 19 Aug 2020 10:33:53 +0200
+From: Javier Gonzalez <javier@javigon.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 2/2] nvme: add emulation for zone-append
+Message-ID: <20200819083353.rwblagiesocfcq7i@mpHalley.local>
+References: <20200818052936.10995-1-joshi.k@samsung.com>
+ <CGME20200818053256epcas5p46d0b66b3702192eb6617c8bba334c15f@epcas5p4.samsung.com>
+ <20200818052936.10995-3-joshi.k@samsung.com>
+ <20200818071249.GB2544@lst.de>
+ <20200818095033.h6ybdwiq3ljagl5a@mpHalley.local>
+ <20200818155004.GA26688@lst.de>
+ <20200818180428.obipue6adpqqpwjj@MacBook-Pro.localdomain>
+ <20200819074035.GA21991@lst.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200819074035.GA21991@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200819_043153_261335_3AB7E4A8 
-X-CRM114-Status: GOOD (  16.47  )
+X-CRM114-CacheID: sfid-20200819_043357_285784_EAC843DA 
+X-CRM114-Status: GOOD (  22.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,50 +102,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: amit.engel@dell.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: axboe@kernel.dk, Damien.LeMoal@wdc.com,
+ SelvaKumar S <selvakuma.s1@samsung.com>, sagi@grimberg.me,
+ Kanchan Joshi <joshi.k@samsung.com>, johannes.thumshirn@wdc.com,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, Nitesh Shetty <nj.shetty@samsung.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Amit Engel <amit.engel@dell.com>
+On 19.08.2020 09:40, Christoph Hellwig wrote:
+>On Tue, Aug 18, 2020 at 08:04:28PM +0200, Javier Gonzalez wrote:
+>> I understand that you want vendor alignment in the NVMe driver and I
+>> agree. We are not pushing for a non-append model - you can see that we
+>> are investing effort in implementing the append path in thee block layer
+>> and io_uring and we will continue doing so as patches get merged.
+>>
+>> This said, we do have some OEM models that do not implement append and I
+>> would like them to be supported in Linux. As you know, new TPs are being
+>> standardized now and the append emulation is the based for adding
+>> support for this. I do not believe it is unreasonable to find a way to
+>> add support for this SSDs.
+>
+>I do not think we should support anything but Zone Append, especially not
+>the new TP, which is going to add even more horrible code for absolutely
+>no good reason.
 
-Based on nvme spec, when keep alive timeout is set to zero
-the keep-alive timer should be disabled.
+I must admit that this is a bit frustrating. The new TP adds
+functionality beyond operating as an Append alternative that I would
+very much like to see upstream (do want to discuss details here).
 
-Signed-off-by: Amit Engel <amit.engel@dell.com>
----
- drivers/nvme/target/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+I understand the concerns about deviating from the Append model, but I
+believe we should find a way to add these new features. We are hiding
+all the logic in the NVMe driver and not touching the interface with the
+block layer, so the overall model is really not changed.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b92f45f5cd5b..c052c922853a 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -397,6 +397,9 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
- 
- static void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl)
- {
-+	if (unlikely(ctrl->kato == 0))
-+		return;
-+
- 	pr_debug("ctrl %d start keep-alive timer for %d secs\n",
- 		ctrl->cntlid, ctrl->kato);
- 
-@@ -406,6 +409,9 @@ static void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl)
- 
- static void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl)
- {
-+	if (unlikely(ctrl->kato == 0))
-+		return;
-+
- 	pr_debug("ctrl %d stop keep-alive\n", ctrl->cntlid);
- 
- 	cancel_delayed_work_sync(&ctrl->ka_work);
--- 
-2.16.5
+>
+>> If you completely close the door this approach, the alternative is
+>> carrying off-tree patches to the several OEMs that use these devices.
+>> This is not good for the zoned ecosystem nor for the future of Zone
+>> Append.
+>
+>I really don't have a problem with that.  If these OEMs want to use
+>an inferior access model only, they have to pay the price for it.
+>I also don't think that proxy arguments are very useful.  If you OEMs
+>are troubled by carrying patches becomes they decided to buy inferior
+>drivers they are perfectly happy to argue their cause here on the list.
 
+I am not arguing as a proxy, I am stating the trouble we see from our
+perspective in having to diverge from mainline when our approach is
+being upstream first.
+
+Whether the I/O mode is inferior or superior, they can answer that
+themselves if they read this list.
+>
+>> Are you open to us doing some characterization and if the impact
+>> to the fast path is not significant, moving ahead to a Zone Append
+>> emulation like in SCSI? I will promise that we will remove this path if
+>> requests for these devices terminate.
+>
+>As said I do not think implementing zone append emulation or the TP that
+>shall not be named are a good idea for Linux.
+
+I would ask you to reconsider this position. I have a hard time
+understanding how zone append emulation is a good idea in SCSI and not
+in NVMe, when there is no performance penalty.
 
 _______________________________________________
 Linux-nvme mailing list
