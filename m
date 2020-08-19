@@ -2,74 +2,62 @@ Return-Path: <SRS0=A4m9=B5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CCCFC433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 07:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0305C433E1
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 07:40:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EA65C20738
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 07:16:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BE34D206B5
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 07:40:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AgLprCJY";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hBtqzsfx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA65C20738
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uZ4d9ViO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BE34D206B5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ROmqqkUlQznAqQuVu2+uVcwoBEzjnoFXuDX3O75WKwM=; b=AgLprCJYJoSriQ8aMAG+PVREM
-	9vg/O07U/5gCnNyZvjH8EwhgmQ5Qb0b/Ae4XMMyTIJw3VFB7k0jCOUCoU1/AAKekCrAuh01op67Dz
-	QUVyQAd/YhlYlI3ucbSGg88fCRNeJKlHLM2+vIGnU+w3/UGdC2EOkAhtbbNtJoX7dixn22mln71bU
-	BGtBWdcDWJt+Nh6kqkTXjcGWPe43o+JHdT7hnzt7NQJCSvIO+3TSpndu9tq4Ywq2vFsI84kEhGFwZ
-	T6d7OwAiQ1zC6MfSaThj11ajG1g3dckm+sDks9At29RwY+qKaPtzxg4FafEBZJcgcZrjL9SHO65Ic
-	yjsTQv5aA==;
+	 bh=mW+pDf/CMu4/CHPYrc1my6fce1YAx4BRKD4KBvoucXQ=; b=uZ4d9ViOoYEAGAFd2xrpVLGnF
+	ilpOHmHCzNX52M6/IfxVUrhIgOfMfVFWafdnCyTz4yAeA+cT8jZhQxTdw5F63MAHmcdDOJOhY3eyh
+	ml+Uoq93fDDvgFrwOyLUPXBhOPpK7fVvl97WaEln9TniUfMmvrle7imkVnoNX0yAQlyhAu78pjjI7
+	XfKvXKHQMhq57pNeq/DiIm4fd2dF9iIIKuNXGP5N8qqRo0Exa1mmBjwpxcCrvdHWjdiD++FQOz2xB
+	MTlqWJxnsb0Zjl+XSKhl1dda7aelDtiE/OyFPFulvr+B6iPakJtyCFwYBp5fhAGDi4BUbp2Bi3v2I
+	UHEbZCB9A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8IKq-00069b-Kw; Wed, 19 Aug 2020 07:16:36 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1k8IiB-0003IW-O3; Wed, 19 Aug 2020 07:40:43 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8IKR-0005k7-II; Wed, 19 Aug 2020 07:16:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=S03TR+vPtR2uoi+numZ3EHXk4bHn9A8TB4HMLDbtw9o=; b=hBtqzsfxdA3eBap9tMq5cWDCIT
- tVDsg1btxUDVMpC+PQsRMyu/BiOxC0kqRwDCW7fYAtAN/Z0j7e7ggmEVK1UrS0iUApgfiqyhthYys
- RRE2LyeCQYE8gu5FDnZXi/JD+Cwz/iRvYyc4cKMlk+5HWn38a6p+ReUsDxDPxwu7LKpRyZOctfypt
- pHWAAT9cIEd7u9USQ6S8eJOAQWXsmzZ+XH81xpMHy3LP68c+jamixUc70G1yvMv9Kf/nVgy6X8oiX
- G9j1o5ZOmShbXx8nKtOLZCwYTbHtBsbi4u2r5pWaIhw2OJPmFeIpZ5zhT2F6FZPuBQnQIX1RtMOI2
- m3esGVig==;
-Received: from [2001:4bb8:198:f3b2:86b6:2277:f429:37a1] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8I1o-00005v-T0; Wed, 19 Aug 2020 06:56:57 +0000
+ id 1k8Ii9-0003Hb-2R
+ for linux-nvme@lists.infradead.org; Wed, 19 Aug 2020 07:40:42 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 910686736F; Wed, 19 Aug 2020 09:40:35 +0200 (CEST)
+Date: Wed, 19 Aug 2020 09:40:35 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Ben Skeggs <bskeggs@redhat.com>,
- Pawel Osciak <pawel@osciak.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Matt Porter <mporter@kernel.crashing.org>, iommu@lists.linux-foundation.org
-Subject: [PATCH 25/28] dma-mapping: remove dma_cache_sync
-Date: Wed, 19 Aug 2020 08:55:52 +0200
-Message-Id: <20200819065555.1802761-26-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200819065555.1802761-1-hch@lst.de>
-References: <20200819065555.1802761-1-hch@lst.de>
+To: Javier Gonzalez <javier@javigon.com>
+Subject: Re: [PATCH 2/2] nvme: add emulation for zone-append
+Message-ID: <20200819074035.GA21991@lst.de>
+References: <20200818052936.10995-1-joshi.k@samsung.com>
+ <CGME20200818053256epcas5p46d0b66b3702192eb6617c8bba334c15f@epcas5p4.samsung.com>
+ <20200818052936.10995-3-joshi.k@samsung.com> <20200818071249.GB2544@lst.de>
+ <20200818095033.h6ybdwiq3ljagl5a@mpHalley.local>
+ <20200818155004.GA26688@lst.de>
+ <20200818180428.obipue6adpqqpwjj@MacBook-Pro.localdomain>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Disposition: inline
+In-Reply-To: <20200818180428.obipue6adpqqpwjj@MacBook-Pro.localdomain>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200819_034041_335894_B0342DFD 
+X-CRM114-Status: GOOD (  19.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,197 +69,51 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, alsa-devel@alsa-project.org,
- linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+Cc: axboe@kernel.dk, Damien.LeMoal@wdc.com,
+ SelvaKumar S <selvakuma.s1@samsung.com>, sagi@grimberg.me,
+ Kanchan Joshi <joshi.k@samsung.com>, johannes.thumshirn@wdc.com,
  linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+ Nitesh Shetty <nj.shetty@samsung.com>, kbusch@kernel.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All users are gone now, remove the API.
+On Tue, Aug 18, 2020 at 08:04:28PM +0200, Javier Gonzalez wrote:
+> I understand that you want vendor alignment in the NVMe driver and I
+> agree. We are not pushing for a non-append model - you can see that we
+> are investing effort in implementing the append path in thee block layer
+> and io_uring and we will continue doing so as patches get merged.
+>
+> This said, we do have some OEM models that do not implement append and I
+> would like them to be supported in Linux. As you know, new TPs are being
+> standardized now and the append emulation is the based for adding
+> support for this. I do not believe it is unreasonable to find a way to
+> add support for this SSDs.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/mips/Kconfig               |  1 -
- arch/mips/jazz/jazzdma.c        |  1 -
- arch/mips/mm/dma-noncoherent.c  |  6 ------
- arch/parisc/Kconfig             |  1 -
- arch/parisc/kernel/pci-dma.c    |  6 ------
- include/linux/dma-mapping.h     |  9 ---------
- include/linux/dma-noncoherent.h | 10 ----------
- kernel/dma/Kconfig              |  3 ---
- kernel/dma/mapping.c            | 14 --------------
- 9 files changed, 51 deletions(-)
+I do not think we should support anything but Zone Append, especially not
+the new TP, which is going to add even more horrible code for absolutely
+no good reason.
 
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index c95fa3a2484cf0..1be91c5d666e61 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -1134,7 +1134,6 @@ config DMA_NONCOHERENT
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select ARCH_HAS_DMA_SET_UNCACHED
- 	select DMA_NONCOHERENT_MMAP
--	select DMA_NONCOHERENT_CACHE_SYNC
- 	select NEED_DMA_MAP_STATE
- 
- config SYS_HAS_EARLY_PRINTK
-diff --git a/arch/mips/jazz/jazzdma.c b/arch/mips/jazz/jazzdma.c
-index 0f9a9cb7fe7a95..e2efe43f5f9cc3 100644
---- a/arch/mips/jazz/jazzdma.c
-+++ b/arch/mips/jazz/jazzdma.c
-@@ -614,7 +614,6 @@ const struct dma_map_ops jazz_dma_ops = {
- 	.sync_single_for_device	= jazz_dma_sync_single_for_device,
- 	.sync_sg_for_cpu	= jazz_dma_sync_sg_for_cpu,
- 	.sync_sg_for_device	= jazz_dma_sync_sg_for_device,
--	.cache_sync		= arch_dma_cache_sync,
- 	.mmap			= dma_common_mmap,
- 	.get_sgtable		= dma_common_get_sgtable,
- 	.alloc_pages		= dma_common_alloc_pages,
-diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
-index 97a14adbafc99c..f34ad1f09799f1 100644
---- a/arch/mips/mm/dma-noncoherent.c
-+++ b/arch/mips/mm/dma-noncoherent.c
-@@ -137,12 +137,6 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
- }
- #endif
- 
--void arch_dma_cache_sync(struct device *dev, void *vaddr, size_t size,
--		enum dma_data_direction direction)
--{
--	dma_sync_virt_for_device(vaddr, size, direction);
--}
--
- #ifdef CONFIG_DMA_PERDEV_COHERENT
- void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
- 		const struct iommu_ops *iommu, bool coherent)
-diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
-index 3b0f53dd70bc9b..ed15da1da174e0 100644
---- a/arch/parisc/Kconfig
-+++ b/arch/parisc/Kconfig
-@@ -195,7 +195,6 @@ config PA11
- 	depends on PA7000 || PA7100LC || PA7200 || PA7300LC
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
--	select DMA_NONCOHERENT_CACHE_SYNC
- 
- config PREFETCH
- 	def_bool y
-diff --git a/arch/parisc/kernel/pci-dma.c b/arch/parisc/kernel/pci-dma.c
-index 38c68e131bbe2a..ce38c0b9158125 100644
---- a/arch/parisc/kernel/pci-dma.c
-+++ b/arch/parisc/kernel/pci-dma.c
-@@ -454,9 +454,3 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
- {
- 	flush_kernel_dcache_range((unsigned long)phys_to_virt(paddr), size);
- }
--
--void arch_dma_cache_sync(struct device *dev, void *vaddr, size_t size,
--	       enum dma_data_direction direction)
--{
--	flush_kernel_dcache_range((unsigned long)vaddr, size);
--}
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 73fa6e10c5c8b5..7321df0b9ffc83 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -123,8 +123,6 @@ struct dma_map_ops {
- 	void (*sync_sg_for_device)(struct device *dev,
- 				   struct scatterlist *sg, int nents,
- 				   enum dma_data_direction dir);
--	void (*cache_sync)(struct device *dev, void *vaddr, size_t size,
--			enum dma_data_direction direction);
- 	int (*dma_supported)(struct device *dev, u64 mask);
- 	u64 (*get_required_mask)(struct device *dev);
- 	size_t (*max_mapping_size)(struct device *dev);
-@@ -258,9 +256,6 @@ void *dma_alloc_pages(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 		enum dma_data_direction dir, gfp_t gfp);
- void dma_free_pages(struct device *dev, size_t size, void *vaddr,
- 		dma_addr_t dma_handle, enum dma_data_direction dir);
--/* dma_cache_sync is deprecated: don't use in new code */
--void dma_cache_sync(struct device *dev, void *vaddr, size_t size,
--		enum dma_data_direction dir);
- int dma_get_sgtable_attrs(struct device *dev, struct sg_table *sgt,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
- 		unsigned long attrs);
-@@ -353,10 +348,6 @@ static inline void dma_free_pages(struct device *dev, size_t size, void *vaddr,
- 		dma_addr_t dma_handle, enum dma_data_direction dir)
- {
- }
--static inline void dma_cache_sync(struct device *dev, void *vaddr, size_t size,
--		enum dma_data_direction dir)
--{
--}
- static inline int dma_get_sgtable_attrs(struct device *dev,
- 		struct sg_table *sgt, void *cpu_addr, dma_addr_t dma_addr,
- 		size_t size, unsigned long attrs)
-diff --git a/include/linux/dma-noncoherent.h b/include/linux/dma-noncoherent.h
-index 1eecfd24d434f8..e61283e06576a8 100644
---- a/include/linux/dma-noncoherent.h
-+++ b/include/linux/dma-noncoherent.h
-@@ -59,16 +59,6 @@ static inline pgprot_t dma_pgprot(struct device *dev, pgprot_t prot,
- }
- #endif /* CONFIG_MMU */
- 
--#ifdef CONFIG_DMA_NONCOHERENT_CACHE_SYNC
--void arch_dma_cache_sync(struct device *dev, void *vaddr, size_t size,
--		enum dma_data_direction direction);
--#else
--static inline void arch_dma_cache_sync(struct device *dev, void *vaddr,
--		size_t size, enum dma_data_direction direction)
--{
--}
--#endif /* CONFIG_DMA_NONCOHERENT_CACHE_SYNC */
--
- #ifdef CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE
- void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
- 		enum dma_data_direction dir);
-diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-index 6cf7f7947ae797..98417f8eef92b2 100644
---- a/kernel/dma/Kconfig
-+++ b/kernel/dma/Kconfig
-@@ -74,9 +74,6 @@ config ARCH_HAS_DMA_PREP_COHERENT
- config ARCH_HAS_FORCE_DMA_UNENCRYPTED
- 	bool
- 
--config DMA_NONCOHERENT_CACHE_SYNC
--	bool
--
- config DMA_VIRT_OPS
- 	bool
- 	depends on HAS_DMA
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index dacdb7226caacd..81b0492332d4c8 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -555,20 +555,6 @@ int dma_set_coherent_mask(struct device *dev, u64 mask)
- EXPORT_SYMBOL(dma_set_coherent_mask);
- #endif
- 
--void dma_cache_sync(struct device *dev, void *vaddr, size_t size,
--		enum dma_data_direction dir)
--{
--	const struct dma_map_ops *ops = get_dma_ops(dev);
--
--	BUG_ON(!valid_dma_direction(dir));
--
--	if (dma_alloc_direct(dev, ops))
--		arch_dma_cache_sync(dev, vaddr, size, dir);
--	else if (ops->cache_sync)
--		ops->cache_sync(dev, vaddr, size, dir);
--}
--EXPORT_SYMBOL(dma_cache_sync);
--
- size_t dma_max_mapping_size(struct device *dev)
- {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
--- 
-2.28.0
+> If you completely close the door this approach, the alternative is
+> carrying off-tree patches to the several OEMs that use these devices.
+> This is not good for the zoned ecosystem nor for the future of Zone
+> Append.
 
+I really don't have a problem with that.  If these OEMs want to use
+an inferior access model only, they have to pay the price for it.
+I also don't think that proxy arguments are very useful.  If you OEMs
+are troubled by carrying patches becomes they decided to buy inferior
+drivers they are perfectly happy to argue their cause here on the list.
+
+> Are you open to us doing some characterization and if the impact
+> to the fast path is not significant, moving ahead to a Zone Append
+> emulation like in SCSI? I will promise that we will remove this path if
+> requests for these devices terminate.
+
+As said I do not think implementing zone append emulation or the TP that
+shall not be named are a good idea for Linux.
 
 _______________________________________________
 Linux-nvme mailing list
