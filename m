@@ -2,92 +2,84 @@ Return-Path: <SRS0=A4m9=B5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6724DC433E3
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 15:04:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADF9BC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 15:24:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 37D962076E
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 15:04:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8057820897
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 15:24:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z0745qz8";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CmFRV9MF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 37D962076E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SXiEYzwO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8057820897
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=KwxmdJpcuq0aco+jn0+65e+051jGsrKi5oBcYrOY/1Y=; b=Z0745qz8oarCW5khTXILbQwKg
-	nT9kQhEftOb1SXZY/RPJI2ZTnhzc/Y64SdDSTJviex7NUvo6jhq63M8j3sgoJtlAtjWXufWXXFGLx
-	E7px319+feD5PZJvPpSKr+DgllfNzFOyxQplAWXoCpUsvIgxAnQFYlY20PIcxMM/I9IBXyTwE6wKK
-	fW56UKi8+RX1DL7u5PWboJYgB0o4qp6dZKOxt//02TtG6f/wjvxr4WL8hfT2qDof1QakGo42nPf1g
-	Ht4LoYj3F6YgCssmCtnkNGeGURcM6JMxkku1QhCe9O0ZUmhiyoUVlqwjr6yBCWvt1HxeVk2OKXEt4
-	inqyWj/XQ==;
+	 bh=vkawxxRdAjZu12UZVrlJKz9HZfPwFHjr4mw8x5UVRrA=; b=SXiEYzwODTFJAqjRorBqD7g77
+	e67otho1XkfX3/SxxizIOaoik2sxjkCAjE3H2MffPu0F+VF45/FfZGzykHf3UTHI4Tnsd/UM454uC
+	lzb+I05iwZ9gN5ZBMvBqg56gidsNsEY32si/dHFtBsV/4Y27Mu4xWd7LoianlcvXdr7jYiLI06Y6z
+	DpVF2AE6npc3k5KbTcLBHM3IopEB2RPKvgXXimSLT/CsHG2O2j4ijlTB2zvx8dZv3zGwl1kEyFXVI
+	Sw/a03zdIcnWVnDoiFrzk1gubMB2sGYjEUocNJ831cYsGkE73cpN1OAvP23vv1EiefSz0hkQBot/1
+	DM1nwwm8g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8PdR-00026t-W1; Wed, 19 Aug 2020 15:04:18 +0000
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642])
+	id 1k8Pwd-0005XD-FX; Wed, 19 Aug 2020 15:24:07 +0000
+Received: from mail-pg1-f196.google.com ([209.85.215.196])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8PdO-000252-Sd
- for linux-nvme@lists.infradead.org; Wed, 19 Aug 2020 15:04:16 +0000
-Received: by mail-ej1-x642.google.com with SMTP id t10so26682062ejs.8
- for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2020 08:04:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gblnYCzc62i56nCc5LRWss+Qf5wc+kIzyZ60hUww65Y=;
- b=CmFRV9MF78Io9lyU3ZTHQoxCUWL8rgrVpgpqOj4nEXWpRTCd1+KGSochi2kuoVhtFt
- PQJJembCFDIORAph3WzrpDoRd2cIGJpwf9VAtP5a9ydpphhRkHDHcmKRPuhZGWASaGfl
- y6rPrnsIqK2MPfXnYUVbYzJtuDwuiigpqdGRc=
+ id 1k8Pwa-0005WY-Dy
+ for linux-nvme@lists.infradead.org; Wed, 19 Aug 2020 15:24:05 +0000
+Received: by mail-pg1-f196.google.com with SMTP id h12so11546884pgm.7
+ for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2020 08:24:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gblnYCzc62i56nCc5LRWss+Qf5wc+kIzyZ60hUww65Y=;
- b=Sc4f3uK9msyHubmf/wvoFLsX0kPW/7BFKu3Dw3QeaPkDrxe15YWRxvULe3W/7ub6AM
- pDeBf/3tCPR/IRn1vV4K8FCMdQnW25iMOrDIinnud9Y+FMeOcMNrbewxyWvFPVaJeoEK
- 1Yc2G6yxxXeQczU25mjf9z+k0JP5g27MQ8Z9s4bUzHnixHq4YUL8Wwb6FSzZmLEoMqb6
- CDO8HJb/7in3UF2gelMqLoDJO5lo3PHDPkRzd28m6AsOyxbby+2CyE1OMe/FsDwlc6q3
- mVHhWbmgArV/IZiLVeSwsRwmmITDcChBidjQBlF3aTobERv4T3sgE1bcWT9Go1kSoIzJ
- FdgA==
-X-Gm-Message-State: AOAM532Vo56sbTVfJuj3R8+NFSbd3xUfZhef0OcIcGxVQZeS57JBiiKP
- nZrZObAj2XLhnmohaUaBRGKff3jKWFTcNg==
-X-Google-Smtp-Source: ABdhPJyMYSNbp7bLe8aicveCFbnikxu6cttgMc6aSDNLJXieip6SEmxBsuLNavAOCYFC70I8wuqTcw==
-X-Received: by 2002:a17:907:2067:: with SMTP id
- qp7mr25056233ejb.378.1597849452785; 
- Wed, 19 Aug 2020 08:04:12 -0700 (PDT)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com.
- [209.85.128.44])
- by smtp.gmail.com with ESMTPSA id s9sm20129092edt.36.2020.08.19.08.04.10
- for <linux-nvme@lists.infradead.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4F74RoCGZE//2kpfQM9VpW/0qCy8ZTbnYdL63hWaZPQ=;
+ b=AsAI/ZlCt1Zl/fHC1ApKgjr6jmJtz5MByktxy2GsVxAhDmLUUsTVk/RVv/OakHb0aZ
+ Te6s1ylhYAWcOaLDA0/czbeZ0UK8kv3EpPwgaYoQJCpv68JcXPvOQ8x4VB6QC2PA/pTv
+ JmQX1WjGE+QLOiAh/EHRUSmaTUeCmqWRAzoHlDbwsG+iGn9RepqLksYbzl5IHh+1cnE5
+ HChN8EAzJ09I/SkNw6uO+CCu/HaFuhsbs4opmVdgja5NMtYysLq0V2dwUJSkkPL5E0n4
+ k7oZe86uXcE36joAU3c9BK4fJSXdDpLy007AbI2dhvcaLRbOYvoBgv2C5Jl0QWR6WhHt
+ 3LDQ==
+X-Gm-Message-State: AOAM533cuhy3pWTDD3IXKMVXD//Ka4Eg0xLcTOGJNb2FqK7jnEFOZMZa
+ D+Lnrh7f3Vkfjs5hu4POBQ0HExZ9uBaVcQ==
+X-Google-Smtp-Source: ABdhPJyEsfdqcFs4EILz1t10E1G7NLfdCKuWf9J0jTPaPyKKxJRQ8hakzVNucx06zttJHCqmckrAhg==
+X-Received: by 2002:aa7:8743:: with SMTP id g3mr19200632pfo.76.1597850642591; 
+ Wed, 19 Aug 2020 08:24:02 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:bcd0:fda9:d34d:a3ab?
+ ([2601:647:4802:9070:bcd0:fda9:d34d:a3ab])
+ by smtp.gmail.com with ESMTPSA id l9sm3921866pgg.29.2020.08.19.08.24.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Aug 2020 08:04:10 -0700 (PDT)
-Received: by mail-wm1-f44.google.com with SMTP id g8so2410296wmk.3
- for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2020 08:04:10 -0700 (PDT)
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr5316483wmh.55.1597849448826; 
- Wed, 19 Aug 2020 08:04:08 -0700 (PDT)
+ Wed, 19 Aug 2020 08:24:01 -0700 (PDT)
+Subject: Re: [PATCH] nvmet: Set ctrl->kato to a default NVMET_DISC_KATO value
+To: "Engel, Amit" <Amit.Engel@Dell.com>, Christoph Hellwig <hch@lst.de>
+References: <20200818065114.57532-1-amit.engel@dell.com>
+ <20200818162731.GC27196@lst.de>
+ <0b3027b3-e4ef-3e45-9b92-babe09e34e6d@grimberg.me>
+ <cdb5a25d-ab1c-bd6f-2608-c51e169ad87a@grimberg.me>
+ <MN2PR19MB300552C9AAC6400847E51042EE5D0@MN2PR19MB3005.namprd19.prod.outlook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <17f4ef7f-1a1f-4e0c-5219-117bc752d959@grimberg.me>
+Date: Wed, 19 Aug 2020 08:24:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200819065555.1802761-1-hch@lst.de>
- <20200819065555.1802761-20-hch@lst.de>
-In-Reply-To: <20200819065555.1802761-20-hch@lst.de>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 19 Aug 2020 17:03:52 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5Bbp-eAVKS1MKS8xtrT4ZoOmBPfZyw9mys=eOmDb6r8Lw@mail.gmail.com>
-Message-ID: <CAAFQd5Bbp-eAVKS1MKS8xtrT4ZoOmBPfZyw9mys=eOmDb6r8Lw@mail.gmail.com>
-Subject: Re: [PATCH 19/28] dma-mapping: replace DMA_ATTR_NON_CONSISTENT with
- dma_{alloc, free}_pages
-To: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <MN2PR19MB300552C9AAC6400847E51042EE5D0@MN2PR19MB3005.namprd19.prod.outlook.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200819_110415_025800_9B6619C0 
-X-CRM114-Status: GOOD (  34.25  )
+X-CRM114-CacheID: sfid-20200819_112404_481675_AD79CFC3 
+X-CRM114-Status: GOOD (  15.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,151 +91,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>, linux-scsi@vger.kernel.org,
- Kyungmin Park <kyungmin.park@samsung.com>, Ben Skeggs <bskeggs@redhat.com>,
- Matt Porter <mporter@kernel.crashing.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Tom Lendacky <thomas.lendacky@amd.com>, Pawel Osciak <pawel@osciak.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- linux-mips@vger.kernel.org,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christoph,
-
-On Wed, Aug 19, 2020 at 8:57 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> Add a new API to allocate and free pages that are guaranteed to be
-> addressable by a device, but otherwise behave like pages allocated by
-> alloc_pages.  The intended APIs to sync them for use with the device
-> and cpu are dma_sync_single_for_{device,cpu} that are also used for
-> streaming mappings.
->
-> Switch all drivers over to this new API, but keep the usage of the
-> crufty dma_cache_sync API for now, which will be cleaned up on a driver
-> by driver basis.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  Documentation/core-api/dma-api.rst        | 68 +++++++++++------------
->  Documentation/core-api/dma-attributes.rst |  8 ---
->  arch/alpha/kernel/pci_iommu.c             |  2 +
->  arch/arm/mm/dma-mapping-nommu.c           |  2 +
->  arch/arm/mm/dma-mapping.c                 |  4 ++
->  arch/ia64/hp/common/sba_iommu.c           |  2 +
->  arch/mips/jazz/jazzdma.c                  |  7 +--
->  arch/powerpc/kernel/dma-iommu.c           |  2 +
->  arch/powerpc/platforms/ps3/system-bus.c   |  4 ++
->  arch/powerpc/platforms/pseries/vio.c      |  2 +
->  arch/s390/pci/pci_dma.c                   |  2 +
->  arch/x86/kernel/amd_gart_64.c             |  2 +
->  drivers/iommu/dma-iommu.c                 |  2 +
->  drivers/iommu/intel/iommu.c               |  4 ++
->  drivers/net/ethernet/i825xx/lasi_82596.c  | 13 ++---
->  drivers/net/ethernet/seeq/sgiseeq.c       | 12 ++--
->  drivers/parisc/ccio-dma.c                 |  2 +
->  drivers/parisc/sba_iommu.c                |  2 +
->  drivers/scsi/53c700.c                     |  8 +--
->  drivers/scsi/sgiwd93.c                    | 12 ++--
->  drivers/xen/swiotlb-xen.c                 |  2 +
->  include/linux/dma-direct.h                |  5 ++
->  include/linux/dma-mapping.h               | 29 ++++++++--
->  include/linux/dma-noncoherent.h           |  3 -
->  kernel/dma/direct.c                       | 51 ++++++++++++++++-
->  kernel/dma/mapping.c                      | 43 +++++++++++++-
->  kernel/dma/ops_helpers.c                  | 35 ++++++++++++
->  kernel/dma/virt.c                         |  2 +
->  sound/mips/hal2.c                         | 20 +++----
->  29 files changed, 254 insertions(+), 96 deletions(-)
->
-
-Thanks for the patch. The general design looks quite nice, but please
-see my comments inline.
-
-
-> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-> index 90239348b30f6f..047fcfffa0e5cf 100644
-> --- a/Documentation/core-api/dma-api.rst
-> +++ b/Documentation/core-api/dma-api.rst
-> @@ -516,48 +516,53 @@ routines, e.g.:::
->         }
->
->
-> -Part II - Advanced dma usage
-> -----------------------------
-> +Part II - Non-coherent DMA allocations
-> +--------------------------------------
->
-> -Warning: These pieces of the DMA API should not be used in the
-> -majority of cases, since they cater for unlikely corner cases that
-> -don't belong in usual drivers.
-> +These APIs allow to allocate pages that can be used like normal pages
-> +in the kernel direct mapping, but are guaranteed to be DMA addressable.
-
-Could we elaborate a bit more on what "like normal pages in kernel
-direct mapping" mean from the driver perspective?
-
->
->  If you don't understand how cache line coherency works between a
->  processor and an I/O device, you should not be using this part of the
-> -API at all.
-> +API.
->
->  ::
->
->         void *
-> -       dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
-> -                       gfp_t flag, unsigned long attrs)
-> +       dma_alloc_pages(struct device *dev, size_t size, dma_addr_t *dma_handle,
-> +                       enum dma_data_direction dir, gfp_t gfp)
-> +
-> +This routine allocates a region of <size> bytes of consistent memory.  It
-> +returns a pointer to the allocated region (in the processor's virtual address
-> +space) or NULL if the allocation failed. The returned memory is guanteed to
-> +behave like memory allocated using alloc_pages.
-
-There is one aspect that the existing dma_alloc_attrs() handles, but
-this new function doesn't: IOMMU support. The function will always
-allocate a physically-contiguous block memory, which is a costly
-operation and not even guaranteed to succeed, even if enough free
-memory is available.
-
-Modern SoCs employ IOMMUs to avoid the need to allocate
-physically-contiguous memory and those happen to be also the devices
-that could benefit from non-coherent allocations a lot. One of the
-tasks of the DMA API was making it possible to allocate suitable
-memory for a given device, without having the driver know about the
-SoC integration details, such as the presence of an IOMMU.
-
-Today, dma_alloc_attrs() uses the .alloc callback of the dma_ops
-struct and the IOMMU-aware implementations, like the dma-iommu helpers
-[1], would allocate discontiguous pages. Therefore, while I see the
-DMA-aware page allocation functionality as a useful functionality on
-its own for scatter-gather-capable hardware, I believe it is not a
-complete replacement for dma_alloc_attrs() with the
-DMA_ATTR_NON_CONSISTENT attribute.
-
-[1] https://elixir.bootlin.com/linux/v5.9-rc1/source/drivers/iommu/dma-iommu.c#L510
-
-Best regards,
-Tomasz
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Cj4gQWN0dWFsbHkgdGhlIHNwZWMgc2F5cyB0aGF0IE5WTUUvVENQIHJlcXVpcmVzIGtlZXAgYWxp
+dmUgc28gaXQgc2hvdWxkbuKAmXQgYmUgMC4KCk5vdGhpbmcgaW4gdGhpcyBsYW5ndWFnZSByZXF1
+aXJlcyBpdC4gVGhlIGtleXdvcmQgc2hvdWxkIG1lYW5zIGFkdmljZS4KCj4gTWF5YmUgd2UgZG8g
+bmVlZCB0byBzZXQgYSBkZWZhdWx0IHZhbHVlIGluIGNhc2Ugb2YgemVybyBrYXRvIHZhbHVlID8K
+Ck5vLCB0aGUgcGF0Y2ggaXMgZmluZS4KCj4gTlZNZS1vRiAxLjE6Cj4gNy40LjggS2VlcCBBbGl2
+ZQo+IFRoZSBOVk1lL1RDUCBUcmFuc3BvcnQgcmVxdWlyZXMgdGhlIHVzZSBvZiB0aGUgS2VlcCBB
+bGl2ZSBmZWF0dXJlIChyZWZlciB0byBzZWN0aW9uIDcuMTIgaW4gdGhlIE5WTWUgYmFzZSBzcGVj
+aWZpY2F0aW9uKS4gVGhlIE5WTWUvVENQIFRyYW5zcG9ydCBkb2VzIG5vdCBpbXBvc2UgYW55IGxp
+bWl0YXRpb25zIG9uIHRoZSBtaW5pbXVtIGFuZCBtYXhpbXVtIEtlZXAgQWxpdmUgVGltZW91dCB2
+YWx1ZS4gVGhlIG1pbmltdW0gc2hvdWxkIGJlIHNldCBsYXJnZSBlbm91Z2ggdG8gYWNjb3VudCBm
+b3IgYW55IHRyYW5zaWVudCBmYWJyaWMgaW50ZXJjb25uZWN0IGZhaWx1cmVzIGJldHdlZW4gdGhl
+IGhvc3QgYW5kIGNvbnRyb2xsZXIuCj4gVENQIGxldmVsIEtlZXAgQWxpdmUgZnVuY3Rpb25hbGl0
+eSBpcyBub3QgcHJvaGliaXRlZCBidXQgaXQgaXMgcmVjb21tZW5kZWQgdGhhdCBUQ1AgbGV2ZWwg
+S2VlcCBBbGl2ZSB0aW1lb3V0IGlzIHNldCB0byBhIGhpZ2hlciB2YWx1ZSB0aGFuIHRoZSBOVk1l
+IEtlZXAgQWxpdmUgVGltZW91dCB0byBhdm9pZCBjb25mbGljdGluZyBwb2xpY2llcy4KCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFp
+bGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5m
+cmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
