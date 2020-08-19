@@ -2,55 +2,55 @@ Return-Path: <SRS0=A4m9=B5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 222A1C433E3
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 06:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F8EBC433E5
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 06:57:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B90C320885
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 06:56:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C2B312173E
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Aug 2020 06:57:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TkY5YDvg";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uRThKpBV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B90C320885
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="wBiZBny8";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jpOJD02y"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2B312173E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ZRBXSpZjGvVLzFMKI662w35H4HR9AMCAjlnlDZL4uEk=; b=TkY5YDvg3VDafzBB6VvX5FrExt
-	cWZsFj64ttrQIjJflrudUROJuOLBmEnjvke9J8amR/UuL2Ga21BHApwBjRM5bl+nV7vFF7l5uwkrF
-	Z5KiD691G0hBmEF6m+7nND8QtXS3iNGVnyNa9tfg0RHF8+ngtbTqBXM12YBlYP0P5R69gei5Jz76j
-	QafWz4suGoue/bSY3GrZXmWkckfqapX9HVpMwIIN+ukGCczGcoev2kCpjxGxmhr8Lg9AC2OrKK6Vb
-	PRK5DebXaIqncK1qrEI+Vf3CHd5XN7jRYgoDXXvEbKZcfiRZnRZoujAHycTAJ+s6Zp81NY0fE5GDt
-	ZJDR7IBQ==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=pCTy1Z7PrK8y03nd7FFJR7Z6xO8Y449WRQpfD2TwoI0=; b=wBiZBny8rY541VI2iK9Kyrdk2
+	leWdezvSNqNqotgq04P9VH5XPCDQnEqDhTNuxeIdlMbDFY/trtToNUKB4RscfJGQOqF0rx0ebR9OE
+	kR4V16egM11cQemIz/7w8xn43mlJYPe9qXKISjhlCXhBWWeXcn+nOMaQRYKD5MfpE2ETcj8X5JaFo
+	bE8ZZaG1/Z9F8GuRaW+VbnhD6tHiuKj5sGt1ko5qICXA+wPs1SbhSLrWUd9a3ssmHx47Igm4hchV/
+	UHeqMNZ2FZwYWtnyPPiGMvlPtKodQzBYpr3DolQLD9MXU2rDQnqO2HGXoDh9KzyrU/Z7Tsi36iql3
+	kUSlRPR0g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8I1f-0005AJ-Fn; Wed, 19 Aug 2020 06:56:47 +0000
+	id 1k8I2A-0005QG-F9; Wed, 19 Aug 2020 06:57:18 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8I0v-0004rQ-KG; Wed, 19 Aug 2020 06:56:01 +0000
+ id 1k8I0v-0004rO-KI; Wed, 19 Aug 2020 06:56:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=z2KvWaZyjho7ndXMH0ORSIBGMLsoLoOlaFmWAQTQuew=; b=uRThKpBVD38wHW4O1Rw+m7ReIB
- 6g8DAFjC8rOV8slo1/sXfbFmSe2ZQ/D8oXBbMOULOMMqWf/LF2YgmRNBRhy6xw/WNcPfIgir5jkfY
- jMUBZNOtuPrAml+wEbfI5OBf4FZwNLx4AJ6KLMbazwwdxWKTRuJ8t4QvNBD00a4zi7/l8eeZNVCHo
- TVip/vAV16StqtD9sSi3vWzGnecdc/pw7stv6o2Z7fnoWC5+a2JoL1fYWc4VJinapBZy26rlLUcYn
- mtr0U1RQYeE7P0ovTcYzaF9TaQqsHNEEbAFwOJIquRs9u5qnSydzfDIu7+tbwzSbcDpvLkPbTkcNu
- ySmmqGNA==;
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=wWR7H3WZih9ZGlGO6OHg+MKLXPw0ngda85sKeqyd2Cw=; b=jpOJD02yiZZvWWit1o1weNaitA
+ s+mC0xFEIxHdbmZxSuzv05dSkkmY3FK7EbdTpK9QpDLb0Ceqz6l3lQupgrpZuZDgApdny95si0/Rp
+ bG4tkK6rP/6JwhYOUJT75htP/Q/gMqWOzdGofFco0K5sALTwUxauCijB+xP3Kcf9yEeh/sEpxQ/kX
+ woIRuODRQAv2/adxC0mmIDYPTFtaYjX9N/IW+1s7SFpO4zs2DaqMtizNQdMSvfDbTyk2YhG5bNEly
+ ZjwNnhqjEz2y/fnO7Bi5EbWzbuOS+Z3ef8M3gl9vPYrctO6a1rFf7y/8NiaGbJXM/DWJ17xvyusol
+ pD8t2u8A==;
 Received: from [2001:4bb8:198:f3b2:86b6:2277:f429:37a1] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8I0q-0008Kr-1o; Wed, 19 Aug 2020 06:55:57 +0000
+ id 1k8I0u-0008Kz-1W; Wed, 19 Aug 2020 06:56:00 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -61,10 +61,12 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Pawel Osciak <pawel@osciak.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  Matt Porter <mporter@kernel.crashing.org>, iommu@lists.linux-foundation.org
-Subject: a saner API for allocating DMA addressable pages
-Date: Wed, 19 Aug 2020 08:55:27 +0200
-Message-Id: <20200819065555.1802761-1-hch@lst.de>
+Subject: [PATCH 02/28] drm/exynos: stop setting DMA_ATTR_NON_CONSISTENT
+Date: Wed, 19 Aug 2020 08:55:29 +0200
+Message-Id: <20200819065555.1802761-3-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200819065555.1802761-1-hch@lst.de>
+References: <20200819065555.1802761-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -91,116 +93,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+DMA_ATTR_NON_CONSISTENT is a no-op except on PARISC and some mips
+configs, so don't set it in this ARM specific driver.
 
-this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
-with a separate new dma_alloc_pages API, which is available on all
-platforms.  In addition to cleaning up the convoluted code path, this
-ensures that other drivers that have asked for better support for
-non-coherent DMA to pages with incurring bounce buffering over can finally
-be properly supported.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/gpu/drm/exynos/exynos_drm_gem.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-I'm still a little unsure about the API naming, as alloc_pages sort of
-implies a struct page return value, but we return a kernel virtual
-address.  The other alternative would be to name the API
-dma_alloc_noncoherent, but the whole non-coherent naming seems to put
-people off.  As a follow up I plan to move the implementation of the
-DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
-that is also is a fundamentally non coherent allocation.  The replacement
-for that flag would then return a struct page, as it is allowed to
-actually return pages without a kernel mapping as the name suggested
-(although most of the time they will actually have a kernel mapping..)
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+index efa476858db54b..07073222b8f691 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+@@ -42,8 +42,6 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem, bool kvmap)
+ 	if (exynos_gem->flags & EXYNOS_BO_WC ||
+ 			!(exynos_gem->flags & EXYNOS_BO_CACHABLE))
+ 		attr |= DMA_ATTR_WRITE_COMBINE;
+-	else
+-		attr |= DMA_ATTR_NON_CONSISTENT;
+ 
+ 	/* FBDev emulation requires kernel mapping */
+ 	if (!kvmap)
+-- 
+2.28.0
 
-In addition to the conversions of the existing non-coherent DMA users
-the last three patches also convert the DMA coherent allocations in
-the NVMe driver to use this new framework through a dmapool addition.
-This was both to give me a good testing vehicle, but also because it
-should speed up the NVMe driver on platforms with non-coherent DMA
-nicely, without a downside on platforms with cache coherent DMA.
-
-
-A git tree is available here:
-
-    git://git.infradead.org/users/hch/misc.git dma_alloc_pages
-
-Gitweb:
-
-    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
-
-
-Diffstat:
- Documentation/core-api/dma-api.rst                       |   92 ++----
- Documentation/core-api/dma-attributes.rst                |    8 
- Documentation/userspace-api/media/v4l/buffer.rst         |   17 -
- Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst |    1 
- arch/alpha/kernel/pci_iommu.c                            |    2 
- arch/arm/include/asm/dma-direct.h                        |    4 
- arch/arm/mm/dma-mapping-nommu.c                          |    2 
- arch/arm/mm/dma-mapping.c                                |    4 
- arch/ia64/Kconfig                                        |    3 
- arch/ia64/hp/common/sba_iommu.c                          |    2 
- arch/ia64/kernel/dma-mapping.c                           |   14 
- arch/ia64/mm/init.c                                      |    3 
- arch/mips/Kconfig                                        |    1 
- arch/mips/bmips/dma.c                                    |    4 
- arch/mips/cavium-octeon/dma-octeon.c                     |    4 
- arch/mips/include/asm/dma-direct.h                       |    4 
- arch/mips/include/asm/jazzdma.h                          |    2 
- arch/mips/jazz/jazzdma.c                                 |  102 +------
- arch/mips/loongson2ef/fuloong-2e/dma.c                   |    4 
- arch/mips/loongson2ef/lemote-2f/dma.c                    |    4 
- arch/mips/loongson64/dma.c                               |    4 
- arch/mips/mm/dma-noncoherent.c                           |   48 +--
- arch/mips/pci/pci-ar2315.c                               |    4 
- arch/mips/pci/pci-xtalk-bridge.c                         |    4 
- arch/mips/sgi-ip32/ip32-dma.c                            |    4 
- arch/parisc/Kconfig                                      |    1 
- arch/parisc/kernel/pci-dma.c                             |    6 
- arch/powerpc/include/asm/dma-direct.h                    |    4 
- arch/powerpc/kernel/dma-iommu.c                          |    2 
- arch/powerpc/platforms/ps3/system-bus.c                  |    4 
- arch/powerpc/platforms/pseries/vio.c                     |    2 
- arch/s390/pci/pci_dma.c                                  |    2 
- arch/x86/kernel/amd_gart_64.c                            |    8 
- drivers/gpu/drm/exynos/exynos_drm_gem.c                  |    2 
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c      |    3 
- drivers/iommu/dma-iommu.c                                |    2 
- drivers/iommu/intel/iommu.c                              |    6 
- drivers/media/common/videobuf2/videobuf2-core.c          |   36 --
- drivers/media/common/videobuf2/videobuf2-dma-contig.c    |   19 -
- drivers/media/common/videobuf2/videobuf2-dma-sg.c        |    3 
- drivers/media/common/videobuf2/videobuf2-v4l2.c          |   12 
- drivers/net/ethernet/amd/au1000_eth.c                    |   15 -
- drivers/net/ethernet/i825xx/lasi_82596.c                 |   36 +-
- drivers/net/ethernet/i825xx/lib82596.c                   |  148 +++++-----
- drivers/net/ethernet/i825xx/sni_82596.c                  |   23 -
- drivers/net/ethernet/seeq/sgiseeq.c                      |   24 -
- drivers/nvme/host/pci.c                                  |   79 ++---
- drivers/parisc/ccio-dma.c                                |    2 
- drivers/parisc/sba_iommu.c                               |    2 
- drivers/scsi/53c700.c                                    |  120 ++++----
- drivers/scsi/53c700.h                                    |    9 
- drivers/scsi/sgiwd93.c                                   |   14 
- drivers/xen/swiotlb-xen.c                                |    2 
- include/linux/dma-direct.h                               |   55 ++-
- include/linux/dma-mapping.h                              |   32 +-
- include/linux/dma-noncoherent.h                          |   21 -
- include/linux/dmapool.h                                  |   23 +
- include/linux/gfp.h                                      |    6 
- include/media/videobuf2-core.h                           |    3 
- include/uapi/linux/videodev2.h                           |    2 
- kernel/dma/Kconfig                                       |    9 
- kernel/dma/Makefile                                      |    1 
- kernel/dma/coherent.c                                    |   17 +
- kernel/dma/direct.c                                      |  112 +++++--
- kernel/dma/mapping.c                                     |  104 ++-----
- kernel/dma/ops_helpers.c                                 |   86 ++++++
- kernel/dma/pool.c                                        |    2 
- kernel/dma/swiotlb.c                                     |    4 
- kernel/dma/virt.c                                        |    2 
- mm/dmapool.c                                             |  211 +++++++++------
- sound/mips/hal2.c                                        |   58 +---
- 71 files changed, 872 insertions(+), 803 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
