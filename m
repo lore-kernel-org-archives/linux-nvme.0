@@ -2,96 +2,58 @@ Return-Path: <SRS0=ANWg=B6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AD8C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 08:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B2EC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 08:29:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5E1462080C
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 08:14:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 950CF207DE
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 08:29:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="REqzkmAo";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="gD/PAM/5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5E1462080C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qmi8RobL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 950CF207DE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=zgbhxAvs//EfuDPy+9hbXtgvA2B9x2lQSaeU1yfEMHo=; b=REqzkmAowsUvu9x92FrbwSffg
-	HEgxngT4IIbHNnBSnFaz+oS38VNd/Uxa50TJnTtfR2QUUTfXZxrSWIRghi4AyBBW6TA7L+suFpKbx
-	A5mLMpmBOyUb7/8jK1SCVdfXcc7er6WhRMY0ZcZZioB0G3dfwuglfH3mRStsilbwqH9c7zaTHlB2t
-	1PgT22lSQu/r1saC3enf9Vbk3jyHKt2uXoScJZUKD4TGa5wHsYZRkigEvYIg7iL5KhPze2rbFP7gs
-	tSFoo84PZhfDgA225/7z6J6mzFqbV+WUDyMIluws2hIjkJAJTbrntvc0nT5WOG9v/BtWjG9PYFVSN
-	FxL5vYVmw==;
+	 bh=gBL5KXNA5Ju8dIe59YmXhn6sAiLpPFN9decda9h2kyE=; b=Qmi8RobLKJ9cCfKEm51lqBfeo
+	rHOJi47cYpuS/P6az4NFyWcO+w+001l8AHmqVT6WKGkShgzuXgaDXN6trKSetCUqxTvT7Vxnp6Jwa
+	3VzwTq0jAhpYd0UvloXkCPt4/GQxbN5W/0+N/7DuBfkG5aD1QpizC+LVZ+D10szt3eez7xjMLqagK
+	fXL7XvGo+tHohJcUXSiltfCH2T0c9MoJWAFkU5EbxnskVZ+pB886KRvQwqq4GG2gQXO0+cvpIYTOw
+	vIXTA2RIjo9+C9VTg9Z4jg6QOhv0lsUO5pWq9LaVv3VLuCWa6SDmwi+dkQKYnAYyzf/KLUGtPUu/0
+	7RPtcoGwA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8fii-00076f-NP; Thu, 20 Aug 2020 08:14:48 +0000
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641])
+	id 1k8fwu-0008IB-90; Thu, 20 Aug 2020 08:29:28 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8fif-00075l-Ro
- for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 08:14:46 +0000
-Received: by mail-ej1-x641.google.com with SMTP id m22so1420089eje.10
- for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2020 01:14:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=g0v1TVbYwAwmSoj7QGga3H4kAFy2bpvMW+yENdu88bQ=;
- b=gD/PAM/5z1gJRM2L/hhs83u2G6dxhrlGRNjPZAcXA3Ps9AmnRfVlDkONc+Q8/z3MqF
- r7CLU1FiuK5MYHIjYMmYsZNiOXnJ40x7r+54XF3GM5ZDO0+q6Nfl1TycK48mzcYKZxHj
- Neuc0LfbNED/FWHLB6rJseceEqy3BbaZXj9aF38/V2eTs7cW+D8J27UMsyUIIJFpEWDD
- kTjTdv1yUm3JFqAEuxmPgQzq+0pC/rDTM9iWveV5N/muRWClRvxBK9H70Ew42Dn9aDw8
- gh/tDB2uatVehzTr5FzdomsNecR8voBgz6+mW+JUwFtSdENL6cVmGxjrJmf3lDuaAwHX
- ChAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=g0v1TVbYwAwmSoj7QGga3H4kAFy2bpvMW+yENdu88bQ=;
- b=RgO2fDAl8w7jpqjwILpdEW49TXTeKHuyi6+IVXTj+UNPCpNqjckyDYGO3wj81puExU
- 4xLCriDlojKJK2kXJ3AWoToRBK7z+U1QRO0ClHU9O6Ml1b+K6y5yhIRmX2Co0UYXiKIF
- gbLNiLC0+rakJrearutGAN1tSl5jg3EC/CZqW43tbuEa0yuX1Gz/uGftZG4g+Iewm8pk
- KtrRvbkcpSjClWXdosS6vn6RenpktRlaOTQGrMajs2o+MbdOqzaeFapwIOvMCv+/zapL
- 8GgP0FIDNN7W+4+zHX1zecPvgcskI7JEaN6IDaneWWrA6oy6zJNG19G+oc7iVfuIxdiY
- L4rg==
-X-Gm-Message-State: AOAM533lEL7rxzATOky4VnRNYOL6M7dRFUIheanFE6zr7kRmT4+o72WS
- gN7W9BPGQckINj+i7urXqsuSUA==
-X-Google-Smtp-Source: ABdhPJyn8U936iLeaPbvcl7H9ouAf63VVQN83bsoVOmETCnR61Of4Sv7JsOqloslCk6sXLAbzCclGg==
-X-Received: by 2002:a17:906:1757:: with SMTP id
- d23mr1017684eje.126.1597911284556; 
- Thu, 20 Aug 2020 01:14:44 -0700 (PDT)
-Received: from localhost ([194.62.217.57])
- by smtp.gmail.com with ESMTPSA id v7sm912049edd.48.2020.08.20.01.14.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Aug 2020 01:14:43 -0700 (PDT)
-From: Javier Gonzalez <javier@javigon.com>
-X-Google-Original-From: Javier Gonzalez <javier.gonz@samsung.com>
-Date: Thu, 20 Aug 2020 10:14:43 +0200
-To: Kanchan Joshi <joshiiitr@gmail.com>
-Subject: Re: [PATCH 2/2] nvme: add emulation for zone-append
-Message-ID: <20200820081443.fwu7z3webjkhpeuv@mpHalley.local>
-References: <20200818052936.10995-1-joshi.k@samsung.com>
- <CGME20200818053256epcas5p46d0b66b3702192eb6617c8bba334c15f@epcas5p4.samsung.com>
- <20200818052936.10995-3-joshi.k@samsung.com>
- <20200818071249.GB2544@lst.de>
- <b52854fe11640a5a5f54e08b1d3c7a556f97aad5.camel@linux.intel.com>
- <20200819214248.GA26769@dhcp-10-100-145-180.wdl.wdc.com>
- <CA+1E3rJgvvebEex-zVBGtqK_BAaQUtcwq9nDoFm+Rd=DD20zxg@mail.gmail.com>
+ id 1k8fwr-0008Hg-Fw
+ for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 08:29:26 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id B6C3868AFE; Thu, 20 Aug 2020 10:29:18 +0200 (CEST)
+Date: Thu, 20 Aug 2020 10:29:18 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 1/3] nvme-core: improve avoiding false remove namespace
+Message-ID: <20200820082918.GA12926@lst.de>
+References: <20200820035357.1634-1-lengchao@huawei.com>
+ <ead8ccd0-d89d-b47e-0a6f-22c976a3b3a6@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CA+1E3rJgvvebEex-zVBGtqK_BAaQUtcwq9nDoFm+Rd=DD20zxg@mail.gmail.com>
+In-Reply-To: <ead8ccd0-d89d-b47e-0a6f-22c976a3b3a6@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200820_041445_935642_FF2D712A 
-X-CRM114-Status: GOOD (  25.43  )
+X-CRM114-CacheID: sfid-20200820_042925_638282_9F30FBD1 
+X-CRM114-Status: GOOD (  15.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,123 +65,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- "Damien.LeMoal@wdc.com" <Damien.LeMoal@wdc.com>,
- SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
- Kanchan Joshi <joshi.k@samsung.com>,
- "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>, David Fugate <david.fugate@linux.intel.com>,
- Keith Busch <kbusch@kernel.org>, Nitesh Shetty <nj.shetty@samsung.com>
+Cc: axboe@fb.com, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Chao Leng <lengchao@huawei.com>, kbusch@kernel.org, hch@lst.de
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 20.08.2020 13:07, Kanchan Joshi wrote:
->On Thu, Aug 20, 2020 at 3:22 AM Keith Busch <kbusch@kernel.org> wrote:
->>
->> On Wed, Aug 19, 2020 at 01:11:58PM -0600, David Fugate wrote:
->> > Intel does not support making *optional* NVMe spec features *required*
->> > by the NVMe driver.
->>
->> This is inaccurate. As another example, the spec optionally allows a
->> zone size to be a power of 2, but linux requires a power of 2 if you
->> want to use it with this driver.
->>
->> > Provided there's no glaring technical issues
->>
->> There are many. Some may be improved through a serious review process,
->> but the mess it makes out of the fast path is measurably harmful to
->> devices that don't subscribe to this. That issue is not so easily
->> remedied.
->>
->> Since this patch is a copy of the scsi implementation, the reasonable
->> thing is take this fight to the generic block layer for a common
->> solution. We're not taking this in the nvme driver.
+On Wed, Aug 19, 2020 at 09:33:22PM -0700, Sagi Grimberg wrote:
+> We really need to take a step back here, I really don't like how
+> we are growing implicit assumptions on how statuses are interpreted.
 >
->I sincerely want to minimize any adverse impact to the fast-path of
->non-zoned devices.
->My understanding of that aspect is (I feel it is good to confirm,
->irrespective of the future of this patch):
->
->1. Submission path:
->There is no extra code for non-zoned device IO. For append, there is
->this "ns->append_emulate = 1" check.
->Snippet -
->        case REQ_OP_ZONE_APPEND:
->-               ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_zone_append);
->+               if (!nvme_is_append_emulated(ns))
->+                       ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_zone_append);
->+               else {
->+                       /* prepare append like write, and adjust lba
->afterwards */
->
->2. Completion:
-> Not as clean as submission for sure.
->The extra check is "ns && ns->append_emulate == 1" for completions if
->CONFIG_ZONED is enabled.
->A slightly better completion-handling version (than the submitted patch) is -
->
->-       } else if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
->-                  req_op(req) == REQ_OP_ZONE_APPEND) {
->-               req->__sector = nvme_lba_to_sect(req->q->queuedata,
->-                       le64_to_cpu(nvme_req(req)->result.u64));
->+       } else if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
->+               struct nvme_ns *ns = req->q->queuedata;
->+               /* append-emulation requires wp update for some cmds*/
->+               if (ns && nvme_is_append_emulated(ns)) {
->+                       if (nvme_need_zone_wp_update(req))
->+                               nvme_zone_wp_update(ns, req, status);
->+               }
->+               else if (req_op(req) == REQ_OP_ZONE_APPEND)
->+                       req->__sector = nvme_lba_to_sect(ns,
->+                                       le64_to_cpu(nvme_req(req)->result.u64));
->
->Am I missing any other fast-path pain-points?
->
->A quick 1 minute 4K randwrite run (QD 64, 4 jobs,libaio) shows :
->before: IOPS=270k, BW=1056MiB/s (1107MB/s)(61.9GiB/60002msec)
->after:  IOPS=270k, BW=1055MiB/s (1106MB/s)(61.8GiB/60005msec)
+> Why don't we remove the -ENODEV error propagation back and instead
+> take care of it in the specific call-sites where we want to ignore
+> errors with proper quirks?
 
-It is good to use the QEMU "simulation" path that we implemented to test
-performance with different delays, etc., but for these numbers to make
-sense we need to put them in contrast to the simulated NAND speed, etc.
+So the one thing I'm not even sure about is if just ignoring the
+errors was a good idea to start with.  They obviously are if we just
+did a rescan and did run into an error while rescanning a namespace
+that didn't change.  But what if it actually did change?
 
->
->This maynot be the best test to see the cost, and I am happy to
->conduct more and improvise.
->
->As for the volume of the code - it is same as SCSI emulation. And I
->can make efforts to reduce that by moving common code to blk-zone, and
->reuse in SCSI/NVMe emulation.
->In the patch I tried to isolate append-emulation by keeping everything
->into "nvme_za_emul". It contains nothing nvme'ish except nvme_ns,
->which can be turned into "driver_data".
->
->+#ifdef CONFIG_BLK_DEV_ZONED
->+struct nvme_za_emul {
->+       unsigned int nr_zones;
->+       spinlock_t zones_wp_offset_lock;
->+       u32 *zones_wp_offset;
->+       u32 *rev_wp_offset;
->+       struct work_struct zone_wp_offset_work;
->+       char *zone_wp_update_buf;
->+       struct mutex rev_mutex;
->+       struct nvme_ns *ns;
->+};
->+#endif
->
->Will that be an acceptable line of further work/discussions?
+So I think a logic like in this patch kinda makes sense, but I think
+we also need to retry and scan again on these kinds of errors.  Btw,
+did you ever actually see -ENOMEM in practice?  With the small
+allocations that we do it really should not happen normally, so
+special casing for it always felt a little strange.
 
-I know we spent time enabling this path, but I don't think that moving
-the discussion to the block layer will have much more benefit.
+FYI, I've started rebasing various bits of work I've done to start
+untangling the mess.  Here is my current WIP, which in this form
+is completely untested:
 
-Let's keep the support for these non-append devices in xNVMe and focus
-on the support for the append-enabled ones in Linux. We have a lot of
-good stuff in the backlog that we can start pushing.
-
+http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/nvme-scanning-cleanup
 
 _______________________________________________
 Linux-nvme mailing list
