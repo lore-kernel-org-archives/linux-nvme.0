@@ -2,60 +2,76 @@ Return-Path: <SRS0=ANWg=B6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2123C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 05:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A951C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 05:37:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ADC882078D
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 05:29:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D733C2072D
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 05:37:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g5jMoFET"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADC882078D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OSI70h03"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D733C2072D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=txUSHSVyCTdc8Bm53ZosSAwFtQ4XNgJoflJJ2Zdh0Po=; b=g5jMoFETvE7l3VDt2hrBQFbsX
-	JIuMyjs6UKTCPZuPTWr98gNfWgkPz310814R0iPSw4m2e1a55jPNTJQbCpCLneOempy/EnG3VyFpz
-	pRuHMFBCpaNOpI2mftTGW1kVt5y0e20wWFXKbIyDiENkTvqxxCTIYR+BtzBYVyzJcSvqedfOqiczV
-	f6sAwrqd4TDm7TVvn7HRqH2MjenJq7duME3FVxi+Ivp+748Jv6GmPescKTmeVjLTq5XlujRO0HZOn
-	pzyG/ZCnbXV2QDkuoa2C5+zyrCTtwHHoZKY4VVJLvJt24wgwcb8Fdr2qRzfxxZejqUILkbyqi0Kpa
-	lGCcpzf8A==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=y9Ehnh8sgRQf/imr3gQvteNRZpA7kt2oXIy/6x8i+xM=; b=OSI70h03Z80e541SIK6XQK1LS7
+	Ilr5+pYmsAu09Xq3Bpxg6iGad0UQcOraQG7v78DY39jXSIVs63CltT/9jmPob1k2zAyCgJH8b7WIg
+	9Ep5GGvp3UjbpN7av1zESTfnItgvncwF5bBasdG7ZvehdyYHJ0eDdurzaSzlix8oSgj+fsu79vc48
+	HRP2nCbDb4pZUxyf4IXxpkipf/odl2ywFAOOjOe3G5Eq3rJqGfU2dykGkAUvKCuKCsc6rQmPEvglR
+	bhBXtXIL2al6ezQv26o2xRlCXDq43xe1mLAZlraEPWuAOLUErE19nARbiHPd1Qa3dK4fwIW6jnl/V
+	qfEMi1VQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8d8g-0007tz-DV; Thu, 20 Aug 2020 05:29:26 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1k8dG2-0000ao-Ut; Thu, 20 Aug 2020 05:37:03 +0000
+Received: from mail-wm1-f52.google.com ([209.85.128.52])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8d8e-0007tF-AI
- for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 05:29:25 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id BC97B68BEB; Thu, 20 Aug 2020 07:29:21 +0200 (CEST)
-Date: Thu, 20 Aug 2020 07:29:21 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: David Fugate <david.fugate@linux.intel.com>
-Subject: Re: [PATCH 2/2] nvme: add emulation for zone-append
-Message-ID: <20200820052921.GA5391@lst.de>
-References: <20200818052936.10995-1-joshi.k@samsung.com>
- <CGME20200818053256epcas5p46d0b66b3702192eb6617c8bba334c15f@epcas5p4.samsung.com>
- <20200818052936.10995-3-joshi.k@samsung.com> <20200818071249.GB2544@lst.de>
- <b52854fe11640a5a5f54e08b1d3c7a556f97aad5.camel@linux.intel.com>
+ id 1k8dFz-0000aN-RT
+ for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 05:37:01 +0000
+Received: by mail-wm1-f52.google.com with SMTP id k8so511422wma.2
+ for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2020 22:36:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gNuFYsTQqmLOurbVKzLfUkhyRRTPx1edTir6TWd6ChE=;
+ b=mX7CtJUZSKzaK2JoC3so696YT4AMQ1Y9638ZX5GwpvLlF6Ja/YcAEy7Oj5KunrEeBJ
+ WpIfJ6DEmodNv3MTSlo1+Eo2CRmDfFhHyPGh9lDZKEVf0mmezYN7jmIoiR5ZzibGspjD
+ CYNxFaGXcfkWdZOIyGgDmArmavkQzJj2lVZ8QVE13PVbqBMWxPiYI8KN7xUkYKlb5+nf
+ PXkFB/hm9L3et+oC0OvyLHJk4GKL/P2TetnAXiz6g4CiGHlQi4/vzo8ka7gE3DikieH1
+ hxp3ZXlmWCOO7ILWwSvWPLyXhwydB7i3Xkwy2CPY0L0GpgBHtzpxl1Zkig8vzkj14/uO
+ FC4Q==
+X-Gm-Message-State: AOAM5327GyCuS8niDmWyA60z+LjHzqRJXoV/z+gcRuNJ9H4zEBZrihI1
+ qqtV52ITLkrOtBRG4raMfqDcqXIBxqYMIA==
+X-Google-Smtp-Source: ABdhPJygxC8kJqDTsdF8JwrS1lW+5zmPr+h0iyf6kbLkSG3Bx1wPwp4dheOYAXFluO/4Jxkg1LTuFA==
+X-Received: by 2002:a1c:540c:: with SMTP id i12mr1588316wmb.96.1597901818418; 
+ Wed, 19 Aug 2020 22:36:58 -0700 (PDT)
+Received: from localhost.localdomain ([2601:647:4802:9070:7ced:8569:4373:1bd3])
+ by smtp.gmail.com with ESMTPSA id a10sm1900353wro.35.2020.08.19.22.36.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Aug 2020 22:36:57 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>
+Subject: [PATCH v3 0/9] fix possible controller reset hangs in
+ nvme-tcp/nvme-rdma
+Date: Wed, 19 Aug 2020 22:36:42 -0700
+Message-Id: <20200820053651.197057-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b52854fe11640a5a5f54e08b1d3c7a556f97aad5.camel@linux.intel.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200820_012924_474881_F5D2B979 
-X-CRM114-Status: GOOD (  19.30  )
+X-CRM114-CacheID: sfid-20200820_013700_266125_DDD4F38B 
+X-CRM114-Status: GOOD (  12.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,52 +83,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- "Damien.LeMoal@wdc.com" <Damien.LeMoal@wdc.com>,
- SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
- Kanchan Joshi <joshi.k@samsung.com>,
- "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Nitesh Shetty <nj.shetty@samsung.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 19, 2020 at 01:11:58PM -0600, David Fugate wrote:
-> On Tue, 2020-08-18 at 07:12 +0000, Christoph Hellwig wrote:
-> > On Tue, Aug 18, 2020 at 10:59:36AM +0530, Kanchan Joshi wrote:
-> > > If drive does not support zone-append natively, enable emulation
-> > > using
-> > > regular write.
-> > > Make emulated zone-append cmd write-lock the zone, preventing
-> > > concurrent append/write on the same zone.
-> > 
-> > I really don't think we should add this.  ZNS and the Linux support
-> > were all designed with Zone Append in mind, and then your company did
-> > the nastiest possible move violating the normal NVMe procedures to
-> > make
-> > it optional.  But that doesn't change the fact the Linux should keep
-> > requiring it, especially with the amount of code added here and how
-> > it
-> > hooks in the fast path.
-> 
-> Intel does not support making *optional* NVMe spec features *required*
-> by the NVMe driver. 
+When a controller reset runs during I/O we may hang if the controller
+suddenly becomes unresponsive during the reset and/or the reconnection
+stages. This is due to how the timeout handler did not fail inflight
+commands properly and also not being able to abort the controller reset
+sequence when the controller becomes unresponsive (hence can't ever
+recover even if the controller ever becomes responsive again).
 
-That is a great demand, but please stop talking of companies here,
-because companies simply don't matter for Linux development.  People
-and use cases do, companies don't and your mail talking about companies
-really can't be taken serious.
+This set fixes nvme-tcp and nvme-rdma for exactly the same scenarios.
 
-And I'm not sure why you think Linux is different from any other NVMe
-host OS.  If random NVMe host A decided they need feature X they are
-going to require it, because why not.  Especially if the developers of
-host A helped to drive the development of feature X.  I'm pretty sure
-with a little background in storage standards you've seen that play out
-a lot before.  And it is no different here.
+Changes from v2:
+- move NVME_CTRL_NEW state check in __nvme_check_ready to a separate patch
+- various comment phrasing fixes
+- fixed change log descriptions
+- changed patches nvme-tcp/nvme-rdma: fix timeout handler to restore the
+  timed out requests cancellation for all the non-LIVE states as the request
+  is going to be cancelled anyways. The change is now purely fixes how
+  we serialize and fence against error recovery (as pointed out by James).
+
+Changes from v1:
+- added patches 3,6 to protect against possible (but rare) double
+  completions for timed out requests.
+
+Sagi Grimberg (9):
+  nvme-fabrics: don't check state NVME_CTRL_NEW for request acceptance
+  nvme-fabrics: allow to queue requests for live queues
+  nvme: have nvme_wait_freeze_timeout return if it timed out
+  nvme-tcp: serialize controller teardown sequences
+  nvme-tcp: fix timeout handler
+  nvme-tcp: fix reset hang if controller died in the middle of a reset
+  nvme-rdma: serialize controller teardown sequences
+  nvme-rdma: fix timeout handler
+  nvme-rdma: fix reset hang if controller died in the middle of a reset
+
+ drivers/nvme/host/core.c    |  3 +-
+ drivers/nvme/host/fabrics.c | 13 +++---
+ drivers/nvme/host/nvme.h    |  2 +-
+ drivers/nvme/host/rdma.c    | 68 +++++++++++++++++++++++--------
+ drivers/nvme/host/tcp.c     | 80 ++++++++++++++++++++++++++-----------
+ 5 files changed, 119 insertions(+), 47 deletions(-)
+
+-- 
+2.25.1
+
 
 _______________________________________________
 Linux-nvme mailing list
