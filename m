@@ -2,65 +2,94 @@ Return-Path: <SRS0=ANWg=B6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE68C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 06:22:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72F01C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 06:37:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8A27D2075E
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 06:22:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3F67120786
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 06:37:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KTi6WNLz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8A27D2075E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="C05CNtAb";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="1oTpqa9m"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F67120786
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
 	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jGnySg0bpDcR6sSgUHEgnWVZoZyufkwPgEGBEyOluH4=; b=KTi6WNLzB5HDeIZb6m+saI5NN
-	vcEorzQzRl0XGqHU7ki6tiULMtsyP3h1jp57cJOCPSQziCU0L7SWzgw3OE7T9VEKhuUGyRh/NljSm
-	SK3UPQXAwVyQ7yv3ILYNR/HRwPhIVGC8OuAVS+gV9aP3pqa+xZFvBvG7AYs0WR/hA44083WTWIr2t
-	vdSAfLG8k3IWDmOkuefv7paclKkQhgIRbf9m6x64X0NdDjZvS6Dvlm6rve2jtsdT8NHmm3G4vrepJ
-	yBRB7c/0GcjejOkbj992JbR2XqDhE+JzYMwbMUMMGfDf00crj40AS1+HrSBAzs3pC2NouwgJIvSCm
-	y6WbP+RJg==;
+	 bh=uc/JUINf2ib3yWmUZSQFzhk7udmAUS3D2yc8fIsEmyg=; b=C05CNtAbDgQET5tZE0rqu3uSM
+	l/6hkbJg7wkk1uXeREzDkmidOGZLkPtIzdlXme3lNjt+yZgwSKfgCKn3YS/9sAz2b22aqQHLWX4bs
+	tpg3NVwiWbH6mDjH6lQNYlNDtrObjwxzmjWr8p5ugrOr4vTJj0c8QBgVrHL8OcqrZrEGuUVr4rCVg
+	a3rEMfQ22sWNqF2x3sxGaaVU/o1Y5qUVOtH6xqG260MydWfKDr4G7R2y+gqfhgLQrSc7Zj7tiS/6X
+	J3AQQaVEa4tO7FhXGwZ2pcfcHzZVOo23MPiyzD1FCxHIdekvZl0u9F5NUTwAhNhB05IHw7lhe/JU3
+	gggyiXtqA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8dyN-0003Ge-J6; Thu, 20 Aug 2020 06:22:51 +0000
-Received: from szxga06-in.huawei.com ([45.249.212.32] helo=huawei.com)
+	id 1k8eCS-0004t2-4R; Thu, 20 Aug 2020 06:37:24 +0000
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8dyF-00039a-3z
- for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 06:22:48 +0000
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id C82A776E5115F68AF5E8;
- Thu, 20 Aug 2020 14:22:34 +0800 (CST)
-Received: from [10.169.42.93] (10.169.42.93) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0;
- Thu, 20 Aug 2020 14:22:33 +0800
-Subject: Re: [PATCH 1/3] nvme-core: improve avoiding false remove namespace
-To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>
-References: <20200820035357.1634-1-lengchao@huawei.com>
- <ead8ccd0-d89d-b47e-0a6f-22c976a3b3a6@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <a95ebc4b-8b9f-27bc-f64f-efebc2eb7f78@huawei.com>
-Date: Thu, 20 Aug 2020 14:22:32 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1k8eCQ-0004sj-Dn
+ for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 06:37:23 +0000
+Received: by mail-ed1-x544.google.com with SMTP id ba10so736479edb.3
+ for <linux-nvme@lists.infradead.org>; Wed, 19 Aug 2020 23:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=sLKrzH9MwPqGsgXwtk2KOdG5Y1PUaWmaOENzy3RDTWI=;
+ b=1oTpqa9mewNECohmMsYj+eRveSfefrahN/JWuEtdN5qZYeRSPgiHk+r5DSeOlqKXJ2
+ xHZTqWPH4bMVTL9qtKpvEdwNg9cNFu8ni1UIgCkF0UdcIgEA9Y/JZa+241+kJALWMWdd
+ A3ilCshO5/+M08eJSNj3KoovGweA4lFzvl8yWhS7WmXTWdD/q7KhlYVAtm2N6SwLPyrp
+ fhcLdYR2jYUoYZaUjtpUVir7zG58kru94mQ8sxSoGPDhnF4a60y1PGoAPiaDD6e6BzR+
+ EWrsad8bF6eimra08ezmAAp4jY5onVm5vyIIQq6jFMv0IiIE9KjkYcn4ML9mcknToqFn
+ l1lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sLKrzH9MwPqGsgXwtk2KOdG5Y1PUaWmaOENzy3RDTWI=;
+ b=dVs/pb+UlEMNImTqxp1ZpEUJi3ex1v6DAGJRaLvYT8O9vh8dUQJ99+hR8JkogOUArz
+ bRIiITzOfPDDGCyIRtIFDP0x3o9ZQbzMNpuNJpk6sm37sdw2rZyuLnP2x0o2oz3lfapL
+ imh79a4MaWPVhD+EC1EExVtX9CxGAnhBQPGihqCmQd5VwjmiwWjUicp3MfSfbBfIm2iR
+ PpV5v4ipYg7Seeib2LHoNFnKbEwmZajuQyItmKrUE7yTK26jQOQraVmtNX8Q1GmlxhDK
+ jQ9X+6Gx9QtbhVWzMFpuFK+YtADgJbOWXPY3l9vJ9jMFGl6S1uyi4iRcZsf30SwlMYYm
+ dXGg==
+X-Gm-Message-State: AOAM530w6LPxx3lBl5S6GRh/rJqqkInZXDEkTKFXMQLn/8p8Y8c4fNiv
+ HsIEGzNwlpAdrJgqy+wp2KHczQ==
+X-Google-Smtp-Source: ABdhPJw1f+/LS3aQnQufiPMLSgWv3ikzJM2mUKgAo9msFfUJoqiNImvZgYem58Wk3tvok8hu+xBWaw==
+X-Received: by 2002:aa7:d607:: with SMTP id c7mr1500254edr.184.1597905440828; 
+ Wed, 19 Aug 2020 23:37:20 -0700 (PDT)
+Received: from localhost ([194.62.217.57])
+ by smtp.gmail.com with ESMTPSA id g9sm712181edk.97.2020.08.19.23.37.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Aug 2020 23:37:20 -0700 (PDT)
+From: Javier Gonzalez <javier@javigon.com>
+X-Google-Original-From: Javier Gonzalez <javier.gonz@samsung.com>
+Date: Thu, 20 Aug 2020 08:37:19 +0200
+To: Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 2/2] nvme: add emulation for zone-append
+Message-ID: <20200820063719.q6wftb23op45wigk@MacBook-Pro.localdomain>
+References: <20200818052936.10995-1-joshi.k@samsung.com>
+ <CGME20200818053256epcas5p46d0b66b3702192eb6617c8bba334c15f@epcas5p4.samsung.com>
+ <20200818052936.10995-3-joshi.k@samsung.com>
+ <20200818071249.GB2544@lst.de>
+ <b52854fe11640a5a5f54e08b1d3c7a556f97aad5.camel@linux.intel.com>
+ <9fa64efe-8477-5d33-20ed-9619a9fe8d70@kernel.dk>
 MIME-Version: 1.0
-In-Reply-To: <ead8ccd0-d89d-b47e-0a6f-22c976a3b3a6@grimberg.me>
-Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <9fa64efe-8477-5d33-20ed-9619a9fe8d70@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200820_022243_451052_E9D571CC 
-X-CRM114-Status: GOOD (  23.55  )
+X-CRM114-CacheID: sfid-20200820_023722_646224_132497BD 
+X-CRM114-Status: GOOD (  18.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,74 +101,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, kbusch@kernel.org, axboe@fb.com, hch@lst.de
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "Damien.LeMoal@wdc.com" <Damien.LeMoal@wdc.com>,
+ SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ Kanchan Joshi <joshi.k@samsung.com>,
+ "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Nitesh Shetty <nj.shetty@samsung.com>, david.fugate@linux.intel.com,
+ "kbusch@kernel.org" <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAyMDIwLzgvMjAgMTI6MzMsIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4gCj4+IG52bWVfcmV2
-YWxpZGF0ZV9kaXNrIHRyYW5zbGF0ZSByZXR1cm4gZXJyb3IgdG8gMCBpZiBpdCBpcyBub3QgYSBm
-YXRhbAo+PiBlcnJvciwgdGh1cyBhdm9pZCBmYWxzZSByZW1vdmUgbmFtZXNwYWNlLiBJZiByZXR1
-cm4gZXJyb3IgbGVzcyB0aGFuIDAsCj4+IG5vdyBvbmx5IEVOT01FTSBiZSB0cmFuc2xhdGVkIHRv
-IDAsIGJ1dCBvdGhlciBlcnJvciBleGNlcHQgRU5PREVWLAo+PiBzdWNoIGFzIEVBR0FJTiBvciBF
-QlVTWSBldGMsIGFsc28gbmVlZCB0cmFuc2xhdGUgdG8gMC4KPj4gQW5vdGhlciByZWFzb24gZm9y
-IGltcHJvdmluZyB0aGUgZXJyb3IgdHJhbnNsYXRpb246IElmIHJlcXVlc3QgdGltZW91dAo+PiB3
-aGVuIGNvbm5lY3QsIF9fbnZtZV9zdWJtaXRfc3luY19jbWQgd2lsbCByZXR1cm4KPj4gTlZNRV9T
-Q19IT1NUX0FCT1JURURfQ01EKD4wKS4gQXQgdGhpcyB0aW1lLCBzaG91bGQgdGVybWluYXRlIHRo
-ZQo+PiBjb25uZWN0IHByb2Nlc3MsIGJ1dCBmYWxzZWx5IGNvbnRpbnVlIHRoZSBjb25uZWN0IHBy
-b2Nlc3MsCj4+IHRoaXMgbWF5IGNhdXNlIGRlYWRsb2NrLiBNYW55IGZ1bmN0aW9ucyB3aGljaCBj
-YWxsCj4+IF9fbnZtZV9zdWJtaXRfc3luY19jbWQgdHJlYXQgZXJyb3IgY29kZSg+IDApIGFzIHRh
-cmdldCBub3Qgc3VwcG9ydCBhbmQKPj4gY29udGludWUsIGJ1dCBOVk1FX1NDX0hPU1RfQUJPUlRF
-RF9DTUQgYW5kIE5WTUVfU0NfSE9TVF9QQVRIX0VSUk9SIGJvdGgKPj4gYXJlIGNhbmNsZWQgaW8g
-YnkgaG9zdCwgdG8gZml4IHRoaXMgYnVnLCB3ZSBuZWVkIHNldCB0aGUgZmxhZzoKPj4gTlZNRV9S
-RVFfQ0FOQ0VMTEVELCB0aHVzIF9fbnZtZV9zdWJtaXRfc3luY19jbWQgd2lsbCB0cmFuc2xhdGUg
-cmV0dXJuCj4+IGVycm9yIHRvIElOVFIuIFRoaXMgaXMgY29uZmxpY3Qgd2l0aCBlcnJvciB0cmFu
-c2xhdGlvbiBvZgo+PiBudm1lX3JldmFsaWRhdGVfZGlzaywgbWF5IGNhdXNlIGZhbHNlIHJlbW92
-ZSBuYW1lc3BhY2UuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IENoYW8gTGVuZyA8bGVuZ2NoYW9AaHVh
-d2VpLmNvbT4KPj4gLS0tCj4+IMKgIGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyB8IDYgKysrLS0t
-Cj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4+
-Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9kcml2ZXJzL252bWUv
-aG9zdC9jb3JlLmMKPj4gaW5kZXggODhjZmYzMDlkOGU0Li40M2FjOGExYWQ2NWQgMTAwNjQ0Cj4+
-IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwo+PiArKysgYi9kcml2ZXJzL252bWUvaG9z
-dC9jb3JlLmMKPj4gQEAgLTIxMzAsMTAgKzIxMzAsMTAgQEAgc3RhdGljIGludCBfbnZtZV9yZXZh
-bGlkYXRlX2Rpc2soc3RydWN0IGdlbmRpc2sgKmRpc2spCj4+IMKgwqDCoMKgwqDCoCAqIE9ubHkg
-ZmFpbCB0aGUgZnVuY3Rpb24gaWYgd2UgZ290IGEgZmF0YWwgZXJyb3IgYmFjayBmcm9tIHRoZQo+
-PiDCoMKgwqDCoMKgwqAgKiBkZXZpY2UsIG90aGVyd2lzZSBpZ25vcmUgdGhlIGVycm9yIGFuZCBq
-dXN0IG1vdmUgb24uCj4+IMKgwqDCoMKgwqDCoCAqLwo+PiAtwqDCoMKgIGlmIChyZXQgPT0gLUVO
-T01FTSB8fCAocmV0ID4gMCAmJiAhKHJldCAmIE5WTUVfU0NfRE5SKSkpCj4+IC3CoMKgwqDCoMKg
-wqDCoCByZXQgPSAwOwo+PiAtwqDCoMKgIGVsc2UgaWYgKHJldCA+IDApCj4+ICvCoMKgwqAgaWYg
-KHJldCA+IDAgJiYgKHJldCAmIE5WTUVfU0NfRE5SKSkKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJl
-dCA9IGJsa19zdGF0dXNfdG9fZXJybm8obnZtZV9lcnJvcl9zdGF0dXMocmV0KSk7Cj4+ICvCoMKg
-wqAgZWxzZSBpZiAocmV0ICE9IC1FTk9ERVYpCj4+ICvCoMKgwqDCoMKgwqDCoCByZXQgPSAwOwo+
-PiDCoMKgwqDCoMKgIHJldHVybiByZXQ7Cj4gCj4gV2UgcmVhbGx5IG5lZWQgdG8gdGFrZSBhIHN0
-ZXAgYmFjayBoZXJlLCBJIHJlYWxseSBkb24ndCBsaWtlIGhvdwo+IHdlIGFyZSBncm93aW5nIGlt
-cGxpY2l0IGFzc3VtcHRpb25zIG9uIGhvdyBzdGF0dXNlcyBhcmUgaW50ZXJwcmV0ZWQuCmFncmVl
-Lgo+IAo+IFdoeSBkb24ndCB3ZSByZW1vdmUgdGhlIC1FTk9ERVYgZXJyb3IgcHJvcGFnYXRpb24g
-YmFjayBhbmQgaW5zdGVhZAo+IHRha2UgY2FyZSBvZiBpdCBpbiB0aGUgc3BlY2lmaWMgY2FsbC1z
-aXRlcyB3aGVyZSB3ZSB3YW50IHRvIGlnbm9yZQo+IGVycm9ycyB3aXRoIHByb3BlciBxdWlya3M/
-CgpNYXliZSB3ZSBjYW4gZG8gbGlrZSB0aGlzLgotLS0KICBkcml2ZXJzL252bWUvaG9zdC9jb3Jl
-LmMgfCAxNSArKysrLS0tLS0tLS0tLS0KICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCsp
-LCAxMSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMg
-Yi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKaW5kZXggODhjZmYzMDlkOGU0Li5kYzAyMjA4ZmY2
-NTUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYworKysgYi9kcml2ZXJzL252
-bWUvaG9zdC9jb3JlLmMKQEAgLTIxMDQsNyArMjEwNCw3IEBAIHN0YXRpYyBpbnQgX252bWVfcmV2
-YWxpZGF0ZV9kaXNrKHN0cnVjdCBnZW5kaXNrICpkaXNrKQoKICAJcmV0ID0gbnZtZV9pZGVudGlm
-eV9ucyhjdHJsLCBucy0+aGVhZC0+bnNfaWQsICZpZCk7CiAgCWlmIChyZXQpCi0JCWdvdG8gb3V0
-OworCQlyZXR1cm4gMDsKCiAgCWlmIChpZC0+bmNhcCA9PSAwKSB7CiAgCQlyZXQgPSAtRU5PREVW
-OwpAQCAtMjExMiw4ICsyMTEyLDEwIEBAIHN0YXRpYyBpbnQgX252bWVfcmV2YWxpZGF0ZV9kaXNr
-KHN0cnVjdCBnZW5kaXNrICpkaXNrKQogIAl9CgogIAlyZXQgPSBudm1lX3JlcG9ydF9uc19pZHMo
-Y3RybCwgbnMtPmhlYWQtPm5zX2lkLCBpZCwgJmlkcyk7Ci0JaWYgKHJldCkKKwlpZiAocmV0KSB7
-CisJCXJldCA9IDA7CiAgCQlnb3RvIGZyZWVfaWQ7CisJfQoKICAJaWYgKCFudm1lX25zX2lkc19l
-cXVhbCgmbnMtPmhlYWQtPmlkcywgJmlkcykpIHsKICAJCWRldl9lcnIoY3RybC0+ZGV2aWNlLApA
-QCAtMjEyNSwxNSArMjEyNyw2IEBAIHN0YXRpYyBpbnQgX252bWVfcmV2YWxpZGF0ZV9kaXNrKHN0
-cnVjdCBnZW5kaXNrICpkaXNrKQogIAlyZXQgPSBfX252bWVfcmV2YWxpZGF0ZV9kaXNrKGRpc2ss
-IGlkKTsKICBmcmVlX2lkOgogIAlrZnJlZShpZCk7Ci1vdXQ6Ci0JLyoKLQkgKiBPbmx5IGZhaWwg
-dGhlIGZ1bmN0aW9uIGlmIHdlIGdvdCBhIGZhdGFsIGVycm9yIGJhY2sgZnJvbSB0aGUKLQkgKiBk
-ZXZpY2UsIG90aGVyd2lzZSBpZ25vcmUgdGhlIGVycm9yIGFuZCBqdXN0IG1vdmUgb24uCi0JICov
-Ci0JaWYgKHJldCA9PSAtRU5PTUVNIHx8IChyZXQgPiAwICYmICEocmV0ICYgTlZNRV9TQ19ETlIp
-KSkKLQkJcmV0ID0gMDsKLQllbHNlIGlmIChyZXQgPiAwKQotCQlyZXQgPSBibGtfc3RhdHVzX3Rv
-X2Vycm5vKG52bWVfZXJyb3Jfc3RhdHVzKHJldCkpOwogIAlyZXR1cm4gcmV0OwogIH0KCi0tIAoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZt
-ZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0
-cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On 19.08.2020 13:25, Jens Axboe wrote:
+>On 8/19/20 12:11 PM, David Fugate wrote:
+>> On Tue, 2020-08-18 at 07:12 +0000, Christoph Hellwig wrote:
+>>> On Tue, Aug 18, 2020 at 10:59:36AM +0530, Kanchan Joshi wrote:
+>>>> If drive does not support zone-append natively, enable emulation
+>>>> using
+>>>> regular write.
+>>>> Make emulated zone-append cmd write-lock the zone, preventing
+>>>> concurrent append/write on the same zone.
+>>>
+>>> I really don't think we should add this.  ZNS and the Linux support
+>>> were all designed with Zone Append in mind, and then your company did
+>>> the nastiest possible move violating the normal NVMe procedures to
+>>> make
+>>> it optional.  But that doesn't change the fact the Linux should keep
+>>> requiring it, especially with the amount of code added here and how
+>>> it
+>>> hooks in the fast path.
+>>
+>> Intel does not support making *optional* NVMe spec features *required*
+>> by the NVMe driver.
+>
+>It's not required, the driver will function quite fine without it. If you
+>want to use ZNS it's required. The Linux driver thankfully doesn't need
+>any vendor to sign off on what it can or cannot do, or what features
+>are acceptable.
+>
+>> It's forgivable WDC's accepted contribution didn't work with other
+>> vendors' devices choosing not to implement the optional Zone Append,
+>> but it's not OK to reject contributions remedying this.  Provided
+>> there's no glaring technical issues, Samsung's contribution should be
+>> accepted to maintain both spec compliance as well as vendor neutrality.
+>
+>It's *always* ok to reject contributions, if those contributions cause
+>maintainability issues, unacceptable slowdowns, or whatever other issue
+>that the maintainers of said driver don't want to deal with. Any
+>contribution should be judged on merit, not based on political decisions
+>or opinions. Obviously this thread reeks of it.
+>
+
+I'll reply here, where the discussion diverges from this particular
+patch.
+
+We will stop pushing for this emulation. We have a couple of SSDs where
+we disabled Append, we implemented support for them, and we wanted to
+push the changes upstream. That's it. This is no politics not a
+conspiracy against the current ZNS spec. We spent a lot of time working
+on this spec and are actually doing a fair amount of work to support
+Append other places in the stack. In any case, the fuzz stops here.
+
+Javier
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
