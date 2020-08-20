@@ -7,89 +7,77 @@ X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB46C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 15:35:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A98DDC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 15:44:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A0F82075E
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 15:35:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 792882075E
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 15:44:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i0SozKiU";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="Gx3WkAn2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A0F82075E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ASi5EkvK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 792882075E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=S9ADAoyvxtHSGuQbdeGE4YJmI4reO15PS1zsIuk9DVE=; b=i0SozKiUSistp9dQqShzC+LFu
-	1t6BdQdI8RG+1y+lnMzd0GD/YbFaX12srz8U5J8CUtn89FtjEHeP4llnPsbpBuSvTGPLzbMWPRUfw
-	SuzKFSE92pvDTXAby47gLaL0X5gEF2QcFm5wGvNCC+9o2fooZl570/F49ly5J9T+yrQDKJC0PkPlq
-	5EGU2O9a/Cb4JRTz4W+vaIjV3xJ/vrdFy0KmHoJrpO3ModvqQvXj5sR3r1IqelQDNOeka5EiV1R/x
-	zdsUuNjtJbPKo0KPuU+Ykkxo/jcCdgG/s53Q+Qdxl5Dul1BOzTZckMKrdo74FkDb1qdfkd+5Y/mzW
-	9sws3jIgA==;
+	 bh=8Pf131SOjYaKbV3YWeSx8j/Xb9eUrNaDTjXUhW2Rsq0=; b=ASi5EkvKVm4Mh3QasiZiXro6Y
+	VPLLb1oAH4skrfEZ/w17SXotc5eiYUJVIJHdn+afT4jvVloI3q/Pjq5avHNVgLUhUrZPQ2qoAOSc3
+	69O6rC5+bi1nESZ8WtNE2WwALMClBrsBBOl65+JV0+52Ez4oCww8O/vRDdQGHtvd86VUp3KrzXp+m
+	NUjgMq/IzjEhtIkbIuBmh5/oGiE+RTHia9YN5BnQY8MNyozMohG5WoohFsSWzyZpq6gvXw6UhX970
+	nBCvBHZWChGjHe5dgsqJjoZUostuS5biqh2hS88k2bHsa6UeL9dioIpm3Gx6/4PVCRrbkptAee0Dj
+	lfT7002Bw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8mbS-0001jH-4f; Thu, 20 Aug 2020 15:35:46 +0000
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142])
+	id 1k8mjj-0002pF-49; Thu, 20 Aug 2020 15:44:19 +0000
+Received: from mail-pg1-f193.google.com ([209.85.215.193])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8mbP-0001i6-6d
- for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 15:35:44 +0000
-Received: by mail-il1-x142.google.com with SMTP id r13so2024226iln.0
- for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2020 08:35:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PxqJ+KF8eoddVjwmOfVLMrEOv7rCZfLqXLoNuUj+Zlk=;
- b=Gx3WkAn2m+9rZYeJ4Yj2+hdg/EPV01H8G+7/Gsqhur1h6k0KOFYJbYKLivEr0k5xgo
- oTf84GKs0mBt92dxmGAE6bvtUI8LAAD8zJ7nDQd4XCZlztd3gmbtZ2oI5XMCTUa0okWW
- 0CchrZUt8iw/MkXiuD9NhXNyzg7/rwRWUWayK+A48usffsv8JHWCbE0YRuT7Nm/sPBgR
- YcZAgskjGG/YX1X2Qmve3did5048r2k+SYjW6Zk4kwBBA+9WwkBR+kOd4E+PCbzd98gp
- arEPDuqYAO2ULaDiEiVkhb/Ieg7bjTZcZggxnrFkzFBKcaJZo9lpcYNxid06tJktNpw/
- weFw==
+ id 1k8mjg-0002og-Pg
+ for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 15:44:17 +0000
+Received: by mail-pg1-f193.google.com with SMTP id m34so1310684pgl.11
+ for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2020 08:44:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PxqJ+KF8eoddVjwmOfVLMrEOv7rCZfLqXLoNuUj+Zlk=;
- b=Ck4HQTsUO+WjjplY/qvOqwHJOVTNbOI6IyuF8DpEl8J86B4nZ3CZ4r27p9A2Yyb96c
- XYJBErwielV5Y3jisxFw6/QMG3mLFgd3IUxZiXnNzbrszEd5m2w6biy5xawnjkJZF9FB
- VzxnuV6ALQUpZIeC1rOCJ1/IJ9lCKHK/FxnJ+IBRlyi6LfhJzm34qzWQMVckcqbK+AUZ
- TMNTFZUZP7+aCydH0bvZ628z/aKqjInLpsGU8ypjJgM0at4L2Z7HYSDmCB1OvzK+fmbz
- SIMb/Dp0/YqfiPesWG93bRi6HIsdGwqSdiKP+nFuCLv6Wrx8NIPKB/EFz1dgHo5oPOqt
- 3kGg==
-X-Gm-Message-State: AOAM532w6h3Law62CmPCWkVUVEQx+4S3fgg8ZNkfNK4AofSv1F1FSnoo
- YSA3R27rZDF7SHRM+5IjIww/fQ==
-X-Google-Smtp-Source: ABdhPJyCloxNG7waNd9sWsZwA6ta0Vff204AhHHDxwrSM9UwR/2kdEHIIpqsrahxt/2SIObwmiFzLg==
-X-Received: by 2002:a92:99d4:: with SMTP id t81mr2984047ilk.95.1597937739765; 
- Thu, 20 Aug 2020 08:35:39 -0700 (PDT)
-Received: from [192.168.1.58] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id c76sm1897226ill.63.2020.08.20.08.35.38
+ bh=u8Sn+Pfg49VpUlwagz5wgkuY6jeYasKi2tCKCMPTqfo=;
+ b=aKB4c5qq5rOWHaZsn18AScKR99PHGx7jvcKN9u89AYgqXpvgnhZAfQ5hN1Cp48n3IB
+ 7zAt5fUwc26cOUs6lCvpRn8HwsQLMGC4hXWSpxtrVEs6sNk6Lu7ko05crD+b/yvsMmnO
+ BiPJXY50nzhZqkbpqH8r40Hs1/PSTucmT1dRTyMVMP08VZQfY10GCgKMGD8qCIKtkNCN
+ pthHNmy1kETo/z8w6QIowSMHXyREMykvCc1mBsWtw/30Nbqd6sM6JMADTworlmFYn1rJ
+ ZUEWNRz8qiuBCF86hEBingQEB/XrcRxMGEK2NCG0y6BuiHN/eTPolj4JNIJHPYo/B3mQ
+ JfCw==
+X-Gm-Message-State: AOAM530l9NmkxR7JAEm5gTB0KShjIw80wY56kKftuI1nEWcZgUjPre00
+ cgMZm+GOobjDz6O3MA2TVXA=
+X-Google-Smtp-Source: ABdhPJw747cbKTtuaMrv2e29HAE9Ea/H1YS+qlJLyS6e+z6x/elBGl/Gp+tkBW/5wAAnb0EiGSxkbw==
+X-Received: by 2002:a63:e154:: with SMTP id h20mr2844731pgk.428.1597938255508; 
+ Thu, 20 Aug 2020 08:44:15 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:7ced:8569:4373:1bd3?
+ ([2601:647:4802:9070:7ced:8569:4373:1bd3])
+ by smtp.gmail.com with ESMTPSA id r28sm3278280pfg.158.2020.08.20.08.44.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Aug 2020 08:35:39 -0700 (PDT)
-Subject: Re: v5.9-rc1 commit reliably breaks pci nvme detection
-From: Jens Axboe <axboe@kernel.dk>
-To: Keith Busch <kbusch@kernel.org>,
- "Ahmed S. Darwish" <a.darwish@linutronix.de>
-References: <20200817135011.GA2072@lx-t490>
- <20200817155658.GB1221871@dhcp-10-100-145-180.wdl.wdc.com>
- <d077aec4-d79b-b52e-cdd9-bcc89fbbde5f@fb.com>
-Message-ID: <2356f514-9408-6a6f-871d-046984963533@kernel.dk>
-Date: Thu, 20 Aug 2020 09:35:38 -0600
+ Thu, 20 Aug 2020 08:44:14 -0700 (PDT)
+Subject: Re: [PATCH 1/3] nvme-core: improve avoiding false remove namespace
+To: Christoph Hellwig <hch@lst.de>
+References: <20200820035357.1634-1-lengchao@huawei.com>
+ <ead8ccd0-d89d-b47e-0a6f-22c976a3b3a6@grimberg.me>
+ <20200820082918.GA12926@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <0630bc93-539d-df78-c1e8-ec136cb7dd36@grimberg.me>
+Date: Thu, 20 Aug 2020 08:44:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <d077aec4-d79b-b52e-cdd9-bcc89fbbde5f@fb.com>
+In-Reply-To: <20200820082918.GA12926@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200820_113543_378160_B61DEA77 
-X-CRM114-Status: GOOD (  17.08  )
+X-CRM114-CacheID: sfid-20200820_114416_864700_E4478CC3 
+X-CRM114-Status: GOOD (  21.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,38 +89,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-block@vger.kernel.org, kbusch@kernel.org,
+ linux-nvme@lists.infradead.org, Chao Leng <lengchao@huawei.com>, axboe@fb.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/17/20 9:58 AM, Jens Axboe wrote:
-> On 8/17/20 8:56 AM, Keith Busch wrote:
->> On Mon, Aug 17, 2020 at 03:50:11PM +0200, Ahmed S. Darwish wrote:
->>> Hello,
->>>
->>> Below v5.9-rc1 commit reliably breaks my boot on a Thinkpad e480
->>> laptop. PCI nvme detection fails, and the kernel becomes not able
->>> anymore to find the rootfs / parse "root=".
->>>
->>> Bisecting v5.8=>v5.9-rc1 blames that commit. Reverting it *reliably*
->>> fixes the problem and makes me able to boot v5.9-rc1.
+
+>> We really need to take a step back here, I really don't like how
+>> we are growing implicit assumptions on how statuses are interpreted.
 >>
->> The fix is staged in the nvme tree here:
->>
->>   http://git.infradead.org/nvme.git/commit/286155561ecd13b6c85a78eaf2880d3baea03b9e
+>> Why don't we remove the -ENODEV error propagation back and instead
+>> take care of it in the specific call-sites where we want to ignore
+>> errors with proper quirks?
 > 
-> That would have been nice to have in -rc1...
+> So the one thing I'm not even sure about is if just ignoring the
+> errors was a good idea to start with.  They obviously are if we just
+> did a rescan and did run into an error while rescanning a namespace
+> that didn't change.  But what if it actually did change?
 
-And now we're getting very close to shipping items for -rc2, and it's still
-not in. Can we please get the nvme pull request out for -rc2?
+Right, we don't know, so if we failed without DNR, we assume that
+we will retry again and ignore the error. The assumption is that
+we will retry when we will reconnect as we don't have a retry mechanism
+for these requests.
 
--- 
-Jens Axboe
+> So I think a logic like in this patch kinda makes sense, but I think
+> we also need to retry and scan again on these kinds of errors.
 
+So you are OK with keeping nvme_submit_sync_cmd returning -ENODEV for
+cancelled requests and have the scan flow assume that these are
+cancelled requests?
+
+At the very least we need a good comment to say what is going on there.
+
+   Btw,
+> did you ever actually see -ENOMEM in practice?  With the small
+> allocations that we do it really should not happen normally, so
+> special casing for it always felt a little strange.
+
+Never seen it, it's there just because we have allocations in the path.
+
+> FYI, I've started rebasing various bits of work I've done to start
+> untangling the mess.  Here is my current WIP, which in this form
+> is completely untested:
+> 
+> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/nvme-scanning-cleanup
+
+This does not yet contain sorting out what is discussed here correct?
 
 _______________________________________________
 Linux-nvme mailing list
