@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF30BC433E4
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 05:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2123C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 05:29:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 89B7C20786
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 05:20:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ADC882078D
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 05:29:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JBK3rnTb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 89B7C20786
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g5jMoFET"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADC882078D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,38 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/KL+HP9qPkb445qvEH9EMFYWINc1Xruj+kFnA+saTxg=; b=JBK3rnTbO7eW5prN7OvXoTJ/6
-	+dRVkVthk2EuYpY7XPGRf+NSeXZYae2GeESTtPjt4UQf3neNserpL6gOQMX5vhDC2wshe1vEriglg
-	58x1vpa4IgICuCPtUiwpPjNGRFezJM2d2k+TOYmtzEZLeKrdF0VOcuEnPsELG70LhieTx01tAJ8d6
-	6LzuPbrsHgEHzW7hCQCsSsX80LG7xFcf3ZtwiWGgEo3jFyBWUj34jsBSIWxKt0zMDhTWJjrUQDO5b
-	UQhIxHd6hcr6x9fXrHxh+aBw89RWdH5wY+8NmgcaWwWr0iIceKJzZKltkfbiQgMCjpYpCssyZ6/vs
-	vYhoOANdA==;
+	 bh=txUSHSVyCTdc8Bm53ZosSAwFtQ4XNgJoflJJ2Zdh0Po=; b=g5jMoFETvE7l3VDt2hrBQFbsX
+	JIuMyjs6UKTCPZuPTWr98gNfWgkPz310814R0iPSw4m2e1a55jPNTJQbCpCLneOempy/EnG3VyFpz
+	pRuHMFBCpaNOpI2mftTGW1kVt5y0e20wWFXKbIyDiENkTvqxxCTIYR+BtzBYVyzJcSvqedfOqiczV
+	f6sAwrqd4TDm7TVvn7HRqH2MjenJq7duME3FVxi+Ivp+748Jv6GmPescKTmeVjLTq5XlujRO0HZOn
+	pzyG/ZCnbXV2QDkuoa2C5+zyrCTtwHHoZKY4VVJLvJt24wgwcb8Fdr2qRzfxxZejqUILkbyqi0Kpa
+	lGCcpzf8A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8czj-0006ku-MY; Thu, 20 Aug 2020 05:20:11 +0000
+	id 1k8d8g-0007tz-DV; Thu, 20 Aug 2020 05:29:26 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8czf-0006j2-Fy; Thu, 20 Aug 2020 05:20:08 +0000
+ id 1k8d8e-0007tF-AI
+ for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 05:29:25 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 4B4A168BEB; Thu, 20 Aug 2020 07:20:04 +0200 (CEST)
-Date: Thu, 20 Aug 2020 07:20:04 +0200
+ id BC97B68BEB; Thu, 20 Aug 2020 07:29:21 +0200 (CEST)
+Date: Thu, 20 Aug 2020 07:29:21 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
-Message-ID: <20200820052004.GA5305@lst.de>
-References: <20200819065555.1802761-1-hch@lst.de>
- <20200819065555.1802761-6-hch@lst.de>
- <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
- <20200819135454.GA17098@lst.de>
- <CAAFQd5BuXP7t3d-Rwft85j=KTyXq7y4s24mQxLr=VoY9krEGZw@mail.gmail.com>
- <20200820044347.GA4533@lst.de>
+To: David Fugate <david.fugate@linux.intel.com>
+Subject: Re: [PATCH 2/2] nvme: add emulation for zone-append
+Message-ID: <20200820052921.GA5391@lst.de>
+References: <20200818052936.10995-1-joshi.k@samsung.com>
+ <CGME20200818053256epcas5p46d0b66b3702192eb6617c8bba334c15f@epcas5p4.samsung.com>
+ <20200818052936.10995-3-joshi.k@samsung.com> <20200818071249.GB2544@lst.de>
+ <b52854fe11640a5a5f54e08b1d3c7a556f97aad5.camel@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200820044347.GA4533@lst.de>
+In-Reply-To: <b52854fe11640a5a5f54e08b1d3c7a556f97aad5.camel@linux.intel.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200820_012007_674497_C70241FC 
-X-CRM114-Status: GOOD (  20.69  )
+X-CRM114-CacheID: sfid-20200820_012924_474881_F5D2B979 
+X-CRM114-Status: GOOD (  19.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,52 +67,52 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>, linux-scsi@vger.kernel.org,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Ben Skeggs <bskeggs@redhat.com>, Matt Porter <mporter@kernel.crashing.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Tom Lendacky <thomas.lendacky@amd.com>, Pawel Osciak <pawel@osciak.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- linux-mips@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ "Damien.LeMoal@wdc.com" <Damien.LeMoal@wdc.com>,
+ SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ Kanchan Joshi <joshi.k@samsung.com>,
+ "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Nitesh Shetty <nj.shetty@samsung.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 20, 2020 at 06:43:47AM +0200, Christoph Hellwig wrote:
-> On Wed, Aug 19, 2020 at 03:57:53PM +0200, Tomasz Figa wrote:
-> > > > Could you explain what makes you think it's unused? It's a feature of
-> > > > the UAPI generally supported by the videobuf2 framework and relied on
-> > > > by Chromium OS to get any kind of reasonable performance when
-> > > > accessing V4L2 buffers in the userspace.
-> > >
-> > > Because it doesn't do anything except on PARISC and non-coherent MIPS,
-> > > so by definition it isn't used by any of these media drivers.
+On Wed, Aug 19, 2020 at 01:11:58PM -0600, David Fugate wrote:
+> On Tue, 2020-08-18 at 07:12 +0000, Christoph Hellwig wrote:
+> > On Tue, Aug 18, 2020 at 10:59:36AM +0530, Kanchan Joshi wrote:
+> > > If drive does not support zone-append natively, enable emulation
+> > > using
+> > > regular write.
+> > > Make emulated zone-append cmd write-lock the zone, preventing
+> > > concurrent append/write on the same zone.
 > > 
-> > It's still an UAPI feature, so we can't simply remove the flag, it
-> > must stay there as a no-op, until the problem is resolved.
+> > I really don't think we should add this.  ZNS and the Linux support
+> > were all designed with Zone Append in mind, and then your company did
+> > the nastiest possible move violating the normal NVMe procedures to
+> > make
+> > it optional.  But that doesn't change the fact the Linux should keep
+> > requiring it, especially with the amount of code added here and how
+> > it
+> > hooks in the fast path.
 > 
-> Ok, I'll switch to just ignoring it for the next version.
+> Intel does not support making *optional* NVMe spec features *required*
+> by the NVMe driver. 
 
-So I took a deeper look.  I don't really think it qualifies as a UAPI
-in our traditional sense.  For one it only appeared in 5.9-rc1, so we
-can trivially expedite the patch into 5.9-rc and not actually make it
-show up in any released kernel version.  And even as of the current
-Linus' tree the only user is a test driver.  So I really think the best
-way to go ahead is to just revert it ASAP as the design wasn't thought
-out at all.
+That is a great demand, but please stop talking of companies here,
+because companies simply don't matter for Linux development.  People
+and use cases do, companies don't and your mail talking about companies
+really can't be taken serious.
+
+And I'm not sure why you think Linux is different from any other NVMe
+host OS.  If random NVMe host A decided they need feature X they are
+going to require it, because why not.  Especially if the developers of
+host A helped to drive the development of feature X.  I'm pretty sure
+with a little background in storage standards you've seen that play out
+a lot before.  And it is no different here.
 
 _______________________________________________
 Linux-nvme mailing list
