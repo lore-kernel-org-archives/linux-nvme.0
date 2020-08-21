@@ -2,106 +2,81 @@ Return-Path: <SRS0=kXjr=B7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53955C433E1
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 09:26:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F70CC433E3
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 12:41:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1D280207DA
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 09:26:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 495AA20724
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 12:41:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fBLUxpLn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1D280207DA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CCbNyMyO";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mz5FSaNT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 495AA20724
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Q5yK1fuoPzzWtjCxMkphxoEaBLpTKHYCpOxJDgP7NhI=; b=fBLUxpLni+0JLKc/vADeG+K+E
-	FsNefBejoLNfuBnxDqJ0kGqjuUiplb0qr23IQe+CoV6Bj0/BUzzlzfh25ItJBsTyaGR+h6HnPTRQP
-	3F18dIojDwb3almgvMzEgWGWZy9NNbvn2GYyhw5u1ZK32trSFO1STCX+hS1cOtmsBPoRmsSuOfs5q
-	W41cPKvklti+4biO2FKtlQiF7Sb5MdQrWKjPEPEauBPdoZayEw9oPY1uPoc897N3ypp2G2C9LP0jO
-	D8Uhdx/e0WaitJ86nTb5W+wY5gaGFtGchDGDSZQGDjoJRGHvrXs2jZawI0GRdurX8JOtRHDGcZO/V
-	Po+fv4SIA==;
+	 bh=c2TTy8Yjn5Q0bgEJb36NA9dikYrSTiHbzGz1f1Fil34=; b=CCbNyMyOfAazoMaDf0mx5Pfzr
+	OP0S5g1G6YPB5yxx5Ep+FGGPSD0RR6DX+H0mvOn5I/vdupsUPjAJ/c2mCC2JP1rwckFmbhehUAgDR
+	Nqi1hTpAFMeUhxjLjfSMJTrOTtw3MPLaKOoi78cRKagl0xcvKkyS98n6aTJDSby84Tz86Lgcgw95W
+	2TIkK8N/onmJMrzzDp1DD3swKaT9nl6Z3Gk8v8Dr8/YhqXfl7iLcoeTb5+kIP5HZI/cNovN9YGFdB
+	pNi6pU+N99JdGpyjUPeS5hWP1x0bIMlmvNbdc+47DOQWZl+nhI5mVILQwyMu7lsH2x06qpMQK7oPw
+	IjkW7NJNg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k93JX-0000A6-73; Fri, 21 Aug 2020 09:26:23 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1k96Lv-0000nL-11; Fri, 21 Aug 2020 12:41:03 +0000
+Received: from mail-vk1-xa43.google.com ([2607:f8b0:4864:20::a43])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k93JU-000099-Ti
- for linux-nvme@lists.infradead.org; Fri, 21 Aug 2020 09:26:21 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 800CEAC5E;
- Fri, 21 Aug 2020 09:26:47 +0000 (UTC)
-Subject: Re: [PATCH 2/2] block: fix locking for struct block_device size
- updates
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-References: <20200821085600.2395666-1-hch@lst.de>
- <20200821085600.2395666-3-hch@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
- 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
- azzYF4VRJsdl+d0MCaSy8mUh
-Message-ID: <4df016bc-570c-d166-47dd-36a9f21fad13@suse.de>
-Date: Fri, 21 Aug 2020 11:26:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ id 1k96Lr-0000lR-8f
+ for linux-nvme@lists.infradead.org; Fri, 21 Aug 2020 12:41:00 +0000
+Received: by mail-vk1-xa43.google.com with SMTP id x187so378149vkc.1
+ for <linux-nvme@lists.infradead.org>; Fri, 21 Aug 2020 05:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gMe3GaCz74koTbzFXaGd+SXTXVqboKvgKZjJYCLAU5A=;
+ b=mz5FSaNTjPUXLLXInAjZto1moLn/xGg/SwvxAdoj1J9YJtacjyqHWlUqxnv4L8Kvxt
+ 2cVVOFjh71kkC/eWpeIcxhKbivTxc5UT9wD8Zh09zbueNGgHVFPZkKtyplgw6Z39Mzqf
+ zS4afzL7cDWMXmAF82vjQSu5dbWRQ/af6v08cxPyjDz5ibqmnh+Gz3Y5VIejt7D7/6ZI
+ zEnZRQLjGJV+ELzqc8NL9NIz+swTPhpsFMomg7VB+1zVGLxxb7Jh7ag8IpNrfhy2sRh5
+ LeIoMhN5rtZoHrh47X0ZJmv4m2JHhCX+QkYYb1mhFGol15GFxJEsgjT0KnOJ1y+giJs3
+ TdYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gMe3GaCz74koTbzFXaGd+SXTXVqboKvgKZjJYCLAU5A=;
+ b=mSkF5e8ej4QDUqGrHFbJRcsmbz99kVnPFel0nVnxaHpvIM/hVmu3AxHmUDJg7BT9ih
+ zOr3ZkGXkb/KzUNfyAIw3ufHYCGlcKdC4djWMzmujR8vpYWh2CRfpX235dZVhH844A1O
+ Q7KfZnED95SjOwWxu/UMapm8tV+/zj4W9ewmLyxQqKS3Omf7j9EvZ9aGw6LWec2fjKbM
+ o06/phC6NYYdcBLFsfuyOMjRvVPsOxMCxqZ2OIr8krNeaAhuxS2Mc/e5baQmuQwUO9D6
+ 6IMPz9kIPfNeuQCQ5+KqyH0Onv0inLWQIItM8KOrt1tnpY8ODyo7F6CG7zWuCz4gBTNW
+ R/cA==
+X-Gm-Message-State: AOAM5302syhoL/pKxM6SiXNXb3TYqhk30B0lgw4eiuDX5Mz3vy8TWg54
+ EfOc3U3z2g7cT3aCMlzbUm82K8Uajt5P30c2H1bhjQ==
+X-Google-Smtp-Source: ABdhPJya7hF4BL83DBN15TXEO+qSOP1h3rpNJKwSa65uFIcWj0oJSzS7IQYtcbuJ64PBuSx6H2inSlXDdmh6XAmhczQ=
+X-Received: by 2002:a1f:7c45:: with SMTP id x66mr1436137vkc.53.1598013656506; 
+ Fri, 21 Aug 2020 05:40:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200821085600.2395666-3-hch@lst.de>
-Content-Language: en-US
+References: <20200716141534.30241-1-ulf.hansson@linaro.org>
+In-Reply-To: <20200716141534.30241-1-ulf.hansson@linaro.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 21 Aug 2020 14:40:19 +0200
+Message-ID: <CAPDyKFr5WQ1kpFguDe2e8G7t7p_99CFbqwRQFZPCSuMV2eYsMQ@mail.gmail.com>
+Subject: Re: [PATCH] mmc: core: Initial support for SD express card/host
+To: Rui Feng <rui_feng@realsil.com.cn>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200821_052621_213166_ABB9068A 
-X-CRM114-Status: GOOD (  21.80  )
+X-CRM114-CacheID: sfid-20200821_084059_630318_182204BB 
+X-CRM114-Status: GOOD (  42.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,41 +88,255 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, Jan Hoeppner <hoeppner@linux.ibm.com>,
- Justin Sanders <justin@coraid.com>, linux-nvme@lists.infradead.org,
- Josef Bacik <josef@toxicpanda.com>, Xianting Tian <xianting_tian@126.com>,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, dm-devel@redhat.com,
- Stefan Haberland <sth@linux.ibm.com>, nbd@other.debian.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Arnd Bergmann <arnd@arndb.de>, Linux PCI <linux-pci@vger.kernel.org>,
+ "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org, Adrian Hunter <adrian.hunter@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOC8yMS8yMCAxMDo1NiBBTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gVHdvIGRpZmZl
-cmVudCBjYWxsZXJzIHVzZSB0d28gZGlmZmVyZW50IG11dGV4ZXMgZm9yIHVwZGF0aW5nIHRoZQo+
-IGJsb2NrIGRldmljZSBzaXplLCB3aGljaCBvYnZpb3VzbHkgZG9lc24ndCBoZWxwIHRvIGFjdHVh
-bGx5IHByb3RlY3QKPiBhZ2FpbnN0IGNvbmN1cnJlbnQgdXBkYXRlcyBmcm9tIHRoZSBkaWZmZXJl
-bnQgY2FsbGVycy4gIEluIGFkZGl0aW9uCj4gb25lIG9mIHRoZSBsb2NrcywgYmRfbXV0ZXggaXMg
-cmF0aGVyIHByb25lIHRvIGRlYWRsb2NrcyB3aXRoIG90aGVyCj4gcGFydHMgb2YgdGhlIGJsb2Nr
-IHN0YWNrIHRoYXQgdXNlIGl0IGZvciBoaWdoIGxldmVsIHN5bmNocm9uaXphdGlvbi4KPiAKPiBT
-d2l0Y2ggdG8gdXNpbmcgYSBuZXcgc3BpbmxvY2sgcHJvdGVjdGluZyBqdXN0IHRoZSBzaXplIHVw
-ZGF0ZXMsIGFzCj4gdGhhdCBpcyBhbGwgd2UgbmVlZCwgYW5kIG1ha2Ugc3VyZSBldmVyeW9uZSBk
-b2VzIHRoZSB1cGRhdGUgdGhyb3VnaAo+IHRoZSBwcm9wZXIgaGVscGVyLgo+IAo+IFRoaXMgZml4
-ZdGVIGEgYnVnIHJlcG9ydGVkIHdpdGggdGhlIG52bWUgcmV2YWxpZGF0aW5nIGRpc2tzIGR1cmlu
-ZyBhCj4gaG90IHJlbW92YWwgb3BlcmF0aW9uLgo+IAo+IFJlcG9ydGVkLWJ5OiBYaWFudGluZyBU
-aWFuIDx4aWFudGluZ190aWFuQDEyNi5jb20+Cj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIEhl
-bGx3aWcgPGhjaEBsc3QuZGU+Cj4gLS0tCj4gIGJsb2NrL3BhcnRpdGlvbnMvY29yZS5jICAgICAg
-ICAgfCAgNCArKy0tCj4gIGRyaXZlcnMvYmxvY2svYW9lL2FvZWNtZC5jICAgICAgfCAgNCArLS0t
-Cj4gIGRyaXZlcnMvbWQvZG0uYyAgICAgICAgICAgICAgICAgfCAxNSArKy0tLS0tLS0tLS0tLS0K
-PiAgZHJpdmVycy9zMzkwL2Jsb2NrL2Rhc2RfaW9jdGwuYyB8ICA5ICsrLS0tLS0tLQo+ICBmcy9i
-bG9ja19kZXYuYyAgICAgICAgICAgICAgICAgIHwgMTggKysrKysrKysrLS0tLS0tLS0tCj4gIGlu
-Y2x1ZGUvbGludXgvYmxrX3R5cGVzLmggICAgICAgfCAgMSArCj4gIDYgZmlsZXMgY2hhbmdlZCwg
-MTcgaW5zZXJ0aW9ucygrKSwgMzQgZGVsZXRpb25zKC0pCj4gClJldmlld2VkLWJ5OiBIYW5uZXMg
-UmVpbmVja2UgPGhhcmVAc3VzZS5kZT4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBS
-ZWluZWNrZQkJICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRl
-CQkJICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR2VybWFueSBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2
-ODA5IChBRyBOw7xybmJlcmcpLCBHRjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlz
-dApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+Rui,
+
+On Thu, 16 Jul 2020 at 16:16, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+>
+> In the SD specification v7.10 the SD express card has been added. This new
+> type of removable SD card, can be managed via a PCIe/NVMe based interface,
+> while also allowing backwards compatibility towards the legacy SD
+> interface.
+>
+> To keep the backwards compatibility, it's required to start the
+> initialization through the legacy SD interface. If it turns out that the
+> mmc host and the SD card, both supports the PCIe/NVMe interface, then a
+> switch should be allowed.
+>
+> Therefore, let's introduce some basic support for this type of SD cards to
+> the mmc core. The mmc host, should set MMC_CAP2_SD_EXP if it supports this
+> interface and MMC_CAP2_SD_EXP_1_2V, if also 1.2V is supported, as to inform
+> the core about it.
+>
+> To deal with the switch to the PCIe/NVMe interface, the mmc host is
+> required to implement a new host ops, ->init_sd_express(). Based on the
+> initial communication between the host and the card, host->ios.timing is
+> set to either MMC_TIMING_SD_EXP or MMC_TIMING_SD_EXP_1_2V, depending on if
+> 1.2V is supported or not. In this way, the mmc host can check these values
+> in its ->init_sd_express() ops, to know how to proceed with the handover.
+>
+> Note that, to manage card insert/removal, the mmc core sticks with using
+> the ->get_cd() callback, which means it's the host's responsibility to make
+> sure it provides valid data, even if the card may be managed by PCIe/NVMe
+> at the moment. As long as the card seems to be present, the mmc core keeps
+> the card powered on.
+>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Rui Feng <rui_feng@realsil.com.cn>
+> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+
+Rui, did you manage to get some time to look at $subject patch?
+
+If you need some help to understand what's needed to implement the
+corresponding support in drivers/mmc/host/rtsx_pci_sdmmc.c, then
+please just ask.
+
+I think it would make sense to queue changes for rtsx_pci at the same
+point as the mmc core changes. That's because I don't want to maintain
+code in the mmc core that's left unused.
+
+Kind regards
+Uffe
+
+> ---
+>  drivers/mmc/core/core.c   | 15 ++++++++++--
+>  drivers/mmc/core/host.h   |  6 +++++
+>  drivers/mmc/core/sd_ops.c | 49 +++++++++++++++++++++++++++++++++++++--
+>  drivers/mmc/core/sd_ops.h |  1 +
+>  include/linux/mmc/host.h  |  7 ++++++
+>  5 files changed, 74 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+> index 8ccae6452b9c..6673c0f33cc7 100644
+> --- a/drivers/mmc/core/core.c
+> +++ b/drivers/mmc/core/core.c
+> @@ -2137,8 +2137,12 @@ static int mmc_rescan_try_freq(struct mmc_host *host, unsigned freq)
+>
+>         mmc_go_idle(host);
+>
+> -       if (!(host->caps2 & MMC_CAP2_NO_SD))
+> -               mmc_send_if_cond(host, host->ocr_avail);
+> +       if (!(host->caps2 & MMC_CAP2_NO_SD)) {
+> +               if (mmc_send_if_cond_pcie(host, host->ocr_avail))
+> +                       goto out;
+> +               if (mmc_card_sd_express(host))
+> +                       return 0;
+> +       }
+>
+>         /* Order's important: probe SDIO, then SD, then MMC */
+>         if (!(host->caps2 & MMC_CAP2_NO_SDIO))
+> @@ -2153,6 +2157,7 @@ static int mmc_rescan_try_freq(struct mmc_host *host, unsigned freq)
+>                 if (!mmc_attach_mmc(host))
+>                         return 0;
+>
+> +out:
+>         mmc_power_off(host);
+>         return -EIO;
+>  }
+> @@ -2280,6 +2285,12 @@ void mmc_rescan(struct work_struct *work)
+>                 goto out;
+>         }
+>
+> +       /* If an SD express card is present, then leave it as is. */
+> +       if (mmc_card_sd_express(host)) {
+> +               mmc_release_host(host);
+> +               goto out;
+> +       }
+> +
+>         for (i = 0; i < ARRAY_SIZE(freqs); i++) {
+>                 unsigned int freq = freqs[i];
+>                 if (freq > host->f_max) {
+> diff --git a/drivers/mmc/core/host.h b/drivers/mmc/core/host.h
+> index 5e3b9534ffb2..ba407617ed23 100644
+> --- a/drivers/mmc/core/host.h
+> +++ b/drivers/mmc/core/host.h
+> @@ -77,5 +77,11 @@ static inline bool mmc_card_hs400es(struct mmc_card *card)
+>         return card->host->ios.enhanced_strobe;
+>  }
+>
+> +static inline bool mmc_card_sd_express(struct mmc_host *host)
+> +{
+> +       return host->ios.timing == MMC_TIMING_SD_EXP ||
+> +               host->ios.timing == MMC_TIMING_SD_EXP_1_2V;
+> +}
+> +
+>  #endif
+>
+> diff --git a/drivers/mmc/core/sd_ops.c b/drivers/mmc/core/sd_ops.c
+> index 22bf528294b9..d61ff811218c 100644
+> --- a/drivers/mmc/core/sd_ops.c
+> +++ b/drivers/mmc/core/sd_ops.c
+> @@ -158,7 +158,8 @@ int mmc_send_app_op_cond(struct mmc_host *host, u32 ocr, u32 *rocr)
+>         return err;
+>  }
+>
+> -int mmc_send_if_cond(struct mmc_host *host, u32 ocr)
+> +static int __mmc_send_if_cond(struct mmc_host *host, u32 ocr, u8 pcie_bits,
+> +                             u32 *resp)
+>  {
+>         struct mmc_command cmd = {};
+>         int err;
+> @@ -171,7 +172,7 @@ int mmc_send_if_cond(struct mmc_host *host, u32 ocr)
+>          * SD 1.0 cards.
+>          */
+>         cmd.opcode = SD_SEND_IF_COND;
+> -       cmd.arg = ((ocr & 0xFF8000) != 0) << 8 | test_pattern;
+> +       cmd.arg = ((ocr & 0xFF8000) != 0) << 8 | pcie_bits << 8 | test_pattern;
+>         cmd.flags = MMC_RSP_SPI_R7 | MMC_RSP_R7 | MMC_CMD_BCR;
+>
+>         err = mmc_wait_for_cmd(host, &cmd, 0);
+> @@ -186,6 +187,50 @@ int mmc_send_if_cond(struct mmc_host *host, u32 ocr)
+>         if (result_pattern != test_pattern)
+>                 return -EIO;
+>
+> +       if (resp)
+> +               *resp = cmd.resp[0];
+> +
+> +       return 0;
+> +}
+> +
+> +int mmc_send_if_cond(struct mmc_host *host, u32 ocr)
+> +{
+> +       return __mmc_send_if_cond(host, ocr, 0, NULL);
+> +}
+> +
+> +int mmc_send_if_cond_pcie(struct mmc_host *host, u32 ocr)
+> +{
+> +       u32 resp = 0;
+> +       u8 pcie_bits = 0;
+> +       int ret;
+> +
+> +       if (host->caps2 & MMC_CAP2_SD_EXP) {
+> +               /* Probe card for SD express support via PCIe. */
+> +               pcie_bits = 0x10;
+> +               if (host->caps2 & MMC_CAP2_SD_EXP_1_2V)
+> +                       /* Probe also for 1.2V support. */
+> +                       pcie_bits = 0x30;
+> +       }
+> +
+> +       ret = __mmc_send_if_cond(host, ocr, pcie_bits, &resp);
+> +       if (ret)
+> +               return 0;
+> +
+> +       /* Continue with the SD express init, if the card supports it. */
+> +       resp &= 0x3000;
+> +       if (pcie_bits && resp) {
+> +               if (resp == 0x3000)
+> +                       host->ios.timing = MMC_TIMING_SD_EXP_1_2V;
+> +               else
+> +                       host->ios.timing = MMC_TIMING_SD_EXP;
+> +
+> +               /*
+> +                * According to the spec the clock shall also be gated, but
+> +                * let's leave this to the host driver for more flexibility.
+> +                */
+> +               return host->ops->init_sd_express(host, &host->ios);
+> +       }
+> +
+>         return 0;
+>  }
+>
+> diff --git a/drivers/mmc/core/sd_ops.h b/drivers/mmc/core/sd_ops.h
+> index 2194cabfcfc5..3ba7b3cf4652 100644
+> --- a/drivers/mmc/core/sd_ops.h
+> +++ b/drivers/mmc/core/sd_ops.h
+> @@ -16,6 +16,7 @@ struct mmc_host;
+>  int mmc_app_set_bus_width(struct mmc_card *card, int width);
+>  int mmc_send_app_op_cond(struct mmc_host *host, u32 ocr, u32 *rocr);
+>  int mmc_send_if_cond(struct mmc_host *host, u32 ocr);
+> +int mmc_send_if_cond_pcie(struct mmc_host *host, u32 ocr);
+>  int mmc_send_relative_addr(struct mmc_host *host, unsigned int *rca);
+>  int mmc_app_send_scr(struct mmc_card *card);
+>  int mmc_sd_switch(struct mmc_card *card, int mode, int group,
+> diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
+> index c5b6e97cb21a..905cddc5e6f3 100644
+> --- a/include/linux/mmc/host.h
+> +++ b/include/linux/mmc/host.h
+> @@ -60,6 +60,8 @@ struct mmc_ios {
+>  #define MMC_TIMING_MMC_DDR52   8
+>  #define MMC_TIMING_MMC_HS200   9
+>  #define MMC_TIMING_MMC_HS400   10
+> +#define MMC_TIMING_SD_EXP      11
+> +#define MMC_TIMING_SD_EXP_1_2V 12
+>
+>         unsigned char   signal_voltage;         /* signalling voltage (1.8V or 3.3V) */
+>
+> @@ -172,6 +174,9 @@ struct mmc_host_ops {
+>          */
+>         int     (*multi_io_quirk)(struct mmc_card *card,
+>                                   unsigned int direction, int blk_size);
+> +
+> +       /* Initialize an SD express card, mandatory for MMC_CAP2_SD_EXP. */
+> +       int     (*init_sd_express)(struct mmc_host *host, struct mmc_ios *ios);
+>  };
+>
+>  struct mmc_cqe_ops {
+> @@ -357,6 +362,8 @@ struct mmc_host {
+>  #define MMC_CAP2_HS200_1_2V_SDR        (1 << 6)        /* can support */
+>  #define MMC_CAP2_HS200         (MMC_CAP2_HS200_1_8V_SDR | \
+>                                  MMC_CAP2_HS200_1_2V_SDR)
+> +#define MMC_CAP2_SD_EXP                (1 << 7)        /* SD express via PCIe */
+> +#define MMC_CAP2_SD_EXP_1_2V   (1 << 8)        /* SD express 1.2V */
+>  #define MMC_CAP2_CD_ACTIVE_HIGH        (1 << 10)       /* Card-detect signal active high */
+>  #define MMC_CAP2_RO_ACTIVE_HIGH        (1 << 11)       /* Write-protect signal active high */
+>  #define MMC_CAP2_NO_PRESCAN_POWERUP (1 << 14)  /* Don't power up before scan */
+> --
+> 2.20.1
+>
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
