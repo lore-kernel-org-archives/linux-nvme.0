@@ -2,84 +2,74 @@ Return-Path: <SRS0=kXjr=B7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B093C433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 00:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CFDEC433E1
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 00:30:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 289162076E
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 00:28:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 23DEB206B5
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 00:30:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2LXQDhp4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 289162076E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rd11jzKU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23DEB206B5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SKxehP+vZMDLVF0PuQCIMnbS4bM91Ir2L+naKCDpG58=; b=2LXQDhp4vkIWbJB57hFFAEgw1
-	7uXj+93cnUdua/8buYiEkGX++kIVRC/4vGWb2p4QV1408aDTwnYVvrrmsL3z9NEI5YYZM7lesyrUH
-	PIxvw/u49mV1azIsH7csuK5JwbD+9cUHWyQ9h+qmuv4uqQxUKq6eQm73cpQcK1mNrku5mVZXHNtBC
-	rEnemQ1MqW0OFWwSzwP2BgYx+vk1PnFx0xe28WeZY5c5Bz7YijP/kltx0a0jmI4v6OHHRiSPIUvJJ
-	0Jo0wpAkQKkG4WjnWzModOj4gWAFQvQQGVR4kKOHdNmQXqUgquYx+Y+zljWRr3+Bi04EuMrIajri+
-	QVZFY6bgw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=j5fNvxcTEowplpbjQFwYsEGSNBBBZW/zA8MXibn4p/c=; b=rd11jzKU3A3MotJ/p3JJ60TnXo
+	wAhvxVGuVYhb8OeW3Mdd6Bt5JvlFXjRzW53FbzFbVt86bdSKqt/AjytuWEObu6gar/HIk/dAPGlN2
+	auLhHobP1a2qtB/iUsYP/9fDKk+bEB3YotHyRcf2MQa+rBtDJ81yrrX+WMh622dH2+9+EvqhE3W0J
+	tTPDgmFARh0l0w2AHauif91hEv9Kv37ZY8RQoj0nCGL5czPZzSM+EzQyx6nGe0clFgWzHcbgLKukD
+	2erHaKChRlUaH+AG2MjvemkwewAXBSJi9++CerGcgE12ciYT2whmQtm/S7admzD1qBYB+4T8OFYF/
+	H979Ie9w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8uv4-0001Ym-BP; Fri, 21 Aug 2020 00:28:34 +0000
-Received: from mail-wm1-f65.google.com ([209.85.128.65])
+	id 1k8uwr-0001p6-92; Fri, 21 Aug 2020 00:30:25 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8uv2-0001YG-7s
- for linux-nvme@lists.infradead.org; Fri, 21 Aug 2020 00:28:33 +0000
-Received: by mail-wm1-f65.google.com with SMTP id 9so174607wmj.5
- for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2020 17:28:31 -0700 (PDT)
+ id 1k8uwo-0001oJ-Ih
+ for linux-nvme@lists.infradead.org; Fri, 21 Aug 2020 00:30:23 +0000
+Received: by mail-wm1-f51.google.com with SMTP id x5so200105wmi.2
+ for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2020 17:30:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=W5JFMLxD715Af+tLtiiQJstFKOydbczVj8UTFRmCq8c=;
- b=Buw3JBY1VOOICibE26dXxIMrnPL40Zvw5kRxMUHCgj95fyDwh3SJWPvQFO6dsuYUsB
- 6HxQ4ihsarezrm9t//06PrkcItRiq9sEbW9gZpZl1uqP8yO1lAWdnKM5nW9weMhRAnCp
- gwEio6jdRPxtoh1NAM/BAmyiSH+7Zy9RbWfLmpzOj8O22ck7oSC6vl1hKh6dOs1chvZ4
- ndFSohsDzgLcdY3MstGos6QVY1XeaifgvVaJzsbFILGH/AJb1mqk0aTDWzSBTD1wR1zc
- tIZyerP8cI1e/NFToQ3pfkR6HTFN0G6VhwSZgG5trNGIh+Xcs/mLac7Lqm+jZagnukMX
- Kxvw==
-X-Gm-Message-State: AOAM530D9VK8UEtt/D4VF9CCJvzuAuaUZ9oioVliHRP49xw6aMpb5QWK
- b1kndwZcXViQmQzkF8LdQSxm2efPkI0/GA==
-X-Google-Smtp-Source: ABdhPJx2Imv5J0s/AqtOz/KRpL8HBPzeQ1+umix6CCUnIuguc3Yz/n4gAFedWQFLqO4HScvm6d4Vew==
-X-Received: by 2002:a1c:5413:: with SMTP id i19mr923439wmb.139.1597969711098; 
- Thu, 20 Aug 2020 17:28:31 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:7ced:8569:4373:1bd3?
- ([2601:647:4802:9070:7ced:8569:4373:1bd3])
- by smtp.gmail.com with ESMTPSA id l81sm850834wmf.4.2020.08.20.17.28.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Aug 2020 17:28:30 -0700 (PDT)
-Subject: Re: [PATCH 5/7] nvme: Fix controller creation races with teardown flow
-To: James Smart <james.smart@broadcom.com>,
- Israel Rukshin <israelr@mellanox.com>,
- Linux-nvme <linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>
-References: <1585063785-14268-1-git-send-email-israelr@mellanox.com>
- <1585063785-14268-6-git-send-email-israelr@mellanox.com>
- <fad9c553-28cd-a40c-1a92-6e36fb7ad383@broadcom.com>
+ bh=XB/lXNRVDf6dy5hTMGUhjH+26NyDzmWZWR8JXbU96rY=;
+ b=LDCwKUuPcd1cOthfcfALOeIrMohCj4tSKgQbUN38JW0jpZYxwVMszph/lJYN8U8jC6
+ MvN+u/WqLeIp2zNo5ag3JHo9TtYKt0vYu6e73NgRXiH9RIWjMU5yoW7triJX3n9Pf6C6
+ qzNEO/SZbXYkVD0rHMCKphQEDVup5A8gltVc2JFfR1RVnV+UvUzrtO/Mcs4nfOvnXzqy
+ zqH0cXmaqqP+L2SaQKIqMcSgg7KqgbWhT+4qhOyHfVYSMaChuumruPi5+44U+JJjAtZc
+ QVyK9AmWwtac5CcbjlILY9ThnR3uaMbBInNVs6Mg01mnCY2z0eyD1xnJMl6Iadf9YtS5
+ mIkQ==
+X-Gm-Message-State: AOAM533xZxwTOfVo/GY5u1KTNCYGplrgvSK5tEWB1bKPnADWMd9GtUdT
+ NHdAR+8nqYB2FLIcdOxcCJI=
+X-Google-Smtp-Source: ABdhPJwwYYNHx/iUopSAOL5k8qeQjrRuIOYlrnxHg8gbWQMYfl+mUFlOpSy1/9nYad7G/d/JIlMEDA==
+X-Received: by 2002:a1c:6087:: with SMTP id u129mr889634wmb.157.1597969821199; 
+ Thu, 20 Aug 2020 17:30:21 -0700 (PDT)
+Received: from localhost.localdomain ([2601:647:4802:9070:7ced:8569:4373:1bd3])
+ by smtp.gmail.com with ESMTPSA id g12sm682194wmh.40.2020.08.20.17.30.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Aug 2020 17:30:20 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <53f22e11-057b-2db4-3511-95e7a9cc9c56@grimberg.me>
-Date: Thu, 20 Aug 2020 17:28:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To: Jens Axboe <axboe@kernel.dk>
+Subject: [GIT PULL] nvme fixes for 5.9-rc
+Date: Thu, 20 Aug 2020 17:30:15 -0700
+Message-Id: <20200821003015.682013-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <fad9c553-28cd-a40c-1a92-6e36fb7ad383@broadcom.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200820_202832_304070_5CD55EE9 
-X-CRM114-Status: GOOD (  13.70  )
+X-CRM114-CacheID: sfid-20200820_203022_632654_7CB09552 
+X-CRM114-Status: GOOD (  13.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +81,95 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Shlomi Nimrodi <shlomin@mellanox.com>, Max Gurtovoy <maxg@mellanox.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cj4gRllJIC0gSSd2ZSBoaXQgYSBzY2VuYXJpbyB3aXRoIHRoaXMgcGF0Y2gsIHdoZXJlIGlmIHRo
-ZSBkZXZpY2Ugc3RhcnRzIAo+IHJlamVjdGluZyB0aGUgaW5pdGlhbCBjb25uZWN0aW9ucyBvciB0
-aGV5IGNvbnRpbnVvdXNseSBoaXQgYSBmYWlsdXJlIC0gCj4gd2UncmUgZm9yY2VkIHRvIHdhaXQg
-Y3RybF9sb3NzX3RtbyBiZWZvcmUgaXQgZ29lcyBhd2F5LiBXZSBjYW4ndCAKPiBmb3JjaWJseSBk
-ZWxldGUgdGhlIGNvbnRyb2xsZXIgdmlhIHN5c2ZzLsKgIFRoaXMgc2hvdWxkbid0IGJlIHBvc3Np
-YmxlLgoKVGhlIHVzZXIgc2hvdWxkIGFsd2F5cyBiZSBhbGxvd2VkIHRvIGdldCByaWQgb2YgdGhl
-IGNvbnRyb2xsZXIuIFdlCnByb2JhYmx5IG5lZWQgdG8gZml4IHRoYXQuCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlz
-dApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+Hey Jens,
+
+The important fix here is the nvme-pci boot issue reported
+by Ahmed (addressed by John).
+
+Other than that we have:
+- nvme completion rework from Christoph and Chao that mostly
+  came from a bit of divergence of how we classify errors related
+  to pathing/retry etc.
+- nvmet passthru fixes from Chaitanya
+- minor nvmet fixes from Amit and I
+- mpath round-robin path selection fix from Martin
+- ignore noiob for zoned devices from Keith
+- minor nvme-fc fix from Tianjia
+
+Please pull.
+
+The following changes since commit 58d7a4ff70d18ec6dfb128626b19ae00d0f98264:
+
+  blkcg: fix memleak for iolatency (2020-08-19 08:09:39 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-5.9-rc
+
+for you to fetch changes up to 729d1456ea5fc53629a182e6590fd5fb1a2ab562:
+
+  nvmet: Disable keep-alive timer when kato is cleared to 0h (2020-08-20 12:06:53 -0700)
+
+----------------------------------------------------------------
+Amit Engel (1):
+      nvmet: Disable keep-alive timer when kato is cleared to 0h
+
+Chaitanya Kulkarni (3):
+      nvmet: add ns tear down label for pt-cmd handling
+      nvmet: fix oops in pt cmd execution
+      nvmet: call blk_mq_free_request() directly
+
+Chao Leng (1):
+      nvme: redirect commands on dying queue
+
+Christoph Hellwig (4):
+      nvme-pci: fix PRP pool size
+      nvme: rename and document nvme_end_request
+      nvme: refactor command completion
+      nvme: just check the status code type in nvme_is_path_error
+
+John Garry (1):
+      nvme-pci: Use u32 for nvme_dev.q_depth and nvme_queue.q_depth
+
+Keith Busch (1):
+      nvme: skip noiob for zoned devices
+
+Logan Gunthorpe (2):
+      nvmet-passthru: Reject commands with non-sgl flags set
+      nvme: Use spin_lock_irq() when taking the ctrl->lock
+
+Martin Wilck (2):
+      nvme: multipath: round-robin: fix single non-optimized path case
+      nvme: multipath: round-robin: eliminate "fallback" variable
+
+Sagi Grimberg (1):
+      nvmet: fix a memory leak
+
+Tianjia Zhang (1):
+      nvme-fc: Fix wrong return value in __nvme_fc_init_request()
+
+ .../fault-injection/nvme-fault-injection.rst       |  2 +-
+ drivers/nvme/host/core.c                           | 86 ++++++++++++++--------
+ drivers/nvme/host/fc.c                             |  6 +-
+ drivers/nvme/host/multipath.c                      | 69 +++++++----------
+ drivers/nvme/host/nvme.h                           | 31 +++++++-
+ drivers/nvme/host/pci.c                            | 17 +++--
+ drivers/nvme/host/rdma.c                           |  2 +-
+ drivers/nvme/host/tcp.c                            |  4 +-
+ drivers/nvme/target/configfs.c                     |  1 +
+ drivers/nvme/target/core.c                         |  6 ++
+ drivers/nvme/target/loop.c                         |  2 +-
+ drivers/nvme/target/passthru.c                     | 25 +++++--
+ 12 files changed, 148 insertions(+), 103 deletions(-)
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
