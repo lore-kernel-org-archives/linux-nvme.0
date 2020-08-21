@@ -1,79 +1,85 @@
-Return-Path: <SRS0=ANWg=B6=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=kXjr=B7=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D63C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 23:26:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B093C433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 00:28:41 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9CE3E20748
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Aug 2020 23:26:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 289162076E
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 00:28:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Q/gD53Pr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9CE3E20748
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2LXQDhp4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 289162076E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:Date:To:From:
-	Subject:Message-ID:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8UDm7698tOEDUaIDXfJoqXm4t3pfhS6UCj7ybCIOKZ4=; b=Q/gD53Prq4etzziuCV6TjlMkhN
-	bUDvCfVQfFQI05gGw+L45hPYiYPBTzrkZTR1tbW/CjO0qqhSrvNh/2WgdZCvocTdyRztIzw+sVXom
-	B0RiD3fls7JecoVJIABq0JQIc++BQe7xtdhBMmEgj+1BTKy1aWvj3vIvZkgeYuTX7bR5UtNelz6yL
-	h8rWugmBsmR8QCuibhPUbv6W9ubTADyHm1oasUfnSnl7YRwY+oLUTtzgq0VCwbOi2eMYYCSaEzfC1
-	VAdqCBzO7qQi1JX++yWzIJQREr1xRl+e+mYfDqJiwcMUygAXIl71fdu682ElQT842+khQhV5geNKO
-	/udH43LQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=SKxehP+vZMDLVF0PuQCIMnbS4bM91Ir2L+naKCDpG58=; b=2LXQDhp4vkIWbJB57hFFAEgw1
+	7uXj+93cnUdua/8buYiEkGX++kIVRC/4vGWb2p4QV1408aDTwnYVvrrmsL3z9NEI5YYZM7lesyrUH
+	PIxvw/u49mV1azIsH7csuK5JwbD+9cUHWyQ9h+qmuv4uqQxUKq6eQm73cpQcK1mNrku5mVZXHNtBC
+	rEnemQ1MqW0OFWwSzwP2BgYx+vk1PnFx0xe28WeZY5c5Bz7YijP/kltx0a0jmI4v6OHHRiSPIUvJJ
+	0Jo0wpAkQKkG4WjnWzModOj4gWAFQvQQGVR4kKOHdNmQXqUgquYx+Y+zljWRr3+Bi04EuMrIajri+
+	QVZFY6bgw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8txE-0002Z5-Ew; Thu, 20 Aug 2020 23:26:44 +0000
-Received: from mga06.intel.com ([134.134.136.31])
+	id 1k8uv4-0001Ym-BP; Fri, 21 Aug 2020 00:28:34 +0000
+Received: from mail-wm1-f65.google.com ([209.85.128.65])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8txB-0002YS-2l
- for linux-nvme@lists.infradead.org; Thu, 20 Aug 2020 23:26:42 +0000
-IronPort-SDR: LOGbB0YLCHraJ69YSSHrzEy6waR5DctCFE+EsZiXH4to2oqdlyVdKEtaSMe/Uvm3LlyXWb4Gxf
- ZCOl3EwYrVdA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9719"; a="216962892"
-X-IronPort-AV: E=Sophos;i="5.76,334,1592895600"; d="scan'208";a="216962892"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2020 16:26:37 -0700
-IronPort-SDR: 9Ky8mvGz0EN6h1i76ZR7v1lvNDl6DrRr3zpNs9V+NYGDw4SEgSPFiy5VWkb1qrPkhvjvx+kJ6N
- Hj1MJ1KtOSww==
-X-IronPort-AV: E=Sophos;i="5.76,334,1592895600"; d="scan'208";a="472830363"
-Received: from unknown (HELO dwf-u18040) ([10.232.115.15])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2020 16:26:36 -0700
-Message-ID: <0e911fce1c5c6f7dc01263ecdc280e76a0ea202f.camel@linux.intel.com>
-Subject: Re: [PATCH 2/2] nvme: add emulation for zone-append
-From: David Fugate <david.fugate@linux.intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Date: Thu, 20 Aug 2020 17:26:35 -0600
-In-Reply-To: <20200820034539.GA12222@redsun51.ssa.fujisawa.hgst.com>
-References: <20200818052936.10995-1-joshi.k@samsung.com>
- <CGME20200818053256epcas5p46d0b66b3702192eb6617c8bba334c15f@epcas5p4.samsung.com>
- <20200818052936.10995-3-joshi.k@samsung.com> <20200818071249.GB2544@lst.de>
- <b52854fe11640a5a5f54e08b1d3c7a556f97aad5.camel@linux.intel.com>
- <9fa64efe-8477-5d33-20ed-9619a9fe8d70@kernel.dk>
- <d19605da52eb7aa3eb4132ad1781b5fbf636a8a0.camel@linux.intel.com>
- <20200819221054.GB26818@dhcp-10-100-145-180.wdl.wdc.com>
- <d9cc3ece0c70b51c2d40998081375ad3fa39ece2.camel@linux.intel.com>
- <20200820034539.GA12222@redsun51.ssa.fujisawa.hgst.com>
-Organization: Intel
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
+ id 1k8uv2-0001YG-7s
+ for linux-nvme@lists.infradead.org; Fri, 21 Aug 2020 00:28:33 +0000
+Received: by mail-wm1-f65.google.com with SMTP id 9so174607wmj.5
+ for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2020 17:28:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W5JFMLxD715Af+tLtiiQJstFKOydbczVj8UTFRmCq8c=;
+ b=Buw3JBY1VOOICibE26dXxIMrnPL40Zvw5kRxMUHCgj95fyDwh3SJWPvQFO6dsuYUsB
+ 6HxQ4ihsarezrm9t//06PrkcItRiq9sEbW9gZpZl1uqP8yO1lAWdnKM5nW9weMhRAnCp
+ gwEio6jdRPxtoh1NAM/BAmyiSH+7Zy9RbWfLmpzOj8O22ck7oSC6vl1hKh6dOs1chvZ4
+ ndFSohsDzgLcdY3MstGos6QVY1XeaifgvVaJzsbFILGH/AJb1mqk0aTDWzSBTD1wR1zc
+ tIZyerP8cI1e/NFToQ3pfkR6HTFN0G6VhwSZgG5trNGIh+Xcs/mLac7Lqm+jZagnukMX
+ Kxvw==
+X-Gm-Message-State: AOAM530D9VK8UEtt/D4VF9CCJvzuAuaUZ9oioVliHRP49xw6aMpb5QWK
+ b1kndwZcXViQmQzkF8LdQSxm2efPkI0/GA==
+X-Google-Smtp-Source: ABdhPJx2Imv5J0s/AqtOz/KRpL8HBPzeQ1+umix6CCUnIuguc3Yz/n4gAFedWQFLqO4HScvm6d4Vew==
+X-Received: by 2002:a1c:5413:: with SMTP id i19mr923439wmb.139.1597969711098; 
+ Thu, 20 Aug 2020 17:28:31 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:7ced:8569:4373:1bd3?
+ ([2601:647:4802:9070:7ced:8569:4373:1bd3])
+ by smtp.gmail.com with ESMTPSA id l81sm850834wmf.4.2020.08.20.17.28.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Aug 2020 17:28:30 -0700 (PDT)
+Subject: Re: [PATCH 5/7] nvme: Fix controller creation races with teardown flow
+To: James Smart <james.smart@broadcom.com>,
+ Israel Rukshin <israelr@mellanox.com>,
+ Linux-nvme <linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>
+References: <1585063785-14268-1-git-send-email-israelr@mellanox.com>
+ <1585063785-14268-6-git-send-email-israelr@mellanox.com>
+ <fad9c553-28cd-a40c-1a92-6e36fb7ad383@broadcom.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <53f22e11-057b-2db4-3511-95e7a9cc9c56@grimberg.me>
+Date: Thu, 20 Aug 2020 17:28:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <fad9c553-28cd-a40c-1a92-6e36fb7ad383@broadcom.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200820_192641_262490_8CA14050 
-X-CRM114-Status: GOOD (  16.34  )
+X-CRM114-CacheID: sfid-20200820_202832_304070_5CD55EE9 
+X-CRM114-Status: GOOD (  13.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,44 +91,19 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: david.fugate@linux.intel.com
-Cc: Jens Axboe <axboe@kernel.dk>,
- "Damien.LeMoal@wdc.com" <Damien.LeMoal@wdc.com>,
- SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
- Kanchan Joshi <joshi.k@samsung.com>,
- "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Nitesh Shetty <nj.shetty@samsung.com>, david.fugate@intel.com,
- Javier Gonzalez <javier.gonz@samsung.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Shlomi Nimrodi <shlomin@mellanox.com>, Max Gurtovoy <maxg@mellanox.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2020-08-20 at 12:45 +0900, Keith Busch wrote:
-> For the record, the suggestion provided, which you agreed to look
-> into,
-> most broadly enables your hardware on Linux and was entirely to your
-> benefit. Not quite as dramatic as a political conspiracy.
-> 
-> You later responded with a technical argument against that
-> suggestion;
-> however, your reason didn't add up, and that's where you left the
-> thread.
-
-The suggestion to the rejected patch was passed onto the related FW
-team, and the "technical argument" was our FW team's response to the
-suggestion which I relayed to the list. At this point, there's no
-closure on whether the device will get NOIOB.
-
-My point in bringing up this example was a one-line, highly-
-maintainable patch which improves the performance of Linux should not
-have been immediatedly NAK'ed as it was. If you believe it should have,
-we'll agree to disagree.
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Cj4gRllJIC0gSSd2ZSBoaXQgYSBzY2VuYXJpbyB3aXRoIHRoaXMgcGF0Y2gsIHdoZXJlIGlmIHRo
+ZSBkZXZpY2Ugc3RhcnRzIAo+IHJlamVjdGluZyB0aGUgaW5pdGlhbCBjb25uZWN0aW9ucyBvciB0
+aGV5IGNvbnRpbnVvdXNseSBoaXQgYSBmYWlsdXJlIC0gCj4gd2UncmUgZm9yY2VkIHRvIHdhaXQg
+Y3RybF9sb3NzX3RtbyBiZWZvcmUgaXQgZ29lcyBhd2F5LiBXZSBjYW4ndCAKPiBmb3JjaWJseSBk
+ZWxldGUgdGhlIGNvbnRyb2xsZXIgdmlhIHN5c2ZzLsKgIFRoaXMgc2hvdWxkbid0IGJlIHBvc3Np
+YmxlLgoKVGhlIHVzZXIgc2hvdWxkIGFsd2F5cyBiZSBhbGxvd2VkIHRvIGdldCByaWQgb2YgdGhl
+IGNvbnRyb2xsZXIuIFdlCnByb2JhYmx5IG5lZWQgdG8gZml4IHRoYXQuCgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlz
+dApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
