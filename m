@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25314C433E3
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 08:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BC29C433E5
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 08:56:59 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EA7072087D
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 08:56:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 29679207DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 08:56:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2RTUXGxP";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MgQe8ygJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA7072087D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mR3ytP0w";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VGlK22TF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 29679207DF
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=J0J4Oiqo3q6bgHUmC4ocN10tzZU1rJvahM8gcxnAzXs=; b=2RTUXGxPIYRgVS/fF1wsvLP6A
-	hJ5lCmbgGTh6UuGX1ru7hVyETyLR9w7GGGcJOuwQ9FIZuUULex0E3AzrxZIB7J1yW90kzTml3RhIy
-	c89uJfzJrHehlHXHQrJLkFewRsZeSHvuHmHJnuzXPegbiLGNtHW/JvD5/iQXnr6mOZhfRAOX2dzup
-	/jevADAjQ6J76iaUjwFGEFym0rTb1tJjt7iDYuXQKgmAUKnJk72xF71enSzinZ1LGTsO94qOAPZiu
-	0v3L6sUMyYsxs2Lrtnqv0kMZHxR5K33rzfd/qK2M6/sqs6WwOz5Op9jeYfKGyLJu8hiRNyJTJX9N6
-	ifPb+fx6Q==;
+	 bh=IY/RzRSqllalBN0a1UA8caFHTWPRwZ3ihRIVxGcl11U=; b=mR3ytP0wEMSwn7ag2gLE5lU7b
+	tL//dYQW02yEMVsYoPiH4YrBryv8AbgV5rY5hohKL1GQp9Y1CbL9BlXwUiD1BoiefAhr9VL2SVpyU
+	69zGJAMnFLjyyqyter34G9+L5qZUPYENuTt/yBz3dmhFXDF6eMM2gwxkV1TTAGn0t3BnOkM2PURbG
+	XAtjGRocc4TAxWmweHhFya47AWzI/2yFS9OfCVbMwIawjbzZuy+KNiFWyI+bdfP4iR+xERxesHr9a
+	ceaql7I/a1tYp0QmUnBDQquQEoEUWu0eDztCmyQdu8VPgCASyWsUiEL6xnK1cdBTBNlNA4n8r5zkC
+	pKKmfQdyQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k92qw-0000SV-5d; Fri, 21 Aug 2020 08:56:50 +0000
+	id 1k92qy-0000Tp-Ae; Fri, 21 Aug 2020 08:56:52 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k92qu-0000Rk-8F
+ id 1k92qu-0000Rc-A3
  for linux-nvme@merlin.infradead.org; Fri, 21 Aug 2020 08:56:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=uWaR8ApvantUpqM86y/P+6964AqbZfZtPRdoPrYZqfs=; b=MgQe8ygJsGxVWTDs/6RJy96JPB
- VtEmPGH+UDa28L63F0p/Z+BU1XxgztmIcYxmlMnxcWr23Mx+6+3yrLIBMxp44IRYs9b5AqEXuJICo
- MWrYUt7rShYAaxKre4rWWSxUg4nxh5z4xBvwUiPnmV+jbZezQxadkhsJtMZlfKZS33g8+8zMn3oIa
- Hq41L9p3XhAR80AiSLXzLOiC4z0PMLQF3ny63yyWIyhWkwhBckgXQIrtUA9B2a5EJVcpY3vRwSATX
- LPVtPxAm+uPcIJPkoMzHuag1UZFHKcrtUtj+asivrOR4k4VprvTVymJYxqcqdNC3eGh0bU6eiTxUF
- pS4gYSDw==;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=qnhv8iYHAvUTE/7CFzUHZuKNCiy/aV6RSD2K0k6RE/I=; b=VGlK22TFQ43z+zqnc6T7CIKRZa
+ 7vKFed5EW0wEXRUGlLIyXKioi8CVgOBlYcWHAnqfuu5TWNhINW7TtAWeVZqUuNlouA9/qhsRrqUDT
+ LCJghbOrhnfYVA9xrJqsdDcgP86Cx4l9jOd3gdi7KYTzX5UD7TAsqYAeN5S7VYCzGOUH4Ic20BE+u
+ TOxcjaGkRnPKdtQnE32OD6lsVrDv56r4IOsiRIKTfEbcV569sv0ta0JisbOiTbVE15iilpVKFMOlo
+ wkIZ4P6dz2/7GVXuF+WO+fkvsZpC7LocgkFZ5YJOweI2VV16tZqdPKrc2XVJdbIOa1yxtR4pCIlZz
+ q6UIyDHw==;
 Received: from [2001:4bb8:198:f3b2:a2b:85ba:fb78:c253] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k92qV-0007hN-AY; Fri, 21 Aug 2020 08:56:25 +0000
+ id 1k92qM-0007g0-RC; Fri, 21 Aug 2020 08:56:16 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 2/2] block: fix locking for struct block_device size updates
-Date: Fri, 21 Aug 2020 10:56:00 +0200
-Message-Id: <20200821085600.2395666-3-hch@lst.de>
+Subject: [PATCH 1/2] block: replace bd_set_size with bd_set_nr_sectors
+Date: Fri, 21 Aug 2020 10:55:59 +0200
+Message-Id: <20200821085600.2395666-2-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200821085600.2395666-1-hch@lst.de>
 References: <20200821085600.2395666-1-hch@lst.de>
@@ -79,117 +79,163 @@ Cc: linux-s390@vger.kernel.org, Jan Hoeppner <hoeppner@linux.ibm.com>,
  Josef Bacik <josef@toxicpanda.com>, Xianting Tian <xianting_tian@126.com>,
  linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, dm-devel@redhat.com,
  Stefan Haberland <sth@linux.ibm.com>, nbd@other.debian.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-VHdvIGRpZmZlcmVudCBjYWxsZXJzIHVzZSB0d28gZGlmZmVyZW50IG11dGV4ZXMgZm9yIHVwZGF0
-aW5nIHRoZQpibG9jayBkZXZpY2Ugc2l6ZSwgd2hpY2ggb2J2aW91c2x5IGRvZXNuJ3QgaGVscCB0
-byBhY3R1YWxseSBwcm90ZWN0CmFnYWluc3QgY29uY3VycmVudCB1cGRhdGVzIGZyb20gdGhlIGRp
-ZmZlcmVudCBjYWxsZXJzLiAgSW4gYWRkaXRpb24Kb25lIG9mIHRoZSBsb2NrcywgYmRfbXV0ZXgg
-aXMgcmF0aGVyIHByb25lIHRvIGRlYWRsb2NrcyB3aXRoIG90aGVyCnBhcnRzIG9mIHRoZSBibG9j
-ayBzdGFjayB0aGF0IHVzZSBpdCBmb3IgaGlnaCBsZXZlbCBzeW5jaHJvbml6YXRpb24uCgpTd2l0
-Y2ggdG8gdXNpbmcgYSBuZXcgc3BpbmxvY2sgcHJvdGVjdGluZyBqdXN0IHRoZSBzaXplIHVwZGF0
-ZXMsIGFzCnRoYXQgaXMgYWxsIHdlIG5lZWQsIGFuZCBtYWtlIHN1cmUgZXZlcnlvbmUgZG9lcyB0
-aGUgdXBkYXRlIHRocm91Z2gKdGhlIHByb3BlciBoZWxwZXIuCgpUaGlzIGZpeGXRlSBhIGJ1ZyBy
-ZXBvcnRlZCB3aXRoIHRoZSBudm1lIHJldmFsaWRhdGluZyBkaXNrcyBkdXJpbmcgYQpob3QgcmVt
-b3ZhbCBvcGVyYXRpb24uCgpSZXBvcnRlZC1ieTogWGlhbnRpbmcgVGlhbiA8eGlhbnRpbmdfdGlh
-bkAxMjYuY29tPgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4K
-LS0tCiBibG9jay9wYXJ0aXRpb25zL2NvcmUuYyAgICAgICAgIHwgIDQgKystLQogZHJpdmVycy9i
-bG9jay9hb2UvYW9lY21kLmMgICAgICB8ICA0ICstLS0KIGRyaXZlcnMvbWQvZG0uYyAgICAgICAg
-ICAgICAgICAgfCAxNSArKy0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvczM5MC9ibG9jay9kYXNkX2lv
-Y3RsLmMgfCAgOSArKy0tLS0tLS0KIGZzL2Jsb2NrX2Rldi5jICAgICAgICAgICAgICAgICAgfCAx
-OCArKysrKysrKystLS0tLS0tLS0KIGluY2x1ZGUvbGludXgvYmxrX3R5cGVzLmggICAgICAgfCAg
-MSArCiA2IGZpbGVzIGNoYW5nZWQsIDE3IGluc2VydGlvbnMoKyksIDM0IGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2Jsb2NrL3BhcnRpdGlvbnMvY29yZS5jIGIvYmxvY2svcGFydGl0aW9ucy9j
-b3JlLmMKaW5kZXggZTYyYTk4YThlZWI3NTAuLjMyOGEyY2I3ODc1YmExIDEwMDY0NAotLS0gYS9i
-bG9jay9wYXJ0aXRpb25zL2NvcmUuYworKysgYi9ibG9jay9wYXJ0aXRpb25zL2NvcmUuYwpAQCAt
-NTg1LDggKzU4NSw4IEBAIGludCBiZGV2X3Jlc2l6ZV9wYXJ0aXRpb24oc3RydWN0IGJsb2NrX2Rl
-dmljZSAqYmRldiwgaW50IHBhcnRubywKIAlpZiAocGFydGl0aW9uX292ZXJsYXBzKGJkZXYtPmJk
-X2Rpc2ssIHN0YXJ0LCBsZW5ndGgsIHBhcnRubykpCiAJCWdvdG8gb3V0X3VubG9jazsKIAotCXBh
-cnRfbnJfc2VjdHNfd3JpdGUocGFydCwgKHNlY3Rvcl90KWxlbmd0aCk7Ci0JaV9zaXplX3dyaXRl
-KGJkZXZwLT5iZF9pbm9kZSwgbGVuZ3RoIDw8IFNFQ1RPUl9TSElGVCk7CisJcGFydF9ucl9zZWN0
-c193cml0ZShwYXJ0LCBsZW5ndGgpOworCWJkX3NldF9ucl9zZWN0b3JzKGJkZXZwLCBsZW5ndGgp
-OwogCiAJcmV0ID0gMDsKIG91dF91bmxvY2s6CmRpZmYgLS1naXQgYS9kcml2ZXJzL2Jsb2NrL2Fv
-ZS9hb2VjbWQuYyBiL2RyaXZlcnMvYmxvY2svYW9lL2FvZWNtZC5jCmluZGV4IDNjZjliYzVkOGQ5
-NTk5Li42YWQ3M2ZlNzMwYmVkZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ibG9jay9hb2UvYW9lY21k
-LmMKKysrIGIvZHJpdmVycy9ibG9jay9hb2UvYW9lY21kLmMKQEAgLTkwMCw5ICs5MDAsNyBAQCBh
-b2VjbWRfc2xlZXB3b3JrKHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKIAkJc3NpemUgPSBnZXRf
-Y2FwYWNpdHkoZC0+Z2QpOwogCQliZCA9IGJkZ2V0X2Rpc2soZC0+Z2QsIDApOwogCQlpZiAoYmQp
-IHsKLQkJCWlub2RlX2xvY2soYmQtPmJkX2lub2RlKTsKLQkJCWlfc2l6ZV93cml0ZShiZC0+YmRf
-aW5vZGUsIChsb2ZmX3Qpc3NpemU8PDkpOwotCQkJaW5vZGVfdW5sb2NrKGJkLT5iZF9pbm9kZSk7
-CisJCQliZF9zZXRfbnJfc2VjdG9ycyhiZCwgc3NpemUpOwogCQkJYmRwdXQoYmQpOwogCQl9CiAJ
-CXNwaW5fbG9ja19pcnEoJmQtPmxvY2spOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZC9kbS5jIGIv
-ZHJpdmVycy9tZC9kbS5jCmluZGV4IDMyZmE2NDk5NzM5ZmI5Li42YjIxZTUxMDRlM2UwOCAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9tZC9kbS5jCisrKyBiL2RyaXZlcnMvbWQvZG0uYwpAQCAtMjA5Nywx
-OCArMjA5Nyw2IEBAIHN0YXRpYyB2b2lkIGV2ZW50X2NhbGxiYWNrKHZvaWQgKmNvbnRleHQpCiAJ
-ZG1faXNzdWVfZ2xvYmFsX2V2ZW50KCk7CiB9CiAKLS8qCi0gKiBQcm90ZWN0ZWQgYnkgbWQtPnN1
-c3BlbmRfbG9jayBvYnRhaW5lZCBieSBkbV9zd2FwX3RhYmxlKCkuCi0gKi8KLXN0YXRpYyB2b2lk
-IF9fc2V0X3NpemUoc3RydWN0IG1hcHBlZF9kZXZpY2UgKm1kLCBzZWN0b3JfdCBzaXplKQotewot
-CWxvY2tkZXBfYXNzZXJ0X2hlbGQoJm1kLT5zdXNwZW5kX2xvY2spOwotCi0Jc2V0X2NhcGFjaXR5
-KG1kLT5kaXNrLCBzaXplKTsKLQotCWlfc2l6ZV93cml0ZShtZC0+YmRldi0+YmRfaW5vZGUsIChs
-b2ZmX3Qpc2l6ZSA8PCBTRUNUT1JfU0hJRlQpOwotfQotCiAvKgogICogUmV0dXJucyBvbGQgbWFw
-LCB3aGljaCBjYWxsZXIgbXVzdCBkZXN0cm95LgogICovCkBAIC0yMTMxLDcgKzIxMTksOCBAQCBz
-dGF0aWMgc3RydWN0IGRtX3RhYmxlICpfX2JpbmQoc3RydWN0IG1hcHBlZF9kZXZpY2UgKm1kLCBz
-dHJ1Y3QgZG1fdGFibGUgKnQsCiAJaWYgKHNpemUgIT0gZG1fZ2V0X3NpemUobWQpKQogCQltZW1z
-ZXQoJm1kLT5nZW9tZXRyeSwgMCwgc2l6ZW9mKG1kLT5nZW9tZXRyeSkpOwogCi0JX19zZXRfc2l6
-ZShtZCwgc2l6ZSk7CisJc2V0X2NhcGFjaXR5KG1kLT5kaXNrLCBzaXplKTsKKwliZF9zZXRfbnJf
-c2VjdG9ycyhtZC0+YmRldiwgc2l6ZSk7CiAKIAlkbV90YWJsZV9ldmVudF9jYWxsYmFjayh0LCBl
-dmVudF9jYWxsYmFjaywgbWQpOwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL3MzOTAvYmxvY2svZGFz
-ZF9pb2N0bC5jIGIvZHJpdmVycy9zMzkwL2Jsb2NrL2Rhc2RfaW9jdGwuYwppbmRleCA3Nzc3MzRk
-MWI0ZTU4Yy4uZmFhZjU1OTZlMzFjMTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvczM5MC9ibG9jay9k
-YXNkX2lvY3RsLmMKKysrIGIvZHJpdmVycy9zMzkwL2Jsb2NrL2Rhc2RfaW9jdGwuYwpAQCAtNTUs
-MTAgKzU1LDcgQEAgZGFzZF9pb2N0bF9lbmFibGUoc3RydWN0IGJsb2NrX2RldmljZSAqYmRldikK
-IAogCWRhc2RfZW5hYmxlX2RldmljZShiYXNlKTsKIAkvKiBGb3JtYXR0aW5nIHRoZSBkYXNkIGRl
-dmljZSBjYW4gY2hhbmdlIHRoZSBjYXBhY2l0eS4gKi8KLQltdXRleF9sb2NrKCZiZGV2LT5iZF9t
-dXRleCk7Ci0JaV9zaXplX3dyaXRlKGJkZXYtPmJkX2lub2RlLAotCQkgICAgIChsb2ZmX3QpZ2V0
-X2NhcGFjaXR5KGJhc2UtPmJsb2NrLT5nZHApIDw8IDkpOwotCW11dGV4X3VubG9jaygmYmRldi0+
-YmRfbXV0ZXgpOworCWJkX3NldF9ucl9zZWN0b3JzKGJkZXYsIGdldF9jYXBhY2l0eShiYXNlLT5i
-bG9jay0+Z2RwKSk7CiAJZGFzZF9wdXRfZGV2aWNlKGJhc2UpOwogCXJldHVybiAwOwogfQpAQCAt
-OTEsOSArODgsNyBAQCBkYXNkX2lvY3RsX2Rpc2FibGUoc3RydWN0IGJsb2NrX2RldmljZSAqYmRl
-dikKIAkgKiBTZXQgaV9zaXplIHRvIHplcm8sIHNpbmNlIHJlYWQsIHdyaXRlLCBldGMuIGNoZWNr
-IGFnYWluc3QgdGhpcwogCSAqIHZhbHVlLgogCSAqLwotCW11dGV4X2xvY2soJmJkZXYtPmJkX211
-dGV4KTsKLQlpX3NpemVfd3JpdGUoYmRldi0+YmRfaW5vZGUsIDApOwotCW11dGV4X3VubG9jaygm
-YmRldi0+YmRfbXV0ZXgpOworCWJkX3NldF9ucl9zZWN0b3JzKGJkZXYsIDApOwogCWRhc2RfcHV0
-X2RldmljZShiYXNlKTsKIAlyZXR1cm4gMDsKIH0KZGlmZiAtLWdpdCBhL2ZzL2Jsb2NrX2Rldi5j
-IGIvZnMvYmxvY2tfZGV2LmMKaW5kZXggZjUyNTk3MTcyYzhiNzkuLmFhNTU5ZjFmMDg4MDBlIDEw
-MDY0NAotLS0gYS9mcy9ibG9ja19kZXYuYworKysgYi9mcy9ibG9ja19kZXYuYwpAQCAtODc2LDYg
-Kzg3Niw3IEBAIHN0cnVjdCBibG9ja19kZXZpY2UgKmJkZ2V0KGRldl90IGRldikKIAliZGV2ID0g
-JkJERVZfSShpbm9kZSktPmJkZXY7CiAKIAlpZiAoaW5vZGUtPmlfc3RhdGUgJiBJX05FVykgewor
-CQlzcGluX2xvY2tfaW5pdCgmYmRldi0+YmRfc2l6ZV9sb2NrKTsKIAkJYmRldi0+YmRfY29udGFp
-bnMgPSBOVUxMOwogCQliZGV2LT5iZF9zdXBlciA9IE5VTEw7CiAJCWJkZXYtPmJkX2lub2RlID0g
-aW5vZGU7CkBAIC0xMjkwLDYgKzEyOTEsNyBAQCBzdGF0aWMgdm9pZCBjaGVja19kaXNrX3NpemVf
-Y2hhbmdlKHN0cnVjdCBnZW5kaXNrICpkaXNrLAogewogCWxvZmZfdCBkaXNrX3NpemUsIGJkZXZf
-c2l6ZTsKIAorCXNwaW5fbG9jaygmYmRldi0+YmRfc2l6ZV9sb2NrKTsKIAlkaXNrX3NpemUgPSAo
-bG9mZl90KWdldF9jYXBhY2l0eShkaXNrKSA8PCA5OwogCWJkZXZfc2l6ZSA9IGlfc2l6ZV9yZWFk
-KGJkZXYtPmJkX2lub2RlKTsKIAlpZiAoZGlza19zaXplICE9IGJkZXZfc2l6ZSkgewpAQCAtMTMw
-NCw2ICsxMzA2LDcgQEAgc3RhdGljIHZvaWQgY2hlY2tfZGlza19zaXplX2NoYW5nZShzdHJ1Y3Qg
-Z2VuZGlzayAqZGlzaywKIAkJCQlkaXNrLT5kaXNrX25hbWUpOwogCX0KIAliZGV2LT5iZF9pbnZh
-bGlkYXRlZCA9IDA7CisJc3Bpbl91bmxvY2soJmJkZXYtPmJkX3NpemVfbG9jayk7CiB9CiAKIC8q
-KgpAQCAtMTMyOCwxMyArMTMzMSwxMCBAQCBpbnQgcmV2YWxpZGF0ZV9kaXNrKHN0cnVjdCBnZW5k
-aXNrICpkaXNrKQogCWlmICghKGRpc2stPmZsYWdzICYgR0VOSERfRkxfSElEREVOKSkgewogCQlz
-dHJ1Y3QgYmxvY2tfZGV2aWNlICpiZGV2ID0gYmRnZXRfZGlzayhkaXNrLCAwKTsKIAotCQlpZiAo
-IWJkZXYpCi0JCQlyZXR1cm4gcmV0OwotCi0JCW11dGV4X2xvY2soJmJkZXYtPmJkX211dGV4KTsK
-LQkJY2hlY2tfZGlza19zaXplX2NoYW5nZShkaXNrLCBiZGV2LCByZXQgPT0gMCk7Ci0JCW11dGV4
-X3VubG9jaygmYmRldi0+YmRfbXV0ZXgpOwotCQliZHB1dChiZGV2KTsKKwkJaWYgKGJkZXYpIHsK
-KwkJCWNoZWNrX2Rpc2tfc2l6ZV9jaGFuZ2UoZGlzaywgYmRldiwgcmV0ID09IDApOworCQkJYmRw
-dXQoYmRldik7CisJCX0KIAl9CiAJcmV0dXJuIHJldDsKIH0KQEAgLTEzNzMsOSArMTM3Myw5IEBA
-IEVYUE9SVF9TWU1CT0woY2hlY2tfZGlza19jaGFuZ2UpOwogCiB2b2lkIGJkX3NldF9ucl9zZWN0
-b3JzKHN0cnVjdCBibG9ja19kZXZpY2UgKmJkZXYsIHNlY3Rvcl90IHNlY3RvcnMpCiB7Ci0JaW5v
-ZGVfbG9jayhiZGV2LT5iZF9pbm9kZSk7CisJc3Bpbl9sb2NrKCZiZGV2LT5iZF9zaXplX2xvY2sp
-OwogCWlfc2l6ZV93cml0ZShiZGV2LT5iZF9pbm9kZSwgKGxvZmZfdClzZWN0b3JzIDw8IFNFQ1RP
-Ul9TSElGVCk7Ci0JaW5vZGVfdW5sb2NrKGJkZXYtPmJkX2lub2RlKTsKKwlzcGluX3VubG9jaygm
-YmRldi0+YmRfc2l6ZV9sb2NrKTsKIH0KIEVYUE9SVF9TWU1CT0woYmRfc2V0X25yX3NlY3RvcnMp
-OwogCmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2Jsa190eXBlcy5oIGIvaW5jbHVkZS9saW51
-eC9ibGtfdHlwZXMuaAppbmRleCA0ZWNmNGZlZDE3MWYwZC4uNWFjY2MyNTQ5ZDIyNTkgMTAwNjQ0
-Ci0tLSBhL2luY2x1ZGUvbGludXgvYmxrX3R5cGVzLmgKKysrIGIvaW5jbHVkZS9saW51eC9ibGtf
-dHlwZXMuaApAQCAtMzgsNiArMzgsNyBAQCBzdHJ1Y3QgYmxvY2tfZGV2aWNlIHsKIAkvKiBudW1i
-ZXIgb2YgdGltZXMgcGFydGl0aW9ucyB3aXRoaW4gdGhpcyBkZXZpY2UgaGF2ZSBiZWVuIG9wZW5l
-ZC4gKi8KIAl1bnNpZ25lZAkJYmRfcGFydF9jb3VudDsKIAlpbnQJCQliZF9pbnZhbGlkYXRlZDsK
-KwlzcGlubG9ja190CQliZF9zaXplX2xvY2s7IC8qIGZvciBiZF9pbm9kZS0+aV9zaXplIHVwZGF0
-ZXMgKi8KIAlzdHJ1Y3QgZ2VuZGlzayAqCWJkX2Rpc2s7CiAJc3RydWN0IGJhY2tpbmdfZGV2X2lu
-Zm8gKmJkX2JkaTsKIAotLSAKMi4yOC4wCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0
-cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGlu
-Zm8vbGludXgtbnZtZQo=
+Replace bd_set_size with a version that takes the number of sectors
+instead, as that fits most of the current and future callers much better.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/block/loop.c     |  4 ++--
+ drivers/block/nbd.c      |  7 ++++---
+ drivers/block/pktcdvd.c  |  2 +-
+ drivers/nvme/host/nvme.h |  2 +-
+ fs/block_dev.c           | 10 +++++-----
+ include/linux/genhd.h    |  2 +-
+ 6 files changed, 14 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 2f137d6ce169d5..7069899a94903e 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -253,7 +253,7 @@ static void loop_set_size(struct loop_device *lo, loff_t size)
+ {
+ 	struct block_device *bdev = lo->lo_device;
+ 
+-	bd_set_size(bdev, size << SECTOR_SHIFT);
++	bd_set_nr_sectors(bdev, size);
+ 
+ 	set_capacity_revalidate_and_notify(lo->lo_disk, size, false);
+ }
+@@ -1248,7 +1248,7 @@ static int __loop_clr_fd(struct loop_device *lo, bool release)
+ 	set_capacity(lo->lo_disk, 0);
+ 	loop_sysfs_exit(lo);
+ 	if (bdev) {
+-		bd_set_size(bdev, 0);
++		bd_set_nr_sectors(bdev, 0);
+ 		/* let user-space know about this change */
+ 		kobject_uevent(&disk_to_dev(bdev->bd_disk)->kobj, KOBJ_CHANGE);
+ 	}
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index 3ff4054d6834d2..f07243335472a4 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -300,6 +300,7 @@ static void nbd_size_update(struct nbd_device *nbd)
+ {
+ 	struct nbd_config *config = nbd->config;
+ 	struct block_device *bdev = bdget_disk(nbd->disk, 0);
++	sector_t nr_sectors = config->bytesize >> 9;
+ 
+ 	if (config->flags & NBD_FLAG_SEND_TRIM) {
+ 		nbd->disk->queue->limits.discard_granularity = config->blksize;
+@@ -308,10 +309,10 @@ static void nbd_size_update(struct nbd_device *nbd)
+ 	}
+ 	blk_queue_logical_block_size(nbd->disk->queue, config->blksize);
+ 	blk_queue_physical_block_size(nbd->disk->queue, config->blksize);
+-	set_capacity(nbd->disk, config->bytesize >> 9);
++	set_capacity(nbd->disk, nr_sectors);
+ 	if (bdev) {
+ 		if (bdev->bd_disk) {
+-			bd_set_size(bdev, config->bytesize);
++			bd_set_nr_sectors(bdev, nr_sectors);
+ 			set_blocksize(bdev, config->blksize);
+ 		} else
+ 			bdev->bd_invalidated = 1;
+@@ -1138,7 +1139,7 @@ static void nbd_bdev_reset(struct block_device *bdev)
+ {
+ 	if (bdev->bd_openers > 1)
+ 		return;
+-	bd_set_size(bdev, 0);
++	bd_set_nr_sectors(bdev, 0);
+ }
+ 
+ static void nbd_parse_flags(struct nbd_device *nbd)
+diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
+index 4becc1efe775fc..015fe128fa8a35 100644
+--- a/drivers/block/pktcdvd.c
++++ b/drivers/block/pktcdvd.c
+@@ -2192,7 +2192,7 @@ static int pkt_open_dev(struct pktcdvd_device *pd, fmode_t write)
+ 
+ 	set_capacity(pd->disk, lba << 2);
+ 	set_capacity(pd->bdev->bd_disk, lba << 2);
+-	bd_set_size(pd->bdev, (loff_t)lba << 11);
++	bd_set_nr_sectors(pd->bdev, lba << 2);
+ 
+ 	q = bdev_get_queue(pd->bdev);
+ 	if (write) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ebb8c3ed388554..ae5cad5a08f411 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -664,7 +664,7 @@ static inline void nvme_mpath_update_disk_size(struct gendisk *disk)
+ 	struct block_device *bdev = bdget_disk(disk, 0);
+ 
+ 	if (bdev) {
+-		bd_set_size(bdev, get_capacity(disk) << SECTOR_SHIFT);
++		bd_set_nr_sectors(bdev, get_capacity(disk));
+ 		bdput(bdev);
+ 	}
+ }
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 8ae833e004439b..f52597172c8b79 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -1371,13 +1371,13 @@ int check_disk_change(struct block_device *bdev)
+ 
+ EXPORT_SYMBOL(check_disk_change);
+ 
+-void bd_set_size(struct block_device *bdev, loff_t size)
++void bd_set_nr_sectors(struct block_device *bdev, sector_t sectors)
+ {
+ 	inode_lock(bdev->bd_inode);
+-	i_size_write(bdev->bd_inode, size);
++	i_size_write(bdev->bd_inode, (loff_t)sectors << SECTOR_SHIFT);
+ 	inode_unlock(bdev->bd_inode);
+ }
+-EXPORT_SYMBOL(bd_set_size);
++EXPORT_SYMBOL(bd_set_nr_sectors);
+ 
+ static void __blkdev_put(struct block_device *bdev, fmode_t mode, int for_part);
+ 
+@@ -1514,7 +1514,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, void *holder,
+ 			}
+ 
+ 			if (!ret) {
+-				bd_set_size(bdev,(loff_t)get_capacity(disk)<<9);
++				bd_set_nr_sectors(bdev, get_capacity(disk));
+ 				set_init_blocksize(bdev);
+ 			}
+ 
+@@ -1542,7 +1542,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, void *holder,
+ 				ret = -ENXIO;
+ 				goto out_clear;
+ 			}
+-			bd_set_size(bdev, (loff_t)bdev->bd_part->nr_sects << 9);
++			bd_set_nr_sectors(bdev, bdev->bd_part->nr_sects);
+ 			set_init_blocksize(bdev);
+ 		}
+ 
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index 4ab853461dff25..39025dc0397c04 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -375,7 +375,7 @@ void unregister_blkdev(unsigned int major, const char *name);
+ int revalidate_disk(struct gendisk *disk);
+ int check_disk_change(struct block_device *bdev);
+ int __invalidate_device(struct block_device *bdev, bool kill_dirty);
+-void bd_set_size(struct block_device *bdev, loff_t size);
++void bd_set_nr_sectors(struct block_device *bdev, sector_t sectors);
+ 
+ /* for drivers/char/raw.c: */
+ int blkdev_ioctl(struct block_device *, fmode_t, unsigned, unsigned long);
+-- 
+2.28.0
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
