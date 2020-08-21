@@ -2,91 +2,69 @@ Return-Path: <SRS0=kXjr=B7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,
+	DATE_IN_FUTURE_06_12,DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E8BC433E3
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 01:56:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 092C1C433E1
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 05:13:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 975A22075E
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 01:56:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CB545208E4
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Aug 2020 05:13:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MJySw/AO";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="pWwD6oEC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 975A22075E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BA0mPqzo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB545208E4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=cE4u7czjsYYf8wMAU6D/+y1xlKDB72XEfUTq11VdbO4=; b=MJySw/AOFECUv9lrzGYur6/6T
-	7u8WDPVNfzNJtqQWapOIByVSpC6rYoMWccVLUI5dgcjilWFNiBDiNBh31fU4nXGFTDc22osp+MoLR
-	ZB3BXHPuiGR/4mlCT2K3pD8ks6AdC3HDxeirKkehFHMr3kVxJS6tEzpxKS4jwH4vxnZhK0iYUBGAY
-	OUUKaGO0l0OeCjq7yvxLxnS5KQ/SbCPeP8WeiykSRQJp02XA8A+o/9RJmEX+t2nyZzBTG/3K/uAaG
-	LyLzuC2xagsKHiMxgYSw7axDcZj1vgpwQ6frCNHzNdL33fE6O9LLQva7H8AglTXlao5pDUEWpxX1T
-	FTgmn87qA==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MRWBglIKVyYZA7AIIWQ+MvXD6EXEXUygmSnqrtRFGAE=; b=BA0mPqzoFor80N3WqAxJcIkYVo
+	6jgiqTOepI8oMj5nb6lkHXAvJ3Fr4qrUUQ2kf5YvNnym2uT0psRw/EGhlOvXA4EDfKu1hm5nsaqrB
+	lTPRIdBL+jy2qklXENBwxXZje5g5L4c6cKgC55MqoHMF7pq75K72LQBy9sVY0MNCwGZsCyH/IPFDw
+	Ju+APr3qsLcwwFNny9ugFfRkJR8wEwZVczIdW0b4qvJHpCvykiElgdVzpPc5BnLo+xDz5ASkW/xLU
+	fhfkZXAr5MQH7oGkafeXnyzmPvRAd5XtdkfDUXy7EmSgsIvhmE9EUXtJvmhA0zVsHNa5A31DRJ84C
+	5Uv7IxWw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k8wHg-00010Q-3f; Fri, 21 Aug 2020 01:56:00 +0000
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+	id 1k8zMU-0007oe-4C; Fri, 21 Aug 2020 05:13:10 +0000
+Received: from mga17.intel.com ([192.55.52.151])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k8wHc-0000zb-4C
- for linux-nvme@lists.infradead.org; Fri, 21 Aug 2020 01:55:57 +0000
-Received: by mail-pf1-x432.google.com with SMTP id m8so297483pfh.3
- for <linux-nvme@lists.infradead.org>; Thu, 20 Aug 2020 18:55:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3L4uLX3QcIpXcWfcIGw/6i5kDxjG2jxAeHYrEzCblm0=;
- b=pWwD6oECt+faU+jSTRS5eyq0bjuaul9BrlMx5tB50cZ60i5ZCAaYIGPowIe1ey+yvE
- P5/Wjc8TGCroTJ/RvSFF9e00bhkEZF+YV2d6PkDqUNwfGO9phIy45dY4eJl5DK0oC/WL
- zaS53r8YeuTnp8NMagDyJDWjfZPSstSgb7wTORE7vRnP/4GotO0juA0xFXMa0J7ua/LZ
- Wu0fnb9FCOs7ZkA6qx3HVkpETilHXdJdgBnJQYInviZl/xBaovj235uN6j17Iss0VP1M
- 24AVftMFXsFuuWiPsS+rB1O+l1kk6/UwQlA5n8MJubH7SVfa30OiVCBavJqXkfs5SozE
- iBFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3L4uLX3QcIpXcWfcIGw/6i5kDxjG2jxAeHYrEzCblm0=;
- b=MtTQC8CcfrnBzGOurBCK+537agw4WzXfmCb4Rm2Dn6dpVU/6a4I55uL3GvGoKY9Ulb
- 68gG4b+r21CBU9mrP/0IuJro/c3STSve0dvYQ4JPY93cMsvxjYvzBzwCfD2fJS83AnYo
- xZQwvs3DJuMBr0sdMDudnBa9dBGluc6h1GMwPQr8+I8pKEOMVhc9DybrRofsunVtMAr0
- UNYkbB4/NNFYAxnIWLxsovalZVdB0niTvAq+1FcbSJY0K+1HNJlrkTzDALH9yaWFJ7W0
- 9MuR3xNPe1oTuJID8lZ8k731WTf3wl1Rdw6BCSOZukA2+2+as0Nrzk59quyIHNubvAZQ
- ZIXQ==
-X-Gm-Message-State: AOAM531pupcvdz1IjiSuWSXSZWXvn0ChtFy8l6/zB7WicN1OhR/VqnmD
- viyys7jz6Uuny18SEAr8I1b6Vg==
-X-Google-Smtp-Source: ABdhPJxfjpUfH40k0pWH2oPSRVd63a6AXZ//EwvbZjZtcZBiCrf2m6fN2Q1BQg2K/9MJRtCZgEQ7Cw==
-X-Received: by 2002:a63:e1f:: with SMTP id d31mr699727pgl.262.1597974953389;
- Thu, 20 Aug 2020 18:55:53 -0700 (PDT)
-Received: from [192.168.1.182] ([66.219.217.173])
- by smtp.gmail.com with ESMTPSA id t25sm312302pgl.60.2020.08.20.18.55.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Aug 2020 18:55:52 -0700 (PDT)
-Subject: Re: [GIT PULL] nvme fixes for 5.9-rc
-To: Sagi Grimberg <sagi@grimberg.me>
-References: <20200821003015.682013-1-sagi@grimberg.me>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <3e3093c6-2508-bf9e-aaa1-b5917146b998@kernel.dk>
-Date: Thu, 20 Aug 2020 19:55:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1k8zMQ-0007lf-7a
+ for linux-nvme@lists.infradead.org; Fri, 21 Aug 2020 05:13:07 +0000
+IronPort-SDR: JpCqphXlikXn87G0sU4JHFhRzcS0JI8TbiNYZ7bjgTk5F1ZDO3HDmJR4/7/aRXsoZr3nn+jtxx
+ 7wguUmfsotsA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9719"; a="135525262"
+X-IronPort-AV: E=Sophos;i="5.76,335,1592895600"; d="scan'208";a="135525262"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2020 22:12:57 -0700
+IronPort-SDR: bveVZ0hfNRbB2VrvXc6biQQfF9AexCxGH9v8jklaGuKbadtF3QLXQgabZ+gXkprLjeCeZAbBfF
+ +PYqQghbFNFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,335,1592895600"; d="scan'208";a="311337133"
+Received: from waikikibeach55.sh.intel.com ([10.67.111.25])
+ by orsmga002.jf.intel.com with ESMTP; 20 Aug 2020 22:12:56 -0700
+From: Ziye Yang <ziye.yang@intel.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet/tcp: Solve coredump issue while initiator sends write
+ CapsuleCmd
+Date: Fri, 21 Aug 2020 23:02:52 +0800
+Message-Id: <20200821150252.40800-1-ziye.yang@intel.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200821003015.682013-1-sagi@grimberg.me>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200820_215556_993431_4CCF3144 
-X-CRM114-Status: GOOD (  15.77  )
+X-CRM114-CacheID: sfid-20200821_011306_439236_6B7EE5D2 
+X-CRM114-Status: GOOD (  13.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,35 +76,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/20/20 6:30 PM, Sagi Grimberg wrote:
-> Hey Jens,
-> 
-> The important fix here is the nvme-pci boot issue reported
-> by Ahmed (addressed by John).
-> 
-> Other than that we have:
-> - nvme completion rework from Christoph and Chao that mostly
->   came from a bit of divergence of how we classify errors related
->   to pathing/retry etc.
-> - nvmet passthru fixes from Chaitanya
-> - minor nvmet fixes from Amit and I
-> - mpath round-robin path selection fix from Martin
-> - ignore noiob for zoned devices from Keith
-> - minor nvme-fc fix from Tianjia
-> 
-> Please pull.
+When the initiator sneds write CapsuleCmd without incapsuledata, we
+can use the queue->connect command to handle. If we do not do that,
+we will have a coredump because queue->cmds are not initialized.
 
-Pulled thanks!
+Signed-off-by: Ziye Yang <ziye.yang@intel.com>
+---
+ drivers/nvme/target/tcp.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 9eda91162fe4..9d3eeb9338cc 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -866,7 +866,11 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
+ 	struct nvme_tcp_data_pdu *data = &queue->pdu.data;
+ 	struct nvmet_tcp_cmd *cmd;
+ 
+-	cmd = &queue->cmds[data->ttag];
++	if (likely(queue->nr_cmds)) {
++		cmd = &queue->cmds[data->ttag];
++	} else {
++		cmd = &queue->connect;
++	}
+ 
+ 	if (le32_to_cpu(data->data_offset) != cmd->rbytes_done) {
+ 		pr_err("ttag %u unexpected data offset %u (expected %u)\n",
 -- 
-Jens Axboe
+2.21.3
 
 
 _______________________________________________
