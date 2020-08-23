@@ -2,68 +2,96 @@ Return-Path: <SRS0=yzsN=CB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F7BDC433E3
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2020 09:11:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 219ABC433E1
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2020 15:20:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3AE5B20768
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2020 09:11:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D970A20706
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Aug 2020 15:20:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GIrKIxbK";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Jd2+lONk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AE5B20768
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CjOJI5Iu";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="FrIhxIjF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D970A20706
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YOJGBkrH1s3uhlacLJUsaJcVLISzUF+aBNq/ioT94hI=; b=GIrKIxbK3gnzCMer7OEH9bkZo
-	AEzWUKBIJSj+OLaiUmDUoddtOqysW3wwU9umskByOtSDckrCphbqU3Y6e4LNdPo+KeHBkPIA1e3L8
-	oXC67/Yx+Z6qHdk1G+ioKO9iQW7eRdYc+vGVBteAQpgQr3159m4/ptLPqOqtZ99pXtCFeiIu9sv3X
-	xr7ZoH90Jcuwi6REu5eAGGpR/yXeU1S72GZvKywen2tVdVq3uHLzCxby6xpRj5X67k1uyontzj4fW
-	8aw4pt32kBkZDHrqQW9D/UesD/Wgw0KsF6DDaZ1wTenxkbTUpJUYRvFMDyEbY/PnxDoZtHrQrPSbf
-	eaX/yDA/w==;
+	 bh=08goTsbXnWMoz8LNMwC88llMAZ9xDM5gouq8ZDK5P0M=; b=CjOJI5Iu9+1PjyIQBcVCyYEY6
+	woWjwiIy9DdyV5VRs8fmGB5crs9qNr2FOcEmeAQC7qZ51Y63gjqL2pY/yJEx+EAru/LwtfxFpZv8J
+	Kfud+iMyjMAPvydutimjAhWCWGwTTNOB94K6zFgc3FgHDYeaZpagWfH+L3zV9x4+dBuBShC0M2CyJ
+	EDKcTJHcPvkYn2v5abZOOknQnjq2441MP6wW1RpV0XJCv8uoP8TWbjKxcY5/vpEfLkeIH1A0W4ATl
+	/UEguymtB6lBMQoX8Ot2vhqYqBYnkJhCzFOErO9H9T1jix8ursbAZBPjfweCKZ+YldZlFuAtf9NAF
+	3YjlWU1cg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1k9m1m-0008An-EQ; Sun, 23 Aug 2020 09:11:02 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1k9rmr-0001HV-HF; Sun, 23 Aug 2020 15:20:01 +0000
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k9m1g-00089D-BC
- for linux-nvme@merlin.infradead.org; Sun, 23 Aug 2020 09:10:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=cLc8UFh8Zn6w+mLuoS0pkRz+kyaYfh0fJF4FT3u1x/M=; b=Jd2+lONkz5bk6PvfkHn1D/V7qV
- Vlyk1nLSCtExUzPZkfp3rBQN8FGPdpX+Dc8Qh9vAHJn5B58Ga8x8AMMYpOa3TvzdEmVEKcpxoTHnu
- MLLmvRK0jttZWXRBgkaA3irYPQfnRLZ6GcYL/CMHRdfkorYw/m1RKbBo5/+kTHdV59RaC8Pd8wTOi
- jo7G3URqxr5MEa/A0sGGBefAFTMrljyB2t0TGRiRnHxFeLadzpsnYn1IXU+AOep6iankq8A3pFaMm
- RP63WcgsCe3jtesgABCd8bNh/Yzk6NUjfZAB48atObBn68zJElrVuLfF5/tyY05ixQmv5umrKt3+i
- 5yixz6Aw==;
-Received: from 171.168.43.195.cust.ip.kpnqwest.it ([195.43.168.171]
- helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k9m1V-0003Kk-Dx; Sun, 23 Aug 2020 09:10:47 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 1/3] block: replace bd_set_size with bd_set_nr_sectors
-Date: Sun, 23 Aug 2020 11:10:41 +0200
-Message-Id: <20200823091043.2600261-2-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200823091043.2600261-1-hch@lst.de>
-References: <20200823091043.2600261-1-hch@lst.de>
+ id 1k9rmn-0001H2-CZ
+ for linux-nvme@lists.infradead.org; Sun, 23 Aug 2020 15:19:59 +0000
+Received: by mail-pj1-x1041.google.com with SMTP id nv17so2911910pjb.3
+ for <linux-nvme@lists.infradead.org>; Sun, 23 Aug 2020 08:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=h44O92V5ZTwKyXoQSch7YSQFa9Zg+E8PzaRUuNBM3aU=;
+ b=FrIhxIjFGMRPvHKTWN+M9/RqkqeTCIe3iu63aCcXqQ282EODfpRGPEGotHAORpInv2
+ JAmXyKyJdpF8PSVnY67PRPVeBZJaBawVDhQi6gLKIXWafGoI4+cCgxiMwN/E47ZuJNxD
+ yNA1R4G5uKOTRTKXTZRH7Zl1LK++UUsmQeh5U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=h44O92V5ZTwKyXoQSch7YSQFa9Zg+E8PzaRUuNBM3aU=;
+ b=Uisv51Bvg98140YtPieJ2/afjc2H3SoMX+muiN/mk5+rEjS/SrtgWpsRCT5wRmHNAR
+ V0X/pDtcNamufBcQQ7SLwzMzpYkiehJYrdxCXfM7PpY3OP0AStiZDsGKn40T9YnrIjx4
+ zdspZtch5a2dlOcyuEMWvdtPhpQjdeEKCCOGhW7JcqfY6Qf1+XU5TUuncqqV8xm29zoe
+ fr8YVDz0S3t/Jafk2Jv+QF/A5ilbWxH5TDtHGvn9iPdf8fXO6XzVKf30QHulvgHi+NQB
+ cGK2HSoe4Owu7tmm2J8OtWM3+GpBRXto9Y2r2Egp0/QBkLf5JgYeP7kr/BzuM7FXnZmY
+ 1eqQ==
+X-Gm-Message-State: AOAM532ab/DrelfayK2cB1grHkixYbHF4Srbuknz7UHQbMA120WioYdu
+ nx89zQ4wTyKO6GY/xy8WnGshmTyq9FfzA6RAbo5YUH+s6hgoKrN47xHhpHUu9ppLm5j5TNi2TxM
+ 7vopMNFEEi7xfAK78W0qonE8WMdKdkyiiUnW84O/dFzrpmRNJPUtZ0mB/fycL8TJUdelgutHN3y
+ O4D8SPVWZg
+X-Google-Smtp-Source: ABdhPJy5yLYKVpUNtDW5bAPhQAQxtXEG8z/R2kA8vsSDKKp3ugx55kRS7+zzVlUTjNFxIrROVCmRVQ==
+X-Received: by 2002:a17:90a:9c3:: with SMTP id
+ 61mr1390798pjo.191.1598195991632; 
+ Sun, 23 Aug 2020 08:19:51 -0700 (PDT)
+Received: from [192.168.1.42] (ip68-5-85-189.oc.oc.cox.net. [68.5.85.189])
+ by smtp.gmail.com with ESMTPSA id c20sm6931590pjv.31.2020.08.23.08.19.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Aug 2020 08:19:50 -0700 (PDT)
+Subject: Re: [PATCH v3 2/9] nvme-fabrics: allow to queue requests for live
+ queues
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+References: <20200820053651.197057-1-sagi@grimberg.me>
+ <20200820053651.197057-3-sagi@grimberg.me> <20200820060941.GB6188@lst.de>
+ <813bbd6c-3353-2c40-da48-bdbbdf89690c@grimberg.me>
+ <bdd4f4b8-be68-2edc-5378-32c97eb3f1ae@broadcom.com>
+ <20200821062217.GC28559@lst.de>
+ <43d6ca66-0a42-0aff-ef22-8b3c08cf3bde@grimberg.me>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <6540c183-9b93-1635-a3dd-c925bb94c47a@broadcom.com>
+Date: Sun, 23 Aug 2020 08:19:50 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <43d6ca66-0a42-0aff-ef22-8b3c08cf3bde@grimberg.me>
+Content-Language: en-US
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200823_111957_834537_05A83708 
+X-CRM114-Status: GOOD (  17.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,170 +103,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, Jan Hoeppner <hoeppner@linux.ibm.com>,
- Justin Sanders <justin@coraid.com>, linux-nvme@lists.infradead.org,
- Josef Bacik <josef@toxicpanda.com>, Xianting Tian <xianting_tian@126.com>,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, dm-devel@redhat.com,
- Stefan Haberland <sth@linux.ibm.com>, nbd@other.debian.org,
- Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Replace bd_set_size with a version that takes the number of sectors
-instead, as that fits most of the current and future callers much better.
-
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
- drivers/block/loop.c     |  4 ++--
- drivers/block/nbd.c      |  7 ++++---
- drivers/block/pktcdvd.c  |  2 +-
- drivers/nvme/host/nvme.h |  2 +-
- fs/block_dev.c           | 10 +++++-----
- include/linux/genhd.h    |  2 +-
- 6 files changed, 14 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 2f137d6ce169d5..7069899a94903e 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -253,7 +253,7 @@ static void loop_set_size(struct loop_device *lo, loff_t size)
- {
- 	struct block_device *bdev = lo->lo_device;
- 
--	bd_set_size(bdev, size << SECTOR_SHIFT);
-+	bd_set_nr_sectors(bdev, size);
- 
- 	set_capacity_revalidate_and_notify(lo->lo_disk, size, false);
- }
-@@ -1248,7 +1248,7 @@ static int __loop_clr_fd(struct loop_device *lo, bool release)
- 	set_capacity(lo->lo_disk, 0);
- 	loop_sysfs_exit(lo);
- 	if (bdev) {
--		bd_set_size(bdev, 0);
-+		bd_set_nr_sectors(bdev, 0);
- 		/* let user-space know about this change */
- 		kobject_uevent(&disk_to_dev(bdev->bd_disk)->kobj, KOBJ_CHANGE);
- 	}
-diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-index 3ff4054d6834d2..f07243335472a4 100644
---- a/drivers/block/nbd.c
-+++ b/drivers/block/nbd.c
-@@ -300,6 +300,7 @@ static void nbd_size_update(struct nbd_device *nbd)
- {
- 	struct nbd_config *config = nbd->config;
- 	struct block_device *bdev = bdget_disk(nbd->disk, 0);
-+	sector_t nr_sectors = config->bytesize >> 9;
- 
- 	if (config->flags & NBD_FLAG_SEND_TRIM) {
- 		nbd->disk->queue->limits.discard_granularity = config->blksize;
-@@ -308,10 +309,10 @@ static void nbd_size_update(struct nbd_device *nbd)
- 	}
- 	blk_queue_logical_block_size(nbd->disk->queue, config->blksize);
- 	blk_queue_physical_block_size(nbd->disk->queue, config->blksize);
--	set_capacity(nbd->disk, config->bytesize >> 9);
-+	set_capacity(nbd->disk, nr_sectors);
- 	if (bdev) {
- 		if (bdev->bd_disk) {
--			bd_set_size(bdev, config->bytesize);
-+			bd_set_nr_sectors(bdev, nr_sectors);
- 			set_blocksize(bdev, config->blksize);
- 		} else
- 			bdev->bd_invalidated = 1;
-@@ -1138,7 +1139,7 @@ static void nbd_bdev_reset(struct block_device *bdev)
- {
- 	if (bdev->bd_openers > 1)
- 		return;
--	bd_set_size(bdev, 0);
-+	bd_set_nr_sectors(bdev, 0);
- }
- 
- static void nbd_parse_flags(struct nbd_device *nbd)
-diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
-index 4becc1efe775fc..015fe128fa8a35 100644
---- a/drivers/block/pktcdvd.c
-+++ b/drivers/block/pktcdvd.c
-@@ -2192,7 +2192,7 @@ static int pkt_open_dev(struct pktcdvd_device *pd, fmode_t write)
- 
- 	set_capacity(pd->disk, lba << 2);
- 	set_capacity(pd->bdev->bd_disk, lba << 2);
--	bd_set_size(pd->bdev, (loff_t)lba << 11);
-+	bd_set_nr_sectors(pd->bdev, lba << 2);
- 
- 	q = bdev_get_queue(pd->bdev);
- 	if (write) {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ebb8c3ed388554..ae5cad5a08f411 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -664,7 +664,7 @@ static inline void nvme_mpath_update_disk_size(struct gendisk *disk)
- 	struct block_device *bdev = bdget_disk(disk, 0);
- 
- 	if (bdev) {
--		bd_set_size(bdev, get_capacity(disk) << SECTOR_SHIFT);
-+		bd_set_nr_sectors(bdev, get_capacity(disk));
- 		bdput(bdev);
- 	}
- }
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 8ae833e004439b..f52597172c8b79 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -1371,13 +1371,13 @@ int check_disk_change(struct block_device *bdev)
- 
- EXPORT_SYMBOL(check_disk_change);
- 
--void bd_set_size(struct block_device *bdev, loff_t size)
-+void bd_set_nr_sectors(struct block_device *bdev, sector_t sectors)
- {
- 	inode_lock(bdev->bd_inode);
--	i_size_write(bdev->bd_inode, size);
-+	i_size_write(bdev->bd_inode, (loff_t)sectors << SECTOR_SHIFT);
- 	inode_unlock(bdev->bd_inode);
- }
--EXPORT_SYMBOL(bd_set_size);
-+EXPORT_SYMBOL(bd_set_nr_sectors);
- 
- static void __blkdev_put(struct block_device *bdev, fmode_t mode, int for_part);
- 
-@@ -1514,7 +1514,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, void *holder,
- 			}
- 
- 			if (!ret) {
--				bd_set_size(bdev,(loff_t)get_capacity(disk)<<9);
-+				bd_set_nr_sectors(bdev, get_capacity(disk));
- 				set_init_blocksize(bdev);
- 			}
- 
-@@ -1542,7 +1542,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, void *holder,
- 				ret = -ENXIO;
- 				goto out_clear;
- 			}
--			bd_set_size(bdev, (loff_t)bdev->bd_part->nr_sects << 9);
-+			bd_set_nr_sectors(bdev, bdev->bd_part->nr_sects);
- 			set_init_blocksize(bdev);
- 		}
- 
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 4ab853461dff25..39025dc0397c04 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -375,7 +375,7 @@ void unregister_blkdev(unsigned int major, const char *name);
- int revalidate_disk(struct gendisk *disk);
- int check_disk_change(struct block_device *bdev);
- int __invalidate_device(struct block_device *bdev, bool kill_dirty);
--void bd_set_size(struct block_device *bdev, loff_t size);
-+void bd_set_nr_sectors(struct block_device *bdev, sector_t sectors);
- 
- /* for drivers/char/raw.c: */
- int blkdev_ioctl(struct block_device *, fmode_t, unsigned, unsigned long);
--- 
-2.28.0
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiA4LzIxLzIwMjAgMTI6NDQgUE0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4KPj4+IEkgc3Rp
+bGwgZGlzbGlrZSBhbnkgcmFuZG9tIGlvY3RscyBjb21pbmcgaW4gd2hpbGUgd2UncmUgc3RpbGwg
+Cj4+PiBpbml0aWFsaXppbmcKPj4+IHRoZSBjb250cm9sbGVyLgo+Pgo+PiBBZ3JlZWQuCj4+Cj4+
+PiDCoMKgIExvb2tpbmcgYXQgdGhlIGZsb3cgLSBJIHdvdWxkbid0IHdhbnQgdGhlbSB0byBiZSBh
+bGxvd2VkCj4+PiB1bnRpbCBhZnRlciBudm1lX2luaXRfaWRlbnRpZnkoKSBpcyBjb21wbGV0ZS4g
+RXNwZWNpYWxseSBpZiB0aGUgCj4+PiBpb2N0bHMgYXJlCj4+PiBkb2luZyBzdWJzeXN0ZW0gb3Ig
+Y29udHJvbGxlciBkdW1waW5nIG9yIHVzaW5nIGNvbW1hbmRzIHRoYXQgc2hvdWxkIGJlCj4+PiBj
+YXBwZWQgYnkgdmFsdWVzIHNldCBieSBudm1lX3F1ZXVlX2xpbWl0cygpLsKgwqAgQnV0LCBpZiB3
+ZSdyZSBnb2luZyB0bwo+Pj4gYWxsb3cgbnZtZV9pbml0X2lkZW50aWZ5IHRoZSBhZG1pbl9xIG5l
+ZWRzIHRvIGJlIHVucXVpZXNjZWQuCj4+Pgo+Pj4gU28gSSdtIHN0aWxsIHZvdGluZyBmb3IgdGhl
+IGFkbWluIHF1ZXVlIGV4Y2VwdGlvbi4KPj4KPj4gQW5kIEkgcmVhbGx5IGRvbid0IGxpa2UgdGhl
+IGFkbWluIHF1ZXVlIHNwZWNpYWwgY2FzZS7CoCBXaGF0IGlzIHRoZQo+PiBhZHZhbnRhZ2Ugb2Yg
+bGV0dGluZyB1c2VyIHNwYWNlIHBhc3N0aHJvdWdoIEkvTyBjb21tYW5kcyBpbiBhdCB0aGlzCj4+
+IHBvaW50IGluIHRpbWU/Cj4KPiBXZSBuZWVkIHRvIHBhc3MgaW4gbm9ybWFsIEkvTyBjb21tYW5k
+cyBmb3Igc3VyZSBpbiBvcmRlciB0byBoYXZlIGEKPiByb2J1c3QgcmVzZXQgYW5kIGVycm9yIHJl
+Y292ZXJ5ICh3aGF0IGluIGdlbmVyYWwgdGhlIHBhdGNoc2V0Cj4gYWRkcmVzc2VzKS4gV2hhdCBp
+cyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIEZTIEkvTyBjb21tYW5kcyBhbmQKPiBwYXNzdGhydSBJ
+L08gY29tbWFuZHM/IEluIGZhY3QsIHVzZXIgcGFzc3RocnUgSS9PIGNvbW1hbmRzIHdpbGwgbmV2
+ZXIKPiBleGVjdXRlIGJlZm9yZSBudm1lX2luaXRfaWRlbnRpZnkoKSBiZWNhdXNlIHdlIGFsd2F5
+cyBzdGFydAo+IHRoZSBJL08gcXVldWVzIGFmdGVyIHRoYXQuCj4KPiBMZXQncyBsb29rIGF0IHBj
+aSwgZG8gd2UgaGF2ZSB0aGUgc2FtZSBlbmZvcmNlbWVudCBmb3IgcGFzc3RocnUKPiBjb21tYW5k
+cz8gV2hhdCdzIHNwZWNpYWwgYWJvdXQgZmFicmljcyB0aGF0IHdlIG5lZWQgdG8gZGVueQo+IHRo
+ZXNlIGNvbW1hbmRzIGZyb20gZ29pbmcgdGhyb3VnaD8KCnNob3J0IGFuc3dlciAtIHRpbWluZy9s
+YXRlbmN5IGFuZCBtdWNoIG11Y2ggbG93ZXIgY2hhbmNlIG9mIGZhaWx1cmUuCgpJIGFsc28gZG9u
+J3QgdGhpbmsgcGVvcGxlIGFyZSBxdWVyeWluZyBwY2kgKGxvY2FsIGF0dGFjaGVkIGRyaXZlcnMp
+IGxpa2UgCnRoZXkgYXJlIGZhYnJpYyBhdHRhY2htZW50cy4KCi0tIGphbWVzCgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5n
+IGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRl
+YWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
