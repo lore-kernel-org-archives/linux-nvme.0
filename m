@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 532F2C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2020 07:13:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42841C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2020 07:16:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 259362074D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2020 07:13:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0631B20706
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2020 07:16:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sCBL5MR2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 259362074D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZMFsnvcl"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0631B20706
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,40 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Byi5ilqgSPYJCfflA/olRbmO7EZwToB/eoGeU3l811M=; b=sCBL5MR2OjW0PBbTwa9m/cDVu
-	+L2liFs4ebqUOsczieWXWigJAdLiQebKmyOjR9lkAw49PgufHdTlTC0lD5hLaIFCElaQSIsQw8d0c
-	eUZSyUCOWeNG+iCkBz7AfBRxgywtC7NAX4se9IrTrYGNE86Ti4ANJuCpaurl+dvAWMKMXWJ4FEBTs
-	Z4a5CQk1cjXhfjs/D5uMmt0MidEP05SV+0cqzfkSB0ZiG0UAuXsrQ0MkmTI7SGoS/VhzVAGIKScQP
-	BroZL4mp11ub5GWlxuo+j3yVHgXh0x4fEaS4xPYM3ivYnCa7QytJZALxV9cZagugNAt0yirCo6Xs1
-	YLkcKl5KQ==;
+	 bh=T+ZHfIjlq2Gt7Y1R8RjxQjFiiW5SmagC98LiFTBQAFU=; b=ZMFsnvclXe/1l+oEB53bGmkdP
+	mJJ6n7cvuPddS+p/7E6GfSsfoMOFRmDodEi2vIfmz4ZJ24iHPNPaxo7EnIVdxHqYATyCiBWgOxz/B
+	evvMb77OLpw3riMYR71+quCdO+u3w35xtHBBoRPfTjZe3hqXuvDktr2SMJhjYB0p/LkUto+Scutgp
+	TSHYReC6cElcFoChYFEuFFGG3xfH5mQK/kPWIABf4ksdF+fwJdPrmVq6kIqmRcMenKp4Voc/egU6b
+	V08h4HBc54o2gEFx5lON20Mken771bzFEGbV3b0iZRyALgbIHyNLxILCUEHpldliv94P07m/WQQCe
+	jYN5NJG2g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kAT9S-0002H1-Kh; Tue, 25 Aug 2020 07:13:50 +0000
+	id 1kATBT-0002ec-C2; Tue, 25 Aug 2020 07:15:55 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kAT9Q-0002G6-57
- for linux-nvme@lists.infradead.org; Tue, 25 Aug 2020 07:13:48 +0000
+ id 1kATBP-0002dW-NE
+ for linux-nvme@lists.infradead.org; Tue, 25 Aug 2020 07:15:52 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id DED8C68BEB; Tue, 25 Aug 2020 09:13:45 +0200 (CEST)
-Date: Tue, 25 Aug 2020 09:13:45 +0200
+ id 3CA0868BEB; Tue, 25 Aug 2020 09:15:49 +0200 (CEST)
+Date: Tue, 25 Aug 2020 09:15:48 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v3 2/9] nvme-fabrics: allow to queue requests for live
- queues
-Message-ID: <20200825071345.GF29268@lst.de>
-References: <20200820053651.197057-1-sagi@grimberg.me>
- <20200820053651.197057-3-sagi@grimberg.me> <20200820060941.GB6188@lst.de>
- <813bbd6c-3353-2c40-da48-bdbbdf89690c@grimberg.me>
- <bdd4f4b8-be68-2edc-5378-32c97eb3f1ae@broadcom.com>
- <20200821062217.GC28559@lst.de>
- <77e27c4e-f939-2c14-8e63-209197f1133c@grimberg.me>
+Subject: Re: [PATCH 2/3] nvme-core: fix deadlock when reconnect failed due
+ to nvme_set_queue_count timeout
+Message-ID: <20200825071548.GG29268@lst.de>
+References: <20200820035406.1720-1-lengchao@huawei.com>
+ <20200821075034.GB30216@lst.de>
+ <dbf66315-9e36-2105-535e-a90352ec5306@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <77e27c4e-f939-2c14-8e63-209197f1133c@grimberg.me>
+In-Reply-To: <dbf66315-9e36-2105-535e-a90352ec5306@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200825_031348_329647_FF3D42BC 
-X-CRM114-Status: GOOD (  17.55  )
+X-CRM114-CacheID: sfid-20200825_031551_909231_5E454090 
+X-CRM114-Status: GOOD (  15.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +67,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, James Smart <james.smart@broadcom.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: axboe@fb.com, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Chao Leng <lengchao@huawei.com>, kbusch@kernel.org,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gTW9uLCBBdWcgMjQsIDIwMjAgYXQgMDE6MDI6NDBBTSAtMDcwMCwgU2FnaSBHcmltYmVyZyB3
-cm90ZToKPiBJIGNoZWNrZWQgYWdhaW4sIGFuZCByZWdhcmRpbmcgdGhlIGNvbW1lbnQ6Cj4KPiAi
-SSdtIHN0aWxsIHJhdGhlciBib3RoZXJlZCB3aXRoIHRoZSBhZG1pbiBxdWV1ZSBleGNlcHRpb24u
-ICBBbmQgZ2l2ZW4gdGhhdAo+IHRoZSBxX3VzYWdlX2NvdW50ZXIgcHJvYmxlbSBzaG91bGQgb25s
-eSByZWFsbHkgYmUgYW4gaXNzdWUgZm9yIGZpbGUgc3lzdGVtCj4gcmVxdWVzdHMsIGFzIHBhc3N0
-aHJvdWdoIHJlcXVlc3RzIGRvIG5vdCBhdXRvbWF0aWNhbGx5IGdldCByZXRyaWVkIHdoeQo+IGNh
-bid0IHdlIGp1c3QgcmVqZWN0IGFsbCB1c2VyIGNvbW1hbmQgdG8gYmUgc3ltZXRyaWMgYW5kIHN0
-cmFpZ2h0IGZvcndhcmQ/Cj4gVGhlIGNhbGxlcnMgaW4gdXNlcnNwYWNlIG5lZWQgdG8gYmUgYWJs
-ZSB0byBjb3BlIHdpdGggcmV0cnlhYmxlIGVycm9ycwo+IGFueXdheS4iCj4KPiBibGtfbXFfYWxs
-b2NfcmVxdWVzdCBjYWxscyBibGtfcXVldWVfZW50ZXIsIHdoaWNoIG1lYW5zIHRoYXQgaWYgd2Ug
-ZG9uJ3QKPiBsZXQgdGhlbSBpbiwgY29udHJvbGxlciByZXNldCBjYW4gaGFuZywganVzdCBsaWtl
-IGluIG5vcm1hbCBmcyBJL08uCgpZZXMuICBCdXQgdGhlIGRpZmZlcmVuY2UgaXMgdGhhdCB0aGV5
-IGRvbid0IGdldCByZXRyaWXRlSwgYnV0IGluc3RlYWQganVzdApmYWlsLgoKPiBTbyB3ZSBlaXRo
-ZXIga2VlcCB0aGlzIGV4Y2VwdGlvbiBmb3IgYWRtaW4gY29tbWFuZHMsIG9yIHdlIGFsc28gbGV0
-Cj4gdGhlbSB0aHJvdWdoIGFzIGl0IHNlZW1zIHRvIGJlIHNhZmUgd2l0aCB0aGUgY3VycmVudCBj
-b2RlIChmcm9tIHRoZQo+IHJlc2V0IGZvcndhcmQtcHJvZ3Jlc3MgcGVyc3BlY3RpdmUpLgo+Cj4g
-SSB2b3RlIHRvIHJlbW92ZSB0aGlzIGV4Y2VwdGlvbiBhbHRvZ2V0aGVyLi4uCgpUbyBtZSB0aGUg
-cmlnaHQgYW5zd2VyIHdvdWxkIGJlIHRvIHJlamVjdCB1c2VyIGNvbW1hbmRzIG9uIHRoZSBhZG1p
-bgpvciBJL08gcXVldWUgZm9yIHRoZSBub3QgbGl2ZSBjb250cm9sbGVyIGFzIHRoZSBjYWxsZXJz
-IG5lZWQgdG8gaGFuZGxlCml0LiAgVGhhdCBzZWVtcyB0byBtYWtlIG1vcmUgc2Vuc2UgdG8gbWUg
-dGhhbiBhIHNwZWNpYWwgYWRtaW4gcXVldWUKZXhjZXB0aW9uLgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGlu
-dXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
-aWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On Fri, Aug 21, 2020 at 01:20:44PM -0700, Sagi Grimberg wrote:
+>>> Many functions which call __nvme_submit_sync_cmd treat error code in two
+>>> modes: If error code less than 0, treat as command failed. If erroe code
+>>> more than 0, treat as target not support or other and continue.
+>>> NVME_SC_HOST_ABORTED_CMD and NVME_SC_HOST_PATH_ERROR both are cancled io
+>>> by host, is not the real error code return from target. So we need set
+>>> the flag:NVME_REQ_CANCELLED. Thus __nvme_submit_sync_cmd translate
+>>> the error to INTR, nvme_set_queue_count will return error, reconnect
+>>> process will terminate instead of continue.
+>>
+>> But we could still race with a real completion.  I suspect the right
+>> answer is to translate NVME_SC_HOST_ABORTED_CMD and
+>> NVME_SC_HOST_PATH_ERROR to a negative error code in
+>> __nvme_submit_sync_cmd.
+>
+> So the scheme you suggest is:
+> - treat any negative status or !DNR as "we never made it to
+> the target"
+> - Any positive status with DNR is a "controller generated status"
+>
+> This will need a careful audit of all the call-sites we place such
+> assumptions...
+
+No.  negative error means never made it to the controller, and we need
+to map the magic NVME_SC_HOST_ABORTED_CMD and NVME_SC_HOST_PATH_ERROR
+errors to negative error codes if we want to keep using them (and IIRC
+we started because it solved an issue, by my memory is foggy).  All the
+real NVMe status codes come from the controller, so the commmand must
+have made it there.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
