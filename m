@@ -2,139 +2,71 @@ Return-Path: <SRS0=/Y//=CD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AE3EC433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2020 11:31:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 626CBC433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2020 11:52:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 09FCD2075B
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2020 11:31:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 30B8B2075B
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Aug 2020 11:52:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dB68sxWX";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="bf/T+vWp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09FCD2075B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="L3WRGn/C"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30B8B2075B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=TyXxTy5McxiXUjeLiOsRX1BZVe1h/AlT8DxA9kg/yww=; b=dB68sxWXVxlnCqsAtiZMcXmyF
-	fKP8MgJ+ra7JUMSUPZ0grClQCiYTGIC+OEBS/xr/Ke9r0vRRh8XTXyTQa3ng5xOzywvtnBkczFuX4
-	cqdAdp4JVWSR+Kz9EuHBiN1VTgCqMWsyicsqV/z8eg3oAiptiBtfylxuH6WXKAQDegSp4FjpYDVJn
-	i1C+zHz9OSn/pJevgtpNCMrSAgssB6kfbKbpZbFAnK/K4eJC/NRDIsTgyYtmHv3+hP8xV38nD9ona
-	16X48BEaAlFa7U+EwsflQ0OBT8hSUAP2tcDWb8dSAybaj2pUk9hAlhHy87l8AmkUXrVWIdLrMTOQc
-	5pMstLkEg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Fu4wXJ6XJ6E9+9dRNiejh1ifHe0UjP/pEyGds0lcrZY=; b=L3WRGn/C+zp9qnWR+sqxIh8pha
+	VuO1qWcxE76iyYsXIJHIik5eyh5KMw2/Xvi/nDUatWYM6qYUDvx6ZLOmdBm9dOCwb0uKpV3dec3hJ
+	WImQSv/oBYoSgfBTz8Kt3AbwTtROuYn5v1UlcEgq2YJF0noH4s5tSIjKcox7PECt0PK7cRV+DB8vh
+	3ayP+JIzdRJWnCilz8iAYzjWD7XpbuW13PQV03/oRIrZGgUzUq8w8oiiEdYi5MCmFXea40GoLWtBT
+	XJ1xjNUmPIKi4snMOHafcBrYAyAlVfx3tiLwhy0fGl8eqtGebzgVAHjApAUU44VMo9hsOB8by7Cz/
+	bH552jSA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kAXAE-0004av-1I; Tue, 25 Aug 2020 11:30:54 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1kAXV7-0007EF-52; Tue, 25 Aug 2020 11:52:29 +0000
+Received: from mga12.intel.com ([192.55.52.136])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kAXA6-0004XW-3e
- for linux-nvme@lists.infradead.org; Tue, 25 Aug 2020 11:30:48 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200825113043euoutp026859a6d427e66331496684c408d76cdd~uf3Gb5T_01475314753euoutp02g
- for <linux-nvme@lists.infradead.org>; Tue, 25 Aug 2020 11:30:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200825113043euoutp026859a6d427e66331496684c408d76cdd~uf3Gb5T_01475314753euoutp02g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1598355043;
- bh=X8gDcs427W02/qFtPNsPSdmNDXjqciYwh7aa0XOpqik=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=bf/T+vWpq9orb92VKlt6rntA6M0vAXl4taqwUbJIAGHnDbeMzHeZRFEFmsAXDYrNq
- Wr9AKv7vwxCWJ/Vo6hIhRgWr9K0GkTMScEkS+wDoQCoPXqBM2W4KpgH6J+25PIJB7S
- XU9Qwn50dCGine2uiKApqXnlXT7+4oTjOnOc6UhQ=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200825113043eucas1p2a677e17885157748102be36111dd7cf0~uf3GIA3vS2151921519eucas1p2e;
- Tue, 25 Aug 2020 11:30:43 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 2B.B0.06456.366F44F5; Tue, 25
- Aug 2020 12:30:43 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200825113042eucas1p156019fa8529e69de368498a0a7b4279f~uf3FqdPEE0129601296eucas1p1w;
- Tue, 25 Aug 2020 11:30:42 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200825113042eusmtrp2f1d062dd589e815ab44765282723204c~uf3FpmMBe1642116421eusmtrp26;
- Tue, 25 Aug 2020 11:30:42 +0000 (GMT)
-X-AuditID: cbfec7f2-7efff70000001938-75-5f44f663c15d
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 45.58.06017.266F44F5; Tue, 25
- Aug 2020 12:30:42 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200825113041eusmtip26d77690ed3da6b991eebf229d4dff802~uf3EXjFCA0971809718eusmtip2L;
- Tue, 25 Aug 2020 11:30:41 +0000 (GMT)
-Subject: Re: a saner API for allocating DMA addressable pages
-To: Christoph Hellwig <hch@lst.de>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Joonyoung
- Shim <jy0922.shim@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Ben Skeggs <bskeggs@redhat.com>,
- Pawel Osciak <pawel@osciak.com>, Matt Porter <mporter@kernel.crashing.org>,
- iommu@lists.linux-foundation.org
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <8fa1ce36-c783-1a02-6890-211eb504a33b@samsung.com>
-Date: Tue, 25 Aug 2020 13:30:41 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ id 1kAXV4-0007Dm-Bk
+ for linux-nvme@lists.infradead.org; Tue, 25 Aug 2020 11:52:27 +0000
+IronPort-SDR: 9BwXnhWqn+TTQvgKUfrkwVBxFUmDoz5nVfh9asIzagBsgoBl938Jdm4R8DifuOShfArokCr/Df
+ N50RhRHKlIvQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9723"; a="135638390"
+X-IronPort-AV: E=Sophos;i="5.76,352,1592895600"; d="scan'208";a="135638390"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2020 04:52:23 -0700
+IronPort-SDR: EbX+wQtQN9a7aJ2mMDuq+Hs1hWECKYrsyJfXu66suOUc9bq5IM73FAaJsaatdQuLqKLPyAL9qj
+ F9+gfBA8pfYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,352,1592895600"; d="scan'208";a="279959237"
+Received: from lkp-server01.sh.intel.com (HELO 4f455964fc6c) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 25 Aug 2020 04:52:22 -0700
+Received: from kbuild by 4f455964fc6c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kAXUz-0000Lk-AT; Tue, 25 Aug 2020 11:52:21 +0000
+Date: Tue, 25 Aug 2020 19:51:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: [linux-nvme:nvme-5.9-rc] BUILD SUCCESS
+ 3103df671664b658437215d84d7ef999ff43cba4
+Message-ID: <5f44fb43.mY1G5/HkWIdjS6ce%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20200819065555.1802761-1-hch@lst.de>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0yTZxT2/e6g1dd64QQX1C4Yt8RL1ZjXqHiN+UZm4g+XbMsG1vIFUC7a
- ghf+WAsabsFZ0LLaBdgMzG6KfgMHGktEpSLhbkXxrvVSY1EpYkpUpHyg/HvOc55znuckR6DV
- tVy4kJiSJhlSdEkaLpQ52xBonafvXx+7cKAXk+vt9RTxVmQjcuKfKxQprVtOzhwSyPN77Qxp
- Nr/kifz4BkvKDh5nyOvsHpZ0nrNzJP90NUty5GpE7v07yJKS8ic8eXStjSLFrU6K5HXVcKRc
- fk+RI63vaNJQOp28KyhgSZEvwJPiQi9HLhc5WXLJfJFeHS4e6KhgxNN+MzeEPnDiUcs1Tsx/
- mcWKsiOHE+VeCy/ez3NR4n/H94mFNyuQeP6WiRMfD3g58ZXTzYkFVQ4k+uWITZN+Dl0RJyUl
- 7pIMC6K2hCbIXQ5qx7NJe7rP25EJeSbkohAB8BJoqm5kc1GooMZ/I7BVukeKPgTNOQEuqFJj
- P4KTV5eNTtw5YaUUUQWCPFsNpxSvEPR9yEZB1RS8EnrkB8OrpuIuGkrsATrYoHErDZ7K8UHM
- YS3k+nKHLVQ4CrL8Vj6IGRwJV+quMkE8DcdAtctNKZrJ0Pi7Z5gPwYvg2OWnvLJzJvzvs4/s
- D4NuT8lwPMCDAvSdOcQoudfDbbOfV/AUeOGqGsFfwWDt6EAmgoctJ3mlyEfQaS5Gimo53GkZ
- GIoqDFl8A5XnFij0GmioO8wEacAT4aZvshJiIljOWmmFVkH2QbWingM216nPthfbOujfkMY2
- 5jTbmHNsY86xffEtRYwDhUnpxuR4yahNkXbPN+qSjekp8fP1qckyGnropo+u3hr0tmNrPcIC
- 0kxQmZzrYtWsbpdxb3I9AoHWTFWtbW6KUavidHszJENqrCE9STLWoxkCowlTLf7T+6sax+vS
- pO2StEMyjHYpISTchAx/lP1VGTVOdyGiMWdzgr7Wl7ZFu7Dq7oYLT3w/ZJS791szflzrjF7U
- 5o20buJ7ZiZ29s+aW7jUEmPVrirLN2daEtM7ZjuKrv/ydrM7YmP7gzf6rw07o+fGpUa3RA/+
- NK972oHFge8zN3gj9f3bXuyhs56a7N/ZT+EVWcyxmK1z7nsYDWNM0Gm/pQ1G3SdTBG82zAMA
- AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+d3X7sThbWr9sqhYBVE523TuZ6VICd2CIOqfqHSuuqi1h+xu
- kkE1zIVOs8d8lJkamqKV2E1TKpQ0M7UwzSwlzXKVi2YP6YllzhX434fzPZ9zOHBoXPqQDKKT
- DGbOZNDqZJQP0fWnfTh477cYzZpBZzDq62nBkKsyA6CqK20YKm1eh66fotHYcA+BHqV9ECFh
- tJ9El06UE+hTxjiJntwqolB2bT2JMoV6gIavTpGopOKNCL3ufIyhc91NGMp61kihCmESQ3nd
- 33F0v3Qu+p6TQ6Jc908ROudwUehebhOJWtPu4tFBrK23kmBrJ9KoafpNsflnOyk2+0M6yQrV
- mRQrfDkrYl9mtWPsjfJjrON5JWBvD1gpdvSXi2I/Nj2l2Jy6asBOCIu2+e2SrzcZLWZuSaKR
- N0fKdiuQUq6IQHJlWIRcEaqOXatUyUKi1u/ndEkpnCkkKl6eKDyrxpLf+R0avF0ErMDpawdi
- GjJh8EVVAWYHPrSUuQygraEN8wYLYUe+lfSyP5zst1PeJjeA7v7juCfwZyLhuDBCeoIAZgCH
- v93vCU+AM9047MxgvYYNwPeZZTOjKEYB7W7PKDEtYaJg+kSByMMEsxy2NT+YkQOZODh6cgr3
- 9syBHeedM3Uxo4QX7r0VeReEw+Ibr3AvL4YN7qJ/PA8OOkuw00BaOEsvnKUUzlIKZymlgKgG
- AZyF1yfoeaWc1+p5iyFBvs+oF8D0J928/7OuEdjHd7QAhgYyX4m1aaNGSmpT+FR9C4A0LguQ
- bHjUFSeV7NemHuZMRo3JouP4FqCaPu4MHhS4zzj9lwazRqFSqFGEQh2qDg1HsnmSDObuHimT
- oDVzBzkumTP99zBaHGQF6s2TqrboElXxCnFsqs9YmGG5j41w1ehaG4bqv9kji5ZohyrT66aO
- 9LWmhuQ9HvG9ltxY9lXXt3OVaYE6PuxA8IPtJUcv/gjPn9+xbdzZW9Vscdx5GOiwXYqK2Cra
- Ep8uf65Z6oifU9Ne23q5ZpO6Z3VMRU2cK7kXvzC2ZZly3WeRjOATtYqVuInX/gXVsGUeXwMA
- AA==
-X-CMS-MailID: 20200825113042eucas1p156019fa8529e69de368498a0a7b4279f
-X-Msg-Generator: CA
-X-RootMTR: 20200819065610eucas1p2fde88e81917071b1888e7cc01ba0f298
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200819065610eucas1p2fde88e81917071b1888e7cc01ba0f298
-References: <CGME20200819065610eucas1p2fde88e81917071b1888e7cc01ba0f298@eucas1p2.samsung.com>
- <20200819065555.1802761-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200825_073046_444033_BC3DDE0E 
-X-CRM114-Status: GOOD (  24.48  )
+X-CRM114-CacheID: sfid-20200825_075226_662823_FA56D7C2 
+X-CRM114-Status: GOOD (  11.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,59 +78,116 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, alsa-devel@alsa-project.org,
- linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christoph,
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.9-rc
+branch HEAD: 3103df671664b658437215d84d7ef999ff43cba4  nvme: Fix NULL dereference for pci nvme controllers
 
-On 19.08.2020 08:55, Christoph Hellwig wrote:
-> this series replaced the DMA_ATTR_NON_CONSISTENT flag to dma_alloc_attrs
-> with a separate new dma_alloc_pages API, which is available on all
-> platforms.  In addition to cleaning up the convoluted code path, this
-> ensures that other drivers that have asked for better support for
-> non-coherent DMA to pages with incurring bounce buffering over can finally
-> be properly supported.
->
-> I'm still a little unsure about the API naming, as alloc_pages sort of
-> implies a struct page return value, but we return a kernel virtual
-> address.  The other alternative would be to name the API
-> dma_alloc_noncoherent, but the whole non-coherent naming seems to put
-> people off.  As a follow up I plan to move the implementation of the
-> DMA_ATTR_NO_KERNEL_MAPPING flag over to this framework as well, given
-> that is also is a fundamentally non coherent allocation.  The replacement
-> for that flag would then return a struct page, as it is allowed to
-> actually return pages without a kernel mapping as the name suggested
-> (although most of the time they will actually have a kernel mapping..)
->
-> In addition to the conversions of the existing non-coherent DMA users
-> the last three patches also convert the DMA coherent allocations in
-> the NVMe driver to use this new framework through a dmapool addition.
-> This was both to give me a good testing vehicle, but also because it
-> should speed up the NVMe driver on platforms with non-coherent DMA
-> nicely, without a downside on platforms with cache coherent DMA.
+elapsed time: 722m
 
-I really wonder what is the difference between this new API and 
-alloc_pages(GFP_DMA, n). Is this API really needed? I thought that this 
-is legacy thing to be removed one day...
+configs tested: 89
+configs skipped: 3
 
-Maybe it would make more sense to convert the few remaining drivers to 
-regular dma_map_page()/dma_sync_*()/dma_unmap_page() or have I missed 
-something?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                  colibri_pxa300_defconfig
+mips                        workpad_defconfig
+mips                     loongson1c_defconfig
+h8300                            alldefconfig
+xtensa                generic_kc705_defconfig
+powerpc                      ppc64e_defconfig
+arm                            xcep_defconfig
+mips                      pistachio_defconfig
+mips                        vocore2_defconfig
+arm                            zeus_defconfig
+arm                              zx_defconfig
+arc                              alldefconfig
+arm                          badge4_defconfig
+powerpc64                        alldefconfig
+arm                            mps2_defconfig
+sh                           se7721_defconfig
+arm                         nhk8815_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+i386                 randconfig-a002-20200824
+i386                 randconfig-a004-20200824
+i386                 randconfig-a005-20200824
+i386                 randconfig-a003-20200824
+i386                 randconfig-a006-20200824
+i386                 randconfig-a001-20200824
+i386                 randconfig-a002-20200825
+i386                 randconfig-a004-20200825
+i386                 randconfig-a005-20200825
+i386                 randconfig-a003-20200825
+i386                 randconfig-a006-20200825
+i386                 randconfig-a001-20200825
+x86_64               randconfig-a015-20200824
+x86_64               randconfig-a016-20200824
+x86_64               randconfig-a012-20200824
+x86_64               randconfig-a014-20200824
+x86_64               randconfig-a011-20200824
+x86_64               randconfig-a013-20200824
+i386                 randconfig-a013-20200824
+i386                 randconfig-a012-20200824
+i386                 randconfig-a011-20200824
+i386                 randconfig-a016-20200824
+i386                 randconfig-a015-20200824
+i386                 randconfig-a014-20200824
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
