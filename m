@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA56C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 07:46:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D53CC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 07:48:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DD87620786
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 07:46:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3EE6520786
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 07:48:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MNiC0cop"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD87620786
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LnBO21/e"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3EE6520786
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,34 +25,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AezJu2lyNjFRSozvseBwE52l4NrKrz4zYwscpDQRc+w=; b=MNiC0copyux9f+o7o0Nkpqg6y
-	rciEoyWvI19ElUo6wA+9imgdsjZ9gVwS48at9tQpax8Q7prd7umG/IOEKDQdhzE70Wp6vUw5li/Bu
-	+PdNt4LlNqthqlJXtmJNKwr69qS0/ELXIOKjwTAHmFJuHW32TPS2F3IgrPfLn5btVNT0xyl8nvXlo
-	IicvQMjcbDMI2t8ZMO8ImRE3GSeFWBJUQkBTfu3OC3AV/JptlCgK6aP2Sv14kyoPJU56qJRv6wP/E
-	6aXbl6yeQT5xLFiTxWzfxy7NVtUg+QjcvIV/1r0M/o1wHuSlRALnPixGQcn0sOsDbhFsLh2rIbhsG
-	e9It0e+lg==;
+	 bh=zD5kuO2OgjRuzluHPDbUN1WBMGRpig/Wed50glZcAHw=; b=LnBO21/eEXtzF3VBJEh7y+TFl
+	J/Mn8r/1h66dlCN2y90JUlmVxbJgouBsGtAoEgDyELsTLriu/+0aCA5fyrNiBud8P/buMIFHxYKu3
+	f2no+ed01id9+IX1srxrtjMwAt9esBTdd9UYeEqPZWJjQcXUELaI/yqUjPSi/XhzHKBe0b0wuEk62
+	+QMRkGOLYOlMK1eDGmTyXf0TjNrc6vtIc35sdmjEIEpmjuil2t74b7i1DY39uPicH/9rt8dX8qJVP
+	RJbjo5ZKzSzPSEWuRpi0AKsYPdlFpPk9BmYbIC/C1VFP/ncWbDJPjUev04aoQJtROrfapybBztFJ7
+	OlZmAn0Tg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBCby-0001MT-9x; Thu, 27 Aug 2020 07:46:18 +0000
+	id 1kBCdg-0001zk-Pr; Thu, 27 Aug 2020 07:48:04 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBCbv-0001Li-44
- for linux-nvme@lists.infradead.org; Thu, 27 Aug 2020 07:46:15 +0000
+ id 1kBCde-0001zG-9B
+ for linux-nvme@lists.infradead.org; Thu, 27 Aug 2020 07:48:03 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 818A068C65; Thu, 27 Aug 2020 09:46:12 +0200 (CEST)
-Date: Thu, 27 Aug 2020 09:46:12 +0200
+ id EC6DB68C65; Thu, 27 Aug 2020 09:47:58 +0200 (CEST)
+Date: Thu, 27 Aug 2020 09:47:58 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme: only use power of two io boundaries
-Message-ID: <20200827074612.GB7448@lst.de>
-References: <20200825163516.1706267-1-kbusch@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>
+Subject: Re: fix block device size update serialization v2
+Message-ID: <20200827074758.GA8009@lst.de>
+References: <20200823091043.2600261-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200825163516.1706267-1-kbusch@kernel.org>
+In-Reply-To: <20200823091043.2600261-1-hch@lst.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200827_034615_279859_761D4B8E 
-X-CRM114-Status: GOOD (  13.31  )
+X-CRM114-CacheID: sfid-20200827_034802_459712_419D0409 
+X-CRM114-Status: GOOD (  15.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,24 +64,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org, hch@lst.de
+Cc: linux-s390@vger.kernel.org, Jan Hoeppner <hoeppner@linux.ibm.com>,
+ Justin Sanders <justin@coraid.com>, linux-nvme@lists.infradead.org,
+ Josef Bacik <josef@toxicpanda.com>, Xianting Tian <xianting_tian@126.com>,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, dm-devel@redhat.com,
+ Stefan Haberland <sth@linux.ibm.com>, nbd@other.debian.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 25, 2020 at 09:35:16AM -0700, Keith Busch wrote:
-> The kernel requires a power of two for boundaries because that's the
-> only way it can efficiently split commands that cross them. A
-> controller, however, may report a non-power of two boundary.
-> 
-> The driver had been rounding the controller's value to one the kernel
-> can use, but splitting on the wrong boundary provides no benefit on the
-> device side, and actually incurs additional submission overhead from
-> non-optimal splits. Don't provide any boundary hint if the controller's
-> value can't be used.
+Jens, can you consider this for 5.9?  It reliably fixes the reported
+hangs with nvme hotremoval that we've had for a few releases.
 
-Shouldn't we log a warning about non-power of two sizes?
+On Sun, Aug 23, 2020 at 11:10:40AM +0200, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> this series fixes how we update i_size for the block device inodes (and
+> thus the block device).  Different helpers use two different locks
+> (bd_mutex and i_rwsem) to protect the update, and it appears device
+> mapper uses yet another internal lock.  A lot of the drivers do the
+> update handcrafted in often crufty ways.  And in addition to that mess
+> it turns out that the "main" lock, bd_mutex is pretty dead lock prone
+> vs other spots in the block layer that acquire it during revalidation
+> operations, as reported by Xianting.
+> 
+> Fix all that by adding a dedicated spinlock just for the size updates.
+> 
+> Changes since v1:
+>  - don't call __invalidate_device under the new spinlock
+>  - don't call into the file system code from the nvme removal code
+---end quoted text---
 
 _______________________________________________
 Linux-nvme mailing list
