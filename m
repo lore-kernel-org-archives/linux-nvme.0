@@ -2,67 +2,67 @@ Return-Path: <SRS0=+fzK=CF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21595C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 15:04:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A3FC433E1
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 15:28:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E17D220678
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 15:04:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 43F912080C
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 15:28:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="isclFd2s";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="OHKTr+we"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E17D220678
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g3SOLjpb";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="qwOAWMxd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 43F912080C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JyU3WRfmZ5qlEAZZQ4fBv8GHQLE6ul/JXB0PXVfZ3WU=; b=isclFd2s5A3NWNIPDVjwcMtMf
-	nnJAeuSg76YL3oPKnW+dkTnkx6bJtE3HZBNN/Xt4wQ8E4XR5pV94PWcKVApO/o19A0QUPupyQ343g
-	mJOIXtPSdBgoDeM8KOxgnyaViFeHLVP/GclB/lUUjG1K3B2Pv6XnnR0GkDEdPlBRbLVZ4KE+mhZK8
-	7833S+mkloLpK1HiTY52F49dJ5IXLFADfNPXMYmfWl+94T6vkPxqtQJ3KlKAyYuWFLZuz5YN7+IvH
-	+xwi4PL3m3AWvYJMjmpgUQtN7HhuBeFQ6NDdnD9jy0zVB/q+2lU2TUhxM8BTFl+EEYf2OnNuDlx8X
-	DnsSIVN5g==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WrJ2lEpwxy2Y3S2DOeal2wK/Hh7jZOh7akNOfkVusds=; b=g3SOLjpbA8W/+1lhbjQK4e57oZ
+	y/hCdQfPc2DIWh7AM9Pbii+PhgIcKOG27aCDvZkGry3q0JbJ1ZUiVc/FId/rIydW8WzlrTBBbjJlb
+	r6iSS+H0e+zgq+0ZjAOy/mXSoavWCKZRwGa/LmbXwamPccB8jFYwsUJa83n8BIXWt2axh54NbB5+j
+	U85abBcR19sLihydU/HBeNM4fKH4RDOzJq/86F1/lKdFK6ukCH+Mpf2d1Nr6C3C4vJlbYxkwIZ3IY
+	/uz+2yktpYk2PrTEa/aRV0QBlMdRihyZlxrGKWDdJaNEmoGt+Z4t8KVGZ3HIS8R0QQdCfzqxbQOYQ
+	DCEb+p+w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBJSH-0001nT-BJ; Thu, 27 Aug 2020 15:04:45 +0000
+	id 1kBJpJ-0004m9-2M; Thu, 27 Aug 2020 15:28:33 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBJSE-0001mI-DO
- for linux-nvme@lists.infradead.org; Thu, 27 Aug 2020 15:04:43 +0000
+ id 1kBJpF-0004lh-WA
+ for linux-nvme@lists.infradead.org; Thu, 27 Aug 2020 15:28:30 +0000
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9C6CD20678;
- Thu, 27 Aug 2020 15:04:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C6B6E2080C;
+ Thu, 27 Aug 2020 15:28:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598540681;
- bh=uN++wh0qicYn3Cva6dLpzWIu+eqedGD8q1sk6JJxSn0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OHKTr+wee4O6DrnwUacPMp+oi0z63RBboi9aXMtXH7UF0XclX3lI1QusNew/lhzvj
- TkoUH3cxOD+Ypp3lT8mKXt2KPSS06NyTB4RExB+IHSDAO5xeH7dSaApM234qQJZAXR
- NX6CxmtDhtke25AP+CvqG7fwPPeZnDR0MlxFDR90=
-Date: Thu, 27 Aug 2020 08:04:39 -0700
+ s=default; t=1598542109;
+ bh=XTU8a1+sBKC54pr6G3HoSG3LN8+S+TH07uC2gKyLvlY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=qwOAWMxd4jXrpOd3wRLXkiLA5cEmXXDfm/HjzejahwDGAlpR3LXSZc53ezvH7+tmL
+ 0+2zJXbPfIKLG1aYI5XdC15wTXbj6IKmrB4cmGbYfs3HJxB8Mgr/WzBEl2WLtp8Bow
+ RfLhB6uHKWt/3jArMUo91hllvTGsIYH4fekHponk=
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] nvme: only use power of two io boundaries
-Message-ID: <20200827150439.GB2613662@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200825163516.1706267-1-kbusch@kernel.org>
- <20200827074612.GB7448@lst.de>
+To: linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	hch@lst.de
+Subject: [PATCHv2] nvme: only use power of two io boundaries
+Date: Thu, 27 Aug 2020 08:28:24 -0700
+Message-Id: <20200827152824.2784396-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200827074612.GB7448@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200827_110442_515462_FBB66F3E 
-X-CRM114-Status: GOOD (  18.08  )
+X-CRM114-CacheID: sfid-20200827_112830_097271_5BE79F6E 
+X-CRM114-Status: GOOD (  14.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,28 +74,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 27, 2020 at 09:46:12AM +0200, Christoph Hellwig wrote:
-> On Tue, Aug 25, 2020 at 09:35:16AM -0700, Keith Busch wrote:
-> > The kernel requires a power of two for boundaries because that's the
-> > only way it can efficiently split commands that cross them. A
-> > controller, however, may report a non-power of two boundary.
-> > 
-> > The driver had been rounding the controller's value to one the kernel
-> > can use, but splitting on the wrong boundary provides no benefit on the
-> > device side, and actually incurs additional submission overhead from
-> > non-optimal splits. Don't provide any boundary hint if the controller's
-> > value can't be used.
-> 
-> Shouldn't we log a warning about non-power of two sizes?
+The kernel requires a power of two for boundaries because that's the
+only way it can efficiently split commands that cross them. A
+controller, however, may report a non-power of two boundary.
 
-Sure, this would provide an explanation for unexpectedly lower
-performance. That's worthy of a warning, so sending a v2.
+The driver had been rounding the controller's value to one the kernel
+can use, but splitting on the wrong boundary provides no benefit on the
+device side, and actually incurs additional submission overhead from
+non-optimal splits. Don't provide any boundary hint if the controller's
+value can't be used and log a warning when initially observing a disk's
+unreported io boundary.
+
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+v1->v2:
+
+  Warn for the namespace with unusable io boundary.
+
+ drivers/nvme/host/core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 154942fc64eb..9bbbd600621f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2097,8 +2097,12 @@ static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 		}
+ 	}
+ 
+-	if (iob && !blk_queue_is_zoned(ns->queue))
+-		blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(iob));
++	if (is_power_of_2(iob) && !blk_queue_is_zoned(ns->queue))
++		blk_queue_chunk_sectors(ns->queue, iob);
++	else if (iob && !(disk->flags & GENHD_FL_UP))
++		dev_warn(ctrl->device, "namespace:%u has unused io boundary:%u\n",
++			ns->head->ns_id, iob);
++
+ 	nvme_update_disk_info(disk, ns, id);
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	if (ns->head->disk) {
+-- 
+2.24.1
+
 
 _______________________________________________
 Linux-nvme mailing list
