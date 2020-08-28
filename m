@@ -1,73 +1,144 @@
-Return-Path: <SRS0=+fzK=CF=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=SY4p=CG=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B6BDC433E2
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 22:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30948C433E6
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 01:01:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6235420848
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Aug 2020 22:52:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E4B44206EB
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 01:01:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ynKyO89W"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6235420848
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jU1x28GB";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="uQ07bemi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4B44206EB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=i8XE43A2YBXIcMNAkoNGRiIudUxhe+sQ2FYo1CFUAMg=; b=ynKyO89Wpl0+tmyf9OiQMwMe3K
-	MI55UGYH29cQouUsMZJfHXC8pmym256iuPP9NJSI80tZG/E7y6ZAsrz50zyYfcIUTW/kQ5pmLC+X6
-	wP56rLZY3a5IS5Z6wP9xW7Dpl9UkNEfaLN+8eDlnpEUffKjWRuTWorTRel8JAMqfv97lQNVuV7Ue4
-	YNfHlC1Ew9ZaryzCHa2y98Lst3mFgcqo44+OcRRCBgN7WduWOoQK+EctBlibSY9H1kVQw0CRAlckG
-	Gtb2qTbh4fqTsE7j5aFbatpW1AKGlcrF9uRxayBIANC/l9RlJfWqPAUM9TO/smvYh/ybpI5EqeuJ4
-	U82pAsyw==;
+	bh=LozIGp+QMmZV8t8cTtLZlt0L4PhAl5jodG2BmqSwyLc=; b=jU1x28GBWVoWYXUy0kRKRSbDZO
+	Bfn8rFGm9FjGzQnKwsefuKgthyrgmv4cD+XL/vO7glc1u58T/F5PjeeLL6DVRixZAeOHeqleUShiG
+	aHriuyIr1Kjmc9oVjIsCB1bzLcvj7xWUXunEwYbgA2iWJE0tfM8COY2nw4/rwsGmlqn6rz4MZzKlF
+	NZuWD7n2EfBx5qqVw/TkqKfhnpOMxOYl3rbGIeFCColD72H/Hv+IoG7GZnsfxpPv4sDNzReecR4MR
+	77NNMja81jDPrlcI5Yz9x8wgI11Grrj24dhrh/DXrgcOOQY0rSdEyto0/FE6g1d9pdt99a/eqgblv
+	QgwyknTw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBQko-0002le-5T; Thu, 27 Aug 2020 22:52:22 +0000
-Received: from mga06.intel.com ([134.134.136.31])
+	id 1kBSle-0003sY-Kz; Fri, 28 Aug 2020 01:01:22 +0000
+Received: from mga11.intel.com ([192.55.52.93])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBQkk-0002kg-DY
- for linux-nvme@lists.infradead.org; Thu, 27 Aug 2020 22:52:19 +0000
-IronPort-SDR: FHPRGsLGJr9g/0jgF/Sg29f8mXce+biStMwv1b8zejbb49YmBfWHEG3yY9vks4QzB7j4bQZcH+
- nsQWQj1Sc7Lg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="218129916"
-X-IronPort-AV: E=Sophos;i="5.76,361,1592895600"; d="scan'208";a="218129916"
+ id 1kBSla-0003rO-7Q
+ for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 01:01:19 +0000
+IronPort-SDR: NENfz2R6vvoMOuinK6QIlljTZ2/5RBNgZip5CGF6RzUtVpBlr+1bfu+28gFOfbu+wu8W5AlHsI
+ /kDc4G5G0sIQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="154137669"
+X-IronPort-AV: E=Sophos;i="5.76,361,1592895600"; d="scan'208";a="154137669"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2020 15:52:13 -0700
-IronPort-SDR: RD4G/iYuDMhevdVmNl4TiFK9OQa+78HTPeKhdECI6eaheUJnxncngMPxBLBMv/X2v3lb7d2X3e
- NBvwETNr0ylw==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2020 18:01:17 -0700
+IronPort-SDR: jLf1tCLlb0+HgR1SDAmzEhcbaCHSZQw3+KiFR+GwzL1oZMGVnXqyVNSz1QIN7NTzNyKKF0nhtH
+ XESKtqXCOBsQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,361,1592895600"; d="scan'208";a="403557969"
-Received: from lkp-server01.sh.intel.com (HELO 4f455964fc6c) ([10.239.97.150])
- by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2020 15:52:12 -0700
-Received: from kbuild by 4f455964fc6c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1kBQkd-0002Lt-DZ; Thu, 27 Aug 2020 22:52:11 +0000
-Date: Fri, 28 Aug 2020 06:51:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-5.9-rc 14/14] drivers/nvme/host/zns.c:170:46:
- warning: Uninitialized variable: buflen
-Message-ID: <202008280649.9cVOp4Mh%lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="5.76,361,1592895600"; d="scan'208";a="373906523"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga001.jf.intel.com with ESMTP; 27 Aug 2020 18:01:16 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 27 Aug 2020 18:00:57 -0700
+Received: from fmsmsx152.amr.corp.intel.com (10.18.125.5) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 27 Aug 2020 18:00:57 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ FMSMSX152.amr.corp.intel.com (10.18.125.5) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 27 Aug 2020 18:00:57 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Thu, 27 Aug 2020 18:00:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FZfnVmZKB+gPFKKgrwR59JP+H/G+jQVtyAo38pXG8yyGAvnQR+yVgYiRVEuhjhiWjKXEeLRjRJoZIHqdp80B+5IxqGkE+lO6t1UZgB5qdM9G4NQqEM/W6nXGyCv56RsFyj+pUn3k+QkAdXmvegXQJ9vDidUHsP1E5Rszxpp4j7iUEyanqMlyd1D8CoYIMX1GYWhnOnpFgFYhL87hkGn091qHXWT+mNQlmVXuQBe90Y9gQOoNvEzVSgQsRlgF6iVmgZMaH5x6GLmMZ36B11JrgxKkYzSh3OtMfw/1z/OAfeyQ3MwlH+zybRRW7CAQ4KXYRF5hIrM2tSkGLgA9k3fZog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ITV1MocFMbECJjVjs/yrDlvbKi/r3nQDH0Ji4Re8Na8=;
+ b=lw+d5xseXwaz8Hj6ulv9Bv6HIKiaQWwDQUBIchPbT4zRi9KZhoy/JHX1qSkcc94IwaypuKgvOepQ3BtQFRFIGgLHjcWqhENHyk5J1pf0YHFezZEDJrUpBq1tty/nR9ZyJ66xFfnlKjgpiOj8E3HXIvJg/oDEaRZTS4wTIU7MOpr3MtNv/RiSYEpot4Sug7qVnSBEdwLTi3iyiA2ACH2mNfJLH9OoHrMHqLGBNE8LHb1NeSTC1YwefT8OxKYYYrSZek7QHmGfxUdo42dvkHmEyaAeAeKE4RUO9+5Xtrd1EfNPOT7UWDccBzCRUWHfT4Iz0e53iYrroRxoyCZtmfYCcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ITV1MocFMbECJjVjs/yrDlvbKi/r3nQDH0Ji4Re8Na8=;
+ b=uQ07bemiYMf2VII/PDpfPWL66IaOJWXTJAgSWolomIPPuiw+UMiZYsjZM0i+EpdX55RuZi62cn1q/3vWT901vqBTM6HCWMKI8iA1/m68ZUVKH1jOagRwKuluzWRjrrHGjFwBqqz+fUuys4lwU4W62BBaqttBaiXgGh5HPhqCkto=
+Received: from BYAPR11MB2869.namprd11.prod.outlook.com (2603:10b6:a02:c0::15)
+ by BYAPR11MB2775.namprd11.prod.outlook.com (2603:10b6:a02:bd::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Fri, 28 Aug
+ 2020 01:00:56 +0000
+Received: from BYAPR11MB2869.namprd11.prod.outlook.com
+ ([fe80::cce3:61fa:c7b4:42c8]) by BYAPR11MB2869.namprd11.prod.outlook.com
+ ([fe80::cce3:61fa:c7b4:42c8%3]) with mapi id 15.20.3326.021; Fri, 28 Aug 2020
+ 01:00:56 +0000
+From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: [PATCH 2/5] nvmet_tcp: introduce poll groups
+Thread-Topic: [PATCH 2/5] nvmet_tcp: introduce poll groups
+Thread-Index: AdZ81FozQ7VabXs2Qz6ndrlqh3rtsw==
+Date: Fri, 28 Aug 2020 01:00:56 +0000
+Message-ID: <BYAPR11MB286917CB10A305378D4947B5E5520@BYAPR11MB2869.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=none action=none
+ header.from=intel.com;
+x-originating-ip: [71.238.29.134]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 35e7817e-47ec-4e53-2477-08d84aedd200
+x-ms-traffictypediagnostic: BYAPR11MB2775:
+x-microsoft-antispam-prvs: <BYAPR11MB2775B4D6DBC7877056590A48E5520@BYAPR11MB2775.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2887;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oTUFNPv/vspLbPg1qEiJPlN1wETAFHokHLvOkdsNDZThYNalX1VTT5JLsh6OO5oNVLqdfvI5yE3LFAFqP78tj51NCimjkeD9rnhYXqfsG4cPuW9m3dhobXaGeP4YMzDHimNq559KYRikyB+qKQOSCC/AuCRjg1jFH/6u4U3hv+TmTMRVXAVJ38jmtJ+OUrIg2mJdKu9G1OUY2NEFfyFbR+NqWpIyuCfYgvUnyduOlg+PATJQNRqQSg2pEd+wo6WpUd500osEDt+AVqGj0RgR78O0G5vGCZZjXyjfRFsU4CwTC7A+gQt19WpUbst/i25/
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2869.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(396003)(136003)(39860400002)(346002)(2906002)(7696005)(316002)(86362001)(8936002)(52536014)(5660300002)(6916009)(8676002)(33656002)(26005)(186003)(4326008)(55016002)(66556008)(64756008)(66446008)(76116006)(66946007)(66476007)(6506007)(478600001)(71200400001)(9686003)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: Vn4gApLZFVsSy3J9Fle0g6Dvn4hfiMjllO71/UGplbp19QqQEOXWgENFFCqQ9y9OfBhbk96NjfqtwaUlyFskmrEAQBvX1DQPt/6fzwZyXsBJRTsX2WrHS2Vpkiq86sbqGBXphisbi4u1n1th/bajnMg6yXyFEQW5R+Q2OVqCdzwrDHjdMFSHhFYWRNu4Gte34zOXNlFK5P0Yra7lr+mXE2Z2HQeC3dQMYJSfDmzoIVPSdQfPFIO4hxGZgIVUB5XUl+3463OEfq9bIR9doKF+8MHBTEs0Fu6xcarDQ3Zx4NQLaTTC7GkAD9lzaQyQ6TidPmxKsKPHVhQtNp/4I+M6SF0p01QlXpw+CtUGnb4nkW2YCaJrjWa5BXmXX4mcRm4nMnVjQ/RhLDqo/uEobUv0ofORs6t2aiuIJm9poG6JFB8pPt4mc8m4cwaPmY+GXjy9qyGHIz95N6kJA0a8UEkNu/mxm+wa+J5uX6Hd71egWMOaiVZoK2oiQf8QiXOWrc4Dn6t/TFpqNtl+JvdWaygo2RHFZAiC466ajf4NRbpzx0sDL3VBfn4s1wE/YmM4wzdSLaJrcvfWPpgFihUldDwvpQG5JKsShJaS14lBNBTrbMf2hwg25QyI1f/c98xq6Ets9zlc6ZLoS0YylukxGxfRAA==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2869.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35e7817e-47ec-4e53-2477-08d84aedd200
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2020 01:00:56.2904 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PdkATERkxT+LH6Q93eLKR6qmqGeRJKzEXic9fIxtwk7/C4kbbNI1g+Q3RJ5vUFq1uJMA1wIDmDxIOPUsZYbTuuzrsvBibc8ovp0L8BgM2c8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2775
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200827_185218_592295_2DDC1EBA 
-X-CRM114-Status: GOOD (  14.77  )
+X-CRM114-CacheID: sfid-20200827_210118_469117_B1A77248 
+X-CRM114-Status: GOOD (  23.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,95 +150,126 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, kbuild-all@lists.01.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-5.9-rc
-head:   cd83b396e350d2f13bd2ad81565255f77a13aa3a
-commit: cd83b396e350d2f13bd2ad81565255f77a13aa3a [14/14] nvme: fix error handling in nvme_ns_report_zones
-compiler: sparc64-linux-gcc (GCC) 9.3.0
+nvmet_tcp: introduce poll groups
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+To better support increased numbers of queue
+connections over a possible smaller number of available
+system cores we introduce the 'poll group'.
 
+The poll group provides a service point for a
+single associated process worker entity to service a set
+of assigned queues in the group's work list.
+The work list of queues are monitored evenly during the
+groups poll time period.
 
-cppcheck warnings: (new ones prefixed by >>)
+An 'active' queue is moved from the work_list into the
+group's release_list before removal from group as part
+of queue connection teardown. A queue mutex is
+provided for controlled movement of queues between the
+group lists.
 
->> drivers/nvme/host/zns.c:170:46: warning: Uninitialized variable: buflen [uninitvar]
-    c.zmr.numd = cpu_to_le32(nvme_bytes_to_numd(buflen));
-                                                ^
->> drivers/nvme/host/nvme.h:523:10: warning: Uninitialized variable: len [uninitvar]
-    return (len >> 2) - 1;
-            ^
+Subsequent patches will build upon the 'poll group'.
 
-git remote add linux-nvme git://git.infradead.org/nvme.git
-git fetch --no-tags linux-nvme nvme-5.9-rc
-git checkout cd83b396e350d2f13bd2ad81565255f77a13aa3a
-vim +170 drivers/nvme/host/zns.c
-
-   158	
-   159	static int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
-   160				unsigned int nr_zones, report_zones_cb cb, void *data)
-   161	{
-   162		struct nvme_zone_report *report;
-   163		struct nvme_command c = { };
-   164		int ret, zone_idx = 0;
-   165		unsigned int nz, i;
-   166		size_t buflen;
-   167	
-   168		c.zmr.opcode = nvme_cmd_zone_mgmt_recv;
-   169		c.zmr.nsid = cpu_to_le32(ns->head->ns_id);
- > 170		c.zmr.numd = cpu_to_le32(nvme_bytes_to_numd(buflen));
-   171		c.zmr.zra = NVME_ZRA_ZONE_REPORT;
-   172		c.zmr.zrasf = NVME_ZRASF_ZONE_REPORT_ALL;
-   173		c.zmr.pr = NVME_REPORT_ZONE_PARTIAL;
-   174	
-   175		report = nvme_zns_alloc_report_buffer(ns, nr_zones, &buflen);
-   176		if (!report)
-   177			return -ENOMEM;
-   178	
-   179		sector &= ~(ns->zsze - 1);
-   180		while (zone_idx < nr_zones && sector < get_capacity(ns->disk)) {
-   181			memset(report, 0, buflen);
-   182	
-   183			c.zmr.slba = cpu_to_le64(nvme_sect_to_lba(ns, sector));
-   184			ret = nvme_submit_sync_cmd(ns->queue, &c, report, buflen);
-   185			if (ret)
-   186				goto out_free;
-   187	
-   188			nz = min((unsigned int)le64_to_cpu(report->nr_zones), nr_zones);
-   189			if (!nz)
-   190				break;
-   191	
-   192			for (i = 0; i < nz && zone_idx < nr_zones; i++) {
-   193				ret = nvme_zone_parse_entry(ns, &report->entries[i],
-   194							    zone_idx, cb, data);
-   195				if (ret)
-   196					goto out_free;
-   197				zone_idx++;
-   198			}
-   199	
-   200			sector += ns->zsze * nz;
-   201		}
-   202	
-   203		if (zone_idx > 0)
-   204			ret = zone_idx;
-   205		else
-   206			ret = -EINVAL;
-   207	out_free:
-   208		kvfree(report);
-   209		return ret;
-   210	}
-   211	
-
+Signed-off-by: Mark Wunderlich <mark.wunderlich@intel.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/nvme/target/tcp.c |   48 +++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 911db3f170df..3e3c217c77d4 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -146,6 +146,21 @@ struct nvmet_tcp_port {
+ 	void (*data_ready)(struct sock *);
+ };
+ 
++struct nvmet_tcp_group_napi {
++	unsigned int		napi_id;
++	unsigned int		napi_cnt;
++};
++
++#define NVMET_TCP_GROUP_NAPI_LIMIT     8
++struct nvmet_tcp_queue_group {
++	struct nvmet_tcp_group_napi napi[NVMET_TCP_GROUP_NAPI_LIMIT];
++	struct work_struct	io_work;
++	int			cpu;
++	struct list_head	work_list;
++	struct list_head	release_list;
++};
++struct nvmet_tcp_queue_group *nvmet_tcp_queue_groups;
++
+ static DEFINE_IDA(nvmet_tcp_queue_ida);
+ static LIST_HEAD(nvmet_tcp_queue_list);
+ static DEFINE_MUTEX(nvmet_tcp_queue_mutex);
+@@ -1706,6 +1721,27 @@ static void nvmet_tcp_disc_port_addr(struct nvmet_req *req,
+ 	}
+ }
+ 
++static bool alloc_group_list(void)
++{
++	struct nvmet_tcp_queue_group *group;
++	int i, nr_grps = num_possible_cpus();
++
++	nvmet_tcp_queue_groups = kcalloc(nr_grps, sizeof(struct nvmet_tcp_queue_group),
++					GFP_KERNEL);
++	if (!nvmet_tcp_queue_groups)
++		return false;
++
++	// Init the group list
++	for (i = 0; i < nr_grps; i++) {
++		group = nvmet_tcp_queue_groups + i;
++		group->cpu = i;
++		INIT_LIST_HEAD(&group->work_list);
++		INIT_LIST_HEAD(&group->release_list);
++		INIT_WORK(&group->io_work, nvmet_tcp_io_work);
++	}
++	return true;
++}
++
+ static const struct nvmet_fabrics_ops nvmet_tcp_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_TCP,
+@@ -1722,10 +1758,15 @@ static int __init nvmet_tcp_init(void)
+ {
+ 	int ret;
+ 
+-	nvmet_tcp_wq = alloc_workqueue("nvmet_tcp_wq", WQ_HIGHPRI, 0);
+-	if (!nvmet_tcp_wq)
++	if (!alloc_group_list())
+ 		return -ENOMEM;
+ 
++	nvmet_tcp_wq = alloc_workqueue("nvmet_tcp_wq", WQ_HIGHPRI & WQ_CPU_INTENSIVE, 0);
++	if (!nvmet_tcp_wq) {
++		ret = -ENOMEM;
++		goto err_wq;
++	}
++
+ 	ret = nvmet_register_transport(&nvmet_tcp_ops);
+ 	if (ret)
+ 		goto err;
+@@ -1733,6 +1774,8 @@ static int __init nvmet_tcp_init(void)
+ 	return 0;
+ err:
+ 	destroy_workqueue(nvmet_tcp_wq);
++err_wq:
++	kfree(nvmet_tcp_queue_groups);
+ 	return ret;
+ }
+ 
+@@ -1750,6 +1793,7 @@ static void __exit nvmet_tcp_exit(void)
+ 	flush_scheduled_work();
+ 
+ 	destroy_workqueue(nvmet_tcp_wq);
++	kfree(nvmet_tcp_queue_groups);
+ }
+ 
+ module_init(nvmet_tcp_init);
 
 _______________________________________________
 Linux-nvme mailing list
