@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B180EC43461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B223CC28B49
 	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 01:01:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 71B222080C
+	by mail.kernel.org (Postfix) with ESMTPS id 714B0206EB
 	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 01:01:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rlcpmvbF";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="LHCwaa5v"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71B222080C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yN0NYUGC";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="qg7nfyIQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 714B0206EB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,76 +26,82 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=pAd0vtRyMZuI8RBMIHvgr8ylwypxmJ3w6LvSDAr/Rm0=; b=rlcpmvbF/a9sV25R4j13RUE2WL
-	HOgnpzTYWxUtdX2AeXxHTb2xFvafAZ+j4tEWE/R8PtgmbE4JMLNzR49px9IgaHNcqcJQWVkuVBIvX
-	nPYlTs/AV1MZRjJwC6Xsc58sTDBbRERKdlLqLlx3qBx8BhxAKLrlBPFw/pchwvgpguEF9+AtVafMV
-	5u9kEONZbX4GrRSjDLQMeIQuOfla220DsQmCdBUm20YC86ask9cU9fbJXrgFiG3hUeOsvMQ9vz9n3
-	2U5QDsUYyhxvFHeA0UvmbPXO3WfDta0bi0v84JS3R2rslHihIgiOb/ZmpawAc/MJLNYAMIQwRMHiB
-	sriJ9geQ==;
+	bh=IQsEWupVRo91IJyjKmWTVl7cFO8RQ/Pv7UQP73h8gbw=; b=yN0NYUGCYbh06WFYDU6j+KGEmB
+	ZtmvrbRhyrXlgTq/7rs/n8SEdgJjWEFm6nMLbAfC8SOuPSZn8hrBabfoDb66kR1w8dnMuHhdRsgAh
+	XpbPmSh7WNVj4th5sbPpLlzdrHpp/7c/DtNyK2hwIomFLcIZqDV7yG/hn1psp1rQQggXekPKXgQ+w
+	I9MkrFlL5M/eCsQmJV5gOW6DWQGtmJ9JibHpH9zfnh/bKmtRuL7hMfAOpdSC8ToEbCucVVmLwQKDI
+	dGPEFG4hCcLj7ofvMcUXaoBXd4tCJu0pttIS9sw400f1ZE/XmadQDeQuj464I9HjJHp/47gob1BXp
+	QmSMzyOA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBSla-0003rR-E5; Fri, 28 Aug 2020 01:01:18 +0000
-Received: from mga07.intel.com ([134.134.136.100])
+	id 1kBSld-0003sG-Cw; Fri, 28 Aug 2020 01:01:21 +0000
+Received: from mga11.intel.com ([192.55.52.93])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBSlX-0003qH-2P
- for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 01:01:16 +0000
-IronPort-SDR: Vl1lHq+Cw+ovK+IoW9UyBwUDfeIZTdmbSM+G0rObMpHMZNu4QFXjMMwRKTU9sfBDa864r8C4jD
- fuoJUG+2P1wA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="220836332"
-X-IronPort-AV: E=Sophos;i="5.76,361,1592895600"; d="scan'208";a="220836332"
+ id 1kBSlZ-0003qB-Ec
+ for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 01:01:18 +0000
+IronPort-SDR: ZVG5iMA6OXZ4wtkhE0wq9b2rJjhBmM7uV31JlXkUtCPD9TNjYJrE4Dy5UQiVVI5RUlMX9QomnJ
+ XmNEQtvzwjqg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="154137624"
+X-IronPort-AV: E=Sophos;i="5.76,361,1592895600"; d="scan'208";a="154137624"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2020 18:01:12 -0700
-IronPort-SDR: JNhoPrqB8BGIIc/GOvwIlU3aG8PbnOAXw5TDk0QH8rvhgubS2SKOjdC0YOeeiXEhuppRzisVJP
- OXx8/6ogHIpw==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2020 18:01:07 -0700
+IronPort-SDR: W4iifC/kEma61WzSAw2XrTsL8Ac/MKcip/ZWBl6/nL5KdPrP5yxGdJFxw8Mpld6bLS3MYxKpyU
+ 4pG1avYGn+yw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,361,1592895600"; d="scan'208";a="323816618"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga004.fm.intel.com with ESMTP; 27 Aug 2020 18:01:12 -0700
-Received: from orsmsx606.amr.corp.intel.com (10.22.229.19) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.76,361,1592895600"; d="scan'208";a="444653413"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga004.jf.intel.com with ESMTP; 27 Aug 2020 18:01:07 -0700
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 27 Aug 2020 18:01:00 -0700
-Received: from ORSEDG002.ED.cps.intel.com (10.7.248.5) by
- orsmsx606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ 15.1.1713.5; Thu, 27 Aug 2020 18:00:55 -0700
+Received: from fmsmsx106.amr.corp.intel.com (10.18.124.204) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 27 Aug 2020 18:01:00 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (134.134.137.101) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 27 Aug 2020 18:01:00 -0700
+ via Frontend Transport; Thu, 27 Aug 2020 18:00:55 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 27 Aug 2020 18:00:55 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.48) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Thu, 27 Aug 2020 18:00:54 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AGP5cHzkWQWb9PuYL18PUFig60H6ouOlmC5da13gkosML5rGx1X88eDfjxwXMCN7iLpP343J2mPk5AkaEP49lT0y2uCuVSnEjv+01J6TEXUX6J6ZutoOJARyrCARGD6YElrC97uWNfBgyyZtpIy5XEOy1TEI0OnBfU52Z8iRN+Kfyr87apwpSKvElBq/rPkMaJh1iVcU5vD/I7/8j/l56+SYSk13f341O8LQXE0cuzgR09Gulc0kxmIJaoBHFaFKo5HOam17DaoaBfoiU/x33zMwc/iBzF/ntTfJWDtp0U+LcgeP9/CQhYEqoWL8edBddEIbjd4DNZxe0goMZ0Jqbw==
+ b=js29lELLbqEjWrsV7WqakLHdtnzSf8SuYXk0pBFxlG2raLHVNuSVGD+tOIV24L0gWfzhZUnhN4SoEqu12zKFTtTvbSowZCCbKN6hHurFWAbFdOM4yczwVffDhFxuIu0rP0IYzp1RC98VvnKLeForsVQ44udLRGHIX1bfTbLAaEPEGeQKri+csG7tX6/M20DimlUkqREoCYtdsP0LhZNflKfGBsxgL0IfObDjwuoIF9Rj94bjphGx7M4BVBLdewH/CMfyYcj453JiOCDzP17Y1B6z9bm8mQI7c60klB5naZusTv3D11pLTxGD0NSFPwjWcMLjvTw86lPQc7M+6IxTOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OOfiYU+kz46IxVlkdy7pzBY+i7ceZvgPfa74hHVxNwQ=;
- b=ZHweIRkuWR3RN0D62dHpkD8iCJmOzBjT1hgGvR6972aQjwCzCqUWMpE85SVYgUPoVOhS+Ql5VQLdNEaJ1aLis3UKPFfPCSHkpW6wg7wfAweIl5hfXQ4S9URSgND1UUImHc3W69QkbZzRzHyHAh4iVBJilNcsQVkk7C7pR2cIEg9wPRbBbJGEX169JHhq1+Otf7Mo7gK4KRQDWAzRYOCWW4mmjvmO0N1lJq5pZI+F2XNHcuf+MU4w8zrOhi5Mw2MUqRCH5DfyrMOtjBQFvLaUAQHrt2HmLi6bEtY1moCIC7n4Tsr5PPFwNvb0ZyF7l5iwDrkNkZosBPOjSGIUsK/Fxg==
+ bh=zPBtMaIxFF/ru6tEr4/Y0IDPc8ucPmP2tdKFUQadMAY=;
+ b=GhOHZ8dQko4Hw83Znh4Yfj6CqOy7EyzfzwmmTnl6GD7RgNZ4O372rk/TeIRhjPXS2aGmD5QdMoTjQpqGmlDyJzLh0ZY2OJ1/DxFtRhAzSNkBXbRzEr96bKh0T1ywEqG2jph0v28utCitx9cIu3FSWS5r6BOT4NnF4ncdwDT02NA0b9nNcMseuthkCFhQKKlxkbxRXMzgduJ29hVEOhrTrAv5cf7VjFAB4vl3Xvzt5wuZbqPyyU88wtrLiN5niKtzyYx7qF3goAr7fSHB0aXQHvzVS/fDO6hUhli63W3lqG6A86Yn7R9g5Gb9IJWxmmhC6/mVBv7+R7clkrMmqyXRrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
  s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OOfiYU+kz46IxVlkdy7pzBY+i7ceZvgPfa74hHVxNwQ=;
- b=LHCwaa5vLg5dEeTHoK93sHpjKOTMsA42/6NbD7N98A+ocJQZbyVI45XDjOEfUhtXvO0wqKC7iaMj0flCvmmz7Pq9PAoUb532AWgQNyacc6tXDwuHXhqVxUcoNO+bEjPO+xwme6bnLmlFnrpQL0A9bsDAyjKmI6Twulecn4rpppw=
+ bh=zPBtMaIxFF/ru6tEr4/Y0IDPc8ucPmP2tdKFUQadMAY=;
+ b=qg7nfyIQRK6WetxDhQGBiqHsgYZCCBkmncX8g2Cj77DYoT1jaRPuJkJnH7t55D1Sk+uqHmA2uYq91WRYC2dHkhWh/bJ03XYTZnHyhSZ32DYnDerHUYMdF0oR3aCngTml+IUzKK4bAkl7/7r+GX2WH8lDywWeYT1kBJuI61Nhgrw=
 Received: from BYAPR11MB2869.namprd11.prod.outlook.com (2603:10b6:a02:c0::15)
- by BYAPR11MB2965.namprd11.prod.outlook.com (2603:10b6:a03:82::28)
+ by BYAPR11MB2775.namprd11.prod.outlook.com (2603:10b6:a02:bd::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Fri, 28 Aug
- 2020 01:00:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19; Fri, 28 Aug
+ 2020 01:00:53 +0000
 Received: from BYAPR11MB2869.namprd11.prod.outlook.com
  ([fe80::cce3:61fa:c7b4:42c8]) by BYAPR11MB2869.namprd11.prod.outlook.com
  ([fe80::cce3:61fa:c7b4:42c8%3]) with mapi id 15.20.3326.021; Fri, 28 Aug 2020
- 01:00:58 +0000
+ 01:00:53 +0000
 From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
 To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: [PATCH 3/5] nvmet_tcp: assign queue to group
-Thread-Topic: [PATCH 3/5] nvmet_tcp: assign queue to group
-Thread-Index: AdZ80wA9LrLs7sR4QTer5VG+X/4kyA==
-Date: Fri, 28 Aug 2020 01:00:58 +0000
-Message-ID: <BYAPR11MB28695D53112B8AA5BAF552B3E5520@BYAPR11MB2869.namprd11.prod.outlook.com>
+Subject: [PATCH 1/5] nvmet-tcp: have queue io_work context run on sock
+ incoming cpu
+Thread-Topic: [PATCH 1/5] nvmet-tcp: have queue io_work context run on sock
+ incoming cpu
+Thread-Index: AdZ80aP0uFfLn9VvTWu1xc/l8TvFwQ==
+Date: Fri, 28 Aug 2020 01:00:53 +0000
+Message-ID: <BYAPR11MB28697B878F8E60343BB9EE91E5520@BYAPR11MB2869.namprd11.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -108,33 +114,33 @@ authentication-results: lists.infradead.org; dkim=none (message not signed)
  header.from=intel.com;
 x-originating-ip: [71.238.29.134]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 335c91a5-c53b-4b51-4411-08d84aedd360
-x-ms-traffictypediagnostic: BYAPR11MB2965:
-x-microsoft-antispam-prvs: <BYAPR11MB29655EA45ED17BFACF652A18E5520@BYAPR11MB2965.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-ms-office365-filtering-correlation-id: 15af129d-cc83-40ce-bd1c-08d84aedd082
+x-ms-traffictypediagnostic: BYAPR11MB2775:
+x-microsoft-antispam-prvs: <BYAPR11MB277540D436BD9A7950FDD059E5520@BYAPR11MB2775.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2331;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: aJkbALRM/FD8F4qGMCfV8iktBhAjzVsK2Zj1zQAgUqSjAz4iu+lFTDYDzQFVXPICSChTvPwpwPFakyiWjXt/Pc3EHjn6QFYnnpX94hSzPbKYgwnpCM9kGMT0RRb+L0RLWnvhI8llRx4kFD5TdAZLGTKfZemlvgQ3v1tmxRTOZn5TwNQYWOnSEppA9AiGN1r2PXtH3fgyxInokwsKO0rEb1FHE2YXJVmmesy+TmiMEsn1ffJriGwBSMUpomkcjdxPRqUg4cAGVpFt2OfAZ4oHlEM+w+zGGn/hY5Lo2faK0XDEiuzCKToSMJi54yk385++XM3PNHw0jOKWLrsv9qrKXg==
+x-microsoft-antispam-message-info: H4cUO0oxRaOF2O6rUvhnq5x+X7RhHe0H/5j3nrTW0j6QpIVz0CpBb2hMzeg4ftxrqkT2f1NWcRC7j683Z8oG+9MjBzSyX5gSc68sEPanzF2L1+1QvrZj4qjxIA+g0mWgGXpzEBdpvHrpgSPZyxvSjntu9gM5+PzveU9WIFrUlqzCRe22H311AreuDMDcPodFoYjJCqQMZPUqzhfggzXyviC40Y1ABNdoMmtmAuv2VBiUGI9CtbhjBYsXJzBXP0o0Vsg+LE9/qDQw3G1OJaKKVubRKbiwIBWS72FaUyikd20BvIHkhO1OGHSe11uBS0tm8mpm9bwjIG4RIB9hL8ZeQQ==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR11MB2869.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(396003)(39860400002)(136003)(366004)(2906002)(4326008)(52536014)(55016002)(6916009)(83380400001)(8936002)(5660300002)(8676002)(6506007)(26005)(66946007)(9686003)(478600001)(71200400001)(76116006)(7696005)(66476007)(316002)(86362001)(66446008)(64756008)(33656002)(66556008)(186003);
+ SFS:(4636009)(366004)(376002)(396003)(136003)(39860400002)(346002)(2906002)(7696005)(316002)(86362001)(8936002)(52536014)(5660300002)(6916009)(8676002)(33656002)(26005)(186003)(4326008)(55016002)(66556008)(64756008)(66446008)(76116006)(66946007)(66476007)(6506007)(478600001)(71200400001)(9686003)(83380400001);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: YCKK+QETFK5uLrPeSGg7NBWOnwAeagsrC9R3PiW/hJG9emE4h4keDgZOOk4eR+p4/fmflpvoecyMUxV5tNqGFw0ucwUkuoie3USbU2WpN4Hts4iyfn92sRh6AJ1uk9A080kf6nai9mbTa0MYqufkrsrLq10dSRBnsL4BpLU/O68Nntrs03fQK9xQz8eyR4cOfxKHCzDr8o3bFUiOVA5QYsAlgtTFd3GGI3S2uL/GcswZU4BJg1RSUevJhwFdS1Q2aJ6hCPSsEOEP/+NiM3EzcUsoa0hpcp7hLhWMfU2o2WEy8SV0qrcGdsFvOpwptjDvK2kMDZ7tb6Ca6blvEgyUfD4L3hqTDc9UUvTqHx4Ng6tzXmgFbdoQZAPgpuITGIgSAxS7Yk/qFBxE3bAB4ZGiALaE+SUo6xVxL+i0xLip/SjdYQpuVcL1oNtvQ2Ws6fgmI9ACSlovs5i5M4OUHpFxLpl4IkKZGicoVlSLRsxSfea/uYSPwcguaM4WNgOl78DwsoIYjkeaw4Xq9IjuBOYYTqhuMtzBxYt0Q2dI7lk5710EnygYgcLJnLhn9Nhs0VknynFp/1Zg4OawOOP9vXRG8r2DYg3yxR09WR/INI11QGOkVC2GDTqVwY38wtxHP4lqhh0sNrcKy2UX2TpaMr2ENw==
+x-ms-exchange-antispam-messagedata: G3fuc/zp1hSDJQXri1xTi7hC3XQV6Eb0peDpndEVcP5NsNzk2epLnuz9gEgHQvjwzaGqbcaoHLH+g3XiUW0SNOLg3ECCqUxQtAinKI82nYd2BcNpq3lXZvzBMq3FxTzv3qCNovFqrAXxRxEgog7Ua83irYruAFIxiCn+3JhRfE+FW+WZ4IXW7PL0TEIWuLUF7PgjVL9PO4tiL4kKXB7zSogv1SyAvbwloBzWGVS+JPpWIFctKWdxqIHJHZwMcNS2/LOT1R/8FP8Oe6Myx9ahc4+R8ceBj6KL0tlgsWDo6XcQg8J+R2FpTUXPnjz1T18YW35ZjS4RhiOPlhn6eYu3TZ+gAR9EhaZOI677UPnIpjYXyD47SexjhWsNc1YaDUvSexjUO3ipcsI7giHZGbVmp5+70e8qd3JWoTo4PmyPBZ9lFGCKPGlsvrejBLMNRNt1kh3phgSUTtJRYhgRRLu5jbSPVnuybUXZAjsjdixMG/iDZx1atflZ2XlRoo4srD4js3JAIv7urbS/fB+JTDg77+/xSURb71j0DxFE+ba4CXNNvbHUdRxYTUIC6DGbV1czfnmWNhg2o9u0xNRfDxvjvgBvoMkTPohwBJQZzErJrGRRm8AJ/ngMTy3h9ArHu+aSviMTbDEwaiQFVPT0dWx2Jg==
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2869.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 335c91a5-c53b-4b51-4411-08d84aedd360
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2020 01:00:58.5871 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15af129d-cc83-40ce-bd1c-08d84aedd082
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2020 01:00:53.7359 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RQ/uBvYkyD3tkT2Z8Ikaa6qqxVaP9fEuhYQN4kPq3IJgskE6Hfkva1IOt3gycb8Gt48Ty3LHpnbmTM2GsAYjaZTpWYD384afnU8nHRJDrIE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2965
+X-MS-Exchange-CrossTenant-userprincipalname: X3Ahd96MUKVMqnSIxwBh4PnYSDSdVlUFbJno3J6fuaGzuQA1rdqMurFPQNO3PWVwKq9zo6MlBz8uGGlD5B2lH0ZNscNmg/YzAWO8gtyYrJc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2775
 X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200827_210115_314921_021EE470 
-X-CRM114-Status: GOOD (  25.00  )
+X-CRM114-CacheID: sfid-20200827_210117_659036_F36F1A67 
+X-CRM114-Status: GOOD (  15.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,152 +158,115 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_tcp: assign queue to group
+nvmet-tcp: have queue io_work context run on sock incoming cpu
 
-Each newly created nvmf target queue connection is
-assigned to a specific poll group.
+No real good need to spread queues artificially. Usually the
+target will serve multiple hosts, and it's better to run on the socket
+incoming cpu for better affinitization rather than spread queues on all
+online cpus.
 
-The queue group assignment is based on the queue's socket
-so_incoming_cpu value.  Since there is a pre-allocated
-poll group for every available active CPU, this policy
-will provide fast direct queue to poll group assignment.
-
-The unique napi_id of the new queue socket is added to a
-group list.  Multiple napi_ids are maintained per group
-to support multi-port configurations where the number of
-socket connections could exceed the number of active CPUs.
-
-The group napi_ids are maintained for future patch for
-polling when the group is found to be idle.
+We rely on RSS to spread the work around sufficiently.
 
 Signed-off-by: Mark Wunderlich <mark.wunderlich@intel.com>
 ---
- drivers/nvme/target/tcp.c |   78 ++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 77 insertions(+), 1 deletion(-)
+ drivers/nvme/target/tcp.c |   21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 3e3c217c77d4..84dd5b300a1d 100644
+index 9eda91162fe4..911db3f170df 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -128,6 +128,7 @@ struct nvmet_tcp_queue {
+@@ -94,7 +94,6 @@ struct nvmet_tcp_queue {
+ 	struct socket		*sock;
+ 	struct nvmet_tcp_port	*port;
+ 	struct work_struct	io_work;
+-	int			cpu;
+ 	struct nvmet_cq		nvme_cq;
+ 	struct nvmet_sq		nvme_sq;
  
- 	int			idx;
- 	struct list_head	queue_list;
-+	struct nvmet_tcp_queue_group *group;
+@@ -144,7 +143,6 @@ struct nvmet_tcp_port {
+ 	struct work_struct	accept_work;
+ 	struct nvmet_port	*nport;
+ 	struct sockaddr_storage addr;
+-	int			last_cpu;
+ 	void (*data_ready)(struct sock *);
+ };
  
- 	struct nvmet_tcp_cmd	connect;
- 
-@@ -169,6 +170,7 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_tcp_remove_from_group(struct nvmet_tcp_queue *queue);
- 
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -1367,6 +1369,8 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	struct nvmet_tcp_queue *queue =
- 		container_of(w, struct nvmet_tcp_queue, release_work);
- 
-+	nvmet_tcp_remove_from_group(queue);
-+
- 	mutex_lock(&nvmet_tcp_queue_mutex);
- 	list_del_init(&queue->queue_list);
- 	mutex_unlock(&nvmet_tcp_queue_mutex);
-@@ -1487,6 +1491,73 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
- 	return 0;
+@@ -214,6 +212,11 @@ static inline void nvmet_tcp_put_cmd(struct nvmet_tcp_cmd *cmd)
+ 	list_add_tail(&cmd->entry, &cmd->queue->free_list);
  }
  
-+static inline bool nvmet_tcp_add_group_napi_id(struct nvmet_tcp_queue_group *group,
-+						unsigned int napi_id)
++static inline int queue_cpu(struct nvmet_tcp_queue *queue)
 +{
-+	int i, free_index = NVMET_TCP_GROUP_NAPI_LIMIT;
-+
-+	for (i = 0; i < NVMET_TCP_GROUP_NAPI_LIMIT; i++) {
-+		if (group->napi[i].napi_id == napi_id) {
-+			group->napi[i].napi_cnt++;
-+			return true;
-+		} else if (!group->napi[i].napi_id && free_index == NVMET_TCP_GROUP_NAPI_LIMIT) {
-+			free_index = i;
-+		}
-+	}
-+
-+	if (free_index < NVMET_TCP_GROUP_NAPI_LIMIT) {
-+		group->napi[free_index].napi_id = napi_id;
-+		group->napi[free_index].napi_cnt++;
-+		return true;
-+	}
-+	return false;
++	return queue->sock->sk->sk_incoming_cpu;
 +}
 +
-+static bool nvmet_tcp_add_to_group(struct nvmet_tcp_queue *queue)
-+{
-+	struct nvmet_tcp_queue_group *group;
-+	bool assigned = true;
-+	int i, nr_grps = num_possible_cpus();
-+
-+	group = nvmet_tcp_queue_groups + queue->sock->sk->sk_incoming_cpu;
-+	if (!nvmet_tcp_add_group_napi_id(group, queue->sock->sk->sk_napi_id)) {
-+		/*
-+		 * attempt assignment to another group with free napi id slot
-+		 */
-+		assigned = false;
-+		for (i = 0; i < nr_grps; i++) {
-+			group = nvmet_tcp_queue_groups + i;
-+			if (nvmet_tcp_add_group_napi_id(group, queue->sock->sk->sk_napi_id)) {
-+				assigned = true;
-+				break;
-+			}
-+		}
-+	}
-+	if (!assigned)
-+		return false;
-+
-+	queue->group = group;
-+	return true;
-+}
-+
-+static void nvmet_tcp_remove_from_group(struct nvmet_tcp_queue *queue)
-+{
-+	struct nvmet_tcp_queue_group *group = queue->group;
-+	int i;
-+
-+	if (unlikely(!group))
-+		return;
-+
-+	queue->group = NULL;
-+
-+	for (i = 0; i < NVMET_TCP_GROUP_NAPI_LIMIT; i++) {
-+		if (group->napi[i].napi_id == queue->sock->sk->sk_napi_id) {
-+			if (--group->napi[i].napi_cnt == 0)
-+				group->napi[i].napi_id = 0;
-+		}
-+	}
-+}
-+
- static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 		struct socket *newsock)
+ static inline u8 nvmet_tcp_hdgst_len(struct nvmet_tcp_queue *queue)
  {
-@@ -1528,13 +1599,18 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	list_add_tail(&queue->queue_list, &nvmet_tcp_queue_list);
- 	mutex_unlock(&nvmet_tcp_queue_mutex);
+ 	return queue->hdr_digest ? NVME_TCP_DIGEST_LENGTH : 0;
+@@ -501,7 +504,7 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
+ 	struct nvmet_tcp_queue	*queue = cmd->queue;
  
-+	if (!nvmet_tcp_add_to_group(queue))
-+		goto out_destroy_sq;
-+
- 	ret = nvmet_tcp_set_queue_sock(queue);
+ 	llist_add(&cmd->lentry, &queue->resp_list);
+-	queue_work_on(cmd->queue->cpu, nvmet_tcp_wq, &cmd->queue->io_work);
++	queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &cmd->queue->io_work);
+ }
+ 
+ static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
+@@ -1215,7 +1218,7 @@ static void nvmet_tcp_io_work(struct work_struct *w)
+ 	 * We exahusted our budget, requeue our selves
+ 	 */
+ 	if (pending)
+-		queue_work_on(queue->cpu, nvmet_tcp_wq, &queue->io_work);
++		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
+ }
+ 
+ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
+@@ -1375,7 +1378,7 @@ static void nvmet_tcp_data_ready(struct sock *sk)
+ 	read_lock_bh(&sk->sk_callback_lock);
+ 	queue = sk->sk_user_data;
+ 	if (likely(queue))
+-		queue_work_on(queue->cpu, nvmet_tcp_wq, &queue->io_work);
++		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+ 
+@@ -1395,7 +1398,7 @@ static void nvmet_tcp_write_space(struct sock *sk)
+ 
+ 	if (sk_stream_is_writeable(sk)) {
+ 		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+-		queue_work_on(queue->cpu, nvmet_tcp_wq, &queue->io_work);
++		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
+ 	}
+ out:
+ 	read_unlock_bh(&sk->sk_callback_lock);
+@@ -1504,9 +1507,6 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
  	if (ret)
--		goto out_destroy_sq;
-+		goto out_remove_from_group;
+ 		goto out_free_connect;
  
- 	queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
+-	port->last_cpu = cpumask_next_wrap(port->last_cpu,
+-				cpu_online_mask, -1, false);
+-	queue->cpu = port->last_cpu;
+ 	nvmet_prepare_receive_pdu(queue);
+ 
+ 	mutex_lock(&nvmet_tcp_queue_mutex);
+@@ -1517,7 +1517,7 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 	if (ret)
+ 		goto out_destroy_sq;
+ 
+-	queue_work_on(queue->cpu, nvmet_tcp_wq, &queue->io_work);
++	queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
  
  	return 0;
-+out_remove_from_group:
-+	nvmet_tcp_remove_from_group(queue);
  out_destroy_sq:
- 	mutex_lock(&nvmet_tcp_queue_mutex);
- 	list_del_init(&queue->queue_list);
+@@ -1604,7 +1604,6 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
+ 	}
+ 
+ 	port->nport = nport;
+-	port->last_cpu = -1;
+ 	INIT_WORK(&port->accept_work, nvmet_tcp_accept_work);
+ 	if (port->nport->inline_data_size < 0)
+ 		port->nport->inline_data_size = NVMET_TCP_DEF_INLINE_DATA_SIZE;
 
 _______________________________________________
 Linux-nvme mailing list
