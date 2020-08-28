@@ -2,89 +2,82 @@ Return-Path: <SRS0=SY4p=CG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AABE9C433E2
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 14:17:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2828C433E6
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 15:44:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6534220848
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 14:17:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8C9F320872
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 15:44:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pXNNrtAA";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gyx7hHza"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6534220848
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WpsU2zJk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C9F320872
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
+	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Odd8gEI3ytj2TqjDqfYeEk0zStoOnTJ3OPRIhvIUZi8=; b=pXNNrtAAhA08WMIfWHCUKp5nJ
-	gPnLtBTyO/ceviqAVySQcZrvSGYF/MpP8BLgyon0VOwbiZ2kA+Y4+P/PKPU38MHmX1Lm2p3dKeAy4
-	3fnQdbVstvsqHLCggi/VxmYIy9OpJ3OJwF8CCZz9HlHjTNBuat8JXTuRedwaqVPd6ZD8/an5cP1uP
-	suVVaRXqDEI3b9oQyV/KLVYNOzaGN3OasYbPo/yg092/q1d8lT7T2BAsb8PX3KrsusxqZjea9s9/g
-	ARMCrhde8ZJJqqoxdVKle+CrC+bKaRAa1RJwUPw60Qe4OsYa15H9tMCMg7izQ+sIKcDuRSt/0HiNe
-	jytl55SSw==;
+	 bh=tpMSbUV63DNDWCWxEtqIB6jyPq963ThJ4jnuEgxe+/E=; b=WpsU2zJkP/zk5QaH+NT6GaOqu
+	Ubsl39/8F9oCj7fCOc6LQCtLIS+hxKQA/cf/YC2MgREQ/hUm7pimlpdqqZ5icZk30Cxo/3Vhbl2kb
+	IO3x3AqF6mv11DJvgFJ02/Oe/yBuSYRxk5FFmQwnnElnGylH/mz60BGM7XUnt5cBrUFOagrCVq2rV
+	zNI47F5i/jYBgW2vah/DZE+M0L/KQyi+W0N4Hto2Qlxwd+FpP3CAAWsTnIVZDiLSm3ciGIYRhm3jY
+	zhnS0UPDMOFncMDV0zCd5ciGd7WY9C0hwBtxZgSj/Qo77t/PLQtHLgWVAEhBW0H2FHO16cGOC9XzK
+	88fq8JT6Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBfCJ-0006mp-I9; Fri, 28 Aug 2020 14:17:43 +0000
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843])
+	id 1kBgYP-0004tY-RP; Fri, 28 Aug 2020 15:44:37 +0000
+Received: from mail-pl1-f180.google.com ([209.85.214.180])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBfCG-0006mP-4D
- for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 14:17:41 +0000
-Received: by mail-qt1-x843.google.com with SMTP id n18so807499qtw.0
- for <linux-nvme@lists.infradead.org>; Fri, 28 Aug 2020 07:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AY0AyQHe0H4aLpd5O1f5q6yOLbf+gMdRxlwBykfuLqM=;
- b=gyx7hHzabhnb3NOoenQKNQfJ0sJDfwG8cz34kPqqZUTPLzDyTaR9KU1oaE045SmKkE
- IDUrHQxiC+TH+r2s7248YUO+iEpszvB7t1VVmIoBbBvsUo/ujttAZIgg2XMi4koOIOlc
- m215CyBdM666qAJbB3WqpDOZo+ZTSdM35v7VCEMye4KlXmkkFptTmd6o46uubn63qMXm
- jmymereHIJo9QBoOhHIKjIt/BqxCR9rX2ZX4101ksGJGt8svOBk+wnISy6fHqXXOVFG9
- 68WwQswWcAdExoSdv+/cTSgiH/nraxTTdXToRaQUJvx1Ruak95Atz73zQy6r57AywkvB
- WUeA==
+ id 1kBgYN-0004sy-Ab
+ for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 15:44:36 +0000
+Received: by mail-pl1-f180.google.com with SMTP id q3so656067pls.11
+ for <linux-nvme@lists.infradead.org>; Fri, 28 Aug 2020 08:44:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AY0AyQHe0H4aLpd5O1f5q6yOLbf+gMdRxlwBykfuLqM=;
- b=Im8RS6nVO8S37LE3RGrV++MJ9YiOJDOrpkl2SV4wA65/5tBCZB1k2JLWA1Ufl8eiv+
- OpsQoUlX3cD3Sdjq+SDTVOIRuAhgrYJaqm51aegZx8MsBfrP5JHEwu2qjAs3LY1lJc4O
- whCbxkW8LYNSdrBPU4irVt4PwskVDeY8FKNyBkNhmckwQ4dwL8y5x9AN9S2NRdYDCH8+
- nd+dT/sY6RO0EBymT/qxV4cRpaOd7juE+0m8OnjwFKkJuI83EhLpiQWsFdrpU0Zs7IvP
- yaTwcpkxFNy3w7Htryyrh+7BY64ZqibKmI+dGv+1wJDE84Or/RKsamjTuoFZmUeK+XmA
- P7Bw==
-X-Gm-Message-State: AOAM532NCtxUoB6hzGiUdclaq5ehcauAx6/kYhrvIoGZcilv8ei45G8o
- 09DHpF2vbm+WCGlngzLLmfA=
-X-Google-Smtp-Source: ABdhPJyUlxMEoAvW8FaJdkBw87TbgVGZvFaU8S5sokQdP8xZgQJseHb8YliUrTHJ2BukFcE+aqhGQA==
-X-Received: by 2002:ac8:2a30:: with SMTP id k45mr1572731qtk.290.1598624255751; 
- Fri, 28 Aug 2020 07:17:35 -0700 (PDT)
-Received: from tong-desktop.local ([2601:5c0:c100:b9d:8cbc:4931:e171:e7fa])
- by smtp.googlemail.com with ESMTPSA id 7sm831641qkp.57.2020.08.28.07.17.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Aug 2020 07:17:35 -0700 (PDT)
-From: Tong Zhang <ztong0001@gmail.com>
-To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] nvme-pci: cancel nvme device request before disabling
-Date: Fri, 28 Aug 2020 10:17:08 -0400
-Message-Id: <20200828141707.4124-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200827150103.GA2613662@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200827150103.GA2613662@dhcp-10-100-145-180.wdl.wdc.com>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dGb2n0SGqmx0VxL2Jwe0Ulg6p/Ek+JdV7Oo/S3A5H4Q=;
+ b=cTutQ+PIHP8beqFwIq99qvdGt/ZhACP6FILvRFgx2fnPeHifXLe782zibSTOujEllg
+ VBt27W86Ap1lagjVkYINzLaxXhVY2YOQhYF3etazf585O9DXOwI76VNg931pENsQLeeD
+ yW6sH9nk8hmi8homqJNxa5q3SLJgW3QlgvUSldQFesKDAlxCQmgzDYlM4vxsIdgkICgD
+ yRFHwKU/3U/RFg2N1TDqko8dnL0zjm+N+YKBlk7s6Jt5M9F0Sp+pLQpjhgiYEZWBO95T
+ Qk2r48pCL9ycma+1+eHbdidgJhMcCyyzSeVLPuyuzbK6MdElV73biOUSpoaQnlicTlTk
+ pZ2g==
+X-Gm-Message-State: AOAM531moE+Yljh9p0zmPe1gqQwZiiXXzei+AZML65RStbnaVxqNI6Xh
+ M6wR4jyBGgi45j0Hw0VxONcrt7LqM97Llw==
+X-Google-Smtp-Source: ABdhPJwahWarBqkovqZ04SPawTjiZOi/wvfex/judOXEhx5ZYf5U+PRtODHBVEnZl26g1uUGXvd6sw==
+X-Received: by 2002:a17:90a:46c2:: with SMTP id
+ x2mr1814875pjg.184.1598629473241; 
+ Fri, 28 Aug 2020 08:44:33 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:c4b8:3871:4bc4:154f?
+ ([2601:647:4802:9070:c4b8:3871:4bc4:154f])
+ by smtp.gmail.com with ESMTPSA id b26sm1713872pfp.177.2020.08.28.08.44.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Aug 2020 08:44:32 -0700 (PDT)
+Subject: Re: [PATCH] nvme: fix error handling in nvme_ns_report_zones
+From: Sagi Grimberg <sagi@grimberg.me>
+To: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org
+References: <20200825095824.3542647-1-hch@lst.de>
+ <654ed327-f30b-ad55-2fa8-831fe3bbb139@grimberg.me>
+Message-ID: <b9531d13-ff92-f085-7bcb-432e939fe373@grimberg.me>
+Date: Fri, 28 Aug 2020 08:44:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <654ed327-f30b-ad55-2fa8-831fe3bbb139@grimberg.me>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200828_101740_201152_7A59E669 
-X-CRM114-Status: GOOD (  17.20  )
+X-CRM114-CacheID: sfid-20200828_114435_376176_C9A5C8F0 
+X-CRM114-Status: GOOD (  11.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,144 +89,17 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: ztong0001@gmail.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch addresses an irq free warning and null pointer dereference
-error problem when nvme devices got timeout error during initialization.
-This problem happens when nvme_timeout() function is called while
-nvme_reset_work() is still in execution. This patch fixed the problem by
-setting flag of the problematic request to NVME_REQ_CANCELLED before
-calling nvme_dev_disable() to make sure __nvme_submit_sync_cmd() returns
-an error code and let nvme_submit_sync_cmd() fail gracefully.
-The following is console output.
 
-[   62.472097] nvme nvme0: I/O 13 QID 0 timeout, disable controller
-[   62.488796] nvme nvme0: could not set timestamp (881)
-[   62.494888] ------------[ cut here ]------------
-[   62.495142] Trying to free already-free IRQ 11
-[   62.495366] WARNING: CPU: 0 PID: 7 at kernel/irq/manage.c:1751 free_irq+0x1f7/0x370
-[   62.495742] Modules linked in:
-[   62.495902] CPU: 0 PID: 7 Comm: kworker/u4:0 Not tainted 5.8.0+ #8
-[   62.496206] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-48-gd9c812dda519-p4
-[   62.496772] Workqueue: nvme-reset-wq nvme_reset_work
-[   62.497019] RIP: 0010:free_irq+0x1f7/0x370
-[   62.497223] Code: e8 ce 49 11 00 48 83 c4 08 4c 89 e0 5b 5d 41 5c 41 5d 41 5e 41 5f c3 44 89 f6 48 c70
-[   62.498133] RSP: 0000:ffffa96800043d40 EFLAGS: 00010086
-[   62.498391] RAX: 0000000000000000 RBX: ffff9b87fc458400 RCX: 0000000000000000
-[   62.498741] RDX: 0000000000000001 RSI: 0000000000000096 RDI: ffffffff9693d72c
-[   62.499091] RBP: ffff9b87fd4c8f60 R08: ffffa96800043bfd R09: 0000000000000163
-[   62.499440] R10: ffffa96800043bf8 R11: ffffa96800043bfd R12: ffff9b87fd4c8e00
-[   62.499790] R13: ffff9b87fd4c8ea4 R14: 000000000000000b R15: ffff9b87fd76b000
-[   62.500140] FS:  0000000000000000(0000) GS:ffff9b87fdc00000(0000) knlGS:0000000000000000
-[   62.500534] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   62.500816] CR2: 0000000000000000 CR3: 000000003aa0a000 CR4: 00000000000006f0
-[   62.501165] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   62.501515] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[   62.501864] Call Trace:
-[   62.501993]  pci_free_irq+0x13/0x20
-[   62.502167]  nvme_reset_work+0x5d0/0x12a0
-[   62.502369]  ? update_load_avg+0x59/0x580
-[   62.502569]  ? ttwu_queue_wakelist+0xa8/0xc0
-[   62.502780]  ? try_to_wake_up+0x1a2/0x450
-[   62.502979]  process_one_work+0x1d2/0x390
-[   62.503179]  worker_thread+0x45/0x3b0
-[   62.503361]  ? process_one_work+0x390/0x390
-[   62.503568]  kthread+0xf9/0x130
-[   62.503726]  ? kthread_park+0x80/0x80
-[   62.503911]  ret_from_fork+0x22/0x30
-[   62.504090] ---[ end trace de9ed4a70f8d71e2 ]---
-[  123.912275] nvme nvme0: I/O 12 QID 0 timeout, disable controller
-[  123.914670] nvme nvme0: 1/0/0 default/read/poll queues
-[  123.916310] BUG: kernel NULL pointer dereference, address: 0000000000000000
-[  123.917469] #PF: supervisor write access in kernel mode
-[  123.917725] #PF: error_code(0x0002) - not-present page
-[  123.917976] PGD 0 P4D 0
-[  123.918109] Oops: 0002 [#1] SMP PTI
-[  123.918283] CPU: 0 PID: 7 Comm: kworker/u4:0 Tainted: G        W         5.8.0+ #8
-[  123.918650] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-48-gd9c812dda519-p4
-[  123.919219] Workqueue: nvme-reset-wq nvme_reset_work
-[  123.919469] RIP: 0010:__blk_mq_alloc_map_and_request+0x21/0x80
-[  123.919757] Code: 66 0f 1f 84 00 00 00 00 00 41 55 41 54 55 48 63 ee 53 48 8b 47 68 89 ee 48 89 fb 8b4
-[  123.920657] RSP: 0000:ffffa96800043d40 EFLAGS: 00010286
-[  123.920912] RAX: ffff9b87fc4fee40 RBX: ffff9b87fc8cb008 RCX: 0000000000000000
-[  123.921258] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff9b87fc618000
-[  123.921602] RBP: 0000000000000000 R08: ffff9b87fdc2c4a0 R09: ffff9b87fc616000
-[  123.921949] R10: 0000000000000000 R11: ffff9b87fffd1500 R12: 0000000000000000
-[  123.922295] R13: 0000000000000000 R14: ffff9b87fc8cb200 R15: ffff9b87fc8cb000
-[  123.922641] FS:  0000000000000000(0000) GS:ffff9b87fdc00000(0000) knlGS:0000000000000000
-[  123.923032] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  123.923312] CR2: 0000000000000000 CR3: 000000003aa0a000 CR4: 00000000000006f0
-[  123.923660] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  123.924007] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  123.924353] Call Trace:
-[  123.924479]  blk_mq_alloc_tag_set+0x137/0x2a0
-[  123.924694]  nvme_reset_work+0xed6/0x12a0
-[  123.924898]  process_one_work+0x1d2/0x390
-[  123.925099]  worker_thread+0x45/0x3b0
-[  123.925280]  ? process_one_work+0x390/0x390
-[  123.925486]  kthread+0xf9/0x130
-[  123.925642]  ? kthread_park+0x80/0x80
-[  123.925825]  ret_from_fork+0x22/0x30
-[  123.926004] Modules linked in:
-[  123.926158] CR2: 0000000000000000
-[  123.926322] ---[ end trace de9ed4a70f8d71e3 ]---
-[  123.926549] RIP: 0010:__blk_mq_alloc_map_and_request+0x21/0x80
-[  123.926832] Code: 66 0f 1f 84 00 00 00 00 00 41 55 41 54 55 48 63 ee 53 48 8b 47 68 89 ee 48 89 fb 8b4
-[  123.927734] RSP: 0000:ffffa96800043d40 EFLAGS: 00010286
-[  123.927989] RAX: ffff9b87fc4fee40 RBX: ffff9b87fc8cb008 RCX: 0000000000000000
-[  123.928336] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff9b87fc618000
-[  123.928679] RBP: 0000000000000000 R08: ffff9b87fdc2c4a0 R09: ffff9b87fc616000
-[  123.929025] R10: 0000000000000000 R11: ffff9b87fffd1500 R12: 0000000000000000
-[  123.929370] R13: 0000000000000000 R14: ffff9b87fc8cb200 R15: ffff9b87fc8cb000
-[  123.929715] FS:  0000000000000000(0000) GS:ffff9b87fdc00000(0000) knlGS:0000000000000000
-[  123.930106] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  123.930384] CR2: 0000000000000000 CR3: 000000003aa0a000 CR4: 00000000000006f0
-[  123.930731] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  123.931077] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
-Co-developed-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
----
-
-v2: also fix other places where NVME_REQ_CANCELLED should be set before
-calling nvme_dev_disable according to Keith Busch's comment
-
- drivers/nvme/host/pci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ba725ae47305..0d51f1210444 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1249,8 +1249,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		dev_warn_ratelimited(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, disable controller\n",
- 			 req->tag, nvmeq->qid);
--		nvme_dev_disable(dev, true);
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-+		nvme_dev_disable(dev, true);
- 		return BLK_EH_DONE;
- 	case NVME_CTRL_RESETTING:
- 		return BLK_EH_RESET_TIMER;
-@@ -1267,10 +1267,10 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		dev_warn(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, reset controller\n",
- 			 req->tag, nvmeq->qid);
-+		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
- 		nvme_dev_disable(dev, false);
- 		nvme_reset_ctrl(&dev->ctrl);
- 
--		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
- 		return BLK_EH_DONE;
- 	}
- 
--- 
-2.25.1
-
+Removed from nvme-5.9-rc due to test robot complaints.
+Will let you resend.
 
 _______________________________________________
 Linux-nvme mailing list
