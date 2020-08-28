@@ -2,138 +2,71 @@ Return-Path: <SRS0=SY4p=CG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01923C433E2
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 04:56:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70669C433E2
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 10:55:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C542720848
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 04:56:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2BE9F2098B
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 10:55:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="d9W50UTl";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="YT9xQKCC";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="zUlkmHin"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C542720848
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="a5NmNY3V"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BE9F2098B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=/xmqNAWWgcxjwNfWrphaBRB+OPiGUmz3MeRDjJzS3AE=; b=d9W50UTlV83RZLwKWM0+GwHxX
-	rP+d6eDmSP8ZJLAwhtwEYPlczHfbX6e21f6OTBxlH0Vv5jPIuTQj2jk5zBrAnt5O7cimd8Co6NW64
-	zWc5C8Epyi0XgppyvfO+nQzJOaolzHIeE9fK20XSXODZU5NN/tWH01StnQZ3nrZYacjYqsYDWMaPh
-	5lNvfKEbYhiK1K7cDCrfks2FiCETuNJGjIrfQAhAeIRQfPfVnRK68kK1ShJIF0HPPvPAVLcGbiAJ5
-	aYUOSsr9gA9nuE/w4UjGCnjH4VV8/YthMI6EA6zm/YCdLk5KjfxC8RivFU8OmdvO+U4M0FHFswKV5
-	wcL9uo6LA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hbJ23WBY5qKaGKO+T7ZvsipHQV8LZGsICdJ6ED1tSyM=; b=a5NmNY3Vp9WaEyZMPyMdUSASKu
+	zzaPIW4leiJH053TxoSyLy2IH5xbZlflsJSKzSOAiFemZMC0tXiS4Fy7gGbUqiqUACLlM8ng3YghJ
+	2w05rznHv0PjLIPrNPnchlsgvgpd/7G53qaSUESycNG/sAvnkW2v0aDuhfosQvW0dkliAkDzC7It6
+	fF9s4+XOJv8G8ybCSo3NgAzjfINxSNW5EKffKwfd3g07rPQFxB9FnrBr4KaRrxtpyDrS0zmTWiiC+
+	ZV0jp6M5UeKmqPzcCnkTGdKuxPQ58sMaxiyJZfVWsjLgYjhASqZCN+1c/4Wgz8sEdN2WfafRJiu9V
+	w+ar8ydw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBWRV-0001b0-IP; Fri, 28 Aug 2020 04:56:49 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1kBc2R-00017h-AW; Fri, 28 Aug 2020 10:55:19 +0000
+Received: from mga09.intel.com ([134.134.136.24])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBWRQ-0001aE-Ng
- for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 04:56:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598590605; x=1630126605;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=sk+poE7a1FWMlHSlEyKpf/j4DiwgAb2XFjDDd441Qnc=;
- b=YT9xQKCChbe9a447G2k3nPZSQsgOdWka3uRH/DP5AWlwGtNV72JNqhT1
- QXfgT0edATogILFUt0OneVjXipBLOCBj32LuMySb829T1s0vS1Csox7o/
- V422RK46Wrk0C5Jbj9qq/U+WoJqM7IMmZgv7+VpTjFPBie2dO4A/wEvC0
- rHpdIkfAnUC3whoNdfrLfzqd5RdCHUefa7WTZYn3oZ9i+AUqFU7yL+uuM
- bWPYkSdcBjB5yPr6SZebGKfOrV9XYYIojxJ7RuGFUfHNY0KqkWB8lUEln
- B2dyW4VjHbfDcfDnTuu5Sod3bPg3THwpR5XZwWZlitmZQnNo+DlTiAVtL w==;
-IronPort-SDR: RMZFVTiG3OAMuu9GHLZtXSVfmUymgh5WWAFpHwxqV4et6knXy0yjw3HXHe4slrQhfkSZHs+guz
- UbT2sX3K+9ucyXwvBpYREbFgTKrambp8qYNHMSllDyNXo6KCa/EGmOqWNnbmiVuCfa0Fpx8ZNY
- ZkZN9m7pbnIs8DuIrcLMjvsYlQaIfqWAfhJ9vLrVk/CKJrxte0vqDkNAPf2X+ndnksCaLbe0bV
- d03SvfrCTzjnu9EiPLCoCnK/iBfHMTvfxnrH7LyDS2J1KJfkiZt1/bGJOUEkrabGdfyVI0GRub
- lNg=
-X-IronPort-AV: E=Sophos;i="5.76,362,1592841600"; d="scan'208";a="150365721"
-Received: from mail-mw2nam10lp2101.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.101])
- by ob1.hgst.iphmx.com with ESMTP; 28 Aug 2020 12:56:43 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X9dG8fmoRj0WvL+OYOIdQ4IVGAk3t3eoM0rbszbyXF0qW/B12+2vzqrNLhjXiQz5iFXLDBe5xDZrDF+SPyE1qi7Bi6jA3WlmUd8VKNBHAmZDO59RiFO1MZVN2vf4b9KqnRLKKrOHetQ9tEsZpwrj//yJ3ecbAyGbSkp5bA9oVdTsICWISGpfYzMV8NlELGbi3MCVI7wa5Ve31THKdu+Kp6ZVcGksIl4L3wf50JtAVPCrEdzRYtk9KL1UvpqsGeqX1UmNz7/KqkuTi5BxuNJPIMCldGXOXhLUpYCpEtyOs+39g1f10dI3iJe9HGCsZqe9zWKfQ58RoehI01yxmQux2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GWwvluiDAhf4PwgJ7YcpMcEo6lztIAh47S1onbQ7Jv4=;
- b=lTcuEZWnOQzDvxnZSvhiBIGyHTuv+KvFyfrLrdaI72inrT9vB9RxCXYnCtuPzr0rpU/EKwgb9abDehCStFwCpShYgHRcrVanfWK5we84svfyUW5EiYejD1Zy6Jlg6HzBidZFKcw1oVxwirRHTr6O136ZBObWgJFyCp+gWal8uLBRqn7COZ4T28YIr+ntvbkV5aCKIEEyQaFQfXd4p6WdWR0dAy8P5yfxMNMZ2l4U0PxjLdiUugkAQAU2F9tcb/Mq/lPfxosmbCWTjF5/BkEtiQBAq+K5z/PkSY5bv+hBmMG8qJi0myRn2gzduObafQXpUfV8J1j1gsvxMOMs7BYpxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GWwvluiDAhf4PwgJ7YcpMcEo6lztIAh47S1onbQ7Jv4=;
- b=zUlkmHinugkglzPMlYWLOaDYS/WO5PzFkqow6CLwo+SPrU4dGF+9LuTDGfmXmXScFNEZVrFuq/qhsGKv7yJevh9yYrYC3eGG2Bo3h47ekIpP6j87XShMpkFlCWQG+oqWdG7jJuNwTf8L9vEgHq60rRPnD2b+SjRmfvusFzhe7yU=
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com (2603:10b6:903:ec::14)
- by CY4PR04MB0727.namprd04.prod.outlook.com (2603:10b6:903:e5::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Fri, 28 Aug
- 2020 04:56:41 +0000
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com
- ([fe80::7d15:9936:4b3b:f8a2]) by CY4PR04MB3751.namprd04.prod.outlook.com
- ([fe80::7d15:9936:4b3b:f8a2%12]) with mapi id 15.20.3305.032; Fri, 28 Aug
- 2020 04:56:41 +0000
-From: Damien Le Moal <Damien.LeMoal@wdc.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2] nvme: only use power of two io boundaries
-Thread-Topic: [PATCHv2] nvme: only use power of two io boundaries
-Thread-Index: AQHWfIew8sPeVGuOyUGnBvqGhC5QdQ==
-Date: Fri, 28 Aug 2020 04:56:40 +0000
-Message-ID: <CY4PR04MB37517BF8B9B4F20B77CD579CE7520@CY4PR04MB3751.namprd04.prod.outlook.com>
-References: <20200827152824.2784396-1-kbusch@kernel.org>
- <CY4PR04MB375186A80BD4AA911119C13DE7520@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200828041645.GB2784469@dhcp-10-100-145-180.wdl.wdc.com>
- <CY4PR04MB3751CF0BBED62F4EF6BF36FFE7520@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200828044435.GA2825639@dhcp-10-100-145-180.wdl.wdc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [2400:2411:43c0:6000:1cf:fa0c:32f2:7362]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 85604c84-f752-46e0-2bee-08d84b0ec0e3
-x-ms-traffictypediagnostic: CY4PR04MB0727:
-x-microsoft-antispam-prvs: <CY4PR04MB07273ED3A6153FF187D35011E7520@CY4PR04MB0727.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:66;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0wYqmEzv15ZVvSPBreTroTMrBetNQoXSrIHY6yQ4td4IGuhV9erO7PLaepwGmrawEOABEyJzSBFbblcAcoePdmm/DSJ0yvJj2GxTxFQRcw3uKOf/3VYR4a+5JAS4/eqAKGCVCqt7qFffYJwwiUUZKlyPeD8vjhf9shMgUXwGvn0OjWPpOrkx0GSDQ5GrT4ltIz6CT/rQzF+Hmfl4sPuO5wz0FtwmbU30ktrw2tRwKdOlRa75T66iJ9+dqYAZKXbbqZkvLowLym27J7vMJbjvvjci+p7OAkfmOzpON35K4Gc2turEgeXLrf1/H5Xx6P0x
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(136003)(366004)(346002)(376002)(33656002)(66476007)(66946007)(91956017)(66556008)(76116006)(66446008)(64756008)(83380400001)(53546011)(7696005)(6506007)(478600001)(186003)(2906002)(54906003)(8676002)(6916009)(86362001)(8936002)(55016002)(5660300002)(9686003)(316002)(52536014)(4326008)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: DpxAKSuzLYRbZc9NJZMtW7exxiSSMI0ABez62zBU+R0jlHdsasVFxn5UaZ9ZnIAJWg1PlyCzKbuTbkxqIxZArgaXgbdK9td/fyIG5oE7pj2pp8fj6EAuXmWO/xR/3C1wC849VDeeYlAK8qf7d6kHPvBUDc0JchiaxxIcoIX0dGQv9ZHNFitl7gvKJxhDqV+EtqIo69G+M2eCMoEEPIoRHlFsH4LrRYNIsGbA+0pueIU3LHIY9i1EYaarIO2EcFC+oOJgsE5yO3Gf5S0fUJ4mGs3tjHqd4/beuhyPO0aIcTXLfr5KP033f7qKg0yYlGi1GZ7mOJBhaCPCkTDun0vr+WcJPalwsNjLt6+ZFA9mq5VD+sHI3UAZh6oiPtd7iqJ+nmGImqA6uV300abDR14kJ7JPj6XsrwpVYfMu13wNq+UysD+FOjX/zLjadS1K4ZmZIR0RxvOLeG5EcQHHUmFK6mR4mQD39M54b+FQg/M5bC9+n1c9d06+iMUyWiJEQuarJJcdHUhsb1LGzBMZCPqU4BO2x7Xbr0MMAjD/8lXxcfWCuT1XzysZ/DCeYwmlUBDYo3bp9D+7m6YqQX4i5cfy3KhzSXlSItBBH7uryKFIup3HDTZDt78SEd60iUXq9KU++niudyCO7JrKNocFxmkKi3VNpalaj0/i/VLVp04irAWqSUlanGctsqS/mPrUciqV4Y1A1iUHrrwDYw7I11p7Dw==
-x-ms-exchange-transport-forked: True
+ id 1kBc2L-00017C-3r
+ for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 10:55:14 +0000
+IronPort-SDR: SF4gLzJuBNeY9Zfi7eXPh63T/MR0vm1aJXfLme2Ex2UBgY1ZeMLAGzQxCbvTVx7ogQRXYY2nR0
+ Ew9z6jcROykg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="157669734"
+X-IronPort-AV: E=Sophos;i="5.76,363,1592895600"; d="scan'208";a="157669734"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2020 03:55:11 -0700
+IronPort-SDR: eaZVrteCIaud3IVfrKcSGyRjtkvIUJ2rMbn3IFZrHKeDojDJpm1vajtXvVqZ3wCn89Gp4Ec+Zk
+ EvWSVjDTWIIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,363,1592895600"; d="scan'208";a="403719952"
+Received: from lkp-server01.sh.intel.com (HELO 4f455964fc6c) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 28 Aug 2020 03:55:10 -0700
+Received: from kbuild by 4f455964fc6c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kBc2H-0002eB-HT; Fri, 28 Aug 2020 10:55:09 +0000
+Date: Fri, 28 Aug 2020 18:54:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: [linux-nvme:nvme-5.9-rc] BUILD SUCCESS WITH WARNING
+ 82e3e51f2fb2246eee837fa4aeee79ec1f921c89
+Message-ID: <5f48e27f.8fDcXMSo1IZRpjNr%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB3751.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85604c84-f752-46e0-2bee-08d84b0ec0e3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2020 04:56:40.9714 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I9g2ZO4xFdFYIvi8ZyWgJ5x9gV4ScdTbJ+g5bHIxMrH8ncTgwrbj7Y17tNVHr2JIntBoiqB6rUZO5XowPNm4JQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0727
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200828_005645_069764_69B09E5B 
-X-CRM114-Status: GOOD (  13.66  )
+X-CRM114-CacheID: sfid-20200828_065513_320078_84A65BF1 
+X-CRM114-Status: GOOD (  13.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,46 +78,223 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020/08/28 13:44, Keith Busch wrote:
-> On Fri, Aug 28, 2020 at 04:30:02AM +0000, Damien Le Moal wrote:
->> On 2020/08/28 13:16, Keith Busch wrote:
->>> As long as zone sizes reuse the queue's chunk_sectors, the zone size
->>> needs to take precedence since it's more than just a hint compared to
->>> NOIOB. If people complain about the warning, that may indicate we ought
->>> to find a way to get around overloading the chunk_sectors queue limit,
->>> but I suspect ZNS drives won't report an iob value.
->>
->> Understood. But for ZNS, since the zone size would take precedence over iob for
->> chunk sectors, wouldn't it make sense to have the entire code block under a
->> if (!blk_queue_is_zoned(ns->queue)) ? Something like this:
->>
->> 	if (!blk_queue_is_zoned(ns->queue)) {
->> 		if (is_power_of_2(iob))
->> 			blk_queue_chunk_sectors(ns->queue, iob);
->> 		else if (iob && !(disk->flags & GENHD_FL_UP))
->> 			dev_warn(ctrl->device,
->> 				"namespace:%u has unused io boundary:%u\n",
->> 				ns->head->ns_id, iob);
->> 	}
-> 
-> Oh, I see. I think we should have the warning for ZNS too, though, just
-> to get an indication that devices really want this kind of
-> consideration.
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.9-rc
+branch HEAD: 82e3e51f2fb2246eee837fa4aeee79ec1f921c89  nvme: only use power of two io boundaries
 
-I see. The use of chunk_sectors for both the zone size and iob renders iob
-impossible to satisfy. So indeed it makes sense to get the warning. Thanks !
+Warning in current branch:
 
--- 
-Damien Le Moal
-Western Digital Research
+include/uapi/linux/byteorder/big_endian.h:33:27: warning: 'buflen' is used uninitialized in this function [-Wuninitialized]
+include/uapi/linux/byteorder/little_endian.h:33:27: warning: 'buflen' is used uninitialized in this function [-Wuninitialized]
+include/uapi/linux/swab.h:120:2: warning: 'buflen' is used uninitialized in this function [-Wuninitialized]
+
+Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allmodconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- alpha-allyesconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- arc-allyesconfig
+|   `-- include-uapi-linux-swab.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- c6x-allyesconfig
+|   `-- include-uapi-linux-swab.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- h8300-allyesconfig
+|   `-- include-uapi-linux-swab.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- i386-allyesconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- i386-randconfig-a001-20200827
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- ia64-allmodconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- m68k-allmodconfig
+|   `-- include-uapi-linux-swab.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- m68k-allyesconfig
+|   `-- include-uapi-linux-swab.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- mips-allmodconfig
+|   `-- include-uapi-linux-byteorder-big_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- mips-allyesconfig
+|   `-- include-uapi-linux-byteorder-big_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- mips-randconfig-r034-20200828
+|   `-- include-uapi-linux-byteorder-big_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- nios2-allyesconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- parisc-allyesconfig
+|   `-- include-uapi-linux-swab.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- powerpc-allmodconfig
+|   `-- include-uapi-linux-byteorder-big_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- powerpc-allyesconfig
+|   `-- include-uapi-linux-byteorder-big_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- riscv-allmodconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- riscv-allyesconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- s390-allyesconfig
+|   `-- include-uapi-linux-byteorder-big_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- sh-allmodconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- sparc-allyesconfig
+|   `-- include-uapi-linux-swab.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- x86_64-allmodconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- x86_64-allyesconfig
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- x86_64-rhel
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+|-- x86_64-rhel-8.3
+|   `-- include-uapi-linux-byteorder-little_endian.h:warning:buflen-is-used-uninitialized-in-this-function
+`-- xtensa-allyesconfig
+    `-- include-uapi-linux-swab.h:warning:buflen-is-used-uninitialized-in-this-function
+
+elapsed time: 724m
+
+configs tested: 135
+configs skipped: 13
+
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                ecovec24-romimage_defconfig
+arm                      pxa255-idp_defconfig
+mips                           ip32_defconfig
+sh                           se7721_defconfig
+sparc                               defconfig
+sh                           se7206_defconfig
+s390                             alldefconfig
+mips                         bigsur_defconfig
+sh                   sh7770_generic_defconfig
+arm                          iop32x_defconfig
+c6x                              alldefconfig
+arm                          pxa168_defconfig
+sh                           se7722_defconfig
+parisc                generic-64bit_defconfig
+mips                           rs90_defconfig
+m68k                       bvme6000_defconfig
+sh                            shmin_defconfig
+arm                         s3c2410_defconfig
+m68k                        m5272c3_defconfig
+sh                            migor_defconfig
+arm                        multi_v7_defconfig
+mips                        bcm47xx_defconfig
+c6x                        evmc6474_defconfig
+microblaze                    nommu_defconfig
+sparc64                          alldefconfig
+powerpc                mpc7448_hpc2_defconfig
+powerpc                          alldefconfig
+arc                           tb10x_defconfig
+m68k                           sun3_defconfig
+sh                           se7780_defconfig
+arm                    vt8500_v6_v7_defconfig
+sh                             sh03_defconfig
+arm                         mv78xx0_defconfig
+arc                              allyesconfig
+arm                         lpc18xx_defconfig
+mips                        jmr3927_defconfig
+arm                          exynos_defconfig
+arm                          pxa910_defconfig
+arm                          lpd270_defconfig
+mips                    maltaup_xpa_defconfig
+sh                             shx3_defconfig
+arm                            u300_defconfig
+mips                malta_kvm_guest_defconfig
+mips                  cavium_octeon_defconfig
+arc                             nps_defconfig
+arm                       spear13xx_defconfig
+arm                         ebsa110_defconfig
+ia64                      gensparse_defconfig
+arc                     nsimosci_hs_defconfig
+powerpc                 mpc8272_ads_defconfig
+arm                             rpc_defconfig
+arc                        nsim_700_defconfig
+microblaze                          defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+x86_64               randconfig-a003-20200827
+x86_64               randconfig-a002-20200827
+x86_64               randconfig-a001-20200827
+x86_64               randconfig-a005-20200827
+x86_64               randconfig-a006-20200827
+x86_64               randconfig-a004-20200827
+i386                 randconfig-a002-20200828
+i386                 randconfig-a005-20200828
+i386                 randconfig-a003-20200828
+i386                 randconfig-a004-20200828
+i386                 randconfig-a001-20200828
+i386                 randconfig-a006-20200828
+i386                 randconfig-a002-20200827
+i386                 randconfig-a004-20200827
+i386                 randconfig-a003-20200827
+i386                 randconfig-a005-20200827
+i386                 randconfig-a006-20200827
+i386                 randconfig-a001-20200827
+x86_64               randconfig-a015-20200828
+x86_64               randconfig-a012-20200828
+x86_64               randconfig-a016-20200828
+x86_64               randconfig-a014-20200828
+x86_64               randconfig-a011-20200828
+x86_64               randconfig-a013-20200828
+i386                 randconfig-a013-20200827
+i386                 randconfig-a012-20200827
+i386                 randconfig-a011-20200827
+i386                 randconfig-a016-20200827
+i386                 randconfig-a015-20200827
+i386                 randconfig-a014-20200827
+i386                 randconfig-a013-20200828
+i386                 randconfig-a012-20200828
+i386                 randconfig-a011-20200828
+i386                 randconfig-a016-20200828
+i386                 randconfig-a014-20200828
+i386                 randconfig-a015-20200828
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
