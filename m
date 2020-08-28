@@ -7,17 +7,18 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A523C433E2
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 19:09:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFCAC433E6
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 20:24:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E24720776
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 19:09:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BBDE220872
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Aug 2020 20:24:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iepN2tGi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E24720776
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ceiq+F/J";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="VkgdNHjZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBDE220872
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
@@ -25,58 +26,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qcobuDznlC8ytin2beLIde8BFd2LMdLc6J049PCoMXQ=; b=iepN2tGi5tTCpat1ZV4iX9m46
-	9XIF9ttogmUhZKI6+rrTg5QM8Cb6+ntEzfKoQRN8Z0R0iBGKqJUIwtYr7KlaoNBzyXmC/f3GmxUqf
-	F1FGOEcHhGhwSvXKS3VWHbpmG6U15arif/PVhdPqMbsT6jLba+qmSSLtSK/3QVtuRuVdIibm5dvbo
-	brrp9P2aBoLgn4pIRq4u0LuSjb5yg4FEITBaUCKyvuZ+Cms4tFsqNNOjnex98naq30AzRm8CxEH9+
-	fznfrkCCiUmQMcq92Jeel4xuu9Z7FwjKq/OaMznlYHhmD1z0xsh48AfiJkqpxJ2VrjPZzpHJPNvpk
-	4TGFswZNw==;
+	 bh=mXM+liZ8ihut/jM6tbzB8KOmz7DP6r6S8C81eQswsMw=; b=Ceiq+F/JE6X5OZctQIrkTThsy
+	3sJphmpGr2WUAjQwS8tqs44auDyeWe6J4FSQNeDG5JKqSO0q2g/KEU7vJS8KtZ0ueEZVay9+DsEaF
+	MGv+EJc4MYEItx5J1KCOj3slDrc24sc16cXujlW1mGNp+9RbWfr5F80f0V3qZOPbMajEBpLYpOdUV
+	Glqm4RALN4TtmLfPwapZrm6SZKfRXbmFMxHQbmers1AweylekFIwLgSFJ9v+rCczaGwdgmqT21Ff1
+	+oPXXLXMgnumyMy7LS1wl2OOvd/LAP0w2zE+7EymmNqpq+vaf8dCxOnoRc+i/RbMwDszDKX9M6cJY
+	zV56RcaJA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBjk9-00065q-69; Fri, 28 Aug 2020 19:08:57 +0000
-Received: from mail-pf1-f193.google.com ([209.85.210.193])
+	id 1kBkv3-0005an-JC; Fri, 28 Aug 2020 20:24:17 +0000
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBjk7-00065R-6l
- for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 19:08:55 +0000
-Received: by mail-pf1-f193.google.com with SMTP id k15so1101648pfc.12
- for <linux-nvme@lists.infradead.org>; Fri, 28 Aug 2020 12:08:50 -0700 (PDT)
+ id 1kBkv0-0005Zt-2e
+ for linux-nvme@lists.infradead.org; Fri, 28 Aug 2020 20:24:15 +0000
+Received: by mail-pf1-x442.google.com with SMTP id d22so1212848pfn.5
+ for <linux-nvme@lists.infradead.org>; Fri, 28 Aug 2020 13:24:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=IDS3NnzgLo0jrRDnLv1X/fj0Kz/8LODkkhTNK4jyDRo=;
+ b=VkgdNHjZq31Eigk47vi7CkDqjau+mhw53riN9wARNhROVsSn2/UUqRzJ4oh/vSrxQx
+ d3S+/drA+wN7IDQsGamfGjjj6cOFOVVR19bMKsv9INeB4/nh4BEe5h19A0V8DdLeFqzQ
+ aS6V94csB6BUgDyDXMVwYBEM5VRp6FHCck4EI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XM8dt+Eo2K0S9fXx+j818YEhd/W3DzDGMLAUALGK5fw=;
- b=blbEBhxZgJK9kCrFhRR3iwW1saJ5BqYv3bUAgO01OZ2OvuTpKfQDtYU4MHH6QraXqz
- jDm5xoXtpZhfGgZEOZEevn/xWgSnkakVVDyAsb4hZGb0Pvznzb5TyLySkoCSjbvkTObG
- hRVuaOf900rVaUUX2CvndHlbiqEab9FoL+VrrFHzBHJjGDywN1wFuZyo0GvKn72h3P4u
- Z99McfgH0qrQKE3jbLSFdrHkkiG2zcJxujJ4Npb3KeoNLJusnZhq1hs/USnYc2Y84mCh
- ayn0zxH8Y+ise6a3XEwHKmyB7IflX/1116UtwcOCli92O7HB60ugzlccOzwrU3xZ7yLf
- tCMQ==
-X-Gm-Message-State: AOAM530W4Gbl7SWfqFyVS8I36cFl3zEsYRxFatxFQdkhzSQCyRAR3Gmo
- kpbk3m6RRs4PfeV5R0q4dSk=
-X-Google-Smtp-Source: ABdhPJw3fNGYkWJlxTYNNAfR9zKd2lAO+Ga5l/So2hSewQFnDJPIFzyi9BIUwWiqaXd6RC4CajDxMQ==
-X-Received: by 2002:a65:60ce:: with SMTP id r14mr180818pgv.85.1598641729827;
- Fri, 28 Aug 2020 12:08:49 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:c4b8:3871:4bc4:154f?
- ([2601:647:4802:9070:c4b8:3871:4bc4:154f])
- by smtp.gmail.com with ESMTPSA id c5sm248462pgj.0.2020.08.28.12.08.48
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=IDS3NnzgLo0jrRDnLv1X/fj0Kz/8LODkkhTNK4jyDRo=;
+ b=P9LlWp3OFc3Dysgi/UGRXEAKFN7w7T/yWo35qOhHjBeNA2P5MjRh+S7HR7yp9UoVrs
+ wI/PBPVkGpOOw5OigQtkVRQtDwQSQWCFaRTqaez5voKFK6HG/ilOse5ztrL10KTZyZjT
+ mB5eEvr4cG7eOMPEG8AzxtreTOny6TXrbEyTagPTxb927CxUAOySZ+/Ebc6FQzkU+7xv
+ WTBtgTdtP2gdHVSCZmaN/GvAymilYZK2ktdWjyYLhCOiHSL1wyMYraovnBO373gdtrCy
+ 9GJccgOpG30DrnAwUsMK9qZkrkckn5oUUMHf5u3QnCrfAqYkditTzF1nSi3oW5JvX+M+
+ SEhg==
+X-Gm-Message-State: AOAM531ExGf9cUtuxFfQWUO8fHHGtOPOAFKkRBHbDKjNCQPrz7DCOFq4
+ 1qXd8Q3yHEZTBRts7cv5vzMffQ==
+X-Google-Smtp-Source: ABdhPJwJFQIEnDqL/cQjIPckGc84unXTiL/Nr/l2N0aCBeG+4HOQULnZIveNW/NMnCw45iHbrlHN2Q==
+X-Received: by 2002:a63:6fc6:: with SMTP id k189mr362882pgc.165.1598646252072; 
+ Fri, 28 Aug 2020 13:24:12 -0700 (PDT)
+Received: from [10.69.69.102] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id z1sm174013pjn.34.2020.08.28.13.24.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Aug 2020 12:08:49 -0700 (PDT)
+ Fri, 28 Aug 2020 13:24:11 -0700 (PDT)
 Subject: Re: [PATCH] nvme: Revert: Fix controller creation races with teardown
  flow
-To: James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
 References: <20200828190150.34455-1-james.smart@broadcom.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <0867c437-1521-c0c9-d7fa-6a615d88105a@grimberg.me>
-Date: Fri, 28 Aug 2020 12:08:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <0867c437-1521-c0c9-d7fa-6a615d88105a@grimberg.me>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <a73cd06b-b319-d55f-1465-4263e08900ae@broadcom.com>
+Date: Fri, 28 Aug 2020 13:24:10 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-In-Reply-To: <20200828190150.34455-1-james.smart@broadcom.com>
+In-Reply-To: <0867c437-1521-c0c9-d7fa-6a615d88105a@grimberg.me>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200828_150855_273463_63F02FA8 
-X-CRM114-Status: GOOD (  20.94  )
+X-CRM114-CacheID: sfid-20200828_162414_331790_0F65B0A8 
+X-CRM114-Status: GOOD (  22.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,43 +99,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Cc: Keith Busch <kbusch@kernel.org>, Israel Rukshin <israelr@mellanox.com>,
  Christoph Hellwig <hch@lst.de>, stable@vger.kernel.org,
  Max Gurtovoy <maxg@mellanox.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> The indicated patch introduced a barrier in the sysfs_delete attribute
-> for the controller that rejects the request if the controller isn't
-> created. "Created" is defined as at least 1 call to nvme_start_ctrl().
-> 
-> This is problematic in error-injection testing.  If an error occurs on
-> the initial attempt to create an association and the controller enters
-> reconnect(s) attempts, the admin cannot delete the controller until
-> either there is a successful association created or ctrl_loss_tmo
-> times out.
-> 
-> Where this issue is particularly hurtful is when the "admin" is the
-> nvme-cli, it is performing a connection to a discovery controller, and
-> it is initiated via auto-connect scripts.  With the FC transport, if the
-> first connection attempt fails, the controller enters a normal reconnect
-> state but returns control to the cli thread that created the controller.
-> In this scenario, the cli attempts to read the discovery log via ioctl,
-> which fails, causing the cli to see it as an empty log and then proceeds
-> to delete the discovery controller. The delete is rejected and the
-> controller is left live. If the discovery controller reconnect then
-> succeeds, there is no action to delete it, and it sits live doing nothing.
-
-This is indeed a regression.
-
-Perhaps we should also revert:
-12a0b6622107 ("nvme: don't hold nvmf_transports_rwsem for more than 
-transport lookups")
-
-Which inherently caused this by removing the serialization of
-.create_ctrl()...
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiA4LzI4LzIwMjAgMTI6MDggUE0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4KPj4gVGhlIGlu
+ZGljYXRlZCBwYXRjaCBpbnRyb2R1Y2VkIGEgYmFycmllciBpbiB0aGUgc3lzZnNfZGVsZXRlIGF0
+dHJpYnV0ZQo+PiBmb3IgdGhlIGNvbnRyb2xsZXIgdGhhdCByZWplY3RzIHRoZSByZXF1ZXN0IGlm
+IHRoZSBjb250cm9sbGVyIGlzbid0Cj4+IGNyZWF0ZWQuICJDcmVhdGVkIiBpcyBkZWZpbmVkIGFz
+IGF0IGxlYXN0IDEgY2FsbCB0byBudm1lX3N0YXJ0X2N0cmwoKS4KPj4KPj4gVGhpcyBpcyBwcm9i
+bGVtYXRpYyBpbiBlcnJvci1pbmplY3Rpb24gdGVzdGluZy7CoCBJZiBhbiBlcnJvciBvY2N1cnMg
+b24KPj4gdGhlIGluaXRpYWwgYXR0ZW1wdCB0byBjcmVhdGUgYW4gYXNzb2NpYXRpb24gYW5kIHRo
+ZSBjb250cm9sbGVyIGVudGVycwo+PiByZWNvbm5lY3QocykgYXR0ZW1wdHMsIHRoZSBhZG1pbiBj
+YW5ub3QgZGVsZXRlIHRoZSBjb250cm9sbGVyIHVudGlsCj4+IGVpdGhlciB0aGVyZSBpcyBhIHN1
+Y2Nlc3NmdWwgYXNzb2NpYXRpb24gY3JlYXRlZCBvciBjdHJsX2xvc3NfdG1vCj4+IHRpbWVzIG91
+dC4KPj4KPj4gV2hlcmUgdGhpcyBpc3N1ZSBpcyBwYXJ0aWN1bGFybHkgaHVydGZ1bCBpcyB3aGVu
+IHRoZSAiYWRtaW4iIGlzIHRoZQo+PiBudm1lLWNsaSwgaXQgaXMgcGVyZm9ybWluZyBhIGNvbm5l
+Y3Rpb24gdG8gYSBkaXNjb3ZlcnkgY29udHJvbGxlciwgYW5kCj4+IGl0IGlzIGluaXRpYXRlZCB2
+aWEgYXV0by1jb25uZWN0IHNjcmlwdHMuwqAgV2l0aCB0aGUgRkMgdHJhbnNwb3J0LCBpZiB0aGUK
+Pj4gZmlyc3QgY29ubmVjdGlvbiBhdHRlbXB0IGZhaWxzLCB0aGUgY29udHJvbGxlciBlbnRlcnMg
+YSBub3JtYWwgcmVjb25uZWN0Cj4+IHN0YXRlIGJ1dCByZXR1cm5zIGNvbnRyb2wgdG8gdGhlIGNs
+aSB0aHJlYWQgdGhhdCBjcmVhdGVkIHRoZSBjb250cm9sbGVyLgo+PiBJbiB0aGlzIHNjZW5hcmlv
+LCB0aGUgY2xpIGF0dGVtcHRzIHRvIHJlYWQgdGhlIGRpc2NvdmVyeSBsb2cgdmlhIGlvY3RsLAo+
+PiB3aGljaCBmYWlscywgY2F1c2luZyB0aGUgY2xpIHRvIHNlZSBpdCBhcyBhbiBlbXB0eSBsb2cg
+YW5kIHRoZW4gcHJvY2VlZHMKPj4gdG8gZGVsZXRlIHRoZSBkaXNjb3ZlcnkgY29udHJvbGxlci4g
+VGhlIGRlbGV0ZSBpcyByZWplY3RlZCBhbmQgdGhlCj4+IGNvbnRyb2xsZXIgaXMgbGVmdCBsaXZl
+LiBJZiB0aGUgZGlzY292ZXJ5IGNvbnRyb2xsZXIgcmVjb25uZWN0IHRoZW4KPj4gc3VjY2VlZHMs
+IHRoZXJlIGlzIG5vIGFjdGlvbiB0byBkZWxldGUgaXQsIGFuZCBpdCBzaXRzIGxpdmUgZG9pbmcg
+Cj4+IG5vdGhpbmcuCj4KPiBUaGlzIGlzIGluZGVlZCBhIHJlZ3Jlc3Npb24uCj4KPiBQZXJoYXBz
+IHdlIHNob3VsZCBhbHNvIHJldmVydDoKPiAxMmEwYjY2MjIxMDcgKCJudm1lOiBkb24ndCBob2xk
+IG52bWZfdHJhbnNwb3J0c19yd3NlbSBmb3IgbW9yZSB0aGFuIAo+IHRyYW5zcG9ydCBsb29rdXBz
+IikKPgo+IFdoaWNoIGluaGVyZW50bHkgY2F1c2VkIHRoaXMgYnkgcmVtb3ZpbmcgdGhlIHNlcmlh
+bGl6YXRpb24gb2YKPiAuY3JlYXRlX2N0cmwoKS4uLgoKbm8sIEkgYmVsaWV2ZSB0aGUgcGF0Y2gg
+b24gdGhlIHNlbWFwaG9yZSBpcyBjb3JyZWN0LiBPdGhlcndpc2UgLSB0aGluZ3MgCmNhbiBiZSBi
+bG9ja2VkIGEgbG9uZyB0aW1lLi4gYSBtaW51dGUgKDEgY21kIHRpbWVvdXQpIG9yIGV2ZW4gbXVs
+dGlwbGUgCm1pbnV0ZXMgaW4gdGhlIGNhc2Ugd2hlcmUgYSBjb21tYW5kIGZhaWx1cmUgaW4gY29y
+ZSBsYXllcnMgZWZmZWN0aXZlbHkgCmdldHMgaWdub3JlZCBhbmQgdGh1cyBkb2Vzbid0IGNhdXNl
+IHRoZSBlcnJvciBwYXRoIGluIHRoZSB0cmFuc3BvcnQuwqAgClRoZXJlIGNhbiBiZSBtdWx0aXBs
+ZSAvZGV2L252bWUtZmFicmljcyBjb21tYW5kcyBzdGFja2VkIHVwIHRoYXQgY2FuIAptYWtlIHRo
+ZSBkZWxheXMgbG9vayBtdWNoIGxvbmdlciB0byB0aGUgbGFzdCBndXkuCgphcyBmYXIgYXMgY3Jl
+YXRpb24gdnMgdGVhcmRvd24uLi4geWVhaCwgbm90IGZ1biwgYnV0IHRoZXJlIGFyZSBvdGhlciAK
+d2F5cyB0byBkZWFsIHdpdGggaXQuIEZDOiBJIGdvdCByaWQgb2YgdGhlIHNlcGFyYXRlIGNyZWF0
+ZS9yZWNvbm5lY3QgCnRocmVhZHMgYSB3aGlsZSBhZ28gdGh1cyB0aGUgcmV0dXJuLWNvbnRyb2wt
+d2hpbGUtcmVjb25uZWN0aW5nIGJlaGF2aW9yLCAKc28gSSd2ZSBoYWQgdG8gZGVhbCB3aXRoIGl0
+LsKgIEl0J3Mgb25lIGFyZWEgaXQnZCBiZSBuaWNlIHRvIHNlZSBzb21lIApjb252ZXJnZW5jZSBp
+biBpbXBsZW1lbnRhdGlvbiBhZ2FpbiBiZXR3ZWVuIHRyYW5zcG9ydHMuCgotLSBqYW1lcwoKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUg
+bWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
+aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
