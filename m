@@ -2,75 +2,93 @@ Return-Path: <SRS0=h+kd=CH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD14C433E2
-	for <linux-nvme@archiver.kernel.org>; Sat, 29 Aug 2020 15:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 715D8C433E2
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 Aug 2020 16:47:28 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5AE8C20791
-	for <linux-nvme@archiver.kernel.org>; Sat, 29 Aug 2020 15:32:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 37F0E2098B
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 Aug 2020 16:47:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ul3sAfwt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5AE8C20791
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XfOJrcTq";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="m+jv6bJZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 37F0E2098B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=VwGyjY/Vl/NpgPpIeDXb1Eg+ZUIyvRlUpeZf8lDQDIU=; b=ul3sAfwteXjvBeENPlXcq3rofC
-	pwayxYKpgJX9W3+sFWNr51e5laQeE3XTuRywU0ePTWtCpyryje68sK0AGpEnw36bCPgaEN+fYebKi
-	nj4ljRHi7OK2NMoAx0Zso6t/5IdRRLUayiVu8F8Hky0ZYXCHnvN0IoRvkbb86I95d+KTY6gM6geHg
-	ZAb1hyNr+4/+UaJGySPDyAhlhRY0yx1S+dS4zoTRnls3VdQ1ldddZZpIouBShsDGDaIIG6BE5zNhO
-	q02TLxN9L++xAobzIXpG5cgGi46mFMINZl5gGl1oRmDCqbREO3K/uNdjvKXuG3vJxt8PFkBSsx6H+
-	SbHOyozg==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=zAHRtZ10uBB1XSLfvo+tLDdHtthKLwaFgGz0SmjUwuA=; b=XfOJrcTq00viBHWDfDISGGiYq
+	8kiM3xXufl1dJ8rr+V0/5YEdU2EYr+TdHFJ8RIfxtgx4MUUKUfQurU3cWYHvzPv+ZWI4oi0tEWPPP
+	adVmB332AXlv69SGPSGoCld/ptGuaZiubmFsNXN2/t+3vklpWzTUeVAsaNKs0BGKqbM5tftpyl9Za
+	AC4Ma6xSqWNuWqT5YlJsMR0fVEpTQRxm8fpCssDuvfwQiEnuk0GPmTljZqGiVKsZn1K91uG8SY+hT
+	yZABDllTeKGMdExcpLIFUHNq2PhoBplJmtTuvCZdfzg7KlnT0s/0dUMzLgvJGbFuL/GVJKpMHYqEw
+	JWuLrDBkw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kC2qW-00026Y-V9; Sat, 29 Aug 2020 15:32:49 +0000
-Received: from mail-pf1-f173.google.com ([209.85.210.173])
+	id 1kC40g-0007iM-Dd; Sat, 29 Aug 2020 16:47:22 +0000
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kC2qU-000266-DE
- for linux-nvme@lists.infradead.org; Sat, 29 Aug 2020 15:32:48 +0000
-Received: by mail-pf1-f173.google.com with SMTP id o68so2200918pfg.2
- for <linux-nvme@lists.infradead.org>; Sat, 29 Aug 2020 08:32:45 -0700 (PDT)
+ id 1kC40b-0007hr-N9
+ for linux-nvme@lists.infradead.org; Sat, 29 Aug 2020 16:47:19 +0000
+Received: by mail-pj1-x102e.google.com with SMTP id mt12so969929pjb.4
+ for <linux-nvme@lists.infradead.org>; Sat, 29 Aug 2020 09:47:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5Rt5+Gjo0UGdPCISf5CydG1I/Z+wq56+kU1eC124qs0=;
+ b=m+jv6bJZRhsllEVJr5l4EY9W/YKC3BAZMM01kcSyMJjFYDecSRzG/FmZTuCJs/t2ny
+ OTZ9rLbXL2RR9XafeWT8qZMVX3EveS6Y24+PU4GHbshyYp9ee+dMK+C0YDAdbf9aKVfG
+ jFqCByaqPcul+XLJJeoNuBseGgzPL/FnONYDc4Cu2YlXVbpi+Vb87s5ho1nAAniIHKh2
+ KXR7ViPjwNUAJWYxoNcQWgVEZejYo15uNzb3F2nN2WGlqbFQbig7tdJIWt883ZSPHmjM
+ 5IySceO5HRVeWhmNoEcv3uAu5gm6m3KKHdwRHSbGF0wVoZVgzPve+VtbuXjvG8XJZ7Uy
+ as5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bwBvPhzWsgBMA4B93AZzg5eo/lFdR101ys5gclkTz9k=;
- b=ckGr3J3fuFPpmwjXXkAzaTy1aYhnx4WnM+Is0TCic70j30VFIBjxRvQD3BVq1vWsIY
- JYSxTXDpL2omeXHbeRddiMRPOQYkQYp8wjimgjo8Af5TQSj26Ij9lpPB1Kq+qp2H5Ki5
- PgUj+GYHf7XykEL0KU00PcscCh5Zbk9rr6new+VELelPHUFq0+wiSrLBMO+SRVhBPUio
- M3hV4T3b/OXspQyJcmTIiu9Deiv3o82gcty5ZzGXqUjBPkUVCYnnNZh1RtwMds0Uo/Zu
- RKb1SbcLT0U5xZTlbCiWClVIJqBN76yFJ7xe9b7ihTY5N9HUbbO+9riCpIiJ4ZnO3STy
- 1o8w==
-X-Gm-Message-State: AOAM533CZpp19PIq1bCe/zusDdg7dZIXXp+yAYWEMlcx3SzCUyND+tyx
- pe/iRu8KFz1BqrCHAPlArzE=
-X-Google-Smtp-Source: ABdhPJxlMGWzjpDeG454J8od1jHKSel7r0h1mstGi3paW/6nHqcoi8dnfmlH+/FwwMmJEmkuMqsVmA==
-X-Received: by 2002:a65:4083:: with SMTP id t3mr1500745pgp.201.1598715164916; 
- Sat, 29 Aug 2020 08:32:44 -0700 (PDT)
-Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
- ([2601:647:4802:9070:b43d:4be3:4cfb:fd9e])
- by smtp.gmail.com with ESMTPSA id p184sm3182347pfb.47.2020.08.29.08.32.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Aug 2020 08:32:44 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Jens Axboe <axboe@kernel.dk>
-Subject: [GIT PULL] nvme fixes for 5.9 next rc
-Date: Sat, 29 Aug 2020 08:32:43 -0700
-Message-Id: <20200829153243.324252-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.25.1
+ bh=5Rt5+Gjo0UGdPCISf5CydG1I/Z+wq56+kU1eC124qs0=;
+ b=cWYllHqGzm64OOoEu0nUXMZ3y0/vQXpGhlv1SOVrMgN+N9ovN6QwzVAOCbHxuey8gO
+ yIWVDDY5p73xlnoPYdXmFBEJ513FgQd12PWL0CRi2m6I4s+kBR9NVekg6eLAQ5pqez8i
+ GAHKaZQyvpqVbeWk5o1x3hVV7ZtPVgj0IGTAk5SjABSwxzlWfprGepP5n8Tme/WPwxXs
+ xMlFnger96oaaFysIAjQyOA26GGHHzEvcSY98VlvQOfjL8K8GDI/4kagHqW4OR2213Tx
+ QR05dixibH+OEL/9Pi5FAJA6QADvImljzKwIc2CfPGjhEkm2TX8c6dVm+ddNNBIASEl7
+ xqyw==
+X-Gm-Message-State: AOAM5300DDlHT1oFRKfuJAdMHI+4ymOZX/Noi8a/1U1Xc/nAIk+nUCR6
+ o26Hu7nUifdNuLoOflNVZBDGhIRrRZNXqnR1
+X-Google-Smtp-Source: ABdhPJwh/IaT8sjJze0JR0UOlWwMhEHIvT0ikyEXE/ycXPb0JRTnRL4uDSst200BKNS1envrwdz+3g==
+X-Received: by 2002:a17:90a:c917:: with SMTP id
+ v23mr3622499pjt.97.1598719634004; 
+ Sat, 29 Aug 2020 09:47:14 -0700 (PDT)
+Received: from [192.168.1.182] ([66.219.217.173])
+ by smtp.gmail.com with ESMTPSA id w82sm3114901pfc.183.2020.08.29.09.47.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 29 Aug 2020 09:47:13 -0700 (PDT)
+Subject: Re: fix block device size update serialization v2
+To: Christoph Hellwig <hch@lst.de>
+References: <20200823091043.2600261-1-hch@lst.de>
+ <20200827074758.GA8009@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <b1960016-c265-1e1d-cfd7-de2330bc5eac@kernel.dk>
+Date: Sat, 29 Aug 2020 10:47:11 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200827074758.GA8009@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200829_113246_469107_84DB709B 
-X-CRM114-Status: GOOD (  10.95  )
+X-CRM114-CacheID: sfid-20200829_124717_862945_9B924115 
+X-CRM114-Status: GOOD (  14.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,70 +100,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+Cc: linux-s390@vger.kernel.org, Jan Hoeppner <hoeppner@linux.ibm.com>,
+ Justin Sanders <justin@coraid.com>, linux-nvme@lists.infradead.org,
+ Josef Bacik <josef@toxicpanda.com>, Xianting Tian <xianting_tian@126.com>,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, dm-devel@redhat.com,
+ Stefan Haberland <sth@linux.ibm.com>, nbd@other.debian.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Jens,
+On 8/27/20 1:47 AM, Christoph Hellwig wrote:
+> Jens, can you consider this for 5.9?  It reliably fixes the reported
+> hangs with nvme hotremoval that we've had for a few releases.
 
-Some more nvme fixes:
-- instance leak and io boundary fixes from Keith
-- fc locking fix from Christophe
-- various tcp/rdma reset during traffic fixes from Me
-- pci use-after-free fix from Tong
-- tcp target null deref fix from Ziye
+I've queued this up for 5.10. I think it's too late for 5.9 at this
+point, and it's not a regression in this release.
 
-Please pull.
+-- 
+Jens Axboe
 
-The following changes since commit a433d7217feab712ff69ef5cc2a86f95ed1aca40:
-
-  Merge branch 'md-fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/song/md into block-5.9 (2020-08-28 07:52:02 -0600)
-
-are available in the Git repository at:
-
-  ssh://git.infradead.org/var/lib/git/nvme.git nvme-5.9-rc
-
-for you to fetch changes up to 7ad92f656bddff4cf8f641e0e3b1acd4eb9644cb:
-
-  nvme-pci: cancel nvme device request before disabling (2020-08-28 16:43:57 -0700)
-
-----------------------------------------------------------------
-Christophe JAILLET (1):
-      nvmet-fc: Fix a missed _irqsave version of spin_lock in 'nvmet_fc_fod_op_done()'
-
-Keith Busch (2):
-      nvme: fix controller instance leak
-      nvme: only use power of two io boundaries
-
-Sagi Grimberg (9):
-      nvme-fabrics: don't check state NVME_CTRL_NEW for request acceptance
-      nvme: have nvme_wait_freeze_timeout return if it timed out
-      nvme-tcp: serialize controller teardown sequences
-      nvme-tcp: fix timeout handler
-      nvme-tcp: fix reset hang if controller died in the middle of a reset
-      nvme-rdma: serialize controller teardown sequences
-      nvme-rdma: fix timeout handler
-      nvme-rdma: fix reset hang if controller died in the middle of a reset
-      nvme: Fix NULL dereference for pci nvme controllers
-
-Tong Zhang (1):
-      nvme-pci: cancel nvme device request before disabling
-
-Ziye Yang (1):
-      nvmet-tcp: Fix NULL dereference when a connect data comes in h2cdata pdu
-
- drivers/nvme/host/core.c    | 56 ++++++++++++++++++++++++-------
- drivers/nvme/host/fabrics.c |  1 -
- drivers/nvme/host/nvme.h    |  2 +-
- drivers/nvme/host/pci.c     |  4 +--
- drivers/nvme/host/rdma.c    | 68 ++++++++++++++++++++++++++++----------
- drivers/nvme/host/tcp.c     | 80 ++++++++++++++++++++++++++++++++-------------
- drivers/nvme/target/fc.c    |  4 +--
- drivers/nvme/target/tcp.c   | 10 +++++-
- 8 files changed, 167 insertions(+), 58 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
