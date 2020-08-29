@@ -2,71 +2,75 @@ Return-Path: <SRS0=h+kd=CH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91722C433E6
-	for <linux-nvme@archiver.kernel.org>; Sat, 29 Aug 2020 12:08:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD14C433E2
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 Aug 2020 15:32:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5DA9B207DA
-	for <linux-nvme@archiver.kernel.org>; Sat, 29 Aug 2020 12:08:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5AE8C20791
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 Aug 2020 15:32:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="R+1NjeOa"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5DA9B207DA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ul3sAfwt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5AE8C20791
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6ULr0vxXDqICmveasZOJn4ZL3WYH5ogiLerpuqlsDxo=; b=R+1NjeOafq8lgkO473fmu4Nao4
-	le+5FtpiFu3HnhxYNL06/nH1qt2Az2JE+TwUv8eWiVE7fjJPkOaf9eht4WE8NX8TvmxtrT2xHujo7
-	zGt2tY9Y9QevLJvq9/Py34wQ9UFyu7Z1aj/vczcgSdleaUbdFhRrLm0VaTPEzV9NrJUH2DB4KYLUt
-	lelKsbEa9Um9MTITB70L8wY07qmAB88tkiPMYaSw2lbZv6cx9mxXDverVmWUKYT8z1bBIy3fsNPwS
-	HjUbf9frXnYOIeZcKseMV9HnnBFKGrQUEAcfNvXYLObFLCem3nQzvuCB8nYrSCsyAQ3vTFVV2ZDyx
-	FeDUjHXg==;
+	bh=VwGyjY/Vl/NpgPpIeDXb1Eg+ZUIyvRlUpeZf8lDQDIU=; b=ul3sAfwteXjvBeENPlXcq3rofC
+	pwayxYKpgJX9W3+sFWNr51e5laQeE3XTuRywU0ePTWtCpyryje68sK0AGpEnw36bCPgaEN+fYebKi
+	nj4ljRHi7OK2NMoAx0Zso6t/5IdRRLUayiVu8F8Hky0ZYXCHnvN0IoRvkbb86I95d+KTY6gM6geHg
+	ZAb1hyNr+4/+UaJGySPDyAhlhRY0yx1S+dS4zoTRnls3VdQ1ldddZZpIouBShsDGDaIIG6BE5zNhO
+	q02TLxN9L++xAobzIXpG5cgGi46mFMINZl5gGl1oRmDCqbREO3K/uNdjvKXuG3vJxt8PFkBSsx6H+
+	SbHOyozg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kBzed-0004ff-Qz; Sat, 29 Aug 2020 12:08:19 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1kC2qW-00026Y-V9; Sat, 29 Aug 2020 15:32:49 +0000
+Received: from mail-pf1-f173.google.com ([209.85.210.173])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kBzeY-0004fD-O3
- for linux-nvme@lists.infradead.org; Sat, 29 Aug 2020 12:08:16 +0000
-IronPort-SDR: aetd174lJLoeVK9ZfOX9f1O70vxWYKLVKypxp1BgxRF6NL80B3wyXpE3VB3BOi4XpTc1MAgt+9
- wEPokoVewH9Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9727"; a="156799665"
-X-IronPort-AV: E=Sophos;i="5.76,367,1592895600"; d="scan'208";a="156799665"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2020 05:08:11 -0700
-IronPort-SDR: hxzbGW8JtJSR3Axte8rHBuougK2pveLk649IFX+wUdnest/QPdCurB9yyVlp1gFPLsexg91dkD
- zb0f5lSjt5vQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,367,1592895600"; d="scan'208";a="282638708"
-Received: from lkp-server02.sh.intel.com (HELO 301dc1beeb51) ([10.239.97.151])
- by fmsmga008.fm.intel.com with ESMTP; 29 Aug 2020 05:08:10 -0700
-Received: from kbuild by 301dc1beeb51 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1kBzeT-0000TF-Q0; Sat, 29 Aug 2020 12:08:09 +0000
-Date: Sat, 29 Aug 2020 20:07:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: [linux-nvme:nvme-5.9-rc] BUILD SUCCESS
- 7ad92f656bddff4cf8f641e0e3b1acd4eb9644cb
-Message-ID: <5f4a4511.xu31i+vdBphH5rL+%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1kC2qU-000266-DE
+ for linux-nvme@lists.infradead.org; Sat, 29 Aug 2020 15:32:48 +0000
+Received: by mail-pf1-f173.google.com with SMTP id o68so2200918pfg.2
+ for <linux-nvme@lists.infradead.org>; Sat, 29 Aug 2020 08:32:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bwBvPhzWsgBMA4B93AZzg5eo/lFdR101ys5gclkTz9k=;
+ b=ckGr3J3fuFPpmwjXXkAzaTy1aYhnx4WnM+Is0TCic70j30VFIBjxRvQD3BVq1vWsIY
+ JYSxTXDpL2omeXHbeRddiMRPOQYkQYp8wjimgjo8Af5TQSj26Ij9lpPB1Kq+qp2H5Ki5
+ PgUj+GYHf7XykEL0KU00PcscCh5Zbk9rr6new+VELelPHUFq0+wiSrLBMO+SRVhBPUio
+ M3hV4T3b/OXspQyJcmTIiu9Deiv3o82gcty5ZzGXqUjBPkUVCYnnNZh1RtwMds0Uo/Zu
+ RKb1SbcLT0U5xZTlbCiWClVIJqBN76yFJ7xe9b7ihTY5N9HUbbO+9riCpIiJ4ZnO3STy
+ 1o8w==
+X-Gm-Message-State: AOAM533CZpp19PIq1bCe/zusDdg7dZIXXp+yAYWEMlcx3SzCUyND+tyx
+ pe/iRu8KFz1BqrCHAPlArzE=
+X-Google-Smtp-Source: ABdhPJxlMGWzjpDeG454J8od1jHKSel7r0h1mstGi3paW/6nHqcoi8dnfmlH+/FwwMmJEmkuMqsVmA==
+X-Received: by 2002:a65:4083:: with SMTP id t3mr1500745pgp.201.1598715164916; 
+ Sat, 29 Aug 2020 08:32:44 -0700 (PDT)
+Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
+ ([2601:647:4802:9070:b43d:4be3:4cfb:fd9e])
+ by smtp.gmail.com with ESMTPSA id p184sm3182347pfb.47.2020.08.29.08.32.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Aug 2020 08:32:44 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: Jens Axboe <axboe@kernel.dk>
+Subject: [GIT PULL] nvme fixes for 5.9 next rc
+Date: Sat, 29 Aug 2020 08:32:43 -0700
+Message-Id: <20200829153243.324252-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200829_080814_940404_1F418FB4 
-X-CRM114-Status: GOOD (  11.06  )
+X-CRM114-CacheID: sfid-20200829_113246_469107_84DB709B 
+X-CRM114-Status: GOOD (  10.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,130 +82,70 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
+Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git  nvme-5.9-rc
-branch HEAD: 7ad92f656bddff4cf8f641e0e3b1acd4eb9644cb  nvme-pci: cancel nvme device request before disabling
+Hey Jens,
 
-elapsed time: 723m
+Some more nvme fixes:
+- instance leak and io boundary fixes from Keith
+- fc locking fix from Christophe
+- various tcp/rdma reset during traffic fixes from Me
+- pci use-after-free fix from Tong
+- tcp target null deref fix from Ziye
 
-configs tested: 103
-configs skipped: 10
+Please pull.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The following changes since commit a433d7217feab712ff69ef5cc2a86f95ed1aca40:
 
-arm                                 defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm64                               defconfig
-arm                         cm_x300_defconfig
-arc                        nsim_700_defconfig
-m68k                             alldefconfig
-mips                      malta_kvm_defconfig
-sh                   secureedge5410_defconfig
-microblaze                    nommu_defconfig
-m68k                                defconfig
-h8300                            alldefconfig
-arm                       spear13xx_defconfig
-arm                          imote2_defconfig
-sh                        edosk7760_defconfig
-arm                        realview_defconfig
-mips                          rb532_defconfig
-ia64                         bigsur_defconfig
-arm                           viper_defconfig
-arm                         hackkit_defconfig
-arm                          iop32x_defconfig
-arm                         vf610m4_defconfig
-sh                              ul2_defconfig
-arm                      jornada720_defconfig
-powerpc                    adder875_defconfig
-arm                        vexpress_defconfig
-powerpc                     mpc83xx_defconfig
-riscv                               defconfig
-sh                           se7750_defconfig
-mips                         bigsur_defconfig
-arm                          badge4_defconfig
-arm                        spear3xx_defconfig
-arm                             pxa_defconfig
-mips                 pnx8335_stb225_defconfig
-sh                          sdk7780_defconfig
-arm                          ixp4xx_defconfig
-sh                   rts7751r2dplus_defconfig
-arm                           sunxi_defconfig
-arm                       mainstone_defconfig
-mips                     decstation_defconfig
-m68k                        stmark2_defconfig
-sh                ecovec24-romimage_defconfig
-m68k                          sun3x_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-i386                 randconfig-a002-20200828
-i386                 randconfig-a005-20200828
-i386                 randconfig-a003-20200828
-i386                 randconfig-a004-20200828
-i386                 randconfig-a001-20200828
-i386                 randconfig-a006-20200828
-x86_64               randconfig-a015-20200828
-x86_64               randconfig-a012-20200828
-x86_64               randconfig-a016-20200828
-x86_64               randconfig-a014-20200828
-x86_64               randconfig-a011-20200828
-x86_64               randconfig-a013-20200828
-i386                 randconfig-a013-20200828
-i386                 randconfig-a012-20200828
-i386                 randconfig-a011-20200828
-i386                 randconfig-a016-20200828
-i386                 randconfig-a014-20200828
-i386                 randconfig-a015-20200828
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+  Merge branch 'md-fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/song/md into block-5.9 (2020-08-28 07:52:02 -0600)
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+are available in the Git repository at:
+
+  ssh://git.infradead.org/var/lib/git/nvme.git nvme-5.9-rc
+
+for you to fetch changes up to 7ad92f656bddff4cf8f641e0e3b1acd4eb9644cb:
+
+  nvme-pci: cancel nvme device request before disabling (2020-08-28 16:43:57 -0700)
+
+----------------------------------------------------------------
+Christophe JAILLET (1):
+      nvmet-fc: Fix a missed _irqsave version of spin_lock in 'nvmet_fc_fod_op_done()'
+
+Keith Busch (2):
+      nvme: fix controller instance leak
+      nvme: only use power of two io boundaries
+
+Sagi Grimberg (9):
+      nvme-fabrics: don't check state NVME_CTRL_NEW for request acceptance
+      nvme: have nvme_wait_freeze_timeout return if it timed out
+      nvme-tcp: serialize controller teardown sequences
+      nvme-tcp: fix timeout handler
+      nvme-tcp: fix reset hang if controller died in the middle of a reset
+      nvme-rdma: serialize controller teardown sequences
+      nvme-rdma: fix timeout handler
+      nvme-rdma: fix reset hang if controller died in the middle of a reset
+      nvme: Fix NULL dereference for pci nvme controllers
+
+Tong Zhang (1):
+      nvme-pci: cancel nvme device request before disabling
+
+Ziye Yang (1):
+      nvmet-tcp: Fix NULL dereference when a connect data comes in h2cdata pdu
+
+ drivers/nvme/host/core.c    | 56 ++++++++++++++++++++++++-------
+ drivers/nvme/host/fabrics.c |  1 -
+ drivers/nvme/host/nvme.h    |  2 +-
+ drivers/nvme/host/pci.c     |  4 +--
+ drivers/nvme/host/rdma.c    | 68 ++++++++++++++++++++++++++++----------
+ drivers/nvme/host/tcp.c     | 80 ++++++++++++++++++++++++++++++++-------------
+ drivers/nvme/target/fc.c    |  4 +--
+ drivers/nvme/target/tcp.c   | 10 +++++-
+ 8 files changed, 167 insertions(+), 58 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
