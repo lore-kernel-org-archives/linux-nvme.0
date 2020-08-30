@@ -2,66 +2,82 @@ Return-Path: <SRS0=wYSH=CI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBE26C433E2
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2020 10:00:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD12CC433E2
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2020 10:23:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5821920714
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2020 10:00:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 87A3220738
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Aug 2020 10:23:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CoXQsFlk";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HjgntuHm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5821920714
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tfiWyo8U"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 87A3220738
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=KRQzJXAyvlRtWz9Q/vjg5rXPh5Q/TKtvdF1THCyb4zE=; b=CoXQsFlkqgahWbAEChBJXeCP3J
-	aSN6ZXem8vZE+eqMHm+h3YS3v9Kuw0iw6k77VY0M1o2DR+GmZObnNP38tQSpoVys3Y8bd4+zEHVr3
-	eu3GTCSvKs1me7TCiye6oLYsQKhDPinduAmiItxApj+maL0vOvZdKtBeNT7bl7osxFNELkfkCF36y
-	7a47TLnCpdK5ROzYXQ4q4RPmL/b8WWDRo9AHYxNXv/nz2WbXK+qDYCPwudL3QaJjowZUlgQCW7yEy
-	tFhm4I+CI1pwKjVL9neoZi+f5EHtPDqfYbIgsmq6DToo17UvgrXjsF/sJ37ZQnJxhOfBdH/M/S4eT
-	tDJh51bg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=5aqBQPoUkBTonn+85aBg0bBCxb0ITjYG0Baj+2ZQtlE=; b=tfiWyo8U3gCYrgBfKSpoBxsjg
+	857vV7GNbw9KIRseXZHq0dAvgSVbh6ENDaUpTdxv9dYmeZouM4nM0ltpnSatSn8oO4Kl688PznvxH
+	jH8IeixATtIqzsmtF8hVqwlOvDglHe078miLsLjh7WAZBkOk6NOpQhSEnN6WyRMnecyyPvxNHJXIm
+	zpsWalSqq8FTwZp3R+3hKglH0JzW7APjci/fElCTwBHDfhY8CmQQbwXPBVf/54f2Jv+7Na5k3V2+f
+	B26HytM0xFZgUVzjhsdx7LB4vkQ/R7lLqi6k/cd5OgdThR8EXPbdYa5OzszKx3OMSM7dl/jUcezIJ
+	SvbQRpBkg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kCK8H-0003gE-F7; Sun, 30 Aug 2020 10:00:17 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1kCKV1-0004Ok-2s; Sun, 30 Aug 2020 10:23:47 +0000
+Received: from mail-pl1-f182.google.com ([209.85.214.182])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kCK8F-0003fs-9B
- for linux-nvme@merlin.infradead.org; Sun, 30 Aug 2020 10:00:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=u0gnNo/ZNfKI8Ru9huCNEUsTinKsQLxS83JOdz6jpCE=; b=HjgntuHmpbuBxyrkCfzhj7aYUy
- HF62uBrwIa9nNLnXaRYWaH9qHqUqs6bYE6EUsWZ6kqR8sGLu8OrD7mugTAS+uWSPiw0DNJtwmI+sZ
- exfl0w/S3+inNPkfWSXrJjsi0+Mz/pbn14awqr5tE9UwxfrDK15fNesdiHt7hDZrZvY/tTIrZiv0Y
- 79CIjscf8woFkWGFEjXQR9vd7rjuaGPLI9kxpi4pGosoLNELtUwr1aeCqtXqIfuVekur3UnMsZ0sn
- iICEiNPrx1ZFM3B6gMhRDCe4NgcZ3tD4RmDnt5P2ZsF3BKsXGTUNngVZ4XOjKzJZT+zCv4YmAk7hJ
- /YN5Fexw==;
-Received: from [2001:4bb8:18c:45ba:9892:9e86:5202:32f0] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kCK8C-0005La-Dy; Sun, 30 Aug 2020 10:00:13 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: kbusch@kernel.org,
-	sagi@grimberg.me
-Subject: [PATCH v2] nvme: fix error handling in nvme_ns_report_zones
-Date: Sun, 30 Aug 2020 12:00:10 +0200
-Message-Id: <20200830100010.1262680-1-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
+ id 1kCKUy-0004OD-Sj
+ for linux-nvme@lists.infradead.org; Sun, 30 Aug 2020 10:23:46 +0000
+Received: by mail-pl1-f182.google.com with SMTP id h2so1687170plr.0
+ for <linux-nvme@lists.infradead.org>; Sun, 30 Aug 2020 03:23:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IXZCGHGRFnaeWsgRrshQlWtmfEgzeVg0SXdtn9KGpxU=;
+ b=IgoALoFAHunzTeuDyAOB9uLB8H3gns9mvqvpIj1q0Bxvfbnndp7fuQRSuMNlG+8y4k
+ pZgYFfp8MrVYEPaOP/DlmS6s6am9WsxKRqb5pCCzsFhON4iQ7Ud2EQWzj8PeXLbbzE0q
+ RL23diSxdrqoNRt8TbpDE9CqytCRb3J8zZ4slujJ9/4qdaY9dF5Db0r7YvhLTd2sCNrG
+ VQmxpTz5pvqAq2lIOQ0J0dbWZvlLs4JNJI2QJuU4zX4ePn8YILeZ8gUovgAmfzGfgiLv
+ m9OV/BSMIdAe/LLKkLkf/SxU6WSVugppEjx4ImlPkUIYma/VuA0QDlUxNqbNQrE3TxBI
+ qD1w==
+X-Gm-Message-State: AOAM530PPjnP2CLqOsUi18gCHQBV8JMlWV2VtbKpWKN171EcwsQ+gXMN
+ p+3pAjc5HhZ4P67feF+KxhA=
+X-Google-Smtp-Source: ABdhPJyrDyA5GQu7ffy0iWOE/cPTtyshaBWaSc9LLlgXI+9vvMtl6QmMTEwtapJgyiyCmyspIg7f4g==
+X-Received: by 2002:a17:90a:aa8e:: with SMTP id
+ l14mr6535431pjq.67.1598783020980; 
+ Sun, 30 Aug 2020 03:23:40 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:cc5c:f2a5:487:1dba?
+ ([2601:647:4802:9070:cc5c:f2a5:487:1dba])
+ by smtp.gmail.com with ESMTPSA id e65sm4069788pjk.45.2020.08.30.03.23.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 30 Aug 2020 03:23:40 -0700 (PDT)
+Subject: Re: [GIT PULL] nvme fixes for 5.9 next rc
+To: Jens Axboe <axboe@kernel.dk>
+References: <20200829153243.324252-1-sagi@grimberg.me>
+ <18fdb68f-8747-6f44-de0d-390a3fbd41c3@kernel.dk>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <c904c8f6-15bd-41a6-aa3b-a17a73f052c5@grimberg.me>
+Date: Sun, 30 Aug 2020 03:23:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <18fdb68f-8747-6f44-de0d-390a3fbd41c3@kernel.dk>
+Content-Language: en-US
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200830_062344_984726_D37E2949 
+X-CRM114-Status: GOOD (  15.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,95 +89,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_submit_sync_cmd can return positive NVMe error codes in addition to
-the negative Linux error code, which are currently ignored.  Fix this
-by removing __nvme_ns_report_zones and handling the errors from
-nvme_submit_sync_cmd in the caller instead of multiplexing the return
-value and the zone size into a single return value.
 
-Fixes: 240e6ee272c0 ("nvme: support for zoned namespaces")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/zns.c | 38 +++++++++++++-------------------------
- 1 file changed, 13 insertions(+), 25 deletions(-)
+>> Hey Jens,
+>>
+>> Some more nvme fixes:
+>> - instance leak and io boundary fixes from Keith
+>> - fc locking fix from Christophe
+>> - various tcp/rdma reset during traffic fixes from Me
+>> - pci use-after-free fix from Tong
+>> - tcp target null deref fix from Ziye
+>>
+>> Please pull.
+>>
+>> The following changes since commit a433d7217feab712ff69ef5cc2a86f95ed1aca40:
+>>
+>>    Merge branch 'md-fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/song/md into block-5.9 (2020-08-28 07:52:02 -0600)
+>>
+>> are available in the Git repository at:
+>>
+>>    ssh://git.infradead.org/var/lib/git/nvme.git nvme-5.9-rc
+> 
+> This doesn't look right... I pulled from the usual spot, diffstat and
+> changes match up.
 
-diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-index 57cfd78731fbbe..b4f0543d74700e 100644
---- a/drivers/nvme/host/zns.c
-+++ b/drivers/nvme/host/zns.c
-@@ -133,28 +133,6 @@ static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
- 	return NULL;
- }
- 
--static int __nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
--				  struct nvme_zone_report *report,
--				  size_t buflen)
--{
--	struct nvme_command c = { };
--	int ret;
--
--	c.zmr.opcode = nvme_cmd_zone_mgmt_recv;
--	c.zmr.nsid = cpu_to_le32(ns->head->ns_id);
--	c.zmr.slba = cpu_to_le64(nvme_sect_to_lba(ns, sector));
--	c.zmr.numd = cpu_to_le32(nvme_bytes_to_numd(buflen));
--	c.zmr.zra = NVME_ZRA_ZONE_REPORT;
--	c.zmr.zrasf = NVME_ZRASF_ZONE_REPORT_ALL;
--	c.zmr.pr = NVME_REPORT_ZONE_PARTIAL;
--
--	ret = nvme_submit_sync_cmd(ns->queue, &c, report, buflen);
--	if (ret)
--		return ret;
--
--	return le64_to_cpu(report->nr_zones);
--}
--
- static int nvme_zone_parse_entry(struct nvme_ns *ns,
- 				 struct nvme_zone_descriptor *entry,
- 				 unsigned int idx, report_zones_cb cb,
-@@ -182,6 +160,7 @@ static int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
- 			unsigned int nr_zones, report_zones_cb cb, void *data)
- {
- 	struct nvme_zone_report *report;
-+	struct nvme_command c = { };
- 	int ret, zone_idx = 0;
- 	unsigned int nz, i;
- 	size_t buflen;
-@@ -190,14 +169,23 @@ static int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
- 	if (!report)
- 		return -ENOMEM;
- 
-+	c.zmr.opcode = nvme_cmd_zone_mgmt_recv;
-+	c.zmr.nsid = cpu_to_le32(ns->head->ns_id);
-+	c.zmr.numd = cpu_to_le32(nvme_bytes_to_numd(buflen));
-+	c.zmr.zra = NVME_ZRA_ZONE_REPORT;
-+	c.zmr.zrasf = NVME_ZRASF_ZONE_REPORT_ALL;
-+	c.zmr.pr = NVME_REPORT_ZONE_PARTIAL;
-+
- 	sector &= ~(ns->zsze - 1);
- 	while (zone_idx < nr_zones && sector < get_capacity(ns->disk)) {
- 		memset(report, 0, buflen);
--		ret = __nvme_ns_report_zones(ns, sector, report, buflen);
--		if (ret < 0)
-+
-+		c.zmr.slba = cpu_to_le64(nvme_sect_to_lba(ns, sector));
-+		ret = nvme_submit_sync_cmd(ns->queue, &c, report, buflen);
-+		if (ret)
- 			goto out_free;
- 
--		nz = min_t(unsigned int, ret, nr_zones);
-+		nz = min((unsigned int)le64_to_cpu(report->nr_zones), nr_zones);
- 		if (!nz)
- 			break;
- 
--- 
-2.28.0
+Rrr, sorry forgot to fixup this line.
 
+> BTW, in the future, can you switch to signed tags? They are nice to use
+> in general, but particularly for git repos that are outside the kernel.org
+> infrastructure.
+
+We'll look into that.
+
+Thanks Jens!
 
 _______________________________________________
 Linux-nvme mailing list
