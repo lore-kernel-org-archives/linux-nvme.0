@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF77C433E2
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:27:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A300BC433E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:27:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3C9C8207EA
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:27:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6C455207EA
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:27:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sSMNipqd";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="qRYPRoIf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C9C8207EA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Wq99vQam";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Y7IMzrbg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C455207EA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,62 +26,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=S/enP2wFG9QNj84wg7GQbGL2MBSiUkZbvJipXfxX6MM=; b=sSMNipqdxD+I+Dw3rdi/V0Xkm
-	0I4pxuGaSa5Jyen92hYMk40Mgr0IkQD2uC8JjGVitsMJ0M7wjiNvz1ioaMrz8dCxrytombIxd1Ta7
-	I5hhknlS+HR8V3KvzGDlr3BDQI0IlkUmhN55LgeApiOcatERcHdt60EIyKT+s8sZmBVdT67f3vaVM
-	6phVJ3bSdClfsInr42AcD+mw4tF4I6IhcRopUskT5atEMhNXUCcqr1zUWWX2QOroL4Cppt/qx+f9Z
-	eEJ5zR6H1qVvlyoCR+99qUYJiw1bKL/aZqIpJijsP/1N6FTTjMmkPlMEhm7wGvU9ZWQFbfTj13gM9
-	xkBVZl25A==;
+	 bh=sNwTBYN4NdGCFT/xNO/hBO3m5YSRoftZaIekRAUsaUk=; b=Wq99vQamyXdNlLmX5oSn4DvPn
+	uOpxRK+MIPoTEEo3bfwfzGY/AJzHh8cAN1bBc8ewDroTzGQDkR7u0us1z2Uki9Dovf6VzzaHQYfE/
+	yFi72CDpGXja4efIP3+V8vUVWE8ilbjfAquwZvJBM//YT69rioaf+bxmLFldPKoMIpfc8DuE7zgqX
+	DNsrHRViDC/WNszQFK37qEPVfGBxP0/r+MDRm4DiFFOHvPuuyknesHjFcOBSksxaxDnETqPItapkV
+	o4qJtdIgH/WgmClP0Gnxe4eLm1QQ5jP5VbJVq7KjR8bZu4JquNDAS6s9bmfpaut5mVsvd3gKmFacA
+	cTCZiIZlQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kCsGs-0005Rm-TN; Mon, 31 Aug 2020 22:27:26 +0000
+	id 1kCsGx-0005U0-SD; Mon, 31 Aug 2020 22:27:31 +0000
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kCsGq-0005Qk-CX
- for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 22:27:25 +0000
+ id 1kCsGu-0005Qk-Au
+ for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 22:27:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598912844; x=1630448844;
+ t=1598912848; x=1630448848;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=TMgAc+94RegLJW04jTzG+eWTNP4gmnHoJc0cNLT9fms=;
- b=qRYPRoIfiDe3bzC4+XmT3ykGgR2gWbFy8PlSTScMR1434s60v4GUFML/
- Mx7IzZLm8lL0wmnWBDOj/c+K3CeFnfWQqaFuFiDPrb1FUK0ku7nF7hNXZ
- 52ZMO+CBJvjn2EWfZ4zlbxSxYZvslO9M4w5FBsI+doAMEGle121mzWLg1
- t0a6M9htxvaf/4eXtcudOD0oStri/YuUolOH/mtx/gWRC8oBSDEE2n4aV
- XdQMZ3iUuv+KylpZIS9MLNHx/Kcy7TvKdOC8R/7mcO5EPyE3CVPqFb1Vy
- lIsMVP68tm5tShn59XyM1TPBMRCfCPltqksT4tmqU1Lcp6F5Xv50BGzVE Q==;
-IronPort-SDR: l57ppC3TfniSofGSiRBm6HrMTQTl2EZoYHjbWO/UL+PV5zOnyrRaXcrsn20Q7ruBoK4jHCz4gP
- pyJiFqudtlXjqDtTZeDVZFcmfVhCNaq+J4paluBeEpx2wHxhtXaR/+n+ypqgQrAz8yLARxL6Fr
- 2Z5OvVzGnaI4lmVJbLI6X6ZL3sru6eTjrc2JhniRJ799xdX7Wa7CXodOHoYOhNZgvdlSFjAToD
- Bc8tPv2U4faZIxnEZlipL4dyccGR60iB3PaoR4bo93evvof8Wj5TiB+cGvzLeAn8xqC3+NsCYy
- EXQ=
-X-IronPort-AV: E=Sophos;i="5.76,376,1592841600"; d="scan'208";a="150600853"
+ bh=olD5/J5IlIAeb4FZi2sdN90ck5o3pDJeBTUFQVK8xCo=;
+ b=Y7IMzrbgmObwt1VDTYUBN7XPx/PsJgukbr9kQFAR8ACuHhcYNnRDqLuE
+ FIE0Pp8zf9U7M3NGyKPZlFxfD0mHtQWz5z1gVfDDGxoVl/ptd9oBBnjCw
+ qsp+OYG1bjjxHTe5HOvDKYpMAnB6Fe2f/oHEmVm4nejkTilN0RT/4qYI7
+ TwF57bJa1Rrf6HQgtxssMnm5DHcaOKyJEVEoQ78eU8iQHp/HPtE8wNC5w
+ c2zKFSf4KzVL1zlaHjYPNYaBDxt+IfuF9Cc/ft2WTbhoL69WgEceMzxxZ
+ a1vL4sJjaB5A0vylHuRLpbhAQrCkZ8xTJKzZivMda4uA/Yz0b00bIzoox g==;
+IronPort-SDR: sKAeWSWtAO5U/kknp1YS7Po7MjDLSsvUL+bv7rgDlrGewHpgfXk3GvrGNaNk5ar8+tCVvrPyKr
+ bCE8fVy/yBU2tbH3VbDr3vh4rtz2/Hi6QNDzE/vBqGsjqvZVKMmKGRPuuDARpJA6o+LNbTdauj
+ qZYWyEMxiF/HTMBE0L6doaETGLZqwLF9upxvs5ho8nq2J6OnT+iZdKAm9TyoHb3Dv5EjwlYBfp
+ 56VxczUSEw1hjjz8CfrqW7YZEULHSRQljPNZCuKk6a+c6/prUWeS/R7GszDdYIcqliZnBB0Ls/
+ zPE=
+X-IronPort-AV: E=Sophos;i="5.76,376,1592841600"; d="scan'208";a="150600858"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2020 06:27:24 +0800
-IronPort-SDR: 6vfs3OUIe1F0UrPsuGTfmJxO5KRRBe9WKd5OU70K99/Pg59ljHn8da8dZ8eqXN4U76KiOecs6w
- Ttf5xyXZke7g==
+ by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2020 06:27:28 +0800
+IronPort-SDR: 2Y6F/aBhAP6tgm1y7JwuD5+2zmWlVnETwMmGAsQwUTemZ5BxycIqHv+OWmpLgHcsEklo+Mczcx
+ SUQh52t5hp0A==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2020 15:14:51 -0700
-IronPort-SDR: 2UUCOAZTj1kcqIj9QRszfIbGKnfEng8W7RQNoY57mOUF22eWCRQzfD61jKs+ZZm9ZpNFweYFnI
- wUn/V2GFf71g==
+ 31 Aug 2020 15:14:56 -0700
+IronPort-SDR: /MeCS+J6xajFwR0yXeP8FcA3jet22RiLDqeLCTdhNMVpQXc8UG3isor5T/2vfgs1qKIFJSwoqh
+ O5x8HqJ+f6gA==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 31 Aug 2020 15:27:23 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 31 Aug 2020 15:27:27 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 02/12] nvmet: for pt I/O commands use likely for ns check
-Date: Mon, 31 Aug 2020 15:26:57 -0700
-Message-Id: <20200831222707.35611-3-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 03/12] nvmet: use consistent type with id->nlbaf
+Date: Mon, 31 Aug 2020 15:26:58 -0700
+Message-Id: <20200831222707.35611-4-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20200831222707.35611-1-chaitanya.kulkarni@wdc.com>
 References: <20200831222707.35611-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200831_182724_686127_5CE75C27 
-X-CRM114-Status: GOOD (  14.31  )
+X-CRM114-CacheID: sfid-20200831_182728_597526_34909729 
+X-CRM114-Status: GOOD (  13.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,11 +100,11 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I/O commands (nvme_cmd_read, nvme_cmd_write) are most common commands
-when accessing passthru controller. Since for I/O commands ns is always
-present and the condition is marked as likely. Annotate post request
-submission ns check with likely which is dependent on earlier the ns
-check likely condition.
+In function nvmet_passthru_override_id_ns() while iterating
+over namespace lba format loop variable is declared as int that is
+inconsistent with the id->nlbaf type which is u8.
+
+Make loop variable of the same type as id->nlbaf.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
@@ -112,18 +112,18 @@ Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 8bd7f656e240..18e96eda39b1 100644
+index 18e96eda39b1..15dd63e14227 100644
 --- a/drivers/nvme/target/passthru.c
 +++ b/drivers/nvme/target/passthru.c
-@@ -268,7 +268,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
- 				      nvmet_passthru_req_done);
- 	}
+@@ -112,7 +112,7 @@ static u16 nvmet_passthru_override_id_ns(struct nvmet_req *req)
+ {
+ 	u16 status = NVME_SC_SUCCESS;
+ 	struct nvme_id_ns *id;
+-	int i;
++	u8 i;
  
--	if (ns)
-+	if (likely(ns))
- 		nvme_put_ns(ns);
- 
- 	return;
+ 	id = kzalloc(sizeof(*id), GFP_KERNEL);
+ 	if (!id)
 -- 
 2.22.1
 
