@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 654DAC433E2
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 15:31:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE84C433E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 15:31:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3230121527
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 15:31:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4B57F214DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 15:31:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DK8BDaEN";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="NEjHg0D9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3230121527
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LtLFh56g";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="g95JNU62"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B57F214DB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,47 +26,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7RrFEBm/XyUgHluRnHE2MwiLO25x+FEihR1Dzc5pwgY=; b=DK8BDaENY1xJecl5OSoDWii3G
-	Iy+P1QTYMIHvYqccj4vYpRDQYaIwy94oY2xVIP30OGTjggjEqOJooani5yoXrG2cxdpPb7CYll3Fa
-	A+Cn5aruX6FLppIvYTs20QroXzDNI1KsMQI+0stFc/jgT/8OjxoDtT5fDWeo7SvSXmhHKdLGFZkPV
-	ZXc8Hio2E5vu0QAyAjfSjxmE5tEq98EJGoxySxyo7RnT8r5aDZOYXMt4Ap7McsDHXKqsECiXI0Pg4
-	Hg3uqRywFGSxIY7Ufc5JLclx5rXxwb1ZMzxS0ui19pPPphNtZpxT7Och6ewSKMa4Dm3oR65nbx9lp
-	FVC8LrAmQ==;
+	 bh=cSPQ5jU4UlniqRW7K+r3s8pY5uS1gJnMdTIKZqr4oBs=; b=LtLFh56gRS+hO2BpSLy5CEesp
+	h8NrPr/ZKosjd8HPcJfJa3vIpjBXOlKF1RFMUXCHJYtHyFB6ZcpaDpPHxPtcW0UcAZjXJgei3+BG1
+	zMFSxBEaO0vkzBP5rSdnyorXveb22VpCBxcpg2dDBGacUbUjUt/3HfwVbroot9cqfFk/Ey33OfiGH
+	CwblZ6cMP5e2QS4p815I5/Tb9BkKobh7KPiuWT4fobkumXQnufJFBZTZjRaWo7Asz4YOU7VBeT1Fx
+	O9jIHsC9MWaLWlaE4qoanYiCws5s8BdUw1h/O9bICeANStPm/aVi3W7VXWZFG4LiCP8n8xTbWMvoI
+	c9Ty23ddA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kCllp-0000t4-TG; Mon, 31 Aug 2020 15:30:58 +0000
+	id 1kClmO-00017T-8o; Mon, 31 Aug 2020 15:31:32 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kCllm-0000sM-Gp
- for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 15:30:55 +0000
+ id 1kClmK-00015f-AK
+ for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 15:31:29 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CCD7F214DB;
- Mon, 31 Aug 2020 15:30:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id F0A76207EA;
+ Mon, 31 Aug 2020 15:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598887853;
- bh=aG8fDo6WokZr7tWPDWgK8Q8I17+Fk1k0aLx8aKCBCZQ=;
+ s=default; t=1598887887;
+ bh=ObXwBHcpH2/Zv36wN1h9V35sVGYuyTclfNAs+hcl7B8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NEjHg0D9q6I5dKK4tqXwurgaa+1iX0SjBvnJfZYY+0Pd5xr5FqmShMrkPMOjsJCPT
- LtECZffBEpi9NzbihHVnSCaiMAQ4oCTV/T7GJtpaNgJGrMGX5oP7R81RBMMyhBQM42
- B77vDFfjxYmxnflwWW4/nFWCHHSC5Pwnieksqltg=
+ b=g95JNU6285xSqpnoW3OxnU4R8HlnXEhxWhGGAdLY52KFoeugCj3P9vPQBuTQ2eolY
+ ypuaqrymgCrNGSkX6RbCoK0bTaxLaya0s5KA1YAfHgA2S1xH2vm8N/1/aCLy0KSUkO
+ GONKvt1enolcyJg1HbsFu8xvRryUV5HWwQ0/OUIo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 08/23] nvmet: Disable keep-alive timer when kato
+Subject: [PATCH AUTOSEL 4.19 06/11] nvmet: Disable keep-alive timer when kato
  is cleared to 0h
-Date: Mon, 31 Aug 2020 11:30:24 -0400
-Message-Id: <20200831153039.1024302-8-sashal@kernel.org>
+Date: Mon, 31 Aug 2020 11:31:12 -0400
+Message-Id: <20200831153117.1024537-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200831153039.1024302-1-sashal@kernel.org>
-References: <20200831153039.1024302-1-sashal@kernel.org>
+In-Reply-To: <20200831153117.1024537-1-sashal@kernel.org>
+References: <20200831153117.1024537-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200831_113054_747201_F3E4DA03 
+X-CRM114-CacheID: sfid-20200831_113128_549337_1492F243 
 X-CRM114-Status: GOOD (  12.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -103,10 +103,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 57a4062cbb59e..7d7176369edf7 100644
+index 776b7e9e23b9e..f28df233dfcd0 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -369,6 +369,9 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
+@@ -307,6 +307,9 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
  
  static void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl)
  {
@@ -116,7 +116,7 @@ index 57a4062cbb59e..7d7176369edf7 100644
  	pr_debug("ctrl %d start keep-alive timer for %d secs\n",
  		ctrl->cntlid, ctrl->kato);
  
-@@ -378,6 +381,9 @@ static void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl)
+@@ -316,6 +319,9 @@ static void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl)
  
  static void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl)
  {
