@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D44BAC433E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:27:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D75AAC433E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:28:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 930C620E65
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:27:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 908712083E
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:28:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aAMuf6mK";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="TTX/u8ji"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 930C620E65
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fkGO4Vr/";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="kyun1Oug"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 908712083E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,62 +26,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=V+rU64Tal4e4X9qRSwuAPSOrS9J2T3wbrkVLNWRcQyU=; b=aAMuf6mKnQmFwYncKmk95S+4F
-	owUbAOzG4vEMctajW4hAWAN7C43lUZzzemUiAMxPY1WRb/TYHGjFf/HBjBQma70027gkLjla33Y33
-	HY0RCiawDzlQZ7GNdqesr25fzxkBN2xGjEjJ5EN//yNQ4hNQFk0uFX5IjFJtL+0RRkDvJwKFcRbkw
-	8TpTMpA3fVLgLbaNlPG9ZKTcOpNE1pZmL5i5D54OZYNVZo8PKp1Q8j4LPPlFEMwqpRlMbOW6/WhzU
-	61oiaf16A6uoaw6Y++o3lf/YKHQlLTeTmFu54dPm5fGpCCHMNPi1myJBJpBE+JFgPrUWp7aipRKHy
-	oHit4Ljyw==;
+	 bh=2NYPn/iBeHSnNS7ATQLI1QqM1+DDeVkY2NCSUkq023o=; b=fkGO4Vr/yR5THgYrwG7ohvP/R
+	ES08bThQaas7gcoUUH2SQ+C/zon0mRca6BfOVpEO4DgcLkhC/V9/LvFJStKLUTDETDMGfXjSCWlil
+	tpIw7/ZDV0/5+etevXyske/0RkrydheBCnEPHcl8ozp5k+U6z5Of9PuK/ti+/k8aA1qq/n66O4wqa
+	P5coY7fQDCcutJGHGwwRwaQ9Gqd+RSz0YiCo9MJj7Gq5BdVAgmNsC4Lt4RJGnaAsbbcEH6IddGZfU
+	Jxux6JVSvS8a/A4BAWCTyJQtCYKxegrVTK2aCjRC+JFsyxue6siQclXP9q3To9SWiVgJ1tgXXFJZW
+	ivjxFy1FA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kCsHF-0005cw-Vx; Mon, 31 Aug 2020 22:27:50 +0000
+	id 1kCsHO-0005hN-64; Mon, 31 Aug 2020 22:27:58 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kCsHA-0005Vg-5F
- for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 22:27:45 +0000
+ id 1kCsHD-0005Vg-AK
+ for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 22:27:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598912864; x=1630448864;
+ t=1598912867; x=1630448867;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=71ucE1m282oZTlxf8TmAStnvBxsZifu0x4zSquXZcb0=;
- b=TTX/u8ji+DuCTQpIvVLT1LkI/2T7ayD2XSaJV6eK6tLopO/2ZaHk6P5j
- s+AvZ/c0uj11BzOrpaw2teq9UVmBkG/aIQwlBxfX3CkSaLBfooSKg6Yy/
- +TojB4Y1ZdAC/qXj/EgbEDIb437ZbdsLDFLu4p25H44v8zAPTybKaZmmy
- fE5DmmUd96X+K8W5uFEKHUFaRaCVMMM5nRYR5rLy6WsSV+hAl/28WcMnM
- lBn1KxqwNZEXAxQIW6MOgEqYFgOiZMlSlxXlUf5aNZpr1jtm+gkAeXbg/
- vALsWX2H3PsskRgxtQdtDCfy10QYYN2PLxRikcw6p1qvsjJ6RG/LOAv7T w==;
-IronPort-SDR: 0fVufgx87VL+qZpZG0u1dhW+53nFjO3LQ6kQmYG6Eaa9qHSZTKl9+9cUSK5HjaSsL6abcQz54k
- AVI1NE0r2HOgmsY1M9H+NLyU7dk4EbrTaX/aerVyXG9fXwlW/Tz6dW/DPoDTpk1QczD6I9Uzcl
- 7zVcUoXTZ7wFvYkxB5v8AZdVHJnHq3g3RhoqeLN15mpVIhTFiWH6D7TJLp9Z24mCEdiaXRYNZS
- 4sa3wXOYk0zm1JKbdmoEtkkb7FdRS26CW8UDuLWY85SlR2tRz4It7QF5sthRDfmrOXAq64KOJu
- Dmo=
-X-IronPort-AV: E=Sophos;i="5.76,376,1592841600"; d="scan'208";a="147482861"
+ bh=jdEl2zLmkPrGAXXHm1FItxTcXKzRvguUu/7CPP/fmls=;
+ b=kyun1Ougm2QI2h1lojLf3KmikJek4DukX/0ySeqI5sg/yH4HfpQ9vbSJ
+ LbrxnyoNPejtPA5+4z6YdHWGycAEOfP6elO0QT3Ojkh5B2fMY4TNb47m5
+ /DhZl52rTXVFM2LTleHMnsD1B9eMa56Iz2LSE5XH2lYjlD6Wa/jPLcNij
+ bnXBA566ci8ZHVRl2Ow0QWP2AU+7xj22djgr3zRea3+ptrEeTrWHhk2Cf
+ KJVEth4ZGbieKa5NLgnELNiF0SZXWwJIlA1/TyVdu2Ybl65snMsarnC8l
+ Dp09fpuRU4mPm2GpfG/KLD4HDSOWnC4n9UvIp1sR6aXuopiaTLlGr4PKs A==;
+IronPort-SDR: EMVGC4/2Q+shz2EMXRFmRunHfwIB5TpEmPTipAo/vRyLJTYZpOSKXVYuW7CGiLYJkHSkIJfZWn
+ OkyFnlS7t/pZhgF5FeBeq57nbj4utJDR0Zovql4mrK6tTWq27svjwmCCKeRVrxIkYIduQjnexm
+ x3GRI/YuhQ84wu2/p1yKgio68bSJoy+Mqlu+aGyOhYmzzbESZ8M7WAqCk7hBgZYsZR4dQjXo2S
+ ZzMpxYplxJevfwJzGGmyxzI0eivKHYC3mcSKjWG531GYhU1QRtu7UIQCJy9liSvnyN0JpJUjbo
+ AnE=
+X-IronPort-AV: E=Sophos;i="5.76,376,1592841600"; d="scan'208";a="147482865"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2020 06:27:44 +0800
-IronPort-SDR: edJ0VDyv9wPRa/ls8fu3C3DORB0VwRs2lmcPFHJMe6l5eNo8xX3iH2Y5uzT6zM3GqbmgvGoFXq
- 8DcbOVU1G5sw==
+ by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2020 06:27:47 +0800
+IronPort-SDR: 7NZdpWlDM/ME9nVBOrFzaqv9OcEc0Xg+Hj9iVF4YDPQGbXsauACDYFO8Sdbe4xgigG+XZ+yjf3
+ GLPcA3DLcbMg==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2020 15:15:12 -0700
-IronPort-SDR: Uazlo0TO1Np9lbMK5SUVs3/dq6lFEUM1cq8KmggQnJ/ZiV3kAx3w94ckkXDS2aKlFRRuXjQZcY
- JltUKvSZldKQ==
+ 31 Aug 2020 15:15:15 -0700
+IronPort-SDR: I1tTMWTPQMAk1M6D11ax7gEKQBFIdfLmRkp3n1/JpwCiAg70SwOWWPG5OxOBaTbNnqD8sAbNgG
+ /1Nfzsqq/a3Q==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 31 Aug 2020 15:27:43 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 31 Aug 2020 15:27:46 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 07/12] nvmet: decouple nvme_ctrl_get_by_path()
-Date: Mon, 31 Aug 2020 15:27:02 -0700
-Message-Id: <20200831222707.35611-8-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 08/12] nvmet: move get/put ctrl into dev open/release
+Date: Mon, 31 Aug 2020 15:27:03 -0700
+Message-Id: <20200831222707.35611-9-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20200831222707.35611-1-chaitanya.kulkarni@wdc.com>
 References: <20200831222707.35611-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200831_182744_401066_A8EF75C5 
-X-CRM114-Status: GOOD (  20.88  )
+X-CRM114-CacheID: sfid-20200831_182747_640268_8C80B488 
+X-CRM114-Status: GOOD (  16.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,141 +100,88 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Right now nvme_ctrl_get_by_path accepts ctrl path, based on that it
-opens a file and calls nvme_get_ctrl(). In order to take module
-refcount it is important to distinguish the error between file_open()
-and module file ops check so that we can unwind the code in the caller
-nvmet_passthru_ctrl_enable() in the error path.
-
-Rename nvme_ctrl_get_by_path() -> nvme_ctrl_get_by_file() and lift
-the file opening and error handling in the caller so that we can unwind
-appropriately in the error path.
+Introduce nvme_dev_release ctrl file release callback and move ctrl get
+and put operations from target passthru into host core in ctrl open and
+release file operations respectively.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/core.c       | 10 ++--------
- drivers/nvme/host/nvme.h       |  2 +-
- drivers/nvme/target/nvmet.h    |  1 +
- drivers/nvme/target/passthru.c | 17 +++++++++++++----
- 4 files changed, 17 insertions(+), 13 deletions(-)
+ drivers/nvme/host/core.c       | 12 +++++++++++-
+ drivers/nvme/target/passthru.c |  7 ++-----
+ 2 files changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a62fdcbfd1cc..425a3c16d5a5 100644
+index 425a3c16d5a5..f82c6a283b15 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -4641,14 +4641,9 @@ void nvme_sync_queues(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_sync_queues);
- 
--struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path)
-+struct nvme_ctrl *nvme_ctrl_get_by_file(struct file *f)
- {
- 	struct nvme_ctrl *ctrl;
--	struct file *f;
--
--	f = filp_open(path, O_RDWR, 0);
--	if (IS_ERR(f))
--		return ERR_CAST(f);
- 
- 	if (f->f_op != &nvme_dev_fops) {
- 		ctrl = ERR_PTR(-EINVAL);
-@@ -4659,10 +4654,9 @@ struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path)
- 	nvme_get_ctrl(ctrl);
- 
- out_close:
--	filp_close(f, NULL);
- 	return ctrl;
- }
--EXPORT_SYMBOL_NS_GPL(nvme_ctrl_get_by_path, NVME_TARGET_PASSTHRU);
-+EXPORT_SYMBOL_NS_GPL(nvme_ctrl_get_by_file, NVME_TARGET_PASSTHRU);
- 
- /*
-  * Check we didn't inadvertently grow the command structure sizes:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2910f6caab7d..590cc880834a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -836,7 +836,7 @@ static inline void nvme_hwmon_init(struct nvme_ctrl *ctrl) { }
- u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 			 u8 opcode);
- void nvme_execute_passthru_rq(struct request *rq);
--struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path);
-+struct nvme_ctrl *nvme_ctrl_get_by_file(struct file *f);
- struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid);
- void nvme_put_ns(struct nvme_ns *ns);
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 47ee3fb193bd..477439acb8e1 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -248,6 +248,7 @@ struct nvmet_subsys {
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
- 	struct nvme_ctrl	*passthru_ctrl;
- 	char			*passthru_ctrl_path;
-+	struct file             *passthru_ctrl_file;
- 	struct config_group	passthru_group;
- #endif /* CONFIG_NVME_TARGET_PASSTHRU */
- };
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index fbe2678aea6a..b121f532a6ff 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -471,6 +471,7 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
- 
- int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
- {
-+	const char *pt_path = subsys->passthru_ctrl_path;
- 	struct nvme_ctrl *ctrl;
- 	int ret = -EINVAL;
- 	void *old;
-@@ -478,7 +479,7 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
- 	mutex_lock(&subsys->lock);
- 	if (!subsys->passthru_ctrl_path)
- 		goto out_unlock;
--	if (subsys->passthru_ctrl)
-+	if (!pt_path)
- 		goto out_unlock;
- 
- 	if (subsys->nr_namespaces) {
-@@ -486,13 +487,18 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
- 		goto out_unlock;
+@@ -3262,6 +3262,16 @@ static int nvme_dev_open(struct inode *inode, struct file *file)
  	}
  
--	ctrl = nvme_ctrl_get_by_path(subsys->passthru_ctrl_path);
-+	subsys->passthru_ctrl_file = filp_open(pt_path, O_RDWR, 0);
-+	if (IS_ERR(subsys->passthru_ctrl_file)) {
-+		ret = PTR_ERR(subsys->passthru_ctrl_file);
-+		goto out_unlock;
-+	}
+ 	file->private_data = ctrl;
++	nvme_get_ctrl(ctrl);
++	return 0;
++}
 +
-+	ctrl = nvme_ctrl_get_by_file(subsys->passthru_ctrl_file);
- 	if (IS_ERR(ctrl)) {
- 		ret = PTR_ERR(ctrl);
- 		pr_err("failed to open nvme controller %s\n",
- 		       subsys->passthru_ctrl_path);
--
--		goto out_unlock;
++static int nvme_dev_release(struct inode *inode, struct file *file)
++{
++	struct nvme_ctrl *ctrl =
++		container_of(inode->i_cdev, struct nvme_ctrl, cdev);
++
++	nvme_put_ctrl(ctrl);
+ 	return 0;
+ }
+ 
+@@ -3327,6 +3337,7 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ static const struct file_operations nvme_dev_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.open		= nvme_dev_open,
++	.release	= nvme_dev_release,
+ 	.unlocked_ioctl	= nvme_dev_ioctl,
+ 	.compat_ioctl	= compat_ptr_ioctl,
+ };
+@@ -4651,7 +4662,6 @@ struct nvme_ctrl *nvme_ctrl_get_by_file(struct file *f)
+ 	}
+ 
+ 	ctrl = f->private_data;
+-	nvme_get_ctrl(ctrl);
+ 
+ out_close:
+ 	return ctrl;
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index b121f532a6ff..20944c48095c 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -505,11 +505,11 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
+ 			 subsys, GFP_KERNEL);
+ 	if (xa_is_err(old)) {
+ 		ret = xa_err(old);
+-		goto out_put_ctrl;
 +		goto out_put_file;
  	}
  
- 	old = xa_cmpxchg(&passthru_subsystems, ctrl->cntlid, NULL,
-@@ -520,6 +526,8 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
+ 	if (old)
+-		goto out_put_ctrl;
++		goto out_put_file;
  
- out_put_ctrl:
- 	nvme_put_ctrl(ctrl);
-+out_put_file:
-+	filp_close(subsys->passthru_ctrl_file, NULL);
- out_unlock:
+ 	subsys->passthru_ctrl = ctrl;
+ 	subsys->ver = ctrl->vs;
+@@ -524,8 +524,6 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
  	mutex_unlock(&subsys->lock);
- 	return ret;
-@@ -529,6 +537,7 @@ static void __nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
- {
+ 	return 0;
+ 
+-out_put_ctrl:
+-	nvme_put_ctrl(ctrl);
+ out_put_file:
+ 	filp_close(subsys->passthru_ctrl_file, NULL);
+ out_unlock:
+@@ -538,7 +536,6 @@ static void __nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
  	if (subsys->passthru_ctrl) {
  		xa_erase(&passthru_subsystems, subsys->passthru_ctrl->cntlid);
-+		filp_close(subsys->passthru_ctrl_file, NULL);
- 		nvme_put_ctrl(subsys->passthru_ctrl);
+ 		filp_close(subsys->passthru_ctrl_file, NULL);
+-		nvme_put_ctrl(subsys->passthru_ctrl);
  	}
  	subsys->passthru_ctrl = NULL;
+ 	subsys->ver = NVMET_DEFAULT_VS;
 -- 
 2.22.1
 
