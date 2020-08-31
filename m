@@ -2,91 +2,84 @@ Return-Path: <SRS0=W+Vz=CJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 097DDC433E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:26:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EFA4C433E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:27:23 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BF0D9207EA
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:26:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 39337207EA
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 22:27:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mCG5aiIQ";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="NLLP+qDn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF0D9207EA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UxTU0ZAv";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="gkYrxQU7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 39337207EA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=V8B6LVDv8o/lYnC82KMxqC7eW7ahG7I5JB0DccOmk+M=; b=mCG5aiIQ5SpGmXlcel01z50CI
-	E7iPXmOXcEWr8xnnoeOEX1yzPVR3G45SzQ93Ss/f0DCtKxm5wgxemNtzfm3g7YxeV9v/Fn3AKOc0R
-	JpMSrdZIbCwrJ29MgU4GpM6kE5Ykzt1JZFk2yZzfgWNNw/a23BFghEKv/qXizMvgEFCmOPh+i77dO
-	u/yM5PQoYHNIwJy9+oUkAII65bM3iIl6CYqF/7mdKR5Fup2ev0v05Rx54mnizBjcuS1VqqPqm7YPC
-	arwIYWULwUuVW+2284yPCm4+lJOmJBHussToe0YkPaC20rHxFgQOQ1ZWjgvfASZLxIkvOxB+pjcZA
-	6872ApsmQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=g0hTkmjK79e7An7gZ9uZ0Gv+6h1c3Dk95HQ00xD8Rgk=; b=UxTU0ZAvZ2aRujJJ6MjB+TXSfC
+	3Qff9AWM14sgnSbSWcPg+0O3m7FNJJ4RwwVN/t4eBJo0zu65d9QS1j6C2jQnjyI6LzJ/9uCUVbqw+
+	JMj5oX7Cy7Q+dg/BaDeh7zDy8ianqr74gsKD6lWbqxKO1Bd6v9iWvCC2gj/WNsCdsWOod+uJ3uVDs
+	PTU3N9GsYrpYHOG0PLE+aU61CuLwV/X3tZTF3lSJ0tIKy0Hc289P/4ZvCS/7g6qfIA5nxFp5ZBOSX
+	ZR0KA9M1IFYlYdy9sXswSDRWDV+e3vqHdVz4WJh4DLrnnc5QAABwVVBQzUDzQS7OkMSxCdGPqu4nO
+	JYy2nuhQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kCsG6-0005L4-GJ; Mon, 31 Aug 2020 22:26:38 +0000
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
+	id 1kCsGn-0005Q9-9z; Mon, 31 Aug 2020 22:27:21 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kCsG2-0005Jw-CA
- for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 22:26:36 +0000
-Received: by mail-pg1-x541.google.com with SMTP id v15so1521300pgh.6
- for <linux-nvme@lists.infradead.org>; Mon, 31 Aug 2020 15:26:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=AHy1YAS6RlDoUT2N+3NJGboSTZ+DcvCQzUBr7zdupzo=;
- b=NLLP+qDnBsVG5Q31LNRllvP81qOS6ZT1nEh4uMMhTNXvzgUh4BBqGVVGxYHdv/jThk
- FbQkBnhNF/5Let0TU9x5hV/r3EcRmAxnlG9k/ybOXvESLxHwMqVRwKbJI7YHOsM98cF0
- BzxdpjgykKFONfwjf6256DdvgWDvrectKcVzY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=AHy1YAS6RlDoUT2N+3NJGboSTZ+DcvCQzUBr7zdupzo=;
- b=OfN9cER/ItnC1Lu3n4iby9g0Yst9NZiS6rw5+HGeO4rOXh3OmtmnlS1hvH5c1spGOg
- 7lD4/wCkcKSqYcddIsvr7kPk1Bv3gv25V+jae+V3t5M7QtyCiktlSp+toJQpYmXIW9g+
- Cr2S3J7fYAlC3gOZABoYqW1wmih67SUoSHCcWyGI7Ydz5KZ7nklWjMjgk93v0ZkeR7oW
- saLwyo9qOdTM6uNBlxqMYG4EMQ0ELz1kId8HbC/PBxaaSswNfKoLX5v0ao8i9HJMz3Qs
- dyeyWT51r0kHlWBC0fcMTxTYkAVuahRGqIXrXtRnJ+ViRP2MOvFd4PnuANtAM/9mAXC2
- C2Vw==
-X-Gm-Message-State: AOAM530tP4GSQakC6wQJEQ0MiglEx2H2X6PqE78nTma2Pv9Xsv8MGvaQ
- psI9CZuvTsm22ZTrAD1E6LcTiw==
-X-Google-Smtp-Source: ABdhPJz0W8SN3s8UNhDlUaFJJNAYHIq/dDMZ/K6Sx0zTNMY17KmgTKYyfyLimSf6cVGgyanwbW+lEA==
-X-Received: by 2002:a63:4b61:: with SMTP id k33mr2809010pgl.195.1598912791532; 
- Mon, 31 Aug 2020 15:26:31 -0700 (PDT)
-Received: from [10.230.128.89] ([192.19.228.250])
- by smtp.gmail.com with ESMTPSA id r2sm4466288pga.94.2020.08.31.15.26.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Aug 2020 15:26:30 -0700 (PDT)
-Subject: Re: [PATCH] nvme: Revert: Fix controller creation races with teardown
- flow
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <20200828190150.34455-1-james.smart@broadcom.com>
- <0867c437-1521-c0c9-d7fa-6a615d88105a@grimberg.me>
- <a73cd06b-b319-d55f-1465-4263e08900ae@broadcom.com>
- <741ec2a7-7a38-9432-33fb-58227bf1f1f1@grimberg.me>
-From: James Smart <james.smart@broadcom.com>
-Message-ID: <7f43e9db-974a-5e98-76a6-ed2f3bd0dc92@broadcom.com>
-Date: Mon, 31 Aug 2020 15:26:28 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.0
+ id 1kCsGk-0005Oz-J0
+ for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 22:27:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1598912839; x=1630448839;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/FaNW8P1OP6OD4G/iVYIQDZE1TA+ecNLj87OIt0iL3Q=;
+ b=gkYrxQU7Fhw045Y7pXUfggHff1tAF3RGuLA4VDe3I2dwJuiKXsf/i2gm
+ 2do16cxTZ8FYufrtNyhNBc1mY74pyFidSt2eyw8HBNuLfzbl0azbVhGOb
+ DpoqPoAXymLzC/GFlUsSms5pfQrOe+3KIFXj2Uu4rollYOElXs7dMHkCl
+ C9CfjJkCEq2nqk/WQvPv+8mkKuqUjN44QRjN6Lq4NXpZmljnxds8+puB8
+ s4dd/EyabRCHbfcA4acEEuRcL6Fo1io0lxge0wcFg3hpR/KBKEcRUnar/
+ 2C6nFvXaEmJWLxEyE+Y0bMs7+mPf56CbyFxS4DfyQw9+p9pTb0U7Ph7y6 g==;
+IronPort-SDR: Plexc1n+CNHEy7UNm3oXvc9dM73JlQ9hixpWmY2ZMk3k0VwWGcxCWNqeiBqcjKv1WwcTArtspn
+ PC/GKmJ1IYBtaNdcI2g/cI25NLxqbxg9rglD8KtCRo6t4fKrAtt1oOAAT2wgo0sS0egsIrlNEi
+ HG+u3vwTZ3QX0fysOlwU8mR9RTiYcZEJq5DOcf1cnOvPaMVoHLq31cBepTRkKrccja+teOAehQ
+ MaSDUmXb/J5yVYcY/FcNCIr7WYLaPE0jha1aIMXltzIsw5UiQfr4KWFmdNRpKpaIAh9IpvyC6J
+ jkg=
+X-IronPort-AV: E=Sophos;i="5.76,376,1592841600"; d="scan'208";a="150600845"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2020 06:27:17 +0800
+IronPort-SDR: xymCd5PW260SLi22K1Nu/Ua0CUgl4n//qNX7/CjVcuJNTzzp0RKR67/t34kJM7Ll6OdHtzwq7M
+ Yw+cK7IsVEww==
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2020 15:14:44 -0700
+IronPort-SDR: /PcO5szSxdDbckqef0GJq8EE1sAh79VKebLOn15Jl35elK4PhjMwwo2BiGAZahSRN5hpk6QOt+
+ Xz8iguVSvumA==
+WDCIronportException: Internal
+Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
+ by uls-op-cesaip02.wdc.com with ESMTP; 31 Aug 2020 15:27:16 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH V2 00/12] nvmet: passthru fixes and improvements
+Date: Mon, 31 Aug 2020 15:26:55 -0700
+Message-Id: <20200831222707.35611-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-In-Reply-To: <741ec2a7-7a38-9432-33fb-58227bf1f1f1@grimberg.me>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200831_182634_605912_4B45429D 
-X-CRM114-Status: GOOD (  20.90  )
+X-CRM114-CacheID: sfid-20200831_182718_830511_D2C5D531 
+X-CRM114-Status: GOOD (  11.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,47 +91,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Israel Rukshin <israelr@mellanox.com>,
- Christoph Hellwig <hch@lst.de>, stable@vger.kernel.org,
- Max Gurtovoy <maxg@mellanox.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: kbusch@kernel.org, logang@deltatee.com, hch@lst.de,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, sagi@grimberg.me
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOC8yOC8yMDIwIDQ6NTkgUE0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4KPj4+IFRoaXMgaXMg
-aW5kZWVkIGEgcmVncmVzc2lvbi4KPj4+Cj4+PiBQZXJoYXBzIHdlIHNob3VsZCBhbHNvIHJldmVy
-dDoKPj4+IDEyYTBiNjYyMjEwNyAoIm52bWU6IGRvbid0IGhvbGQgbnZtZl90cmFuc3BvcnRzX3J3
-c2VtIGZvciBtb3JlIHRoYW4gCj4+PiB0cmFuc3BvcnQgbG9va3VwcyIpCj4+Pgo+Pj4gV2hpY2gg
-aW5oZXJlbnRseSBjYXVzZWQgdGhpcyBieSByZW1vdmluZyB0aGUgc2VyaWFsaXphdGlvbiBvZgo+
-Pj4gLmNyZWF0ZV9jdHJsKCkuLi4KPj4KPj4gbm8sIEkgYmVsaWV2ZSB0aGUgcGF0Y2ggb24gdGhl
-IHNlbWFwaG9yZSBpcyBjb3JyZWN0LiBPdGhlcndpc2UgLSAKPj4gdGhpbmdzIGNhbiBiZSBibG9j
-a2VkIGEgbG9uZyB0aW1lLi4gYSBtaW51dGUgKDEgY21kIHRpbWVvdXQpIG9yIGV2ZW4gCj4+IG11
-bHRpcGxlIG1pbnV0ZXMgaW4gdGhlIGNhc2Ugd2hlcmUgYSBjb21tYW5kIGZhaWx1cmUgaW4gY29y
-ZSBsYXllcnMgCj4+IGVmZmVjdGl2ZWx5IGdldHMgaWdub3JlZCBhbmQgdGh1cyBkb2Vzbid0IGNh
-dXNlIHRoZSBlcnJvciBwYXRoIGluIHRoZSAKPj4gdHJhbnNwb3J0LiBUaGVyZSBjYW4gYmUgbXVs
-dGlwbGUgL2Rldi9udm1lLWZhYnJpY3MgY29tbWFuZHMgc3RhY2tlZCAKPj4gdXAgdGhhdCBjYW4g
-bWFrZSB0aGUgZGVsYXlzIGxvb2sgbXVjaCBsb25nZXIgdG8gdGhlIGxhc3QgZ3V5Lgo+Pgo+PiBh
-cyBmYXIgYXMgY3JlYXRpb24gdnMgdGVhcmRvd24uLi4geWVhaCwgbm90IGZ1biwgYnV0IHRoZXJl
-IGFyZSBvdGhlciAKPj4gd2F5cyB0byBkZWFsIHdpdGggaXQuIEZDOiBJIGdvdCByaWQgb2YgdGhl
-IHNlcGFyYXRlIGNyZWF0ZS9yZWNvbm5lY3QgCj4+IHRocmVhZHMgYSB3aGlsZSBhZ28gdGh1cyB0
-aGUgcmV0dXJuLWNvbnRyb2wtd2hpbGUtcmVjb25uZWN0aW5nIAo+PiBiZWhhdmlvciwgc28gSSd2
-ZSBoYWQgdG8gZGVhbCB3aXRoIGl0LsKgIEl0J3Mgb25lIGFyZWEgaXQnZCBiZSBuaWNlIHRvIAo+
-PiBzZWUgc29tZSBjb252ZXJnZW5jZSBpbiBpbXBsZW1lbnRhdGlvbiBhZ2FpbiBiZXR3ZWVuIHRy
-YW5zcG9ydHMuCj4KPiBEb2Vzbid0IGZjIGhhdmUgYSBidWcgdGhlcmU/IGluIGNyZWF0ZV9jdHJs
-IGFmdGVyIGZsdXNoaW5nIHRoZQo+IGNvbm5lY3Rfd29yaywgd2hhdCBpcyB0ZWxsaW5nIGl0IGlm
-IGRlbGV0ZSBpcyBydW5uaW5nIGluIHdpdGggaXQKPiAob3IgdGhhdCBpdCBhbHJlYWR5IHJhbi4u
-LikKCkkgZ3Vlc3MgSSBkb24ndCB1bmRlcnN0YW5kIHdoYXQgdGhlIGJ1ZyBpcyB5b3UgYXJlIHRo
-aW5raW5nIGFib3V0LiBNYXliZSAKdGhlcmUncyBhIHNob3J0IHBlcmlvZCB0aGF0IHRoZSBjdHJs
-IHB0ciBpcyBwZXJoYXBzIGZyZWVkLCB0aHVzIHRoZSAKcG9pbnRlciBzaG91bGRuJ3QgYmUgdXNl
-ZCAtIGJ1dCBJIGRvbid0IHNlZSBpdCBhcyBhbG1vc3QgZXZlcnl0aGluZyBpcyAKc2ltcGx5IGxv
-b2tpbmcgYXTCoCB0aGUgdmFsdWUgb2YgdGhlIHBvaW50ZXIsIG5vdCBkZXJlZmVyZW5jaW5nIGl0
-LgoKSSBkbyBoYXZlIGEgYnVnIG9yIHR3b8KgIHdpdGggZGVsZXRlIGFzc29jaWF0aW9uIGZpZ2h0
-aW5nIHdpdGggCmNyZWF0ZV9hc3NvY2lhdGlvbiAtIGJ1dCBpdCdzIG1haW5seSBkdWUgdG8gbnZt
-ZV9mY19lcnJvcl9yZWNvdmVyeSBub3QgCnRoZSBkZWxldGUgcm91dGluZS4gSSd2ZSByZXdvcmtl
-ZCB0aGlzIGFyZWEgYWZ0ZXIgc2VlaW5nIHlvdXIgb3RoZXIgCnBhdGNoZXMgYW5kIHdpbGwgYmUg
-cG9zdGluZyBhZnRlciBzb21lIG1vcmUgdGVzdGluZy7CoCBCdXQgbm8gcmVhc29uIGZvciAKc3lu
-Y2hyb25pemluZyBhbGwgY3RybCBjcmVhdGVzLgoKLS0gamFtZXMKCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApM
-aW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+Hi,
+
+This patch series has several small trivial fixes and few code
+optimizations.
+
+Regards,
+Chaitanya
+
+Changes from V1: -
+
+1. Remove the sg_cnt check and nvmet_passthru_sg_map() annotation.
+2. Add annotations and performance numbers for newly added patch #1.
+3. Move ctrl refcount and module refcount into nvme_dev_open() and
+   nvme_dev_release(). Add prepration patch for the same.
+4. Add reviewed-by tags.
+
+Chaitanya Kulkarni (12):
+  nvme-core: annotate nvme_alloc_request()
+  nvmet: for pt I/O commands use likely for ns check
+  nvmet: use consistent type with id->nlbaf
+  nvmet: use consistent type for op_flag
+  nvmet: use unlikely for uncommon commands
+  nvmet: remove op_flags for write commands
+  nvmet: decouple nvme_ctrl_get_by_path()
+  nvmet: move get/put ctrl into dev open/release
+  nvmet: fix nvme module ref count Oops
+  block: move blk_rq_bio_prep() to linux/blk-mq.h
+  nvmet: use minimized version of blk_rq_append_bio
+  nvmet: use inline bio for passthru fast path
+
+ block/blk.h                    | 12 -------
+ drivers/nvme/host/core.c       | 31 ++++++++++------
+ drivers/nvme/host/nvme.h       |  2 +-
+ drivers/nvme/target/nvmet.h    |  2 ++
+ drivers/nvme/target/passthru.c | 64 +++++++++++++++++++++-------------
+ include/linux/blk-mq.h         | 12 +++++++
+ 6 files changed, 76 insertions(+), 47 deletions(-)
+
+-- 
+2.22.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
