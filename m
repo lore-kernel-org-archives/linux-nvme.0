@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43FBCC433E2
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 02:38:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B745C433E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 02:48:05 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0FF9A20720
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 02:38:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 633C72076D
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Aug 2020 02:48:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gjtfAMM4";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ENiHfXfe";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="HyD3dqrC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0FF9A20720
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aQR4f6IS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="DQAucLPW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="LFY5LeFC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 633C72076D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,110 +27,115 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=t+6WlwnjmVhTV4n+ggA9UADzZzRmiFtMuac7QHvhYYk=; b=gjtfAMM4wJRmfZeaN0Y/Ep3Uk
-	7hj/34Aqy7Q2YkETb43SKy7MkHRKKUYPuQyArG/9dOseFMyJUTGGLRl1frQJVBeaQK+R/Nj7fAhM1
-	UZcVlx/QBc0Iv6TgOF1V1eKN/4Gi1N+Rs053PsiaJoPxAUS2ZKnpnyf78IOdTKGmpxVlWO8UdsMmb
-	AG9ZHi6R75UNJDs/4i6ANeobfaRZHnJYmZgPL0seLZgSQ7nmszJNf70IwErgSKy9CY1l2hAIE/T4m
-	adMOdIzen1QLbvARB64y5SYw8fotXDqGanxhJz+PhgRAqoILRgU51DFK2nA/JU5e4FpDJszUiaVYa
-	zdHXi82+A==;
+	 bh=JW12gYBXMxEduL+k3MSxWXBQFDASpksoKdjrBVzyasE=; b=aQR4f6ISJZph/AA2h/2DNnaF4
+	AQUwSFJD22tlFMGy/B9Obml5jNiTKmwjcHOfl3YBYEj3dCBZr48X2lq37wLYI61/aSzZ7/kc08RHW
+	tf9wNVtRGbsvj15Xq0r4AE/mr4ahaVVD9ttZVbDBctB72H0SxKXBnyrnKRnT0Vt9gTt6Euk6QAwzj
+	HaXXgxgp+FPyQ6WE6uEquEQI/XpbcfRoO9LCfPYb23WjaGewwqg/5ds0dLhWAVQNuUjvVW9i85bMH
+	pVnfmVhHwuUMC+gFY5RaJKIqEsPGGr9CcF2pnfKbZ6DyKOjVkR5cLDY99NyHpksNhaDMsVDhB2Av2
+	BK7xF7wWw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kCZht-0005uw-71; Mon, 31 Aug 2020 02:38:05 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1kCZrT-0006SM-Rr; Mon, 31 Aug 2020 02:47:59 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kCZhq-0005uC-En
- for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 02:38:03 +0000
+ id 1kCZrP-0006Rz-Qp
+ for linux-nvme@lists.infradead.org; Mon, 31 Aug 2020 02:47:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1598841483; x=1630377483;
+ t=1598842082; x=1630378082;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=MQ/jFErjD9tyvz87cpVtcBBUrQeu3OXZzWb8TsO2nMM=;
- b=ENiHfXfejaAcZmoB3XuX9vviwUKC5idhW7IX5py0bDhq39Op+9JiTnjB
- gADftOuw4FI3wvuvknK53wgbaVGTVM6p1aFLodH4JykOV+XguYA2giwSh
- J6jWrzSh0p87rlDYW9ew+JDkPWx6/mef0lZ0d89toT31lr4uyqNOBeu3p
- ur2ev7fwATR7yVntKV83Y4uF7NIOOVWiIKO8dViAa4I+9U5whP5xpcIHe
- Ks3mcIQ02Fp1hLJ0PNSj8IVQ7Vs03ho0LSYLgyNxqGOSbfhRcljrcEe6G
- mJcexMItfrimJT85us8H4h5Zl92NJvkwSzdQ70Hn7DU8dj+2Eu9lGCheB Q==;
-IronPort-SDR: QofmrFs2YxX5Ej4g+QhrQkdpJdGSQAVOy+Vk5TG6eHTUpl99bV/NRpEQvLdczobuTkbNdq6ulz
- ogOXwtxaDgxXkIe7yo+2IkSVaNQrfr1B+jz8r4lzo3d5bF/+xH7expxPO3kz6w5B0+Jq4W1eqn
- h/Rime0XI8cEVTqOUW3WnxR7+9bWObfLbthGU2iaIhUgTTruz2ax6JGSkaQnRRtIbw0o87zstk
- uMNYTTCtet7lNV1h2jfT+9haspTZIwfoASd1VqOTshj9Bc+ouWjNiJ1Q1CRe0N2emaFiKWpVAM
- kiY=
-X-IronPort-AV: E=Sophos;i="5.76,374,1592841600"; d="scan'208";a="150529306"
-Received: from mail-dm6nam10lp2103.outbound.protection.outlook.com (HELO
- NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.103])
- by ob1.hgst.iphmx.com with ESMTP; 31 Aug 2020 10:37:58 +0800
+ bh=/11a8Td8yyguMpCjNUHWquVGQ3fbLksnSUo3DmyO0OE=;
+ b=DQAucLPW4G/ybwBWlFrZPQpoL4E84U4jdJZKpC1VBDzp/hcklXYw4tBF
+ HWUTnkTjXgoN7zE3dSa8MlEBa2gHYdxAYGJfTBJvrlO9C9bchWDkmcPeE
+ cqnoWIvSBQSG7A5KYNJzwYR6swjiLEUBu41or4mqGKZcaD3TOHYdJYKWk
+ DKK66WweV5mF+XeeGFXtaoK26yZfR6sn6RHSX4q7CqGopu0Sa9GzPnEsv
+ DfPXUFtoe6RTA6ICgTNEhbX13FQ1cdLX3fwUm5uuNByry00mejEYChfyE
+ HGIOFgvzAgLqd3yMBG/XkrS7oEgyzUTIScCiINYYCqhQXdzqs+HEZ3Jae Q==;
+IronPort-SDR: MAwE8fjo+pWVM1/iw/HqL5inOa6AvG40vesk1FpLobyNIKGqtx7NzhF/qc41351YetOduBCZHT
+ sNdmg7qs6SZcEySVbPMX2dlgx6MknjkASdN9ZoR0xMiEy6QMbs91cwAvBZQEJJGISoVZsTneEZ
+ jh4+EQz61Q6m9GhXap0xS+qEYoXxzsu1iAvMwuSXcFdK9mi8zoGAYYfLD0RujIxfyIbI9TXcH/
+ 9tf/5CU5DSPMrjEE2gN0UGp+cO27hpc+ysxsaGiwPmE4jf2drMIbqlrCEjQp6URZUNmUj8l7qo
+ yRU=
+X-IronPort-AV: E=Sophos;i="5.76,374,1592841600"; d="scan'208";a="249441950"
+Received: from mail-bn8nam11lp2170.outbound.protection.outlook.com (HELO
+ NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.170])
+ by ob1.hgst.iphmx.com with ESMTP; 31 Aug 2020 10:47:54 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IzPVrjBiFzwNenhKcLFJsurHq06/odBeijwFmSwuPpZ4lHbuyePC+Io+kZinaO9QYhXTtnVZ5aimQ8Vz8sqHHChVe+yuwRdqOfjxYRy/0h5DV3JHyXjNqpXAJSWhgCQZcKtqt/a0joBoRZjin3mNJ+2arrwfojFHOoxJThV6c6cFVIhPwR9vwhmCt4hhTvjin3kwalwOMgCPB6Rwx6du/a0ZrMC608V06FZLtRf6m03InQexMpcy4GIm8g3ZbBw3cv1rnDRDVWcV9mmS0QqFmhqNVp4nhuL0blAq/zzppgaW4HmiZKH8wevjtMvA/yoTxtJ2f+YT9hL0o52C8sRLeQ==
+ b=Z79E5kb+uEQa3biCjAV0pKwkA7DMZpyXApDemQltAZQssXFXEu0QQUL9L1g6maI6wMlOdUKyU7yaib97xvvfG79YUJAcRbzVPLoeaLMfyLXIuG9x+4Gza2f6apjsnXytvNK4E+jXUIiV73VdNJugTIfiohAH9ysV6p0JFFrx9D7wnr+eurrQu0hm6ZHPVdhcLJOwAJ3FA5mn+ayXnLJgTnKFiid9Z7GBgG+zEqpQDX3mjiTJLqdmGUI6XxbuSUEHVW+nKXcQ39Tt+copanloGhIZY6lwiqnzd8TwsdpR4I+s8cU50a7Hr1pmf+/96g2uhS1zsKAat95JY3YW+Og8Uw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=As0wB+SUY3dQ2VFI9wmDRxgdd4AHoH+bwCOeKy79krg=;
- b=Ilc3bxy3DcbohhPoAtV2Y3rSXgwG/fuUrhfNlJRH/xD0Ip7wufCl5KW9kHDpWvfujcVLJb9u65/bzW3fEh4f8DCatAUDMIk8gSPO1VGfwnJmvxW2Vr1Cp2TyPlWze9NnPfMnVFSP/SX5QLR+0+pTCz+144qZh1RGLNRqz0b1jC+uB4cR3NDBeTu5xnjgEf5qGC5TnsIZsBtrPDcdAy4c8qxI+nvf9N8crGrvtV5eu3fglkoefSCP+lJEKeS0n61F6ouUaG7As4mXhnU5jrmzosATEKOiAVUM04G+rg+DgvUklrIOYbNS2K2kp+puklVxxKT2iL/QCg7lk5yku/lrHw==
+ bh=/11a8Td8yyguMpCjNUHWquVGQ3fbLksnSUo3DmyO0OE=;
+ b=jhzOTQWVpSisrbwpWxcPNlNjpCkE+Y10WULKK/roiVJ+9XzyjiY08xutrfOPH/udC59DLfaxm7+hZXQ9Ya2lyh40KgFgCOXVkBM77SYANcvSI+CzFBvPmf0fb+1LefyKDspnlvoj6s8I3aMDHcyB4b8N2jD6zdTCapj0+JLy3lLrtpzvR8PDn1P8bOXILSRlCWVt0bBH6ozZwrw1Xx0OUsSrowx0PZxsTmb96HOHtWNUD0s3pjQKnbgyWd8l9zJN1EHHld1BnluxuKF5utY1xpX8HRI7dc0EqQJtFdfNqOCt8JTmW+xEq3o4gcq7ydxd1dJ0uFO95dy5xeChkZvEJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=As0wB+SUY3dQ2VFI9wmDRxgdd4AHoH+bwCOeKy79krg=;
- b=HyD3dqrCKqjxqqvU9ppNdOAGDzxHbEZnC1xpMM0YZtfsyTMZcTXhQ0Ofh2209eua5zVXH6qsZhPn/eaWFAWx8FOpKKNPCCWZ3c2z4VQ313lRJv6D0gfjGaPJVE5mTHIKUyarK/yMcjGyCnNeB6qjv81uOxlVhrRZsJM+e49mQh4=
+ bh=/11a8Td8yyguMpCjNUHWquVGQ3fbLksnSUo3DmyO0OE=;
+ b=LFY5LeFChIawrzm3LEovztHOr5Jo7YExiq5HbtUoGnb96XQHbYKM2kS4vhoC9MMcqtovwzwjS7brmxngCywJ/pFUzQ3lOldwP8BZL+E8RrX1ucCKLiA0p1EQddLjqxjn4RDclPem+rjHsr7Kf4MdBXVafhkcQKEwkkf4euad3N4=
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BYAPR04MB5893.namprd04.prod.outlook.com (2603:10b6:a03:110::11)
+ by BY5PR04MB7124.namprd04.prod.outlook.com (2603:10b6:a03:22f::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.23; Mon, 31 Aug
- 2020 02:37:57 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.21; Mon, 31 Aug
+ 2020 02:47:48 +0000
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::a499:4101:5ba8:828f]) by BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::a499:4101:5ba8:828f%5]) with mapi id 15.20.3326.025; Mon, 31 Aug 2020
- 02:37:57 +0000
+ 02:47:48 +0000
 From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Christoph Hellwig <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>
-Subject: Re: [PATCH v2] nvme: fix error handling in nvme_ns_report_zones
-Thread-Topic: [PATCH v2] nvme: fix error handling in nvme_ns_report_zones
-Thread-Index: AQHWfrhhjHgqbqvkpE6Nkx4bbPc2Qg==
-Date: Mon, 31 Aug 2020 02:37:56 +0000
-Message-ID: <BYAPR04MB496523202727D4FCB38E46CF86510@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20200830100010.1262680-1-hch@lst.de>
+To: Logan Gunthorpe <logang@deltatee.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, Omar Sandoval <osandov@osandov.com>
+Subject: Re: [PATCH blktests 01/11] common/fio: Remove state file in common
+ helper
+Thread-Topic: [PATCH blktests 01/11] common/fio: Remove state file in common
+ helper
+Thread-Index: AQHWfKsqMIaAh46q+UeHxECpT+6G1g==
+Date: Mon, 31 Aug 2020 02:47:47 +0000
+Message-ID: <BYAPR04MB4965AD9B75FE039D7A71698786510@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <20200827194912.6135-1-logang@deltatee.com>
+ <20200827194912.6135-2-logang@deltatee.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
+authentication-results: deltatee.com; dkim=none (message not signed)
+ header.d=none;deltatee.com; dmarc=none action=none header.from=wdc.com;
 x-originating-ip: [199.255.45.62]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 13212a22-47b6-4c4b-a376-08d84d56dea5
-x-ms-traffictypediagnostic: BYAPR04MB5893:
-x-microsoft-antispam-prvs: <BYAPR04MB5893AE1A1B38E62E6257ABA386510@BYAPR04MB5893.namprd04.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 53e5217d-3fba-475f-4d32-08d84d583ee2
+x-ms-traffictypediagnostic: BY5PR04MB7124:
+x-microsoft-antispam-prvs: <BY5PR04MB7124AE2D9986F7812809A93E86510@BY5PR04MB7124.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-ms-oob-tlc-oobclassifiers: OLM:3276;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: HkeDcWrN1GLYqG64r9PCxqKh+ZVGqXCwBB5o2HQFpxEt+WN8qwOKdmCWRC5DUMBnw35Qi9MyFXPbLcM+g2pIe5J5DTGmniQBxQksHVRr0ConORIdDcGzupTa5MCo8kVMQEegWyq4GqBdTa7FJKjUxXTQXaYCcmFYLARLh0AVu61bAaoilWj+UtFynRKsftPBK/QpdrcINoYQUDSnB5uQux+fVZDJop0VL8+HaEoKCoNkEK11On/GKqaIq9r1rCcnxgdyA/YcPin5uI4vlkW5rXAtWY7or1vaz67X5/YrY0Tk6d7wmEYgH33o13SMhN4u
+x-microsoft-antispam-message-info: eAOJ2yIsUwCYv/GYnlVay+FG7fnZxm9mYO47yjr0rHSqnH/yq+EytfZKW1ntJoSPzAqiYbIrIrhc4VWSPYuxL4qPmqccn+83THAhvyr+GTyw9deSsq1s3KOymuVqVUJblrfSqgR6MNi4aTen0QimuVDZ5NNVlKJCawK3rGuzOsvK9sw+00SW5STZMzKIBzdB+NYf0JLNCR2C0fXlMvS2cpshwqZUHp3ffL4XbdwaILvT1+s2lByCbfEL/oetpiGZUa07mrY2PkqJnXwbqiicmuXMP4rfX69IB0Iq35SrcnS7NgaLdV70/uUsVwgAsgg2IjCWeEzPApRUqrqx6yw7HA==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39860400002)(376002)(396003)(366004)(346002)(66476007)(5660300002)(66946007)(4326008)(7696005)(33656002)(55016002)(186003)(8676002)(8936002)(26005)(9686003)(53546011)(71200400001)(64756008)(66556008)(2906002)(76116006)(66446008)(316002)(6506007)(110136005)(52536014)(86362001)(478600001)(4744005);
+ SFS:(4636009)(396003)(136003)(366004)(346002)(39860400002)(376002)(8936002)(66556008)(64756008)(8676002)(4326008)(316002)(66476007)(66946007)(66446008)(55016002)(76116006)(86362001)(33656002)(478600001)(9686003)(7696005)(2906002)(5660300002)(6506007)(53546011)(52536014)(26005)(186003)(71200400001)(558084003)(54906003)(110136005);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: Oy8exTQrV81Hjr1MyiiosE+XAoRe83dYJW0IOVpjBI8djbbTH9g9f/XJEcZhzAYa/hIPqeH4wLPykRBtUU17LCOWYwyqsUNuWI1bx/v33pxz8vUYkToej8RamAwlfSO6Mm/IZF2EPP3oCJb/SDDwzXzF64n9LSg8DshaFgSGFVMhhBqai9BjBqnGVIMrf+lYEkzdeT3m+VVFLuFFDTYyEwYC8ROMXIyETNxPVbZV+RnHKDXDqKiPffFmgZgZ0PC13JbY+/rr+aQYTIbJZ6HxdhGVPB7zE5VVGM04NSCJ9w/Q/3c9RujKj6Jhg0lN11buoLic/++Tgh47lGhrWdzLNH1V1XeuzL6ZdcRNWGNuTdM86oPceNKkjdHKTabLLqG1eatJVwMGQkVW0SAQPRbYVGB+toRVzMRYmLEYKG97tW9hcy0UWwCVBpNdLDrHFA8o0TE+juTkSio7N7K8AYSnLc4mViC3mY/g2mFwjUjzzVUmfTGU8g+B7vpsVHkROV3Bi0u/o0ufphnOqYt+6Jn2IYBazbv9PyxR145DqKDC8ZC/gLf4gK017p3pzZ5vTfna/6fJwOiNqEL/vLEpun9O5F7QbeqCqcQQItn8+fL2F/vSa+ABbG53Oby68M8MDWDaBF7W4qyhn/koEE7NxsCCXg==
+x-ms-exchange-antispam-messagedata: Qx0eMK9/bs/zDADeYwzBP+SYn9Elhya650LgSQTgx0z2nMd43ioGkY/KbeIyvzTC/auoD42iyvZ2LXSkO9i/67lr9ltz0PeYtrRIpRaKMyttlO9zZBgiBZjDMr3u78T4IR1KzOaGbGZo4zrXmObsw8bog+IOzCIhKoxbb+dzw7kKyLNNLjQCu2WD7dYcXMcsbwGS4BQ6i4rlrSjmjasRpbP+Hrc4wTtDEQaveSR9HG9Y+21bMVESGL6oJO3gCPwubSt4l38g03wi5wMk+Rk75lOzxZuEVik7FzZuPXhuAhizbFSvAk2uaDiqGekGhw+VYUPd8okSLkkl7/kOPQgCXhK52kZ+gR8zRnVnQ4tJPlSuD1CwNXgpQXQ920jw1MCcd3NiXJmMyJ48x8RbzcNU/8cTF00jyQQ+C68QfCcUhBSH7MrqWJCqJjV/kbQdQ7lR1XqjwOkhCNYasdi0M8J/bxZCRhJy0EZRn8orueyhBCiJWU9pR/vc7eYaic4sTALcAtkIsqZfe7rd1Z/xzkibsuO8pmqe7F4HhDUC2qQ5To5qZyl0fWf1Fx24hEg7REwrR84CeX3kJLoLNwDBJg7FRTuj8MBwH4p9o/t7enMdQ97tt7z1W12vl4DiCYJu9WZbxEcidsePsCcVAraw1hk6DA==
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13212a22-47b6-4c4b-a376-08d84d56dea5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2020 02:37:56.9439 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53e5217d-3fba-475f-4d32-08d84d583ee2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2020 02:47:47.9254 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6yJc31VUgXM7kxrU7qlXgAFyWVGjNfAjtC8hMQU/mOz9qozOFlKOIuGZ9PxW8M494CrLcBM5BKNRjxPnmnbCvmiXsI/1a/y8vK4qn613A44=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5893
+X-MS-Exchange-CrossTenant-userprincipalname: +WyVNdAzATQOD+fYwF3DX/tosjzBEwaDwbDwJ4YBBBvoxI5zt7lpPuWIO1q7ou6fEKKnRYw39mYIdCCavM2Hj+50s84PgSnQcDRMGT5eO1E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB7124
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200830_223802_842033_19ADFD89 
-X-CRM114-Status: GOOD (  13.83  )
+X-CRM114-CacheID: sfid-20200830_224756_047819_077F7758 
+X-CRM114-Status: GOOD (  10.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,24 +147,21 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Stephen Bates <sbates@raithlin.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/30/20 03:29, Christoph Hellwig wrote:
-> nvme_submit_sync_cmd can return positive NVMe error codes in addition to
-> the negative Linux error code, which are currently ignored.  Fix this
-> by removing __nvme_ns_report_zones and handling the errors from
-> nvme_submit_sync_cmd in the caller instead of multiplexing the return
-> value and the zone size into a single return value.
+On 8/27/20 12:49, Logan Gunthorpe wrote:
+> Instead of each individual test removing this file, just do it
+> in the common helper.
 > 
-> Fixes: 240e6ee272c0 ("nvme: support for zoned namespaces")
-> Signed-off-by: Christoph Hellwig<hch@lst.de>
+> Signed-off-by: Logan Gunthorpe<logang@deltatee.com>
+Nice cleanup, looks good.
 
-Looks good.
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+
 
 _______________________________________________
 Linux-nvme mailing list
