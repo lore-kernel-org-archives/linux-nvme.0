@@ -2,61 +2,78 @@ Return-Path: <SRS0=Ap99=CK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE410C433E2
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 13:31:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC37C433E2
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 13:43:09 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 92601206EB
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 13:31:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1697C206EB
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 13:43:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RWXr8tVf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92601206EB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Dh5asUK5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1697C206EB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VHm+JHUt20S+oO4wcse0feqXLcedgfBUK6aSwZtitYg=; b=RWXr8tVfX+XCv06uLBmEGNsZx
-	dwo9d8KORKG67rHqVQ6HBP5k/UulE3O2vonKo9bj03B9PUqcVGc6jdRJb8uW9lrM1aRQHnT4W8ZHb
-	oCF3ER0ifsiLqe8KDwGSkFu95Nn4kdSIGyW1MdSi3aPUSvVg5d+wdvqxQJcr+4stkTLoT5FeQgC3l
-	oyH0UVBWU2G2oUd6r4Bb06Vn3IERdnp8ymQ39SG3vOyuWrl5NJB/5ih0jZykjYpWzExUI1McmzMjH
-	9bQk5nhhgOlfXpgNu92U2SMdunLqEOeOF/iCL7Pa5jDiKhy0PsMOzv19tRhTg0tO2GE85mx/b/tYH
-	CBOi3yCAg==;
+	 bh=75rOBrgZos+H6PALtwGSD9j6b3/FpiRk3b8lgriV6rE=; b=Dh5asUK5R4NUmpZgFdi2csxJV
+	CtcyzwQXqqQJWnUkNdI0mlJnxPFNuB4TAEDZWUtR1i5Y0iD5M2t21dIkfl3xIDpXzuwVQ6W6gOPNm
+	0Pf2itildpznTmU7O5AL75OCo1jSLcdOHQ9/osRZ1O0Qnj0BI/Df4k2/eU5Ybfd1cRVHqXkPip7iu
+	hotePaAra8hssh2Aq7b+Spd9LeuWP4FFFfWXhWXZbWQUbpSpvxKBAGOaQcnjAV5e0rtfQodI8Llgg
+	THCWWOe6P/zlovS2rQZxzU0vaafcNQH3MN62qrjUU5gfXN7Ef9OYX4PYs88SEOUvBqV+Gcef37/qh
+	maSDVBvmw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kD6Nm-0002sf-PV; Tue, 01 Sep 2020 13:31:31 +0000
-Received: from elvis.franken.de ([193.175.24.41])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kD6Nj-0002r1-Pq; Tue, 01 Sep 2020 13:31:28 +0000
-Received: from uucp (helo=alpha)
- by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
- id 1kD6NY-0001cg-00; Tue, 01 Sep 2020 15:31:16 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
- id A31F7C0E44; Tue,  1 Sep 2020 15:29:05 +0200 (CEST)
-Date: Tue, 1 Sep 2020 15:29:05 +0200
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 06/28] lib82596: move DMA allocation into the callers of
- i82596_probe
-Message-ID: <20200901132905.GA11506@alpha.franken.de>
-References: <20200819065555.1802761-1-hch@lst.de>
- <20200819065555.1802761-7-hch@lst.de>
+	id 1kD6Yw-0004u7-B5; Tue, 01 Sep 2020 13:43:02 +0000
+Received: from smtp.h3c.com ([60.191.123.50] helo=h3cspam02-ex.h3c.com)
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kD6Ys-0004r6-27
+ for linux-nvme@lists.infradead.org; Tue, 01 Sep 2020 13:43:00 +0000
+Received: from DAG2EX01-BASE.srv.huawei-3com.com ([10.8.0.64])
+ by h3cspam02-ex.h3c.com with ESMTPS id 081Dg3ce035167
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 1 Sep 2020 21:42:04 +0800 (GMT-8)
+ (envelope-from tian.xianting@h3c.com)
+Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
+ DAG2EX01-BASE.srv.huawei-3com.com (10.8.0.64) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 1 Sep 2020 21:42:07 +0800
+Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
+ by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%7])
+ with mapi id 15.01.1713.004; Tue, 1 Sep 2020 21:42:07 +0800
+From: Tianxianting <tian.xianting@h3c.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
+Subject: RE: [PATCH] [v2] nvme-pci: check req to prevent crash in
+ nvme_handle_cqe()
+Thread-Topic: [PATCH] [v2] nvme-pci: check req to prevent crash in
+ nvme_handle_cqe()
+Thread-Index: AQHWf4Y/N8Vq1L809kGpFMXahwhkUqlTyqMA
+Date: Tue, 1 Sep 2020 13:42:07 +0000
+Message-ID: <632c4570812a4d2b81102190497fe9c7@h3c.com>
+References: <20200831105553.1621-1-tian.xianting@h3c.com>
+In-Reply-To: <20200831105553.1621-1-tian.xianting@h3c.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.99.141.128]
+x-sender-location: DAG2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200819065555.1802761-7-hch@lst.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-DNSRBL: 
+X-MAIL: h3cspam02-ex.h3c.com 081Dg3ce035167
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200901_093128_056920_F8DA53E1 
-X-CRM114-Status: GOOD (  21.20  )
+X-CRM114-CacheID: sfid-20200901_094258_581650_DB287CB2 
+X-CRM114-Status: GOOD (  16.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,71 +85,87 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
- linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- linux-scsi@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>,
- Ben Skeggs <bskeggs@redhat.com>, Matt Porter <mporter@kernel.crashing.org>,
- linux-media@vger.kernel.org, Tom Lendacky <thomas.lendacky@amd.com>,
- Pawel Osciak <pawel@osciak.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 19, 2020 at 08:55:33AM +0200, Christoph Hellwig wrote:
-> This allows us to get rid of the LIB82596_DMA_ATTR defined and prepare
-> for untangling the coherent vs non-coherent DMA allocation API.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/net/ethernet/i825xx/lasi_82596.c | 24 ++++++++++------
->  drivers/net/ethernet/i825xx/lib82596.c   | 36 ++++++++----------------
->  drivers/net/ethernet/i825xx/sni_82596.c  | 19 +++++++++----
->  3 files changed, 40 insertions(+), 39 deletions(-)
-> 
-> [...]
-> diff --git a/drivers/net/ethernet/i825xx/sni_82596.c b/drivers/net/ethernet/i825xx/sni_82596.c
-> index 22f5887578b2bd..e80e790ffbd4d4 100644
-> --- a/drivers/net/ethernet/i825xx/sni_82596.c
-> +++ b/drivers/net/ethernet/i825xx/sni_82596.c
-> @@ -24,8 +24,6 @@
->  
->  static const char sni_82596_string[] = "snirm_82596";
->  
-> -#define LIB82596_DMA_ATTR	0
-> -
->  #define DMA_WBACK(priv, addr, len)     do { } while (0)
->  #define DMA_INV(priv, addr, len)       do { } while (0)
->  #define DMA_WBACK_INV(priv, addr, len) do { } while (0)
-> @@ -134,10 +132,19 @@ static int sni_82596_probe(struct platform_device *dev)
->  	lp->ca = ca_addr;
->  	lp->mpu_port = mpu_addr;
->  
-> +	lp->dma = dma_alloc_coherent(dev->dev.parent, sizeof(struct i596_dma),
-> +				     &lp->dma_addr, GFP_KERNEL);
+Hi,
+Could I get the feedback for the patch, whether it can be applied or need some improvement?
+It really can prevent a crash we met.
+Thanks:)
 
-this needs to use &dev->dev as device argument otherwise I get a
+-----Original Message-----
+From: tianxianting (RD) 
+Sent: Monday, August 31, 2020 6:56 PM
+To: kbusch@kernel.org; axboe@fb.com; hch@lst.de; sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org; linux-kernel@vger.kernel.org; tianxianting (RD) <tian.xianting@h3c.com>
+Subject: [PATCH] [v2] nvme-pci: check req to prevent crash in nvme_handle_cqe()
 
-WARNING: CPU: 0 PID: 1 at linux/kernel/dma/mapping.c:416 dma_alloc_attrs+0x64/0x98
+We met a crash issue when hot-insert a nvme device, blk_mq_tag_to_rq() returned null(req=null), then crash happened in nvme_end_request():
+	struct nvme_request *rq = nvme_req(req);
+	rq->result = result;  <==crash here
 
-(coherent_dma_mask is set correctly).
+The test env is, a server is configured with 2 backplanes, each backplane support 8 nvme devices, this crash happened when hot-insert a nvme device to the second backplane. We measured the signal, which is send out of cpu to ack nvme interrupt, the signal is very weak when it reached the second backplane, the device can't distinguish it as a ack signal. So it caused the device can't clear the interrupt flag.
+After updating related driver, the signal sending out of cpu to the second backplane is good, the crash issue disappeared.
 
-dev->dev.parent was correct when going from netdevice to underlying device,
-but now allocation is done via platform_device probe. I wonder why this works
-for parisc.
+As blk_mq_tag_to_rq() may return null, so it should be check whether it is null before using it to prevent a crash.
 
-Thomas.
+	[ 1124.256246] nvme nvme5: pci function 0000:e1:00.0
+	[ 1124.256323] nvme 0000:e1:00.0: enabling device (0000 -> 0002)
+	[ 1125.720859] nvme nvme5: 96/0/0 default/read/poll queues
+	[ 1125.732483]  nvme5n1: p1 p2 p3
+	[ 1125.788049] BUG: unable to handle kernel NULL pointer dereference at 0000000000000130
+	[ 1125.788054] PGD 0 P4D 0
+	[ 1125.788057] Oops: 0002 [#1] SMP NOPTI
+	[ 1125.788059] CPU: 50 PID: 0 Comm: swapper/50 Kdump: loaded Tainted: G   ------- -t - 4.18.0-147.el8.x86_64 #1
+	[ 1125.788065] RIP: 0010:nvme_irq+0xe8/0x240 [nvme]
+	[ 1125.788068] RSP: 0018:ffff916b8ec83ed0 EFLAGS: 00010813
+	[ 1125.788069] RAX: 0000000000000000 RBX: ffff918ae9211b00 RCX: 0000000000000000
+	[ 1125.788070] RDX: 000000000000400b RSI: 0000000000000000 RDI: 0000000000000000
+	[ 1125.788071] RBP: ffff918ae8870000 R08: 0000000000000004 R09: ffff918ae8870000
+	[ 1125.788072] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+	[ 1125.788073] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+	[ 1125.788075] FS:  0000000000000000(0000) GS:ffff916b8ec80000(0000) knlGS:0000000000000000
+	[ 1125.788075] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+	[ 1125.788076] CR2: 0000000000000130 CR3: 0000001768f00000 CR4: 0000000000340ee0
+	[ 1125.788077] Call Trace:
+	[ 1125.788080]  <IRQ>
+	[ 1125.788085]  __handle_irq_event_percpu+0x40/0x180
+	[ 1125.788087]  handle_irq_event_percpu+0x30/0x80
+	[ 1125.788089]  handle_irq_event+0x36/0x53
+	[ 1125.788090]  handle_edge_irq+0x82/0x190
+	[ 1125.788094]  handle_irq+0xbf/0x100
+	[ 1125.788098]  do_IRQ+0x49/0xd0
+	[ 1125.788100]  common_interrupt+0xf/0xf
 
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Signed-off-by: Xianting Tian <tian.xianting@h3c.com>
+---
+ drivers/nvme/host/pci.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c index ba725ae47..5f1c51a43 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -960,6 +960,13 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ 	}
+ 
+ 	req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), cqe->command_id);
++	if (unlikely(!req)) {
++		dev_warn(nvmeq->dev->ctrl.device,
++			"req is null(tag:%d) on queue %d\n",
++			cqe->command_id, le16_to_cpu(cqe->sq_id));
++		return;
++	}
++
+ 	trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
+ 	if (!nvme_end_request(req, cqe->status, cqe->result))
+ 		nvme_pci_complete_rq(req);
+--
+2.17.1
+
 
 _______________________________________________
 Linux-nvme mailing list
