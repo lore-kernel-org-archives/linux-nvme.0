@@ -2,62 +2,64 @@ Return-Path: <SRS0=Ap99=CK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94245C28E83
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 15:58:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FE8C433E6
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 15:58:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 639B1206EB
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 15:58:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 434D9206EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 15:58:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GsCXrK9l";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Fo1o7u6I"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 639B1206EB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="W39onZmk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LG/NOf2v"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 434D9206EF
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6OzcwopfzqDxlXyfSDYF9sCs3QW7GSI7/1yuouUaxd0=; b=GsCXrK9ljIp50z0sLPxWiDYAwH
-	1CPvBCgI4BZ2pXtu3OUsRG3NBlImBxekFUfImoBq0Vr8/Gy9wV7lyaqPLChCQUqxI9Wp3MTMQyt9G
-	ej1oqeMqiSyjpja1NJeQKig4CcPdh4veJq4thRpXmlC0B9fzNKNF5Ib9X87OggVbyQyT/yVUpl6Cc
-	pcDPO752sdtCUZMaMbUp+3Y5Q2rSUSPNigP0N1xbprSlDjyrnG3JYO39oGj8vWUOCQzricLJJZ/9Q
-	BLK222T+b07gzH8KU317u8M+eNGc7YCyETQC6s7AmkpcKZH7jxwPQLZPTk/AXq4LkktY5hUl32pMj
-	0mGwHEww==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=1VXqT59+MpCmkc4/yC4Sx4j406OxoJsP67cO2Tu63WM=; b=W39onZmk/w8+8dEbVJROD5n2h
+	nc4A0iLLaLTddxrsamN+y0hwiD5i1ywTi+Xkf/PzzHukSAXCLbUznHA/ikD9YXVzJLkYF7/Vib9CE
+	y9xIbuTx7tgkfzo7mSbieducV2rZ+GjAprKO7FeJUlBVStaa1aZ4YNup+nbSOOsMlfEFGDpiDzlTp
+	Y2LG7M2r9lhcotcrlyTZcmEEdmsATf8gJMLOsqxAvyl3FYofFRkFJ8PrQTasYdCjC4yResUrE1xD0
+	62nBIPTdGGLOXDWOTO1QTg+AbfOB4GeouKs++f8zEE2CXlkFDylJGFrxYnVQkrYy7dcvRZY65SBrr
+	g0+MtrFpw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kD8fY-0002Mj-CI; Tue, 01 Sep 2020 15:58:00 +0000
+	id 1kD8fa-0002Nf-5a; Tue, 01 Sep 2020 15:58:02 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kD8fT-0002Kb-0a
- for linux-nvme@merlin.infradead.org; Tue, 01 Sep 2020 15:57:55 +0000
+ id 1kD8fU-0002LN-PL
+ for linux-nvme@merlin.infradead.org; Tue, 01 Sep 2020 15:57:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=M79so1AwUwPIRouROFaNCg3KdKArTwMSMNd8wl3xC9I=; b=Fo1o7u6IVr6vurOMarEGQIw99y
- WHqyrdok/75XjmzAvs98wm2mZXYI8eGfVJCJLikO8fuOJu/9j6XvoFdlr1RTa038r8DDcHMqAU7lY
- mmSZLC/smn0SnolNwwxdyrpDJlJoZhG0K7MVmnl8ewTBrEYNYAPRaMnE4rjqCK7VlkM7JqAlUWyDU
- YkH9TJZ6yJEEibyeqV37+FBh0RkQQ6BwwzwRxyMvkU7/sD29/P1lImVmElLT8cbRAFklBxMxACP/P
- 9Ptq9IU2Xfcl9fIpw/yp4N3MdH0FKE600v4IAuPUo366M4kD36FMV0WaYWth1qfPOYnF35tgpEEiP
- sE6GqZdg==;
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=LCcuCSBOWzTZR3L36Z4teH3hguC0YRk5e9B06CtwpM4=; b=LG/NOf2vrc6lYei/L+Z1eIthrC
+ Za7US4iSKJ/WbIV7qWmAJ4Zu1f8kKzD4dm8IzfowUCXLWl2I6CnTcjAYKNXubYJJWog9OQzVKNgQU
+ JKQDJU8aOtSTbsbcLVBwrAsrpV6hzAKa7q6dA/KOwR9PS0JPpwrDP1f7JfI4olB8rlAhi95L7rcKs
+ 8CZnpd3idN3ZzmwJXd2ljKFmNBf+bkl4mvPHkeXR9GUdRubRYSpy4bItm3vyPzEv5RUdxXiTabkno
+ fQzNt+/AYYrnyHlQd3b9AyQHRPscfouXB92OUylsk0dDYPodZbsybBY2fYyHseMPXSzaZnVYZu8k2
+ Ht1LyIFQ==;
 Received: from [2001:4bb8:18c:45ba:2f95:e5:ca6b:9b4a] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kD8fN-0004OS-MU; Tue, 01 Sep 2020 15:57:50 +0000
+ id 1kD8fS-0004Ov-PT; Tue, 01 Sep 2020 15:57:55 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: remove revalidate_disk()
-Date: Tue,  1 Sep 2020 17:57:39 +0200
-Message-Id: <20200901155748.2884-1-hch@lst.de>
+Subject: [PATCH 3/9] block: rename bd_invalidated
+Date: Tue,  1 Sep 2020 17:57:42 +0200
+Message-Id: <20200901155748.2884-4-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200901155748.2884-1-hch@lst.de>
+References: <20200901155748.2884-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -84,42 +86,138 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
+Replace bd_invalidate with a new BDEV_NEED_PART_SCAN flag in a bd_flags
+variable to better describe the condition.
 
-this series removes the revalidate_disk() function, which has been a
-really odd duck in the last years.  The prime reason why most people
-use it is because it propagates a size change from the gendisk to
-the block_device structure.  But it also calls into the rather ill
-defined ->revalidate_disk method which is rather useless for the
-callers.  So this adds a new helper to just propagate the size, and
-cleans up all kinds of mess around this area.  Follow on patches
-will eventuall kill of ->revalidate_disk entirely, but ther are a lot
-more patches needed for that.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ block/genhd.c             |  2 +-
+ drivers/block/nbd.c       |  8 ++++----
+ fs/block_dev.c            | 10 +++++-----
+ include/linux/blk_types.h |  4 +++-
+ 4 files changed, 13 insertions(+), 11 deletions(-)
 
-Diffstat:
- Documentation/filesystems/locking.rst |    3 --
- block/genhd.c                         |    9 ++----
- drivers/block/nbd.c                   |    8 ++---
- drivers/block/rbd.c                   |    2 -
- drivers/block/rnbd/rnbd-clt.c         |   10 +------
- drivers/block/virtio_blk.c            |    2 -
- drivers/block/zram/zram_drv.c         |    4 +-
- drivers/md/dm-raid.c                  |    2 -
- drivers/md/md-cluster.c               |    6 ++--
- drivers/md/md-linear.c                |    2 -
- drivers/md/md.c                       |   10 +++----
- drivers/md/md.h                       |    2 -
- drivers/nvdimm/blk.c                  |    3 --
- drivers/nvdimm/btt.c                  |    3 --
- drivers/nvdimm/bus.c                  |    9 ++----
- drivers/nvdimm/nd.h                   |    2 -
- drivers/nvdimm/pmem.c                 |    3 --
- drivers/nvme/host/core.c              |   16 +++++++----
- drivers/scsi/sd.c                     |    6 ++--
- fs/block_dev.c                        |   46 ++++++++++++++++------------------
- include/linux/blk_types.h             |    4 ++
- include/linux/genhd.h                 |    6 ++--
- 22 files changed, 74 insertions(+), 84 deletions(-)
+diff --git a/block/genhd.c b/block/genhd.c
+index 99c64641c3148c..a2c0ec694918e5 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -734,7 +734,7 @@ static void register_disk(struct device *parent, struct gendisk *disk,
+ 	if (!bdev)
+ 		goto exit;
+ 
+-	bdev->bd_invalidated = 1;
++	set_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags);
+ 	err = blkdev_get(bdev, FMODE_READ, NULL);
+ 	if (err < 0)
+ 		goto exit;
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index a54f2d155a31a5..15eed210feeff4 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -315,7 +315,7 @@ static void nbd_size_update(struct nbd_device *nbd)
+ 			bd_set_nr_sectors(bdev, nr_sectors);
+ 			set_blocksize(bdev, config->blksize);
+ 		} else
+-			bdev->bd_invalidated = 1;
++			set_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags);
+ 		bdput(bdev);
+ 	}
+ 	kobject_uevent(&nbd_to_dev(nbd)->kobj, KOBJ_CHANGE);
+@@ -1322,7 +1322,7 @@ static int nbd_start_device_ioctl(struct nbd_device *nbd, struct block_device *b
+ 		return ret;
+ 
+ 	if (max_part)
+-		bdev->bd_invalidated = 1;
++		set_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags);
+ 	mutex_unlock(&nbd->config_lock);
+ 	ret = wait_event_interruptible(config->recv_wq,
+ 					 atomic_read(&config->recv_threads) == 0);
+@@ -1500,9 +1500,9 @@ static int nbd_open(struct block_device *bdev, fmode_t mode)
+ 		refcount_set(&nbd->config_refs, 1);
+ 		refcount_inc(&nbd->refs);
+ 		mutex_unlock(&nbd->config_lock);
+-		bdev->bd_invalidated = 1;
++		set_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags);
+ 	} else if (nbd_disconnected(nbd->config)) {
+-		bdev->bd_invalidated = 1;
++		set_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags);
+ 	}
+ out:
+ 	mutex_unlock(&nbd_index_mutex);
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 2760292045c082..0207623769715d 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -881,7 +881,7 @@ struct block_device *bdget(dev_t dev)
+ 		bdev->bd_super = NULL;
+ 		bdev->bd_inode = inode;
+ 		bdev->bd_part_count = 0;
+-		bdev->bd_invalidated = 0;
++		bdev->bd_flags = 0;
+ 		inode->i_mode = S_IFBLK;
+ 		inode->i_rdev = dev;
+ 		inode->i_bdev = bdev;
+@@ -1365,7 +1365,7 @@ int check_disk_change(struct block_device *bdev)
+ 	if (__invalidate_device(bdev, true))
+ 		pr_warn("VFS: busy inodes on changed media %s\n",
+ 			disk->disk_name);
+-	bdev->bd_invalidated = 1;
++	set_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags);
+ 	if (bdops->revalidate_disk)
+ 		bdops->revalidate_disk(bdev->bd_disk);
+ 	return 1;
+@@ -1390,7 +1390,7 @@ int bdev_disk_changed(struct block_device *bdev, bool invalidate)
+ 
+ 	lockdep_assert_held(&bdev->bd_mutex);
+ 
+-	bdev->bd_invalidated = 0;
++	clear_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags);
+ 
+ rescan:
+ 	ret = blk_drop_partitions(bdev);
+@@ -1528,7 +1528,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, void *holder,
+ 			 * The latter is necessary to prevent ghost
+ 			 * partitions on a removed medium.
+ 			 */
+-			if (bdev->bd_invalidated &&
++			if (test_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags) &&
+ 			    (!ret || ret == -ENOMEDIUM))
+ 				bdev_disk_changed(bdev, ret == -ENOMEDIUM);
+ 
+@@ -1558,7 +1558,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, void *holder,
+ 			if (bdev->bd_disk->fops->open)
+ 				ret = bdev->bd_disk->fops->open(bdev, mode);
+ 			/* the same as first opener case, read comment there */
+-			if (bdev->bd_invalidated &&
++			if (test_bit(BDEV_NEED_PART_SCAN, &bdev->bd_flags) &&
+ 			    (!ret || ret == -ENOMEDIUM))
+ 				bdev_disk_changed(bdev, ret == -ENOMEDIUM);
+ 			if (ret)
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 63a39e47fc6047..c21eff7efda237 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -19,6 +19,8 @@ struct cgroup_subsys_state;
+ typedef void (bio_end_io_t) (struct bio *);
+ struct bio_crypt_ctx;
+ 
++#define BDEV_NEED_PART_SCAN		0
++
+ struct block_device {
+ 	dev_t			bd_dev;  /* not a kdev_t - it's a search key */
+ 	int			bd_openers;
+@@ -37,7 +39,7 @@ struct block_device {
+ 	struct hd_struct *	bd_part;
+ 	/* number of times partitions within this device have been opened. */
+ 	unsigned		bd_part_count;
+-	int			bd_invalidated;
++	unsigned long		bd_flags;
+ 	spinlock_t		bd_size_lock; /* for bd_inode->i_size updates */
+ 	struct gendisk *	bd_disk;
+ 	struct backing_dev_info *bd_bdi;
+-- 
+2.28.0
+
 
 _______________________________________________
 Linux-nvme mailing list
