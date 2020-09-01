@@ -2,22 +2,22 @@ Return-Path: <SRS0=Ap99=CK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18FDAC433E6
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 11:06:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE410C433E2
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 13:31:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C3ACB207BC
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 11:06:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 92601206EB
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Sep 2020 13:31:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Yvrtau5+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C3ACB207BC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RWXr8tVf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92601206EB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -25,41 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=BjVA2kecQToeucJrfN38W1PvNek+6bhWEqM+bD8AdxU=; b=Yvrtau5+FiJBb93CyfFVZ7x/c
-	SI3g+LeqRODKObqfroY9ttskBKY6bWnWlaHPyk8X7bU0kVNskS1JKPvghhQepNJWH2CYaMSfF28o7
-	ktZzpPLP9Q6/P1lRVVaEZCFXFeMOFqZIoXkb8DQXHBsDSAwQyibqsmqxVprjLJOCUO97R3PXc2kUY
-	nx0Bro8tfODTI+LOCeIyT4pifkpyt0HHhtYBM2K3dG6sCEmuxy2JuEHo3L5cNzO1Rifw7zIzoQMV2
-	aAc2UMeEU3MypvfywzSSzwQtkOiVPC21cgfWzicSKstK0r0hIxhpGkrZcrDtNDCqO+P8cR7vDtGpd
-	pWjwPbtqw==;
+	 bh=VHm+JHUt20S+oO4wcse0feqXLcedgfBUK6aSwZtitYg=; b=RWXr8tVfX+XCv06uLBmEGNsZx
+	dwo9d8KORKG67rHqVQ6HBP5k/UulE3O2vonKo9bj03B9PUqcVGc6jdRJb8uW9lrM1aRQHnT4W8ZHb
+	oCF3ER0ifsiLqe8KDwGSkFu95Nn4kdSIGyW1MdSi3aPUSvVg5d+wdvqxQJcr+4stkTLoT5FeQgC3l
+	oyH0UVBWU2G2oUd6r4Bb06Vn3IERdnp8ymQ39SG3vOyuWrl5NJB/5ih0jZykjYpWzExUI1McmzMjH
+	9bQk5nhhgOlfXpgNu92U2SMdunLqEOeOF/iCL7Pa5jDiKhy0PsMOzv19tRhTg0tO2GE85mx/b/tYH
+	CBOi3yCAg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kD47Q-00034r-K5; Tue, 01 Sep 2020 11:06:28 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kD47K-00033O-TQ; Tue, 01 Sep 2020 11:06:23 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 508E268B05; Tue,  1 Sep 2020 13:06:18 +0200 (CEST)
-Date: Tue, 1 Sep 2020 13:06:17 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
-Message-ID: <20200901110617.GA13232@lst.de>
+	id 1kD6Nm-0002sf-PV; Tue, 01 Sep 2020 13:31:31 +0000
+Received: from elvis.franken.de ([193.175.24.41])
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kD6Nj-0002r1-Pq; Tue, 01 Sep 2020 13:31:28 +0000
+Received: from uucp (helo=alpha)
+ by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+ id 1kD6NY-0001cg-00; Tue, 01 Sep 2020 15:31:16 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+ id A31F7C0E44; Tue,  1 Sep 2020 15:29:05 +0200 (CEST)
+Date: Tue, 1 Sep 2020 15:29:05 +0200
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 06/28] lib82596: move DMA allocation into the callers of
+ i82596_probe
+Message-ID: <20200901132905.GA11506@alpha.franken.de>
 References: <20200819065555.1802761-1-hch@lst.de>
- <20200819065555.1802761-6-hch@lst.de>
- <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
- <20200819135454.GA17098@lst.de>
- <CAAFQd5BuXP7t3d-Rwft85j=KTyXq7y4s24mQxLr=VoY9krEGZw@mail.gmail.com>
- <20200820044347.GA4533@lst.de> <20200820052004.GA5305@lst.de>
- <CAAFQd5CFiA2WBaaPQ9ezvMjYZfNw37c42UEy9Pk7kJyCi1mLzQ@mail.gmail.com>
- <20200820165407.GD12693@lst.de>
- <CAAFQd5D=NzgjosB51-O_cH27a8V6CPgCfaPSfHHz7nKJPbazgg@mail.gmail.com>
+ <20200819065555.1802761-7-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAAFQd5D=NzgjosB51-O_cH27a8V6CPgCfaPSfHHz7nKJPbazgg@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20200819065555.1802761-7-hch@lst.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200901_070623_064030_D2B7B29F 
-X-CRM114-Status: GOOD (  17.02  )
+X-CRM114-CacheID: sfid-20200901_093128_056920_F8DA53E1 
+X-CRM114-Status: GOOD (  21.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +69,70 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- nouveau@lists.freedesktop.org, linux-nvme@lists.infradead.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>, linux-scsi@vger.kernel.org,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ linux-scsi@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>,
  Ben Skeggs <bskeggs@redhat.com>, Matt Porter <mporter@kernel.crashing.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Tom Lendacky <thomas.lendacky@amd.com>, Pawel Osciak <pawel@osciak.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-media@vger.kernel.org, Tom Lendacky <thomas.lendacky@amd.com>,
+ Pawel Osciak <pawel@osciak.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
  netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- linux-mips@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>
+ linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 20, 2020 at 07:33:48PM +0200, Tomasz Figa wrote:
-> > It wasn't meant to be too insulting, but I found this out when trying
-> > to figure out how to just disable it.  But it also ends up using
-> > the actual dma attr flags for it's own consistency checks, so just
-> > not setting the flag did not turn out to work that easily.
-> >
+On Wed, Aug 19, 2020 at 08:55:33AM +0200, Christoph Hellwig wrote:
+> This allows us to get rid of the LIB82596_DMA_ATTR defined and prepare
+> for untangling the coherent vs non-coherent DMA allocation API.
 > 
-> Yes, sadly the videobuf2 ended up becoming quite counterintuitive
-> after growing for the long years and that is reflected in the design
-> of this feature as well. I think we need to do something about it.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/net/ethernet/i825xx/lasi_82596.c | 24 ++++++++++------
+>  drivers/net/ethernet/i825xx/lib82596.c   | 36 ++++++++----------------
+>  drivers/net/ethernet/i825xx/sni_82596.c  | 19 +++++++++----
+>  3 files changed, 40 insertions(+), 39 deletions(-)
+> 
+> [...]
+> diff --git a/drivers/net/ethernet/i825xx/sni_82596.c b/drivers/net/ethernet/i825xx/sni_82596.c
+> index 22f5887578b2bd..e80e790ffbd4d4 100644
+> --- a/drivers/net/ethernet/i825xx/sni_82596.c
+> +++ b/drivers/net/ethernet/i825xx/sni_82596.c
+> @@ -24,8 +24,6 @@
+>  
+>  static const char sni_82596_string[] = "snirm_82596";
+>  
+> -#define LIB82596_DMA_ATTR	0
+> -
+>  #define DMA_WBACK(priv, addr, len)     do { } while (0)
+>  #define DMA_INV(priv, addr, len)       do { } while (0)
+>  #define DMA_WBACK_INV(priv, addr, len) do { } while (0)
+> @@ -134,10 +132,19 @@ static int sni_82596_probe(struct platform_device *dev)
+>  	lp->ca = ca_addr;
+>  	lp->mpu_port = mpu_addr;
+>  
+> +	lp->dma = dma_alloc_coherent(dev->dev.parent, sizeof(struct i596_dma),
+> +				     &lp->dma_addr, GFP_KERNEL);
 
-So I'm about to respin the series and wonder how we should proceed.
-I've failed to come up with a clean patch to keep the flag and make
-it a no-op.  Can you or your team give it a spin?
+this needs to use &dev->dev as device argument otherwise I get a
 
-Also I wonder if the flag should be renamed from NON_CONSISTENT
-to NON_COHERENT - the consistent thing is a weird wart from the times
-the old PCI DMA API that is mostly gone now.
+WARNING: CPU: 0 PID: 1 at linux/kernel/dma/mapping.c:416 dma_alloc_attrs+0x64/0x98
+
+(coherent_dma_mask is set correctly).
+
+dev->dev.parent was correct when going from netdevice to underlying device,
+but now allocation is done via platform_device probe. I wonder why this works
+for parisc.
+
+Thomas.
+
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
 
 _______________________________________________
 Linux-nvme mailing list
