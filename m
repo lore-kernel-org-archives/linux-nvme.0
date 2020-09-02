@@ -4,21 +4,21 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,TVD_SPACE_RATIO autolearn=no autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA6D4C433E7
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 07:23:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D7DC433E6
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 07:24:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 737D120829
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 07:23:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 532AF20826
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 07:24:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qVAFHH0s";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="nfW+3cTN";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="a0CG+qyT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 737D120829
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cdlbLcHb";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="O6kNfvVx";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="TL7XmXG9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 532AF20826
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,47 +27,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=gQ/O5nEsM943n6GGPmAwMQcmYXtt6bGIHMQuu9Uk9Xc=; b=qVAFHH0s8DG7bYNb7O5uWyDfx
-	VBJZHgam5WuigfaicwGcLKHfF2AFgnWoH0gLma7dGI8Nlk7SGOCtgtOrmiirFzLaMpIe86uouoke2
-	gHqL5yRvcKIGrmPUshn2e3z1Zz6EZl2y3ek+sg4av0g5OUU6BLg31QkZKbTMp4tTRGCexgFg3Im4b
-	bgtVcuJyurX5G3DCvai2mLeMdDPRywn/uRlEYwZ3v3Qf+7b8+UmXRFuguH9nCEXg1E8gWph/In0WI
-	H2EvH+tloEvhOBi/jFu5u7zVMq+QqrtIV4xlBLNiRqV2V0tDUSZ9UVrRan7t+CIT7aOWcEKN4sg1V
-	D6UPV/asA==;
+	 bh=gQ/O5nEsM943n6GGPmAwMQcmYXtt6bGIHMQuu9Uk9Xc=; b=cdlbLcHbhWkBOSN1kuumTOh1/
+	ob/KsF0npabDuoJ4h+XMw8cfHG3pZ4TmrNvg98NTqXrzLXF8nTFbuqWIIlZBJ10El6cbCPjkKRy0T
+	y87bLRFjXuJyl3u02LYc90937SHzcZwutQ4vux0pXZ0KTM4czTB/CHtblVOGkPJddiqxpBSS2MPzR
+	SRNDq3fKFDjOYg9UCzc0lElWJFmC0f8/TL3goOBu+WvxnhhQzbztqkmFfZUBB0wq4Ah4uJEof7/mj
+	yAKbaf2yMNKUyjxif7QckIZLfeaptKdrU+xvRkcjrODGysKRQZDyqwDF40V2R6x9kMKrvESML6Zro
+	oJtdU3ELQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kDN7O-0001oo-6z; Wed, 02 Sep 2020 07:23:42 +0000
+	id 1kDN7t-0001zO-0U; Wed, 02 Sep 2020 07:24:13 +0000
 Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kDN7M-0001ne-0n
- for linux-nvme@lists.infradead.org; Wed, 02 Sep 2020 07:23:40 +0000
+ id 1kDN7o-0001xc-CI
+ for linux-nvme@lists.infradead.org; Wed, 02 Sep 2020 07:24:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1599031419; x=1630567419;
+ t=1599031448; x=1630567448;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
  bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
- b=nfW+3cTNWUVE8cN3Te21d31lGMuOSidmtE5L6onJ7eWk+YoPZmsczkZo
- JHQ8OiRodHiwTjfFt00VMXeWGBQoZ/VIW/4fuWJbfhpd77EsFmsFburBI
- dY7kWQplHdRLerDCnCHHt0fcK7MxeZNyw5q9pRY/gh0h1LsUzSyj/6fVg
- NGmKirmf7U/LClUyGo3FBxGX5fWqn3g4App25sEm/QwS2x0Nvzg1T1sJw
- f4V89SXA9muDiuCSU1O3Ye9UuPNwq4S7UusKNqRVlT5YDYMI0O+wHfJLK
- X4SXPA+mL9jvL4wcHB7bXJO6zGsOeRikLEa8o4MbTMuuJOrCsbFfTtOqD Q==;
-IronPort-SDR: Cwx4g1CTg2IeQchW+p8iZspbzLam5Ls2gDQoq+b33eWNErJBjSVJv+pYAz+JVNykTvC4gg5wcW
- QMS8zVPI6HP+C6s49YTpnAeWdnSD3/eM/AUFmdAmXCEP8lqmbYW2H5ckgX/hSYPiXyEWsaFviG
- +bjCbx2dYdpZpjZ3ms2pzKHY+0Y6fYm2lQ9No8N6ZNIKKOdFxiML0t4jBlGOuRXk08yQhK7K26
- FufD9jW2kiXPk7/DvrzWg/3vXKD4brLSHNXXEww+BDURGs2u1SMo4LqBfBH2fulBI3qesyLps6
- OYI=
-X-IronPort-AV: E=Sophos;i="5.76,381,1592841600"; d="scan'208";a="255918296"
-Received: from mail-co1nam11lp2173.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.173])
- by ob1.hgst.iphmx.com with ESMTP; 02 Sep 2020 15:23:37 +0800
+ b=O6kNfvVxvq0d1tdkQ/K0B+XEvAHBgkXp7Zd4BHV4DWbALhbJihRVMPzx
+ FvvSgqs65oa/g8L+96fWQhh70DLl01buvTKAdYaP0Rxhc4B/Xx11Dkatn
+ Y4sNPfSuAZBJdg8bGBgA1K7KVFKExKm1FX9OJYbkh2Vc8Bgmcz6ASx+2S
+ M5xbV6iqwqsYof9C2ocIlrncr/0znyctUdj+29dYqTnxJsZlZBFVUqWJh
+ gDV9c0F4s83cI/dvRZGMg3/NUgex3QtrzLH5tvCYtCgGZI2hNght5H9Sw
+ 6T6x/1pejUZPD8SYIVrNGKIKy5QY6w/KlUTLCKWjZGIw5LA3fOccOVMuK w==;
+IronPort-SDR: +isrtv2hTX26JQ0q3/zFevj3cYgquTQKlbw7m7C8wcP5SYOIQNuX4/Mz6padfKYBNdckR5Wt+5
+ JKXZNCAjKgw0avk/uXMUIvm3hRMLH9A9vCrnfBtAZqZlgyRmGtrXFDN9VEsl/8CAx03blSd5DE
+ Imk30bgqXTQqU8DXs37HSswd3q7zmKxrVdKJCClVj/uscfoF4xi3lvY2oGK5UR+HPTZRkrTgX0
+ Hg477CD03ZxVnCi55vM6tRlbCj7lXGcLG3srBPAI3fVxJ4jnEvUQEhoPOGtO92SR8igQsq1tg8
+ 14o=
+X-IronPort-AV: E=Sophos;i="5.76,381,1592841600"; d="scan'208";a="255918310"
+Received: from mail-co1nam11lp2169.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.169])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Sep 2020 15:23:48 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bP9Dj6N1mezn8GxU5tZXXlVOuCgyr9hly/haLsQQK20DiTRTgJMfg/fVo9k8KKtyixL0aQr84CBTjrgNWgMpI9NE0hYA7odP/DF4DyPnXC07krPD6RQ49OMLGfBcWBWpAM6Z4cMaeZAbRfCCQHP/ieVyYRKqP0qdYtNkIgSj2ts1oYZyZXglB2NVkD2JjAbnhpdjezuZPQoGTbeq4l3mHz1g2ODhu8awQbzx+E0hAZiNpY/vmNJsmc97Kvznncg0YrmMrwuZY44SrimMd9DixwKCU455EqrjqVl4lQ/6DB0BuqlWdeWlZZLpfikIewZYairZGId6yIMNrpJbY06K1g==
+ b=JNSX2p1QXdYz2AGvoWHDO4OAqUgf4l/gs139CgSRkb/lETLAZB3mqMOTGj2806BpuSspClZ/Nsnx+1Qe0bMLSUtdydSVbrbuTPt5RVzS+rEDJVTkKJLPB3YTNFcC3HANe0tBh0Qalr7zIozvPcQ4+iSvyM4CvCVOEYUEw4xSs576BiPmjfOoVj7AeG88OgU0ug/vN47iAB1dEU/lxyJ9uAyUtHjzIkpAsIaaXDW2YlQ4lZhaXKwcitWUbhEDz6jZQ5mDsNZQ+tDiQQxS7+/aYBLMd58UV6qsC2l4gGGg34WHRCTNcK+dZ3MAWFyjAyjwALgalRO41KXuWVIxQNeDMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
- b=EgAigTXxKK/fbRVRc7J4yhM4WCkGA6P4EtAnm45UZh7AvqeltUBF/Ios5+8DPgJEaUB9F0Rpo7es/uLmlfmay15QVvoaa0oU/CkMprsufX3esF5PxmHz1Jjh1QMJOU2VlwzhTKq4iwnQuvAXf8E8EctzMQvnZHqQuLVw0uj3C3EUhOcuxVL0HDalplLy6Q3R9P6HZWHgk06JSPmOfVMt0gFNIJJcknUVviZc17j83uyfzw5kaMin0lPDCAVVFWtE0lY20yelk2bVYjCnq6Kodeb9iQ8SXyl/CSG6YFFFlCbkLiQgYVjaup/iLn1JGaqMrYPNWJzPwsdH7jhTfMYpMw==
+ b=JdI+6y3iEuT7DoirqzLfHYBQJuM95hNLuSfhxg+tsLzyREGk3fFFACpxzvEOMbPhuETS96xWvj33COrjdKQj+Jnt2ANcIiHfMHLkApRe8gCogY7fvwLoguEWJ0ZTNPeIbNxigKJuRSk2WI1lw4v6JAQ9L79dFoWEhS3AfGQ65Lw99sMmAsfrGstX/63tA9e0sJRVMoeo+c2iOU4Eu1wpcPpC4pDgo2hhOxV4gGW1wuBRBTeAxno+g/wXhNL+UfPD52xeTxt3LeY9yGdhiYWCb/gHrJDERhvz8oKM27RRqiCPJHBfM018kVe82YLiKC7UU2HzSv0/Yj7spOoEtOzwFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
@@ -75,27 +75,25 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
- b=a0CG+qyTlkm0v+lBfyXExhpdfnZqklTax2Mv3n9nuWgmrhW8junaq4o8iPgcy43RZnYFXa2JPvs1ZwEQaHTkSochv71oOLj4Fw6Sy0D1gTrzvj9GBpyB5nVcOJ59Q8NQQj89QjqaZ1U9As1ZqkISd4IKXiwycYWpqsHiPZMXksk=
+ b=TL7XmXG9SD3szPhXvUS6n947+PDP59dXLrRCpcLUGaRoL2HYDaYuViGLmvFmXVpp172wMEpt3itlcZfQttgx/5DOok2fzOKBSeUm+BDyqgO0I4Ub4xda5R3ScHdpsiGGXd+xLuie4HgnBWNWokWpAgkc8iU/3o3SqYRo2uQrFfA=
 Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
  (2603:10b6:803:47::21) by SN6PR04MB3966.namprd04.prod.outlook.com
  (2603:10b6:805:48::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Wed, 2 Sep
- 2020 07:23:36 +0000
+ 2020 07:23:48 +0000
 Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
  ([fe80::457e:5fe9:2ae3:e738]) by SN4PR0401MB3598.namprd04.prod.outlook.com
  ([fe80::457e:5fe9:2ae3:e738%7]) with mapi id 15.20.3326.023; Wed, 2 Sep 2020
- 07:23:36 +0000
+ 07:23:48 +0000
 From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 5/9] block: use revalidate_disk_size in
- set_capacity_revalidate_and_notify
-Thread-Topic: [PATCH 5/9] block: use revalidate_disk_size in
- set_capacity_revalidate_and_notify
-Thread-Index: AQHWgHjE05l6FVr+70GNhORFziJQhA==
-Date: Wed, 2 Sep 2020 07:23:36 +0000
-Message-ID: <SN4PR0401MB35987F80C36AB409503DC0059B2F0@SN4PR0401MB3598.namprd04.prod.outlook.com>
+Subject: Re: [PATCH 6/9] nvme: opencode revalidate_disk in nvme_validate_ns
+Thread-Topic: [PATCH 6/9] nvme: opencode revalidate_disk in nvme_validate_ns
+Thread-Index: AQHWgHjs6OAepj9H6kWBHRxoz7ysfg==
+Date: Wed, 2 Sep 2020 07:23:47 +0000
+Message-ID: <SN4PR0401MB3598F740D7978B51F648672E9B2F0@SN4PR0401MB3598.namprd04.prod.outlook.com>
 References: <20200901155748.2884-1-hch@lst.de>
- <20200901155748.2884-6-hch@lst.de>
+ <20200901155748.2884-7-hch@lst.de>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -105,34 +103,34 @@ authentication-results: lst.de; dkim=none (message not signed)
 x-originating-ip: [2001:a62:1590:f101:bd07:d1f9:7e6b:2014]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 6de1b2e0-f78c-452f-b4a5-08d84f111b69
+x-ms-office365-filtering-correlation-id: 5169cc8a-2f34-4ceb-3468-08d84f11223d
 x-ms-traffictypediagnostic: SN6PR04MB3966:
-x-microsoft-antispam-prvs: <SN6PR04MB39668F869286235937E9DE549B2F0@SN6PR04MB3966.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <SN6PR04MB3966D912E48E8002A21136649B2F0@SN6PR04MB3966.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
 x-ms-oob-tlc-oobclassifiers: OLM:1728;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Lu4rznRnSXAWn/mRhvJdRylBVYy9k6gJLexdA2XG7czJBvRnncbiLSge2QR7Iw8nMyTzDthReYZBSyOiLKqK3CBLqn+YeUxZVg0UGM4pKJ/sKj9UQbwdYKajzH0fuYIet3fQRgP9CqqRonpkHi64nDnQGHdH+AQ7Jf8JArva3ApNf2HPLcehsQoy5FsmaJKdzCDQpsClP5m0WbC0sLQsCDOAVJ7s2V2WFiMcflJYSDXzARtU8wbvwO0DQBuCbViaPQK1B0Q8q6kXw+l2drbeahJtTzGPkLPNnnZ9bzBNJTRNSJUYiGk8mJTe3CovNBrQQVNx+n6LHzbiLOKzgBWKxA==
+x-microsoft-antispam-message-info: XV8PsCfqAgtG6dH7Fd/cIFCOtQ0PRFerIErS5bJEczjQtN3AyUWCKF8fOLfQITrXb9yWGz9v4wTKhLr4LKdcUXOn5yoo9hWSDUtCGJiO9/aqWMGsvs61O1YsASMx01doJ/n+sdcOxy274lcLHgXH1oCAJ9CkqN3itVs1AdTxvmYss2tNjDnQNQ9VyhvO65h2uYn3WRn4qyHcMtT5TqMrF8vdfq75ny1RSRS/C+tmUjyZS88c/yg2kb515FdhB7BOn+M+Y4TpeVj3GWHCaKR23qNUO0kqMjrh9LXoIgcCGTJxyC/bowhBUFT84UbxeAgkFP94gPlo6nbdDpTuW9QDzA==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN4PR0401MB3598.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(396003)(376002)(39860400002)(366004)(136003)(55016002)(4270600006)(8676002)(110136005)(54906003)(86362001)(8936002)(186003)(478600001)(2906002)(6506007)(19618925003)(7696005)(52536014)(316002)(558084003)(71200400001)(33656002)(66476007)(7416002)(66946007)(5660300002)(76116006)(9686003)(4326008)(66446008)(91956017)(66556008)(64756008);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 4+yMaX1z5FtIl8wxSD4U0mvnRUN8c3FW/o+aDrLkW+NY5j4rucRJ9VHZx72B/AVP0x5TanHtAVxI+lJkBsUdfX/EHKg2hyFaVEd9e3MQmsCRuwpXALo5/BvHzJ0ng+OnQ0iHcNkXxNVDfzGhnez0WoDF/NFVhk+hTfoF+eeehY0eZwaWl3awGYM4c6O+k9iQjJ0z+3lDlQJlJiEfP211c5XGdTskHdLzyLNxYeu580OGy2sYfH3ksK1hLXTxk8rbWdGusun3VtrwJBVwkJ6jr/KReNYVkiViQqPHvu/bsGJ6uKTkqab+CHsw//uHuQJcRLL6fBIIutY6TMjy7YB/27DGNNz25mb/O7hDU5zYqgL6fmGjJyIxAoPCPGrKPwSqYFyJxjnO4Iw4pVo05nGnCzP5r3B9c1x97wUtFdUVq8vp6Oo9rmkrJUzLh+rjGtK2rRpuGPUMIcfCFu9SfbJ1v02Vhmwmjjo9eXEFt93ildNGrc5PzmCR4IVGS72sCRem66g3JZpBuMlQfUZLv2okM34Pz313BYpb/DIU9fOKws7WZfpos3tci136D3hjpbq9kOZWONIaop8J4gQIW4MtFdT9XLudZY9NOKH0ck1+SDqALn1Qq74Ele9dBqbupIMBQVRRvBRoMjYprPW5HSDG0kTcIOsnHUsBovWyUip5XnGS1IIniOuaPZ2bADQYr7n8s2ZYv78qpRLxJXSIniNBnQ==
+x-ms-exchange-antispam-messagedata: wigWMfyO6LvWMMXN3LRT+2lELfzQjDOj+l4CpCOMCAsiT38TcZpAYVbCWCOFT3tFDcWzVemU+84DadVpLJr1j7UZ0A2lFdU+bmRSL9un0LBoQDFFjYX25p5N60O+jsRNhPoiepDiwe6x8YaI/+R7fRfCZzJuGQ8pUABidg34Yk/6i+6jjIJrF06vlYlczv+mT2XrNsS7GhxUloYY4tp8EpLIvzy84YGpou3woUQj5ib4Dnq7MaugycvZy6U2rZvCIcNQAlhftoCnzCvFgdUZ1qi/081TdXJAHQn97OzQv8Rx5TrQFrEtyVW1mehbT7q+twZ6swvfNQJHr3/E9614EE0iSsD1FADwWkiviQ1pfUNGVB4qXkQ8nmcBsOnVsDBjUcLEQIunWByb78w/bdzrPsD3sGH54EkI0m1sp5RhxDgLCeAZgPiDXLZjf+6q//Sxv3Bhj0uVmmT70jnGyoWpSiCuN+quv/53iSPGFFYNmZl/5zxmhSdgcSSDyd6erzcODwloIykeogFQ6O49uCBzRbuDmSdRUDReaeVPlzp2Hlw/XP9oDV9pPx63i9bm/pHWmzxZJNFzyT8i14OY8FQ/GYas2GYRP5kjxrNj+pzrsbENt7UqAOhl4Q51vu2KNRq7x/HT/pyB9vY8es85WtMDavnUPqrYlJKjsJ5NG81UkeoHMFdDiTBVTZ8RAUWD3LXUiCJ58tCHcGdGLf4VAL7DuQ==
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3598.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6de1b2e0-f78c-452f-b4a5-08d84f111b69
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2020 07:23:36.4386 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5169cc8a-2f34-4ceb-3468-08d84f11223d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2020 07:23:47.8810 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: w1q8Bz+9jP6wkq7Rp1bTVJgrygj3CR45cOjuSlB7UWuFZC8p4T6RoR/BtLuEdd1cqIWUzyStoPvVm/saG9xrLhnutI9A4To9YD5ib2HncMo=
+X-MS-Exchange-CrossTenant-userprincipalname: 6Ml4u55+yQ2yWUP6xTN2NXFaDG+I8YEBdwduVuzYHskPzLNMDCTwSyKnWyj3CHk49Xbd9xGDmQRxZf2F6n6QOGurMl3KIjjwrt6Fj07jZYg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB3966
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200902_032340_203988_87946ED4 
-X-CRM114-Status: GOOD (  11.10  )
+X-CRM114-CacheID: sfid-20200902_032408_583681_2EC05B48 
+X-CRM114-Status: GOOD (  10.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
