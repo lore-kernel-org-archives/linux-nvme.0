@@ -2,23 +2,22 @@ Return-Path: <SRS0=9ikG=CL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 099DFC433E7
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 21:12:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F09C43461
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 21:38:40 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A9EF320758
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 21:12:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2E1F3207EA
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 21:38:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DZ9zP4Vq";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=osandov-com.20150623.gappssmtp.com header.i=@osandov-com.20150623.gappssmtp.com header.b="IUn+kfTU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A9EF320758
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zNYwDtfJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E1F3207EA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -26,64 +25,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fWrVZLUdn/T7wNcGnxptHGNH8l7PDpDrmMx+PWZrf7c=; b=DZ9zP4VqeJzGzEzf6soh8odF6
-	RFfGoIqttHiOucqgrnmeKEeC2Bd9zXVHpZcdgpvfb9gP5MKFrR1EVFeXxxX84MjZcepMiG9OBgUyk
-	9Fjo7n70Rmtu1kK5hCys6dKXHeQypFTnzhH4UTx2yDpS2niOEOYvLC3NLPT8GofyaWi8hNbZZ8dGm
-	F2ZpKHZbU6t1ks2hwO+LzsNDQEacqeotmA3Fd1j/zLtW+o193W483Kb96tV2eXP/4E2lDDzdX0hRg
-	pO5pwNGyQtrXS113+G0NvyiFgeIz/Jbw1jOAhmrY8wV94ZnkyocH5EKckSEml85DK+RGtIzR39Pm+
-	HBn7wAmeA==;
+	 bh=X20sOZMi/zCkO76t2bOn0S1B7+T2I7HL+LiJ7gQVq4g=; b=zNYwDtfJmwhVSMp4tNJJc0wv0
+	X5ORkJmxbL2+2gYlQTuIhW4nhAd1J2mJhAGbSahYmXpWOClcC4EbFPpxBgLkpqlNf7G3l9LmxnVSg
+	uhms2z63wAPYZL4s06kb4AdD3uRE/0lmjP+7+lrtc6RYiEEZz7/Z4odVOACljSf6dOxEgNvEbezon
+	CnjQVoaWXIURFMsd+7hIJITHCn9zrv1RZ3gXYk2gx1TYzbgFcEg/4KdQegbSDR/R214aUg3RY9zbM
+	jg25JUe7vt5dtiag4oUi+vbVp/JwmqxcrDKAIQ8QCmU5SibGJtv/moobmWCU/PqCwb2WGxQ5HwKDh
+	WfsHA2xXw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kDa3L-0000Qi-37; Wed, 02 Sep 2020 21:12:23 +0000
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kDa3J-0000QN-Ji
- for linux-nvme@lists.infradead.org; Wed, 02 Sep 2020 21:12:22 +0000
-Received: by mail-pf1-x444.google.com with SMTP id u20so410133pfn.0
- for <linux-nvme@lists.infradead.org>; Wed, 02 Sep 2020 14:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=osandov-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=e1KyvAJdZPY3OAESloO+vNAm7aY5HkvjR9Pw1mjyuuo=;
- b=IUn+kfTUPjwPrIWsiEx/BhMsCIAhQE4wZxA9/EyqrHFyoLy/f8QnGt3h5b52ZxQ6Ip
- EEdMEnDPb7q52FObXb4s+xxr4EJe1/Ys/dzNm1z7DaH8uBtWsPNgW8QyttvQ5cc5hL8d
- tO59raGlDVLKtY4iqnl+YIXA5dP4LHIqXJSDv17T9wjh8Dl6sPee4QXsy4PxsxdSPtJp
- kZI9xaw1LYjaPoavAmQEuG6M09MmSsxNLIM8ec537v2zmxhbMayRPqUlIvjObk0I3PiC
- gBE/K6K5MQyKmtavtFT1lyMfWwwRCBOnWPDIpJF7JIIJXzOxxr9rdFQE0nKf8H0HBSSB
- wT4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=e1KyvAJdZPY3OAESloO+vNAm7aY5HkvjR9Pw1mjyuuo=;
- b=JX5bxGwRzTbL/qDgwp8RXoKDVJmnCWkaC7Q+Lxfp50xsJ/gsjmVgUaCY4x2gONpL4g
- 1WYkPMwzvDL/j9VMba+lIaaYjcoewZJXrxg2a2NIOMVR/MYPCV5tt1QYZ+snJD2+z2hK
- yg416M9Vr7GUQuvasiTMjJb9iA/6sxpq1vRxYiLBbnjkhsV4NlgUeUXN8xcLIA9ImOTb
- lu9DDk6SN3M5uPYrGJf2VfcOjhejeWtj/h6pQsBqw7l6taYJy3TEcyM3Etmu1lgsSGgD
- KHTTBgWu1WX1hYvBqHSUWL/vNe+U3OTkDW3wy6kHYADDfDCSx10UhWyxIyhX1+Pk16x+
- 1x5w==
-X-Gm-Message-State: AOAM533UlhVukzRvqFWL8TRma6i9Ma3SrvPASJC8Sqkmx2VGya6pQHUn
- gxd3UCPICQBbxumgS7zoYMG7aw==
-X-Google-Smtp-Source: ABdhPJwjxDVo74Vc3aHLNNkHahQKmG0Dy1knJqOjfLiJOY+Y2r5b8vLM40dwkRIBKTWqeipBh94JSQ==
-X-Received: by 2002:aa7:8b01:: with SMTP id f1mr315223pfd.35.1599081137631;
- Wed, 02 Sep 2020 14:12:17 -0700 (PDT)
-Received: from exodia.localdomain ([2620:10d:c090:400::5:1aee])
- by smtp.gmail.com with ESMTPSA id ie13sm325924pjb.5.2020.09.02.14.12.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Sep 2020 14:12:16 -0700 (PDT)
-Date: Wed, 2 Sep 2020 14:12:15 -0700
-From: Omar Sandoval <osandov@osandov.com>
-To: Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: [PATCH blktests] nvme/005: add the missing _have_program nvme
-Message-ID: <20200902211215.GA611393@exodia.localdomain>
-References: <20200902072757.32187-1-yi.zhang@redhat.com>
+	id 1kDaSh-0003JB-3a; Wed, 02 Sep 2020 21:38:35 +0000
+Received: from elvis.franken.de ([193.175.24.41])
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kDaSc-0003Hj-RE; Wed, 02 Sep 2020 21:38:32 +0000
+Received: from uucp (helo=alpha)
+ by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+ id 1kDaSO-0001KH-00; Wed, 02 Sep 2020 23:38:16 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+ id 29A9AC0E7B; Wed,  2 Sep 2020 23:38:09 +0200 (CEST)
+Date: Wed, 2 Sep 2020 23:38:09 +0200
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 22/28] sgiseeq: convert from dma_cache_sync to
+ dma_sync_single_for_device
+Message-ID: <20200902213809.GA7998@alpha.franken.de>
+References: <20200819065555.1802761-1-hch@lst.de>
+ <20200819065555.1802761-23-hch@lst.de>
+ <20200901152209.GA14288@alpha.franken.de>
+ <20200901171241.GA20685@alpha.franken.de>
+ <20200901171627.GA8255@lst.de>
+ <20200901173810.GA25282@alpha.franken.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200902072757.32187-1-yi.zhang@redhat.com>
+In-Reply-To: <20200901173810.GA25282@alpha.franken.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200902_171221_744344_D66C746F 
-X-CRM114-Status: GOOD (  15.75  )
+X-CRM114-CacheID: sfid-20200902_173831_095196_9F29ACF9 
+X-CRM114-Status: GOOD (  23.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,44 +72,79 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, jthumshirn@suse.de
+Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
+ linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-nvme@lists.infradead.org, linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ linux-mm@kvack.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ linux-scsi@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Ben Skeggs <bskeggs@redhat.com>, Matt Porter <mporter@kernel.crashing.org>,
+ linux-media@vger.kernel.org, Tom Lendacky <thomas.lendacky@amd.com>,
+ Pawel Osciak <pawel@osciak.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 02, 2020 at 03:27:57PM +0800, Yi Zhang wrote:
-> Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
-> ---
->  tests/nvme/005 | 2 +-
->  tests/nvme/030 | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+On Tue, Sep 01, 2020 at 07:38:10PM +0200, Thomas Bogendoerfer wrote:
+> On Tue, Sep 01, 2020 at 07:16:27PM +0200, Christoph Hellwig wrote:
+> > Well, if IP22 doesn't speculate (which I'm pretty sure is the case),
+> > dma_sync_single_for_cpu should indeeed be a no-op.  But then there
+> > also shouldn't be anything in the cache, as the previous
+> > dma_sync_single_for_device should have invalidated it.  So it seems like
+> > we are missing one (or more) ownership transfers to the device.  I'll
+> > try to look at the the ownership management in a little more detail
+> > tomorrow.
 > 
-> diff --git a/tests/nvme/005 b/tests/nvme/005
-> index 8c79d23..325f2b6 100755
-> --- a/tests/nvme/005
-> +++ b/tests/nvme/005
-> @@ -13,7 +13,7 @@ QUICK=1
->  requires() {
->  	_have_modules loop nvme-core nvme-loop nvmet && \
->  		_have_module_param_value nvme_core multipath Y && \
-> -		_have_configfs
-> +		_have_configfs && _have_program nvme
->  }
->  
->  test() {
-> diff --git a/tests/nvme/030 b/tests/nvme/030
-> index 94020f4..fa68ff1 100755
-> --- a/tests/nvme/030
-> +++ b/tests/nvme/030
-> @@ -36,7 +36,7 @@ test() {
->  
->  	echo "Running ${TEST_NAME}"
->  
-> -    _setup_nvmet
-> +	_setup_nvmet
+> this is the problem:
+> 
+>        /* Always check for received packets. */
+>         sgiseeq_rx(dev, sp, hregs, sregs);
+> 
+> so the driver will look at the rx descriptor on every interrupt, so
+> we cache the rx descriptor on the first interrupt and if there was
+> $no rx packet, we will only see it, if cache line gets flushed for
+> some other reason. kick_tx() does a busy loop checking tx descriptors,
+> with just sync_desc_cpu...
 
-Thanks, applied (with this unrelated hunk removed).
+the patch below fixes the problem.
+
+Thomas.
+
+
+diff --git a/drivers/net/ethernet/seeq/sgiseeq.c b/drivers/net/ethernet/seeq/sgiseeq.c
+index 8507ff242014..876e3700a0e4 100644
+--- a/drivers/net/ethernet/seeq/sgiseeq.c
++++ b/drivers/net/ethernet/seeq/sgiseeq.c
+@@ -112,14 +112,18 @@ struct sgiseeq_private {
+ 
+ static inline void dma_sync_desc_cpu(struct net_device *dev, void *addr)
+ {
+-       dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
+-                      DMA_FROM_DEVICE);
++       struct sgiseeq_private *sp = netdev_priv(dev);
++
++       dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
++                       sizeof(struct sgiseeq_rx_desc), DMA_FROM_DEVICE);
+ }
+ 
+ static inline void dma_sync_desc_dev(struct net_device *dev, void *addr)
+ {
+-       dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
+-                      DMA_TO_DEVICE);
++       struct sgiseeq_private *sp = netdev_priv(dev);
++
++       dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
++                       sizeof(struct sgiseeq_rx_desc), DMA_TO_DEVICE);
+ }
+ 
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
 
 _______________________________________________
 Linux-nvme mailing list
