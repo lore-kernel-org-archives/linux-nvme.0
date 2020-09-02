@@ -2,81 +2,87 @@ Return-Path: <SRS0=9ikG=CL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E584EC43461
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 22:43:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F1F1C433E7
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 22:50:05 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A50A120758
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 22:43:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B123D20767
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 22:50:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vIU442xW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fEa2Eg29"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A50A120758
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PaVWSMrP";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RO5SYVwa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B123D20767
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
-	From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bst6bNQ9EZnV2VUUsuluCV/3wakz6YX7r/QE8clXXyY=; b=vIU442xW3YKGC13x/6lq1ZISVn
-	Lb9D2lUA+8EvgWAHa+cNLYHLXfaculTBRr3WH++Pps9rRo/NHRIBPfCAgRY8vavFFlKt19HW5QICu
-	VmbJjH+qwARZylQidekHJzLSk+jZ/P/KUaizkbFdN4k9TZ9QjtlPmodgVp2qioFlWoeaO9kJkfq5A
-	wFVrBBZnF9TT/uXI+68DOEzF366epPL9ajglhCS/kTJaHHef+xzHPrkyL8GNRIpsDOA/npJ0AAtWX
-	qw6Af2yYQ2hyBLtGgHG0E1qh5J6ohqSJTa8SYEHl7qJumZacW1xBMbChuZ4IqFSjup6bJAwZDDHIi
-	gnO6z0Mw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=O8hBQ2BOuDrf4nvNVY1dS121gRfBq53zlLmqnLG0LMk=; b=PaVWSMrPO2Sjz1Ts9r1OtYbWw
+	G4fac+sCVFK3HPL8YlG+E6/AsoZWU8eTUOTCs9PE4FIFh81GbSLrViNC5FLUN4hhpurNrKgoL4RNB
+	FEbBSU32qg64hvUQ2piurlytFKf/EaRg4PrZPXWmDcnNSNQz9nvy5qYOjE9rzYC15dPVoKqBipVTU
+	R8tSkFp5soQBLOs2utrQQmfJXaGPiO/3qX4ZIKJzJyaJR3KPsS8tWArINvQ4U+Ag1/W5pHdnDemnl
+	I4VGB8CRRkZmkQwDQ5hmwlWxIRNfZwfoZzXMnAM601T0HNvRVIro2jsJBNy3mR5eXECrk4vaCFFhS
+	6Yx2WxhOQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kDbT9-0006li-Ur; Wed, 02 Sep 2020 22:43:07 +0000
+	id 1kDbZp-0007kB-5a; Wed, 02 Sep 2020 22:50:01 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kDbT4-0006jJ-72
- for linux-nvme@lists.infradead.org; Wed, 02 Sep 2020 22:43:03 +0000
+ id 1kDbZm-0007jp-GB
+ for linux-nvme@lists.infradead.org; Wed, 02 Sep 2020 22:49:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599086579;
+ s=mimecast20190719; t=1599086997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=bFLdiWC2nX7vVaaxuyTLcv5u5yht2AKIrSDcJ8V2GtA=;
- b=fEa2Eg29XoT2rJ6g5SyKrkKUg9Vso7TFdyUYTdE5NXUz+SnMegS+DFk4Nug291VLEBb/4j
- WqKzVo/N579iGSTid/0oGsVTYZ9GiktbBTbRuJGsPenVAee5lVHpxoQEbhfD7wWrdRVoN4
- CJ97jyiiz4bzxCj9psV0yG47Lrl5I8s=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YZAh1rPs151/hc9R5gTfwhRdvuWA4+TBuTXG3r0nS90=;
+ b=RO5SYVwaZCi8kJah+1UOk2Zd1QC5YGYbY5pnzQubBuzAweEo/UqrRQ8A1nNQUJnQb3Cr0s
+ uvAHMtYhDKRrZpZVfcWC4HmrsuPpjxc8CRMWeNWwZMGtU4aNXdZyGpe3itkZu2sAbkiR0h
+ Y5k8obSBS9df592EzTbv9qws6h4DaDg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-TkqTBKJZOoW0-ASHZswUbQ-1; Wed, 02 Sep 2020 18:42:57 -0400
-X-MC-Unique: TkqTBKJZOoW0-ASHZswUbQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-78-6m695nlAMdKzmjGz62j6Hg-1; Wed, 02 Sep 2020 18:49:56 -0400
+X-MC-Unique: 6m695nlAMdKzmjGz62j6Hg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97D2A1DE00;
- Wed,  2 Sep 2020 22:42:56 +0000 (UTC)
-Received: from hpz440.redhat.com (ovpn-113-131.rdu2.redhat.com [10.10.113.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1872360C0F;
- Wed,  2 Sep 2020 22:42:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2DAB1DE00;
+ Wed,  2 Sep 2020 22:49:54 +0000 (UTC)
+Received: from [10.10.113.131] (ovpn-113-131.rdu2.redhat.com [10.10.113.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F4AF1C4;
+ Wed,  2 Sep 2020 22:49:53 +0000 (UTC)
+Subject: Re: [PATCH v2] nvme: cancel async events before freeing event struct
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ hch@lst.de, james.smart@broadcom.com
+References: <1599075985-70180-1-git-send-email-dmilburn@redhat.com>
+ <85ecb479-7087-5137-30a6-327c1fdbc1ce@grimberg.me>
 From: David Milburn <dmilburn@redhat.com>
-To: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- james.smart@broadcom.com
-Subject: [PATCH v3 1/3] nvme-rdma: cancel async events before freeing event
- struct
-Date: Wed,  2 Sep 2020 17:42:52 -0500
-Message-Id: <1599086574-85969-2-git-send-email-dmilburn@redhat.com>
-In-Reply-To: <1599086574-85969-1-git-send-email-dmilburn@redhat.com>
-References: <1599086574-85969-1-git-send-email-dmilburn@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Message-ID: <1698c44d-21d6-20d1-dc29-3890c17d7fc3@redhat.com>
+Date: Wed, 2 Sep 2020 17:49:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <85ecb479-7087-5137-30a6-327c1fdbc1ce@grimberg.me>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dmilburn@redhat.com
 X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200902_184302_294962_5CD7C5A7 
-X-CRM114-Status: GOOD (  13.04  )
+X-CRM114-CacheID: sfid-20200902_184958_596452_262A329E 
+X-CRM114-Status: GOOD (  13.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,35 +94,25 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cancel async event work in case async event has been queued
-up, and nvme_rdma_submit_async_event() runs after event has
-been freed.
+Hi Sagi,
 
-Signed-off-by: David Milburn <dmilburn@redhat.com>
----
- drivers/nvme/host/rdma.c | 1 +
- 1 file changed, 1 insertion(+)
+On 09/02/2020 05:02 PM, Sagi Grimberg wrote:
+> 
+>> Cancel async event work in case async event has been queued
+>> up, and transport trys to submit event after it has been freed.
+> 
+> Can you split to 3 patches please?
+> 
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 8e5ffe2f117d..9e378d0a0c01 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -835,6 +835,7 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
- 	}
- 	if (ctrl->async_event_sqe.data) {
-+		cancel_work_sync(&ctrl->ctrl.async_event_work);
- 		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
- 				sizeof(struct nvme_command), DMA_TO_DEVICE);
- 		ctrl->async_event_sqe.data = NULL;
--- 
-2.18.1
+OK, re-submitted.
+
+Thanks,
+David
 
 
 _______________________________________________
