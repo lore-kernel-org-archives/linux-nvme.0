@@ -2,84 +2,67 @@ Return-Path: <SRS0=9ikG=CL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7675C433E7
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 15:41:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43482C43461
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 16:49:09 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A42C320639
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 15:41:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 12557207EA
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Sep 2020 16:49:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MD/tLBtd";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="SyDESvml"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A42C320639
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZSxS+yue";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="kJ8C6LlS"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 12557207EA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CeiXo77HbQGcpZu+pV/7dUGmpIP60ElYa20keNS0o8Y=; b=MD/tLBtdsEcvxKTDAz8WV/Oen
-	wfnLleqOuMdXyAYksZ/eCkBPySjpFjffOOcFvpPn/czXHdg3miLrpAXBDJRiBMw69hF/eQvT3bK0Z
-	dr1mW8jKSDgp0ID1OaxqJ+r6vOFBR8+OEX5Hk5nGkQ3/CnIDRUT5at2AscWbm1dRIyZ+0b1yBGGHt
-	pMZY75s57c6fxQAXNLwsaM5FScEh3EUEyeGgjYDc3+312DgV1n19atfmB9M66sbm2bFjllQwnmT/p
-	iTeTfVB8YOWeLx5Z6rRg7ak3/R+TyGGlNCMJ0afFy1gx1kk7daIWF7G1NyIRvecYmRgNOjMA4G8Zq
-	aneLe/u8g==;
+	 bh=kiMsfC9YoK99coL+nayfWJe4LXMBgaBiw7ZqaJGBlHk=; b=ZSxS+yuejHfr5rmHtqNagEcSG
+	QKybBSreFoJYt4gRszjud04DfuC5ts3xysSkXzkTXA6qRyg45VdU9fFbvCer/1cgPWwuGc3jfjgFF
+	VitldJOqAAemqTOcdAzYQHMHmLdxk0OBIaJ7fZyEGlN8a6DW6A3dQ7Oj+Al3Uz0TKhYeCf9Hp1RXX
+	pPTmNtPOKnKwh5j+lgaJrcNkC+nUS8Yt1MlSVOKR02qe2LAM1C1gNGu+JgQlkfcJPrxB80LVVdYU+
+	IGez1qs3NbCsFB7/gLS5AohETCmLclwkXKm8Dc8Q14qDtYkLZYOd9R/b9RYVZ1QqFbEVjbMHVMLFB
+	+/vmqlUHQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kDUso-0006e7-A6; Wed, 02 Sep 2020 15:41:10 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1kDVwU-0000kf-Tl; Wed, 02 Sep 2020 16:49:02 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kDUsk-0006c5-F4
- for linux-nvme@lists.infradead.org; Wed, 02 Sep 2020 15:41:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=QwpIYcjEk238iT4uS9v6I45JXvL5b/5g62hiSn95l00=; b=SyDESvmlSiT4qXK32PaqqhBWAS
- Wql0b1anTRQwd+7ZV5Zpz3Kb4odz48QTGn+Scxk27JsJGr1Wy7wW0Jgvu+hE/2tqiIdZN8H+K/K8y
- 4VqleqHMyGh/VIh5i1V+YOhG2HT8sdAsE8KiqLrug7pyPkZ8BY30oVzooDQdFy/msWDOQqp7arVZK
- os7GHGQy16FITR9myt8TxkqT6tf9/Rx6XUXGW932NRu21hj5t1e9aKqsKowb4mD9MQX/kzz6qkVLJ
- 0gnoG/RV0Pg8Z/QNC42v9hJWjjerJmMgSOavZagCnnNnufEoitgC7kqCFuNKLBiZuZkzFMBti3G+P
- nEmU3uEg==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1kDUsh-0003IA-9O; Wed, 02 Sep 2020 09:41:04 -0600
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20200831222707.35611-1-chaitanya.kulkarni@wdc.com>
- <20200831222707.35611-13-chaitanya.kulkarni@wdc.com>
- <5f8c3740-9056-2eb2-90b8-1e7078492b4b@deltatee.com>
- <BYAPR04MB49657E669921B89DE66357D7862F0@BYAPR04MB4965.namprd04.prod.outlook.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <d59009e9-bbf3-b6ad-75c4-f895dfd0aa64@deltatee.com>
-Date: Wed, 2 Sep 2020 09:41:00 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ id 1kDVwS-0000jN-Iu
+ for linux-nvme@lists.infradead.org; Wed, 02 Sep 2020 16:49:01 +0000
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [129.253.182.57])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BAF9120767;
+ Wed,  2 Sep 2020 16:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599065339;
+ bh=J7Kv0j/pMMOnG00CTXhchag5FXeP1nN0FZO4KjsJM+c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kJ8C6LlS+gRMpoD0PwdmuYYW8fd6tEL7x+m5TzUWLV678oIei96PjxPi6+BVsY1yh
+ Xuq/1KH02XnVlWjo84g0TuKG9VX1FvdYa1UW3TjrJXRPQG9DNCl5qes/PPquPysrVg
+ wU/g2Y17jMIH/cOmnzMl59uBjRvpbfxN1QW1OLes=
+Date: Thu, 3 Sep 2020 01:48:52 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH 1/2] nvme-core: use I/O timeout for I/O requests
+Message-ID: <20200902164852.GB22699@redsun51.ssa.fujisawa.hgst.com>
+References: <20200902021308.49606-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR04MB49657E669921B89DE66357D7862F0@BYAPR04MB4965.namprd04.prod.outlook.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: kbusch@kernel.org, sagi@grimberg.me, hch@lst.de,
- linux-nvme@lists.infradead.org, Chaitanya.Kulkarni@wdc.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH V2 12/12] nvmet: use inline bio for passthru fast path
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <20200902021308.49606-1-chaitanya.kulkarni@wdc.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200902_114106_515135_BACFBABE 
-X-CRM114-Status: GOOD (  12.74  )
+X-CRM114-CacheID: sfid-20200902_124900_694380_23EEC9AE 
+X-CRM114-Status: GOOD (  12.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,41 +74,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
- "sagi@grimberg.me" <sagi@grimberg.me>
+Cc: keith.busch@intel.com, hch@lst.de, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Sep 01, 2020 at 07:13:07PM -0700, Chaitanya Kulkarni wrote:
+> @@ -885,7 +885,9 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  	if (IS_ERR(req))
+>  		return PTR_ERR(req);
+>  
+> -	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+> +	req->timeout = timeout;
+> +	if (!req->timeout)
+> +		req->timeout = qid > 0 ? NVME_IO_TIMEOUT : ADMIN_TIMEOUT;
 
+The 'qid' value doesn't quite mean what you want it to here. In this
+function, qid is usually set to -1, NVME_QID_ANY, for all requests.
 
-On 2020-09-01 6:39 p.m., Chaitanya Kulkarni wrote:
-> On 9/1/20 10:29, Logan Gunthorpe wrote:
->>> +	if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN) {
->>> +		bio = &req->p.inline_bio;
->>> +		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
->>> +	} else {
->>> +		bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
->>> +	}
->>> +
->>> +	bio->bi_end_io = nvmet_passthru_bio_done;
->>>   	bio->bi_opf = req_op(rq) | op_flags;
->>> +	bio->bi_private = req;
->> I still think this would be cleaner to just do:
->>
->> if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN) {
->> 	bio = &req->p.inline_bio;
->> 	bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
->> } else {
->> 	bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
->>          bio->bi_end_io = bio_put
-> This is intentionally kept consistent with what we have for bdev-ns.
-
-So then cleanup bdev-ns... Doing something in a less clean way because
-somebody else did it is not good reasoning.
-
-Logan
+At least for now, the admin request_queue's q->queuedata is NULL, and IO
+request_queue queuedata are not. I think that's the only indication you
+have in this context for whether the command is IO vs Admin.
 
 _______________________________________________
 Linux-nvme mailing list
