@@ -5,18 +5,18 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BFD7C43461
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 21:27:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45680C433E2
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 21:27:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 34830206CA
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 21:27:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0929F206CA
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 21:27:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MK+CYPGV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 34830206CA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="k0APUNnt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0929F206CA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,54 +25,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DdTBXhjdBjz+s/bbvlUDtoH74I5FyMcRjRCmLkmTabE=; b=MK+CYPGVKPI1S83+yxxudHw/0
-	OTNg9WCv9ujdmJ/GiQkSN8pS3tMtWI3NFnye1pmHIdF9LyZzfVJ3Mo87bkHBcc6uT6femHzYChceq
-	jnXJLzftclwBAiu0bynxFdxYfyPDJRzXiPwQpwO0YIPX5QaChV/BfvDxNZp6i5+eLBNErXTGfrsBh
-	ZRF4dwa0aiN6k1bFf2O6Qls07SsI9qlnXh5KeQdhBedSYs6X4+asy6yqCob4QTA0sqASe7/M3IM4D
-	NpoihoYhcWzBrLsse60T9jEud5RmBeeHXij4jjQvcx8Xt1bkk5Vtzd5Hjxvlzj8+i3ypb2vS0KyFj
-	o2L1Kh9qw==;
+	 bh=tiWPKmJPdc6H9EcOSAb9pvBDMW8Qz6NW61NfPog5Pz8=; b=k0APUNntpi/Y96krWA7O8FeID
+	efHfcKubMJE/pU8lz7Rr/k65bMOhPcSp8z2o7Lg+sHfDXh/6w2qy4bIglvEXD1LkqAlJ1mHAe7qrN
+	JoSotFOTnDQTeP11IaQPpN9UpJ0Z4faQy95rs3Ks8o86y2Du1TzL7zj98YZw4uqPJqWbwMr5B5w0b
+	VhtBWSu+E1seWPqCEa62vBrczeaFAjx0tZ8y5zFzJ9BkBZvWJUmbLAbr9FA62Hy7jtfHYCVwTUdhn
+	5pvUHFBafAUaZEetL8bgt+Uh5EtNni0r2QJeWMVuivK5anudOqfQWQSeQjCueZ2ZyC2OnQRv50TLH
+	M6pTFyotg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kDwl4-0007l9-Ek; Thu, 03 Sep 2020 21:27:02 +0000
-Received: from mail-wm1-f68.google.com ([209.85.128.68])
+	id 1kDwlH-0007qb-27; Thu, 03 Sep 2020 21:27:15 +0000
+Received: from mail-wr1-f41.google.com ([209.85.221.41])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kDwkw-0007hF-MK
- for linux-nvme@lists.infradead.org; Thu, 03 Sep 2020 21:26:56 +0000
-Received: by mail-wm1-f68.google.com with SMTP id q9so4235648wmj.2
- for <linux-nvme@lists.infradead.org>; Thu, 03 Sep 2020 14:26:54 -0700 (PDT)
+ id 1kDwkz-0007ii-FQ
+ for linux-nvme@lists.infradead.org; Thu, 03 Sep 2020 21:26:58 +0000
+Received: by mail-wr1-f41.google.com with SMTP id g4so4703890wrs.5
+ for <linux-nvme@lists.infradead.org>; Thu, 03 Sep 2020 14:26:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b/uTQxij/TKn4MX+WnD0zPtzN/MEHz4PhHGNPUyvyWs=;
- b=sWzMej5S69ty5D9kN3gEprNu4goYcOo2BJTe8Vc2nBpDdd2Kjils78/E5rODK6LYqW
- d1MfhtFcSB1wrjQTlEO9J5vHYrwWqxrW2VzF/WqRwd1CRg/bWelglFB4qHYv8n0X9TrU
- QUMyaQPWSs9qjiD6L3/FQcbf7auam2VQzlyd+E8XxCZOI3/kuJE8cQOZVHSUONLzdqt3
- sYh77dtTvRK5cCIIDOpoxrC/7BoYbj5sMKH4nltRmoZikb9sOSVAwjqd8FXSwXd9O/z5
- etSvlPMFRR/fjzNRNJU8QMbpHcvCx9X8vB5gV2OSK/j5qkWvZ0939U6vpMtge21YP+Mj
- YzWw==
-X-Gm-Message-State: AOAM531E4ob1ypawZRMtNYfoJk+FStgtD09j5hZ7Jvk1Ru4tn+1h5HUZ
- /QiElNgiPvYzVX5wzcxTnnE=
-X-Google-Smtp-Source: ABdhPJy1zGwMVoR0i0CrBNfWFKiHdinSmndHsalamEqg2oXCN3eQH5nSHJdIYvoNo7LBK8S6RLz4Eg==
-X-Received: by 2002:a1c:5581:: with SMTP id j123mr4468392wmb.11.1599168413511; 
- Thu, 03 Sep 2020 14:26:53 -0700 (PDT)
+ bh=l5f/WhCUB3SYptcds9DMSFGf+leIG0AOF4/byaQGTcA=;
+ b=WZOVaeEH73vfOxint9dmv2BA42VvhVe7ikL0adHBpdQ4QBw3YDIxUWX8H65IAu5JYf
+ UGNfamaaYp/x7e3w+9c8b1VOIhBW67v2dDQ1J8LNe+cNPDs/HDhaQiPv1jr/iFAAezqf
+ YsGjhGQWl9rUKcuhzwx4VEVwdXlxkKRBpq6LWX8uSi+pNQ9mtHF22JBA6tvf6cAb+rnW
+ +GIUvQGbQ/USwBGCo/kSGg4hRipRarABivqLfeGdsm9U7HJ2HqPRoRB2Y2AZjz3Wj2ud
+ oGQWB/hbwzwmON0ID/cInr3rCKEPXNRH4M1bR7NBd9WlQusYwSfXhlp8MfWuMqJE1pds
+ rFQw==
+X-Gm-Message-State: AOAM531A62yBRk1gJtak0I1mcxkfoWUWGgWnyiIj8o9EcRvL8f151RDV
+ NOH/u5JWZ+0ZuGceAeO2N00=
+X-Google-Smtp-Source: ABdhPJzv4njTtIGWuTyfBWaEa0Cwkmm69k1pCPYv1md415sNYtbKw5ENQbF5xTdJ9lGw+R8wVojZ5w==
+X-Received: by 2002:adf:f843:: with SMTP id d3mr4782216wrq.226.1599168416288; 
+ Thu, 03 Sep 2020 14:26:56 -0700 (PDT)
 Received: from localhost.localdomain ([2601:647:4802:9070:79a5:e112:bd7c:4b29])
- by smtp.gmail.com with ESMTPSA id v204sm6659896wmg.20.2020.09.03.14.26.50
+ by smtp.gmail.com with ESMTPSA id v204sm6659896wmg.20.2020.09.03.14.26.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 14:26:53 -0700 (PDT)
+ Thu, 03 Sep 2020 14:26:55 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-block@vger.kernel.org,
 	Omar Sandoval <osandov@osandov.com>
-Subject: [PATCH v6 4/7] tests/nvme: restrict tests to specific transports
-Date: Thu,  3 Sep 2020 14:26:31 -0700
-Message-Id: <20200903212634.503227-5-sagi@grimberg.me>
+Subject: [PATCH v6 5/7] nvme: support nvme-tcp when runinng tests
+Date: Thu,  3 Sep 2020 14:26:32 -0700
+Message-Id: <20200903212634.503227-6-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200903212634.503227-1-sagi@grimberg.me>
 References: <20200903212634.503227-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200903_172654_774841_22DF7187 
-X-CRM114-Status: GOOD (  14.54  )
+X-CRM114-CacheID: sfid-20200903_172657_518101_8C770374 
+X-CRM114-Status: GOOD (  11.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,433 +92,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Protect against running tests with the wrong transport type. Most tests
-cannot have nvme_trtype=nvme and discovery tests expect the $trtype to
-be written and verified in the .out file. Adding a couple of helpers
-to restrict the transport types in tests.
+run with: nvme_trtype=tcp ./check nvme
 
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- tests/nvme/002 |  1 +
- tests/nvme/003 |  1 +
- tests/nvme/004 |  1 +
- tests/nvme/005 |  1 +
- tests/nvme/006 |  1 +
- tests/nvme/007 |  1 +
- tests/nvme/008 |  1 +
- tests/nvme/009 |  1 +
- tests/nvme/010 |  1 +
- tests/nvme/011 |  1 +
- tests/nvme/012 |  1 +
- tests/nvme/013 |  1 +
- tests/nvme/014 |  1 +
- tests/nvme/015 |  1 +
- tests/nvme/016 |  1 +
- tests/nvme/017 |  1 +
- tests/nvme/018 |  1 +
- tests/nvme/019 |  1 +
- tests/nvme/020 |  1 +
- tests/nvme/021 |  1 +
- tests/nvme/022 |  1 +
- tests/nvme/023 |  1 +
- tests/nvme/024 |  1 +
- tests/nvme/025 |  1 +
- tests/nvme/026 |  1 +
- tests/nvme/027 |  1 +
- tests/nvme/028 |  1 +
- tests/nvme/029 |  1 +
- tests/nvme/030 |  1 +
- tests/nvme/031 |  1 +
- tests/nvme/rc  | 16 ++++++++++++++++
- 31 files changed, 46 insertions(+)
+ tests/nvme/rc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/nvme/002 b/tests/nvme/002
-index 955f68da026a..ca11c11c9a09 100755
---- a/tests/nvme/002
-+++ b/tests/nvme/002
-@@ -12,6 +12,7 @@ DESCRIPTION="create many subsystems and test discovery"
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_loop
- }
- 
- test() {
-diff --git a/tests/nvme/003 b/tests/nvme/003
-index 654ff776f6f9..101c1841c6df 100755
---- a/tests/nvme/003
-+++ b/tests/nvme/003
-@@ -13,6 +13,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/004 b/tests/nvme/004
-index 0a62e3448e7b..dfca79aab20c 100755
---- a/tests/nvme/004
-+++ b/tests/nvme/004
-@@ -14,6 +14,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/005 b/tests/nvme/005
-index e97287a96a4e..0d5801868bc0 100755
---- a/tests/nvme/005
-+++ b/tests/nvme/005
-@@ -14,6 +14,7 @@ requires() {
- 	_nvme_requires
- 	_have_modules loop && \
- 		_have_module_param_value nvme_core multipath Y
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/006 b/tests/nvme/006
-index 8fe95461e6cc..9230dc6ed902 100755
---- a/tests/nvme/006
-+++ b/tests/nvme/006
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/007 b/tests/nvme/007
-index e712026ba373..d53100f3ff7b 100755
---- a/tests/nvme/007
-+++ b/tests/nvme/007
-@@ -11,6 +11,7 @@ QUICK=1
- 
- requires() {
- 	_nvme_requires
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/008 b/tests/nvme/008
-index cb36442bda18..8616617ad398 100755
---- a/tests/nvme/008
-+++ b/tests/nvme/008
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/009 b/tests/nvme/009
-index 6abca757b4e6..e91d79065cb1 100755
---- a/tests/nvme/009
-+++ b/tests/nvme/009
-@@ -11,6 +11,7 @@ QUICK=1
- 
- requires() {
- 	_nvme_requires
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/010 b/tests/nvme/010
-index 903da818b5ac..9d96d7803be3 100755
---- a/tests/nvme/010
-+++ b/tests/nvme/010
-@@ -12,6 +12,7 @@ TIMED=1
- requires() {
- 	_nvme_requires
- 	_have_fio _have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/011 b/tests/nvme/011
-index 4060e6278d44..06dc568fb6ea 100755
---- a/tests/nvme/011
-+++ b/tests/nvme/011
-@@ -12,6 +12,7 @@ TIMED=1
- requires() {
- 	_nvme_requires
- 	_have_fio
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/012 b/tests/nvme/012
-index dd8bceca5373..8110430e49d4 100755
---- a/tests/nvme/012
-+++ b/tests/nvme/012
-@@ -13,6 +13,7 @@ requires() {
- 	_nvme_requires
- 	_have_program mkfs.xfs && _have_program fio && \
- 		_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/013 b/tests/nvme/013
-index 059d608a892f..176b11b9ccb5 100755
---- a/tests/nvme/013
-+++ b/tests/nvme/013
-@@ -12,6 +12,7 @@ TIMED=1
- requires() {
- 	_nvme_requires
- 	_have_program mkfs.xfs && _have_fio
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/014 b/tests/nvme/014
-index 192322862072..e3c70364e332 100755
---- a/tests/nvme/014
-+++ b/tests/nvme/014
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/015 b/tests/nvme/015
-index 353445ad31b9..46fa4f605749 100755
---- a/tests/nvme/015
-+++ b/tests/nvme/015
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/016 b/tests/nvme/016
-index f829dedf7baa..4eba30223a08 100755
---- a/tests/nvme/016
-+++ b/tests/nvme/016
-@@ -10,6 +10,7 @@ DESCRIPTION="create/delete many NVMeOF block device-backed ns and test discovery
- 
- requires() {
- 	_nvme_requires
-+	_require_nvme_trtype_is_loop
- }
- 
- test() {
-diff --git a/tests/nvme/017 b/tests/nvme/017
-index e552af17ccb9..f2a95cf276cb 100755
---- a/tests/nvme/017
-+++ b/tests/nvme/017
-@@ -10,6 +10,7 @@ DESCRIPTION="create/delete many file-ns and test discovery"
- 
- requires() {
- 	_nvme_requires
-+	_require_nvme_trtype_is_loop
- }
- 
- test() {
-diff --git a/tests/nvme/018 b/tests/nvme/018
-index 73703a286ff8..6d7934d09d99 100755
---- a/tests/nvme/018
-+++ b/tests/nvme/018
-@@ -13,6 +13,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/019 b/tests/nvme/019
-index 8ccfface176e..486b5acff713 100755
---- a/tests/nvme/019
-+++ b/tests/nvme/019
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/020 b/tests/nvme/020
-index 7861d47513e5..c8053f440e2e 100755
---- a/tests/nvme/020
-+++ b/tests/nvme/020
-@@ -11,6 +11,7 @@ QUICK=1
- 
- requires() {
- 	_nvme_requires
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/021 b/tests/nvme/021
-index 52d14f0490b1..f543a1d8fd92 100755
---- a/tests/nvme/021
-+++ b/tests/nvme/021
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/022 b/tests/nvme/022
-index 111dec92f791..e824ed31f6f0 100755
---- a/tests/nvme/022
-+++ b/tests/nvme/022
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/023 b/tests/nvme/023
-index 31f77ff07055..bdef3dc8abca 100755
---- a/tests/nvme/023
-+++ b/tests/nvme/023
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/024 b/tests/nvme/024
-index 5a30b08b9d8e..78f779e8a08a 100755
---- a/tests/nvme/024
-+++ b/tests/nvme/024
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/025 b/tests/nvme/025
-index b7903d6ad8f2..223430965d7e 100755
---- a/tests/nvme/025
-+++ b/tests/nvme/025
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/026 b/tests/nvme/026
-index 721d486bc7de..7f82284d9c57 100755
---- a/tests/nvme/026
-+++ b/tests/nvme/026
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/027 b/tests/nvme/027
-index 6be7d0492d37..da96e6c5008d 100755
---- a/tests/nvme/027
-+++ b/tests/nvme/027
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/028 b/tests/nvme/028
-index 2d89c8fa35de..f826b67623f1 100755
---- a/tests/nvme/028
-+++ b/tests/nvme/028
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
-diff --git a/tests/nvme/029 b/tests/nvme/029
-index 0bface97ccd5..5bed9b8e70ae 100755
---- a/tests/nvme/029
-+++ b/tests/nvme/029
-@@ -13,6 +13,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test_user_io()
-diff --git a/tests/nvme/030 b/tests/nvme/030
-index 91c042ab6b0b..37df902da895 100755
---- a/tests/nvme/030
-+++ b/tests/nvme/030
-@@ -12,6 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- 
-diff --git a/tests/nvme/031 b/tests/nvme/031
-index 3faa4c171cc8..36263ca2379c 100755
---- a/tests/nvme/031
-+++ b/tests/nvme/031
-@@ -20,6 +20,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
- }
- 
- test() {
 diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 875127d85876..fbd5b66c25d5 100644
+index fbd5b66c25d5..2b267f1d6ae6 100644
 --- a/tests/nvme/rc
 +++ b/tests/nvme/rc
-@@ -46,6 +46,22 @@ _require_test_dev_is_nvme() {
- 	return 0
- }
- 
-+_require_nvme_trtype_is_loop() {
-+	if [[ "${nvme_trtype}" != "loop" ]]; then
-+		SKIP_REASON="nvme_trtype=${nvme_trtype} is not supported in this test"
-+		return 1
-+	fi
-+	return 0
-+}
-+
-+_require_nvme_trtype_is_fabrics() {
-+	if [[ "${nvme_trtype}" == "pci" ]]; then
-+		SKIP_REASON="nvme_trtype=${nvme_trtype} is not supported in this test"
-+		return 1
-+	fi
-+	return 0
-+}
-+
- _cleanup_nvmet() {
- 	local dev
- 	local port
+@@ -21,6 +21,10 @@ _nvme_requires() {
+ 	pci)
+ 		_have_modules nvme nvme-core
+ 		;;
++	tcp)
++		_have_modules nvmet nvme-core nvme-tcp nvmet-tcp
++		_have_configfs
++		;;
+ 	*)
+ 		SKIP_REASON="unsupported nvme_trtype=${nvme_trtype}"
+ 		return 1
 -- 
 2.25.1
 
