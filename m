@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85474C433E2
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 16:20:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A3FC433E2
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 16:22:06 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4DD5820829
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 16:20:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C003420775
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 16:22:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q4NVxXG6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4DD5820829
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ny/ruBoh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C003420775
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=e0oPswe5EEBACQf33OKKVnEkdAnRWqOSza09m7Kv0XE=; b=q4NVxXG6wbzqYImQrhesx4Mw2
-	oSAQPxovJOX+hZ1WvEIS+Czv/xxZagJe/QZPD4JudtelYA7a1h3x27k8tSxZQa2HLa1Byua7aS7sR
-	HsoQ488KtEG6i6UqQV1Kmo+teqC8mcNp3QiA5DsvzPJhXoHMxY+Dt6YZDucqKrfZ5DisKLT8DEMS0
-	TZvqws4G1kx6e2u5BBqtgiHQrJpctwDPSfg7Vf4uCGfUkHY3QEULJUASSzOqYW+G+kiJ/TLPwhl5b
-	g32fhNyhzQATy2i2X6w5UDef2dqiLGePKQuUXo+apUGqw0YLmuwfIoA67VAsshrk4Q6GsrPPjLyiz
-	D05gVSQ7A==;
+	 bh=eYJo9Nd3PHvQMzBr4DcLV/LO0t77Lhm8BGuUmVKaQhg=; b=Ny/ruBohjWxn9elVIhtNhNQHT
+	C/SG3lC34JxfDNJVFt7Gsf58cvg07hjaz9vLJM8W6ilST8C/8HHq69GK3C71obG9Y4uWZ6/4ARNaf
+	pIE67E91KU74kVjF9slCFG/pYXbWrEP3KwD2NqvDlCf3yhsdF6L1racVwgJk+kErvlchuwnb2c5YM
+	8R0Yjco3v7X37MMvRPgC/a4wXXkpWaN/urKioJaZyWmCZYRR4IBGLyawBpbnLbPdl5s1pGZWLHmZX
+	13WVjZWCClFFZmnDZH9uawhvc675CWZQ/NRrca4Lt/7/usPU0V5ESz1nl7HEsICwWjKQzlSHvcLhw
+	Q5/y3nmVQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kDryZ-0006SQ-Mu; Thu, 03 Sep 2020 16:20:39 +0000
+	id 1kDrzv-0006pt-LF; Thu, 03 Sep 2020 16:22:03 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kDryX-0006Ro-0X
- for linux-nvme@lists.infradead.org; Thu, 03 Sep 2020 16:20:37 +0000
+ id 1kDrzs-0006oS-Ng
+ for linux-nvme@lists.infradead.org; Thu, 03 Sep 2020 16:22:01 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 6F91467357; Thu,  3 Sep 2020 18:20:35 +0200 (CEST)
-Date: Thu, 3 Sep 2020 18:20:35 +0200
+ id 3117967357; Thu,  3 Sep 2020 18:21:59 +0200 (CEST)
+Date: Thu, 3 Sep 2020 18:21:58 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH V2 05/12] nvmet: use unlikely for uncommon commands
-Message-ID: <20200903162035.GD25423@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH V2 08/12] nvmet: move get/put ctrl into dev open/release
+Message-ID: <20200903162158.GE25423@lst.de>
 References: <20200831222707.35611-1-chaitanya.kulkarni@wdc.com>
- <20200831222707.35611-6-chaitanya.kulkarni@wdc.com>
+ <20200831222707.35611-9-chaitanya.kulkarni@wdc.com>
+ <7310435c-5341-d95b-55e7-605c0dc7130e@deltatee.com>
+ <92a8029f-88e9-abbf-a30a-a339df3c6dff@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200831222707.35611-6-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <92a8029f-88e9-abbf-a30a-a339df3c6dff@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200903_122037_162993_DF5F600D 
-X-CRM114-Status: GOOD (  11.14  )
+X-CRM114-CacheID: sfid-20200903_122200_904202_8E0E2EAE 
+X-CRM114-Status: UNSURE (   9.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,24 +68,21 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, logang@deltatee.com, hch@lst.de,
- linux-nvme@lists.infradead.org, sagi@grimberg.me
+Cc: kbusch@kernel.org, Logan Gunthorpe <logang@deltatee.com>,
+ linux-nvme@lists.infradead.org,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 31, 2020 at 03:27:00PM -0700, Chaitanya Kulkarni wrote:
-> I/O commands (nvme_cmd_read, nvme_cmd_write) are most common commands
-> when accessing passthru controller, most controllers should not
-> have set the effects for r/w I/O commnds (atleast I don't know at this
-> moment). Also, check for req->p.use_workqueue is true in two admin
-> commands only which are low frequency commands.
-> 
-> Annotate use_workqueue and command effects check with unlikely in the
-> fast path.
+On Tue, Sep 01, 2020 at 10:18:23AM -0700, Sagi Grimberg wrote:
+> Lets overall split bug fixes from any enhancement. Bug fixes
+> should go directly before we handle enhancements.
 
-What difference does this make?
+Yes.  I'd really like to see a minimal bug fix series, and for
+real cleanups and maybe then we can get to likely/unlikely
+micro-optimizations.
 
 _______________________________________________
 Linux-nvme mailing list
