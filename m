@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B69C1C433E2
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 08:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C03C433E7
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 08:45:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7E8B92065E
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 08:44:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5618A2065E
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Sep 2020 08:45:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BJp27ukP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E8B92065E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FGamkHmL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5618A2065E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,39 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=wGor/EC/W7YFqnG92AWvz//HMy4ANI49qDxWku2dZD4=; b=BJp27ukP/n6RlSjVXz1S73RBI
-	F0Xr0IjthrNtu/B2TIhejxvd/ZI8gXNDc7XKBShtqMzppNSDt7NxVo8ETgrQlI2DtLeJQfb/onkBm
-	3QZwaBZ3+qVLFUVwMMicIkkBoyU+q5aJh57ViI/9hO1U/idyPOmbEfuPeSmAI2NMwtQTS8qzqk8Ts
-	9K2vnH4iTJv19PbM8MO+QrDmK6vi8CE2GHuOxaolqA8wm8lPVgfnmEhPQf0Hog2RluVmc2Crpmlid
-	ArFM071gVGXP0YbRG7oyAue4b7T4Bk+ryYZl0u6fGwNM/sCMIe0P2Ys42mRRdLUP8jBaKBLhe8xh0
-	UGBQIOJEw==;
+	 bh=/kvovwHionzRWHRdpwYQVova1zUtn9Q8/vEaZgXqHRw=; b=FGamkHmLewBamP/FtyQ9TjMMx
+	8EmbGqB3TI+grcmoYkN8nGwJhO4xMHI+6XNSYGnROaiHt2ejcCpWAM9rVBNMhbDUBbcZtwNL5ZAay
+	8aVgC4LT8fr83CHGoMtJiSG+HQWJuCUbZlBh5CrExEeBdxWOvfp5huQa+YWpmIUU3v3HB+wR+pjM2
+	JNtFwV1VgGvoOkrpiunnJS46RoRNy6G2OTJIfvkDDuIyaLFyogp17jFT/R3Op+tdoLr9GIrReh1B1
+	ItkwJf5jTbbx+2fhFOgZoXOhGHRZ89GkERwDMefEX5xLRgMXqx12DgMDOMffLxfvktMSSpqHO/8YJ
+	XDOxsxJ/Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kDkr2-00079R-U4; Thu, 03 Sep 2020 08:44:25 +0000
+	id 1kDkrl-0007Tr-1y; Thu, 03 Sep 2020 08:45:09 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kDkpD-0006H3-K2; Thu, 03 Sep 2020 08:42:51 +0000
+ id 1kDkpl-0006YD-42; Thu, 03 Sep 2020 08:43:31 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2B13F68BEB; Thu,  3 Sep 2020 10:42:27 +0200 (CEST)
-Date: Thu, 3 Sep 2020 10:42:26 +0200
+ id 1CF6368CEC; Thu,  3 Sep 2020 10:43:03 +0200 (CEST)
+Date: Thu, 3 Sep 2020 10:43:02 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 Subject: Re: [PATCH 22/28] sgiseeq: convert from dma_cache_sync to
  dma_sync_single_for_device
-Message-ID: <20200903084226.GA24410@lst.de>
+Message-ID: <20200903084302.GB24410@lst.de>
 References: <20200819065555.1802761-1-hch@lst.de>
  <20200819065555.1802761-23-hch@lst.de>
  <20200901152209.GA14288@alpha.franken.de>
  <20200901171241.GA20685@alpha.franken.de> <20200901171627.GA8255@lst.de>
  <20200901173810.GA25282@alpha.franken.de>
- <20200902213809.GA7998@alpha.franken.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200902213809.GA7998@alpha.franken.de>
+In-Reply-To: <20200901173810.GA25282@alpha.franken.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200903_044231_795416_7DFC3905 
-X-CRM114-Status: GOOD (  14.15  )
+X-CRM114-CacheID: sfid-20200903_044305_342324_B4DE9F75 
+X-CRM114-Status: GOOD (  13.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,38 +87,25 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 02, 2020 at 11:38:09PM +0200, Thomas Bogendoerfer wrote:
-> the patch below fixes the problem.
+On Tue, Sep 01, 2020 at 07:38:10PM +0200, Thomas Bogendoerfer wrote:
+> this is the problem:
+> 
+>        /* Always check for received packets. */
+>         sgiseeq_rx(dev, sp, hregs, sregs);
+> 
+> so the driver will look at the rx descriptor on every interrupt, so
+> we cache the rx descriptor on the first interrupt and if there was
+> $no rx packet, we will only see it, if cache line gets flushed for
+> some other reason.
 
-But is very wrong unfortunately.
+That means a transfer back to device ownership is missing after a
+(negative) check.
 
->  static inline void dma_sync_desc_cpu(struct net_device *dev, void *addr)
->  {
-> -       dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
-> -                      DMA_FROM_DEVICE);
-> +       struct sgiseeq_private *sp = netdev_priv(dev);
-> +
-> +       dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
-> +                       sizeof(struct sgiseeq_rx_desc), DMA_FROM_DEVICE);
->  }
->  
->  static inline void dma_sync_desc_dev(struct net_device *dev, void *addr)
->  {
-> -       dma_cache_sync(dev->dev.parent, addr, sizeof(struct sgiseeq_rx_desc),
-> -                      DMA_TO_DEVICE);
-> +       struct sgiseeq_private *sp = netdev_priv(dev);
-> +
-> +       dma_sync_single_for_device(dev->dev.parent, VIRT_TO_DMA(sp, addr),
-> +                       sizeof(struct sgiseeq_rx_desc), DMA_TO_DEVICE);
-
-This is not how the DMA API works.  You can only call
-dma_sync_single_for_{device,cpu} with the direction that the memory
-was mapped.  It then transfer ownership to the device or the cpu,
-and the ownership of the memory is a fundamental concept that allows
-for reasoning about the caching interaction.
-
->  }
->  
+> kick_tx() does a busy loop checking tx descriptors,
+> with just sync_desc_cpu...
+> 
+> Thomas.
+> 
 > -- 
 > Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
 > good idea.                                                [ RFC1925, 2.3 ]
