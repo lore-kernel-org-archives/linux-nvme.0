@@ -2,66 +2,149 @@ Return-Path: <SRS0=O63G=CN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D98C43461
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2020 15:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4BBC43461
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2020 15:18:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 48B1E2073B
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2020 15:11:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B05BD2074D
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2020 15:18:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gBJjX2NF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 48B1E2073B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rJA1qMBM";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fb.com header.i=@fb.com header.b="iXWMsgKV";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com header.b="YJGbqFiZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B05BD2074D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=fb.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jiyjVFC6527QA50xTE7qbMtN1HaHGmJvgWjMCivzfoA=; b=gBJjX2NFuVhwvvI0RVIxihY1ey
-	ibyPiF6HU+xie+upKAZwXs2/eGqBFgyd2Gwe88O2wsO1W4oaylKRDTeTTBoSsZXBcHWy2RSb7uRzl
-	sIqI65Q5r6viXPsFxRB7MEYJAsKp29B9pPjiack0gxlmvXOUe5XEGfWExMSR8afZ+PS3ibxKam9qz
-	La1a97xpngQLdQRXpEuEaGEijCS+mG+fO20gOa548yEWazdxt4YZtRKYRWCQIpjz0YWtkBu1MWPTm
-	vTijtCwiFuaVnpV3Q77h4IuDGKj3yttrhr7VHuDRq4XvVPuGtgv/f7Ccg+N5IIavAhyT5FzBdY9P2
-	lux3NVyw==;
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=aLRs8MWYXa9/RoTz9mnFgBhL0chYVJJlzx4+n7eR2TA=; b=rJA1qMBM610reZEPTRgjoTXnm
+	Xp1WDISxrpfu8tn/okMCgRVYDt5fy5xFK4ExUYLGUh8X5/Zzpa6KlUTOTfAOhyKT+WmG0qiXkPQnf
+	FrkpR2tFtpsVsDpGZPHP+dEJmgHlYU+sukla+E4ycQ4WZ52gWXQHOi+Xr7fJS/4RGxIun2Pm0QsxQ
+	9SB+HKk2+rgzGdt0aiuCIuOV5qdRM8sIP0mV/qeQBz2Xv2q9nGWRx2JV5GaMZ7W6R027tCbjNEE0R
+	pASfjZ/AWsRIz3DVhELvHakgfuSrjp+1KaDpwvsOm5B3N8CrX3zVhGPXeNEXvDpML0yYcaVk87weF
+	rPgf8z+fg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kEDN4-0005Do-CP; Fri, 04 Sep 2020 15:11:22 +0000
-Received: from smtp.h3c.com ([60.191.123.56] helo=h3cspam01-ex.h3c.com)
+	id 1kEDTh-0006aA-Ps; Fri, 04 Sep 2020 15:18:13 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kEDMz-0005Cg-3Q
- for linux-nvme@lists.infradead.org; Fri, 04 Sep 2020 15:11:20 +0000
-Received: from DAG2EX03-BASE.srv.huawei-3com.com ([10.8.0.66])
- by h3cspam01-ex.h3c.com with ESMTPS id 084F8aK1013840
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 4 Sep 2020 23:08:37 +0800 (GMT-8)
- (envelope-from tian.xianting@h3c.com)
-Received: from localhost.localdomain (10.99.212.201) by
- DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) with Microsoft SMTP Server
+ id 1kEDTf-0006Yj-8x
+ for linux-nvme@lists.infradead.org; Fri, 04 Sep 2020 15:18:12 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 084F4R73019526; Fri, 4 Sep 2020 08:17:34 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=gB+3yG9ziEmklJbAoEk6z4D72cWxdMkENqdTLutxxgg=;
+ b=iXWMsgKVb+w2MVx/e1zxdx7kFf1WtGjzmP3v7B6MKaL/44tOdP6zc8onpSfeyWiVTU4g
+ AoPoODGCrdIjz1y3H5Pb1IL+FyfHMZD8RWurf12YEuPGWUUWHmbIxIXNfb5tvJSols84
+ I6kwSmzayTeMdYEO2m0B6Lqbq7kj11tmdKE= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 33b99qku6t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Fri, 04 Sep 2020 08:17:34 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.35.174) with Microsoft SMTP
+ Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 4 Sep 2020 23:08:41 +0800
-From: Xianting Tian <tian.xianting@h3c.com>
-To: <kbusch@kernel.org>, <axboe@fb.com>, <hch@lst.de>, <sagi@grimberg.me>
-Subject: [PATCH] nvme: use kobj_to_dev() to get device
-Date: Fri, 4 Sep 2020 23:01:40 +0800
-Message-ID: <20200904150140.12717-1-tian.xianting@h3c.com>
-X-Mailer: git-send-email 2.17.1
+ 15.1.1979.3; Fri, 4 Sep 2020 08:17:32 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AB9dpF5+9pS+Zwf+BQL9zdbJ6ZcRSm4g+M+9+Dwa33q5OQtsdGLZna/g7/NJZL0pC6TL5ZNzkMvw94swPZWOYmkQZZq859ywzfpPunzKBJtjw9e2Xiy5eDx6C8TBpx5I590XlxmNQ1XOJ8Wm4+AQ5g+mTW1Ob1AVpVgZOXQ78MEr2SWr95d9z3YRNETdp54t6pUhxsy4ymqnVrwhse/VdnfLzU/0GdjbyJlI7+o69R/TdcuGg5q9bSYMgJNpQDNkL9fXzlQcUzZsZeKS1dnxBmQisgYW4V68FGshophzSm3QoKJXADxm/TVlW1C/fR8Y+ZdaOj1cjSJEK0yZugqm/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gB+3yG9ziEmklJbAoEk6z4D72cWxdMkENqdTLutxxgg=;
+ b=iK2JKBfRkQnJ7w6pUT2nbAbMXdAj8q2BeM4rp0FDUyP95rKvFCxaTpNIv0oPxxOw1XCtY+Sk6GQOxSDtZbICG057qvv+hC+tRKDSiI1hhg11F6wOPaCZg+hl7ELWGJU5sVt/PT9fdo8Qcq9F+gcYFiVmxxzxEP5CQikSJNepPsr86fkbmPVgYhujdxiqFRh+vOEqV3piYt2eJDojAVSKkPRtcYdqhzfO5SdPNdMDGsIwuBSZbw8mju8T2EGLN65CrvmF7SXFidHs0Rj/PtNWhLPPWdcYqeNR1vqgzcy23KU24ovkJRzAtWc+tiUn5loCUUirJtFmvsfkgbcQyyjKKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gB+3yG9ziEmklJbAoEk6z4D72cWxdMkENqdTLutxxgg=;
+ b=YJGbqFiZU+KlEqneVPhXl2NpY+FUWu+xUTwl3lXw+lB0cHMHDkaa1ge5cHAVusdZ5tCHC2xzFliepr4xI0I/buVCfetPDxaXdzKrZ624BwT4h8ClvOSOvXznU0+T8oeizxL91oyP8s2bccBmsqiOfhQAaWPa5Wk7dysUQPuHYEA=
+Authentication-Results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none; lists.infradead.org; dmarc=none action=none header.from=fb.com; 
+Received: from BYAPR15MB2566.namprd15.prod.outlook.com (2603:10b6:a03:150::24)
+ by BYAPR15MB2694.namprd15.prod.outlook.com (2603:10b6:a03:158::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Fri, 4 Sep
+ 2020 15:17:32 +0000
+Received: from BYAPR15MB2566.namprd15.prod.outlook.com
+ ([fe80::80ff:5c88:e972:a2b3]) by BYAPR15MB2566.namprd15.prod.outlook.com
+ ([fe80::80ff:5c88:e972:a2b3%3]) with mapi id 15.20.3348.017; Fri, 4 Sep 2020
+ 15:17:32 +0000
+Subject: Re: [PATCH] nvme: use kobj_to_dev() to get device
+To: Xianting Tian <tian.xianting@h3c.com>, <kbusch@kernel.org>, <hch@lst.de>, 
+ <sagi@grimberg.me>
+References: <20200904150140.12717-1-tian.xianting@h3c.com>
+From: Jens Axboe <axboe@fb.com>
+Message-ID: <de7cca47-16ea-c0f9-6c48-ef71b51f3554@fb.com>
+Date: Fri, 4 Sep 2020 09:17:29 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200904150140.12717-1-tian.xianting@h3c.com>
+Content-Language: en-US
+X-ClientProxiedBy: BY5PR16CA0012.namprd16.prod.outlook.com
+ (2603:10b6:a03:1a0::25) To BYAPR15MB2566.namprd15.prod.outlook.com
+ (2603:10b6:a03:150::24)
 MIME-Version: 1.0
-X-Originating-IP: [10.99.212.201]
-X-ClientProxiedBy: BJSMTP01-EX.srv.huawei-3com.com (10.63.20.132) To
- DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66)
-X-DNSRBL: 
-X-MAIL: h3cspam01-ex.h3c.com 084F8aK1013840
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2620:10d:c085:21cf::1188] (2620:10d:c090:400::5:1a09) by
+ BY5PR16CA0012.namprd16.prod.outlook.com (2603:10b6:a03:1a0::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15 via Frontend
+ Transport; Fri, 4 Sep 2020 15:17:31 +0000
+X-Originating-IP: [2620:10d:c090:400::5:1a09]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1c97b905-eb1a-45b3-b32a-08d850e5a4cc
+X-MS-TrafficTypeDiagnostic: BYAPR15MB2694:
+X-Microsoft-Antispam-PRVS: <BYAPR15MB2694B661599B6791F252F103C02D0@BYAPR15MB2694.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5m4XlB/j+1YpqgnSXWcbqdv60SjKp8KzaBuyBr1eOFcolDpIfPG7IMcy+3ioJDoL+KBXGS0+pCrdVDkO6V6crT8nMtYNsE3j9O+Vzk9bcJ6W4+EZ3hS5ZnMlClO8aecBFYC3zNNbyu6odUTWGzi2gmg4QpJjnBJgFzSJDALtq6pdRvFspX28jo5XeumAXP6ydp9/QVlbSxw9TzbWOb1eyQCyTJHYiRhvXFfGlG1R/OGPibzHzc0RJ+QCFQAABuL71BFBaMr6NvY666L343bAtbPgQonvmkYxEpoKVEX5geLcm+hNBmD4Q0IsCUBw8FJbCTjPP/DXxxsyI98uA5zOUjXHPI6oFj3kqg5pg/Z57fORaWJDEng4ziPMaVYr1EPA
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR15MB2566.namprd15.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(366004)(39860400002)(136003)(346002)(376002)(52116002)(31686004)(4326008)(86362001)(6486002)(4744005)(66556008)(186003)(16526019)(31696002)(5660300002)(316002)(66946007)(2616005)(53546011)(8936002)(8676002)(66476007)(36756003)(478600001)(83380400001)(2906002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: TxIc55El9k/1Nw85qbeVWCflAxT/U9SzBV1mc/43OYsKxeoMiAz4jy1wmVjS0ln2rrbXhDCqioAlid/v6So8vYh9r6D55fq2pixR9U5+PtUOaOUHNUjCPbm99pNGm5+ea3AinP16kuC0CePm0ZVcaaj9P1S69GqnGmPnOhTO0izRAR4ZOGaJXcVt4ZMO45w7cmr9PYTZPZ9ixeH5yVH7fgZES8fAPHAma0JZFuQ68o8pTPlUyCq2SK36HOquGoGcH9mY7FgduAd5d+xOw/arOKIW66V3a8qOagfVkhYKVysLsrhUDnBEZ5Ei29ljs6Cf/q5QBLhN4RiW2fbAlt52fOKH1xmLE4X+AjeARmDXxKszRNWRtcd0Rac1v2YafgBEgg2twRwCgXupGVlQ8BW7U5Sj88yBcSmW/ObUIA5eais8K19xNYusV1Juk4XNxDewWOQqvnuWVaKJIzN5TY02ydNm2Tm8T5xhjTVz6I0d4e4InDFGMprNtF6QQ9haE+197Lr+l9a5h3uSskaFxT3nA6xJelsAjGv/UnORoRiJVTvLZR3q/sWOYU4p5APYlrAnMRLHd6Fn240uUZ1vyP6Xdw3Ah0lrwWdezpwF8aOjIXsp1oxxfH/DBM0oRUgzNPqpcu5ylZ0wRTUqEmtko3zqaX36phi7y8seQY4njmCzYun88zWgZ5TFUhwmhb6x3eG1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c97b905-eb1a-45b3-b32a-08d850e5a4cc
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB2566.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2020 15:17:31.9084 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mLySWgPjB1LlPhYPMtgf8o1qolkvWE4b/m8xMh9Z7T8hIrMnufrg5trYOuR48lm3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2694
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-04_08:2020-09-04,
+ 2020-09-04 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ impostorscore=0 suspectscore=0 mlxscore=0 spamscore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 clxscore=1011 malwarescore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2009040133
+X-FB-Internal: deliver
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200904_111118_530796_45A3A081 
-X-CRM114-Status: GOOD (  12.16  )
+X-CRM114-CacheID: sfid-20200904_111811_483255_F5089082 
+X-CRM114-Status: GOOD (  15.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,59 +156,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Xianting Tian <tian.xianting@h3c.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We already has the interface kobj_to_dev(), which can be used to get
-'struct device *' from kobj, so use it.
+On 9/4/20 9:01 AM, Xianting Tian wrote:
+> We already has the interface kobj_to_dev(), which can be used to get
+> 'struct device *' from kobj, so use it.
 
-Signed-off-by: Xianting Tian <tian.xianting@h3c.com>
----
- drivers/nvme/host/core.c     | 4 ++--
- drivers/nvme/host/lightnvm.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Let's please not, this is immediately obvious what it does:
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 154942fc6..eb50615ba 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3422,7 +3422,7 @@ static struct attribute *nvme_ns_id_attrs[] = {
- static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
- 		struct attribute *a, int n)
- {
--	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
- 
- 	if (a == &dev_attr_uuid.attr) {
-@@ -3665,7 +3665,7 @@ static struct attribute *nvme_dev_attrs[] = {
- static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 		struct attribute *a, int n)
- {
--	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 
- 	if (a == &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 8e562d0f2..70c87ff0d 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -1241,7 +1241,7 @@ static struct attribute *nvm_dev_attrs[] = {
- static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
- 				     struct attribute *attr, int index)
- {
--	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct gendisk *disk = dev_to_disk(dev);
- 	struct nvme_ns *ns = disk->private_data;
- 	struct nvm_dev *ndev = ns->ndev;
+struct device *dev = container_of(kobj, struct device, kobj);
+
+while this one is totally not:
+
+struct device *dev = kobj_to_dev(kobj);
+
+Any sort of privte whatever_to_foo() should be removed from the tree,
+imho.
+
 -- 
-2.17.1
+Jens Axboe
 
 
 _______________________________________________
