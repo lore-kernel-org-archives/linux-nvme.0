@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3E5C43461
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2020 15:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B7DC2D0E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2020 15:54:59 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CBE1E2074D
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2020 15:53:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 244D520770
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Sep 2020 15:54:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PHtDmrID";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="BNQfSmSk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CBE1E2074D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZxnkNaRK";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="LwMt9q3J"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 244D520770
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,57 +26,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
 	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=nQexjg84bOFHCMq1PzDw3V9MWuBvFSgbwxfTcE/EeAI=; b=PHtDmrIDmduDHZuz/2Myc23kl
-	lBMn8w8J8WmbbLOOe0s49SoXmyFi6tF+KEutx8c41xwNLwGQtvA5x+AJSg4FGdaYF9bsaTyCinjin
-	YhJNBJ20ssUzX1FeL9l5mewL2uz65LlIWk02T3zUoCIPq773mS2LKKJ4QuldZVydKffafQTvYXAYw
-	vZqqzJbFmvoYL0dBB9EN16shaIVafL3m/RnepxJltFBG3KHsav5A7FCgpDMVrpb6UtfZ2udScj6I1
-	5TbKc5hHx7ZtVuz23HQRfLXDlXzG2dldUYtLwN6nNDL7ghFGyuAt0cYUzMM1r03muLSCuUOP13SFM
-	9jtS2/IWg==;
+	 bh=WMqhs4FkwiJDWbbG5rgyf8L7UsPjcqWcqS4CU7kWYNc=; b=ZxnkNaRKrWx272Updw/6/2prg
+	mdE2pzDoesQi2OAQtAhkQIw0WbeyUIBntIHHv7Wg6aEu0o+10K9VllNOMaAO/fYBC4fShTi9q9FYi
+	DliFVuVjiSSZ4a9AWjlS/p+EcSKXl+5gbq839BcCUT2d9uYECQoMTjC8MYrWUMLeEW6YNznZNUUj5
+	6EfgJ88fVQHNAVUhvjAkyEb9peCr6h1pA3SfqJQWB4mWWcrU/SA+BU0uVxe6dgSnkU8aimQrQLuKo
+	pJhv/QaJ3o2TOMZLHsosywK1fsiFQ8U3a339hcFzFvNad1nnLagGwwaEYI99aZJUxh0LT8hC3UFjX
+	ZgyVN4zRw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kEE1L-0000eO-0y; Fri, 04 Sep 2020 15:52:59 +0000
+	id 1kEE3E-0000yK-BF; Fri, 04 Sep 2020 15:54:56 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kEE1I-0000dn-Pu
- for linux-nvme@lists.infradead.org; Fri, 04 Sep 2020 15:52:57 +0000
+ id 1kEE3C-0000xk-9A
+ for linux-nvme@lists.infradead.org; Fri, 04 Sep 2020 15:54:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=P1djXWMn42vRNOqFDi+hzs5if5OiqHl05S8IjUoubNw=; b=BNQfSmSkjrFR5b9h3T/tVP2ADN
- RGBUOjLEzXEGTAMiUVE43IuRd3f+LCwIlvnBjwtrYJ/NBdb7Z0bIcDTWOVk6XPcFf7plZV1o3DZyX
- ThVvZDmf1d0NC1SXB+mj3UV1dlQtwEYo1R7ge2e2IKQqng4el5QXEvMBZPNG+9dN32vLrotiIxnVe
- Dpld3kW7NMmILNaQ6gkRxX4l7ffoDLuXhE5ZqGSjGtJejddsEUP3S5SVRGc/Q88SUpxG6p3TFzYj0
- YCFEGd+kKstYJAhbTPKFGCZnOGo+o+W4QQ4Q8iyqyexMnbGxGinwBGnStSqe7oKgX4AI+2LwBTwKE
- /nyzQRPw==;
+ bh=bPDLBSQCrYXiG/Q7VJEXsW9lcd/dlPjbrasizVEeGk4=; b=LwMt9q3JbxefppAMs1njdZsF1M
+ iIvJ/wyQkPkKU8ViZcefyvvDx2vQI1+phJtdYEoo86B7xXSx1LUhLRyHuE7oQphhTiOCXDf1soY7j
+ igJidTqfuiiaGzUFVRmQb+tHu2oOYyBNKHto8/edHyXiia9ySW5lxGNLDQT5X+bgF+2PXtK/imSSj
+ uR3f7CrHiSrIyqlZS2CfEhGzirennOsSzlLp7e/qTRkASqNWn6+T0RSU1Thb0WCNNkw1oy+ExL+l4
+ MdyX0wqjDecr2cloYgo1bGm7OyPH7+RDQigMEdzUNKis9AGXb6EQ2BiG/PWITBieBke/eltFUv7cX
+ uQlTnvEg==;
 Received: from [172.16.1.162] by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1kEE1E-0007o2-L7; Fri, 04 Sep 2020 09:52:53 -0600
-To: Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- Omar Sandoval <osandov@osandov.com>
-References: <20200903235337.527880-1-sagi@grimberg.me>
+ id 1kEE3A-0007pi-6z; Fri, 04 Sep 2020 09:54:52 -0600
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+References: <20200904023929.5320-1-chaitanya.kulkarni@wdc.com>
+ <20200904023929.5320-2-chaitanya.kulkarni@wdc.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <862f5256-46ee-c411-425a-8bca27aad35c@deltatee.com>
-Date: Fri, 4 Sep 2020 09:52:47 -0600
+Message-ID: <16dc2193-9830-6184-e7f6-ceaca5f0aaf0@deltatee.com>
+Date: Fri, 4 Sep 2020 09:54:48 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200903235337.527880-1-sagi@grimberg.me>
+In-Reply-To: <20200904023929.5320-2-chaitanya.kulkarni@wdc.com>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: hch@lst.de, kbusch@kernel.org, Chaitanya.Kulkarni@wdc.com,
- linux-nvme@lists.infradead.org, osandov@osandov.com,
- linux-block@vger.kernel.org, sagi@grimberg.me
+X-SA-Exim-Rcpt-To: sagi@grimberg.me, kbusch@kernel.org, hch@lst.de,
+ linux-nvme@lists.infradead.org, chaitanya.kulkarni@wdc.com
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v7 0/7] blktests: Add support to run nvme tests with
- tcp/rdma transports
+Subject: Re: [PATCH 1/3] nvme: decouple nvme_ctrl_get_by_path()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200904_115256_901079_09582D6E 
-X-CRM114-Status: GOOD (  16.90  )
+X-CRM114-CacheID: sfid-20200904_115454_331902_48CBD966 
+X-CRM114-Status: GOOD (  11.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,9 +87,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
@@ -98,50 +95,19 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2020-09-03 5:53 p.m., Sagi Grimberg wrote:
-> We have a collection of nvme tests, but all run with nvme-loop. This
-> is the easiest to run on a standalone machine. However its very much possible
-> to run nvme-tcp and nvme-rdma using a loopback network. Add capability to run
-> tests with a new environment variable to set the transport type $nvme_trtype.
+On 2020-09-03 8:39 p.m., Chaitanya Kulkarni wrote:
+> Right now nvme_ctrl_get_by_path() accepts ctrl path, based on that it
+> opens a file and calls nvme_get_ctrl(). In order to take module
+> refcount it is important to distinguish the error between file_open()
+> and module file ops check so that we can unwind the code in the caller
+> nvmet_passthru_ctrl_enable() in the error path.
 > 
-> $ nvme_trtype=[loop|tcp|rdma] ./check nvme
-> 
-> This buys us some nice coverage on some more transport types. We also add
-> some transport type specific helpers to mark tests that are relevant only
-> for a single transport.
-> 
-> Changes from v6:
-> - fix _nvme_discover wrong use of subsysnqn that is never passed
-> - move shellcheck fixes to the correct patches (not fix in subsequent patches)
-> Changes from v5:
-> - fix shellcheck errors
-> Changes from v4:
-> - removed extra paranthesis
-> - load either rdma_rxe or siw for rdma transport tests
-> Changes from v3:
-> - remove unload_module from tests/srp/rc
-> - fixed test run cmd
-> Changes from v2:
-> - changed patch 6 to move unload_module to common/rc
-> - changed helper to be named _require_nvme_trtype_is_fabrics
-> Changes from v1:
-> - added patch to remove use of module_unload
-> - move trtype agnostic logig helpers in patch #3
-> 
-> Sagi Grimberg (7):
->   nvme: consolidate nvme requirements based on transport type
->   nvme: consolidate some nvme-cli utility functions
->   nvme: make tests transport type agnostic
->   tests/nvme: restrict tests to specific transports
->   nvme: support nvme-tcp when runinng tests
->   common: move module_unload to common
->   nvme: support rdma transport type
+> Rename nvme_ctrl_get_by_path() -> nvme_ctrl_get_by_file() and lift
+> the file opening and error handling in the caller so that we can unwind
+> appropriately in the error path.
 
-Looks good to me. For the whole series:
-
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-
-Thanks,
+I still don't really like this idea. No need to keep a reference to a
+whole other file.
 
 Logan
 
