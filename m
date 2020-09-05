@@ -2,59 +2,68 @@ Return-Path: <SRS0=rLKq=CO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7260EC43461
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2020 07:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6837CC433E2
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2020 12:03:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7468520760
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2020 07:36:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 100C720757
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2020 12:03:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nGjJIJ2d"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7468520760
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mfhZTYAI";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="BWXOq0jU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 100C720757
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Sk0kAqsjir1gHPbKsqYJ/Ph4c0y3ijSRX9oVxyNjcBc=; b=nGjJIJ2dZevJ3AHAU2mMTrK+K
-	YSrRkNn20LJ2IWLSsOAv2V5uXDNNkMJ6V35gODdCoqf1k2jH5nTnrPWqEXeXwrQxmjkgKLEBancXS
-	cnadD+MuTZu9PkZiF4H9/vUzTv18qSqoVL6/8SXY5BhN3+8Kt5fqdqOCzPjgItBIV8D9AnRzEk2Fz
-	dh92ZsGBbCH/Dg4nABzCy1W9VC/Q28R6RVcsLL/OK72NljevjwPamU04t5xO7BLNS6IMZOTpRGhA5
-	4wIX2KWNoCW9NIk4hReRz/P4Z9AtwWydT6HuXHtY0bKJO/LZpfqXvuNeE3FN0buFpD9b9lLTylC5Q
-	TmtsQsMwg==;
+	 bh=mWjzak2z80A6ryFnpEnYv9GiItNF8FHZoZvk0sFJeFo=; b=mfhZTYAIQ/vVLtnkcIVtDRzl4
+	UOZfP0W7x5qe/14AUl059kJ3A7mQcgdvzhr6+XGmAGZwFOdsW1nqAp2UWOwjUdo2PIVkDfzI/tydw
+	E1AbwVj7hVj7goZaJhC+fvxCbmrvIRqyE+mKcfCdoeB86wxyAdpx5NtD7wdAixa9Z5szycPeZnbkZ
+	cWO8jpsttvVTBNtD7e4dtdrqw8bl1ZKa2jEIMZxFcNwm+Ul1x1JFOaUYA6bUvag5KsppirZ4d4Ruj
+	5Yt5Tfkf4eyWFS4is50+cZEklWy87vwD2W4gt3nGAjGR5PzWTsnw/iZJ5QDyNwuayzLGPsXt3A4lh
+	Bh7fh4ZsQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kESju-000533-GX; Sat, 05 Sep 2020 07:35:58 +0000
-Received: from mail3-164.sinamail.sina.com.cn ([202.108.3.164])
- by merlin.infradead.org with smtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kESjq-00051u-Sb
- for linux-nvme@lists.infradead.org; Sat, 05 Sep 2020 07:35:57 +0000
-Received: from unknown (HELO localhost.localdomain)([123.115.164.148])
- by sina.com with ESMTP
- id 5F533FC90002C119; Sat, 5 Sep 2020 15:35:42 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-X-SMAIL-MID: 38811115073530
-From: Hillf Danton <hdanton@sina.com>
-To: James Bottomley <James.Bottomley@HansenPartnership.com>
-Subject: Re: [PATCH] dma-direct: zero out DMA_ATTR_NO_KERNEL_MAPPING buf
-Date: Sat,  5 Sep 2020 15:35:28 +0800
-Message-Id: <20200905073528.9464-1-hdanton@sina.com>
-In-Reply-To: <1599233679.5231.4.camel@HansenPartnership.com>
-References: <20200904152550.17964-1-hdanton@sina.com>
+	id 1kEWuf-0008Qo-8F; Sat, 05 Sep 2020 12:03:21 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kEWuY-0008QO-1N
+ for linux-nvme@lists.infradead.org; Sat, 05 Sep 2020 12:03:14 +0000
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E342520757;
+ Sat,  5 Sep 2020 12:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599307392;
+ bh=CL+8vNktyF9sqP+DrWIv2YGkaXiyazpKbZtcIXOTfSA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BWXOq0jUKp1yZ8Q/njk18/Tiixpxxrq6XTP8f7Ek0vMY+RW2LpXKUoD+qjtE5iDOg
+ NPS/fcfzJBXfpJWuOWmSWX7sMWPUmGOm95FZJmj2EzYTWltZcF2mRlsp6GLvHeV3mx
+ r05E4mXuaQ/j6t+KcEaib1+dYEAADV0rej/fx9IA=
+Date: Sat, 5 Sep 2020 08:03:10 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH AUTOSEL 5.8 11/42] nvme: skip noiob for zoned devices
+Message-ID: <20200905120310.GI8670@sasha-vm>
+References: <20200831152934.1023912-1-sashal@kernel.org>
+ <20200831152934.1023912-11-sashal@kernel.org>
+ <20200831153818.GA83475@C02WT3WMHTD6>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200831153818.GA83475@C02WT3WMHTD6>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200905_033556_013954_C9EFE831 
-X-CRM114-Status: GOOD (  17.03  )
+X-CRM114-CacheID: sfid-20200905_080314_140135_48966E6A 
+X-CRM114-Status: GOOD (  12.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,75 +75,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Hillf Danton <hdanton@sina.com>, Kees Cook <keescook@chromium.org>,
- linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Aug 31, 2020 at 09:38:18AM -0600, Keith Busch wrote:
+>On Mon, Aug 31, 2020 at 11:29:03AM -0400, Sasha Levin wrote:
+>> From: Keith Busch <kbusch@kernel.org>
+>>
+>> [ Upstream commit c41ad98bebb8f4f0335b3c50dbb7583a6149dce4 ]
+>>
+>> Zoned block devices reuse the chunk_sectors queue limit to define zone
+>> boundaries. If a such a device happens to also report an optimal
+>> boundary, do not use that to define the chunk_sectors as that may
+>> intermittently interfere with io splitting and zone size queries.
+>>
+>> Signed-off-by: Keith Busch <kbusch@kernel.org>
+>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+>> Signed-off-by: Jens Axboe <axboe@kernel.dk>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>
+>You can safely drop this from stable: nvme zoned devices were only introduced
+>to linux in 5.9.
 
-On Fri, 04 Sep 2020 08:34:39 -0700 James Bottomley wrote:
-> On Fri, 2020-09-04 at 23:25 +0800, Hillf Danton wrote:
-> > The DMA buffer allocated is always cleared in DMA core and this is
-> > making DMA_ATTR_NO_KERNEL_MAPPING non-special.
-> > 
-> > Fixes: d98849aff879 ("dma-direct: handle DMA_ATTR_NO_KERNEL_MAPPING
-> > in common code")
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Matthew Wilcox <willy@infradead.org>
-> > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
-> > Signed-off-by: Hillf Danton <hdanton@sina.com>
-> > ---
-> > 
-> > --- a/kernel/dma/direct.c
-> > +++ b/kernel/dma/direct.c
-> > @@ -178,9 +178,17 @@ void *dma_direct_alloc_pages(struct devi
-> >  
-> >  	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
-> >  	    !force_dma_unencrypted(dev)) {
-> > +		int i;
-> > +
-> >  		/* remove any dirty cache lines on the kernel alias
-> > */
-> >  		if (!PageHighMem(page))
-> >  			arch_dma_prep_coherent(page, size);
-> > +
-> > +		for (i = 0; i < size/PAGE_SIZE; i++) {
-> > +			ret = kmap_atomic(page + i);
-> > +			memset(ret, 0, PAGE_SIZE);
-> > +			kunmap_atomic(ret);
+Dropped, thanks!
 
-Hi James
-> 
-> This is massively expensive on PARISC and likely other VIPT/VIVT
-> architectures.
-
-Correct.
-
-> What's the reason for clearing it?  This could also be
-
-	/* we always manually zero the memory once we are done: */
-	gfp &= ~__GFP_ZERO;
-	gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
-					   &phys_limit);
-
-> really inefficient even on PIPT architectures if the memory is device
-> remote.
-> 
-> If we really have to do this, it should likely be done in the arch or
-> driver hooks because there are potentially more efficient ways we can
-> do this knowing how the architecture behaves.
-
-I'm open to any vintage ideas in your mind wrt clearing dma buf e.g
-on platforms like PARISC. Or feel free to offload me the work if it
-makes sense to you who are rich of PARISC knowledge.
-
-Hillf
-
+-- 
+Thanks,
+Sasha
 
 _______________________________________________
 Linux-nvme mailing list
