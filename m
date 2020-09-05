@@ -5,20 +5,20 @@ X-Spam-Level:
 X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCADC433E2
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2020 15:46:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B87C433E2
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2020 15:51:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2BA12206B8
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2020 15:46:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 54E1A206B8
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Sep 2020 15:50:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g3NgMptU";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="IPcOeu/n";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="mke0N8Gm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BA12206B8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0baED0E2";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="dAEp9IzG";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="TthukJJ1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54E1A206B8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=HansenPartnership.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,59 +27,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:Date:To:From:
 	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ie3N+31dycPyRem167+83BBB/dqQIGYLSvZbYHgZbus=; b=g3NgMptU2kxp5Xvp/BVIGgOHf
-	P9RFpRhm9zWI2DEwvdkU4NaDvkqSOy3ZT1mCQp/T7vVnJ/TPzc9Qr77QqcVTBb03hPS4gZisIRxDs
-	amRG2aWFvUPs1mSjcAvn91PUVAGy8L6tsLb5HZokDtrcVz828IGOmfjzXhHL68Fd+5P6eXuahyoS7
-	SU3KCKqCW01DA+uBSyXEKyYpzGu9DroMfi1dkTRno7IIEeqnfDewauCzhV9VedijF02IMNNXKPx2x
-	TG55X/NNyDBFdKtO6ohCj3Hf31BzmvKAwRtxZ3CH762506OERXdJUwexTDxclWKYBIkO2Bez/xkNX
-	umAqHzAhQ==;
+	 bh=Er8WE3x836jdARrbNZ+rcWVJfD0QtaFwIqphYbzqWZA=; b=0baED0E2M4s4UJ4us2iclr1y4
+	1Bkxeorat+NR/sc27/huLRSgqlSHEe0R2/eVUQTVdCfdk+FLicowOwolBqvOWXkx/jZRChYrY3ysW
+	2Ty6H8M3kwi2YhrXUY3koEo3BbcvblHZnVneUy947pGwMjO4pQmtMS+m3KPhRh/R41t2AFV1NkpYS
+	5f5SCfaEmAcBn1ZgTRzRtF8awCHOu5EgmMpqFIt2ghCS0nBrjlbQcl5/BE2SEypRU7SoQrZnZNzlD
+	Q0Vy7rRnNLRvNBj8ZgWFYGs5MMCbZPJjUywwmGUeJA7/zmNolQ3AmZLukMyNJ0swlutZOCJHqTTar
+	qfgn2AYlA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kEaOq-00067d-Cn; Sat, 05 Sep 2020 15:46:44 +0000
+	id 1kEaSu-0006Oo-Id; Sat, 05 Sep 2020 15:50:56 +0000
 Received: from bedivere.hansenpartnership.com ([66.63.167.143])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kEaOo-000676-PQ
- for linux-nvme@lists.infradead.org; Sat, 05 Sep 2020 15:46:43 +0000
+ id 1kEaSr-0006O4-Kx
+ for linux-nvme@lists.infradead.org; Sat, 05 Sep 2020 15:50:54 +0000
 Received: from localhost (localhost [127.0.0.1])
- by bedivere.hansenpartnership.com (Postfix) with ESMTP id 1F5638EE112;
- Sat,  5 Sep 2020 08:46:39 -0700 (PDT)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id A05BF8EE112;
+ Sat,  5 Sep 2020 08:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
- s=20151216; t=1599320799;
- bh=uuZwcuWqye3Jc50GpB/RasDOKF7Bok/BlMWQ3nC8shA=;
+ s=20151216; t=1599321052;
+ bh=7DqLMBAim3TLV7CCpapqN2oVi0HwtXEehiJyKhXCJ3Q=;
  h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=IPcOeu/nD8EEaTOanrSjdimEprZPoxMXq+HbxBPlWLjLXBUHVzSjaXACgrHe+4Jy+
- aEA8fhvxKFQjuoWylT7lwvB4zCsht2sCqNnw4bvED9g5hxODMpsg6k6iUFJm9jkS/4
- 5M0Ug4oKqKBSUPmoEbfMV2wu4jr7PzXO8iFTOkD0=
+ b=dAEp9IzGlRMMJN5Ba8HmPY5w6FRO2xbQp2r4JI6BbbqrFrq4RbUm5vm/tlyyMfcOx
+ YbBZp5l74ktnzdRhMlu1eokeGXBBdeK0EAr99v3GdvMPA/QHOzDSODW0K8xM52LK53
+ kytI/YmAIprdKwOzQcJnI60vJaC3E4nQ4kNerjk0=
 Received: from bedivere.hansenpartnership.com ([127.0.0.1])
  by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
  port 10024)
- with ESMTP id xRcJOAM4hkOC; Sat,  5 Sep 2020 08:46:38 -0700 (PDT)
+ with ESMTP id zJ1denWn5qXV; Sat,  5 Sep 2020 08:50:48 -0700 (PDT)
 Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net
  [73.35.198.56])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id C87418EE100;
- Sat,  5 Sep 2020 08:46:37 -0700 (PDT)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id E493B8EE100;
+ Sat,  5 Sep 2020 08:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
- s=20151216; t=1599320798;
- bh=uuZwcuWqye3Jc50GpB/RasDOKF7Bok/BlMWQ3nC8shA=;
+ s=20151216; t=1599321044;
+ bh=7DqLMBAim3TLV7CCpapqN2oVi0HwtXEehiJyKhXCJ3Q=;
  h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=mke0N8GmVsaGqDCnDo1Xevave0JV+Ok2cWL6w8idVDY1Ot0Fj/AbNErCQQRg3ESYs
- 3jgSfrtRZagN7f0a8PfMR2oRtAz3nSfMt+fuXzkKruqdGOJlDSNW72Stg7HclqO/N+
- JuyCutuhMmqqeGaf7bkGnnUGnkZe/XQ336n3uKRs=
-Message-ID: <1599320796.11726.5.camel@HansenPartnership.com>
+ b=TthukJJ15LDoRS0MfGU/WPdrtBcsG6PrF7Mc5VF1oTLIa5EBZnV93IpKgi+GMFp8K
+ 23UVNjYDfACS59OeZfC+9seFNvPhF3dg8wNdgIrs6qEn8X/RPyuXr6xuq84QrGSCQf
+ LzQ7rvvAIj569qiFecC96bxFFxbtYFqEJ/9Eh0iY=
+Message-ID: <1599321042.11726.6.camel@HansenPartnership.com>
 Subject: Re: [PATCH] dma-direct: zero out DMA_ATTR_NO_KERNEL_MAPPING buf
 From: James Bottomley <James.Bottomley@HansenPartnership.com>
 To: Hillf Danton <hdanton@sina.com>
-Date: Sat, 05 Sep 2020 08:46:36 -0700
+Date: Sat, 05 Sep 2020 08:50:42 -0700
 In-Reply-To: <20200905073528.9464-1-hdanton@sina.com>
 References: <20200904152550.17964-1-hdanton@sina.com>
  <20200905073528.9464-1-hdanton@sina.com>
 X-Mailer: Evolution 3.26.6 
 Mime-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200905_114642_891260_5F57F0F0 
-X-CRM114-Status: GOOD (  29.07  )
+X-CRM114-CacheID: sfid-20200905_115053_801171_BF5D56E9 
+X-CRM114-Status: GOOD (  28.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,7 +91,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.come, Kees Cook <keescook@chromium.org>,
+Cc: linux-arch@vger.kernel.org, Kees Cook <keescook@chromium.org>,
  linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
  linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Marek Szyprowski <m.szyprowski@samsung.com>
@@ -100,6 +100,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+[resend with correct linux-arch address]
 On Sat, 2020-09-05 at 15:35 +0800, Hillf Danton wrote:
 > On Fri, 04 Sep 2020 08:34:39 -0700 James Bottomley wrote:
 > > On Fri, 2020-09-04 at 23:25 +0800, Hillf Danton wrote:
@@ -141,7 +142,7 @@ On Sat, 2020-09-05 at 15:35 +0800, Hillf Danton wrote:
 > > architectures.
 > 
 > Correct.
->
+> 
 > > What's the reason for clearing it?  This could also be
 > 
 > 	/* we always manually zero the memory once we are done: */
