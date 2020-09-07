@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25322C433E2
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Sep 2020 16:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC93C433E2
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Sep 2020 16:36:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CD0F521927
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Sep 2020 16:35:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DBB2321D7D
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Sep 2020 16:36:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UoGrAvN9";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="n1X0dhQ2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CD0F521927
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iVpAGrG9";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="SE4TbfSA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DBB2321D7D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,39 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CUx14Tm/k+8+y+QFwpuZTtYBTQiHmbhf7/F/Js/khBw=; b=UoGrAvN91KQXqswdJ7P2H3/WR
-	ITBrU4EHdFUYEgTpntBkBqH8Li+tdrEP1AnkwLTCdjnFjZlzT0www+R2/jx7HVA1obsfx2eXm53uh
-	Wx41Q/BPuwySU++yNamZkkZs40t5L9Ke1HTf7AxxXb7284wIHf0GJszNN+MUN2NDFQz5Wii49DHbE
-	FOjhAE0sGQoEHL+kbQtbpSKxIlkNbRBa1KDOc+wtQb+AIxMH6gCu4fmWfBlBJiwaAMfDg9Mw/5ata
-	I1FxGhHl6saWvGjsS2YGYtupc7ah7ODHcGewLL8xYwyZxTfe1lqYQrjlXNJdK+Ap5C4TlKW/FzHYM
-	YOG4O3Wgw==;
+	 bh=bIyagQKHc2zmVC6W8h1e8TTDoBQpAgCQx62ugl9qqdo=; b=iVpAGrG9R24N6QcqER5/WsSRC
+	VF5YjJo0s07PI3sxvtoYOxxO4sDwigbEbxLUJtPXjNy7jA2VjekQvAzieBB6+5vAirhZ8ck/PVvVQ
+	BEUaAVeRxunxjnyi78T3w2jopPtopVQVhb3ohNorwUKLEl4727FEk5rF4RaMxcRqqbg856kAZaut2
+	8JLqPaBTxv9zl/jjqLIJS35uZaZ0m2z2Jje5t2H8IdJ7uboKuWpG7kKbIoXKts51+HWpYoRRwE1pe
+	FDbKXBa9tK2fawVBrJNjCMClws2MR0UMzwAN/aSglPo7JBvfYMOSWh8nX34QXURjOLDz9Z4h4ZsuA
+	HwTgBMUCA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFK7W-0006fL-J9; Mon, 07 Sep 2020 16:35:54 +0000
+	id 1kFK7x-0006q2-9a; Mon, 07 Sep 2020 16:36:21 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFK5o-0005nx-F2
- for linux-nvme@lists.infradead.org; Mon, 07 Sep 2020 16:34:14 +0000
+ id 1kFK5o-0005nv-Em
+ for linux-nvme@lists.infradead.org; Mon, 07 Sep 2020 16:34:16 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1ADA721974;
- Mon,  7 Sep 2020 16:34:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5100521789;
+ Mon,  7 Sep 2020 16:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599496445;
- bh=jeOg/tDfVDnb1MejOcNsq1POFj6bdB/SRk7/p9m+VMM=;
+ s=default; t=1599496447;
+ bh=RhaPA3pQ7SyixbQGjlkGEpmSUuwz4jFNd4JEmU/aJ1w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n1X0dhQ2ATo1kCTMlpXxjVxHpRUZGFch2SBi2brsx5XxJrMrhHjyB1F2bXkXV7A32
- 0xED0jxADJJNZaHU59ZfQcB/hqjZe6+lTAFowG2pLsQFFoe2N67wbHDFUvdUxm1Ryf
- vugBllUYZcLpukqwCyN5M8otm9mSdt8PT8hafpkw=
+ b=SE4TbfSA189fiwdKL7wdadn22xtIyjz79v9C1UO80FaV9RTF+EnQ+49ZBDOXZcZKV
+ p5R0BNAOgnh8rWLgX8AmLtC7iYbaJQdrbjjnhiWu8vQjjCtllBwkL1hFt36vOB0ScL
+ Iy9oduxd0pNOZJzfCZcyTk52Uj9vCee/6/JcZK1Q=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 28/43] nvme-rdma: fix reset hang if controller
- died in the middle of a reset
-Date: Mon,  7 Sep 2020 12:33:14 -0400
-Message-Id: <20200907163329.1280888-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 29/43] nvme-pci: cancel nvme device request before
+ disabling
+Date: Mon,  7 Sep 2020 12:33:15 -0400
+Message-Id: <20200907163329.1280888-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200907163329.1280888-1-sashal@kernel.org>
 References: <20200907163329.1280888-1-sashal@kernel.org>
@@ -66,8 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200907_123408_586957_D8CF1D9D 
-X-CRM114-Status: GOOD (  17.18  )
+X-CRM114-CacheID: sfid-20200907_123408_670147_63D4A044 
+X-CRM114-Status: GOOD (  17.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,64 +79,146 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Tong Zhang <ztong0001@gmail.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Sagi Grimberg <sagi@grimberg.me>
+From: Tong Zhang <ztong0001@gmail.com>
 
-[ Upstream commit 2362acb6785611eda795bfc12e1ea6b202ecf62c ]
+[ Upstream commit 7ad92f656bddff4cf8f641e0e3b1acd4eb9644cb ]
 
-If the controller becomes unresponsive in the middle of a reset, we
-will hang because we are waiting for the freeze to complete, but that
-cannot happen since we have commands that are inflight holding the
-q_usage_counter, and we can't blindly fail requests that times out.
+This patch addresses an irq free warning and null pointer dereference
+error problem when nvme devices got timeout error during initialization.
+This problem happens when nvme_timeout() function is called while
+nvme_reset_work() is still in execution. This patch fixed the problem by
+setting flag of the problematic request to NVME_REQ_CANCELLED before
+calling nvme_dev_disable() to make sure __nvme_submit_sync_cmd() returns
+an error code and let nvme_submit_sync_cmd() fail gracefully.
+The following is console output.
 
-So give a timeout and if we cannot wait for queue freeze before
-unfreezing, fail and have the error handling take care how to
-proceed (either schedule a reconnect of remove the controller).
+[   62.472097] nvme nvme0: I/O 13 QID 0 timeout, disable controller
+[   62.488796] nvme nvme0: could not set timestamp (881)
+[   62.494888] ------------[ cut here ]------------
+[   62.495142] Trying to free already-free IRQ 11
+[   62.495366] WARNING: CPU: 0 PID: 7 at kernel/irq/manage.c:1751 free_irq+0x1f7/0x370
+[   62.495742] Modules linked in:
+[   62.495902] CPU: 0 PID: 7 Comm: kworker/u4:0 Not tainted 5.8.0+ #8
+[   62.496206] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-48-gd9c812dda519-p4
+[   62.496772] Workqueue: nvme-reset-wq nvme_reset_work
+[   62.497019] RIP: 0010:free_irq+0x1f7/0x370
+[   62.497223] Code: e8 ce 49 11 00 48 83 c4 08 4c 89 e0 5b 5d 41 5c 41 5d 41 5e 41 5f c3 44 89 f6 48 c70
+[   62.498133] RSP: 0000:ffffa96800043d40 EFLAGS: 00010086
+[   62.498391] RAX: 0000000000000000 RBX: ffff9b87fc458400 RCX: 0000000000000000
+[   62.498741] RDX: 0000000000000001 RSI: 0000000000000096 RDI: ffffffff9693d72c
+[   62.499091] RBP: ffff9b87fd4c8f60 R08: ffffa96800043bfd R09: 0000000000000163
+[   62.499440] R10: ffffa96800043bf8 R11: ffffa96800043bfd R12: ffff9b87fd4c8e00
+[   62.499790] R13: ffff9b87fd4c8ea4 R14: 000000000000000b R15: ffff9b87fd76b000
+[   62.500140] FS:  0000000000000000(0000) GS:ffff9b87fdc00000(0000) knlGS:0000000000000000
+[   62.500534] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   62.500816] CR2: 0000000000000000 CR3: 000000003aa0a000 CR4: 00000000000006f0
+[   62.501165] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   62.501515] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   62.501864] Call Trace:
+[   62.501993]  pci_free_irq+0x13/0x20
+[   62.502167]  nvme_reset_work+0x5d0/0x12a0
+[   62.502369]  ? update_load_avg+0x59/0x580
+[   62.502569]  ? ttwu_queue_wakelist+0xa8/0xc0
+[   62.502780]  ? try_to_wake_up+0x1a2/0x450
+[   62.502979]  process_one_work+0x1d2/0x390
+[   62.503179]  worker_thread+0x45/0x3b0
+[   62.503361]  ? process_one_work+0x390/0x390
+[   62.503568]  kthread+0xf9/0x130
+[   62.503726]  ? kthread_park+0x80/0x80
+[   62.503911]  ret_from_fork+0x22/0x30
+[   62.504090] ---[ end trace de9ed4a70f8d71e2 ]---
+[  123.912275] nvme nvme0: I/O 12 QID 0 timeout, disable controller
+[  123.914670] nvme nvme0: 1/0/0 default/read/poll queues
+[  123.916310] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[  123.917469] #PF: supervisor write access in kernel mode
+[  123.917725] #PF: error_code(0x0002) - not-present page
+[  123.917976] PGD 0 P4D 0
+[  123.918109] Oops: 0002 [#1] SMP PTI
+[  123.918283] CPU: 0 PID: 7 Comm: kworker/u4:0 Tainted: G        W         5.8.0+ #8
+[  123.918650] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-48-gd9c812dda519-p4
+[  123.919219] Workqueue: nvme-reset-wq nvme_reset_work
+[  123.919469] RIP: 0010:__blk_mq_alloc_map_and_request+0x21/0x80
+[  123.919757] Code: 66 0f 1f 84 00 00 00 00 00 41 55 41 54 55 48 63 ee 53 48 8b 47 68 89 ee 48 89 fb 8b4
+[  123.920657] RSP: 0000:ffffa96800043d40 EFLAGS: 00010286
+[  123.920912] RAX: ffff9b87fc4fee40 RBX: ffff9b87fc8cb008 RCX: 0000000000000000
+[  123.921258] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff9b87fc618000
+[  123.921602] RBP: 0000000000000000 R08: ffff9b87fdc2c4a0 R09: ffff9b87fc616000
+[  123.921949] R10: 0000000000000000 R11: ffff9b87fffd1500 R12: 0000000000000000
+[  123.922295] R13: 0000000000000000 R14: ffff9b87fc8cb200 R15: ffff9b87fc8cb000
+[  123.922641] FS:  0000000000000000(0000) GS:ffff9b87fdc00000(0000) knlGS:0000000000000000
+[  123.923032] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  123.923312] CR2: 0000000000000000 CR3: 000000003aa0a000 CR4: 00000000000006f0
+[  123.923660] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  123.924007] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  123.924353] Call Trace:
+[  123.924479]  blk_mq_alloc_tag_set+0x137/0x2a0
+[  123.924694]  nvme_reset_work+0xed6/0x12a0
+[  123.924898]  process_one_work+0x1d2/0x390
+[  123.925099]  worker_thread+0x45/0x3b0
+[  123.925280]  ? process_one_work+0x390/0x390
+[  123.925486]  kthread+0xf9/0x130
+[  123.925642]  ? kthread_park+0x80/0x80
+[  123.925825]  ret_from_fork+0x22/0x30
+[  123.926004] Modules linked in:
+[  123.926158] CR2: 0000000000000000
+[  123.926322] ---[ end trace de9ed4a70f8d71e3 ]---
+[  123.926549] RIP: 0010:__blk_mq_alloc_map_and_request+0x21/0x80
+[  123.926832] Code: 66 0f 1f 84 00 00 00 00 00 41 55 41 54 55 48 63 ee 53 48 8b 47 68 89 ee 48 89 fb 8b4
+[  123.927734] RSP: 0000:ffffa96800043d40 EFLAGS: 00010286
+[  123.927989] RAX: ffff9b87fc4fee40 RBX: ffff9b87fc8cb008 RCX: 0000000000000000
+[  123.928336] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff9b87fc618000
+[  123.928679] RBP: 0000000000000000 R08: ffff9b87fdc2c4a0 R09: ffff9b87fc616000
+[  123.929025] R10: 0000000000000000 R11: ffff9b87fffd1500 R12: 0000000000000000
+[  123.929370] R13: 0000000000000000 R14: ffff9b87fc8cb200 R15: ffff9b87fc8cb000
+[  123.929715] FS:  0000000000000000(0000) GS:ffff9b87fdc00000(0000) knlGS:0000000000000000
+[  123.930106] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  123.930384] CR2: 0000000000000000 CR3: 000000003aa0a000 CR4: 00000000000006f0
+[  123.930731] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  123.931077] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Co-developed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/rdma.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 4e73da2c45bb6..f0847f2bb117b 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -899,7 +899,15 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 100da11ce98cb..a91433bdf5de4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1274,8 +1274,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		dev_warn_ratelimited(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, disable controller\n",
+ 			 req->tag, nvmeq->qid);
+-		nvme_dev_disable(dev, true);
+ 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
++		nvme_dev_disable(dev, true);
+ 		return BLK_EH_DONE;
+ 	case NVME_CTRL_RESETTING:
+ 		return BLK_EH_RESET_TIMER;
+@@ -1292,10 +1292,10 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		dev_warn(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, reset controller\n",
+ 			 req->tag, nvmeq->qid);
++		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 		nvme_dev_disable(dev, false);
+ 		nvme_reset_ctrl(&dev->ctrl);
  
- 	if (!new) {
- 		nvme_start_queues(&ctrl->ctrl);
--		nvme_wait_freeze(&ctrl->ctrl);
-+		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
-+			/*
-+			 * If we timed out waiting for freeze we are likely to
-+			 * be stuck.  Fail the controller initialization just
-+			 * to be safe.
-+			 */
-+			ret = -ENODEV;
-+			goto out_wait_freeze_timed_out;
-+		}
- 		blk_mq_update_nr_hw_queues(ctrl->ctrl.tagset,
- 			ctrl->ctrl.queue_count - 1);
- 		nvme_unfreeze(&ctrl->ctrl);
-@@ -907,6 +915,9 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+-		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 		return BLK_EH_DONE;
+ 	}
  
- 	return 0;
- 
-+out_wait_freeze_timed_out:
-+	nvme_stop_queues(&ctrl->ctrl);
-+	nvme_rdma_stop_io_queues(ctrl);
- out_cleanup_connect_q:
- 	if (new)
- 		blk_cleanup_queue(ctrl->ctrl.connect_q);
 -- 
 2.25.1
 
