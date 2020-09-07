@@ -2,87 +2,130 @@ Return-Path: <SRS0=Qo8g=CQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F84C43461
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Sep 2020 07:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2615BC433E2
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Sep 2020 07:02:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2163206B8
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Sep 2020 07:00:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0DB15206B8
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Sep 2020 07:02:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EJwKb3g+";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIqLl1xY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E2163206B8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qAfPRSlZ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="I+h/3I2V"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0DB15206B8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Date:Message-ID:
+	From:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vqsXY6XZKNTqvLKEHGsREdewD9E8ksz5PW8zl2/9pZU=; b=EJwKb3g+FIQ0Bhp/PHVcWWJUb
-	e1s0FMCEfJ34INIj/GDtHzape1PsY1WtfClDho3mXwO9wrsNLaLU9+x1evaYMdnl6d9MAph/dKYUX
-	0fDWRrpxLMGOtDoAT1mqWvREmXFST++h8vj4kTUBiPVNfsNjIS3gvr2czc0m2IDX20attwjTwmQrq
-	L/wGh+Ab4mUXw+HgK1ZvvrXctcbhA/fzbjrwkRbiQByxU90/HBntCw0InMJPp3O5KEuod/R6n1JBC
-	9vVDgEkr1BRu0d7WW18YnGzlult5S5gaU2bTL8ICPpCoOJENCS14oz/lbmotIEW1cdq7iUP8fIqUO
-	j9vjuhofA==;
+	 bh=okt6Z4q9Ik36PDS6l5hDXA8BRqn62yR3qBYtfN5SAME=; b=qAfPRSlZ69joZ0O+zhUSOkm8Q
+	3Rx//m5y4ymL3C+51olP8ce81TZ43GQL2cQuwvZ0x6q3bN+TIZXFCZGm7PLLk2QLQ0+oS6ycED+yR
+	7AQqxAJSvExholBTnh4PI/nNgi0hxC8SznLbMRtje4vt4AGwaUUUoqOXj4w8cB62kR2IAo0ZG/wf5
+	Q4lPn3Ad0mGjJdbU/6foETQs7zUc/4W8d5g5+WyGiuvYJCT/IQKIdREXH3Q0YoQZVPDth/S8JZuGo
+	f0oz01fduq8CsxMqm7k+xzox0r6gTZH6BBIeel5VUv4lVLqlCofVs7T4VjTCdAC8+SFI0vNHrMj/7
+	sxC/LY9vg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFB92-0008UD-3B; Mon, 07 Sep 2020 07:00:52 +0000
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442])
+	id 1kFBAn-0000Ag-35; Mon, 07 Sep 2020 07:02:41 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFB8y-0008T8-Cy
- for linux-nvme@lists.infradead.org; Mon, 07 Sep 2020 07:00:49 +0000
-Received: by mail-wr1-x442.google.com with SMTP id x14so14509579wrl.12
- for <linux-nvme@lists.infradead.org>; Mon, 07 Sep 2020 00:00:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WfzwDVfM8m0y+mb0RhkT5Io2eJbPcmHQd46uG9l5ymc=;
- b=jIqLl1xYfSJFF24MfCtCOPcw1Zktgt7on1X6gtmoly7bN7q0WH3vPIWbzo1gYlc3TG
- h49zsU1P9OvWDB0WORgAmLvjT+A8grODmY7fng5sidgI6oZjfMZjcovuvTp7ZgWSxlcY
- iGLAgsW88qSY7NkLeJjT/tTeMoJ/FWarHimJtJdHt8hS3PAflJUUEyt2Z7hROT6p32Dg
- Wgqztyqch8o9nbNahzGH1+bZVPvSR56Bg453CM/ieyvjefjuXKza41hfZvykphZtntYP
- VCdGiQi8Aw21uBWwvwp2B5vBd2BM2k7IbYp3wsc8Ao0ROfU2HvInsD8vYg+FEApOi2Pp
- 7sfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WfzwDVfM8m0y+mb0RhkT5Io2eJbPcmHQd46uG9l5ymc=;
- b=DWB75TRpcES5XF5IeVXM8rMG6sw1T7C9GLAe6VzFBoNXGOXp50oHI2Mi0G4vFTnQp5
- e2fOWzTEXH65Sc3F/fd1w8ckx2F/By+TvrDmE1mctKW5it7P0yDW5Lx8Xd4Z3/cQ49pP
- ZgBrcEdznTZVvH+Jso9J/dA415rAWYlIUGEj4LA8N83Na1OX5IJFjl/DuWxVQZVyI6ZQ
- jP1EuGScLDyNRyHM1wKCLINFCqGScA6eNB/IDXsd4PP8Um5e7EnCs+5Xrb/uc5Oxjwi1
- 6k9LkpVVHWjoTWgxG10VwrAc8qsCPbIBY4lyKFS/lc7g4biOPvoIDUYQb6DidopaamiE
- o5xw==
-X-Gm-Message-State: AOAM531OzHWwfSOJvmeCzwl9dJMMxvWkuTPTBcchB72usmXYji83vi3l
- muYm+gUhZikeauB6FKW2Rm/yzhpqnusCWC951zxAcfaMLZdDKrfC
-X-Google-Smtp-Source: ABdhPJx1ZNF3nhnMlM4DIcwBkG1PgVcpMOjaywDCO4pSbDC9BfY5i+FrqUblHpVBsisrnfyAH4HAdCSwWzgWeUaX0iY=
-X-Received: by 2002:a5d:574c:: with SMTP id q12mr19832219wrw.253.1599462044348; 
- Mon, 07 Sep 2020 00:00:44 -0700 (PDT)
+ id 1kFBAk-00009x-Bw
+ for linux-nvme@lists.infradead.org; Mon, 07 Sep 2020 07:02:39 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200907070236euoutp02bab4ab57b0d93d98f29ad7e1c3165de8~ybltQtBgr3246732467euoutp02s
+ for <linux-nvme@lists.infradead.org>; Mon,  7 Sep 2020 07:02:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200907070236euoutp02bab4ab57b0d93d98f29ad7e1c3165de8~ybltQtBgr3246732467euoutp02s
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1599462156;
+ bh=ZxtWY66LgnHBrNYge2f9PDhTZ3Wz5P0yo+LHPKSot+Q=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=I+h/3I2VjIcxlVZDH/lNlOOjvMOZclTLJ/2t/GoftpsGxg9jk53gZdIy7AEvehtPh
+ W8gtcUN9X/CZqLNWGwHS/yqyTr6bfdI2FE3fery7EjL+uqjNJOnrTpzDb0lu2EC3DE
+ fd2OpcYiVOeJ0iCTvHb5u/KsiZBPrL0CBZMD8Avk=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200907070236eucas1p29628d0052b264a54f3844c09e8df4730~ybltI412B0068800688eucas1p2Z;
+ Mon,  7 Sep 2020 07:02:36 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 9B.D3.06456.B0BD55F5; Mon,  7
+ Sep 2020 08:02:35 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200907070235eucas1p22f87f67c713f5b6adcb494a54c5e75d4~yblst14op2412324123eucas1p2F;
+ Mon,  7 Sep 2020 07:02:35 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200907070235eusmtrp1feae73e9984626b93ea2470d306c898e~yblstILju0412504125eusmtrp1u;
+ Mon,  7 Sep 2020 07:02:35 +0000 (GMT)
+X-AuditID: cbfec7f2-809ff70000001938-c8-5f55db0b287d
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 12.46.06017.B0BD55F5; Mon,  7
+ Sep 2020 08:02:35 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200907070235eusmtip1a5111a2a4d5e325b24b610d4fe22cfd2~yblsNoKBC0360403604eusmtip1F;
+ Mon,  7 Sep 2020 07:02:34 +0000 (GMT)
+Subject: Re: [PATCH] dma-direct: zero out DMA_ATTR_NO_KERNEL_MAPPING buf
+To: James Bottomley <James.Bottomley@HansenPartnership.com>, Hillf Danton
+ <hdanton@sina.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <1eb4a2b0-2fd4-9f3c-e610-c8f856027181@samsung.com>
+Date: Mon, 7 Sep 2020 09:02:34 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200818052936.10995-1-joshi.k@samsung.com>
- <CGME20200818053252epcas5p4ee61d64bba5f6a131105e40330984f5e@epcas5p4.samsung.com>
- <20200818052936.10995-2-joshi.k@samsung.com> <20200818071141.GA2544@lst.de>
- <CA+1E3rJg0QOX4YgwWJf8Sm=6C-un4TsRX00E31fbFFPT9LYhXg@mail.gmail.com>
- <CY4PR04MB375148979AA403CF47EADE0BE75D0@CY4PR04MB3751.namprd04.prod.outlook.com>
- <CA+1E3r+C2KQENu=fO_+FZoUEvqZrAQcxziwSGt=FVidv85KQxA@mail.gmail.com>
- <CY4PR04MB3751B077D152A80B19236C20E75D0@CY4PR04MB3751.namprd04.prod.outlook.com>
-In-Reply-To: <CY4PR04MB3751B077D152A80B19236C20E75D0@CY4PR04MB3751.namprd04.prod.outlook.com>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Mon, 7 Sep 2020 12:30:19 +0530
-Message-ID: <CA+1E3r+0+jThD2KEu-d4rB=C4xL3Bb+cD=jUDbsGGBKR_GMpfQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] nvme: set io-scheduler requirement for ZNS
-To: Damien Le Moal <Damien.LeMoal@wdc.com>
+In-Reply-To: <1599321042.11726.6.camel@HansenPartnership.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCKsWRmVeSWpSXmKPExsWy7djPc7rct0PjDZ6sN7NYufook8WBn89Z
+ LDb2c1ic6c616Nj1lcXi8q45bBbzlz1lt/j9Yw6bA4fH7IaLLB7TJp1i89i8Qstj85J6j903
+ G9g8Jr1w9/i8SS6APYrLJiU1J7MstUjfLoErY98VzoKvEhWNsx4zNTC2iHQxcnJICJhIdM1u
+ Y+ti5OIQEljBKHH8/3UmkISQwBdGiRVNghCJz4wSHxf+Ze5i5ADr+NnDDhFfzigx7+pOVgjn
+ PaPEokUzWUC6hQU8JBbtWQBmiwjESVw9PxlsBbPASUaJi5v+MIMk2AQMJbredrGB2LwCdhKf
+ ZrWxgtgsAioSp7tXMoLYokDNx049YoGoEZQ4OfMJmM0pYCux9e0EdhCbWUBeYvvbOcwQtrjE
+ rSfzmUCWSQjsY5f4+eIpG8SjLhKX2m9B2cISr45vYYewZSROT+5hgWhoZpR4eG4tO4TTwyhx
+ uWkGI0SVtcSdc7/YQAHALKApsX6XPkTYUeL+93tMkHDhk7jxVhDiCD6JSdumQ4OLV6KjTQii
+ Wk1i1vF1cGsPXrjEPIFRaRaS12YheWcWkndmIexdwMiyilE8tbQ4Nz212DAvtVyvODG3uDQv
+ XS85P3cTIzAtnf53/NMOxq+Xkg4xCnAwKvHwvhAPjRdiTSwrrsw9xCjBwawkwut09nScEG9K
+ YmVValF+fFFpTmrxIUZpDhYlcV7jRS9jhQTSE0tSs1NTC1KLYLJMHJxSDYyMlYqff9rJd3Nu
+ t0jJWzS5h8Hlg/SpkBdW9z7W/9fQX/zCTFGO60xjr3LawglmPz9paDNWXwjd/ZL9sv3M44s2
+ TUucOe+MywKthxcOWCY/3uEbMm0x+/Pc2Ev/j2+15z13ojY86j33YmNunS9G5x5xHli/cSX7
+ o6VdzpuDFvPzKS7/8+1vuE6vEktxRqKhFnNRcSIAF/iMU0cDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRmVeSWpSXmKPExsVy+t/xu7rct0PjDY68kLFYufook8WBn89Z
+ LDb2c1ic6c616Nj1lcXi8q45bBbzlz1lt/j9Yw6bA4fH7IaLLB7TJp1i89i8Qstj85J6j903
+ G9g8Jr1w9/i8SS6APUrPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1
+ J7MstUjfLkEvY98VzoKvEhWNsx4zNTC2iHQxcnBICJhI/Oxh72Lk4hASWMooseTJdLYuRk6g
+ uIzEyWkNrBC2sMSfa11sEEVvGSXezO0GKxIW8JBYtGcBC4gtIhAnceXYAyYQm1ngJKPEom1R
+ EA3PGSWmLZzDDpJgEzCU6HrbBdbMK2An8WlWG9gGFgEVidPdKxlBbFGgQWd6XkDVCEqcnPkE
+ bAGngK3E1rcT2CEWmEnM2/yQGcKWl9j+dg6ULS5x68l8pgmMQrOQtM9C0jILScssJC0LGFlW
+ MYqklhbnpucWG+kVJ+YWl+al6yXn525iBMbhtmM/t+xg7HoXfIhRgINRiYf3hXhovBBrYllx
+ Ze4hRgkOZiURXqezp+OEeFMSK6tSi/Lji0pzUosPMZoCPTeRWUo0OR+YIvJK4g1NDc0tLA3N
+ jc2NzSyUxHk7BA7GCAmkJ5akZqemFqQWwfQxcXBKNTDm2638/Zc7706cmv6d9swCgZMTTsja
+ NT88E8174e73AGlns4Uyn59eebRipWfhnFtsDRNvh89Q3O1/7/uu3a/7ruiziKgYSRzKjn1y
+ +7VtfvbNmm/FZ/wb8xud5nw+8saNq9HsmqqXwWSrK1tnnT5urCny/RKz700zqwuK16YGn1/S
+ xsj5+qyTEktxRqKhFnNRcSIAItHzPtkCAAA=
+X-CMS-MailID: 20200907070235eucas1p22f87f67c713f5b6adcb494a54c5e75d4
+X-Msg-Generator: CA
+X-RootMTR: 20200905155056eucas1p2d4a2249f73506a765fce2d2f7089748d
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200905155056eucas1p2d4a2249f73506a765fce2d2f7089748d
+References: <20200904152550.17964-1-hdanton@sina.com>
+ <20200905073528.9464-1-hdanton@sina.com>
+ <CGME20200905155056eucas1p2d4a2249f73506a765fce2d2f7089748d@eucas1p2.samsung.com>
+ <1599321042.11726.6.camel@HansenPartnership.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200907_030048_459115_E2EE00DE 
-X-CRM114-Status: GOOD (  34.16  )
+X-CRM114-CacheID: sfid-20200907_030238_572819_DE4EAE35 
+X-CRM114-Status: GOOD (  25.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,107 +137,92 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Selvakumar S <selvakuma.s1@samsung.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>, Kanchan Joshi <joshi.k@samsung.com>,
- Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Nitesh Shetty <nj.shetty@samsung.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>, Christoph Hellwig <hch@lst.de>
+Cc: linux-arch@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+ linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+ linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 19, 2020 at 4:47 PM Damien Le Moal <Damien.LeMoal@wdc.com> wrote:
->
-> On 2020/08/19 19:32, Kanchan Joshi wrote:
-> > On Wed, Aug 19, 2020 at 3:08 PM Damien Le Moal <Damien.LeMoal@wdc.com> wrote:
-> >>
-> >> On 2020/08/19 18:27, Kanchan Joshi wrote:
-> >>> On Tue, Aug 18, 2020 at 12:46 PM Christoph Hellwig <hch@lst.de> wrote:
-> >>>>
-> >>>> On Tue, Aug 18, 2020 at 10:59:35AM +0530, Kanchan Joshi wrote:
-> >>>>> Set elevator feature ELEVATOR_F_ZBD_SEQ_WRITE required for ZNS.
-> >>>>
-> >>>> No, it is not.
-> >>>
-> >>> Are you saying MQ-Deadline (write-lock) is not needed for writes on ZNS?
-> >>> I see that null-block zoned and SCSI-ZBC both set this requirement. I
-> >>> wonder how it became different for NVMe.
-> >>
-> >> It is not required for an NVMe ZNS drive that has zone append native support.
-> >> zonefs and upcoming btrfs do not use regular writes, removing the requirement
-> >> for zone write locking.
-> >
-> > I understand that if a particular user (zonefs, btrfs etc) is not
-> > sending regular-write and sending append instead, write-lock is not
-> > required.
-> > But if that particular user or some other user (say F2FS) sends
-> > regular write(s), write-lock is needed.
->
-> And that can be trivially enabled by setting the drive elevator to mq-deadline.
->
-> > Above block-layer, both the opcodes REQ_OP_WRITE and
-> > REQ_OP_ZONE_APPEND are available to be used by users. And I thought
-> > write-lock is taken or not is a per-opcode thing and not per-user (FS,
-> > MD/DM, user-space etc.), is not that correct? And MQ-deadline can
-> > cater to both the opcodes, while other schedulers cannot serve
-> > REQ_OP_WRITE well for zoned-device.
->
-> mq-deadline ignores zone append commands. No zone lock is taken for these. In
-> scsi, the emulation takes the zone lock before transforming the zone append into
-> a regular write. That locking is consistent with the mq-scheduler level locking
-> since the same lock bitmap is used. So if the user only issues zone append
-> writes, mq-deadline is not needed and there is no reasons to force its use by
-> setting ELEVATOR_F_ZBD_SEQ_WRITE. E.g. the user may want to use kyber...
+Hi James,
 
-Right, got your point.
+On 05.09.2020 17:50, James Bottomley wrote:
+> [resend with correct linux-arch address]
+> On Sat, 2020-09-05 at 15:35 +0800, Hillf Danton wrote:
+>> On Fri, 04 Sep 2020 08:34:39 -0700 James Bottomley wrote:
+>>> On Fri, 2020-09-04 at 23:25 +0800, Hillf Danton wrote:
+>>>> The DMA buffer allocated is always cleared in DMA core and this
+>>>> is making DMA_ATTR_NO_KERNEL_MAPPING non-special.
+>>>>
+>>>> Fixes: d98849aff879 ("dma-direct: handle
+>>>> DMA_ATTR_NO_KERNEL_MAPPING
+>>>> in common code")
+>>>> Cc: Kees Cook <keescook@chromium.org>
+>>>> Cc: Matthew Wilcox <willy@infradead.org>
+>>>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>>>> Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
+>>>> Signed-off-by: Hillf Danton <hdanton@sina.com>
+>>>> ---
+>>>>
+>>>> --- a/kernel/dma/direct.c
+>>>> +++ b/kernel/dma/direct.c
+>>>> @@ -178,9 +178,17 @@ void *dma_direct_alloc_pages(struct devi
+>>>>   
+>>>>   	if ((attrs & DMA_ATTR_NO_KERNEL_MAPPING) &&
+>>>>   	    !force_dma_unencrypted(dev)) {
+>>>> +		int i;
+>>>> +
+>>>>   		/* remove any dirty cache lines on the kernel
+>>>> alias
+>>>> */
+>>>>   		if (!PageHighMem(page))
+>>>>   			arch_dma_prep_coherent(page, size);
+>>>> +
+>>>> +		for (i = 0; i < size/PAGE_SIZE; i++) {
+>>>> +			ret = kmap_atomic(page + i);
+>>>> +			memset(ret, 0, PAGE_SIZE);
+>>>> +			kunmap_atomic(ret);
+>> Hi James
+>>> This is massively expensive on PARISC and likely other VIPT/VIVT
+>>> architectures.
+>> Correct.
+>>
+>>> What's the reason for clearing it?  This could also be
+>> 	/* we always manually zero the memory once we are done: */
+>> 	gfp &= ~__GFP_ZERO;
+>> 	gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
+>> 					   &phys_limit);
+> That's not a reason ... that comment was put in for coherent mappings.
+> What is the reason we should incur all this expense for clearing pages
+> which aren't unmapped in the kernel, because we can update the comment?
+>   The usual rationale for kernel mapped pages is security, because they
+> may leak information but unmapped pages shouldn't have this problem.
 
-> >> In the context of your patch series, ELEVATOR_F_ZBD_SEQ_WRITE should be set only
-> >> and only if the drive does not have native zone append support.
-> >
-> > Sure I can keep it that way, once I get it right. If it is really not
-> > required for native-append drive, it should not be here at the place
-> > where I added.
-> >
-> >> And even in that
-> >> case, since for an emulated zone append the zone write lock is taken and
-> >> released by the emulation driver itself, ELEVATOR_F_ZBD_SEQ_WRITE is required
-> >> only if the user will also be issuing regular writes at high QD. And that is
-> >> trivially controllable by the user by simply setting the drive elevator to
-> >> mq-deadline. Conclusion: setting ELEVATOR_F_ZBD_SEQ_WRITE is not needed.
-> >
-> > Are we saying applications should switch schedulers based on the write
-> > QD  (use any-scheduler for QD1 and mq-deadline for QD-N).
-> > Even if it does that, it does not know what other applications would
-> > be doing. That seems hard-to-get-right and possible only in a
-> > tightly-controlled environment.
->
-> Even for SMR, the user is free to set the elevator to none, which disables zone
-> write locking. Issuing writes correctly then becomes the responsibility of the
-> application. This can be useful for settings that for instance use NCQ I/O
-> priorities, which give better results when "none" is used.
+Any dma_alloc_attrs() buffer might be mmaped to userspace, so the 
+security reason is still valid. Possible lack if kernel mapping was only 
+a hint that driver doesn't need it, so it might be skipped on some 
+architectures, where creating it requires significant resources (i.e. 
+vmalloc area).
 
-Was it not a problem that even if the application is sending writes
-correctly, scheduler may not preserve the order.
-And even when none is being used, re-queue can happen which may lead
-to different ordering.
+>>> really inefficient even on PIPT architectures if the memory is
+>>> device remote.
+>>>
+>>> If we really have to do this, it should likely be done in the arch
+>>> or driver hooks because there are potentially more efficient ways
+>>> we can do this knowing how the architecture behaves.
+>> I'm open to any vintage ideas in your mind wrt clearing dma buf e.g
+>> on platforms like PARISC. Or feel free to offload me the work if it
+>> makes sense to you who are rich of PARISC knowledge.
+> OK, I've cc'd linux-arch because this is a problem for more than just
+> parisc.  However, not having to do it is the best solution ... sort of
+> the doctor, doctor it hurts when I do this answer.
 
-> As far as I know, zoned drives are always used in tightly controlled
-> environments. Problems like "does not know what other applications would be
-> doing" are non-existent. Setting up the drive correctly for the use case at hand
-> is a sysadmin/server setup problem, based on *the* application (singular)
-> requirements.
-
-Fine.
-But what about the null-block-zone which sets MQ-deadline but does not
-actually use write-lock to avoid race among multiple appends on a
-zone.
-Does that deserve a fix?
-
+Best regards
 -- 
-Kanchan
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
 
 _______________________________________________
 Linux-nvme mailing list
