@@ -2,107 +2,61 @@ Return-Path: <SRS0=ETB4=CR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF90C433E2
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D83C43461
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:50:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 942AD215A4
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:46:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8F3A6215A4
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:50:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mRZo3yfF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 942AD215A4
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LQQqGWZW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F3A6215A4
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4FiJoA7xWxDhGkR8yEl/5rpJVwUiFqd9eRiPztvLzGE=; b=mRZo3yfFQlxZ5gOryvTVCb2uD
-	Ok451LhEM57Zdgwcl2l0nwvzeh4IENbYQM7nO9AylOgoW1ut8RcfjrOcv1EzodZoYgIAl+NaHkjPX
-	vvhggeNbU2JgzqcHPScpe4EgtdXdIvKGh4SVd7flDTkVx0v6mliTgvpGTWMqJqtyZOMsGq7p/KBgO
-	OFql6ZggYOVjYGXVkCyfkWEBdQ5lN0m2o109MCVg5ce/wP+2BjRyfaR6s2nJ9aidNbpxCAf8zhH8F
-	7MerMI8viQtzqFhuEHZFCBhnsJVWOCwhXz8GHoBnynCdr9qDxNTNmcf+g4UHtU1NW/oM7QLagCb69
-	jBcug3Ycg==;
+	 bh=XemOx85sTeohGxZELSpC4IFaZl2du0d0LWy8M7twxjc=; b=LQQqGWZWF+qzx2LQfentVqwdc
+	O2n0T7071OhfKZdVCnpYYfKkLgZU3LYhambXPXn9JTAIc3bDMHJ+b8/LntZGx7S7L6AfaOgeAwDBj
+	xLQL4l4HwVi2jW+X9eD7ULzPI/jbM+btmZB+4hqszOn2HwXkt/yTjwWIEfrOWMKUqogeFUffV7aVP
+	tbbSip7fdn1LCh8NfU79v8lvjhd5bGrR5piwF3KHBc2J9/eQSte1w7DfvTmGGrZTIdvBz+VLs2mnd
+	GICeXCG7oOEgjVK3OGXO/oFXjyROOOEAU9B7PjCkAsiLxSv3ui0yU8peN5bSS6eeL5duMpMvYYm+J
+	azFfH6wFQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFZGk-0000aq-MV; Tue, 08 Sep 2020 08:46:26 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1kFZKH-0001Ja-7M; Tue, 08 Sep 2020 08:50:05 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFZGi-0000aK-L6
- for linux-nvme@lists.infradead.org; Tue, 08 Sep 2020 08:46:25 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 571B1ACA3;
- Tue,  8 Sep 2020 08:46:24 +0000 (UTC)
-Subject: Re: [PATCH V3 4/4] nvme: use blk_mq_[un]quiesce_tagset
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-References: <20200908081538.1434936-1-ming.lei@redhat.com>
- <20200908081538.1434936-5-ming.lei@redhat.com>
-From: Hannes Reinecke <hare@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
- 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
- azzYF4VRJsdl+d0MCaSy8mUh
-Message-ID: <785e8bc6-99c7-b65b-df89-a41057a11241@suse.de>
-Date: Tue, 8 Sep 2020 10:46:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ id 1kFZKD-0001Ht-9F
+ for linux-nvme@lists.infradead.org; Tue, 08 Sep 2020 08:50:02 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 60C2268AFE; Tue,  8 Sep 2020 10:49:58 +0200 (CEST)
+Date: Tue, 8 Sep 2020 10:49:58 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH 1/3] nvme: decouple nvme_ctrl_get_by_path()
+Message-ID: <20200908084958.GA17413@lst.de>
+References: <20200904023929.5320-1-chaitanya.kulkarni@wdc.com>
+ <20200904023929.5320-2-chaitanya.kulkarni@wdc.com>
+ <16dc2193-9830-6184-e7f6-ceaca5f0aaf0@deltatee.com>
+ <20200905072018.GA13403@lst.de>
+ <BYAPR04MB4965438594B46644D7A35AC3862A0@BYAPR04MB4965.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20200908081538.1434936-5-ming.lei@redhat.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <BYAPR04MB4965438594B46644D7A35AC3862A0@BYAPR04MB4965.namprd04.prod.outlook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200908_044624_908838_039175D3 
-X-CRM114-Status: GOOD (  19.91  )
+X-CRM114-CacheID: sfid-20200908_045001_452833_E09F5A17 
+X-CRM114-Status: GOOD (  18.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,34 +68,43 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
- Bart Van Assche <bvanassche@acm.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOS84LzIwIDEwOjE1IEFNLCBNaW5nIExlaSB3cm90ZToKPiBGcm9tOiBTYWdpIEdyaW1iZXJn
-IDxzYWdpQGdyaW1iZXJnLm1lPgo+IAo+IEFsbCBjb250cm9sbGVyIG5hbWVzcGFjZXMgc2hhcmUg
-dGhlIHNhbWUgdGFnc2V0LCBzbyB3ZQo+IGNhbiB1c2UgdGhpcyBpbnRlcmZhY2Ugd2hpY2ggZG9l
-cyB0aGUgb3B0aW1hbCBvcGVyYXRpb24KPiBmb3IgcGFyYWxsZWwgcXVpZXNjZSBiYXNlZCBvbiB0
-aGUgdGFnc2V0IHR5cGUgKGUuZy4KPiBibG9ja2luZyB0YWdzZXRzIGFuZCBub24tYmxvY2tpbmcg
-dGFnc2V0cykuCj4gCj4gQ2M6IFNhZ2kgR3JpbWJlcmcgPHNhZ2lAZ3JpbWJlcmcubWU+Cj4gQ2M6
-IEJhcnQgVmFuIEFzc2NoZSA8YnZhbmFzc2NoZUBhY20ub3JnPgo+IENjOiBKb2hhbm5lcyBUaHVt
-c2hpcm4gPEpvaGFubmVzLlRodW1zaGlybkB3ZGMuY29tPgo+IENjOiBDaGFvIExlbmcgPGxlbmdj
-aGFvQGh1YXdlaS5jb20+Cj4gCj4gQWRkIGNvZGUgdG8gdW5xdWllc2NlIGN0cmwtPmNvbm5lY3Rf
-cSBpbiBudm1lX3N0b3BfcXVldWVzKCksIG1lYW50aW1lCj4gYXZvaWQgdG8gY2FsbCBibGtfbXFf
-cXVpZXNjZV90YWdzZXQoKS9ibGtfbXFfdW5xdWllc2NlX3RhZ3NldCgpIGlmCj4gdGhpcyB0YWdz
-ZXQgaXNuJ3QgaW5pdGlhbGl6ZWQuCj4gU2lnbmVkLW9mZi1ieTogTWluZyBMZWkgPG1pbmcubGVp
-QHJlZGhhdC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogU2FnaSBHcmltYmVyZyA8c2FnaUBncmltYmVy
-Zy5tZT4KPiAtLS0KPiAgZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIHwgMTkgKysrKysrKysrLS0t
-LS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlvbnMo
-LSkKPiAKUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJz
-LAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlCQkgICAgICAgICAgIEtlcm5lbCBTdG9y
-YWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUJCQkgICAgICAgICAgICAgICAgICArNDkgOTExIDc0
-MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgsIE1heGZlbGRzdHIu
-IDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdGOiBGZWxpeCBJ
-bWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9y
-ZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+On Sat, Sep 05, 2020 at 10:57:42PM +0000, Chaitanya Kulkarni wrote:
+> On 9/5/20 00:20, Christoph Hellwig wrote:
+> >> I still don't really like this idea. No need to keep a reference to a
+> >> whole other file.
+> 
+> File reference open/close is coupled with ctrl refcnt and module refcnt.
+> What is a problem with keeping the file reference open ?
+> 
+> > We could still lift the filp_open into the caller, but drop the file
+> > reference right after we got the controller reference.
+> > 
+> 
+> The file open call gets the ctrl and module reference atomically and on
+> close release the module and ctrl reference respectively.
+> 
+> If dropping the file reference means closing the file then it will lead
+> to loosing the module and ctrl reference.
+
+Not if you grab an extra reference before closing it.
+
+> That also means, moving the references get/put out of
+> nvme_dev_open()/nvme_dev_release() in host-core, it will fix the problem
+> only for the passthru case. Having done it in the core takes care of the
+> all the cases if any.
+
+I don't see why that is an either/or instead of doing both.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
