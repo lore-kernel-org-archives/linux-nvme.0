@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D778AC43461
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F31DBC43461
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:57:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 891142166E
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:54:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AD7D42166E
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:57:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DGvFU2KZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 891142166E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0zTKGovD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD7D42166E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,36 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2l3FGz0lOE+pJ0sEsZYlpBvv+Fp0YP2PZtx5YcIcOW0=; b=DGvFU2KZoKKGs5cfLtHQ9evNn
-	NPjKR39qvREtNUTVcLapezaZ2+blURKvonPOm3XbVa75LAsC7Zoejmm4dhQ/f8RKR731N1Mt9Pv0N
-	YI8U92QGcHBSgm+XlVgmkCqg8ZIUwYWSNeSOAij+5lESbYVWXLb81KWIQELIDc3CEX9x/XzQa1zXU
-	1SW+nmG8GEOm1JNQXpyXHbxzE/82WtiIASw/y/juBG4a21brHklFzDmYMWfci6XjC86g5W3kcj7ah
-	3GUpv3c+6Y+SpL+e8wngWnfafPWRVsBu36oDy6J+TVGcGNvg8SugUNWUpoASUIsmKDbqho6r2Z/Og
-	3SHUuEShA==;
+	 bh=sp7kFCdFuR2/h2+sTV8p9YS9rgF/dePtdmlagrFEx6c=; b=0zTKGovDCdUwde8lxkTgWvSrb
+	rdcsvXR3iN6smtRigYTTijuIxoqSQzKABNEe795a9NYiBiqrORe5l4djUvnU18TdBJm19Wr/XqL6Y
+	6QvloEXv6LSPItGDNWLXy9FhIWRXp6jVyoITDTlDxzmbyulY1rjsIdBh1thPE3VLjCbVagbRU+ACS
+	PUqvd4EIJft7I6CQu6fZ26RwnxcwKPNFGnk8ZZJwpqU9HPkIkiaRRuUKlw9A7ti86l2r5cV+r9Kb5
+	6ROSCHSHyqu+bKScQcF+aP4PChlyr4qO8wemyvQLS/ovL0Z2EM3QsnxsQDaM5KZGZFTbptCL3E3QF
+	TlOu/3Bag==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFZOp-0002fA-81; Tue, 08 Sep 2020 08:54:47 +0000
+	id 1kFZRd-0003Wu-4r; Tue, 08 Sep 2020 08:57:41 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFZOm-0002eO-Em
- for linux-nvme@lists.infradead.org; Tue, 08 Sep 2020 08:54:45 +0000
+ id 1kFZRY-0003VA-Ug
+ for linux-nvme@lists.infradead.org; Tue, 08 Sep 2020 08:57:37 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id ECC9168AFE; Tue,  8 Sep 2020 10:54:42 +0200 (CEST)
-Date: Tue, 8 Sep 2020 10:54:42 +0200
+ id A77A168AFE; Tue,  8 Sep 2020 10:57:34 +0200 (CEST)
+Date: Tue, 8 Sep 2020 10:57:34 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH 3/3] nvme-core: fix nvme module ref count Oops
-Message-ID: <20200908085442.GD17413@lst.de>
-References: <20200904023929.5320-1-chaitanya.kulkarni@wdc.com>
- <20200904023929.5320-4-chaitanya.kulkarni@wdc.com>
- <8c075e3a-d461-7d58-7c02-5ce81cfff6b9@deltatee.com>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH V2 01/12] nvme-core: annotate nvme_alloc_request()
+Message-ID: <20200908085734.GA17982@lst.de>
+References: <20200831222707.35611-1-chaitanya.kulkarni@wdc.com>
+ <20200831222707.35611-2-chaitanya.kulkarni@wdc.com>
+ <20200903161729.GA25423@lst.de>
+ <BYAPR04MB49658D024946E9510B9C71FD862C0@BYAPR04MB4965.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8c075e3a-d461-7d58-7c02-5ce81cfff6b9@deltatee.com>
+In-Reply-To: <BYAPR04MB49658D024946E9510B9C71FD862C0@BYAPR04MB4965.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200908_045444_703423_26025CFA 
-X-CRM114-Status: GOOD (  10.17  )
+X-CRM114-CacheID: sfid-20200908_045737_122824_6E6AC5CE 
+X-CRM114-Status: GOOD (  17.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,20 +67,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, hch@lst.de
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
+ "logang@deltatee.com" <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 04, 2020 at 09:57:02AM -0600, Logan Gunthorpe wrote:
-> I'd probably just fold these changes into the previous patch. When we
-> get a reference to the controller we must also get a reference to the
-> transport module. So no sense getting the different references in
-> different patches.
+On Thu, Sep 03, 2020 at 07:40:14PM +0000, Chaitanya Kulkarni wrote:
+> On 9/3/20 09:17, Christoph Hellwig wrote:
+> > Before we start micro-optimzing this stuff I suspect we might want
+> > to just split the submit_cmd handlers so that we have a fast path
+> > and the rest.  We've grown a few too many arguments by now..
+> > 
+> 
+> Are you referring to any of this :-
+> 
+> 1. Split nvmet_passthru_execute_cmd() into
+>     nvmet_passthru_execute_io_cmd() and
+>     nvmet_passthru_execute_admin_cmd() handler just like as bdev-ns and
+>     file-ns. (I don't think so that is what you mean).
+> 
+> OR
+> 
+> 2. Split the nvme_alloc_request() into nvme_alloc_request_qid_any() and
+>     nvme_alloc_request_qid() then call nvme_alloc_request_qid_any() from
+>     passthru fast path ? (or variation of the same).
+> 
+> OR
+> 
+> Can you please elaborate how you like to have a split ?
 
-Yes, that sounds sensible.
+I'm not really sure yet, I just noticed that we created a convoluted
+mess.  I'll see what I can do.
 
 _______________________________________________
 Linux-nvme mailing list
