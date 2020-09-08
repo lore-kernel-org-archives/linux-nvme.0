@@ -2,82 +2,140 @@ Return-Path: <SRS0=ETB4=CR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F6BDC43461
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 09:27:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 999C0C433E2
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 11:31:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 092AC21D20
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 09:27:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 09D4920936
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 11:31:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yybr9i2Q";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BIJ8mZFp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 092AC21D20
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zmAoQRIi";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="nKod6YBH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="K375qOZk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09D4920936
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CVr99UolxvhWQk+zvHShjGfKHq9Smxd9Ob3KO7blKf8=; b=yybr9i2Q8276J3r8CdpDFjPDl
-	wikARKl3lRdIBSrF2zzJ0Q0iBA+GVdHTYi4ZsQPQFgCWo1Vv7WcTj9ixz+Fa8eyrfOcxcBziS9LrF
-	5QXhxRJ9NFY8rAMkcrJn9mpEJF4g+uZ6UsxJlSkMKReqRy99lr+ppvmAHM0O1ZpwrE4rdBAZ2gkY7
-	8PuZIC4sMGIqttzXhbBCFQAYc2XgFh/c7MZEynTmv4xv6jehvRwAwMsdFHnghsQeg6Fsbb9U5qbgA
-	oxIU3LzKf7mMG+1PUQ2Rxj3UQVfFJJ2m8ODq29l3UOYMUxXzZ6jFpdJ0GhPiSdSztqKOMh98P1xZg
-	ViGdOwJtg==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=uKJwAlTrgqHKA1XA5pfyqRCJyEaUkfePYpxQ9kt58+s=; b=zmAoQRIiP+y5/EopfYZmd33tv
+	IvW+6dwf8dFtQHc0e8B6oHAf58P+6u7CnihlmwZRhPUNzNdBKJjT8xWQY/PxwqqFpP45bxHb2/XRp
+	mB5KMjQ6xCesh5VkBGKBjMlf5Jp1tdI238cmYvr4XM1pj73HpIvjrRQ6wufSNFSMpLmSSJLN8w47Q
+	U9TaYvfxWrNv3Plt9mmy2V6S6+45vs2E5UfGcGULUyD+8zo1MUbjYwu2MUHcToCQIFGKzph157ULG
+	WLKOHSRk0KayrG4CJ9rjHmmQH8/8F08hPUNjmD0/SwcC7K6kwgPl28DaZ4hI/PPfyesaJXwIOTPdc
+	ox/cdm/Xg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFZup-00008A-Ct; Tue, 08 Sep 2020 09:27:51 +0000
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
- helo=us-smtp-1.mimecast.com)
+	id 1kFbqb-0003zw-Hi; Tue, 08 Sep 2020 11:31:37 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFZul-00007W-R8
- for linux-nvme@lists.infradead.org; Tue, 08 Sep 2020 09:27:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599557266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g5ft5xTYHFgq+z8DisEseZUWT/cJ+6NfUyGwEQdJBtc=;
- b=BIJ8mZFpTE8GmfnDksJfkWAm4wcUyMC9+qfNd7iIOECyAQbRU2IFEjyXFXMMv3qABd44qm
- rDZa8RSt1hBsCe6iv6mTMBAv8ET7xFCA5Ni2Sl3MPZG7srW/+ZPp0LYh7Q3JN173ufydrQ
- z1HpdmB2xHItnfskrWTwxA2UUHH0AF4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-oHFY9PPGPNCCJhtG_cIHOQ-1; Tue, 08 Sep 2020 05:27:45 -0400
-X-MC-Unique: oHFY9PPGPNCCJhtG_cIHOQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71CE210054FF;
- Tue,  8 Sep 2020 09:27:43 +0000 (UTC)
-Received: from T590 (ovpn-12-217.pek2.redhat.com [10.72.12.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 117CA5D9E2;
- Tue,  8 Sep 2020 09:27:34 +0000 (UTC)
-Date: Tue, 8 Sep 2020 17:27:23 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Chao Leng <lengchao@huawei.com>
-Subject: Re: [PATCH V3 2/4] blk-mq: implement queue quiesce via percpu_ref
- for BLK_MQ_F_BLOCKING
-Message-ID: <20200908092723.GA1094743@T590>
+ id 1kFbqY-0003yq-IK
+ for linux-nvme@lists.infradead.org; Tue, 08 Sep 2020 11:31:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1599564694; x=1631100694;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=KZG/NuTelMriNRCqCes2IB90su2FrgrXyTjZrBRfP3Y=;
+ b=nKod6YBHNv8V3f4Ib4yU17eGxntTeKphx3DiZsqQ2dFUS2i6R7dtH844
+ xJNn37EaJsb5rJeVehAxJ4qno7Tax5U3jew1BzU2gvVzh15U0l3T27T9k
+ 6GVhjJ7UVvkitp0SzGCm9mgz2P1MsJNebB0JxdSUkCH/IZVXMCVvEdeaU
+ Xdk8YyDtox1RrwYjT0GHjSfNOD1QQVTNuduUmkmbXXLCqAPQ4++XjhRZN
+ M2pPGORq2dUoOT96rLmGaG2WaYBL/bXf8P4aFrL8/9MPg7EVg8J+cfvLv
+ 3Hxf95yubzRStymq4wdDAbIy3O46Cv6+8zSJedTrhbWc//ELbu/poMH2m Q==;
+IronPort-SDR: KtpqL0bsZV/25F2/bI0OVMHvTgkyGqj5X7aimNdrBkFZZMIdQ9eIoY08MYTGTaXnSyZIud9iEL
+ YZewnfhU41FhHBO8HUh7FDIQq4TxiDHAOqOIy2hQk2CtPWpyEnGbN9Qgj32+dvzs+GarywdgBj
+ ZCf8qPOKkpe+aBe8KNStYrOh0+UgJDBhp9S/XdJ556pAhkV1r3eEZ7bOS6O6SS5LqGH8ML5kF2
+ b4ReUiDCW4fLvnkKwfeqHq03x32m9H8nFICOoH1Gi/L1EdqbN/1/fG5dKyRTb5dqonxWcbg3yO
+ nQM=
+X-IronPort-AV: E=Sophos;i="5.76,405,1592841600"; d="scan'208";a="146741364"
+Received: from mail-bn8nam11lp2172.outbound.protection.outlook.com (HELO
+ NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.172])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Sep 2020 19:31:29 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fj5etH2+HSWx5HQ4oBMY7elYbEOiPylqWuSI0MZcR49s6JBAwnko3IxTLC+7/vax3z/5WGJvtQnOd3T2Yhkt3h+oDKXkxP5d6wKZwI7U8npsP2e5+/I/TopVl6ot42hou5H/gom2ds//AGrblZNsPUIJj3dPAVTsrq1b2mpfHMS7/L4Eka4wU54Yf3ZzO1tNa94//RtkB2YbkPD0io5Jp+Tst51Hysz/XiRio04ykDBIUOc2jiwqcEtvPKsv1t7wOxauu8JDN4uiiLFy//ZzyOCK8nHMEdY1BoNXaJRVVH3ca9S+K1t5inzHX2v/O6hMhSoUP0XyzlNUQAuwV9mzNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KZG/NuTelMriNRCqCes2IB90su2FrgrXyTjZrBRfP3Y=;
+ b=aLCotMbEqZch4ht+D9JtGe4yqFGiSQtSVv+EebtvuHyleXj/M4IGzZvH1ncnFsrsOPdM3McukkVGPcD6We7oVM3GYoP3/STazno06LHSPnPBO+ZMqV9KQicSi4eY/zuycCekeYSaFm7eTjPoft1lz5dIpPP7eVKPl8tgY2U62ANqkCKnf0Lc4teDxzS/JdFP8z/bMRr1DL34Oo68ggYaZO50aoPOBT0i1OtdePlSn3chS47Aqb6STyztV5PyXqc/vBkXyxsecYuTt+nUyXZqXWOlyP5njDnv5swN+EnfNKEnFqkK4jsqxEa1BE3XpgnOmZTLJoy4699LOovruoEmeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KZG/NuTelMriNRCqCes2IB90su2FrgrXyTjZrBRfP3Y=;
+ b=K375qOZkcO6PPZumoV2S6OXi1sCv8T62bz1tE71Xno9YEQu9yuoe0n9+Au0GiF0A9BHRVBqqlMlXT4eGhq1024Ujogn/NZUKzUHRUfedO51n2JP1WoEoj3qDfgtqLqnL7s8AS5gPPO0YBKTT8urqxseLX1O87TN75oFnpCgfd0c=
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ (2603:10b6:803:47::21) by SN6PR04MB4462.namprd04.prod.outlook.com
+ (2603:10b6:805:ab::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.17; Tue, 8 Sep
+ 2020 11:31:28 +0000
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::457e:5fe9:2ae3:e738]) by SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::457e:5fe9:2ae3:e738%7]) with mapi id 15.20.3348.019; Tue, 8 Sep 2020
+ 11:31:27 +0000
+From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Christoph
+ Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V3 1/4] blk-mq: serialize queue quiesce and unquiesce by
+ mutex
+Thread-Topic: [PATCH V3 1/4] blk-mq: serialize queue quiesce and unquiesce by
+ mutex
+Thread-Index: AQHWhbhN6y5xdbwP+E+IyHoHo5kJrw==
+Date: Tue, 8 Sep 2020 11:31:27 +0000
+Message-ID: <SN4PR0401MB3598BEE7FCB019E3157338749B290@SN4PR0401MB3598.namprd04.prod.outlook.com>
 References: <20200908081538.1434936-1-ming.lei@redhat.com>
- <20200908081538.1434936-3-ming.lei@redhat.com>
- <6aa24c1e-d127-27fc-9ca7-3299e026aa0a@huawei.com>
+ <20200908081538.1434936-2-ming.lei@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [62.216.205.181]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: d9a17753-beb3-4fc2-4735-08d853eab9e4
+x-ms-traffictypediagnostic: SN6PR04MB4462:
+x-microsoft-antispam-prvs: <SN6PR04MB4462EB943DCFAA782EC0C8A19B290@SN6PR04MB4462.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:400;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VUtnWtyCEr0CuJPKIXSmp6NMGUrwmkE905Hgh6jhRx0tTBHVfL3OM6bpwXgASoLeVNKMwSLFdPhG/4cOhGaxIca4/5Jcdpa2Tu/T+2Boa6y3XrNZDksIlYqoZ7mQE4j/pTA2DV4+LK0eUJAotjQ+QnlDpLJi+rf/RZrFOvr1aHZmAA4q55SOZKAfcg4IOVfsU+0Mspmp96CJIOPN6aQguIY8MHIdtBOPNzxCijFSmu9/yGzaZA/dNXmZTifTInHsKOK8qP29SVq1pIEfk40rrX4p/jZ2vyOq9dBE/NGprdRMdVfQeEqVTx893B7rXhEorrGIXRqhOSrkWLYXx15vJA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0401MB3598.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(39860400002)(376002)(136003)(346002)(66556008)(52536014)(66946007)(64756008)(91956017)(66446008)(66476007)(8676002)(2906002)(71200400001)(86362001)(186003)(76116006)(55016002)(54906003)(558084003)(8936002)(7696005)(33656002)(110136005)(9686003)(26005)(4326008)(5660300002)(6506007)(478600001)(316002)(53546011);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: 8UIrj+cVLaRNbnaU1fKx6PI1YG8glVq05TBMypo1IHvC8rUO79Mqooo94vueqhKTIZOU/o1Ju3NXJBEcukQM7RIWbnOJIcODGCeL5SkIB1GcaTF+gFNc6CVUZjFOktUJJueiVDJz/80itipBZl8Yw9E9F0jCIqXmZ6pOtVm0rCewdEdYe71ZmJKUKr/LUGbIR5h5ChT/2T2OUK5+GSrnfKgjSF7t1G6MJ/fS7bcbFJny6R4kh0dnA+RCHfkp+tks+yOxM9qqNHcq6Ktg5HfjkwJtfTOUhT0MLtfiG9TDsrk8qTFEK5jHJD0uP5annVTiwMN3zgFEleDK/UGbHdEvp7Vlo++ffwlf9X4cnuSLB8BVLL1fI4nTtkgCUaYkoXh0jQCqTq3aSYtPfibXxe0xo9HqpcTAuI+jIDNK6b/QrK0gatRaNrLKKXWvfaaKnLp49RQRlu8YHkZnkXfwqQnsYkYCAK9BmXFNe1YF2Gu3qdvMiLyAfso/hlG/mwobjBhJiUi9n2k9UJ2SHcfeazj7QftEL6+tsQk61G8kRsuGM1K+BkeXRxyRsoiq5U/QPj7D/FAq3NbaTj75zF9BLOZtlVyWHORAy+tQssbdoJEn34Dc1xahvwQejKtGRkPks5CONq2gajnXtWROrDIfu702MA==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6aa24c1e-d127-27fc-9ca7-3299e026aa0a@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3598.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9a17753-beb3-4fc2-4735-08d853eab9e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2020 11:31:27.7574 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1p+sfMNFcvKfExawYM3WCC0EaJ4vxSJIi1A1n15biR5Tb0jVVkslsQoMNYKVwAFZwJOTjMUf/VCvNlLw72SqLaIDBMewEBwN68ewoqosWGw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB4462
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200908_052747_950205_9DD83C68 
-X-CRM114-Status: GOOD (  35.96  )
+X-CRM114-CacheID: sfid-20200908_073134_922644_8644CA52 
+X-CRM114-Status: GOOD (  11.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,247 +147,22 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
  Bart Van Assche <bvanassche@acm.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 08, 2020 at 05:13:22PM +0800, Chao Leng wrote:
-> 
-> 
-> On 2020/9/8 16:15, Ming Lei wrote:
-> > In case of BLK_MQ_F_BLOCKING, blk-mq uses SRCU to mark read critical
-> > section during dispatching request, then request queue quiesce is based on
-> > SRCU. What we want to get is low cost added in fast path.
-> > 
-> > With percpu-ref, it is cleaner and simpler & enough for implementing queue
-> > quiesce. The main requirement is to make sure all read sections to observe
-> > QUEUE_FLAG_QUIESCED once blk_mq_quiesce_queue() returns.
-> > 
-> > Also it becomes much easier to add interface of async queue quiesce.
-> > 
-> > Meantime memory footprint can be reduced with per-request-queue percpu-ref.
-> > 
-> > > From implementation viewpoint, in fast path, not see percpu_ref is
-> > slower than SRCU, and srcu tree(default option in most distributions)
-> > could be slower since memory barrier is required in both lock & unlock,
-> > and rcu_read_lock()/rcu_read_unlock() should be much cheap than
-> > smp_mb().
-> > 
-> > 1) percpu_ref just hold the rcu_read_lock, then run a check &
-> >     increase/decrease on the percpu variable:
-> > 
-> >     rcu_read_lock()
-> >     if (__ref_is_percpu(ref, &percpu_count))
-> > 	this_cpu_inc(*percpu_count);
-> >     rcu_read_unlock()
-> > 
-> > 2) srcu tree:
-> >          idx = READ_ONCE(ssp->srcu_idx) & 0x1;
-> >          this_cpu_inc(ssp->sda->srcu_lock_count[idx]);
-> >          smp_mb(); /* B */  /* Avoid leaking the critical section. */
-> > 
-> > Also from my test on null_blk(blocking), not observe percpu-ref performs
-> > worse than srcu, see the following test:
-> > 
-> > 1) test steps:
-> > 
-> > rmmod null_blk > /dev/null 2>&1
-> > modprobe null_blk nr_devices=1 submit_queues=1 blocking=1
-> > fio --bs=4k --size=512G  --rw=randread --norandommap --direct=1 --ioengine=libaio \
-> > 	--iodepth=64 --runtime=60 --group_reporting=1  --name=nullb0 \
-> > 	--filename=/dev/nullb0 --numjobs=32
-> > 
-> > test machine: HP DL380, 16 cpu cores, 2 threads per core, dual
-> > sockets/numa, Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz
-> > 
-> > 2) test result:
-> > - srcu quiesce: 6063K IOPS
-> > - percpu-ref quiesce: 6113K IOPS
-> > 
-> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> > Cc: Sagi Grimberg <sagi@grimberg.me>
-> > Cc: Bart Van Assche <bvanassche@acm.org>
-> > Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-> > Cc: Chao Leng <lengchao@huawei.com>
-> > ---
-> >   block/blk-mq-sysfs.c   |   2 -
-> >   block/blk-mq.c         | 130 +++++++++++++++++++++--------------------
-> >   block/blk-sysfs.c      |   6 +-
-> >   include/linux/blk-mq.h |   8 ---
-> >   include/linux/blkdev.h |   4 ++
-> >   5 files changed, 77 insertions(+), 73 deletions(-)
-> > 
-> > diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
-> > index 062229395a50..799db7937105 100644
-> > --- a/block/blk-mq-sysfs.c
-> > +++ b/block/blk-mq-sysfs.c
-> > @@ -38,8 +38,6 @@ static void blk_mq_hw_sysfs_release(struct kobject *kobj)
-> >   	cancel_delayed_work_sync(&hctx->run_work);
-> > -	if (hctx->flags & BLK_MQ_F_BLOCKING)
-> > -		cleanup_srcu_struct(hctx->srcu);
-> >   	blk_free_flush_queue(hctx->fq);
-> >   	sbitmap_free(&hctx->ctx_map);
-> >   	free_cpumask_var(hctx->cpumask);
-> > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > index 13cc10b89629..60630a720449 100644
-> > --- a/block/blk-mq.c
-> > +++ b/block/blk-mq.c
-> > @@ -220,26 +220,22 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
-> >    */
-> >   void blk_mq_quiesce_queue(struct request_queue *q)
-> >   {
-> > -	struct blk_mq_hw_ctx *hctx;
-> > -	unsigned int i;
-> > -	bool rcu = false;
-> > +	bool blocking = !!(q->tag_set->flags & BLK_MQ_F_BLOCKING);
-> >   	mutex_lock(&q->mq_quiesce_lock);
-> > -	if (blk_queue_quiesced(q))
-> > -		goto exit;
-> > -
-> > -	blk_mq_quiesce_queue_nowait(q);
-> > -
-> > -	queue_for_each_hw_ctx(q, hctx, i) {
-> > -		if (hctx->flags & BLK_MQ_F_BLOCKING)
-> > -			synchronize_srcu(hctx->srcu);
-> > -		else
-> > -			rcu = true;
-> > +	if (!blk_queue_quiesced(q)) {
-> > +		blk_mq_quiesce_queue_nowait(q);
-> > +		if (blocking)
-> > +			percpu_ref_kill(&q->dispatch_counter);
-> >   	}
-> > -	if (rcu)
-> > +
-> > +	if (blocking)
-> > +		wait_event(q->mq_quiesce_wq,
-> > +			   percpu_ref_is_zero(&q->dispatch_counter));
-> > +	else
-> >   		synchronize_rcu();
-> > - exit:
-> > +
-> >   	mutex_unlock(&q->mq_quiesce_lock);
-> >   }
-> >   EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
-> > @@ -255,7 +251,12 @@ void blk_mq_unquiesce_queue(struct request_queue *q)
-> >   {
-> >   	mutex_lock(&q->mq_quiesce_lock);
-> > -	blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
-> > +	if (blk_queue_quiesced(q)) {
-> > +		blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
-> > +
-> > +		if (q->tag_set->flags & BLK_MQ_F_BLOCKING)
-> > +			percpu_ref_resurrect(&q->dispatch_counter);
-> > +	}
-> >   	/* dispatch requests which are inserted during quiescing */
-> >   	blk_mq_run_hw_queues(q, true);
-> > @@ -710,24 +711,21 @@ void blk_mq_complete_request(struct request *rq)
-> >   }
-> >   EXPORT_SYMBOL(blk_mq_complete_request);
-> > -static void hctx_unlock(struct blk_mq_hw_ctx *hctx, int srcu_idx)
-> > -	__releases(hctx->srcu)
-> > +static void hctx_unlock(struct blk_mq_hw_ctx *hctx)
-> >   {
-> > -	if (!(hctx->flags & BLK_MQ_F_BLOCKING))
-> > -		rcu_read_unlock();
-> > +	if (hctx->flags & BLK_MQ_F_BLOCKING)
-> > +		percpu_ref_put(&hctx->queue->dispatch_counter);
-> >   	else
-> > -		srcu_read_unlock(hctx->srcu, srcu_idx);
-> > +		rcu_read_unlock();
-> >   }
-> > -static void hctx_lock(struct blk_mq_hw_ctx *hctx, int *srcu_idx)
-> > -	__acquires(hctx->srcu)
-> > +/* Returning false means that queue is being quiesced */
-> > +static inline bool hctx_lock(struct blk_mq_hw_ctx *hctx)
-> >   {
-> > -	if (!(hctx->flags & BLK_MQ_F_BLOCKING)) {
-> > -		/* shut up gcc false positive */
-> > -		*srcu_idx = 0;
-> > -		rcu_read_lock();
-> > -	} else
-> > -		*srcu_idx = srcu_read_lock(hctx->srcu);
-> > +	if (hctx->flags & BLK_MQ_F_BLOCKING)
-> > +		return percpu_ref_tryget_live(&hctx->queue->dispatch_counter);
-> > +	rcu_read_lock();
-> > +	return true;
-> >   }
-> >   /**
-> > @@ -1506,8 +1504,6 @@ bool blk_mq_dispatch_rq_list(struct blk_mq_hw_ctx *hctx, struct list_head *list,
-> >    */
-> >   static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
-> >   {
-> > -	int srcu_idx;
-> > -
-> >   	/*
-> >   	 * We should be running this queue from one of the CPUs that
-> >   	 * are mapped to it.
-> > @@ -1541,9 +1537,10 @@ static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
-> >   	might_sleep_if(hctx->flags & BLK_MQ_F_BLOCKING);
-> > -	hctx_lock(hctx, &srcu_idx);
-> > -	blk_mq_sched_dispatch_requests(hctx);
-> > -	hctx_unlock(hctx, srcu_idx);
-> > +	if (hctx_lock(hctx)) {
-> > +		blk_mq_sched_dispatch_requests(hctx);
-> > +		hctx_unlock(hctx);
-> > +	}
-> >   }
-> >   static inline int blk_mq_first_mapped_cpu(struct blk_mq_hw_ctx *hctx)
-> > @@ -1655,7 +1652,6 @@ EXPORT_SYMBOL(blk_mq_delay_run_hw_queue);
-> >    */
-> >   void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async)
-> >   {
-> > -	int srcu_idx;
-> >   	bool need_run;
-> >   	/*
-> > @@ -1666,10 +1662,12 @@ void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async)
-> >   	 * And queue will be rerun in blk_mq_unquiesce_queue() if it is
-> >   	 * quiesced.
-> >   	 */
-> > -	hctx_lock(hctx, &srcu_idx);
-> > +	if (!hctx_lock(hctx))
-> > +		return;
-> > +
-> >   	need_run = !blk_queue_quiesced(hctx->queue) &&
-> >   		blk_mq_hctx_has_pending(hctx);
-> > -	hctx_unlock(hctx, srcu_idx);
-> > +	hctx_unlock(hctx);
-> >   	if (need_run)
-> >   		__blk_mq_delay_run_hw_queue(hctx, async, 0);
-> > @@ -2009,7 +2007,7 @@ static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
-> >   	bool run_queue = true;
-> >   	/*
-> > -	 * RCU or SRCU read lock is needed before checking quiesced flag.
-> > +	 * hctx_lock() is needed before checking quiesced flag.
-> >   	 *
-> >   	 * When queue is stopped or quiesced, ignore 'bypass_insert' from
-> >   	 * blk_mq_request_issue_directly(), and return BLK_STS_OK to caller,
-> > @@ -2057,11 +2055,14 @@ static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
-> >   		struct request *rq, blk_qc_t *cookie)
-> >   {
-> >   	blk_status_t ret;
-> > -	int srcu_idx;
-> >   	might_sleep_if(hctx->flags & BLK_MQ_F_BLOCKING);
-> > -	hctx_lock(hctx, &srcu_idx);
-> > +	/* Insert request to queue in case of being quiesced */
-> > +	if (!hctx_lock(hctx)) {
-> > +		blk_mq_sched_insert_request(rq, false, false, false);
-> Suggest: use blk_mq_request_bypass_insert, the rq should do first.
+On 08/09/2020 10:16, Ming Lei wrote:
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+[...]
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
 
-No, when request is issued directly, it never be queued to LLD, so we
-should insert it to scheduler queue, see commit:
+Double S-o-b
 
-db03f88fae8a ("blk-mq: insert request not through ->queue_rq into sw/scheduler queue")
-
-
-
-Thanks,
-Ming
+Otherwise looks good,
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 
 
 _______________________________________________
