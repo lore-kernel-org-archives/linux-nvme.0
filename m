@@ -2,81 +2,108 @@ Return-Path: <SRS0=ETB4=CR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90135C433E2
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:16:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3BCC43461
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:38:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 48F5821D79
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:16:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F1AAA215A4
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Sep 2020 08:38:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Oi4EtfZ9";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PYdMcQcZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 48F5821D79
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mYUrsY0P"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1AAA215A4
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=giQuaMyyhJ+63I573DxIdqOtqwKJ5ULfDn+uEMEpZdU=; b=Oi4EtfZ9vb2nV+Rkhk9Drzj2d
-	WV72EnopxEtmN9mbb+NAlS3EyrNsE+aH3B6nuWfLUyYB/+TMI0dZWZ+dKNQZd5H0UkU5Yjc204TNW
-	InVkQxMl+PWq95MaW/5oZerSrLg30XA+Fg43cxRRpI0fLY7nJXe8+C1NX/JgZdJeyFSXIFRpHarmh
-	ExcQK30BWG6MVRgvjRJoyI42MKQRV4eGAqi76Vgnn1IU0jgOzBTRvLSOKgpz05RonH9mkC5mTrFdd
-	8hvkp/YHTcMlguM2vQzklFXE5H7v9CXdHDZsh9m8ZP4a8scnJggsVlHRYAVq1FtAv8e9ur2mpo3os
-	42NFrWsuQ==;
+	 bh=POSwI8nnq9wqze9iUoHTQnUIdSvLRn9A1wH3ox0ZA1g=; b=mYUrsY0PvcTofcD5XVsOamMzl
+	FHTDs0JiP/F44v4RLyj/JkjWjm6YjjJIuVZL3FWdWBxmp4UBXimDnoy/XhYE93V64CHr1ZGZOjSrN
+	w4Mhu5ZrEmEekgEsNYciizSvI0GsCuet+UXyNo40klzUWWqY25ui+Eq3zGaOcxIjCfnkWBXXxNonw
+	z0HwmQSAns9fYDWt/jFGmsjfn3cF2aa/ZUGJZ0EDUKAoHWeisEW9djq17aJMG/vuWVR8CB8qwYvi9
+	weTN8D7hABS/Wl2rur86f33wc7AdJobY8PmWhA+beiLtBPcOVi6BjmI7ye7sjaHgmZvM9q2JgXYMA
+	hZN6kMRuw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kFYnn-0002ml-9e; Tue, 08 Sep 2020 08:16:31 +0000
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1kFZ9D-0007dW-0V; Tue, 08 Sep 2020 08:38:39 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kFYnl-0002ll-Oc
- for linux-nvme@lists.infradead.org; Tue, 08 Sep 2020 08:16:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599552989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e007vtPBUFAe9F4MK9+e2ynjymmngZClUgdLXmqpOAk=;
- b=PYdMcQcZSgS+uxlRJXxwgkPwgcvUDlT21u9gDxDQ+y7smJxGxslYNBYanM1aasW6+i19RV
- VlWOTXPCwlQ2LAvswiYsUs76NFIVXfCoPVb4F025qBNWhzkeEOuPQQt6Pa3BHOYEcD5KfI
- ubE/bjFEgWpftcSknU9Hfu2PW7Fwh3Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-2xHk3YeZMhyIJI3VFcUUOA-1; Tue, 08 Sep 2020 04:16:24 -0400
-X-MC-Unique: 2xHk3YeZMhyIJI3VFcUUOA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19288801AE5;
- Tue,  8 Sep 2020 08:16:23 +0000 (UTC)
-Received: from localhost (ovpn-12-217.pek2.redhat.com [10.72.12.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB5855D9D3;
- Tue,  8 Sep 2020 08:16:19 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-Subject: [PATCH V3 4/4] nvme: use blk_mq_[un]quiesce_tagset
-Date: Tue,  8 Sep 2020 16:15:38 +0800
-Message-Id: <20200908081538.1434936-5-ming.lei@redhat.com>
-In-Reply-To: <20200908081538.1434936-1-ming.lei@redhat.com>
+ id 1kFZ99-0007d6-PK
+ for linux-nvme@lists.infradead.org; Tue, 08 Sep 2020 08:38:36 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 394DAAEC2;
+ Tue,  8 Sep 2020 08:38:33 +0000 (UTC)
+Subject: Re: [PATCH V3 1/4] blk-mq: serialize queue quiesce and unquiesce by
+ mutex
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
 References: <20200908081538.1434936-1-ming.lei@redhat.com>
+ <20200908081538.1434936-2-ming.lei@redhat.com>
+From: Hannes Reinecke <hare@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
+ 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
+ azzYF4VRJsdl+d0MCaSy8mUh
+Message-ID: <0eb8208c-9237-897d-1c1d-6c022c31d0ad@suse.de>
+Date: Tue, 8 Sep 2020 10:38:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200908081538.1434936-2-ming.lei@redhat.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200908_041629_881109_41AFB30C 
-X-CRM114-Status: GOOD (  13.76  )
+X-CRM114-CacheID: sfid-20200908_043836_060061_ACA50DBC 
+X-CRM114-Status: GOOD (  20.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,76 +116,37 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
- Ming Lei <ming.lei@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
- Chao Leng <lengchao@huawei.com>, Bart Van Assche <bvanassche@acm.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
+ Bart Van Assche <bvanassche@acm.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Sagi Grimberg <sagi@grimberg.me>
-
-All controller namespaces share the same tagset, so we
-can use this interface which does the optimal operation
-for parallel quiesce based on the tagset type (e.g.
-blocking tagsets and non-blocking tagsets).
-
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Bart Van Assche <bvanassche@acm.org>
-Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc: Chao Leng <lengchao@huawei.com>
-
-Add code to unquiesce ctrl->connect_q in nvme_stop_queues(), meantime
-avoid to call blk_mq_quiesce_tagset()/blk_mq_unquiesce_tagset() if
-this tagset isn't initialized.
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/core.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ea1fa41fbba8..a6af8978a3ba 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4623,23 +4623,22 @@ EXPORT_SYMBOL_GPL(nvme_start_freeze);
- 
- void nvme_stop_queues(struct nvme_ctrl *ctrl)
- {
--	struct nvme_ns *ns;
-+	if (list_empty_careful(&ctrl->namespaces))
-+		return;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
--		blk_mq_quiesce_queue(ns->queue);
--	up_read(&ctrl->namespaces_rwsem);
-+	blk_mq_quiesce_tagset(ctrl->tagset);
-+
-+	if (ctrl->connect_q)
-+		blk_mq_unquiesce_queue(ctrl->connect_q);
- }
- EXPORT_SYMBOL_GPL(nvme_stop_queues);
- 
- void nvme_start_queues(struct nvme_ctrl *ctrl)
- {
--	struct nvme_ns *ns;
-+	if (list_empty_careful(&ctrl->namespaces))
-+		return;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
--		blk_mq_unquiesce_queue(ns->queue);
--	up_read(&ctrl->namespaces_rwsem);
-+	blk_mq_unquiesce_tagset(ctrl->tagset);
- }
- EXPORT_SYMBOL_GPL(nvme_start_queues);
- 
--- 
-2.25.2
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gOS84LzIwIDEwOjE1IEFNLCBNaW5nIExlaSB3cm90ZToKPiBBZGQgLm1xX3F1aWVzY2VfbXV0
+ZXh0IHRvIHJlcXVlc3QgcXVldWUsIHNvIHRoYXQgcXVldWUgcXVpZXNjZSBhbmQKPiB1bnF1aWVz
+Y2UgY2FuIGJlIHNlcmlhbGl6ZWQuIE1lYW50aW1lIHdlIGNhbiBhdm9pZCB1bm5lY2Vzc2FyeQo+
+IHN5bmNocm9uaXplX3JjdSgpIGluIGNhc2UgdGhhdCBxdWV1ZSBoYXMgYmVlbiBxdWllc2NlZCBh
+bHJlYWR5Lgo+IAo+IFByZXBhcmUgZm9yIHJlcGxhY2UgU1JDVSB3aXRoIHBlcmNwdS1yZWZjb3Vu
+dCwgc28gdGhhdCB3ZSBjYW4gYXZvaWQKPiB3YXJuaW5nIGluIHBlcmNwdV9yZWZfa2lsbF9hbmRf
+Y29uZmlybSgpIGluIGNhc2UgdGhhdCBibGtfbXFfcXVpZXNjZV9xdWV1ZSgpCj4gaXMgcnVuIG9u
+IGFscmVhZHktcXVpZXNjZWQgcmVxdWVzdCBxdWV1ZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBNaW5n
+IExlaSA8bWluZy5sZWlAcmVkaGF0LmNvbT4KPiBDYzogU2FnaSBHcmltYmVyZyA8c2FnaUBncmlt
+YmVyZy5tZT4KPiBDYzogQmFydCBWYW4gQXNzY2hlIDxidmFuYXNzY2hlQGFjbS5vcmc+Cj4gQ2M6
+IEpvaGFubmVzIFRodW1zaGlybiA8Sm9oYW5uZXMuVGh1bXNoaXJuQHdkYy5jb20+Cj4gQ2M6IENo
+YW8gTGVuZyA8bGVuZ2NoYW9AaHVhd2VpLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBNaW5nIExlaSA8
+bWluZy5sZWlAcmVkaGF0LmNvbT4KPiAtLS0KPiAgYmxvY2svYmxrLWNvcmUuYyAgICAgICB8ICAy
+ICsrCj4gIGJsb2NrL2Jsay1tcS5jICAgICAgICAgfCAxMSArKysrKysrKysrKwo+ICBpbmNsdWRl
+L2xpbnV4L2Jsa2Rldi5oIHwgIDIgKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCAxNSBpbnNlcnRpb25z
+KCspCj4gSSB3YXMgd29uZGVyaW5nIGlmIHdlIGNvdWxkbid0IG1ha2UgZG8gd2l0aCBhIHNpbXBs
+ZSB0ZXN0X2FuZF9zZXRfYml0KCkKLyB0ZXN0X2FuZF9jbGVhcl9iaXQoKSwgYnV0IHRoYXQgY2Fu
+IGFsc28gYmUgZG9uZSBpbiBhIGxhdGVyIHBhdGNoLApzZWVpbmcgdGhhdCB0aGlzIGlzIGEgd29y
+dGh3aGlsZSBpbXByb3ZlbWVudC4gU286CgpSZXZpZXdlZC1ieTogSGFubmVzIFJlaW5lY2tlIDxo
+YXJlQHN1c2UuZGU+CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UJCSAg
+ICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5kZQkJCSAgICAgICAg
+ICAgICAgICAgICs0OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
+bnkgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8
+cm5iZXJnKSwgR0Y6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZt
+ZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4v
+bGlzdGluZm8vbGludXgtbnZtZQo=
