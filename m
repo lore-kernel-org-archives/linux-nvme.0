@@ -2,22 +2,21 @@ Return-Path: <SRS0=5LEM=CT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DF1C43461
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2020 14:45:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8BB9C43461
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2020 14:55:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8BC31206A2
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2020 14:45:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 732D320809
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2020 14:55:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Cs88yFrg";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMM7zxiP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8BC31206A2
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DUiJVQ1H";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="f8jVqRVY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 732D320809
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,44 +25,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xL74aDApdhjBO5PBqRPtpmO0gGXYT2W1A0vzRNOtX4M=; b=Cs88yFrgwTJspr8c4TJ4hwuAx
-	CIUzlf9XCzvSwqJzn93O8lPKeqmM34TAEI7Yd+GslNpnkqUrhmnPOv/eBuGOj2N9WrEwc/PmB3+vI
-	gAjDIG5fv6pKsyxnvDTEQGcIKob4AzEy/75kCCaDCz0fZ+4GX/eMw7LeQGH8PqG594qn/XizcmdVz
-	Jt8P2FKCB2TQursFXUmEuuvVYqr7c2/+w4ugq9bsMLmJ+t1qK8+1c+sZNpbOVj37W26F0m3PPhPco
-	YDmvzxIg0Erm1UCIkYOGden7Vgha1HxOGoeiPhywh8sma3yiGYIunUkjIUIP2NrJQWS+DoirUzPzv
-	OSFq0PXHA==;
+	 bh=LZ5Nya6QDyRvXXKVuPLDWPDUtjK0Rj/75VFEBhy2DRY=; b=DUiJVQ1HClxX8Vgz8NIei8BeI
+	wO53i0KGQT70EFLlnqadkGMk/uH5YweFl5RsFrBtpvPJRvqZd31qWbacrk/XamP6ZZZb4Fc5G7Ai9
+	MSJD/PD0WakqEcWfIF1jdjlCNfaoxjibl3jXi/z+aLbGDEvyKGrJ2mIzdpu0XPNFVDUXJlPPATOXL
+	OvXHnKZMjzx3NoQNTgGts0uHrtfxEWULCZwsBAoXcEDGQeB+1MNvXlnRcdWXfLkGLDMreT458Mf0a
+	dhLLMwVzKc6NE7YesuF3q5IIlwNZNtB+5rEBSx+T03tsHUvc4mgh4db5+DjZez9Q87KjqpwjjNKva
+	BNTGQ2X1Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kGNpU-0002rq-1D; Thu, 10 Sep 2020 14:45:40 +0000
+	id 1kGNyv-0006LZ-Rx; Thu, 10 Sep 2020 14:55:25 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kGNpR-0002rX-MQ
- for linux-nvme@lists.infradead.org; Thu, 10 Sep 2020 14:45:38 +0000
+ id 1kGNys-0006Jj-A8
+ for linux-nvme@lists.infradead.org; Thu, 10 Sep 2020 14:55:23 +0000
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 27FAE206A2;
- Thu, 10 Sep 2020 14:45:36 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 55D6F207FB;
+ Thu, 10 Sep 2020 14:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599749136;
- bh=3o9KDqTzD4Kj/QGscSM9YIjAc25RT96edx1U07tdhr0=;
+ s=default; t=1599749721;
+ bh=PHydTs//1Z0WBTdqTTnUXRZ2vHkm9CK82ppdHxvRuEo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TMM7zxiP/lXwy8+N1kC26Sk07AUM7asa+Gl/mxc7XbCx3gYj73gHVnYADJzWfuyA6
- phGlvhXSB+hx8CrPvvfLO5fmY9VTjap+PcQLbSTqaPzQLJhDaVCqc0aJYvTU82axOC
- fBPTMs3l2LIe0GNVAjJjirWaZUn5rSGUVwa64hPc=
-Date: Thu, 10 Sep 2020 07:45:34 -0700
+ b=f8jVqRVYdCaqZSptWgC5AD+FsuYiHbFCLi2QJ2FG82xlRMGt5aZlQHtLJtb2wqXRx
+ UDSizF6QenG+Rr50GwG2SxV0CSDrVWOtlFNueV8lIESqmSziXBKP0o18pOGQy58MNd
+ 9fHkrv0FS4BLUqetoSc1kY34QVRluuVgmXeeIz+8=
+Date: Thu, 10 Sep 2020 07:55:18 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] nvme: translate zns errors to blk_status_t
-Message-ID: <20200910144534.GA3446191@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200909203324.3356679-1-kbusch@kernel.org>
- <20200910052643.GA18283@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Subject: Re: [PATCH V4 2/4] blk-mq: implement queue quiesce via percpu_ref
+ for BLK_MQ_F_BLOCKING
+Message-ID: <20200910145518.GB3446191@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200909104116.1674592-1-ming.lei@redhat.com>
+ <20200909104116.1674592-3-ming.lei@redhat.com>
+ <20200909160409.GA3356175@dhcp-10-100-145-180.wdl.wdc.com>
+ <20200910015321.GA7420@T590>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200910052643.GA18283@lst.de>
+In-Reply-To: <20200910015321.GA7420@T590>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200910_104537_796368_3D859EFD 
-X-CRM114-Status: GOOD (  20.39  )
+X-CRM114-CacheID: sfid-20200910_105522_572595_3E019489 
+X-CRM114-Status: GOOD (  28.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +77,87 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
+Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Hannes Reinecke <hare@suse.de>, Chao Leng <lengchao@huawei.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 10, 2020 at 07:26:43AM +0200, Christoph Hellwig wrote:
-> On Wed, Sep 09, 2020 at 01:33:24PM -0700, Keith Busch wrote:
-> > EBUSY is the appropriate errno for commands that complete with zone
-> > resource errors.
+On Thu, Sep 10, 2020 at 09:53:21AM +0800, Ming Lei wrote:
+> On Wed, Sep 09, 2020 at 09:04:09AM -0700, Keith Busch wrote:
+> > On Wed, Sep 09, 2020 at 06:41:14PM +0800, Ming Lei wrote:
+> > >  void blk_mq_quiesce_queue(struct request_queue *q)
+> > >  {
+> > > -	struct blk_mq_hw_ctx *hctx;
+> > > -	unsigned int i;
+> > > -	bool rcu = false;
+> > > +	bool blocking = !!(q->tag_set->flags & BLK_MQ_F_BLOCKING);
+> > > +	bool was_quiesced =__blk_mq_quiesce_queue_nowait(q);
+> > >  
+> > > -	__blk_mq_quiesce_queue_nowait(q);
+> > > +	if (!was_quiesced && blocking)
+> > > +		percpu_ref_kill(&q->dispatch_counter);
+> > >  
+> > > -	queue_for_each_hw_ctx(q, hctx, i) {
+> > > -		if (hctx->flags & BLK_MQ_F_BLOCKING)
+> > > -			synchronize_srcu(hctx->srcu);
+> > > -		else
+> > > -			rcu = true;
+> > > -	}
+> > > -	if (rcu)
+> > > +	if (blocking)
+> > > +		wait_event(q->mq_quiesce_wq,
+> > > +				percpu_ref_is_zero(&q->dispatch_counter));
+> > > +	else
+> > >  		synchronize_rcu();
+> > >  }
 > > 
-> > Signed-off-by: Keith Busch <kbusch@kernel.org>
-> > ---
-> >  drivers/nvme/host/core.c | 3 +++
-> >  1 file changed, 3 insertions(+)
+> > In the previous version, you had ensured no thread can unquiesce a queue
+> > while another is waiting for quiescence. Now that the locking is gone,
+> > a thread could unquiesce the queue before percpu_ref reaches zero, so
+> > the wait_event() may never complete on the resurrected percpu_ref.
 > > 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index ea1fa41fbba8..aff556837115 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -249,6 +249,9 @@ static blk_status_t nvme_error_status(u16 status)
-> >  		return BLK_STS_NEXUS;
-> >  	case NVME_SC_HOST_PATH_ERROR:
-> >  		return BLK_STS_TRANSPORT;
-> > +	case NVME_SC_ZONE_TOO_MANY_ACTIVE:
-> > +	case NVME_SC_ZONE_TOO_MANY_OPEN:
-> > +		return BLK_STS_DEV_RESOURCE;
+> > I don't think any drivers do such a thing today, but it just looks like
+> > the implementation leaves open the possibility.
 > 
-> I'm not sure this is the best idea, we probably need specific error codes
-> if we want file systems to be aware of the limit.
+> This driver can cause bigger trouble if it unquiesces its queue which is
+> being quiesced and still not done.
+> 
+> However, we can avoid that by the following delta change:
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 7669fe815cf9..5632727d71fa 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -225,9 +225,16 @@ static void __blk_mq_quiesce_queue(struct request_queue *q, bool wait)
+>  	if (!wait)
+>  		return;
+>  
+> +	/*
+> +	 * In case of F_BLOCKING, if driver unquiesces its queue which is being
+> +	 * quiesced and still not done, it can cause bigger trouble, and we simply
+> +	 * return & warn once for avoiding hang here.
+> +	 */
+>  	if (blocking)
+>  		wait_event(q->mq_quiesce_wq,
+> -				percpu_ref_is_zero(&q->dispatch_counter));
+> +				percpu_ref_is_zero(&q->dispatch_counter) ||
+> +				WARN_ON_ONCE(!percpu_ref_is_dying(
+> +						&q->dispatch_counter)));
+>  	else
+>  		synchronize_rcu();
+>  }
 
-I was more considering the errno the user sees going direct to the
-device.
+Yeah, I'm okay with this. A warning and return should be good to
+indicate driver sequence errors. So if you just want to fold the above
+into this patch, then I don't think I have any remaining concerns.
+
+The other race condition is if unquiesce resurrects the ref before
+quiesce kills it, and there's already a warning there too.
 
 _______________________________________________
 Linux-nvme mailing list
