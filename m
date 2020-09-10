@@ -2,102 +2,65 @@ Return-Path: <SRS0=5LEM=CT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 927FDC433E2
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2020 08:22:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D002C433E2
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2020 10:01:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1CD0120708
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2020 08:22:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BEFB92075A
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Sep 2020 10:01:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="r7LSlyrq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1CD0120708
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JHyJxshe";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oQlY5YWw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BEFB92075A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:Subject:From:To:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=7bhHHUneFZWsDxOyDO/Nya8oTDh1f2JE9nxIZPR/HPc=; b=r7LSlyrqpvIBYNLMbpkXheqMip
-	Y+Df9onC9BqBma8t14rep8Gsl+HeJwA9mZaa9GxO2yvIcZXeJdlQJ76Y5xxXykDLx0ViyVC2yFE9E
-	DBdQlnqaksbR/A2QVKx0bpYJlVdewL/J8d/DZG3HQIaru5cpJynlIRAkhzl0FNciQATjgxtarboBD
-	PUayYw0vmDkclseUq9rxcH1Dd9Zu0JTwvQ4asHy5c54W1sC5vuTvpo4IJUcvKlsrNbiCemsosZnAj
-	ie8W7TDuIAxKfTzcFk2HNDClUrxT/y51pckNnVM25/46VprIAxdQEAjxEbJZqDivmroYwiem1pndj
-	3ML0RMeQ==;
+	bh=BdPU2uf9iZSaIQUizpRo/dfAZrqLGIF8yTnjeeopf0o=; b=JHyJxsheTbFQ5Ui14JH2PN13YU
+	qqmzbfFzLFT2v8DfbU1B4aYAr3BDDBjkPV84WPx3Nb53cgcHpwcTVHz6JtWxnZ96hx0FneD91iN/g
+	AGL2VimMxVHMBtl6NzQP2loYQQuCtqWauXmNB7G3OjoVOb+yHl2GYPN8QLLJTtGGSKKSUAMkqPEQy
+	V8wkr+WgoHcJrBauYL/vpcGvyv1wTKt//Tj0bBMj6qShe0SYfs0mYdEiaT5xWN9qoyHrTxnGtQD5+
+	qJ0V+z5u/1S7XZNq/rwU8gVRcut/aEdVdWUua+gKhik7+Bfi+TWoS5b0Mho8Lvxa+UzQLQBw0VhlX
+	aGsHNEoQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kGHqI-0002dc-Un; Thu, 10 Sep 2020 08:22:06 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1kGJOf-0006LH-RK; Thu, 10 Sep 2020 10:01:41 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kGHqG-0002cV-9c
- for linux-nvme@lists.infradead.org; Thu, 10 Sep 2020 08:22:05 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 565C8AF3F;
- Thu, 10 Sep 2020 08:22:17 +0000 (UTC)
-To: James Smart <james.smart@broadcom.com>
-From: Hannes Reinecke <hare@suse.de>
-Subject: lpfc: Crash on shutdown with 5.9.0-rc1
-Openpgp: preference=signencrypt
-Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
- 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
- azzYF4VRJsdl+d0MCaSy8mUh
-Message-ID: <2e9bbb49-18a7-fec8-73fb-f43c72bf541a@suse.de>
-Date: Thu, 10 Sep 2020 10:12:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ id 1kGJOc-0006J2-SE
+ for linux-nvme@merlin.infradead.org; Thu, 10 Sep 2020 10:01:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=VDRch+SAmJbg4l/+gjTOYbzNgIltiodZ/qPkyx3K78k=; b=oQlY5YWwZYcqr5GafZpFn0w2aP
+ bvf8uCWy9zB/dgT7Hvo8p3PTY2VZ8SN6OlR8OSEYZmHka9RYotsMPMYnDxecAEkiXTL0oSXsiwUbP
+ 2whDmvW94K0mceMpLdfFUdF1Zga+cfYQdK4vh7YGl+iURSnsCO5llm535hyVuGhy+PWOvLDmm/1MM
+ 0F0Cit5zwBhNzUvv/38onTL9mdjKMdakxGBk6UatxiTCq0bPcyFr7HkwEU4tU5e6zMHzKamB2ZAom
+ zyPaCpUq/asNmRz8mZIrGAjgoPg4vRzXPdAMjywocOel4tjOf1q5GrleeEsuaN6/2s4KchVicBh+g
+ ELAHrlsA==;
+Received: from [2001:4bb8:184:af1:d8d0:3027:a666:4c4e] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kGJOZ-0006mm-4C; Thu, 10 Sep 2020 10:01:35 +0000
+Date: Thu, 10 Sep 2020 12:01:34 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@fb.com>
+Subject: [GIT PULL] nvme fixes for 5.9
+Message-ID: <20200910100134.GA613851@infradead.org>
 MIME-Version: 1.0
-Content-Language: en-US
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200910_042204_561307_BB9B282D 
-X-CRM114-Status: GOOD (  13.57  )
+Content-Disposition: inline
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,101 +72,53 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGkgSmFtZXMsCgpJIGp1c3QgaGl0IHRoaXMgY3Jhc2ggb24gc2h1dGRvd24gd2l0aCBudm1lLTUu
-OToKClsgMzQwNS4yMTg2MzhdIGdlbmVyYWwgcHJvdGVjdGlvbiBmYXVsdCwgcHJvYmFibHkgZm9y
-IG5vbi1jYW5vbmljYWwKYWRkcmVzcyAweDZiNmI2YjZiNmI2Yjg0ZWY6IDAwMDAgWyMxXSBTTVAg
-Tk9QVEkKWyAzNDA1LjIzOTExMF0gQ1BVOiA2IFBJRDogNjgwIENvbW06IGxwZmNfd29ya2VyXzAg
-VGFpbnRlZDogRwogRSAgICAgNS45LjAtcmMxLWRlZmF1bHQrICM2MzIKWyAzNDA1LjI1NzMwMF0g
-SGFyZHdhcmUgbmFtZTogSFBFIFByb0xpYW50IERMMzI1IEdlbjEwL1Byb0xpYW50IERMMzI1Ckdl
-bjEwLCBCSU9TIEE0MSAwMy8wOS8yMDIwClsgMzQwNS4yNzQ0NTFdIFJJUDogMDAxMDpfcmF3X3Nw
-aW5fbG9ja19pcnFzYXZlKzB4MWUvMHg0MApbIDM0MDUuMjg0NzgyXSBDb2RlOiAwMCAwMCAwMCAw
-MCAwMCAwZiAxZiA4MCAwMCAwMCAwMCAwMCAwZiAxZiA0NCAwMCAwMAo1MyA5YyA1OCAwZiAxZiA0
-NCAwMCAwMCA0OCA4OSBjMyBmYSA2NiAwZiAxZiA0NCAwMCAwMCAzMSBjMCBiYSAwMSAwMCAwMAow
-MCA8ZjA+IDBmIGIxIDE3IDc1IDA1IDQ4IDg5IGQ4IDViIGMzIDg5IGM2IGU4IGYwIDIxIDdjIGZm
-IDY2IDkwIDQ4IDg5ClsgMzQwNS4zMjI1NDRdIFJTUDogMDAxODpmZmZmYTZjODA0Mzk3Yzc4IEVG
-TEFHUzogMDAwMTAwNDYKWyAzNDA1LjMzMzA0Nl0gUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDog
-MDAwMDAwMDAwMDAwMDI0NiBSQ1g6CjAwMDAwMDAwNmI2YjZiNmIKWyAzNDA1LjM0NzM4OF0gUkRY
-OiAwMDAwMDAwMDAwMDAwMDAxIFJTSTogMDAwMDAwMDAwMDAwMDEwMCBSREk6CjZiNmI2YjZiNmI2
-Yjg0ZWYKWyAzNDA1LjM2MTczMV0gUkJQOiA2YjZiNmI2YjZiNmI4NGVmIFIwODogMDAwMDAwMDA2
-YjZiNmI2YiBSMDk6CjAwMDAwMDAwNmI2YjZiNmIKWyAzNDA1LjM3NjA3OV0gUjEwOiAwMDAwMDAw
-MDAwMDAwMDAwIFIxMTogZmZmZjkyMGZmNTEwNjNkOSBSMTI6CmZmZmY5MjBmZjUxMDAwMDAKWyAz
-NDA1LjM5MDQyM10gUjEzOiBmZmZmOTIwZmY1MTAwMDAwIFIxNDogMDAwMDAwMDAwMDAwMDAwMCBS
-MTU6CmZmZmY5MjBmYzc1MmVlMDAKWyAzNDA1LjQwNDc2OF0gRlM6ICAwMDAwMDAwMDAwMDAwMDAw
-KDAwMDApIEdTOmZmZmY5MjEwN2VjMDAwMDAoMDAwMCkKa25sR1M6MDAwMDAwMDAwMDAwMDAwMApb
-IDM0MDUuNDIxMDM1XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgw
-MDUwMDMzClsgMzQwNS40MzI1ODJdIENSMjogMDAwMDdmM2EwYTFiZTk2MCBDUjM6IDAwMDAwMDA4
-NTIwZDAwMDAgQ1I0OgowMDAwMDAwMDAwMzUwNmUwClsgMzQwNS40NDY5MjldIENhbGwgVHJhY2U6
-ClsgMzQwNS40NTE4NjRdICBscGZjX25scF9wdXQucGFydC4yMisweDQ3LzB4MjYwIFtscGZjXQpb
-IDM0MDUuNDYxNjg1XSAgbHBmY19jdF9mcmVlX2lvY2IrMHgyMC8weGMwIFtscGZjXQpbIDM0MDUu
-NDcwODA2XSAgbHBmY19jbXBsX2N0X2Rpc2NfZmRtaSsweGIzLzB4M2MwIFtscGZjXQpbIDM0MDUu
-NDgwOTY5XSAgbHBmY19zbGlfY2FuY2VsX2lvY2JzKzB4NzgvMHhjMCBbbHBmY10KWyAzNDA1LjQ5
-MDc5MF0gIGxwZmNfaGJhX2NsZWFuX3R4Y21wbHErMHhlNC8weDFlMCBbbHBmY10KWyAzNDA1LjUw
-MDk1OV0gIGxwZmNfaGJhX2Rvd25fcG9zdF9zNCsweDZlLzB4M2UwIFtscGZjXQpbIDM0MDUuNTEw
-OTQ0XSAgPyBtc2xlZXArMHgyOS8weDQwClsgMzQwNS41MTcyNjZdICBscGZjX3NsaV9icmRyZXN0
-YXJ0X3M0KzB4NjIvMHgxODAgW2xwZmNdClsgMzQwNS41Mjc0MzZdICBscGZjX3NsaTRfcG9ydF9z
-dGFfZm5fcmVzZXQuY29uc3Rwcm9wLjQ5KzB4NWIvMHgxODAgW2xwZmNdClsgMzQwNS41NDA3NTNd
-ICBscGZjX2hhbmRsZV9lcmF0dF9zNCsweDFhYy8weDVjMCBbbHBmY10KWyAzNDA1LjU1MDc0OF0g
-IGxwZmNfZG9fd29yaysweGI3OS8weDE4MDAgW2xwZmNdClsgMzQwNS41NTk1MDddICA/IHdhaXRf
-d29rZW4rMHg4MC8weDgwClsgMzQwNS41NjY1MzFdICA/IGxwZmNfdW5yZWdpc3Rlcl91bnVzZWRf
-ZmNmKzB4ODAvMHg4MCBbbHBmY10KWyAzNDA1LjU3NzU2MV0gIGt0aHJlYWQrMHgxMTgvMHgxNDAK
-WyAzNDA1LjU4NDA0M10gID8ga3RocmVhZF9hc3NvY2lhdGVfYmxrY2crMHhhMC8weGEwClsgMzQw
-NS41OTMzMjNdICByZXRfZnJvbV9mb3JrKzB4MjIvMHgzMApbIDM0MDUuNjAwNTA1XSBNb2R1bGVz
-IGxpbmtlZCBpbjogeGZzKEUpIGxvb3AoRSkgbnZtZV9sb29wKEUpIG5mc3YzKEUpCm5mc19hY2wo
-RSkgcnBjc2VjX2dzc19rcmI1KEUpIGF1dGhfcnBjZ3NzKEUpIG5mc3Y0KEUpIGRuc19yZXNvbHZl
-cihFKQpuZnMoRSkgbG9ja2QoRSkgZ3JhY2UoRSkgc3VucnBjKEUpIGZzY2FjaGUoRSkgYWZfcGFj
-a2V0KEUpIGlzY3NpX2liZnQoRSkKaXNjc2lfYm9vdF9zeXNmcyhFKSBpcF9zZXQoRSkgbmZuZXRs
-aW5rKEUpIHJma2lsbChFKSB4X3RhYmxlcyhFKQpicGZpbHRlcihFKSBlZGFjX21jZV9hbWQoRSkg
-a3ZtX2FtZChFKSBtZ2FnMjAwKEUpIGt2bShFKSBpMmNfYWxnb19iaXQoRSkKZHJtX2ttc19oZWxw
-ZXIoRSkgbmxzX2lzbzg4NTlfMShFKSBpcnFieXBhc3MoRSkgbmxzX2NwNDM3KEUpCmNyY3QxMGRp
-Zl9wY2xtdWwoRSkgY3JjMzJfcGNsbXVsKEUpIHZmYXQoRSkgaXBtaV9zc2lmKEUpIGNlYyhFKQpn
-aGFzaF9jbG11bG5pX2ludGVsKEUpIGZhdChFKSBhZXNuaV9pbnRlbChFKSBkcm0oRSkgY3J5cHRv
-X3NpbWQoRSkKdGczKEUpIGNyeXB0ZChFKSBzeXNjb3B5YXJlYShFKSBzZXMoRSkgYWNwaV9pcG1p
-KEUpIHNwNTEwMF90Y28oRSkKc3lzZmlsbHJlY3QoRSkgZ2x1ZV9oZWxwZXIoRSkgZW5jbG9zdXJl
-KEUpIHN5c2ltZ2JsdChFKSBwY3Nwa3IoRSkKaXBtaV9zaShFKSBsaWJwaHkoRSkgZmJfc3lzX2Zv
-cHMoRSkgaHB3ZHQoRSkgaTJjX3BpaXg0KEUpIGNjcChFKQprMTB0ZW1wKEUpIGhwaWxvKEUpIGlw
-bWlfZGV2aW50ZihFKSB0aW55X3Bvd2VyX2J1dHRvbihFKSBhY3BpX3RhZChFKQppcG1pX21zZ2hh
-bmRsZXIoRSkgYWNwaV9jcHVmcmVxKEUpIGJ1dHRvbihFKSBidHJmcyhFKSBibGFrZTJiX2dlbmVy
-aWMoRSkKbGliY3JjMzJjKEUpIHhvcihFKSByYWlkNl9wcShFKSBzZF9tb2QoRSkgbHBmYyhFKSBu
-dm1ldF9mYyhFKSBudm1ldChFKQpudm1lX2ZjKEUpIGVoY2lfcGNpKEUpIHhoY2lfcGNpKEUpIG52
-bWVfZmFicmljcyhFKQpbIDM0MDUuNjAwNTY5XSAgZWhjaV9oY2QoRSkgeGhjaV9oY2QoRSkgbnZt
-ZV9jb3JlKEUpIHNtYXJ0cHFpKEUpCnQxMF9waShFKSBjcmMzMmNfaW50ZWwoRSkgc2NzaV90cmFu
-c3BvcnRfc2FzKEUpIHNjc2lfdHJhbnNwb3J0X2ZjKEUpCnVzYmNvcmUoRSkgd21pKEUpIHNnKEUp
-IGRtX211bHRpcGF0aChFKSBkbV9tb2QoRSkgc2NzaV9kaF9yZGFjKEUpCnNjc2lfZGhfZW1jKEUp
-IHNjc2lfZGhfYWx1YShFKSBzY3NpX21vZChFKSBlZml2YXJmcyhFKSBhdXRvZnM0KEUpIFtsYXN0
-CnVubG9hZGVkOiBpcF90YWJsZXNdClsgMzQwNS44Mjc3OTNdIC0tLVsgZW5kIHRyYWNlIGE3MGI3
-OWUwYmJiYWNmMmQgXS0tLQpbIDM0MDUuODQ4MjQ2XSBSSVA6IDAwMTA6X3Jhd19zcGluX2xvY2tf
-aXJxc2F2ZSsweDFlLzB4NDAKWyAzNDA1Ljg1ODY2OV0gQ29kZTogMDAgMDAgMDAgMDAgMDAgMGYg
-MWYgODAgMDAgMDAgMDAgMDAgMGYgMWYgNDQgMDAgMDAKNTMgOWMgNTggMGYgMWYgNDQgMDAgMDAg
-NDggODkgYzMgZmEgNjYgMGYgMWYgNDQgMDAgMDAgMzEgYzAgYmEgMDEgMDAgMDAKMDAgPGYwPiAw
-ZiBiMSAxNyA3NSAwNSA0OCA4OSBkOCA1YiBjMyA4OSBjNiBlOCBmMCAyMSA3YyBmZiA2NiA5MCA0
-OCA4OQpbIDM0MDUuODk2NDI2XSBSU1A6IDAwMTg6ZmZmZmE2YzgwNDM5N2M3OCBFRkxBR1M6IDAw
-MDEwMDQ2ClsgMzQwNS45MDY5MzBdIFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6IDAwMDAwMDAw
-MDAwMDAyNDYgUkNYOgowMDAwMDAwMDZiNmI2YjZiClsgMzQwNS45MjEyNzddIFJEWDogMDAwMDAw
-MDAwMDAwMDAwMSBSU0k6IDAwMDAwMDAwMDAwMDAxMDAgUkRJOgo2YjZiNmI2YjZiNmI4NGVmClsg
-MzQwNS45MzU2MjBdIFJCUDogNmI2YjZiNmI2YjZiODRlZiBSMDg6IDAwMDAwMDAwNmI2YjZiNmIg
-UjA5OgowMDAwMDAwMDZiNmI2YjZiClsgMzQwNS45NDk5NjRdIFIxMDogMDAwMDAwMDAwMDAwMDAw
-MCBSMTE6IGZmZmY5MjBmZjUxMDYzZDkgUjEyOgpmZmZmOTIwZmY1MTAwMDAwClsgMzQwNS45NjQz
-MDddIFIxMzogZmZmZjkyMGZmNTEwMDAwMCBSMTQ6IDAwMDAwMDAwMDAwMDAwMDAgUjE1OgpmZmZm
-OTIwZmM3NTJlZTAwClsgMzQwNS45Nzg2NTBdIEZTOiAgMDAwMDAwMDAwMDAwMDAwMCgwMDAwKSBH
-UzpmZmZmOTIxMDdlYzAwMDAwKDAwMDApCmtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAzNDA1Ljk5
-NDkxNV0gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpb
-IDM0MDYuMDA2NDYzXSBDUjI6IDAwMDA3ZjNhMGExYmU5NjAgQ1IzOiAwMDAwMDAwODUyMGQwMDAw
-IENSNDoKMDAwMDAwMDAwMDM1MDZlMApbIDM0MDYuMDIwODExXSBLZXJuZWwgcGFuaWMgLSBub3Qg
-c3luY2luZzogRmF0YWwgZXhjZXB0aW9uClsgMzQwNi4wNTg3ODddIEtlcm5lbCBPZmZzZXQ6IDB4
-MjkwMDAwMDAgZnJvbSAweGZmZmZmZmZmODEwMDAwMDAKKHJlbG9jYXRpb24gcmFuZ2U6IDB4ZmZm
-ZmZmZmY4MDAwMDAwMC0weGZmZmZmZmZmYmZmZmZmZmYpCgpJcyB0aGlzIGEga25vd24gaXNzdWU/
-Ck1heWJlIGZpeGVkIHdpdGggdXBkYXRlcyBnZXR0aW5nIGluIHRoZSBzY3NpIGJyYW5jaD8KClRo
-YW5rcy4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZQkJICAgICAgICAg
-ICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlCQkJICAgICAgICAgICAgICAg
-ICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-LCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcp
-LCBHRjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3Rz
-LmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9saW51eC1udm1lCg==
+The following changes since commit 88ce2a530cc9865a894454b2e40eba5957a60e1a:
+
+  block: restore a specific error code in bdev_del_partition (2020-09-08 08:18:24 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-5.9-2020-09-10
+
+for you to fetch changes up to 73a5379937ec89b91e907bb315e2434ee9696a2c:
+
+  nvme-fabrics: allow to queue requests for live queues (2020-09-09 08:00:50 +0200)
+
+----------------------------------------------------------------
+nvme fixes for 5.9
+
+ - cancel async events before freeing them (David Milburn)
+ - revert a broken race fix (James Smart)
+ - fix command processing during resets (Sagi Grimberg)
+
+----------------------------------------------------------------
+David Milburn (3):
+      nvme-fc: cancel async events before freeing event struct
+      nvme-rdma: cancel async events before freeing event struct
+      nvme-tcp: cancel async events before freeing event struct
+
+James Smart (1):
+      nvme: Revert: Fix controller creation races with teardown flow
+
+Sagi Grimberg (1):
+      nvme-fabrics: allow to queue requests for live queues
+
+ drivers/nvme/host/core.c    |  5 -----
+ drivers/nvme/host/fabrics.c | 12 ++++++++----
+ drivers/nvme/host/fc.c      |  1 +
+ drivers/nvme/host/nvme.h    |  1 -
+ drivers/nvme/host/rdma.c    |  1 +
+ drivers/nvme/host/tcp.c     |  1 +
+ 6 files changed, 11 insertions(+), 10 deletions(-)
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
