@@ -2,66 +2,84 @@ Return-Path: <SRS0=9POq=CU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C983C433E2
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2020 15:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3407DC2D0E1
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2020 17:30:02 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D20762075E
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2020 15:15:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D4A2C221E5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Sep 2020 17:30:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u1phDZWB";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nd1BNDBt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D20762075E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IZD/TGJo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D4A2C221E5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CG9eMPdCC8W7PuJrxZP3aBu1vuHRNhE4kY3NGtfPt/o=; b=u1phDZWBzGSMd13g7ckyivx5k
-	EIO9Cv89ior1wbYAWMxz40GTXFdHnG5vygurpWvZr16yoATJ5bb9v6X7vtfiEK8ZDGof8pYZiEbXP
-	qxFSu6DFyZpPhle5FMqjWlPj+MU3C20Wea4OrhQmVMG5/7PRb7lBZ+2+mRJxsv4F8pUXzAEliboMs
-	KmjhynI/jXU6RDeCiZiiX/dclS79L3OuR8ShMXkeM0uiGHS4+jUUCEU3By3qvXYIQnpyYyS7OD3jW
-	QfFCif5dM8cDjdt8kKM2W9ayzUSKLojvF+tGMM9DOqKTHrTRt9s5wtL8WsEQpAc04XyThEVly3CYj
-	9zanurPzA==;
+	 bh=kyy6WQo5++zcp8DrKxzj/fKp1Vgo2JerriK0SxBm8Ts=; b=IZD/TGJoHSpl3Z/4QE+amkeaz
+	s3m4jBBXfoRWG5j26cyRboChQNHOh1PjN6ZxQUV18org30vuE3Kku3Sg9JQBeGOLVAeMJMcsbjIMO
+	rxigZYTVKyNogAF8nCGMjJu2waocK/+8JtkpkvLbBJDAnWeImrDrHMBJy9HH5U22O+9DLNHvhGKgE
+	4Zx4uTL6zcU0sh6gWHV2UWiyBNvjhgTUQmp1ce4595q58keKUjHjMXNGUJEp8JzJSZ1cQLnytaI+b
+	qSPgfKIqrAhk4wtI52QENhJy0BmDcYDDs+I2H7cKl7jP452J6/y/xH0DBMUmlRnQ20NXfEkYJhIoT
+	nRyO18tgA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kGkm3-0002nP-F8; Fri, 11 Sep 2020 15:15:39 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kGms0-0002Kk-62; Fri, 11 Sep 2020 17:29:56 +0000
+Received: from mail-pj1-f67.google.com ([209.85.216.67])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kGkm0-0002mp-DR
- for linux-nvme@lists.infradead.org; Fri, 11 Sep 2020 15:15:37 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DDACC2075E;
- Fri, 11 Sep 2020 15:15:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599837335;
- bh=A67sjC+z92I8aelXIvxLW2QZk1L+YSJjaaecKK+2DaE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Nd1BNDBtith5V+fhA5lnUXxQMJQJWNbBQTuFZ4h/EiYnY15favz1LJJjBOK74GwE3
- rPqcerKw74+W/vH1OE2puu7t4oR7V2ABO29PyUprYddv6LfeedJE/ieAZ+Vy6jxH0L
- XWmvk+8Yj9Squ/fmR3qSUesLadzNuE/X4q2vmhnY=
-Date: Fri, 11 Sep 2020 08:15:32 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Jeffrey Lien <Jeff.Lien@wdc.com>
-Subject: Re: Dual controller sysfs Question
-Message-ID: <20200911151532.GA3654975@dhcp-10-100-145-180.wdl.wdc.com>
-References: <BYAPR04MB5656A018DD122D37806A8EE2EA240@BYAPR04MB5656.namprd04.prod.outlook.com>
+ id 1kGmry-0002J9-5o
+ for linux-nvme@lists.infradead.org; Fri, 11 Sep 2020 17:29:54 +0000
+Received: by mail-pj1-f67.google.com with SMTP id o16so2046307pjr.2
+ for <linux-nvme@lists.infradead.org>; Fri, 11 Sep 2020 10:29:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aVIVVhDyL7377dgQv2tmJZmOuhn7zWUqlZOPCZ0N11E=;
+ b=b466LaMB3aV6cwzNisPph6VvrlG5MQXDWNza/TtkzJqSnIM/dGxbuf/twFM/xTSoUQ
+ h4FBewVtA1YGxWkW2yfteFP1GY8l0GzTo7oe/pLryNrkG7oSIyvaytJvF9lEpjy1zt3m
+ dD/SEd/jZ6R0i3yERJTduq8IEoYqOIJusWhSc1Hs0ncizIxqdJuYuH1Dg4IZNZ6ZgESQ
+ zsMZqIQAm3JaZDc00LhBV6JPjj13/NK+c4l2sctX/LXz3ORGeIQFjN7xUUaCqqb88CF0
+ 4cbMRP7kEIAc2vTtoJvAne/+1DFPRt4A4jN4ubWQ3WzdFe+lgMH6YRVvm/b46hvNyj4S
+ w2ZA==
+X-Gm-Message-State: AOAM532dDQ1Wjm4CuXa975xtYLVWGH1D7lzYqmLD1Xgq5sa4IWlXrxPf
+ cZRqGe8tpPmabfI5k2AQBa4=
+X-Google-Smtp-Source: ABdhPJwWN/oRHNqzQ0rgktkhGO08Iw+dD3PrZwS1Pd5SiSZWRW3eZo0ECqvuX1mm8NGMcsiUbugesQ==
+X-Received: by 2002:a17:90a:7481:: with SMTP id
+ p1mr3114935pjk.33.1599845391149; 
+ Fri, 11 Sep 2020 10:29:51 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:4428:73d8:a159:7fcc?
+ ([2601:647:4802:9070:4428:73d8:a159:7fcc])
+ by smtp.gmail.com with ESMTPSA id gj16sm2408568pjb.13.2020.09.11.10.29.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Sep 2020 10:29:50 -0700 (PDT)
+Subject: Re: [PATCH V5 0/4] blk-mq: implement queue quiesce via percpu_ref for
+ BLK_MQ_F_BLOCKING
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+References: <20200911024117.62480-1-ming.lei@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <4fb604fd-c081-5eb1-cb3a-860746b6952a@grimberg.me>
+Date: Fri, 11 Sep 2020 10:29:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BYAPR04MB5656A018DD122D37806A8EE2EA240@BYAPR04MB5656.namprd04.prod.outlook.com>
+In-Reply-To: <20200911024117.62480-1-ming.lei@redhat.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200911_111536_600546_9F334AC2 
-X-CRM114-Status: GOOD (  26.19  )
+X-CRM114-CacheID: sfid-20200911_132954_226289_2A68DF05 
+X-CRM114-Status: GOOD (  13.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,75 +91,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Prathiksha Nayak <Prathiksha@wdc.com>,
- Yuvaraj Hosanthe <Yuvaraj.SH@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Akhilesh Rn <Akhilesh.RN@wdc.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Hannes Reinecke <hare@suse.de>, Chao Leng <lengchao@huawei.com>,
+ Bart Van Assche <bvanassche@acm.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 11, 2020 at 02:40:05PM +0000, Jeffrey Lien wrote:
-> We need some information on how a dual controller drive should show up in the /sys/block directories with respect to latest 5.4 kernel.
-> 
-> Below is our observation :
-> When tried  a drive in a dual port mode with namespaces attached to it
-> using Ubuntu - 5.4.0-45-generic kernel version, we could see all the
-> block devices getting listed under 'sys/block'  path but when we check
-> for the block device uevent path of the attached namespaces  ( i.e
-> /sys/block/nvme0c0n1/uevent) we do not see the DEVNAME details in that
-> path but we could see the DEVNAME details for other block devices
-> under sys/block. 
->
-> There are 2 namespaces created on 2 different controller nvme0 and
-> nvme1 and below is the output from sys/block path.
-> 
->                   # nvme list
->                    Node             SN                   Model                                    Namespace Usage                      Format           FW Rev
->                    ---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
->                    /dev/nvme0n1     SDM0000029DA         HUSMR7638BDP3Y1                          2         150.32  GB / 150.32  GB      4 KiB +  0 B   KNGND688
->                    /dev/nvme0n2     SDM0000029DA         HUSMR7638BDP3Y1                          1         103.08  GB / 103.08  GB      4 KiB +  0 B   KNGND688
->                   # ls
->                   loop0  loop1  loop2  loop3  loop4  loop5  loop6  loop7  nvme0c0n1  nvme0c1n2  nvme0n1  nvme0n2  sda
->                   # cat nvme0c0n1/uevent
->                   DEVTYPE=disk
 
-nvme0c0n1 is a "hidden" controller path to a namespace with the native
-nvme multipathing enabled. These are not directly accessible from the
-user, hence they don't get the same properties.
+> Hi Jens,
+> 
+> The 1st patch add .mq_quiesce_mutex for serializing quiesce/unquiesce,
+> and prepares for replacing srcu with percpu_ref.
+> 
+> The 2nd patch replaces srcu with percpu_ref.
+> 
+> The 3rd patch adds tagset quiesce interface.
+> 
+> The 4th patch applies tagset quiesce interface for NVMe subsystem.
 
-You should see the events for the sysfs entry under nvme0n1.
+Tested some reset storms and target restarts during traffic with
+nvme-tcp.
 
->                   # cat loop6/uevent
->                   MAJOR=7
->                   MINOR=6
->                   DEVNAME=loop6
->                   DEVTYPE=disk
-> 
-> With respect to other kernel version which we tried (i.e SLES with
-> 4.4.143-94.47 ) we do not see this kind of behavior and its working
-> fine with dual port mode with namespaces attached to it on same drive
-> device by getting all the DEVNAME details from uevent path.
-> 
-> # nvme list
->                Node             SN                   Model                                    Namespace Usage                      Format           FW Rev
->                ---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
->               /dev/nvme0n1     SDM0000029DA         HUSMR7638BDP3Y1                          2         150.32  GB / 150.32  GB      4 KiB +  0 B   KNGND688
->              /dev/nvme0n2     SDM0000029DA         HUSMR7638BDP3Y1                          1         103.08  GB / 103.08  GB      4 KiB +  0 B   KNGND688
-> # ls
-> nvme0n1  nvme1n1  sda
-> # cat nvme0n1/uevent
-> MAJOR=259
-> MINOR=1
-> DEVNAME=nvme0n1
-> DEVTYPE=disk
-> #
-> 
-> Could you please let us know your input on this.  Thanks
-> 
-> 
-> Jeff Lien
+Seems that no apparent breakage.
+
+So:
+
+Tested-by: Sagi Grimberg <sagi@grimberg.me>
 
 _______________________________________________
 Linux-nvme mailing list
