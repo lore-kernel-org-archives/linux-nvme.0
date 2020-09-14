@@ -2,140 +2,82 @@ Return-Path: <SRS0=9U1b=CX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7985AC43461
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2020 23:25:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47507C43461
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2020 23:50:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F072820936
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2020 23:25:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CED52208B3
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2020 23:50:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YnnnmosE";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="PQ1FD/Jg";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="FzjUnFFw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F072820936
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XNqFQ1ct"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CED52208B3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=PrF4pDHqhi7oQh9EMdyZLvYTkClRn4hLVmt0NLzoPcs=; b=YnnnmosExLb91wSIvzsZDhRUQ
-	IN+r1FqVknR3WyTIPRldELsr2tZLXaMgvC6lxv4UeACu/2duUptyXxENODemUptucQDRkNmTdm9mJ
-	JbgEDMH35zCHa99VTfDXz/JRVrtXpoQXZGm5fWHr+qBDK2mYU6rr6sKis9MWxzfvi6WVTCptM/elJ
-	hivZHGwwUnDp5MCql0pLRIL5QVPcP2tVbQZhQH5047DYPMRzzhkmNcbd3N8F3MufyVkphIz1zLCgV
-	NFXYQ6Zpa4pfMzVGvdFYVJEQ52RGCw7bg8w17lZaFynSBXMfoDL2g41tJXHZlKejzYHEP7eTtyArw
-	cSYxy3YYw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=fdq8brkBXJLpKFACBHkJH5EP17U8sZ16dWNSeAux9R4=; b=XNqFQ1ctOyMf6zVSIs0mYet3w
+	yso03sPD0gYusrrvAy9O+/qTC+8EZZAA+gnOE/3pa2mQ1Crhs6ipLeLHLbtY0Rk1G/73wqYsf0Spj
+	X0jBLL+gIMDsnrRgi5S/2k5A3Y8Jrm7bH5KB4HMKtyH7V64UXFCrymh3uotGZG7oIyoQm/NGT712N
+	b1w33a06k4Y+3ecfSLNG/eVbsa3ysCAtNy2lpfiT0xYr1dtYTF5/sm7SJWhXx3lSHPonjQKP0YviK
+	HQGLOV4Oeq8C6xlSsmHvUUGntpnMVE/TvgDvqLS796TioHJIzk7s9xDJK6WkFbnzFfBJ4tQdZD7fn
+	hDWDISqYA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kHxqb-0000up-SN; Mon, 14 Sep 2020 23:25:21 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1kHyEo-0004KW-9S; Mon, 14 Sep 2020 23:50:22 +0000
+Received: from mail-pl1-f195.google.com ([209.85.214.195])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kHxqY-0000tZ-HQ
- for linux-nvme@lists.infradead.org; Mon, 14 Sep 2020 23:25:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1600125918; x=1631661918;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=O9tUmAEfeC/kJbgl+3lC50bQm4SDczVv/oOiHsOecuU=;
- b=PQ1FD/Jg/sivWHwTfDls2PMXMMMaxTWdHMsklFcCFLGudE/gov24TKVa
- pePHlJxmpM3SMvj4NgEnXhbA+dKC4rvICjyhZysG/TgBHBrtchHKNPj0P
- SrFz7TyNjPuiArqVznu2PiEFE7Ky/jPCKGKwFfNAfPtgGMYbWb6rVBQsb
- J+fbAMu9cyYo7hsHy/uDXaoU1nD7oqRv6zVq8/9LvFuG69mFMMnb1I1Mx
- 7zBG5XgCSfJLR5hmGoH4oZeNo2/jAaYt2xD6yFqZdyonFIgk3xciSIbZz
- xy3C/JgEz776awsazW17cXSPfUfs/CdHyLBtgwKbr1x5G+n4Go8UG+IdM A==;
-IronPort-SDR: yyO9YZtsgW7Mm0kFBNogBuZcO4I3y+8tqM0PCL9y5OQq4sLQCd7MVsU55LI6nV3z2qupz0zdtg
- /Xz57KDsQvCSz3IradgpQcsSkDTa+a2oBVLtdnMQTB3Zt99nFaKMrWhw6ZX7NO5c/RxmK9qhfx
- FveQ8vTGUmE8PRCFTmxYEhSO/+1iAaL56uZvMTKxh7qNJU35q+V7YvV++WearESBuwUTbuTaXg
- xkUW1UudqvXy+vO0+B8mbWJVR0Fm8BTl3cZZ2zjtrQth7Pj+UfgkzN/ueZ3oPP5ryNFKXKupuh
- EB8=
-X-IronPort-AV: E=Sophos;i="5.76,427,1592841600"; d="scan'208";a="256992668"
-Received: from mail-dm6nam12lp2177.outbound.protection.outlook.com (HELO
- NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.177])
- by ob1.hgst.iphmx.com with ESMTP; 15 Sep 2020 07:25:10 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GU81WmnK+6VoJ2aqrD+U+DkwU9DfWPfwNM0HjEcks89Tvc3U0y19Xv2vV2wXl1kcJvFDR5JL2J0Xpj+ZkfCC0YwFOhKsTgS+XRbNeOedkDuBrRXekpeZVoaIGZCCfqDfg4eY8QLh+DJQmpHtfCdlyypbXVKA4U7cE6ZDdPDNzD896Fd58FjQdQBGta3wHzp8NrYRSpNf9MktKOrs3T/BVbLgwYZ4avBDWgu1gsRvu6e//aB1vlNSv+nR52IdZi8QSN2IKM00nFyKkf4DCnCx2kp1b9uLsMim2cUM9ZFaX8/VMADueKBIl1pNR1URJQ0bzo+cGTEJ9q7lLpyK9zm4UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Rj0nIARttSHgoQuaqrcu/vVPsxwbe33MekWLuSiqDc=;
- b=KfEdxIc+e24l9zOIbqPMCgelZEASF/oMm6YqB1m8BH2SR8ZUVtDfwE9XL4HE3xuTMl38PFwaXfMpCgKvzxJib7kAxyGNo0+PBjoug3rFO1pjgsqu1Qrwmr5vTdo1zAP3KZsDSDxW+I3Lo9Uhk55zmT9kE+ZtXQBLe5jihsAZ5awstrahT44aA3oS/DQaURt5jNvwi4YUSASTBpokmB9sfxPRQC2u8q8BS/9cjjiYk05lEvdvQETq9mo5KxFpt27MX8rkdktMTxE23J7aqVfxcZPlExla8YrPAQUnIVZ5XNCwhB/VyTyM/7w6jD5oAFKFquOIykt0pSkEJMQcWwyh2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Rj0nIARttSHgoQuaqrcu/vVPsxwbe33MekWLuSiqDc=;
- b=FzjUnFFw2Z9DYSZLekz2HwmGg9jpSE/uoVZX/7oHBvKpPRgn3xS/kbpGIYF5FCRtBnmPt1tQSXjWCZkJpQQJuUIOXEGFsEH0/tJW2s+h6+5zx7eMGRY4YlpOaM6pNJTJGcx8sUuPNjw1zFmFPtKYk6c/XOgbPnNuhfcG/VM6rJY=
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com (2603:10b6:903:ec::14)
- by CY4PR04MB0425.namprd04.prod.outlook.com (2603:10b6:903:b4::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Mon, 14 Sep
- 2020 23:25:08 +0000
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com
- ([fe80::9124:2453:fe9c:9a7]) by CY4PR04MB3751.namprd04.prod.outlook.com
- ([fe80::9124:2453:fe9c:9a7%12]) with mapi id 15.20.3370.019; Mon, 14 Sep 2020
- 23:25:08 +0000
-From: Damien Le Moal <Damien.LeMoal@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] nvme: translate zns errors to blk_status_t
-Thread-Topic: [PATCH] nvme: translate zns errors to blk_status_t
-Thread-Index: AQHWhukkr+7z5FAjgEyIuorVxC+8EQ==
-Date: Mon, 14 Sep 2020 23:25:08 +0000
-Message-ID: <CY4PR04MB3751DB156A3A2F4663F49DD6E7230@CY4PR04MB3751.namprd04.prod.outlook.com>
-References: <20200909203324.3356679-1-kbusch@kernel.org>
- <20200910052643.GA18283@lst.de>
- <CY4PR04MB375101AA0F80FB54BAFBC427E7270@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200911061022.GA21597@lst.de>
- <CY4PR04MB3751B5CEE2967C1B3B29554CE7240@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200912064104.GA19223@lst.de>
- <20200914194421.GC10507@redsun51.ssa.fujisawa.hgst.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [2400:2411:43c0:6000:f58c:fb44:b59e:e65e]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 9fdc1488-b408-4caf-413c-08d859056ba7
-x-ms-traffictypediagnostic: CY4PR04MB0425:
-x-microsoft-antispam-prvs: <CY4PR04MB04257BD48A65F9A15C8BE245E7230@CY4PR04MB0425.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zVKFAR/NZE50IgAo2N/X/nYDOwrPCpOa87ShTxCFGk5OqyOp0n2/9IXiCenRanhJVLbIDD55pApECvtjB1zbqTKBnZ+xbyU6BokPRF1nmgl0OOHrcDAJOvlU3WeGA1Mpt1/P4+kwGw25Z7q8PlKwQOdgKQontomG0oD7rmHhe/tJgGQf72LI+4f2r1OFUzOZ3nj7W7NXy2vRvVxDcrP2XNTTmu0gDt1T3memOhhH+WDdb4RQMuNRMtRq55DY58kY4BusUQzWRYThDR9bGb+0mJfw5vH1LQHhn2Z4qGkUStjNr7Jo77IDGwdJf03bM0O9ujqWsbABTprmPRX0lZXsE2C9N7QJkq0czQdVKZ7hO+Bxr0J4p5T0+rNmYfX7wQIb
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(376002)(136003)(366004)(39860400002)(55016002)(86362001)(110136005)(71200400001)(316002)(9686003)(4326008)(53546011)(52536014)(83380400001)(186003)(91956017)(8676002)(33656002)(6506007)(2906002)(54906003)(76116006)(66476007)(66946007)(66446008)(8936002)(64756008)(66556008)(508600001)(7696005)(5660300002)(21314003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: GRf0SlS812TNGVulcmNpFE2o7kygjqOFNGsEncIz0s2lVCjhuOekzSX2HLrOijP5MCO+kGjpm2NXFV4vOOUcL0ITQR+Yr0v3/gq5bLBRCqvuAozmm/KII/g3ZzeYLP7vcshxGer8/UffgF3g1j9WP6YJswiP/bpt2DEz4TliWDCxBSjQtNd4heTST1ZO+7hig7IlRgMFe6p1kXeO4VFdANQAl3cnQ954/4h6iz/oZbOFTx5IvIHNNDAh66Siv2w0030VxxOrMpr6+mFhftnOOC0jJtKGFekj+s8wsDN2bgGLpCbPbEhkvPhywFblgtmMdXuiUmaXRXYJmhPyeXxAV9C5EQExcurcnuGjRuXwhFcOxsXx0dTiDQHJE5h6Z1HH4LHzoITnRtMJgTEMFZZh74uyQund1Y2ERhVg92WT0ySQIqoaQKB8IAc4VW1PZ2/o4qW9Quol2k0RefNPQkrmX57fM3wZGzMWD1D+8KAbZUYtjbtmrTas9KHCrVaw2CF0Q+ndMGcJ2iv1EMgNCJSjFlrddP6hdYKKFhPE61s1K3+N7JeySQRLX9KJqbAOIo+DiqhvZM5/1H7DE0OOBRXXaSBFiYJmiwsgtyTe7qHvud9WqzaC6JxqgoaoDKOIYQXh78sUUll6NXwRGAGYfUNk63Jd+Z3TjRJmt3baWv23qsS8w/hW2WluCrPTYRMB+8vUui3dKJMoYJHSS9GbiTIYMg==
-x-ms-exchange-transport-forked: True
+ id 1kHyEi-0004K7-7k
+ for linux-nvme@lists.infradead.org; Mon, 14 Sep 2020 23:50:19 +0000
+Received: by mail-pl1-f195.google.com with SMTP id f1so353767plo.13
+ for <linux-nvme@lists.infradead.org>; Mon, 14 Sep 2020 16:50:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XTTAOoHIclN6j6FpYx1VYHMVNixblRTZPqOZeeAl2FA=;
+ b=XZFV/wFFImjpLVoBvqCDuOOZ+dBvfRZVp0pebqsJSDL+QsvcLKjYDGuaIcQGOyhLB7
+ 3fGdSdOFN2oGGG3e4Uwq3I5fSDbQdyRY405wpK+odDcsj36lZ1zxZpJED/e5EzZF724n
+ GR3zZLFayah2zuR7JMFXXqqFpslx4a4i8ymNcR0yod9G+7YfOvffOOAgBYtUGaLN1jYI
+ EuHaM9le2VfbVAoi9Ukiss7T4/IS5o7enyzcOdR7Bp4In3HxEdMkQNYWjLR9yaWlXZFZ
+ wC5dSYgO4g5LbC2A7jJrNxKPgX0hVfPcj5hltwoE4dT4c4XUFQV4+cUy/5uorr40Syei
+ h9cg==
+X-Gm-Message-State: AOAM532LJmHplJjvZfyA20H2UYA8du7+Ka3sqFVCR2eOZMNkym6bEl9c
+ Z1hkBQU8CrwvAT5qv31kpF+B9BoCg7U=
+X-Google-Smtp-Source: ABdhPJwztLP+l7tDbc78Rxiqcupr433Rth9wpzvqXXb98GSvJYlG9hQDICMfCNFRt7ViVKRIuXnY2w==
+X-Received: by 2002:a17:90a:5282:: with SMTP id
+ w2mr1622926pjh.77.1600127414178; 
+ Mon, 14 Sep 2020 16:50:14 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:3268:60da:a840:77e?
+ ([2601:647:4802:9070:3268:60da:a840:77e])
+ by smtp.gmail.com with ESMTPSA id n2sm10615657pja.41.2020.09.14.16.50.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Sep 2020 16:50:13 -0700 (PDT)
+Subject: Re: nvme_tcp: nvme connect failed after execute stress-ng: unshare
+To: Yi Zhang <yi.zhang@redhat.com>, gscrivan@redhat.com,
+ colin.king@canonical.com
+References: <643455136.711850.1599712518936.JavaMail.zimbra@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <34570678-f8e7-a3ce-e7a3-be887ec2d949@grimberg.me>
+Date: Mon, 14 Sep 2020 16:50:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB3751.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fdc1488-b408-4caf-413c-08d859056ba7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Sep 2020 23:25:08.8527 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HBLC16+Eua1IvCIFYPAaHcSM7S90eXlj6IwaYQlK+2vO1Thy8tRi8owN5DqtsjD4Wrxd3vzW+LcvvXWjChKD2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0425
+In-Reply-To: <643455136.711850.1599712518936.JavaMail.zimbra@redhat.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200914_192518_965267_A3796A3B 
-X-CRM114-Status: GOOD (  16.33  )
+X-CRM114-CacheID: sfid-20200914_195017_656199_E323D492 
+X-CRM114-Status: GOOD (  19.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,50 +89,117 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020/09/15 4:44, Keith Busch wrote:
-> On Sat, Sep 12, 2020 at 08:41:04AM +0200, Christoph Hellwig wrote:
->> On Fri, Sep 11, 2020 at 09:35:31AM +0000, Damien Le Moal wrote:
->>> On 2020/09/11 15:10, Christoph Hellwig wrote:
->>>> On Thu, Sep 10, 2020 at 10:25:24PM +0000, Damien Le Moal wrote:
->>>>>> I'm not sure this is the best idea, we probably need specific error codes
->>>>>> if we want file systems to be aware of the limit.
->>>>>
->>>>> Do you mean something else than -EBUSY being returned to the user by the block
->>>>> layer ? Or a different/specific BLK_STS_XXX code which translates into -EBUSY in
->>>>> blk_status_to_errno() ?
->>>>
->>>> My primary aim is a different BLK_STS_ code.  But given that I think
->>>> that we should not map different BLK_STS_ codes to the same errno if
->>>> we can avoid it, we should probably also use a different errno.
->>>>
->>>
->>> Hmm. Beside EBUSY, I do not see a nice existing errno that we can reuse. May be
->>> ENOSR (out of stream resources) ? Or do we define a new one ? EZBUSY ?
->>>
->>> And indeed if we define a new BLK_STS_ZONE_RESOURCE and map that to EBUSY,
->>> errno_to_blkstatus() will get confused.
->>
->> Yes, you need to pick a new error.  I don't really care which one,
->> most of the mappings are pretty odd anyway.
+
+> Hello
 > 
-> Selecting an existing unused errno feels a bit arbitrary for a status
-> that is currently specific to NVMe ZNS. Could you provide a little more
-> guidance on what you're looking for?
+> Recently I found nvme-tcp connecting always failed[1] after execute stress-ng:unshare[2], by bisecting I finally found it was introduced with commit[3], the connecting works well after revert it.
+> I'm not sure whether it's one test case issue or kernel issue, could anyone help check it.
 
-Not just NVMe ZNS. SCSI/ZBC and ATA/ZAC too (both sd driver) :)
+Is this failure persistent or transient?
 
-
-
--- 
-Damien Le Moal
-Western Digital Research
+> 
+> [1]
+> # sh test.sh
+> + ./stress-ng/stress-ng --unshare 0 --timeout 5 --log-file unshare.log
+> stress-ng: info:  [355534] dispatching hogs: 32 unshare
+> stress-ng: info:  [355534] successful run completed in 5.04s
+> + modprobe null-blk nr-devices=1
+> + modprobe nvmet-tcp
+> + modprobe nvme-tcp
+> + nvmetcli restore tcp.json
+> + nvme connect -t tcp -n nqn.2014-08.org.nvmexpress.discovery -a 127.0.0.1 -s 4420
+> Failed to write to /dev/nvme-fabrics: Input/output error
+> 
+> # dmesg | tail -9
+> [  700.012299] null_blk: module loaded
+> [  700.073415] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> [  700.073923] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+> [  715.291020] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
+> [  715.297031] nvmet: ctrl 1 fatal error occurred!
+> [  749.939898] nvmet: creating controller 1 for subsystem nqn.2014-08.org.nvmexpress.discovery for NQN nqn.2014-08.org.nvmexpress:uuid:e405e6bb-8e28-4a73-b338-3fddb5746b8c.
+> [  763.417376] nvme nvme0: queue 0: timeout request 0x0 type 4
+> [  763.422979] nvme nvme0: Connect command failed, error wo/DNR bit: 881
+> [  763.429419] nvme nvme0: failed to connect queue: 0 ret=881
+> 
+> # uname -r
+> 5.9.0-rc4
+> 
+> 
+> [2] stress-ng: unshare case
+> https://github.com/ColinIanKing/stress-ng.git
+> https://github.com/ColinIanKing/stress-ng/blob/master/stress-unshare.c
+> 
+> 
+> [3]
+> commit e1eb26fa62d04ec0955432be1aa8722a97cb52e7
+> Author: Giuseppe Scrivano <gscrivan@redhat.com>
+> Date:   Sun Jun 7 21:40:10 2020 -0700
+> 
+>      ipc/namespace.c: use a work queue to free_ipc
+>      
+>      the reason is to avoid a delay caused by the synchronize_rcu() call in
+>      kern_umount() when the mqueue mount is freed.
+> 
+> 
+> [4]
+> # cat tcp.json
+> {
+>    "hosts": [],
+>    "ports": [
+>      {
+>        "addr": {
+>          "adrfam": "ipv4",
+>          "traddr": "127.0.0.1",
+>          "treq": "not specified",
+>          "trsvcid": "4420",
+>          "trtype": "tcp"
+>        },
+>        "portid": 0,
+>        "referrals": [],
+>        "subsystems": [
+>          "blktests-subsystem-1"
+>        ]
+>      }
+>    ],
+>    "subsystems": [
+>      {
+>        "allowed_hosts": [],
+>        "attr": {
+>          "allow_any_host": "1",
+>          "cntlid_max": "65519",
+>          "cntlid_min": "1",
+>          "model": "Linux",
+>          "pi_enable": "0",
+>          "serial": "7d833f5501f6b240",
+>          "version": "1.3"
+>        },
+>        "namespaces": [
+>          {
+>            "device": {
+>              "nguid": "00000000-0000-0000-0000-000000000000",
+>              "path": "/dev/nullb0",
+>              "uuid": "b07c7eef-8428-47bf-8e79-26ec8c30f334"
+>            },
+>            "enable": 1,
+>            "nsid": 1
+>          }
+>        ],
+>        "nqn": "blktests-subsystem-1"
+>      }
+>    ]
+> }
+> 
+> 
+> Best Regards,
+>    Yi Zhang
+> 
+> 
 
 _______________________________________________
 Linux-nvme mailing list
