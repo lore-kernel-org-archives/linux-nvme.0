@@ -2,86 +2,75 @@ Return-Path: <SRS0=9U1b=CX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11FCDC433E2
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2020 15:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 608C2C433E2
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2020 15:33:40 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7E26020829
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2020 15:03:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0E11D20756
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Sep 2020 15:33:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Nogci8M8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QudsO20Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E26020829
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yibDPfBp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0E11D20756
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=nCVsH9o782S0BZITE0soTmXQ9yrgyDP0nTPGMOEAwmE=; b=Nogci8M8ENbdjFYsTwH1aZELTh
-	3iuTCQOFm8pogD+wcBPI5PNKXLWU4+Wa8D4SSPjfLlgqtvaQ0QVkiLX5P10Pg38o2L0zfB+ohy3oi
-	QYjJOYXHcNvMxYsflmoXJsSxWv4tDQ/MFhL8hoOc11lueHbAOxGLx3VAkYY2nhD643U1C9mUzHpT9
-	u0p3rWaUhKKQCzZoIQh+XNrvFbZ0CFcX0k1V44pLMPtdkgJIlNTBNrLAhURfSU/r+2woZ+cgDVXN6
-	Fka/skD2yuJQBt+BmwP+vl+azmH/JpSRamd1zvDEeYp7yaQui0Q8eGXJULOWmuwhWK3WfO5w4zTkv
-	bUj7pDrA==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Mkv3OZQmka9dFvB/Jkf+3A+ZEqT7VndkaxxKXof99l0=; b=yibDPfBpC7NiYma+8wNP+0dNC
+	l9jElLTaR5TrhyCf8HQ4rh+1JTzJGYCB+7dhpK/8M9VEHfW2wWe3B6SjYFUTNio4PtM+65y2F6cX3
+	HV0zOeqmb29hxa8NmASP51Uzg6NfkF3EwTRuWkihh7JgX+hSJ5wbkTNbq8598tVdlmaxw2yKnSU0q
+	u07+fALhrqUpI1ohL6t+SA4wc1iTh6Mzor8HSjseP8jJd7LBBPTvWBn0bOMaTOEJLRTJXJLuV4CqN
+	WsXkdTIdcRO99n2S4j6xm7b8PPCNxdF06qFo2jai5RmM5dcImVZlPYVqTPnA91Qy2oZbK6vZiDw+8
+	tIbgZlJTQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kHq10-0007rV-6K; Mon, 14 Sep 2020 15:03:34 +0000
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343])
+	id 1kHqU3-0002Hf-Kb; Mon, 14 Sep 2020 15:33:35 +0000
+Received: from mga09.intel.com ([134.134.136.24])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kHq0w-0007py-Mp
- for linux-nvme@lists.infradead.org; Mon, 14 Sep 2020 15:03:32 +0000
-Received: by mail-wm1-x343.google.com with SMTP id x23so354075wmi.3
- for <linux-nvme@lists.infradead.org>; Mon, 14 Sep 2020 08:03:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oguichTI2JiRh+M6kipMP5TlmvO7QX2E553rfXFO7+0=;
- b=QudsO20Qexc+Ktbp/b4Y3K2E/SCCF3kkzMqHXzNZxpkDra+1CpbXH6bVdbVkjqtZvO
- YbW2MHrCwGzrFdyJh+a6GizWnmcyf8XsQ7ChNgl5d+rCWl5Y/1yhMXl6/hnlE337b0ty
- 1zOyYIktjFAR+dOjoSbTBUM+KBG/GRG7QpqL/30sdQtwCM81j2U2NhMgimfeU0J1Fgz8
- ILBSBKK/dfekaXnYV7A3Mktf76hMSGggZ1HfWUqF6YsGmiP666Hy9UwdxabO4FoNQwNP
- bT8Z36ehbnaqgxdpvqBUstw+Y3ciGIS3OLPOY4ypJ2GvGqRgXPU75oZqQ8yCcPnH1evJ
- q97Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oguichTI2JiRh+M6kipMP5TlmvO7QX2E553rfXFO7+0=;
- b=Z2XtZHlFRGKSpdC1UhB2ClXsU6dGSsizMfeNrr0sQMrDmf9R3qGNhElCFHl+xwCU4n
- /kxXasp1KqNjFBWaQEjrcd8e/uavYck4D5Fb8oXwoDI7rWxKFN/U4k5Jq4ErjHtgWaAx
- ZzPES+OMBdUubFZ+pfYXHyPS3FNi+7IZWEyTDJqrBHYeLpIre/ebuS0mWl3dAJcM9NEG
- 7XlBQbJyyzABP/BwQXODdCl+Pp0Xt6rjtIUVkEbpe9bV3dUmqUU1Gm0FLeP8PvMKjwfw
- hISvx6+2LsOCyC+p5wanR+A1izNhRppfFcSXorvsEMsrnzhEnyYXSWipyMS2GgrXKTDM
- lhNg==
-X-Gm-Message-State: AOAM532PxgNzG+BGnpV/KpKpseor3h68LAkqP2f1erhJWSAMToGJa9gq
- AaDn1ITcRQhMgX6TFCqLC0w=
-X-Google-Smtp-Source: ABdhPJx2lY+MrWtjvr56gCqfupiUyXAQUpFI19jVo/Fv8wbpLoFlzdQNfLBEDFwiZtW3z+bY7XLMAA==
-X-Received: by 2002:a1c:7e15:: with SMTP id z21mr7043189wmc.21.1600095809707; 
- Mon, 14 Sep 2020 08:03:29 -0700 (PDT)
-Received: from localhost.localdomain ([85.153.229.188])
- by smtp.gmail.com with ESMTPSA id i3sm21214910wrs.4.2020.09.14.08.03.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Sep 2020 08:03:28 -0700 (PDT)
-From: Necip Fazil Yildiran <fazilyildiran@gmail.com>
-To: sagi@grimberg.me
-Subject: [PATCH] nvme: tcp: fix kconfig dependency warning when !CRYPTO
-Date: Mon, 14 Sep 2020 18:01:21 +0300
-Message-Id: <20200914150120.449602-1-fazilyildiran@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ id 1kHqTy-0002HA-Ja
+ for linux-nvme@lists.infradead.org; Mon, 14 Sep 2020 15:33:31 +0000
+IronPort-SDR: 4svBr5rYwc8kNININowZHwIs0NB369ZyyGEkfWZfFRKSOrgwffjkCJZ5RkNdjiaXaSmPEwlQDA
+ bNtC8ZCcar2w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9744"; a="160028008"
+X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; d="scan'208";a="160028008"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2020 08:33:27 -0700
+IronPort-SDR: Y/xVtjLWPhhmkbP/s3w2vFt6oAg5qKVluTNKgCwGOL9/yZnhUHtxfIq5k1UGeJ9Yo5MlU0AnR4
+ ltPf1jN6XQgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,426,1592895600"; d="scan'208";a="335318304"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by orsmga008.jf.intel.com with ESMTP; 14 Sep 2020 08:33:25 -0700
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1kHqTq-00GdDl-Jz; Mon, 14 Sep 2020 18:33:22 +0300
+Date: Mon, 14 Sep 2020 18:33:22 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme-pci: Move enumeration by class to be last in the
+ table
+Message-ID: <20200914153322.GK3956970@smile.fi.intel.com>
+References: <20200818083530.18983-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200818083530.18983-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200914_110330_779359_56569806 
-X-CRM114-Status: GOOD (  12.78  )
+X-CRM114-CacheID: sfid-20200914_113330_863478_95B8E477 
+X-CRM114-Status: GOOD (  23.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,47 +82,63 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: paul@pgazz.com, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, axboe@fb.com,
- minwoo.im.dev@gmail.com, kbusch@kernel.org, jeho@cs.utexas.edu, hch@lst.de
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When NVME_TCP is enabled and CRYPTO is disabled, it results in the
-following Kbuild warning:
+On Tue, Aug 18, 2020 at 11:35:30AM +0300, Andy Shevchenko wrote:
+> It's unusual that we have enumeration by class in the middle of the table.
+> It might potentially be problematic in the future if we add another entry
+> after it.
+> 
+> So, move class matching entry to be the last in the ID table.
 
-WARNING: unmet direct dependencies detected for CRYPTO_CRC32C
-  Depends on [n]: CRYPTO [=n]
-  Selected by [y]:
-  - NVME_TCP [=y] && INET [=y] && BLK_DEV_NVME [=y]
+Is it good enough?
 
-The reason is that NVME_TCP selects CRYPTO_CRC32C without depending on or
-selecting CRYPTO while CRYPTO_CRC32C is subordinate to CRYPTO.
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+> v2: appended tags and rebased on top of v5.9-rc1
+>  drivers/nvme/host/pci.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index ba725ae47305..95ea671e5c9e 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3185,7 +3185,6 @@ static const struct pci_device_id nvme_id_table[] = {
+>  				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+>  	{ PCI_DEVICE(0x1c5c, 0x1504),   /* SK Hynix PC400 */
+>  		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+> -	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
+>  		.driver_data = NVME_QUIRK_SINGLE_VECTOR },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+> @@ -3193,6 +3192,8 @@ static const struct pci_device_id nvme_id_table[] = {
+>  		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
+>  				NVME_QUIRK_128_BYTES_SQES |
+>  				NVME_QUIRK_SHARED_TAGS },
+> +
+> +	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+>  	{ 0, }
+>  };
+>  MODULE_DEVICE_TABLE(pci, nvme_id_table);
+> -- 
+> 2.28.0
+> 
 
-Honor the kconfig menu hierarchy to remove kconfig dependency warnings.
-
-Fixes: 79fd751d61aa ("nvme: tcp: selects CRYPTO_CRC32C for nvme-tcp")
-Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
----
- drivers/nvme/host/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 3ed9786b88d8..a44d49d63968 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -73,6 +73,7 @@ config NVME_TCP
- 	depends on INET
- 	depends on BLK_DEV_NVME
- 	select NVME_FABRICS
-+	select CRYPTO
- 	select CRYPTO_CRC32C
- 	help
- 	  This provides support for the NVMe over Fabrics protocol using
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
 
 _______________________________________________
