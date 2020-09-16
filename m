@@ -2,21 +2,22 @@ Return-Path: <SRS0=FbzM=CZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 354DEC433E2
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2020 20:57:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E4D4C433E2
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2020 21:01:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 40A2F21941
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2020 20:57:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8986020731
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2020 21:01:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="3W6qKs7C";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vo9JRApw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40A2F21941
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EBxT6f+B";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMyqKpvv"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8986020731
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,44 +26,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ATVNH+gAepwDF8Hq/pti09ZRAXbZAzvb60PbR5NhLuU=; b=3W6qKs7Ck9JH3bKUinOSrt5wL
-	zfObrIgZTdYgpddUySwLOiGtKATq8HHq03IT6jZcqboS1ustZjJdyjEfsKI1qrpTVLQMFj8dtr03t
-	5quYo5TM73GIUg1/VuboT2SQonLeEOeMVn56hRd2QWbrtPpLiShaj0oyA1rU3mswTUSH/uQTvaYPm
-	V82g2b2eVpGEEF+Yz3yEHdwJjchfe2ew3NilKCbIT0tdWodniA1WiWQF0SWBK7G8K3mtVvDDEDU1E
-	BIbjKmMa2AY+/ohG2UHz5DFlFsrpPuvirl3WvkHdTCvGevitjBUTSJXAhxnJ/inWv/LZoA83oNDj/
-	CP66HAmHw==;
+	 bh=Jp8qVDYsyiDQsdAFsbSB13+IhuP0tk5QL7s/3Dk3Z3g=; b=EBxT6f+BljZUAw9GKdwXvEHJp
+	ePvEZ2ubUvYoCWHbrEp3xN1ziPfSgzrR2hKsRMvWLv+FkwOX4WZXxA+35I4NHoLF+cR1Q7vMMQcOM
+	1vppJHamfEXpTp1rEDbc0Etqf7LKEha6r4YWVxrE1apMuchRloKOyPJ7Ru4Nkhm95JiMWOSJRaqvJ
+	teZS7TCb/pBw0iCevB1vBJ895NBk20wtU6y4J80PVKFMEzrwFJ1/rZR17/hodaaDh6J12PeezxkV+
+	SH3Tl6u/N6dTpLVK43Ds/cIZvA+2niuhu+yNsblxOJSthEx1pUI/A4IEvHKvSsQUfaClhWXJterSD
+	m9q6djRAg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kIeUd-0007SK-9n; Wed, 16 Sep 2020 20:57:31 +0000
+	id 1kIeY1-0000lJ-Cy; Wed, 16 Sep 2020 21:01:01 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kIeUN-0007HF-9J
- for linux-nvme@lists.infradead.org; Wed, 16 Sep 2020 20:57:20 +0000
+ id 1kIeXy-0000jo-M4
+ for linux-nvme@lists.infradead.org; Wed, 16 Sep 2020 21:00:59 +0000
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A7ED320731;
- Wed, 16 Sep 2020 20:57:12 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 118DE20731;
+ Wed, 16 Sep 2020 21:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600289833;
- bh=W4Wu8jELF7OY6DzUZBd0rnRK2ouwZ1XDaX0Ot7d21dI=;
+ s=default; t=1600290057;
+ bh=1uil2Nluygw+9/4s/GyCQXTq7E1rfNz6fwU/7AEnPqg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Vo9JRApw/uiEpIBhXFKubew+BHzwwyAxBnYVR0vBJfK2uPkwfWcyf58PbEG4zRDeD
- j+Vl65NGLreHOsw+F4usb7g8ZKYGFlhh1j5VxwBI8gzU1iG65dmhwXN1byoCZtCcBz
- ppAWHOSIIa6q3Mt5FbpzjtlV+eUUH2obhgQrisYg=
-Date: Wed, 16 Sep 2020 13:57:10 -0700
+ b=DMyqKpvvkY3XIN43KJeBfEb7qGjX78cNMdWxmLgyidHf3+NvUJx199dGC4eEISPQL
+ JizxkUz1N1IYIZddknPNqSJTPAugTHWlMWDf/hY2Y4ea4Tk9FOvxDLCUgrJ8+KGaXD
+ hJ7TzRLKcO/C7dBlgvEmOy9udp8iwM8U88SG6nXM=
+Date: Wed, 16 Sep 2020 14:00:54 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH V3 4/7] nvmet: set default timeout for passthru requests
-Message-ID: <20200916205710.GA3676296@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200915215118.3934-1-chaitanya.kulkarni@wdc.com>
- <20200915215118.3934-5-chaitanya.kulkarni@wdc.com>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
+Subject: Re: [PATCHv2 2/2] nvme: translate zone resource errors
+Message-ID: <20200916210054.GB3676296@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200915181230.3674743-1-kbusch@kernel.org>
+ <20200915181230.3674743-2-kbusch@kernel.org>
+ <CY4PR04MB37511B210DF4E12A481E0268E7200@CY4PR04MB3751.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200915215118.3934-5-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <CY4PR04MB37511B210DF4E12A481E0268E7200@CY4PR04MB3751.namprd04.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200916_165715_433189_EB357EE2 
-X-CRM114-Status: GOOD (  10.91  )
+X-CRM114-CacheID: sfid-20200916_170058_806616_88AEE3FB 
+X-CRM114-Status: GOOD (  20.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,22 +76,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "hch@lst.de" <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 15, 2020 at 02:51:15PM -0700, Chaitanya Kulkarni wrote:
-> @@ -242,6 +242,8 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
->  		goto out_put_ns;
->  	}
->  
-> +	rq->timeout = q->queuedata ? NVME_IO_TIMEOUT : ADMIN_TIMEOUT;
-> +
+On Tue, Sep 15, 2020 at 11:56:46PM +0000, Damien Le Moal wrote:
+> On 2020/09/16 3:17, Keith Busch wrote:
+> > Translate zoned resource errors to the appropriate blk_status_t.
+> > 
+> > Signed-off-by: Keith Busch <kbusch@kernel.org>
+> > ---
+> > v1->v2:
+> > 
+> >   Use BLK_STS_ZONE_RESOURCE instead of BLK_STS_DEV_RESOURCE
+> > 
+> >  drivers/nvme/host/core.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index f3a61a24d45f..6d5c95a3e03c 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -236,6 +236,9 @@ static blk_status_t nvme_error_status(u16 status)
+> >  		return BLK_STS_NEXUS;
+> >  	case NVME_SC_HOST_PATH_ERROR:
+> >  		return BLK_STS_TRANSPORT;
+> > +	case NVME_SC_ZONE_TOO_MANY_ACTIVE:
+> > +	case NVME_SC_ZONE_TOO_MANY_OPEN:
+> > +		return BLK_STS_ZONE_RESOURCE;
+> 
+> BLK_STS_ZONE_RESOURCE is used in the submission path to tell the block layer to
+> "try again later because the target zone is locked". This is used by scsi for
+> zone append emulation. So I think it may be better to define
+> BLK_STS_DEV_ZONE_RESOURCE to avoid confusions, and that would also clearly
+> indicate that the status comes from a command failed by the device, not the
+> stack. Thoughts ?
 
-Any reason you didn't use your new nvme_default_timeout() for this
-assignment?
+I believe it's safe to use for the completion side since the special
+handling is only for submission errors. But I agree this type of double
+meaning could invite confusion. I'll send a v3 with your suggestion and
+we'll see how that goes.
 
 _______________________________________________
 Linux-nvme mailing list
