@@ -2,83 +2,66 @@ Return-Path: <SRS0=FbzM=CZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06D8DC433E2
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2020 16:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7F1C43461
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2020 16:54:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 75E4D2223E
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2020 16:07:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 64D91224D4
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Sep 2020 16:54:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="y7Mi4wBl";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="RJbVDAlp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75E4D2223E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HJIhHc1X";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="GVRuy/9T"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 64D91224D4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GYZpHnhkDk1YVIstsuXUoRoixPTJlZqHACASYL6Aftw=; b=y7Mi4wBloqArd+t53IIFlntFO
-	1tcpH2etPL5LH61WnFEEIs3Cg+L5ipf5j7vXMeEsk+kCYjHZnhPQ2hjcZtXLpJP4o9Qnq5sOmxK7D
-	fQ7SwC77nJG3u3YoieteFbAaZROtCgy8L59a529pl/Ou0xw/vw/Mbg63e/spiLP2Ar0Qzpvt0dytk
-	vAQL8piCy2QuXrZ4kt8RitQmGI87n2Sr6lGU3yDveHgpau7FqY1NH9rpyY+UaFQ7bIcCsnWTTUtVs
-	Me3GgmmeOZLOeXEOSMRE7sHeqOv1TOHkq58hdIaaGXsC67YFgh9rBSOuACk2SxyplBC0Oo4O4yiBp
-	+4gHKZ/1Q==;
+	 bh=6G2PMe3gfVZ6986pOXMj+lJWE8oSblBThIF3Y2g4DXc=; b=HJIhHc1XUGHFJYhfCwsYIK0ov
+	lo8Zi+gO+Rdu/CJUGJxcZLhD8DmjP2oez9iFUxKgYNkBvphTBRUp1WwJtwyKMQAFhMjZkH1Vjk4L7
+	1aI+aeABYAu2S7rBci1nhS77BTmPmGKLjy8bSEaW8/lDyS0ZlzPanSM8hFOXBX/sDoOz+RyfDOwSi
+	hXQIiv4x2fntcofDQL5fmr1scxCE75bvVEsNhzZCHJox8KQivYO0YQ3Kkh+HyyERGnkpvQiA4aB3N
+	oB0al29QmdLJY41mznA0PYV58AbgPfYXIRR333SlDoEjDXJHsEMbPJ3wayBnPnrGqYyu04O4OsoPk
+	CiUApEZow==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kIZxq-0000Iw-BC; Wed, 16 Sep 2020 16:07:22 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1kIahc-0002sj-FP; Wed, 16 Sep 2020 16:54:40 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kIZxc-00007J-LF
- for linux-nvme@lists.infradead.org; Wed, 16 Sep 2020 16:07:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jCIKoQMgI8zbCmofiyz+I0OmINz4BVD/CtG9mKhrrso=; b=RJbVDAlp0cAwRoUHkzGXdbP4co
- o40MUmJOI98n7NMIDwAZT05yo79eVlTf0HwL7X4li+rKs+AxClcEs55Ib3us6Jtz+ArAaYhCV/KP1
- HdOEskvooeG7ogY7NQXKChM3UFiE65UKo8KDuillEZfZ5wsz9R5ZaQuPpHyEMvFrm91UeNdgrcJWh
- +xjWLwnt0JHMxsQlda/tT/QwAzKVYfF1bApbT4hENZVfpQ+orL2zKKKA1ps08q//MU5qoNU33SMm/
- NBjmzWP22sLtGezxRnkH/8i9Czh5v/H2ZPN22kHfAw5L4b200TvdBsVuePgvCqUvoCY8SAOpsdLx3
- NZFGA8NA==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1kIZxa-0003p1-WF; Wed, 16 Sep 2020 10:07:07 -0600
-To: Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-References: <20200916035326.9229-1-chaitanya.kulkarni@wdc.com>
- <20200916035326.9229-3-chaitanya.kulkarni@wdc.com>
- <20200916065243.GA9283@lst.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <aace5146-a155-eb18-061d-6f17c9a31e4f@deltatee.com>
-Date: Wed, 16 Sep 2020 10:07:06 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ id 1kIahZ-0002rW-NM
+ for linux-nvme@lists.infradead.org; Wed, 16 Sep 2020 16:54:38 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B9762221F1;
+ Wed, 16 Sep 2020 16:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600275276;
+ bh=Ggu67kQ5Z6Y2gHRAwgKBqvNHtiu2B+7/8drm5WugluM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GVRuy/9TjeVkfwZYcbT1oCJkkYu7TBej+6nKXQPKxmKMxqFJOPxa88bFP+19ymmrj
+ BSHB8MAMBhLTkjfpsB0sD20wGRZsKz3zj2biOWQFMxA4mHfLPCatUp+q9jZmf3SRVm
+ 8bt0/gIzYHAei9/QHb9+C/J2x0ZEfHpq1GjYWSOk=
+Date: Wed, 16 Sep 2020 09:54:33 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Tong Zhang <ztong0001@gmail.com>
+Subject: Re: [PATCH] nvme: fix NULL pointer dereference
+Message-ID: <20200916165433.GA3675881@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200916153648.5475-1-ztong0001@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200916065243.GA9283@lst.de>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: sagi@grimberg.me, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, chaitanya.kulkarni@wdc.com, hch@lst.de
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH V2 2/2] nvme: decouple nvme_get_ctrl() from file open
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <20200916153648.5475-1-ztong0001@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200916_120708_762609_D2791052 
-X-CRM114-Status: GOOD (  11.94  )
+X-CRM114-CacheID: sfid-20200916_125437_835031_2228D658 
+X-CRM114-Status: GOOD (  12.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,25 +73,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, sagi@grimberg.me, linux-nvme@lists.infradead.org
+Cc: Jens Axboe <axboe@fb.com>, linux-kernel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, Sep 16, 2020 at 11:36:49AM -0400, Tong Zhang wrote:
+> @@ -960,6 +960,8 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+>  	}
+>  
+>  	req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), cqe->command_id);
+> +	if (!req)
+> +		return;
+
+As I mentioned before, blk_mq_tag_to_rq() returns NULL if the tag
+exceeds the depth. We already verify the tag prior to calling this
+function, so what's the real root cause for how we're winding up with
+NULL here? I'm only asking this because it sounds like there's a bug
+somewhere else and this change is masking over it.
 
 
-On 2020-09-16 12:52 a.m., Christoph Hellwig wrote:
-> This needs to be split into a fix and a cleanup.
-> 
-> Attached is how I'd do it.
-> 
-
-Christoph's patches for this look good to me. Whomever runs with them
-can add:
-
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-
+>  	trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
+>  	if (!nvme_try_complete_req(req, cqe->status, cqe->result))
+>  		nvme_pci_complete_rq(req);
 
 _______________________________________________
 Linux-nvme mailing list
