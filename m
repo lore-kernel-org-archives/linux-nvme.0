@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23679C43464
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 00:30:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A22C43463
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 00:37:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 967F3207FB
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 00:30:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5BA2220878
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 00:36:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="l578AXbv";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="hHgT7HMS";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="ebES07Kr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 967F3207FB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TDc1v5J0";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="kW1wDkRv";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="zVgWPwp8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5BA2220878
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,76 +27,76 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=8fPgvDYNK+AdzWjTAg2fNTX6W2h5Tk2YWviPg7lZAKM=; b=l578AXbv5YA35DxStj5mO+uNT
-	utMi0K8zZf/0kr61r4B9cwJYlfaoFApQ96Xvyk4GaHEoveLX54bMiR097YPe0w3r8m8LpWw/PFlqg
-	+tADQ9TroABQv7FP7SiO4lwekGCi4MYlecLCL4/My/b2WJYYjHFhBczDWNUTpI/06PJzRxf3AH9sU
-	/14vZW/dDtK5XLLI1QLlwv30TjSjgP9tYONYUpemQ4DE2j6BUnSOFtzk5q5XC5yYk0ho+H7KgLGE4
-	c4OQrKpteKWGKsOm/1QJDZfWbD3af1xASMDzY6WRbxQuCmrwtvtgHcAHUpzA35yXSdCc8jxPlWUor
-	1n/Ct6a4A==;
+	 bh=D2hQOALWr2xDNNNP1jDVLR20/mS8Pu7xpEVVDjs+fIk=; b=TDc1v5J0lObhoRCdP3vuDz9Jh
+	X2mphQZ+z/VlW9HoZXTcIs49TnEVd85rxjNCrDIYL3QhAuhPk+eplIuUiiuond/feQd4RS4QafsBk
+	7zCrUYhqqRxZdCtefRgp0971dS7k4VRPz9Eh8ORMGoMMHCeC+UmoyHtFQ8L1K9wgNKR0AY2JqMe+S
+	dT+moivtF2NpG7XQZtcceQudQtSK3jqDMu0YPdlnjA4QaBQZzWW2bDyzwSXox2YbuxdYivUN9NT0i
+	SgG/JYuGD9QlxXT59q9IDczEb4fokbcF0mNbc0aUtlC0uXYPsvHBDtEW0qtUAPnl51gPycUFhdu+R
+	D8TZI3onQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kJ4IR-0004DS-Vs; Fri, 18 Sep 2020 00:30:40 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1kJ4OV-0004wC-Di; Fri, 18 Sep 2020 00:36:55 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kJ4IO-0004Ci-K6
- for linux-nvme@lists.infradead.org; Fri, 18 Sep 2020 00:30:37 +0000
+ id 1kJ4OS-0004vb-KI
+ for linux-nvme@lists.infradead.org; Fri, 18 Sep 2020 00:36:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1600389037; x=1631925037;
+ t=1600389413; x=1631925413;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=V9LMB5/HWwOYJcCdyKAs8X314jcD8UXjuQ5Uwpznk/8=;
- b=hHgT7HMScMAecKs5TE/S7SSQrJeVSMpQR6f7EEuzE2BQxsHYS9SKJs9G
- nw5eH3N9NHFdNuwxl4lN/dmQ8daYnFeIGaNc3UjUlZeb5T7prtW2XtjJz
- clkWZCQC+gEpUtRImyl5sfJbcop1vKzYZ4GFriRXFGPa4HFwFGBGJAhF6
- Ov/wmw2U01neE3WovQUh5adFy40wKRJu5wDS3Ej5o12e2pK1k2r8YbLro
- d/CigRxC7lJDJW3uHS8MdSow4LHnjCP8xClzerEG+8EiOlzVpn8WqjKCe
- bzbFu5fu1PAXZaWFPVTREza8JvT/RE9PMrJiTanuWbZmoExiIyE5UZBYC g==;
-IronPort-SDR: qf1Z41viSSvwepqQvtWG1RP6XNgp778rbwgW2EX4Bzh3+fJ38SQvbBjx7Ka3oUrmiBfZxOT0zS
- qQZSfVQ6a4rSHbUiiRY5v3emDSSY1nNWCz4SwyfrHOEWp85FesagYsJ1nVO6JTHtDCjBkb0GEY
- V9eiIBqINHlBU/u2y+uHYVzgc6FRi6bBH3YAT9Hz3ZfIuK5qHtUtzbdRlN8FGeg6HLMk4frQtK
- ckiw6YJUhEl1vD2zs/cgIEA0uQGrK7draeyIcLq2JwwkI1Of099pMylvMJDlqFWxRk3T5qKyHS
- oVs=
-X-IronPort-AV: E=Sophos;i="5.77,272,1596470400"; d="scan'208";a="148912400"
-Received: from mail-bl2nam02lp2056.outbound.protection.outlook.com (HELO
- NAM02-BL2-obe.outbound.protection.outlook.com) ([104.47.38.56])
- by ob1.hgst.iphmx.com with ESMTP; 18 Sep 2020 08:30:33 +0800
+ bh=Y6OuaScCalgDOhVEPFHy/SopjIAVDngRCZKAiK385Q0=;
+ b=kW1wDkRv136lOruUVD4bf5XXFDEpgZ+hsAW/XirMrGFKj9kk3tfCvCo0
+ SNgSnX0TU7FQLLqowmEh/dhZ+dbAeeTvHqwsqUQ2wRH3aMwXVoQrDyTp+
+ 5Gsda2rk852SM9QEbEov949M7oXIiILUbWJhsXzREtLGjR6W9S7RAKlk6
+ lfSvb0+xLKb6zBL/FCQyLqPNqylhaBfJTFNDo9kYhWKnap3S7JhDl3AZg
+ GylvbDtIxnskIWKDgfUW4MWTC7FKvgbVcFdR24o0XXfAKt9iRwNnpJsT0
+ xqO8yaPmIaJl2xOfvvnEe82hXzCXb42gSCnEf1XY6UGmjhrmYtkACDue1 g==;
+IronPort-SDR: eZiY04dOPVnzTIz5PfqepPq6tqWlN3sbAaw6pe28gPsXxDncGBwCZburtdfc4xtwtCvjgQsNLL
+ c1KHZpbX3XXDgCazUaLHAZgmQu8QPuNzAXtdLBvyuLGQsH4nhG1QdC5SLK28dx1PTIjltfEDGK
+ 1S+qDyQP7ycswO/uBG0W5OumM4vjBcfd+jXweAlWDCawsxAGKixhThsk13GxxuoApqkgqf6dwk
+ HdHMfmYSmohIW+HWFJzRH7k04xq7QTcSZq1Rq0q924MPp+02jy50qoHbL3rRzDBoB2+7irdu0n
+ 57k=
+X-IronPort-AV: E=Sophos;i="5.77,272,1596470400"; d="scan'208";a="152045569"
+Received: from mail-bn8nam12lp2177.outbound.protection.outlook.com (HELO
+ NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.177])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Sep 2020 08:36:51 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nHB/f2OxHfjZBjf+5qwAgQIVOU+OfY+ZkxJtD+zSeSuMkW2T2c8cPmsnY0pdz1VZ6beVIm2cjhEbjutJXt+tRbQyGNCKE+J+0q7ZNSAfImHYCU2oQA646PkhW7d/CAHLZ3q+eJmxEm9TWMo1YI1rWocT8gm8oGiwo6LtWuD477GUSjP0bdqU+m5V+SY5TBH7Fu/Ql+WbVP5Pq5NMBLorT4CfnBGdFr9g8UfyEn7wFof8b/4iBM0HqHp3JlztexRGOb5TvVWcHHRrRko56RmFtkJQtDlCal04S0p1gpbOez23SqLUWNta2JzsrYsxH/bFK61E4z2R2YbOkHlI/hBbXA==
+ b=DEDyEXXBCWu37VZ8jeHP/DeWP7m2HmW9XV1QW5yqSYP21fUoWS14qN3FCzJtTj5TVtPYReQSdCrj3bYaZ7SQ2EhK61OTpJaPxTFRGliuV0IuyOe5m+OdzQHmuIrgrLF9VS6g/NqwzpS0RlY/7slAr43/cDluqQFsrqkNoDvgP/xmRkROJHJU4z3qya3N3MjHEBwpbgTESWg+uZZl6YEzUCCuWBpkVluraovmlUPSQK4CSFBzMHg/fyLj64D1KdWzvzNmPlwCeZ3z/appA37InkXerxbEw9hRbxPq1rpMPvt+y3N6AyXdLqRJ7WatzmSGBh1OPQDQCNOAeMl+jKriSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ub/IM5AXkd9CH4YE1Wc9uwWc4eMXdekPRe0Qanl8Vng=;
- b=aVDXkr+XS6p5eHF2FPLpVEOlCJr1ihiDS2l51PRb709eBZOh8n8wO5JvBlXi/8jadnx4ik1JEEE1/AOf3CZ03mDu/z8uMpp03xASdJGicVBhqGN1eAa1IWeZoufJYRcU46yUMgtiSAxLxRDmyRsazFta4886LPMlsnheoXB67KO3ffoiBT/L+tVIaoClf8iJh057izmsJ5+vAm/a+NsV585UEJ3KuA9hSXvk0ffTXhoqUKvEzdgfqm9cm40dEv5XSZyrZjiyFXeS3jbyTumRDXX/Ny6PUlDkf7J5KJUGxTHK8FGYjoVqGN9GCCddCzlU9t3oLYrizy9ldTYbaw/7+Q==
+ bh=jbl1dDdPLJRrAI1oqPsbzUWCLMeCh4qrAP/OTYIGdsU=;
+ b=N1L+fPPdnhHqXhBOhs/3QdngHjvtVpUrp5gNiVjrt05FaD5UYQ9mek7OIwo2dSFwmcAOANdwA0sfmVWRqq6f1yDU+nSOQ8TX3eKVAGM7PDo3FwEuOYalcSPbnDNfenjP7I3L+V3kVIJVkv3vj7J/ZdA3G83JuRF4qW5KbtJjtxLVGU1kxM2l2ATI/zE7r1l9dKGOQ4yvfSLiHZx7CLr2pIxFUhPiNSkaT2fO4iEN38EB8At1LgIMSSRZFgwTDbo30YLBpqh9chP2wCgYger1/A4eMJSD3ZZwtdqly8K1mrYsdm2VcYZSvHmjWY173KCe+BCdOp78oY8fS80d2BZHgA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ub/IM5AXkd9CH4YE1Wc9uwWc4eMXdekPRe0Qanl8Vng=;
- b=ebES07KrtIfnWUziMk9GX/k8n+NSB6axdmHnPDqgdAVgvhSIy+JFmz6U4G2/e+HQ9AN6iEgIXCeEoYZY1/opp6hM8G6oi9YL5pbELvqJ0s4E+0BD41KLwweCZ9FyGRF8GXPwXy6LW/5YT16+AG5yZaOO8OS4F7s30ElunlWHh18=
+ bh=jbl1dDdPLJRrAI1oqPsbzUWCLMeCh4qrAP/OTYIGdsU=;
+ b=zVgWPwp8d5bQv/8XwOv6Vbj8cnJ3s9MIq8L3oFt8/uqGC78+dzOruLzJOgKiW0El9jVb96IOFwbNQ43A/kCmlmnTVmfUaLw+shiaKRKVx7i/ePLZLpBBWqNBL6zUBUrOsRykFuafPqjzB/0+HCDTwm2UhYtFrB7+ObUTgK3uyMc=
 Received: from CY4PR04MB3751.namprd04.prod.outlook.com (2603:10b6:903:ec::14)
- by CY4PR04MB1225.namprd04.prod.outlook.com (2603:10b6:903:bc::8) with
+ by CY4PR04MB0760.namprd04.prod.outlook.com (2603:10b6:903:ea::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Fri, 18 Sep
- 2020 00:30:32 +0000
+ 2020 00:36:47 +0000
 Received: from CY4PR04MB3751.namprd04.prod.outlook.com
  ([fe80::9124:2453:fe9c:9a7]) by CY4PR04MB3751.namprd04.prod.outlook.com
  ([fe80::9124:2453:fe9c:9a7%12]) with mapi id 15.20.3391.015; Fri, 18 Sep 2020
- 00:30:32 +0000
+ 00:36:47 +0000
 From: Damien Le Moal <Damien.LeMoal@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
  <linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
  "hch@lst.de" <hch@lst.de>, "linux-block@vger.kernel.org"
  <linux-block@vger.kernel.org>
-Subject: Re: [PATCHv3 2/4] nvme: translate zone resource errors
-Thread-Topic: [PATCHv3 2/4] nvme: translate zone resource errors
-Thread-Index: AQHWjUjpK3F9XEFLvUaN7nKRXw3OuQ==
-Date: Fri, 18 Sep 2020 00:30:31 +0000
-Message-ID: <CY4PR04MB375186AFD0FD8260397262E2E73F0@CY4PR04MB3751.namprd04.prod.outlook.com>
+Subject: Re: [PATCHv3 3/4] scsi: update additional sense codes list
+Thread-Topic: [PATCHv3 3/4] scsi: update additional sense codes list
+Thread-Index: AQHWjUjrB71b/C2wiUeMv81rykPlUg==
+Date: Fri, 18 Sep 2020 00:36:47 +0000
+Message-ID: <CY4PR04MB3751B7F869D2038BC3106AD9E73F0@CY4PR04MB3751.namprd04.prod.outlook.com>
 References: <20200917231841.4029747-1-kbusch@kernel.org>
- <20200917231841.4029747-3-kbusch@kernel.org>
+ <20200917231841.4029747-4-kbusch@kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -106,34 +106,34 @@ authentication-results: kernel.org; dkim=none (message not signed)
 x-originating-ip: [2400:2411:43c0:6000:c162:b6b0:12c6:8cc]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 110587d6-2e32-4437-33d2-08d85b6a0d46
-x-ms-traffictypediagnostic: CY4PR04MB1225:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR04MB1225C17EE43C684A783C2815E73F0@CY4PR04MB1225.namprd04.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 00b8ab22-3be5-47ff-e53d-08d85b6aed12
+x-ms-traffictypediagnostic: CY4PR04MB0760:
+x-microsoft-antispam-prvs: <CY4PR04MB0760E821FBA9B652C2422F9AE73F0@CY4PR04MB0760.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:849;
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IAeDCSO9sH/TqnnK9y6SG9l5CfTK1rEIE7lr06zgyJaHqHooEGIF1l/6jaQiRTGB75ThbVQ8ME5OW7AmyIP8IdEYYDxC53l6bYKrRRTbuV1rOMS0FIIZZxtn7W841Ht8vXG5gaT6oljHCe4GpqdV8/KvbfhgFQ8Uwo39R9VNBYUWe2enf+av39MrhKTo0uGTMOyOfxSf/wqiQkHUH8QFwJD6zrA6tgrG8so+rInGOWTAkddxLnnoy8aaSDeIo4VxhIt1BvUosOlw4nIMvfkt1Enf05sGwgBZ4AybcImlHcGEUwhJMnSGtRTzP5g3nn5GiPAIZKOqyfQIZiSPyb77dA==
+x-microsoft-antispam-message-info: eo4XqbgJhvbsPI/59FsPzgwsOZjeLchk4AimEseN2BdmGyVtBve6Vt1hhLr0M+8zsKQJOgtjLjJzrt4/b9SdBvUXMZiQqhCHbGz/mP7yB7Nbxk7PvS2cyGmFFmTKOfND6YOdwuPEYwJrEs4ahkWyEzBMU3exOKd3+FDBbFA5qbTnFkfZquc0OBI72+8rutLUlW/PXaNyUfYa5tCPdS7o4GfwDH1MM3VdCJwsVIo/Kan/WBdRRyXrT9hKZ1WnXYWuhC/H4hCPxbY/FaLfsX5GQ0Qjhhn/NUUCyBElAkGyabg6SD2yHNNMq/OgEp7L9EESTBVkY1Q7iQnQjoapXEyUScpBLNO0vdMmAieA3N1Bc1PGk9p70mbOiu6zzIwsrLbU4Ttk4/EA/ukFxvCP/PjYug==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39860400002)(66946007)(64756008)(52536014)(66476007)(66556008)(76116006)(4326008)(66446008)(91956017)(5660300002)(4744005)(478600001)(9686003)(8676002)(55016002)(316002)(54906003)(71200400001)(110136005)(186003)(53546011)(33656002)(8936002)(86362001)(7696005)(6506007)(2906002);
+ SFS:(4636009)(346002)(396003)(376002)(39860400002)(136003)(366004)(66556008)(91956017)(76116006)(66476007)(64756008)(15650500001)(66446008)(966005)(54906003)(316002)(33656002)(186003)(478600001)(8936002)(110136005)(4326008)(7696005)(86362001)(83380400001)(52536014)(66946007)(71200400001)(55016002)(9686003)(53546011)(30864003)(2906002)(5660300002)(6506007)(8676002);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 4pJg0PZ6FwtX//asjdHXEQ+lTULwqyv4CArFirZrsHM+U4sOsJuV1DMPMP+G3xY8w2l1cPj57/m403SAt+lfdMirHCaUjDGCoxOsDZOVfDn/yYS7npWv6Kh0fBRJfKBXbJ3C4rRq67mlCvXrFfVCAJR7GeaxCyAP9WSeZ8fA/cTjp4Cbl2m8E6wB+LcNeC69zhKQBZ4jJecCTNSUQHe41YKz4mI8RR+QULEKhQhlXZTWlwamFcx23OoyyGtV9uMV+kg2g97IgqNA+4XC1pWhKiuxxKOvRaon+SoVSEo1T0g8k7qDfX3jz/f3XjiN3zsdTO5w6jJaJelMeGJNoYJ8KnOoVCv48rnmIulHW66FgXFxq5ZzrlREp0wR5yHwzXMrFN4AP/RwR/0UBZ/d1yk07dWhAG59olvYc2LRDq5/wNAzxLCX1X7QT91GAY/P/OoqEIWh7WyKuux4fQ4+2xX9FCnfsn5eBfh/MGIXn4/UHf4ref0uZp6aHn8jxPAhTmblBsesk6dtlWYIH5pwogY07fBuHZf/whMTvCaA/xPTDb7fi0glggrOD6kRY+/uYBx17uob+w8Zp5E5RMYCjsu5g66NcNtzzvEobzImd1oLM5LOHYhnPxdch7XsitHvkas+UC2Zl3vyYGpX60syYZ6UW8ytTnrgpYRH8U/DrD3rqhD7SaNBht/PfcUUUFnB+DkE+ouC/I9ceBp3jQLvSg1yfw==
+x-ms-exchange-antispam-messagedata: EMRVXL9owhsSYFXDbhGT6op4YYxi8B3HNRHXfru9CBUGeYrl1OD5jdqoWCBemF/v6TSps5FTV7smz9hP//D4eKLNUlhCkfuvTOBAizbACWROJKZHeH0Z4bRwm8orNEwhsm3s71EnRo+886mD/szQWWOkHoTN1Zlkc2Z+CYjFyxYO2TccyG2lWAXr5JpBRX0WaepJRDMRB8nh4U6LgW1E5emnKiuJegb1uOxC36G81ZeldGvRe5PCmthEHn2yxd3CeEDZFfmEdEO39Otd3RW6VLitv+nLak1GPdTxiS3c6Xf5X4xQSzi/1coqtl6igAugfJZnZqHn1fbU1IzWe6cTxqXPVAGlAFGqXb61oi3WYjmh1TJPyyOvwtVaiGYTUwDTadezzlSVHtGFraRqbKJ9z84CtPbHUtClY19NySPw1d9qMYlCVeax5Ee1EGRDPpBQwWVZiJbGSf2UKRRo74D/e/KQ0wbr3NNQq7KXeZU2sSBhfM7xw3UBADhYyGtBgsQDMJ1j+1if2xPuiMq2VsHjlQe+j4lQJ1Q07vosSUyqOh7gXEuwcNCG99gQ9EqOKK1JEg86FIsz5IdoFZU7W1I5ULSB+0lBwTxIdZ7KkjwBbLFZTUWnblsx6dhVrVf5ZSGFHb07hhlACgEd71O6dKc0VF5CCf7YLVrNGTCZHaINerEtNCBJSta6b9rrE5H+Es0ZYRlMsP03ZKKpordC6YkONA==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB3751.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 110587d6-2e32-4437-33d2-08d85b6a0d46
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2020 00:30:31.8531 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00b8ab22-3be5-47ff-e53d-08d85b6aed12
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2020 00:36:47.3495 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oMB3AfLPI7CR+ynmBg9i77GQvRRMX9O2hF6ePsdF489DjSuOzU/5PQrKnOI52VSjnaD7OxPemf4WvxzkUPG4gw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB1225
+X-MS-Exchange-CrossTenant-userprincipalname: haFN4nwTPhhNYP+KQ25BwxF97NGb3TdImVk5j6g9NIsciV31M4W0Ca7KaljRuHOqx5k6jIqL8uFBE5Sg59oCLQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0760
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200917_203036_826123_7FC53C7E 
-X-CRM114-Status: GOOD (  14.48  )
+X-CRM114-CacheID: sfid-20200917_203652_923387_518D4FF9 
+X-CRM114-Status: GOOD (  17.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,7 +146,6 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
  "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
@@ -155,35 +154,212 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2020/09/18 8:18, Keith Busch wrote:
-> Translate zoned resource errors to the appropriate blk_status_t.
+> From: Damien Le Moal <damien.lemoal@wdc.com>
 > 
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Damien Le Moal <Damien.LeMoal@wdc.com>
-> Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> Add missing Additional Sense Codes listed in
+> http://www.t10.org/lists/asc-num.txt.
+> 
+> Signed-off-by: Damien Le Moal <damien.lemoal@wdc.com>
+
+Martin already pulled this one in scsi-staging. So you can drop it from this series.
+
 > ---
->  drivers/nvme/host/core.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/scsi/sense_codes.h | 54 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 53 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 614cd455836b..a0d26fcbf923 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -236,6 +236,10 @@ static blk_status_t nvme_error_status(u16 status)
->  		return BLK_STS_NEXUS;
->  	case NVME_SC_HOST_PATH_ERROR:
->  		return BLK_STS_TRANSPORT;
-> +	case NVME_SC_ZONE_TOO_MANY_ACTIVE:
-> +		return BLK_STS_ZONE_ACTIVE_RESOURCE;
-> +	case NVME_SC_ZONE_TOO_MANY_OPEN:
-> +		return BLK_STS_ZONE_OPEN_RESOURCE;
->  	default:
->  		return BLK_STS_IOERR;
->  	}
+> diff --git a/drivers/scsi/sense_codes.h b/drivers/scsi/sense_codes.h
+> index 201a536688de..805d4c13d070 100644
+> --- a/drivers/scsi/sense_codes.h
+> +++ b/drivers/scsi/sense_codes.h
+> @@ -1,7 +1,7 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+>  /*
+>   * The canonical list of T10 Additional Sense Codes is available at:
+> - * http://www.t10.org/lists/asc-num.txt [most recent: 20141221]
+> + * http://www.t10.org/lists/asc-num.txt [most recent: 20200817]
+>   */
+>  
+>  SENSE_CODE(0x0000, "No additional sense information")
+> @@ -29,6 +29,7 @@ SENSE_CODE(0x001E, "Conflicting SA creation request")
+>  SENSE_CODE(0x001F, "Logical unit transitioning to another power condition")
+>  SENSE_CODE(0x0020, "Extended copy information available")
+>  SENSE_CODE(0x0021, "Atomic command aborted due to ACA")
+> +SENSE_CODE(0x0022, "Deferred microcode is pending")
+>  
+>  SENSE_CODE(0x0100, "No index/sector signal")
+>  
+> @@ -72,6 +73,9 @@ SENSE_CODE(0x041F, "Logical unit not ready, microcode download required")
+>  SENSE_CODE(0x0420, "Logical unit not ready, logical unit reset required")
+>  SENSE_CODE(0x0421, "Logical unit not ready, hard reset required")
+>  SENSE_CODE(0x0422, "Logical unit not ready, power cycle required")
+> +SENSE_CODE(0x0423, "Logical unit not ready, affiliation required")
+> +SENSE_CODE(0x0424, "Depopulation in progress")
+> +SENSE_CODE(0x0425, "Depopulation restoration in progress")
+>  
+>  SENSE_CODE(0x0500, "Logical unit does not respond to selection")
+>  
+> @@ -104,6 +108,17 @@ SENSE_CODE(0x0B06, "Warning - non-volatile cache now volatile")
+>  SENSE_CODE(0x0B07, "Warning - degraded power to non-volatile cache")
+>  SENSE_CODE(0x0B08, "Warning - power loss expected")
+>  SENSE_CODE(0x0B09, "Warning - device statistics notification active")
+> +SENSE_CODE(0x0B0A, "Warning - high critical temperature limit exceeded")
+> +SENSE_CODE(0x0B0B, "Warning - low critical temperature limit exceeded")
+> +SENSE_CODE(0x0B0C, "Warning - high operating temperature limit exceeded")
+> +SENSE_CODE(0x0B0D, "Warning - low operating temperature limit exceeded")
+> +SENSE_CODE(0x0B0E, "Warning - high critical humidity limit exceeded")
+> +SENSE_CODE(0x0B0F, "Warning - low critical humidity limit exceeded")
+> +SENSE_CODE(0x0B10, "Warning - high operating humidity limit exceeded")
+> +SENSE_CODE(0x0B11, "Warning - low operating humidity limit exceeded")
+> +SENSE_CODE(0x0B12, "Warning - microcode security at risk")
+> +SENSE_CODE(0x0B13, "Warning - microcode digital signature validation failure")
+> +SENSE_CODE(0x0B14, "Warning - physical element status change")
+>  
+>  SENSE_CODE(0x0C00, "Write error")
+>  SENSE_CODE(0x0C01, "Write error - recovered with auto reallocation")
+> @@ -122,6 +137,8 @@ SENSE_CODE(0x0C0D, "Write error - not enough unsolicited data")
+>  SENSE_CODE(0x0C0E, "Multiple write errors")
+>  SENSE_CODE(0x0C0F, "Defects in error window")
+>  SENSE_CODE(0x0C10, "Incomplete multiple atomic write operations")
+> +SENSE_CODE(0x0C11, "Write error - recovery scan needed")
+> +SENSE_CODE(0x0C12, "Write error - insufficient zone resources")
+>  
+>  SENSE_CODE(0x0D00, "Error detected by third party temporary initiator")
+>  SENSE_CODE(0x0D01, "Third party device failure")
+> @@ -242,6 +259,9 @@ SENSE_CODE(0x2009, "Access denied - invalid LU identifier")
+>  SENSE_CODE(0x200A, "Access denied - invalid proxy token")
+>  SENSE_CODE(0x200B, "Access denied - ACL LUN conflict")
+>  SENSE_CODE(0x200C, "Illegal command when not in append-only mode")
+> +SENSE_CODE(0x200D, "Not an administrative logical unit")
+> +SENSE_CODE(0x200E, "Not a subsidiary logical unit")
+> +SENSE_CODE(0x200F, "Not a conglomerate logical unit")
+>  
+>  SENSE_CODE(0x2100, "Logical block address out of range")
+>  SENSE_CODE(0x2101, "Invalid element address")
+> @@ -251,6 +271,8 @@ SENSE_CODE(0x2104, "Unaligned write command")
+>  SENSE_CODE(0x2105, "Write boundary violation")
+>  SENSE_CODE(0x2106, "Attempt to read invalid data")
+>  SENSE_CODE(0x2107, "Read boundary violation")
+> +SENSE_CODE(0x2108, "Misaligned write command")
+> +SENSE_CODE(0x2109, "Attempt to access gap zone")
+>  
+>  SENSE_CODE(0x2200, "Illegal function (use 20 00, 24 00, or 26 00)")
+>  
+> @@ -275,6 +297,7 @@ SENSE_CODE(0x2405, "Security working key frozen")
+>  SENSE_CODE(0x2406, "Nonce not unique")
+>  SENSE_CODE(0x2407, "Nonce timestamp out of range")
+>  SENSE_CODE(0x2408, "Invalid XCDB")
+> +SENSE_CODE(0x2409, "Invalid fast format")
+>  
+>  SENSE_CODE(0x2500, "Logical unit not supported")
+>  
+> @@ -297,6 +320,10 @@ SENSE_CODE(0x260F, "Invalid data-out buffer integrity check value")
+>  SENSE_CODE(0x2610, "Data decryption key fail limit reached")
+>  SENSE_CODE(0x2611, "Incomplete key-associated data set")
+>  SENSE_CODE(0x2612, "Vendor specific key reference not found")
+> +SENSE_CODE(0x2613, "Application tag mode page is invalid")
+> +SENSE_CODE(0x2614, "Tape stream mirroring prevented")
+> +SENSE_CODE(0x2615, "Copy source or copy destination not authorized")
+> +SENSE_CODE(0x2616, "Fast copy not possible")
+>  
+>  SENSE_CODE(0x2700, "Write protected")
+>  SENSE_CODE(0x2701, "Hardware write protected")
+> @@ -342,6 +369,7 @@ SENSE_CODE(0x2A12, "Data encryption parameters changed by vendor specific event"
+>  SENSE_CODE(0x2A13, "Data encryption key instance counter has changed")
+>  SENSE_CODE(0x2A14, "SA creation capabilities data has changed")
+>  SENSE_CODE(0x2A15, "Medium removal prevention preempted")
+> +SENSE_CODE(0x2A16, "Zone reset write pointer recommended")
+>  
+>  SENSE_CODE(0x2B00, "Copy cannot execute since host cannot disconnect")
+>  
+> @@ -360,6 +388,11 @@ SENSE_CODE(0x2C0B, "Not reserved")
+>  SENSE_CODE(0x2C0C, "Orwrite generation does not match")
+>  SENSE_CODE(0x2C0D, "Reset write pointer not allowed")
+>  SENSE_CODE(0x2C0E, "Zone is offline")
+> +SENSE_CODE(0x2C0F, "Stream not open")
+> +SENSE_CODE(0x2C10, "Unwritten data in zone")
+> +SENSE_CODE(0x2C11, "Descriptor format sense data required")
+> +SENSE_CODE(0x2C12, "Zone is inactive")
+> +SENSE_CODE(0x2C13, "Well known logical unit access required")
+>  
+>  SENSE_CODE(0x2D00, "Overwrite error on update in place")
+>  
+> @@ -395,6 +428,8 @@ SENSE_CODE(0x3100, "Medium format corrupted")
+>  SENSE_CODE(0x3101, "Format command failed")
+>  SENSE_CODE(0x3102, "Zoned formatting failed due to spare linking")
+>  SENSE_CODE(0x3103, "Sanitize command failed")
+> +SENSE_CODE(0x3104, "Depopulation failed")
+> +SENSE_CODE(0x3105, "Depopulation restoration failed")
+>  
+>  SENSE_CODE(0x3200, "No defect spare location available")
+>  SENSE_CODE(0x3201, "Defect list update failure")
+> @@ -419,6 +454,7 @@ SENSE_CODE(0x3802, "Esn - power management class event")
+>  SENSE_CODE(0x3804, "Esn - media class event")
+>  SENSE_CODE(0x3806, "Esn - device busy class event")
+>  SENSE_CODE(0x3807, "Thin Provisioning soft threshold reached")
+> +SENSE_CODE(0x3808, "Depopulation interrupted")
+>  
+>  SENSE_CODE(0x3900, "Saving parameters not supported")
+>  
+> @@ -456,6 +492,7 @@ SENSE_CODE(0x3B19, "Element enabled")
+>  SENSE_CODE(0x3B1A, "Data transfer device removed")
+>  SENSE_CODE(0x3B1B, "Data transfer device inserted")
+>  SENSE_CODE(0x3B1C, "Too many logical objects on partition to support operation")
+> +SENSE_CODE(0x3B20, "Element static information changed")
+>  
+>  SENSE_CODE(0x3D00, "Invalid bits in identify message")
+>  
+> @@ -488,6 +525,11 @@ SENSE_CODE(0x3F13, "iSCSI IP address removed")
+>  SENSE_CODE(0x3F14, "iSCSI IP address changed")
+>  SENSE_CODE(0x3F15, "Inspect referrals sense descriptors")
+>  SENSE_CODE(0x3F16, "Microcode has been changed without reset")
+> +SENSE_CODE(0x3F17, "Zone transition to full")
+> +SENSE_CODE(0x3F18, "Bind completed")
+> +SENSE_CODE(0x3F19, "Bind redirected")
+> +SENSE_CODE(0x3F1A, "Subsidiary binding changed")
+> +
+>  /*
+>   *	SENSE_CODE(0x40NN, "Ram failure")
+>   *	SENSE_CODE(0x40NN, "Diagnostic failure on component nn")
+> @@ -589,6 +631,9 @@ SENSE_CODE(0x550B, "Insufficient power for operation")
+>  SENSE_CODE(0x550C, "Insufficient resources to create rod")
+>  SENSE_CODE(0x550D, "Insufficient resources to create rod token")
+>  SENSE_CODE(0x550E, "Insufficient zone resources")
+> +SENSE_CODE(0x550F, "Insufficient zone resources to complete write")
+> +SENSE_CODE(0x5510, "Maximum number of streams open")
+> +SENSE_CODE(0x5511, "Insufficient resources to bind")
+>  
+>  SENSE_CODE(0x5700, "Unable to recover table-of-contents")
+>  
+> @@ -692,6 +737,7 @@ SENSE_CODE(0x5D69, "Firmware impending failure throughput performance")
+>  SENSE_CODE(0x5D6A, "Firmware impending failure seek time performance")
+>  SENSE_CODE(0x5D6B, "Firmware impending failure spin-up retry count")
+>  SENSE_CODE(0x5D6C, "Firmware impending failure drive calibration retry count")
+> +SENSE_CODE(0x5D73, "Media impending failure endurance limit met")
+>  SENSE_CODE(0x5DFF, "Failure prediction threshold exceeded (false)")
+>  
+>  SENSE_CODE(0x5E00, "Low power condition on")
+> @@ -744,6 +790,8 @@ SENSE_CODE(0x6708, "Assign failure occurred")
+>  SENSE_CODE(0x6709, "Multiply assigned logical unit")
+>  SENSE_CODE(0x670A, "Set target port groups command failed")
+>  SENSE_CODE(0x670B, "ATA device feature not enabled")
+> +SENSE_CODE(0x670C, "Command rejected")
+> +SENSE_CODE(0x670D, "Explicit bind not allowed")
+>  
+>  SENSE_CODE(0x6800, "Logical unit not configured")
+>  SENSE_CODE(0x6801, "Subsidiary logical unit not configured")
+> @@ -772,6 +820,10 @@ SENSE_CODE(0x6F04, "Media region code is mismatched to logical unit region")
+>  SENSE_CODE(0x6F05, "Drive region must be permanent/region reset count error")
+>  SENSE_CODE(0x6F06, "Insufficient block count for binding nonce recording")
+>  SENSE_CODE(0x6F07, "Conflict in binding nonce recording")
+> +SENSE_CODE(0x6F08, "Insufficient permission")
+> +SENSE_CODE(0x6F09, "Invalid drive-host pairing server")
+> +SENSE_CODE(0x6F0A, "Drive-host pairing suspended")
+> +
+>  /*
+>   *	SENSE_CODE(0x70NN, "Decompression exception short algorithm id of nn")
+>   */
 > 
 
-Looks good.
-Reviewed-by: Damien Le Moal <damien.lemoal@wdc.com>
 
 -- 
 Damien Le Moal
