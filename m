@@ -2,77 +2,67 @@ Return-Path: <SRS0=7z9d=C3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A29CC43463
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 08:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C9CAC43463
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 12:01:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9501321D43
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 08:38:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3C82421582
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 12:01:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bbewvA68"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9501321D43
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1HmWZDYt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C82421582
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/lfoP7v0+7KQy7Feodc0OmWBJkTBk3U3W5xOjC3Fsco=; b=bbewvA68X/RRmL3G0zZYwpo1c
-	LVSMuivjFdHXXSZGsQLWga0IqeIASDz5lG5oFZdzz1esW/R/EXXHK7wxC0euiIfjJ+V0F+6EyRTdw
-	lu7ugBpNaSU//PrQ+VSppHpQUSYOWwC/bmRo3Rv4bNIU5sqSNfZqoKLvWKD4368MdDJnk1jxIJACN
-	K6CLHKlP66vfapm4M2PsjxvygECLLQ/a6i0wmOeWLxUmo5uYnq66vuidcuHOlTUI2MlCbWf1K24CJ
-	P/t9pqMZWvsFyx7+T2sYxU7gb2Ig/x4ONL2O7wh1yaDghPHThaOvN/mcmJjYiYLnKKlvGgz6JhU9P
-	UK6+5fOew==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=4BGh/oc27sNbFsnol87fL4SttK9nw4WBFxT5ZmqXApE=; b=1HmWZDYtqYH8S7dRfAX1DSGWwg
+	q4EO4Xkf/MOLMlvIqfo1154BdYfsJj3IDYp/w8/A05rpMUiu22bgW73MMugPYgaGSXeg/ns6Z75zE
+	lOT9b0yKrv4fnvpw7axNngT/8lXk0O/JerXqqxlnoHLqvYVJ9qMQPQ+C65zKb8H2ai57c4gTVnzve
+	kI6QnPFrRpaUjcN1suH9/73ojenRJ08dcID4NFlkoQRaSvfQmyOZLvwMCdFLP/QucDZpnDqzAI30m
+	3/22KwXMHYpIIuGE79yeu7CQWcUAyd40JsuzViiIBpEgoAabvmw9VShgi9K5lwtst/0Q5LjoCVU/S
+	FWUqh9vQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kJBuI-0002ww-TH; Fri, 18 Sep 2020 08:38:15 +0000
-Received: from smtp.h3c.com ([60.191.123.50] helo=h3cspam02-ex.h3c.com)
+	id 1kJF4p-0008Nh-I3; Fri, 18 Sep 2020 12:01:19 +0000
+Received: from smtp.h3c.com ([60.191.123.56] helo=h3cspam01-ex.h3c.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kJBuB-0002t4-8d
- for linux-nvme@lists.infradead.org; Fri, 18 Sep 2020 08:38:12 +0000
-Received: from DAG2EX06-IDC.srv.huawei-3com.com ([10.8.0.69])
- by h3cspam02-ex.h3c.com with ESMTPS id 08I8bNaf080831
+ id 1kJDzm-0006qL-3R
+ for linux-nvme@lists.infradead.org; Fri, 18 Sep 2020 10:52:13 +0000
+Received: from DAG2EX03-BASE.srv.huawei-3com.com ([10.8.0.66])
+ by h3cspam01-ex.h3c.com with ESMTPS id 08IApGg8093674
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 18 Sep 2020 16:37:23 +0800 (GMT-8)
+ Fri, 18 Sep 2020 18:51:16 +0800 (GMT-8)
  (envelope-from tian.xianting@h3c.com)
-Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
- DAG2EX06-IDC.srv.huawei-3com.com (10.8.0.69) with Microsoft SMTP Server
+Received: from localhost.localdomain (10.99.212.201) by
+ DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 18 Sep 2020 16:37:25 +0800
-Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
- by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%7])
- with mapi id 15.01.1713.004; Fri, 18 Sep 2020 16:37:25 +0800
-From: Tianxianting <tian.xianting@h3c.com>
-To: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
-Subject: RE: [PATCH] nvme: use correct upper limit for tag in nvme_handle_cqe()
-Thread-Topic: [PATCH] nvme: use correct upper limit for tag in
+ 15.1.1713.5; Fri, 18 Sep 2020 18:51:19 +0800
+From: Xianting Tian <tian.xianting@h3c.com>
+To: <kbusch@kernel.org>, <axboe@fb.com>, <hch@lst.de>, <sagi@grimberg.me>
+Subject: [PATCH] [v2] nvme: use correct upper limit for tag in
  nvme_handle_cqe()
-Thread-Index: AQHWjZCEmyk8L06KUk++z8H0Pc/pn6luEhoQ
-Date: Fri, 18 Sep 2020 08:37:25 +0000
-Message-ID: <5fb643bb455549598ed2036eb2e8e683@h3c.com>
-References: <20200918074434.6461-1-tian.xianting@h3c.com>
-In-Reply-To: <20200918074434.6461-1-tian.xianting@h3c.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.99.141.128]
-x-sender-location: DAG2
+Date: Fri, 18 Sep 2020 18:44:20 +0800
+Message-ID: <20200918104420.30219-1-tian.xianting@h3c.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+X-Originating-IP: [10.99.212.201]
+X-ClientProxiedBy: BJSMTP01-EX.srv.huawei-3com.com (10.63.20.132) To
+ DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66)
 X-DNSRBL: 
-X-MAIL: h3cspam02-ex.h3c.com 08I8bNaf080831
+X-MAIL: h3cspam01-ex.h3c.com 08IApGg8093674
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200918_043810_053468_1D5BB723 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20200918_065202_908309_454F099C 
+X-CRM114-Status: GOOD (  14.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,24 +74,15 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Xianting Tian <tian.xianting@h3c.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I am very sorry,
-Please ignore this patch, the code need to rewrite.
-
------Original Message-----
-From: tianxianting (RD) 
-Sent: Friday, September 18, 2020 3:45 PM
-To: kbusch@kernel.org; axboe@fb.com; hch@lst.de; sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org; linux-kernel@vger.kernel.org; tianxianting (RD) <tian.xianting@h3c.com>
-Subject: [PATCH] nvme: use correct upper limit for tag in nvme_handle_cqe()
-
-We met a crash issue when hot-insert a nvme device, blk_mq_tag_to_rq() returned null(req=null), then crash happened in nvme_end_request():
+We met a crash issue when hot-insert a nvme device, blk_mq_tag_to_rq()
+returned null(req=null), then crash happened in nvme_end_request():
 	req = blk_mq_tag_to_rq();
         struct nvme_request *rq = nvme_req(req); //rq = req + 1
         rq->result = result;  <==crash here!!!
@@ -136,15 +117,23 @@ We met a crash issue when hot-insert a nvme device, blk_mq_tag_to_rq() returned 
 
 The analysis of the possible cause of above crash as below.
 
-According to our test, in nvme_pci_enable(), 'dev->q_depth' is set to 1024, in nvme_create_io_queues()->nvme_alloc_queue(), 'nvmeq->q_depth' is set to 'dev->q_depth'. In nvme_dev_add(), 'dev->tagset.queue_depth' is set to 1023:
-         dev->tagset.queue_depth = min_t(unsigned int, dev->q_depth, BLK_MQ_MAX_DEPTH) - 1;
-					//why -1?? first involved by commit a4aea562 In nvme_alloc_queue(), 'nvmeq->q_depth' is set to dev->q_depth'.
-So we got below values for mutiple depth:
+According to the test for io queues, in nvme_pci_enable(), 'dev->q_depth'
+is set to 1024; in nvme_create_io_queues()->nvme_alloc_queue(),
+'nvmeq->q_depth' is set to 'dev->q_depth'; in nvme_dev_add(),
+'dev->tagset.queue_depth' is set to 1023:
+         dev->tagset.queue_depth = min_t(unsigned int, dev->q_depth,
+						BLK_MQ_MAX_DEPTH) - 1;
+In nvme_alloc_queue(), 'nvmeq->q_depth' is set to dev->q_depth'.
+
+So we got below values for multiple depth:
 dev->q_depth            = 1024
 dev->tagset.queue_depth = 1023
 nvmeq->q_depth          = 1024
 
-In blk_mq_alloc_rqs(), it allocated 1023(dev->tagset.queue_depth) rqs for one hw queue. In nvme_alloc_queue(), it allocated 1024(nvmeq->q_depth) cqes for nvmeq->cqes[]. When process cqe in nvme_handle_cqe(), it get it by:
+In blk_mq_alloc_rqs(), it allocated 1023(dev->tagset.queue_depth) rqs for
+one hw queue. In nvme_alloc_queue(), it allocated 1024(nvmeq->q_depth)
+cqes for nvmeq->cqes[]. When process cqe in nvme_handle_cqe(), it get it
+by:
 	struct nvme_completion *cqe = &nvmeq->cqes[idx];
 
 We also added below prints in nvme_handle_cqe() and blk_mq_tag_to_rq():
@@ -155,9 +144,10 @@ We also added below prints in nvme_handle_cqe() and blk_mq_tag_to_rq():
 
 		//debug print
 		dev_warn(nvmeq->dev->ctrl.device,
-			"command_id %d completed on queue %d, nvmeq q_depth %d, nvme tagset q_depth %d\n",
+			"command_id %d completed on queue %d, nvmeq q_depth %d, nvme tagset q_depth %d, admin q_depth %d\n",
 		 	 cqe->command_id, le16_to_cpu(cqe->sq_id),
-			 nvmeq->q_depth, nvmeq->dev->tagset.queue_depth);
+			 nvmeq->q_depth, nvmeq->dev->tagset.queue_depth,
+			 nvmeq->dev->admin_tagset.queue_depth);
 
 		if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
 			dev_warn(nvmeq->dev->ctrl.device,
@@ -184,34 +174,44 @@ We also added below prints in nvme_handle_cqe() and blk_mq_tag_to_rq():
 		return NULL;
 	}
 
-According to the output, we know the max tag number(nr_tags) is 1023,  but
-nvmeq->q_depth is 1024 and nvmeq->cqes[] has 1024 cqes. So if 
-nvmeq->command_id(tag)
-is 1023, the judgement "if (unlikely(cqe->command_id >= nvmeq->q_depth))"
-in nvme_handle_cqe() is useless, we will get a null pointer, which is returned by blk_mq_tag_to_rq():
-	[   16.649973] nvme nvme0: command_id 968 completed on queue 13, nvmeq q_depth 1024, nvme tagset q_depth 1023
+According to the output, we know the max tag number(nr_tags) is 1023, but
+nvmeq->q_depth is 1024 and nvmeq->cqes[] has 1024 cqes. So if command_id
+(tag) is 1023, the judgement "if (unlikely(cqe->command_id >= nvmeq->q_depth))"
+in nvme_handle_cqe() is useless, we will get a null pointer, which is
+returned by blk_mq_tag_to_rq():
+	[   16.649973] nvme nvme0: command_id 968 completed on queue 13, nvmeq q_depth 1024, nvme tagset q_depth 1023, admin q_depth 30
 	[   16.649974] tag, nr_tags:968 1023
 
-This patch is to make command_id match to its correct upper limit 'nvmeq->dev->tagset.queue_depth', not nvmeq->q_depth. So even if we got 1023 of command_id, we can avoid a null pointer deference.
+It has the same issue for nvme admin queue:
+	[    7.489345] nvme nvme2: command id 24 completed on queue 0, nvmeq q_depth 32, nvme tagset q_depth 0, admin q_depth 30
+	[    7.489347] tag, nr_tags:24 30
+
+This patch is to make command_id match to its correct upper limit
+'nvmeq->dev->tagset.queue_depth' or
+'nvmeq->dev->admin_tagset.queue_depth', not nvmeq->q_depth. So with
+this patch, we can avoid a potential null pointer deference.
 
 Signed-off-by: Xianting Tian <tian.xianting@h3c.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c index 899d2f4d7..c681e26d0 100644
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 899d2f4d7..c0ae9d511 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -940,7 +940,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+@@ -940,7 +940,9 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
  	struct nvme_completion *cqe = &nvmeq->cqes[idx];
  	struct request *req;
  
 -	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
-+	if (unlikely(cqe->command_id >= nvmeq->dev->tagset.queue_depth)) {
++	if (unlikely(cqe->command_id >=
++			nvmeq->qid ? nvmeq->dev->tagset.queue_depth :
++			nvmeq->dev->admin_tagset.queue_depth)) {
  		dev_warn(nvmeq->dev->ctrl.device,
  			"invalid id %d completed on queue %d\n",
  			cqe->command_id, le16_to_cpu(cqe->sq_id));
---
+-- 
 2.17.1
 
 
