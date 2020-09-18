@@ -2,67 +2,138 @@ Return-Path: <SRS0=7z9d=C3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C9CAC43463
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 12:01:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9675C43463
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 13:32:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3C82421582
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 12:01:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 37D9A206DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 13:32:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1HmWZDYt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C82421582
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="d0oPAE/k";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="IHXgux0L";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="BVNBjgW2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 37D9A206DB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=4BGh/oc27sNbFsnol87fL4SttK9nw4WBFxT5ZmqXApE=; b=1HmWZDYtqYH8S7dRfAX1DSGWwg
-	q4EO4Xkf/MOLMlvIqfo1154BdYfsJj3IDYp/w8/A05rpMUiu22bgW73MMugPYgaGSXeg/ns6Z75zE
-	lOT9b0yKrv4fnvpw7axNngT/8lXk0O/JerXqqxlnoHLqvYVJ9qMQPQ+C65zKb8H2ai57c4gTVnzve
-	kI6QnPFrRpaUjcN1suH9/73ojenRJ08dcID4NFlkoQRaSvfQmyOZLvwMCdFLP/QucDZpnDqzAI30m
-	3/22KwXMHYpIIuGE79yeu7CQWcUAyd40JsuzViiIBpEgoAabvmw9VShgi9K5lwtst/0Q5LjoCVU/S
-	FWUqh9vQ==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=RnZ9td6N4cdnqOj0HlvKJzImCWy64MQnkP+1a73Fiv0=; b=d0oPAE/k4Hrpi61JcaiHeCzbL
+	NgV3HFARPfdTyPxc0SKY5dJIL27uJpOgILoeefZYoUecdPkjGGULBCqkVSSDtBNYULN4PaN2mnj8B
+	4qPa818HRI5dvzDkRJBKs1cQD38hgeKjPk66wSAoYR9kb455UjEnWN7QrJYd6GI8mzWudjMBLGkB9
+	LB1rmOiuqxWefuJuBBgGPJ9tqRylbKbRec3mcsKp0NPKL1csa3bhzs+jmMe03u6ezj87ic62pMXHc
+	OzgFTI6/ivoxR1xtgVN5R0vYxarZj2qRDziKzVTmh58ZPGa2oqBwiwKakjhjLg2uxFZ0pzukPgH8K
+	oapXNJScA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kJF4p-0008Nh-I3; Fri, 18 Sep 2020 12:01:19 +0000
-Received: from smtp.h3c.com ([60.191.123.56] helo=h3cspam01-ex.h3c.com)
+	id 1kJGUf-0002SA-Uh; Fri, 18 Sep 2020 13:32:06 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kJDzm-0006qL-3R
- for linux-nvme@lists.infradead.org; Fri, 18 Sep 2020 10:52:13 +0000
-Received: from DAG2EX03-BASE.srv.huawei-3com.com ([10.8.0.66])
- by h3cspam01-ex.h3c.com with ESMTPS id 08IApGg8093674
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 18 Sep 2020 18:51:16 +0800 (GMT-8)
- (envelope-from tian.xianting@h3c.com)
-Received: from localhost.localdomain (10.99.212.201) by
- DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 18 Sep 2020 18:51:19 +0800
-From: Xianting Tian <tian.xianting@h3c.com>
-To: <kbusch@kernel.org>, <axboe@fb.com>, <hch@lst.de>, <sagi@grimberg.me>
-Subject: [PATCH] [v2] nvme: use correct upper limit for tag in
- nvme_handle_cqe()
-Date: Fri, 18 Sep 2020 18:44:20 +0800
-Message-ID: <20200918104420.30219-1-tian.xianting@h3c.com>
-X-Mailer: git-send-email 2.17.1
+ id 1kJGUP-0002KJ-8a
+ for linux-nvme@lists.infradead.org; Fri, 18 Sep 2020 13:32:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1600435909; x=1631971909;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=zX3b7iCZ8eISx1t3rMPplzVA7DEuIwyrXJ9cQ90GCIE=;
+ b=IHXgux0Ld6x0eFCchrZRP5sRVTqrsrZxrOxFP7/TIuxoGXf+9LqT5f3o
+ aOnxDWdPeF39vYPcTF5V1HFTvQtbVgZFVa1MelvMd5m/T+vNVOUSMkwmJ
+ 8mC2xyypTF1oPtdCrHIawlBCHx0cSZbAzFYMNsUJUMADvYAcuOk1arUOS
+ xM8IYsJ1E0L4+LECdtOuYctKGObcXumDYPks0WlK89AlG495cOqsTUljQ
+ zb5ovxg+AtR01dwtVnZ0PsoExwg/m85i0IhJwy9J1Y+sbNzB3bYLWdkMC
+ xxbPNOdAE80sshuyM+XeW4HKLZuhE/ZhhInZseK3HKl9yIFih9xJuy5jL Q==;
+IronPort-SDR: hQCg8ydzN9Ns/MTLRLRusEYMWWvyOsAgHiZ63qWrgINW/cm8kS73L7q+0IcYu2lIwLNCWx/uIS
+ 9k+Ke88RK3rKg4t7DtPhO40HR6aX75cgm1QCuO76MC8Xagypvl8Bph7k8iJKemfvszVGAMujxj
+ Toa0n3uc9a6W0BGrAvMW5z/yLGcEVcgOXBKiSsr3aWilgRBE0hsZVtL8Nq0kdoHP1dyKvOMDbA
+ 1EdJxIFxYK1bzd8VaMf3FUIP5g4htjZKqW6DR6k9z3kOd6KdUF+UQYbRSm7uMuePHxj7cnSI3e
+ WO8=
+X-IronPort-AV: E=Sophos;i="5.77,274,1596470400"; d="scan'208";a="148958725"
+Received: from mail-dm6nam10lp2103.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.103])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Sep 2020 21:31:45 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BBxHN1vu1usB8tWvW5HSMpN/ZVm54LQEEgv7UDaXlumXBxpfy4coTvkB+ZLmONCaifk0AX9HunsvfjfJXVHq9xO1AoZtnAUdYj7PHlWJ1/cgxQ9kLsjwNxOBks0GCxjTiXi3U/NO8cSkMl7eXZjk/rF9Lvj7txZC0BHB15mBLLc9+zCJJ3lgnNAa3knVpqYcJ3xMyCLA2y49hl300Bhd1q9KOJrGO0nQkRB2fXGTFEXzq2bzclo7gie8jJnMaoqE9q6KGDOkli077978rM2/MpIYGQ9jKPtqy0arXu2OYMNe4wIc0d7vdiykHOt6lczRsjy7ebPVnxaaOqmZZw4i6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IdFH/5ixCZAsVOSbY5leC//retFE+u+8sFYZiHn65Os=;
+ b=Xoo6M6HhOzFgn0UjSonIpCZjJRYx3Fz/trNTHE8pDlvuK/PJHwe/fA2a1Zs9V4jIqbjqPnjxCtR/qZDVk5Sj/IAIFsTUVJvqZEhxq+nQfh9spbZRoqPQzB8i8VJ4tLjh1qn+IttktrFuvDsVv64VC0+KeVsQL0ngaJiNmLzUko3F+drTM34Tec6ZOcKj2sAWKFIWD2ynt0n6I4mpLyQvG1jM9geqLpwj+47GACmb/VNLoBe+2l/XHoGOkxTRtCJvPYEfIuBWZv2y3hz/wJJrB+LhFkZjlteSYNg1WMRkwiQWw6PVKQlw6J5r1gBqV+cgss54J6j8lb/RlAas6NHe3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IdFH/5ixCZAsVOSbY5leC//retFE+u+8sFYZiHn65Os=;
+ b=BVNBjgW2m0hsRUaxEaSKRRpz6lreFqG3swBJcEgPblLqH0i+RuDjxrAwDucFYrYOHQUSpHH25u7b/U3qhD5gXIZfqdekqZioZ7+NbrRfpNRjQgK12Z7sx3qOEnMXGzM25ecyY2nivUv+QJ2NAk+iKyVp0m2I4WpQZvzQ8o9+nYw=
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ (2603:10b6:803:47::21) by SN6PR04MB3805.namprd04.prod.outlook.com
+ (2603:10b6:805:4d::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Fri, 18 Sep
+ 2020 13:31:44 +0000
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::457e:5fe9:2ae3:e738]) by SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::457e:5fe9:2ae3:e738%7]) with mapi id 15.20.3370.019; Fri, 18 Sep 2020
+ 13:31:44 +0000
+From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+To: Keith Busch <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "hch@lst.de" <hch@lst.de>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>
+Subject: Re: [PATCHv3 1/4] block: add zone specific block statuses
+Thread-Topic: [PATCHv3 1/4] block: add zone specific block statuses
+Thread-Index: AQHWjUjpcQ/OOMMUgU+KxaV/geAZWA==
+Date: Fri, 18 Sep 2020 13:31:44 +0000
+Message-ID: <SN4PR0401MB35983DBC8B0B97A4083CDF8B9B3F0@SN4PR0401MB3598.namprd04.prod.outlook.com>
+References: <20200917231841.4029747-1-kbusch@kernel.org>
+ <20200917231841.4029747-2-kbusch@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2001:a62:1460:3d01:8d9e:cb93:a2df:3de3]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 7ae99d93-7f2e-4c2b-10d5-08d85bd72f77
+x-ms-traffictypediagnostic: SN6PR04MB3805:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR04MB38055D1BB6821D70403B5D9D9B3F0@SN6PR04MB3805.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Sl28JKC1AsRS6fDnDRf+MiYopHoLd5QVojKA3UCiBOVAgK3+sozexbUB40mbH7oBio17tO02/Uq71f+IdgpRNL/I3mtZW7M5781nDSB+BSzdQKQDvF9JRKQWrukAjJcI3c75rq5JTPORk5wXsmMKPn1dUvIIkrMEIbFGlHWnloxmypB4MYuaS0ZpLMVJNAL8vK4IPSbf6gE3J9LSsdXRnUsRnHWLHCgLGonAzRqTA73n3AZ908Kjjx8UMS1BbwJRnWRLpY4IM4XbVMbOumHVYnsQXqtlaKuTrUhtqBExuNycvPdb2twBU8gg9l9rpmy83NbDqSXqHI40ocDqij6dVA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0401MB3598.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(396003)(366004)(136003)(376002)(83380400001)(8676002)(91956017)(52536014)(2906002)(53546011)(86362001)(7696005)(55016002)(6506007)(9686003)(54906003)(110136005)(5660300002)(4326008)(478600001)(76116006)(66476007)(316002)(8936002)(66556008)(186003)(66446008)(71200400001)(66946007)(64756008)(33656002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: 7pC2mL2S3nZqbxSf+dIHfwTJan9CGG3m7JnAfwT7bVZVdA67/OP852kOc7Vb5Xttdjy7WrBvJzc+gwPPWAaxQKfv/UdbmciKgqfyhR3cBjAmqN6AI7InzmlxQ9+JNLRuT498WVrHVh8GHU6h66Twdh66pfUrusw7DWKteQEsslzn6E/FImNFNybNYHQTHFrlMZ5npneLQLx+vmard6mF6VYxZmHFLNIuK5oeJe/NeR90yveaQVCYpVVVIW8fyEjkZjMez85Ys8lVpAp4ExJsA/zkcM+sjOmb7+HjrXxW4LsvIsZTz92Pr/sd3XeVtWoOta9oqoThvfDDbOCtxZiKT2bwvth9UFeIPHTl/jqLgzskOas1hqjQ6appHAkMIOOtwc26DSoLmeyqM4XD8yP6ocn0yMnZEYFx9It0HM10P5Ec79eFyXdwPHh6IYQTj7zA88wM4IWmZYFVMhfVROvQBwr8sOcaoYYCYS8zRRCkNcKPCKrJIrvY4Ly7D42w1BT0tAnpHbqRjcIsFMddYOdJi/o6IPUqHAYbYXosvAwJxdTc47PWrNTJxesHLSxWJQm4IzKU6hysPa31/3VhV0qE4RpWu6WFDfifKtQawXNKHFN32KSL2IH0g3zbb/BTq0bzYD3N3vHSp95U/E5SaaMH/jvpXBv/p0ShuiK6ct4MwnhuPGWg00ygzHCJXVKkKtbViIl0TSIVGPK203AKZu3bYQ==
 MIME-Version: 1.0
-X-Originating-IP: [10.99.212.201]
-X-ClientProxiedBy: BJSMTP01-EX.srv.huawei-3com.com (10.63.20.132) To
- DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66)
-X-DNSRBL: 
-X-MAIL: h3cspam01-ex.h3c.com 08IApGg8093674
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3598.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ae99d93-7f2e-4c2b-10d5-08d85bd72f77
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2020 13:31:44.3994 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3bP9YKWMndfrhoMn0k/oyS5iOB2JveLhCT2ZQ9HkpNrw/SD08xXAF0bC8/VYhgEaEUJVvhVmdfrLTzIjlQsy9o+L2BtPpZEL4ME7O+gSKK0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB3805
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200918_065202_908309_454F099C 
-X-CRM114-Status: GOOD (  14.33  )
+X-CRM114-CacheID: sfid-20200918_093149_444604_BBD6FDFA 
+X-CRM114-Status: GOOD (  16.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,146 +145,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Xianting Tian <tian.xianting@h3c.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We met a crash issue when hot-insert a nvme device, blk_mq_tag_to_rq()
-returned null(req=null), then crash happened in nvme_end_request():
-	req = blk_mq_tag_to_rq();
-        struct nvme_request *rq = nvme_req(req); //rq = req + 1
-        rq->result = result;  <==crash here!!!
+On 18/09/2020 01:18, Keith Busch wrote:
+> diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
+> index f261a5c84170..2638d3446b79 100644
+> --- a/Documentation/block/queue-sysfs.rst
+> +++ b/Documentation/block/queue-sysfs.rst
+> @@ -124,6 +124,10 @@ For zoned block devices (zoned attribute indicating "host-managed" or
+>  EXPLICIT OPEN, IMPLICIT OPEN or CLOSED, is limited by this value.
+>  If this value is 0, there is no limit.
+>  
+> +If the host attempts to exceed this limit, the driver should report this error
+> +with BLK_STS_ZONE_ACTIVE_RESOURCE, which user space may see as the EOVERFLOW
+> +errno.
+> +
+>  max_open_zones (RO)
+>  -------------------
+>  For zoned block devices (zoned attribute indicating "host-managed" or
+> @@ -131,6 +135,10 @@ For zoned block devices (zoned attribute indicating "host-managed" or
+>  EXPLICIT OPEN or IMPLICIT OPEN, is limited by this value.
+>  If this value is 0, there is no limit.
+>  
+> +If the host attempts to exceed this limit, the driver should report this error
+> +with BLK_STS_ZONE_OPEN_RESOURCE, which user space may see as the ETOOMANYREFS
+> +errno.
 
-        [ 1124.256246] nvme nvme5: pci function 0000:e1:00.0
-        [ 1124.256323] nvme 0000:e1:00.0: enabling device (0000 -> 0002)
-        [ 1125.720859] nvme nvme5: 96/0/0 default/read/poll queues
-        [ 1125.732483]  nvme5n1: p1 p2 p3
-        [ 1125.788049] BUG: unable to handle kernel NULL pointer dereference at 0000000000000130
-        [ 1125.788054] PGD 0 P4D 0
-        [ 1125.788057] Oops: 0002 [#1] SMP NOPTI
-        [ 1125.788059] CPU: 50 PID: 0 Comm: swapper/50 Kdump: loaded Tainted: G   ------- -t - 4.18.0-147.el8.x86_64 #1
-        [ 1125.788065] RIP: 0010:nvme_irq+0xe8/0x240 [nvme]
-        [ 1125.788068] RSP: 0018:ffff916b8ec83ed0 EFLAGS: 00010813
-        [ 1125.788069] RAX: 0000000000000000 RBX: ffff918ae9211b00 RCX: 0000000000000000
-        [ 1125.788070] RDX: 000000000000400b RSI: 0000000000000000 RDI: 0000000000000000
-        [ 1125.788071] RBP: ffff918ae8870000 R08: 0000000000000004 R09: ffff918ae8870000
-        [ 1125.788072] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-        [ 1125.788073] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
-        [ 1125.788075] FS:  0000000000000000(0000) GS:ffff916b8ec80000(0000) knlGS:0000000000000000
-        [ 1125.788075] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-        [ 1125.788076] CR2: 0000000000000130 CR3: 0000001768f00000 CR4: 0000000000340ee0
-        [ 1125.788077] Call Trace:
-        [ 1125.788080]  <IRQ>
-        [ 1125.788085]  __handle_irq_event_percpu+0x40/0x180
-        [ 1125.788087]  handle_irq_event_percpu+0x30/0x80
-        [ 1125.788089]  handle_irq_event+0x36/0x53
-        [ 1125.788090]  handle_edge_irq+0x82/0x190
-        [ 1125.788094]  handle_irq+0xbf/0x100
-        [ 1125.788098]  do_IRQ+0x49/0xd0
-        [ 1125.788100]  common_interrupt+0xf/0xf
+Don't we also need to update some man pages in section 2?
 
-The analysis of the possible cause of above crash as below.
-
-According to the test for io queues, in nvme_pci_enable(), 'dev->q_depth'
-is set to 1024; in nvme_create_io_queues()->nvme_alloc_queue(),
-'nvmeq->q_depth' is set to 'dev->q_depth'; in nvme_dev_add(),
-'dev->tagset.queue_depth' is set to 1023:
-         dev->tagset.queue_depth = min_t(unsigned int, dev->q_depth,
-						BLK_MQ_MAX_DEPTH) - 1;
-In nvme_alloc_queue(), 'nvmeq->q_depth' is set to dev->q_depth'.
-
-So we got below values for multiple depth:
-dev->q_depth            = 1024
-dev->tagset.queue_depth = 1023
-nvmeq->q_depth          = 1024
-
-In blk_mq_alloc_rqs(), it allocated 1023(dev->tagset.queue_depth) rqs for
-one hw queue. In nvme_alloc_queue(), it allocated 1024(nvmeq->q_depth)
-cqes for nvmeq->cqes[]. When process cqe in nvme_handle_cqe(), it get it
-by:
-	struct nvme_completion *cqe = &nvmeq->cqes[idx];
-
-We also added below prints in nvme_handle_cqe() and blk_mq_tag_to_rq():
-	static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
-	{
-		volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
-		struct request *req;
-
-		//debug print
-		dev_warn(nvmeq->dev->ctrl.device,
-			"command_id %d completed on queue %d, nvmeq q_depth %d, nvme tagset q_depth %d, admin q_depth %d\n",
-		 	 cqe->command_id, le16_to_cpu(cqe->sq_id),
-			 nvmeq->q_depth, nvmeq->dev->tagset.queue_depth,
-			 nvmeq->dev->admin_tagset.queue_depth);
-
-		if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
-			dev_warn(nvmeq->dev->ctrl.device,
-				"invalid id %d completed on queue %d\n",
-				cqe->command_id, le16_to_cpu(cqe->sq_id));
-			return;
-		}
-
-		... ...
-
-		req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), cqe->command_id);
-		... ...
-	}
-
-	struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag)
-	{
-		//debug print
-		printk("tag, nr_tags:%d %d\n", tag, tags->nr_tags);
-		if (tag < tags->nr_tags) {
-			prefetch(tags->rqs[tag]);
-			return tags->rqs[tag];
-		}
-
-		return NULL;
-	}
-
-According to the output, we know the max tag number(nr_tags) is 1023, but
-nvmeq->q_depth is 1024 and nvmeq->cqes[] has 1024 cqes. So if command_id
-(tag) is 1023, the judgement "if (unlikely(cqe->command_id >= nvmeq->q_depth))"
-in nvme_handle_cqe() is useless, we will get a null pointer, which is
-returned by blk_mq_tag_to_rq():
-	[   16.649973] nvme nvme0: command_id 968 completed on queue 13, nvmeq q_depth 1024, nvme tagset q_depth 1023, admin q_depth 30
-	[   16.649974] tag, nr_tags:968 1023
-
-It has the same issue for nvme admin queue:
-	[    7.489345] nvme nvme2: command id 24 completed on queue 0, nvmeq q_depth 32, nvme tagset q_depth 0, admin q_depth 30
-	[    7.489347] tag, nr_tags:24 30
-
-This patch is to make command_id match to its correct upper limit
-'nvmeq->dev->tagset.queue_depth' or
-'nvmeq->dev->admin_tagset.queue_depth', not nvmeq->q_depth. So with
-this patch, we can avoid a potential null pointer deference.
-
-Signed-off-by: Xianting Tian <tian.xianting@h3c.com>
----
- drivers/nvme/host/pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 899d2f4d7..c0ae9d511 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -940,7 +940,9 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- 	struct nvme_completion *cqe = &nvmeq->cqes[idx];
- 	struct request *req;
- 
--	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
-+	if (unlikely(cqe->command_id >=
-+			nvmeq->qid ? nvmeq->dev->tagset.queue_depth :
-+			nvmeq->dev->admin_tagset.queue_depth)) {
- 		dev_warn(nvmeq->dev->ctrl.device,
- 			"invalid id %d completed on queue %d\n",
- 			cqe->command_id, le16_to_cpu(cqe->sq_id));
--- 
-2.17.1
-
+Code wise,
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 
 _______________________________________________
 Linux-nvme mailing list
