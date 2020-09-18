@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 395C3C43466
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 02:26:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34F3FC43468
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 02:29:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E38CC23600
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 02:26:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D48CF235F7
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Sep 2020 02:29:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hkQcl/Ez";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="TEwAGEJf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E38CC23600
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CsaDPP/A";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="tY5jlpge"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D48CF235F7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,39 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=biP0NKuyoIx8ntbbZHMVGoYp4SInsEy223RjCJN05Qo=; b=hkQcl/EzpgQa90wVo1pgWj13p
-	sxu9dsWDUTEfyekQwq+lK7lF8PHaanTDijKPagT+iNULsVl3fDqhbnMfBSdyg5M4pvS3ruB3uKXSF
-	sDqBF74/j8DZ2uGyrwCM/nptm2Ln1R4jIHfqGBWdLRE3C+RLauIuKOTp912jEYfA6gOq1ZcdQmFdv
-	J8H4yV3VmCqtkFiRWcl+Kpd1YkDFBCFe/MnzRKwD9xwNUziraLxVajM28iUri6QAV/PzyjFCEosiy
-	tf8+iNv6VBGDck9xoIqVPKNrMNKnaavrfhd6JeRRjy/JlHVqMHXqA+q5kIrGW6rsezunWIZt0oXFB
-	QWjWn+LQA==;
+	 bh=H9VYMP+otm6l6nXEtg2bF79Sw3VUfWhZMBUs23aN7ns=; b=CsaDPP/AmRSbLkQy252d30LPB
+	ACa8odOtkfe0Mnx9Ra4wsPXTT3Yod0usrjiW+2/vPy/QgGQdFtdtcn8tDuwysStVrMFHSKGfWvJSm
+	ECcfFaFvrRRtT8ipl9tZ1du9C3kj0qGrzjNG77F+x6+AnbJJTXNCCd8Yb22VFytLLd+xSlMqLa4Q9
+	PD4pCOaCsyx/rOySa2Iryy4AmXoggtRUn7H/Us45/w7FzD8txNnUYYigKRq40v/XLH/g7H1U0GjGv
+	TbMBj4V/UW+XI1bc9fYn8jFxJliGcw1mSi78e1v6Fq0La/oTSfj6mIpJYroS9Ue3qlrCMbwcPlNiU
+	wsxwaXraw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kJ66F-0005pN-GD; Fri, 18 Sep 2020 02:26:11 +0000
+	id 1kJ69g-0007yK-WA; Fri, 18 Sep 2020 02:29:45 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kJ5rC-0006Ug-QN
- for linux-nvme@lists.infradead.org; Fri, 18 Sep 2020 02:10:42 +0000
+ id 1kJ5se-0007Hb-42
+ for linux-nvme@lists.infradead.org; Fri, 18 Sep 2020 02:12:12 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9D1B421582;
- Fri, 18 Sep 2020 02:10:35 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B120023119;
+ Fri, 18 Sep 2020 02:12:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600395036;
- bh=Tt6DnYGiWAjDPqOMfhauHSXDFE4oJt7VPHo/MIsFYJg=;
+ s=default; t=1600395126;
+ bh=58wuEjHLT0tsDESkEIfgrC0DoSY3ECxTn66pktqCgXY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TEwAGEJfQjBu41svsv2Y4W+7qHbZlTJXOqD3jBY5cY7yM7IxSA4RaavNqQJSyh4sc
- Zce201OkZddF2OXKWpzg1zSOTwm47vtiq1X2LJGkbD0bytoIxjWeNzgWQgV6ujwKji
- kgUmBabwCXUaR79Pfxe7FrcfFWFt5KeNfjF93Xl4=
+ b=tY5jlpgevPO/jre4yL5i2b5NTuAmdR7jkMqUt8FG7DrdVD05ZO7RL0eZHwnNZGsYO
+ zqjB7d4NrPtjB+44iE73HWMFT22CXJcUw0whalojlTIzctkV3kkq38uls90XHB+0Q5
+ Usk28KDNnX1Tx4KmBMCaunz8gawqLwyw/zflsoeo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 127/206] nvme: Fix controller creation races with
- teardown flow
-Date: Thu, 17 Sep 2020 22:06:43 -0400
-Message-Id: <20200918020802.2065198-127-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 197/206] nvme: fix possible deadlock when I/O is
+ blocked
+Date: Thu, 17 Sep 2020 22:07:53 -0400
+Message-Id: <20200918020802.2065198-197-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918020802.2065198-1-sashal@kernel.org>
 References: <20200918020802.2065198-1-sashal@kernel.org>
@@ -66,8 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200917_221039_720357_297C6303 
-X-CRM114-Status: GOOD (  17.28  )
+X-CRM114-CacheID: sfid-20200917_221208_340268_167EAA6D 
+X-CRM114-Status: GOOD (  16.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,75 +79,130 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Israel Rukshin <israelr@mellanox.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Max Gurtovoy <maxg@mellanox.com>, Christoph Hellwig <hch@lst.de>
+Cc: Sasha Levin <sashal@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Israel Rukshin <israelr@mellanox.com>
+From: Sagi Grimberg <sagi@grimberg.me>
 
-[ Upstream commit ce1518139e6976cf19c133b555083354fdb629b8 ]
+[ Upstream commit 3b4b19721ec652ad2c4fe51dfbe5124212b5f581 ]
 
-Calling nvme_sysfs_delete() when the controller is in the middle of
-creation may cause several bugs. If the controller is in NEW state we
-remove delete_controller file and don't delete the controller. The user
-will not be able to use nvme disconnect command on that controller again,
-although the controller may be active. Other bugs may happen if the
-controller is in the middle of create_ctrl callback and
-nvme_do_delete_ctrl() starts. For example, freeing I/O tagset at
-nvme_do_delete_ctrl() before it was allocated at create_ctrl callback.
+Revert fab7772bfbcf ("nvme-multipath: revalidate nvme_ns_head gendisk
+in nvme_validate_ns")
 
-To fix all those races don't allow the user to delete the controller
-before it was fully created.
+When adding a new namespace to the head disk (via nvme_mpath_set_live)
+we will see partition scan which triggers I/O on the mpath device node.
+This process will usually be triggered from the scan_work which holds
+the scan_lock. If I/O blocks (if we got ana change currently have only
+available paths but none are accessible) this can deadlock on the head
+disk bd_mutex as both partition scan I/O takes it, and head disk revalidation
+takes it to check for resize (also triggered from scan_work on a different
+path). See trace [1].
 
-Signed-off-by: Israel Rukshin <israelr@mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+The mpath disk revalidation was originally added to detect online disk
+size change, but this is no longer needed since commit cb224c3af4df
+("nvme: Convert to use set_capacity_revalidate_and_notify") which already
+updates resize info without unnecessarily revalidating the disk (the
+mpath disk doesn't even implement .revalidate_disk fop).
+
+[1]:
+--
+kernel: INFO: task kworker/u65:9:494 blocked for more than 241 seconds.
+kernel:       Tainted: G           OE     5.3.5-050305-generic #201910071830
+kernel: "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+kernel: kworker/u65:9   D    0   494      2 0x80004000
+kernel: Workqueue: nvme-wq nvme_scan_work [nvme_core]
+kernel: Call Trace:
+kernel:  __schedule+0x2b9/0x6c0
+kernel:  schedule+0x42/0xb0
+kernel:  schedule_preempt_disabled+0xe/0x10
+kernel:  __mutex_lock.isra.0+0x182/0x4f0
+kernel:  __mutex_lock_slowpath+0x13/0x20
+kernel:  mutex_lock+0x2e/0x40
+kernel:  revalidate_disk+0x63/0xa0
+kernel:  __nvme_revalidate_disk+0xfe/0x110 [nvme_core]
+kernel:  nvme_revalidate_disk+0xa4/0x160 [nvme_core]
+kernel:  ? evict+0x14c/0x1b0
+kernel:  revalidate_disk+0x2b/0xa0
+kernel:  nvme_validate_ns+0x49/0x940 [nvme_core]
+kernel:  ? blk_mq_free_request+0xd2/0x100
+kernel:  ? __nvme_submit_sync_cmd+0xbe/0x1e0 [nvme_core]
+kernel:  nvme_scan_work+0x24f/0x380 [nvme_core]
+kernel:  process_one_work+0x1db/0x380
+kernel:  worker_thread+0x249/0x400
+kernel:  kthread+0x104/0x140
+kernel:  ? process_one_work+0x380/0x380
+kernel:  ? kthread_park+0x80/0x80
+kernel:  ret_from_fork+0x1f/0x40
+...
+kernel: INFO: task kworker/u65:1:2630 blocked for more than 241 seconds.
+kernel:       Tainted: G           OE     5.3.5-050305-generic #201910071830
+kernel: "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+kernel: kworker/u65:1   D    0  2630      2 0x80004000
+kernel: Workqueue: nvme-wq nvme_scan_work [nvme_core]
+kernel: Call Trace:
+kernel:  __schedule+0x2b9/0x6c0
+kernel:  schedule+0x42/0xb0
+kernel:  io_schedule+0x16/0x40
+kernel:  do_read_cache_page+0x438/0x830
+kernel:  ? __switch_to_asm+0x34/0x70
+kernel:  ? file_fdatawait_range+0x30/0x30
+kernel:  read_cache_page+0x12/0x20
+kernel:  read_dev_sector+0x27/0xc0
+kernel:  read_lba+0xc1/0x220
+kernel:  ? kmem_cache_alloc_trace+0x19c/0x230
+kernel:  efi_partition+0x1e6/0x708
+kernel:  ? vsnprintf+0x39e/0x4e0
+kernel:  ? snprintf+0x49/0x60
+kernel:  check_partition+0x154/0x244
+kernel:  rescan_partitions+0xae/0x280
+kernel:  __blkdev_get+0x40f/0x560
+kernel:  blkdev_get+0x3d/0x140
+kernel:  __device_add_disk+0x388/0x480
+kernel:  device_add_disk+0x13/0x20
+kernel:  nvme_mpath_set_live+0x119/0x140 [nvme_core]
+kernel:  nvme_update_ns_ana_state+0x5c/0x60 [nvme_core]
+kernel:  nvme_set_ns_ana_state+0x1e/0x30 [nvme_core]
+kernel:  nvme_parse_ana_log+0xa1/0x180 [nvme_core]
+kernel:  ? nvme_update_ns_ana_state+0x60/0x60 [nvme_core]
+kernel:  nvme_mpath_add_disk+0x47/0x90 [nvme_core]
+kernel:  nvme_validate_ns+0x396/0x940 [nvme_core]
+kernel:  ? blk_mq_free_request+0xd2/0x100
+kernel:  nvme_scan_work+0x24f/0x380 [nvme_core]
+kernel:  process_one_work+0x1db/0x380
+kernel:  worker_thread+0x249/0x400
+kernel:  kthread+0x104/0x140
+kernel:  ? process_one_work+0x380/0x380
+kernel:  ? kthread_park+0x80/0x80
+kernel:  ret_from_fork+0x1f/0x40
+--
+
+Fixes: fab7772bfbcf ("nvme-multipath: revalidate nvme_ns_head gendisk
+in nvme_validate_ns")
+Signed-off-by: Anton Eidelman <anton@lightbitslabs.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 5 +++++
- drivers/nvme/host/nvme.h | 1 +
- 2 files changed, 6 insertions(+)
+ drivers/nvme/host/core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4b182ac15687e..faa7feebb6095 100644
+index faa7feebb6095..84fcfcdb8ba5f 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2856,6 +2856,10 @@ static ssize_t nvme_sysfs_delete(struct device *dev,
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 
-+	/* Can't delete non-created controllers */
-+	if (!ctrl->created)
-+		return -EBUSY;
-+
- 	if (device_remove_file_self(dev, attr))
- 		nvme_delete_ctrl_sync(ctrl);
- 	return count;
-@@ -3576,6 +3580,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
- 		queue_work(nvme_wq, &ctrl->async_event_work);
- 		nvme_start_queues(ctrl);
+@@ -1599,7 +1599,6 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 	if (ns->head->disk) {
+ 		nvme_update_disk_info(ns->head->disk, ns, id);
+ 		blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
+-		revalidate_disk(ns->head->disk);
  	}
-+	ctrl->created = true;
+ #endif
  }
- EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 31c1496f938fb..a70b997060e68 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -206,6 +206,7 @@ struct nvme_ctrl {
- 	struct nvme_command ka_cmd;
- 	struct work_struct fw_act_work;
- 	unsigned long events;
-+	bool created;
- 
- #ifdef CONFIG_NVME_MULTIPATH
- 	/* asymmetric namespace access: */
 -- 
 2.25.1
 
