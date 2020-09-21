@@ -2,72 +2,68 @@ Return-Path: <SRS0=B5n5=C6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D64DC4363C
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2020 20:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D967EC4363C
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2020 20:46:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5128A218AC
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2020 20:31:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 26A47218AC
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2020 20:46:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MfutV6v0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5128A218AC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=nucleodyne.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="J3wQLJvB";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="RLMs1Z8m"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 26A47218AC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=cOftkIB4DK6tN+KaHjml6ok90/D6BxSMaL0vbuP8ywo=; b=MfutV6v0T2XRbl+x6PDEudpWn
-	7GMjGxgpDYNeOzCZjKOvaWmFtJwfNxZXI7TjM5a/vhhC/89ZlcEIQSuhYPuDImwx2FVPr+59uewJc
-	kEC1vLVxcZa2OWn91bsxYTO2mzHUPe5KPgBr1JTz4x4Cs9t/agVYjNtQNzPPYOp0+A0XAMjF1nYbX
-	QGeShc7RbZ8j1tTyFnRuoQ6Cm6lfakspzMP250uXWj004GdYdQz1EsruHoizhfR6LWEbCFpDDwVk5
-	gVMJb/mUC8xKgjLBYjgAn4u32Qzn7ic57Y1s5YWX3ttv7CLBGtHLSP/L2oBzUQ8afiMDlyQfqFU6l
-	0tR+L9ubQ==;
+	 bh=LTgaj1xsk4Cc/thl/K3J7GtjKOxEHLML0niN0YZSd4I=; b=J3wQLJvBr4UBJASDSKQ4KqVYE
+	4yLp6zzabroj65fVsqPzTOh135UIsrZeQXV/dBmMeNs2EaRuCVw/M/D25egCQQg0+IJ0TGigzuUVB
+	+TXu2gVC+QrNStTJz9tf9sMGUJOixMk90G8T2Oc+LRAiyBi8BzZGqk9lG67AwSECxsbifxDO55D+6
+	0cora3A9pZz6bNOuTazondp10EwmKYboleA08nqojZSd/sJLh5mcn2IuDs8wuS8ypKBM8rHLQxfg2
+	vYtm77VT2EQBRFCQtHzwNZwseinu/YJ6I3iPowYZ4wu5m6JM2TkqJ67j+8BrFLnA7fy60ffHHu81p
+	UR9K1w+BA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kKSTI-0003eB-5F; Mon, 21 Sep 2020 20:31:36 +0000
-Received: from mail-pf1-f172.google.com ([209.85.210.172])
+	id 1kKShG-00051B-JL; Mon, 21 Sep 2020 20:46:02 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kKSTE-0003di-Mq
- for Linux-nvme@lists.infradead.org; Mon, 21 Sep 2020 20:31:33 +0000
-Received: by mail-pf1-f172.google.com with SMTP id b124so10279684pfg.13
- for <Linux-nvme@lists.infradead.org>; Mon, 21 Sep 2020 13:31:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2jcK/JgVx7FeH23adyuaZDNv468IcOWhcqsPw1DQeNQ=;
- b=XtPJZfgvoes7b+3eyMVTLarPxQVuvMepimZykdCXHytcDEN/zk0jM4IJ9u+sxrTbxB
- Lf7zZa023fuz4/W4b3h5AH56sgiDn9ozgV97E9eGNYb4aPsc1gVh+XMuRf67LVAvzkll
- GMdbBOjNRWJcilqv9wVri0IkfE1cSJ5Mh0LFI+rF0pPC16Ut7LU1SIayd20dhZWZNRQy
- zYYtwxdd+BJCIntsK03nMp32xBZkw8LHIo8h5siNUdjJNRQorLjYElm89efj3MuTaUGV
- TrzOa0Hd2BKz75nQV/y+OKoQlIID+UW2jrJifBAyCegsKxr4vH6YrrXDNQ/R2IU4UaOU
- RCHQ==
-X-Gm-Message-State: AOAM5312AcZiV8JGXPX/N1q/LAcBLNp8zZlgGiY7l0GvwKUJEjoWs0su
- BdTYlywSsFrrSfIvxzPDgBrk72SLbOGaZr+sHViL89KYjBwnbUbM
-X-Google-Smtp-Source: ABdhPJw4FNiZL/MJpXuv6/84eeqHVVNsB8VXTvWPpxnAN1cYh9g4bD/FlP8jW4c45LmceRc7t815rC5zHclLf4yX2O0=
-X-Received: by 2002:a63:5003:: with SMTP id e3mr1073246pgb.274.1600720291380; 
- Mon, 21 Sep 2020 13:31:31 -0700 (PDT)
-MIME-Version: 1.0
+ id 1kKShB-00050L-St
+ for Linux-nvme@lists.infradead.org; Mon, 21 Sep 2020 20:45:58 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0A6A4216C4;
+ Mon, 21 Sep 2020 20:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600721157;
+ bh=1VWiJqUcP/1ACFEOIo0/XzbR5Z7rIMIXmtQI1WPTjGs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RLMs1Z8mQ+k9Crx35Q162Mwf6LvMdNzO+SL4HK2kbKKBOz1dSHW8VphY573u8Zcw6
+ SiXkTA3Z5oamqeU4DUexlDb5k3W2j5X8K10y7L0bhgtMONm4C5PAKJKA/NOa4ZOsWo
+ 8TXP8xZGSRgxKJFueI0q1v1gRGI8rh+CVoq5OJC8=
+Date: Mon, 21 Sep 2020 13:45:44 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Kallol Biswas <kallol@nucleodyne.com>
+Subject: Re: processor reboots if nvme host controller is surprise removed
+Message-ID: <20200921204544.GC4034420@dhcp-10-100-145-180.wdl.wdc.com>
 References: <CAH=XD5_UeVPWHskOwwPeHZpv9sKXKvvA8BS-_58KqdXfpY8OWw@mail.gmail.com>
  <20200921192403.GA4034420@dhcp-10-100-145-180.wdl.wdc.com>
-In-Reply-To: <20200921192403.GA4034420@dhcp-10-100-145-180.wdl.wdc.com>
-From: Kallol Biswas <kallol@nucleodyne.com>
-Date: Mon, 21 Sep 2020 13:31:20 -0700
-Message-ID: <CAH=XD5_RvYU_prCRCZCD7eGgNB23PQfN-yx_D+NLz6fW4ZHa8Q@mail.gmail.com>
-Subject: Re: processor reboots if nvme host controller is surprise removed
-To: Keith Busch <kbusch@kernel.org>
+ <CAH=XD5_RvYU_prCRCZCD7eGgNB23PQfN-yx_D+NLz6fW4ZHa8Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAH=XD5_RvYU_prCRCZCD7eGgNB23PQfN-yx_D+NLz6fW4ZHa8Q@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200921_163132_755361_35C094F4 
-X-CRM114-Status: GOOD (  27.57  )
+X-CRM114-CacheID: sfid-20200921_164558_140286_770692DF 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,125 +76,69 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-VGhlIFBDSWUgZHVtcCBmb3IgdGhlIHBvcnQgaXMgY29waWVkIGJlbG93LiBUaGUgU2xvdCBzZWVt
-cyB0byBoYXZlIHRoZQpwcmVzZW5jZSBkZXRlY3QgYml0LgoKcm9vdEBlYXJsZXk6fiMgbHNwY2kg
-LXZ2diAtcyAwOjMuMgowMDowMy4yIFBDSSBicmlkZ2U6IEFkdmFuY2VkIE1pY3JvIERldmljZXMs
-IEluYy4gW0FNRF0gRGV2aWNlIDE0ODMKKHByb2ctaWYgMDAgW05vcm1hbCBkZWNvZGVdKQogICAg
-ICAgIENvbnRyb2w6IEkvTysgTWVtKyBCdXNNYXN0ZXIrIFNwZWNDeWNsZS0gTWVtV0lOVi0gVkdB
-U25vb3AtClBhckVyci0gU3RlcHBpbmctIFNFUlItIEZhc3RCMkItIERpc0lOVHgrCiAgICAgICAg
-U3RhdHVzOiBDYXArIDY2TUh6LSBVREYtIEZhc3RCMkItIFBhckVyci0gREVWU0VMPWZhc3QgPlRB
-Ym9ydC0KPFRBYm9ydC0gPE1BYm9ydC0gPlNFUlItIDxQRVJSLSBJTlR4LQogICAgICAgIExhdGVu
-Y3k6IDAsIENhY2hlIExpbmUgU2l6ZTogNjQgYnl0ZXMKICAgICAgICBJbnRlcnJ1cHQ6IHBpbiA/
-IHJvdXRlZCB0byBJUlEgMjcKICAgICAgICBCdXM6IHByaW1hcnk9MDAsIHNlY29uZGFyeT0xMCwg
-c3Vib3JkaW5hdGU9MTAsIHNlYy1sYXRlbmN5PTAKICAgICAgICBJL08gYmVoaW5kIGJyaWRnZTog
-MDAwMGYwMDAtMDAwMDBmZmYKICAgICAgICBNZW1vcnkgYmVoaW5kIGJyaWRnZTogZjcwMDAwMDAt
-ZjcwZmZmZmYKICAgICAgICBQcmVmZXRjaGFibGUgbWVtb3J5IGJlaGluZCBicmlkZ2U6IDAwMDAw
-MDAwZmZmMDAwMDAtMDAwMDAwMDAwMDBmZmZmZgogICAgICAgIFNlY29uZGFyeSBzdGF0dXM6IDY2
-TUh6LSBGYXN0QjJCLSBQYXJFcnItIERFVlNFTD1mYXN0ID5UQWJvcnQtCjxUQWJvcnQtIDxNQWJv
-cnQrIDxTRVJSLSA8UEVSUi0KICAgICAgICBCcmlkZ2VDdGw6IFBhcml0eS0gU0VSUi0gTm9JU0Et
-IFZHQS0gTUFib3J0LSA+UmVzZXQtIEZhc3RCMkItCiAgICAgICAgICAgICAgICBQcmlEaXNjVG1y
-LSBTZWNEaXNjVG1yLSBEaXNjVG1yU3RhdC0gRGlzY1RtclNFUlJFbi0KICAgICAgICBDYXBhYmls
-aXRpZXM6IFs1MF0gUG93ZXIgTWFuYWdlbWVudCB2ZXJzaW9uIDMKICAgICAgICAgICAgICAgIEZs
-YWdzOiBQTUVDbGstIERTSS0gRDEtIEQyLSBBdXhDdXJyZW50PTBtQQpQTUUoRDArLEQxLSxEMi0s
-RDNob3QrLEQzY29sZCspCiAgICAgICAgICAgICAgICBTdGF0dXM6IEQwIE5vU29mdFJzdC0gUE1F
-LUVuYWJsZS0gRFNlbD0wIERTY2FsZT0wIFBNRS0KICAgICAgICBDYXBhYmlsaXRpZXM6IFs1OF0g
-RXhwcmVzcyAodjIpIFJvb3QgUG9ydCAoU2xvdCspLCBNU0kgMDAKICAgICAgICAgICAgICAgIERl
-dkNhcDogTWF4UGF5bG9hZCA1MTIgYnl0ZXMsIFBoYW50RnVuYyAwCiAgICAgICAgICAgICAgICAg
-ICAgICAgIEV4dFRhZysgUkJFKwogICAgICAgICAgICAgICAgRGV2Q3RsOiBSZXBvcnQgZXJyb3Jz
-OiBDb3JyZWN0YWJsZS0gTm9uLUZhdGFsLSBGYXRhbC0KVW5zdXBwb3J0ZWQtCiAgICAgICAgICAg
-ICAgICAgICAgICAgIFJseGRPcmQrIEV4dFRhZysgUGhhbnRGdW5jLSBBdXhQd3ItIE5vU25vb3Ar
-CiAgICAgICAgICAgICAgICAgICAgICAgIE1heFBheWxvYWQgNTEyIGJ5dGVzLCBNYXhSZWFkUmVx
-IDUxMiBieXRlcwogICAgICAgICAgICAgICAgRGV2U3RhOiBDb3JyRXJyLSBVbmNvcnJFcnItIEZh
-dGFsRXJyLSBVbnN1cHBSZXEtCkF1eFB3ci0gVHJhbnNQZW5kLQogICAgICAgICAgICAgICAgTG5r
-Q2FwOiBQb3J0ICMwLCBTcGVlZCAxNkdUL3MsIFdpZHRoIHg4LCBBU1BNIEwxLCBFeGl0CkxhdGVu
-Y3kgTDBzIHVubGltaXRlZCwgTDEgPDY0dXMKICAgICAgICAgICAgICAgICAgICAgICAgQ2xvY2tQ
-TS0gU3VycHJpc2UtIExMQWN0UmVwKyBCd05vdCsgQVNQTU9wdENvbXArCiAgICAgICAgICAgICAg
-ICBMbmtDdGw6IEFTUE0gRGlzYWJsZWQ7IFJDQiA2NCBieXRlcyBEaXNhYmxlZC0gQ29tbUNsay0K
-ICAgICAgICAgICAgICAgICAgICAgICAgRXh0U3luY2gtIENsb2NrUE0tIEF1dFdpZERpcy0gQldJ
-bnQtIEF1dEJXSW50LQogICAgICAgICAgICAgICAgTG5rU3RhOiBTcGVlZCAxNkdUL3MsIFdpZHRo
-IHg0LCBUckVyci0gVHJhaW4tIFNsb3RDbGsrCkRMQWN0aXZlKyBCV01nbXQrIEFCV01nbXQtCiAg
-ICAgICAgICAgICAgICBTbHRDYXA6IEF0dG5CdG4tIFB3ckN0cmwtIE1STC0gQXR0bkluZC0gUHdy
-SW5kLQpIb3RQbHVnLSBTdXJwcmlzZS0KICAgICAgICAgICAgICAgICAgICAgICAgU2xvdCAjMCwg
-UG93ZXJMaW1pdCAwLjAwMFc7IEludGVybG9jay0gTm9Db21wbCsKICAgICAgICAgICAgICAgIFNs
-dEN0bDogRW5hYmxlOiBBdHRuQnRuLSBQd3JGbHQtIE1STC0gUHJlc0RldC0KQ21kQ3BsdC0gSFBJ
-cnEtIExpbmtDaGctCiAgICAgICAgICAgICAgICAgICAgICAgIENvbnRyb2w6IEF0dG5JbmQgVW5r
-bm93biwgUHdySW5kIFVua25vd24sClBvd2VyLSBJbnRlcmxvY2stCiAgICAgICAgICAgICAgICBT
-bHRTdGE6IFN0YXR1czogQXR0bkJ0bi0gUG93ZXJGbHQtIE1STC0gQ21kQ3BsdC0KUHJlc0RldCsg
-SW50ZXJsb2NrLQogICAgICAgICAgICAgICAgICAgICAgICBDaGFuZ2VkOiBNUkwtIFByZXNEZXQt
-IExpbmtTdGF0ZSsKICAgICAgICAgICAgICAgIFJvb3RDdGw6IEVyckNvcnJlY3RhYmxlLSBFcnJO
-b24tRmF0YWwtIEVyckZhdGFsLQpQTUVJbnRFbmErIENSU1Zpc2libGUrCiAgICAgICAgICAgICAg
-ICBSb290Q2FwOiBDUlNWaXNpYmxlKwogICAgICAgICAgICAgICAgUm9vdFN0YTogUE1FIFJlcUlE
-IDAwMDAsIFBNRVN0YXR1cy0gUE1FUGVuZGluZy0KICAgICAgICAgICAgICAgIERldkNhcDI6IENv
-bXBsZXRpb24gVGltZW91dDogUmFuZ2UgQUJDRCwgVGltZW91dERpcyssCkxUUissIE9CRkYgTm90
-IFN1cHBvcnRlZCBBUklGd2QtCiAgICAgICAgICAgICAgICBEZXZDdGwyOiBDb21wbGV0aW9uIFRp
-bWVvdXQ6IDY1bXMgdG8gMjEwbXMsClRpbWVvdXREaXMtLCBMVFIrLCBPQkZGIERpc2FibGVkIEFS
-SUZ3ZC0KICAgICAgICAgICAgICAgIExua0N0bDI6IFRhcmdldCBMaW5rIFNwZWVkOiAxNkdUL3Ms
-IEVudGVyQ29tcGxpYW5jZS0gU3BlZWREaXMtCiAgICAgICAgICAgICAgICAgICAgICAgICBUcmFu
-c21pdCBNYXJnaW46IE5vcm1hbCBPcGVyYXRpbmcgUmFuZ2UsCkVudGVyTW9kaWZpZWRDb21wbGlh
-bmNlLSBDb21wbGlhbmNlU09TLQogICAgICAgICAgICAgICAgICAgICAgICAgQ29tcGxpYW5jZSBE
-ZS1lbXBoYXNpczogLTZkQgogICAgICAgICAgICAgICAgTG5rU3RhMjogQ3VycmVudCBEZS1lbXBo
-YXNpcyBMZXZlbDogLTMuNWRCLApFcXVhbGl6YXRpb25Db21wbGV0ZSssIEVxdWFsaXphdGlvblBo
-YXNlMSsKICAgICAgICAgICAgICAgICAgICAgICAgIEVxdWFsaXphdGlvblBoYXNlMissIEVxdWFs
-aXphdGlvblBoYXNlMyssCkxpbmtFcXVhbGl6YXRpb25SZXF1ZXN0LQogICAgICAgIENhcGFiaWxp
-dGllczogW2EwXSBNU0k6IEVuYWJsZSsgQ291bnQ9MS8xIE1hc2thYmxlLSA2NGJpdCsKICAgICAg
-ICAgICAgICAgIEFkZHJlc3M6IDAwMDAwMDAwZmVlMGEwMDAgIERhdGE6IDQwMjEKICAgICAgICBD
-YXBhYmlsaXRpZXM6IFtjMF0gU3Vic3lzdGVtOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJbmMu
-CltBTURdIERldmljZSAxNDUzCiAgICAgICAgQ2FwYWJpbGl0aWVzOiBbYzhdIEh5cGVyVHJhbnNw
-b3J0OiBNU0kgTWFwcGluZyBFbmFibGUrIEZpeGVkKwogICAgICAgIENhcGFiaWxpdGllczogWzEw
-MCB2MV0gVmVuZG9yIFNwZWNpZmljIEluZm9ybWF0aW9uOiBJRD0wMDAxClJldj0xIExlbj0wMTAg
-PD8+CiAgICAgICAgQ2FwYWJpbGl0aWVzOiBbMjcwIHYxXSAjMTkKICAgICAgICBDYXBhYmlsaXRp
-ZXM6IFsyYTAgdjFdIEFjY2VzcyBDb250cm9sIFNlcnZpY2VzCiAgICAgICAgICAgICAgICBBQ1ND
-YXA6IFNyY1ZhbGlkKyBUcmFuc0JsaysgUmVxUmVkaXIrIENtcGx0UmVkaXIrClVwc3RyZWFtRndk
-KyBFZ3Jlc3NDdHJsLSBEaXJlY3RUcmFucysKICAgICAgICAgICAgICAgIEFDU0N0bDogU3JjVmFs
-aWQrIFRyYW5zQmxrLSBSZXFSZWRpci0gQ21wbHRSZWRpci0KVXBzdHJlYW1Gd2QtIEVncmVzc0N0
-cmwtIERpcmVjdFRyYW5zLQogICAgICAgIENhcGFiaWxpdGllczogWzM3MCB2MV0gTDEgUE0gU3Vi
-c3RhdGVzCiAgICAgICAgICAgICAgICBMMVN1YkNhcDogUENJLVBNX0wxLjItIFBDSS1QTV9MMS4x
-KyBBU1BNX0wxLjItCkFTUE1fTDEuMSsgTDFfUE1fU3Vic3RhdGVzKwogICAgICAgICAgICAgICAg
-TDFTdWJDdGwxOiBQQ0ktUE1fTDEuMi0gUENJLVBNX0wxLjEtIEFTUE1fTDEuMi0gQVNQTV9MMS4x
-LQoKICAgICAgICAgICAgICAgIEwxU3ViQ3RsMjoKICAgICAgICBDYXBhYmlsaXRpZXM6IFszYzQg
-djFdICMyMwogICAgICAgIENhcGFiaWxpdGllczogWzQwMCB2MV0gIzI1CiAgICAgICAgQ2FwYWJp
-bGl0aWVzOiBbNDEwIHYxXSAjMjYKICAgICAgICBDYXBhYmlsaXRpZXM6IFs0NDAgdjFdICMyNwog
-ICAgICAgIEtlcm5lbCBkcml2ZXIgaW4gdXNlOiBwY2llcG9ydAoKT24gTW9uLCBTZXAgMjEsIDIw
-MjAgYXQgMTI6MjQgUE0gS2VpdGggQnVzY2ggPGtidXNjaEBrZXJuZWwub3JnPiB3cm90ZToKPgo+
-IE9uIE1vbiwgU2VwIDIxLCAyMDIwIGF0IDExOjM4OjQ4QU0gLTA3MDAsIEthbGxvbCBCaXN3YXMg
-d3JvdGU6Cj4gPiBJIGhhdmUgYW4gaXNzdWUgd2l0aCBwb3dlcmluZyBkb3duIGEgbnZtZSBob3N0
-IGNvbnRyb2xsZXIgd2hpbGUgZmlvIGlzIGFjdGl2ZS4KPiA+IEhvcGluZyBzb21lb25lIGZyb20g
-dGhpcyBsaXN0IGNhbiBwcm92aWRlIHNvbWUgaW5wdXQgc28gdGhhdCB0aGUKPiA+IHByb2JsZW0g
-Y2FuIGJlIHJlc29sdmVkIG9yIHdvcmtlZCBhcm91bmQuCj4gPgo+ID4KPiA+IFN5c3RlbSBpbmZv
-Ogo+ID4KPiA+IGRlc2NyaXB0aW9uOiBNb3RoZXJib2FyZAo+ID4gICAgICAgIHByb2R1Y3Q6IFg1
-NzAgUGhhbnRvbSBHYW1pbmcgWAo+ID4gICAgICAgIHZlbmRvcjogQVNSb2NrCj4gPgo+ID4gKi1j
-cHUKPiA+ICAgICAgICAgICBkZXNjcmlwdGlvbjogQ1BVCj4gPiAgICAgICAgICAgcHJvZHVjdDog
-QU1EIFJ5emVuIDUgMzYwMCA2LUNvcmUgUHJvY2Vzc29yCj4gPgo+ID4gRmlvIHdpdGggNTAtNTAl
-IHJkd3IgdHJhZmZpYyBpcyBhY3RpdmUgYW5kIHdoZW4gdGhlIHBvd2VyIHRvIHRoZQo+ID4gZGV2
-aWNlIGlzIHJlbW92ZWQgYnkgYW4gZXh0ZXJuYWwgbWVhbnMuCj4gPgo+ID4KPiA+IEEgZmV3IGNv
-bW1hbmRzIGFyZSBhY3RpdmUgaW4gYSBzdWJtaXNzaW9uIHF1ZXVlLgo+ID4KPiA+IEkvT3MgdGlt
-ZSBvdXQuCj4gPgo+ID4gVGhlIG52bWVfdGltZW91dCByb3V0aW5lIGlzIGNhbGxlZC4gRmlyc3Qg
-cmVnaXN0ZXIgYWNjZXNzIGlzIENTVFMuCj4gPiBTb21ldGltZXMgdGhlIHJlYWQgdG8gdGhlIHJl
-Z2lzdGVyIHJldHVybnMgMHhmZmZmZmZmZi4uLi4gc29tZXRpbWVzCj4gPiBjYXVzZXMgdGhlIHBy
-b2Nlc3NvciB0byByZXN0YXJ0LiBXaGVuIHRoaXMgcmV0dXJucyAgMHhmZmZmZmZmZiB0aGUKPiA+
-IG5leHQgcHJvY2Vzc29yIHJlc3RhcnRzIHRyeWluZyB0byBhY2Nlc3MgdGhlIFBDSWUgY29uZmln
-IHJlZ2lzdGVyCj4gPiBQQ0lfU1RBVFVTLgo+ID4KPiA+IFRoZSByb290IHBvcnQgaGFkIGJpZyBD
-VE8gdmFsdWUsIEkgY2hhbmdlZCB0byAwLCBzdGlsbCBpdCBkaWQgbm90IGhlbHAuCj4gPgo+ID4g
-RGV2Q2FwMjogQ29tcGxldGlvbiBUaW1lb3V0OiBSYW5nZSBBQkNELCBUaW1lb3V0RGlzKywgTFRS
-KywgT0JGRiBOb3QKPiA+IFN1cHBvcnRlZCBBUklGd2QtCj4gPiBEZXZDdGwyOiBDb21wbGV0aW9u
-IFRpbWVvdXQ6IDY1bXMgdG8gMjEwbXMsIFRpbWVvdXREaXMtLCBMVFIrLCBPQkZGCj4gPiBEaXNh
-YmxlZCBBUklGd2QtCj4gPgo+ID4gVG86Cj4gPgo+ID4gRGV2Q2FwMjogQ29tcGxldGlvbiBUaW1l
-b3V0OiBSYW5nZSBBQkNELCBUaW1lb3V0RGlzKywgTFRSKywgT0JGRiBOb3QKPiA+IFN1cHBvcnRl
-ZCBBUklGd2QtCj4gPiBEZXZDdGwyOiBDb21wbGV0aW9uIFRpbWVvdXQ6IDUwdXMgdG8gNTBtcywg
-VGltZW91dERpcy0sIExUUissIE9CRkYKPiA+IERpc2FibGVkIEFSSUZ3ZC0KPiA+Cj4gPiBUaGlz
-IGNoYW5nZSBkb2VzIG5vdCBoZWxwICBwcm9jZXNzb3IgcmVzdGFydCBpbiBudm1lX3RpbWVvdXQo
-KSAgcm91dGluZS4KPgo+IEl0IGRvZXNuJ3Qgc291bmQgbGlrZSB5b3VyIHBsYXRmb3JtIGhhbmRs
-ZXMgYW4gdW5leHBlY3RlZCBsaW5rIGRvd24uCj4gV2hhdCBkb2VzIHlvdXIgcm9vdCBwb3J0J3Mg
-TGluayBDYXBhYmlsaXRpZXMgcmVnaXN0ZXIgc2hvdz8KCgoKLS0gCi0tLS0tLQpLYWxsb2wgQmlz
-d2FzClBob25lOiA0MDgtNzE4LTgxNjQgKGMpClBob25lOiA0MDgtNzI1LTc1MjcgKG8pCk51Y2xl
-b0R5bmUgU3lzdGVtcywgSW5jLgoKCuKAnEZyb20gdGhlIGludHJpbnNpYyBldmlkZW5jZSBvZiBo
-aXMgY3JlYXRpb24sIHRoZSBHcmVhdCBBcmNoaXRlY3QKCm9mIHRoZSBVbml2ZXJzZSBub3cgYmVn
-aW5zIHRvIGFwcGVhciBhcyBhIHB1cmUgbWF0aGVtYXRpY2lhbi7igJ0KCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0
-CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+On Mon, Sep 21, 2020 at 01:31:20PM -0700, Kallol Biswas wrote:
+> The PCIe dump for the port is copied below. The Slot seems to have the
+> presence detect bit.
+> 
+> root@earley:~# lspci -vvv -s 0:3.2
+> 00:03.2 PCI bridge: Advanced Micro Devices, Inc. [AMD] Device 1483
+>         Capabilities: [58] Express (v2) Root Port (Slot+), MSI 00
+>                 DevCap: MaxPayload 512 bytes, PhantFunc 0
+>                         ExtTag+ RBE+
+>                 DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsupported-
+>                         RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+
+>                         MaxPayload 512 bytes, MaxReadReq 512 bytes
+>                 DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- TransPend-
+>                 LnkCap: Port #0, Speed 16GT/s, Width x8, ASPM L1, Exit Latency L0s unlimited, L1 <64us
+>                         ClockPM- Surprise- LLActRep+ BwNot+ ASPMOptComp+
+>                 LnkCtl: ASPM Disabled; RCB 64 bytes Disabled- CommClk-
+>                         ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>                 LnkSta: Speed 16GT/s, Width x4, TrErr- Train- SlotClk+ DLActive+ BWMgmt+ ABWMgmt-
+>                 SltCap: AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug- Surprise-
+>                         Slot #0, PowerLimit 0.000W; Interlock- NoCompl+
+>                 SltCtl: Enable: AttnBtn- PwrFlt- MRL- PresDet- CmdCplt- HPIrq- LinkChg-
+>                         Control: AttnInd Unknown, PwrInd Unknown, Power- Interlock-
+>                 SltSta: Status: AttnBtn- PowerFlt- MRL- CmdCplt- PresDet+ Interlock-
+>                         Changed: MRL- PresDet- LinkState+
+>                 RootCtl: ErrCorrectable- ErrNon-Fatal- ErrFatal- PMEIntEna+ CRSVisible+
+>                 RootCap: CRSVisible+
+>                 RootSta: PME ReqID 0000, PMEStatus- PMEPending-
+>                 DevCap2: Completion Timeout: Range ABCD, TimeoutDis+, LTR+, OBFF Not Supported ARIFwd-
+>                 DevCtl2: Completion Timeout: 65ms to 210ms, TimeoutDis-, LTR+, OBFF Disabled ARIFwd-
+>                 LnkCtl2: Target Link Speed: 16GT/s, EnterCompliance- SpeedDis-
+>                          Transmit Margin: Normal Operating Range, EnterModifiedCompliance- ComplianceSOS-
+>                          Compliance De-emphasis: -6dB
+>                 LnkSta2: Current De-emphasis Level: -3.5dB, EqualizationComplete+, EqualizationPhase1+
+>                          EqualizationPhase2+, EqualizationPhase3+, LinkEqualizationRequest-
+>         Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
+>                 Address: 00000000fee0a000  Data: 4021
+>         Capabilities: [c0] Subsystem: Advanced Micro Devices, Inc. [AMD] Device 1453
+>         Capabilities: [c8] HyperTransport: MSI Mapping Enable+ Fixed+
+>         Capabilities: [100 v1] Vendor Specific Information: ID=0001 Rev=1 Len=010 <?>
+>         Capabilities: [270 v1] #19
+>         Capabilities: [2a0 v1] Access Control Services
+>                 ACSCap: SrcValid+ TransBlk+ ReqRedir+ CmpltRedir+ UpstreamFwd+ EgressCtrl- DirectTrans+
+>                 ACSCtl: SrcValid+ TransBlk- ReqRedir- CmpltRedir- UpstreamFwd- EgressCtrl- DirectTrans-
+>         Capabilities: [370 v1] L1 PM Substates
+>                 L1SubCap: PCI-PM_L1.2- PCI-PM_L1.1+ ASPM_L1.2- ASPM_L1.1+ L1_PM_Substates+
+>                 L1SubCtl1: PCI-PM_L1.2- PCI-PM_L1.1- ASPM_L1.2- ASPM_L1.1-
+>                 L1SubCtl2:
+>         Capabilities: [3c4 v1] #23
+>         Capabilities: [400 v1] #25
+>         Capabilities: [410 v1] #26
+>         Capabilities: [440 v1] #27
+>         Kernel driver in use: pcieport
+
+At least as reported from the PCIe level, this port does not support the
+test you're attempting. It doesn't have surprise link down, hotplug
+surprise, or advanced error reporting capabilities.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
