@@ -7,75 +7,65 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B252C43468
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2020 16:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE5BC4346E
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2020 18:39:12 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B473520708
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2020 16:09:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A51DC207BC
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Sep 2020 18:39:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="a51BeV07"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B473520708
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ES1nWlOJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A51DC207BC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=nucleodyne.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Lh3DNhUgjfSD5DQKCHv62VR8CueITxAAAk3RvgZwBnM=; b=a51BeV07XaFe9OtQhmFq9771Q
-	jOs//f+E0x+pJ/j8uufuNvZjws9/c9UhZ/mCtcpSzyxZgKJCwsBSPr+fDVANSWDiuJQKarTmn1XAE
-	aM/5PIHBEFSPt0Q+XrqByy2K/6PHHyxIL2XqjYYlaDz/IaeFLSRqckJc2Va/F9UmvcwgXRepqxKpH
-	mQrvRCFdwDgX70Yk3v9MGkXxGiWwDDAqP5YvRo8sDjznCfzh0ZE02VSrlpgsbdub82QFcoL/IYeuc
-	USkiQrwadTVs8h1Vg39y4Qy3KlYK8wnz2v9oJ9vyuZgMEBjIdcA73sE3rAtkduA58i+S3MUrsbJMw
-	QPsbDBRXA==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:To:Subject:Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Nqr2mwPvzjYOTdRd8XEiobHq86q4MOKepWax8xIYBeE=; b=ES1nWlOJ2YfX9ZPwZpSpMSmSSA
+	+bPIbXJmkRvH+89HQuwImTp04NtkRb3cveK2WIK6u+vHIFXc/DMdfKFN6rsvrwXF2Oe/OENxTRvZC
+	nNbosuy3MchJkBZzTQUxiHfKKolg76eO12kyXKOAr5KfUFpk1PtHR8ZtChpTGijL4GszEr6SEC4AN
+	RutC2Sfd/NDAIGj/zto/8aq6TI22nlEppRJboAjGrzfr5weVyyf0DmMGRUPY9QzfhL7LF0K7YecRt
+	8uVbkgy77sRJ5jMCnIV47dO4dwYAklQw8M2a5A9WFSqZq3qWjyp2VEbrV0WbwBMa8IO3bqT6OT/Q1
+	ZXlwLFvA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kKOO1-0008VV-24; Mon, 21 Sep 2020 16:09:53 +0000
-Received: from smtp.h3c.com ([60.191.123.56] helo=h3cspam01-ex.h3c.com)
+	id 1kKQiP-0003tI-M4; Mon, 21 Sep 2020 18:39:05 +0000
+Received: from mail-pf1-f172.google.com ([209.85.210.172])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kKONz-0008UK-2e
- for linux-nvme@lists.infradead.org; Mon, 21 Sep 2020 16:09:52 +0000
-Received: from DAG2EX08-IDC.srv.huawei-3com.com ([10.8.0.71])
- by h3cspam01-ex.h3c.com with ESMTPS id 08LG8qpq032307
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 22 Sep 2020 00:08:52 +0800 (GMT-8)
- (envelope-from tian.xianting@h3c.com)
-Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
- DAG2EX08-IDC.srv.huawei-3com.com (10.8.0.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 22 Sep 2020 00:08:56 +0800
-Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
- by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%7])
- with mapi id 15.01.1713.004; Tue, 22 Sep 2020 00:08:56 +0800
-From: Tianxianting <tian.xianting@h3c.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: RE: [PATCH] nvme: replace meaningless judgement by checking whether
- req is null
-Thread-Topic: [PATCH] nvme: replace meaningless judgement by checking whether
- req is null
-Thread-Index: AQHWj71pi81Rb9ZmlEuvVhznKWqiEqlyrIIAgACJanD//4TXgIAAiHDQ
-Date: Mon, 21 Sep 2020 16:08:56 +0000
-Message-ID: <0efc3ee511534cf789073ed5ddfa61a2@h3c.com>
-References: <20200921021052.10462-1-tian.xianting@h3c.com>
- <20200921150824.GA4034182@dhcp-10-100-145-180.wdl.wdc.com>
- <be133ab59334475dacd4a52a2834fe71@h3c.com>
- <20200921155925.GA4034241@dhcp-10-100-145-180.wdl.wdc.com>
-In-Reply-To: <20200921155925.GA4034241@dhcp-10-100-145-180.wdl.wdc.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.99.141.128]
-x-sender-location: DAG2
+ id 1kKQiM-0003sr-3Z
+ for Linux-nvme@lists.infradead.org; Mon, 21 Sep 2020 18:39:02 +0000
+Received: by mail-pf1-f172.google.com with SMTP id o20so10031161pfp.11
+ for <Linux-nvme@lists.infradead.org>; Mon, 21 Sep 2020 11:39:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=ntaTqbrr0rmtCf5rlhR9Zpo5oVmCg+MXi4Dpg69nN74=;
+ b=aeKHTH+UMuH56ntwx+pAqwSy+w3+4ZOY5HjtzogTbWyPmErd0j++FzZnCiiW4l9/VZ
+ mChm74AGP8JDD9+V5NDrVNAX1Md5McWRz5vHePmMk/NG+AaDN7tBWGcQhhI7/8Ob7dpT
+ HiMdHCGbMlJ0VMfCksXRwLgDHr7QQj+Hk7woW/Kau6JdpwPBrhaj+x9pVK1zoTykYUAQ
+ M93GU4DazulTzifwm6a28PuJx3XRfn/9rDw2kC5eIvnqMWL7YaUTk7XCHaAZvk0xbXvn
+ mM5AVWUDmwDKDH7lSN1HMXp5myzZYJ3Fqu7Jv7MHTu5aK9EEYOqPth5/ptrv7QhwnHRy
+ pm5A==
+X-Gm-Message-State: AOAM531BGLAW4WG14osTHjHV7EB60zZUfCOv0yCMMK5s4VWV6B0xkqMU
+ eAJ0h4Xu3Go8MRB2eJx64k2sWDm3Jxn0dIUALLGsMUg5g9BGUmm5
+X-Google-Smtp-Source: ABdhPJwc4nEw5fn0CbfEVisFwt7Os733PdszKFV2UTcnyeR7ana3zJs0vkJuzx+8IQXuusSjtN3KFmAtl2FLBGmdFjM=
+X-Received: by 2002:a62:7c82:0:b029:13c:1611:6532 with SMTP id
+ x124-20020a627c820000b029013c16116532mr1083718pfc.4.1600713539447; Mon, 21
+ Sep 2020 11:38:59 -0700 (PDT)
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: h3cspam01-ex.h3c.com 08LG8qpq032307
+From: Kallol Biswas <kallol@nucleodyne.com>
+Date: Mon, 21 Sep 2020 11:38:48 -0700
+Message-ID: <CAH=XD5_UeVPWHskOwwPeHZpv9sKXKvvA8BS-_58KqdXfpY8OWw@mail.gmail.com>
+Subject: processor reboots if nvme host controller is surprise removed
+To: Linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200921_120951_608950_3E97EB20 
-X-CRM114-Status: GOOD (  25.01  )
+X-CRM114-CacheID: sfid-20200921_143902_160078_59CDC6AD 
+X-CRM114-Status: UNSURE (   4.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,90 +77,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@fb.com" <axboe@fb.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I get it now, thanks Keith:)
+I have an issue with powering down a nvme host controller while fio is active.
+Hoping someone from this list can provide some input so that the
+problem can be resolved or worked around.
 
------Original Message-----
-From: Keith Busch [mailto:kbusch@kernel.org] 
-Sent: Monday, September 21, 2020 11:59 PM
-To: tianxianting (RD) <tian.xianting@h3c.com>
-Cc: axboe@fb.com; hch@lst.de; sagi@grimberg.me; linux-nvme@lists.infradead.org; linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme: replace meaningless judgement by checking whether req is null
 
-On Mon, Sep 21, 2020 at 03:49:09PM +0000, Tianxianting wrote:
-> HI Keith,
-> Thanks for your comments,
-> I will submit a new patch of version 2 for the further reviewing,  v2 patch will contains:
-> 1, retain existing judgement and dev_warn;
+System info:
 
-No no, go ahead and remove the existing check just as you've done. That check becomes redundant with the safer one you're adding, and we don't want redundant checks in the fast path. My only suggestion is to use the same dev_warn() in your new check.
+description: Motherboard
+       product: X570 Phantom Gaming X
+       vendor: ASRock
 
-> 2, add the check whether req is null(already did in this patch) 3, 
-> simplify and make the changelog succinct according to you said " This is what I'm thinking:".
-> Is it right?
-> Should I retain the nvme_irq crash log in changelog, mention the difference between nvmeq->q_depth and tagset queue_depth? 
+*-cpu
+          description: CPU
+          product: AMD Ryzen 5 3600 6-Core Processor
 
-The tagset's queue_depth is a valid point to mention as well. The dirver's current indirect check is not necessarily in sync with the actual tagset.
- 
-> Thanks
-> 
-> -----Original Message-----
-> From: Keith Busch [mailto:kbusch@kernel.org]
-> Sent: Monday, September 21, 2020 11:08 PM
-> To: tianxianting (RD) <tian.xianting@h3c.com>
-> Cc: axboe@fb.com; hch@lst.de; sagi@grimberg.me; 
-> linux-nvme@lists.infradead.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH] nvme: replace meaningless judgement by checking 
-> whether req is null
-> 
-> On Mon, Sep 21, 2020 at 10:10:52AM +0800, Xianting Tian wrote:
-> > @@ -940,13 +940,6 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
-> >  	struct nvme_completion *cqe = &nvmeq->cqes[idx];
-> >  	struct request *req;
-> >  
-> > -	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
-> > -		dev_warn(nvmeq->dev->ctrl.device,
-> > -			"invalid id %d completed on queue %d\n",
-> > -			cqe->command_id, le16_to_cpu(cqe->sq_id));
-> > -		return;
-> > -	}
-> > -
-> >  	/*
-> >  	 * AEN requests are special as they don't time out and can
-> >  	 * survive any kind of queue freeze and often don't respond to @@
-> > -960,6 +953,13 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
-> >  	}
-> >  
-> >  	req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), cqe->command_id);
-> > +	if (unlikely(!req)) {
-> > +		dev_warn(nvmeq->dev->ctrl.device,
-> > +			"req is null for tag %d completed on queue %d\n",
-> > +			cqe->command_id, le16_to_cpu(cqe->sq_id));
-> > +		return;
-> > +	}
-> 
-> This is making sense now, though I think we should retain the existing
-> dev_warn() since it's still accurate and provides continuity for people who are used to looking for these sorts of messages.
-> 
-> Your changelog is a bit much though. I think we can say it a bit more succinctly. This is what I'm thinking:
-> 
->   The driver registers interrupts for queues before initializing the
->   tagset because it uses the number of successful request_irq() calls
->   to configure the tagset parameters. This allows a race condition with
->   the current tag validity check if the controller happens to produce
->   an interrupt with a corrupted CQE before the tagset is initialized.
-> 
->   Replace the driver's indirect tag check with the one already provided
->   by the block layer.
+Fio with 50-50% rdwr traffic is active and when the power to the
+device is removed by an external means.
+
+A few commands are active in a submission queue.
+
+I/Os time out.
+
+The nvme_timeout routine is called. First register access is CSTS.
+Sometimes the read to the register returns 0xffffffff.... sometimes
+causes the processor to restart. When this returns  0xffffffff the
+next processor restarts trying to access the PCIe config register
+PCI_STATUS.
+
+The root port had big CTO value, I changed to 0, still it did not help.
+
+DevCap2: Completion Timeout: Range ABCD, TimeoutDis+, LTR+, OBFF Not
+Supported ARIFwd-
+DevCtl2: Completion Timeout: 65ms to 210ms, TimeoutDis-, LTR+, OBFF
+Disabled ARIFwd-
+
+To:
+
+DevCap2: Completion Timeout: Range ABCD, TimeoutDis+, LTR+, OBFF Not
+Supported ARIFwd-
+DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, LTR+, OBFF
+Disabled ARIFwd-
+
+This change does not help  processor restart in nvme_timeout()  routine.
 
 _______________________________________________
 Linux-nvme mailing list
