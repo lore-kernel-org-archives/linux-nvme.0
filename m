@@ -2,91 +2,135 @@ Return-Path: <SRS0=tapN=C7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EFCAC2D0E2
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 20:35:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B89BC4727F
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 21:04:52 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B3008235FD
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 20:35:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ADC3C206FB
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 21:04:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MkzIXNZH";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cAPH32nU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B3008235FD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mBD/03Cd";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="LMoYI2bj";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="n97GhKKb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADC3C206FB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:References:Message-Id:Date:In-Reply-To:From:
-	Subject:Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=pOp9JZFKGmNlAmOZ4sQUDgt5LEX7b/5tJf7suJ2I+cc=; b=MkzIXNZHam6aZhU0EYRr160TZ
-	aTE37aOxobV5izIz8Fyo191fDe6dZxBXnErv8j+hdccM7bXLRojOrWfOsEXKHH7D1+HqeyxSXObEQ
-	cmbd4GQnTxN9F4jLfUneojNNqa6e5O+J/DgLXNlZ2MBXOJQuaEPEzST44JYd8O/ROA1TzpMuYiYVd
-	OKJWuq2pcgFDhVnK1DAkdIYEual/AbULh10RMNMC07b1eUmd7hnK3/fTk91y7jzBvH14qoClgxrv2
-	jeBXPi39UKGfE+3YsfK0ly29sxmmteot2r4xMlsCmhLwlJPVkKftOM0vWmG9NE11RLqeg+TgE7dsC
-	70enoQ4yg==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=0dooassyiPEfDhy+9ELGlqZ3u+o6uY2Ka2ox8Gpo4xo=; b=mBD/03CdcQzL69K5gn/o5TcEN
+	SFWzvIeNcfdSV+0YsrpCtz4FHOv7H5uum9tkHWxhS5CWq2RURShqOx0PCo+ZVpV1Qr8cb7OgiXnX+
+	6L7VE2bayIRB802PhWw47FJdN4o+Bn9k4gsuMivVmmXQ3W1JB6oYoya6Vi4hhhb1nKfqi5aLySN0F
+	ksj9SEca0EuZrrSN1s/8tMmXdmcfPOBV8INemvTBFvVg80dldgTTGuxAk56mV6bN6VtQzMuy99SAv
+	W9Or/dea8/PajVcHlddS4knQrgD6naYGORR15sT5IuWjhzs8H+RP42ZUiglWKQO8ZhAAb/OuukBKi
+	OK/eWNn2g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kKp01-0004US-0v; Tue, 22 Sep 2020 20:34:53 +0000
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43])
+	id 1kKpSv-0000vW-Pb; Tue, 22 Sep 2020 21:04:45 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kKozx-0004TQ-Sg
- for linux-nvme@lists.infradead.org; Tue, 22 Sep 2020 20:34:50 +0000
-Received: by mail-qv1-xf43.google.com with SMTP id cy2so10268017qvb.0
- for <linux-nvme@lists.infradead.org>; Tue, 22 Sep 2020 13:34:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=R8GFEYnKOk8TfLXo80Jb83h+O7r3IGiEUB0d+BEz6dM=;
- b=cAPH32nULRT1ndOVXA23s7i0HDo2KeRFOCJ4JaJqPZMup5HWoOitcuiWUcNhlsuDXy
- 7AKuY/3xBr9qmilRkJR5FX6FbYBDCcwLlde8YdrvPRsaGkCDAU9316RVdKzxQhafLTvg
- +r1gYI/FuuO1X6OFlqaVFp47NYewk14nfgAu30hntiVdlMmhGyaLWVxOYO/1lvgSsQ1l
- 2z5MAjYVGE8qULyGCH0M2zcBjKxeWyHRfZKfg3Pwux5uq0em/OsryFyxJExTAI1G52dp
- kXlHcle51eZdLPRuLUBSOInrrrrzHNiUe8ituNAjHfb4abSdD28LywvBdyq5n/bl5/UH
- pWcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=R8GFEYnKOk8TfLXo80Jb83h+O7r3IGiEUB0d+BEz6dM=;
- b=Ovy7Jwadb6sIr9Ekr2BOMl6RIvlwa+37KufIepZ9jGlh2503LQNQUikCH6SOwpzdvD
- Ncnd97b4NQhX0dxhfKEs4h8OPDLg9CdU0n2RGD3TbKJdh+APOv16JqQY837En9EkHiNj
- j1oNDgz/289GSV7+MmIoli6lPd2zagowikJFw0/3sEdsMwcWeyyMR1K/8JL57z1jnYQk
- 7fpl235kzGc63WIjOXKrmv/h2hu5Yvctoc38AUlN+smgVh6FLJGRJ9FqNPsVrgME0UeU
- OF1srUu892xE+WS74n0QsP/TS9DBWHKMU8tLbQ4sbanKOreAQ4w2BNUjDOPI5jhUqTLT
- 296Q==
-X-Gm-Message-State: AOAM5325ockJL3UfPV04JdxTUNXKZM25Opuli44/3sIcrn2OdwdBgZZ0
- Tw6K+A7C4ql/I1Hy3Tni8N0=
-X-Google-Smtp-Source: ABdhPJxBRbjg9BEfzJ1YSKVCiubduc02mIA0b5yAqerkWpYQWdVbYvqzZH9wV+EJZCbhJk6gtRAZyQ==
-X-Received: by 2002:ad4:5006:: with SMTP id s6mr7787567qvo.51.1600806887754;
- Tue, 22 Sep 2020 13:34:47 -0700 (PDT)
-Received: from ?IPv6:2601:5c0:c100:b9d:298d:87e0:b186:e81c?
- ([2601:5c0:c100:b9d:298d:87e0:b186:e81c])
- by smtp.gmail.com with ESMTPSA id k185sm11904002qkd.94.2020.09.22.13.34.46
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 22 Sep 2020 13:34:47 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: [PATCH] nvme: fix use-after-free during booting
-From: Tong Zhang <ztong0001@gmail.com>
-In-Reply-To: <20200922164154.GA1894@lst.de>
-Date: Tue, 22 Sep 2020 16:34:45 -0400
-Message-Id: <61E8905E-E3FE-46EB-8283-9B35B4F069E1@gmail.com>
-References: <20200916153605.5253-1-ztong0001@gmail.com>
- <20200922135956.GA23437@lst.de>
- <CAA5qM4BPKZaqH0SHS3zCO7oz=f3Ow_zB2fqtJYUrbbFBNbWsNQ@mail.gmail.com>
- <20200922164154.GA1894@lst.de>
-To: Christoph Hellwig <hch@lst.de>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
+ id 1kKpSr-0000uM-Ru
+ for linux-nvme@lists.infradead.org; Tue, 22 Sep 2020 21:04:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1600808681; x=1632344681;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=mZn6NeYrOvXI8gHwaQzJNkoaRJIJTEK3T5lA24ZxsmY=;
+ b=LMoYI2bj2ITxXM8j9cVCChLgEMczpJRPQVG5o+BO6p+RSPVCuXzSC9+V
+ kqIC3EJpPPEs1UdxgQqJEcRhoE9qM1ckNUQCUG7hFqbkjVEPRicoHIcSH
+ id58l32DIKs3KwryfM01KD6oQYmDqq6wfKp/cG7RA/l71Iv3bL9BeX+m+
+ 9yo+EDBqqJJXuMxmC3bbJSLE7BuAc3K3UjI+oPZmEgalbZrQ6LwDRhzLq
+ vQjy2Jk+U2oKwvwiPSkqA5LxXsCcHll/hPFa0fbdM1Db8ry8KzUxq38Ba
+ DvMtB5YhO2ZGvkq/0SlXy+8ykP1R5r+3UL69zLAoBVsK6tIshsY671jId A==;
+IronPort-SDR: f0GDcD0ZkFazS03EYNgjUbZJ6TEzChtf/L03p/oQ6ERemc/aMwk5fH4eWWu+adEJ+cTjkhbDNy
+ ipgtPUnvp6Z1E+JSEU9pWLkS4UoNvqzsc5O/KYvgfFTZH1dEyHfrWhAkyq6X+/zmMmfVipBsei
+ RAkKE1y7jxmva2aM7wycovOScXswhyBr+UiAm9Oe+/jIIjxdDPo7wIpfZiwMFrWvJ4pX6+uJDx
+ 2CwC7groCYqCSFUq/U3oSYLqgwugPF/xW/H3I/vkmr7Z2BkvmJoY/PdUQi1Lu2THXhTSmyCp5K
+ sIc=
+X-IronPort-AV: E=Sophos;i="5.77,292,1596470400"; d="scan'208";a="257730018"
+Received: from mail-dm6nam11lp2175.outbound.protection.outlook.com (HELO
+ NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.175])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Sep 2020 05:04:37 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FLE9JlVOkrO6KIMUsrGQ35VghDP7oA0Yif/wf16vqYk4d2qGnwYiWuVQ79skoClaEyhAnr4Gnhdzfq1OGawxIJ10zMhEF7jz//9rxrP3E0IxGPZlqr/D+2LP0oiMI4XQLjOwhGFmA8YQCTLZhpXEFhgCJKqNop0lvUX3c1ZNRlOy0VztnjJgA+xt1XNed+iv4EXPXYCvQVTwsJCummNW4AJq8As9VzWgpLQTMGjDlebuWbekMiw9GZPX44HpGXawfq6deW8LL+LoVs4Y+wpGRY5DRxfcDRQBulCJfGYkkJaF5BvKmOQnbNo+i8cuLyngzFgtpKr1x0cipPFsInqn7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8MmeWpiP+s5oi9j7Rml4A7Cz8EeAb9Pqv8k/PbK034A=;
+ b=klGAb/07kLVzOtusUdlupgZ2w+AddycBKG6x4ybGuvvRzjxSFx4Nn87g5TIpKm3GApj1VAL7N0SguGLKmwoaIohjQNM3fcjiF+Y070zyhiJ2aruLkRcc+0NL3v20QZoKS+1WYnLl327x9dY3uH/HnTgdvyKohYkYig5DSRJx9GCZmxIWBZOSdZj4Waac8PMWSnlDKB6CdhC0AWknaaGMusARj782x3QAExCi7bpIe+fGd3l3ak21qk5BIJu32bg/oZuk+aKy0x+6MJGij1WJFOzYmlrCRdZw94KXlHWXaVZmtzMQWvi7awfBt8U+xRAXKyrX0lFFkmPsFQdoWTsHJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8MmeWpiP+s5oi9j7Rml4A7Cz8EeAb9Pqv8k/PbK034A=;
+ b=n97GhKKbWu0YpArTaJQy5ok64KGi5rdqu2AO6ROsFXmrFJ/qtgxhrFqdlwsrP5KomzjWTF7sxcBLYxOoN6HRT6THOrvwTYsOoGSunPnjH7QOEre/Olqs79wo4KuVdXPjGW2BnlpPoix62onSoOVmpkBcuCYeM3d9o8+VX5yzaUI=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by BYAPR04MB3959.namprd04.prod.outlook.com (2603:10b6:a02:b2::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Tue, 22 Sep
+ 2020 21:04:36 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::e1cb:3a58:d588:d7eb]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::e1cb:3a58:d588:d7eb%7]) with mapi id 15.20.3391.022; Tue, 22 Sep 2020
+ 21:04:36 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
+Subject: Re: [PATCH] nvme-core: don't use NVME_NSID_ALL for cmd-effect
+Thread-Topic: [PATCH] nvme-core: don't use NVME_NSID_ALL for cmd-effect
+Thread-Index: AQHWkRmG0bb+QglvuUqzG1Yc0DjdTg==
+Date: Tue, 22 Sep 2020 21:04:36 +0000
+Message-ID: <BYAPR04MB49653CBA4B13CC2595F9205D863B0@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <20200922194938.51845-1-chaitanya.kulkarni@wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 57577439-ca07-4560-0f3c-08d85f3b1cd5
+x-ms-traffictypediagnostic: BYAPR04MB3959:
+x-microsoft-antispam-prvs: <BYAPR04MB39594EDA7BBFA3F103CDE501863B0@BYAPR04MB3959.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Mh8IuWLwVtFKFpJEAk58zbYoPU1Y9jMhg188yqlBzrzVACEnAV8dCNIo9VgSkFTmkfYSNNjM8i1GN4yIR5c1haYJpIQaapHHl/WrmBiTztnYdSVCbaXjAG4ysRkeGIio2yGizxps4F6wPgjQ0R8FbIKWvMkx7He9GlxkiUZWjAL76BQ9S8Ww3TCgwXSr8zX2q6qDzZp12kal1HpUNtOLVpHtv6dtOa0P2dBgLbkAEpleZ/HmwQUvWQO5/TObqT+iILq9n4/qd6OPR8G3tNXbP/hFAptZYFpjJ90RUVWoVgBjx4nEaC1+T7Pp12hn9vrXjoNu9Te4dOAZZqTRYlk1MX0UqFRqVUp/6lUmQ9zFbhlLwxwVLWhwc8TKKZmyh9jUUB/KbKMCLc5OA2XfT+XG5mb6NidVzIVtFYmA0ktplnQFzAFLDy8d0BWCvfGLWGoJ5zQQMKyUITgsoyH4RxvRIA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(376002)(136003)(396003)(39850400004)(86362001)(83380400001)(5660300002)(33656002)(2906002)(76116006)(8936002)(966005)(66946007)(9686003)(66556008)(66476007)(55016002)(66446008)(64756008)(52536014)(53546011)(4326008)(6506007)(8676002)(7696005)(71200400001)(26005)(316002)(110136005)(478600001)(54906003)(186003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: WIUQGbPSYXapH9THvU5hLPNTA+lW3k/h/8DAIzDXMwS6lwyo5NxZuAtMOZTgxOnPFOQAVlf4qBda4k/5SjSnNIXe8NOWh39FNDFoL1z+ewCyirgEHdtFgR+NwTmNZMDDM1xA2t7Dj3zNMiLarMbucj5BV5v0s91y46jXs39MHk6BTb0HHa5+dKKMc4/9h1G4OhbnkL3dvXanz6Mu09LJctj4k0dX45BjwNDgPHxYh8BTbP3pJHNjuuxcGCWqbjsiAcEQmgS9PmpB14vg0H8OenkYKA3LXLl8FZ3ntcUAM9NJuUgyvMmQOwO2n0WHgo4So4peZybe/9JBF9X8MQYO7pCSW6YTdU/+bO2drAg2QeYTvTeZZ7+CsDDEVkzZDOaeZnP/zS9J2RjQhk1dHf48t84kUNWsOBpftdNSOVITTbJVQk+8XjwghCWMiKrS+ItpdVMKl9CcCVMnJbq4r6AJZEcKNJLQQt0OF+EOHGjR4b8NM9Ufw1Wbz6mzlaqVHV9nY2e3oEaffLAwQ0fLB3chIFz/R+5hsOL1sdwX1gzjQd2qMxVH22QVjT1JVM28IIeWTzEKCcaVI5ihJDLY/UZSYGO0gEjoB3oHPARzVhiru77BQlP8+/YzD4mq5lrAEj9oW/Q4w2xIqUG9gopHU35J1Q==
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57577439-ca07-4560-0f3c-08d85f3b1cd5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2020 21:04:36.3100 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QvFGUWkoFsG3gKX1BD6EFqulHgSVbGtjD4hl0UUfnsx237SdWWZOkBaqhMlZI98veGb4uO5usWjNgtq121eQewLA2Ir9Igh5ghOPxYaNQok=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3959
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200922_163450_035194_AD69883C 
-X-CRM114-Status: GOOD (  24.48  )
+X-CRM114-CacheID: sfid-20200922_170442_357273_7211D516 
+X-CRM114-Status: GOOD (  17.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,78 +142,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- "ztong0001@gmail.com" <ztong0001@gmail.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Huai-Cheng Kuo <hh81478072@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christoph,
-I modified the patch a bit and now it works.
-Best,
-- Tong
+(+ cc: linux-nvme)
 
----
- block/genhd.c         | 7 +++++--
- include/linux/genhd.h | 1 +
- 2 files changed, 6 insertions(+), 2 deletions(-)
+On 9/22/20 12:49, Chaitanya Kulkarni wrote:
+> In the function nvme_get_effects_log() it uses NVME_NSID_ALL which has 
+> namespace scope. The command effect log page is controller specific.
+>
+> Replace NVME_NSID_ALL with 0x00 which specifies the controller scope
+> instead of namespace scope.
+>
+> Reported-by: Huai-Cheng Kuo <hh81478072@gmail.com>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=209287
+> Fixes: be93e87e7802 ("nvme: support for multiple Command Sets Supported and Effects log pages")
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> ---
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 9beb9c94eeef..0d4713307724 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3041,7 +3041,7 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+>  	if (!cel)
+>  		return -ENOMEM;
+>  
+> -	ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_CMD_EFFECTS, 0, csi,
+> +	ret = nvme_get_log(ctrl, 0x00, NVME_LOG_CMD_EFFECTS, 0, csi,
+>  			&cel->log, sizeof(cel->log), 0);
+>  	if (ret) {
+>  		kfree(cel);
 
-diff --git a/block/genhd.c b/block/genhd.c
-index 99c64641c314..8c432e5f97ea 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -835,7 +835,10 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
- 	 * Take an extra ref on queue which will be put on disk_release()
- 	 * so that it sticks around as long as @disk is there.
- 	 */
--	WARN_ON_ONCE(!blk_get_queue(disk->queue));
-+	if (blk_get_queue(disk->queue))
-+		disk->flags |= GENHD_FL_QUEUE_REF;
-+	else
-+		WARN_ON_ONCE(1);
- 
- 	disk_add_events(disk);
- 	blk_integrity_add(disk);
-@@ -1567,7 +1570,7 @@ static void disk_release(struct device *dev)
- 	kfree(disk->random);
- 	disk_replace_part_tbl(disk, NULL);
- 	hd_free_part(&disk->part0);
--	if (disk->queue)
-+	if (disk->flags & GENHD_FL_QUEUE_REF)
- 		blk_put_queue(disk->queue);
- 	kfree(disk);
- }
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 4ab853461dff..9441077ee103 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -135,6 +135,7 @@ struct hd_struct {
- #define GENHD_FL_BLOCK_EVENTS_ON_EXCL_WRITE	0x0100
- #define GENHD_FL_NO_PART_SCAN			0x0200
- #define GENHD_FL_HIDDEN				0x0400
-+#define GENHD_FL_QUEUE_REF			0x0800
- 
- enum {
- 	DISK_EVENT_MEDIA_CHANGE			= 1 << 0, /* media changed */
--- 
-2.25.1
-
-
-> On Sep 22, 2020, at 12:41 PM, Christoph Hellwig <hch@lst.de> wrote:
-> 
-> On Tue, Sep 22, 2020 at 12:19:06PM -0400, Tong Zhang wrote:
->> Thank you Christoph for providing the patch.
->> However, the test shows that the issue still persists even with the new patch.
->> The call trace is the same as in my first email.
-> 
-> Weird.  What baseline did you test?  You need to use the patch on top of
-> the latest for-next or for-5.10/block tree from Jens for full effect.
-> 
-> If that still feels can you send me a longer dmesg that also shows what
-> happens before the sniplet you sent?
 
 
 _______________________________________________
