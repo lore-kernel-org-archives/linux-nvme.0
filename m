@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CCBAC4727E
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 12:15:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA8AC2D0E2
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 12:15:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A98F120936
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 12:15:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7AB8A20756
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 12:15:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2e46hlFV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A98F120936
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VMV1IbVo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7AB8A20756
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,34 +25,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Zx96WHK9YAE0XkwlVyOfxAdX5P2/WgwfZDSvJCYMFow=; b=2e46hlFVQAjU3zQClhMTl+DIMM
-	R9hZMrbBYmAJguv2hWHUupNHdUUE/tSbIBsds34/OTo0HV0FQVgqdOkCEiVNNok9QG3zCSdlYPI5i
-	ewg+rIeY4vnr50ydkm5UFxjItms2Eqv5YvZK80G9XmpPvaC9eyFIp7XFHRK098Mz48rhvSCOi5549
-	Rjmctjkp12h8dhBgFr6N0SWSk95qi3QgcU4Z8EG/Homq3Sz0nUrHurYftLM+yEgn1B2+yEBrrqfyk
-	XVTGR5lp9uVWsTEw3ts4y4oAAnviBTo+qR4flp/IpE1Avl5ioSXhgIA9mX0Q7KSUjzUuZuq9awZts
-	jCo/0sJQ==;
+	bh=0+hjdRJxcu6aw8BJh6w6Cbatt40V5rMZf/gOXDhlw1s=; b=VMV1IbVo6w1StuFqIijTAy0AGP
+	3jJrWzJyOmKt5tdAR9D094OLjsSz83gNpAC3dHkwxZg2SpaHR0j/SZ1mIZ6LusHN5wjfYSyiwVhfk
+	PJbf7ZNWyyr1EPYjnwSfVQ2gMEtL6CS8sGjcBPEvLCynFGwDgbuiQAzOoVekcDhG1kOJUuDXj1Hys
+	7DdeK4mze5eJUyj4EvI/JtFj2ZrPupcH9N0nblRaBwTvdvJuOJ8+KgIgxi1HfqNfeo3hvtz8fX0UK
+	zG0ALMhqfeNT6O5gJQsaj5s1R5VOiR9dYzqTzxQ7BCvVktzSsdSqLQEuEjdpSz1uMlamX9xbbes1U
+	3o+CpZHg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kKhCp-0003rp-BL; Tue, 22 Sep 2020 12:15:36 +0000
+	id 1kKhCt-0003tA-Qo; Tue, 22 Sep 2020 12:15:39 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kKhCW-0003nJ-Ps
+ id 1kKhCW-0003nQ-TL
  for linux-nvme@lists.infradead.org; Tue, 22 Sep 2020 12:15:19 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BA60EAF57;
+ by mx2.suse.de (Postfix) with ESMTP id CFF4FAF5B;
  Tue, 22 Sep 2020 12:15:48 +0000 (UTC)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 7/7] nvme-fcloop: use a device for lport
-Date: Tue, 22 Sep 2020 14:15:01 +0200
-Message-Id: <20200922121501.32851-8-hare@suse.de>
+Subject: [PATCH 6/7] nvme-fcloop: use a device for nport
+Date: Tue, 22 Sep 2020 14:15:00 +0200
+Message-Id: <20200922121501.32851-7-hare@suse.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200922121501.32851-1-hare@suse.de>
 References: <20200922121501.32851-1-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200922_081517_125970_D1141BFE 
-X-CRM114-Status: GOOD (  19.15  )
+X-CRM114-CacheID: sfid-20200922_081517_229187_7CC0F7B6 
+X-CRM114-Status: GOOD (  18.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,121 +73,129 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a 'struct device' to the lport such that the lport will show
+Add a 'struct device' to the nport such that the nport will show
 up in sysfs and we get a valid name in the logging output.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/target/fcloop.c | 53 ++++++++++++++++++++++++++++++++------------
- 1 file changed, 39 insertions(+), 14 deletions(-)
+ drivers/nvme/target/fcloop.c | 31 +++++++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index b84f8754b3a3..1af1917ddf4c 100644
+index 7dab98545979..b84f8754b3a3 100644
 --- a/drivers/nvme/target/fcloop.c
 +++ b/drivers/nvme/target/fcloop.c
-@@ -214,6 +214,7 @@ static LIST_HEAD(fcloop_nports);
- static DEFINE_IDA(fcloop_portid_ida);
- 
- struct fcloop_lport {
-+	struct device dev;
- 	struct nvme_fc_local_port *localport;
- 	struct list_head lport_list;
- 	struct completion unreg_done;
-@@ -1053,6 +1054,16 @@ static struct nvmet_fc_target_template tgttemplate = {
- 	.lsrqst_priv_sz		= sizeof(struct fcloop_lsreq),
+@@ -245,11 +245,11 @@ struct fcloop_tport {
  };
  
-+static void fcloop_release_lport(struct device *dev)
-+{
-+	struct fcloop_lport *lport =
-+		container_of(dev, struct fcloop_lport, dev);
-+
-+	ida_free(&fcloop_portid_ida, lport->port_id);
-+
-+	kfree(lport);
-+}
-+
- static ssize_t
- fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
- 		const char *buf, size_t count)
-@@ -1063,7 +1074,7 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+ struct fcloop_nport {
++	struct device dev;
+ 	struct fcloop_rport *rport;
+ 	struct fcloop_tport *tport;
  	struct fcloop_lport *lport;
- 	struct fcloop_lport_priv *lport_priv;
- 	unsigned long flags;
--	int ret = -ENOMEM, port_id;
-+	int ret = -ENOMEM, port_id, port_num;
- 
- 	lport = kzalloc(sizeof(*lport), GFP_KERNEL);
- 	if (!lport)
-@@ -1094,25 +1105,39 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
- 		goto out_free_ida;
- 	}
- 
-+	lport->port_id = port_id;
-+	lport->dev.class = fcloop_class;
-+	lport->dev.release = fcloop_release_lport;
-+	dev_set_name(&lport->dev, "lport%d", lport->port_id);
-+	device_initialize(&lport->dev);
-+
- 	memset(&pinfo, 0, sizeof(pinfo));
- 	pinfo.node_name = opts->wwnn;
- 	pinfo.port_name = opts->wwpn;
- 	pinfo.port_role = opts->roles;
- 	pinfo.port_id = port_id;
- 
--	ret = nvme_fc_register_localport(&pinfo, &fctemplate, NULL, &localport);
--	if (!ret) {
--		/* success */
--		lport_priv = localport->private;
--		lport_priv->lport = lport;
-+	ret = nvme_fc_register_localport(&pinfo, &fctemplate,
-+					 &lport->dev, &localport);
-+	if (ret)
-+		goto out_free_ida;
- 
--		lport->localport = localport;
--		INIT_LIST_HEAD(&lport->lport_list);
-+	/* success */
-+	lport_priv = localport->private;
-+	lport_priv->lport = lport;
- 
--		spin_lock_irqsave(&fcloop_lock, flags);
--		list_add_tail(&lport->lport_list, &fcloop_lports);
--		spin_unlock_irqrestore(&fcloop_lock, flags);
-+	lport->localport = localport;
-+	INIT_LIST_HEAD(&lport->lport_list);
-+
-+	ret = device_add(&lport->dev);
-+	if (ret) {
-+		nvme_fc_unregister_localport(lport->localport);
-+		goto out_free_ida;
- 	}
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	list_add_tail(&lport->lport_list, &fcloop_lports);
-+	spin_unlock_irqrestore(&fcloop_lock, flags);
-+
- out_free_ida:
- 	if (ret)
- 		ida_free(&fcloop_portid_ida, port_id);
-@@ -1138,15 +1163,15 @@ __wait_localport_unreg(struct fcloop_lport *lport)
- {
- 	int ret;
- 
-+	device_del(&lport->dev);
-+
- 	init_completion(&lport->unreg_done);
- 
- 	ret = nvme_fc_unregister_localport(lport->localport);
- 
- 	wait_for_completion(&lport->unreg_done);
- 
--	ida_free(&fcloop_portid_ida, lport->port_id);
--
--	kfree(lport);
-+	put_device(&lport->dev);
- 
- 	return ret;
+ 	struct list_head nport_list;
+-	struct kref ref;
+ 	u64 node_name;
+ 	u64 port_name;
+ 	u32 port_role;
+@@ -949,10 +949,10 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
  }
+ 
+ static void
+-fcloop_nport_free(struct kref *ref)
++fcloop_release_nport(struct device *dev)
+ {
+ 	struct fcloop_nport *nport =
+-		container_of(ref, struct fcloop_nport, ref);
++		container_of(dev, struct fcloop_nport, dev);
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&fcloop_lock, flags);
+@@ -967,13 +967,13 @@ fcloop_nport_free(struct kref *ref)
+ static void
+ fcloop_nport_put(struct fcloop_nport *nport)
+ {
+-	kref_put(&nport->ref, fcloop_nport_free);
++	put_device(&nport->dev);
+ }
+ 
+-static int
++static void
+ fcloop_nport_get(struct fcloop_nport *nport)
+ {
+-	return kref_get_unless_zero(&nport->ref);
++	get_device(&nport->dev);
+ }
+ 
+ static void
+@@ -1007,6 +1007,8 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
+ #define	FCLOOP_SGL_SEGS			256
+ #define FCLOOP_DMABOUND_4G		0xFFFFFFFF
+ 
++static struct class *fcloop_class;
++
+ static struct nvme_fc_port_template fctemplate = {
+ 	.localport_delete	= fcloop_localport_delete,
+ 	.remoteport_delete	= fcloop_remoteport_delete,
+@@ -1225,8 +1227,10 @@ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
+ 	newnport->port_id = port_id;
+ 	if (opts->mask & NVMF_OPT_ROLES)
+ 		newnport->port_role = opts->roles;
+-
+-	kref_init(&newnport->ref);
++	newnport->dev.class = fcloop_class;
++	newnport->dev.release = fcloop_release_nport;
++	dev_set_name(&newnport->dev, "nport%d", newnport->port_id);
++	device_initialize(&newnport->dev);
+ 
+ 	spin_lock_irqsave(&fcloop_lock, flags);
+ 
+@@ -1267,6 +1271,10 @@ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
+ 		}
+ 	}
+ 
++	ret = device_add(&newnport->dev);
++	if (ret)
++		goto out_invalid_opts;
++
+ 	list_add_tail(&newnport->nport_list, &fcloop_nports);
+ 
+ 	spin_unlock_irqrestore(&fcloop_lock, flags);
+@@ -1339,6 +1347,8 @@ __unlink_remote_port(struct fcloop_nport *nport)
+ 	if (rport && nport->tport)
+ 		nport->tport->remoteport = NULL;
+ 	nport->rport = NULL;
++	if (!nport->tport)
++		device_del(&nport->dev);
+ 
+ 	return rport;
+ }
+@@ -1406,7 +1416,7 @@ fcloop_create_target_port(struct device *dev, struct device_attribute *attr,
+ 	tinfo.port_name = nport->port_name;
+ 	tinfo.port_id = nport->port_id;
+ 
+-	ret = nvmet_fc_register_targetport(&tinfo, &tgttemplate, NULL,
++	ret = nvmet_fc_register_targetport(&tinfo, &tgttemplate, &nport->dev,
+ 						&targetport);
+ 	if (ret) {
+ 		fcloop_nport_put(nport);
+@@ -1438,6 +1448,8 @@ __unlink_target_port(struct fcloop_nport *nport)
+ 	if (tport && nport->rport)
+ 		nport->rport->targetport = NULL;
+ 	nport->tport = NULL;
++	if (!nport->rport)
++		device_del(&nport->dev);
+ 
+ 	return tport;
+ }
+@@ -1513,7 +1525,6 @@ static const struct attribute_group *fcloop_dev_attr_groups[] = {
+ 	NULL,
+ };
+ 
+-static struct class *fcloop_class;
+ static struct device *fcloop_device;
+ 
+ 
 -- 
 2.16.4
 
