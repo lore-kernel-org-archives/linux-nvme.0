@@ -1,84 +1,72 @@
-Return-Path: <SRS0=tapN=C7=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=afDi=DA=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D38FC2D0E2
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 21:54:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A50C4363D
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2020 04:10:49 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D144720773
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Sep 2020 21:54:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 424CB20684
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Sep 2020 04:10:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iyDEV99G";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="B+tioJLm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D144720773
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mo3yTmzN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 424CB20684
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=oW93BT40yR8SArekv3RlFleCyaYzdwOL0PgXDNWRIqI=; b=iyD
-	EV99GpYIZ4AKjlv/mRReCxhVhNasuIRtrg+zrPT+9BU76Ptj3eQ05eJBZ5IM2kJMRBv5ebBDgnL6G
-	jaqjsSx4c0K9m7nC/XuNDvjk2BEaDaz5uHRe0ue6sq4ru1WhcDzuIfoRnYiXIE6b0uNPk6y0PBwn8
-	D5xzJtlOr7ZI86Va7krltEtRkmibBvIVqCoBE/s+rjW8oqHFyRVq3pssXqbrKYmjX1o/enrrsI4SS
-	Vkyb2RRcWEwgZRc7qLYQ5tp3hhfNLBOkZ6XSJBjTMcL8ci8BwKqYVO9VwbyMTNo/I1o3+Q74XmMLF
-	NVb3iICyiOIqNQmd2VWIYnAc/GTMJOQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bik1HPNXc8GtsYHerRynXV5G56ME7Tm4hqvyBQT3H2I=; b=mo3yTmzNYFj1CIbs7NAhNvbfRL
+	qPS4I0EIDKYf22OeM7/DflxI7n9XReqITSzVKC8HbYcvznHhxJIclV/Aih1nm3+Qtxq2/0XcCcoyZ
+	dHup7OpR7QT+6nliFXVFbahgimDBY4AXiXlmTBPZjH/OBJcDNpqfuLnm5+KS1uUQHwsH6C8NYXgR+
+	4/ZP6i5aaCjfaTmTyb2bw/pS2jKD5CcyDj2IaBpG+WSY6IGmXoRY4OQ0eB1dP+b2ahVq0nk7yNTg9
+	Uk1S4hGAP/nOdSwxYrxB0syqIujoV66+ufGvwWGqIBO81cghHEk/aBbM4RdTp6uQukqMdMrsy6gpp
+	ZPTYzbDg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kKqF5-0005s6-UV; Tue, 22 Sep 2020 21:54:31 +0000
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
+	id 1kKw76-0001eK-FX; Wed, 23 Sep 2020 04:10:40 +0000
+Received: from mga02.intel.com ([134.134.136.20])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kKqEw-0005nj-6P
- for linux-nvme@lists.infradead.org; Tue, 22 Sep 2020 21:54:25 +0000
-Received: by mail-pf1-x441.google.com with SMTP id d9so13736515pfd.3
- for <linux-nvme@lists.infradead.org>; Tue, 22 Sep 2020 14:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=tQtKheRjaMwN8qaZi7bkvw4O0uVtpM2U1F5guw05LHA=;
- b=B+tioJLmthlPj2HXwkgwjjvA4fGufQKRXznGi5zv33zjDQ6WBMGkeHp0xb3w967pLp
- pRyXsQ/mwS//mfa/YVgcLxp7Xh37zETCsixZNh1MtjHW4/41h5UN+UQZpMghqsgZTBMZ
- 0Oxv39scGucg1zPudJsGgr55a9ee9cFU8M+88=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version;
- bh=tQtKheRjaMwN8qaZi7bkvw4O0uVtpM2U1F5guw05LHA=;
- b=JBthRZYHyhJ9mq7S3SLfYReUNGRZ2+TBdg4uI9EXgmnBOeuu4FBC/8UJeuBTGV4bZW
- yGRbEFuDXdtLrkxpg/jnNn06xWijRjAQBrwY79WVc9nBE3NhgWcw/gWJojrmpxnIbaPd
- tR9L7P/QsUiVlRWVix/UV0lQK6IsUBnG9F3M8GTx/76aQEszys5eogya7gAPsHRrfqml
- Zmx/YYK36cVfpCRvXieyTxJKrHcLErYdjpzUAa/71g+lm8HUMaHTnGYpeWygAQ0U/mUX
- 6ZxQqgcbHFtYT+MMa1QbLac74LK90YyEBqPS4irKvx1Lkc8PFYO4TOPCBoLESfjoMtz2
- wgcg==
-X-Gm-Message-State: AOAM532uJBHP9K+ADCbkyx1Y8YFx0YcQqjXrBDlM2INgn/Bw8YPZdfHF
- 1sbIzymFKYb8txwDRK+n4j9aaLdB1UEiFpbWpH2KEr63DVzi+5mr4VizzHGVBpBVjvB9pL8jEvb
- SEokqiqBSizq10InxyH7JERPAPb7H1YOq+Ums/UBCDKI6k5nK+xKi/HUuOM7SP0GfOHjapHDxx6
- 2/fYSiIx8cXSk=
-X-Google-Smtp-Source: ABdhPJy/dH6kvMeCfUAyFDLROzX61016aYUsihIfaRozirqIld/rtHAi1WmXMbQIkPBLieQQrPdF1A==
-X-Received: by 2002:aa7:9427:0:b029:142:2501:35df with SMTP id
- y7-20020aa794270000b0290142250135dfmr5885432pfo.63.1600811658184; 
- Tue, 22 Sep 2020 14:54:18 -0700 (PDT)
-Received: from localhost.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id j26sm16590485pfa.160.2020.09.22.14.54.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Sep 2020 14:54:17 -0700 (PDT)
-From: James Smart <james.smart@broadcom.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet-fc: fix missing check for no hostport struct
-Date: Tue, 22 Sep 2020 14:54:12 -0700
-Message-Id: <20200922215412.126070-1-james.smart@broadcom.com>
-X-Mailer: git-send-email 2.26.2
+ id 1kKw72-0001dz-OP
+ for linux-nvme@lists.infradead.org; Wed, 23 Sep 2020 04:10:38 +0000
+IronPort-SDR: 8647BXKpRREOVmdurFDsYuJqsNanmjV/GUpYa/DGZqF5e5UGadsIYpL8bTdhQ/2cDzqyH7IWou
+ qdRyLRuCbVXQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="148442433"
+X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="148442433"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2020 21:10:33 -0700
+IronPort-SDR: k5Zh8Uy1uJ5nCb4cHtK8VWL+vp1tx1N9X6gfex7eTTvRphnt1pmnH66S9Y1s8OImVz+fJnWOow
+ 4xpx0FyzqY0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="309746200"
+Received: from lkp-server01.sh.intel.com (HELO 928d8e596b58) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 22 Sep 2020 21:10:32 -0700
+Received: from kbuild by 928d8e596b58 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kKw6x-0000lQ-FZ; Wed, 23 Sep 2020 04:10:31 +0000
+Date: Wed, 23 Sep 2020 12:09:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-5.9] BUILD SUCCESS
+ 9e0e8dac985d4bd07d9e62922b9d189d3ca2fccf
+Message-ID: <5f6aca8d.qHP5FoXh/ptqTX+3%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200922_175422_479029_46C7E122 
-X-CRM114-Status: GOOD (  15.67  )
+X-CRM114-CacheID: sfid-20200923_001036_985384_DDE5BE84 
+X-CRM114-Status: GOOD (  12.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,140 +78,212 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <james.smart@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============5235413479718651150=="
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============5235413479718651150==
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000045d08b05afee0279"
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.9
+branch HEAD: 9e0e8dac985d4bd07d9e62922b9d189d3ca2fccf  nvme-fc: fail new connections to a deleted host or remote port
 
---00000000000045d08b05afee0279
-Content-Transfer-Encoding: 8bit
+elapsed time: 725m
 
-A hostport port pointer is allowed to be NULL as it is not allocated if
-the lldd does not support the new interfaces for NVME LS request support.
-The hostport free routine validates the handle but forgot to validate the
-hostport pointer.
+configs tested: 180
+configs skipped: 2
 
-Validate the hostport pointer before using it to validate the handle.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: James Smart <james.smart@broadcom.com>
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                          pcm027_defconfig
+arm                         vf610m4_defconfig
+arm                           viper_defconfig
+arm                      jornada720_defconfig
+powerpc                 mpc837x_rdb_defconfig
+mips                malta_kvm_guest_defconfig
+mips                           gcw0_defconfig
+sh                             sh03_defconfig
+arm                             ezx_defconfig
+mips                      pistachio_defconfig
+nios2                         3c120_defconfig
+powerpc                     tqm8555_defconfig
+arm                          iop32x_defconfig
+ia64                         bigsur_defconfig
+sh                     magicpanelr2_defconfig
+h8300                     edosk2674_defconfig
+powerpc                 xes_mpc85xx_defconfig
+arm                            lart_defconfig
+powerpc                        warp_defconfig
+powerpc                       maple_defconfig
+mips                          rm200_defconfig
+mips                       bmips_be_defconfig
+powerpc                   currituck_defconfig
+arm                    vt8500_v6_v7_defconfig
+sh                          kfr2r09_defconfig
+sh                           se7751_defconfig
+mips                             allmodconfig
+sh                     sh7710voipgw_defconfig
+sh                           se7722_defconfig
+arm                      tct_hammer_defconfig
+powerpc                       ebony_defconfig
+arm                          tango4_defconfig
+powerpc                 mpc834x_mds_defconfig
+powerpc                 mpc834x_itx_defconfig
+m68k                         apollo_defconfig
+arm                           h5000_defconfig
+arm                        multi_v5_defconfig
+m68k                             allyesconfig
+powerpc                      obs600_defconfig
+m68k                          amiga_defconfig
+m68k                       m5275evb_defconfig
+sh                           sh2007_defconfig
+c6x                        evmc6457_defconfig
+arm                           sama5_defconfig
+x86_64                           alldefconfig
+arm                         s5pv210_defconfig
+arm                       aspeed_g5_defconfig
+mips                      loongson3_defconfig
+mips                 decstation_r4k_defconfig
+powerpc                 mpc836x_mds_defconfig
+arm                         bcm2835_defconfig
+powerpc                      arches_defconfig
+arm                            hisi_defconfig
+sh                           se7619_defconfig
+powerpc                 mpc85xx_cds_defconfig
+mips                         tb0219_defconfig
+mips                  maltasmvp_eva_defconfig
+mips                           xway_defconfig
+arm                           u8500_defconfig
+sh                          lboxre2_defconfig
+powerpc                      ep88xc_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                       cns3420vb_defconfig
+h8300                    h8300h-sim_defconfig
+riscv                            allmodconfig
+arm                       imx_v4_v5_defconfig
+arm                         ebsa110_defconfig
+arm                     am200epdkit_defconfig
+powerpc                 mpc8315_rdb_defconfig
+sh                          sdk7780_defconfig
+arm                          prima2_defconfig
+powerpc                    gamecube_defconfig
+h8300                            alldefconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a002-20200921
+i386                 randconfig-a006-20200921
+i386                 randconfig-a003-20200921
+i386                 randconfig-a004-20200921
+i386                 randconfig-a005-20200921
+i386                 randconfig-a001-20200921
+i386                 randconfig-a002-20200923
+i386                 randconfig-a006-20200923
+i386                 randconfig-a003-20200923
+i386                 randconfig-a004-20200923
+i386                 randconfig-a005-20200923
+i386                 randconfig-a001-20200923
+i386                 randconfig-a002-20200922
+i386                 randconfig-a006-20200922
+i386                 randconfig-a003-20200922
+i386                 randconfig-a004-20200922
+i386                 randconfig-a005-20200922
+i386                 randconfig-a001-20200922
+x86_64               randconfig-a011-20200923
+x86_64               randconfig-a013-20200923
+x86_64               randconfig-a014-20200923
+x86_64               randconfig-a015-20200923
+x86_64               randconfig-a012-20200923
+x86_64               randconfig-a016-20200923
+i386                 randconfig-a012-20200923
+i386                 randconfig-a014-20200923
+i386                 randconfig-a016-20200923
+i386                 randconfig-a013-20200923
+i386                 randconfig-a011-20200923
+i386                 randconfig-a015-20200923
+i386                 randconfig-a012-20200921
+i386                 randconfig-a014-20200921
+i386                 randconfig-a016-20200921
+i386                 randconfig-a013-20200921
+i386                 randconfig-a011-20200921
+i386                 randconfig-a015-20200921
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a005-20200923
+x86_64               randconfig-a003-20200923
+x86_64               randconfig-a004-20200923
+x86_64               randconfig-a002-20200923
+x86_64               randconfig-a006-20200923
+x86_64               randconfig-a001-20200923
+x86_64               randconfig-a005-20200921
+x86_64               randconfig-a003-20200921
+x86_64               randconfig-a004-20200921
+x86_64               randconfig-a002-20200921
+x86_64               randconfig-a006-20200921
+x86_64               randconfig-a001-20200921
+x86_64               randconfig-a011-20200922
+x86_64               randconfig-a013-20200922
+x86_64               randconfig-a014-20200922
+x86_64               randconfig-a015-20200922
+x86_64               randconfig-a012-20200922
+x86_64               randconfig-a016-20200922
+x86_64               randconfig-a011-20200920
+x86_64               randconfig-a013-20200920
+x86_64               randconfig-a014-20200920
+x86_64               randconfig-a015-20200920
+x86_64               randconfig-a012-20200920
+x86_64               randconfig-a016-20200920
+
 ---
- drivers/nvme/target/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index e6861cc10e7d..cd4e73aa9807 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1019,7 +1019,7 @@ static void
- nvmet_fc_free_hostport(struct nvmet_fc_hostport *hostport)
- {
- 	/* if LLDD not implemented, leave as NULL */
--	if (!hostport->hosthandle)
-+	if (!hostport || !hostport->hosthandle)
- 		return;
- 
- 	nvmet_fc_hostport_put(hostport);
--- 
-2.26.2
-
-
---00000000000045d08b05afee0279
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-AanDaJF6fE9TEzbfn5AWgVgHkbqS3VY3Gq05xkLhRugDQ60IGwT29K1B+wGfcujKSaalhQIDAQAB
-o4IBzzCCAcswDgYDVR0PAQH/BAQDAgWgMIGeBggrBgEFBQcBAQSBkTCBjjBNBggrBgEFBQcwAoZB
-aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NwZXJzb25hbHNpZ24yc2hhMmcz
-b2NzcC5jcnQwPQYIKwYBBQUHMAGGMWh0dHA6Ly9vY3NwMi5nbG9iYWxzaWduLmNvbS9nc3BlcnNv
-bmFsc2lnbjJzaGEyZzMwTQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwRAYDVR0fBD0w
-OzA5oDegNYYzaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc3BlcnNvbmFsc2lnbjJzaGEyZzMu
-Y3JsMCMGA1UdEQQcMBqBGGphbWVzLnNtYXJ0QGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEF
-BQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJnXsLYTAdBgNVHQ4EFgQUUXCHNA1n5KXj
-CXL1nHkJ8oKX5wYwDQYJKoZIhvcNAQELBQADggEBAGQDKmIdULu06w+bE15XZJOwlarihiP2PHos
-/4bNU3NRgy/tCQbTpJJr3L7LU9ldcPam9qQsErGZKmb5ypUjVdmS5n5M7KN42mnfLs/p7+lOOY5q
-ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
-2JU2wwirL0Sy5S1DREQmTMAuHL+M9Qwbl+uh/AprkVqaSYuvUzWFwBVgafOl2XgGdn8r6ubxSZhX
-9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
-ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
-MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQga8mSbdi2c04q9RaM
-V8c2JklfLbr+Jk7+OrzYO16K2ZIwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAwOTIyMjE1NDE4WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
-ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAH1IGOyMpyl34QC9LJvhV7XJI+bUGv4sVSgp
-gVZvA9p/EkIKibycxKKgJ9SFuv5OznD5CF49/coXDl5B3Z6aXWCOucBDU1qWjf9sTUlizWdXiz0d
-7EIMex6EUc/oPkerS4KCc5ceAbGzAHG0CKIRLkpe7njIVEjfb0URavzbQq/sqUwG/cFyGRL+Bjzr
-y+qr+wLYFmQIemAvWuDTK5+JTzhD2hqY/yRvY+auQwCE8NCINn4GIv886QZliLw3OqF3ty8af8ZY
-X+OeKmfExPrAAqtkUxzbI9BuODOtQQt6QtZFl4G2sHCjqq3ofTxiZ8G1D2Vj2XdId9HqUjkgQgxO
-6Ek=
---00000000000045d08b05afee0279--
-
-
---===============5235413479718651150==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============5235413479718651150==--
-
