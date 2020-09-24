@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D1EC4346E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80792C4727D
 	for <linux-nvme@archiver.kernel.org>; Thu, 24 Sep 2020 05:07:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BB63E235F7
+	by mail.kernel.org (Postfix) with ESMTPS id A5EED2311A
 	for <linux-nvme@archiver.kernel.org>; Thu, 24 Sep 2020 05:07:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V39/msZA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BB63E235F7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DcMRbsp8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A5EED2311A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=tVmJpHih2quVJrI90sfe/vidfieqA/mfCyWUEgzl2Ao=; b=V39/msZAQTPT7KL1oUUyXuLQs
-	2k82gBHLCzBEr6ZTfjrefrMNBIdELgFLCLIQEcL+lTooSzXwHEe2OcPXhC1WyCQ09a0xgGQPbweSu
-	CAtY/0cBGOHuDiu+k9CwDakXfdqaoA+1OhYBG58HewCkW1s9P1+ql4fdPaAd0ykr3Va+GZYcqxmA9
-	b69I2CkA5a8u1k3JuKzFcWZq9A3CpIZkykQ5UoDUVORbqxL7D2VdCF5waopnyC1/p77nnPc/NnerL
-	FhDeuk5KGrGmSgsZVbErIVMlEwxMJT22kFEDCBJsr0yCHUFY5wxN/QmIrenidkYSWa3ubxr55szG7
-	YGN4sMtWQ==;
+	 bh=tVmJpHih2quVJrI90sfe/vidfieqA/mfCyWUEgzl2Ao=; b=DcMRbsp8McEa7pNGMx38nss4T
+	VJEbSD9JoGn/ufX16AvfcLJtkwhMZ3G/1DTm4rzgBFvRC8snpAx84AU4Pkt+tepSG4NaOXUVUuGFS
+	WgndNWjhco1qdlJEJZab45NJm2A/7tMwWbzHg5UfE8PK17lYSrO8He0HpItgxM7czER98Vn0dRvUl
+	t0XXTwiZ9+1/IJKSSEAelEt/AoG+kjVOIjJqc/Vkm1mf+fqtC6O3ieqkSgTVrL1BG4Nr7sYsAu7rc
+	VQKD5UCPYWQX5RTPsfVhZOoOfNSGGjDqKoiS1y98au2NVxTZ9B8NEMuc8tsPatZ5qbjvpIF5VmQM9
+	wan+9Kj8A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLJTm-0003gN-8R; Thu, 24 Sep 2020 05:07:38 +0000
+	id 1kLJTl-0003fw-28; Thu, 24 Sep 2020 05:07:37 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLJTj-0003fv-Hd
- for linux-nvme@lists.infradead.org; Thu, 24 Sep 2020 05:07:36 +0000
+ id 1kLJTh-0003fX-4o
+ for linux-nvme@lists.infradead.org; Thu, 24 Sep 2020 05:07:33 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 0A3F568AFE; Thu, 24 Sep 2020 07:07:34 +0200 (CEST)
-Date: Thu, 24 Sep 2020 07:07:33 +0200
+ id 6A9AB68B02; Thu, 24 Sep 2020 07:07:23 +0200 (CEST)
+Date: Thu, 24 Sep 2020 07:07:23 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH 1/1] nvmet: add passthru ZNS support
-Message-ID: <20200924050733.GB9175@lst.de>
-References: <20200922211718.6206-1-chaitanya.kulkarni@wdc.com>
- <20200922211718.6206-2-chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH] nvme-core: use xarray for cel storing
+Message-ID: <20200924050723.GA9175@lst.de>
+References: <20200922210529.4530-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200922211718.6206-2-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20200922210529.4530-1-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200924_010735_781821_1BFF1D16 
-X-CRM114-Status: UNSURE (   7.83  )
+X-CRM114-CacheID: sfid-20200924_010733_309345_FED0AC51 
+X-CRM114-Status: UNSURE (   7.20  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -66,7 +65,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: keith.busch@intel.com, hch@lst.de, linux-nvme@lists.infradead.org,
+Cc: kbusch@kernel.org, hch@lst.de, linux-nvme@lists.infradead.org,
  sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
