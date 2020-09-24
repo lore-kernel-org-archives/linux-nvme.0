@@ -2,65 +2,73 @@ Return-Path: <SRS0=MLi/=DB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 352AEC4363D
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Sep 2020 13:47:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F6BC4363D
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Sep 2020 18:09:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7D39A206F7
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Sep 2020 13:47:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2938E22208
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Sep 2020 18:09:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="h5+R1bqC";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dUvetM9O"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D39A206F7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CL/apVvm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2938E22208
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fNVf8j7Vu/pR94L2rSqPegsFSUOBUBR8xB3zgnDELf4=; b=h5+R1bqCA9eMA9YSdQdPJTTi6C
-	CuC6/o4qkxxtEcun/nP/hk/ZsaX7cwvf0v6o/dmUeF1KnOe62Hv1nNnANd7bzmgpWyCCPAAox2AEZ
-	e21AN6ZpMlus3GrYpzkKyk+Miridxmt/rUbZ2s2PxuKSLzSHbl5Ld8KLeMoyVc1ZBpZBZUpdH8JZU
-	KQ1tCE9CKgak3khijsG+ntUvKSN2i0/GNrOV1VUnAdDpsGzLRvkIY+Kb6ENnSxV6XjprDgVNc7zn4
-	xe+zqap9OA49IIWVro2OA+XNWduiH/IKj4DFD4RgSX62OY99OewMxzYszWWnrgKwESnRh4NZWh53U
-	xAvitwFg==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=kOCq/Pq9+WO2FVJ2dy0Nf0zFRzBhbme1WG7ufaJbRfs=; b=CL/apVvm28NcCGPk64WuHu1Ho
+	knjZDIqhkyDxyTMSG25vKPMaFBUmpv7F2/ninhJrzctOBiqdy4QzIK6x3o1edmPi7id1EDk+wcXI3
+	eX+Lvf1kROzZFL7DRZQOYnCeg73A7RVHWok0PUGpKJooRO3KX04H+YXFUsXMD4scJ2Vj58KVxbzu1
+	xSzVde6FnPeUvaZBtpu6n3oHq55yGQRIhwGasvxyGerlmPuKaOsp0xSZG5d75R8a8gyV58wSC1T6L
+	/6JKi9nuHHbz6dOBeUaPDzdMJgeGIzr1/vxWdNJfqIfatgcRoVCnKVMv9uMvMWRt06AWss7xTCYiv
+	YxNmbs22w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLRaN-00080l-Ea; Thu, 24 Sep 2020 13:46:59 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1kLVgF-00043Y-79; Thu, 24 Sep 2020 18:09:19 +0000
+Received: from mga05.intel.com ([192.55.52.43])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLRaL-00080S-Rl
- for linux-nvme@merlin.infradead.org; Thu, 24 Sep 2020 13:46:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=QPRY1PBjjGfg4Jna7TYhCqqdJngF0dkb335+a5ET34E=; b=dUvetM9OE0gs43FYE0YiBXqPWP
- 99ISp6Jj1qNb3w8YBhf9Uda0YsDf9pEQJHOAKJ3LsvZkEiJaQdmCh9UoCrmDrR5mKiC5HuHQZgFKW
- qBAgRXxZLPasTMyUr1w31jSFhzSdYA+ZuUBnjUslk6T7MMeIMAv80/SqKHVd+yD2tYsbHvnPwKYKF
- 3UxLI6g1W0TeYB0OLv/xE5qaIVheV23olB3yOTJCLxLwJ5h+JZdWvNGjdtLzBxVkZmSK32Gq1z+MN
- 9IbNoSx2v08UOKxUtzVU5c3hOEma8R8Rx/O7RSqBEQhJNX1S7BsMJViTOElktriij25/UKcojL8mP
- wyISLjRQ==;
-Received: from p4fdb0c34.dip0.t-ipconnect.de ([79.219.12.52] helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLRaJ-0003Da-U6; Thu, 24 Sep 2020 13:46:56 +0000
-Date: Thu, 24 Sep 2020 15:46:54 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Subject: [GIT PULL] nvme fixes for 5.9
-Message-ID: <20200924134654.GA873840@infradead.org>
+ id 1kLVg9-000432-6t
+ for linux-nvme@lists.infradead.org; Thu, 24 Sep 2020 18:09:14 +0000
+IronPort-SDR: tUpGasPavQzsqE3tH9E5/Rolt8zKhAZ0HfYtpin0duQhV/uWWEeei8x0Q2kFPQ+gSZQZ6PeRZV
+ vi+1M5XngyTg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="246096365"
+X-IronPort-AV: E=Sophos;i="5.77,298,1596524400"; d="scan'208";a="246096365"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2020 11:09:07 -0700
+IronPort-SDR: fTN88eBS4ZGG0H6UJwXoUequL6Ju3JPJg39ZHVmhom6pOBekTTlWPf9fPUWHkwAuWhbvL0v4Lo
+ o1rPhHwRFtBg==
+X-IronPort-AV: E=Sophos;i="5.77,298,1596524400"; d="scan'208";a="487025646"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.36])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2020 11:09:06 -0700
+Date: Thu, 24 Sep 2020 11:09:05 -0700
+From: "Raj, Ashok" <ashok.raj@intel.com>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: Re: [bugzilla-daemon@bugzilla.kernel.org: [Bug 209149] New:
+ "iommu/vt-d: Enable PCI ACS for platform opt in hint" makes NVMe config
+ space not accessible after S3]
+Message-ID: <20200924180905.GB85236@otc-nc-03>
+References: <20200923160327.GA2267374@bjorn-Precision-5520>
+ <6CD003F6-DDF4-4C57-AD9E-79C8AB5C01BF@canonical.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <6CD003F6-DDF4-4C57-AD9E-79C8AB5C01BF@canonical.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200924_140913_384790_68F47C73 
+X-CRM114-Status: GOOD (  26.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,54 +80,99 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Joerg Roedel <jroedel@suse.de>, "Jechlitschek,
+ Christoph" <christoph.jechlitschek@intel.com>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ Jens Axboe <axboe@fb.com>,
+ Lalithambika Krishnakumar <lalithambika.krishnakumar@intel.com>,
+ iommu@lists.linux-foundation.org, Bjorn Helgaas <helgaas@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
+ Rajat Jain <rajatja@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Christoph Hellwig <hch@lst.de>, Lu Baolu <baolu.lu@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 4a2dd2c798522859811dd520a059f982278be9d9:
+Hi Kai
 
-  Merge tag 'nvme-5.9-2020-09-17' of git://git.infradead.org/nvme into block-5.9 (2020-09-17 11:49:44 -0600)
++ Alex, since he had some of the early quirks authored.
 
-are available in the Git repository at:
+On Thu, Sep 24, 2020 at 12:31:53AM +0800, Kai-Heng Feng wrote:
+> [+Cc Christoph]
+> 
+> > On Sep 24, 2020, at 00:03, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > 
+> > [+cc IOMMU and NVMe folks]
+> > 
+> > Sorry, I forgot to forward this to linux-pci when it was first
+> > reported.
+> > 
+> > Apparently this happens with v5.9-rc3, and may be related to
+> > 50310600ebda ("iommu/vt-d: Enable PCI ACS for platform opt in hint"),
+> > which appeared in v5.8-rc3.
+> > 
+> > There are several dmesg logs and proposed patches in the bugzilla, but
+> > no analysis yet of what the problem is.  From the first dmesg
+> > attachment (https://bugzilla.kernel.org/attachment.cgi?id=292327):
+> 
+> AFAIK Intel is working on it internally.
+> Comet Lake probably needs ACS quirk like older generation chips.
 
-  git://git.infradead.org/nvme.git tags/nvme-5.9-2020-09-24
+I have confirmed with Internal documentation that the problem exists on
+Comet Lake. But its fixed ICL and TGL generations.
 
-for you to fetch changes up to 46d2613eae51d527ecaf0e8248a9bfcc0b92aa7e:
+Unfortunately I do not see if the public specupdate documents are for these
+generation chipsets to makes sure all root port id's can be captured.
 
-  nvme-core: don't use NVME_NSID_ALL for command effects and supported log (2020-09-23 20:01:47 +0200)
+There is also another entry in bugzilla that was forwarded that referred to
+Request Redirect Capability to be always disabled as well. This same
+workaround also seems to be turning off RR for the root port. I believe it
+should fix it as well. But i saw another patch attached.
 
-----------------------------------------------------------------
-nvme fixes for 5.9
+Can you tell how you reproduce this? just doing a
 
- - fix error during controller probe that cause double free irqs
-   (Keith Busch)
- - FC connection establishment fix (James Smart)
- - properly handle completions for invalid tags (Xianting Tian)
- - pass the correct nsid to the command effects and supported log
-   (Chaitanya Kulkarni)
+#echo mem > /sys/power/state
 
-----------------------------------------------------------------
-Chaitanya Kulkarni (1):
-      nvme-core: don't use NVME_NSID_ALL for command effects and supported log
+is sufficient with an attached NVMe drive? 
 
-James Smart (1):
-      nvme-fc: fail new connections to a deleted host or remote port
+> 
+> > 
+> >  [   50.434945] PM: suspend entry (deep)
+> >  [   50.802086] nvme 0000:01:00.0: saving config space at offset 0x0 (reading 0x11e0f)
+> >  [   50.842775] ACPI: Preparing to enter system sleep state S3
+> >  [   50.858922] ACPI: Waking up from system sleep state S3
+> >  [   50.883622] nvme 0000:01:00.0: can't change power state from D3hot to D0 (config space inaccessible)
+> >  [   50.947352] nvme 0000:01:00.0: restoring config space at offset 0x0 (was 0xffffffff, writing 0x11e0f)
+> >  [   50.947816] pcieport 0000:00:1b.0: DPC: containment event, status:0x1f01 source:0x0000
+> >  [   50.947817] pcieport 0000:00:1b.0: DPC: unmasked uncorrectable error detected
+> >  [   50.947829] pcieport 0000:00:1b.0: PCIe Bus Error: severity=Uncorrected (Non-Fatal), type=Transaction Layer, (Receiver ID)
+> >  [   50.947830] pcieport 0000:00:1b.0:   device [8086:06ac] error status/mask=00200000/00010000
+> >  [   50.947831] pcieport 0000:00:1b.0:    [21] ACSViol                (First)
+> >  [   50.947841] pcieport 0000:00:1b.0: AER: broadcast error_detected message
+> >  [   50.947843] nvme nvme0: frozen state error detected, reset controller
+> > 
+> > I suspect the nvme "can't change power state" and restore config space
+> > errors are a consequence of the DPC event.  If DPC disables the link,
+> > the device is inaccessible.
+> > 
+> > I don't know what caused the ACS Violation.  The AER TLP Header Log
+> > might have a clue, but unfortunately we didn't print it.
+> > 
 
-Keith Busch (1):
-      nvme: return errors for hwmon init
+Apparently it also requires to disable RR, and I'm not able to confirm if
+CML requires that as well. 
 
-Xianting Tian (1):
-      nvme-pci: fix NULL req in completion handler
+pci_quirk_disable_intel_spt_pch_acs_redir() also seems to consult the same
+table, so i'm not sure why we need the other patch in bugzilla is required.
 
- drivers/nvme/host/core.c  |  9 ++++++---
- drivers/nvme/host/fc.c    |  6 ++++--
- drivers/nvme/host/hwmon.c | 14 ++++++--------
- drivers/nvme/host/nvme.h  |  7 +++++--
- drivers/nvme/host/pci.c   | 14 +++++++-------
- 5 files changed, 28 insertions(+), 22 deletions(-)
+
+Cheers,
+Ashok
 
 _______________________________________________
 Linux-nvme mailing list
