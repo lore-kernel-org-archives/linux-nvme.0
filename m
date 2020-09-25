@@ -2,67 +2,71 @@ Return-Path: <SRS0=ggB5=DC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A9EDC4346E
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 01:28:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B767C4346E
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 02:08:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AD4552084C
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 01:28:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 78B5020888
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 02:08:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jzlmjvru";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VyMWIQR6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD4552084C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OBXfms5u"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78B5020888
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=zvRkdbBqe9fc3n7EDVBh73/iPPjRd2b6lKVjwA//vso=; b=jzlmjvruducXN8wHyLvfi8iDH
-	MVCnYp+MS7GwNx0GS5IAsvLaOtwNqaAf2C2ygYroHMHIpoBwO0L44Nfv4OpQ2N5vH3Zm7uJN3IubC
-	Ukx1VL/RlloTTVkOJHgGLuXIAQpHmEZeIMDJ1l28akZIzXBTXK3V8F/D2R+Qw8ldh6Gab732PgRHQ
-	mNSMnxDe3ZRj++SWjyYVoC1re2SokF8f6/SFD8nuRnF+yFeEyiP5APwhN+cZo9/rm3Rm+ESb864iG
-	XitzSvdUio3CE+dwPRQ2rick3oozCqSvcJVpbq/BKLlZu/o9rnniohuOgNqUpA1x3IrHh/r0AFFNx
-	k/0v8y7vQ==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=fl+G8tX31Gh384+v7jXjaWuaGf5GsdBLBBmwUi4Flxg=; b=OBXfms5uTG8xFQU5Bv5b3InQgC
+	8iPE3e85atnTnSXnIn6E71p8UXR5w8oIxtonlVAPwG948Zym+mGg0Ui5TKyZZ+o1rVede4QuiIKZS
+	a58LvmnAoo4I9+yNtvdE4xga9pAkBZa+oyFccTA7CdD8MzkEZpZXbpLoiJ3GDhzyHs/3N4NXwN+4I
+	LqpGng2HfozHdejuu4DyrQVwd2eYLJak0iljUshrCxhpBfaL1KV6n6ZcgL6hIS025Ce0+ofeVjMp2
+	sz/cRxu7da8UV/64sV5w/wbZFoU9trm4LNfPJ2jIR+UcazQePxnwcdyuoXGPlXL2qGUPRO3fgu1HQ
+	2H10yXzA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLcXX-0002Cf-AG; Fri, 25 Sep 2020 01:28:47 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kLd9Y-000424-0A; Fri, 25 Sep 2020 02:08:04 +0000
+Received: from mga06.intel.com ([134.134.136.31])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLcXS-0002Ap-CI
- for linux-nvme@lists.infradead.org; Fri, 25 Sep 2020 01:28:43 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C0B072083B;
- Fri, 25 Sep 2020 01:28:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600997320;
- bh=RTSrivTd6OMf4V1bDzbMTqfScOTrO/ODyL9xIDVOP5Y=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VyMWIQR6AVkox/VeNcte3tjcqq4VRWrsQIbYYgiI0qy9ziwWb0pWPeboWVh7mmp+Y
- Eoiav98dqPsynOoisKvda+ZRVhtlLNo5Fh61Rq0ODiArmNS9LyMwdiAhevATzh7bGQ
- bLF36rj7pxTGQlY3rOefGPJXz7f+SaCgcqpjFaoI=
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Subject: [PATCHv4 1/3] block: add zone specific block statuses
-Date: Thu, 24 Sep 2020 18:28:36 -0700
-Message-Id: <20200925012838.4043473-2-kbusch@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200925012838.4043473-1-kbusch@kernel.org>
-References: <20200925012838.4043473-1-kbusch@kernel.org>
+ id 1kLd9U-00040s-Qn
+ for linux-nvme@lists.infradead.org; Fri, 25 Sep 2020 02:08:02 +0000
+IronPort-SDR: N8a927AD4mEvqWP+8AiTt8G1vkpYtCjgrpq0oPVeMlmZfa7qG0WaCV09Bw0dicTgIzfMfzdrsp
+ vpAFXzk5QlwQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="223002289"
+X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; d="scan'208";a="223002289"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2020 19:07:59 -0700
+IronPort-SDR: 6DTbrkKLdvqZrtpSbV1zop4TbnBJZhBXc4y8igbPFgnSWC+nnQCos2CxKMChbxg6H7eCM5Tm2U
+ Ni89/ZbKVkHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; d="scan'208";a="511891445"
+Received: from lkp-server01.sh.intel.com (HELO d1a6b931d9c6) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 24 Sep 2020 19:07:57 -0700
+Received: from kbuild by d1a6b931d9c6 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kLd9Q-0000E3-Vs; Fri, 25 Sep 2020 02:07:56 +0000
+Date: Fri, 25 Sep 2020 10:07:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-5.10] BUILD SUCCESS
+ e4b896b9af1a78f671773e2ad9d3b6b2557c46eb
+Message-ID: <5f6d50d4.9DCVRFjNnOxHe4kR%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200924_212842_543320_3FDB7515 
-X-CRM114-Status: GOOD (  17.60  )
+X-CRM114-CacheID: sfid-20200924_220800_996132_D8BBE8CC 
+X-CRM114-Status: GOOD (  11.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,110 +78,166 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org,
- linux-api@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- Keith Busch <kbusch@kernel.org>, hch@lst.de
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A zoned device with limited resources to open or activate zones may
-return an error when the host exceeds those limits. The same command may
-be successful if retried later, but the host needs to wait for specific
-zone states before it should expect a retry to succeed. Have the block
-layer provide an appropriate status for these conditions so applications
-can distinuguish this error for special handling.
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.10
+branch HEAD: e4b896b9af1a78f671773e2ad9d3b6b2557c46eb  nvme-pci: allocate separate interrupt for the reserved non-polled I/O queue
 
-Cc: linux-api@vger.kernel.org
-Cc: Niklas Cassel <niklas.cassel@wdc.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Damien Le Moal <damien.lemoal@wdc.com>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+elapsed time: 723m
+
+configs tested: 136
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+mips                  maltasmvp_eva_defconfig
+m68k                         apollo_defconfig
+mips                      bmips_stb_defconfig
+arc                     nsimosci_hs_defconfig
+arm                           u8500_defconfig
+powerpc                        warp_defconfig
+arm                         assabet_defconfig
+s390                                defconfig
+sh                          rsk7201_defconfig
+sh                ecovec24-romimage_defconfig
+i386                             allyesconfig
+sh                          rsk7269_defconfig
+ia64                                defconfig
+microblaze                    nommu_defconfig
+arm                     davinci_all_defconfig
+m68k                       m5275evb_defconfig
+powerpc                     tqm8548_defconfig
+arm                         nhk8815_defconfig
+arm                            qcom_defconfig
+sh                          r7780mp_defconfig
+powerpc                       ebony_defconfig
+xtensa                    smp_lx200_defconfig
+m68k                        m5272c3_defconfig
+openrisc                         alldefconfig
+powerpc                 mpc8313_rdb_defconfig
+powerpc                     pseries_defconfig
+m68k                          hp300_defconfig
+sparc                            allyesconfig
+sparc                       sparc32_defconfig
+powerpc                 mpc837x_mds_defconfig
+powerpc                      pcm030_defconfig
+parisc                           alldefconfig
+mips                          malta_defconfig
+powerpc                     sbc8548_defconfig
+arc                             nps_defconfig
+h8300                    h8300h-sim_defconfig
+xtensa                         virt_defconfig
+arc                        nsim_700_defconfig
+m68k                       bvme6000_defconfig
+arm                        cerfcube_defconfig
+sh                  sh7785lcr_32bit_defconfig
+powerpc                 mpc836x_mds_defconfig
+powerpc                     tqm8541_defconfig
+powerpc                    socrates_defconfig
+arm                         s3c6400_defconfig
+mips                        omega2p_defconfig
+h8300                               defconfig
+arm                         axm55xx_defconfig
+sh                          polaris_defconfig
+nds32                             allnoconfig
+sh                          lboxre2_defconfig
+csky                                defconfig
+powerpc                 mpc836x_rdk_defconfig
+sh                           se7750_defconfig
+sh                        sh7763rdp_defconfig
+powerpc                      pmac32_defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a002-20200924
+i386                 randconfig-a006-20200924
+i386                 randconfig-a003-20200924
+i386                 randconfig-a004-20200924
+i386                 randconfig-a005-20200924
+i386                 randconfig-a001-20200924
+i386                 randconfig-a002-20200923
+i386                 randconfig-a006-20200923
+i386                 randconfig-a003-20200923
+i386                 randconfig-a004-20200923
+i386                 randconfig-a005-20200923
+i386                 randconfig-a001-20200923
+x86_64               randconfig-a011-20200923
+x86_64               randconfig-a013-20200923
+x86_64               randconfig-a014-20200923
+x86_64               randconfig-a015-20200923
+x86_64               randconfig-a012-20200923
+x86_64               randconfig-a016-20200923
+i386                 randconfig-a012-20200923
+i386                 randconfig-a014-20200923
+i386                 randconfig-a016-20200923
+i386                 randconfig-a013-20200923
+i386                 randconfig-a011-20200923
+i386                 randconfig-a015-20200923
+i386                 randconfig-a012-20200924
+i386                 randconfig-a014-20200924
+i386                 randconfig-a016-20200924
+i386                 randconfig-a013-20200924
+i386                 randconfig-a011-20200924
+i386                 randconfig-a015-20200924
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a005-20200923
+x86_64               randconfig-a003-20200923
+x86_64               randconfig-a004-20200923
+x86_64               randconfig-a002-20200923
+x86_64               randconfig-a006-20200923
+x86_64               randconfig-a001-20200923
+
 ---
- Documentation/block/queue-sysfs.rst |  8 ++++++++
- block/blk-core.c                    |  4 ++++
- include/linux/blk_types.h           | 18 ++++++++++++++++++
- 3 files changed, 30 insertions(+)
-
-diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
-index f261a5c84170..2638d3446b79 100644
---- a/Documentation/block/queue-sysfs.rst
-+++ b/Documentation/block/queue-sysfs.rst
-@@ -124,6 +124,10 @@ For zoned block devices (zoned attribute indicating "host-managed" or
- EXPLICIT OPEN, IMPLICIT OPEN or CLOSED, is limited by this value.
- If this value is 0, there is no limit.
- 
-+If the host attempts to exceed this limit, the driver should report this error
-+with BLK_STS_ZONE_ACTIVE_RESOURCE, which user space may see as the EOVERFLOW
-+errno.
-+
- max_open_zones (RO)
- -------------------
- For zoned block devices (zoned attribute indicating "host-managed" or
-@@ -131,6 +135,10 @@ For zoned block devices (zoned attribute indicating "host-managed" or
- EXPLICIT OPEN or IMPLICIT OPEN, is limited by this value.
- If this value is 0, there is no limit.
- 
-+If the host attempts to exceed this limit, the driver should report this error
-+with BLK_STS_ZONE_OPEN_RESOURCE, which user space may see as the ETOOMANYREFS
-+errno.
-+
- max_sectors_kb (RW)
- -------------------
- This is the maximum number of kilobytes that the block layer will allow
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 10c08ac50697..8bffc7732e37 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -186,6 +186,10 @@ static const struct {
- 	/* device mapper special case, should not leak out: */
- 	[BLK_STS_DM_REQUEUE]	= { -EREMCHG, "dm internal retry" },
- 
-+	/* zone device specific errors */
-+	[BLK_STS_ZONE_OPEN_RESOURCE]	= { -ETOOMANYREFS, "open zones exceeded" },
-+	[BLK_STS_ZONE_ACTIVE_RESOURCE]	= { -EOVERFLOW, "active zones exceeded" },
-+
- 	/* everything else not covered above: */
- 	[BLK_STS_IOERR]		= { -EIO,	"I/O" },
- };
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 4ecf4fed171f..8603fc5f86a3 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -103,6 +103,24 @@ typedef u8 __bitwise blk_status_t;
-  */
- #define BLK_STS_ZONE_RESOURCE	((__force blk_status_t)14)
- 
-+/*
-+ * BLK_STS_ZONE_OPEN_RESOURCE is returned from the driver in the completion
-+ * path if the device returns a status indicating that too many zone resources
-+ * are currently open. The same command should be successful if resubmitted
-+ * after the number of open zones decreases below the device's limits, which is
-+ * reported in the request_queue's max_open_zones.
-+ */
-+#define BLK_STS_ZONE_OPEN_RESOURCE	((__force blk_status_t)15)
-+
-+/*
-+ * BLK_STS_ZONE_ACTIVE_RESOURCE is returned from the driver in the completion
-+ * path if the device returns a status indicating that too many zone resources
-+ * are currently active. The same command should be successful if resubmitted
-+ * after the number of active zones decreases below the device's limits, which
-+ * is reported in the request_queue's max_active_zones.
-+ */
-+#define BLK_STS_ZONE_ACTIVE_RESOURCE	((__force blk_status_t)16)
-+
- /**
-  * blk_path_error - returns true if error may be path related
-  * @error: status the request was completed with
--- 
-2.24.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
