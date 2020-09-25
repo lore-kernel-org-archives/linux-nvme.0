@@ -2,103 +2,67 @@ Return-Path: <SRS0=ggB5=DC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4893EC4727F
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 20:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 202BBC4727E
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 21:38:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E534D2086A
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 20:54:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8FCC8204FD
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 21:38:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="H4Eq+Yte";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="t0qzyxZi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E534D2086A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qK5Jjypa";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="l8fzVbXC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FCC8204FD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:References:Message-ID:
-	From:Subject:To:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=K85kWULiOIDEJIT0LZpLbS+aMzU1rDOSRkWyiwjPfUo=; b=H4Eq+YteC4RVFun/8QPvzXEtw
-	KIIIzhrskilFLm0GHSWNl4V1pbtFcUuNggXf/2/5mt1Ggqv8HMDwh9ihmKra0BSm6WRIy9myVMd93
-	uzibBYzegFSsWLJVfaTkfQkDMH6AO2ZaS4prsnLspjNTffCnJui6uIQ/nU5Wh2gcZdYpVuj/SEP9a
-	hpu/MwsYEJ3tz6PQCo4Si3Ee4Hvlo8GCphexI0NOYCiJJxbqAqHQx9xl1uF9CVoxZGZnU/t2zVzQ/
-	yK/8qW3Q7g9yiPlrEHNL64I3zmDyjq0QnVvZet2YDpKKYt+lqc4SHGYzKzDtLsJE2AkmtjDgaS1pp
-	ncYJGKjPA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=yf4/Dc5Ms+hb6wt6fnhPNMT4iomtp3UUp/5Y5e4BsJI=; b=qK5JjypavqybNKFcqM0GnbfHCV
+	thEg5EktH2k4niRGb9SfHKdx8IX6dYlIyYTav4vWsCU4KYB6aaCjb94gYrsLSUT6nMr/Zt5cPYMoL
+	v9ivhA8pCAA4r9HIsRFdbDwAHLQ2xrH/ZQzkBMpNGqqeDeXuGQMh/NCN8JjaAkyXq0y4OVp/+6eqC
+	HvO86NEDHwu4GP4Ouw2VfEOXmf6XpnouwMYj38/emyWwAEfSEUCBacMp8NW18C9EshHFmmDt6/C48
+	2X1JGcmZdZidrWOwvh2bEMUfZumzrZvekXsz2P24izucI/GxNremE7tJJRs7mPLp99CGG4b1LAyZZ
+	wq7lOhbg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLuji-0000Us-8m; Fri, 25 Sep 2020 20:54:34 +0000
-Received: from userp2120.oracle.com ([156.151.31.85])
+	id 1kLvQC-0005Yp-MX; Fri, 25 Sep 2020 21:38:28 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLujX-0000UI-9Q
- for linux-nvme@lists.infradead.org; Fri, 25 Sep 2020 20:54:24 +0000
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08PKn2cc039197;
- Fri, 25 Sep 2020 20:54:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- from : message-id : references : date : in-reply-to : mime-version :
- content-type; s=corp-2020-01-29;
- bh=KE/6frUW0qLJ4yGqJjxsOBztcMMvJKPi7N6S9765s1A=;
- b=t0qzyxZi0dl+YKzXtuDuHrMGqOKgH5fIMmpwIJWVMm/U3dTu+P1SS3kJTlx79mD5uwMC
- A2Edf31HXh7Zjrho5JXRQeOv1ImV1hVmEUYsbtNFLoJL4bYLIxAyhjP+J/0Zp7ifDQzk
- 3Nx9/VbQNAqiGj7LS7WXYR2mfogIVEGEDnYRbjzFJkRbq3WNPTTAj2pLS3zagmxoYMTV
- iw0TWXITzP/XF5OpedI74kVNFQzbK4Xkz4lunnpJPRW1Rg6Stg2474URqb04tp+XNqiJ
- CwLxCCi7uoZ8T0Vakvb3aUzZrxZh3Nt0KvQ9mrqnvOxELTIQV/CUCoVWCkaNPXyc2d99 Xw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 33ndnuysne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 25 Sep 2020 20:54:14 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08PKoEmv040658;
- Fri, 25 Sep 2020 20:54:13 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 33r28yufem-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Sep 2020 20:54:13 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08PKsBj6030876;
- Fri, 25 Sep 2020 20:54:11 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 25 Sep 2020 13:54:10 -0700
-To: Coly Li <colyli@suse.de>
-Subject: Re: [PATCH v8 6/7] scsi: libiscsi: use sendpage_ok() in
- iscsi_tcp_segment_map()
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq18scxinmw.fsf@ca-mkp.ca.oracle.com>
-References: <20200925150119.112016-1-colyli@suse.de>
- <20200925150119.112016-7-colyli@suse.de>
-Date: Fri, 25 Sep 2020 16:54:07 -0400
-In-Reply-To: <20200925150119.112016-7-colyli@suse.de> (Coly Li's message of
- "Fri, 25 Sep 2020 23:01:18 +0800")
+ id 1kLvQA-0005YM-1o
+ for linux-nvme@lists.infradead.org; Fri, 25 Sep 2020 21:38:26 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CC0E420637;
+ Fri, 25 Sep 2020 21:38:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601069904;
+ bh=ZzRdcjkgVI/0xjBfz/uzOxpRryW6syZzWsYekdXJbf8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=l8fzVbXCUHp+XYfhArekoQrnwQteWStvfMuOrhzsJiFgxrVIXIbJnFai7kNsn6q6W
+ Icr83kOjiLrLB7ZsqydntD3cXLK8AhMYH7OHc8TZC7zf3uLbPkPqdjjT6kU9Tqktsc
+ 1zyYfIx25Wjx09lwoH2Xj0TgXVV6BFX57V65Ob1M=
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Subject: [RFC] nvme-mpath: delete disk after last connection
+Date: Fri, 25 Sep 2020 14:38:19 -0700
+Message-Id: <20200925213819.224198-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9755
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=845
- suspectscore=1 adultscore=0 bulkscore=0 malwarescore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009250150
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9755
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=1 bulkscore=0
- clxscore=1011 impostorscore=0 mlxlogscore=827 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009250150
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200925_165423_528512_D0330CB3 
-X-CRM114-Status: GOOD (  19.71  )
+X-CRM114-CacheID: sfid-20200925_173826_221137_BF6173B8 
+X-CRM114-Status: GOOD (  20.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,38 +74,130 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Mike Christie <michaelc@cs.wisc.edu>, Vasily Averin <vvs@virtuozzo.com>,
- Cong Wang <amwang@redhat.com>, linux-scsi@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Chris Leech <cleech@redhat.com>, Hannes Reinecke <hare@suse.de>,
- Lee Duncan <lduncan@suse.com>, ceph-devel@vger.kernel.org,
- open-iscsi@googlegroups.com, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+I have this tagged "RFC" because I'm not sure if there's a reason why the code
+is done the way that it is today.
 
-Coly,
+The multipath code currently deletes the disk only after all references
+to it are dropped rather than when the last path to that disk is lost.
+This has been reported to cause problems with some usage, like MD RAID.
 
-> In iscsci driver, iscsi_tcp_segment_map() uses the following code to
-> check whether the page should or not be handled by sendpage:
->     if (!recv && page_count(sg_page(sg)) >= 1 && !PageSlab(sg_page(sg)))
->
-> The "page_count(sg_page(sg)) >= 1 && !PageSlab(sg_page(sg)" part is to
-> make sure the page can be sent to network layer's zero copy path. This
-> part is exactly what sendpage_ok() does.
->
-> This patch uses  use sendpage_ok() in iscsi_tcp_segment_map() to replace
-> the original open coded checks.
+Delete the disk when the last path is gone. This is the same behavior we
+currently have with non-multipathed nvme devices.
 
-Looks fine to me.
+The following is just a simple example that demonstrates what is currently
+observed using a simple nvme loop back (loop setup file not shown):
 
-Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
+ # nvmetcli restore loop.json
+ [   31.156452] nvmet: adding nsid 1 to subsystem testnqn1
+ [   31.159140] nvmet: adding nsid 1 to subsystem testnqn2
 
+ # nvme connect -t loop -n testnqn1 -q hostnqn
+ [   36.866302] nvmet: creating controller 1 for subsystem testnqn1 for NQN hostnqn.
+ [   36.872926] nvme nvme3: new ctrl: "testnqn1"
+
+ # nvme connect -t loop -n testnqn1 -q hostnqn
+ [   38.227186] nvmet: creating controller 2 for subsystem testnqn1 for NQN hostnqn.
+ [   38.234450] nvme nvme4: new ctrl: "testnqn1"
+
+ # nvme connect -t loop -n testnqn2 -q hostnqn
+ [   43.902761] nvmet: creating controller 3 for subsystem testnqn2 for NQN hostnqn.
+ [   43.907401] nvme nvme5: new ctrl: "testnqn2"
+
+ # nvme connect -t loop -n testnqn2 -q hostnqn
+ [   44.627689] nvmet: creating controller 4 for subsystem testnqn2 for NQN hostnqn.
+ [   44.641773] nvme nvme6: new ctrl: "testnqn2"
+
+ # mdadm --create /dev/md0 --level=mirror --raid-devices=2 /dev/nvme3n1 /dev/nvme5n1
+ [   53.497038] md/raid1:md0: active with 2 out of 2 mirrors
+ [   53.501717] md0: detected capacity change from 0 to 66060288
+
+ # cat /proc/mdstat
+ Personalities : [raid1]
+ md0 : active raid1 nvme5n1[1] nvme3n1[0]
+       64512 blocks super 1.2 [2/2] [UU]
+
+Now delete all paths to one of the namespaces:
+
+ # echo 1 > /sys/class/nvme/nvme3/delete_controller
+ # echo 1 > /sys/class/nvme/nvme4/delete_controller
+
+We have no path, but mdstat says:
+
+ # cat /proc/mdstat
+ Personalities : [raid1]
+ md0 : active (auto-read-only) raid1 nvme5n1[1]
+       64512 blocks super 1.2 [2/1] [_U]
+
+And this is reported to cause a problem.
+
+With the proposed patch, the following messages appear:
+
+ [  227.516807] md/raid1:md0: Disk failure on nvme3n1, disabling device.
+ [  227.516807] md/raid1:md0: Operation continuing on 1 devices.
+
+And mdstat shows only the viable members:
+
+ # cat /proc/mdstat
+ Personalities : [raid1]
+ md0 : active (auto-read-only) raid1 nvme5n1[1]
+       64512 blocks super 1.2 [2/1] [_U]
+
+Reported-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c      | 3 ++-
+ drivers/nvme/host/multipath.c | 1 -
+ drivers/nvme/host/nvme.h      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4857168f71f2..a2faa3625e39 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -475,7 +475,8 @@ static void nvme_free_ns_head(struct kref *ref)
+ 	struct nvme_ns_head *head =
+ 		container_of(ref, struct nvme_ns_head, ref);
+ 
+-	nvme_mpath_remove_disk(head);
++	if (head->disk)
++		put_disk(head->disk);
+ 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+ 	cleanup_srcu_struct(&head->srcu);
+ 	nvme_put_subsystem(head->subsys);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 74896be40c17..55045291b4de 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -697,7 +697,6 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ 		 */
+ 		head->disk->queue = NULL;
+ 	}
+-	put_disk(head->disk);
+ }
+ 
+ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a42b75869213..745cda1a63fd 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -670,7 +670,7 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+ 	struct nvme_ns_head *head = ns->head;
+ 
+ 	if (head->disk && list_empty(&head->list))
+-		kblockd_schedule_work(&head->requeue_work);
++		nvme_mpath_remove_disk(head);
+ }
+ 
+ static inline void nvme_trace_bio_complete(struct request *req,
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.24.1
+
 
 _______________________________________________
 Linux-nvme mailing list
