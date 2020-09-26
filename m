@@ -1,68 +1,62 @@
-Return-Path: <SRS0=ggB5=DC=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=oV1q=DD=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 202BBC4727E
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 21:38:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B08C2D0A8
+	for <linux-nvme@archiver.kernel.org>; Sat, 26 Sep 2020 11:17:09 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8FCC8204FD
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Sep 2020 21:38:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 681B2238E2
+	for <linux-nvme@archiver.kernel.org>; Sat, 26 Sep 2020 11:17:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qK5Jjypa";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="l8fzVbXC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FCC8204FD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="E9zNqw89"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 681B2238E2
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=yf4/Dc5Ms+hb6wt6fnhPNMT4iomtp3UUp/5Y5e4BsJI=; b=qK5JjypavqybNKFcqM0GnbfHCV
-	thEg5EktH2k4niRGb9SfHKdx8IX6dYlIyYTav4vWsCU4KYB6aaCjb94gYrsLSUT6nMr/Zt5cPYMoL
-	v9ivhA8pCAA4r9HIsRFdbDwAHLQ2xrH/ZQzkBMpNGqqeDeXuGQMh/NCN8JjaAkyXq0y4OVp/+6eqC
-	HvO86NEDHwu4GP4Ouw2VfEOXmf6XpnouwMYj38/emyWwAEfSEUCBacMp8NW18C9EshHFmmDt6/C48
-	2X1JGcmZdZidrWOwvh2bEMUfZumzrZvekXsz2P24izucI/GxNremE7tJJRs7mPLp99CGG4b1LAyZZ
-	wq7lOhbg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=24FqQEJ+h2eXD4K84TUcmqiYBpuhnb/akU4JbK09j0A=; b=E9zNqw89hvU6pSrAKDGB8quvW
+	mkfODhNWQ3Q88eIK0mKy8+4kBP1JZM7sj0EF0bw3r+jym4ocDwEflbwLXpSZKIEtFGf2vFbVlWjBc
+	jgkOuclSi1gBNvPOAyfqoNB+YR0FuIjQ1MCdmSzohEa1zITNBhrxaqI+DGSAyvLCs5bcb16ARQgxM
+	Bwo3z3hOiL+WlhY/RehVhq11al1kaMR2ttyKFHNFg/gDwuZg+KEB3xwXz/9z4sM8G3M+djDtXnHdA
+	xJsRDB6KmGXSjkYnkSl91bjof8A9iRn9fjhfubyWbUPwTcVKWNvjCK/b8/nKp1DbotP2PhkgpiB/W
+	DnRNgEeJA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kLvQC-0005Yp-MX; Fri, 25 Sep 2020 21:38:28 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kM8CJ-0002B2-5F; Sat, 26 Sep 2020 11:16:59 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kLvQA-0005YM-1o
- for linux-nvme@lists.infradead.org; Fri, 25 Sep 2020 21:38:26 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CC0E420637;
- Fri, 25 Sep 2020 21:38:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601069904;
- bh=ZzRdcjkgVI/0xjBfz/uzOxpRryW6syZzWsYekdXJbf8=;
- h=From:To:Cc:Subject:Date:From;
- b=l8fzVbXCUHp+XYfhArekoQrnwQteWStvfMuOrhzsJiFgxrVIXIbJnFai7kNsn6q6W
- Icr83kOjiLrLB7ZsqydntD3cXLK8AhMYH7OHc8TZC7zf3uLbPkPqdjjT6kU9Tqktsc
- 1zyYfIx25Wjx09lwoH2Xj0TgXVV6BFX57V65Ob1M=
-From: Keith Busch <kbusch@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	hch@lst.de,
-	sagi@grimberg.me
-Subject: [RFC] nvme-mpath: delete disk after last connection
-Date: Fri, 25 Sep 2020 14:38:19 -0700
-Message-Id: <20200925213819.224198-1-kbusch@kernel.org>
-X-Mailer: git-send-email 2.24.1
+ id 1kM8CG-0002Ah-CL
+ for linux-nvme@lists.infradead.org; Sat, 26 Sep 2020 11:16:57 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id A683EAC4D;
+ Sat, 26 Sep 2020 11:16:53 +0000 (UTC)
+Subject: Re: [RFC] nvme-mpath: delete disk after last connection
+To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ hch@lst.de, sagi@grimberg.me
+References: <20200925213819.224198-1-kbusch@kernel.org>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <f8fdd99f-84da-bf68-a07b-7a6200cc02ab@suse.de>
+Date: Sat, 26 Sep 2020 13:16:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20200925213819.224198-1-kbusch@kernel.org>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200925_173826_221137_BF6173B8 
-X-CRM114-Status: GOOD (  20.01  )
+X-CRM114-CacheID: sfid-20200926_071656_640472_B2DDAD03 
+X-CRM114-Status: GOOD (  34.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,132 +68,101 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I have this tagged "RFC" because I'm not sure if there's a reason why the code
-is done the way that it is today.
-
-The multipath code currently deletes the disk only after all references
-to it are dropped rather than when the last path to that disk is lost.
-This has been reported to cause problems with some usage, like MD RAID.
-
-Delete the disk when the last path is gone. This is the same behavior we
-currently have with non-multipathed nvme devices.
-
-The following is just a simple example that demonstrates what is currently
-observed using a simple nvme loop back (loop setup file not shown):
-
- # nvmetcli restore loop.json
- [   31.156452] nvmet: adding nsid 1 to subsystem testnqn1
- [   31.159140] nvmet: adding nsid 1 to subsystem testnqn2
-
- # nvme connect -t loop -n testnqn1 -q hostnqn
- [   36.866302] nvmet: creating controller 1 for subsystem testnqn1 for NQN hostnqn.
- [   36.872926] nvme nvme3: new ctrl: "testnqn1"
-
- # nvme connect -t loop -n testnqn1 -q hostnqn
- [   38.227186] nvmet: creating controller 2 for subsystem testnqn1 for NQN hostnqn.
- [   38.234450] nvme nvme4: new ctrl: "testnqn1"
-
- # nvme connect -t loop -n testnqn2 -q hostnqn
- [   43.902761] nvmet: creating controller 3 for subsystem testnqn2 for NQN hostnqn.
- [   43.907401] nvme nvme5: new ctrl: "testnqn2"
-
- # nvme connect -t loop -n testnqn2 -q hostnqn
- [   44.627689] nvmet: creating controller 4 for subsystem testnqn2 for NQN hostnqn.
- [   44.641773] nvme nvme6: new ctrl: "testnqn2"
-
- # mdadm --create /dev/md0 --level=mirror --raid-devices=2 /dev/nvme3n1 /dev/nvme5n1
- [   53.497038] md/raid1:md0: active with 2 out of 2 mirrors
- [   53.501717] md0: detected capacity change from 0 to 66060288
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active raid1 nvme5n1[1] nvme3n1[0]
-       64512 blocks super 1.2 [2/2] [UU]
-
-Now delete all paths to one of the namespaces:
-
- # echo 1 > /sys/class/nvme/nvme3/delete_controller
- # echo 1 > /sys/class/nvme/nvme4/delete_controller
-
-We have no path, but mdstat says:
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active (auto-read-only) raid1 nvme5n1[1]
-       64512 blocks super 1.2 [2/1] [_U]
-
-And this is reported to cause a problem.
-
-With the proposed patch, the following messages appear:
-
- [  227.516807] md/raid1:md0: Disk failure on nvme3n1, disabling device.
- [  227.516807] md/raid1:md0: Operation continuing on 1 devices.
-
-And mdstat shows only the viable members:
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active (auto-read-only) raid1 nvme5n1[1]
-       64512 blocks super 1.2 [2/1] [_U]
-
-Reported-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c      | 3 ++-
- drivers/nvme/host/multipath.c | 1 -
- drivers/nvme/host/nvme.h      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4857168f71f2..a2faa3625e39 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -475,7 +475,8 @@ static void nvme_free_ns_head(struct kref *ref)
- 	struct nvme_ns_head *head =
- 		container_of(ref, struct nvme_ns_head, ref);
- 
--	nvme_mpath_remove_disk(head);
-+	if (head->disk)
-+		put_disk(head->disk);
- 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
- 	cleanup_srcu_struct(&head->srcu);
- 	nvme_put_subsystem(head->subsys);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 74896be40c17..55045291b4de 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -697,7 +697,6 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- 		 */
- 		head->disk->queue = NULL;
- 	}
--	put_disk(head->disk);
- }
- 
- int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a42b75869213..745cda1a63fd 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -670,7 +670,7 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
- 	struct nvme_ns_head *head = ns->head;
- 
- 	if (head->disk && list_empty(&head->list))
--		kblockd_schedule_work(&head->requeue_work);
-+		nvme_mpath_remove_disk(head);
- }
- 
- static inline void nvme_trace_bio_complete(struct request *req,
--- 
-2.24.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gOS8yNS8yMCAxMTozOCBQTSwgS2VpdGggQnVzY2ggd3JvdGU6Cj4gSSBoYXZlIHRoaXMgdGFn
+Z2VkICJSRkMiIGJlY2F1c2UgSSdtIG5vdCBzdXJlIGlmIHRoZXJlJ3MgYSByZWFzb24gd2h5IHRo
+ZSBjb2RlCj4gaXMgZG9uZSB0aGUgd2F5IHRoYXQgaXQgaXMgdG9kYXkuCj4gCj4gVGhlIG11bHRp
+cGF0aCBjb2RlIGN1cnJlbnRseSBkZWxldGVzIHRoZSBkaXNrIG9ubHkgYWZ0ZXIgYWxsIHJlZmVy
+ZW5jZXMKPiB0byBpdCBhcmUgZHJvcHBlZCByYXRoZXIgdGhhbiB3aGVuIHRoZSBsYXN0IHBhdGgg
+dG8gdGhhdCBkaXNrIGlzIGxvc3QuCj4gVGhpcyBoYXMgYmVlbiByZXBvcnRlZCB0byBjYXVzZSBw
+cm9ibGVtcyB3aXRoIHNvbWUgdXNhZ2UsIGxpa2UgTUQgUkFJRC4KPiAKPiBEZWxldGUgdGhlIGRp
+c2sgd2hlbiB0aGUgbGFzdCBwYXRoIGlzIGdvbmUuIFRoaXMgaXMgdGhlIHNhbWUgYmVoYXZpb3Ig
+d2UKPiBjdXJyZW50bHkgaGF2ZSB3aXRoIG5vbi1tdWx0aXBhdGhlZCBudm1lIGRldmljZXMuCj4g
+Cj4gVGhlIGZvbGxvd2luZyBpcyBqdXN0IGEgc2ltcGxlIGV4YW1wbGUgdGhhdCBkZW1vbnN0cmF0
+ZXMgd2hhdCBpcyBjdXJyZW50bHkKPiBvYnNlcnZlZCB1c2luZyBhIHNpbXBsZSBudm1lIGxvb3Ag
+YmFjayAobG9vcCBzZXR1cCBmaWxlIG5vdCBzaG93bik6Cj4gCj4gICAjIG52bWV0Y2xpIHJlc3Rv
+cmUgbG9vcC5qc29uCj4gICBbICAgMzEuMTU2NDUyXSBudm1ldDogYWRkaW5nIG5zaWQgMSB0byBz
+dWJzeXN0ZW0gdGVzdG5xbjEKPiAgIFsgICAzMS4xNTkxNDBdIG52bWV0OiBhZGRpbmcgbnNpZCAx
+IHRvIHN1YnN5c3RlbSB0ZXN0bnFuMgo+IAo+ICAgIyBudm1lIGNvbm5lY3QgLXQgbG9vcCAtbiB0
+ZXN0bnFuMSAtcSBob3N0bnFuCj4gICBbICAgMzYuODY2MzAyXSBudm1ldDogY3JlYXRpbmcgY29u
+dHJvbGxlciAxIGZvciBzdWJzeXN0ZW0gdGVzdG5xbjEgZm9yIE5RTiBob3N0bnFuLgo+ICAgWyAg
+IDM2Ljg3MjkyNl0gbnZtZSBudm1lMzogbmV3IGN0cmw6ICJ0ZXN0bnFuMSIKPiAKPiAgICMgbnZt
+ZSBjb25uZWN0IC10IGxvb3AgLW4gdGVzdG5xbjEgLXEgaG9zdG5xbgo+ICAgWyAgIDM4LjIyNzE4
+Nl0gbnZtZXQ6IGNyZWF0aW5nIGNvbnRyb2xsZXIgMiBmb3Igc3Vic3lzdGVtIHRlc3RucW4xIGZv
+ciBOUU4gaG9zdG5xbi4KPiAgIFsgICAzOC4yMzQ0NTBdIG52bWUgbnZtZTQ6IG5ldyBjdHJsOiAi
+dGVzdG5xbjEiCj4gCj4gICAjIG52bWUgY29ubmVjdCAtdCBsb29wIC1uIHRlc3RucW4yIC1xIGhv
+c3RucW4KPiAgIFsgICA0My45MDI3NjFdIG52bWV0OiBjcmVhdGluZyBjb250cm9sbGVyIDMgZm9y
+IHN1YnN5c3RlbSB0ZXN0bnFuMiBmb3IgTlFOIGhvc3RucW4uCj4gICBbICAgNDMuOTA3NDAxXSBu
+dm1lIG52bWU1OiBuZXcgY3RybDogInRlc3RucW4yIgo+IAo+ICAgIyBudm1lIGNvbm5lY3QgLXQg
+bG9vcCAtbiB0ZXN0bnFuMiAtcSBob3N0bnFuCj4gICBbICAgNDQuNjI3Njg5XSBudm1ldDogY3Jl
+YXRpbmcgY29udHJvbGxlciA0IGZvciBzdWJzeXN0ZW0gdGVzdG5xbjIgZm9yIE5RTiBob3N0bnFu
+Lgo+ICAgWyAgIDQ0LjY0MTc3M10gbnZtZSBudm1lNjogbmV3IGN0cmw6ICJ0ZXN0bnFuMiIKPiAK
+PiAgICMgbWRhZG0gLS1jcmVhdGUgL2Rldi9tZDAgLS1sZXZlbD1taXJyb3IgLS1yYWlkLWRldmlj
+ZXM9MiAvZGV2L252bWUzbjEgL2Rldi9udm1lNW4xCj4gICBbICAgNTMuNDk3MDM4XSBtZC9yYWlk
+MTptZDA6IGFjdGl2ZSB3aXRoIDIgb3V0IG9mIDIgbWlycm9ycwo+ICAgWyAgIDUzLjUwMTcxN10g
+bWQwOiBkZXRlY3RlZCBjYXBhY2l0eSBjaGFuZ2UgZnJvbSAwIHRvIDY2MDYwMjg4Cj4gCj4gICAj
+IGNhdCAvcHJvYy9tZHN0YXQKPiAgIFBlcnNvbmFsaXRpZXMgOiBbcmFpZDFdCj4gICBtZDAgOiBh
+Y3RpdmUgcmFpZDEgbnZtZTVuMVsxXSBudm1lM24xWzBdCj4gICAgICAgICA2NDUxMiBibG9ja3Mg
+c3VwZXIgMS4yIFsyLzJdIFtVVV0KPiAKPiBOb3cgZGVsZXRlIGFsbCBwYXRocyB0byBvbmUgb2Yg
+dGhlIG5hbWVzcGFjZXM6Cj4gCj4gICAjIGVjaG8gMSA+IC9zeXMvY2xhc3MvbnZtZS9udm1lMy9k
+ZWxldGVfY29udHJvbGxlcgo+ICAgIyBlY2hvIDEgPiAvc3lzL2NsYXNzL252bWUvbnZtZTQvZGVs
+ZXRlX2NvbnRyb2xsZXIKPiAKPiBXZSBoYXZlIG5vIHBhdGgsIGJ1dCBtZHN0YXQgc2F5czoKPiAK
+PiAgICMgY2F0IC9wcm9jL21kc3RhdAo+ICAgUGVyc29uYWxpdGllcyA6IFtyYWlkMV0KPiAgIG1k
+MCA6IGFjdGl2ZSAoYXV0by1yZWFkLW9ubHkpIHJhaWQxIG52bWU1bjFbMV0KPiAgICAgICAgIDY0
+NTEyIGJsb2NrcyBzdXBlciAxLjIgWzIvMV0gW19VXQo+IAo+IEFuZCB0aGlzIGlzIHJlcG9ydGVk
+IHRvIGNhdXNlIGEgcHJvYmxlbS4KPiAKPiBXaXRoIHRoZSBwcm9wb3NlZCBwYXRjaCwgdGhlIGZv
+bGxvd2luZyBtZXNzYWdlcyBhcHBlYXI6Cj4gCj4gICBbICAyMjcuNTE2ODA3XSBtZC9yYWlkMTpt
+ZDA6IERpc2sgZmFpbHVyZSBvbiBudm1lM24xLCBkaXNhYmxpbmcgZGV2aWNlLgo+ICAgWyAgMjI3
+LjUxNjgwN10gbWQvcmFpZDE6bWQwOiBPcGVyYXRpb24gY29udGludWluZyBvbiAxIGRldmljZXMu
+Cj4gCj4gQW5kIG1kc3RhdCBzaG93cyBvbmx5IHRoZSB2aWFibGUgbWVtYmVyczoKPiAKPiAgICMg
+Y2F0IC9wcm9jL21kc3RhdAo+ICAgUGVyc29uYWxpdGllcyA6IFtyYWlkMV0KPiAgIG1kMCA6IGFj
+dGl2ZSAoYXV0by1yZWFkLW9ubHkpIHJhaWQxIG52bWU1bjFbMV0KPiAgICAgICAgIDY0NTEyIGJs
+b2NrcyBzdXBlciAxLjIgWzIvMV0gW19VXQo+IAo+IFJlcG9ydGVkLWJ5OiBIYW5uZXMgUmVpbmVj
+a2UgPGhhcmVAc3VzZS5kZT4KPiBTaWduZWQtb2ZmLWJ5OiBLZWl0aCBCdXNjaCA8a2J1c2NoQGtl
+cm5lbC5vcmc+Cj4gLS0tCj4gICBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgICAgICB8IDMgKyst
+Cj4gICBkcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYyB8IDEgLQo+ICAgZHJpdmVycy9udm1l
+L2hvc3QvbnZtZS5oICAgICAgfCAyICstCj4gICAzIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
+cygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3Qv
+Y29yZS5jIGIvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCj4gaW5kZXggNDg1NzE2OGY3MWYyLi5h
+MmZhYTM2MjVlMzkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCj4gKysr
+IGIvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCj4gQEAgLTQ3NSw3ICs0NzUsOCBAQCBzdGF0aWMg
+dm9pZCBudm1lX2ZyZWVfbnNfaGVhZChzdHJ1Y3Qga3JlZiAqcmVmKQo+ICAgCXN0cnVjdCBudm1l
+X25zX2hlYWQgKmhlYWQgPQo+ICAgCQljb250YWluZXJfb2YocmVmLCBzdHJ1Y3QgbnZtZV9uc19o
+ZWFkLCByZWYpOwo+ICAgCj4gLQludm1lX21wYXRoX3JlbW92ZV9kaXNrKGhlYWQpOwo+ICsJaWYg
+KGhlYWQtPmRpc2spCj4gKwkJcHV0X2Rpc2soaGVhZC0+ZGlzayk7Cj4gICAJaWRhX3NpbXBsZV9y
+ZW1vdmUoJmhlYWQtPnN1YnN5cy0+bnNfaWRhLCBoZWFkLT5pbnN0YW5jZSk7Cj4gICAJY2xlYW51
+cF9zcmN1X3N0cnVjdCgmaGVhZC0+c3JjdSk7Cj4gICAJbnZtZV9wdXRfc3Vic3lzdGVtKGhlYWQt
+PnN1YnN5cyk7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L211bHRpcGF0aC5jIGIv
+ZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMKPiBpbmRleCA3NDg5NmJlNDBjMTcuLjU1MDQ1
+MjkxYjRkZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYwo+ICsr
+KyBiL2RyaXZlcnMvbnZtZS9ob3N0L211bHRpcGF0aC5jCj4gQEAgLTY5Nyw3ICs2OTcsNiBAQCB2
+b2lkIG52bWVfbXBhdGhfcmVtb3ZlX2Rpc2soc3RydWN0IG52bWVfbnNfaGVhZCAqaGVhZCkKPiAg
+IAkJICovCj4gICAJCWhlYWQtPmRpc2stPnF1ZXVlID0gTlVMTDsKPiAgIAl9Cj4gLQlwdXRfZGlz
+ayhoZWFkLT5kaXNrKTsKPiAgIH0KPiAgIAo+ICAgaW50IG52bWVfbXBhdGhfaW5pdChzdHJ1Y3Qg
+bnZtZV9jdHJsICpjdHJsLCBzdHJ1Y3QgbnZtZV9pZF9jdHJsICppZCkKPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oCj4gaW5k
+ZXggYTQyYjc1ODY5MjEzLi43NDVjZGExYTYzZmQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1l
+L2hvc3QvbnZtZS5oCj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oCj4gQEAgLTY3MCw3
+ICs2NzAsNyBAQCBzdGF0aWMgaW5saW5lIHZvaWQgbnZtZV9tcGF0aF9jaGVja19sYXN0X3BhdGgo
+c3RydWN0IG52bWVfbnMgKm5zKQo+ICAgCXN0cnVjdCBudm1lX25zX2hlYWQgKmhlYWQgPSBucy0+
+aGVhZDsKPiAgIAo+ICAgCWlmIChoZWFkLT5kaXNrICYmIGxpc3RfZW1wdHkoJmhlYWQtPmxpc3Qp
+KQo+IC0JCWtibG9ja2Rfc2NoZWR1bGVfd29yaygmaGVhZC0+cmVxdWV1ZV93b3JrKTsKPiArCQlu
+dm1lX21wYXRoX3JlbW92ZV9kaXNrKGhlYWQpOwo+ICAgfQo+ICAgCj4gICBzdGF0aWMgaW5saW5l
+IHZvaWQgbnZtZV90cmFjZV9iaW9fY29tcGxldGUoc3RydWN0IHJlcXVlc3QgKnJlcSwKPiAKSSdt
+IG9rYXkgd2l0aCB0aGF0IGluIGdlbmVyYWwsIGJ1dCB0aGVuIGFnYWluIHdlIG1pZ2h0IHJ1biBp
+bnRvIApzaXR1YXRpb25zIHdoZXJlIGFuICdhbGwgcGF0aHMgZG93bicgc2NlbmFyaW8gaXMgYWN0
+dWFsbHkgZXhwZWN0ZWQgCih0aGluayBvZiBhIHRlbXBvcmFyeSBuZXR3b3JrIG91dGFnZSBvbiBu
+dm1lLXRjcCkuClNvIEkgZ3Vlc3Mgd2UgbmVlZCB0byBpbnRyb2R1Y2UgYW4gYWRkaXRpb25hbCBz
+ZXR0aW5nIAoocXVldWVfaWZfbm9fcGF0aD8pIHRvIGJlIHNwZWNpZmllZCBkdXJpbmcgdGhlIGlu
+aXRpYWwgY29ubmVjdGlvbi4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNr
+ZSAgICAgICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2Fy
+ZSBTb2x1dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgw
+OSAoQUcgTsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZt
+ZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0
+cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
