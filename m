@@ -2,70 +2,71 @@ Return-Path: <SRS0=Tdqk=DE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D2B8C4346E
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Sep 2020 11:49:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B062BC4346E
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Sep 2020 12:21:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 55E5C2388B
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Sep 2020 11:49:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 33033208FE
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Sep 2020 12:21:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ViBkl+Lv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55E5C2388B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kioxia.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0zC1V3yc";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="FtJG2gRJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33033208FE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+beyVKr3hFVFxD4QfJO98uxgWXSqZsOzRnkUqxshcss=; b=ViBkl+LvyFJOJLEWYQDh+9X8F
-	3h7gFeQiWc6B7i/UcN5mzcOV4INyk8UvwdPbIwF6TeVnY6xuUifcpJh7frdcuqz0dUEdoHri+IyfS
-	Ick51zjVSD4lXlmbi6vrdZEO9PrflUrp0Mn7cAMl/sESHnekrPid3mjw0ffpZQfSNijhYr3TEKp/Y
-	m+86pOBNIVs7PuqEuD9Tvj3jrVfwB6OFHBWyEvjYu9XNPwIxUlxAsEvDbKjsZFfzf16NqbsyMMYUu
-	zCy4SQyXVGHgxweeJx71GK7QpvmXPbTzClHSabpGFJn+ZHzYMHBP6JDSoRV70/kcPOYaBBWbNdvsJ
-	iwoIj0Adg==;
+	 bh=LhuqfdrBx5UZEzYjUnABzCTctulplMVf3j1kofoe1c8=; b=0zC1V3yc4rUlDg6OS1qpalLNJ
+	tjX0RwO5n9mFpCOTTWpV4IOLJlezQCEHxSJcxZynumjrheFWYcqxiB9CnGVxvwW5FTYoZybRnI9vo
+	2AO5Ynx9/YVT2i1GaQx30XPjHCoEvWOvAKqfMVaGvvuojAo0rXHl6W7iPjgl62Hgaz50LE3EdOgm2
+	O7/TbfPhDpeyZfR5LcuzKO1k1uYRlhm9Tu9fcAd3Nvc1/jX3SUBrveRWsCZxiu038zq1urezyWEmv
+	4pUmMFDHLqPJ0JkjjreN9pfr91QMzIIiX5D0sYlj/XUsdDDsaHNEeXRYAh9zWtxxZDkJ5cWkeDZSk
+	NQGEL48AA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kMVAl-0007yy-4L; Sun, 27 Sep 2020 11:48:55 +0000
-Received: from usmailhost21.kioxia.com ([12.0.68.226]
- helo=SJSMAIL01.us.kioxia.com)
+	id 1kMVfy-0001bE-Nn; Sun, 27 Sep 2020 12:21:10 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMVAh-0007y5-JQ
- for linux-nvme@lists.infradead.org; Sun, 27 Sep 2020 11:48:54 +0000
-Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
- SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Sun, 27 Sep 2020 04:48:44 -0700
-Received: from SJSMAIL01.us.kioxia.com ([fe80::60c4:7e85:9b22:956]) by
- SJSMAIL01.us.kioxia.com ([fe80::60c4:7e85:9b22:956%4]) with mapi id
- 15.01.1779.007; Sun, 27 Sep 2020 04:48:44 -0700
-From: Victor Gladkov <Victor.Gladkov@kioxia.com>
-To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: RE: [PATCH v8] nvme-fabrics: reject I/O to offline device
-Thread-Topic: [PATCH v8] nvme-fabrics: reject I/O to offline device
-Thread-Index: AdaE3WJOPkx5atnISP62E9UfuahFiwJWQXMAAaJa5hA=
-Date: Sun, 27 Sep 2020 11:48:44 +0000
-Message-ID: <f9188630aec6471e8cf6ab9d3f1cf989@kioxia.com>
-References: <0f73b032a39748c3beb8c1cb743f0783@kioxia.com>
- <52462339-084c-90ae-4ca7-62e2ae37dd7e@grimberg.me>
-In-Reply-To: <52462339-084c-90ae-4ca7-62e2ae37dd7e@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.93.66.127]
+ id 1kMVfv-0001aT-Bh
+ for linux-nvme@lists.infradead.org; Sun, 27 Sep 2020 12:21:08 +0000
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 74316208FE;
+ Sun, 27 Sep 2020 12:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601209265;
+ bh=FdSjEiIOfosty1A1hNpYjx+LCe0c93peV/xVsFD6r/o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FtJG2gRJohbsXmjTGZLvssQG1XF1/EDPa+Sxt7uDN386HN/YFfrvpzrv4+5S2OGee
+ WwgbRJn5W6gVfWdvXi4OwSNypTgoQvpwd2ypZNN7rw+jr66jN5W1yoJ984HbBn313O
+ 5EwO+4+ECjBUiIjNR1+7fPf+BlbKDjiL9nYij4XI=
+Date: Sun, 27 Sep 2020 14:21:15 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Coly Li <colyli@suse.de>
+Subject: Re: [PATCH v8 1/7] net: introduce helper sendpage_ok() in
+ include/linux/net.h
+Message-ID: <20200927122115.GA178781@kroah.com>
+References: <20200925150119.112016-1-colyli@suse.de>
+ <20200925150119.112016-2-colyli@suse.de>
+ <20200925151812.GA3182427@kroah.com>
+ <7b0d4f63-2fe5-9032-3b88-97619d8c5081@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <7b0d4f63-2fe5-9032-3b88-97619d8c5081@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200927_074851_642742_6AFF9DB6 
-X-CRM114-Status: GOOD (  27.89  )
+X-CRM114-CacheID: sfid-20200927_082107_566152_3889F2AA 
+X-CRM114-Status: GOOD (  32.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,97 +78,104 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <james.smart@broadcom.com>, "Ewan D. Milne" <emilne@redhat.com>,
- Hannes Reinecke <hare@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@suse.com>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-scsi@vger.kernel.org,
+ netdev@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>,
+ linux-block@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
+ Jan Kara <jack@suse.com>, stable@vger.kernel.org, ceph-devel@vger.kernel.org,
+ open-iscsi@googlegroups.com, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> On 9/18/20 11:39 PM, Sagi Grimberg wrote:
+On Sat, Sep 26, 2020 at 09:28:03PM +0800, Coly Li wrote:
+> On 2020/9/25 23:18, Greg KH wrote:
+> > On Fri, Sep 25, 2020 at 11:01:13PM +0800, Coly Li wrote:
+> >> The original problem was from nvme-over-tcp code, who mistakenly uses
+> >> kernel_sendpage() to send pages allocated by __get_free_pages() without
+> >> __GFP_COMP flag. Such pages don't have refcount (page_count is 0) on
+> >> tail pages, sending them by kernel_sendpage() may trigger a kernel panic
+> >> from a corrupted kernel heap, because these pages are incorrectly freed
+> >> in network stack as page_count 0 pages.
+> >>
+> >> This patch introduces a helper sendpage_ok(), it returns true if the
+> >> checking page,
+> >> - is not slab page: PageSlab(page) is false.
+> >> - has page refcount: page_count(page) is not zero
+> >>
+> >> All drivers who want to send page to remote end by kernel_sendpage()
+> >> may use this helper to check whether the page is OK. If the helper does
+> >> not return true, the driver should try other non sendpage method (e.g.
+> >> sock_no_sendpage()) to handle the page.
+> >>
+> >> Signed-off-by: Coly Li <colyli@suse.de>
+> >> Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> >> Cc: Christoph Hellwig <hch@lst.de>
+> >> Cc: Hannes Reinecke <hare@suse.de>
+> >> Cc: Jan Kara <jack@suse.com>
+> >> Cc: Jens Axboe <axboe@kernel.dk>
+> >> Cc: Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>
+> >> Cc: Philipp Reisner <philipp.reisner@linbit.com>
+> >> Cc: Sagi Grimberg <sagi@grimberg.me>
+> >> Cc: Vlastimil Babka <vbabka@suse.com>
+> >> Cc: stable@vger.kernel.org
+> >> ---
+> >>  include/linux/net.h | 16 ++++++++++++++++
+> >>  1 file changed, 16 insertions(+)
+> >>
+> >> diff --git a/include/linux/net.h b/include/linux/net.h
+> >> index d48ff1180879..05db8690f67e 100644
+> >> --- a/include/linux/net.h
+> >> +++ b/include/linux/net.h
+> >> @@ -21,6 +21,7 @@
+> >>  #include <linux/rcupdate.h>
+> >>  #include <linux/once.h>
+> >>  #include <linux/fs.h>
+> >> +#include <linux/mm.h>
+> >>  #include <linux/sockptr.h>
+> >>  
+> >>  #include <uapi/linux/net.h>
+> >> @@ -286,6 +287,21 @@ do {									\
+> >>  #define net_get_random_once_wait(buf, nbytes)			\
+> >>  	get_random_once_wait((buf), (nbytes))
+> >>  
+> >> +/*
+> >> + * E.g. XFS meta- & log-data is in slab pages, or bcache meta
+> >> + * data pages, or other high order pages allocated by
+> >> + * __get_free_pages() without __GFP_COMP, which have a page_count
+> >> + * of 0 and/or have PageSlab() set. We cannot use send_page for
+> >> + * those, as that does get_page(); put_page(); and would cause
+> >> + * either a VM_BUG directly, or __page_cache_release a page that
+> >> + * would actually still be referenced by someone, leading to some
+> >> + * obscure delayed Oops somewhere else.
+> >> + */
+> >> +static inline bool sendpage_ok(struct page *page)
+> >> +{
+> >> +	return  !PageSlab(page) && page_count(page) >= 1;
+> > 
+> > Do you have one extra ' ' after "return" there?
 > 
-> On 9/6/20 11:21 PM, Victor Gladkov wrote:
-> > Commands get stuck while Host NVMe-oF controller is in reconnect
-> > state. NVMe controller enters into reconnect state when it loses
-> > connection with the target. It tries to reconnect every 10 seconds
-> > (default) until successful reconnection or until reconnect time-out is
-> > reached. The default reconnect time out is 10 minutes.
-> >
-> > Applications are expecting commands to complete with success or error
-> > within a certain timeout (30 seconds by default).  The NVMe host is
-> > enforcing that timeout while it is connected, never the less, during
-> > reconnection, the timeout is not enforced and commands may get stuck
-> > for a long period or even forever.
-> >
-> > To fix this long delay due to the default timeout we introduce new
-> > session parameter "fast_io_fail_tmo". The timeout is measured in
-> > seconds from the controller reconnect, any command beyond that timeout
-> > is rejected. The new parameter value may be passed during 'connect'.
-> > The default value of 0 means no timeout (similar to current behavior).
+> It should be fixed in next version.
 > 
-> I think you mean here -1.
+> > 
+> > And this feels like a mm thing, why put it in net.h and not mm.h?
+> 
+> This check is specific for kernel_sendpage(), so I want to place it
+> closer to where kernel_sendpage() is declared.
+> 
+> And indeed there was similar discussion about why this helper is not in
+> mm code in v5 series. Christoph supported to place sendpage_ok() in
+> net.h, an uncompleted piece of his opinion was "It is not a mm bug, it
+> is a networking quirk."
 
-You right. It should be -1
+Ah, nevermind then, sorry for the noise :)
 
-> 
-> >
-> > We add a new controller NVME_CTRL_FAILFAST_EXPIRED and respective
-> > delayed work that updates the NVME_CTRL_FAILFAST_EXPIRED flag.
-> >
-> > When the controller is entering the CONNECTING state, we schedule the
-> > delayed_work based on failfast timeout value. If the transition is out
-> > of CONNECTING, terminate delayed work item and ensure failfast_expired
-> > is false. If delayed work item expires then set
-> > "NVME_CTRL_FAILFAST_EXPIRED" flag to true.
-> >
-> > We also update nvmf_fail_nonready_command() and
-> > nvme_available_path() functions with check the
-> > "NVME_CTRL_FAILFAST_EXPIRED" controller flag.
-> >
-> >   /*
-> > diff --git a/drivers/nvme/host/multipath.c
-> > b/drivers/nvme/host/multipath.c index 54603bd..d8b7f45 100644
-> > --- a/drivers/nvme/host/multipath.c
-> > +++ b/drivers/nvme/host/multipath.c
-> > @@ -278,9 +278,12 @@ static bool nvme_available_path(struct
-> > nvme_ns_head *head)
-> >
-> >   	list_for_each_entry_rcu(ns, &head->list, siblings) {
-> >   		switch (ns->ctrl->state) {
-> > +		case NVME_CTRL_CONNECTING:
-> > +			if (test_bit(NVME_CTRL_FAILFAST_EXPIRED,
-> > +				     &ns->ctrl->flags))
-> > +				break;
-> >   		case NVME_CTRL_LIVE:
-> >   		case NVME_CTRL_RESETTING:
-> > -		case NVME_CTRL_CONNECTING:
-> >   			/* fallthru */
-> >   			return true;
-> >   		default:
-> 
-> This is too subtle to not document.
-> The parameter is a controller property, but here it will affect the mpath device
-> node.
-> 
-> This is changing the behavior of "queue as long as we have an available path"
-> to "queue until all our paths said to fail fast".
-> 
-> I guess that by default we will have the same behavior, and the behavior will
-> change only if all the controller have failfast parameter tuned.
-> 
-> At the very least it is an important undocumented change that needs to be
-> called in the change log.
+greg k-h
 
-The multipath may be stuck on reconnected controller even forever.
-Moreover, all commands will be returned with error status,
-but the path will not be switched.
-And in this case, the presence of the additional path looks pointless.
-
-I suggest use the failfast parameter for each path separately.
-It can also serve as the priority of each path.
-
-Regards,
-Victor
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
