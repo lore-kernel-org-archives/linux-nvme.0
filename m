@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3849C2D0A8
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B33B1C4727F
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:36:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77F092158C
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:36:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 585802158C
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:36:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PZwZhDbC";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ldnA+v2t"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77F092158C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pPD2rfhQ";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cpTLR7Wm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 585802158C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Myg2uMOsqxkY3br1dQrb7qZwmYRuxLWR8x94S/E7CUk=; b=PZwZhDbCadl7QGmUWS1XC8f6K
-	VH3ostyHtROwG4wcY9v2pllpBUr/j9ij0Ixqn73yFndMnw9E0M0za1HbEhi/cCPuVZ5ojKWtVuE0Z
-	67GChgzwOCUW9AOl+v7hVZxwQM19dwxgXOlWT14aDwVpMVzOsnqwTojnjUxULiJpeR2oSWXvX7Wb5
-	SuC9qz6UOGYsOalNXoE3JJaehZ/ZJj/lZCLrrYQdEKGPG7bog4ZU6elAyJsn0INeP02j2pjDxySZr
-	SdbCKWNZPDf61YviLYWddVI+Ve8r6VFcFJdape3E3WvgYE6vqSO78/oeh0Pt9T7TQ2MtWzsFNtAnQ
-	2xV3jji6A==;
+	 bh=E4FMaat8AuN5/OwVNnwghCLXOxfqKoYEzaWmB5v59gE=; b=pPD2rfhQYzZpgXdyE3l7vz01u
+	5wlCZujH2c8L5GHdK6Mmhn0nBdsotWXsdghO7MuJRSMGFTW/qgV+veppl0cI7eNbRuL2ycHFgB1k/
+	C60jxomQw1skjMSfQmQ7RtebF8vtNmfOjdj2I2TGPycMIEF6kHk0ZJ7nUbFGD9h7TKu2mhvbRno5d
+	BQqZ+KbQVL9g1jONSGoxpn8nOCT5+NfYi2N07S/YIdD10ntKOn4hZyg+X1f1z5xK5cFVrKK8Gbq6C
+	H1snXDJg1wfbMiiRGJ0YYxkZodbkbdCyiDJHP2SApuCnqsoMGIzfuZtB5nPTQG/PrR5QGDeZTqzQk
+	IzW0uytlA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kMsO9-0002rC-MR; Mon, 28 Sep 2020 12:36:17 +0000
+	id 1kMsOH-0002vd-Iw; Mon, 28 Sep 2020 12:36:25 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMsNR-0002TK-5H
- for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 12:35:33 +0000
+ id 1kMsNT-0002Ts-0c
+ for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 12:35:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=TCKMniK+Zd3GnbP0NdotO+VashZMo+1mPiNKVr9i988=; b=ldnA+v2tCZnocCsbgOwGaIeIna
- Af9d0cPhwa+dTspuhprlHIcmyq4qFdazlrb7lKlhDIdX/V9sN2lGSPNywJaodZXShv6sY+40+EVic
- E8wa2cMvvIS9BSi2wIkhTHeRlPYhn62itUEvYjiXy3Ihc8KiAlFbzd3VqHrr1euNUwBonc00w4SQU
- Er1TyEnzB+qE6K//1zSN2hTSr73/28Ewn5/1zz6sRO7DFs9EHxbS2K4mvmyhVQyIKErD3jDGOy425
- P5UuvSiaCQoSHBMrlNtQHlKUysimp32MRfF13diW+5hN7rgpKcVihhA1eUOenl0WkHN7xeZOpm/zn
- Nqf9sFBQ==;
+ bh=EGoxkdUzlJHHy4NtIAPhZbZRaPp3oo+UUdyY1WbZREw=; b=cpTLR7WmqygCkxmIM/B43Gei/0
+ x5v6cdTUOYavbtOGNalTeHzV5HnQX9iMFDHzYwwIYk1QTq3yZtXTogN0OB+4crG6NdWd7XtGL0tw8
+ S8cJeBQZ0wn2nGkIN10SpAfD/XnDx5lzEd8+F9te2mOglNo0fqofwQ5cQlmiztBWpYyJjKtb7QeuC
+ XUNvOksY6uq0FJk8WPGuEPO02bho3/uWFYn96jN+eGXmGC2lBu6lq+EADPxpr2rKjDNMgsC20+IeZ
+ qQs5l7jvtuARKiiCQ9O7QD0eB+hA0RmzH0tgPbkAkmm+H0nrg1HqhnX273S8an6+89GlL3wlIQb5L
+ HTRt97fQ==;
 Received: from [2001:4bb8:180:7b62:3a1d:d74e:d75b:5fe7] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMsNP-0004mx-Fx; Mon, 28 Sep 2020 12:35:32 +0000
+ id 1kMsNR-0004n6-8N; Mon, 28 Sep 2020 12:35:33 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 19/20] nvme: refactor nvme_validate_ns
-Date: Mon, 28 Sep 2020 14:35:01 +0200
-Message-Id: <20200928123502.435373-20-hch@lst.de>
+Subject: [PATCH 20/20] nvme: remove nvme_identify_ns_list
+Date: Mon, 28 Sep 2020 14:35:02 +0200
+Message-Id: <20200928123502.435373-21-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200928123502.435373-1-hch@lst.de>
 References: <20200928123502.435373-1-hch@lst.de>
@@ -81,104 +81,51 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the logic to revalidate the block_device size or remove the
-namespace from the caller into nvme_validate_ns.  This removes
-the return value and thus the status code translation.  Additionally
-it also catches non-permanent errors from nvme_update_ns_info using
-the existing logic.
+Just fold it into the only caller.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 37 +++++++++++++++++--------------------
- 1 file changed, 17 insertions(+), 20 deletions(-)
+ drivers/nvme/host/core.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 07309f6c14faab..0b88a377a47f6e 100644
+index 0b88a377a47f6e..385b103178737e 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3899,6 +3899,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
- 		return;
- 
-+	set_capacity(ns->disk, 0);
- 	nvme_fault_inject_fini(&ns->fault_inject);
- 
- 	mutex_lock(&ns->ctrl->subsys->lock);
-@@ -3936,58 +3937,54 @@ static void nvme_ns_remove_by_nsid(struct nvme_ctrl *ctrl, u32 nsid)
- 	}
+@@ -1326,17 +1326,6 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
+ 	return status;
  }
  
--static int nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
-+static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
+-static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
+-{
+-	struct nvme_command c = { };
+-
+-	c.identify.opcode = nvme_admin_identify;
+-	c.identify.cns = NVME_ID_CNS_NS_ACTIVE_LIST;
+-	c.identify.nsid = cpu_to_le32(nsid);
+-	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list,
+-				    NVME_IDENTIFY_DATA_SIZE);
+-}
+-
+ static int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+ 			struct nvme_ns_ids *ids, struct nvme_id_ns **id)
  {
- 	struct nvme_ctrl *ctrl = ns->ctrl;
- 	struct nvme_id_ns *id;
--	int ret = 0;
-+	int ret = -ENODEV;
+@@ -4042,7 +4031,14 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+ 		return -ENOMEM;
  
--	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
--		set_capacity(ns->disk, 0);
--		return -ENODEV;
--	}
-+	if (test_bit(NVME_NS_DEAD, &ns->flags))
-+		goto out;
- 
- 	ret = nvme_identify_ns(ctrl, ns->head->ns_id, ids, &id);
- 	if (ret)
- 		goto out;
- 
-+	ret = -ENODEV;
- 	if (!nvme_ns_ids_equal(&ns->head->ids, ids)) {
- 		dev_err(ctrl->device,
- 			"identifiers changed for nsid %d\n", ns->head->ns_id);
--		ret = -ENODEV;
--		goto free_id;
-+		goto out_free_id;
- 	}
- 
- 	ret = nvme_update_ns_info(ns, id);
--free_id:
+ 	for (;;) {
+-		ret = nvme_identify_ns_list(ctrl, prev, ns_list);
++		struct nvme_command cmd = {
++			.identify.opcode	= nvme_admin_identify,
++			.identify.cns		= NVME_ID_CNS_NS_ACTIVE_LIST,
++			.identify.nsid		= cpu_to_le32(prev),
++		};
 +
-+out_free_id:
- 	kfree(id);
- out:
- 	/*
--	 * Only fail the function if we got a fatal error back from the
-+	 * Only remove the namespace if we got a fatal error back from the
- 	 * device, otherwise ignore the error and just move on.
-+	 *
-+	 * TODO: we should probably schedule a delayed retry here.
- 	 */
--	if (ret == -ENOMEM || (ret > 0 && !(ret & NVME_SC_DNR)))
--		ret = 0;
--	else if (ret > 0)
--		ret = blk_status_to_errno(nvme_error_status(ret));
--	return ret;
-+	if (ret && ret != -ENOMEM && !(ret > 0 && !(ret & NVME_SC_DNR)))
-+		nvme_ns_remove(ns);
-+	else
-+		revalidate_disk_size(ns->disk, true);
- }
++		ret = nvme_submit_sync_cmd(ctrl->admin_q, &cmd, ns_list,
++					    NVME_IDENTIFY_DATA_SIZE);
+ 		if (ret)
+ 			goto free;
  
- static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns_ids ids = { };
- 	struct nvme_ns *ns;
--	int ret;
- 
- 	if (nvme_identify_ns_descs(ctrl, nsid, &ids))
- 		return;
- 
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
--		ret = nvme_validate_ns(ns, &ids);
--		revalidate_disk_size(ns->disk, ret == 0);
--		if (ret)
--			nvme_ns_remove(ns);
-+		nvme_validate_ns(ns, &ids);
- 		nvme_put_ns(ns);
- 		return;
- 	}
 -- 
 2.28.0
 
