@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B2ACC4727F
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F8C0C2D0A8
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2732D21974
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 276D921531
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n2S154aC";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S+pFQgbX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2732D21974
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ohjfjGI3";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gvYdoy32"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 276D921531
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fu84gpbo5sgNL7FqFhVVPkGz4CBKafguGKjzBtzCWDo=; b=n2S154aC1G+QQa1sCxApJc5nf
-	HrqOiIJsueK9KZ+g1mtJtYwZf8vzHWo/tV1eBtqlJId+IeqM6hQYGyqDbvLkiL3rVosZpAArIbkwB
-	LrvVgDTNI480iDCEaTH5IuBbPpGRDSAEZvv2bgHW0cEzhuI5w1m50efifoGJb7CxOJV94dH2OGy1y
-	nw2Cgo8Hr+UVSfwEAGUEzpm/+osoH2bTcNOxM9PYWnKQ4ACCBxFpB/L8mK8hmqpkLITvzVnZ7qgIR
-	yX+GZv7/Wu9cSUBU6qxUkySXtpCRbDDA3iyPMsKxtHZHGfCWpTDH55eoN9gj0xzxWWzzrs4GCfxe/
-	BIfLbqHAw==;
+	 bh=AydSHqr+XseE3I/kGpvNuHyRH9cRKHTkwQQDEL5mOLc=; b=ohjfjGI3mZxmdXlWcnkHk1lSN
+	jBJr9c94usukYgEoCvW19E9QL13AIgPeC8kUDZY/q7T3QQlLlvkdb+DjMDpglbQi1ybX2mY5kWW3X
+	BOYJRlrEZuSiG29MGyS60I2VT53M7+78dj5pAqr2TYuPnf2Tv2sM8unaq0QQR5U8EhHyFRXcJVPUn
+	jGd3TIhtLKNrvSlq2ivWT9SvFrKVbPEOfBja8XMoOqDyfT0cFDjvg3tV39AOuZfe+NzmueEN234H/
+	/OoFdJ5RguKFR9Ye7P3OUaffpfksB4VRHMm5UamErMmKIqs+Hy5TceJ+xctIysT2FVFIBs1RT1FgR
+	iXi0q13mA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kMsNC-0002NY-TJ; Mon, 28 Sep 2020 12:35:18 +0000
+	id 1kMsNF-0002OU-KQ; Mon, 28 Sep 2020 12:35:21 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMsN7-0002LP-Se
- for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 12:35:13 +0000
+ id 1kMsN9-0002Lw-5y
+ for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 12:35:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=DhRQxAh8/nzLB1gilm9CNLyzkDme0r95DID2oSGGKo0=; b=S+pFQgbX/Bx0Nv/cXNdxh32yau
- /nYdqp7u/VAlfH4DdyYrICM0shCkKYOT7THE5aqpUl6lM7kB7qjEfe6j9Nnk83ginYennuhBAcYWU
- +5cJT0R6LjGsxzwsLHikTv2nlhq+kL/e1VUsIFERNlBo+MfEBIWxZkTw4vj7dAMbVAH89ai+NZQYj
- ocazTS+h/K89DhAdmRsxZIxlIk9zG5zD2RhdmYXUuqte9FUbTynA6ZzWX85x3jgPOqUmJg/ZAYm3O
- rQk2TK5AlvIdONiY+WLyeFiFFlr3MdnaSn00G5f0lvcQoogVBMkdTXtq/sHGhAkp9duNAdZ5h5r2z
- XUGhP5IA==;
+ bh=+vAjjeIc7Gd9TMlyr0HyQbWo2WgTa4v7NJkNCqIVGRQ=; b=gvYdoy32wV2HfKJuU2bo39Dwp4
+ 7Xndul04+nz7IjjXJVs/Fc+rVgPmuAq+qh3AqCcP/FDwOQfn5iL6keaAv5VXtGCYB8wn1qrnknsIK
+ Us40AEiFuVoIunrt6rcXqmXdmbchpKxYx5r8vFZWv3RyAo/x5lEIUntpUYWfrj/qCkmKSXvmEFMfe
+ H7hhbgwfVt0zoIh3LLymw/432j11qg6WDRm/wtsbTQE45TWHmXYSHa61m1o4o0W3lQA3E3An3hGtF
+ Xx3uyeEvFHuz7gitijBoxxWwu8F12qiQqX92vdeL9pjB1wcuirNuMCQS6A8Rqhdy7rsR759g43ORl
+ nmUlAO9Q==;
 Received: from [2001:4bb8:180:7b62:3a1d:d74e:d75b:5fe7] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMsN6-0004iO-Hi; Mon, 28 Sep 2020 12:35:12 +0000
+ id 1kMsN7-0004ib-OV; Mon, 28 Sep 2020 12:35:14 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 06/20] nvme: rename __nvme_revalidate_disk
-Date: Mon, 28 Sep 2020 14:34:48 +0200
-Message-Id: <20200928123502.435373-7-hch@lst.de>
+Subject: [PATCH 07/20] nvme: lift the check for an unallocated namespace into
+ nvme_identify_ns
+Date: Mon, 28 Sep 2020 14:34:49 +0200
+Message-Id: <20200928123502.435373-8-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200928123502.435373-1-hch@lst.de>
 References: <20200928123502.435373-1-hch@lst.de>
@@ -81,57 +82,57 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Rename __nvme_revalidate_disk to nvme_update_ns_info and pass a
-namespace instead of the gendisk.
+Move the check from the two callers into the common helper.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c04043a94e6496..fede487f6e043f 100644
+index fede487f6e043f..7b1423c7e7fc58 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2076,10 +2076,9 @@ static void nvme_set_chunk_sectors(struct nvme_ns *ns, struct nvme_id_ns *id)
- 	blk_queue_chunk_sectors(ns->queue, iob);
+@@ -1381,9 +1381,16 @@ static int nvme_identify_ns(struct nvme_ctrl *ctrl,
+ 	error = nvme_submit_sync_cmd(ctrl->admin_q, &c, *id, sizeof(**id));
+ 	if (error) {
+ 		dev_warn(ctrl->device, "Identify namespace failed (%d)\n", error);
+-		kfree(*id);
++		goto out_free_id;
+ 	}
+ 
++	error = -ENODEV;
++	if ((*id)->ncap == 0) /* namespace not allocated or attached */
++		goto out_free_id;
++	return 0;
++
++out_free_id:
++	kfree(*id);
+ 	return error;
  }
  
--static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
-+static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
- {
- 	unsigned lbaf = id->flbas & NVME_NS_FLBAS_LBA_MASK;
--	struct nvme_ns *ns = disk->private_data;
- 	struct nvme_ctrl *ctrl = ns->ctrl;
- 	int ret;
+@@ -2169,11 +2176,6 @@ static int nvme_validate_ns(struct nvme_ns *ns)
+ 	if (ret)
+ 		goto out;
  
-@@ -2141,7 +2140,7 @@ static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 	}
- 
- 	nvme_set_chunk_sectors(ns, id);
--	nvme_update_disk_info(disk, ns, id);
-+	nvme_update_disk_info(ns->disk, ns, id);
- #ifdef CONFIG_NVME_MULTIPATH
- 	if (ns->head->disk) {
- 		nvme_update_disk_info(ns->head->disk, ns, id);
-@@ -2186,7 +2185,7 @@ static int nvme_validate_ns(struct nvme_ns *ns)
+-	if (id->ncap == 0) {
+-		ret = -ENODEV;
+-		goto free_id;
+-	}
+-
+ 	ret = nvme_report_ns_ids(ctrl, ns->head->ns_id, id, &ids);
+ 	if (ret)
  		goto free_id;
- 	}
+@@ -3913,9 +3915,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	if (ret)
+ 		goto out_free_queue;
  
--	ret = __nvme_revalidate_disk(ns->disk, id);
-+	ret = nvme_update_ns_info(ns, id);
- free_id:
- 	kfree(id);
- out:
-@@ -3933,7 +3932,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
- 	ns->disk = disk;
- 
--	if (__nvme_revalidate_disk(disk, id))
-+	if (nvme_update_ns_info(ns, id))
- 		goto out_put_disk;
- 	if (blk_queue_is_zoned(ns->queue) && nvme_revalidate_zones(ns))
- 		goto out_put_disk;
+-	if (id->ncap == 0)	/* no namespace (legacy quirk) */
+-		goto out_free_id;
+-
+ 	ret = nvme_init_ns_head(ns, nsid, id);
+ 	if (ret)
+ 		goto out_free_id;
 -- 
 2.28.0
 
