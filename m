@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BC5AC2D0A8
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 478D8C4727F
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 02C172158C
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F0B8721531
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="k4r9JhCv";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VDdXe/TD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 02C172158C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Uu+6S7FX";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="I5klDSwz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0B8721531
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=LTOE/dp/m134Ppfy+8i1dRTbMdWJ4Pc22VTgQLp48rE=; b=k4r9JhCvwabxMrP0CknS+Ak4w
-	vn0YF8hb4E2tBiPpsrLH9tqSvg5eccFNS5IdFytvdcBXdm67OevfozIaa+4Ex2x/guIQLTNlUxvJN
-	rgVzeTSmfYFBx4EQox3mPaIuCLPF/x8Svi7HhAqCNIg9nqREJ1QUfKpPe5mMn9/3n2tN4bF1SOYf3
-	pTPcONHK4W1DyZl5v0PM3FBsGV/cmFAL1vGir5JpPFkgncGf8hXjCTqANT591BxJHrHxQaMPip7D8
-	wnlJ0ny52yDIs0q8VVne59NeYRUsPPU1bTaPrW1Pmnd/YbkTL7uOnPgN0oauGwsxLCMxaHryLht8b
-	RhImxwG1g==;
+	 bh=yZX1J0Re4CRp0RhVIsTqMEv+T61B3gKTLER2KYuYOQ8=; b=Uu+6S7FXH2/OhxD+cLUfSovXl
+	ggZiq2OCuun7yMe/8diMCV1hkE2JpaMj7rrJaJn5EnFRRBPbQixIn+sXNIR9SougDxeEhd2Rgdk8M
+	5YdbhvaGqjW/K0gs64NyJC782CmYwdmvZZd3HEnVntV15HcfL4EPSFdz4/CHZPRI8681nK/Whm9py
+	ZcoAxuN6nDMx44DvyPSxzW14NYfPUgzt23K6ftwMZatWviyw+bU8qDV4+4E5m6bOb6PDhIcG7mVhP
+	lXe4xfpJQuFD4NDAcgXFoG2StMs3Tn6edvgzIrcKSx+xR+4tW3SoEPoNjGrgTtBAlRBVj0N6M0Ohr
+	WhPSfwYUA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kMsNQ-0002TC-Fw; Mon, 28 Sep 2020 12:35:32 +0000
+	id 1kMsNX-0002Uz-6k; Mon, 28 Sep 2020 12:35:39 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMsNC-0002NI-28
- for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 12:35:18 +0000
+ id 1kMsND-0002Nj-Ei
+ for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 12:35:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=Ub89aoUiec2XQO5QMIQEH1gaN0ICtG74fpF35MCud/w=; b=VDdXe/TDrvp9XZxjv67e1/G1VD
- jIH3ZZpWDYCBp+7Ua8wO82azemZNeUBE4elUwa8iF3tKs7ytvMsXUP3+OgUBHw6R8E0xoCM0Y3w1P
- wqUMdxNI01g382Gp+GkpB4GVxNW+13BVtk9kDckPSe5BLL8MfUP+6FbG5gYW4R9HqH94zVfheIApv
- ppG9ZbqOR7XhoHqi402fRwK0puxuJ6PEXpPox2qci0r42XbzNu3IdP0PRueYJFkW0PYDdE1iP6Puo
- 4ideHFTRnH2WZI717r5Ng+cQhqui9Kyz17HAxTcOlDFjggDAmfg0NxlQ8GdmQ3OVjJ3uiXQoVwmSx
- QM/D9mxA==;
+ bh=MO4Y38pyTr/6rH77slh8ktgo4ZZE06TPs7d+AObtUfg=; b=I5klDSwz3iMhBv/Ru+vOCRGhAU
+ dyBowxnJedav7A1gJsmZoG83V73YjQhWkJugf2vNUxShyPtv2mtaKXh1LW0yievv1DYdAMLi2S08z
+ C7V7a3icVIlJ9y6QF3/jwqrOfZs0/iBh51prGWvXTlK8MycaYxWBbxGt8hxLHkWwV/FWrtFi2jMlN
+ 65KDN6bPL+Xyxu94j2ZtPL5zKMaNYXnPlj3ajHbNlixrBXIfNyBiPlMgKBJel3GXEnMnWjxS19UzT
+ v+u+kJ8FRy5PuNsM0Jz2Bz4xcQ0KXMyDdjxruzA/W5I+de8mw2ZHGKc3rDhfshEV3OGNhniHJxMl4
+ y5gALYAg==;
 Received: from [2001:4bb8:180:7b62:3a1d:d74e:d75b:5fe7] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMsNA-0004k1-Db; Mon, 28 Sep 2020 12:35:17 +0000
+ id 1kMsNC-0004kM-4d; Mon, 28 Sep 2020 12:35:18 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 09/20] nvme: factor out a nvme_configure_metadata helper
-Date: Mon, 28 Sep 2020 14:34:51 +0200
-Message-Id: <20200928123502.435373-10-hch@lst.de>
+Subject: [PATCH 10/20] nvme: freeze the queue over ->lba_shift updates
+Date: Mon, 28 Sep 2020 14:34:52 +0200
+Message-Id: <20200928123502.435373-11-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200928123502.435373-1-hch@lst.de>
 References: <20200928123502.435373-1-hch@lst.de>
@@ -81,112 +81,88 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Factor out a helper from nvme_update_ns_info that configures the
-per-namespaces metadata and PI settings.  Also make sure the helpers
-clear the flags explicitly instead of all of ->features to allow for
-potentially reusing ->features for future non-metadata flags.
+Ensure that there can't be any I/O in flight went we change the disk
+geometry in nvme_update_ns_info, most notable the LBA size by lifting
+the queue free from nvme_update_disk_info into the caller
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 78 ++++++++++++++++++++++++----------------
- 1 file changed, 47 insertions(+), 31 deletions(-)
+ drivers/nvme/host/core.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4a5c4d45755b55..443aba9c9fdd11 100644
+index 443aba9c9fdd11..82cd03c0ba21ba 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1966,6 +1966,50 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	return 0;
+@@ -2021,7 +2021,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 		/* unsupported block size, set capacity to 0 later */
+ 		bs = (1 << 9);
+ 	}
+-	blk_mq_freeze_queue(disk->queue);
++
+ 	blk_integrity_unregister(disk);
+ 
+ 	atomic_bs = phys_bs = bs;
+@@ -2086,8 +2086,6 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 		set_disk_ro(disk, true);
+ 	else
+ 		set_disk_ro(disk, false);
+-
+-	blk_mq_unfreeze_queue(disk->queue);
  }
  
-+static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
-+{
-+	struct nvme_ctrl *ctrl = ns->ctrl;
-+
-+	/*
-+	 * The PI implementation requires the metadata size to be equal to the
-+	 * t10 pi tuple size.
-+	 */
-+	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
-+	if (ns->ms == sizeof(struct t10_pi_tuple))
-+		ns->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
-+	else
-+		ns->pi_type = 0;
-+
-+	ns->features &= ~(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
-+	if (!ns->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
-+		return 0;
-+	if (ctrl->ops->flags & NVME_F_FABRICS) {
-+		/*
-+		 * The NVMe over Fabrics specification only supports metadata as
-+		 * part of the extended data LBA.  We rely on HCA/HBA support to
-+		 * remap the separate metadata buffer from the block layer.
-+		 */
-+		if (WARN_ON_ONCE(!(id->flbas & NVME_NS_FLBAS_META_EXT)))
-+			return -EINVAL;
-+		if (ctrl->max_integrity_segments)
-+			ns->features |=
-+				(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
-+	} else {
-+		/*
-+		 * For PCIe controllers, we can't easily remap the separate
-+		 * metadata buffer from the block layer and thus require a
-+		 * separate metadata buffer for block layer metadata/PI support.
-+		 * We allow extended LBAs for the passthrough interface, though.
-+		 */
-+		if (id->flbas & NVME_NS_FLBAS_META_EXT)
-+			ns->features |= NVME_NS_EXT_LBAS;
-+		else
-+			ns->features |= NVME_NS_METADATA_SUPPORTED;
-+	}
-+
-+	return 0;
-+}
-+
- static void nvme_update_disk_info(struct gendisk *disk,
- 		struct nvme_ns *ns, struct nvme_id_ns *id)
- {
-@@ -2115,37 +2159,9 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
- 		return -ENODEV;
+ static inline bool nvme_first_scan(struct gendisk *disk)
+@@ -2133,6 +2131,7 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
+ 	int ret;
+ 
++	blk_mq_freeze_queue(ns->disk->queue);
+ 	/*
+ 	 * If identify namespace failed, use default 512 byte block size so
+ 	 * block layer can use before failing read/write for 0 capacity.
+@@ -2150,30 +2149,39 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 			dev_warn(ctrl->device,
+ 				"failed to add zoned namespace:%u ret:%d\n",
+ 				ns->head->ns_id, ret);
+-			return ret;
++			goto out_unfreeze;
+ 		}
+ 		break;
+ 	default:
+ 		dev_warn(ctrl->device, "unknown csi:%u ns:%u\n",
+ 			ns->head->ids.csi, ns->head->ns_id);
+-		return -ENODEV;
++		ret = -ENODEV;
++		goto out_unfreeze;
  	}
  
--	ns->features = 0;
--	ns->ms = le16_to_cpu(id->lbaf[lbaf].ms);
--	/* the PI implementation requires metadata equal t10 pi tuple size */
--	if (ns->ms == sizeof(struct t10_pi_tuple))
--		ns->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
--	else
--		ns->pi_type = 0;
--
--	if (ns->ms) {
--		/*
--		 * For PCIe only the separate metadata pointer is supported,
--		 * as the block layer supplies metadata in a separate bio_vec
--		 * chain. For Fabrics, only metadata as part of extended data
--		 * LBA is supported on the wire per the Fabrics specification,
--		 * but the HBA/HCA will do the remapping from the separate
--		 * metadata buffers for us.
--		 */
--		if (id->flbas & NVME_NS_FLBAS_META_EXT) {
--			ns->features |= NVME_NS_EXT_LBAS;
--			if ((ctrl->ops->flags & NVME_F_FABRICS) &&
--			    (ctrl->ops->flags & NVME_F_METADATA_SUPPORTED) &&
--			    ctrl->max_integrity_segments)
--				ns->features |= NVME_NS_METADATA_SUPPORTED;
--		} else {
--			if (WARN_ON_ONCE(ctrl->ops->flags & NVME_F_FABRICS))
--				return -EINVAL;
--			if (ctrl->ops->flags & NVME_F_METADATA_SUPPORTED)
--				ns->features |= NVME_NS_METADATA_SUPPORTED;
--		}
--	}
--
-+	ret = nvme_configure_metadata(ns, id);
-+	if (ret)
-+		return ret;
+ 	ret = nvme_configure_metadata(ns, id);
+ 	if (ret)
+-		return ret;
++		goto out_unfreeze;
  	nvme_set_chunk_sectors(ns, id);
  	nvme_update_disk_info(ns->disk, ns, id);
++	blk_mq_unfreeze_queue(ns->disk->queue);
++
  #ifdef CONFIG_NVME_MULTIPATH
+ 	if (ns->head->disk) {
++		blk_mq_freeze_queue(ns->head->disk->queue);
+ 		nvme_update_disk_info(ns->head->disk, ns, id);
+ 		blk_stack_limits(&ns->head->disk->queue->limits,
+ 				 &ns->queue->limits, 0);
+ 		blk_queue_update_readahead(ns->head->disk->queue);
+ 		nvme_update_bdev_size(ns->head->disk);
++		blk_mq_unfreeze_queue(ns->head->disk->queue);
+ 	}
+ #endif
+ 	return 0;
++
++out_unfreeze:
++	blk_mq_unfreeze_queue(ns->disk->queue);
++	return ret;
+ }
+ 
+ static int nvme_validate_ns(struct nvme_ns *ns)
 -- 
 2.28.0
 
