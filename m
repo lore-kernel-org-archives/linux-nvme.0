@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C93C47420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D6CDC2D0A8
 	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AF09521974
+	by mail.kernel.org (Postfix) with ESMTPS id AAD4A21548
 	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 12:35:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fmlcxnci";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iMeTXtMt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF09521974
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MpUeBttt";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nG9w6UVc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AAD4A21548
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=NpoT8kpr6T4gq4CKTfshm4z1ahk7cyc+NHHqVKmHltw=; b=fmlcxnciCKmgJzVCBxLew2m/Q
-	RFFF8dIzxwOWDL8dRRqCCT8OZYt/I1Q0V2ID/v5derDOA7FPp6O3pYTcUyk/mAqexkQuqqtg1Q1UT
-	zPEaiLAcCbzE89rBQR9Bvf+TxrMJvjsA/yDKAci7copnX9oTy63q4mkPBqVa07yONJZn3XqvDpjIg
-	5X/LfXpqeattKEJatBTv9mnCwoS1+z0n7FX76sajraoVsMNArdSJwbKAIlPIo8xPNqjRonesDD4jC
-	Yl7U6OllKBE0BBsP9dtdjTSYA/0vkSPlQl7N6q7WwOMAGpOk2GUixhSmCHx4yu2mW/Gc3I9X7qF1f
-	WE4zaWEdA==;
+	 bh=TexjHF87fo+GNla41LjBhy4ASoQsxmsFj81x1NQgnaQ=; b=MpUeBtttVsVE/k5uXTsw7lhhV
+	RsmvEC+ExPOUIQETB98mH+9ekBJ66mk08lhGqV0h9AqR0bVWjHWsGfvYXnc9Coc0L8TpbzF+TDeaT
+	kGl+XbT+KalU8D/D4M6NlJomVlNU6UDAJVPOscLktha16+i3d7Bu3L4RZLj5xiLvU8NEwLP5KL3y+
+	3OTDzt4ySoI8dilupjApcZoyn1JG874/WKfJ0m/g1fSLBfz8bS7/c3L9Ez8ASPJ46DGz50SwMAgEn
+	z+PvsoOGv8nRBDM9RHwzQO5A1xNz0RaXutpRPMFxVJLR09LDG5VsMwEX9OzA0fN3uE1K1rKf+ebAg
+	nBCeQkYYQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kMsN4-0002Kb-Jf; Mon, 28 Sep 2020 12:35:10 +0000
+	id 1kMsN7-0002LK-AY; Mon, 28 Sep 2020 12:35:13 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMsN1-0002Jb-7w
- for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 12:35:07 +0000
+ id 1kMsN3-0002KM-Qe
+ for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 12:35:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=Bg1aB199Xcrh9A70zWvmAH67ImUyLc9Xz798lZttJbo=; b=iMeTXtMtb+8dZryjDcLNkeK/43
- 5krUP+R8jaAKTuoDLX6Iz3+RcflPsQuvFcCAsjkzryPp8ulYpvRhUfYRKQgOlSfx0Ld5VRtTPfrCP
- JrQas1cdRA4cKjNVMbN+fNzHN3ZdJzUGyhlpdWht+vLjzul6osHNWS/K1dZK28pffuYmBbQqiErAL
- ncJSJw4Ie2gEFEn9BguYaV66vkY6KG7rzcqHmBuxNPNcePt7ub380FKEIlW7fYS+/ubX/3/Q6ejzz
- w2YLZMc2/Pj6wzYCdzjh/pDXrJF6SkhEu6TTXxXwXf6VOXWhrFw0lK2zDBSUV3x/8oNvCRT1jgh/m
- joCvuIaA==;
+ bh=j8ops9cA9b12V83tKSwp5zaGHQ7WpJ5p33aXh0B1Yxw=; b=nG9w6UVcEwRK7FdHJKPnko4c1P
+ /jbvrnGQy8nPpzT5MCXflG1uXp7DTBCzUBqqw01I6gLHDhVhPUf3Q3lUff9Kj0O5YVxcGxqeXKgCe
+ Q4x9OI8sczFdh2+Cl0GcpXXWf7CR6VnlWuh3UJeVgEZlQ0xmkK997qJ5MWoOXs4f+2pdONKiYnABc
+ CteZ018ra9fTYoWBWV3goCu4YAdoZsa1LQ3dBTVoqxKZHAlwYBlANEyhR05WFpR8SKf6HBP6N+fEe
+ rp5lSNyP4zeUlu4w2XMDa4oxWBvGy8uKsMpKC+0a7xTsRr88F0I59mzJ396jRGy0GxpIZAHXsONuL
+ 7SopmY1A==;
 Received: from [2001:4bb8:180:7b62:3a1d:d74e:d75b:5fe7] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMsN0-0004hj-1y; Mon, 28 Sep 2020 12:35:06 +0000
+ id 1kMsN2-0004hy-Mc; Mon, 28 Sep 2020 12:35:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 01/20] block: optimize blk_queue_zoned_model for
- !CONFIG_BLK_DEV_ZONED
-Date: Mon, 28 Sep 2020 14:34:43 +0200
-Message-Id: <20200928123502.435373-2-hch@lst.de>
+Subject: [PATCH 03/20] nvme: remove the disk argument to nvme_update_zone_info
+Date: Mon, 28 Sep 2020 14:34:45 +0200
+Message-Id: <20200928123502.435373-4-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200928123502.435373-1-hch@lst.de>
 References: <20200928123502.435373-1-hch@lst.de>
@@ -82,30 +81,72 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Always return BLK_ZONED_NONE if zoned device support is not enabled.
-This allows various compiler optimizations including the dead code
-elimination that we so like for avoiding ifdefs.
+The queue can trivially be derived from the nvme_ns structure.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- include/linux/blkdev.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 2 +-
+ drivers/nvme/host/nvme.h | 8 ++------
+ drivers/nvme/host/zns.c  | 5 ++---
+ 3 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 8e77f12de52214..1b81b2766858bb 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -692,7 +692,9 @@ static inline bool queue_is_mq(struct request_queue *q)
- static inline enum blk_zoned_model
- blk_queue_zoned_model(struct request_queue *q)
- {
--	return q->limits.zoned;
-+	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED))
-+		return q->limits.zoned;
-+	return BLK_ZONED_NONE;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 400d995f95fe2d..d4b5032084972a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2095,7 +2095,7 @@ static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 	case NVME_CSI_NVM:
+ 		break;
+ 	case NVME_CSI_ZNS:
+-		ret = nvme_update_zone_info(disk, ns, lbaf);
++		ret = nvme_update_zone_info(ns, lbaf);
+ 		if (ret) {
+ 			dev_warn(ctrl->device,
+ 				"failed to add zoned namespace:%u ret:%d\n",
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 6cbbd1597ae6d7..5667761001267d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -760,9 +760,7 @@ static inline void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
+ 
+ int nvme_revalidate_zones(struct nvme_ns *ns);
+ #ifdef CONFIG_BLK_DEV_ZONED
+-int nvme_update_zone_info(struct gendisk *disk, struct nvme_ns *ns,
+-			  unsigned lbaf);
+-
++int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf);
+ int nvme_report_zones(struct gendisk *disk, sector_t sector,
+ 		      unsigned int nr_zones, report_zones_cb cb, void *data);
+ 
+@@ -779,9 +777,7 @@ static inline blk_status_t nvme_setup_zone_mgmt_send(struct nvme_ns *ns,
+ 	return BLK_STS_NOTSUPP;
  }
  
- static inline bool blk_queue_is_zoned(struct request_queue *q)
+-static inline int nvme_update_zone_info(struct gendisk *disk,
+-					struct nvme_ns *ns,
+-					unsigned lbaf)
++static inline int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
+ {
+ 	dev_warn(ns->ctrl->device,
+ 		 "Please enable CONFIG_BLK_DEV_ZONED to support ZNS devices\n");
+diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+index 672a18fcf3bfe2..cdabc3eb192bad 100644
+--- a/drivers/nvme/host/zns.c
++++ b/drivers/nvme/host/zns.c
+@@ -46,11 +46,10 @@ static int nvme_set_max_append(struct nvme_ctrl *ctrl)
+ 	return 0;
+ }
+ 
+-int nvme_update_zone_info(struct gendisk *disk, struct nvme_ns *ns,
+-			  unsigned lbaf)
++int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
+ {
+ 	struct nvme_effects_log *log = ns->head->effects;
+-	struct request_queue *q = disk->queue;
++	struct request_queue *q = ns->queue;
+ 	struct nvme_command c = { };
+ 	struct nvme_id_ns_zns *id;
+ 	int status;
 -- 
 2.28.0
 
