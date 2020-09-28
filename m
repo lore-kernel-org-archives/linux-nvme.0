@@ -7,18 +7,17 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D0A5C47420
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 16:48:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A0FC47420
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 16:49:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6D94E20717
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 16:48:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3AC582073A
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Sep 2020 16:49:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VixWh6Ax";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S9I0Nw83";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="iZd4Dh6O"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D94E20717
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lGs5+K5p";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="k1ltrX79"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AC582073A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=micron.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,41 +26,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7nqTnxR2t/MJ3BNWTvWtSTQenP3KEPEpWGuGKR5K3JA=; b=VixWh6AxAM7AZ78mbYgU3wPfA
-	5kR5reHWtDP7sNprMLUga3ugzv4nIxm41HwFPddWyDc6o1H4UWcGd4R6QO9lvt2xDTPiZSn8lshUg
-	vgY22OHfzo+YbfJoGR/XpY94M/7b3PKFYhLNpAHvlzBAqLOCgpYXzB7pvTp9/UhFKMyVYg6kLeqk0
-	kKsQUfX4xv6zmi2f9XzV0djS9p4zqiznvhdi7ZXBxkJBT9P2fEMQpMm7Tne5rLyOiRDXvdVSE0vvi
-	bGhz2aanWM7G8kkZrReEcwVxaQar0wYzb1l0y9rA5cS+NzdhHbm+udbODvmEkAWfSXstW5+wlOQV1
-	eZrP5ilvQ==;
+	 bh=1LlF8Y6mc/BKrcPqqNtinr3VZlzssdUPD5G8x8vU90g=; b=lGs5+K5pTHCWL1ECIw5h+Dn5f
+	sUDeiy+gpwazXjvnlGGgEXxR+DYEDKJk9gEV52NhDSGSBHwVXrQc0UI27IrA1AxsNSinW6pYRNEDw
+	B6PtsxhPignJHRyFm+klCQ0rbaJ+PcWK6VV0jJ1yMUxbdPEB36Rzua9v6OfP+WxTuz+vgdvn57Ajp
+	xo9X+MoUkOFrcVUo9nuxC+lDYTxYt8nvEvnZhqv6drS7CTCeqBlRb0N+M2D84BFtk0wilbfa5vO0w
+	lVcjImy5LVhTggdpKJ9jAQYmPbi43iE9vhp04OM83Db4JTgoFGFZWqQbz8xmdbLZ3mwPhngQWpfRi
+	/sobOITbA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kMwKZ-0006oe-7i; Mon, 28 Sep 2020 16:48:51 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1kMwKg-0006rz-TV; Mon, 28 Sep 2020 16:48:58 +0000
+Received: from mail-dm6nam12on2056.outbound.protection.outlook.com
+ ([40.107.243.56] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMwJJ-0006Fw-UA
- for linux-nvme@merlin.infradead.org; Mon, 28 Sep 2020 16:47:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=YI10lmjwcR+Yh5uI3Act68Ja+sfAK1MIEFHKyneH0l0=; b=S9I0Nw834OnSHNyJ/CdOj0nnYK
- gjqwXrenXVGG2HZGSl49YaxtbrQ324A5pHWt+AYg6Ny1gYp6AIRo9O866PNFFlVfCkAS/1Y4TnmXv
- ZuFHfz8Kuq+Pbr802/tGLVy7CSrtqwzhLPSw/63/UFL9K65i4VimWt6slwF1HadVVLuocFY0OCnmp
- JX/g2VG3/D9aqhqsznXvUDZiLJFGHZjY1VlRCYwHyvsWATZ9TEYjEAuAMRGUdi4cuPtMBNvhM6iln
- 7UBY7a8htGk9emCmRnhaa1KiwAI7dkQTrxIHzAQv43B4N5yMF+l0ZQaGDasmdYjNjQgwM6G/HKS5S
- zTam13xA==;
-Received: from mail-eopbgr760088.outbound.protection.outlook.com
- ([40.107.76.88] helo=NAM02-CY1-obe.outbound.protection.outlook.com)
- by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMwIy-0004Jt-TF
- for linux-nvme@lists.infradead.org; Mon, 28 Sep 2020 16:47:32 +0000
+ id 1kMwIr-00060L-1E
+ for linux-nvme@lists.infradead.org; Mon, 28 Sep 2020 16:47:34 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q6FpZ0tUMMjF2XYaUvaOS0Mc0bPJUU6ZWDXcYfbYfq9dvATFT66rCftc4Sbh21hIvtfcpkJZiV3s4yJfC8vncm1/tqsWNMUmTz1j/Scco/6kWX55sDIfLNwKb1wQxgzIfE3E34rQvb3HbJVjCJZnjuxh78jV9Mfx9oayCwRpMjaAaqKoHXpmr7DneIbsHOzcmNgKmCAH9SasAVLGN4LHAy5iHrA8ONZndWGK2KXsGblWF1/+yX3CC5vauqPm2lmglOPquv1Ah0IPzXuC59meSbLfFhDDb3enZx5MfYJDzpfPy9sM7eGihPAJAWr7cavhu30vdYa6mUJVQVYKf+1EaA==
+ b=b0D1qng3JSIp71VYlgZ5mTBH6deq3JW6jqVO9CVZIHfvv/a8qv/hAas80mdDcspFv9DZYXWsQ9icR/Z2S/WIpVvvou/LdX8ciVET5AgJGxbI1A8OXzBXsIuAUJ7n/YI0WmLWakG96xMb4XFpFHhlKeD+0v2xJ20CGbZpV/B96/6mNCqZHeL3qHI5ij8TpDVPMZjBo6NLwactkKJ9mRIBLSaCyaEi2JECbaAtKmjTxYtPIybSBh7k8cKzYTtIeqPnfbVf03mHp1Kq7ixM+X9W9x7Zq3dUK1cwQZusysRzZXqX6r+nJWHwZkq4sbjS5TSlNAFIG0jLqGH/nfDmfsS7Tg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YI10lmjwcR+Yh5uI3Act68Ja+sfAK1MIEFHKyneH0l0=;
- b=ipw1nf1zB1RzFcOWAv3vOMVoyJbCBOM+rc3JbeEQoggnB8cAc3Qxdl9X++Bn6w9ZqvrxH9PErlbUdYu66/HhsCQrCBuDRC1yQxykASrUb5yROurT/RMMdG7bXwvtRxjNHY27ESwVFzG62Qng4VypuezPp/7fax9r5bjyXJIQ8KhNVGjlK186tnmqMKBlwY3l8GrMUH01gXGLKl2b/JNRFL9wRDGbElPOlPdLZEmZY3jS43dzHWT1SlsOLZdkhXdwqSy41uWacZi8r+1JBwXa6w+KVimF5FRuwfy2dO3C6uFog3sBzFG4zLIY8eIJy2d6cvUDuKgeNaOhxxQ/AZGIxw==
+ bh=8Vy8LKlQshzQKS5SZalUD/fdvePZlvxzwcSA6LeUf5w=;
+ b=f7jhjAjIoSV+z51nzB5VAUZA709/PFn19y0QgZnIF0Uh7T8K9ut7h5L9GsqXbh3pDNr59XwIRqF6H/x87wd2coZuPVVeH7Wts3CT0BXwqv5HAW69RSZ+ADcNHL0eoEc0CYHwioZLGrvnskqfvFeBR8CJoOQioZm5jO94PHT3AlfSQzw0p6K3DLd6enZxa3f55SonXNYOqXoeYUA1142nymRmCORRTUMEpIB/ShMUp8XveLYCet0hlkeBHNB036OI2TfCoN9+v/c5d3ZltooypekXcA6LtpxWtGRdZWKXC1jZQUueJ2F83+W7gqnk1vbeyLsuZ4sle2AiWqmhovZ2eQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  137.201.242.130) smtp.rcpttodomain=kvack.org smtp.mailfrom=micron.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=micron.com;
@@ -69,18 +54,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YI10lmjwcR+Yh5uI3Act68Ja+sfAK1MIEFHKyneH0l0=;
- b=iZd4Dh6O2uYVl8ry5X1Luqair1WkVjr0y6JuinQ8Wn1kjLeYRqQ0LHVNefnNmrJU73hGh29aCDzB806rAOtzc1rRThWr3pNrp77cOaIBPyo+sV4oreC+aOHHqszBI5NRPEJq4NS9mIv53jkQJEJxd3JSLkCp6kxZW6qFNOUMhIM=
-Received: from BN6PR17CA0035.namprd17.prod.outlook.com (2603:10b6:405:75::24)
- by MWHPR08MB2430.namprd08.prod.outlook.com (2603:10b6:300:13::21)
+ bh=8Vy8LKlQshzQKS5SZalUD/fdvePZlvxzwcSA6LeUf5w=;
+ b=k1ltrX79tex5AE8PPelkt41d39dDvA1EqisBm1yB0Xr2ihCsh58oJ8aD5qD4wPfoH/C345Vy2HO4K8rZaycDfXuhbZ3M6aaEKXMDKrTZw7lD9p1GX1eWle/hx0F+5p16D7TQAFR4NyTLJgBANbM+p14UiM47uieQd/vjQtvr54M=
+Received: from BN6PR04CA0070.namprd04.prod.outlook.com (2603:10b6:404:8d::20)
+ by BN3PR0801MB2292.namprd08.prod.outlook.com (2a01:111:e400:7bb5::6)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Mon, 28 Sep
- 2020 16:47:08 +0000
-Received: from BN3NAM01FT020.eop-nam01.prod.protection.outlook.com
- (2603:10b6:405:75:cafe::4) by BN6PR17CA0035.outlook.office365.com
- (2603:10b6:405:75::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.23; Mon, 28 Sep
+ 2020 16:47:00 +0000
+Received: from BN3NAM01FT016.eop-nam01.prod.protection.outlook.com
+ (2603:10b6:404:8d:cafe::74) by BN6PR04CA0070.outlook.office365.com
+ (2603:10b6:404:8d::20) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend
- Transport; Mon, 28 Sep 2020 16:47:07 +0000
+ Transport; Mon, 28 Sep 2020 16:47:00 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 137.201.242.130)
  smtp.mailfrom=micron.com; kvack.org;
  dkim=none (message not signed)
@@ -89,20 +74,19 @@ Received-SPF: Pass (protection.outlook.com: domain of micron.com designates
  137.201.242.130 as permitted sender) receiver=protection.outlook.com;
  client-ip=137.201.242.130; helo=mail.micron.com;
 Received: from mail.micron.com (137.201.242.130) by
- BN3NAM01FT020.mail.protection.outlook.com (10.152.67.227) with Microsoft SMTP
+ BN3NAM01FT016.mail.protection.outlook.com (10.152.66.204) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3412.21 via Frontend Transport; Mon, 28 Sep 2020 16:47:07 +0000
+ 15.20.3412.21 via Frontend Transport; Mon, 28 Sep 2020 16:46:59 +0000
 Received: from micron.com (10.114.5.55) by bowex17c.micron.com
  (137.201.21.211) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 28 Sep
- 2020 10:47:02 -0600
+ 2020 10:46:58 -0600
 From: <nmeeramohide@micron.com>
 To: <linux-kernel@vger.kernel.org>, <linux-block@vger.kernel.org>,
  <linux-nvme@lists.infradead.org>, <linux-mm@kvack.org>,
  <linux-nvdimm@lists.01.org>
-Subject: [PATCH 05/22] mpool: add space map component which manages free space
- on mpool devices
-Date: Mon, 28 Sep 2020 11:45:17 -0500
-Message-ID: <20200928164534.48203-6-nmeeramohide@micron.com>
+Subject: [PATCH 01/22] mpool: add utility routines and ioctl definitions
+Date: Mon, 28 Sep 2020 11:45:13 -0500
+Message-ID: <20200928164534.48203-2-nmeeramohide@micron.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20200928164534.48203-1-nmeeramohide@micron.com>
 References: <20200928164534.48203-1-nmeeramohide@micron.com>
@@ -110,49 +94,48 @@ MIME-Version: 1.0
 X-ClientProxiedBy: bowex17d.micron.com (137.201.21.212) To bowex17c.micron.com
  (137.201.21.211)
 X-TM-AS-Product-Ver: SMEX-12.0.0.1782-8.200.1013-24646.005
-X-TM-AS-Result: No--16.293800-0.000000-31
-X-TM-AS-MatchedID: 155760-702686-105630-704397-702876-700863-705063-702877-7
- 05161-700060-703812-700095-703226-701342-703342-704806-702615-703956-701413
- -704714-704228-703878-703700-704318-702619-703215-704418-704792-704401-7045
- 85-703542-780052-703953-701480-701809-701280-703017-702395-188019-703027-70
- 2299-704477-300015-703213-703140-121336-701105-704673-703967-139504-702754-
- 701772-704183-701590-700809-700163-847298-701475-704053-702700-702444-70356
- 3-703385-701803-701750-700069-704841-700926-702415-188199-704402-702798-700
- 864-702908-700077-700786-701007-700954-704264-704090-704612-700737-701270-7
- 04959-700512-703532-704173-703434-702216-702298-148004-148036-29997-42000-4
- 2003
+X-TM-AS-Result: No--10.996200-0.000000-31
+X-TM-AS-MatchedID: 700076-704983-702783-700308-702559-701342-702731-700863-8
+ 47298-701480-701809-703017-703140-702395-188019-703213-121336-701105-704673
+ -703967-702754-704477-702433-703027-300015-701317-704499-700379-704978-7004
+ 28-105700-702914-702525-701270-703357-704318-700717-704402-704053-702779-70
+ 0714-701893-702962-105040-705244-702673-705022-700524-703976-700864-702259-
+ 703638-700458-703215-701475-704792-186035-704401-105630-704418-704475-70287
+ 6-701274-701701-705161-704397-701343-701773-703694-701969-701724-701029-851
+ 458-700958-843010-704328-703816-113238-702837-702008-704184-702688-704183-7
+ 04264-705094-701007-704929-704521-703286-703766-148004-148036-42000-42003
 X-TM-AS-User-Approved-Sender: Yes
 X-TM-AS-User-Blocked-Sender: No
 X-MT-Whitelisted: matched
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: caf60202-6d60-4059-5f38-08d863ce2334
-X-MS-TrafficTypeDiagnostic: MWHPR08MB2430:
-X-Microsoft-Antispam-PRVS: <MWHPR08MB2430B9559DAA8E3E671F86F1B3350@MWHPR08MB2430.namprd08.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 90697bb2-5b3f-40a2-fe95-08d863ce1ea0
+X-MS-TrafficTypeDiagnostic: BN3PR0801MB2292:
+X-Microsoft-Antispam-PRVS: <BN3PR0801MB2292D41D05172D7669B21DA4B3350@BN3PR0801MB2292.namprd08.prod.outlook.com>
 X-MS-Exchange-Transport-Forked: True
 X-EXT-ByPass: 1
 X-MT-RULE-Whitelisted: Triggered
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ELsDugfgN88mMI7GBf96TSzKDNJQT3fWLQ/tEBr5UIWSo0iXs05TvIbShsLsmpBVqswIwjsy2VpO0bn2m4cZ3r4DF/Ii63EAusa1iKIL8ZsP6hbKfgWBBqDxtV813F05R7b/3PYJlt306Zttn4gfoCmmkTeyWuYudeFf1//PDvuS7hgojhOu7jaolx0uf9/o81bjJ4We6KtoqPwiIr2gKUw6hiFg015jkVsmMLdcclSD7Glgd0+oGfvMT2/MhCmO+e+VwiFZyAXyzXRP/pJuh9zWMis7FdzfDRIaB9T3t3k4Qt9PLfBR6NrUa/55xdViCHMxXnw82wvpVGhWmynWS4qt+qS056RZQPdhmjHWgyFMfsCpmqgHZ4vXOlOxwbSL5Cg8/tWoX2Y8kQHHBPTNa2Fa46o7LvLGcjvRbhMKXEvxtBhao3q0aIXKMYy2qxlgkoFGLtHbciKfa55iIwGbaGHaaLNu0LPMeGYiZqHDecRrhYECMirPGEmSJy+xq7j1
+X-Microsoft-Antispam-Message-Info: xmkU4Qu1zpYcYe+I34xkogfTbnRanjek63OKnia1h/lP2GH7oTexiVsQCx5QT3tuE8lTs69X95NwmhXKsLxEkXc+sXTXbfkSdgSOqofi2HrOY8Wj8OJ4B37q5BJD6/faZ+N5ZmacxAcXh1+oDhK7a7Q+IeNOeQEkQkLRzAG3bFElG9oQogWvjKY/klXSRcwfsxbBF3OYrCVJI9BX9MFlGCjOsoX//CjUxap+qqZITTSdOOuR62d1tRVB6Wu11E0d9rx0NyRadfqKwW/D2TmgGwC9oM8fqDiRdm3fNY8SxZ9AY8kIG5nT7UJeDPv4wnOpIqzpdQ9NduQILd1O0pxOSqqFxBrKWAM7dwflqmWvMTgfGUOp8A+DhkHqIyk8DNg2EfSFd4UCM259pO4m2cMoV7rB6e8ImFKYQMqr/lPiQUQuZEL9rWebHYsevChmPhncZfMhmab3wWQuO5dQ/UhTL7np45TcQ/B39EWxo8eHz1UumKFTVb6yfLOdVZtkS5Oi
 X-Forefront-Antispam-Report: CIP:137.201.242.130; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.micron.com; PTR:masquerade.micron.com; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(346002)(136003)(376002)(46966005)(1076003)(26005)(8676002)(107886003)(47076004)(2906002)(83380400001)(54906003)(7636003)(70206006)(70586007)(33310700002)(478600001)(82740400003)(86362001)(55016002)(356005)(6666004)(2876002)(186003)(7696005)(8936002)(36756003)(30864003)(336012)(110136005)(426003)(5660300002)(4326008)(316002)(6286002)(2616005)(82310400003)(2101003);
+ SFS:(4636009)(346002)(396003)(136003)(376002)(39860400002)(46966005)(2906002)(107886003)(316002)(2876002)(54906003)(4326008)(110136005)(30864003)(5660300002)(2616005)(6666004)(70586007)(1076003)(70206006)(478600001)(336012)(186003)(26005)(7696005)(426003)(8676002)(36756003)(82310400003)(7636003)(82740400003)(8936002)(47076004)(55016002)(83380400001)(33310700002)(356005)(6286002)(86362001)(2101003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: micron.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2020 16:47:07.6373 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: caf60202-6d60-4059-5f38-08d863ce2334
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2020 16:46:59.9636 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90697bb2-5b3f-40a2-fe95-08d863ce1ea0
 X-MS-Exchange-CrossTenant-Id: f38a5ecd-2813-4862-b11b-ac1d563c806f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f38a5ecd-2813-4862-b11b-ac1d563c806f; Ip=[137.201.242.130];
  Helo=[mail.micron.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3NAM01FT020.eop-nam01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN3NAM01FT016.eop-nam01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR08MB2430
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0801MB2292
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200928_174713_540894_65F6C47B 
-X-CRM114-Status: GOOD (  25.26  )
+X-CRM114-CacheID: sfid-20200928_124705_297805_90D6EAC6 
+X-CRM114-Status: GOOD (  19.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,34 +156,22 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Nabeel M Mohamed <nmeeramohide@micron.com>
 
-The smap layer implements a free space map for each media class
-volume in an active mpool.
+This adds structures used by mpool ioctls and utility routines
+for logging, UUID management etc.
 
-Free space maps are maintained in memory only. When an mpool is
-activated, the free space map is reconstructed from the object
-metadata read from media. This approach has the following
-advantages:
-- Objects can be allocated or freed without any space map device IO
-- No overhead of tracking both the allocated and free space,
-  and keeping them synchronized
+The mpool ioctls can be categorized as follows:
 
-The LBA space of a media class volume is subdivided into regions.
-Allocation requests for a volume are distributed across these
-regions. There's a separate space map per region which is
-protected by a region mutex 'pdi_rmlock'.
+1. IOCTLs issued to the mpool control device (/dev/mpoolctl)
+   - Mpool life cycle management (MPIOC_MP_*)
 
-Each region is further subdivided into zones. The zone size is
-determined at mpool create time, and it defaults to 32MiB.
-The free space in each region is represented by a rbtree,
-where the key is a zone number and the value is the length of
-the free space specified as a zone count.
-
-A configurable percentage of the total zones on a given volume
-are marked as spare zones, and the rest are marked as usable
-zones. The smap supports different allocation policies which
-determine which zone type is used to satisfy an allocation
-request - usable or spare or usable then spare or
-spare then usable.
+2. IOCTLs issued to the mpool device (/dev/mpool/<mpool-name>)
+   - Mpool parameters (MPIOC_PARAMS_*)
+   - Mpool properties (MPIOC_PROP_*)
+   - Mpool media class management (MPIOC_MP_MCLASS_*)
+   - Device management (MPIOC_DRV_*)
+   - Mblock object life cycle management and IO (MPIOC_MB_*)
+   - Mlog object life cycle management and IO (MPIOC_MLOG_*)
+   - Mblock cache management (MPIOC_VMA_*)
 
 Co-developed-by: Greg Becker <gbecker@micron.com>
 Signed-off-by: Greg Becker <gbecker@micron.com>
@@ -210,1203 +181,834 @@ Co-developed-by: John Groves <jgroves@micron.com>
 Signed-off-by: John Groves <jgroves@micron.com>
 Signed-off-by: Nabeel M Mohamed <nmeeramohide@micron.com>
 ---
- drivers/mpool/init.c   |   17 +-
- drivers/mpool/mclass.c |  103 ++++
- drivers/mpool/smap.c   | 1031 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 1150 insertions(+), 1 deletion(-)
- create mode 100644 drivers/mpool/mclass.c
- create mode 100644 drivers/mpool/smap.c
+ drivers/mpool/assert.h       |  25 ++
+ drivers/mpool/init.c         |  22 ++
+ drivers/mpool/mpool_ioctl.h  | 636 +++++++++++++++++++++++++++++++++++
+ drivers/mpool/mpool_printk.h |  44 +++
+ drivers/mpool/uuid.h         |  59 ++++
+ 5 files changed, 786 insertions(+)
+ create mode 100644 drivers/mpool/assert.h
+ create mode 100644 drivers/mpool/init.c
+ create mode 100644 drivers/mpool/mpool_ioctl.h
+ create mode 100644 drivers/mpool/mpool_printk.h
+ create mode 100644 drivers/mpool/uuid.h
 
+diff --git a/drivers/mpool/assert.h b/drivers/mpool/assert.h
+new file mode 100644
+index 000000000000..a2081e71ec93
+--- /dev/null
++++ b/drivers/mpool/assert.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
++ */
++
++#ifndef MPOOL_ASSERT_H
++#define MPOOL_ASSERT_H
++
++#include <linux/bug.h>
++
++#ifdef CONFIG_MPOOL_ASSERT
++__cold __noreturn
++static inline void assertfail(const char *expr, const char *file, int line)
++{
++	pr_err("mpool assertion failed: %s in %s:%d\n", expr, file, line);
++	BUG();
++}
++
++#define ASSERT(_expr)   (likely(_expr) ? (void)0 : assertfail(#_expr, __FILE__, __LINE__))
++
++#else
++#define ASSERT(_expr)   (void)(_expr)
++#endif
++
++#endif /* MPOOL_ASSERT_H */
 diff --git a/drivers/mpool/init.c b/drivers/mpool/init.c
-index 294cf3cbbaa7..031408815b48 100644
---- a/drivers/mpool/init.c
+new file mode 100644
+index 000000000000..0493fb5b1157
+--- /dev/null
 +++ b/drivers/mpool/init.c
-@@ -8,6 +8,7 @@
- #include "mpool_printk.h"
- 
- #include "pd.h"
-+#include "smap.h"
- 
- /*
-  * Module params...
-@@ -22,16 +23,30 @@ MODULE_PARM_DESC(chunk_size_kb, "Chunk size (in KiB) for device I/O");
- 
- static void mpool_exit_impl(void)
- {
-+	smap_exit();
- 	pd_exit();
- }
- 
- static __init int mpool_init(void)
- {
-+	const char *errmsg = NULL;
- 	int rc;
- 
- 	rc = pd_init();
- 	if (rc) {
--		mp_pr_err("pd init failed", rc);
-+		errmsg = "pd init failed";
-+		goto errout;
-+	}
-+
-+	rc = smap_init();
-+	if (rc) {
-+		errmsg = "smap init failed";
-+		goto errout;
-+	}
-+
-+errout:
-+	if (rc) {
-+		mp_pr_err("%s", rc, errmsg);
- 		mpool_exit_impl();
- 	}
- 
-diff --git a/drivers/mpool/mclass.c b/drivers/mpool/mclass.c
-new file mode 100644
-index 000000000000..a81ee5ee9468
---- /dev/null
-+++ b/drivers/mpool/mclass.c
-@@ -0,0 +1,103 @@
+@@ -0,0 +1,22 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
 + */
 +
-+/*
-+ * This file contains the media class accessor functions.
-+ */
++#include <linux/module.h>
 +
-+#include <linux/errno.h>
-+
-+#include "omf_if.h"
-+#include "pd.h"
-+#include "params.h"
-+#include "mclass.h"
-+
-+void mc_init_class(struct media_class *mc, struct mc_parms *mc_parms, struct mc_smap_parms *mcsp)
++static __init int mpool_init(void)
 +{
-+	memcpy(&(mc->mc_parms), mc_parms, sizeof(*mc_parms));
-+	mc->mc_uacnt = 0;
-+	mc->mc_sparms = *mcsp;
-+}
-+
-+void mc_omf_devparm2mc_parms(struct omf_devparm_descriptor *omf_devparm, struct mc_parms *mc_parms)
-+{
-+	/* Zeroes mc_ parms because memcmp() may be used on it later. */
-+	memset(mc_parms, 0, sizeof(*mc_parms));
-+	mc_parms->mcp_classp   = omf_devparm->odp_mclassp;
-+	mc_parms->mcp_zonepg   = omf_devparm->odp_zonepg;
-+	mc_parms->mcp_sectorsz = omf_devparm->odp_sectorsz;
-+	mc_parms->mcp_devtype  = omf_devparm->odp_devtype;
-+	mc_parms->mcp_features = omf_devparm->odp_features;
-+}
-+
-+void mc_parms2omf_devparm(struct mc_parms *mc_parms, struct omf_devparm_descriptor *omf_devparm)
-+{
-+	omf_devparm->odp_mclassp  = mc_parms->mcp_classp;
-+	omf_devparm->odp_zonepg   = mc_parms->mcp_zonepg;
-+	omf_devparm->odp_sectorsz = mc_parms->mcp_sectorsz;
-+	omf_devparm->odp_devtype  = mc_parms->mcp_devtype;
-+	omf_devparm->odp_features = mc_parms->mcp_features;
-+}
-+
-+int mc_cmp_omf_devparm(struct omf_devparm_descriptor *omfd1, struct omf_devparm_descriptor *omfd2)
-+{
-+	struct mc_parms mc_parms1;
-+	struct mc_parms mc_parms2;
-+
-+	mc_omf_devparm2mc_parms(omfd1, &mc_parms1);
-+	mc_omf_devparm2mc_parms(omfd2, &mc_parms2);
-+
-+	return memcmp(&mc_parms1, &mc_parms2, sizeof(mc_parms1));
-+}
-+
-+void mc_pd_prop2mc_parms(struct pd_prop *pd_prop, struct mc_parms *mc_parms)
-+{
-+	/* Zeroes mc_ parms because memcmp() may be used on it later. */
-+	memset(mc_parms, 0, sizeof(*mc_parms));
-+	mc_parms->mcp_classp	= pd_prop->pdp_mclassp;
-+	mc_parms->mcp_zonepg	= pd_prop->pdp_zparam.dvb_zonepg;
-+	mc_parms->mcp_sectorsz	= PD_SECTORSZ(pd_prop);
-+	mc_parms->mcp_devtype	= pd_prop->pdp_devtype;
-+	mc_parms->mcp_features	= OMF_MC_FEAT_MBLOCK_TGT;
-+
-+	if (pd_prop->pdp_cmdopt & PD_CMD_SECTOR_UPDATABLE)
-+		mc_parms->mcp_features |= OMF_MC_FEAT_MLOG_TGT;
-+	if (pd_prop->pdp_cmdopt & PD_CMD_DIF_ENABLED)
-+		mc_parms->mcp_features |= OMF_MC_FEAT_CHECKSUM;
-+}
-+
-+int mc_set_spzone(struct media_class *mc, u8 spzone)
-+{
-+	if (!mc)
-+		return -EINVAL;
-+
-+	if (mc->mc_pdmc < 0)
-+		return -ENOENT;
-+
-+	mc->mc_sparms.mcsp_spzone = spzone;
-+
 +	return 0;
 +}
 +
-+static void mc_smap_parms_get_internal(struct mpcore_params *params, struct mc_smap_parms *mcsp)
++static __exit void mpool_exit(void)
 +{
-+	mcsp->mcsp_spzone = params->mp_spare;
-+	mcsp->mcsp_rgnc = params->mp_smaprgnc;
-+	mcsp->mcsp_align = params->mp_smapalign;
 +}
 +
-+int mc_smap_parms_get(struct media_class *mc, struct mpcore_params *params,
-+		      struct mc_smap_parms *mcsp)
-+{
-+	if (!mc || !mcsp)
-+		return -EINVAL;
++module_init(mpool_init);
++module_exit(mpool_exit);
 +
-+	if (mc->mc_pdmc >= 0)
-+		*mcsp = mc->mc_sparms;
-+	else
-+		mc_smap_parms_get_internal(params, mcsp);
-+
-+	return 0;
-+}
-diff --git a/drivers/mpool/smap.c b/drivers/mpool/smap.c
++MODULE_DESCRIPTION("Object Storage Media Pool (mpool)");
++MODULE_AUTHOR("Micron Technology, Inc.");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/mpool/mpool_ioctl.h b/drivers/mpool/mpool_ioctl.h
 new file mode 100644
-index 000000000000..a62aaa2f0113
+index 000000000000..599da0618a09
 --- /dev/null
-+++ b/drivers/mpool/smap.c
-@@ -0,0 +1,1031 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/drivers/mpool/mpool_ioctl.h
+@@ -0,0 +1,636 @@
++/* SPDX-License-Identifier: MIT */
 +/*
 + * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
 + */
-+/*
-+ * Space map module.
-+ *
-+ * Implements space maps for managing free space on drives.
-+ */
 +
-+#include <linux/log2.h>
-+#include <linux/delay.h>
-+#include <linux/slab.h>
++#ifndef MPOOL_IOCTL_H
++#define MPOOL_IOCTL_H
 +
-+#include "assert.h"
-+#include "mpool_printk.h"
++#include <linux/uuid.h>
++#include <linux/uio.h>
 +
-+#include "pd.h"
-+#include "sb.h"
-+#include "mclass.h"
-+#include "smap.h"
-+#include "mpcore.h"
-+
-+static struct kmem_cache  *smap_zone_cache __read_mostly;
-+
-+static int smap_drive_alloc(struct mpool_descriptor *mp, struct mc_smap_parms *mcsp, u16 pdh);
-+static int smap_drive_sballoc(struct mpool_descriptor *mp, u16 pdh);
++#ifndef __user
++#define __user
++#endif
 +
 +/*
-+ * smap API functions
++ * Maximum name lengths including NUL terminator.  Note that the maximum
++ * mpool name length is baked into libblkid and may not be changed here.
 + */
++#define MPOOL_NAMESZ_MAX            32
++#define MPOOL_LABELSZ_MAX           64
++#define PD_NAMESZ_MAX               32
 +
-+static struct smap_zone *smap_zone_find(struct rb_root *root, u64 key)
-+{
-+	struct rb_node *node = root->rb_node;
-+	struct smap_zone *elem;
++#define MPC_DEV_SUBDIR              "mpool"
++#define MPC_DEV_CTLNAME             MPC_DEV_SUBDIR "ctl"
++#define MPC_DEV_CTLPATH             "/dev/" MPC_DEV_CTLNAME
 +
-+	while (node) {
-+		elem = rb_entry(node, typeof(*elem), smz_node);
++#define MPOOL_LABEL_INVALID         ""
++#define MPOOL_LABEL_DEFAULT         "raw"
 +
-+		if (key < elem->smz_key)
-+			node = node->rb_left;
-+		else if (key > elem->smz_key)
-+			node = node->rb_right;
-+		else
-+			return elem;
-+	}
++#define MPOOL_RA_PAGES_INVALID      U32_MAX
++#define MPOOL_RA_PAGES_MAX          ((128 * 1024) / PAGE_SIZE)
 +
-+	return NULL;
-+}
++#define MPOOL_MCLASS_INVALID        MP_MED_INVALID
++#define MPOOL_MCLASS_DEFAULT        MP_MED_CAPACITY
 +
-+static int smap_zone_insert(struct rb_root *root, struct smap_zone *item)
-+{
-+	struct rb_node **pos = &root->rb_node, *parent = NULL;
-+	struct smap_zone *this;
++#define MPOOL_SPARES_INVALID        U8_MAX
++#define MPOOL_SPARES_DEFAULT        5
 +
-+	/* Figure out where to put new node */
-+	while (*pos) {
-+		this = rb_entry(*pos, typeof(*this), smz_node);
-+		parent = *pos;
++#define MPOOL_ROOT_LOG_CAP          (8 * 1024 * 1024)
 +
-+		if (item->smz_key < this->smz_key)
-+			pos = &(*pos)->rb_left;
-+		else if (item->smz_key > this->smz_key)
-+			pos = &(*pos)->rb_right;
-+		else
-+			return false;
-+	}
++#define MPOOL_MBSIZE_MB_DEFAULT     32
 +
-+	/* Add new node and rebalance tree. */
-+	rb_link_node(&item->smz_node, parent, pos);
-+	rb_insert_color(&item->smz_node, root);
++#define MPOOL_MDCNUM_DEFAULT        16
 +
-+	return true;
-+}
-+
-+int smap_mpool_init(struct mpool_descriptor *mp)
-+{
-+	struct mpool_dev_info *pd = NULL;
-+	struct media_class *mc;
-+	u64 pdh = 0;
-+	int rc = 0;
-+
-+	for (pdh = 0; pdh < mp->pds_pdvcnt; pdh++) {
-+		struct mc_smap_parms   mcsp;
-+
-+		pd = &mp->pds_pdv[pdh];
-+		mc = &mp->pds_mc[pd->pdi_mclass];
-+		rc = mc_smap_parms_get(&mp->pds_mc[mc->mc_parms.mcp_classp],
-+				       &mp->pds_params, &mcsp);
-+		if (rc)
-+			break;
-+
-+		rc = smap_drive_init(mp, &mcsp, pdh);
-+		if (rc) {
-+			mp_pr_err("smap(%s, %s): drive init failed",
-+				  rc, mp->pds_name, pd->pdi_name);
-+			break;
-+		}
-+	}
-+
-+	if (rc)
-+		smap_mpool_free(mp);
-+
-+	return rc;
-+}
-+
-+void smap_mpool_free(struct mpool_descriptor *mp)
-+{
-+	u64 pdh = 0;
-+
-+	for (pdh = 0; pdh < mp->pds_pdvcnt; pdh++)
-+		smap_drive_free(mp, pdh);
-+}
-+
-+void smap_mpool_usage(struct mpool_descriptor *mp, u8 mclass, struct mpool_usage *usage)
-+{
-+	if (mclass == MP_MED_ALL) {
-+		u32 i;
-+
-+		for (i = 0; i < MP_MED_NUMBER; i++)
-+			smap_mclass_usage(mp, i, usage);
-+	} else {
-+		smap_mclass_usage(mp, mclass, usage);
-+	}
-+}
-+
-+int smap_drive_spares(struct mpool_descriptor *mp, enum mp_media_classp mclassp, u8 spzone)
-+{
-+	struct mpool_dev_info *pd = NULL;
-+	struct media_class *mc;
-+	int rc;
-+	u8 i;
-+
-+	if (!mclass_isvalid(mclassp) || spzone > 100) {
-+		rc = -EINVAL;
-+		mp_pr_err("smap mpool %s: smap drive spares failed mclassp %d spzone %u",
-+			  rc, mp->pds_name, mclassp, spzone);
-+		return rc;
-+	}
-+
-+	/* Loop on all classes matching mclassp. */
-+	for (i = 0; i < MP_MED_NUMBER; i++) {
-+		mc = &mp->pds_mc[i];
-+		if (mc->mc_parms.mcp_classp != mclassp || mc->mc_pdmc < 0)
-+			continue;
-+
-+		pd = &mp->pds_pdv[mc->mc_pdmc];
-+
-+		spin_lock(&pd->pdi_ds.sda_dalock);
-+		/* Adjust utgt but not uact; possible for uact > utgt due to spzone change. */
-+		pd->pdi_ds.sda_utgt = (pd->pdi_ds.sda_zoneeff * (100 - spzone)) / 100;
-+		/* Adjust stgt and sact maintaining invariant that sact <= stgt */
-+		pd->pdi_ds.sda_stgt = pd->pdi_ds.sda_zoneeff - pd->pdi_ds.sda_utgt;
-+		if (pd->pdi_ds.sda_sact > pd->pdi_ds.sda_stgt) {
-+			pd->pdi_ds.sda_uact += (pd->pdi_ds.sda_sact - pd->pdi_ds.sda_stgt);
-+			pd->pdi_ds.sda_sact = pd->pdi_ds.sda_stgt;
-+		}
-+		spin_unlock(&pd->pdi_ds.sda_dalock);
-+
-+	}
-+	return 0;
-+}
-+
-+/*
-+ * Compute zone stats for drive pd per comments in smap_dev_alloc.
-+ */
-+static void smap_calc_znstats(struct mpool_dev_info *pd, struct smap_dev_znstats *zones)
-+{
-+	zones->sdv_total = pd->pdi_parm.dpr_zonetot;
-+	zones->sdv_avail = pd->pdi_ds.sda_zoneeff;
-+	zones->sdv_usable = pd->pdi_ds.sda_utgt;
-+
-+	if (pd->pdi_ds.sda_utgt > pd->pdi_ds.sda_uact)
-+		zones->sdv_fusable = pd->pdi_ds.sda_utgt - pd->pdi_ds.sda_uact;
-+	else
-+		zones->sdv_fusable = 0;
-+
-+	zones->sdv_spare = pd->pdi_ds.sda_stgt;
-+	zones->sdv_fspare = pd->pdi_ds.sda_stgt - pd->pdi_ds.sda_sact;
-+	zones->sdv_used = pd->pdi_ds.sda_uact;
-+}
-+
-+int smap_drive_usage(struct mpool_descriptor *mp, u16 pdh, struct mpool_devprops *dprop)
-+{
-+	struct mpool_dev_info *pd = &mp->pds_pdv[pdh];
-+	struct smap_dev_znstats zones;
-+	u32 zonepg = 0;
-+
-+	zonepg = pd->pdi_parm.dpr_zonepg;
-+
-+	spin_lock(&pd->pdi_ds.sda_dalock);
-+	smap_calc_znstats(pd, &zones);
-+	spin_unlock(&pd->pdi_ds.sda_dalock);
-+
-+	dprop->pdp_total = (zones.sdv_total * zonepg) << PAGE_SHIFT;
-+	dprop->pdp_avail = (zones.sdv_avail * zonepg) << PAGE_SHIFT;
-+	dprop->pdp_spare = (zones.sdv_spare * zonepg) << PAGE_SHIFT;
-+	dprop->pdp_fspare = (zones.sdv_fspare * zonepg) << PAGE_SHIFT;
-+	dprop->pdp_usable = (zones.sdv_usable * zonepg) << PAGE_SHIFT;
-+	dprop->pdp_fusable = (zones.sdv_fusable * zonepg) << PAGE_SHIFT;
-+	dprop->pdp_used = (zones.sdv_used * zonepg) << PAGE_SHIFT;
-+
-+	return 0;
-+}
-+
-+int smap_drive_init(struct mpool_descriptor *mp, struct mc_smap_parms *mcsp, u16 pdh)
-+{
-+	struct mpool_dev_info *pd __maybe_unused;
-+	int rc;
-+
-+	pd = &mp->pds_pdv[pdh];
-+
-+	if ((mcsp->mcsp_spzone > 100) || !(mcsp->mcsp_rgnc > 0)) {
-+		rc = -EINVAL;
-+		mp_pr_err("smap(%s, %s): drive init failed, spzone %u rcnt %lu", rc, mp->pds_name,
-+			  pd->pdi_name, mcsp->mcsp_spzone, (ulong)mcsp->mcsp_rgnc);
-+		return rc;
-+	}
-+
-+	rc = smap_drive_alloc(mp, mcsp, pdh);
-+	if (!rc) {
-+		rc = smap_drive_sballoc(mp, pdh);
-+		if (rc)
-+			mp_pr_err("smap(%s, %s): sb alloc failed", rc, mp->pds_name, pd->pdi_name);
-+	} else {
-+		mp_pr_err("smap(%s, %s): drive alloc failed", rc, mp->pds_name, pd->pdi_name);
-+	}
-+
-+	if (rc)
-+		smap_drive_free(mp, pdh);
-+
-+	return rc;
-+}
-+
-+void smap_drive_free(struct mpool_descriptor *mp, u16 pdh)
-+{
-+	struct mpool_dev_info *pd = &mp->pds_pdv[pdh];
-+	u8 rgn = 0;
-+
-+	if (pd->pdi_rmbktv) {
-+		struct media_class     *mc;
-+		struct mc_smap_parms    mcsp;
-+
-+		mc = &mp->pds_mc[pd->pdi_mclass];
-+		(void)mc_smap_parms_get(&mp->pds_mc[mc->mc_parms.mcp_classp],
-+					&mp->pds_params, &mcsp);
-+
-+		for (rgn = 0; rgn < mcsp.mcsp_rgnc; rgn++) {
-+			struct smap_zone   *zone, *tmp;
-+			struct rb_root     *root;
-+
-+			root = &pd->pdi_rmbktv[rgn].pdi_rmroot;
-+
-+			rbtree_postorder_for_each_entry_safe(zone, tmp, root, smz_node) {
-+				kmem_cache_free(smap_zone_cache, zone);
-+			}
-+		}
-+
-+		kfree(pd->pdi_rmbktv);
-+		pd->pdi_rmbktv = NULL;
-+	}
-+
-+	pd->pdi_ds.sda_rgnsz = 0;
-+	pd->pdi_ds.sda_rgnladdr = 0;
-+	pd->pdi_ds.sda_rgnalloc = 0;
-+	pd->pdi_ds.sda_zoneeff = 0;
-+	pd->pdi_ds.sda_utgt = 0;
-+	pd->pdi_ds.sda_uact = 0;
-+}
-+
-+static bool smap_alloccheck(struct mpool_dev_info *pd, u64 zonecnt, enum smap_space_type sapolicy)
-+{
-+	struct smap_dev_alloc *ds;
-+	bool alloced = false;
-+	u64 zoneextra;
-+
-+	ds = &pd->pdi_ds;
-+
-+	spin_lock(&ds->sda_dalock);
-+
-+	switch (sapolicy) {
-+
-+	case SMAP_SPC_USABLE_ONLY:
-+		if ((ds->sda_uact + zonecnt) > ds->sda_utgt)
-+			break;
-+
-+		ds->sda_uact = ds->sda_uact + zonecnt;
-+		alloced = true;
-+		break;
-+
-+	case SMAP_SPC_SPARE_ONLY:
-+		if ((ds->sda_sact + zonecnt) > ds->sda_stgt)
-+			break;
-+
-+		ds->sda_sact = ds->sda_sact + zonecnt;
-+		alloced = true;
-+		break;
-+
-+	case SMAP_SPC_USABLE_2_SPARE:
-+		if ((ds->sda_uact + ds->sda_sact + zonecnt) > ds->sda_zoneeff)
-+			break;
-+
-+		if ((ds->sda_uact + zonecnt) <= ds->sda_utgt) {
-+			ds->sda_uact = ds->sda_uact + zonecnt;
-+		} else {
-+			zoneextra = (ds->sda_uact + zonecnt) - ds->sda_utgt;
-+			ds->sda_uact = ds->sda_utgt;
-+			ds->sda_sact = ds->sda_sact + zoneextra;
-+		}
-+		alloced = true;
-+		break;
-+
-+	case SMAP_SPC_SPARE_2_USABLE:
-+		if ((ds->sda_sact + ds->sda_uact + zonecnt) > ds->sda_zoneeff)
-+			break;
-+
-+		if ((ds->sda_sact + zonecnt) <= ds->sda_stgt) {
-+			ds->sda_sact = ds->sda_sact + zonecnt;
-+		} else {
-+			zoneextra = (ds->sda_sact + zonecnt) - ds->sda_stgt;
-+			ds->sda_sact = ds->sda_stgt;
-+			ds->sda_uact = ds->sda_uact + zoneextra;
-+		}
-+		alloced = true;
-+		break;
-+
-+	default:
-+		break;
-+	}
-+
-+	spin_unlock(&ds->sda_dalock);
-+
-+	return alloced;
-+}
-+
-+int smap_alloc(struct mpool_descriptor *mp, u16 pdh, u64 zonecnt,
-+	       enum smap_space_type sapolicy, u64 *zoneaddr, u64 align)
-+{
-+	struct mc_smap_parms mcsp;
-+	struct mpool_dev_info *pd;
-+	struct smap_dev_alloc *ds;
-+	struct smap_zone *elem = NULL;
-+	struct rb_root *rmap = NULL;
-+	struct mutex *rmlock = NULL;
-+	struct media_class *mc;
-+	u64 fsoff = 0, fslen = 0, ualen = 0;
-+	u8 rgn = 0, rgnc;
-+	s8 rgnleft;
-+	bool res;
-+	int rc;
-+
-+	*zoneaddr = 0;
-+	pd = &mp->pds_pdv[pdh];
-+
-+	if (!zonecnt || !saptype_valid(sapolicy))
-+		return -EINVAL;
-+
-+	ASSERT(is_power_of_2(align));
-+
-+	ds = &pd->pdi_ds;
-+	mc = &mp->pds_mc[pd->pdi_mclass];
-+	rc = mc_smap_parms_get(&mp->pds_mc[mc->mc_parms.mcp_classp], &mp->pds_params, &mcsp);
-+	if (rc)
-+		return rc;
-+
-+	rgnc = mcsp.mcsp_rgnc;
-+
-+	/*
-+	 * We do not update the last rgn alloced beyond this point as it
-+	 * would incur search penalty if all the regions except one are highly
-+	 * fragmented, i.e., the last alloc rgn would never change in this case.
-+	 */
-+	spin_lock(&ds->sda_dalock);
-+	ds->sda_rgnalloc = (ds->sda_rgnalloc + 1) % rgnc;
-+	rgn = ds->sda_rgnalloc;
-+	spin_unlock(&ds->sda_dalock);
-+
-+	rgnleft = rgnc;
-+
-+	/* Search per-rgn space maps for contiguous region. */
-+	while (rgnleft--) {
-+		struct rb_node *node;
-+
-+		rmlock = &pd->pdi_rmbktv[rgn].pdi_rmlock;
-+		rmap = &pd->pdi_rmbktv[rgn].pdi_rmroot;
-+
-+		mutex_lock(rmlock);
-+
-+		for (node = rb_first(rmap); node; node = rb_next(node)) {
-+			elem  = rb_entry(node, struct smap_zone, smz_node);
-+			fsoff = elem->smz_key;
-+			fslen = elem->smz_value;
-+
-+			if (zonecnt > fslen)
-+				continue;
-+
-+			if (IS_ALIGNED(fsoff, align)) {
-+				ualen = 0;
-+				break;
-+			}
-+
-+			ualen = ALIGN(fsoff, align) - fsoff;
-+			if (ualen + zonecnt > fslen)
-+				continue;
-+
-+			break;
-+		}
-+
-+		if (node)
-+			break;
-+
-+		mutex_unlock(rmlock);
-+
-+		rgn = (rgn + 1) % rgnc;
-+	}
-+
-+	if (rgnleft < 0)
-+		return -ENOSPC;
-+
-+	/* Alloc from this free space if permitted. First fit. */
-+	res = smap_alloccheck(pd, zonecnt, sapolicy);
-+	if (!res) {
-+		mutex_unlock(rmlock);
-+		return -ENOSPC;
-+	}
-+
-+	fsoff = fsoff + ualen;
-+	fslen = fslen - ualen;
-+
-+	*zoneaddr = fsoff;
-+	rb_erase(&elem->smz_node, rmap);
-+
-+	if (zonecnt < fslen) {
-+		/* Re-use elem */
-+		elem->smz_key   = fsoff + zonecnt;
-+		elem->smz_value = fslen - zonecnt;
-+		smap_zone_insert(rmap, elem);
-+		elem = NULL;
-+	}
-+
-+	if (ualen) {
-+		if (!elem) {
-+			elem = kmem_cache_alloc(smap_zone_cache, GFP_ATOMIC);
-+			if (!elem) {
-+				mutex_unlock(rmlock);
-+				return -ENOMEM;
-+			}
-+		}
-+
-+		elem->smz_key   = fsoff - ualen;
-+		elem->smz_value = ualen;
-+		smap_zone_insert(rmap, elem);
-+		elem = NULL;
-+	}
-+
-+	mutex_unlock(rmlock);
-+
-+	if (elem)
-+		kmem_cache_free(smap_zone_cache, elem);
-+
-+	return 0;
-+}
-+
-+/*
-+ * smap internal functions
-+ */
-+
-+/*
-+ * Init empty space map for drive pdh with a % spare zones of spzone.
-+ * Returns: 0 if successful, -errno otherwise...
-+ */
-+static int smap_drive_alloc(struct mpool_descriptor *mp, struct mc_smap_parms *mcsp, u16 pdh)
-+{
-+	struct mpool_dev_info *pd = &mp->pds_pdv[pdh];
-+	struct smap_zone *urb_elem = NULL;
-+	struct smap_zone *found_ue = NULL;
-+	u32 rgnsz = 0;
-+	u8 rgn = 0;
-+	u8 rgn2 = 0;
-+	u8 rgnc;
-+	int rc;
-+
-+	rgnc  = mcsp->mcsp_rgnc;
-+	rgnsz = pd->pdi_parm.dpr_zonetot / rgnc;
-+	if (!rgnsz) {
-+		rc = -EINVAL;
-+		mp_pr_err("smap(%s, %s): drive alloc failed, invalid rgn size",
-+			  rc, mp->pds_name, pd->pdi_name);
-+		return rc;
-+	}
-+
-+	/* Allocate and init per channel space maps and associated locks */
-+	pd->pdi_rmbktv = kcalloc(rgnc, sizeof(*pd->pdi_rmbktv), GFP_KERNEL);
-+	if (!pd->pdi_rmbktv) {
-+		rc = -ENOMEM;
-+		mp_pr_err("smap(%s, %s): rmbktv alloc failed", rc, mp->pds_name, pd->pdi_name);
-+		return rc;
-+	}
-+
-+	/* Define all space on all channels as being free (drive empty) */
-+	for (rgn = 0; rgn < rgnc; rgn++) {
-+		mutex_init(&pd->pdi_rmbktv[rgn].pdi_rmlock);
-+
-+		urb_elem = kmem_cache_alloc(smap_zone_cache, GFP_KERNEL);
-+		if (!urb_elem) {
-+			struct rb_root *rmroot;
-+
-+			for (rgn2 = 0; rgn2 < rgn; rgn2++) {
-+				rmroot = &pd->pdi_rmbktv[rgn2].pdi_rmroot;
-+
-+				found_ue = smap_zone_find(rmroot, 0);
-+				if (found_ue) {
-+					rb_erase(&found_ue->smz_node, rmroot);
-+					kmem_cache_free(smap_zone_cache, found_ue);
-+				}
-+			}
-+
-+			kfree(pd->pdi_rmbktv);
-+			pd->pdi_rmbktv = NULL;
-+
-+			rc = -ENOMEM;
-+			mp_pr_err("smap(%s, %s): rb node alloc failed, rgn %u",
-+				  rc, mp->pds_name, pd->pdi_name, rgn);
-+			return rc;
-+		}
-+
-+		urb_elem->smz_key = rgn * rgnsz;
-+		if (rgn < rgnc - 1)
-+			urb_elem->smz_value = rgnsz;
-+		else
-+			urb_elem->smz_value = pd->pdi_parm.dpr_zonetot - (rgn * rgnsz);
-+		smap_zone_insert(&pd->pdi_rmbktv[rgn].pdi_rmroot, urb_elem);
-+	}
-+
-+	spin_lock_init(&pd->pdi_ds.sda_dalock);
-+	pd->pdi_ds.sda_rgnalloc = 0;
-+	pd->pdi_ds.sda_rgnsz = rgnsz;
-+	pd->pdi_ds.sda_rgnladdr = (rgnc - 1) * rgnsz;
-+	pd->pdi_ds.sda_zoneeff = pd->pdi_parm.dpr_zonetot;
-+	pd->pdi_ds.sda_utgt = (pd->pdi_ds.sda_zoneeff * (100 - mcsp->mcsp_spzone)) / 100;
-+	pd->pdi_ds.sda_uact = 0;
-+	pd->pdi_ds.sda_stgt = pd->pdi_ds.sda_zoneeff - pd->pdi_ds.sda_utgt;
-+	pd->pdi_ds.sda_sact = 0;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Add entry to space map covering superblocks on drive pdh.
-+ * Returns: 0 if successful, -errno otherwise...
-+ */
-+static int smap_drive_sballoc(struct mpool_descriptor *mp, u16 pdh)
-+{
-+	struct mpool_dev_info *pd = &mp->pds_pdv[pdh];
-+	int rc;
-+	u32 cnt;
-+
-+	cnt = sb_zones_for_sbs(&(pd->pdi_prop));
-+	if (cnt < 1) {
-+		rc = -ESPIPE;
-+		mp_pr_err("smap(%s, %s): identifying sb failed", rc, mp->pds_name, pd->pdi_name);
-+		return rc;
-+	}
-+
-+	rc = smap_insert(mp, pdh, 0, cnt);
-+	if (rc)
-+		mp_pr_err("smap(%s, %s): insert failed, cnt %u",
-+			  rc, mp->pds_name, pd->pdi_name, cnt);
-+
-+	return rc;
-+}
-+
-+void smap_mclass_usage(struct mpool_descriptor *mp, u8 mclass, struct mpool_usage *usage)
-+{
-+	struct smap_dev_znstats zones;
-+	struct mpool_dev_info *pd;
-+	struct media_class *mc;
-+	u32 zonepg = 0;
-+
-+	mc = &mp->pds_mc[mclass];
-+	if (mc->mc_pdmc < 0)
-+		return;
-+
-+	pd = &mp->pds_pdv[mc->mc_pdmc];
-+	zonepg = pd->pdi_zonepg;
-+
-+	spin_lock(&pd->pdi_ds.sda_dalock);
-+	smap_calc_znstats(pd, &zones);
-+	spin_unlock(&pd->pdi_ds.sda_dalock);
-+
-+	usage->mpu_total  += ((zones.sdv_total * zonepg) << PAGE_SHIFT);
-+	usage->mpu_usable += ((zones.sdv_usable * zonepg) << PAGE_SHIFT);
-+	usage->mpu_used   += ((zones.sdv_used * zonepg) << PAGE_SHIFT);
-+	usage->mpu_spare  += ((zones.sdv_spare * zonepg) << PAGE_SHIFT);
-+	usage->mpu_fspare += ((zones.sdv_fspare * zonepg) << PAGE_SHIFT);
-+	usage->mpu_fusable += ((zones.sdv_fusable * zonepg) << PAGE_SHIFT);
-+}
-+
-+static u32 smap_addr2rgn(struct mpool_descriptor *mp, struct mpool_dev_info *pd, u64 zoneaddr)
-+{
-+	struct mc_smap_parms   mcsp;
-+
-+	mc_smap_parms_get(&mp->pds_mc[pd->pdi_mclass], &mp->pds_params, &mcsp);
-+
-+	if (zoneaddr >= pd->pdi_ds.sda_rgnladdr)
-+		return mcsp.mcsp_rgnc - 1;
-+
-+	return zoneaddr / pd->pdi_ds.sda_rgnsz;
-+}
-+
-+/*
-+ * Add entry to space map in rgn starting at zoneaddr
-+ * and continuing for zonecnt blocks.
-+ *
-+ *   Returns: 0 if successful, -errno otherwise...
-+ */
-+static int smap_insert_byrgn(struct mpool_dev_info *pd, u32 rgn, u64 zoneaddr, u16 zonecnt)
-+{
-+	const char *msg __maybe_unused;
-+	struct smap_zone *elem = NULL;
-+	struct rb_root *rmap;
-+	struct rb_node *node;
-+	u64 fsoff, fslen;
-+	int rc;
-+
-+	fsoff = fslen = 0;
-+	rc = 0;
-+	msg = NULL;
-+
-+	mutex_lock(&pd->pdi_rmbktv[rgn].pdi_rmlock);
-+	rmap = &pd->pdi_rmbktv[rgn].pdi_rmroot;
-+
-+	node = rmap->rb_node;
-+	if (!node) {
-+		msg = "invalid rgn map";
-+		rc = -EINVAL;
-+		goto errout;
-+	}
-+
-+	/* Use binary search to find the insertion point in the tree.
-+	 */
-+	while (node) {
-+		elem = rb_entry(node, struct smap_zone, smz_node);
-+
-+		if (zoneaddr < elem->smz_key)
-+			node = node->rb_left;
-+		else if (zoneaddr > elem->smz_key + elem->smz_value)
-+			node = node->rb_right;
-+		else
-+			break;
-+	}
-+
-+	fsoff = elem->smz_key;
-+	fslen = elem->smz_value;
-+
-+	/* Bail out if we're past zoneaddr in space map w/o finding the required chunk. */
-+	if (zoneaddr < fsoff) {
-+		elem = NULL;
-+		msg = "requested range not free";
-+		rc = -EINVAL;
-+		goto errout;
-+	}
-+
-+	/* The allocation must fit entirely within this chunk or it fails. */
-+	if (zoneaddr + zonecnt > fsoff + fslen) {
-+		elem = NULL;
-+		msg = "requested range does not fit";
-+		rc = -EINVAL;
-+		goto errout;
-+	}
-+
-+	rb_erase(&elem->smz_node, rmap);
-+
-+	if (zoneaddr > fsoff) {
-+		elem->smz_key = fsoff;
-+		elem->smz_value = zoneaddr - fsoff;
-+		smap_zone_insert(rmap, elem);
-+		elem = NULL;
-+	}
-+	if (zoneaddr + zonecnt < fsoff + fslen) {
-+		if (!elem)
-+			elem = kmem_cache_alloc(smap_zone_cache, GFP_KERNEL);
-+		if (!elem) {
-+			msg = "chunk alloc failed";
-+			rc = -ENOMEM;
-+			goto errout;
-+		}
-+
-+		elem->smz_key = zoneaddr + zonecnt;
-+		elem->smz_value = (fsoff + fslen) - (zoneaddr + zonecnt);
-+		smap_zone_insert(rmap, elem);
-+		elem = NULL;
-+	}
-+
-+	/* Insert consumes usable only; possible for uact > utgt.*/
-+	spin_lock(&pd->pdi_ds.sda_dalock);
-+	pd->pdi_ds.sda_uact = pd->pdi_ds.sda_uact + zonecnt;
-+	spin_unlock(&pd->pdi_ds.sda_dalock);
-+
-+errout:
-+	mutex_unlock(&pd->pdi_rmbktv[rgn].pdi_rmlock);
-+
-+	if (elem != NULL) {
-+		/* Was an exact match */
-+		ASSERT((zoneaddr == fsoff) && (zonecnt == fslen));
-+		kmem_cache_free(smap_zone_cache, elem);
-+	}
-+
-+	if (rc)
-+		mp_pr_err("smap pd %s: %s, zoneaddr %lu zonecnt %u fsoff %lu fslen %lu",
-+			  rc, pd->pdi_name, msg ? msg : "(no detail)",
-+			  (ulong)zoneaddr, zonecnt, (ulong)fsoff, (ulong)fslen);
-+
-+	return rc;
-+}
-+
-+int smap_insert(struct mpool_descriptor *mp, u16 pdh, u64 zoneaddr, u32 zonecnt)
-+{
-+	struct mpool_dev_info *pd = &mp->pds_pdv[pdh];
-+	u32 rstart = 0, rend = 0;
-+	u64 raddr = 0, rcnt = 0;
-+	u64 zoneadded = 0;
-+	int rgn = 0;
-+	int rc = 0;
-+
-+	if (zoneaddr >= pd->pdi_parm.dpr_zonetot ||
-+	    (zoneaddr + zonecnt) > pd->pdi_parm.dpr_zonetot) {
-+		rc = -EINVAL;
-+		mp_pr_err("smap(%s, %s): insert failed, zoneaddr %lu zonecnt %u zonetot %u",
-+			  rc, mp->pds_name, pd->pdi_name, (ulong)zoneaddr,
-+			  zonecnt, pd->pdi_parm.dpr_zonetot);
-+		return rc;
-+	}
-+
-+	/*
-+	 * smap_alloc() never crosses regions. however a previous instantiation
-+	 * of this mpool might have used a different value of rgn count
-+	 * so must handle inserts that cross regions.
-+	 */
-+	rstart = smap_addr2rgn(mp, pd, zoneaddr);
-+	rend = smap_addr2rgn(mp, pd, zoneaddr + zonecnt - 1);
-+	zoneadded = 0;
-+
-+	for (rgn = rstart; rgn < rend + 1; rgn++) {
-+		/* Compute zone address and count for this rgn */
-+		if (rgn == rstart)
-+			raddr = zoneaddr;
-+		else
-+			raddr = (u64)rgn * pd->pdi_ds.sda_rgnsz;
-+
-+		if (rgn < rend)
-+			rcnt = ((rgn + 1) * pd->pdi_ds.sda_rgnsz) - raddr;
-+		else
-+			rcnt = zonecnt - zoneadded;
-+
-+		rc = smap_insert_byrgn(pd, rgn, raddr, rcnt);
-+		if (rc) {
-+			mp_pr_err("smap(%s, %s): insert byrgn failed, rgn %d raddr %lu rcnt %lu",
-+				  rc, mp->pds_name, pd->pdi_name, rgn, (ulong)raddr, (ulong)rcnt);
-+			break;
-+		}
-+		zoneadded = zoneadded + rcnt;
-+	}
-+
-+	return rc;
-+}
 +
 +/**
-+ * smap_free_byrgn() - free the specified range of zones
-+ * @pd:         physical device object
-+ * @rgn:       allocation rgn specifier
-+ * @zoneaddr:    offset into the space map
-+ * @zonecnt:     length of range to be freed
-+ *
-+ * Free the given range of zone (i.e., [%zoneaddr, %zoneaddr + %zonecnt])
-+ * back to the indicated space map.  Always coalesces ranges in the space
-+ * map that abut the range to be freed so as to minimize fragmentation.
-+ *
-+ * Return: 0 if successful, -errno otherwise...
++ * mp_mgmt_flags - Mpool Management Flags
++ * @MP_FLAGS_FORCE:
++ * @MP_PERMIT_META_CONV: permit mpool metadata conversion. That is, allow the
++ *	mpool activate to write back the mpool metadata to the latest version
++ *	used by the binary activating the mpool.
++ * @MP_FLAGS_RESIZE: Resize mpool
 + */
-+static int smap_free_byrgn(struct mpool_dev_info *pd, u32 rgn, u64 zoneaddr, u32 zonecnt)
++enum mp_mgmt_flags {
++	MP_FLAGS_FORCE,
++	MP_FLAGS_PERMIT_META_CONV,
++	MP_FLAGS_RESIZE,
++};
++
++/**
++ * mp_media_classp = Media classes
++ *
++ * @MP_MED_STAGING:  Initial data ingest, hot data storage, or similar.
++ * @MP_MED_CAPACITY: Primary data storage, cold data, or similar.
++ */
++enum mp_media_classp {
++	MP_MED_STAGING   = 0,
++	MP_MED_CAPACITY  = 1,
++};
++
++#define MP_MED_BASE        MP_MED_STAGING
++#define MP_MED_NUMBER      (MP_MED_CAPACITY + 1)
++#define MP_MED_INVALID     U8_MAX
++
++/**
++ * struct mpool_devprops -
++ * @pdp_devid:   UUID for drive
++ * @pdp_mclassp: enum mp_media_classp
++ * @pdp_status:  enum pd_status
++ * @pdp_total:   raw capacity of drive
++ * @pdp_avail:   available capacity (total - bad zones) of drive
++ * @pdp_spare:   spare capacity of drive
++ * @pdp_fspare:  free spare capacity of drive
++ * @pdp_usable:  usable capacity of drive
++ * @pdp_fusable: free usable capacity of drive
++ * @pdp_used:    used capacity of drive:
++ */
++struct mpool_devprops {
++	uuid_le    pdp_devid;
++	uint8_t    pdp_mclassp;
++	uint8_t    pdp_status;
++	uint8_t    pdp_rsvd1[6];
++	uint64_t   pdp_total;
++	uint64_t   pdp_avail;
++	uint64_t   pdp_spare;
++	uint64_t   pdp_fspare;
++	uint64_t   pdp_usable;
++	uint64_t   pdp_fusable;
++	uint64_t   pdp_used;
++	uint64_t   pdp_rsvd2;
++};
++
++/**
++ * struct mpool_params -
++ * @mp_poolid:          UUID of mpool
++ * @mp_type:            user-specified identifier
++ * @mp_uid:
++ * @mp_gid:
++ * @mp_mode:
++ * @mp_stat:            overall mpool status (enum mpool_status)
++ * @mp_mdc_captgt:      user MDC capacity
++ * @mp_oidv:            user MDC OIDs
++ * @mp_ra_pages_max:    max VMA map readahead pages
++ * @mp_vma_size_max:    max VMA map size (log2)
++ * @mp_mblocksz:        mblock size by media class (MiB)
++ * @mp_utype:           user-defined type
++ * @mp_label:           user specified label
++ * @mp_name:            mpool name (2x for planned expansion)
++ */
++struct mpool_params {
++	uuid_le     mp_poolid;
++	uid_t       mp_uid;
++	gid_t       mp_gid;
++	mode_t      mp_mode;
++	uint8_t     mp_stat;
++	uint8_t     mp_spare_cap;
++	uint8_t     mp_spare_stg;
++	uint8_t     mp_rsvd0;
++	uint64_t    mp_mdc_captgt;
++	uint64_t    mp_oidv[2];
++	uint32_t    mp_ra_pages_max;
++	uint32_t    mp_vma_size_max;
++	uint32_t    mp_mblocksz[MP_MED_NUMBER];
++	uint16_t    mp_mdc0cap;
++	uint16_t    mp_mdcncap;
++	uint16_t    mp_mdcnum;
++	uint16_t    mp_rsvd1;
++	uint32_t    mp_rsvd2;
++	uint64_t    mp_rsvd3;
++	uint64_t    mp_rsvd4;
++	uuid_le     mp_utype;
++	char        mp_label[MPOOL_LABELSZ_MAX];
++	char        mp_name[MPOOL_NAMESZ_MAX * 2];
++};
++
++/**
++ * struct mpool_usage - in bytes
++ * @mpu_total:   raw capacity for all drives
++ * @mpu_usable:  usable capacity for all drives
++ * @mpu_fusable: free usable capacity for all drives
++ * @mpu_used:    used capacity for all drives; possible for
++ *               used > usable when fusable=0; see smap
++ *               module for details
++ * @mpu_spare:   total spare space
++ * @mpu_fspare:  free spare space
++ *
++ * @mpu_mblock_alen: mblock allocated length
++ * @mpu_mblock_wlen: mblock written length
++ * @mpu_mlog_alen:   mlog allocated length
++ * @mpu_mblock_cnt:  number of active mblocks
++ * @mpu_mlog_cnt:    number of active mlogs
++ */
++struct mpool_usage {
++	uint64_t   mpu_total;
++	uint64_t   mpu_usable;
++	uint64_t   mpu_fusable;
++	uint64_t   mpu_used;
++	uint64_t   mpu_spare;
++	uint64_t   mpu_fspare;
++
++	uint64_t   mpu_alen;
++	uint64_t   mpu_wlen;
++	uint64_t   mpu_mblock_alen;
++	uint64_t   mpu_mblock_wlen;
++	uint64_t   mpu_mlog_alen;
++	uint32_t   mpu_mblock_cnt;
++	uint32_t   mpu_mlog_cnt;
++};
++
++/**
++ * mpool_mclass_xprops -
++ * @mc_devtype: type of devices in the media class
++ *                  (enum pd_devtype)
++ * @mc_mclass: media class (enum mp_media_classp)
++ * @mc_sectorsz: media class (enum mp_media_classp)
++ * @mc_spare: percent spare zones for drives
++ * @mc_uacnt: UNAVAIL status drive count
++ * @mc_zonepg: pages per zone
++ * @mc_features: feature bitmask
++ * @mc_usage: feature bitmask
++ */
++struct mpool_mclass_xprops {
++	uint8_t                    mc_devtype;
++	uint8_t                    mc_mclass;
++	uint8_t                    mc_sectorsz;
++	uint8_t                    mc_rsvd1;
++	uint32_t                   mc_spare;
++	uint16_t                   mc_uacnt;
++	uint16_t                   mc_rsvd2;
++	uint32_t                   mc_zonepg;
++	uint64_t                   mc_features;
++	uint64_t                   mc_rsvd3;
++	struct mpool_usage         mc_usage;
++};
++
++/**
++ * mpool_mclass_props -
++ *
++ * @mc_mblocksz:   mblock size in MiB
++ * @mc_rsvd:       reserved struct field (for future use)
++ * @mc_total:      total space in the media class (mc_usable + mc_spare)
++ * @mc_usable:     usable space in bytes
++ * @mc_used:       bytes allocated from usable space
++ * @mc_spare:      spare space in bytes
++ * @mc_spare_used: bytes allocated from spare space
++ */
++struct mpool_mclass_props {
++	uint32_t   mc_mblocksz;
++	uint32_t   mc_rsvd;
++	uint64_t   mc_total;
++	uint64_t   mc_usable;
++	uint64_t   mc_used;
++	uint64_t   mc_spare;
++	uint64_t   mc_spare_used;
++};
++
++/**
++ * struct mpool_xprops - Extended mpool properties
++ * @ppx_params: mpool configuration parameters
++ * @ppx_drive_spares: percent spare zones for drives in each media class
++ * @ppx_uacnt:  UNAVAIL status drive count in each media class
++ */
++struct mpool_xprops {
++	struct mpool_params     ppx_params;
++	uint8_t                 ppx_rsvd[MP_MED_NUMBER];
++	uint8_t                 ppx_drive_spares[MP_MED_NUMBER];
++	uint16_t                ppx_uacnt[MP_MED_NUMBER];
++	uint32_t                ppx_pd_mclassv[MP_MED_NUMBER];
++	char                    ppx_pd_namev[MP_MED_NUMBER][PD_NAMESZ_MAX];
++};
++
++
++/*
++ * struct mblock_props -
++ *
++ * @mpr_objid:        mblock identifier
++ * @mpr_alloc_cap:    allocated capacity in bytes
++ * @mpr_write_len:    written user-data in bytes
++ * @mpr_optimal_wrsz: optimal write size(in bytes) for all but the last incremental mblock write
++ * @mpr_mclassp:      media class
++ * @mpr_iscommitted:  Is this mblock committed?
++ */
++struct mblock_props {
++	uint64_t                mpr_objid;
++	uint32_t                mpr_alloc_cap;
++	uint32_t                mpr_write_len;
++	uint32_t                mpr_optimal_wrsz;
++	uint32_t                mpr_mclassp; /* enum mp_media_classp */
++	uint8_t                 mpr_iscommitted;
++	uint8_t                 mpr_rsvd1[7];
++	uint64_t                mpr_rsvd2;
++};
++
++struct mblock_props_ex {
++	struct mblock_props     mbx_props;
++	uint8_t                 mbx_zonecnt;      /* zone count per strip */
++	uint8_t                 mbx_rsvd1[7];
++	uint64_t                mbx_rsvd2;
++};
++
++
++/*
++ * enum mlog_open_flags -
++ * @MLOG_OF_COMPACT_SEM: Enforce compaction semantics
++ * @MLOG_OF_SKIP_SER:    Appends and reads are guaranteed to be serialized
++ *                       outside of the mlog API
++ */
++enum mlog_open_flags {
++	MLOG_OF_COMPACT_SEM = 0x1,
++	MLOG_OF_SKIP_SER    = 0x2,
++};
++
++/*
++ * NOTE:
++ * + a value of 0 for targets (*tgt) means no specific target and the
++ *   allocator is free to choose based on media class configuration
++ */
++struct mlog_capacity {
++	uint64_t    lcp_captgt;       /* capacity target for mlog in bytes */
++	uint8_t     lcp_spare;        /* true if alloc mlog from spare space */
++	uint8_t     lcp_rsvd1[7];
++};
++
++/*
++ * struct mlog_props -
++ *
++ * @lpr_uuid:        UUID or mlog magic
++ * @lpr_objid:       mlog identifier
++ * @lpr_alloc_cap:   maximum capacity in bytes
++ * @lpr_gen:         generation no. (user mlogs)
++ * @lpr_mclassp:     media class
++ * @lpr_iscommitted: Is this mlog committed?
++ */
++struct mlog_props {
++	uuid_le     lpr_uuid;
++	uint64_t    lpr_objid;
++	uint64_t    lpr_alloc_cap;
++	uint64_t    lpr_gen;
++	uint8_t     lpr_mclassp;
++	uint8_t     lpr_iscommitted;
++	uint8_t     lpr_rsvd1[6];
++	uint64_t    lpr_rsvd2;
++};
++
++/*
++ * struct mlog_props_ex -
++ *
++ * @lpx_props:
++ * @lpx_totsec:   total number of sectors
++ * @lpx_zonecnt:   zone count per strip
++ * @lpx_state:    mlog layout state
++ * @lpx_secshift: sector shift
++ */
++struct mlog_props_ex {
++	struct mlog_props   lpx_props;
++	uint32_t            lpx_totsec;
++	uint32_t            lpx_zonecnt;
++	uint8_t             lpx_state;
++	uint8_t             lpx_secshift;
++	uint8_t             lpx_rsvd1[6];
++	uint64_t            lpx_rsvd2;
++};
++
++
++/**
++ * enum mdc_open_flags -
++ * @MDC_OF_SKIP_SER: appends and reads are guaranteed to be serialized
++ *                   outside of the MDC API
++ */
++enum mdc_open_flags {
++	MDC_OF_SKIP_SER  = 0x1,
++};
++
++/**
++ * struct mdc_capacity -
++ * @mdt_captgt: capacity target for mlog in bytes
++ * @mpt_spare:  true if alloc MDC from spare space
++ */
++struct mdc_capacity {
++	uint64_t   mdt_captgt;
++	bool       mdt_spare;
++};
++
++/**
++ * struct mdc_props -
++ * @mdc_objid1:
++ * @mdc_objid2:
++ * @mdc_alloc_cap:
++ * @mdc_mclassp:
++ */
++struct mdc_props {
++	uint64_t               mdc_objid1;
++	uint64_t               mdc_objid2;
++	uint64_t               mdc_alloc_cap;
++	enum mp_media_classp   mdc_mclassp;
++};
++
++
++/**
++ * enum mpc_vma_advice -
++ * @MPC_VMA_COLD:
++ * @MPC_VMA_WARM:
++ * @MPC_VMA_HOT:
++ * @MPC_VMA_PINNED:
++ */
++enum mpc_vma_advice {
++	MPC_VMA_COLD = 0,
++	MPC_VMA_WARM,
++	MPC_VMA_HOT,
++	MPC_VMA_PINNED
++};
++
++
++/**
++ * struct pd_znparam - zone parameter arg used in compute/set API functions
++ * @dvb_zonepg:     zone size in PAGE_SIZE units.
++ * @dvb_zonetot:    total number of zones
++ */
++struct pd_znparam {
++	uint32_t   dvb_zonepg;
++	uint32_t   dvb_zonetot;
++	uint64_t   dvb_rsvd1;
++};
++
++#define PD_DEV_ID_LEN              64
++
++/**
++ * struct pd_prop - PD properties
++ * @pdp_didstr:         drive id string (model)
++ * @pdp_devtype:	device type (enum pd_devtype)
++ * @pdp_phys_if:	physical interface of the drive
++ *			Determined by the device discovery.
++ *			(device_phys_if)
++ * @pdp_mclassp:        performance characteristic of the media class
++ *			Determined by the user, not by the device discovery.
++ *			(enum mp_media_classp)
++ * @pdp_cmdopt:         enum pd_cmd_opt. Features of the PD.
++ * @pdp_zparam:	zone parameters
++ * @pdp_discard_granularity: specified by
++ *	/sys/block/<disk>/queue/discard_granularity
++ * @pdp_sectorsz:	Sector size, exponent base 2
++ * @pdp_optiosz:        Optimal IO size
++ * @pdp_devsz:		device size in bytes
++ *
++ * Note: in order to avoid passing enums across user-kernel boundary
++ * declare the following as uint8_t
++ * pdp_devtype: enum pd_devtype
++ * pdp_devstate: enum pd_state
++ * pdp_phys_if: enum device_phys_if
++ * pdp_mclassp: enum mp_media_classp
++ */
++struct pd_prop {
++	char		        pdp_didstr[PD_DEV_ID_LEN];
++	uint8_t                 pdp_devtype;
++	uint8_t                 pdp_devstate;
++	uint8_t                 pdp_phys_if;
++	uint8_t                 pdp_mclassp;
++	bool                    pdp_fua;
++	uint64_t                pdp_cmdopt;
++
++	struct pd_znparam       pdp_zparam;
++	uint32_t                pdp_discard_granularity;
++	uint32_t                pdp_sectorsz;
++	uint32_t                pdp_optiosz;
++	uint32_t                pdp_rsvd2;
++	uint64_t	        pdp_devsz;
++	uint64_t	        pdp_rsvd3;
++};
++
++
++struct mpioc_mpool {
++	struct mpool_params     mp_params;
++	uint32_t                mp_flags;       /* mp_mgmt_flags */
++	uint32_t                mp_dpathc;      /* Count of device paths */
++	uint32_t                mp_dpathssz;    /* Length of mp_dpaths */
++	uint32_t                mp_rsvd1;
++	uint64_t                mp_rsvd2;
++	char __user            *mp_dpaths;      /* Newline separated paths */
++	struct pd_prop __user  *mp_pd_prop;     /* mp_dpathc elements */
++};
++
++/**
++ * struct mpioc_params -
++ * @mps_params;
++ */
++struct mpioc_params {
++	struct mpool_params     mps_params;
++};
++
++struct mpioc_mclass {
++	struct mpool_mclass_xprops __user  *mcl_xprops;
++	uint32_t                            mcl_cnt;
++	uint32_t                            mcl_rsvd1;
++};
++
++struct mpioc_drive {
++	uint32_t	        drv_flags;   /* mp_mgmt_flags */
++	uint32_t	        drv_rsvd1;
++	uint32_t                drv_dpathc;  /* Count of device paths */
++	uint32_t                drv_dpathssz;/* Length of mp_dpaths */
++	struct pd_prop __user  *drv_pd_prop; /* mp_dpathc elements */
++	char __user            *drv_dpaths;  /* Newline separated device paths*/
++};
++
++enum mpioc_list_cmd {
++	MPIOC_LIST_CMD_INVALID     = 0,
++	MPIOC_LIST_CMD_PROP_GET    = 1,       /* Used by mpool get command */
++	MPIOC_LIST_CMD_PROP_LIST   = 2,       /* Used by mpool list command */
++	MPIOC_LIST_CMD_LAST = MPIOC_LIST_CMD_PROP_LIST,
++};
++
++struct mpioc_list {
++	uint32_t        ls_cmd;     /* enum mpioc_list_cmd */
++	uint32_t        ls_listc;
++	void __user    *ls_listv;
++};
++
++struct mpioc_prop {
++	struct mpool_xprops         pr_xprops;
++	struct mpool_usage          pr_usage;
++	struct mpool_mclass_xprops  pr_mcxv[MP_MED_NUMBER];
++	uint32_t                    pr_mcxc;
++	uint32_t                    pr_rsvd1;
++	uint64_t                    pr_rsvd2;
++};
++
++struct mpioc_devprops {
++	char                    dpr_pdname[PD_NAMESZ_MAX];
++	struct mpool_devprops   dpr_devprops;
++};
++
++/**
++ * struct mpioc_mblock:
++ * @mb_objid:   mblock unique ID (permanent)
++ * @mb_offset:  mblock read offset (ephemeral)
++ * @mb_props:
++ * @mb_layout
++ * @mb_spare:
++ * @mb_mclassp: enum mp_media_classp, declared as uint8_t
++ */
++struct mpioc_mblock {
++	uint64_t                mb_objid;
++	int64_t                 mb_offset;
++	struct mblock_props_ex  mb_props;
++	uint8_t                 mb_spare;
++	uint8_t                 mb_mclassp;
++	uint16_t                mb_rsvd1;
++	uint32_t                mb_rsvd2;
++	uint64_t                mb_rsvd3;
++};
++
++struct mpioc_mblock_id {
++	uint64_t    mi_objid;
++};
++
++#define MPIOC_KIOV_MAX          (1024)
++
++struct mpioc_mblock_rw {
++	uint64_t                    mb_objid;
++	int64_t                     mb_offset;
++	uint32_t                    mb_rsvd2;
++	uint16_t                    mb_rsvd3;
++	uint16_t                    mb_iov_cnt;
++	const struct iovec __user  *mb_iov;
++};
++
++struct mpioc_mlog {
++	uint64_t                ml_objid;
++	uint64_t                ml_rsvd;
++	struct mlog_props_ex    ml_props;
++	struct mlog_capacity    ml_cap;
++	uint8_t                 ml_mclassp; /* enum mp_media_classp */
++	uint8_t                 ml_rsvd1[7];
++	uint64_t                ml_rsvd2;
++};
++
++struct mpioc_mlog_id {
++	uint64_t    mi_objid;
++	uint64_t    mi_gen;
++	uint8_t     mi_state;
++	uint8_t     mi_rsvd1[7];
++};
++
++struct mpioc_mlog_io {
++	uint64_t                mi_objid;
++	int64_t                 mi_off;
++	uint8_t                 mi_op;
++	uint8_t                 mi_rsvd1[5];
++	uint16_t                mi_iovc;
++	struct iovec __user    *mi_iov;
++	uint64_t                mi_rsvd2;
++};
++
++struct mpioc_vma {
++	uint32_t            im_advice;
++	uint32_t            im_mbidc;
++	uint64_t __user    *im_mbidv;
++	uint64_t            im_bktsz;
++	int64_t             im_offset;
++	uint64_t            im_len;
++	uint64_t            im_vssp;
++	uint64_t            im_rssp;
++	uint64_t            im_rsvd;
++};
++
++union mpioc_union {
++	struct mpioc_mpool      mpu_mpool;
++	struct mpioc_drive      mpu_drive;
++	struct mpioc_params     mpu_params;
++	struct mpioc_mclass     mpu_mclass;
++	struct mpioc_list       mpu_list;
++	struct mpioc_prop       mpu_prop;
++	struct mpioc_devprops   mpu_devprops;
++	struct mpioc_mlog       mpu_mlog;
++	struct mpioc_mlog_id    mpu_mlog_id;
++	struct mpioc_mlog_io    mpu_mlog_io;
++	struct mpioc_mblock     mpu_mblock;
++	struct mpioc_mblock_id  mpu_mblock_id;
++	struct mpioc_mblock_rw  mpu_mblock_rw;
++	struct mpioc_vma        mpu_vma;
++};
++
++#define MPIOC_MAGIC             ('2')
++
++#define MPIOC_MP_CREATE         _IOWR(MPIOC_MAGIC, 1, struct mpioc_mpool)
++#define MPIOC_MP_DESTROY        _IOW(MPIOC_MAGIC, 2, struct mpioc_mpool)
++#define MPIOC_MP_ACTIVATE       _IOWR(MPIOC_MAGIC, 5, struct mpioc_mpool)
++#define MPIOC_MP_DEACTIVATE     _IOW(MPIOC_MAGIC, 6, struct mpioc_mpool)
++#define MPIOC_MP_RENAME         _IOWR(MPIOC_MAGIC, 7, struct mpioc_mpool)
++
++#define MPIOC_PARAMS_GET        _IOWR(MPIOC_MAGIC, 10, struct mpioc_params)
++#define MPIOC_PARAMS_SET        _IOWR(MPIOC_MAGIC, 11, struct mpioc_params)
++#define MPIOC_MP_MCLASS_GET     _IOWR(MPIOC_MAGIC, 12, struct mpioc_mclass)
++
++#define MPIOC_DRV_ADD           _IOWR(MPIOC_MAGIC, 15, struct mpioc_drive)
++#define MPIOC_DRV_SPARES        _IOWR(MPIOC_MAGIC, 16, struct mpioc_drive)
++
++#define MPIOC_PROP_GET          _IOWR(MPIOC_MAGIC, 20, struct mpioc_list)
++#define MPIOC_PROP_SET          _IOWR(MPIOC_MAGIC, 21, struct mpioc_list)
++#define MPIOC_DEVPROPS_GET      _IOWR(MPIOC_MAGIC, 22, struct mpioc_devprops)
++
++#define MPIOC_MLOG_ALLOC        _IOWR(MPIOC_MAGIC, 30, struct mpioc_mlog)
++#define MPIOC_MLOG_COMMIT       _IOWR(MPIOC_MAGIC, 32, struct mpioc_mlog_id)
++#define MPIOC_MLOG_ABORT        _IOW(MPIOC_MAGIC, 33, struct mpioc_mlog_id)
++#define MPIOC_MLOG_DELETE       _IOW(MPIOC_MAGIC, 34, struct mpioc_mlog_id)
++#define MPIOC_MLOG_FIND         _IOWR(MPIOC_MAGIC, 37, struct mpioc_mlog)
++#define MPIOC_MLOG_READ         _IOW(MPIOC_MAGIC, 40, struct mpioc_mlog_io)
++#define MPIOC_MLOG_WRITE        _IOW(MPIOC_MAGIC, 41, struct mpioc_mlog_io)
++#define MPIOC_MLOG_PROPS        _IOWR(MPIOC_MAGIC, 42, struct mpioc_mlog)
++#define MPIOC_MLOG_ERASE        _IOWR(MPIOC_MAGIC, 43, struct mpioc_mlog_id)
++
++#define MPIOC_MB_ALLOC          _IOWR(MPIOC_MAGIC, 50, struct mpioc_mblock)
++#define MPIOC_MB_ABORT          _IOW(MPIOC_MAGIC, 52, struct mpioc_mblock_id)
++#define MPIOC_MB_COMMIT         _IOW(MPIOC_MAGIC, 53, struct mpioc_mblock_id)
++#define MPIOC_MB_DELETE         _IOW(MPIOC_MAGIC, 54, struct mpioc_mblock_id)
++#define MPIOC_MB_FIND           _IOWR(MPIOC_MAGIC, 56, struct mpioc_mblock)
++#define MPIOC_MB_READ           _IOW(MPIOC_MAGIC, 60, struct mpioc_mblock_rw)
++#define MPIOC_MB_WRITE          _IOW(MPIOC_MAGIC, 61, struct mpioc_mblock_rw)
++
++#define MPIOC_VMA_CREATE        _IOWR(MPIOC_MAGIC, 70, struct mpioc_vma)
++#define MPIOC_VMA_DESTROY       _IOW(MPIOC_MAGIC, 71, struct mpioc_vma)
++#define MPIOC_VMA_PURGE         _IOW(MPIOC_MAGIC, 72, struct mpioc_vma)
++#define MPIOC_VMA_VRSS          _IOWR(MPIOC_MAGIC, 73, struct mpioc_vma)
++
++#endif
+diff --git a/drivers/mpool/mpool_printk.h b/drivers/mpool/mpool_printk.h
+new file mode 100644
+index 000000000000..933040ffd6d9
+--- /dev/null
++++ b/drivers/mpool/mpool_printk.h
+@@ -0,0 +1,44 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
++ */
++
++#ifndef MPOOL_PRINTK_H
++#define MPOOL_PRINTK_H
++
++#include <linux/printk.h>
++
++/* TODO: Use dev_crit(), dev_err(), ... */
++
++#define mp_pr_crit(_fmt, _err, ...)				\
++	pr_crit("%s: " _fmt ": errno %d", __func__, ## __VA_ARGS__, (_err))
++
++#define mp_pr_err(_fmt, _err, ...)				\
++	pr_err("%s: " _fmt ": errno %d", __func__, ## __VA_ARGS__, (_err))
++
++#define mp_pr_warn(_fmt, ...)					\
++	pr_warn("%s: " _fmt, __func__, ## __VA_ARGS__)
++
++#define mp_pr_notice(_fmt, ...)					\
++	pr_notice("%s: " _fmt, __func__, ## __VA_ARGS__)
++
++#define mp_pr_info(_fmt, ...)					\
++	pr_info("%s: " _fmt, __func__, ## __VA_ARGS__)
++
++#define mp_pr_debug(_fmt, _err, ...)				\
++	pr_debug("%s: " _fmt ": errno %d", __func__, ## __VA_ARGS__,  (_err))
++
++
++/* Rate limited version of mp_pr_err(). */
++#define mp_pr_rl(_fmt, _err, ...)				\
++do {								\
++	static unsigned long mp_pr_rl_state;			\
++	uint dly = msecs_to_jiffies(333);			\
++								\
++	if (printk_timed_ratelimit(&mp_pr_rl_state, dly)) {	\
++		pr_err("%s: " _fmt ": errno %d",		\
++		       __func__, ## __VA_ARGS__, (_err));	\
++	}							\
++} while (0)
++
++#endif /* MPOOL_PRINTK_H */
+diff --git a/drivers/mpool/uuid.h b/drivers/mpool/uuid.h
+new file mode 100644
+index 000000000000..28e53be68662
+--- /dev/null
++++ b/drivers/mpool/uuid.h
+@@ -0,0 +1,59 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
++ */
++
++#ifndef MPOOL_UUID_H
++#define MPOOL_UUID_H
++
++#define MPOOL_UUID_SIZE        16
++#define MPOOL_UUID_STRING_LEN  36
++
++#include <linux/kernel.h>
++#include <linux/uuid.h>
++
++struct mpool_uuid {
++	unsigned char uuid[MPOOL_UUID_SIZE];
++};
++
++/* mpool_uuid uses the LE version in the kernel */
++static inline void mpool_generate_uuid(struct mpool_uuid *uuid)
 +{
-+	const char *msg __maybe_unused;
-+	struct smap_zone *left, *right;
-+	struct smap_zone *new, *old;
-+	struct rb_root *rmap;
-+	struct rb_node *node;
-+	u32 orig_zonecnt = zonecnt;
-+	int rc = 0;
-+
-+	new = old = left = right = NULL;
-+	msg = NULL;
-+
-+	mutex_lock(&pd->pdi_rmbktv[rgn].pdi_rmlock);
-+	rmap = &pd->pdi_rmbktv[rgn].pdi_rmroot;
-+
-+	node = rmap->rb_node;
-+
-+	/* Use binary search to find chunks to the left and/or right of the range being freed. */
-+	while (node) {
-+		struct smap_zone *this;
-+
-+		this = rb_entry(node, struct smap_zone, smz_node);
-+
-+		if (zoneaddr + zonecnt <= this->smz_key) {
-+			right = this;
-+			node = node->rb_left;
-+		} else if (zoneaddr >= this->smz_key + this->smz_value) {
-+			left = this;
-+			node = node->rb_right;
-+		} else {
-+			msg = "chunk overlapping";
-+			rc = -EINVAL;
-+			goto unlock;
-+		}
-+	}
-+
-+	/* If the request abuts the chunk to the right then coalesce them. */
-+	if (right) {
-+		if (zoneaddr + zonecnt == right->smz_key) {
-+			zonecnt += right->smz_value;
-+			rb_erase(&right->smz_node, rmap);
-+
-+			new = right;  /* re-use right node */
-+		}
-+	}
-+
-+	/* If the request abuts the chunk to the left then coalesce them. */
-+	if (left) {
-+		if (left->smz_key + left->smz_value == zoneaddr) {
-+			zoneaddr = left->smz_key;
-+			zonecnt += left->smz_value;
-+			rb_erase(&left->smz_node, rmap);
-+
-+			old = new;  /* free new/left outside the critsec */
-+			new = left; /* re-use left node */
-+		}
-+	}
-+
-+	/*
-+	 * If the request did not abut either the current or the previous
-+	 * chunk (i.e., new == NULL) then we must create a new chunk node
-+	 * and insert it into the smap.  Otherwise, we'll re-use one of
-+	 * the abutting chunk nodes (i.e., left or right).
-+	 *
-+	 * Note: If we have to call kmalloc and it fails (unlikely) then
-+	 * this chunk will be lost only for the current session.  It will
-+	 * be recovered once the mpool is closed and re-opened.
-+	 */
-+	if (!new) {
-+		new = kmem_cache_alloc(smap_zone_cache, GFP_ATOMIC);
-+		if (!new) {
-+			msg = "chunk alloc failed";
-+			rc = -ENOMEM;
-+			goto unlock;
-+		}
-+	}
-+
-+	new->smz_key = zoneaddr;
-+	new->smz_value = zonecnt;
-+
-+	if (!smap_zone_insert(rmap, new)) {
-+		kmem_cache_free(smap_zone_cache, new);
-+		msg = "chunk insert failed";
-+		rc = -ENOTRECOVERABLE;
-+		goto unlock;
-+	}
-+
-+	/* Freed space goes to spare first then usable. */
-+	zonecnt = orig_zonecnt;
-+
-+	spin_lock(&pd->pdi_ds.sda_dalock);
-+	if (pd->pdi_ds.sda_sact > 0) {
-+		if (pd->pdi_ds.sda_sact > zonecnt) {
-+			pd->pdi_ds.sda_sact -= zonecnt;
-+			zonecnt = 0;
-+		} else {
-+			zonecnt -= pd->pdi_ds.sda_sact;
-+			pd->pdi_ds.sda_sact = 0;
-+		}
-+	}
-+
-+	pd->pdi_ds.sda_uact -= zonecnt;
-+	spin_unlock(&pd->pdi_ds.sda_dalock);
-+
-+unlock:
-+	mutex_unlock(&pd->pdi_rmbktv[rgn].pdi_rmlock);
-+
-+	if (old)
-+		kmem_cache_free(smap_zone_cache, old);
-+
-+	if (rc)
-+		mp_pr_err("smap pd %s: %s, free byrgn failed, rgn %u zoneaddr %lu zonecnt %u",
-+			  rc, pd->pdi_name, msg ? msg : "(no detail)",
-+			  rgn, (ulong)zoneaddr, zonecnt);
-+
-+	return rc;
++	generate_random_guid(uuid->uuid);
 +}
 +
-+int smap_free(struct mpool_descriptor *mp, u16 pdh, u64 zoneaddr, u16 zonecnt)
++static inline void mpool_uuid_copy(struct mpool_uuid *u_dst, const struct mpool_uuid *u_src)
 +{
-+	struct mpool_dev_info *pd = NULL;
-+	u32 rstart = 0, rend = 0;
-+	u32 raddr = 0, rcnt = 0;
-+	u64 zonefreed = 0;
-+	u32 rgn = 0;
-+	int rc = 0;
-+
-+	pd = &mp->pds_pdv[pdh];
-+
-+	if (zoneaddr >= pd->pdi_parm.dpr_zonetot || zoneaddr + zonecnt > pd->pdi_parm.dpr_zonetot) {
-+		rc = -EINVAL;
-+		mp_pr_err("smap(%s, %s): free failed, zoneaddr %lu zonecnt %u zonetot: %u",
-+			  rc, mp->pds_name, pd->pdi_name, (ulong)zoneaddr,
-+			  zonecnt, pd->pdi_parm.dpr_zonetot);
-+		return rc;
-+	}
-+
-+	if (!zonecnt)
-+		return 0; /* Nothing to be returned */
-+
-+	/*
-+	 * smap_alloc() never crosses regions. however a previous instantiation
-+	 * of this mpool might have used a different value of rgn count
-+	 * so must handle frees that cross regions.
-+	 */
-+
-+	rstart = smap_addr2rgn(mp, pd, zoneaddr);
-+	rend = smap_addr2rgn(mp, pd, zoneaddr + zonecnt - 1);
-+
-+	for (rgn = rstart; rgn < rend + 1; rgn++) {
-+		/* Compute zone address and count for this rgn */
-+		if (rgn == rstart)
-+			raddr = zoneaddr;
-+		else
-+			raddr = rgn * pd->pdi_ds.sda_rgnsz;
-+
-+		if (rgn < rend)
-+			rcnt = ((u64)(rgn + 1) * pd->pdi_ds.sda_rgnsz) - raddr;
-+		else
-+			rcnt = zonecnt - zonefreed;
-+
-+		rc = smap_free_byrgn(pd, rgn, raddr, rcnt);
-+		if (rc) {
-+			mp_pr_err("smap(%s, %s): free byrgn failed, rgn %d raddr %lu, rcnt %lu",
-+				  rc, mp->pds_name, pd->pdi_name, rgn, (ulong)raddr, (ulong)rcnt);
-+			break;
-+		}
-+		zonefreed = zonefreed + rcnt;
-+	}
-+
-+	return rc;
++	memcpy(u_dst->uuid, u_src->uuid, MPOOL_UUID_SIZE);
 +}
 +
-+void smap_wait_usage_done(struct mpool_descriptor *mp)
++static inline int mpool_uuid_compare(const struct mpool_uuid *uuid1, const struct mpool_uuid *uuid2)
 +{
-+	struct smap_usage_work *usagew = &mp->pds_smap_usage_work;
-+
-+	cancel_delayed_work_sync(&usagew->smapu_wstruct);
++	return memcmp(uuid1, uuid2, MPOOL_UUID_SIZE);
 +}
 +
-+#define SMAP_FREEPCT_DELTA 5
-+#define SMAP_FREEPCT_LOG_THLD   50
-+
-+void smap_log_mpool_usage(struct work_struct *ws)
++static inline void mpool_uuid_clear(struct mpool_uuid *uuid)
 +{
-+	struct smap_usage_work *smapu;
-+	struct mpool_descriptor *mp;
-+	struct mpool_usage usage;
-+	int last, cur, delta;
-+
-+	smapu = container_of(ws, struct smap_usage_work, smapu_wstruct.work);
-+	mp = smapu->smapu_mp;
-+
-+	/* Get the current mpool space usage stats */
-+	smap_mpool_usage(mp, MP_MED_ALL, &usage);
-+
-+	if (usage.mpu_usable == 0) {
-+		mp_pr_err("smap mpool %s: zero usable space", -EINVAL, mp->pds_name);
-+		return;
-+	}
-+	/*
-+	 * Calculate the delta of free usable space/total usable space,
-+	 * since last time a message was logged
-+	 */
-+	last = smapu->smapu_freepct;
-+	cur = usage.mpu_fusable * 100 / usage.mpu_usable;
-+	delta = cur - last;
-+
-+	/*
-+	 * Log a message if delta >= 5% && free usable space % < 50%
-+	 */
-+	if ((abs(delta) >= SMAP_FREEPCT_DELTA) && (cur < SMAP_FREEPCT_LOG_THLD)) {
-+
-+		smapu->smapu_freepct = cur;
-+		if (last == 0)
-+			mp_pr_info("smap mpool %s, free space %d%%",
-+				   mp->pds_name, smapu->smapu_freepct);
-+
-+		else
-+			mp_pr_info("smap mpool %s, free space %s from %d%% to %d%%",
-+				   mp->pds_name, (delta > 0) ? "increases" : "decreases",
-+				   last, smapu->smapu_freepct);
-+	}
-+
-+	/* Schedule the next run of smap_log_mpool_usage() */
-+	queue_delayed_work(mp->pds_workq, &smapu->smapu_wstruct,
-+			   msecs_to_jiffies(mp->pds_params.mp_mpusageperiod));
++	memset(uuid->uuid, 0, MPOOL_UUID_SIZE);
 +}
 +
-+int smap_init(void)
++static inline int mpool_uuid_is_null(const struct mpool_uuid *uuid)
 +{
-+	int rc = 0;
++	const struct mpool_uuid zero = { };
 +
-+	smap_zone_cache = kmem_cache_create("mpool_smap_zone", sizeof(struct smap_zone),
-+					    0, SLAB_HWCACHE_ALIGN | SLAB_POISON, NULL);
-+	if (!smap_zone_cache) {
-+		rc = -ENOMEM;
-+		mp_pr_err("kmem_cache_create(smap_zone, %zu) failed",
-+			  rc, sizeof(struct smap_zone));
-+	}
-+
-+	return rc;
++	return !memcmp(&zero, uuid, sizeof(zero));
 +}
 +
-+void smap_exit(void)
++static inline void mpool_unparse_uuid(const struct mpool_uuid *uuid, char *dst)
 +{
-+	kmem_cache_destroy(smap_zone_cache);
-+	smap_zone_cache = NULL;
++	const unsigned char *u = uuid->uuid;
++
++	snprintf(dst, MPOOL_UUID_STRING_LEN + 1,
++		 "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
++		 u[0], u[1], u[2], u[3],
++		 u[4], u[5], u[6], u[7],
++		 u[8], u[9], u[10], u[11],
++		 u[12], u[13], u[14], u[15]);
 +}
++
++#endif /* MPOOL_UUID_H */
 -- 
 2.17.2
 
