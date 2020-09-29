@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D128C4346E
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 08:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5FB5C4346E
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 08:20:09 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2FE7220897
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 08:14:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 992A3206C1
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 08:20:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AahWFG61"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2FE7220897
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lUnJGVpN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 992A3206C1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,60 +25,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=AahWFG61/rlrlozA8nOu5EbNx
-	QRPx+Z+TghCYLSRZyyjBvNLyam5Xj1K1AqWeSmIXbvnZEmsnr4/W7DBBGJrXHSNFM9YH93p+Qhs4q
-	Bk6FqPrfDMBDmsaDse1zLezbv0JS9Slk6dds+rYezkxjSRkyoVpKr1GZMCBM9KbMkhcycgMRt7ppq
-	zzcaDcMuTKjgABjdrlzgQeNhPp8blavHszjZQfzRW2NCEhfhpejWRAeU9BSI7GrHEJAK9s3WU8u1m
-	xEwZHef2Ns7kYfP2VrxsE5PLoBJqUssjHvpceDl0FtCF16BkCuNn6CovYVlo3jfqn2xRj8WiPR67O
-	WvawYvO0w==;
+	 bh=/doOigR0+OQ6x8kaapZe2b38ue1PQbeN8O7aK+EIm2o=; b=lUnJGVpNyWth+WQxVOcWzwz+A
+	1Vo/AYMNGjt7I0qfLxWqpIrNRNPab1H4i+bxccik33bROsYOmb1deacwCmgCXZg80MPd0pbfwndaQ
+	O2c9UA8rYxeLyH49X51VkR+mj85/ItHfnuLXyIWT6boFNsx9Le3T1gRgY2z4xmUkz9lPsnvhUndiS
+	rgP+M1+vYWbZLGpGGhIcxCHf4lJWsMfDD3rl+YS60+R3G1q0TwXma3bVHp3PXM1WHAlXVPtjlcZ/7
+	MouKIdscseYXTLizwqHnre848r2okDlL0DYjphM1GTPa9XjdRcQLu3zV5XZ9GBOgtnKwLM0tXkGpg
+	H2fXiYr/A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNAme-0000BV-Pm; Tue, 29 Sep 2020 08:14:48 +0000
-Received: from mail-pg1-f175.google.com ([209.85.215.175])
+	id 1kNArl-000191-0d; Tue, 29 Sep 2020 08:20:05 +0000
+Received: from mail-pf1-f196.google.com ([209.85.210.196])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNAmc-0000Ax-JE
- for linux-nvme@lists.infradead.org; Tue, 29 Sep 2020 08:14:47 +0000
-Received: by mail-pg1-f175.google.com with SMTP id g29so3246434pgl.2
- for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2020 01:14:46 -0700 (PDT)
+ id 1kNArj-00018G-H4
+ for linux-nvme@lists.infradead.org; Tue, 29 Sep 2020 08:20:04 +0000
+Received: by mail-pf1-f196.google.com with SMTP id w7so3783893pfi.4
+ for <linux-nvme@lists.infradead.org>; Tue, 29 Sep 2020 01:20:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=eFR61W0Remd1Hcym9pyzkrmCAQchQn/HULEPr12NfcGgIkfe2dfwiJxqF+VgwpLnXL
- vNZihgEL9QbwXcGBOdaYHbplBxeIGugpBTUmsN9qdiBvi8yqy9B5SCGWXO1RqTX0HnCg
- yxiaPwOIusHTNoWDMpUVl8392YcVWYjKneBlLtL47hPhC//EE8fXguWNthQlIH1tO+m5
- 8XJXPWtVFIEaxhIc95kfHjd01c/i/3SbwzRT9bVfzrd/V1GuHqNWWVjvZQUzzSNVtANh
- ZT4bgjh4fO9+tAVTlexmvwF/2TirbcUB52HfpQqgkj1lsqPJMBJhQxYnig9mYdJ6wzvB
- 3nrQ==
-X-Gm-Message-State: AOAM533dA6t8rKqiNZD0Tf02qHJ20PEdO5puZ2eNRscjFSba2su7vml2
- uIv0W55jxTylwmjjlockJNk=
-X-Google-Smtp-Source: ABdhPJyxpBZd5gDKDEFKF7nTD72p5mg0bBklYnrG+VNrKrXBgtH1KoVMJOYAFRaelIVZgzXL1NEEyQ==
-X-Received: by 2002:a17:902:8ec7:b029:d2:42fe:37de with SMTP id
- x7-20020a1709028ec7b02900d242fe37demr2247420plo.23.1601367285551; 
- Tue, 29 Sep 2020 01:14:45 -0700 (PDT)
+ bh=H+MPKKaexSnO61TelooL0HDhEgBuNHVyyC6W96OLimA=;
+ b=FrfYOHcsV55XszD9d+rOZiViNl5e+HVsrxLDu9nen5l072U1NPsKfFuk/Dvl2G7ggM
+ z4eLHsowRFGp26/bgnnSBjI54REBS2uqKhlmZew8d3zfUJfY9oXqdIxkCwK1hwiugoUr
+ fWn1tPlYLaJzrnrm4beIqTW7eolIq0MnSp/l6RCO0i7Bffivis7kpmQ4eEkFVi9L76YO
+ 0JgFX8PDjqtFF6w/oCPKskUtV0RhYffk5AaplYqQyRyWNR2cQZPJE4VyQgMDOnIiiZ2o
+ a7WB27oukIBohSurROzTtPZnJJYOLYnuzmIsWOiellybVpgsq7o/tVuSBjePujsPeTpp
+ OIaw==
+X-Gm-Message-State: AOAM533wo4Y7lHz9xUeIbWFidhmGzwkK42jHJxMHv8p3Eg0JdnOW4Pt2
+ 7tYgYI6PYW1sAd/oU/XWMmalBbsyvCc=
+X-Google-Smtp-Source: ABdhPJww8/JBJW1Rox4IyyeNqndq1KUiQaREh4PKDLmYn9rF3PyET9yDWaYIIi0k9RGe/YO5lJVtyg==
+X-Received: by 2002:a17:902:14f:b029:d2:562d:e84 with SMTP id
+ 73-20020a170902014fb02900d2562d0e84mr3288466plb.64.1601367602236; 
+ Tue, 29 Sep 2020 01:20:02 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:8ff9:9348:1454:22ce?
  ([2601:647:4802:9070:8ff9:9348:1454:22ce])
- by smtp.gmail.com with ESMTPSA id d12sm3644988pgd.93.2020.09.29.01.14.44
+ by smtp.gmail.com with ESMTPSA id l5sm1484397pjt.33.2020.09.29.01.20.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 01:14:44 -0700 (PDT)
-Subject: Re: [PATCH] [v2] nvme: replace meaningless judgement by checking
- whether req is null
-To: Xianting Tian <tian.xianting@h3c.com>, kbusch@kernel.org, axboe@fb.com,
- hch@lst.de
-References: <20200922062517.30031-1-tian.xianting@h3c.com>
+ Tue, 29 Sep 2020 01:20:01 -0700 (PDT)
+Subject: Re: lockdep splat when disconnecting NVMe oF TCP inititator
+To: Lucas Stach <l.stach@pengutronix.de>, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+References: <adcb71d188a0bf97c32d6be86233e5f5f3caff75.camel@pengutronix.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <2b9e078d-7fb9-804b-cca1-b5b1197d1b4f@grimberg.me>
-Date: Tue, 29 Sep 2020 01:14:33 -0700
+Message-ID: <e03ef579-42a1-f97a-9236-8b5c149daf6f@grimberg.me>
+Date: Tue, 29 Sep 2020 01:20:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200922062517.30031-1-tian.xianting@h3c.com>
+In-Reply-To: <adcb71d188a0bf97c32d6be86233e5f5f3caff75.camel@pengutronix.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200929_041446_648435_00BE5B04 
-X-CRM114-Status: GOOD (  10.01  )
+X-CRM114-CacheID: sfid-20200929_042003_611315_17A8CF63 
+X-CRM114-Status: GOOD (  18.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,13 +89,114 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+> Hi nvme folks,
+> 
+> I've toyed a bit with NVMe oF TCP over the last few days and came
+> across the following lockdep splat on the target when disconnecting the
+> initiator. I don't know if I'll have time to look into this anytime
+> soon, so I figured I could at least leave the report here.
+
+This is the way the driver always behaved... To be honest I'm not clear
+at all that this is not a false negative.
+
+Nothing in the release_work is dependent on the flush_scheduled_work
+waiting for online queue removals...
+
+I'll try to have a deeper look later.
+
+> 
+> Regards,
+> Lucas
+> 
+> [  142.078964] WARNING: possible circular locking dependency detected
+> [  142.085172] 5.9.0-rc5 #2 Not tainted
+> [  142.091982] ------------------------------------------------------
+> [  142.098186] kworker/0:3/74 is trying to acquire lock:
+> [  142.103259] ffff000015228830 ((work_completion)(&queue->io_work)){+.+.}-{0:0}, at: __flush_work+0x54/0x510
+> [  142.112981]
+> [  142.112981] but task is already holding lock:
+> [  142.118835] ffff800011efbdc0 ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: process_one_work+0x1ec/0x710
+> [  142.129413]
+> [  142.129413] which lock already depends on the new lock.
+> [  142.129413]
+> [  142.137618]
+> [  142.137618] the existing dependency chain (in reverse order) is:
+> [  142.145124]
+> [  142.145124] -> #2 ((work_completion)(&queue->release_work)){+.+.}-{0:0}:
+> [  142.153352]        process_one_work+0x248/0x710
+> [  142.157906]        worker_thread+0x74/0x470
+> [  142.162119]        kthread+0x15c/0x160
+> [  142.165894]        ret_from_fork+0x10/0x38
+> [  142.170005]
+> [  142.170005] -> #1 ((wq_completion)events){+.+.}-{0:0}:
+> [  142.176665]        flush_workqueue+0x98/0x400
+> [  142.181054]        nvmet_tcp_install_queue+0x11c/0x130
+> [  142.186217]        nvmet_install_queue+0xbc/0x150
+> [  142.190946]        nvmet_execute_admin_connect+0x11c/0x200
+> [  142.196458]        nvmet_tcp_io_work+0x8c0/0x950
+> [  142.201099]        process_one_work+0x294/0x710
+> [  142.205654]        worker_thread+0x74/0x470
+> [  142.209860]        kthread+0x15c/0x160
+> [  142.213630]        ret_from_fork+0x10/0x38
+> [  142.217742]
+> [  142.217742] -> #0 ((work_completion)(&queue->io_work)){+.+.}-{0:0}:
+> [  142.225542]        __lock_acquire+0x13fc/0x2160
+> [  142.230097]        lock_acquire+0xec/0x4d0
+> [  142.234215]        __flush_work+0x7c/0x510
+> [  142.238333]        flush_work+0x14/0x20
+> [  142.242192]        nvmet_tcp_release_queue_work+0xb0/0x280
+> [  142.247703]        process_one_work+0x294/0x710
+> [  142.252257]        worker_thread+0x74/0x470
+> [  142.256465]        kthread+0x15c/0x160
+> [  142.260234]        ret_from_fork+0x10/0x38
+> [  142.264346]
+> [  142.264346] other info that might help us debug this:
+> [  142.264346]
+> [  142.272375] Chain exists of:
+> [  142.272375]   (work_completion)(&queue->io_work) --> (wq_completion)events --> (work_completion)(&queue->release_work)
+> [  142.272375]
+> [  142.287476]  Possible unsafe locking scenario:
+> [  142.287476]
+> [  142.293415]        CPU0                    CPU1
+> [  142.297962]        ----                    ----
+> [  142.302508]   lock((work_completion)(&queue->release_work));
+> [  142.308194]                                lock((wq_completion)events);
+> [  142.314836]                                lock((work_completion)(&queue->release_work));
+> [  142.323046]   lock((work_completion)(&queue->io_work));
+> [  142.328296]
+> [  142.328296]  *** DEADLOCK ***
+> [  142.328296]
+> [  142.334239] 2 locks held by kworker/0:3/74:
+> [  142.338438]  #0: ffff000017405738 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x1ec/0x710
+> [  142.347887]  #1: ffff800011efbdc0 ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: process_one_work+0x1ec/0x710
+> [  142.358901]
+> [  142.358901] stack backtrace:
+> [  142.363284] CPU: 0 PID: 74 Comm: kworker/0:3 Not tainted 5.9.0-rc5 #2
+> [  142.372970] Hardware name: XXX (DT)
+> [  142.378053] Workqueue: events nvmet_tcp_release_queue_work
+> [  142.383563] Call trace:
+> [  142.386032]  dump_backtrace+0x0/0x1b0
+> [  142.389717]  show_stack+0x18/0x30
+> [  142.393055]  dump_stack+0xe8/0x15c
+> [  142.396480]  print_circular_bug+0x278/0x280
+> [  142.400688]  check_noncircular+0x164/0x1e0
+> [  142.404808]  __lock_acquire+0x13fc/0x2160
+> [  142.408841]  lock_acquire+0xec/0x4d0
+> [  142.412437]  __flush_work+0x7c/0x510
+> [  142.416032]  flush_work+0x14/0x20
+> [  142.419369]  nvmet_tcp_release_queue_work+0xb0/0x280
+> [  142.424358]  process_one_work+0x294/0x710
+> [  142.428390]  worker_thread+0x74/0x470
+> [  142.432075]  kthread+0x15c/0x160
+> [  142.435322]  ret_from_fork+0x10/0x38
+> 
 
 _______________________________________________
 Linux-nvme mailing list
