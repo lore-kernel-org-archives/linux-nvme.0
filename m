@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0800FC4727C
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 18:32:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9D1C4727C
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 18:33:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E599F2074A
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 18:32:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AB0EB2074A
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 18:33:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="a9jHQs99"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E599F2074A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="24XE62Kj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB0EB2074A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,36 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=o9wNDp7oynnfpPsSpXmOYabZd2QzAC5ESvm+aM9sr2s=; b=a9jHQs99DwjTzQX26PtRR15qM
-	SWF4YsR+IGtUs9F7+IwLn0ifmqqZRu7PMV2Bf/Mzr+LRp+kFYSWuZyY0lQU1vHo0sUArleNz3MWEt
-	dYGXBqtQvgCVmobRRVD0348Ujv8KfmkBT+FvMfpSAA8treFNIPVRGHwmiXKa8uWHh594DRZCoH2F1
-	BVrQaBNliEa8mLwp36ZxLKpqpa0c88Np3PjZMrP1puQM+HF9FH4Tttj/oAi1+K2UUUQOg9lvHTu95
-	/PdfwRX2htolJoua3ryikdP3dYfvpyDTGSU2Tc72fVF8e/eyJytaA+x4u5wlvxm5mEjBVfbREWRkK
-	eGi75v6JA==;
+	 bh=GPhbCNd+ms0T1XcSQk8fXV+rjgjK34KS6lvdIZP6Cqo=; b=24XE62Kjovn/qu11bEA75LC2X
+	jd10uxliSNeqs7LAZiW056O8JQqHR/QtxMHUrLspik7hoHkLwpN8WUWVLZKfURgEy/rMYw0Aq1Axc
+	GH2TKFc0wY1btBxielOhBDeNuGN4+BYdJT9M7hCAzcE5dPDFvAZarpx2c/bfQIz1GOQlEynsVCN+y
+	X7C1zkNi8MJ0M52/BC3bBUQjHmZ280vtMTgE0Bnz4cOjZvyHw0MzOYMvjuebL612VDF/R9VsahDDA
+	DehUwswYID5CTzDPZU47Tp1gRCjhoszsMiutfmucNgWiThiBNgw31osDuovJJMfvCGQKYjtKaxDTD
+	teQuXBntA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNKQG-0004d9-BI; Tue, 29 Sep 2020 18:32:20 +0000
+	id 1kNKRK-0004lW-HN; Tue, 29 Sep 2020 18:33:26 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNKQC-0004Yp-Tp
- for linux-nvme@lists.infradead.org; Tue, 29 Sep 2020 18:32:17 +0000
+ id 1kNKRI-0004l7-L8
+ for linux-nvme@lists.infradead.org; Tue, 29 Sep 2020 18:33:25 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 661CB67373; Tue, 29 Sep 2020 20:32:14 +0200 (CEST)
-Date: Tue, 29 Sep 2020 20:32:14 +0200
+ id 179E067373; Tue, 29 Sep 2020 20:33:23 +0200 (CEST)
+Date: Tue, 29 Sep 2020 20:33:22 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 10/20] nvme: freeze the queue over ->lba_shift updates
-Message-ID: <20200929183214.GD12948@lst.de>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
+Subject: Re: [PATCH 11/20] nvme: clean up the check for too large logic
+ block sizes
+Message-ID: <20200929183322.GE12948@lst.de>
 References: <20200928123502.435373-1-hch@lst.de>
- <20200928123502.435373-11-hch@lst.de>
- <39b98188-2803-2f49-e225-8d3fbe3bfb1f@grimberg.me>
+ <20200928123502.435373-12-hch@lst.de>
+ <CY4PR04MB375140467CD740CD8E677FDAE7350@CY4PR04MB3751.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <39b98188-2803-2f49-e225-8d3fbe3bfb1f@grimberg.me>
+In-Reply-To: <CY4PR04MB375140467CD740CD8E677FDAE7350@CY4PR04MB3751.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200929_143217_095184_75A7A62A 
-X-CRM114-Status: GOOD (  11.52  )
+X-CRM114-CacheID: sfid-20200929_143324_805510_C4D77E20 
+X-CRM114-Status: GOOD (  10.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,25 +68,27 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Damien Le Moal <Damien.LeMoal@wdc.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
+ Christoph Hellwig <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 29, 2020 at 01:48:03AM -0700, Sagi Grimberg wrote:
->
->> Ensure that there can't be any I/O in flight went we change the disk
->> geometry in nvme_update_ns_info, most notable the LBA size by lifting
->> the queue free from nvme_update_disk_info into the caller
->
-> The queue is frozen on the queue logical block size, why should
-> we care about I/O while ns->lba_shift?
+On Mon, Sep 28, 2020 at 02:50:27PM +0000, Damien Le Moal wrote:
+> >  	if (ns->lba_shift > PAGE_SHIFT) {
+> > -		/* unsupported block size, set capacity to 0 later */
+> > +		capacity = 0;
+> >  		bs = (1 << 9);
+> 
+> 		bs = (1 << SECTOR_SHIFT);
+> 
+> is cleaner I think.
 
-Because we use it for all kinds of calculations in the I/O path.  By
-moving all assignments into the frozen queue critical sections we
-avoid all possibly inconsistencies.
+Maybe, but then again it is existing code I didn't even touch.
+And we have plenty of << 9 or >> 9, so we'd better address them
+all together if we want to bother.
 
 _______________________________________________
 Linux-nvme mailing list
