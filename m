@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56C5AC4727E
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 01:31:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32F66C4727E
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 01:31:50 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0D2BE239EE
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 01:31:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E1D1321D92
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 01:31:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fIWpyUUw";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkVgj45s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D2BE239EE
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="W5eZiUEe";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8mo0NnU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E1D1321D92
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VJyGw6twBAL7hC1fXFBAeARN64muAieXxEFmQbjZGnU=; b=fIWpyUUwtYStccHOHNeNkyePW
-	dtpzwauQC+oW6/KelH1sAovJX5yeFTKnf2u+715y8Z0B2mpEI6F9r8DzGQjIPYOsKMgNlHECjpZ/2
-	6AWs0V0fsLQH+w3Lq8NiULCamHFbfwasVPXevVit1v0Yl2IwqxG2GpF0E92ScAmPAkLdXXh7ty7jt
-	A9Eni72Pdp2bTyZ0CVYKXRBdtcL419oF9otG3lvoGtSv+J+ux2Nedl8WyEMzE/C0HVl34AbDzFHUM
-	4uhXWS4JoVpvWwnLCK/FDT6ZjeSnOFAG7GSehQq0VNAELc0DBZGv8+HHiNEslWRI+NfS2T8aJavbA
-	oTAj+y94A==;
+	 bh=enyK17FfGVo4km25Q71tW9p7XHgEDUU7hpZMNrZP4aM=; b=W5eZiUEe6upBVNd8LdmY1bHVX
+	RuxInThc1+veAluC8A4110a+SeT/gtQLo3V1rU3sVhwkzEZIcaruDWrNXfmnLtL+tERG0IZK3TJ4k
+	cJiCm/AEzRZ0sxQlpNVD6FhWHHx7ef9mAVRXs528LUDj6lY2T1gItQ9CdOIBsFACEB2Baho38E1kt
+	ifuGBv0C+rZFuCV3X/TrEl3SZzkIC+/AXQZAhHFoEczgEiHc4T5n3bnmCmQNgOodYEePXYpn8pLCk
+	oEbpYGAEsi3MkrIjDfNNLo82d19SwVB7D6CQ2TcSK9Id4kfixmV1ciGZgSaFa+OtcgH5UogUkU5NC
+	z1ue/0cnQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kN4UQ-0007TB-T8; Tue, 29 Sep 2020 01:31:34 +0000
+	id 1kN4Ua-0007Xk-RH; Tue, 29 Sep 2020 01:31:44 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kN4UL-0007PH-7A
+ id 1kN4UL-0007PS-73
  for linux-nvme@lists.infradead.org; Tue, 29 Sep 2020 01:31:30 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5C21D2075A;
- Tue, 29 Sep 2020 01:31:26 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AE6FF23976;
+ Tue, 29 Sep 2020 01:31:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601343087;
- bh=tZM0kI37tYwKys+Ekd2oBbRc2q4nSTPkupSZ2HLJKuo=;
+ s=default; t=1601343088;
+ bh=nTi9jaqjZYfY3E1VdQOc646h2HPpw87IdcTNA/hrHk8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IkVgj45s4cOGl3m9eVGZHza2KqdusgLjhk4FLtPHaewhPoBFbYi4FCd2v3keJGg6T
- 8s5eXSMQD7cksEj4XuR4PaWqI+v3jii3E26VNZeLWQS7tI1X8P4lD5Of+CEKNPZagP
- sHb6RwfkwEQ9z1QXdBNgZmizGUe9uhJ1pVSh35Ao=
+ b=U8mo0NnUsjXp/7bBVyhKnYLjJVOE2bbvNs0wqt43yWqhHqy7hph/FcZy7cyA6FFPq
+ bBOGRM/p3pWfpkTbHmrff/FFL1s25eSv/Kjw2Gv25Ar+g0OTbZ7svB/b9BCPykDsch
+ 6R4sgYIR4qNuWgWkzBSWNVFTqC+us/kSjGZnvt9U=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 17/18] nvme-pci: fix NULL req in completion handler
-Date: Mon, 28 Sep 2020 21:31:03 -0400
-Message-Id: <20200929013105.2406634-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 18/18] nvme-fc: fail new connections to a deleted
+ host or remote port
+Date: Mon, 28 Sep 2020 21:31:04 -0400
+Message-Id: <20200929013105.2406634-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200929013105.2406634-1-sashal@kernel.org>
 References: <20200929013105.2406634-1-sashal@kernel.org>
@@ -65,8 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200928_213129_370301_DA0D01EA 
-X-CRM114-Status: GOOD (  16.26  )
+X-CRM114-CacheID: sfid-20200928_213129_356676_7D0D075D 
+X-CRM114-Status: GOOD (  14.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,71 +79,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Xianting Tian <tian.xianting@h3c.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sasha Levin <sashal@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Himanshu Madhani <himanshu.madhani@oracle.com>,
+ James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Xianting Tian <tian.xianting@h3c.com>
+From: James Smart <james.smart@broadcom.com>
 
-[ Upstream commit 50b7c24390a53c78de546215282fb52980f1d7b7 ]
+[ Upstream commit 9e0e8dac985d4bd07d9e62922b9d189d3ca2fccf ]
 
-Currently, we use nvmeq->q_depth as the upper limit for a valid tag in
-nvme_handle_cqe(), it is not correct. Because the available tag number
-is recorded in tagset, which is not equal to nvmeq->q_depth.
+The lldd may have made calls to delete a remote port or local port and
+the delete is in progress when the cli then attempts to create a new
+controller. Currently, this proceeds without error although it can't be
+very successful.
 
-The nvme driver registers interrupts for queues before initializing the
-tagset, because it uses the number of successful request_irq() calls to
-configure the tagset parameters. This allows a race condition with the
-current tag validity check if the controller happens to produce an
-interrupt with a corrupted CQE before the tagset is initialized.
+Fix this by validating that both the host port and remote port are
+present when a new controller is to be created.
 
-Replace the driver's indirect tag check with the one already provided by
-the block layer.
-
-Signed-off-by: Xianting Tian <tian.xianting@h3c.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: James Smart <james.smart@broadcom.com>
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/nvme/host/fc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a91433bdf5de4..fbfcded7a20d9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -941,13 +941,6 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- 	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
- 	struct request *req;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index dae050d1f814d..1c58a359e540c 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3321,12 +3321,14 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
+ 	spin_lock_irqsave(&nvme_fc_lock, flags);
+ 	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
+ 		if (lport->localport.node_name != laddr.nn ||
+-		    lport->localport.port_name != laddr.pn)
++		    lport->localport.port_name != laddr.pn ||
++		    lport->localport.port_state != FC_OBJSTATE_ONLINE)
+ 			continue;
  
--	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
--		dev_warn(nvmeq->dev->ctrl.device,
--			"invalid id %d completed on queue %d\n",
--			cqe->command_id, le16_to_cpu(cqe->sq_id));
--		return;
--	}
--
- 	/*
- 	 * AEN requests are special as they don't time out and can
- 	 * survive any kind of queue freeze and often don't respond to
-@@ -962,6 +955,13 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- 	}
+ 		list_for_each_entry(rport, &lport->endp_list, endp_list) {
+ 			if (rport->remoteport.node_name != raddr.nn ||
+-			    rport->remoteport.port_name != raddr.pn)
++			    rport->remoteport.port_name != raddr.pn ||
++			    rport->remoteport.port_state != FC_OBJSTATE_ONLINE)
+ 				continue;
  
- 	req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), cqe->command_id);
-+	if (unlikely(!req)) {
-+		dev_warn(nvmeq->dev->ctrl.device,
-+			"invalid id %d completed on queue %d\n",
-+			cqe->command_id, le16_to_cpu(cqe->sq_id));
-+		return;
-+	}
-+
- 	trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
- 	nvme_end_request(req, cqe->status, cqe->result);
- }
+ 			/* if fail to get reference fall through. Will error */
 -- 
 2.25.1
 
