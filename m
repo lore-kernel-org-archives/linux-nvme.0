@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A9D4C4727C
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 01:32:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92453C47420
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 01:32:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C50EA2075A
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 01:32:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4D508216C4
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Sep 2020 01:32:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="h0/2vLge";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="NyD/Nt6r"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C50EA2075A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sH8MwFof";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="SBVvni5j"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D508216C4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,39 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6JC/TYjOnf+lyiWORCqmOAqZAI6IPdq5ovFEaTdYgMw=; b=h0/2vLgeS8q67yeKexKVFNSm9
-	T6ng3oN2SOPnnzjHNX5u5n+c7Fklje7KTnhWrM8VS1/zZDh4Bodqe9OeQsOshEjAlqEBM6Ta3fxAI
-	rcY5ahAXLV47+CtzgGDD9MMrXGwnRcwhWZjbn8vfrON4XUl106905HJlaAF4fP3OXyWBwgNymvRGL
-	ihgVYccJHwGQX7JpCk+kUi7rsdLCwa94W4C5CetE6OL0mYApuskdclpbNCdBjcXr2HvycUsv4I7wq
-	f7D/vJcc2tXRDhiaYfyeF8I8u9hF9m0Y7dWxFkBHdzHZeIl0IgSC6eU8X12vTIw3B0HEfzVQ0Re24
-	+Z4M9dbNA==;
+	 bh=758IRKbo1Rwi1/QCRIQa9I8i0+EMINRLzk3OVDdQMvA=; b=sH8MwFofmM4ngjB8cZX3Go2Xk
+	bkVZ0YhGGm+qb0IVKg+MCdbgzEsBMyJUUBoaU+u9n24wBtOBYKn3RJqoP2rcHUecW0V2cPisQQoWF
+	4gxpZBW9OodVygfEb2vZsr5ng4wzZ/npEtKfH3D4QkMRbSIrbPz9Oc7K214o3z6I4TzOeMpmQkSIa
+	mUiXImGUxjHtlPFndu4QwrlTZi0q3m6kmt/stk+QeM95/3sBtMWE9SFjiugZQD9UPaxY0RtO0Ui8t
+	Hmoi/LvWCr261RZFHwDq5XDznV3Sai7eSJLsDpDF5g0KFwCHLJo71A8A+grp3VB7B03e1hGLwkXL+
+	20NE9gp2A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kN4Uy-0007js-Mj; Tue, 29 Sep 2020 01:32:08 +0000
+	id 1kN4V3-0007n7-5r; Tue, 29 Sep 2020 01:32:13 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kN4UT-0007Ur-Gf
- for linux-nvme@lists.infradead.org; Tue, 29 Sep 2020 01:31:38 +0000
+ id 1kN4Ua-0007Xw-QU
+ for linux-nvme@lists.infradead.org; Tue, 29 Sep 2020 01:31:45 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3180D221E7;
- Tue, 29 Sep 2020 01:31:36 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 579B42075A;
+ Tue, 29 Sep 2020 01:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601343096;
- bh=YXFZ0+VQXw3oqQ7gX22sYFPLJa93BXAu8mpjWVkTpGs=;
+ s=default; t=1601343104;
+ bh=vSfS7lFrUIQZJy5iyVkaDClvgMkXrRHgJr5Fcs3JHmw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NyD/Nt6rar/Jds8iyo0ITtHuSubuKBGjwJM4xMUUhpv22E2jRP25n1pGFd7oIhT94
- fRiPMIKW07RYTo3aD4Akx2D48zbqvzkQEYBd67A0zyP65y/qAM+WWAg9j6XxZwcLlY
- A6Ob0qJ2zwSJahR+MWZ5rjteHBko6KEZ0LIcZAIE=
+ b=SBVvni5j+xbia9qem3TEJFBVCDKEUZxstLOFb7hdVK2S37JRul5Wh/WsdROqOXWG+
+ lWNdsnU+P9656qUNS+oR4sjSfmXB54nif7uhFq4w9fp8esjSqmNM4ml4IH8WoRyA0e
+ qTthfALXBn4t/G3dixNRKo1wQCOA+C1lloogDxZI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 05/11] nvme-core: get/put ctrl and transport
- module in nvme_dev_open/release()
-Date: Mon, 28 Sep 2020 21:31:23 -0400
-Message-Id: <20200929013129.2406832-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 11/11] nvme-fc: fail new connections to a deleted
+ host or remote port
+Date: Mon, 28 Sep 2020 21:31:29 -0400
+Message-Id: <20200929013129.2406832-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200929013129.2406832-1-sashal@kernel.org>
 References: <20200929013129.2406832-1-sashal@kernel.org>
@@ -66,8 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200928_213137_754492_F44EA444 
-X-CRM114-Status: GOOD (  17.34  )
+X-CRM114-CacheID: sfid-20200928_213145_046528_121700EB 
+X-CRM114-Status: GOOD (  14.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,108 +79,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Himanshu Madhani <himanshu.madhani@oracle.com>,
+ James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+From: James Smart <james.smart@broadcom.com>
 
-[ Upstream commit 52a3974feb1a3eec25d8836d37a508b67b0a9cd0 ]
+[ Upstream commit 9e0e8dac985d4bd07d9e62922b9d189d3ca2fccf ]
 
-Get and put the reference to the ctrl in the nvme_dev_open() and
-nvme_dev_release() before and after module get/put for ctrl in char
-device file operations.
+The lldd may have made calls to delete a remote port or local port and
+the delete is in progress when the cli then attempts to create a new
+controller. Currently, this proceeds without error although it can't be
+very successful.
 
-Introduce char_dev relase function, get/put the controller and module
-which allows us to fix the potential Oops which can be easily reproduced
-with a passthru ctrl (although the problem also exists with pure user
-access):
+Fix this by validating that both the host port and remote port are
+present when a new controller is to be created.
 
-Entering kdb (current=0xffff8887f8290000, pid 3128) on processor 30 Oops: (null)
-due to oops @ 0xffffffffa01019ad
-CPU: 30 PID: 3128 Comm: bash Tainted: G        W  OE     5.8.0-rc4nvme-5.9+ #35
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.4
-RIP: 0010:nvme_free_ctrl+0x234/0x285 [nvme_core]
-Code: 57 10 a0 e8 73 bf 02 e1 ba 3d 11 00 00 48 c7 c6 98 33 10 a0 48 c7 c7 1d 57 10 a0 e8 5b bf 02 e1 8
-RSP: 0018:ffffc90001d63de0 EFLAGS: 00010246
-RAX: ffffffffa05c0440 RBX: ffff8888119e45a0 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffff8888177e9550 RDI: ffff8888119e43b0
-RBP: ffff8887d4768000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: ffffc90001d63c90 R12: ffff8888119e43b0
-R13: ffff8888119e5108 R14: dead000000000100 R15: ffff8888119e5108
-FS:  00007f1ef27b0740(0000) GS:ffff888817600000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffffffffa05c0470 CR3: 00000007f6bee000 CR4: 00000000003406e0
-Call Trace:
- device_release+0x27/0x80
- kobject_put+0x98/0x170
- nvmet_passthru_ctrl_disable+0x4a/0x70 [nvmet]
- nvmet_passthru_enable_store+0x4c/0x90 [nvmet]
- configfs_write_file+0xe6/0x150
- vfs_write+0xba/0x1e0
- ksys_write+0x5f/0xe0
- do_syscall_64+0x52/0xb0
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x7f1ef1eb2840
-Code: Bad RIP value.
-RSP: 002b:00007fffdbff0eb8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 0000000000000002 RCX: 00007f1ef1eb2840
-RDX: 0000000000000002 RSI: 00007f1ef27d2000 RDI: 0000000000000001
-RBP: 00007f1ef27d2000 R08: 000000000000000a R09: 00007f1ef27b0740
-R10: 0000000000000001 R11: 0000000000000246 R12: 00007f1ef2186400
-R13: 0000000000000002 R14: 0000000000000001 R15: 0000000000000000
-
-With this patch fix we take the module ref count in nvme_dev_open() and
-release that ref count in newly introduced nvme_dev_release().
-
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Signed-off-by: James Smart <james.smart@broadcom.com>
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/nvme/host/fc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0d60f2f8f3eec..c6c61130f50a0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2608,10 +2608,24 @@ static int nvme_dev_open(struct inode *inode, struct file *file)
- 		return -EWOULDBLOCK;
- 	}
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 73db32f97abf3..ed88d50217724 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3294,12 +3294,14 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
+ 	spin_lock_irqsave(&nvme_fc_lock, flags);
+ 	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
+ 		if (lport->localport.node_name != laddr.nn ||
+-		    lport->localport.port_name != laddr.pn)
++		    lport->localport.port_name != laddr.pn ||
++		    lport->localport.port_state != FC_OBJSTATE_ONLINE)
+ 			continue;
  
-+	nvme_get_ctrl(ctrl);
-+	if (!try_module_get(ctrl->ops->module))
-+		return -EINVAL;
-+
- 	file->private_data = ctrl;
- 	return 0;
- }
+ 		list_for_each_entry(rport, &lport->endp_list, endp_list) {
+ 			if (rport->remoteport.node_name != raddr.nn ||
+-			    rport->remoteport.port_name != raddr.pn)
++			    rport->remoteport.port_name != raddr.pn ||
++			    rport->remoteport.port_state != FC_OBJSTATE_ONLINE)
+ 				continue;
  
-+static int nvme_dev_release(struct inode *inode, struct file *file)
-+{
-+	struct nvme_ctrl *ctrl =
-+		container_of(inode->i_cdev, struct nvme_ctrl, cdev);
-+
-+	module_put(ctrl->ops->module);
-+	nvme_put_ctrl(ctrl);
-+	return 0;
-+}
-+
- static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp)
- {
- 	struct nvme_ns *ns;
-@@ -2672,6 +2686,7 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- static const struct file_operations nvme_dev_fops = {
- 	.owner		= THIS_MODULE,
- 	.open		= nvme_dev_open,
-+	.release	= nvme_dev_release,
- 	.unlocked_ioctl	= nvme_dev_ioctl,
- 	.compat_ioctl	= nvme_dev_ioctl,
- };
+ 			/* if fail to get reference fall through. Will error */
 -- 
 2.25.1
 
