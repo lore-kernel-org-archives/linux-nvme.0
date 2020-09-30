@@ -2,86 +2,85 @@ Return-Path: <SRS0=B4mB=DH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6AFC4363D
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 23:25:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28D22C4741F
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 23:25:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 02C20206F4
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 23:25:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9895C206F4
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 23:25:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zd/3Obo6";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="b5h5JYJ9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 02C20206F4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jxnl/VhY";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="hPlI+JvE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9895C206F4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZYaM3xrlYAk8WCPuxU9UJqVpD/r9e5jfoJEBTIM955U=; b=zd/3Obo6mjGm2McnQuupL6zee
-	oqVxZxuFS/880qrlO/u6bt87Yq+F3oxdG4rlsIqhTNUxwV0XkLQi45rX0bSGV7+yE70Eu+1HCLeJV
-	vgV/A2g02GA9mWB++pWmgC9QdauiZRhIoIA95xJb1nx4BmL10Lt+EeYRuWwyJuY3v5m75BckXrfv/
-	czOF3fblhmSVNHA8dGCv8uq4VNF+nTt8tF/pUuo0X9/I38IsSPB9fa6to+Nf2Ucfb0XBK1pszK5PX
-	4AnzzoUWPj4Qs5o8T5q0XC81MdRCd3GidJrL/AKRHcnusSZFog/5YnIt5gUoNkW6nyuDm+VwSqcr2
-	PL4Sdc1yw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=lkY7Wq6ZX7vQ03/HZcxZVN0TGQHCqoqTUvOG7oZklw8=; b=jxnl/VhY1QfF8KnnDjzi2TNqUy
+	3CcIvxXfxyE7FK/ogVoAsdSyXvlh8BMEzFbY9wqwi9SNRwQOBinAvNAm/mxOd1BTSXZW3ltAj5a9s
+	90DNg94WeTSs/ZXFD2CNVSXazyhP9a0rhLZyC0PWpX0H+l2ZhHWVoF8gR7rVbuY7EdKlcjvuO50Fa
+	gIvVYlTFfQPeWPqiyPzdoS+MjYhv6+G60Dv5nG8otbMT2rAo1QNObkrJ2iic3/bk0c9MXpiiEHs3J
+	ksfodJ14IzCROXNTIBIAkMbBiH4eyidmA0UEN0VIgN3TNKf2u+JKib3XuIWGVZGacUo6Ii97PvHZH
+	x6+Ve4SA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNlTE-0006Zo-R5; Wed, 30 Sep 2020 23:25:12 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1kNlTC-0006Z6-NX; Wed, 30 Sep 2020 23:25:10 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNlTC-0006ZD-Cf
- for linux-nvme@lists.infradead.org; Wed, 30 Sep 2020 23:25:11 +0000
+ id 1kNlT8-0006Yh-O2
+ for linux-nvme@lists.infradead.org; Wed, 30 Sep 2020 23:25:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1601508310; x=1633044310;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=jgbgXOZzISAmfbAqQSzfZb9SlSp6JbSfN8YiyqFrnZY=;
- b=b5h5JYJ9Xp0AMgigfpgxW2C0Buc1DosjPq/1uw39wuTeR8PTPVzWUIdU
- GsG89OTuAicTxlq3/1gAFudjxz5HTgOKjUk13W6rSXS8vL+dgxyTsnlab
- k09h7JckI37+lKkqsbJTNQFrO75Bk/F99vN3Of3BLHwuijNkn/OQVIqXD
- 2/ajjjv9MjlRGzeLdTtgJf+zQytQq0szQ+Nk/eNyX9CNvTB8+bpIYfP/I
- uAy+kMfOdl4VqKDAf0GY7HquWsIZlrbSQQaQXp4w/BgEsjlaotdDTeqk/
- z/DTms/fHrFSAhfb12jw/8KN3grOGgbzHtPBsqs/OYTtQihFk0qaM4KJM g==;
-IronPort-SDR: 6ozkptnm6OsVpuznIgLDnDZQYyF/JyaFXOiEBpKERjcWN4837DJzgqGpJIDePiqBhmzgJw6IIO
- B7iny/aRsO1LptYfybIoOmR2TZ7rr/nk3Tj1S4zrnBypIlk1hGM36+TiIyWqp2gKKCFETNq0mI
- Y2AtfFQu8ZyJ6JC9yQ5Zg+sNn1evVIZFXA6BkdC4ncDbfVe6KoNaXTnGQctTEkZ+cr0+LWWFgs
- FCEmILqLpCfaycgE+18FFDsCRlcaturFvT3Pjv2YpMRzKY+CjnHzGHzQ1H4TYEh5Ds0IFRijDv
- ySI=
-X-IronPort-AV: E=Sophos;i="5.77,322,1596470400"; d="scan'208";a="149917802"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 01 Oct 2020 07:25:09 +0800
-IronPort-SDR: 3/rWKiQBF125Iw5iYSWB/Jaof9CcD1wnwZB9EBZ+0O/zCtSFPDtJwMZQyi961NQhrawF5Y88s8
- Ma/eE/S2uLMA==
+ t=1601508306; x=1633044306;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jySPtPnrnYMznydBS86y06ghptOyb1QOExfNRZFxVZk=;
+ b=hPlI+JvEDM311t2gRYORM4GZtPBU6MuzlvRFQRHJ/6Bu4M8+1DDkMATA
+ bwktC9ix9C1zOLrWNzYyf1a1h36Bhx25JpGwU96c0zWYgDcE0SrjcKMy8
+ ECiK1zCbs4IpoKL8/SKFVG19rmbUOxz9VQkL81KPzRudqYfCzvZWd6lq2
+ k1UeOR9E5zsQlhurj2n4nQVItLVfmXcoKULnDoGp/7nQfu2AiHCXZwLRU
+ AjQcn/BC1amui1FmB3GtjCpEJcrQjwbpO4lRsc9/2wcovxMP4+R0ExoUQ
+ 86RM4+Yg0LIXER7D4tMN+IVd74jZ8Yjzf209GLWdQ/+6hriOvxkjARU6x g==;
+IronPort-SDR: IVSATpsKdJ9dt30Jc4Vm9xpDCDEbCUnufTRI3h7B64k+Ayp83xlED8GbxvLnYKd6rjIoOU3qWz
+ 2UYI1sAvtgtoNQaHzpNPtS8sE6izZptJonE8cSuS600pv6gTy20fOCLXTvLNgxYE8ZQ2Pnt30e
+ TUMtlNs+ED8Je+6T1T2J1bBo+X5m3TxWZOCnSrmLgr2mz0qWt8tLjQvBGwJmsP1t6uf4PYSgbC
+ TK5kypED0+LJbwOSUdcIR9u9+/0fIgrBOQh3K+Gr6bD/fKLRrxaAEymEaCnouqKyrOQa55r170
+ 6Cs=
+X-IronPort-AV: E=Sophos;i="5.77,322,1596470400"; d="scan'208";a="148616614"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Oct 2020 07:25:03 +0800
+IronPort-SDR: jM4zV2OdaZZvMH9Y7cBR+rxOcrbvlYaNZ7kKxBFaQYL8t0lp22IPM/wvtxOy71Ku/ix/QIsE1o
+ ETKAykt17fww==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2020 16:11:07 -0700
-IronPort-SDR: +e6CK08qMi8lupNi/rQzFklfM/HGi5fEdLVmpRObzK4cZ0y3aLLJNQ+sGA5yUBfp9hL5e0+BCq
- i0a0WuOShhWg==
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2020 16:11:55 -0700
+IronPort-SDR: 4luG+9sMcrkk+IcVKYOUdzCM38MdcjAup0h9i5/F87XJzI/TkekebRAR9kPkf27+Ch/cDHHj6x
+ 6y9SqZaJRD4g==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 30 Sep 2020 16:25:08 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 30 Sep 2020 16:25:03 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/2] nvme-core: remove extra variable
-Date: Wed, 30 Sep 2020 16:24:46 -0700
-Message-Id: <20200930232447.20677-2-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 0/2] nvme-core: increamental cleanup
+Date: Wed, 30 Sep 2020 16:24:45 -0700
+Message-Id: <20200930232447.20677-1-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20200930232447.20677-1-chaitanya.kulkarni@wdc.com>
-References: <20200930232447.20677-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200930_192510_582392_936A6BD7 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20200930_192506_920146_96436604 
+X-CRM114-Status: UNSURE (   9.63  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,43 +99,24 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In nvme_validate_ns() the exra variable ctrl is used only twice.
-Using ns->ctrl directly still maintains the redability and original
-length of the lines in the code. Get rid of the extra variable ctrl &
-use ns->ctrl directly.
+Hi,
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/host/core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+This is an increamental cleanup which was discussed during review of
+"refactor the nvme scanning and validation code " [1]. This fixes minor
+nits in nvme_validate_ns() and nvme_set_queue_limits().
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 96dc87ea07b3..9a565096e072 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3931,20 +3931,19 @@ static void nvme_ns_remove_by_nsid(struct nvme_ctrl *ctrl, u32 nsid)
- 
- static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
- {
--	struct nvme_ctrl *ctrl = ns->ctrl;
- 	struct nvme_id_ns *id;
- 	int ret = -ENODEV;
- 
- 	if (test_bit(NVME_NS_DEAD, &ns->flags))
- 		goto out;
- 
--	ret = nvme_identify_ns(ctrl, ns->head->ns_id, ids, &id);
-+	ret = nvme_identify_ns(ns->ctrl, ns->head->ns_id, ids, &id);
- 	if (ret)
- 		goto out;
- 
- 	ret = -ENODEV;
- 	if (!nvme_ns_ids_equal(&ns->head->ids, ids)) {
--		dev_err(ctrl->device,
-+		dev_err(ns->ctrl->device,
- 			"identifiers changed for nsid %d\n", ns->head->ns_id);
- 		goto out_free_id;
- 	}
+Regards,
+Chaitanya
+
+[1] http://lists.infradead.org/pipermail/linux-nvme/2020-September/019886.html
+
+Chaitanya Kulkarni (2):
+  nvme-core: remove extra variable
+  nvme-core: remove extra condition for vwc
+
+ drivers/nvme/host/core.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
 -- 
 2.22.1
 
