@@ -8,16 +8,16 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D76C4727E
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 16:21:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71460C47420
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 16:21:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 437B82076B
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 16:21:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0534C2072E
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 16:21:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vQL+y1mk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 437B82076B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="p+gd4qRy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0534C2072E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,40 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=bBUrldad0/phzRE3PdXdkaEQLpT4sgEv3F19+y+25tY=; b=vQL+y1mkwREt7MNv6YWEPE9Vw
-	k/uV7ZES0X1g2pWP0VKD1PJ746+bqdZbdlQgnGRwdxPmxg4wyXU1bpjHg4ala0oVjRuExWRx5ycLy
-	oaCkxG8J0fA2NddV25YOhf4MCjWAPwXAWcoplOcHJvEdmN4+26TLInUmrZarCDVzOP8DY3gNvOSpD
-	/lBeEfOROU1mRDZzCPZe4np17xgGFIQbJdqX58rKqdIvhR4xNNClTc0EoHdhpTHjSFi9liKD+t8vR
-	UZqNXd/KUpnf7pue/LwE4mJGfRUDVq49KCHnGKReb4frELiNfEz1rewN0FM15u9u6Ri7/rxDtwzs/
-	Rzh0tJRFw==;
+	 bh=+bqsmPwx19lBI3yUN8RBTKuN1lk4vhJyARYF1BUDSfU=; b=p+gd4qRyDFJRXe4FB98PE5j7Y
+	XIDaTVJ1QVAhhxFD3aJZCenkuJw9gOUwVErUeZG9oJIecTBSJEbWLBUTVIa4V5wu5L9e4A04K2fv2
+	c6tEnykarA7vhq4ng4FKb8KJnszoVfnEieZIcJ0VIZSkWDOLl4lY83xW2RLZHi6PA4/sd8PeSCWeU
+	CRKycKsq8ygWWCmj5pj03Swg+TDoiilS8l9wYc+QT5oZoIm88ANHkXCdfvfIzMQcT3ixVsuMvzsb/
+	NftfAWfWYEd11Pi4ZDv0K9upjCu1A2t94wosdr5na7OD4BiI9UuWzKtf46JqRWeiaAOIxWypXiQqo
+	ir11yXhxA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNer3-0002ei-So; Wed, 30 Sep 2020 16:21:22 +0000
+	id 1kNer9-0002h6-Mn; Wed, 30 Sep 2020 16:21:27 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNeqI-0002Lt-39
+ id 1kNeqI-0002M1-4p
  for linux-nvme@lists.infradead.org; Wed, 30 Sep 2020 16:20:40 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
- borisp@mellanox.com) with SMTP; 30 Sep 2020 19:20:27 +0300
+ borisp@mellanox.com) with SMTP; 30 Sep 2020 19:20:28 +0300
 Received: from gen-l-vrt-133.mtl.labs.mlnx. (gen-l-vrt-133.mtl.labs.mlnx
  [10.237.11.160])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 08UGKR2D032498;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 08UGKR2G032498;
  Wed, 30 Sep 2020 19:20:27 +0300
 From: Boris Pismenny <borisp@mellanox.com>
 To: kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
  sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org,
  viro@zeniv.linux.org.uk, edumazet@google.com
-Subject: [PATCH net-next RFC v1 02/10] net: Introduce direct data placement
- tcp offload
-Date: Wed, 30 Sep 2020 19:20:02 +0300
-Message-Id: <20200930162010.21610-3-borisp@mellanox.com>
+Subject: [PATCH net-next RFC v1 05/10] nvme-tcp: Add DDP offload control path
+Date: Wed, 30 Sep 2020 19:20:05 +0300
+Message-Id: <20200930162010.21610-6-borisp@mellanox.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200930162010.21610-1-borisp@mellanox.com>
 References: <20200930162010.21610-1-borisp@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200930_122034_636113_DCB8674A 
-X-CRM114-Status: GOOD (  24.39  )
+X-CRM114-CacheID: sfid-20200930_122034_646200_441D8694 
+X-CRM114-Status: GOOD (  21.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,268 +78,302 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This commit introduces direct data placement offload for TCP.
-This capability is accompanied by new net_device operations that
-configure
-hardware contexts. There is a context per socket, and a context per DDP
-opreation. Additionally, a resynchronization routine is used to assist
-hardware handle TCP OOO, and continue the offload.
+This commit introduces direct data placement offload to NVME
+TCP. There is a context per queue, which is established after the
+handshake
+using the tcp_ddp_sk_add/del NDOs.
+
+Additionally, a resynchronization routine is used to assist
+hardware recovery from TCP OOO, and continue the offload.
+Resynchronization operates as follows:
+1. TCP OOO causes the NIC HW to stop the offload
+2. NIC HW identifies a PDU header at some TCP sequence number,
+and asks NVMe-TCP to confirm it.
+This request is delivered from the NIC driver to NVMe-TCP by first
+finding the socket for the packet that triggered the request, and
+then fiding the nvme_tcp_queue that is used by this routine.
+Finally, the request is recorded in the nvme_tcp_queue.
+3. When NVMe-TCP observes the requested TCP sequence, it will compare
+it with the PDU header TCP sequence, and report the result to the
+NIC driver (tcp_ddp_resync), which will update the HW,
+and resume offload when all is successful.
+
 Furthermore, we let the offloading driver advertise what is the max hw
-sectors/segments.
+sectors/segments via tcp_ddp_limits.
 
-Using this interface, the NIC hardware will scatter TCP payload directly
-to the BIO pages according to the command_id.
-To maintain the correctness of the network stack, the driver is expected
-to construct SKBs that point to the BIO pages.
-
-This, the SKB represents the data on the wire, while it is pointing
-to data that is already placed in the destination buffer.
-As a result, data from page frags should not be copied out to
-the linear part.
-
-As SKBs that use DDP are already very memory efficient, we modify
-skb_condence to avoid copying data from fragments to the linear
-part of SKBs that belong to a socket that uses DDP offload.
-
-A follow-up patch will use this interface for DDP in NVMe-TCP.
+A follow-up patch introduces the data-path changes required for this
+offload.
 
 Signed-off-by: Boris Pismenny <borisp@mellanox.com>
 Signed-off-by: Ben Ben-Ishay <benishay@mellanox.com>
 Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
 Signed-off-by: Yoray Zack <yorayz@mellanox.com>
 ---
- include/linux/netdev_features.h    |  2 +
- include/linux/netdevice.h          |  5 ++
- include/net/inet_connection_sock.h |  4 ++
- include/net/tcp_ddp.h              | 90 ++++++++++++++++++++++++++++++
- net/Kconfig                        |  9 +++
- net/core/skbuff.c                  |  9 ++-
- net/ethtool/common.c               |  1 +
- 7 files changed, 119 insertions(+), 1 deletion(-)
- create mode 100644 include/net/tcp_ddp.h
+ drivers/nvme/host/tcp.c  | 188 +++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme-tcp.h |   2 +
+ 2 files changed, 190 insertions(+)
 
-diff --git a/include/linux/netdev_features.h b/include/linux/netdev_features.h
-index 0b17c4322b09..a0074b244372 100644
---- a/include/linux/netdev_features.h
-+++ b/include/linux/netdev_features.h
-@@ -84,6 +84,7 @@ enum {
- 	NETIF_F_GRO_FRAGLIST_BIT,	/* Fraglist GRO */
- 
- 	NETIF_F_HW_MACSEC_BIT,		/* Offload MACsec operations */
-+	NETIF_F_HW_TCP_DDP_BIT,		/* TCP direct data placement offload */
- 
- 	/*
- 	 * Add your fresh new feature above and remember to update
-@@ -157,6 +158,7 @@ enum {
- #define NETIF_F_GRO_FRAGLIST	__NETIF_F(GRO_FRAGLIST)
- #define NETIF_F_GSO_FRAGLIST	__NETIF_F(GSO_FRAGLIST)
- #define NETIF_F_HW_MACSEC	__NETIF_F(HW_MACSEC)
-+#define NETIF_F_HW_TCP_DDP	__NETIF_F(HW_TCP_DDP)
- 
- /* Finds the next feature with the highest number of the range of start till 0.
-  */
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index a431c3229cbf..b00e1663724b 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -935,6 +935,7 @@ struct dev_ifalias {
- 
- struct devlink;
- struct tlsdev_ops;
-+struct tcp_ddp_dev_ops;
- 
- struct netdev_name_node {
- 	struct hlist_node hlist;
-@@ -1922,6 +1923,10 @@ struct net_device {
- 	const struct tlsdev_ops *tlsdev_ops;
- #endif
- 
-+#ifdef CONFIG_TCP_DDP
-+	const struct tcp_ddp_dev_ops *tcp_ddp_ops;
-+#endif
-+
- 	const struct header_ops *header_ops;
- 
- 	unsigned int		flags;
-diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-index dc763ca9413c..503092d8860d 100644
---- a/include/net/inet_connection_sock.h
-+++ b/include/net/inet_connection_sock.h
-@@ -66,6 +66,8 @@ struct inet_connection_sock_af_ops {
-  * @icsk_ulp_ops	   Pluggable ULP control hook
-  * @icsk_ulp_data	   ULP private data
-  * @icsk_clean_acked	   Clean acked data hook
-+ * @icsk_ulp_ddp_ops	   Pluggable ULP direct data placement control hook
-+ * @icsk_ulp_ddp_data	   ULP direct data placement private data
-  * @icsk_listen_portaddr_node	hash to the portaddr listener hashtable
-  * @icsk_ca_state:	   Congestion control state
-  * @icsk_retransmits:	   Number of unrecovered [RTO] timeouts
-@@ -94,6 +96,8 @@ struct inet_connection_sock {
- 	const struct tcp_ulp_ops  *icsk_ulp_ops;
- 	void __rcu		  *icsk_ulp_data;
- 	void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
-+	const struct tcp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
-+	void __rcu		  *icsk_ulp_ddp_data;
- 	struct hlist_node         icsk_listen_portaddr_node;
- 	unsigned int		  (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
- 	__u8			  icsk_ca_state:5,
-diff --git a/include/net/tcp_ddp.h b/include/net/tcp_ddp.h
-new file mode 100644
-index 000000000000..4c0d9660b039
---- /dev/null
-+++ b/include/net/tcp_ddp.h
-@@ -0,0 +1,90 @@
-+/* SPDX-License-Identifier: GPL-2.0
-+ *
-+ * tcp_ddp.h
-+ *	Author:	Boris Pismenny <borisp@mellanox.com>
-+ *	Copyright (C) 2020 Mellanox Technologies.
-+ */
-+#ifndef _TCP_DDP_H
-+#define _TCP_DDP_H
-+
-+#include <linux/blkdev.h>
-+#include <linux/netdevice.h>
-+#include <net/inet_connection_sock.h>
-+#include <net/sock.h>
-+
-+/* limits returned by the offload driver, zero means don't care */
-+struct tcp_ddp_limits {
-+	int	 max_ddp_sgl_len;
-+};
-+
-+enum tcp_ddp_type {
-+	TCP_DDP_NVME = 1,
-+};
-+
-+struct tcp_ddp_config {
-+	enum tcp_ddp_type    type;
-+	unsigned char        buf[];
-+};
-+
-+struct nvme_tcp_config {
-+	struct tcp_ddp_config   cfg;
-+
-+	u16			pfv;
-+	u8			cpda;
-+	u8			dgst;
-+	int			queue_size;
-+	int			queue_id;
-+	int			io_cpu;
-+};
-+
-+struct tcp_ddp_io {
-+	u32			command_id;
-+	int			nents;
-+	struct sg_table		sg_table;
-+	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
-+};
-+
-+struct tcp_ddp_dev_ops {
-+	int (*tcp_ddp_limits)(struct net_device *netdev,
-+			      struct tcp_ddp_limits *limits);
-+	int (*tcp_ddp_sk_add)(struct net_device *netdev,
-+			      struct sock *sk,
-+			      struct tcp_ddp_config *config);
-+	void (*tcp_ddp_sk_del)(struct net_device *netdev,
-+			       struct sock *sk);
-+	int (*tcp_ddp_setup)(struct net_device *netdev,
-+			     struct sock *sk,
-+			     struct tcp_ddp_io *io);
-+	int (*tcp_ddp_teardown)(struct net_device *netdev,
-+				struct sock *sk,
-+				struct tcp_ddp_io *io,
-+				void *ddp_ctx);
-+	void (*tcp_ddp_resync)(struct net_device *netdev,
-+			       struct sock *sk, u32 seq);
-+};
-+
-+#define TCP_DDP_RESYNC_REQ (1 << 0)
-+
-+/*
-+ * Interface to register uppper layer Direct Data Placement (DDP) TCP offload
-+ */
-+struct tcp_ddp_ulp_ops {
-+	/* NIC requests ulp to indicate if @seq is the start of a message */
-+	bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
-+	/* NIC driver informs the ulp that ddp teardown is done */
-+	void (*ddp_teardown_done)(void *ddp_ctx);
-+};
-+
-+struct tcp_ddp_ctx {
-+	enum tcp_ddp_type    type;
-+	unsigned char        buf[];
-+};
-+
-+static inline struct tcp_ddp_ctx *tcp_ddp_get_ctx(const struct sock *sk)
-+{
-+	struct inet_connection_sock *icsk = inet_csk(sk);
-+
-+	return (__force struct tcp_ddp_ctx *)icsk->icsk_ulp_ddp_data;
-+}
-+
-+#endif //_TCP_DDP_H
-diff --git a/net/Kconfig b/net/Kconfig
-index 3831206977a1..346e9fa7a6ec 100644
---- a/net/Kconfig
-+++ b/net/Kconfig
-@@ -460,6 +460,15 @@ config ETHTOOL_NETLINK
- 	  netlink. It provides better extensibility and some new features,
- 	  e.g. notification messages.
- 
-+config TCP_DDP
-+	bool "TCP direct data placement offload"
-+	default n
-+	help
-+	  Direct Data Placement (DDP) offload for TCP enables ULP, such as
-+	  NVMe-TCP/iSCSI, to request the NIC to place TCP payload data
-+	  of a command response directly into kernel pages.
-+
-+
- endif   # if NET
- 
- # Used by archs to tell that they support BPF JIT compiler plus which flavour.
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index e0774471f56d..ad32985876da 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -69,6 +69,7 @@
- #include <net/xfrm.h>
- #include <net/mpls.h>
- #include <net/mptcp.h>
-+#include <net/tcp_ddp.h>
- 
- #include <linux/uaccess.h>
- #include <trace/events/skb.h>
-@@ -6059,9 +6060,15 @@ EXPORT_SYMBOL(pskb_extract);
-  */
- void skb_condense(struct sk_buff *skb)
- {
-+	bool is_ddp = false;
-+
-+#ifdef CONFIG_TCP_DDP
-+	is_ddp = skb->sk && inet_csk(skb->sk) &&
-+		 inet_csk(skb->sk)->icsk_ulp_ddp_data;
-+#endif
- 	if (skb->data_len) {
- 		if (skb->data_len > skb->end - skb->tail ||
--		    skb_cloned(skb))
-+		    skb_cloned(skb) || is_ddp)
- 			return;
- 
- 		/* Nice, we can free page frag(s) right now */
-diff --git a/net/ethtool/common.c b/net/ethtool/common.c
-index 24036e3055a1..a2ff7a4a6bbf 100644
---- a/net/ethtool/common.c
-+++ b/net/ethtool/common.c
-@@ -68,6 +68,7 @@ const char netdev_features_strings[NETDEV_FEATURE_COUNT][ETH_GSTRING_LEN] = {
- 	[NETIF_F_HW_TLS_RX_BIT] =	 "tls-hw-rx-offload",
- 	[NETIF_F_GRO_FRAGLIST_BIT] =	 "rx-gro-list",
- 	[NETIF_F_HW_MACSEC_BIT] =	 "macsec-hw-offload",
-+	[NETIF_F_HW_TCP_DDP_BIT] =	 "tcp-ddp-offload",
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 8f4f29f18b8c..06711ac095f2 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -62,6 +62,7 @@ enum nvme_tcp_queue_flags {
+ 	NVME_TCP_Q_ALLOCATED	= 0,
+ 	NVME_TCP_Q_LIVE		= 1,
+ 	NVME_TCP_Q_POLLING	= 2,
++	NVME_TCP_Q_OFFLOADS     = 3,
  };
  
- const char
+ enum nvme_tcp_recv_state {
+@@ -110,6 +111,8 @@ struct nvme_tcp_queue {
+ 	void (*state_change)(struct sock *);
+ 	void (*data_ready)(struct sock *);
+ 	void (*write_space)(struct sock *);
++
++	atomic64_t  resync_req;
+ };
+ 
+ struct nvme_tcp_ctrl {
+@@ -129,6 +132,8 @@ struct nvme_tcp_ctrl {
+ 	struct delayed_work	connect_work;
+ 	struct nvme_tcp_request async_req;
+ 	u32			io_queues[HCTX_MAX_TYPES];
++
++	struct net_device       *offloading_netdev;
+ };
+ 
+ static LIST_HEAD(nvme_tcp_ctrl_list);
+@@ -223,6 +228,159 @@ static inline size_t nvme_tcp_pdu_last_send(struct nvme_tcp_request *req,
+ 	return nvme_tcp_pdu_data_left(req) <= len;
+ }
+ 
++#ifdef CONFIG_TCP_DDP
++
++bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags);
++const struct tcp_ddp_ulp_ops nvme_tcp_ddp_ulp_ops __read_mostly = {
++	.resync_request		= nvme_tcp_resync_request,
++};
++
++static
++int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue,
++			    struct nvme_tcp_config *config)
++{
++	struct net_device *netdev = get_netdev_for_sock(queue->sock->sk, true);
++	struct tcp_ddp_config *ddp_config = (struct tcp_ddp_config *)config;
++	int ret;
++
++	if (unlikely(!netdev)) {
++		pr_info_ratelimited("%s: netdev not found\n", __func__);
++		return -EINVAL;
++	}
++
++	if (!(netdev->features & NETIF_F_HW_TCP_DDP)) {
++		dev_put(netdev);
++		return -EINVAL;
++	}
++
++	ret = netdev->tcp_ddp_ops->tcp_ddp_sk_add(netdev,
++						 queue->sock->sk,
++						 ddp_config);
++	if (!ret)
++		inet_csk(queue->sock->sk)->icsk_ulp_ddp_ops = &nvme_tcp_ddp_ulp_ops;
++	else
++		dev_put(netdev);
++	return ret;
++}
++
++static
++void nvme_tcp_unoffload_socket(struct nvme_tcp_queue *queue)
++{
++	struct net_device *netdev = queue->ctrl->offloading_netdev;
++
++	if (unlikely(!netdev)) {
++		pr_info_ratelimited("%s: netdev not found\n", __func__);
++		return;
++	}
++
++	netdev->tcp_ddp_ops->tcp_ddp_sk_del(netdev, queue->sock->sk);
++
++	inet_csk(queue->sock->sk)->icsk_ulp_ddp_ops = NULL;
++	dev_put(netdev); /* put the queue_init get_netdev_for_sock() */
++}
++
++static
++int nvme_tcp_offload_limits(struct nvme_tcp_queue *queue,
++			    struct tcp_ddp_limits *limits)
++{
++	struct net_device *netdev = get_netdev_for_sock(queue->sock->sk, true);
++	int ret = 0;
++
++	if (unlikely(!netdev)) {
++		pr_info_ratelimited("%s: netdev not found\n", __func__);
++		return -EINVAL;
++	}
++
++	if (netdev->features & NETIF_F_HW_TCP_DDP &&
++	    netdev->tcp_ddp_ops &&
++	    netdev->tcp_ddp_ops->tcp_ddp_limits)
++			ret = netdev->tcp_ddp_ops->tcp_ddp_limits(netdev, limits);
++	else
++			ret = -EOPNOTSUPP;
++
++	if (!ret) {
++		queue->ctrl->offloading_netdev = netdev;
++		pr_info("%s netdev %s offload limits: max_ddp_sgl_len %d\n",
++			__func__, netdev->name, limits->max_ddp_sgl_len);
++		queue->ctrl->ctrl.max_segments = limits->max_ddp_sgl_len;
++		queue->ctrl->ctrl.max_hw_sectors =
++			limits->max_ddp_sgl_len << (ilog2(SZ_4K) - 9);
++	} else {
++		queue->ctrl->offloading_netdev = NULL;
++	}
++
++	dev_put(netdev);
++
++	return ret;
++}
++
++static
++void nvme_tcp_resync_response(struct nvme_tcp_queue *queue,
++			      unsigned int pdu_seq)
++{
++	struct net_device *netdev = queue->ctrl->offloading_netdev;
++	u64 resync_val;
++	u32 resync_seq;
++
++	if (unlikely(!netdev)) {
++		pr_info_ratelimited("%s: netdev not found\n", __func__);
++		return;
++	}
++
++	resync_val = atomic64_read(&queue->resync_req);
++	if ((resync_val & TCP_DDP_RESYNC_REQ) == 0)
++		return;
++
++	resync_seq = resync_val >> 32;
++	if (before(pdu_seq, resync_seq))
++		return;
++
++	if (atomic64_cmpxchg(&queue->resync_req, resync_val, (resync_val - 1)))
++		netdev->tcp_ddp_ops->tcp_ddp_resync(netdev, queue->sock->sk, pdu_seq);
++}
++
++bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags)
++{
++	struct nvme_tcp_queue *queue = sk->sk_user_data;
++
++	atomic64_set(&queue->resync_req,
++		     (((uint64_t)seq << 32) | flags));
++
++	return true;
++}
++
++#else
++
++static
++int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue,
++			    struct nvme_tcp_config *config)
++{
++	return -EINVAL;
++}
++
++static
++void nvme_tcp_unoffload_socket(struct nvme_tcp_queue *queue)
++{}
++
++static
++int nvme_tcp_offload_limits(struct nvme_tcp_queue *queue,
++			    struct tcp_ddp_limits *limits)
++{
++	return -EINVAL;
++}
++
++static
++void nvme_tcp_resync_response(struct nvme_tcp_queue *queue,
++			      unsigned int pdu_seq)
++{}
++
++bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags)
++{
++	return false;
++}
++
++#endif
++
+ static void nvme_tcp_init_iter(struct nvme_tcp_request *req,
+ 		unsigned int dir)
+ {
+@@ -628,6 +786,11 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 	size_t rcv_len = min_t(size_t, *len, queue->pdu_remaining);
+ 	int ret;
+ 
++	u64 pdu_seq = TCP_SKB_CB(skb)->seq + *offset - queue->pdu_offset;
++
++	if (test_bit(NVME_TCP_Q_OFFLOADS, &queue->flags))
++		nvme_tcp_resync_response(queue, pdu_seq);
++
+ 	ret = skb_copy_bits(skb, *offset,
+ 		&pdu[queue->pdu_offset], rcv_len);
+ 	if (unlikely(ret))
+@@ -1370,6 +1533,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ {
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
++	struct nvme_tcp_config config;
++	struct tcp_ddp_limits limits;
+ 	int ret, rcv_pdu_size;
+ 
+ 	queue->ctrl = ctrl;
+@@ -1487,6 +1652,26 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ #endif
+ 	write_unlock_bh(&queue->sock->sk->sk_callback_lock);
+ 
++	if (nvme_tcp_queue_id(queue) != 0) {
++		config.cfg.type		= TCP_DDP_NVME;
++		config.pfv		= NVME_TCP_PFV_1_0;
++		config.cpda		= 0;
++		config.dgst		= queue->hdr_digest ?
++						NVME_TCP_HDR_DIGEST_ENABLE : 0;
++		config.dgst		|= queue->data_digest ?
++						NVME_TCP_DATA_DIGEST_ENABLE : 0;
++		config.queue_size	= queue->queue_size;
++		config.queue_id		= nvme_tcp_queue_id(queue);
++		config.io_cpu		= queue->io_cpu;
++
++		ret = nvme_tcp_offload_socket(queue, &config);
++		if (!ret)
++			set_bit(NVME_TCP_Q_OFFLOADS, &queue->flags);
++	} else {
++		ret = nvme_tcp_offload_limits(queue, &limits);
++	}
++	/* offload is opportunistic - failure is non-critical */
++
+ 	return 0;
+ 
+ err_init_connect:
+@@ -1519,6 +1704,9 @@ static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
+ 	kernel_sock_shutdown(queue->sock, SHUT_RDWR);
+ 	nvme_tcp_restore_sock_calls(queue);
+ 	cancel_work_sync(&queue->io_work);
++
++	if (test_bit(NVME_TCP_Q_OFFLOADS, &queue->flags))
++		nvme_tcp_unoffload_socket(queue);
+ }
+ 
+ static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
+diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
+index 959e0bd9a913..65df64c34ecd 100644
+--- a/include/linux/nvme-tcp.h
++++ b/include/linux/nvme-tcp.h
+@@ -8,6 +8,8 @@
+ #define _LINUX_NVME_TCP_H
+ 
+ #include <linux/nvme.h>
++#include <net/sock.h>
++#include <net/tcp_ddp.h>
+ 
+ #define NVME_TCP_DISC_PORT	8009
+ #define NVME_TCP_ADMIN_CCSZ	SZ_8K
 -- 
 2.24.1
 
