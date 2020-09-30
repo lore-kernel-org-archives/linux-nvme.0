@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C3BFC2D0A8
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 06:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2885C2D0A8
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 06:40:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 146D020754
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 06:13:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 24D912075F
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 06:40:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IV6+N178"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 146D020754
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zLes89Av"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 24D912075F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,36 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=beEa1wtSE46HvED/3FMrt8dZ7Jrrjv48lgpKTxDiA2A=; b=IV6+N178/U2dZtVtelK/HItsD
-	RJYre3WwyYuxxTop5yd+CGjlfDfWPhKuwtEvb5+qsX14eHNmOVJsoPAzRH2HmDxvwtSsM0iOkOtyH
-	AHrL8pjOJLGzKmXtWxyx1C2CXk5G8rRlQZ9vpZSkAuzeZjwgMnSwJz4CeZ6cu2TBsudgWC+p57QPX
-	rTFLu9HaKo3ycFP2i/0lcj+wiwaRUAzb0PLQI5PX5EMbYo4wdrAkOQqM29s6n+sZ8xXZDtwqp2LQX
-	Ko2VXOodehuZWhmH+1rTeL4A2JDU7cKGkp4nBFyjbs9g0QjASmzbJDDFZUSnThBo8Ii2bEMD+8CsF
-	teWMP/xJw==;
+	 bh=mRq4BR2QdrjQlcNfUvlZFW6d7LEI7VsMytQWjo4ziyY=; b=zLes89Av+e6ka81NoWERz3QLA
+	focU/r3/H1Qh4dmXnbRWngYbvlg15V44QFKHJmC3GWPKnmisxWZiWdTdI4PiVNjSCm0UTkze3cS75
+	ARnjt3VXKRzfOHYthiqk8tM872IdB8vZAl6rtiQ6ObPaLv1nGytwA9y/yF3BUkgH2unP73M003QJE
+	fDPogp0KenmbgMRz4cpeCKee8s1P73YaJp/+iIyn7hz/Zi16ycz3SU45i/x6stIiFpxw2ssUz9Fr1
+	biLe2SoV499depUOal+/fqDfPmb8GajlwhLZdtSvO/7w8hTNZK0QTZaBCfBo5emDyGeGEfQwDUkwg
+	lbKz17U0Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNVN1-0000IJ-If; Wed, 30 Sep 2020 06:13:43 +0000
+	id 1kNVmO-0002T9-Oq; Wed, 30 Sep 2020 06:39:56 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNVMy-0000HI-KA
- for linux-nvme@lists.infradead.org; Wed, 30 Sep 2020 06:13:41 +0000
+ id 1kNVmL-0002Sn-A0
+ for linux-nvme@lists.infradead.org; Wed, 30 Sep 2020 06:39:54 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 020DD67373; Wed, 30 Sep 2020 08:13:39 +0200 (CEST)
-Date: Wed, 30 Sep 2020 08:13:38 +0200
+ id 97E6A68AFE; Wed, 30 Sep 2020 08:39:50 +0200 (CEST)
+Date: Wed, 30 Sep 2020 08:39:50 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH 18/20] nvme: move nvme_validate_ns
-Message-ID: <20200930061338.GB1939@lst.de>
-References: <20200928123502.435373-1-hch@lst.de>
- <20200928123502.435373-19-hch@lst.de>
- <BYAPR04MB49652C7EA9C2A45C8248A50286330@BYAPR04MB4965.namprd04.prod.outlook.com>
+To: Victor Gladkov <Victor.Gladkov@kioxia.com>
+Subject: Re: [PATCH v9] nvme-fabrics: reject I/O to offline device
+Message-ID: <20200930063950.GA2418@lst.de>
+References: <319b8b1869f34a48b26fbd902883ed71@kioxia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <BYAPR04MB49652C7EA9C2A45C8248A50286330@BYAPR04MB4965.namprd04.prod.outlook.com>
+In-Reply-To: <319b8b1869f34a48b26fbd902883ed71@kioxia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200930_021340_779923_483B909F 
-X-CRM114-Status: GOOD (  14.14  )
+X-CRM114-CacheID: sfid-20200930_023953_493236_75A166D4 
+X-CRM114-Status: UNSURE (   8.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +65,18 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Damien Le Moal <Damien.LeMoal@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>,
+Cc: Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+ Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, "Ewan D. Milne" <emilne@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 30, 2020 at 12:22:28AM +0000, Chaitanya Kulkarni wrote:
-> > +static int nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
-> > +{
-> > +	struct nvme_ctrl *ctrl = ns->ctrl;
-> 
-> the ctrl variable only accessed twice and there is enough space for using
-> 
-> ns->ctrl so that we will not exceed the 80 char, consider removing that
-> and using
-> 
-> ns->ctrl ?
-> 
-> > +	struct nvme_id_ns *id;
-> > +	int ret = 0;
-> > +
-> 
-> no need to initialize ret it is getting overwritten nvme_identify_ns()
-> before
-> 
-> the first access or ret = -ENODEV and return ret on test_bit(NVME_NS_DEAD)
-> 
-> error case.
-
-This patch is a pure code move.  But I think all of your comments are
-taken care of later anyway.
+The diff seems malformed, probably mangled by your mailer.  Can you
+resend a working diff?  Feel free to fix up the obvious style problems,
+otherwise I can do that as well.
 
 _______________________________________________
 Linux-nvme mailing list
