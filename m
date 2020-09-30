@@ -8,16 +8,16 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31525C4727C
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 16:21:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67FD0C4727C
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 16:21:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B5EEF2072E
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 16:21:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0015D2072E
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Sep 2020 16:21:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Bo16/4I6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5EEF2072E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="xSsWBUNC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0015D2072E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,40 +26,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Vt3620SiSz5sN7U32sWBTbaaXmYSb5wQFgUkEdX6AVQ=; b=Bo16/4I6Y0eqhojgcF5kv+/1K
-	A8SZlINnmQguGXzNhLrlmyow3JY5Xap56NMEOJaEjbArr/Ps3GRJATl1qS13eZ/EzF69b11GMa932
-	4yhnKHPC97j6yb9A6FkDuvrVuU52vWPW/jy3c1QO7PTRkOTksMDqyxZFbryR76OwGybDqlR1vhlxr
-	eb4oBotcAP+cpI3K5T0XR+MnSsujn7afWNB+7VKTVFwHUGi+g8FuZAhWeOVmgm6rpHXgM9x1d078D
-	q42gER8CeAhfIr/VqE20RzW13+5S99/Cxv1jWqQGzhorTezl4yIdQmK8fbEhPt83dcRoCIsIYJxTv
-	88Wno1qMQ==;
+	 bh=5+uowtHlxjM87SLr93MZlIvOsNZybtcjmaaKwSNYQmE=; b=xSsWBUNCJn86JZxXuP12MFMN0
+	fdkmTs236HsGb3yMEFwc5ltnsXm8If8WAmB2PFerGWDDPhqCqkR+AYptSw7GG/mYsc5LjDhWodAvJ
+	SqyT4f/yxn2Gd0dERGQ6D8L4OFHD3WDMm+e00ln2UMHA0ChsTdojQW8o/PQML3Yso2jRM0WTOjvCV
+	mmMYhBlBhJ2qe3/YRlLzCw7uSBnJeaNuEoGfiQR9BiXzSWXYC7iEAZXvbvlALWbsX+HBTlJmVRmie
+	bCoJedx78Dbs7CA/emPyj60SqxwFQLm1jymgGfx6ZluEHmeaDQl5NJRPl7dr8kV3TliUgGrEXUIqc
+	aSWH2OoPw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNeqt-0002b2-Mt; Wed, 30 Sep 2020 16:21:11 +0000
+	id 1kNeqy-0002ch-A9; Wed, 30 Sep 2020 16:21:16 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNeqI-0002M5-6m
+ id 1kNeqI-0002Ls-38
  for linux-nvme@lists.infradead.org; Wed, 30 Sep 2020 16:20:39 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
- borisp@mellanox.com) with SMTP; 30 Sep 2020 19:20:28 +0300
+ borisp@mellanox.com) with SMTP; 30 Sep 2020 19:20:27 +0300
 Received: from gen-l-vrt-133.mtl.labs.mlnx. (gen-l-vrt-133.mtl.labs.mlnx
  [10.237.11.160])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 08UGKR2J032498;
- Wed, 30 Sep 2020 19:20:28 +0300
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 08UGKR2E032498;
+ Wed, 30 Sep 2020 19:20:27 +0300
 From: Boris Pismenny <borisp@mellanox.com>
 To: kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
  sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org,
  viro@zeniv.linux.org.uk, edumazet@google.com
-Subject: [PATCH net-next RFC v1 08/10] nvme-tcp: Deal with netdevice DOWN
- events
-Date: Wed, 30 Sep 2020 19:20:08 +0300
-Message-Id: <20200930162010.21610-9-borisp@mellanox.com>
+Subject: [PATCH net-next RFC v1 03/10] net: Introduce crc offload for tcp ddp
+ ulp
+Date: Wed, 30 Sep 2020 19:20:03 +0300
+Message-Id: <20200930162010.21610-4-borisp@mellanox.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200930162010.21610-1-borisp@mellanox.com>
 References: <20200930162010.21610-1-borisp@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200930_122034_738534_07351998 
-X-CRM114-Status: GOOD (  19.81  )
+X-CRM114-CacheID: sfid-20200930_122034_633520_FBB33129 
+X-CRM114-Status: GOOD (  17.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,132 +79,155 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Or Gerlitz <ogerlitz@mellanox.com>
+This commit itroduces support for CRC offload to direct data placement
+ULP on the receive side. Both DDP and CRC share a common API to
+initialize the offload for a TCP socket. But otherwise, both can
+be executed independently.
 
-For ddp setup/teardown and resync, the offloading logic
-uses HW resources at the NIC driver such as SQ and CQ.
+On the receive side, CRC offload requires a new SKB bit that
+indicates that no CRC error was encountered while processing this packet.
+If all packets of a ULP message have this bit set, then the CRC
+verification for the message can be skipped, as hardware already checked
+it.
 
-These resources are destroyed when the netdevice does down
-and hence we must stop using them before the NIC driver
-destroyes them.
+The following patches will set and use this bit to perform NVME-TCP
+CRC offload.
 
-Use netdevice notifier for that matter -- offloaded connections
-are stopped before the stack continues to call the NIC driver
-close ndo.
+A subsequent series, will add NVMe-TCP transmit side CRC support.
 
-We use the existing recovery flow which has the advantage
-of resuming the offload once the connection is re-set.
-
-Since the recovery flow runs in a separate/dedicated WQ
-we need to wait in the notifier code for an ACK that all
-offloaded queues were stopped which means that the teardown
-queue offload ndo was called and the NIC doesn't have any
-resources related to that connection any more.
-
-This also buys us proper handling for the UNREGISTER event
-b/c our offloading starts in the UP state, and down is always
-there between up to unregister.
-
-Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
 Signed-off-by: Boris Pismenny <borisp@mellanox.com>
 Signed-off-by: Ben Ben-Ishay <benishay@mellanox.com>
+Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
 Signed-off-by: Yoray Zack <yorayz@mellanox.com>
 ---
- drivers/nvme/host/tcp.c | 39 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+ include/linux/netdev_features.h | 2 ++
+ include/linux/skbuff.h          | 4 ++++
+ net/Kconfig                     | 8 ++++++++
+ net/ethtool/common.c            | 1 +
+ net/ipv4/tcp_input.c            | 7 +++++++
+ net/ipv4/tcp_ipv4.c             | 3 +++
+ net/ipv4/tcp_offload.c          | 3 +++
+ 7 files changed, 28 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 9a620d1dacb4..7569b47f0414 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -144,6 +144,7 @@ struct nvme_tcp_ctrl {
+diff --git a/include/linux/netdev_features.h b/include/linux/netdev_features.h
+index a0074b244372..27001f5c0be1 100644
+--- a/include/linux/netdev_features.h
++++ b/include/linux/netdev_features.h
+@@ -85,6 +85,7 @@ enum {
  
- static LIST_HEAD(nvme_tcp_ctrl_list);
- static DEFINE_MUTEX(nvme_tcp_ctrl_mutex);
-+static struct notifier_block nvme_tcp_netdevice_nb;
- static struct workqueue_struct *nvme_tcp_wq;
- static const struct blk_mq_ops nvme_tcp_mq_ops;
- static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
-@@ -412,8 +413,6 @@ int nvme_tcp_offload_limits(struct nvme_tcp_queue *queue,
- 		queue->ctrl->ctrl.max_segments = limits->max_ddp_sgl_len;
- 		queue->ctrl->ctrl.max_hw_sectors =
- 			limits->max_ddp_sgl_len << (ilog2(SZ_4K) - 9);
--	} else {
--		queue->ctrl->offloading_netdev = NULL;
- 	}
+ 	NETIF_F_HW_MACSEC_BIT,		/* Offload MACsec operations */
+ 	NETIF_F_HW_TCP_DDP_BIT,		/* TCP direct data placement offload */
++	NETIF_F_HW_TCP_DDP_CRC_BIT,	/* TCP DDP CRC offload */
  
- 	dev_put(netdev);
-@@ -1992,6 +1991,8 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- {
- 	int ret;
+ 	/*
+ 	 * Add your fresh new feature above and remember to update
+@@ -159,6 +160,7 @@ enum {
+ #define NETIF_F_GSO_FRAGLIST	__NETIF_F(GSO_FRAGLIST)
+ #define NETIF_F_HW_MACSEC	__NETIF_F(HW_MACSEC)
+ #define NETIF_F_HW_TCP_DDP	__NETIF_F(HW_TCP_DDP)
++#define NETIF_F_HW_TCP_DDP_CRC	__NETIF_F(HW_TCP_DDP_CRC)
  
-+	to_tcp_ctrl(ctrl)->offloading_netdev = NULL;
+ /* Finds the next feature with the highest number of the range of start till 0.
+  */
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 04a18e01b362..0530d849ebf2 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -858,6 +858,10 @@ struct sk_buff {
+ #ifdef CONFIG_TLS_DEVICE
+ 	__u8			decrypted:1;
+ #endif
++#ifdef CONFIG_TCP_DDP_CRC
++	__u8                    ddp_crc:1;
++#endif
 +
- 	ret = nvme_tcp_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
- 	if (ret)
- 		return ret;
-@@ -2885,6 +2886,26 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 	return ERR_PTR(ret);
- }
  
-+static int nvme_tcp_netdev_event(struct notifier_block *this,
-+				 unsigned long event, void *ptr)
-+{
-+	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-+	struct nvme_tcp_ctrl *ctrl;
-+
-+	switch (event) {
-+	case NETDEV_GOING_DOWN:
-+		mutex_lock(&nvme_tcp_ctrl_mutex);
-+		list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list) {
-+			if (ndev != ctrl->offloading_netdev)
-+				continue;
-+			nvme_tcp_error_recovery(&ctrl->ctrl);
-+		}
-+		mutex_unlock(&nvme_tcp_ctrl_mutex);
-+		flush_workqueue(nvme_reset_wq);
-+	}
-+	return NOTIFY_DONE;
-+}
-+
- static struct nvmf_transport_ops nvme_tcp_transport = {
- 	.name		= "tcp",
- 	.module		= THIS_MODULE,
-@@ -2899,13 +2920,26 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
+ #ifdef CONFIG_NET_SCHED
+ 	__u16			tc_index;	/* traffic control index */
+diff --git a/net/Kconfig b/net/Kconfig
+index 346e9fa7a6ec..7891b4380e56 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -468,6 +468,14 @@ config TCP_DDP
+ 	  NVMe-TCP/iSCSI, to request the NIC to place TCP payload data
+ 	  of a command response directly into kernel pages.
  
- static int __init nvme_tcp_init_module(void)
- {
-+	int ret;
-+
- 	nvme_tcp_wq = alloc_workqueue("nvme_tcp_wq",
- 			WQ_MEM_RECLAIM | WQ_HIGHPRI, 0);
- 	if (!nvme_tcp_wq)
- 		return -ENOMEM;
++config TCP_DDP_CRC
++	bool "TCP direct data placement CRC offload"
++	default n
++	help
++	  Direct Data Placement (DDP) CRC32C offload for TCP enables ULP, such as
++	  NVMe-TCP/iSCSI, to request the NIC to calculate/verify the data digest
++	  of commands as they go through the NIC. Thus avoiding the costly
++	  per-byte overhead.
  
-+	nvme_tcp_netdevice_nb.notifier_call = nvme_tcp_netdev_event;
-+	ret = register_netdevice_notifier(&nvme_tcp_netdevice_nb);
-+	if (ret) {
-+		pr_err("failed to register netdev notifier\n");
-+		goto out_err_reg_notifier;
-+	}
-+
- 	nvmf_register_transport(&nvme_tcp_transport);
- 	return 0;
-+
-+out_err_reg_notifier:
-+	destroy_workqueue(nvme_tcp_wq);
-+	return ret;
- }
+ endif   # if NET
  
- static void __exit nvme_tcp_cleanup_module(void)
-@@ -2913,6 +2947,7 @@ static void __exit nvme_tcp_cleanup_module(void)
- 	struct nvme_tcp_ctrl *ctrl;
+diff --git a/net/ethtool/common.c b/net/ethtool/common.c
+index a2ff7a4a6bbf..4941670dd25d 100644
+--- a/net/ethtool/common.c
++++ b/net/ethtool/common.c
+@@ -69,6 +69,7 @@ const char netdev_features_strings[NETDEV_FEATURE_COUNT][ETH_GSTRING_LEN] = {
+ 	[NETIF_F_GRO_FRAGLIST_BIT] =	 "rx-gro-list",
+ 	[NETIF_F_HW_MACSEC_BIT] =	 "macsec-hw-offload",
+ 	[NETIF_F_HW_TCP_DDP_BIT] =	 "tcp-ddp-offload",
++	[NETIF_F_HW_TCP_DDP_CRC_BIT] =	 "tcp-ddp-crc-offload",
+ };
  
- 	nvmf_unregister_transport(&nvme_tcp_transport);
-+	unregister_netdevice_notifier(&nvme_tcp_netdevice_nb);
+ const char
+diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+index f7b3e37d2198..f8e1e8ebef2c 100644
+--- a/net/ipv4/tcp_input.c
++++ b/net/ipv4/tcp_input.c
+@@ -5099,6 +5099,9 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ 		memcpy(nskb->cb, skb->cb, sizeof(skb->cb));
+ #ifdef CONFIG_TLS_DEVICE
+ 		nskb->decrypted = skb->decrypted;
++#endif
++#ifdef CONFIG_TCP_DDP_CRC
++		nskb->ddp_crc = skb->ddp_crc;
+ #endif
+ 		TCP_SKB_CB(nskb)->seq = TCP_SKB_CB(nskb)->end_seq = start;
+ 		if (list)
+@@ -5132,6 +5135,10 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ #ifdef CONFIG_TLS_DEVICE
+ 				if (skb->decrypted != nskb->decrypted)
+ 					goto end;
++#endif
++#ifdef CONFIG_TCP_DDP_CRC
++				if (skb->ddp_crc != nskb->ddp_crc)
++					goto end;
+ #endif
+ 			}
+ 		}
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index ace48b2790ff..2693029e6ee7 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -1791,6 +1791,9 @@ bool tcp_add_backlog(struct sock *sk, struct sk_buff *skb)
+ 	      TCP_SKB_CB(skb)->tcp_flags) & (TCPHDR_ECE | TCPHDR_CWR)) ||
+ #ifdef CONFIG_TLS_DEVICE
+ 	    tail->decrypted != skb->decrypted ||
++#endif
++#ifdef CONFIG_TCP_DDP_CRC
++	    tail->ddp_crc != skb->ddp_crc ||
+ #endif
+ 	    thtail->doff != th->doff ||
+ 	    memcmp(thtail + 1, th + 1, hdrlen - sizeof(*th)))
+diff --git a/net/ipv4/tcp_offload.c b/net/ipv4/tcp_offload.c
+index e09147ac9a99..39f5f0bcf181 100644
+--- a/net/ipv4/tcp_offload.c
++++ b/net/ipv4/tcp_offload.c
+@@ -262,6 +262,9 @@ struct sk_buff *tcp_gro_receive(struct list_head *head, struct sk_buff *skb)
+ #ifdef CONFIG_TLS_DEVICE
+ 	flush |= p->decrypted ^ skb->decrypted;
+ #endif
++#ifdef CONFIG_TCP_DDP_CRC
++	flush |= p->ddp_crc ^ skb->ddp_crc;
++#endif
  
- 	mutex_lock(&nvme_tcp_ctrl_mutex);
- 	list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list)
+ 	if (flush || skb_gro_receive(p, skb)) {
+ 		mss = 1;
 -- 
 2.24.1
 
