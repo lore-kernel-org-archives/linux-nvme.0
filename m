@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B821C47423
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2020 07:54:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DCBC4727E
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2020 07:54:52 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0F1822145D
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2020 07:54:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A19482145D
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Oct 2020 07:54:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g6+vPeVA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0F1822145D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SgPu7wFj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A19482145D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,38 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=P+cDd5pERjvQZmu6fzRB2Q8E5Pw5seZcQDFptw76ybg=; b=g6+vPeVAjEf+076R0KNtuwFRR
-	VUFOoza2y1lIFpUGoAm01XWdv0fn8e29JjLuZ5DUBT4TlR3GQ8/sC09LDq5mOcSz3ElH1zjUZ3gor
-	1T2bCSuEhLhHVyb+EtYeEwpdNKzz4bZuRqY1n6ykhUdRZTNrENMe3TEsw+x5rSScbf266SBvUPJ1t
-	TaQJod8nuggtY79Sj/XH5zn/e4S6RhEDsjDK0rcJbZJ1TgeJB4uVt14uGPhbLXP8wl0JVpdbmBu+Q
-	1WPoED52UjAqabdfYW+2Xp0lc7/RiZ+m70W8FqQfGo6x6jzJ29TOQU+W6aHHNiSeuOkK66B7kLe29
-	K9oybdxTA==;
+	 bh=/RHSOmp9yqMWs7k8fI7V10faQlgC/gjJh8xLBXef+Hk=; b=SgPu7wFjrxBhvsXqGC+MiDTib
+	zUiFhNhUd+5mk4ztGq2tjdx15o5wfCeby2HSYx3mRmac/PcfB8hN9gYQw5jRciJr2hjCWHG+TH2Su
+	Vc28SyhDDjV8YCONEawMJvBtqsQiqwwIrhvkGY1kttAXwdoaHV75zscbOZzlw3TVMQhbt/M1ayiqS
+	AR6+66Pj26CK6PXHE/kOIAMJdpXOP/1Wge6RaWbaG4uClv8DB6z1kk1Hahv/g1oaYcu7/f4rbWIqo
+	T01fJtIZQ1uAmJqlhktuNK/DWWIFFDbuea64LN94cIzqfg4KGY8tX/ln+HsHckSCR2wi4rZ5XiKcv
+	R544fJncA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kNtQK-0004JD-Qw; Thu, 01 Oct 2020 07:54:44 +0000
+	id 1kNtQP-0004LO-QN; Thu, 01 Oct 2020 07:54:49 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kNtQI-0004IG-KW
- for linux-nvme@lists.infradead.org; Thu, 01 Oct 2020 07:54:43 +0000
+ id 1kNtQN-0004K9-FT
+ for linux-nvme@lists.infradead.org; Thu, 01 Oct 2020 07:54:48 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A7F5EAC83;
- Thu,  1 Oct 2020 07:54:41 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 73426AC97;
+ Thu,  1 Oct 2020 07:54:46 +0000 (UTC)
 From: Coly Li <colyli@suse.de>
 To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, open-iscsi@googlegroups.com,
  linux-scsi@vger.kernel.org, ceph-devel@vger.kernel.org
-Subject: [PATCH v9 1/7] net: introduce helper sendpage_ok() in
- include/linux/net.h
-Date: Thu,  1 Oct 2020 15:54:02 +0800
-Message-Id: <20201001075408.25508-2-colyli@suse.de>
+Subject: [PATCH v9 2/7] net: add WARN_ONCE in kernel_sendpage() for improper
+ zero-copy send
+Date: Thu,  1 Oct 2020 15:54:03 +0800
+Message-Id: <20201001075408.25508-3-colyli@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201001075408.25508-1-colyli@suse.de>
 References: <20201001075408.25508-1-colyli@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201001_035442_829067_B50AFBA0 
-X-CRM114-Status: GOOD (  18.70  )
+X-CRM114-CacheID: sfid-20201001_035447_680053_F0D5C5EE 
+X-CRM114-Status: GOOD (  17.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,84 +68,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@suse.com>,
- Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, Coly Li <colyli@suse.de>,
- Hannes Reinecke <hare@suse.de>, Jan Kara <jack@suse.com>,
- Philipp Reisner <philipp.reisner@linbit.com>, Christoph Hellwig <hch@lst.de>
+Cc: Cong Wang <amwang@redhat.com>, linux-kernel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, Coly Li <colyli@suse.de>,
+ "David S . Miller" <davem@davemloft.net>, Sridhar Samudrala <sri@us.ibm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The original problem was from nvme-over-tcp code, who mistakenly uses
-kernel_sendpage() to send pages allocated by __get_free_pages() without
-__GFP_COMP flag. Such pages don't have refcount (page_count is 0) on
-tail pages, sending them by kernel_sendpage() may trigger a kernel panic
-from a corrupted kernel heap, because these pages are incorrectly freed
-in network stack as page_count 0 pages.
+If a page sent into kernel_sendpage() is a slab page or it doesn't have
+ref_count, this page is improper to send by the zero copy sendpage()
+method. Otherwise such page might be unexpected released in network code
+path and causes impredictable panic due to kernel memory management data
+structure corruption.
 
-This patch introduces a helper sendpage_ok(), it returns true if the
-checking page,
-- is not slab page: PageSlab(page) is false.
-- has page refcount: page_count(page) is not zero
+This path adds a WARN_ON() on the sending page before sends it into the
+concrete zero-copy sendpage() method, if the page is improper for the
+zero-copy sendpage() method, a warning message can be observed before
+the consequential unpredictable kernel panic.
 
-All drivers who want to send page to remote end by kernel_sendpage()
-may use this helper to check whether the page is OK. If the helper does
-not return true, the driver should try other non sendpage method (e.g.
-sock_no_sendpage()) to handle the page.
+This patch does not change existing kernel_sendpage() behavior for the
+improper page zero-copy send, it just provides hint warning message for
+following potential panic due the kernel memory heap corruption.
 
 Signed-off-by: Coly Li <colyli@suse.de>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: Cong Wang <amwang@redhat.com>
 Cc: Christoph Hellwig <hch@lst.de>
-Cc: Hannes Reinecke <hare@suse.de>
-Cc: Jan Kara <jack@suse.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>
-Cc: Philipp Reisner <philipp.reisner@linbit.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Vlastimil Babka <vbabka@suse.com>
-Cc: stable@vger.kernel.org
+Cc: David S. Miller <davem@davemloft.net>
+Cc: Sridhar Samudrala <sri@us.ibm.com>
 ---
- include/linux/net.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ net/socket.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/net.h b/include/linux/net.h
-index d48ff1180879..ae713c851342 100644
---- a/include/linux/net.h
-+++ b/include/linux/net.h
-@@ -21,6 +21,7 @@
- #include <linux/rcupdate.h>
- #include <linux/once.h>
- #include <linux/fs.h>
-+#include <linux/mm.h>
- #include <linux/sockptr.h>
- 
- #include <uapi/linux/net.h>
-@@ -286,6 +287,21 @@ do {									\
- #define net_get_random_once_wait(buf, nbytes)			\
- 	get_random_once_wait((buf), (nbytes))
- 
-+/*
-+ * E.g. XFS meta- & log-data is in slab pages, or bcache meta
-+ * data pages, or other high order pages allocated by
-+ * __get_free_pages() without __GFP_COMP, which have a page_count
-+ * of 0 and/or have PageSlab() set. We cannot use send_page for
-+ * those, as that does get_page(); put_page(); and would cause
-+ * either a VM_BUG directly, or __page_cache_release a page that
-+ * would actually still be referenced by someone, leading to some
-+ * obscure delayed Oops somewhere else.
-+ */
-+static inline bool sendpage_ok(struct page *page)
-+{
-+	return !PageSlab(page) && page_count(page) >= 1;
-+}
-+
- int kernel_sendmsg(struct socket *sock, struct msghdr *msg, struct kvec *vec,
- 		   size_t num, size_t len);
- int kernel_sendmsg_locked(struct sock *sk, struct msghdr *msg,
+diff --git a/net/socket.c b/net/socket.c
+index 0c0144604f81..771456a1d947 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -3638,9 +3638,11 @@ EXPORT_SYMBOL(kernel_getpeername);
+ int kernel_sendpage(struct socket *sock, struct page *page, int offset,
+ 		    size_t size, int flags)
+ {
+-	if (sock->ops->sendpage)
++	if (sock->ops->sendpage) {
++		/* Warn in case the improper page to zero-copy send */
++		WARN_ONCE(!sendpage_ok(page));
+ 		return sock->ops->sendpage(sock, page, offset, size, flags);
+-
++	}
+ 	return sock_no_sendpage(sock, page, offset, size, flags);
+ }
+ EXPORT_SYMBOL(kernel_sendpage);
 -- 
 2.26.2
 
