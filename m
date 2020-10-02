@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD8CCC4727E
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2020 02:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A79C4727E
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2020 02:57:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5098F206CA
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2020 02:57:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 36EEC206CA
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Oct 2020 02:57:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fOF1J57b";
-	dkim=permerror (0-bit key) header.d=wdc.com header.i=@wdc.com header.b="McpLe4Zt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5098F206CA
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="3T7eKNqT";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="gel68s3g"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36EEC206CA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,62 +26,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fmVstIv9TRdAA2jyQkbF/jLzmIJIMwrO2xMTyx6ECtU=; b=fOF1J57b0M8xjyCe+hFvcEeOB
-	/5Sj7AJzx6Zaz4X/oHzdOFyra5EogwTfN8EfEcaWrdYeSXKlstoku6TMP/zDpAcEQdHneqIFDLf2A
-	7x1pI6IWCKRms2n7kQ13v5DjNEFfAI1lGlBBuWCOLW0diUPcBY0AcLxHObmedlEenuSV1EcTyt0K5
-	aGAS2iR/EiOPMgyyuJOahlkA9I5fc31tXFjiqH5P0iiTQkH1PZEdG3GaCB2/5aFKZeQ6DFpHSiQ+u
-	uAEY5eSUr4SLH7Ni1BbEk7cCTzfMOWW08xwoVOn8WxmrW43SG7IZHtNgiI9rL+eRLHAji0rQ4aruY
-	LAwsAIMRw==;
+	 bh=bvm4SflfFfoXbCaH4180xjz73KccryNl5kqCxgdLcP8=; b=3T7eKNqTXItN6LZVvTUh/XEHU
+	lphmcWJnYpqZ9thpudBwsf90oOl91k1xo8HiLbTlUkK6Gkny4OhzR6+NnyLxMYA1LkRl46TMHDTIi
+	rAuL5Lua0Y1S51CjOn/yNobWPtCxO292xKaWHdFuyQV2bbBG6uFAXuYapro2kRpzE/piO+r4QoxWV
+	9UeVRLN489MfdZ9GOLNxzBmZW/Z8iz6LEul7OiIwqLiTq5uXb3h5RNRScAij+z9Lb+tOosEbQNzFY
+	spcte+cjoVtIM02PGARWJveEcZgMBd86AUK7zZBEMtr5z3La06uHflCZxHydCjjFulXJOFENafWdq
+	OwZKsf+eQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kOBFt-0004uF-I9; Fri, 02 Oct 2020 02:57:09 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1kOBFx-0004vf-Gg; Fri, 02 Oct 2020 02:57:13 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kOBFp-0004te-Rv
- for linux-nvme@lists.infradead.org; Fri, 02 Oct 2020 02:57:07 +0000
+ id 1kOBFv-0004ut-Hx
+ for linux-nvme@lists.infradead.org; Fri, 02 Oct 2020 02:57:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1601608533; x=1633144533;
+ t=1601607431; x=1633143431;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=yM4lEu5jD6VBXHwXf+Z+MBwwjNYx2kI1tHl0Cv03kA0=;
- b=McpLe4Zt+6/eQCns4lMWrCop8d+HNr9sdR889CcXgbyTSFOg2tRWYyw7
- McX8XbPDopGgTFLTYwLu2WSJCB8TAdyh7IyLyLxOM/aAq/c/wKX/W7kjS
- xc6o0F4V8KiLgKO4AHsO07ZgUN6dfmYex45i36Nh8EjWQuaEWevqAp7If
- d5l5e7qYjKrBFHRfsziTMsdx0VHEf9eu5xaxtcYdGnnjWRLrslmq7Bgtq
- oy0+0ZQHWA5r5o6L0ZIn7tqz6FcKQII7/vier/AeQ9VsrbbAhGUMFlnT2
- l0kRarVHEIY8R9vZfmQJ7v02IWQxl06rZH4QHW8J6hnosfpzsfu7BgsgH Q==;
-IronPort-SDR: 9gjnyMjM27Z12oYcISoqPqgxoKAq3cJtj3o62MhEOn21J8tuXtz58V7WXAuS6GBKWVcf51tyTk
- VAd8b5dzzqiazPtCxCNS3TG/j+MNGFKbB00d3WnvFKbGXu4fd1LQqd8YNfJUCB7NesGnxtHn3L
- rw6qhMfm25Q9Ob0qTVYlk3rMFRGSNe5erot70gcWfnKo4sufMYX1A4z/yBws3tgClA+sJfEzFM
- mSPLvchhENNHULBBBGjYbzV6Z2i1jpfFBM5S4cIJ19PF4L3mPW90KYlr23R+SR51P2UPWFddta
- qn0=
-X-IronPort-AV: E=Sophos;i="5.77,326,1596470400"; d="scan'208";a="252290679"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 02 Oct 2020 11:15:30 +0800
-IronPort-SDR: wRlgaiTWMMZlOiJ9/NB2lTwQt65nJfOxt6sKBY1c6LnXOr7B+BdiH4+mqW7E7864Twderwy+uS
- dYrmc6P2zFbQ==
+ bh=62QXZU/oioU1XnMoy/by0IRUsdtEYQRJWqvChOF7wzw=;
+ b=gel68s3gdR++R/uTuV1ik3Fv+R2Kq8TEns1c5+MzOuQaDyo7Ei5wmdA2
+ mn5hDp+jqAcyTyt/XMTIjD7hcYXTJiUf9vD6374fZc/bcgkL1+uGpGdbz
+ kygPrHiaL5JMpH/4vs7Kvpku6v33sf2YofKypZMW42QnqtI6hELky5vZ2
+ OCo9NtBhT6RI8AX53zvPex7R41yQ6atMux4bSQv5cluhhl9ojbVjAHyMj
+ yk+vThepRmjNs+6AChZsD6JtoHK7VTS/xrkAXOjBiq2LfIa7AkdPWKYg4
+ +pBffjINb1i1kwQmbj/Ff27rwI/rYXQIzzQa+KUvRh4vTz5ZkzryZrE+F g==;
+IronPort-SDR: J6nTiLJTGfJP2os9DFzoj771AmZsSnLHAV9u5ZkYcEeoaNr00AudfPBGLdAXNsSCHX1kj9n03w
+ HZ5NHYi9fSgp9Mxtmct4sh8GfBWVdw2Cz4wvm9UHMw4SedkQwbK34y40GH/HaalRVeTVuvTcsk
+ FsA/4SuDz4lm9lUhDXvLqd6lN3bVnbJ2vJ5b/ZV4oRAhBwmVV4mcZtE8EhThj4C8HaCJ2pLW/H
+ mBeVVmPNvQXcNsNlYd5LnSgOHATNkfxi8Db+KzHZhF5q6ROS3mU+MSv9s+m4PISlYnzbCWR4ey
+ L9A=
+X-IronPort-AV: E=Sophos;i="5.77,326,1596470400"; d="scan'208";a="150086628"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Oct 2020 10:57:10 +0800
+IronPort-SDR: sjdsrNXuEIv0h644Qhutt2X2zwph/eI7v8qlELgUhrwtyuxEXw6HUHImcMYsiSC776fdwdWhmP
+ KR5HfLjs9uKQ==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2020 19:43:00 -0700
-IronPort-SDR: dJ2LJ1xPp927sgmeOchHfv1tYpny1JkI3zBUrmmrlw6D8dBZgaz1AN0Iyuwkf8y9hXmsSi2+3F
- Gwea/QYZvs3A==
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2020 19:44:02 -0700
+IronPort-SDR: PxA6Xdb/p+OUXH+9HZfQrSByN7VMgnARVVYt/bdzOratcgX1REDPnPe2InbP9yrB0QUdtGfJnN
+ HFq0u196C4jQ==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 01 Oct 2020 19:57:05 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 01 Oct 2020 19:57:12 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 2/4] nvmet: allow user to set the ns readonly
-Date: Thu,  1 Oct 2020 19:56:47 -0700
-Message-Id: <20201002025649.30724-3-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 3/4] nvmet: allow readonly bdev-ns to be configured
+Date: Thu,  1 Oct 2020 19:56:48 -0700
+Message-Id: <20201002025649.30724-4-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20201002025649.30724-1-chaitanya.kulkarni@wdc.com>
 References: <20201002025649.30724-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201001_225706_015580_4C5A626B 
-X-CRM114-Status: GOOD (  18.87  )
+X-CRM114-CacheID: sfid-20201001_225711_719041_5C1D8D9F 
+X-CRM114-Status: GOOD (  16.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,114 +100,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-User may want to export readonly ns to host in order to export
-read-only snapshots. Right now we don't have configfs attribute to
-allow user to mark readonly & export ns.
+Right now we open bdev-ns in read-write mode. This doesn't allow us to
+export the bdev which is marked read-only using blockdev --setro.
 
-Add a configfs attribute "write_protect" such that user can set the ns
-and export ns readonly when it is not enabled.
-
-Also, when user is setting the ns write protected from configfs we set
-ns write protect state to NVME_NS_WRITE_PROTECT_PERMANENT and don't
-allow user to change the value for the ns-write-protect feature.
-
-We also update the id->nwpc to indicate the support for namespace
-write protect permanent state. For RPMB clear the bit 1 of the field
-Namesapce Write Protection Authentication Control to indicate Set
-Features command which attenpts to set the namespace write protection
-state to permanent write protect will fail.
+Allow user to export the readonly bdev by considering the
+ns->write_protect configfs attribute when opening the bdev. Use
+FMODE_WRITE when ns->write_protect is not set.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c |  9 ++++++++-
- drivers/nvme/target/configfs.c  | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+), 1 deletion(-)
+ drivers/nvme/target/io-cmd-bdev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 263cfff6ddd4..44ff847db83e 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -457,7 +457,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->psd[0].entry_lat = cpu_to_le32(0x10);
- 	id->psd[0].exit_lat = cpu_to_le32(0x4);
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 125dde3f410e..0e6b5312ad1e 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -65,10 +65,10 @@ static void nvmet_bdev_ns_enable_integrity(struct nvmet_ns *ns)
  
--	id->nwpc = 1 << 0; /* write protect and no write protect */
-+	/* write protect permanent, write protect and no write protect */
-+	id->nwpc = 1 << 2 | 1 << 0;
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ {
++	fmode_t mode = (ns->write_protect ? 0 : FMODE_WRITE) | FMODE_READ;
+ 	int ret;
  
- 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
- 
-@@ -711,6 +712,11 @@ static u16 nvmet_set_feat_write_protect(struct nvmet_req *req)
- 	}
- 
- 	mutex_lock(&subsys->lock);
-+	if (req->ns->write_protect == NVME_NS_WRITE_PROTECT_PERMANENT) {
-+		req->error_loc = offsetof(struct nvme_common_command, nsid);
-+		goto out;
-+	}
-+
- 	switch (write_protect) {
- 	case NVME_NS_WRITE_PROTECT:
- 		status = nvmet_write_protect_flush_sync(req);
-@@ -729,6 +735,7 @@ static u16 nvmet_set_feat_write_protect(struct nvmet_req *req)
- 
- 	if (!status)
- 		nvmet_ns_changed(subsys, req->ns->nsid);
-+out:
- 	mutex_unlock(&subsys->lock);
- 	return status;
- }
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 37e1d7784e17..5d8ee00b8fd0 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -595,6 +595,38 @@ static ssize_t nvmet_ns_revalidate_size_store(struct config_item *item,
- 
- CONFIGFS_ATTR_WO(nvmet_ns_, revalidate_size);
- 
-+static ssize_t nvmet_ns_write_protect_show(struct config_item *item, char *page)
-+{
-+	return sprintf(page, "%d\n", to_nvmet_ns(item)->write_protect);
-+}
-+
-+static ssize_t nvmet_ns_write_protect_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_ns *ns = to_nvmet_ns(item);
-+	bool val;
-+
-+	if (strtobool(page, &val))
-+		return -EINVAL;
-+
-+	mutex_lock(&ns->subsys->lock);
-+	if (ns->enabled) {
-+		pr_err("disable ns before setting write_protect value.\n");
-+		mutex_unlock(&ns->subsys->lock);
-+		return -EINVAL;
-+	}
-+
-+	if (val)
-+		ns->write_protect = NVME_NS_WRITE_PROTECT_PERMANENT;
-+	else
-+		ns->write_protect = NVME_NS_NO_WRITE_PROTECT;
-+
-+	mutex_unlock(&ns->subsys->lock);
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(nvmet_ns_, write_protect);
-+
- static struct configfs_attribute *nvmet_ns_attrs[] = {
- 	&nvmet_ns_attr_device_path,
- 	&nvmet_ns_attr_device_nguid,
-@@ -603,6 +635,7 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
- 	&nvmet_ns_attr_enable,
- 	&nvmet_ns_attr_buffered_io,
- 	&nvmet_ns_attr_revalidate_size,
-+	&nvmet_ns_attr_write_protect,
- #ifdef CONFIG_PCI_P2PDMA
- 	&nvmet_ns_attr_p2pmem,
- #endif
+-	ns->bdev = blkdev_get_by_path(ns->device_path,
+-			FMODE_READ | FMODE_WRITE, NULL);
++	ns->bdev = blkdev_get_by_path(ns->device_path, mode, NULL);
+ 	if (IS_ERR(ns->bdev)) {
+ 		ret = PTR_ERR(ns->bdev);
+ 		if (ret != -ENOTBLK) {
 -- 
 2.22.1
 
