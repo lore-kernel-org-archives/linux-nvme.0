@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB69C4363A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:41:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD65C4363A
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:45:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8CE8D207BC
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:41:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AF6EA207BC
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:45:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XiOJrkZL";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="h3QqqzXK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8CE8D207BC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hni0Ga0j";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="SWNbSvv3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF6EA207BC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,64 +26,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=NfVTJHB85nkVc1ItydIis9lce67u7NsWlbkY/ijmZNk=; b=XiOJrkZLzc6Rwsk1rBRZTWMyq
-	7l8jcj6xUOsLbc3hqJaJyuwQk42Ray3uWiqfQ/NqTj7r8HeUXQQuBUOwmP4BCVnRpVmbBtEgzO11Z
-	bTN4tNCL36slgub7PYCDZ9LKtauCAuUDv/S6sqPyo0WpbZ4XRU3NJ80LBmv9/XCCKKdEP3LqFgko8
-	VlDM1qGtBvbUjaZcheqp3hNfvS5VoGy9uBMPy9dfTKRCik7lHcqNDewuSzpaN55OFZg6jDjC/+oFk
-	TzDKyPdk2ilUUQk5nh6iDiup7GHA3lTXJ8xIqRqndhVt1J+bUWZ2FbMJ24Z65RDqnyB/dy55O4F3v
-	hBPL5VAtQ==;
+	 bh=Hd8cukqKITqO7981LC1liK6CbbljtI0Uuxmj6v75MU4=; b=hni0Ga0jwwDCRVATsptVLNzQp
+	Ofo4Fm/ZbeERONzSsw6s5Gs5qgB1Dfgq/5pOrqHn3BI7EXiAnzU+NRyO9CRxzqcbfPf4qsMQRVix6
+	s3uggM6eOTlDZTCY/n3f5sU47PfFLVO1dRGpoVqceKbK9u7fRQlFzXxxUzUPT3MDkYKUdrDnpcRSj
+	oJ5L15xSP1DtBM3grPtb/SJDVmmaZ1ph3pfTRJ+ThTY4/bT5s4BT8fGv8G2yqw0txvYSnBIYSJq18
+	R3nT4NjodZlXLDjXE86tNrHE/GssU/s0ZmEUNm9dQgH29q4k7F0kt2Spcs7pj0fwWKlR4RGaB/Ql9
+	Hx2kMBbdw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPUUG-0001Ii-3r; Mon, 05 Oct 2020 17:41:24 +0000
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
+	id 1kPUYD-0003IZ-00; Mon, 05 Oct 2020 17:45:29 +0000
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPUUC-0001G1-70
- for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 17:41:21 +0000
-Received: by mail-pf1-x444.google.com with SMTP id k8so7428558pfk.2
- for <linux-nvme@lists.infradead.org>; Mon, 05 Oct 2020 10:41:19 -0700 (PDT)
+ id 1kPUY7-0003GG-MC
+ for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 17:45:26 +0000
+Received: by mail-pg1-x542.google.com with SMTP id 34so6436163pgo.13
+ for <linux-nvme@lists.infradead.org>; Mon, 05 Oct 2020 10:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to;
- bh=s/bmuVe0x58wS6520Bg5Mb2dA7nfwhf1HB/ibGMhx/A=;
- b=h3QqqzXKzOlyH6GEL/P3C6YW9ye5lcx7tV54sdeWD6qsx3SeoLyoFo1CcZis0l3A0Q
- mIh8DGyAHIoUacrEpfe/iCdtqrcQHXukaHF1zQT1ZpA77vCdQLA//lkgrCWOAzT/r1i1
- rMmDJytlIhOf57I32FWMCJCS9sUJxpdsN0dtQ=
+ bh=oSpnfjbWCH68Kl1ZVKcn5ISPA6tROXa/zUq1dHxh5gs=;
+ b=SWNbSvv3CHQbgSfPyH2hU2s8mcVB/VBAe4NMzBu9PsO1wuf9qdGEh4hSJTxomr2pnx
+ 4o2lPJIz/mVi9w2UlsE3crOKU7ih4QKcjhrhy4ACcjbDAbQTLxKd/xnqBr4EoJtbcl1n
+ 2My8fT4ccA8OCD1OTu7oh4Ay1s72q3zRDxG3U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to;
- bh=s/bmuVe0x58wS6520Bg5Mb2dA7nfwhf1HB/ibGMhx/A=;
- b=OJzH3heXNonXuTouru28IbnFCpOYRqabrPwD19UE0n/Bp3r8qGjJHTtpgO9uZmatI1
- XmgbH8oOe5bViIzXLt5eItLYYT9zmwfTiXGbZMj5T5Mxox7zKINjr7FbOGH/Xq2rWYml
- 6IoodCcIcZ4uMdqbxudgrLWaHkKuSriwrJawBGtjLT7AVnvT2NN/avZJgWe03+theJHv
- Rh6KIGgXU25+jdc2GR1pfjnslrd9nEEj9ONfn1EsbBXUlqZ9JpLehm1XlVcTA6oQLWIs
- YzDrNFbeGOcch1uj/+G+s8CEn94d1yru/NEN7kHnhyuC+DKGWccxEE3n0SDgqKlez1TL
- YrIQ==
-X-Gm-Message-State: AOAM531IAqQjYzEy08Wq0PEHBJRVYkQIZe/n8nyhupAeTKPCIeOcIvRq
- 51sagzOLubtOCdpv0Gb17ZO9yi+WnRKqxRRddyanMJbhAu1Cwlou4Bvc06pC5cQZmwiz84VrozM
- KmCessi08gfTXpGAijNromdWCeU5gny9E2dncVMX84MUrIiPvH2Zchc0yx/ZwRO30NCmpUHz8lk
- NsUIsKjk0m
-X-Google-Smtp-Source: ABdhPJyc8AbRJPw+JHcP1VNv10jKGmjGQTFIj0uyT0PE5nrlZLVOIDoMYMobUQuQRIyJflnqB3zyRA==
-X-Received: by 2002:a63:c18:: with SMTP id b24mr619492pgl.208.1601919677380;
- Mon, 05 Oct 2020 10:41:17 -0700 (PDT)
+ bh=oSpnfjbWCH68Kl1ZVKcn5ISPA6tROXa/zUq1dHxh5gs=;
+ b=QieQxXuW/vBoaKjwOxb/ubQZM/RIW1CJUvFeK2v17tAahNoFzlE86SUTliPGupdiNW
+ Fq8VImR4uCYNIGZAYP6PRCXSJn91bSzbmCupmdysKFRYDM7ugYUx1ERon4kJfRFSJIjg
+ vI89BPsHMdzskzdgOkgPX4LI7PeH8LtS0HCmB+TAAdOwXgpfw6sVgZmtWM3GaZO7Tvym
+ 5O0sdvSDWP98JdsGpAYnKNvrX2rqfonsDUQzczWL79kBtCM2aAPVoiTXc3j+360V80F0
+ lJ88i8P+eI6lKpC5yk20R/H491MyxVkMuJIIXeoVKOK1hqMApxPM2rtX/3wozRWdegXn
+ B0kQ==
+X-Gm-Message-State: AOAM530+rCgPkCOGWF8VA+yInOJvtC3MpBCpHal53FcmoxUZ3BjdyvWL
+ 8J6rJL8CwCfjf5tBgQqNRjblqsOz9QQyHN58Ibx/W+vLb8ikFKaevusBQ7RhFFhsm6Y8iXPF8qF
+ SU7bdNXt6b0cDW5Zj+ZntLgndiNhaFkySkck8kri7Zx1Q7mMAnHEcyte9HXa5gsAJOi5QsJ7hos
+ 0mBSd2oHwq
+X-Google-Smtp-Source: ABdhPJzTCXRzKLwXnii5dXmy/hLQEgOzNHopYq1i1ZJoVdt/+s8x63pWtksbM64w5/NTD2USIRlkpw==
+X-Received: by 2002:a63:778f:: with SMTP id s137mr579983pgc.7.1601919920887;
+ Mon, 05 Oct 2020 10:45:20 -0700 (PDT)
 Received: from [10.230.185.151] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id o20sm249289pgh.63.2020.10.05.10.41.15
+ by smtp.gmail.com with ESMTPSA id s16sm242239pgl.78.2020.10.05.10.45.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Oct 2020 10:41:16 -0700 (PDT)
-Subject: Re: [PATCH 6/7] nvme-fcloop: use a device for nport
+ Mon, 05 Oct 2020 10:45:19 -0700 (PDT)
+Subject: Re: [PATCH 7/7] nvme-fcloop: use a device for lport
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 References: <20200922121501.32851-1-hare@suse.de>
- <20200922121501.32851-7-hare@suse.de>
+ <20200922121501.32851-8-hare@suse.de>
 From: James Smart <james.smart@broadcom.com>
-Message-ID: <4ca1d58e-0831-6596-020f-311932b3c439@broadcom.com>
-Date: Mon, 5 Oct 2020 10:41:15 -0700
+Message-ID: <18cf0738-2643-d59a-d634-aebc85eb6ba5@broadcom.com>
+Date: Mon, 5 Oct 2020 10:45:17 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200922121501.32851-7-hare@suse.de>
+In-Reply-To: <20200922121501.32851-8-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201005_134120_262628_D27E3921 
-X-CRM114-Status: GOOD (  23.01  )
+X-CRM114-CacheID: sfid-20201005_134523_775625_63CC47C2 
+X-CRM114-Status: GOOD (  22.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,151 +97,142 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
  Keith Busch <keith.busch@wdc.com>
-Content-Type: multipart/mixed; boundary="===============0687690968303265787=="
+Content-Type: multipart/mixed; boundary="===============3573482379092186216=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============0687690968303265787==
+--===============3573482379092186216==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000005b994e05b0effdbe"
+	boundary="000000000000e1852905b0f00b42"
 
---0000000000005b994e05b0effdbe
+--000000000000e1852905b0f00b42
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 On 9/22/2020 5:15 AM, Hannes Reinecke wrote:
-> Add a 'struct device' to the nport such that the nport will show
+> Add a 'struct device' to the lport such that the lport will show
 > up in sysfs and we get a valid name in the logging output.
 >
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->   drivers/nvme/target/fcloop.c | 31 +++++++++++++++++++++----------
->   1 file changed, 21 insertions(+), 10 deletions(-)
+>   drivers/nvme/target/fcloop.c | 53 ++++++++++++++++++++++++++++++++------------
+>   1 file changed, 39 insertions(+), 14 deletions(-)
 >
 > diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-> index 7dab98545979..b84f8754b3a3 100644
+> index b84f8754b3a3..1af1917ddf4c 100644
 > --- a/drivers/nvme/target/fcloop.c
 > +++ b/drivers/nvme/target/fcloop.c
-> @@ -245,11 +245,11 @@ struct fcloop_tport {
+> @@ -214,6 +214,7 @@ static LIST_HEAD(fcloop_nports);
+>   static DEFINE_IDA(fcloop_portid_ida);
+>   
+>   struct fcloop_lport {
+> +	struct device dev;
+>   	struct nvme_fc_local_port *localport;
+>   	struct list_head lport_list;
+>   	struct completion unreg_done;
+> @@ -1053,6 +1054,16 @@ static struct nvmet_fc_target_template tgttemplate = {
+>   	.lsrqst_priv_sz		= sizeof(struct fcloop_lsreq),
 >   };
 >   
->   struct fcloop_nport {
-> +	struct device dev;
->   	struct fcloop_rport *rport;
->   	struct fcloop_tport *tport;
->   	struct fcloop_lport *lport;
->   	struct list_head nport_list;
-> -	struct kref ref;
->   	u64 node_name;
->   	u64 port_name;
->   	u32 port_role;
-> @@ -949,10 +949,10 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
->   }
->   
->   static void
-> -fcloop_nport_free(struct kref *ref)
-> +fcloop_release_nport(struct device *dev)
->   {
->   	struct fcloop_nport *nport =
-> -		container_of(ref, struct fcloop_nport, ref);
-> +		container_of(dev, struct fcloop_nport, dev);
->   	unsigned long flags;
->   
->   	spin_lock_irqsave(&fcloop_lock, flags);
-> @@ -967,13 +967,13 @@ fcloop_nport_free(struct kref *ref)
->   static void
->   fcloop_nport_put(struct fcloop_nport *nport)
->   {
-> -	kref_put(&nport->ref, fcloop_nport_free);
-> +	put_device(&nport->dev);
->   }
->   
-> -static int
-> +static void
->   fcloop_nport_get(struct fcloop_nport *nport)
->   {
-> -	return kref_get_unless_zero(&nport->ref);
-> +	get_device(&nport->dev);
->   }
->   
->   static void
-> @@ -1007,6 +1007,8 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
->   #define	FCLOOP_SGL_SEGS			256
->   #define FCLOOP_DMABOUND_4G		0xFFFFFFFF
->   
-> +static struct class *fcloop_class;
+> +static void fcloop_release_lport(struct device *dev)
+> +{
+> +	struct fcloop_lport *lport =
+> +		container_of(dev, struct fcloop_lport, dev);
 > +
->   static struct nvme_fc_port_template fctemplate = {
->   	.localport_delete	= fcloop_localport_delete,
->   	.remoteport_delete	= fcloop_remoteport_delete,
-> @@ -1225,8 +1227,10 @@ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
->   	newnport->port_id = port_id;
->   	if (opts->mask & NVMF_OPT_ROLES)
->   		newnport->port_role = opts->roles;
-> -
-> -	kref_init(&newnport->ref);
-> +	newnport->dev.class = fcloop_class;
-> +	newnport->dev.release = fcloop_release_nport;
-> +	dev_set_name(&newnport->dev, "nport%d", newnport->port_id);
-> +	device_initialize(&newnport->dev);
+> +	ida_free(&fcloop_portid_ida, lport->port_id);
+> +
+> +	kfree(lport);
+> +}
+> +
+>   static ssize_t
+>   fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+>   		const char *buf, size_t count)
+> @@ -1063,7 +1074,7 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+>   	struct fcloop_lport *lport;
+>   	struct fcloop_lport_priv *lport_priv;
+>   	unsigned long flags;
+> -	int ret = -ENOMEM, port_id;
+> +	int ret = -ENOMEM, port_id, port_num;
 >   
->   	spin_lock_irqsave(&fcloop_lock, flags);
->   
-> @@ -1267,6 +1271,10 @@ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
->   		}
+>   	lport = kzalloc(sizeof(*lport), GFP_KERNEL);
+>   	if (!lport)
+> @@ -1094,25 +1105,39 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+>   		goto out_free_ida;
 >   	}
 >   
-> +	ret = device_add(&newnport->dev);
-> +	if (ret)
-> +		goto out_invalid_opts;
+> +	lport->port_id = port_id;
+> +	lport->dev.class = fcloop_class;
+> +	lport->dev.release = fcloop_release_lport;
+> +	dev_set_name(&lport->dev, "lport%d", lport->port_id);
+> +	device_initialize(&lport->dev);
 > +
->   	list_add_tail(&newnport->nport_list, &fcloop_nports);
+>   	memset(&pinfo, 0, sizeof(pinfo));
+>   	pinfo.node_name = opts->wwnn;
+>   	pinfo.port_name = opts->wwpn;
+>   	pinfo.port_role = opts->roles;
+>   	pinfo.port_id = port_id;
 >   
->   	spin_unlock_irqrestore(&fcloop_lock, flags);
-> @@ -1339,6 +1347,8 @@ __unlink_remote_port(struct fcloop_nport *nport)
->   	if (rport && nport->tport)
->   		nport->tport->remoteport = NULL;
->   	nport->rport = NULL;
-> +	if (!nport->tport)
-> +		device_del(&nport->dev);
+> -	ret = nvme_fc_register_localport(&pinfo, &fctemplate, NULL, &localport);
+> -	if (!ret) {
+> -		/* success */
+> -		lport_priv = localport->private;
+> -		lport_priv->lport = lport;
+> +	ret = nvme_fc_register_localport(&pinfo, &fctemplate,
+> +					 &lport->dev, &localport);
+> +	if (ret)
+> +		goto out_free_ida;
 >   
->   	return rport;
+> -		lport->localport = localport;
+> -		INIT_LIST_HEAD(&lport->lport_list);
+> +	/* success */
+> +	lport_priv = localport->private;
+> +	lport_priv->lport = lport;
+>   
+> -		spin_lock_irqsave(&fcloop_lock, flags);
+> -		list_add_tail(&lport->lport_list, &fcloop_lports);
+> -		spin_unlock_irqrestore(&fcloop_lock, flags);
+> +	lport->localport = localport;
+> +	INIT_LIST_HEAD(&lport->lport_list);
+> +
+> +	ret = device_add(&lport->dev);
+> +	if (ret) {
+> +		nvme_fc_unregister_localport(lport->localport);
+> +		goto out_free_ida;
+>   	}
+> +	spin_lock_irqsave(&fcloop_lock, flags);
+> +	list_add_tail(&lport->lport_list, &fcloop_lports);
+> +	spin_unlock_irqrestore(&fcloop_lock, flags);
+> +
+>   out_free_ida:
+>   	if (ret)
+>   		ida_free(&fcloop_portid_ida, port_id);
+> @@ -1138,15 +1163,15 @@ __wait_localport_unreg(struct fcloop_lport *lport)
+>   {
+>   	int ret;
+>   
+> +	device_del(&lport->dev);
+> +
+>   	init_completion(&lport->unreg_done);
+>   
+>   	ret = nvme_fc_unregister_localport(lport->localport);
+>   
+>   	wait_for_completion(&lport->unreg_done);
+>   
+> -	ida_free(&fcloop_portid_ida, lport->port_id);
+> -
+> -	kfree(lport);
+> +	put_device(&lport->dev);
+>   
+>   	return ret;
 >   }
-> @@ -1406,7 +1416,7 @@ fcloop_create_target_port(struct device *dev, struct device_attribute *attr,
->   	tinfo.port_name = nport->port_name;
->   	tinfo.port_id = nport->port_id;
->   
-> -	ret = nvmet_fc_register_targetport(&tinfo, &tgttemplate, NULL,
-> +	ret = nvmet_fc_register_targetport(&tinfo, &tgttemplate, &nport->dev,
->   						&targetport);
->   	if (ret) {
->   		fcloop_nport_put(nport);
-> @@ -1438,6 +1448,8 @@ __unlink_target_port(struct fcloop_nport *nport)
->   	if (tport && nport->rport)
->   		nport->rport->targetport = NULL;
->   	nport->tport = NULL;
-> +	if (!nport->rport)
-> +		device_del(&nport->dev);
->   
->   	return tport;
->   }
-> @@ -1513,7 +1525,6 @@ static const struct attribute_group *fcloop_dev_attr_groups[] = {
->   	NULL,
->   };
->   
-> -static struct class *fcloop_class;
->   static struct device *fcloop_device;
->   
->   
-
 ok.
 
 Reviewed-by: James Smart <james.smart@broadcom.com>
 
 -- james
 
---0000000000005b994e05b0effdbe
+--000000000000e1852905b0f00b42
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -311,20 +302,20 @@ ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
 9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
 ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
 MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgCaoKm0zYnkB4oE2r
-kbWwd2dx6vKJSIstAwwZbfnc2sUwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDA1MTc0MTE3WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
+rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgdVTiMDt16JQnYGS2
+qHomerrtoGSCQuo2Xgq1B4Vpzy4wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjAxMDA1MTc0NTIxWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
 ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAJe2aSXPy78fd9DEL7kcCFiMkaBc3uahTcZ1
-wjwZoBgRf1H+IgneXg5Bp9CUpF7HJTyKipuXqMqCZbFSGEutzCPZ0qGltUY1yc0XiXxza8Bs4DDc
-6E1lGNis3VENdXgk6MeZtg0K+k0NuseX1oaryRtNOwI2nhZzPR3W6YHCb9Ng29jQ+8Aomxbq3UHq
-HVxAcKggtrrShlBP24sdisOViSM9hG3VRdpvQI11/e3dieuLp3lN8r9tLAde6PHLbH8S1FmNiOZO
-kKF8spWg8hKJhhIBqKVEoQy7JCNYPf2u1841vFxgPqGO1z120Yjon0mtxf2g0Hi/8PgLpnSk1n86
-tGM=
---0000000000005b994e05b0effdbe--
+CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFgiH2Bm038smuAN0MaQc+7wF+72fB9E3csO
+GspMvRvKIQwiSpsb88avLljhMBhpt24QJq8mr1949LXAPWNOx8+JLE0nUnKw54NSnSF8o+33ytDp
+GWCWVJm7YD2ZBZSfRAEl3Ww9aW35mx8srDd+xBfoyNirFc1MKQvNJRXQXGC9Afqmbfqu501eaojM
+WNxtDx7lZgKIEn5uHHr8CIXP+vaOgp9+uAZcmR0d3UmX8NJRzN4zgKPUtyUf13e256qlwC8O+Fp8
+8M7nFB7Q6l4cUevQr03rbcf6Lut8x2i7e4CglaP+RzCmi+0tX1MDC1R+MC/7nDYqK+JtYg/9oUBM
+dmE=
+--000000000000e1852905b0f00b42--
 
 
---===============0687690968303265787==
+--===============3573482379092186216==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -335,5 +326,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============0687690968303265787==--
+--===============3573482379092186216==--
 
