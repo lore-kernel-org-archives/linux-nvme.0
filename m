@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D9E6C4363A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 08:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32FB7C4363A
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 08:38:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F260E2078D
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 08:32:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 83EEA20578
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 08:38:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="15idEfnG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F260E2078D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b4o4x/Hs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 83EEA20578
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,39 +25,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VN3TsXnPBCm5AZr3IhOs9Si+5ZOHREETMT3LeecGeIc=; b=15idEfnGG8xCx8KqLZaKyI4Sp
-	otyzBf1xZBuj9qAOOPhdD/0lCrWFQFQiYUcjnFhmiGlRKvIoGV29OkmzGVkdpVig0ykfnp8B5f3tf
-	swcrURQiZ+A6IM/pkaU2heirY7UYnTLG6cjbUnXcjg5ChFDMSpN/nMXvSuz8/C7AbQQ3cJxuZhk+h
-	KZYg0u4fdPQbNBxqHc/nbbHmZcdfNyPFI3uoevJPg6up8UFYj24REgiPLlE/PBcdmlHFus5dl+b63
-	b6qx8lKZwpqEYWpVcc4AwbcTN8fMYoOLyOc3ShZNNH3P0pJmOWol29aoEsyTkKmfZCKDYONz6SCh8
-	JdU3iM8og==;
+	 bh=q9NA50581GHba7+W3RtKby5o21V22H8uRg66km/3aEE=; b=b4o4x/HssfPvX3zc2qXNFhyL6
+	k+i8m26yHqINmrsk85AL8CpBVxo2InIvNFgGOFP38KmoXiCR0VH/JG8H4GO5M4H+ThcbRCkMAznFJ
+	3c5Be6CTxmaiZAb2yLEzrU0ucEo8yNhgy8e+GAgw7oUh+3L/O5j66ygJq0J4XUIEqAWb/okiSiouo
+	aCMqLh2Qdq+C+rEo30hDLfv27P+iE1McDJrfnhzwi+lxN9igSl/husSAStWzdgkKgHLkdvMrYHx/6
+	EtWC5D1nmPTyc/Ie/E1aAfYH8r/1EAFt0gdIyDHvRZLn6p4jB2IqpfnCmvRdsleFNudO3A0WmnKuh
+	uoxwhTBJQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPLvB-0000ER-Lm; Mon, 05 Oct 2020 08:32:37 +0000
+	id 1kPM0k-0001jD-RO; Mon, 05 Oct 2020 08:38:22 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPLv0-0000D7-Fr
- for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 08:32:27 +0000
+ id 1kPM0h-0001hv-On
+ for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 08:38:20 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id F222067373; Mon,  5 Oct 2020 10:32:20 +0200 (CEST)
-Date: Mon, 5 Oct 2020 10:32:20 +0200
+ id 5276867373; Mon,  5 Oct 2020 10:38:17 +0200 (CEST)
+Date: Mon, 5 Oct 2020 10:38:17 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 10/20] nvme: freeze the queue over ->lba_shift updates
-Message-ID: <20201005083220.GA14548@lst.de>
-References: <20200928123502.435373-1-hch@lst.de>
- <20200928123502.435373-11-hch@lst.de>
- <39b98188-2803-2f49-e225-8d3fbe3bfb1f@grimberg.me>
- <20200929183214.GD12948@lst.de>
- <e6c5bbb7-ea1a-b449-541d-2c8317ed462d@grimberg.me>
- <73932a4a-8618-5058-3d1d-434cf934aa18@grimberg.me>
+Subject: Re: [PATCH blk-next 1/2] blk-mq-rdma: Delete not-used multi-queue
+ RDMA map queue code
+Message-ID: <20201005083817.GA14908@lst.de>
+References: <20200929091358.421086-1-leon@kernel.org>
+ <20200929091358.421086-2-leon@kernel.org> <20200929102046.GA14445@lst.de>
+ <20200929103549.GE3094@unreal>
+ <879916e4-b572-16b9-7b92-94dba7e918a3@grimberg.me>
+ <20201002064505.GA9593@lst.de>
+ <14fab6a7-f7b5-2f9d-e01f-923b1c36816d@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <73932a4a-8618-5058-3d1d-434cf934aa18@grimberg.me>
+In-Reply-To: <14fab6a7-f7b5-2f9d-e01f-923b1c36816d@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201005_043226_652781_BAAECD77 
-X-CRM114-Status: GOOD (  13.07  )
+X-CRM114-CacheID: sfid-20201005_043819_944483_3191D5A3 
+X-CRM114-Status: GOOD (  18.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,36 +70,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Damien Le Moal <Damien.LeMoal@wdc.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jens Axboe <axboe@kernel.dk>, Leon Romanovsky <leon@kernel.org>,
+ linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 02, 2020 at 09:03:26AM -0700, Sagi Grimberg wrote:
+On Fri, Oct 02, 2020 at 01:20:35PM -0700, Sagi Grimberg wrote:
+>> Well, why would they change it?  The whole point of the infrastructure
+>> is that there is a single sane affinity setting for a given setup. Now
+>> that setting needed some refinement from the original series (e.g. the
+>> current series about only using housekeeping cpus if cpu isolation is
+>> in use).  But allowing random users to modify affinity is just a receipe
+>> for a trainwreck.
 >
->>>>> Ensure that there can't be any I/O in flight went we change the disk
->>>>> geometry in nvme_update_ns_info, most notable the LBA size by lifting
->>>>> the queue free from nvme_update_disk_info into the caller
->>>>
->>>> The queue is frozen on the queue logical block size, why should
->>>> we care about I/O while ns->lba_shift?
->>>
->>> Because we use it for all kinds of calculations in the I/O path.=A0 By
->>> moving all assignments into the frozen queue critical sections we
->>> avoid all possibly inconsistencies.
->>
->> I'd think that it would be better to never use ns->lba_shift but rather
->> the request queue block size and keep the queue freeze span only
->> that mutation.
+> Well allowing people to mangle irq affinity settings seem to be a hard
+> requirement from the discussions in the past.
 >
-> ?
+>> So I think we need to bring this back ASAP, as doing affinity right
+>> out of the box is an absolute requirement for sane performance without
+>> all the benchmarketing deep magic.
+>
+> Well, it's hard to say that setting custom irq affinity settings is
+> deemed non-useful to anyone and hence should be prevented. I'd expect
+> that irq settings have a sane default that works and if someone wants to
+> change it, it can but there should be no guarantees on optimal
+> performance. But IIRC this had some dependencies on drivers and some
+> more infrastructure to handle dynamic changes...
 
-So that we'll need to multiply instead of shift in the I/O path?
-Maybe we could add a shift in the queue, but that's a much bigger
-change..
+The problem is that people change random settings.  We need to generalize
+it into a sane API (e.g. the housekeeping CPUs thing which totally makes
+sense).
 
 _______________________________________________
 Linux-nvme mailing list
