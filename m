@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AC45C47095
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:37:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78831C4363A
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:39:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA721207BC
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:37:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1C8DB207EA
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:39:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vtwktinS";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Us4JaYL/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA721207BC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MyJn0AL5";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Ssu+65g1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C8DB207EA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,65 +26,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=eB4cRWrrz0XdU3kwuowl8oaQjb5wL0xsF03hbp+e2ew=; b=vtwktinSfK2QHuoAHV+5NyCv8
-	fCCRniNddSlPrHGIZ6ayckbSNffiGeE8NaSInXF7RwNEITPcQiY460Lpz3xYgAQnXW4kX14ZsAufe
-	h7bsvwVlF3KB1h0JvUMeTyn9JKFNC8HBy9yY4655hRb00hlPb2BPFDMsGgItJBGbuGI288SyejVjv
-	q+WRM+ivPyvXWA0HzsaRDMFhUvL1L8ENL0jpcfYGqPrJa6u6vaQSD5WSY/jDQ30r9GR6WjpRHhB8K
-	GgDF0ciLuLH0NFK+iCi5wq0a1VT4Zq3jkmCmMkOv74wBpbdFKOQVthvBLaTicf8S92IUpKg55G5SV
-	AefLRaayg==;
+	 bh=IJjsDw9FW+7WnQEJNt5AnO9IurUq6xSrJGill6OzRG8=; b=MyJn0AL5F/BdbheB/lmSDz0yu
+	5kl3CWSZ+dfOFr2S4A2TNSrQ7Nr7CsYx/S9QBeIcPxzctH3biL2OpLTgsJlIOC9dCIq+6iPJJLse8
+	v+B4yuUiHfupYD++FUUS4VK0qDwhrJ79VyxJQg8JIKgvj4sEmOgODJNznMCfsG/FVGTswwbNQJKdv
+	WxQLqrVOcgYzKLeQGt/tRqZ7v/RasmhME6wfiKeV5AhJENEbRiw7dc9pfNhZ74Krmawfejac0WUKh
+	Xrf/p6WaPId/d3yNu/26vhC/rU0eziAdPOlQ5Vzr+b+vfwTY5vaknQeM7NNup1nuvrm7GNy0kMiMP
+	lNuzfs9Dg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPUQK-0007aQ-Gg; Mon, 05 Oct 2020 17:37:20 +0000
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
+	id 1kPURq-0008EK-Re; Mon, 05 Oct 2020 17:38:54 +0000
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPUQH-0007ZF-9M
- for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 17:37:18 +0000
-Received: by mail-pf1-x441.google.com with SMTP id d6so7396785pfn.9
- for <linux-nvme@lists.infradead.org>; Mon, 05 Oct 2020 10:37:16 -0700 (PDT)
+ id 1kPURi-00088k-PA
+ for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 17:38:48 +0000
+Received: by mail-pj1-x1044.google.com with SMTP id x2so220891pjk.0
+ for <linux-nvme@lists.infradead.org>; Mon, 05 Oct 2020 10:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to;
- bh=e/9DkT+zKBd5/mhd4Hg8cACFgBQad92BgwaApFx3B8c=;
- b=Us4JaYL/Hk2k/GBQvLuJhpPgF54lO04AxQBVOSz4Aaglm3evhc/mgn47//K0Msx3Dk
- SwjAlavhGeao4RpWSHhPoD1rOhxcJ+97K7SunEzWrCCrQnAcs010hbIIbjdxWVMOl6nM
- q1iAWd5VxRQ4Ue0PgYOtTGtuR4IbJj77cnb/U=
+ bh=0E/VlnfaaA3mNNRlahbSvsVU717D3p/Ia0n8/rkFl2k=;
+ b=Ssu+65g1FSZ+WQ1a13B8Th4u+Ue6vdEe2WYatJfZu67HG4aR99BAlXdFNuVpQhJyCI
+ 4S69/+iGptUoaqLdgmgbSspOgMLhuXOtgs+/cHteNJGyUDibk7XQMgP6GMK/JxzTpgVJ
+ xuFualGuTJ/tBIpemYFvMuw910uY2bUuYNsxs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to;
- bh=e/9DkT+zKBd5/mhd4Hg8cACFgBQad92BgwaApFx3B8c=;
- b=dkG/Xz7KWMmN/uGc7SZoCdb/pEkbyV+ouveBRho6d7cW+nMCNyv8FspK9tQo4Fk8gG
- MOnmfCpL5bY6MDZgY0wxVQFu2NA62b6HbiVDGBsrXxWdxX4hgfaByxPymhPLvy+YtHzb
- VB6Kd75zDS575sMCk+fi/yBeay7AnKs50FpWTWnHzkwj8kEjMrqODgeHmNACk29/FuFL
- NOBzMfUL8K1xBSrqrM8A4fbZc3nDhsCDWmQg1aigMOLc/BogeC7p92Pa18yJHtp6aD7Q
- 43kcPxQyiLZYw2LD3fF4e69ZtfplVDbLKFUvdMq1f2+UB4wWG4LDiFXefPsEUzkwxfAa
- C31w==
-X-Gm-Message-State: AOAM532GCr+J7jp/LYFipFXP5Mkz3wsQ2rZv7JVSBx1+sVlGenPPXYnL
- wlY5+D23Ex5amL1ZyP5yWQkLPBEj8o1ktjQC55oWklYJsR1qbMhocq6pzKfC8ujUUT5gM9LOJmP
- kOTCRbwVOj6eFXRT2No3rmwkH27ozqyJYYL6hpeSeIJBZEWPMsImQnCdxeZmkmC3XS+W8frVT6w
- znDFAtYqmG
-X-Google-Smtp-Source: ABdhPJwHOVJMYQ6C9KEV5hb16UXKAfilF4eQFUHoMx2G+AQ7PHrTf9lDzhNi2DQUM4k/nNTPeriLiw==
-X-Received: by 2002:aa7:94a4:0:b029:151:d786:d5c2 with SMTP id
- a4-20020aa794a40000b0290151d786d5c2mr927560pfl.50.1601919434180; 
- Mon, 05 Oct 2020 10:37:14 -0700 (PDT)
+ bh=0E/VlnfaaA3mNNRlahbSvsVU717D3p/Ia0n8/rkFl2k=;
+ b=Eg5q/OxRwz7BAI/Pt9OdBCVa2IUSqFOAOBRk4X7vhVa9Ejpv5IAWd/4vJY6sijo4ll
+ +6+ASO0ZDmYVzwvMLIpUuEzNVo0nOQs3PJY6xeon7lMdCHoM4v5c2ae/4LvU0ifDcfu8
+ fLiBGZW/JgOhScRULLr52IiSxpnIzi3h9g2FrUPWDfa6mlalXeKld9V5/jukumkoZPYn
+ RGriidaYwFEyX2h5scsrulykCW9+IxmXoXtcLkBttW3w2kUl0hZGH6Eo9dnht/gx27W0
+ R7FatV8TP89Tfp0Z7KxumulC0jFkkF5eSzTBxaHhqNxzK1OAJfxLEPTDP5y98sRoWAxW
+ Ffkw==
+X-Gm-Message-State: AOAM530cQifXI/lcXmG3RJkPYuLEx9umsYHxSjegCHr+up/iwSnItDPs
+ Iuuwkxk8CXjNQvuMPqEMmsSTY6X/xbFypMiXr/RnJQWh12shZy3zgaIebfm//YptWkxdVMlNKCl
+ 2J09sYVVBsNVJMQ6zEWmrgi3tb4nAEYyfE/okDDOSxngAJIPdVYU9T5/r42TXTL/MsWtWUtcK05
+ 4JHmfykg7L
+X-Google-Smtp-Source: ABdhPJzhioPk5TrhpowLtH7Wyrg8/R21VXBLiD/V+rAnvqCJAZTYrbWdLcY0RxZwJdgXMggU9R7NAA==
+X-Received: by 2002:a17:90a:1690:: with SMTP id
+ o16mr538876pja.148.1601919523956; 
+ Mon, 05 Oct 2020 10:38:43 -0700 (PDT)
 Received: from [10.230.185.151] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id u27sm221866pgm.60.2020.10.05.10.37.12
+ by smtp.gmail.com with ESMTPSA id q5sm239267pgh.16.2020.10.05.10.38.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Oct 2020 10:37:13 -0700 (PDT)
-Subject: Re: [PATCH 4/7] nvmet-fc: use feature flag for virtual LLDD
+ Mon, 05 Oct 2020 10:38:43 -0700 (PDT)
+Subject: Re: [PATCH 5/7] nvme-fc: use feature flag for virtual LLDD
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 References: <20200922121501.32851-1-hare@suse.de>
- <20200922121501.32851-5-hare@suse.de>
+ <20200922121501.32851-6-hare@suse.de>
 From: James Smart <james.smart@broadcom.com>
-Message-ID: <990c02ea-0b84-5301-0d0d-e75556df02b7@broadcom.com>
-Date: Mon, 5 Oct 2020 10:37:11 -0700
+Message-ID: <0dc3926c-fd72-8c6d-68c4-c9f231503943@broadcom.com>
+Date: Mon, 5 Oct 2020 10:38:41 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200922121501.32851-5-hare@suse.de>
+In-Reply-To: <20200922121501.32851-6-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201005_133717_344516_AC8D8957 
-X-CRM114-Status: GOOD (  26.47  )
+X-CRM114-CacheID: sfid-20201005_133846_853663_377FAAD9 
+X-CRM114-Status: GOOD (  28.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,15 +98,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
  Keith Busch <keith.busch@wdc.com>
-Content-Type: multipart/mixed; boundary="===============4071336743126489245=="
+Content-Type: multipart/mixed; boundary="===============6355746521218243534=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============4071336743126489245==
+--===============6355746521218243534==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000e0aa9105b0efeec9"
+	boundary="00000000000038c86705b0eff44c"
 
---000000000000e0aa9105b0efeec9
+--00000000000038c86705b0eff44c
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -119,286 +119,325 @@ On 9/22/2020 5:14 AM, Hannes Reinecke wrote:
 >
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->   drivers/nvme/target/fc.c       | 93 +++++++++++++++++++++++-------------------
->   drivers/nvme/target/fcloop.c   |  2 +-
->   include/linux/nvme-fc-driver.h |  2 +
->   3 files changed, 55 insertions(+), 42 deletions(-)
+>   drivers/nvme/host/fc.c         | 93 +++++++++++++++++++++++-------------------
+>   drivers/nvme/target/fcloop.c   |  2 +
+>   include/linux/nvme-fc-driver.h | 10 +++++
+>   3 files changed, 64 insertions(+), 41 deletions(-)
 >
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 63f5deb3b68a..6f5784767d35 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -273,41 +273,50 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->    * in the scatter list, setting all dma addresses to 0.
->    */
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index e8ef42b9d50c..d30ea7a39183 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -237,6 +237,11 @@ static void __nvme_fc_delete_hw_queue(struct nvme_fc_ctrl *,
+>   static void nvme_fc_handle_ls_rqst_work(struct work_struct *work);
 >   
-> +static bool fc_lldd_is_virtual(struct nvmet_fc_tgtport *tgtport)
+>   
+> +static bool nvme_fc_lport_is_physical(struct nvme_fc_lport *lport)
 > +{
-> +	return !!(tgtport->ops->target_features & NVMET_FCTGTFEAT_VIRTUAL_DMA);
+> +	return !(lport->ops->port_features & NVME_FCPORTFEAT_VIRTUAL_DMA);
 > +}
 > +
+>   static void
+>   nvme_fc_free_lport(struct kref *ref)
+>   {
+> @@ -427,7 +432,7 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
+>   	list_add_tail(&newrec->port_list, &nvme_fc_lport_list);
+>   	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+>   
+> -	if (dev)
+> +	if (nvme_fc_lport_is_physical(newrec))
+>   		dma_set_seg_boundary(dev, template->dma_boundary);
+>   
+>   	*portptr = &newrec->localport;
+> @@ -953,40 +958,44 @@ EXPORT_SYMBOL_GPL(nvme_fc_set_remoteport_devloss);
+>    */
+>   
 >   static inline dma_addr_t
 > -fc_dma_map_single(struct device *dev, void *ptr, size_t size,
-> +fc_dma_map_single(struct nvmet_fc_tgtport *tgtport, void *ptr, size_t size,
+> +fc_dma_map_single(struct nvme_fc_lport *lport, void *ptr, size_t size,
 >   		enum dma_data_direction dir)
 >   {
 > -	return dev ? dma_map_single(dev, ptr, size, dir) : (dma_addr_t)0L;
-> +	if (fc_lldd_is_virtual(tgtport))
-> +		return (dma_addr_t)0L;
-> +	return dma_map_single(tgtport->dev, ptr, size, dir);
+> +	if (nvme_fc_lport_is_physical(lport))
+> +		return dma_map_single(lport->dev, ptr, size, dir);
+> +	return (dma_addr_t)0L;
 >   }
 >   
 >   static inline int
 > -fc_dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
-> +fc_dma_mapping_error(struct nvmet_fc_tgtport *tgtport, dma_addr_t dma_addr)
+> +fc_dma_mapping_error(struct nvme_fc_lport *lport, dma_addr_t dma_addr)
 >   {
 > -	return dev ? dma_mapping_error(dev, dma_addr) : 0;
-> +	if (fc_lldd_is_virtual(tgtport))
-> +		return 0;
-> +	return dma_mapping_error(tgtport->dev, dma_addr);
+> +	if (nvme_fc_lport_is_physical(lport))
+> +		return dma_mapping_error(lport->dev, dma_addr);
+> +	return 0;
 >   }
 >   
 >   static inline void
 > -fc_dma_unmap_single(struct device *dev, dma_addr_t addr, size_t size,
-> -	enum dma_data_direction dir)
-> +fc_dma_unmap_single(struct nvmet_fc_tgtport *tgtport, dma_addr_t addr,
-> +	size_t size, enum dma_data_direction dir)
+> +fc_dma_unmap_single(struct nvme_fc_lport *lport, dma_addr_t addr, size_t size,
+>   	enum dma_data_direction dir)
 >   {
 > -	if (dev)
 > -		dma_unmap_single(dev, addr, size, dir);
-> +	if (!fc_lldd_is_virtual(tgtport))
-> +		dma_unmap_single(tgtport->dev, addr, size, dir);
+> +	if (nvme_fc_lport_is_physical(lport))
+> +		dma_unmap_single(lport->dev, addr, size, dir);
 >   }
 >   
 >   static inline void
 > -fc_dma_sync_single_for_cpu(struct device *dev, dma_addr_t addr, size_t size,
 > -		enum dma_data_direction dir)
-> +fc_dma_sync_single_for_cpu(struct nvmet_fc_tgtport *tgtport, dma_addr_t addr,
+> +fc_dma_sync_single_for_cpu(struct nvme_fc_lport *lport, dma_addr_t addr,
 > +	size_t size, enum dma_data_direction dir)
 >   {
 > -	if (dev)
 > -		dma_sync_single_for_cpu(dev, addr, size, dir);
-> +	if (!fc_lldd_is_virtual(tgtport))
-> +		dma_sync_single_for_cpu(tgtport->dev, addr, size, dir);
+> +	if (nvme_fc_lport_is_physical(lport))
+> +		dma_sync_single_for_cpu(lport->dev, addr, size, dir);
 >   }
 >   
 >   static inline void
 > -fc_dma_sync_single_for_device(struct device *dev, dma_addr_t addr, size_t size,
 > -		enum dma_data_direction dir)
-> +fc_dma_sync_single_for_device(struct nvmet_fc_tgtport *tgtport, dma_addr_t addr,
+> +fc_dma_sync_single_for_device(struct nvme_fc_lport *lport, dma_addr_t addr,
 > +	size_t size, enum dma_data_direction dir)
 >   {
 > -	if (dev)
 > -		dma_sync_single_for_device(dev, addr, size, dir);
-> +	if (!fc_lldd_is_virtual(tgtport))
-> +		dma_sync_single_for_device(tgtport->dev, addr, size, dir);
+> +	if (nvme_fc_lport_is_physical(lport))
+> +		dma_sync_single_for_device(lport->dev, addr, size, dir);
 >   }
 >   
 >   /* pseudo dma_map_sg call */
-> @@ -329,18 +338,20 @@ fc_map_sg(struct scatterlist *sg, int nents)
+> @@ -1008,18 +1017,20 @@ fc_map_sg(struct scatterlist *sg, int nents)
 >   }
 >   
 >   static inline int
 > -fc_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
-> -		enum dma_data_direction dir)
-> +fc_dma_map_sg(struct nvmet_fc_tgtport *tgtport, struct scatterlist *sg,
-> +	int nents, enum dma_data_direction dir)
+> +fc_dma_map_sg(struct nvme_fc_lport *lport, struct scatterlist *sg, int nents,
+>   		enum dma_data_direction dir)
 >   {
 > -	return dev ? dma_map_sg(dev, sg, nents, dir) : fc_map_sg(sg, nents);
-> +	if (fc_lldd_is_virtual(tgtport))
-> +		return fc_map_sg(sg, nents);
-> +	return dma_map_sg(tgtport->dev, sg, nents, dir);
+> +	if (nvme_fc_lport_is_physical(lport))
+> +		return dma_map_sg(lport->dev, sg, nents, dir);
+> +	return fc_map_sg(sg, nents);
 >   }
 >   
 >   static inline void
 > -fc_dma_unmap_sg(struct device *dev, struct scatterlist *sg, int nents,
-> -		enum dma_data_direction dir)
-> +fc_dma_unmap_sg(struct nvmet_fc_tgtport *tgtport, struct scatterlist *sg,
-> +	int nents, enum dma_data_direction dir)
+> +fc_dma_unmap_sg(struct nvme_fc_lport *lport, struct scatterlist *sg, int nents,
+>   		enum dma_data_direction dir)
 >   {
 > -	if (dev)
 > -		dma_unmap_sg(dev, sg, nents, dir);
-> +	if (!fc_lldd_is_virtual(tgtport))
-> +		dma_unmap_sg(tgtport->dev, sg, nents, dir);
+> +	if (nvme_fc_lport_is_physical(lport))
+> +		dma_unmap_sg(lport->dev, sg, nents, dir);
 >   }
 >   
+>   /* *********************** FC-NVME LS Handling **************************** */
+> @@ -1049,7 +1060,7 @@ __nvme_fc_finish_ls_req(struct nvmefc_ls_req_op *lsop)
 >   
-> @@ -368,7 +379,7 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
+>   	spin_unlock_irqrestore(&rport->lock, flags);
 >   
->   	spin_unlock_irqrestore(&tgtport->lock, flags);
->   
-> -	fc_dma_unmap_single(tgtport->dev, lsreq->rqstdma,
-> +	fc_dma_unmap_single(tgtport, lsreq->rqstdma,
+> -	fc_dma_unmap_single(rport->dev, lsreq->rqstdma,
+> +	fc_dma_unmap_single(rport->lport, lsreq->rqstdma,
 >   				  (lsreq->rqstlen + lsreq->rsplen),
 >   				  DMA_BIDIRECTIONAL);
 >   
-> @@ -391,10 +402,10 @@ __nvmet_fc_send_ls_req(struct nvmet_fc_tgtport *tgtport,
->   	lsop->req_queued = false;
+> @@ -1077,10 +1088,10 @@ __nvme_fc_send_ls_req(struct nvme_fc_rport *rport,
 >   	INIT_LIST_HEAD(&lsop->lsreq_list);
+>   	init_completion(&lsop->ls_done);
 >   
-> -	lsreq->rqstdma = fc_dma_map_single(tgtport->dev, lsreq->rqstaddr,
-> +	lsreq->rqstdma = fc_dma_map_single(tgtport, lsreq->rqstaddr,
+> -	lsreq->rqstdma = fc_dma_map_single(rport->dev, lsreq->rqstaddr,
+> +	lsreq->rqstdma = fc_dma_map_single(rport->lport, lsreq->rqstaddr,
 >   				  lsreq->rqstlen + lsreq->rsplen,
 >   				  DMA_BIDIRECTIONAL);
-> -	if (fc_dma_mapping_error(tgtport->dev, lsreq->rqstdma))
-> +	if (fc_dma_mapping_error(tgtport, lsreq->rqstdma))
->   		return -EFAULT;
->   
->   	lsreq->rspdma = lsreq->rqstdma + lsreq->rqstlen;
-> @@ -420,7 +431,7 @@ __nvmet_fc_send_ls_req(struct nvmet_fc_tgtport *tgtport,
+> -	if (fc_dma_mapping_error(rport->dev, lsreq->rqstdma)) {
+> +	if (fc_dma_mapping_error(rport->lport, lsreq->rqstdma)) {
+>   		ret = -EFAULT;
+>   		goto out_putrport;
+>   	}
+> @@ -1107,7 +1118,7 @@ __nvme_fc_send_ls_req(struct nvme_fc_rport *rport,
 >   	lsop->req_queued = false;
 >   	list_del(&lsop->lsreq_list);
->   	spin_unlock_irqrestore(&tgtport->lock, flags);
-> -	fc_dma_unmap_single(tgtport->dev, lsreq->rqstdma,
-> +	fc_dma_unmap_single(tgtport, lsreq->rqstdma,
+>   	spin_unlock_irqrestore(&rport->lock, flags);
+> -	fc_dma_unmap_single(rport->dev, lsreq->rqstdma,
+> +	fc_dma_unmap_single(rport->lport, lsreq->rqstdma,
 >   				  (lsreq->rqstlen + lsreq->rsplen),
 >   				  DMA_BIDIRECTIONAL);
->   	return ret;
-> @@ -555,10 +566,10 @@ nvmet_fc_alloc_ls_iodlist(struct nvmet_fc_tgtport *tgtport)
+>   out_putrport:
+> @@ -1465,9 +1476,9 @@ nvme_fc_xmt_ls_rsp_done(struct nvmefc_ls_rsp *lsrsp)
+>   	list_del(&lsop->lsrcv_list);
+>   	spin_unlock_irqrestore(&rport->lock, flags);
 >   
->   		iod->rspbuf = (union nvmefc_ls_responses *)&iod->rqstbuf[1];
+> -	fc_dma_sync_single_for_cpu(lport->dev, lsop->rspdma,
+> +	fc_dma_sync_single_for_cpu(lport, lsop->rspdma,
+>   				sizeof(*lsop->rspbuf), DMA_TO_DEVICE);
+> -	fc_dma_unmap_single(lport->dev, lsop->rspdma,
+> +	fc_dma_unmap_single(lport, lsop->rspdma,
+>   			sizeof(*lsop->rspbuf), DMA_TO_DEVICE);
 >   
-> -		iod->rspdma = fc_dma_map_single(tgtport->dev, iod->rspbuf,
-> +		iod->rspdma = fc_dma_map_single(tgtport, iod->rspbuf,
->   						sizeof(*iod->rspbuf),
->   						DMA_TO_DEVICE);
-> -		if (fc_dma_mapping_error(tgtport->dev, iod->rspdma))
-> +		if (fc_dma_mapping_error(tgtport, iod->rspdma))
->   			goto out_fail;
->   	}
->   
-> @@ -568,7 +579,7 @@ nvmet_fc_alloc_ls_iodlist(struct nvmet_fc_tgtport *tgtport)
->   	kfree(iod->rqstbuf);
->   	list_del(&iod->ls_rcv_list);
->   	for (iod--, i--; i >= 0; iod--, i--) {
-> -		fc_dma_unmap_single(tgtport->dev, iod->rspdma,
-> +		fc_dma_unmap_single(tgtport, iod->rspdma,
->   				sizeof(*iod->rspbuf), DMA_TO_DEVICE);
->   		kfree(iod->rqstbuf);
->   		list_del(&iod->ls_rcv_list);
-> @@ -586,7 +597,7 @@ nvmet_fc_free_ls_iodlist(struct nvmet_fc_tgtport *tgtport)
->   	int i;
->   
->   	for (i = 0; i < NVMET_LS_CTX_COUNT; iod++, i++) {
-> -		fc_dma_unmap_single(tgtport->dev,
-> +		fc_dma_unmap_single(tgtport,
->   				iod->rspdma, sizeof(*iod->rspbuf),
->   				DMA_TO_DEVICE);
->   		kfree(iod->rqstbuf);
-> @@ -640,12 +651,12 @@ nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
->   		list_add_tail(&fod->fcp_list, &queue->fod_list);
->   		spin_lock_init(&fod->flock);
->   
-> -		fod->rspdma = fc_dma_map_single(tgtport->dev, &fod->rspiubuf,
-> +		fod->rspdma = fc_dma_map_single(tgtport, &fod->rspiubuf,
->   					sizeof(fod->rspiubuf), DMA_TO_DEVICE);
-> -		if (fc_dma_mapping_error(tgtport->dev, fod->rspdma)) {
-> +		if (fc_dma_mapping_error(tgtport, fod->rspdma)) {
->   			list_del(&fod->fcp_list);
->   			for (fod--, i--; i >= 0; fod--, i--) {
-> -				fc_dma_unmap_single(tgtport->dev, fod->rspdma,
-> +				fc_dma_unmap_single(tgtport, fod->rspdma,
->   						sizeof(fod->rspiubuf),
->   						DMA_TO_DEVICE);
->   				fod->rspdma = 0L;
-> @@ -666,7 +677,7 @@ nvmet_fc_destroy_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
->   
->   	for (i = 0; i < queue->sqsize; fod++, i++) {
->   		if (fod->rspdma)
-> -			fc_dma_unmap_single(tgtport->dev, fod->rspdma,
-> +			fc_dma_unmap_single(tgtport, fod->rspdma,
->   				sizeof(fod->rspiubuf), DMA_TO_DEVICE);
->   	}
->   }
-> @@ -730,7 +741,7 @@ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
->   	struct nvmet_fc_defer_fcp_req *deferfcp;
->   	unsigned long flags;
->   
-> -	fc_dma_sync_single_for_cpu(tgtport->dev, fod->rspdma,
-> +	fc_dma_sync_single_for_cpu(tgtport, fod->rspdma,
->   				sizeof(fod->rspiubuf), DMA_TO_DEVICE);
->   
->   	fcpreq->nvmet_fc_private = NULL;
-> @@ -1925,7 +1936,7 @@ nvmet_fc_xmt_ls_rsp_done(struct nvmefc_ls_rsp *lsrsp)
->   	struct nvmet_fc_ls_iod *iod = lsrsp->nvme_fc_private;
->   	struct nvmet_fc_tgtport *tgtport = iod->tgtport;
->   
-> -	fc_dma_sync_single_for_cpu(tgtport->dev, iod->rspdma,
-> +	fc_dma_sync_single_for_cpu(tgtport, iod->rspdma,
->   				sizeof(*iod->rspbuf), DMA_TO_DEVICE);
->   	nvmet_fc_free_ls_iod(tgtport, iod);
->   	nvmet_fc_tgtport_put(tgtport);
-> @@ -1937,7 +1948,7 @@ nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->   {
+>   	kfree(lsop);
+> @@ -1483,7 +1494,7 @@ nvme_fc_xmt_ls_rsp(struct nvmefc_ls_rcv_op *lsop)
+>   	struct fcnvme_ls_rqst_w0 *w0 = &lsop->rqstbuf->w0;
 >   	int ret;
 >   
-> -	fc_dma_sync_single_for_device(tgtport->dev, iod->rspdma,
-> +	fc_dma_sync_single_for_device(tgtport, iod->rspdma,
->   				  sizeof(*iod->rspbuf), DMA_TO_DEVICE);
+> -	fc_dma_sync_single_for_device(lport->dev, lsop->rspdma,
+> +	fc_dma_sync_single_for_device(lport, lsop->rspdma,
+>   				  sizeof(*lsop->rspbuf), DMA_TO_DEVICE);
 >   
->   	ret = tgtport->ops->xmt_ls_rsp(&tgtport->fc_target_port, iod->lsrsp);
-> @@ -2091,7 +2102,7 @@ nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
+>   	ret = lport->ops->xmt_ls_rsp(&lport->localport, &rport->remoteport,
+> @@ -1761,10 +1772,10 @@ nvme_fc_rcv_ls_req(struct nvme_fc_remote_port *portptr,
+>   	lsop->rqstbuf = (union nvmefc_ls_requests *)&lsop[1];
+>   	lsop->rspbuf = (union nvmefc_ls_responses *)&lsop->rqstbuf[1];
 >   
->   	fod->data_sg = sg;
->   	fod->data_sg_cnt = nent;
-> -	fod->data_sg_cnt = fc_dma_map_sg(fod->tgtport->dev, sg, nent,
-> +	fod->data_sg_cnt = fc_dma_map_sg(fod->tgtport, sg, nent,
->   				((fod->io_dir == NVMET_FCP_WRITE) ?
->   					DMA_FROM_DEVICE : DMA_TO_DEVICE));
->   				/* note: write from initiator perspective */
-> @@ -2109,7 +2120,7 @@ nvmet_fc_free_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
->   	if (!fod->data_sg || !fod->data_sg_cnt)
->   		return;
+> -	lsop->rspdma = fc_dma_map_single(lport->dev, lsop->rspbuf,
+> +	lsop->rspdma = fc_dma_map_single(lport, lsop->rspbuf,
+>   					sizeof(*lsop->rspbuf),
+>   					DMA_TO_DEVICE);
+> -	if (fc_dma_mapping_error(lport->dev, lsop->rspdma)) {
+> +	if (fc_dma_mapping_error(lport, lsop->rspdma)) {
+>   		dev_info(lport->dev,
+>   			"RCV %s LS failed: DMA mapping failure\n",
+>   			(w0->ls_cmd <= NVME_FC_LAST_LS_CMD_VALUE) ?
+> @@ -1793,7 +1804,7 @@ nvme_fc_rcv_ls_req(struct nvme_fc_remote_port *portptr,
+>   	return 0;
 >   
-> -	fc_dma_unmap_sg(fod->tgtport->dev, fod->data_sg, fod->data_sg_cnt,
-> +	fc_dma_unmap_sg(fod->tgtport, fod->data_sg, fod->data_sg_cnt,
->   				((fod->io_dir == NVMET_FCP_WRITE) ?
->   					DMA_FROM_DEVICE : DMA_TO_DEVICE));
->   	sgl_free(fod->data_sg);
-> @@ -2193,7 +2204,7 @@ nvmet_fc_prep_fcp_rsp(struct nvmet_fc_tgtport *tgtport,
->   		fod->fcpreq->rsplen = sizeof(*ersp);
+>   out_unmap:
+> -	fc_dma_unmap_single(lport->dev, lsop->rspdma,
+> +	fc_dma_unmap_single(lport, lsop->rspdma,
+>   			sizeof(*lsop->rspbuf), DMA_TO_DEVICE);
+>   out_free:
+>   	kfree(lsop);
+> @@ -1810,9 +1821,9 @@ static void
+>   __nvme_fc_exit_request(struct nvme_fc_ctrl *ctrl,
+>   		struct nvme_fc_fcp_op *op)
+>   {
+> -	fc_dma_unmap_single(ctrl->lport->dev, op->fcp_req.rspdma,
+> +	fc_dma_unmap_single(ctrl->lport, op->fcp_req.rspdma,
+>   				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
+> -	fc_dma_unmap_single(ctrl->lport->dev, op->fcp_req.cmddma,
+> +	fc_dma_unmap_single(ctrl->lport, op->fcp_req.cmddma,
+>   				sizeof(op->cmd_iu), DMA_TO_DEVICE);
+>   
+>   	atomic_set(&op->state, FCPOP_STATE_UNINIT);
+> @@ -1936,7 +1947,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+>   
+>   	opstate = atomic_xchg(&op->state, FCPOP_STATE_COMPLETE);
+>   
+> -	fc_dma_sync_single_for_cpu(ctrl->lport->dev, op->fcp_req.rspdma,
+> +	fc_dma_sync_single_for_cpu(ctrl->lport, op->fcp_req.rspdma,
+>   				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
+>   
+>   	if (opstate == FCPOP_STATE_ABORTED)
+> @@ -2073,19 +2084,19 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+>   	else
+>   		cmdiu->rsv_cat = fccmnd_set_cat_admin(0);
+>   
+> -	op->fcp_req.cmddma = fc_dma_map_single(ctrl->lport->dev,
+> +	op->fcp_req.cmddma = fc_dma_map_single(ctrl->lport,
+>   				&op->cmd_iu, sizeof(op->cmd_iu), DMA_TO_DEVICE);
+> -	if (fc_dma_mapping_error(ctrl->lport->dev, op->fcp_req.cmddma)) {
+> +	if (fc_dma_mapping_error(ctrl->lport, op->fcp_req.cmddma)) {
+>   		dev_err(ctrl->dev,
+>   			"FCP Op failed - cmdiu dma mapping failed.\n");
+>   		ret = -EFAULT;
+>   		goto out_on_error;
 >   	}
 >   
-> -	fc_dma_sync_single_for_device(tgtport->dev, fod->rspdma,
-> +	fc_dma_sync_single_for_device(tgtport, fod->rspdma,
->   				  sizeof(fod->rspiubuf), DMA_TO_DEVICE);
->   }
+> -	op->fcp_req.rspdma = fc_dma_map_single(ctrl->lport->dev,
+> +	op->fcp_req.rspdma = fc_dma_map_single(ctrl->lport,
+>   				&op->rsp_iu, sizeof(op->rsp_iu),
+>   				DMA_FROM_DEVICE);
+> -	if (fc_dma_mapping_error(ctrl->lport->dev, op->fcp_req.rspdma)) {
+> +	if (fc_dma_mapping_error(ctrl->lport, op->fcp_req.rspdma)) {
+>   		dev_err(ctrl->dev,
+>   			"FCP Op failed - rspiu dma mapping failed.\n");
+>   		ret = -EFAULT;
+> @@ -2485,7 +2496,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
 >   
+>   	op->nents = blk_rq_map_sg(rq->q, rq, freq->sg_table.sgl);
+>   	WARN_ON(op->nents > blk_rq_nr_phys_segments(rq));
+> -	freq->sg_cnt = fc_dma_map_sg(ctrl->lport->dev, freq->sg_table.sgl,
+> +	freq->sg_cnt = fc_dma_map_sg(ctrl->lport, freq->sg_table.sgl,
+>   				op->nents, rq_dma_dir(rq));
+>   	if (unlikely(freq->sg_cnt <= 0)) {
+>   		sg_free_table_chained(&freq->sg_table, NVME_INLINE_SG_CNT);
+> @@ -2508,7 +2519,7 @@ nvme_fc_unmap_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
+>   	if (!freq->sg_cnt)
+>   		return;
+>   
+> -	fc_dma_unmap_sg(ctrl->lport->dev, freq->sg_table.sgl, op->nents,
+> +	fc_dma_unmap_sg(ctrl->lport, freq->sg_table.sgl, op->nents,
+>   			rq_dma_dir(rq));
+>   
+>   	sg_free_table_chained(&freq->sg_table, NVME_INLINE_SG_CNT);
+> @@ -2609,7 +2620,7 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+>   		}
+>   	}
+>   
+> -	fc_dma_sync_single_for_device(ctrl->lport->dev, op->fcp_req.cmddma,
+> +	fc_dma_sync_single_for_device(ctrl->lport, op->fcp_req.cmddma,
+>   				  sizeof(op->cmd_iu), DMA_TO_DEVICE);
+>   
+>   	atomic_set(&op->state, FCPOP_STATE_ACTIVE);
 > diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-> index e56f323fa7d4..2ccb941efb21 100644
+> index 2ccb941efb21..7dab98545979 100644
 > --- a/drivers/nvme/target/fcloop.c
 > +++ b/drivers/nvme/target/fcloop.c
-> @@ -1043,7 +1043,7 @@ static struct nvmet_fc_target_template tgttemplate = {
->   	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
->   	.dma_boundary		= FCLOOP_DMABOUND_4G,
->   	/* optional features */
-> -	.target_features	= 0,
-> +	.target_features	= NVMET_FCTGTFEAT_VIRTUAL_DMA,
->   	/* sizes of additional private data for data structures */
->   	.target_priv_sz		= sizeof(struct fcloop_tport),
+> @@ -1026,6 +1026,8 @@ static struct nvme_fc_port_template fctemplate = {
+>   	.remote_priv_sz		= sizeof(struct fcloop_rport),
 >   	.lsrqst_priv_sz		= sizeof(struct fcloop_lsreq),
+>   	.fcprqst_priv_sz	= sizeof(struct fcloop_ini_fcpreq),
+> +	/* optional features */
+> +	.port_features		= NVME_FCPORTFEAT_VIRTUAL_DMA,
+>   };
+>   
+>   static struct nvmet_fc_target_template tgttemplate = {
 > diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-> index 2a38f2b477a5..675c7ef6df17 100644
+> index 675c7ef6df17..17cf967484b2 100644
 > --- a/include/linux/nvme-fc-driver.h
 > +++ b/include/linux/nvme-fc-driver.h
-> @@ -707,6 +707,8 @@ enum {
->   		 * sequence in one LLDD operation. Errors during Data
->   		 * sequence transmit must not allow RSP sequence to be sent.
->   		 */
-> +	NVMET_FCTGTFEAT_VIRTUAL_DMA = (1 << 1),
-> +		/* Bit 1: Virtual LLDD with no DMA support */
+> @@ -334,6 +334,11 @@ struct nvme_fc_remote_port {
+>   	enum nvme_fc_obj_state port_state;
+>   } __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
+>   
+> +/* Port Features (Bit fields) LLDD supports */
+> +enum {
+> +	NVME_FCPORTFEAT_VIRTUAL_DMA = (1 << 0),
+> +		/* Bit 0: Virtual LLDD with no DMA support */
+> +};
+>   
+>   /**
+>    * struct nvme_fc_port_template - structure containing static entrypoints and
+> @@ -470,6 +475,8 @@ struct nvme_fc_remote_port {
+>    *       memory area solely for the of the LLDD and its location is
+>    *       specified by the fcp_request->private pointer.
+>    *       Value is Mandatory. Allowed to be zero.
+> + *
+> + * @port_features: Optional feature for the LLDD
+>    */
+>   struct nvme_fc_port_template {
+>   	/* initiator-based functions */
+> @@ -508,6 +515,9 @@ struct nvme_fc_port_template {
+>   	u32	remote_priv_sz;
+>   	u32	lsrqst_priv_sz;
+>   	u32	fcprqst_priv_sz;
+> +
+> +	/* Optional port features */
+> +	u32	port_features;
 >   };
 >   
 >   
 
-Ok.
+OK.
 
 Reviewed-by: James Smart <james.smart@broadcom.com>
 
 
 -- james
 
---000000000000e0aa9105b0efeec9
+--00000000000038c86705b0eff44c
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -468,20 +507,20 @@ ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
 9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
 ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
 MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgn8u3YIzCJb/dyWX7
-ae9fG4DnTKsY5XNWXFnFuH9f9nUwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDA1MTczNzE0WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
+rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgiaoyWzyrG84vIHbK
+GhYoMf6/mE1MvRNfvizQ8UiG+z4wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjAxMDA1MTczODQ0WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
 ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAF+Jb4CAWJkTA2JKXrMOYAyCUyuj8vED3UG0
-hLtz+4TuGeJCgrgntaCRxpknOQtbawuZpK+TXJNlswpqSkTRmW5H3fBhXjTCjUX1yXJkhKw/Fr6/
-xZ6ZIVTQRfEbWm4HKBMHwvpe4iikohRvzM6whUrfw+544Ee4cAtc1FksSl487UCNhbJWzXoyhm5D
-9cA8VxjMrhxpBKpYC6W8kFGMluL4NhuGAGFR0fSCRQHLf3iv7SZye+U6dXt7/IAUsrqoq7ip64nE
-QIUMpZj4CD6ir/YkH+V9OQ8OC5x/AAeXPN8zGuld7a3RZoIuJkU2uxbJSUpn+XyeZVZl+ZGIpJwu
-EF4=
---000000000000e0aa9105b0efeec9--
+CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAA8Z0L/LKeChYh9NySHZyM0ZkJP/BicvK4Xp
+qME92d0FsPjxit+9s2ct1Ej4aSvZ63ogIidokrRUdqtST4aAUMdZDCSmBqic9StO3dcCW/dnbgR5
+v93jimnfg01YIhSmPrhemDr+maVjQvfY3YIDlTblpbYw6aSkBDycRM5t36fMiFUotUl18XPHT2/5
+52I2DkVovmXks+JJTJnZ8JyeMHOlBjr0+dNEZMkHaIqul56SF85zXlVt44PBGPdi7xdSwbrcEKad
+Rn2SbcqOookWyIIzF9P8mSEmNSYOwtm8NpXUoxkcHgnYqXZgJ46qbKCiWMF54hb9QVFMtXaxjo4s
+dGc=
+--00000000000038c86705b0eff44c--
 
 
---===============4071336743126489245==
+--===============6355746521218243534==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -492,5 +531,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============4071336743126489245==--
+--===============6355746521218243534==--
 
