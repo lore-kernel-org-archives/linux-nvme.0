@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4075EC47095
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E66F7C4363A
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:18:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 92B2C20853
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:14:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7E43A2078E
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:18:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZgTjwgBx";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="XBtv1h1q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92B2C20853
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="az+DQUbS";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="G/BQ9JB9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E43A2078E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,66 +26,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=wPqC8kQvPuQM5sDb3xlsCx7B0uZ8QAKyZTguhCIwflw=; b=ZgTjwgBxrqH1S1ge7m7vRU2Dq
-	0/BLb8VMzbYgT3JTCnWTONd4BvjkJeAb7hcfaqdjbH4iMXMU7m1qZDXnYc66tzoisziBskGqA+HqL
-	0fURu3QTOXTIdHOfLW1TOiGpdBfRspF0fHK5OvMYEPulKt/Xveiy1CK850hcmsZ1JXFNOdC2TX5Aa
-	eb61IC7VYnO9eKj9pTITThO/IF5hEO+er+DlqEXlVNNchZ8CapPjlSE91iYb5DlcGJYIe5nVjRb1w
-	J9OVY4UxHy2trnioPmXyZLn7Q2Q407IHkzejNPx4ZaGdppvNJxMMfAE8J19VuK423LA3FzNKahGuZ
-	DPpt2u8xQ==;
+	 bh=1FOPxj5/qcRWQNLnH1xv+VXOa53kIylqXVNdVilfVHY=; b=az+DQUbSiSFlJMMJPAQu0AIFq
+	Ny9FbvR6H0XMfFOG9gHG4FtMr8JHhsSiD3C/aO+OruC1nxjuPOyRwxg8+7U0zY/ECLcjdk0m9zvGi
+	uoJmX81JBVGPCvIxEGqpaOxkCJYecRApVdm/Eu1GCPwJ7a+gZMhMV7MX7KNPiMqAocm7hGkR86JXK
+	ZuL93wO1+1Pn6jfbxWnjcXVsK2btVMe+E2OAFonTN0rArOTSDsa8DkWy7ZKhPiMSP3FThomqq+OG8
+	L/Kk+FT0fU6/OrFMV+uL6WE4iBj5eGIOJNfCJd2eht0J/kR7OXohgGpZmOF3kMvhHG0FSAM4pjrs7
+	t+MA9QGfA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPU4S-0004Vd-U9; Mon, 05 Oct 2020 17:14:44 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+	id 1kPU7u-00057z-83; Mon, 05 Oct 2020 17:18:18 +0000
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPU4O-0004US-1u
- for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 17:14:41 +0000
-Received: by mail-pg1-x542.google.com with SMTP id 34so6378960pgo.13
- for <linux-nvme@lists.infradead.org>; Mon, 05 Oct 2020 10:14:38 -0700 (PDT)
+ id 1kPU7q-00056h-VX
+ for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 17:18:16 +0000
+Received: by mail-pf1-x443.google.com with SMTP id n136so1408048pfd.11
+ for <linux-nvme@lists.infradead.org>; Mon, 05 Oct 2020 10:18:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to;
- bh=twCPoxo9ybnWfi4umvt5bQC5T0kj3Qpuc17qn37iz+o=;
- b=XBtv1h1qWZPh5EYNUzXkxaN8Trw/GmGceGd0hNbxpO5NVw9MMollTkVFpCFMGHslWg
- 7B4nqnj6YIFGIg+fSx8EMAaLslXMgTQdXIKaGUrXeEiiwf9ox9Kmnm3/jaKG7Py1N4hS
- r3QtVCdyzLnkhR0+bEI/z2cVHTX3v9fpEW83E=
+ bh=At2bvEe0nqTA7tj/1Dac1l7Vs2cIrS1hYO/+X6n1aWM=;
+ b=G/BQ9JB9Iy5jUK96N2HkisAH54OEuJbNVjoGHtGIb2ajHL9DyrnEUbhSD+e6+vtwGH
+ IAR73Qsj3esWGSLZ2ajMV0f/YF0e0WjjXJovHDBA1QB71YQ5CTnOh6okW/ZVYLLMrWIT
+ U8yBzS0hZMh+hYsfLmOLtQxqvMEgrt04ooKZ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to;
- bh=twCPoxo9ybnWfi4umvt5bQC5T0kj3Qpuc17qn37iz+o=;
- b=VqkslkOV9sb6Ili9gfCOkWm+mmn7/3sDivD/Aixpr8SGeW9C09aKkZ+iNixa34NboG
- 2Fapirm8LRb3udGufK87N+LDhAhE/dzEUju+di+gAk5jqWGeZIAv71TP56XxV4KPwczb
- SsGpsu8kZViVTMzkG6Uf/+ZN76pkH79ejUwG4nle3GHGZaoFgL8DxHAuHI0wcG8pkhbB
- JWaIfgYZE6MvDPZy6zUlPGSVC8uA4qirsnC+b1ebAeArCrv/BLocH9KRhuQk0hIgM4Nq
- MYCRaWPbnz2VVKuKCgZsUJNw7MraC0Ze9rv30JESt0/amOZvYiP3FunvUovhx2m1lasQ
- THaQ==
-X-Gm-Message-State: AOAM531AI6fGVcoj0tHlm8MLyumIN0yofOkZDUJ4Ge2DF/XZ2rt8Ijo0
- yJvgsWYQqHM+jJ9PZAzgoJZA53kj0I3ZCsExQkT8Y1DVPAy5AfxohDO2Y6qKdoH9w4/ephT6Lk2
- AkzM94q/gmwU12RpD1SfJOxMH8hV4dtMXJ1rpwCr2LRgMNM9wHRn8Y3g487VO41zffzLmOWZq+p
- 8t9p738mUG
-X-Google-Smtp-Source: ABdhPJxveQVr7nDkvECQRUEqZwpCGA0TxS1NvfpTb49sWofdAs4gicuwzSFUO7wfoVLs7vnqX4uc3A==
-X-Received: by 2002:a62:e706:0:b029:152:5364:f5e4 with SMTP id
- s6-20020a62e7060000b02901525364f5e4mr468129pfh.71.1601918076507; 
- Mon, 05 Oct 2020 10:14:36 -0700 (PDT)
+ bh=At2bvEe0nqTA7tj/1Dac1l7Vs2cIrS1hYO/+X6n1aWM=;
+ b=U2gwTYZwr+dMxIau0VNRaKwTz5y64T6k5DzWrFDFgdVNQrH09VvJXClioObOIM9Gxz
+ ZcKW1uHDhq18PVVTmNoNU0AsKzuZf4bKfXPGdTP67xbaBqymDmJDZvwKVf8rv7VDqmh6
+ YN235A074E3dBbRLow4jJz6f73ZQe/jEbzZWOOlXroo24Uhv5QQT+4fmZlz6B8auvm5C
+ RW2mhLAofX+GhCaiYr+rePyxwoiCilbYimWpzlyeTTs2kea1rByHI9edEMqCb8GmtlgA
+ IiVcPW+1sO83RHSreNDQTIbgbwQevHTmJ0V7hdiqMB4TCtY/n1nxKQkmUyOnplgA8Inu
+ gJcw==
+X-Gm-Message-State: AOAM530gtSLswVDTYjyVlst3hSFA8DwgcSjNJio99xuafoJLGA6M/VGh
+ DNOHdNuY4wWo0X5XwXRAwQRibcam9Ih653BoiWtPIhQKvjlI0ZZCJX+jIREE+01Ov5iRtuT97jw
+ PN93jXLd02PAAHg1Z+sobLIZ62txIbiGN7dGh9HCWL6V9brA/Tu14/FpoXai42WNyg3rLCE0mue
+ aSeE5kQSfk
+X-Google-Smtp-Source: ABdhPJxq0njdEy4/nf0j48Cl+t1F3yzOVBJ28mKK1fcMxQG4wfTJZE+OuzrjfuNJFZaA3gl1ad8ptA==
+X-Received: by 2002:aa7:8287:0:b029:142:2501:39ec with SMTP id
+ s7-20020aa782870000b0290142250139ecmr481150pfm.59.1601918292083; 
+ Mon, 05 Oct 2020 10:18:12 -0700 (PDT)
 Received: from [10.230.185.151] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id d1sm136800pjk.38.2020.10.05.10.14.32
+ by smtp.gmail.com with ESMTPSA id ep11sm130064pjb.55.2020.10.05.10.18.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Oct 2020 10:14:35 -0700 (PDT)
-Subject: Re: [PATCH 1/7] nvme-fcloop: flush workqueue before calling
- nvme_fc_unregister_remoteport()
+ Mon, 05 Oct 2020 10:18:10 -0700 (PDT)
+Subject: Re: [PATCH 2/7] nvmet-fc: use per-target workqueue when removing
+ associations
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 References: <20200922121501.32851-1-hare@suse.de>
- <20200922121501.32851-2-hare@suse.de>
+ <20200922121501.32851-3-hare@suse.de>
 From: James Smart <james.smart@broadcom.com>
-Message-ID: <7d114c5a-59a8-a92e-5003-ce4d9fd14fca@broadcom.com>
-Date: Mon, 5 Oct 2020 10:14:29 -0700
+Message-ID: <41ce327c-6b29-8835-9541-6ff41a0fb9c8@broadcom.com>
+Date: Mon, 5 Oct 2020 10:18:09 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200922121501.32851-2-hare@suse.de>
+In-Reply-To: <20200922121501.32851-3-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201005_131440_110048_43645A1A 
-X-CRM114-Status: GOOD (  18.58  )
+X-CRM114-CacheID: sfid-20201005_131815_035594_8CBFE477 
+X-CRM114-Status: GOOD (  24.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,60 +99,139 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
  Keith Busch <keith.busch@wdc.com>
-Content-Type: multipart/mixed; boundary="===============5654954578196043039=="
+Content-Type: multipart/mixed; boundary="===============5753203026459765316=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============5654954578196043039==
+--===============5753203026459765316==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000f1a17705b0ef9d88"
+	boundary="000000000000caf17c05b0efaa26"
 
---000000000000f1a17705b0ef9d88
+--000000000000caf17c05b0efaa26
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-
-
 On 9/22/2020 5:14 AM, Hannes Reinecke wrote:
-> nvme_fc_unregister_remoteport() will be sending LS requests, which then
-> would end up on a workqueue for processing. This will deadlock with
-> fcloop_remoteport_delete() which would try to flush the very same queue.
+> When removing target ports all outstanding associations need to be
+> terminated / cleaned up. As this involves several exchanges on the
+> wire a synchronization point is required to establish when these
+> exchanges have ran their course and it's safe to delete the association.
+> So add a per-target workqueue and flush this workqueue to ensure
+> the association can really be deleted.
 >
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->   drivers/nvme/target/fcloop.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/nvme/target/fc.c | 29 +++++++++++++++++++++++------
+>   1 file changed, 23 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-> index c97e60b71bbc..082aa4dee406 100644
-> --- a/drivers/nvme/target/fcloop.c
-> +++ b/drivers/nvme/target/fcloop.c
-> @@ -979,7 +979,6 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
->   {
->   	struct fcloop_rport *rport = remoteport->private;
+> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+> index 04ec0076ae59..63f5deb3b68a 100644
+> --- a/drivers/nvme/target/fc.c
+> +++ b/drivers/nvme/target/fc.c
+> @@ -99,6 +99,7 @@ struct nvmet_fc_tgtport {
+>   	struct list_head		tgt_list; /* nvmet_fc_target_list */
+>   	struct device			*dev;	/* dev for dma mapping */
+>   	struct nvmet_fc_target_template	*ops;
+> +	struct workqueue_struct		*work_q;
 >   
-> -	flush_work(&rport->ls_work);
->   	fcloop_nport_put(rport->nport);
+>   	struct nvmet_fc_ls_iod		*iod;
+>   	spinlock_t			lock;
+> @@ -1403,10 +1404,17 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
+>   	ida_init(&newrec->assoc_cnt);
+>   	newrec->max_sg_cnt = template->max_sgl_segments;
+>   
+> +	newrec->work_q = alloc_workqueue("ntfc%d", 0, 0,
+> +					 newrec->fc_target_port.port_num);
+> +	if (!newrec->work_q) {
+> +		ret = -ENOMEM;
+> +		goto out_free_newrec;
+> +	}
+> +
+>   	ret = nvmet_fc_alloc_ls_iodlist(newrec);
+>   	if (ret) {
+>   		ret = -ENOMEM;
+> -		goto out_free_newrec;
+> +		goto out_free_workq;
+>   	}
+>   
+>   	nvmet_fc_portentry_rebind_tgt(newrec);
+> @@ -1418,6 +1426,8 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
+>   	*portptr = &newrec->fc_target_port;
+>   	return 0;
+>   
+> +out_free_workq:
+> +	destroy_workqueue(newrec->work_q);
+>   out_free_newrec:
+>   	put_device(dev);
+>   out_ida_put:
+> @@ -1443,6 +1453,8 @@ nvmet_fc_free_tgtport(struct kref *ref)
+>   	list_del(&tgtport->tgt_list);
+>   	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+>   
+> +	destroy_workqueue(tgtport->work_q);
+> +
+>   	nvmet_fc_free_ls_iodlist(tgtport);
+>   
+>   	/* let the LLDD know we've finished tearing it down */
+> @@ -1481,11 +1493,13 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
+>   				&tgtport->assoc_list, a_list) {
+>   		if (!nvmet_fc_tgt_a_get(assoc))
+>   			continue;
+> -		if (!schedule_work(&assoc->del_work))
+> +		if (!queue_work(tgtport->work_q, &assoc->del_work))
+>   			/* already deleting - release local reference */
+>   			nvmet_fc_tgt_a_put(assoc);
+>   	}
+>   	spin_unlock_irqrestore(&tgtport->lock, flags);
+> +
+> +	flush_workqueue(tgtport->work_q);
 >   }
 >   
-> @@ -1313,6 +1312,7 @@ __remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
->   	if (!rport)
->   		return -EALREADY;
+>   /**
+> @@ -1536,12 +1550,14 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
+>   			continue;
+>   		assoc->hostport->invalid = 1;
+>   		noassoc = false;
+> -		if (!schedule_work(&assoc->del_work))
+> +		if (!queue_work(tgtport->work_q, &assoc->del_work))
+>   			/* already deleting - release local reference */
+>   			nvmet_fc_tgt_a_put(assoc);
+>   	}
+>   	spin_unlock_irqrestore(&tgtport->lock, flags);
 >   
-> +	flush_work(&rport->ls_work);
->   	return nvme_fc_unregister_remoteport(rport->remoteport);
->   }
+> +	flush_workqueue(tgtport->work_q);
+> +
+>   	/* if there's nothing to wait for - call the callback */
+>   	if (noassoc && tgtport->ops->host_release)
+>   		tgtport->ops->host_release(hosthandle);
+> @@ -1579,14 +1595,15 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+>   		}
+>   		spin_unlock_irqrestore(&tgtport->lock, flags);
 >   
+> -		nvmet_fc_tgtport_put(tgtport);
+> -
+>   		if (found_ctrl) {
+> -			if (!schedule_work(&assoc->del_work))
+> +			if (!queue_work(tgtport->work_q, &assoc->del_work))
+>   				/* already deleting - release local reference */
+>   				nvmet_fc_tgt_a_put(assoc);
+> +			flush_workqueue(tgtport->work_q);
+> +			nvmet_fc_tgtport_put(tgtport);
+>   			return;
+>   		}
+> +		nvmet_fc_tgtport_put(tgtport);
+>   
+>   		spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+>   	}
+
+Looks reasonable.
 
 Reviewed-by: James Smart <james.smart@broadcom.com>
 
-Looks Good.
-
 -- james
 
-
---000000000000f1a17705b0ef9d88
+--000000000000caf17c05b0efaa26
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -222,20 +301,20 @@ ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
 9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
 ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
 MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgamYKUyvNCtMB9HYv
-2VxenZc68B3AHUqQS7MNdUGcg0EwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDA1MTcxNDM3WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
+rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQg0bhi1lRZs42hhF3Y
+wj8CTkzsay8OWdR7tMS6daRe/t0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjAxMDA1MTcxODEyWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
 ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFrJgG0Tv0vMeWQsT0OLC+JF1IQwymDBZGnt
-qpuuIbMO5IUhrWa9FcN9dv1CcIfhOYZWdaS55miTMN00gfCz8Pu4icbRllkIfO8TgpWf4fG1NNkg
-mj1F3HHOTUchr65bklTXJ2zjVDfEFBtZd/zF/YRp7Yjq8/XdhWNMDy0afyCGZngMbpUau9D8V2Hq
-vsd8LdGCAN7ms19t2CUif/Xv66V6dQBmk4lyWlGwiNgmmXsdGCpkXu3f7x6kKvs4p+SVBxq0lEfY
-1a0AUbOaxJSjp3WLJT1GetBgACq6iv8sO1RRg2jOFpb97Cs+x4x8lfjWzeCf0Pjaa7Z3HMajvC14
-I0Q=
---000000000000f1a17705b0ef9d88--
+CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAA6oNeqtJE7t8Ajo3b6WZwMCrrArMCrrvqm5
+TwQskEZFh5H+SGUFCxzpKYaVaEeEUxFH46rfs4WvD6NJOue9d27pLD/mzGnKmVhhMsooXImRok51
+d6QMtFTdB6dDPVKGaEBii0m29jAOAqj/KV46xi5N64ALnvrtZSBI2L8K9qAOz5D7uCmR4pZuoxFb
+g1pnOkSsfw18M35v8E2RO3OzRCUPV80PEqVZeYYDbsIMl+fuz4T7QPSyy+M2/UyMeme6xJ30TPpW
+6udfKLWZJiMhNR9RuLtQmLoOGVZ/Mr1ixcNlnQQJ85or4TLceEc/BJRV4ofKdUJWJGVoCqNNaDvU
+Ns0=
+--000000000000caf17c05b0efaa26--
 
 
---===============5654954578196043039==
+--===============5753203026459765316==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -246,5 +325,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============5654954578196043039==--
+--===============5753203026459765316==--
 
