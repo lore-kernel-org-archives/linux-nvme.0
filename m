@@ -2,55 +2,57 @@ Return-Path: <SRS0=0roG=DM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 001E1C4363A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 12:45:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C10FC4727E
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 12:45:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 566482078D
+	by mail.kernel.org (Postfix) with ESMTPS id 5C2EC20848
 	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 12:45:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RKkgU2uh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 566482078D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Q514e6pK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C2EC20848
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=rSxXMdozb4Rt5xYYE/S2ki9hfo3q9ghRlrbhZCmza0k=; b=RKkgU2uhByY32p6yAvcLUFpBjG
-	FEeuiPOStF02A6eSAIxC0eZ6S3j46KdwDA/sKdx9gkZlih1F+F+7N8toyGJUhDWsz1opB4NskvCIh
-	jL4p4h18as3qjwVGl1AAogpHQMruPBHHe+fpXWmymWqq8aghyPQ+aYW6PgIOeLOmDvBa9iNICaQBk
-	Q0e/456RjqcYxBS2iNRGc/1SrksWjpACV6UKuuiX/m8yWgBi8I50xR+2jClnI7jjvjEEBxYHMx3tZ
-	cKXseVmAJexPSxwVNBwz51rdKzZU4o1a5yqKnuobxDRVrjR5NtgwxpkauGV7ttCv5YQU4rrDVczrM
-	Nlu/eBfg==;
+	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aPqAn1j3VyUi3WHGeCEJEC3UZ4/pB5YR5z7zc2C7xlY=; b=Q514e6pKPYagOcVnrJfcOmxlyX
+	GSzcuYPdnVUWAp3uC0Ioi/ogOripN47ZqBw+1PV0BOwfvhPkbAKhtHI5lVYiWy1iEeRp8sLGFVo7m
+	gRuzcjz4gXRpMn7rXh8xE00P8dsSIoZcJFSDwAvxaC+RODs+/t8JhfpCEdAJEQMI//f4MBauQ6fj8
+	GWSgYNP0+R7wXKf3NY1bJCpLvSEpdYYkhuQlXznDMbfAtqHt0XULuC5DT2gEXrnN0Kdg9fapgiuqA
+	+iMTX+rMrzAK+Fz6i3j6XxdamCop+U1qFU90vIuyLgmDZ/KAzVapqSd/GYa0sxKTfa42ojU1ZH8/N
+	8WaMjUNA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPPrf-0003Z7-U4; Mon, 05 Oct 2020 12:45:15 +0000
+	id 1kPPre-0003Ys-Uh; Mon, 05 Oct 2020 12:45:15 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPPrZ-0003XN-69
- for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 12:45:11 +0000
+ id 1kPPrY-0003XH-Iz
+ for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 12:45:10 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A7351B4D2;
+ by mx2.suse.de (Postfix) with ESMTP id A4827AF43;
  Mon,  5 Oct 2020 12:45:06 +0000 (UTC)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [RFC PATCHv3 0/2] nvme: queue_if_no_path functionality
-Date: Mon,  5 Oct 2020 14:44:58 +0200
-Message-Id: <20201005124500.6015-1-hare@suse.de>
+Subject: [PATCH 2/2] nvme: add 'queue_if_no_path' semantics
+Date: Mon,  5 Oct 2020 14:45:00 +0200
+Message-Id: <20201005124500.6015-3-hare@suse.de>
 X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20201005124500.6015-1-hare@suse.de>
+References: <20201005124500.6015-1-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201005_084509_343238_DBD8446D 
-X-CRM114-Status: GOOD (  15.25  )
+X-CRM114-CacheID: sfid-20201005_084508_889917_F0D47774 
+X-CRM114-Status: GOOD (  25.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,38 +72,147 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Currently namespaces behave differently depending on the 'CMIC'
+setting. If CMIC is zero, the device is removed once the last path
+goes away. If CMIC has the multipath bit set, the device is retained
+even if the last path is removed.
+This is okay for fabrics, where one can do an explicit disconnect
+to remove the device, but for nvme-pci this induces a regression
+with PCI hotplug.
+When the NVMe device is opened (eg by MD), the NVMe device is not
+removed after a PCI hot-remove. Hence MD will not be notified about
+the event, and will continue to consider this device as operational.
+Consequently, upon PCI hot-add the device shows up as a new NVMe
+device, and MD will fail to reattach the device.
+So this patch adds NVME_NSHEAD_QUEUE_IF_NO_PATH flag to the nshead
+to restore the original behaviour for non-fabrics NVMe devices.
 
-this is a patchset based on Keiths original patch for restoring pre-fabrics
-behaviour when the last path to a multipath device is removed.
-Originally, the nvme device had been removed once the underlying hardware
-had been removed. With the introduction of multipath support things changed;
-it's now the 'CMIC' bit in the controller identification which controls the
-behaviour. If it's set to non-zero, the device is retained even if the hardware
-is removed. While this is okay for fabrics (as we can manually connect and
-disconnect the devices), for nvme-pci this means that PCI hotplug ceases
-to work as the device is never removed, and when reinserting the hardware
-a new nvme device is created.
-This patchset introduces a 'queue_if_no_path' flag to control the handling of
-the last path; it's set for fabrics to retain the current functionality,
-but unset for PCI to revert to the original, pre-fabrics behaviour.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/core.c      | 10 +++++++++-
+ drivers/nvme/host/multipath.c | 38 ++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  2 ++
+ 3 files changed, 49 insertions(+), 1 deletion(-)
 
-Changes to v2:
-- Merge two patches
-- Fix to make it compile without CONFIG_NVME_MULTIPATH
-- Move sysfs attributes to be compiled in only for CONFIG_NVME_MULTIPATH
-
-Hannes Reinecke (1):
-  nvme: add 'queue_if_no_path' semantics
-
-Keith Busch (1):
-  nvme-mpath: delete disk after last connection
-
- drivers/nvme/host/core.c      | 13 ++++++++++++-
- drivers/nvme/host/multipath.c | 39 ++++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h      |  4 +++-
- 3 files changed, 53 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4459a40b057c..e21c32ea4b51 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -475,8 +475,11 @@ static void nvme_free_ns_head(struct kref *ref)
+ 		container_of(ref, struct nvme_ns_head, ref);
+ 
+ #ifdef CONFIG_NVME_MULTIPATH
+-	if (head->disk)
++	if (head->disk) {
++		if (test_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags))
++			nvme_mpath_remove_disk(head);
+ 		put_disk(head->disk);
++	}
+ #endif
+ 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+ 	cleanup_srcu_struct(&head->srcu);
+@@ -3357,6 +3360,7 @@ static struct attribute *nvme_ns_id_attrs[] = {
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	&dev_attr_ana_grpid.attr,
+ 	&dev_attr_ana_state.attr,
++	&dev_attr_queue_if_no_path.attr,
+ #endif
+ 	NULL,
+ };
+@@ -3387,6 +3391,10 @@ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+ 		if (!nvme_ctrl_use_ana(nvme_get_ns_from_dev(dev)->ctrl))
+ 			return 0;
+ 	}
++	if (a == &dev_attr_queue_if_no_path.attr) {
++		if (dev_to_disk(dev)->fops == &nvme_fops)
++			return 0;
++	}
+ #endif
+ 	return a->mode;
+ }
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 55045291b4de..bbdad5917112 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -381,6 +381,9 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 	/* set to a default value for 512 until disk is validated */
+ 	blk_queue_logical_block_size(q, 512);
+ 	blk_set_stacking_limits(&q->limits);
++	/* Enable queue_if_no_path semantics for fabrics */
++	if (ctrl->ops->flags & NVME_F_FABRICS)
++		set_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags);
+ 
+ 	/* we need to propagate up the VMC settings */
+ 	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
+@@ -640,6 +643,37 @@ static ssize_t ana_state_show(struct device *dev, struct device_attribute *attr,
+ }
+ DEVICE_ATTR_RO(ana_state);
+ 
++static ssize_t queue_if_no_path_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct nvme_ns_head *head = nvme_get_ns_from_dev(dev)->head;
++
++	return sprintf(buf, "%s\n",
++		       test_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags) ?
++		       "on" : "off");
++}
++
++static ssize_t queue_if_no_path_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct nvme_ns_head *head = nvme_get_ns_from_dev(dev)->head;
++	int err;
++	bool queue_if_no_path;
++
++	err = kstrtobool(buf, &queue_if_no_path);
++	if (err)
++		return -EINVAL;
++
++	if (queue_if_no_path)
++		set_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags);
++	else
++		clear_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags);
++
++	return count;
++}
++DEVICE_ATTR(queue_if_no_path, S_IRUGO | S_IWUSR,
++	queue_if_no_path_show, queue_if_no_path_store);
++
+ static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
+ 		struct nvme_ana_group_desc *desc, void *data)
+ {
+@@ -682,6 +716,10 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ {
+ 	if (!head->disk)
+ 		return;
++	if (test_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags)) {
++		kblockd_schedule_work(&head->requeue_work);
++		return;
++	}
+ 	if (head->disk->flags & GENHD_FL_UP)
+ 		del_gendisk(head->disk);
+ 	blk_set_queue_dying(head->disk->queue);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b6180bb3361d..94ae06cdc934 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -411,6 +411,7 @@ struct nvme_ns_head {
+ 	struct mutex		lock;
+ 	unsigned long		flags;
+ #define NVME_NSHEAD_DISK_LIVE	0
++#define NVME_NSHEAD_QUEUE_IF_NO_PATH 1
+ 	struct nvme_ns __rcu	*current_path[];
+ #endif
+ };
+@@ -684,6 +685,7 @@ static inline void nvme_trace_bio_complete(struct request *req,
+ 
+ extern struct device_attribute dev_attr_ana_grpid;
+ extern struct device_attribute dev_attr_ana_state;
++extern struct device_attribute dev_attr_queue_if_no_path;
+ extern struct device_attribute subsys_attr_iopolicy;
+ 
+ #else
 -- 
 2.16.4
 
