@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E66F7C4363A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:18:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6437C4363A
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:33:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7E43A2078E
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:18:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CABBF207EA
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 17:33:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="az+DQUbS";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="G/BQ9JB9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E43A2078E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zUdLZtAm";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="hkdPSivl"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CABBF207EA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,66 +26,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1FOPxj5/qcRWQNLnH1xv+VXOa53kIylqXVNdVilfVHY=; b=az+DQUbSiSFlJMMJPAQu0AIFq
-	Ny9FbvR6H0XMfFOG9gHG4FtMr8JHhsSiD3C/aO+OruC1nxjuPOyRwxg8+7U0zY/ECLcjdk0m9zvGi
-	uoJmX81JBVGPCvIxEGqpaOxkCJYecRApVdm/Eu1GCPwJ7a+gZMhMV7MX7KNPiMqAocm7hGkR86JXK
-	ZuL93wO1+1Pn6jfbxWnjcXVsK2btVMe+E2OAFonTN0rArOTSDsa8DkWy7ZKhPiMSP3FThomqq+OG8
-	L/Kk+FT0fU6/OrFMV+uL6WE4iBj5eGIOJNfCJd2eht0J/kR7OXohgGpZmOF3kMvhHG0FSAM4pjrs7
-	t+MA9QGfA==;
+	 bh=PdHofI/XHGgyCjv6jDbBcDpWcgOohF3fSH00/ZXeB7U=; b=zUdLZtAm92Dgt+Z5X1cAbtOe8
+	WYVHDbSvogA2gIU9ouZxXip6I85A40NHw3U+PhNYO2YcEr8JWdLVdbdHCpIXBIa2fz8WNqg6XoEUq
+	vKxW8h4l6y981qiVgYoiXhvU+5AnmethTR1wPlMmTpupGHa9XKzx2CJhPRqGOlrIgOBEmf5+tZ7/8
+	B9ejQV+9pMXv7NJThnjW9O2ZG8Ez4FAQ4GSdRVb4AIdSLMFEf5ijLQZ8gzmZWN6X0OLbzJGn+M2Uo
+	SiHP36ah56gmwUfewdEk84VyagiNGtRNPjfQl0QB1m3xthQv24KzZGmQZLuaRnLWXd5QkeN7keelB
+	1RE/atl0w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPU7u-00057z-83; Mon, 05 Oct 2020 17:18:18 +0000
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
+	id 1kPUMe-00076b-GD; Mon, 05 Oct 2020 17:33:32 +0000
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPU7q-00056h-VX
- for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 17:18:16 +0000
-Received: by mail-pf1-x443.google.com with SMTP id n136so1408048pfd.11
- for <linux-nvme@lists.infradead.org>; Mon, 05 Oct 2020 10:18:14 -0700 (PDT)
+ id 1kPUMa-000762-Ej
+ for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 17:33:30 +0000
+Received: by mail-pj1-x1044.google.com with SMTP id i3so197059pjz.4
+ for <linux-nvme@lists.infradead.org>; Mon, 05 Oct 2020 10:33:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to;
- bh=At2bvEe0nqTA7tj/1Dac1l7Vs2cIrS1hYO/+X6n1aWM=;
- b=G/BQ9JB9Iy5jUK96N2HkisAH54OEuJbNVjoGHtGIb2ajHL9DyrnEUbhSD+e6+vtwGH
- IAR73Qsj3esWGSLZ2ajMV0f/YF0e0WjjXJovHDBA1QB71YQ5CTnOh6okW/ZVYLLMrWIT
- U8yBzS0hZMh+hYsfLmOLtQxqvMEgrt04ooKZ0=
+ bh=BMrgGezckis9j+jg4arIC7zpEuIE4+5mPC46vzWZ5Gg=;
+ b=hkdPSivltA/TnPGhe+ct4flzKMxmwLljYOeydfH6j4pocfP5MpvEfDNq46IpuIyGp/
+ Z94Vp6tS2prB+isA+6LDcmQ2KzvDs1WYC0zG+nuemBFy/kx4Nw0v/d6NZoLNb3gb5zBH
+ Lla6SSmo4fAI2ZX3P6FXhG2uAYbDw9R5mZm6c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to;
- bh=At2bvEe0nqTA7tj/1Dac1l7Vs2cIrS1hYO/+X6n1aWM=;
- b=U2gwTYZwr+dMxIau0VNRaKwTz5y64T6k5DzWrFDFgdVNQrH09VvJXClioObOIM9Gxz
- ZcKW1uHDhq18PVVTmNoNU0AsKzuZf4bKfXPGdTP67xbaBqymDmJDZvwKVf8rv7VDqmh6
- YN235A074E3dBbRLow4jJz6f73ZQe/jEbzZWOOlXroo24Uhv5QQT+4fmZlz6B8auvm5C
- RW2mhLAofX+GhCaiYr+rePyxwoiCilbYimWpzlyeTTs2kea1rByHI9edEMqCb8GmtlgA
- IiVcPW+1sO83RHSreNDQTIbgbwQevHTmJ0V7hdiqMB4TCtY/n1nxKQkmUyOnplgA8Inu
- gJcw==
-X-Gm-Message-State: AOAM530gtSLswVDTYjyVlst3hSFA8DwgcSjNJio99xuafoJLGA6M/VGh
- DNOHdNuY4wWo0X5XwXRAwQRibcam9Ih653BoiWtPIhQKvjlI0ZZCJX+jIREE+01Ov5iRtuT97jw
- PN93jXLd02PAAHg1Z+sobLIZ62txIbiGN7dGh9HCWL6V9brA/Tu14/FpoXai42WNyg3rLCE0mue
- aSeE5kQSfk
-X-Google-Smtp-Source: ABdhPJxq0njdEy4/nf0j48Cl+t1F3yzOVBJ28mKK1fcMxQG4wfTJZE+OuzrjfuNJFZaA3gl1ad8ptA==
-X-Received: by 2002:aa7:8287:0:b029:142:2501:39ec with SMTP id
- s7-20020aa782870000b0290142250139ecmr481150pfm.59.1601918292083; 
- Mon, 05 Oct 2020 10:18:12 -0700 (PDT)
+ bh=BMrgGezckis9j+jg4arIC7zpEuIE4+5mPC46vzWZ5Gg=;
+ b=FHPTHj4u9xLH1qRkSbyF4kbG+cY2whN8g6Qc/CDxrxeAjidu+8w/75Tyi6dPEmA0z0
+ 3xLeft+hsWRUcS66hJfQbA6tL/abbGmsgWGewKZjHOI4Xkyhj9E2hvaoOMO6cGcfHAsm
+ 1df3vvZuHM5EzE3jeGs+Kw3XA9Nkmz1kbAZCMI5mzawEJvidUtAOvl0hxee3RPFjM4O2
+ 8QJXRuQ0200lQAAIGvKo8O0P8GYEq6GPLgXfzNCL67tUY/KkBreujap6p1+x6M1q/O4p
+ XFvwMc94xwPXUsT4vgFlhlfoZN3f7fOk+mDbAv9AJdTlqgDJXflii36gHTrUYXGiurdn
+ PryQ==
+X-Gm-Message-State: AOAM530YM9b2C1M+eWx4dOKIF/6hDyVTQJtIMIgpnL4lxko5BrAuXqry
+ oq9zB+uaZN8e7Yo67pcuUXZ9cddWEJsUGGCcgt+TSFKsQQ0U5puDEQj0PKPj8Mmvs98/4VL6ZuH
+ SgtY8XiAUwR0bwPQ3a16/iS3WNTApz//vnKGRbi8NLo2KC97u9krbq92GY7kDr7leq2F37nX/yl
+ Io7HIYAzEf
+X-Google-Smtp-Source: ABdhPJy//w2skB/9jH8SpjJzWj6WMysqKb+wqhs8rBfPNpQtinUCvunuahuHzoFVyZ7rMkfDpa+oCQ==
+X-Received: by 2002:a17:90a:17ad:: with SMTP id
+ q42mr538453pja.36.1601919205416; 
+ Mon, 05 Oct 2020 10:33:25 -0700 (PDT)
 Received: from [10.230.185.151] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id ep11sm130064pjb.55.2020.10.05.10.18.10
+ by smtp.gmail.com with ESMTPSA id z4sm505605pfr.197.2020.10.05.10.33.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Oct 2020 10:18:10 -0700 (PDT)
-Subject: Re: [PATCH 2/7] nvmet-fc: use per-target workqueue when removing
- associations
+ Mon, 05 Oct 2020 10:33:24 -0700 (PDT)
+Subject: Re: [PATCH 3/7] nvme-fcloop: use IDA for port ids
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 References: <20200922121501.32851-1-hare@suse.de>
- <20200922121501.32851-3-hare@suse.de>
+ <20200922121501.32851-4-hare@suse.de>
 From: James Smart <james.smart@broadcom.com>
-Message-ID: <41ce327c-6b29-8835-9541-6ff41a0fb9c8@broadcom.com>
-Date: Mon, 5 Oct 2020 10:18:09 -0700
+Message-ID: <d0a614ff-c8b5-22fd-07f9-712a0259d760@broadcom.com>
+Date: Mon, 5 Oct 2020 10:33:23 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200922121501.32851-3-hare@suse.de>
+In-Reply-To: <20200922121501.32851-4-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201005_131815_035594_8CBFE477 
-X-CRM114-Status: GOOD (  24.81  )
+X-CRM114-CacheID: sfid-20201005_133328_693918_FA1B7567 
+X-CRM114-Status: GOOD (  22.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,139 +98,207 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
  Keith Busch <keith.busch@wdc.com>
-Content-Type: multipart/mixed; boundary="===============5753203026459765316=="
+Content-Type: multipart/mixed; boundary="===============6300374916965969519=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============5753203026459765316==
+--===============6300374916965969519==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000caf17c05b0efaa26"
+	boundary="0000000000003d304b05b0efe18c"
 
---000000000000caf17c05b0efaa26
+--0000000000003d304b05b0efe18c
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 On 9/22/2020 5:14 AM, Hannes Reinecke wrote:
-> When removing target ports all outstanding associations need to be
-> terminated / cleaned up. As this involves several exchanges on the
-> wire a synchronization point is required to establish when these
-> exchanges have ran their course and it's safe to delete the association.
-> So add a per-target workqueue and flush this workqueue to ensure
-> the association can really be deleted.
->
+> Use an IDA to register port IDs to avoid duplicate port IDs. It
+> also will generate a unique port ID if none is specified.
+
+I'd prefer a little more description as I didn't pick up what this 
+actually did from the comment.  Meaning: Add auto-address assignment if 
+one isn't specified. Use an ida for allocation for uniqueness. Use 
+user-supplied addresses as long as not in use and within range supported 
+for ida.
+
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->   drivers/nvme/target/fc.c | 29 +++++++++++++++++++++++------
->   1 file changed, 23 insertions(+), 6 deletions(-)
+>   drivers/nvme/target/fcloop.c | 51 +++++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 43 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 04ec0076ae59..63f5deb3b68a 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -99,6 +99,7 @@ struct nvmet_fc_tgtport {
->   	struct list_head		tgt_list; /* nvmet_fc_target_list */
->   	struct device			*dev;	/* dev for dma mapping */
->   	struct nvmet_fc_target_template	*ops;
-> +	struct workqueue_struct		*work_q;
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index 082aa4dee406..e56f323fa7d4 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -12,6 +12,7 @@
+>   #include <linux/nvme-fc-driver.h>
+>   #include <linux/nvme-fc.h>
 >   
->   	struct nvmet_fc_ls_iod		*iod;
->   	spinlock_t			lock;
-> @@ -1403,10 +1404,17 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
->   	ida_init(&newrec->assoc_cnt);
->   	newrec->max_sg_cnt = template->max_sgl_segments;
+> +#define FCLOOP_MAX_AL_PA 0xEF
+
+This is odd - no reason to bring in ALPA's and arb loop.   Please rename 
+it to state it's the max address value allowed.  I'd prefer if this was 
+a 24 bit value, but that won't matter much and 255 is fine.
+
 >   
-> +	newrec->work_q = alloc_workqueue("ntfc%d", 0, 0,
-> +					 newrec->fc_target_port.port_num);
-> +	if (!newrec->work_q) {
-> +		ret = -ENOMEM;
-> +		goto out_free_newrec;
-> +	}
+>   enum {
+>   	NVMF_OPT_ERR		= 0,
+> @@ -63,6 +64,9 @@ fcloop_parse_options(struct fcloop_ctrl_options *opts,
+>   	int token, ret = 0;
+>   	u64 token64;
+>   
+> +	/* Default setting */
+> +	opts->fcaddr = 1;
 > +
->   	ret = nvmet_fc_alloc_ls_iodlist(newrec);
->   	if (ret) {
->   		ret = -ENOMEM;
-> -		goto out_free_newrec;
-> +		goto out_free_workq;
->   	}
+>   	options = o = kstrdup(buf, GFP_KERNEL);
+>   	if (!options)
+>   		return -ENOMEM;
+> @@ -102,6 +106,10 @@ fcloop_parse_options(struct fcloop_ctrl_options *opts,
+>   				ret = -EINVAL;
+>   				goto out_free_options;
+>   			}
+> +			if (!token || token > FCLOOP_MAX_AL_PA) {
+> +				ret = -EINVAL;
+> +				goto out_free_options;
+> +			}
+>   			opts->fcaddr = token;
+>   			break;
+>   		case NVMF_OPT_LPWWNN:
+> @@ -203,11 +211,13 @@ fcloop_parse_nm_options(struct device *dev, u64 *nname, u64 *pname,
+>   static DEFINE_SPINLOCK(fcloop_lock);
+>   static LIST_HEAD(fcloop_lports);
+>   static LIST_HEAD(fcloop_nports);
+> +static DEFINE_IDA(fcloop_portid_ida);
 >   
->   	nvmet_fc_portentry_rebind_tgt(newrec);
-> @@ -1418,6 +1426,8 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
->   	*portptr = &newrec->fc_target_port;
->   	return 0;
+>   struct fcloop_lport {
+>   	struct nvme_fc_local_port *localport;
+>   	struct list_head lport_list;
+>   	struct completion unreg_done;
+> +	u32 port_id;
+>   };
 >   
-> +out_free_workq:
-> +	destroy_workqueue(newrec->work_q);
->   out_free_newrec:
->   	put_device(dev);
->   out_ida_put:
-> @@ -1443,6 +1453,8 @@ nvmet_fc_free_tgtport(struct kref *ref)
->   	list_del(&tgtport->tgt_list);
->   	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+>   struct fcloop_lport_priv {
+> @@ -949,6 +959,8 @@ fcloop_nport_free(struct kref *ref)
+>   	list_del(&nport->nport_list);
+>   	spin_unlock_irqrestore(&fcloop_lock, flags);
 >   
-> +	destroy_workqueue(tgtport->work_q);
+> +	ida_free(&fcloop_portid_ida, nport->port_id);
 > +
->   	nvmet_fc_free_ls_iodlist(tgtport);
->   
->   	/* let the LLDD know we've finished tearing it down */
-> @@ -1481,11 +1493,13 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
->   				&tgtport->assoc_list, a_list) {
->   		if (!nvmet_fc_tgt_a_get(assoc))
->   			continue;
-> -		if (!schedule_work(&assoc->del_work))
-> +		if (!queue_work(tgtport->work_q, &assoc->del_work))
->   			/* already deleting - release local reference */
->   			nvmet_fc_tgt_a_put(assoc);
->   	}
->   	spin_unlock_irqrestore(&tgtport->lock, flags);
-> +
-> +	flush_workqueue(tgtport->work_q);
+>   	kfree(nport);
 >   }
 >   
->   /**
-> @@ -1536,12 +1550,14 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
->   			continue;
->   		assoc->hostport->invalid = 1;
->   		noassoc = false;
-> -		if (!schedule_work(&assoc->del_work))
-> +		if (!queue_work(tgtport->work_q, &assoc->del_work))
->   			/* already deleting - release local reference */
->   			nvmet_fc_tgt_a_put(assoc);
->   	}
->   	spin_unlock_irqrestore(&tgtport->lock, flags);
+> @@ -1047,7 +1059,7 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+>   	struct fcloop_lport *lport;
+>   	struct fcloop_lport_priv *lport_priv;
+>   	unsigned long flags;
+> -	int ret = -ENOMEM;
+> +	int ret = -ENOMEM, port_id;
 >   
-> +	flush_workqueue(tgtport->work_q);
+>   	lport = kzalloc(sizeof(*lport), GFP_KERNEL);
+>   	if (!lport)
+> @@ -1067,11 +1079,22 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+>   		goto out_free_opts;
+>   	}
+>   
+> +	port_id = ida_alloc_range(&fcloop_portid_ida,
+> +				  opts->fcaddr, FCLOOP_MAX_AL_PA, GFP_KERNEL);
+> +	if (port_id < 0) {
+> +		ret = port_id;
+> +		goto out_free_opts;
+> +	}
+> +	if ((opts->mask & NVMF_OPT_FCADDR) && opts->fcaddr != port_id) {
+> +		ret = -EINVAL;
+> +		goto out_free_ida;
+> +	}
 > +
->   	/* if there's nothing to wait for - call the callback */
->   	if (noassoc && tgtport->ops->host_release)
->   		tgtport->ops->host_release(hosthandle);
-> @@ -1579,14 +1595,15 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
->   		}
->   		spin_unlock_irqrestore(&tgtport->lock, flags);
+>   	memset(&pinfo, 0, sizeof(pinfo));
+>   	pinfo.node_name = opts->wwnn;
+>   	pinfo.port_name = opts->wwpn;
+>   	pinfo.port_role = opts->roles;
+> -	pinfo.port_id = opts->fcaddr;
+> +	pinfo.port_id = port_id;
 >   
-> -		nvmet_fc_tgtport_put(tgtport);
-> -
->   		if (found_ctrl) {
-> -			if (!schedule_work(&assoc->del_work))
-> +			if (!queue_work(tgtport->work_q, &assoc->del_work))
->   				/* already deleting - release local reference */
->   				nvmet_fc_tgt_a_put(assoc);
-> +			flush_workqueue(tgtport->work_q);
-> +			nvmet_fc_tgtport_put(tgtport);
->   			return;
->   		}
-> +		nvmet_fc_tgtport_put(tgtport);
->   
->   		spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+>   	ret = nvme_fc_register_localport(&pinfo, &fctemplate, NULL, &localport);
+>   	if (!ret) {
+> @@ -1086,7 +1109,9 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+>   		list_add_tail(&lport->lport_list, &fcloop_lports);
+>   		spin_unlock_irqrestore(&fcloop_lock, flags);
 >   	}
+> -
+> +out_free_ida:
+> +	if (ret)
+> +		ida_free(&fcloop_portid_ida, port_id);
+>   out_free_opts:
+>   	kfree(opts);
+>   out_free_lport:
+> @@ -1115,6 +1140,8 @@ __wait_localport_unreg(struct fcloop_lport *lport)
+>   
+>   	wait_for_completion(&lport->unreg_done);
+>   
+> +	ida_free(&fcloop_portid_ida, lport->port_id);
+> +
+>   	kfree(lport);
+>   
+>   	return ret;
+> @@ -1162,7 +1189,7 @@ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
+>   	struct fcloop_ctrl_options *opts;
+>   	unsigned long flags;
+>   	u32 opts_mask = (remoteport) ? RPORT_OPTS : TGTPORT_OPTS;
+> -	int ret;
+> +	int ret, port_id;
+>   
+>   	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
+>   	if (!opts)
+> @@ -1182,13 +1209,21 @@ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
+>   	if (!newnport)
+>   		goto out_free_opts;
+>   
+> +	port_id = ida_alloc_range(&fcloop_portid_ida,
+> +				  opts->fcaddr, FCLOOP_MAX_AL_PA, GFP_KERNEL);
+> +	if (port_id < 0)
+> +		goto out_free_newnport;
+> +
+> +	if ((opts->mask & NVMF_OPT_FCADDR) && opts->fcaddr != port_id)
+> +		goto out_free_ida;
+> +
+>   	INIT_LIST_HEAD(&newnport->nport_list);
+>   	newnport->node_name = opts->wwnn;
+>   	newnport->port_name = opts->wwpn;
+> +	newnport->port_id = port_id;
+>   	if (opts->mask & NVMF_OPT_ROLES)
+>   		newnport->port_role = opts->roles;
+> -	if (opts->mask & NVMF_OPT_FCADDR)
+> -		newnport->port_id = opts->fcaddr;
+> +
+>   	kref_init(&newnport->ref);
+>   
+>   	spin_lock_irqsave(&fcloop_lock, flags);
+> @@ -1226,8 +1261,6 @@ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
+>   				nport->lport = lport;
+>   			if (opts->mask & NVMF_OPT_ROLES)
+>   				nport->port_role = opts->roles;
+> -			if (opts->mask & NVMF_OPT_FCADDR)
+> -				nport->port_id = opts->fcaddr;
+>   			goto out_free_newnport;
+>   		}
+>   	}
+> @@ -1241,6 +1274,8 @@ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
+>   
+>   out_invalid_opts:
+>   	spin_unlock_irqrestore(&fcloop_lock, flags);
+> +out_free_ida:
+> +	ida_free(&fcloop_portid_ida, port_id);
+>   out_free_newnport:
+>   	kfree(newnport);
+>   out_free_opts:
 
-Looks reasonable.
+These are minor nits - I'm good with the patch
 
 Reviewed-by: James Smart <james.smart@broadcom.com>
 
 -- james
 
---000000000000caf17c05b0efaa26
+--0000000000003d304b05b0efe18c
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -301,20 +368,20 @@ ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
 9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
 ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
 MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQg0bhi1lRZs42hhF3Y
-wj8CTkzsay8OWdR7tMS6daRe/t0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDA1MTcxODEyWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
+rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgWaYtVF6lKmmLVEp8
+uLkcQO7u4huyRLzKOASZ6ZQQW8EwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjAxMDA1MTczMzI2WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
 ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAA6oNeqtJE7t8Ajo3b6WZwMCrrArMCrrvqm5
-TwQskEZFh5H+SGUFCxzpKYaVaEeEUxFH46rfs4WvD6NJOue9d27pLD/mzGnKmVhhMsooXImRok51
-d6QMtFTdB6dDPVKGaEBii0m29jAOAqj/KV46xi5N64ALnvrtZSBI2L8K9qAOz5D7uCmR4pZuoxFb
-g1pnOkSsfw18M35v8E2RO3OzRCUPV80PEqVZeYYDbsIMl+fuz4T7QPSyy+M2/UyMeme6xJ30TPpW
-6udfKLWZJiMhNR9RuLtQmLoOGVZ/Mr1ixcNlnQQJ85or4TLceEc/BJRV4ofKdUJWJGVoCqNNaDvU
-Ns0=
---000000000000caf17c05b0efaa26--
+CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAAuMdKXutRCxxETZ58MDKYUFT1Ok6r5Yw7bi
+zAyNg3z8wioeC7xLU4toTFkjppt8NRY2raocpatxxkHCvuZg6V1S7wtUt3PYKXCiWc3s1aWeysWl
+bg6Q9jR1SfvBCmut1rgvgFhYPWGPp3sP6c5Vq3PqZ9219pj238JQn2WVvdBg2z2cerpmx7oxd75q
+eLFE+ANp2Aj/FwAQiDIrwV4dhnzHXdkMxsqmK2FXFWMH7Qd72atPqB4i5Kp1NIRb3ABUvwy5Vdbv
+CHgqqo0XdvEESQ7/NDz33grM/g17u3JQRZiS1yjZYqj+/h/A25P6kC6UewkMhnjARqg4I3sZsADL
+8Ys=
+--0000000000003d304b05b0efe18c--
 
 
---===============5753203026459765316==
+--===============6300374916965969519==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -325,5 +392,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============5753203026459765316==--
+--===============6300374916965969519==--
 
