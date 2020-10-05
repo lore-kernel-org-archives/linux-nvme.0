@@ -2,61 +2,57 @@ Return-Path: <SRS0=0roG=DM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F091C4363A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 11:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0648DC4727D
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 12:45:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 981C820776
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 11:56:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9272C2085B
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Oct 2020 12:45:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="s01tO5yr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 981C820776
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YZalQf9K"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9272C2085B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jO9BVeVpppF51K1tZigZk0X9jIObvTmqg6dweEfayC8=; b=s01tO5yrAOHc3LTFd2LaKReTC
-	tvVU1O0MAAQYM19gQFdLfYpuHtYO9418ZxEo+KVW23VjhUCnd0UyUJwc1OuzMNjVZxZVmHGgup3Az
-	mJR6/tAFF3TPrkpT4TaeGU28OHM+dPmkdsH2e/J9iWdbOJgZzuxAZOlrs3oRqvGuDNhY6j6itrRSb
-	ajNcce3Lxm9UXNGZ4c1JbOaegjsbYWa9DgawYcjRJcYsSDQKv4UHU1fsKXVvbf8N4IZ0ocLcDeDQD
-	hUvfL/PMzJNwNo+pVuD7KA5G0r4YJPiQeLz9/cp/tCyRrWNdRGKQaAMW9oNQgsE1e6DjWOtNnvZUe
-	DpphTAu3w==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EF23d8/D8VmJxU22ye0HNJE9jFpttjk3dQ/FQ2xIook=; b=YZalQf9KYW19pKDqi8kOHnFnLe
+	Ks2zSZKOEW+x8XT8tiv4+YwmL3OUAuMVCqcjGtE8XREf4ZFD9fLvwD1izXUv76W8PXKtHApdo1oqJ
+	vUiZPL9K7dvpCkrHua3hDH+7maAdLJza8slp7aXOjQB9JmCNVAz7Ga+vfKz50GQKzI9L7Ave3drPq
+	5Y08KJ2j/CJD+KTLOzEWPdCFsHTUZ75mqMxFP7CxDxqkBt2xZNOzEUE7YsguGai5Q4eg9cO71tR8N
+	DOfXy9JTUXNVe9UB89Pcz8Yx3Ii6RJSJwg4KdBs7V7RNdRdCVydke7vAGcmfljTzEdfqpn3mZzj+U
+	2G5AjrfQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPP6G-00040H-KZ; Mon, 05 Oct 2020 11:56:16 +0000
+	id 1kPPrd-0003YR-UY; Mon, 05 Oct 2020 12:45:13 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPP6D-0003zp-NJ
- for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 11:56:14 +0000
+ id 1kPPrY-0003XI-Iy
+ for linux-nvme@lists.infradead.org; Mon, 05 Oct 2020 12:45:10 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4C4F6B32A;
- Mon,  5 Oct 2020 11:56:12 +0000 (UTC)
-Subject: Re: [PATCH 3/3] nvme: add 'queue_if_no_path' sysfs attribute
-To: Christoph Hellwig <hch@lst.de>
-References: <20201005094256.49358-1-hare@suse.de>
- <20201005094256.49358-4-hare@suse.de> <20201005113818.GA27690@lst.de>
+ by mx2.suse.de (Postfix) with ESMTP id A5F08B1DE;
+ Mon,  5 Oct 2020 12:45:06 +0000 (UTC)
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <68f08802-e9f4-09cb-f293-bd7abfae7218@suse.de>
-Date: Mon, 5 Oct 2020 13:56:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201005113818.GA27690@lst.de>
-Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Subject: [PATCH 1/2] nvme-mpath: delete disk after last connection
+Date: Mon,  5 Oct 2020 14:44:59 +0200
+Message-Id: <20201005124500.6015-2-hare@suse.de>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20201005124500.6015-1-hare@suse.de>
+References: <20201005124500.6015-1-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201005_075613_869529_8EE8A4CD 
-X-CRM114-Status: GOOD (  17.06  )
+X-CRM114-CacheID: sfid-20201005_084508_885441_E341832F 
+X-CRM114-Status: GOOD (  20.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,26 +64,135 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <keith.busch@wdc.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTAvNS8yMCAxOjM4IFBNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBPaCwgYW5kIHNo
-b3VsZG4ndCB0aGUgYXR0cmlidXRlIGJlIHBlci1zdWJzeXN0ZW0sIHNpbWlsYXIgdG8gdGhlCj4g
-aW9wb2xpY3kgb25lPwo+IApXZWxsLCBJJ3ZlIHRob3VnaHQgYWJvdXQgdGhhdCwgdG9vOyBidXQg
-dGhlbiBmaWd1cmVkIHRoYXQgaXQncyBwcmV0dHkgCm11Y2ggYW4gYWRtaW4gY2hvaWNlLgpIZSBf
-bWlnaHRfIHdhbnQgdG8gY2hvb3NlIGVpdGhlciBiZWhhdmlvdXIsIGRlcGVuZGluZyBvbiB0aGUg
-dXNlLWNhc2UgCihyZWFkOiBNRCByYWlkIG9yIGNsdXN0ZXIgc2NlbmFyaW9zKS4gQnV0IHRoZXNl
-IHVzZS1jYXNlcyBhcmUgcHJldHR5IAptdWNoIHBlciBuYW1lc3BhY2UsIHNvIEknbSBub3Qgc3Vy
-ZSBpZiBwZXItc3Vic3lzdGVtIGlzIGEgZ29vZCBmaXQgaGVyZS4KCkNoZWVycywKCkhhbm5lcwot
-LSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNo
-aXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3
-NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0
-MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6
-IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZy
-YWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
-dXgtbnZtZQo=
+From: Keith Busch <kbusch@kernel.org>
+
+The multipath code currently deletes the disk only after all references
+to it are dropped rather than when the last path to that disk is lost.
+This has been reported to cause problems with some usage, like MD RAID.
+
+Delete the disk when the last path is gone. This is the same behavior we
+currently have with non-multipathed nvme devices.
+
+The following is just a simple example that demonstrates what is currently
+observed using a simple nvme loop back (loop setup file not shown):
+
+ # nvmetcli restore loop.json
+ [   31.156452] nvmet: adding nsid 1 to subsystem testnqn1
+ [   31.159140] nvmet: adding nsid 1 to subsystem testnqn2
+
+ # nvme connect -t loop -n testnqn1 -q hostnqn
+ [   36.866302] nvmet: creating controller 1 for subsystem testnqn1 for NQN hostnqn.
+ [   36.872926] nvme nvme3: new ctrl: "testnqn1"
+
+ # nvme connect -t loop -n testnqn1 -q hostnqn
+ [   38.227186] nvmet: creating controller 2 for subsystem testnqn1 for NQN hostnqn.
+ [   38.234450] nvme nvme4: new ctrl: "testnqn1"
+
+ # nvme connect -t loop -n testnqn2 -q hostnqn
+ [   43.902761] nvmet: creating controller 3 for subsystem testnqn2 for NQN hostnqn.
+ [   43.907401] nvme nvme5: new ctrl: "testnqn2"
+
+ # nvme connect -t loop -n testnqn2 -q hostnqn
+ [   44.627689] nvmet: creating controller 4 for subsystem testnqn2 for NQN hostnqn.
+ [   44.641773] nvme nvme6: new ctrl: "testnqn2"
+
+ # mdadm --create /dev/md0 --level=mirror --raid-devices=2 /dev/nvme3n1 /dev/nvme5n1
+ [   53.497038] md/raid1:md0: active with 2 out of 2 mirrors
+ [   53.501717] md0: detected capacity change from 0 to 66060288
+
+ # cat /proc/mdstat
+ Personalities : [raid1]
+ md0 : active raid1 nvme5n1[1] nvme3n1[0]
+       64512 blocks super 1.2 [2/2] [UU]
+
+Now delete all paths to one of the namespaces:
+
+ # echo 1 > /sys/class/nvme/nvme3/delete_controller
+ # echo 1 > /sys/class/nvme/nvme4/delete_controller
+
+We have no path, but mdstat says:
+
+ # cat /proc/mdstat
+ Personalities : [raid1]
+ md0 : active (auto-read-only) raid1 nvme5n1[1]
+       64512 blocks super 1.2 [2/1] [_U]
+
+And this is reported to cause a problem.
+
+With the proposed patch, the following messages appear:
+
+ [  227.516807] md/raid1:md0: Disk failure on nvme3n1, disabling device.
+ [  227.516807] md/raid1:md0: Operation continuing on 1 devices.
+
+And mdstat shows only the viable members:
+
+ # cat /proc/mdstat
+ Personalities : [raid1]
+ md0 : active (auto-read-only) raid1 nvme5n1[1]
+       64512 blocks super 1.2 [2/1] [_U]
+
+Reported-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c      | 5 ++++-
+ drivers/nvme/host/multipath.c | 1 -
+ drivers/nvme/host/nvme.h      | 2 +-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 385b10317873..4459a40b057c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -474,7 +474,10 @@ static void nvme_free_ns_head(struct kref *ref)
+ 	struct nvme_ns_head *head =
+ 		container_of(ref, struct nvme_ns_head, ref);
+ 
+-	nvme_mpath_remove_disk(head);
++#ifdef CONFIG_NVME_MULTIPATH
++	if (head->disk)
++		put_disk(head->disk);
++#endif
+ 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+ 	cleanup_srcu_struct(&head->srcu);
+ 	nvme_put_subsystem(head->subsys);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 74896be40c17..55045291b4de 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -697,7 +697,6 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ 		 */
+ 		head->disk->queue = NULL;
+ 	}
+-	put_disk(head->disk);
+ }
+ 
+ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 566776100126..b6180bb3361d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -670,7 +670,7 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+ 	struct nvme_ns_head *head = ns->head;
+ 
+ 	if (head->disk && list_empty(&head->list))
+-		kblockd_schedule_work(&head->requeue_work);
++		nvme_mpath_remove_disk(head);
+ }
+ 
+ static inline void nvme_trace_bio_complete(struct request *req,
+-- 
+2.16.4
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
