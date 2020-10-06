@@ -2,74 +2,86 @@ Return-Path: <SRS0=LUST=DN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B4A1C41604
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Oct 2020 17:41:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA97CC4363D
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Oct 2020 23:31:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 196BB20782
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Oct 2020 17:41:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4A6CA20B80
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Oct 2020 23:31:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="e2j/rtMW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ak106rIN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 196BB20782
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JmKNwN6+";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="GgE5hR+6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A6CA20B80
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1v0Dz/NJ7sJE4u7f/yHISDusQos2wF7twPwEieMIQJc=; b=e2j/rtMWMljVwCu/ybeLogAzN
-	S37LVDqakqgqHfqtVoW+lgeJUmN969/Es4Y0tqJ+LujOkLzVwDNJoh0MSBrQgF3x1UuRYeOKMV4Eg
-	86uC2/H590wEfbVfZ996t1/i9j3LfPx3K+pfwZoGx+nkD/u2v8TD7hyjtbpM/VEyjI7jkvEp4JX3K
-	hKQp1HaAfOlBeioEGtJA2Q85quvy5SUIO7Xj0VppfEk2vHiFZRtPaQQhWxgIWG7L9V+kjBot48tOs
-	8MdOVG3F4nLpGXmhwnCh5uJaL0gyROStYLfA2Zx5itxjGaPSrkaEebf1ZHfu+C+P//UTMrD3nw2i0
-	MZnvk/FgQ==;
+	 bh=SO46fbHp99d7xCE06EWdcCCp+T+xBAv+lRZ61UsuZfo=; b=JmKNwN6+y/RMpS2M4XNzppp/S
+	QnyRsdAeesLtnaYRb4+LngEuyBnN9gSjLwSPn9NpR9h3n0Wxa/Jv98d+ksf7iyCb2xpCVvW+CjOnO
+	4OLk2oAq5KmpRCAV5bER8QUQYYxmZq9QsVg21VhVGk9gIa0YJ1CGuIJMVFNA8c1Xnunp7ahEMqZ+4
+	QV5toX0z/4NahCwVIwq/PIHDvFR346FhZ0NlG69LAh5ZBv73JjLlNN0Cr3M2yNIxq9Joq+ruSzeSQ
+	knrCAPelzd0EyiORekdmZT2BqnPCpOW7KJbcvYSJ8jwbsnFkJSxobmaulaRGoCke9/E0L4hK6VKfP
+	azYpHkgQg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPqxb-0006LP-9l; Tue, 06 Oct 2020 17:41:11 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kPwQI-0006EN-Pj; Tue, 06 Oct 2020 23:31:10 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPqxU-0006HZ-FQ
- for linux-nvme@lists.infradead.org; Tue, 06 Oct 2020 17:41:07 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 23B6F20782;
- Tue,  6 Oct 2020 17:41:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602006062;
- bh=wrqvkguElMwgcjScF0aVIixRUmyTDeGAak0jn+vyp8g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ak106rIN/cbmyZY08O/DcUTjgkPFERtvCttTc1rjXzDmV4Ww8Ubygxj5QTSIWqlGi
- YSnxShR5kPSWWk0e82j778klEP8fmkvVLhLJi4InBc01GQ39b0ozs65Vbyu5plESsF
- c1V2+A2Yiatcj+tzHUUiy+02ZEEAAxZFGgWlSvGs=
-Date: Tue, 6 Oct 2020 10:41:00 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 2/2] nvme: add 'queue_if_no_path' semantics
-Message-ID: <20201006174100.GA959043@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20201005124500.6015-1-hare@suse.de>
- <20201005124500.6015-3-hare@suse.de> <20201005125201.GB1125@lst.de>
- <8d7d4803-5808-0839-ee4f-e36a12756497@suse.de>
- <20201006075153.GA10041@lst.de>
- <b720433b-5849-2e7f-d359-53247976bad5@suse.de>
- <20201006082727.GC10243@lst.de>
- <a848297e-3243-6366-86ee-0800d51198e1@suse.de>
- <20201006083926.GA13568@lst.de>
- <00e75643-d422-ca12-1648-02ca89044182@suse.de>
+ id 1kPwQF-0006Cs-LA
+ for linux-nvme@lists.infradead.org; Tue, 06 Oct 2020 23:31:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1602027067; x=1633563067;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=S/MgRFXhmTVX42x7xXXBOPyH7Z6yhVxQA91nH8z+gX8=;
+ b=GgE5hR+6XM/w4x9XFZEhykgZrN2y3QyesebcXUXFek1KzHaqI13Wxk3X
+ nAud+jTRLwpQWQxIrhflUyHwlYktyLI2H5Scm5G70Q2w/f2TPm/R9nPbA
+ +QpWFkzGiVr1iD/GSXPuzIVL4JVufqpcH5ai/yqy/ujNlKpOkcwZ9JFNe
+ r74S2dnwYkiPwVLZBhlV5rYHzdUBu02t2Cf43qdvFLnybICxF8TtKDUpU
+ 8OZ94QBgS01oJCCxc6E7386s65Rw+B3XVvTLMBhFDH4+WeJj/fGMWnzoI
+ W8zmo/XXjqs+pmPD8jaKGz84gPlcB7tLkRe2+e3wUGAYP92ukCSblQz5l A==;
+IronPort-SDR: pIpOFxTQBPzl4+T3AWnlTt+iYfMj87FbH4G10oV5j/cv8oy5WxqFUl3RDm7IhwJlEXV7GHU6/g
+ ApIhibZIKqAJIW2ymEhMlN+HMFAXtBdVkLYVKac66m6+UJLke/1pUXTL1KcMkh3p6A14S130vJ
+ gfanaexj73v7Da42ixy20iN3xRsbnWBwgVhv+xSa40yFoOlXCTXI4t34pavarQ02eJ3aESfuK2
+ rYwBGaqvID5KNllcgpKGQvaVCLeX0ppHCQT9xq5Fxa4adUJib0f0ZTaW8pRJwO9r3MKJtJKImP
+ XRs=
+X-IronPort-AV: E=Sophos;i="5.77,344,1596470400"; d="scan'208";a="153631297"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Oct 2020 07:31:06 +0800
+IronPort-SDR: 6QtSYPMhUwn8krYH/AAfrdSj4UuUKKi+jVNHnLQ8AuKJYySDQKOV7F7ycIHujYNnfE7OmRONAR
+ gCopKzxOuKpA==
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2020 16:17:51 -0700
+IronPort-SDR: YL5zpMn/NhpluxqCrtQLVdx/lqSuqSCR3tp0Suy9HbLKRELoTEzfWSDUtzv2DguQnLhQKOoMse
+ AxJIbwS1j5PA==
+WDCIronportException: Internal
+Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
+ by uls-op-cesaip01.wdc.com with ESMTP; 06 Oct 2020 16:31:06 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH V4 1/7] nvme-core: use I/O timeout in submit sync cmd
+Date: Tue,  6 Oct 2020 16:30:43 -0700
+Message-Id: <20201006233049.55458-2-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1
+In-Reply-To: <20201006233049.55458-1-chaitanya.kulkarni@wdc.com>
+References: <20201006233049.55458-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <00e75643-d422-ca12-1648-02ca89044182@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201006_134104_612315_4E8A857F 
-X-CRM114-Status: GOOD (  17.14  )
+X-CRM114-CacheID: sfid-20201006_193107_850392_DE058F3C 
+X-CRM114-Status: GOOD (  16.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,63 +93,67 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>
+Cc: kbusch@kernel.org, hch@lst.de,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 06, 2020 at 03:30:14PM +0200, Hannes Reinecke wrote:
-> but the re-added device isn't added to the MD RAID.
-> In fact, it has been assigned a _different_ namespace ID:
+In the function __nvme_submit_sync_cmd() it uses ADMIN_TIMEOUT when
+caller doesn't specify value for the timeout variable. This function is
+also called from the NVMe commands contexts (nvme_pr_command()/
+nvme_ns_report_zones()) where NVME_IO_TIMEOUT can be used instead of
+ADMIN_TIMEOUT.
 
-That's actually just a driver assigned instance rather than a Namespace
-ID. 
- 
-> [  904.299065] pcieport 0000:00:08.0: pciehp: Slot(0-1): Card present
-> [  904.299067] pcieport 0000:00:08.0: pciehp: Slot(0-1): Link Up
-> [  904.435314] pci 0000:02:00.0: [8086:5845] type 00 class 0x010802
-> [  904.435523] pci 0000:02:00.0: reg 0x10: [mem 0x00000000-0x00001fff 64bit]
-> [  904.435676] pci 0000:02:00.0: reg 0x20: [mem 0x00000000-0x00000fff]
-> [  904.436982] pci 0000:02:00.0: BAR 0: assigned [mem 0xc1200000-0xc1201fff 64bit]
-> [  904.437086] pci 0000:02:00.0: BAR 4: assigned [mem 0xc1202000-0xc1202fff]
-> [  904.437118] pcieport 0000:00:08.0: PCI bridge to [bus 02]
-> [  904.437137] pcieport 0000:00:08.0:   bridge window [io  0x7000-0x7fff]
-> [  904.439024] pcieport 0000:00:08.0:   bridge window [mem 0xc1200000-0xc13fffff]
-> [  904.440229] pcieport 0000:00:08.0:   bridge window [mem 0x802000000-0x803ffffff 64bit pref]
-> [  904.447150] nvme nvme3: pci function 0000:02:00.0
-> [  904.447487] nvme 0000:02:00.0: enabling device (0000 -> 0002)
-> [  904.458880] nvme nvme3: 1/0/0 default/read/poll queues
-> [  904.461296] nvme1n2: detected capacity change from 0 to 4294967296
-> 
-> and the 'old', pre-hotplug device still lingers on in the 'nvme list'
-> output.
+For now we don't set the request queue's queuedata for admin command.
 
-I think what you're showing is a problem for everyone, including
-fabrics. The namespace was attached to the previously existing
-subsystem, nvme1, but we didn't find the previously existing "head" to
-reattach the namespace.
+Introduce a helper nvme_default_timeout() and when timeout is not set
+for the block layer request  based on the request queue's queuedata,
+set Admin timeout else I/O timeout.
 
-I just threw the below together very hastily, so I'm sure there's
-something wrong with it, but just to capture what's wrong with the
-current code:
-
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
+ drivers/nvme/host/core.c | 3 ++-
+ drivers/nvme/host/nvme.h | 8 ++++++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3833584b5cee..0b3bbbe6d1e8 100644
+index c20ce8eabe82..49662e2190d5 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3897,8 +3897,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+@@ -897,7 +897,8 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
  
- 	mutex_lock(&ns->ctrl->subsys->lock);
- 	list_del_rcu(&ns->siblings);
--	if (list_empty(&ns->head->list))
--		list_del_init(&ns->head->entry);
- 	mutex_unlock(&ns->ctrl->subsys->lock);
+-	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
++	if (!req->timeout)
++		nvme_req_set_default_timeout(req);
  
- 	synchronize_rcu(); /* guarantee not available in head->list */
---
+ 	if (buffer && bufflen) {
+ 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index e7c88b40f5bb..3106d6133c8c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -638,6 +638,14 @@ struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk,
+ 		struct nvme_ns_head **head, int *srcu_idx);
+ void nvme_put_ns_from_disk(struct nvme_ns_head *head, int idx);
+ 
++static inline void nvme_req_set_default_timeout(struct request *req)
++{
++	if (req->q->queuedata)
++		req->timeout = NVME_IO_TIMEOUT;
++	else /* no queuedata implies admin queue */
++		req->timeout = ADMIN_TIMEOUT;
++}
++
+ extern const struct attribute_group *nvme_ns_id_attr_groups[];
+ extern const struct block_device_operations nvme_ns_head_ops;
+ 
+-- 
+2.22.1
+
 
 _______________________________________________
 Linux-nvme mailing list
