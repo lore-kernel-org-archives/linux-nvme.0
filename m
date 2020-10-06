@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68C68C4363D
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Oct 2020 23:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A91C4363D
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Oct 2020 23:31:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F38DD2087E
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Oct 2020 23:31:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 284E02087E
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Oct 2020 23:31:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="o1hMIc7P";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="OtaMC6Ij"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F38DD2087E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tLzwO6s5";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="k6pPmo3Z"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 284E02087E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,62 +26,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CnLpq0ILBos+7yfrBZatMusI7pM5+Di+hztq2RRrfpc=; b=o1hMIc7PLD6R3EM/8at8c/kYl
-	nL4ZXem/KzmZ4Hxx+52LSbX5dq2ziT83Ay8dHqJrqA+s4WU1Ci+mu9JhGXd40zqlwKs1ydpU8qkaO
-	BXm9WbTEUrHtqqLcVC8Qg32eZUb7jWf7X9fwuodgHDVUnmKlTwpPc/KyQTxa3TX1xiKUk0nIvAPOh
-	O/5+FkaUUFxrESjBpp7mAf+amanPJLilFEo8GGuxfSGMbDK0FDio/Yti950W5+CpGbCvByedC19Fg
-	c/GVIUCVtA6LEFboc16Cu28Xoh3naeDWv3uqe9FFape+7fRTcgP6mrxheIBBhiXCm5Vmoem3Qqsgd
-	HfvRoCRfg==;
+	 bh=z8eYcaHo6DOi3FK6ayWfDmE6OgEK+XKTH40BNZhID7U=; b=tLzwO6s5Z6/Pp19pQJw4g/OLA
+	v1GW752iQJG2rW4SPyRVOYKP3E6eZj56R2FFtnBfp1DwAtKp4Up+zC4yZrgd+1Uqs7XiGmQiGCWEV
+	Q3MjHYkHNxmWOsiWUZc7kL1kpmbzcS1Wi9v69s7U0muPD/KlSMI1R4nJKZHSwuQgn3m1+s/fy0Dkp
+	LIn3NtT5iLHnNvL+HZTAK2so9Sc5WlMrUaxlncNL7qsQhJRzevuTXFkLpESgwIWIcLjTEESlyAo/e
+	vkC/mG0Ff4438b+AI1F8CvC/hUW3uZg7a6r8Q+IRDQatqVm7I5RWrh0/sg/bM/Ii2dr8ASbEX9Png
+	QkmcRvGMg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kPwQp-0006LR-1u; Tue, 06 Oct 2020 23:31:43 +0000
+	id 1kPwQw-0006Ny-BT; Tue, 06 Oct 2020 23:31:50 +0000
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPwQm-0006KL-Hz
- for linux-nvme@lists.infradead.org; Tue, 06 Oct 2020 23:31:41 +0000
+ id 1kPwQt-0006Mt-Lk
+ for linux-nvme@lists.infradead.org; Tue, 06 Oct 2020 23:31:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1602027196; x=1633563196;
+ t=1602027207; x=1633563207;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CLMt6QAe4RvCPeav/ujBwpExuNBQIJlkE6ALh+nQnXU=;
- b=OtaMC6IjQktMulRIkp/GEeAAE0XarojW+IYaK2KNQMHOxUZpIaD7zCAw
- 2yW03vZFuhSrSIL/fovSe1tM0d9BN0vNRQqKWPBjblvU8jG9yRy4NAAPU
- VBmVu+ye1pLvzz1pv3xmPsZT+XguuGLLuDYsjZhSL2+QDx2/tsHVa23u2
- D4JY91NAFv0JXI0JyFwmPisPOgTIwyHfTZm5kEun2n/3BUKOT3lLWCZEy
- +RrkCS3hUAuLCO1jBN7mO08CMb/XH+9Mqp6qYb7sB/5q/3HiX7gV2uuXN
- d4yHAHo5K0A96TKJgUMzFCc7CS+H9rkB1TytmX6x3oIzgUr16jpE/U4ia A==;
-IronPort-SDR: pfOZvoarlIcQ/10ZBSMzDrtPYLZNTJtR9FPPha8qy+PmMmEyAzPWVOhhogs/vL7MdlGabjmyl5
- l2NtEfHa/r+apjFVh39jDvJ/XHljqghuelXjSouhGllYWGt+0sPnXSmjLRYgmLIm4Vpz8Bak1T
- iHv6NnT+X2A2HF1Ogosr+mQbno8oTkUdwxWKvrXuJ8OehfM4Pblbq+kPjb5NNuhWsfPQaRmkq1
- ONxYpcpdMF5hc1DeK4WPvmZ1YIPt8+Yx2YgYHAJqBogcqzp8EvZGxvzZ0Lc/68cMuexS0QNjkt
- 2YM=
-X-IronPort-AV: E=Sophos;i="5.77,344,1596470400"; d="scan'208";a="252647653"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Oct 2020 07:33:15 +0800
-IronPort-SDR: d9vXXZt/dzyBwnJcseTvfCSxeUjoakHzdSpHAf9os7vRCGC20a9uOlIR8GL+5GHaHCSzeuPfBd
- fniwUP5e17MA==
+ bh=yAtSoLeUVYsyFy94Z6607DPF0i9V7xkAiBEtrGkF7rc=;
+ b=k6pPmo3ZFNNc2WHeMpPQppI2AOd25j9BxhDvMIaStQjE8Um9K/nUN61g
+ CbKDhVF5yN8fK75PV68rynxv7o65G6EVQgfn2XjWR6XOkmqV+7/x3qowK
+ JWUQVLZiRIfBA2VYqHPC9FmVyBZOp16DqBnpnltVByE2s5Q6w0KQYKzg9
+ RRwM2HFk6/ipQV5iHLD8KoIR6eAL2wZSTh4DPsKqRs0gc/TADqiuTvau1
+ 8LPypMifW5qxlwZeLQ0mAvMyKbPS7ss5jySKQ/UazoTTp9J6NbQGKpzju
+ eNHzniJj93toj6ALmqeZ8bNsCo0kYDPVChrlGdlUQfbiK5OSkaP2uVnGA Q==;
+IronPort-SDR: QAb+PadecQolPER5G+xKgYV13BMFAWjZy065P8kzPpX5tS7Ek33pW9vCsYd80A9tijXXePXg0v
+ BMN040zUqSDlRJRF7vkBti8XXmfOJRY1nJkaoNe1WpgzKirUcz7n9PVai6jctrkGiCxpr6ROwX
+ usZihL1jQME6PExN0ZqNds8DgR31h1no3DN6TN4uGlgBRWfL3IgPBhsi46rRnfXxz4pZ8nDlm9
+ wIjIl+df8Hx9TEoXozuArRZdbd5j2c0SzL3NFJ3TTBwq+hd8tE1ivhfxXpVeBt/UxyW63tD2ix
+ bBw=
+X-IronPort-AV: E=Sophos;i="5.77,344,1596470400"; d="scan'208";a="252647666"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Oct 2020 07:33:26 +0800
+IronPort-SDR: rbbzxVPlRXuKO0UK6xMW1FLr52JqJ5Pwm1QMBGyJ5vMBzRvEA9F7oDwfUG2T0xD+GePUEtC3eS
+ 172ik82HLa+w==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2020 16:18:25 -0700
-IronPort-SDR: /ICpTGF/bEOblrbzxx0CWhh1NtZwFaiiY89dhyuOc0a7/es/Bi7Yb1Wbnh/9ESKkUfgNhU8DAA
- K+Nq9jjozQdA==
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2020 16:17:37 -0700
+IronPort-SDR: b3gmRw/BaZ7OfFwsSFPhOr/aDOOdyVy1EWTFy4kC2Dss0dk1gYnoaTUCoK/UKca0+bNjoPKudZ
+ n3EtL6WsBNQQ==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip01.wdc.com with ESMTP; 06 Oct 2020 16:31:40 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 06 Oct 2020 16:31:47 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V4 5/7] nvmet: add passthru admin timeout value attr
-Date: Tue,  6 Oct 2020 16:30:47 -0700
-Message-Id: <20201006233049.55458-6-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V4 6/7] nvmet: add passthru io timeout value attr
+Date: Tue,  6 Oct 2020 16:30:48 -0700
+Message-Id: <20201006233049.55458-7-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20201006233049.55458-1-chaitanya.kulkarni@wdc.com>
 References: <20201006233049.55458-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201006_193140_705688_9AEC8564 
-X-CRM114-Status: GOOD (  19.16  )
+X-CRM114-CacheID: sfid-20201006_193147_847213_9835D0C4 
+X-CRM114-Status: GOOD (  18.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,16 +100,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMeOF controller in the passsthru mode is capable of handling wide set
-of admin commands including Vender unique passhtru admin comands (VUAC).
+NVMe controller in the passsthru mode is capable of handling wide set
+of admin commands including Vender unique passhtru I/O comands
+(VUICs).
 
-The VUACs are used to read the large driver logs and can take longer
-than default NVMe commands, that is for passthru requests the timeout
-value may differ from the passthru controller's default timeout values
-(nvme-core:admin_timeout).
+The VUICs can take longer than default NVMe commands, that is for
+passthru requests the timeout value may differ from the passthru
+controller's default timeout values (nvme-core:io_timeout).
 
-Add a configfs attribute so that user can set the admin timeout values.
-In case if this configfs value is not set default to ADMIN_TIMEOUT
+Add configfs attribute so that user can set the I/O timeout values.
+In case if this configfs value is not set default to NVME_IO_TIMEOUT
 value.
 
 This attribute setting is only allowed when ctrl is disable to avoid
@@ -120,95 +120,95 @@ Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
  drivers/nvme/target/configfs.c | 32 ++++++++++++++++++++++++++++++++
  drivers/nvme/target/nvmet.h    |  1 +
- drivers/nvme/target/passthru.c |  7 ++++++-
- 3 files changed, 39 insertions(+), 1 deletion(-)
+ drivers/nvme/target/passthru.c |  6 +++++-
+ 3 files changed, 38 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 37e1d7784e17..7625f8892fb5 100644
+index 7625f8892fb5..5beae49ba6ad 100644
 --- a/drivers/nvme/target/configfs.c
 +++ b/drivers/nvme/target/configfs.c
-@@ -736,9 +736,41 @@ static ssize_t nvmet_passthru_enable_store(struct config_item *item,
+@@ -767,10 +767,42 @@ static ssize_t nvmet_passthru_admin_timeout_store(struct config_item *item,
  }
- CONFIGFS_ATTR(nvmet_passthru_, enable);
+ CONFIGFS_ATTR(nvmet_passthru_, admin_timeout);
  
-+static ssize_t nvmet_passthru_admin_timeout_show(struct config_item *item,
++static ssize_t nvmet_passthru_io_timeout_show(struct config_item *item,
 +		char *page)
 +{
-+	return sprintf(page, "%u\n", to_subsys(item->ci_parent)->admin_timeout);
++	return sprintf(page, "%u\n", to_subsys(item->ci_parent)->io_timeout);
 +}
 +
-+static ssize_t nvmet_passthru_admin_timeout_store(struct config_item *item,
++static ssize_t nvmet_passthru_io_timeout_store(struct config_item *item,
 +		const char *page, size_t count)
 +{
 +	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
-+	unsigned int admin_timeout;
++	unsigned int io_timeout;
 +	int ret = 0;
 +
 +	mutex_lock(&subsys->lock);
 +	if (subsys->passthru_ctrl) {
-+		pr_err("disable passthru ctrl before setting admin_timeout\n");
++		pr_err("disable passthru ctrl before setting io_timeout\n");
 +		ret = -EINVAL;
 +		goto out;
 +	}
 +
-+	if (kstrtouint(page, 0, &admin_timeout)) {
++	if (kstrtouint(page, 0, &io_timeout)) {
 +		ret = -EINVAL;
 +		goto out;
 +	}
-+	subsys->admin_timeout = admin_timeout;
++	subsys->io_timeout = io_timeout;
 +out:
 +	mutex_unlock(&subsys->lock);
 +	return ret ? ret : count;
 +}
-+CONFIGFS_ATTR(nvmet_passthru_, admin_timeout);
++CONFIGFS_ATTR(nvmet_passthru_, io_timeout);
 +
  static struct configfs_attribute *nvmet_passthru_attrs[] = {
  	&nvmet_passthru_attr_device_path,
  	&nvmet_passthru_attr_enable,
-+	&nvmet_passthru_attr_admin_timeout,
+ 	&nvmet_passthru_attr_admin_timeout,
++	&nvmet_passthru_attr_io_timeout,
  	NULL,
  };
  
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 559a15ccc322..a0c80e5179a2 100644
+index a0c80e5179a2..2f9635273629 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -249,6 +249,7 @@ struct nvmet_subsys {
- 	struct nvme_ctrl	*passthru_ctrl;
+@@ -250,6 +250,7 @@ struct nvmet_subsys {
  	char			*passthru_ctrl_path;
  	struct config_group	passthru_group;
-+	unsigned int		admin_timeout;
+ 	unsigned int		admin_timeout;
++	unsigned int		io_timeout;
  #endif /* CONFIG_NVME_TARGET_PASSTHRU */
  };
  
 diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 9f9ab5665dd2..253ca2b6ed10 100644
+index 253ca2b6ed10..2039ad7cbbab 100644
 --- a/drivers/nvme/target/passthru.c
 +++ b/drivers/nvme/target/passthru.c
-@@ -215,6 +215,7 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
- 
+@@ -216,6 +216,7 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
  static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
  {
-+	unsigned int admin_timeout = req->sq->ctrl->subsys->admin_timeout;
+ 	unsigned int admin_timeout = req->sq->ctrl->subsys->admin_timeout;
++	unsigned int io_timeout = req->sq->ctrl->subsys->io_timeout;
  	struct nvme_ctrl *ctrl = nvmet_req_passthru_ctrl(req);
  	struct request_queue *q = ctrl->admin_q;
  	struct nvme_ns *ns = NULL;
-@@ -242,7 +243,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
+@@ -243,7 +244,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
  		goto out_put_ns;
  	}
  
--	rq->timeout = q->queuedata ? NVME_IO_TIMEOUT : ADMIN_TIMEOUT;
-+	rq->timeout = q->queuedata ? NVME_IO_TIMEOUT : admin_timeout;
+-	rq->timeout = q->queuedata ? NVME_IO_TIMEOUT : admin_timeout;
++	rq->timeout = q->queuedata ? io_timeout : admin_timeout;
  
  	if (req->sg_cnt) {
  		ret = nvmet_passthru_map_sg(req, rq);
-@@ -540,6 +541,10 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
- 			NVME_TERTIARY(subsys->ver));
- 		subsys->ver = NVME_VS(1, 2, 1);
- 	}
-+
-+	if (!subsys->admin_timeout)
-+		subsys->admin_timeout = ADMIN_TIMEOUT;
+@@ -545,6 +546,9 @@ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
+ 	if (!subsys->admin_timeout)
+ 		subsys->admin_timeout = ADMIN_TIMEOUT;
+ 
++	if (!subsys->io_timeout)
++		subsys->io_timeout = NVME_IO_TIMEOUT;
 +
  	nvme_get_ctrl(ctrl);
  	__module_get(subsys->passthru_ctrl->ops->module);
