@@ -2,91 +2,90 @@ Return-Path: <SRS0=DCfI=DO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAAE2C41604
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Oct 2020 14:25:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0ADC4741F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Oct 2020 15:54:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 37A66212CC
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Oct 2020 14:25:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C627C215A4
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Oct 2020 15:54:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mBGe9g9z";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="Z67xi9rz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 37A66212CC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ro9fwWFj";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="HD9tfI+N"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C627C215A4
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
+	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+5TUmBraUXcnq6aif+n46/3DrkICS60VT0Ccs8NBUe4=; b=mBGe9g9zMaVJbARh/im7a87FU
-	k7zxgoOrjVHm8BO0oC/VgRCKnYAzsfMvCsTnevf3S3KpZOJQXeG5nh9r1D1xDnwT3xIgVgoDgqpzm
-	8QbYBS0fB5vQqW9uQkq1mxgTcTIlx1Vz4oDBFhJs+YMZd5wLyvc2BlqYGoRWJV2z5z8JL7Xrgk21E
-	lr4wPfMq3J8qqHrku741tHCYZHfoabGWotrpx+/2e2WlvtNoOwFc/o10hocE8lahEfvdqej+3/9Bg
-	1xMs+6dcpX+2akZjBVF5BNshj/ULEgmoXoZFEqm1xGZg0qXDzisxR5cu7s/upTWlxuu8lA5ttTnHe
-	n4v4+6dHw==;
+	 bh=2YAAPN4y0wQ+0/ldNL0V3dFw62zmZHWzjL36P0Nii2Q=; b=Ro9fwWFj188gkCqqrI+0Olc2B
+	WMz9/DyiwVu774VnpzsC2kjnpZsHhXlfQXXnicghoC5IBDaSdIzqPkmQsY1mJPTL5vm1IHJ4HG4Yl
+	Vnp+iFNXbkKprhYo6LRZCRaKoltwOw2hQ2LKwFVRgtzp2Ty19dr/RCj0UExLJIh00a4tF6/w1e7Xn
+	6Tm2JmqZpj7ezhfsu8CVi49CLQnvfuWHLrCeGCWbdA0ElNaA0ESuoi57hfdEdiQoRcAPPjyeugkmW
+	y8cmesfRSGK5nJFGmFhdlbnzYeMNRhrrNRyFSugY27C+x/EGXOrcjcg4fVOW3Qq0zoYuBOwQZeVZ+
+	3ZD8NekFw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kQANU-0003zP-FF; Wed, 07 Oct 2020 14:25:12 +0000
-Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e])
+	id 1kQBlJ-0000kG-NK; Wed, 07 Oct 2020 15:53:53 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kQANP-0003wE-Dw
- for linux-nvme@lists.infradead.org; Wed, 07 Oct 2020 14:25:10 +0000
-Received: by mail-il1-x12e.google.com with SMTP id u9so2430424ilj.7
- for <linux-nvme@lists.infradead.org>; Wed, 07 Oct 2020 07:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=A7K1sHY6q/b2IdFDB45O/63cHris3UQRZX2+uyQGB10=;
- b=Z67xi9rzPKTp80uHhkurQLtC3skXmryBJtaenRQER9oIzoqYRElX5a0DF4Lafyra72
- /tLvHob1dfGrbG/loIPOSmGuJsmfbGGTsQA41aAgrNCdfLY7F4rhcTMSZslWJ1pZ/ODD
- 8h7MG2NhsyaX6Cv1zVGyVb9D1QODk/MZYCiX0eFEZCYF5eMin9PJ+XT8uLroVVym9hkg
- 6SYhIYWvhhCHvblaPIo/6QfZqmy9RyhJh7/GenoyNQYpK9yBgEjHryPY/B8Y0w/d4XRr
- oDJp1dvnJmpTRPtmwsmWqwVok9XprPx3KE/eDC0MRGGeWOauDFXh0bDoTgLZWjfaUcvG
- ZnAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=A7K1sHY6q/b2IdFDB45O/63cHris3UQRZX2+uyQGB10=;
- b=D7fdZnCkXvuIl3ZRdtGDDqfrUmZ2jUWZ95mFLjPeH3cdiJdO+6VROukzLQxmhgtYe3
- CcCAk8Jv9Gyxf9vsMbzNYVZkdnXmyZ0sn9kfukgaII6ZImHfBVGcIOfJabPS2HzLMV5q
- YsYALExNCgoOWM7wonRDQ3xDTVvvh2+ZmrAYR1iRMgOotrupx3Gxo5KhfqV5r4w5MpMZ
- rqBDn85Z5j6mYPC0JbAW5f94xvehWq0NvRWxYPxHFcUjwU7A0ulh+c2SwCFoXGDnI8Jm
- f5vlVRREXXhB0KlsxzBJ6LUjhzqUE1mGj7tsPXD4Y0SI6XoV+BwnW5VSsjLgSHdbd6ly
- gB/Q==
-X-Gm-Message-State: AOAM531QyUsAU8bhAiEobus7LZepr/hs1iOMHBdxS8HR5gN4G6AzMrPB
- ZH37xa9kSZbiNknNaG132ZAT0/lNu+4NXw==
-X-Google-Smtp-Source: ABdhPJyaPkfGb7JXNuxplHrvZZwINxTPrmRH4KFB+GvAm5CNgDm7EmCiP7Of84X20GVYBy2RoZ/Lsw==
-X-Received: by 2002:a92:1f19:: with SMTP id i25mr3162991ile.198.1602080703493; 
- Wed, 07 Oct 2020 07:25:03 -0700 (PDT)
-Received: from [192.168.1.30] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id 15sm1089939ilz.66.2020.10.07.07.25.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Oct 2020 07:25:03 -0700 (PDT)
-Subject: Re: [GIT PULL] nvme fix for 5.9
-To: Christoph Hellwig <hch@infradead.org>
-References: <20201007142324.GA1458015@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <d2e10d2e-66a7-5785-881a-2c1daf310d60@kernel.dk>
-Date: Wed, 7 Oct 2020 08:25:02 -0600
+ id 1kQBlG-0000jM-6W
+ for linux-nvme@lists.infradead.org; Wed, 07 Oct 2020 15:53:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zJTcEz7rUO3DGiHLK/RyvreZiaypX+Dmx17AyGTD6II=; b=HD9tfI+NEJ/ZdYCnN4Vyd50bYD
+ 9djIMgLs0BWD50ZiwbQya7jiej3acTgbPxw18TmVEgwO8a420Ypd4LhODFw8VATpEPF+s3SB6HNrC
+ noG3ktwUXoCsQyPK0Cbx0RTHd61kbB73QbI2oSsu7nCPPSrZB3oFnibXik0Noa9i6a07TdUnxZkME
+ oSwWxUx1rJg6mRn7ry1xCvHWg4ExyP4/ow0E20qZsqq0bS+hUGu/yJ7C8j/1YD1GQX68JDHYEVRYI
+ TV3CMqTd771oXRH36uFy+c/c6Ywg5+4RKH8RyNAHfP3BbAQwxweepHm5Bf+WYGAQzGOyOMDD4E90k
+ 9ZzsTvSw==;
+Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
+ helo=[192.168.0.10])
+ by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <logang@deltatee.com>)
+ id 1kQBlC-00009t-E7; Wed, 07 Oct 2020 09:53:47 -0600
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Omar Sandoval <osandov@osandov.com>
+References: <20200930185422.11494-1-logang@deltatee.com>
+ <20200930185422.11494-4-logang@deltatee.com>
+ <BYAPR04MB4965C2DDD4A5FBD86A128FE9860D0@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <868f8fb6-6024-d60d-a9aa-6513b9d0986f@deltatee.com>
+ <BYAPR04MB49652338A4FE3805F9394A88860A0@BYAPR04MB4965.namprd04.prod.outlook.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <2af98b64-1f3b-6570-d5be-a2e2bc4950f9@deltatee.com>
+Date: Wed, 7 Oct 2020 09:53:44 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201007142324.GA1458015@infradead.org>
+In-Reply-To: <BYAPR04MB49652338A4FE3805F9394A88860A0@BYAPR04MB4965.namprd04.prod.outlook.com>
 Content-Language: en-US
+X-SA-Exim-Connect-IP: 24.64.145.4
+X-SA-Exim-Rcpt-To: sbates@raithlin.com, sagi@grimberg.me, osandov@osandov.com,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Chaitanya.Kulkarni@wdc.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH blktests v2 03/11] common/xfs: Create common helper to
+ verify block device with xfs
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201007_102507_515009_6E11FF69 
-X-CRM114-Status: GOOD (  13.31  )
+X-CRM114-CacheID: sfid-20201007_115350_269974_C543B6D9 
+X-CRM114-Status: GOOD (  18.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,27 +97,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>, Stephen Bates <sbates@raithlin.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/7/20 8:23 AM, Christoph Hellwig wrote:
-> The following changes since commit 6d53a9fe5a1983490bc14b3a64d49fabb4ccc651:
-> 
->   block/scsi-ioctl: Fix kernel-infoleak in scsi_put_cdrom_generic_arg() (2020-10-02 12:01:47 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-5.9-2020-10-07
 
-Pulled, thanks.
 
--- 
-Jens Axboe
+On 2020-10-06 6:20 p.m., Chaitanya Kulkarni wrote:
+> On 10/6/20 16:59, Logan Gunthorpe wrote:
+>>> The mount dir should be a parameter and not the hardcode value
+>>> to make it reusable.
+>> I also disagree here. It is already reusable and is used in a number of
+>> places; none of those places require changing the mount directory. If
+>> and when a use comes up that requires a different directory (not sure
+>> what that would be), a parameter can be added. It is typically standard
+>> practice in the Linux community to not add features that have no users
+>> as it's confusing to people reading the code.
+>>
+>> Logan
+>>
+> Well if you are making a helper it should be generic if you have a usecase,
 
+"Generic" isn't a binary yes/no quality. Why add the mount option (that nobody is using) 
+and not a size option as well that nobody uses? For that matter, fio has a ton of options
+we could expose. (think io-method, read/write pattern, etc, etc). The criteria we
+decide upon which options get exposed as arguments is what the code that's actually
+using it needs -- not what's available or what you imagine future use cases might be.
+If there are no users in the code it should not be exposed. If a use case comes along,
+an argument can easily be added when the new test is added to the code base.
+
+> mounted on different mount points not just one which is important testcase,
+> 
+> that will require a prep patch.
+
+So? That's normal.
+ 
+> Why can't we do that right now when we have a clear usecase ?
+
+We don't have a clear use case that's being added to the code though... We 
+have an imagined use case that hasn't been written. Add the feature when you
+add this use case.
+
+Logan
 
 _______________________________________________
 Linux-nvme mailing list
