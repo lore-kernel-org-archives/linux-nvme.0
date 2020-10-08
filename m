@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 918B8C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Oct 2020 16:41:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 342EAC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Oct 2020 16:41:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1D3E321D7D
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Oct 2020 16:41:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D1A48221F1
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Oct 2020 16:41:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qcjc8gbA";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="D75tK0Ry"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1D3E321D7D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Pw5sjgZ9";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="s9FegDMl"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D1A48221F1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,18 +26,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=btU3rgZl0dFe/I5U9O3Q5cIeLJ0jRWih1P30hxyfjPc=; b=Qcjc8gbALrnfG5CREX7tkbPPh
-	iOFAFi2UxYV/JDpOyjowm6kPJPodEREOO/l7UsD1Wp92E/mavOQlnyQJIirGri2rWxEAyf2K25FkV
-	Of5a7LGnvlV18/CahulAtXE/gL/l93Y7FRXgF+O9cMqtU85BXSluBCH/JkUg0loCsui74F+7JkpxE
-	YRO7MH29deOk/QwWzb4LmyTyHeh56ofMPNHMpfZsf2zJ2Y9jKSglbnv+hVqWSJhec/n+4v/tFaxRU
-	6Sze1tP5i8Q2mYMHrYoX/bK/Fze20s0a+f2Agy+a7tJXN5gFcGMItgw11ETPyHY/OE1NJPIN8RnRk
-	C7KcOKOOg==;
+	 bh=eKqAGqk6dju9FBVXQ5QgMKPsoD7dILTV122gzkdkRqQ=; b=Pw5sjgZ9A5U/gMKGlFlg4MNS8
+	MK9VSsCgdSbNiST92rVSY4sGQv2hjM1a4rGFIvAtaXhpfV8xRfIbaxYjLlfosnwP40NQcr3pWDQWR
+	lwOT3DWpwZ/CB+2xdoewinvj34fHN4Maj2fg4pv+9wECPlqjd6BumlSGYPXpUnxY02cmR2UWIw808
+	of/kVaHgPOxCcT5DzVHXvkrbT+rCd/XhVKwg0MMLTfptCvXIC2DfvF0z9x6we6fC1cbsyzFdgSYfp
+	m9fe5EovVegEShBsDFdTDArQfdkBcFfjH2okojtzAlRpww1avHNxiErfPnUs2ME4mcHGGBBiO0BrV
+	4qqEFx5kw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kQYyS-0003Vt-UA; Thu, 08 Oct 2020 16:41:01 +0000
+	id 1kQYyZ-0003Yk-HW; Thu, 08 Oct 2020 16:41:07 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kQYy3-0003L3-QB
+ id 1kQYy4-0003Lm-La
  for linux-nvme@lists.infradead.org; Thu, 08 Oct 2020 16:40:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
@@ -45,24 +45,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JVPaqWSpQ5haRzwQ/xrH0Kw+7eTy8s+uTMUVQHnv9sU=; b=D75tK0RyhJR2HHe/DtlEMbJxIM
- z0xj8dOPwTKECazARHSzDWszjyEbONSzNUcCK1DG0XtNLIF8OiOnZoLcO2rXpiSNG0EQYX+UM9tmn
- U1jswFKsjJ84q2khZkApmz9J1Ta6eAZ78VNifWynmAlFuZ+QFyvL0wZ/iH/ylspgV629ax2FhhNKa
- yTM9OXpiNt0xCodXJpZIBNpohtOR2ExHx074/8Dbvg7DlcJ7yyugjJ0XSRSEw/KqA9QTqceptvm+p
- 5M9ExP8szDUu40g2OqR1psTgRGZpFdPvVp5FekLF2f1isUjNxPE0lN+V34qLmur0ZH49DP3hYYMIp
- yevVChKQ==;
+ bh=usviiWmZ0kC5VegpKwKjP6cu1fNBAkz/nKsk5i9RRWY=; b=s9FegDMl3CNZjcKULeE7D75mNi
+ 4tdi5u5PgBJDFvJKRm9/7wgCz8OQ7zbzCsmqq0nj1vNZUH2C2QhPJIPT1pH8FUrdX6Q5E+aRw8wm6
+ ZAHT6LDoERr8MYonBdAvYnkl9sk8CkaAE1UKDIU6RHANSsu7UXywJPWJXPh2Aw6yjdrmj2ClWqFXc
+ 2fomhImVZn28kLZ2KqvnbRvCtv0idZ12Bik1NXGTvnIfoZyTu2Y+QwgRl9fBgFwKsugcqgcpGvfbp
+ yokrjtjBuSrIam/m5nY4HSP+8rXXpKsa2uQu3bAqEciLtGsuzC+YbnT3OQb1Jl+cZWj+hUcM0aVgX
+ GohbIA3A==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1kQYy2-0000if-If; Thu, 08 Oct 2020 10:40:35 -0600
+ id 1kQYy3-0000il-JM; Thu, 08 Oct 2020 10:40:36 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1kQYy0-0003Hj-0s; Thu, 08 Oct 2020 10:40:32 -0600
+ id 1kQYxz-0003Hd-OS; Thu, 08 Oct 2020 10:40:31 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, Omar Sandoval <osandov@osandov.com>
-Date: Thu,  8 Oct 2020 10:40:23 -0600
-Message-Id: <20201008164024.12546-11-logang@deltatee.com>
+Date: Thu,  8 Oct 2020 10:40:21 -0600
+Message-Id: <20201008164024.12546-9-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201008164024.12546-1-logang@deltatee.com>
 References: <20201008164024.12546-1-logang@deltatee.com>
@@ -72,13 +72,13 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, osandov@osandov.com, sagi@grimberg.me,
  Chaitanya.Kulkarni@wdc.com, sbates@raithlin.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH blktests v3 10/11] nvme/037: Add test which loops passthru
- connect and disconnect
+Subject: [PATCH blktests v3 08/11] nvme/035: Add test to verify passthru
+ controller with a filesystem
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201008_124036_151071_06CB0583 
-X-CRM114-Status: GOOD (  13.99  )
+X-CRM114-CacheID: sfid-20201008_124036_729557_232C140A 
+X-CRM114-Status: GOOD (  13.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,67 +98,68 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Similar to test nvme/031 except for passthru controllers.
-
-Note: it's normal to get I/O errors in this test as when the controller
-disconnects it races with the partition table read.
+This is a similar test as nvme/012 and nvme/013, except with a
+passthru controller.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- tests/nvme/037     | 35 +++++++++++++++++++++++++++++++++++
- tests/nvme/037.out |  2 ++
- 2 files changed, 37 insertions(+)
- create mode 100755 tests/nvme/037
- create mode 100644 tests/nvme/037.out
+ tests/nvme/035     | 37 +++++++++++++++++++++++++++++++++++++
+ tests/nvme/035.out |  3 +++
+ 2 files changed, 40 insertions(+)
+ create mode 100755 tests/nvme/035
+ create mode 100644 tests/nvme/035.out
 
-diff --git a/tests/nvme/037 b/tests/nvme/037
+diff --git a/tests/nvme/035 b/tests/nvme/035
 new file mode 100755
-index 000000000000..fc6c21343652
+index 000000000000..ee78a7586f35
 --- /dev/null
-+++ b/tests/nvme/037
-@@ -0,0 +1,35 @@
++++ b/tests/nvme/035
+@@ -0,0 +1,37 @@
 +#!/bin/bash
 +# SPDX-License-Identifier: GPL-3.0+
 +# Copyright (C) 2019 Logan Gunthorpe
 +# Copyright (C) 2019 Eideticom Communications Inc.
 +
 +. tests/nvme/rc
++. common/xfs
 +
-+DESCRIPTION="test deletion of NVMeOF passthru controllers immediately after setup"
++DESCRIPTION="run mkfs and data verification fio job on an NVMeOF passthru controller"
++TIMED=1
 +
 +requires() {
 +	_nvme_requires
 +	_have_kernel_option NVME_TARGET_PASSTHRU
++	_have_xfs
++	_have_fio
 +}
 +
 +test_device() {
-+	local subsys="blktests-subsystem-"
-+	local iterations=10
++	local subsys="blktests-subsystem-1"
 +	local ctrldev
++	local nsdev
 +	local port
 +
 +	echo "Running ${TEST_NAME}"
 +
 +	_setup_nvmet
++	port=$(_nvmet_passthru_target_setup "${subsys}")
++	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${subsys}")
 +
-+	for ((i = 0; i < iterations; i++)); do
-+		port=$(_nvmet_passthru_target_setup "${subsys}${i}")
-+		nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" \
-+				"${subsys}${i}")
++	_xfs_run_fio_verify_io "${nsdev}"
 +
-+		_nvme_disconnect_subsys "${subsys}${i}" >>"${FULL}" 2>&1
-+		_nvmet_passthru_target_cleanup "${port}" "${subsys}${i}"
-+	done
++	_nvme_disconnect_subsys "${subsys}"
++	_nvmet_passthru_target_cleanup "${port}" "${subsys}"
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/037.out b/tests/nvme/037.out
+diff --git a/tests/nvme/035.out b/tests/nvme/035.out
 new file mode 100644
-index 000000000000..eaf903d0520e
+index 000000000000..a6027138fbe4
 --- /dev/null
-+++ b/tests/nvme/037.out
-@@ -0,0 +1,2 @@
-+Running nvme/037
++++ b/tests/nvme/035.out
+@@ -0,0 +1,3 @@
++Running nvme/035
++NQN:blktests-subsystem-1 disconnected 1 controller(s)
 +Test complete
 -- 
 2.20.1
