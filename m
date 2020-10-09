@@ -7,73 +7,82 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90FACC433E7
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2020 04:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B258DC433E7
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2020 05:04:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EA4BF22251
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2020 04:40:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 26E23215A4
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Oct 2020 05:04:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0G93jNYe";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XFhqg8+x"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA4BF22251
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aBxN78xt";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J9zrRiEa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 26E23215A4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Subject:References:In-Reply-To:
+	Message-ID:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=i0wSHkXYSbBm92OFHTFypX0zIx5iOlJrnG+9u3XksU0=; b=0G93jNYe9wHPpmKOCYO9PrVgO
-	QWHs7xudHaO6LqBHbw7ifuULBQjlqe8MkIWuZ39YVSsDrxqz6m44nyWm2wxfb5k/kJY3y5aTlIHUW
-	CbV48O6LK9fgSAyG8PHaX13Jr1L1ZuPMftqOTt/3dSehLx5RTxhl6tDJ9PfHzW8hANNsSpQxd1JA+
-	mkPKwbonWmd6mhnlCuTq5FPIhUVa3NSBzaPff46O4Q1HO5q3ScwaW1rag9nhzSh+W3JrTMnTTC+Fp
-	9Gof3xrPNnPLwInkv8t8IFVaTkBv6tsZ7FcvOld6JUrOvrRfH6AH3VaWZDMEHp28PawfZO4dYjXYI
-	L2FH7PLCw==;
+	 bh=LPSFIa4V6IUDht5vmoW4mik2vHH64l4bjvLLKcGvw2k=; b=aBxN78xtHqL147qSc1Qm1aftD
+	FXCiF+eKb4WH5g/30NFew0Bht2vZBX7j/z6o0mqBudTZzM+nXcPZoqYjWBY+3jkCJnJnFXguyzIov
+	c//RIsMk/iiiEuYs2SubimXnb/yxfJCCmo15JbF+LY5R3cRiG6lY6v/Ic9z3nBJURTODkZvWP+tlx
+	V54tpPofv1X4KF8S7suH7GH9/lUbVrORd7BNA0LC5BK7f66mfUiimXV0SpExub37ivj/9Cv2rF3ia
+	41EkryUGzbMiyY9W8WRhMbxcn2l4Sq9mGsPnCwkgAJSfCENvi6TFOz1wTAd4wOla1aZCS8ldOXJuO
+	NxP4cR+fA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kQkCN-00083B-7T; Fri, 09 Oct 2020 04:40:07 +0000
+	id 1kQkZS-0001Ip-P6; Fri, 09 Oct 2020 05:03:59 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kQkCJ-00082X-3M
- for linux-nvme@lists.infradead.org; Fri, 09 Oct 2020 04:40:05 +0000
+ id 1kQkZQ-0001IU-59
+ for linux-nvme@lists.infradead.org; Fri, 09 Oct 2020 05:03:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602218400;
+ s=mimecast20190719; t=1602219835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M8+77F26oYvz8nPwKMAd6b8LQAp37lnqoNWWetDlbXc=;
- b=XFhqg8+xau9WR1n+dMkekHP/gY0CJEMuMqOLlrmMXO2hMbHAuaV3IOfLvoZpr3C9f09RRr
- V410yJoP2c1cvLOSb7IzTFjy8rcKgVVm8pSJ5nq7Hbw78lH7nYX+YFMfgklvXM1Jn/FRPo
- t5HTIl6MH/zz5NZVTeoqvyU3stlk2Ok=
+ bh=V9xAA08PooTBq3IVA36sFd6U0BMMBntrgIZGtAn3JDs=;
+ b=J9zrRiEaZ33w4CbU9Vm7bm4xufH40KcTK7vYY7PZcu8vBnIzJCrjHXUGBIfuuufbQzF/oP
+ LS5QQefl2Xw+HZVyUl9LRbmyuoKklBVL5RPyTQMGvt9DdcSw7n9LZHID/PhJ41vpqJj8MK
+ XSb1V7Y0T1CrRMqeFqmW5Z0kc53/CrA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-_gQInPF1PlqvFNvrvkoqFw-1; Fri, 09 Oct 2020 00:39:53 -0400
-X-MC-Unique: _gQInPF1PlqvFNvrvkoqFw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-555-Uczu7cjTMjmkipmiXrLLkA-1; Fri, 09 Oct 2020 01:03:52 -0400
+X-MC-Unique: Uczu7cjTMjmkipmiXrLLkA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DE2E87505F;
- Fri,  9 Oct 2020 04:39:52 +0000 (UTC)
-Received: from T590 (ovpn-13-88.pek2.redhat.com [10.72.13.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F36F7664E;
- Fri,  9 Oct 2020 04:39:42 +0000 (UTC)
-Date: Fri, 9 Oct 2020 12:39:38 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH] block: re-introduce blk_mq_complete_request_sync
-Message-ID: <20201009043938.GC27356@T590>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE0E6107B46F;
+ Fri,  9 Oct 2020 05:03:50 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D3AAA19C66;
+ Fri,  9 Oct 2020 05:03:50 +0000 (UTC)
+Received: from zmail25.collab.prod.int.phx2.redhat.com
+ (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id BEBCE180B657;
+ Fri,  9 Oct 2020 05:03:50 +0000 (UTC)
+Date: Fri, 9 Oct 2020 01:03:50 -0400 (EDT)
+From: Yi Zhang <yi.zhang@redhat.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Ming Lei <ming.lei@redhat.com>
+Message-ID: <1711488120.3435389.1602219830518.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20201009043938.GC27356@T590>
 References: <20201008213750.899462-1-sagi@grimberg.me>
+ <20201009043938.GC27356@T590>
+Subject: Re: [PATCH] block: re-introduce blk_mq_complete_request_sync
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201008213750.899462-1-sagi@grimberg.me>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Originating-IP: [10.68.5.41, 10.4.195.12]
+Thread-Topic: block: re-introduce blk_mq_complete_request_sync
+Thread-Index: yONfSjHtdtZ8PREP4+0wyN1FAw/nsw==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201009_004003_199279_669A8102 
-X-CRM114-Status: GOOD (  24.90  )
+X-CRM114-CacheID: sfid-20201009_010356_638807_669D50BE 
+X-CRM114-Status: GOOD (  26.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,13 +94,85 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Yi Zhang <yi.zhang@redhat.com>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
+
+Hi Sagi
+
+I applied this patch on block origin/for-next and still can reproduce it.
+
+[  724.267865] run blktests nvme/012 at 2020-10-09 00:48:52
+[  724.518498] loop: module loaded
+[  724.552880] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[  724.586609] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+[  724.648898] nvmet: creating controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:e544149126a24145abeeb6129b0ec52c.
+[  724.663300] nvme nvme0: creating 12 I/O queues.
+[  724.669826] nvme nvme0: mapped 12/0/0 default/read/poll queues.
+[  724.681350] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420
+[  726.641605] XFS (nvme0n1): Mounting V5 Filesystem
+[  726.654637] XFS (nvme0n1): Ending clean mount
+[  726.660302] xfs filesystem being mounted at /mnt/blktests supports timestamps until 2038 (0x7fffffff)
+[  787.042066] nvme nvme0: queue 2: timeout request 0xe type 4
+[  787.047649] nvme nvme0: starting error recovery
+[  787.052211] nvme nvme0: queue 4: timeout request 0x61 type 4
+[  787.053407] block nvme0n1: no usable path - requeuing I/O
+[  787.054543] nvme nvme0: Reconnecting in 10 seconds...
+[  787.057877] ------------[ cut here ]------------
+[  787.063274] block nvme0n1: no usable path - requeuing I/O
+[  787.068313] refcount_t: underflow; use-after-free.
+[  787.068370] WARNING: CPU: 3 PID: 30 at lib/refcount.c:28 refcount_warn_saturate+0xa6/0xf0
+[  787.072941] block nvme0n1: no usable path - requeuing I/O
+[  787.072945] block nvme0n1: no usable path - requeuing I/O
+[  787.078333] Modules linked in: loop nvme_tcp nvme_fabrics nvme_core nvmet_tcp nvmet rpcsec_gss_krb5 auth_rpcgss nfsv4 dns_resolver nfs lockd grace fscache sunrpc snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_timer amd64_edac_mod snd edac_mce_amd soundcore kvm_amd ccp kvm pcspkr irqbypass hp_wmi sparse_keymap rfkill k10temp wmi_bmof nv_tco i2c_nforce2 acpi_cpufreq ip_tables xfs nouveau video mxm_wmi i2c_algo_bit drm_kms_helper mptsas cec scsi_transport_sas ttm mptscsih ata_generic firewire_ohci pata_acpi firewire_core drm serio_raw mptbase forcedeth crc_itu_t sata_nv pata_amd wmi floppy
+[  787.083142] block nvme0n1: no usable path - requeuing I/O
+[  787.091304] CPU: 3 PID: 30 Comm: kworker/3:0H Not tainted 5.9.0-rc8.update+ #3
+[  787.096673] block nvme0n1: no usable path - requeuing I/O
+[  787.096674] block nvme0n1: no usable path - requeuing I/O
+[  787.096680] block nvme0n1: no usable path - requeuing I/O
+[  787.096681] block nvme0n1: no usable path - requeuing I/O
+[  787.096683] block nvme0n1: no usable path - requeuing I/O
+[  787.201242] Hardware name: Hewlett-Packard HP xw9400 Workstation/0A1Ch, BIOS 786D6 v04.02 04/21/2009
+[  787.210366] Workqueue: kblockd blk_mq_timeout_work
+[  787.215161] RIP: 0010:refcount_warn_saturate+0xa6/0xf0
+[  787.220295] Code: 05 aa 98 22 01 01 e8 9f cf ad ff 0f 0b c3 80 3d 98 98 22 01 00 75 95 48 c7 c7 48 54 3e a2 c6 05 88 98 22 01 01 e8 80 cf ad ff <0f> 0b c3 80 3d 77 98 22 01 00 0f 85 72 ff ff ff 48 c7 c7 a0 54 3e
+[  787.239021] RSP: 0018:ffffb860407b3dc8 EFLAGS: 00010292
+[  787.244240] RAX: 0000000000000026 RBX: 0000000000000000 RCX: ffff9d93ddc58d08
+[  787.251361] RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffff9d93ddc58d00
+[  787.258480] RBP: ffff9d93dbd6c200 R08: 000000b740ed60e8 R09: ffffffffa2fffbc4
+[  787.265612] R10: 0000000000000477 R11: 0000000000028320 R12: ffff9d93dbd6c2e8
+[  787.272741] R13: ffff9d93dbea0000 R14: ffffb860407b3e70 R15: ffff9d93dbea0000
+[  787.279864] FS:  0000000000000000(0000) GS:ffff9d93ddc40000(0000) knlGS:0000000000000000
+[  787.287948] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  787.293695] CR2: 00007f45fd8fa024 CR3: 00000000792dc000 CR4: 00000000000006e0
+[  787.300820] Call Trace:
+[  787.303277]  blk_mq_check_expired+0x109/0x1b0
+[  787.307638]  blk_mq_queue_tag_busy_iter+0x1b8/0x330
+[  787.312524]  ? blk_poll+0x300/0x300
+[  787.316022]  blk_mq_timeout_work+0x44/0xe0
+[  787.320128]  process_one_work+0x1b4/0x370
+[  787.324137]  worker_thread+0x53/0x3e0
+[  787.327809]  ? process_one_work+0x370/0x370
+[  787.332015]  kthread+0x11b/0x140
+[  787.335245]  ? __kthread_bind_mask+0x60/0x60
+[  787.339515]  ret_from_fork+0x22/0x30
+[  787.343094] ---[ end trace 606cf9189379fcfc ]---
+
+
+Best Regards,
+  Yi Zhang
+
+
+----- Original Message -----
+From: "Ming Lei" <ming.lei@redhat.com>
+To: "Sagi Grimberg" <sagi@grimberg.me>
+Cc: "Jens Axboe" <axboe@kernel.dk>, "Yi Zhang" <yi.zhang@redhat.com>, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, "Keith Busch" <kbusch@kernel.org>, "Christoph Hellwig" <hch@lst.de>
+Sent: Friday, October 9, 2020 12:39:38 PM
+Subject: Re: [PATCH] block: re-introduce blk_mq_complete_request_sync
 
 On Thu, Oct 08, 2020 at 02:37:50PM -0700, Sagi Grimberg wrote:
 > In nvme-tcp and nvme-rdma, the timeout handler in certain conditions
@@ -217,6 +298,12 @@ can be saved:
 
 thanks,
 Ming
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
 
 
 _______________________________________________
