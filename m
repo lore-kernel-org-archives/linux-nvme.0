@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-1.7 required=3.0 tests=BAYES_00,DATE_IN_PAST_96_XX,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B750BC388F9
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 07:50:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F78C55178
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 07:51:02 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CF2742085B
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 07:50:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A746A2085B
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 07:51:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0gdkeDc0";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KkP3uQto"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CF2742085B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="J3bJfniX";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mzTjJsg5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A746A2085B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,71 +27,71 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2UvhFAI7dyhrVlQfOH/vhMM+kGmZe3T3+aJZI+zBwsM=; b=0gdkeDc0N4pZv5KTZ1CFAF9H5
-	2wtF0VXOhY/z1h9Si3M9o3pU+omvLvYF2AxGEGHHEIVUcau4ukMBGMet8RsI/Gnd7i/Spf3bD+3Xq
-	VhDxYQo23FU8Plx50mRDXBnqU4AWHjUvdmLpJ+rlW4ZoA9sZCIZJ3ji3wzxF0J1Eml3na1radckuW
-	ImfiNJqKIbvGYYMYI5X1rDWZ3kNeoPpaW1HH1QEDO3Gw3TkkMi9e4tInv41BxqmvGU5EQXxuoJWZG
-	yoC+dMWXzfYslOpKeOui/+I0pFEe0QZr2UnZWdVRwm8RdsUXN8iPbcJQojFuYhSZmxMF7pVuiA53Z
-	8EXjLEuGA==;
+	 bh=GWfK1yZa5l+MSaApPifPzFWfE5/lzLMhsGpUghQQK5g=; b=J3bJfniXWJl+aqG/IN5aOYP4H
+	7FFNw5uU7jhbMxiTMlbm8n6zKa7IepJlCDc870pKQRNKPV+hhxbYbC0z1iVd33bPYUX8KV2cUqHmR
+	zaNxe35MnroUfGBZ84zjTreNFZyC3+KJZXgQCdp0fUHGHH26ZRGH7+YXAu/vtBerTNGvkpMlVLb42
+	luLOftit1CtzW5wDhTe45k/dze+4Q19Fdhzf5o8X/abMczH+03ROM5YWdSSYh7JGgByqDrt+OcpGr
+	kFBTwrUepMryPxjrQ0Zwd9b+mz9Z+40LzJlPzuwnvu40/VntjpLT+JX6ZX8+mJaY6YHgwI2uUjzFE
+	6tiMu16Kw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kVrqb-0005Yx-AK; Fri, 23 Oct 2020 07:50:49 +0000
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344])
+	id 1kVrql-0005a7-OK; Fri, 23 Oct 2020 07:50:59 +0000
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kVrqY-0005YN-Ef
- for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 07:50:47 +0000
-Received: by mail-wm1-x344.google.com with SMTP id d3so451912wma.4
- for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2020 00:50:44 -0700 (PDT)
+ id 1kVrqi-0005ZR-KN
+ for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 07:50:57 +0000
+Received: by mail-wr1-x444.google.com with SMTP id t9so674496wrq.11
+ for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2020 00:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=4oABfubuy9rJdffezMc5U2Sgyccmm6kFm5R8Q0Ln3KU=;
- b=KkP3uQtoHLnNBNLbx0YL85D1j6jXtma25BYZ2T7qxLAvC9OUChO+purYX7Uq5O3ISG
- DdHd3Gu4thKzbS7Hcf+NlgcNyoay8UV6MldHmIjJKNYt6tipSItmYw1xX8LddO5P33sb
- 6fnnj0/vhoLGgZgrN3Sfy9iBiewECf2cjgIHpuYyfGBJ70R0O1ZrWg+BDu387xd6AV70
- 5y4sddqwHM36pmZ7ez4jjDLjT8ZKqEC3Jt12KJGhM6nxmoTtTjMqTZnooNFDFSMIb71Y
- 8Fn6+6bUeUCEz2kL8zz85+YWHJyhuJEMaBwqs4geQ2AmsneImlvuf9fV1y/0GQjLq7iI
- wIeA==
+ bh=KiMeTNvuJWl2SezAC+PmIAPqAyoNbN6ufn4geAn7wIU=;
+ b=mzTjJsg59fvwvjsKPdPbU4FwswB2et416YxnnCTAeThWcV0QEQ/x1GEM6EtvztmX6f
+ qwXoAA5IallguDLmOACi3bL80UhRdIJQ3rbPSwvCmn3U5H7ZatijxBW/FW21fcLdO4Oy
+ ulLjjvCcy+0VwGICRt2YJEjDSRLo+5Adm6HhvYpP9eb3kUIEUavuKff1CwU67dtaBPtH
+ dQ2j1vWSIkIV0fSOvlmzphVtZ/u6+1kEBIsDG1P9iOKOHB1eJXAgGCGIQt/LAwJMngV2
+ Xo8EN9D7useCWRLAKzLHniikB22CgwBQWqe6T5wfIls3xyAhrVqDD9flj/jQiFAwrJie
+ amnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=4oABfubuy9rJdffezMc5U2Sgyccmm6kFm5R8Q0Ln3KU=;
- b=E6WxNO0UiZa8oEI06ONNwUL/68SFF/LXf/ZD85xUOwaZt7W0Kf+HoJWqC0Y0Rxjvu6
- Oe2G6QbQgSu5ZlsLADLXPhkXKmbkzm71Sq8JuHRmd3e62iUKVQ7eSCF/sKV12tRuRD7I
- 68qa7uYNZeKDhIbHDlC+xARz+1K5JGjIrdxz8OJl9QwgWUuoMmPOfHXzDKTvoac5WIsg
- Ho0RfN79ellZYHohD289eRN8C+iAHUmZQduOB62B0lIaME8BtvF6sDoXB0pMp2AjtyKh
- h88eJWEzQBPyX5rW/PQWQUfcAGKSSwjHckr2yamSijHYDOLe/zQUsLa1T1GIPfxvzH9r
- sLjA==
-X-Gm-Message-State: AOAM531KzgkTbG2MQ8lpEfHPpMlftRAbeX5sLJkRjO4+U/9OTOWbF3Vp
- LABFRZFDZrHXTAsFfs6qoU8=
-X-Google-Smtp-Source: ABdhPJydCOnz8Dt4TawfY2hlg6gNhwBBAp7XoNU1h3SdDngHaBjgjyu8q7M92EXRNRflUA74bgWMrQ==
-X-Received: by 2002:a1c:a5c4:: with SMTP id o187mr938575wme.171.1603439443716; 
- Fri, 23 Oct 2020 00:50:43 -0700 (PDT)
+ bh=KiMeTNvuJWl2SezAC+PmIAPqAyoNbN6ufn4geAn7wIU=;
+ b=C4gf5PRRuYrUNWU5yBruF6XkPdag3XH8t2eI/QiplVMOQdBjFC1036XdR0DmU2oXav
+ bDH/hu6yJVe4sAp9MDPa1oImjulwL7rxNQ7IBXcM9zZY8ZiGuWJn4w5B1aC0yFZ/x7rN
+ nhHv6OFDEeshOLnN11aNteTSQ76XWW+Xa5ek3F7C8cKy9YYrXdOtimGv+yBrqGNdncjG
+ uCiI5eykxOquyZTPNA7MpM2bodvJcBK/mxL+fX0KBlqOH01q9x4IiTl7O4sIMTQtYUV6
+ npW710ZxX8Kz8TnTBM/iLuCjomIaeWJDwdvZ0fo1nxIejeZnHkLPCMFYW6tJU1aU+msN
+ q3zw==
+X-Gm-Message-State: AOAM532rbpogvvM2HhZCmNwUiuffO/DVFPE+NDkKAlxMcXE0i7hDZX7t
+ i8KIxtASMJwcNPa14MmnQfE=
+X-Google-Smtp-Source: ABdhPJwbpU56hwwxySnGZy6ga7dCt4XEtWrU/x1AxEtT+lI4i00bETVnkPdMhp/y6mL3PIz2vQOlww==
+X-Received: by 2002:adf:fe8b:: with SMTP id l11mr1226034wrr.9.1603439455197;
+ Fri, 23 Oct 2020 00:50:55 -0700 (PDT)
 Received: from [192.168.1.11] ([213.57.108.142])
- by smtp.gmail.com with ESMTPSA id f139sm1628447wme.47.2020.10.23.00.50.39
+ by smtp.gmail.com with ESMTPSA id 40sm1657185wrc.46.2020.10.23.00.50.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 00:50:41 -0700 (PDT)
-Subject: Re: [PATCH net-next RFC v1 02/10] net: Introduce direct data
- placement tcp offload
+ Fri, 23 Oct 2020 00:50:54 -0700 (PDT)
+Subject: Re: [PATCH net-next RFC v1 03/10] net: Introduce crc offload for tcp
+ ddp ulp
 To: Sagi Grimberg <sagi@grimberg.me>, Boris Pismenny <borisp@mellanox.com>,
  kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
  axboe@fb.com, kbusch@kernel.org, viro@zeniv.linux.org.uk, edumazet@google.com
 References: <20200930162010.21610-1-borisp@mellanox.com>
- <20200930162010.21610-3-borisp@mellanox.com>
- <ab791897-6398-f38e-c2a6-f54c5ca5e1c5@grimberg.me>
+ <20200930162010.21610-4-borisp@mellanox.com>
+ <904a5edf-3f50-5f6f-6bc6-3d1a1a664aa5@grimberg.me>
 From: Boris Pismenny <borispismenny@gmail.com>
-Message-ID: <c5ad9021-9f44-9ed3-8e41-90a4d561d637@gmail.com>
-Date: Sun, 11 Oct 2020 17:44:07 +0300
+Message-ID: <8d8a5e86-c734-7fa3-248b-b7c3c7a5699e@gmail.com>
+Date: Sun, 11 Oct 2020 17:58:00 +0300
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <ab791897-6398-f38e-c2a6-f54c5ca5e1c5@grimberg.me>
+In-Reply-To: <904a5edf-3f50-5f6f-6bc6-3d1a1a664aa5@grimberg.me>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201023_035046_607808_CE77EFB9 
-X-CRM114-Status: GOOD (  13.68  )
+X-CRM114-CacheID: sfid-20201023_035056_758632_EBB4A128 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,62 +112,23 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 09/10/2020 0:51, Sagi Grimberg wrote:
+>> This commit itroduces support for CRC offload to direct data placement
+>                introduces
+>> ULP on the receive side. Both DDP and CRC share a common API to
+>> initialize the offload for a TCP socket. But otherwise, both can
+>> be executed independently.
+>  From the API it not clear that the offload engine does crc32c, do you
+> see this extended to other crc types in the future?
 
+Yes, it is somewhat implicit, and it depends on the tcp ddp configuration. At the moment we only do nvme-tcp, and that has only CRC32C. If in the future, there would be other CRC variants, or data digest algorithms, then the code could be easily extended.
 
-On 09/10/2020 0:47, Sagi Grimberg wrote:
->> + * tcp_ddp.h
->> + *	Author:	Boris Pismenny <borisp@mellanox.com>
->> + *	Copyright (C) 2020 Mellanox Technologies.
->> + */
->> +#ifndef _TCP_DDP_H
->> +#define _TCP_DDP_H
->> +
->> +#include <linux/blkdev.h>
-> Why is blkdev.h needed?
-
-That's a lefotover from a previous iteration over this code. I'll remove it for the next patch.
+In general, any data digest over TCP can leverage this code and SKB member. Not only other CRC types can benefit from it, but even more complex data digest algorithms like SHA can use this. In essence this bit is similar to the TLS skb->decrypted bit. In TLS, skb->decrypted also indicates that the authentication has no error, exactly like ddp_crc indicates that there is no CRC32C error. The only reason we didn't use the same bit for both is that these two protocol offloads can be combined and that will benefit from two independent bits.
 
 >
->> +#include <linux/netdevice.h>
->> +#include <net/inet_connection_sock.h>
->> +#include <net/sock.h>
->> +
->> +/* limits returned by the offload driver, zero means don't care */
->> +struct tcp_ddp_limits {
->> +	int	 max_ddp_sgl_len;
->> +};
->> +
->> +enum tcp_ddp_type {
->> +	TCP_DDP_NVME = 1,
->> +};
->> +
->> +struct tcp_ddp_config {
->> +	enum tcp_ddp_type    type;
->> +	unsigned char        buf[];
-> A little kdoc may help here as its not exactly clear what is
-> buf used for (at this point at least)...
+> Other than this the patch looks good to me,
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
-Will add.
-
->> +};
->> +
->> +struct nvme_tcp_config {
-> struct nvme_tcp_ddp_config
-
-Sure.
-
->> +	struct tcp_ddp_config   cfg;
->> +
->> +	u16			pfv;
->> +	u8			cpda;
->> +	u8			dgst;
->> +	int			queue_size;
->> +	int			queue_id;
->> +	int			io_cpu;
->> +};
->> +
-> Other than that this looks good to me.
-Thanks Sagi!
 
 _______________________________________________
 Linux-nvme mailing list
