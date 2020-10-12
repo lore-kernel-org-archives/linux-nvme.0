@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 281F5C35267
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:28:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A68C35268
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:28:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B4E002080A
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:28:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8539820838
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:28:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1QCrJjwL";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="LKdsDCvg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B4E002080A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UlPGWFEA";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="Ey/Q2pYD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8539820838
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=micron.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,27 +26,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=udG1s0pWDB/sESx2yFIkahSFyRkBNJOD/niM5GwHZP4=; b=1QCrJjwLRocJbxqc0dI4FaRtD
-	WqXjcZMtviiTwdZeDdunB6K/r+2wLfiUnWTecU5b8e0XCj4p7Vt0W69wUBxanTbIA8sh9L5zg+Qft
-	8CRohtvFv4GRXt5khhipP93zqmD4U74qjI3zzp2b3c2LnVmWrry0C4YlZdKtrwgKCIFyp/OOfUxYc
-	OWgBa8gW/tfxt3jeDr8oMA2QfyBwYElpx1R6Sax2BchWMqqM7rZWigXz2UEXkE4bLO/V66J9OFvgP
-	CwkQrhS2zJpKHGLEMIgEGs8IofYU3R4Nmq1sTi9KxeqIONCbY4ghIIGo5YOt0XBb6G8E1+JoHpu2M
-	p84lmYXeA==;
+	 bh=gghdKLje3Iyip43d4NNlzTMK0CzBKcKDzzstjaWF+0o=; b=UlPGWFEAf5g+hXgMPXIwNddRN
+	oywmAwGb64vTaIfFCW9XQfZzoaacRrYxyEIVh1F23oLVa2BB+ZZ1UBukLzA2XpWjkUKDQDGHR1u0V
+	Do2VNC6G9IFQKsh4yoklpgTpucT4QvmVJFugD/OMEowvf6j+gmFwAHYlJhWCO33dpeADsLXbyH4ke
+	GAtAcdGXLU61hdDEUtkKGyCj5TpxiIju9znuGQ+Rk0oqCgmfx/bolGheoNqbCuZnQUQeXohUYxlhG
+	6Z0fVCCbWNSqdBJYsnONyazW1GnHlHs9bTSQEMFqQlhKhRJbq88C8/cVL58n2gdG0SMn3dNwJJoqM
+	oXjUlCMTA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kS0gm-0002JB-Om; Mon, 12 Oct 2020 16:28:44 +0000
-Received: from mail-dm6nam12on2049.outbound.protection.outlook.com
- ([40.107.243.49] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1kS0gv-0002Lj-9K; Mon, 12 Oct 2020 16:28:53 +0000
+Received: from mail-mw2nam12on20604.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::604]
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kS0gF-000240-Dv
- for linux-nvme@lists.infradead.org; Mon, 12 Oct 2020 16:28:41 +0000
+ id 1kS0gK-00026c-Bk
+ for linux-nvme@lists.infradead.org; Mon, 12 Oct 2020 16:28:42 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kzou2GTeLLQCP1y4jr7f4EiQt8EIcD38Qv5O7LXhLBekqE/TAAsSsl3Em4+lROHblaxcRR2kogHEomyTELRH3kWTHRvfis6HJd8Kevbvny7g4fSrAxlTzC0DrS0azRRG3ZIRhNIiyij5xpEYCIqK0Ve+59I7qayBEkzJAGuPL/mIDHIWpBFu97AI8yeUh/F/7T3NpLwqSbPpdiZACVil/zj++N28ljfmCjlAwE3cgVNThI/G3QKS/dlIHAJQ0h55aAll9fMf2RlPCI8v5EpEeb7x4oAMLqCSNZYUfW2iqkpavT0QKpPLa/NHVE98G9sgJeTVTNZ1CgcbA6cHzVEKVQ==
+ b=Pyz1iUG/BHUFQpcGDAZtq1ag006I5YrZjOxt1tLtDBFTsmtmqCYlAdpTyvIgzD8gtjXg03c1qaRaih71KGxQHuQg+IH2BRkbStNJwNYOa/yiSPZbg5O/wKrg82FBdXl2DMXlCsD1lMsse1Ly3Q3JRBO3j/RWTsn3qbTRQnFP5uceYjhuz1Mx1onLaGDZhMvBnGY96y75ZK8ThPI+nq1g9d7nR5nppxiEF7BIMGyDkEqtpfJu0aXLeSF3w4BenFe3a3fZxdPQeGsYLqXyFHGoTXWNReSuPQP0oeUNu9IKUvCsOYytlWxnrunKCCxly/rbrIwl2eyTo9U8EYL4AQY3/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iYhw+A1It2mn9MKUecqoHCYcTKlgiG25J0q04L8cG9Q=;
- b=Y+ylPFhuXkmrmhrlYA+scLJ/hDiXqunVrJxUs8qHpSk38KLOihaTnr0pCOfPCTfTeB63DVranlllFJwZCOJ6E5FN/qzLRtBHyIEL3LIfoDa2kvMRRrAKhXr4VC96vRL5YZ8F6ODNqpbV0iGaEIHNx62NWtfWmgUKArfSbxegqdqzVUoWvSAoI5LHei+MVKtOgW88dcoYrJtppf6Io6j+ie7gXSWfSwHsCylGegELscaEd0/115yX/YVlrKLlHSlQd7SRKTsmVWni7WppX0YirXoDeJIH8rqvB7rf3kgDmx/O5+KHN493l/V1TfLlo4Fu4XZ+iuV1vb5amocHtDbu5g==
+ bh=OiGyXLZKeQVbPPSZ3p/9RzptcSmdVSRHKOxhvqvTIcM=;
+ b=kyQvxonvuKzM6FzttzpUmK//r+SIFDeqCCI9/7/gsMmW18IhHUDipf4z0V7QgwDf/GeWGixUxaeAW2nkv9O4UKXAGwesbPNAPxTcdWVo60Ab9BAlusNaeEigw/6qEK9y+17lN2/WR7YduUx3Gri51/lm0Tj+KLqNQ/Gf0wf+ZdIxdLlgq2AZxuXtc3/6XPmOCcOgjRIpGc9lsM7ge4Vbakm/dwienbi00ifdHNn2fVkYgfAoYN1Dpqv52G7N8IHlWWgS7fU6kUpqd1OwIcNI4vjECqJ3jRF2qXTXR2CEH6b0IOPsSSsytrV9aoMH/xiQMAD/bwqFAmvcMvOiN3EMfQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  137.201.242.130) smtp.rcpttodomain=kvack.org smtp.mailfrom=micron.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=micron.com;
@@ -54,18 +55,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iYhw+A1It2mn9MKUecqoHCYcTKlgiG25J0q04L8cG9Q=;
- b=LKdsDCvgKczFUIS3wSeyUMRx4YoTw1xzeIpZFlUzwXJ+HwQnhbysrIDpbHQ7oLIJ1m16yRm3GOhxYu76AirRJlbEv4nCjjxcqliiEpcelBTZoab69bisBUCtSQea42JYNM7TaH9dU4JvSSqGLdefmaTnYqe1jgnvpEnNLcrzlwQ=
-Received: from SN4PR0201CA0061.namprd02.prod.outlook.com
- (2603:10b6:803:20::23) by CY4PR08MB2374.namprd08.prod.outlook.com
- (2603:10b6:903:3c::13) with Microsoft SMTP Server (version=TLS1_2,
+ bh=OiGyXLZKeQVbPPSZ3p/9RzptcSmdVSRHKOxhvqvTIcM=;
+ b=Ey/Q2pYDF5kv5uUvzQlRjJnGRT3OI88ab6xjT5eAkFgFo0yplCIS5uQ1bbVOpFdgdddlSniMwn3cF5Tp0tvnHESqXgFQ9Fiy7vnB/XqEb7hI6sN72gt9ir9zMaV2cY7i0tTeVYQW0O+KSMNhoslfr3vrAgaBN0pH9pNRwaKttUs=
+Received: from SN4PR0201CA0055.namprd02.prod.outlook.com
+ (2603:10b6:803:20::17) by MN2PR08MB5840.namprd08.prod.outlook.com
+ (2603:10b6:208:11e::28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.28; Mon, 12 Oct
- 2020 16:28:07 +0000
+ 2020 16:28:11 +0000
 Received: from SN1NAM01FT015.eop-nam01.prod.protection.outlook.com
- (2603:10b6:803:20:cafe::31) by SN4PR0201CA0061.outlook.office365.com
- (2603:10b6:803:20::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21 via Frontend
- Transport; Mon, 12 Oct 2020 16:28:07 +0000
+ (2603:10b6:803:20:cafe::51) by SN4PR0201CA0055.outlook.office365.com
+ (2603:10b6:803:20::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22 via Frontend
+ Transport; Mon, 12 Oct 2020 16:28:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 137.201.242.130)
  smtp.mailfrom=micron.com; kvack.org;
  dkim=none (message not signed)
@@ -76,17 +77,17 @@ Received-SPF: Pass (protection.outlook.com: domain of micron.com designates
 Received: from mail.micron.com (137.201.242.130) by
  SN1NAM01FT015.mail.protection.outlook.com (10.152.65.55) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3455.23 via Frontend Transport; Mon, 12 Oct 2020 16:28:06 +0000
+ 15.20.3455.23 via Frontend Transport; Mon, 12 Oct 2020 16:28:10 +0000
 Received: from micron.com (10.114.5.55) by bowex17c.micron.com
  (137.201.21.211) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 12 Oct
- 2020 10:27:59 -0600
+ 2020 10:28:04 -0600
 From: Nabeel M Mohamed <nmeeramohide@micron.com>
 To: <linux-kernel@vger.kernel.org>, <linux-block@vger.kernel.org>,
  <linux-nvme@lists.infradead.org>, <linux-mm@kvack.org>,
  <linux-nvdimm@lists.01.org>
-Subject: [PATCH v2 06/22] mpool: add on-media pack, unpack and upgrade routines
-Date: Mon, 12 Oct 2020 11:27:20 -0500
-Message-ID: <20201012162736.65241-7-nmeeramohide@micron.com>
+Subject: [PATCH v2 12/22] mpool: add metadata container or mlog-pair framework
+Date: Mon, 12 Oct 2020 11:27:26 -0500
+Message-ID: <20201012162736.65241-13-nmeeramohide@micron.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20201012162736.65241-1-nmeeramohide@micron.com>
 References: <20201012162736.65241-1-nmeeramohide@micron.com>
@@ -94,48 +95,46 @@ MIME-Version: 1.0
 X-ClientProxiedBy: bowex17a.micron.com (137.201.21.209) To bowex17c.micron.com
  (137.201.21.211)
 X-TM-AS-Product-Ver: SMEX-12.0.0.1782-8.200.1013-24646.005
-X-TM-AS-Result: No--9.134500-0.000000-31
-X-TM-AS-MatchedID: 155702-158256-700076-704982-701910-704500-703851-700786-7
- 03140-704895-700071-701604-703610-303277-703145-703027-703816-705022-701480
- -704962-701809-703017-702395-188019-704318-701342-702299-704477-300015-7032
- 13-121336-701105-704673-703967-701475-701275-701912-701073-704983-702754-13
- 9549-702162-701918-702688-704804-702226-704401-105640-702224-702907-704959-
- 700006-705161-703982-700069-703117-701194-702972-701919-701091-700700-70502
- 3-105630-701104-702438-702798-702617-702962-702673-703215-851458-702914-705
- 248-703294-702525-701590-188199-701007-700809-702177-702415-702837-705018-7
- 04612-700737-701270-702853-703408-700863-703357-148004-148036-42000-42003
+X-TM-AS-Result: No--10.571200-0.000000-31
+X-TM-AS-MatchedID: 701073-704502-702345-701246-703361-705153-700737-704959-7
+ 03851-704949-704381-701847-700010-703853-702889-701480-701809-703017-703140
+ -702395-188019-703213-121336-701105-704673-703967-702754-704521-847575-7000
+ 50-703812-704477-702433-702837-704328-700053-703904-851458-704318-703694-70
+ 1586-701750-702617-703275-843010-703173-702779-105250-700069-700073-137717-
+ 121665-702914-704579-703215-703080-704002-705244-704606-702888-148004-14803
+ 6-42000-42003-190014
 X-TM-AS-User-Approved-Sender: Yes
 X-TM-AS-User-Blocked-Sender: No
 X-MT-Whitelisted: matched
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5b2c93af-25df-442d-f3d7-08d86ecbccfb
-X-MS-TrafficTypeDiagnostic: CY4PR08MB2374:
-X-Microsoft-Antispam-PRVS: <CY4PR08MB2374636381DD385A135E2098B3070@CY4PR08MB2374.namprd08.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: b61e329e-bbbf-466c-ec8a-08d86ecbcf31
+X-MS-TrafficTypeDiagnostic: MN2PR08MB5840:
+X-Microsoft-Antispam-PRVS: <MN2PR08MB5840B8CCBF1348829E46DBE5B3070@MN2PR08MB5840.namprd08.prod.outlook.com>
 X-MS-Exchange-Transport-Forked: True
 X-EXT-ByPass: 1
 X-MT-RULE-Whitelisted: Triggered
-X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
+X-MS-Oob-TLC-OOBClassifiers: OLM:172;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /pRsYiPpHj6yZe37T5yJhuvoEfkwTNCJBnkD4fWlOivcmxR7xX0K3OVGw34GrSPVfSuIF0tnMHTJXMkUgYtjQoMeYR4r8OuHpX52QffrRZ1VWUAU19XVmP0HAokdFxlGZdzXGjAV13krIkiRIbI50O3RSQfB/ZoZRKhZu3FF4qB2XZLtyimlZXjEl85d7ocnym6bzPCrxOV9QelbZZQHZnIReQxXHpQiT06+O9IwBRXGO8UiSdOIGDKb0UMCISw9SkdsSNmoUl3OaA5KTi4SLVOUVolYAclUkox+Uq2FZu4zxAlWQdRKVBWEoVRmG3hceNe6lRex9UyzEta5T0khPZ9nLm8PCNwx7gvmM/wrjSUE9xeAaoY4pAkOxvJaKbanDYNt0dEgU4qQigIxNDzW5Km57OTitnTIcmLgBwr/LSIJ4wEDoyMzSZyFv2Ja2oYX0gwVcxALEZx5hlAR1yXneCr//AX5YMPP7QBgy1tQ7Pk=
+X-Microsoft-Antispam-Message-Info: Z6IIM/d02DwtYos3ITPyf+fVqzlvxx6t76DqgeeUj5D7yXaXcmotiD91fi5dcObmNBpxWvQKJUbPq8fetjxPdVaUHoBmbrQmplQEPRwtPumtImapb0OC2dv/uqGF17wkkhqveRaJsIii0yCpc4TvbpCcWVm1gvtCvWDMe3k3olEtUbQroILZ/aOEEjQ2Hhf9xYOzo5Ql9qwJBwKG1BxWIMSAuGez+l1ASCCxReC7iHHFXf9EWSEygybhfZ7gd0BXhXQ35Oz4IjRUWTi28JC5bowayqetJZRZ4HFFWXrssRfzKFjm436hCa9HZgtzcX9mz5pXgaXGqMMiiNWJQvc7+x2YguO7SMmOzZAyz+PWkqaVN+baKRhWBIYaFN6px5KmV1zic4niKFDPppy3XBCGkGyiibeffFbaeuCUWIsgQ8Rr1+tSzDc/UoLhOG5/eg7G
 X-Forefront-Antispam-Report: CIP:137.201.242.130; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.micron.com; PTR:masquerade.micron.com; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(39860400002)(396003)(46966005)(426003)(47076004)(2616005)(107886003)(36756003)(356005)(2906002)(5660300002)(8936002)(6666004)(86362001)(33310700002)(30864003)(83380400001)(8676002)(336012)(7696005)(316002)(478600001)(4326008)(7636003)(55016002)(6286002)(186003)(26005)(70586007)(54906003)(70206006)(110136005)(1076003)(82310400003)(82740400003)(461764006)(2101003)(579004);
+ SFS:(4636009)(376002)(136003)(346002)(39860400002)(396003)(46966005)(4326008)(7696005)(82310400003)(36756003)(33310700002)(70586007)(70206006)(356005)(186003)(8676002)(47076004)(107886003)(83380400001)(8936002)(6286002)(82740400003)(26005)(7636003)(1076003)(86362001)(426003)(110136005)(5660300002)(2616005)(6666004)(2906002)(55016002)(478600001)(30864003)(336012)(54906003)(316002)(2101003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: micron.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2020 16:28:06.7806 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b2c93af-25df-442d-f3d7-08d86ecbccfb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2020 16:28:10.4748 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b61e329e-bbbf-466c-ec8a-08d86ecbcf31
 X-MS-Exchange-CrossTenant-Id: f38a5ecd-2813-4862-b11b-ac1d563c806f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f38a5ecd-2813-4862-b11b-ac1d563c806f; Ip=[137.201.242.130];
  Helo=[mail.micron.com]
 X-MS-Exchange-CrossTenant-AuthSource: SN1NAM01FT015.eop-nam01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR08MB2374
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR08MB5840
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201012_122811_717613_C2C70BF2 
-X-CRM114-Status: GOOD (  27.62  )
+X-CRM114-CacheID: sfid-20201012_122816_766169_C32CE911 
+X-CRM114-Status: GOOD (  23.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,25 +153,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This adds utilities to translate structures to and from their
-on-media format. All mpool metadata is stored on media in
-little-endian format.
+Metadata containers are used for storing and maintaining metadata.
 
-The metadata records are both versioned and contains a record
-type. This allows the record format to change over time, new
-record types to be added and old record types to be deprecated.
+MDC APIs are implemented as helper functions built on a pair of
+mlogs per MDC. It embodies the concept of compaction to deal with
+one of the mlog pairs filling, what it means to compact is
+use-case dependent.
 
-All structs, enums, constants etc., representing on-media format
-ends with a postfix "_omf". The functions for serializing
-in-memory structures to on-media format are named with prefix
-"omf_" and with postfix "_pack_htole". The corresponding
-deserializing functions are named with postfix "_unpack_letoh".
+The MDC APIs make it easy for a client to:
 
-The mpool metadata records are upgraded at mpool activation time.
-The newer module code reads the metadata records created by an
-older mpool version, converts them into the current in-memory
-format and then serializes the in-memory format to the current
-on-media format.
+- Append metadata update records to the active mlog of an MDC
+  until it is full (or exceeds some client-specific threshold)
+- Flag the start of a compaction which marks the other mlog of
+  the MDC as active
+- Re-serialize its metadata by appending it to the (newly)
+  active mlog of the MDC
+- Flag the end of the compaction
+- Continue appending metadata update records to the MDC until
+  the above process repeats
+
+The MDC API functions handle all failures, including crash
+recovery, by using special markers recognized by the mlog
+implementation.
 
 Co-developed-by: Greg Becker <gbecker@micron.com>
 Signed-off-by: Greg Becker <gbecker@micron.com>
@@ -182,1514 +184,616 @@ Co-developed-by: John Groves <jgroves@micron.com>
 Signed-off-by: John Groves <jgroves@micron.com>
 Signed-off-by: Nabeel M Mohamed <nmeeramohide@micron.com>
 ---
- drivers/mpool/init.c    |    8 +
- drivers/mpool/omf.c     | 1318 +++++++++++++++++++++++++++++++++++++++
- drivers/mpool/upgrade.c |  138 ++++
- 3 files changed, 1464 insertions(+)
- create mode 100644 drivers/mpool/omf.c
- create mode 100644 drivers/mpool/upgrade.c
+ drivers/mpool/mdc.c | 486 ++++++++++++++++++++++++++++++++++++++++++++
+ drivers/mpool/mdc.h | 106 ++++++++++
+ 2 files changed, 592 insertions(+)
+ create mode 100644 drivers/mpool/mdc.c
+ create mode 100644 drivers/mpool/mdc.h
 
-diff --git a/drivers/mpool/init.c b/drivers/mpool/init.c
-index 031408815b48..70f907ccc28a 100644
---- a/drivers/mpool/init.c
-+++ b/drivers/mpool/init.c
-@@ -7,6 +7,7 @@
- 
- #include "mpool_printk.h"
- 
-+#include "omf_if.h"
- #include "pd.h"
- #include "smap.h"
- 
-@@ -24,6 +25,7 @@ MODULE_PARM_DESC(chunk_size_kb, "Chunk size (in KiB) for device I/O");
- static void mpool_exit_impl(void)
- {
- 	smap_exit();
-+	omf_exit();
- 	pd_exit();
- }
- 
-@@ -38,6 +40,12 @@ static __init int mpool_init(void)
- 		goto errout;
- 	}
- 
-+	rc = omf_init();
-+	if (rc) {
-+		errmsg = "omf init failed";
-+		goto errout;
-+	}
-+
- 	rc = smap_init();
- 	if (rc) {
- 		errmsg = "smap init failed";
-diff --git a/drivers/mpool/omf.c b/drivers/mpool/omf.c
+diff --git a/drivers/mpool/mdc.c b/drivers/mpool/mdc.c
 new file mode 100644
-index 000000000000..8e612d35b19a
+index 000000000000..288e6ee4670b
 --- /dev/null
-+++ b/drivers/mpool/omf.c
-@@ -0,0 +1,1318 @@
++++ b/drivers/mpool/mdc.c
+@@ -0,0 +1,486 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
-+ */
-+/*
-+ * Pool on-drive format (omf) module.
-+ *
-+ * Defines:
-+ * + on-drive format for mpool superblocks
-+ * + on-drive formats for mlogs, mblocks, and metadata containers (mdc)
-+ * + utility functions for working with these on-drive formats
-+ *
-+ * All mpool metadata is versioned and stored on media in little-endian format.
 + */
 +
 +#include <linux/slab.h>
-+#include <crypto/hash.h>
++#include <linux/string.h>
 +
-+#include "assert.h"
 +#include "mpool_printk.h"
-+
-+#include "upgrade.h"
-+#include "pmd_obj.h"
++#include "mpool_ioctl.h"
 +#include "mpcore.h"
++#include "mp.h"
++#include "mlog.h"
++#include "mdc.h"
 +
-+static struct crypto_shash *mpool_tfm;
++#define mdc_logerr(_mpname, _msg, _mlh, _objid, _gen1, _gen2, _err)     \
++	mp_pr_err("mpool %s, mdc open, %s "			        \
++		  "mlog %p objid 0x%lx gen1 %lu gen2 %lu",		\
++		  (_err), (_mpname), (_msg),		                \
++		  (_mlh), (ulong)(_objid), (ulong)(_gen1),		\
++		  (ulong)(_gen2))					\
 +
-+enum unpack_only {
-+	UNPACKONLY    = 0,
-+	UNPACKCONVERT = 1,
-+};
-+
-+/*
-+ * Forward declarations.
-+ */
-+static int omf_layout_unpack_letoh_v1(void *out, const char *inbuf);
-+static int omf_dparm_unpack_letoh_v1(void *out, const char *inbuf);
-+static int omf_mdcrec_mcspare_unpack_letoh_v1(void *out, const char *inbuf);
-+static int omf_sb_unpack_letoh_v1(void *out, const char *inbuf);
-+static int omf_pmd_layout_unpack_letoh_v1(void *out, const char *inbuf);
-+
-+/*
-+ * layout_descriptor_table: track changes in OMF and in-memory layout descriptor
-+ */
-+static struct upgrade_history layout_descriptor_table[] = {
-+	{
-+		sizeof(struct omf_layout_descriptor),
-+		omf_layout_unpack_letoh_v1,
-+		NULL,
-+		OMF_SB_DESC_V1,
-+		{ {1, 0, 0, 0} }
-+	},
-+};
-+
-+/*
-+ * devparm_descriptor_table: track changes in dev parm descriptor
-+ */
-+static struct upgrade_history devparm_descriptor_table[] = {
-+	{
-+		sizeof(struct omf_devparm_descriptor),
-+		omf_dparm_unpack_letoh_v1,
-+		NULL,
-+		OMF_SB_DESC_V1,
-+		{ {1, 0, 0, 0} }
-+	},
-+};
-+
-+/*
-+ * mdcrec_data_mcspare_table: track changes in spare % record.
-+ */
-+static struct upgrade_history mdcrec_data_mcspare_table[]
-+	= {
-+	{
-+		sizeof(struct omf_mdcrec_data),
-+		omf_mdcrec_mcspare_unpack_letoh_v1,
-+		NULL,
-+		OMF_SB_DESC_UNDEF,
-+		{ {1, 0, 0, 0} },
-+	},
-+};
-+
-+/*
-+ * sb_descriptor_table: track changes in mpool superblock descriptor
-+ */
-+static struct upgrade_history sb_descriptor_table[] = {
-+	{
-+		sizeof(struct omf_sb_descriptor),
-+		omf_sb_unpack_letoh_v1,
-+		NULL,
-+		OMF_SB_DESC_V1,
-+		{ {1, 0, 0, 0} }
-+	},
-+};
-+
-+/*
-+ * mdcrec_data_ocreate_table: track changes in OCREATE mdc record.
-+ */
-+static struct upgrade_history mdcrec_data_ocreate_table[]
-+	= {
-+	{
-+		sizeof(struct omf_mdcrec_data),
-+		omf_pmd_layout_unpack_letoh_v1,
-+		NULL,
-+		OMF_SB_DESC_UNDEF,
-+		{ {1, 0, 0, 0} }
-+	},
-+};
-+
-+
-+/*
-+ * Generic routines
-+ */
++#define OP_COMMIT      0
++#define OP_DELETE      1
 +
 +/**
-+ * omf_find_upgrade_hist() - Find the upgrade history entry for the given sb or mdc version
-+ * @uhtab:
-+ * @tabsz:   NELEM of upgrade_table
-+ * @sbver:   superblock version
-+ * @mdcver:  mdc version
-+ *
-+ * Given a superblock version or a mpool MDC content version, find the
-+ * corresponding upgrade history entry which matches the given sb or mdc
-+ * version.  That is the entry with the highest version such as
-+ * entry version <= the version passed in.
-+ *
-+ * Note that caller of this routine can pass in either a valid superblock
-+ * version or a valid mdc version. If a valid superblock version is passed in,
-+ * mdcver need to be set to NULL. If a mdc version is passed in, sbver
-+ * need to set to 0.
-+ *
-+ * For example,
-+ * We update a structure "struct abc" three times, which is part of mpool
-+ * superblock or MDC. when superblock version is  1, 3 and 5 respectively.
-+ * Each time we add an entry in the upgrade table for this structure.
-+ * The upgrade history table looks like:
-+ *
-+ * struct upgrade_history abc_hist[] =
-+ * {{sizeof(struct abc_v1), abc_unpack_v1, NULL, OMF_SB_DESC_V1, NULL},
-+ *  {sizeof(struct abc_v2), abc_unpack_v2, NULL, OMF_SB_DESC_V3, NULL},
-+ *  {sizeof(struct abc_v3), abc_unpack_v3, NULL, OMF_SB_DESC_V5, NULL}}
-+ *
-+ * if caller needs to find the upgrade history entry matches
-+ * sb version 3(OMF_SB_DESC_V3), this routine finds the exact match and
-+ * returns &abc_hist[1].
-+ *
-+ * if caller needs to find the upgrade history entry which matches
-+ * sb version 4 (OMF_SB_DESC_V4), since we don't update this structure
-+ * in sb version 4, this routine finds the prior entry which matches
-+ * the sb version 3, return &abc_hist[1]
-+ *
++ * mdc_acquire() - Validate mdc handle and acquire mdc_lock
++ * @mlh: MDC handle
++ * @rw:  read/append?
 + */
-+static struct upgrade_history *
-+omf_find_upgrade_hist(struct upgrade_history *uhtab, size_t tabsz,
-+		      enum sb_descriptor_ver_omf sbver, struct omf_mdcver *mdcver)
++static inline int mdc_acquire(struct mp_mdc *mdc, bool rw)
 +{
-+	struct upgrade_history *cur = NULL;
-+	int beg = 0, end = tabsz, mid;
++	if (!mdc || mdc->mdc_magic != MPC_MDC_MAGIC || !mdc->mdc_valid)
++		return -EINVAL;
 +
-+	while (beg < end) {
-+		mid = (beg + end) / 2;
-+		cur = &uhtab[mid];
-+		if (mdcver) {
-+			ASSERT(sbver == 0);
++	if (rw && (mdc->mdc_flags & MDC_OF_SKIP_SER))
++		return 0;
 +
-+			if (omfu_mdcver_cmp(mdcver, "==", &cur->uh_mdcver))
-+				return cur;
-+			else if (omfu_mdcver_cmp(mdcver, ">", &cur->uh_mdcver))
-+				beg = mid + 1;
-+			else
-+				end = mid;
++	mutex_lock(&mdc->mdc_lock);
++
++	/* Validate again after acquiring lock */
++	if (!mdc->mdc_valid) {
++		mutex_unlock(&mdc->mdc_lock);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/**
++ * mdc_release() - Release mdc_lock
++ * @mlh: MDC handle
++ * @rw:  read/append?
++ */
++static inline void mdc_release(struct mp_mdc *mdc, bool rw)
++{
++	if (rw && (mdc->mdc_flags & MDC_OF_SKIP_SER))
++		return;
++
++	mutex_unlock(&mdc->mdc_lock);
++}
++
++/**
++ * mdc_invalidate() - Invalidates MDC handle by resetting the magic
++ * @mdc: MDC handle
++ */
++static inline void mdc_invalidate(struct mp_mdc *mdc)
++{
++	mdc->mdc_magic = MPC_NO_MAGIC;
++}
++
++/**
++ * mdc_get_mpname() - Get mpool name from mpool descriptor
++ * @mp:     mpool descriptor
++ * @mpname: buffer to store the mpool name (output)
++ * @mplen:  buffer len
++ */
++static int mdc_get_mpname(struct mpool_descriptor *mp, char *mpname, size_t mplen)
++{
++	if (!mp || !mpname)
++		return -EINVAL;
++
++	return mpool_get_mpname(mp, mpname, mplen);
++}
++
++/**
++ * mdc_find_get() - Wrapper around get for mlog pair.
++ */
++static void mdc_find_get(struct mpool_descriptor *mp, u64 *logid, bool do_put,
++			 struct mlog_props *props, struct mlog_descriptor **mlh, int *ferr)
++{
++	int i;
++
++	for (i = 0; i < 2; ++i)
++		ferr[i] = mlog_find_get(mp, logid[i], 0, &props[i], &mlh[i]);
++
++	if (do_put && ((ferr[0] && !ferr[1]) || (ferr[1] && !ferr[0]))) {
++		if (ferr[0])
++			mlog_put(mlh[1]);
++		else
++			mlog_put(mlh[0]);
++	}
++}
++
++/**
++ * mdc_put() - Wrapper around put for mlog pair.
++ */
++static void mdc_put(struct mlog_descriptor *mlh1, struct mlog_descriptor *mlh2)
++{
++	mlog_put(mlh1);
++	mlog_put(mlh2);
++}
++
++int mp_mdc_open(struct mpool_descriptor *mp, u64 logid1, u64 logid2, u8 flags,
++		struct mp_mdc **mdc_out)
++{
++	struct mlog_descriptor *mlh[2];
++	struct mlog_props *props = NULL;
++	struct mp_mdc *mdc;
++
++	int     err = 0, err1 = 0, err2 = 0;
++	int     ferr[2] = {0};
++	u64     gen1 = 0, gen2 = 0;
++	bool    empty = false;
++	u8      mlflags = 0;
++	u64     id[2];
++	char   *mpname;
++
++	if (!mp || !mdc_out)
++		return -EINVAL;
++
++	mdc = kzalloc(sizeof(*mdc), GFP_KERNEL);
++	if (!mdc)
++		return -ENOMEM;
++
++	mdc->mdc_valid = 0;
++	mdc->mdc_mp    = mp;
++	mdc_get_mpname(mp, mdc->mdc_mpname, sizeof(mdc->mdc_mpname));
++
++	mpname = mdc->mdc_mpname;
++
++	if (logid1 == logid2) {
++		err = -EINVAL;
++		goto exit;
++	}
++
++	props = kcalloc(2, sizeof(*props), GFP_KERNEL);
++	if (!props) {
++		err = -ENOMEM;
++		goto exit;
++	}
++
++	/*
++	 * This mdc_find_get can go away once mp_mdc_open is modified to
++	 * operate on handles.
++	 */
++	id[0] = logid1;
++	id[1] = logid2;
++	mdc_find_get(mp, id, true, props, mlh, ferr);
++	if (ferr[0] || ferr[1]) {
++		err = ferr[0] ? : ferr[1];
++		goto exit;
++	}
++	mdc->mdc_logh1 = mlh[0];
++	mdc->mdc_logh2 = mlh[1];
++
++	if (flags & MDC_OF_SKIP_SER)
++		mlflags |= MLOG_OF_SKIP_SER;
++
++	mlflags |= MLOG_OF_COMPACT_SEM;
++
++	err1 = mlog_open(mp, mdc->mdc_logh1, mlflags, &gen1);
++	err2 = mlog_open(mp, mdc->mdc_logh2, mlflags, &gen2);
++
++	if (err1 && err1 != -EMSGSIZE && err1 != -EBUSY) {
++		err = err1;
++	} else if (err2 && err2 != -EMSGSIZE && err2 != -EBUSY) {
++		err = err2;
++	} else if ((err1 && err2) || (!err1 && !err2 && gen1 && gen1 == gen2)) {
++
++		err = -EINVAL;
++
++		/* Bad pair; both have failed erases/compactions or equal non-0 gens. */
++		mp_pr_err("mpool %s, mdc open, bad mlog handle, mlog1 %p logid1 0x%lx errno %d gen1 %lu, mlog2 %p logid2 0x%lx errno %d gen2 %lu",
++			err, mpname, mdc->mdc_logh1, (ulong)logid1, err1, (ulong)gen1,
++			mdc->mdc_logh2, (ulong)logid2, err2, (ulong)gen2);
++	} else {
++		/* Active log is valid log with smallest gen */
++		if (err1 || (!err2 && gen2 < gen1)) {
++			mdc->mdc_alogh = mdc->mdc_logh2;
++			if (!err1) {
++				err = mlog_empty(mp, mdc->mdc_logh1, &empty);
++				if (err)
++					mdc_logerr(mpname, "mlog1 empty check failed",
++						   mdc->mdc_logh1, logid1, gen1, gen2, err);
++			}
++			if (!err && (err1 || !empty)) {
++				err = mlog_erase(mp, mdc->mdc_logh1, gen2 + 1);
++				if (!err) {
++					err = mlog_open(mp, mdc->mdc_logh1, mlflags, &gen1);
++					if (err)
++						mdc_logerr(mpname, "mlog1 open failed",
++							   mdc->mdc_logh1, logid1, gen1, gen2, err);
++				} else {
++					mdc_logerr(mpname, "mlog1 erase failed", mdc->mdc_logh1,
++						   logid1, gen1, gen2, err);
++				}
++			}
 +		} else {
-+			ASSERT(sbver <= OMF_SB_DESC_VER_LAST);
++			mdc->mdc_alogh = mdc->mdc_logh1;
++			if (!err2) {
++				err = mlog_empty(mp, mdc->mdc_logh2, &empty);
++				if (err)
++					mdc_logerr(mpname, "mlog2 empty check failed",
++						   mdc->mdc_logh2, logid2, gen1, gen2, err);
++			}
++			if (!err && (err2 || gen2 == gen1 || !empty)) {
++				err = mlog_erase(mp, mdc->mdc_logh2, gen1 + 1);
++				if (!err) {
++					err = mlog_open(mp, mdc->mdc_logh2, mlflags, &gen2);
++					if (err)
++						mdc_logerr(mpname, "mlog2 open failed",
++							   mdc->mdc_logh2, logid2, gen1, gen2, err);
++				} else {
++					mdc_logerr(mpname, "mlog2 erase failed", mdc->mdc_logh2,
++						   logid2, gen1, gen2, err);
++				}
++			}
++		}
 +
-+			if (sbver == cur->uh_sbver)
-+				return cur;
-+			else if (sbver > cur->uh_sbver)
-+				beg = mid + 1;
-+			else
-+				end = mid;
++		if (!err) {
++			err = mlog_empty(mp, mdc->mdc_alogh, &empty);
++			if (!err && empty) {
++				/*
++				 * First use of log pair so need to add
++				 * cstart/cend recs; above handles case of
++				 * failure between adding cstart and cend
++				 */
++				err = mlog_append_cstart(mp, mdc->mdc_alogh);
++				if (!err) {
++					err = mlog_append_cend(mp, mdc->mdc_alogh);
++					if (err)
++						mdc_logerr(mpname,
++							   "adding cend to active mlog failed",
++							   mdc->mdc_alogh,
++							   mdc->mdc_alogh == mdc->mdc_logh1 ?
++							   logid1 : logid2, gen1, gen2, err);
++				} else {
++					mdc_logerr(mpname, "adding cstart to active mlog failed",
++						   mdc->mdc_alogh,
++						   mdc->mdc_alogh == mdc->mdc_logh1 ?
++						   logid1 : logid2, gen1, gen2, err);
++				}
++
++			} else if (err) {
++				mdc_logerr(mpname, "active mlog empty check failed",
++					   mdc->mdc_alogh, mdc->mdc_alogh == mdc->mdc_logh1 ?
++					   logid1 : logid2, gen1, gen2, err);
++			}
 +		}
 +	}
 +
-+	if (end == 0)
-+		return NULL; /* not found */
-+
-+	return &uhtab[end - 1];
-+}
-+
-+/**
-+ * omf_upgrade_convert_only() - Convert sb/mdc from v1 to v2 (v1 <= v2)
-+ * @out:   v2 in-memory metadata structure
-+ * @in:    v1 in-memory metadata structure
-+ * @uhtab: upgrade history table for this structure
-+ * @tabsz: NELEM(uhtab)
-+ * @sbv1:  superblock version converting from
-+ * @sbv2:  superblock version converting to
-+ * @mdcv1: mdc version converting from
-+ * @mdcv2: mdc version converting to
-+ *
-+ * Convert a nested metadata structure in mpool superblock or
-+ * MDC from v1 to v2 (v1 <= v2)
-+ *
-+ * Note that callers can pass in either mdc beg/end ver (mdcv1/mdcv2),
-+ * or superblock beg/end versions (sbv1/sbv2). Set both mdcv1 and
-+ * mdcv2 to NULL, if caller wants to use superblock versions
-+ */
-+static __maybe_unused int
-+omf_upgrade_convert_only(void *out, const void *in, struct upgrade_history *uhtab,
-+			 size_t tabsz, enum sb_descriptor_ver_omf sbv1,
-+			 enum sb_descriptor_ver_omf sbv2,
-+			 struct omf_mdcver *mdcv1, struct omf_mdcver *mdcv2)
-+{
-+	struct upgrade_history *v1, *v2, *cur;
-+	void *new, *old;
-+	size_t newsz;
-+
-+	v1 = omf_find_upgrade_hist(uhtab, tabsz, sbv1, mdcv1);
-+	ASSERT(v1);
-+
-+	v2 = omf_find_upgrade_hist(uhtab, tabsz, sbv2, mdcv2);
-+	ASSERT(v2);
-+	ASSERT(v1 <= v2);
-+
-+	if (v1 == v2)
-+		/* No need to do conversion */
-+		return 0;
-+
-+	if (v2 == v1 + 1) {
++	if (!err) {
 +		/*
-+		 * Single step conversion, Don't need to allocate/free
-+		 * buffers for intermediate conversion states
++		 * Inform pre-compaction of the size of the active
++		 * mlog and how much is used. This is applicable
++		 * only for mpool core's internal MDCs.
 +		 */
-+		if (v2->uh_conv != NULL)
-+			v2->uh_conv(in, out);
-+		return 0;
++		mlog_precompact_alsz(mp, mdc->mdc_alogh);
++
++		mdc->mdc_valid = 1;
++		mdc->mdc_magic = MPC_MDC_MAGIC;
++		mdc->mdc_flags = flags;
++		mutex_init(&mdc->mdc_lock);
++
++		*mdc_out = mdc;
++	} else {
++		err1 = mlog_close(mp, mdc->mdc_logh1);
++		err2 = mlog_close(mp, mdc->mdc_logh2);
++
++		mdc_put(mdc->mdc_logh1, mdc->mdc_logh2);
 +	}
 +
-+	/*
-+	 * Make a local copy of input buffer, we won't free it
-+	 * in the for loop below
-+	 */
-+	old = kmalloc(v1->uh_size, GFP_KERNEL);
-+	if (!old)
-+		return -ENOMEM;
-+	memcpy(old, in, v1->uh_size);
++exit:
++	if (err)
++		kfree(mdc);
 +
-+	new = old;
-+	newsz = v1->uh_size;
++	kfree(props);
 +
-+	for (cur = v1 + 1; cur <= v2; cur++) {
-+		if (!cur->uh_conv)
-+			continue;
-+		new = kzalloc(cur->uh_size, GFP_KERNEL);
-+		if (!new) {
-+			kfree(old);
-+			return -ENOMEM;
-+		}
-+		newsz = cur->uh_size;
-+		cur->uh_conv(old, new);
-+		kfree(old);
-+		old = new;
-+	}
-+
-+	memcpy(out, new, newsz);
-+	kfree(new);
-+
-+	return 0;
++	return err;
 +}
 +
-+/**
-+ * omf_upgrade_unpack_only() - unpack OMF meta data
-+ * @out:     output buffer for in-memory structure
-+ * @inbuf:   OMF structure
-+ * @uhtab:   upgrade history table
-+ * @tabsz:   NELEM of uhtab
-+ * @sbver:   superblock version
-+ * @mdcver: mpool MDC content version
-+ */
-+static int omf_upgrade_unpack_only(void *out, const char *inbuf, struct upgrade_history *uhtab,
-+				   size_t tabsz, enum sb_descriptor_ver_omf sbver,
-+				   struct omf_mdcver *mdcver)
++int mp_mdc_cstart(struct mp_mdc *mdc)
 +{
-+	struct upgrade_history *res;
-+
-+	res = omf_find_upgrade_hist(uhtab, tabsz, sbver, mdcver);
-+
-+	return res->uh_unpack(out, inbuf);
-+}
-+
-+/**
-+ * omf_unpack_letoh_and_convert() - Unpack OMF meta data and convert it to the latest version.
-+ * @out:    in-memory structure
-+ * @outsz:  size of in-memory structure
-+ * @inbuf:  OMF structure
-+ * @uhtab:  upgrade history table
-+ * @tabsz:  number of elements in uhtab
-+ * @sbver:  superblock version
-+ * @mdcver: mdc version. if set to NULL, use sbver to find the corresponding
-+ *          nested structure upgrade table
-+ */
-+static int omf_unpack_letoh_and_convert(void *out, size_t outsz, const char *inbuf,
-+					struct upgrade_history *uhtab,
-+					size_t tabsz, enum sb_descriptor_ver_omf sbver,
-+					struct omf_mdcver *mdcver)
-+{
-+	struct upgrade_history *cur, *omf;
-+	void *old, *new;
-+	size_t newsz;
++	struct mlog_descriptor *tgth = NULL;
++	struct mpool_descriptor *mp;
++	bool rw = false;
 +	int rc;
 +
-+	omf = omf_find_upgrade_hist(uhtab, tabsz, sbver, mdcver);
-+	ASSERT(omf);
++	if (!mdc)
++		return -EINVAL;
 +
-+	if (omf == &uhtab[tabsz - 1]) {
-+		/*
-+		 * Current version is the latest version.
-+		 * Don't need to do any conversion
-+		 */
-+		return omf->uh_unpack(out, inbuf);
-+	}
-+
-+	old = kzalloc(omf->uh_size, GFP_KERNEL);
-+	if (!old)
-+		return -ENOMEM;
-+
-+	rc = omf->uh_unpack(old, inbuf);
-+	if (rc) {
-+		kfree(old);
++	rc = mdc_acquire(mdc, rw);
++	if (rc)
 +		return rc;
-+	}
 +
-+	new = old;
-+	newsz = omf->uh_size;
++	mp = mdc->mdc_mp;
 +
-+	for (cur = omf + 1; cur <= &uhtab[tabsz - 1]; cur++) {
-+		if (!cur->uh_conv)
-+			continue;
-+		new = kzalloc(cur->uh_size, GFP_KERNEL);
-+		if (!new) {
-+			kfree(old);
-+			return -ENOMEM;
-+		}
-+		newsz = cur->uh_size;
-+		cur->uh_conv(old, new);
-+		kfree(old);
-+		old = new;
-+	}
-+
-+	ASSERT(newsz == outsz);
-+
-+	memcpy(out, new, newsz);
-+	kfree(new);
-+
-+	return 0;
-+}
-+
-+_Static_assert(MPOOL_UUID_SIZE == OMF_UUID_PACKLEN, "mpool uuid sz != omf uuid packlen");
-+_Static_assert(OMF_MPOOL_NAME_LEN == MPOOL_NAMESZ_MAX, "omf mpool name len != mpool namesz max");
-+
-+/*
-+ * devparm_descriptor
-+ */
-+static void omf_dparm_pack_htole(struct omf_devparm_descriptor *dp, char *outbuf)
-+{
-+	struct devparm_descriptor_omf *dp_omf;
-+
-+	dp_omf = (struct devparm_descriptor_omf *)outbuf;
-+	omf_set_podp_devid(dp_omf, dp->odp_devid.uuid, MPOOL_UUID_SIZE);
-+	omf_set_podp_devsz(dp_omf, dp->odp_devsz);
-+	omf_set_podp_zonetot(dp_omf, dp->odp_zonetot);
-+	omf_set_podp_zonepg(dp_omf, dp->odp_zonepg);
-+	omf_set_podp_mclassp(dp_omf, dp->odp_mclassp);
-+	/* Translate pd_devtype into devtype_omf */
-+	omf_set_podp_devtype(dp_omf, dp->odp_devtype);
-+	omf_set_podp_sectorsz(dp_omf, dp->odp_sectorsz);
-+	omf_set_podp_features(dp_omf, dp->odp_features);
-+}
-+
-+/**
-+ * omf_dparm_unpack_letoh()- unpack version 1 omf devparm descriptor into
-+ *                            in-memory format
-+ * @out: in-memory format
-+ * @inbuf: omf format
-+ */
-+static int omf_dparm_unpack_letoh_v1(void *out, const char *inbuf)
-+{
-+	struct devparm_descriptor_omf *dp_omf;
-+	struct omf_devparm_descriptor *dp;
-+
-+	dp_omf = (struct devparm_descriptor_omf *)inbuf;
-+	dp = (struct omf_devparm_descriptor *)out;
-+
-+	omf_podp_devid(dp_omf, dp->odp_devid.uuid, MPOOL_UUID_SIZE);
-+	dp->odp_devsz     = omf_podp_devsz(dp_omf);
-+	dp->odp_zonetot    = omf_podp_zonetot(dp_omf);
-+	dp->odp_zonepg = omf_podp_zonepg(dp_omf);
-+	dp->odp_mclassp   = omf_podp_mclassp(dp_omf);
-+	/* Translate devtype_omf into mp_devtype */
-+	dp->odp_devtype	  = omf_podp_devtype(dp_omf);
-+	dp->odp_sectorsz  = omf_podp_sectorsz(dp_omf);
-+	dp->odp_features  = omf_podp_features(dp_omf);
-+
-+	return 0;
-+}
-+
-+static int omf_dparm_unpack_letoh(struct omf_devparm_descriptor *dp, const char *inbuf,
-+				  enum sb_descriptor_ver_omf sbver,
-+				  struct omf_mdcver *mdcver,
-+				  enum unpack_only unpackonly)
-+{
-+	const size_t sz = ARRAY_SIZE(layout_descriptor_table);
-+	int rc;
-+
-+	if (unpackonly == UNPACKONLY)
-+		rc = omf_upgrade_unpack_only(dp, inbuf, devparm_descriptor_table,
-+					     sz, sbver, mdcver);
++	if (mdc->mdc_alogh == mdc->mdc_logh1)
++		tgth = mdc->mdc_logh2;
 +	else
-+		rc = omf_unpack_letoh_and_convert(dp, sizeof(*dp), inbuf, devparm_descriptor_table,
-+						  sz, sbver, mdcver);
++		tgth = mdc->mdc_logh1;
 +
-+	return rc;
-+}
-+
-+
-+/*
-+ * layout_descriptor
-+ */
-+static void omf_layout_pack_htole(const struct omf_layout_descriptor *ld, char *outbuf)
-+{
-+	struct layout_descriptor_omf *ld_omf;
-+
-+	ld_omf = (struct layout_descriptor_omf *)outbuf;
-+	omf_set_pol_zcnt(ld_omf, ld->ol_zcnt);
-+	omf_set_pol_zaddr(ld_omf, ld->ol_zaddr);
-+}
-+
-+/**
-+ * omf_layout_unpack_letoh_v1() - unpack omf layout descriptor version 1
-+ * @out: in-memory layout descriptor
-+ * @in: on-media layout descriptor
-+ */
-+int omf_layout_unpack_letoh_v1(void *out, const char *inbuf)
-+{
-+	struct omf_layout_descriptor *ld;
-+	struct layout_descriptor_omf *ld_omf;
-+
-+	ld = (struct omf_layout_descriptor *)out;
-+	ld_omf = (struct layout_descriptor_omf *)inbuf;
-+
-+	ld->ol_zcnt = omf_pol_zcnt(ld_omf);
-+	ld->ol_zaddr = omf_pol_zaddr(ld_omf);
-+
-+	return 0;
-+}
-+
-+static int omf_layout_unpack_letoh(struct omf_layout_descriptor *ld, const char *inbuf,
-+				   enum sb_descriptor_ver_omf sbver,
-+				   struct omf_mdcver *mdcver,
-+				   enum unpack_only unpackonly)
-+{
-+	const size_t sz = ARRAY_SIZE(layout_descriptor_table);
-+	int rc;
-+
-+	if (unpackonly == UNPACKONLY)
-+		rc = omf_upgrade_unpack_only(ld, inbuf, layout_descriptor_table,
-+					     sz, sbver, mdcver);
-+	else
-+		rc = omf_unpack_letoh_and_convert(ld, sizeof(*ld), inbuf, layout_descriptor_table,
-+						  sz, sbver, mdcver);
-+
-+	return rc;
-+}
-+
-+/*
-+ * pmd_layout
-+ */
-+static int omf_pmd_layout_pack_htole(const struct mpool_descriptor *mp, u8 rtype,
-+				     struct pmd_layout *ecl, char *outbuf)
-+{
-+	struct mdcrec_data_ocreate_omf *ocre_omf;
-+	int data_rec_sz;
-+
-+	if (rtype != OMF_MDR_OCREATE && rtype != OMF_MDR_OUPDATE) {
-+		mp_pr_warn("mpool %s, wrong rec type %u packing layout", mp->pds_name, rtype);
-+		return -EINVAL;
-+	}
-+
-+	data_rec_sz = sizeof(*ocre_omf);
-+
-+	ocre_omf = (struct mdcrec_data_ocreate_omf *)outbuf;
-+	omf_set_pdrc_rtype(ocre_omf, rtype);
-+	omf_set_pdrc_mclass(ocre_omf, mp->pds_pdv[ecl->eld_ld.ol_pdh].pdi_mclass);
-+	omf_set_pdrc_objid(ocre_omf, ecl->eld_objid);
-+	omf_set_pdrc_gen(ocre_omf, ecl->eld_gen);
-+	omf_set_pdrc_mblen(ocre_omf, ecl->eld_mblen);
-+
-+	if (objid_type(ecl->eld_objid) == OMF_OBJ_MLOG) {
-+		memcpy(ocre_omf->pdrc_uuid, ecl->eld_uuid.uuid, OMF_UUID_PACKLEN);
-+		data_rec_sz += OMF_UUID_PACKLEN;
-+	}
-+
-+	omf_layout_pack_htole(&(ecl->eld_ld), (char *)&(ocre_omf->pdrc_ld));
-+
-+	return data_rec_sz;
-+}
-+
-+/**
-+ * omf_pmd_layout_unpack_letoh_v1() - Unpack little-endian mdc obj record and optional obj layout
-+ * @out:
-+ * @inbuf:
-+ *
-+ * For version 1 of OMF_MDR_OCREATE record (struct layout_descriptor_omf)
-+ *
-+ * Return:
-+ *   0 if successful
-+ *   -EINVAL if invalid record type or format
-+ *   -ENOMEM if cannot alloc memory for metadata conversion
-+ */
-+static int omf_pmd_layout_unpack_letoh_v1(void *out, const char *inbuf)
-+{
-+	struct mdcrec_data_ocreate_omf *ocre_omf;
-+	struct omf_mdcrec_data *cdr = out;
-+	int rc;
-+
-+	ocre_omf = (struct mdcrec_data_ocreate_omf *)inbuf;
-+
-+	cdr->omd_rtype = omf_pdrc_rtype(ocre_omf);
-+	if (cdr->omd_rtype != OMF_MDR_OCREATE && cdr->omd_rtype == OMF_MDR_OUPDATE) {
-+		rc = -EINVAL;
-+		mp_pr_err("Unpacking layout failed, wrong record type %d", rc, cdr->omd_rtype);
-+		return rc;
-+	}
-+
-+	cdr->u.obj.omd_mclass = omf_pdrc_mclass(ocre_omf);
-+	cdr->u.obj.omd_objid = omf_pdrc_objid(ocre_omf);
-+	cdr->u.obj.omd_gen   = omf_pdrc_gen(ocre_omf);
-+	cdr->u.obj.omd_mblen = omf_pdrc_mblen(ocre_omf);
-+
-+	if (objid_type(cdr->u.obj.omd_objid) == OMF_OBJ_MLOG)
-+		memcpy(cdr->u.obj.omd_uuid.uuid, ocre_omf->pdrc_uuid, OMF_UUID_PACKLEN);
-+
-+	rc = omf_layout_unpack_letoh(&cdr->u.obj.omd_old, (char *)&(ocre_omf->pdrc_ld),
-+				     OMF_SB_DESC_V1, NULL, UNPACKONLY);
-+
-+	return rc;
-+}
-+
-+
-+/**
-+ * omf_pmd_layout_unpack_letoh() - Unpack little-endian mdc obj record and optional obj layout
-+ * @mp:
-+ * @mdcver: version of the mpool MDC content being unpacked.
-+ * @cdr: output
-+ * @inbuf:
-+ *
-+ * Allocate object layout.
-+ * For version 1 of OMF_MDR_OCREATE record (strut layout_descriptor_omf)
-+ *
-+ * Return:
-+ *   0 if successful
-+ *   -EINVAL if invalid record type or format
-+ *   -ENOMEM if cannot alloc memory to return an object layout
-+ *   -ENOENT if cannot convert a devid to a device handle (pdh)
-+ */
-+static int omf_pmd_layout_unpack_letoh(struct mpool_descriptor *mp, struct omf_mdcver *mdcver,
-+				       struct omf_mdcrec_data *cdr, const char *inbuf)
-+{
-+	struct pmd_layout *ecl = NULL;
-+	int rc, i;
-+
-+	rc = omf_unpack_letoh_and_convert(cdr, sizeof(*cdr), inbuf, mdcrec_data_ocreate_table,
-+					  ARRAY_SIZE(mdcrec_data_ocreate_table),
-+					  OMF_SB_DESC_UNDEF, mdcver);
++	rc = mlog_append_cstart(mp, tgth);
 +	if (rc) {
-+		char buf[MAX_MDCVERSTR];
++		mdc_release(mdc, rw);
 +
-+		omfu_mdcver_to_str(mdcver, buf, sizeof(buf));
-+		mp_pr_err("mpool %s, unpacking layout failed for mdc content version %s",
-+			  rc, mp->pds_name, buf);
++		mp_pr_err("mpool %s, mdc %p cstart failed, mlog %p",
++			  rc, mdc->mdc_mpname, mdc, tgth);
++
++		(void)mp_mdc_close(mdc);
++
 +		return rc;
 +	}
 +
-+#ifdef COMP_PMD_ENABLED
-+	ecl = pmd_layout_alloc(&cdr->u.obj.omd_uuid, cdr->u.obj.omd_objid, cdr->u.obj.omd_gen,
-+			       cdr->u.obj.omd_mblen, cdr->u.obj.omd_old.ol_zcnt);
-+#endif
-+	if (!ecl) {
-+		rc = -ENOMEM;
-+		mp_pr_err("mpool %s, unpacking layout failed, could not allocate layout structure",
-+			  rc, mp->pds_name);
-+		return rc;
-+	}
++	mdc->mdc_alogh = tgth;
++	mdc_release(mdc, rw);
 +
-+	ecl->eld_ld.ol_zaddr = cdr->u.obj.omd_old.ol_zaddr;
-+
-+	for (i = 0; i < mp->pds_pdvcnt; i++) {
-+		if (mp->pds_pdv[i].pdi_mclass == cdr->u.obj.omd_mclass) {
-+			ecl->eld_ld.ol_pdh = i;
-+			break;
-+		}
-+	}
-+
-+	if (i >= mp->pds_pdvcnt) {
-+		pmd_obj_put(ecl);
-+
-+		rc = -ENOENT;
-+		mp_pr_err("mpool %s, unpacking layout failed, mclass %u not in mpool",
-+			  rc, mp->pds_name, cdr->u.obj.omd_mclass);
-+		return rc;
-+	}
-+
-+	cdr->u.obj.omd_layout = ecl;
-+
-+	return rc;
++	return 0;
 +}
 +
-+
-+/*
-+ * sb_descriptor
-+ */
-+
-+/**
-+ * omf_cksum_crc32c_le() - compute checksum
-+ * @dbuf: data buf
-+ * @dlen: data length
-+ * @obuf: output buf
-+ *
-+ * Compute 4-byte checksum of type CRC32C for data buffer dbuf with length dlen
-+ * and store in obuf little-endian; CRC32C is the only crypto algorithm we
-+ * currently support.
-+ *
-+ * Return: 0 if successful, -EINVAL otherwise...
-+ */
-+static int omf_cksum_crc32c_le(const char *dbuf, u64 dlen, u8 *obuf)
++int mp_mdc_cend(struct mp_mdc *mdc)
 +{
-+	struct shash_desc *desc;
-+	size_t descsz;
++	struct mlog_descriptor *srch = NULL;
++	struct mlog_descriptor *tgth = NULL;
++	struct mpool_descriptor *mp;
++	u64 gentgt = 0;
++	bool rw = false;
 +	int rc;
 +
-+	memset(obuf, 0, 4);
++	if (!mdc)
++		return -EINVAL;
 +
-+	descsz = sizeof(*desc) + crypto_shash_descsize(mpool_tfm);
-+	desc = kzalloc(descsz, GFP_KERNEL);
-+	if (!desc)
-+		return -ENOMEM;
-+	desc->tfm = mpool_tfm;
-+
-+	rc = crypto_shash_digest(desc, (u8 *)dbuf, dlen, obuf);
-+
-+	kfree(desc);
-+
-+	return rc;
-+}
-+
-+struct omf_mdcver *omf_sbver_to_mdcver(enum sb_descriptor_ver_omf sbver)
-+{
-+	struct upgrade_history *uhtab;
-+
-+	uhtab = omf_find_upgrade_hist(sb_descriptor_table, ARRAY_SIZE(sb_descriptor_table),
-+				      sbver, NULL);
-+	if (uhtab) {
-+		ASSERT(uhtab->uh_sbver == sbver);
-+		return &uhtab->uh_mdcver;
-+	}
-+
-+	return NULL;
-+}
-+
-+int omf_sb_pack_htole(struct omf_sb_descriptor *sb, char *outbuf)
-+{
-+	struct sb_descriptor_omf *sb_omf;
-+	u8 cksum[4];
-+	int rc;
-+
-+	if (sb->osb_vers != OMF_SB_DESC_VER_LAST)
-+		return -EINVAL; /* Not a valid header version */
-+
-+	sb_omf = (struct sb_descriptor_omf *)outbuf;
-+
-+	/* Pack drive-specific info */
-+	omf_set_psb_magic(sb_omf, sb->osb_magic);
-+	omf_set_psb_name(sb_omf, sb->osb_name, MPOOL_NAMESZ_MAX);
-+	omf_set_psb_poolid(sb_omf, sb->osb_poolid.uuid, MPOOL_UUID_SIZE);
-+	omf_set_psb_vers(sb_omf, sb->osb_vers);
-+	omf_set_psb_gen(sb_omf, sb->osb_gen);
-+
-+	omf_dparm_pack_htole(&(sb->osb_parm), (char *)&(sb_omf->psb_parm));
-+
-+	omf_set_psb_mdc01gen(sb_omf, sb->osb_mdc01gen);
-+	omf_set_psb_mdc01uuid(sb_omf, sb->osb_mdc01uuid.uuid, MPOOL_UUID_SIZE);
-+	omf_layout_pack_htole(&(sb->osb_mdc01desc), (char *)&(sb_omf->psb_mdc01desc));
-+	omf_set_psb_mdc01devid(sb_omf, sb->osb_mdc01devid.uuid, MPOOL_UUID_SIZE);
-+
-+	omf_set_psb_mdc02gen(sb_omf, sb->osb_mdc02gen);
-+	omf_set_psb_mdc02uuid(sb_omf, sb->osb_mdc02uuid.uuid, MPOOL_UUID_SIZE);
-+	omf_layout_pack_htole(&(sb->osb_mdc02desc), (char *)&(sb_omf->psb_mdc02desc));
-+	omf_set_psb_mdc02devid(sb_omf, sb->osb_mdc02devid.uuid, MPOOL_UUID_SIZE);
-+
-+	outbuf = (char *)&sb_omf->psb_mdc0dev;
-+	omf_dparm_pack_htole(&sb->osb_mdc0dev, outbuf);
-+
-+	/* Add CKSUM1 */
-+	rc = omf_cksum_crc32c_le((char *)sb_omf, offsetof(struct sb_descriptor_omf, psb_cksum1),
-+				 cksum);
++	rc = mdc_acquire(mdc, rw);
 +	if (rc)
-+		return -EINVAL;
++		return rc;
 +
-+	omf_set_psb_cksum1(sb_omf, cksum, 4);
++	mp = mdc->mdc_mp;
 +
-+	/* Add CKSUM2 */
-+	rc = omf_cksum_crc32c_le((char *)&sb_omf->psb_parm, sizeof(sb_omf->psb_parm), cksum);
-+	if (rc)
-+		return -EINVAL;
++	if (mdc->mdc_alogh == mdc->mdc_logh1) {
++		tgth = mdc->mdc_logh1;
++		srch = mdc->mdc_logh2;
++	} else {
++		tgth = mdc->mdc_logh2;
++		srch = mdc->mdc_logh1;
++	}
 +
-+	omf_set_psb_cksum2(sb_omf, cksum, 4);
++	rc = mlog_append_cend(mp, tgth);
++	if (!rc) {
++		rc = mlog_gen(tgth, &gentgt);
++		if (!rc)
++			rc = mlog_erase(mp, srch, gentgt + 1);
++	}
 +
-+	return 0;
-+}
++	if (rc) {
++		mdc_release(mdc, rw);
 +
-+/**
-+ * omf_sb_unpack_letoh_v1()- unpack version 1 omf sb descriptor into in-memory format
-+ * @out: in-memory format
-+ * @inbuf: omf format
-+ */
-+int omf_sb_unpack_letoh_v1(void *out, const char *inbuf)
-+{
-+	struct sb_descriptor_omf *sb_omf;
-+	struct omf_sb_descriptor *sb;
-+	u8 cksum[4], omf_cksum[4];
-+	int rc;
++		mp_pr_err("mpool %s, mdc %p cend failed, mlog %p",
++			  rc, mdc->mdc_mpname, mdc, tgth);
 +
-+	sb_omf = (struct sb_descriptor_omf *)inbuf;
-+	sb = (struct omf_sb_descriptor *)out;
++		mp_mdc_close(mdc);
 +
-+	/* Verify CKSUM2 */
-+	rc = omf_cksum_crc32c_le((char *) &(sb_omf->psb_parm), sizeof(sb_omf->psb_parm), cksum);
-+	omf_psb_cksum2(sb_omf, omf_cksum, 4);
-+
-+	if (rc || memcmp(cksum, omf_cksum, 4))
-+		return -EINVAL;
-+
-+
-+	sb->osb_magic = omf_psb_magic(sb_omf);
-+
-+	omf_psb_name(sb_omf, sb->osb_name, MPOOL_NAMESZ_MAX);
-+
-+	sb->osb_vers = omf_psb_vers(sb_omf);
-+	ASSERT(sb->osb_vers == OMF_SB_DESC_V1);
-+
-+	omf_psb_poolid(sb_omf, sb->osb_poolid.uuid, MPOOL_UUID_SIZE);
-+
-+	sb->osb_gen = omf_psb_gen(sb_omf);
-+	omf_dparm_unpack_letoh(&(sb->osb_parm), (char *)&(sb_omf->psb_parm),
-+			       OMF_SB_DESC_V1, NULL, UNPACKONLY);
-+
-+	sb->osb_mdc01gen  = omf_psb_mdc01gen(sb_omf);
-+	omf_psb_mdc01uuid(sb_omf, sb->osb_mdc01uuid.uuid, MPOOL_UUID_SIZE);
-+	omf_layout_unpack_letoh(&(sb->osb_mdc01desc), (char *)&(sb_omf->psb_mdc01desc),
-+				OMF_SB_DESC_V1, NULL, UNPACKONLY);
-+	omf_psb_mdc01devid(sb_omf, sb->osb_mdc01devid.uuid, MPOOL_UUID_SIZE);
-+
-+	sb->osb_mdc02gen = omf_psb_mdc02gen(sb_omf);
-+	omf_psb_mdc02uuid(sb_omf, sb->osb_mdc02uuid.uuid, MPOOL_UUID_SIZE);
-+	omf_layout_unpack_letoh(&(sb->osb_mdc02desc), (char *)&(sb_omf->psb_mdc02desc),
-+				OMF_SB_DESC_V1, NULL, UNPACKONLY);
-+	omf_psb_mdc02devid(sb_omf, sb->osb_mdc02devid.uuid, MPOOL_UUID_SIZE);
-+
-+	inbuf = (char *)&sb_omf->psb_mdc0dev;
-+	omf_dparm_unpack_letoh(&sb->osb_mdc0dev, inbuf, OMF_SB_DESC_V1, NULL, UNPACKONLY);
-+
-+	return 0;
-+}
-+
-+int omf_sb_unpack_letoh(struct omf_sb_descriptor *sb, const char *inbuf, u16 *omf_ver)
-+{
-+	struct sb_descriptor_omf *sb_omf;
-+	u8 cksum[4], omf_cksum[4];
-+	u64 magic = 0;
-+	int rc;
-+
-+	sb_omf = (struct sb_descriptor_omf *)inbuf;
-+
-+	magic = omf_psb_magic(sb_omf);
-+
-+	*omf_ver = OMF_SB_DESC_UNDEF;
-+
-+	if (magic != OMF_SB_MAGIC)
-+		return -EBADF;
-+
-+	/* Verify CKSUM1 */
-+	rc = omf_cksum_crc32c_le(inbuf, offsetof(struct sb_descriptor_omf, psb_cksum1), cksum);
-+	omf_psb_cksum1(sb_omf, omf_cksum, 4);
-+	if (rc || memcmp(cksum, omf_cksum, 4))
-+		return -EINVAL;
-+
-+	*omf_ver = omf_psb_vers(sb_omf);
-+
-+	if (*omf_ver > OMF_SB_DESC_VER_LAST) {
-+		rc = -EPROTONOSUPPORT;
-+		mp_pr_err("Unsupported sb version %d", rc, *omf_ver);
 +		return rc;
 +	}
 +
-+	rc = omf_unpack_letoh_and_convert(sb, sizeof(*sb), inbuf, sb_descriptor_table,
-+					  ARRAY_SIZE(sb_descriptor_table), *omf_ver, NULL);
++	mdc_release(mdc, rw);
++
++	return rc;
++}
++
++int mp_mdc_close(struct mp_mdc *mdc)
++{
++	struct mpool_descriptor *mp;
++	int rval = 0, rc;
++	bool rw = false;
++
++	if (!mdc)
++		return -EINVAL;
++
++	rc = mdc_acquire(mdc, rw);
 +	if (rc)
-+		mp_pr_err("Unpacking superblock failed for version %u", rc, *omf_ver);
++		return rc;
++
++	mp = mdc->mdc_mp;
++
++	mdc->mdc_valid = 0;
++
++	rc = mlog_close(mp, mdc->mdc_logh1);
++	if (rc) {
++		mp_pr_err("mpool %s, mdc %p close failed, mlog1 %p",
++			  rc, mdc->mdc_mpname, mdc, mdc->mdc_logh1);
++		rval = rc;
++	}
++
++	rc = mlog_close(mp, mdc->mdc_logh2);
++	if (rc) {
++		mp_pr_err("mpool %s, mdc %p close failed, mlog2 %p",
++			  rc, mdc->mdc_mpname, mdc, mdc->mdc_logh2);
++		rval = rc;
++	}
++
++	mdc_put(mdc->mdc_logh1, mdc->mdc_logh2);
++
++	mdc_invalidate(mdc);
++	mdc_release(mdc, false);
++
++	kfree(mdc);
++
++	return rval;
++}
++
++int mp_mdc_rewind(struct mp_mdc *mdc)
++{
++	bool rw = false;
++	int rc;
++
++	if (!mdc)
++		return -EINVAL;
++
++	rc = mdc_acquire(mdc, rw);
++	if (rc)
++		return rc;
++
++	rc = mlog_read_data_init(mdc->mdc_alogh);
++	if (rc)
++		mp_pr_err("mpool %s, mdc %p rewind failed, mlog %p",
++			  rc, mdc->mdc_mpname, mdc, mdc->mdc_alogh);
++
++	mdc_release(mdc, rw);
 +
 +	return rc;
 +}
 +
-+bool omf_sb_has_magic_le(const char *inbuf)
++int mp_mdc_read(struct mp_mdc *mdc, void *data, size_t len, size_t *rdlen)
 +{
-+	struct sb_descriptor_omf *sb_omf;
-+	u64 magic;
++	bool rw = true;
++	int rc;
 +
-+	sb_omf = (struct sb_descriptor_omf *)inbuf;
-+	magic  = omf_psb_magic(sb_omf);
-+
-+	return magic == OMF_SB_MAGIC;
-+}
-+
-+
-+/*
-+ * mdcrec_objcmn
-+ */
-+
-+/**
-+ * omf_mdcrec_objcmn_pack_htole() - pack mdc obj record
-+ * @mp:
-+ * @cdr:
-+ * @outbuf:
-+ *
-+ * Pack mdc obj record and optional obj layout into outbuf little-endian.
-+ *
-+ * Return: bytes packed if successful, -EINVAL otherwise
-+ */
-+static u64 omf_mdcrec_objcmn_pack_htole(struct mpool_descriptor *mp,
-+					struct omf_mdcrec_data *cdr, char *outbuf)
-+{
-+	struct pmd_layout *layout = cdr->u.obj.omd_layout;
-+	struct mdcrec_data_odelete_omf *odel_omf;
-+	struct mdcrec_data_oerase_omf *oera_omf;
-+	s64 bytes = 0;
-+
-+	switch (cdr->omd_rtype) {
-+	case OMF_MDR_ODELETE:
-+	case OMF_MDR_OIDCKPT:
-+		odel_omf = (struct mdcrec_data_odelete_omf *)outbuf;
-+		omf_set_pdro_rtype(odel_omf, cdr->omd_rtype);
-+		omf_set_pdro_objid(odel_omf, cdr->u.obj.omd_objid);
-+		return sizeof(*odel_omf);
-+
-+	case OMF_MDR_OERASE:
-+		oera_omf = (struct mdcrec_data_oerase_omf *)outbuf;
-+		omf_set_pdrt_rtype(oera_omf, cdr->omd_rtype);
-+		omf_set_pdrt_objid(oera_omf, cdr->u.obj.omd_objid);
-+		omf_set_pdrt_gen(oera_omf, cdr->u.obj.omd_gen);
-+		return sizeof(*oera_omf);
-+
-+	default:
-+		break;
-+	}
-+
-+	if (cdr->omd_rtype != OMF_MDR_OCREATE && cdr->omd_rtype != OMF_MDR_OUPDATE) {
-+		mp_pr_warn("mpool %s, packing object, unknown rec type %d",
-+			   mp->pds_name, cdr->omd_rtype);
-+		return -EINVAL;
-+	}
-+
-+	/* OCREATE or OUPDATE: pack object in provided layout descriptor */
-+	if (!layout) {
-+		mp_pr_warn("mpool %s, invalid layout", mp->pds_name);
-+		return -EINVAL;
-+	}
-+
-+	bytes = omf_pmd_layout_pack_htole(mp, cdr->omd_rtype, layout, outbuf);
-+	if (bytes < 0)
++	if (!mdc || !data)
 +		return -EINVAL;
 +
-+	return bytes;
-+}
++	rc = mdc_acquire(mdc, rw);
++	if (rc)
++		return rc;
 +
-+/**
-+ * omf_mdcrec_objcmn_unpack_letoh() - Unpack little-endian mdc record and optional obj layout
-+ * @mp:
-+ * @mdcver:
-+ * @cdr:
-+ * @inbuf:
-+ *
-+ * Return:
-+ *   0 if successful
-+ *   -EINVAL if invalid record type or format
-+ *   -ENOMEM if cannot alloc memory to return an object layout
-+ *   -ENOENT if cannot convert a devid to a device handle (pdh)
-+ */
-+static int omf_mdcrec_objcmn_unpack_letoh(struct mpool_descriptor *mp, struct omf_mdcver *mdcver,
-+					  struct omf_mdcrec_data *cdr, const char *inbuf)
-+{
-+	struct mdcrec_data_odelete_omf *odel_omf;
-+	struct mdcrec_data_oerase_omf *oera_omf;
-+	enum mdcrec_type_omf rtype;
-+	int rc = 0;
++	rc = mlog_read_data_next(mdc->mdc_mp, mdc->mdc_alogh, data, (u64)len, (u64 *)rdlen);
++	if (rc && rc != -EOVERFLOW)
++		mp_pr_err("mpool %s, mdc %p read failed, mlog %p len %lu",
++			  rc, mdc->mdc_mpname, mdc, mdc->mdc_alogh, (ulong)len);
 +
-+	/*
-+	 * The data record type is always the first field of all the
-+	 * data records.
-+	 */
-+	rtype = omf_pdro_rtype((struct mdcrec_data_odelete_omf *)inbuf);
-+
-+	switch (rtype) {
-+	case OMF_MDR_ODELETE:
-+	case OMF_MDR_OIDCKPT:
-+		odel_omf = (struct mdcrec_data_odelete_omf *)inbuf;
-+		cdr->omd_rtype = omf_pdro_rtype(odel_omf);
-+		cdr->u.obj.omd_objid = omf_pdro_objid(odel_omf);
-+		break;
-+
-+	case OMF_MDR_OERASE:
-+		oera_omf = (struct mdcrec_data_oerase_omf *)inbuf;
-+		cdr->omd_rtype = omf_pdrt_rtype(oera_omf);
-+		cdr->u.obj.omd_objid = omf_pdrt_objid(oera_omf);
-+		cdr->u.obj.omd_gen = omf_pdrt_gen(oera_omf);
-+		break;
-+
-+	case OMF_MDR_OCREATE:
-+	case OMF_MDR_OUPDATE:
-+		rc = omf_pmd_layout_unpack_letoh(mp, mdcver, cdr, inbuf);
-+		break;
-+
-+	default:
-+		mp_pr_warn("mpool %s, invalid rtype %d", mp->pds_name, rtype);
-+		return -EINVAL;
-+	}
++	mdc_release(mdc, rw);
 +
 +	return rc;
 +}
 +
-+
-+/*
-+ * mdcrec_mcconfig
-+ */
-+
-+/**
-+ * omf_mdcrec_mcconfig_pack_htole() - Pack mdc mclass config record into outbuf little-endian.
-+ * @cdr:
-+ * @outbuf:
-+ *
-+ * Return: bytes packed.
-+ */
-+static u64 omf_mdcrec_mcconfig_pack_htole(struct omf_mdcrec_data *cdr, char *outbuf)
++int mp_mdc_append(struct mp_mdc *mdc, void *data, ssize_t len, bool sync)
 +{
-+	struct mdcrec_data_mcconfig_omf *mc_omf;
++	bool rw = true;
++	int rc;
 +
-+	mc_omf = (struct mdcrec_data_mcconfig_omf *)outbuf;
-+	omf_set_pdrs_rtype(mc_omf, cdr->omd_rtype);
-+	omf_dparm_pack_htole(&(cdr->u.dev.omd_parm), (char *)&(mc_omf->pdrs_parm));
-+
-+	return sizeof(*mc_omf);
-+}
-+
-+/**
-+ * omf_mdcrec_mcconfig_unpack_letoh() - Unpack little-endian mdc mcconfig record from inbuf.
-+ * @cdr:
-+ * @inbuf:
-+ */
-+static int omf_mdcrec_mcconfig_unpack_letoh(struct omf_mdcver *mdcver, struct omf_mdcrec_data *cdr,
-+					    const char *inbuf)
-+{
-+	struct mdcrec_data_mcconfig_omf *mc_omf;
-+
-+	mc_omf = (struct mdcrec_data_mcconfig_omf *)inbuf;
-+
-+	cdr->omd_rtype = omf_pdrs_rtype(mc_omf);
-+
-+	return omf_dparm_unpack_letoh(&(cdr->u.dev.omd_parm), (char *)&(mc_omf->pdrs_parm),
-+				      OMF_SB_DESC_UNDEF, mdcver, UNPACKCONVERT);
-+}
-+
-+
-+/*
-+ * mdcrec_version
-+ */
-+
-+/**
-+ * omf_mdcver_pack_htole() - Pack mdc content version record into outbuf little-endian.
-+ * @cdr:
-+ * @outbuf:
-+ *
-+ * Return: bytes packed.
-+ */
-+static u64 omf_mdcver_pack_htole(struct omf_mdcrec_data *cdr, char *outbuf)
-+{
-+	struct mdcver_omf *pv_omf = (struct mdcver_omf *)outbuf;
-+
-+	omf_set_pv_rtype(pv_omf, cdr->omd_rtype);
-+	omf_set_pv_mdcv_major(pv_omf, cdr->u.omd_version.mdcv_major);
-+	omf_set_pv_mdcv_minor(pv_omf, cdr->u.omd_version.mdcv_minor);
-+	omf_set_pv_mdcv_patch(pv_omf, cdr->u.omd_version.mdcv_patch);
-+	omf_set_pv_mdcv_dev(pv_omf, cdr->u.omd_version.mdcv_dev);
-+
-+	return sizeof(*pv_omf);
-+}
-+
-+void omf_mdcver_unpack_letoh(struct omf_mdcrec_data *cdr, const char *inbuf)
-+{
-+	struct mdcver_omf *pv_omf = (struct mdcver_omf *)inbuf;
-+
-+	cdr->omd_rtype = omf_pv_rtype(pv_omf);
-+	cdr->u.omd_version.mdcv_major = omf_pv_mdcv_major(pv_omf);
-+	cdr->u.omd_version.mdcv_minor = omf_pv_mdcv_minor(pv_omf);
-+	cdr->u.omd_version.mdcv_patch = omf_pv_mdcv_patch(pv_omf);
-+	cdr->u.omd_version.mdcv_dev   = omf_pv_mdcv_dev(pv_omf);
-+}
-+
-+
-+/*
-+ * mdcrec_mcspare
-+ */
-+static u64 omf_mdcrec_mcspare_pack_htole(struct omf_mdcrec_data *cdr, char *outbuf)
-+{
-+	struct mdcrec_data_mcspare_omf *mcs_omf;
-+
-+	mcs_omf = (struct mdcrec_data_mcspare_omf *)outbuf;
-+	omf_set_pdra_rtype(mcs_omf, cdr->omd_rtype);
-+	omf_set_pdra_mclassp(mcs_omf, cdr->u.mcs.omd_mclassp);
-+	omf_set_pdra_spzone(mcs_omf, cdr->u.mcs.omd_spzone);
-+
-+	return sizeof(*mcs_omf);
-+}
-+
-+/**
-+ * omf_mdcrec_mcspare_unpack_letoh_v1() - Unpack little-endian mdc media class spare record
-+ * @cdr:
-+ * @inbuf:
-+ */
-+static int omf_mdcrec_mcspare_unpack_letoh_v1(void *out, const char *inbuf)
-+{
-+	struct mdcrec_data_mcspare_omf *mcs_omf;
-+	struct omf_mdcrec_data *cdr = out;
-+
-+	mcs_omf = (struct mdcrec_data_mcspare_omf *)inbuf;
-+
-+	cdr->omd_rtype = omf_pdra_rtype(mcs_omf);
-+	cdr->u.mcs.omd_mclassp = omf_pdra_mclassp(mcs_omf);
-+	cdr->u.mcs.omd_spzone = omf_pdra_spzone(mcs_omf);
-+
-+	return 0;
-+}
-+
-+/**
-+ * omf_mdcrec_mcspare_unpack_letoh() - Unpack little-endian mdc media class spare record
-+ * @cdr:
-+ * @inbuf:
-+ */
-+static int omf_mdcrec_mcspare_unpack_letoh(struct omf_mdcrec_data *cdr, const char *inbuf,
-+					   enum sb_descriptor_ver_omf sbver,
-+					   struct omf_mdcver *mdcver)
-+{
-+	return omf_unpack_letoh_and_convert(cdr, sizeof(*cdr), inbuf, mdcrec_data_mcspare_table,
-+					    ARRAY_SIZE(mdcrec_data_mcspare_table), sbver, mdcver);
-+}
-+
-+
-+/*
-+ * mdcrec_mpconfig
-+ */
-+
-+/**
-+ * omf_mdcrec_mpconfig_pack_htole() - Pack an mpool config record
-+ * @cdr:
-+ * @outbuf:
-+ *
-+ * Return: bytes packed.
-+ */
-+static u64 omf_mdcrec_mpconfig_pack_htole(struct omf_mdcrec_data *cdr, char *outbuf)
-+{
-+	struct mdcrec_data_mpconfig_omf *cfg_omf;
-+	struct mpool_config *cfg;
-+
-+	cfg = &cdr->u.omd_cfg;
-+
-+	cfg_omf = (struct mdcrec_data_mpconfig_omf *)outbuf;
-+	omf_set_pdmc_rtype(cfg_omf, cdr->omd_rtype);
-+	omf_set_pdmc_oid1(cfg_omf, cfg->mc_oid1);
-+	omf_set_pdmc_oid2(cfg_omf, cfg->mc_oid2);
-+	omf_set_pdmc_uid(cfg_omf, cfg->mc_uid);
-+	omf_set_pdmc_gid(cfg_omf, cfg->mc_gid);
-+	omf_set_pdmc_mode(cfg_omf, cfg->mc_mode);
-+	omf_set_pdmc_rsvd0(cfg_omf, cfg->mc_rsvd0);
-+	omf_set_pdmc_captgt(cfg_omf, cfg->mc_captgt);
-+	omf_set_pdmc_ra_pages_max(cfg_omf, cfg->mc_ra_pages_max);
-+	omf_set_pdmc_vma_size_max(cfg_omf, cfg->mc_vma_size_max);
-+	omf_set_pdmc_rsvd1(cfg_omf, cfg->mc_rsvd1);
-+	omf_set_pdmc_rsvd2(cfg_omf, cfg->mc_rsvd2);
-+	omf_set_pdmc_rsvd3(cfg_omf, cfg->mc_rsvd3);
-+	omf_set_pdmc_rsvd4(cfg_omf, cfg->mc_rsvd4);
-+	omf_set_pdmc_utype(cfg_omf, &cfg->mc_utype, sizeof(cfg->mc_utype));
-+	omf_set_pdmc_label(cfg_omf, cfg->mc_label, sizeof(cfg->mc_label));
-+
-+	return sizeof(*cfg_omf);
-+}
-+
-+/**
-+ * omf_mdcrec_mpconfig_unpack_letoh() - Unpack an mpool config record
-+ * @cdr:
-+ * @inbuf:
-+ *
-+ * Return: bytes packed.
-+ */
-+static void omf_mdcrec_mpconfig_unpack_letoh(struct omf_mdcrec_data *cdr, const char *inbuf)
-+{
-+	struct mdcrec_data_mpconfig_omf *cfg_omf;
-+	struct mpool_config *cfg;
-+
-+	cfg = &cdr->u.omd_cfg;
-+
-+	cfg_omf = (struct mdcrec_data_mpconfig_omf *)inbuf;
-+	cdr->omd_rtype = omf_pdmc_rtype(cfg_omf);
-+	cfg->mc_oid1 = omf_pdmc_oid1(cfg_omf);
-+	cfg->mc_oid2 = omf_pdmc_oid2(cfg_omf);
-+	cfg->mc_uid = omf_pdmc_uid(cfg_omf);
-+	cfg->mc_gid = omf_pdmc_gid(cfg_omf);
-+	cfg->mc_mode = omf_pdmc_mode(cfg_omf);
-+	cfg->mc_rsvd0 = omf_pdmc_rsvd0(cfg_omf);
-+	cfg->mc_captgt = omf_pdmc_captgt(cfg_omf);
-+	cfg->mc_ra_pages_max = omf_pdmc_ra_pages_max(cfg_omf);
-+	cfg->mc_vma_size_max = omf_pdmc_vma_size_max(cfg_omf);
-+	cfg->mc_rsvd1 = omf_pdmc_rsvd1(cfg_omf);
-+	cfg->mc_rsvd2 = omf_pdmc_rsvd2(cfg_omf);
-+	cfg->mc_rsvd3 = omf_pdmc_rsvd3(cfg_omf);
-+	cfg->mc_rsvd4 = omf_pdmc_rsvd4(cfg_omf);
-+	omf_pdmc_utype(cfg_omf, &cfg->mc_utype, sizeof(cfg->mc_utype));
-+	omf_pdmc_label(cfg_omf, cfg->mc_label, sizeof(cfg->mc_label));
-+}
-+
-+/**
-+ * mdcrec_type_objcmn() - Determine if the data record type corresponds to an object.
-+ * @rtype: record type
-+ *
-+ * Return: true if the type is of an object data record.
-+ */
-+static bool mdcrec_type_objcmn(enum mdcrec_type_omf rtype)
-+{
-+	return (rtype == OMF_MDR_OCREATE || rtype == OMF_MDR_OUPDATE || rtype == OMF_MDR_ODELETE ||
-+		rtype == OMF_MDR_OIDCKPT || rtype == OMF_MDR_OERASE);
-+}
-+
-+int omf_mdcrec_isobj_le(const char *inbuf)
-+{
-+	const u8 rtype = inbuf[0]; /* rtype is byte so no endian conversion */
-+
-+	return mdcrec_type_objcmn(rtype);
-+}
-+
-+
-+/*
-+ * mdcrec
-+ */
-+int omf_mdcrec_pack_htole(struct mpool_descriptor *mp, struct omf_mdcrec_data *cdr, char *outbuf)
-+{
-+	u8 rtype = (char)cdr->omd_rtype;
-+
-+	if (mdcrec_type_objcmn(rtype))
-+		return omf_mdcrec_objcmn_pack_htole(mp, cdr, outbuf);
-+	else if (rtype == OMF_MDR_VERSION)
-+		return omf_mdcver_pack_htole(cdr, outbuf);
-+	else if (rtype == OMF_MDR_MCCONFIG)
-+		return omf_mdcrec_mcconfig_pack_htole(cdr, outbuf);
-+	else if (rtype == OMF_MDR_MCSPARE)
-+		return omf_mdcrec_mcspare_pack_htole(cdr, outbuf);
-+	else if (rtype == OMF_MDR_MPCONFIG)
-+		return omf_mdcrec_mpconfig_pack_htole(cdr, outbuf);
-+
-+	mp_pr_warn("mpool %s, invalid record type %u in mdc log", mp->pds_name, rtype);
-+
-+	return -EINVAL;
-+}
-+
-+int omf_mdcrec_unpack_letoh(struct omf_mdcver *mdcver, struct mpool_descriptor *mp,
-+			    struct omf_mdcrec_data *cdr, const char *inbuf)
-+{
-+	u8 rtype = (u8)*inbuf;
-+
-+	/* rtype is byte so no endian conversion */
-+
-+	if (mdcrec_type_objcmn(rtype))
-+		return omf_mdcrec_objcmn_unpack_letoh(mp, mdcver, cdr, inbuf);
-+	else if (rtype == OMF_MDR_VERSION)
-+		omf_mdcver_unpack_letoh(cdr, inbuf);
-+	else if (rtype == OMF_MDR_MCCONFIG)
-+		omf_mdcrec_mcconfig_unpack_letoh(mdcver, cdr, inbuf);
-+	else if (rtype == OMF_MDR_MCSPARE)
-+		omf_mdcrec_mcspare_unpack_letoh(cdr, inbuf, OMF_SB_DESC_UNDEF, mdcver);
-+	else if (rtype == OMF_MDR_MPCONFIG)
-+		omf_mdcrec_mpconfig_unpack_letoh(cdr, inbuf);
-+	else {
-+		mp_pr_warn("mpool %s, unknown record type %u in mdc log", mp->pds_name, rtype);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+u8 omf_mdcrec_unpack_type_letoh(const char *inbuf)
-+{
-+	/* rtype is byte so no endian conversion */
-+	return (u8)*inbuf;
-+}
-+
-+
-+/*
-+ * logblock_header
-+ */
-+
-+int omf_logblock_header_pack_htole(struct omf_logblock_header *lbh, char *outbuf)
-+{
-+	struct logblock_header_omf *lbh_omf;
-+
-+	lbh_omf = (struct logblock_header_omf *)outbuf;
-+
-+	if (lbh->olh_vers != OMF_LOGBLOCK_VERS)
++	if (!mdc || !data)
 +		return -EINVAL;
 +
-+	omf_set_polh_vers(lbh_omf, lbh->olh_vers);
-+	omf_set_polh_magic(lbh_omf, lbh->olh_magic.uuid, MPOOL_UUID_SIZE);
-+	omf_set_polh_gen(lbh_omf, lbh->olh_gen);
-+	omf_set_polh_pfsetid(lbh_omf, lbh->olh_pfsetid);
-+	omf_set_polh_cfsetid(lbh_omf, lbh->olh_cfsetid);
++	rc = mdc_acquire(mdc, rw);
++	if (rc)
++		return rc;
 +
-+	return 0;
-+}
++	rc = mlog_append_data(mdc->mdc_mp, mdc->mdc_alogh, data, (u64)len, sync);
++	if (rc)
++		mp_pr_rl("mpool %s, mdc %p append failed, mlog %p, len %lu sync %d",
++			 rc, mdc->mdc_mpname, mdc, mdc->mdc_alogh, (ulong)len, sync);
 +
-+int omf_logblock_header_unpack_letoh(struct omf_logblock_header *lbh, const char *inbuf)
-+{
-+	struct logblock_header_omf *lbh_omf;
-+
-+	lbh_omf = (struct logblock_header_omf *)inbuf;
-+
-+	lbh->olh_vers    = omf_polh_vers(lbh_omf);
-+	omf_polh_magic(lbh_omf, lbh->olh_magic.uuid, MPOOL_UUID_SIZE);
-+	lbh->olh_gen     = omf_polh_gen(lbh_omf);
-+	lbh->olh_pfsetid = omf_polh_pfsetid(lbh_omf);
-+	lbh->olh_cfsetid = omf_polh_cfsetid(lbh_omf);
-+
-+	return 0;
-+}
-+
-+int omf_logblock_header_len_le(char *lbuf)
-+{
-+	struct logblock_header_omf *lbh_omf;
-+
-+	lbh_omf = (struct logblock_header_omf *)lbuf;
-+
-+	if (omf_polh_vers(lbh_omf) == OMF_LOGBLOCK_VERS)
-+		return OMF_LOGBLOCK_HDR_PACKLEN;
-+
-+	return -EINVAL;
-+}
-+
-+
-+/*
-+ * logrec_descriptor
-+ */
-+static bool logrec_type_valid(enum logrec_type_omf rtype)
-+{
-+	return rtype <= OMF_LOGREC_CEND;
-+}
-+
-+bool logrec_type_datarec(enum logrec_type_omf rtype)
-+{
-+	return rtype && rtype <= OMF_LOGREC_DATALAST;
-+}
-+
-+int omf_logrec_desc_pack_htole(struct omf_logrec_descriptor *lrd, char *outbuf)
-+{
-+	struct logrec_descriptor_omf *lrd_omf;
-+
-+	if (!logrec_type_valid(lrd->olr_rtype))
-+		return -EINVAL;
-+
-+	lrd_omf = (struct logrec_descriptor_omf *)outbuf;
-+	omf_set_polr_tlen(lrd_omf, lrd->olr_tlen);
-+	omf_set_polr_rlen(lrd_omf, lrd->olr_rlen);
-+	omf_set_polr_rtype(lrd_omf, lrd->olr_rtype);
-+
-+	return 0;
-+}
-+
-+void omf_logrec_desc_unpack_letoh(struct omf_logrec_descriptor *lrd, const char *inbuf)
-+{
-+	struct logrec_descriptor_omf *lrd_omf;
-+
-+	lrd_omf = (struct logrec_descriptor_omf *)inbuf;
-+	lrd->olr_tlen  = omf_polr_tlen(lrd_omf);
-+	lrd->olr_rlen  = omf_polr_rlen(lrd_omf);
-+	lrd->olr_rtype = omf_polr_rtype(lrd_omf);
-+}
-+
-+int omf_init(void)
-+{
-+	const char *algo = "crc32c";
-+	int rc = 0;
-+
-+	mpool_tfm = crypto_alloc_shash(algo, 0, 0);
-+	if (!mpool_tfm) {
-+		rc = -ENOMEM;
-+		mp_pr_err("crypto_alloc_shash(%s) failed", rc, algo);
-+	}
++	mdc_release(mdc, rw);
 +
 +	return rc;
 +}
-+
-+void omf_exit(void)
-+{
-+	if (mpool_tfm)
-+		crypto_free_shash(mpool_tfm);
-+}
-diff --git a/drivers/mpool/upgrade.c b/drivers/mpool/upgrade.c
+diff --git a/drivers/mpool/mdc.h b/drivers/mpool/mdc.h
 new file mode 100644
-index 000000000000..1b6b692e58f4
+index 000000000000..7ab1de261eff
 --- /dev/null
-+++ b/drivers/mpool/upgrade.c
-@@ -0,0 +1,138 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/drivers/mpool/mdc.h
+@@ -0,0 +1,106 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
 + */
 +
-+/*
-+ * DOC: Module info.
-+ *
-+ * Pool metadata upgrade module.
-+ *
-+ * Defines functions used to upgrade the mpool metadata.
-+ *
-+ */
++#ifndef MPOOL_MDC_PRIV_H
++#define MPOOL_MDC_PRIV_H
 +
-+#include "omf_if.h"
-+#include "upgrade.h"
++#include <linux/mutex.h>
 +
-+/*
-+ * Latest mpool MDC content version understood by this binary.
-+ * Also version used to write MDC content by this binary.
-+ */
-+#define MDCVER_MAJOR       1
-+#define MDCVER_MINOR       0
-+#define MDCVER_PATCH       0
-+#define MDCVER_DEV         0
++#define MPC_MDC_MAGIC           0xFEEDFEED
++#define MPC_NO_MAGIC            0xFADEFADE
++
++struct mpool_descriptor;
++struct mlog_descriptor;
 +
 +/**
-+ * struct mdcver_info - mpool MDC content version and its information.
-+ * @mi_mdcver:  version of a mpool MDC content. It is the version of the
-+ *              first binary that introduced that content semantic/format.
-+ * @mi_types:   types used by this release (when writing MDC0-N content)
-+ * @mi_ntypes:  no. of types are used by this release.
-+ * @mi_comment: comment about that version
-+ *
-+ * Such a structure instance is added each time the mpool MDCs content
-+ * semantic/format changes (making it incompatible with earlier binary
-+ * versions).
++ * struct mp_mdc - MDC handle
++ * @mdc_mp:     mpool handle
++ * @mdc_logh1:  mlog 1 handle
++ * @mdc_logh2:  mlog 2 handle
++ * @mdc_alogh:  active mlog handle
++ * @mdc_lock:   mdc mutex
++ * @mdc_mpname: mpool name
++ * @mdc_valid:  is the handle valid?
++ * @mdc_magic:  MDC handle magic
++ * @mdc_flags:	MDC flags
 + */
-+struct mdcver_info {
-+	struct omf_mdcver   mi_mdcver;
-+	uint8_t            *mi_types;
-+	uint8_t             mi_ntypes;
-+	const char         *mi_comment;
++struct mp_mdc {
++	struct mpool_descriptor    *mdc_mp;
++	struct mlog_descriptor     *mdc_logh1;
++	struct mlog_descriptor     *mdc_logh2;
++	struct mlog_descriptor     *mdc_alogh;
++	struct mutex                mdc_lock;
++	char                        mdc_mpname[MPOOL_NAMESZ_MAX];
++	int                         mdc_valid;
++	int                         mdc_magic;
++	u8                          mdc_flags;
 +};
 +
-+/*
-+ * mpool MDC types used when MDC content is written at version 1.0.0.0.
++/* MDC (Metadata Container) APIs */
++
++/**
++ * mp_mdc_open() - Open MDC by OIDs
++ * @mp:       mpool handle
++ * @logid1:   Mlog ID 1
++ * @logid2:   Mlog ID 2
++ * @flags:    MDC Open flags (enum mdc_open_flags)
++ * @mdc_out:  MDC handle
 + */
-+static uint8_t mdcver_1_0_0_0_types[] = {
-+	OMF_MDR_OCREATE, OMF_MDR_OUPDATE, OMF_MDR_ODELETE, OMF_MDR_OIDCKPT,
-+	OMF_MDR_OERASE, OMF_MDR_MCCONFIG, OMF_MDR_MCSPARE, OMF_MDR_VERSION,
-+	OMF_MDR_MPCONFIG};
++int
++mp_mdc_open(struct mpool_descriptor *mp, u64 logid1, u64 logid2, u8 flags, struct mp_mdc **mdc_out);
 +
-+
-+/*
-+ * mdcver_info mdcvtab[] - table of versions of mpool MDCs content.
-+ *
-+ * Each time MDC content semantic/format changes (making it incompatible
-+ * with earlier binary versions) an entry is added in this table.
-+ * The entry at the end of the array (highest index) is the version placed
-+ * in the mpool MDC version record written to media when this binary writes
-+ * the mpool MDCs.
-+ * This entry is also the last mpool MDC content format/semantic that this
-+ * binary understands.
-+ *
-+ * Example:
-+ * - Initial binary 1.0.0.0 generates first ever MDCs content.
-+ *   There is one entry in the table with its mi_mdcver being 1.0.0.0.
-+ * - binary 1.0.0.1 is released and changes mpool MDC content semantic (for
-+ *   example chenge the meaning of media class enum). This release adds the
-+ *   entry 1.0.0.1 in this table.
-+ * - binary 1.0.1.0 is released and doesn't change MDCs content semantic/format,
-+ *   MDCs content generated by 1.0.1.0 binary is still compatible with a
-+ *   1.0.0.1 binary reading it.
-+ *   No entry is added in the table.
-+ * - binary 2.0.0.0 is released and it changes MDCs content semantic.
-+ *   A third entry is added in the table with its mi_mdcver being 2.0.0.0.
++/**
++ * mp_mdc_close() - Close MDC
++ * @mdc:      MDC handle
 + */
-+static struct mdcver_info mdcvtab[] = {
-+	{{ {MDCVER_MAJOR, MDCVER_MINOR, MDCVER_PATCH, MDCVER_DEV} },
-+	mdcver_1_0_0_0_types, sizeof(mdcver_1_0_0_0_types),
-+	"Initial mpool MDCs content"},
-+};
++int mp_mdc_close(struct mp_mdc *mdc);
 +
-+struct omf_mdcver *omfu_mdcver_cur(void)
-+{
-+	return &mdcvtab[ARRAY_SIZE(mdcvtab) - 1].mi_mdcver;
-+}
++/**
++ * mp_mdc_rewind() - Rewind MDC to first record
++ * @mdc:      MDC handle
++ */
++int mp_mdc_rewind(struct mp_mdc *mdc);
 +
-+const char *omfu_mdcver_comment(struct omf_mdcver *mdcver)
-+{
-+	int i;
++/**
++ * mp_mdc_read() - Read next record from MDC
++ * @mdc:      MDC handle
++ * @data:     buffer to receive data
++ * @len:      length of supplied buffer
++ * @rdlen:    number of bytes read
++ *
++ * Return:
++ *   If the return value is -EOVERFLOW, then the receive buffer "data"
++ *   is too small and must be resized according to the value returned
++ *   in "rdlen".
++ */
++int mp_mdc_read(struct mp_mdc *mdc, void *data, size_t len, size_t *rdlen);
 +
-+	for (i = 0; i < ARRAY_SIZE(mdcvtab); i++)
-+		if (omfu_mdcver_cmp(mdcver, "==", &mdcvtab[i].mi_mdcver))
-+			return mdcvtab[i].mi_comment;
++/**
++ * mp_mdc_append() - append record to MDC
++ * @mdc:      MDC handle
++ * @data:     data to write
++ * @len:      length of data
++ * @sync:     flag to defer return until IO is complete
++ */
++int mp_mdc_append(struct mp_mdc *mdc, void *data, ssize_t len, bool sync);
 +
-+	return NULL;
-+}
++/**
++ * mp_mdc_cstart() - Initiate MDC compaction
++ * @mdc:      MDC handle
++ *
++ * Swap active (ostensibly full) and inactive (empty) mlogs
++ * Append a compaction start marker to newly active mlog
++ */
++int mp_mdc_cstart(struct mp_mdc *mdc);
 +
-+char *omfu_mdcver_to_str(struct omf_mdcver *mdcver, char *buf, size_t sz)
-+{
-+	snprintf(buf, sz, "%u.%u.%u.%u", mdcver->mdcv_major,
-+		 mdcver->mdcv_minor, mdcver->mdcv_patch, mdcver->mdcv_dev);
++/**
++ * mp_mdc_cend() - End MDC compactions
++ * @mdc:      MDC handle
++ *
++ * Append a compaction end marker to the active mlog
++ */
++int mp_mdc_cend(struct mp_mdc *mdc);
 +
-+	return buf;
-+}
-+
-+bool omfu_mdcver_cmp(struct omf_mdcver *a, char *op, struct omf_mdcver *b)
-+{
-+	size_t cnt = ARRAY_SIZE(a->mdcver);
-+	int res = 0, i;
-+
-+	for (i = 0; i < cnt; i++) {
-+		if (a->mdcver[i] != b->mdcver[i]) {
-+			res = (a->mdcver[i] > b->mdcver[i]) ? 1 : -1;
-+			break;
-+		}
-+	}
-+
-+	if (((op[1] == '=') && (res == 0)) || ((op[0] == '>') && (res > 0)) ||
-+	    ((op[0] == '<') && (res < 0)))
-+		return true;
-+
-+	return false;
-+}
-+
-+bool omfu_mdcver_cmp2(struct omf_mdcver *a, char *op, u16 major, u16 minor, u16 patch, u16 dev)
-+{
-+	struct omf_mdcver b;
-+
-+	b.mdcv_major = major;
-+	b.mdcv_minor = minor;
-+	b.mdcv_patch = patch;
-+	b.mdcv_dev   = dev;
-+
-+	return omfu_mdcver_cmp(a, op, &b);
-+}
++#endif /* MPOOL_MDC_PRIV_H */
 -- 
 2.17.2
 
