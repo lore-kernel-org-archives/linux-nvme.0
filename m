@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B972FC43467
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:45:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57C03C433E7
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:45:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4CFA42076D
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:45:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DE5592076D
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:45:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GPjmxYds";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Fmb2yhNc";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="SiJxNPIQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4CFA42076D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qWiYOzdg";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gaspuLap";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="Ey+m4eax"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DE5592076D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=micron.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,41 +27,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=h20GpKiCw8tWcrhfEafwpme2AzhJM6zsFH7hehjFOss=; b=GPjmxYdso0v+Wv3WgAwPVC4U8
-	0gE/7uY1x0a/WdORjQkLRVGtrBoBaIRQq2TqOZkZFrYmJXw9cQiiRy/PqXSwveIlnhun8AN/PXUQn
-	YioeXl8CuV30DSU/t/lcHfq/QGSihmHT20rNdoIzXCB5DlmnJB+rx0MdrkonSJaRO6TczlK7Wl059
-	yW+LOZhpOokV1hK6M8OV9rUQmPs8hCtlGt7rSJtfUzoG+5PsSdqxS86yCJyMRFF/3ZDlWRhvbE+q2
-	mqAlz7P5aFy61kDEXlXUOSAgii1sN3tsCx4ebwbRtpfNHH3tZ4QQGdda5hYDHS57ffOsdRB/+UN0F
-	bPT9VAcgQ==;
+	 bh=HixeMJFH2oatUXw9Wg7uJN8xc/cZd6rBAdxZ/zsZf1c=; b=qWiYOzdgTYDJHFb6VwX+sfA8T
+	Qqr4EpXWDGbHvBVmDob10kKIBIvzNEVS15+XSscxYV7Z10VjJVj6768MAo25lNDK0Kk9SSXgi/Af0
+	5NOX7fTnrWwirMkaa/GKeVBP5vYaTqgm704Nqk1D0Fw4WQjIwtCLJtmsb4+z7+fvoBcXONifbeqXB
+	zWu29XViGTsLXEkUSuiZUKyOzHtOEmu0GCjEtQNqCvIX0Mq5htwd9GSAKcf2sBE7VU3Sk8u8RUaTp
+	IadwGZLk+AMk5lWpHecY7LN0+P4S0y/ldOTncr06lt+72SNe3Ly8EbAUMEX/Zj6lji4sRg8vyxaYg
+	pt4Op6rFQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kS0xH-0006sj-1g; Mon, 12 Oct 2020 16:45:47 +0000
+	id 1kS0xK-0006uJ-WF; Mon, 12 Oct 2020 16:45:51 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kS0xB-0006pB-6J
- for linux-nvme@merlin.infradead.org; Mon, 12 Oct 2020 16:45:41 +0000
+ id 1kS0xD-0006XG-Ec
+ for linux-nvme@merlin.infradead.org; Mon, 12 Oct 2020 16:45:43 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
  In-Reply-To:Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=zb2oI6l9bF7ostPvVva4z008LV9/rVh/kweYwkFlDRQ=; b=Fmb2yhNcTggP04wCwD0Ynx7nq/
- MereKIDoXsUbca7bqge4T/ILwiaj78YPQQ4tQHNo/IKmaQh3TywLpTYB7W2L7+AxfTvvaiJOwqolk
- vZmyGS5KVn7Rk3ekNbipR1IDtly34ylM5hbHK0G5sOZaORdIhwark1IkN9md2A2vTOFC/Zt/OtRG5
- ZfjoxOOXMNpji8+NHe69ur3e07nlRNt8/wqAO6kXMHecCh/Dh8PnEUeA9A2fuNCFBnh2ktYcKsOnl
- aULtP5ULqufbU4mesyh/0sADnuYBMyQ4P5HdIzQrcXmXvu6tQJZWK7qY1X7BPCKGvTzoHrTNcJZv1
- nDF08TVg==;
-Received: from mail-co1nam11on2073.outbound.protection.outlook.com
- ([40.107.220.73] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ bh=2rhb8zJ2Mj75vN4Yb2awa4VaTZkefSOpwpjHHemsnic=; b=gaspuLapASqCMMzx06LbwL+yd0
+ DtVN4AN0tIlXFMCCYJfv07CMPxOs5qemER0eUFy4x357r4K9D+g9rZJqfkFO8u7ubh3Zat9nD4/HV
+ 8LcpN1KTczSalADKbTOOLn8Ox2vsyAdvwsT3gkajCQPne3YDx4wA9jCrh2KLz/3WDhAty0+l2bxwK
+ twSSu/OTYV475wlzBkCrg+wT4sjCdIG7GAuWShiDj7VULtf2pm8+v//rB5X5stAQr7xlb52w2Pfo/
+ YaVjnLIFKPYLScfbDomCR9lrVN7MkTpEqKZM4UK+9MwAdvsY38aIlv9CzW2glj9APDZYOmkewI2JB
+ dx+8byUA==;
+Received: from mail-bn8nam12on2051.outbound.protection.outlook.com
+ ([40.107.237.51] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kS0gP-0003NS-52
- for linux-nvme@lists.infradead.org; Mon, 12 Oct 2020 16:28:44 +0000
+ id 1kS0gN-0003NM-VJ
+ for linux-nvme@lists.infradead.org; Mon, 12 Oct 2020 16:28:43 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GJBrP4m2svNqFf8GFk12FHJw/dHAlsu/32j4NU/K6O3F0GgGrDVz1AqABYxSlSMMk4eh0izBbpGR/R9vU7/s3cJxJ71rIHks2+jJZbVG8N2rE7GNrXSVa/bAW8RdCrBZU6MYMf9zM853BunBzSurgM8LYKXcTA+wG3V8wnCJtpQBSAsYHz4tCKYqLAGbjBO5SQbV9hAxEyeVIC59o6Q5baLXvb3KJgCIGOUNzoeFTheKks48qvn6nHOYXnVfIVOVJHgGiDVgb0I2956eoEMcR78UKtXsTroCuBL38LfzGQ2GDBmN8RyTYPSQiJoxtOaW0EDWoxjkNp2OQIhInbX8eQ==
+ b=bRmcb8JJ6F93FKVZEO5uV4HObyGXhu2CGuypkL0yP/F+WXZi4pZWhXsIGv5HdrHBxixYECTXyaNDzxGgRu7WhqEZLdKflCpuRY3dH+/b5faKsbvlnP5aQScsxZd/AKJJt+1LmxadVbNr2+KJtuvee9bI5XN5iyIxdxqjzOCBNczYaR7dPVJ8DFdDuVu7IuB1t1dEJolnSVroZOwRO/jUdwh6UiYtMXfHCpZiZSAa2cYf0i2rX6KXYj7qoGAxkFEMpR5tocPyY0WANpm8RsqSb5ukeotmaonCUJWjTgzYOpQ+lnCGTV5ltLR6vlFDarNR6O6QUwY8IF5u8W1wOWGIhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zb2oI6l9bF7ostPvVva4z008LV9/rVh/kweYwkFlDRQ=;
- b=WybKDivoofg+N0fdza0H2pIbMEryWQqWKv0KkJwYYxRec2AIuhpVLbb/aRZAy3yfS7l/2vkjHbGevv7c3L87G3L/5zDO/sdvOyZg68IPLjXEkK89Eu907tfTrX8sMK6YJWuBzia9Bz75a25kWMAmey0akVFQKeOXuI+r8XFn2bE1iM3o2mqkFoowocj3MkEA+Uj0QQQg5LXnnpblzFZGtI+1wWnRP+fOD0epK94TsduDksUV756WDLUsykGxxFWuVOiTTMO90L2rsRyB5rE91hnXlMwYgquru7RXJkGR5p9a7XfnX4rIFha4N/inw5ke6OjCit5eseBYm6779XWPmQ==
+ bh=2rhb8zJ2Mj75vN4Yb2awa4VaTZkefSOpwpjHHemsnic=;
+ b=OzBj8g1NaNYyrO8l4P8h29ixw18gSefW4hpcjjdhpwB4HIrmQLa4BHFBH6rCRAYhSgLS+DoJnVGwGfFYH998OPYcP/t7+w/8im3qv8O8JVuq+mK0n2KKc6o6IrJFBGtGFTV2Ds4agaBASu+Y3BhkpNQkJackkIuFVQiUQSwJsK1jbK0iFhPPVU0gXeh0uyb+ylsi67jVzFXikiSs3mHUOJl1hngLoj9RvDKtdP3ZRVgRjyEwkzGTBbYWj/vY0tjOdNbKe8RycSsEwvbvV1do6bCm1g7sjTHOSvrRBcJY02c3t79zTtHKF2oRsN0oYQsiMMLoyIMV6cRGxTC4TFJt0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  137.201.242.130) smtp.rcpttodomain=kvack.org smtp.mailfrom=micron.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=micron.com;
@@ -69,18 +69,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zb2oI6l9bF7ostPvVva4z008LV9/rVh/kweYwkFlDRQ=;
- b=SiJxNPIQ1oTjP2oOpXB/eoNqQ92HnV5JEZ+moAE/J8ZqVkr+SuGY/xBwy/GWwh3WGwN6B/+kSXTzQvWJC/S293wS5o5yMO9flJIUKCMnyG27ARLq6a92d6CwAew3UYvHLjy3Bty/M9HKMw90gkVcuGU+i7PNeLaHE8JIsAES57k=
-Received: from SA9PR10CA0027.namprd10.prod.outlook.com (2603:10b6:806:a7::32)
- by DM5PR08MB2555.namprd08.prod.outlook.com (2603:10b6:3:c9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.24; Mon, 12 Oct
- 2020 16:28:14 +0000
-Received: from SN1NAM01FT051.eop-nam01.prod.protection.outlook.com
- (2603:10b6:806:a7:cafe::3a) by SA9PR10CA0027.outlook.office365.com
- (2603:10b6:806:a7::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend
- Transport; Mon, 12 Oct 2020 16:28:14 +0000
+ bh=2rhb8zJ2Mj75vN4Yb2awa4VaTZkefSOpwpjHHemsnic=;
+ b=Ey+m4eax4LfMyf05AIBXxc7F7eNT5xxzQBv7h28OqUQqruM/I+s1BCeL08iRWYT+gQl4mAa66EGrjq05stEU8C2dXISmpsSx4JL9Em8QCpBZjG9xjOOWEowRrKuhMPLHjkU8WS/+QOIAAlTho25C5TYMwP87yGnbFuZx7ZMjThE=
+Received: from SN4PR0201CA0060.namprd02.prod.outlook.com
+ (2603:10b6:803:20::22) by DM6PR08MB4570.namprd08.prod.outlook.com
+ (2603:10b6:5:12::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Mon, 12 Oct
+ 2020 16:28:13 +0000
+Received: from SN1NAM01FT015.eop-nam01.prod.protection.outlook.com
+ (2603:10b6:803:20:cafe::1f) by SN4PR0201CA0060.outlook.office365.com
+ (2603:10b6:803:20::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21 via Frontend
+ Transport; Mon, 12 Oct 2020 16:28:13 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 137.201.242.130)
  smtp.mailfrom=micron.com; kvack.org;
  dkim=none (message not signed)
@@ -89,20 +89,19 @@ Received-SPF: Pass (protection.outlook.com: domain of micron.com designates
  137.201.242.130 as permitted sender) receiver=protection.outlook.com;
  client-ip=137.201.242.130; helo=mail.micron.com;
 Received: from mail.micron.com (137.201.242.130) by
- SN1NAM01FT051.mail.protection.outlook.com (10.152.64.150) with Microsoft SMTP
+ SN1NAM01FT015.mail.protection.outlook.com (10.152.65.55) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3455.23 via Frontend Transport; Mon, 12 Oct 2020 16:28:14 +0000
+ 15.20.3455.23 via Frontend Transport; Mon, 12 Oct 2020 16:28:13 +0000
 Received: from micron.com (10.114.5.55) by bowex17c.micron.com
  (137.201.21.211) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 12 Oct
- 2020 10:28:11 -0600
+ 2020 10:28:09 -0600
 From: Nabeel M Mohamed <nmeeramohide@micron.com>
 To: <linux-kernel@vger.kernel.org>, <linux-block@vger.kernel.org>,
  <linux-nvme@lists.infradead.org>, <linux-mm@kvack.org>,
  <linux-nvdimm@lists.01.org>
-Subject: [PATCH v2 20/22] mpool: add support to proactively evict cached
- mblock data from the page-cache
-Date: Mon, 12 Oct 2020 11:27:34 -0500
-Message-ID: <20201012162736.65241-21-nmeeramohide@micron.com>
+Subject: [PATCH v2 17/22] mpool: add mpool lifecycle management ioctls
+Date: Mon, 12 Oct 2020 11:27:31 -0500
+Message-ID: <20201012162736.65241-18-nmeeramohide@micron.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20201012162736.65241-1-nmeeramohide@micron.com>
 References: <20201012162736.65241-1-nmeeramohide@micron.com>
@@ -110,48 +109,49 @@ MIME-Version: 1.0
 X-ClientProxiedBy: bowex17a.micron.com (137.201.21.209) To bowex17c.micron.com
  (137.201.21.211)
 X-TM-AS-Product-Ver: SMEX-12.0.0.1782-8.200.1013-24646.005
-X-TM-AS-Result: No--8.151300-0.000000-31
-X-TM-AS-MatchedID: 700076-702928-704804-702719-847298-703651-702083-703863-7
- 03812-705223-704807-703357-704418-705140-105630-705161-704031-700010-702203
- -701757-705041-700335-700025-704960-704965-704278-704524-701480-701809-7030
- 17-702395-188019-704397-703279-701270-704477-704318-700351-702619-702837-70
- 4793-702898-702617-702914-701964-700071-704806-703330-703215-701274-704926-
- 703793-700069-703744-300015-703213-703880-702102-703285-705244-700535-70390
- 4-700488-121367-701342-702433-703140-121336-701105-704673-703967-703901-702
- 665-702754-186102-704792-702259-705220-702887-701194-702171-139630-702177-1
- 21270-702960-705173-186035-704264-703993-703231-148004-148036-42000-42003
+X-TM-AS-Result: No--10.641500-0.000000-31
+X-TM-AS-MatchedID: 700076-703904-701478-121588-702559-701342-704053-703017-7
+ 03173-701270-700328-703572-186035-704841-702617-701343-705041-703532-702732
+ -704926-704381-702619-703694-703348-700535-703905-700335-705161-704961-7044
+ 99-703140-701480-702395-188019-704477-703812-702433-300015-704978-704318-70
+ 3357-702914-704521-851458-700069-188199-703880-702102-703213-703991-704401-
+ 700714-704402-702525-701750-703534-700863-703215-703864-701919-704239-78004
+ 8-702907-700458-704929-702908-703385-701443-704002-702590-705244-702490-704
+ 718-700786-700716-700060-702779-701475-700717-702415-701104-704418-702438-7
+ 01172-704804-703027-701295-780001-703865-702298-148004-148036-29997-42000-4
+ 2003
 X-TM-AS-User-Approved-Sender: Yes
 X-TM-AS-User-Blocked-Sender: No
 X-MT-Whitelisted: matched
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1568183a-279d-4eb3-c0b7-08d86ecbd18f
-X-MS-TrafficTypeDiagnostic: DM5PR08MB2555:
-X-Microsoft-Antispam-PRVS: <DM5PR08MB2555CFE6AE75D2F885EBFDEAB3070@DM5PR08MB2555.namprd08.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: e5db479c-4c9e-4121-730d-08d86ecbd0d9
+X-MS-TrafficTypeDiagnostic: DM6PR08MB4570:
+X-Microsoft-Antispam-PRVS: <DM6PR08MB45703311850F84A6AE007056B3070@DM6PR08MB4570.namprd08.prod.outlook.com>
 X-MS-Exchange-Transport-Forked: True
 X-EXT-ByPass: 1
 X-MT-RULE-Whitelisted: Triggered
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-MS-Oob-TLC-OOBClassifiers: OLM:69;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hwAcmaCFY/YATf6BiMb8kV9KgHyMIV68MnLy/DHNnvMWNzxK1uX3BlUrjepsTwhVxf0WolJwILaJdxN2FQM+h283WWDQvDSb7xaGbXxEZfzSLnNmzcOaq8iBe2PYqj0Zrs14aLcyrp+WD7sz5Rae+q3vw4xeVrdMGPix4SGITACATeQa1WyHI2kGmmwtZtKLcxzSQWDhUJKfXXHHpDoy9WttjZtS6MDnnh9phh1Wuc0Kp8hg6ebCZ4psYzP/MlJa5Pzq6ZvcIQZaKsulk8QyWcz7mOGHdsO/e1ks7A66VwEl0yJKNCwwi1jZxsX3rvyhEhnwpsyaISHXwGMc+80url/mLMApJksSJbHm8YKzdZWXwM+soGaWjxULeaVluJCn5hQG0A3M5G4w8pdf13BTyDrVXlBxxFx3YKc0W/aDge50ax3Scjz9ceNvI+nyszSlLCgKyX1S8rc7Mp3HY9a3K/iRRa+LlncxqC+RBaxH3Y4=
+X-Microsoft-Antispam-Message-Info: MsdpVd8LG+yqcjqiqboamhufrFpPbJgom9gRT3cJ956zSZuv7xeh9mTovMRvrAx19mA3u6E9+dWsWu7a01JgTxRqRwvR0ohL03wLGJwfVUAMNTbbMd5ghjpxAtHvydUbQwbrkRlJ383Ym2FyKw/YvbioTxy/d/HKSdb7UFa3wVwK1RMR4lveD+NzbAv6LchiOGWOpri6j1Vi07ZP598+99jn8ZNHASoluwaYTPZ735cVeM7p/KszQCTVF2Vppd7sMxfvwYZJTDL1kHHQWF+1iuOr5uGo13u9K8dsg/9dy+HN2hCgs7VhPkAwIGLzSXYs8yr7Q8KGHzpleZsQIvXQVg9d53g/n8Gvjnat51qHiSfnte3ZVg8B57FHVF5SrpuZuCV1aKKUVuNdZHt8sw33cEe9CBJoOmUxWT2p1TqTWrHdzHXbaRCrYK0l+dtXks2eBoLxHXd8Bb82/shnNoGLDg==
 X-Forefront-Antispam-Report: CIP:137.201.242.130; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.micron.com; PTR:masquerade.micron.com; CAT:NONE;
- SFS:(4636009)(396003)(346002)(376002)(39860400002)(136003)(46966005)(47076004)(82740400003)(5660300002)(70586007)(70206006)(7636003)(6666004)(356005)(33310700002)(30864003)(1076003)(86362001)(83380400001)(82310400003)(107886003)(8936002)(316002)(336012)(26005)(186003)(110136005)(2616005)(426003)(54906003)(478600001)(55016002)(7696005)(6286002)(4326008)(2906002)(8676002)(36756003)(2101003)(305334003);
+ SFS:(4636009)(346002)(396003)(376002)(136003)(39860400002)(46966005)(30864003)(47076004)(82740400003)(8676002)(1076003)(83380400001)(7696005)(82310400003)(8936002)(55016002)(54906003)(5660300002)(110136005)(186003)(86362001)(33310700002)(426003)(2616005)(336012)(26005)(36756003)(478600001)(70206006)(6666004)(4326008)(316002)(70586007)(107886003)(6286002)(356005)(7636003)(2906002)(2101003)(579004);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: micron.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2020 16:28:14.4141 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1568183a-279d-4eb3-c0b7-08d86ecbd18f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2020 16:28:13.2564 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5db479c-4c9e-4121-730d-08d86ecbd0d9
 X-MS-Exchange-CrossTenant-Id: f38a5ecd-2813-4862-b11b-ac1d563c806f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f38a5ecd-2813-4862-b11b-ac1d563c806f; Ip=[137.201.242.130];
  Helo=[mail.micron.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM01FT051.eop-nam01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM01FT015.eop-nam01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR08MB2555
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR08MB4570
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201012_172823_149354_07DB59EB 
-X-CRM114-Status: GOOD (  22.43  )
+X-CRM114-CacheID: sfid-20201012_172821_314920_7022AAF3 
+X-CRM114-Status: GOOD (  21.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,28 +170,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This adds a mechanism to track object-level usage metrics and use
-that metrics to proactively evict mblock data from the page cache.
+This adds the open, release and mpool management ioctls for
+the mpool driver.
 
-The proactive reaping is employed just before the onset of memory
-pressure, which greatly improves throughput and reduces tail
-latencies for read and memory intensive workloads.
+The create, destroy, activate, deactivate and rename ioctls
+are issued to the mpool control device (/dev/mpoolctl),
+and the rest are issued to the mpool device
+(/dev/mpool/<mpool_name>).
 
-The reaper component tracks residency of pages from specified xvms
-and weighs the memory used against system free memory. The reaper
-begins evicting pages from the specified xvm when the free memory
-falls below a predetermined low watermark, stopping when the free
-memory rises above a high watermark.
+The mpool control device is owned by (root, disk) with
+mode 0664. Non-default uid, gid and mode can be assigned to
+an mpool device either at create time or post creation using
+the params set ioctl.
 
-The reaper maintains several lists of xvms and cycles through them
-in a round-robin fashion to select pages to evict. Each xvm is
-comprised of one or more contiguous virtual subranges of pages,
-where each subrange is delineated by an mblock. Each mblock has an
-associated access time which is updated on each page fault to any
-page in the mblock.  The reaper leverages the atime to decide
-whether or not to evict all the pages in the subrange based upon
-the current TTL, where the current TTL grows shorter as the urgency
-to evict pages grows stronger.
+Both the per-mpool and common parameters are available in
+the sysfs device tree path created by the kernel for each mpool
+device minor (/sys/devices/virtual/mpool). Mpool parameters
+cannot be changed via the sysfs tree at this point.
+
+The mpool management ioctl handlers invoke the mpool lifecycle
+management routines to administer mpools. Activating an mpool
+creates a unit object which stores some key information like
+reference to the device object, reference to the mpc_mpool
+instance containing the per-mpool private data, device props,
+ownership and mode bits, device open count, flags etc. The
+per-mpool parameters are persisted in MDC0 at activation.
+
+Deactivating an mpool tears down the unit object and releases
+all its associated resources.
+
+An mpool can be renamed only when it's deactivated.  Renaming
+an mpool updates the superblock on all its constituent storage
+volumes with the new mpool name.
 
 Co-developed-by: Greg Becker <gbecker@micron.com>
 Signed-off-by: Greg Becker <gbecker@micron.com>
@@ -201,1026 +211,1615 @@ Co-developed-by: John Groves <jgroves@micron.com>
 Signed-off-by: John Groves <jgroves@micron.com>
 Signed-off-by: Nabeel M Mohamed <nmeeramohide@micron.com>
 ---
- drivers/mpool/mcache.c |  43 +++
- drivers/mpool/mcache.h |   8 +
- drivers/mpool/mpctl.c  |  15 +
- drivers/mpool/mpctl.h  |   6 +
- drivers/mpool/reaper.c | 686 +++++++++++++++++++++++++++++++++++++++++
- drivers/mpool/reaper.h |  71 +++++
- 6 files changed, 829 insertions(+)
- create mode 100644 drivers/mpool/reaper.c
- create mode 100644 drivers/mpool/reaper.h
+ drivers/mpool/mpctl.c | 1560 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 1560 insertions(+)
 
-diff --git a/drivers/mpool/mcache.c b/drivers/mpool/mcache.c
-index 07c79615ecf1..1f1b9173a2b4 100644
---- a/drivers/mpool/mcache.c
-+++ b/drivers/mpool/mcache.c
-@@ -19,6 +19,7 @@
- #include "assert.h"
- 
- #include "mpctl.h"
-+#include "reaper.h"
- 
- #ifndef lru_to_page
- #define lru_to_page(_head)  (list_entry((_head)->prev, struct page, lru))
-@@ -64,6 +65,7 @@ const struct address_space_operations mpc_aops_default;
- 
- static struct workqueue_struct *mpc_wq_trunc __read_mostly;
- static struct workqueue_struct *mpc_wq_rav[4] __read_mostly;
-+struct mpc_reap *mpc_reap __read_mostly;
- 
- static size_t mpc_xvm_cachesz[2] __read_mostly;
- static struct kmem_cache *mpc_xvm_cache[2] __read_mostly;
-@@ -109,6 +111,10 @@ void mpc_rgnmap_flush(struct mpc_rgnmap *rm)
- 		head = xvm->xvm_next;
- 		mpc_xvm_put(xvm);
- 	}
-+
-+	/* Wait for reaper to prune its lists... */
-+	while (atomic_read(&rm->rm_rgncnt) > 0)
-+		usleep_range(100000, 150000);
- }
- 
- static struct mpc_xvm *mpc_xvm_lookup(struct mpc_rgnmap *rm, uint key)
-@@ -129,6 +135,22 @@ void mpc_xvm_free(struct mpc_xvm *xvm)
- 	struct mpc_rgnmap *rm;
- 
- 	ASSERT((u32)(uintptr_t)xvm == xvm->xvm_magic);
-+	ASSERT(atomic_read(&xvm->xvm_reapref) > 0);
-+
-+again:
-+	mpc_reap_xvm_evict(xvm);
-+
-+	if (atomic_dec_return(&xvm->xvm_reapref) > 0) {
-+		atomic_inc(xvm->xvm_freedp);
-+		return;
-+	}
-+
-+	if (atomic64_read(&xvm->xvm_nrpages) > 0) {
-+		atomic_cmpxchg(&xvm->xvm_evicting, 1, 0);
-+		atomic_inc(&xvm->xvm_reapref);
-+		usleep_range(10000, 30000);
-+		goto again;
-+	}
- 
- 	rm = xvm->xvm_rgnmap;
- 
-@@ -337,6 +359,8 @@ static vm_fault_t mpc_vm_fault_impl(struct vm_area_struct *vma, struct vm_fault
- 	/* Page is locked with a ref. */
- 	vmf->page = page;
- 
-+	mpc_reap_xvm_touch(vma->vm_private_data, page->index);
-+
- 	return vmfrc | VM_FAULT_LOCKED;
- }
- 
-@@ -534,6 +558,9 @@ static int mpc_readpages(struct file *file, struct address_space *mapping,
- 	gfp = mapping_gfp_mask(mapping) & GFP_KERNEL;
- 	wq = mpc_rgn2wq(xvm->xvm_rgn);
- 
-+	if (mpc_reap_xvm_duress(xvm))
-+		nr_pages = min_t(uint, nr_pages, 8);
-+
- 	nr_pages = min_t(uint, nr_pages, ra_pages_max);
- 
- 	for (i = 0; i < nr_pages; ++i) {
-@@ -603,6 +630,8 @@ static int mpc_readpages(struct file *file, struct address_space *mapping,
-  * @gfp:
-  *
-  * The function is added as part of tracking incoming and outgoing pages.
-+ * When the number of pages owned exceeds the limit (if defined) reap function
-+ * will get invoked to trim down the usage.
-  */
- static int mpc_releasepage(struct page *page, gfp_t gfp)
- {
-@@ -699,6 +728,8 @@ int mpc_mmap(struct file *fp, struct vm_area_struct *vma)
- 	fp->f_ra.ra_pages = unit->un_ra_pages_max;
- 	fp->f_mode |= FMODE_RANDOM;
- 
-+	mpc_reap_xvm_add(unit->un_ds_reap, xvm);
-+
- 	return 0;
- }
- 
-@@ -805,6 +836,9 @@ int mpioc_xvm_create(struct mpc_unit *unit, struct mpool_descriptor *mp, struct
- 	xvm->xvm_cache = cache;
- 	atomic_set(&xvm->xvm_opened, 0);
- 
-+	INIT_LIST_HEAD(&xvm->xvm_list);
-+	atomic_set(&xvm->xvm_evicting, 0);
-+	atomic_set(&xvm->xvm_reapref, 1);
- 	atomic64_set(&xvm->xvm_nrpages, 0);
- 	atomic_set(&xvm->xvm_rabusy, 0);
- 
-@@ -914,6 +948,8 @@ int mpioc_xvm_purge(struct mpc_unit *unit, struct mpioc_vma *ioc)
- 	if (!xvm)
- 		return -ENOENT;
- 
-+	mpc_reap_xvm_evict(xvm);
-+
- 	mpc_xvm_put(xvm);
- 
- 	return 0;
-@@ -978,6 +1014,12 @@ int mcache_init(void)
- 		goto errout;
- 	}
- 
-+	rc = mpc_reap_create(&mpc_reap);
-+	if (rc) {
-+		mp_pr_err("reap create failed", rc);
-+		goto errout;
-+	}
-+
- 	for (i = 0; i < ARRAY_SIZE(mpc_wq_rav); ++i) {
- 		int     maxactive = 16;
- 		char    name[16];
-@@ -1009,6 +1051,7 @@ void mcache_exit(void)
- 		mpc_wq_rav[i] = NULL;
- 	}
- 
-+	mpc_reap_destroy(mpc_reap);
- 	if (mpc_wq_trunc)
- 		destroy_workqueue(mpc_wq_trunc);
- 	kmem_cache_destroy(mpc_xvm_cache[1]);
-diff --git a/drivers/mpool/mcache.h b/drivers/mpool/mcache.h
-index fe6f45a05494..8ddb407c862b 100644
---- a/drivers/mpool/mcache.h
-+++ b/drivers/mpool/mcache.h
-@@ -47,12 +47,19 @@ struct mpc_xvm {
- 	atomic64_t                 *xvm_hcpagesp;
- 	struct address_space       *xvm_mapping;
- 	struct mpc_rgnmap          *xvm_rgnmap;
-+	struct mpc_reap            *xvm_reap;
- 
- 	enum mpc_vma_advice         xvm_advice;
- 	atomic_t                    xvm_opened;
- 	struct kmem_cache          *xvm_cache;
- 	struct mpc_xvm             *xvm_next;
- 
-+	____cacheline_aligned
-+	struct list_head            xvm_list;
-+	atomic_t                    xvm_evicting;
-+	atomic_t                    xvm_reapref;
-+	atomic_t                   *xvm_freedp;
-+
- 	____cacheline_aligned
- 	atomic64_t                  xvm_nrpages;
- 	atomic_t                    xvm_rabusy;
-@@ -62,6 +69,7 @@ struct mpc_xvm {
- 	struct mpc_mbinfo           xvm_mbinfov[];
- };
- 
-+extern struct mpc_reap *mpc_reap;
- extern const struct address_space_operations mpc_aops_default;
- 
- void mpc_rgnmap_flush(struct mpc_rgnmap *rm);
 diff --git a/drivers/mpool/mpctl.c b/drivers/mpool/mpctl.c
-index f11f522ec90c..e42abffdcc14 100644
+index 21eb7ac4610b..de62f9a5524d 100644
 --- a/drivers/mpool/mpctl.c
 +++ b/drivers/mpool/mpctl.c
-@@ -38,6 +38,7 @@
- #include "mp.h"
- #include "mpctl.h"
- #include "sysfs.h"
-+#include "reaper.h"
- #include "init.h"
+@@ -80,6 +80,9 @@ static struct mpc_softstate mpc_softstate;
+ static unsigned int mpc_ctl_uid __read_mostly;
+ static unsigned int mpc_ctl_gid __read_mostly = 6;
+ static unsigned int mpc_ctl_mode __read_mostly = 0664;
++static unsigned int mpc_default_uid __read_mostly;
++static unsigned int mpc_default_gid __read_mostly = 6;
++static unsigned int mpc_default_mode __read_mostly = 0660;
  
- 
-@@ -185,6 +186,10 @@ static int mpc_params_register(struct mpc_unit *unit, int cnt)
- 	if (mpc_unit_ismpooldev(unit))
- 		mpc_mpool_params_add(dattr);
- 
-+	/* Common parameters */
-+	if (mpc_unit_isctldev(unit))
-+		mpc_reap_params_add(dattr);
-+
- 	rc = mpc_attr_group_create(attr);
- 	if (rc) {
- 		mpc_attr_destroy(attr);
-@@ -2337,6 +2342,7 @@ static int mpc_open(struct inode *ip, struct file *fp)
- 	fp->f_mapping->a_ops = &mpc_aops_default;
- 
- 	unit->un_mapping = fp->f_mapping;
-+	unit->un_ds_reap = mpc_reap;
- 
- 	inode_lock(ip);
- 	i_size_write(ip, 1ul << (__BITS_PER_LONG - 1));
-@@ -2386,6 +2392,7 @@ static int mpc_release(struct inode *ip, struct file *fp)
- 	if (mpc_unit_ismpooldev(unit)) {
- 		mpc_rgnmap_flush(&unit->un_rgnmap);
- 
-+		unit->un_ds_reap = NULL;
- 		unit->un_mapping = NULL;
- 	}
- 
-@@ -2714,6 +2721,14 @@ int mpctl_init(void)
- 		goto errout;
- 	}
- 
-+	/* The reaper component has already been initialized before mpctl. */
-+	ctlunit->un_ds_reap = mpc_reap;
-+	rc = mpc_params_register(ctlunit, MPC_REAP_PARAMS_CNT);
-+	if (rc) {
-+		errmsg = "cannot register common parameters";
-+		goto errout;
-+	}
-+
- 	mutex_lock(&ss->ss_lock);
- 	idr_replace(&ss->ss_unitmap, ctlunit, MINOR(ctlunit->un_devno));
- 	mutex_unlock(&ss->ss_lock);
-diff --git a/drivers/mpool/mpctl.h b/drivers/mpool/mpctl.h
-index b93e44248f03..1a582bf1a474 100644
---- a/drivers/mpool/mpctl.h
-+++ b/drivers/mpool/mpctl.h
-@@ -30,6 +30,7 @@ struct mpc_unit {
- 	const struct mpc_uinfo     *un_uinfo;
- 	struct mpc_mpool           *un_mpool;
- 	struct address_space       *un_mapping;
-+	struct mpc_reap            *un_ds_reap;
- 	struct device              *un_device;
- 	struct mpc_attr            *un_attr;
- 	uint                        un_rawio;       /* log2(max_mblock_size) */
-@@ -46,6 +47,11 @@ static inline struct mpc_unit *dev_to_unit(struct device *dev)
- 	return dev_get_drvdata(dev);
+ static const struct mpc_uinfo mpc_uinfo_ctl = {
+ 	.ui_typename = "mpoolctl",
+@@ -111,6 +114,202 @@ static inline gid_t mpc_current_gid(void)
+ 	return from_kgid(current_user_ns(), current_gid());
  }
  
-+static inline struct mpc_reap *dev_to_reap(struct device *dev)
++#define MPC_MPOOL_PARAMS_CNT     7
++
++static ssize_t mpc_uid_show(struct device *dev, struct device_attribute *da, char *buf)
 +{
-+	return dev_to_unit(dev)->un_ds_reap;
++	return scnprintf(buf, PAGE_SIZE, "%d\n", dev_to_unit(dev)->un_uid);
 +}
 +
- int mpctl_init(void) __cold;
- void mpctl_exit(void) __cold;
- 
-diff --git a/drivers/mpool/reaper.c b/drivers/mpool/reaper.c
-new file mode 100644
-index 000000000000..364d692a71ee
---- /dev/null
-+++ b/drivers/mpool/reaper.c
-@@ -0,0 +1,686 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
-+ */
-+/*
-+ * The reaper subsystem tracks residency of pages from specified VMAs and
-+ * weighs the memory used against system free memory.  Should the relative
-+ * residency vs free memory fall below a predetermined low watermark the
-+ * reaper begins evicting pages from the specified VMAs, stopping when free
-+ * memory rises above a high watermark that is slightly higher than the low
-+ * watermark.
-+ *
-+ * The reaper maintains several lists of VMAs and cycles through them in a
-+ * round-robin fashion to select pages to evict.  Each VMA is comprised of
-+ * one or more contiguous virtual subranges of pages, where each subrange
-+ * is delineated by an mblock (typically no larger than 32M).  Each mblock
-+ * has an associated access time which is updated on each page fault to any
-+ * page in the mblock.  The reaper leverages the atime to decide whether or
-+ * not to evict all the pages in the subrange based upon the current TTL,
-+ * where the current TTL grows shorter as the urgency to evict pages grows
-+ * stronger.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/fs.h>
-+#include <linux/mm.h>
-+#include <linux/delay.h>
-+#include <linux/sched.h>
-+#include <linux/slab.h>
-+#include <linux/sched/clock.h>
-+
-+#include "mpool_printk.h"
-+#include "assert.h"
-+
-+#include "sysfs.h"
-+#include "mpctl.h"
-+#include "reaper.h"
-+
-+#define REAP_ELEM_MAX       3
-+
-+/**
-+ * struct mpc_reap_elem -
-+ * @reap_lock:      lock to protect reap_list
-+ * @reap_list:      list of inodes
-+ * @reap_active:    reaping in progress
-+ * @reap_hpages:    total hot pages which are mapped
-+ * @reap_cpages:    total coldpages which are mapped
-+ */
-+struct mpc_reap_elem {
-+	struct mutex            reap_lock;
-+	struct list_head        reap_list;
-+
-+	____cacheline_aligned
-+	atomic_t                reap_running;
-+	struct work_struct      reap_work;
-+	struct mpc_reap        *reap_reap;
-+
-+	____cacheline_aligned
-+	atomic64_t              reap_hpages;
-+	atomic_t                reap_nfreed;
-+
-+	____cacheline_aligned
-+	atomic64_t              reap_wpages;
-+
-+	____cacheline_aligned
-+	atomic64_t              reap_cpages;
-+};
-+
-+/**
-+ * struct mpc_reap -
-+ * @reap_lwm:     Low water mark
-+ * @reap_ttl_cur: Current time-to-live
-+ * @reap_wq:
-+ *
-+ * @reap_hdr:     sysctl table header
-+ * @reap_tab:     sysctl table components
-+ * @reap_mempct:
-+ * @reap_ttl:
-+ * @reap_debug:
-+ *
-+ * @reap_eidx:    Pruner element index
-+ * @reap_emit:    Pruner debug message control
-+ * @reap_dwork:
-+ * @reap_elem:    Array of reaper lists (reaper pool)
-+ */
-+struct mpc_reap {
-+	atomic_t                    reap_lwm;
-+	atomic_t                    reap_ttl_cur;
-+	struct workqueue_struct    *reap_wq;
-+
-+	____cacheline_aligned
-+	unsigned int                reap_mempct;
-+	unsigned int                reap_ttl;
-+	unsigned int                reap_debug;
-+
-+	____cacheline_aligned
-+	atomic_t                    reap_eidx;
-+	atomic_t                    reap_emit;
-+	struct delayed_work         reap_dwork;
-+
-+	struct mpc_reap_elem        reap_elem[REAP_ELEM_MAX];
-+};
-+
-+/**
-+ * mpc_reap_meminfo() - Get current system-wide memory usage
-+ * @freep:    ptr to return bytes of free memory
-+ * @availp:   ptr to return bytes of available memory
-+ * @shift:    shift results by %shift bits
-+ *
-+ * %mpc_reap_meminfo() returns current free and available memory
-+ * sizes obtained from /proc/meminfo in userland and si_meminfo()
-+ * in the kernel.  The resulting sizes are in bytes, but the
-+ * caller can supply a non-zero %shift argment to obtain results
-+ * in different units (e.g., for MiB shift=20, for GiB shift=30).
-+ *
-+ * %freep and/or %availp may be NULL.
-+ */
-+static void mpc_reap_meminfo(ulong *freep, ulong *availp, uint shift)
++static ssize_t mpc_gid_show(struct device *dev, struct device_attribute *da, char *buf)
 +{
-+	struct sysinfo si;
-+
-+	si_meminfo(&si);
-+
-+	if (freep)
-+		*freep = (si.freeram * si.mem_unit) >> shift;
-+
-+	if (availp)
-+		*availp = (si_mem_available() * si.mem_unit) >> shift;
++	return scnprintf(buf, PAGE_SIZE, "%d\n", dev_to_unit(dev)->un_gid);
 +}
 +
-+static void mpc_reap_evict_vma(struct mpc_xvm *xvm)
++static ssize_t mpc_mode_show(struct device *dev, struct device_attribute *da, char *buf)
 +{
-+	struct address_space *mapping = xvm->xvm_mapping;
-+	struct mpc_reap *reap = xvm->xvm_reap;
-+	pgoff_t off, bktsz, len;
-+	u64 ttl, xtime, now;
-+	int i;
-+
-+	bktsz = xvm->xvm_bktsz >> PAGE_SHIFT;
-+	off = mpc_xvm_pgoff(xvm);
-+
-+	ttl = atomic_read(&reap->reap_ttl_cur) * 1000ul;
-+	now = local_clock();
-+
-+	for (i = 0; i < xvm->xvm_mbinfoc; ++i, off += bktsz) {
-+		struct mpc_mbinfo *mbinfo = xvm->xvm_mbinfov + i;
-+
-+		xtime = now - (ttl * mbinfo->mbmult);
-+		len = mbinfo->mblen >> PAGE_SHIFT;
-+
-+		if (atomic64_read(&mbinfo->mbatime) > xtime)
-+			continue;
-+
-+		atomic64_set(&mbinfo->mbatime, U64_MAX);
-+
-+		invalidate_inode_pages2_range(mapping, off, off + len);
-+
-+		if (atomic64_read(&xvm->xvm_nrpages) < 32)
-+			break;
-+
-+		if (need_resched())
-+			cond_resched();
-+
-+		ttl = atomic_read(&reap->reap_ttl_cur) * 1000ul;
-+		now = local_clock();
-+	}
++	return scnprintf(buf, PAGE_SIZE, "0%o\n", dev_to_unit(dev)->un_mode);
 +}
 +
-+/**
-+ * mpc_reap_evict() - Evict "cold" pages from the given XVMs
-+ * @process:    A list of one of more XVMs to be reaped
-+ */
-+static void mpc_reap_evict(struct list_head *process)
++static ssize_t mpc_ra_show(struct device *dev, struct device_attribute *da, char *buf)
 +{
-+	struct mpc_xvm *xvm, *next;
-+
-+	list_for_each_entry_safe(xvm, next, process, xvm_list) {
-+		if (atomic_read(&xvm->xvm_reap->reap_lwm))
-+			mpc_reap_evict_vma(xvm);
-+
-+		atomic_cmpxchg(&xvm->xvm_evicting, 1, 0);
-+	}
++	return scnprintf(buf, PAGE_SIZE, "%u\n", dev_to_unit(dev)->un_ra_pages_max);
 +}
 +
-+/**
-+ * mpc_reap_scan() - Scan for pages to purge
-+ * @elem:
-+ * @idx:    reap list index
-+ */
-+static void mpc_reap_scan(struct mpc_reap_elem *elem)
++static ssize_t mpc_label_show(struct device *dev, struct device_attribute *da, char *buf)
 +{
-+	struct list_head *list, process;
-+	struct mpc_xvm *xvm, *next;
-+	u64 nrpages, n;
-+
-+	INIT_LIST_HEAD(&process);
-+
-+	mutex_lock(&elem->reap_lock);
-+	list = &elem->reap_list;
-+	n = 0;
-+
-+	list_for_each_entry_safe(xvm, next, list, xvm_list) {
-+		nrpages = atomic64_read(&xvm->xvm_nrpages);
-+
-+		if (nrpages < 32)
-+			continue;
-+
-+		if (atomic_read(&xvm->xvm_reapref) == 1)
-+			continue;
-+
-+		if (atomic_cmpxchg(&xvm->xvm_evicting, 0, 1))
-+			continue;
-+
-+		list_del(&xvm->xvm_list);
-+		list_add(&xvm->xvm_list, &process);
-+
-+		if (++n > 4)
-+			break;
-+	}
-+	mutex_unlock(&elem->reap_lock);
-+
-+	mpc_reap_evict(&process);
-+
-+	mutex_lock(&elem->reap_lock);
-+	list_splice_tail(&process, list);
-+	mutex_unlock(&elem->reap_lock);
-+
-+	usleep_range(300, 700);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", dev_to_unit(dev)->un_label);
 +}
 +
-+static void mpc_reap_run(struct work_struct *work)
++static ssize_t mpc_type_show(struct device *dev, struct device_attribute *da, char *buf)
 +{
-+	struct mpc_reap_elem *elem;
-+	struct mpc_reap *reap;
++	struct mpool_uuid  uuid;
++	char               uuid_str[MPOOL_UUID_STRING_LEN + 1] = { };
 +
-+	elem = container_of(work, struct mpc_reap_elem, reap_work);
-+	reap = elem->reap_reap;
++	memcpy(uuid.uuid, dev_to_unit(dev)->un_utype.b, MPOOL_UUID_SIZE);
++	mpool_unparse_uuid(&uuid, uuid_str);
 +
-+	while (atomic_read(&reap->reap_lwm))
-+		mpc_reap_scan(elem);
-+
-+	atomic_cmpxchg(&elem->reap_running, 1, 0);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", uuid_str);
 +}
 +
-+/**
-+ * mpc_reap_tune() - Dynamic tuning of reap knobs.
-+ * @reap:
-+ */
-+static void mpc_reap_tune(struct mpc_reap *reap)
++static void mpc_mpool_params_add(struct device_attribute *dattr)
 +{
-+	ulong total_pages, hpages, wpages, cpages, mfree;
-+	uint freepct, hwm, lwm, ttl, debug, i;
-+
-+	hpages = wpages = cpages = 0;
-+
-+	/*
-+	 * Take a live snapshot of the current memory usage.  Disable
-+	 * preemption so that the result is reasonably accurate.
-+	 */
-+	preempt_disable();
-+	mpc_reap_meminfo(&mfree, NULL, PAGE_SHIFT);
-+
-+	for (i = 0; i < REAP_ELEM_MAX; ++i) {
-+		struct mpc_reap_elem *elem = &reap->reap_elem[i];
-+
-+		hpages += atomic64_read(&elem->reap_hpages);
-+		wpages += atomic64_read(&elem->reap_wpages);
-+		cpages += atomic64_read(&elem->reap_cpages);
-+	}
-+	preempt_enable();
-+
-+	total_pages = mfree + hpages + wpages + cpages;
-+
-+	/*
-+	 * Determine the current percentage of free memory relative to the
-+	 * number of hot+warm+cold pages tracked by the reaper.  freepct,
-+	 * lwm, and hwm are scaled to 10000 for finer resolution.
-+	 */
-+	freepct = ((hpages + wpages + cpages) * 10000) / total_pages;
-+	freepct = 10000 - freepct;
-+
-+	lwm = (100 - reap->reap_mempct) * 100;
-+	hwm = (lwm * 10300) / 10000;
-+	hwm = min_t(u32, hwm, 9700);
-+	ttl = reap->reap_ttl;
-+
-+	if (freepct >= hwm) {
-+		if (atomic_read(&reap->reap_ttl_cur) != ttl)
-+			atomic_set(&reap->reap_ttl_cur, ttl);
-+		if (atomic_read(&reap->reap_lwm))
-+			atomic_set(&reap->reap_lwm, 0);
-+	} else if (freepct < lwm || atomic_read(&reap->reap_lwm) > 0) {
-+		ulong x = 10000 - (freepct * 10000) / hwm;
-+
-+		if (atomic_read(&reap->reap_lwm) != x) {
-+			atomic_set(&reap->reap_lwm, x);
-+
-+			x = (ttl * (500ul * 500)) / (x * x);
-+			if (x > ttl)
-+				x = ttl;
-+
-+			atomic_set(&reap->reap_ttl_cur, x);
-+		}
-+	}
-+
-+	debug = reap->reap_debug;
-+	if (!debug || (debug == 1 && freepct > hwm))
-+		return;
-+
-+	if (atomic_inc_return(&reap->reap_emit) % REAP_ELEM_MAX > 0)
-+		return;
-+
-+	mp_pr_info(
-+		"%lu %lu, hot %lu, warm %lu, cold %lu, freepct %u, lwm %u, hwm %u, %2u, ttl %u",
-+		mfree >> (20 - PAGE_SHIFT), total_pages >> (20 - PAGE_SHIFT),
-+		hpages >> (20 - PAGE_SHIFT), wpages >> (20 - PAGE_SHIFT),
-+		cpages >> (20 - PAGE_SHIFT), freepct, lwm, hwm,
-+		atomic_read(&reap->reap_lwm), atomic_read(&reap->reap_ttl_cur) / 1000);
++	MPC_ATTR_RO(dattr++, uid);
++	MPC_ATTR_RO(dattr++, gid);
++	MPC_ATTR_RO(dattr++, mode);
++	MPC_ATTR_RO(dattr++, ra);
++	MPC_ATTR_RO(dattr++, label);
++	MPC_ATTR_RO(dattr,   type);
 +}
 +
-+static void mpc_reap_prune(struct work_struct *work)
++static int mpc_params_register(struct mpc_unit *unit, int cnt)
 +{
-+	struct mpc_reap_elem *elem;
-+	struct mpc_xvm *xvm, *next;
-+	struct mpc_reap *reap;
-+	struct list_head freeme;
-+	uint nfreed, eidx;
-+	ulong delay;
-+
-+	reap = container_of(work, struct mpc_reap, reap_dwork.work);
-+
-+	/*
-+	 * First, assesss the current memory situation.  If free
-+	 * memory is below the low watermark then try to start a
-+	 * reaper to evict some pages.
-+	 */
-+	mpc_reap_tune(reap);
-+
-+	if (atomic_read(&reap->reap_lwm)) {
-+		eidx = atomic_read(&reap->reap_eidx) % REAP_ELEM_MAX;
-+		elem = reap->reap_elem + eidx;
-+
-+		if (!atomic_cmpxchg(&elem->reap_running, 0, 1))
-+			queue_work(reap->reap_wq, &elem->reap_work);
-+	}
-+
-+	/* Next, advance to the next elem and prune VMAs that have been freed. */
-+	eidx = atomic_inc_return(&reap->reap_eidx) % REAP_ELEM_MAX;
-+
-+	elem = reap->reap_elem + eidx;
-+	INIT_LIST_HEAD(&freeme);
-+
-+	nfreed = atomic_read(&elem->reap_nfreed);
-+
-+	if (nfreed && mutex_trylock(&elem->reap_lock)) {
-+		struct list_head   *list = &elem->reap_list;
-+		uint                npruned = 0;
-+
-+		list_for_each_entry_safe(xvm, next, list, xvm_list) {
-+			if (atomic_read(&xvm->xvm_reapref) > 1)
-+				continue;
-+
-+			list_del(&xvm->xvm_list);
-+			list_add_tail(&xvm->xvm_list, &freeme);
-+
-+			if (++npruned >= nfreed)
-+				break;
-+		}
-+		mutex_unlock(&elem->reap_lock);
-+
-+		list_for_each_entry_safe(xvm, next, &freeme, xvm_list)
-+			mpc_xvm_free(xvm);
-+
-+		atomic_sub(npruned, &elem->reap_nfreed);
-+	}
-+
-+	delay = reap->reap_mempct < 100 ? 1000 / REAP_ELEM_MAX : 1000;
-+	delay = msecs_to_jiffies(delay);
-+
-+	queue_delayed_work(reap->reap_wq, &reap->reap_dwork, delay);
-+}
-+
-+#define REAP_MEMPCT_MIN    5
-+#define REAP_MEMPCT_MAX    100
-+#define REAP_TTL_MIN       100
-+#define REAP_DEBUG_MAX     3
-+
-+static ssize_t mpc_reap_mempct_show(struct device *dev, struct device_attribute *da, char *buf)
-+{
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", dev_to_reap(dev)->reap_mempct);
-+}
-+
-+static ssize_t mpc_reap_mempct_store(struct device *dev, struct device_attribute *da,
-+				     const char *buf, size_t count)
-+{
-+	struct mpc_reap *reap;
-+	unsigned int val;
++	struct device_attribute *dattr;
++	struct mpc_attr *attr;
 +	int rc;
 +
-+	rc = kstrtouint(buf, 10, &val);
-+	if (rc || (val < REAP_MEMPCT_MIN || val > REAP_MEMPCT_MAX))
-+		return -EINVAL;
-+
-+	reap = dev_to_reap(dev);
-+	reap->reap_mempct = val;
-+
-+	return count;
-+}
-+
-+static ssize_t mpc_reap_debug_show(struct device *dev, struct device_attribute *da, char *buf)
-+{
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", dev_to_reap(dev)->reap_debug);
-+}
-+
-+static ssize_t mpc_reap_debug_store(struct device *dev, struct device_attribute *da,
-+				    const char *buf, size_t count)
-+{
-+	struct mpc_reap *reap;
-+	unsigned int val;
-+	int rc;
-+
-+	rc = kstrtouint(buf, 10, &val);
-+	if (rc || val > REAP_DEBUG_MAX)
-+		return -EINVAL;
-+
-+	reap = dev_to_reap(dev);
-+	reap->reap_debug = val;
-+
-+	return count;
-+}
-+
-+static ssize_t mpc_reap_ttl_show(struct device *dev, struct device_attribute *da, char *buf)
-+{
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", dev_to_reap(dev)->reap_ttl);
-+}
-+
-+static ssize_t mpc_reap_ttl_store(struct device *dev, struct device_attribute *da,
-+				  const char *buf, size_t count)
-+{
-+	struct mpc_reap *reap;
-+	unsigned int val;
-+	int rc;
-+
-+	rc = kstrtouint(buf, 10, &val);
-+	if (rc || val < REAP_TTL_MIN)
-+		return -EINVAL;
-+
-+	reap = dev_to_reap(dev);
-+	reap->reap_ttl = val;
-+
-+	return count;
-+}
-+
-+void mpc_reap_params_add(struct device_attribute *dattr)
-+{
-+	MPC_ATTR_RW(dattr++, reap_mempct);
-+	MPC_ATTR_RW(dattr++, reap_debug);
-+	MPC_ATTR_RW(dattr, reap_ttl);
-+}
-+
-+static void mpc_reap_mempct_init(struct mpc_reap *reap)
-+{
-+	ulong mavail;
-+	uint pct = 60;
-+
-+	mpc_reap_meminfo(NULL, &mavail, 30);
-+
-+	if (mavail > 256)
-+		pct = 10;
-+	else if (mavail > 128)
-+		pct = 13;
-+	else if (mavail > 64)
-+		pct = 25;
-+	else if (mavail > 32)
-+		pct = 40;
-+
-+	reap->reap_mempct = clamp_t(unsigned int, 100 - pct, 1, 100);
-+}
-+
-+/**
-+ * mpc_reap_create() - Allocate and initialize reap data strctures
-+ * @reapout: Initialized reap structure.
-+ *
-+ * Returns -ENOMEM if the allocation fails.
-+ */
-+int mpc_reap_create(struct mpc_reap **reapp)
-+{
-+	struct mpc_reap_elem *elem;
-+	struct mpc_reap *reap;
-+	uint flags, i;
-+
-+	flags = WQ_UNBOUND | WQ_HIGHPRI | WQ_CPU_INTENSIVE;
-+	*reapp = NULL;
-+
-+	reap = kzalloc(roundup_pow_of_two(sizeof(*reap)), GFP_KERNEL);
-+	if (!reap)
++	attr = mpc_attr_create(unit->un_device, "parameters", cnt);
++	if (!attr)
 +		return -ENOMEM;
 +
-+	reap->reap_wq = alloc_workqueue("mpc_reap", flags, REAP_ELEM_MAX + 1);
-+	if (!reap->reap_wq) {
-+		kfree(reap);
-+		return -ENOMEM;
++	dattr = attr->a_dattr;
++
++	/* Per-mpool parameters */
++	if (mpc_unit_ismpooldev(unit))
++		mpc_mpool_params_add(dattr);
++
++	rc = mpc_attr_group_create(attr);
++	if (rc) {
++		mpc_attr_destroy(attr);
++		return rc;
 +	}
 +
-+	atomic_set(&reap->reap_lwm, 0);
-+	atomic_set(&reap->reap_ttl_cur, 0);
-+	atomic_set(&reap->reap_eidx, 0);
-+	atomic_set(&reap->reap_emit, 0);
-+
-+	for (i = 0; i < REAP_ELEM_MAX; ++i) {
-+		elem = &reap->reap_elem[i];
-+
-+		mutex_init(&elem->reap_lock);
-+		INIT_LIST_HEAD(&elem->reap_list);
-+
-+		INIT_WORK(&elem->reap_work, mpc_reap_run);
-+		atomic_set(&elem->reap_running, 0);
-+		elem->reap_reap = reap;
-+
-+		atomic64_set(&elem->reap_hpages, 0);
-+		atomic64_set(&elem->reap_wpages, 0);
-+		atomic64_set(&elem->reap_cpages, 0);
-+		atomic_set(&elem->reap_nfreed, 0);
-+	}
-+
-+	reap->reap_ttl   = 10 * 1000 * 1000;
-+	reap->reap_debug = 0;
-+	mpc_reap_mempct_init(reap);
-+
-+	INIT_DELAYED_WORK(&reap->reap_dwork, mpc_reap_prune);
-+	queue_delayed_work(reap->reap_wq, &reap->reap_dwork, 1);
-+
-+	*reapp = reap;
++	unit->un_attr = attr;
 +
 +	return 0;
 +}
 +
-+void mpc_reap_destroy(struct mpc_reap *reap)
++static void mpc_params_unregister(struct mpc_unit *unit)
 +{
-+	struct mpc_reap_elem *elem;
++	mpc_attr_group_destroy(unit->un_attr);
++	mpc_attr_destroy(unit->un_attr);
++	unit->un_attr = NULL;
++}
++
++/**
++ * mpc_toascii() - convert string to restricted ASCII
++ *
++ * Zeroes out the remainder of str[] and returns the length.
++ */
++static size_t mpc_toascii(char *str, size_t sz)
++{
++	size_t len = 0;
 +	int i;
 +
-+	if (!reap)
-+		return;
++	if (!str || sz < 1)
++		return 0;
 +
-+	cancel_delayed_work_sync(&reap->reap_dwork);
++	if (str[0] == '-')
++		str[0] = '_';
 +
-+	/*
-+	 * There shouldn't be any reapers running at this point,
-+	 * but perform a flush/wait for good measure...
-+	 */
-+	atomic_set(&reap->reap_lwm, 0);
++	for (i = 0; i < (sz - 1) && str[i]; ++i) {
++		if (isalnum(str[i]) || strchr("_.-", str[i]))
++			continue;
 +
-+	if (reap->reap_wq)
-+		flush_workqueue(reap->reap_wq);
-+
-+	for (i = 0; i < REAP_ELEM_MAX; ++i) {
-+		elem = &reap->reap_elem[i];
-+
-+		ASSERT(atomic64_read(&elem->reap_hpages) == 0);
-+		ASSERT(atomic64_read(&elem->reap_wpages) == 0);
-+		ASSERT(atomic64_read(&elem->reap_cpages) == 0);
-+		ASSERT(atomic_read(&elem->reap_nfreed) == 0);
-+		ASSERT(list_empty(&elem->reap_list));
-+
-+		mutex_destroy(&elem->reap_lock);
++		str[i] = '_';
 +	}
 +
-+	if (reap->reap_wq)
-+		destroy_workqueue(reap->reap_wq);
-+	kfree(reap);
++	len = i;
++
++	while (i < sz)
++		str[i++] = '\000';
++
++	return len;
 +}
 +
-+void mpc_reap_xvm_add(struct mpc_reap *reap, struct mpc_xvm *xvm)
++static void mpool_params_merge_defaults(struct mpool_params *params)
 +{
-+	struct mpc_reap_elem *elem;
-+	uint idx;
++	if (params->mp_spare_cap == MPOOL_SPARES_INVALID)
++		params->mp_spare_cap = MPOOL_SPARES_DEFAULT;
 +
-+	if (!reap || !xvm)
-+		return;
++	if (params->mp_spare_stg == MPOOL_SPARES_INVALID)
++		params->mp_spare_stg = MPOOL_SPARES_DEFAULT;
 +
-+	if (xvm->xvm_advice == MPC_VMA_PINNED)
-+		return;
++	if (params->mp_ra_pages_max == U32_MAX)
++		params->mp_ra_pages_max = MPOOL_RA_PAGES_MAX;
++	params->mp_ra_pages_max = clamp_t(u32, params->mp_ra_pages_max, 0, MPOOL_RA_PAGES_MAX);
 +
-+	/* Acquire a reference on xvm for the reaper... */
-+	atomic_inc(&xvm->xvm_reapref);
-+	xvm->xvm_reap = reap;
++	if (params->mp_mode != -1)
++		params->mp_mode &= 0777;
 +
-+	idx = (get_cycles() >> 1) % REAP_ELEM_MAX;
++	params->mp_rsvd0 = 0;
++	params->mp_rsvd1 = 0;
++	params->mp_rsvd2 = 0;
++	params->mp_rsvd3 = 0;
++	params->mp_rsvd4 = 0;
 +
-+	elem = &reap->reap_elem[idx];
++	if (!strcmp(params->mp_label, MPOOL_LABEL_INVALID))
++		strcpy(params->mp_label, MPOOL_LABEL_DEFAULT);
 +
-+	mutex_lock(&elem->reap_lock);
-+	xvm->xvm_freedp = &elem->reap_nfreed;
-+
-+	if (xvm->xvm_advice == MPC_VMA_HOT)
-+		xvm->xvm_hcpagesp = &elem->reap_hpages;
-+	else if (xvm->xvm_advice == MPC_VMA_WARM)
-+		xvm->xvm_hcpagesp = &elem->reap_wpages;
-+	else
-+		xvm->xvm_hcpagesp = &elem->reap_cpages;
-+
-+	list_add_tail(&xvm->xvm_list, &elem->reap_list);
-+	mutex_unlock(&elem->reap_lock);
++	mpc_toascii(params->mp_label, sizeof(params->mp_label));
 +}
 +
-+void mpc_reap_xvm_evict(struct mpc_xvm *xvm)
++static void mpool_to_mpcore_params(struct mpool_params *params, struct mpcore_params *mpc_params)
 +{
-+	pgoff_t start, end, bktsz;
++	u64 mdc0cap, mdcncap;
++	u32 mdcnum;
 +
-+	if (atomic_cmpxchg(&xvm->xvm_evicting, 0, 1))
-+		return;
++	mpcore_params_defaults(mpc_params);
 +
-+	start = mpc_xvm_pgoff(xvm);
-+	end = mpc_xvm_pglen(xvm) + start;
-+	bktsz = xvm->xvm_bktsz >> PAGE_SHIFT;
++	mdc0cap = (u64)params->mp_mdc0cap << 20;
++	mdcncap = (u64)params->mp_mdcncap << 20;
++	mdcnum  = params->mp_mdcnum;
 +
-+	if (bktsz < 1024)
-+		bktsz = end - start;
++	if (mdc0cap != 0)
++		mpc_params->mp_mdc0cap = mdc0cap;
 +
-+	/* Evict in chunks to improve mmap_sem interleaving... */
-+	for (; start < end; start += bktsz)
-+		invalidate_inode_pages2_range(xvm->xvm_mapping, start, start + bktsz);
++	if (mdcncap != 0)
++		mpc_params->mp_mdcncap = mdcncap;
 +
-+	atomic_cmpxchg(&xvm->xvm_evicting, 1, 0);
++	if (mdcnum != 0)
++		mpc_params->mp_mdcnum = mdcnum;
 +}
 +
-+void mpc_reap_xvm_touch(struct mpc_xvm *xvm, int index)
++static bool mpool_params_merge_config(struct mpool_params *params, struct mpool_config *cfg)
 +{
-+	struct mpc_reap *reap;
-+	atomic64_t *atimep;
-+	uint mbnum, lwm;
-+	pgoff_t offset;
-+	ulong delay;
-+	u64 now;
++	uuid_le uuidnull = { };
++	bool changed = false;
 +
-+	reap = xvm->xvm_reap;
-+	if (!reap)
-+		return;
++	if (params->mp_uid != -1 && params->mp_uid != cfg->mc_uid) {
++		cfg->mc_uid = params->mp_uid;
++		changed = true;
++	}
 +
-+	offset = (index << PAGE_SHIFT) % (1ul << xvm_size_max);
-+	mbnum = offset / xvm->xvm_bktsz;
++	if (params->mp_gid != -1 && params->mp_gid != cfg->mc_gid) {
++		cfg->mc_gid = params->mp_gid;
++		changed = true;
++	}
 +
-+	atimep = &xvm->xvm_mbinfov[mbnum].mbatime;
-+	now = local_clock();
++	if (params->mp_mode != -1 && params->mp_mode != cfg->mc_mode) {
++		cfg->mc_mode = params->mp_mode;
++		changed = true;
++	}
++
++	if (memcmp(&uuidnull, &params->mp_utype, sizeof(uuidnull)) &&
++	    memcmp(&params->mp_utype, &cfg->mc_utype, sizeof(params->mp_utype))) {
++		memcpy(&cfg->mc_utype, &params->mp_utype, sizeof(cfg->mc_utype));
++		changed = true;
++	}
++
++	if (strcmp(params->mp_label, MPOOL_LABEL_DEFAULT) &&
++	    strncmp(params->mp_label, cfg->mc_label, sizeof(params->mp_label))) {
++		strlcpy(cfg->mc_label, params->mp_label, sizeof(cfg->mc_label));
++		changed = true;
++	}
++
++	return changed;
++}
++
+ /**
+  * mpc_mpool_release() - release kref handler for mpc_mpool object
+  * @refp:  kref pointer
+@@ -215,6 +414,9 @@ static void mpc_unit_release(struct kref *refp)
+ 	if (unit->un_mpool)
+ 		mpc_mpool_put(unit->un_mpool);
+ 
++	if (unit->un_attr)
++		mpc_params_unregister(unit);
++
+ 	if (unit->un_device)
+ 		device_destroy(ss->ss_class, unit->un_devno);
+ 
+@@ -227,6 +429,89 @@ static void mpc_unit_put(struct mpc_unit *unit)
+ 		kref_put(&unit->un_ref, mpc_unit_release);
+ }
+ 
++/**
++ * mpc_unit_lookup() - Look up a unit by minor number.
++ * @minor:  minor number
++ * @unitp:  unit ptr
++ *
++ * Returns a referenced ptr to the unit (via *unitp) if found,
++ * otherwise it sets *unitp to NULL.
++ */
++static void mpc_unit_lookup(int minor, struct mpc_unit **unitp)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	struct mpc_unit *unit;
++
++	*unitp = NULL;
++
++	mutex_lock(&ss->ss_lock);
++	unit = idr_find(&ss->ss_unitmap, minor);
++	if (unit) {
++		kref_get(&unit->un_ref);
++		*unitp = unit;
++	}
++	mutex_unlock(&ss->ss_lock);
++}
++
++/**
++ * mpc_unit_lookup_by_name_itercb() - Test to see if unit matches arg.
++ * @item:   unit ptr
++ * @arg:    argument vector base ptr
++ *
++ * This iterator callback is called by mpc_unit_lookup_by_name()
++ * for each unit in the units table.
++ *
++ * Return: If the unit matching the given name is found returns
++ * the referenced unit pointer in argv[2], otherwise NULL.
++ */
++static int mpc_unit_lookup_by_name_itercb(int minor, void *item, void *arg)
++{
++	struct mpc_unit *unit = item;
++	void **argv = arg;
++	struct mpc_unit *parent = argv[0];
++	const char *name = argv[1];
++
++	if (!unit)
++		return ITERCB_NEXT;
++
++	if (mpc_unit_isctldev(parent) && !mpc_unit_ismpooldev(unit))
++		return ITERCB_NEXT;
++
++	if (parent->un_mpool && unit->un_mpool != parent->un_mpool)
++		return ITERCB_NEXT;
++
++	if (strcmp(unit->un_name, name) == 0) {
++		kref_get(&unit->un_ref);
++		argv[2] = unit;
++		return ITERCB_DONE;
++	}
++
++	return ITERCB_NEXT;
++}
++
++/**
++ * mpc_unit_lookup_by_name() - Look up an mpool unit by name.
++ * @parent: parent unit
++ * @name:   unit name. This is not the mpool name.
++ * @unitp:  unit ptr
++ *
++ * If a unit exists in the system which has the given name and parent
++ * then it is referenced and returned via *unitp.  Otherwise, *unitp
++ * is set to NULL.
++ */
++static void mpc_unit_lookup_by_name(struct mpc_unit *parent, const char *name,
++				    struct mpc_unit **unitp)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	void *argv[] = { parent, (void *)name, NULL };
++
++	mutex_lock(&ss->ss_lock);
++	idr_for_each(&ss->ss_unitmap, mpc_unit_lookup_by_name_itercb, argv);
++	mutex_unlock(&ss->ss_lock);
++
++	*unitp = argv[2];
++}
++
+ /**
+  * mpc_unit_setup() - Create a device unit object and special file
+  * @uinfo:
+@@ -327,6 +612,36 @@ static int mpc_unit_setup(const struct mpc_uinfo *uinfo, const char *name,
+ 	return rc;
+ }
+ 
++
++static int mpc_cf_journal(struct mpc_unit *unit)
++{
++	struct mpool_config cfg = { };
++	struct mpc_mpool *mpool;
++	int rc;
++
++	mpool = unit->un_mpool;
++	if (!mpool)
++		return -EINVAL;
++
++	down_write(&mpool->mp_lock);
++
++	cfg.mc_uid = unit->un_uid;
++	cfg.mc_gid = unit->un_gid;
++	cfg.mc_mode = unit->un_mode;
++	cfg.mc_oid1 = unit->un_ds_oidv[0];
++	cfg.mc_oid2 = unit->un_ds_oidv[1];
++	cfg.mc_captgt = unit->un_mdc_captgt;
++	cfg.mc_ra_pages_max = unit->un_ra_pages_max;
++	memcpy(&cfg.mc_utype, &unit->un_utype, sizeof(cfg.mc_utype));
++	strlcpy(cfg.mc_label, unit->un_label, sizeof(cfg.mc_label));
++
++	rc = mpool_config_store(mpool->mp_desc, &cfg);
++
++	up_write(&mpool->mp_lock);
++
++	return rc;
++}
++
+ /**
+  * mpc_uevent() - Hook to intercept and modify uevents before they're posted to udev
+  * @dev:    mpc driver device
+@@ -347,6 +662,1251 @@ static int mpc_uevent(struct device *dev, struct kobj_uevent_env *env)
+ 	return 0;
+ }
+ 
++/**
++ * mpc_mp_chown() - Change ownership of an mpool.
++ * @unit: mpool unit ptr
++ * @mps:
++ *
++ * Return:  Returns 0 if successful, -errno otherwise...
++ */
++static int mpc_mp_chown(struct mpc_unit *unit, struct mpool_params *params)
++{
++	mode_t mode;
++	uid_t uid;
++	gid_t gid;
++	int rc = 0;
++
++	if (!mpc_unit_ismpooldev(unit))
++		return -EINVAL;
++
++	uid  = params->mp_uid;
++	gid  = params->mp_gid;
++	mode = params->mp_mode;
++
++	if (mode != -1)
++		mode &= 0777;
++
++	if (uid != -1 && uid != unit->un_uid && !capable(CAP_CHOWN))
++		return -EPERM;
++
++	if (gid != -1 && gid != unit->un_gid && !capable(CAP_CHOWN))
++		return -EPERM;
++
++	if (mode != -1 && mode != unit->un_mode && !capable(CAP_FOWNER))
++		return -EPERM;
++
++	if (-1 != uid)
++		unit->un_uid = uid;
++	if (-1 != gid)
++		unit->un_gid = gid;
++	if (-1 != mode)
++		unit->un_mode = mode;
++
++	if (uid != -1 || gid != -1 || mode != -1)
++		rc = kobject_uevent(&unit->un_device->kobj, KOBJ_CHANGE);
++
++	return rc;
++}
++
++/**
++ * mpioc_params_get() - get parameters of an activated mpool
++ * @unit:   mpool unit ptr
++ * @get:    mpool params
++ *
++ * MPIOC_PARAMS_GET ioctl handler to get mpool parameters
++ *
++ * Return:  Returns 0 if successful, -errno otherwise...
++ */
++static int mpioc_params_get(struct mpc_unit *unit, struct mpioc_params *get)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	struct mpool_descriptor *desc;
++	struct mpool_params *params;
++	struct mpool_xprops xprops = { };
++	u8 mclass;
++
++	if (!mpc_unit_ismpooldev(unit))
++		return -EINVAL;
++
++	desc = unit->un_mpool->mp_desc;
++
++	mutex_lock(&ss->ss_lock);
++
++	params = &get->mps_params;
++	memset(params, 0, sizeof(*params));
++	params->mp_uid = unit->un_uid;
++	params->mp_gid = unit->un_gid;
++	params->mp_mode = unit->un_mode;
++	params->mp_mdc_captgt = MPOOL_ROOT_LOG_CAP;
++	params->mp_oidv[0] = unit->un_ds_oidv[0];
++	params->mp_oidv[1] = unit->un_ds_oidv[1];
++	params->mp_ra_pages_max = unit->un_ra_pages_max;
++	memcpy(&params->mp_utype, &unit->un_utype, sizeof(params->mp_utype));
++	strlcpy(params->mp_label, unit->un_label, sizeof(params->mp_label));
++	strlcpy(params->mp_name, unit->un_name, sizeof(params->mp_name));
++
++	/* Get mpool properties.. */
++	mpool_get_xprops(desc, &xprops);
++
++	for (mclass = 0; mclass < MP_MED_NUMBER; mclass++)
++		params->mp_mblocksz[mclass] = xprops.ppx_params.mp_mblocksz[mclass];
++
++	params->mp_spare_cap = xprops.ppx_drive_spares[MP_MED_CAPACITY];
++	params->mp_spare_stg = xprops.ppx_drive_spares[MP_MED_STAGING];
++
++	memcpy(params->mp_poolid.b, xprops.ppx_params.mp_poolid.b, MPOOL_UUID_SIZE);
++
++	mutex_unlock(&ss->ss_lock);
++
++	return 0;
++}
++
++/**
++ * mpioc_params_set() - set parameters of an activated mpool
++ * @unit:   mpool unit ptr
++ * @set:    mpool params
++ *
++ * MPIOC_PARAMS_SET ioctl handler to set mpool parameters
++ *
++ * Return:  Returns 0 if successful, -errno otherwise...
++ */
++static int mpioc_params_set(struct mpc_unit *unit, struct mpioc_params *set)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	struct mpool_descriptor *mp;
++	struct mpool_params *params;
++	uuid_le uuidnull = { };
++	int rerr = 0, err = 0;
++	bool journal = false;
++
++	if (!mpc_unit_ismpooldev(unit))
++		return -EINVAL;
++
++	params = &set->mps_params;
++
++	mutex_lock(&ss->ss_lock);
++	if (params->mp_uid != -1 || params->mp_gid != -1 || params->mp_mode != -1) {
++		err = mpc_mp_chown(unit, params);
++		if (err) {
++			mutex_unlock(&ss->ss_lock);
++			return err;
++		}
++		journal = true;
++	}
++
++	if (params->mp_label[0]) {
++		mpc_toascii(params->mp_label, sizeof(params->mp_label));
++		strlcpy(unit->un_label, params->mp_label, sizeof(unit->un_label));
++		journal = true;
++	}
++
++	if (memcmp(&uuidnull, &params->mp_utype, sizeof(uuidnull))) {
++		memcpy(&unit->un_utype, &params->mp_utype, sizeof(unit->un_utype));
++		journal = true;
++	}
++
++	if (params->mp_ra_pages_max != U32_MAX) {
++		unit->un_ra_pages_max = clamp_t(u32, params->mp_ra_pages_max,
++						0, MPOOL_RA_PAGES_MAX);
++		journal = true;
++	}
++
++	if (journal)
++		err = mpc_cf_journal(unit);
++	mutex_unlock(&ss->ss_lock);
++
++	if (err) {
++		mp_pr_err("%s: params commit failed", err, unit->un_name);
++		return err;
++	}
++
++	mp = unit->un_mpool->mp_desc;
++
++	if (params->mp_spare_cap != MPOOL_SPARES_INVALID) {
++		err = mpool_drive_spares(mp, MP_MED_CAPACITY, params->mp_spare_cap);
++		if (err && err != -ENOENT)
++			rerr = err;
++	}
++
++	if (params->mp_spare_stg != MPOOL_SPARES_INVALID) {
++		err = mpool_drive_spares(mp, MP_MED_STAGING, params->mp_spare_stg);
++		if (err && err != -ENOENT)
++			rerr = err;
++	}
++
++	return rerr;
++}
++
++/**
++ * mpioc_mp_mclass_get() - get information regarding an mpool's mclasses
++ * @unit:   mpool unit ptr
++ * @mcl:    mclass info struct
++ *
++ * MPIOC_MP_MCLASS_GET ioctl handler to get mclass information
++ *
++ * Return:  Returns 0 if successful, -errno otherwise...
++ */
++static int mpioc_mp_mclass_get(struct mpc_unit *unit, struct mpioc_mclass *mcl)
++{
++	struct mpool_descriptor *desc = unit->un_mpool->mp_desc;
++	struct mpool_mclass_xprops mcxv[MP_MED_NUMBER];
++	uint32_t mcxc = ARRAY_SIZE(mcxv);
++	int rc;
++
++	if (!mcl || !desc)
++		return -EINVAL;
++
++	if (!mcl->mcl_xprops) {
++		mpool_mclass_get_cnt(desc, &mcl->mcl_cnt);
++		return 0;
++	}
++
++	memset(mcxv, 0, sizeof(mcxv));
++
++	rc = mpool_mclass_get(desc, &mcxc, mcxv);
++	if (rc)
++		return rc;
++
++	if (mcxc > mcl->mcl_cnt)
++		mcxc = mcl->mcl_cnt;
++	mcl->mcl_cnt = mcxc;
++
++	rc = copy_to_user(mcl->mcl_xprops, mcxv, sizeof(mcxv[0]) * mcxc);
++
++	return rc ? -EFAULT : 0;
++}
++
++/**
++ * mpioc_devprops_get() - Get device properties
++ * @unit:   mpool unit ptr
++ *
++ * MPIOC_PROP_GET ioctl handler to retrieve properties for the specified device.
++ */
++static int mpioc_devprops_get(struct mpc_unit *unit, struct mpioc_devprops *devprops)
++{
++	int rc = 0;
++
++	if (unit->un_mpool) {
++		struct mpool_descriptor *mp = unit->un_mpool->mp_desc;
++
++		rc = mpool_get_devprops_by_name(mp, devprops->dpr_pdname, &devprops->dpr_devprops);
++	}
++
++	return rc;
++}
++
++/**
++ * mpioc_prop_get() - Get mpool properties.
++ * @unit:   mpool unit ptr
++ *
++ * MPIOC_PROP_GET ioctl handler to retrieve properties for the specified device.
++ */
++static void mpioc_prop_get(struct mpc_unit *unit, struct mpioc_prop *kprop)
++{
++	struct mpool_descriptor *desc = unit->un_mpool->mp_desc;
++	struct mpool_params *params;
++	struct mpool_xprops *xprops;
++
++	memset(kprop, 0, sizeof(*kprop));
++
++	/* Get unit properties.. */
++	params = &kprop->pr_xprops.ppx_params;
++	params->mp_uid = unit->un_uid;
++	params->mp_gid = unit->un_gid;
++	params->mp_mode = unit->un_mode;
++	params->mp_mdc_captgt = unit->un_mdc_captgt;
++	params->mp_oidv[0] = unit->un_ds_oidv[0];
++	params->mp_oidv[1] = unit->un_ds_oidv[1];
++	params->mp_ra_pages_max = unit->un_ra_pages_max;
++	memcpy(&params->mp_utype, &unit->un_utype, sizeof(params->mp_utype));
++	strlcpy(params->mp_label, unit->un_label, sizeof(params->mp_label));
++	strlcpy(params->mp_name, unit->un_name, sizeof(params->mp_name));
++
++	/* Get mpool properties.. */
++	xprops = &kprop->pr_xprops;
++	mpool_get_xprops(desc, xprops);
++	mpool_get_usage(desc, MP_MED_ALL, &kprop->pr_usage);
++
++	params->mp_spare_cap = xprops->ppx_drive_spares[MP_MED_CAPACITY];
++	params->mp_spare_stg = xprops->ppx_drive_spares[MP_MED_STAGING];
++
++	kprop->pr_mcxc = ARRAY_SIZE(kprop->pr_mcxv);
++	mpool_mclass_get(desc, &kprop->pr_mcxc, kprop->pr_mcxv);
++}
++
++/**
++ * mpioc_proplist_get_itercb() - Get properties iterator callback.
++ * @item:   unit ptr
++ * @arg:    argument list
++ *
++ * Return: Returns properties for each unit matching the input criteria.
++ */
++static int mpioc_proplist_get_itercb(int minor, void *item, void *arg)
++{
++	struct mpc_unit *unit = item;
++	struct mpioc_prop __user *uprop;
++	struct mpioc_prop kprop;
++	struct mpc_unit *match;
++	struct mpioc_list *ls;
++	void **argv = arg;
++	int *cntp, rc;
++	int *errp;
++
++	if (!unit)
++		return ITERCB_NEXT;
++
++	match = argv[0];
++	ls = argv[1];
++
++	if (mpc_unit_isctldev(match) && !mpc_unit_ismpooldev(unit) &&
++	    ls->ls_cmd != MPIOC_LIST_CMD_PROP_GET)
++		return ITERCB_NEXT;
++
++	if (mpc_unit_ismpooldev(match) && !mpc_unit_ismpooldev(unit) &&
++	    ls->ls_cmd != MPIOC_LIST_CMD_PROP_GET)
++		return ITERCB_NEXT;
++
++	if (mpc_unit_ismpooldev(match) && unit->un_mpool != match->un_mpool)
++		return ITERCB_NEXT;
++
++	cntp = argv[2];
++	errp = argv[3];
++
++	mpioc_prop_get(unit, &kprop);
++
++	uprop = (struct mpioc_prop __user *)ls->ls_listv + *cntp;
++
++	rc = copy_to_user(uprop, &kprop, sizeof(*uprop));
++	if (rc) {
++		*errp = -EFAULT;
++		return ITERCB_DONE;
++	}
++
++	return (++(*cntp) >= ls->ls_listc) ? ITERCB_DONE : ITERCB_NEXT;
++}
++
++/**
++ * mpioc_proplist_get() - Get mpool properties.
++ * @unit:   mpool unit ptr
++ * @ls:     properties parameter block
++ *
++ * MPIOC_PROP_GET ioctl handler to retrieve properties for one
++ * or more mpools.
++ *
++ * Return:  Returns 0 if successful, -errno otherwise...
++ */
++static int mpioc_proplist_get(struct mpc_unit *unit, struct mpioc_list *ls)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	int err = 0;
++	int cnt = 0;
++	void *argv[] = { unit, ls, &cnt, &err };
++
++	if (!ls || ls->ls_listc < 1 || ls->ls_cmd == MPIOC_LIST_CMD_INVALID)
++		return -EINVAL;
++
++	mutex_lock(&ss->ss_lock);
++	idr_for_each(&ss->ss_unitmap, mpioc_proplist_get_itercb, argv);
++	mutex_unlock(&ss->ss_lock);
++
++	ls->ls_listc = cnt;
++
++	return err;
++}
++
++/**
++ * mpc_mpool_open() - Open the mpool specified by the given drive paths,
++ *                    and then create an mpool object to track the
++ *                    underlying mpool.
++ * @dpathc: drive count
++ * @dpathv: drive path name vector
++ * @mpoolp: mpool ptr. Set only if success.
++ * @pd_prop: PDs properties
++ *
++ * Return:  Returns 0 if successful and sets *mpoolp.
++ *          Returns -errno on error.
++ */
++static int mpc_mpool_open(uint dpathc, char **dpathv, struct mpc_mpool **mpoolp,
++			  struct pd_prop *pd_prop, struct mpool_params *params, u32 flags)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	struct mpcore_params mpc_params;
++	struct mpc_mpool *mpool;
++	size_t mpoolsz, len;
++	int rc;
++
++	if (!ss || !dpathv || !mpoolp || !params)
++		return -EINVAL;
++
++	len = mpc_toascii(params->mp_name, sizeof(params->mp_name));
++	if (len < 1 || len >= MPOOL_NAMESZ_MAX)
++		return (len < 1) ? -EINVAL : -ENAMETOOLONG;
++
++	mpoolsz = sizeof(*mpool) + len + 1;
++
++	mpool = kzalloc(mpoolsz, GFP_KERNEL);
++	if (!mpool)
++		return -ENOMEM;
++
++	if (!try_module_get(THIS_MODULE)) {
++		kfree(mpool);
++		return -EBUSY;
++	}
++
++	mpool_to_mpcore_params(params, &mpc_params);
++
++	rc = mpool_activate(dpathc, dpathv, pd_prop, MPOOL_ROOT_LOG_CAP,
++			    &mpc_params, flags, &mpool->mp_desc);
++	if (rc) {
++		mp_pr_err("Activating %s failed", rc, params->mp_name);
++		module_put(THIS_MODULE);
++		kfree(mpool);
++		return rc;
++	}
++
++	kref_init(&mpool->mp_ref);
++	init_rwsem(&mpool->mp_lock);
++	mpool->mp_dpathc = dpathc;
++	mpool->mp_dpathv = dpathv;
++	strcpy(mpool->mp_name, params->mp_name);
++
++	*mpoolp = mpool;
++
++	return 0;
++}
++
++/**
++ * mpioc_mp_create() - create an mpool.
++ * @mp:      mpool parameter block
++ * @pd_prop:
++ * @dpathv:
++ *
++ * MPIOC_MP_CREATE ioctl handler to create an mpool.
++ *
++ * Return:  Returns 0 if the mpool is created, -errno otherwise...
++ */
++static int mpioc_mp_create(struct mpc_unit *ctl, struct mpioc_mpool *mp,
++			   struct pd_prop *pd_prop, char ***dpathv)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	struct mpcore_params mpc_params;
++	struct mpool_config cfg = { };
++	struct mpc_mpool *mpool = NULL;
++	struct mpc_unit *unit = NULL;
++	size_t len;
++	mode_t mode;
++	uid_t uid;
++	gid_t gid;
++	int rc;
++
++	if (!ctl || !mp || !pd_prop || !dpathv)
++		return -EINVAL;
++
++	len = mpc_toascii(mp->mp_params.mp_name, sizeof(mp->mp_params.mp_name));
++	if (len < 1 || len >= MPOOL_NAMESZ_MAX)
++		return (len < 1) ? -EINVAL : -ENAMETOOLONG;
++
++	mpool_params_merge_defaults(&mp->mp_params);
++
++	uid  = mp->mp_params.mp_uid;
++	gid  = mp->mp_params.mp_gid;
++	mode = mp->mp_params.mp_mode;
++
++	if (uid == -1)
++		uid = mpc_default_uid;
++	if (gid == -1)
++		gid = mpc_default_gid;
++	if (mode == -1)
++		mode = mpc_default_mode;
++
++	mode &= 0777;
++
++	if (uid != mpc_current_uid() && !capable(CAP_CHOWN)) {
++		rc = -EPERM;
++		mp_pr_err("chown permission denied, uid %d", rc, uid);
++		return rc;
++	}
++
++	if (gid != mpc_current_gid() && !capable(CAP_CHOWN)) {
++		rc = -EPERM;
++		mp_pr_err("chown permission denied, gid %d", rc, gid);
++		return rc;
++	}
++
++	if (!capable(CAP_SYS_ADMIN)) {
++		rc = -EPERM;
++		mp_pr_err("chmod/activate permission denied", rc);
++		return rc;
++	}
++
++	mpool_to_mpcore_params(&mp->mp_params, &mpc_params);
++
++	rc = mpool_create(mp->mp_params.mp_name, mp->mp_flags, *dpathv,
++			  pd_prop, &mpc_params, MPOOL_ROOT_LOG_CAP);
++	if (rc) {
++		mp_pr_err("%s: create failed", rc, mp->mp_params.mp_name);
++		return rc;
++	}
 +
 +	/*
-+	 * Don't update atime too frequently.  If we set atime to
-+	 * U64_MAX in mpc_reap_evict_vma() then the addition here
-+	 * will roll over and atime will be updated.
++	 * Create an mpc_mpool object through which we can (re)open and manage
++	 * the mpool.  If successful, mpc_mpool_open() adopts dpathv.
 +	 */
-+	if (atomic64_read(atimep) + (10 * USEC_PER_SEC) < now)
-+		atomic64_set(atimep, now);
++	mpool_params_merge_defaults(&mp->mp_params);
 +
-+	/* Sleep a bit if the reaper is having trouble meeting the free memory target. */
-+	lwm = atomic_read(&reap->reap_lwm);
-+	if (lwm < 3333)
-+		return;
++	rc = mpc_mpool_open(mp->mp_dpathc, *dpathv, &mpool, pd_prop, &mp->mp_params, mp->mp_flags);
++	if (rc) {
++		mp_pr_err("%s: mpc_mpool_open failed", rc, mp->mp_params.mp_name);
++		mpool_destroy(mp->mp_dpathc, *dpathv, pd_prop, mp->mp_flags);
++		return rc;
++	}
 +
-+	delay = 500000 / (10001 - lwm) - (500000 / 10001);
-+	delay = min_t(ulong, delay, 3000);
++	*dpathv = NULL;
 +
-+	usleep_range(delay, delay * 2);
++	mlog_lookup_rootids(&cfg.mc_oid1, &cfg.mc_oid2);
++	cfg.mc_uid = uid;
++	cfg.mc_gid = gid;
++	cfg.mc_mode = mode;
++	cfg.mc_rsvd0 = mp->mp_params.mp_rsvd0;
++	cfg.mc_captgt = MPOOL_ROOT_LOG_CAP;
++	cfg.mc_ra_pages_max = mp->mp_params.mp_ra_pages_max;
++	cfg.mc_rsvd1 = mp->mp_params.mp_rsvd1;
++	cfg.mc_rsvd2 = mp->mp_params.mp_rsvd2;
++	cfg.mc_rsvd3 = mp->mp_params.mp_rsvd3;
++	cfg.mc_rsvd4 = mp->mp_params.mp_rsvd4;
++	memcpy(&cfg.mc_utype, &mp->mp_params.mp_utype, sizeof(cfg.mc_utype));
++	strlcpy(cfg.mc_label, mp->mp_params.mp_label, sizeof(cfg.mc_label));
++
++	rc = mpool_config_store(mpool->mp_desc, &cfg);
++	if (rc) {
++		mp_pr_err("%s: config store failed", rc, mp->mp_params.mp_name);
++		goto errout;
++	}
++
++	/* A unit is born with two references:  A birth reference, and one for the caller. */
++	rc = mpc_unit_setup(&mpc_uinfo_mpool, mp->mp_params.mp_name,
++			    &cfg, mpool, &unit);
++	if (rc) {
++		mp_pr_err("%s: unit setup failed", rc, mp->mp_params.mp_name);
++		goto errout;
++	}
++
++	/* Return resolved params to caller. */
++	mp->mp_params.mp_uid = uid;
++	mp->mp_params.mp_gid = gid;
++	mp->mp_params.mp_mode = mode;
++	mp->mp_params.mp_mdc_captgt = cfg.mc_captgt;
++	mp->mp_params.mp_oidv[0] = cfg.mc_oid1;
++	mp->mp_params.mp_oidv[1] = cfg.mc_oid2;
++
++	rc = mpc_params_register(unit, MPC_MPOOL_PARAMS_CNT);
++	if (rc) {
++		mpc_unit_put(unit); /* drop birth ref */
++		goto errout;
++	}
++
++	mutex_lock(&ss->ss_lock);
++	idr_replace(&ss->ss_unitmap, unit, MINOR(unit->un_devno));
++	mutex_unlock(&ss->ss_lock);
++
++	mpool = NULL;
++
++errout:
++	if (mpool) {
++		mpool_deactivate(mpool->mp_desc);
++		mpool->mp_desc = NULL;
++		mpool_destroy(mp->mp_dpathc, mpool->mp_dpathv, pd_prop, mp->mp_flags);
++	}
++
++	/*
++	 * For failures after mpc_unit_setup() (i.e., mpool != NULL)
++	 * dropping the final unit ref will release the mpool ref.
++	 */
++	if (unit)
++		mpc_unit_put(unit); /* Drop caller's ref */
++	else if (mpool)
++		mpc_mpool_put(mpool);
++
++	return rc;
 +}
 +
-+bool mpc_reap_xvm_duress(struct mpc_xvm *xvm)
++/**
++ * mpioc_mp_activate() - activate an mpool.
++ * @mp:      mpool parameter block
++ * @pd_prop:
++ * @dpathv:
++ *
++ * MPIOC_MP_ACTIVATE ioctl handler to activate an mpool.
++ *
++ * Return:  Returns 0 if the mpool is activated, -errno otherwise...
++ */
++static int mpioc_mp_activate(struct mpc_unit *ctl, struct mpioc_mpool *mp,
++			     struct pd_prop *pd_prop, char ***dpathv)
 +{
-+	struct mpc_reap *reap;
-+	uint lwm;
++	struct mpc_softstate *ss = &mpc_softstate;
++	struct mpool_config cfg;
++	struct mpc_mpool *mpool = NULL;
++	struct mpc_unit *unit = NULL;
++	size_t len;
++	int rc;
 +
-+	if (xvm->xvm_advice == MPC_VMA_HOT)
-+		return false;
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
 +
-+	reap = xvm->xvm_reap;
-+	if (!reap)
-+		return false;
++	if (!ctl || !mp || !pd_prop || !dpathv)
++		return -EINVAL;
 +
-+	lwm = atomic_read(&reap->reap_lwm);
-+	if (lwm < 1500)
-+		return false;
++	len = mpc_toascii(mp->mp_params.mp_name, sizeof(mp->mp_params.mp_name));
++	if (len < 1 || len >= MPOOL_NAMESZ_MAX)
++		return (len < 1) ? -EINVAL : -ENAMETOOLONG;
 +
-+	if (lwm > 3000)
-+		return true;
++	mpool_params_merge_defaults(&mp->mp_params);
 +
-+	return (xvm->xvm_advice == MPC_VMA_COLD);
++	/*
++	 * Create an mpc_mpool object through which we can (re)open and manage
++	 * the mpool.  If successful, mpc_mpool_open() adopts dpathv.
++	 */
++	rc = mpc_mpool_open(mp->mp_dpathc, *dpathv, &mpool, pd_prop, &mp->mp_params, mp->mp_flags);
++	if (rc) {
++		mp_pr_err("%s: mpc_mpool_open failed", rc, mp->mp_params.mp_name);
++		return rc;
++	}
++
++	*dpathv = NULL; /* Was adopted by successful mpc_mpool_open() */
++
++	rc = mpool_config_fetch(mpool->mp_desc, &cfg);
++	if (rc) {
++		mp_pr_err("%s config fetch failed", rc, mp->mp_params.mp_name);
++		goto errout;
++	}
++
++	if (mpool_params_merge_config(&mp->mp_params, &cfg))
++		mpool_config_store(mpool->mp_desc, &cfg);
++
++	/* A unit is born with two references:  A birth reference, and one for the caller. */
++	rc = mpc_unit_setup(&mpc_uinfo_mpool, mp->mp_params.mp_name,
++			    &cfg, mpool, &unit);
++	if (rc) {
++		mp_pr_err("%s unit setup failed", rc, mp->mp_params.mp_name);
++		goto errout;
++	}
++
++	/* Return resolved params to caller. */
++	mp->mp_params.mp_uid = cfg.mc_uid;
++	mp->mp_params.mp_gid = cfg.mc_gid;
++	mp->mp_params.mp_mode = cfg.mc_mode;
++	mp->mp_params.mp_mdc_captgt = cfg.mc_captgt;
++	mp->mp_params.mp_oidv[0] = cfg.mc_oid1;
++	mp->mp_params.mp_oidv[1] = cfg.mc_oid2;
++	mp->mp_params.mp_ra_pages_max = cfg.mc_ra_pages_max;
++	mp->mp_params.mp_vma_size_max = cfg.mc_vma_size_max;
++	memcpy(&mp->mp_params.mp_utype, &cfg.mc_utype, sizeof(mp->mp_params.mp_utype));
++	strlcpy(mp->mp_params.mp_label, cfg.mc_label, sizeof(mp->mp_params.mp_label));
++
++	rc = mpc_params_register(unit, MPC_MPOOL_PARAMS_CNT);
++	if (rc) {
++		mpc_unit_put(unit); /* drop birth ref */
++		goto errout;
++	}
++
++	mutex_lock(&ss->ss_lock);
++	idr_replace(&ss->ss_unitmap, unit, MINOR(unit->un_devno));
++	mutex_unlock(&ss->ss_lock);
++
++	mpool = NULL;
++
++errout:
++	/*
++	 * For failures after mpc_unit_setup() (i.e., mpool != NULL)
++	 * dropping the final unit ref will release the mpool ref.
++	 */
++	if (unit)
++		mpc_unit_put(unit); /* drop caller's ref */
++	else if (mpool)
++		mpc_mpool_put(mpool);
++
++	return rc;
 +}
-diff --git a/drivers/mpool/reaper.h b/drivers/mpool/reaper.h
-new file mode 100644
-index 000000000000..d3af6aef918d
---- /dev/null
-+++ b/drivers/mpool/reaper.h
-@@ -0,0 +1,71 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
++
++/**
++ * mpioc_mp_deactivate_impl() - deactivate an mpool.
++ * @unit:   control device unit ptr
++ * @mp:     mpool parameter block
++ *
++ * MPIOC_MP_DEACTIVATE ioctl handler to deactivate an mpool.
++ */
++static int mp_deactivate_impl(struct mpc_unit *ctl, struct mpioc_mpool *mp, bool locked)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	struct mpc_unit *unit = NULL;
++	size_t len;
++	int rc;
++
++	if (!ctl || !mp)
++		return -EINVAL;
++
++	if (!mpc_unit_isctldev(ctl))
++		return -ENOTTY;
++
++	len = mpc_toascii(mp->mp_params.mp_name, sizeof(mp->mp_params.mp_name));
++	if (len < 1 || len >= MPOOL_NAMESZ_MAX)
++		return (len < 1) ? -EINVAL : -ENAMETOOLONG;
++
++	if (!locked) {
++		rc = down_interruptible(&ss->ss_op_sema);
++		if (rc)
++			return rc;
++	}
++
++	mpc_unit_lookup_by_name(ctl, mp->mp_params.mp_name, &unit);
++	if (!unit) {
++		rc = -ENXIO;
++		goto errout;
++	}
++
++	/*
++	 * In order to be determined idle, a unit shall not be open
++	 * and shall have a ref count of exactly two (the birth ref
++	 * and the lookup ref from above).
++	 */
++	mutex_lock(&ss->ss_lock);
++	if (unit->un_open_cnt > 0 || kref_read(&unit->un_ref) != 2) {
++		rc = -EBUSY;
++		mp_pr_err("%s: busy, cannot deactivate", rc, unit->un_name);
++	} else {
++		idr_replace(&ss->ss_unitmap, NULL, MINOR(unit->un_devno));
++		rc = 0;
++	}
++	mutex_unlock(&ss->ss_lock);
++
++	if (!rc)
++		mpc_unit_put(unit); /* drop birth ref */
++
++	mpc_unit_put(unit); /* drop lookup ref */
++
++errout:
++	if (!locked)
++		up(&ss->ss_op_sema);
++
++	return rc;
++}
++
++static int mpioc_mp_deactivate(struct mpc_unit *ctl, struct mpioc_mpool *mp)
++{
++	return mp_deactivate_impl(ctl, mp, false);
++}
++
++static int mpioc_mp_cmd(struct mpc_unit *ctl, uint cmd, struct mpioc_mpool *mp)
++{
++	struct mpc_softstate *ss = &mpc_softstate;
++	struct mpc_unit *unit = NULL;
++	struct pd_prop *pd_prop = NULL;
++	char **dpathv = NULL, *dpaths;
++	size_t dpathvsz, pd_prop_sz;
++	const char *action;
++	size_t len;
++	int rc, i;
++
++	if (!ctl || !mp)
++		return -EINVAL;
++
++	if (!mpc_unit_isctldev(ctl))
++		return -EOPNOTSUPP;
++
++	if (mp->mp_dpathc < 1 || mp->mp_dpathc > MPOOL_DRIVES_MAX)
++		return -EDOM;
++
++	len = mpc_toascii(mp->mp_params.mp_name, sizeof(mp->mp_params.mp_name));
++	if (len < 1 || len >= MPOOL_NAMESZ_MAX)
++		return (len < 1) ? -EINVAL : -ENAMETOOLONG;
++
++	switch (cmd) {
++	case MPIOC_MP_CREATE:
++		action = "create";
++		break;
++
++	case MPIOC_MP_DESTROY:
++		action = "destroy";
++		break;
++
++	case MPIOC_MP_ACTIVATE:
++		action = "activate";
++		break;
++
++	case MPIOC_MP_RENAME:
++		action = "rename";
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	if (!mp->mp_pd_prop || !mp->mp_dpaths) {
++		rc = -EINVAL;
++		mp_pr_err("%s: %s, (%d drives), drives names %p or PD props %p invalid",
++			  rc, mp->mp_params.mp_name, action, mp->mp_dpathc,
++			  mp->mp_dpaths, mp->mp_pd_prop);
++
++		return rc;
++	}
++
++	if (mp->mp_dpathssz > (mp->mp_dpathc + 1) * PATH_MAX)
++		return -EINVAL;
++
++	rc = down_interruptible(&ss->ss_op_sema);
++	if (rc)
++		return rc;
++
++	/*
++	 * If mpc_unit_lookup_by_name() succeeds it will have acquired
++	 * a reference on unit.  We release that reference at the
++	 * end of this function.
++	 */
++	mpc_unit_lookup_by_name(ctl, mp->mp_params.mp_name, &unit);
++
++	if (unit && cmd != MPIOC_MP_DESTROY) {
++		if (cmd == MPIOC_MP_ACTIVATE)
++			goto errout;
++		rc = -EEXIST;
++		mp_pr_err("%s: mpool already activated", rc, mp->mp_params.mp_name);
++		goto errout;
++	}
++
++	/*
++	 * The device path names are in one long string separated by
++	 * newlines.  Here we allocate one chunk of memory to hold
++	 * all the device paths and a vector of ptrs to them.
++	 */
++	dpathvsz = mp->mp_dpathc * sizeof(*dpathv) + mp->mp_dpathssz;
++	if (dpathvsz > MPOOL_DRIVES_MAX * (PATH_MAX + sizeof(*dpathv))) {
++		rc = -E2BIG;
++		mp_pr_err("%s: %s, too many member drives %zu",
++			  rc, mp->mp_params.mp_name, action, dpathvsz);
++		goto errout;
++	}
++
++	dpathv = kmalloc(dpathvsz, GFP_KERNEL);
++	if (!dpathv) {
++		rc = -ENOMEM;
++		goto errout;
++	}
++
++	dpaths = (char *)dpathv + mp->mp_dpathc * sizeof(*dpathv);
++
++	rc = copy_from_user(dpaths, mp->mp_dpaths, mp->mp_dpathssz);
++	if (rc) {
++		rc = -EFAULT;
++		goto errout;
++	}
++
++	for (i = 0; i < mp->mp_dpathc; ++i) {
++		dpathv[i] = strsep(&dpaths, "\n");
++		if (!dpathv[i]) {
++			rc = -EINVAL;
++			goto errout;
++		}
++	}
++
++	/* Get the PDs properties from user space buffer. */
++	pd_prop_sz = mp->mp_dpathc * sizeof(*pd_prop);
++	pd_prop = kmalloc(pd_prop_sz, GFP_KERNEL);
++	if (!pd_prop) {
++		rc = -ENOMEM;
++		mp_pr_err("%s: %s, alloc pd prop %zu failed",
++			  rc, mp->mp_params.mp_name, action, pd_prop_sz);
++		goto errout;
++	}
++
++	rc = copy_from_user(pd_prop, mp->mp_pd_prop, pd_prop_sz);
++	if (rc) {
++		rc = -EFAULT;
++		mp_pr_err("%s: %s, copyin pd prop %zu failed",
++			  rc, mp->mp_params.mp_name, action, pd_prop_sz);
++		goto errout;
++	}
++
++	switch (cmd) {
++	case MPIOC_MP_CREATE:
++		rc = mpioc_mp_create(ctl, mp, pd_prop, &dpathv);
++		break;
++
++	case MPIOC_MP_ACTIVATE:
++		rc = mpioc_mp_activate(ctl, mp, pd_prop, &dpathv);
++		break;
++
++	case MPIOC_MP_DESTROY:
++		if (unit) {
++			mpc_unit_put(unit);
++			unit = NULL;
++
++			rc = mp_deactivate_impl(ctl, mp, true);
++			if (rc) {
++				action = "deactivate";
++				break;
++			}
++		}
++		rc = mpool_destroy(mp->mp_dpathc, dpathv, pd_prop, mp->mp_flags);
++		break;
++
++	case MPIOC_MP_RENAME:
++		rc = mpool_rename(mp->mp_dpathc, dpathv, pd_prop, mp->mp_flags,
++				   mp->mp_params.mp_name);
++		break;
++	}
++
++	if (rc)
++		mp_pr_err("%s: %s failed", rc, mp->mp_params.mp_name, action);
++
++errout:
++	mpc_unit_put(unit);
++	up(&ss->ss_op_sema);
++
++	kfree(pd_prop);
++	kfree(dpathv);
++
++	return rc;
++}
++
++/**
++ * mpioc_mp_add() - add a device to an existing mpool
++ * @unit:   mpool unit ptr
++ * @drv:    mpool device parameter block
++ *
++ * MPIOC_MP_ADD ioctl handler to add a drive to a activated mpool
++ *
++ * Return:  Returns 0 if successful, -errno otherwise...
++ */
++static int mpioc_mp_add(struct mpc_unit *unit, struct mpioc_drive *drv)
++{
++	struct mpool_descriptor *desc = unit->un_mpool->mp_desc;
++	size_t pd_prop_sz, dpathvsz;
++	struct pd_prop *pd_prop;
++	char **dpathv, *dpaths;
++	int rc, i;
++
++	/*
++	 * The device path names are in one long string separated by
++	 * newlines.  Here we allocate one chunk of memory to hold
++	 * all the device paths and a vector of ptrs to them.
++	 */
++	dpathvsz = drv->drv_dpathc * sizeof(*dpathv) + drv->drv_dpathssz;
++	if (drv->drv_dpathc > MPOOL_DRIVES_MAX ||
++	    dpathvsz > MPOOL_DRIVES_MAX * (PATH_MAX + sizeof(*dpathv))) {
++		rc = -E2BIG;
++		mp_pr_err("%s: invalid pathc %u, pathsz %zu",
++			  rc, unit->un_name, drv->drv_dpathc, dpathvsz);
++		return rc;
++	}
++
++	dpathv = kmalloc(dpathvsz, GFP_KERNEL);
++	if (!dpathv) {
++		rc = -ENOMEM;
++		mp_pr_err("%s: alloc dpathv %zu failed", rc, unit->un_name, dpathvsz);
++		return rc;
++	}
++
++	dpaths = (char *)dpathv + drv->drv_dpathc * sizeof(*dpathv);
++	rc = copy_from_user(dpaths, drv->drv_dpaths, drv->drv_dpathssz);
++	if (rc) {
++		rc = -EFAULT;
++		mp_pr_err("%s: copyin dpaths %u failed", rc, unit->un_name, drv->drv_dpathssz);
++		kfree(dpathv);
++		return rc;
++	}
++
++	for (i = 0; i < drv->drv_dpathc; ++i) {
++		dpathv[i] = strsep(&dpaths, "\n");
++		if (!dpathv[i] || (strlen(dpathv[i]) > PATH_MAX - 1)) {
++			rc = -EINVAL;
++			mp_pr_err("%s: ill-formed dpathv list ", rc, unit->un_name);
++			kfree(dpathv);
++			return rc;
++		}
++	}
++
++	/* Get the PDs properties from user space buffer. */
++	pd_prop_sz = drv->drv_dpathc * sizeof(*pd_prop);
++
++	pd_prop = kmalloc(pd_prop_sz, GFP_KERNEL);
++	if (!pd_prop) {
++		rc = -ENOMEM;
++		mp_pr_err("%s: alloc pd prop %zu failed", rc, unit->un_name, pd_prop_sz);
++		kfree(dpathv);
++		return rc;
++	}
++
++	rc = copy_from_user(pd_prop, drv->drv_pd_prop, pd_prop_sz);
++	if (rc) {
++		rc = -EFAULT;
++		mp_pr_err("%s: copyin pd prop %zu failed", rc, unit->un_name, pd_prop_sz);
++		kfree(pd_prop);
++		kfree(dpathv);
++		return rc;
++	}
++
++	for (i = 0; i < drv->drv_dpathc; ++i) {
++		rc = mpool_drive_add(desc, dpathv[i], &pd_prop[i]);
++		if (rc)
++			break;
++	}
++
++	kfree(pd_prop);
++	kfree(dpathv);
++
++	return rc;
++}
++
++static struct mpc_softstate *mpc_cdev2ss(struct cdev *cdev)
++{
++	if (!cdev || cdev->owner != THIS_MODULE) {
++		mp_pr_crit("module dissociated", -EINVAL);
++		return NULL;
++	}
++
++	return container_of(cdev, struct mpc_softstate, ss_cdev);
++}
++
 +/*
-+ * Copyright (C) 2015-2020 Micron Technology, Inc.  All rights reserved.
++ * MPCTL file operations.
 + */
 +
-+#ifndef MPOOL_REAPER_H
-+#define MPOOL_REAPER_H
-+
-+#define MPC_REAP_PARAMS_CNT    3
-+
-+struct mpc_reap;
-+struct mpc_xvm;
-+
 +/**
-+ * mpc_reap_create() - Allocate and initialize reap data strctures
-+ * @reapp: Ptr to initialized reap structure.
++ * mpc_open() - Open an mpool device.
++ * @ip: inode ptr
++ * @fp: file ptr
 + *
-+ * Return: -ENOMEM if the allocaiton fails.
++ * Return:  Returns 0 on success, -errno otherwise...
 + */
-+int mpc_reap_create(struct mpc_reap **reapp);
++static int mpc_open(struct inode *ip, struct file *fp)
++{
++	struct mpc_softstate *ss;
++	struct mpc_unit *unit;
++	bool firstopen;
++	int rc = 0;
++
++	ss = mpc_cdev2ss(ip->i_cdev);
++	if (!ss || ss != &mpc_softstate)
++		return -EBADFD;
++
++	/* Acquire a reference on the unit object.  We'll release it in mpc_release(). */
++	mpc_unit_lookup(iminor(fp->f_inode), &unit);
++	if (!unit)
++		return -ENODEV;
++
++	if (down_trylock(&unit->un_open_lock)) {
++		rc = (fp->f_flags & O_NONBLOCK) ? -EWOULDBLOCK :
++			down_interruptible(&unit->un_open_lock);
++
++		if (rc)
++			goto errout;
++	}
++
++	firstopen = (unit->un_open_cnt == 0);
++
++	if (!firstopen) {
++		if (fp->f_mapping != unit->un_mapping)
++			rc = -EBUSY;
++		else if (unit->un_open_excl || (fp->f_flags & O_EXCL))
++			rc = -EBUSY;
++		goto unlock;
++	}
++
++	if (!mpc_unit_ismpooldev(unit)) {
++		unit->un_open_excl = !!(fp->f_flags & O_EXCL);
++		goto unlock; /* control device */
++	}
++
++	/* First open of an mpool unit (not the control device). */
++	if (!fp->f_mapping || fp->f_mapping != ip->i_mapping) {
++		rc = -EINVAL;
++		goto unlock;
++	}
++
++	fp->f_op = &mpc_fops_default;
++
++	unit->un_mapping = fp->f_mapping;
++
++	inode_lock(ip);
++	i_size_write(ip, 1ul << (__BITS_PER_LONG - 1));
++	inode_unlock(ip);
++
++	unit->un_open_excl = !!(fp->f_flags & O_EXCL);
++
++unlock:
++	if (!rc) {
++		fp->private_data = unit;
++		nonseekable_open(ip, fp);
++		++unit->un_open_cnt;
++	}
++	up(&unit->un_open_lock);
++
++errout:
++	if (rc) {
++		if (rc != -EBUSY)
++			mp_pr_err("open %s failed", rc, unit->un_name);
++		mpc_unit_put(unit);
++	}
++
++	return rc;
++}
 +
 +/**
-+ * mpc_reap_destroy() - Destroy the given reaper
-+ * @reap:
-+ */
-+void mpc_reap_destroy(struct mpc_reap *reap);
-+
-+/**
-+ * mpc_reap_xvm_add() - Add an extended VMA to the reap list
-+ * @xvm: extended VMA
-+ */
-+void mpc_reap_xvm_add(struct mpc_reap *reap, struct mpc_xvm *xvm);
-+
-+/**
-+ * mpc_reap_xvm_evict() - Evict all pages of given extended VMA
-+ * @xvm: extended VMA
-+ */
-+void mpc_reap_xvm_evict(struct mpc_xvm *xvm);
-+
-+/**
-+ * mpc_reap_xvm_touch() - Update extended VMA mblock atime
-+ * @xvm:    extended VMA
-+ * @index:  valid page index within the extended VMA
++ * mpc_release() - Close the specified mpool device.
++ * @ip: inode ptr
++ * @fp: file ptr
 + *
-+ * Update the access time stamp of the mblock given by the valid
-+ * page %index within the VMA.  Might sleep for some number of
-+ * microseconds if the reaper is under duress (i.e., the more
-+ * urgent the duress the longer the sleep).
-+ *
-+ * This function is called only by mpc_vm_fault_impl(), once
-+ * for each successful page fault.
++ * Return:  Returns 0 on success, -errno otherwise...
 + */
-+void mpc_reap_xvm_touch(struct mpc_xvm *xvm, int index);
++static int mpc_release(struct inode *ip, struct file *fp)
++{
++	struct mpc_unit *unit;
++	bool lastclose;
++
++	unit = fp->private_data;
++	if (!unit)
++		return -EBADFD;
++
++	down(&unit->un_open_lock);
++	lastclose = (--unit->un_open_cnt == 0);
++	if (!lastclose)
++		goto errout;
++
++	if (mpc_unit_ismpooldev(unit))
++		unit->un_mapping = NULL;
++
++	unit->un_open_excl = false;
++
++errout:
++	up(&unit->un_open_lock);
++
++	mpc_unit_put(unit);
++
++	return 0;
++}
 +
 +/**
-+ * mpc_reap_xvm_duress() - Check to see if reaper is under duress
-+ * @xvm:   extended VMA
++ * mpc_ioctl() - mpc driver ioctl entry point
++ * @fp:     file pointer
++ * @cmd:    an mpool ioctl command (i.e.,  MPIOC_*)
++ * @arg:    varies..
 + *
-+ * Return: %false if the VMA is marked MPC_XVM_HOT.
-+ * Return: %false if reaper is not enabled nor under duress.
-+ * Return: %true depending upon the urgency of duress and the
-+ * VMA advice (MPC_XVM_WARM or MPC_XVM_COLD).
++ * Perform the specified mpool ioctl command.
 + *
-+ * This function is called only by mpc_readpages() to decide whether
-+ * or not to reduce the size of a speculative readahead request.
++ * Return:  Returns 0 on success, -errno otherwise...
 + */
-+bool mpc_reap_xvm_duress(struct mpc_xvm *xvm);
++static long mpc_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
++{
++	char argbuf[256] __aligned(16);
++	struct mpc_unit *unit;
++	size_t argbufsz;
++	void *argp;
++	ulong iosz;
++	int rc;
 +
-+void mpc_reap_params_add(struct device_attribute *dattr);
++	if (_IOC_TYPE(cmd) != MPIOC_MAGIC)
++		return -ENOTTY;
 +
-+#endif /* MPOOL_REAPER_H */
++	if ((fp->f_flags & O_ACCMODE) == O_RDONLY) {
++		switch (cmd) {
++		case MPIOC_PROP_GET:
++		case MPIOC_DEVPROPS_GET:
++		case MPIOC_MP_MCLASS_GET:
++			break;
++
++		default:
++			return -EINVAL;
++		}
++	}
++
++	unit = fp->private_data;
++	argbufsz = sizeof(argbuf);
++	iosz = _IOC_SIZE(cmd);
++	argp = (void *)arg;
++
++	if (!unit || (iosz > sizeof(union mpioc_union)))
++		return -EINVAL;
++
++	/* Set up argp/argbuf for read/write requests. */
++	if (_IOC_DIR(cmd) & (_IOC_READ | _IOC_WRITE)) {
++		argp = argbuf;
++		if (iosz > argbufsz) {
++			argbufsz = roundup_pow_of_two(iosz);
++
++			argp = kzalloc(argbufsz, GFP_KERNEL);
++			if (!argp)
++				return -ENOMEM;
++		}
++
++		if (_IOC_DIR(cmd) & _IOC_WRITE) {
++			if (copy_from_user(argp, (const void __user *)arg, iosz)) {
++				if (argp != argbuf)
++					kfree(argp);
++				return -EFAULT;
++			}
++		}
++	}
++
++	switch (cmd) {
++	case MPIOC_MP_CREATE:
++	case MPIOC_MP_ACTIVATE:
++	case MPIOC_MP_DESTROY:
++	case MPIOC_MP_RENAME:
++		rc = mpioc_mp_cmd(unit, cmd, argp);
++		break;
++
++	case MPIOC_MP_DEACTIVATE:
++		rc = mpioc_mp_deactivate(unit, argp);
++		break;
++
++	case MPIOC_DRV_ADD:
++		rc = mpioc_mp_add(unit, argp);
++		break;
++
++	case MPIOC_PARAMS_SET:
++		rc = mpioc_params_set(unit, argp);
++		break;
++
++	case MPIOC_PARAMS_GET:
++		rc = mpioc_params_get(unit, argp);
++		break;
++
++	case MPIOC_MP_MCLASS_GET:
++		rc = mpioc_mp_mclass_get(unit, argp);
++		break;
++
++	case MPIOC_PROP_GET:
++		rc = mpioc_proplist_get(unit, argp);
++		break;
++
++	case MPIOC_DEVPROPS_GET:
++		rc = mpioc_devprops_get(unit, argp);
++		break;
++
++	default:
++		rc = -ENOTTY;
++		mp_pr_rl("invalid command %x: dir=%u type=%c nr=%u size=%u",
++			 rc, cmd, _IOC_DIR(cmd), _IOC_TYPE(cmd), _IOC_NR(cmd), _IOC_SIZE(cmd));
++		break;
++	}
++
++	if (!rc && _IOC_DIR(cmd) & _IOC_READ) {
++		if (copy_to_user((void __user *)arg, argp, iosz))
++			rc = -EFAULT;
++	}
++
++	if (argp != argbuf)
++		kfree(argp);
++
++	return rc;
++}
++
++static const struct file_operations mpc_fops_default = {
++	.owner		= THIS_MODULE,
++	.open		= mpc_open,
++	.release	= mpc_release,
++	.unlocked_ioctl	= mpc_ioctl,
++};
++
+ static int mpc_exit_unit(int minor, void *item, void *arg)
+ {
+ 	mpc_unit_put(item);
 -- 
 2.17.2
 
