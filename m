@@ -2,117 +2,138 @@ Return-Path: <SRS0=YdFy=DT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2064C43457
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 15:49:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28530C433E7
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:28:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 49F232076E
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 15:49:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AF2D920838
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Oct 2020 16:28:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Hh785O92";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=windriversystems.onmicrosoft.com header.i=@windriversystems.onmicrosoft.com header.b="WJCsVIir"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 49F232076E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=windriver.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mjtS5tgo";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="JhOPaEy9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF2D920838
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=micron.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:Subject:From:To:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=wH92NZwFOxZjQSUcyHCceBeb5Y+v5Lr59k3NrM/ScU8=; b=Hh785O92s88AFY
-	jLElIzG+6Bta+2A4h2dT6hLcUlSoJ35eamoiQfphDqXzX8YJ7jXoMJ4leenK2BhjuZxCTH3M1nnwA
-	NJu6er0qR7SFhLwfenJrfCAbNe9gDQ9j2KAePiKlRU1y8Ccbbv1urFbWnBRNH82KswnUqQ2hwVD7Z
-	Z1KfIFEeUde/UZoWAWyq94NBaPfdt6i3lNgwk0MuEvlxAxCC9RpeFVmqN/Wr6HVN74AkMpAUZNI7l
-	mKhNgUaXKP9cyBENKQag3KmbEgE4oY8pZ5GBPlKQWQLOwgHmx49l5ZZpBZorQL1wt7dlepnqAaJ/l
-	lq0RwKbGowelkiSQXSwg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=t5W9hbdW/T/lsxeXtsBQMvsgh+lssqvjOxUR4+CzLQs=; b=mjtS5tgo9AKHcW83IYpF8WLFZi
+	Uiw/C3tiKsEPz8KGuTgyZBlTPDfe5zhEmnskaSv5J2uF7uAfzx/9PEmRoz3+4uF1KJiW1POnX6jwY
+	FeEPVc7TamTDaIBufw2pKy+CZrW3urEmAA2SfNDPaSqHlYYjTU5z/T8IUb81XvGz2wxa3cDUBhmYG
+	iEN720KgXCcgeOrC4pbz+Dvk4GvVVewqD2x/QWkUmn+DvqxVpd2E3QLOpspoUDJf8M3qvy1KZJRGq
+	cgyV5u+A8StWtu8iH+FcuFN3Ga8na+ABuaMiYFsS28qtldS5RG6Zg25uok9Vbp0bjqRFBF/z1QaWo
+	RhqZcxBg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kS055-0004ZH-2n; Mon, 12 Oct 2020 15:49:47 +0000
-Received: from mail-dm6nam12on2073.outbound.protection.outlook.com
- ([40.107.243.73] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1kS0g8-00020Z-F7; Mon, 12 Oct 2020 16:28:04 +0000
+Received: from mail-dm6nam12on2066.outbound.protection.outlook.com
+ ([40.107.243.66] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kS052-0004Xc-82
- for linux-nvme@lists.infradead.org; Mon, 12 Oct 2020 15:49:45 +0000
+ id 1kS0g5-0001yo-5H
+ for linux-nvme@lists.infradead.org; Mon, 12 Oct 2020 16:28:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PWA751/uxsojpbbUMXe8O0NKqrsWOqrZqGt0vH7p2W0s4nPkxO2FdcyUXx6OB9Of34lEutt3ASCBP5Fy/gzkzGTwoRJX5O3HSCTIzlKn7P79KLO6uYz/XWw62BEgkwOQnBjbgBhjq6e7uaDYJZY/vIwQL0cj8eWQYBCiaFuqj58DhmGBP5RMAJqBbzQkOgbHaKg1vvVd0XZkGMjWRbpilcWRDpP5Q3j8AzAt+g9eDujiXvZP0P5/D8D6r3qDFIcSkQSk3IYGgRV+KFPkgEYFrTrJRT2GSeUs96Z1VH9HqovVBeGDfd0/1UWA2oYZm8/RfrS5atJoMgc0uK5AEFvsXw==
+ b=CUhLkq+181liDROWnjfgLbEYIfi3d1LgS4i5DHO49p3pXMilCsGcm1xlA0uIsAr4jhlHYtELxjvUz0OBxEnhFngbUFINfNMHfPAMmXxijou5tDhcX2JVLDGFZqzwU2EO7YTuUT3iTXyQ63ntJOaknhXfZMZ4arelfMDIKne5erPyxS53CLTDxkIG7dRsRzdXapbSXZKyLu7nEO+ZIDmLEFo9lf7W8V8mfHX2S2IeLb44M/Ru0O8YcMSMnY1AQb8ic13ZIVjE3Rn34rN67gZNJZqrDwlGTKFHdTNMOrWrJa1K+FGu6GVa4COHdHcmMMnPck1n9SzdtAAWePOCXIBndA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cRYo9U49dD6N7Yx/E8wsboFANiOg9CnLZ8sScXjfzO8=;
- b=jh+vAJATX7E2E3ta++IsF1+ftHYSIhyzHJCJD6qtma5hshoE6RKFv48/x+UeJ2+XPa4GzY9eECgSvolHNAfbfpAudgEIKl9iUNAy1RcV4jS3rhwoRgqtd0aABeJRnKXYizTf/6CKtrKjU6JHepy0zaPCR+BKtvvl4U4p+QZlqKGKkQhR0Sa6qKARfbvTIhbVLLk657QbCJFN2TFJfGjQV3rXnLikvwjDyk1/m8HD/b04oLztBQdrdJm8gseG2vrpbtIFSMGAKcjBqTdhcdJcpw9Ar/KfIzYL43BONPCMAbppHGrn+Nf6oS3Wdxql0i8nyW8KSYFp+Qe4xGWoiHzYsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ bh=JluFwbD7SGL9gJMR+EvXSujNucjW1WufbXqhWo5q/Ig=;
+ b=Z+TWWhbwzAJGeHCM+tyOOCXF/D1iF0FHITXd4JKEQ+uVLsz0h+fLwJ6CaUFHhgOx3RtIMVwe3hXaP34c3skHXYL42Jad0WclkT3vLEYaK1AF9mzf5891i9f2/v4nWoA5ThkMwiA8kqVJT7qMBhyJw0EaEItR+EWDI0VOWrWeizIAliOWhcF/9oYJzB+yWrcU2a+DomEy7FXsChG97nP8/RL+IAhNm0gRXQ6dxSfc3QiI6FB5MoDeuEOAKlEXUbaw+4zy3lHk6AfbZNP+dxehoDO1OpZQQzrnYSXkyhIMdf6AXWKKnkH7/L+YrKRrcUbkx5hLyi64lce6wRiMQxYn7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 137.201.242.130) smtp.rcpttodomain=kvack.org smtp.mailfrom=micron.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=micron.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cRYo9U49dD6N7Yx/E8wsboFANiOg9CnLZ8sScXjfzO8=;
- b=WJCsVIir5p2agWTt/FvtNiEQjXVG/4bhCE6hrRK6kb9hKQ7+VQqpnj25HKQ4dL/vV3DyVzGQMxGSSeN5YEbSZ1IbxF7rtnna4f7AfWRnddpG6YUuTO9k26Op8yalHFJt6hKy6Au1u+v90mTlJu7V2zjziFWSwSoe/oF8lohQEqA=
-Authentication-Results: lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SJ0PR11MB5120.namprd11.prod.outlook.com (2603:10b6:a03:2d1::13)
- by BYAPR11MB3367.namprd11.prod.outlook.com (2603:10b6:a03:79::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23; Mon, 12 Oct
- 2020 15:49:40 +0000
-Received: from SJ0PR11MB5120.namprd11.prod.outlook.com
- ([fe80::c048:b134:f828:e40]) by SJ0PR11MB5120.namprd11.prod.outlook.com
- ([fe80::c048:b134:f828:e40%6]) with mapi id 15.20.3455.029; Mon, 12 Oct 2020
- 15:49:40 +0000
-To: linux-nvme@lists.infradead.org
-From: Chris Friesen <chris.friesen@windriver.com>
-Subject: NVME, isolcpus, and irq affinity
-Message-ID: <2a4a5174-d1b9-86b7-f3c8-03b041fa093e@windriver.com>
-Date: Mon, 12 Oct 2020 09:49:38 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-Content-Language: en-US
-X-Originating-IP: [70.64.84.123]
-X-ClientProxiedBy: BY5PR17CA0046.namprd17.prod.outlook.com
- (2603:10b6:a03:167::23) To SJ0PR11MB5120.namprd11.prod.outlook.com
- (2603:10b6:a03:2d1::13)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.25.39.5] (70.64.84.123) by
- BY5PR17CA0046.namprd17.prod.outlook.com (2603:10b6:a03:167::23) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=JluFwbD7SGL9gJMR+EvXSujNucjW1WufbXqhWo5q/Ig=;
+ b=JhOPaEy9gZsAi3QJlmQ3MOZChWlE+Vqte8Ol9QFEeJiiFwrUeNebYNeJjHM9Ll23j93M+Y56ZLTdshU8oWiixqSODwJmI3q3zybiG2Z4uKot6H5FtDM+ldCDHH/VQ7uZB5SER6otLkvbmXc2Ld9/sZiUhkvh0UFt6YMWU+VGvoA=
+Received: from SN4PR0201CA0051.namprd02.prod.outlook.com
+ (2603:10b6:803:20::13) by DM5PR08MB2411.namprd08.prod.outlook.com
+ (2603:10b6:3:6e::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Mon, 12 Oct
+ 2020 16:27:57 +0000
+Received: from SN1NAM01FT015.eop-nam01.prod.protection.outlook.com
+ (2603:10b6:803:20:cafe::26) by SN4PR0201CA0051.outlook.office365.com
+ (2603:10b6:803:20::13) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21 via Frontend
- Transport; Mon, 12 Oct 2020 15:49:40 +0000
+ Transport; Mon, 12 Oct 2020 16:27:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 137.201.242.130)
+ smtp.mailfrom=micron.com; kvack.org;
+ dkim=none (message not signed)
+ header.d=none;kvack.org; dmarc=pass action=none header.from=micron.com;
+Received-SPF: Pass (protection.outlook.com: domain of micron.com designates
+ 137.201.242.130 as permitted sender) receiver=protection.outlook.com;
+ client-ip=137.201.242.130; helo=mail.micron.com;
+Received: from mail.micron.com (137.201.242.130) by
+ SN1NAM01FT015.mail.protection.outlook.com (10.152.65.55) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3455.23 via Frontend Transport; Mon, 12 Oct 2020 16:27:56 +0000
+Received: from micron.com (10.114.5.55) by bowex17c.micron.com
+ (137.201.21.211) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 12 Oct
+ 2020 10:27:53 -0600
+From: Nabeel M Mohamed <nmeeramohide@micron.com>
+To: <linux-kernel@vger.kernel.org>, <linux-block@vger.kernel.org>,
+ <linux-nvme@lists.infradead.org>, <linux-mm@kvack.org>,
+ <linux-nvdimm@lists.01.org>
+Subject: [PATCH v2 00/22] add Object Storage Media Pool (mpool)
+Date: Mon, 12 Oct 2020 11:27:14 -0500
+Message-ID: <20201012162736.65241-1-nmeeramohide@micron.com>
+X-Mailer: git-send-email 2.17.2
+MIME-Version: 1.0
+X-ClientProxiedBy: bowex17a.micron.com (137.201.21.209) To bowex17c.micron.com
+ (137.201.21.211)
+X-TM-AS-Product-Ver: SMEX-12.0.0.1782-8.200.1013-24646.005
+X-TM-AS-Result: No--9.617400-0.000000-31
+X-TM-AS-MatchedID: 155702-703408-704232-702522-704499-701478-704783-701343-7
+ 03674-702207-702619-704623-703226-702874-701239-703851-704841-701342-703638
+ -702877-701086-701580-702501-701969-700026-704671-700224-704585-700864-7045
+ 02-702672-700025-702935-703117-703713-702876-704418-702751-704397-702083-84
+ 7298-703550-703279-703651-702719-700335-702342-702203-704274-704637-702345-
+ 703215-701809-703017-700535-703712-105400-703958-700717-700863-703844-70504
+ 1-701589-704253-704318-702727-701913-704981-702754-701073-703812-703115-704
+ 949-701844-701031-705161-702783-703080-705247-700958-704718-700400-704960-7
+ 01030-700260-702617-703027-701077-704014-139705-148004-148036-42000-42003
+X-TM-AS-User-Approved-Sender: Yes
+X-TM-AS-User-Blocked-Sender: No
+X-MT-Whitelisted: matched
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 03b21d45-61d9-4e70-df83-08d86ec66e4d
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3367:
-X-Microsoft-Antispam-PRVS: <BYAPR11MB3367B9E98419F896BE5125E0F6070@BYAPR11MB3367.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 92dd5db8-de2c-4b9f-f769-08d86ecbc6c2
+X-MS-TrafficTypeDiagnostic: DM5PR08MB2411:
+X-Microsoft-Antispam-PRVS: <DM5PR08MB24119CA21526E5249201CBA5B3070@DM5PR08MB2411.namprd08.prod.outlook.com>
+X-MS-Exchange-Transport-Forked: True
+X-EXT-ByPass: 1
+X-MT-RULE-Whitelisted: Triggered
 X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4nPn3U1hFCTDfkvawMNIkvJb2bJ3jzK+h0xhWE55xuu5r3lmhTgXEG0ZaSqI1Has5QtwfUpjpQUhnb35KtYaOXKA41Zk4LRhV+Ic9IxY3XEbQlbD7fJTh8dU5DWcw8WEp0++F7SC1Suc4uRCaD+zqvU8EhLyrWP/0W+dm4rT8ONOwRRjcLc78M0D0XxTYGfMJJx/nUOR8JbeujT8tz4/ff9GMniuI5j4Epn05ZO+WKY6o3bapvb54DmATc2ayFnwtClprNBEhJULcWhwOQ0oSTuRucq8V/AasT13rplQSK3aBPVbi4T39SLIvo5xPt0RGxCQ4xc3LSRrW8X2nGoy9xFXjSyhAXiw1xP4QzM5kP7aSL1qcc6yQ3l2hXrrdTOEKc7apAxYeTc+2xH0+/aFQ3ebaD9NsyYwcOlOgkhxQlc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB5120.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(346002)(39850400004)(366004)(136003)(16526019)(5660300002)(478600001)(186003)(966005)(36756003)(66946007)(2616005)(52116002)(66556008)(66476007)(16576012)(956004)(316002)(6486002)(86362001)(44832011)(6916009)(31696002)(8676002)(26005)(83380400001)(8936002)(2906002)(31686004)(43740500002);
+X-Microsoft-Antispam-Message-Info: 782nXjsFi7qv2aLKDCGQrOvnveO+fursLNsr3n8R1M3A9f6xsitW/qHkoVy8fNr/U5Fc9XDZQ8fE0F7nq5pKeuCkceERRKx0uw/i6gBqImwK5RPMIdLwC/Ombeq+0OA7WzuAt6C2fAIsivNqoTvd9a0FvOWgZpLoSBwO4VPiMSGKvneNmFhN8Yoqt1c0Ioc5uf2HRuznTV050XshWIi4oogZ2KLySWAhvooxWyBVvG9TIqAF3FiQdARwb7VXLCqLFBRB7uO2swe6itE9V8OffVNON32BVHH7kO0OtuTefn9orJxKKykVq9RnllJBcV4/Hf46pgEnmiT4DQ+KsTMmZHsdSPjW5jM1c3FO0P5fEMJADgH7N+rGXusL2SHgLxQWC9HslSo99rMn48TW4DwYujpa/RY5d4y4YLKiV+bI/fYktMsUiJh3eJHrfwYLOYwRE4JU9KXFYGxODsc9frlL6vwpTtTKcSaDzc8bqYvMqLMHownpHjWYouoWDH21bI/FYnk52FKp6K+5/PTi7WZ9KQ==
+X-Forefront-Antispam-Report: CIP:137.201.242.130; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.micron.com; PTR:masquerade.micron.com; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(39860400002)(376002)(346002)(46966005)(30864003)(5660300002)(70586007)(70206006)(83380400001)(4326008)(6286002)(82310400003)(86362001)(107886003)(83080400001)(356005)(1076003)(7636003)(966005)(478600001)(2906002)(33310700002)(82740400003)(2616005)(186003)(8936002)(316002)(426003)(26005)(55016002)(336012)(7696005)(6666004)(8676002)(54906003)(110136005)(36756003)(47076004)(2101003);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: TZE+9UE2hvtRyATfrepdB0bebk9mcZ3vzp6RsGkkDClWPhoaxsFXo1byZ4ZJq4goawx+1y08I92Zb7XO7bj7uZmIvvJooL4ZejdlHWPO4+kTpiiJu/naG+elkKPqCrVFFiJ2DEpn590MXmaBZ57o+oeaZVvPI9gZsOG3x2IR24sEINDEQuwlRHqZNgXcYttIofqYSHzwgaKgfsv1skNhdtgyxqASx+0114XJb6ff8vw6BTBIsV37nP3Xm8SLEhqz3QN+2A1zy8cmzeVQ/CJUg4tVYOcP+w8lq/oDn8ZkEqWG0HQaz1HO93nvMQNIEWdMHMYdiklhJjIj3Up4b90BKyA+6j0KmtP7UZWQbBUo5QLLMWTLYTapVoC57SCvTnJpljPRRH2M5i948hf0/8/rOWExskpLppQ/PGXMOk9WSWWb0fQB46OnuHGbXcT3QqRa1h3xvdRM5Z2gSor5DL2f7DWL921RUrlS7yuWtrEteiHkdUi+9lGOSVU99wXVskKcTWuYHM7aJxPMoY9A68hmefRD+n+D6XvRCS5Izluue67kO+kHG3V0VPQlVmyeVtY0VdJgMGd5lsEiVVtAjDOiTMEIMQR3QbgQHIYxMvl961yuAC53yTBMOgZBczpb/BO/fMZlkOn0BKICcSx+rYGEFg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03b21d45-61d9-4e70-df83-08d86ec66e4d
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5120.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2020 15:49:40.7386 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CXXtQtvXeuDrmER/7raEegs4ALQj892/gUPmNLLARShQralH0KavlgZ8jsU7ygZD8YhdwbVQ8AvQ01HZ9mTSoDTo7nkEB4P1mJMUnhFMj54=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3367
+X-OriginatorOrg: micron.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2020 16:27:56.3278 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92dd5db8-de2c-4b9f-f769-08d86ecbc6c2
+X-MS-Exchange-CrossTenant-Id: f38a5ecd-2813-4862-b11b-ac1d563c806f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f38a5ecd-2813-4862-b11b-ac1d563c806f; Ip=[137.201.242.130];
+ Helo=[mail.micron.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM01FT015.eop-nam01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR08MB2411
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201012_114944_300274_BCFB564D 
-X-CRM114-Status: GOOD (  12.52  )
+X-CRM114-CacheID: sfid-20201012_122801_346334_14F9AD8B 
+X-CRM114-Status: GOOD (  17.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,33 +145,266 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: plabat@micron.com, smoyer@micron.com, jgroves@micron.com,
+ gbecker@micron.com, Nabeel M Mohamed <nmeeramohide@micron.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGksCgpJJ20gbm90IHN1YnNjcmliZWQgdG8gdGhlIGxpc3Qgc28gcGxlYXNlIENDIG1lIG9uIHJl
-cGxpZXMuCgpJJ3ZlIGdvdCBhIGxpbnV4IHN5c3RlbSBydW5uaW5nIHRoZSBSVCBrZXJuZWwgd2l0
-aCB0aHJlYWRlZCBpcnFzLsKgIE9uIApzdGFydHVwIHdlIGFmZmluZSB0aGUgdmFyaW91cyBpcnEg
-dGhyZWFkcyB0byB0aGUgaG91c2VrZWVwaW5nIENQVXMsIGJ1dCAKSSByZWNlbnRseSBoaXQgYSBz
-Y2VuYXJpbyB3aGVyZSBhZnRlciBzb21lIGRheXMgb2YgdXB0aW1lIHdlIGVuZGVkIHVwIAp3aXRo
-IGEgbnVtYmVyIG9mIE5WTUUgaXJxIHRocmVhZHMgYWZmaW5lZCB0byBhcHBsaWNhdGlvbiBjb3Jl
-cyBpbnN0ZWFkIAoobm90IGdvb2Qgd2hlbiB3ZSdyZSB0cnlpbmcgdG8gcnVuIGxvdy1sYXRlbmN5
-IGFwcGxpY2F0aW9ucykuCgpMb29raW5nIGF0IHRoZSBjb2RlLCBpdCBhcHBlYXJzIHRoYXQgdGhl
-IE5WTUUgZHJpdmVyIGNhbiBpbiBzb21lIApzY2VuYXJpb3MgY2FsbCBudm1lX3NldHVwX2lvX3F1
-ZXVlcygpIGFmdGVyIHRoZSBpbml0aWFsIHNldHVwIGFuZCB0aHVzIAphbGxvY2F0ZSBuZXcgSVJR
-IHRocmVhZHMgYXQgcnVudGltZS7CoCBJdCBhcHBlYXJzIHRoYXQgdGhpcyB3aWxsIHRoZW4gCmNh
-bGwgcGNpX2FsbG9jX2lycV92ZWN0b3JzX2FmZmluaXR5KCksIHdoaWNoIHNlZW1zIHRvIGRldGVy
-bWluZSBhZmZpbml0eSAKd2l0aG91dCBhbnkgcmVnYXJkIGZvciB0aGluZ3MgbGlrZSAiaXNvbGNw
-dXMiIG9yICJjc2V0IHNoaWVsZCIuCgpUaGVyZSBzZWVtIHRvIGJlIG90aGVyIHJlcG9ydHMgb2Yg
-c2ltaWxhciBpc3N1ZXM6CgpodHRwczovL2J1Z3MubGF1bmNocGFkLm5ldC91YnVudHUvK3NvdXJj
-ZS9saW51eC8rYnVnLzE4MzE1NjYKCkFtIEkgd29ycmllZCBhYm91dCBub3RoaW5nLCBvciBpcyB0
-aGVyZSBhIHJpc2sgdGhhdCB0aG9zZSBpcnEgdGhyZWFkcyAKd291bGQgYWN0dWFsbHkgbmVlZCB0
-byBkbyByZWFsIHdvcmsgKHdoaWNoIHdvdWxkIGNhdXNlIHVuYWNjZXB0YWJsZSAKaml0dGVyIGlu
-IG15IGFwcGxpY2F0aW9uKT8KCkFzc3VtaW5nIEknbSByZWFkaW5nIHRoZSBjb2RlIGNvcnJlY3Rs
-eSwgaG93IGRvZXMgaXQgbWFrZSBzZW5zZSBmb3IgdGhlIApOVk1FIGRyaXZlciB0byBhZmZpbmUg
-aW50ZXJydXB0cyB0byBDUFVzIHdoaWNoIGhhdmUgZXhwbGljaXRseSBiZWVuIApkZXNpZ25hdGVk
-IGFzICJpc29sYXRlZCI/CgpUaGFua3MsCgpDaHJpcwoKCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1u
-dm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9saW51eC1udm1lCg==
+This patch series introduces the mpool object storage media pool driver.
+Mpool implements a simple transactional object store on top of block
+storage devices.
+
+Mpool was developed for the Heterogeneous-Memory Storage Engine (HSE)
+project, which is a high-performance key-value storage engine designed
+for SSDs. HSE stores its data exclusively in mpool.
+
+Mpool is readily applicable to other storage systems built on immutable
+objects. For example, the many databases that store records in
+immutable SSTables organized as an LSM-tree or similar data structure.
+
+We developed mpool for HSE storage, versus using a file system or raw
+block device, for several reasons.
+
+A primary motivator was the need for a storage model that maps naturally
+to conventional block storage devices, as well as to emerging device
+interfaces we plan to support in the future, such as
+* NVMe Zoned Namespaces (ZNS)
+* NVMe Streams
+* Persistent memory accessed via CXL or similar technologies
+
+Another motivator was the need for a storage model that readily supports
+multiple classes of storage devices or media in a single storage pool,
+such as
+* QLC SSDs for storing the bulk of objects, and
+* 3DXP SSDs or persistent memory for storing objects requiring
+  low-latency access
+
+The mpool object storage model meets these needs. It also provides
+other features that benefit storage systems built on immutable objects,
+including
+* Facilities to memory-map a specified collection of objects into a
+  linear address space
+* Concurrent access to object data directly and memory-mapped to greatly
+  reduce page cache pollution from background operations such as
+  LSM-tree compaction
+* Proactive eviction of object data from the page cache, based on
+  object-level metrics, to avoid excessive memory pressure and its
+  associated performance impacts
+* High concurrency and short code paths for efficient access to
+  low-latency storage devices
+
+HSE takes advantage of all these mpool features to achieve high
+throughput with low tail-latencies.
+
+Mpool is implemented as a character device driver where
+* /dev/mpoolctl is the control file (minor number 0) supporting mpool
+  management ioctls
+* /dev/mpool/<mpool-name> are mpool files (minor numbers >0), one per
+  mpool, supporting object management ioctls
+
+CLI/UAPI access to /dev/mpoolctl and /dev/mpool/<mpool-name> are
+controlled by their UID, GID, and mode bits. To provide a familiar look
+and feel, the mpool management model and CLI are intentionally aligned
+to those of LVM to the degree practical.
+
+An mpool is created with a block storage device specified for its
+required capacity media class, and optionally a second block storage
+device specified for its staging media class. We recommend virtual
+block devices (such as LVM logical volumes) to aggregate the performance
+and capacity of multiple physical block devices, to enable sharing of
+physical block devices between mpools (or for other uses), and to
+support extending the size of a block device used for an mpool media
+class. The libblkid library recognizes mpool formatted block devices as
+of util-linux v2.32.
+
+Mpool implements a transactional object store with two simple object
+abstractions: mblocks and mlogs.
+
+Mblock objects are containers comprising a linear sequence of bytes that
+can be written exactly once, are immutable after writing, and can be
+read in whole or in part as needed until deleted. Mblocks in a media
+class are currently fixed size, which is configured when an mpool is
+created, though the amount of data written to mblocks will differ.
+
+Mlog objects are containers for record logging. Records of arbitrary
+size can be appended to an mlog until it is full. Once full, an mlog
+must be erased before additional records can be appended. Mlog records
+can be read sequentially from the beginning at any time. Mlogs in a
+media class are always a multiple of the mblock size for that media
+class.
+
+Mblock and mlog writes avoid the page cache. Mblocks are written,
+committed, and made immutable before they can be read either directly
+(avoiding the page cache) or mmaped. Mlogs are always read and updated
+directly (avoiding the page cache) and cannot be mmaped.
+
+Mpool also provides the metadata container (MDC) APIs that clients can
+use to simplify storing and maintaining metadata. These MDC APIs are
+helper functions built on a pair of mlogs per MDC.
+
+The mpool Wiki contains full details on the
+* Management model in the "Configure mpools" section
+* Object model in the "Develop mpool Applications" section
+* Kernel module architecture in the "Explore mpool Internals" section,
+  which provides context for reviewing this patch series
+
+See https://github.com/hse-project/mpool/wiki
+
+The mpool UAPI and kernel module (not the patchset) are available on
+GitHub at:
+
+https://github.com/hse-project/mpool
+
+https://github.com/hse-project/mpool-kmod
+
+The HSE key-value storage engine is available on GitHub at:
+
+https://github.com/hse-project/hse
+
+Changes in v2:
+
+- Fixes build errors/warnings reported by bot on ARCH=m68k
+Reported-by: kernel test robot <lkp@intel.com>
+
+- Addresses review comments from Randy and Hillf:
+  * Updates ioctl-number.rst file with mpool driver's ioctl code
+  * Fixes issues in the usage of printk_timed_ratelimit()
+
+- Fixes a readahead issue found by internal testing
+
+Nabeel M Mohamed (22):
+  mpool: add utility routines and ioctl definitions
+  mpool: add in-memory struct definitions
+  mpool: add on-media struct definitions
+  mpool: add pool drive component which handles mpool IO using the block
+    layer API
+  mpool: add space map component which manages free space on mpool
+    devices
+  mpool: add on-media pack, unpack and upgrade routines
+  mpool: add superblock management routines
+  mpool: add pool metadata routines to manage object lifecycle and IO
+  mpool: add mblock lifecycle management and IO routines
+  mpool: add mlog IO utility routines
+  mpool: add mlog lifecycle management and IO routines
+  mpool: add metadata container or mlog-pair framework
+  mpool: add utility routines for mpool lifecycle management
+  mpool: add pool metadata routines to create persistent mpools
+  mpool: add mpool lifecycle management routines
+  mpool: add mpool control plane utility routines
+  mpool: add mpool lifecycle management ioctls
+  mpool: add object lifecycle management ioctls
+  mpool: add support to mmap arbitrary collection of mblocks
+  mpool: add support to proactively evict cached mblock data from the
+    page-cache
+  mpool: add documentation
+  mpool: add Kconfig and Makefile
+
+ .../userspace-api/ioctl/ioctl-number.rst      |    3 +-
+ drivers/Kconfig                               |    2 +
+ drivers/Makefile                              |    1 +
+ drivers/mpool/Kconfig                         |   28 +
+ drivers/mpool/Makefile                        |   11 +
+ drivers/mpool/assert.h                        |   25 +
+ drivers/mpool/init.c                          |  126 +
+ drivers/mpool/init.h                          |   17 +
+ drivers/mpool/mblock.c                        |  432 +++
+ drivers/mpool/mblock.h                        |  161 +
+ drivers/mpool/mcache.c                        | 1072 +++++++
+ drivers/mpool/mcache.h                        |  104 +
+ drivers/mpool/mclass.c                        |  103 +
+ drivers/mpool/mclass.h                        |  137 +
+ drivers/mpool/mdc.c                           |  486 +++
+ drivers/mpool/mdc.h                           |  106 +
+ drivers/mpool/mlog.c                          | 1667 ++++++++++
+ drivers/mpool/mlog.h                          |  212 ++
+ drivers/mpool/mlog_utils.c                    | 1352 ++++++++
+ drivers/mpool/mlog_utils.h                    |   63 +
+ drivers/mpool/mp.c                            | 1086 +++++++
+ drivers/mpool/mp.h                            |  231 ++
+ drivers/mpool/mpcore.c                        |  987 ++++++
+ drivers/mpool/mpcore.h                        |  354 +++
+ drivers/mpool/mpctl.c                         | 2747 +++++++++++++++++
+ drivers/mpool/mpctl.h                         |   58 +
+ drivers/mpool/mpool-locking.rst               |   90 +
+ drivers/mpool/mpool_ioctl.h                   |  636 ++++
+ drivers/mpool/mpool_printk.h                  |   43 +
+ drivers/mpool/omf.c                           | 1316 ++++++++
+ drivers/mpool/omf.h                           |  593 ++++
+ drivers/mpool/omf_if.h                        |  381 +++
+ drivers/mpool/params.h                        |  116 +
+ drivers/mpool/pd.c                            |  424 +++
+ drivers/mpool/pd.h                            |  202 ++
+ drivers/mpool/pmd.c                           | 2046 ++++++++++++
+ drivers/mpool/pmd.h                           |  379 +++
+ drivers/mpool/pmd_obj.c                       | 1569 ++++++++++
+ drivers/mpool/pmd_obj.h                       |  499 +++
+ drivers/mpool/reaper.c                        |  686 ++++
+ drivers/mpool/reaper.h                        |   71 +
+ drivers/mpool/sb.c                            |  625 ++++
+ drivers/mpool/sb.h                            |  162 +
+ drivers/mpool/smap.c                          | 1031 +++++++
+ drivers/mpool/smap.h                          |  334 ++
+ drivers/mpool/sysfs.c                         |   48 +
+ drivers/mpool/sysfs.h                         |   48 +
+ drivers/mpool/upgrade.c                       |  138 +
+ drivers/mpool/upgrade.h                       |  128 +
+ drivers/mpool/uuid.h                          |   59 +
+ 50 files changed, 23194 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/mpool/Kconfig
+ create mode 100644 drivers/mpool/Makefile
+ create mode 100644 drivers/mpool/assert.h
+ create mode 100644 drivers/mpool/init.c
+ create mode 100644 drivers/mpool/init.h
+ create mode 100644 drivers/mpool/mblock.c
+ create mode 100644 drivers/mpool/mblock.h
+ create mode 100644 drivers/mpool/mcache.c
+ create mode 100644 drivers/mpool/mcache.h
+ create mode 100644 drivers/mpool/mclass.c
+ create mode 100644 drivers/mpool/mclass.h
+ create mode 100644 drivers/mpool/mdc.c
+ create mode 100644 drivers/mpool/mdc.h
+ create mode 100644 drivers/mpool/mlog.c
+ create mode 100644 drivers/mpool/mlog.h
+ create mode 100644 drivers/mpool/mlog_utils.c
+ create mode 100644 drivers/mpool/mlog_utils.h
+ create mode 100644 drivers/mpool/mp.c
+ create mode 100644 drivers/mpool/mp.h
+ create mode 100644 drivers/mpool/mpcore.c
+ create mode 100644 drivers/mpool/mpcore.h
+ create mode 100644 drivers/mpool/mpctl.c
+ create mode 100644 drivers/mpool/mpctl.h
+ create mode 100644 drivers/mpool/mpool-locking.rst
+ create mode 100644 drivers/mpool/mpool_ioctl.h
+ create mode 100644 drivers/mpool/mpool_printk.h
+ create mode 100644 drivers/mpool/omf.c
+ create mode 100644 drivers/mpool/omf.h
+ create mode 100644 drivers/mpool/omf_if.h
+ create mode 100644 drivers/mpool/params.h
+ create mode 100644 drivers/mpool/pd.c
+ create mode 100644 drivers/mpool/pd.h
+ create mode 100644 drivers/mpool/pmd.c
+ create mode 100644 drivers/mpool/pmd.h
+ create mode 100644 drivers/mpool/pmd_obj.c
+ create mode 100644 drivers/mpool/pmd_obj.h
+ create mode 100644 drivers/mpool/reaper.c
+ create mode 100644 drivers/mpool/reaper.h
+ create mode 100644 drivers/mpool/sb.c
+ create mode 100644 drivers/mpool/sb.h
+ create mode 100644 drivers/mpool/smap.c
+ create mode 100644 drivers/mpool/smap.h
+ create mode 100644 drivers/mpool/sysfs.c
+ create mode 100644 drivers/mpool/sysfs.h
+ create mode 100644 drivers/mpool/upgrade.c
+ create mode 100644 drivers/mpool/upgrade.h
+ create mode 100644 drivers/mpool/uuid.h
+
+-- 
+2.17.2
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
