@@ -2,94 +2,82 @@ Return-Path: <SRS0=D3oK=DU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD8EC433E7
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 19:26:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25212C433E7
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:19:12 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ABAC9208D5
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 19:26:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6CEA0218AC
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:19:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iKLpV0/7";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="SngYSO1W"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ABAC9208D5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SzjU82hW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CEA0218AC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0puk9rwVmUoUaB/Plz5QRKZ8fq2531vNzzAYTg6BIN0=; b=iKLpV0/7jq5BNLaqZDW7+yCwm
-	MHEvieTedz/2MDgOWK757d0DaTn8JFCijqV0a8NWjKVw3DoqWKhsu8SvrZHY7EMlr860bXuvtawc2
-	lOuubI1hHV3CM7nVXquURBlmbh+t9QXo1RiDXqToLBqs1hTQBcamObAO73OwS8xAMiLGszFvSf4Tz
-	OQn4e1s0DYfTyldQA07k1jfNduHJZe0WVRKnhEi0/PyHJFjgV/Z1FtHolDeV6UOqDt6Rsbneenngg
-	Kl411BqBcoNrQDznkcMTQzOxfb6fqOYYQP5BuZP13I9Pd+hBB4ZDtBzvhCc4EUKYJc3B2JAMxzJfI
-	9Tpv7XPBw==;
+	 bh=ZiehLlmYUG8AtDFF2D//Vb0aLfBk7lehjTuCU7CnwBc=; b=SzjU82hWh21OXUce99j2XWqob
+	YW9ZzMqCHs7oOVhCLAhxaneKuw+Spi0d9xtNhGrfw0NMTiQTRmSpR0BqsaI2MV1N7lKK1OD2M3xhZ
+	B93+EtYO4Spo7evNhB5vi0dOpk6ioMtLxz7OqweldKu2NGm/6EK2Qlp6Gq9B1WRG1pc8AXKzAG3Ij
+	/6qCnIFohnbfFwwUhicCfZFVl+/4cKSFjGV4VnqauD85a+HZqrilD0a7sUe9udcoHozVhmQL4OEF0
+	lLfa/tA+jsvMbwvb5zwYCEq/c5OmkZ+dvQigLxtlKf7yHHxZqm2bVfIf+eGQjnqr/01u8N6PkqzRQ
+	L6rgCzrng==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSPw1-0005uu-PD; Tue, 13 Oct 2020 19:26:09 +0000
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+	id 1kSSdK-0001Md-MP; Tue, 13 Oct 2020 22:19:02 +0000
+Received: from mail-pg1-f193.google.com ([209.85.215.193])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSPvw-0005uE-Hl
- for linux-nvme@lists.infradead.org; Tue, 13 Oct 2020 19:26:06 +0000
-Received: by mail-pf1-x430.google.com with SMTP id x13so400893pfa.9
- for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2020 12:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=af4Qc+2gHzFlWubHHxJx9BBa7rTwjknQssJBJD0vteA=;
- b=SngYSO1WqQoNuEy3IfUOgUXEi3oLu0pp1rkBq5PYTTvQ5nlqeRR65jWwAHAb/l9TGu
- aNri5fZdMjxBOHgTwV/H05fSeagl2qKt8dAe8Y2uHeT5fmujXFKVcTUD/eL4E64bHF5g
- RB6E/tqEV0SXdYQ4epJDVpzEPILi/CkW3lnTSuAFEF8RjTbiMn8YiKy3gBNH3c9Edco8
- SumaPILetIQSpl4FZoM2H4HHQcusKVMeHZU+0cOq0yzwDq7mYfTGjC4NDd+tj2e5g5wH
- mdsBs6DxMGwrMRGWKq/AtkieSfhvuhpt8z2midqt8p2Tq7w/uyBmRM+2TBxM4IfZWwzd
- LvFw==
+ id 1kSSdF-0001M3-7c
+ for linux-nvme@lists.infradead.org; Tue, 13 Oct 2020 22:18:59 +0000
+Received: by mail-pg1-f193.google.com with SMTP id b193so618012pga.6
+ for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2020 15:18:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=af4Qc+2gHzFlWubHHxJx9BBa7rTwjknQssJBJD0vteA=;
- b=QAUMwm/5a8U1B1sbdGxh5Q4h5hlXeA1MohxBG78c44W9S1CMygHLOn9Z2cY8blii9x
- s9PjQtJznJnzrNhJ7rEQD/cjKgz4lKOh2urinQUcPWgKAufGaQ8GxebAlXBqbm7lNRaF
- faJMc5mxIvNfa30iu2TPceIfq5nbR+Wo7OKkBav1GLY2vCxKFCf2Rl6BI65ysXkC5mns
- bXnJYY/ekF4Qc/2zqS4iw9tp3coxl0FxtMIaLk4P8nubN4xSAYHLA941SX1/CGdkqVCB
- hUFYG9vgaWV4Kj8ELeJbRgDIQxtoGQp/uOJZWxkjsQHe+R+Gfg2NlRu0O9d4r3icuxrp
- 3fIg==
-X-Gm-Message-State: AOAM531Bz1OA7WNICUxXrRXsQI8aR7fL4LAf3/PVkE6PR0ynfjdzJm1V
- ZvgFjHNcGF0yHNj9EtgOAmA4Gg==
-X-Google-Smtp-Source: ABdhPJyjxaWb7RHMI6pGEY7tNUS7TTgfXPifUmnKryBF4E2RBCFrtRlq2i1ygbicehU2F6J0EqLWLw==
-X-Received: by 2002:a63:1f03:: with SMTP id f3mr817329pgf.381.1602617161620;
- Tue, 13 Oct 2020 12:26:01 -0700 (PDT)
-Received: from [192.168.1.134] ([66.219.217.173])
- by smtp.gmail.com with ESMTPSA id z20sm451263pfn.39.2020.10.13.12.26.00
+ bh=5J+JqftU6ifZN1KxMsrqREjbvuZkrZjLOw71HrhLGPI=;
+ b=h6DWdPwh9Joo1KzktF6Wxh6bmdo/L6yoAfPmqY90Ecej+Q/D2RWM5weVgP+vRiH4w3
+ KOaVgLAM5fKod6Z3Ei6iqgKfQrfYa1MtWMKpQ9ZBKJB7xfU1wCCHgic7DkOR6GQx3ua4
+ taRjgh3OiGom2ajgvs8FxqdLA+Fyg67Xc6+eUb0i0/HmWCtDoTsBK2oaYJqaniPuQVII
+ 9zjkxTElIJ7okdpxZ3igniGjiABa7I/ZivYIH2KEdc/TboWAAQAOTVPtvN/mJBWnxUhq
+ q9y5BIZJq08UiiAs09MMgPbvr7QTqmE2LBMynobr7Zk1i0N2F3TSjKBw4uO3QNElF357
+ lJzg==
+X-Gm-Message-State: AOAM532uXIjGTVX5Of+aSHdVULR612MDOB66iUfJEU61g0vnoXVYWnAH
+ k/e5as74JeoC0sC0Ej/v6Os=
+X-Google-Smtp-Source: ABdhPJyjCBM/sNIokxxhfFLnmFg5c8GYQ3dccLlv3pIx6CMJOE3U7NqVRRJ//ztXhobI6kFL/uEbqA==
+X-Received: by 2002:a63:4854:: with SMTP id x20mr1420189pgk.220.1602627534298; 
+ Tue, 13 Oct 2020 15:18:54 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:5a09:2d7:19f0:1ee0?
+ ([2601:647:4802:9070:5a09:2d7:19f0:1ee0])
+ by smtp.gmail.com with ESMTPSA id o78sm693871pfd.105.2020.10.13.15.18.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 12:26:01 -0700 (PDT)
-Subject: Re: [PATCHv4 1/3] block: add zone specific block statuses
-To: Keith Busch <kbusch@kernel.org>
-References: <20200924205330.4043232-1-kbusch@kernel.org>
- <20200924205330.4043232-2-kbusch@kernel.org>
- <20201009152927.GA1023921@dhcp-10-100-145-180.wdl.wdc.com>
- <20201013171610.GB1033288@dhcp-10-100-145-180.wdl.wdc.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <52669c98-ddc3-188e-ee2b-aff1823e8e96@kernel.dk>
-Date: Tue, 13 Oct 2020 13:25:59 -0600
+ Tue, 13 Oct 2020 15:18:52 -0700 (PDT)
+Subject: Re: [PATCH] nvmet: fix uninitialized work for zero kato
+To: zhenwei pi <pizhenwei@bytedance.com>, hch@lst.de,
+ chaitanya.kulkarni@wdc.com
+References: <20201013035233.923889-1-pizhenwei@bytedance.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <a75e067a-d0ea-8402-b883-cedd36bb7cf7@grimberg.me>
+Date: Tue, 13 Oct 2020 15:18:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201013171610.GB1033288@dhcp-10-100-145-180.wdl.wdc.com>
+In-Reply-To: <20201013035233.923889-1-pizhenwei@bytedance.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201013_152604_743430_CBA84690 
-X-CRM114-Status: GOOD (  15.08  )
+X-CRM114-CacheID: sfid-20201013_181857_281447_3A333FE3 
+X-CRM114-Status: GOOD (  27.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,31 +89,118 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org,
- linux-api@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- hch@lst.de
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/13/20 11:16 AM, Keith Busch wrote:
-> Hi Jens,
+> Hit a warning:
+> WARNING: CPU: 1 PID: 241 at kernel/workqueue.c:1627 __queue_delayed_work+0x6d/0x90
+> with trace:
+>    mod_delayed_work_on+0x59/0x90
+>    nvmet_update_cc+0xee/0x100 [nvmet]
+>    nvmet_execute_prop_set+0x72/0x80 [nvmet]
+>    nvmet_tcp_try_recv_pdu+0x2f7/0x770 [nvmet_tcp]
+>    nvmet_tcp_io_work+0x63f/0xb2d [nvmet_tcp]
+>    ...
 > 
-> I'm going to try one more time in the hope you've just been too busy to
-> notice these patches. The series has been unchanged for a month now, and
-> has reviews from all the right people. Can this be considered for
-> inclusion?
+> This could be reproduced easily with a keep alive time 0:
+> nvme connect -t tcp -n NQN -a ADDR -s PORT --keep-alive-tmo=0
+> 
+> The reason is:
+> Starting an uninitialized work when initiator connects with zero
+> kato. Althrough keep-alive timer is disabled during allocating a ctrl
+> (fix in 0d3b6a8d213a), ka_work still has a chance to run
+> (called by nvmet_start_ctrl to detect dead host).
 
-Thanks for the pings, finally got them picked up. Sorry about the
-delay!
+This should have a "Fixes:" tag.
 
--- 
-Jens Axboe
+> 
+> Initilize ka_work during allocating ctrl, and set a reasonable kato
+> before scheduling ka_work.
+> 
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>   drivers/nvme/target/core.c | 16 +++++++++++-----
+>   1 file changed, 11 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index b7b63330b5ef..3c5b2b065476 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -19,6 +19,8 @@ struct workqueue_struct *buffered_io_wq;
+>   static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
+>   static DEFINE_IDA(cntlid_ida);
+>   
+> +#define NVMET_DEFAULT_KATO	5
+> +
+>   /*
+>    * This read/write semaphore is used to synchronize access to configuration
+>    * information on a target system that will result in discovery log page
+> @@ -385,6 +387,11 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
+>   	if (cmd_seen) {
+>   		pr_debug("ctrl %d reschedule traffic based keep-alive timer\n",
+>   			ctrl->cntlid);
+> +
+> +		/* run once, trigger from nvmet_start_ctrl to detect dead link */
+> +		if (!ctrl->kato)
+> +			return;
+> +
+>   		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
 
+It will be better to just schedule/mod the ka_work if kato != 0, other
+changes in the patch aren't needed IMO.
+
+>   		return;
+>   	}
+> @@ -403,15 +410,11 @@ static void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl)
+>   	pr_debug("ctrl %d start keep-alive timer for %d secs\n",
+>   		ctrl->cntlid, ctrl->kato);
+>   
+> -	INIT_DELAYED_WORK(&ctrl->ka_work, nvmet_keep_alive_timer);
+>   	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+>   }
+>   
+>   static void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl)
+>   {
+> -	if (unlikely(ctrl->kato == 0))
+> -		return;
+> -
+>   	pr_debug("ctrl %d stop keep-alive\n", ctrl->cntlid);
+>   
+>   	cancel_delayed_work_sync(&ctrl->ka_work);
+> @@ -1107,6 +1110,8 @@ static inline u8 nvmet_cc_iocqes(u32 cc)
+>   
+>   static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
+>   {
+> +	u32 kato = ctrl->kato ? ctrl->kato : NVMET_DEFAULT_KATO;
+> +
+
+The controller shouldn't have a default value, it should receive
+the desired value from the host.
+
+>   	lockdep_assert_held(&ctrl->lock);
+>   
+>   	if (nvmet_cc_iosqes(ctrl->cc) != NVME_NVM_IOSQES ||
+> @@ -1126,7 +1131,7 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
+>   	 * in case a host died before it enabled the controller.  Hence, simply
+>   	 * reset the keep alive timer when the controller is enabled.
+>   	 */
+> -	mod_delayed_work(system_wq, &ctrl->ka_work, ctrl->kato * HZ);
+> +	mod_delayed_work(system_wq, &ctrl->ka_work, kato * HZ);
+>   }
+>   
+>   static void nvmet_clear_ctrl(struct nvmet_ctrl *ctrl)
+> @@ -1378,6 +1383,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+>   
+>   	/* keep-alive timeout in seconds */
+>   	ctrl->kato = DIV_ROUND_UP(kato, 1000);
+> +	INIT_DELAYED_WORK(&ctrl->ka_work, nvmet_keep_alive_timer);
+>   
+>   	ctrl->err_counter = 0;
+>   	spin_lock_init(&ctrl->error_lock);
+> 
 
 _______________________________________________
 Linux-nvme mailing list
