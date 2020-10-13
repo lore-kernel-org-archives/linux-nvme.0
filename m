@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6763EC433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:23:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E2DC433E7
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:25:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9BA7221D6C
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:23:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CC20C21D6C
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:25:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ikQQRmnf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BA7221D6C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qqUvEUNh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC20C21D6C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,58 +25,57 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=ikQQRmnf+UaUaJ8//uMlduQu1
-	/S9nRwwQW3FMcH0WdRDcx7BdhhmVBSdrm9iuyUr+aicSyUZ+7DOcIkblTKQaVmjzOv4GnVJx0T7Q2
-	NML2aYp0fdlGAtJgjTg8mDryjQ/Z7B3Y2kXLItjoZQ3BYnPNQAEiexeZ8VWW6S39/W0edCSsRmKo1
-	TKH17N50RTVhJ2l6aggYF+pnibfu0vdGmYussxZGXfB6aaapvnHR2qv5YL1rMa6kMFTcZun4D1OCS
-	B7QtSCiowS5j5KMRfAIl3zgC7QzrGCjxrABq1ZqI0BwgrdmGmQO2G9xu7muVel6N9VUvNOFg6TVH+
-	k3KQa6Qeg==;
+	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=qqUvEUNhojpM031s8G+NjZj7I
+	JZLLyF2h5i6vLOC9xNTECgs41vuiVcak9UMglI9eftjeaigpBGfLidv9UfRM5YnHKNmJdLcfaMolA
+	5oxYYKvTWKwHEOCfEJ1P7zW8uG6Qi+X+2RaMSB49REy/UnoMygfeuNkvzXGQiSfRPBXM2Tte6tpHk
+	BZIlxmOl3taJJ9B7FsBbCFbv6LVCbdLrrIMLrLACLsKS+9UEQ/yB3o/zCs9uEJ41xWKq1e5V7tlhv
+	l9F2N2m7wWi7Iee03+n1QSZBECK5fyqamCEkQo0wgqVccI4RjilbDjhuRiCdTsuoFptJHkow7DMWM
+	uoq+fwJhg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSShN-0001Wa-19; Tue, 13 Oct 2020 22:23:13 +0000
-Received: from mail-pl1-f196.google.com ([209.85.214.196])
+	id 1kSSjX-0001gE-VL; Tue, 13 Oct 2020 22:25:27 +0000
+Received: from mail-pg1-f195.google.com ([209.85.215.195])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSShK-0001WD-Lq
- for linux-nvme@lists.infradead.org; Tue, 13 Oct 2020 22:23:11 +0000
-Received: by mail-pl1-f196.google.com with SMTP id 1so682251ple.2
- for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2020 15:23:10 -0700 (PDT)
+ id 1kSSjV-0001fl-Hl
+ for linux-nvme@lists.infradead.org; Tue, 13 Oct 2020 22:25:26 +0000
+Received: by mail-pg1-f195.google.com with SMTP id r10so613532pgb.10
+ for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2020 15:25:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=qqVQpVvxqrMmd3SsEe/7ujisjsTOfakrTrZgtEQToTb0C+ENFwyJosup/Q5BpsehOc
- 53De1DiVM0HqSA2ojArCERrCjeyr15rn4XfISZ89GsGsbt3CLLseKuW5WMu4cTN2L5pQ
- El/mTzko5V2O5Shjl1pcpQ0ehXWezer9jhgxEj1PNnO7EbPnDuVo9IxH1j6qked5oR/L
- seIUPdK92Rcw1kYZeOkt08Mwo98Z4G7wHKlcUZualjG963uKb9guJjIt+vsF4tNCQT7Q
- WpE6uYMZOtm7WDId3tn5Mcr3Xfx9Ba9yRvoBf6bfMxpxUPaCuPItnalFHn5a5Md3/HXf
- ZkQg==
-X-Gm-Message-State: AOAM531TAs6QLPszLrwq4tzhiF4AJvn8yGHtA4M0n0Rw2cbi6PwEDisY
- 8x6AIDvzXpnv4L2AA6FQ1Qc=
-X-Google-Smtp-Source: ABdhPJyHyEBIYgutMGh5hfDPkON+kFZlfoPXqjViBHybT/a496uxnp3BmpoLkh98ON818zg66Dq7bw==
-X-Received: by 2002:a17:902:9347:b029:d3:7c08:86c6 with SMTP id
- g7-20020a1709029347b02900d37c0886c6mr1748163plp.84.1602627789232; 
- Tue, 13 Oct 2020 15:23:09 -0700 (PDT)
+ b=bQrQePpgupHUuXEPTwRrb6D0KHivFBBwHckU1dkMe/gR26Kz/tgyo74zKMDqrAb+bm
+ CfRA6xJmP3WbOuqif8t1nA7q2wM/Zg39BlHGmEZirr6FXANEp4AcX8l1etM3VL8rFIiO
+ 9l/E7yMNI+q4T/hIyofGKmYiicgj5xMrAhWBbQgKIClVsfdMNCqJasnO4/aAyK/ApkIf
+ NcZdhP6NE7ItV1lVk6mqJ+JqLOsaTVvpwP9OuxYjmySQ9p1daTA0vcmpY5h+5SMe8Hk0
+ OO7RxnuPStri7EcJY/OyWQuxsYcpGHcRqb4EOySD2h4TK5i/s6P+izQSsJnOy9l14zOc
+ kJQQ==
+X-Gm-Message-State: AOAM533E+sIaLWlxeQdQfL4yHPk04YQ2SV4Ws/CnVEJFcEIee6tp5UYL
+ bBcALe6W+U12c/vr5ZrF4Ag=
+X-Google-Smtp-Source: ABdhPJxoXl3mqeZprMDkGxb/SGSKX87McmejNPzyBiAjx7rrKkYVq0oAvxmViqPSKBcpDNKyPa9D1Q==
+X-Received: by 2002:a63:4457:: with SMTP id t23mr1370919pgk.108.1602627923346; 
+ Tue, 13 Oct 2020 15:25:23 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:5a09:2d7:19f0:1ee0?
  ([2601:647:4802:9070:5a09:2d7:19f0:1ee0])
- by smtp.gmail.com with ESMTPSA id p19sm659553pfn.204.2020.10.13.15.23.08
+ by smtp.gmail.com with ESMTPSA id t12sm689327pfh.73.2020.10.13.15.25.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 15:23:08 -0700 (PDT)
-Subject: Re: [PATCH] nvme-rdma: fix crash due to incorrect cqe
+ Tue, 13 Oct 2020 15:25:22 -0700 (PDT)
+Subject: Re: [PATCH] nvme-rdma: fix crash when connect rejected
 To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
-References: <20201012085537.2599-1-lengchao@huawei.com>
+References: <20201012081040.31741-1-lengchao@huawei.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <b42c0b68-c1fe-1e14-e887-d157a919510d@grimberg.me>
-Date: Tue, 13 Oct 2020 15:23:07 -0700
+Message-ID: <cbbe61ba-4061-3150-911d-db4aa0baf85d@grimberg.me>
+Date: Tue, 13 Oct 2020 15:25:20 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201012085537.2599-1-lengchao@huawei.com>
+In-Reply-To: <20201012081040.31741-1-lengchao@huawei.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201013_182311_030388_B5A45CAC 
-X-CRM114-Status: GOOD (  10.17  )
+X-CRM114-CacheID: sfid-20201013_182525_616171_A02F6FB3 
+X-CRM114-Status: GOOD (  10.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
