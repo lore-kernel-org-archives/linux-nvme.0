@@ -2,69 +2,94 @@ Return-Path: <SRS0=D3oK=DU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A58D6C433E7
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 17:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD8EC433E7
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 19:26:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2A21625334
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 17:16:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ABAC9208D5
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 19:26:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EeH2bjwf";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mrno2bTW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2A21625334
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iKLpV0/7";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="SngYSO1W"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ABAC9208D5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=rlyx/B0S1RsGmTeAm3em7ZR63tfDF870xsaU20aXBVk=; b=EeH2bjwf8NdKere/6gVSN9svb
-	9JR3iUknz6watrayMfyfgx//hae9I0xkyWYNLPEftmLMIg2Q+wcBY59eUYQ3ehOMU2Vljn0ghN1pg
-	nb+gzO42YVv2CNAKg6ScKplIgcamjeToQcvQeGdio8LV8Je/FfRrYb8lMMZlSuxq6nVUwVSEkEtKI
-	zl3xp5ImkIFEUSWgWtiLnfTt1YwNKkrQTc6ms6VTHvFHtiXsutZt/ypETP/axGU365L395oG7ymIh
-	QRqxR/cZWTGcI08B61Xf+UE8J9cPC/M/PMYVMVnscTmJfsRi4UCTNwt+8XGNhc8Op4rq0c/ixCaRB
-	UQYakjBtw==;
+	 bh=0puk9rwVmUoUaB/Plz5QRKZ8fq2531vNzzAYTg6BIN0=; b=iKLpV0/7jq5BNLaqZDW7+yCwm
+	MHEvieTedz/2MDgOWK757d0DaTn8JFCijqV0a8NWjKVw3DoqWKhsu8SvrZHY7EMlr860bXuvtawc2
+	lOuubI1hHV3CM7nVXquURBlmbh+t9QXo1RiDXqToLBqs1hTQBcamObAO73OwS8xAMiLGszFvSf4Tz
+	OQn4e1s0DYfTyldQA07k1jfNduHJZe0WVRKnhEi0/PyHJFjgV/Z1FtHolDeV6UOqDt6Rsbneenngg
+	Kl411BqBcoNrQDznkcMTQzOxfb6fqOYYQP5BuZP13I9Pd+hBB4ZDtBzvhCc4EUKYJc3B2JAMxzJfI
+	9Tpv7XPBw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSNuM-0002IW-Nl; Tue, 13 Oct 2020 17:16:18 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kSPw1-0005uu-PD; Tue, 13 Oct 2020 19:26:09 +0000
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSNuJ-0002Hu-Ur
- for linux-nvme@lists.infradead.org; Tue, 13 Oct 2020 17:16:16 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 201E225334;
- Tue, 13 Oct 2020 17:16:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602609373;
- bh=P88v3uczwmNVagw81qRi3rAiSPy869r419KvBCA3QZk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Mrno2bTWkgwsgxWy4DV4bYCRvfmUzGQ8vi9D5OzvcHSUPHEsUOT+eMpvUtHS+xI/z
- mFJsI0v0Mj8o8XD2iMXMER7s1lZpiCITsCQPOrKep1kmZnA7OI3O6d3Cf8V71Ot/7l
- /rhyZdTpER689Zedi00931GZLDx+y+7/9xegNkjg=
-Date: Tue, 13 Oct 2020 10:16:10 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
+ id 1kSPvw-0005uE-Hl
+ for linux-nvme@lists.infradead.org; Tue, 13 Oct 2020 19:26:06 +0000
+Received: by mail-pf1-x430.google.com with SMTP id x13so400893pfa.9
+ for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2020 12:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=af4Qc+2gHzFlWubHHxJx9BBa7rTwjknQssJBJD0vteA=;
+ b=SngYSO1WqQoNuEy3IfUOgUXEi3oLu0pp1rkBq5PYTTvQ5nlqeRR65jWwAHAb/l9TGu
+ aNri5fZdMjxBOHgTwV/H05fSeagl2qKt8dAe8Y2uHeT5fmujXFKVcTUD/eL4E64bHF5g
+ RB6E/tqEV0SXdYQ4epJDVpzEPILi/CkW3lnTSuAFEF8RjTbiMn8YiKy3gBNH3c9Edco8
+ SumaPILetIQSpl4FZoM2H4HHQcusKVMeHZU+0cOq0yzwDq7mYfTGjC4NDd+tj2e5g5wH
+ mdsBs6DxMGwrMRGWKq/AtkieSfhvuhpt8z2midqt8p2Tq7w/uyBmRM+2TBxM4IfZWwzd
+ LvFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=af4Qc+2gHzFlWubHHxJx9BBa7rTwjknQssJBJD0vteA=;
+ b=QAUMwm/5a8U1B1sbdGxh5Q4h5hlXeA1MohxBG78c44W9S1CMygHLOn9Z2cY8blii9x
+ s9PjQtJznJnzrNhJ7rEQD/cjKgz4lKOh2urinQUcPWgKAufGaQ8GxebAlXBqbm7lNRaF
+ faJMc5mxIvNfa30iu2TPceIfq5nbR+Wo7OKkBav1GLY2vCxKFCf2Rl6BI65ysXkC5mns
+ bXnJYY/ekF4Qc/2zqS4iw9tp3coxl0FxtMIaLk4P8nubN4xSAYHLA941SX1/CGdkqVCB
+ hUFYG9vgaWV4Kj8ELeJbRgDIQxtoGQp/uOJZWxkjsQHe+R+Gfg2NlRu0O9d4r3icuxrp
+ 3fIg==
+X-Gm-Message-State: AOAM531Bz1OA7WNICUxXrRXsQI8aR7fL4LAf3/PVkE6PR0ynfjdzJm1V
+ ZvgFjHNcGF0yHNj9EtgOAmA4Gg==
+X-Google-Smtp-Source: ABdhPJyjxaWb7RHMI6pGEY7tNUS7TTgfXPifUmnKryBF4E2RBCFrtRlq2i1ygbicehU2F6J0EqLWLw==
+X-Received: by 2002:a63:1f03:: with SMTP id f3mr817329pgf.381.1602617161620;
+ Tue, 13 Oct 2020 12:26:01 -0700 (PDT)
+Received: from [192.168.1.134] ([66.219.217.173])
+ by smtp.gmail.com with ESMTPSA id z20sm451263pfn.39.2020.10.13.12.26.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Oct 2020 12:26:01 -0700 (PDT)
 Subject: Re: [PATCHv4 1/3] block: add zone specific block statuses
-Message-ID: <20201013171610.GB1033288@dhcp-10-100-145-180.wdl.wdc.com>
+To: Keith Busch <kbusch@kernel.org>
 References: <20200924205330.4043232-1-kbusch@kernel.org>
  <20200924205330.4043232-2-kbusch@kernel.org>
  <20201009152927.GA1023921@dhcp-10-100-145-180.wdl.wdc.com>
+ <20201013171610.GB1033288@dhcp-10-100-145-180.wdl.wdc.com>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <52669c98-ddc3-188e-ee2b-aff1823e8e96@kernel.dk>
+Date: Tue, 13 Oct 2020 13:25:59 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201009152927.GA1023921@dhcp-10-100-145-180.wdl.wdc.com>
+In-Reply-To: <20201013171610.GB1033288@dhcp-10-100-145-180.wdl.wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201013_131616_064954_FB363DCF 
-X-CRM114-Status: UNSURE (   8.86  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201013_152604_743430_CBA84690 
+X-CRM114-Status: GOOD (  15.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,12 +112,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
+On 10/13/20 11:16 AM, Keith Busch wrote:
+> Hi Jens,
+> 
+> I'm going to try one more time in the hope you've just been too busy to
+> notice these patches. The series has been unchanged for a month now, and
+> has reviews from all the right people. Can this be considered for
+> inclusion?
 
-I'm going to try one more time in the hope you've just been too busy to
-notice these patches. The series has been unchanged for a month now, and
-has reviews from all the right people. Can this be considered for
-inclusion?
+Thanks for the pings, finally got them picked up. Sorry about the
+delay!
+
+-- 
+Jens Axboe
+
 
 _______________________________________________
 Linux-nvme mailing list
