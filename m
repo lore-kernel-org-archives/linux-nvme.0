@@ -2,21 +2,21 @@ Return-Path: <SRS0=D3oK=DU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,TVD_SPACE_RATIO,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E2DC433E7
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89636C433E7
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:26:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CC20C21D6C
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:25:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0B12A21D6C
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Oct 2020 22:26:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qqUvEUNh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC20C21D6C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uIEmeXub"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B12A21D6C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,57 +25,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=qqUvEUNhojpM031s8G+NjZj7I
-	JZLLyF2h5i6vLOC9xNTECgs41vuiVcak9UMglI9eftjeaigpBGfLidv9UfRM5YnHKNmJdLcfaMolA
-	5oxYYKvTWKwHEOCfEJ1P7zW8uG6Qi+X+2RaMSB49REy/UnoMygfeuNkvzXGQiSfRPBXM2Tte6tpHk
-	BZIlxmOl3taJJ9B7FsBbCFbv6LVCbdLrrIMLrLACLsKS+9UEQ/yB3o/zCs9uEJ41xWKq1e5V7tlhv
-	l9F2N2m7wWi7Iee03+n1QSZBECK5fyqamCEkQo0wgqVccI4RjilbDjhuRiCdTsuoFptJHkow7DMWM
-	uoq+fwJhg==;
+	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=uIEmeXub0izavOrEST+I+lvzF
+	jZXaQRc/qRSecf2a7gzlO4WdemN+uv86fdQVEELd+8eZ1WUjGd49wDOoAyfoAhy/+EKdz5yLydryl
+	AMuhcA5tKRWOOHSF8BlAE2nvz6oGuQLK4LXpTqNTtq1kUYosSlj+BNtjNHUazzOFb1ieb+z0vKSfa
+	LuYcp6pGQO9xvKSkfEWre0EHk2UiGBlbu6ek106b8dQIlX/xD0Dg0hzmf8GGGS0OV27VTlpScjJGa
+	bLdrQRMH62rpjpAsCy2cNkteRco0IKK65ubKMyytfxh68iG3s15PkpMigGuAI4wlQC9WqpFhZib8J
+	YZKOe5arQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSSjX-0001gE-VL; Tue, 13 Oct 2020 22:25:27 +0000
-Received: from mail-pg1-f195.google.com ([209.85.215.195])
+	id 1kSSkI-0001mY-OX; Tue, 13 Oct 2020 22:26:14 +0000
+Received: from mail-pl1-f196.google.com ([209.85.214.196])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSSjV-0001fl-Hl
- for linux-nvme@lists.infradead.org; Tue, 13 Oct 2020 22:25:26 +0000
-Received: by mail-pg1-f195.google.com with SMTP id r10so613532pgb.10
- for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2020 15:25:24 -0700 (PDT)
+ id 1kSSkG-0001m2-Jv
+ for linux-nvme@lists.infradead.org; Tue, 13 Oct 2020 22:26:13 +0000
+Received: by mail-pl1-f196.google.com with SMTP id o8so682473pll.4
+ for <linux-nvme@lists.infradead.org>; Tue, 13 Oct 2020 15:26:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=bQrQePpgupHUuXEPTwRrb6D0KHivFBBwHckU1dkMe/gR26Kz/tgyo74zKMDqrAb+bm
- CfRA6xJmP3WbOuqif8t1nA7q2wM/Zg39BlHGmEZirr6FXANEp4AcX8l1etM3VL8rFIiO
- 9l/E7yMNI+q4T/hIyofGKmYiicgj5xMrAhWBbQgKIClVsfdMNCqJasnO4/aAyK/ApkIf
- NcZdhP6NE7ItV1lVk6mqJ+JqLOsaTVvpwP9OuxYjmySQ9p1daTA0vcmpY5h+5SMe8Hk0
- OO7RxnuPStri7EcJY/OyWQuxsYcpGHcRqb4EOySD2h4TK5i/s6P+izQSsJnOy9l14zOc
- kJQQ==
-X-Gm-Message-State: AOAM533E+sIaLWlxeQdQfL4yHPk04YQ2SV4Ws/CnVEJFcEIee6tp5UYL
- bBcALe6W+U12c/vr5ZrF4Ag=
-X-Google-Smtp-Source: ABdhPJxoXl3mqeZprMDkGxb/SGSKX87McmejNPzyBiAjx7rrKkYVq0oAvxmViqPSKBcpDNKyPa9D1Q==
-X-Received: by 2002:a63:4457:: with SMTP id t23mr1370919pgk.108.1602627923346; 
- Tue, 13 Oct 2020 15:25:23 -0700 (PDT)
+ b=lzyBy93Imb1DQY4v79qtCZtzb+aDDsMrjepTNJ05IrQQ0xvQdxe5aIn13z1hJPYtQH
+ kZ6p9QRiu2yjKkc+d+BvSiWMnNgrUYE88V2V+O7ieecBpyCEPbOS6JVBWRg41bAyeQ2I
+ IPnLmc3HPxVV00aGRBIzsJ5uD4B9hKSlSx6jshRkr2EnunSaoHqaS3mdOD5yLJsO6vhd
+ tPbwQd4DAwGRoodGdp68Sjrz3AgF6Ia2RC8XmaIVkY2/Rsne9klZtC9DyXqgsfFAlcHx
+ pM1AHm/YLZRiq5Z2iM6XvurC1bKkbUcKzhXh8MerZnwy+ghIMUMHgCswZ0075gRd/fvw
+ e+uw==
+X-Gm-Message-State: AOAM533bY/U1z/UqadG+Z5aI/W/EhDfu+NJhjVe8uUuucCJjodqceNgF
+ CQfit1Umo4pR8LOUeYFi7M4d9HzQXeg=
+X-Google-Smtp-Source: ABdhPJxzN2ZUdvzbhK5ifS7XcEoE78R3m8+5IBemnlYLuJJ9J4r9A+bOwYzbXIbuAZEbJUwkYMTFLA==
+X-Received: by 2002:a17:902:7606:b029:d4:c797:a186 with SMTP id
+ k6-20020a1709027606b02900d4c797a186mr1543295pll.38.1602627971792; 
+ Tue, 13 Oct 2020 15:26:11 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:5a09:2d7:19f0:1ee0?
  ([2601:647:4802:9070:5a09:2d7:19f0:1ee0])
- by smtp.gmail.com with ESMTPSA id t12sm689327pfh.73.2020.10.13.15.25.21
+ by smtp.gmail.com with ESMTPSA id k127sm722278pgk.10.2020.10.13.15.26.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 15:25:22 -0700 (PDT)
-Subject: Re: [PATCH] nvme-rdma: fix crash when connect rejected
-To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
-References: <20201012081040.31741-1-lengchao@huawei.com>
+ Tue, 13 Oct 2020 15:26:11 -0700 (PDT)
+Subject: Re: [PATCH] nvmet-passthru: Cleanup nvmet_passthru_map_sg()
+To: Logan Gunthorpe <logang@deltatee.com>, linux-nvme@lists.infradead.org
+References: <20201009231816.1524-1-logang@deltatee.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <cbbe61ba-4061-3150-911d-db4aa0baf85d@grimberg.me>
-Date: Tue, 13 Oct 2020 15:25:20 -0700
+Message-ID: <80fedfa3-f7f2-f918-5f7c-5973b59b9e0a@grimberg.me>
+Date: Tue, 13 Oct 2020 15:26:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201012081040.31741-1-lengchao@huawei.com>
+In-Reply-To: <20201009231816.1524-1-logang@deltatee.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201013_182525_616171_A02F6FB3 
-X-CRM114-Status: GOOD (  10.07  )
+X-CRM114-CacheID: sfid-20201013_182612_656329_3E8B5B5E 
+X-CRM114-Status: GOOD (  10.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,7 +88,9 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de
+Cc: Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Douglas Gilbert <dgilbert@interlog.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
