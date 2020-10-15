@@ -2,67 +2,83 @@ Return-Path: <SRS0=wM/2=DW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EFF7C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 18:36:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE160C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 18:41:02 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6EE672073A
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 18:36:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2FC1121527
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 18:41:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qfhQ0WJO";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOA6f56P"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6EE672073A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="f6SyVejg";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="BD/ioFWC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2FC1121527
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=7sRkxUKFkmC9iBbm2BPyaVyscBBJNPHu+BNg+QGQYMI=; b=qfhQ0WJOOwbjAbbiLGd5JpHJym
-	sBG3MZ7d5uJP8MkFZj89IAehvacVkAm+gbNbH7D+cjLE7msh6A2JUeAkplhbs6oooy1A5FJO8H6X7
-	p/zaQA6T/vW81DzI0/AbdnEGQdzBLMeGgEMlM/4p7VlXTzfvWR4O3MtEbfou9rGIMTDruGHrHw4MR
-	lMajggsK+TdvMOF9Tc52AenL1aFxGaNvGjNId6We+sZrwZy+MgI7wAriK2B7rjC0rAXm9Ede0416u
-	AOg6gF5ukqwiexXxtNiTm7I1qWbxSxzHIctBwACR/azfN+FDuAPdj4o1zya6dkYSt+Lehu+YlQ86c
-	cHIF4VEw==;
+	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
+	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=r0RrIfQJ5VwDKx/nXKrOf9gODax21+KOzucaQ8M5rrM=; b=f6SyVejgyoWvcRmpVkjibfn9q
+	9uCciFejrfyerJS6rQzGgDQ/0ygFR6sOnlZ9pkQXtijF4wXNkYAe0rDybVHIiywB3Z+y7xm8c+yOw
+	hg6sa2ZArjNClosvWiqdIJBmjJEqaFgV3aW0W/eBtw8avB8keI4MCS8pZ/f+/cvD+PGm9zDUcUp6H
+	Bwn5zgeCUTwBgE1oJtHuASvYkKbOsLpnuaQIWmzRIXod5qZ/zsYQskFAl+Hl3KIedmL5VJquuIcPp
+	YhDbIHUD1n3RGPewbF8x9vtf8JOvBhiX0TDO1EVvyDe5guvKMUin5GVwkj+AeS6LxI1VBLNV93W15
+	383mg3fGQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kT87E-0007NA-Qd; Thu, 15 Oct 2020 18:36:40 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kT8BP-0008EX-7p; Thu, 15 Oct 2020 18:40:59 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kT87B-0007MN-Ny
- for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 18:36:38 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 296B820878;
- Thu, 15 Oct 2020 18:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602786996;
- bh=0rAf1SYHP8QvCWGkrac76PIejHE89LP0dOH3AijOSng=;
- h=From:To:Cc:Subject:Date:From;
- b=GOA6f56P0SROiIksyJGmBqXZmn/r4yn3vQLHA+kOUjzq7EgM61kd4/VcfGVixcQfI
- dCFAAeeDxwBuJ0qzcikOgoDiM7T31BpZwdcflVuZObAS3mBhObuaXp5EczlXMvL+wi
- 5Bek6K9ee+xMCxGazN1FFcx6VYRlmftUfoJ/vO6E=
-From: Keith Busch <kbusch@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
-	hch@lst.de
-Subject: [PATCHv2] nvme: use queuedata for nvme_req_qid
-Date: Thu, 15 Oct 2020 11:36:29 -0700
-Message-Id: <20201015183629.1424705-1-kbusch@kernel.org>
-X-Mailer: git-send-email 2.24.1
+ id 1kT8BM-0008Dx-Vf
+ for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 18:40:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=VcL+yhPhHq/eaQ+wvjYIuwaNVoBghE5URS8ruzs41/k=; b=BD/ioFWC6Y+ZFSK1jh97enpe3+
+ 86HGxioF/CEbY1XWpk/5O8MAbc1sXXiFldyrVlPVWQCTRY9kf6/G88SxBx/Axi/+0hEwNp5g1TmW1
+ tgnol4MSB+nQS6d5XP+i2uEViDRWOHWfPGoR7YH9/AoFXq5HiBGGpdWjUXDjJh5UnCU6Mb76T+lGp
+ NaF60S9AORYq/h59Zy81SAvk2NZCemdGC4xCRIjw+cEPtBSanVVwGw+y86kmJ3ku1pf8ggpzdgup4
+ hRimWmatB2pGkM23Gki9tvO5p8Eia8fbyOVjekKphLn8kMqe9C07PAjMnkKzoo2e3MbHIVnd4YzWc
+ ygQsnH8w==;
+Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
+ helo=[192.168.0.10])
+ by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <logang@deltatee.com>)
+ id 1kT8BJ-0001EY-R7; Thu, 15 Oct 2020 12:40:54 -0600
+To: Christoph Hellwig <hch@lst.de>
+References: <20201009231816.1524-1-logang@deltatee.com>
+ <20201015075640.GJ14082@lst.de>
+ <bc51aadc-eee3-cf52-0623-b3f82e1958f4@deltatee.com>
+ <20201015180148.GA23377@lst.de>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <b798e7f6-0afc-551c-f6d9-f7900b400137@deltatee.com>
+Date: Thu, 15 Oct 2020 12:40:52 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <20201015180148.GA23377@lst.de>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 24.64.145.4
+X-SA-Exim-Rcpt-To: chaitanya.kulkarni@wdc.com, sagi@grimberg.me,
+ dgilbert@interlog.com, linux-nvme@lists.infradead.org, hch@lst.de
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH] nvmet-passthru: Cleanup nvmet_passthru_map_sg()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201015_143637_865775_F2140C9B 
-X-CRM114-Status: GOOD (  14.42  )
+X-CRM114-CacheID: sfid-20201015_144057_066530_CC404A3B 
+X-CRM114-Status: GOOD (  17.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +90,59 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Douglas Gilbert <dgilbert@interlog.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The request's rq_disk isn't set for passthrough IO commands, so tracing
-uses qid 0 for these which incorrectly decodes as an admin command. Use
-the request_queue's queuedata instead since that value is always set for
-the IO queues, and never set for the admin queue.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
-v1->v2
 
-  Don't bother setting the rq_disk request parameter; use the existing
-  queuedata criteria instead
+On 2020-10-15 12:01 p.m., Christoph Hellwig wrote:
+> On Thu, Oct 15, 2020 at 10:01:30AM -0600, Logan Gunthorpe wrote:
+>>
+>>
+>> On 2020-10-15 1:56 a.m., Christoph Hellwig wrote:
+>>> On Fri, Oct 09, 2020 at 05:18:16PM -0600, Logan Gunthorpe wrote:
+>>>>  static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+>>>>  {
+>>>> -	int sg_cnt = req->sg_cnt;
+>>>>  	struct scatterlist *sg;
+>>>>  	int op_flags = 0;
+>>>>  	struct bio *bio;
+>>>>  	int i, ret;
+>>>>  
+>>>> +	if (req->sg_cnt > BIO_MAX_PAGES)
+>>>> +		return -EINVAL;
+>>>
+>>> Don't you need to handle larger requests as well?  Or at least
+>>> limit MDTS?
+>>
+>> No and Yes: there is already code in nvmet_passthru_override_id_ctrl()
+>> to limit MDTS based on max_segments and max_hw_sectors.
+> 
+> But those are entirely unrelated to the bio size.  BIO_MAX_PAGES is
+> 256, so with 4k pages and assuming none can't be merged that is 1MB,
+> while max_segments/max_hw_sectors could be something much larger.
 
- drivers/nvme/host/nvme.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Isn't it constrained by max_segments which is set to NVME_MAX_SEGS=127
+(for PCI)... less than BIO_MAX_PAGES...
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index e7c88b40f5bb..cc111136a981 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -176,7 +176,7 @@ static inline struct nvme_request *nvme_req(struct request *req)
- 
- static inline u16 nvme_req_qid(struct request *req)
- {
--	if (!req->rq_disk)
-+	if (!req->q->queuedata)
- 		return 0;
- 	return blk_mq_unique_tag_to_hwq(blk_mq_unique_tag(req)) + 1;
- }
--- 
-2.24.1
+Would the NVME driver even work if max_segments was greater than
+BIO_MAX_PAGES? Correct me if I'm wrong, but it looks like
+blk_rq_map_sg() will only map one bio within a request. So there has to
+be one bio per request by the time it hits nvme_map_data()...
 
+So I'm not really sure how we could even construct a valid passthrough
+request in nvmet_passthru_map_sg() that is larger than BIO_MAX_PAGES.
+
+If you want me to send a patch to future proof the MDTS limit with
+BIO_MAX_PAGES, I can do that, but it doesn't look like it will have any
+effect right now unless big things change.
+
+Logan
 
 _______________________________________________
 Linux-nvme mailing list
