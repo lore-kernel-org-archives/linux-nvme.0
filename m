@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA519C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 08:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 358E7C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 08:10:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E7F422243
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 08:10:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 923FB22243
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 08:10:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZcsdDKVj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E7F422243
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="S0U4O1bA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 923FB22243
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,33 +25,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=r1IUIF+iesmz+dD9BSNLYe8RGkTHZ8LIXcLdddom6yc=; b=ZcsdDKVj3Uqq8Ugtw/BXHdVd7
-	/lT3svJ4/2RmTwChxig4FD5zIADWJ8WLh0c30HnSRyh3uE+NK7v8QCEyJbnweL408PSs6a2Wy6Lic
-	Y9UhwAQTGt2cDPIT8UA3QgBZXqnaeweIU1mp9ps0P2kH4wAlWREkUPqEE0xcj3PlWAqQthMePatiy
-	/NpSBwM96Rox/PGh4pueMhzqmbRMqn6vKKKQhfShLPE538m1TRB1ViFdxRyHhXI/CpblMSBeUNO5O
-	jM2j70bHWtcwjogw8bNkaeliSvH0b8sPzVKc5CoZ126Mbo/Z28M23wAVkpQcx2hfEn9UKFhBhWkE7
-	x1MWddB8A==;
+	 bh=r1IUIF+iesmz+dD9BSNLYe8RGkTHZ8LIXcLdddom6yc=; b=S0U4O1bAcRHldYB3Iu8cyYrpc
+	J/ZfjYAa1v94xsTU4f7kmwIo4TK2s3GIK4OM7qVDyuAP7UOHI9tZtvBcbs9V/wkwIKjQF6fnVqijR
+	FeELCKurEdze3fFxRuNi/BHfIRaMKpk4o5kogUK1GctYwNBWBKER6m+4py2/8CvBFTV0CF+YTPrxa
+	A2bKN1h9ysq2ulmm26V/CYu2z5pmqJjAcXMyNizhiXIgXHmAz6NzTIUefo71RH5Lh5LUSYl4zxraX
+	B5q+YieOLrWSfhkw1oHKurSThAVvUURIKdDE3ObBPaKBGFECgw/M5JmPndFaAwrT+AWQBeIfExPrX
+	RZSZiVTog==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSyLY-0004sM-5p; Thu, 15 Oct 2020 08:10:48 +0000
+	id 1kSyLc-0004tJ-Cs; Thu, 15 Oct 2020 08:10:52 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSyLW-0004rz-A5
- for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 08:10:47 +0000
+ id 1kSyLa-0004sr-Pc
+ for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 08:10:51 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 74EDF68AFE; Thu, 15 Oct 2020 10:10:43 +0200 (CEST)
-Date: Thu, 15 Oct 2020 10:10:43 +0200
+ id F069568B05; Thu, 15 Oct 2020 10:10:48 +0200 (CEST)
+Date: Thu, 15 Oct 2020 10:10:48 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Chao Leng <lengchao@huawei.com>
-Subject: Re: [PATCH] nvme-rdma: fix crash when connect rejected
-Message-ID: <20201015081043.GA15299@lst.de>
-References: <20201012081040.31741-1-lengchao@huawei.com>
+Subject: Re: [PATCH] nvme-rdma: fix crash due to incorrect cqe
+Message-ID: <20201015081048.GB15299@lst.de>
+References: <20201012085537.2599-1-lengchao@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201012081040.31741-1-lengchao@huawei.com>
+In-Reply-To: <20201012085537.2599-1-lengchao@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201015_041046_479023_FAAF0A8B 
+X-CRM114-CacheID: sfid-20201015_041050_930923_30A01DB0 
 X-CRM114-Status: UNSURE (   6.97  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
