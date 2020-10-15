@@ -2,86 +2,89 @@ Return-Path: <SRS0=wM/2=DW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E92C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 01:52:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F4AC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 05:09:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D69E922255
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 01:52:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0F15322247
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 05:09:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zEfCKBy5";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="2OfDrONn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D69E922255
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=bytedance.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YKWZ4A5s"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0F15322247
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=rDLQjztXCORhoQtW8aqmPf9QL8b5M9zbodwT4k9fjdY=; b=zEfCKBy5gmNECxE9j9G6OkntTT
-	9lbj/7dDkg6MOdN+BVL4NviArQkORXdjpYLc1WaFbyHacw/zcYx0u786sufCWACxLLMINuu1JRsZ9
-	l1RTyT034+skcN6Y26ZKb27v/HzYx+GLeZt+0G3hvS5vW3lO97et9QsjrE18235soN4l8CX/E162M
-	9jBFsUiOsR0Xl8MN5oCrzS/LyXNyfMvg4Nhlo2/a2EIlaZmqLSb0W35hHqh6b2YUhvikRKrGuG28E
-	5OnpS/+9kDtk//Iz+Xga8Y28FpxoHJHMccjXlcvLVoG2pxmDRrJT+7UXjxgWfkzn9EiGwMusqIlc0
-	UBjioH+w==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:To:References:Message-Id:Date:In-Reply-To:From:
+	Subject:Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=PONEMUXAMSCMHmf9igu8qR47bB+af34fhTaeetomuHg=; b=YKWZ4A5s/K9NjgaRG7dbOyCvt
+	mLk1td/63d+PACV8rSd//0mgKKnUFGPC8ZwMdBIm6Jio7qsNNdnC9sq7Mj4bs4w40hV3BR83Q/ln0
+	qy/JDwhOPEY/Q+4tchfkLY7KcUeUZQCX+WCTqnU2AgS23Ysx739vC3zY4TkwmUqyVHkwtcShPInFU
+	IJ0IgKW/yN8lX4UYmMGX80ur0OCaAeQjnubkOHz+gdlyqYwAF4xlB3fag/SF6fhJDEwvodwXRNnFn
+	k6PnK0HMNheL23iL+ls3rLAxWL/qoblZSUltNLqG+Q5Df9slim2yW2olpIlJPoeK1ClhXbOexupeo
+	xLZG3X2Rg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSsRR-0008OP-KL; Thu, 15 Oct 2020 01:52:29 +0000
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044])
+	id 1kSvWG-00057y-0j; Thu, 15 Oct 2020 05:09:40 +0000
+Received: from youngberry.canonical.com ([91.189.89.112])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSsRN-0008NP-5e
- for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 01:52:27 +0000
-Received: by mail-pj1-x1044.google.com with SMTP id j8so905674pjy.5
- for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2020 18:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=Ef3HnQQahVPNGpzniRVNSgNHLilFmnzUisJ433euhLE=;
- b=2OfDrONnaWuvb73Idi8of8nziQnBEO4nKhRgyFliSwV3I9RTEO5MoSro1gAzplA57c
- +Z8PbCizdEvVBDVj//dX0z9eD+npsdsWZbxohJnzuK5cw91GU6wToWoAV5w5pYgJVWab
- WJc1VwaayRA5KKtaNalifoXxrxerDvUTiE916PoY4Mc/iP21S2G0JwGdC5ZJzAEWymYQ
- tw8Rka4iRmV44MeIYs6yY9JBXfqPfoNVObyujhP+uwsx3UrrOVekVdmEF4uBTUAUnRvX
- lYTLKP2rfTKARe4qWN+yl/DpU6lOQLsdZ9IhHZVQNEh/WTQfbGMadhdLpkWloWHH8AWo
- qhTw==
+ id 1kSvWD-000575-7E
+ for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 05:09:38 +0000
+Received: from mail-pj1-f70.google.com ([209.85.216.70])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>) id 1kSvWA-00052Z-Ss
+ for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 05:09:35 +0000
+Received: by mail-pj1-f70.google.com with SMTP id bo4so1126324pjb.4
+ for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2020 22:09:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Ef3HnQQahVPNGpzniRVNSgNHLilFmnzUisJ433euhLE=;
- b=CamEuu3dYDs/Hmv7fzvPj5AYC5ruKJb7FB2P2Jd49cen+j46mLp/8+B9ChxRmCmDH2
- S1HOoWvasgqQZTqO2u5RhSjMhxvD/SbtqNC6UkYaZkVgdU/DoeoPnO1VSv1M/LTl7CB0
- xE/3en4uZHYIg9anFv9FSdFR5Vxe8l0CoAMXvBqL4fAueVnsAYlHfHk5VNOHz1Uz+GXj
- ew1NU3KoaY6js11+wOP0yRr4xkfM+qF+qLyixS7Qd6MZpYxWM7fD7W5SLJJ3+gRgEpZh
- QM2tver+WeJJ6fZxOUvabwww369WlV+BlzrjXPNRPsHc+tL09rXUFcRyjcHK/w/DRs2D
- buwQ==
-X-Gm-Message-State: AOAM532jHjrpalFFquwfan5Vpn1l8G+b/Xk5uV6O/zQzQYC37d59/Bpg
- olLT3LBBjixaN6D3ZE41IDiqog==
-X-Google-Smtp-Source: ABdhPJyJDjtzgpgvCAIEqnrTv322gS69GtuqnRltoYel1FD3Ea5+kYrrKMLH8mYJarxPN7ABBUe/Jg==
-X-Received: by 2002:a17:902:a983:b029:d5:a524:8710 with SMTP id
- bh3-20020a170902a983b02900d5a5248710mr1731041plb.28.1602726741015; 
- Wed, 14 Oct 2020 18:52:21 -0700 (PDT)
-Received: from libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id t15sm3308125pjq.3.2020.10.14.18.52.18
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=CKMUi55uSlXTFPdNQwqvWcYtcP11uT5LRNRhx7+ShsM=;
+ b=XmPccAiVKzLE5jt0Wp0cobzjt0zCymCtm7fhOUvGX7nN8CWLB6CNvd/UbYqpKT07dw
+ 7TocRw4df/Zzopu2TauSJHDKWKxwfxO5YFv1W1H+B6a5Fm8fALFbG5EY4pESI2TgOsVV
+ 8+NlKg3ZkL/CexBUwzz6qaQYEYDF/5lcVRB+X4t0Q9PmHCWy6zeFsj7dFOGdpH72H6Ox
+ OiSuS+ZNDYPT6DhWk16kyMD6+p+QXHP+5JRSO6iiKxwsJSpn/A1znvlrmJ0Dirj/V2xC
+ qgyi2cI1bpBrf10BsIFWZ2DMEKDwK8AzrPubR1Ih0c+0fZWx+GmpmBUTAYURWa9Tmomh
+ usOA==
+X-Gm-Message-State: AOAM531abTbSASVcv0Mg/T3jWr7f7OayjQB1i/ICYrEoXMQKbdLSrhPH
+ v6xIZ5+vMlUtfElU+4bpBahvO4ADgzhVKRfPUdv3LxPVH9vr7OMlA2qDBPR/LhPho9xYDEUJca0
+ Q89XLuQwUtAsQrEQriF0WD04wi4T/ykEcZrpb373yhUOA
+X-Received: by 2002:aa7:9607:0:b029:155:2b85:93f5 with SMTP id
+ q7-20020aa796070000b02901552b8593f5mr2556749pfg.36.1602738573579; 
+ Wed, 14 Oct 2020 22:09:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxTnizW2vFtpThp3YQPzh957kld1b3aOAutHHKHaqwl8BgCzLea3bc4ZkHmozWup8Of2OIrA==
+X-Received: by 2002:aa7:9607:0:b029:155:2b85:93f5 with SMTP id
+ q7-20020aa796070000b02901552b8593f5mr2556722pfg.36.1602738573267; 
+ Wed, 14 Oct 2020 22:09:33 -0700 (PDT)
+Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net.
+ [220.133.187.190])
+ by smtp.gmail.com with ESMTPSA id x18sm1429145pga.49.2020.10.14.22.09.31
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 14 Oct 2020 18:52:20 -0700 (PDT)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: hch@lst.de,
-	sagi@grimberg.me,
-	chaitanya.kulkarni@wdc.com
-Subject: [PATCH v3] nvmet: fix uninitialized work for zero kato
-Date: Thu, 15 Oct 2020 09:51:40 +0800
-Message-Id: <20201015015140.1061936-1-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.11.0
+ Wed, 14 Oct 2020 22:09:32 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [PATCH] nvme-pci: Disable Write Zeroes on Sandisk Skyhawk
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <BYAPR04MB496518A4C9FC65964C58453386050@BYAPR04MB4965.namprd04.prod.outlook.com>
+Date: Thu, 15 Oct 2020 13:09:30 +0800
+Message-Id: <73A03A07-05E3-40FA-991F-5B98C05B51D1@canonical.com>
+References: <20200723155731.22313-1-kai.heng.feng@canonical.com>
+ <20201013083445.12317-1-kai.heng.feng@canonical.com>
+ <BYAPR04MB496518A4C9FC65964C58453386050@BYAPR04MB4965.namprd04.prod.outlook.com>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201014_215225_307391_9D456A96 
-X-CRM114-Status: GOOD (  13.54  )
+X-CRM114-CacheID: sfid-20201015_010937_341017_A710F402 
+X-CRM114-Status: GOOD (  12.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,54 +96,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: pizhenwei@bytedance.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
-MIME-Version: 1.0
+Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ "axboe@fb.com" <axboe@fb.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
+ "hch@lst.de" <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hit a warning:
-WARNING: CPU: 1 PID: 241 at kernel/workqueue.c:1627 __queue_delayed_work+0x6d/0x90
-with trace:
-  mod_delayed_work_on+0x59/0x90
-  nvmet_update_cc+0xee/0x100 [nvmet]
-  nvmet_execute_prop_set+0x72/0x80 [nvmet]
-  nvmet_tcp_try_recv_pdu+0x2f7/0x770 [nvmet_tcp]
-  nvmet_tcp_io_work+0x63f/0xb2d [nvmet_tcp]
-  ...
 
-This could be reproduced easily with a keep alive time 0:
-nvme connect -t tcp -n NQN -a ADDR -s PORT --keep-alive-tmo=0
 
-Starting an uninitialized work when initiator connects with zero
-kato. Althrough keep-alive timer is disabled during allocating a ctrl
-(fix in 0d3b6a8d213a), ka_work still has a chance to run
-(called by nvmet_start_ctrl).
+> On Oct 14, 2020, at 08:20, Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com> wrote:
+> 
+> On 10/13/20 01:45, Kai-Heng Feng wrote:
+>> Like commit 5611ec2b9814 ("nvme-pci: prevent SK hynix PC400 from using
+>> Write Zeroes command"), Sandisk Skyhawk has the same issue:
+>> [ 6305.633887] blk_update_request: operation not supported error, dev nvme0n1, sector 340812032 op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+>> 
+>> So also disable Write Zeroes command on Sandisk Skyhawk.
+>> 
+>> BugLink: https://bugs.launchpad.net/bugs/1899503
+>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> 
+> Are you sure this happens all the devices of the same model
+> 
+> and not a firmware bug on specific device ?
+> 
+> If yes then looks good.
 
-Fixes: 0d3b6a8d213a ("nvmet: Disable keep-alive timer when kato is cleared to 0h") 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- drivers/nvme/target/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Yes, and this is the reply from WD, requested by the user:
+"These are newest WD branded drives and WD already confirmed they are
+the newest firmware / no upgrades are available."
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 25d62d867563..aafcbc424b7a 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1126,7 +1126,8 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
- 	 * in case a host died before it enabled the controller.  Hence, simply
- 	 * reset the keep alive timer when the controller is enabled.
- 	 */
--	mod_delayed_work(system_wq, &ctrl->ka_work, ctrl->kato * HZ);
-+	if (ctrl->kato)
-+		mod_delayed_work(system_wq, &ctrl->ka_work, ctrl->kato * HZ);
- }
- 
- static void nvmet_clear_ctrl(struct nvmet_ctrl *ctrl)
--- 
-2.11.0
+Kai-Heng
+
+> 
+> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> 
+> 
+> 
 
 
 _______________________________________________
