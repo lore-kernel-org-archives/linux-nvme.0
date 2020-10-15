@@ -2,89 +2,79 @@ Return-Path: <SRS0=wM/2=DW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F4AC433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 05:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C8C3C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 06:05:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0F15322247
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 05:09:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 63994218AC
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Oct 2020 06:05:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YKWZ4A5s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0F15322247
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QPb0W5P7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 63994218AC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:References:Message-Id:Date:In-Reply-To:From:
-	Subject:Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=PONEMUXAMSCMHmf9igu8qR47bB+af34fhTaeetomuHg=; b=YKWZ4A5s/K9NjgaRG7dbOyCvt
-	mLk1td/63d+PACV8rSd//0mgKKnUFGPC8ZwMdBIm6Jio7qsNNdnC9sq7Mj4bs4w40hV3BR83Q/ln0
-	qy/JDwhOPEY/Q+4tchfkLY7KcUeUZQCX+WCTqnU2AgS23Ysx739vC3zY4TkwmUqyVHkwtcShPInFU
-	IJ0IgKW/yN8lX4UYmMGX80ur0OCaAeQjnubkOHz+gdlyqYwAF4xlB3fag/SF6fhJDEwvodwXRNnFn
-	k6PnK0HMNheL23iL+ls3rLAxWL/qoblZSUltNLqG+Q5Df9slim2yW2olpIlJPoeK1ClhXbOexupeo
-	xLZG3X2Rg==;
+	 bh=IdBHmMkfOOYOUNhIMOv9+h7NfVJYtrCWxBuJBvtm840=; b=QPb0W5P7yrxzybzmS2Kaxzg15
+	1QarHdAETDaw1XiFM69HkNah8UdUHtGd1Yr4nalJ4Pct9j35nOtTD3SwVGAMbrPY+JGxZtxEDgmel
+	8E4I18lCJO6gRcFRDeKr9K19Jhj38PT4DOyfhlVOfumB8+7ITC1cjxIJmv9vmDe3QUgIg2c6T6KjN
+	jWShAtB8pMpABLNBEJCFS5JONCpujpyCg97OEZiIIcNhCe1XNKdAiM1MXTne8djfzo5s0vuipICXx
+	W8t5Dkl3Cxjlzst0tQmFvNvptp/KDGkMbm8D2jPGY0SL+BV3E881jTYn7PrBrh5wT65LXOgAUWKP1
+	rEw49764g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kSvWG-00057y-0j; Thu, 15 Oct 2020 05:09:40 +0000
-Received: from youngberry.canonical.com ([91.189.89.112])
+	id 1kSwOD-0000uO-IA; Thu, 15 Oct 2020 06:05:25 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSvWD-000575-7E
- for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 05:09:38 +0000
-Received: from mail-pj1-f70.google.com ([209.85.216.70])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>) id 1kSvWA-00052Z-Ss
- for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 05:09:35 +0000
-Received: by mail-pj1-f70.google.com with SMTP id bo4so1126324pjb.4
- for <linux-nvme@lists.infradead.org>; Wed, 14 Oct 2020 22:09:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=CKMUi55uSlXTFPdNQwqvWcYtcP11uT5LRNRhx7+ShsM=;
- b=XmPccAiVKzLE5jt0Wp0cobzjt0zCymCtm7fhOUvGX7nN8CWLB6CNvd/UbYqpKT07dw
- 7TocRw4df/Zzopu2TauSJHDKWKxwfxO5YFv1W1H+B6a5Fm8fALFbG5EY4pESI2TgOsVV
- 8+NlKg3ZkL/CexBUwzz6qaQYEYDF/5lcVRB+X4t0Q9PmHCWy6zeFsj7dFOGdpH72H6Ox
- OiSuS+ZNDYPT6DhWk16kyMD6+p+QXHP+5JRSO6iiKxwsJSpn/A1znvlrmJ0Dirj/V2xC
- qgyi2cI1bpBrf10BsIFWZ2DMEKDwK8AzrPubR1Ih0c+0fZWx+GmpmBUTAYURWa9Tmomh
- usOA==
-X-Gm-Message-State: AOAM531abTbSASVcv0Mg/T3jWr7f7OayjQB1i/ICYrEoXMQKbdLSrhPH
- v6xIZ5+vMlUtfElU+4bpBahvO4ADgzhVKRfPUdv3LxPVH9vr7OMlA2qDBPR/LhPho9xYDEUJca0
- Q89XLuQwUtAsQrEQriF0WD04wi4T/ykEcZrpb373yhUOA
-X-Received: by 2002:aa7:9607:0:b029:155:2b85:93f5 with SMTP id
- q7-20020aa796070000b02901552b8593f5mr2556749pfg.36.1602738573579; 
- Wed, 14 Oct 2020 22:09:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxTnizW2vFtpThp3YQPzh957kld1b3aOAutHHKHaqwl8BgCzLea3bc4ZkHmozWup8Of2OIrA==
-X-Received: by 2002:aa7:9607:0:b029:155:2b85:93f5 with SMTP id
- q7-20020aa796070000b02901552b8593f5mr2556722pfg.36.1602738573267; 
- Wed, 14 Oct 2020 22:09:33 -0700 (PDT)
-Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net.
- [220.133.187.190])
- by smtp.gmail.com with ESMTPSA id x18sm1429145pga.49.2020.10.14.22.09.31
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 14 Oct 2020 22:09:32 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH] nvme-pci: Disable Write Zeroes on Sandisk Skyhawk
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <BYAPR04MB496518A4C9FC65964C58453386050@BYAPR04MB4965.namprd04.prod.outlook.com>
-Date: Thu, 15 Oct 2020 13:09:30 +0800
-Message-Id: <73A03A07-05E3-40FA-991F-5B98C05B51D1@canonical.com>
-References: <20200723155731.22313-1-kai.heng.feng@canonical.com>
- <20201013083445.12317-1-kai.heng.feng@canonical.com>
- <BYAPR04MB496518A4C9FC65964C58453386050@BYAPR04MB4965.namprd04.prod.outlook.com>
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
+ id 1kSwOB-0000qy-Np
+ for linux-nvme@lists.infradead.org; Thu, 15 Oct 2020 06:05:24 +0000
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.54])
+ by Forcepoint Email with ESMTP id DC5AEF1298654590F1DD;
+ Thu, 15 Oct 2020 14:05:02 +0800 (CST)
+Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
+ DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Thu, 15 Oct 2020 14:05:02 +0800
+Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
+ (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1913.5; Thu, 15
+ Oct 2020 14:05:01 +0800
+Subject: Re: [PATCH] block: re-introduce blk_mq_complete_request_sync
+To: Ming Lei <ming.lei@redhat.com>
+References: <23f19725-f46b-7de7-915d-b97fd6d69cdc@redhat.com>
+ <ced685bf-ad48-ac41-8089-8c5ba09abfcb@grimberg.me>
+ <7a7aca6e-30f5-0754-fb7f-599699b97108@redhat.com>
+ <6f2a5ae2-2e6a-0386-691c-baefeecb5478@huawei.com>
+ <20201012081306.GB556731@T590>
+ <5e05fc3b-ad81-aacc-1f8e-7ff0d1ad58fe@huawei.com>
+ <e19073e4-06da-ce3c-519c-ece2c4d942fa@grimberg.me>
+ <20201014010813.GA775684@T590> <20201014033434.GC775684@T590>
+ <f5870b91-28c5-ea99-59df-cdcc8c482011@huawei.com>
+ <20201014095642.GE775684@T590>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <c9cf7168-d8ce-276f-de01-739199ed4258@huawei.com>
+Date: Thu, 15 Oct 2020 14:05:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <20201014095642.GE775684@T590>
+Content-Language: en-US
+X-Originating-IP: [10.169.42.93]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ dggema772-chm.china.huawei.com (10.1.198.214)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201015_010937_341017_A710F402 
-X-CRM114-Status: GOOD (  12.58  )
+X-CRM114-CacheID: sfid-20201015_020524_008265_F0D5D5D7 
+X-CRM114-Status: GOOD (  20.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,48 +86,136 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- "axboe@fb.com" <axboe@fb.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Jens Axboe <axboe@kernel.dk>, Yi Zhang <yi.zhang@redhat.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-> On Oct 14, 2020, at 08:20, Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com> wrote:
+On 2020/10/14 17:56, Ming Lei wrote:
+> On Wed, Oct 14, 2020 at 05:39:12PM +0800, Chao Leng wrote:
+>>
+>>
+>> On 2020/10/14 11:34, Ming Lei wrote:
+>>> On Wed, Oct 14, 2020 at 09:08:28AM +0800, Ming Lei wrote:
+>>>> On Tue, Oct 13, 2020 at 03:36:08PM -0700, Sagi Grimberg wrote:
+>>>>>
+>>>>>>>> This may just reduce the probability. The concurrency of timeout
+>>>>>>>> and teardown will cause the same request
+>>>>>>>> be treated repeatly, this is not we expected.
+>>>>>>>
+>>>>>>> That is right, not like SCSI, NVME doesn't apply atomic request
+>>>>>>> completion, so
+>>>>>>> request may be completed/freed from both timeout & nvme_cancel_request().
+>>>>>>>
+>>>>>>> .teardown_lock still may cover the race with Sagi's patch because
+>>>>>>> teardown
+>>>>>>> actually cancels requests in sync style.
+>>>>>> In extreme scenarios, the request may be already retry success(rq state
+>>>>>> change to inflight).
+>>>>>> Timeout processing may wrongly stop the queue and abort the request.
+>>>>>> teardown_lock serialize the process of timeout and teardown, but do not
+>>>>>> avoid the race.
+>>>>>> It might not be safe.
+>>>>>
+>>>>> Not sure I understand the scenario you are describing.
+>>>>>
+>>>>> what do you mean by "In extreme scenarios, the request may be already retry
+>>>>> success(rq state change to inflight)"?
+>>>>>
+>>>>> What will retry the request? only when the host will reconnect
+>>>>> the request will be retried.
+>>>>>
+>>>>> We can call nvme_sync_queues in the last part of the teardown, but
+>>>>> I still don't understand the race here.
+>>>>
+>>>> Not like SCSI, NVME doesn't complete request atomically, so double
+>>>> completion/free can be done from both timeout & nvme_cancel_request()(via teardown).
+>>>>
+>>>> Given request is completed remotely or asynchronously in the two code paths,
+>>>> the teardown_lock can't protect the case.
+>>>
+>>> Thinking of the issue further, the race shouldn't be between timeout and
+>>> teardown.
+>>>
+>>> Both nvme_cancel_request() and nvme_tcp_complete_timed_out() are called
+>>> with .teardown_lock, and both check if the request is completed before
+>>> calling blk_mq_complete_request() which marks the request as COMPLETE state.
+>>> So the request shouldn't be double-freed in the two code paths.
+>>>
+>>> Another possible reason is that between timeout and normal completion(fail
+>>> fast pending requests after ctrl state is updated to CONNECTING).
+>>>
+>>> Yi, can you try the following patch and see if the issue is fixed?
+>>>
+>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>>> index d6a3e1487354..fab9220196bd 100644
+>>> --- a/drivers/nvme/host/tcp.c
+>>> +++ b/drivers/nvme/host/tcp.c
+>>> @@ -1886,7 +1886,6 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+>>>    static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
+>>>    		bool remove)
+>>>    {
+>>> -	mutex_lock(&to_tcp_ctrl(ctrl)->teardown_lock);
+>>>    	blk_mq_quiesce_queue(ctrl->admin_q);
+>>>    	nvme_tcp_stop_queue(ctrl, 0);
+>>>    	if (ctrl->admin_tagset) {
+>>> @@ -1897,15 +1896,13 @@ static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
+>>>    	if (remove)
+>>>    		blk_mq_unquiesce_queue(ctrl->admin_q);
+>>>    	nvme_tcp_destroy_admin_queue(ctrl, remove);
+>>> -	mutex_unlock(&to_tcp_ctrl(ctrl)->teardown_lock);
+>>>    }
+>>>    static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
+>>>    		bool remove)
+>>>    {
+>>> -	mutex_lock(&to_tcp_ctrl(ctrl)->teardown_lock);
+>>>    	if (ctrl->queue_count <= 1)
+>>> -		goto out;
+>>> +		return;
+>>>    	blk_mq_quiesce_queue(ctrl->admin_q);
+>>>    	nvme_start_freeze(ctrl);
+>>>    	nvme_stop_queues(ctrl);
+>>> @@ -1918,8 +1915,6 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
+>>>    	if (remove)
+>>>    		nvme_start_queues(ctrl);
+>>>    	nvme_tcp_destroy_io_queues(ctrl, remove);
+>>> -out:
+>>> -	mutex_unlock(&to_tcp_ctrl(ctrl)->teardown_lock);
+>>>    }
+>>>    static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
+>>> @@ -2030,11 +2025,11 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+>>>    	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+>>>    	nvme_stop_keep_alive(ctrl);
+>>> +
+>>> +	mutex_lock(&tcp_ctrl->teardown_lock);
+>>>    	nvme_tcp_teardown_io_queues(ctrl, false);
+>>> -	/* unquiesce to fail fast pending requests */
+>>> -	nvme_start_queues(ctrl);
+>>>    	nvme_tcp_teardown_admin_queue(ctrl, false);
+>>> -	blk_mq_unquiesce_queue(ctrl->admin_q);
+>> Delete blk_mq_unquiesce_queue will cause a bug which may cause reconnect failed.
+>> Delete nvme_start_queues may cause another bug.
 > 
-> On 10/13/20 01:45, Kai-Heng Feng wrote:
->> Like commit 5611ec2b9814 ("nvme-pci: prevent SK hynix PC400 from using
->> Write Zeroes command"), Sandisk Skyhawk has the same issue:
->> [ 6305.633887] blk_update_request: operation not supported error, dev nvme0n1, sector 340812032 op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
->> 
->> So also disable Write Zeroes command on Sandisk Skyhawk.
->> 
->> BugLink: https://bugs.launchpad.net/bugs/1899503
->> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> nvme_tcp_setup_ctrl() will re-start io and admin queue, and only .connect_q
+> and .fabrics_q are required during reconnect.I check the code. Unquiesce the admin queue in nvme_tcp_configure_admin_queue, so reconnect can work well.
 > 
-> Are you sure this happens all the devices of the same model
+> So can you explain in detail about the bug?
+First if reconnect failed, quiesce the io queue and admin queue will cause IO pause long time.
+Second if reconnect failed more than max_reconnects, delete ctrl will hang.
+Second, I'm not sure. you can check it.
+The hang function is nvme_remove_namespaces in nvme_do_delete_ctrl.
 > 
-> and not a firmware bug on specific device ?
+> Thanks,
+> Ming
 > 
-> If yes then looks good.
-
-Yes, and this is the reply from WD, requested by the user:
-"These are newest WD branded drives and WD already confirmed they are
-the newest firmware / no upgrades are available."
-
-Kai-Heng
-
+> .
 > 
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> 
-> 
-> 
-
 
 _______________________________________________
 Linux-nvme mailing list
