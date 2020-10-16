@@ -2,83 +2,113 @@ Return-Path: <SRS0=oO1v=DX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1270BC433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:29:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E73C8C433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:58:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 80488214DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:29:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 28BF220829
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:58:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cccwrKzF";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="dRXBLOKo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 80488214DB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MpHSgdU6";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="UzRmEtuI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28BF220829
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=micron.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=Pen+TewHfpHogtdcQEOaydgcOT1v3p8huts7gwcFZY4=; b=ccc
-	wrKzFYTuPSCdE36T5vauJ2S71VbPkdf7rqfbGQc63j8PnKPH/kOrUWo9kmECKW7Mba18qmPOIMIN4
-	UVijtIZhRTP6F4o5xEr0FAfu9Wh56xvjMTFXAziS+vMjy3dsEKYHZLqP2XvivXL8wVQEdbtkfgZcf
-	hn0k/BGhC1p4G3EuZQE6uai4KuyM4WCXIvWyjeVwxcCEPHe+y+gc44iXL3Qk3IsgQJnrFZNz64xDa
-	ckAPCQw4+mqHosbg1orBIqE7k1Rt3SVn0qhvgZ7aUOQRRSvLHhO4QiBbQKEHxdrDF/JqMw3lZVasl
-	+Pyrtx+Gl5RP8rpO138/VfnsPKKNz0Q==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=khkITTcPTmuj7TOnsUqiPAyq1Dw2WxVKn1E5qARsLWs=; b=MpHSgdU6ECTjrf2X5iOM9JrVE
+	OgPIcPfYkoOh6aU1/ticuPMgJW/VPYEenbHvYaAiAa5KAfVBbLfXIN9GHHubhubPUDjAI/k5nVKCd
+	WPFF5H2ANk0NRcSCu/lz/nUob7oo5/ol1vE8PG5fbr07kwwELAJWBsuv7dsoB4im5ECID0HXJ1god
+	2BEWcj1Pz32yLtU2HdXas6ReWl/HKpXomFRoEpDsanBcByagfE7A1uVei4Z5SwRMmoXME9nUus+LO
+	JoIYr7gCvzy4jzwUh1gTmzaA/IKoBwIyyvl/4EBldnf/4yLXER9seeTN1Vfm3DLQt8INVDwLzMUdt
+	SUEzYRxTg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kTXIB-0008Kx-QI; Fri, 16 Oct 2020 21:29:39 +0000
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642])
+	id 1kTXkK-0003KD-G8; Fri, 16 Oct 2020 21:58:44 +0000
+Received: from mail-dm6nam11on2077.outbound.protection.outlook.com
+ ([40.107.223.77] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kTXI9-0008Jz-Gw
- for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 21:29:38 +0000
-Received: by mail-ej1-x642.google.com with SMTP id e22so5273024ejr.4
- for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2020 14:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=7gwG2C65dq3dKKTEayYJFnZca6Vz1FMA3jJzRBNFLPU=;
- b=dRXBLOKoUMppE6jSLh4CYCU1VeJMKXPtDXx0Hp+BEl2wLi+4dzpzhlPOAUaywMiK2s
- pnHsDRNEDRwHMkXGkrWYsHNFBHoSdVlCOPw+3UDzPDqBhuo30n6F5oeWH3JERHYzzyt+
- 8OoRlSAv0namLDMeIt7A/TwkPz9DkMT6O0If0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version;
- bh=7gwG2C65dq3dKKTEayYJFnZca6Vz1FMA3jJzRBNFLPU=;
- b=QQSJZRcSsd4r76IFKGqUtczQNOKXncENyHJSj1Z6CvGA8WNuj3mfQyTtQBflQcJ8XE
- crWfnqSTVMVIVS+qAgZe2Gb8yw148iB25OkDGvR2kVbhjVUJ1rGuesDQC2Z2gISkJjnj
- /4V4D15LWK/plvCpcZzxFM8CNfqOnjS93B+hvDUWNPL36vBlWCqbPRDXBL0CTyqE88Ec
- m7deqRtbnf2i8jU0Fj06QUGk+IBv4e8/UL86qD2nnp0IHfaVDYwTAMCTVsj4WVYwlXSX
- OcTu2qZNaPU6Y0dJ4rCRKex3m8haR7NbBvQlcBVk5dsdFos0gWN9V9XLCghTM8Z0zFqR
- pCZQ==
-X-Gm-Message-State: AOAM530/kczzwjDwIWEXKI+IonUM+4dCp3El7JnQci8vPzasJxRauigP
- wnW273uxRgXBCja3D/7EdoRRUP4qUwWfxgcJ/Z9MBHAzl3X7PHTNBTjffmAVW5Ggs7KpptGAmJM
- /OFU5psFSye2DHdq6nY9kZmuGuXy0n2XYO4TRCNkkYRVRQqCeKxUIkdpCzspVFChC2Gzrps/L+V
- f8aNFxM67I
-X-Google-Smtp-Source: ABdhPJz83V34Bt8giyIhv0vP971JysZRj9ZRilhUvav7fZy7sqtJmvZQFNgFnoUSJLhmywKHaHrxUg==
-X-Received: by 2002:a17:906:72cb:: with SMTP id
- m11mr5565969ejl.348.1602883775773; 
- Fri, 16 Oct 2020 14:29:35 -0700 (PDT)
-Received: from localhost.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id p12sm2713282edr.18.2020.10.16.14.29.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 14:29:35 -0700 (PDT)
-From: James Smart <james.smart@broadcom.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-fc: shorten reconnect delay if possible for FC
-Date: Fri, 16 Oct 2020 14:29:28 -0700
-Message-Id: <20201016212928.49429-1-james.smart@broadcom.com>
-X-Mailer: git-send-email 2.26.2
+ id 1kTXkH-0003It-UP
+ for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 21:58:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GkDhnGslLq0LXDnVwzKX2YOchF/Jrzmm+c7HERQgr38bZljRz5AnXSQKQvTX/5qTVYSvuEaoVvZDbogwuOFkop/g65VWM1djyj5S+pv8G8DENMQHzVKvtLD/TBT4cI0/5+gZwSCIsGPD2TwIgB2V9EgNc7ea2MY1fpSRwXOf3v3q27C452aSwup/1P4P8hmNd8yB6qrtQds4LPQV/mWNJDw7qGC3dpfhQ+0YVEZ4iOHtzChdCKNztXWE2UfOB3RWoWG1ijc46SMSDb69OayLqjBmAbOiU8hh+61VgWKrY26YgzE+wqfIBScN/J1UaupmQa4UUvuma1j3ypZhkCNUng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VOmI+E98kScbK2oItBBB3DMZeaDKLBUECg8H2B57zNA=;
+ b=bNbrGQd1cy1grooUJ/kXI9ojrTERmKcMcNCfSJfchYdeFb5jV69K/Al1/XSV1WEC88Zz8fsPmDzGzzfatK06LdkfakT6XIX8tIao1wgDZbfo1u6qWIbsbhU2sOid3bzq0h/7NjI+ohK3gMaeX3xZXimOxciSEbCUlZ5rSffL+n/DeM6DHB29JdDAB5UQqJHrXL1lgMUv7J0TakknVI1DS1qdOCUYMpBdLc5hUCJVL8n/dlobcrFfE2ourVw9Rowc5o89a033lHCP0P6G6/7bUd525yEGuSSkwSdXSQveflDGhqqkCiP1WGUJ/EkPZks8YKa/MF3/2Z8SNs7hmyS3HA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=micron.com; dmarc=pass action=none header.from=micron.com;
+ dkim=pass header.d=micron.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VOmI+E98kScbK2oItBBB3DMZeaDKLBUECg8H2B57zNA=;
+ b=UzRmEtuIX9B/Wq8lzVtPF4CNhZR0PfUYq2XLQWG+btQaoudpO/gsfdYgFD4mIetPJatasOQOm1I5zLiydH8N7Fexwu6NGDK1LHC/Dbv2iVfbz6BsJ5de24TyjvYL5ZuOkhs/XXBSAN1hx9v0SLxLytfSuN6iIrM/VomHRQydkiM=
+Received: from SN6PR08MB4208.namprd08.prod.outlook.com (2603:10b6:805:3b::21)
+ by SN6PR08MB5311.namprd08.prod.outlook.com (2603:10b6:805:9b::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Fri, 16 Oct
+ 2020 21:58:33 +0000
+Received: from SN6PR08MB4208.namprd08.prod.outlook.com
+ ([fe80::f459:dd7f:5b2:effa]) by SN6PR08MB4208.namprd08.prod.outlook.com
+ ([fe80::f459:dd7f:5b2:effa%7]) with mapi id 15.20.3477.022; Fri, 16 Oct 2020
+ 21:58:33 +0000
+From: "Nabeel Meeramohideen Mohamed (nmeeramohide)" <nmeeramohide@micron.com>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: RE: [EXT] Re: [PATCH v2 00/22] add Object Storage Media Pool (mpool)
+Thread-Topic: [EXT] Re: [PATCH v2 00/22] add Object Storage Media Pool (mpool)
+Thread-Index: AQHWoLSk7QDKlgB4AkWtKLxj5k5RI6mYUcIAgAJzT5A=
+Date: Fri, 16 Oct 2020 21:58:32 +0000
+Message-ID: <SN6PR08MB420880574E0705BBC80EC1A3B3030@SN6PR08MB4208.namprd08.prod.outlook.com>
+References: <20201012162736.65241-1-nmeeramohide@micron.com>
+ <20201015080254.GA31136@infradead.org>
+In-Reply-To: <20201015080254.GA31136@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=micron.com;
+x-originating-ip: [104.129.198.248]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6f2588d1-2e21-4f79-8e1a-08d8721ea005
+x-ms-traffictypediagnostic: SN6PR08MB5311:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR08MB5311D3C08448DD7D6839547FB3030@SN6PR08MB5311.namprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: o+NYI+50hAvknJTQBjjbf9Iwwjgm/2UgN6wi37BbpBPSxu375t8hcNLC3c7rs+++QYTjmHWZWwCSB2ItNIT2mPmaXaWF3NnsbhjPYtOHIZtKpY/bhyGySAglrInBi+DGcU6owMDxjvYiW9UgjuQDs3NQantIxqv6w1I22i87flJXFW+Nvh3ftORQ6/+IiPmYjN19iIhyiJ3x8him3cfrKhUxeqLe+mUf2vm8gtnG/1of4s3NXXoaH2afneS5ivH53W6RVM3EeCK1g2EHg7u+MxIoex6woykzbMN3hhycqYYAj0aYyBVxsFh55/VAvPKZbGDdGbeAXLhpUF9ojI8NEw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR08MB4208.namprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(39860400002)(346002)(376002)(136003)(26005)(66446008)(8936002)(83380400001)(107886003)(54906003)(33656002)(71200400001)(316002)(478600001)(4326008)(66946007)(55016002)(55236004)(52536014)(64756008)(76116006)(9686003)(66556008)(86362001)(8676002)(66476007)(53546011)(6916009)(2906002)(186003)(7696005)(6506007)(5660300002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: M7/klhDn1/hEBS6NYhNlN2l+0DU8fETi8W1FHnKQoA6wjZ2Vg2g6RfJKn6TlQUKn1qRWkoFKRi3nI/PMsezSZDbSGFqDk6X6dsB9bgV6qPkro4clhaUZmm0AVupTQ/LVP7QicDsmryFnm2CyGddTCPVJDjvWGvpfjc8OJYdtyGn9aw2GRp4lp5Ub2ylAmDg4+CoTfLYqX+SS72vqX5gu3Qn1u5TOeaBBVPj7xxIbjN8yGe0ugrOhQ3zLlw/p5kNku6pxTQ/d8WsusdFvFLpKFednOb+TB1E+NC8FIwAxY7TM9vIh5VWQeCHVi4hKo4rz4DwaxLlo15GrjY45PcTlwNeeIHG89hCtI6WwzBrkO/6bOGrH+0kUwm1whSocx5peIoEzaAVNJ5pyO0bFX7tLPGwU9/9XDDuWNjP14kE12bfnOUItyGzQB3wRvWRouxbEBjyaubQX6BsNY4d46gMwdoJFdXpjU0kMjNEBgVFhxcVIhxQGGOemJaC8wn9vWHhNKjr/vhl+3uf+IECutVDHH+CKHIONnRrNoCwcMDb+YF/7yI88kxx7vBtQJOKVE7D83d9c672X3Tvmkpi7QD308wMgHmD2LEl+JoLbVWubRBYXKB4xR8HhfT3TsZZQ0xguJlE60PE5ljV2KBLsA6xjCg==
 MIME-Version: 1.0
+X-OriginatorOrg: micron.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB4208.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f2588d1-2e21-4f79-8e1a-08d8721ea005
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2020 21:58:33.0192 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f38a5ecd-2813-4862-b11b-ac1d563c806f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 23C9R53VGXetxbY6XEeN97ERmbrmSZPouta/SgG6/q46XB2WfoA0mdRjapXXfavVkLPT9gW9OAi74xbSYRIFvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5311
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201016_172937_586207_3B1EB4F4 
-X-CRM114-Status: GOOD (  17.81  )
+X-CRM114-CacheID: sfid-20201016_175842_019008_C57508B0 
+X-CRM114-Status: GOOD (  13.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,175 +120,77 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <james.smart@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============5190768049495903285=="
+Cc: "Steve Moyer \(smoyer\)" <smoyer@micron.com>,
+ "Pierre Labat \(plabat\)" <plabat@micron.com>,
+ "linux-nvdimm@lists.01.org" <linux-nvdimm@lists.01.org>,
+ "John Groves \(jgroves\)" <jgroves@micron.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "Greg Becker \(gbecker\)" <gbecker@micron.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============5190768049495903285==
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000001cc3c005b1d07619"
+On Thursday, October 15, 2020 2:03 AM, Christoph Hellwig <hch@infradead.org> wrote:
+> I don't think this belongs into the kernel.  It is a classic case for
+> infrastructure that should be built in userspace.  If anything is
+> missing to implement it in userspace with equivalent performance we
+> need to improve out interfaces, although io_uring should cover pretty
+> much everything you need.
 
---0000000000001cc3c005b1d07619
-Content-Transfer-Encoding: 8bit
+Hi Christoph,
 
-We've had several complaints about a 10s reconnect delay (the default)
-when there was an error while there is connectivity to a subsystem.
-The max_reconnects and reconnect_delay are set in common code prior to
-calling the transport to create the controller.
+We previously considered moving the mpool object store code to user-space.
+However, by implementing mpool as a device driver, we get several benefits
+in terms of scalability, performance, and functionality. In doing so, we relied
+only on standard interfaces and did not make any changes to the kernel.
 
-This change checks if the default reconnect delay is being used, and if
-so, it adjusts it to a shorter period (2s) for the nvme-fc transport.
-It does so by calculating the controller loss tmo window, changing the
-value of the reconnect delay, and then recalculating the maximum number
-of reconnect attempts allowed.
+(1)  mpool's "mcache map" facility allows us to memory-map (and later unmap)
+a collection of logically related objects with a single system call. The objects in
+such a collection are created at different times, physically disparate, and may
+even reside on different media class volumes.
 
-Signed-off-by: James Smart <james.smart@broadcom.com>
----
- drivers/nvme/host/fc.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+For our HSE storage engine application, there are commonly 10's to 100's of
+objects in a given mcache map, and 75,000 total objects mapped at a given time.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 6352068c0c4a..1af7c6f358f5 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -26,6 +26,10 @@ enum nvme_fc_queue_flags {
- };
- 
- #define NVME_FC_DEFAULT_DEV_LOSS_TMO	60	/* seconds */
-+#define NVME_FC_DEFAULT_RECONNECT_TMO	2	/* delay between reconnects
-+						 * when connected and a
-+						 * connection failure.
-+						 */
- 
- struct nvme_fc_queue {
- 	struct nvme_fc_ctrl	*ctrl;
-@@ -3387,7 +3391,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- {
- 	struct nvme_fc_ctrl *ctrl;
- 	unsigned long flags;
--	int ret, idx;
-+	int ret, idx, ctrl_loss_tmo;
- 
- 	if (!(rport->remoteport.port_role &
- 	    (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
-@@ -3413,6 +3417,19 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 		goto out_free_ctrl;
- 	}
- 
-+	/*
-+	 * if ctrl_loss_tmo is being enforced and the default reconnect delay
-+	 * is being used, change to a shorter reconnect delay for FC.
-+	 */
-+	if (opts->max_reconnects != -1 &&
-+	    opts->reconnect_delay == NVMF_DEF_RECONNECT_DELAY &&
-+	    opts->reconnect_delay > NVME_FC_DEFAULT_RECONNECT_TMO) {
-+		ctrl_loss_tmo = opts->max_reconnects * opts->reconnect_delay;
-+		opts->reconnect_delay = NVME_FC_DEFAULT_RECONNECT_TMO;
-+		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
-+						opts->reconnect_delay);
-+	}
-+
- 	ctrl->ctrl.opts = opts;
- 	ctrl->ctrl.nr_reconnects = 0;
- 	if (lport->dev)
--- 
-2.26.2
+Compared to memory-mapping objects individually, the mcache map facility
+scales well because it requires only a single system call and single vm_area_struct
+to memory-map a complete collection of objects.
 
+(2) The mcache map reaper mechanism proactively evicts object data from the page
+cache based on object-level metrics. This provides significant performance benefit
+for many workloads.
 
---0000000000001cc3c005b1d07619
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+For example, we ran YCSB workloads B (95/5 read/write mix)  and C (100% read)
+against our HSE storage engine using the mpool driver in a 5.9 kernel.
+For each workload, we ran with the reaper turned-on and turned-off.
 
-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
-AanDaJF6fE9TEzbfn5AWgVgHkbqS3VY3Gq05xkLhRugDQ60IGwT29K1B+wGfcujKSaalhQIDAQAB
-o4IBzzCCAcswDgYDVR0PAQH/BAQDAgWgMIGeBggrBgEFBQcBAQSBkTCBjjBNBggrBgEFBQcwAoZB
-aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NwZXJzb25hbHNpZ24yc2hhMmcz
-b2NzcC5jcnQwPQYIKwYBBQUHMAGGMWh0dHA6Ly9vY3NwMi5nbG9iYWxzaWduLmNvbS9nc3BlcnNv
-bmFsc2lnbjJzaGEyZzMwTQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwRAYDVR0fBD0w
-OzA5oDegNYYzaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc3BlcnNvbmFsc2lnbjJzaGEyZzMu
-Y3JsMCMGA1UdEQQcMBqBGGphbWVzLnNtYXJ0QGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEF
-BQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJnXsLYTAdBgNVHQ4EFgQUUXCHNA1n5KXj
-CXL1nHkJ8oKX5wYwDQYJKoZIhvcNAQELBQADggEBAGQDKmIdULu06w+bE15XZJOwlarihiP2PHos
-/4bNU3NRgy/tCQbTpJJr3L7LU9ldcPam9qQsErGZKmb5ypUjVdmS5n5M7KN42mnfLs/p7+lOOY5q
-ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
-2JU2wwirL0Sy5S1DREQmTMAuHL+M9Qwbl+uh/AprkVqaSYuvUzWFwBVgafOl2XgGdn8r6ubxSZhX
-9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
-ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
-MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgBCLqxkG4V4oeMKtV
-Gayka6KG4j87Z/dBDsJ9df9IFLkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDE2MjEyOTM2WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
-ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBALX+ZAcjs3JsI66T/5kUmbSW6znhpNg2fkOE
-pgY9Tkb4QTVftkZg1BF725mBr1eigu9dY1WCKe3VIR6Ji9zQ+QaN3gn0xXzzAiWrtFnIbTCKrDV0
-ofnzHPvQvVZEtPdFwdLxcViqCrwCK4slf2O5asdUPZaK2AzqK/vv/sl1SqqVrgI+Fs5RxSlv9kDJ
-7FV7Vtb18W41qtYuQ8kdT3O0O9CHGlkkLBlxOHHEvt+LN/LzIdNlgWJVb/1SSmn5OhJ6D1AgczdT
-CTNbRbr2EKwm2oY6W54ts7EmemzGia07WSWF7jLmo5Yc+9gXyTpHjabgVEu3Zq5BGAanEoVjv+eV
-rVU=
---0000000000001cc3c005b1d07619--
+For workload B, the reaper increased throughput 1.77x, while reducing 99.99% tail
+latency for reads by 39% and updates by 99%. For workload C, the reaper increased
+throughput by 1.84x, while reducing the 99.99% read tail latency by 63%. These
+improvements are even more dramatic with earlier kernels.
 
+(3) The mcache map facility can memory-map objects on NVMe ZNS drives that were
+created using the Zone Append command. This patch set does not support ZNS, but
+that work is in progress and we will be demonstrating our HSE storage engine
+running on mpool with ZNS drives at FMS 2020.
 
---===============5190768049495903285==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+(4) mpool's immutable object model allows the driver to support concurrent reading
+of object data directly and memory-mapped without a performance penalty to verify
+coherence. This allows background operations, such as LSM-tree compaction, to
+operate efficiently and without polluting the page cache.
+
+(5) Representing an mpool as a /dev/mpool/<mpool-name> device file provides a
+convenient mechanism for controlling access to and managing the multiple storage
+volumes, and in the future pmem devices, that may comprise an logical mpool.
+
+Thanks,
+Nabeel
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============5190768049495903285==--
-
