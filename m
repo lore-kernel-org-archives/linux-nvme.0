@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B65C433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:27:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B46FBC433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:28:02 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B0BC7214DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:27:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 08FCD214DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:28:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JwBuUWbf";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="axB7una1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B0BC7214DB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JXBEwBXp";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="brgcSZg8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08FCD214DB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,61 +26,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=i077GmCQ40dlawh/WzthMOVfWqTOim4MERCS5O3s4HI=; b=JwBuUWbft3OUPoTgTP5FPWZOx
-	EfAzHIs9MPEi6nRdXmqhurQ5HLz4vaCqZSdea7ykBjQ3iPENrRlsSCbNmQgWvPDgU1CpgFfSx3uWd
-	Gzcnzx2tE8QbE5mecL0gZqNVozeMuPito75y29gaZxWWW/BSuwClNVglHy7ZKZGKD+GP37vTptzvw
-	ZzVBmFAgglwu6ty1R7yLpmfzZ+Sltzwao4mt5MSb+E72ArVESIRJ6YwlUrUpLraZeBMP5PAvIpXQh
-	cYLLoz0hoHRsIGEb6hu9ZwDGHJEWlVSy3Yfq/P/SG5ciapg1z15ykNaM/GB45k5BDn857EqpIBlkq
-	t41drenpQ==;
+	 bh=6RRJgF9RJ0PDDQQe34Ffp36QVrre7+4ivLp3/mk05og=; b=JXBEwBXpBE66sKYem2l56y8JX
+	MvpEqgwcts4ZJNHD7qAFGdZ51DIRaS7bitotMgG0IQVKSXt9/pfUfkOn+XYjqQfO8XJdwoDiDBo25
+	Wf3WIEfjsCLrb/8p+4KHjEl8749wFt8ms6y9Bxv8tTljDgQ2c/qtHEPtuOhB4pBTlQ+uRzQA99kEB
+	wYZf6x+yMO4rpODu76oLrDOj4lgGBNB3e12tm1MDBfjJvEM8vS642rTrF+CGUMwpV6ZJphv0thlNy
+	IhD4oo5Yu60cAeVp8ofEqrpSZ0DCjrmH1RgXAZkgHtW4O9ATpCm03hhtMSX1+tqaZuOXZ3M/EfrSN
+	9YCBXl2EQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kTXGW-0007tG-03; Fri, 16 Oct 2020 21:27:56 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+	id 1kTXGZ-0007uX-E5; Fri, 16 Oct 2020 21:27:59 +0000
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kTXGR-0007r6-Lx
- for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 21:27:53 +0000
-Received: by mail-pg1-x542.google.com with SMTP id b23so2183586pgb.3
- for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2020 14:27:50 -0700 (PDT)
+ id 1kTXGU-0007sF-4U
+ for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 21:27:55 +0000
+Received: by mail-pl1-x643.google.com with SMTP id b19so1964450pld.0
+ for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2020 14:27:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version; bh=m2uvNHVvgBiBpdDCVlFtb4AJafZc/ozU/F2bmhNlwRA=;
- b=axB7una1esAIP9vuJ78D4Zh738uvPwfdrVR6TBP8z6XjZhhquCzXMFQb2LosRirMBv
- Fcj71xNJ1ZCuRxwUgpAVTiV4suMOGUg6QD+7dRp+ok/bJapKg/tCOeySMSOreclbZLBm
- j57SL7VizbCDgIjMx6eYi6R/n+Nr1Hby1IJXY=
+ :mime-version; bh=pbnDM8GnNJEGCdFZ16xlR7BmY9wa0yUIlYAooS6H9zM=;
+ b=brgcSZg8iVfKUWAihgXV4NCT0s9mZieVl0VA3z+XtfveeVq6T+HvJ+MSfGvcRthz4u
+ ZRiExZobqeeCnWqZgnr+rV3cdrW4umzWHRWe9UFlyJ/pmEGShL5nxD9rsZA7BwvFvWhY
+ P1Ett0X5lZWlPm1caGovScOhQ9IRgL/gLfluk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version;
- bh=m2uvNHVvgBiBpdDCVlFtb4AJafZc/ozU/F2bmhNlwRA=;
- b=QmRd3yA3mm/PulIvYabeUqIM6115S9/2zAzclsfZG5nm857jRStcJF1ex8llG/ebU4
- /FZzFkQm67Zn9JJOc8jIBmukCi3jajNNrRFOoXCW2Gs1m+DN34KyQmjj5LUoJbaRO2IO
- k2ck4squTXbdkvia0+B+dALDsUTM3xqUAoMeTysAbjVfbJb2rStpFdz6Taq4SYbtZMzl
- HzQXCb8EKf4r4asUyLH94str9i4MrhJcRYMCcAyAtdNSAfDpwHvMemmjD5vch0QlAe5H
- ieMqfgleVDyB62x0WL7SSHfJ7LPEPs/k8AC27HGF02Jn2CrIJq/aRqRO9tr76H3oPUTW
- qi8w==
-X-Gm-Message-State: AOAM532H1FD+QUpfN07HtCYHboty79LcJgNJgxBcVBsHaNabYkXcId2+
- 5/uVQ9Pb0igifrBLd3wU0OJ3vN+J4rdmgILH5qNw/P0st3KimcUxUsq5BpZV2TH4dn8C1G75JYd
- EoAg0/+wLmVbrtmsGYlj6QnT7xoLFd3jVTaXoleHlikQJCVvVrYj4XgNcXbDpYTNyqG/36M4YBY
- lQmzW/oYdp
-X-Google-Smtp-Source: ABdhPJx8QNqAeLHqb5Cu38VIKx0SHG8JaxgRVJY0mLrdoZyPcl49/y4K/Zup2O6wLSvQQXIJJopbbA==
-X-Received: by 2002:a63:3f8d:: with SMTP id m135mr4714466pga.234.1602883668422; 
- Fri, 16 Oct 2020 14:27:48 -0700 (PDT)
+ bh=pbnDM8GnNJEGCdFZ16xlR7BmY9wa0yUIlYAooS6H9zM=;
+ b=AAeBLsQ+xzE1cq6Ep/DrJz58NXTzEpzUURbrr4WH/TgiDu7VJI5xfVh2MehuJf1Z+L
+ +f6Z37vyG0ahir/WXWsajFZ8vAyMP2EvWupyMjzRL2MtNpoG2BP1T9NkutiR146eN7mx
+ 93pdyK7sGWGTeGByEvzuE/8zei6Jwz/aVQN0R+BAAIzPje9cG2ftdN9VAKBSBDskZpk6
+ 2gneiCuZwsXhAGoiK5fK7sTakgeXgEzarXaZo5H50XQLcG6YKysCf/R0HpeeU2mGONK9
+ omVECgp6VJv0EIZG52MT1UHTRuVkLaj6DJGyr6DjHOM53CvE8uUTzPS4S2k4gYF5uFSx
+ RO4w==
+X-Gm-Message-State: AOAM532izItiLUnG8W/NlW5UTXRvOJ1p+IL05D+koxyAFwuPVqCxkr6F
+ y1thcbiywLbUo8FliMGcUxbVSIfL1bIhO1gmJb6YtJ/CaBPusU2qZr2b4q+mGYNgcd/Zfz0dzU3
+ YHyAgLNbGg9nG2uVdFKjDePnOZjjANBzO1tO+IW8X+O+NdJUmZqm08xnR72pxB3NEtnTc89XIVb
+ 6PzIQpDOgn
+X-Google-Smtp-Source: ABdhPJyjydTzFmqJiThxORlWlFySoxodthMnlH764dmGIj5BnkbFXM8YmjeDJlWRJM05peyQP9PKJA==
+X-Received: by 2002:a17:902:8698:b029:d3:b362:7342 with SMTP id
+ g24-20020a1709028698b02900d3b3627342mr5966560plo.50.1602883671165; 
+ Fri, 16 Oct 2020 14:27:51 -0700 (PDT)
 Received: from localhost.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id k11sm4133394pjs.18.2020.10.16.14.27.46
+ by smtp.gmail.com with ESMTPSA id k11sm4133394pjs.18.2020.10.16.14.27.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 14:27:47 -0700 (PDT)
+ Fri, 16 Oct 2020 14:27:50 -0700 (PDT)
 From: James Smart <james.smart@broadcom.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 3/4] nvme-fc: remove nvme_fc_terminate_io()
-Date: Fri, 16 Oct 2020 14:27:28 -0700
-Message-Id: <20201016212729.49138-4-james.smart@broadcom.com>
+Subject: [PATCH 4/4] nvme_fc: track error_recovery while connecting
+Date: Fri, 16 Oct 2020 14:27:29 -0700
+Message-Id: <20201016212729.49138-5-james.smart@broadcom.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201016212729.49138-1-james.smart@broadcom.com>
 References: <20201016212729.49138-1-james.smart@broadcom.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201016_172751_787370_182842C9 
-X-CRM114-Status: GOOD (  14.80  )
+X-CRM114-CacheID: sfid-20201016_172754_256989_F600CC86 
+X-CRM114-Status: GOOD (  18.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,105 +94,102 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: James Smart <james.smart@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============1748397941070523935=="
+Content-Type: multipart/mixed; boundary="===============3782500220860231817=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============1748397941070523935==
+--===============3782500220860231817==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000b6268705b1d06f28"
+	boundary="000000000000df23ab05b1d06f58"
 
---000000000000b6268705b1d06f28
+--000000000000df23ab05b1d06f58
 Content-Transfer-Encoding: 8bit
 
-__nvme_fc_terminate_io() is now called by only 1 place, in reset_work.
-Consoldate and move the functionality of terminate_io into reset_work.
+Whenever there are errors during CONNECTING, the driver recovers by
+aborting all outstanding ios and counts on the io completion to fail them
+and thus the connection/association they are on.  However, the connection
+failure depends on a failure state from the core routines.  Not all
+commands that are issued by the core routine are guaranteed to cause a
+failure of the core routine. They may be treated as a failure status and
+the status is then ignored.
 
-In reset_work, rather than calling the create_association directly,
-schedule the connect work element to do its thing. After scheduling, flush
-the connect work element to continue with semantic of not returning until
-connect has been attempted at least once.
+As such, whenever the transport enters error_recovery while CONNECTING,
+it will set a new flag indicating an association failed. The
+create_association routine which creates and initializes the controller,
+will monitor the state of the flag as well as the core routine error
+status and ensure the association fails if there was an error.
 
 Signed-off-by: James Smart <james.smart@broadcom.com>
 ---
- drivers/nvme/host/fc.c | 49 ++++++++++++++----------------------------
- 1 file changed, 16 insertions(+), 33 deletions(-)
+ drivers/nvme/host/fc.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index d65a4a9f4808..b2f9b3752df7 100644
+index b2f9b3752df7..6352068c0c4a 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -3279,49 +3279,32 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
- }
+@@ -142,7 +142,8 @@ struct nvme_fc_rport {
  
- static void
--__nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
-+nvme_fc_reset_ctrl_work(struct work_struct *work)
- {
--	/*
--	 * For any other state, kill the association. As this routine
--	 * is a common io abort routine for resetting and such, after
--	 * the association is terminated, ensure that the state is set
--	 * to CONNECTING.
--	 */
-+	struct nvme_fc_ctrl *ctrl =
-+		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
+ /* fc_ctrl flags values - specified as bit positions */
+ #define ASSOC_ACTIVE		0
+-#define FCCTRL_TERMIO		1
++#define ASSOC_FAILED		1
++#define FCCTRL_TERMIO		2
  
--	nvme_stop_keep_alive(&ctrl->ctrl);
-+	nvme_stop_ctrl(&ctrl->ctrl);
+ struct nvme_fc_ctrl {
+ 	spinlock_t		lock;
+@@ -2498,6 +2499,7 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+ 	 */
+ 	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
+ 		__nvme_fc_abort_outstanding_ios(ctrl, true);
++		set_bit(ASSOC_FAILED, &ctrl->flags);
+ 		return;
+ 	}
  
- 	/* will block will waiting for io to terminate */
- 	nvme_fc_delete_association(ctrl);
+@@ -3030,6 +3032,8 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 		ctrl->cnum, ctrl->lport->localport.port_name,
+ 		ctrl->rport->remoteport.port_name, ctrl->ctrl.opts->subsysnqn);
  
--	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING &&
--	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
- 		dev_err(ctrl->ctrl.device,
- 			"NVME-FC{%d}: error_recovery: Couldn't change state "
- 			"to CONNECTING\n", ctrl->cnum);
--}
--
--static void
--nvme_fc_reset_ctrl_work(struct work_struct *work)
--{
--	struct nvme_fc_ctrl *ctrl =
--		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
--	int ret;
--
--	__nvme_fc_terminate_io(ctrl);
++	clear_bit(ASSOC_FAILED, &ctrl->flags);
++
+ 	/*
+ 	 * Create the admin queue
+ 	 */
+@@ -3058,7 +3062,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	 */
  
--	nvme_stop_ctrl(&ctrl->ctrl);
--
--	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE)
--		ret = nvme_fc_create_association(ctrl);
--	else
--		ret = -ENOTCONN;
--
+ 	ret = nvme_enable_ctrl(&ctrl->ctrl);
 -	if (ret)
--		nvme_fc_reconnect_or_delete(ctrl, ret);
--	else
--		dev_info(ctrl->ctrl.device,
--			"NVME-FC{%d}: controller reset complete\n",
--			ctrl->cnum);
-+	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE) {
-+		if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
-+			dev_err(ctrl->ctrl.device,
-+				"NVME-FC{%d}: failed to schedule connect "
-+				"after reset\n", ctrl->cnum);
-+		} else {
-+			flush_delayed_work(&ctrl->connect_work);
-+		}
-+	} else {
-+		nvme_fc_reconnect_or_delete(ctrl, -ENOTCONN);
-+	}
- }
++	if (ret || test_bit(ASSOC_FAILED, &ctrl->flags))
+ 		goto out_disconnect_admin_queue;
  
+ 	ctrl->ctrl.max_segments = ctrl->lport->ops->max_sgl_segments;
+@@ -3068,7 +3072,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+ 
+ 	ret = nvme_init_identify(&ctrl->ctrl);
+-	if (ret)
++	if (ret || test_bit(ASSOC_FAILED, &ctrl->flags))
+ 		goto out_disconnect_admin_queue;
+ 
+ 	/* sanity checks */
+@@ -3113,9 +3117,9 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 			ret = nvme_fc_create_io_queues(ctrl);
+ 		else
+ 			ret = nvme_fc_recreate_io_queues(ctrl);
+-		if (ret)
+-			goto out_term_aen_ops;
+ 	}
++	if (ret || test_bit(ASSOC_FAILED, &ctrl->flags))
++		goto out_term_aen_ops;
+ 
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
  
 -- 
 2.26.2
 
 
---000000000000b6268705b1d06f28
+--000000000000df23ab05b1d06f58
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -261,20 +259,20 @@ ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
 9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
 ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
 MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgkOZA8ueJFEleGkBm
-GjC5qXE6iMDIR1HbTkCli0KmS2cwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDE2MjEyNzQ5WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
+rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQghvZXpByQYAzXFSnI
+YeO2o0NOb8VwA3C3deFKKoAVHHQwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjAxMDE2MjEyNzUxWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
 ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAM2xCpXFYLMJNnZcang0X3KFHHLFrHN3+cED
-JA5cju3sBtXpU/+GFo2TGkEzwbDKf6vWUb1m2li9O/vJgLgKjHyq+R6KQLQYtF1SC8zbsVt0r5/k
-MNuBoyiTd77/TuTAFzkoEvTP1kcNae/2fZfTG56F0J8sv4GuMVuG/QfevIjcV+X7zUBOznmPRW12
-tbk9+5eJj0wZSZg6YrLj3OoBtqTkeidVVXQhUZ5xxvRftprl+yHO5gKRQ9ZtSB+iQVPWZ29+vZUi
-hnbIfIs7BI4lLywXVAcECrwlNawpF5rxELCJPtaK2UbC2GhN1p2i7wIbLCp6I8kqD7nLxvY40YT9
-/z0=
---000000000000b6268705b1d06f28--
+CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAIKan3a+j4lSuUFK7xUC7Xua2+F5hayeXTf+
+d3XR4XxJrv3Cm9y1hv8pMFtV+XSepvhFndFCZ+nbK1dZ80vnuIEbYtSzfA3CTbqImiN5v/GK1WRS
+URpxi3mM1gd4efKdthV6l1fy82HclQliw/DVZRR/gXWPnWL12+sj+Si1WJzOq4I2FRA1LyY94Evl
+YghcTbTKm/qb4EicQds7NveY3NDqWclosZ34tBwVuPP7qIZD3q1kJJx1I/amEJ/X1w/jxqKaphvM
+Jr3IL0i1fB9sO6I0csJqWuXNzWR/OzbHL0lgJOv2zYBYYyZw/1/7iJhiuwxWd1y2L0Tw+OJHOneG
+X+0=
+--000000000000df23ab05b1d06f58--
 
 
---===============1748397941070523935==
+--===============3782500220860231817==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -285,5 +283,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============1748397941070523935==--
+--===============3782500220860231817==--
 
