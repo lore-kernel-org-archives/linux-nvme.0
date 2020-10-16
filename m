@@ -2,80 +2,84 @@ Return-Path: <SRS0=oO1v=DX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 773CEC433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 14:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 114FEC433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 16:49:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D88B320866
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 14:29:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 689B320848
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 16:49:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TOn6cQeN";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y5ksV1xh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D88B320866
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TFmfnFqy";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="SXFP0mWp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 689B320848
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
+	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fnCPy3sA3S43+Xh00Lu5cF6WvLEab0NpDymW3H2rwuo=; b=TOn6cQeND2+OH8L4vBGfhLNY9
-	U12PLoYhKOaTLJg7JjhuYUx+o3JC7vfP5hiY8+JRdm8HeSdRyHpnZTOx71dscxseUBXD+VfJ36LSy
-	ObkFBNiQ5M+4QvrsGlwyewLb5/XW9DyX4ZADMoPUNKkVLqq1kmDrLJywGnXIM2ZjOg7T0q3sBVK3o
-	9LOJxBteExFk6v3N1JEwRrYLvpjaLhoE9p6aLjCc4OggSuwjaXvmgLnI2NYG8hCt6CCeYnKVzfH+5
-	uW1C6sRl9rnTO4j/IsI+gDkqRAEpGnJb649vOWKnLZIOz/f4MEq9WkK7jgp1sWrv6AqXBA4RECS2/
-	85P6+AY8A==;
+	 bh=1yppyNHhtm99CH3byRu9fqgw7kyu6GV/nOm63u8MyWQ=; b=TFmfnFqyCqaZe/6ljaXuyFEgV
+	RvoxvQvC+2kq87/RRaahsrk6I8btBMjTyKW36v90lrqHF2ALKBhhc4QP5WP/JHS/exCxvadZwa4WO
+	DMQzIoJQ8YdfEqTrQMsdc24DJpjMTOew+TdTzIsU4/mRT9c2UsFeuBTcgvdol2BjoaxGx+U8TKw0S
+	l/drzdiEBz8OwsICtYb3GkdaccpTgtouZvmgI0x9SaU+2ABmyWaqqm5b9M9FBbK2+/T7Y+Hw8IsVN
+	SEqyWTn34YdlIgqiK/Uq/ZKIrx0GXXYVJucE7axA9nGscsSgDPG7Eahch17dMDc5zXo7oP0DTDgKc
+	L7BWeBgiA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kTQj8-0006iR-93; Fri, 16 Oct 2020 14:29:02 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1kTSuq-00011u-0l; Fri, 16 Oct 2020 16:49:16 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kTQj6-0006hS-BO
- for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 14:29:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602858539;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8dCETTUY0srMfYpMQV60y38uEv/90/o462XzHM99kUk=;
- b=Y5ksV1xhOF/ftQ8p0LCyppzd9DaXq0IVyzbVIWg4OcRL2Yjjrd92j0v0+xBl3s/0IK3Pkb
- csTawUCyuuTDiDfeuFplDgp7dpnRsE4ZxSAujOMH47gCwn2y1ZCCnPz1m4jF/Wa3fqZ7e3
- N8+iryRdkNEBq5OElSLhTWpvMvInq1M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-uqwPH2clO-mYbcEszgjLkg-1; Fri, 16 Oct 2020 10:28:56 -0400
-X-MC-Unique: uqwPH2clO-mYbcEszgjLkg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 917F586ABD1;
- Fri, 16 Oct 2020 14:28:54 +0000 (UTC)
-Received: from localhost (ovpn-12-93.pek2.redhat.com [10.72.12.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 038AA5C1BD;
- Fri, 16 Oct 2020 14:28:47 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 4/4] nvme: tcp: complete non-IO requests atomically
-Date: Fri, 16 Oct 2020 22:28:11 +0800
-Message-Id: <20201016142811.1262214-5-ming.lei@redhat.com>
-In-Reply-To: <20201016142811.1262214-1-ming.lei@redhat.com>
-References: <20201016142811.1262214-1-ming.lei@redhat.com>
+ id 1kTSun-00011J-7H
+ for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 16:49:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=XFzSkfvySXjVdpFoMLyY3vCrSenRd6CUS5ZEi6TqYCU=; b=SXFP0mWpoigqtv8OnpcDHU08+M
+ PQWn2DyjNKUSnxg314rITG6d6L3vMxVjy40uepWqzBmCS40BF2IeZZ9phB0lfE9PgcyDjQ/hRHK+n
+ K/bN14rfzlLAZnM0bWKPYiEXdoFPtWyWLJ6zDvbb2S9GE8HFRxLr0JyKXbdpRxgrGQFTwzZ8gCZuJ
+ g4c4tt076yrdfrrxHhnKKRAuFms8IY/hkN5Gg5Jwm8EZponELWYpm9r87itbOh1EX20P6BDbONNk9
+ qO1juGNesozj9F4gqhTmJmElo5S8tXdd7OdovsztJSg5CSzYfu5n1ihbj8QkqJuEKnWhZ7e6kFnYV
+ EL4xQ8gQ==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+ by ale.deltatee.com with esmtp (Exim 4.92)
+ (envelope-from <logang@deltatee.com>)
+ id 1kTSuh-0000Xj-Gw; Fri, 16 Oct 2020 10:49:08 -0600
+To: Christoph Hellwig <hch@lst.de>
+References: <20201009231816.1524-1-logang@deltatee.com>
+ <20201015075640.GJ14082@lst.de>
+ <bc51aadc-eee3-cf52-0623-b3f82e1958f4@deltatee.com>
+ <20201015180148.GA23377@lst.de>
+ <b798e7f6-0afc-551c-f6d9-f7900b400137@deltatee.com>
+ <20201016135759.GA4685@lst.de>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <9cb1b799-63a4-a597-896a-72cd5589d99c@deltatee.com>
+Date: Fri, 16 Oct 2020 10:49:04 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201016135759.GA4685@lst.de>
+Content-Language: en-CA
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: chaitanya.kulkarni@wdc.com, sagi@grimberg.me,
+ dgilbert@interlog.com, linux-nvme@lists.infradead.org, hch@lst.de
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH] nvmet-passthru: Cleanup nvmet_passthru_map_sg()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201016_102900_446433_8A50A49F 
-X-CRM114-Status: GOOD (  16.39  )
+X-CRM114-CacheID: sfid-20201016_124913_323545_BAE1895E 
+X-CRM114-Status: GOOD (  13.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,125 +91,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Yi Zhang <yi.zhang@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
- Chao Leng <lengchao@huawei.com>, Ming Lei <ming.lei@redhat.com>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Douglas Gilbert <dgilbert@interlog.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-During controller's CONNECTING state, admin/fabric/connect requests
-are submitted for recovery, and we allow to abort this request directly
-in time out handler for not blocking the setup step.
 
-So timout vs. normal completion race may be triggered on these requests.
 
-Add atomic completion for requests from connect/fabric/admin queue for
-avoiding the race.
+On 2020-10-16 7:57 a.m., Christoph Hellwig wrote:
+> On Thu, Oct 15, 2020 at 12:40:52PM -0600, Logan Gunthorpe wrote:
+> blk_rq_map_sg maps the bio chain.  Take a look at the for_each_bio
+> loop in __blk_bios_map_sg.
 
-CC: Chao Leng <lengchao@huawei.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
- drivers/nvme/host/tcp.c | 40 +++++++++++++++++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 3 deletions(-)
+Ah, yes, ok... I originally had a loop that created a chain of bios but
+used bio_add_page() instead of bio_add_pc_page(). This was combined with
+a separate check for max_segments and max_hw_sectors. When I switched to
+bio_add_pc_page() to drop the separate check, it no longer made sense to
+do the chain because there was no way to tell if bio_add_pc_page()
+failed because of bio_full() or because it exceeded
+max_segments/hw_sectors. If the bio was full, we'd want to create the
+chain, but if it exceeded the maximums we'd want to error out...
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 56ac61a90c1b..654061abdc5a 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -30,6 +30,8 @@ static int so_priority;
- module_param(so_priority, int, 0644);
- MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
- 
-+#define REQ_STATE_COMPLETE     0
-+
- enum nvme_tcp_send_state {
- 	NVME_TCP_SEND_CMD_PDU = 0,
- 	NVME_TCP_SEND_H2C_PDU,
-@@ -56,6 +58,8 @@ struct nvme_tcp_request {
- 	size_t			offset;
- 	size_t			data_sent;
- 	enum nvme_tcp_send_state state;
-+
-+	unsigned long		comp_state;
- };
- 
- enum nvme_tcp_queue_flags {
-@@ -469,6 +473,33 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
- 	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
- }
- 
-+/*
-+ * requests originated from admin, fabrics and connect_q have to be
-+ * completed atomically because we don't cover the race between timeout
-+ * and normal completion for these queues.
-+ */
-+static inline bool nvme_tcp_need_atomic_complete(struct request *rq)
-+{
-+	return !rq->rq_disk;
-+}
-+
-+static inline void nvme_tcp_clear_rq_complete(struct request *rq)
-+{
-+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-+
-+	if (unlikely(nvme_tcp_need_atomic_complete(rq)))
-+		clear_bit(REQ_STATE_COMPLETE, &req->comp_state);
-+}
-+
-+static inline bool nvme_tcp_mark_rq_complete(struct request *rq)
-+{
-+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-+
-+	if (unlikely(nvme_tcp_need_atomic_complete(rq)))
-+		return !test_and_set_bit(REQ_STATE_COMPLETE, &req->comp_state);
-+	return true;
-+}
-+
- static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
- 		struct nvme_completion *cqe)
- {
-@@ -483,7 +514,8 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
- 		return -EINVAL;
- 	}
- 
--	if (!nvme_try_complete_req(rq, cqe->status, cqe->result))
-+	if (nvme_tcp_mark_rq_complete(rq) &&
-+			!nvme_try_complete_req(rq, cqe->status, cqe->result))
- 		nvme_complete_rq(rq);
- 	queue->nr_cqe++;
- 
-@@ -674,7 +706,8 @@ static inline void nvme_tcp_end_request(struct request *rq, u16 status)
- {
- 	union nvme_result res = {};
- 
--	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
-+	if (nvme_tcp_mark_rq_complete(rq) &&
-+			!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
- 		nvme_complete_rq(rq);
- }
- 
-@@ -2173,7 +2206,7 @@ static void nvme_tcp_complete_timed_out(struct request *rq)
- 	/* fence other contexts that may complete the command */
- 	mutex_lock(&to_tcp_ctrl(ctrl)->teardown_lock);
- 	nvme_tcp_stop_queue(ctrl, nvme_tcp_queue_id(req->queue));
--	if (!blk_mq_request_completed(rq)) {
-+	if (nvme_tcp_mark_rq_complete(rq) && !blk_mq_request_completed(rq)) {
- 		nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
- 		blk_mq_complete_request(rq);
- 	}
-@@ -2315,6 +2348,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (unlikely(ret))
- 		return ret;
- 
-+	nvme_tcp_clear_rq_complete(rq);
- 	blk_mq_start_request(rq);
- 
- 	nvme_tcp_queue_request(req, true, bd->last);
--- 
-2.25.2
+>> If you want me to send a patch to future proof the MDTS limit with
+>> BIO_MAX_PAGES, I can do that, but it doesn't look like it will have any
+>> effect right now unless big things change.
+> 
+> Yes, please do.
+
+Will do.
+
 
 
 _______________________________________________
