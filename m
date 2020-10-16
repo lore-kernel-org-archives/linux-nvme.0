@@ -2,85 +2,81 @@ Return-Path: <SRS0=oO1v=DX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A55DBC433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 22:12:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C153AC433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 22:19:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED7F42065D
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 22:12:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B3E61221EB
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 22:19:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GHsC0CwU";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.b="pcZSwZip"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED7F42065D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ky1UqQm3";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="lWp163eh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B3E61221EB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+mWuyKUHH3S8LUNUZN3SZPoH/BzSKkxk3fw69koGGD8=; b=GHsC0CwUSsMLn0AWYbxzkNIxQ
-	jLC9Fmc+/KVd05epLPlUAyxTV/t6IPOGGlzk9wVks9VXOIauY+GjKXT9FPLemJNeXm+SjmS78Ee0H
-	LoQXc+z6QFWRLktnybsolCf7IhC1CReaK76+MBZnmykFvIGlLY3opOTzcL3F1E4+hIXPaOZA9IVZ6
-	KgeWcPYT1xg6tJp4mqmVaMEqHLfuIOTKe0gh+D5B0vGjzfoBGAPEcKcClH5aoyhKPrgXyApTB5wzS
-	mHGbmEEkEJLuwFtrumJQLCDaRWva+O0BK2vcuP4Dp1eyxrbh6o+UMLcNxZUhLFpM3Z9J32ObLWS3D
-	lwBa83sjg==;
+	 bh=BgeFA+t0pxRL6IhriMdWij3qQwvbPrMljBHJmef1sOo=; b=Ky1UqQm3TvhwbD1Lm7NHj/Voa
+	wjgiQUVsyD3YbjU2BpVLSc4bCdKQIUtHUU7Pmb0b6+jre43RrIeffFBBWw8dZrz+Ulas/FSKQ3Jke
+	wTpMDABOzc47p4IeDasycvMq3otjHTD9sXuqz7etcJDnfsVTHFTX+l1QXbp+FFNJ8JjvpihXkC7HR
+	V+g/O7lIhakn1FDsXT31nEt0yp4bxPKkifUjEUq4pbezic6SkC10gUl8JK5avO6sDxvHTnsnM3C0l
+	UjwEGZzh1K3z59a7+2cnKxIsEQc77aPNWBwh41zB1tzQJCL7RDqQv5LnfIodlVLXgHvH4m7eusdWf
+	twEJSZXvg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kTXxD-0003rA-KI; Fri, 16 Oct 2020 22:12:03 +0000
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643])
+	id 1kTY4A-0004FC-DZ; Fri, 16 Oct 2020 22:19:14 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kTXx9-0003qH-KN
- for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 22:12:01 +0000
-Received: by mail-ej1-x643.google.com with SMTP id p15so5426086ejm.7
- for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2020 15:11:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x/1gvPq9ABO+DLME7JqBB+oA4SLyXFjfXGkzpl3gc3c=;
- b=pcZSwZipujNJCrfM4BfqKwSqTOO1tlVYDfGgPLS5HMjSaaFti2Es6Ws8L0Vp4BR0qh
- V71HRk4m6HBbQwP316nTLWmc9NtPWjJoKiZpDvVhYVTbaYa/iDspy0qQC3pPHUUbAxEP
- zx3rQt9TI6QwN7gwLb0sg0V8vWNYZRCctVPbbEN7+CaURNJuIJN6h3o7SOdhd6XWdAop
- RRqvh6nC7BWdaTGvYZdPr7glVwHYKPJHm19PsrI3BQgLw3/cc2+Y+AP+97Z/dyQ/9T2R
- wAMzEqSRy9Wjy5kcby+9zvQUhPtHVm/pArQ2K+jUYkJk0ofEaV3TM5Zw1LOaKF/TNQie
- BoNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x/1gvPq9ABO+DLME7JqBB+oA4SLyXFjfXGkzpl3gc3c=;
- b=RKDFGrUOHiiYytJeuR056rOsuif5EYqZiVNP9Rc7t0KC7UStOs+0veum4qwJOgljqa
- obAy8IW9yzVDy6dx9vf/72lz8OvtoPC065H0XwTx0+T5WocAyIZtNG9t8txeB3y5ijcQ
- dt4OnrP+TZJSQarZSl9oVcsCqJ4fPjc7z/2wqHXnsy5VT05Md45w71TCtU2YSdxvMpD3
- DE8kLlwPPTN3a4aJVFkEDyJLggrtNOUhywb/1yO40vRDA5kV09rbLimDslPn5I0dla8k
- OO3RqRkPJ3gxYndNSuOKD0ClrYfNXo5z9hmZ2s8tbQfJy4dn8xGE36hI1/1kpZK30uWs
- tq0g==
-X-Gm-Message-State: AOAM5304aY02aY2vVnvFgPKwyJhvMc0dCvdtePwPdQWZ4K0K/fTbQjAN
- J1vi6dWJrhKz5aNxLewhilx7snE18cpNoyThsbif+w==
-X-Google-Smtp-Source: ABdhPJxsSOm3B4N0u0qHPPJOfUxJ1kby8jXT5wG1X7DBdcrTYVmjnEFqodQltQhk0823yfa2RC70ioRF0pDuj3vqDrA=
-X-Received: by 2002:a17:906:b88f:: with SMTP id
- hb15mr5934428ejb.45.1602886318070; 
- Fri, 16 Oct 2020 15:11:58 -0700 (PDT)
+ id 1kTY46-0004EI-D1
+ for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 22:19:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=accAo7GRfc1As1/d931ZaiZGbVlq+zNfC2LuIiUeIhc=; b=lWp163ehnyZY1qv1gp2SqzgFI1
+ VEYBRWuvF0vlwL0buf1HkghxmLtN3RCEvwdB47LbVbVQexX09q5/h9tIlxoL5/C1sr9y7139r3p3F
+ BJ0HkGANvgrWvr9M5WGHzio8FfXcvs5Watx71xUkg9cVrrE/r2MRP7IjVRG5aAn1ahHEoHfdmfvrp
+ +wJ+htvlQkTVhjpQcAwP9qbMJgIFo7geeJxJfIozUCuX+UbYnt8c36hPU+A+DfcurjfiLciuj2ZnQ
+ Q/9b6P4tETpPwnwpMGGwgxyrwTHBmUB1d8VRPudS0RTTj5ri2QpGIk4xY2gxNMQH/2xfkAIXUpdFh
+ zpIDa4yA==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
+ id 1kTY43-0005Ml-LT; Fri, 16 Oct 2020 16:19:09 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+ (envelope-from <gunthorp@deltatee.com>)
+ id 1kTY42-0001EN-HC; Fri, 16 Oct 2020 16:19:06 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-nvme@lists.infradead.org
+Date: Fri, 16 Oct 2020 16:19:05 -0600
+Message-Id: <20201016221905.4686-2-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201016221905.4686-1-logang@deltatee.com>
+References: <20201016221905.4686-1-logang@deltatee.com>
 MIME-Version: 1.0
-References: <20201012162736.65241-1-nmeeramohide@micron.com>
- <20201015080254.GA31136@infradead.org>
- <SN6PR08MB420880574E0705BBC80EC1A3B3030@SN6PR08MB4208.namprd08.prod.outlook.com>
-In-Reply-To: <SN6PR08MB420880574E0705BBC80EC1A3B3030@SN6PR08MB4208.namprd08.prod.outlook.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Fri, 16 Oct 2020 15:11:48 -0700
-Message-ID: <CAPcyv4j7a0gq++rL--2W33fL4+S0asYjYkvfBfs+hY+3J=c_GA@mail.gmail.com>
-Subject: Re: [EXT] Re: [PATCH v2 00/22] add Object Storage Media Pool (mpool)
-To: "Nabeel Meeramohideen Mohamed (nmeeramohide)" <nmeeramohide@micron.com>
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, logang@deltatee.com,
+ dgilbert@interlog.com, sagi@grimberg.me, hch@lst.de,
+ chaitanya.kulkarni@wdc.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v2 2/2] nvmet-passthru: Cleanup nvmet_passthru_map_sg()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201016_181159_814995_297DE26E 
-X-CRM114-Status: GOOD (  25.10  )
+X-CRM114-CacheID: sfid-20201016_181910_458347_9398F70D 
+X-CRM114-Status: GOOD (  15.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,91 +88,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "Steve Moyer \(smoyer\)" <smoyer@micron.com>,
- "linux-nvdimm@lists.01.org" <linux-nvdimm@lists.01.org>,
- "John Groves \(jgroves\)" <jgroves@micron.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@infradead.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "Pierre Labat \(plabat\)" <plabat@micron.com>,
- "Greg Becker \(gbecker\)" <gbecker@micron.com>
+Cc: Christoph Hellwig <hch@lst.de>, Logan Gunthorpe <logang@deltatee.com>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Douglas Gilbert <dgilbert@interlog.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 16, 2020 at 2:59 PM Nabeel Meeramohideen Mohamed
-(nmeeramohide) <nmeeramohide@micron.com> wrote:
->
-> On Thursday, October 15, 2020 2:03 AM, Christoph Hellwig <hch@infradead.org> wrote:
-> > I don't think this belongs into the kernel.  It is a classic case for
-> > infrastructure that should be built in userspace.  If anything is
-> > missing to implement it in userspace with equivalent performance we
-> > need to improve out interfaces, although io_uring should cover pretty
-> > much everything you need.
->
-> Hi Christoph,
->
-> We previously considered moving the mpool object store code to user-space.
-> However, by implementing mpool as a device driver, we get several benefits
-> in terms of scalability, performance, and functionality. In doing so, we relied
-> only on standard interfaces and did not make any changes to the kernel.
->
-> (1)  mpool's "mcache map" facility allows us to memory-map (and later unmap)
-> a collection of logically related objects with a single system call. The objects in
-> such a collection are created at different times, physically disparate, and may
-> even reside on different media class volumes.
->
-> For our HSE storage engine application, there are commonly 10's to 100's of
-> objects in a given mcache map, and 75,000 total objects mapped at a given time.
->
-> Compared to memory-mapping objects individually, the mcache map facility
-> scales well because it requires only a single system call and single vm_area_struct
-> to memory-map a complete collection of objects.
+Clean up some confusing elements of nvmet_passthru_map_sg() by returning
+early if the request is greater than the maximum bio size. This allows
+us to drop the sg_cnt variable.
 
-Why can't that be a batch of mmap calls on io_uring?
+This should not result in any functional change but makes the code
+clearer and more understandable. The original code allocated a truncated
+bio then would return EINVAL when bio_add_pc_page() filled that bio. The
+new code just returns EINVAL early if this would happen.
 
-> (2) The mcache map reaper mechanism proactively evicts object data from the page
-> cache based on object-level metrics. This provides significant performance benefit
-> for many workloads.
->
-> For example, we ran YCSB workloads B (95/5 read/write mix)  and C (100% read)
-> against our HSE storage engine using the mpool driver in a 5.9 kernel.
-> For each workload, we ran with the reaper turned-on and turned-off.
->
-> For workload B, the reaper increased throughput 1.77x, while reducing 99.99% tail
-> latency for reads by 39% and updates by 99%. For workload C, the reaper increased
-> throughput by 1.84x, while reducing the 99.99% read tail latency by 63%. These
-> improvements are even more dramatic with earlier kernels.
+Fixes: c1fef73f793b ("nvmet: add passthru code to process commands")
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Suggested-by: Douglas Gilbert <dgilbert@interlog.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/passthru.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-What metrics proved useful and can the vanilla page cache / page
-reclaim mechanism be augmented with those metrics?
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index 1ab88df3310f..8ea9b173f285 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -187,18 +187,20 @@ static void nvmet_passthru_req_done(struct request *rq,
+ 
+ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+ {
+-	int sg_cnt = req->sg_cnt;
+ 	struct scatterlist *sg;
+ 	int op_flags = 0;
+ 	struct bio *bio;
+ 	int i, ret;
+ 
++	if (req->sg_cnt > BIO_MAX_PAGES)
++		return -EINVAL;
++
+ 	if (req->cmd->common.opcode == nvme_cmd_flush)
+ 		op_flags = REQ_FUA;
+ 	else if (nvme_is_write(req->cmd))
+ 		op_flags = REQ_SYNC | REQ_IDLE;
+ 
+-	bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
++	bio = bio_alloc(GFP_KERNEL, req->sg_cnt);
+ 	bio->bi_end_io = bio_put;
+ 	bio->bi_opf = req_op(rq) | op_flags;
+ 
+@@ -208,7 +210,6 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+ 			bio_put(bio);
+ 			return -EINVAL;
+ 		}
+-		sg_cnt--;
+ 	}
+ 
+ 	ret = blk_rq_append_bio(rq, &bio);
+-- 
+2.20.1
 
->
-> (3) The mcache map facility can memory-map objects on NVMe ZNS drives that were
-> created using the Zone Append command. This patch set does not support ZNS, but
-> that work is in progress and we will be demonstrating our HSE storage engine
-> running on mpool with ZNS drives at FMS 2020.
->
-> (4) mpool's immutable object model allows the driver to support concurrent reading
-> of object data directly and memory-mapped without a performance penalty to verify
-> coherence. This allows background operations, such as LSM-tree compaction, to
-> operate efficiently and without polluting the page cache.
->
-
-How is this different than existing background operations / defrag
-that filesystems perform today? Where are the opportunities to improve
-those operations?
-
-> (5) Representing an mpool as a /dev/mpool/<mpool-name> device file provides a
-> convenient mechanism for controlling access to and managing the multiple storage
-> volumes, and in the future pmem devices, that may comprise an logical mpool.
-
-Christoph and I have talked about replacing the pmem driver's
-dependence on device-mapper for pooling. What extensions would be
-needed for the existing driver arch?
 
 _______________________________________________
 Linux-nvme mailing list
