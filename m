@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0BE2C433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:28:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1270BC433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:29:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D6E5A214DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:28:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 80488214DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 21:29:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hJ4hW5EP";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="c0Mzs3+H"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6E5A214DB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cccwrKzF";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="dRXBLOKo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 80488214DB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,59 +26,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=zorP/nVSF5dab0H2uezKUd5LliYPG2d72al/2POcHZM=; b=hJ4
-	hW5EPMRy3qXge4saJYXxqB8uCZ7IgEbzLo3YN/L345FPielXSs3zCYXII3jWzkwzU97jVtsnGb8fo
-	y094/nbqZ9UjNZYiyiUXjS101gYEYKx3ekkquwpZ8mtxN5jyiGlI+YS5VugjE8Vrv8XqjT4ThTJky
-	BPzehi7N2Eev8FWzxqh6Jeaa8vssq/CNjIE3HIOEFALyJkmEjs3XoqY49ca9l7kqAfM/iUMosyW/6
-	v0kFjmNgWOfm56jDrmUGxvcCNbswiN1YQ5mhlbRg+QxgzgcW3dO4nx/SaRg2djzlmhN2ldQ3gZQ5j
-	LNIRNEq1rTC+gAcBb1oIhyaSfcp9dXA==;
+	References:List-Owner; bh=Pen+TewHfpHogtdcQEOaydgcOT1v3p8huts7gwcFZY4=; b=ccc
+	wrKzFYTuPSCdE36T5vauJ2S71VbPkdf7rqfbGQc63j8PnKPH/kOrUWo9kmECKW7Mba18qmPOIMIN4
+	UVijtIZhRTP6F4o5xEr0FAfu9Wh56xvjMTFXAziS+vMjy3dsEKYHZLqP2XvivXL8wVQEdbtkfgZcf
+	hn0k/BGhC1p4G3EuZQE6uai4KuyM4WCXIvWyjeVwxcCEPHe+y+gc44iXL3Qk3IsgQJnrFZNz64xDa
+	ckAPCQw4+mqHosbg1orBIqE7k1Rt3SVn0qhvgZ7aUOQRRSvLHhO4QiBbQKEHxdrDF/JqMw3lZVasl
+	+Pyrtx+Gl5RP8rpO138/VfnsPKKNz0Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kTXHP-00089c-Sv; Fri, 16 Oct 2020 21:28:51 +0000
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643])
+	id 1kTXIB-0008Kx-QI; Fri, 16 Oct 2020 21:29:39 +0000
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kTXHL-00087t-AN
- for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 21:28:49 +0000
-Received: by mail-ej1-x643.google.com with SMTP id t25so5194048ejd.13
- for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2020 14:28:46 -0700 (PDT)
+ id 1kTXI9-0008Jz-Gw
+ for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 21:29:38 +0000
+Received: by mail-ej1-x642.google.com with SMTP id e22so5273024ejr.4
+ for <linux-nvme@lists.infradead.org>; Fri, 16 Oct 2020 14:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=from:to:cc:subject:date:message-id:mime-version;
- bh=F8OecQapqfNHig3GAD75ZV5P3w7yGRWy3bteheO3qvw=;
- b=c0Mzs3+HpX6bqFj5DPPRhVIrtRIIIhOFhMi3gdXEciDiF+ZZF0L6Rc2ahCMNbUBOYj
- +IhvYeLJOyFkC1q3bGXDt3p6A/h5TfAldk3MLSbqdQdac6msWGIQCpq2ay+QNxMHxb/a
- xwF1pgrWSs6pbWwtQrchbByoKF9jo29Pzdk6w=
+ bh=7gwG2C65dq3dKKTEayYJFnZca6Vz1FMA3jJzRBNFLPU=;
+ b=dRXBLOKoUMppE6jSLh4CYCU1VeJMKXPtDXx0Hp+BEl2wLi+4dzpzhlPOAUaywMiK2s
+ pnHsDRNEDRwHMkXGkrWYsHNFBHoSdVlCOPw+3UDzPDqBhuo30n6F5oeWH3JERHYzzyt+
+ 8OoRlSAv0namLDMeIt7A/TwkPz9DkMT6O0If0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version;
- bh=F8OecQapqfNHig3GAD75ZV5P3w7yGRWy3bteheO3qvw=;
- b=gh99XMHaezCjHzMZcG7fXr5bNHdcHF8xsxtSDH4hcYT3uFS/GFMRCbFAy46gWnvdLt
- voAvSXB61ikc7UaMsJpjh9F2mv7mzwPI7dBJc/ttaOoJhf80Y1k7hiXqqK+a4k5AFAeW
- EEQtdvZBzaM0UEgsFBzn+ExNhwYtYwBihEOA/Rk7d3A8Qw/gtVIU+QFsEcXHkwmNZgzN
- cV+E+lh5JnTq4cO/NnLvsG/e2eYkku6BP60kPSMRmo5W2QzLkT1UajIV1pJJQzV1x7O4
- o2Yv6Vo1Wtilwzm8sp+YSTlKXXF2/0Il9kLhpzMJMYtsxrE8pZLHabJASEux5B7nDTye
- gUtQ==
-X-Gm-Message-State: AOAM532+OmMhs40Xjdlyz8qw48Pl0hkOX0DpD4+wsEcsMKsislZikTN+
- Rfhdje3Lo6PN0FwXFF0QPx2KUFVuLZgNJ0BFq0GuzebrF0OBflKf94/sya+2YHO8jrrRqHGOJa4
- i/B+PK05BY1gUqg10l54qwBekpKqKbfiZ3CtKLhye4By0M8LkFUFGrFDV9PBrqG7ohtlTLg7Wri
- 8qNpKh2ICC
-X-Google-Smtp-Source: ABdhPJwGo257J5s8Ytts8Di8UvvAE+lrBDWiZFk/6RfciBbUrMjpGXF3w6O5wE8nALQpnFUSaZcBig==
-X-Received: by 2002:a17:906:1c8f:: with SMTP id
- g15mr5701301ejh.179.1602883725347; 
- Fri, 16 Oct 2020 14:28:45 -0700 (PDT)
+ bh=7gwG2C65dq3dKKTEayYJFnZca6Vz1FMA3jJzRBNFLPU=;
+ b=QQSJZRcSsd4r76IFKGqUtczQNOKXncENyHJSj1Z6CvGA8WNuj3mfQyTtQBflQcJ8XE
+ crWfnqSTVMVIVS+qAgZe2Gb8yw148iB25OkDGvR2kVbhjVUJ1rGuesDQC2Z2gISkJjnj
+ /4V4D15LWK/plvCpcZzxFM8CNfqOnjS93B+hvDUWNPL36vBlWCqbPRDXBL0CTyqE88Ec
+ m7deqRtbnf2i8jU0Fj06QUGk+IBv4e8/UL86qD2nnp0IHfaVDYwTAMCTVsj4WVYwlXSX
+ OcTu2qZNaPU6Y0dJ4rCRKex3m8haR7NbBvQlcBVk5dsdFos0gWN9V9XLCghTM8Z0zFqR
+ pCZQ==
+X-Gm-Message-State: AOAM530/kczzwjDwIWEXKI+IonUM+4dCp3El7JnQci8vPzasJxRauigP
+ wnW273uxRgXBCja3D/7EdoRRUP4qUwWfxgcJ/Z9MBHAzl3X7PHTNBTjffmAVW5Ggs7KpptGAmJM
+ /OFU5psFSye2DHdq6nY9kZmuGuXy0n2XYO4TRCNkkYRVRQqCeKxUIkdpCzspVFChC2Gzrps/L+V
+ f8aNFxM67I
+X-Google-Smtp-Source: ABdhPJz83V34Bt8giyIhv0vP971JysZRj9ZRilhUvav7fZy7sqtJmvZQFNgFnoUSJLhmywKHaHrxUg==
+X-Received: by 2002:a17:906:72cb:: with SMTP id
+ m11mr5565969ejl.348.1602883775773; 
+ Fri, 16 Oct 2020 14:29:35 -0700 (PDT)
 Received: from localhost.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id j3sm361121edh.25.2020.10.16.14.28.43
+ by smtp.gmail.com with ESMTPSA id p12sm2713282edr.18.2020.10.16.14.29.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 14:28:44 -0700 (PDT)
+ Fri, 16 Oct 2020 14:29:35 -0700 (PDT)
 From: James Smart <james.smart@broadcom.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-fcloop: add sysfs attribute to inject command drop
-Date: Fri, 16 Oct 2020 14:28:38 -0700
-Message-Id: <20201016212838.49298-1-james.smart@broadcom.com>
+Subject: [PATCH] nvme-fc: shorten reconnect delay if possible for FC
+Date: Fri, 16 Oct 2020 14:29:28 -0700
+Message-Id: <20201016212928.49429-1-james.smart@broadcom.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201016_172847_379244_7F6F5929 
-X-CRM114-Status: GOOD (  19.42  )
+X-CRM114-CacheID: sfid-20201016_172937_586207_3B1EB4F4 
+X-CRM114-Status: GOOD (  17.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,160 +91,82 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: James Smart <james.smart@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============5812299022504476950=="
+Content-Type: multipart/mixed; boundary="===============5190768049495903285=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============5812299022504476950==
+--===============5190768049495903285==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000018733d05b1d0739a"
+	boundary="0000000000001cc3c005b1d07619"
 
---00000000000018733d05b1d0739a
+--0000000000001cc3c005b1d07619
 Content-Transfer-Encoding: 8bit
 
-Add sysfs attribute to specify parameters for dropping a command.
-The attribute takes a string of
-  <opcode>:<starting a what instance>:<number of times>
-Opcode is formatted as lower 8 bits are opcode. If a fabrics opcode,
-a bit above bits 7:0 will be set.
+We've had several complaints about a 10s reconnect delay (the default)
+when there was an error while there is connectivity to a subsystem.
+The max_reconnects and reconnect_delay are set in common code prior to
+calling the transport to create the controller.
 
-Once set, each sqe is looked at. If the opcode matches the running
-instance count is updated. If the instance count is in the range of
-where to drop (based on starting and # of times), then drop the
-command by not passing it to the target layer.
+This change checks if the default reconnect delay is being used, and if
+so, it adjusts it to a shorter period (2s) for the nvme-fc transport.
+It does so by calculating the controller loss tmo window, changing the
+value of the reconnect delay, and then recalculating the maximum number
+of reconnect attempts allowed.
 
 Signed-off-by: James Smart <james.smart@broadcom.com>
 ---
- drivers/nvme/target/fcloop.c | 81 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 79 insertions(+), 2 deletions(-)
+ drivers/nvme/host/fc.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 3da067a8311e..ae46c8402f67 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -564,6 +564,50 @@ fcloop_call_host_done(struct nvmefc_fcp_req *fcpreq,
- 	fcloop_tfcp_req_put(tfcp_req);
- }
- 
-+static bool drop_fabric_opcode;
-+#define DROP_OPCODE_MASK	0x00FF
-+/* fabrics opcode will have a bit set above 1st byte */
-+static int drop_opcode = -1;
-+static int drop_instance;
-+static int drop_amount;
-+static int drop_current_cnt;
-+
-+/*
-+ * Routine to parse io and determine if the io is to be dropped.
-+ * Returns:
-+ *  0 if io is not obstructed
-+ *  1 if io was dropped
-+ */
-+int check_for_drop(struct fcloop_fcpreq *tfcp_req)
-+{
-+	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
-+	struct nvme_fc_cmd_iu *cmdiu = fcpreq->cmdaddr;
-+	struct nvme_command *sqe = &cmdiu->sqe;
-+
-+	if (drop_opcode == -1)
-+		return 0;
-+
-+	pr_info("%s: seq opcd x%02x fctype x%02x: drop F %s op x%02x "
-+		"inst %d start %d amt %d\n",
-+		__func__, sqe->common.opcode, sqe->fabrics.fctype,
-+		drop_fabric_opcode ? "y" : "n",
-+		drop_opcode, drop_current_cnt, drop_instance, drop_amount);
-+
-+	if ((drop_fabric_opcode &&
-+	     (sqe->common.opcode != nvme_fabrics_command ||
-+	      sqe->fabrics.fctype != drop_opcode)) ||
-+	    (!drop_fabric_opcode && sqe->common.opcode != drop_opcode))
-+		return 0;
-+
-+	if (++drop_current_cnt >= drop_instance) {
-+		if (drop_current_cnt >= drop_instance + drop_amount)
-+			drop_opcode = -1;
-+		return 1;
-+	}
-+
-+	return 0;
-+}
-+
- static void
- fcloop_fcp_recv_work(struct work_struct *work)
- {
-@@ -590,10 +634,14 @@ fcloop_fcp_recv_work(struct work_struct *work)
- 
- 	if (unlikely(aborted))
- 		ret = -ECANCELED;
--	else
--		ret = nvmet_fc_rcv_fcp_req(tfcp_req->tport->targetport,
-+	else {
-+		if (likely(!check_for_drop(tfcp_req)))
-+			ret = nvmet_fc_rcv_fcp_req(tfcp_req->tport->targetport,
- 				&tfcp_req->tgt_fcp_req,
- 				fcpreq->cmdaddr, fcpreq->cmdlen);
-+		else
-+			pr_info("%s: dropped command ********\n", __func__);
-+	}
- 	if (ret)
- 		fcloop_call_host_done(fcpreq, tfcp_req, ret);
- 
-@@ -1449,6 +1497,33 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
- 	return ret ? ret : count;
- }
- 
-+static ssize_t
-+fcloop_set_cmd_drop(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	int opcode, starting, amount;
-+
-+	if (sscanf(buf, "%x:%d:%d", &opcode, &starting, &amount) != 3)
-+		return -EBADRQC;
-+
-+	drop_current_cnt = 0;
-+	drop_fabric_opcode = (opcode & ~DROP_OPCODE_MASK) ? true : false;
-+	drop_opcode = (opcode & DROP_OPCODE_MASK);
-+	drop_instance = starting;
-+	/* the check to drop routine uses instance + count to know when
-+	 * to end. Thus, if dropping 1 instance, count should be 0.
-+	 * so subtract 1 from the count.
-+	 */
-+	drop_amount = amount - 1;
-+
-+	pr_info("%s: DROP: Starting at instance %d of%s opcode x%x drop +%d "
-+		"instances\n",
-+		__func__, drop_instance, drop_fabric_opcode ? " fabric" : "",
-+		drop_opcode, drop_amount);
-+
-+	return count;
-+}
-+
- 
- static DEVICE_ATTR(add_local_port, 0200, NULL, fcloop_create_local_port);
- static DEVICE_ATTR(del_local_port, 0200, NULL, fcloop_delete_local_port);
-@@ -1456,6 +1531,7 @@ static DEVICE_ATTR(add_remote_port, 0200, NULL, fcloop_create_remote_port);
- static DEVICE_ATTR(del_remote_port, 0200, NULL, fcloop_delete_remote_port);
- static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_target_port);
- static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_target_port);
-+static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_drop);
- 
- static struct attribute *fcloop_dev_attrs[] = {
- 	&dev_attr_add_local_port.attr,
-@@ -1464,6 +1540,7 @@ static struct attribute *fcloop_dev_attrs[] = {
- 	&dev_attr_del_remote_port.attr,
- 	&dev_attr_add_target_port.attr,
- 	&dev_attr_del_target_port.attr,
-+	&dev_attr_set_cmd_drop.attr,
- 	NULL
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 6352068c0c4a..1af7c6f358f5 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -26,6 +26,10 @@ enum nvme_fc_queue_flags {
  };
  
+ #define NVME_FC_DEFAULT_DEV_LOSS_TMO	60	/* seconds */
++#define NVME_FC_DEFAULT_RECONNECT_TMO	2	/* delay between reconnects
++						 * when connected and a
++						 * connection failure.
++						 */
+ 
+ struct nvme_fc_queue {
+ 	struct nvme_fc_ctrl	*ctrl;
+@@ -3387,7 +3391,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ {
+ 	struct nvme_fc_ctrl *ctrl;
+ 	unsigned long flags;
+-	int ret, idx;
++	int ret, idx, ctrl_loss_tmo;
+ 
+ 	if (!(rport->remoteport.port_role &
+ 	    (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
+@@ -3413,6 +3417,19 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 		goto out_free_ctrl;
+ 	}
+ 
++	/*
++	 * if ctrl_loss_tmo is being enforced and the default reconnect delay
++	 * is being used, change to a shorter reconnect delay for FC.
++	 */
++	if (opts->max_reconnects != -1 &&
++	    opts->reconnect_delay == NVMF_DEF_RECONNECT_DELAY &&
++	    opts->reconnect_delay > NVME_FC_DEFAULT_RECONNECT_TMO) {
++		ctrl_loss_tmo = opts->max_reconnects * opts->reconnect_delay;
++		opts->reconnect_delay = NVME_FC_DEFAULT_RECONNECT_TMO;
++		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
++						opts->reconnect_delay);
++	}
++
+ 	ctrl->ctrl.opts = opts;
+ 	ctrl->ctrl.nr_reconnects = 0;
+ 	if (lport->dev)
 -- 
 2.26.2
 
 
---00000000000018733d05b1d0739a
+--0000000000001cc3c005b1d07619
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -314,20 +236,20 @@ ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
 9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
 ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
 MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQg9FJ0y98nAPS0BE2k
-NwMyyHc55aWZIQq6OjFWdbtmO9UwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDE2MjEyODQ1WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
+rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgBCLqxkG4V4oeMKtV
+Gayka6KG4j87Z/dBDsJ9df9IFLkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjAxMDE2MjEyOTM2WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
 ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFGUl/Q0NSdiHcRP2SkNo9ZK8TpCmaNxN6Qp
-oiEecO9FjB3KWjxig8/VqGbWXgnm/QQFzi9RHxVEZKzDCiNEWJdj/9i36T/fMwxGCOLih2epVIhK
-MOmJHCYyrI4I1VmggEvfNEsoQwc0+vG+o9HkecGPIx9bBurgt38hyL7UZmepMRQHSaaTmnkuSquC
-TBA3gJ7m6LLEUhdEkt+pcB9wtpy95H+nOgoWlja67onplDgGwFRj6NffGaGjmW9GvArhbKcdo0CI
-rONEOUA2HoYSrd3ehaBWGnZuSTc4PyhC/feuNfOrnXUVnF1XuMg1oZkWIrYE7vwwbdYC1S94+7Ry
-Jd0=
---00000000000018733d05b1d0739a--
+CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBALX+ZAcjs3JsI66T/5kUmbSW6znhpNg2fkOE
+pgY9Tkb4QTVftkZg1BF725mBr1eigu9dY1WCKe3VIR6Ji9zQ+QaN3gn0xXzzAiWrtFnIbTCKrDV0
+ofnzHPvQvVZEtPdFwdLxcViqCrwCK4slf2O5asdUPZaK2AzqK/vv/sl1SqqVrgI+Fs5RxSlv9kDJ
+7FV7Vtb18W41qtYuQ8kdT3O0O9CHGlkkLBlxOHHEvt+LN/LzIdNlgWJVb/1SSmn5OhJ6D1AgczdT
+CTNbRbr2EKwm2oY6W54ts7EmemzGia07WSWF7jLmo5Yc+9gXyTpHjabgVEu3Zq5BGAanEoVjv+eV
+rVU=
+--0000000000001cc3c005b1d07619--
 
 
---===============5812299022504476950==
+--===============5190768049495903285==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -338,5 +260,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============5812299022504476950==--
+--===============5190768049495903285==--
 
