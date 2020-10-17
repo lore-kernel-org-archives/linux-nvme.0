@@ -1,79 +1,72 @@
-Return-Path: <SRS0=oO1v=DX=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=Mr4l=DY=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E50CC433E7
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 22:19:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41CD1C433DF
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Oct 2020 02:18:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1AD8E221FD
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Oct 2020 22:19:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D27422072D
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Oct 2020 02:18:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SN2EaY/O";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="W7LEcXEZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1AD8E221FD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iOKs/oVW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D27422072D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:MIME-Version:Message-Id:Date:To:From:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=rAv8B7evsCkhB38oTuDOvcESWINNS2J6ob3iju97nQ8=; b=SN2EaY/ONz9/BPOwL0gw74fLlZ
-	hSoCX5zaTifw8CcS+GSA/LChc2jcqgxgZaSEtrVxEis5hRSmdhjtcwCj+jKVUZmn/d3LS83GNyRC8
-	2BXCyqnmtYoBozVM1SY1xx9IquR5zQLaS9roKjiDPv5Eff/kfiO1pIbPtQ2Sg1oZCeJpfzfFqCUW7
-	Wot9qIeWwPeAKQ5WwlXkZGeywX7EmQ6y/n2Vn2tJ1GLi/6ngYjSxnChh9NUEc9/A/1v65OHMwH8GO
-	OzvgSzUjWTxXNJ7o1DyWFqgSQxTx8wo3FhGFrUCNFj/TTiKBUN1QoZ19V6tzesga7qiXapKOx8Spl
-	3s0xcLxg==;
+	bh=VECEiWi1xzx2d+FbxrXJwkXNzvtJyfYYUDPLwdw41E4=; b=iOKs/oVWxWu1WsNog/bErxM6HQ
+	i1htJfJ0ZZnl4iLMYr7BmldVXRq7yxiLeIA93yDqxzfAqf0dDq+MT3mR5TGeMhr1/lLjGtPOxvz8z
+	uIuFANV1iIUJ4Qu6rCoRTmvs51e28m3x5Dzwcl2Ln397qAHMoMxetPQfEplDgZISptdYGdxqA2sxo
+	WpHc9axUECx3LUJoW2SJh492c8EUwXN5PyszqpkeHoDwHhbZFKjb1kRHSrburVOiRmyEhu/MlM4Uw
+	g0zDpuMPFSHiudDu1jriYSiZk4b5xzTfE2MDDQE3FrM8gR2649UM8dN7ThzAYmrQ/fhVmRBhjj5Bb
+	SwJA9R/w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kTY49-0004Ez-Iq; Fri, 16 Oct 2020 22:19:13 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1kTbnI-00013X-1k; Sat, 17 Oct 2020 02:18:04 +0000
+Received: from mga14.intel.com ([192.55.52.115])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kTY46-0004EE-E5
- for linux-nvme@lists.infradead.org; Fri, 16 Oct 2020 22:19:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=AJv32GnywgQjRDQTfyPvhjUlp/gp51Zxz7bbL/TuwAk=; b=W7LEcXEZDK54gd7Z/MmQK99ZuV
- aeYY0rLkrOdkeZ7b60Lks05Zt9HouoEXiDYAoyDCZWrsl8+jfYsZVRXae8wp8FD7VROsDPpYNVuek
- ox0Dz5/B8MlSQ7uaOIViceuby2k8eGloQPcsHs1HaY6Ii1WCFud4MTEgQxvGnxwcRpsEKAnn7aaPg
- U6cuPVC8pBAylxfb+JoXtqUpeizH38T8sbehsVQuQng1QYNRUV6vRwAfi5wGtBvqHDW5zwdc6QcPM
- QtjnkxFEeYnOlUkgqMnGB0T0ST6E7927qdgITKQhP55RsT20Eft6QoVvJr4afFM91jd87890j8PwT
- pJhHWArw==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1kTY43-0005Mk-4Z; Fri, 16 Oct 2020 16:19:08 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
- (envelope-from <gunthorp@deltatee.com>)
- id 1kTY42-0001EL-D6; Fri, 16 Oct 2020 16:19:06 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-nvme@lists.infradead.org
-Date: Fri, 16 Oct 2020 16:19:04 -0600
-Message-Id: <20201016221905.4686-1-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
+ id 1kTbnE-00012y-6E
+ for linux-nvme@lists.infradead.org; Sat, 17 Oct 2020 02:18:01 +0000
+IronPort-SDR: 6ZAaShzVmZSl5g0qEF3crP9YBj4OEOBsMdlUuRupzfnZTY4QuxU18ZyR/x/E943C4KJW4WZ0B5
+ 1YBM7JrGN72A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9776"; a="165960222"
+X-IronPort-AV: E=Sophos;i="5.77,385,1596524400"; d="scan'208";a="165960222"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2020 19:17:57 -0700
+IronPort-SDR: dgz1zSu4wOB/cJH6efhRE/XH2VU0GbktwHJzLY7KA4wXrKMf/MXEfs0q2cSrqoUoIk4Queo4ae
+ FwlrK2vNk7mg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,385,1596524400"; d="scan'208";a="346768162"
+Received: from lkp-server02.sh.intel.com (HELO 262a2cdd3070) ([10.239.97.151])
+ by fmsmga004.fm.intel.com with ESMTP; 16 Oct 2020 19:17:56 -0700
+Received: from kbuild by 262a2cdd3070 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kTbn9-0000Du-Hq; Sat, 17 Oct 2020 02:17:55 +0000
+Date: Sat, 17 Oct 2020 10:16:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-5.10] BUILD SUCCESS
+ d987eab65bf7f917472996aeda2754bac0f5fd33
+Message-ID: <5f8a541b.Bc1VJP+Rzts4j13G%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, logang@deltatee.com,
- hch@lst.de, sagi@grimberg.me, chaitanya.kulkarni@wdc.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2 1/2] nvmet-passthru: Limit mdts by BIO_MAX_PAGES
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201016_181910_499274_BC47A488 
-X-CRM114-Status: GOOD (  14.10  )
+X-CRM114-CacheID: sfid-20201016_221800_369761_2AE48401 
+X-CRM114-Status: GOOD (  13.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,63 +78,136 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_passthru_map_sg() only supports mapping a single BIO, not a chain
-so the effective maximum transfer should also be limitted by BIO_MAX_PAGES
-(presently this works out to 1MB).
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.10
+branch HEAD: d987eab65bf7f917472996aeda2754bac0f5fd33  nvme-pci: disable Write Zeroes on Sandisk Skyhawk
 
-For PCI passthru devices the max_sectors would typically be more limitting
-than BIO_MAX_PAGES, but this may not be true for all passthru devices.
+elapsed time: 723m
 
-Fixes: c1fef73f793b ("nvmet: add passthru code to process commands")
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+configs tested: 106
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+m68k                          hp300_defconfig
+sparc64                             defconfig
+powerpc                     sequoia_defconfig
+mips                  decstation_64_defconfig
+sh                         ap325rxa_defconfig
+powerpc                 mpc832x_mds_defconfig
+sh                           se7712_defconfig
+arm                          pcm027_defconfig
+s390                             alldefconfig
+xtensa                         virt_defconfig
+powerpc                          g5_defconfig
+csky                             alldefconfig
+arm                       aspeed_g4_defconfig
+sh                           se7206_defconfig
+arm                          prima2_defconfig
+mips                        qi_lb60_defconfig
+powerpc                 mpc837x_mds_defconfig
+mips                        vocore2_defconfig
+arm                        clps711x_defconfig
+mips                           ip27_defconfig
+arm                           sama5_defconfig
+openrisc                            defconfig
+powerpc                    gamecube_defconfig
+xtensa                  nommu_kc705_defconfig
+sh                           se7722_defconfig
+mips                           jazz_defconfig
+arm                        mvebu_v5_defconfig
+arm                        mini2440_defconfig
+h8300                            alldefconfig
+arm                          lpd270_defconfig
+arc                                 defconfig
+arm                          iop32x_defconfig
+arm                        trizeps4_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20201016
+i386                 randconfig-a006-20201016
+i386                 randconfig-a001-20201016
+i386                 randconfig-a003-20201016
+i386                 randconfig-a004-20201016
+i386                 randconfig-a002-20201016
+x86_64               randconfig-a016-20201016
+x86_64               randconfig-a012-20201016
+x86_64               randconfig-a015-20201016
+x86_64               randconfig-a013-20201016
+x86_64               randconfig-a014-20201016
+x86_64               randconfig-a011-20201016
+i386                 randconfig-a016-20201016
+i386                 randconfig-a013-20201016
+i386                 randconfig-a015-20201016
+i386                 randconfig-a011-20201016
+i386                 randconfig-a012-20201016
+i386                 randconfig-a014-20201016
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a004-20201016
+x86_64               randconfig-a002-20201016
+x86_64               randconfig-a006-20201016
+x86_64               randconfig-a001-20201016
+x86_64               randconfig-a005-20201016
+x86_64               randconfig-a003-20201016
+
 ---
- drivers/nvme/target/passthru.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index dacfa7435d0b..1ab88df3310f 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -26,7 +26,7 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
- 	struct nvme_ctrl *pctrl = ctrl->subsys->passthru_ctrl;
- 	u16 status = NVME_SC_SUCCESS;
- 	struct nvme_id_ctrl *id;
--	u32 max_hw_sectors;
-+	int max_hw_sectors;
- 	int page_shift;
- 
- 	id = kzalloc(sizeof(*id), GFP_KERNEL);
-@@ -48,6 +48,13 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
- 	max_hw_sectors = min_not_zero(pctrl->max_segments << (PAGE_SHIFT - 9),
- 				      pctrl->max_hw_sectors);
- 
-+	/*
-+	 * nvmet_passthru_map_sg is limitted to using a single bio so limit
-+	 * the mdts based on BIO_MAX_PAGES as well
-+	 */
-+	max_hw_sectors = min_not_zero(BIO_MAX_PAGES << (PAGE_SHIFT - 9),
-+				      max_hw_sectors);
-+
- 	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
- 
- 	id->mdts = ilog2(max_hw_sectors) + 9 - page_shift;
-
-base-commit: bbf5c979011a099af5dc76498918ed7df445635b
--- 
-2.20.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
