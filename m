@@ -7,76 +7,73 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0E0C433E7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0D5C433DF
 	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 22:04:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EB59A222C4
+	by mail.kernel.org (Postfix) with ESMTPS id F365A2237B
 	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 22:04:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="e1ZsHdTM";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="Xc2L3OVn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB59A222C4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tO2LemG4";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="HlysC5d/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F365A2237B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=reF9HNDAYa8VZSMrN26mo1LMNTc7mkanvwVU2xZvvjY=; b=e1ZsHdTM6GaC5DkI8B2QefMxi
-	J/wNlC9z5dfxCxY67gK30jzk8CfAuyBMCYWSmwFCXyV4EEfKYE8GPKzLfCCRRWI4vaFyjaz3e787o
-	/+WJJAWyy3yaQ8MK/PPa1eYAXaP96k6ko1TiS8uIyU9Z/OSS27juE9WuDNxlF8dLam1K5zq9d/5d+
-	2ZLiOikM+MOoqZpzpJ93eMFR+SMowou+rk3PehcnOuyshMXw9xIQU0mnpo8q11oBuj1A85ZrWMCgB
-	kXHfptpntqPk8fkqRhi4FO+U1dlQyhFYL/EqCuI2R/MS09FkciPXSAAzkeBnjJ6IVSG9rXOK1bYhp
-	QXZRYVbYQ==;
+	List-Unsubscribe:List-Id:Subject:MIME-Version:Message-Id:Date:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=E7uVf3LIgTiAO1b8MEiAtxzsAhE0kQR/s1xTFhn4+8E=; b=tO2LemG4dHMCuVE1e8tPN+iie8
+	8FjPVGK0ntYy+88CdWyGX2ijWPPsx8Q2sBaTb1xM5SnRsCiqi/G0QruT+nB9CeNBuirBXUaPp+MHn
+	hsiso57Qm9F5qZE/DOmvVzzUPXNNem8QMtZStIzDBbAp8Oyw+o0fnCRMZ5KlPeBmESJjt1Pck+hfG
+	AzXK1amOsjNvMjoZboMcKLddYjBVGAivhtyOeNrtSGocqnqJE00UFFR3v5UUxemmbRtsbGk6UPjOb
+	Dhm1Yq5KSbgBfRN/YssdchQ/3uB9i2KOyfC/2sFlNaclq5sJ3sLIwwFqG9Eb2FP/wxbhFvKeiyErZ
+	BxOfpmKA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kUdGR-0003Eq-9N; Mon, 19 Oct 2020 22:04:23 +0000
+	id 1kUdGQ-0003Eg-Cy; Mon, 19 Oct 2020 22:04:22 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kUdGL-0003E1-3W
+ id 1kUdGL-0003E0-24
  for linux-nvme@lists.infradead.org; Mon, 19 Oct 2020 22:04:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=2j0/T6/bComyRw/5zG8xevR1/DZPOinFfNUHXEzKA6E=; b=Xc2L3OVn9nFb1WSzu1AgT9WxK5
- C0tnlOaO1Lx35g5SOG9pwXgGoQiqA1lUl1Dh+ANWBUFWGTGMjjkQnevCzWBhYg11kKc5ANIYo/JjK
- cY1LWb5dpjJ6wOpPWDvo15byJDD02u//bXhOvcjl0T5uowxZqZ6eqdtd18OxteIvTcS3UuSFHMxjm
- /2OIZlg3GmEeeaFlk47chVLtB24tAl6mr51656/lteYV+qJDczvLTIZEBX7O0cZ1KvRoxmtngtp8N
- xqpfdmnkeRoqsAI2lWjPxPIVJr1eVHjELweLzt60IndupF8O3woGmrhv7dczB5XwSUGO3hO0N2PwU
- gbSQKbKg==;
+ Message-Id:Date:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=xiVQsV5x/3Vkr7c2iXAI/AmHUSoDsvYtmOLGl1oS8ek=; b=HlysC5d/oFgR53bl5EAR8KQpdU
+ v1He7Fe8YfLQsuepE8ZJcoL3cEPTvxzsuXjWfQ1JPiR30NgkZfPZrFCyWvdEZKPgarXD41GYPYV3z
+ KCQ39X4jxddd+K9FBOY1ctmJvE4Hi0ikYXZRTABvhQOEk4F/ymtGuMGj/6rrwsqwp344TRH1G4JtZ
+ 6t3yGYgo9OAvghHtliN7dRKS4N6nxZtWawzqLJ7y1a29WDxyaTVPU2gbLEMv+Z/OkLliXsnxF3BEw
+ bTn/lThuu0hP9Qj7mC6+X5Z5/ZVDKLuACE/i1Ojvju+mk1EQVpNhGjVLl7+v7ieaoJjF/AnfL5rlm
+ b5+ISucg==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1kUdGH-00063c-40; Mon, 19 Oct 2020 16:04:15 -0600
+ id 1kUdGH-00063b-KB; Mon, 19 Oct 2020 16:04:15 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1kUdGD-00058f-Rg; Mon, 19 Oct 2020 16:04:09 -0600
+ id 1kUdGD-00058d-Na; Mon, 19 Oct 2020 16:04:09 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-nvme@lists.infradead.org
-Date: Mon, 19 Oct 2020 16:04:06 -0600
-Message-Id: <20201019220406.19708-2-logang@deltatee.com>
+Date: Mon, 19 Oct 2020 16:04:05 -0600
+Message-Id: <20201019220406.19708-1-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201019220406.19708-1-logang@deltatee.com>
-References: <20201019220406.19708-1-logang@deltatee.com>
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, logang@deltatee.com,
- dgilbert@interlog.com, sagi@grimberg.me, hch@lst.de,
- chaitanya.kulkarni@wdc.com
+ hch@lst.de, sagi@grimberg.me, chaitanya.kulkarni@wdc.com, mgurtovoy@nvidia.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v3 2/2] nvmet-passthru: Cleanup nvmet_passthru_map_sg()
+Subject: [PATCH v3 1/2] nvmet-passthru: Limit mdts by BIO_MAX_PAGES
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201019_180417_155081_2AF6657B 
-X-CRM114-Status: GOOD (  16.28  )
+X-CRM114-CacheID: sfid-20201019_180417_120186_017FF855 
+X-CRM114-Status: GOOD (  15.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,72 +85,76 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Christoph Hellwig <hch@lst.de>, Logan Gunthorpe <logang@deltatee.com>,
- Sagi Grimberg <sagi@grimberg.me>,
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Christoph Hellwig <hch@lst.de>,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Douglas Gilbert <dgilbert@interlog.com>
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Clean up some confusing elements of nvmet_passthru_map_sg() by returning
-early if the request is greater than the maximum bio size. This allows
-us to drop the sg_cnt variable.
+nvmet_passthru_map_sg() only supports mapping a single BIO, not a chain
+so the effective maximum transfer should also be limitted by BIO_MAX_PAGES
+(presently this works out to 1MB).
 
-This should not result in any functional change but makes the code
-clearer and more understandable. The original code allocated a truncated
-bio then would return EINVAL when bio_add_pc_page() filled that bio. The
-new code just returns EINVAL early if this would happen.
+For PCI passthru devices the max_sectors would typically be more limitting
+than BIO_MAX_PAGES, but this may not be true for all passthru devices.
 
 Fixes: c1fef73f793b ("nvmet: add passthru code to process commands")
+Suggested-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Suggested-by: Douglas Gilbert <dgilbert@interlog.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>
 Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/target/passthru.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+
+v3: Added PG_TO_SECTOR constant which uses SECTOR_SHIFT (per Max)
+
+ drivers/nvme/target/passthru.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index ed6b0586173e..0e891a286fd8 100644
+index dacfa7435d0b..ed6b0586173e 100644
 --- a/drivers/nvme/target/passthru.c
 +++ b/drivers/nvme/target/passthru.c
-@@ -188,18 +188,20 @@ static void nvmet_passthru_req_done(struct request *rq,
- 
- static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
- {
--	int sg_cnt = req->sg_cnt;
- 	struct scatterlist *sg;
- 	int op_flags = 0;
- 	struct bio *bio;
- 	int i, ret;
- 
-+	if (req->sg_cnt > BIO_MAX_PAGES)
-+		return -EINVAL;
-+
- 	if (req->cmd->common.opcode == nvme_cmd_flush)
- 		op_flags = REQ_FUA;
- 	else if (nvme_is_write(req->cmd))
- 		op_flags = REQ_SYNC | REQ_IDLE;
- 
--	bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
-+	bio = bio_alloc(GFP_KERNEL, req->sg_cnt);
- 	bio->bi_end_io = bio_put;
- 	bio->bi_opf = req_op(rq) | op_flags;
- 
-@@ -209,7 +211,6 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
- 			bio_put(bio);
- 			return -EINVAL;
- 		}
--		sg_cnt--;
- 	}
- 
- 	ret = blk_rq_append_bio(rq, &bio);
--- 
-2.20.1
+@@ -22,11 +22,12 @@ static DEFINE_XARRAY(passthru_subsystems);
 
+ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
+ {
++	const int PG_TO_SECTOR = PAGE_SHIFT - SECTOR_SHIFT;
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvme_ctrl *pctrl = ctrl->subsys->passthru_ctrl;
+ 	u16 status = NVME_SC_SUCCESS;
+ 	struct nvme_id_ctrl *id;
+-	u32 max_hw_sectors;
++	int max_hw_sectors;
+ 	int page_shift;
+
+ 	id = kzalloc(sizeof(*id), GFP_KERNEL);
+@@ -45,9 +46,16 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
+ 	 * which depends on the host's memory fragementation. To solve this,
+ 	 * ensure mdts is limited to the pages equal to the number of segments.
+ 	 */
+-	max_hw_sectors = min_not_zero(pctrl->max_segments << (PAGE_SHIFT - 9),
++	max_hw_sectors = min_not_zero(pctrl->max_segments << PG_TO_SECTOR,
+ 				      pctrl->max_hw_sectors);
+
++	/*
++	 * nvmet_passthru_map_sg is limitted to using a single bio so limit
++	 * the mdts based on BIO_MAX_PAGES as well
++	 */
++	max_hw_sectors = min_not_zero(BIO_MAX_PAGES << PG_TO_SECTOR,
++				      max_hw_sectors);
++
+ 	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
+
+ 	id->mdts = ilog2(max_hw_sectors) + 9 - page_shift;
+
+base-commit: bbf5c979011a099af5dc76498918ed7df445635b
+--
+2.20.1
 
 _______________________________________________
 Linux-nvme mailing list
