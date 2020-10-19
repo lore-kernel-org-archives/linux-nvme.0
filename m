@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB83FC433E7
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 10:06:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E7FC433E7
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 10:07:50 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 527BD20791
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 10:06:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3862E2223C
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 10:07:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OKTC7mi2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 527BD20791
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tIuTnUmY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3862E2223C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,38 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qsM0oszZyC/ckc2yDGOv+J48Db2W/YjoZ25UN3iS6Zw=; b=OKTC7mi2kgZm99M3S/PcWtjB7
-	fC7hXWUK8GQHeZKHNs7p27+oGhVqspfeHfSSg7sxYBcwQlGkQif/e7fsN86h/q/4010gTLfdGVheE
-	BgVD07MJfJpNS5ifPDJl0gzAq7JiNmeT+CxlOvxaRTYKM7XLBk26TPnHih9D0foMdt8jLLto8WYvc
-	Zkvgw5XVCu+S4i3Ve130Bn5lQMkmxoOXii64zZYVyO1xxGA50npNBZpzX8h9TwXCzHd4Vor2QH1/Y
-	hSrbZQJRkklyTCX2eseULLq36yuVeWnMSOjwp10YFjfisKiHXu3t+Xl3uJLQ/XZ8iVLOqoUKXobPT
-	rVnFDAxsQ==;
+	 bh=uCTfrAENWRLKk4C0xCIFKD7FNUVnCbx9zWplTckBF2c=; b=tIuTnUmYwBtX6PbSdVdGvxys6
+	QXkGrIUM3m8r63Daj6FDGc5G6KuU9qe+NAIxSNLWcznoHH4HzLhO3qhiWYOAzXMhKITok8h/lu8Rx
+	oE6z4vcK+BzGCeezG39br9XrXVKpvQDaz7UqTw3qeC77AjjBczKtQkjOlK+YKDtm5KQC8K5OH41e0
+	pAaSdALvnuok6wm3tivX7U2GYJKSqR5+EOGZxyP+1skYDrOGpq7DbkD+uCdxgFFmWVcs34Ts8Zq5/
+	tLo+apMk+5hBO3cC/IQEnGuGTonPhbUE9Pey6+PqxBL4L8IrEfCdAJ9KfY8FMx8TsJw6bl5jidLzO
+	L9pcQ/Hcg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kUS3Y-0001D4-2j; Mon, 19 Oct 2020 10:06:20 +0000
+	id 1kUS4x-0001WB-9S; Mon, 19 Oct 2020 10:07:47 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kUS3W-0001CK-8M
- for linux-nvme@lists.infradead.org; Mon, 19 Oct 2020 10:06:18 +0000
+ id 1kUS4v-0001VJ-Cd
+ for linux-nvme@lists.infradead.org; Mon, 19 Oct 2020 10:07:46 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 43E9BAEA2
- for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2020 10:06:17 +0000 (UTC)
-Subject: Re: [PATCH] nvme-fc: wait for queues to freeze before calling
- update_hr_hw_queues
+ by mx2.suse.de (Postfix) with ESMTP id 47E9BAC23
+ for <linux-nvme@lists.infradead.org>; Mon, 19 Oct 2020 10:07:44 +0000 (UTC)
+Subject: Re: [PATCH] nvme-fc: shorten reconnect delay if possible for FC
 To: linux-nvme@lists.infradead.org
-References: <20201016211724.48707-1-james.smart@broadcom.com>
+References: <20201016212928.49429-1-james.smart@broadcom.com>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <112e9185-bd5e-24f6-d893-163c011c6b60@suse.de>
-Date: Mon, 19 Oct 2020 12:06:16 +0200
+Message-ID: <c59178ea-da88-3d07-3e16-c6e15b5e2028@suse.de>
+Date: Mon, 19 Oct 2020 12:07:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201016211724.48707-1-james.smart@broadcom.com>
+In-Reply-To: <20201016212928.49429-1-james.smart@broadcom.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201019_060618_403588_0DA45EA0 
-X-CRM114-Status: GOOD (  19.20  )
+X-CRM114-CacheID: sfid-20201019_060745_567687_EA08C2C0 
+X-CRM114-Status: GOOD (  21.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,20 +72,26 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTAvMTYvMjAgMTE6MTcgUE0sIEphbWVzIFNtYXJ0IHdyb3RlOgo+IE9uIHJlY29ubmVjdCwg
-dGhlIGNvZGUgY3VycmVudGx5IGRvZXMgbm90IGZyZWV6ZSB0aGUgY29udHJvbGxlciBiZWZvcmUK
-PiBwb3NzaWJseSB1cGRhdGluZyB0aGUgbnVtYmVyIGh3IHF1ZXVlcyBmb3IgdGhlIGNvbnRyb2xs
-ZXIuCj4gCj4gQWRkIHRoZSBmcmVlemUgYmVmb3JlIHVwZGF0aW5nIHRoZSBudW1iZXIgb2YgaHcg
-cXVldWVzLiBOb3RlOiB0aGUgcXVldWVzCj4gYXJlIGFscmVhZHkgc3RhcnRlZCBhbmQgcmVtYWlu
-IHN0YXJ0ZWQgdGhyb3VnaCB0aGUgcmVjb25uZWN0Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IEphbWVz
-IFNtYXJ0IDxqYW1lcy5zbWFydEBicm9hZGNvbS5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL252bWUv
-aG9zdC9mYy5jIHwgNyArKysrKy0tCj4gICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQo+IFJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3Vz
-ZS5kZT4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAg
-ICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
-R21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5i
-ZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxp
-c3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
-b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+T24gMTAvMTYvMjAgMTE6MjkgUE0sIEphbWVzIFNtYXJ0IHdyb3RlOgo+IFdlJ3ZlIGhhZCBzZXZl
+cmFsIGNvbXBsYWludHMgYWJvdXQgYSAxMHMgcmVjb25uZWN0IGRlbGF5ICh0aGUgZGVmYXVsdCkK
+PiB3aGVuIHRoZXJlIHdhcyBhbiBlcnJvciB3aGlsZSB0aGVyZSBpcyBjb25uZWN0aXZpdHkgdG8g
+YSBzdWJzeXN0ZW0uCj4gVGhlIG1heF9yZWNvbm5lY3RzIGFuZCByZWNvbm5lY3RfZGVsYXkgYXJl
+IHNldCBpbiBjb21tb24gY29kZSBwcmlvciB0bwo+IGNhbGxpbmcgdGhlIHRyYW5zcG9ydCB0byBj
+cmVhdGUgdGhlIGNvbnRyb2xsZXIuCj4gCj4gVGhpcyBjaGFuZ2UgY2hlY2tzIGlmIHRoZSBkZWZh
+dWx0IHJlY29ubmVjdCBkZWxheSBpcyBiZWluZyB1c2VkLCBhbmQgaWYKPiBzbywgaXQgYWRqdXN0
+cyBpdCB0byBhIHNob3J0ZXIgcGVyaW9kICgycykgZm9yIHRoZSBudm1lLWZjIHRyYW5zcG9ydC4K
+PiBJdCBkb2VzIHNvIGJ5IGNhbGN1bGF0aW5nIHRoZSBjb250cm9sbGVyIGxvc3MgdG1vIHdpbmRv
+dywgY2hhbmdpbmcgdGhlCj4gdmFsdWUgb2YgdGhlIHJlY29ubmVjdCBkZWxheSwgYW5kIHRoZW4g
+cmVjYWxjdWxhdGluZyB0aGUgbWF4aW11bSBudW1iZXIKPiBvZiByZWNvbm5lY3QgYXR0ZW1wdHMg
+YWxsb3dlZC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKYW1lcyBTbWFydCA8amFtZXMuc21hcnRAYnJv
+YWRjb20uY29tPgo+IC0tLQo+ICAgZHJpdmVycy9udm1lL2hvc3QvZmMuYyB8IDE5ICsrKysrKysr
+KysrKysrKysrKy0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0
+aW9uKC0pCj4gClJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZQoKQ2hl
+ZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5l
+bCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhm
+ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNj
+aMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1u
+dm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9saW51eC1udm1lCg==
