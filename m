@@ -2,82 +2,60 @@ Return-Path: <SRS0=Xx51=D2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 006B6C433E7
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 00:52:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F7DC433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 10:04:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 46DE522272
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 00:52:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6BDCA22257
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 10:04:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rHlmFUpb";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K0BfZwLc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46DE522272
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="v53doH2y"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BDCA22257
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=agJFwO/nIy2UbpvPNdQYzvROr3UvY5m6eWdyqs34zEo=; b=rHlmFUpb1SLbr5CQ9j5/nQl2a
-	tv0nanY2dvkWWVX1Nacg+WPQRWU8FIE+HtMg5mPJGh5VYTQhGX5E6sD00J+vKqVOjHaVDqXFhCntN
-	QqM2yvFuSTaJgWCPCxNHV5A2LOYtoWjvbsxsJma5IGflafkwvic/5RPZCycpwNIpw8SNZuR2Pq5uE
-	MZD33OXrERpGZBi5+VulKeKwoUCA89XGI3hH0aZOWGkxYio8RdKqDUR74jUZSslnPnP2M/lgrW600
-	/wOCXZ/tIKbFL77w5XSI319TXsuQkodeZ1K7SGUQzdcmchoQxr2gLaJbitc8sAzrZ001tfz9XKO9w
-	mb5QaA4xg==;
+	 bh=+qlUv81qBkFvDoOp5W592em9V1OYPJ187uoq61C3m4c=; b=v53doH2yOzvcmTA90Uq1zMWt3
+	SRTeEL7IniwvTlO86R20LHpP/QE4zF2oqVHmdWLVhNA9vIwSidsDGQoFu3KAeerazhgY3AIxel2X+
+	ch4Ox0dM7Kc0nf25dFN9ZYAILESx1AAu8RVOzNR3wFMVVqJpOTxPsM/dfRBvJdi/+NBBmK4HU3d6e
+	AfvJu0fUCnCD/OsWXbECjj9aBu1SES0KuVnebo9YOoW7SVsVyVRYxhd6QNBBP6QjUl2lAhyLz0Fyj
+	6zn+LQR9fkVcweW1NM7zf20J5e/uMK/J6KuOzKG/hbtIXY/WtoZISFQSWJDvyAPNkwrm6RQyQVLT4
+	dEm+KAOCg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kUJPL-0004jI-CB; Mon, 19 Oct 2020 00:52:15 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1kUS1O-0000mH-H5; Mon, 19 Oct 2020 10:04:06 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kUJPG-0004iL-3s
- for linux-nvme@lists.infradead.org; Mon, 19 Oct 2020 00:52:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603068727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fE/Y48CjGF5exAFdQXpq91w93L8qvd2SuneNHFuHjak=;
- b=K0BfZwLc/GpCZ0vbBQK0/6af2h9WVKMcsq4RsopBASqxSkSiU/oQ5hwIqmoHM8bZLeVUtK
- S/a1uQ3kphsiI2x0tOqeMVdc7ExuOM7C4Kx/o6HAJej2pu4hfR9o1Xko6doEj0iRpTVZBR
- Pnsaiy9OJwG9pgxQW4MCeu79EksFb1I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-euvLwKOSMQCm2r3_YSjqSA-1; Sun, 18 Oct 2020 20:50:46 -0400
-X-MC-Unique: euvLwKOSMQCm2r3_YSjqSA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B877C1868403;
- Mon, 19 Oct 2020 00:50:43 +0000 (UTC)
-Received: from T590 (ovpn-12-185.pek2.redhat.com [10.72.12.185])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6F8D5D9F3;
- Mon, 19 Oct 2020 00:50:33 +0000 (UTC)
-Date: Mon, 19 Oct 2020 08:50:29 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 1/4] blk-mq: check rq->state explicitly in
- blk_mq_tagset_count_completed_rqs
-Message-ID: <20201019005029.GB1301072@T590>
-References: <20201016142811.1262214-1-ming.lei@redhat.com>
- <20201016142811.1262214-2-ming.lei@redhat.com>
+ id 1kUS1L-0000lG-4d
+ for linux-nvme@lists.infradead.org; Mon, 19 Oct 2020 10:04:04 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EA10EAEAB;
+ Mon, 19 Oct 2020 10:04:00 +0000 (UTC)
+Subject: Re: [PATCH] nvme-fc: fix error loop in create_hw_io_queues
+To: James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org
+References: <20201016210604.48542-1-james.smart@broadcom.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <a49f995b-d256-51f9-e004-e975fab81104@suse.de>
+Date: Mon, 19 Oct 2020 12:04:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201016142811.1262214-2-ming.lei@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201016210604.48542-1-james.smart@broadcom.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201018_205210_339690_998BD27A 
-X-CRM114-Status: GOOD (  20.72  )
+X-CRM114-CacheID: sfid-20201019_060403_289657_B943C744 
+X-CRM114-Status: GOOD (  21.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,51 +67,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 16, 2020 at 10:28:08PM +0800, Ming Lei wrote:
-> blk_mq_tagset_count_completed_rqs() is called from
-> blk_mq_tagset_wait_completed_request() for draining requests to be
-> completed remotely. What we need to do is to see request->state to
-> switch to non-MQ_RQ_COMPLETE.
-> 
-> So check MQ_RQ_COMPLETE explicitly in blk_mq_tagset_count_completed_rqs().
-> 
-> Meantime mark flush request as IDLE in its .end_io() for aligning to
-> end normal request because flush request may stay in inflight tags in case
-> of !elevator, so we need to change its state into IDLE.
-> 
-> Cc: Chao Leng <lengchao@huawei.com>
-> Cc: Sagi Grimberg <sagi@grimberg.me>
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> ---
->  block/blk-flush.c  | 2 ++
->  block/blk-mq-tag.c | 2 +-
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/block/blk-flush.c b/block/blk-flush.c
-> index 53abb5c73d99..31a2ae04d3f0 100644
-> --- a/block/blk-flush.c
-> +++ b/block/blk-flush.c
-> @@ -231,6 +231,8 @@ static void flush_end_io(struct request *flush_rq, blk_status_t error)
->  		return;
->  	}
->  
-> +	WRITE_ONCE(rq->state, MQ_RQ_IDLE);
-
-oops, the above line should have been:
-
-	WRITE_ONCE(flush_rq->state, MQ_RQ_IDLE);
-
-Thanks,
-Ming
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMTAvMTYvMjAgMTE6MDYgUE0sIEphbWVzIFNtYXJ0IHdyb3RlOgo+IFRoZSBsb29wIHRoYXQg
+YmFja3Mgb3V0IG9mIGh3IGlvIHF1ZXVlIGNyZWF0aW9uIGNvbnRpbnVlcyB0aHJvdWdoIGluZGV4
+Cj4gMCwgd2hpY2ggY29ycmVzcG9uZHMgdG8gdGhlIGFkbWluIHF1ZXVlIGFzIHdlbGwuCj4gCj4g
+Rml4IHRoZSBsb29wIHNvIGl0IG9ubHkgcHJvY2VlZHMgdGhyb3VnaCBpbmRleGVzIDEuLm4gd2hp
+Y2ggY29ycmVzcG9uZCB0bwo+IGlvIHF1ZXVlcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKYW1lcyBT
+bWFydCA8amFtZXMuc21hcnRAYnJvYWRjb20uY29tPgo+IC0tLQo+ICAgZHJpdmVycy9udm1lL2hv
+c3QvZmMuYyB8IDIgKy0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9mYy5jIGIvZHJpdmVy
+cy9udm1lL2hvc3QvZmMuYwo+IGluZGV4IGUyZTA5ZTI1YzA1Ni4uZjAwMjUyMjE0NmUyIDEwMDY0
+NAo+IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZjLmMKPiArKysgYi9kcml2ZXJzL252bWUvaG9z
+dC9mYy5jCj4gQEAgLTIzMTQsNyArMjMxNCw3IEBAIG52bWVfZmNfY3JlYXRlX2h3X2lvX3F1ZXVl
+cyhzdHJ1Y3QgbnZtZV9mY19jdHJsICpjdHJsLCB1MTYgcXNpemUpCj4gICAJcmV0dXJuIDA7Cj4g
+ICAKPiAgIGRlbGV0ZV9xdWV1ZXM6Cj4gLQlmb3IgKDsgaSA+PSAwOyBpLS0pCj4gKwlmb3IgKDsg
+aSA+IDA7IGktLSkKPiAgIAkJX19udm1lX2ZjX2RlbGV0ZV9od19xdWV1ZShjdHJsLCAmY3RybC0+
+cXVldWVzW2ldLCBpKTsKPiAgIAlyZXR1cm4gcmV0Owo+ICAgfQo+IAo+IApSZXZpZXdlZC1ieTog
+SGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2UuZGU+CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBI
+YW5uZXMgUmVpbmVja2UgICAgICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0Cmhh
+cmVAc3VzZS5kZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICs0OSA5MTEgNzQwNTMgNjg4
+ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
+YmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJ
+bWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9y
+ZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
