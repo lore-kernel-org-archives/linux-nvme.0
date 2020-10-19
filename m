@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9221FC433DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 14:59:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BB7C433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 15:02:05 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 089A1222D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 14:59:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9A006222D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Oct 2020 15:02:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="c4KnGf9t";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="PIVGEZRE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 089A1222D9
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2ICZmLlZ";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="bZzXmrSV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A006222D9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,77 +26,76 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:To:References:Message-Id:Date:In-Reply-To:From:
 	Subject:Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=bFn8JPlDJLUd7q4BhVq6xJZwGcq8q8aKZgsWFM65Jnk=; b=c4KnGf9thmktZXr41BsA4zwUe
-	exIZXce/NGYwrjCJvkBwSB05D4xP7LkaFVBl13MPbLzT5YtSkSWBru+rnWSMcGQgnuw3AXvd+bQFT
-	qKReMW1eG+p4ASVmJKRkzgZOuq0EA1P0YIc+rWdDJTCv4aPN598RL0y1bfFYOYOWLb5BPlLgOBLSd
-	mTJPRN+BUhCyqmNRVqUodFHZ3wTI8P4majBARJTzWxso+1j3GIdsp9EHA78skXH4oAv8x1jawqjEn
-	VTmPpMFLDeTJ54A6Ru16otNIRqNzEzrcjV7GbTge/e2TaGX5EJBAHa7BRMiqjJMxg97zMY7BSzRYO
-	D8Fvi/8HQ==;
+	 bh=9Q6loGKKZPtBcymJjyKpwDU7i2a0gWuH76hs7L2Ic8g=; b=2ICZmLlZxAxLzvHMABdxpTO6M
+	M+1gfQifNyYS68H3eW2CutGSY+C1Pkkmyvwx5AiUB3cNKwgEzrTnupIczrhZHv2y0RW50MJ2AOpfb
+	tML8lf0wL9oJHnG9RGqlIXWVje0pUpcaAviERv98hwSWzM7ok5soJiGmZUrdYll/DV72WzDSQuexT
+	KTTNM0Pq7dBcBXjJI4d6xAdFpeCtUDq/l6VJHB8D2TDtRNW1S2a+XKIwnIX+3NdfdspnyHNrRV5dN
+	cn1jpo7hP+fdm2sC+OG4WkG9PZ0s6LEf+g4YZGIeMAQYJ7b8vgYLOkst5fPiQ6MzVNUZzYk6AypQ6
+	d8odaR9EA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kUWd7-00086z-1j; Mon, 19 Oct 2020 14:59:21 +0000
+	id 1kUWfe-0000BD-Ak; Mon, 19 Oct 2020 15:01:58 +0000
 Received: from userp2120.oracle.com ([156.151.31.85])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kUWd4-00086E-02
- for linux-nvme@lists.infradead.org; Mon, 19 Oct 2020 14:59:19 +0000
+ id 1kUWfb-0000Ah-Dd
+ for linux-nvme@lists.infradead.org; Mon, 19 Oct 2020 15:01:56 +0000
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09JEtYI4169437;
- Mon, 19 Oct 2020 14:59:16 GMT
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09JF0Eja190652;
+ Mon, 19 Oct 2020 15:01:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=content-type :
  mime-version : subject : from : in-reply-to : date : cc :
  content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=k2ve5aDzngQwz4/9KvkBZ9ItJnh86sEekMd8zK55YNA=;
- b=PIVGEZREy12ed6aHwBA6l2DBQ9Yto6Pe+eIJUGlsLqWlD3JbonCm0tKQrV6NYy12pyyA
- aO0VVGCjVHUm1N6EHAl7fd4gF87nIYh8glgbu+Cd9IdlVL3BYqtGtpvN/wVOEqfPQE9K
- lgo2XQH2TvgnqDRWpXVsViQBJnV41R4ERr5jxjvJNi0Kk2yxjpW74zJ1mLEkgQT+xe5q
- LeRiQn4Kbc3MPXgKHwJsE05CbXJFbs4E0+7N1+PiYbcgd9mBYOqPpOw/FZ5lIA7YZFn2
- u0bcaXV9Bd7FlkbmnSfb4JcI4pIvkTWmdNJnRbYuwguXDq2GAUl3XGx3qGOrgvMJxsLO rw== 
+ s=corp-2020-01-29; bh=NwCgnJCOgOLN0nBE1yn3u1s/cNMfcnW1K7iY3LFp3W4=;
+ b=bZzXmrSVlkOn8UfV7SXpUWkPHHdrME9SC4pyuQU0pUv7ZcMUBv2pcNLCli0Jg4PcUMCs
+ /tumpVM07uXa8+dCh660wZeZXlUsnuhPRlLaKJXuk3p9vO6tNb4HuQ7VK0+NXe6fHCae
+ ZseDiUXlQzWEMqhzRqjKES4vTTI4l8uZgi0tLSQX3EBaVViWS7PE7Rm+avHz0GKvG4Z6
+ sxLr01E4q/VGe9pXHmEIJ09b2IfOIhZV6tSxt0nKd3jV94teuUhvhMBIqmccaA9wIy4B
+ MjldvUSQpKrd9s2T0A1CBnfZD68Ow9KFC7nKrV2NFHe5wJ4LBbrlKKyCR1h0fKGPy1Ym Tg== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 347s8mnxt9-1
+ by userp2120.oracle.com with ESMTP id 347s8mnyep-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 19 Oct 2020 14:59:16 +0000
+ Mon, 19 Oct 2020 15:01:53 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09JEtpFg126989;
- Mon, 19 Oct 2020 14:57:15 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 348acpjsjq-1
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09JExpm9137288;
+ Mon, 19 Oct 2020 14:59:52 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 348acpjuxq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Oct 2020 14:57:15 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09JEvEIZ014949;
- Mon, 19 Oct 2020 14:57:15 GMT
+ Mon, 19 Oct 2020 14:59:52 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09JExpEr030218;
+ Mon, 19 Oct 2020 14:59:52 GMT
 Received: from [192.168.1.25] (/70.114.128.235)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 19 Oct 2020 07:57:14 -0700
+ with ESMTP ; Mon, 19 Oct 2020 07:59:51 -0700
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH] nvme-fc: wait for queues to freeze before calling
- update_hr_hw_queues
+Subject: Re: [PATCH] nvme-fc: shorten reconnect delay if possible for FC
 From: Himanshu Madhani <himanshu.madhani@oracle.com>
-In-Reply-To: <20201016211724.48707-1-james.smart@broadcom.com>
-Date: Mon, 19 Oct 2020 09:57:14 -0500
-Message-Id: <14FF47F2-A7A4-4335-82D0-86615D1920DF@oracle.com>
-References: <20201016211724.48707-1-james.smart@broadcom.com>
+In-Reply-To: <20201016212928.49429-1-james.smart@broadcom.com>
+Date: Mon, 19 Oct 2020 09:59:51 -0500
+Message-Id: <11A701E9-B011-402F-9B78-BD5CD265D27B@oracle.com>
+References: <20201016212928.49429-1-james.smart@broadcom.com>
 To: James Smart <james.smart@broadcom.com>
 X-Mailer: Apple Mail (2.3608.120.23.2.4)
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9778
  signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  bulkscore=0 adultscore=0
- mlxscore=0 malwarescore=0 suspectscore=0 spamscore=0 mlxlogscore=999
+ mlxscore=0 malwarescore=0 suspectscore=2 spamscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010190104
+ definitions=main-2010190105
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9778
  signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- suspectscore=0
+ suspectscore=2
  lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
  phishscore=0 clxscore=1015 bulkscore=0 impostorscore=0 adultscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010190104
+ engine=8.12.0-2009150000 definitions=main-2010190105
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201019_105918_204482_46818347 
-X-CRM114-Status: GOOD (  27.79  )
+X-CRM114-CacheID: sfid-20201019_110155_634871_F1549EEF 
+X-CRM114-Status: GOOD (  34.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,40 +115,68 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-> On Oct 16, 2020, at 4:17 PM, James Smart <james.smart@broadcom.com> wrote:
+> On Oct 16, 2020, at 4:29 PM, James Smart <james.smart@broadcom.com> wrote:
 > 
-> On reconnect, the code currently does not freeze the controller before
-> possibly updating the number hw queues for the controller.
+> We've had several complaints about a 10s reconnect delay (the default)
+> when there was an error while there is connectivity to a subsystem.
+> The max_reconnects and reconnect_delay are set in common code prior to
+> calling the transport to create the controller.
 > 
-> Add the freeze before updating the number of hw queues. Note: the queues
-> are already started and remain started through the reconnect.
+> This change checks if the default reconnect delay is being used, and if
+> so, it adjusts it to a shorter period (2s) for the nvme-fc transport.
+> It does so by calculating the controller loss tmo window, changing the
+> value of the reconnect delay, and then recalculating the maximum number
+> of reconnect attempts allowed.
 > 
 > Signed-off-by: James Smart <james.smart@broadcom.com>
 > ---
-> drivers/nvme/host/fc.c | 7 +++++--
-> 1 file changed, 5 insertions(+), 2 deletions(-)
+> drivers/nvme/host/fc.c | 19 ++++++++++++++++++-
+> 1 file changed, 18 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index c81ebe94d8fe..7067aaf50bf7 100644
+> index 6352068c0c4a..1af7c6f358f5 100644
 > --- a/drivers/nvme/host/fc.c
 > +++ b/drivers/nvme/host/fc.c
-> @@ -2885,11 +2885,14 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
-> 	if (ret)
-> 		goto out_delete_hw_queues;
+> @@ -26,6 +26,10 @@ enum nvme_fc_queue_flags {
+> };
 > 
-> -	if (prior_ioq_cnt != nr_io_queues)
-> +	if (prior_ioq_cnt != nr_io_queues) {
-> 		dev_info(ctrl->ctrl.device,
-> 			"reconnect: revising io queue count from %d to %d\n",
-> 			prior_ioq_cnt, nr_io_queues);
-> -	blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
-> +		nvme_wait_freeze(&ctrl->ctrl);
-> +		blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
-> +		nvme_unfreeze(&ctrl->ctrl);
+> #define NVME_FC_DEFAULT_DEV_LOSS_TMO	60	/* seconds */
+> +#define NVME_FC_DEFAULT_RECONNECT_TMO	2	/* delay between reconnects
+> +						 * when connected and a
+> +						 * connection failure.
+> +						 */
+> 
+> struct nvme_fc_queue {
+> 	struct nvme_fc_ctrl	*ctrl;
+> @@ -3387,7 +3391,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+> {
+> 	struct nvme_fc_ctrl *ctrl;
+> 	unsigned long flags;
+> -	int ret, idx;
+> +	int ret, idx, ctrl_loss_tmo;
+> 
+> 	if (!(rport->remoteport.port_role &
+> 	    (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
+> @@ -3413,6 +3417,19 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+> 		goto out_free_ctrl;
+> 	}
+> 
+> +	/*
+> +	 * if ctrl_loss_tmo is being enforced and the default reconnect delay
+> +	 * is being used, change to a shorter reconnect delay for FC.
+> +	 */
+> +	if (opts->max_reconnects != -1 &&
+> +	    opts->reconnect_delay == NVMF_DEF_RECONNECT_DELAY &&
+> +	    opts->reconnect_delay > NVME_FC_DEFAULT_RECONNECT_TMO) {
+> +		ctrl_loss_tmo = opts->max_reconnects * opts->reconnect_delay;
+> +		opts->reconnect_delay = NVME_FC_DEFAULT_RECONNECT_TMO;
+> +		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
+> +						opts->reconnect_delay);
 > +	}
-> 
-> 	return 0;
-> 
+> +
+> 	ctrl->ctrl.opts = opts;
+> 	ctrl->ctrl.nr_reconnects = 0;
+> 	if (lport->dev)
 > -- 
 > 2.26.2
 > 
@@ -158,7 +185,7 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 > Linux-nvme@lists.infradead.org
 > http://lists.infradead.org/mailman/listinfo/linux-nvme
 
-Looks Good. 
+Looks good.
 
 Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 
