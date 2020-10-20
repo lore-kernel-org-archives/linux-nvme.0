@@ -2,74 +2,61 @@ Return-Path: <SRS0=uU0g=D3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C647C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 09:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9800C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 09:08:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 911E92224F
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 09:04:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2CD7322283
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 09:08:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SEQ49zAA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 911E92224F
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iGGuYvGN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2CD7322283
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1kDowDB61rM492zB798vLery4JMTuUEJsQ1wmlZ0zyM=; b=SEQ49zAAGskjR4R8JV0NipXnA
-	a0IOPQUkTqG/D01lrrzA8CMQiavDHvnYK91CuvhhlKWEwcMR4hotiwv0WUotPr9cVW1jC42Sn2PbM
-	qBLG6kLXDU3Z7tvQE5hXb4Psqizd63o+CliPjf71ON+VUMcW9eoz1xhGuboWiVOS5nrKlfJJT5SsU
-	dRXTpdnZ5GHDL74WPOD9ZizN1T2G2SNvZPu5Z0doTRilKjQ7ufgAAc0rWPCKh7dgssAmMB5FXTrr8
-	0xShauE2aaoxEN6iksKWriYJ422GxKqdwU21F1x+e+PdzzDM3CWp6bgri9mADqsgptXf20iakfJMk
-	HCSg1JlIg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PjFTpKypU+WYWLBJK7uQCOtIQjrWJIdl9HA8JL/sRTk=; b=iGGuYvGN16uxVyeS9swNLsP6b+
+	KA7iyZVdD6xWYNBAINgx1M4pAlW+s+ORvAN0VJouO5tmnD9gQh6gX1J9JJyyiz8TGACf5iLELSfz8
+	QQp4l4OCtVKzjnfL48DDvQyVuuWRphZL+BMJdnOe33mCsQVB4fyOY5XLOILx+UMeoqOrBQYahbwW6
+	buUJXCIsCfI33Fkj7h2eALCkXSfgWyQPZCwP0fcYAD3SxSATG8uAGmlvLJoPklnILK6QZGMZP/pgT
+	BJzJfPoESkNl/X30YnejEeEP+hJu3+eKoXUnDooNlDI/R1DUytaYrI4W5jRnucVZtne8ZwryLhJvS
+	CxKjkX9A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kUnZW-0006JI-4T; Tue, 20 Oct 2020 09:04:46 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187] helo=huawei.com)
+	id 1kUnd0-0007KG-0X; Tue, 20 Oct 2020 09:08:22 +0000
+Received: from szxga05-in.huawei.com ([45.249.212.191] helo=huawei.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kUnZT-0006GZ-7J
- for linux-nvme@lists.infradead.org; Tue, 20 Oct 2020 09:04:44 +0000
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
- by Forcepoint Email with ESMTP id 58830B7502192D6CB01D;
- Tue, 20 Oct 2020 17:04:30 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Tue, 20 Oct 2020 17:04:29 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1913.5; Tue, 20
- Oct 2020 17:04:29 +0800
-Subject: Re: [PATCH V2 3/4] nvme: tcp: complete non-IO requests atomically
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>, "Christoph
- Hellwig" <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-References: <20201020085301.1553959-1-ming.lei@redhat.com>
- <20201020085301.1553959-4-ming.lei@redhat.com>
+ id 1kUncx-0007IC-M0
+ for linux-nvme@lists.infradead.org; Tue, 20 Oct 2020 09:08:20 +0000
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 5EEC32CE191A0F24048E;
+ Tue, 20 Oct 2020 17:08:15 +0800 (CST)
+Received: from huawei.com (10.29.88.127) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Tue, 20 Oct 2020
+ 17:08:08 +0800
 From: Chao Leng <lengchao@huawei.com>
-Message-ID: <e1d53ce3-ea27-439e-5e7a-ba790742908e@huawei.com>
-Date: Tue, 20 Oct 2020 17:04:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+To: <linux-nvme@lists.infradead.org>
+Subject: [PATCH 0/3] avoid race between time out and tear down
+Date: Tue, 20 Oct 2020 17:08:08 +0800
+Message-ID: <20201020090808.27702-1-lengchao@huawei.com>
+X-Mailer: git-send-email 2.16.4
 MIME-Version: 1.0
-In-Reply-To: <20201020085301.1553959-4-ming.lei@redhat.com>
-Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
- dggema772-chm.china.huawei.com (10.1.198.214)
+X-Originating-IP: [10.29.88.127]
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201020_050443_510618_4EFFCA17 
-X-CRM114-Status: GOOD (  24.40  )
+X-CRM114-CacheID: sfid-20201020_050820_003814_EEBFBEFC 
+X-CRM114-Status: UNSURE (   5.51  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,135 +68,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Yi Zhang <yi.zhang@redhat.com>, Sagi Grimberg <sagi@grimberg.me>
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, lengchao@huawei.com,
+ sagi@grimberg.me
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Avoid race between time out and tear down for rdma and tcp.
 
+Chao Leng (3):
+  nvme-core: introduce sync io queues
+  nvme-rdma: avoid race between time out and tear down
+  nvme-tcp: avoid race between time out and tear down
 
-On 2020/10/20 16:53, Ming Lei wrote:
-> During controller's CONNECTING state, admin/fabric/connect requests
-> are submitted for recovery controller, and we allow to abort this request
-> directly in time out handler for not blocking setup procedure.
-> 
-> So timout vs. normal completion race exists on these requests since
-> admin/fabirc/connect queues won't be shutdown before handling timeout
-> during CONNECTING state.
-> 
-> Add atomic completion for requests from connect/fabric/admin queue for
-> avoiding the race.
-> 
-> CC: Chao Leng <lengchao@huawei.com>
-> Cc: Sagi Grimberg <sagi@grimberg.me>
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Tested-by: Yi Zhang <yi.zhang@redhat.com>
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> ---
->   drivers/nvme/host/tcp.c | 40 +++++++++++++++++++++++++++++++++++++---
->   1 file changed, 37 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index d6a3e1487354..7e85bd4a8d1b 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -30,6 +30,8 @@ static int so_priority;
->   module_param(so_priority, int, 0644);
->   MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
->   
-> +#define REQ_STATE_COMPLETE     0
-> +
->   enum nvme_tcp_send_state {
->   	NVME_TCP_SEND_CMD_PDU = 0,
->   	NVME_TCP_SEND_H2C_PDU,
-> @@ -56,6 +58,8 @@ struct nvme_tcp_request {
->   	size_t			offset;
->   	size_t			data_sent;
->   	enum nvme_tcp_send_state state;
-> +
-> +	unsigned long		comp_state;
-I do not think adding state is a good idea.
-It is similar to rq->state.
-In the teardown process, after quiesced queues delete the timer and
-cancel the timeout work maybe a better option.
-I will send the patch later.
-The patch is already tested with roce more than one week.
->   };
->   
->   enum nvme_tcp_queue_flags {
-> @@ -469,6 +473,33 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
->   	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
->   }
->   
-> +/*
-> + * requests originated from admin, fabrics and connect_q have to be
-> + * completed atomically because we don't cover the race between timeout
-> + * and normal completion for these queues.
-> + */
-> +static inline bool nvme_tcp_need_atomic_complete(struct request *rq)
-> +{
-> +	return !rq->rq_disk;
-> +}
-> +
-> +static inline void nvme_tcp_clear_rq_complete(struct request *rq)
-> +{
-> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-> +
-> +	if (unlikely(nvme_tcp_need_atomic_complete(rq)))
-> +		clear_bit(REQ_STATE_COMPLETE, &req->comp_state);
-> +}
-> +
-> +static inline bool nvme_tcp_mark_rq_complete(struct request *rq)
-> +{
-> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-> +
-> +	if (unlikely(nvme_tcp_need_atomic_complete(rq)))
-> +		return !test_and_set_bit(REQ_STATE_COMPLETE, &req->comp_state);
-> +	return true;
-> +}
-> +
->   static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
->   		struct nvme_completion *cqe)
->   {
-> @@ -483,7 +514,8 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
->   		return -EINVAL;
->   	}
->   
-> -	if (!nvme_try_complete_req(rq, cqe->status, cqe->result))
-> +	if (nvme_tcp_mark_rq_complete(rq) &&
-> +			!nvme_try_complete_req(rq, cqe->status, cqe->result))
->   		nvme_complete_rq(rq);
->   	queue->nr_cqe++;
->   
-> @@ -674,7 +706,8 @@ static inline void nvme_tcp_end_request(struct request *rq, u16 status)
->   {
->   	union nvme_result res = {};
->   
-> -	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
-> +	if (nvme_tcp_mark_rq_complete(rq) &&
-> +			!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
->   		nvme_complete_rq(rq);
->   }
->   
-> @@ -2174,7 +2207,7 @@ static void nvme_tcp_complete_timed_out(struct request *rq)
->   	/* fence other contexts that may complete the command */
->   	mutex_lock(&to_tcp_ctrl(ctrl)->teardown_lock);
->   	nvme_tcp_stop_queue(ctrl, nvme_tcp_queue_id(req->queue));
-> -	if (!blk_mq_request_completed(rq)) {
-> +	if (nvme_tcp_mark_rq_complete(rq) && !blk_mq_request_completed(rq)) {
->   		nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
->   		blk_mq_complete_request(rq);
->   	}
-> @@ -2315,6 +2348,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
->   	if (unlikely(ret))
->   		return ret;
->   
-> +	nvme_tcp_clear_rq_complete(rq);
->   	blk_mq_start_request(rq);
->   
->   	nvme_tcp_queue_request(req, true, bd->last);
-> 
+ drivers/nvme/host/core.c |  8 ++++++--
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/rdma.c | 12 ++----------
+ drivers/nvme/host/tcp.c  | 14 +++-----------
+ 4 files changed, 12 insertions(+), 23 deletions(-)
+
+-- 
+2.16.4
+
 
 _______________________________________________
 Linux-nvme mailing list
