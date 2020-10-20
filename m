@@ -2,21 +2,21 @@ Return-Path: <SRS0=uU0g=D3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC030C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 08:18:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B93EC433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 08:22:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 45A062225F
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 08:18:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C1A092222F
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 08:22:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RJaQ3i/N"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45A062225F
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YWgcZYnM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1A092222F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,57 +25,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ARitmEvlgnDqXjiUxh/1zpPmri8FbalPMuxXFjplXY8=; b=RJaQ3i/NY7GAjX+VSCP0K3N/3
-	asOd5RBF3ozE4BRN1/G2zOnkkOqgjMrYhtsJCRE0SmA5vu/an4NJTd5/4ONfGUohZGnK/vDAHC9fN
-	xYklR+3//eIlef4IpfHOrnQwqcfpWRIgSCfjHQ3tEl5Q2ZdsNDxu2+M/Hp/XlPq6r0sRD3txREQ/b
-	UEpdL3C5GKGgmpoJcultbc5CMlKlTiS6MavQhWIBSISvK3j/gxLbJ+a2puxfaKuDChXeY+bbkh/2B
-	LpRprRKMTUwcgS5EbScMH/NpYoTFjahmqB7rLq9iTAHIR5P2UY7WvZWtMicR9jMV6tVKwrsufnodM
-	5kI9uEk3A==;
+	 bh=/Va4vDb5Pm/NtoeYdezbBKoxYoYneeQmgLJRqz95FOg=; b=YWgcZYnMqSll9igGC6AzocPZp
+	r8o2Gnim3JGKxtmVs8HcGUnDoUlJl3Lt0MBdb8poDqVIC/cn1HF5q/dbKv1/mMJF81WBzlXngAfzX
+	u8kPl0ccZux8BwEjWZGmIpzwOaI0c3ddtEoreJQ/9mypklUWBRTGldZJ5dh+IRG5RUwOnwh8nAmVC
+	a3uVM9Dx+AZO+XhBr8XnVAx8WXIrTDsfAHknPa5lBGzuTYD0I8P641pCr3uVixGKP3qC1dbOcHMxu
+	XbRr1e9JzEywa/wFfaV2Fco0T3fdA/q6/4z/9vO6u9tVZoWfGL+221C8XNGqm+pCyOnZXLxZtORDH
+	FzleN8Kyg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kUmqR-0006wC-6c; Tue, 20 Oct 2020 08:18:11 +0000
-Received: from mail-pf1-f195.google.com ([209.85.210.195])
+	id 1kUmun-0007K4-JO; Tue, 20 Oct 2020 08:22:41 +0000
+Received: from mail-pl1-f196.google.com ([209.85.214.196])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kUmqO-0006vn-BV
- for linux-nvme@lists.infradead.org; Tue, 20 Oct 2020 08:18:09 +0000
-Received: by mail-pf1-f195.google.com with SMTP id b26so754299pff.3
- for <linux-nvme@lists.infradead.org>; Tue, 20 Oct 2020 01:18:07 -0700 (PDT)
+ id 1kUmum-0007Ji-3r
+ for linux-nvme@lists.infradead.org; Tue, 20 Oct 2020 08:22:40 +0000
+Received: by mail-pl1-f196.google.com with SMTP id d23so630438pll.7
+ for <linux-nvme@lists.infradead.org>; Tue, 20 Oct 2020 01:22:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9a+6sKAmBV43LprSEvx2bnxI5tahKLOoWlLatsiZeb4=;
- b=rKb4eowHROrdjKE/GDxB5tRbv7380sSW5brEDkJA3G5y6F84P7tzwd0PiRu2tN1Cnx
- zabUcyAYTZiXQkcByH8zMeYFjaQLGiYLvDx41dvf8/JUJgDUN1hVOyoLYE6qJRYkEPNC
- jv4y1i7OCgDyXrHH2lqvxRe75XB+BKLLE1hz2ojZNRhz0DrL3aa38ll6b8RnS7bLnglU
- t1W024K7h6qB38Jbf45SJ0OFkFgDBzkH6m7sv8sXyQW832GbxuvaHp6WcM7ArLMQBlKG
- iPNt9VtzViY9Hb4CqAX0oKbJE/+qVg6SiATyQPz8KD+X7bj86qyl1iwF+dKwi5ZJlCW8
- DRRw==
-X-Gm-Message-State: AOAM533T/4mV00ZD0Q5c2ZY8HaLkDYLO5eiKBx9iZZ1S2WBhx5paj01r
- MrFr4sMQEHRv0PbAQo5XpSA=
-X-Google-Smtp-Source: ABdhPJwGu/vU8qRrDOpjqBHR6iTTiRT8ydcD6MSgihrtLdaEg3MzX/hOgdfKyCPnUyewxf9CylSxWQ==
-X-Received: by 2002:a63:5c5e:: with SMTP id n30mr1727860pgm.54.1603181887134; 
- Tue, 20 Oct 2020 01:18:07 -0700 (PDT)
+ bh=z31PekHkikHiJQVMvh1NI0ltaYFmyA4L7i7/yCoq8Z4=;
+ b=IEsQCaOkBKpj1HlgStLSsRyj/0CQXqFtXgKXcoA+5MQ/VogGzbP32x0ZAu5NPcybKF
+ VZ5/J3W4ze/8YTGLF3Y0D2EZmKg9MMW3D/p0YdXLB6YG2R3ppXGIbbL658EyK8AqhnyQ
+ MKe4/LZb7TJX3X8wlpRaFVUTWKanJ5hNSJECm4mpOq+MPNBKiS11GI14k6bOHz5MajmA
+ TF1asUruwJllBFSF/8VC1oHkXNbhk9jz8BcVgJDyChVMPqCtDWvgFXSZbrPvaweUMbjA
+ SW1P7QxnjS4/2mnj47Kxa3Km3GO0n+UXYojeeqap6avy+pgwlCLlPaDEVy8M8wrryP4i
+ GESw==
+X-Gm-Message-State: AOAM5329JWDgJTcQx49EbcdWofdPV88PV8p0+r6oLXRnTghdR9SXp8fp
+ 8FF1vcTmeE2WFRcf9/yHGqw=
+X-Google-Smtp-Source: ABdhPJxgZVv9VTdKqBXu1WudiTmukKHl2TxiHFUwWrW/u5XoiIlvfk6nrU73rt02bGs8Tgh7gZQ9kw==
+X-Received: by 2002:a17:90a:1b6f:: with SMTP id
+ q102mr1830848pjq.10.1603182158896; 
+ Tue, 20 Oct 2020 01:22:38 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:104e:47d9:f0fe:a697?
  ([2601:647:4802:9070:104e:47d9:f0fe:a697])
- by smtp.gmail.com with ESMTPSA id z10sm1311270pff.218.2020.10.20.01.18.05
+ by smtp.gmail.com with ESMTPSA id p188sm1237449pgp.65.2020.10.20.01.22.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Oct 2020 01:18:06 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] nvmet-passthru: Limit mdts by BIO_MAX_PAGES
-To: Logan Gunthorpe <logang@deltatee.com>, linux-nvme@lists.infradead.org
-References: <20201019220406.19708-1-logang@deltatee.com>
+ Tue, 20 Oct 2020 01:22:38 -0700 (PDT)
+Subject: Re: [PATCH 0/1] nvmet: allow user to set req alloc flag
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+References: <20201020014417.3604-1-chaitanya.kulkarni@wdc.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <55a1515e-6051-c7d2-dc7a-003a0f61f98f@grimberg.me>
-Date: Tue, 20 Oct 2020 01:18:04 -0700
+Message-ID: <74e2bc85-3752-08fe-4f2c-07130ab4411d@grimberg.me>
+Date: Tue, 20 Oct 2020 01:22:35 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201019220406.19708-1-logang@deltatee.com>
+In-Reply-To: <20201020014417.3604-1-chaitanya.kulkarni@wdc.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201020_041808_422145_3ED4167C 
-X-CRM114-Status: GOOD (  17.10  )
+X-CRM114-CacheID: sfid-20201020_042240_165819_AAC8E794 
+X-CRM114-Status: GOOD (  18.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,41 +89,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: logang@deltatee.com, hch@lst.de
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-> index dacfa7435d0b..ed6b0586173e 100644
-> --- a/drivers/nvme/target/passthru.c
-> +++ b/drivers/nvme/target/passthru.c
-> @@ -22,11 +22,12 @@ static DEFINE_XARRAY(passthru_subsystems);
+> Hi,
 > 
->   static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
->   {
-> +	const int PG_TO_SECTOR = PAGE_SHIFT - SECTOR_SHIFT;
->   	struct nvmet_ctrl *ctrl = req->sq->ctrl;
->   	struct nvme_ctrl *pctrl = ctrl->subsys->passthru_ctrl;
->   	u16 status = NVME_SC_SUCCESS;
->   	struct nvme_id_ctrl *id;
-> -	u32 max_hw_sectors;
-> +	int max_hw_sectors;
->   	int page_shift;
+> When using NVMeOF target in the passthru mode we allocate the request
+> with BLK_MQ_REQ_NOWAIT flag. This allocates the request in the following
+> manner :-
 > 
->   	id = kzalloc(sizeof(*id), GFP_KERNEL);
-> @@ -45,9 +46,16 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
->   	 * which depends on the host's memory fragementation. To solve this,
->   	 * ensure mdts is limited to the pages equal to the number of segments.
->   	 */
-> -	max_hw_sectors = min_not_zero(pctrl->max_segments << (PAGE_SHIFT - 9),
-> +	max_hw_sectors = min_not_zero(pctrl->max_segments << PG_TO_SECTOR,
->   				      pctrl->max_hw_sectors);
+> nvme_alloc_request()
+>   blk_mq_alloc_rquest()
+>    blk_mq_queue_enter()
+>     if (flag & BLK_MQ_REQ_NOWAIT)
+>    	return -EBUSY; <-- return if busy.
+> 
+> On the NVMe controller which I've the fio random write workload running
+> parallel on 32 namespaces with higher queue depth results in I/O error,
+> where blk_mq_queue_enter() returning -EBUSY as shown above. This problem
+> is not easy to reproduce but occurs once in a while with following error
+> (See 1 for detailed log) :-
+> 
+> test1: (groupid=0, jobs=32): err= 5
+> (file:io_u.c:1744, func=io_u error, error=Input/output error):
+> 
+> When the flag BLK_MQ_REQ_NOWAIT is removed from the allocation the
+> workload doen't result in the error.
+> 
+> This patch fixes the problem with the request allocation by adding
+> a new configfs attribute so that user can optionally decide whether
+> to use BLK_MQ_REQ_NOWAIT or not. We retain the default behavior by
+> using BLK_MQ_REQ_NOWAIT when creating the nvmet passthru subsystem.
 
-I also liked the previous one better...
+Why should we ever set REQ_NOWAIT at all? Nothing prevents the
+host(s) queue depth from exceeding the controller queue depth...
 
 _______________________________________________
 Linux-nvme mailing list
