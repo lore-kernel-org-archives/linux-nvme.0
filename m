@@ -2,78 +2,81 @@ Return-Path: <SRS0=uU0g=D3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE6DC43457
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 08:56:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EDCC43457
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 08:56:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3F73520936
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 08:56:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 166F920936
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Oct 2020 08:56:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dOVDMjse";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D/Kdo6UR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F73520936
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ji96bQBD";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Pf/fZqh3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 166F920936
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vxwd29NPAgSqZ0epU9owbH9SsIlAbBS+ir0gMbGgIPw=; b=dOVDMjsebezFWL/vLcZUg8yidY
-	SuP7oIMYn/YSW8VG08Y0fUqA3scPdvXTcBjkpSItQCzUyi8AjWAq0r8ziPucpLeOnOwAQ05R4M+Ni
-	LuSg4e7FtJUASAykIEBSzF4eUj0wCReQEaBB98sgaXrUbRhU5rKiJCaV1rKM69hPGXVamSz0s3qCi
-	tuS0MtpScNFSZkn/5l6kABpZDlZ1WI5rvxyIrxpWpIfz+XddSg6J88jTmWNSz4SEnPJoYZ8Tg5poy
-	do8L+3RKpsx8xluB1/AbYlbu6AqSt6VH6zAm+qOSx+l1P/YpoMKijYZUODT1OGA4BNKue41K9PvFz
-	WtTj0ePw==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=ZhteQQ6U6H6BFYvDkrBVbZy3n5Pc14q5t4VzIF53Ui8=; b=ji96bQBD9ijRymb+/+aVVI9t9
+	Sk0Dq4tCrxRZgat7DdyxB2j3uuhtMABbrQkZihMcgRpONpT8CzdPve3wu/7k+llGIRId+lJ7HYYV0
+	c4IlUqUdOADaLy97yWKZViDjLRfWwWZdo78RIYYm/fQS4WT+2X8uIHGn4u8tHfBXAZOvLc0Kh3LHv
+	wck4WJhQ819/0X6yzi2D114MjWuUwNkKTaTueTRct+7zNwnvXH81JjNNgiMImm7gbj6LdKb66tpnB
+	UT2TXRmA43V/Zea/yBXlCbN9DHo7baKSjvO0oQvMk1ZK3QSfWNjm21Ebf+Lp4EOwA9III3xB7WBKx
+	Fy3IhTHXQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kUnRG-0003gC-Bz; Tue, 20 Oct 2020 08:56:14 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124])
+	id 1kUnRN-0003iq-Ex; Tue, 20 Oct 2020 08:56:21 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kUnRE-0003fN-Fq
- for linux-nvme@lists.infradead.org; Tue, 20 Oct 2020 08:56:13 +0000
+ id 1kUnRK-0003hh-HU
+ for linux-nvme@lists.infradead.org; Tue, 20 Oct 2020 08:56:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603184172;
+ s=mimecast20190719; t=1603184178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=QRM1sL1ckTcYSTk6iC0WIaNmdW2YwSpuPOMuO0rFAtM=;
- b=D/Kdo6URld6m9FoHfKu4N9/Kxr9TZYy9/QqVVixJsRoSaNRNQ8s/cVO2xenSdChHRHwXqp
- 2NAfHz+MYhV9LeJwSDG+czN9tYBFWI/IKpJrsFAoQyrWtGZSYRjPhfwBex6Iqo2nxCZ7Y1
- A+yhxWKwyFBYLRdQbT+4FnK8El2cOik=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KWXQFUE6Cit/fkoSdHUFvtd0q05EquKY/pGqsUnYzvc=;
+ b=Pf/fZqh3Cz7SNGxNbugzmEKtgcEPhUL8QpdIGISZe+Dk6tR93v7LFxEQ+BZ6JzFBb40xOi
+ ynNo2r8UljHNV9ZjznpcoRi4vgTdMdZowlaqHM7LBghpElRwFTpafaeZSRhhu1xVknemId
+ D/LqRWngHqoU1KN6qBXyGKOpGaXgDAk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-dvbcMlG6PPmxj_STDFIPpg-1; Tue, 20 Oct 2020 04:56:07 -0400
-X-MC-Unique: dvbcMlG6PPmxj_STDFIPpg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-337-ZVQAXyIOM1ehiLdUFgEkFw-1; Tue, 20 Oct 2020 04:56:13 -0400
+X-MC-Unique: ZVQAXyIOM1ehiLdUFgEkFw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A24E310866BE;
- Tue, 20 Oct 2020 08:56:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC05A803F48;
+ Tue, 20 Oct 2020 08:56:11 +0000 (UTC)
 Received: from localhost (ovpn-12-164.pek2.redhat.com [10.72.12.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D3E860BF3;
- Tue, 20 Oct 2020 08:56:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 169EF5B4BE;
+ Tue, 20 Oct 2020 08:56:07 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>
-Subject: [PATCH V8 0/4] blk-mq: implement queue quiesce via percpu_ref for
- BLK_MQ_F_BLOCKING
-Date: Tue, 20 Oct 2020 16:55:51 +0800
-Message-Id: <20201020085555.1554255-1-ming.lei@redhat.com>
+Subject: [PATCH V8 1/4] block: use test_and_{clear|test}_bit to set/clear
+ QUEUE_FLAG_QUIESCED
+Date: Tue, 20 Oct 2020 16:55:52 +0800
+Message-Id: <20201020085555.1554255-2-ming.lei@redhat.com>
+In-Reply-To: <20201020085555.1554255-1-ming.lei@redhat.com>
+References: <20201020085555.1554255-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201020_045612_561730_D6BD5EAF 
-X-CRM114-Status: GOOD (  15.25  )
+X-CRM114-CacheID: sfid-20201020_045618_626395_86AD04E3 
+X-CRM114-Status: GOOD (  17.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,71 +97,104 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
+Prepare for replacing srcu with percpu-refcount for implementing queue
+quiesce.
 
-The 1st patch add .mq_quiesce_mutex for serializing quiesce/unquiesce,
-and prepares for replacing srcu with percpu_ref.
+The following patch needs to avoid duplicated quiesce action for
+BLK_MQ_F_BLOCKING, so use test_and_{clear|test}_bit to set/clear
+QUEUE_FLAG_QUIESCED.
 
-The 2nd patch replaces srcu with percpu_ref.
-
-The 3rd patch adds tagset quiesce interface.
-
-The 4th patch applies tagset quiesce interface for NVMe subsystem.
-
-V8:
-	- rebase on latest linus tree, only there is small fuzz change on 2/4
-
-V7:
-	- base on latest for-5.10/block, only there is small change on 2/4
-
-V6:
-	- base on for-5.10/block directly, instead of being against on patchset of
-	'percpu_ref & block: reduce memory footprint of percpu_ref in fast path',
-	because these patches don't depend on that patchset. 
-
-V5:
-	- warn once in case that driver unquiesces its queue being
-	  quiesce and not done, only patch 2 is modified
-
-V4:
-	- remove .mq_quiesce_mutex, and switch to test_and_[set|clear] for
-	avoiding duplicated quiesce action
-	- pass blktests(block, nvme)
-
-V3:
-	- add tagset quiesce interface
-	- apply tagset quiesce interface for NVMe
-	- pass blktests(block, nvme)
-
-V2:
-	- add .mq_quiesce_lock
-	- add comment on patch 2 wrt. handling hctx_lock() failure
-	- trivial patch style change
-
-
-Ming Lei (3):
-  block: use test_and_{clear|test}_bit to set/clear QUEUE_FLAG_QUIESCED
-  blk-mq: implement queue quiesce via percpu_ref for BLK_MQ_F_BLOCKING
-  blk-mq: add tagset quiesce interface
-
-Sagi Grimberg (1):
-  nvme: use blk_mq_[un]quiesce_tagset
-
- block/blk-core.c         |  13 +++
- block/blk-mq-sysfs.c     |   2 -
- block/blk-mq.c           | 182 +++++++++++++++++++++++++--------------
- block/blk-sysfs.c        |   6 +-
- block/blk.h              |   2 +
- drivers/nvme/host/core.c |  19 ++--
- include/linux/blk-mq.h   |  10 +--
- include/linux/blkdev.h   |   4 +
- 8 files changed, 154 insertions(+), 84 deletions(-)
-
-Cc: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
 Cc: Sagi Grimberg <sagi@grimberg.me>
 Cc: Bart Van Assche <bvanassche@acm.org>
 Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
 Cc: Chao Leng <lengchao@huawei.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Tested-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ block/blk-core.c | 13 +++++++++++++
+ block/blk-mq.c   | 11 ++++++++---
+ block/blk.h      |  2 ++
+ 3 files changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/block/blk-core.c b/block/blk-core.c
+index ac00d2fa4eb4..abdcc0a57c75 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -107,6 +107,19 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q)
+ }
+ EXPORT_SYMBOL_GPL(blk_queue_flag_test_and_set);
+ 
++/**
++ * blk_queue_flag_test_and_clear - atomically test and clear a queue flag
++ * @flag: flag to be clear
++ * @q: request queue
++ *
++ * Returns the previous value of @flag - 0 if the flag was not set and 1 if
++ * the flag was set.
++ */
++bool blk_queue_flag_test_and_clear(unsigned int flag, struct request_queue *q)
++{
++	return test_and_clear_bit(flag, &q->queue_flags);
++}
++
+ void blk_rq_init(struct request_queue *q, struct request *rq)
+ {
+ 	memset(rq, 0, sizeof(*rq));
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 696450257ac1..6ff538d74b62 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -199,13 +199,18 @@ void blk_mq_unfreeze_queue(struct request_queue *q)
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue);
+ 
++static bool __blk_mq_quiesce_queue_nowait(struct request_queue *q)
++{
++	return blk_queue_flag_test_and_set(QUEUE_FLAG_QUIESCED, q);
++}
++
+ /*
+  * FIXME: replace the scsi_internal_device_*block_nowait() calls in the
+  * mpt3sas driver such that this function can be removed.
+  */
+ void blk_mq_quiesce_queue_nowait(struct request_queue *q)
+ {
+-	blk_queue_flag_set(QUEUE_FLAG_QUIESCED, q);
++	__blk_mq_quiesce_queue_nowait(q);
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
+ 
+@@ -224,7 +229,7 @@ void blk_mq_quiesce_queue(struct request_queue *q)
+ 	unsigned int i;
+ 	bool rcu = false;
+ 
+-	blk_mq_quiesce_queue_nowait(q);
++	__blk_mq_quiesce_queue_nowait(q);
+ 
+ 	queue_for_each_hw_ctx(q, hctx, i) {
+ 		if (hctx->flags & BLK_MQ_F_BLOCKING)
+@@ -246,7 +251,7 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
+  */
+ void blk_mq_unquiesce_queue(struct request_queue *q)
+ {
+-	blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
++	blk_queue_flag_test_and_clear(QUEUE_FLAG_QUIESCED, q);
+ 
+ 	/* dispatch requests which are inserted during quiescing */
+ 	blk_mq_run_hw_queues(q, true);
+diff --git a/block/blk.h b/block/blk.h
+index dfab98465db9..f925268ce7fd 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -444,4 +444,6 @@ int bio_add_hw_page(struct request_queue *q, struct bio *bio,
+ 		struct page *page, unsigned int len, unsigned int offset,
+ 		unsigned int max_sectors, bool *same_page);
+ 
++bool blk_queue_flag_test_and_clear(unsigned int flag, struct request_queue *q);
++
+ #endif /* BLK_INTERNAL_H */
 -- 
 2.25.2
 
