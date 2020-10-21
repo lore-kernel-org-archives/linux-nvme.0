@@ -7,113 +7,84 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAAD7C388F9
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2020 17:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A72C55179
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2020 17:48:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 697DB2080A
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2020 17:11:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 916D82242F
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Oct 2020 17:48:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="InS9XdhO";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=micron.com header.i=@micron.com header.b="AddmeDN/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 697DB2080A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=micron.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vBr8g9eG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.b="DVzkzBJt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 916D82242F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Vmm+Kvx8+jIJb7EG06zMTB7ttE5LS9MABUfz8HgOaMk=; b=InS9XdhO5NJe6UFrUP7tWnlon
-	1sfb/18X2oKjok/Io5T9uKWnLh9AL/0iyeFVGpocgYL4jvJBdCwxOBE/9AUm4+njN/TzaJ4sRWqtx
-	AReFW95hHWRgn1JXFRzrHX3h3kTaSQG6BTe8wl3Kqhh9go1oBZigAeLLvaohZBiX2fxulsbs07lEh
-	EujmTawU7elB+LdaBKjtx+mm0C4aBAfts6ec5jM3UVYRrm5DRqV7AALAr9dBo1MPp2eSLrx90bpGT
-	/dSjYRs+dxuhM6aIBP7V+HcI0HK8ezhHyyG23qfasha0uSovPvoG3YE61SfW3PKBGveaXEqU4/L6i
-	x7cIdx9Fw==;
+	 bh=DcTT5un84A5radiQoelPOgHRPyaSJptA42W0WaYWPEQ=; b=vBr8g9eGZsoCIagiu3NJPsH6U
+	6wnGr3N+d52nyH2qfkccdFoyiYHAmXEo3GMI4iEiEUfgQ2pGGm+3zHFQhQ5JhJyUD552IoYKR+thm
+	J1s+LLSShyu/49+g+Z6zVGl3qGjt0hn0r+2Z0P9loKlm78qni0f8pb1IeqrjCZpsHS0TCqX+9DR1o
+	QLElHD1PwLyB97dYzazRiyaCxc1LVFoN1bmyAPBVZIEPeZXyK/eDXnCbgI2Vrhq1muSqOPexNGBJ0
+	YOWbroqzCG64Jr/fJBowPQiaeoHMwyyYsiJWl7eb422Dzxq/SxpLsvaTA6W20I+xqCyE/VOItMsoV
+	OHlpj+vbg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kVHdj-0001nK-E5; Wed, 21 Oct 2020 17:11:07 +0000
-Received: from mail-dm6nam10on2074.outbound.protection.outlook.com
- ([40.107.93.74] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1kVIE3-0007Iq-TH; Wed, 21 Oct 2020 17:48:39 +0000
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kVHdf-0001ky-Ry
- for linux-nvme@lists.infradead.org; Wed, 21 Oct 2020 17:11:05 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WjKUXSRuv592K8SpypVQ5vELoX+oMHIfBrjbEjBn68atEHVPJjsOr/M42nivlLPuUGtihQ69XUUcfFq0/RELjp5KQtGsV4UBrt1LOre4/tC3EeUqNStpvHmPZsUcu3SShnGe6aKAFCRmyNkoynuel07KJmsjpon5SPMnznK/EbqjS4ocvul5hq/Q2HNahWbf8bAlHXbwIUmr3nTC8C7bl9JcYGKrMj3nc9LdgxxfCJ5YPuyKnsQoBpqey+NlIvy/zjP4iSLPN9e0oDKmSmDylQdn5oEXbSYyx8bim4ezI8062NrIhQ/FgL4Z5LnZuPEdhGq0WVYz2RW0X8TJlikjHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UxyI2XoagPHTKBx2KnltczpaDlF1lNOItv8QjmzeldI=;
- b=QhgVjA/uhqPDXrvWzUeJ6MRGIJcaU89WkTaCwWCfxcYY/EPqJBS8FdIbDyl8BzypFfy16Y+/BpUtD8/SLX3KP3mjCAQu5D8rOtUzX2Pj6Y1X4Sw74SsANWpukQcCYDANw0SmouzmVChk14iVhGYyPKHAJw0l6Uw1tlhUWqjDxA7ASZJl8G5f2nOYNSj2XHjIsX4wZ2VrL1CDkW3WaXmaGP5/VYX43FPmlOb7yA0m+qMu7/90umf2ljku8zMS5T2H2CrUeUOiw/paqQvDZI/MagxGK0qGWct60edOhXxjH+WGnDPuGJcgkErwg1CLf+uP+WJWAe0g6+7xQw1F7md2Yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=micron.com; dmarc=pass action=none header.from=micron.com;
- dkim=pass header.d=micron.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UxyI2XoagPHTKBx2KnltczpaDlF1lNOItv8QjmzeldI=;
- b=AddmeDN/Qd0xTefwEXewnG1gQvqOM8REI6M9nNiKIN8eVdIZJ8JXr5KcMtJlcJGcMb3vRJhwRpv7fxCd5SVx92POddJH0Iszm33CckcSRP+uo2/DE1FuBB2kSTvoqCLHc/RUK7BeqO58WMZK40NjkT7ZQaoglrtR5XVrNe78pDo=
-Received: from SN6PR08MB4208.namprd08.prod.outlook.com (2603:10b6:805:3b::21)
- by SN2PR0801MB2141.namprd08.prod.outlook.com (2603:10b6:804:13::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 21 Oct
- 2020 17:10:59 +0000
-Received: from SN6PR08MB4208.namprd08.prod.outlook.com
- ([fe80::f459:dd7f:5b2:effa]) by SN6PR08MB4208.namprd08.prod.outlook.com
- ([fe80::f459:dd7f:5b2:effa%7]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 17:10:59 +0000
-From: "Nabeel Meeramohideen Mohamed (nmeeramohide)" <nmeeramohide@micron.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Subject: RE: [EXT] Re: [PATCH v2 00/22] add Object Storage Media Pool (mpool)
-Thread-Topic: [EXT] Re: [PATCH v2 00/22] add Object Storage Media Pool (mpool)
-Thread-Index: AQHWoLSk7QDKlgB4AkWtKLxj5k5RI6mYUcIAgAJzT5CAAAw0AIAEt6vwgAGHlACAAUVw0A==
-Date: Wed, 21 Oct 2020 17:10:59 +0000
-Message-ID: <SN6PR08MB4208A22F5C94AB05439A2703B31C0@SN6PR08MB4208.namprd08.prod.outlook.com>
+ id 1kVIE1-0007I6-5a
+ for linux-nvme@lists.infradead.org; Wed, 21 Oct 2020 17:48:38 +0000
+Received: by mail-ed1-x541.google.com with SMTP id bc23so819725edb.5
+ for <linux-nvme@lists.infradead.org>; Wed, 21 Oct 2020 10:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wz+eFQ9E3XaBY60yIiY6/7ACNu1JGiJC/eGXK+f1jPc=;
+ b=DVzkzBJthtEEE9BytDByy1Zyi6AvIrMMfqilJKnpXorOKZpcoMkmRc0+51O1rnlt68
+ bMY0od0cPkgr22Fq/K+EKbRk9QUUZlKvr9mGhIHdkRS+RFdmguKEoaDMpwVT2MTekysU
+ aICew+9IVF+RRyoiu/PaGJVFHpxpM2ZfnviDOpSraD9hqMuMque7/usM9pzF/eaK9iyi
+ qZF3JdUTjmf2nLs5oVUYf43A1aDD3wYoYI9oxDRZY55ia14p0XqJNtzi/CDl0A92VIsH
+ Ytn7i5HZw9HsfFtKjUgs2Sf+IlYn4ti3aGTMDIrNugvXoKAtZI0M50rVaCu67NNkO/yB
+ jfiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wz+eFQ9E3XaBY60yIiY6/7ACNu1JGiJC/eGXK+f1jPc=;
+ b=hzYIgqWeUP0ejF+Jo014G1yvWHavP3yJ1L97rf2koxtDC+yfjKwgdKm17RcjTvx0V7
+ qEkOAcDmqHANxGn6/EXzT7HF6FfmRuSXclJypyMQ01wiM2PZ3VdthhBXI+SSmr+Fgfz6
+ B+50+XBDWWyyQ/cKdwIkhR6CHHabcgVnnPSjyHJxgMmHDGBw86AH2ftmOli1fOh4mQQZ
+ c/RKiHHCD0ZomdJqZxdcFZCMLmAj83oeWLwDAOiKnkuR4/VLb+yUAWAUX0GmxdaEMbVq
+ O1B+fQbYbBhkdzkcPXlUNpVQzIc+qXC1qaRDnmaxTs2Bilsl6BNROwOdxaG04MsGz1AU
+ NRog==
+X-Gm-Message-State: AOAM532w4unL2xyXaHID1CgjvOM+o3VnMNvWDUr7UFXVLPBprnnsX16K
+ n3R4vneNXJv9xm3LweSUiGnJc0md1AOxipYMHy6APQ==
+X-Google-Smtp-Source: ABdhPJyjfO8m3iOuqLFtlf+FomXd1BC4F7cQcApVrqZXlZQ1jUukEoyZcjOKoq++KT+r97hpdUtXqWK1yOAZ0wQ8O8o=
+X-Received: by 2002:a05:6402:31b3:: with SMTP id
+ dj19mr4292662edb.210.1603302515911; 
+ Wed, 21 Oct 2020 10:48:35 -0700 (PDT)
+MIME-Version: 1.0
 References: <20201012162736.65241-1-nmeeramohide@micron.com>
  <20201015080254.GA31136@infradead.org>
  <SN6PR08MB420880574E0705BBC80EC1A3B3030@SN6PR08MB4208.namprd08.prod.outlook.com>
  <CAPcyv4j7a0gq++rL--2W33fL4+S0asYjYkvfBfs+hY+3J=c_GA@mail.gmail.com>
  <SN6PR08MB420843C280D54D7B5B76EB78B31E0@SN6PR08MB4208.namprd08.prod.outlook.com>
  <CAPcyv4iYOk3i0pPgXxDTy47BxWCXqqXS0J6mrY5o+1M_41XoAw@mail.gmail.com>
-In-Reply-To: <CAPcyv4iYOk3i0pPgXxDTy47BxWCXqqXS0J6mrY5o+1M_41XoAw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=micron.com;
-x-originating-ip: [104.129.198.126]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6c158595-1703-43fd-121d-08d875e447df
-x-ms-traffictypediagnostic: SN2PR0801MB2141:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN2PR0801MB214155D3A37C9068C60AEB6AB31C0@SN2PR0801MB2141.namprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kxqQaAfUjrC4vZvBaf7lRXr1S6URp6rbYbMtPCE0YiuXVu5WZz83/Hfj63Zp28CZB38VcHeycnoRUzYHpKB19Fe+ScQq5556WyrX6j1tFEFt+JEN8Lmu8kxzSdjXMsISzKONiH4kp4iRVxlPAdrLUI69Wo+gigO4RJFbfqzYLHnXt96VSaNfwR5x0P0nHqRG71ScrPoX1BO100XwvVnPe28Rl/9DMb3/Ks9UOdmeE6r648ULhvaIY0jPhhKtQadbulSUrvLBYBeJ+aq7QsFy6lGQyC3aZeIvNpFzU7DnDxapPx5Z/1hQuDts3rrnl0sdJxWLctfaxzGbGbIo/rtVnw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR08MB4208.namprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(346002)(366004)(136003)(396003)(64756008)(2906002)(478600001)(7696005)(83380400001)(316002)(54906003)(66446008)(186003)(9686003)(53546011)(33656002)(6506007)(5660300002)(4326008)(55236004)(26005)(66556008)(66476007)(76116006)(66946007)(52536014)(6916009)(107886003)(86362001)(8936002)(8676002)(55016002)(71200400001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: c2CiAab1wO9f4cNS2Q/PnaimLxSggtKOtX8RgjsBSA2ptkYrM/I2Cu6DOC7kMpcM/seFnrF5Gk/lG9sY4xc97d+wrrH3OQoh0vSOvNJ2BdZcB/nmLTTIjuGbAzozKRMeMKY+7meVR6gcXo/cTh9WN5vK3QKll2kO2626IVYRJSpYrnWE8aXC5XmAthV43IQUW1hNtP6ZIogZlBIiovTM3vBx59bTZAiTa0RnqGQH6MGK9OsguCSnjm2DybWwQ+4S6bE3F83ybl6NvYpgkUJMCGfnwjWlV6J0aNfeKXQo9wYnAQBMhTiFvUoUWTMiZu57CdWNXKuv04MoQbeI8BGu3J51Jod3ga4SGVQ+GpMHTt1LzZpDJm2AKfJQAo6J5JfbETOKv+gPDvjVoCda6PIatfw1U96ctv5gnrOy+aOu0E3oAR+UffsRTrkcjAxLxT2gbPhi1RKlNb4aJwBwjJ49p/H5TbmUz60A7dPPLY0iMc8LfkZdJhR809Km8XKDnzbwbk/xR06qeqSBTD+vz1pWLVLu0/qZJ/BILWoT/Ia6pDOHLqwA27WGcMooJ9T7oZ1czV87jPM4h9pTSWn9Aey5A+VGjDLAKIl+o+z7VcWFW3CsakkG3j4hmbjpoWIB9mbfHzvdMcKE2igq2heXrFQYbw==
-MIME-Version: 1.0
-X-OriginatorOrg: micron.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB4208.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c158595-1703-43fd-121d-08d875e447df
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2020 17:10:59.0666 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f38a5ecd-2813-4862-b11b-ac1d563c806f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wWsZ0v3nkIwdFndjN7I5yHNBK1K1Nf4s4ETpIchNgpBoVWePmyUFHB/05y4DlzTj+WcsIlPLnpuwFiC+PYxOhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR0801MB2141
+ <SN6PR08MB4208A22F5C94AB05439A2703B31C0@SN6PR08MB4208.namprd08.prod.outlook.com>
+In-Reply-To: <SN6PR08MB4208A22F5C94AB05439A2703B31C0@SN6PR08MB4208.namprd08.prod.outlook.com>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 21 Oct 2020 10:48:24 -0700
+Message-ID: <CAPcyv4gOGi392Q3knF=cAuvKONnmp2AoKX82VQEQJU0c7o7AKA@mail.gmail.com>
+Subject: Re: [EXT] Re: [PATCH v2 00/22] add Object Storage Media Pool (mpool)
+To: "Nabeel Meeramohideen Mohamed (nmeeramohide)" <nmeeramohide@micron.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201021_131104_217547_F06DAE9A 
-X-CRM114-Status: UNSURE (   9.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201021_134837_344298_7BC40370 
+X-CRM114-Status: GOOD (  13.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,8 +96,8 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, "Steve Moyer
- \(smoyer\)" <smoyer@micron.com>,
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "Steve Moyer \(smoyer\)" <smoyer@micron.com>,
  "linux-nvdimm@lists.01.org" <linux-nvdimm@lists.01.org>,
  "John Groves \(jgroves\)" <jgroves@micron.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -140,34 +111,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tuesday, October 20, 2020 3:36 PM, Dan Williams <dan.j.williams@intel.com> wrote:
-> 
->     What does Linux get from merging mpool?
-> 
+On Wed, Oct 21, 2020 at 10:11 AM Nabeel Meeramohideen Mohamed
+(nmeeramohide) <nmeeramohide@micron.com> wrote:
+>
+> On Tuesday, October 20, 2020 3:36 PM, Dan Williams <dan.j.williams@intel.com> wrote:
+> >
+> >     What does Linux get from merging mpool?
+> >
+>
+> What Linux gets from merging mpool is a generic object store target with some
+> unique and beneficial features:
 
-What Linux gets from merging mpool is a generic object store target with some
-unique and beneficial features:
+I'll try to make the point a different way. Mpool points out places
+where the existing apis fail to scale. Rather than attempt to fix that
+problem it proposes to replace the old apis. However, the old apis are
+still there. So now upstream has 2 maintenance burdens when it could
+have just had one. So when I ask "what does Linux get" it is in
+reference to the fact that Linux gets a compounded maintenance problem
+and whether the benefits of mpool outweigh that burden. Historically
+Linux has been able to evolve to meet the scaling requirements of new
+applications, so I am asking whether you have tried to solve the
+application problem by evolving rather than replacing existing
+infrastructure? The justification to replace rather than evolve is
+high because that's how core Linux stays relevant.
 
-- the ability to allocate objects from multiple classes of media
-- facilities to memory-map (and unmap) collections of related objects with similar
-lifetimes in a single call
-- proactive eviction of object data from the page cache which takes into account
-these object relationships and lifetimes
-- concurrent access to object data directly and memory mapped to eliminate
-page cache pollution from background operations
-- a management model that is intentionally patterned after LVM so as to feel
-familiar to Linux users
-
-The HSE storage engine, which is built on mpool, consistently demonstrates
-throughputs and latencies in real-world applications that are multiples better
-than common alternatives.  We believe this represents a concrete example of
-the benefits of the mpool object store.
-
-That said, we are very open to ideas on how we can improve the mpool
-implementation to be better aligned with existing Linux I/O mechanisms.
-
-Thanks,
-Nabeel
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
