@@ -2,73 +2,87 @@ Return-Path: <SRS0=yBWI=D6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC773C4363A
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 02:07:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DBAC388F9
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 07:00:50 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2664D20747
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 02:07:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6605622254
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 07:00:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aVHorDy8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2664D20747
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="o8luiolu";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="KWPJbAFM"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6605622254
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=bytedance.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0Ug9muTKmKI14fLJS6MTBzt1AXETNDwlEVZ7AGMKXss=; b=aVHorDy81ffy/bNCnlHgkwvgY
-	ItJLzTccjp1qfvhBLnEvfizK43ygfOTuBM/m7fQ7w1IYLqxhfoOAY639SNtuhgb4WbEtS7lUmF0cG
-	RgbsditXNmI1M79dqSPrnAKasIdFaAjZTM7Z1tcZaArKjjQJzgNx+giWyX/qEhUPG9CLp+MHHvxBL
-	zBHqSEJFbwdTBBec1780i+xNRBYKIIYKCFAk8Gh6G5e9n/2JhcSmn+uB5Z+ptkOd3q8tjrYBPLMc4
-	bk/iPBt3C+1uReT5JIH3/k+8AXyUF+2mOBtzX+dMVjZrBm7BpT8LLSlAok8ejxht3VDvs5R31tF0T
-	gATXRijtA==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Ekb5zbIS5UgPgQ6y/EkpvPhuDHpNlRP5yhTMyOinQFE=; b=o8luioluVl/FzV0SpNgA3EExum
+	Jz3kvSj3OFYXCGR3aZOkaGUmIBYPrnZ137PT41YHkuBk3Dw5IQODs16ZxBVXzT9Vdkt+1+vYPRT01
+	i/SCHptIxynMgLwRjxTSDK/IiVaF7LvkuaK4GCv9q+biU3b6gcjQj6A9Rw8aBKZ06eTUjPWlfjoBM
+	Cewdw91VDzHKsn0VTfzdWoa68PZk0Z/w14BNu4li2yJbbjCdTbInyrMC5Olrt3PM4uNCwxVIVHYk9
+	YChlF1v57DHY/kZ61xI1ey6h6R7FElP0Md/4skCOZnEhaSb8fihGs2ChZzOK+p5rSoULNVm+KBJ03
+	jkZCLBeA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kVmUG-0006dq-KF; Fri, 23 Oct 2020 02:07:24 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187] helo=huawei.com)
+	id 1kVr47-00089l-5p; Fri, 23 Oct 2020 07:00:43 +0000
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kVmUD-0006d1-N8
- for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 02:07:22 +0000
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.56])
- by Forcepoint Email with ESMTP id 173DF4436115AF78727F;
- Fri, 23 Oct 2020 10:07:12 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 23 Oct 2020 10:07:11 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1913.5; Fri, 23
- Oct 2020 10:07:11 +0800
-Subject: Re: [External] Re: [PATCH] nvme-rdma: handle nvme completion data
- length
-To: zhenwei pi <pizhenwei@bytedance.com>
-References: <20201022083850.1334880-1-pizhenwei@bytedance.com>
- <04a97f73-ba13-a4b5-3ea4-fc438391507e@huawei.com>
- <1c78dbe5-47a4-1590-e064-681cba5fb01d@bytedance.com>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <c2891e98-a81c-7f3a-3b19-1e34bd1f212c@huawei.com>
-Date: Fri, 23 Oct 2020 10:07:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <1c78dbe5-47a4-1590-e064-681cba5fb01d@bytedance.com>
-Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
+ id 1kVr3z-00088q-BC
+ for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 07:00:38 +0000
+Received: by mail-pl1-x642.google.com with SMTP id t22so360164plr.9
+ for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2020 00:00:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=gVvp5GTF6tEYF1l4MyLe+EEACPzCJh/rTLhZ25K7Yus=;
+ b=KWPJbAFMvmpj3OAzC7C9dIn2g7wa3y2PZbYxCq7caZotONOVMgoXy8ZqkhAHrJUTSJ
+ ds68D0aFcyb8vTkMBMfaRF5rduNxICRu4bABQKpWk5TRzbPUcaLMnPeXNn6J9WUdmge/
+ Zwg+e50jvhe0RtX4j6BcUzxnTK2SUU+zIsF7psfkuC0aqOAJRCKlz1tY88KbKg3oWDoZ
+ ZxoDyY3j8K7k5TZXwMRDcUZviq6w2gV4rDjvhK1PLEdnrcq2A95liY19s/dcTuW8Igcm
+ 9i8FpsMUPQBkQkPH+IRowt6GVsQSiEIqWPp6ZKYPmxkX8+buhBqcj85d6XINiIjUl+wk
+ TjYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=gVvp5GTF6tEYF1l4MyLe+EEACPzCJh/rTLhZ25K7Yus=;
+ b=SZOKwnL7f94rdtOMTgyllByZO3oN0OOU1XOHQKNWwV/3QK1fqXCjm5mXcXCMQnpExi
+ 4R9IsNZiQKb7vjU7XN1x9vtN3myuMGZlbTneqQ4DPtm69RMb6vUBZPwPXEVbR9uR+RLu
+ GbEjZokpnPDjfMYq0RISAzui5HrnQn7waM8McmhBfml12jyNpiSNKgMfros56PL6ofJl
+ I9geU7lcm1aSjJaIN26/lGG00xRWx0g+i8/d3knUpAWZyxYs3exphiqmrNvg/5jGcogz
+ RiVl2N98sKIW3Z/jGa8wrvDbGd3f68/uDQP5oA6HbG9S2mK46P0YGi4mdEQdMsRQl7k0
+ 2zXw==
+X-Gm-Message-State: AOAM5304P+jTF2bDZa2BwIC55HYwsaMLN9D6Wdl/hPwElyTk9Xx57z6J
+ wVZmr1meTLRp8M1dHmnC2VfJMg==
+X-Google-Smtp-Source: ABdhPJyM1RekPYb05cSt8HvXzUhVRJa3OqIUptCqYP36bORzn5wOfny7OcuR9gEWaEs3/69n6p/s/w==
+X-Received: by 2002:a17:902:b70a:b029:d2:6391:a80f with SMTP id
+ d10-20020a170902b70ab02900d26391a80fmr1186265pls.0.1603436432573; 
+ Fri, 23 Oct 2020 00:00:32 -0700 (PDT)
+Received: from libai.bytedance.net ([61.120.150.71])
+ by smtp.gmail.com with ESMTPSA id h4sm795139pgc.13.2020.10.23.00.00.29
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 23 Oct 2020 00:00:31 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	axboe@fb.com
+Subject: [PATCH v2] nvme-rdma: handle nvme completion data length
+Date: Fri, 23 Oct 2020 14:59:10 +0800
+Message-Id: <20201023065910.1358586-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.11.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201022_220722_013035_B1F63649 
-X-CRM114-Status: GOOD (  14.51  )
+X-CRM114-CacheID: sfid-20201023_030035_632599_1B39EA0D 
+X-CRM114-Status: GOOD (  14.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,58 +94,70 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, axboe@fb.com, kbusch@kernel.org,
- Yibo Zhu <zhuyibo@bytedance.com>, hch@lst.de
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: pizhenwei@bytedance.com, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAyMDIwLzEwLzIyIDE4OjA1LCB6aGVud2VpIHBpIHdyb3RlOgo+IE9uIDEwLzIyLzIwIDU6
-NTUgUE0sIENoYW8gTGVuZyB3cm90ZToKPj4KPj4KPj4gT24gMjAyMC8xMC8yMiAxNjozOCwgemhl
-bndlaSBwaSB3cm90ZToKPj4+IEhpdCBhIGtlcm5lbCB3YXJuaW5nOgo+Pj4gcmVmY291bnRfdDog
-dW5kZXJmbG93OyB1c2UtYWZ0ZXItZnJlZS4KPj4+IFdBUk5JTkc6IENQVTogMCBQSUQ6IDAgYXQg
-bGliL3JlZmNvdW50LmM6MjgKPj4+Cj4+PiBSSVA6IDAwMTA6cmVmY291bnRfd2Fybl9zYXR1cmF0
-ZSsweGQ5LzB4ZTAKPj4+IENhbGwgVHJhY2U6Cj4+PiDCoCA8SVJRPgo+Pj4gwqAgbnZtZV9yZG1h
-X3JlY3ZfZG9uZSsweGYzLzB4MjgwIFtudm1lX3JkbWFdCj4+PiDCoCBfX2liX3Byb2Nlc3NfY3Er
-MHg3Ni8weDE1MCBbaWJfY29yZV0KPj4+IMKgIC4uLgo+Pj4KPj4+IFRoZSByZWFzb24gaXMgdGhh
-dCBhIHplcm8gYnl0ZXMgbWVzc2FnZSByZWNlaXZlZCBmcm9tIHRhcmdldCwgYW5kIHRoZQo+Pj4g
-aG9zdCBzaWRlIGNvbnRpbnVlcyB0byBwcm9jZXNzIHdpdGhvdXQgbGVuZ3RoIGNoZWNraW5nLCB0
-aGVuIHRoZQo+Pj4gcHJldmlvdXMgQ1FFIGlzIHByb2Nlc3NlZCB0d2ljZS4KPj4+Cj4+PiBIYW5k
-bGUgZGF0YSBsZW5ndGgsIGlnbm9yZSB6ZXJvIGJ5dGVzIG1lc3NhZ2UsIGFuZCB0cnkgdG8gcmVj
-b3ZlcnkgZm9yCj4+PiBjb3JydXB0ZWQgQ1FFIGNhc2UuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTog
-emhlbndlaSBwaSA8cGl6aGVud2VpQGJ5dGVkYW5jZS5jb20+Cj4+PiAtLS0KPj4+IMKgIGRyaXZl
-cnMvbnZtZS9ob3N0L3JkbWEuYyB8IDExICsrKysrKysrKysrCj4+PiDCoCAxIGZpbGUgY2hhbmdl
-ZCwgMTEgaW5zZXJ0aW9ucygrKQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9z
-dC9yZG1hLmMgYi9kcml2ZXJzL252bWUvaG9zdC9yZG1hLmMKPj4+IGluZGV4IDllMzc4ZDBhMGMw
-MS4uOWY1MTEyMDQwZDQzIDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5j
-Cj4+PiArKysgYi9kcml2ZXJzL252bWUvaG9zdC9yZG1hLmMKPj4+IEBAIC0xNzY3LDYgKzE3Njcs
-MTcgQEAgc3RhdGljIHZvaWQgbnZtZV9yZG1hX3JlY3ZfZG9uZShzdHJ1Y3QgaWJfY3EgKmNxLCBz
-dHJ1Y3QgaWJfd2MgKndjKQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybjsKPj4+IMKgwqDC
-oMKgwqAgfQo+Pj4gK8KgwqDCoCBpZiAodW5saWtlbHkoIXdjLT5ieXRlX2xlbikpIHsKPj4+ICvC
-oMKgwqDCoMKgwqDCoCAvKiB6ZXJvIGJ5dGVzIG1lc3NhZ2UgY291bGQgYmUgaWdub3JlZCAqLwo+
-Pj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybjsKUmVzb3VyY2UgbGVhaywgbmVlZCBudm1lX3JkbWFf
-cG9zdF9yZWN2Lgo+Pj4gK8KgwqDCoCB9IGVsc2UgaWYgKHVubGlrZWx5KHdjLT5ieXRlX2xlbiA8
-IGxlbikpIHsKPj4+ICvCoMKgwqDCoMKgwqDCoCAvKiBDb3JydXB0ZWQgY29tcGxldGlvbiwgdHJ5
-IHRvIHJlY292cnkgKi8KPj4+ICvCoMKgwqDCoMKgwqDCoCBkZXZfZXJyKHF1ZXVlLT5jdHJsLT5j
-dHJsLmRldmljZSwKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJVbmV4cGVjdGVkIG52bWUg
-Y29tcGxldGlvbiBsZW5ndGgoJWQpXG4iLCB3Yy0+Ynl0ZV9sZW4pOwo+Pj4gK8KgwqDCoMKgwqDC
-oMKgIG52bWVfcmRtYV9lcnJvcl9yZWNvdmVyeShxdWV1ZS0+Y3RybCk7Cj4+PiArwqDCoMKgwqDC
-oMKgwqAgcmV0dXJuOwo+Pj4gK8KgwqDCoCB9Cj4+ICF3Yy0+Ynl0ZV9sZW4gYW5kIHdjLT5ieXRl
-X2xlbiA8IGxlbiBtYXkgYmUgdGhlIHNhbWUgdHlwZSBvZiBhbm9tYWx5Lgo+PiBXaHkgZG8gZGlm
-ZmVyZW50IGVycm9yIGhhbmRsaW5nPwo+PiBJbiB3aGljaCBzY2VuYXJpbyB6ZXJvIGJ5dGVzIG1l
-c3NhZ2UgcmVjZWl2ZWQgZnJvbSB0YXJnZXQ/IGZhdWx0IGluamVjdCB0ZXN0IG9yIG5vcm1hbCB0
-ZXN0L3J1bj8KPiAKPiBaZXJvIGJ5dGVzIG1lc3NhZ2UgY291bGQgYmUgdXNlZCBhcyB0cmFuc3Bv
-cnQgbGF5ZXIga2VlcCBhbGl2ZSBtZWNoYW5pc20gKEkncyBhbHNvIGRldmVsb3BpbmcgdGFyZ2V0
-IHNpZGUgdHJhbnNwb3J0IGxheWVyIGtlZXAgYWxpdmUgbm93LiBUbyByZWNsYWltIHJlc291cmNl
-LCB0YXJnZXQgc2lkZSBuZWVkcyB0byBjbG9zZSBkZWFkIGNvbm5lY3Rpb25zIGV2ZW4ga2F0byBp
-cyBzZXQgYXMgMCkuCm52bWUgb3ZlciBmYWJyaWMgcHJvdG9jb2wgZG8gbm90IGRlZmluZSB0aGlz
-LgpNYXkgYmUgYXN5bmMgZXZlbnQgaXMgYSBvcHRpb24gZm9yIHRhcmdldCBrZWVwIGFsaXZlKGlm
-IGthdG8gc2V0IGFzIDApLgo+IAo+Pj4gKwo+Pj4gwqDCoMKgwqDCoCBpYl9kbWFfc3luY19zaW5n
-bGVfZm9yX2NwdShpYmRldiwgcWUtPmRtYSwgbGVuLCBETUFfRlJPTV9ERVZJQ0UpOwo+Pj4gwqDC
-oMKgwqDCoCAvKgo+Pj4gwqDCoMKgwqDCoMKgICogQUVOIHJlcXVlc3RzIGFyZSBzcGVjaWFsIGFz
-IHRoZXkgZG9uJ3QgdGltZSBvdXQgYW5kIGNhbgo+Pj4KPiAKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4
-LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Hit a kernel warning:
+refcount_t: underflow; use-after-free.
+WARNING: CPU: 0 PID: 0 at lib/refcount.c:28
+
+RIP: 0010:refcount_warn_saturate+0xd9/0xe0
+Call Trace:
+ <IRQ>
+ nvme_rdma_recv_done+0xf3/0x280 [nvme_rdma]
+ __ib_process_cq+0x76/0x150 [ib_core]
+ ...
+
+The reason is that a zero bytes message received from target, and the
+host side continues to process without length checking, then the
+previous CQE is processed twice.
+
+Handle data length, ignore zero bytes message, and try to recovery for
+corrupted CQE case.
+
+Thanks to Chao Leng for suggestions.
+
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+---
+ drivers/nvme/host/rdma.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 9e378d0a0c01..2ecadd309f4a 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1767,6 +1767,21 @@ static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ 		return;
+ 	}
+ 
++	/* received data length checking */
++	if (unlikely(wc->byte_len < len)) {
++		/* zero bytes message could be ignored */
++		if (!wc->byte_len) {
++			nvme_rdma_post_recv(queue, qe);
++			return;
++		}
++
++		/* corrupted completion, try to recovry */
++		dev_err(queue->ctrl->ctrl.device,
++			"Unexpected nvme completion length(%d)\n", wc->byte_len);
++		nvme_rdma_error_recovery(queue->ctrl);
++		return;
++	}
++
+ 	ib_dma_sync_single_for_cpu(ibdev, qe->dma, len, DMA_FROM_DEVICE);
+ 	/*
+ 	 * AEN requests are special as they don't time out and can
+-- 
+2.11.0
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
