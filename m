@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0BAC5517A
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 22:28:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F060CC388F9
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 22:28:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3D4A420BED
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 22:28:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3D9D120BED
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 22:28:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i56cRIwW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LoYHlJUw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D4A420BED
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0ROPyMdS";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="ghAY+MfV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D9D120BED
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,61 +26,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sCP9YYqfHjpQ7GxLAh+oF5cZGSFFhdOQXKUEZLoq348=; b=i56cRIwWpOQRnBtXArSkJd1JN
-	guyn0mkzSLlFNoYijujUb9TA95ZpMfFCUq+/puQ17xF0D+6SEaG03kf/7gUcGiNuqh2JBjgYnd5g3
-	rPV1qZO4CRj9Ehnvec3QAPEi5Ny3dkbL/3tM9C8L/ZymBvBOwLrO/S1zPCezuNbnUHvAxsz75SRQB
-	KbRdC7K3Jtp3LbfTawdUwFyJ/dnTkORFNGi3gQuwZ1ShCZYsdPBC4WVQByfWO04CkX89CLScxrdy8
-	Eu4QruBu165Iy+OtvqluDm4SdBzTY6rglw6k1V1Z/a01zufVB/OI25NQjGYneXT8pwly9Invl6mDT
-	L7OVqZBjQ==;
+	 bh=PvPsJo8apRBcQWWpl0mxbrknQhbmbWQSajA/CbK64S8=; b=0ROPyMdSA6O8juno22Rgkb6mM
+	CSugrezaOTWZMLe0svTaS/CihAoyBY/mhnpr2wth6NzuoXfxGK56nzRcdwodYvviloQPkCu7ZqRfj
+	WFAJ57FsSAr+eD9Irm9eKGFk+5kK/K9wYmNjn6K8h8XVEIH2Pv2nC8sTUDumLFzZTMC/ZgU9KggwB
+	msZU4DaGocBRkHrUD06lWSYKH8dn2Tv+Jg4hlpegBAFJmQ0m6aH3AJ8Jg96qzA2GXfqp7u+0wzSyV
+	I89a6v0hMPqhERQIQG8CET9hWa4+44QuC4yAylMscmUUN/7uf+5nXBipDsUKW0Ho0Zh7i48CSakk3
+	efNGgGYDQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kW5XZ-0006Qk-6J; Fri, 23 Oct 2020 22:28:05 +0000
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
+	id 1kW5Xb-0006RT-Gj; Fri, 23 Oct 2020 22:28:07 +0000
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kW5XV-0006P4-Vk
- for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 22:28:03 +0000
-Received: by mail-pf1-x444.google.com with SMTP id f19so2596317pfj.11
- for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2020 15:28:01 -0700 (PDT)
+ id 1kW5XX-0006PP-7t
+ for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 22:28:04 +0000
+Received: by mail-pg1-x542.google.com with SMTP id x13so2449011pgp.7
+ for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2020 15:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version; bh=DvIDlMEP24lLkAPWI2OgCO3kdlL8AmHIcZ4BYmv8vi8=;
- b=LoYHlJUwHoepU7nAFlaK3tgGI0bz9QQ5HBVqiBWIHqjX6q9lOK+LUqlskJyw8Sce54
- 6t+364RJTShHHxPIiNXKgioeLw95FR0n59kwcDbEgPCpo6cgLG8Q2irAQF+Q6aGjAMGW
- MyclTacCnlZcsKWvyGvMUNQ6A1KJ44jYcUxdY=
+ :mime-version; bh=CURwCmLRRoEdWIm2bY1TlDA/KGbF48tW42qsTaFcrGY=;
+ b=ghAY+MfVuX0uMBWjtJ5ScHqW2G0xti3Fbwv+yX9RLCh/PHiPH/thAP/Oqhvu4d4AFw
+ 8idao0mCq1BYIcgj/oAiAQzWlUmgOZa6g+9F2beS00Okeb44iSeLAlMJNXHi/8DE3NmF
+ Zj677M+90Q+tptuK7CJZQ+GOPW1qQHPpNhyuY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version;
- bh=DvIDlMEP24lLkAPWI2OgCO3kdlL8AmHIcZ4BYmv8vi8=;
- b=PfMje9m2sizt9SOsvrF/jhmyyhYgI4QOAW1LuT2/rLlVNjhGyb97cScSANPBDlJClJ
- imJFmsESup9Yps18uWQVOFHBZ42q07Cr5jnydp6a0mNd2GgJ54qqLpF+cPysRxyFOWaT
- X+mC0+ozFHupPJJ2AGEZH6+EreVrREaO66YXvHer7EsIAvAD64n1L3j694mfr7uRkVNA
- 2WHtPoNBGbZa2pNFcBaMvUw4qetYyd3ZQss6b4Qqa5UWhALR7dXIeOkQE+RUivFpDLoz
- hkLYoWx6O9u8+eZi7TzVankW7Y+ijjS+xoyp84dPGs0NT+dd1zcuQcnfK06k7Eh301Sk
- yKbQ==
-X-Gm-Message-State: AOAM532Q9CqENVCwT7fCiYUZbFtHkgmcwieLFeYfKb1uvP8IVz33PsmP
- 5WoZiCYtGljl8RCCfltJqCgOORRRjNgN6rpj45h41JcbblXcPa88DAiqbJk+cNFfarPk9l7j5IG
- JJlHz/FpzqaKfNpsJAL/lGbeW/usrYNAoT5D0Fy3mg4avjRpBpA3XNS3cwjvDF637dGyEmdQugC
- ESZXWjyRbf
-X-Google-Smtp-Source: ABdhPJzSKLyZNNxWWURsAhpVPjBIoS4MiHtMVYEuYanc/P5m+BVOIxbAfBPgCJd7alGXENcdxbxx5g==
-X-Received: by 2002:a63:d252:: with SMTP id t18mr3358385pgi.300.1603492079173; 
- Fri, 23 Oct 2020 15:27:59 -0700 (PDT)
+ bh=CURwCmLRRoEdWIm2bY1TlDA/KGbF48tW42qsTaFcrGY=;
+ b=M2/qKsrH9VM1AmXF1nCvl3lltKMItnthN6AL5H0QeUkM5MWl3H8SBEuF6ZWtbaFUKz
+ AhrA1w3hiQLt8FJlyi2r3OiAxjH0k1r0fyWXay99os54zxON25W5dFlNlxs0jyH7tATT
+ vbYMAYsfjstQa74aGbGyNgkOOkRK040FD9lsfId+tIuoegARLABgB6A+POhmo+aFQ+ny
+ ddd+8Fq/QPZAbAVqHlGf4yCL67NDGp9nyQJtc9ZG/JPialNzX8ZvbDfeoSgRtTA0nUhN
+ fcTblJvGLMdyUxquc3gjCaZFX3/qMcW0+CLLn8K8XZ/j49ka3UMOvhmeIt9HQUuO2do7
+ jMhg==
+X-Gm-Message-State: AOAM531YByixSnYaWT1ZX1z902GlkVQYP0PZMEf1pkQsFBLjW8WY7tzr
+ iQ1Mk6QFWQ5MxwRa4rtzGJoRwcwbKrnvvvMThbCis8BV21czTL6OxMQEz+RG5US1MqJoG1iiJbb
+ 025EKqv8lHs54wpwVC27TeZOBuyPJD0Jr+wSybRZTuAH+eaA5NYEuRM4qO6bFx36aa1pKLsLpR9
+ VS6EISygji
+X-Google-Smtp-Source: ABdhPJwU9qdaMNSh+u853Riz06dw2f8OvEZcwE6X83jXOd5904FTE6HYYuewI8K/K7287cRaq0uqDQ==
+X-Received: by 2002:a63:d946:: with SMTP id e6mr3966418pgj.113.1603492080397; 
+ Fri, 23 Oct 2020 15:28:00 -0700 (PDT)
 Received: from localhost.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id a18sm4109511pjs.27.2020.10.23.15.27.57
+ by smtp.gmail.com with ESMTPSA id a18sm4109511pjs.27.2020.10.23.15.27.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 15:27:58 -0700 (PDT)
+ Fri, 23 Oct 2020 15:27:59 -0700 (PDT)
 From: James Smart <james.smart@broadcom.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 1/3] nvme-fc: remove err_work work item
-Date: Fri, 23 Oct 2020 15:27:50 -0700
-Message-Id: <20201023222752.90621-2-james.smart@broadcom.com>
+Subject: [PATCH v2 2/3] nvme-fc: eliminate terminate_io use by
+ nvme_fc_error_recovery
+Date: Fri, 23 Oct 2020 15:27:51 -0700
+Message-Id: <20201023222752.90621-3-james.smart@broadcom.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201023222752.90621-1-james.smart@broadcom.com>
 References: <20201023222752.90621-1-james.smart@broadcom.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201023_182802_050742_A24CEA83 
-X-CRM114-Status: GOOD (  17.07  )
+X-CRM114-CacheID: sfid-20201023_182803_353662_2C8224CC 
+X-CRM114-Status: GOOD (  28.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,143 +94,265 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: James Smart <james.smart@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============1538573696736219606=="
+Content-Type: multipart/mixed; boundary="===============4573066881929033844=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============1538573696736219606==
+--===============4573066881929033844==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000d15bd805b25e1702"
+	boundary="000000000000e5b34505b25e178e"
 
---000000000000d15bd805b25e1702
+--000000000000e5b34505b25e178e
 Content-Transfer-Encoding: 8bit
 
-err_work was created to handle errors (mainly io timeout) while in
-CONNECTING state. The flag for err_work_active is also unneeded.
+nvme_fc_error_recovery() special cases handling when in CONNECTING state
+and calls __nvme_fc_terminate_io(). __nvme_fc_terminate_io() itself
+special cases CONNECTING state and calls the routine to abort outstanding
+ios.
 
-Remove err_work_active and err_work.  The actions to abort ios are moved
-inline to nvme_error_recovery().
+Simplify the sequence by putting the call to abort outstanding ios directly
+in nvme_fc_error_recovery.
+
+Move the location of __nvme_fc_abort_outstanding_ios(), and
+nvme_fc_terminate_exchange() which is called by it, to avoid adding
+function prototypes for nvme_fc_error_recovery().
 
 Signed-off-by: James Smart <james.smart@broadcom.com>
 ---
- drivers/nvme/host/fc.c | 40 ++++++++++------------------------------
- 1 file changed, 10 insertions(+), 30 deletions(-)
+ drivers/nvme/host/fc.c | 187 ++++++++++++++++++-----------------------
+ 1 file changed, 84 insertions(+), 103 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index cfb6ef74c742..9cdb116b545b 100644
+index 9cdb116b545b..ffbfb0533cac 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -158,7 +158,6 @@ struct nvme_fc_ctrl {
- 	u32			cnum;
- 
- 	bool			ioq_live;
--	atomic_t		err_work_active;
- 	u64			association_id;
- 	struct nvmefc_ls_rcv_op	*rcv_disconn;
- 
-@@ -168,7 +167,6 @@ struct nvme_fc_ctrl {
- 	struct blk_mq_tag_set	tag_set;
- 
- 	struct delayed_work	connect_work;
--	struct work_struct	err_work;
- 
- 	struct kref		ref;
- 	unsigned long		flags;
-@@ -2415,11 +2413,11 @@ nvme_fc_nvme_ctrl_freed(struct nvme_ctrl *nctrl)
+@@ -2413,27 +2413,97 @@ nvme_fc_nvme_ctrl_freed(struct nvme_ctrl *nctrl)
  	nvme_fc_ctrl_put(ctrl);
  }
  
-+static void __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl);
+-static void __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl);
++/*
++ * This routine is used by the transport when it needs to find active
++ * io on a queue that is to be terminated. The transport uses
++ * blk_mq_tagset_busy_itr() to find the busy requests, which then invoke
++ * this routine to kill them on a 1 by 1 basis.
++ *
++ * As FC allocates FC exchange for each io, the transport must contact
++ * the LLDD to terminate the exchange, thus releasing the FC exchange.
++ * After terminating the exchange the LLDD will call the transport's
++ * normal io done path for the request, but it will have an aborted
++ * status. The done path will return the io request back to the block
++ * layer with an error status.
++ */
++static bool
++nvme_fc_terminate_exchange(struct request *req, void *data, bool reserved)
++{
++	struct nvme_ctrl *nctrl = data;
++	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
++	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(req);
 +
++	__nvme_fc_abort_op(ctrl, op);
++	return true;
++}
++
++/*
++ * This routine runs through all outstanding commands on the association
++ * and aborts them.  This routine is typically be called by the
++ * delete_association routine. It is also called due to an error during
++ * reconnect. In that scenario, it is most likely a command that initializes
++ * the controller, including fabric Connect commands on io queues, that
++ * may have timed out or failed thus the io must be killed for the connect
++ * thread to see the error.
++ */
++static void
++__nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
++{
++	/*
++	 * If io queues are present, stop them and terminate all outstanding
++	 * ios on them. As FC allocates FC exchange for each io, the
++	 * transport must contact the LLDD to terminate the exchange,
++	 * thus releasing the FC exchange. We use blk_mq_tagset_busy_itr()
++	 * to tell us what io's are busy and invoke a transport routine
++	 * to kill them with the LLDD.  After terminating the exchange
++	 * the LLDD will call the transport's normal io done path, but it
++	 * will have an aborted status. The done path will return the
++	 * io requests back to the block layer as part of normal completions
++	 * (but with error status).
++	 */
++	if (ctrl->ctrl.queue_count > 1) {
++		nvme_stop_queues(&ctrl->ctrl);
++		blk_mq_tagset_busy_iter(&ctrl->tag_set,
++				nvme_fc_terminate_exchange, &ctrl->ctrl);
++		blk_mq_tagset_wait_completed_request(&ctrl->tag_set);
++		if (start_queues)
++			nvme_start_queues(&ctrl->ctrl);
++	}
++
++	/*
++	 * Other transports, which don't have link-level contexts bound
++	 * to sqe's, would try to gracefully shutdown the controller by
++	 * writing the registers for shutdown and polling (call
++	 * nvme_shutdown_ctrl()). Given a bunch of i/o was potentially
++	 * just aborted and we will wait on those contexts, and given
++	 * there was no indication of how live the controlelr is on the
++	 * link, don't send more io to create more contexts for the
++	 * shutdown. Let the controller fail via keepalive failure if
++	 * its still present.
++	 */
++
++	/*
++	 * clean up the admin queue. Same thing as above.
++	 */
++	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
++				nvme_fc_terminate_exchange, &ctrl->ctrl);
++	blk_mq_tagset_wait_completed_request(&ctrl->admin_tag_set);
++}
+ 
  static void
  nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
  {
--	int active;
--
  	/*
- 	 * if an error (io timeout, etc) while (re)connecting,
- 	 * it's an error on creating the new association.
-@@ -2428,11 +2426,14 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
- 	 * ios hitting this path before things are cleaned up.
+-	 * if an error (io timeout, etc) while (re)connecting,
+-	 * it's an error on creating the new association.
+-	 * Start the error recovery thread if it hasn't already
+-	 * been started. It is expected there could be multiple
+-	 * ios hitting this path before things are cleaned up.
++	 * if an error (io timeout, etc) while (re)connecting, the remote
++	 * port requested terminating of the association (disconnect_ls)
++	 * or an error (timeout or abort) occurred on an io while creating
++	 * the controller.  Abort any ios on the association and let the
++	 * create_association error path resolve things.
  	 */
  	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
--		active = atomic_xchg(&ctrl->err_work_active, 1);
--		if (!active && !queue_work(nvme_fc_wq, &ctrl->err_work)) {
--			atomic_set(&ctrl->err_work_active, 0);
--			WARN_ON(1);
--		}
-+		__nvme_fc_terminate_io(ctrl);
-+
-+		/*
-+		 * Rescheduling the connection after recovering
-+		 * from the io error is left to the reconnect work
-+		 * item, which is what should have stalled waiting on
-+		 * the io that had the error that scheduled this work.
-+		 */
+-		__nvme_fc_terminate_io(ctrl);
+-
+-		/*
+-		 * Rescheduling the connection after recovering
+-		 * from the io error is left to the reconnect work
+-		 * item, which is what should have stalled waiting on
+-		 * the io that had the error that scheduled this work.
+-		 */
++		__nvme_fc_abort_outstanding_ios(ctrl, true);
++		set_bit(ASSOC_FAILED, &ctrl->flags);
  		return;
  	}
  
-@@ -3240,7 +3241,6 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
- 
--	cancel_work_sync(&ctrl->err_work);
- 	cancel_delayed_work_sync(&ctrl->connect_work);
- 	/*
- 	 * kill the association on the link side.  this will block
-@@ -3351,23 +3351,6 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
- 			ctrl->cnum);
+@@ -2747,30 +2817,6 @@ nvme_fc_complete_rq(struct request *rq)
+ 	nvme_fc_ctrl_put(ctrl);
  }
  
--static void
--nvme_fc_connect_err_work(struct work_struct *work)
+-/*
+- * This routine is used by the transport when it needs to find active
+- * io on a queue that is to be terminated. The transport uses
+- * blk_mq_tagset_busy_itr() to find the busy requests, which then invoke
+- * this routine to kill them on a 1 by 1 basis.
+- *
+- * As FC allocates FC exchange for each io, the transport must contact
+- * the LLDD to terminate the exchange, thus releasing the FC exchange.
+- * After terminating the exchange the LLDD will call the transport's
+- * normal io done path for the request, but it will have an aborted
+- * status. The done path will return the io request back to the block
+- * layer with an error status.
+- */
+-static bool
+-nvme_fc_terminate_exchange(struct request *req, void *data, bool reserved)
 -{
--	struct nvme_fc_ctrl *ctrl =
--			container_of(work, struct nvme_fc_ctrl, err_work);
+-	struct nvme_ctrl *nctrl = data;
+-	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+-	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(req);
 -
--	__nvme_fc_terminate_io(ctrl);
+-	__nvme_fc_abort_op(ctrl, op);
+-	return true;
+-}
 -
--	atomic_set(&ctrl->err_work_active, 0);
+ 
+ static const struct blk_mq_ops nvme_fc_mq_ops = {
+ 	.queue_rq	= nvme_fc_queue_rq,
+@@ -3111,60 +3157,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ }
+ 
+ 
+-/*
+- * This routine runs through all outstanding commands on the association
+- * and aborts them.  This routine is typically be called by the
+- * delete_association routine. It is also called due to an error during
+- * reconnect. In that scenario, it is most likely a command that initializes
+- * the controller, including fabric Connect commands on io queues, that
+- * may have timed out or failed thus the io must be killed for the connect
+- * thread to see the error.
+- */
+-static void
+-__nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
+-{
+-	/*
+-	 * If io queues are present, stop them and terminate all outstanding
+-	 * ios on them. As FC allocates FC exchange for each io, the
+-	 * transport must contact the LLDD to terminate the exchange,
+-	 * thus releasing the FC exchange. We use blk_mq_tagset_busy_itr()
+-	 * to tell us what io's are busy and invoke a transport routine
+-	 * to kill them with the LLDD.  After terminating the exchange
+-	 * the LLDD will call the transport's normal io done path, but it
+-	 * will have an aborted status. The done path will return the
+-	 * io requests back to the block layer as part of normal completions
+-	 * (but with error status).
+-	 */
+-	if (ctrl->ctrl.queue_count > 1) {
+-		nvme_stop_queues(&ctrl->ctrl);
+-		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+-				nvme_fc_terminate_exchange, &ctrl->ctrl);
+-		blk_mq_tagset_wait_completed_request(&ctrl->tag_set);
+-		if (start_queues)
+-			nvme_start_queues(&ctrl->ctrl);
+-	}
 -
 -	/*
--	 * Rescheduling the connection after recovering
--	 * from the io error is left to the reconnect work
--	 * item, which is what should have stalled waiting on
--	 * the io that had the error that scheduled this work.
+-	 * Other transports, which don't have link-level contexts bound
+-	 * to sqe's, would try to gracefully shutdown the controller by
+-	 * writing the registers for shutdown and polling (call
+-	 * nvme_shutdown_ctrl()). Given a bunch of i/o was potentially
+-	 * just aborted and we will wait on those contexts, and given
+-	 * there was no indication of how live the controlelr is on the
+-	 * link, don't send more io to create more contexts for the
+-	 * shutdown. Let the controller fail via keepalive failure if
+-	 * its still present.
 -	 */
+-
+-	/*
+-	 * clean up the admin queue. Same thing as above.
+-	 */
+-	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+-	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+-				nvme_fc_terminate_exchange, &ctrl->ctrl);
+-	blk_mq_tagset_wait_completed_request(&ctrl->admin_tag_set);
 -}
- 
- static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
- 	.name			= "fc",
-@@ -3495,7 +3478,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	ctrl->dev = lport->dev;
- 	ctrl->cnum = idx;
- 	ctrl->ioq_live = false;
--	atomic_set(&ctrl->err_work_active, 0);
- 	init_waitqueue_head(&ctrl->ioabort_wait);
- 
- 	get_device(ctrl->dev);
-@@ -3503,7 +3485,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
- 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
--	INIT_WORK(&ctrl->err_work, nvme_fc_connect_err_work);
- 	spin_lock_init(&ctrl->lock);
- 
- 	/* io queue count */
-@@ -3596,7 +3577,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- fail_ctrl:
- 	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
- 	cancel_work_sync(&ctrl->ctrl.reset_work);
--	cancel_work_sync(&ctrl->err_work);
- 	cancel_delayed_work_sync(&ctrl->connect_work);
- 
- 	ctrl->ctrl.opts = NULL;
+-
+ /*
+  * This routine stops operation of the controller on the host side.
+  * On the host os stack side: Admin and IO queues are stopped,
+@@ -3297,17 +3289,6 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ static void
+ __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
+ {
+-	/*
+-	 * if state is CONNECTING - the error occurred as part of a
+-	 * reconnect attempt. Abort any ios on the association and
+-	 * let the create_association error paths resolve things.
+-	 */
+-	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
+-		__nvme_fc_abort_outstanding_ios(ctrl, true);
+-		set_bit(ASSOC_FAILED, &ctrl->flags);
+-		return;
+-	}
+-
+ 	/*
+ 	 * For any other state, kill the association. As this routine
+ 	 * is a common io abort routine for resetting and such, after
 -- 
 2.26.2
 
 
---000000000000d15bd805b25e1702
+--000000000000e5b34505b25e178e
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -299,20 +422,20 @@ ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
 9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
 ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
 MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgiD6Jk79yPS2xLO2/
-j48sVeJpaCR8mnst7ekXzLl0y84wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDIzMjIyNzU5WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
+rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgvOsKOHsF7V34AhP2
+5t4ldEwwAZDS93UieUIOufTGqGMwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjAxMDIzMjIyODAxWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
 ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBALx/X1uYgvq00lHnp8BBXauaiD/ZRVNQ+VSw
-5+hKafPX8cCQSYm6QGqvcQFqDpZUMlN+RHxnYW9pQaExviZqYP5kLNTDD6gFjcFWt5Ri/27g7k2O
-DV7foTsv7bhcrSZdDUDlUGOEOTlLSM2S/3lq4PPKXUpJvMOguOFMVwjxe0TEAZ3WV+NQMRx2jMtV
-fBO+G4A396f4zjz7BMleL3jBJ+NsNLZFBHnIujvkmqbfE/oCYGTPfdMNEDhX7BeGspXGcMov88JJ
-/IyYFSj7a6Y+OJGn/AgKjYRAT0QTC0z+t94jgyowLKI6TgYljiXjNjbTJY2obahqHNlGNgLT5hjV
-85k=
---000000000000d15bd805b25e1702--
+CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBABrbAEw3xd/RVnMEvIDCNW3IXdHDphD2k4KU
+RMXzW1Oqp8wp72Qf4xa5MP7SwG+FRlZ2d6Crq4aUSAVj2Bj5iwnMgwNlwgwojt0wmjCu5jAR7Pqy
+IaTEBPC9mVqtFxssw1Bd8q87nBoG2MBdpYcCpFvYbx1b/1H5cuv1tybJGvl8QJKtTcMZhCDeX69e
+Vfemiu11pr7Tf6RXfPNg4cfFOL3DvDRQQT4ZX6yP/mwUYQaFYO24NgXGVjIcuDztbbaasoasIq4B
+XIVDfs5xR5kwO9OMHcY9lVaedV5F3u8R3dVGF7fCtD1JfFKzCaqJBWMGwBCXwn6NSQ1bHnm8PRmY
+CKY=
+--000000000000e5b34505b25e178e--
 
 
---===============1538573696736219606==
+--===============4573066881929033844==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -323,5 +446,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============1538573696736219606==--
+--===============4573066881929033844==--
 
