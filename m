@@ -1,91 +1,72 @@
-Return-Path: <SRS0=3deH=D5=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=yBWI=D6=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEDC8C388F7
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2020 23:58:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE811C4363A
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 02:01:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 21BC520848
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Oct 2020 23:58:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ED5CF223BF
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 02:01:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CDleLCxf";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="BGCl4IH6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 21BC520848
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NY6n12jC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED5CF223BF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=AAuRE/9CvX7kw+Xnd7jkEej3JPMdZuFboADl4fS5I5o=; b=CDleLCxfagheNwe3OeOKqkEuZ8
-	5HZkFxpA+Gz+9OIWo3Au4CIHn/sZ7HjHeWBQVkGl2HSKVgdkKnfzwvimM8JedWH4svG1b6UkUhZCK
-	sdke64KcMmONeKCYjd6dtA0tKaHj61KUog1muK8gqD/954qe3sxwbmPfmtv2zfliUsj3vBhlMU8d7
-	SQ05TP8jA2h8rr4M1CCutNk78Ftu/H/KIemGee8I6UimO+1aRqVpoqrmAoRe0/x7/RFkIjoLsNR5W
-	o8s1e3ry8kw8NRcuXjyLPj+vqk3QWFFF1+rSnL6QTvUTysw4j0zJ6MxMtEBkuxNU+fluK//TF5n0I
-	67EUkWfA==;
+	bh=uHXgVHfYRZrl33UGrfPI42xO80+TXEFb2bwG7QSNCow=; b=NY6n12jCUQ1MlyC9UhIwAXd8Ui
+	FaesZFfnBSMxDgvX5aj1oUhZvhTNCS8srWcV2UpMfkRDYOddr2SDQ/ZH34ImBn0Et8VUcONIB8ohf
+	4E+Guin+NOu1nsMJXP/m2xS+tDUwCJVzz8Ez1W/5KiUW135+6Z9MvgE/eWuUMFvpoJ2R0Btd5zRTX
+	4KsEHVfqiorSfb/Kg9Fky3Tgpn60npUXrGphHFg1yRIcmf66+JV9QcSE5n7ax8vmX4fkC9O07g5A3
+	CHT2holqMErPkSegReBrzgUjjkImRKqpq70V1G/M+Ez1Hla+yWEqY1CSCEC9Or5wzLGyYJVRvOXlX
+	F+k33OPA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kVkTY-0007eo-Ta; Thu, 22 Oct 2020 23:58:33 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1kVmOA-0005PS-Bb; Fri, 23 Oct 2020 02:01:06 +0000
+Received: from mga04.intel.com ([192.55.52.120])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kVkTS-0007cR-9F
- for linux-nvme@lists.infradead.org; Thu, 22 Oct 2020 23:58:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603411106; x=1634947106;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=RFEv097lEjrEM7zAa6XesuhYwEuYXCed3RaGpm7NlYM=;
- b=BGCl4IH64bfmtTzvV7WbT693/0ERVC4YCIy8Tb6aanrTbhgt/qNTdXen
- YY8lemer0ojYufDgDOPKsuVdNUcBEdM5LXVEHxHFVwVbU+DJCq8EzD26i
- 42NvMVIbyff4B/5MXF8hc5KH9H7AEWGcV8Gwbm6qtZ9wD/Q1/h2BX6s/k
- mLZXB5763/llRRQCPl+ryKwmzfwXeAtVeGZrJbr3fld9Y3Mic3aINV1ND
- dcaxxJyMgeFN9Ik0oCTJ0lK1A7ZZLACPMZ1wpEgLuyZvcqrxNBjdjIo4h
- hwBJDcnVCK21xsL66sW4njfkbyFjMuYlo5w/9lVM0zW5Aq4TnhhAxwsCi w==;
-IronPort-SDR: bS016/Xjnnmon4+aVjYVXHwAslf84UqYUbe/UIIk3/xPKHnqG+s45LlRc0cUhA+LK3RK3oWJzw
- PzPAg6zAFfOA5LdgdQi51bFtnABehxUQiC4uIccggnEwA1Ae1RsCRNzeHnAyrzuBVgWsJjGa4Z
- xyrp13oF0U8kaOyc9r2HaL1VBGQdWkO3k8apEdEoyyU0EuaVAFlkIDAS36pwqwOkjsXs5zwbrn
- /ptFMiDbFAvt5eA4eA0CZGLGnJA9fsOJYENuzWAiiJoGH8zuFmFYBtqsB5mLbZXaKKHsDh66hF
- Rtg=
-X-IronPort-AV: E=Sophos;i="5.77,404,1596470400"; d="scan'208";a="260569272"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 07:58:23 +0800
-IronPort-SDR: MpE3fwww9hqd+3ikDpefvXA3cGHjwd0GGs3krTeUWgkOmo+H+wGpoDPQeSZLnDCA9dJy3LZncp
- tyRmKQR8Ews3dDAxXdIqOyqkzS/21SVWvTi1DRbGsbTtctZbyMvdaiW6wOIKKJK/UloTrUEGB5
- S1MblAE/33YW9cA3TyGRd9ktsZGH9UATb+k2kQP1XpYoYT2XHr85lHf3jmmgWKpTmvfBqHUh3Y
- L9CJZgyvnaPJdE8G3plgKr3qo2ATts90ns3I9eHmTuL8T9uEQ8ApXbjn8GptWMAd31lrzIFW5J
- 3C0fqbIM+zWhdSHmWJKFKx4c
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2020 16:44:47 -0700
-IronPort-SDR: UKDsooKp9Pq+U6UMewAZpQXZeEre3lGomEfwdu5HILHeHdFKJLpw3j3ZLsX5qNv7wGlyBDdZ68
- cF+DwTPBomHX31WWqW/23eyQFNR0aomv0/WBiA0fa2PczBGQRtOSowQ7vIM9QGkdeeEEVy8VjG
- aIhC2pZeK/3S4H8LF0VvOSUVh0l0+AtlI+GzqgQTSc6Rphm5/fDJgdxyRk7CNX5g4TLNtlqspk
- JjLsCISxPI2GtEVAN3F+hbilEt/S7AmJ+YVPVEXLLCbAwUpAP6NJazoVQB8tnYPrpkPuly8tXA
- cAw=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 22 Oct 2020 16:58:24 -0700
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2] nvmet: fix the Oops in the tracing for flush cmd
-Date: Thu, 22 Oct 2020 16:58:21 -0700
-Message-Id: <20201022235821.6760-1-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1
+ id 1kVmO4-0005Ox-85
+ for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 02:01:01 +0000
+IronPort-SDR: CML4gEM6NhCZHGNoClvWvQ54DTIfL3YV1iTI7GFS6MCVgzZEeM0diuCHCQYbDhEWwl7kGBXO6X
+ epdrk1eKOt1A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9782"; a="165026197"
+X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; d="scan'208";a="165026197"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2020 19:00:52 -0700
+IronPort-SDR: bqvBoDl2mRjx0Q+xJr2Be+Rpz3k5mx0jBROHFZ7J91xgQlQIe3TlwKqVAIvldq2aaPtU/IqG63
+ hxQCN+nBKBqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; d="scan'208";a="302617367"
+Received: from lkp-server01.sh.intel.com (HELO 56e21eaf2661) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 22 Oct 2020 19:00:51 -0700
+Received: from kbuild by 56e21eaf2661 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kVmNu-0000Bc-Ly; Fri, 23 Oct 2020 02:00:50 +0000
+Date: Fri, 23 Oct 2020 10:00:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-5.10] BUILD SUCCESS
+ 157b2dc28599df312d71e1ac93b3306bc5b440b5
+Message-ID: <5f92393e.5Y8vQRbDP0gTbYaQ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201022_195826_552995_8BCD251C 
-X-CRM114-Status: GOOD (  17.21  )
+X-CRM114-CacheID: sfid-20201022_220100_474763_09FEDC63 
+X-CRM114-Status: GOOD (  10.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,159 +78,198 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When target side trace in turned on and flush command is issued from the
-host it results in the following Oops.
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.10
+branch HEAD: 157b2dc28599df312d71e1ac93b3306bc5b440b5  nvme-fc: shorten reconnect delay if possible for FC
 
-[  856.789724] BUG: kernel NULL pointer dereference, address: 0000000000000068
-[  856.790686] #PF: supervisor read access in kernel mode
-[  856.791262] #PF: error_code(0x0000) - not-present page
-[  856.791863] PGD 6d7110067 P4D 6d7110067 PUD 66f0ad067 PMD 0
-[  856.792527] Oops: 0000 [#1] SMP NOPTI
-[  856.792950] CPU: 15 PID: 7034 Comm: nvme Tainted: G           OE     5.9.0nvme-5.9+ #71
-[  856.793790] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-59-gc9ba5276e3214
-[  856.794956] RIP: 0010:trace_event_raw_event_nvmet_req_init+0x13e/0x170 [nvmet]
-[  856.795734] Code: 41 5c 41 5d c3 31 d2 31 f6 e8 4e 9b b8 e0 e9 0e ff ff ff 49 8b 55 00 48 8b 38 8b 0
-[  856.797740] RSP: 0018:ffffc90001be3a60 EFLAGS: 00010246
-[  856.798375] RAX: 0000000000000000 RBX: ffff8887e7d2c01c RCX: 0000000000000000
-[  856.799234] RDX: 0000000000000020 RSI: 0000000057e70ea2 RDI: ffff8887e7d2c034
-[  856.800088] RBP: ffff88869f710578 R08: ffff888807500d40 R09: 00000000fffffffe
-[  856.800951] R10: 0000000064c66670 R11: 00000000ef955201 R12: ffff8887e7d2c034
-[  856.801807] R13: ffff88869f7105c8 R14: 0000000000000040 R15: ffff88869f710440
-[  856.802667] FS:  00007f6a22bd8780(0000) GS:ffff888813a00000(0000) knlGS:0000000000000000
-[  856.803635] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  856.804367] CR2: 0000000000000068 CR3: 00000006d73e0000 CR4: 00000000003506e0
-[  856.805283] Call Trace:
-[  856.805613]  nvmet_req_init+0x27c/0x480 [nvmet]
-[  856.806200]  nvme_loop_queue_rq+0xcb/0x1d0 [nvme_loop]
-[  856.806862]  blk_mq_dispatch_rq_list+0x123/0x7b0
-[  856.807459]  ? kvm_sched_clock_read+0x14/0x30
-[  856.808025]  __blk_mq_sched_dispatch_requests+0xc7/0x170
-[  856.808708]  blk_mq_sched_dispatch_requests+0x30/0x60
-[  856.809372]  __blk_mq_run_hw_queue+0x70/0x100
-[  856.809935]  __blk_mq_delay_run_hw_queue+0x156/0x170
-[  856.810574]  blk_mq_run_hw_queue+0x86/0xe0
-[  856.811104]  blk_mq_sched_insert_request+0xef/0x160
-[  856.811733]  blk_execute_rq+0x69/0xc0
-[  856.812212]  ? blk_mq_rq_ctx_init+0xd0/0x230
-[  856.812784]  nvme_execute_passthru_rq+0x57/0x130 [nvme_core]
-[  856.813461]  nvme_submit_user_cmd+0xeb/0x300 [nvme_core]
-[  856.814099]  nvme_user_cmd.isra.82+0x11e/0x1a0 [nvme_core]
-[  856.814752]  blkdev_ioctl+0x1dc/0x2c0
-[  856.815197]  block_ioctl+0x3f/0x50
-[  856.815606]  __x64_sys_ioctl+0x84/0xc0
-[  856.816074]  do_syscall_64+0x33/0x40
-[  856.816533]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  856.817168] RIP: 0033:0x7f6a222ed107
-[  856.817617] Code: 44 00 00 48 8b 05 81 cd 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 8
-[  856.819901] RSP: 002b:00007ffca848f058 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
-[  856.820846] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f6a222ed107
-[  856.821726] RDX: 00007ffca848f060 RSI: 00000000c0484e43 RDI: 0000000000000003
-[  856.822603] RBP: 0000000000000003 R08: 000000000000003f R09: 0000000000000005
-[  856.823478] R10: 00007ffca848ece0 R11: 0000000000000202 R12: 00007ffca84912d3
-[  856.824359] R13: 00007ffca848f4d0 R14: 0000000000000002 R15: 000000000067e900
-[  856.825236] Modules linked in: nvme_loop(OE) nvmet(OE) nvme_fabrics(OE) null_blk nvme(OE) nvme_corel
+elapsed time: 725m
 
-Move the nvmet_req_init() tracepoint after we parse the command in
-nvmet_req_init() so that we can get rid of the duplicate
-nvmet_find_namespace() call.
-Rename __assign_disk_name() ->  __assign_req_name(). Now that we call
-tracepoint after parsing the command simplify the newly added
-__assign_req_name() which fixes this bug.
+configs tested: 168
+configs skipped: 2
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                 kfr2r09-romimage_defconfig
+m68k                       m5208evb_defconfig
+m68k                          amiga_defconfig
+arm                            dove_defconfig
+sh                        sh7785lcr_defconfig
+powerpc                 mpc837x_mds_defconfig
+mips                          ath79_defconfig
+um                            kunit_defconfig
+powerpc                     ppa8548_defconfig
+sh                           se7206_defconfig
+powerpc                     tqm5200_defconfig
+arm                           spitz_defconfig
+h8300                    h8300h-sim_defconfig
+c6x                        evmc6474_defconfig
+powerpc                        icon_defconfig
+arm                         bcm2835_defconfig
+ia64                          tiger_defconfig
+arm                        mvebu_v7_defconfig
+arm                       spear13xx_defconfig
+powerpc                 mpc836x_mds_defconfig
+xtensa                    xip_kc705_defconfig
+powerpc                      obs600_defconfig
+arm                        cerfcube_defconfig
+powerpc                      ppc40x_defconfig
+mips                           ip27_defconfig
+powerpc                      pasemi_defconfig
+arm                       aspeed_g5_defconfig
+arm                       netwinder_defconfig
+arm                        oxnas_v6_defconfig
+xtensa                  cadence_csp_defconfig
+arc                                 defconfig
+sh                               allmodconfig
+mips                          rb532_defconfig
+m68k                             alldefconfig
+um                           x86_64_defconfig
+parisc                              defconfig
+arm                      footbridge_defconfig
+sh                             shx3_defconfig
+sh                           se7705_defconfig
+sh                          polaris_defconfig
+arm                           stm32_defconfig
+powerpc                         wii_defconfig
+nds32                             allnoconfig
+arm                          prima2_defconfig
+ia64                      gensparse_defconfig
+mips                        nlm_xlp_defconfig
+arm                        spear3xx_defconfig
+arm                    vt8500_v6_v7_defconfig
+powerpc                     redwood_defconfig
+sh                             sh03_defconfig
+mips                      bmips_stb_defconfig
+sparc64                          alldefconfig
+sh                     magicpanelr2_defconfig
+xtensa                generic_kc705_defconfig
+powerpc                 mpc8313_rdb_defconfig
+powerpc                     asp8347_defconfig
+m68k                          sun3x_defconfig
+powerpc                       eiger_defconfig
+arm                         s3c6400_defconfig
+arm                       imx_v6_v7_defconfig
+arm                        mvebu_v5_defconfig
+c6x                         dsk6455_defconfig
+arm                      pxa255-idp_defconfig
+arm                         s5pv210_defconfig
+m68k                          hp300_defconfig
+arc                         haps_hs_defconfig
+mips                        qi_lb60_defconfig
+arm                            hisi_defconfig
+arm                        multi_v5_defconfig
+xtensa                              defconfig
+mips                            ar7_defconfig
+powerpc                      acadia_defconfig
+sh                              ul2_defconfig
+mips                         cobalt_defconfig
+mips                  cavium_octeon_defconfig
+m68k                        m5407c3_defconfig
+sh                             espt_defconfig
+arm                        realview_defconfig
+arc                              allyesconfig
+sh                          sdk7780_defconfig
+powerpc                     rainier_defconfig
+mips                           ip22_defconfig
+arm                        trizeps4_defconfig
+powerpc                     mpc5200_defconfig
+arm                         cm_x300_defconfig
+sparc                            allyesconfig
+powerpc                    socrates_defconfig
+c6x                        evmc6678_defconfig
+mips                        omega2p_defconfig
+arm                         ebsa110_defconfig
+arm                        spear6xx_defconfig
+powerpc                    mvme5100_defconfig
+arm                             rpc_defconfig
+powerpc                      ppc64e_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+i386                                defconfig
+nios2                               defconfig
+c6x                              allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a002-20201022
+i386                 randconfig-a005-20201022
+i386                 randconfig-a003-20201022
+i386                 randconfig-a001-20201022
+i386                 randconfig-a006-20201022
+i386                 randconfig-a004-20201022
+i386                 randconfig-a002-20201023
+i386                 randconfig-a005-20201023
+i386                 randconfig-a003-20201023
+i386                 randconfig-a001-20201023
+i386                 randconfig-a006-20201023
+i386                 randconfig-a004-20201023
+x86_64               randconfig-a011-20201022
+x86_64               randconfig-a013-20201022
+x86_64               randconfig-a016-20201022
+x86_64               randconfig-a015-20201022
+x86_64               randconfig-a012-20201022
+x86_64               randconfig-a014-20201022
+i386                 randconfig-a016-20201022
+i386                 randconfig-a014-20201022
+i386                 randconfig-a015-20201022
+i386                 randconfig-a012-20201022
+i386                 randconfig-a013-20201022
+i386                 randconfig-a011-20201022
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a001-20201022
+x86_64               randconfig-a002-20201022
+x86_64               randconfig-a003-20201022
+x86_64               randconfig-a006-20201022
+x86_64               randconfig-a004-20201022
+x86_64               randconfig-a005-20201022
+
 ---
-Changes from V1:-
-
-1. Move the nvmet_req_init() tracepoint after we parse the command in
-   nvmet_req_init().
-2. Rename __assign_disk_name() -> __assign_req_name().
-3. Simplify the newly added __assign_req_name() which fixes this bug.
-4. Update the commit log.
-
----
- drivers/nvme/target/core.c  |  4 ++--
- drivers/nvme/target/trace.h | 21 +++++++--------------
- 2 files changed, 9 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index aafcbc424b7a..957b39a82431 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -907,8 +907,6 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 	req->error_loc = NVMET_NO_ERROR_LOC;
- 	req->error_slba = 0;
- 
--	trace_nvmet_req_init(req, req->cmd);
--
- 	/* no support for fused commands yet */
- 	if (unlikely(flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND))) {
- 		req->error_loc = offsetof(struct nvme_common_command, flags);
-@@ -938,6 +936,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 	if (status)
- 		goto fail;
- 
-+	trace_nvmet_req_init(req, req->cmd);
-+
- 	if (unlikely(!percpu_ref_tryget_live(&sq->ref))) {
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto fail;
-diff --git a/drivers/nvme/target/trace.h b/drivers/nvme/target/trace.h
-index 0458046d6501..c14e3249a14d 100644
---- a/drivers/nvme/target/trace.h
-+++ b/drivers/nvme/target/trace.h
-@@ -46,19 +46,12 @@ static inline struct nvmet_ctrl *nvmet_req_to_ctrl(struct nvmet_req *req)
- 	return req->sq->ctrl;
- }
- 
--static inline void __assign_disk_name(char *name, struct nvmet_req *req,
--		bool init)
-+static inline void __assign_req_name(char *name, struct nvmet_req *req)
- {
--	struct nvmet_ctrl *ctrl = nvmet_req_to_ctrl(req);
--	struct nvmet_ns *ns;
--
--	if ((init && req->sq->qid) || (!init && req->cq->qid)) {
--		ns = nvmet_find_namespace(ctrl, req->cmd->rw.nsid);
--		strncpy(name, ns->device_path, DISK_NAME_LEN);
--		return;
--	}
--
--	memset(name, 0, DISK_NAME_LEN);
-+	if (req->ns)
-+		strncpy(name, req->ns->device_path, DISK_NAME_LEN);
-+	else
-+		memset(name, 0, DISK_NAME_LEN);
- }
- #endif
- 
-@@ -81,7 +74,7 @@ TRACE_EVENT(nvmet_req_init,
- 	TP_fast_assign(
- 		__entry->cmd = cmd;
- 		__entry->ctrl = nvmet_req_to_ctrl(req);
--		__assign_disk_name(__entry->disk, req, true);
-+		__assign_req_name(__entry->disk, req);
- 		__entry->qid = req->sq->qid;
- 		__entry->cid = cmd->common.command_id;
- 		__entry->opcode = cmd->common.opcode;
-@@ -121,7 +114,7 @@ TRACE_EVENT(nvmet_req_complete,
- 		__entry->cid = req->cqe->command_id;
- 		__entry->result = le64_to_cpu(req->cqe->result.u64);
- 		__entry->status = le16_to_cpu(req->cqe->status) >> 1;
--		__assign_disk_name(__entry->disk, req, false);
-+		__assign_req_name(__entry->disk, req);
- 	),
- 	TP_printk("nvmet%s: %sqid=%d, cmdid=%u, res=%#llx, status=%#x",
- 		__print_ctrl_name(__entry->ctrl),
--- 
-2.22.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
