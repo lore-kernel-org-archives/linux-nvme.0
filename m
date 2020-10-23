@@ -2,83 +2,85 @@ Return-Path: <SRS0=yBWI=D6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E7E1C388F9
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 22:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0BAC5517A
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 22:28:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A7DE220BED
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 22:28:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3D4A420BED
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Oct 2020 22:28:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="C7zj5nn7";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="WdS0AgbV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7DE220BED
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i56cRIwW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LoYHlJUw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D4A420BED
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
 	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=3hHkspgWYblyk+YY57X/mXsY9Gx0kcw0alzZ7rNl444=; b=C7z
-	j5nn74/4Hp9p78JCQe3Jx3TDU1rfISB49cT66OCqpMm5LNeMz2VfpnFdHjO8ClmoswQorRfBaEkmj
-	0jmLRFnS8t+zhS9CveoYq7lctjHkktdCVWDSfr4bYxLYpwQMo4MRID27yzhnGnr3d90/MCmUtW1cH
-	jXKaqg8E8GDYGtqMSG+SLBqeJuoKoj3Q/I1mRnJktvOGLbnNcjTeAtr9O2KIfFfy+QSF5sZCJ4lcg
-	9ak9JmCjc7CC3v9PdPoXHbe4imTlDeqZ0gf2vO8AdBDxGnGwA2gDt07ZBrIOurLcqvH2cWVuAGYxf
-	ZgDJ7dNjrhwwl46N8QAeQ1/6Z4wrBZg==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=sCP9YYqfHjpQ7GxLAh+oF5cZGSFFhdOQXKUEZLoq348=; b=i56cRIwWpOQRnBtXArSkJd1JN
+	guyn0mkzSLlFNoYijujUb9TA95ZpMfFCUq+/puQ17xF0D+6SEaG03kf/7gUcGiNuqh2JBjgYnd5g3
+	rPV1qZO4CRj9Ehnvec3QAPEi5Ny3dkbL/3tM9C8L/ZymBvBOwLrO/S1zPCezuNbnUHvAxsz75SRQB
+	KbRdC7K3Jtp3LbfTawdUwFyJ/dnTkORFNGi3gQuwZ1ShCZYsdPBC4WVQByfWO04CkX89CLScxrdy8
+	Eu4QruBu165Iy+OtvqluDm4SdBzTY6rglw6k1V1Z/a01zufVB/OI25NQjGYneXT8pwly9Invl6mDT
+	L7OVqZBjQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kW5XW-0006Ph-Ob; Fri, 23 Oct 2020 22:28:02 +0000
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+	id 1kW5XZ-0006Qk-6J; Fri, 23 Oct 2020 22:28:05 +0000
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kW5XU-0006Oj-H3
- for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 22:28:01 +0000
-Received: by mail-pl1-x62e.google.com with SMTP id bf6so1771618plb.4
- for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2020 15:28:00 -0700 (PDT)
+ id 1kW5XV-0006P4-Vk
+ for linux-nvme@lists.infradead.org; Fri, 23 Oct 2020 22:28:03 +0000
+Received: by mail-pf1-x444.google.com with SMTP id f19so2596317pfj.11
+ for <linux-nvme@lists.infradead.org>; Fri, 23 Oct 2020 15:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=DzJKm9xOBxgIK7w0eP4fU2jIxpJSdcjrn+T76QCwIhM=;
- b=WdS0AgbVTzgFkhh6rrqwM63xMXHAkixfBeVeX0Vo7aTROkHy+Fw3qwBtu1Hk2tOcdf
- sq5VESkmgMRolKmHtd3yuoCgPyhawaFVOT1GWRiccMJ96pjl7Ujm7JOY1E8U6s2lHdlR
- LbRsKGpOTTKdD/H9W3OcxHMbUhvZaYLlyEJcs=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version; bh=DvIDlMEP24lLkAPWI2OgCO3kdlL8AmHIcZ4BYmv8vi8=;
+ b=LoYHlJUwHoepU7nAFlaK3tgGI0bz9QQ5HBVqiBWIHqjX6q9lOK+LUqlskJyw8Sce54
+ 6t+364RJTShHHxPIiNXKgioeLw95FR0n59kwcDbEgPCpo6cgLG8Q2irAQF+Q6aGjAMGW
+ MyclTacCnlZcsKWvyGvMUNQ6A1KJ44jYcUxdY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version;
- bh=DzJKm9xOBxgIK7w0eP4fU2jIxpJSdcjrn+T76QCwIhM=;
- b=WOSUBJnmpbVob5qGeN6pQAKfJfltkmzTVSOAKW4hFR8ntVjSd8Bl1/NKN5Kl8h9otV
- /oVyW6N5cdGFPtxbJkgXHLmM6I2ZNdhxKiHKCNxEBWVHiERDH4goKU31ziTamyc8Ufu3
- y13PHM8gVrYNWIhS1OaoIHKDtJVPOdPq2LduGiEcu/O2Vnt2nXbMZYY5Xo8DSeDJDcMG
- KYmZ0dXqHfVtw7pll91zSIh5g6QdDMI1KeAzqbH5Wq2C+DMhLw/9pECMtWhk6idjI8k5
- UZkzelqaY6cM7fl85JwMeetk2d46NEJTTDfvwZXlgXF0gnMeD3JzAVFubRRIbIek0z4E
- dGuQ==
-X-Gm-Message-State: AOAM532ahIz2ELHhajsSGdz17HQ3oM2J5oFHY1myNwHxG5F/xzkn4uJ5
- IMsI0kY4zY59nujLxO1NUnaxD/EfM80p+72QSRnBC2/7k+irUa+bVx+OgLQ+blQT+BJFKiGleOL
- QnkHOUwpnBoVfYW8azTEY8oTjwpHqtzQj6a/cFcHxuU3Ue1zQpgfsDk86hXlP2bjUP0v925QHtq
- E/Flz9rPib
-X-Google-Smtp-Source: ABdhPJzuk6bLOaTbbV2b3Q8mzjURD4tGjaPPLfEEct5t8dKXch9jA1Lg5EtpMMf+kPnPH6wkwvCAVA==
-X-Received: by 2002:a17:902:ba91:b029:d5:c5ce:9bab with SMTP id
- k17-20020a170902ba91b02900d5c5ce9babmr1097838pls.48.1603492077710; 
- Fri, 23 Oct 2020 15:27:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version;
+ bh=DvIDlMEP24lLkAPWI2OgCO3kdlL8AmHIcZ4BYmv8vi8=;
+ b=PfMje9m2sizt9SOsvrF/jhmyyhYgI4QOAW1LuT2/rLlVNjhGyb97cScSANPBDlJClJ
+ imJFmsESup9Yps18uWQVOFHBZ42q07Cr5jnydp6a0mNd2GgJ54qqLpF+cPysRxyFOWaT
+ X+mC0+ozFHupPJJ2AGEZH6+EreVrREaO66YXvHer7EsIAvAD64n1L3j694mfr7uRkVNA
+ 2WHtPoNBGbZa2pNFcBaMvUw4qetYyd3ZQss6b4Qqa5UWhALR7dXIeOkQE+RUivFpDLoz
+ hkLYoWx6O9u8+eZi7TzVankW7Y+ijjS+xoyp84dPGs0NT+dd1zcuQcnfK06k7Eh301Sk
+ yKbQ==
+X-Gm-Message-State: AOAM532Q9CqENVCwT7fCiYUZbFtHkgmcwieLFeYfKb1uvP8IVz33PsmP
+ 5WoZiCYtGljl8RCCfltJqCgOORRRjNgN6rpj45h41JcbblXcPa88DAiqbJk+cNFfarPk9l7j5IG
+ JJlHz/FpzqaKfNpsJAL/lGbeW/usrYNAoT5D0Fy3mg4avjRpBpA3XNS3cwjvDF637dGyEmdQugC
+ ESZXWjyRbf
+X-Google-Smtp-Source: ABdhPJzSKLyZNNxWWURsAhpVPjBIoS4MiHtMVYEuYanc/P5m+BVOIxbAfBPgCJd7alGXENcdxbxx5g==
+X-Received: by 2002:a63:d252:: with SMTP id t18mr3358385pgi.300.1603492079173; 
+ Fri, 23 Oct 2020 15:27:59 -0700 (PDT)
 Received: from localhost.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id a18sm4109511pjs.27.2020.10.23.15.27.56
+ by smtp.gmail.com with ESMTPSA id a18sm4109511pjs.27.2020.10.23.15.27.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 15:27:56 -0700 (PDT)
+ Fri, 23 Oct 2020 15:27:58 -0700 (PDT)
 From: James Smart <james.smart@broadcom.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 0/3] nvme-fc: clean up error recovery implementation
-Date: Fri, 23 Oct 2020 15:27:49 -0700
-Message-Id: <20201023222752.90621-1-james.smart@broadcom.com>
+Subject: [PATCH v2 1/3] nvme-fc: remove err_work work item
+Date: Fri, 23 Oct 2020 15:27:50 -0700
+Message-Id: <20201023222752.90621-2-james.smart@broadcom.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201023222752.90621-1-james.smart@broadcom.com>
+References: <20201023222752.90621-1-james.smart@broadcom.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201023_182800_602845_CF8BA7D5 
-X-CRM114-Status: GOOD (  10.43  )
+X-CRM114-CacheID: sfid-20201023_182802_050742_A24CEA83 
+X-CRM114-Status: GOOD (  17.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,46 +93,143 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: James Smart <james.smart@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============2609091138492652941=="
+Content-Type: multipart/mixed; boundary="===============1538573696736219606=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============2609091138492652941==
+--===============1538573696736219606==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000ba227c05b25e1725"
+	boundary="000000000000d15bd805b25e1702"
 
---000000000000ba227c05b25e1725
+--000000000000d15bd805b25e1702
 Content-Transfer-Encoding: 8bit
 
-After reviewing the error_recovery paths to address the abort on the
-io to cover timeouts on connecting ios, it became clear that some of the
-thing in the way it was coded were unnecessary.
+err_work was created to handle errors (mainly io timeout) while in
+CONNECTING state. The flag for err_work_active is also unneeded.
 
-This patch set cleans up those items and refactors. It then addresses the
-failure case of io errors during reconnect which wants to take the create
-failure cases, but there is no status back from the core routines to
-trigger that path.
+Remove err_work_active and err_work.  The actions to abort ios are moved
+inline to nvme_error_recovery().
 
-Note: this assumes the patch "nvme_fc: track error_recovery while
-connecting" has been applied already
+Signed-off-by: James Smart <james.smart@broadcom.com>
+---
+ drivers/nvme/host/fc.c | 40 ++++++++++------------------------------
+ 1 file changed, 10 insertions(+), 30 deletions(-)
 
-V2:
- Extracted v1's patch4 (the track error_recovery patch) into it's own
- patch as it is a fix, not a cleanup. That patch was posted on its own.
-
-James Smart (3):
-  nvme-fc: remove err_work work item
-  nvme-fc: eliminate terminate_io use by nvme_fc_error_recovery
-  nvme-fc: remove nvme_fc_terminate_io()
-
- drivers/nvme/host/fc.c | 258 ++++++++++++++++-------------------------
- 1 file changed, 101 insertions(+), 157 deletions(-)
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index cfb6ef74c742..9cdb116b545b 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -158,7 +158,6 @@ struct nvme_fc_ctrl {
+ 	u32			cnum;
+ 
+ 	bool			ioq_live;
+-	atomic_t		err_work_active;
+ 	u64			association_id;
+ 	struct nvmefc_ls_rcv_op	*rcv_disconn;
+ 
+@@ -168,7 +167,6 @@ struct nvme_fc_ctrl {
+ 	struct blk_mq_tag_set	tag_set;
+ 
+ 	struct delayed_work	connect_work;
+-	struct work_struct	err_work;
+ 
+ 	struct kref		ref;
+ 	unsigned long		flags;
+@@ -2415,11 +2413,11 @@ nvme_fc_nvme_ctrl_freed(struct nvme_ctrl *nctrl)
+ 	nvme_fc_ctrl_put(ctrl);
+ }
+ 
++static void __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl);
++
+ static void
+ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+ {
+-	int active;
+-
+ 	/*
+ 	 * if an error (io timeout, etc) while (re)connecting,
+ 	 * it's an error on creating the new association.
+@@ -2428,11 +2426,14 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+ 	 * ios hitting this path before things are cleaned up.
+ 	 */
+ 	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
+-		active = atomic_xchg(&ctrl->err_work_active, 1);
+-		if (!active && !queue_work(nvme_fc_wq, &ctrl->err_work)) {
+-			atomic_set(&ctrl->err_work_active, 0);
+-			WARN_ON(1);
+-		}
++		__nvme_fc_terminate_io(ctrl);
++
++		/*
++		 * Rescheduling the connection after recovering
++		 * from the io error is left to the reconnect work
++		 * item, which is what should have stalled waiting on
++		 * the io that had the error that scheduled this work.
++		 */
+ 		return;
+ 	}
+ 
+@@ -3240,7 +3241,6 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 
+-	cancel_work_sync(&ctrl->err_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
+ 	/*
+ 	 * kill the association on the link side.  this will block
+@@ -3351,23 +3351,6 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 			ctrl->cnum);
+ }
+ 
+-static void
+-nvme_fc_connect_err_work(struct work_struct *work)
+-{
+-	struct nvme_fc_ctrl *ctrl =
+-			container_of(work, struct nvme_fc_ctrl, err_work);
+-
+-	__nvme_fc_terminate_io(ctrl);
+-
+-	atomic_set(&ctrl->err_work_active, 0);
+-
+-	/*
+-	 * Rescheduling the connection after recovering
+-	 * from the io error is left to the reconnect work
+-	 * item, which is what should have stalled waiting on
+-	 * the io that had the error that scheduled this work.
+-	 */
+-}
+ 
+ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
+ 	.name			= "fc",
+@@ -3495,7 +3478,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	ctrl->dev = lport->dev;
+ 	ctrl->cnum = idx;
+ 	ctrl->ioq_live = false;
+-	atomic_set(&ctrl->err_work_active, 0);
+ 	init_waitqueue_head(&ctrl->ioabort_wait);
+ 
+ 	get_device(ctrl->dev);
+@@ -3503,7 +3485,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
+ 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
+-	INIT_WORK(&ctrl->err_work, nvme_fc_connect_err_work);
+ 	spin_lock_init(&ctrl->lock);
+ 
+ 	/* io queue count */
+@@ -3596,7 +3577,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ fail_ctrl:
+ 	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
+ 	cancel_work_sync(&ctrl->ctrl.reset_work);
+-	cancel_work_sync(&ctrl->err_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
+ 
+ 	ctrl->ctrl.opts = NULL;
 -- 
 2.26.2
 
 
---000000000000ba227c05b25e1725
+--000000000000d15bd805b25e1702
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -200,20 +299,20 @@ ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
 9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
 ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
 MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgj0AxBtjtQMI4VA3A
-uStPsa+k+tBMmmDgPsFnMdxPFFUwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMDIzMjIyNzU4WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
+rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgiD6Jk79yPS2xLO2/
+j48sVeJpaCR8mnst7ekXzLl0y84wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjAxMDIzMjIyNzU5WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
 ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAGaiji7IU/BFi0EDTb2AjJKiklxkBOFzgCgu
-EbeN3YtyoTahIEBOS4ebF2DBtZXaRcaUbBomJQES7wS3NMEcztnG3nrLlEfnvjkKVCr6sqwGiaLW
-lwpsugRUR4s7vmpBt/uh39/1upDzADI5LRW6I42EDXLtC7fg43hBq+M4m7zannWEOWTXBC+5KdZY
-i8/J/LkAOTYV9Fp6aHQU20F3aFD6Z69B8zYGkJVZrQuJYvcrwZT1Vef/YT/r6vx8JdnW0naxNh0n
-e4VkxtdgJxj1Z57KPHF7yBl9uLQVmYT+a87UxYqR6CMSW1zqlZCdYTwPbWIQPIZR+Bf8PxeaUDKG
-M7w=
---000000000000ba227c05b25e1725--
+CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBALx/X1uYgvq00lHnp8BBXauaiD/ZRVNQ+VSw
+5+hKafPX8cCQSYm6QGqvcQFqDpZUMlN+RHxnYW9pQaExviZqYP5kLNTDD6gFjcFWt5Ri/27g7k2O
+DV7foTsv7bhcrSZdDUDlUGOEOTlLSM2S/3lq4PPKXUpJvMOguOFMVwjxe0TEAZ3WV+NQMRx2jMtV
+fBO+G4A396f4zjz7BMleL3jBJ+NsNLZFBHnIujvkmqbfE/oCYGTPfdMNEDhX7BeGspXGcMov88JJ
+/IyYFSj7a6Y+OJGn/AgKjYRAT0QTC0z+t94jgyowLKI6TgYljiXjNjbTJY2obahqHNlGNgLT5hjV
+85k=
+--000000000000d15bd805b25e1702--
 
 
---===============2609091138492652941==
+--===============1538573696736219606==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -224,5 +323,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============2609091138492652941==--
+--===============1538573696736219606==--
 
