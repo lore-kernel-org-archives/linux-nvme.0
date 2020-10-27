@@ -2,58 +2,61 @@ Return-Path: <SRS0=wn7D=EC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0D2C388F9
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 08:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EE4DC388F9
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 08:15:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E3983207BB
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 08:04:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E36FF20878
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 08:15:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TJnfWQPZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E3983207BB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="krcajJrG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E36FF20878
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=32jGpFZfj4aIowj5sTWJCwNdZkkXEWLM+MUTdRwavBw=; b=TJnfWQPZ1szZxJFKwxM+7gc2d
-	/vhUPOocY6pVNpMSfjVv9/eLx7cm8qNEmsGxB+b6GoZOjX/ub+1NrpDr9q9/D1+4CebYQpNPbqQrb
-	+ezqyWu+E4dXe5u5kHHduIp8wM/Ul9Dgfkt7VIH37vKURftYMcTKEu1H4HQyDVbT5Zp0/l+tQhdGM
-	N8sfwlGa5woHo+PFykh9U6jxINT1EPyf0jvnTK2FCK9hqGOOXO8MSrl6uZgOe8FVFkU/mEeIaLKNz
-	fIX+YKcleOkGNaLLlyYm0ZYc3Q1tEv+WzfH5H6MsjLlIGxSvHy5VyxwW3JyBWwWycL/z+VqaIsd0G
-	D5EIOEx6Q==;
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=qohxFcQoWDAw34JJ8GGxGA1I8FDh20y5wGaI62P6Chw=; b=krcajJrGzT9RwYhP2LWmt3sq1C
+	CTUz9GO8goo0/kYp3Cykvi0ZzioEdQeYT9DoeijnpGFj+/2zPCiYOPW77WRLB8xLaMEv2sIrkcABn
+	AnQpay3lytanqqamfpYVgDmEp09BpCFGvdgOWzQBocjwCCpZhNKLpVwADE3GvrfjeKyhvSElBCEOh
+	uPJw6/uRKX4tJhjD/32gAlrxQtrbFswmnR9OZvey04rmLJ1NS5+LQDf0DzWVlNQAy66DmJhp6VEVj
+	FYYiAYUKEkOKL1kwWWrv56kls/LDwhqaWkOREta55wjzj+QlFzwfHucJKCsB4rH9dTsz06V/osnTs
+	ngLsJtag==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXJy9-0007Px-5E; Tue, 27 Oct 2020 08:04:37 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1kXK8r-0000Zd-5A; Tue, 27 Oct 2020 08:15:41 +0000
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXJy4-0007PE-PM
- for linux-nvme@lists.infradead.org; Tue, 27 Oct 2020 08:04:33 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id A078268AFE; Tue, 27 Oct 2020 09:04:29 +0100 (CET)
-Date: Tue, 27 Oct 2020 09:04:29 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH] RDMA: Add rdma_connect_locked()
-Message-ID: <20201027080429.GA22725@lst.de>
-References: <0-v1-75e124dbad74+b05-rdma_connect_locking_jgg@nvidia.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0-v1-75e124dbad74+b05-rdma_connect_locking_jgg@nvidia.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+ id 1kXK8n-0000Yh-Sq
+ for linux-nvme@lists.infradead.org; Tue, 27 Oct 2020 08:15:39 +0000
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R261e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04426;
+ MF=baolin.wang@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
+ TI=SMTPD_---0UDLUy8R_1603786527; 
+Received: from localhost(mailfrom:baolin.wang@linux.alibaba.com
+ fp:SMTPD_---0UDLUy8R_1603786527) by smtp.aliyun-inc.com(127.0.0.1);
+ Tue, 27 Oct 2020 16:15:28 +0800
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+To: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me
+Subject: [PATCH] nvme: Simplify the nvme_req_qid()
+Date: Tue, 27 Oct 2020 16:15:16 +0800
+Message-Id: <3ddb02eee7765d63328da3e1499a26da5cd20f1b.1603785673.git.baolin.wang@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201027_040432_967104_CB180AF3 
-X-CRM114-Status: UNSURE (   7.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201027_041538_183515_95DE8FD1 
+X-CRM114-Status: GOOD (  10.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,31 +68,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, rds-devel@oss.oracle.com,
- Sagi Grimberg <sagi@grimberg.me>, linux-rdma@vger.kernel.org,
- netdev@vger.kernel.org, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
- Guoqing Jiang <guoqing.jiang@cloud.ionos.com>, linux-nvme@lists.infradead.org,
- Doug Ledford <dledford@redhat.com>,
- Danil Kipnis <danil.kipnis@cloud.ionos.com>, Keith Busch <kbusch@kernel.org>,
- Jack Wang <jinpu.wang@cloud.ionos.com>, Leon Romanovsky <leonro@nvidia.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: baolin.wang7@gmail.com, linux-nvme@lists.infradead.org,
+ baolin.wang@linux.alibaba.com, linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +int rdma_connect_locked(struct rdma_cm_id *id, struct rdma_conn_param *conn_param)
+Use the request's '->mq_hctx->queue_num' directly to simplify the
+nvme_req_qid() function.
 
-This adds an overly long line.
+Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+---
+ drivers/nvme/host/nvme.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> +int rdma_connect_locked(struct rdma_cm_id *id, struct rdma_conn_param *conn_param);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index cc11113..0b62b62 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -178,7 +178,8 @@ static inline u16 nvme_req_qid(struct request *req)
+ {
+ 	if (!req->q->queuedata)
+ 		return 0;
+-	return blk_mq_unique_tag_to_hwq(blk_mq_unique_tag(req)) + 1;
++
++	return req->mq_hctx->queue_num + 1;
+ }
+ 
+ /* The below value is the specific amount of delay needed before checking
+-- 
+1.8.3.1
 
-Same here.
-
-Otherwise looks good except for the nvme merge error pointed out by
-Chao Leng.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 _______________________________________________
 Linux-nvme mailing list
