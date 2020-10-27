@@ -2,107 +2,100 @@ Return-Path: <SRS0=wn7D=EC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1678AC388F9
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 12:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E8FFC388F9
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 12:05:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9EAD522263
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 12:01:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 00D9122264
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 12:05:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RD6Nnu3Y";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="ntYWLwfL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EAD522263
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RFaAU1sY";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=cloud.ionos.com header.i=@cloud.ionos.com header.b="c9cGaErA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00D9122264
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=cloud.ionos.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=BbdVEBYBaA1o28DeW0SysIVXh8pxN1/L9pwJPq7Q3+c=; b=RD6Nnu3YlSi/noiYUm/3R1Kpa
-	GygeAnTukMOjRdnQtH6ox7FkvfrVXwYuLdMbjUrFg5zSWSxGbfCYd9UvjI6nfiy+8fT3y8FyqgwqY
-	d0ZOsT72Pn86N71YJxBdGkCc/a5SfwJMivPgAz/ttnSssagKq4tT+F2yoS8Xls9RZ/E9IMRT79xeG
-	wV/ZEAYmV71jNWDvw9WYJ3RJ9kVw+sBoNsGeeVN8OMnBZOpKhRQferdrkPUtbFSXtI8+no4/fY/Ef
-	m3LeJ6Lf/PITzxiMtjMlSXnW0M7Gc5aXZcH0yO1f3AP1tq5hYJEdol2W0Bo19V4l7x6hxTMfmvxwC
-	UrgqCMgyQ==;
+	 bh=ixeVXq05nzVVQT8nvMsNGeVvz2WNPCtfYbTgR1BcD3g=; b=RFaAU1sYH2FmhcEkWfFWPszBH
+	B7OamNOpGkI4+FDvL1e7D6qKPvpOAIJiSJecoc9823BNrgF/9j2I3Fc/basy8VK1aw5nrr5+Hq12z
+	n9/z2XDH9RXTLpeUgsqS/AhQlULguPA43J9g4XkNpHBpwTYc67OAvZbcNhV+yObMnH/d8/ujLX09w
+	VUIfAHCjnfYoCN2KTgLMtE07Med2LpmCYWMT5BSSTZS5DZTBs8n6c9Gr+4qKiJu9xHeNbCjaiafA5
+	Zj/7Rgr0fBe+XIHimK8IPaX3BGu3desWqbjkEMfY5cKty9JV6LPG5CGwaZpdGwPrPnfrnCZEqsCBm
+	u2zrkJ/zA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXNen-000398-IG; Tue, 27 Oct 2020 12:00:53 +0000
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143])
+	id 1kXNjF-0003pe-P9; Tue, 27 Oct 2020 12:05:29 +0000
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXNek-00037j-Q0
- for linux-nvme@lists.infradead.org; Tue, 27 Oct 2020 12:00:51 +0000
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f980bf70009>; Tue, 27 Oct 2020 05:00:55 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 27 Oct
- 2020 12:00:44 +0000
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
- by HQMAIL101.nvidia.com (172.20.187.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Tue, 27 Oct 2020 12:00:44 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g2FwqwmxJ2w/YMUeqxlS/RgBqC7+pqc8Y5WrTpJpxT1GW/9Cefi/yeUzr9VZQPj9KMrYRlSTgL4ZEo4Hjzr92c42arJZ6r66cQ0qRubZ63GWcSQ2sxRPvjbWwsbXfPWeNvCwUinsUIeVmdN0a2cSJIsgIGRkWvRSkOOy3yUpLYpaQ1dWoYVH9nLg3G0ya4jU4QQ6FeGZYHR+2KUyQtlbKDWuztrR9ALuSCA1HqqYwWrMcxtlKKgkHagRi2P/qLTK5lvd6vS0r8H6gOkGP/evwkVzmGteSinFSLrzU3fxY0r2PQm2uSlydIFPme3S874KPVKfVAkPwr3Hjdrrpi96hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qVjL38duaU6sTOh08XTelj0txgnpIU7gLTO6m7WrnCM=;
- b=aFR8GvjzcxB1OMTKHHibPgcm6MmqbLgx8R7bN9g4AbuniUa8CV4H7PGBVd7DX4m12WiaU7cFcSk3sexEDTTbjWNIp3D1JR7P+pG2gUdAS/apUtgl2+wBrBLZr3A3YDKxH2sSZVcg/C6bfeioGpW1R1/SNtw6CX/kXPh1sKkQN8nXcftfeTTZE9hoNSQ+XpiL2vXMlRA0NkyadLBl1QMiUbTqrqY1pnvWoTsVL9PXvlVU+oMphcZEkmxu33DN67EG1oR31jmF6psxZqK6p4gpygfhYss922ypLkCFtN2nwjB49zyonTxrglPRGvSg76VIga7oQx6xyg1FpS3PjlqJAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR1201MB0201.namprd12.prod.outlook.com (2603:10b6:4:5b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 27 Oct
- 2020 12:00:43 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
- 12:00:43 +0000
-Date: Tue, 27 Oct 2020 09:00:41 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Chao Leng <lengchao@huawei.com>
+ id 1kXNjC-0003od-P6
+ for linux-nvme@lists.infradead.org; Tue, 27 Oct 2020 12:05:27 +0000
+Received: by mail-pf1-x443.google.com with SMTP id e7so777932pfn.12
+ for <linux-nvme@lists.infradead.org>; Tue, 27 Oct 2020 05:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cloud.ionos.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jh7sDSXXWr1G/EJt2NwYBs7gBq8ZBGiSTik+UKT8RDo=;
+ b=c9cGaErAJceMBjUwS5KyqXKvvC1/ex4YeMQZg5pytCzXzMqDllWFagBhopX+/4PuLh
+ yHDRL9G8Nw9C0PJ/ImPGiRSr05T5xxLlfbIyvk6/FdwVJ7nD/D6Cr29i3VsSiSHBPoLe
+ /c3DbGIz9VsgxW5e4Axl58EPREAMLv44wrMyjYRI4fv6we9JNpzql6ulGVcNsbes8VuH
+ SXAx5L/TI4QCP64g8LLY2DTkOeH4Yajd4NAuxhqA/myXH8aumAnO0j64av0yMBjwL4vP
+ 6sQGQ0vVyyonX2dW4/JOB/AYqijhTIY/dawztd6b1jHBGjoSkMzgDE7kkmNE6kYHEgIL
+ nr3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jh7sDSXXWr1G/EJt2NwYBs7gBq8ZBGiSTik+UKT8RDo=;
+ b=lRUlo7fERCM3Rsp4WrS2k9W60IDQfC0gtVXU7fHWwy4bKxuFp9fNmb1R6IYqPZhGIE
+ IgSzybuS0M9lrjHURpSRS9YRYfk2CwDMWmwz4vuunvUD9smod92qqxV5GozSIPILdT0O
+ 5hvZn4eBmLBHhXUhNbL7mthAJ5IYn4xcpN4zSyC5SBeuVLq36R1R7ydD3Nwigs87Yn1R
+ LtXWDCCoGNiG3CubYnmFA7BiPtsUkpK/tO7hZuj5+MRNk85KpjPvgbm9Q25GQ8h1+1s9
+ oeGIRzkAPQF4A9OLKcpfeFd4RVlsnCLPkA40pK63EJffPrvdue8oMo3Wp0iSzTuk5zU1
+ 9FWw==
+X-Gm-Message-State: AOAM532VWHeQkrtmeTuDJUIGrv1r8+TIdtqt+aIiKtzlSgLjb/WfQz1I
+ 0PRP4a3ot3aOng9fq4O70/8yDA==
+X-Google-Smtp-Source: ABdhPJzt3qVz9rP8KwZ0eK2QmO6Zin+JfYz3eJD4f6acxIROeLz+sjmqqWUlU+ROPKcys6yt1Awi+Q==
+X-Received: by 2002:a62:343:0:b029:15c:e33c:faff with SMTP id
+ 64-20020a6203430000b029015ce33cfaffmr1227137pfd.7.1603800321422; 
+ Tue, 27 Oct 2020 05:05:21 -0700 (PDT)
+Received: from ?IPv6:240e:82:3:96c8:9dbf:9753:3203:b67b?
+ ([240e:82:3:96c8:9dbf:9753:3203:b67b])
+ by smtp.gmail.com with ESMTPSA id ms10sm1892683pjb.46.2020.10.27.05.05.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Oct 2020 05:05:20 -0700 (PDT)
 Subject: Re: [PATCH] RDMA: Add rdma_connect_locked()
-Message-ID: <20201027120041.GI1523783@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ Danil Kipnis <danil.kipnis@cloud.ionos.com>,
+ Doug Ledford <dledford@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
+ Max Gurtovoy <mgurtovoy@nvidia.com>, netdev@vger.kernel.org,
+ rds-devel@oss.oracle.com, Sagi Grimberg <sagi@grimberg.me>,
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>
 References: <0-v1-75e124dbad74+b05-rdma_connect_locking_jgg@nvidia.com>
- <e13ec119-3cc6-87ab-bc76-d2d3de7631e4@huawei.com>
-Content-Disposition: inline
-In-Reply-To: <e13ec119-3cc6-87ab-bc76-d2d3de7631e4@huawei.com>
-X-ClientProxiedBy: MN2PR11CA0023.namprd11.prod.outlook.com
- (2603:10b6:208:23b::28) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+From: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
+Message-ID: <11bb18bd-a26a-d0e2-9ff6-6d7e2bf3fb86@cloud.ionos.com>
+Date: Tue, 27 Oct 2020 13:05:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by
- MN2PR11CA0023.namprd11.prod.outlook.com (2603:10b6:208:23b::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
- Transport; Tue, 27 Oct 2020 12:00:42 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1kXNeb-009GRY-SB; Tue, 27 Oct 2020 09:00:41 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603800055; bh=qVjL38duaU6sTOh08XTelj0txgnpIU7gLTO6m7WrnCM=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType;
- b=ntYWLwfLUxG88YLiEwTYaRecEr1b29TXd+4lQG3FRXrOw0cSffingX5XQMrK45mgl
- 50WI+Uy6P+UEJrAgEOsrUItYg8DxX0MyyuWH9suSK+xow4DqP074KUfXu5Vz369BKA
- 7DPOmO5Nk5Fy+Te4GODCD5JnQrgoYg9BzluUMwdHQOd3ozOi1mzqh6QIpcns1FiEA5
- cPSdDGm0ooptbHRfX85cRvGwo2S6pD7BS+7Fna3CqBo3wBPvBz+saeHeazmK0dka/Y
- uYcDvgQ6dseaFhQhUw0yKRjeBAYMKiMDADjaxBFiwuUF3ejqh1iYtfSCUSG7JFh9bN
- 8oGH7Ke9qsVNA==
+In-Reply-To: <0-v1-75e124dbad74+b05-rdma_connect_locking_jgg@nvidia.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201027_080050_944358_8535B6F3 
-X-CRM114-Status: GOOD (  13.22  )
+X-CRM114-CacheID: sfid-20201027_080526_844654_5A5EF38F 
+X-CRM114-Status: GOOD (  19.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,39 +107,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, rds-devel@oss.oracle.com,
- Sagi Grimberg <sagi@grimberg.me>, linux-rdma@vger.kernel.org,
- netdev@vger.kernel.org, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
- Guoqing Jiang <guoqing.jiang@cloud.ionos.com>, linux-nvme@lists.infradead.org,
- Doug Ledford <dledford@redhat.com>,
- Danil Kipnis <danil.kipnis@cloud.ionos.com>, Keith Busch <kbusch@kernel.org>,
- Jack Wang <jinpu.wang@cloud.ionos.com>, Leon Romanovsky <leonro@nvidia.com>,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Leon Romanovsky <leonro@nvidia.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 27, 2020 at 10:01:00AM +0800, Chao Leng wrote:
-> > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> > index aad829a2b50d0f..f488dc5f4c2c61 100644
-> > +++ b/drivers/nvme/host/rdma.c
-> > @@ -1730,11 +1730,10 @@ static void nvme_rdma_process_nvme_rsp(struct nvme_rdma_queue *queue,
-> >   	req->result = cqe->result;
-> >   	if (wc->wc_flags & IB_WC_WITH_INVALIDATE) {
-> > -		if (unlikely(!req->mr ||
-> > -			     wc->ex.invalidate_rkey != req->mr->rkey)) {
-> > +		if (unlikely(wc->ex.invalidate_rkey != req->mr->rkey)) {
-> >   			dev_err(queue->ctrl->ctrl.device,
-> >   				"Bogus remote invalidation for rkey %#x\n",
-> > -				req->mr ? req->mr->rkey : 0);
-> > +				req->mr->rkey);
-> Maybe the code version is incorrect, cause falsely code rollback.
 
-Oh wow, thanks for noticing that, I made a git fumble when doing this
-:(
 
-Jason
+On 10/26/20 15:25, Jason Gunthorpe wrote:
+> There are two flows for handling RDMA_CM_EVENT_ROUTE_RESOLVED, either the
+> handler triggers a completion and another thread does rdma_connect() or
+> the handler directly calls rdma_connect().
+> 
+> In all cases rdma_connect() needs to hold the handler_mutex, but when
+> handler's are invoked this is already held by the core code. This causes
+> ULPs using the 2nd method to deadlock.
+> 
+> Provide a rdma_connect_locked() and have all ULPs call it from their
+> handlers.
+> 
+> Reported-by: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
+> Fixes: 2a7cec538169 ("RDMA/cma: Fix locking for the RDMA_CM_CONNECT state"
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   drivers/infiniband/core/cma.c            | 39 +++++++++++++++++++++---
+>   drivers/infiniband/ulp/iser/iser_verbs.c |  2 +-
+>   drivers/infiniband/ulp/rtrs/rtrs-clt.c   |  4 +--
+>   drivers/nvme/host/rdma.c                 | 10 +++---
+>   include/rdma/rdma_cm.h                   | 13 +-------
+>   net/rds/ib_cm.c                          |  5 +--
+>   6 files changed, 47 insertions(+), 26 deletions(-)
+> 
+> Seems people are not testing these four ULPs against rdma-next.. Here is a
+> quick fix for the issue:
+> 
+> https://lore.kernel.org/r/3b1f7767-98e2-93e0-b718-16d1c5346140@cloud.ionos.com
+
+I can't see the previous calltrace with this patch.
+
+Tested-by: Guoqing Jiang<guoqing.jiang@cloud.ionos.com>
+
+
+Thanks,
+Guoqing
 
 _______________________________________________
 Linux-nvme mailing list
