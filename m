@@ -7,17 +7,18 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A123C4363A
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 00:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E12C2D0A3
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 00:30:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D08B20723
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 00:20:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3B527216FD
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 00:30:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vtpiErCK";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="BTm6Pm1w"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D08B20723
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bKME0gnI";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AucSO+U5";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="2wjJWXAF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B527216FD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,47 +27,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JJ8zV3T88mYCYu8e/29wzBpygFAby0DzsO3O9cV5py4=; b=vtpiErCKHomlHYTQt4Qjf2p+c
-	aXHsOXBJAMEGoSooqYrsu3AMl4QclvULdWlJj9n0bDeyg7KZ8l5NbKghepafI8UH3daYI05kzhi1c
-	4Q05MYITHab4ZFZnLKeXGdWJOGTgZlJ21HUyuaQcgX4RnkZzHcUlb29umWVznN9HbcEyhCAgRduci
-	ME+meVBl57045kl0EtWw909qTyZ84xieDhyW8GjUo5riPa9h0HyGytTA+V1XzBRCU6jj/iQC4hRs3
-	29xYpeeFCnCuw5byGaLSWV4Y2DnOzV64Q/IgJGUBPkO5iAsv3gVLSOEwaufjOAofTK2ueeBBLXsyM
-	2qMWqOm/A==;
+	 bh=/gIjAucEmk7lvt42vaPdrpWKVvOE0TOClv3GuwIyG+Y=; b=bKME0gnIPh7fggF6WYevFl4YV
+	GWlt0b/skjQc5MOmPYf8f4pdgBtpozQ/OTuJWBIhS7JRdjLncQAjSQH594sxNc8EsEqCKMPcrc+uK
+	m12N+HRGQeLzs8PDfNPSUWsoS/xZRYgHC/bv7NZbKeZu5kaJThTK7LA+Hkkeh8V27CgWrrXpa8KU3
+	IL0RZsx0v3O7c834OFwotT8KVyyE79dp4X3+BzDLpP7ur+/3oqpclTTvfI6B72lSlDuD69VaemsDl
+	scgU5Iuf1xp4C+JrURk9y24uzg3YgDUFDicOvAX892V5QDFx9OqT6X6LD9WKgVFETIAm6Fu/Ur/aG
+	W0mZDxY1g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXCjE-0006ky-4W; Tue, 27 Oct 2020 00:20:44 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kXCsy-0002ve-T2; Tue, 27 Oct 2020 00:30:49 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXCUT-0008Vf-Ef
- for linux-nvme@lists.infradead.org; Tue, 27 Oct 2020 00:05:32 +0000
+ id 1kXCo4-0000RP-1p
+ for linux-nvme@merlin.infradead.org; Tue, 27 Oct 2020 00:25:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=Ic3NvpCbyUB9f0ZgYzvp5lClCiFnF/FvUGoAVguJo1M=; b=AucSO+U5r/kKIyqXe4ep6zQ7XQ
+ 2elEc4ZwLCYsrLuOXnl3TcimwYwDKuyi+TbJHZvC0DNGYn7XplxHoqCVEpnsGVq8cKISQ/hUxy03I
+ pRMkjEnH74uW6tIk9rxmGUc80vtAWrP+1rKcWh+Hjbs1Emvhzh7WowlKuq5h7DpXKjWGOUIrU9Wdv
+ U1vjdoT09Go0RbIaHl+o4a2UNe1XVen7t1EjdPdZAhBRePfsJOaCY5t8bULQIc4kphDweBbBUdTyA
+ tCLrpDTlPCzxJF+I5JtxFczfxwQRLLY9SyMRA3IP7CwfaIlN/mnlPWNVO/O4BUFbyAVuYw1o8U7l0
+ C+7UuN0A==;
+Received: from mail.kernel.org ([198.145.29.99])
+ by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kXCZX-00004s-Aq
+ for linux-nvme@lists.infradead.org; Tue, 27 Oct 2020 00:10:48 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BE9ED2087C;
- Tue, 27 Oct 2020 00:05:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id BEE6C216FD;
+ Tue, 27 Oct 2020 00:10:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603757126;
- bh=dMXYOAVrT9C7woDjjrtd/inAsdsUG4zjii2uorFUV8c=;
+ s=default; t=1603757441;
+ bh=i7JPtbEiXAS705p4PMda+eMSdKJ4qDNXLXWfIebaYWc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BTm6Pm1wdcf9GYcNzHqnEbtZ7RqZ7VnPYHzXev/tPiwCW7PJ79zgglJj14eqHB3g/
- Fj4DvvA5y/NlgX9lMG2YjbW0OiqeZmwojk4uyHb8lSP67wYN/ijl/C/CYa9NGA2WEh
- VYB/UBo/9SQN30kS6aYa7vZUpwm2epLfYnd8QLzU=
+ b=2wjJWXAFTcoSEiYgnF4rjBFJqN3uB79+/6bdHQ+eBpxTaU6Svuhg3XBhpNikL8ETr
+ 4vXvyj4KMFXu8Z9nhyVGKPeItiLPt3TUhHC+xyGfmz5tG1pjJDAas++PzMDI9/JXG3
+ E5fYOWHwSRE2nmJ+4cOq58tb4nVaFVIEccDujPCg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 60/60] nvme-rdma: fix crash when connect rejected
-Date: Mon, 26 Oct 2020 20:04:15 -0400
-Message-Id: <20201027000415.1026364-60-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 46/46] nvme-rdma: fix crash when connect rejected
+Date: Mon, 26 Oct 2020 20:09:45 -0400
+Message-Id: <20201027000946.1026923-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027000415.1026364-1-sashal@kernel.org>
-References: <20201027000415.1026364-1-sashal@kernel.org>
+In-Reply-To: <20201027000946.1026923-1-sashal@kernel.org>
+References: <20201027000946.1026923-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201026_200529_947198_D77D4FE0 
-X-CRM114-Status: GOOD (  15.68  )
+X-CRM114-CacheID: sfid-20201027_001044_492911_4FB370F9 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,10 +129,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 deletion(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 077c678166651..134e14e778f8e 100644
+index c91bfd839cabe..564e457f1345e 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -1640,7 +1640,6 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
+@@ -1545,7 +1545,6 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
  		complete(&queue->cm_done);
  		return 0;
  	case RDMA_CM_EVENT_REJECTED:
