@@ -2,100 +2,86 @@ Return-Path: <SRS0=wn7D=EC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E8FFC388F9
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 12:05:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 152FEC55178
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 12:16:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 00D9122264
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 12:05:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8C47624180
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Oct 2020 12:16:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RFaAU1sY";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=cloud.ionos.com header.i=@cloud.ionos.com header.b="c9cGaErA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00D9122264
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=cloud.ionos.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="d6535x5L";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="TeiJuGJC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C47624180
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=bytedance.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ixeVXq05nzVVQT8nvMsNGeVvz2WNPCtfYbTgR1BcD3g=; b=RFaAU1sYH2FmhcEkWfFWPszBH
-	B7OamNOpGkI4+FDvL1e7D6qKPvpOAIJiSJecoc9823BNrgF/9j2I3Fc/basy8VK1aw5nrr5+Hq12z
-	n9/z2XDH9RXTLpeUgsqS/AhQlULguPA43J9g4XkNpHBpwTYc67OAvZbcNhV+yObMnH/d8/ujLX09w
-	VUIfAHCjnfYoCN2KTgLMtE07Med2LpmCYWMT5BSSTZS5DZTBs8n6c9Gr+4qKiJu9xHeNbCjaiafA5
-	Zj/7Rgr0fBe+XIHimK8IPaX3BGu3desWqbjkEMfY5cKty9JV6LPG5CGwaZpdGwPrPnfrnCZEqsCBm
-	u2zrkJ/zA==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=mFpvgnWuu+k6ACh0QX5WIDCkoeCkQYGb/cT0r63sdPc=; b=d6535x5Lx34NZPCqZZTu7U8S8U
+	+PFMBLs3vvnBc3ARfcsIPcqkM6R6OtbbOp/fX7PbE2noUbUNy3s+xs+wYx4aUvYPwmB9gquX2ERaQ
+	1mviLdNqCiE1H+w8ARlQUeufcOpxoLgqvynAzbMPuZorko7bETg4lXPi6QHan0Cyk1+nZNI6SeWva
+	eWr5bHemmSOetILa2HfzYYAcR2snLb2JLbmJNOta1IWeVCgWSvarFUHULO70w+3SVzsgQqPLwBw4l
+	a/WqCr/dpNGlkllF0piIXxM7jLyAZqFteWFMlj+zZUqhKnaaYIOKJ+K+w3pollMM5QK1NkczuWNQw
+	u1PX3xxQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXNjF-0003pe-P9; Tue, 27 Oct 2020 12:05:29 +0000
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
+	id 1kXNtf-0005b4-R0; Tue, 27 Oct 2020 12:16:16 +0000
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXNjC-0003od-P6
- for linux-nvme@lists.infradead.org; Tue, 27 Oct 2020 12:05:27 +0000
-Received: by mail-pf1-x443.google.com with SMTP id e7so777932pfn.12
- for <linux-nvme@lists.infradead.org>; Tue, 27 Oct 2020 05:05:24 -0700 (PDT)
+ id 1kXNtX-0005YI-TQ
+ for linux-nvme@lists.infradead.org; Tue, 27 Oct 2020 12:16:13 +0000
+Received: by mail-pg1-x541.google.com with SMTP id o3so668995pgr.11
+ for <linux-nvme@lists.infradead.org>; Tue, 27 Oct 2020 05:16:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloud.ionos.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jh7sDSXXWr1G/EJt2NwYBs7gBq8ZBGiSTik+UKT8RDo=;
- b=c9cGaErAJceMBjUwS5KyqXKvvC1/ex4YeMQZg5pytCzXzMqDllWFagBhopX+/4PuLh
- yHDRL9G8Nw9C0PJ/ImPGiRSr05T5xxLlfbIyvk6/FdwVJ7nD/D6Cr29i3VsSiSHBPoLe
- /c3DbGIz9VsgxW5e4Axl58EPREAMLv44wrMyjYRI4fv6we9JNpzql6ulGVcNsbes8VuH
- SXAx5L/TI4QCP64g8LLY2DTkOeH4Yajd4NAuxhqA/myXH8aumAnO0j64av0yMBjwL4vP
- 6sQGQ0vVyyonX2dW4/JOB/AYqijhTIY/dawztd6b1jHBGjoSkMzgDE7kkmNE6kYHEgIL
- nr3g==
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=bY5Jc4p/lAT1HicP9cd/Mn/jdG/DRC+C+OaLB9BQQ3E=;
+ b=TeiJuGJCVoHmMoYbKJvqLEBWQJhUZP/CYJYRHyD5aVsom0TC6+gFpkLnWGBNOgt3CW
+ obWrCGPdkXut5lB5KCM5g5V1jIXjhRe64OZw4Aiwzp+5MtALI9OQEl8F2oYE4PsoVDaw
+ 9PMYUjIFDIRpzMnIVERSlVwkaQ2U8bWsdAzQiU5cTEuin0d92iiuxjT1NuQrDT3zINvD
+ V8koTpY+qP2HzLmW+Vk4cfFEEiv1i3wDXaYRWbAycuCcZ3yaIWQH8RBWOxelc334ijLQ
+ /nZQfDLTMGR19Wna1xlZ351NpJrMNWj6Pa1bCR2oUdSl4x7BglxrcZDIhAAePLwsjjbz
+ t0pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jh7sDSXXWr1G/EJt2NwYBs7gBq8ZBGiSTik+UKT8RDo=;
- b=lRUlo7fERCM3Rsp4WrS2k9W60IDQfC0gtVXU7fHWwy4bKxuFp9fNmb1R6IYqPZhGIE
- IgSzybuS0M9lrjHURpSRS9YRYfk2CwDMWmwz4vuunvUD9smod92qqxV5GozSIPILdT0O
- 5hvZn4eBmLBHhXUhNbL7mthAJ5IYn4xcpN4zSyC5SBeuVLq36R1R7ydD3Nwigs87Yn1R
- LtXWDCCoGNiG3CubYnmFA7BiPtsUkpK/tO7hZuj5+MRNk85KpjPvgbm9Q25GQ8h1+1s9
- oeGIRzkAPQF4A9OLKcpfeFd4RVlsnCLPkA40pK63EJffPrvdue8oMo3Wp0iSzTuk5zU1
- 9FWw==
-X-Gm-Message-State: AOAM532VWHeQkrtmeTuDJUIGrv1r8+TIdtqt+aIiKtzlSgLjb/WfQz1I
- 0PRP4a3ot3aOng9fq4O70/8yDA==
-X-Google-Smtp-Source: ABdhPJzt3qVz9rP8KwZ0eK2QmO6Zin+JfYz3eJD4f6acxIROeLz+sjmqqWUlU+ROPKcys6yt1Awi+Q==
-X-Received: by 2002:a62:343:0:b029:15c:e33c:faff with SMTP id
- 64-20020a6203430000b029015ce33cfaffmr1227137pfd.7.1603800321422; 
- Tue, 27 Oct 2020 05:05:21 -0700 (PDT)
-Received: from ?IPv6:240e:82:3:96c8:9dbf:9753:3203:b67b?
- ([240e:82:3:96c8:9dbf:9753:3203:b67b])
- by smtp.gmail.com with ESMTPSA id ms10sm1892683pjb.46.2020.10.27.05.05.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Oct 2020 05:05:20 -0700 (PDT)
-Subject: Re: [PATCH] RDMA: Add rdma_connect_locked()
-To: Jason Gunthorpe <jgg@nvidia.com>,
- Danil Kipnis <danil.kipnis@cloud.ionos.com>,
- Doug Ledford <dledford@redhat.com>, Christoph Hellwig <hch@lst.de>,
- Jack Wang <jinpu.wang@cloud.ionos.com>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
- Max Gurtovoy <mgurtovoy@nvidia.com>, netdev@vger.kernel.org,
- rds-devel@oss.oracle.com, Sagi Grimberg <sagi@grimberg.me>,
- Santosh Shilimkar <santosh.shilimkar@oracle.com>
-References: <0-v1-75e124dbad74+b05-rdma_connect_locking_jgg@nvidia.com>
-From: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
-Message-ID: <11bb18bd-a26a-d0e2-9ff6-6d7e2bf3fb86@cloud.ionos.com>
-Date: Tue, 27 Oct 2020 13:05:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <0-v1-75e124dbad74+b05-rdma_connect_locking_jgg@nvidia.com>
-Content-Language: en-US
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=bY5Jc4p/lAT1HicP9cd/Mn/jdG/DRC+C+OaLB9BQQ3E=;
+ b=gNEHbLNcTJqZ3RxOTOK9nosTXisbG4bSWJHRRfvcz7nkwvSHkhIdTuQVRv4knKn8+w
+ Ys6lmsDURKpDnri2N001D7GUq3gZa7dTcJ4eyCPAAZ83B4fmuS8U/NMse62p2EZsTR/e
+ 7GT2yI89gLXFkvMq5z2gUGFTihYBFq0Pq6S/ON7f3PlN9fu2HCjkY8v1DPdn1/Hsxbb9
+ JV/7dBbRuej3UwfE8s1NYoWU7la8KIu7QsmkrfBa/bA93Mn5MEobpzJ9u6KaNf1Q1yeP
+ 4qw+Toohpf6YKIU+vaVs/165c7wKOIH0OWGdgkp8JGNSSLdRQ//7NLYAV2yITpB9ABlM
+ 96kw==
+X-Gm-Message-State: AOAM5323bfKs5QlBBWjdYvHoygcdjCaLq5BvrFqwJOjoD6ffqWmkTUK/
+ ZDTbiJp0OhmfgTdarjxuELrAtA==
+X-Google-Smtp-Source: ABdhPJxHeSly8oz22VuLpqoaRqUtAAdOV+3tgRhEhtamE/+0BJ2yGwTe5Hqn91b1hhcGKQkK/1UqkQ==
+X-Received: by 2002:a05:6a00:13a4:b029:163:f435:28b5 with SMTP id
+ t36-20020a056a0013a4b0290163f43528b5mr1978685pfg.45.1603800963925; 
+ Tue, 27 Oct 2020 05:16:03 -0700 (PDT)
+Received: from libai.bytedance.net ([61.120.150.71])
+ by smtp.gmail.com with ESMTPSA id t12sm1820747pji.26.2020.10.27.05.16.01
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 27 Oct 2020 05:16:03 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	chaitanya.kulkarni@wdc.com
+Subject: [PATCH 1/2] nvmet: introduce transport layer keep-alive
+Date: Tue, 27 Oct 2020 20:15:45 +0800
+Message-Id: <20201027121546.1776104-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.11.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201027_080526_844654_5A5EF38F 
-X-CRM114-Status: GOOD (  19.10  )
+X-CRM114-CacheID: sfid-20201027_081608_065975_ADAA8519 
+X-CRM114-Status: GOOD (  15.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,50 +93,98 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Leon Romanovsky <leonro@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, pizhenwei@bytedance.com,
+ linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+In the zero KATO scenario, if initiator crashes without transport
+layer disconnection, target side would never reclaim resources.
 
+A target could start transport layer keep-alive to detect dead
+connection for the admin queue.
 
-On 10/26/20 15:25, Jason Gunthorpe wrote:
-> There are two flows for handling RDMA_CM_EVENT_ROUTE_RESOLVED, either the
-> handler triggers a completion and another thread does rdma_connect() or
-> the handler directly calls rdma_connect().
-> 
-> In all cases rdma_connect() needs to hold the handler_mutex, but when
-> handler's are invoked this is already held by the core code. This causes
-> ULPs using the 2nd method to deadlock.
-> 
-> Provide a rdma_connect_locked() and have all ULPs call it from their
-> handlers.
-> 
-> Reported-by: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
-> Fixes: 2a7cec538169 ("RDMA/cma: Fix locking for the RDMA_CM_CONNECT state"
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   drivers/infiniband/core/cma.c            | 39 +++++++++++++++++++++---
->   drivers/infiniband/ulp/iser/iser_verbs.c |  2 +-
->   drivers/infiniband/ulp/rtrs/rtrs-clt.c   |  4 +--
->   drivers/nvme/host/rdma.c                 | 10 +++---
->   include/rdma/rdma_cm.h                   | 13 +-------
->   net/rds/ib_cm.c                          |  5 +--
->   6 files changed, 47 insertions(+), 26 deletions(-)
-> 
-> Seems people are not testing these four ULPs against rdma-next.. Here is a
-> quick fix for the issue:
-> 
-> https://lore.kernel.org/r/3b1f7767-98e2-93e0-b718-16d1c5346140@cloud.ionos.com
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+---
+ drivers/nvme/target/admin-cmd.c |  2 +-
+ drivers/nvme/target/core.c      | 14 +++++++++++---
+ drivers/nvme/target/nvmet.h     |  3 ++-
+ 3 files changed, 14 insertions(+), 5 deletions(-)
 
-I can't see the previous calltrace with this patch.
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index dca34489a1dc..53fbd5c193a1 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -729,7 +729,7 @@ u16 nvmet_set_feat_kato(struct nvmet_req *req)
+ 
+ 	nvmet_stop_keep_alive_timer(req->sq->ctrl);
+ 	req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
+-	nvmet_start_keep_alive_timer(req->sq->ctrl);
++	nvmet_start_keep_alive_timer(req->sq->ctrl, req);
+ 
+ 	nvmet_set_result(req, req->sq->ctrl->kato);
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 957b39a82431..451192f7ad6a 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -395,10 +395,18 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
+ 	nvmet_ctrl_fatal_error(ctrl);
+ }
+ 
+-void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl)
++void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ {
+-	if (unlikely(ctrl->kato == 0))
++	if (unlikely(ctrl->kato == 0)) {
++		if (req->ops->keep_alive)
++			pr_info("ctrl %d starts with transport keep-alive %s\n", ctrl->cntlid,
++				req->ops->keep_alive(req) ? "failed" : "succeed");
++		else
++			pr_info("ctrl %d starts without both NVMeOF and transport keep-alive",
++				ctrl->cntlid);
++
+ 		return;
++	}
+ 
+ 	pr_debug("ctrl %d start keep-alive timer for %d secs\n",
+ 		ctrl->cntlid, ctrl->kato);
+@@ -1383,7 +1391,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	ctrl->err_counter = 0;
+ 	spin_lock_init(&ctrl->error_lock);
+ 
+-	nvmet_start_keep_alive_timer(ctrl);
++	nvmet_start_keep_alive_timer(ctrl, req);
+ 
+ 	mutex_lock(&subsys->lock);
+ 	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 559a15ccc322..de1785ce9fcd 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -305,6 +305,7 @@ struct nvmet_fabrics_ops {
+ 	u16 (*install_queue)(struct nvmet_sq *nvme_sq);
+ 	void (*discovery_chg)(struct nvmet_port *port);
+ 	u8 (*get_mdts)(const struct nvmet_ctrl *ctrl);
++	int (*keep_alive)(struct nvmet_req *req);
+ };
+ 
+ #define NVMET_MAX_INLINE_BIOVEC	8
+@@ -395,7 +396,7 @@ void nvmet_get_feat_async_event(struct nvmet_req *req);
+ u16 nvmet_set_feat_kato(struct nvmet_req *req);
+ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask);
+ void nvmet_execute_async_event(struct nvmet_req *req);
+-void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl);
++void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl, struct nvmet_req *req);
+ void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl);
+ 
+ u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
+-- 
+2.11.0
 
-Tested-by: Guoqing Jiang<guoqing.jiang@cloud.ionos.com>
-
-
-Thanks,
-Guoqing
 
 _______________________________________________
 Linux-nvme mailing list
