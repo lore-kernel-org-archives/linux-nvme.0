@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 432DDC4363A
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2020 09:19:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB46C4363A
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2020 09:29:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A493B2468F
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2020 09:19:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C590224687
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2020 09:29:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lH8NzXsM";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="qNDlP+Rx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A493B2468F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eDU0OU9e";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="cG6/9o1q"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C590224687
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=bytedance.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
@@ -26,53 +26,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Gl3YsP7ujOFEqPkX1MO1EzeuURwHl+/sT4mktkIhKqg=; b=lH8NzXsM4Y/UoVH9WQwqpuinw
-	z8XomCMcNbXixpvlbQywQVCuu3W2OS7WNNVhJcyZBXhfkcqk0X0YyVQlRVguDyXhAmVZUlTOo/yvR
-	SMhD/UCEAJqlYyGB9Ja+UrMuL4tKLA9UfL9pkpVfqBiRerSq/8i2sIykaRHQ7wokQ5NSWresYfu2O
-	l+gSHMLtgLBwbvhbG5yRCLfqB9pYqevXF7VMPZan4hLwuisz2Njfiw2D+vNCiX35pU62HBTbvXlXz
-	7/AVODah7/bqWM7xVfOgbfulGP/RYz00/h+EL3w7J1OwJXBRfRrPC18zIUxjzFvBvMNTqtJ5xy+3q
-	62qMLT2yg==;
+	 bh=kbKCVkKkL4O6zUj4Kz/YQP6UWsp4f0N0WpDMmaUTfko=; b=eDU0OU9eMGx6ClOwbpUvYrQrQ
+	/6WwV745E6qpuli5TOdvL8rwgVCASbzLGD8Pq3qCzNu+a76oaSJo72/+Bj/UJ1mQ1EGxvnzZLeOLX
+	GNoohkYzLcbKek+42q3/F5Kh4HZIvN1Y8wAPh1okf735EDLSUg1XC3XGA9wQcEMH0K3cUdhtCuTVT
+	RpVHuy2P8DjaSymMsBRONK2aaDNwt3TQ3Khr6p5spy9h2TunIZnXyDo72GVHMvmnDiyxy1Vslv0Ob
+	BSZf/CQrJ4sKjKqoyNbxJ1bzLaOTB3m4kBI79CiuGeUdi0eCtFuvOe5uuh4U4xhClqGC//3nAlOpV
+	ldTkWUayg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXhcD-0000cn-54; Wed, 28 Oct 2020 09:19:33 +0000
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64])
+	id 1kXhlZ-0002aA-Oy; Wed, 28 Oct 2020 09:29:13 +0000
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXhcA-0000bv-7F
- for linux-nvme@lists.infradead.org; Wed, 28 Oct 2020 09:19:31 +0000
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f9937a00000>; Wed, 28 Oct 2020 02:19:28 -0700
-Received: from [172.27.12.9] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
- 2020 09:19:17 +0000
-Subject: Re: [PATCH rdma v2] RDMA: Add rdma_connect_locked()
-To: Jason Gunthorpe <jgg@nvidia.com>, <linux-rdma@vger.kernel.org>
-References: <0-v2-53c22d5c1405+33-rdma_connect_locking_jgg@nvidia.com>
-From: Maor Gottlieb <maorg@nvidia.com>
-Message-ID: <4401b7b1-5d05-a715-4701-957fd09f34c9@nvidia.com>
-Date: Wed, 28 Oct 2020 11:19:14 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+ id 1kXhlW-0002ZZ-TW
+ for linux-nvme@lists.infradead.org; Wed, 28 Oct 2020 09:29:12 +0000
+Received: by mail-pf1-x442.google.com with SMTP id w21so2583785pfc.7
+ for <linux-nvme@lists.infradead.org>; Wed, 28 Oct 2020 02:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VF4gZYFcsN8OoJPW68XIA2tKZhPCND0dogeoGUQ8I+s=;
+ b=cG6/9o1qdaoV4pOSKSDRmJgwS/h28HObCWhgg8QoMsjiZW3QFu3IyNmlqLLWbQWlNG
+ BYmTShzU6Ysvq8wJeXjJGaZd2tBxE+k2TpNikW1aPZlcK9AfQd7u3dVHtf3kl/+ZFnr2
+ 3ZbHdvVLzwlIsWhiim8HNUQBsHzASEMYnK9ZBmMEoqjiFLEqZ1ECArOz+f8TrjpFDcRH
+ IW3hZsSzVVnyJTaERt6xqtSFTSmT2TwcvidnYhqItLt4gJLG0y4rSFZv3kZnHmzR+zpo
+ /TnIOWZLtvXCpnnb/D8LL00syPOSwkMsQwpCze93yhVCk0Rifz4Rm+9nXqBDCFXHdvSS
+ 6GDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VF4gZYFcsN8OoJPW68XIA2tKZhPCND0dogeoGUQ8I+s=;
+ b=m5d/geujuevGHakYiaFfSkqgsxFXLYxz49CeX4JmzgWAlY+VytQenuGLy1KbwcfwiW
+ Ae8pRwmoLymOSyGuc2IoQcC/cgzFTT3qGxgfIZVF140ieQo8Y0tBEOyDIhNPOmE4Sbkz
+ 4qZrGii8q7voRtblQ5WfWke87gVlvMTQk+rNbGKBRRCCC2l1yDEETfEqJ8rgX8HgMmDh
+ VFAqbG9IdjXPqF2TcEIA7/8YMZ8Jj+ivPXlFBe439pjZafD5z3n/kutevtpzm8Y3gLd+
+ ScV9DsuQcGQtVkLbnPmARSyWJjJ3GIyqE8bN7lZ8l5i2EDLcztcAnswsBE4I6Tg1C7A5
+ A1kQ==
+X-Gm-Message-State: AOAM530XoLFUDoByivfEVjbKKfRS9k+1Yfbh4bJkd62UbSEkZLgHVE4M
+ WEvKQ38yhHwGhsXVVl9wYYSbuA==
+X-Google-Smtp-Source: ABdhPJw+bDN8DYPHU262PoQiwijKVoHIXzGCs+naDHi90BaCNDFL/gdQ+2pDeJs7wr9RyZn8jR0tsA==
+X-Received: by 2002:a65:6883:: with SMTP id e3mr5314254pgt.38.1603877346669;
+ Wed, 28 Oct 2020 02:29:06 -0700 (PDT)
+Received: from [10.2.24.220] ([61.120.150.77])
+ by smtp.gmail.com with ESMTPSA id y1sm4733534pjl.12.2020.10.28.02.29.03
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 28 Oct 2020 02:29:06 -0700 (PDT)
+Subject: Re: [External] Re: [PATCH 1/2] nvmet: introduce transport layer
+ keep-alive
+To: Sagi Grimberg <sagi@grimberg.me>, hch@lst.de, chaitanya.kulkarni@wdc.com
+References: <20201027121546.1776104-1-pizhenwei@bytedance.com>
+ <bbbb8d0e-22a3-0e94-9a0a-b7ce1792a1ae@grimberg.me>
+From: zhenwei pi <pizhenwei@bytedance.com>
+Message-ID: <3f8e5405-152f-d71b-a37f-9bf4f85714c2@bytedance.com>
+Date: Wed, 28 Oct 2020 17:29:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <0-v2-53c22d5c1405+33-rdma_connect_locking_jgg@nvidia.com>
+In-Reply-To: <bbbb8d0e-22a3-0e94-9a0a-b7ce1792a1ae@grimberg.me>
 Content-Language: en-US
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603876768; bh=XscdbeyWaoB/vfuZasdw22xljV+Xi4ClUgxt2b6ar54=;
- h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
- MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- Content-Language:X-Originating-IP:X-ClientProxiedBy;
- b=qNDlP+RxxHLU6MAoIg+xgjNlamRRemu/d0Vq/hL6byWLAtPdYv72HBcNuecZbguVi
- ReSB5bgBo/6TqRDWk0MWErWlORXb9c0v9ASL+vc/mXlb1w6ySO2rpK40zKbP+iYL3C
- WFpbGmgyX/l21pb/LsAuLy0KwkyPLWvio1k1Onq5eOLAzT/NV1qZx+zM6qGSSqdyrQ
- o8/gzPVNZNVnK95n8OQZaYvX3piqSCK04ccI//tcc/tjr8PfgA8WtDbFJzn6qFSNIw
- WFmBm4lDWkdXZ79SkdWPcY8WwH8vBw11FTkKZNfhX1rGLeYam3q5G55JfsPOQQvV51
- ThPe98voTTolA==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201028_051930_352708_F6027C5D 
-X-CRM114-Status: GOOD (  29.38  )
+X-CRM114-CacheID: sfid-20201028_052911_146305_08E27EDC 
+X-CRM114-Status: GOOD (  23.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,222 +100,87 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>,
- Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
- Sagi Grimberg <sagi@grimberg.me>, netdev@vger.kernel.org,
- Santosh Shilimkar <santosh.shilimkar@oracle.com>, rds-devel@oss.oracle.com,
- linux-nvme@lists.infradead.org, Chao Leng <lengchao@huawei.com>,
- Keith Busch <kbusch@kernel.org>, Jack Wang <jinpu.wang@cloud.ionos.com>,
- Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 10/27/2020 2:20 PM, Jason Gunthorpe wrote:
-> There are two flows for handling RDMA_CM_EVENT_ROUTE_RESOLVED, either the
-> handler triggers a completion and another thread does rdma_connect() or
-> the handler directly calls rdma_connect().
->
-> In all cases rdma_connect() needs to hold the handler_mutex, but when
-> handler's are invoked this is already held by the core code. This causes
-> ULPs using the 2nd method to deadlock.
->
-> Provide a rdma_connect_locked() and have all ULPs call it from their
-> handlers.
->
-> Link: https://lore.kernel.org/r/0-v1-75e124dbad74+b05-rdma_connect_locking_jgg@nvidia.com
-> Reported-and-tested-by: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
-> Fixes: 2a7cec538169 ("RDMA/cma: Fix locking for the RDMA_CM_CONNECT state")
-> Acked-by: Santosh Shilimkar <santosh.shilimkar@oracle.com>
-> Acked-by: Jack Wang <jinpu.wang@cloud.ionos.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   drivers/infiniband/core/cma.c            | 40 +++++++++++++++++++++---
->   drivers/infiniband/ulp/iser/iser_verbs.c |  2 +-
->   drivers/infiniband/ulp/rtrs/rtrs-clt.c   |  4 +--
->   drivers/nvme/host/rdma.c                 |  4 +--
->   include/rdma/rdma_cm.h                   | 14 ++-------
->   net/rds/ib_cm.c                          |  5 +--
->   6 files changed, 46 insertions(+), 23 deletions(-)
->
-> v2:
->   - Remove extra code from nvme (Chao)
->   - Fix long lines (CH)
->
-> I've applied this version to rdma-rc - expecting to get these ULPs unbroken for rc2
-> release
->
-> Thanks,
-> Jason
->
-> diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
-> index 7c2ab1f2fbea37..193c8902b9db26 100644
-> --- a/drivers/infiniband/core/cma.c
-> +++ b/drivers/infiniband/core/cma.c
-> @@ -405,10 +405,10 @@ static int cma_comp_exch(struct rdma_id_private *id_priv,
->   	/*
->   	 * The FSM uses a funny double locking where state is protected by both
->   	 * the handler_mutex and the spinlock. State is not allowed to change
-> -	 * away from a handler_mutex protected value without also holding
-> +	 * to/from a handler_mutex protected value without also holding
->   	 * handler_mutex.
->   	 */
-> -	if (comp == RDMA_CM_CONNECT)
-> +	if (comp == RDMA_CM_CONNECT || exch == RDMA_CM_CONNECT)
->   		lockdep_assert_held(&id_priv->handler_mutex);
->   
->   	spin_lock_irqsave(&id_priv->lock, flags);
-> @@ -4038,13 +4038,21 @@ static int cma_connect_iw(struct rdma_id_private *id_priv,
->   	return ret;
->   }
->   
-> -int rdma_connect(struct rdma_cm_id *id, struct rdma_conn_param *conn_param)
-> +/**
-> + * rdma_connect_locked - Initiate an active connection request.
-> + * @id: Connection identifier to connect.
-> + * @conn_param: Connection information used for connected QPs.
-> + *
-> + * Same as rdma_connect() but can only be called from the
-> + * RDMA_CM_EVENT_ROUTE_RESOLVED handler callback.
-> + */
-> +int rdma_connect_locked(struct rdma_cm_id *id,
-> +			struct rdma_conn_param *conn_param)
->   {
->   	struct rdma_id_private *id_priv =
->   		container_of(id, struct rdma_id_private, id);
->   	int ret;
->   
-> -	mutex_lock(&id_priv->handler_mutex);
-
-You need to delete the mutex_unlock in success path too.
->   	if (!cma_comp_exch(id_priv, RDMA_CM_ROUTE_RESOLVED, RDMA_CM_CONNECT)) {
->   		ret = -EINVAL;
->   		goto err_unlock;
-> @@ -4071,6 +4079,30 @@ int rdma_connect(struct rdma_cm_id *id, struct rdma_conn_param *conn_param)
->   err_state:
->   	cma_comp_exch(id_priv, RDMA_CM_CONNECT, RDMA_CM_ROUTE_RESOLVED);
->   err_unlock:
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(rdma_connect_locked);
-> +
-> +/**
-> + * rdma_connect - Initiate an active connection request.
-> + * @id: Connection identifier to connect.
-> + * @conn_param: Connection information used for connected QPs.
-> + *
-> + * Users must have resolved a route for the rdma_cm_id to connect with by having
-> + * called rdma_resolve_route before calling this routine.
-> + *
-> + * This call will either connect to a remote QP or obtain remote QP information
-> + * for unconnected rdma_cm_id's.  The actual operation is based on the
-> + * rdma_cm_id's port space.
-> + */
-> +int rdma_connect(struct rdma_cm_id *id, struct rdma_conn_param *conn_param)
-> +{
-> +	struct rdma_id_private *id_priv =
-> +		container_of(id, struct rdma_id_private, id);
-> +	int ret;
-> +
-> +	mutex_lock(&id_priv->handler_mutex);
-> +	ret = rdma_connect_locked(id, conn_param);
->   	mutex_unlock(&id_priv->handler_mutex);
->   	return ret;
->   }
-> diff --git a/drivers/infiniband/ulp/iser/iser_verbs.c b/drivers/infiniband/ulp/iser/iser_verbs.c
-> index 2f3ebc0a75d924..2bd18b00689341 100644
-> --- a/drivers/infiniband/ulp/iser/iser_verbs.c
-> +++ b/drivers/infiniband/ulp/iser/iser_verbs.c
-> @@ -620,7 +620,7 @@ static void iser_route_handler(struct rdma_cm_id *cma_id)
->   	conn_param.private_data	= (void *)&req_hdr;
->   	conn_param.private_data_len = sizeof(struct iser_cm_hdr);
->   
-> -	ret = rdma_connect(cma_id, &conn_param);
-> +	ret = rdma_connect_locked(cma_id, &conn_param);
->   	if (ret) {
->   		iser_err("failure connecting: %d\n", ret);
->   		goto failure;
-> diff --git a/drivers/infiniband/ulp/rtrs/rtrs-clt.c b/drivers/infiniband/ulp/rtrs/rtrs-clt.c
-> index 776e89231c52f7..f298adc02acba2 100644
-> --- a/drivers/infiniband/ulp/rtrs/rtrs-clt.c
-> +++ b/drivers/infiniband/ulp/rtrs/rtrs-clt.c
-> @@ -1674,9 +1674,9 @@ static int rtrs_rdma_route_resolved(struct rtrs_clt_con *con)
->   	uuid_copy(&msg.sess_uuid, &sess->s.uuid);
->   	uuid_copy(&msg.paths_uuid, &clt->paths_uuid);
->   
-> -	err = rdma_connect(con->c.cm_id, &param);
-> +	err = rdma_connect_locked(con->c.cm_id, &param);
->   	if (err)
-> -		rtrs_err(clt, "rdma_connect(): %d\n", err);
-> +		rtrs_err(clt, "rdma_connect_locked(): %d\n", err);
->   
->   	return err;
->   }
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index aad829a2b50d0f..8bbc48cc45dc1d 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1890,10 +1890,10 @@ static int nvme_rdma_route_resolved(struct nvme_rdma_queue *queue)
->   		priv.hsqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize);
->   	}
->   
-> -	ret = rdma_connect(queue->cm_id, &param);
-> +	ret = rdma_connect_locked(queue->cm_id, &param);
->   	if (ret) {
->   		dev_err(ctrl->ctrl.device,
-> -			"rdma_connect failed (%d).\n", ret);
-> +			"rdma_connect_locked failed (%d).\n", ret);
->   		goto out_destroy_queue_ib;
->   	}
->   
-> diff --git a/include/rdma/rdma_cm.h b/include/rdma/rdma_cm.h
-> index c672ae1da26bb5..32a67af18415d6 100644
-> --- a/include/rdma/rdma_cm.h
-> +++ b/include/rdma/rdma_cm.h
-> @@ -227,19 +227,9 @@ void rdma_destroy_qp(struct rdma_cm_id *id);
->   int rdma_init_qp_attr(struct rdma_cm_id *id, struct ib_qp_attr *qp_attr,
->   		       int *qp_attr_mask);
->   
-> -/**
-> - * rdma_connect - Initiate an active connection request.
-> - * @id: Connection identifier to connect.
-> - * @conn_param: Connection information used for connected QPs.
-> - *
-> - * Users must have resolved a route for the rdma_cm_id to connect with
-> - * by having called rdma_resolve_route before calling this routine.
-> - *
-> - * This call will either connect to a remote QP or obtain remote QP
-> - * information for unconnected rdma_cm_id's.  The actual operation is
-> - * based on the rdma_cm_id's port space.
-> - */
->   int rdma_connect(struct rdma_cm_id *id, struct rdma_conn_param *conn_param);
-> +int rdma_connect_locked(struct rdma_cm_id *id,
-> +			struct rdma_conn_param *conn_param);
->   
->   int rdma_connect_ece(struct rdma_cm_id *id, struct rdma_conn_param *conn_param,
->   		     struct rdma_ucm_ece *ece);
-> diff --git a/net/rds/ib_cm.c b/net/rds/ib_cm.c
-> index 06603dd1c8aa38..b36b60668b1da9 100644
-> --- a/net/rds/ib_cm.c
-> +++ b/net/rds/ib_cm.c
-> @@ -956,9 +956,10 @@ int rds_ib_cm_initiate_connect(struct rdma_cm_id *cm_id, bool isv6)
->   	rds_ib_cm_fill_conn_param(conn, &conn_param, &dp,
->   				  conn->c_proposed_version,
->   				  UINT_MAX, UINT_MAX, isv6);
-> -	ret = rdma_connect(cm_id, &conn_param);
-> +	ret = rdma_connect_locked(cm_id, &conn_param);
->   	if (ret)
-> -		rds_ib_conn_error(conn, "rdma_connect failed (%d)\n", ret);
-> +		rds_ib_conn_error(conn, "rdma_connect_locked failed (%d)\n",
-> +				  ret);
->   
->   out:
->   	/* Beware - returning non-zero tells the rdma_cm to destroy
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMTAvMjgvMjAgMzoxNSBQTSwgU2FnaSBHcmltYmVyZyB3cm90ZToKPiAKPiBPbiAxMC8yNy8y
+MCA1OjE1IEFNLCB6aGVud2VpIHBpIHdyb3RlOgo+PiBJbiB0aGUgemVybyBLQVRPIHNjZW5hcmlv
+LCBpZiBpbml0aWF0b3IgY3Jhc2hlcyB3aXRob3V0IHRyYW5zcG9ydAo+PiBsYXllciBkaXNjb25u
+ZWN0aW9uLCB0YXJnZXQgc2lkZSB3b3VsZCBuZXZlciByZWNsYWltIHJlc291cmNlcy4KPj4KPj4g
+QSB0YXJnZXQgY291bGQgc3RhcnQgdHJhbnNwb3J0IGxheWVyIGtlZXAtYWxpdmUgdG8gZGV0ZWN0
+IGRlYWQKPj4gY29ubmVjdGlvbiBmb3IgdGhlIGFkbWluIHF1ZXVlLgo+IAo+IE5vdCBzdXJlIHdo
+eSB3ZSBzaG91bGQgd29ycnkgYWJvdXQga2F0bz0wLCBpdCdzIHJlYWxseQo+IG1vcmUgZm9yIGRl
+YnVnIHB1cnBvc2VzLiBJJ2QgcmF0aGVyIHRoYXQgd2UgYmxvY2sgdGhpcwo+IG9wdGlvbiBmcm9t
+IHRoZSBob3N0IGFsdG9nZXRoZXIuCj4gCgpBIHRhcmdldCBjYW4ndCBzdXBwb3NlIHRoYXQgaW5p
+dGlhdG9yIGFsd2F5cyBydW5zIGFzIGV4cGVjdGVkLgpJJ20gZGV2ZWxvcGluZyBhIHVzZXIgbGV2
+ZWwgTlZNZU9GIGxpYnJhcnksIGluIG15IHBsYW4sIHVzZXIgbGV2ZWwgS0FUTyAKdGltZXIgZ2V0
+cyBhIGxpdHRsZSBjb21wbGV4LCBJJ2QgbGlrZSB0byB1c2UgVENQIGxldmVsIGtlZXAtYWxpdmUK
+dG8gbWFrZSBjb2RlIHNpbXBsZS4gU28gdGhlIHRhcmdldCBzaWRlIG5lZWRzIHRvIGhhbmRsZSB6
+ZXJvIEtBVE8gY2FzZS4KCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IHpoZW53ZWkgcGkgPHBpemhlbndl
+aUBieXRlZGFuY2UuY29tPgo+PiAtLS0KPj4gwqAgZHJpdmVycy9udm1lL3RhcmdldC9hZG1pbi1j
+bWQuYyB8wqAgMiArLQo+PiDCoCBkcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuY8KgwqDCoMKgwqAg
+fCAxNCArKysrKysrKysrKy0tLQo+PiDCoCBkcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmjCoMKg
+wqDCoCB8wqAgMyArKy0KPj4gwqAgMyBmaWxlcyBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspLCA1
+IGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL3RhcmdldC9hZG1p
+bi1jbWQuYyAKPj4gYi9kcml2ZXJzL252bWUvdGFyZ2V0L2FkbWluLWNtZC5jCj4+IGluZGV4IGRj
+YTM0NDg5YTFkYy4uNTNmYmQ1YzE5M2ExIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL252bWUvdGFy
+Z2V0L2FkbWluLWNtZC5jCj4+ICsrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvYWRtaW4tY21kLmMK
+Pj4gQEAgLTcyOSw3ICs3MjksNyBAQCB1MTYgbnZtZXRfc2V0X2ZlYXRfa2F0byhzdHJ1Y3QgbnZt
+ZXRfcmVxICpyZXEpCj4+IMKgwqDCoMKgwqAgbnZtZXRfc3RvcF9rZWVwX2FsaXZlX3RpbWVyKHJl
+cS0+c3EtPmN0cmwpOwo+PiDCoMKgwqDCoMKgIHJlcS0+c3EtPmN0cmwtPmthdG8gPSBESVZfUk9V
+TkRfVVAodmFsMzIsIDEwMDApOwo+PiAtwqDCoMKgIG52bWV0X3N0YXJ0X2tlZXBfYWxpdmVfdGlt
+ZXIocmVxLT5zcS0+Y3RybCk7Cj4+ICvCoMKgwqAgbnZtZXRfc3RhcnRfa2VlcF9hbGl2ZV90aW1l
+cihyZXEtPnNxLT5jdHJsLCByZXEpOwo+PiDCoMKgwqDCoMKgIG52bWV0X3NldF9yZXN1bHQocmVx
+LCByZXEtPnNxLT5jdHJsLT5rYXRvKTsKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJn
+ZXQvY29yZS5jIGIvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMKPj4gaW5kZXggOTU3YjM5YTgy
+NDMxLi40NTExOTJmN2FkNmEgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvbnZtZS90YXJnZXQvY29y
+ZS5jCj4+ICsrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvY29yZS5jCj4+IEBAIC0zOTUsMTAgKzM5
+NSwxOCBAQCBzdGF0aWMgdm9pZCBudm1ldF9rZWVwX2FsaXZlX3RpbWVyKHN0cnVjdCAKPj4gd29y
+a19zdHJ1Y3QgKndvcmspCj4+IMKgwqDCoMKgwqAgbnZtZXRfY3RybF9mYXRhbF9lcnJvcihjdHJs
+KTsKPj4gwqAgfQo+PiAtdm9pZCBudm1ldF9zdGFydF9rZWVwX2FsaXZlX3RpbWVyKHN0cnVjdCBu
+dm1ldF9jdHJsICpjdHJsKQo+PiArdm9pZCBudm1ldF9zdGFydF9rZWVwX2FsaXZlX3RpbWVyKHN0
+cnVjdCBudm1ldF9jdHJsICpjdHJsLCBzdHJ1Y3QgCj4+IG52bWV0X3JlcSAqcmVxKQo+PiDCoCB7
+Cj4+IC3CoMKgwqAgaWYgKHVubGlrZWx5KGN0cmwtPmthdG8gPT0gMCkpCj4+ICvCoMKgwqAgaWYg
+KHVubGlrZWx5KGN0cmwtPmthdG8gPT0gMCkpIHsKPj4gK8KgwqDCoMKgwqDCoMKgIGlmIChyZXEt
+Pm9wcy0+a2VlcF9hbGl2ZSkKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfaW5mbygiY3Ry
+bCAlZCBzdGFydHMgd2l0aCB0cmFuc3BvcnQga2VlcC1hbGl2ZSAlc1xuIiwgCj4+IGN0cmwtPmNu
+dGxpZCwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXEtPm9wcy0+a2VlcF9h
+bGl2ZShyZXEpID8gImZhaWxlZCIgOiAic3VjY2VlZCIpOwo+PiArwqDCoMKgwqDCoMKgwqAgZWxz
+ZQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcl9pbmZvKCJjdHJsICVkIHN0YXJ0cyB3aXRo
+b3V0IGJvdGggTlZNZU9GIGFuZCB0cmFuc3BvcnQgCj4+IGtlZXAtYWxpdmUiLAo+PiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGN0cmwtPmNudGxpZCk7Cj4+ICsKPj4gwqDCoMKgwqDC
+oMKgwqDCoMKgIHJldHVybjsKPj4gK8KgwqDCoCB9Cj4+IMKgwqDCoMKgwqAgcHJfZGVidWcoImN0
+cmwgJWQgc3RhcnQga2VlcC1hbGl2ZSB0aW1lciBmb3IgJWQgc2Vjc1xuIiwKPj4gwqDCoMKgwqDC
+oMKgwqDCoMKgIGN0cmwtPmNudGxpZCwgY3RybC0+a2F0byk7Cj4+IEBAIC0xMzgzLDcgKzEzOTEs
+NyBAQCB1MTYgbnZtZXRfYWxsb2NfY3RybChjb25zdCBjaGFyICpzdWJzeXNucW4sIAo+PiBjb25z
+dCBjaGFyICpob3N0bnFuLAo+PiDCoMKgwqDCoMKgIGN0cmwtPmVycl9jb3VudGVyID0gMDsKPj4g
+wqDCoMKgwqDCoCBzcGluX2xvY2tfaW5pdCgmY3RybC0+ZXJyb3JfbG9jayk7Cj4+IC3CoMKgwqAg
+bnZtZXRfc3RhcnRfa2VlcF9hbGl2ZV90aW1lcihjdHJsKTsKPj4gK8KgwqDCoCBudm1ldF9zdGFy
+dF9rZWVwX2FsaXZlX3RpbWVyKGN0cmwsIHJlcSk7Cj4+IMKgwqDCoMKgwqAgbXV0ZXhfbG9jaygm
+c3Vic3lzLT5sb2NrKTsKPj4gwqDCoMKgwqDCoCBsaXN0X2FkZF90YWlsKCZjdHJsLT5zdWJzeXNf
+ZW50cnksICZzdWJzeXMtPmN0cmxzKTsKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJn
+ZXQvbnZtZXQuaCBiL2RyaXZlcnMvbnZtZS90YXJnZXQvbnZtZXQuaAo+PiBpbmRleCA1NTlhMTVj
+Y2MzMjIuLmRlMTc4NWNlOWZjZCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9u
+dm1ldC5oCj4+ICsrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvbnZtZXQuaAo+PiBAQCAtMzA1LDYg
+KzMwNSw3IEBAIHN0cnVjdCBudm1ldF9mYWJyaWNzX29wcyB7Cj4+IMKgwqDCoMKgwqAgdTE2ICgq
+aW5zdGFsbF9xdWV1ZSkoc3RydWN0IG52bWV0X3NxICpudm1lX3NxKTsKPj4gwqDCoMKgwqDCoCB2
+b2lkICgqZGlzY292ZXJ5X2NoZykoc3RydWN0IG52bWV0X3BvcnQgKnBvcnQpOwo+PiDCoMKgwqDC
+oMKgIHU4ICgqZ2V0X21kdHMpKGNvbnN0IHN0cnVjdCBudm1ldF9jdHJsICpjdHJsKTsKPj4gK8Kg
+wqDCoCBpbnQgKCprZWVwX2FsaXZlKShzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpOwo+PiDCoCB9Owo+
+PiDCoCAjZGVmaW5lIE5WTUVUX01BWF9JTkxJTkVfQklPVkVDwqDCoMKgIDgKPj4gQEAgLTM5NSw3
+ICszOTYsNyBAQCB2b2lkIG52bWV0X2dldF9mZWF0X2FzeW5jX2V2ZW50KHN0cnVjdCBudm1ldF9y
+ZXEgCj4+ICpyZXEpOwo+PiDCoCB1MTYgbnZtZXRfc2V0X2ZlYXRfa2F0byhzdHJ1Y3QgbnZtZXRf
+cmVxICpyZXEpOwo+PiDCoCB1MTYgbnZtZXRfc2V0X2ZlYXRfYXN5bmNfZXZlbnQoc3RydWN0IG52
+bWV0X3JlcSAqcmVxLCB1MzIgbWFzayk7Cj4+IMKgIHZvaWQgbnZtZXRfZXhlY3V0ZV9hc3luY19l
+dmVudChzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpOwo+PiAtdm9pZCBudm1ldF9zdGFydF9rZWVwX2Fs
+aXZlX3RpbWVyKHN0cnVjdCBudm1ldF9jdHJsICpjdHJsKTsKPj4gK3ZvaWQgbnZtZXRfc3RhcnRf
+a2VlcF9hbGl2ZV90aW1lcihzdHJ1Y3QgbnZtZXRfY3RybCAqY3RybCwgc3RydWN0IAo+PiBudm1l
+dF9yZXEgKnJlcSk7Cj4+IMKgIHZvaWQgbnZtZXRfc3RvcF9rZWVwX2FsaXZlX3RpbWVyKHN0cnVj
+dCBudm1ldF9jdHJsICpjdHJsKTsKPj4gwqAgdTE2IG52bWV0X3BhcnNlX2Nvbm5lY3RfY21kKHN0
+cnVjdCBudm1ldF9yZXEgKnJlcSk7Cj4+CgotLSAKemhlbndlaSBwaQoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QK
+TGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
+L21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
