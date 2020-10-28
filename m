@@ -2,87 +2,107 @@ Return-Path: <SRS0=Bcfk=ED=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE1DC4363A
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2020 11:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CAEC4363A
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2020 12:15:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 10608246C7
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2020 11:36:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B8C04246F2
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Oct 2020 12:15:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zqFkRwYi";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qhd1u6iB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10608246C7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RowaBEnX";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="aS+R9tss"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8C04246F2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/doX48FJd1YhZsolgF16hLB7jM/kU6HjNxXooDl2y/4=; b=zqFkRwYiqL3BX7uNFeGmRvYOZ
-	mE8jXWOkerMMLMzNYYW/e82nk0+dyqfEyAIJFJToxgCLgoVyXEQJ3dvUQU8RzQT+L499wl+HH807u
-	e5aU3OW2Gk2jxidAvyOQr/DIfLiO3uS0neZEKmv5r+X/926FUuc6tXO8y/SzzrrJEiFPheQdGrhYf
-	TFY+nJlx/WPX+alOuw2ovCyE21cE7k7ceNJkX5p2qhGV5Bl4B4VzBHa2CPZCrLDzu5NT9yggiIZqv
-	lUN/j2iyeG82UXMMY0915HWQCjliE9ja8foSoykaLmXYlRlNBYD97txVVn5VrwRKT6shS5EGwrJLl
-	uh++l8k6Q==;
+	 bh=ImeURfS2aacUHgGbE2TeCMDmOmJOD8pmFlAB1PmZYq4=; b=RowaBEnXwfxk0RcRA93vkBa1Z
+	5nIjoOVvcsee2EeGIKtiDP2MF+C3kho8XpkYAtVMYqA0yWjXSA0YZeI0oHbL67pJyEDEvqgBnmBpi
+	fl7R2irTiy2txtJs39q/IPfkjjRzytvWdvWruZT1n3K02yqvC6dF+NT8nRxQ+SDvhs5u+hVsZYS90
+	g/bx6y2KyJv1Lbj+Iei8ocs7sc6cQd9maXeR2h+N7QGQ2I+6aeX5qhCvvZ3ueE0yHkB6RQQ20L1E3
+	iGGbHlEJDwu7RwqE2q7kRPKTQ7VlceK4GyosEnL8tZsCfthnedftRcxh/CHU7Q/bFQz41GfNNpSP2
+	vRJ1BIttQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kXjkf-0001ho-MG; Wed, 28 Oct 2020 11:36:25 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1kXkLx-0006ey-FU; Wed, 28 Oct 2020 12:14:57 +0000
+Received: from nat-hk.nvidia.com ([203.18.50.4])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kXjkc-0001hO-2m
- for linux-nvme@lists.infradead.org; Wed, 28 Oct 2020 11:36:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603884980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I6nGYO/Vix7b7zAT9qcKRqDHQJmpUQPv3W+IG+AHhNA=;
- b=Qhd1u6iBAAvqSRiX1jo8uoHl8IZoh3Bk6a4hYL8R46o2FWWgiT/bGPwgj2Jxe//r8wuXyc
- wWEE7p2nPzy6iBU30za9qcARtxc1JOJB/Shd7n3sBN9HJ1HGzmJSHEPsqUc+6WcW/AU3nL
- Y/ivWz17cat4nfH/QzpMYGZxdtehtnk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-wu-S6ftlNWyCkvgexqgvVA-1; Wed, 28 Oct 2020 07:36:18 -0400
-X-MC-Unique: wu-S6ftlNWyCkvgexqgvVA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0692186DD29;
- Wed, 28 Oct 2020 11:36:16 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-127.pek2.redhat.com
- [10.72.13.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFAC360FC2;
- Wed, 28 Oct 2020 11:36:09 +0000 (UTC)
-Subject: Re: [PATCH v2 0/5] avoid race for time out
-To: Chao Leng <lengchao@huawei.com>, sagi@grimberg.me,
- Ming Lei <ming.lei@redhat.com>
-References: <20201022021452.10971-1-lengchao@huawei.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Message-ID: <aba13cb9-a3d4-490b-4d1d-1deb60eafff6@redhat.com>
-Date: Wed, 28 Oct 2020 19:36:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ id 1kXkLt-0006eB-IJ
+ for linux-nvme@lists.infradead.org; Wed, 28 Oct 2020 12:14:55 +0000
+Received: from HKMAIL101.nvidia.com (Not Verified[10.18.92.100]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f9960b90000>; Wed, 28 Oct 2020 20:14:49 +0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL101.nvidia.com
+ (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 28 Oct
+ 2020 12:14:43 +0000
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
+ by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Wed, 28 Oct 2020 12:14:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OCSDZgL05dyDiIyyctUaDs9bPa/AMR7fcRlj8gDV4gonXgS3mVisqdbR1RonXkd/J8/SXu1ED2TtELTt2rVeHwyforKVvtElXsIDJ2oNIzVVsmeaEvjDlmErIQh8Amt2rDKLxR3CzcoLlRucbUo/04zjSNGey5dBLI6fU+MUJUlxa2lQI56q4ccQfqG6wAX91EpgijO1MopwnxxZPRM6UI59kG1pAo4esvmYcT01ldn/doMQdLU+dBglpjebvqos/jdE459rqUmWGVgG6xSTfGrbtsZQzyP8Qnn+/pokqVmYnpuPMRJb+7suQfBIRF6AJ/RD3V0dhVsIXy5QrIHXEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GDsk0pGeWll3uhXmO7tKPci2CWy4O4fCJM6xIer31Ao=;
+ b=cE2azgy6OKXmje4H1nnHi/maQfbOzS/R02IW8EEemRbE62+ZPZyvcGDhdlRKxT7dRp2b6p1f2r4rwC2Tj+8mJqix+xgVe706hhDzMOZCYH+QMUPWYN5I8PoUtTgwrqntP69YyKJZy+d/ZoayFUygxJsbw71p/QS1d4hGmRkjzFeu0mNuDONyV1w2IUdwQ5lKlRzcHXx30xtdIDqR2hbkn6YoRBGl8YTVp7F19Im4NUzIJItJpHRP9DdkeaAaW7Lo5Rmh2Q9DOMLRU3C03M9VGh5SCFSEz0gGa0t4Vi26O7/OP/YIZi9FZpTwJgPs7hp6L1ZwdFpRAczSlXg17KSlgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from CH2PR12MB3831.namprd12.prod.outlook.com (2603:10b6:610:29::13)
+ by CH2PR12MB4021.namprd12.prod.outlook.com (2603:10b6:610:2b::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Wed, 28 Oct
+ 2020 12:14:40 +0000
+Received: from CH2PR12MB3831.namprd12.prod.outlook.com
+ ([fe80::304d:bd84:52d9:7f74]) by CH2PR12MB3831.namprd12.prod.outlook.com
+ ([fe80::304d:bd84:52d9:7f74%6]) with mapi id 15.20.3477.028; Wed, 28 Oct 2020
+ 12:14:40 +0000
+Date: Wed, 28 Oct 2020 09:14:37 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Maor Gottlieb <maorg@nvidia.com>
+Subject: Re: [PATCH rdma v2] RDMA: Add rdma_connect_locked()
+Message-ID: <20201028121437.GU1523783@nvidia.com>
+References: <0-v2-53c22d5c1405+33-rdma_connect_locking_jgg@nvidia.com>
+ <4401b7b1-5d05-a715-4701-957fd09f34c9@nvidia.com>
+Content-Disposition: inline
+In-Reply-To: <4401b7b1-5d05-a715-4701-957fd09f34c9@nvidia.com>
+X-ClientProxiedBy: MN2PR08CA0008.namprd08.prod.outlook.com
+ (2603:10b6:208:239::13) To CH2PR12MB3831.namprd12.prod.outlook.com
+ (2603:10b6:610:29::13)
 MIME-Version: 1.0
-In-Reply-To: <20201022021452.10971-1-lengchao@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yi.zhang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ MN2PR08CA0008.namprd08.prod.outlook.com (2603:10b6:208:239::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
+ Transport; Wed, 28 Oct 2020 12:14:40 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1kXkLd-009vvx-Mn; Wed, 28 Oct 2020 09:14:37 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603887289; bh=GDsk0pGeWll3uhXmO7tKPci2CWy4O4fCJM6xIer31Ao=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=aS+R9tss6LVVb5Qv8AxvF/SbcIZwtLAToMUBdozqBpZyM0nbXaAnYELa8HsvV+2nn
+ JfH07a9NeE6PAjWd+KdiGzKdWm3Qw2MPTKZaYG5yZptJ4l1rW9at+lE6BQpjxtrIjp
+ P3CWHAGi1+B6IbQl2FENZOjXX/yzOTEt0W7BS+jsGtnDUAccNgaqlvBb0c45Sl3xw5
+ uV/xxyFWQWJa4GZ4aH/f7XjQn5WXmYWISnue1aG5SaYaXNAftDSAEzOQvm9wY4an4Z
+ DCPFV3BZHPIi2AiXbNr80XgZP92UEX7KjzCs2intun9fljaj7glWNN1qtRdAwfeeCJ
+ v4oikr2yYOAqA==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201028_073622_173912_8701B47C 
-X-CRM114-Status: GOOD (  18.36  )
+X-CRM114-CacheID: sfid-20201028_081453_923654_2CC15F6F 
+X-CRM114-Status: GOOD (  12.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,128 +114,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Max
+ Gurtovoy <mgurtovoy@nvidia.com>, Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ rds-devel@oss.oracle.com, linux-nvme@lists.infradead.org,
+ Chao Leng <lengchao@huawei.com>, Keith Busch <kbusch@kernel.org>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGVsbG8KClRoaXMgc2VyaWVzIGZpeGVkIHRoZSBXQVJOSU5HIGlzc3VlIEkgcmVwb3J0ZWQgWzFd
-LCBidXQgbm93IHRoZSBudm1lLzAxMiAKWzJdIHdpbGwgYmUgaGFuZyB0aGVyZSBhbmQgbmV2ZXIg
-ZmluaXNoZWQsIGhlcmUgaXMgdGhlIGxvZ1szXQpbMV0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
-bGludXgtbnZtZS8xOTM0MzMxNjM5LjMzMTQ3MzAuMTYwMjE1MjIwMjQ1NC5KYXZhTWFpbC56aW1i
-cmFAcmVkaGF0LmNvbS8KClsyXQpbcm9vdEBocGUteHc5NDAwLTAyIGJsa3Rlc3RzXSMgbnZtZV90
-cnR5cGU9dGNwIC4vY2hlY2sgbnZtZS8wMTIKbnZtZS8wMTIgKHJ1biBta2ZzIGFuZCBkYXRhIHZl
-cmlmaWNhdGlvbiBmaW8gam9iIG9uIE5WTWVPRiBibG9jayAKZGV2aWNlLWJhY2tlZCBucykKIMKg
-wqDCoCBydW50aW1lwqAgMTE5OS42NTFzwqAgLi4uCgpbM10KW8KgIDEyMC41NTA0MDldIHJ1biBi
-bGt0ZXN0cyBudm1lLzAxMiBhdCAyMDIwLTEwLTI4IDA2OjUwOjExClvCoCAxMjEuMTM4MjM0XSBs
-b29wOiBtb2R1bGUgbG9hZGVkClvCoCAxMjEuMTcwODY5XSBudm1ldDogYWRkaW5nIG5zaWQgMSB0
-byBzdWJzeXN0ZW0gYmxrdGVzdHMtc3Vic3lzdGVtLTEKW8KgIDEyMS4yMTU5MzBdIG52bWV0X3Rj
-cDogZW5hYmxpbmcgcG9ydCAwICgxMjcuMC4wLjE6NDQyMCkKW8KgIDEyMS4yODgyMjldIG52bWV0
-OiBjcmVhdGluZyBjb250cm9sbGVyIDEgZm9yIHN1YnN5c3RlbSAKYmxrdGVzdHMtc3Vic3lzdGVt
-LTEgZm9yIE5RTiAKbnFuLjIwMTQtMDgub3JnLm52bWV4cHJlc3M6dXVpZDpmZmUyYjE0MGU3NmE0
-NTY0OTAwNTg1M2YzYjg3MTg1OS4KW8KgIDEyMS4zMDI1OTddIG52bWUgbnZtZTA6IGNyZWF0aW5n
-IDEyIEkvTyBxdWV1ZXMuClvCoCAxMjEuMzA4MzYxXSBudm1lIG52bWUwOiBtYXBwZWQgMTIvMC8w
-IGRlZmF1bHQvcmVhZC9wb2xsIHF1ZXVlcy4KW8KgIDEyMS4zMjAwMzBdIG52bWUgbnZtZTA6IG5l
-dyBjdHJsOiBOUU4gImJsa3Rlc3RzLXN1YnN5c3RlbS0xIiwgYWRkciAKMTI3LjAuMC4xOjQ0MjAK
-W8KgIDEyMy4yNzg5MDNdIFhGUyAobnZtZTBuMSk6IE1vdW50aW5nIFY1IEZpbGVzeXN0ZW0KW8Kg
-IDEyMy4yOTE2MDhdIFhGUyAobnZtZTBuMSk6IEVuZGluZyBjbGVhbiBtb3VudApbwqAgMTIzLjI5
-NzMyMV0geGZzIGZpbGVzeXN0ZW0gYmVpbmcgbW91bnRlZCBhdCAvbW50L2Jsa3Rlc3RzIHN1cHBv
-cnRzIAp0aW1lc3RhbXBzIHVudGlsIDIwMzggKDB4N2ZmZmZmZmYpClvCoCAxODMuODcyMTE4XSBu
-dm1lIG52bWUwOiBxdWV1ZSAxOiB0aW1lb3V0IHJlcXVlc3QgMHg2YyB0eXBlIDQKW8KgIDE4My44
-Nzc3OTJdIG52bWUgbnZtZTA6IHN0YXJ0aW5nIGVycm9yIHJlY292ZXJ5ClvCoCAxODMuODgyMzc2
-XSBudm1lIG52bWUwOiBxdWV1ZSA4OiB0aW1lb3V0IHJlcXVlc3QgMHgxMSB0eXBlIDQKW8KgIDE4
-My44ODgxNDldIG52bWUgbnZtZTA6IHF1ZXVlIDg6IHRpbWVvdXQgcmVxdWVzdCAweDEyIHR5cGUg
-NApbwqAgMTgzLjg5MzgwNV0gbnZtZSBudm1lMDogcXVldWUgODogdGltZW91dCByZXF1ZXN0IDB4
-MTMgdHlwZSA0ClvCoCAxODMuODk5NDY5XSBudm1lIG52bWUwOiBxdWV1ZSA4OiB0aW1lb3V0IHJl
-cXVlc3QgMHgxNCB0eXBlIDQKW8KgIDE4My45MDUxMzBdIG52bWUgbnZtZTA6IHF1ZXVlIDg6IHRp
-bWVvdXQgcmVxdWVzdCAweDE1IHR5cGUgNApbwqAgMTgzLjkxMDc5Ml0gbnZtZSBudm1lMDogcXVl
-dWUgODogdGltZW91dCByZXF1ZXN0IDB4MTYgdHlwZSA0ClvCoCAxODMuOTE2NDUzXSBudm1lIG52
-bWUwOiBxdWV1ZSA4OiB0aW1lb3V0IHJlcXVlc3QgMHgxNyB0eXBlIDQKW8KgIDE4My45MjIxMTRd
-IG52bWUgbnZtZTA6IHF1ZXVlIDg6IHRpbWVvdXQgcmVxdWVzdCAweDE4IHR5cGUgNApbwqAgMTgz
-LjkyNzc3N10gbnZtZSBudm1lMDogcXVldWUgODogdGltZW91dCByZXF1ZXN0IDB4MTkgdHlwZSA0
-ClvCoCAxODMuOTMzNDUwXSBudm1lIG52bWUwOiBxdWV1ZSA4OiB0aW1lb3V0IHJlcXVlc3QgMHgx
-YSB0eXBlIDQKW8KgIDE4My45MzkxMTBdIG52bWUgbnZtZTA6IHF1ZXVlIDg6IHRpbWVvdXQgcmVx
-dWVzdCAweDFiIHR5cGUgNApbwqAgMTgzLjk0NDc3MV0gbnZtZSBudm1lMDogcXVldWUgODogdGlt
-ZW91dCByZXF1ZXN0IDB4MWMgdHlwZSA0ClvCoCAxODMuOTUwNDMxXSBudm1lIG52bWUwOiBxdWV1
-ZSA4OiB0aW1lb3V0IHJlcXVlc3QgMHgxZCB0eXBlIDQKW8KgIDE4My45NTYwOTVdIG52bWUgbnZt
-ZTA6IHF1ZXVlIDg6IHRpbWVvdXQgcmVxdWVzdCAweDFlIHR5cGUgNApbwqAgMTgzLjk2MTc1NV0g
-bnZtZSBudm1lMDogcXVldWUgODogdGltZW91dCByZXF1ZXN0IDB4MWYgdHlwZSA0ClvCoCAxODMu
-OTY3NDE0XSBudm1lIG52bWUwOiBxdWV1ZSA4OiB0aW1lb3V0IHJlcXVlc3QgMHgyMCB0eXBlIDQK
-W8KgIDE4My45NzMyMThdIGJsb2NrIG52bWUwbjE6IG5vIHVzYWJsZSBwYXRoIC0gcmVxdWV1aW5n
-IEkvTwpbwqAgMTgzLjk3ODYyM10gYmxvY2sgbnZtZTBuMTogbm8gdXNhYmxlIHBhdGggLSByZXF1
-ZXVpbmcgSS9PClvCoCAxODMuOTgyNDkyXSBudm1lIG52bWUwOiBSZWNvbm5lY3RpbmcgaW4gMTAg
-c2Vjb25kcy4uLgpbwqAgMTgzLjk4NDAyMl0gYmxvY2sgbnZtZTBuMTogbm8gdXNhYmxlIHBhdGgg
-LSByZXF1ZXVpbmcgSS9PClvCoCAxODMuOTk0NDc2XSBibG9jayBudm1lMG4xOiBubyB1c2FibGUg
-cGF0aCAtIHJlcXVldWluZyBJL08KW8KgIDE4My45OTk4NzBdIGJsb2NrIG52bWUwbjE6IG5vIHVz
-YWJsZSBwYXRoIC0gcmVxdWV1aW5nIEkvTwpbwqAgMTg0LjAwNTI2NF0gYmxvY2sgbnZtZTBuMTog
-bm8gdXNhYmxlIHBhdGggLSByZXF1ZXVpbmcgSS9PClvCoCAxODQuMDEwNjY5XSBibG9jayBudm1l
-MG4xOiBubyB1c2FibGUgcGF0aCAtIHJlcXVldWluZyBJL08KW8KgIDE4NC4wMTYwODBdIGJsb2Nr
-IG52bWUwbjE6IG5vIHVzYWJsZSBwYXRoIC0gcmVxdWV1aW5nIEkvTwpbwqAgMTg0LjAyMTQ2M10g
-YmxvY2sgbnZtZTBuMTogbm8gdXNhYmxlIHBhdGggLSByZXF1ZXVpbmcgSS9PClvCoCAxODQuMDI2
-ODU4XSBibG9jayBudm1lMG4xOiBubyB1c2FibGUgcGF0aCAtIHJlcXVldWluZyBJL08KW8KgIDIw
-OS40NzI2NDddIG52bWV0OiBjdHJsIDIga2VlcC1hbGl2ZSB0aW1lciAoMTUgc2Vjb25kcykgZXhw
-aXJlZCEKW8KgIDIwOS40Nzg2NjJdIG52bWV0OiBjdHJsIDIgZmF0YWwgZXJyb3Igb2NjdXJyZWQh
-ClvCoCAyMTMuNTY4NzY1XSBudm1ldDogY3RybCAxIGtlZXAtYWxpdmUgdGltZXIgKDE1IHNlY29u
-ZHMpIGV4cGlyZWQhClvCoCAyMTMuNTc0NzgyXSBudm1ldDogY3RybCAxIGZhdGFsIGVycm9yIG9j
-Y3VycmVkIQpbwqAgMjM4LjA2NDU3Ml0gbnZtZXQ6IGNyZWF0aW5nIGNvbnRyb2xsZXIgMiBmb3Ig
-c3Vic3lzdGVtIApibGt0ZXN0cy1zdWJzeXN0ZW0tMSBmb3IgTlFOIApucW4uMjAxNC0wOC5vcmcu
-bnZtZXhwcmVzczp1dWlkOmZmZTJiMTQwZTc2YTQ1NjQ5MDA1ODUzZjNiODcxODU5LgpbwqAgMjU2
-LjU3NzY1OF0gbnZtZSBudm1lMDogcXVldWUgMDogdGltZW91dCByZXF1ZXN0IDB4MCB0eXBlIDQK
-W8KgIDI1Ni41ODMzMzNdIG52bWUgbnZtZTA6IENvbm5lY3QgY29tbWFuZCBmYWlsZWQsIGVycm9y
-IHdvL0ROUiBiaXQ6IDg4MQpbwqAgMjU2LjU4OTgwNl0gbnZtZSBudm1lMDogZmFpbGVkIHRvIGNv
-bm5lY3QgcXVldWU6IDAgcmV0PTg4MQpbwqAgMjU2LjU5NTMyNl0gbnZtZSBudm1lMDogRmFpbGVk
-IHJlY29ubmVjdCBhdHRlbXB0IDEKW8KgIDI1Ni42MDAxMTldIG52bWUgbnZtZTA6IFJlY29ubmVj
-dGluZyBpbiAxMCBzZWNvbmRzLi4uClvCoCAyNjYuODE4NDU1XSBudm1ldDogY3JlYXRpbmcgY29u
-dHJvbGxlciAxIGZvciBzdWJzeXN0ZW0gCmJsa3Rlc3RzLXN1YnN5c3RlbS0xIGZvciBOUU4gCm5x
-bi4yMDE0LTA4Lm9yZy5udm1leHByZXNzOnV1aWQ6ZmZlMmIxNDBlNzZhNDU2NDkwMDU4NTNmM2I4
-NzE4NTkuClvCoCAyNjYuODMyMzU2XSBudm1lX25zX2hlYWRfc3VibWl0X2JpbzogMzAgY2FsbGJh
-Y2tzIHN1cHByZXNzZWQKW8KgIDI2Ni44MzIzNjJdIGJsb2NrIG52bWUwbjE6IG5vIHVzYWJsZSBw
-YXRoIC0gcmVxdWV1aW5nIEkvTwpbwqAgMjY2Ljg0MzQ0M10gYmxvY2sgbnZtZTBuMTogbm8gdXNh
-YmxlIHBhdGggLSByZXF1ZXVpbmcgSS9PClvCoCAyNjYuODQ4ODQ4XSBibG9jayBudm1lMG4xOiBu
-byB1c2FibGUgcGF0aCAtIHJlcXVldWluZyBJL08KW8KgIDI2Ni44NTQyNDRdIGJsb2NrIG52bWUw
-bjE6IG5vIHVzYWJsZSBwYXRoIC0gcmVxdWV1aW5nIEkvTwpbwqAgMjY2Ljg1OTY2M10gYmxvY2sg
-bnZtZTBuMTogbm8gdXNhYmxlIHBhdGggLSByZXF1ZXVpbmcgSS9PClvCoCAyNjYuODY1MDU5XSBi
-bG9jayBudm1lMG4xOiBubyB1c2FibGUgcGF0aCAtIHJlcXVldWluZyBJL08KW8KgIDI2Ni44NzA0
-NTRdIGJsb2NrIG52bWUwbjE6IG5vIHVzYWJsZSBwYXRoIC0gcmVxdWV1aW5nIEkvTwpbwqAgMjY2
-Ljg3NTg0NV0gYmxvY2sgbnZtZTBuMTogbm8gdXNhYmxlIHBhdGggLSByZXF1ZXVpbmcgSS9PClvC
-oCAyNjYuODgxMjM0XSBibG9jayBudm1lMG4xOiBubyB1c2FibGUgcGF0aCAtIHJlcXVldWluZyBJ
-L08KW8KgIDI2Ni44ODY2MzJdIGJsb2NrIG52bWUwbjE6IG5vIHVzYWJsZSBwYXRoIC0gcmVxdWV1
-aW5nIEkvTwpbwqAgMjY2Ljg5MjIzN10gbnZtZSBudm1lMDogY3JlYXRpbmcgMTIgSS9PIHF1ZXVl
-cy4KW8KgIDI2Ni45MDM3NDRdIG52bWUgbnZtZTA6IG1hcHBlZCAxMi8wLzAgZGVmYXVsdC9yZWFk
-L3BvbGwgcXVldWVzLgpbwqAgMjY2LjkxMTkyOV0gbnZtZSBudm1lMDogU3VjY2Vzc2Z1bGx5IHJl
-Y29ubmVjdGVkICgyIGF0dGVtcHQpClvCoCAzMjcuNzQ3MTc3XSBudm1lIG52bWUwOiBxdWV1ZSAy
-OiB0aW1lb3V0IHJlcXVlc3QgMHgxZSB0eXBlIDQKW8KgIDMyNy43NTI4ODNdIG52bWUgbnZtZTA6
-IHN0YXJ0aW5nIGVycm9yIHJlY292ZXJ5ClvCoCAzMjcuNzU3NDUwXSBudm1lIG52bWUwOiBxdWV1
-ZSA0OiB0aW1lb3V0IHJlcXVlc3QgMHg2MyB0eXBlIDQKW8KgIDMyNy43NjM1MTFdIG52bWVfbnNf
-aGVhZF9zdWJtaXRfYmlvOiAxNCBjYWxsYmFja3Mgc3VwcHJlc3NlZApbwqAgMzI3Ljc2MzUyMF0g
-YmxvY2sgbnZtZTBuMTogbm8gdXNhYmxlIHBhdGggLSByZXF1ZXVpbmcgSS9PClvCoCAzMjcuNzc0
-NjE0XSBibG9jayBudm1lMG4xOiBubyB1c2FibGUgcGF0aCAtIHJlcXVldWluZyBJL08KW8KgIDMy
-Ny43ODAwNTNdIGJsb2NrIG52bWUwbjE6IG5vIHVzYWJsZSBwYXRoIC0gcmVxdWV1aW5nIEkvTwpb
-wqAgMzI3Ljc4NTQ1MF0gYmxvY2sgbnZtZTBuMTogbm8gdXNhYmxlIHBhdGggLSByZXF1ZXVpbmcg
-SS9PClvCoCAzMjcuNzkwODc2XSBibG9jayBudm1lMG4xOiBubyB1c2FibGUgcGF0aCAtIHJlcXVl
-dWluZyBJL08KW8KgIDMyNy43OTYzMTZdIGJsb2NrIG52bWUwbjE6IG5vIHVzYWJsZSBwYXRoIC0g
-cmVxdWV1aW5nIEkvTwpbwqAgMzI3LjgwMTcyN10gYmxvY2sgbnZtZTBuMTogbm8gdXNhYmxlIHBh
-dGggLSByZXF1ZXVpbmcgSS9PClvCoCAzMjcuODA3MjMxXSBibG9jayBudm1lMG4xOiBubyB1c2Fi
-bGUgcGF0aCAtIHJlcXVldWluZyBJL08KW8KgIDMyNy44MTI2MjddIGJsb2NrIG52bWUwbjE6IG5v
-IHVzYWJsZSBwYXRoIC0gcmVxdWV1aW5nIEkvTwpbwqAgMzI3LjgxODAyNV0gYmxvY2sgbnZtZTBu
-MTogbm8gdXNhYmxlIHBhdGggLSByZXF1ZXVpbmcgSS9PClvCoCAzNTMuODU5NzQ1XSBudm1ldDog
-Y3RybCAxIGtlZXAtYWxpdmUgdGltZXIgKDE1IHNlY29uZHMpIGV4cGlyZWQhClvCoCAzNTMuODY1
-NzYxXSBudm1ldDogY3RybCAxIGZhdGFsIGVycm9yIG9jY3VycmVkIQoKCk9uIDEwLzIyLzIwIDEw
-OjE0IEFNLCBDaGFvIExlbmcgd3JvdGU6Cj4gRmlyc3QgYXZvaWQgcmFjZSBiZXR3ZWVuIHRpbWUg
-b3V0IGFuZCB0ZWFyIGRvd24gZm9yIHJkbWEgYW5kIHRjcC4KPiBTZWNvbmQgYXZvaWQgcmVwZWF0
-ZWQgcmVxdWVzdCBjb21wbGV0aW9uIGluIHRpbWUgb3V0IGZvciByZG1hIGFuZCB0Y3AuCj4KPiBW
-MjoKPiAJLSBhZGQgYXZvaWRpbmcgcmVwZWF0ZWQgcmVxdWVzdCBjb21wbGV0aW9uIGluIHRpbWUg
-b3V0Cj4KPiBDaGFvIExlbmcgKDMpOgo+ICAgIG52bWUtY29yZTogaW50cm9kdWNlIHN5bmMgaW8g
-cXVldWVzCj4gICAgbnZtZS1yZG1hOiBhdm9pZCByYWNlIGJldHdlZW4gdGltZSBvdXQgYW5kIHRl
-YXIgZG93bgo+ICAgIG52bWUtdGNwOiBhdm9pZCByYWNlIGJldHdlZW4gdGltZSBvdXQgYW5kIHRl
-YXIgZG93bgo+Cj4gU2FnaSBHcmltYmVyZyAoMik6Cj4gICAgbnZtZS1yZG1hOiBhdm9pZCByZXBl
-YXRlZCByZXF1ZXN0IGNvbXBsZXRpb24KPiAgICBudm1lLXRjcDogYXZvaWQgcmVwZWF0ZWQgcmVx
-dWVzdCBjb21wbGV0aW9uCj4KPiAgIGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyB8ICA4ICsrKysr
-Ky0tCj4gICBkcml2ZXJzL252bWUvaG9zdC9udm1lLmggfCAgMSArCj4gICBkcml2ZXJzL252bWUv
-aG9zdC9yZG1hLmMgfCAxNCArKystLS0tLS0tLS0tLQo+ICAgZHJpdmVycy9udm1lL2hvc3QvdGNw
-LmMgIHwgMTYgKysrKy0tLS0tLS0tLS0tLQo+ICAgNCBmaWxlcyBjaGFuZ2VkLCAxNCBpbnNlcnRp
-b25zKCspLCAyNSBkZWxldGlvbnMoLSkKPgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlz
-dHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2xpbnV4LW52bWUK
+On Wed, Oct 28, 2020 at 11:19:14AM +0200, Maor Gottlieb wrote:
+> > +			struct rdma_conn_param *conn_param)
+> >   {
+> >   	struct rdma_id_private *id_priv =
+> >   		container_of(id, struct rdma_id_private, id);
+> >   	int ret;
+> > -	mutex_lock(&id_priv->handler_mutex);
+> 
+> You need to delete the mutex_unlock in success path too.
+
+Gaaaaah. Just goes to prove I shouldn't write patches with a child on
+my lap :\
+
+diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
+index f58d19881524dc..a77750b8954db0 100644
+--- a/drivers/infiniband/core/cma.c
++++ b/drivers/infiniband/core/cma.c
+@@ -4072,7 +4072,6 @@ int rdma_connect_locked(struct rdma_cm_id *id,
+ 		ret = -ENOSYS;
+ 	if (ret)
+ 		goto err_state;
+-	mutex_unlock(&id_priv->handler_mutex);
+ 	return 0;
+ err_state:
+ 	cma_comp_exch(id_priv, RDMA_CM_CONNECT, RDMA_CM_ROUTE_RESOLVED);
+
+Thanks,
+Jason
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
