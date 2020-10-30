@@ -2,136 +2,67 @@ Return-Path: <SRS0=Q5cb=EF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DEAAC4363A
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2020 14:32:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2681C00A89
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2020 16:33:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D4DD92087E
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2020 14:32:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0D3042075E
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2020 16:33:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2HVRRrJM";
-	dkim=permerror (0-bit key) header.d=wdc.com header.i=@wdc.com header.b="mXwrGZMx";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="X4G7n9Lf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D4DD92087E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="j4ySbLeq";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4nMhCgP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D3042075E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4FHVTPNMKEJZEbxvf+RHlb+rvLJYAkv9Zcs2YCdRMZs=; b=2HVRRrJM3qZm8djc07KqkTaye
-	huGw/6XzWjugzYOmXYfFF3r+pH+zrldDEJNoc76QQJ6vfo+u96WdqGoEbInKbOyJ3wSnq8L+hlwuQ
-	H1yiruAHf8KCUrVQm8bbxkg6Toqmi9MdiFO9mRy/gnQg/oWMD8cAQ5KIvR3qXzcZhs9KQ0PLwaTO3
-	0SlTix9rBUBpwYpmYkh5yF14luHfIYdwmY6irQgsN0HVrvXeI8TVAGjM4qdM+5z0hFFlWTFSsqoTL
-	owykwVt/QkMzfZNHS4UVxUujfzsi0bnEDJxHb0eNuz2KHQ31d822+umvEAkb8Ti2thBDSX58Q70+9
-	z9qihqFUg==;
+	 bh=VQsH4qQlyVTKQpNmldA4vay1UCQq9GVFLCfqjy1bkow=; b=j4ySbLeqMt3ay+sgJvEo6P07C
+	j/2+cGUvpB/O3RwF/3w78hb/RryHNXDIJoIEVydrnmbm600ff9SXMk41Qfh6SWVBvgcL383K1I+Y3
+	syjfDAqQ+P4jjKzKEbrAZPQ7N0Eu5rzqmvL9Svc15o5pimFNR3Td+BseaXIMtWnryBaXa8JdQ+IoN
+	6EX0Rc8OKOtTcjhLddwgr/fqiokaA1cy2KEm/dVwJmNKWDFKAKj/3gkpgAkQBAhI+jLfCPPSvO2EY
+	erxn68AwcsIF7DMcfItVZ0oicdfRPaTqiEaQ0mKuHHD3bH6TMaY2OBmm5VR0V8fWnzji9o2/JOHqf
+	qmXZAUijQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kYVRc-0007rW-Em; Fri, 30 Oct 2020 14:31:56 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1kYXKu-0002ss-1b; Fri, 30 Oct 2020 16:33:08 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYVRZ-0007qe-Cc
- for linux-nvme@lists.infradead.org; Fri, 30 Oct 2020 14:31:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604069449; x=1635605449;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=UAM3jqTRPDIpW5Pjygd6etGotgRf6CmBQTq7czVWsr8=;
- b=mXwrGZMxAoEBPNtWLOp872loTT1KnMxH0fgluNdYqttwJeeNa4u9ksIS
- iVBiWeVvcQrdKiz4RTObjStTSLzEzjPQTylmNsJWeMzWnObl3ImWmVwl6
- 2nI5FUJz1jjofKKgALG/dEE2WtSlKSGSVz5e5ZukJsF8JWQUVpknpa0p+
- fFs6wpKhPjQzmiP3uMyM9bikaTJ/2jfSNEelqSfEKWMenjiayQ/BWT+hx
- /gJwtICEvptb+Kuiozxh5vT+XY55RI/551kf04BYXCSnnqZTLHTzMZuXp
- iGMv+pW5D7QBowCFeyXKVi3sglY0zFW7vbZIMLNk61gBU/Nd5X7hyRQR2 Q==;
-IronPort-SDR: RrgnNUIU87HymBfXbprOSNzYLJid1RHVNhqeE6NFFyf8t3Rm7D2EmWpoYcspNVb8EADhsR68CR
- 4Rf6ZXCjB7HhXvoTB9/EVl9bigYyw/Z+BcDk5SVuGn8feWsV+TkXEXn5rspHAAz6EHE8lDqI1V
- ssjmspoAvLcGsYMgsqfZGEfsRWrI1WUMCusTZ13Gzsy4C1gIXfW0xHdtO9GMcRexNgWaJyI66v
- alzZfElRJ0SM3UH/s8EstfuUmICcdWNFjlORnefOi+DiRzjBafwiV6zZeSZXjjriqBwYHsilgZ
- dZ4=
-X-IronPort-AV: E=Sophos;i="5.77,433,1596470400"; d="scan'208";a="254902646"
-Received: from mail-mw2nam10lp2104.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.104])
- by ob1.hgst.iphmx.com with ESMTP; 30 Oct 2020 22:50:43 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TwuBDRKB1SAUEsT2XFa64u3utD69jqFxo59mcOMy6f4EoeDD59VcXi40KuAsIeCqONfBnXqCwxstVlseyh0w6sr8YfBGm2YD+9iII41IRQhvJl0OarfpPfx3cu2Krx9Cvuc6xKYmxhph3uNJM5d/fFWOzm1ujS3S0ySQGWxt2mp7YMqbl0yQ75yFvAvoEJqprZw+b+xir0N9gzVMyw2e9oxwz173PR/uHTHHsyLhXTWLL87VYcnqvmTADM0VvFr7S5PePhq7aU8h/s+3WDrrVMjxtV3mICWDbdyqi0tbFBDHveZt1gAu1fjjkj4ds2Ct8epUkh6qevO2TrJuTGI1GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=noHG76TJZIoXLRv+pz8f3kAZ8KougUCW54hTSFvCA9g=;
- b=BxNkoh8WwsoyVBC/SgZluYVULiE6f3bvE0/irwaJL5bBdWrEfkuy6u9lhGoyUm3dpivdqIeI0SLbPxK7cclPTzzPTHy81ugRutzzmfirUCm50cwEcjBoY9OsaIPUGtrp8k0RYviA/aXDHNkk5+vAlhuJZNGJvpGHnJQoabL9USZMQ1SZ9Ki4cJTuXy3d5q8h5phI4GK5eB6pBFNOYoLpOFIi+W/Y89LbI2ZiOShZN0DKbMHSJcGyVV+2Whwje5pV13ndmeSA+iPYO+RUo/aPocpVllftW9eCbS6CreSdmwYCAU//GLPLKCiuSOwb7zBR+yGiAMIZmHbxhFoI2GWgXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=noHG76TJZIoXLRv+pz8f3kAZ8KougUCW54hTSFvCA9g=;
- b=X4G7n9LfGz5T7s3XoLzGSw6pe061cFN65xbqwDJJ3hJatLQZ2zV5NwnZBQbzQzNbkKVJNRJkSr78QtfsbfM7NiSzHYUnRfoNZhHYuqcSFvB6ooYfDJki0iiVOkj0YeNV3ipB8aBLmO6NOUY9fXn35MzzyJDsbaMrtnp5qOx/+0c=
-Received: from BN8PR04MB5475.namprd04.prod.outlook.com (2603:10b6:408:50::28)
- by BN8PR04MB5954.namprd04.prod.outlook.com (2603:10b6:408:5d::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28; Fri, 30 Oct
- 2020 14:31:47 +0000
-Received: from BN8PR04MB5475.namprd04.prod.outlook.com
- ([fe80::44a3:946f:57b0:9903]) by BN8PR04MB5475.namprd04.prod.outlook.com
- ([fe80::44a3:946f:57b0:9903%7]) with mapi id 15.20.3477.034; Fri, 30 Oct 2020
- 14:31:47 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
-Subject: Re: [PATCH] nvme: report capacity 0 for non supported ZNS SSDs
-Thread-Topic: [PATCH] nvme: report capacity 0 for non supported ZNS SSDs
-Thread-Index: AQHWrsllDye4hhD8gEKXDqYoAbLnLQ==
-Date: Fri, 30 Oct 2020 14:31:47 +0000
-Message-ID: <20201030143146.GA105238@localhost.localdomain>
-References: <20201029185753.14368-1-javier.gonz@samsung.com>
-In-Reply-To: <20201029185753.14368-1-javier.gonz@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: javigon.com; dkim=none (message not signed)
- header.d=none;javigon.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [85.226.244.4]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 0ade71ab-b738-404e-437c-08d87ce08861
-x-ms-traffictypediagnostic: BN8PR04MB5954:
-x-microsoft-antispam-prvs: <BN8PR04MB595462D3E13D5A0CA5D8CE28F2150@BN8PR04MB5954.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yhKyDEZPPixNE6o+/yoS86NXPppD5nvfzSLA9gE9eYrxXpqfbjDyAOUE0seL7U8Valm4mddDoG8v/hUrWrQXeF6M4Sd1pJynViMaPmNjI/P0jls9z/kNd4g+fzq+Gunb6BUcf2ha5UbNV30tRbkavRMNCuoBBZ75pML5jo/6rXELjhVgTDl1xIY1qtyZrPVldt6saUioPG4PgWt5hq/GiLHnaNi1EdkJ6suk8rLOs0BQPDvUwtwQ4mSnHVggnRWy6IhAdjPruzFPNLW1b0jowy9GCc6Ns9zlY1HrjfKZX166DwQg2dK5dCpv7ilt6TVy
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR04MB5475.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(136003)(396003)(376002)(346002)(4326008)(186003)(8676002)(7416002)(9686003)(6512007)(2906002)(26005)(1076003)(6486002)(6506007)(6916009)(8936002)(316002)(478600001)(54906003)(86362001)(91956017)(66446008)(64756008)(66556008)(66476007)(76116006)(66946007)(71200400001)(5660300002)(33656002)(66574015)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: O/iejgYR5udWNkXNhJRlEpVjomWDlpXj6LguHWZ5i4AMbsdWOh1ipOfg5S1qUQx70/aFXcf5nd0Or+PLIusG2opssRT4Hrd5h6Lb76gzEvfDxPG0gpTXB+Rq4iVcARNUzDaa0wb0YeBuKJZy91iw3WmJ/Iz+KOTpf+wCT21N+gA3r7y/dzfakPN/ga2C21PDX3yELWwkUKPHye/6UeNAO0FRFWJVykAMoAlwHYhHU8n6Em/gWgata9iFLTHY9//k++sEcadLms8p56rBKcC9JzUaCTymXK/2C5a52864rW1r/uoEIPsA9H4EVoxpjBfF1aGGfo5Z4IRstpQsMZJAgiu2AVG9iilVcyfHPFMDYhCVViim/Y5sRCJIVULLJ/ip8sDIMBU0ErM4G2jxDhcmXxGZmzsymPvp+CHzlyX6soneRFjir/MXRcZQo1l8j8+kYncVo+/HwPWicqp51JH+wxWgCNaUMEP54kBvQPzSN5AdQ/EE/47FOW2wI9dpya8WfIt7uyq8aiziumo1tj6orsxyyE4HHh6E37/e+3G3tIhPRmSSX32tUW31j/DnBDbhSFVunKJR7DaP4lNQ+gSA3xzC+LzqH7RjcQS64GP4Muct1n7dhiK4G4IjeEMGIcrWq+b6x42v95b8OZaEQqpoKg==
-x-ms-exchange-transport-forked: True
-Content-ID: <9F308E7B885E0341A0DCC5CA4A5205AC@namprd04.prod.outlook.com>
+ id 1kYWJn-0006Mm-V0
+ for linux-nvme@lists.infradead.org; Fri, 30 Oct 2020 15:27:58 +0000
+Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2AACD20725;
+ Fri, 30 Oct 2020 15:27:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604071671;
+ bh=DYJjFx6afEa9WD1FD9nTC1PBL+6Yk7HG6i0fCoXkpeY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W4nMhCgPKjARPEuOBFveWZdSLK6UOe0YElqI2E8Wy8WHXD5C8FeCjtOa1La3ys2ng
+ hl55POLeotsSvxiFTkllX6/5xyRquxwoinxa9+ClBtwSNtt7yqNCwhRtV7pL2QqlDy
+ klNbXLYKNywgij9YZrFGW88egBw8ZDry+4E4HMqY=
+Date: Fri, 30 Oct 2020 08:27:48 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: "B.L. Jones" <brandon.gustav@googlemail.com>
+Subject: Re: NVME controller issue prevents boot on Kernel versions >= 5.8 on
+ MacBook 7,1 (MacBook Air 2015)
+Message-ID: <20201030152748.GA1946804@dhcp-10-100-145-180.wdc.com>
+References: <CA+ykBt3kGCOdupWSNNiCxQLduq8Bs_t4YN8CsUWYOOGEk884vw@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR04MB5475.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ade71ab-b738-404e-437c-08d87ce08861
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2020 14:31:47.3940 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Wun22ftV0KHyVIhh0atL16qvaiNFMy3AljzeVc0ipTiJ3xIquT42LLbR/HnRVbfHqQMTGX02b8u/kg+flRnaRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR04MB5954
+Content-Disposition: inline
+In-Reply-To: <CA+ykBt3kGCOdupWSNNiCxQLduq8Bs_t4YN8CsUWYOOGEk884vw@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201030_103153_695995_E1694DC7 
-X-CRM114-Status: GOOD (  29.35  )
+X-CRM114-CacheID: sfid-20201030_112756_324521_0EB66C49 
+X-CRM114-Status: GOOD (  21.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,185 +74,46 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>,
- "k.jensen@samsung.com" <k.jensen@samsung.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier.gonz@samsung.com>,
- "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 29, 2020 at 07:57:53PM +0100, Javier Gonz=E1lez wrote:
-> Allow ZNS SSDs to be presented to the host even when they implement
-> features that are not supported by the kernel zoned block device.
-> =
+On Thu, Oct 29, 2020 at 09:31:12PM -0700, B.L. Jones wrote:
+> Hello all,
+> 
+> This is my first time emailing any kernel mail list so I will do my
+> best to furnish any information you may need regarding this.
+> 
+> To begin, I reported a boot issue against the kernel on the
+> Fedora/RedHat Bugzilla last month here:
+> https://bugzilla.redhat.com/show_bug.cgi?id=1878596
+> 
+> Essentially, booting any kernel greater than version 5.8 on my 2015
+> MacBook Air would cause a soft freeze, with an error stating:
+> 
+> [   34.890739] f-air kernel: nvme nvme0: controller is down; will reset: CSTS=0x3, PCI_STATUS=0x10
+> [   34.917820] f-air kernel: nvme nvme0: detected Apple NVMe controller, set queue depth=2 to work around controller resets
+> 
+> Another individual in the bugzilla thread took a look at the error
+> logs and identified a potential commit that may have caused the issue:
+> 
+> commit 54b2fcee1db041a83b52b51752dade6090cf952f
+> Author: Keith Busch <kbusch@kernel.org>
+> Date:   Mon Apr 27 11:54:46 2020 -0700
+> 
+>     nvme-pci: remove last_sq_tail
+> 
+>     The nvme driver does not have enough tags to wrap the queue, and blk-mq
+>     will no longer call commit_rqs() when there are no new submissions to
+>     notify.
+> 
+>     Signed-off-by: Keith Busch <kbusch@kernel.org>
 
-> Instead of rejecting the SSD at the NVMe driver level, deal with this in
-> the block layer by setting capacity to 0, as we do with other things
-> such as unsupported PI configurations. This allows to use standard
-> management tools such as nvme-cli to choose a different format or
-> firmware slot that is compatible with the Linux zoned block device.
-> =
+Thanks for the notice. I'll see if I can fix this, but I think a revert
+may be necessary.
 
-> Signed-off-by: Javier Gonz=E1lez <javier.gonz@samsung.com>
-> ---
->  drivers/nvme/host/core.c |  5 +++++
->  drivers/nvme/host/nvme.h |  1 +
->  drivers/nvme/host/zns.c  | 31 ++++++++++++++-----------------
->  3 files changed, 20 insertions(+), 17 deletions(-)
-> =
-
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index c190c56bf702..9ca4f0a6ff2c 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2026,6 +2026,11 @@ static void nvme_update_disk_info(struct gendisk *=
-disk,
->  			capacity =3D 0;
->  	}
-
-Hello Javier,
-
->  =
-
-> +#ifdef CONFIG_BLK_DEV_ZONED
-
-if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)
-
-is preferred over ifdefs.
-
-> +	if (!ns->zone_sup)
-> +		capacity =3D 0;
-> +#endif
-> +
->  	set_capacity_revalidate_and_notify(disk, capacity, false);
->  =
-
->  	nvme_config_discard(disk, ns);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 87737fa32360..42cbe5bbc518 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -443,6 +443,7 @@ struct nvme_ns {
->  	u8 pi_type;
->  #ifdef CONFIG_BLK_DEV_ZONED
->  	u64 zsze;
-> +	bool zone_sup;
-
-Perhaps a more descriptive name? zoned_ns_supp ?
-
->  #endif
->  	unsigned long features;
->  	unsigned long flags;
-> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-> index 57cfd78731fb..77a7fed508ef 100644
-> --- a/drivers/nvme/host/zns.c
-> +++ b/drivers/nvme/host/zns.c
-> @@ -44,20 +44,23 @@ int nvme_update_zone_info(struct gendisk *disk, struc=
-t nvme_ns *ns,
->  	struct nvme_id_ns_zns *id;
->  	int status;
->  =
-
-> -	/* Driver requires zone append support */
-> +	ns->zone_sup =3D true;
-
-I don't think it is wise to assign it to true here.
-E.g. if kzalloc() failes, if nvme_submit_sync_cmd() fails,
-or if nvme_set_max_append() fails, you have already set this to true,
-but zoc or power of 2 checks were never performed.
-
-
-Perhaps something like this would be more robust:
-
-@@ -53,18 +53,19 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned =
-lbaf)
-        struct nvme_command c =3D { };
-        struct nvme_id_ns_zns *id;
-        int status;
-+       bool new_ns_supp =3D true;
-+
-+       /* default to NS not supported */
-+       ns->zoned_ns_supp =3D false;
-
--       /* Driver requires zone append support */
-        if (!(le32_to_cpu(log->iocs[nvme_cmd_zone_append]) &
-                        NVME_CMD_EFFECTS_CSUPP)) {
-                dev_warn(ns->ctrl->device,
-                        "append not supported for zoned namespace:%d\n",
-                        ns->head->ns_id);
--               return -EINVAL;
--       }
--
--       /* Lazily query controller append limit for the first zoned namespa=
-ce */
--       if (!ns->ctrl->max_zone_append) {
-+               new_ns_supp =3D false;
-+       } else if (!ns->ctrl->max_zone_append) {
-+               /* Lazily query controller append limit for the first zoned=
- namespace */
-                status =3D nvme_set_max_append(ns->ctrl);
-                if (status)
-                        return status;
-@@ -80,19 +81,16 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned =
-lbaf)
-        c.identify.csi =3D NVME_CSI_ZNS;
-
-        status =3D nvme_submit_sync_cmd(ns->ctrl->admin_q, &c, id, sizeof(*=
-id));
--       if (status)
--               goto free_data;
-+       if (status) {
-+               kfree(id);
-+               return status;
-+       }
-
--       /*
--        * We currently do not handle devices requiring any of the zoned
--        * operation characteristics.
--        */
-        if (id->zoc) {
-                dev_warn(ns->ctrl->device,
-                        "zone operations:%x not supported for namespace:%u\=
-n",
-                        le16_to_cpu(id->zoc), ns->head->ns_id);
--               status =3D -EINVAL;
--               goto free_data;
-+               new_ns_supp =3D false;
-        }
-
-        ns->zsze =3D nvme_lba_to_sect(ns, le64_to_cpu(id->lbafe[lbaf].zsze)=
-);
-@@ -100,17 +98,14 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned=
- lbaf)
-                dev_warn(ns->ctrl->device,
-                        "invalid zone size:%llu for namespace:%u\n",
-                        ns->zsze, ns->head->ns_id);
--               status =3D -EINVAL;
--               goto free_data;
-+               new_ns_supp =3D false;
-        }
-
-+       ns->zoned_ns_supp =3D new_ns_supp;
-        q->limits.zoned =3D BLK_ZONED_HM;
-        blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
-        blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
-        blk_queue_max_active_zones(q, le32_to_cpu(id->mar) + 1);
--free_data:
--       kfree(id);
--       return status;
- }
-
- static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
-
-
-Kind regards,
-Niklas
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
