@@ -2,85 +2,80 @@ Return-Path: <SRS0=Q5cb=EF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 026D3C2D0A3
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2020 01:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E48C00A89
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2020 04:31:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4260A2072C
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2020 01:01:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 70DB62151B
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Oct 2020 04:31:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Rn81FMBW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JPXHNGOW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4260A2072C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WD3reBXA";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="dmKNfUVy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 70DB62151B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=googlemail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=D8TSNX9NtUdpcuGEw8tKiD9zxXeraK5jfjltRSK8AfI=; b=Rn81FMBWGSmRGq/npUVCR3Lpc
-	dekOQjxTbTmXy7uxaek0RF534n99yRQbBPEaCYx92ZzVu8X69mJDh8R85urrypo/su90fmeB09ZWi
-	4ikdbLSpR5MoXlSPEVTj6jwdsuHZYWGJgZbz0mA3yMdaGhxe8q4AKogpk/5rUTi9HIkGCX1A0QywN
-	3sW+RspjJrx0BZax+bR6yxSvbwn+aEpSv9Xmjpbc1m9rZ42fT8hUL3kxTPB/br/bHKZ1bTuaKpnir
-	H8/VBzeosFsg4Ny9584YtxqBSan9VdTbbwGFzvnQuPjX1MbAvIgOC0fH4ZFpkz/rt3S6NhIdoJRgi
-	WneIJCCQw==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:To:Subject:Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0iG0IXKyyYvx1HuRlzhjEOTKM6kKKaJp6vVk1KOfFKs=; b=WD3reBXAGbNmov+Lz/TnQhAsuD
+	EpDFdSjXMv6n+8gdy+5+6Z5NBoo+X9jEqY/sPwzsp88js5rqSvHhcI1LrQeBgZjmxjyNyzzJeRRLa
+	Wfp6QMuM4W0nbPA3u2/91z9yys0nV7EONjZBCIp9BmvKDIlI0WS3BoGt89k07lNepFpIRDjZHhO3k
+	3YxBa8V2edPxo+xknZIJZJvuvYoExJTTUuvIPp7YxeO0w1HrJNoTBTIMk1doTwi+ImlnYG6eruYIz
+	8dm+OvqhTiB4WUDNoiNVbhbekBr5d4jKN3IdrQ5U4vNpFHHzJo0mKQs49qIL1La9zKRcQtwXSkd77
+	Ex/dUZ8A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kYInG-0000Nc-OC; Fri, 30 Oct 2020 01:01:26 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1kYM4c-0001GR-3Z; Fri, 30 Oct 2020 04:31:34 +0000
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kYInB-0000N1-Ts
- for linux-nvme@lists.infradead.org; Fri, 30 Oct 2020 01:01:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604019679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V5sZtNT0w6BFL3sh4ePsT5ej+CyFXdD9SPepH/FKUBk=;
- b=JPXHNGOWYD5AouczByHLD+3KD7MnzVqnYPwddst+EtfHdhXAXyCSTE7FD13fEhArrkW00E
- HQhnDyUdi+Tx8B6LmbOw3y0EBpUIsapr7GxMtTUJOSdlaO3lXIImxG/6nvJTfPRCi+NihA
- Tx8aiM3qrvoM5+eY1fZUCkzWVBvVRXg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-VExvpZ0gNNmdmLr5HVoUwA-1; Thu, 29 Oct 2020 21:01:14 -0400
-X-MC-Unique: VExvpZ0gNNmdmLr5HVoUwA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BFB364150;
- Fri, 30 Oct 2020 01:01:13 +0000 (UTC)
-Received: from T590 (ovpn-12-78.pek2.redhat.com [10.72.12.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C58A05D98C;
- Fri, 30 Oct 2020 01:01:03 +0000 (UTC)
-Date: Fri, 30 Oct 2020 09:00:59 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: [PATCH v2 0/5] avoid race for time out
-Message-ID: <20201030010059.GB2012749@T590>
-References: <20201022021452.10971-1-lengchao@huawei.com>
- <aba13cb9-a3d4-490b-4d1d-1deb60eafff6@redhat.com>
- <e913e433-d8ef-c04b-d9fa-3a6d71657136@grimberg.me>
- <eb2dcbb9-241f-e876-e914-3159f64b7351@redhat.com>
+ id 1kYM4Y-0001Fb-NH
+ for linux-nvme@lists.infradead.org; Fri, 30 Oct 2020 04:31:31 +0000
+Received: by mail-lj1-x231.google.com with SMTP id i2so5533388ljg.4
+ for <linux-nvme@lists.infradead.org>; Thu, 29 Oct 2020 21:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=wuVfOJK2GABLE3L50qE4XslIKstQ2yw9BZH7ha1RNj0=;
+ b=dmKNfUVyLkykN/H/tB/0ekwJxUbGULrnv3vljsPZwQ9dtbC+gBmGlUqlAQcHz9SNiq
+ fBieKkrcy0MvmopcPIrj88bNysT6/B1LntrAIGgFWEjCm25dQThg6CKBKgUiCaYJzKPj
+ vNEhdVRObz57auJdzYY0k40w4+npE802QcaAC9Jto4dDRolcehG+oDiNdTJy83vFp9Cq
+ 3mZ1kkrz1r4Yp3VIQbVvMdc08vGQCiaWr4YuDzzTXzcfwAbrpub1LlYVhcrrpytjKLm7
+ So/W9CqgWicmZz3/fEv63TQk8oB4wUlQ8DtTN6vaHJ9FyrbRF4BKQgfz6Pcno6OIEnYu
+ WQ1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=wuVfOJK2GABLE3L50qE4XslIKstQ2yw9BZH7ha1RNj0=;
+ b=MrFW/72taCHCyfCw1K8cHcj6LBjgeW7uYlL6i5UjHAf7me22Jj87fZl9S+t9mTEYvs
+ w4oLNfP18u96yKQDqnm7PSF5Tdh6cgLhRgSldeTyYxCxO2i0HoeQ0SZk1A9pJf/6K295
+ /e2i+S0V2JPgELUFhOJqdwmydgpKpSrs0/cDVWAIJDkAZAc0OE5NrckbLeO51YTK3q6x
+ IsLFk4XiUfjmIpNf1h5q73UnMKWhjF2OMLrLSq32DgmPoueKsi7yLqD9dSf9Nmb89C6c
+ LJbleSTRNA9hSs0hulC7drMTaVmkNd10rQBLGm/BtbPmwwK3Xxghy5A+wfHIPoY+5lhV
+ TsWA==
+X-Gm-Message-State: AOAM532IT9+TnfKox5put+99tBXhITMZE194xntrHivd5oDwfJNX6tud
+ MLDKitBUDcibuNTK5D9qfQ8ENLbUE989ARhnKzkHc5/viI2KdA==
+X-Google-Smtp-Source: ABdhPJxQcDVMDuIz2JoQZihKTuf4MmVBNwHTfxPAE4eKvW9TJvuoGczpDfsw3A8iPZUdD45XJCWxsfZE5EetLTIDrY4=
+X-Received: by 2002:a2e:7d06:: with SMTP id y6mr211118ljc.431.1604032283898;
+ Thu, 29 Oct 2020 21:31:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <eb2dcbb9-241f-e876-e914-3159f64b7351@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ming.lei@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+From: "B.L. Jones" <brandon.gustav@googlemail.com>
+Date: Thu, 29 Oct 2020 21:31:12 -0700
+Message-ID: <CA+ykBt3kGCOdupWSNNiCxQLduq8Bs_t4YN8CsUWYOOGEk884vw@mail.gmail.com>
+Subject: NVME controller issue prevents boot on Kernel versions >= 5.8 on
+ MacBook 7,1 (MacBook Air 2015)
+To: linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201029_210122_180210_DCE4C612 
-X-CRM114-Status: GOOD (  18.50  )
+X-CRM114-CacheID: sfid-20201030_003130_803663_650F0556 
+X-CRM114-Status: GOOD (  19.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,69 +87,98 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- axboe@fb.com, Chao Leng <lengchao@huawei.com>, kbusch@kernel.org, hch@lst.de
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 30, 2020 at 08:04:07AM +0800, Yi Zhang wrote:
-> =
+Hello all,
 
-> =
+This is my first time emailing any kernel mail list so I will do my
+best to furnish any information you may need regarding this.
 
-> On 10/30/20 5:00 AM, Sagi Grimberg wrote:
-> > =
+To begin, I reported a boot issue against the kernel on the
+Fedora/RedHat Bugzilla last month here:
+https://bugzilla.redhat.com/show_bug.cgi?id=1878596
 
-> > > Hello
-> > > =
+Essentially, booting any kernel greater than version 5.8 on my 2015
+MacBook Air would cause a soft freeze, with an error stating:
 
-> > > This series fixed the WARNING issue I reported [1], but now the
-> > > nvme/012 [2] will be hang there and never finished, here is the
-> > > log[3]
-> > > [1]
-> > > https://lore.kernel.org/linux-nvme/1934331639.3314730.1602152202454.J=
-avaMail.zimbra@redhat.com/
-> > > =
+[   34.890739] f-air kernel: nvme nvme0: controller is down; will
+reset: CSTS=0x3, PCI_STATUS=0x10
+[   34.917820] f-air kernel: nvme nvme0: detected Apple NVMe
+controller, set queue depth=2 to work around controller resets
 
-> > > =
+Another individual in the bugzilla thread took a look at the error
+logs and identified a potential commit that may have caused the issue:
 
-> > > [2]
-> > > [root@hpe-xw9400-02 blktests]# nvme_trtype=3Dtcp ./check nvme/012
-> > > nvme/012 (run mkfs and data verification fio job on NVMeOF block
-> > > device-backed ns)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 runtime=C2=A0 1199.651s=C2=A0 ...
-> > =
+commit 54b2fcee1db041a83b52b51752dade6090cf952f
+Author: Keith Busch <kbusch@kernel.org>
+Date:   Mon Apr 27 11:54:46 2020 -0700
 
-> > Hey Yi,
-> > =
+    nvme-pci: remove last_sq_tail
 
-> > This is a different issue, as I said, first of all the test is not
-> > designed to trigger this scenario so it is weird why it even happens.
-> > =
+    The nvme driver does not have enough tags to wrap the queue, and blk-mq
+    will no longer call commit_rqs() when there are no new submissions to
+    notify.
 
-> OK, I will keep monitor the issue in the future, and the original issue a=
-lso
-> found in stable branch, should we also CC stable?
-> =
+    Signed-off-by: Keith Busch <kbusch@kernel.org>
+    Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+    Signed-off-by: Christoph Hellwig <hch@lst.de>
+    Signed-off-by: Jens Axboe <axboe@kernel.dk>
+===
 
-> Hi Ming
-> =
+The main/interesting hunk in this patch is as follows:
 
-> just FYI, with your path on top of this series
-> the test passed 100 times although there are timeout, but finally
-> reconnected and test finished.
+===
+@@ -446,24 +445,11 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+  return 0;
+ }
 
-Hi Yi,
+-/*
+- * Write sq tail if we are asked to, or if the next command would wrap.
+- */
+-static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
++static inline void nvme_write_sq_db(struct nvme_queue *nvmeq)
+ {
+- if (!write_sq) {
+- u16 next_tail = nvmeq->sq_tail + 1;
+-
+- if (next_tail == nvmeq->q_depth)
+- next_tail = 0;
+- if (next_tail != nvmeq->last_sq_tail)
+- return;
+- }
+-
+  if (nvme_dbbuf_update_and_check_event(nvmeq->sq_tail,
+  nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
+  writel(nvmeq->sq_tail, nvmeq->q_db);
+- nvmeq->last_sq_tail = nvmeq->sq_tail;
+ }
+===
 
-Thanks for your test, I will re-post the patch out in linux-block today. =
+I built kernel version 5.8.16 per the recommendation on the bugzilla
+thread, reverting this commit: 54b2fcee1db0 ("nvme-pci: remove
+last_sq_tail"), and was able to successfully boot, whereas before no
+kernel version greater than 5.8 would boot.
+
+Additionally, another user built this kernel version and packaged it
+with the Fedora build service with this commit reversion. That build
+also booted successfully and seemed to confirm that this commit was
+causing the issue.
+
+More detailed technical information can be found in M. Vefa Bicakci's
+comment on the bugzilla thread:
+https://bugzilla.redhat.com/show_bug.cgi?id=1878596#c22
+
+It is my hope that this information can lead to a fix in a newer
+kernel update for this hardware. If you require any additional
+information, please let me know and I will do my best to provide what
+you need (I am not quite a developer, just an enthusiastic user).
 
 
-
-Thanks,
-Ming
-
+All the best,
+Brandon Jones
 
 _______________________________________________
 Linux-nvme mailing list
