@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	T_TVD_MIME_NO_HEADERS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B99BC55178
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 14:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21657C55179
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 14:13:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 82CB822243
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 14:12:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8581522226
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 14:12:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zCxwo1eq";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="S5S9Szvy"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 82CB822243
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FaGpD4lw";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="d8B4QcPH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8581522226
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,60 +27,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fICfTnHLaYKwpxI2ax9lQsprfZyPU4rWG1BO3hPespM=; b=zCxwo1equloMMw76TLjzQ8k2t
-	EC9EGtkhu/Hg2Ui2ASvvVdrnFgv+fePREkcNnk7ubA104HqLMO/E/SZVO8vC0K+Zk/Ft7aFogUGV7
-	OM699Q4LpNsfEPY5uavKSL32CZiCQNMkSdvo0jyvooBYRkfXGzF3U0uB6xJoaXaOrivIHO4gDtz7i
-	2McLD4RJqX/iFxceQVvrAq1r/jJUcU0UVVA3y5nBS9hcqRelEXv9FrwKzJeUjdVSn5flRNivytgeM
-	NB5nqruxwh/mES5t1pRPdNjMbVgiSCWLKh3nH/AifiFJyWYTeD305WHonV1dDIs7VHIx9LMKDlFdR
-	Wc0VyngFw==;
+	 bh=7cJ7l6pUPerAWKf+CeML3JC/n65pkdCV3CK1eIwPnr8=; b=FaGpD4lwyXU/j4+7SDPH/DVxF
+	NYPuiShX5jH1oEwwuC2032Cg5lymRec+We9yRej6GxB5gg6RBqfZ2XEuTgUeXTUBT3TYduBlOFFo9
+	C5j3PZK9Kl6YaGm3aIC9vNM0VaFAyMoikTWe/lzz1NAwa0XTPAUJ7t7oOSmMbsaxOS6bV+gsD8+/P
+	8onI/cQwpKoJyyJJJ/6MKRJKkmS4pcnCaeXsUuAxlPIRLYgVbkqF4C9arcrpRCLqnEfo5RszEyCWP
+	mPjRl5JznLvFGi5vZJ6S3+EQJEL8F5NiFSRC+BHgr9Ks+DQY+W3xcbTaE04iw/jrNg/n9xiMq0IfD
+	N9H5N8Mdw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZx3H-0002MB-4f; Tue, 03 Nov 2020 14:12:47 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+	id 1kZx3M-0002PY-A6; Tue, 03 Nov 2020 14:12:52 +0000
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZx2m-00029N-7h
- for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 14:12:18 +0000
-Received: by mail-pg1-x542.google.com with SMTP id t14so13794844pgg.1
- for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2020 06:12:16 -0800 (PST)
+ id 1kZx2q-0002BD-JN
+ for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 14:12:23 +0000
+Received: by mail-pg1-x541.google.com with SMTP id o3so13753290pgr.11
+ for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2020 06:12:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pzVRirSYDadrkksgAkGewMcmTLc/16k9emW3eVxsL4c=;
- b=S5S9SzvyPkARPr3CtqkU9H9L5k6odWngynutLQ1e+XS4s/x8Pvr7TQZEI2JJTnpPOE
- sN9bbzxQGEf1Y5qGMebdSWzAPB0WMEzrD4+7s45xyMRu3zC/JEPZxL5jDRDo8z2anbfx
- jLup8wqAFxDis3SW+rPoKzPPkQnkSuOIi977o=
+ bh=DUOQnx+qwxre4Y9BcjfQPIzAzWHTqTaXbaZcmkyvy4M=;
+ b=d8B4QcPHRsRX3mwNgHzrg/Z8cUMxPUhiU713jbz4W9lpJIQfaP44dA3oBOfExJysK2
+ 7oxond6P6D3As4NWde4cSr30IvHCg/hw3gdYk16OEuXVUY652afdNSzx33c59d+fogIT
+ 0GkUlt8JqJays++qIfOpE9mFda1xk95/sLs5g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=pzVRirSYDadrkksgAkGewMcmTLc/16k9emW3eVxsL4c=;
- b=Y7TS2498CJklitSkhu9DP2uD9gWaPEbcvuv+Gtp2lJdD/ipVoNq/gsFYfp+C9Kry3R
- LfRQNoyyMsAHbVheKhBlH1zwL6UyJvR1uj7w1bk2ku563fWcd65MP75h2XSOhZQaIdPK
- kocMvuGgSaBY0WCd5caujlY+QWOn+XGYQXUTp4p1ycbr0Az7x3WN85Q9np4Oc+zBsivT
- cuTGRR0A7Uk/7/z0AY1014q0zWJA1K5o7Um4/OUP3CkRSzjaUX3qbDDCcPL3ahfz5T88
- eOY/jAfHkNp5qCCHolo1bd/x6j5ECEa2if7WqKHwQmxZdB+6vUnFwJh8C+kX9NYn5y0I
- dJbg==
-X-Gm-Message-State: AOAM53121+q8mGH9TMuWpuT3C+cVX328F9FJs11pUPuiS4n5M3zyZ9jA
- A1YBYjd7eswpHAtXLS8cFm2Gj9LZYo48aOh+
-X-Google-Smtp-Source: ABdhPJyvGGSExdqFXUmDGxzkMdUqiP9e3oOlKWx9YnBZAVxeYhSVmRwxKPHNb6D3uJPW+c5RtLUi9g==
-X-Received: by 2002:a17:90b:4b84:: with SMTP id
- lr4mr4179979pjb.153.1604412734496; 
- Tue, 03 Nov 2020 06:12:14 -0800 (PST)
+ bh=DUOQnx+qwxre4Y9BcjfQPIzAzWHTqTaXbaZcmkyvy4M=;
+ b=AEe25+CzHvhRguYma8Q2S1vOnouz/pPz7CgusjtM87P+zdZeEjnOq++FQRbNBFMldR
+ Lk/IQO/jLAmOTVtj6Om6CauJOwRDVGsFXPrTjNE7T/O+QMBWKT/M7NrPYIZZJKWft5mE
+ hcJETA3fXQeB+yiehSUp4mVks7hXn+p9iiFB9EQk3WTHEJV7fYSSmkgHniZCvCemLwjR
+ I0waZt14N5NMqmy58Ic78ABMux+9f1wrKmqMqeFN0tCUKHxHRIdz7QOpO3ACg2IHhcVW
+ Iset7Iff5HqhF48/+FWrXMjqiFTZbWCSqStcBtBLLONyWaRIsEW2JQWtnth3EPNRLJDw
+ rCXA==
+X-Gm-Message-State: AOAM531brbH3aHuA9wQW3gk2BBzNCHtddCpfvbv7DmAbeoi7VysNcs3W
+ pHap2zhnhgu7GZJXyWZalgaYkQ==
+X-Google-Smtp-Source: ABdhPJxD7V8fqoYoU0izboJHi1CvgTIdtn9xRQdSU0M6g+Um6tjX8rSmUWOj0+8VYza50KLho0QE2g==
+X-Received: by 2002:a17:90a:f183:: with SMTP id
+ bv3mr4035430pjb.23.1604412738188; 
+ Tue, 03 Nov 2020 06:12:18 -0800 (PST)
 Received: from localhost.localdomain ([192.19.234.250])
- by smtp.gmail.com with ESMTPSA id t19sm3596691pgv.37.2020.11.03.06.12.11
+ by smtp.gmail.com with ESMTPSA id t19sm3596691pgv.37.2020.11.03.06.12.14
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 03 Nov 2020 06:12:13 -0800 (PST)
+ Tue, 03 Nov 2020 06:12:17 -0800 (PST)
 From: Muneendra <muneendra.kumar@broadcom.com>
 To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org
-Subject: [PATCH v3 08/19] lpfc: vmid: Add support for vmid in mailbox command
-Date: Tue,  3 Nov 2020 12:48:12 +0530
-Message-Id: <1604387903-20006-9-git-send-email-muneendra.kumar@broadcom.com>
+Subject: [PATCH v3 09/19] lpfc: vmid: VMID params initialization
+Date: Tue,  3 Nov 2020 12:48:13 +0530
+Message-Id: <1604387903-20006-10-git-send-email-muneendra.kumar@broadcom.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1604387903-20006-1-git-send-email-muneendra.kumar@broadcom.com>
 References: <1604387903-20006-1-git-send-email-muneendra.kumar@broadcom.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_091216_742619_B16E33F5 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20201103_091221_953849_A93997C6 
+X-CRM114-Status: GOOD (  13.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,20 +95,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Cc: pbonzini@redhat.com, jsmart2021@gmail.com, mkumar@redhat.com,
  emilne@redhat.com, Gaurav Srivastava <gaurav.srivastava@broadcom.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============1069709174820402597=="
+Content-Type: multipart/mixed; boundary="===============6802680447762100020=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============1069709174820402597==
+--===============6802680447762100020==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000220a5a05b334737a"
+	boundary="0000000000005a706705b33473b2"
 
---000000000000220a5a05b334737a
+--0000000000005a706705b33473b2
 
 From: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
 
-This patch adds supporting datastructures for mailbox command which helps
-in determining if the firmware supports appid or not.
+This patch initializes the VMID parameters like the type of vmid, max
+number of vmids supported and timeout value for the vmid registration
+based on the user input.
 
 Signed-off-by: Gaurav Srivastava  <gaurav.srivastava@broadcom.com>
 Signed-off-by: James Smart <jsmart2021@gmail.com>
@@ -120,58 +121,86 @@ No change
 v2:
 Ported the patch on top of 5.10/scsi-queue
 ---
- drivers/scsi/lpfc/lpfc_hw4.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/scsi/lpfc/lpfc_attr.c | 47 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_hw4.h b/drivers/scsi/lpfc/lpfc_hw4.h
-index 12e4e76233e6..76c072366a16 100644
---- a/drivers/scsi/lpfc/lpfc_hw4.h
-+++ b/drivers/scsi/lpfc/lpfc_hw4.h
-@@ -272,6 +272,9 @@ struct lpfc_sli4_flags {
- #define lpfc_vfi_rsrc_rdy_MASK		0x00000001
- #define lpfc_vfi_rsrc_rdy_WORD		word0
- #define LPFC_VFI_RSRC_RDY		1
-+#define lpfc_ftr_ashdr_SHIFT            4
-+#define lpfc_ftr_ashdr_MASK             0x00000001
-+#define lpfc_ftr_ashdr_WORD             word0
+diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
+index e94eac194676..e73997bce65c 100644
+--- a/drivers/scsi/lpfc/lpfc_attr.c
++++ b/drivers/scsi/lpfc/lpfc_attr.c
+@@ -6138,6 +6138,44 @@ LPFC_BBCR_ATTR_RW(enable_bbcr, 1, 0, 1, "Enable BBC Recovery");
+  */
+ LPFC_ATTR_RW(enable_dpp, 1, 0, 1, "Enable Direct Packet Push");
+ 
++/*
++ * lpfc_max_vmid: Maximum number of VMs to be tagged. This is valid only if
++ * either vmid_app_header or vmid_priority_tagging is enabled.
++ *       4 - 255  = vmid support enabled for 4-255 VMs
++ *       Value range is [4,255].
++ */
++LPFC_ATTR_RW(max_vmid, LPFC_MIN_VMID, LPFC_MIN_VMID, LPFC_MAX_VMID,
++	     "Maximum number of VMs supported");
++
++/*
++ * lpfc_vmid_inactivity_timeout: Inactivity timeout duration in hours
++ *       0  = Timeout is disabled
++ * Value range is [0,24].
++ */
++LPFC_ATTR_RW(vmid_inactivity_timeout, 4, 0, 24,
++	     "Inactivity timeout in hours");
++
++/*
++ * lpfc_vmid_app_header: Enable App Header VMID support
++ *       0  = Support is disabled (default)
++ *       1  = Support is enabled
++ * Value range is [0,1].
++ */
++LPFC_ATTR_RW(vmid_app_header, LPFC_VMID_APP_HEADER_DISABLE,
++	     LPFC_VMID_APP_HEADER_DISABLE, LPFC_VMID_APP_HEADER_ENABLE,
++	     "Enable App Header VMID support");
++
++/*
++ * lpfc_vmid_priority_tagging: Enable Priority Tagging VMID support
++ *       0  = Support is disabled (default)
++ *       1  = Support is enabled
++ * Value range is [0,1]..
++ */
++LPFC_ATTR_RW(vmid_priority_tagging, LPFC_VMID_PRIO_TAG_DISABLE,
++	     LPFC_VMID_PRIO_TAG_DISABLE,
++	     LPFC_VMID_PRIO_TAG_ALL_TARGETS,
++	     "Enable Priority Tagging VMID support");
++
+ struct device_attribute *lpfc_hba_attrs[] = {
+ 	&dev_attr_nvme_info,
+ 	&dev_attr_scsi_stat,
+@@ -6255,6 +6293,10 @@ struct device_attribute *lpfc_hba_attrs[] = {
+ 	&dev_attr_lpfc_ras_fwlog_func,
+ 	&dev_attr_lpfc_enable_bbcr,
+ 	&dev_attr_lpfc_enable_dpp,
++	&dev_attr_lpfc_max_vmid,
++	&dev_attr_lpfc_vmid_inactivity_timeout,
++	&dev_attr_lpfc_vmid_app_header,
++	&dev_attr_lpfc_vmid_priority_tagging,
+ 	NULL,
  };
  
- struct sli4_bls_rsp {
-@@ -2943,6 +2946,9 @@ struct lpfc_mbx_request_features {
- #define lpfc_mbx_rq_ftr_rq_mrqp_SHIFT		16
- #define lpfc_mbx_rq_ftr_rq_mrqp_MASK		0x00000001
- #define lpfc_mbx_rq_ftr_rq_mrqp_WORD		word2
-+#define lpfc_mbx_rq_ftr_rq_ashdr_SHIFT          17
-+#define lpfc_mbx_rq_ftr_rq_ashdr_MASK           0x00000001
-+#define lpfc_mbx_rq_ftr_rq_ashdr_WORD           word2
- 	uint32_t word3;
- #define lpfc_mbx_rq_ftr_rsp_iaab_SHIFT		0
- #define lpfc_mbx_rq_ftr_rsp_iaab_MASK		0x00000001
-@@ -2974,6 +2980,9 @@ struct lpfc_mbx_request_features {
- #define lpfc_mbx_rq_ftr_rsp_mrqp_SHIFT		16
- #define lpfc_mbx_rq_ftr_rsp_mrqp_MASK		0x00000001
- #define lpfc_mbx_rq_ftr_rsp_mrqp_WORD		word3
-+#define lpfc_mbx_rq_ftr_rsp_ashdr_SHIFT         17
-+#define lpfc_mbx_rq_ftr_rsp_ashdr_MASK          0x00000001
-+#define lpfc_mbx_rq_ftr_rsp_ashdr_WORD          word3
- };
+@@ -7314,6 +7356,11 @@ lpfc_get_cfgparam(struct lpfc_hba *phba)
+ 	lpfc_enable_hba_heartbeat_init(phba, lpfc_enable_hba_heartbeat);
  
- struct lpfc_mbx_supp_pages {
-@@ -4383,6 +4392,9 @@ struct wqe_common {
- #define wqe_nvme_SHIFT        4
- #define wqe_nvme_MASK         0x00000001
- #define wqe_nvme_WORD         word10
-+#define wqe_appid_SHIFT       5
-+#define wqe_appid_MASK        0x00000001
-+#define wqe_appid_WORD        word10
- #define wqe_oas_SHIFT         6
- #define wqe_oas_MASK          0x00000001
- #define wqe_oas_WORD          word10
+ 	lpfc_EnableXLane_init(phba, lpfc_EnableXLane);
++	/* VMID Inits */
++	lpfc_max_vmid_init(phba, lpfc_max_vmid);
++	lpfc_vmid_inactivity_timeout_init(phba, lpfc_vmid_inactivity_timeout);
++	lpfc_vmid_app_header_init(phba, lpfc_vmid_app_header);
++	lpfc_vmid_priority_tagging_init(phba, lpfc_vmid_priority_tagging);
+ 	if (phba->sli_rev != LPFC_SLI_REV4)
+ 		phba->cfg_EnableXLane = 0;
+ 	lpfc_XLanePriority_init(phba, lpfc_XLanePriority);
 -- 
 2.26.2
 
 
---000000000000220a5a05b334737a
+--0000000000005a706705b33473b2
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -242,19 +271,19 @@ LbMkW5lUoTb8ycBNOKLYhNE8UEOY8jRTUtMEhzT6NJDEE+1hb3kSGfArrrF3Z8pRYiUUhcpC5GKL
 EpmWnHflnrBcah5Ozy137DGCAm8wggJrAgEBMG0wXTELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEds
 b2JhbFNpZ24gbnYtc2ExMzAxBgNVBAMTKkdsb2JhbFNpZ24gUGVyc29uYWxTaWduIDIgQ0EgLSBT
 SEEyNTYgLSBHMwIMX/krgFDQUQNyOf+1MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEi
-BCBargduRUaRrWMqauwG5kM5f2+QSQtYjx0zYs/ateziKzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDExMDMxNDEyMTRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
+BCAr6Y+QnzvMvIghZp3h7zRtYIY8UL6AjSlt20hxAofsDzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
+AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDExMDMxNDEyMThaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
 AWUDBAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEK
-MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAQayBhQ3d00gsfBdS
-hzzYgFtn0ddOefK/qJKTrc3r10WDeVKVqYYSZ8mBe4p6Ym0GXrPWFSTOR6MpFy3HWrLUrhcK4Ezi
-xoSQTYdJhtq9BjvM/zC0AZ/aoPIsKUg0lCfgaEJ68vbL8LUNObDgycz3jO5QuyXTWhuW3NfI67hI
-+lj5voUK6CRNqzxw+LMM0FFtFr8g3Ljv+t3nmz/ednYjRC2lFdc32ujcFru7mwla+oqVgUXn9r9x
-t7AS222aXqImBhvYbA3FP4oObeNbozNJzywdDifXqRLIJHz6jHEebiQMBdZ2d6g/NzZtHrNIovJJ
-5iXXukLYe9Kim+n55UjbnQ==
---000000000000220a5a05b334737a--
+MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAGsYP19P7JA7+Vj8b
+aOS7vRDqTWXa4jAcvx97Yvbdxcn9lYC/5hPrnTrsLUaauV6/qs9luFgK0D35g8BdlKBQtnGYf7nk
+Kgwf4yWPl2Fc0m/W6+6r99xlA1nqi8BBCT9kRlTZcGoPyY0FNMl+Q6Qm3W5XLmGuAYw3WV7Ue9xz
+WxuMI5mrZuDzzodvy5uzizxu7+fZrR9GDvxDaT7yKmVC4VzPAk/Fkhyqg1p1bEFF/JdtKPQXhsaU
+x8bYkLyaqVu6ndA9Dbgj8aQDuag09BdELOtDefCz+6zYa0WaJukz3EE8JaHJJhXjPvV3hY7JlZ6+
+G/4eM3IsHwdR5MgjuMxsxQ==
+--0000000000005a706705b33473b2--
 
 
---===============1069709174820402597==
+--===============6802680447762100020==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -265,5 +294,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============1069709174820402597==--
+--===============6802680447762100020==--
 
