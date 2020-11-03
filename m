@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3233C2D0A3
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 18:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB37C2D0A3
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 18:25:56 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 505B7206D5
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 18:24:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5BFF3206D5
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 18:25:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OSjduBmD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 505B7206D5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LOloPXn4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5BFF3206D5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=x3G8bhTKNrHC9J3OAGbYQ6cVSYfKynU6EJvHICpImG4=; b=OSjduBmDAi6VhorRayUBbL85Z
-	IRFMnmUKYJfnxkniR6h2sxDj89rLl6yQvqZmQv0cWwm9djb4HKt6Sj4ikr6D5RAAd0MEHz6QxVgFJ
-	WXu0cQrGPzn5138xOvxcZ8PpILiIkpC7g2Fbj5j6Lbv4E7o+Re9HLDhn8pgVIl2IXEyOkF2sduDvH
-	s5mkbL/ZWAbyS2b70i3oCW6gPuj1jLpsp5FXBqCHaDH2W/n+BC8p9djKdCMTLYmM0jG+KgTo08e1Q
-	vyTqr8ngOdtrdYarWd6uV/auIWK74FND17pFS6nOE75getqLABP/FiRc96hc+4dMQfBUu5edbp23U
-	QdmsN6Jfw==;
+	 bh=56aDC7mn1mbgJDsOPRZy0vIk5bp5EStptFK1obCu1zs=; b=LOloPXn4LqPFTX2m3nibFoBK+
+	nqPDF+yYC5NdPIHdQyzr3bHnBTqTZlaffifsc2WrE6QBq3bAralAQMxbwVrzIBCVBM+XyfBSk+mxb
+	u8r8Nzi59TU7IqvOEcbribdFq8jdGIq1mfcmdIXAfyQ3Y+lwTT0Q11iTcreENT2DGCh0mUnylllIk
+	uhU5mJi3OjzN4EeK114fn9L4IGkrMnQsOS1+y4LYjCGFQdyiDt7wkOBnxq4110zrsparLpVzy/4Kw
+	tnI/uVEAcu6z2Dgf+8cz1AujfeqnLYIeTq1zxX3kTc9JpYNcbaADfjNqyAu4V8N9GWpFP2m5NwPKF
+	3/y6SHSqg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ka0zE-00045I-38; Tue, 03 Nov 2020 18:24:52 +0000
+	id 1ka10D-0004Xq-Ms; Tue, 03 Nov 2020 18:25:53 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ka0z9-00043N-V3
- for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 18:24:49 +0000
+ id 1ka10A-0004W4-57
+ for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 18:25:51 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 845016736F; Tue,  3 Nov 2020 19:24:44 +0100 (CET)
-Date: Tue, 3 Nov 2020 19:24:44 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH V3 2/6] nvme-core: split nvme_alloc_request()
-Message-ID: <20201103182444.GA23300@lst.de>
+ id 9B2886736F; Tue,  3 Nov 2020 19:25:48 +0100 (CET)
+Date: Tue, 3 Nov 2020 19:25:47 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH V3 6/6] nvmet: use inline bio for passthru fast path
+Message-ID: <20201103182547.GB23300@lst.de>
 References: <20201022010234.8304-1-chaitanya.kulkarni@wdc.com>
- <20201022010234.8304-3-chaitanya.kulkarni@wdc.com>
+ <20201022010234.8304-7-chaitanya.kulkarni@wdc.com>
+ <9ba9c9ba-7caf-e24c-1471-62c199cfcd4a@deltatee.com>
+ <BYAPR04MB4965980B745F28E069B8460186140@BYAPR04MB4965.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201022010234.8304-3-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <BYAPR04MB4965980B745F28E069B8460186140@BYAPR04MB4965.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_132448_141922_BE63F42C 
-X-CRM114-Status: GOOD (  13.00  )
+X-CRM114-CacheID: sfid-20201103_132550_389170_ACE0B24D 
+X-CRM114-Status: GOOD (  14.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,70 +67,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, kbusch@kernel.org, logang@deltatee.com,
- hch@lst.de
+Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, Logan Gunthorpe <logang@deltatee.com>,
+ "hch@lst.de" <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 21, 2020 at 06:02:30PM -0700, Chaitanya Kulkarni wrote:
-> +static inline unsigned int nvme_req_op(struct nvme_command *cmd)
-> +{
-> +	return nvme_is_write(cmd) ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN;
-> +}
+On Thu, Oct 29, 2020 at 07:02:27PM +0000, Chaitanya Kulkarni wrote:
+> > I still think it's cleaner to change bi_endio for the inline/alloc'd
+> > cases by simply setting bi_endi_io to bio_put() only in the bio_alloc
+> > case. This should also be more efficient as it's one less indirect call
+> > and condition for the inline case.
+> >
+> > Besides that, the entire series looks good to me.
+> >
+> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> >
+> > Logan
+> >
+> Sagi/Christoph, any comments on this one ?
+> 
+> This series been sitting out for a while now.
 
-Why is this added here while nvme_init_req_from_cmd is added in a prep
-patch?  I'm actually fine either way, but doing it differnetly for the
-different helpers is a little inconsistent.
-
-> +
-> +struct request *nvme_alloc_request_qid_any(struct request_queue *q,
-> +		struct nvme_command *cmd, blk_mq_req_flags_t flags)
-
-I'd call this just nvme_alloc_request to keep the short name for the
-normal use case.
-
-> +	struct request *req;
-> +
-> +	req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
-> +	if (unlikely(IS_ERR(req)))
-> +		return req;
-> +
-> +	nvme_init_req_from_cmd(req, cmd);
-> +	return req;
-
-Could be simplified to:
-
-	req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
-	if (!IS_ERR(req))
-		nvme_init_req_from_cmd(req, cmd);
-	return req;
-
-Note that IS_ERR already contains an embedded unlikely().
-
-> +static struct request *nvme_alloc_request_qid(struct request_queue *q,
->  		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid)
->  {
->  	struct request *req;
->  
-> +	req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), flags,
-> +			qid ? qid - 1 : 0);
->  	if (IS_ERR(req))
->  		return req;
->  
->  	nvme_init_req_from_cmd(req, cmd);
->  	return req;
-
-Same here.
-
->  }
-> -EXPORT_SYMBOL_GPL(nvme_alloc_request);
-
-I think nvme_alloc_request_qid needs to be exported as well.
-
-FYI, this also doesn't apply to the current nvme-5.10 tree any more.
+I think the suggestion from Logan makes sense.
 
 _______________________________________________
 Linux-nvme mailing list
