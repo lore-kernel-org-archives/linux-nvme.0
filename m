@@ -1,93 +1,73 @@
-Return-Path: <SRS0=Iz8v=EI=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=7iC9=EJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6772C00A89
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Nov 2020 21:25:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB3CC00A89
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 01:22:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 35C2C20870
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Nov 2020 21:25:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5D616222B9
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 01:22:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qf5Bc+DV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="T1OsrJPX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 35C2C20870
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SprAnkVD";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="lj/2S8kk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D616222B9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xDNBSwjWPmg8YTkG/6R2gbuG27rGpgpupusYjUWAg7g=; b=Qf5Bc+DVxBmzRtnn/X3wM/10n
-	eRlou2DhRc2ptGbJ+dounu/NKqlvG0bt0KMoO3VY8zvrOvUQxC5iuGaf1kdCnID6Sd/CE2AwVD0ea
-	JHrRjcBkhzzt6sNHhFk+D7b5VRNVsC1BP5s6/VI/LX8BiSgm//k+ciLt/vnrBnjjq4bl2+8XsiOBy
-	V32ZVfIw+r7OqkAoicy3qkA+UeHr2Ld1xNEx7CwL2tnUwB70tAXr9yLfLD2hU2DifM2Fqi8ZixpGB
-	5Q7ganPwPxSS6skpPXAJmgPZN45dEBgohg6l7tweU1FFJS/GEXH0eIEbssOvP8lVOeig0Ds4+uEa4
-	ppmuoPVDQ==;
+	 bh=S+zZAf5DfmtutHdyoZmwTW4o4+nUcxaCBFdHMxI4bI0=; b=SprAnkVD3z2Z17zEtGrRtIIgp
+	Qtd2xObpw9HV1hlJkd6leUR9RuuIZhfiNXdfqvIs1xoNkeF1+YiwhvnhzGO40nbZBQaW3j4iGVnCV
+	uAHs15zAcweLxZCUGPVYn0zrKcqlNIGK1sKKt7/tI5zICVoNQ6tw50n7wn+SH5Hv6jUS0ByG3AcET
+	pInYZVGs47Xqry8+/Vx4deg4vDIkRWEH8nkNH41q+2XYNx9yS1CQ1erGj9fjiGSUgSJvujbhc1b36
+	UA6ZXb8z4Z53B0NYH8nUTSdr5o+rDUHtbsKBE47Ejdl93qhuDBDaWE0wqigePBf7SQY/O48bAWf6A
+	KLGZocSkw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZhKQ-00046z-0B; Mon, 02 Nov 2020 21:25:26 +0000
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+	id 1kZl1g-0006Q6-D0; Tue, 03 Nov 2020 01:22:20 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZhKN-00046F-B5
- for linux-nvme@lists.infradead.org; Mon, 02 Nov 2020 21:25:24 +0000
-Received: by mail-ed1-x535.google.com with SMTP id v4so15855081edi.0
- for <linux-nvme@lists.infradead.org>; Mon, 02 Nov 2020 13:25:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ErXtsrQtnPHS/yrrmKnFAGpvVrStovvmDs/h6X+o2Kk=;
- b=T1OsrJPXcFFSGtp8F7h+S/7uD+v2lSE76hmz6zjXYRDWFmaoxNDX/bvbmvtwczmW13
- Ky1c1qR+7TXGyzI+dJc0AZvcJvrQDDplA1jQjh/9db/RXYP9c3siY42KD7AuQsiLHQhn
- AWOHg4K4CVLz2vct+GPiGSKzt1CRyax7GIm+V3bQjUqFWnuWe8VkhL3gspcGzpTVHHHr
- cNI+WuDmonBPY5deLYY55XjEd7hnVvkqy1a2Nr0r9ygrI8oTDIigUGkhLlxUADlbB2SP
- 5A3PlsNqXBrUfrxFIJW+4n5+IIO7n1mlkMk1jX6pEGVwRBIQD8mvRd9aKDp4+N4kF68K
- tNbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ErXtsrQtnPHS/yrrmKnFAGpvVrStovvmDs/h6X+o2Kk=;
- b=hTpuw5lS9Y2AasKeBXz0AZEM4VYKHduh6qS9nfpuB38+HECspamIDKOiAoix8XJ+o6
- 9NcTRPQYLJ5rw2mQei1atguLK27D9yTGhzHLIJboewz9go1/PsUDEt0t8Awm1mGokpj+
- 5exlE6HF7QtG3NGqcR8q0I3WcvdmhdFOzOd/fbix0BDIdmlyhzwclIecZZO5/tQEU4hm
- aQ8yF48wHfovB+iuzEG5zZ0HcVs3y5RJKZHedEKSH24yHytTewnj55ENFCa8B36TH6fc
- 4du5W+ZshYfN8nqI60BOkHGP3opxjpEupBIhniQYtS+p33dtxoyPUTZCXHTKQpzR3A6m
- mHbQ==
-X-Gm-Message-State: AOAM532Bwf1ajPLP7iySE+rnIDmDbLqNTSBzFWfG6axqyHRhSA58qoSE
- K2Tmv0+ME7/1cMjro8VLeN9UqQ==
-X-Google-Smtp-Source: ABdhPJy+GKJTD8cN2G1oG+Nx4+B0Mh1+7ZE6Qn3hgyNAOyoFgGPObmuvSlpuAwDy6D65aYu0wftNDg==
-X-Received: by 2002:a50:8d48:: with SMTP id t8mr19008866edt.228.1604352321965; 
- Mon, 02 Nov 2020 13:25:21 -0800 (PST)
-Received: from localhost (5.186.126.247.cgn.fibianet.dk. [5.186.126.247])
- by smtp.gmail.com with ESMTPSA id bn25sm2240600ejb.76.2020.11.02.13.25.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 13:25:21 -0800 (PST)
-From: Javier Gonzalez <javier@javigon.com>
-X-Google-Original-From: Javier Gonzalez <javier.gonz@samsung.com>
-Date: Mon, 2 Nov 2020 22:25:20 +0100
-To: Niklas Cassel <Niklas.Cassel@wdc.com>
-Subject: Re: nvme: report capacity 0 for non supported ZNS SSDs
-Message-ID: <20201102212520.4nbq47wkbn6fmrsc@MacBook-Pro.localdomain>
-References: <CGME20201102161505eucas1p19415e34eb0b14c7eca5a2c648569cf1e@eucas1p1.samsung.com>
- <0916865d50c640e3aa95dc542f3986b9@CAMSVWEXC01.scsc.local>
- <20201102163000.GA203505@localhost.localdomain>
+ id 1kZkyl-0004yT-1q
+ for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 01:19:21 +0000
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1B2E3222EC;
+ Tue,  3 Nov 2020 01:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604366356;
+ bh=NZ9es5zs29H9KB21JIFsyvP+nqQ0xPDYwhipfvmBO8w=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=lj/2S8kkMEOlDvVDaxKUZ6fLSqv4bnQE9c7yhiQENFC5gEl4bDjlyrL2liYkV6ulp
+ 1a7axuWwwKI/iBQX+rs2ZVicQJG9+UxvxFoFZkyim+AYfypVRT3KhHWwum8q40Nvf+
+ wMmNxSDeyaWez45CeV45+ScNbqUGPElJm8PkWJlA=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.9 27/35] nvme-rdma: handle unexpected nvme
+ completion data length
+Date: Mon,  2 Nov 2020 20:18:32 -0500
+Message-Id: <20201103011840.182814-27-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201103011840.182814-1-sashal@kernel.org>
+References: <20201103011840.182814-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201102163000.GA203505@localhost.localdomain>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201102_162523_432831_A0875CE6 
-X-CRM114-Status: GOOD (  17.85  )
+X-CRM114-CacheID: sfid-20201102_201919_279395_913EC2AF 
+X-CRM114-Status: GOOD (  15.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,41 +79,67 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>,
- "Klaus B. Jensen" <k.jensen@samsung.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>, zhenwei pi <pizhenwei@bytedance.com>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMDIuMTEuMjAyMCAxNjozMCwgTmlrbGFzIENhc3NlbCB3cm90ZToKPk9uIE1vbiwgTm92IDAy
-LCAyMDIwIGF0IDA0OjE1OjAxUE0gKzAwMDAsIEphdmllciBHb256YWxleiB3cm90ZToKPj4KPj4g
-RnJvbTogS2VpdGggQnVzY2ggPGtidXNjaEBrZXJuZWwub3JnPgo+PiBTZW50OiBOb3YgMiwgMjAy
-MCAxNjo0NQo+PiBUbzogSmF2aWVyIEdvbnrDoWxleiA8amF2aWVyQGphdmlnb24uY29tPgo+PiBD
-YzogbGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnOyBsaW51eC1ibG9ja0B2Z2VyLmtlcm5l
-bC5vcmc7IGhjaEBsc3QuZGU7IHNhZ2lAZ3JpbWJlcmcubWU7IGF4Ym9lQGtlcm5lbC5kazsgam9z
-aGkua0BzYW1zdW5nLmNvbTsgIktsYXVzIEIuIEplbnNlbiIgPGsuamVuc2VuQHNhbXN1bmcuY29t
-PjsgTmlrbGFzLkNhc3NlbEB3ZGMuY29tOyBKYXZpZXIgR29uemFsZXogPGphdmllci5nb256QHNh
-bXN1bmcuY29tPgo+PiBTdWJqZWN0OiBSZTogW1BBVENIIFYyXSBudm1lOiByZXBvcnQgY2FwYWNp
-dHkgMCBmb3Igbm9uIHN1cHBvcnRlZCBaTlMgU1NEcwo+Pgo+PiBPbiBNb24sIE5vdiAwMiwgMjAy
-MCBhdCAwMjoyMjoxNFBNICswMTAwLCBKYXZpZXIgR29uesOhbGV6IHdyb3RlOgo+PiA+IENoYW5n
-ZXMgc2luY2UgVjE6Cj4+ID4gICAgLSBBcHBseSBmZWVkYmFjayBmcm9tIE5pa2xhczoKPj4gPiAg
-ICAgICAgLSBVc2UgSVNfRU5BQkxFRCgpIGZvciBjaGVja2luZyBjb25maWcgb3B0aW9uCj4+Cj4+
-IFlvdXIgdjEgd2FzIGNvcnJlY3QuIFVzaW5nIElTX0VOQkFMRUQoKSBhdHRlbXB0cyB0byB1c2Ug
-YW4gdW5kZWZpbmVkCj4+IHN5bWJvbCB3aGVuIHRoZSBDT05GSUcgaXMgbm90IGVuYWJsZWQ6Cj4+
-Cj4+IE9oLiBPay4gV2lsbCByZXR1cm4gdG8gdGhhdC4KPgo+S2VpdGggaXMgY29ycmVjdCwgc29y
-cnkgZm9yIHRoYXQuCj4KPmh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvbGF0ZXN0L3By
-b2Nlc3MvY29kaW5nLXN0eWxlLmh0bWwjY29uZGl0aW9uYWwtY29tcGlsYXRpb24KPgo+IlRodXMs
-IHlvdSBzdGlsbCBoYXZlIHRvIHVzZSBhbiAjaWZkZWYgaWYgdGhlIGNvZGUgaW5zaWRlIHRoZSBi
-bG9jawo+cmVmZXJlbmNlcyBzeW1ib2xzIHRoYXQgd2lsbCBub3QgZXhpc3QgaWYgdGhlIGNvbmRp
-dGlvbiBpcyBub3QgbWV0LiIKPgoKTm8gd29ycmllcy4gVGhhbmtzIGZvciBwb2ludGluZyB0aGlz
-IG91dCAtIEkgaGFkIHNlZW4gY29kZSB3aXRoCklTX0VOQUJMRUQoKSwgYnV0IEkgaGFkIG5vdCBk
-b25lIHRoZSBuZWNlc3NhcnkgcmVhZGluZyB0byBkZXRlcm1pbmUgaWYKaXQgd2FzIHNvbWV0aGlu
-ZyBJIHNob3VsZCB1c2Ugb3Igbm90LiBOb3cgSSBrbm93IDopCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51
-eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+From: zhenwei pi <pizhenwei@bytedance.com>
+
+[ Upstream commit 25c1ca6ecaba3b751d3f7ff92d5cddff3b05f8d0 ]
+
+Receiving a zero length message leads to the following warnings because
+the CQE is processed twice:
+
+refcount_t: underflow; use-after-free.
+WARNING: CPU: 0 PID: 0 at lib/refcount.c:28
+
+RIP: 0010:refcount_warn_saturate+0xd9/0xe0
+Call Trace:
+ <IRQ>
+ nvme_rdma_recv_done+0xf3/0x280 [nvme_rdma]
+ __ib_process_cq+0x76/0x150 [ib_core]
+ ...
+
+Sanity check the received data length, to avoids this.
+
+Thanks to Chao Leng & Sagi for suggestions.
+
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/host/rdma.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 9e378d0a0c01c..8c1c1ee0dabe1 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1767,6 +1767,14 @@ static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ 		return;
+ 	}
+ 
++	/* sanity checking for received data length */
++	if (unlikely(wc->byte_len < len)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"Unexpected nvme completion length(%d)\n", wc->byte_len);
++		nvme_rdma_error_recovery(queue->ctrl);
++		return;
++	}
++
+ 	ib_dma_sync_single_for_cpu(ibdev, qe->dma, len, DMA_FROM_DEVICE);
+ 	/*
+ 	 * AEN requests are special as they don't time out and can
+-- 
+2.27.0
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
