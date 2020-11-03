@@ -2,58 +2,95 @@ Return-Path: <SRS0=7iC9=EJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B79C2D0A3
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 09:26:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48BFBC388F9
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 14:10:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 75C28223BD
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 09:26:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ACF6722264
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 14:10:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NnpNUMsh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75C28223BD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="c7qGZjfn";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="YxyJVBMK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ACF6722264
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jRvfG0Wtr09zjoE0gMmebDj5t35dO9VEkZCU2oR8m9U=; b=NnpNUMshSyvIAjHYmHO8kbVWE
-	QKrvBwiHPE7RRHInmTWvpAvMQEs2SxJpvDyJFxBRQmRNTofiy/1NUMxxfLZem7eZdMsfIByl+evZa
-	8nO6ztBZn89Hu3kxvQTidBY00BZYKV+qZpKPevsswkBGWxBE+499zjzMXH28zbQbaz9s/DenGhHXU
-	g5+DuJ//H7hPEMk0fETfgV+5JHGknZZNfKC8fPXfXpKKWrNWMYHsQ8HZY3O1MRb6KsiPLLlx48D8N
-	fI283DfpZb9Rmp+x/hveZQrdO30xuVx9I9hN94qSWlnNIkCLKOztK8FQe1eV/3HFncctFhnWz/tdQ
-	E1XRfLGuA==;
+	 bh=qVLMkcVtYM3XktC34AwqakFR1bkCMDz4W83OWkSeswI=; b=c7qGZjfn0K01KrXme7uRnbqxJ
+	DqDoSxd76+FeHX4GpP9sva6RJizQhVtP7Rex5rIzLLbZUHk2ety9Pj5vr++Io1b/7zKLUzJyp/WFi
+	Jxl1+pP1UoFpR8eEFh4BjDqkiC0QWWH4vl7mpt5iSUantyMQMZT21M8H9PSNyP0ntXY88yuB87xF0
+	p9hiE8yRypeiGa3dcoXnodNSWsVldEHr9u7MXKEIwGBWH5AhcBHkNXcyHG2fTB2jyThmi5mFqVWWp
+	OelefzV8k1YtXYHLQ6s3CD2SPvK0cstDBbp+gKfViw6jMh6fOxhHsjQvrvNf8faY+IsXySLaYAbDD
+	CS6YaG7wA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZsaW-0005uy-Q7; Tue, 03 Nov 2020 09:26:48 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1kZx1C-0001uY-Tu; Tue, 03 Nov 2020 14:10:38 +0000
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZsaT-0005uD-9w
- for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 09:26:46 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 181B868B02; Tue,  3 Nov 2020 10:26:42 +0100 (CET)
-Date: Tue, 3 Nov 2020 10:26:41 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Chao Leng <lengchao@huawei.com>
-Subject: Re: [PATCH v2 1/5] nvme-core: introduce sync io queues
-Message-ID: <20201103092641.GA17061@lst.de>
-References: <20201022021500.11022-1-lengchao@huawei.com>
+ id 1kZx14-0001tK-To
+ for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 14:10:31 +0000
+Received: by mail-ej1-x62a.google.com with SMTP id k3so24230030ejj.10
+ for <linux-nvme@lists.infradead.org>; Tue, 03 Nov 2020 06:10:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=6JH066wfbr2npDz5gl/1SYKZVrWlCGM4iR0jRxp+WVw=;
+ b=YxyJVBMKQ3BTTIHH8LWuaH1mHoyk5Jj1dDaI9SW23lROVXKwAq7SGSrCWm/oH4HAXL
+ n5X5h2lrPNbrd3cdRRpMGIG0fmE/oMl31mYhigw67jZ/YuFv/Llxh9j7KxauFkyRFt6K
+ 0fk6lrmHOKsskXoT6NxSFelsMwGvLqMwfzrtV+HPabl+3cz6u3eeNXz9nELFB1LOTKQc
+ EgCOZFoMum7b3GI91d0LnPrnWfgD36EyFodK0cSRx6zdXBst09+I2BWiNDLUuza6dWux
+ +rUJDDoH4ZFQ798oKm0rYXp2SNK2Vrrm+VfvCx7tZMxTfIZfsO8mAg8SSz0PaR3wEBHZ
+ WOxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6JH066wfbr2npDz5gl/1SYKZVrWlCGM4iR0jRxp+WVw=;
+ b=teeSXHrQhk5JF8QupxHJ+kP9JbBnJ+FRoDe/ZK2L8mLgkD7fT9N7Gc9TOookcCfHsj
+ pD9YZNFYaU0xpJcVo9J4p9xqxYMUIckeILChHE0vwXE+FCdz0oUaLU97X+oOE+ifkKaE
+ 13eWApPN5XZ6JhsORcRKRCDBfpDt6gorZAsqb8hs87ycZHmZjtAwZAkRmiXHBFpW5AR6
+ yMYN2ZQguJ1Z89AOQDmW5A4Y278HwoT/k8xWJ01QPAUQzRc7dEqhbuflU+1HBwFlCag8
+ yYtfgLOfXgYdrcp2YxwOaWr5N1lOdrXXhQm3EijMwAC7n7I4xmGdt6t3dFSdHDY/Jlzs
+ sbYw==
+X-Gm-Message-State: AOAM531/AP2zokaZtdzfwuVWkezcxqu6F/cFGhPuZUlZdLUWWpsUzjNp
+ fBmwYT6qSFaYOxE66JDUPioDtQ==
+X-Google-Smtp-Source: ABdhPJxCo+QbcFQGkaf0UIcCeiTnf17zeNpC22eu+9Tmczhm1wKWQAhX3bN1HI/xXA2SsP+9BHxUyw==
+X-Received: by 2002:a17:906:1f92:: with SMTP id
+ t18mr7302329ejr.539.1604412622075; 
+ Tue, 03 Nov 2020 06:10:22 -0800 (PST)
+Received: from localhost (5.186.126.247.cgn.fibianet.dk. [5.186.126.247])
+ by smtp.gmail.com with ESMTPSA id n25sm10971551ejd.114.2020.11.03.06.10.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Nov 2020 06:10:20 -0800 (PST)
+Date: Tue, 3 Nov 2020 15:10:19 +0100
+From: Javier Gonzalez <javier@javigon.com>
+To: "hch@lst.de" <hch@lst.de>
+Subject: Re: nvme: report capacity 0 for non supported ZNS SSDs
+Message-ID: <20201103141019.5eomaxs4qn4ezaeh@MacBook-Pro.localdomain>
+References: <CGME20201102161505eucas1p19415e34eb0b14c7eca5a2c648569cf1e@eucas1p1.samsung.com>
+ <0916865d50c640e3aa95dc542f3986b9@CAMSVWEXC01.scsc.local>
+ <20201102180836.GC20182@lst.de>
+ <20201102183355.GB1970293@dhcp-10-100-145-180.wdc.com>
+ <20201102185851.GA21349@lst.de>
+ <20201102212405.j43m47ewg65v4k5k@MacBook-Pro.localdomain>
+ <20201103090628.GA15656@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201022021500.11022-1-lengchao@huawei.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20201103090628.GA15656@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_042645_501637_010C573A 
-X-CRM114-Status: UNSURE (   7.24  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201103_091031_129657_B0173195 
+X-CRM114-Status: GOOD (  19.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,16 +102,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, linux-nvme@lists.infradead.org,
- sagi@grimberg.me
-Content-Type: text/plain; charset="us-ascii"
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ "Niklas.Cassel@wdc.com" <Niklas.Cassel@wdc.com>,
+ "sagi@grimberg.me" <sagi@grimberg.me>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>,
+ "Klaus B. Jensen" <k.jensen@samsung.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Keith Busch <kbusch@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+On 03.11.2020 10:06, hch@lst.de wrote:
+>On Mon, Nov 02, 2020 at 10:24:05PM +0100, Javier Gonzalez wrote:
+>> If I understand correctly, the model would be that a namespace will
+>> always have (i) a character device associated where I/O is always allowed
+>> through user formed commands, and if the namespace has full support in
+>> the kernel (ii) a block device where I/O is as it is today. In case of
+>> (ii) both interfaces can be used for I/O.
+>
+>Yes.
 
-I've applied the series to nvme-5.10.
+Thanks for confirming.
+
+One question here is that we are preparing a RFC for a io_uring passthru
+using the block device. Based on this discussion, it seems to me that
+you see this more suitable through the char device.
+
+Does it make sense that we post this RFC using the block device? It
+would be helpful to get early feedback before starting the char device.
+
+>
+>> While we work on iterations for c), do you believe it is reasonable to
+>> merge a version of the current path that follows the PI convention for
+>> unsupported command sets and features? I would assume that we will have
+>> to convert PI to this model too when it is available.
+>
+>I'm rather torn.  I think the model of the zero capacity block device
+>is a really, really bad one and we should haver never added it.  That
+>being said, for a ZNS namespace that does not support Zone Append I
+>can think of a model that actually makes sense:  expose it as a read-only
+>block device, as we can actually read from it perfectly fine, and that
+>would also allow ioctl access.
+
+This is reasonable. I can re-spin this for append to become read-only
+and then we work in parallel for the char device interface.
+
+I see that this does not make much sense for the other non-supported
+features in this patch (i.e., !po2 zone size and zoc). Since this is
+very much like PI today, is it OK we add these the same way (capacity 0)
+and then move to the char device when ready?
 
 _______________________________________________
 Linux-nvme mailing list
