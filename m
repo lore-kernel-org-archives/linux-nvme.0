@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33E17C388F7
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 09:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D92C2D0A3
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 09:23:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B973322275
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 09:07:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D2DF122384
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Nov 2020 09:23:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Fz9eL3jD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B973322275
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cpPMmHII"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D2DF122384
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,39 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sUeUU2Qepu5RmkVWYVhjXF3ihX+24TwdQB0fYHzq4a8=; b=Fz9eL3jDgBN+HUhwGlgO34w/3
-	/s/Gs0YJszKlmOHiZYMTZKqoSlbAgFwB3A5mSFHddTbP8wMsdFg1nDSblfsV0JNFzNKOeUJ/R+YMq
-	mdUtYO8QBA2tcUrUavUr/ngdruAIqquh2BD8k5FcqVNu+e1yhwJOt3I5UMmn6N85uof4Bw6a8V4x1
-	6++MjoPJL05aiXSbCdgHI5pX9qPxIN7GIjSLgf4xEGQrTInMntsqWJ4kcYqg1mgjJbCRVJsSXuFaP
-	2NwAmkyvFb6CQLRUTXQs8kWHbi3ZYN8TTbaEbu+MJDAIpT3x/5Bop+CTWHZWubkm7Uadq+rd8OPIn
-	Ocbk4jWLg==;
+	 bh=HtrmRJfp5q+CLpo4mtgB438BqQPrk/whlPqN2V9iMgQ=; b=cpPMmHIIUAT5P55yppQODrZSF
+	Xi7P48T4uvSDDGOmBNUgJDiO7cKUHH3PvrUV3eLrL/kOCXmu9XH9MA1Yi8hKFJj0EZA/cI+I/JqpK
+	pCPA4q8gadP7wDayXJnWqHbdxjFV74lYWgrm/LlW7K6iXR8NHoNqapO5nSWzGCgqxHfnCKt6oDGQG
+	jFYyR9wVboHXJw6+G4g/jByktM3Pl0XBlqa8yWm4TLG4ZVxEv7VDBZT8iELrPT9YKtmtz/YJncRv7
+	XReDBkKGCTSqTwKpINrYcpPhK1F7XUjIjn5y6OPqRRFrLGx1JToGJpktyBdshwwphqTa+6VKF2fKs
+	WnNYs1s8w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kZsHM-0002F0-E3; Tue, 03 Nov 2020 09:07:00 +0000
+	id 1kZsXF-0005Rp-G7; Tue, 03 Nov 2020 09:23:25 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kZsGt-00022Y-AS
- for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 09:06:34 +0000
+ id 1kZsXB-0005Qw-Cs
+ for linux-nvme@lists.infradead.org; Tue, 03 Nov 2020 09:23:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 7146968B02; Tue,  3 Nov 2020 10:06:28 +0100 (CET)
-Date: Tue, 3 Nov 2020 10:06:28 +0100
-From: "hch@lst.de" <hch@lst.de>
-To: Javier Gonzalez <javier@javigon.com>
-Subject: Re: nvme: report capacity 0 for non supported ZNS SSDs
-Message-ID: <20201103090628.GA15656@lst.de>
-References: <CGME20201102161505eucas1p19415e34eb0b14c7eca5a2c648569cf1e@eucas1p1.samsung.com>
- <0916865d50c640e3aa95dc542f3986b9@CAMSVWEXC01.scsc.local>
- <20201102180836.GC20182@lst.de>
- <20201102183355.GB1970293@dhcp-10-100-145-180.wdc.com>
- <20201102185851.GA21349@lst.de>
- <20201102212405.j43m47ewg65v4k5k@MacBook-Pro.localdomain>
+ id D53A768B02; Tue,  3 Nov 2020 10:23:18 +0100 (CET)
+Date: Tue, 3 Nov 2020 10:23:18 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Gloria Tsai <Gloria.Tsai@ssstc.com>
+Subject: Re: [PATCH V3 1/1] nvme: Add quirk for LiteON CL1 devices running
+ FW 220TQ,22001
+Message-ID: <20201103092318.GA16071@lst.de>
+References: <20201028091421.GA667673@image-900X5T-900X5U>
+ <20201029145529.GA19011@lst.de> <20201102181327.GD20182@lst.de>
+ <HK2PR02MB4004EE20977D0B14516B030AEE110@HK2PR02MB4004.apcprd02.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201102212405.j43m47ewg65v4k5k@MacBook-Pro.localdomain>
+In-Reply-To: <HK2PR02MB4004EE20977D0B14516B030AEE110@HK2PR02MB4004.apcprd02.prod.outlook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201103_040633_624572_F5470929 
-X-CRM114-Status: GOOD (  14.04  )
+X-CRM114-CacheID: sfid-20201103_042322_038029_A37C181E 
+X-CRM114-Status: GOOD (  14.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +67,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- "Niklas.Cassel@wdc.com" <Niklas.Cassel@wdc.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>,
- "Klaus B. Jensen" <k.jensen@samsung.com>,
+Cc: Jongpil Jung <jongpuls@gmail.com>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Keith Busch <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
+ Jens Axboe <axboe@fb.com>,
+ "jongpil19.jung@samsung.com" <jongpil19.jung@samsung.com>,
+ "dj54.sohn@samsung.com" <dj54.sohn@samsung.com>,
+ Keith Busch <kbusch@kernel.org>,
+ "jongheony.kim@samsung.com" <jongheony.kim@samsung.com>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 02, 2020 at 10:24:05PM +0100, Javier Gonzalez wrote:
-> If I understand correctly, the model would be that a namespace will
-> always have (i) a character device associated where I/O is always allowed
-> through user formed commands, and if the namespace has full support in
-> the kernel (ii) a block device where I/O is as it is today. In case of
-> (ii) both interfaces can be used for I/O.
+On Tue, Nov 03, 2020 at 02:21:16AM +0000, Gloria Tsai wrote:
+> When host issue shutdown + D3hot in suspend, NVMe drive might have
+> chance choosing wrong pointer which has already been used by GC then
+> cause over program.
+> Do GC before shutdown -> delete IO Q -> shutdown from host -> breakup GC -> D3hot -> enter PS4 -> have a chance swap block -> use wrong pointer on device SRAM -> over program
 
-Yes.
+Aka there is data corruption?
 
-> While we work on iterations for c), do you believe it is reasonable to
-> merge a version of the current path that follows the PI convention for
-> unsupported command sets and features? I would assume that we will have
-> to convert PI to this model too when it is available.
+> The issue only happens in simple suspend (shutdown+D3hot) with specific FW on Kahoku board.
 
-I'm rather torn.  I think the model of the zero capacity block device
-is a really, really bad one and we should haver never added it.  That
-being said, for a ZNS namespace that does not support Zone Append I
-can think of a model that actually makes sense:  expose it as a read-only
-block device, as we can actually read from it perfectly fine, and that
-would also allow ioctl access.
+Kahoku is a specific LiteOn controller?  Or it is the host system?
+
+Maybe main issue with this patch is that it mixes up two axis:
+
+ - use power states for suspend despite HMB on specific host systems
+   identified by the DMI ids.  This kinda makes sense to me, as
+   the power state based suspends has lots of advantages, so having
+   a whitelist when to use it seem ok, despite the clutter that this
+   causes.
+ - then tie this to specific NVMe devices that don't work without this
+   quirk, which leaves open the issue what we do when we encounter such
+   a device in a different host system.  If shutdown + D3hot causes
+   problems there is seems like for the case where the above quirk doesn't
+   apply we should just skip the shutdown and let the D3hot do a surprise
+   power removal?  That's mean recovery when coming back from the suspend,
+   but would cause less corruption?
+
+In other words I think this needs to be two patches:
+
+ 1) quirk based on the DMI table and allow power state based
+    suspend on given host systems even when a HMB is enabled
+ 2) quirk based on the nvme device (and if possible use the PCI IDs)
+    to disable shutdown before suspend (possibly with a warning printk
+    when this happens)
 
 _______________________________________________
 Linux-nvme mailing list
