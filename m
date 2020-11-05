@@ -2,84 +2,66 @@ Return-Path: <SRS0=H+rW=EL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AABA7C4741F
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2020 14:29:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24E70C4741F
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2020 16:13:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2FA0920786
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2020 14:29:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8FB61206B7
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2020 16:13:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CyXGRQ6V";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tqG+0gyw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2FA0920786
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n7o9kwaU";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="hkd3H2KI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FB61206B7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=dE2NpJQOgqxxSZ9SeReSEqihQNmJgqpAgoUKnac9+qk=; b=CyXGRQ6VLfZAauO49tvffbLu/y
-	IIn1AMFI2ouhiYmEC+mFbQpZ1eQ8Q1gNz0ijB292BYambf9Pgr0kRX3WrQgMGHXJXJBT0yWXuwaMN
-	V7HJpwElWsSyx3FldDuCTkx913uONIIKUH96vrcS3Q9GLs8VwaPica8JjnKRH3NZVnPihhLnbKMmI
-	Fgytjtg6yxI9mhND5ptSxw/HgdIDr4yeOPDkTqIeoenFlwF2cf/peN/8OSxeE988duk7xmo45oenL
-	BQKlIaL9pNNEGZCEZjqeDwa2eFqEEi3QTW+CePK8ttzJvq3dietg06kbegQQgXghdg8Tcw4j8egr1
-	p0HbU7JA==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=KhZKfg8YSoo+cSgQuXE8tl7g39tEJ+qFoLzPl3C6A4I=; b=n7o9kwaU73P7VmgxDSAaKKnVG
+	4iGSnJf4m8pfTd1j4vYgFmIJaXNgxT+Mh3XMycggrqi7cnPqgTdhAPN2MIkmpvu4XSx5XdlJm6b6P
+	+rXaT1Ymi7+vQJVqmdZWj2N6AQjkhVPNzRk1S40b/QD2LUvTBTV8R2BcObpfmU57zHAwbBsOTfxaU
+	U8p05tKfDhRxJoWh7sRZWPteCaXLwGkUynesZm5IFRB4niyB1LGLfPfDY/pfBKemI91Qs7YPcKvSU
+	0YLrolHiVJSO0fvVJRggDGr6hQsQoo63RWroMqr6ApaxEDIY+tEmusFy7XsTbcqArgTLJrV9+Ui9v
+	Nf9IOCKhw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kagG9-0003k6-0l; Thu, 05 Nov 2020 14:29:05 +0000
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644])
+	id 1kahsx-0003D6-8D; Thu, 05 Nov 2020 16:13:15 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kagG2-0003jL-P3
- for linux-nvme@lists.infradead.org; Thu, 05 Nov 2020 14:28:59 +0000
-Received: by mail-pl1-x644.google.com with SMTP id f21so865165plr.5
- for <linux-nvme@lists.infradead.org>; Thu, 05 Nov 2020 06:28:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=L6NVyG+1bDj1fixbOZ1qOEFr1lCoadojYveAoUP/ufM=;
- b=tqG+0gywvqmymC7bk4UZDrVn77ZOj81hQhhEnbQexNCOUnffE26UtvFF+nhSsf5ZKb
- rXIbQhwkqcXZayp6l0xCz5N+zdFmffkNhIfyeG74Irq5PImYfFEK7k1LFeIDRvC9wQbT
- qlRQUgAjtEVuH5ncmM5LiWTQSkJq8cGKOxKz+x6M0SF1S1hrOHjPs/KuX/3OUP+iptwZ
- s72ypsYy43yyH28rDJhfFx60o/1KVJ7TyCGDZH19ZWgtYK5Upu4m7bCQn0uPdCsWHLsi
- 8eIRr9iqToUSs6CTlDy9RaGa+jPlHQb9291mwGNChJFtSTYaP+X0fqVRKir/uPB5jd4C
- SzAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=L6NVyG+1bDj1fixbOZ1qOEFr1lCoadojYveAoUP/ufM=;
- b=Z83LyEWn4jvdHJZ/vQ91QESq9LEVUW9X8n9pRYpSXnNdoMsYq8oqTsGZ5q24GfdqCF
- 2Bn3FC8/x4iEAhzoDWzOuvuPXvUix2jxJEmKMaLk1uIjNJCzWBjpJ6lCPLuftm46U6ap
- syOSKLZYFEBe2pgY29Qh1qJSlbu+0NGdnkT2SldSK3MhRJXS7k6XoQch2yETQD4ZSPNe
- l2UnqhJO/AH80pDCysfeIOkqKaEkNTnrPMIsxBhhrs55hl0df4qVgY6SVWFgB/BtObLL
- uXjOF/wRUSjiKP82HsVTS5d32asoycnHHW9i0zucmDD7UG2+GykW9oi2V32aUPCxp002
- dqTQ==
-X-Gm-Message-State: AOAM533RoujfJXIG6IktzAzPNZidMxIRAZZV0gPXGrKDdBa4EcRsp4Q/
- JvZDkfldRH/2dkWNk/cuKlKVjsIB/nfrgg==
-X-Google-Smtp-Source: ABdhPJwux5+Wovt6iKtRxrOKbIkbuyP71ITuneoVfqt6DFbPE/01B9NV6H19NAQee4aSi0+4cPTp4A==
-X-Received: by 2002:a17:90a:4684:: with SMTP id
- z4mr2633783pjf.97.1604586534729; 
- Thu, 05 Nov 2020 06:28:54 -0800 (PST)
-Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id q2sm2745361pfb.106.2020.11.05.06.28.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 06:28:54 -0800 (PST)
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme: free sq/cq dbbuf pointers when dbbuf set fails
-Date: Thu,  5 Nov 2020 23:28:47 +0900
-Message-Id: <20201105142847.3500-1-minwoo.im.dev@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ id 1kahsu-0003C5-Py
+ for linux-nvme@lists.infradead.org; Thu, 05 Nov 2020 16:13:13 +0000
+Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 515C3206B7;
+ Thu,  5 Nov 2020 16:13:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604592790;
+ bh=NYtIMNiuNVe+wQezBRsSPlIMoNLKQBXjqAxiQrH1mlE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hkd3H2KI5rQGNNl/WnERPYhb/hPYp+1o0aJdIFQMcgt6g4Lmiu8w09zsXMjQsJKB7
+ GhUNE8EqEBFPYF3+QVMbv87x2EmKk9dbiJX9T13zE6av8tQDjkrdPH4igeWV3xDUVI
+ rAJGvah9CvtyyQKi6v1M/2dZcT45XSjE5VCQnh9g=
+Date: Thu, 5 Nov 2020 08:13:07 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH] nvme: free sq/cq dbbuf pointers when dbbuf set fails
+Message-ID: <20201105161307.GA2210800@dhcp-10-100-145-180.wdc.com>
+References: <20201105142847.3500-1-minwoo.im.dev@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201105142847.3500-1-minwoo.im.dev@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201105_092858_826989_EE398271 
-X-CRM114-Status: GOOD (  13.46  )
+X-CRM114-CacheID: sfid-20201105_111312_942960_44FBC65A 
+X-CRM114-Status: GOOD (  12.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,67 +73,25 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-MIME-Version: 1.0
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If Doorbell Buffer Config command fails even 'dev->dbbuf_dbs != NULL'
-which means OACS indicates that NVME_CTRL_OACS_DBBUF_SUPP is set,
-nvme_dbbuf_update_and_check_event() will check event even it's not been
-successfully set.
+On Thu, Nov 05, 2020 at 11:28:47PM +0900, Minwoo Im wrote:
+> If Doorbell Buffer Config command fails even 'dev->dbbuf_dbs != NULL'
+> which means OACS indicates that NVME_CTRL_OACS_DBBUF_SUPP is set,
+> nvme_dbbuf_update_and_check_event() will check event even it's not been
+> successfully set.
+> 
+> This patch fixes mismatch among dbbuf for sq/cqs in case that dbbuf
+> command fails.
 
-This patch fixes mismatch among dbbuf for sq/cqs in case that dbbuf
-command fails.
-
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
----
- drivers/nvme/host/pci.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0578ff253c47..3be352403839 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -292,9 +292,21 @@ static void nvme_dbbuf_init(struct nvme_dev *dev,
- 	nvmeq->dbbuf_cq_ei = &dev->dbbuf_eis[cq_idx(qid, dev->db_stride)];
- }
- 
-+static void nvme_dbbuf_free(struct nvme_queue *nvmeq)
-+{
-+	if (!nvmeq->qid)
-+		return;
-+
-+	nvmeq->dbbuf_sq_db = NULL;
-+	nvmeq->dbbuf_cq_db = NULL;
-+	nvmeq->dbbuf_sq_ei = NULL;
-+	nvmeq->dbbuf_cq_ei = NULL;
-+}
-+
- static void nvme_dbbuf_set(struct nvme_dev *dev)
- {
- 	struct nvme_command c;
-+	unsigned int i;
- 
- 	if (!dev->dbbuf_dbs)
- 		return;
-@@ -308,6 +320,9 @@ static void nvme_dbbuf_set(struct nvme_dev *dev)
- 		dev_warn(dev->ctrl.device, "unable to set dbbuf\n");
- 		/* Free memory and continue on */
- 		nvme_dbbuf_dma_free(dev);
-+
-+		for (i = 1; i <= dev->online_queues; i++)
-+			nvme_dbbuf_free(&dev->queues[i]);
- 	}
- }
- 
--- 
-2.17.1
-
+This fixes if host dbbuf was successfully configured at one point, but
+fails on a subsequent reset, correct? Otherwise, I don't see how the
+queue's dbbuf values would have been set to non-NULL.
 
 _______________________________________________
 Linux-nvme mailing list
