@@ -2,90 +2,92 @@ Return-Path: <SRS0=H+rW=EL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF23AC55178
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2020 23:28:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8EDBC55178
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2020 23:28:54 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F176D20719
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2020 23:28:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1B9E220719
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Nov 2020 23:28:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GOaW5GYj";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="qKL14WCF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F176D20719
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RRiKizFP";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="bhHTv6Rg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B9E220719
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=0CyVna2c3ORw6huG5VekK/6MRHQMjCDIdmKI1kpT8vo=; b=GOa
-	W5GYj6wTmgoQPkdgwudO4NocEzLqLlnIz01t8CwyFR6MJDWi08PFaZusMHJ2ttRFr4L7ZSfvs5Dby
-	siSCSneVJ9a8KjIVHr8fKWrXopHVT48US1+e815Kp7YFut5ON3hnhkk1hW+j+UKzSdmVIY6438a6X
-	ZxH+ks7+GtLECHKJqUM8IQB5E4g7W1nObOQGamyGuAUIB7kNRwffAAxx90aIeP86/T/YcWi5uQyeo
-	/6fDfYrs6GE3Zb26Xw+EgRi8hex3OkiEsgEIN6+ZXsX9JbdRCkaK0VLEP8+aJ0RvNjYiAeCKpEjFz
-	PdyhkwYrBuDPhjoffEY3+yG9pwVdrcQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=sEVYJkBBcyvZIafk5lJgTcCx4vZbYZii62eVFFPKZKk=; b=RRiKizFPNF3uP94bPgkv3Fm0v
+	ZvqWJc40B4cpwkjzn2+2DpBePKrBQ3MF9J6BygkREuDvj5Ics3cgVDUZxmCMzQfxS/E1FWij/FGt4
+	+Lc+7iDr6qnjI2VCecBoF8nwhNr6mqrrDNd4beowU27Vc0kY818MvVt3ZjE3Kiajd1oMYxzgcQCBu
+	jwJk8+rIi7CDjbrh0ybiR43pJGmD9SvGLE1zolOVCgpNxTRvajflBFHfIlTOxGgcyIjwAsf5cnZic
+	ld2LoshxVG4TVeTiTK5OZYD6LcrXuAAW7Sorqk7qFuZR3/UbnB7L22Zdj37MrvDsb+/7o9H/pOCGl
+	L3Pn7EWlA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kaogN-0008VM-9l; Thu, 05 Nov 2020 23:28:43 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1kaogW-00005N-66; Thu, 05 Nov 2020 23:28:52 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kaogK-0008Un-Ba
- for linux-nvme@lists.infradead.org; Thu, 05 Nov 2020 23:28:41 +0000
+ id 1kaogT-0008WB-9C
+ for linux-nvme@lists.infradead.org; Thu, 05 Nov 2020 23:28:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604618920; x=1636154920;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=61djVsZI+pfv3/sFJYvnluhRXZ3FDBJT313++vkHx10=;
- b=qKL14WCFJv2ev8PSAqxREB6bF7D8fS0xocKPcn96qJKdVYC1TCyhQWyC
- sxwyxU41Qv0oO/rnn5m7OE89yT2firV/+TaZTjEFVAaJdC1VjjVLc3/4X
- KdazR9Sv8fyoysezT/yQnYlT7B8HyfaWZ5ZeZwnZxZj6eh5k2o9heCJX3
- G7LMAPo81XfmLXB/0xqsiVKQMdZB+lG5234ObnZITSK5KxX5z6fB31Kxi
- AXJUyHBpDw2AItVyaJZgh9ucQVMsniSQJkMxHBSfOTeX6bLXmF+oUSwrJ
- BTzAvkwszIPCYbKf88WaINKdhN9E47xjighQBlAZEgBdTU+ag6RH33Luf g==;
-IronPort-SDR: tMfbYKyXHk2y2YpPdSBb1NaejB17iCQW260QwHG7Ay57vlcd+VBM1FkMy1EBYYe+HeGmCuPpet
- z72J+eqMiusTaAHn2gvBBeZYTUcl9mR5/SMK8r6OGF38gSXvE2R/yslqE2Kkbizwwt3wPsNcSN
- hMm2cr5iAmWI6n5Z9la9pcbXIQ7aeKeQNDR8Yj64zJpfNzq8MT8JIKomennLOnZRsYHHZPU+jd
- nBGLKLvGOI/KtTXvEv5XylFqXr3FKuiHsOsxk5SGAQxnqdDIMY9hWMAPKHpQmOFjr+gR6eZYph
- zZk=
-X-IronPort-AV: E=Sophos;i="5.77,454,1596470400"; d="scan'208";a="153178982"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 Nov 2020 07:28:38 +0800
-IronPort-SDR: kQzop0dHXug11NRQgEu4d45MnqJFPTXn1C4Kh8sKn4M0EkJMfitoCiHTFgldqFYs+szE/yh1OD
- XZ1dyBU5RVNIYar4arbzRxZJwcmaEKGYhvf2qs3ZaXEHLEMXE3qzxKS1vu0jauXQSl++O+txCO
- /ZlfJqDG2KFFvFw9e0hv62qgUDJ46Fe1lMyoCjBpcCKTVPCB4QxqkOv5IqTY3Ohb38mKWOWDc+
- aWm7pCBFTbNNUH51XT7Fgjin3IeZ/PSHtdpEdULEPRBvwyzdjanvD4dyB+kI6Dkku8zUUR+dDL
- QJW1BzWV96nM5hmkywSWmVFF
+ t=1604618929; x=1636154929;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=WgDSzbdvnYhEC8+UIILHzv6vASfhMe4+be5KGFcpnMc=;
+ b=bhHTv6RgkfRPmV4+xUIWrXim1XI6aowBSyl4Rc2L28fnEO47HjAmMqLT
+ y8mIKlEP0G3FK4mz6wPSNs5riCHnnIXAvIxsisQSKitvOs/BdWJlzYp5Q
+ Sq0clueb1psNU/BDqCDvu3SY+AK/Yfw8avoZOehGoTpirmK5xjl/2WWuB
+ qUOLrpgzqWubgo6TdsileznbFidulHIVYLJ3JYBP57czndAiwiR3aBs37
+ mlc9ooZT24hNaSGhZq6Zg3hae1xYk77sbhgsmAWbeTbzIez2ePZvOe4sM
+ C6rKhI6SaEnRgp8PJkNiWzpzr5wGcvKuZN9OmFanFeJqbEl6RhD6Oy5ui Q==;
+IronPort-SDR: 0WvK+jRSo1AySUGcgCdXx92SSNYnQIbxUjLV1JOtYHQt09B6DCjkIbj+0CaulQM+jk011lWZxU
+ qhlj4P1cUHa2Vrp+8f+udtQJynvJ7gJSYIAduS/VRR2Cs3wjZr3kH7XYtdjeLGXaGH/xI0MiE/
+ +Z4LaHQUiYpepwk9ZsTUnYhNb80Ynb3r30p7BqlY/4aNX7//acJt1T+NOiqiaC422gPaNddrNo
+ kJexUt473CdAMcQhoOQ9JjsO0E/utJtiKt0bDSonPkDRoK1ujvIc/ZjjcdYgv6hfX7Jgn0f9Eb
+ lAI=
+X-IronPort-AV: E=Sophos;i="5.77,454,1596470400"; d="scan'208";a="152084109"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 06 Nov 2020 07:28:46 +0800
+IronPort-SDR: uR8Y58HUf+x6MX/+NEwosfIqZwd0v6zHAkoi70dg7wewX6h+cB8XTRxOLgwq4THFC0Tge8AWLD
+ /tkt4IG2jjCaY5zMjlMw96wfqITcu7+IgQDELOE1DRvYrbcEryDj6yeoVFaB/xxkAmlMCfPNMR
+ zU9uE4+6o6KYxlaYL9optKYeB0XsnfpE4NDSY8KfnTfeuauTe41T2TMutxnNjNPsLRL7eUryl6
+ SXJBRXMPbmJimviEh6I7kP+qjhQaaVVL6NgY6qE8bDCCRIwepOcLcWvroyGufY4+0PsaTbJRei
+ ARZIdnnjFuePXJDm6bec+sci
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 15:13:34 -0800
-IronPort-SDR: 7AINkDrd1VqCN9wZX7oyjjZEShlsG/y5XIE1giGh0GeD7J441yJo1u+M6Gx9arAbAsijiMl6m7
- D2s/xzJl9KumPvzU+kghsKCCidZndHiBobhygYmq+mLzgeh3nZtPWmiHBMdQHUKm+MNCNbLeWH
- 8/iq4IwmRDo8U9drdRl5EiWgxIxPz3arxDoj1sZrykpH7CIMzFw3iUREUbekw10kXiXL6/cRqd
- tgFDpFFRq/5RllT1mJqDqnJvJYQOBSYIGDfOr7C9GWEPv5pC36rFZ8aO7BJlrlo/pxIhAWv3pf
- cjU=
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 15:14:52 -0800
+IronPort-SDR: CHdJ7gX+VTUNBZAXlveMkmG4vNrKWFN5vDcaUQw4Q0LKFdh6QsnoLRWB8Ds8YYnpRyOSouTvEM
+ 4WXI0MuYj9kaqgz0ZxDxHKZXzQGk3gpwoaicPV9T3ExglGOD8coRdleDfpMM2ZW91guCN2O0H3
+ p7r+RvZnJngrnboFp/zGw7EalZjFaxQe2sJYfQNehvZLje2h9C5TfX1/3yekufkt8WUa/1/DtO
+ TLmc/VU6iYPGIN6goLiRN20h5z8JKP43XkYosKgNDnMAV0wQvJyxhboMCigZWmAWmNHbrYoawT
+ x+Q=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 05 Nov 2020 15:28:38 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 05 Nov 2020 15:28:46 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V7 0/4] nvme-core: timeout related fixes and cleanup 
-Date: Thu,  5 Nov 2020 15:28:28 -0800
-Message-Id: <20201105232832.21216-1-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V7 1/4] nvme: centralize setting req timeout
+Date: Thu,  5 Nov 2020 15:28:29 -0800
+Message-Id: <20201105232832.21216-2-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
+In-Reply-To: <20201105232832.21216-1-chaitanya.kulkarni@wdc.com>
+References: <20201105232832.21216-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201105_182840_604393_16B08C68 
-X-CRM114-Status: GOOD (  21.08  )
+X-CRM114-CacheID: sfid-20201105_182849_468091_CCFF0EDF 
+X-CRM114-Status: GOOD (  14.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,143 +101,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: kbusch@kernel.org, sagi@grimberg.me,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, hch@lst.de
-Content-Type: multipart/mixed; boundary="===============2576243328057107525=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============2576243328057107525==
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+The function nvme_alloc_request() is called from different context
+(I/O and Admin queue) where callers do not consider the I/O timeout when
+called from I/O queue context.
 
-Hi,
+Update nvme_alloc_request() to set the default I/O and Admin timeout
+value based on whether the queuedata is set or not.
 
-This patch series uses NVME_IO_TIMEOUT for the sync request submission
-and user request submission when the timeout is not specified by the 
-caller and request queue data is set to NULL which is true for admin 
-queue.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/core.c     | 9 +++++++--
+ drivers/nvme/host/lightnvm.c | 2 +-
+ drivers/nvme/host/pci.c      | 2 --
+ 3 files changed, 8 insertions(+), 5 deletions(-)
 
-Also in this version, I've added timeout values setting for the NVMeOF
-passthru controller given that passthru VUCs (both admin and I/O VUCs)
-can differ in execution time than general-purpose admin and I/O command
-set, following is the detailed scenario :-
-
-Consider NVMeOF target is setup in the passthru mode and both target
-and host modules are loaded with the default timeout values present
-in the nvme-core.
-
-1. User issues nvme cmd from the host to the target of nvme-cli where
-   timeout is taken from the controller log page  e.g. :-
-   # nvme io-passthru --timeout=XXX ... 
-   OR  
-   # nvme admin-passthru --timeout=XXX ... 
-   The timeout value in the above example is greater than the default
-   timeout value present in host-core for both on host machine and the 
-   target machine.
-2. The host-core on the host side will set the timeout for the host
-   request and issues NVMe cmd over transport.
-3. In the absence of [1] target will set the timeout value which is
-   default timeout and that is smaller than the timeout set on the host
-   side.
-4. Due to lack of timeout value not passed over the transport leading
-   to smaller timeout value for the request on the target than the host
-   side, target side command will timeout.
-   
-   This breaks the scenario where the same command with timeout value
-   from nvme-cli is able to execute with success when issued to NVMe
-   PCIe ctrl but will fail when it is executed on the NVMeOF Passthru
-   ctrl.
-
-Regards,
-Chaitanya
-
-[1] nvmet: add passthru admin timeout value attr
-    nvmet: add passthru io timeout value attr
-
-* Changes from V6 :-
-
-1. Remove the timeout parameter for nvme_alloc_request() and keep the
-   timeout assignment in the caller.
-2. Remove the last patch for centralizing the req end_io_data.
-3. Adjust the code for passthru to reflect new code changes.
-4. Update the commit log of relative patches and add reviews.
-5. Get rid of the locking for admin and io timeout for target
-   passthru.
-
-* Changes from V5:-
-
-1. Rebase on the latest nvme-5.10.
-2. Centralize setting up the request->timeout value into
-   nvme_alloc_request().
-3. Centralize setting up the request->end_io_data value into
-   nvme_alloc_request().
-4. Update the NVMeOF passthru nvmet_passthru_execute_cmd() such that
-   it relfect nvme_alloc_request() changes from the first patch when
-   handling io and admin timeouts.
-5. Move nvme_req_set_default_timeout() to host/core.c since there is
-   only one caller now.
-
-* Changes from V4:-
-
-1. Rebase and retest on nvme-5.10.
-
-* Changes from V3:-
-
-1. Rebase and retest on nvme-5.10.
-2. Update the cover-letter with detailed scenario why NVMeOF target
-   passthru is needed.
-3. Wrap the line under 80 char for the last patch.
-4. Change the nvme_default_timeout() -> nvme_set_req_default_timeout()
-   such that it will not take timeout argument.
-
-* Changes from V2:-
-
-1. Introduce nvme_defalt_timeout() helper and use it in host/core.c.
-2. Use nvme_default_timeout() in the lightnvme.c
-
-* Changes from V1:-
-
-1. Instead of using qid to decide IO or ADMIN timeout use request
-   queue's queuedata whch we only set for non admin queue
-   __nvme_submit_sync_cmd().
-2. Add second patch to set IO timeout for nvme_submit_user_cmd().
-3. Set the NVMeOF passthru ctrl timeout values with default values from
-   nvme-core module.
-4. Add admin and I/O timeout configfs attributes for NVMeOF passthru
-   controller.             
-
-Chaitanya Kulkarni (4):
-  nvme: centralize setting req timeout
-  nvmet: add passthru admin timeout value attr
-  nvmet: add passthru io timeout value attr
-  nvme: use consistent macro name for timeout
-
- drivers/nvme/host/core.c       | 12 ++++++---
- drivers/nvme/host/fc.c         |  2 +-
- drivers/nvme/host/lightnvm.c   |  2 +-
- drivers/nvme/host/nvme.h       |  2 +-
- drivers/nvme/host/pci.c        |  6 ++---
- drivers/nvme/host/rdma.c       |  2 +-
- drivers/nvme/host/tcp.c        |  2 +-
- drivers/nvme/target/configfs.c | 48 ++++++++++++++++++++++++++++++++++
- drivers/nvme/target/loop.c     |  2 +-
- drivers/nvme/target/nvmet.h    |  2 ++
- drivers/nvme/target/passthru.c |  6 +++++
- 11 files changed, 73 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 40ca71b29bb9..e6195f50a265 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -533,6 +533,11 @@ struct request *nvme_alloc_request(struct request_queue *q,
+ 	if (IS_ERR(req))
+ 		return req;
+ 
++	if (req->q->queuedata)
++		req->timeout = NVME_IO_TIMEOUT;
++	else /* no queuedata implies admin queue */
++		req->timeout = ADMIN_TIMEOUT;
++
+ 	req->cmd_flags |= REQ_FAILFAST_DRIVER;
+ 	nvme_clear_nvme_request(req);
+ 	nvme_req(req)->cmd = cmd;
+@@ -901,7 +906,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
++	req->timeout = timeout ? timeout : req->timeout;
+ 
+ 	if (buffer && bufflen) {
+ 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
+@@ -1071,7 +1076,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
++	req->timeout = timeout ? timeout : req->timeout;
+ 	nvme_req(req)->flags |= NVME_REQ_USERCMD;
+ 
+ 	if (ubuffer && bufflen) {
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 8e562d0f2c30..0617cd8f2c2c 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -774,7 +774,7 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
+ 		goto err_cmd;
+ 	}
+ 
+-	rq->timeout = timeout ? timeout : ADMIN_TIMEOUT;
++	rq->timeout = timeout ? timeout : rq->timeout;
+ 
+ 	if (ppa_buf && ppa_len) {
+ 		ppa_list = dma_pool_alloc(dev->dma_pool, GFP_KERNEL, &ppa_dma);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0578ff253c47..76465d335924 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1310,7 +1310,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		return BLK_EH_RESET_TIMER;
+ 	}
+ 
+-	abort_req->timeout = ADMIN_TIMEOUT;
+ 	abort_req->end_io_data = NULL;
+ 	blk_execute_rq_nowait(abort_req->q, NULL, abort_req, 0, abort_endio);
+ 
+@@ -2223,7 +2222,6 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	req->timeout = ADMIN_TIMEOUT;
+ 	req->end_io_data = nvmeq;
+ 
+ 	init_completion(&nvmeq->delete_done);
 -- 
 2.22.1
 
-
-
---===============2576243328057107525==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============2576243328057107525==--
