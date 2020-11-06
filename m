@@ -2,82 +2,65 @@ Return-Path: <SRS0=7aSL=EM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D95C55178
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:02:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65359C2D0A3
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:03:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 15B6C20882
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:02:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6803B20882
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:03:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oJzmQfW2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15B6C20882
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Y7jCdRpk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="snjJGRx7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6803B20882
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jZJna5LKS0gGMsh+p4cRm2d14mVFKDQewYx7Q7jb+2w=; b=oJzmQfW2yxAab4j4Bp7PKvpIG
-	iW+MtdRhmBOh7us/91O4hsQYo5r75Y3DA6cFiZVukTXNYLlTWgGOYFfMK8VCu0g9RQ48CVpqADmh8
-	z/OrHmyAWE52/PQ4+EXJdu/TxjZ5NF6GBpUMo03GiXkexdXe5Mhe4eAw7h/84jj4ZdP4/ZG98xodt
-	7bQxL4kGDgz43+J8DMAWdYdVxxpX1i0tcpziHmAloHeUneJjfg5P/5ExEJ1JPCo0vFzXd2PoKqAxD
-	zKgpcA/p7+/qyMDjOy8whxAtUA9US+1tiN3aAHzCnpiQw05tXKwE3ixhdpMMV982XC8hdBCRHN1iy
-	61MbUVuHQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=yBsXlWZN1uDYo59cyuobGVsx11udZVvHuI4uppXD78Y=; b=Y7jCdRpk/LRqQW1pYMNB400/xu
+	Opct/OJfu7k9faziZzEZZUezF9ZgW2XyGyrNDtHAhM0xxV/4PAqix43D0YU0bGWL3mXTVaDTjEwbw
+	g5BbrJ8vuP3nz0AkmEF1D+7BJOBYzR5Pl3ohLKhe8oyTtupF73Zw0+U9ndyqIIM+gMFDEUNpPscyN
+	lxL5QP6JaN3ADPhlTbHfyyOsF8BxnXMZU3MonyR0CrEX3ZBNG0az9uBsZrUvdM5AhDkGsZVtEQlho
+	tknYgcvWWi7agzAizlT0ImhZocN9zJsWCKLggHGznyVXrw02/AQrhZPCW6hQsI5eVqCaNL1VDOyFZ
+	QQL4ToAw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb70Q-0000rc-V6; Fri, 06 Nov 2020 19:02:39 +0000
-Received: from mail-wr1-f65.google.com ([209.85.221.65])
+	id 1kb71e-000119-Ee; Fri, 06 Nov 2020 19:03:54 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb70N-0000rD-27
- for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 19:02:36 +0000
-Received: by mail-wr1-f65.google.com with SMTP id b8so2414425wrn.0
- for <linux-nvme@lists.infradead.org>; Fri, 06 Nov 2020 11:02:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2ys5NGzlUHToz4u+Vq58zO+k1Hn1ZuX2VsEmVSMtlhQ=;
- b=Q3oRswZbTrpsijvUm+PDtqb8uvyrJaTqOMswrl79BHlOhGoIJNNoPmcSbW9iWt/Vip
- yX9IeuqH6oeKXuk5UuGlraVYGJ0NRw3A/Wrq7pwHui7STzTV2FtK1aYCUxMrzot0fp32
- aoJFcxu+EA6U9xq7XRS8Q9nHYz4+ISX2r0dxYar9bevwYVnBSo0igUtETO4WyYpfyytz
- ElmVQXACmIVYFrSFImdpnXBqAqkNHfkqnR6unoXA3kHey370uQi6uleMREtNZV1GMuCD
- EidWWUVWiX+HXMvy6jpUd/kWaC57M1sF0QrASWOWqD6c90hJ4vLUd7jM2yAOJLHIctTX
- 4HyA==
-X-Gm-Message-State: AOAM531TJtwKzU21Pn5wzNp5GVOPW7xiluVPAsQqhozqDKeyi3GdoE81
- PLsHc7JLeZmdza/JrOkJxfs=
-X-Google-Smtp-Source: ABdhPJyTMy5qTm2iyScmQqcjQssLO9RQfcvpxDRcgfdS47naCbOqFz84LulAmZ05cM9DZvRlAPyF2g==
-X-Received: by 2002:adf:c101:: with SMTP id r1mr4020728wre.87.1604689353880;
- Fri, 06 Nov 2020 11:02:33 -0800 (PST)
-Received: from ?IPv6:2601:647:4802:9070:5d93:b4fd:df52:2680?
- ([2601:647:4802:9070:5d93:b4fd:df52:2680])
- by smtp.gmail.com with ESMTPSA id b8sm3460129wmj.9.2020.11.06.11.02.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Nov 2020 11:02:32 -0800 (PST)
-Subject: Re: [PATCH] nvme: revert commit 1293477f4f32 as it is breaking
- BLKROSET
-To: Christoph Hellwig <hch@lst.de>
-References: <20201106171835.38236-1-sagi@grimberg.me>
- <20201106175949.GA7529@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <443079c6-2dd0-f52d-4b2f-f7f9dec2792d@grimberg.me>
-Date: Fri, 6 Nov 2020 11:02:28 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1kb71b-00010X-H6
+ for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:03:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=KZOj2ixaxfr+x29An18oeDfaJx3FSv//8uc71Hhn2A0=; b=snjJGRx7qVkoWA28XGyBSN/FU5
+ 1P5/6U8yQxPbAyQppy+ZGNo7hD7TWcSzoG9wJV5MoXxMDDYieBlcG6uvG1NU21CqTnxt3WKQtAuJf
+ UqKqna1ID0lcpQmhrivJzFz3YtmWKpZm0KUamzMFajaTMK5TOilliU8pAMmZ7jcA4xKsEPe9u9FQe
+ QLgag4ggR9M8REy4gaAzi95ookXu/+vKsN1gxvlBcIDCNpbUaA+k+bepajweHAsKHRlnIci3X0/gt
+ +qiwIBcx7dd+5GmJaUUfQwr2V0s1euix28lr0Y0k8IK6gPjGXKGEZvDvsOwgNI/M1zhmywSH4Q6X6
+ FMOFWKCQ==;
+Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kb71P-0000t7-34; Fri, 06 Nov 2020 19:03:47 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Subject: cleanup updating the size of block devices
+Date: Fri,  6 Nov 2020 20:03:12 +0100
+Message-Id: <20201106190337.1973127-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201106175949.GA7529@lst.de>
-Content-Language: en-US
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201106_140235_132524_3F4C0AEC 
-X-CRM114-Status: GOOD (  19.15  )
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,43 +72,53 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org
+Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ linux-nvme@lists.infradead.org, Song Liu <song@kernel.org>,
+ dm-devel@redhat.com, drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
+ linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Jens,
 
->> The offending commit breaks BLKROSET ioctl because a device
->> revalidation will blindly override BLKROSET setting.
->>
->> The author should resubmit this commit in a way that does
->> not break BLKROSET.
-> 
-> Let's fix this properly instead of a blind revert.
+this series builds on top of the work that went into the last merge window,
+and make sure we have a single coherent interfac for updating the size of a
+block device.
 
-I've asked Chaitanya to address this, but I guess he didn't
-get to it so at the very least lets not keep the breakage.
-
->> -	if (id->nsattr & NVME_NS_ATTR_RO)
->> -		set_disk_ro(disk, true);
->> -	else
->> -		set_disk_ro(disk, false);
-> 
-> Just dropping the else part is probably enough for now, although
-> as a follow on we should probably add a "hard read-only" state to
-> the block layer.
-
-Removing the else would have an incorrect behavior. I think its better
-to not support it (until we support it correctly) than to support it
-incorrectly.
-
-Process-wise, I think we should revert this because it was added
-incorrectly. Having a "hard-ro" in the block layer is unlikely to be
-backported to stable. Hence I think we should revert it and re-add it
-correctly this time.
+Diffstat:
+ block/genhd.c                  |   16 +++----
+ drivers/block/aoe/aoecmd.c     |   15 +-----
+ drivers/block/drbd/drbd_main.c |    6 --
+ drivers/block/loop.c           |   36 ++--------------
+ drivers/block/nbd.c            |   88 +++++++++++++----------------------------
+ drivers/block/pktcdvd.c        |    3 -
+ drivers/block/rbd.c            |    3 -
+ drivers/block/rnbd/rnbd-clt.c  |    3 -
+ drivers/block/virtio_blk.c     |    3 -
+ drivers/block/xen-blkfront.c   |    2 
+ drivers/block/zram/zram_drv.c  |    7 ---
+ drivers/md/dm-raid.c           |    3 -
+ drivers/md/dm.c                |    3 -
+ drivers/md/md-cluster.c        |    8 ---
+ drivers/md/md-linear.c         |    3 -
+ drivers/md/md.c                |   24 ++++-------
+ drivers/nvme/host/core.c       |   18 --------
+ drivers/scsi/sd.c              |    9 +---
+ fs/block_dev.c                 |    7 ---
+ include/linux/genhd.h          |    3 -
+ 20 files changed, 76 insertions(+), 184 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
