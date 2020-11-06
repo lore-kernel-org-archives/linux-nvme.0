@@ -2,87 +2,96 @@ Return-Path: <SRS0=7aSL=EM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4815FC2D0A3
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 18:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF0FC388F2
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 18:09:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C0686206FA
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 18:06:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 535C9206FA
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 18:09:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tvS2/fYd";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="BHzl7brW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C0686206FA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0x2SlQvS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="doAkeCGc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 535C9206FA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=IRoKbtkbH8PRdRo/8bx7Sw4DUJOK3ynTCHze3uMGdnQ=; b=tvS2/fYdVnwUVE+GSFKCXVe2+
-	/eLsjRz4qEyhCl1TohZZ08eP+/trPykok6eWx8swu4PVfNgVFW5eygp8xdyhcouVQxrspUugUBPzn
-	p7KCEqHAyuvrKxW0gWG0VYeYjJ/H+BEnNSiO9JR4V2b0PxN9c25r1rTXZ9elr3BBp+5vJqJqoYsw+
-	jFuYyZi6NgE2jUT23LdIvlpOWjxqRNjTZrEIsQf0POjz5wf2xTg3ERAazmfr43FSR6Pj7G3netgdO
-	sWja9D8NZuaebm7vV+Z6oqQg3GFptnoXuTEeveN5NMIEcgb4DCO6UIzgTdqzKzPdZXw5+Yj7KNxTK
-	jXahYd7IA==;
+	 bh=mwq/SMLwL6vQeY7k/ZdHyERU5NY8I+IASQFmiroMwdE=; b=0x2SlQvSADV/nUp8qyjFxYX7L
+	0xiluaKqojsbpgiQd5YQ6uuMyQ7plo/Whv3D5qLP9Ga8K+UVBHFvmUP6QxjHsSvsoGyv5wauY0H85
+	LFJKX50iJRrKNaMHdZJQimHeB2vDH5f83PaP1OGaQsrVHnWrmsYfirLspeD0FQMWLPX44HLN3r5mm
+	O8GW81rG2UqCzKryUy0s21YAxaqAne2zVwBS6MpVrTm+JzWCmZN9a2HQujvVzMyTuQBuDZyHu4Tr3
+	NnzorPGCTzndrhZc3b3xMF0ZApYO9nyRvSE92NbPimiKuc3j6Y0k4cik71pzhYuvsW2QxHgoHeFRZ
+	Wo6M+wfww==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb67o-0003qg-0T; Fri, 06 Nov 2020 18:06:12 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1kb6Ay-0004GO-FB; Fri, 06 Nov 2020 18:09:28 +0000
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb56r-000113-6S
- for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 17:01:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=SXfy4s8hoEPUTYM9kHHNonZmUe909URW6TTsyKH/U90=; b=BHzl7brWOE/xtPuLFhRTe7TuHr
- CCuWDnC47LTjBL2g1BoQKbHUoik8thlIDKyGFVrzXe/dGQN/+q/AWwhzkDSG6NdRqMWTmAk7orOgm
- KZqZo4YCrM1c5gq6KJoBazV729nnyG74Kar8Gv8V0vLg66n2prPHvabelgflf6qaiTIOa9nfeH69h
- ftQrsd9dF9OF9hUH3f7nuXp5nYN33gwIU7KdPW/+hieD4Z1ZUvgHpBdGlk2kU5ZtnPCHRdTHe98Ai
- 4V4Av/tH/K18dDGBupBS5yz0N4oKJW3RHAb9dz2rzhTisd+rpgJpzqbgkHksBZ2JSO2NF4fo9vQ3a
- 9Yf47kmw==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1kb56k-0002Pa-Ak; Fri, 06 Nov 2020 10:01:05 -0700
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
- (envelope-from <gunthorp@deltatee.com>)
- id 1kb56U-0004t2-LB; Fri, 06 Nov 2020 10:00:46 -0700
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Date: Fri,  6 Nov 2020 10:00:26 -0700
-Message-Id: <20201106170036.18713-6-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201106170036.18713-1-logang@deltatee.com>
+ id 1kb6Av-0004Ex-JC
+ for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 18:09:26 +0000
+Received: by mail-qt1-x844.google.com with SMTP id i12so1397085qtj.0
+ for <linux-nvme@lists.infradead.org>; Fri, 06 Nov 2020 10:09:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=CCWfhKT3ktx1Y0knQS9srJLCrgOnb432wETBQgR0zwo=;
+ b=doAkeCGcQXpt2NzsJI+H159GAe+srNA7dZtr0H49NbeeYIJ6GpjmajNyfUIkqGpHMu
+ ai3RLcEwPTV7f+TSNYl8TdB/e+py8oelQrW1t6LEF2AEbuiaX5ntMNXRo7pafHLNk+qa
+ QhEYT0XqNOBcmdvsGARdcKLcZQ4vNiK+T3d409rehkmevDX2QeiKRii6c+D/qZ2Nh+pO
+ 0RwVihcCuFTu9WDbPH7A43DVXJyHPo6JqohdwYb1U85pWLDQ4z5qm6uqw+vSAoLvW1sa
+ C6p622tFNp353sQHEku1KoOlamuSPHJwR2D09akhY5jCIZjnxUknFMxm2of3ziLK0Hx4
+ K6RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CCWfhKT3ktx1Y0knQS9srJLCrgOnb432wETBQgR0zwo=;
+ b=ruOMkBmGXGRSkVSMofqMeBwjNkJNewY98KsxFb9z2I51CRU7I0hFu4AiZ0mRv3z2eX
+ TrG9xI9QzPFRYtQxlLW4r6EiCwHt/28+oBxGpCn46QpXrngYq2Ryh43aYEFLMytfOmM/
+ pTSirHogFxogWqTJrqe7VdkVnxW+eN0E20tGQJESV7WSNuUduxESYAqa04bt1DIirC3n
+ q3hfloGNT9bHT6RC/TYM18J5ugsAC/J4ApNlP8rrvkAbKnNTXTwfBgUFt+olYaCQ2Qap
+ REog4elsTmjNT2LnbBuuyS+5xQ/oF3BFH2StkOc20F/NSNiRBl1WBSX5t04BqqH7OsaK
+ O1dw==
+X-Gm-Message-State: AOAM532fGCb3rfDP1J9a5VZ2/ySKhsNEG10Xb2CVloUSMtNRt7SBvV3S
+ 8oIvLYlewUTcriV/BNdIvoKS5w==
+X-Google-Smtp-Source: ABdhPJyipccSrv690eVVWi+5CEwYt+UFgZ0+2fbz5cV2OhIw8jYbnu+mxTrmBl1wmL06RVvlGefxSA==
+X-Received: by 2002:aed:33c4:: with SMTP id v62mr2703105qtd.19.1604686163988; 
+ Fri, 06 Nov 2020 10:09:23 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id n81sm1082262qke.99.2020.11.06.10.09.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Nov 2020 10:09:23 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kb6As-000ztT-IG; Fri, 06 Nov 2020 14:09:22 -0400
+Date: Fri, 6 Nov 2020 14:09:22 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Logan Gunthorpe <logang@deltatee.com>
+Subject: Re: [RFC PATCH 14/15] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+Message-ID: <20201106180922.GV36674@ziepe.ca>
 References: <20201106170036.18713-1-logang@deltatee.com>
+ <20201106170036.18713-15-logang@deltatee.com>
+ <20201106172206.GS36674@ziepe.ca>
+ <b1e8dfce-d583-bed8-d04d-b7265a54c99f@deltatee.com>
+ <20201106174223.GU36674@ziepe.ca>
+ <2c2d2815-165e-2ef9-60d6-3ace7ff3aaa5@deltatee.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
- jgg@ziepe.ca, christian.koenig@amd.com, dan.j.williams@intel.com,
- iweiny@intel.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org,
- daniel.vetter@ffwll.ch, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH 05/15] dma-direct: Support PCI P2PDMA pages in dma-direct
- map_sg
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <2c2d2815-165e-2ef9-60d6-3ace7ff3aaa5@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201106_120109_753287_92AD5C45 
-X-CRM114-Status: GOOD (  20.56  )
+X-CRM114-CacheID: sfid-20201106_130925_663770_A7602BED 
+X-CRM114-Status: GOOD (  23.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,122 +103,83 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: John Hubbard <jhubbard@nvidia.com>, Ira Weiny <iweiny@intel.com>,
- Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Don Dutile <ddutile@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dan Williams <dan.j.williams@intel.com>, Stephen Bates <sbates@raithlin.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, John Hubbard <jhubbard@nvidia.com>,
+ Dan Williams <dan.j.williams@intel.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add PCI P2PDMA support for dma_direct_map_sg() so that it can map
-PCI P2PDMA pages directly without a hack in the callers. This allows
-for heterogeneous SGLs that contain both P2PDMA and regular pages.
+On Fri, Nov 06, 2020 at 10:53:45AM -0700, Logan Gunthorpe wrote:
+> 
+> 
+> On 2020-11-06 10:42 a.m., Jason Gunthorpe wrote:
+> > On Fri, Nov 06, 2020 at 10:28:00AM -0700, Logan Gunthorpe wrote:
+> >>
+> >>
+> >> On 2020-11-06 10:22 a.m., Jason Gunthorpe wrote:
+> >>> On Fri, Nov 06, 2020 at 10:00:35AM -0700, Logan Gunthorpe wrote:
+> >>>> Introduce pci_mmap_p2pmem() which is a helper to allocate and mmap
+> >>>> a hunk of p2pmem into userspace.
+> >>>>
+> >>>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> >>>>  drivers/pci/p2pdma.c       | 104 +++++++++++++++++++++++++++++++++++++
+> >>>>  include/linux/pci-p2pdma.h |   6 +++
+> >>>>  2 files changed, 110 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> >>>> index 9961e779f430..8eab53ac59ae 100644
+> >>>> +++ b/drivers/pci/p2pdma.c
+> >>>> @@ -16,6 +16,7 @@
+> >>>>  #include <linux/genalloc.h>
+> >>>>  #include <linux/memremap.h>
+> >>>>  #include <linux/percpu-refcount.h>
+> >>>> +#include <linux/pfn_t.h>
+> >>>>  #include <linux/random.h>
+> >>>>  #include <linux/seq_buf.h>
+> >>>>  #include <linux/xarray.h>
+> >>>> @@ -1055,3 +1056,106 @@ ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
+> >>>>  	return sprintf(page, "%s\n", pci_name(p2p_dev));
+> >>>>  }
+> >>>>  EXPORT_SYMBOL_GPL(pci_p2pdma_enable_show);
+> >>>> +
+> >>>> +struct pci_p2pdma_map {
+> >>>> +	struct kref ref;
+> >>>> +	struct pci_dev *pdev;
+> >>>> +	void *kaddr;
+> >>>> +	size_t len;
+> >>>> +};
+> >>>
+> >>> Why have this at all? Nothing uses it and no vm_operations ops are
+> >>> implemented?
+> >>
+> >> It's necessary to free the allocated p2pmem when the mapping is torn down.
+> > 
+> > That's suspicious.. Once in a VMA the lifetime of the page must be
+> > controlled by the page refcount, it can't be put back into the genpool
+> > just because the vma was destroed.
+> 
+> Ah, hmm, yes. I guess the pages have to be hooked and returned to the
+> genalloc through free_devmap_managed_page(). 
 
-The DMA_ATTR_P2PDMA flag is added to allow callers to indicate support
-for P2PDMA pages. In order for a caller to support P2PDMA pages they
-must ensure no segment is greater than 2GB such that the high bit
-of the dma length can be used as a flag to indicate a P2PDMA segment.
-Such code must then ensure to use sg_dma_p2pdma_len() instead of
-sg_dma_len() to filter out the flag.
+That sounds about right, but in this case it doesn't need the VMA
+operations.
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- include/linux/dma-mapping.h | 11 +++++++++++
- kernel/dma/direct.c         | 33 +++++++++++++++++++++++++++++++--
- 2 files changed, 42 insertions(+), 2 deletions(-)
+> Seems like it might be doable... but it will complicate things for
+> users that don't want to use the genpool (though no such users exist
+> upstream).
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 956151052d45..8d028e15b531 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -61,6 +61,17 @@
-  */
- #define DMA_ATTR_PRIVILEGED		(1UL << 9)
- 
-+/*
-+ * DMA_ATTR_P2PDMA: specifies that dma_map_sg() may return p2pdma
-+ * bus addresses. Code that specifies this must ensure to
-+ * use sg_dma_p2pdma_len() instead of sg_dma_len() as the high
-+ * bit of the length will indicate a P2PDMA bus address.
-+ *
-+ * If this attribute is not set and P2PDMA pages are encountered,
-+ * dma_map_sg() will return an error.
-+ */
-+#define DMA_ATTR_P2PDMA			(1UL << 10)
-+
- /*
-  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
-  * be given to a device to use as a DMA source or target.  It is specific to a
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index 06c111544f61..2fcb31789436 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -13,6 +13,7 @@
- #include <linux/vmalloc.h>
- #include <linux/set_memory.h>
- #include <linux/slab.h>
-+#include <linux/pci-p2pdma.h>
- #include "direct.h"
- 
- /*
-@@ -387,19 +388,47 @@ void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
- 	struct scatterlist *sg;
- 	int i;
- 
--	for_each_sg(sgl, sg, nents, i)
-+	for_each_sg(sgl, sg, nents, i) {
-+		if (attrs & DMA_ATTR_P2PDMA && sg_dma_is_p2pdma(sg)) {
-+			sg_dma_len(sg) &= ~SG_P2PDMA_FLAG;
-+			continue;
-+		}
-+
- 		dma_direct_unmap_page(dev, sg->dma_address, sg_dma_len(sg), dir,
- 			     attrs);
-+	}
- }
- #endif
- 
- int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
- 		enum dma_data_direction dir, unsigned long attrs)
- {
--	int i;
-+	struct dev_pagemap *pgmap = NULL;
-+	int i, map = -1;
- 	struct scatterlist *sg;
-+	u64 bus_off;
- 
- 	for_each_sg(sgl, sg, nents, i) {
-+		if (is_pci_p2pdma_page(sg_page(sg))) {
-+			if (sg_page(sg)->pgmap != pgmap) {
-+				pgmap = sg_page(sg)->pgmap;
-+				map = pci_p2pdma_should_map_bus(dev, pgmap);
-+				bus_off = pci_p2pdma_bus_offset(sg_page(sg));
-+			}
-+
-+			if (map < 0 || !(attrs & DMA_ATTR_P2PDMA)) {
-+				sg->dma_address = DMA_MAPPING_ERROR;
-+				goto out_unmap;
-+			}
-+
-+			if (map) {
-+				sg->dma_address = sg_phys(sg) + sg->offset -
-+					bus_off;
-+				sg_dma_len(sg) = sg->length | SG_P2PDMA_FLAG;
-+				continue;
-+			}
-+		}
-+
- 		sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
- 				sg->offset, sg->length, dir, attrs);
- 		if (sg->dma_address == DMA_MAPPING_ERROR)
--- 
-2.20.1
+I would like to use this stuff in RDMA pretty much immediately and the
+genpool is harmful for those cases, so please don't make decisions
+that are tying thing to genpool
 
+Jason
 
 _______________________________________________
 Linux-nvme mailing list
