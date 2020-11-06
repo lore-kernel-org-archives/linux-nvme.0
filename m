@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AEEC388F2
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 17:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D7CBC2D0A3
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 17:03:51 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 065AA20720
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 17:03:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0C9F120720
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 17:03:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PBJHIKhH";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="rY/cLrzC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 065AA20720
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2d6XC8hD";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="K/HV2BMN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C9F120720
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,44 +26,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=i6F6lnI/jpt9x7b4kmpMt7PPa4juC+g42vhJYIupuEM=; b=PBJHIKhHxk+fFJOOP+fjw54sj
-	mG6nAzb5on+cxGOV/ofjMEe46oUYbqmlgtoQjj6rQ9LxDqRnB6dQS44GM+1Ku2P+5ANC1kZjdf1Sr
-	D5+n7SoRUviHade4ACtjazvxe39ht25/gbvZfYIw2048Avdiq2MZR097mXY5lQIxbyPWMMXG/sQzR
-	PYb9YjUo6IAmpOyEYFGWfks73pd5sRstTn0sTti7dNzopIkDFVnVsl34grPoLDlLbpV6YWrDDdeDi
-	+JN2TGfzVQ0OXL40ycqI9sJSBfS0A7r9qp4KvLewboilVJN72T+hXbZcoNvrv9VWWx7J63/i1rNXq
-	wnbv8MowA==;
+	 bh=yKKJzwylr4jSPE0zEZuKiMxTyLWLNt8b/yWvSWwiEdA=; b=2d6XC8hDpzn+Lsxs5JHpGgoDZ
+	KdSOhnoBWrg+utZ+paRQSSOlM0d61Hyvl+cfPrlfcz450lKEbeZm7dS6H9W9NFwOZhcMRVMgHlSOs
+	B6A2NPYmSRcuXBwP6WzpOUZyNiWbhAQKJ91zWvDgDXqWWj96yLPXvCx0y7gCF0cniFQTaop3bYiTc
+	ZFfZDRBFwe/pfoJ//bVKqhNGYiP3afagn7vKR1+nfbWm2Gf7ZEMTv6+v57utBJGv3TDrxrN2A+Z8H
+	SrlTEi6nGaoEcZldSKTYECFmwHoIvIkOooAMWAenKF6dv2ULhXwH3iiom9vf/9tXZkUhzmSLegB5Q
+	zTpLwormA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb593-0002JP-Sc; Fri, 06 Nov 2020 17:03:25 +0000
+	id 1kb59K-0002Qo-DB; Fri, 06 Nov 2020 17:03:42 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb56o-0000zV-S9
- for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 17:01:13 +0000
+ id 1kb56n-0000xs-5T
+ for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 17:01:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VLOfKPK+Zi2nLbPxB2RMFlp3vuqLnc2Fa5/3XSZoOkg=; b=rY/cLrzCiAzbq4ZIlHRpYwdkI6
- WqQYPcJFEOLZTMtY7YzVS5nKxRMAYBSmO1PqPdFS7hIq5M1Zx9aqk8kudHNloty/eBUsDetBOGtwo
- WVPRcquq607bgfsQZmvaozqmWVbkFzwBmFJ0wbhoE+FZnFUmVtHa+NcgtRHa0Vybx1th5NikUPGc0
- NXAtdqGsC5Ygfn7zy1iJg1it8qHpJvu85FILHZZJI1gBJ9gEZiFRnzN2XQOsl33s0J1c97PMr5oGv
- x2iFNr6WpFpmBb0KHX1xBldnhJBHO0Lc5vsS0jaQZqtjXpLUOMoybdNw6MqkZS8xtZ8+DxVTO/Y3b
- /VpCw86A==;
+ bh=+uqfieveTb31l1I/WgAkJQG/BPoFvWugOcEIiwpm3kQ=; b=K/HV2BMNQ6+6v1KGlkocloGfxX
+ ZWdpu/VS9RNxpNY9R/oz0jP293p4I8inagWYs5mlGH5bia7wQlzpw3FTgvAFzWEwL0ybuh3hIAXXP
+ MQlIvwWcTYi0ARarXpd7S2Bc32AzGJ6la7fmqzzvGUOVG8ImW4ZkrByhDx/xok/sKn7RBnA2n2NDb
+ HOxtePt42cqkRTQIomX4tiFo46PEYnrHBW/M2u8Rox2KBUqqAsXYw0D7bxoumM3wchsQq+YXQTQI7
+ 04zRIPfswqboFYzi35+ClwHNkXD71FRFjRylfRjcS74F/xb/qcEtUatWrnKqfrQkCIk/HCqRSQ523
+ vwEV+YBQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1kb56i-0002PV-Cj; Fri, 06 Nov 2020 10:01:02 -0700
+ id 1kb56g-0002Pa-SW; Fri, 06 Nov 2020 10:01:00 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1kb56U-0004t8-Sl; Fri, 06 Nov 2020 10:00:46 -0700
+ id 1kb56V-0004tH-Aa; Fri, 06 Nov 2020 10:00:47 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Fri,  6 Nov 2020 10:00:28 -0700
-Message-Id: <20201106170036.18713-8-logang@deltatee.com>
+Date: Fri,  6 Nov 2020 10:00:31 -0700
+Message-Id: <20201106170036.18713-11-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201106170036.18713-1-logang@deltatee.com>
 References: <20201106170036.18713-1-logang@deltatee.com>
@@ -76,13 +76,13 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  iweiny@intel.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org,
  daniel.vetter@ffwll.ch, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH 07/15] iommu/dma: Support PCI P2PDMA pages in dma-iommu
- map_sg
+Subject: [RFC PATCH 10/15] mm: Introduce FOLL_PCI_P2PDMA to gate getting PCI
+ P2PDMA pages
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201106_120107_946420_4E67F106 
-X-CRM114-Status: GOOD (  24.44  )
+X-CRM114-CacheID: sfid-20201106_120105_893257_2C6A34CD 
+X-CRM114-Status: GOOD (  24.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,176 +106,255 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a PCI P2PDMA page is seen, set the IOVA length of the segment
-to zero so that it is not mapped into the IOVA. Then, in finalise_sg(),
-apply the appropriate bus address to the segment. The IOVA is not
-created if the scatterlist only consists of P2PDMA pages.
+Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
+allow obtaining P2PDMA pages. If a caller does not set this flag
+and tries to map P2PDMA pages it will fail.
 
-Similar to dma-direct, DMA_ATTR_P2PDMA is used to indicate caller
-support seeing the high bit of the dma_length is used as a flag
-to indicate P2PDMA segments.
-
-On unmap, P2PDMA segments are skipped over when determining the
-start and end IOVA addresses.
-
-With this change, the flags variable in the dma_map_ops is
-set to DMA_F_PCI_P2PDMA_SUPPORTED to indicate support for
-P2PDMA pages.
+This is implemented by adding a flag and a check to get_dev_pagemap().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/iommu/dma-iommu.c | 63 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 53 insertions(+), 10 deletions(-)
+ drivers/dax/super.c      |  7 ++++---
+ include/linux/memremap.h |  4 ++--
+ include/linux/mm.h       |  1 +
+ mm/gup.c                 | 28 +++++++++++++++++-----------
+ mm/huge_memory.c         |  8 ++++----
+ mm/memory-failure.c      |  4 ++--
+ mm/memremap.c            | 14 ++++++++++----
+ 7 files changed, 40 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 5591d6593583..1c8402474376 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -20,6 +20,7 @@
- #include <linux/mm.h>
- #include <linux/mutex.h>
- #include <linux/pci.h>
-+#include <linux/pci-p2pdma.h>
- #include <linux/swiotlb.h>
- #include <linux/scatterlist.h>
- #include <linux/vmalloc.h>
-@@ -872,13 +873,16 @@ static void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
-  * segment's start address to avoid concatenating across one.
+diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+index edc279be3e59..59c05839b3f8 100644
+--- a/drivers/dax/super.c
++++ b/drivers/dax/super.c
+@@ -132,9 +132,10 @@ bool __generic_fsdax_supported(struct dax_device *dax_dev,
+ 	} else if (pfn_t_devmap(pfn) && pfn_t_devmap(end_pfn)) {
+ 		struct dev_pagemap *pgmap, *end_pgmap;
+ 
+-		pgmap = get_dev_pagemap(pfn_t_to_pfn(pfn), NULL);
+-		end_pgmap = get_dev_pagemap(pfn_t_to_pfn(end_pfn), NULL);
+-		if (pgmap && pgmap == end_pgmap && pgmap->type == MEMORY_DEVICE_FS_DAX
++		pgmap = get_dev_pagemap(pfn_t_to_pfn(pfn), NULL, false);
++		end_pgmap = get_dev_pagemap(pfn_t_to_pfn(end_pfn), NULL, false);
++		if (!IS_ERR_OR_NULL(pgmap) && pgmap == end_pgmap
++				&& pgmap->type == MEMORY_DEVICE_FS_DAX
+ 				&& pfn_t_to_page(pfn)->pgmap == pgmap
+ 				&& pfn_t_to_page(end_pfn)->pgmap == pgmap
+ 				&& pfn_t_to_pfn(pfn) == PHYS_PFN(__pa(kaddr))
+diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+index 79c49e7f5c30..14f6d899c657 100644
+--- a/include/linux/memremap.h
++++ b/include/linux/memremap.h
+@@ -136,7 +136,7 @@ void memunmap_pages(struct dev_pagemap *pgmap);
+ void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
+ void devm_memunmap_pages(struct device *dev, struct dev_pagemap *pgmap);
+ struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
+-		struct dev_pagemap *pgmap);
++		struct dev_pagemap *pgmap, bool allow_pci_p2pdma);
+ 
+ unsigned long vmem_altmap_offset(struct vmem_altmap *altmap);
+ void vmem_altmap_free(struct vmem_altmap *altmap, unsigned long nr_pfns);
+@@ -160,7 +160,7 @@ static inline void devm_memunmap_pages(struct device *dev,
+ }
+ 
+ static inline struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
+-		struct dev_pagemap *pgmap)
++		struct dev_pagemap *pgmap, bool allow_pci_p2pdma)
+ {
+ 	return NULL;
+ }
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ef360fe70aaf..c405af966a4e 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2790,6 +2790,7 @@ struct page *follow_page(struct vm_area_struct *vma, unsigned long address,
+ #define FOLL_SPLIT_PMD	0x20000	/* split huge pmd before returning */
+ #define FOLL_PIN	0x40000	/* pages must be released via unpin_user_page */
+ #define FOLL_FAST_ONLY	0x80000	/* gup_fast: prevent fall-back to slow gup */
++#define FOLL_PCI_P2PDMA	0x100000 /* allow returning PCI P2PDMA pages */
+ 
+ /*
+  * FOLL_PIN and FOLL_LONGTERM may be used in various combinations with each
+diff --git a/mm/gup.c b/mm/gup.c
+index 102877ed77a4..abbc0a06d241 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -449,11 +449,16 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+ 		 * case since they are only valid while holding the pgmap
+ 		 * reference.
+ 		 */
+-		*pgmap = get_dev_pagemap(pte_pfn(pte), *pgmap);
+-		if (*pgmap)
++		*pgmap = get_dev_pagemap(pte_pfn(pte), *pgmap,
++					 flags & FOLL_PCI_P2PDMA);
++		if (IS_ERR(*pgmap)) {
++			page = ERR_CAST(*pgmap);
++			goto out;
++		} else if (*pgmap) {
+ 			page = pte_page(pte);
+-		else
++		} else {
+ 			goto no_page;
++		}
+ 	} else if (unlikely(!page)) {
+ 		if (flags & FOLL_DUMP) {
+ 			/* Avoid special (like zero) pages in core dumps */
+@@ -794,7 +799,7 @@ struct page *follow_page(struct vm_area_struct *vma, unsigned long address,
+ 	struct page *page;
+ 
+ 	page = follow_page_mask(vma, address, foll_flags, &ctx);
+-	if (ctx.pgmap)
++	if (!IS_ERR_OR_NULL(ctx.pgmap))
+ 		put_dev_pagemap(ctx.pgmap);
+ 	return page;
+ }
+@@ -1138,7 +1143,7 @@ static long __get_user_pages(struct mm_struct *mm,
+ 		nr_pages -= page_increm;
+ 	} while (nr_pages);
+ out:
+-	if (ctx.pgmap)
++	if (!IS_ERR_OR_NULL(ctx.pgmap))
+ 		put_dev_pagemap(ctx.pgmap);
+ 	return i ? i : ret;
+ }
+@@ -2177,8 +2182,9 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+ 			if (unlikely(flags & FOLL_LONGTERM))
+ 				goto pte_unmap;
+ 
+-			pgmap = get_dev_pagemap(pte_pfn(pte), pgmap);
+-			if (unlikely(!pgmap)) {
++			pgmap = get_dev_pagemap(pte_pfn(pte), pgmap,
++						flags & FOLL_PCI_P2PDMA);
++			if (IS_ERR_OR_NULL(pgmap)) {
+ 				undo_dev_pagemap(nr, nr_start, flags, pages);
+ 				goto pte_unmap;
+ 			}
+@@ -2221,7 +2227,7 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+ 	ret = 1;
+ 
+ pte_unmap:
+-	if (pgmap)
++	if (!IS_ERR_OR_NULL(pgmap))
+ 		put_dev_pagemap(pgmap);
+ 	pte_unmap(ptem);
+ 	return ret;
+@@ -2255,8 +2261,8 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
+ 	do {
+ 		struct page *page = pfn_to_page(pfn);
+ 
+-		pgmap = get_dev_pagemap(pfn, pgmap);
+-		if (unlikely(!pgmap)) {
++		pgmap = get_dev_pagemap(pfn, pgmap, flags & FOLL_PCI_P2PDMA);
++		if (IS_ERR_OR_NULL(pgmap)) {
+ 			undo_dev_pagemap(nr, nr_start, flags, pages);
+ 			return 0;
+ 		}
+@@ -2681,7 +2687,7 @@ static int internal_get_user_pages_fast(unsigned long start, int nr_pages,
+ 
+ 	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
+ 				       FOLL_FORCE | FOLL_PIN | FOLL_GET |
+-				       FOLL_FAST_ONLY)))
++				       FOLL_FAST_ONLY | FOLL_PCI_P2PDMA)))
+ 		return -EINVAL;
+ 
+ 	if (gup_flags & FOLL_PIN)
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 9474dbc150ed..3030548dc007 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -985,8 +985,8 @@ struct page *follow_devmap_pmd(struct vm_area_struct *vma, unsigned long addr,
+ 		return ERR_PTR(-EEXIST);
+ 
+ 	pfn += (addr & ~PMD_MASK) >> PAGE_SHIFT;
+-	*pgmap = get_dev_pagemap(pfn, *pgmap);
+-	if (!*pgmap)
++	*pgmap = get_dev_pagemap(pfn, *pgmap, flags & FOLL_PCI_P2PDMA);
++	if (IS_ERR_OR_NULL(*pgmap))
+ 		return ERR_PTR(-EFAULT);
+ 	page = pfn_to_page(pfn);
+ 	if (!try_grab_page(page, flags))
+@@ -1159,8 +1159,8 @@ struct page *follow_devmap_pud(struct vm_area_struct *vma, unsigned long addr,
+ 		return ERR_PTR(-EEXIST);
+ 
+ 	pfn += (addr & ~PUD_MASK) >> PAGE_SHIFT;
+-	*pgmap = get_dev_pagemap(pfn, *pgmap);
+-	if (!*pgmap)
++	*pgmap = get_dev_pagemap(pfn, *pgmap, flags & FOLL_PCI_P2PDMA);
++	if (IS_ERR_OR_NULL(*pgmap))
+ 		return ERR_PTR(-EFAULT);
+ 	page = pfn_to_page(pfn);
+ 	if (!try_grab_page(page, flags))
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index c0bb186bba62..44fdad77f06a 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1328,8 +1328,8 @@ int memory_failure(unsigned long pfn, int flags)
+ 	p = pfn_to_online_page(pfn);
+ 	if (!p) {
+ 		if (pfn_valid(pfn)) {
+-			pgmap = get_dev_pagemap(pfn, NULL);
+-			if (pgmap)
++			pgmap = get_dev_pagemap(pfn, NULL, false);
++			if (!IS_ERR_OR_NULL(pgmap))
+ 				return memory_failure_dev_pagemap(pfn, flags,
+ 								  pgmap);
+ 		}
+diff --git a/mm/memremap.c b/mm/memremap.c
+index 73a206d0f645..5f0284c3a3c3 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -197,14 +197,14 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
+ 				"altmap not supported for multiple ranges\n"))
+ 		return -EINVAL;
+ 
+-	conflict_pgmap = get_dev_pagemap(PHYS_PFN(range->start), NULL);
++	conflict_pgmap = get_dev_pagemap(PHYS_PFN(range->start), NULL, true);
+ 	if (conflict_pgmap) {
+ 		WARN(1, "Conflicting mapping in same section\n");
+ 		put_dev_pagemap(conflict_pgmap);
+ 		return -ENOMEM;
+ 	}
+ 
+-	conflict_pgmap = get_dev_pagemap(PHYS_PFN(range->end), NULL);
++	conflict_pgmap = get_dev_pagemap(PHYS_PFN(range->end), NULL, true);
+ 	if (conflict_pgmap) {
+ 		WARN(1, "Conflicting mapping in same section\n");
+ 		put_dev_pagemap(conflict_pgmap);
+@@ -454,19 +454,20 @@ void vmem_altmap_free(struct vmem_altmap *altmap, unsigned long nr_pfns)
+  * get_dev_pagemap() - take a new live reference on the dev_pagemap for @pfn
+  * @pfn: page frame number to lookup page_map
+  * @pgmap: optional known pgmap that already has a reference
++ * @allow_pci_p2pdma: allow getting a pgmap with the PCI P2PDMA type
+  *
+  * If @pgmap is non-NULL and covers @pfn it will be returned as-is.  If @pgmap
+  * is non-NULL but does not cover @pfn the reference to it will be released.
   */
- static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
--		dma_addr_t dma_addr)
-+		dma_addr_t dma_addr, unsigned long attrs)
+ struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
+-		struct dev_pagemap *pgmap)
++		struct dev_pagemap *pgmap, bool allow_pci_p2pdma)
  {
- 	struct scatterlist *s, *cur = sg;
- 	unsigned long seg_mask = dma_get_seg_boundary(dev);
- 	unsigned int cur_len = 0, max_len = dma_get_max_seg_size(dev);
- 	int i, count = 0;
+ 	resource_size_t phys = PFN_PHYS(pfn);
  
-+	if (attrs & DMA_ATTR_P2PDMA && max_len >= SG_P2PDMA_FLAG)
-+		max_len = SG_P2PDMA_FLAG - 1;
-+
  	/*
- 	 * The Intel graphic driver is used to assume that the returned
- 	 * sg list is not combound. This blocks the efforts of converting
-@@ -917,6 +921,19 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
- 		sg_dma_address(s) = DMA_MAPPING_ERROR;
- 		sg_dma_len(s) = 0;
- 
-+		if (is_pci_p2pdma_page(sg_page(s)) && !s_iova_len) {
-+			if (i > 0)
-+				cur = sg_next(cur);
-+
-+			sg_dma_address(cur) = sg_phys(s) + s->offset -
-+				pci_p2pdma_bus_offset(sg_page(s));
-+			sg_dma_len(cur) = s->length | SG_P2PDMA_FLAG;
-+
-+			count++;
-+			cur_len = 0;
-+			continue;
-+		}
-+
- 		/*
- 		 * Now fill in the real DMA data. If...
- 		 * - there is a valid output segment to append to
-@@ -1013,11 +1030,12 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
- 	struct scatterlist *s, *prev = NULL;
-+	struct dev_pagemap *pgmap = NULL;
- 	int prot = dma_info_to_prot(dir, dev_is_dma_coherent(dev), attrs);
- 	dma_addr_t iova;
- 	size_t iova_len = 0;
- 	unsigned long mask = dma_get_seg_boundary(dev);
--	int i;
-+	int i, map = -1;
- 
- 	if (unlikely(iommu_dma_deferred_attach(dev, domain)))
- 		return 0;
-@@ -1045,6 +1063,21 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 		s_length = iova_align(iovad, s_length + s_iova_off);
- 		s->length = s_length;
- 
-+		if (is_pci_p2pdma_page(sg_page(s))) {
-+			if (sg_page(s)->pgmap != pgmap) {
-+				pgmap = sg_page(s)->pgmap;
-+				map = pci_p2pdma_should_map_bus(dev, pgmap);
-+			}
-+
-+			if (map < 0 || !(attrs & DMA_ATTR_P2PDMA))
-+				goto out_restore_sg;
-+
-+			if (map) {
-+				s->length = 0;
-+				continue;
-+			}
-+		}
-+
- 		/*
- 		 * Due to the alignment of our single IOVA allocation, we can
- 		 * depend on these assumptions about the segment boundary mask:
-@@ -1067,6 +1100,9 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 		prev = s;
- 	}
- 
-+	if (!iova_len)
-+		return __finalise_sg(dev, sg, nents, 0, attrs);
-+
- 	iova = iommu_dma_alloc_iova(domain, iova_len, dma_get_mask(dev), dev);
- 	if (!iova)
- 		goto out_restore_sg;
-@@ -1078,7 +1114,7 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 	if (iommu_map_sg_atomic(domain, iova, sg, nents, prot) < iova_len)
- 		goto out_free_iova;
- 
--	return __finalise_sg(dev, sg, nents, iova);
-+	return __finalise_sg(dev, sg, nents, iova, attrs);
- 
- out_free_iova:
- 	iommu_dma_free_iova(cookie, iova, iova_len, NULL);
-@@ -1090,7 +1126,7 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
- 		int nents, enum dma_data_direction dir, unsigned long attrs)
- {
--	dma_addr_t start, end;
-+	dma_addr_t end, start = DMA_MAPPING_ERROR;
- 	struct scatterlist *tmp;
- 	int i;
- 
-@@ -1106,14 +1142,20 @@ static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
- 	 * The scatterlist segments are mapped into a single
- 	 * contiguous IOVA allocation, so this is incredibly easy.
+ 	 * In the cached case we're already holding a live reference.
  	 */
--	start = sg_dma_address(sg);
--	for_each_sg(sg_next(sg), tmp, nents - 1, i) {
--		if (sg_dma_len(tmp) == 0)
-+	for_each_sg(sg, tmp, nents, i) {
-+		if ((attrs & DMA_ATTR_P2PDMA) && sg_dma_is_p2pdma(tmp))
-+			continue;
-+		if (sg_dma_p2pdma_len(tmp) == 0)
- 			break;
--		sg = tmp;
-+
-+		if (start == DMA_MAPPING_ERROR)
-+			start = sg_dma_address(tmp);
-+
-+		end = sg_dma_address(tmp) + sg_dma_len(tmp);
- 	}
--	end = sg_dma_address(sg) + sg_dma_len(sg);
--	__iommu_dma_unmap(dev, start, end - start);
-+
-+	if (start != DMA_MAPPING_ERROR)
-+		__iommu_dma_unmap(dev, start, end - start);
- }
+-	if (pgmap) {
++	if (!IS_ERR_OR_NULL(pgmap)) {
+ 		if (phys >= pgmap->range.start && phys <= pgmap->range.end)
+ 			return pgmap;
+ 		put_dev_pagemap(pgmap);
+@@ -479,6 +480,11 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
+ 		pgmap = NULL;
+ 	rcu_read_unlock();
  
- static dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
-@@ -1334,6 +1376,7 @@ static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
++	if (!allow_pci_p2pdma && pgmap->type == MEMORY_DEVICE_PCI_P2PDMA) {
++		put_dev_pagemap(pgmap);
++		return ERR_PTR(-EINVAL);
++	}
++
+ 	return pgmap;
  }
- 
- static const struct dma_map_ops iommu_dma_ops = {
-+	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
- 	.alloc			= iommu_dma_alloc,
- 	.free			= iommu_dma_free,
- 	.alloc_pages		= dma_common_alloc_pages,
+ EXPORT_SYMBOL_GPL(get_dev_pagemap);
 -- 
 2.20.1
 
