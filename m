@@ -7,87 +7,79 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE47C55179
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:45:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52190C2D0A3
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:52:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3ABB62151B
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:45:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AEB122072E
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:52:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dTDUfXG3";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="EF51HxtZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3ABB62151B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cBdUMBwl"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AEB122072E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=grR6x7ESaxqY9oRvGO6Wfda8lGSx0huzAZxZ7712mdE=; b=dTDUfXG3YD6/A1jhzCL3tqdL2
-	G304/ekPgq+RK9ymELAh4oh+o8OD452XlLyuVHQIoZq56YIJ5OssqZZlHQhDS7VUa/mkaOmWTSz6e
-	qsNi7iqeFaOC8tbjXUl8c986ch9BVNkAcgdM5zMSsS72t7vGvVZcBS5nUA2etopDPyQ0o7hoI3N30
-	pMlH+Rdqqy0PJ97OMcjsCwm8fziwiBubbmUMjTVhNarWxSfZKL65iJxsihBwonpdruhC4YtlabVAl
-	3ZiboeyrMdTALcAoZl1SfMbUmSJJQO4S1MaONPDbbORLLt52MgOlHcbuia0BVeGagbhSgKLXdEfyz
-	Pkmoo4aIA==;
+	 bh=UU06linNHUVqcwo69k3gqHcIYUfg5qR/EehIL2Z+HAs=; b=cBdUMBwlbVldHwhVr9ZPr7xed
+	pOcgoAWOSypSqKqscRhFRap25PbxJ5pGAz/AV1gv9zqVmbgFiOPaK/Awdz/Xyot8bJW9PAf8FFNuF
+	u2BYc5m2g486zdmcXV0QIzJqh5cjat854cOnrYE4y8WAdBX6jjUO86ixtFbj6gUYBMqbvK0lnKsGR
+	jR2mJFbwU5LL5gU/plsQ7emYJbe8Yi1aLMQEFJnQRSRIwac1rNhlhTlH0PKuKkh4yP3mp14ETLpxY
+	jrxJMPL4ehPsBo45e6+HPWTPYM6WGvRC1PP3j91zoauDD9ph98+n6k0bwlyESSZm3jCd3N9KfRRs5
+	ZIy+e2frA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb7ff-0003EL-PL; Fri, 06 Nov 2020 19:45:15 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1kb7mh-0003nH-6y; Fri, 06 Nov 2020 19:52:31 +0000
+Received: from mail-wr1-f67.google.com ([209.85.221.67])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb7fd-0003Dw-Tv
- for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 19:45:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=I/yMO/i0p9WTzMk8iTmPgQ7A1/uXaOZLwkcSaYry190=; b=EF51HxtZyF7eBA20tXsTF2DGDE
- IbfHm083EMnHxXpJYgIYTsp6r+mp9XWQb/XLgGWhtegx4w0IF1oPg6Iu83aOkKiOvCrjcBL1l6ogP
- F7p5WOzIjCQK9YLV8T/kmBmp579Gggn/M7dDLneVeKYVzdNnAWORs/zk7Cpponp8SJ0c/sAPS8uFI
- TdwpSPfkB9Yzi6zrO+pbtX5bsuoiEjd662srFEbfjGuxKPYx//X+W4l4VIpaOuVbk+3CZ+nG4mm4/
- C62E/EDifK+3yt9mSInjQU4Klaw8r/WG0lHCbRHdZaOWog4xjJbhQXiRfVcbPEdFxo8Ld7uiMWlFr
- NGN7kz6Q==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1kb7fV-00055w-HL; Fri, 06 Nov 2020 12:45:06 -0700
-To: Jason Gunthorpe <jgg@ziepe.ca>
-References: <20201106170036.18713-1-logang@deltatee.com>
- <20201106170036.18713-15-logang@deltatee.com>
- <20201106172206.GS36674@ziepe.ca>
- <b1e8dfce-d583-bed8-d04d-b7265a54c99f@deltatee.com>
- <20201106174223.GU36674@ziepe.ca>
- <2c2d2815-165e-2ef9-60d6-3ace7ff3aaa5@deltatee.com>
- <20201106180922.GV36674@ziepe.ca>
- <09885400-36f8-bc1d-27f0-a8adcf6104d4@deltatee.com>
- <20201106193024.GW36674@ziepe.ca>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <03032637-0826-da76-aec2-121902b1c166@deltatee.com>
-Date: Fri, 6 Nov 2020 12:44:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ id 1kb7mc-0003mc-Fi
+ for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 19:52:29 +0000
+Received: by mail-wr1-f67.google.com with SMTP id w14so2511785wrs.9
+ for <linux-nvme@lists.infradead.org>; Fri, 06 Nov 2020 11:52:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=82VBWRHTD/G66f+vt8o4R1g4BvDFQmUjE2w0WuNaobk=;
+ b=TFvj+3+7/NmclG14qD7YtGZ3GASCrG2/yHbK76XUnz84Hsg2J/plV2a70jNmIhNiVL
+ qhA6+khcnPLc4zsYGM7Nbhwq8mFCyk2mBbGpFM4igjMAGR8+8ExT1N27aW/9W8kaIsOH
+ nGBtepZOGvMkoS0wg0G3CvYRDnIrSVem0l43TrvgyOQ21H8kMAu6YGDv5+UozxLr55yz
+ OCjDHriOpWupPldxtP6t3yklssAGrbyj4eTuBsjKyNmBA9wH1dFRus5Z21sfcJMu5acG
+ 7zAuSgzn9+XGjgGCFZb1zkRrvUig3obZBoeSiBMqZVm60+8biG8r78NhkgKgTRbH9WDt
+ YTVw==
+X-Gm-Message-State: AOAM530I/vYCXiK6c4oNeu9Ny83cUhJJiFXGSfggfN9m+UCb+62p6eLU
+ li6gi9dG4fNR6vFfl6uihKGwe8fFn6A=
+X-Google-Smtp-Source: ABdhPJzvldpFYvcDoWKTT+638oLJZb6Ysgm+E6uCkbcynHjBtBV0w/yyRPp8JaoOZvkItFOydNpTOg==
+X-Received: by 2002:adf:e446:: with SMTP id t6mr4195906wrm.46.1604692345004;
+ Fri, 06 Nov 2020 11:52:25 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:5d93:b4fd:df52:2680?
+ ([2601:647:4802:9070:5d93:b4fd:df52:2680])
+ by smtp.gmail.com with ESMTPSA id n123sm1755603wmn.38.2020.11.06.11.52.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Nov 2020 11:52:24 -0800 (PST)
+Subject: Re: [PATCH] nvme: revert commit 1293477f4f32 as it is breaking
+ BLKROSET
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+References: <20201106171835.38236-1-sagi@grimberg.me>
+ <20201106175949.GA7529@lst.de>
+ <443079c6-2dd0-f52d-4b2f-f7f9dec2792d@grimberg.me>
+ <AEE672B4-1BEA-4DBF-9E86-0C443C10F842@wdc.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <edfbaf81-9d7f-7bc4-d78b-6dd67d351880@grimberg.me>
+Date: Fri, 6 Nov 2020 11:52:21 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201106193024.GW36674@ziepe.ca>
+In-Reply-To: <AEE672B4-1BEA-4DBF-9E86-0C443C10F842@wdc.com>
 Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: daniel.vetter@ffwll.ch, willy@infradead.org,
- ddutile@redhat.com, jhubbard@nvidia.com, iweiny@intel.com,
- christian.koenig@amd.com, dan.j.williams@intel.com, hch@lst.de,
- sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, jgg@ziepe.ca
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH 14/15] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201106_144513_990972_138A30E9 
-X-CRM114-Status: GOOD (  18.40  )
+X-CRM114-CacheID: sfid-20201106_145226_564472_7D00772E 
+X-CRM114-Status: GOOD (  16.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,57 +91,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, John Hubbard <jhubbard@nvidia.com>,
- Dan Williams <dan.j.williams@intel.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-On 2020-11-06 12:30 p.m., Jason Gunthorpe wrote:
->> I certainly can't make decisions for code that isn't currently
->> upstream.
+>>>> The offending commit breaks BLKROSET ioctl because a device
+>>>> revalidation will blindly override BLKROSET setting.
+>>>>
+>>>> The author should resubmit this commit in a way that does
+>>>> not break BLKROSET.
+>>> Let's fix this properly instead of a blind revert.
+>>
+>> I've asked Chaitanya to address this, but I guess he didn't
+>> get to it so at the very least lets not keep the breakage.
 > 
-> The rdma drivers are all upstream, what are you thinking about?
+> Yes it is on the list. I am really sorry I got busy with blocktrace [1] 
+> work for last couple of weeks.
 
-Really? I feel like you should know what I mean here...
+Not a problem at all really, we are all busy.
 
-I mean upstream code that actually uses the APIs that I'd have to
-introduce. I can't say here's an API feature that no code uses but the
-already upstream rdma driver might use eventually. It's fairly easy to
-send patches that make the necessary changes when someone adds a use of
-those changes inside the rdma code.
+> Sagi, I am okay if you want to fix this. Otherwise I'll try and get this 
+> and the target side fix next week for sure.
 
->> Ultimately, if you aren't using the genpool you will have to implement
->> your own mmap operation that somehow allocates the pages and your own
->> page_free hook. 
-> 
-> Sure, the mlx5 driver already has a specialized alloctor for it's BAR
-> pages.
+There is no target side fix here, it's just the host that needs fixing.
 
-So it *might* make sense to carve out a common helper to setup a VMA for
-P2PDMA to do the vm_flags check and set VM_MIXEDMAP... but besides that,
-there's no code that would be common to the two cases.
-
->> I also don't expect this to be going upstream in the near term so don't
->> get too excited about using it.
-> 
-> I don't know, it is actually not that horrible, the GUP and IOMMU
-> related changes are simpler than I expected
-
-I think the deal breaker is the SGL hack and the fact that there are
-important IOMMU implementations that won't have support.
-
-Logan
-
+Still I think this needs to be reverted first and pulled into stable and
+re-added correctly. I'm waiting to hear Christoph's opinion here.
 
 _______________________________________________
 Linux-nvme mailing list
