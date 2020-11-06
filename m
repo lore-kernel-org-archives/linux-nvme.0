@@ -2,23 +2,22 @@ Return-Path: <SRS0=7aSL=EM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9776DC55178
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:03:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6537C5517A
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C263820882
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:03:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E29F620882
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="wMZ8WzlU";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kl8AxnoJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C263820882
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NhSIVA6V";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NxVhEEHR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E29F620882
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,37 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=K16chbKesg+/gSbo9dqDzESOKo/WB1QhGZkQQRhKL/c=; b=wMZ8WzlU214pd9hFAgC+K3BwY
-	9qdA7AltoXx6lQ4u5WQz20cNSn46CsTOxDm8tJmGV2pevPAU1/3VDl4UzTlgLch64iLAoR+iZfHDj
-	h4mGUTiLK8TaPPi5A0SJRVqcIT/twWK+DQ9zShNvmIkNFuph+hUCmHbVOaQgiLCySJSuFQeKgLR4C
-	Qo0OZGMW0DnvvJUdQU13PgHwXbw32RLGV8mw6gou39qW43lpiX4SZcsnhJWtsKCiZap6AvzJUlgh8
-	slSXbBqeITNcz+SIa8Ud7B8dY6H1TXDMO6EBr0TWwHJ7CoQ9J6hWWSLpFhnU4pEM1oOTevcpisvYq
-	aiUYLDXIg==;
+	 bh=pxoMSZmrlg6l7uKGHo+oe8arHgzVh/rXSsrksieiUEk=; b=NhSIVA6VM0G5XBJqGozWx6oGc
+	9EyVA65OiWYcP5SBoQJFhcCO/E8a2F9UrfrkydZ5W/UpjFPRAQk+b/iaXs6AmBz4hDGY089FaBn68
+	aMKfhGXkPC4DBLmRn8XAnTC98DyICAiDJs95PT8PZgl2WRSFFmDi+TdIbqdYc4d/r97O3CqU3LQBA
+	r8htXjrbYLqnSPeQW+IrQPwLoEgIeHwAcIWA8o2IYg4xqxCSSd9AFzbtTqih+sXT+XYdQejeZm8OS
+	fvaBhLiq565W1cKSakJ0aNNhDEsdJmDi+GcA+3fPQCwrfyUq2xomOETbXKSF8Op0UT1W7w0ASrfFu
+	963wEuDAQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb71f-00011W-GT; Fri, 06 Nov 2020 19:03:55 +0000
+	id 1kb71h-00012P-UU; Fri, 06 Nov 2020 19:03:57 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb71d-00010p-Mg
- for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:03:53 +0000
+ id 1kb71f-00011R-Jf
+ for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:03:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=GTpuLBfYyo8TaeZo/z07ad7aIfYXt5VjexG6J+Un22Y=; b=kl8AxnoJUKENxdqbmGjtDUBKGr
- 4VvvwsWDbIWXpjZUE80AyVmG5Pw1VqJDYsJwtH7NNnxp0mOGVXqwKxHaePcIX2QLEgCS8sFueGPzE
- AiTGABB6Xp+kXJg8ish427RVP/SfCFu0d17IOJ1V1HiYBELRoZFB92ZTq6pCfkW0lsJkkJrifhsmZ
- pmg+34MTaZP2+QSox6FaZ3V/B2bz9YfsUA2FysiawKz4wfLjLQFNhJ856xgqwRX1KDIB3yvZOlRbF
- NcZ4l5avCx+EDEjbrxqOm6DFPEMZDdVeorTynAxTtJLBiF/5eE5hDbP4cAerzfFjspBXGft5tkdz/
- xM4wPyUw==;
+ bh=xoeiriVlvBvSZjV6Q4wYdmBzo8f6g+sLoFZ2s4edyk8=; b=NxVhEEHR/C1EYxh35k4vDv/Uce
+ dlWSgLAuqe0PKAr557dVmJ6lHVGfcgVFnBUblSiUPXhcm7QnYEpJyfIExsL2RkvO0AWimJ5hCVMid
+ 98+jZXSuhAiXHDHIp7itgE4sFgG/X1barPzhD8UvMkia+uZ7DGb5lf04+4P3nYn+v8TAMz9uQ9kf9
+ 7AB5YlkNoWmNCdg+jrCrZV0P85fSt8+cPZJVIKiJuJdYGwSt895sPIIaNicR7kG1wfcYnfRHs/XmY
+ WH3KVWDg4MFGBPTPloHXoU/v9MRzD7180eeFlpDdxvrfJdvQ4lqjy6ouInvMW3GmGAOlPSZXFmrve
+ l411IOvA==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb71b-0000th-31; Fri, 06 Nov 2020 19:03:52 +0000
+ id 1kb71d-0000tx-H2; Fri, 06 Nov 2020 19:03:54 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 02/24] loop: remove loop_set_size
-Date: Fri,  6 Nov 2020 20:03:14 +0100
-Message-Id: <20201106190337.1973127-3-hch@lst.de>
+Subject: [PATCH 03/24] nvme: let set_capacity_revalidate_and_notify update the
+ bdev size
+Date: Fri,  6 Nov 2020 20:03:15 +0100
+Message-Id: <20201106190337.1973127-4-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
 References: <20201106190337.1973127-1-hch@lst.de>
@@ -94,93 +94,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Just use set_capacity_revalidate_and_notify directly, as this function
-can update the block device size as well when the last parameter is set
-to true.
+There is no good reason to call revalidate_disk_size separately.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/loop.c | 37 +++++++------------------------------
- 1 file changed, 7 insertions(+), 30 deletions(-)
+ drivers/nvme/host/core.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index cb1191d6e945f2..86eb7e0691eef5 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -241,23 +241,6 @@ loop_validate_block_size(unsigned short bsize)
- 	return 0;
- }
- 
--/**
-- * loop_set_size() - sets device size and notifies userspace
-- * @lo: struct loop_device to set the size for
-- * @size: new size of the loop device
-- *
-- * Callers must validate that the size passed into this function fits into
-- * a sector_t, eg using loop_validate_size()
-- */
--static void loop_set_size(struct loop_device *lo, loff_t size)
--{
--	struct block_device *bdev = lo->lo_device;
--
--	bd_set_nr_sectors(bdev, size);
--
--	set_capacity_revalidate_and_notify(lo->lo_disk, size, false);
--}
--
- static inline int
- lo_do_transfer(struct loop_device *lo, int cmd,
- 	       struct page *rpage, unsigned roffs,
-@@ -1076,7 +1059,6 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
- 	struct address_space *mapping;
- 	struct block_device *claimed_bdev = NULL;
- 	int		error;
--	loff_t		size;
- 	bool		partscan;
- 	unsigned short  bsize;
- 
-@@ -1164,9 +1146,8 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
- 	loop_update_dio(lo);
- 	loop_sysfs_init(lo);
- 
--	size = get_loop_size(lo, file);
--	loop_set_size(lo, size);
--
-+	set_capacity_revalidate_and_notify(lo->lo_disk, get_loop_size(lo, file),
-+			true);
- 	set_blocksize(bdev, S_ISBLK(inode->i_mode) ?
- 		      block_size(inode->i_bdev) : PAGE_SIZE);
- 
-@@ -1402,9 +1383,9 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
- 	lo->lo_flags |= prev_lo_flags & ~LOOP_SET_STATUS_CLEARABLE_FLAGS;
- 
- 	if (size_changed) {
--		loff_t new_size = get_size(lo->lo_offset, lo->lo_sizelimit,
--					   lo->lo_backing_file);
--		loop_set_size(lo, new_size);
-+		set_capacity_revalidate_and_notify(lo->lo_disk,
-+				get_size(lo->lo_offset, lo->lo_sizelimit,
-+					 lo->lo_backing_file), true);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 376096bfc54a83..4e86c9aafd88a7 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2053,7 +2053,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 			capacity = 0;
  	}
  
- 	loop_config_discard(lo);
-@@ -1580,14 +1561,10 @@ loop_get_status64(struct loop_device *lo, struct loop_info64 __user *arg) {
+-	set_capacity_revalidate_and_notify(disk, capacity, false);
++	set_capacity_revalidate_and_notify(disk, capacity, true);
  
- static int loop_set_capacity(struct loop_device *lo)
- {
--	loff_t size;
--
- 	if (unlikely(lo->lo_state != Lo_bound))
- 		return -ENXIO;
--
--	size = get_loop_size(lo, lo->lo_backing_file);
--	loop_set_size(lo, size);
--
-+	set_capacity_revalidate_and_notify(lo->lo_disk,
-+			get_loop_size(lo, lo->lo_backing_file), true);
- 	return 0;
+ 	nvme_config_discard(disk, ns);
+ 	nvme_config_write_zeroes(disk, ns);
+@@ -2136,7 +2136,6 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 		blk_stack_limits(&ns->head->disk->queue->limits,
+ 				 &ns->queue->limits, 0);
+ 		blk_queue_update_readahead(ns->head->disk->queue);
+-		nvme_update_bdev_size(ns->head->disk);
+ 		blk_mq_unfreeze_queue(ns->head->disk->queue);
+ 	}
+ #endif
+@@ -3965,8 +3964,6 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
+ 	 */
+ 	if (ret && ret != -ENOMEM && !(ret > 0 && !(ret & NVME_SC_DNR)))
+ 		nvme_ns_remove(ns);
+-	else
+-		revalidate_disk_size(ns->disk, true);
  }
  
+ static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
 -- 
 2.28.0
 
