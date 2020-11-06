@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A63DC2D0A3
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 387BEC55178
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9AC3D208C7
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B6380208C7
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="x+Cht5XM";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EwEW1dmI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AC3D208C7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hx8lJpPy";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tH8UdTWn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B6380208C7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vlQ6G7Bn6HG8Zq6XTt15Q4zKyp0Hjl2HXik8HQSKRp8=; b=x+Cht5XMtcZEvFdvI446KdrVr
-	oXUaZLHdShqThoNjgXLeFDjB1eDI7IrLxVSvw9tQJGVhwRIQ/NYPjSaI/J1JhkTnfdxKHSIYVWhVY
-	XVeNBUQ0emEV0dJ6cwPZGJk9DXDOKy4vw77FHXayinR4rl3faR1E+dbfP8uvtSvC21xAvkYNFsUPW
-	1qnchJ/3B6hj4uthH5vqQz1Hry0tOP4w4HZFUBXmm2PZYbhqtpLHtl65p9dWSpRuJqGp+7ebSATR8
-	Vn6bo+ttDUCs8XQ1pYNqxN9DsbPUat4vylJoAd3xTKu54+8O0a8Ql7wL/td0TSu7Zs39hgERGGYU0
-	/Wn4GYmng==;
+	 bh=QkuDkMkAkM779am3ewTHscoApaMfKKa33SmL8EkxgeI=; b=hx8lJpPypm85L61Py2VKaejSY
+	bnInL7iO5byqFDbsf+NDybCf2vxMHoRXr/HdFwKmmUzL/BMsMT2JOE9BLoxwlgzgsRD4QwZGbDWEW
+	D8Ck7I6tTfioJr6sHIAAZiLpjkd3N7a1TGzsdJbLiZ8hHCI6uasl1IK6BcV8ShPZQ0EvMMXmdcsKi
+	kZq+uKF9KXkVqMlUi6QJwgGRO07EXDzIcyHp7/6AllUM/Q+JLmFlSkqdQvLe/CsRQMmTBxHJpx0VW
+	3jQC08jQJt3osKxghcX5KGVmhLg6N4dHv1dF/wdbbGjK7EG6WMVC2panwbFK9lVZN0kybMzpdSwkp
+	PI2AubqMg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb71o-00015E-U3; Fri, 06 Nov 2020 19:04:04 +0000
+	id 1kb71r-00016T-56; Fri, 06 Nov 2020 19:04:07 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb71k-00013C-2L
- for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:04:00 +0000
+ id 1kb71l-00013c-IE
+ for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:04:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=WRVMysZVU7Ci7qCB6ml6ZPr77ooiCVZTgGNm0z1Kbac=; b=EwEW1dmIzT0KztvNtJRW2Uubcj
- tlurSCjfhNkHrGfPqn0+Kq/EJbeTYzgj/PyWhFzEzqGwDqMIQgTxH+4oNmCQ8LfrXPJFUgGFC+Cq9
- F1IZ+/cmfA2k4ZHSyD2l4TZouA9lJMPSR6Q5sWOPNWLmVZx8CHk9p9r181uX//s3t7DHRcDusqPUa
- 9w9+yAWsWRC+aRbLhdpzbhO2y/7jPPlu5VvKDsF8GH0RYI5IXw8u5pwL5aW0jbllMeck6ak0oKTQr
- GwpmBUxE2ovzhZAP8VMIeX9plnE1wp7Omf0GdvOKlmwNyJpTTBo9MvNnbQMgbExiCingPKDwlDSjX
- 5fWfThtA==;
+ bh=msAxRVgou3+s48HjnTxbv/pHmvKh+OTllxGOwTa9PDs=; b=tH8UdTWnkIuPETR5ERZJsxXqO9
+ RuvncvGLMp3eecYVL5xbljvoepHQIy9LJuMEB0q+0oEeVpE399lmWu6TR7di2UcX2jvpnbzMAgO+T
+ lVDmVMLdl2vdcru/zg5P/TlhhczznEvHfAs7dYsm2yxmv3ZUvGZmRnMrTXcu7NYlNoXgOCzkHUicc
+ AGwDOPnsGK9wvtFNI87/4PdBzDhhP3bDY7qTssXyAvbxU4+VHn4Hlisg3BkNqrDEoze0VUh2Ufbsg
+ sLEPDubY8OG8SNMA5E0TVDhcZDYddMUr3C9Qfc/tX9zYtsMYh7soL6M1ihPRkp1F9FRPk6C6a4b5z
+ IcLgD9AQ==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb71h-0000us-6I; Fri, 06 Nov 2020 19:03:59 +0000
+ id 1kb71j-0000vL-Sx; Fri, 06 Nov 2020 19:04:00 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 05/24] block: remove the update_bdev parameter from
- set_capacity_revalidate_and_notify
-Date: Fri,  6 Nov 2020 20:03:17 +0100
-Message-Id: <20201106190337.1973127-6-hch@lst.de>
+Subject: [PATCH 06/24] block: add a return value to set_capacity_and_notify
+Date: Fri,  6 Nov 2020 20:03:18 +0100
+Message-Id: <20201106190337.1973127-7-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
 References: <20201106190337.1973127-1-hch@lst.de>
@@ -94,168 +93,51 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The update_bdev argument is always set to true, so remove it.  Also
-rename the function to the slighly less verbose set_capacity_and_notify,
-as propagating the disk size to the block device isn't really
-revalidation.
+Return if the function ended up sending an uevent or not.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/genhd.c                | 13 +++++--------
- drivers/block/loop.c         | 11 +++++------
- drivers/block/virtio_blk.c   |  2 +-
- drivers/block/xen-blkfront.c |  2 +-
- drivers/nvme/host/core.c     |  2 +-
- drivers/scsi/sd.c            |  5 ++---
- include/linux/genhd.h        |  3 +--
- 7 files changed, 16 insertions(+), 22 deletions(-)
+ block/genhd.c         | 7 +++++--
+ include/linux/genhd.h | 2 +-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/block/genhd.c b/block/genhd.c
-index 0a273211fec283..d8d9d6c1c916e1 100644
+index d8d9d6c1c916e1..8c350fecfe8bfe 100644
 --- a/block/genhd.c
 +++ b/block/genhd.c
-@@ -46,17 +46,15 @@ static void disk_del_events(struct gendisk *disk);
- static void disk_release_events(struct gendisk *disk);
+@@ -47,9 +47,9 @@ static void disk_release_events(struct gendisk *disk);
  
  /*
-- * Set disk capacity and notify if the size is not currently
-- * zero and will not be set to zero
-+ * Set disk capacity and notify if the size is not currently zero and will not
-+ * be set to zero.
+  * Set disk capacity and notify if the size is not currently zero and will not
+- * be set to zero.
++ * be set to zero.  Returns true if a uevent was sent, otherwise false.
   */
--void set_capacity_revalidate_and_notify(struct gendisk *disk, sector_t size,
--					bool update_bdev)
-+void set_capacity_and_notify(struct gendisk *disk, sector_t size)
+-void set_capacity_and_notify(struct gendisk *disk, sector_t size)
++bool set_capacity_and_notify(struct gendisk *disk, sector_t size)
  {
  	sector_t capacity = get_capacity(disk);
  
- 	set_capacity(disk, size);
--	if (update_bdev)
--		revalidate_disk_size(disk, true);
-+	revalidate_disk_size(disk, true);
- 
- 	if (capacity != size && capacity != 0 && size != 0) {
+@@ -60,7 +60,10 @@ void set_capacity_and_notify(struct gendisk *disk, sector_t size)
  		char *envp[] = { "RESIZE=1", NULL };
-@@ -64,8 +62,7 @@ void set_capacity_revalidate_and_notify(struct gendisk *disk, sector_t size,
+ 
  		kobject_uevent_env(&disk_to_dev(disk)->kobj, KOBJ_CHANGE, envp);
++		return true;
  	}
++
++	return false;
  }
--
--EXPORT_SYMBOL_GPL(set_capacity_revalidate_and_notify);
-+EXPORT_SYMBOL_GPL(set_capacity_and_notify);
+ EXPORT_SYMBOL_GPL(set_capacity_and_notify);
  
- /*
-  * Format the device name of the indicated disk into the supplied buffer and
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 86eb7e0691eef5..77937b760ee0fc 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -1146,8 +1146,7 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
- 	loop_update_dio(lo);
- 	loop_sysfs_init(lo);
- 
--	set_capacity_revalidate_and_notify(lo->lo_disk, get_loop_size(lo, file),
--			true);
-+	set_capacity_and_notify(lo->lo_disk, get_loop_size(lo, file));
- 	set_blocksize(bdev, S_ISBLK(inode->i_mode) ?
- 		      block_size(inode->i_bdev) : PAGE_SIZE);
- 
-@@ -1383,9 +1382,9 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
- 	lo->lo_flags |= prev_lo_flags & ~LOOP_SET_STATUS_CLEARABLE_FLAGS;
- 
- 	if (size_changed) {
--		set_capacity_revalidate_and_notify(lo->lo_disk,
-+		set_capacity_and_notify(lo->lo_disk,
- 				get_size(lo->lo_offset, lo->lo_sizelimit,
--					 lo->lo_backing_file), true);
-+					 lo->lo_backing_file));
- 	}
- 
- 	loop_config_discard(lo);
-@@ -1563,8 +1562,8 @@ static int loop_set_capacity(struct loop_device *lo)
- {
- 	if (unlikely(lo->lo_state != Lo_bound))
- 		return -ENXIO;
--	set_capacity_revalidate_and_notify(lo->lo_disk,
--			get_loop_size(lo, lo->lo_backing_file), true);
-+	set_capacity_and_notify(lo->lo_disk,
-+			get_loop_size(lo, lo->lo_backing_file));
- 	return 0;
- }
- 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index a314b9382442b6..3e812b4c32e669 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -470,7 +470,7 @@ static void virtblk_update_capacity(struct virtio_blk *vblk, bool resize)
- 		   cap_str_10,
- 		   cap_str_2);
- 
--	set_capacity_revalidate_and_notify(vblk->disk, capacity, true);
-+	set_capacity_and_notify(vblk->disk, capacity);
- }
- 
- static void virtblk_config_changed_work(struct work_struct *work)
-diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
-index 48629d3433b4c3..79521e33d30ed5 100644
---- a/drivers/block/xen-blkfront.c
-+++ b/drivers/block/xen-blkfront.c
-@@ -2370,7 +2370,7 @@ static void blkfront_connect(struct blkfront_info *info)
- 			return;
- 		printk(KERN_INFO "Setting capacity to %Lu\n",
- 		       sectors);
--		set_capacity_revalidate_and_notify(info->gd, sectors, true);
-+		set_capacity_and_notify(info->gd, sectors);
- 
- 		return;
- 	case BLKIF_STATE_SUSPENDED:
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4e86c9aafd88a7..aa6e27c2eec945 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2053,7 +2053,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 			capacity = 0;
- 	}
- 
--	set_capacity_revalidate_and_notify(disk, capacity, true);
-+	set_capacity_and_notify(disk, capacity);
- 
- 	nvme_config_discard(disk, ns);
- 	nvme_config_write_zeroes(disk, ns);
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 4a34dd5b153196..a2a4f385833d6c 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3263,8 +3263,7 @@ static int sd_revalidate_disk(struct gendisk *disk)
- 
- 	sdkp->first_scan = 0;
- 
--	set_capacity_revalidate_and_notify(disk,
--		logical_to_sectors(sdp, sdkp->capacity), true);
-+	set_capacity_and_notify(disk, logical_to_sectors(sdp, sdkp->capacity));
- 	sd_config_write_same(sdkp);
- 	kfree(buffer);
- 
-@@ -3274,7 +3273,7 @@ static int sd_revalidate_disk(struct gendisk *disk)
- 	 * capacity to 0.
- 	 */
- 	if (sd_zbc_revalidate_zones(sdkp))
--		set_capacity_revalidate_and_notify(disk, 0, true);
-+		set_capacity_and_notify(disk, 0);
- 
-  out:
- 	return 0;
 diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 38f23d75701379..596f31b5a3e133 100644
+index 596f31b5a3e133..4b22bfd9336e1a 100644
 --- a/include/linux/genhd.h
 +++ b/include/linux/genhd.h
-@@ -315,8 +315,7 @@ static inline int get_disk_ro(struct gendisk *disk)
+@@ -315,7 +315,7 @@ static inline int get_disk_ro(struct gendisk *disk)
  extern void disk_block_events(struct gendisk *disk);
  extern void disk_unblock_events(struct gendisk *disk);
  extern void disk_flush_events(struct gendisk *disk, unsigned int mask);
--void set_capacity_revalidate_and_notify(struct gendisk *disk, sector_t size,
--		bool update_bdev);
-+void set_capacity_and_notify(struct gendisk *disk, sector_t size);
+-void set_capacity_and_notify(struct gendisk *disk, sector_t size);
++bool set_capacity_and_notify(struct gendisk *disk, sector_t size);
  
  /* drivers/char/random.c */
  extern void add_disk_randomness(struct gendisk *disk) __latent_entropy;
