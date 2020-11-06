@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F00C56201
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58667C56202
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:05:06 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77BAD20882
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B6AD920882
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:05:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="S0vYJAx3";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LnYE9NNr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77BAD20882
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q42VYBmw";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eyjkFqW2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B6AD920882
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=HhImbbQ2tVEVPvuPz/vhKvzkM5f3/57yCATU9lOKWL4=; b=S0vYJAx3/XpcTn3O34fBcSpot
-	n4stPoG6EGbaZCHCEVsjyTO5IIxIDcVKJoqnNg3251wh2UjEOwUx6NzkoQ8uehtTDmqqGagmgKSOI
-	goAk+fANkfRuF5k/WKUw3BTaEVGXPsSSbMINBMix/hZU9pxMumASqn1sHJAVNE1xUpHRnVhfPSqR2
-	s3E/rMs+A0erzQ+b9/1JXzz9TqFFPPLpz1/JIw2w5s9waLFIaalXFo98HzEk6ekmZPm3d+8/xXIhb
-	x1PvJ06uiDRR+SCGotRit7dn7szk1A2n5S1wj5lHO4ZwScKbfnx3OcgL+Gfz7PJjn9co5KdHj0kVq
-	HfY6pT8qQ==;
+	 bh=rhNQjalKj1KcmRk8q3LIUCL9M8hHVqfIVvRTvnzKgPs=; b=q42VYBmwSOfX9bxUEGQAOwXPw
+	Vxcg101BKwvvsY4XoX8GOiNeTB6lRmXT3MPg+8M90Q2itb2+L3ShhnD7bhfhsQVmBGHJ6HPaKJlpv
+	ntOxEw2rYK839I6zULZj59+aEyMC5ZHdzcJaMQKjUA6ERSwItwttcalCe99VCA8A0NRaBFeMMJDQm
+	IWNjtbmdvoR7rhxRJUQHNz/XeRIdvB4O/FDWam6hp04otS3HYoPsTie7feOAPwM4MyylQkBYYs8lZ
+	p9nJ2dAEwuTJZKvX+Heu6KqxNhYBWidq2mIfWYMPzkQA7mtc8XuutAP1F+hebIWDUUvFt0D57yj52
+	JhJSf6yDg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb72V-0001Tp-W7; Fri, 06 Nov 2020 19:04:48 +0000
+	id 1kb72h-0001aE-8x; Fri, 06 Nov 2020 19:04:59 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb71z-0001B5-Eh
- for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:04:15 +0000
+ id 1kb722-0001Ct-D3
+ for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:04:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=aTYccYixW8gbHYOBakp7ukQbj8m53SZz7oZSluFWVGc=; b=LnYE9NNrzBcSdLeVcZBzoAaV9A
- uBqspcv2x3EvPgOaxWI5LYyJW/YTXavMBXM3sUYHJRIqR/GBbUv2TMuEif5qVKCdbNs5boXd/tlu1
- i9ZpkVaVjZ95cFBJaS5LHF2B5Qw8ZTXlY24kp5olWZsCnxbatdNJzNq9Z/G1Bfi6VVVBZh8uPvXRL
- QHLDSm+Ihgns2dqqVayBftULu0+xgED+EQMMzCK1KKvCC/AsUyHDQT50m0VDiBnghRP+3/XgY6N/U
- mN5su9mIlSc1rb8vVG2g+AL/GZzogA+3RlBH7EfGt4UNPK9HYdGZ84tPQiw8sFHXONEErgYmD4BQ2
- 654UeKyQ==;
+ bh=lumJq5B2fyOOj2vqJR3cb92lXUnjwfkYYs/CdjVL7AE=; b=eyjkFqW2Lg8XRbrrVkiRkq/qq2
+ 49XVx9Yxw07JHDacMMOeLzZz8HG1JveigO/MGLL9NyNBjvo9oJC6aYyW+UCA7pyMcIg2mlykFZ8zX
+ ty8nCCzVLygdCiZkudRiTdi/W/FqGRVOeMQ9wpUURGDFOeF8z5DD8i/HOXTvwBHN3fV5U4peZe9Pq
+ DgD3Jqo41QfIfZOp1cR5hXwFKm1Z/l9ILA6PmCBeYnfhJASEsooVpF4wac7NBiKSpHFXTDdkS/nwj
+ fC+l47uqcwWBpLri1fI067m613ULNzIVBLSf1JS15xnnKfEZd/fTWViAQq5S1YviscxPom3cx2ros
+ iJRrYOEA==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb71x-0000yK-56; Fri, 06 Nov 2020 19:04:13 +0000
+ id 1kb71y-0000yy-W9; Fri, 06 Nov 2020 19:04:15 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 13/24] dm: use set_capacity_and_notify
-Date: Fri,  6 Nov 2020 20:03:25 +0100
-Message-Id: <20201106190337.1973127-14-hch@lst.de>
+Subject: [PATCH 14/24] pktcdvd: use set_capacity_and_notify
+Date: Fri,  6 Nov 2020 20:03:26 +0100
+Message-Id: <20201106190337.1973127-15-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
 References: <20201106190337.1973127-1-hch@lst.de>
@@ -98,23 +98,23 @@ device.  This also gets the uevent notifications for the resize for free.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/dm.c | 3 +--
+ drivers/block/pktcdvd.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index c18fc25485186d..62ad44925e73ec 100644
---- a/drivers/md/dm.c
-+++ b/drivers/md/dm.c
-@@ -1971,8 +1971,7 @@ static struct dm_table *__bind(struct mapped_device *md, struct dm_table *t,
- 	if (size != dm_get_size(md))
- 		memset(&md->geometry, 0, sizeof(md->geometry));
+diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
+index 467dbd06b7cdb1..4326401cede445 100644
+--- a/drivers/block/pktcdvd.c
++++ b/drivers/block/pktcdvd.c
+@@ -2130,8 +2130,7 @@ static int pkt_open_dev(struct pktcdvd_device *pd, fmode_t write)
+ 	}
  
--	set_capacity(md->disk, size);
--	bd_set_nr_sectors(md->bdev, size);
-+	set_capacity_and_notify(md->disk, size);
+ 	set_capacity(pd->disk, lba << 2);
+-	set_capacity(pd->bdev->bd_disk, lba << 2);
+-	bd_set_nr_sectors(pd->bdev, lba << 2);
++	set_capacity_and_notify(pd->bdev->bd_disk, lba << 2);
  
- 	dm_table_event_callback(t, event_callback, md);
- 
+ 	q = bdev_get_queue(pd->bdev);
+ 	if (write) {
 -- 
 2.28.0
 
