@@ -5,19 +5,19 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D37C5517A
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 17:02:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2A75C388F2
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 17:02:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2356B20720
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 17:02:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 45BE72151B
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 17:02:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="xg8vvwVn";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="pr/Jowlo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2356B20720
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VVj6NHdE";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="LKLCRs5E"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45BE72151B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,44 +26,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9U32Tft6s1pfXr7xXYNLkRr0Cid6vAA6HGogdp5pED8=; b=xg8vvwVn5uesSiLsHJoPA0p0a
-	/MfxT1Zp3QGLVIL7KpN9Cwnb599Z3yb+X/8kJ1hd6Gv5HUgcFz9DKUxtYWLDIiBzdWnXjF2huBCsX
-	xXJvh+/dxX+NYQQkitKytIJunxo67s7R+dDB3N32amHo64D5sgzSf46T3xHdJ94seDViqZriAM6VM
-	BtRPEVzukynxtrUtKZsKIvjJkSK0jMSxj5iSKggVE9tlMzd7cR47ZT69xVXjG4g+yA2inbHeOWU1k
-	L3+Abo2tfXJKdPcQCAgsl5ZYE2HMs0Q2kNCfgIEcILon5rEFWCLsjJn8kZBfH5ON3arWcuRVh3G3J
-	MXlJC5c8Q==;
+	 bh=DqFzXdh1+iw6JQgzSME/s9n463lPZTFrpgHWxJ3DJ6g=; b=VVj6NHdEINAYvVpj4ugC+p4JE
+	NneZx/zDHKxN2N+e4jKUxipAWKjnRVZ1rBb4anYWUrh7yQPXjw4cGB4cJ4QT/QPtOr4Yu6dSnYpw8
+	LtPRTPRUruu2UjJO7cVY5BouHb5eiYDDHaKVq7yOTdK98LpJh4a+m/XldB0c7JE4qGLr+moKdhoTg
+	SNSlC9p1VSzEC8IBWG1aSAQAlJoVhrzSbwDMyt5SMeeCAnf7zQfV+KttU/0OmvoDUX8ETKhSXCwOr
+	ViRvi4uXZGdUYuntVJ0y+Na06FTf3KnJ9QzdyxOnx0ou+mmW+dCsm++EBvdXhELbNR9v747wI6SXU
+	7JXmqRsKg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb588-0001mt-2M; Fri, 06 Nov 2020 17:02:28 +0000
+	id 1kb58F-0001r5-4m; Fri, 06 Nov 2020 17:02:35 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb56h-0000uo-Tr
- for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 17:01:03 +0000
+ id 1kb56j-0000vV-Gp
+ for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 17:01:05 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Fp3zmrc4rC+wqr/t/2S1tglSPbg2RkSx9ufEnh8O6wg=; b=pr/Jowlou3yq1rIX94ylABVlRB
- 5w6LYJAv3MifRhRJ3ba0AonoKLftJrGzJo6fpOesPsyS+IfGsO2xahIAfEKHn7xozhVzLCatnFErO
- C33aKyXn6ERKFCdlFQXfr6IMaMPeQRDDMugs+o0yk8O6CrYC/Ow69Q1ogdNZPHAg61/Pkubf9ce9y
- inecSG3KcBrb8MNSLrE+4L5YV91Y7pVZv70CvAXdOjHZTXXodIaqKI+lVT1+VK6uUCgBVs73TEDAr
- Asex6dkaH+/b0CGsBqV32lPp3wXtqhurcLDtZBH5yZbR8hY8DNMWJoRUVuqjNgASX+ggal9UgFKtR
- gWI6EXhA==;
+ bh=/ib4hcAfbiHMdLX/8DBMNJM6Gg1f+72PJ0ND9MJ2JPY=; b=LKLCRs5E1fTNVSfyLyggO9F00J
+ ebA/QlSU1neMqjpg6RXX69lynbZmYxAVQReH4MRpE300YyrdAKMEEs0R9dBNTt2+Sn9fa5ZYuR2qE
+ BMJGKFEk2kv8lZODOz7/Dtmjj2ir+gpt5cQvYp7xvFZcw5Dg01QCyOzB1IZZCZoSDRM2c2UiBycyt
+ lu6DdPugsSp10V+yx5M0RwBAleHSQT17iLdK3N3AvfCMkGd9ZVFZwgiGPAbpHTORNODrCOzamsd3j
+ ftrZdcJQIcIIK7uAVQf127ZdItrwzvKQvj7WJHXN/+D/ivdDaNbuJLgvyxC5ssGGyLKrGSo+xNcA5
+ XYQETn/Q==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1kb56c-0002Pa-7h; Fri, 06 Nov 2020 10:00:56 -0700
+ id 1kb56d-0002PX-U2; Fri, 06 Nov 2020 10:00:57 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1kb56W-0004tW-1a; Fri, 06 Nov 2020 10:00:48 -0700
+ id 1kb56V-0004tQ-Od; Fri, 06 Nov 2020 10:00:47 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Fri,  6 Nov 2020 10:00:36 -0700
-Message-Id: <20201106170036.18713-16-logang@deltatee.com>
+Date: Fri,  6 Nov 2020 10:00:34 -0700
+Message-Id: <20201106170036.18713-14-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201106170036.18713-1-logang@deltatee.com>
 References: <20201106170036.18713-1-logang@deltatee.com>
@@ -76,12 +76,12 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  iweiny@intel.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org,
  daniel.vetter@ffwll.ch, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH 15/15] nvme-pci: Allow mmaping the CMB in userspace
+Subject: [RFC PATCH 13/15] block: Set FOLL_PCI_P2PDMA in bio_map_user_iov()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201106_120100_181927_1067E568 
-X-CRM114-Status: GOOD (  17.59  )
+X-CRM114-CacheID: sfid-20201106_120102_113352_08E733B3 
+X-CRM114-Status: GOOD (  13.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,92 +105,47 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Allow userspace to obtain CMB memory by mmaping the controller's
-char device. The mmap call allocates and returns a hunk of CMB memory,
-(the offset is ignored) so userspace does not have control over the
-address within the CMB.
-
-A VMA allocated in this way will only be usable by drivers that set
-FOLL_PCI_P2PDMA when calling GUP. And inter-device support will be
-checked the first time the pages are mapped for DMA.
-
-Currently this is only supported by O_DIRECT to an PCI NVMe device
-or through the NVMe passthrough IOCTL.
+When a bio's queue supports PCI P2PDMA, set FOLL_PCI_P2PDMA for
+iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be
+passed from userspace and enables the NVMe passthru requests to
+use P2PDMA pages.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/nvme/host/core.c | 11 +++++++++++
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  |  9 +++++++++
- 3 files changed, 21 insertions(+)
+ block/blk-map.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f14316c9b34a..fc642aba671d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3240,12 +3240,23 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 	}
- }
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 21630dccac62..cad8fcfe4f17 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -245,6 +245,7 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ {
+ 	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
+ 	struct bio *bio, *bounce_bio;
++	unsigned int flags = 0;
+ 	int ret;
+ 	int j;
  
-+static int nvme_dev_mmap(struct file *file, struct vm_area_struct *vma)
-+{
-+	struct nvme_ctrl *ctrl = file->private_data;
-+
-+	if (!ctrl->ops->mmap_cmb)
-+		return -ENODEV;
-+
-+	return ctrl->ops->mmap_cmb(ctrl, vma);
-+}
-+
- static const struct file_operations nvme_dev_fops = {
- 	.owner		= THIS_MODULE,
- 	.open		= nvme_dev_open,
- 	.release	= nvme_dev_release,
- 	.unlocked_ioctl	= nvme_dev_ioctl,
- 	.compat_ioctl	= compat_ptr_ioctl,
-+	.mmap		= nvme_dev_mmap,
- };
+@@ -256,13 +257,17 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		return -ENOMEM;
+ 	bio->bi_opf |= req_op(rq);
  
- static ssize_t nvme_sysfs_reset(struct device *dev,
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a0bfe8709cfc..3d790d849701 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -473,6 +473,7 @@ struct nvme_ctrl_ops {
- 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
- 	bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
-+	int (*mmap_cmb)(struct nvme_ctrl *ctrl, struct vm_area_struct *vma);
- };
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 26976bdf4af0..9c61573111ea 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2687,6 +2687,14 @@ static bool nvme_pci_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
- 	return dma_pci_p2pdma_supported(dev->dev);
- }
- 
-+static int nvme_pci_mmap_cmb(struct nvme_ctrl *ctrl,
-+			     struct vm_area_struct *vma)
-+{
-+	struct pci_dev *pdev = to_pci_dev(to_nvme_dev(ctrl)->dev);
++	if (blk_queue_pci_p2pdma(rq->q))
++		flags |= FOLL_PCI_P2PDMA;
 +
-+	return pci_mmap_p2pmem(pdev, vma);
-+}
-+
- static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.name			= "pcie",
- 	.module			= THIS_MODULE,
-@@ -2698,6 +2706,7 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.submit_async_event	= nvme_pci_submit_async_event,
- 	.get_address		= nvme_pci_get_address,
- 	.supports_pci_p2pdma	= nvme_pci_supports_pci_p2pdma,
-+	.mmap_cmb		= nvme_pci_mmap_cmb,
- };
+ 	while (iov_iter_count(iter)) {
+ 		struct page **pages;
+ 		ssize_t bytes;
+ 		size_t offs, added = 0;
+ 		int npages;
  
- static int nvme_dev_map(struct nvme_dev *dev)
+-		bytes = iov_iter_get_pages_alloc(iter, &pages, LONG_MAX, &offs);
++		bytes = iov_iter_get_pages_alloc_flags(iter, &pages, LONG_MAX,
++						       &offs, flags);
+ 		if (unlikely(bytes <= 0)) {
+ 			ret = bytes ? bytes : -EFAULT;
+ 			goto out_unmap;
 -- 
 2.20.1
 
