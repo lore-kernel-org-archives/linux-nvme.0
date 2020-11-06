@@ -2,96 +2,90 @@ Return-Path: <SRS0=7aSL=EM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF0FC388F2
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 18:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8376DC2D0A3
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 18:20:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 535C9206FA
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 18:09:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A36EB208FE
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 18:20:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0x2SlQvS";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="doAkeCGc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 535C9206FA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Zawv28vY";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="WEavvMGU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A36EB208FE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
+	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mwq/SMLwL6vQeY7k/ZdHyERU5NY8I+IASQFmiroMwdE=; b=0x2SlQvSADV/nUp8qyjFxYX7L
-	0xiluaKqojsbpgiQd5YQ6uuMyQ7plo/Whv3D5qLP9Ga8K+UVBHFvmUP6QxjHsSvsoGyv5wauY0H85
-	LFJKX50iJRrKNaMHdZJQimHeB2vDH5f83PaP1OGaQsrVHnWrmsYfirLspeD0FQMWLPX44HLN3r5mm
-	O8GW81rG2UqCzKryUy0s21YAxaqAne2zVwBS6MpVrTm+JzWCmZN9a2HQujvVzMyTuQBuDZyHu4Tr3
-	NnzorPGCTzndrhZc3b3xMF0ZApYO9nyRvSE92NbPimiKuc3j6Y0k4cik71pzhYuvsW2QxHgoHeFRZ
-	Wo6M+wfww==;
+	 bh=JNvvOBb1TJ6Xwb86YiUqth1KyiJA4bcjfUB2shFdaaw=; b=Zawv28vY+emq+bEF+DlzYzHYU
+	CAguujvSVR6YyFXVbEljyeA7WEBTY/rhBYyJBJ2Rj84CfGN4pmQ/GPpGumQyJjNCr2t2TS8ObgCRD
+	OTdcB4KPv57Ab9N/4RvtqEFFaFT2l405hmXwKG5XSFNf4nYo0ne0fsPVc1wQb7R8zfWyDwz7WHmcm
+	VVdwlC4QTvgjsxAp46OokNdLdgX8veeKy3tB0kkbuR0E6AWkoYHaR97rSGNRB5KHdD0MxopKt8CWA
+	P6qKT7x4lwN8i/lWqdZuNIiroEg2g4SZs/JiZYafRukZLFot6g3rJ4cEXVuNSlJjQPzvNqGBXrQGT
+	S91VW98YQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb6Ay-0004GO-FB; Fri, 06 Nov 2020 18:09:28 +0000
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844])
+	id 1kb6LW-0006AA-6J; Fri, 06 Nov 2020 18:20:22 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb6Av-0004Ex-JC
- for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 18:09:26 +0000
-Received: by mail-qt1-x844.google.com with SMTP id i12so1397085qtj.0
- for <linux-nvme@lists.infradead.org>; Fri, 06 Nov 2020 10:09:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=CCWfhKT3ktx1Y0knQS9srJLCrgOnb432wETBQgR0zwo=;
- b=doAkeCGcQXpt2NzsJI+H159GAe+srNA7dZtr0H49NbeeYIJ6GpjmajNyfUIkqGpHMu
- ai3RLcEwPTV7f+TSNYl8TdB/e+py8oelQrW1t6LEF2AEbuiaX5ntMNXRo7pafHLNk+qa
- QhEYT0XqNOBcmdvsGARdcKLcZQ4vNiK+T3d409rehkmevDX2QeiKRii6c+D/qZ2Nh+pO
- 0RwVihcCuFTu9WDbPH7A43DVXJyHPo6JqohdwYb1U85pWLDQ4z5qm6uqw+vSAoLvW1sa
- C6p622tFNp353sQHEku1KoOlamuSPHJwR2D09akhY5jCIZjnxUknFMxm2of3ziLK0Hx4
- K6RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CCWfhKT3ktx1Y0knQS9srJLCrgOnb432wETBQgR0zwo=;
- b=ruOMkBmGXGRSkVSMofqMeBwjNkJNewY98KsxFb9z2I51CRU7I0hFu4AiZ0mRv3z2eX
- TrG9xI9QzPFRYtQxlLW4r6EiCwHt/28+oBxGpCn46QpXrngYq2Ryh43aYEFLMytfOmM/
- pTSirHogFxogWqTJrqe7VdkVnxW+eN0E20tGQJESV7WSNuUduxESYAqa04bt1DIirC3n
- q3hfloGNT9bHT6RC/TYM18J5ugsAC/J4ApNlP8rrvkAbKnNTXTwfBgUFt+olYaCQ2Qap
- REog4elsTmjNT2LnbBuuyS+5xQ/oF3BFH2StkOc20F/NSNiRBl1WBSX5t04BqqH7OsaK
- O1dw==
-X-Gm-Message-State: AOAM532fGCb3rfDP1J9a5VZ2/ySKhsNEG10Xb2CVloUSMtNRt7SBvV3S
- 8oIvLYlewUTcriV/BNdIvoKS5w==
-X-Google-Smtp-Source: ABdhPJyipccSrv690eVVWi+5CEwYt+UFgZ0+2fbz5cV2OhIw8jYbnu+mxTrmBl1wmL06RVvlGefxSA==
-X-Received: by 2002:aed:33c4:: with SMTP id v62mr2703105qtd.19.1604686163988; 
- Fri, 06 Nov 2020 10:09:23 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id n81sm1082262qke.99.2020.11.06.10.09.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 10:09:23 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kb6As-000ztT-IG; Fri, 06 Nov 2020 14:09:22 -0400
-Date: Fri, 6 Nov 2020 14:09:22 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [RFC PATCH 14/15] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
-Message-ID: <20201106180922.GV36674@ziepe.ca>
+ id 1kb6LS-00069K-OO
+ for linux-nvme@lists.infradead.org; Fri, 06 Nov 2020 18:20:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4c2lQ6ZJoiJD4wddIsh1sqnOjISbk8NdEHLgyMHjsI4=; b=WEavvMGUHHtVS6NthMSIjYgE8G
+ m2Shk+887YnWyl84qAu5c5aSnwfmdgsQkwuV6Qk/VTpfpITmSKpZTStz2VoJeuvrgKYFgbkpcC2x9
+ +Eygs4xkSnIjwB3jk8TQYbV+xWQY2KzZLECeTap/XHrhF7RfsNefRy2cKKo9kcYj3Hkd43uD6lH8r
+ UeDxe01Yy7KFTC7wo/J2Zw1d3VJYZkJMQ5JZSmcYq3a5l1dL0v2dLl8ounQVMEe9onzzakY4UYleu
+ immFBl00AOuIB6Gr3JQNUHz9T+DktFRE1Gznw7frT3XHfeD8UYFSjQcgB6Z9ymXrL/hXHs6bQE5SP
+ AZUhpu/A==;
+Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
+ helo=[192.168.0.10])
+ by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <logang@deltatee.com>)
+ id 1kb6LI-0003vN-G2; Fri, 06 Nov 2020 11:20:09 -0700
+To: Jason Gunthorpe <jgg@ziepe.ca>
 References: <20201106170036.18713-1-logang@deltatee.com>
  <20201106170036.18713-15-logang@deltatee.com>
  <20201106172206.GS36674@ziepe.ca>
  <b1e8dfce-d583-bed8-d04d-b7265a54c99f@deltatee.com>
  <20201106174223.GU36674@ziepe.ca>
  <2c2d2815-165e-2ef9-60d6-3ace7ff3aaa5@deltatee.com>
+ <20201106180922.GV36674@ziepe.ca>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <09885400-36f8-bc1d-27f0-a8adcf6104d4@deltatee.com>
+Date: Fri, 6 Nov 2020 11:20:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <2c2d2815-165e-2ef9-60d6-3ace7ff3aaa5@deltatee.com>
+In-Reply-To: <20201106180922.GV36674@ziepe.ca>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 24.64.145.4
+X-SA-Exim-Rcpt-To: daniel.vetter@ffwll.ch, willy@infradead.org,
+ ddutile@redhat.com, jhubbard@nvidia.com, iweiny@intel.com,
+ christian.koenig@amd.com, dan.j.williams@intel.com, hch@lst.de,
+ sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, jgg@ziepe.ca
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [RFC PATCH 14/15] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201106_130925_663770_A7602BED 
-X-CRM114-Status: GOOD (  23.05  )
+X-CRM114-CacheID: sfid-20201106_132018_810309_6542ABF1 
+X-CRM114-Status: GOOD (  17.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,7 +97,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
@@ -116,70 +110,41 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 06, 2020 at 10:53:45AM -0700, Logan Gunthorpe wrote:
+
+
+On 2020-11-06 11:09 a.m., Jason Gunthorpe wrote:
+>> Ah, hmm, yes. I guess the pages have to be hooked and returned to the
+>> genalloc through free_devmap_managed_page(). 
 > 
+> That sounds about right, but in this case it doesn't need the VMA
+> operations.
 > 
-> On 2020-11-06 10:42 a.m., Jason Gunthorpe wrote:
-> > On Fri, Nov 06, 2020 at 10:28:00AM -0700, Logan Gunthorpe wrote:
-> >>
-> >>
-> >> On 2020-11-06 10:22 a.m., Jason Gunthorpe wrote:
-> >>> On Fri, Nov 06, 2020 at 10:00:35AM -0700, Logan Gunthorpe wrote:
-> >>>> Introduce pci_mmap_p2pmem() which is a helper to allocate and mmap
-> >>>> a hunk of p2pmem into userspace.
-> >>>>
-> >>>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-> >>>>  drivers/pci/p2pdma.c       | 104 +++++++++++++++++++++++++++++++++++++
-> >>>>  include/linux/pci-p2pdma.h |   6 +++
-> >>>>  2 files changed, 110 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> >>>> index 9961e779f430..8eab53ac59ae 100644
-> >>>> +++ b/drivers/pci/p2pdma.c
-> >>>> @@ -16,6 +16,7 @@
-> >>>>  #include <linux/genalloc.h>
-> >>>>  #include <linux/memremap.h>
-> >>>>  #include <linux/percpu-refcount.h>
-> >>>> +#include <linux/pfn_t.h>
-> >>>>  #include <linux/random.h>
-> >>>>  #include <linux/seq_buf.h>
-> >>>>  #include <linux/xarray.h>
-> >>>> @@ -1055,3 +1056,106 @@ ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-> >>>>  	return sprintf(page, "%s\n", pci_name(p2p_dev));
-> >>>>  }
-> >>>>  EXPORT_SYMBOL_GPL(pci_p2pdma_enable_show);
-> >>>> +
-> >>>> +struct pci_p2pdma_map {
-> >>>> +	struct kref ref;
-> >>>> +	struct pci_dev *pdev;
-> >>>> +	void *kaddr;
-> >>>> +	size_t len;
-> >>>> +};
-> >>>
-> >>> Why have this at all? Nothing uses it and no vm_operations ops are
-> >>> implemented?
-> >>
-> >> It's necessary to free the allocated p2pmem when the mapping is torn down.
-> > 
-> > That's suspicious.. Once in a VMA the lifetime of the page must be
-> > controlled by the page refcount, it can't be put back into the genpool
-> > just because the vma was destroed.
+>> Seems like it might be doable... but it will complicate things for
+>> users that don't want to use the genpool (though no such users exist
+>> upstream).
 > 
-> Ah, hmm, yes. I guess the pages have to be hooked and returned to the
-> genalloc through free_devmap_managed_page(). 
+> I would like to use this stuff in RDMA pretty much immediately and the
+> genpool is harmful for those cases, so please don't make decisions
+> that are tying thing to genpool
 
-That sounds about right, but in this case it doesn't need the VMA
-operations.
+I certainly can't make decisions for code that isn't currently upstream.
+So you will almost certainly have to make changes for the code you want
+to add, as is the standard procedure. I can't and should not export APIs
+that you might need that have no upstream users, but you are certainly
+free to send patches that create them when you add the use case.
 
-> Seems like it might be doable... but it will complicate things for
-> users that don't want to use the genpool (though no such users exist
-> upstream).
+Ultimately, if you aren't using the genpool you will have to implement
+your own mmap operation that somehow allocates the pages and your own
+page_free hook. The latter can be accommodated for by a patch that
+splits off pci_p2pdma_add_resource() into a function that doesn't use
+the genpool (I've already seen two independent developers create a
+similar patch for this but with no upstream user, they couldn't be taken
+upstream).
 
-I would like to use this stuff in RDMA pretty much immediately and the
-genpool is harmful for those cases, so please don't make decisions
-that are tying thing to genpool
+I also don't expect this to be going upstream in the near term so don't
+get too excited about using it.
 
-Jason
+Logan
 
 _______________________________________________
 Linux-nvme mailing list
