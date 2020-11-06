@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10139C6369E
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44E86C56202
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 951FA208C7
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CC5B920882
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Nov 2020 19:04:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QNKHqf1Q";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U1It/9Vb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 951FA208C7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hFxiZqIq";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hl460dmz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC5B920882
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Uz5PDZra8SN0tBQnBOmLXA31SF32xY7kc5X1NedWmQg=; b=QNKHqf1QdwAESPAMj2N9I0xSw
-	WDNyvUZdpQ1l909yxOgcu+9ULiTYoZ/LoIzcrZRJUgCMrAHYkLTZ7eiJtSJVWOKGqkKN06IEWHt7H
-	qHMUoScVymQpxMpNOaMnCKLba8Fdhd6DImKiXX1moYTGeestt2099hiqqTUJYmGfsI2ncREtDjnpt
-	8dLi6iG14HsoR98lxI8DzFE6wv5NESDid5v5ljXI+ddD/Ay0J+V1p13HdNIiUH12dsDbBsq630b/T
-	PkVhoSKNWXwGUv3CkGhLNVlYaXhv8R7UKp5OCkxhOHTl78S6kOeE0YLqr5HiJxwTG1Z4Ao/TqFo8g
-	cHUHNtuqg==;
+	 bh=UdvHLIq03x5cWWgb9ogp6ym30/NduT3ZZeh6Q2rjDwA=; b=hFxiZqIqG25BT8M2/kMwBsYgZ
+	iCXU2uOQJpC5IIAPNOm1V0e6PRw6LghRFW4/2dbuuW4bzy4aEfw5rK0zrK0Cimoap+IfEpBR/cNFw
+	MDncsPSSqC/ZVmhI1fiTZk70rFnjrqIKM30mV1EMwLLmi3NnZ/0eKxA0nknV8Qj/cVuj9/SZv9boY
+	nYejZhFOgRnXcoSPLtqj3f8Va8ytc5s2bBxXd3+gw3aFrP0zcOOF5jTSXeh105jujBSbvP+huEtLT
+	GjohEpA+B4qkJFlFWcXpPxfJhnR+S2QarOj74cy+IWZ7xICKtFL7C3JNoNpT7K5eIx2x6EndVvL3b
+	VHkT0D9Jg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb71t-00017m-Qw; Fri, 06 Nov 2020 19:04:09 +0000
+	id 1kb71x-00019s-JS; Fri, 06 Nov 2020 19:04:13 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb71n-00014C-5S
- for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:04:03 +0000
+ id 1kb71p-00015F-7g
+ for linux-nvme@merlin.infradead.org; Fri, 06 Nov 2020 19:04:05 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=S6R/LHkwABMFjsoJfGZBhUHQ6k4Dx5wFWz0jliJ5rD4=; b=U1It/9VbhOthOZFs+YaVYw6zCF
- hNCoh8Q0VrrRw+fcw+giRCsYx4IzyJqpYjQUkT9hnCEW7vlBjyfGp4xQIQZdpzcZqGIczsa9Rbzeq
- csXqFZUcF409NVlMSBJ6emZObaktQ+PW12dNKE6Wt3cwNbOS6p1R+LMqGZ6N5QYbqrmyAk58AFU7i
- vOL8ZxppeFPE2SWuIK6cM1/GCx9SodNxTSAOH8MIGdsdIVTf6kNR7ak6SkuuXu0m07Pf4gSvqNRxz
- GZKRdWmd7ZGqToecIIzl+SJ6plPlZPGQgVa0wCWrE9dOJ0tigJgjfSwvF9I0uonfZF33Uc7mHc/4w
- bMzYnQig==;
+ bh=q/L6cOxJboQ8fMYOH5utFw/if9lMf4COUZKaNb2WGbs=; b=hl460dmzXJBKetE4r6CW7QvNJo
+ VkffKRrqjhZF93Vt40enWih+9p+y26GcE/rniPHlvod8GrvgAvfGMGb1Nkm00p5n0DU486jzQ6Yux
+ IU7t+sAbqTU8v2t3O7XOblCXjYv+o1HhmiSWaknEofRCQovdBTK06sKpfdmqamVGneGuASJLtpt7t
+ 2emcPi9cCQ4RXRtcj9eyJpB1gz7JniFo7+170kul2s3VDF3RGNWYQRKeUcCru+xXzC1LXBbryYfhk
+ lmt03zbadiUs7kmNfdmnrLCOSYvR4g2mEUOusgnP2pCpH5V4pgsMtfalc6Vmbmq1SGaCwF9K7sSnG
+ IQDZ+ZYQ==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb71l-0000vc-9Z; Fri, 06 Nov 2020 19:04:02 +0000
+ id 1kb71m-0000vs-VH; Fri, 06 Nov 2020 19:04:03 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 07/24] nbd: remove the call to set_blocksize
-Date: Fri,  6 Nov 2020 20:03:19 +0100
-Message-Id: <20201106190337.1973127-8-hch@lst.de>
+Subject: [PATCH 08/24] nbd: move the task_recv check into nbd_size_update
+Date: Fri,  6 Nov 2020 20:03:20 +0100
+Message-Id: <20201106190337.1973127-9-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
 References: <20201106190337.1973127-1-hch@lst.de>
@@ -93,59 +93,51 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Block driver have no business setting the file system concept of a
-block size.
+nbd_size_update is about to acquire a few more callers, so lift the check
+into the function.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/nbd.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/block/nbd.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-index c4f9ccf5cc2ac5..f618688a196654 100644
+index f618688a196654..58b7090dcbd832 100644
 --- a/drivers/block/nbd.c
 +++ b/drivers/block/nbd.c
-@@ -296,7 +296,7 @@ static void nbd_size_clear(struct nbd_device *nbd)
- 	}
- }
- 
--static void nbd_size_update(struct nbd_device *nbd, bool start)
-+static void nbd_size_update(struct nbd_device *nbd)
+@@ -299,8 +299,11 @@ static void nbd_size_clear(struct nbd_device *nbd)
+ static void nbd_size_update(struct nbd_device *nbd)
  {
  	struct nbd_config *config = nbd->config;
- 	struct block_device *bdev = bdget_disk(nbd->disk, 0);
-@@ -311,11 +311,9 @@ static void nbd_size_update(struct nbd_device *nbd, bool start)
- 	blk_queue_physical_block_size(nbd->disk->queue, config->blksize);
- 	set_capacity(nbd->disk, nr_sectors);
- 	if (bdev) {
--		if (bdev->bd_disk) {
-+		if (bdev->bd_disk)
- 			bd_set_nr_sectors(bdev, nr_sectors);
--			if (start)
--				set_blocksize(bdev, config->blksize);
--		} else
-+		else
- 			set_bit(GD_NEED_PART_SCAN, &nbd->disk->state);
- 		bdput(bdev);
+-	struct block_device *bdev = bdget_disk(nbd->disk, 0);
+ 	sector_t nr_sectors = config->bytesize >> 9;
++	struct block_device *bdev;
++
++	if (!nbd->task_recv)
++		return;
+ 
+ 	if (config->flags & NBD_FLAG_SEND_TRIM) {
+ 		nbd->disk->queue->limits.discard_granularity = config->blksize;
+@@ -309,7 +312,9 @@ static void nbd_size_update(struct nbd_device *nbd)
  	}
-@@ -329,7 +327,7 @@ static void nbd_size_set(struct nbd_device *nbd, loff_t blocksize,
+ 	blk_queue_logical_block_size(nbd->disk->queue, config->blksize);
+ 	blk_queue_physical_block_size(nbd->disk->queue, config->blksize);
++
+ 	set_capacity(nbd->disk, nr_sectors);
++	bdev = bdget_disk(nbd->disk, 0);
+ 	if (bdev) {
+ 		if (bdev->bd_disk)
+ 			bd_set_nr_sectors(bdev, nr_sectors);
+@@ -326,8 +331,7 @@ static void nbd_size_set(struct nbd_device *nbd, loff_t blocksize,
+ 	struct nbd_config *config = nbd->config;
  	config->blksize = blocksize;
  	config->bytesize = blocksize * nr_blocks;
- 	if (nbd->task_recv != NULL)
--		nbd_size_update(nbd, false);
-+		nbd_size_update(nbd);
+-	if (nbd->task_recv != NULL)
+-		nbd_size_update(nbd);
++	nbd_size_update(nbd);
  }
  
  static void nbd_complete_rq(struct request *req)
-@@ -1309,7 +1307,7 @@ static int nbd_start_device(struct nbd_device *nbd)
- 		args->index = i;
- 		queue_work(nbd->recv_workq, &args->work);
- 	}
--	nbd_size_update(nbd, true);
-+	nbd_size_update(nbd);
- 	return error;
- }
- 
 -- 
 2.28.0
 
