@@ -7,73 +7,71 @@ X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F31B2C388F9
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2020 09:44:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30007C388F9
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2020 13:59:23 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 71AB3206E3
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2020 09:44:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 81234206E3
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2020 13:59:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ue2vG0xT";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuANvQfl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71AB3206E3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1P2RxP1/";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sttzqSuL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81234206E3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	To:Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hQadXAs2s9ZxM/zpMsQ0fbSMrF6PcCYUYC02MQrUI7s=; b=Ue2vG0xTXrvL34wTPcK8Fc9HX
-	ssp2cTnOLLRqaBrseYNSoZSIiJrNkikYFgoB2fiFNNOhidNULYY1shrsn74dw6GAJyoRaWu8XvcDh
-	CXN0bC4IXPidMLfXWHhSv5wY4Ta8yVH1R/2WgDsF3FXpPEpjWHRZibwYoidg+0/0nMJRgBLCU5yQC
-	jXooyNpq2lvIJwPJbokhnTxHWpESzS8h7bXSG06lrFKyrdWU+3i/9A2TznOagETdGSmD/4iLdW48z
-	IJ4FLP4VH2Ynjg9Cp3qBSTHqSr8TGWj0L2cZnGO4jybcA7x75DuDf4C2+CzpFL6biWdcnPsG3dCKw
-	1zDOd0u+Q==;
+	 bh=GEPlfaswy4M42JWJA03EwuQ7Oot0gt5VtahiA6xHOvM=; b=1P2RxP1/ERzMc2yTlwenJKI5K
+	vfk3lA0FfMt6Ah6YSiKF5Y4sRItame9cTShh2G/iPHV6N0O4bsgnsnIuk2bK452KiEdSbKdujjwPw
+	GpOjI9b1b3uzLqZmdbNC6m7jXOijKaj+b0VCf0NR6aHC0iyNqCGjC5XM3qKb6CLJi3flVbTNTn23p
+	yRfHVe9E6MbPzK3kLER++9ZSl9k9Huqnt26gOcU71jkw+xTczMzX9R3OX2U99XohoSoQPpupikDGu
+	UoTZQqC+LBVAS9Qe734vzZe7FvYby21btn/pmknITqiCl//4UJ3hzCqE385CgZX+IExQq5v9OZf8z
+	YBVSPocTw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kbhF6-0004GR-VI; Sun, 08 Nov 2020 09:44:13 +0000
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643])
+	id 1kblDr-0008SK-KB; Sun, 08 Nov 2020 13:59:11 +0000
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kbhF3-0004G1-WE
- for linux-nvme@lists.infradead.org; Sun, 08 Nov 2020 09:44:10 +0000
-Received: by mail-ej1-x643.google.com with SMTP id oq3so8004175ejb.7
- for <linux-nvme@lists.infradead.org>; Sun, 08 Nov 2020 01:44:09 -0800 (PST)
+ id 1kblDn-0008Rx-J1
+ for linux-nvme@lists.infradead.org; Sun, 08 Nov 2020 13:59:08 +0000
+Received: by mail-ed1-x541.google.com with SMTP id b9so5947179edu.10
+ for <linux-nvme@lists.infradead.org>; Sun, 08 Nov 2020 05:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=NqzS9U+QS3IP0V0izaLcyeyzRCwvQwZCD+ve+WO/lPo=;
- b=fuANvQfljCYaTnot/4xUrVG3z1cKdJ5KKWyE66/A4/63QkW653/Quws5G5JPUky1hE
- lN65vGWKrTuK11lOjwH7oXXuMaE78NWG/McS6tWv6FTfknZMJAmkawx32Q+1wI1xcDRZ
- gDuzVQXfL1P8PDhcbGV1eDDwrPoxm7Ytfb6LA9rQh4oIeLjYz5oXP9MNEQubjqKFE9L/
- jHi61tHXLvHIpggoK270tqyKgHN0xV6mo+mOwR+PWdL+UKZS1x6KS3IlN3YuCByn4sux
- zV4JZn1G419TSrqfKEUL2trPl1hY4etz2xCr4QF2i69AgETIx0d9kmgLeoLr/8fu8w2I
- C9gQ==
+ bh=FQnmNPDubMBv3HYHLbOC10CgBLSVUI3pQ2wqAzGb2Ew=;
+ b=sttzqSuLPnrmagzPMxuxIBnQMX8d3xfKtfVJvz+GT8+uJPLvrAkwnvh4ugE7qYSoh6
+ etzHCCm0qeY8wmRUAN+0UhE+BE5znMVguVmMGU+nFc8M71Ny12RvvsFn8Kafn4oPic5/
+ 6hZppZgp2tZOrI+mCmxN6GXpH/HrJLDmR6oOeLYDrWGV3EgkK13TYp/NMiwjgHx9jwKp
+ Pr7+53NSKrLXjbB5IzOx1Psa7EggSzuyCpW7ittRHDKyDY8prrhZGdyiISSvsGAj7rBG
+ Vf5fD65M/geyWduUOhAPoV92HFGJ+aEfOTf65WIl+qAAf+VbvrOfkE7YctK55soCzhbN
+ zLXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=NqzS9U+QS3IP0V0izaLcyeyzRCwvQwZCD+ve+WO/lPo=;
- b=fmBAYaJuDzTUTY9aWARiAmxCLq1EmNiYnk39ju3JtS971CPiJQSJcJnMrUP4pY8/Zy
- McJ2oGYSHc+3MPxsrN1gKZZ9V4reG36KpZ8zMkLT8i9ZBB6ZUs0qO8E9/eCaogPNCHxU
- l6tTD3nP2faSKeq4wp7VJc4lgtem5hfpgJlmjg674KIT+MbW6U+3wgryasdq0xc756zu
- NWGKSbvKzqcPp/hWygLtQP9stHGdSxBdtlkCRkpd/3WTXVnGrGZLxVgIVNItSXi3ox0G
- NMHTeobZ4AUHV8738U2+Mz3sLYPtUEfVdsM+NMbNX+DfQDN7E6ET9j+bnZidCxxeY16x
- Rh/Q==
-X-Gm-Message-State: AOAM530HOOfiz8FahYUjHHLxDHt1lo+MOYBPn2AhGuyVejpF3skhL7nN
- shMjBoG78GdzwVXM8g9LVpU=
-X-Google-Smtp-Source: ABdhPJyibw5wtNj0Zwr9hH+v06TvP7u+Tyg8yIDZOsxh8GHanFBVO0mxdO4JhSfZNzfLXCMYMpfFZA==
-X-Received: by 2002:a17:906:4104:: with SMTP id
- j4mr10399207ejk.439.1604828648586; 
- Sun, 08 Nov 2020 01:44:08 -0800 (PST)
-Received: from [192.168.1.11] ([213.57.108.142])
- by smtp.gmail.com with ESMTPSA id us11sm5617067ejb.91.2020.11.08.01.44.05
+ bh=FQnmNPDubMBv3HYHLbOC10CgBLSVUI3pQ2wqAzGb2Ew=;
+ b=ob3/LKQAu3SM9cOxEa9IqZ7gxAp6A9IXBnvMJ0nxPJJuyt0bUDqhIygYWPy63Vq1Xd
+ RwSrjVXjfcX5TA06rG8ehShaeEtKbYnGquVmLAQzHZI6oVsBY1n58N+hnSdsTXUy7D39
+ 6QL+VOXwQ3NwqVPzZMGYs6RRzbXFd0DIHqBNmIknFiIR6o6Lc19aBBtSqtU3Vy5q4CTW
+ vyb7badB2qWFq1GO6uiUyPIkzHH1hZT5zYUCMF/Pf//bz2YycLXaCg4HQfHdR9YfHXi+
+ F32UBt0yHKsKDOw47uOkQrfDedqVCjVXyIuwhfLyctpuvpNPWv5peIjW0HqdI1nMCZ+Q
+ 75GQ==
+X-Gm-Message-State: AOAM532PQyGGWqDj8YR9D9kZGrd41di1tveJWTIyxBfJj8x6u11uECPd
+ eu766uoLO6Nj5gLo8HhMlOM=
+X-Google-Smtp-Source: ABdhPJz1sUCthpNfMXgX4a/E4Z1JjGrvjHMjXnLmg+P+qGYLK7QPagBQjjdjUH+XVvuJ/Jzld3GIiQ==
+X-Received: by 2002:a50:99cd:: with SMTP id n13mr11031795edb.10.1604843946073; 
+ Sun, 08 Nov 2020 05:59:06 -0800 (PST)
+Received: from [132.68.43.131] ([132.68.43.131])
+ by smtp.gmail.com with ESMTPSA id s21sm6127093edc.42.2020.11.08.05.59.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Nov 2020 01:44:07 -0800 (PST)
-From: Boris Pismenny <borispismenny@gmail.com>
+ Sun, 08 Nov 2020 05:59:05 -0800 (PST)
 Subject: Re: [PATCH net-next RFC v1 06/10] nvme-tcp: Add DDP data-path
 To: Sagi Grimberg <sagi@grimberg.me>, Boris Pismenny <borisp@mellanox.com>,
  kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
@@ -81,16 +79,18 @@ To: Sagi Grimberg <sagi@grimberg.me>, Boris Pismenny <borisp@mellanox.com>,
 References: <20200930162010.21610-1-borisp@mellanox.com>
  <20200930162010.21610-7-borisp@mellanox.com>
  <5a23d221-fd3e-5802-ce68-7edec55068bb@grimberg.me>
-Message-ID: <12692704-126a-4242-f0a9-f00db6071e40@gmail.com>
-Date: Sun, 8 Nov 2020 11:44:03 +0200
+ <24ea956e-40a2-8b7b-cf8a-b604e7cd5644@grimberg.me>
+From: Boris Pismenny <borispismenny@gmail.com>
+Message-ID: <6551237d-104d-1e3f-00a7-a3b479786344@gmail.com>
+Date: Sun, 8 Nov 2020 15:59:01 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <5a23d221-fd3e-5802-ce68-7edec55068bb@grimberg.me>
+In-Reply-To: <24ea956e-40a2-8b7b-cf8a-b604e7cd5644@grimberg.me>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201108_044410_197396_A163DD00 
-X-CRM114-Status: GOOD (  11.73  )
+X-CRM114-CacheID: sfid-20201108_085907_713227_18EA47EB 
+X-CRM114-Status: GOOD (  16.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,39 +105,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Cc: Yoray Zack <yorayz@mellanox.com>, Ben Ben-Ishay <benishay@mellanox.com>,
  boris.pismenny@gmail.com, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, Or Gerlitz <ogerlitz@mellanox.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 09/10/2020 1:29, Sagi Grimberg wrote:
->
->>   static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->> @@ -1115,6 +1222,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
->>   	bool inline_data = nvme_tcp_has_inline_data(req);
->>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
->>   	int len = sizeof(*pdu) + hdgst - req->offset;
->> +	struct request *rq = blk_mq_rq_from_pdu(req);
->>   	int flags = MSG_DONTWAIT;
->>   	int ret;
->>   
->> @@ -1123,6 +1231,10 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
->>   	else
->>   		flags |= MSG_EOR;
->>   
->> +	if (test_bit(NVME_TCP_Q_OFFLOADS, &queue->flags) &&
->> +	    blk_rq_nr_phys_segments(rq) && rq_data_dir(rq) == READ)
->> +		nvme_tcp_setup_ddp(queue, pdu->cmd.common.command_id, rq);
-> I'd assume that this is something we want to setup in
-> nvme_tcp_setup_cmd_pdu. Why do it here?
-Our goal in placing it here is to keep both setup and teardown in the same thread.
-This enables drivers to avoid locking for per-queue operations.
-
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiAwOS8xMC8yMDIwIDI6MDAsIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4+PiDCoCBzdGF0aWMK
+Pj4+IMKgIGludCBudm1lX3RjcF9vZmZsb2FkX3NvY2tldChzdHJ1Y3QgbnZtZV90Y3BfcXVldWUg
+KnF1ZXVlLAo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgbnZt
+ZV90Y3BfY29uZmlnICpjb25maWcpCj4+PiBAQCAtNjMwLDYgKzcyMCw3IEBAIHN0YXRpYyB2b2lk
+IG52bWVfdGNwX2Vycm9yX3JlY292ZXJ5KHN0cnVjdCAKPj4+IG52bWVfY3RybCAqY3RybCkKPj4+
+IMKgIHN0YXRpYyBpbnQgbnZtZV90Y3BfcHJvY2Vzc19udm1lX2NxZShzdHJ1Y3QgbnZtZV90Y3Bf
+cXVldWUgKnF1ZXVlLAo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBudm1lX2NvbXBsZXRp
+b24gKmNxZSkKPj4+IMKgIHsKPj4+ICvCoMKgwqAgc3RydWN0IG52bWVfdGNwX3JlcXVlc3QgKnJl
+cTsKPj4+IMKgwqDCoMKgwqAgc3RydWN0IHJlcXVlc3QgKnJxOwo+Pj4gwqDCoMKgwqDCoCBycSA9
+IGJsa19tcV90YWdfdG9fcnEobnZtZV90Y3BfdGFnc2V0KHF1ZXVlKSwgY3FlLT5jb21tYW5kX2lk
+KTsKPj4+IEBAIC02NDEsOCArNzMyLDE1IEBAIHN0YXRpYyBpbnQgbnZtZV90Y3BfcHJvY2Vzc19u
+dm1lX2NxZShzdHJ1Y3QgCj4+PiBudm1lX3RjcF9xdWV1ZSAqcXVldWUsCj4+PiDCoMKgwqDCoMKg
+wqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7Cj4+PiDCoMKgwqDCoMKgIH0KPj4+IC3CoMKgwqAgaWYg
+KCFudm1lX3RyeV9jb21wbGV0ZV9yZXEocnEsIGNxZS0+c3RhdHVzLCBjcWUtPnJlc3VsdCkpCj4+
+PiAtwqDCoMKgwqDCoMKgwqAgbnZtZV9jb21wbGV0ZV9ycShycSk7Cj4+PiArwqDCoMKgIHJlcSA9
+IGJsa19tcV9ycV90b19wZHUocnEpOwo+Pj4gK8KgwqDCoCBpZiAocmVxLT5vZmZsb2FkZWQpIHsK
+Pj4+ICvCoMKgwqDCoMKgwqDCoCByZXEtPnN0YXR1cyA9IGNxZS0+c3RhdHVzOwo+Pj4gK8KgwqDC
+oMKgwqDCoMKgIHJlcS0+cmVzdWx0ID0gY3FlLT5yZXN1bHQ7Cj4+PiArwqDCoMKgwqDCoMKgwqAg
+bnZtZV90Y3BfdGVhcmRvd25fZGRwKHF1ZXVlLCBjcWUtPmNvbW1hbmRfaWQsIHJxKTsKPj4+ICvC
+oMKgwqAgfSBlbHNlIHsKPj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAoIW52bWVfdHJ5X2NvbXBsZXRl
+X3JlcShycSwgY3FlLT5zdGF0dXMsIGNxZS0+cmVzdWx0KSkKPj4+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIG52bWVfY29tcGxldGVfcnEocnEpOwo+Pj4gK8KgwqDCoCB9Cj4gT2ggZm9yZ290IHRv
+IGFzaywKPgo+IFdlIGhhdmUgcGxhY2VzIGluIHRoZSBkcml2ZXIgdGhhdCB3ZSBtYXkgY29tcGxl
+dGUgKGNhbmNlbCkgb25lCj4gb3IgbW9yZSByZXF1ZXN0cyBmcm9tIHRoZSBlcnJvciByZWNvdmVy
+eSBvciB0aW1lb3V0IGZsb3cuIFdlCj4gZmlyc3QgcHJldmVudCBmdXR1cmUgaW5jb21pbmcgUlgg
+b24gdGhlIHNvY2tldCBzdWNoIHRoYXQgd2UKPiBjYW4gc2FmZWx5IGNhbmNlbCByZXF1ZXN0cy4g
+VGhpcyBtYXkgYnJlYWsgd2l0aCB0aGUgZGVmZXJyZWQKPiBjb21wbGV0aW9uIGluIGRkcF90ZWFy
+ZG93bl9kb25lLgo+Cj4gSWYgSSBoYXZlIGEgcmVxdWVzdCB0aGF0IGlzIHdhaXRpbmcgZm9yIGRk
+cF90ZWFyZG93bl9kb25lIGRvCj4gSSBoYXZlIGEgd2F5IHRvIHRlbGwgdGhlIEhXIHRvIG5ldmVy
+IGNhbGwgZGRwX3RlYXJkb3duX2RvbmUKPiBvbiBhIHNwZWNpZmljIHNvY2tldD8KPgo+IElmIHNv
+IHRoZSBwbGFjZSB0byBpcyBpbiBudm1lX3RjcF9zdG9wX3F1ZXVlLgpJbnRlcmVzdGluZyBhbmQg
+aW5kZWVkLCBpdCBpcyBhIHByb2JsZW0gdGhhdCB3ZSBoYXZlbid0IGNvbnNpZGVyZWQuCgoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBt
+YWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5p
+bmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
