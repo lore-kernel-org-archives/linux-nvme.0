@@ -1,95 +1,78 @@
-Return-Path: <SRS0=JRV9=EN=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=Cbe1=EO=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96A17C2D0A3
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Nov 2020 02:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14410C388F2
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2020 04:09:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CAF5D20728
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Nov 2020 02:51:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 16B4420760
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Nov 2020 04:09:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JTZYz666";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="ExYwdc+D"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAF5D20728
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sJgcKhgf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16B4420760
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:To:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6S1zmBVk082E/0grgXve9eCNv3lTgYP1e2znQ6ZxFOI=; b=JTZYz666jrMM1N67x92jMrhjC
-	YyLk5JOo+bt61+NcPjsBIyQbxmSQCZWs+OiZ0L6VHpb13kXP3HEURFVN1vG2sb7lLIP6vZITHE8ct
-	sVzXqhdP4ggMx4nXK3mqfh6vDUCqMy1kW/sG2oUxaQOu7qXhjohEnM5ZQPBarInB9fOt6oDsj5kuo
-	WerS0DokLNrHOks8RrhfsGzBKyjnVwJVIqYafe3qxbr0AAIn4IDmGTItx8LnkIjhGZgn+cGocqQjY
-	D+kgO1KPHgsrWV8DUkNPyeJC6evsg8N/UH73EAZOhEu4fzNK246JjD0rsFJDnlQm7zh1Sb8nQkgyv
-	8MqnC9RnQ==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OtDnXqq8wqCO/kgb67LTqeEBZ0xkuVLIt/+BjuFP3OE=; b=sJgcKhgfWZQOJSdVjgtrgZ0H4G
+	MW8lX53OqZHLDMpYm38WdGyPoMzSsBWM7gvX/A77xUsyJCYHQykFltbZzo8CRLpub8EyNhIZE4xYD
+	/tVN6X+S7FLIgxJQhRr/WIAtkwzp/r38kkTsAf7PnLvRC4DpW7WcXye6mrnYxFK2q47yitK5Ae5sr
+	G7xk9mXjNImelUjgkmIaboqck44cjR87Q/bDUgk/xI0idli9YpB7yxttrzAkZ7hGY3yrXYYXU6nmj
+	0FFVM9GTxnvwtgscQ6+gYGycAqr3sJoEsNwlJF3T7FDcEM+J2wesxIVbjA9cW+4QEuTQXYE4eCzwG
+	F+g3+bjw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kbEJZ-0004qp-97; Sat, 07 Nov 2020 02:50:53 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1kbc15-0007bK-My; Sun, 08 Nov 2020 04:09:23 +0000
+Received: from mail-pj1-f66.google.com ([209.85.216.66])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kbEJU-0004qF-M0
- for linux-nvme@lists.infradead.org; Sat, 07 Nov 2020 02:50:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=60km6xH0HSvahM5c30+DJ4g8BodPX7+0LmwNaM0K8BI=; b=ExYwdc+DkS+fkDeydObiKNmENV
- tHOCg7o9tz01AsRah8P/Sr/9fh7XNjnnO8jUpwDGiiOtI4fzZuc6CUz0kowPjTXWC6ng/SIFsgqYN
- EJHOk3xQTOWZhterUYWYUuqnSOJrTgIRuwbsS0EX7HcK+HPf6oJYHWV5Bct4py7lGeNLo3+V3BDQD
- y5yp6ooOKpOsyzsFqaAIcs+xYoIbgqvVKxiXPkS/46cCAeQ19J2mBvZiqs9XbCzRkYaVcg210o8Hy
- kosgowf22Fkc7d716zpVdUVQa11HzeqnKB3bS3yoy0lNdGfuHQmF/UGjLKyQSo4URkuNgC0n1iHYd
- T4gVkX0w==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1kbEJI-00029J-SL; Fri, 06 Nov 2020 19:50:37 -0700
-To: Jason Gunthorpe <jgg@ziepe.ca>
-References: <20201106172206.GS36674@ziepe.ca>
- <b1e8dfce-d583-bed8-d04d-b7265a54c99f@deltatee.com>
- <20201106174223.GU36674@ziepe.ca>
- <2c2d2815-165e-2ef9-60d6-3ace7ff3aaa5@deltatee.com>
- <20201106180922.GV36674@ziepe.ca>
- <09885400-36f8-bc1d-27f0-a8adcf6104d4@deltatee.com>
- <20201106193024.GW36674@ziepe.ca>
- <03032637-0826-da76-aec2-121902b1c166@deltatee.com>
- <20201106195341.GA244516@ziepe.ca>
- <e6a99d54-b33a-0df1-ee33-4aa7a70124a6@deltatee.com>
- <20201107001457.GB244516@ziepe.ca>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <6f202b79-fa90-7cda-9ac9-457aa451530f@deltatee.com>
-Date: Fri, 6 Nov 2020 19:50:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ id 1kbc0y-0007az-E0
+ for linux-nvme@lists.infradead.org; Sun, 08 Nov 2020 04:09:17 +0000
+Received: by mail-pj1-f66.google.com with SMTP id g21so1462177pjv.2
+ for <linux-nvme@lists.infradead.org>; Sat, 07 Nov 2020 20:09:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vtp5qFRkelkGhy9msyygUckdeGUq32kdu+r5OWj8piU=;
+ b=j3HgVbzv5+N4VDl0MgROKfWWlt7CyKbmlij4RsEK5qxQuW7e3bjuUqfEdkRHgj9i3Z
+ C9CxgVycJ2qEti123OUfwGKUiv1KTwV+4POMAAs+3i3IuDKcrz9a8GozOf4OqCLEimOC
+ V64UxkAGug/AdwzN5E/BntGyLHzvlioV5iuZJfPa/MW4y91IJYEEMfbIv+tNZxD++AFG
+ zGRNtWPS6KvNV1+FQGYBd5C3cxfWg0BXA3EDHKGJ3Ab9tga9l1NMtOkaytx/kS2z9PrS
+ 71tEgs510/Wd70IJG8kp2+rjt8FH78y+1sOmxoFi3MLvfvyBGDjvCxsk5F3I3sWxkbVz
+ GtWg==
+X-Gm-Message-State: AOAM532GBPo/fflCdwtTU/nCBUIx1PoYhXWRixiumnzD7PXM0gYT4FlR
+ /AyGyo7avTU5owwHtl8e4VY=
+X-Google-Smtp-Source: ABdhPJyt4y47PETluu2ZPde2Ty1F6KtVbJbq3Q7VjFM2A8ufAJjP+Bmi111BO2YsbAnUXLKqSyDKJA==
+X-Received: by 2002:a17:902:8b8c:b029:d6:df70:fa21 with SMTP id
+ ay12-20020a1709028b8cb02900d6df70fa21mr7825001plb.15.1604808552635; 
+ Sat, 07 Nov 2020 20:09:12 -0800 (PST)
+Received: from asus.hsd1.ca.comcast.net (c-73-241-217-19.hsd1.ca.comcast.net.
+ [73.241.217.19])
+ by smtp.gmail.com with ESMTPSA id 7sm3070890pjt.54.2020.11.07.20.09.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Nov 2020 20:09:11 -0800 (PST)
+From: Bart Van Assche <bvanassche@acm.org>
+To: Keith Busch <keith.busch@intel.com>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCH] nvme: Boot as soon as the boot controller has been probed
+Date: Sat,  7 Nov 2020 20:09:03 -0800
+Message-Id: <20201108040903.8185-1-bvanassche@acm.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201107001457.GB244516@ziepe.ca>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: daniel.vetter@ffwll.ch, willy@infradead.org,
- ddutile@redhat.com, jhubbard@nvidia.com, iweiny@intel.com,
- christian.koenig@amd.com, dan.j.williams@intel.com, hch@lst.de,
- sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, jgg@ziepe.ca
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH 14/15] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201106_215048_733043_9DCF6501 
-X-CRM114-Status: GOOD (  16.60  )
+X-CRM114-CacheID: sfid-20201107_230916_490460_FC9AE102 
+X-CRM114-Status: GOOD (  19.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,47 +84,96 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, John Hubbard <jhubbard@nvidia.com>,
- Dan Williams <dan.j.williams@intel.com>, Christoph Hellwig <hch@lst.de>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Bart Van Assche <bvanassche@acm.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The following two issues have been introduced by commit 1811977568e0
+("nvme/pci: Use async_schedule for initial reset work"):
+- The boot process waits until all NVMe controllers have been probed
+  instead of only waiting until the boot controller has been probed.
+  This slows down the boot process.
+- Some of the controller probing work happens asynchronously without
+  the device core being aware of this.
 
+Hence this patch that makes all probing work happen from nvme_probe()
+and that tells the device core to probe multiple NVMe controllers
+concurrently by setting PROBE_PREFER_ASYNCHRONOUS.
 
-On 2020-11-06 5:14 p.m., Jason Gunthorpe wrote:
-> On Fri, Nov 06, 2020 at 01:03:26PM -0700, Logan Gunthorpe wrote:
->> I don't think a function like that will work for the p2pmem use case. In
->> order to implement proper page freeing I expect I'll need a loop around
->> the allocator and vm_insert_mixed()... Something roughly like:
->>
->> for (addr = vma->vm_start; addr < vma->vm_end; addr += PAGE_SIZE) {
->>         vaddr = pci_alloc_p2pmem(pdev, PAGE_SIZE);
->> 	ret = vmf_insert_mixed(vma, addr,
->>   		       __pfn_to_pfn_t(virt_to_pfn(vaddr), PFN_DEV | PFN_MAP));
->> }
->>
->> That way we can call pci_free_p2pmem() when a page's ref count goes to
->> zero. I suspect your use case will need to do something similar.
-> 
-> Yes, but I would say the pci_alloc_p2pmem() layer should be able to
-> free pages on a page-by-page basis so you don't have to do stuff like
-> the above.
-> 
-> There is often a lot of value in having physical contiguous addresses,
-> so allocating page by page as well seems poor.
+Cc: Mikulas Patocka <mpatocka@redhat.com>
+Cc: Keith Busch <keith.busch@intel.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>
+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+---
+ drivers/nvme/host/pci.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-Agreed. But I'll have to dig to see if genalloc supports freeing blocks
-in different sizes than the allocations.
-
-Logan
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0578ff253c47..703bb3aee817 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -6,7 +6,6 @@
+ 
+ #include <linux/acpi.h>
+ #include <linux/aer.h>
+-#include <linux/async.h>
+ #include <linux/blkdev.h>
+ #include <linux/blk-mq.h>
+ #include <linux/blk-mq-pci.h>
+@@ -2821,15 +2820,6 @@ static inline bool nvme_acpi_storage_d3(struct pci_dev *dev)
+ }
+ #endif /* CONFIG_ACPI */
+ 
+-static void nvme_async_probe(void *data, async_cookie_t cookie)
+-{
+-	struct nvme_dev *dev = data;
+-
+-	flush_work(&dev->ctrl.reset_work);
+-	flush_work(&dev->ctrl.scan_work);
+-	nvme_put_ctrl(&dev->ctrl);
+-}
+-
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	int node, result = -ENOMEM;
+@@ -2903,8 +2893,16 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+ 
+-	nvme_reset_ctrl(&dev->ctrl);
+-	async_schedule(nvme_async_probe, dev);
++	if (nvme_reset_ctrl(&dev->ctrl) == 0) {
++		/*
++		 * Since reset_work is scheduled on the context of
++		 * nvme_reset_wq and since that workqueue is not used for
++		 * probing devices, waiting until reset_work from nvme_probe()
++		 * is fine.
++		 */
++		flush_work(&dev->ctrl.reset_work);
++	}
++	nvme_put_ctrl(&dev->ctrl);
+ 
+ 	return 0;
+ 
+@@ -3221,11 +3219,12 @@ static struct pci_driver nvme_driver = {
+ 	.probe		= nvme_probe,
+ 	.remove		= nvme_remove,
+ 	.shutdown	= nvme_shutdown,
+-#ifdef CONFIG_PM_SLEEP
+ 	.driver		= {
++#ifdef CONFIG_PM_SLEEP
+ 		.pm	= &nvme_dev_pm_ops,
+-	},
+ #endif
++		.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
++	},
+ 	.sriov_configure = pci_sriov_configure_simple,
+ 	.err_handler	= &nvme_err_handler,
+ };
 
 _______________________________________________
 Linux-nvme mailing list
