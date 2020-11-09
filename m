@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	T_TVD_MIME_NO_HEADERS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB95BC2D0A3
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 11:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD9AC2D0A3
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 11:17:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2EC0920679
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 11:17:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BB0DC20679
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 11:17:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rhUcxt4/";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="P98NhEnF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2EC0920679
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="3Fempar8";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="IszWlfoV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BB0DC20679
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,59 +27,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6NaolM3xNz54oO87qflGKRyPPMlbjanFWEs0mJ7bupQ=; b=rhUcxt4/HFJ2mfm0cOGPiKz4i
-	qjJraLO9HqLzoyfYNxJ9iAhendWCB7mw8udXw6Cg6nytn7XULrGnGP9aeO80t8T+JGkBZExJVOTTj
-	rWbBOO49VAHX3IrzDbNYtlqFEsdImHhb8WMDH8bbtQzNaLGqI5CbxNY9VFOhozdHzuvuLYVLBR2cD
-	2qKkC/+Au64ItMPnMSMPaAVO93IjpKIU9U8I0KG5aZkbci1Iul/jGefE87948BE8GPjcA48Uvp4GG
-	drMtkk+BSVGo9shHol04ZalNosdKfaM7z16uP6SBFNTMJVBvSvBytgGm1QmZ3vObDwmUs+UWqs+Xg
-	QfewpRCpg==;
+	 bh=JCMwn7LqPrB6N44N4dYi7gnht529dVVtgRH/e/kn7Tg=; b=3Fempar8aS+ioOoqvz6zFbvhs
+	4zP0QG98R/AVVNHs8kYuMtLWy7g5eCuWk/c1Q7/rxCHp2VzEymOJIuT1mbKgBRPv5rISOQcx5fDGH
+	/3/Qrbv1YrqR55FGwINAbZ9sOuxWEutuQVGDT96B+s0C+6aoRZnv+S7bCCXU1i+Jqy/Un5a40yIvG
+	SB9CeEiQ9lJ17BQBcQ+B+5vXhCey9zJ1sR4i1lPQ+LvqyoVqA6i31hI4EKK6PQ9MNZNideky/K68d
+	Kqc0RnagXxz2I+JmRdhq/maF1jIWfLWbHnEPFXMfuT/I0oBRlI9inqZhSAI70RNb++t9gLKTuZ73O
+	uiF6Ag6BA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kc5B7-0007G1-He; Mon, 09 Nov 2020 11:17:41 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+	id 1kc5B9-0007Gz-Ja; Mon, 09 Nov 2020 11:17:43 +0000
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kc5B1-0007D6-MO
- for linux-nvme@lists.infradead.org; Mon, 09 Nov 2020 11:17:37 +0000
-Received: by mail-pg1-x542.google.com with SMTP id w4so6856884pgg.13
- for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2020 03:17:35 -0800 (PST)
+ id 1kc5B4-0007EW-Gs
+ for linux-nvme@lists.infradead.org; Mon, 09 Nov 2020 11:17:41 +0000
+Received: by mail-pf1-x443.google.com with SMTP id w6so2339463pfu.1
+ for <linux-nvme@lists.infradead.org>; Mon, 09 Nov 2020 03:17:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=M0H88A+xo1CnlNNAGHLlqWWdC5Rwv/Evs5ni/Qujz4k=;
- b=P98NhEnF6XJZ8bOHBmGcMzVX7iXECKkqG+2Bo5NUrnUEsl/yZ9m8Fp6cXbL3pcGQ0N
- 2L0DGN0uZXqF1ie7QCsEumDeQniHnSdKhFgYRHRocwAnfwyphoVIh+jmDFZVvBCsxBaV
- yUWIKkm0gDuWp3fOgcArwGYKBaCUVwqox8Krs=
+ bh=w0SPIu+LHrE0Aw++3cm9ibvCA0HBl3CbxltVMo6L1K8=;
+ b=IszWlfoVbYWibedhOVnFK0JN2uu0kj1VHyrTNZl46smXluofGbIhvAawK1f6WQlchv
+ z1Nruy8CPjBbIpNJHeTXNwkeYGI8Raw3yi+Fl9BYm6z9oQ9vc6CgF/dq1A/MyR8CrUZJ
+ Yy9stYmAONjpDLqlmndLED/f/AXzAY1VLdSy8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=M0H88A+xo1CnlNNAGHLlqWWdC5Rwv/Evs5ni/Qujz4k=;
- b=Y7V19kch0ij8rqqJejrrfPq24ThVfyyk9v2RvRLNn1j1IlIHUR+P0L9066CrS8hH8p
- i5pQreBAaHvgY9dh0W4jBgEQA1HLnQes3vdwslT013GdJsqEAVC2j4BPcD43pQN4rZ8E
- xTAeUtOVoY19WQ1ib6tEukhtikb1B9J9qPVSfPOSjTn1L4RtTsgfHvckm4R4rbhiAxnc
- sFlJ0PLUsh/px6zs9VPmw7UihGGlr13I+gi8RGlWduNvF/W1sMfA1e6XOhjiQBjxcQXW
- S37CYhbAEwnH10UCibWhoIrCNO9vANvPogc1eR35pZ63Aesa5ntuu0XKsliKoQ9pnJv5
- KTWQ==
-X-Gm-Message-State: AOAM531lwroGG9RVMEKO8MhyYrswKf6a7kMtt5M2QXaO6Seem9dsFxic
- X+pMSkdbz9MG3RLLpAzqcCStcw==
-X-Google-Smtp-Source: ABdhPJzXAJ6MkDCZuEoyQYFhqM/qPNoLHRDU7IPXCt1FTRibYCzfL7GXIV0DDA0gxcScuyDl9h5NZQ==
-X-Received: by 2002:a63:174b:: with SMTP id 11mr12641266pgx.57.1604920653379; 
- Mon, 09 Nov 2020 03:17:33 -0800 (PST)
+ bh=w0SPIu+LHrE0Aw++3cm9ibvCA0HBl3CbxltVMo6L1K8=;
+ b=edHtvqbufDpiurlvtBJqg8sbwvh2hx9CCV34pkePWlH3sevu0YdaG1RnfxQ9zM1dOi
+ 3/HdZF/mu9gCOXW06LjcaAfzcvVOnrNTWxXk4ZpCZMdbuuuYvAUTf9iRbsGLSIvsia4m
+ W7OiwjgXamnJRn+u+hGDssAv8pHkoyf8wt84p1rFqqVQIQHJEhJJt71ZHenO1IzklwjA
+ ZDBZe6NIPyt/u+eeLKyylsZMNRuarc3i8g5AyD9l0aQd9epafDYEsJh4LK5kSdjKMxtm
+ 2Z5jWEMcbGnFxKwssw6vmt/sS4fcuuRbVxMM8ZKf244gfT8U9Eflar5zCPIfHX5dZZ4x
+ kGBQ==
+X-Gm-Message-State: AOAM530X7fjpxj697CIKkn7n4455iXRtKBjQOMZ6P3oYef898w/OhLHY
+ J3wjnQuxRXv8ptJDRrrSrHqaWQ==
+X-Google-Smtp-Source: ABdhPJyh8DAg928IME1ogv9LTLGXxn4yHsy7/H6DeZqyEP9xtrtkiFNcJ1eANkB6APS0p2tc2IinHA==
+X-Received: by 2002:a17:90b:1881:: with SMTP id
+ mn1mr12942490pjb.225.1604920656785; 
+ Mon, 09 Nov 2020 03:17:36 -0800 (PST)
 Received: from localhost.localdomain ([192.19.234.250])
- by smtp.gmail.com with ESMTPSA id k9sm10889364pfp.68.2020.11.09.03.17.30
+ by smtp.gmail.com with ESMTPSA id k9sm10889364pfp.68.2020.11.09.03.17.33
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 09 Nov 2020 03:17:32 -0800 (PST)
+ Mon, 09 Nov 2020 03:17:36 -0800 (PST)
 From: Muneendra <muneendra.kumar@broadcom.com>
 To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org
-Subject: [PATCH v4 02/19] blkcg: Added a app identifier support for blkcg
-Date: Mon,  9 Nov 2020 09:53:48 +0530
-Message-Id: <1604895845-2587-3-git-send-email-muneendra.kumar@broadcom.com>
+Subject: [PATCH v4 03/19] nvme: Added a newsysfs attribute appid_store
+Date: Mon,  9 Nov 2020 09:53:49 +0530
+Message-Id: <1604895845-2587-4-git-send-email-muneendra.kumar@broadcom.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1604895845-2587-1-git-send-email-muneendra.kumar@broadcom.com>
 References: <1604895845-2587-1-git-send-email-muneendra.kumar@broadcom.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201109_061735_932512_8BA90E80 
-X-CRM114-Status: GOOD (  19.55  )
+X-CRM114-CacheID: sfid-20201109_061739_981726_455C5D15 
+X-CRM114-Status: GOOD (  18.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,30 +95,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Cc: pbonzini@redhat.com, jsmart2021@gmail.com, mkumar@redhat.com,
  emilne@redhat.com, Muneendra <muneendra.kumar@broadcom.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============0827981440670807476=="
+Content-Type: multipart/mixed; boundary="===============4896947955886392405=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============0827981440670807476==
+--===============4896947955886392405==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000075b74605b3aab5b7"
+	boundary="000000000000a7e70a05b3aab569"
 
---00000000000075b74605b3aab5b7
+--000000000000a7e70a05b3aab569
 
-This Patch added a unique application identifier i.e
-app_id  knob to  blkcg which allows identification of traffic
-sources at an individual cgroup based Applications
-(ex:virtual machine (VM))level in both host and
-fabric infrastructure.
+Added a new sysfs attribute appid_store under
+/sys/class/fc/fc_udev_device/*
 
-Provided the interface blkcg_get_fc_appid to
-grab the app identifier associated with a bio.
+With this new interface the user can set the application identfier
+in  the blkcg associted with cgroup id.
 
-Provided the interface blkcg_set_fc_appid to
-set the app identifier in a blkcgrp associated with cgroup id
+Once the application identifer has set with this interface it allows
+identification of traffic sources at an individual cgroup based
+Applications (ex:virtual machine (VM))level in both host and
+fabric infrastructure(FC).
 
-Added a new config BLK_CGROUP_FC_APPID and moved the changes
-under this config
+Below is the interface provided to set the app_id
+
+echo "<cgroupid>:<appid>" >> /sys/class/fc/fc_udev_device/appid_store
+echo "457E:100000109b521d27" >> /sys/class/fc/fc_udev_device/appid_store
 
 Signed-off-by: Muneendra <muneendra.kumar@broadcom.com>
 
@@ -126,136 +128,114 @@ v4:
 No change
 
 v3:
-Renamed the functions and app_id to more specific
-
-Addressed the reference leaks in blkcg_set_app_identifier
-
-Added a new config BLK_CGROUP_FC_APPID and moved the changes
-under this config
-
-Added blkcg_get_fc_appid,blkcg_set_fc_appid as inline functions
+Replaced blkcg_set_app_identifier function with blkcg_set_fc_appid
 
 v2:
-renamed app_identifier to app_id
-removed the  sysfs interface blkio.app_identifie under
+New Patch
 ---
- block/Kconfig              |  9 ++++++
- include/linux/blk-cgroup.h | 65 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ drivers/nvme/host/fc.c | 73 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 72 insertions(+), 1 deletion(-)
 
-diff --git a/block/Kconfig b/block/Kconfig
-index bbad5e8bbffe..ed22df654ce5 100644
---- a/block/Kconfig
-+++ b/block/Kconfig
-@@ -144,6 +144,15 @@ config BLK_CGROUP_IOLATENCY
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index eae43bb444e0..6d6cc06fd54a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -9,7 +9,7 @@
+ #include <uapi/scsi/fc/fc_els.h>
+ #include <linux/delay.h>
+ #include <linux/overflow.h>
+-
++#include <linux/blk-cgroup.h>
+ #include "nvme.h"
+ #include "fabrics.h"
+ #include <linux/nvme-fc-driver.h>
+@@ -3768,10 +3768,81 @@ static ssize_t nvme_fc_nvme_discovery_store(struct device *dev,
  
- 	Note, this is an experimental interface and could be changed someday.
- 
-+config BLK_CGROUP_FC_APPID
-+	bool "Enable support to track FC io Traffic across cgroup applications"
-+	depends on BLK_CGROUP=y
-+	help
-+	Enabling this option enables the support to track FC io traffic across
-+	cgroup applications.It enables the Fabric and the storage targets to
-+	identify, monitor, and handle FC traffic based on vm tags by inserting
-+	application specific identification into the FC frame.
+ 	return count;
+ }
 +
- config BLK_CGROUP_IOCOST
- 	bool "Enable support for cost model based cgroup IO controller"
- 	depends on BLK_CGROUP=y
-diff --git a/include/linux/blk-cgroup.h b/include/linux/blk-cgroup.h
-index c8fc9792ac77..00ea1cfa3420 100644
---- a/include/linux/blk-cgroup.h
-+++ b/include/linux/blk-cgroup.h
-@@ -30,6 +30,8 @@
- 
- /* Max limits for throttle policy */
- #define THROTL_IOPS_MAX		UINT_MAX
-+#define APPID_LEN              128
-+
- 
- #ifdef CONFIG_BLK_CGROUP
- 
-@@ -55,6 +57,9 @@ struct blkcg {
- 	struct blkcg_policy_data	*cpd[BLKCG_MAX_POLS];
- 
- 	struct list_head		all_blkcgs_node;
-+#ifdef CONFIG_BLK_CGROUP_FC_APPID
-+	char                            fc_app_id[APPID_LEN];
-+#endif
- #ifdef CONFIG_CGROUP_WRITEBACK
- 	struct list_head		cgwb_list;
- #endif
-@@ -660,4 +665,64 @@ static inline void blk_cgroup_bio_start(struct bio *bio) { }
- 
- #endif	/* CONFIG_BLOCK */
- #endif	/* CONFIG_BLK_CGROUP */
-+
-+#ifdef CONFIG_BLK_CGROUP_FC_APPID
-+/*
-+ * Sets the fc_app_id field associted to blkcg
-+ * @buf: application identifier
-+ * @id: cgrp id
-+ * @len: size of appid
-+ */
-+static inline int blkcg_set_fc_appid(char *buf, u64 id, size_t len)
++/*parse the Cgroup id from a buf and returns the length of cgrpid*/
++static int fc_parse_cgrpid(const char *buf, u64 *id)
 +{
-+	struct cgroup *cgrp = NULL;
-+	struct cgroup_subsys_state *css = NULL;
-+	struct blkcg *blkcg = NULL;
++	char cgrp_id[16+1];
++	int cgrpid_len, j;
++
++	memset(cgrp_id, 0x0, sizeof(cgrp_id));
++	for (cgrpid_len = 0, j = 0; cgrpid_len < 17; cgrpid_len++) {
++		if (buf[cgrpid_len] != ':')
++			cgrp_id[cgrpid_len] = buf[cgrpid_len];
++		else {
++			j = 1;
++			break;
++		}
++	}
++	if (!j)
++		return -EINVAL;
++	if (kstrtou64(cgrp_id, 16, id) < 0)
++		return -EINVAL;
++	return cgrpid_len;
++}
++
++/*
++ * fc_update_appid :parses and updates the appid in the blkcg associated with
++ * cgroupid.
++ * @buf: buf contains both cgrpid and appid info
++ * @count: size of the buffer
++ */
++static int fc_update_appid(const char *buf, size_t count)
++{
++	u64 cgrp_id;
++	int appid_len = 0;
++	int cgrpid_len = 0;
++	char app_id[APPID_LEN];
++	int ret = 0;
++
++	if (buf[count-1] == '\n')
++		count--;
++
++	if ((count > (16+1+APPID_LEN)) || (!strchr(buf, ':')))
++		return -EINVAL;
++
++	cgrpid_len = fc_parse_cgrpid(buf, &cgrp_id);
++	if (cgrpid_len < 0)
++		return -EINVAL;
++	/*appid len is count - cgrpid_len -1 (: + \n) */
++	appid_len = count - cgrpid_len - 1;
++	if (appid_len > APPID_LEN)
++		return -EINVAL;
++
++	memset(app_id, 0x0, sizeof(app_id));
++	memcpy(app_id, &buf[cgrpid_len+1], appid_len);
++	ret = blkcg_set_app_identifier(app_id, cgrp_id, sizeof(app_id));
++	if (ret < 0)
++		return ret;
++	return count;
++}
++
++static ssize_t fc_appid_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
 +	int ret  = 0;
 +
-+	cgrp = cgroup_get_from_kernfs_id(id);
-+	if (!cgrp)
-+		return -ENOENT;
-+	css = cgroup_get_e_css(cgrp, &io_cgrp_subsys);
-+	if (!css) {
-+		ret = -ENOENT;
-+		goto out_cgrp_put;
-+	}
-+	blkcg = css_to_blkcg(css);
-+	if (!blkcg) {
-+		ret = -ENOENT;
-+		goto out_put;
-+	}
-+	if (len > APPID_LEN) {
-+		ret = -EINVAL;
-+		goto out_put;
-+	}
-+	strlcpy(blkcg->fc_app_id, buf, len);
-+out_put:
-+	css_put(css);
-+out_cgrp_put:
-+	cgroup_put(cgrp);
-+	return ret;
++	ret = fc_update_appid(buf, count);
++	if (ret < 0)
++		return -EINVAL;
++	return count;
 +}
-+
-+/**
-+ * blkcg_get_fc_appid - grab the app identifier associated with a bio
-+ * @bio: target bio
-+ *
-+ * This returns the app identifier associated with a bio,
-+ * %NULL if not associated.
-+ * Callers are expected to either handle %NULL or know association has been
-+ * done prior to calling this.
-+ */
-+static inline char *blkcg_get_fc_appid(struct bio *bio)
-+{
-+	if (bio && bio->bi_blkg &&
-+			strlen(bio->bi_blkg->blkcg->fc_app_id))
-+		return bio->bi_blkg->blkcg->fc_app_id;
-+	return NULL;
-+}
-+#else
-+static inline int blkcg_set_fc_appid(char *buf, u64 id, size_t len) { return -EINVAL; }
-+static inline char *blkcg_get_fc_appid(struct bio *bio) { return NULL; }
-+#endif /*CONFIG_BLK_CGROUP_FC_APPID*/
- #endif	/* _BLK_CGROUP_H */
+ static DEVICE_ATTR(nvme_discovery, 0200, NULL, nvme_fc_nvme_discovery_store);
++static DEVICE_ATTR(appid_store, 0200, NULL, fc_appid_store);
+ 
+ static struct attribute *nvme_fc_attrs[] = {
+ 	&dev_attr_nvme_discovery.attr,
++	&dev_attr_appid_store.attr,
+ 	NULL
+ };
+ 
 -- 
 2.26.2
 
 
---00000000000075b74605b3aab5b7
+--000000000000a7e70a05b3aab569
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -326,19 +306,19 @@ LbMkW5lUoTb8ycBNOKLYhNE8UEOY8jRTUtMEhzT6NJDEE+1hb3kSGfArrrF3Z8pRYiUUhcpC5GKL
 EpmWnHflnrBcah5Ozy137DGCAm8wggJrAgEBMG0wXTELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEds
 b2JhbFNpZ24gbnYtc2ExMzAxBgNVBAMTKkdsb2JhbFNpZ24gUGVyc29uYWxTaWduIDIgQ0EgLSBT
 SEEyNTYgLSBHMwIMX/krgFDQUQNyOf+1MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEi
-BCAEf47OisalIfoHCR2bm1uVZZlEATf5AB4jQEj97eql5jAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDExMDkxMTE3MzNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
+BCDYlnSuxagtAmbij3+PI2GGFaPs2ASvkPewiIbbdUXPUTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
+AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDExMDkxMTE3MzdaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
 AWUDBAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEK
-MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAiYQLWPrNjt5sguwb
-PJw9q3cWTx9o6/zQY4WCkTL2hHT0H4RVpuKhFSwy3Hgrp9rYp6xp65QacHfWt/58/Is/tTPKvyxm
-k1SzhWsRa+NiylSn5fr0sUmFZHJ3jmexW02xVzCveYpXEoy7a2TjGesz5yaTRiMcV4BoCn3nLbVT
-I72lthUaufB/Q2v1oXIvpyaQAxNDrAF/GRij2WE6YugeLUeErT4IHgSijsFeXzzVQDlJPqYXmBC1
-b8NURu3Lq5p3VBiSZSYY88ihhKQrwIlqlA3LfbLO48581AdhyEHsr4g15Axof+NR1hpUoPVGJOrh
-ZmjnZITCnCUp2FsCTaVgGw==
---00000000000075b74605b3aab5b7--
+MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAHXhxukQr0+LwtlHt
+ym+EW6qrn9u6yrPOMR6mzus1rxFopmTxQacBb+KKXjSIuwWFGbd47TMFn4OIsXAb+8iXXMtFQcrM
+dldQPCkRD26f+TdXJhw3ZQMV53+l86MqJMqoEiu9H2EuMB/+EJzshM01UO4HyV1uaoHYpAIZ7ndz
+868ULmHT+tZaelcKB8NSJLmMvrRwVDJ6R9O0bGnElvEGjuYq5T5NGiJ2LuOapLh14UlqfN7qKxtv
+g0zHLNn1TbEMiCqZZAtVnpn0sl/cOpw7ErgYa5SKQwGlLidSRfv2Vg6hFLOKmnWpKqkVI0Lgj0cg
+dxyOuKt6YjPcrneDNADPgA==
+--000000000000a7e70a05b3aab569--
 
 
---===============0827981440670807476==
+--===============4896947955886392405==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -349,5 +329,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============0827981440670807476==--
+--===============4896947955886392405==--
 
