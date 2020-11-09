@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F05C2D0A3
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 15:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A11C388F7
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 15:05:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C2AC20853
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 15:03:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9FE9320853
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 15:05:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eqF1Xbpz";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="UtPuiqRO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C2AC20853
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Q1hezkr5";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="LbgPZG++"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FE9320853
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,44 +25,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DmndFMV4BDp49uSXG/p5S6J8Wqv5c9n1RBTehGgLIWI=; b=eqF1XbpzDztsYlyvbSyR5AGlm
-	BWWQJzlt01lO+Xqs3Vd1VutSyxam2LL0KlcC3ZX8oOyJRiFQbF3vBujpZBV2EBrAu6aS0V0CpjX/J
-	AMAeZrD6PX/sO9oT13sQCZc6X+VYXJgumBPWgdSW4uzHBkI8JL5PikpAr2XrIz35Wa+C9lMfggW4r
-	aL3OmpHFw0HaP/1xSBO7P7D+8qXA6gfwiODYfVtmb4JA/XmN2wpoJxgI77tNyV/aOeiMJEvqynXN1
-	AZwbJimAJ/obCWFv9Vg6X5UVrru3a8/Zn6x8FmSIfzqDDDKqRiROqcswbQ+iLEumruzL4d4K9tngA
-	npEygfQXQ==;
+	 bh=a7EGoBenTl62jlk8h2SO5C5LUrpNTu1v9bvzhcfforo=; b=Q1hezkr5ensKovcgUKi0tvozj
+	pg+BrAEuFLsw1Hin9daAA5ETzUpfdbmP8p7hMJCqk2mRqAmHo4gNs79TeGyaTZS1+iSCrC3QftV0o
+	kP5viAMkDL2wTCJnhZ0FKuvjHBd9HhGWtw6PZYXO79cWjjvyuLPoaA8I2PO+3E7loRKtOZ31xN1KH
+	PYowlAtMd1B0rwel2LC1awDYE1Aj89kKTjsorZgQ8nrawknAlznvf+1kbta7gpkF2foanZ1Xn/SB4
+	qyVYlKSvRla2/iT6cS0kSfQBEF7S0ULRIFvew30Uhg0clY+8m8EattvGJqFDWgZ7nKh8fg4VnNvBW
+	KnbOPEONQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kc8hi-0000gV-40; Mon, 09 Nov 2020 15:03:34 +0000
+	id 1kc8jT-00015E-P1; Mon, 09 Nov 2020 15:05:23 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kc8he-0000fU-I7
- for linux-nvme@lists.infradead.org; Mon, 09 Nov 2020 15:03:31 +0000
+ id 1kc8jR-00014W-Cj
+ for linux-nvme@lists.infradead.org; Mon, 09 Nov 2020 15:05:22 +0000
 Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3D39D2083B;
- Mon,  9 Nov 2020 15:03:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CB12520853;
+ Mon,  9 Nov 2020 15:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604934209;
- bh=r+Ft2tymmH5NpLInpLBcaHHGbXBmIxUIIoWZRRKi3Ns=;
+ s=default; t=1604934320;
+ bh=5Z5l2kahgouLK3P1lyzr/yn1CMXxlexBvUGlXRedt7o=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UtPuiqROcd/6G01mEcpCI4ZkuoLNoh/cHEoW1pWvWnXrcS9oX6qi25orcEe/HD6gQ
- /2y+a50beBfImRzQnG4uTWBnNextYf4nu2KfFLXSU6AOTbMFpSso49pl+Bj1AlzYpM
- TKyuOwfpDhx5CeUMmKig1ylwMR32SikIaTFabfbU=
-Date: Mon, 9 Nov 2020 07:03:26 -0800
+ b=LbgPZG++83AGaB20514ACzKjkobGB6HNqxVlsHCxz6fr9nU6pgDVrLWRJXywC6O9a
+ syNdo+9lgNxUzBaY7cE9ajgKQS969zdeB537TeLSuAq7W99Deyq/5Ju9M7QCwzxQsJ
+ aoi6wVj3b84saljvr+IU63pqDE9kTF1BuznA6plU=
+Date: Mon, 9 Nov 2020 07:05:17 -0800
 From: Keith Busch <kbusch@kernel.org>
-To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [RFC PATCH 15/15] nvme-pci: Allow mmaping the CMB in userspace
-Message-ID: <20201109150326.GA2221592@dhcp-10-100-145-180.wdc.com>
-References: <20201106170036.18713-1-logang@deltatee.com>
- <20201106170036.18713-16-logang@deltatee.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [PATCH] nvme: Boot as soon as the boot controller has been probed
+Message-ID: <20201109150517.GB2221592@dhcp-10-100-145-180.wdc.com>
+References: <20201108040903.8185-1-bvanassche@acm.org>
+ <20201108082403.GB40741@kroah.com>
+ <20201108223152.GA2219646@dhcp-10-100-145-180.wdc.com>
+ <8ee7a7b0-5be4-99a3-7314-77d784e2ebb7@acm.org>
+ <20201109023544.GB2219646@dhcp-10-100-145-180.wdc.com>
+ <90da3071-0d73-f007-5892-d683de71d964@acm.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201106170036.18713-16-logang@deltatee.com>
+In-Reply-To: <90da3071-0d73-f007-5892-d683de71d964@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201109_100330_680037_26877133 
-X-CRM114-Status: GOOD (  14.36  )
+X-CRM114-CacheID: sfid-20201109_100521_523694_475CCE72 
+X-CRM114-Status: GOOD (  19.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,35 +78,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Don Dutile <ddutile@redhat.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
+Cc: Greg KH <gregkh@linuxfoundation.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
  Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 06, 2020 at 10:00:36AM -0700, Logan Gunthorpe wrote:
-> Allow userspace to obtain CMB memory by mmaping the controller's
-> char device. The mmap call allocates and returns a hunk of CMB memory,
-> (the offset is ignored) so userspace does not have control over the
-> address within the CMB.
+On Sun, Nov 08, 2020 at 08:00:42PM -0800, Bart Van Assche wrote:
+> On 11/8/20 6:35 PM, Keith Busch wrote:
+> > The only user space visible artifact the driver creates on bind is the
+> > controller character device, and access to that during a reset is
+> > handled by the driver's state machine.
 > 
-> A VMA allocated in this way will only be usable by drivers that set
-> FOLL_PCI_P2PDMA when calling GUP. And inter-device support will be
-> checked the first time the pages are mapped for DMA.
+> Hi Keith,
 > 
-> Currently this is only supported by O_DIRECT to an PCI NVMe device
-> or through the NVMe passthrough IOCTL.
+> Is nvme_dev_fops associated with that character device? If so, in
+> nvme_dev_open() I found the following:
+> 
+> 	switch (ctrl->state) {
+> 	case NVME_CTRL_LIVE:
+> 		break;
+> 	default:
+> 		return -EWOULDBLOCK;
+> 	}
+> 
+> Does this mean that nvme-cli will succeed or fail depending on whether
+> or not nvme_reset_work() has finished? Isn't that something that can
+> cause trouble if nvme-cli is invoked from a udev rule?
 
-Rather than make this be specific to nvme, could pci p2pdma create an
-mmap'able file for any resource registered with it?
+Resets can happen at any time, so user space should always have been
+prepared for this. Is there actually a real case that is not working for
+you?
 
 _______________________________________________
 Linux-nvme mailing list
