@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F25B4C2D0A3
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 09:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 655FBC2D0A3
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 09:13:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7CE1820731
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 09:12:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E728D207BC
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Nov 2020 09:13:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hZmRjmlD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CE1820731
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RnZejnzc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E728D207BC
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,36 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=pnwQ8BkIJldu4LRGNOHnq5p6h1j8Lc2Njdwd1q08iMw=; b=hZmRjmlDYMnxZoYILxKtTDMXb
-	n6pXF4cs7/xS7i1+HzAvFvlZnQPfqa8Hr70iajVcZiTHNonXE/IHv0DF+yQ83uC+j3BjyPZZbzr+7
-	tbQ6FVKXuQkRlLFlhfPGAQNM4DHOZ9iQ4S7/s8AUd7HhFVnZtsAYKp8aUrDrYoL6ZjKRIsjeuIM+c
-	1HRfBQedfrs02LxuBxZ+cR1XefzxBKSIk3FmV0AEvAIWyybIxU2VRwpAPK4h95piZcHK20wXuI7pW
-	2AnrALviE8OrJDK0c4EgTV8uJd9XLohE3zMT1qV/B+1nwoK5D5GFM2t3DKPXGai7OUGDseiNQj/80
-	sQLE0RI/Q==;
+	 bh=IHzVmKFNHPt+hM5WCfzaMltty7cIDBctg0AZl4jZ5NE=; b=RnZejnzcPfpwV59e/bot8QWPH
+	fTISmbd8XU9/M2FrGUQ1sGlN5sKgOD14JZN9TSoNkQcs/Aoh26d87e2X02NAiZfzh0wFl7JdNw/ub
+	rK2PXwj2VBK5DIQ7BbxSQprrzME0AJ9rwlxNaVVIPHhl0t9wRRaraFVDsIdOncyrc4XEU/7krTlV0
+	cQTOfcVXFXtLaaZQqVtwpby7jEQSR5za2Xpix2vqAtshYP+amuRs75HypM7BZeOWzNYETq/ki8QoY
+	EZFdXBqgj152TQ4y1vI4CmqlYeU2HjYMF931IYHc2zx21AXeJ8Ax0TKHJ0cSOl1pTnQl0ywlDOHcI
+	yUYpol0Tg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kc3Du-0003WK-PR; Mon, 09 Nov 2020 09:12:26 +0000
+	id 1kc3EW-0003oU-P5; Mon, 09 Nov 2020 09:13:04 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kc3Dd-0003At-Fi
- for linux-nvme@lists.infradead.org; Mon, 09 Nov 2020 09:12:24 +0000
+ id 1kc3ES-0003mH-6v
+ for linux-nvme@lists.infradead.org; Mon, 09 Nov 2020 09:13:02 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 52E0D6736F; Mon,  9 Nov 2020 10:12:06 +0100 (CET)
-Date: Mon, 9 Nov 2020 10:12:06 +0100
+ id 8929268AFE; Mon,  9 Nov 2020 10:12:58 +0100 (CET)
+Date: Mon, 9 Nov 2020 10:12:58 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [RFC PATCH 01/15] PCI/P2PDMA: Don't sleep in
- upstream_bridge_distance_warn()
-Message-ID: <20201109091206.GA28918@lst.de>
+Subject: Re: [RFC PATCH 04/15] lib/scatterlist: Add flag for indicating
+ P2PDMA segments in an SGL
+Message-ID: <20201109091258.GB28918@lst.de>
 References: <20201106170036.18713-1-logang@deltatee.com>
- <20201106170036.18713-2-logang@deltatee.com>
+ <20201106170036.18713-5-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201106170036.18713-2-logang@deltatee.com>
+In-Reply-To: <20201106170036.18713-5-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201109_041209_675446_8AEA69DA 
-X-CRM114-Status: GOOD (  11.85  )
+X-CRM114-CacheID: sfid-20201109_041301_236533_D44B4C2C 
+X-CRM114-Status: UNSURE (   9.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,17 +81,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 06, 2020 at 10:00:22AM -0700, Logan Gunthorpe wrote:
-> In order to call this function from a dma_map function, it must not sleep.
-> The only reason it does sleep so to allocate the seqbuf to print
-> which devices are within the ACS path.
-> 
-> Switch the kmalloc call to use GFP_NOWAIT and simply not print that
-> message if the buffer fails to be allocated.
+On Fri, Nov 06, 2020 at 10:00:25AM -0700, Logan Gunthorpe wrote:
+> We make use of the top bit of the dma_length to indicate a P2PDMA
+> segment.
 
-Please pass in the actual gfp_t.  Especially from an I/O path
-GFP_NOWAIT is not the right gfp_t anyway, you probably want GFP_ATOMIC
-there.  But also for the path where we can sleep we should allow that.
+I don't think "we" can.  There is nothing limiting the size of a SGL
+segment.
 
 _______________________________________________
 Linux-nvme mailing list
