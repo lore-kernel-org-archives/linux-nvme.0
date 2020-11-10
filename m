@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F881C4742C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF85C388F7
 	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 03:54:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BC9F720870
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 03:54:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9224820870
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 03:54:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kUYAh+ad";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="r+dBO5WR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC9F720870
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nDDdxAEW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="u/LjuEdk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9224820870
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CV3XNBcIP095S7RZsWNrs0k5nSkd+COZ/oU1TlzZivw=; b=kUYAh+ad3gvXYU4rAZJX9UJGI
-	+oUmYtYExhHHHZ5w+E8/23mOdGd6ijOQGI9buoIXX3FJR0BthhO4TWl6h4RXGFMJRtcu/olbZ096T
-	CDAVgBmWoa1goVnN77FjhdQ12kmu7fG0PgEw/fXbr3aTC9lmyzZTNj4I4/dywHh0dnVQkCn+RRYWJ
-	7dy5BXWA2GRA3YTra6n/INrAFfUR7krs0cNNDmvzjhHkqJkgHrtW6Cy4EPTagDoL/AAS00BYGb4fo
-	fWAUJLXWoa0IjKyUb19n9mX0QR6bqY/fC2aNEtr/7EYdqWaSwhtmirhIRgqPtxASYZadrHZgDl/fs
-	VoAGwmAjQ==;
+	 bh=DRm8TwKlmmID0KSm/FbbOBYlvUh1oIAXrHvhv9kHEZ8=; b=nDDdxAEWgZ9Pn7FfyidsTdvYr
+	xvZ92wl6OMF59zncqMoKFi3MICc101RiY9z9LzMNK/JPuQVWnPx4n3Kzsi/ELHgV/KZO7ZZh0leQn
+	ZHnWybXDz3YqhbMm9pE3KvOSGP9BjyKrS/tnjuDX+u5p8Kdbidin5UgRfPFC6hQZ8pN8q7e8Lngz0
+	T1ZzblZSdDZ1OzK7q9/nbiE5xhu9SfEN/9AZVFG0d2Pqns3q0hnD4dIjhDu5oAOs3KL43zSHTVBNM
+	FyGECtugmE4S5OVzYaaSLJ9Ewpbsl1kUKfmoS0QZJOct1cm4z4SstO9AUqccEI8b2di2OyqVzfCmQ
+	keRWIiciw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kcKjL-0001ck-0d; Tue, 10 Nov 2020 03:54:03 +0000
+	id 1kcKjQ-0001f5-Co; Tue, 10 Nov 2020 03:54:08 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kcKjH-0001aP-EI
- for linux-nvme@lists.infradead.org; Tue, 10 Nov 2020 03:54:00 +0000
+ id 1kcKjN-0001dm-DR
+ for linux-nvme@lists.infradead.org; Tue, 10 Nov 2020 03:54:06 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0672A207BC;
- Tue, 10 Nov 2020 03:53:57 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9DEB521527;
+ Tue, 10 Nov 2020 03:54:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604980438;
- bh=6IoiOFJUKOcUhztuRrXe9uOyWyzAOJU/nq/G7DDNUvE=;
+ s=default; t=1604980444;
+ bh=hUjuOwHmFj8PtPWjGMDtqE36XsdhC1+MHClHW6V98KA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=r+dBO5WR/M6rUsT3noxVNqk060j4t149FqY5FcewyLvFPQ50VPWJMqZqt91z2GiDM
- mpIZsnEYfbAnLFn0lnGDGaUBR8QccGk9saATHWs3oKQYBKHgjbiV1zdslQ0Ggjh3B6
- kb33pdEBBKNIpHntvpJJsv1/hpX2gxWO3LabYM48=
+ b=u/LjuEdkfUwhJqjbC/CI1teemFmGmqmj5nAXAJ9pg+afQtca3+2+eeVN+XIgKXNst
+ t/Dst0tWW9521Mi7iOGLWjMKn2pHIbYhXMil1KBZHiCmPfwA9jJmUdsuUpoIy8X4sy
+ 8vXqACHMGmEdOEBEmrBA77F2ZpeizEL1+h+vuLSk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 28/55] Revert "nvme-pci: remove last_sq_tail"
-Date: Mon,  9 Nov 2020 22:52:51 -0500
-Message-Id: <20201110035318.423757-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.9 32/55] nvme: introduce nvme_sync_io_queues
+Date: Mon,  9 Nov 2020 22:52:55 -0500
+Message-Id: <20201110035318.423757-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201110035318.423757-1-sashal@kernel.org>
 References: <20201110035318.423757-1-sashal@kernel.org>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201109_225359_582469_562950A9 
-X-CRM114-Status: GOOD (  15.59  )
+X-CRM114-CacheID: sfid-20201109_225405_673790_A34139EA 
+X-CRM114-Status: GOOD (  13.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,98 +78,69 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Sasha Levin <sashal@kernel.org>,
- "B.L. Jones" <brandon.gustav@googlemail.com>, linux-nvme@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+From: Chao Leng <lengchao@huawei.com>
 
-[ Upstream commit 38210800bf66d7302da1bb5b624ad68638da1562 ]
+[ Upstream commit 04800fbff4764ab7b32c49d19628605a5d4cb85c ]
 
-Multiple CPUs may be mapped to the same hctx, allowing mulitple
-submission contexts to attempt commit_rqs(). We need to verify we're
-not writing the same doorbell value multiple times since that's a spec
-violation.
+Introduce sync io queues for some scenarios which just only need sync
+io queues not sync all queues.
 
-Revert commit 54b2fcee1db041a83b52b51752dade6090cf952f.
-
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=1878596
-Reported-by: "B.L. Jones" <brandon.gustav@googlemail.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Chao Leng <lengchao@huawei.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c | 8 ++++++--
+ drivers/nvme/host/nvme.h | 1 +
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8984796db0c80..a6af96aaa0eb7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -198,6 +198,7 @@ struct nvme_queue {
- 	u32 q_depth;
- 	u16 cq_vector;
- 	u16 sq_tail;
-+	u16 last_sq_tail;
- 	u16 cq_head;
- 	u16 qid;
- 	u8 cq_phase;
-@@ -455,11 +456,24 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
- 	return 0;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 893e29624c16b..59040bab5d6fa 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4641,8 +4641,7 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
  }
+ EXPORT_SYMBOL_GPL(nvme_start_queues);
  
--static inline void nvme_write_sq_db(struct nvme_queue *nvmeq)
-+/*
-+ * Write sq tail if we are asked to, or if the next command would wrap.
-+ */
-+static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
+-
+-void nvme_sync_queues(struct nvme_ctrl *ctrl)
++void nvme_sync_io_queues(struct nvme_ctrl *ctrl)
  {
-+	if (!write_sq) {
-+		u16 next_tail = nvmeq->sq_tail + 1;
-+
-+		if (next_tail == nvmeq->q_depth)
-+			next_tail = 0;
-+		if (next_tail != nvmeq->last_sq_tail)
-+			return;
-+	}
-+
- 	if (nvme_dbbuf_update_and_check_event(nvmeq->sq_tail,
- 			nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
- 		writel(nvmeq->sq_tail, nvmeq->q_db);
-+	nvmeq->last_sq_tail = nvmeq->sq_tail;
+ 	struct nvme_ns *ns;
+ 
+@@ -4650,7 +4649,12 @@ void nvme_sync_queues(struct nvme_ctrl *ctrl)
+ 	list_for_each_entry(ns, &ctrl->namespaces, list)
+ 		blk_sync_queue(ns->queue);
+ 	up_read(&ctrl->namespaces_rwsem);
++}
++EXPORT_SYMBOL_GPL(nvme_sync_io_queues);
+ 
++void nvme_sync_queues(struct nvme_ctrl *ctrl)
++{
++	nvme_sync_io_queues(ctrl);
+ 	if (ctrl->admin_q)
+ 		blk_sync_queue(ctrl->admin_q);
  }
- 
- /**
-@@ -476,8 +490,7 @@ static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
- 	       cmd, sizeof(*cmd));
- 	if (++nvmeq->sq_tail == nvmeq->q_depth)
- 		nvmeq->sq_tail = 0;
--	if (write_sq)
--		nvme_write_sq_db(nvmeq);
-+	nvme_write_sq_db(nvmeq, write_sq);
- 	spin_unlock(&nvmeq->sq_lock);
- }
- 
-@@ -486,7 +499,8 @@ static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
- 	struct nvme_queue *nvmeq = hctx->driver_data;
- 
- 	spin_lock(&nvmeq->sq_lock);
--	nvme_write_sq_db(nvmeq);
-+	if (nvmeq->sq_tail != nvmeq->last_sq_tail)
-+		nvme_write_sq_db(nvmeq, true);
- 	spin_unlock(&nvmeq->sq_lock);
- }
- 
-@@ -1496,6 +1510,7 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
- 	struct nvme_dev *dev = nvmeq->dev;
- 
- 	nvmeq->sq_tail = 0;
-+	nvmeq->last_sq_tail = 0;
- 	nvmeq->cq_head = 0;
- 	nvmeq->cq_phase = 1;
- 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2aaedfa43ed86..97fbd61191b33 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -602,6 +602,7 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl);
+ void nvme_start_queues(struct nvme_ctrl *ctrl);
+ void nvme_kill_queues(struct nvme_ctrl *ctrl);
+ void nvme_sync_queues(struct nvme_ctrl *ctrl);
++void nvme_sync_io_queues(struct nvme_ctrl *ctrl);
+ void nvme_unfreeze(struct nvme_ctrl *ctrl);
+ void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
 -- 
 2.27.0
 
