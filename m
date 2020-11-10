@@ -2,21 +2,21 @@ Return-Path: <SRS0=JPfP=EQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D68FBC388F7
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 18:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A3BC388F7
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 18:54:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 12DB9206F1
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 18:49:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 28E89206F1
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 18:54:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gX+/CqW6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 12DB9206F1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="W8TMeyJF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28E89206F1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ap1lucm0nvsYCKqDKGPB9dARGrvFgio1JJyfKbUVk/w=; b=gX+/CqW6BLoKwPIz4d3DJiKq2
-	iD8+hp0GX1uTjll/IH3sh4pqg/T6Ts1C8roqSDj5xcPGPCE63+uYvkEgJnQ9gaUwSbio6mkNpvTNr
-	5QkxPeN9oaqNpCQ3iOtEiqDiw7OsTkvC6RniRruTVGDCznZwg1FZB8i5G9O9Y9TP3gxgOm0MWl9qD
-	RvNH7nYfjoNAUCFYByqwsd7ng+9lcBXLMKjcqNVWvH9mHkcS/n1rTnSzscx62J3uUC3YwQYaQNOv5
-	uQepERK7oyxjmK8nF2rKheYhMSQHe0phKNiaa1Q1GfAW696oIH7XSZhStgQ6kG2Pjs3+4PbUuxPoW
-	4L9H3En0A==;
+	 bh=fJ88pAoYoJs8slG+RlMHaQaot3zo7fyPMAUKvztmgsU=; b=W8TMeyJF6ICToMpHvxKoyMgIK
+	b2l5na6zFH4928TxdVuuDI5l0z7vtu3jvJY5KLsZRskX4VMBbq3LfJzRJaD7SiU5JDbxiguPGVekt
+	qw+1TRDcQwy7AOBli3ypfAUDOXABFW11TfRi55/YDJVz8KVviJyfEWrsHb+knhXtGrIpjlE19HnXb
+	xDKFFB49saiEeWTdSHfN+zFEEALZ7OrR3ER6mX/ADqYFQutYvarqVcUtXo17phxJ6CGUb9W9FeBjk
+	qM+o8QPrYmVuituE3ANgEkK4LSZ/LMWIv7QSCSEI7x5Lb5XvA62a0tU0W/s+IJip1jD/wI3n4YkIq
+	PA+XrnFXg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kcYhr-0004RM-Hg; Tue, 10 Nov 2020 18:49:27 +0000
+	id 1kcYmv-0005Dk-HN; Tue, 10 Nov 2020 18:54:41 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kcYhp-0004R0-Co
- for linux-nvme@lists.infradead.org; Tue, 10 Nov 2020 18:49:26 +0000
+ id 1kcYms-0005Cy-7N
+ for linux-nvme@lists.infradead.org; Tue, 10 Nov 2020 18:54:39 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C204067373; Tue, 10 Nov 2020 19:49:22 +0100 (CET)
-Date: Tue, 10 Nov 2020 19:49:22 +0100
+ id C1AF167373; Tue, 10 Nov 2020 19:54:35 +0100 (CET)
+Date: Tue, 10 Nov 2020 19:54:35 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH V8 0/4] nvme-core: timeout related fixes and cleanup
-Message-ID: <20201110184922.GA29983@lst.de>
-References: <20201110003345.8191-1-chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH V4 2/6] nvme-core: split nvme_alloc_request()
+Message-ID: <20201110185435.GB29983@lst.de>
+References: <20201110022405.6707-1-chaitanya.kulkarni@wdc.com>
+ <20201110022405.6707-3-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201110003345.8191-1-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20201110022405.6707-3-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201110_134925_561704_8C896A1F 
-X-CRM114-Status: UNSURE (   6.54  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201110_135438_511765_78BFB94A 
+X-CRM114-Status: GOOD (  23.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,16 +65,270 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- hch@lst.de
+Cc: axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, kbusch@kernel.org,
+ Logan Gunthorpe <logang@deltatee.com>, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+On Mon, Nov 09, 2020 at 06:24:01PM -0800, Chaitanya Kulkarni wrote:
+> -static inline unsigned int nvme_req_op(struct nvme_command *cmd)
+> -{
+> -	return nvme_is_write(cmd) ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN;
+> -}
+> -
+> -static inline void nvme_init_req_default_timeout(struct request *req)
+> +static inline void nvme_init_req_timeout(struct request *req)
+>  {
+>  	if (req->q->queuedata)
+>  		req->timeout = NVME_IO_TIMEOUT;
+> @@ -539,28 +534,42 @@ static inline void nvme_init_req_default_timeout(struct request *req)
+>  		req->timeout = NVME_ADMIN_TIMEOUT;
+>  }
+>  
+> +static inline unsigned int nvme_req_op(struct nvme_command *cmd)
+> +{
+> +	return nvme_is_write(cmd) ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN;
+> +}
 
-I've applied this to nvme-5.11 with a few tiny cleanups.
+This pointlessly moves things around.  I think life would be easier
+by merging the previous and this patch into one.  This is what I have
+in my local tree at the moment:
+
+---
+From 910ac79ef0dcd62bc75e5d57c0d4c57e0cdaaa32 Mon Sep 17 00:00:00 2001
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Date: Mon, 9 Nov 2020 18:24:00 -0800
+Subject: nvme: split nvme_alloc_request()
+
+Right now nvme_alloc_request() allocates a request from block layer
+based on the value of the qid. When qid set to NVME_QID_ANY it used
+blk_mq_alloc_request() else blk_mq_alloc_request_hctx().
+
+The function nvme_alloc_request() is called from different context, The
+only place where it uses non NVME_QID_ANY value is for fabrics connect
+commands :-
+
+nvme_submit_sync_cmd()		NVME_QID_ANY
+nvme_features()			NVME_QID_ANY
+nvme_sec_submit()		NVME_QID_ANY
+nvmf_reg_read32()		NVME_QID_ANY
+nvmf_reg_read64()		NVME_QID_ANY
+nvmf_reg_write32()		NVME_QID_ANY
+nvmf_connect_admin_queue()	NVME_QID_ANY
+nvme_submit_user_cmd()		NVME_QID_ANY
+	nvme_alloc_request()
+nvme_keep_alive()		NVME_QID_ANY
+	nvme_alloc_request()
+nvme_timeout()			NVME_QID_ANY
+	nvme_alloc_request()
+nvme_delete_queue()		NVME_QID_ANY
+	nvme_alloc_request()
+nvmet_passthru_execute_cmd()	NVME_QID_ANY
+	nvme_alloc_request()
+nvmf_connect_io_queue() 	QID
+	__nvme_submit_sync_cmd()
+		nvme_alloc_request()
+
+With passthru nvme_alloc_request() now falls into the I/O fast path such
+that blk_mq_alloc_request_hctx() is never gets called and that adds
+additional branch check in fast path.
+
+Split the nvme_alloc_request() into nvme_alloc_request() and
+nvme_alloc_request_qid().
+
+Replace each call of the nvme_alloc_request() with NVME_QID_ANY param
+with a call to newly added nvme_alloc_request() without NVME_QID_ANY.
+
+Replace a call to nvme_alloc_request() with QID param with a call to
+newly added nvme_alloc_request() and nvme_alloc_request_qid()
+based on the qid value set in the __nvme_submit_sync_cmd().
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/core.c       | 52 +++++++++++++++++++++++-----------
+ drivers/nvme/host/lightnvm.c   |  5 ++--
+ drivers/nvme/host/nvme.h       |  2 ++
+ drivers/nvme/host/pci.c        |  4 +--
+ drivers/nvme/target/passthru.c |  2 +-
+ 5 files changed, 42 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 98bea150e5dc05..fff90200497c8c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -518,21 +518,14 @@ static inline void nvme_clear_nvme_request(struct request *req)
+ 	}
+ }
+ 
+-struct request *nvme_alloc_request(struct request_queue *q,
+-		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid)
++static inline unsigned int nvme_req_op(struct nvme_command *cmd)
+ {
+-	unsigned op = nvme_is_write(cmd) ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN;
+-	struct request *req;
+-
+-	if (qid == NVME_QID_ANY) {
+-		req = blk_mq_alloc_request(q, op, flags);
+-	} else {
+-		req = blk_mq_alloc_request_hctx(q, op, flags,
+-				qid ? qid - 1 : 0);
+-	}
+-	if (IS_ERR(req))
+-		return req;
++	return nvme_is_write(cmd) ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN;
++}
+ 
++static inline void nvme_init_request(struct request *req,
++		struct nvme_command *cmd)
++{
+ 	if (req->q->queuedata)
+ 		req->timeout = NVME_IO_TIMEOUT;
+ 	else /* no queuedata implies admin queue */
+@@ -541,11 +534,33 @@ struct request *nvme_alloc_request(struct request_queue *q,
+ 	req->cmd_flags |= REQ_FAILFAST_DRIVER;
+ 	nvme_clear_nvme_request(req);
+ 	nvme_req(req)->cmd = cmd;
++}
+ 
++struct request *nvme_alloc_request(struct request_queue *q,
++		struct nvme_command *cmd, blk_mq_req_flags_t flags)
++{
++	struct request *req;
++
++	req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
++	if (!IS_ERR(req))
++		nvme_init_request(req, cmd);
+ 	return req;
+ }
+ EXPORT_SYMBOL_GPL(nvme_alloc_request);
+ 
++struct request *nvme_alloc_request_qid(struct request_queue *q,
++		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid)
++{
++	struct request *req;
++
++	req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), flags,
++			qid ? qid - 1 : 0);
++	if (!IS_ERR(req))
++		nvme_init_request(req, cmd);
++	return req;
++}
++EXPORT_SYMBOL_GPL(nvme_alloc_request_qid);
++
+ static int nvme_toggle_streams(struct nvme_ctrl *ctrl, bool enable)
+ {
+ 	struct nvme_command c;
+@@ -902,7 +917,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	struct request *req;
+ 	int ret;
+ 
+-	req = nvme_alloc_request(q, cmd, flags, qid);
++	if (qid == NVME_QID_ANY)
++		req = nvme_alloc_request(q, cmd, flags);
++	else
++		req = nvme_alloc_request_qid(q, cmd, flags, qid);
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+@@ -1073,7 +1091,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	void *meta = NULL;
+ 	int ret;
+ 
+-	req = nvme_alloc_request(q, cmd, 0, NVME_QID_ANY);
++	req = nvme_alloc_request(q, cmd, 0);
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+@@ -1148,8 +1166,8 @@ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
+ {
+ 	struct request *rq;
+ 
+-	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd, BLK_MQ_REQ_RESERVED,
+-			NVME_QID_ANY);
++	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd,
++			BLK_MQ_REQ_RESERVED);
+ 	if (IS_ERR(rq))
+ 		return PTR_ERR(rq);
+ 
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 88a7c8eac4556c..470cef3abec3db 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -653,7 +653,7 @@ static struct request *nvme_nvm_alloc_request(struct request_queue *q,
+ 
+ 	nvme_nvm_rqtocmd(rqd, ns, cmd);
+ 
+-	rq = nvme_alloc_request(q, (struct nvme_command *)cmd, 0, NVME_QID_ANY);
++	rq = nvme_alloc_request(q, (struct nvme_command *)cmd, 0);
+ 	if (IS_ERR(rq))
+ 		return rq;
+ 
+@@ -767,8 +767,7 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
+ 	DECLARE_COMPLETION_ONSTACK(wait);
+ 	int ret = 0;
+ 
+-	rq = nvme_alloc_request(q, (struct nvme_command *)vcmd, 0,
+-			NVME_QID_ANY);
++	rq = nvme_alloc_request(q, (struct nvme_command *)vcmd, 0);
+ 	if (IS_ERR(rq)) {
+ 		ret = -ENOMEM;
+ 		goto err_cmd;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 824776a8ba13e6..83fb30e317e076 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -611,6 +611,8 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl);
+ 
+ #define NVME_QID_ANY -1
+ struct request *nvme_alloc_request(struct request_queue *q,
++		struct nvme_command *cmd, blk_mq_req_flags_t flags);
++struct request *nvme_alloc_request_qid(struct request_queue *q,
+ 		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid);
+ void nvme_cleanup_cmd(struct request *req);
+ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6123040ff87204..5e6365dd0c8e9e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1304,7 +1304,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		 req->tag, nvmeq->qid);
+ 
+ 	abort_req = nvme_alloc_request(dev->ctrl.admin_q, &cmd,
+-			BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
++			BLK_MQ_REQ_NOWAIT);
+ 	if (IS_ERR(abort_req)) {
+ 		atomic_inc(&dev->ctrl.abort_limit);
+ 		return BLK_EH_RESET_TIMER;
+@@ -2218,7 +2218,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ 	cmd.delete_queue.opcode = opcode;
+ 	cmd.delete_queue.qid = cpu_to_le16(nvmeq->qid);
+ 
+-	req = nvme_alloc_request(q, &cmd, BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
++	req = nvme_alloc_request(q, &cmd, BLK_MQ_REQ_NOWAIT);
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index a062398305a76d..be8ae59dcb7109 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -248,7 +248,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
+ 		timeout = req->sq->ctrl->subsys->admin_timeout;
+ 	}
+ 
+-	rq = nvme_alloc_request(q, req->cmd, 0, NVME_QID_ANY);
++	rq = nvme_alloc_request(q, req->cmd, 0);
+ 	if (IS_ERR(rq)) {
+ 		status = NVME_SC_INTERNAL;
+ 		goto out_put_ns;
+-- 
+2.28.0
+
 
 _______________________________________________
 Linux-nvme mailing list
