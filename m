@@ -2,89 +2,71 @@ Return-Path: <SRS0=JPfP=EQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBF6C4741F
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 09:39:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8B54C388F7
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 09:42:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F27E920780
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 09:39:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 60F1220780
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Nov 2020 09:42:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ih+sTrQk";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="ilIIetMJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F27E920780
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hbsD8wbn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 60F1220780
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=72gRyqL42hIaXKXTMm2ZWKDsL76++AWB8WxDOG3c9J4=; b=ih+sTrQkGnGBpFR/FphU96OJEU
-	ewIxfojZ/9g3jdS1JJqoCts5qpipV8jgU5zIiPtZVYZsnKAYi9en4hu2Cxz1p7Jk2uaBcw4TMXTrE
-	sTICxxcRMQABdgQ1l1nX12ns6EinLV81hMOLybEei1WTII7TWLdDQ5KbrQWOAy7DiM2DYQFY1iM/I
-	GDG62ad4AvTmL9iBcQoINLdAoI28zcWInbQayVY9LNHCSv4RqoF9WglmZJJTiu6hTQV5IPH/XQISn
-	epKfrz8QMK3oSp7MirNwyHABeAjWZb3MQy9Lvu0trZCw3ti/jYokSwzGH1HvkhZASB0mUBuqXYPP9
-	tyrWOCNw==;
+	bh=csSha8GfnmjSu8UEh82gaPeIg5XcVEhBDqeDwXJsCgQ=; b=hbsD8wbnbF60JmFPNfjVxryaVv
+	r4JiUoXs8p09akqR65w/FonmO3Th1Q9TDtsr0KHobv9helmzCEYmjgKEv0/9Q1jdzMyvIKmh1xq/A
+	mo/rlAlI/YeMI75LfrYEycnE3lCcRmAW6j93pEtfdXslzPd8ZTCnnI4on06FPJnEJof5A6CHNPHwP
+	f0Yt+utCfYVwWto3dr2J0X/P+wjvZ9keyqwuhbn7e74c7YgzVfEVat+54NEl5Pmn7qVOsnxXWpi8F
+	eH62z4QChiwIG0kcfvf/xTcp9QJNi7Bpg6dI4+LsxEoXemZxKXBKA0LgLo4XJ9pOEUNIeCmCTRfaX
+	S4EVtI1g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kcQ7z-0005ZC-67; Tue, 10 Nov 2020 09:39:51 +0000
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542])
+	id 1kcQAY-00060f-T2; Tue, 10 Nov 2020 09:42:30 +0000
+Received: from mga11.intel.com ([192.55.52.93])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kcQ7w-0005YL-IV
- for linux-nvme@lists.infradead.org; Tue, 10 Nov 2020 09:39:49 +0000
-Received: by mail-ed1-x542.google.com with SMTP id v22so1597477edt.9
- for <linux-nvme@lists.infradead.org>; Tue, 10 Nov 2020 01:39:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NGC8UHUSWpvH5SIBX91yvBkFsjsQSnbCUrNFDTpaJfY=;
- b=ilIIetMJVASZ2CjUBlpYVv5epCMIE0scmhVtWr/IhhibOareIYg/jqO+zq96nSRazJ
- BSSkgqBVSsVzRoqOHH9sM1He9JWlT3lJipAcc/50OkE6S5PTfw+FdWBp4LVWLma7XL4g
- 7k/PPiAd1xCaDxVNqQMpN5xibQeYKUeHg0zV7ZNo87v6dw5TEqzGj7Af+IIYcET1M/JR
- 8YgCyslUySIdjM/hdu4bxtKbjDrI4hbH8MN5pJ20fGaEYERO2EOsmSvdogVY2FsRqmkU
- 2Xq3JZffKveWk5hpU7pPrt5F26sUiztIyEd7dn+vDvvJcZQkRFNCq36XrHrCJ/5N/SdZ
- iNXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NGC8UHUSWpvH5SIBX91yvBkFsjsQSnbCUrNFDTpaJfY=;
- b=VVjojIumFonQSHVXP7YvQhHz6DVzDrQ5U8JsntKUqt4IZRK8GgCr5RxVuAjl+D55ut
- gQQjO8gIC2QzcwUycr2D94JOL2/TNg+KZe7hL2lhq4yjd16EXpGplSVPeqxOaWdPuxBy
- ZbSsYoVDzYjZzCG5g9UpjdbkLqYCbqmFo8pqfRe49wW4j2Q38OXgAkFNVLDuetKLoIVK
- fVkd7CGJ7CCux0FD2DcJTP/RM3X1BUP+R5n40UAzTu7E5UaL6kuEiOyNRrsqfNTvRB+y
- zjfKwkCSt5hAnU1nGqVjvq6tjnzPq/i93AR8g/xXpqC8aurCPjaEe8UjumoUbeyfCW7U
- Of+g==
-X-Gm-Message-State: AOAM531J1bDniH/tQeXiKFUjB3Gsp4ArRBUvoirSe7ZbP8GEZNSIV4ei
- vQOOTW/zFbFPorXjZlVVrMCVP4RS8GLE5ffC
-X-Google-Smtp-Source: ABdhPJx9jMhSI9/pAO8n4wsT1z0Fz92RcU9WurS0rtO41pg5rI6aMIH85K1ZOnWe7/rAUVgxRBZZ7w==
-X-Received: by 2002:a50:cf45:: with SMTP id d5mr19709676edk.225.1605001183960; 
- Tue, 10 Nov 2020 01:39:43 -0800 (PST)
-Received: from ch-wrk-javier.localdomain (5.186.124.214.cgn.fibianet.dk.
- [5.186.124.214])
- by smtp.gmail.com with ESMTPSA id s25sm10065845ejc.29.2020.11.10.01.39.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 01:39:43 -0800 (PST)
-From: "=?UTF-8?q?Javier=20Gonz=C3=A1lez?=" <javier@javigon.com>
-X-Google-Original-From: =?UTF-8?q?Javier=20Gonz=C3=A1lez?=
- <javier.gonz@samsung.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2] nvme: enable ro namespace for ZNS without append
-Date: Tue, 10 Nov 2020 10:39:38 +0100
-Message-Id: <20201110093938.25386-1-javier.gonz@samsung.com>
-X-Mailer: git-send-email 2.17.1
+ id 1kcQAV-0005zy-0i
+ for linux-nvme@lists.infradead.org; Tue, 10 Nov 2020 09:42:28 +0000
+IronPort-SDR: bIu0OQKttCaXx1sAGkduE95wKuFhBxkUCGxJzDKbX9D+eHzv8fW8Puo3WX9tUV4tz8UZnWExDw
+ 2pgqBr5x8k0Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="166436713"
+X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; d="scan'208";a="166436713"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2020 01:42:25 -0800
+IronPort-SDR: jF0xtA6Hf2+GmBILhQTm89zgAO+cwyUAEnvxgcyrU1O1uQeDXeCOtnLLeLpBDyRvbeBajLdDeY
+ ESEfYSSeT91g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; d="scan'208";a="473361392"
+Received: from lkp-server02.sh.intel.com (HELO c6c5fbb3488a) ([10.239.97.151])
+ by orsmga004.jf.intel.com with ESMTP; 10 Nov 2020 01:42:11 -0800
+Received: from kbuild by c6c5fbb3488a with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kcQAF-00009G-22; Tue, 10 Nov 2020 09:42:11 +0000
+Date: Tue, 10 Nov 2020 17:41:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-5.10] BUILD SUCCESS
+ 65c5a055b0d567b7e7639d942c0605da9cc54c5e
+Message-ID: <5faa6036.QUrk+LTD8prh/MU7%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201110_043948_652276_49E25256 
-X-CRM114-Status: GOOD (  18.72  )
+X-CRM114-CacheID: sfid-20201110_044227_265340_597E21BC 
+X-CRM114-Status: GOOD (  13.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,63 +78,154 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, Niklas.Cassel@wdc.com, sagi@grimberg.me,
- joshi.k@samsung.com, k.jensen@samsung.com, linux-block@vger.kernel.org,
- kbusch@kernel.org,
- =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier.gonz@samsung.com>, hch@lst.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-QWxsb3cgWk5TIE5WTWUgU1NEcyB0byBwcmVzZW50IGEgcmVhZC1vbmx5IG5hbWVzcGFjZSB3aGVu
-IGFwcGVuZCBpcyBub3QKc3VwcG9ydGVkLCBpbnN0ZWFkIG9mIHJlamVjdGluZyB0aGUgbmFtZXNw
-YWNlIGRpcmVjdGx5LgoKVGhpcyBhbGxvd3MgKGkpIHRoZSBuYW1lc3BhY2UgdG8gYmUgdXNlZCBp
-biByZWFkLW9ubHkgbW9kZSwgd2hpY2ggaXMgbm90CmEgcHJvYmxlbSBhcyB0aGUgYXBwZW5kIGNv
-bW1hbmQgb25seSBhZmZlY3RzIHRoZSB3cml0ZSBwYXRoLCBhbmQgKGlpKSB0bwp1c2Ugc3RhbmRh
-cmQgbWFuYWdlbWVudCB0b29scyBzdWNoIGFzIG52bWUtY2xpIHRvIGNob29zZSBhIGRpZmZlcmVu
-dApmb3JtYXQgb3IgZmlybXdhcmUgc2xvdCB0aGF0IGlzIGNvbXBhdGlibGUgd2l0aCB0aGUgTGlu
-dXggem9uZWQgYmxvY2sKZGV2aWNlLgoKVGhpcyBwYXRjaCBpbmNsdWRlcyBjb21tZW50cyBmcm9t
-IENocmlzdG9waCwgTmlrbGFzIGFuZCBLZWl0aCB0aGF0CmFwcGxpZWQgdG8gYSBkaWZmZXJlbnQg
-YXBwcm9hY2ggc2V0dGluZyBjYXBhY2l0eSB0byAwCiAgaHR0cHM6Ly93d3cuc3Bpbmljcy5uZXQv
-bGlzdHMvbGludXgtYmxvY2svbXNnNjA3NDcuaHRtbAoKVGhlIHJlbWluZGVyIG9mIHRoZSBvcmln
-aW5hbCBwYXRjaCB3aWxsIGJlIHN1Ym1pdHRlZCBzZXBhcmF0ZWx5LgoKQ2hhbmdlcyBzaW5jZSBW
-MToKICAtIENoYW5nZSBsb2dpYyB0byB1c2UgTlZNRV9OU19BVFRSX1JPIChmcm9tIENocmlzdG9w
-aCkKICAtIFNldCBtYXhfem9uZV9hcHBlbmQgZWdlbiBpbiBSTy4gVGhpcyBhbGxvd3MgdGhlIGRl
-dmljZSB0byBiZSBwcm9wZXJseQogICAgcmV2YWxpZGF0ZWQgYW5kIGVuYWJsZXMgdXNlci1zcGFj
-ZSB0b29scyBzdWNoIGFzIGJsa3pvbmUgdG8gYmUgdXNlZCB3aGVuCiAgICBpbnRlcmFjdGluZyB3
-aXRoIHRoaXMgem9uZWQgZGV2aWNlLgoKU2lnbmVkLW9mZi1ieTogSmF2aWVyIEdvbnrDoWxleiA8
-amF2aWVyLmdvbnpAc2Ftc3VuZy5jb20+Ci0tLQogZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIHwg
-MyArKy0KIGRyaXZlcnMvbnZtZS9ob3N0L252bWUuaCB8IDEgKwogZHJpdmVycy9udm1lL2hvc3Qv
-em5zLmMgIHwgNCArKy0tCiAzIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMyBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9kcml2ZXJz
-L252bWUvaG9zdC9jb3JlLmMKaW5kZXggNDBjYTcxYjI5YmI5Li40ZmNhZWMwYjMzMGIgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYworKysgYi9kcml2ZXJzL252bWUvaG9zdC9j
-b3JlLmMKQEAgLTIwNTgsNyArMjA1OCw4IEBAIHN0YXRpYyB2b2lkIG52bWVfdXBkYXRlX2Rpc2tf
-aW5mbyhzdHJ1Y3QgZ2VuZGlzayAqZGlzaywKIAludm1lX2NvbmZpZ19kaXNjYXJkKGRpc2ssIG5z
-KTsKIAludm1lX2NvbmZpZ193cml0ZV96ZXJvZXMoZGlzaywgbnMpOwogCi0JaWYgKGlkLT5uc2F0
-dHIgJiBOVk1FX05TX0FUVFJfUk8pCisJaWYgKGlkLT5uc2F0dHIgJiBOVk1FX05TX0FUVFJfUk8g
-fHwKKwkJCXRlc3RfYml0KE5WTUVfTlNfRk9SQ0VfUk8sICZucy0+ZmxhZ3MpKQogCQlzZXRfZGlz
-a19ybyhkaXNrLCB0cnVlKTsKIAllbHNlCiAJCXNldF9kaXNrX3JvKGRpc2ssIGZhbHNlKTsKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L252bWUuaCBiL2RyaXZlcnMvbnZtZS9ob3N0L252
-bWUuaAppbmRleCBiYzMzMGJmMGQzYmQuLjNhOTg1ZTk4Y2EyNyAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9udm1lL2hvc3QvbnZtZS5oCisrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L252bWUuaApAQCAtNDQ4
-LDYgKzQ0OCw3IEBAIHN0cnVjdCBudm1lX25zIHsKICNkZWZpbmUgTlZNRV9OU19SRU1PVklORwkw
-CiAjZGVmaW5lIE5WTUVfTlNfREVBRCAgICAgCTEKICNkZWZpbmUgTlZNRV9OU19BTkFfUEVORElO
-RwkyCisjZGVmaW5lIE5WTUVfTlNfRk9SQ0VfUk8JMwogCiAJc3RydWN0IG52bWVfZmF1bHRfaW5q
-ZWN0IGZhdWx0X2luamVjdDsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3Qvem5zLmMg
-Yi9kcml2ZXJzL252bWUvaG9zdC96bnMuYwppbmRleCA2N2U4N2U5ZjMwNmYuLjhmMzYzMmM0ZGIw
-NSAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3Qvem5zLmMKKysrIGIvZHJpdmVycy9udm1l
-L2hvc3Qvem5zLmMKQEAgLTU3LDEwICs1NywxMCBAQCBpbnQgbnZtZV91cGRhdGVfem9uZV9pbmZv
-KHN0cnVjdCBudm1lX25zICpucywgdW5zaWduZWQgbGJhZikKIAkvKiBEcml2ZXIgcmVxdWlyZXMg
-em9uZSBhcHBlbmQgc3VwcG9ydCAqLwogCWlmICghKGxlMzJfdG9fY3B1KGxvZy0+aW9jc1tudm1l
-X2NtZF96b25lX2FwcGVuZF0pICYKIAkJCU5WTUVfQ01EX0VGRkVDVFNfQ1NVUFApKSB7CisJCXNl
-dF9iaXQoTlZNRV9OU19GT1JDRV9STywgJm5zLT5mbGFncyk7CiAJCWRldl93YXJuKG5zLT5jdHJs
-LT5kZXZpY2UsCi0JCQkiYXBwZW5kIG5vdCBzdXBwb3J0ZWQgZm9yIHpvbmVkIG5hbWVzcGFjZTol
-ZFxuIiwKKwkJCSJhcHBlbmQgbm90IHN1cHBvcnRlZCBmb3Igem9uZWQgbmFtZXNwYWNlOiVkLiBG
-b3JjaW5nIHRvIHJlYWQtb25seSBtb2RlXG4iLAogCQkJbnMtPmhlYWQtPm5zX2lkKTsKLQkJcmV0
-dXJuIC1FSU5WQUw7CiAJfQogCiAJLyogTGF6aWx5IHF1ZXJ5IGNvbnRyb2xsZXIgYXBwZW5kIGxp
-bWl0IGZvciB0aGUgZmlyc3Qgem9uZWQgbmFtZXNwYWNlICovCi0tIAoyLjE3LjEKCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxp
-bmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJh
-ZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.10
+branch HEAD: 65c5a055b0d567b7e7639d942c0605da9cc54c5e  nvme: fix incorrect behavior when BLKROSET is called by the user
+
+elapsed time: 1001m
+
+configs tested: 122
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                      tqm8xx_defconfig
+sh                             espt_defconfig
+arc                        nsim_700_defconfig
+i386                                defconfig
+powerpc                 mpc8315_rdb_defconfig
+mips                         bigsur_defconfig
+sh                             sh03_defconfig
+powerpc                 mpc8313_rdb_defconfig
+mips                          ath25_defconfig
+arm                        spear3xx_defconfig
+powerpc                       maple_defconfig
+sh                               alldefconfig
+sh                ecovec24-romimage_defconfig
+m68k                         amcore_defconfig
+powerpc                      katmai_defconfig
+sh                   sh7770_generic_defconfig
+arm                         hackkit_defconfig
+nios2                         3c120_defconfig
+arm                             mxs_defconfig
+arm                       spear13xx_defconfig
+xtensa                  nommu_kc705_defconfig
+sh                      rts7751r2d1_defconfig
+powerpc                     ep8248e_defconfig
+powerpc                     asp8347_defconfig
+mips                        nlm_xlr_defconfig
+arm                        multi_v5_defconfig
+powerpc                     stx_gp3_defconfig
+arm                        cerfcube_defconfig
+arm                          exynos_defconfig
+arm                           tegra_defconfig
+sh                        dreamcast_defconfig
+openrisc                    or1ksim_defconfig
+powerpc                 mpc836x_mds_defconfig
+sh                          rsk7203_defconfig
+arm                       cns3420vb_defconfig
+arm                           omap1_defconfig
+c6x                        evmc6472_defconfig
+arm                          ixp4xx_defconfig
+ia64                             allyesconfig
+sh                          urquell_defconfig
+powerpc                     sequoia_defconfig
+powerpc                     tqm8548_defconfig
+sh                            hp6xx_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a003-20201110
+x86_64               randconfig-a005-20201110
+x86_64               randconfig-a004-20201110
+x86_64               randconfig-a002-20201110
+x86_64               randconfig-a006-20201110
+x86_64               randconfig-a001-20201110
+i386                 randconfig-a006-20201110
+i386                 randconfig-a005-20201110
+i386                 randconfig-a002-20201110
+i386                 randconfig-a001-20201110
+i386                 randconfig-a003-20201110
+i386                 randconfig-a004-20201110
+i386                 randconfig-a004-20201109
+i386                 randconfig-a006-20201109
+i386                 randconfig-a005-20201109
+i386                 randconfig-a001-20201109
+i386                 randconfig-a003-20201109
+i386                 randconfig-a002-20201109
+i386                 randconfig-a012-20201110
+i386                 randconfig-a014-20201110
+i386                 randconfig-a016-20201110
+i386                 randconfig-a011-20201110
+i386                 randconfig-a015-20201110
+i386                 randconfig-a013-20201110
+i386                 randconfig-a014-20201109
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a015-20201110
+x86_64               randconfig-a011-20201110
+x86_64               randconfig-a014-20201110
+x86_64               randconfig-a013-20201110
+x86_64               randconfig-a016-20201110
+x86_64               randconfig-a012-20201110
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
