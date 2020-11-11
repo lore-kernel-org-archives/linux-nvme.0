@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB0BAC56202
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E21C388F9
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:32:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 39D6F20756
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BAF10205CA
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:32:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HupLmTlx";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m5MWiiWz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 39D6F20756
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0ukTgcej";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Yn9ZJJkF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BAF10205CA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=pOUBVJ5mF5HBgqYSuB4/p682DxcKZ+V0Ize7xiQD//g=; b=HupLmTlxnBGIsTaCtjxTs1veK
-	hGiZt2Z7MAfoXKqOyAFfhZmv6/KZ+IHoQPCYyWhP1BBJWwHd05v/rLZiEKA5sSfFON570P06KFUaf
-	zfhx06Q4xdWpst8x0Iy5F/24Sl/EZleJRkHLagXzihzsPj6EeysZRbxkq87R9xYGWl9cFr/pgcvWn
-	rxESUsQRSJlZFXWRNEwcAwiFiNY64kNH8+GkJ531+6g0spKfmEL4SqlEUjRyny7X7es/+pFVJ+Otz
-	oHtQsEA7xZDFse9zQHxWxuHgTZ5u5uOKlDvb6VfFaYuhJKtc6nVOGqvf722hlj6XEdBlI1bdm91x6
-	AQLWMaeGw==;
+	 bh=HFDXrLzPQRjVK59BiBP1Ch65EryLwXbDvvdFQ6fg7oI=; b=0ukTgcejTFLBlG8dLC4vKimDp
+	yosPjT6FntFDNnXNgCM3qA5bO+nfONaiLduSkg899hWTtPGj7QsRIfUq9GD5mx9jB8+YmjsnwErZ6
+	4HYNekzXceRGfeVKDI8BRcVquxsD8Acwn/Qh1OMLWFIXbBTR6Fpvfg7dIXq0QAS3GPFs1zl15df1t
+	rQ3OOegppAXnMCSvLu8Z/iaqoAgkjhk3ip7LbM9SzpJiV9vTHQ+koUeYC8WYAvlOtMUvLxtRxAv+P
+	XhjKXzFRGZDUSkeoztlJ4LInnR/2YgrzJ5hMoy4Qw3FDapzaYQkjfEijqWXl4ZrnK0uLmtr6Lc43X
+	abs5wohig==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kclXe-0005Z0-TB; Wed, 11 Nov 2020 08:31:51 +0000
+	id 1kclXu-0005iQ-D9; Wed, 11 Nov 2020 08:32:02 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kclTQ-000468-Vq
+ id 1kclTP-000464-Gp
  for linux-nvme@merlin.infradead.org; Wed, 11 Nov 2020 08:27:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=PHuhBTY1ouZHYZght48HNcRnOQ9ETUZCJ1FQTXf/EwQ=; b=m5MWiiWzcpaSYXwS8kDVrHOGAw
- 92iCzGTWlSpt7Br9adIXKJfa7+N+xudiux0bUtzBV0XOA8sCFw4A+F+21N6k6DSKovVJVpX0hyRne
- XeIBsiJ1g7Ruf7j/9oBvg5u8uE72Evjw5CNmDZkyoFT44EDwPVXjfy+qvbBMZwYJ4ZM30mXDzKACM
- sbMnAv+VpKqU/y2BICE63kA6Ex/Ct7GtegULS3KTE0zTRAvu/6wpo59jG/nz2JK3HbrnIKVuEf9X9
- L91CAfTn1sj5/yjS/WJVSnqinqVMqn7XYadu2gBkPI9KyrNPK+vEVaQZyACPmx4+EtdIlPpHqXZDG
- leis3YSg==;
+ bh=WnN/7srg5pLReznCKKgcsF3AnXJUcZlbQO74sw0EfcM=; b=Yn9ZJJkFPKY+e/NLCTNecyPGTK
+ il0irebR1t1HO/8eJQn4fbMXYeP8mJXUek8GZzwX4pJgWyXrPl2bszTSxZ11r9soxMYwduEgujiGA
+ X5SuddMPNCCFAoWdlddCDN/5gXkyf48GJYtL9OOOBNVOfNJhfwKRc3vMXYv39ISngvdGZZ9qpscdU
+ AAJZ8mdncp//thuUaUj0lxPvvkPCJyExBd5wbS0H7c6UR2fYb5ZxUpZQH4S5OO2eDLwnVsXgO8EC4
+ /1K1AFxavSBN/H461PJ4OR0/zQpmT35t91FrNDjKal2wDZL90UO4VAADrInrBUoiXiOYnHJ5kHoNj
+ G44xLvFQ==;
 Received: from [2001:4bb8:180:6600:bcde:334f:863c:27b8] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kclTP-0007dc-EI; Wed, 11 Nov 2020 08:27:23 +0000
+ id 1kclTN-0007dE-Rp; Wed, 11 Nov 2020 08:27:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 18/24] rnbd: use set_capacity_and_notify
-Date: Wed, 11 Nov 2020 09:26:52 +0100
-Message-Id: <20201111082658.3401686-19-hch@lst.de>
+Subject: [PATCH 17/24] rbd: use set_capacity_and_notify
+Date: Wed, 11 Nov 2020 09:26:51 +0100
+Message-Id: <20201111082658.3401686-18-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201111082658.3401686-1-hch@lst.de>
 References: <20201111082658.3401686-1-hch@lst.de>
@@ -97,22 +97,23 @@ Use set_capacity_and_notify to set the size of both the disk and block
 device.  This also gets the uevent notifications for the resize for free.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Jack Wang <jinpu.wang@cloud.ionos.com>
 ---
- drivers/block/rnbd/rnbd-clt.c | 3 +--
+ drivers/block/rbd.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/block/rnbd/rnbd-clt.c b/drivers/block/rnbd/rnbd-clt.c
-index 8b2411ccbda97c..bb13d7dd195a08 100644
---- a/drivers/block/rnbd/rnbd-clt.c
-+++ b/drivers/block/rnbd/rnbd-clt.c
-@@ -100,8 +100,7 @@ static int rnbd_clt_change_capacity(struct rnbd_clt_dev *dev,
- 	rnbd_clt_info(dev, "Device size changed from %zu to %zu sectors\n",
- 		       dev->nsectors, new_nsectors);
- 	dev->nsectors = new_nsectors;
--	set_capacity(dev->gd, dev->nsectors);
--	revalidate_disk_size(dev->gd, true);
-+	set_capacity_and_notify(dev->gd, dev->nsectors);
- 	return 0;
+diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+index f84128abade319..b7a194ffda55b4 100644
+--- a/drivers/block/rbd.c
++++ b/drivers/block/rbd.c
+@@ -4920,8 +4920,7 @@ static void rbd_dev_update_size(struct rbd_device *rbd_dev)
+ 	    !test_bit(RBD_DEV_FLAG_REMOVING, &rbd_dev->flags)) {
+ 		size = (sector_t)rbd_dev->mapping.size / SECTOR_SIZE;
+ 		dout("setting size to %llu sectors", (unsigned long long)size);
+-		set_capacity(rbd_dev->disk, size);
+-		revalidate_disk_size(rbd_dev->disk, true);
++		set_capacity_and_notify(rbd_dev->disk, size);
+ 	}
  }
  
 -- 
