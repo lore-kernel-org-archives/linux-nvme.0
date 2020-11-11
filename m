@@ -2,85 +2,62 @@ Return-Path: <SRS0=YOZe=ER=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E421C388F9
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 10:07:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28361C388F9
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 12:46:41 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7E7FC20674
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 10:07:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7A4112068D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 12:46:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oo7tn+p+";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=cloud.ionos.com header.i=@cloud.ionos.com header.b="EWvaurrQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E7FC20674
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=cloud.ionos.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TMeFmbHa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A4112068D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=iyEz3BoTXDB9yMRfHAyn1Y+kc2MuR/2ojq5jUlLnX20=; b=oo7tn+p+uzCMpg7nbzipGOpi8
-	KO1qmwpvVnRPzoYbpmwv9y5heC4c+aGayiEgYtOkPuZUu4orlfiBlXlV/W/AgvIB+VHsUdDYJQyIR
-	ExPnFbkQJ/xiFsZAv+O014IWJVSgSK5bFQGRqXlS/ZAxd1Z1Znwr2qWNsPrRdxZbx8Z/8PkLYjMC2
-	CnxQVwrGgKNZaI7yWff6h1f0g/z2N5rJZFunsiU+eWIh5avgKY/POyyNQfiSMZvgIkym1nWCFgT8n
-	SVAOELg23X4vwgEATenpPWIJl/gPDLEQZzhu9PvPdtpfmzOyiKHr/1KHoswgWnIHgySSRmsswk7CI
-	rP+gbXJ1w==;
+	 bh=DzQlWWf4KTzID+0T/0oWZ8sUUTkf2KzU9B/KUBIxahI=; b=TMeFmbHajQtSEQPK1Tctd4zs+
+	IFdyw0ckx4Np99hSyDdLlAd+7JyV1nPeuHY+29c2IS5hLqDardSqT6qiJQxGXKQAeXjJwLOiNKphG
+	AdcEZCpTGbV8ECngYIuSD5Q5Q3y2wptDAYJOIyFXes+UIF+/OFE2crhpx1ghmEo29AiF9dW/AqZDX
+	Z8Zp67jkMaHXtm3ItO39f9byA7T0hEH01/a6H3RjkJzVv0BQJkcQRn1G1u4V8pEhwcObv0z86IYbX
+	AZ9OVUnFIRtlGTqYtWFj4oZlSP8LwG+96OOrDBlykcJ/taOtCwx+tWu6phcN3h5Zd9+46/1R8U0U/
+	f9g9a0J5Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kcn1o-0001XL-LO; Wed, 11 Nov 2020 10:07:00 +0000
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641])
+	id 1kcpWC-0002sw-S9; Wed, 11 Nov 2020 12:46:32 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kcn1l-0001VS-32
- for linux-nvme@lists.infradead.org; Wed, 11 Nov 2020 10:06:58 +0000
-Received: by mail-ej1-x641.google.com with SMTP id o21so1996139ejb.3
- for <linux-nvme@lists.infradead.org>; Wed, 11 Nov 2020 02:06:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloud.ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8BVYeCUTuKi3mlr+D1JejV3WQ4DReZqKao2un+osJdI=;
- b=EWvaurrQLE5Q4yXlmvtPWeVGE0dkpLilBhFACYcpJh5SLgD4k2LHFrfA3fg/phe+gw
- pOXsWhTko+6vmsPMUys1ydyafND8sfafc/BhJ0cLDqzJH5wv7CFdS4PBi4SJJirndEDo
- I3sopJwAoMSpcvKBGOBbJDfAHPo19nxrr5mYxmaUjZAtoeSEinoAPgcqf0tp4SGruWUm
- s+puyVNd/9QM59nJCHGxgwiF4Uhv/qkw3Bh4E6NoIJN/jPJN6bl5siKGHhBBHVdEhBTl
- i9cN1zoK+m/ZDFXKRJbDKDgS4Hb/xEaLU1cJNAhSo0nBcfuCpt/4xbdL/4qVB2KjPelC
- haxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8BVYeCUTuKi3mlr+D1JejV3WQ4DReZqKao2un+osJdI=;
- b=sQZ5iYeA42PitjOaN1/um5JmAUipJKzYskcJtGbmnoptIoTFMhvxLSGzXoibiINfTb
- tOL+xsLraL/6Xw33mAvM0fYYI5hesP8zskdH05QyEmVsEwvfSX5y2m0DUreXu+D/FlmG
- 0fIjEz7tV/YxSyVqXOc8JyW0/YY+mduLo8HumgQrzdYnM7y9ydXyfP894jJ6zb1ZCqx8
- Ffe4lJK6WR0zvvk+LC6UXnXR8HMTWSHLH3CdB0Dh93RS/r83+0zN9gZap+0xG75TTRtm
- kyh5P3tRCDHfF7luV0RINy7kF0NvTc6NbshN/deM1QpJ9lbPidId01HGrlfUHyEr3SL9
- 9V6w==
-X-Gm-Message-State: AOAM533d/esBt3rEHIJA5sDRpaIszNdI5oatTnzJ0lM5qna/5/JgGLgh
- HFGvOS5gKAMh0qtOxC6eNwaao0/B9pZEOLddQcMQXg==
-X-Google-Smtp-Source: ABdhPJzsSG4n+ejxAi7LIm+JtRF2XZ0Zmfdo/Dim1Bn2zjoT1vntwc6k1ciTHUd7GwTXoyYPdOeDF7UWMmfnel/IKPk=
-X-Received: by 2002:a17:907:c05:: with SMTP id
- ga5mr19170455ejc.212.1605089213881; 
- Wed, 11 Nov 2020 02:06:53 -0800 (PST)
-MIME-Version: 1.0
+ id 1kcpWA-0002sK-JY
+ for linux-nvme@lists.infradead.org; Wed, 11 Nov 2020 12:46:31 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 45EACABD6;
+ Wed, 11 Nov 2020 12:46:28 +0000 (UTC)
+Subject: Re: [PATCH 01/24] block: remove the call to __invalidate_device in
+ check_disk_size_change
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20201111082658.3401686-1-hch@lst.de>
- <20201111082658.3401686-18-hch@lst.de>
- <CAOi1vP-JjnNdAUqd9Gy6YdFgi8Ev4_Jt3zcB9DhAmdAvQhG7Eg@mail.gmail.com>
-In-Reply-To: <CAOi1vP-JjnNdAUqd9Gy6YdFgi8Ev4_Jt3zcB9DhAmdAvQhG7Eg@mail.gmail.com>
-From: Jinpu Wang <jinpu.wang@cloud.ionos.com>
-Date: Wed, 11 Nov 2020 11:06:43 +0100
-Message-ID: <CAMGffEmU1ezUo68zF8DS4CRZZMosqhmDw3h7uiWzh2nL8tUs9g@mail.gmail.com>
-Subject: Re: [PATCH 17/24] rbd: use set_capacity_and_notify
-To: Ilya Dryomov <idryomov@gmail.com>
+ <20201111082658.3401686-2-hch@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <1e4539ab-199f-1d15-863d-052b0b2d3946@suse.de>
+Date: Wed, 11 Nov 2020 13:46:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201111082658.3401686-2-hch@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201111_050657_276126_7A6E9254 
-X-CRM114-Status: GOOD (  20.42  )
+X-CRM114-CacheID: sfid-20201111_074630_807001_BA037EC4 
+X-CRM114-Status: GOOD (  18.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,66 +72,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  linux-nvme@lists.infradead.org, Song Liu <song@kernel.org>,
- device-mapper development <dm-devel@redhat.com>,
- Christoph Hellwig <hch@lst.de>, Lars Ellenberg <drbd-dev@lists.linbit.com>,
- Linux SCSI Mailinglist <linux-scsi@vger.kernel.org>,
- xen-devel@lists.xenproject.org, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ dm-devel@redhat.com, drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
  Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
- linux-raid <linux-raid@vger.kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Ceph Development <ceph-devel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
- linux-block <linux-block@vger.kernel.org>,
+ linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
  "Martin K. Petersen" <martin.petersen@oracle.com>,
- Minchan Kim <minchan@kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 11, 2020 at 10:55 AM Ilya Dryomov <idryomov@gmail.com> wrote:
->
-> On Wed, Nov 11, 2020 at 9:27 AM Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > Use set_capacity_and_notify to set the size of both the disk and block
-> > device.  This also gets the uevent notifications for the resize for free.
-> >
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > Acked-by: Jack Wang <jinpu.wang@cloud.ionos.com>
-> > ---
-> >  drivers/block/rbd.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
-> > index f84128abade319..b7a194ffda55b4 100644
-> > --- a/drivers/block/rbd.c
-> > +++ b/drivers/block/rbd.c
-> > @@ -4920,8 +4920,7 @@ static void rbd_dev_update_size(struct rbd_device *rbd_dev)
-> >             !test_bit(RBD_DEV_FLAG_REMOVING, &rbd_dev->flags)) {
-> >                 size = (sector_t)rbd_dev->mapping.size / SECTOR_SIZE;
-> >                 dout("setting size to %llu sectors", (unsigned long long)size);
-> > -               set_capacity(rbd_dev->disk, size);
-> > -               revalidate_disk_size(rbd_dev->disk, true);
-> > +               set_capacity_and_notify(rbd_dev->disk, size);
-> >         }
-> >  }
-> >
-> > --
-> > 2.28.0
-> >
->
-> Hi Christoph,
->
-> The Acked-by is wrong here.  I acked this patch (17/24, rbd), and Jack
-> acked the next one (18/24, rnbd).
-right. :)
->
-> Thanks,
->
->                 Ilya
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMTEvMTEvMjAgOToyNiBBTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gX19pbnZhbGlk
+YXRlX2RldmljZSB3aXRob3V0IHRoZSBraWxsX2RpcnR5IHBhcmFtZXRlciBqdXN0IGludmFsaWRh
+dGVzCj4gdmFyaW91cyBjbGVhbiBlbnRyaWVzIGluIGNhY2hlcywgd2hpY2ggZG9lc24ndCByZWFs
+bHkgaGVscCB1cyB3aXRoCj4gYW55dGhpbmcsIGJ1dCBjYW4gY2F1c2UgYWxsIGtpbmRzIG9mIGhv
+cnJpYmxlIGxvY2sgb3JkZXJzIGR1ZSB0byBob3cKPiBpdCBjYWxscyBpbnRvIHRoZSBmaWxlIHN5
+c3RlbS4gIFRoZSBvbmx5IHJlYXNvbiB0aGlzIGhhc24ndCBiZWVuIGEKPiBtYWpvciBpc3N1ZSBp
+cyBiZWNhdXNlIHNvIG1hbnkgcGVvcGxlIHVzZSBwYXJ0aXRpb25zLCBmb3Igd2hpY2ggbm8KPiBp
+bnZhbGlkYXRpb24gd2FzIHBlcmZvcm1lZCBhbnl3YXkuCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hy
+aXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+Cj4gLS0tCj4gICBmcy9ibG9ja19kZXYuYyB8IDYg
+LS0tLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgNiBkZWxldGlvbnMoLSkKPiAKUmV2aWV3ZWQtYnk6
+IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4g
+SGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApo
+YXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4
+OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
+bmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXgg
+SW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5v
+cmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1l
+Cg==
