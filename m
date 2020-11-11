@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E4FC388F9
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF35FC388F9
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:31:21 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8E969206F1
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:30:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3D9D2206F1
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:31:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sgyVViVn";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uDrlBIhM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E969206F1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UPFNFZJL";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="INZhS6je"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D9D2206F1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=rhNQjalKj1KcmRk8q3LIUCL9M8hHVqfIVvRTvnzKgPs=; b=sgyVViVnPPeiFqbDUK6QbnVij
-	bhAuAoCiDYqh57Fsfk5sPBTEF4bQE9FO5ShEocmM4t+yc3B1TGd1tPlI3VQjvnXOIzb+/nmCYmb8a
-	bbKZi3gL27kMdauQqF9ZAwndSJR54qhOoOlecD5IdC2Gq+Atf04/qNqzsbBjkj+JNxo/qq+tcwnSr
-	vrkc8YWfZxeoKl700WcPi0H9v6uM6AqvQIOxQ1d60shRVWV406rmTjYtGL/PX/JESEzDQMaqBYxya
-	SVgOVvDu6TeG5FG3wQa8YHaC7m2yqM9vguMdoBwRELWidMI6oNnLRGgGnhBjmmIv/lsIeA6YLGgFF
-	TPncW2ATw==;
+	 bh=xUxIdJBOSNetejuh4algqAcG1cK6C+CSoleVuPhdNU0=; b=UPFNFZJLZT9+6CZXlQx+eox/r
+	sjm3icZGH2+uluOUPR5EgEaoHM+iiQntbmb3A41/tAv7Fkjk3F/lQSa3uSXwbDuQ1lmvkp0p6iikP
+	/aw2WCSzNwREfyb4qzkqQToLlFnYyj1DtAoDPlSTaCe0AD0VuvVEWJxnyCNOiCHcWaTN1Dxnz3zqV
+	hKLeE7SyE+xctDzbMg5L0DF5LOSLELqMxwngRFomknvacCBrfvQCp6gtw6Zu2O1rAb6YKG3MKfrmh
+	iO3e+mYynVGYljggJMKAsNgKE7JJcGgzG6Spx3PcTTPuC8eFmOvNMaJsaudbL5WkhHRMQwKZoeoDr
+	WCf+w8bfA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kclWD-000550-DK; Wed, 11 Nov 2020 08:30:17 +0000
+	id 1kclWp-0005J8-Jb; Wed, 11 Nov 2020 08:31:05 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kclTL-00045J-2O
- for linux-nvme@merlin.infradead.org; Wed, 11 Nov 2020 08:27:19 +0000
+ id 1kclTM-00045m-Li
+ for linux-nvme@merlin.infradead.org; Wed, 11 Nov 2020 08:27:20 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=lumJq5B2fyOOj2vqJR3cb92lXUnjwfkYYs/CdjVL7AE=; b=uDrlBIhMK6T1RnrpgvD/pKf6sG
- QV1Sp6TudbRl1mWifO0nZnLE7QfG2iw/OPgIhCSja3Blj4/cJ1bCXgyh4CGVU8X7dkAknvMZodl4b
- 2ynoRHYB66K72oZd5MYRpOB7ObAcIAq2+HyK+1Hr2mJ91JL6kHn0bBGu17bSqY+tlRCoT0t+bpnhq
- rRarLOFqySYCDRZZr894GHJCn0WJl3x59Oz4tbjlcJPFDeufbZN7qJ20G6JYSqW+cnntCFsKfgQj/
- oMJ4UPFDhi1LuO4RUOy54Y+XqGoQnfQDGHb+DJOLJYIoYZZrMsBLtPkmlQJdVt/k6Enfm2GLnM3Zj
- Ld3eXzpQ==;
+ bh=7eiDjQ8ZjozXig6+m+V2Nb2yhyFiCm1kEOIxzxYYgzo=; b=INZhS6jek7sGzfAIL6nzYXyeXs
+ SsycI2Wi/bh4Pu9HbXbPFzDNdHlSwDosG0AcMwQMMm1UOxdqMl11eyvFrWr8b8z0IrJsEn0H42AYn
+ qK9iedvHnlhvSRdKVleqXJmjQGFSSkaIdxmnABppoi7MGvBdw70K6g4OEqXr8kkf1cCEWQ716tM5I
+ V+Aj8IGwwwfmE/a75KkaqAmHB6T6imPjEjCW+u7gRuoO7i2YL9fXBfMlWqCYSOkvaP4efehVbn86F
+ I/pA5x8OW7h9U9vg1qyAB+518eTm0anOOLvxsYmd8D9ABdtIXycMKu8rH3KJ32rwjG+GfPfEUHYEs
+ jyKDZgiw==;
 Received: from [2001:4bb8:180:6600:bcde:334f:863c:27b8] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kclTJ-0007cE-Po; Wed, 11 Nov 2020 08:27:18 +0000
+ id 1kclTL-0007cU-2G; Wed, 11 Nov 2020 08:27:19 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 14/24] pktcdvd: use set_capacity_and_notify
-Date: Wed, 11 Nov 2020 09:26:48 +0100
-Message-Id: <20201111082658.3401686-15-hch@lst.de>
+Subject: [PATCH 15/24] nvme: use set_capacity_and_notify in
+ nvme_set_queue_dying
+Date: Wed, 11 Nov 2020 09:26:49 +0100
+Message-Id: <20201111082658.3401686-16-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201111082658.3401686-1-hch@lst.de>
 References: <20201111082658.3401686-1-hch@lst.de>
@@ -93,28 +94,46 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use set_capacity_and_notify to set the size of both the disk and block
-device.  This also gets the uevent notifications for the resize for free.
+Use the block layer helper to update both the disk and block device
+sizes.  Contrary to the name no notification is sent in this case,
+as a size 0 is special cased.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/pktcdvd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
-index 467dbd06b7cdb1..4326401cede445 100644
---- a/drivers/block/pktcdvd.c
-+++ b/drivers/block/pktcdvd.c
-@@ -2130,8 +2130,7 @@ static int pkt_open_dev(struct pktcdvd_device *pd, fmode_t write)
- 	}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 445274b28518fb..cc771c70047a96 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -93,16 +93,6 @@ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
+ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 					   unsigned nsid);
  
- 	set_capacity(pd->disk, lba << 2);
--	set_capacity(pd->bdev->bd_disk, lba << 2);
--	bd_set_nr_sectors(pd->bdev, lba << 2);
-+	set_capacity_and_notify(pd->bdev->bd_disk, lba << 2);
+-static void nvme_update_bdev_size(struct gendisk *disk)
+-{
+-	struct block_device *bdev = bdget_disk(disk, 0);
+-
+-	if (bdev) {
+-		bd_set_nr_sectors(bdev, get_capacity(disk));
+-		bdput(bdev);
+-	}
+-}
+-
+ /*
+  * Prepare a queue for teardown.
+  *
+@@ -119,8 +109,7 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ 	blk_set_queue_dying(ns->queue);
+ 	blk_mq_unquiesce_queue(ns->queue);
  
- 	q = bdev_get_queue(pd->bdev);
- 	if (write) {
+-	set_capacity(ns->disk, 0);
+-	nvme_update_bdev_size(ns->disk);
++	set_capacity_and_notify(ns->disk, 0);
+ }
+ 
+ static void nvme_queue_scan(struct nvme_ctrl *ctrl)
 -- 
 2.28.0
 
