@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4D13C388F9
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D497EC4742C
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:33:23 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 14A78206FB
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:32:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5283B205CA
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:33:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Gai4RhEu";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f4V0HAWe"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 14A78206FB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="G4YvjDwW";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nQ0hySiZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5283B205CA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=G/qRGOVGNw7SdWuM79HJUaJmBNzr2k6NOfoz1EjlX7g=; b=Gai4RhEujFK/OLGEpoU5Zp525
-	CVedadgI+DxRfn5ijbythFc9JtvChUL6u0F3fO/h3tI7cwQtKiqNrtt5OLhbBsH4ywYm6uN4uhjHm
-	/Td5NINMj07Wk+1sDn8Y2KIRy/WpOk0/QbH3nlSTWEGnhr0WRuMP/Tp/V6+XlsiQBeM1kIXCI6Iqu
-	oNgLy8fBYv3ez9kk82CXmhj+BpjP2CNGMaUoYWs5yrMu0xE08/RwgFLb6l5vQ+qS1bPOh/8D/92/a
-	9kRW5DVmHQYq5DBakLqeLl8ojmwJvIuSeD+yIIjnc2PMWaPigEzFZSMwS2PtVXRgmRribw8dgslZO
-	pHsZY1vBg==;
+	 bh=6vYPpSRGxE7E/1HRzaubVmyOq4KrhmU+GDJJYoVkyao=; b=G4YvjDwWr79wIznxo6sTFKW7G
+	dHg+rVW/n2H/b36XlwdLyfb9eybj9Uost1bUUK4kwRWLKZ6NPS2mVnT2XiKFkIOokSHvhf0B3N3hZ
+	k5W4HW7pKPJkFTs5dqQO77PJPXb8zDfdb4HyoZaFtlYVOxtPxMzhocWJo5P2EWud6VLHWr+FFdwU/
+	09/hJ+4XEf5oEqWgMHpbp63KsQZRFzz0hL3Zy+X0xUPx04UVmlKSlnOyNldC+SdFAlV3fqj2HTxnm
+	iLTiPvxoHwaGNbM0AvmaWNxVfzpqi6gpWW01DJ0MtBeo1n2e/UWfzSsLvSTOh6roNCtR8jmbiq0VH
+	C+sQoP/ng==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kclY6-0005lb-Ix; Wed, 11 Nov 2020 08:32:17 +0000
+	id 1kclYP-0005uE-QK; Wed, 11 Nov 2020 08:32:35 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kclTT-00046d-OI
+ id 1kclTS-00046T-Fe
  for linux-nvme@merlin.infradead.org; Wed, 11 Nov 2020 08:27:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=WS/5HaJpXF8+Aj3VZ2GQ3e6HnWhXjc79y2mDNxe6L1Y=; b=f4V0HAWekMYcBSj6o8XWWUTCFm
- T5BclxNb2e1/yCArOCAZtaHpaI5MIvAMBAlmQ09k0Vs5C7H5osSMi/yyi2ooqWwolZX/hl/HmmgsB
- D+jP8pA5ScU2KctsL6oRx5X33ddFNfX2rqUIjTaXwq9GiEa355k5oV92nC5tQ+6+9kGxVSh/UNgqs
- aOBS/lcTMjIHcJ1f2lfO4I99IxF6tvVGFNOs4sU6QXK89CfJsoeXu3Sdp0W7hScHrIw+mif8uzQfL
- 3ybKz/y66nVaw99jpra4/f6IwWze87BLSvE7QXpx7MYzrjqlbJlkDiYUTnrhStUMf69bg/OhD0sEJ
- FL2tuymg==;
+ bh=4bS/eZqoJAQR/DSs9IGqi2g9LCY9L0WWDnWefDh2k5M=; b=nQ0hySiZUaY9fLZcgrMawm9KxL
+ DbgEDe1kMMO1r2VbjG/Ha8Omw2jZ9OcL4L35p38O5YLec9s6gZFqZDsBvRcEaVBQf5ShLXgduUfPD
+ 87lEv7hQ4w6SMvk5725iCpwRkLYeP85Upi9ENHtST0lvS3ZK2A6pldL0+TZelBmo7KQDRUcRCGdYO
+ HuuIuddxS5+s4wDf5RBRG5NdNwdHC1R5zqSzn4cXlzM+in9/z/RQvc4S+cvVNMv8ufLGQQWHoc4+c
+ HTfKvbfu5a0af+lNakwx6fOj7Gy+7QKzkLBa496tldsKLleDl5gXZEux1D0rN8XatRpBkUJfWHfC2
+ G0ns064g==;
 Received: from [2001:4bb8:180:6600:bcde:334f:863c:27b8] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kclTS-0007eJ-94; Wed, 11 Nov 2020 08:27:26 +0000
+ id 1kclTQ-0007du-T4; Wed, 11 Nov 2020 08:27:25 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 20/24] dm-raid: use set_capacity_and_notify
-Date: Wed, 11 Nov 2020 09:26:54 +0100
-Message-Id: <20201111082658.3401686-21-hch@lst.de>
+Subject: [PATCH 19/24] zram: use set_capacity_and_notify
+Date: Wed, 11 Nov 2020 09:26:53 +0100
+Message-Id: <20201111082658.3401686-20-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201111082658.3401686-1-hch@lst.de>
 References: <20201111082658.3401686-1-hch@lst.de>
@@ -98,23 +98,41 @@ device.  This also gets the uevent notifications for the resize for free.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/dm-raid.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/block/zram/zram_drv.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/md/dm-raid.c b/drivers/md/dm-raid.c
-index 9c1f7c4de65b35..294f34d2d61bae 100644
---- a/drivers/md/dm-raid.c
-+++ b/drivers/md/dm-raid.c
-@@ -700,8 +700,7 @@ static void rs_set_capacity(struct raid_set *rs)
- {
- 	struct gendisk *gendisk = dm_disk(dm_table_get_md(rs->ti->table));
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index 1b697208d66157..6d15d51cee2b7e 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -1695,7 +1695,7 @@ static void zram_reset_device(struct zram *zram)
+ 	disksize = zram->disksize;
+ 	zram->disksize = 0;
  
--	set_capacity(gendisk, rs->md.array_sectors);
--	revalidate_disk_size(gendisk, true);
-+	set_capacity_and_notify(gendisk, rs->md.array_sectors);
- }
+-	set_capacity(zram->disk, 0);
++	set_capacity_and_notify(zram->disk, 0);
+ 	part_stat_set_all(&zram->disk->part0, 0);
  
- /*
+ 	up_write(&zram->init_lock);
+@@ -1741,9 +1741,7 @@ static ssize_t disksize_store(struct device *dev,
+ 
+ 	zram->comp = comp;
+ 	zram->disksize = disksize;
+-	set_capacity(zram->disk, zram->disksize >> SECTOR_SHIFT);
+-
+-	revalidate_disk_size(zram->disk, true);
++	set_capacity_and_notify(zram->disk, zram->disksize >> SECTOR_SHIFT);
+ 	up_write(&zram->init_lock);
+ 
+ 	return len;
+@@ -1790,7 +1788,6 @@ static ssize_t reset_store(struct device *dev,
+ 	/* Make sure all the pending I/O are finished */
+ 	fsync_bdev(bdev);
+ 	zram_reset_device(zram);
+-	revalidate_disk_size(zram->disk, true);
+ 	bdput(bdev);
+ 
+ 	mutex_lock(&bdev->bd_mutex);
 -- 
 2.28.0
 
