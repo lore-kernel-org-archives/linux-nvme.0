@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41BCCC56201
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6348EC4742C
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:29:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B2FD620756
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:29:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D12E0206F1
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Nov 2020 08:29:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1swCsTmu";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fBt6QhZH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2FD620756
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cd5Xd4zn";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="u/ozI6WB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D12E0206F1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hbSL2ofDQnmn57JFQBsi8W0YzEK1fHGDQ7DOKuPpvss=; b=1swCsTmuNpUHMis+YN/cw1CL9
-	06OSBOuUtBju0WPFZHYqUyXmCNtI2C78F4N7+sSXMTJoVUQQqzSDw4EPmmoWPe0lVb3hjJt1KIhwW
-	pwrArsIb8fJZDRe3rHlXw5Ntf2sxxd9cMuqKqshmnaTaZX9nDj8R7Hcy1GKCDtp4kLaifRIyE9kv1
-	NQCKDFOIxm3WDTxS2T5GKAH80VNitxJXYnY3tXA+uvBlNJUHiZiy1f2VxyZ+6+a+CWepysDFvPtjo
-	CxQWZ0MYgAQ5IZPh/BsiZDEOcM2Mrx2hfm6WwPHS7jVyIE/MYzfNKL/fZqexoX0EpN2ZOn5iXauFI
-	/iTzBFr4g==;
+	 bh=HhImbbQ2tVEVPvuPz/vhKvzkM5f3/57yCATU9lOKWL4=; b=cd5Xd4znBxM78qoL6ui4gIs7a
+	PFza0xfnIFrz22TjCzxM+pB4MjnLdpQuAdsEPBNW/EzGVS3FV69cpE0Zb49hv7tJNdarnmW7jlY6v
+	C6+Lu9iDKLExERKRGCPbjuMUYV1bdST9mJJ+6f77RgiIGaswaYgArjmlxqAyqoE1L6vsZZZb5W9WQ
+	Hy4yyN/STU/Th3TUjkqr425uKJbA9Y6zACbQNStOaoyDPCGxrpj/xUs3EVZleADcDdM3IJiZaJpt1
+	/t87lfZ8OOf9W5MKLtHrDWUo878RPohfUtyIAdpujCM9UC7EFXc1hLBXQUB/7kQnR6jiYt7DqQP/w
+	XERvWFHTQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kclVC-0004ht-Vz; Wed, 11 Nov 2020 08:29:18 +0000
+	id 1kclVZ-0004pS-7j; Wed, 11 Nov 2020 08:29:37 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kclTI-00044m-EF
- for linux-nvme@merlin.infradead.org; Wed, 11 Nov 2020 08:27:16 +0000
+ id 1kclTJ-000456-MP
+ for linux-nvme@merlin.infradead.org; Wed, 11 Nov 2020 08:27:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=bgbs5emPj5p7gTWcmnEuks79StD6TA5roIn47mScHH4=; b=fBt6QhZHrv17/Y1zEBZjou8nag
- /S9UF+dPlT5bEmXhZ0AkX3Des+z44TDZwhlLf8UZwm1bya/Tw1ihVWQ1eo0/wpa9jcmRthywUSjkC
- a5WCNVJjuCks8OG28CqM1W4KLfPlPhhxQn2JdcTB6we015wUZWKRrDnDkhahK+xL2QOV8g1e7VDFb
- R8OvQOpZICV1BZy/htkG1su/uosUSegQuLRvZZFjPgBFD8n7wOMK+yVOakCbK2S5b4ZCm7OCaoLMu
- rE0BnJF3Xca/1n6MGkXXTyg53AWbOj3IBct9gJs8ljT/56L365ZklV7NkghnJYSHb0UpMIe95v8XT
- ZTecf9FA==;
+ bh=aTYccYixW8gbHYOBakp7ukQbj8m53SZz7oZSluFWVGc=; b=u/ozI6WBA8REfAwdRvhywExuNr
+ JLlsRRFbzxUvhpbOhxUj8/yRTolc2kh0ts2NzCUCtvtIGjt7R+mL86s4iNKKy19DxPdRahEdhs7pR
+ VWtl3HgZF75ovljLu1zA3T/5X+fFn3rmuS8w2OpsYFgzn7J0YuXm5T5t2THdt8scAYc5+kG47mtie
+ yNOj6g1hD19a3zBv5h1AdD75GWTJEyW2t6w6Ar1OufkGiHlajaAgfjYMc64Hrs99tQQwSRtuKeGPk
+ C900mkX+WRHnV1MWMEPhCqV0DdkzBlCFAXPcCILEVO5ocQBjNPNvC67NrkhDk+Rw1ZN2Zzateo5JG
+ 8ZYIrJAA==;
 Received: from [2001:4bb8:180:6600:bcde:334f:863c:27b8] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kclTG-0007bi-W8; Wed, 11 Nov 2020 08:27:15 +0000
+ id 1kclTI-0007c0-C4; Wed, 11 Nov 2020 08:27:16 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 12/24] aoe: don't call set_capacity from irq context
-Date: Wed, 11 Nov 2020 09:26:46 +0100
-Message-Id: <20201111082658.3401686-13-hch@lst.de>
+Subject: [PATCH 13/24] dm: use set_capacity_and_notify
+Date: Wed, 11 Nov 2020 09:26:47 +0100
+Message-Id: <20201111082658.3401686-14-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201111082658.3401686-1-hch@lst.de>
 References: <20201111082658.3401686-1-hch@lst.de>
@@ -93,58 +93,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Updating the block device size from irq context can lead to torn
-writes of the 64-bit value, and prevents us from using normal
-process context locking primitives to serialize access to the 64-bit
-nr_sectors value.  Defer the set_capacity to the already existing
-workqueue handler, where it can be merged with the update of the
-block device size by using set_capacity_and_notify.  As an extra
-bonus this also adds proper uevent notifications for the resize.
+Use set_capacity_and_notify to set the size of both the disk and block
+device.  This also gets the uevent notifications for the resize for free.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/aoe/aoecmd.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ drivers/md/dm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/block/aoe/aoecmd.c b/drivers/block/aoe/aoecmd.c
-index 313f0b946fe2b3..ac720bdcd983e7 100644
---- a/drivers/block/aoe/aoecmd.c
-+++ b/drivers/block/aoe/aoecmd.c
-@@ -890,19 +890,13 @@ void
- aoecmd_sleepwork(struct work_struct *work)
- {
- 	struct aoedev *d = container_of(work, struct aoedev, work);
--	struct block_device *bd;
--	u64 ssize;
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index c18fc25485186d..62ad44925e73ec 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -1971,8 +1971,7 @@ static struct dm_table *__bind(struct mapped_device *md, struct dm_table *t,
+ 	if (size != dm_get_size(md))
+ 		memset(&md->geometry, 0, sizeof(md->geometry));
  
- 	if (d->flags & DEVFL_GDALLOC)
- 		aoeblk_gdalloc(d);
+-	set_capacity(md->disk, size);
+-	bd_set_nr_sectors(md->bdev, size);
++	set_capacity_and_notify(md->disk, size);
  
- 	if (d->flags & DEVFL_NEWSIZE) {
--		ssize = get_capacity(d->gd);
--		bd = bdget_disk(d->gd, 0);
--		if (bd) {
--			bd_set_nr_sectors(bd, ssize);
--			bdput(bd);
--		}
-+		set_capacity_and_notify(d->gd, d->ssize);
-+
- 		spin_lock_irq(&d->lock);
- 		d->flags |= DEVFL_UP;
- 		d->flags &= ~DEVFL_NEWSIZE;
-@@ -971,10 +965,9 @@ ataid_complete(struct aoedev *d, struct aoetgt *t, unsigned char *id)
- 	d->geo.start = 0;
- 	if (d->flags & (DEVFL_GDALLOC|DEVFL_NEWSIZE))
- 		return;
--	if (d->gd != NULL) {
--		set_capacity(d->gd, ssize);
-+	if (d->gd != NULL)
- 		d->flags |= DEVFL_NEWSIZE;
--	} else
-+	else
- 		d->flags |= DEVFL_GDALLOC;
- 	schedule_work(&d->work);
- }
+ 	dm_table_event_callback(t, event_callback, md);
+ 
 -- 
 2.28.0
 
