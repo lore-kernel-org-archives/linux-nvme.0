@@ -2,80 +2,102 @@ Return-Path: <SRS0=6u0/=ES=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9263C2D0A3
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2020 07:56:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CE18C2D0A3
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2020 08:23:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4BBFB204EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2020 07:56:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BD28820825
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2020 08:23:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RToa4ltI";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CO6No4P+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4BBFB204EF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Bsv/CK6f";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Kd6V0k0w"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BD28820825
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=zJB/P12JhEyzUQZzJcgWjf+IezfdflI/4ulTwEGTXj4=; b=RToa4ltIcNB/JWcxBQBYFde01
-	BN6CMA33/DnV4Wop0fnkZ992TPe8sjSHj4A7/V0C9LIgC6KBzhbzNd0DmTpKHD92TZb3b4ZOi3kWc
-	q6BofvHI7QFTeDfQy3oxPV0t4FVb47WWzABC449i5CU1sseS9vrJzvNUf3/iU9p8NlicVofTW6FYc
-	OfLWfpQLRyJpr/geXM8CD1TQvrZ27BTJqQ2uH/YAnS/BWCjFgAaOY191JcY/mOEKjw+mhRgmDVZR+
-	7xw2QfCsZZmZT9VLxQlsIHi0ybfoGrND+Urt4VVgbHZu1AB5c1IaktTU42qI4361PZhHgHlnE/1ep
-	utlKfYWHg==;
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SFZCXsyqZSI29TRMNylnAAwhGRiFwSMYA0HRkZ/0fCQ=; b=Bsv/CK6fkL2xZry45oJ0hjN8+k
+	j2MxJNVaO5i9yFQKyiDPfTjc08PdO48dKrNLe2PZU2sLQ2ZiIfmJtWETY9clbGa3nKxAjC06v+2mL
+	KPKOLD7eZn/6PsFOpHhf7HSaf6/sYnzPQJi6DO31H65LvkqlM23/5Z+ELqRDZNTfZkK7wcWuKDwei
+	a4GJUJAlHhsOA/BW9KSYuCXAaFr8XW1ISONkKvDK1lyuCW0ymKZW6RDwCQ8K5EMX8XS2NlHx8bDWw
+	Z8ZwADwkVFUeYH2kNMbskLg/O0nAl/UkBtWzzryXBELKwi06id1z+biwvPAOm72fXtR+XPqFUzRap
+	facYOmpA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kd7Sp-0007hJ-Ii; Thu, 12 Nov 2020 07:56:15 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1kd7sy-0004pt-PF; Thu, 12 Nov 2020 08:23:16 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kd7Se-0007dy-TD
- for linux-nvme@lists.infradead.org; Thu, 12 Nov 2020 07:56:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605167764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tEoa++yckJvX4gcWfT2MBofUbpK3jZSNs2PNG4vNnbQ=;
- b=CO6No4P+0/C0woic3BZ1BB6cjvIb4nFHsIVBxTIMkSRP+fszZ4J4yfTDXLQTN0DoaeYGu3
- HCu80Pu6XaZeXWku17wZOJTeqvxRNWQ6uEyZPziBlkqa5Nxk72fjpFFnkUkAX75uC+oOdN
- 26evUGV0G39He7p2ix4r43Khbh08ozU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-Qy0ZrkkNMQmHW1aSSMJYhw-1; Thu, 12 Nov 2020 02:56:01 -0500
-X-MC-Unique: Qy0ZrkkNMQmHW1aSSMJYhw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C87CA425F3;
- Thu, 12 Nov 2020 07:55:59 +0000 (UTC)
-Received: from localhost (ovpn-12-132.pek2.redhat.com [10.72.12.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 294CA5DA74;
- Thu, 12 Nov 2020 07:55:52 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 3/3] Revert "block: Fix a lockdep complaint triggered by
- request queue flushing"
-Date: Thu, 12 Nov 2020 15:55:26 +0800
-Message-Id: <20201112075526.947079-4-ming.lei@redhat.com>
-In-Reply-To: <20201112075526.947079-1-ming.lei@redhat.com>
-References: <20201112075526.947079-1-ming.lei@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ id 1kd7sv-0004ow-R1
+ for linux-nvme@lists.infradead.org; Thu, 12 Nov 2020 08:23:15 +0000
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AC83U3g193582; Thu, 12 Nov 2020 03:23:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references; s=pp1;
+ bh=EJ8jWsKubf/i/O2OipMlFg3r4/MfebuU8bTeplatuPw=;
+ b=Kd6V0k0wgx3jgKo+0cHd4f+2W738lg59GGp9FD79CNfXmyNt97LKKooZMufG19bjZ0Pb
+ pbJtiA/2jZZLWI19i9XGTg8IO/UF7JQSadAhIdB3vXG6m23vE4uhX9jpWrPR74eZVfm/
+ ynpL8RrSOmemgViC4qdluwh9zaqt649RyS8Vzh/53ot6vI3npzZBt4TdkRqP7EG9jCaV
+ +WYXwJs0PoaKeHsnuUDpoLVyHpPcVFQtS2iUpXi5uUvgIBkjvFtWYcm3SrezclL++fCg
+ kXzrSugH45NGm6jwZEAZK5J06iSsjJgXVz8iyscqWTVV8xHDW/i/cGPxECj2syvgZ8fJ OQ== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34rnpaj2n3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Nov 2020 03:23:07 -0500
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AC8DhI2023505;
+ Thu, 12 Nov 2020 08:23:05 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma05fra.de.ibm.com with ESMTP id 34nk78asd0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Nov 2020 08:23:05 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 0AC8N3N954001922
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Nov 2020 08:23:03 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1006852052;
+ Thu, 12 Nov 2020 08:23:03 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id BB3035205F;
+ Thu, 12 Nov 2020 08:23:02 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH 1/2] nvme-pci: drop min() from nr_io_queues assignment
+Date: Thu, 12 Nov 2020 09:23:01 +0100
+Message-Id: <20201112082302.82441-2-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201112082302.82441-1-schnelle@linux.ibm.com>
+References: <20201112082302.82441-1-schnelle@linux.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-12_02:2020-11-10,
+ 2020-11-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=1 adultscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0
+ impostorscore=0 phishscore=0 clxscore=1011 priorityscore=1501 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011120045
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201112_025605_048495_F70D3F42 
-X-CRM114-Status: GOOD (  12.26  )
+X-CRM114-CacheID: sfid-20201112_032314_283249_40944550 
+X-CRM114-Status: GOOD (  22.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,81 +109,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Bart Van Assche <bvanassche@acm.org>, Qian Cai <cai@redhat.com>,
- John Garry <john.garry@huawei.com>, Kashyap Desai <kashyap.desai@broadcom.com>,
- Sumit Saxena <sumit.saxena@broadcom.com>, Hannes Reinecke <hare@suse.de>,
- Ming Lei <ming.lei@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This reverts commit b3c6a59975415bde29cfd76ff1ab008edbf614a9.
+in nvme_setup_io_queues() the number of I/O queues is set to either 1 in
+case of a quirky Apple device or to the min of nvme_max_io_queues() or
+dev->nr_allocated_queues - 1.
+This is unnecessarily complicated as dev->nr_allocated_queues is only
+assigned once and is nvme_max_io_queues() + 1.
 
-Now we can avoid nvme-loop lockdep warning of 'lockdep possible recursive
-locking' by nvme-loop's lock class, no need to apply dynamically
-allocated lock class key, so revert commit b3c6a5997541("block: Fix a
-lockdep complaint triggered by request queue flushing").
-
-This way fixes horrible SCSI probe delay issue on megaraid_sas, and it
-is reported the whole probe may take more than half an hour.
-
-Reported-by: Qian Cai <cai@redhat.com>
-Cc: Sumit Saxena <sumit.saxena@broadcom.com>
-Cc: John Garry <john.garry@huawei.com>
-Cc: Kashyap Desai <kashyap.desai@broadcom.com>
-Cc: Bart Van Assche <bvanassche@acm.org>
-Cc: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 ---
- block/blk-flush.c | 5 -----
- block/blk.h       | 1 -
- 2 files changed, 6 deletions(-)
+ drivers/nvme/host/pci.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/block/blk-flush.c b/block/blk-flush.c
-index 657743524e15..c64f049226f6 100644
---- a/block/blk-flush.c
-+++ b/block/blk-flush.c
-@@ -69,7 +69,6 @@
- #include <linux/blkdev.h>
- #include <linux/gfp.h>
- #include <linux/blk-mq.h>
--#include <linux/lockdep.h>
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0578ff253c47..b56250b83bdf 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2114,8 +2114,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
+ 		nr_io_queues = 1;
+ 	else
+-		nr_io_queues = min(nvme_max_io_queues(dev),
+-				   dev->nr_allocated_queues - 1);
++		nr_io_queues = dev->nr_allocated_queues - 1;
  
- #include "blk.h"
- #include "blk-mq.h"
-@@ -469,9 +468,6 @@ struct blk_flush_queue *blk_alloc_flush_queue(int node, int cmd_size,
- 	INIT_LIST_HEAD(&fq->flush_queue[1]);
- 	INIT_LIST_HEAD(&fq->flush_data_in_flight);
- 
--	lockdep_register_key(&fq->key);
--	lockdep_set_class(&fq->mq_flush_lock, &fq->key);
--
- 	return fq;
- 
-  fail_rq:
-@@ -486,7 +482,6 @@ void blk_free_flush_queue(struct blk_flush_queue *fq)
- 	if (!fq)
- 		return;
- 
--	lockdep_unregister_key(&fq->key);
- 	kfree(fq->flush_rq);
- 	kfree(fq);
- }
-diff --git a/block/blk.h b/block/blk.h
-index dfab98465db9..806fd6537295 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -25,7 +25,6 @@ struct blk_flush_queue {
- 	struct list_head	flush_data_in_flight;
- 	struct request		*flush_rq;
- 
--	struct lock_class_key	key;
- 	spinlock_t		mq_flush_lock;
- };
- 
+ 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+ 	if (result < 0)
 -- 
-2.25.4
+2.17.1
 
 
 _______________________________________________
