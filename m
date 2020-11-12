@@ -7,81 +7,104 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 219F8C2D0A3
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2020 15:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB0ADC56201
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2020 15:45:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7C01820A8B
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2020 15:29:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 20F18221E9
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Nov 2020 15:45:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PhCk+wXX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C01820A8B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hbepdTIC";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="tcHZWvAF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 20F18221E9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JQ9upAWS7WT0DJNsWBhCs5zstX20Il8Qk4ji4O9x/Q4=; b=PhCk+wXX94b3Y+xplbQie1OnP
-	xpWZ2kGE6+N2zmmTrtveQhn1hqahgl3UV2bTe2M/fVcTVtOE/+xiRasPjLex4wO/oIC3VjvcThpM9
-	ir3wZVaGYcFh8kP9WDzcMXUuLTL6ilKL/DRevzoA6HM6cB7HweB53qLGGjUj+PNwL/p15Zc89oz33
-	bj8WO8rYcKiX9YKd1N9KPZK9cVCWAuo19JQDl2wq43LP35EOsOtLqkx8yzFtny8WifakB4k7JI5VL
-	KITNk4vkqBjpgyyfPNnXZgRGgqjzsZQLbl3pU3GXFaAIWem2tTnqBY+0Jhy0HP6x/wvpo4TBZkQp3
-	x8QSwosvw==;
+	 bh=j1olWSjbbBLAp50ozD2cYYgxudLhLj3cfE5jesSVC7U=; b=hbepdTICbxVZsTXCq8yPMgblL
+	gYL+ldPpJ4z9U9pZK9HnsEz14FKjI2NIV+gRASh0BTk3ebESqvhFY03ycSTsJCBkTvqTuspXxmI41
+	Pec8G1dmniuG/T/aR3Q0FhjnhR4yHg5uEzfhJUHfRfHHQu0Kp1aZrfZfmh808uYqsCnTqf6d4RUpV
+	+r2//HQ/C2kXjKPiTKWA4w8X4MHbzqAXBM6s+nQETw1cQPo7V92Vqud35f65TVC+VI2gtX7ozkzBx
+	OWuCvlHTGZpPQWrJiXz1wXk8lOliWj+PCTfkylK3bsJPLMWmY7LwZajfjesB8wLQQiShWI8z6PcYC
+	bnL8Wbziw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kdEXI-0004DE-8U; Thu, 12 Nov 2020 15:29:20 +0000
-Received: from mail-pl1-f196.google.com ([209.85.214.196])
+	id 1kdEnE-0006oF-TK; Thu, 12 Nov 2020 15:45:48 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kdEXG-0004CV-8D
- for linux-nvme@lists.infradead.org; Thu, 12 Nov 2020 15:29:19 +0000
-Received: by mail-pl1-f196.google.com with SMTP id t18so2966523plo.0
- for <linux-nvme@lists.infradead.org>; Thu, 12 Nov 2020 07:29:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mfWwkX2VqCJnpSe3f6b7gGDcCnnDVIbQGc+a3cLC1XQ=;
- b=V2Fb8CKxcN44ISMsPLJ/a7jS/yVc4bf9NARMREaqFpXX0Y4S2eJYTNQ6PdlLBF5p+q
- 4zJ1fldsMM938ZPcBSr63QHisHtGYTSL80CRuC5AhtGu6S7+GQZPVFIISyz3BGhWCZy2
- yVnBXsd/I4yOelUwokKKfs/+vxnbS3IhMxbC08KiKbUwYPvGNf0khGGzVNOJyDPk54jj
- VDPvC5r936Rf2RDpdrMhK75W6Cdb8FnhkGOTmmdZt7XdSIidmxHJpd5rGuOzj+bNz/oN
- VYYxD1hzV5QlUghQjv2SKI7pMsWLhrr9cjH8klMZj2uX/5o1/8G2DPGmb8DWRhw9Z5Za
- 2qHw==
-X-Gm-Message-State: AOAM533wEIFZlRptfym3v/xNoPqpngt1vII4UCXI3NN1Dc53VGE53IHb
- +SGUh1ZymCxoXE5GLVf/GTY0Bhl1sdk=
-X-Google-Smtp-Source: ABdhPJxOj52iktluMxLhGtb7Uxm7Tvphkd8qB2HY4bWSTc9zsAj9RHsxcwe7GxmwCtCA92aOoYD40A==
-X-Received: by 2002:a17:902:a608:b029:d6:a1fc:ab75 with SMTP id
- u8-20020a170902a608b02900d6a1fcab75mr247999plq.18.1605194956874; 
- Thu, 12 Nov 2020 07:29:16 -0800 (PST)
-Received: from [192.168.3.218] (c-73-241-217-19.hsd1.ca.comcast.net.
- [73.241.217.19])
- by smtp.gmail.com with ESMTPSA id j1sm6672257pfa.96.2020.11.12.07.29.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Nov 2020 07:29:15 -0800 (PST)
-Subject: Re: [PATCH 3/3] Revert "block: Fix a lockdep complaint triggered by
- request queue flushing"
-From: Bart Van Assche <bvanassche@acm.org>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>
-References: <20201112075526.947079-1-ming.lei@redhat.com>
- <20201112075526.947079-4-ming.lei@redhat.com>
- <43bd8381-487b-098d-8e62-3946c75bcd8a@acm.org>
-Message-ID: <e0392f5e-1de2-d56b-027b-4bb4d041fdcc@acm.org>
-Date: Thu, 12 Nov 2020 07:29:13 -0800
+ id 1kdEnB-0006n8-Ak
+ for linux-nvme@lists.infradead.org; Thu, 12 Nov 2020 15:45:46 +0000
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0ACFX3IU190272; Thu, 12 Nov 2020 10:45:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=aMlyye4rrFcjn8vxBO/cshtHW6Pbn22aPrH1Hrnofpc=;
+ b=tcHZWvAF+X1+9DdRIxvCpTp8eNRVV2y8Z6Y855iagIDhfFlOwpwzQDrr+OscJMEd/cvh
+ 9vCuv7t7qVzlkVxEiqn5kTdR+kqpC7XI2zlNRck19HaPfLNsWl9xCsWX4f8KDrbv6AH4
+ Wc0y0KUPbDJ4AiWKC/hTMp/6c0O5cFilpHJ9Zo6bnW5xm/INjUMrxjMvphZce6Za9vf+
+ qX0qOU7LJSSatl9UJ0zhN6Ltz8vRI4ogDHf/eYsbGLxIb4GkHi/NUKXmadSpKlBgfGVC
+ /w8HLvcCEtiD4Z7kxKczt8nnWry44uKiH2xa/DqOxd8ynMDDK9N6TBSG5m4egpyoBH3N 0g== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34rjnps6b3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Nov 2020 10:45:40 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0ACFTRbT007103;
+ Thu, 12 Nov 2020 15:45:38 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 34njuh5u0u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Nov 2020 15:45:38 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0ACFjaMZ45810040
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Nov 2020 15:45:36 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 01885AE05D;
+ Thu, 12 Nov 2020 15:45:36 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B00D5AE045;
+ Thu, 12 Nov 2020 15:45:35 +0000 (GMT)
+Received: from [9.171.86.225] (unknown [9.171.86.225])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Nov 2020 15:45:35 +0000 (GMT)
+Subject: Re: [PATCH 0/2] nvme-pic: improve max I/O queue handling
+To: Keith Busch <kbusch@kernel.org>
+References: <20201112082302.82441-1-schnelle@linux.ibm.com>
+ <20201112145325.GC2573679@dhcp-10-100-145-180.wdc.com>
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Message-ID: <10908f20-7e18-e967-76dd-1a38e216b378@linux.ibm.com>
+Date: Thu, 12 Nov 2020 16:45:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <43bd8381-487b-098d-8e62-3946c75bcd8a@acm.org>
+In-Reply-To: <20201112145325.GC2573679@dhcp-10-100-145-180.wdc.com>
 Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-12_06:2020-11-12,
+ 2020-11-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 mlxscore=0 phishscore=0
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011120091
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201112_102918_353212_3933AE44 
-X-CRM114-Status: GOOD (  17.10  )
+X-CRM114-CacheID: sfid-20201112_104545_629099_3CEB5F6E 
+X-CRM114-Status: GOOD (  30.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,40 +116,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Qian Cai <cai@redhat.com>, Sumit Saxena <sumit.saxena@broadcom.com>,
- John Garry <john.garry@huawei.com>, Hannes Reinecke <hare@suse.de>,
- Kashyap Desai <kashyap.desai@broadcom.com>
+Cc: Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/12/20 7:12 AM, Bart Van Assche wrote:
-> On 11/11/20 11:55 PM, Ming Lei wrote:
->> This reverts commit b3c6a59975415bde29cfd76ff1ab008edbf614a9.
->>
->> Now we can avoid nvme-loop lockdep warning of 'lockdep possible recursive
->> locking' by nvme-loop's lock class, no need to apply dynamically
->> allocated lock class key, so revert commit b3c6a5997541("block: Fix a
->> lockdep complaint triggered by request queue flushing").
->>
->> This way fixes horrible SCSI probe delay issue on megaraid_sas, and it
->> is reported the whole probe may take more than half an hour.
+
+
+On 11/12/20 3:53 PM, Keith Busch wrote:
+> On Thu, Nov 12, 2020 at 09:23:00AM +0100, Niklas Schnelle wrote:
+>> while searching for a bug around zPCI + NVMe IRQ handling on a distro
+>> kernel, I got confused around handling of the maximum number
+>> of I/O queues in the NVMe driver.
+>> I think I groked it in the end but would like to propose the following
+>> improvements, that said I'm quite new to this code.
+>> I tested both patches on s390x (with a debug config) and x86_64 so
+>> with both data center and consumer NVMes.
+>> For the second patch, since I don't own a device with the quirk, I tried
+>> always returning 1 from nvme_max_io_queues() and confirmed that on my
+>> Evo 970 Pro this resulted in about half the performance in a fio test
+>> but did not otherwise break things. I couldn't find a reason why
+>> allocating only the I/O queues we actually use would be problematic in
+>> the code either but I might have missed something of course.
 > 
-> The code touched by this patch is compiled out with locked disabled so
-> it is not clear to me how this patch could affect a probe delay for
-> megaraid_sas? Has the megaraid_sas probe issue perhaps not been root
-> caused correctly?
+> I don't think you missed anything, and the series looks like a
+> reasonable cleanup. I suspect the code was left over from a time when we
+> didn't allocate the possible queues up-front.
+> 
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
+> 
 
-(replying to my own email)
-
-I found the answer in the descriptions of the previous patches of this
-series. I think this patch would benefit from a more complete patch
-description.
-
-Thanks,
-
-Bart.
+You got to get something wrong, I hope in this case it's just the subject
+of the cover letter :D
+Thanks for the review, I appreciate it. Might be getting ahead of
+myself but I'm curious who would take this change through their
+tree if accepted?
 
 _______________________________________________
 Linux-nvme mailing list
