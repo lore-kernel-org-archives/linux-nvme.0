@@ -2,113 +2,67 @@ Return-Path: <SRS0=D3vR=ET=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E98C55ABD
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2020 16:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D8CDC63699
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2020 18:28:56 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7C77321D1A
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2020 16:52:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 195752074B
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2020 18:28:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QHsNkmHs";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="h0zuYmCg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C77321D1A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kgwFJxet";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="1zvTGJoD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 195752074B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=d4XCJep9+wIJBEHxQtOyZ3NXiupn7iRzZzQie5WpgHU=; b=QHsNkmHsKE01sTs0/saA1tXVB
-	AAuNJPQK8ElL9ISlvqufeXve2aIYLVDsEpL2tdOOIZatEC1/bkKlHQO7QfSoy1UERgOO9u7xM6pUR
-	z1CB4FiI27HAxcPC88kOOSFXIhfXI9W6oP/n9YB7iWY8urL4LO4IpEmxuB6WdBAbfc88G4a4HXUUO
-	oZcmdBnWGKMa3j0qD6THXhOl0QJuOIBqkhv4Haw4WYYbBQj4orD3JtsMb+WMPOAN5hFtZffxFprV6
-	kG0CSA2k+gRB30fr+VG0HxyM6IrTw15OONzLJWk4124U6QKqccVUxkDe3ObWlofv+Pp/ekqpFvCNC
-	Y//prk1xg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=59ZGQkczbt21HBwBXIYDvLHTPF8AwLfBFjFX0nQUnvg=; b=kgwFJxetN+oT6CB+UfdjH/B22y
+	QhEBcNertDgJKfqOAok5Ap2W0KOVgwGdDU4dVdo+AAvtK2hu6vFqJ8nnVRWw4D+odmxzkHqY+cO7h
+	XR50hikwLM8y5uwlRrWFhwvdgeg4gSDOVGbeAKZ1AiiU8P0tn8nXTbDSgRvbUikuqpwd9K85thuVp
+	+Vfg6abWrKV40GY4PTHYhhEe5VSsigk/bYvDpQMrdPn7jebmpp3RVr5ZPw3CYM96+HPlP+jF+Vj8g
+	x9mhZaJ+l+hAPjNRP9rd3c5BlFH+Pjki7zJRQTq2B+W+2VRSfLLMYLKxi3eVZUCFG7LM1o07AMSRy
+	N5QoUocw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kdcJ8-0007Pr-RY; Fri, 13 Nov 2020 16:52:18 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1kddoV-0003LF-69; Fri, 13 Nov 2020 18:28:47 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kdcJ6-0007PW-5p
- for linux-nvme@lists.infradead.org; Fri, 13 Nov 2020 16:52:17 +0000
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0ADGXH87066679; Fri, 13 Nov 2020 11:52:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=20opIcxHL6KerUt1ZtOZ7lNdftubKY4nb3a7SIpkdXM=;
- b=h0zuYmCgYo5cXz2KTcmHrJ7bEe36PHxRyBFDdCq1OEwtxhkpRxzpeMlpGUe4FVx9BGTH
- 6IVrO2tIQRosMqcGgG+tq6cQ6Y0tMSvYowSJ9edCalUV120fLzyTiMSqolhWq7+Ypk1b
- oRd+HtWfKQsfFx3NayQPW65jjBdb0H+4ny2I/aFlPHlUNIXgn6KeswLrvHPE+e9VOF4P
- gjPWdk0XatzcC0Q1IO9wv58VEFH8AzSe46kZ9MALWY3XAV6fgNMcqBxAkgsEnJX6HepR
- 0H42Lhsg6xcXvqK5o8KrSeu71sHAFiQRmt5B8l9+J3sB7kquMldCo9WUAPXPL7bHR/hI Mw== 
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34swrd0gs3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Nov 2020 11:52:10 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0ADGpwN2016720;
- Fri, 13 Nov 2020 16:52:08 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06ams.nl.ibm.com with ESMTP id 34njuh6w7p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Nov 2020 16:52:08 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0ADGq5Ml3539496
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Nov 2020 16:52:06 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C696E11C058;
- Fri, 13 Nov 2020 16:52:05 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7E94A11C05B;
- Fri, 13 Nov 2020 16:52:05 +0000 (GMT)
-Received: from [9.171.37.149] (unknown [9.171.37.149])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 13 Nov 2020 16:52:05 +0000 (GMT)
-Subject: Re: [PATCH 0/2] nvme-pic: improve max I/O queue handling
-To: Christoph Hellwig <hch@lst.de>
-References: <20201112082302.82441-1-schnelle@linux.ibm.com>
- <20201112145325.GC2573679@dhcp-10-100-145-180.wdc.com>
- <10908f20-7e18-e967-76dd-1a38e216b378@linux.ibm.com>
- <20201112173634.GA2626470@dhcp-10-100-145-180.wdc.com>
- <c753af20-878a-91ad-c5c2-692016fe2014@linux.ibm.com>
- <20201113162502.GA16940@lst.de>
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-Message-ID: <822e0e06-28c2-a069-6cc1-a0810b17fbdd@linux.ibm.com>
-Date: Fri, 13 Nov 2020 17:52:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ id 1kddoP-0003He-OO
+ for linux-nvme@lists.infradead.org; Fri, 13 Nov 2020 18:28:43 +0000
+Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E835A206E0;
+ Fri, 13 Nov 2020 18:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605292119;
+ bh=HgIbydZvR81o/v10wwYj1v3ZR4Uoxpp5Wnlmfwp0HqA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=1zvTGJoDuwaXgiEATofkkbVdQdO8xfMlM5YzHLGIqZceCgSVhc1OZD9GyvBlmbMSD
+ Mqesg/Pz3M4xHCUYoZmM/9U0JoQQ9VLY7c8IpPikcXqW1oC3Jige5w/b00khEFYnXB
+ kgv/SMN0QHG5y+vCp0uMkjMbpbA8KnTPaIGDOBOQ=
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Subject: [PATCH] nvme: directly cache command effects log
+Date: Fri, 13 Nov 2020 10:28:30 -0800
+Message-Id: <20201113182830.2642315-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20201113162502.GA16940@lst.de>
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-13_10:2020-11-13,
- 2020-11-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1015
- phishscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0
- suspectscore=0 mlxscore=0 bulkscore=0 spamscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011130107
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201113_115216_652243_093D0422 
-X-CRM114-Status: GOOD (  23.19  )
+X-CRM114-CacheID: sfid-20201113_132841_900587_E1F76C3D 
+X-CRM114-Status: GOOD (  12.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,35 +74,75 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Remove the struct used for tracking known command effects logs in a
+list. This is now saved in an xarray that doesn't use these elements.
+Instead, store the log directly instead of the wrapper struct.
 
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 9 ++++-----
+ drivers/nvme/host/nvme.h | 6 ------
+ 2 files changed, 4 insertions(+), 11 deletions(-)
 
-On 11/13/20 5:25 PM, Christoph Hellwig wrote:
-> On Fri, Nov 13, 2020 at 02:15:59PM +0100, Niklas Schnelle wrote:
->>
->>
->> On 11/12/20 6:36 PM, Keith Busch wrote:
->>> On Thu, Nov 12, 2020 at 04:45:35PM +0100, Niklas Schnelle wrote:
->>>> You got to get something wrong, I hope in this case it's just the subject
->>>> of the cover letter :D
->>>
->>> I suppose the change logs could be worded a little better :)
->>
->> Do you think I should send a v2 with an improved message?
->> I just realized I'm pretty alone (and wrong) in starting
->> the commit message body lower case too.
-> 
-> I'll pull in soon, no need to resend.
-> 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index fff90200497c..2c197f69c03a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2954,7 +2954,7 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, u8 csi,
+ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 				struct nvme_effects_log **log)
+ {
+-	struct nvme_cel *cel = xa_load(&ctrl->cels, csi);
++	struct nvme_effects_log	*cel = xa_load(&ctrl->cels, csi);
+ 	int ret;
+ 
+ 	if (cel)
+@@ -2965,16 +2965,15 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 		return -ENOMEM;
+ 
+ 	ret = nvme_get_log(ctrl, 0x00, NVME_LOG_CMD_EFFECTS, 0, csi,
+-			&cel->log, sizeof(cel->log), 0);
++			cel, sizeof(*cel), 0);
+ 	if (ret) {
+ 		kfree(cel);
+ 		return ret;
+ 	}
+ 
+-	cel->csi = csi;
+-	xa_store(&ctrl->cels, cel->csi, cel, GFP_KERNEL);
++	xa_store(&ctrl->cels, csi, cel, GFP_KERNEL);
+ out:
+-	*log = &cel->log;
++	*log = cel;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 83fb30e317e0..140cc4a9e0c8 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -227,12 +227,6 @@ struct nvme_fault_inject {
+ #endif
+ };
+ 
+-struct nvme_cel {
+-	struct list_head	entry;
+-	struct nvme_effects_log	log;
+-	u8			csi;
+-};
+-
+ struct nvme_ctrl {
+ 	bool comp_seen;
+ 	enum nvme_ctrl_state state;
+-- 
+2.24.1
 
-Thanks, appreciate your effort!
 
 _______________________________________________
 Linux-nvme mailing list
