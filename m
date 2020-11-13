@@ -2,67 +2,83 @@ Return-Path: <SRS0=D3vR=ET=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16D98C55ABD
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2020 18:45:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69DF9C63697
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2020 20:35:14 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B57E3208D5
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2020 18:45:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EFF682224A
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Nov 2020 20:35:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="G9Gy/No+";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqPTqfbM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B57E3208D5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UbEzoOeI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EFF682224A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6ecikf0U9cgSmoqsaMVMM5VxTJFKKd+CcbuIPtLgSjc=; b=G9Gy/No+wfTy/1izRhbYQzAvVY
-	iCxDR8crb6irBtpybw+7ay+oUga7xJ+GfqAmN/WB6MeA6kghU1+X0YY/GcU1rA8Paq7miv1u2knb7
-	rMiFXvfnQDPTdhAiiqufFvQcnhCsyejvOjxdhThMyMLnfe7dfivCXfeAU2wydgeR6nJU3jVzx6MLr
-	NUJoAsIQl//caJzDxQVnmFUIkIKD1Fea7DvkfrO0A4R1bwjMTNg8h8ur9O6s5+neAHvyziEuQAYYl
-	yfgI6w0CliHJkyGdc+ihDirXFSDCAWrFWkXyW6YlFPGEtj3i9sPYAdrpJa6kQaE1h6Autu6vz8MIe
-	3VAO+R3Q==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=MmCjDTRB984WvW9EIe6VuBdY72N39Ge+ulIDzXoINis=; b=UbEzoOeIVyhIY/wZLaKG6K7HA
+	SjH9yNCEpZoxzVbKLgFlst8mWYs2d4cndSt/wyUQZl5yu2OzLkXNE8mDvUBT9N9abnivDn9mRUuSw
+	/IJcy61OSqHY10y8qLVRFqLQ6RgbqlOqrKv7FSufmHmLo816jGxJctNk5TJ1w1JxX1wNKrvKnQQH0
+	vcJ2qFideA5WMQaA8akv4HlalCzpOg+djS2TuLip50lOUMHL+X4+U7C/XIzJ5mkJ+o0ma3EA0eVpN
+	4XqL6LhcGnqzWhqetZhSp1fcxgjVydZLjaiq4RPSXFBen8ExOlGIm/+LW0Am/lfB44fX11xsUqJ/a
+	b44awiO5Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kde51-0006id-4Q; Fri, 13 Nov 2020 18:45:51 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kdfmj-0005nA-VR; Fri, 13 Nov 2020 20:35:06 +0000
+Received: from mail-pf1-f193.google.com ([209.85.210.193])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kde4y-0006iC-Ot
- for linux-nvme@lists.infradead.org; Fri, 13 Nov 2020 18:45:49 +0000
-Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 43C6F208D5;
- Fri, 13 Nov 2020 18:45:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605293147;
- bh=WwMzUqs80cYMsYG+cr18yRglH/y1GTB1vbC1AebutYM=;
- h=From:To:Cc:Subject:Date:From;
- b=lqPTqfbMMLH+ELJ78zO8vboXLq+5TXb7qkMFOs1gTTwXfioiJduxGCkKI2udHl126
- DSPGcHxszYMU+6JXRk3MJAMMePrRPXWuIuSMK4DhVPDbIsfJ393gZMqzstu9ldnupU
- i0kGD5PVnIaMLaC3EW8OCwMqDJabaOkGYgdxz2w0=
-From: Keith Busch <kbusch@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	hch@lst.de,
-	sagi@grimberg.me
-Subject: [PATCH] nvme: fix memory leak freeing command effects
-Date: Fri, 13 Nov 2020 10:45:45 -0800
-Message-Id: <20201113184545.2707853-1-kbusch@kernel.org>
-X-Mailer: git-send-email 2.24.1
+ id 1kdfmh-0005mE-AA
+ for linux-nvme@lists.infradead.org; Fri, 13 Nov 2020 20:35:04 +0000
+Received: by mail-pf1-f193.google.com with SMTP id w14so8599675pfd.7
+ for <linux-nvme@lists.infradead.org>; Fri, 13 Nov 2020 12:34:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fxjgOhyybNYpZSYX+6Oz1HIqCUNxG8ovneGfaNCfF7M=;
+ b=Kn4Ns9qRBqL0rco25xkka+ignhZW9XbcgwD7awhmI3xp1rtxZF5oGMoBcg2Irsp71+
+ VEnhETJnzf1p/AFNTjq923qAkYV2hO/6HSntAkiXRtRPkPS55SJ1JgLkyzrvMtTEYI/W
+ SARQ864g6sRFGpTJdcckdLEqBC4zcsfpxAOVn+gSbliz7GE0iYVjM1lTKOIebyDI5Saq
+ EQ7eDL7xTN1U7hvtR2FwL3js8AHnP8PA4elx2yPd6ObP4asZL/0cJXRCKiOs3jAHKPWi
+ Qsqv3CMdeZVmN4rHj0CYaio5HoGH3gmTmAEyxmgriCX3OVbVAuPPc4fAAfI+G5upC1Eq
+ vghw==
+X-Gm-Message-State: AOAM5330XHeCoesHYKBKNMnRa+2meaqTtEqfc/7ub6h9faVNxSmSAfrl
+ DYEcqPpBMLXhWta2+dKC3WY=
+X-Google-Smtp-Source: ABdhPJy42BorG2pmGsmgyPntSK/vRijj7t5aWnUYg3nJvkgQnbWSa/nNQ4gJ0u4rpJEGYtI1RRcikA==
+X-Received: by 2002:a62:dd16:0:b029:18a:b228:649 with SMTP id
+ w22-20020a62dd160000b029018ab2280649mr3540822pff.33.1605299698294; 
+ Fri, 13 Nov 2020 12:34:58 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:be97:ffd:339d:919c?
+ ([2601:647:4802:9070:be97:ffd:339d:919c])
+ by smtp.gmail.com with ESMTPSA id t64sm11036186pfd.36.2020.11.13.12.34.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Nov 2020 12:34:57 -0800 (PST)
+Subject: Re: [PATCH] iosched: Add i10 I/O Scheduler
+To: Jens Axboe <axboe@kernel.dk>, Rachit Agarwal <rach4x0r@gmail.com>,
+ Christoph Hellwig <hch@lst.de>
+References: <20201112140752.1554-1-rach4x0r@gmail.com>
+ <5a954c4e-aa84-834d-7d04-0ce3545d45c9@kernel.dk>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <da0c7aea-d917-4f3a-5136-89c30d12ba1f@grimberg.me>
+Date: Fri, 13 Nov 2020 12:34:55 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <5a954c4e-aa84-834d-7d04-0ce3545d45c9@kernel.dk>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201113_134548_897864_1AB67F91 
-X-CRM114-Status: GOOD (  13.02  )
+X-CRM114-CacheID: sfid-20201113_153503_388567_5B2227D4 
+X-CRM114-Status: GOOD (  18.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,58 +90,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, chaitanya.kulkarni@wdc.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Qizhe Cai <qc228@cornell.edu>, Rachit Agarwal <ragarwal@cornell.edu>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
+ Midhul Vuppalapati <mvv25@cornell.edu>,
+ Jaehyun Hwang <jaehyun.hwang@cornell.edu>,
+ Rachit Agarwal <ragarwal@cs.cornell.edu>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@lightbitslabs.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-xa_destroy() frees only internal data. The caller is responsible for
-freeing the exteranl objects referenced by an xarray.
 
-Fixes: 1cf7a12e09aa4 ("nvme: use an xarray to lookup the Commands Supported and Effects log")
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+> I haven't taken a close look at the code yet so far, but one quick note
+> that patches like this should be against the branches for 5.11. In fact,
+> this one doesn't even compile against current -git, as
+> blk_mq_bio_list_merge is now called blk_bio_list_merge.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2c197f69c03a..a288d925f71b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4398,6 +4398,19 @@ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
- 
-+static void nvme_free_cels(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_effects_log	*cel;
-+	unsigned long i;
-+
-+	xa_for_each (&ctrl->cels, i, cel) {
-+		xa_erase(&ctrl->cels, i);
-+		kfree(cel);
-+	}
-+
-+	xa_destroy(&ctrl->cels);
-+}
-+
- static void nvme_free_ctrl(struct device *dev)
- {
- 	struct nvme_ctrl *ctrl =
-@@ -4407,8 +4420,7 @@ static void nvme_free_ctrl(struct device *dev)
- 	if (!subsys || ctrl->instance != subsys->instance)
- 		ida_simple_remove(&nvme_instance_ida, ctrl->instance);
- 
--	xa_destroy(&ctrl->cels);
--
-+	nvme_free_cels(ctrl);
- 	nvme_mpath_uninit(ctrl);
- 	__free_page(ctrl->discard_page);
- 
--- 
-2.24.1
+Ugh, I guess that Jaehyun had this patch bottled up and didn't rebase
+before submitting.. Sorry about that.
 
+> In any case, I did run this through some quick peak testing as I was
+> curious, and I'm seeing about 20% drop in peak IOPS over none running
+> this. Perf diff:
+> 
+>      10.71%     -2.44%  [kernel.vmlinux]  [k] read_tsc
+>       2.33%     -1.99%  [kernel.vmlinux]  [k] _raw_spin_lock
+
+You ran this with nvme? or null_blk? I guess neither would benefit
+from this because if the underlying device will not benefit from
+batching (at least enough for the extra cost of accounting for it) it
+will be counter productive to use this scheduler.
+
+> Also:
+> 
+>> [5] https://github.com/i10-kernel/upstream-linux/blob/master/dss-evaluation.pdf
+> 
+> Was curious and wanted to look it up, but it doesn't exist.
+
+I think this is the right one:
+https://github.com/i10-kernel/upstream-linux/blob/master/i10-evaluation.pdf
+
+We had some back and forth around the naming, hence this was probably
+omitted.
 
 _______________________________________________
 Linux-nvme mailing list
