@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B859C5519F
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2020 21:04:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77847C5519F
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2020 21:09:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C6E620A8B
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2020 21:04:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0D0E022284
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2020 21:09:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aNfmsMKI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C6E620A8B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VPPNqlRo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D0E022284
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,48 +25,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=/qlHD9Z7l0zTeJRwaqwWI9N9JNYDl1tAQRgphkdClnY=; b=aNfmsMKIpDNv/POWj779NezvIc
-	AtkgmenNSS5lAWUY8N7aDVuB4rYhU+IwplwbTDkJe6Jmm+pzqaFojJ/DzZA+qA42nmkk4/IZPM0Cz
-	CSOGcK4RnsKRSl0V8XScmI+a4+p5TRgCCi0S3EwkiiMWAddCe8cAXgaJKSwsgdGTwB1n9N6PU/aJS
-	8lQE4+fB4pORE4/b6d2yE/ZJLAmfsT6jgUylc714JLFzJAAZn/EweM3KO2wg/iM85p+sLwvoCUw4J
-	OOOUZ/Uzfw/+LI32ilPE8DxKhnab0ZbO/+gRYOjWCFRsYmYqMfkdckSBzj91sfaR4iXDPltMvv6Q4
-	etYXBN+g==;
+	bh=+vgGOtbk6n0iEV96GZ+C0MumyDy2mYaHy92577dNnCA=; b=VPPNqlRoh0ggF8EAqVteHyA1DB
+	0SNIdw6us0SNSA2DtpfRiaJMHwJDwf1Ijm52Cd0qTzL3kqGwxgwKC5Qcceq1QGhaNViWnCiPL5H7s
+	VFfbhp6z00wm6u0sUffqyrivBIdrgu6DXzFlikb4y7ETuDs1B1zu3UoYnzBEuvqHW20tF9YSkL0lo
+	bsYxFiGFLoFKMHcsr3+JjK4bYjvcmjnRl0FgYtV8uVjnFO1Nju6V8GFxx3Au7FdUMnf9p1RkD6tNn
+	jAV0ZGTa+pGnSqSaa6Aw7I591Gkbw/luTCabbPe7zqvomiegkev1ybU/Sv+mXDmepwWhzj4bDKgXM
+	hPoa9kYw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ke2is-0000wk-Hj; Sat, 14 Nov 2020 21:04:38 +0000
-Received: from mga06.intel.com ([134.134.136.31])
+	id 1ke2ni-0001NH-RA; Sat, 14 Nov 2020 21:09:38 +0000
+Received: from mga11.intel.com ([192.55.52.93])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ke2in-0000wA-KQ
- for linux-nvme@lists.infradead.org; Sat, 14 Nov 2020 21:04:34 +0000
-IronPort-SDR: kJlvfq0gXw5SFjOJo1W71gVqGouKCLf2fA/LhnXEbeu4ondaArgnNnKFG3nc/72eeP1L6t+ILp
- AhlJXmOatwlA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9805"; a="232216901"
-X-IronPort-AV: E=Sophos;i="5.77,479,1596524400"; d="scan'208";a="232216901"
+ id 1ke2nf-0001MV-IV
+ for linux-nvme@lists.infradead.org; Sat, 14 Nov 2020 21:09:36 +0000
+IronPort-SDR: LnFGoE2FudY74ZtJ/bLa+qCwkq8kX4IVr/S70VsUJZsG2acxaVZFpEvUs6UV285dqLDpXLV6mt
+ NRivhcEArzrg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9805"; a="167090541"
+X-IronPort-AV: E=Sophos;i="5.77,479,1596524400"; d="scan'208";a="167090541"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2020 13:04:32 -0800
-IronPort-SDR: V5oS2Ya1Pd3AuCYThIe9dgqeBoN1LtZMaq8KOb246A187Z9v7MXJPGOPgPs2WaQwFQp8eLQLSU
- VXv+tis1pGSw==
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2020 13:09:32 -0800
+IronPort-SDR: hQ8gE8aKKHxZnefjIOT8NZMit7ZDXY8rc1vCgCYjbwdyWM04D0J/ZHzRRzuhSQkUoFRBgrU47k
+ uC1Oq4mXFnrg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,479,1596524400"; d="scan'208";a="329248639"
+X-IronPort-AV: E=Sophos;i="5.77,479,1596524400"; d="scan'208";a="543085398"
 Received: from lkp-server02.sh.intel.com (HELO 697932c29306) ([10.239.97.151])
- by orsmga006.jf.intel.com with ESMTP; 14 Nov 2020 13:04:31 -0800
+ by orsmga005.jf.intel.com with ESMTP; 14 Nov 2020 13:09:31 -0800
 Received: from kbuild by 697932c29306 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1ke2ik-0000z7-I7; Sat, 14 Nov 2020 21:04:30 +0000
-Date: Sun, 15 Nov 2020 05:03:52 +0800
+ id 1ke2na-0000zD-L9; Sat, 14 Nov 2020 21:09:30 +0000
+Date: Sun, 15 Nov 2020 05:09:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-5.10] BUILD SUCCESS
- 8168d23fbcee4f9f6c5a1ce8650417f09aef70eb
-Message-ID: <5fb04638.Vjs0POKdM6qfA1n9%lkp@intel.com>
+Subject: [linux-nvme:nvme-5.11] BUILD SUCCESS
+ 5cecff7960fd529d609ec35ffedb12e927f086d3
+Message-ID: <5fb04775.DyA1oZgcaIu3fzER%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201114_160433_857780_1953A7C9 
-X-CRM114-Status: GOOD (  11.15  )
+X-CRM114-CacheID: sfid-20201114_160935_780773_ED039040 
+X-CRM114-Status: GOOD (  12.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,12 +84,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git  nvme-5.10
-branch HEAD: 8168d23fbcee4f9f6c5a1ce8650417f09aef70eb  nvme: fix memory leak freeing command effects
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.11
+branch HEAD: 5cecff7960fd529d609ec35ffedb12e927f086d3  nvme-pci: don't allocate unused I/O queues
 
-elapsed time: 724m
+elapsed time: 723m
 
-configs tested: 112
+configs tested: 133
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -112,15 +112,31 @@ powerpc                       eiger_defconfig
 arm                        neponset_defconfig
 powerpc                     kmeter1_defconfig
 m68k                                defconfig
+nios2                         10m50_defconfig
+m68k                             allmodconfig
+arm                      pxa255-idp_defconfig
+arm                        cerfcube_defconfig
+ia64                         bigsur_defconfig
+mips                            gpr_defconfig
 arm                          gemini_defconfig
 m68k                       m5249evb_defconfig
 arm                          iop32x_defconfig
 arm                          simpad_defconfig
 arm                           sunxi_defconfig
+powerpc                 mpc8540_ads_defconfig
+mips                         db1xxx_defconfig
+sh                             espt_defconfig
+mips                        jmr3927_defconfig
+mips                        bcm47xx_defconfig
+arm                         orion5x_defconfig
 nds32                            alldefconfig
 arm                       aspeed_g4_defconfig
 arm                         assabet_defconfig
 um                            kunit_defconfig
+arm                            lart_defconfig
+mips                       rbtx49xx_defconfig
+sh                  sh7785lcr_32bit_defconfig
+arm                          imote2_defconfig
 xtensa                         virt_defconfig
 arm                        shmobile_defconfig
 powerpc64                           defconfig
@@ -139,7 +155,6 @@ mips                 decstation_r4k_defconfig
 ia64                             allmodconfig
 ia64                                defconfig
 ia64                             allyesconfig
-m68k                             allmodconfig
 m68k                             allyesconfig
 nios2                               defconfig
 arc                              allyesconfig
@@ -204,6 +219,12 @@ x86_64                               rhel-8.3
 x86_64                                  kexec
 
 clang tested configs:
+x86_64               randconfig-a003-20201113
+x86_64               randconfig-a005-20201113
+x86_64               randconfig-a004-20201113
+x86_64               randconfig-a002-20201113
+x86_64               randconfig-a006-20201113
+x86_64               randconfig-a001-20201113
 x86_64               randconfig-a015-20201114
 x86_64               randconfig-a011-20201114
 x86_64               randconfig-a014-20201114
