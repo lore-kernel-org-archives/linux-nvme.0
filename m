@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBED5C5519F
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2020 09:03:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D332BC61DD8
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2020 09:06:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A38672223C
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2020 09:03:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4D2B72068D
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Nov 2020 09:06:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="xVdKqca/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A38672223C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jcW61hnk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D2B72068D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,34 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Vx9WGhSreT6blVWZ+Zzx8yruPOjEmXTEzQ+8PN8bgDM=; b=xVdKqca/EBHwEBd193HzHbYQB
-	m/EsQuND5KFYqUhwPqwoAo2b1IaY+7sWGADktHZgxKiASOt22RMDqylvYKZ8XrXS8H9nZZIFP1tD2
-	aQNR7gjIH10ojG6qvSJ0ZMoz2GGatelM2lQA8P2ClLjkb5NQ08V3s//jIE0+lsr+v/gHSQ6ZODbmS
-	1TIiNb5tATFaH0BZx1zvn3FgnUiEepwRPNwQ1uWbstLUgV2rguSIbsgHXtlZNpVD7LmMdtfwiBdv0
-	5PFqKVKU8CCwIqrq2D6ySLv5b3TAR3ZZs1ZfZM6JedKkZIPlLUuDNHQLSsYyUAQ6zt/vLmGL92oJO
-	oZsnijshQ==;
+	 bh=8vINVqwDME4l6NoEctvBXbBiAKyVeUn+zeDzhzYVClA=; b=jcW61hnkIv+P+Kv0ZR0VgNzlM
+	6X+Dq74ys7ihnwDdS9ni7H6MKcBfow4YcHvDWKm/gEdXt/gjCUiM9PgHPUeFB41/GcCcT4hXekDLW
+	TcjN6ovtkoX2bgZ4nFFoHlisbUfJEOkiwwgNqXYYnT1l/XW2FhN6Q2awNdbjkxj8+3Rol0MvopTNz
+	7mbYR27w5b69NZTLLbl+xh5bXvHdaqW/cuSgLbGRUBFrBraUY76xOYwQ46XSMpfB1OWlSL13h8pAV
+	ESgHQGKcunlI3uFi0+HBPjqpJUq/2S6TYVp5z1vUx4QckjGHTXn3TmN5bOr6rwY2j6pAdBMyqfZEr
+	529XEngtQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kdrT8-0003s5-Mo; Sat, 14 Nov 2020 09:03:38 +0000
+	id 1kdrW3-0004HT-7C; Sat, 14 Nov 2020 09:06:39 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kdrT6-0003ra-G6
- for linux-nvme@lists.infradead.org; Sat, 14 Nov 2020 09:03:37 +0000
+ id 1kdrW1-0004H1-Fr
+ for linux-nvme@lists.infradead.org; Sat, 14 Nov 2020 09:06:38 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id EDECE67373; Sat, 14 Nov 2020 10:03:34 +0100 (CET)
-Date: Sat, 14 Nov 2020 10:03:34 +0100
+ id 1FCC267373; Sat, 14 Nov 2020 10:06:35 +0100 (CET)
+Date: Sat, 14 Nov 2020 10:06:34 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme: fix memory leak freeing command effects
-Message-ID: <20201114090334.GC18301@lst.de>
-References: <20201113184545.2707853-1-kbusch@kernel.org>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Subject: Re: [PATCH 1/2] nvme-pci: drop min() from nr_io_queues assignment
+Message-ID: <20201114090634.GD18301@lst.de>
+References: <20201112082302.82441-1-schnelle@linux.ibm.com>
+ <20201112082302.82441-2-schnelle@linux.ibm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201113184545.2707853-1-kbusch@kernel.org>
+In-Reply-To: <20201112082302.82441-2-schnelle@linux.ibm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201114_040336_646700_741015F3 
-X-CRM114-Status: UNSURE (   6.29  )
+X-CRM114-CacheID: sfid-20201114_040637_686382_A75702CF 
+X-CRM114-Status: UNSURE (   7.12  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -65,14 +66,17 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: chaitanya.kulkarni@wdc.com, hch@lst.de, linux-nvme@lists.infradead.org,
- sagi@grimberg.me
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, applied to nvme-5.10.
+Thanks,
+
+applied both patches to nvme-5.11.
 
 _______________________________________________
 Linux-nvme mailing list
