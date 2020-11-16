@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A73AC4742C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95399C63699
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:05:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1E03222450
+	by mail.kernel.org (Postfix) with ESMTPS id 2278D2344C
 	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:05:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bZu8CzEw";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YqzdVakm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E03222450
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Mjgh5Uqd";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WtUs/ZHH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2278D2344C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=LPJnkzKoh9NBtstV5YzmIQVCGYABaxXT6RUq+cXpM2w=; b=bZu8CzEwS6eBkYAOoh/XG2f8Q
-	HKGhDWgt9T/eyxn8bcEb0Mg8VPqmnILVu9Em+qEt2HMgXLTpp5cHjIl+rXbM4K1OAE0plMy7doQ4a
-	UDAPY9UfsbEG5qy2QWlUfgIqzYVidg8qTU1/2zTvjI2pnLVXj+D9rdKSLTgqJiykIoIo4zQeosICN
-	8XEu8Ef73d7B0RxIlgL5oFnKFaSMx9g3NsRL/cNcn71dg0uj86hzmdBlR/vADT/JR/RObYhqm7puy
-	YDUXSgfid0fHSYUGiFRjDJk+Oiun0tkCdlnmI0kO6pBzY/RYiYafqZhs2W3pJfTKp2OxsKdU28ItF
-	3omU/Q8zA==;
+	 bh=JqBUcio2D3vlpa3PW8hUDe1Pgew+AzwgugrlbkadzU4=; b=Mjgh5UqdBB8s0aRhuIph919bz
+	3viO7krA10o8h17SzViFwe5fDtCwIuEMjfj1g2pxibz8fcvKLGHWIkH0yke2yfl7X02uRQkyig9ON
+	4gJv/qPJnj3l9OHP0Xctf3f8WPKOcmg5/dZgA2noxjRUhnlp9zAAGOlFyqmW/qxefYyAFFTdYJIsY
+	qEygw5N/he2th95FGgmksA6KulOqnV5gV18gu4JYv2r7dy8NM4YgNS3p1YJdx1O+vMlic3YRxpWvP
+	SajoWkVuSGFwGF50YrbMCP4HEdLoWwyVbx9WM/6EsZP2vPPma86dNvE9P0xnPhA3KrkHldRIsVKFm
+	wVRyz+dzg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1keg4O-0000M0-Lu; Mon, 16 Nov 2020 15:05:28 +0000
+	id 1keg4I-0000JX-6u; Mon, 16 Nov 2020 15:05:22 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefy7-0003e6-NW
- for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:59:00 +0000
+ id 1kefy3-0003c5-EG
+ for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:58:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=v/lQzgfk3g8cFkaFjGaW1PVi+J4d/Qp7XTb0qTcrcMw=; b=YqzdVakmLdPHF6ezNwy3j22Rhk
- XQVP6AxA/GIysbqTVVeNbFaXKt7fGm9agC08PMgcnJUJeh74vxBSvOfGIuDA/W9HICp10ASgp343S
- hLuXPuNnKIIaKSmewfilQzler2ZMSLSZNnA3JzXsI/oA/vpGcupQtF+vIl+sykv24N3IbJmKQaPjW
- Jn9WRJEVebbUFdcTwhZRo/qo4f5NgH2pRWNmJeZrAnILNTOw/lnNzTwrq9w/rBYEhDgZjS59KWZ4g
- UrBImqs7+qvykUY+GYj6lm5Ht8/hTyu9yEFUWTYQLA51bItg9eUgBTuodXJbLE5gVUevZsuOFItUu
- Kp0yfIOw==;
+ bh=yQQZQPCQfQM7CUBXzCMUyqgLnLGQ9YPa8lq6jkcafKI=; b=WtUs/ZHHHWoA+J542Y6mYXW7Ql
+ wMixYk/BvE60aD54t7ExUm0AxV6UzJxr06L6viTlvpgjC2bEe3/zxQDkJkIFlS0bzo78ksny7Nq6W
+ OKlhR7wy5ubVTlN/2Y0WDj6CW0pG+vIu/78iIeWE+YehwQa4BqiEFEcMODKoBOrTVdWrXl0Sdysf+
+ pclwOsbyiCLrKl06HyP8fs+vPQOuBjK9Uq0ldqvVHcha7jCChZf433xQg5wtWEVmIZ0Td1rSjgQ2R
+ mY13xJ5gm6oR6Cum62zjZhpTXXhQHhsumfYYoZ2+ylyEnlTiukpjjXmewaWHdYuHaxhjjM+xQVSh0
+ CxfvNOfw==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefy5-0003vm-UU; Mon, 16 Nov 2020 14:58:58 +0000
+ id 1kefy1-0003uf-KX; Mon, 16 Nov 2020 14:58:53 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 34/78] block: propagate BLKROSET to all partitions
-Date: Mon, 16 Nov 2020 15:57:25 +0100
-Message-Id: <20201116145809.410558-35-hch@lst.de>
+Subject: [PATCH 31/78] loop: use set_disk_ro
+Date: Mon, 16 Nov 2020 15:57:22 +0100
+Message-Id: <20201116145809.410558-32-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -93,31 +93,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When setting the whole device read-only (or clearing the read-only
-state), also update the policy for all partitions.  The s390 dasd
-driver has awlways been doing this and it makes a lot of sense.
+Use set_disk_ro instead of set_device_ro to match all other block
+drivers and to ensure all partitions mirror the read-only flag.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/ioctl.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/block/loop.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/ioctl.c b/block/ioctl.c
-index 6b785181344fe1..22f394d118c302 100644
---- a/block/ioctl.c
-+++ b/block/ioctl.c
-@@ -354,7 +354,10 @@ static int blkdev_roset(struct block_device *bdev, fmode_t mode,
- 		if (ret)
- 			return ret;
- 	}
--	bdev->bd_part->policy = n;
-+	if (bdev_is_partition(bdev))
-+		bdev->bd_part->policy = n;
-+	else
-+		set_disk_ro(bdev->bd_disk, n);
- 	return 0;
- }
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 84a36c242e5550..41caf799df721f 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -1134,7 +1134,7 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
+ 	if (error)
+ 		goto out_unlock;
  
+-	set_device_ro(bdev, (lo->lo_flags & LO_FLAGS_READ_ONLY) != 0);
++	set_disk_ro(lo->lo_disk, (lo->lo_flags & LO_FLAGS_READ_ONLY) != 0);
+ 
+ 	lo->use_dio = lo->lo_flags & LO_FLAGS_DIRECT_IO;
+ 	lo->lo_device = bdev;
 -- 
 2.29.2
 
