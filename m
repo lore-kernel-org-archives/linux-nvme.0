@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64455C5519F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:07:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E05C4742C
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:07:56 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E672122240
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:07:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8DE1E22384
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:07:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="B0PCEunJ";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="k5dNhGax"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E672122240
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KLaZ+i58";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E7BcK9hA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8DE1E22384
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YGVnU0UUDPXmxL0RGdVunSzJP7lpGBOGGU67GCb369w=; b=B0PCEunJ6qmgrhHlN4NQqeWDn
-	Fh+VdbsR6B1mPsj8eWxASn9kh+dplBMA0JwgXyJDjWo+GsYoAKuVscUhfFXTA8hGi3iz6dQ5RwSB0
-	uRGgDyrPnw5O5K7TKNnkYU8azNd7DSFwCUB78Eis1Xvz8ojwsPNfoxwccO7HclRyPbfzXNqdkv5Qa
-	EFxPO/EEIhT4oUcLBtMcjsjLHMCGLfzy14EdZ0uQ7RXe/0JcXOn/Tmi4wIt+RGpkjbl5kbqnATXB4
-	FsMwo9fDtyFT2rTtGL3qpU7rAned4VLdK0o28vTpH+01qTg0PtfkCmf2gFx8lxbGi5ijPnbsJRUeD
-	sZl83/JOA==;
+	 bh=b26J1T1ix1AGCTFgwwgT+6oDoWRUmzCHxi2GVUtMwZg=; b=KLaZ+i58DIBLnMZI/P923Ibmq
+	GUtIVbjUhy3F+2qRkIAvDFBny0xmxlkgdkHEOe1biVzEc6vT/6jjpoj4rAfgE9EPMTRLNRE8jUf9e
+	zEVQVz0J6hVyjW2E6nY9MxkgT/tSc4XDwlJOgGQdfFj2rxvOha7CmyYtb0gl5bxLwxu3gbLg0Kv5P
+	YdoSKmIQpPAWD0+2veLfXPI99chdA682JDzhTKkqxH5J9dS/EeK1f/SIFZ7aUsKmnoNJpmFwZ2NYX
+	BbAT9+nRncPT06/RUFFhgTzFvRe2oWiUiW5WfrPlmQpziCi0vPriX1n9il5hcGUSKhsuwI1TsDS4v
+	EskUD4tmQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1keg6K-0000yh-R5; Mon, 16 Nov 2020 15:07:28 +0000
+	id 1keg6f-00016S-II; Mon, 16 Nov 2020 15:07:49 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefyN-0003m6-Ck
- for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:59:15 +0000
+ id 1kefyO-0003nC-TP
+ for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:59:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=K+kkAiIfWzB4syRFt+33j5OXLPH83fZlF9ACMDZkYhg=; b=k5dNhGax8VxlBfuaj9EQBdAXgt
- 4072QYhm07kKi1w+W9nEyoMSW3ELii8kjNeM1F9XviJBMC0uEQv6MPhU9nRzHBDI1yZZmWAy9Q0N2
- fTvPwi+VC8nhfIjC7jFXt9leIcNNiMb0XmPx9eg/JoTwye7h/y7KHjVMVYweaBNLQMktbr4A8iWEt
- dOTjTgdEq+CLoKYrid8bVvBdmQLTGWBIgPYXUmyZ/n6rnRuKWj+UuQ5XIshtknCUOMSkMwKUNjD5w
- dJBoojTYMzEvaH9mPATlftM3BLIRcn7GZkGadLtxoUQdZeeK4Y0pHIv111cNROAtxxvV+mZxdO2Kj
- KOai2cDA==;
+ bh=O5A83Oi0Xx0wCgZ53MCDk0SimnnpHqXZpeb9/Xjg+3I=; b=E7BcK9hAyDSHxcI7VinrLs/x4+
+ GbPQzDVUV1gmtfeik/ecOJf1xAz9adMm1AlR5n+8pmOFubRvS/7JC38pGCYM9ZwlEJ4zvxSDihrYM
+ JGQCaf5k451aQcjTbxUWntTZRSfcMeTsf8Du7UrxdxqROv2m47Q52OOrWyg+7vXskLoftSze8ezz6
+ aMmgYUku1QWTkRciIOFj5T0KMfHWt98qdMt4QXSWxtgUUImsabTkg/eANqkgiZzmVtnscOj29Xw6f
+ e1x2pMJGB6+SMSCN0E1pYgQM50zCWis0+N6qx617dZwyzoH0THRVg26q4h6UoR9/dNcUrYteSODTY
+ uCKNHu/A==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefyL-0003zc-NO; Mon, 16 Nov 2020 14:59:14 +0000
+ id 1kefyN-000402-5y; Mon, 16 Nov 2020 14:59:15 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 45/78] md: use __register_blkdev to allocate devices on demand
-Date: Mon, 16 Nov 2020 15:57:36 +0100
-Message-Id: <20201116145809.410558-46-hch@lst.de>
+Subject: [PATCH 46/78] ide: switch to __register_blkdev for command set probing
+Date: Mon, 16 Nov 2020 15:57:37 +0100
+Message-Id: <20201116145809.410558-47-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -93,77 +93,87 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the simpler mechanism attached to major_name to allocate a md device
-when a currently unregistered minor is accessed.
+ide is the last user of the blk_register_region framework except for the
+tracking of allocated gendisk.  Switch to __register_blkdev, even if that
+doesn't allow us to trivially find out which command set to probe for.
+That means we now always request all modules when a user tries to access
+an unclaimed ide device node, but except for a few potentially loaded
+modules for a fringe use case of a deprecated and soon to be removed
+driver that doesn't make a difference.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Song Liu <song@kernel.org>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/md/md.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ drivers/ide/ide-probe.c | 34 ++++++----------------------------
+ 1 file changed, 6 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index fa31b71a72a35d..b2edf5e0f965b5 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -5764,11 +5764,12 @@ static int md_alloc(dev_t dev, char *name)
- 	return error;
+diff --git a/drivers/ide/ide-probe.c b/drivers/ide/ide-probe.c
+index 076d34b381720f..1c1567bb519429 100644
+--- a/drivers/ide/ide-probe.c
++++ b/drivers/ide/ide-probe.c
+@@ -902,31 +902,12 @@ static int init_irq (ide_hwif_t *hwif)
+ 	return 1;
  }
  
--static struct kobject *md_probe(dev_t dev, int *part, void *data)
-+static void md_probe(dev_t dev)
+-static int ata_lock(dev_t dev, void *data)
++static void ata_probe(dev_t dev)
  {
-+	if (MAJOR(dev) == MD_MAJOR && MINOR(dev) >= 512)
-+		return;
- 	if (create_on_open)
- 		md_alloc(dev, NULL);
+-	/* FIXME: we want to pin hwif down */
+-	return 0;
+-}
+-
+-static struct kobject *ata_probe(dev_t dev, int *part, void *data)
+-{
+-	ide_hwif_t *hwif = data;
+-	int unit = *part >> PARTN_BITS;
+-	ide_drive_t *drive = hwif->devices[unit];
+-
+-	if ((drive->dev_flags & IDE_DFLAG_PRESENT) == 0)
+-		return NULL;
+-
+-	if (drive->media == ide_disk)
+-		request_module("ide-disk");
+-	if (drive->media == ide_cdrom || drive->media == ide_optical)
+-		request_module("ide-cd");
+-	if (drive->media == ide_tape)
+-		request_module("ide-tape");
+-	if (drive->media == ide_floppy)
+-		request_module("ide-floppy");
+-
 -	return NULL;
++	request_module("ide-disk");
++	request_module("ide-cd");
++	request_module("ide-tape");
++	request_module("ide-floppy");
  }
  
- static int add_named_array(const char *val, const struct kernel_param *kp)
-@@ -6532,7 +6533,7 @@ static void autorun_devices(int part)
- 			break;
- 		}
+ void ide_init_disk(struct gendisk *disk, ide_drive_t *drive)
+@@ -967,7 +948,7 @@ static int hwif_init(ide_hwif_t *hwif)
+ 		return 0;
+ 	}
  
--		md_probe(dev, NULL, NULL);
-+		md_probe(dev);
- 		mddev = mddev_find(dev);
- 		if (!mddev || !mddev->gendisk) {
- 			if (mddev)
-@@ -9563,18 +9564,15 @@ static int __init md_init(void)
- 	if (!md_rdev_misc_wq)
- 		goto err_rdev_misc_wq;
+-	if (register_blkdev(hwif->major, hwif->name))
++	if (__register_blkdev(hwif->major, hwif->name, ata_probe))
+ 		return 0;
  
--	if ((ret = register_blkdev(MD_MAJOR, "md")) < 0)
-+	ret = __register_blkdev(MD_MAJOR, "md", md_probe);
-+	if (ret < 0)
- 		goto err_md;
+ 	if (!hwif->sg_max_nents)
+@@ -989,8 +970,6 @@ static int hwif_init(ide_hwif_t *hwif)
+ 		goto out;
+ 	}
  
--	if ((ret = register_blkdev(0, "mdp")) < 0)
-+	ret = __register_blkdev(0, "mdp", md_probe);
-+	if (ret < 0)
- 		goto err_mdp;
- 	mdp_major = ret;
+-	blk_register_region(MKDEV(hwif->major, 0), MAX_DRIVES << PARTN_BITS,
+-			    THIS_MODULE, ata_probe, ata_lock, hwif);
+ 	return 1;
  
--	blk_register_region(MKDEV(MD_MAJOR, 0), 512, THIS_MODULE,
--			    md_probe, NULL, NULL);
--	blk_register_region(MKDEV(mdp_major, 0), 1UL<<MINORBITS, THIS_MODULE,
--			    md_probe, NULL, NULL);
--
- 	register_reboot_notifier(&md_notifier);
- 	raid_table_header = register_sysctl_table(raid_root_table);
+ out:
+@@ -1582,7 +1561,6 @@ static void ide_unregister(ide_hwif_t *hwif)
+ 	/*
+ 	 * Remove us from the kernel's knowledge
+ 	 */
+-	blk_unregister_region(MKDEV(hwif->major, 0), MAX_DRIVES<<PARTN_BITS);
+ 	kfree(hwif->sg_table);
+ 	unregister_blkdev(hwif->major, hwif->name);
  
-@@ -9841,9 +9839,6 @@ static __exit void md_exit(void)
- 	struct list_head *tmp;
- 	int delay = 1;
- 
--	blk_unregister_region(MKDEV(MD_MAJOR,0), 512);
--	blk_unregister_region(MKDEV(mdp_major,0), 1U << MINORBITS);
--
- 	unregister_blkdev(MD_MAJOR,"md");
- 	unregister_blkdev(mdp_major, "mdp");
- 	unregister_reboot_notifier(&md_notifier);
 -- 
 2.29.2
 
