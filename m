@@ -2,71 +2,63 @@ Return-Path: <SRS0=rzv5=EW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4871CC55ABD
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 08:15:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D9FDC55ABD
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 08:15:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBC00222C4
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 08:15:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D7BA9222E8
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 08:15:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pcvGQq1j";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="ADKc3XSu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBC00222C4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=163.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="h4Z9JQO+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D7BA9222E8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xPf1twgfk3SeKytsoyXeizJo4S5CZOmbzTdOFMOAO64=; b=pcvGQq1jY1J2U/xxwsbfPow7Of
-	CmJ51RrU6+/bllfpx49l0upFTq2F7SXRUZmPryDm2mttxpmMv/EhR0EZWMjXXJeJbuGks7baeZbb6
-	UJAw3+BS3Jk17iXB/cPgUHGh8Fs2ZlzooJyYCUUfUvZgAK5JlW+cXw0RIDtnHqCnubLwC2BptM5Jq
-	tdC/vjpVeuw4HTiUpNPsc1hXiUwOhRp5Be3H55W2xnmDNlWgsp8CNeWx7dC9v/27qg7gjj+98WUw9
-	z+Q+id/mAlWGuUtTP5yPcIASu32a9FBo//mbKOvEWD3vAGsJ0UHXv+thE5CMNgz6oe9fXmBwGaLQk
-	DECCrZvg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=nmN366uNEkpk4p4J/0WKV0tnoV0uLVmMumpN8LecZ6o=; b=h4Z9JQO+A0poSn/IUI1otFTDO
+	pumCsWPYRfFnoBHCFfebRBOMZ5tayL/DDZBL7JvGrFhqTUwi+QYwCAyzydZs5LSfKPNCmXq6Io6In
+	fF6UkRpoWsXqNh8kBxIAMM9PDU2qYGwOZ3fajGT6tmOjD+l4dFa81NAOSjX8+mmQBxTD4WxRN7Y+a
+	hC6Dv+tn2btr+MTWHwqUsDN/Et9YqqJp3G4SfPLRCFHRB8FKfM2R01gtUuPtQmXRDigNug6NN1+BR
+	l1OJ3KmD97QOWvYKfNCAAAaNNazGboOQffWxA0HD1+QCZOZ4NXcOMQ+DxUzVuCrIlxbRsf5HuZGvU
+	yN4mm12JQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1keZfL-0005eP-PK; Mon, 16 Nov 2020 08:15:11 +0000
-Received: from m12-18.163.com ([220.181.12.18])
+	id 1keZfe-0005je-Bg; Mon, 16 Nov 2020 08:15:30 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1keZfH-0005c1-T8
- for linux-nvme@lists.infradead.org; Mon, 16 Nov 2020 08:15:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=6bJg3ejTvq9DaiVDjf
- gwpQMA4ibvyR5v08cg9A9UN64=; b=ADKc3XSu1C9+3zzQDt8iyXavYVVnpbJbp9
- gNHDFZRSK0FnKO71rShaCFSBPR7JZ+MaVnpu652FoDAB9X1bE9WZVsUpfL9fEAT7
- V4VV93x75U4GJC7TVcz3OBf3xgqFuU/jY3k1/nX3s6PP9Q4HaAA+pPI9dzsDjzLe
- vjOqogkPU=
-Received: from localhost.localdomain (unknown [223.104.212.42])
- by smtp14 (Coremail) with SMTP id EsCowACnrQn_NLJfzqOBEQ--.14367S2;
- Mon, 16 Nov 2020 16:14:56 +0800 (CST)
-From: jackygam2001 <jacky_gam_2001@163.com>
-To: hch@lst.de,
-	sagi@grimberg.me
-Subject: [PATCH] NVME:target:rdma fix bug nonemtpy wait list of queue causing
- kernel panic
-Date: Mon, 16 Nov 2020 08:14:53 +0000
-Message-Id: <20201116081453.74644-1-jacky_gam_2001@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: EsCowACnrQn_NLJfzqOBEQ--.14367S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ur17Aw45tw4DKFy7GF15Jwb_yoW8KFyrpF
- WrGr13ua97tr4Ik3y3Aa4UWFWSqw4rur47AryxGwn8JF4jyrWrXanxG3srZry8GF97Jr4r
- CF1Dtrsaka1rJa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRWq2iUUUUU=
-X-Originating-IP: [223.104.212.42]
-X-CM-SenderInfo: 5mdfy55bjdzsisqqiqqrwthudrp/xtbBXgHeKVaD4iYWGQAAs2
+ id 1keZfa-0005i6-AT
+ for linux-nvme@lists.infradead.org; Mon, 16 Nov 2020 08:15:27 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 4348AAFAB;
+ Mon, 16 Nov 2020 08:15:25 +0000 (UTC)
+Subject: Re: [PATCH v4 19/19] scsi: Made changes in Kconfig to select
+ BLK_CGROUP_FC_APPID
+To: Muneendra <muneendra.kumar@broadcom.com>, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, tj@kernel.org, linux-nvme@lists.infradead.org
+References: <1604895845-2587-1-git-send-email-muneendra.kumar@broadcom.com>
+ <1604895845-2587-20-git-send-email-muneendra.kumar@broadcom.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <43145656-b258-be6b-070e-0947dc639042@suse.de>
+Date: Mon, 16 Nov 2020 09:15:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <1604895845-2587-20-git-send-email-muneendra.kumar@broadcom.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201116_031508_528050_18187E90 
-X-CRM114-Status: GOOD (  11.77  )
+X-CRM114-CacheID: sfid-20201116_031526_519156_E8D863FB 
+X-CRM114-Status: GOOD (  23.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,82 +70,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- jackygam2001 <jacky_gam_2001@163.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: pbonzini@redhat.com, jsmart2021@gmail.com, mkumar@redhat.com,
+ emilne@redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-in our lab, when target is processing queue's connection
-(queue->state==NVMET_RDMA_Q_CONNECTING), and the host sends
-a command which will be put into wait list to target,
-Before the command was processed, the host sent a discconnect
-command to target, then the target will process disconnect command,
-it will schedule a kworker to free the pre allocatedrsps array, and
-it will cause kernel panic, because some items of rsps are in wait list.
-
-Signed-off-by: jackygam2001 <jacky_gam_2001@163.com>
----
- drivers/nvme/target/rdma.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index ae6620489457..c6c892a43f68 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1335,6 +1335,35 @@ static void nvmet_rdma_destroy_queue_ib(struct nvmet_rdma_queue *queue)
- 		       queue->send_queue_size + 1);
- }
- 
-+static void nvmet_rdma_destroy_queue_wait_list(struct nvmet_rdma_queue *queue)
-+{
-+	unsigned long flags;
-+	struct nvmet_rdma_rsp *rsp;
-+
-+	spin_lock_irqsave(&queue->state_lock, flags);
-+	while (!list_empty(&queue->rsp_wait_list)) {
-+		rsp = list_first_entry(&queue->rsp_wait_list,
-+				struct nvmet_rdma_rsp, wait_list);
-+		list_del(&rsp->wait_list);
-+		nvmet_rdma_put_rsp(rsp);
-+	}
-+	spin_unlock_irqrestore(&queue->state_lock, flags);
-+}
-+
-+static void nvmet_rdma_destroy_queue_wr_wait_list(struct nvmet_rdma_queue *queue)
-+{
-+	struct nvmet_rdma_rsp *rsp;
-+
-+	spin_lock(&queue->rsp_wr_wait_lock);
-+	while (!list_empty(&queue->rsp_wr_wait_list)) {
-+		rsp = list_first_entry(&queue->rsp_wr_wait_list,
-+				struct nvmet_rdma_rsp, wait_list);
-+		list_del(&rsp->wait_list);
-+		nvmet_rdma_put_rsp(rsp);
-+	}
-+	spin_unlock(&queue->rsp_wr_wait_lock);
-+}
-+
- static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
- {
- 	pr_debug("freeing queue %d\n", queue->idx);
-@@ -1347,6 +1376,8 @@ static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
- 				queue->recv_queue_size,
- 				!queue->host_qid);
- 	}
-+	nvmet_rdma_destroy_queue_wr_wait_list(queue);
-+	nvmet_rdma_destroy_queue_wait_list(queue);
- 	nvmet_rdma_free_rsps(queue);
- 	ida_simple_remove(&nvmet_rdma_queue_ida, queue->idx);
- 	kfree(queue);
--- 
-2.17.1
-
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMTEvOS8yMCA1OjI0IEFNLCBNdW5lZW5kcmEgd3JvdGU6Cj4gQWRkZWQgYSBuZXcgY29uZmln
+IEZDX0FQUElEIHRvIHNlbGVjdCBCTEtfQ0dST1VQX0ZDX0FQUElECj4gd2hpY2ggRW5hYmxlIHN1
+cHBvcnQgdG8gdHJhY2sgRkMgaW8gVHJhZmZpYy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBNdW5lZW5k
+cmEgPG11bmVlbmRyYS5rdW1hckBicm9hZGNvbS5jb20+Cj4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0
+ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+IAo+IC0tLQo+IHY0Ogo+IEFkZHJlc3NlZCB0aGUg
+ZXJyb3IgcmVwb3J0ZWQgYnkga2VybmVsIHRlc3Qgcm9ib3QKPiAKPiB2MzoKPiBOZXcgcGF0Y2gK
+PiAtLS0KPiAgIGRyaXZlcnMvc2NzaS9LY29uZmlnIHwgMTMgKysrKysrKysrKysrKwo+ICAgMSBm
+aWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9z
+Y3NpL0tjb25maWcgYi9kcml2ZXJzL3Njc2kvS2NvbmZpZwo+IGluZGV4IDcwMWI2MWVjNzZlZS4u
+MWM3M2M2MGUzOThmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvc2NzaS9LY29uZmlnCj4gKysrIGIv
+ZHJpdmVycy9zY3NpL0tjb25maWcKPiBAQCAtMjM1LDYgKzIzNSwxOSBAQCBjb25maWcgU0NTSV9G
+Q19BVFRSUwo+ICAgCSAgZWFjaCBhdHRhY2hlZCBGaWJlckNoYW5uZWwgZGV2aWNlIHRvIHN5c2Zz
+LCBzYXkgWS4KPiAgIAkgIE90aGVyd2lzZSwgc2F5IE4uCj4gICAKPiArY29uZmlnIEZDX0FQUElE
+Cj4gKwlib29sICJFbmFibGUgc3VwcG9ydCB0byB0cmFjayBGQyBpbyBUcmFmZmljIgo+ICsJZGVw
+ZW5kcyBvbiBCTE9DSyAmJiBCTEtfQ0dST1VQCj4gKwlkZXBlbmRzIG9uIFNDU0kKPiArCXNlbGVj
+dCBCTEtfQ0dST1VQX0ZDX0FQUElECj4gKwlkZWZhdWx0IHkKPiArCWhlbHAKPiArCSAgSWYgeW91
+IHNheSBZIGhlcmUsIGl0IGVuYWJsZXMgdGhlIHN1cHBvcnQgdG8gdHJhY2sKPiArCSAgRkMgSU8g
+dHJhZmZpYyBvdmVyIGZhYnJpYy5JdCBlbmFibGVzIHRoZSBGYWJyaWMgYW5kIHRoZQo+ICsJICBz
+dG9yYWdlIHRhcmdldHMgdG8gaWRlbnRpZnksIG1vbml0b3IsIGFuZCBoYW5kbGUgRkMgdHJhZmZp
+Ywo+ICsJICBiYXNlZCBvbiB2bSB0YWdzIGJ5IGluc2VydGluZyBhcHBsaWNhdGlvbiBzcGVjaWZp
+Ywo+ICsJICBpZGVudGlmaWNhdGlvbiBpbnRvIHRoZSBGQyBmcmFtZQo+ICsKPiAgIGNvbmZpZyBT
+Q1NJX0lTQ1NJX0FUVFJTCj4gICAJdHJpc3RhdGUgImlTQ1NJIFRyYW5zcG9ydCBBdHRyaWJ1dGVz
+Igo+ICAgCWRlcGVuZHMgb24gU0NTSSAmJiBORVQKPiAKUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWlu
+ZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5l
+Y2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3
+YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2
+ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVy
+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1u
+dm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xp
+c3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
