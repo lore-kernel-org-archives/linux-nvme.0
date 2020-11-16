@@ -5,19 +5,19 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5908DC4742C
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81AA5C4742C
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:06:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 02A9320B80
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:06:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 005B622384
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:06:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ni/djhdl";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NxdcCH21"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 02A9320B80
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fbgmDv9r";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VtALb1vl"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 005B622384
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9qX+3fDUOMQXiJLmHkjeR7OVOQCSaSE1ZpNIcNzkTF8=; b=Ni/djhdlIeARWpOUjuab5lMiS
-	7wAArO4tVsQJgnWdxEekYEvTm8RXKblvjZYZCOaqHSIjQTH9zkepr5mmlTpxRgk/gWpDoLAyej0Wm
-	vqeo48BLdDYXednDUvG5rcAIJ0cS9LHdtRbCpajtsIdoNsxg5jteB9tYZ8m629AdwG1dm0BfR4lWX
-	QUaSp6plz6VHPh6SAm7YaMdF4d0x+K6ErNiQMvBhb+tz5sJ/xZs4WEjdDO13I+5U93KsxjOlgTYvB
-	plbaOkyk7fzJmN60cLdDK5B1GOCBJ+5aNPPh0JZdfi9IsklOvhNqUHvgjpq9vXGK1kUN9SHbtczS5
-	A7RTuUdQA==;
+	 bh=EQQF6zLuk1jjeHpc5iQdM+mEtF1dgmghT4QR/dkwpMw=; b=fbgmDv9rA3E+vaislLSrUQjhR
+	USIXHf1e5SmYzudQ+WDdLID8/5hDN0yrsWZVv/p+wU0o7yWSSG0fiRORH96XRd+LiPjWzhm6RXgIb
+	Ml/IxqjoFuUkLKmDtfiozrGPh/ne6BDeSLUSJRdh4WKmNoO/YurFoJmJtqViBC0Rllj6O0UB2GRck
+	savcuhO7wshG0hrjEf2BtKv/xnp6gCk4nEs0BBu9k5mvwZNEy3HO+v9f6jRm2VKwOy2iPuuFMx7Ha
+	1AoU9VKH4XyTg5ezlIPHEpGK+KCFXKvyL7tdpJRqdrcWlB4I2aWaAoaJgeL/GM5n9ukCyyvr2n1U2
+	CiRSfmBGw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1keg5G-0000ZP-Ql; Mon, 16 Nov 2020 15:06:23 +0000
+	id 1keg5T-0000dd-FB; Mon, 16 Nov 2020 15:06:35 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefyG-0003iF-9w
- for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:59:08 +0000
+ id 1kefyH-0003jC-Rb
+ for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:59:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=432B/HqYIabrrukDRcMGdzlFQ4i1D0sjcTyhKWP2cJc=; b=NxdcCH21KU0PaY1Ri6HGwnc/L0
- Pm1N/StwGgisA5L0p+2kPsr3LyRSKmgmK71GuTbdbvT9TCfwbfRA1dvjC1q7rJtFSAtSyf3mHxeWW
- EZ5rlOqNukX80JHmh+gFjJH5eHC5ab37sgk28CMqNBjsJHct6TH7Aec/aHSrjGlIQeH8J/fYjoVWT
- m9S/ORPThsGxcTn9lN7RKKBuWsC/aTMeA81vfKRaWx1OhdXImDLKffH2sllTwanrVTcnLmBpn+vIK
- rxhCqctUbf1QtVmOhyQKeyb0Bskq73OmiuHEGSYFZZUivRg1xuCXEdg0WX9hj3ohTWz5bCrIzwOJR
- oOsbfaxQ==;
+ bh=Ub9jpknBNltWl/xM1z440GPAq6lbWyOu/cfyXRrsD14=; b=VtALb1vlttJ0buxeem4ez+UVG4
+ Hu+Wqzb0QtgrS5QrZw/6aENv47GRNNh/CISIBQASNaoUt+cYAFXDVK4WXECNVL5dVc+xc/uVQOnIg
+ HTLM6KHwDsX+QnIalbhYcS8kk7anQ8yPF0pzoGt/ezmRxs/uYaG5KB5LFuw2m65+v4FLJ9BMD4Ovz
+ FfsRasFisl+b2XzsGmdUtlricIuZ6vBTkUhVjcJ0lMBS4vQc6DLTXfAo6MDzYuO1bB1gpNPStxfTg
+ 5oO+avG3iudqBw1sow49CGkIHR2P/HvdJHVOxannWGYHrDjws6h+iO/erNUOkLsTjti8W+DcHNPIc
+ 3Oq8t4Bg==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefyE-0003y0-K9; Mon, 16 Nov 2020 14:59:06 +0000
+ id 1kefyG-0003yI-1n; Mon, 16 Nov 2020 14:59:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 40/78] ide: remove ide_{,un}register_region
-Date: Mon, 16 Nov 2020 15:57:31 +0100
-Message-Id: <20201116145809.410558-41-hch@lst.de>
+Subject: [PATCH 41/78] swim: don't call blk_register_region
+Date: Mon, 16 Nov 2020 15:57:32 +0100
+Message-Id: <20201116145809.410558-42-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -93,93 +93,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There is no need to ever register the fake gendisk used for ide-tape.
+The swim driver (unlike various other floppy drivers) doesn't have
+magic device nodes for certain modes, and already registers a gendisk
+for each of the floppies supported by a device.  Thus the region
+registered is a no-op and can be removed.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/ide/ide-probe.c | 32 --------------------------------
- drivers/ide/ide-tape.c  |  2 --
- include/linux/ide.h     |  3 ---
- 3 files changed, 37 deletions(-)
+ drivers/block/swim.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-diff --git a/drivers/ide/ide-probe.c b/drivers/ide/ide-probe.c
-index 1ddc45a04418cd..076d34b381720f 100644
---- a/drivers/ide/ide-probe.c
-+++ b/drivers/ide/ide-probe.c
-@@ -929,38 +929,6 @@ static struct kobject *ata_probe(dev_t dev, int *part, void *data)
- 	return NULL;
- }
+diff --git a/drivers/block/swim.c b/drivers/block/swim.c
+index 52dd1efa00f9c5..cc6a0bc6c005a7 100644
+--- a/drivers/block/swim.c
++++ b/drivers/block/swim.c
+@@ -745,18 +745,6 @@ static const struct block_device_operations floppy_fops = {
+ 	.check_events	 = floppy_check_events,
+ };
  
--static struct kobject *exact_match(dev_t dev, int *part, void *data)
+-static struct kobject *floppy_find(dev_t dev, int *part, void *data)
 -{
--	struct gendisk *p = data;
--	*part &= (1 << PARTN_BITS) - 1;
--	return &disk_to_dev(p)->kobj;
+-	struct swim_priv *swd = data;
+-	int drive = (*part & 3);
+-
+-	if (drive >= swd->floppy_count)
+-		return NULL;
+-
+-	*part = 0;
+-	return get_disk_and_module(swd->unit[drive].disk);
 -}
 -
--static int exact_lock(dev_t dev, void *data)
--{
--	struct gendisk *p = data;
--
--	if (!get_disk_and_module(p))
--		return -1;
--	return 0;
--}
--
--void ide_register_region(struct gendisk *disk)
--{
--	blk_register_region(MKDEV(disk->major, disk->first_minor),
--			    disk->minors, NULL, exact_match, exact_lock, disk);
--}
--
--EXPORT_SYMBOL_GPL(ide_register_region);
--
--void ide_unregister_region(struct gendisk *disk)
--{
--	blk_unregister_region(MKDEV(disk->major, disk->first_minor),
--			      disk->minors);
--}
--
--EXPORT_SYMBOL_GPL(ide_unregister_region);
--
- void ide_init_disk(struct gendisk *disk, ide_drive_t *drive)
+ static int swim_add_floppy(struct swim_priv *swd, enum drive_location location)
  {
- 	ide_hwif_t *hwif = drive->hwif;
-diff --git a/drivers/ide/ide-tape.c b/drivers/ide/ide-tape.c
-index 6f26634b22bbec..88b96437b22e62 100644
---- a/drivers/ide/ide-tape.c
-+++ b/drivers/ide/ide-tape.c
-@@ -1822,7 +1822,6 @@ static void ide_tape_remove(ide_drive_t *drive)
+ 	struct floppy_state *fs = &swd->unit[swd->floppy_count];
+@@ -846,9 +834,6 @@ static int swim_floppy_init(struct swim_priv *swd)
+ 		add_disk(swd->unit[drive].disk);
+ 	}
  
- 	ide_proc_unregister_driver(drive, tape->driver);
- 	device_del(&tape->dev);
--	ide_unregister_region(tape->disk);
- 
- 	mutex_lock(&idetape_ref_mutex);
- 	put_device(&tape->dev);
-@@ -2026,7 +2025,6 @@ static int ide_tape_probe(ide_drive_t *drive)
- 		      "n%s", tape->name);
- 
- 	g->fops = &idetape_block_ops;
--	ide_register_region(g);
- 
+-	blk_register_region(MKDEV(FLOPPY_MAJOR, 0), 256, THIS_MODULE,
+-			    floppy_find, NULL, swd);
+-
  	return 0;
  
-diff --git a/include/linux/ide.h b/include/linux/ide.h
-index 62653769509f89..2c300689a51a5c 100644
---- a/include/linux/ide.h
-+++ b/include/linux/ide.h
-@@ -1493,9 +1493,6 @@ static inline void ide_acpi_port_init_devices(ide_hwif_t *hwif) { ; }
- static inline void ide_acpi_set_state(ide_hwif_t *hwif, int on) {}
- #endif
+ exit_put_disks:
+@@ -932,8 +917,6 @@ static int swim_remove(struct platform_device *dev)
+ 	int drive;
+ 	struct resource *res;
  
--void ide_register_region(struct gendisk *);
--void ide_unregister_region(struct gendisk *);
+-	blk_unregister_region(MKDEV(FLOPPY_MAJOR, 0), 256);
 -
- void ide_check_nien_quirk_list(ide_drive_t *);
- void ide_undecoded_slave(ide_drive_t *);
- 
+ 	for (drive = 0; drive < swd->floppy_count; drive++) {
+ 		del_gendisk(swd->unit[drive].disk);
+ 		blk_cleanup_queue(swd->unit[drive].disk->queue);
 -- 
 2.29.2
 
