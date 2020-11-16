@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A22C82540
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:02:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E1FBC82545
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:02:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23A1D206B7
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:02:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 481B6206B7
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:02:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="3Q7B8eOC";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vJvWy+M6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23A1D206B7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ze/QNuUt";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UeKPjR9H"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 481B6206B7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=T+wSYxfgh+CC9i8UvZfavrEGZ5f89ToLYWxgmj8Bms0=; b=3Q7B8eOCQOrLWq8SUG5POah6h
-	HOxk6/hNulqeEDXX/aLrG+HK7U3jE5RlnaQZwCVpLmmIJB25niTbeO7fSK64LVzCjidQXuZlpMnie
-	pBfFrF1TrsnO30VBymgV+THRYeyx45LvH0PSOMOrDvVYhUZsgw0sJ5OsqBnorD9iRFdcRAOYnfKwY
-	aW7jTLZ/CBL7/qHDWBGsfdaCQhKz4qO9OZbHY9SHnumq8oIicLv85Zk/n6jJ25dcN59CftlynyUTE
-	neMOCSI2EshtiuT8N63DjkieQzKjnaENmwOiunjONIAatasZHxo2TDn7ZcQyUnh92ecezQ5SAhrYO
-	hM/Tmtlmw==;
+	 bh=o5pTi/dSMBpYBJ9qW8l0unb7kpwV3Cf6B1PeCfsv0aI=; b=ze/QNuUtXTzfK1nBLPQBfVPUm
+	KqQkxdP60T1iHPCI1V6BGGE4HDqMnHjeR5FBJxwnyytJVlsnbkgc9YQfArrj9Fc0nmOD3ZoDig4kO
+	CpIFJPD8dP0V96cpQGAHHJb7KZ/Enf4zIuFtjzgRBecyThtLmAKyQZ1JWjdCEojjImpQBZEhSKlmg
+	NipuEZW/HoavPmXRUQq/ayb6kWJ5DqQC46ev57Pcex8ckAYSELSe5wlBJZfvIkN1K/6kOIOYvFIHQ
+	UG+w/gvTk70YGZQifCrvOb75vV6LEKCgLpEt0KO4hIRVLWCHdyNz1H2Idv5jFWQsdLVOpSBJbuVY9
+	n/a2APqvA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1keg1B-00059i-Ec; Mon, 16 Nov 2020 15:02:09 +0000
+	id 1keg1S-0005Hh-1P; Mon, 16 Nov 2020 15:02:28 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefxq-0003VK-Rk
- for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:58:43 +0000
+ id 1kefxu-0003XU-IH
+ for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:58:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=Vj0GgZOGZUCqHagrDbWIgIb68CNEMN1B5n/upu75+9M=; b=vJvWy+M6q2aairpF0Q89oICkxI
- PS5amLRUZxt3TDLOTCJKifVBAbRS3ozPh9ssbARTX05RTcowruj+r6DaYiko+IA8YM6yKnqqO9hZ0
- YLPWVj8bReI6zNXL311McIRo6JgWss20/ic0IkcgvXqouBBov4LHHRc3LFvEHbyGhAEZ6L49Q+h8z
- LPV18Yh1YwBXDnHfnQyxhLqXZkED99bdFyjJYXBanIYI+26WlIFdrhNuludlP3Zi5bFQ1Jai7SYT8
- kxlPZdfsH/hR1Of6f1mV+sb6fFGWqYqS2gk4bZxnQp6B+oIaE6yoC0rkzi1aN8TgGTKSgtY0FwCjd
- PfyxB0dA==;
+ bh=2smnVJT4M8MVl5MGvHMWtgKudyWqsSN/hT8JKVcTkcU=; b=UeKPjR9HaE3H/C6qkhiTe+Rocu
+ 9ShxKNi2wYBSK1rbD5wbPkjZToEWHwpbA4XMmV+yrAvhrlb8waEumxcmLoo6UJpHzT0oVsedCaTNL
+ vW0OMgcrFRZWuj9afM+tWViwsKJaqn/qJwmqXTkY1DXr3Udw+lcZ1Jmvd9j5+tvAB+GIbBJjsq0cu
+ EaxCxhsT192EWhx+hhW0l/8Cx9tvBzSIb1ezyuiHE2R3FTysXBl34PHXfUeZshdFbbBjcZGRonRTx
+ gq9eiawuSsc+VqdBITNC40hyduSCiehl7z2/Koo7uijrjtnSFRlmObRyTCoTBE1CTJke9v1CYf9cY
+ zJjjwESg==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefxo-0003rX-KZ; Mon, 16 Nov 2020 14:58:41 +0000
+ id 1kefxt-0003sX-50; Mon, 16 Nov 2020 14:58:45 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 22/78] virtio-blk: remove a spurious call to
- revalidate_disk_size
-Date: Mon, 16 Nov 2020 15:57:13 +0100
-Message-Id: <20201116145809.410558-23-hch@lst.de>
+Subject: [PATCH 25/78] block: don't call into the driver for BLKFLSBUF
+Date: Mon, 16 Nov 2020 15:57:16 +0100
+Message-Id: <20201116145809.410558-26-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -94,29 +93,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-revalidate_disk_size just updates the block device size from the disk
-size.  Thus calling it from virtblk_update_cache_mode doesn't actually
-do anything.
+BLKFLSBUF is entirely contained in the block core, and there is no
+good reason to give the driver a hook into processing it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- drivers/block/virtio_blk.c | 1 -
- 1 file changed, 1 deletion(-)
+ block/ioctl.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index 3e812b4c32e669..145606dc52db1e 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -598,7 +598,6 @@ static void virtblk_update_cache_mode(struct virtio_device *vdev)
- 	struct virtio_blk *vblk = vdev->priv;
- 
- 	blk_queue_write_cache(vblk->disk->queue, writeback, false);
--	revalidate_disk_size(vblk->disk, true);
- }
- 
- static const char *const virtblk_cache_types[] = {
+diff --git a/block/ioctl.c b/block/ioctl.c
+index 3fbc382eb926d4..c6d8863f040945 100644
+--- a/block/ioctl.c
++++ b/block/ioctl.c
+@@ -369,15 +369,8 @@ static inline int is_unrecognized_ioctl(int ret)
+ static int blkdev_flushbuf(struct block_device *bdev, fmode_t mode,
+ 		unsigned cmd, unsigned long arg)
+ {
+-	int ret;
+-
+ 	if (!capable(CAP_SYS_ADMIN))
+ 		return -EACCES;
+-
+-	ret = __blkdev_driver_ioctl(bdev, mode, cmd, arg);
+-	if (!is_unrecognized_ioctl(ret))
+-		return ret;
+-
+ 	fsync_bdev(bdev);
+ 	invalidate_bdev(bdev);
+ 	return 0;
 -- 
 2.29.2
 
