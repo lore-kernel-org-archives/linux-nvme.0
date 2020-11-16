@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4057C5519F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 14:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97B98C5519F
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 14:59:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3780722240
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 14:59:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 45B8824199
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 14:59:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rZSwd4dr";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lVGpDrCY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3780722240
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="L7FfrA6s";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iXlgdH+J"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45B8824199
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XLSU9yRrx2nq70ptoNNKzHFapTXlWTL8u9Qejk5Nano=; b=rZSwd4dr89YY1FeZl3sAtwrA1
-	8o9Jaq+GVNz0mRL7if8CzS7sO/l8lQHg2wtACCkLGkofT6iYPdl0zQK5KwvVZ/nq9YfIHOwDMOumo
-	SGV78+q8ARP61l/d6SpN+V19koTwo/bZjQbtoMFOUsYIEosUwo7ibpX73etiXn6FyX2j4qzJXE2R2
-	Lhbo7fBkP/9E2VFM037l39gt/Qj5FtqOadSEuaLvan08c1PClLFlKIgrZhN+yNzDrKFZcnwmMaltg
-	fvwZ4d1NJp9ggd22WMTU49YWWyUEfnwfeY2URnTgHlNOjmH8X5sw6Q+yvp48FPVrcoWD6AK74BLbo
-	p/kM9XjfA==;
+	 bh=b76ulaLzl/qj2GUxE+CdsRYB/dFAPCzdM5B6QrJzVy0=; b=L7FfrA6stCVy4M/u+T9gQYDtf
+	7Jr3adEuuQDZ5aKLXbo3V5EQfzyeRO8/u1W1fqjvwjY98K45FOKIc4haTVQIN+tO99UI3j6j+7uGH
+	09quKec+p+ZtRAJ+EbXHJVNBqduATtA+2moxc4iq+bnQsm6VEt8Q7YamiAvifTZQ3Ph97BoUZx0/v
+	VVS/BO6n6mRSqHocDhjPjQsXhgINc8Iaew4yIfu9XwaE0IZyCWzZPu+kp2/eRNFN9hr77t/PeVkxy
+	DhTg4On3ZiMB7jujjJP3UPiKf5iT5Mq/Qs0/HrfxMKyO6VuyTvCXF+HrYYI0w8CwupTwAv7QpFfIa
+	gRe2OrU6g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefyF-0003hN-0S; Mon, 16 Nov 2020 14:59:07 +0000
+	id 1kefyI-0003jw-Va; Mon, 16 Nov 2020 14:59:11 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefxa-0003O8-Bx
- for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:58:26 +0000
+ id 1kefxb-0003Oe-Gd
+ for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:58:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=MbR6eD8Z5sCp9HMp2xRKfZrC0GyX/16idOKOYUQxwmk=; b=lVGpDrCYC4uApK0HXhMfWQu//t
- v5TNY33739vaVgizhet7Btd0aO7HYFUr4uFDV+hjF3FjzaPwtVUz2Kb7kWA5WHMiCOvV1zLNOLH3Z
- xYyJ9PyjAQotPS9g4g5yfkhyuQvbAwVKYue6ztUh19mPuVx8DtNsK62BOcbCwnRTuEJ3dvoDg2ldg
- WeBaZz6b7R0R55We4FXJgz3pLCWNo1XvND1Ep24BS9hOMWi13U/CDCIc7JHWwTXem/0p/fbzf34hi
- 1r3s/4MDxah8TmWEcY0L5xxJ+d6obD1qWfKT/c/iL18LhZNRmRcA2WXg5WAUiLmevTSoEYS+1X/52
- zWWV8w6g==;
+ bh=79ABHzAqAgUDi+r50gNTM9KzgxZfWtsd0Ks61Se8Jjk=; b=iXlgdH+JkeL6roCvy9N8OmOptV
+ 1Ll+Te6ItuycUsm1mpg5y8MmMvSDVgOMN0DW4BJjUzEL2YXMUw9FI/gCg+GglIDP+2ssWuLid2fb0
+ cJZnJp4fVhOgNW619uL3/Kd6hYd61L2NdpCEsJu2r2sYtsuKn5OWNCme31Wn3/FHGbzcF/v5kYRm2
+ JnXQsbwRBlyoUcHtnndvHGCnGiJjghxupsGPmu0u5FKR/+UjbjsAeA9OHsZoDrRaOzkGH06M+kWrS
+ F/Df603StVMFLWH3uWTjYYJHcHqMIvbijKLsxzszv3RzSONMJItnrjbuYjjQ6SdDQT1ZrHiZj6i2L
+ 17QgIiog==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefxY-0003mO-Ss; Mon, 16 Nov 2020 14:58:25 +0000
+ id 1kefxa-0003md-8r; Mon, 16 Nov 2020 14:58:26 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 11/78] aoe: don't call set_capacity from irq context
-Date: Mon, 16 Nov 2020 15:57:02 +0100
-Message-Id: <20201116145809.410558-12-hch@lst.de>
+Subject: [PATCH 12/78] dm: use set_capacity_and_notify
+Date: Mon, 16 Nov 2020 15:57:03 +0100
+Message-Id: <20201116145809.410558-13-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -82,9 +82,9 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
  Jack Wang <jinpu.wang@cloud.ionos.com>,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
  Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
- linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
- ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-raid@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
  Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
@@ -93,58 +93,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Updating the block device size from irq context can lead to torn
-writes of the 64-bit value, and prevents us from using normal
-process context locking primitives to serialize access to the 64-bit
-nr_sectors value.  Defer the set_capacity to the already existing
-workqueue handler, where it can be merged with the update of the
-block device size by using set_capacity_and_notify.  As an extra
-bonus this also adds proper uevent notifications for the resize.
+Use set_capacity_and_notify to set the size of both the disk and block
+device.  This also gets the uevent notifications for the resize for free.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/block/aoe/aoecmd.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ drivers/md/dm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/block/aoe/aoecmd.c b/drivers/block/aoe/aoecmd.c
-index 313f0b946fe2b3..ac720bdcd983e7 100644
---- a/drivers/block/aoe/aoecmd.c
-+++ b/drivers/block/aoe/aoecmd.c
-@@ -890,19 +890,13 @@ void
- aoecmd_sleepwork(struct work_struct *work)
- {
- 	struct aoedev *d = container_of(work, struct aoedev, work);
--	struct block_device *bd;
--	u64 ssize;
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index c18fc25485186d..62ad44925e73ec 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -1971,8 +1971,7 @@ static struct dm_table *__bind(struct mapped_device *md, struct dm_table *t,
+ 	if (size != dm_get_size(md))
+ 		memset(&md->geometry, 0, sizeof(md->geometry));
  
- 	if (d->flags & DEVFL_GDALLOC)
- 		aoeblk_gdalloc(d);
+-	set_capacity(md->disk, size);
+-	bd_set_nr_sectors(md->bdev, size);
++	set_capacity_and_notify(md->disk, size);
  
- 	if (d->flags & DEVFL_NEWSIZE) {
--		ssize = get_capacity(d->gd);
--		bd = bdget_disk(d->gd, 0);
--		if (bd) {
--			bd_set_nr_sectors(bd, ssize);
--			bdput(bd);
--		}
-+		set_capacity_and_notify(d->gd, d->ssize);
-+
- 		spin_lock_irq(&d->lock);
- 		d->flags |= DEVFL_UP;
- 		d->flags &= ~DEVFL_NEWSIZE;
-@@ -971,10 +965,9 @@ ataid_complete(struct aoedev *d, struct aoetgt *t, unsigned char *id)
- 	d->geo.start = 0;
- 	if (d->flags & (DEVFL_GDALLOC|DEVFL_NEWSIZE))
- 		return;
--	if (d->gd != NULL) {
--		set_capacity(d->gd, ssize);
-+	if (d->gd != NULL)
- 		d->flags |= DEVFL_NEWSIZE;
--	} else
-+	else
- 		d->flags |= DEVFL_GDALLOC;
- 	schedule_work(&d->work);
- }
+ 	dm_table_event_callback(t, event_callback, md);
+ 
 -- 
 2.29.2
 
