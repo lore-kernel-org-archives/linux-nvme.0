@@ -5,19 +5,19 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C93C5519F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:12:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 352E4C61DD8
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:12:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CFA2204FD
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:12:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C1E46216C4
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:12:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tr9ZhHDv";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bes/KMf+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CFA2204FD
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ljy/Q3lF";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pWF6GiYZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1E46216C4
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VoBtk0ccT0G4c0lXNc4jG+6PcqOGek3YRZIhzeSnRVA=; b=tr9ZhHDvvY8mK5zGP1pilfQOK
-	58t3KTayC6azg92YlzPvJbUabitl2y+FarEjcLhWC+m0NbfQqh108Z4Qre9KKgAevcBFv7eYLo4HW
-	5e/KgJo6s2xgjZnO+Mm6RfLKCDEAC0Q8OP6q+SyU7h3qcRVbGQxvjrcHembRm9+1RCHP+nS3bDZlM
-	j5fmA2SXirHhbNKWFfjezKCpzSGBxl9+d2IXGeDwPcM5G1MC440F3mXh+Pe1a3VEpq52v0zUAqW8J
-	dyNpjMQnZCCmCXF6F9Mh2WsrFFSzO2EhxOXdJiEXIuUHTdwy37vpOV7BTV7ijXbVqGeYspRu+M75r
-	/ijWQ6zpg==;
+	 bh=tBPgpxoYD5LHHWfqZDTwmps/q4TEBJXC+ARgViKV5Cc=; b=Ljy/Q3lF/eEgpZoq4PvTrGGSX
+	iAgpn3bNhn3CFWIzbh5yhmyjlNEUtGsC+oSUW0apeahMlgO4iTsMr8Kc2//HrYRzeeM5ZMnpNXllF
+	rGDraFR+2ETqD3+iqMy9CZDffvgErScf+XM2FthvG5lVBE2/eHVjn6IChIyjZCgRVPFb1V/yNu8+Y
+	a3ezyH4afMSMJQaDuZlXRr9FoIMx+Y23N+f9nYTyID6dGpbfQQQeS6ZFAGLHPdnx7bAjlp7OZSGm3
+	k3fZvsAxXk1g9ScmdeAKnqSiWoLWQsgMSdGcNaokuQR3NG+yHlIK5ENM87iKzmBNTecxDzyzD0rR8
+	M3ZTqJ0dA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kegAp-0002ng-6n; Mon, 16 Nov 2020 15:12:08 +0000
+	id 1kegB1-0002u1-9l; Mon, 16 Nov 2020 15:12:19 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefym-00040A-OT
- for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:59:40 +0000
+ id 1kefyn-00040t-L5
+ for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:59:41 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=Y+mF6kfZyX+9LgfiO2Btb3TAVeGp89oda3czGJwGTJs=; b=Bes/KMf+bs1I4DR5G0Q9TOnUPD
- 9joDl/S6qw6ZpxOQWG6Y+yldMhWM6mFKnMzJr+i8TYoCpaeYndLIsJKL+sOlXlAuclhKSFhnR3UCp
- WJXOKeNHtc4MABM6hp7JGjCiE6fZ5ela9kirrVONq5fnIhmy+U+4tfsuOJVOXCYA5RBzKC83RR+4b
- qxZP1ZXarE/IKEORkzrEG4OGuYDREZTgbRj7xCtCOKoPFN8CeO4jN+bDAHNrnlIjkHnkpCPznvP9h
- 3EPL5v3wV+4q+MPr35MSCL+n6p7mkMnCAwjivusEswSTw73cM8G2TKRKASqaQHIQNMCssmGTd1M3h
- 18UxRfvA==;
+ bh=2AKcef4DY6iJcprvQynjGgbCIgh8d3+qztu8J6nwbBU=; b=pWF6GiYZwuWwwwCepRCy7HJGry
+ ebNMkKhyrUdm7IJyWpCzL1mHXVX2uHrDvMEZnLp7EDprwz/Ixpo6UyIkP9C/eBgJtKePlQ9iOFGEX
+ anVcipPAM3jKhn7+W0pAqmOpSUkPyf5/WcShPIbr+Kvrkdy7ShEiMu40JORvE9Eu7vJW7k1YP9SBn
+ x4dzOxFL2eT+4GeR6EmljUox59XCLVLuOr/c4rirnRVpl1nSS3OL1hT4yGJ4ATQQt0nK9jflQBVkF
+ 1F1WeS9cKSzs/UYR7bWm7TOPnDssO/WwxWuvt6FJ3Za4yj5tMQ3BhtLdQ4aklV0fV0Tw57B/U2ugq
+ BAULThIQ==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefyk-0004BJ-HE; Mon, 16 Nov 2020 14:59:38 +0000
+ id 1kefyl-0004C5-Vu; Mon, 16 Nov 2020 14:59:40 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 61/78] zram:  do not call set_blocksize
-Date: Mon, 16 Nov 2020 15:57:52 +0100
-Message-Id: <20201116145809.410558-62-hch@lst.de>
+Subject: [PATCH 62/78] loop: do not call set_blocksize
+Date: Mon, 16 Nov 2020 15:57:53 +0100
+Message-Id: <20201116145809.410558-63-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -98,64 +98,23 @@ block size.  Block drivers should not set it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/zram/zram_drv.c | 11 +----------
- drivers/block/zram/zram_drv.h |  1 -
- 2 files changed, 1 insertion(+), 11 deletions(-)
+ drivers/block/loop.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index 3641434a9b154d..d00b5761ec0b21 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -403,13 +403,10 @@ static void reset_bdev(struct zram *zram)
- 		return;
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 9a27d4f1c08aac..b42c728620c9e4 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -1164,9 +1164,6 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
+ 	size = get_loop_size(lo, file);
+ 	loop_set_size(lo, size);
  
- 	bdev = zram->bdev;
--	if (zram->old_block_size)
--		set_blocksize(bdev, zram->old_block_size);
- 	blkdev_put(bdev, FMODE_READ|FMODE_WRITE|FMODE_EXCL);
- 	/* hope filp_close flush all of IO */
- 	filp_close(zram->backing_dev, NULL);
- 	zram->backing_dev = NULL;
--	zram->old_block_size = 0;
- 	zram->bdev = NULL;
- 	zram->disk->fops = &zram_devops;
- 	kvfree(zram->bitmap);
-@@ -454,7 +451,7 @@ static ssize_t backing_dev_store(struct device *dev,
- 	struct file *backing_dev = NULL;
- 	struct inode *inode;
- 	struct address_space *mapping;
--	unsigned int bitmap_sz, old_block_size = 0;
-+	unsigned int bitmap_sz;
- 	unsigned long nr_pages, *bitmap = NULL;
- 	struct block_device *bdev = NULL;
- 	int err;
-@@ -509,14 +506,8 @@ static ssize_t backing_dev_store(struct device *dev,
- 		goto out;
- 	}
- 
--	old_block_size = block_size(bdev);
--	err = set_blocksize(bdev, PAGE_SIZE);
--	if (err)
--		goto out;
+-	set_blocksize(bdev, S_ISBLK(inode->i_mode) ?
+-		      block_size(inode->i_bdev) : PAGE_SIZE);
 -
- 	reset_bdev(zram);
- 
--	zram->old_block_size = old_block_size;
- 	zram->bdev = bdev;
- 	zram->backing_dev = backing_dev;
- 	zram->bitmap = bitmap;
-diff --git a/drivers/block/zram/zram_drv.h b/drivers/block/zram/zram_drv.h
-index f2fd46daa76045..712354a4207c77 100644
---- a/drivers/block/zram/zram_drv.h
-+++ b/drivers/block/zram/zram_drv.h
-@@ -118,7 +118,6 @@ struct zram {
- 	bool wb_limit_enable;
- 	u64 bd_wb_limit;
- 	struct block_device *bdev;
--	unsigned int old_block_size;
- 	unsigned long *bitmap;
- 	unsigned long nr_pages;
- #endif
+ 	lo->lo_state = Lo_bound;
+ 	if (part_shift)
+ 		lo->lo_flags |= LO_FLAGS_PARTSCAN;
 -- 
 2.29.2
 
