@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E1FBC82545
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F58FC82544
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:02:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 481B6206B7
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:02:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0EEC7206B7
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Nov 2020 15:02:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ze/QNuUt";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UeKPjR9H"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 481B6206B7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MmLi6euG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gRq5Bd6I"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0EEC7206B7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=o5pTi/dSMBpYBJ9qW8l0unb7kpwV3Cf6B1PeCfsv0aI=; b=ze/QNuUtXTzfK1nBLPQBfVPUm
-	KqQkxdP60T1iHPCI1V6BGGE4HDqMnHjeR5FBJxwnyytJVlsnbkgc9YQfArrj9Fc0nmOD3ZoDig4kO
-	CpIFJPD8dP0V96cpQGAHHJb7KZ/Enf4zIuFtjzgRBecyThtLmAKyQZ1JWjdCEojjImpQBZEhSKlmg
-	NipuEZW/HoavPmXRUQq/ayb6kWJ5DqQC46ev57Pcex8ckAYSELSe5wlBJZfvIkN1K/6kOIOYvFIHQ
-	UG+w/gvTk70YGZQifCrvOb75vV6LEKCgLpEt0KO4hIRVLWCHdyNz1H2Idv5jFWQsdLVOpSBJbuVY9
-	n/a2APqvA==;
+	 bh=eCQXhSqdMRRn0rZ/PSlzWFejsS24RON5cIZlkDw8Rbg=; b=MmLi6euGtDLkKSKZpATvQ+tbp
+	VKcYWvU7/ihSicX0T1xCIzREch5EIARRtNNVVFQV2jW0C6HmRTyWkUyRAE/ohulQevQKyOp9rjUi1
+	K4hyvkme280Vw2J/CrVbDn23qAQ0SK+lecpyDIiRdMk0CjLWZ1hgm1ooYQGRLLo911ihYUtczsQ+6
+	qaYKANQ5+DGTXU4jDgpJ6hvBo25n/u26sz9QTxWDYLI74+igRHuP/pY107qBqHpJfLw2/vFwAX5LF
+	yzg30k25vb0YLdthhIz1VoAgdTH7Cmwt/RC3X3+guCfB4krnZloGmRI94hT8W4ak31PMrnCJCQgye
+	oa+pQDdkA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1keg1S-0005Hh-1P; Mon, 16 Nov 2020 15:02:28 +0000
+	id 1keg1j-0005Ou-79; Mon, 16 Nov 2020 15:02:43 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefxu-0003XU-IH
- for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:58:46 +0000
+ id 1kefxx-0003Ys-4n
+ for linux-nvme@merlin.infradead.org; Mon, 16 Nov 2020 14:58:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=2smnVJT4M8MVl5MGvHMWtgKudyWqsSN/hT8JKVcTkcU=; b=UeKPjR9HaE3H/C6qkhiTe+Rocu
- 9ShxKNi2wYBSK1rbD5wbPkjZToEWHwpbA4XMmV+yrAvhrlb8waEumxcmLoo6UJpHzT0oVsedCaTNL
- vW0OMgcrFRZWuj9afM+tWViwsKJaqn/qJwmqXTkY1DXr3Udw+lcZ1Jmvd9j5+tvAB+GIbBJjsq0cu
- EaxCxhsT192EWhx+hhW0l/8Cx9tvBzSIb1ezyuiHE2R3FTysXBl34PHXfUeZshdFbbBjcZGRonRTx
- gq9eiawuSsc+VqdBITNC40hyduSCiehl7z2/Koo7uijrjtnSFRlmObRyTCoTBE1CTJke9v1CYf9cY
- zJjjwESg==;
+ bh=lsAXL3hTvnB0lZbP/cBxcA3iF4//0CyS8Nha3XJ9JJw=; b=gRq5Bd6I041r3EGzSNRea27VcV
+ raQcLpJmWj/jK+75OwDsxA43vptbb5bLxmKSp35hPLSybywahfsIEXtmUIrD9ToqHyYTfeCqsn8wJ
+ wQx0MYjiBzcMrM+7ZWQTSUtknggoViJ3wuvotrL9OpbxcIk+6i29Awe1Y+rr6wmnDy5z2lOUyiXz3
+ LW8h++kCUa/3/O3LYkCUURTEpEcW9xBVCEtC0iFWL7xkfc/FqwTqkcVZcvaSmNllVviTiDwS9kVSn
+ J0iO8i2WqgPUw34BttXzbrAtJQsZJyDDz3NhCLwGaOn0B22GTINfKHNlj2O/NnHFU2taSXPwtg2gn
+ SSzCdCgg==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kefxt-0003sX-50; Mon, 16 Nov 2020 14:58:45 +0000
+ id 1kefxv-0003t5-MO; Mon, 16 Nov 2020 14:58:48 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 25/78] block: don't call into the driver for BLKFLSBUF
-Date: Mon, 16 Nov 2020 15:57:16 +0100
-Message-Id: <20201116145809.410558-26-hch@lst.de>
+Subject: [PATCH 27/78] rbd: implement ->set_read_only to hook into BLKROSET
+ processing
+Date: Mon, 16 Nov 2020 15:57:18 +0100
+Message-Id: <20201116145809.410558-28-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -93,34 +94,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-BLKFLSBUF is entirely contained in the block core, and there is no
-good reason to give the driver a hook into processing it.
+Implement the ->set_read_only method instead of parsing the actual
+ioctl command.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Ilya Dryomov <idryomov@gmail.com>
 ---
- block/ioctl.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/block/rbd.c | 40 ++++------------------------------------
+ 1 file changed, 4 insertions(+), 36 deletions(-)
 
-diff --git a/block/ioctl.c b/block/ioctl.c
-index 3fbc382eb926d4..c6d8863f040945 100644
---- a/block/ioctl.c
-+++ b/block/ioctl.c
-@@ -369,15 +369,8 @@ static inline int is_unrecognized_ioctl(int ret)
- static int blkdev_flushbuf(struct block_device *bdev, fmode_t mode,
- 		unsigned cmd, unsigned long arg)
+diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+index b7a194ffda55b4..2ed79b09439a82 100644
+--- a/drivers/block/rbd.c
++++ b/drivers/block/rbd.c
+@@ -692,12 +692,9 @@ static void rbd_release(struct gendisk *disk, fmode_t mode)
+ 	put_device(&rbd_dev->dev);
+ }
+ 
+-static int rbd_ioctl_set_ro(struct rbd_device *rbd_dev, unsigned long arg)
++static int rbd_set_read_only(struct block_device *bdev, bool ro)
  {
+-	int ro;
+-
+-	if (get_user(ro, (int __user *)arg))
+-		return -EFAULT;
++	struct rbd_device *rbd_dev = bdev->bd_disk->private_data;
+ 
+ 	/*
+ 	 * Both images mapped read-only and snapshots can't be marked
+@@ -710,43 +707,14 @@ static int rbd_ioctl_set_ro(struct rbd_device *rbd_dev, unsigned long arg)
+ 		rbd_assert(!rbd_is_snap(rbd_dev));
+ 	}
+ 
+-	/* Let blkdev_roset() handle it */
+-	return -ENOTTY;
+-}
+-
+-static int rbd_ioctl(struct block_device *bdev, fmode_t mode,
+-			unsigned int cmd, unsigned long arg)
+-{
+-	struct rbd_device *rbd_dev = bdev->bd_disk->private_data;
 -	int ret;
 -
- 	if (!capable(CAP_SYS_ADMIN))
- 		return -EACCES;
+-	switch (cmd) {
+-	case BLKROSET:
+-		ret = rbd_ioctl_set_ro(rbd_dev, arg);
+-		break;
+-	default:
+-		ret = -ENOTTY;
+-	}
 -
--	ret = __blkdev_driver_ioctl(bdev, mode, cmd, arg);
--	if (!is_unrecognized_ioctl(ret))
--		return ret;
+-	return ret;
+-}
 -
- 	fsync_bdev(bdev);
- 	invalidate_bdev(bdev);
- 	return 0;
+-#ifdef CONFIG_COMPAT
+-static int rbd_compat_ioctl(struct block_device *bdev, fmode_t mode,
+-				unsigned int cmd, unsigned long arg)
+-{
+-	return rbd_ioctl(bdev, mode, cmd, arg);
++	return 0;
+ }
+-#endif /* CONFIG_COMPAT */
+ 
+ static const struct block_device_operations rbd_bd_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.open			= rbd_open,
+ 	.release		= rbd_release,
+-	.ioctl			= rbd_ioctl,
+-#ifdef CONFIG_COMPAT
+-	.compat_ioctl		= rbd_compat_ioctl,
+-#endif
++	.set_read_only		= rbd_set_read_only,
+ };
+ 
+ /*
 -- 
 2.29.2
 
