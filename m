@@ -7,75 +7,79 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEDE8C6369E
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2020 01:16:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A15C63697
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2020 06:47:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7498B2464E
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2020 01:16:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4380D2468B
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Nov 2020 06:47:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="e7hfoIia";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PkdMg2lZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7498B2464E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FV1Z6vY8";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="BGZPt0Hu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4380D2468B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:To:
+	Subject:Message-ID:Date:MIME-Version:In-Reply-To:References:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=kD5hyN6BPB4UwkTLimG0UHc3l7VBwe6tfPK3j767ms0=; b=e7hfoIiajldpJc8/rHn77GQrT
-	ylnEJREqgrLqiAS6U8IzcoIlRxrKIFgZtCQ4KJk9CRNrhbidi/63xGXfXIj9yd52YjzOxnBDrapqY
-	d+kH1qaMyE8NqeTDJuvVwQ9iXniV0vQNflldD4ocdnbXCCCdYmEmXvQkfj+aBjVr3114byRz9BV4/
-	a0eQN0/fXU0foN1l4vl/UcydbCeveY8swfzvso6eFap4zq2QbGlxFkjOrf1XltzAXTDwaqp9rBLWT
-	Jg+6+BcE/UGqfA3TUQgYil4h0MLYxlHjZH11q9KkfCWSeGba9XsoZvJ7LXe+XJ4BLPemzwV0CJuU4
-	XESkbdzPA==;
+	 bh=FP95enz7WuDFa0aAXzacI8LjwsRrqiL3gc1z/rPGY0w=; b=FV1Z6vY8iAloedC0RTW4kO6YU
+	wCoMcPOn/vD9cLLQopL1qWcQqtBY0JVbpCLZuNvpJv3YNam5klPxZbj1gRcCq0ky/z+/hdl8nff0w
+	Lw/jXd9tm1MwYdI5+yfz3o3RHrw4c2oBCDI+hTMZ3a9IIgBc+VhYUloRFjihgEfS80Fsn9gmfhnPg
+	jEIdc1kk0PcaHASpcXSj0kpjCRoBtY1+77TKGpZ+9fuLs8dUEDq6T/HMKHGiNG/weYQ+Jl9x+alW5
+	2COaPFp5wnx6xX4EVnYmd/6EWPf6wN/G9MUuSZ80ibdHva7+g0SBFwk0H3FZdCRvZ+pWRXUq/ZeEc
+	rDzJvm/UA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kepbl-0004nx-LC; Tue, 17 Nov 2020 01:16:33 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1keulf-00086P-0i; Tue, 17 Nov 2020 06:47:07 +0000
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kepbj-0004nT-7a
- for linux-nvme@lists.infradead.org; Tue, 17 Nov 2020 01:16:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605575790;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IoYgDWclBnbbhqYLwxSr01tKpJ4yFcNBRPli8o4TS94=;
- b=PkdMg2lZC7XUF+FmCiMrkyQQ8HizcngHflA+U7BNr4Z0Lnfh/59ESfRg4EOfJXu7G5vHq5
- R5gaz2oRNT1XOe1qTA7iSk33xhiy/Au+IO9vGjCjXf/1AmXcAEyxHmT1g1PuLrD1YZKno7
- AH+nwWz8trgCaEkvGA93dz6Q05LvL4Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-F1S4P_9QP7i0ydQVu59sZQ-1; Mon, 16 Nov 2020 20:16:27 -0500
-X-MC-Unique: F1S4P_9QP7i0ydQVu59sZQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39ECE107AFC8;
- Tue, 17 Nov 2020 01:16:25 +0000 (UTC)
-Received: from T590 (ovpn-12-215.pek2.redhat.com [10.72.12.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C0B95D707;
- Tue, 17 Nov 2020 01:16:13 +0000 (UTC)
-Date: Tue, 17 Nov 2020 09:16:10 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 1/3] blk-mq: add new API of blk_mq_hctx_set_fq_lock_class
-Message-ID: <20201117011610.GB56247@T590>
+ id 1keulb-00085v-HB
+ for linux-nvme@lists.infradead.org; Tue, 17 Nov 2020 06:47:05 +0000
+Received: by mail-qv1-xf44.google.com with SMTP id 63so10141101qva.7
+ for <linux-nvme@lists.infradead.org>; Mon, 16 Nov 2020 22:47:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=from:references:in-reply-to:mime-version:thread-index:date
+ :message-id:subject:to:cc;
+ bh=RRbH7EZSSZpR4lAXMkmEaKSkj9hItve4rulEIgIl1vo=;
+ b=BGZPt0Hu4so7TCd/htYpNOOzkB2NZBsbXrZm99bSEB6pX1wxTAEd7pcc9/RubcR8wA
+ j5w7U2sTzxrexFuDBjZPG5V3/pc7j7Zk7Np3uvdVwqWLZkTohlcJfo/ojRE1x3ff6EtT
+ decNqqqnVahkbohmS4UKlIsHQaaFRX1d542bA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:references:in-reply-to:mime-version
+ :thread-index:date:message-id:subject:to:cc;
+ bh=RRbH7EZSSZpR4lAXMkmEaKSkj9hItve4rulEIgIl1vo=;
+ b=IAcl/9mcdg1e+hJcdqvGheqgHxa18kLICuYs45zJAPAdsf9hmhtbJyFSCRvjeKRmzz
+ FXZNUhjqDfu98WhFnM1u8lvL1/sY4kqaeFdpbE7dJ2AEoGp+RZvt9QauU+2AqZ//aMpf
+ EYcY7kvyeb1/GyEaqd0HE5/YOQXB0vTqqg3MEXzsCsJyVRocyA8VyE2SlFYRpFA0rmve
+ cptMpXfxrxvZuj0cEaXPGW0FeqTZnADxb8LxhqSGGm/ONcNxSPv5n7MupRxQX/hRaITL
+ vDwNpTFhSSf8q0NRDldjmK2yohNP+xMbYBeGBVZxXQkWDJOp57zkpdy9XhnpyMWZFuKm
+ XHzw==
+X-Gm-Message-State: AOAM530U03Fvh9MRZCtvDca+ObeT85WZiVidiVQ8wELklTEsdvDx0BVK
+ riSe3vgPSlWVNbyOkXvzho/Xjo4j5ypOc5LgGcz6CA==
+X-Google-Smtp-Source: ABdhPJxR5X9YKoGH7anocalEoeslgOqOFs4IdOXJSA1oi2SyRuXDW7Vhk7w9WjUlsCwIDApAiiOG9rvf+xrcRnH/QC0=
+X-Received: by 2002:ad4:42a7:: with SMTP id e7mr18951039qvr.45.1605595620558; 
+ Mon, 16 Nov 2020 22:47:00 -0800 (PST)
+From: Kashyap Desai <kashyap.desai@broadcom.com>
 References: <20201112075526.947079-1-ming.lei@redhat.com>
  <20201112075526.947079-2-ming.lei@redhat.com>
  <20201116172658.GJ22007@lst.de> <20201117010448.GA56247@T590>
+ <20201117011610.GB56247@T590>
+In-Reply-To: <20201117011610.GB56247@T590>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201117010448.GA56247@T590>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQGhTJgEfGK8+PW9LSmG4d1uyQPiiAGPnylrAa3LhY0CHCFjcQJwP7uAqfhysrA=
+Date: Tue, 17 Nov 2020 12:16:56 +0530
+Message-ID: <18faec7d7c554cef81d3ff4f39a331f3@mail.gmail.com>
+Subject: RE: [PATCH 1/3] blk-mq: add new API of blk_mq_hctx_set_fq_lock_class
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201116_201631_335921_C318459F 
-X-CRM114-Status: GOOD (  21.65  )
+X-CRM114-CacheID: sfid-20201117_014703_611837_05110F6E 
+X-CRM114-Status: GOOD (  18.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,43 +93,147 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
  Qian Cai <cai@redhat.com>, John Garry <john.garry@huawei.com>,
- linux-nvme@lists.infradead.org, Kashyap Desai <kashyap.desai@broadcom.com>,
- linux-block@vger.kernel.org, Sumit Saxena <sumit.saxena@broadcom.com>,
- Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Sumit Saxena <sumit.saxena@broadcom.com>, Hannes Reinecke <hare@suse.de>
+Content-Type: multipart/mixed; boundary="===============5487573125986773565=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 17, 2020 at 09:05:04AM +0800, Ming Lei wrote:
-> On Mon, Nov 16, 2020 at 06:26:58PM +0100, Christoph Hellwig wrote:
-> > On Thu, Nov 12, 2020 at 03:55:24PM +0800, Ming Lei wrote:
-> > > flush_end_io() may be called recursively from some driver, such as
-> > > nvme-loop, so lockdep may complain 'possible recursive locking'.
-> > > Commit b3c6a5997541("block: Fix a lockdep complaint triggered by
-> > > request queue flushing") tried to address this issue by assigning
-> > > dynamically allocated per-flush-queue lock class. This solution
-> > > adds synchronize_rcu() for each hctx's release handler, and causes
-> > > horrible SCSI MQ probe delay(more than half an hour on megaraid sas).
-> > > 
-> > > Add new API of blk_mq_hctx_set_fq_lock_class() for these drivers, so
-> > > we just need to use driver specific lock class for avoiding the
-> > > lockdep warning of 'possible recursive locking'.
-> > 
-> > I'd turn this into an inline function to avoid the (although very
-> > minimal) cost when LOCKDEP is not enabled.
-> 
-> blk_mq_hctx_set_fq_lock_class() is just one-shot thing, do you really
-> care the cost?
+--===============5487573125986773565==
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000a5675405b447dcbc"
 
-Forget to mention, 'blk_flush_queue' is one private structure inside block
-layer, so we can't define as inline.
+--000000000000a5675405b447dcbc
+Content-Type: text/plain; charset="UTF-8"
 
-thanks,
-Ming
+> On Tue, Nov 17, 2020 at 09:05:04AM +0800, Ming Lei wrote:
+> > On Mon, Nov 16, 2020 at 06:26:58PM +0100, Christoph Hellwig wrote:
+> > > On Thu, Nov 12, 2020 at 03:55:24PM +0800, Ming Lei wrote:
+> > > > flush_end_io() may be called recursively from some driver, such as
+> > > > nvme-loop, so lockdep may complain 'possible recursive locking'.
+> > > > Commit b3c6a5997541("block: Fix a lockdep complaint triggered by
+> > > > request queue flushing") tried to address this issue by assigning
+> > > > dynamically allocated per-flush-queue lock class. This solution
+> > > > adds synchronize_rcu() for each hctx's release handler, and causes
+> > > > horrible SCSI MQ probe delay(more than half an hour on megaraid
+sas).
+> > > >
+> > > > Add new API of blk_mq_hctx_set_fq_lock_class() for these drivers,
+> > > > so we just need to use driver specific lock class for avoiding the
+> > > > lockdep warning of 'possible recursive locking'.
+> > >
+> > > I'd turn this into an inline function to avoid the (although very
+> > > minimal) cost when LOCKDEP is not enabled.
+> >
+> > blk_mq_hctx_set_fq_lock_class() is just one-shot thing, do you really
+> > care the cost?
+>
+> Forget to mention, 'blk_flush_queue' is one private structure inside
+block
+> layer, so we can't define as inline.
 
+Original issue reported by Qian is fixed by this patch series. Tested on
+MegaRaid h/w.
+
+Tested-by: Kashyap Desai <kashyap.desai@broadcom.com>
+
+>
+> thanks,
+> Ming
+
+--000000000000a5675405b447dcbc
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+yfWKfxJx8FcWmsjkSlrwDu+oVuDUa2wqeKBU12HQ4JAVd+LOb5edsbbFQxgGHu+MPuc/1hl9kTkC
+AwEAAaOCAdEwggHNMA4GA1UdDwEB/wQEAwIFoDCBngYIKwYBBQUHAQEEgZEwgY4wTQYIKwYBBQUH
+MAKGQWh0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5jb20vY2FjZXJ0L2dzcGVyc29uYWxzaWduMnNo
+YTJnM29jc3AuY3J0MD0GCCsGAQUFBzABhjFodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vZ3Nw
+ZXJzb25hbHNpZ24yc2hhMmczME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIB
+FiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEQGA1Ud
+HwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NwZXJzb25hbHNpZ24yc2hh
+MmczLmNybDAlBgNVHREEHjAcgRprYXNoeWFwLmRlc2FpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAK
+BggrBgEFBQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJnXsLYTAdBgNVHQ4EFgQU4dX1
+Yg4eoWXbqyPW/N1ZD/LPIWcwDQYJKoZIhvcNAQELBQADggEBABBuHYKGUwHIhCjd3LieJwKVuJNr
+YohEnZzCoNaOj33/j5thiA4cZehCh6SgrIlFBIktLD7jW9Dwl88Gfcy+RrVa7XK5Hyqwr1JlCVsW
+pNj4hlSJMNNqxNSqrKaD1cR4/oZVPFVnJJYlB01cLVjGMzta9x27e6XEtseo2s7aoPS2l82koMr7
+8S/v9LyyP4X2aRTWOg9RG8D/13rLxFAApfYvCrf0quIUBWw2BXlq3+e3r7pU7j40d6P04VV3Zxws
+M+LbYxcXFT2gXvoYd2Ms8zsLrhO2M6pMzeNGWk2HWTof9s7EEHDjis/MRlbYSNaohV23IUzNlBw7
+1FmvvW5GKK0xggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWdu
+IG52LXNhMTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0g
+RzMCDDSdoX7GqonhoE7TszANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgFdXRmV5l
+NYwQwG+ffoiw2Uo2bGzxFC9O36FMDDQ94UkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkq
+hkiG9w0BCQUxDxcNMjAxMTE3MDY0NzAxWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjAL
+BglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG
+9w0BAQcwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFMmi/LGyHIY9MxX4U4ZcwiunygD
+mdULhNclECqLcBiW2ZhY1H0tcpUidzuRgecqdpDVW9Z5Gz9xqjpGFZo+eh4LM/VdlQvbRys+1ABp
+gZGKN1qUJd1b2oAPIWaWhb7nu9Ee6EHDx5EVKBTzaC8mABQ8GML1y8rIAVh2tbuuDRyDkwR1pRtI
+3QcY4U1sgWB5/v9B9FZ8+Ax/l1ZwWmkt5ET6SLYrSh2ZVAs+t64zEXYxXF59nIaGxgcoPBDOLTqU
+4FBpPMI8rXDjw0VmoffpB3p3h4XaylDTGSLiKT0UBGRdt3dfhfLPbZTq2tfI17zbAiqPTFG7h3tP
+Z7XHQ20CyXs=
+--000000000000a5675405b447dcbc--
+
+
+--===============5487573125986773565==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--===============5487573125986773565==--
+
