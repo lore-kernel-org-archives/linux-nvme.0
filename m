@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5CCEC56201
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Nov 2020 20:18:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FAC6C388F9
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Nov 2020 21:11:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5655922242
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Nov 2020 20:18:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1F61522255
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Nov 2020 21:11:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZQcnwynA";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="aGgkDWPr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5655922242
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UFI88oGF";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="eX9gKLP4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1F61522255
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,47 +25,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hY1Clc7vbnzG54+qHDkD3jFj9ufLsx8Fa+qUxbBt+Uo=; b=ZQcnwynA0857Cy1KVisiLnlzX
-	/e6whBakvitbo83fbl9DcvFG75sStogXkl3Da6KNPE1K1rravUA/XL9qy4tS5BKDtLi2tZ2yzy8od
-	JM18gQy9xsyV0pIzkP5SEMXNUcKrypcRIcJdZ3aWMVloeibIDuv8rm+gRBGnnjFvVRDamfeAd10dH
-	YSfZqDMbmPkRRlJPiYaGUTf9luVtRTb8AZesWKWYu3+E5CIzj4LVx9phJhfX/I26h4ghR0wmJokmI
-	+UJ4kbC7SqQckHCcLO9PPdgTstv5SD4yPg8B+xTz2vQ0b6M4P3aNnWtKuzG00zoqAogTNeCYPX82j
-	IDg/89x1A==;
+	 bh=3QvpUoBW4aE8fxAI0N38Ji980aLUdVtwN0mQc7lPZ4M=; b=UFI88oGF4NNg9SLYuj4lpaiaR
+	sXMswyMTV/zi/iNEyiI8e7uk0qu2/3RE90YizALqxtpRW2Ok1RcSXwmyMOOURQCvLhV7AKR/TZPef
+	Cesk8igF6uCxSEx7lYHhSYzlkhqrgNlS29ZMADaeGA6mFFbf/jZ9fMUHWWiTPfrxgtP8ZyrJcZHiX
+	XJMaq/MKl41AVhbNzER84oedI+Uajk0+Dgc3P9n05SiKcrxjGzpq9BBHZDA47F9beNABGExWyFYpN
+	2VEaUu/IsUrC1FjMefZHJVVr1oc9eBimAZLo2ll2hlWAPKKQTi/hBkuN1o94V86m1Ew24ymRz4A2v
+	rMuPpoutg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kfqNf-0002KD-WA; Thu, 19 Nov 2020 20:18:12 +0000
+	id 1kfrCv-0003SQ-HM; Thu, 19 Nov 2020 21:11:09 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kfqNc-0002JR-UP
- for linux-nvme@lists.infradead.org; Thu, 19 Nov 2020 20:18:09 +0000
+ id 1kfrB8-0002ca-Vw
+ for linux-nvme@lists.infradead.org; Thu, 19 Nov 2020 21:09:20 +0000
 Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B2BAB221FC;
- Thu, 19 Nov 2020 20:18:06 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E20E822255;
+ Thu, 19 Nov 2020 21:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605817087;
- bh=msVORNtmoVzwS5rfQ5EQAClijESE6cGzz8MADitK+eQ=;
+ s=default; t=1605820157;
+ bh=wobWbrfe+CcBfAqh6g1sHmyepcpP3tuS6adaYB2sqNk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aGgkDWPrViJbO57OEy4JNXAOotMQJ2swId3u+lPsirlKCgNXqhf5c0lnTHPDW3UGT
- 9PU4c70kR1q5v5COHjQd11d5bQ+8q3L/bnNJGfN/NzGNU4yhB9F6EAPzAcKBdsUCJg
- f8jOsDIwq1QWmws3lHxIMG5YdepOZNz6uSDfS9Zc=
-Date: Thu, 19 Nov 2020 12:18:04 -0800
+ b=eX9gKLP40Y036drTN5kXwWv7ntyy0/4K4wht1FrMjOGTY7+WYClrYAi61GWWeUcda
+ QHt7JNCDAr6UlQTfIXDfl21Z7SKYuakRPErWkTMlfS4eCZ50RmSNgrKPC6qDUs+005
+ hO0pO+OriwUpiDtdlBoYNC2MLiaz7UCAEab/zPRg=
+Date: Thu, 19 Nov 2020 13:09:14 -0800
 From: Keith Busch <kbusch@kernel.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH] nvme: Boot as soon as the boot controller has been probed
-Message-ID: <20201119201804.GA2855047@dhcp-10-100-145-180.wdc.com>
-References: <20201108040903.8185-1-bvanassche@acm.org>
- <20201111191920.GA2573679@dhcp-10-100-145-180.wdc.com>
- <a2e50a52-49bf-9a69-5897-d471db5054b0@acm.org>
- <20201112142024.GB2573679@dhcp-10-100-145-180.wdc.com>
- <fa3eb5e6-7864-ecce-df92-fd7a2b913f3a@acm.org>
+To: Tom Roeder <tmroeder@google.com>
+Subject: Re: [PATCH] nvme: Cache DMA descriptors to prevent corruption.
+Message-ID: <20201119210914.GB2855047@dhcp-10-100-145-180.wdc.com>
+References: <20201119185919.2742954-1-tmroeder@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <fa3eb5e6-7864-ecce-df92-fd7a2b913f3a@acm.org>
+In-Reply-To: <20201119185919.2742954-1-tmroeder@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201119_151809_092513_7D352F9C 
-X-CRM114-Status: GOOD (  16.08  )
+X-CRM114-CacheID: sfid-20201119_160919_154343_A7A32A96 
+X-CRM114-Status: GOOD (  23.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,53 +73,48 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Marios Pomonis <pomonis@google.com>,
+ Jens Axboe <axboe@fb.com>, Peter Gonda <pgonda@google.com>,
  Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 18, 2020 at 07:08:49PM -0800, Bart Van Assche wrote:
-> On 11/12/20 6:20 AM, Keith Busch wrote:
-> > The easiest check is something like this (as long as you're not actively
-> > using your nvme namespaces):
-> > 
-> >   # echo 1 | tee /sys/class/nvme/nvme*/device/remove
-> >   # echo 1 > /sys/bus/pci/rescan
-> > 
-> > The subsequent probes don't go through the async_schedule. They have
-> > this stack instead:
-> > 
-> > [   44.528906] Call Trace:
-> > [   44.530512]  dump_stack+0x6d/0x88
-> > [   44.532373]  nvme_probe+0x2f/0x59b [nvme]
-> > [   44.534466]  local_pci_probe+0x3d/0x70
-> > [   44.536471]  pci_device_probe+0x107/0x1b0
-> > [   44.538562]  really_probe+0x1be/0x410
-> > [   44.540564]  driver_probe_device+0xe1/0x150
-> > [   44.542733]  ? driver_allows_async_probing+0x50/0x50
-> > [   44.545170]  bus_for_each_drv+0x7b/0xc0
-> > [   44.547172]  __device_attach+0xeb/0x170
-> > [   44.549163]  pci_bus_add_device+0x4a/0x70
-> > [   44.551182]  pci_bus_add_devices+0x2c/0x70
-> > [   44.553229]  pci_rescan_bus+0x25/0x30
-> > [   44.555126]  rescan_store+0x61/0x90
-> > [   44.556975]  kernfs_fop_write+0xcb/0x1b0
-> > [   44.558940]  vfs_write+0xbe/0x200
-> > [   44.560710]  ksys_write+0x5f/0xe0
-> > [   44.562483]  do_syscall_64+0x2d/0x40
-> > [   44.564354]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+On Thu, Nov 19, 2020 at 10:59:19AM -0800, Tom Roeder wrote:
+> This patch changes the NVMe PCI implementation to cache host_mem_descs
+> in non-DMA memory instead of depending on descriptors stored in DMA
+> memory. This change is needed under the malicious-hypervisor threat
+> model assumed by the AMD SEV and Intel TDX architectures, which encrypt
+> guest memory to make it unreadable. Some versions of these architectures
+> also make it cryptographically hard to modify guest memory without
+> detection.
 > 
-> Hi Keith,
+> On these architectures, Linux generally leaves DMA memory unencrypted so
+> that devices can still communicate directly with the kernel: DMA memory
+> remains readable to and modifiable by devices. This means that this
+> memory is also accessible to a hypervisor.
 > 
-> Thanks for the feedback. I will look further into this but I wouldn't
-> mind if someone else would come up with a solution before I have a
-> solution ready.
+> However, this means that a malicious hypervisor could modify the addr or
+> size fields of descriptors and cause the NVMe driver to call
+> dma_free_attrs on arbitrary addresses or on the right addresses but with
+> the wrong size. To prevent this attack, this commit changes the code to
+> cache those descriptors in non-DMA memory and to use the cached values
+> when freeing the memory they describe.
+ 
+If the hypervisor does that, then the device may use the wrong
+addresses, too. I guess you can't do anything about that from the
+driver, though.
 
-I suppose you could just add the PROBE_PREFER_ASYNCHRONOUS probe_type,
-and let nvme_probe() continue to attempt its own async initialization.
+> +	/* Cache the host_mem_descs in non-DMA memory so a malicious hypervisor
+> +	 * can't change them.
+> +	 */
+> +	struct nvme_host_mem_buf_desc *host_mem_descs_cache;
+>  	void **host_mem_desc_bufs;
+
+This is never seen by an nvme device, so no need for an nvme specific
+type here. You can use arch native types.
 
 _______________________________________________
 Linux-nvme mailing list
