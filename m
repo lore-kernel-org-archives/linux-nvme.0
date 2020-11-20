@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC506C5519F
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2020 07:34:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06114C63777
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2020 07:35:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A46822256
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2020 07:34:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 81CD122256
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Nov 2020 07:35:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LBD8drRf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A46822256
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="P+bAV3CV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81CD122256
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,39 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=pmLcQH4dYjiVJNg7pfquaXukAETAAvi5K7s0lvcxyrg=; b=LBD8drRf9b20QvqfyRHx7z7IG
-	wP/9nlQsr/whgyReZqMKBwZOqO2N8cZ0DJEhpzREcZoUXzk5AWsW/0enqHh0cK53H7+ksnEN3ysi1
-	pGp7RTjrldNC3pr9LdEyuCappjiR3wrTWjaTQjKO/IiRfYpNT69W2EgY/f2MzlQaXuX8yccT2z7/T
-	V1/CEWSia1vbgZPhhioFPm3i/cxlbf+jz4jT4Mar1GPI/+9L8FfFdJYvy/6iHhAQqtIOa7Q50ITq2
-	oPa64zhUL22a4m5+qWdYpvGqzJMCo1gdtspwR4m1rkiiHH3KkWfY6F6kDuyTv/HL6jxdugvNXefqD
-	+68qJ49zw==;
+	 bh=S4Zc7kk4lP7hLAS2r4tr00jXFGpBJmNNLtusjOdMkZg=; b=P+bAV3CVAGY1aMIy26j5Geo8K
+	i5+Vk5alwH1G12Xk4GA8oKxK3pwCMPB2/wFcvYdlk2sEAcBuqw7q/liVBx6dYkOevsb7VVD+hIsz5
+	seWElMMpwBZVxuMqpMxPGW8I1TlgP6FTopvEVido340w3PJb1KJFr/FYGCwFkrt7MSS4EVEo5Ionf
+	GocsFyNdbuqp6ZRtFqpjO3FSeJfU80fZnY69bRAhFIJHv4fxnhrkhyT76uulSaN0rmWoF/+YAzJoa
+	5dOTgLdNWlKtJkSqpy0NgHtlmcTDc4hyiV7QvpJJss1FvUpbp3PqrRj1wsWAg2HIn1StXILwH7Fty
+	z/CCNBTRg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kg0w9-0005JY-2g; Fri, 20 Nov 2020 07:34:29 +0000
+	id 1kg0xG-0005c2-Hm; Fri, 20 Nov 2020 07:35:38 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kg0w6-0005J2-Vl
- for linux-nvme@lists.infradead.org; Fri, 20 Nov 2020 07:34:27 +0000
+ id 1kg0xD-0005at-KE
+ for linux-nvme@lists.infradead.org; Fri, 20 Nov 2020 07:35:36 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C2EBBAB3D;
- Fri, 20 Nov 2020 07:34:25 +0000 (UTC)
-Subject: Re: [PATCH 58/78] init: cleanup match_dev_by_uuid and
- match_dev_by_label
+ by mx2.suse.de (Postfix) with ESMTP id 7837DAB3D;
+ Fri, 20 Nov 2020 07:35:34 +0000 (UTC)
+Subject: Re: [PATCH 59/78] mtip32xx: remove the call to fsync_bdev on removal
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20201116145809.410558-1-hch@lst.de>
- <20201116145809.410558-59-hch@lst.de>
+ <20201116145809.410558-60-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <1742f81b-32e5-4bff-e10c-2c547ee345b6@suse.de>
-Date: Fri, 20 Nov 2020 08:34:24 +0100
+Message-ID: <5ee8dd18-f420-280c-84b9-78b70f528e26@suse.de>
+Date: Fri, 20 Nov 2020 08:35:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201116145809.410558-59-hch@lst.de>
+In-Reply-To: <20201116145809.410558-60-hch@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201120_023427_150485_FBCC063F 
-X-CRM114-Status: GOOD (  18.09  )
+X-CRM114-CacheID: sfid-20201120_023535_883424_5061FA16 
+X-CRM114-Status: GOOD (  17.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,17 +87,18 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTEvMTYvMjAgMzo1NyBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gQXZvaWQgYSB0
-b3RhbGx5IHBvaW50bGVzcyBnb3RvIGxhYmVsLCBhbmQgdXNlIHRoZSBzYW1lIHN0eWxlIG9mCj4g
-Y29tcGFyaXNtIGZvciBib3RoIGhlbHBlcnMuCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3Bo
-IEhlbGx3aWcgPGhjaEBsc3QuZGU+Cj4gLS0tCj4gICBpbml0L2RvX21vdW50cy5jIHwgMTggKysr
-KysrLS0tLS0tLS0tLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxMiBk
-ZWxldGlvbnMoLSkKPiAKUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRl
-PgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAg
-IEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJI
-LCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcp
-LCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApM
-aW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+T24gMTEvMTYvMjAgMzo1NyBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gZGVsX2dlbmRp
+c2sgYWxyZWFkeSBjYWxscyBmc3luY19iZGV2IGZvciBldmVyeSBwYXJ0aXRpb24sIG5vIG5lZWQK
+PiB0byBkbyB0aGlzIHR3aWNlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBIZWxsd2ln
+IDxoY2hAbHN0LmRlPgo+IC0tLQo+ICAgZHJpdmVycy9ibG9jay9tdGlwMzJ4eC9tdGlwMzJ4eC5j
+IHwgMTUgLS0tLS0tLS0tLS0tLS0tCj4gICBkcml2ZXJzL2Jsb2NrL210aXAzMnh4L210aXAzMnh4
+LmggfCAgMiAtLQo+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxNyBkZWxldGlvbnMoLSkKPiAKUmV2aWV3
+ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0t
+IApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hp
+dGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0
+MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQw
+OSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjog
+RmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJh
+ZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51
+eC1udm1lCg==
