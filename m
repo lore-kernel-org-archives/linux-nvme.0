@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C16AC83020
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2020 15:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01EFBC6379D
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2020 15:38:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DD2E4221F7
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2020 15:37:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7733121D81
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2020 15:38:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HozppJsX";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="KN8/ihZ7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD2E4221F7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2PjMO4bI";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="YcM2tgG8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7733121D81
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,47 +26,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=K9gUoSsR3CVsvBUDHKFH9SVbF5qRnqZfSG3mnZTkSHw=; b=HozppJsX7adirK04M3poTvFsc
-	qQirwtg0ViojTdnw7IS/ngtHGT5M6CTFL8emYUe6G1CE4ukib7mYK8b1DrQfb+/n7TdwyoTX2Yanz
-	VJaambsnUuFDgXtrNfLBAmcWz847fGZEIkUTOdwfuTKb68r3pgB59tV6r8zLXb23Sm6tlcicPcYZC
-	Pg2PS0YxGEJX/nd6TtXio+NK4DYNbwn/DjCEMoygoReZNwCDHeQILypY8TVxmrBXRgAkEa59Q4GoV
-	sg3LsQ3tr8PGYm2wXUF9T3r8CPU7TLpbu+7B2EMpTW8HwumIdLpuDSJzO1V+S/XSM57/59s9R+3iT
-	Ep0tEUYXQ==;
+	 bh=7UMJHQprL8PXj7IZAJdo8tD8TRRpVeuXqmb0F0ycq60=; b=2PjMO4bIiflP7PsnhH4TIKuok
+	nT+Z2bq8b/axNX3ppwArtci8JeWtkfRqYlYrRNEZz6qdBh/5j+7EwaZNjvANKfWVWziHD4aQgj/2S
+	ReBdznIX3yHIERve/DU9WQDKei9GjZ3IXKlEkrNnHWmfGNilR0XjSbtmwNAHKMZQKBw8vO47vl4CF
+	rb/mLLDXMY8sq+xTX1jZr6iwqHfoKtJc3lA9FinCEtxjx3rC9tFRJlL98FRXUrrvb3JeSrUnCgryf
+	04oDPjryhVKYsB+8p7c2nAjfobX4axvEuvVPsn+JnmeTOg7r5ZQEfK82S6dv3UdZ3s41ZTN18384V
+	semTwEi8A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1khwrM-0001So-Ok; Wed, 25 Nov 2020 15:37:32 +0000
+	id 1khwro-0001eR-Ft; Wed, 25 Nov 2020 15:38:00 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1khwrH-0001Qk-8N
- for linux-nvme@lists.infradead.org; Wed, 25 Nov 2020 15:37:28 +0000
+ id 1khwrb-0001ZF-Fw
+ for linux-nvme@lists.infradead.org; Wed, 25 Nov 2020 15:37:48 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 990B0221F9;
- Wed, 25 Nov 2020 15:37:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CA2A0221EB;
+ Wed, 25 Nov 2020 15:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606318646;
- bh=BPqbe0gbcVunVD/u3ObKzwmK2U47O1STxy5S5ZJKU1Q=;
+ s=default; t=1606318666;
+ bh=0n8jfaMWrlyg/5o+SmqrjEegfZzl9GLztMgGWzfjofw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KN8/ihZ7HoWaWJNnBFGoLreq+uy5wUTEc5hXN6xA3byzxVIcUQq8Opu7f3BI2+44T
- HpKzCgJSYQOHg0fBoTypTbM9kSw5168xue0eBgTGapB/x5OWJzXuz5xW1YVnqMPBfB
- 4yRh/mQrD7Ki5TNKNuy67pHXJF9KkQUOd2kDbM8I=
+ b=YcM2tgG86EGN/P37MEVl9OfZ8HzZd52R973vwWl/gbegrfz8b6VhgORJmwiyALKDV
+ KSNpwtdSfKhJYyI7fRxlhuMu41/N7yN9GEsz9o7WZ+VvnHe7bUKHkfhc6c6lcxG7ml
+ zrYJHQpxwV/FGCMvW4ftQuoVqlrV1Sepst+glAnY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/15] nvme: free sq/cq dbbuf pointers when dbbuf
+Subject: [PATCH AUTOSEL 4.14 08/12] nvme: free sq/cq dbbuf pointers when dbbuf
  set fails
-Date: Wed, 25 Nov 2020 10:37:07 -0500
-Message-Id: <20201125153712.810655-10-sashal@kernel.org>
+Date: Wed, 25 Nov 2020 10:37:30 -0500
+Message-Id: <20201125153734.810826-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201125153712.810655-1-sashal@kernel.org>
-References: <20201125153712.810655-1-sashal@kernel.org>
+In-Reply-To: <20201125153734.810826-1-sashal@kernel.org>
+References: <20201125153734.810826-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201125_103727_480056_CD4F8F76 
+X-CRM114-CacheID: sfid-20201125_103747_689478_72064DF0 
 X-CRM114-Status: GOOD (  14.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -106,10 +106,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 15 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3c68a5b35ec1b..a52b2f15f372a 100644
+index 3788c053a0b19..540fab9f850dd 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -276,9 +276,21 @@ static void nvme_dbbuf_init(struct nvme_dev *dev,
+@@ -266,9 +266,21 @@ static void nvme_dbbuf_init(struct nvme_dev *dev,
  	nvmeq->dbbuf_cq_ei = &dev->dbbuf_eis[cq_idx(qid, dev->db_stride)];
  }
  
@@ -131,7 +131,7 @@ index 3c68a5b35ec1b..a52b2f15f372a 100644
  
  	if (!dev->dbbuf_dbs)
  		return;
-@@ -292,6 +304,9 @@ static void nvme_dbbuf_set(struct nvme_dev *dev)
+@@ -282,6 +294,9 @@ static void nvme_dbbuf_set(struct nvme_dev *dev)
  		dev_warn(dev->ctrl.device, "unable to set dbbuf\n");
  		/* Free memory and continue on */
  		nvme_dbbuf_dma_free(dev);
