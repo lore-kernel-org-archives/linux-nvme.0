@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CF0C5519F
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2020 07:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 364A6C56201
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2020 07:32:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DFCAD20872
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2020 07:32:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 960DB206D9
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Nov 2020 07:32:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MqjTb9yK";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GTWSuGDM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DFCAD20872
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CFxuz27z";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hY0HULI2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 960DB206D9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,55 +26,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mc50rl8K+qyRLtU00KQoXBFi0l+5pyRxhYgotPsIpIs=; b=MqjTb9yKwg/1+246Hct0pbJ4+
-	MO1yxwV+KrQsWZ5VqWuls3/svcqN9SFBNvKuff+q/JD0yIWseJkEHDaX8NqxFnYYgShr5AuDjU7vy
-	ICNXdjLhh17Tx2XMRP2QlbzZlEWr4Ibd5faa3dbfuRFlP9NIzBzRKQT5Fu/RiKF/9xIvgxQag/YXx
-	JKL0Zul6C0KqpjjRKMlahnlEPKMiw7xdWRhvgqgJ35ALcHlTZLUQ4y/qsY4NdWTVx0SI7cm40Dqom
-	Zmw1Rb9eZ+6Fmx4khEabYa2cTelSuoD/aYEHsxBbxLqkGJrq8kMtfD8UvQWrUj33sFe3LQEes28+r
-	yKtSQKDNw==;
+	 bh=VPnrtURADQS2IuUPIn7e26SrFF5dO8yTEkdc/ca+dGQ=; b=CFxuz27zvTPr88uc2yfuNg0I0
+	oEQREDWvUMvJgmlV6vLk8NCyvH/21uYWthc+JtqJOFXdESYvQoAISAI6xWGu7UE9dN7l2Vs41lhew
+	2/4ZeBY7h7Ojt6iTjrfWPnjplWs5p9f1Ea7QGyS9Usdk37FNNxkp4ZQxBs9HC/LQVdoCGKFfFi9GR
+	X7XwwtKxa+jF9HyyCxglUVN2c7bFNtpJTUD00jylAxQkBl3YHZ1YRKiMoajR0jFg2LyXKlWXNJiZU
+	IflZqU4MImbnR6a+PJWuo5HfgfQqVCSplJEnclJkUH7jt4M0jc/H3rnpLfst37sG/J/E5EL3fiGpB
+	mzvMh/hoA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1khpI4-0008AH-Il; Wed, 25 Nov 2020 07:32:36 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1khpI8-0008BH-K0; Wed, 25 Nov 2020 07:32:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1khpI2-00089p-I4
- for linux-nvme@lists.infradead.org; Wed, 25 Nov 2020 07:32:35 +0000
+ id 1khpI6-0008AZ-4L
+ for linux-nvme@lists.infradead.org; Wed, 25 Nov 2020 07:32:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606289554;
+ s=mimecast20190719; t=1606289557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9+CRVUJRr10yjo78bfkJPa3QfjhrcfCQgimLtvVFbMo=;
- b=GTWSuGDMhZ6dw9IUWtYiZ5GjL49O5F1smUlIcFasvWNJUcbzQVMQpyijnuNn2aAKWDka1p
- pfuh+X6mmU1wFYy/99yPLIlmNFtl34GNJfHRxJBa0FexmVFWwkVnlyvRVe7dpvfGC8SA9e
- UUZujP+QMEoDs1v5eVeb7rOI77J9Aog=
+ bh=h27fAXdGuV6wrMdtw8W1ctw5U/mIM8/bS3+3KYoWkS4=;
+ b=hY0HULI23r7qxtdvnISdkbAHxuLxtzQNqodGzBhv/fAN6bZ5Jw7ISFM1VvH3pDvSKXaacL
+ k2+2bt4CmlFybSU1lyAZKw0OnBpi6sUH4+6LOwCQYYnSNnLzc2bWgzZ5FQLLjDLh3lMSZZ
+ aOFZbnNHtY0rRlutbYnMujDUi2KD3E4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-HeAkB7VMP4y6jmHo9LMd0Q-1; Wed, 25 Nov 2020 02:32:31 -0500
-X-MC-Unique: HeAkB7VMP4y6jmHo9LMd0Q-1
+ us-mta-574-X_2anpEKPm-jCkno9Sk0Gg-1; Wed, 25 Nov 2020 02:32:35 -0500
+X-MC-Unique: X_2anpEKPm-jCkno9Sk0Gg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4524107B45A;
- Wed, 25 Nov 2020 07:32:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14A2D809DE0;
+ Wed, 25 Nov 2020 07:32:34 +0000 (UTC)
 Received: from dhcp-12-105.nay.redhat.com (unknown [10.66.61.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6A2C19C46;
- Wed, 25 Nov 2020 07:32:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3AB3519C46;
+ Wed, 25 Nov 2020 07:32:31 +0000 (UTC)
 From: Yi Zhang <yi.zhang@redhat.com>
 To: osandov@osandov.com,
 	bvanassche@acm.org
-Subject: [PATCH V2 blktests 1/5] tests/srp/rc: update the ib_srpt module name
-Date: Wed, 25 Nov 2020 15:32:01 +0800
-Message-Id: <20201125073205.8788-2-yi.zhang@redhat.com>
+Subject: [PATCH V2 blktests 2/5] tests/nvmeof-mp/rc: run nvmeof-mp tests if we
+ set multipath=N
+Date: Wed, 25 Nov 2020 15:32:02 +0800
+Message-Id: <20201125073205.8788-3-yi.zhang@redhat.com>
 In-Reply-To: <20201125073205.8788-1-yi.zhang@redhat.com>
 References: <20201125073205.8788-1-yi.zhang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201125_023234_666944_79B784C9 
-X-CRM114-Status: GOOD (  13.71  )
+X-CRM114-CacheID: sfid-20201125_023238_224651_01E7C82B 
+X-CRM114-Status: GOOD (  12.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,37 +94,33 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fix the ib_srpt module insmod failure as the module in some distros are
-end with .xz, like bellow on fedora:
-/lib/modules/$(uname -r)/kernel/drivers/infiniband/ulp/srpt/ib_srpt.ko.xz
+To enable it, just do bellow step before we run it:
+$ echo "options nvme_core multipath=N" >/etc/modprobe.d/nvme.conf
 
 Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
 ---
- tests/srp/rc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/nvmeof-mp/rc | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/tests/srp/rc b/tests/srp/rc
-index 7fc094b..1f665a2 100755
---- a/tests/srp/rc
-+++ b/tests/srp/rc
-@@ -465,7 +465,7 @@ configure_target_ports() {
+diff --git a/tests/nvmeof-mp/rc b/tests/nvmeof-mp/rc
+index d7a7c87..fc06856 100755
+--- a/tests/nvmeof-mp/rc
++++ b/tests/nvmeof-mp/rc
+@@ -16,9 +16,11 @@ group_requires() {
  
- # Load LIO and configure the SRP target driver and LUNs.
- start_lio_srpt() {
--	local b d gid i ini_ids=() opts p target_ids=() vdev
-+	local b d gid i ini_ids=() opts p target_ids=()
- 
- 	for gid in $(all_primary_gids); do
- 		if [ "${gid#fe8}" != "$gid" ]; then
-@@ -500,7 +500,7 @@ start_lio_srpt() {
- 	if modinfo ib_srpt | grep -q '^parm:[[:blank:]]*rdma_cm_port:'; then
- 		opts+=("rdma_cm_port=${srp_rdma_cm_port}")
+ 	# Since the nvmeof-mp tests are based on the dm-mpath driver, these
+ 	# tests are incompatible with the NVME_MULTIPATH kernel configuration
+-	# option.
+-	if _have_kernel_option NVME_MULTIPATH; then
+-		SKIP_REASON="CONFIG_NVME_MULTIPATH has been set in .config"
++	# option with multipathing enabled in the nvme_core kernel module.
++	if _have_kernel_option NVME_MULTIPATH && \
++		_have_module_param_value nvme_core multipath Y; then
++		SKIP_REASON="CONFIG_NVME_MULTIPATH has been set in .config \
++	and multipathing has been enabled in the nvme_core kernel module"
+ 		return
  	fi
--	insmod "/lib/modules/$(uname -r)/kernel/drivers/infiniband/ulp/srpt/ib_srpt.ko" "${opts[@]}" || return $?
-+	insmod "/lib/modules/$(uname -r)/kernel/drivers/infiniband/ulp/srpt/ib_srpt."* "${opts[@]}" || return $?
- 	i=0
- 	for r in "${vdev_path[@]}"; do
- 		if [ -b "$(readlink -f "$r")" ]; then
+ 
 -- 
 2.21.0
 
