@@ -2,138 +2,90 @@ Return-Path: <SRS0=VgBB=FA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B72EC56202
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2020 00:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C5BC56202
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2020 01:11:23 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CEE4207BC
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2020 00:50:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B49702075A
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Nov 2020 01:11:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WaeLnGHC";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Ssl5w0Fz";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="ddw5EDPZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CEE4207BC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EcUF6syS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJdcPtV0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B49702075A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=R5Gy+bZch0rWcvHyfO28H4xaA6z9zApCcn6wFOdiodo=; b=WaeLnGHCxDvDZmSvuqkSJBkRa
-	YhQt7053wTtVw9O9RgVNFsKgHHICSnUsJF6hb2cMcw1fPOw3/ReejPZEf3oMM1BcC/PAbygPMNoJA
-	SOQk8lnHFsw+4FEY/q3tleHLx/4Iu3B0KLGJBhrD+V+vASpSVgNmZPVavziiaaYJguV62+4o6cPUT
-	SRkHIaAz5Kw6Y+LkSXfGIg3chNoPtoX9CjxuRHANCZ1JB232uM5Ci6xItsd2LCo2OME5y6PKKv+JJ
-	Jxqln5TFmEMKpRKFIKy73UG9J8DhJmV9azBt0+oJ5rRbHO1tqiZA34ez5V/hhQU6QHPDUN639j6Cs
-	78XWcfMZg==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=867JbX0tvBt05EKXAZUTOHR8bnMYI8c0E/+uY24bhzc=; b=EcUF6sySWK7NsY8+zVqxzVzP6
+	UJfEB3+HY4OHkjn7hzAJPNPtnCHOMqW/9cOVFBZQ20m/c+G6JijBhcThe5ijIo4tCA03HwNgbT6GT
+	aV21epHtlVSLPlfQ34FNpzgu8+HzzwO9xbsgjKQtGZ/AxxMhHpc9uNM276ztMzxZHMO1BWXoFjnpF
+	dWsv+5BRQNGnO31Vs0d7tdvHkZDk4rVQzJHI/Yx9TIEvdyoiSthMMwtjMUU3vqrpHoQhIkFGhcRBR
+	mbmxhN61DzdkDzm/VtvB/d3fiHstuDl9MsOOZNKGm9K2MxK+0GM9+4byEkaYtJlEXtVTwY0nrD/oB
+	Szmo2dkJA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ki5Un-0006KD-Fx; Thu, 26 Nov 2020 00:50:49 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1ki5oa-00078u-9A; Thu, 26 Nov 2020 01:11:16 +0000
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ki5Uk-0006JT-U3
- for linux-nvme@lists.infradead.org; Thu, 26 Nov 2020 00:50:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1606351846; x=1637887846;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=QQtqW4lWpN8h/53vf6vK4R6+/62Y1NZdEe3CD45wfqQ=;
- b=Ssl5w0FzAu5e0i9Aa396kquniFYoxFJ3pGXMXDli0KQlDA68eS7Ad7Sb
- B1PFfU5T79HX4f/8G9U3/52eLK6oYBmiop+X7YM2I0W1lH9vUOlCr6XeQ
- xP0yVOl+cYG5svUM0Y1MJaQElA5pW5DvKJGx396wZXc7GwAkf5D+UaV26
- qsf+dwzETLTxnyVk+6f+GowWWCW+75gv0DGG8cBz4RZHT7kWl1S+pKMv3
- Z3ulkobtL8ryfxCwQ5+042UT/OBnOLobgIaL1M/JCY14R42CpOAgg5bfF
- TR/4izRc4zX8UWJidx/BbPwjj0+ykyBIY72+DFsRUWbr0xQ5Hc3ZRHd2L w==;
-IronPort-SDR: PooScEfJeGfeRlwq155nBJjBzmaarYvxjMvBNZyz0AzWEfR/fh7r2+UjCYh6rVBm5aG4EUPCcx
- HcIixF8a9wZ4tSTzn/oseIoJ8lWZsjmEczReMAi3dj9ZBZTzJ3Er+ev8frUFryWXaFyL2sBecK
- RiUoai7g79zpIbGiBv6ODjWCvFwoKF9GNnV9XZyKdHLkp/QmmH6ixR3jeTQS4UMQ7GyylITrkz
- dKDQDvq3iwgA/V6GFWoqKiY5APWzP9NjR8AIPPhx7FYrl8aoPudUy8qG6kvaIHXHnEs4DYYJNh
- A7M=
-X-IronPort-AV: E=Sophos;i="5.78,370,1599494400"; d="scan'208";a="263584822"
-Received: from mail-bl2nam02lp2059.outbound.protection.outlook.com (HELO
- NAM02-BL2-obe.outbound.protection.outlook.com) ([104.47.38.59])
- by ob1.hgst.iphmx.com with ESMTP; 26 Nov 2020 08:50:42 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vp5U4wpTDG7lXARIOacOQHqlff2F+OaCDVMY5hZVTs47Gt5/ZirP64rhSbQQ8RwjPGn73Vg7lX1L4J6RUcPy2PpwUMJhKkLqXjZY0/3giQNxuMrH67KN5hbonBbqhW4YIU0XheubPM1XUzSRGojvX1sN1XXzVkV1z2RXmHdToJwOigkYeeYfLk/aF7MuJstTSj+GGUK0ClEsN729aARnT2l8KhMOUrPv3jgoeGGh4/mulCt6xRsTzKXM+lyg+5Q1CgV+cDjdDay4ZBPJ09SBDV2/OQQ5VJLDY7XLALJnhsD2dLDIg2vQiQgC2u99AylIEiHh/jp0QW9e3UWOkkCsCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QQtqW4lWpN8h/53vf6vK4R6+/62Y1NZdEe3CD45wfqQ=;
- b=IVu1NtDCU/331zXnz1ATgm63WvAmB6Lo2e7QcJWAcvpwPRQmBcggVRa+++be/AotjhhU6c7q7TyHRVDNQJpb7fA5Gzqn/5FcfLbtaBU65u95aWW/S8h2S9tVUJ9fpjwecTtrpRSuf4vWvzY+N3yCZQEcsGxmmcYJJQcCnbV5LbQo8tkC9rCCADRvG6fCVmxcHnBn4FP0k+Ac/RX59VlxDX+aKAFrs6dNBdycDdSTBsEGmbSRhsDXs3IVbz8tVjvO4hi3Tn6ooxjkojo5mEt3jvUhasdDqXsWv/AhEuP0edCwvoE3dg3H9LKOr2HmPQ127YwMDWp0gsyH1w2InhGqyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QQtqW4lWpN8h/53vf6vK4R6+/62Y1NZdEe3CD45wfqQ=;
- b=ddw5EDPZ4QiJ9TOyvJY2f5y8Lnp+t0iyYDrKVE98WyMjHM5/kqdFickox3sQBewLFEFA0mVUQ6iNBI23pAhdKC1ianGSQFrVTFSEmtTUzybci0VAy81vMSkVSpAFROVu8oYLdlnuqlpynXKh3PDWOS7ZAQay0R+QdaqVS8/YizM=
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BYAPR04MB6101.namprd04.prod.outlook.com (2603:10b6:a03:f1::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Thu, 26 Nov
- 2020 00:50:41 +0000
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::99ae:ab95:7c27:99e4]) by BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::99ae:ab95:7c27:99e4%7]) with mapi id 15.20.3589.032; Thu, 26 Nov 2020
- 00:50:40 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "hch@lst.de" <hch@lst.de>,
- "sagi@grimberg.me" <sagi@grimberg.me>
-Subject: Re: [PATCH 1/1] nvmet: make sure discovery change log event is
- protected
-Thread-Topic: [PATCH 1/1] nvmet: make sure discovery change log event is
- protected
-Thread-Index: AQHWwyZgV3T35Isd4UyDx9goCn6Bsw==
-Date: Thu, 26 Nov 2020 00:50:40 +0000
-Message-ID: <BYAPR04MB49659DD9BDE12B278D1F827C86F90@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20201125122736.4423-1-mgurtovoy@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: ea748015-2940-409d-2254-08d891a54c4e
-x-ms-traffictypediagnostic: BYAPR04MB6101:
-x-microsoft-antispam-prvs: <BYAPR04MB6101E029CC93E6987F3AAF9E86F90@BYAPR04MB6101.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:392;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2ES85vtdewUP0RyTgZtnrPXFgGNd9HJRhCw3dWz86R3J4WSaiIbvkaZjzGPGePT0ja4ZBkKGcnKyc2QXBEGfF4aXlKhHpTj/H0DU4uxJjFQpjgVYQSro5rV+ViQCeeNwv51jso8GCfuXhiI5W139wdvPy41+5C4fq0BWck87IFoZeA7oi3fiXf+N1z05hdwRUqPRzo3qewR9tg7nhtI0D0T2JAWtZoFpafHMPz2Q3JlhKMl6BB8PzDO29eygZ4AJHkQNyewHYdG4W8tyndNzryU1MJx1I4cRGg/4bQugNM60+OCpCS9/LJjgoi+kSL3PHX17R0uqNZCTucZYv1gZqg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(376002)(366004)(136003)(39860400002)(8936002)(54906003)(110136005)(9686003)(478600001)(186003)(2906002)(316002)(4326008)(53546011)(26005)(6506007)(7696005)(66556008)(5660300002)(33656002)(66446008)(558084003)(64756008)(55016002)(52536014)(66946007)(8676002)(76116006)(86362001)(71200400001)(66476007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: xVO0Qcb2mQGLCyO78Efuwx5JWUcc+Rxcx3CeaH0JgevR7yfBmYFpE+yAxt+M0If57MN9989vKv74DI8/rgJQbIGkOcTcHAg1Gc7K5ApWfZTV5Q4Tie4+/noAH0r25hmSquVMCg+gBzsiWs+aH3I+64h4eiJe9zEFErFjHqNNu6HRUnSQiO4WAVjXvIaq3OSXDABThTho+MYDBAqVsAD5cuntCqOnnhGCV/hep064eiGhQHRYCAxxtV80WWn8Hetz8bWZrvFZlVE+esRGTf69MPjD1B0V+gDGOLTPDl8lAsbbQBqpStpLR7+5rZTIBovjpJoaz4Lc6qUsG1V3rhKhAp5Xc/64ccAN92I2ZxrUh+I4T1V20u9jeIYIhfsjXMmUSOyCG6SKDAXHA8e4IK8oYOcV2O/qgkxQfwPV02zj6TFGNYvu+QVHbB/9VFubrSqoeJFQsj4eLIFUCk05VGFZxLjM3QSvrTTYuEpboplguApKKbCuVVv04NE3X5+BlJpWfgpc7niuW7Lgfhb+if82BnFnyngM/tOBQ4HyC+T9rE8OKJg8TYxk61Nt0eMrelNzdnMovlGXZNIcb5CQ9hQZKkzypF2EymjXecw1l+UphPrGPnhXZg63vzFYigUVtYTArP5nkvLaTKyIAsu2eUNaXCSG9pO8SPhqBW5FUbcuWJDgCFwjfAYrW5Am8GUxMn6jprZtT6rjnFvsIeMPIyBx3QOeVceY9Y2HLUYBwtJ6droww0eu5FA5YuoFPhUlcKhPTbGF0JfyI7yt3HMIqzyPl+kSLTlxrv3ckAv6z1JVzd2/nS5GhU0UIT00xEK+wVUpSs+iKdfRyQKDo4gv1iYGDzpwtdRj+7E0ZnE8TbJsBxi3uFUvGVWyR2u43j5IxTT3fd7cpZlE8TfDorq7IwSVXg==
-x-ms-exchange-transport-forked: True
+ id 1ki5oX-00078D-QV
+ for linux-nvme@lists.infradead.org; Thu, 26 Nov 2020 01:11:15 +0000
+Received: by mail-pf1-x441.google.com with SMTP id w187so117356pfd.5
+ for <linux-nvme@lists.infradead.org>; Wed, 25 Nov 2020 17:11:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=f8bMvE80grJsQDxQbN+SXa4Ok4avPUhhCBLg+N5g7uE=;
+ b=CJdcPtV0FUzyxFptDYgR6iAeEpy/fm/U+qwm7MjSAUITShNs3IGjSdma/ci1d+UdB1
+ /4QBGWKw7GesxoQFO7vGWULXUqZeTgSL72KBwgOOTOpdW6FEjFkGl8KvyOmWfu5zn3C8
+ 2D8lQB9/sXcZGuetWYq/y9fJ/4tVoCfZkFM+w/twGxXZf6jIBGOeoFgX3V3eoJ4SxFtL
+ DMlA1WjSzrfwym46BYlZOU4NNlAHgEZUyXcv6V6vuCHVbSrKNoE7MZTnCkoIzELetkkK
+ 3iGfzFOaAaJYntoqnGECTiJfY05IPhrPMzUEVWqaaAGWlk8VKPKZsqmpzgCIg3k/819j
+ bQTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=f8bMvE80grJsQDxQbN+SXa4Ok4avPUhhCBLg+N5g7uE=;
+ b=RnE/soFfXxNWxQPihHTulm85L5nzJfYgY94tgux4R8Ah/LBaQpjpkPqVq2kEPLeyVj
+ tq0aMajYVzbHOQTYQgrfYmhBtoAgt21HFYPsONcv9C7Gt3TE7+XsiQaYl+9LMrsv1Ew1
+ P3+TdlHksvrAAMzZJyjgm4O6CRZpO20NbnEhWamdt7axJpJFfxXri5AUcuWveHebgY7v
+ b/FtCNMZAeLZFXPdc0gIXVtbtCaxhclFrw2fHOHKa+WQAwdQ4aseMpUZmLDljcB5n34R
+ k2TqnjyODsonprjBBs+iZd5Otve8vYT0pKfpv/2hSK2nFoTQrXNnIEi8/IZblL1aL42p
+ D9NQ==
+X-Gm-Message-State: AOAM531pNiks80Rp0+IvgpdD5VJ61hQNG95JgH4a23pZ11B6jS7RAL8M
+ kWHFXwHwvRXRSccKmzK66iY=
+X-Google-Smtp-Source: ABdhPJy2rvS54nam6WzB3Gos6rktAfztTZ/apost62cNhHmAqWfXtcE8/JRGjAG0GRNN0NDnAydY0Q==
+X-Received: by 2002:a17:90a:8909:: with SMTP id
+ u9mr643556pjn.100.1606353071628; 
+ Wed, 25 Nov 2020 17:11:11 -0800 (PST)
+Received: from google.com (c-67-188-94-199.hsd1.ca.comcast.net.
+ [67.188.94.199])
+ by smtp.gmail.com with ESMTPSA id s10sm3915048pjn.35.2020.11.25.17.11.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Nov 2020 17:11:10 -0800 (PST)
+Date: Wed, 25 Nov 2020 17:11:07 -0800
+From: Minchan Kim <minchan@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 60/78] zram: remove the claim mechanism
+Message-ID: <20201126011107.GA57352@google.com>
+References: <20201116145809.410558-1-hch@lst.de>
+ <20201116145809.410558-61-hch@lst.de>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea748015-2940-409d-2254-08d891a54c4e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2020 00:50:40.7796 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LeRQZavUWmS2hRXIPZmmacQdv1RmCxbgDCzgQ0jEksnBp04OUe0ZxnlH7ewJhJm5tn9A5mj6bydrT//ZVho15d8C0GbL+OeSlG6J9ct8B+0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6101
+Content-Disposition: inline
+In-Reply-To: <20201116145809.410558-61-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201125_195047_283557_8F9F9E73 
-X-CRM114-Status: GOOD (  10.97  )
+X-CRM114-CacheID: sfid-20201125_201113_901030_000AE150 
+X-CRM114-Status: GOOD (  27.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,22 +97,190 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Israel Rukshin <israelr@nvidia.com>, "oren@nvidia.com" <oren@nvidia.com>
+Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ linux-nvme@lists.infradead.org, Song Liu <song@kernel.org>,
+ dm-devel@redhat.com, drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
+ linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/25/20 04:27, Max Gurtovoy wrote:
-> Generation counter is protected by nvmet_config_sem. Make sure the
-> callers that call functions that might change it, are calling it
-> properly.
->
-> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-> Reviewed-by: Israel Rukshin <israelr@nvidia.com>
-Looks good.
+On Mon, Nov 16, 2020 at 03:57:51PM +0100, Christoph Hellwig wrote:
+> The zram claim mechanism was added to ensure no new opens come in
+> during teardown.  But the proper way to archive that is to call
+> del_gendisk first, which takes care of all that.  Once del_gendisk
+> is called in the right place, the reset side can also be simplified
+> as no I/O can be outstanding on a block device that is not open.
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+It would be great if it makes the mess simple. Let me have a question
+Please see below.
+
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/block/zram/zram_drv.c | 76 ++++++++++-------------------------
+>  1 file changed, 21 insertions(+), 55 deletions(-)
+> 
+> diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+> index 6d15d51cee2b7e..3641434a9b154d 100644
+> --- a/drivers/block/zram/zram_drv.c
+> +++ b/drivers/block/zram/zram_drv.c
+> @@ -1756,64 +1756,33 @@ static ssize_t disksize_store(struct device *dev,
+>  static ssize_t reset_store(struct device *dev,
+>  		struct device_attribute *attr, const char *buf, size_t len)
+>  {
+> -	int ret;
+> -	unsigned short do_reset;
+> -	struct zram *zram;
+> +	struct zram *zram = dev_to_zram(dev);
+>  	struct block_device *bdev;
+> +	unsigned short do_reset;
+> +	int ret = 0;
+>  
+>  	ret = kstrtou16(buf, 10, &do_reset);
+>  	if (ret)
+>  		return ret;
+> -
+>  	if (!do_reset)
+>  		return -EINVAL;
+>  
+> -	zram = dev_to_zram(dev);
+>  	bdev = bdget_disk(zram->disk, 0);
+>  	if (!bdev)
+>  		return -ENOMEM;
+>  
+>  	mutex_lock(&bdev->bd_mutex);
+> -	/* Do not reset an active device or claimed device */
+> -	if (bdev->bd_openers || zram->claim) {
+> -		mutex_unlock(&bdev->bd_mutex);
+> -		bdput(bdev);
+> -		return -EBUSY;
+> -	}
+> -
+> -	/* From now on, anyone can't open /dev/zram[0-9] */
+> -	zram->claim = true;
+> +	if (bdev->bd_openers)
+> +		ret = -EBUSY;
+> +	else
+> +		zram_reset_device(zram);
+>  	mutex_unlock(&bdev->bd_mutex);
+> -
+> -	/* Make sure all the pending I/O are finished */
+> -	fsync_bdev(bdev);
+> -	zram_reset_device(zram);
+>  	bdput(bdev);
+>  
+> -	mutex_lock(&bdev->bd_mutex);
+> -	zram->claim = false;
+> -	mutex_unlock(&bdev->bd_mutex);
+> -
+> -	return len;
+> -}
+> -
+> -static int zram_open(struct block_device *bdev, fmode_t mode)
+> -{
+> -	int ret = 0;
+> -	struct zram *zram;
+> -
+> -	WARN_ON(!mutex_is_locked(&bdev->bd_mutex));
+> -
+> -	zram = bdev->bd_disk->private_data;
+> -	/* zram was claimed to reset so open request fails */
+> -	if (zram->claim)
+> -		ret = -EBUSY;
+> -
+> -	return ret;
+> +	return ret ? ret : len;
+>  }
+>  
+>  static const struct block_device_operations zram_devops = {
+> -	.open = zram_open,
+>  	.submit_bio = zram_submit_bio,
+>  	.swap_slot_free_notify = zram_slot_free_notify,
+>  	.rw_page = zram_rw_page,
+> @@ -1821,7 +1790,6 @@ static const struct block_device_operations zram_devops = {
+>  };
+>  
+>  static const struct block_device_operations zram_wb_devops = {
+> -	.open = zram_open,
+>  	.submit_bio = zram_submit_bio,
+>  	.swap_slot_free_notify = zram_slot_free_notify,
+>  	.owner = THIS_MODULE
+> @@ -1972,34 +1940,32 @@ static int zram_add(void)
+>  	return ret;
+>  }
+>  
+> -static int zram_remove(struct zram *zram)
+> +static bool zram_busy(struct zram *zram)
+>  {
+>  	struct block_device *bdev;
+> +	bool busy = false;
+>  
+>  	bdev = bdget_disk(zram->disk, 0);
+> -	if (!bdev)
+> -		return -ENOMEM;
+> -
+> -	mutex_lock(&bdev->bd_mutex);
+> -	if (bdev->bd_openers || zram->claim) {
+> -		mutex_unlock(&bdev->bd_mutex);
+> +	if (bdev) {
+> +		if (bdev->bd_openers)
+> +			busy = true;
+>  		bdput(bdev);
+> -		return -EBUSY;
+>  	}
+>  
+> -	zram->claim = true;
+> -	mutex_unlock(&bdev->bd_mutex);
+> +	return busy;
+> +}
+>  
+> -	zram_debugfs_unregister(zram);
+> +static int zram_remove(struct zram *zram)
+> +{
+> +	if (zram_busy(zram))
+> +		return -EBUSY;
+>  
+> -	/* Make sure all the pending I/O are finished */
+> -	fsync_bdev(bdev);
+> +	del_gendisk(zram->disk);
+> +	zram_debugfs_unregister(zram);
+>  	zram_reset_device(zram);
+> -	bdput(bdev);
+>  
+>  	pr_info("Removed device: %s\n", zram->disk->disk_name);
+>  
+> -	del_gendisk(zram->disk);
+>  	blk_cleanup_queue(zram->disk->queue);
+>  	put_disk(zram->disk);
+>  	kfree(zram);
+> -- 
+> 2.29.2
+> 
+
+With this patch, how deal with the race?
+
+CPU 1                                     CPU 2
+
+hot_remove_store
+  zram_remove
+    zram_busy
+      return -EBUSY
+                                         open /dev/zram0
+    del_gendisk
+    zram_reset and destroy
+
 
 _______________________________________________
 Linux-nvme mailing list
