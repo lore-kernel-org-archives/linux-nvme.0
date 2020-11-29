@@ -2,89 +2,155 @@ Return-Path: <SRS0=SC3Y=FD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E383C3E8C5
-	for <linux-nvme@archiver.kernel.org>; Sun, 29 Nov 2020 03:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9668C3E8C5
+	for <linux-nvme@archiver.kernel.org>; Sun, 29 Nov 2020 05:12:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 847062078D
-	for <linux-nvme@archiver.kernel.org>; Sun, 29 Nov 2020 03:57:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B604520786
+	for <linux-nvme@archiver.kernel.org>; Sun, 29 Nov 2020 05:12:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hIOFnx0O";
-	dkim=temperror (0-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sAmVGYxK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 847062078D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=invisiblethingslab.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bwSL31Bq";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="jF5z0YAH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="VOe0JD2j"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B604520786
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:Message-ID:Subject:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=ZIk1R3WxX08HotZaGMc4lKjJXHUauS638LjrBPUIhz8=; b=hIO
-	Fnx0ODpv3rsYi1CtmkmcI6aTMpb08KlNrEMG6VDM4H25R7298pef+zP0IYtrT6/Mu5Ss3zq02AwTL
-	/ULet2bKd1rLfC60dkeK5uVCgk6P7XfiIHBK1VeF432AlJL2PzSQZKsEpegzg4cxpoAVvXTdx9hiP
-	p3QZK2Xn6y4DOg6XTLupV0wa2KyK2zHecMnO1fq+PR6ExjXqKPiHSB86gAmYA3O1sfnMrw/wUBdht
-	bB7Eyu7i0i3P4VecFcb8Ta/UdW+UuVoB4MaJwZgpVJ7bLFceAVAJ+IMefWnRIdFGb3YGUthV+038P
-	aLAWTqOtWf7fMRrtu9GjkVGnSqHT8cQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=e6pwdMlV4CK3OKOutBeoZ+5DPN+K19n2lBZ6C14sAxw=; b=bwSL31BqWsMsUqTngi/eMqNSG
+	usagFud2nO8KwNAzjVhkBlsJqNoGIRL9+KGW1g/dSr4Uip/EdX6Qyc9tfmF5rM8HOl+oRzPi7j+IN
+	xs4wC1Lu738Ledku32w04pVkHZIupTp6cZcqgrw79bKYvLmKq4VbBTPp6c9X4kvcq9rQqsTrrs0Jn
+	Avtf5NgfUm//jE01+m7EOqYem+TdT8Eb6D1wXgiXUkOWbbiRGnfNcUuE+mK3ew9oYr2P8L7+fMeyw
+	BUa/eqkiHlCrdRv+wb3iNZuL3uJG7PXUd4FX3UG9PrujjjTnKJgGQVK3DBEtQVZe1cngvhm9cJDDY
+	t8he3XAkQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kjDpc-0003Nv-Ph; Sun, 29 Nov 2020 03:57:00 +0000
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
+	id 1kjF0Z-0005E8-89; Sun, 29 Nov 2020 05:12:23 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kjDpR-0003NT-KS
- for linux-nvme@lists.infradead.org; Sun, 29 Nov 2020 03:56:50 +0000
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 32EAD5C00C5;
- Sat, 28 Nov 2020 22:56:45 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sat, 28 Nov 2020 22:56:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; bh=NK/5PnaYiO8G5x3L25QksWUseRCUL
- DdbExUMxc5jCZg=; b=sAmVGYxKm9USvhRzUeJ4wd0Hy7ubm7OplkjUIGRP/kINf
- ou348axEZ9zJ+pzo3bniYlES5bV8cN6xNzex6iEgqbyUcF6Yr7crQBac/UiAqRRu
- YJK+vVk87A+fVcL4OL1GcwABpzfJP4nsCtWo9AkqlctSHef8f+Hy3LRw+ewvc+h0
- XDUyOI1/J1BAMcmxPzTRto5TpCVG15S1VRDg0w3n2WMmlRt8gyy+NVMYm7S9665V
- hSeouvSU3V5isDgwKtEHzz2NlCYYlGJM3DtQ3DysJ2FSBh33aw6P0GUioeBZZb0L
- rUm27DfGWpph9/N/IYTMrUU02vKSDV6Ja3HRGt57A==
-X-ME-Sender: <xms:_BvDX50oAcQAJXkUAtJ02M6gZLifwhqmo853YLa6hmgFGgL0GeZ8zg>
- <xme:_BvDXwF1rV1yWABpldUobZ4sR0itWDzxX-f8M0a7ipPU-b3ZfG2yJ3wPeRBZ4z2XC
- R-LWpWX6yUWfA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudehjedgieegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfggtggusehgtderredttdejnecuhfhrohhmpeforghrvghkucfo
- rghrtgiihihkohifshhkihdqifpkrhgvtghkihcuoehmrghrmhgrrhgvkhesihhnvhhish
- hisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpedtudfgtedu
- veduieevvefgteeujeelgffggffhhffhhedtffeffefgudeugeefhfenucfkphepledurd
- eigedrudejtddrkeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
- lhhfrhhomhepmhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtg
- homh
-X-ME-Proxy: <xmx:_BvDX54PRmwa5QyNqllkowOdejy1L3dibEvPcY4tqN-bxrqgZJs_-Q>
- <xmx:_BvDX20GaLrzDb8_fxSPojWhAWQ-jFTiTqkgadFN3lMFACtzAtiwHw>
- <xmx:_BvDX8Fu0ILFvZVfdQw5i5JaXyA2WzhZxYUhUnM8QDEW05USiKKwyQ>
- <xmx:_RvDX2OSfl9L4cUfpdgqVaG2CkO5TCTN-s0G2k0r0BjBgX_mlBtANQ>
-Received: from mail-itl (ip5b40aa59.dynamic.kabel-deutschland.de
- [91.64.170.89])
- by mail.messagingengine.com (Postfix) with ESMTPA id A94573064AB0;
- Sat, 28 Nov 2020 22:56:43 -0500 (EST)
-Date: Sun, 29 Nov 2020 04:56:39 +0100
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: GPF on 0xdead000000000100 in nvme_map_data - Linux 5.9.9
-Message-ID: <20201129035639.GW2532@mail-itl>
+ id 1kjF0U-0005Dg-TD
+ for linux-nvme@lists.infradead.org; Sun, 29 Nov 2020 05:12:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1606626738; x=1638162738;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=Q+9wc14wfuQMmnGUaM9/mziQvC1sLY7wMPn3qSE38LY=;
+ b=jF5z0YAHxpR3w2ocGkKgDMDGItSjaPrTVpUkr+QnKx4RobO2BDtv3MhS
+ hsQGcJKSquqWy8Kxbgg47Gys8eFSziMlnp1VfSkJVUIigAx/4yhL/IWK6
+ M443ixxs2OTYBNNKhClbXjsTMvbnirlkEZzihEc0OnG4dbxy7AkapqsIy
+ o3G2RtZU6/h3evHNl+8O2TGlI2Ys0k/OEqcGkPNWYTUVHl08DaqBLHLlW
+ REJxrkMYrgzN56OC17S/1M7tIYXUrZ6ZcRVuNK32ehKDwl/962y2tLRy6
+ 5ALpMWcxcrb8ESiejz6g3+DjrJB3zuK9yhiXZlWoNyFMsm3qnyMrHHne3 w==;
+IronPort-SDR: QpFT9fdXxa/REvwLe7IFHzZW5O6yCn45WhqmlHD4wt0FI6DGEbNVGcru4mYNDe6cT5vzAemGC2
+ GjPggiZFUz52+10ca2ss+kIJQzYXiONYvmLKCHPFp69RHSvyMqClvthOZmj5ZnCOyDqSj793jE
+ qZ/qYNCcQmeAveeVfaUdMIGQYz+DsqC2WxzrYw9W83hsZpiUfUcpJJHn/8YBGpHj97xgRuQXIU
+ pxCU0VJgWe51pTtW8aifllCiUnmvZLYm3T0WEbCjUFVQT/j1hFvwdjankBDal++fsPKFrPxu0q
+ XNo=
+X-IronPort-AV: E=Sophos;i="5.78,378,1599494400"; d="scan'208";a="263842854"
+Received: from mail-dm6nam08lp2042.outbound.protection.outlook.com (HELO
+ NAM04-DM6-obe.outbound.protection.outlook.com) ([104.47.73.42])
+ by ob1.hgst.iphmx.com with ESMTP; 29 Nov 2020 13:12:13 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eZqpk8uWm1RlvVcHfmvpn7IAW/hpqAz+OzZiETMZxt3cdpYRBSIUh6PSEO2KmJF8Id4ZjdpWtFYvDan2q8e3gvD3g+C0hyONtH48OLrWHS4xwzIfwOtv9PsmrHjHXLc2f+/ESAulSFz8B/TzrAoTjCZ6fbA2UHuZnogpFrIp9IAi9zJ9gQAAaA4YwMwCQIlTP3pfs3yuGlUHFg3xLFMWxkdXwyC8BsixZjItteFatBHR0w/f1d7Ya5CLUza1Oask6EZzK3sW+YyEM4CxiFYbn6L4k4AtC3hezZ/Lvk8M/Wl9xC+hE8e5MbyUlNBVN4vJE8esvyU9i70tLCLFTDSs3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q+9wc14wfuQMmnGUaM9/mziQvC1sLY7wMPn3qSE38LY=;
+ b=hDMNPF3z1yXU0LDUaXSmqRw3/AAxbsM1h4fRI+qHci9E6oDQ+41QY6cft+ssHgUGWns78zPCJh0jGVkaZyVagnc8d1Rwq3O2PpFQfedGCylGaAu3IZ/mbg+XzqVg8Nt6edTykPogYRds4mxLFsWVHbRSlTV7d6aD7fPl0889gc8yIRZmryBdDRytsGb964AyyCrHPBd870hh4mCpwPdxuEtOS8hM1OqqACRbX25Drr2pPGtWpvyx1X3+fSSsnTXVlh7HnHg/38l8BwjPbok7h1JNTIYyHLbGtj/HFuUEeiEN4JHppy3jA8LwHo7i3L5KhyrpR6GcQkA/t+532mSZYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q+9wc14wfuQMmnGUaM9/mziQvC1sLY7wMPn3qSE38LY=;
+ b=VOe0JD2jBGsMED3wg6HXBWpBH+zQN8kKTQ3VvZsR4BpO1XU7jbt0T4oitVZzejaMq2CmhsFBg0ZZSp3qpEcJUP9lq59lN9VZIQS5VPz2TU640b01xRVxSlP8fsCEr7WplIQE4xBwjkG2PjS37iemR2jC3t2UDZqtg49by5dGh2w=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by BYAPR04MB4104.namprd04.prod.outlook.com (2603:10b6:a02:b0::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.25; Sun, 29 Nov
+ 2020 05:12:10 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::99ae:ab95:7c27:99e4]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::99ae:ab95:7c27:99e4%7]) with mapi id 15.20.3589.032; Sun, 29 Nov 2020
+ 05:12:10 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Colin King <colin.king@canonical.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvmet: Kconfig: Fix spelling mistake "incuding" ->
+ "including"
+Thread-Topic: [PATCH] nvmet: Kconfig: Fix spelling mistake "incuding" ->
+ "including"
+Thread-Index: AQHWxEUozpSyZKKBoUa2H0DZ/NMn0A==
+Date: Sun, 29 Nov 2020 05:12:10 +0000
+Message-ID: <BYAPR04MB496572FCDC8EEC3B232497F186F60@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <20201126224029.13527-1-colin.king@canonical.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: canonical.com; dkim=none (message not signed)
+ header.d=none;canonical.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 710fbae2-b44e-42ce-e852-08d894255370
+x-ms-traffictypediagnostic: BYAPR04MB4104:
+x-microsoft-antispam-prvs: <BYAPR04MB410423EE69A955BB4713F04786F60@BYAPR04MB4104.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:2449;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8Pa2cG9xz21wpi4ZWIM+vL3XAqzNb875ue0GGKcF0fMBkvmlBH2OJjFiGJolGY/iHMVsbTaEmrJ1Bp0Cgva552uTSh1dbjtYuXsg9hV9h+1hlXUzU0HWlEM8KfvPrZwQxdX/Vl3KdBlpNqQ0voQ54eA7g9pylPQ8k8jO7tMIllkuVgUbA01gfkRN5//QqS5OY8mlbI5fyZ9Ebwrr9g/6jZfmBtbROn3GE/8VUelsMduAU/7QlAQtKUSaDjQJZbuL1LOnjhLs/7xYse/s86bwZS+e63iomrG+fg7V9CWn45Ls+fQi3nrulycwmYryxp1T
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(366004)(396003)(39850400004)(376002)(71200400001)(8676002)(86362001)(8936002)(9686003)(558084003)(54906003)(5660300002)(110136005)(316002)(4326008)(33656002)(55016002)(478600001)(7696005)(186003)(53546011)(66446008)(64756008)(2906002)(6506007)(66476007)(66556008)(26005)(76116006)(66946007)(52536014);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?ipJ/FzY3miFTVtC/EjPmU38RiWt622noEhx0eboQ2MtDfthSCb5j6WESQt/w?=
+ =?us-ascii?Q?NHohaC7CBOa58/ljdYcqRtfcrTHpxkbnqu3mYTcCPjpYZ2jmCIZLizx32JGl?=
+ =?us-ascii?Q?NtIUlW7EAh1tEwC0l2dqRWK0Tk0aJbuFlA2iatYZLavWUZkCMuQVE0t1R4Ib?=
+ =?us-ascii?Q?VTE7vs8sK/jfuMhK2j3DvO0o6yJxRFD4zBrCKa+owIO+wZQAMGldxB2Vv8C5?=
+ =?us-ascii?Q?LGhMbV6231LtL+0y2SSQFTzgHt1b1hhBqOaJ6eaVH1nKXHKpZ8J2QQqc6uRf?=
+ =?us-ascii?Q?FqYOYXZbcKA2QCnSidiBCEKTa2jmPBchODYQylDCABXELv2hhpqMLU/qY72A?=
+ =?us-ascii?Q?a0poJxGdtgWOJUszkvb6QXfc8sFYuPRvP6hMtJ6LGpn8lQ6wCBgEwHxKC3lG?=
+ =?us-ascii?Q?EDBp0KKd/C713jRKQ93SC9XVSeX5H9/t7YrgIrSO8C05KW1xzUytJ2taxyKV?=
+ =?us-ascii?Q?eiXck2xO2uWdJdjSr48hdJZsuPmXKFaauY+bNFt7jwXJAu6CyMcTlJpHPiwv?=
+ =?us-ascii?Q?4S6oM8dChIAyK101gt9Lbw1HIOechPehEPVddSYFu8T7LBWnqgUUo+LHa+GG?=
+ =?us-ascii?Q?DhZqgIwBB1uhHUWS2F1jbkfFvWQGKhh9eycpd2RKW20zZMxxWwanmJKHFsfD?=
+ =?us-ascii?Q?NhRcTVnN3yGz/ta5e7xVItNX6ou0q+UUfohys/2wHMBLaxZn0eHbEa0dpIAQ?=
+ =?us-ascii?Q?j96YY4oCiRFAlh6RcRJGX10VJZYEp60BrOv9CwvzeIOSMk3mXYMMS9b9+SfL?=
+ =?us-ascii?Q?SKKNHM24TjtIZdmWGu1nXHNl4vg1OCcsWdYNpQ9N3UY1Tr/uDujpn+1MMw9g?=
+ =?us-ascii?Q?VinX9LEY39CLiSlp12L/iJEKD6WNZeFWcZVHpr+wPUePPDz60XdrsIyTiMVf?=
+ =?us-ascii?Q?qdDtWnQ9+PUTpK/2jsteuN4VvXrlhiTljd8S694wVf9CMjoYWq6Zgxrx63Qx?=
+ =?us-ascii?Q?hW0mIVvsNt7KHdAYkL6JwjyOj9MIF2rJnsc1cJ09hVfj1oSZDhQlL9zmt+E8?=
+ =?us-ascii?Q?O23I?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 710fbae2-b44e-42ce-e852-08d894255370
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2020 05:12:10.6654 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Vom28RUGtZUAbLnkEVbIz1QhBwyAWUlU0x8CPoHDrL2OXGjCO20q7KPLC/hHFzWmTUuSlvOTCOMdfcPkzrkYn840Dh0d4O6hwPBaWqmLRAU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4104
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201128_225649_772150_9571859A 
-X-CRM114-Status: GOOD (  13.95  )
+X-CRM114-CacheID: sfid-20201129_001219_293132_9021B613 
+X-CRM114-Status: GOOD (  10.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,174 +162,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0005568745838339827=="
+Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 11/26/20 14:40, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> There is a spelling mistake in the Kconfig help text. Fix it.
+>
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Looks good.
 
---===============0005568745838339827==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="l5oECiFRo5dp+2y7"
-Content-Disposition: inline
-
-
---l5oECiFRo5dp+2y7
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: GPF on 0xdead000000000100 in nvme_map_data - Linux 5.9.9
-
-Hello,
-
-I can reliably hit kernel panic in nvme_map_data() which looks like the
-one below. It happens on Linux 5.9.9, while 5.4.75 works fine. I haven't
-tried other version on this hardware. Linux is running as Xen
-PV dom0, on top of nvme there is LUKS and then LVM with thin
-provisioning. The crash happens reliably when starting a Xen domU (which
-uses one of thin provisioned LVM volumes as its disk). But booting dom0
-works fine (even though it is using the same disk setup for its root
-filesystem).
-
-I did a bit of debugging and found it's about this part:
-
-drivers/nvme/host/pci.c:
- 800 static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request=
- *req,
- 801         struct nvme_command *cmnd)
- 802 {
- 803     struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
- 804     blk_status_t ret =3D BLK_STS_RESOURCE;
- 805     int nr_mapped;
- 806=20
- 807     if (blk_rq_nr_phys_segments(req) =3D=3D 1) {
- 808         struct bio_vec bv =3D req_bvec(req);
- 809=20
- 810         if (!is_pci_p2pdma_page(bv.bv_page)) {
-
-Here, bv.bv_page->pgmap is LIST_POISON1, while page_zonenum(bv.bv_page)
-says ZONE_DEVICE. So, is_pci_p2pdma_page() crashes on accessing
-bv.bv_page->pgmap->type.
-
-The panic message:
-
-general protection fault, probably for non-canonical address 0xdead00000000=
-0100: 0000 [#1] SMP NOPTI
-CPU: 1 PID: 134 Comm: kworker/u12:2 Not tainted 5.9.9-1.qubes.x86_64 #1
-Hardware name: LENOVO 20M9CTO1WW/20M9CTO1WW, BIOS N2CET50W (1.33 ) 01/15/20=
-20
-Workqueue: dm-thin do_worker [dm_thin_pool]
-RIP: e030:nvme_map_data+0x300/0x3a0 [nvme]
-Code: b8 fe ff ff e9 a8 fe ff ff 4c 8b 56 68 8b 5e 70 8b 76 74 49 8b 02 48 =
-c1 e8 33 83 e0 07 83 f8 04 0f 85 f2 fe ff ff 49 8b 42 08 <83> b8 d0 00 00 0=
-0 04 0f 85 e1 fe ff ff e9 38 fd ff ff 8b 55 70 be
-RSP: e02b:ffffc900010e7ad8 EFLAGS: 00010246
-RAX: dead000000000100 RBX: 0000000000001000 RCX: ffff8881a58f5000
-RDX: 0000000000001000 RSI: 0000000000000000 RDI: ffff8881a679e000
-RBP: ffff8881a5ef4c80 R08: ffff8881a5ef4c80 R09: 0000000000000002
-R10: ffffea0003dfff40 R11: 0000000000000008 R12: ffff8881a679e000
-R13: ffffc900010e7b20 R14: ffff8881a70b5980 R15: ffff8881a679e000
-FS:  0000000000000000(0000) GS:ffff8881b5440000(0000) knlGS:0000000000000000
-CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000001d64408 CR3: 00000001aa2c0000 CR4: 0000000000050660
-Call Trace:
- nvme_queue_rq+0xa7/0x1a0 [nvme]
- __blk_mq_try_issue_directly+0x11d/0x1e0
- ? add_wait_queue_exclusive+0x70/0x70
- blk_mq_try_issue_directly+0x35/0xc0l[
- blk_mq_submit_bio+0x58f/0x660
- __submit_bio_noacct+0x300/0x330
- process_shared_bio+0x126/0x1b0 [dm_thin_pool]
- process_cell+0x226/0x280 [dm_thin_pool]
- process_thin_deferred_cells+0x185/0x320 [dm_thin_pool]
- process_deferred_bios+0xa4/0x2a0 [dm_thin_pool]UX
- do_worker+0xcc/0x130 [dm_thin_pool]
- process_one_work+0x1b4/0x370
- worker_thread+0x4c/0x310
- ? process_one_work+0x370/0x370
- kthread+0x11b/0x140
- ? __kthread_bind_mask+0x60/0x60<
- ret_from_fork+0x22/0x30
-Modules linked in: loop snd_seq_dummy snd_hrtimer nf_tables nfnetlink vfat =
-fat snd_sof_pci snd_sof_intel_byt snd_sof_intel_ipc snd_sof_intel_hda_commo=
-n snd_soc_hdac_hda snd_sof_xtensa_dsp snd_sof_intel_hda snd_sof snd_soc_skl=
- snd_soc_sst_
-ipc snd_soc_sst_dsp snd_hda_ext_core snd_soc_acpi_intel_match snd_soc_acpi =
-snd_soc_core snd_compress ac97_bus snd_pcm_dmaengine elan_i2c snd_hda_codec=
-_hdmi mei_hdcp iTCO_wdt intel_powerclamp intel_pmc_bxt ee1004 intel_rapl_ms=
-r iTCO_vendor
-_support joydev pcspkr intel_wmi_thunderbolt wmi_bmof thunderbolt ucsi_acpi=
- idma64 typec_ucsi snd_hda_codec_realtek typec snd_hda_codec_generic snd_hd=
-a_intel snd_intel_dspcfg snd_hda_codec thinkpad_acpi snd_hda_core ledtrig_a=
-udio int3403_
-thermal snd_hwdep snd_seq snd_seq_device snd_pcm iwlwifi snd_timer processo=
-r_thermal_device mei_me cfg80211 intel_rapl_common snd e1000e mei int3400_t=
-hermal int340x_thermal_zone i2c_i801 acpi_thermal_rel soundcore intel_soc_d=
-ts_iosf i2c_s
-mbus rfkill intel_pch_thermal xenfs
- ip_tables dm_thin_pool dm_persistent_data dm_bio_prison dm_crypt nouveau r=
-tsx_pci_sdmmc mmc_core mxm_wmi crct10dif_pclmul ttm crc32_pclmul crc32c_int=
-el i915 ghash_clmulni_intel i2c_algo_bit serio_raw nvme drm_kms_helper cec =
-xhci_pci nvme
-_core rtsx_pci xhci_pci_renesas drm xhci_hcd wmi video pinctrl_cannonlake p=
-inctrl_intel xen_privcmd xen_pciback xen_blkback xen_gntalloc xen_gntdev xe=
-n_evtchn uinput
----[ end trace f8d47e4aa6724df4 ]---
-RIP: e030:nvme_map_data+0x300/0x3a0 [nvme]
-Code: b8 fe ff ff e9 a8 fe ff ff 4c 8b 56 68 8b 5e 70 8b 76 74 49 8b 02 48 =
-c1 e8 33 83 e0 07 83 f8 04 0f 85 f2 fe ff ff 49 8b 42 08 <83> b8 d0 00 00 0=
-0 04 0f 85 e1 fe ff ff e9 38 fd ff ff 8b 55 70 be
-RSP: e02b:ffffc900010e7ad8 EFLAGS: 00010246
-RAX: dead000000000100 RBX: 0000000000001000 RCX: ffff8881a58f5000
-RDX: 0000000000001000 RSI: 0000000000000000 RDI: ffff8881a679e000
-RBP: ffff8881a5ef4c80 R08: ffff8881a5ef4c80 R09: 0000000000000002
-R10: ffffea0003dfff40 R11: 0000000000000008 R12: ffff8881a679e000
-R13: ffffc900010e7b20 R14: ffff8881a70b5980 R15: ffff8881a679e000
-FS:  0000000000000000(0000) GS:ffff8881b5440000(0000) knlGS:0000000000000000
-CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000001d64408 CR3: 00000001aa2c0000 CR4: 0000000000050660
-Kernel panic - not syncing: Fatal exception
-Kernel Offset: disabled
-
-Any ideas?
-If not, I can try to run bisect on it, but it will be rather time
-consuming.
-
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-
---l5oECiFRo5dp+2y7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAl/DG/cACgkQ24/THMrX
-1yw0Igf9FrDfAoo1WvN71zIi13SEl7hGQtlX5+YkI07By1arr3BgYF85/Jxx9dv5
-y1LMPNYiPuUMUs+CQn1ccenE0l1nVLjajGwgiXtTtdH8yMI4DhFJst2SoJ6/g41Y
-ABF+S+X7Xuo9FXGLgZ6/AMRgyqw9QbK1YMM8rWBWXd9j7gDNsDKbR1vkGWsaH9/W
-CqsKQLiBq4GYRAxhVvF0nRAj81DMra+khnEkqV6/I2NLNdA8c2NLPfEMqlWluMpt
-Sosp38MzzwISGeDz3NHy5CZeD8Qhoe4Kt5TKLAYCEBmC5v8vHpbY0+85OaoLcd6u
-BFVbiQYoz6L0nePwjwdcobmujiPPkw==
-=AzlP
------END PGP SIGNATURE-----
-
---l5oECiFRo5dp+2y7--
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
 
---===============0005568745838339827==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============0005568745838339827==--
-
