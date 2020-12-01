@@ -2,92 +2,89 @@ Return-Path: <SRS0=HgeD=FF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NAME_EMAIL_DIFF,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F34C64E7A
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 12:20:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94888C64E7A
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 12:56:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 02BA620663
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 12:20:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1E3F420857
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 12:56:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="miCGQZ8H";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="ZarehDfL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 02BA620663
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HugYUZDt";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="RWoTNTSW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E3F420857
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=46eKyyF3EId+IKUGvoSsu51jW2tJB46k7ebSignDG4k=; b=miCGQZ8HWSzmouJzZFZady8Q8
-	l+tu1P+wq0IOe7+SFUHfHM6e5PrIxpq2JyG6at1EEchQbCPmWLJWHuiy3glnKd3nDT/ttJFAE03R0
-	tqm2zX0PBQsUqr86Dgjcu0CgXd1UxgKeQLPCT5VFGxG2ZeB8HIRhXiNxkj6Myl3VuYu8IiLfGuQOp
-	a8p8JnhgCyzfC9Q08fuLQ/NPp4ig9jeWzsylJz4mw4ko71fGurVXgtegxGJ89qMsYXgg6KD4aetns
-	bWuxH/gM38tFI6tEET6My7IPVjsRp/Gm/wFF5ErwkgKqs+SQz72JBYQPBytvNI9phw28YuCQSfP9e
-	RRJipEThg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ReC7nYZa57wjrXOvaZCgzrhldjhbQkM4sJmreNSxtZo=; b=HugYUZDtCLLvLMb+ud4z2ug/xc
+	/JIiQNdJpjGqnrHMKWDLPqt83pbYl1i0NbQJWAOgg//O69V/E0eumzzUVPHwhaemluu4kj73Q9fRD
+	zIxlkczeRmITo3FhT4hALB3a7MajzhCtwneUKelH2FxFcoTYEnOMjIjb3Acc3L3NQWqzQK3JVq1qZ
+	rFsngpTMaH1uWkvSCNXId0wvlhKyIsC345IWniXG0H/g/VrqhuucFXYVvjduBprm+Irb0jqqc1hjc
+	8tMkDJHSZFv1JfJDR0pJG6/MYs10lMn1XcrlNQGNcfN+L/wIrRqxj9HZRq21ribwWrIlMNvvvR3R/
+	sDGHAwcg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kk4eI-0008LV-Pa; Tue, 01 Dec 2020 12:20:50 +0000
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644])
+	id 1kk5Cc-0005Qs-7w; Tue, 01 Dec 2020 12:56:18 +0000
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kk4eF-0008KP-BF
- for linux-nvme@lists.infradead.org; Tue, 01 Dec 2020 12:20:49 +0000
-Received: by mail-ej1-x644.google.com with SMTP id 7so3731885ejm.0
- for <linux-nvme@lists.infradead.org>; Tue, 01 Dec 2020 04:20:47 -0800 (PST)
+ id 1kk5CZ-0005Q9-Ti
+ for linux-nvme@lists.infradead.org; Tue, 01 Dec 2020 12:56:16 +0000
+Received: by mail-ej1-x642.google.com with SMTP id lt17so3904209ejb.3
+ for <linux-nvme@lists.infradead.org>; Tue, 01 Dec 2020 04:56:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Fylyeg8K1HpI44gu+W/L892Ds6J+IK7AhpMNFOVv+J4=;
- b=ZarehDfLGLuZIgZ9KVRUc8zhWI+nVIaXbdHqpn+5I5NYAxT6Y9Fx3RG+PF5/sJKVHQ
- SXLIiN8zMhVi/mTH4sk08wMbADvUUj8Bs0Cwk88y7NH3bofWHvMh/qYT94Cfg1HbJbwG
- dI69UONK53SWeHXM9AkmrdGVASkP32SdJuq5R4U9xv0KDxjolW3G8xZMkUMbKnYb6aQe
- uLDickDX31cWCyYHdfGziOYdT3qKhuDcr7u2b+Pzc2qI394qvCnJqQDPWlEEfsOSmSEt
- L/4X9+ow3z00vG8RwWqoiAk24MipdSh/VntaxXj7b/1Y66bCnb6rA1bukhYkVOpOPV7d
- P2fQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xHTwekTMHBxnzJvZgFr7Rrub1GZfhNFwsQwlD3O2K1U=;
+ b=RWoTNTSW1M042+k5M7VQxKEO4QG+Tv5qRlOcyxZfamL01nFTX4xiLQMWhJ0PVjgbdq
+ 2J6AROcEYP4pl1Ebfk69Fwch3z8Y94mwwUB82UaYTtols0RJ6oYCQxuqB0hHOSKiCSnS
+ +Rk6LIGSSCxSPh0L+o8biy2Na55HtHAsj0h0ONRVlPOYWbxY91cU85UWWxq+KWz2ioFf
+ U9NxNHDnHvZzkh12DHwhYUj0w/mBrJb7Cb1+11PAggL+KhpVQpgB/gE8gWmY9JmGPLLX
+ d/PB+7UGRfCkFdqQ6ivgiOwUgcBRWrZFdAy0uQBeDbEx/3nIecx20Jn9WKylQCi5ghvj
+ 1m3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Fylyeg8K1HpI44gu+W/L892Ds6J+IK7AhpMNFOVv+J4=;
- b=Ws70AdT6Eh8wLTYaw2mmszQ8tuKzptM54zBDa0I/iME+D6eiQ5QF+WPCt8AcWGl6HI
- /TI6pCOV1OJZ7fpPKWUaR2LUWbbVSxUW85xgZwZHXUZ7fd8akVYXYjKSKPM1JjJpl1yU
- 2GrSKRkEjjYEal+DgMoGhxsxqV9f/WwwWj/bQ9xRcX1Oymm47fuzS1MYtlPpHeeQ4bE8
- zbUfJQ7k0/BmhbC2o9rQh2VCBXJ0XgyrGlIi+fmXQdg9Pf0RVKX63hc1AK0C5jVJ0mfl
- CG+mZOta95WdHBo/Rih31hMsGj/dRYu5K4xD8aNaZg2t7MnD+Q9nzbJTMXav+VNoAmak
- CpTA==
-X-Gm-Message-State: AOAM533I/LNU1IMBJrqC1k0BnfEDomgsXD9snzw7W4Qt/AwCTTVy+dt4
- hXDdOS6ea8s4eOL3ubhko2lI0g==
-X-Google-Smtp-Source: ABdhPJyA6bpW98mfTIiD5151P4PptIAHrybHgwuhzzmuU72gxHomFLdeJrIMEsjvEi8IuWtDJ6C0aA==
-X-Received: by 2002:a17:907:d1f:: with SMTP id
- gn31mr2862738ejc.192.1606825244314; 
- Tue, 01 Dec 2020 04:20:44 -0800 (PST)
-Received: from localhost (5.186.124.214.cgn.fibianet.dk. [5.186.124.214])
- by smtp.gmail.com with ESMTPSA id d6sm746777ejy.114.2020.12.01.04.20.43
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xHTwekTMHBxnzJvZgFr7Rrub1GZfhNFwsQwlD3O2K1U=;
+ b=map8FC6NfvHxS6JK0CYGrJ8GyNW1qNn283RbAiAR6wmyHz+CYF/gTdC1VpXlbxXS7k
+ qA2kpbE5AEc7Mx7C998k2sC28RpM9wpvicUkMKYdRimMSjwD0sahYklJf6RkvjJp3W8c
+ vyFrajlwgL92DYjpDuYDXZjcqcevCKVw/9lX8WEzzi/pfaH2xWF0t1oPXtGni9cZXKS7
+ 1JsY8dsR5m7tpX9suSSlt/BKN8cwpHt0Uo/sHAUdMwfer4gaVsPwg0HOFqUfcG96sxIi
+ SV03lttVXhCUE6LhWzLRn4NUTRduKQjLm/jhfouU4H68KCehB/kuAaXW8lCp3oNZPgV9
+ LGgQ==
+X-Gm-Message-State: AOAM530aKCtReRb1AKYcjBCJzAMOzIsd44Yk2uu+P311sXQpznbmzobH
+ bdat8OJ8Nfi5EI3L4XnN0ygQy1/HVmLke+CeU4M=
+X-Google-Smtp-Source: ABdhPJyNIkNoBljyczIcLAxluT/ncJslz82vRxuNdgyl0p0COQRoENkoyaekMBGw5TpbyXVtmyxQnQ==
+X-Received: by 2002:a17:906:c1c6:: with SMTP id
+ bw6mr2783569ejb.199.1606827373837; 
+ Tue, 01 Dec 2020 04:56:13 -0800 (PST)
+Received: from ch-wrk-javier.localdomain (5.186.124.214.cgn.fibianet.dk.
+ [5.186.124.214])
+ by smtp.gmail.com with ESMTPSA id be6sm796864edb.29.2020.12.01.04.56.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Dec 2020 04:20:43 -0800 (PST)
-From: "javier.gonz@samsung.com" <javier@javigon.com>
-X-Google-Original-From: "javier.gonz@samsung.com" <javier.gonz@samsung.com>
-Date: Tue, 1 Dec 2020 13:20:42 +0100
-To: Damien Le Moal <Damien.LeMoal@wdc.com>
-Subject: Re: [RFC PATCH 0/2] add simple copy support
-Message-ID: <20201201122042.xvkdtyjuhb76nntp@MacBook-Pro.localdomain>
-References: <CGME20201201054049epcas5p2e0118abda14aaf8d8bdcfb543bc330fc@epcas5p2.samsung.com>
- <20201201053949.143175-1-selvakuma.s1@samsung.com>
- <CH2PR04MB652240A4A23F89B26118FD66E7F40@CH2PR04MB6522.namprd04.prod.outlook.com>
+ Tue, 01 Dec 2020 04:56:13 -0800 (PST)
+From: javier@javigon.com
+X-Google-Original-From: javier.gonz@samsung.com
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH 0/4] nvme: enable per-namespace char device
+Date: Tue,  1 Dec 2020 13:56:06 +0100
+Message-Id: <20201201125610.17138-1-javier.gonz@samsung.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CH2PR04MB652240A4A23F89B26118FD66E7F40@CH2PR04MB6522.namprd04.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201201_072047_488553_98345E9B 
-X-CRM114-Status: GOOD (  21.30  )
+X-CRM114-CacheID: sfid-20201201_075615_995224_A893D829 
+X-CRM114-Status: GOOD (  13.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,94 +96,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>,
- "selvajove@gmail.com" <selvajove@gmail.com>, Mike Snitzer <snitzer@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- device-mapper development <dm-devel@redhat.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-block@vger.kernel.org, kbusch@kernel.org,
+ =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier.gonz@samsung.com>, hch@lst.de,
+ sagi@grimberg.me
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 01.12.2020 11:22, Damien Le Moal wrote:
->+ Mike and DM list
->
->On 2020/12/01 16:12, SelvaKumar S wrote:
->> This patchset tries to add support for TP4065a ("Simple Copy Command"),
->> v2020.05.04 ("Ratified")
->>
->> The Specification can be found in following link.
->> https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs-1.zip
->>
->> This is an RFC. Looking forward for any feedbacks or other alternate
->> designs for plumbing simple copy to IO stack.
->>
->> Simple copy command is a copy offloading operation and is  used to copy
->> multiple contiguous ranges (source_ranges) of LBA's to a single destination
->> LBA within the device reducing traffic between host and device.
->>
->> This implementation accepts destination, no of sources and arrays of
->> source ranges from application and attach it as payload to the bio and
->> submits to the device.
->>
->> Following limits are added to queue limits and are exposed in sysfs
->> to userspace
->> 	- *max_copy_sectors* limits the sum of all source_range length
->> 	- *max_copy_nr_ranges* limits the number of source ranges
->> 	- *max_copy_range_sectors* limit the maximum number of sectors
->> 		that can constitute a single source range.
->
->This is interesting. I think there are several possible use in the kernel in
->various components: FS (btrfs rebalance, f2fs GC, liklely others) and DM at the
->very least.
-
-Totally agree. We have more patches for simple copy, among others work
-on F2FS that leverages for GC. We wanted to start with a simple patchset
-enabling IOCTL to be an easy to review start. The rest of the patches
-will come.
-
-
->However, your patches add support only for NVMe devices that have native support
->for simple copy, leaving all other block devices out. That seriously limits the
->use cases and also does not make this solution attractive since any use of it
->would need to be conditional on the underlying drive capabilities. That means
->more code for the file systems or device mapper developers and maintainers, not
->less.
-
-Makes sense.
-
->
->To avoid this, I would suggest that this code be extended to add emulation for
->drives that do not implement simple copy natively. This would allow this
->interface to work on any block device, including SAS & SATA HDDs and RAID arrays.
->
->The emulation part of this copy service could I think be based on dm-kcopyd. See
->include/linux/dm-kcopyd.h for the interface. The current dm-kcopyd interface
->takes one source and multiple destination, the reverse of simple copy. But it
->would be fairly straightforward to also allow multiple sources and one
->destination. Simple copy native support would accelerate this case, everything
->else using the regular BIO read+write interface. Moving dm-kcopyd from DM
->infrastructure into the block layer as a set a generic block device sector copy
->service would allow its use in more places. And SCSI XCOPY could also be
->integrated in there as a different drive native support command.
-
-Let us look into this. It makes sense.
-
-It seems fair to start support bottom up from NVMe and then extend to
-block layer and F2FS (potentially others). At this stage, we were
-assuming that all the work that people like Martin, Bart and other have
-been doing through the years on XCOPY could be integrated. Emulation can
-be a part of this.
-
-How can we move forward to do this in stages?
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+RnJvbTogSmF2aWVyIEdvbnrDoWxleiA8amF2aWVyLmdvbnpAc2Ftc3VuZy5jb20+CgpUaGlzIHNl
+cmllcyBlbmFibGVzIGEgcGVyLW5hbWVzcGFjZSBjaGFyIGRldmljZSB0aGF0IGlzIGFsd2F5cyBw
+cmVzZW50ZWQKdG8gdGhlIGhvc3QsIGluZGVwZW5kZW50bHkgb2YgdGhlIGJsb2NrIGRldmljZSBh
+c3NvY2lhdGVkIHdpdGggdGhlCm5hbWVzcGFjZS4gVGhpcyBhbGxvd3MgdXNlci1zcGFjZSB0byB1
+c2UgdGhlIGNoYXIgZGV2aWNlJ3MgSU9DVEwKaW50ZXJmYWNlIHdoZW4gdGhlIGtlcm5lbCByZWpl
+Y3RzIHRoZSBibG9jayBkZXZpY2UgZHVlIHRvIHVuc3VwcG9ydGVkCmZlYXR1cmVzLiBFeGFtcGxl
+cyBvZiB0aGVzZSBmZWF0dXJlcyBpbmNsdWRlIHVuc3VwcG9ydGVkIFBJCmNvbmZpZ3VyYXRpb25z
+LCBaTlMgZmVhdHVyZXMgc3VjaCBhcyB6b2MsIG9yIHVuc3VwcG9ydGVkIGNvbW1hbmQgc2V0cwpz
+dWNoIGFzIEtWLgoKT25lIG9mIHRoZSB0aGluZ3MgdGhhdCBJIHdvdWxkIGFwcHJlY2lhdGUgbW9y
+ZSBpbnB1dCBvbiBpcyB0aGUgbmFtaW5nCmNvbnZlbnRpb24uIFRoaXMgc2VyaWVzIGZvbGxvd3Mg
+dGhlIGhpZGRlbiBkZXZpY2UgbmFtaW5nIG52bWVYY1luWiwgYnV0CkkgYW0gbm90IHN1cmUgaG93
+IHRoaXMgd2lsbCB3b3JrIG91dCB3aXRoIG11bHRpcGF0aC4gVGhlIGNvbmNlcm4gaXMgaWYKd2Ug
+d2lsbCBoYXZlIHVuZml4YWJsZSBuYW1pbmcgY29sbGlzaW9ucyB0aGF0IHdpbGwgamVwYXJkaXpl
+IHVzZXItc3BhY2UKdG9vbHMgZGVwZW5kaW5nIG9uIHRoaXMgbmFtaW5nLgoKVGhhbmtzIHRvIENo
+cmlzdG9waCBmb3IgcHJvcG9zaW5nIHRoaXMgaW4gdGhlIGZpcnN0IHBsYWNlIGFuZCBDaHJpc3Rv
+cGgKYW5kIEtlaXRoIGZvciBlYXJseSByZXZpZXdzIG9mIHRoaXMgcGF0Y2hzZXQhCgpKYXZpZXIK
+CkphdmllciBHb256w6FsZXogKDQpOgogIG52bWU6IHJlbW92ZSB1bm5lY2Vzc2FyeSByZXR1cm4g
+dmFsdWVzCiAgbnZtZTogcmVuYW1lIGNvbnRyb2xsZXIgYmFzZSBkZXZfdCBjaGFyIGRldmljZQog
+IG52bWU6IHJlbmFtZSBiZGV2IG9wZXJhdGlvbnMKICBudm1lOiBlbmFibGUgY2hhciBkZXZpY2Ug
+cGVyIG5hbWVzcGFjZQoKIGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyB8IDE3MiArKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0KIGRyaXZlcnMvbnZtZS9ob3N0L252bWUuaCB8
+ICAgMyArCiAyIGZpbGVzIGNoYW5nZWQsIDE0NiBpbnNlcnRpb25zKCspLCAyOSBkZWxldGlvbnMo
+LSkKCi0tIAoyLjE3LjEKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVh
+ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1u
+dm1lCg==
