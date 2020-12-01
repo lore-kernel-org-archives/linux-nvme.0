@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7DC9C64E7B
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 19:23:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B79E8C64E7B
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 19:23:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 140D321741
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 19:23:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1B0D8221E2
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 19:23:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CPIo76y4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 140D321741
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="c4q70e73"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B0D8221E2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lTXgRi7SHEw06lkNHBlHqp3VD2fwMBhmy3jWuYn7TPY=; b=CPIo76y4SPwK5PzWNPqiX58jt
-	klDQe0aqwdwTq62BNTmLEuqQ1rAgAzREbIlZRxLXuM2EQBVEkDkCmD2zQG1wxgHVo+62F7NjXwFEt
-	ZbKCo1KbVI07+vkKo1rJszWYjcpbn4Yh+2l5oV4oOZ8f6MvOUr60N7lVAFy7j0Z5/Vz5EAZvvcogU
-	sSdS0Y8TkFej/vgKzfF9hT0MVCrnSd77FkZQo4fkuxfStLeAIFvqR7w2pHyIXNVBthJ0NznEjwEvn
-	2xZUKgnAj8ouNrFhIyXV6D0Shl0GJgjJVnqg01tFCNvni/i59mZEEPEsuMbF5x7RekgJpar8DEtHY
-	e3Ixt4qig==;
+	 bh=lTXgRi7SHEw06lkNHBlHqp3VD2fwMBhmy3jWuYn7TPY=; b=c4q70e73BN+HutZ00WB30ijUw
+	qZFlmDNCdwMArmgIQvKV9u8jmJSqZrfitYj93bQRzRDhBkTdxeiS7cauF5le7zB1Ia+tg2YJydqKx
+	wLcJwzFrMm6+YF5Pu0OMj3hoUID4Wy6GGxoHRbBEJu16aFE3tnRLkwszs8E4W4y+4UQebEnDtqL+b
+	YYfO4pM1v163gZOcGWQ4ri8UIq2SfNPn+CnU+Sot4RCyWWKDYa8olVG2joCaMJ692RUYHSTBPW9kH
+	1OzAPfMaGuYVvpfnuXCah1XGVv2/+4tS1OIhGg9PAxWHisAMmRSteiNr5pL8VwbpYAqfzVprIU7lN
+	u+TFeyh4g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kkBFP-0004DX-Kt; Tue, 01 Dec 2020 19:23:35 +0000
+	id 1kkBFX-0004H2-Vv; Tue, 01 Dec 2020 19:23:44 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kkBFM-0004CM-23
- for linux-nvme@lists.infradead.org; Tue, 01 Dec 2020 19:23:33 +0000
+ id 1kkBFV-0004Fp-NW
+ for linux-nvme@lists.infradead.org; Tue, 01 Dec 2020 19:23:42 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 7104B67373; Tue,  1 Dec 2020 20:23:26 +0100 (CET)
-Date: Tue, 1 Dec 2020 20:23:26 +0100
+ id A5A5368AFE; Tue,  1 Dec 2020 20:23:38 +0100 (CET)
+Date: Tue, 1 Dec 2020 20:23:38 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Colin King <colin.king@canonical.com>
-Subject: Re: [PATCH] nvmet: Kconfig: Fix spelling mistake "incuding" ->
- "including"
-Message-ID: <20201201192326.GA2149@lst.de>
-References: <20201126224029.13527-1-colin.king@canonical.com>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH 0/2] nvme: Improve warnings for scan_work
+Message-ID: <20201201192338.GB2149@lst.de>
+References: <20201130124747.14725-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201126224029.13527-1-colin.king@canonical.com>
+In-Reply-To: <20201130124747.14725-1-minwoo.im.dev@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201201_142332_225894_614B4666 
-X-CRM114-Status: UNSURE (   6.73  )
+X-CRM114-CacheID: sfid-20201201_142341_956140_9BA2AEC3 
+X-CRM114-Status: UNSURE (   7.29  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -66,10 +65,9 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
