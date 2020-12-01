@@ -2,155 +2,85 @@ Return-Path: <SRS0=HgeD=FF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14EEEC64E90
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 03:49:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C90A3C64E7A
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 04:14:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B18820657
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 03:49:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ED062207FF
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Dec 2020 04:14:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fohJt5b4";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="N1jDrFb+";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="OjQ6BMWt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B18820657
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MIzfn+5z";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Z4jGOSWT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED062207FF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=sWmLWKpSc/3RmPz8gQUK2wbUmTn1TeQje8eKcFoKmUk=; b=fohJt5b4ZBZOtlDlCttii6Wv4
-	mxJHOZGkhnZfZTUx43YYm0LcctJhhbqVyBw9bLbQ1dM+3hiBG47q79IzP8lzNi2MyZjhdyGQKPgK+
-	+RCeQNeBs6MBiJqTSJjXgXjuYsw/edSi5eKLAQ1rCO6APq6V+5nb8N4EVUDoKQKEbT+gqErjoEbqj
-	ZlBYZbqjQmMkcnzMoq57RBJk/OFZ8Kjgb8bvvA3G9Tw2COa6osWAVORr8+X5l0/6MB5JVNRuLJfWd
-	7lQPHuhuf+DwPrK6PFnBqakV/DvQmcw9S2OZw9X9a9R9wCOOuUELWDtX6C5bjeX8Qp1NzJKgXsp+9
-	dIKKgliwQ==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YboQNIyz9F21IutpQHT9gOfpyTW7S/zUWcDTCoBYP1w=; b=MIzfn+5zIfi0Wt6uyTFTFLjQh9
+	Mv83IFrk78niDv01gOTjnbmTbhgHf5HUhtoIJUGb/oizUNQtA66HHJtAoZ185KvJOjTEIXc+66yQs
+	THEHSmobqJ1zRsDOAzw//e4iBAK8dN7zGl+Z59pLK8ppS3CZ2tGGrzok0J4hdYn7F7/RGxsOm7Tyk
+	ivCWX0cQf8cYAFNwMXGCTL4EhMCdhMk/tT0rQQhtBISuH2FtHvO4qupsRlcZlDR1GQTrwaiUKV9fz
+	CcJoAhqtYnaU+5A1LGdL1PpGC+0Vcuq0Ztvy4rbtBEe+vs2TAeVKwwvROs1ipWKalwpqQcVFc9YUS
+	sl1r3PYQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kjwf6-0006w0-0N; Tue, 01 Dec 2020 03:49:08 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1kjx3Z-0008GC-Mi; Tue, 01 Dec 2020 04:14:25 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kjwf3-0006vH-Cb
- for linux-nvme@lists.infradead.org; Tue, 01 Dec 2020 03:49:06 +0000
+ id 1kjx3V-0008Fg-Jh
+ for linux-nvme@lists.infradead.org; Tue, 01 Dec 2020 04:14:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1606794545; x=1638330545;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=1mfug4ugQClnQC7vnpGZZ8tBMJ3XJe+8b+j3mfaDj1E=;
- b=N1jDrFb+ioRs7aTkCm8uSdZFOMuT5CA/go2SI/2oDGk4year+XwPALQG
- NLeQYLlJTSPucCW1+j60qk+K4LClgAy+K/v86Tqa9lAJ1sht04h/4uUis
- 9zCiJWo+4bS0HNopI0Ur2toneZmM8z7WByNaXgI9nXAgiKW3CZh7YUzBM
- ejtkRGlOsCxt5pZdaeYcJ9lfRo/L3/V3LJZmziLc/BeIrICy+xsmkIM3/
- qYMsGtn1v38v/qQNdTqcHvm9yejDvIvIjiovTTbFaVcR82NGTJw/v4yf8
- kGIZPqNUXABAgIPm4S0ICO6kiBrunOyaIy2SG2ey2XS9P0W9V+AI/VY6c A==;
-IronPort-SDR: Fea4mWhTDHz3zVRZEaJtrKGV/1SidINE04Da4eN7ey6py11XK0MBAp+IRJvyWqQPERcqFb62Yt
- 4KfWTuKooq0MO65ItMrgyKHnQ3mNlE+XtzU5pryXW7bJleIMpdiRo8hmcSIBuO1qIDurC03jbH
- hz1c/qfRWWOU3szJ5N5QN/5xYLuQbFtyzODcBc67Vazodt8CcgCAoLGJSStrfKK/Vq4gjgU7WF
- zn4UKDupQ1KjYSrV9VVwreLDIOAPIbzBxL6hYNRK2xMA+DZDVrGrMPw/E/n3GSr/hg81vdodcd
- x84=
-X-IronPort-AV: E=Sophos;i="5.78,382,1599494400"; d="scan'208";a="153812730"
-Received: from mail-bn7nam10lp2109.outbound.protection.outlook.com (HELO
- NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.109])
- by ob1.hgst.iphmx.com with ESMTP; 01 Dec 2020 11:49:02 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=McHTrP4J8sweovDxZZw8PDfdAtrn3UFbkUfZt2MHBLuqXP1PCIiy3/OkWKmYEBe0IAJmNrjdPT3wCCglyEgo5FWiW31AKZXX1LmD5mgUWSziaeEKFUfGK2xQj5mjZJs4PMTbyYkjer7Od8GAO0ssIKQ5ybSzEP0dnHdV/ogsqo4iEn2SPZ7QYwuK0xD564lFiwPNK5oyBNNhG1SO7V8tsh8sWR3SkmtB9IymVLlwTaeQje7CJ6wEM7cVjIqccREH8lLiAohgFwWUpxXrr1Na377DDq9GqI5SWO5O7PMcNuAH/7a8zs21CT3shn+E1THT/ZJ18fLFZGTdS71jVTOY+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XVIjm5pnySHAnn8jYJ4jfYZQo2lnMJwEjpEYwbHKEgI=;
- b=VyldksfOjvfRsE289/5JfXOc4RQvrfuWG5TvRydw09uhdGt/py7dsp6cPDcr8JGVFxp6p00d2oTsW1bKUND0Q6UVEpKzsvbsPAjKIvvSDtnN2KnioD1WtqXfS6FhoudXGUX3pYga9T/HyRIoimdl+TVHmWqGsYtAxRAFpIWvKrtzV7Qg40bS9SNSUxnPs5XtaTkAsLnXfnbMvwF6g5p82yoLQQiCBUuDcJJ9KUwLPDDc6s/+9nYuo4xbHveNMOmDMYdH5JHw2Hz1OVnumA3zSL73blEj3KaBBChUcphCfa17zXqjwcpvVPUFwvME7wdRUGgBjQWspLm/2gtr30rphQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XVIjm5pnySHAnn8jYJ4jfYZQo2lnMJwEjpEYwbHKEgI=;
- b=OjQ6BMWt2lNFhlbVRvL8cKOmOPOAVYKHhNNDsgPWXAw2GGYRlCI+5Gf1WxOJLHn+gozZKvSkOz//AjXaAZN5O1/o7NMI8gg2c0E4u+2FfgTj4llj8U39lIY+qfO2U1m+OsB8aNutQUqm4a1yRDTQKZrwMrYGkbTPzpD0KS0rb+Q=
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by SJ0PR04MB7152.namprd04.prod.outlook.com (2603:10b6:a03:29f::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Tue, 1 Dec
- 2020 03:49:01 +0000
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::99ae:ab95:7c27:99e4]) by BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::99ae:ab95:7c27:99e4%7]) with mapi id 15.20.3611.031; Tue, 1 Dec 2020
- 03:49:01 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH V2 2/9] nvmet: add ZNS support for bdev-ns
-Thread-Topic: [PATCH V2 2/9] nvmet: add ZNS support for bdev-ns
-Thread-Index: AQHWxskIz83/zqf400uhEmx/aulqvg==
-Date: Tue, 1 Dec 2020 03:49:00 +0000
-Message-ID: <BYAPR04MB49656FC8CD2E8762C734122A86F40@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20201130032909.40638-1-chaitanya.kulkarni@wdc.com>
- <20201130032909.40638-3-chaitanya.kulkarni@wdc.com>
- <SN4PR0401MB35989F591B47F3A8AD3E2AEA9BF50@SN4PR0401MB3598.namprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: wdc.com; dkim=none (message not signed)
- header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1194a703-d7be-47b7-5451-08d895ac0a32
-x-ms-traffictypediagnostic: SJ0PR04MB7152:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SJ0PR04MB7152D5B2C129F03951111ED286F40@SJ0PR04MB7152.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dK86bf/iESqLipFcnO4uw/z14McSa9IuMwxWqVL9N3Zktaa+I7LkdLUhIPfanXvfBJyXtAwCExkrBIjegPkLWdSHGirDAWsh3BUus02mx8UvJzozRz7mX8JedonPzNa7jnRaiumL+tNxeRBSZQ7GrDSHk6VbSfsLT3DYXV7bfMfA/Gvj7hSyG6FFlfm4uW6pQVPErqwdATHLeMEQYHo39D21HQMyP3RhJNpwNi/i8roK7NkssWA+yN/u54+V8U6RlUqB4oefA7UN54ouD31seWNLRnqQDR8RLCJKxFKP594k1bcEKB8PpAWdK1pYZx8+FgIeRl8BzcJtAab/T6p54w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(376002)(39860400002)(136003)(396003)(33656002)(66946007)(5660300002)(8676002)(8936002)(76116006)(4326008)(186003)(66476007)(83380400001)(2906002)(52536014)(66556008)(64756008)(86362001)(66446008)(71200400001)(55016002)(7696005)(54906003)(110136005)(26005)(316002)(53546011)(6506007)(4744005)(9686003)(478600001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?povUQUs/OjxGPWrfTUpELbIKdBZWTLehg+KXqzLU01ktVY1r4YHNT50YecvQ?=
- =?us-ascii?Q?gJa35oWWWHlJvbb9VJ41GlYLK4bfmVLIICzbV+m4SIS3bqVpmVJ0YdEnK4oT?=
- =?us-ascii?Q?AkdueLkBzPcgELgB0e4OMe8ipxeEL1o7vvi1ksnDxeJNWb77yQXXI8LFhQsG?=
- =?us-ascii?Q?tFkzytkRwG6l+cvE4cSKrHEJ0DTQ/qmB7RMIuNG7kZgSKrHDqfSPrf1qNDHU?=
- =?us-ascii?Q?mh/a5Z07YzexZStWxxTbUehPzSU7o2zqTzZXJCc3KJFU7ao3hDMzBwItu98Z?=
- =?us-ascii?Q?j956NoVPilHWWmgKxwRyh/xiNQuLSD7ZLJyS5vL+5bw5wh0sByriRGWDBN8L?=
- =?us-ascii?Q?a0D03i2C6KjKls3oclYhUNzno4+Z0APhWUDZx3q22Yw1uJn9eLPG7WmrDVrn?=
- =?us-ascii?Q?UxMUmEGnbOnXUiX071ulRFnFePZYnMNn/BOJqFZUtTFHmDMnKd6L5yQLEpX3?=
- =?us-ascii?Q?nGpF/GJgLMyGHWw/O7dT5uVA4/sURq+e+8Y0MAZVp+Rt20iSQ9GTDMtZt7X0?=
- =?us-ascii?Q?0mbGots3R9L2M2McmbkNhLi/w8FYNlLbY5UP80XlcTwfkliiD+kzJKr/+Nvp?=
- =?us-ascii?Q?1MtDE6QCrsbaMc7vR1ygjBm+GyjfAXgRhc3+2Oebfl/5qMPN7U3ug7lk4but?=
- =?us-ascii?Q?WocUr0VeoCTXst1cwwbnBNxlTpahhLhitop6308CWePovm5WosiWwPPIRepW?=
- =?us-ascii?Q?RfDFgvDuWRVJYXZ8OqMAafwKyGmAnz0ui8orfdMZkqTmdVivwEa6TjTJ9V3r?=
- =?us-ascii?Q?ksN/yMXdi1jsZ5tz2sWSMko5tvEaldT1t8Jee49p/vtys2A7f2KSz6/79IrQ?=
- =?us-ascii?Q?dhmhm3rUF2UlE9Rq+mNB6f3Q9PzRpv2x/gxyJm/LM2tySPwcg2rbG1NOwh3o?=
- =?us-ascii?Q?UoXmKvb/S7TVDu5Cw0Qds3g8hhKIwhPd3r5hDJ7F/hB/SOebW1dB67pfuxCp?=
- =?us-ascii?Q?HpVrlTGaUG1lEW8XuOXhLSNXilCaRjb8g7BmCby0f/c6nS0Bpkh5qDdEJGRF?=
- =?us-ascii?Q?tcsS?=
+ t=1606796061; x=1638332061;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MOTxPr/dXMgLtBMStLftu/Vxq96/Hq6WbEO0PU2Kb70=;
+ b=Z4jGOSWTNP+QxYlida5FR9cn4mc1nlz7iyjHYJlxJMM3izN09pEszNHh
+ WDv2t+YRikN8QwHnLYWd8cmra7ylEo7NQVo5QDrkyj+ZYeMk0E6nUfOOx
+ 4bKG5B7ykux5J08ynjPIznTXcfb09Gs0dEdJo82UiTn1P1KDB9JOHLOqd
+ DTA9OuRHmR/O2GG2SyXqQRL7gQ0m9l9VF/O0O7BSaYw6MiwrVqqwDPZSm
+ UGYfyp6m0hehl1MdVTVWfk03RVwCKs9V+uAuul1CKYMcOelFRaEdy3z7d
+ R5FLhv/gs7t9f6ZceVCHf0XAJoa/8Kig8JIK+mWs4RnrToMBT7EiglPxW Q==;
+IronPort-SDR: mNJqYld5UXxCkohCbiVvZfhG3RvJGDQuLSPDS0x1Q0rLb55BjWH/G+ZWwYKKdCM6vci3WUVVNg
+ RiiCyehoBTPnpIdnfVrFooshDMgkndaJmLUOkcSCQhpmsitxj9cPv+ehzDObQK0tttMbkJWVWB
+ 4GROWz9ZDI7GFq2EzOZCfc7WXJk9TbVcXHUy0Nl7c2hRdb76vHvWF6PUg1VKw328xzpIsCvh4u
+ 9LysDhot8264gHyZEQtk54UhakdYGxBUZqAUClKcQyPvTQbLuz2qxBeMEtuTpqwETREza1ylux
+ M2I=
+X-IronPort-AV: E=Sophos;i="5.78,383,1599494400"; d="scan'208";a="155078121"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Dec 2020 12:14:19 +0800
+IronPort-SDR: JN/q4vH0CNE7g/NoZuvtMAB9z0ltvv4y6IvDn3ToqJJebWYER1vBTQwdd00M7JDQDJdjEpI1tR
+ LLQShOR3e6Wbgb3zxEIpVg42jzydKz0A0=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2020 19:58:31 -0800
+IronPort-SDR: rhBiVjv6fnsLtyA/uGzSf/ajn7O3Zpx7MR7AAs5MEDA/0DdCmclz9R+JFlw/7DX+agZfERC698
+ ESF5EDn2lZzA==
+WDCIronportException: Internal
+Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
+ by uls-op-cesaip01.wdc.com with ESMTP; 30 Nov 2020 20:14:19 -0800
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH V3 0/9] nvmet: add ZBD backend support
+Date: Mon, 30 Nov 2020 20:14:07 -0800
+Message-Id: <20201201041416.16293-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1194a703-d7be-47b7-5451-08d895ac0a32
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2020 03:49:00.9979 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: b/iI2NkrlKtpdxKhB7puFbNp6FMFfx4pmF+XTz9VMn9Dpkx9vd02xQgiBWpKsW1BGiCZEyBUgydlASSzfM1xz135MeM3gFVXU3VJjfJX+MM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7152
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201130_224905_688336_AEDCE112 
-X-CRM114-Status: GOOD (  14.35  )
+X-CRM114-CacheID: sfid-20201130_231421_891141_C7FA1639 
+X-CRM114-Status: GOOD (  20.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,33 +92,282 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, "hch@lst.de" <hch@lst.de>,
- "sagi@grimberg.me" <sagi@grimberg.me>
+Cc: damien.lemoal@wdc.com, sagi@grimberg.me,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/30/20 04:29, Johannes Thumshirn wrote:
-> On 30/11/2020 04:32, Chaitanya Kulkarni wrote:
->> +	ret =  __bio_iov_append_get_pages(bio, &from);
-> Can't you just use bio_iov_iter_get_pages() here?
->
-> It does have a 
->
-> if (WARN_ON_ONCE(is_bvec))
-> 	return -EINVAL;
->
-> in it but I think that can be deleted.
->
-That was my initial patch but it adds an extra function call to the
+Hi,
 
-fast patch for NVMeOF. We don't need any of the generic functionality from
+NVMeOF Host is capable of handling the NVMe Protocol based Zoned Block
+Devices (ZBD) in the ZNS mode with the passthru backend. There is no
+support for a generic block device backend to handle the ZBD devices
+which are not NVMe devices.
 
-bio_iov_iter_get_pages() anyway.
+This adds support to export the ZBD drives (which are not NVMe drives)
+to host from the target with NVMeOF using the host side ZNS interface.
 
+The patch series is generated in bottom-top manner where, it first adds
+prep patch and ZNS command-specific handlers on the top of genblk and 
+updates the data structures, then one by one it wires up the admin cmds
+in the order host calls them in namespace initializing sequence. Once
+everything is ready, it wires-up the I/O command handlers. See below for 
+patch-series overview.
 
-Why add an extra function call overhead in the hot path for each I/O ?
+I've tested the ZoneFS testcases with the null_blk memory backed NVMeOF
+namespace with nvme-loop transport. The only testcase is failing in #12
+on both null blk and NVMeOF ZBD backe by null_blk. 
+
+It uses invalid block device to format zonefs and doesn't do anyting
+with the input device, still looking into it.
+
+Regards,
+Chaitanya
+
+Changes from V2:-
+
+1.  Move conventional zone bitmap check into 
+    nvmet_bdev_validate_zns_zones(). 
+2.  Don't use report zones call to check the runt zone.
+3.  Trim nvmet_zasl() helper.
+4.  Fix typo in the nvmet_zns_update_zasl().
+5.  Remove the comment and fix the mdts calculation in
+    nvmet_execute_identify_cns_cs_ctrl().
+6.  Use u64 for bufsize in nvmet_bdev_execute_zone_mgmt_recv().
+7.  Remove nvmet_zones_to_desc_size() and fix the nr_zones
+    calculation.
+8.  Remove the op variable in nvmet_bdev_execute_zone_append().
+9.  Fix the nr_zones calculation nvmet_bdev_execute_zone_mgmt_recv().
+10. Update cover letter subject.
+
+Changes from V1:-
+
+1.  Remove the nvmet-$(CONFIG_BLK_DEV_ZONED) += zns.o.
+2.  Mark helpers inline.
+3.  Fix typos in the comments and update the comments.
+4.  Get rid of the curly brackets.
+5.  Don't allow drives with last smaller zones.
+6.  Calculate the zasl as a function of ax_zone_append_sectors,
+    bio_max_pages so we don't have to split the bio.
+7.  Add global subsys->zasl and update the zasl when new namespace
+    is enabled.
+8.  Rmove the loop in the nvmet_bdev_execute_zone_mgmt_recv() and
+    move functionality in to the report zone callback.
+9.  Add goto for default case in nvmet_bdev_execute_zone_mgmt_send().
+10. Allocate the zones buffer with zones size instead of bdev nr_zones.
+
+Chaitanya Kulkarni (9):
+  block: export __bio_iov_append_get_pages()
+	Prep patch needed for implementing Zone Append.
+  nvmet: add ZNS support for bdev-ns
+	Core Command handlers and various helpers for ZBD backend which
+	 will be called by target-core/target-admin etc.
+  nvmet: trim down id-desclist to use req->ns
+	Cleanup needed to avoid the code repetation for passing extra
+	function parameters for ZBD backend handlers.
+  nvmet: add NVME_CSI_ZNS in ns-desc for zbdev
+	Allows host to identify zoned namesapce.
+  nvmet: add cns-cs-ctrl in id-ctrl for ZNS bdev
+	Allows host to identify controller with the ZBD-ZNS.
+  nvmet: add cns-cs-ns in id-ctrl for ZNS bdev
+	Allows host to identify namespace with the ZBD-ZNS.
+  nvmet: add zns cmd effects to support zbdev
+	Allows host to support the ZNS commands when zoned-blkdev is
+	 selected.
+  nvmet: add zns bdev config support
+	Allows user to override any target namespace attributes for
+	 ZBD.
+  nvmet: add ZNS based I/O cmds handlers
+	Handlers for Zone-Mgmt-Send/Zone-Mgmt-Recv/Zone-Append
+
+ block/bio.c                       |   3 +-
+ drivers/nvme/target/Makefile      |   2 +-
+ drivers/nvme/target/admin-cmd.c   |  38 ++-
+ drivers/nvme/target/io-cmd-bdev.c |  12 +
+ drivers/nvme/target/io-cmd-file.c |   2 +-
+ drivers/nvme/target/nvmet.h       |  19 ++
+ drivers/nvme/target/zns.c         | 426 ++++++++++++++++++++++++++++++
+ include/linux/bio.h               |   1 +
+ 8 files changed, 487 insertions(+), 16 deletions(-)
+ create mode 100644 drivers/nvme/target/zns.c
+
+# for i in nvme1n1 nullb1 ; do ./zonefs-tests.sh /dev/$i; done 
+Gathering information on /dev/nvme1n1...
+zonefs-tests on /dev/nvme1n1:
+  4 zones (0 conventional zones, 4 sequential zones)
+  524288 512B sectors zone size (256 MiB)
+  1 max open zones
+Running tests
+  Test 0010:  mkzonefs (options)                                   ... PASS
+  Test 0011:  mkzonefs (force format)                              ... PASS
+ *Test 0012:  mkzonefs (invalid device)                            ... FAIL*
+  Test 0013:  mkzonefs (super block zone state)                    ... PASS
+  Test 0020:  mount (default)                                      ... PASS
+  Test 0021:  mount (invalid device)                               ... PASS
+  Test 0022:  mount (check mount directory sub-directories)        ... PASS
+  Test 0023:  mount (options)                                      ... PASS
+  Test 0030:  Number of files (default)                            ... PASS
+  Test 0031:  Number of files (aggr_cnv)                           ... skip
+  Test 0032:  Number of files using stat (default)                 ... PASS
+  Test 0033:  Number of files using stat (aggr_cnv)                ... PASS
+  Test 0034:  Number of blocks using stat (default)                ... PASS
+  Test 0035:  Number of blocks using stat (aggr_cnv)               ... PASS
+  Test 0040:  Files permissions (default)                          ... PASS
+  Test 0041:  Files permissions (aggr_cnv)                         ... skip
+  Test 0042:  Files permissions (set value)                        ... PASS
+  Test 0043:  Files permissions (set value + aggr_cnv)             ... skip
+  Test 0050:  Files owner (default)                                ... PASS
+  Test 0051:  Files owner (aggr_cnv)                               ... skip
+  Test 0052:  Files owner (set value)                              ... PASS
+  Test 0053:  Files owner (set value + aggr_cnv)                   ... skip
+  Test 0060:  Files size (default)                                 ... PASS
+  Test 0061:  Files size (aggr_cnv)                                ... skip
+  Test 0070:  Conventional file truncate                           ... skip
+  Test 0071:  Conventional file truncate (aggr_cnv)                ... skip
+  Test 0072:  Conventional file unlink                             ... skip
+  Test 0073:  Conventional file unlink (aggr_cnv)                  ... skip
+  Test 0074:  Conventional file random write                       ... skip
+  Test 0075:  Conventional file random write (direct)              ... skip
+  Test 0076:  Conventional file random write (aggr_cnv)            ... skip
+  Test 0077:  Conventional file random write (aggr_cnv, direct)    ... skip
+  Test 0078:  Conventional file mmap read/write                    ... skip
+  Test 0079:  Conventional file mmap read/write (aggr_cnv)         ... skip
+  Test 0080:  Sequential file truncate                             ... PASS
+  Test 0081:  Sequential file unlink                               ... PASS
+  Test 0082:  Sequential file buffered write IO                    ... PASS
+  Test 0083:  Sequential file overwrite                            ... PASS
+  Test 0084:  Sequential file unaligned write (sync IO)            ... PASS
+  Test 0085:  Sequential file unaligned write (async IO)           ... PASS
+  Test 0086:  Sequential file append (sync)                        ... PASS
+  Test 0087:  Sequential file append (async)                       ... PASS
+  Test 0088:  Sequential file random read                          ... PASS
+  Test 0089:  Sequential file mmap read/write                      ... PASS
+  Test 0090:  sequential file 4K synchronous write                 ... PASS
+  Test 0091:  Sequential file large synchronous write              ... PASS
+
+45 / 46 tests passed
+Gathering information on /dev/nullb1...
+zonefs-tests on /dev/nullb1:
+  4 zones (0 conventional zones, 4 sequential zones)
+  524288 512B sectors zone size (256 MiB)
+  0 max open zones
+Running tests
+  Test 0010:  mkzonefs (options)                                   ... PASS
+  Test 0011:  mkzonefs (force format)                              ... PASS
+ *Test 0012:  mkzonefs (invalid device)                            ... FAIL*
+  Test 0013:  mkzonefs (super block zone state)                    ... PASS
+  Test 0020:  mount (default)                                      ... PASS
+  Test 0021:  mount (invalid device)                               ... PASS
+  Test 0022:  mount (check mount directory sub-directories)        ... PASS
+  Test 0023:  mount (options)                                      ... PASS
+  Test 0030:  Number of files (default)                            ... PASS
+  Test 0031:  Number of files (aggr_cnv)                           ... skip
+  Test 0032:  Number of files using stat (default)                 ... PASS
+  Test 0033:  Number of files using stat (aggr_cnv)                ... PASS
+  Test 0034:  Number of blocks using stat (default)                ... PASS
+  Test 0035:  Number of blocks using stat (aggr_cnv)               ... PASS
+  Test 0040:  Files permissions (default)                          ... PASS
+  Test 0041:  Files permissions (aggr_cnv)                         ... skip
+  Test 0042:  Files permissions (set value)                        ... PASS
+  Test 0043:  Files permissions (set value + aggr_cnv)             ... skip
+  Test 0050:  Files owner (default)                                ... PASS
+  Test 0051:  Files owner (aggr_cnv)                               ... skip
+  Test 0052:  Files owner (set value)                              ... PASS
+  Test 0053:  Files owner (set value + aggr_cnv)                   ... skip
+  Test 0060:  Files size (default)                                 ... PASS
+  Test 0061:  Files size (aggr_cnv)                                ... skip
+  Test 0070:  Conventional file truncate                           ... skip
+  Test 0071:  Conventional file truncate (aggr_cnv)                ... skip
+  Test 0072:  Conventional file unlink                             ... skip
+  Test 0073:  Conventional file unlink (aggr_cnv)                  ... skip
+  Test 0074:  Conventional file random write                       ... skip
+  Test 0075:  Conventional file random write (direct)              ... skip
+  Test 0076:  Conventional file random write (aggr_cnv)            ... skip
+  Test 0077:  Conventional file random write (aggr_cnv, direct)    ... skip
+  Test 0078:  Conventional file mmap read/write                    ... skip
+  Test 0079:  Conventional file mmap read/write (aggr_cnv)         ... skip
+  Test 0080:  Sequential file truncate                             ... PASS
+  Test 0081:  Sequential file unlink                               ... PASS
+  Test 0082:  Sequential file buffered write IO                    ... PASS
+  Test 0083:  Sequential file overwrite                            ... PASS
+  Test 0084:  Sequential file unaligned write (sync IO)            ... PASS
+  Test 0085:  Sequential file unaligned write (async IO)           ... PASS
+  Test 0086:  Sequential file append (sync)                        ... PASS
+  Test 0087:  Sequential file append (async)                       ... PASS
+  Test 0088:  Sequential file random read                          ... PASS
+  Test 0089:  Sequential file mmap read/write                      ... PASS
+  Test 0090:  sequential file 4K synchronous write                 ... PASS
+  Test 0091:  Sequential file large synchronous write              ... PASS
+
+45 / 46 tests passed
+# 
+# for i in nvme1n1 nullb1 ; do ./zonefs-tests.sh -t 0012 /dev/$i; done 
+Gathering information on /dev/nvme1n1...
+zonefs-tests on /dev/nvme1n1:
+  4 zones (0 conventional zones, 4 sequential zones)
+  524288 512B sectors zone size (256 MiB)
+  1 max open zones
+Running tests
+  Test 0012:  mkzonefs (invalid device)                            ... FAIL
+
+0 / 1 tests passed
+Gathering information on /dev/nullb1...
+zonefs-tests on /dev/nullb1:
+  4 zones (0 conventional zones, 4 sequential zones)
+  524288 512B sectors zone size (256 MiB)
+  0 max open zones
+Running tests
+  Test 0012:  mkzonefs (invalid device)                            ... FAIL
+
+0 / 1 tests passed
+# cat nvme1n1-zonefs-tests.log 
+## Test scripts/0012.sh (mkzonefs (invalid device))
+
+/dev/console is not a block device
+/dev/nullb4
+/dev/nullb4: 524288000 512-byte sectors (250 GiB)
+  Host-managed device
+  1000 zones of 524288 512-byte sectors (256 MiB)
+  0 conventional zones, 1000 sequential zones
+  0 read-only zones, 0 offline zones
+Format:
+  999 usable zones
+  Aggregate conventional zones: disabled
+  File UID: 0
+  File GID: 0
+  File access permissions: 640
+  FS UUID: 339b07fe-ebbb-4876-be16-5a887384f349
+Resetting sequential zones
+Writing super block
+ --> SUCCESS (should FAIL)
+FAILED
+
+# cat nullb1-zonefs-tests.log 
+## Test scripts/0012.sh (mkzonefs (invalid device))
+
+/dev/console is not a block device
+/dev/nullb5
+/dev/nullb5: 524288000 512-byte sectors (250 GiB)
+  Host-managed device
+  1000 zones of 524288 512-byte sectors (256 MiB)
+  0 conventional zones, 1000 sequential zones
+  0 read-only zones, 0 offline zones
+Format:
+  999 usable zones
+  Aggregate conventional zones: disabled
+  File UID: 0
+  File GID: 0
+  File access permissions: 640
+  FS UUID: 591f1476-47c6-4d81-b0e8-7c82d4c5b657
+Resetting sequential zones
+Writing super block
+ --> SUCCESS (should FAIL)
+FAILED
+
+-- 
+2.22.1
 
 
 _______________________________________________
