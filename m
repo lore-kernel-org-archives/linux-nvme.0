@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A160C64E8A
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 06:23:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4240BC71156
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 06:24:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C2204205ED
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 06:23:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2204205ED
+	by mail.kernel.org (Postfix) with ESMTPS id CCC00205ED
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 06:24:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CCC00205ED
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,63 +23,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QmZbNxz276iLlLPnV5+LNvJULN4MWuYMQCDbJpiL+8k=; b=PGHNZWmKPyo3K9VJwfe1nYZWk
-	56hxeRb3tVSv/xz99fFFcUs3AgZglcdbfFkIunbfS6IkHaI8c/2s3X+FMhkNSPqkzRy1Eu78F1Top
-	paxw/694ziBc3CsbmhZrJ52ars69l7p02WRmCVIIJKpCi1XOfkrtDMY2QS4o/ZOps/etUKV2Nq1gc
-	zTybS4ypFRedLHiJnwLRDo8bUVv1KA01irA7OFrjSWcXuJKE+6e+hgeQrBxDSu8VUT0s5PS6bemsu
-	Ic88A2TgHVGjUELw3n7UNZjT7GbMTSkdVINfPsckzyyUD9mSUS7a9LqWkkfnIIxFBdcs6yOvrUgnM
-	9RA+QZStw==;
+	 bh=CSYgwzITO1Z223Tcb29tyPSFl49MxOEXHKBab1nOaDc=; b=BxAxpHRBw/ToEKZJJelB+kOfN
+	vsf0JRdt1gsKtZqqjRAOwDr28IAHtDwGCn/zUjSyja8kShj53GIdViHeIGku3UjadqQmcs5twCiik
+	xTfgmVkP+EOi9fFRcjdqAhMpJHj1BNxGeHfbkG2ACaE/hhiTZ30XV61lBuAhhZ7inXjXZ30JW/LZi
+	SeePdbmwXsJYzC2CvW2nYjDj47gkiaarQk+V1eSk8dpBfn42+TuaCgMIMdy67y3pXxhPxJZMmFLdj
+	iL+80UpMMqtL3Hv/W/60vX8OCqN0886hJVT3CwcSkiIx2B9niwp0cwx66Whkw2SQmxJwEgrI3SwAQ
+	c3QYg+0Yw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kkLYN-0005ca-AY; Wed, 02 Dec 2020 06:23:51 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1kkLYU-0005fG-IP; Wed, 02 Dec 2020 06:23:58 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kkLYK-0005bX-Pn
- for linux-nvme@lists.infradead.org; Wed, 02 Dec 2020 06:23:49 +0000
+ id 1kkLYS-0005eH-Dd
+ for linux-nvme@lists.infradead.org; Wed, 02 Dec 2020 06:23:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1606890228; x=1638426228;
+ t=1606890236; x=1638426236;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hUhzJ651cVoNvniIQeg3wff/FCoz1DE77FDFCSJt0Zk=;
- b=OTw3TtyAWOctl0XuhG3nXYownAFVKXLpnltKAG/AQZ/ODwq6nfLJ5jST
- Ru/P6uRj2OBPpX4C+h4flHEVgD52PLA7HyEeUVbiXzYTkNRM3/Sy4JV9f
- p5MFMz95BoivALknwQRaQb65YA7A52Dr2TX8SMqeGKZlnjHl2862zNXIo
- 4v6fyU4QIJvXQPXDA4lLIfaNJr+B4RchXjDENWBGzhig/oxDsQrOfflS5
- tZXkP8Mr2LWWn4PEyn41042n8kO0U2h5Z3C4Xq9UPAMQK2evoTvCoByv+
- sfJouTXJNxsRNl8yMhmHycCHPPQMv1sPXqWztXZzKTr3rDNWzsVBLZOcn A==;
-IronPort-SDR: CJ0/56Oy4Psetrw+KzTnOuuJIg/R0lo3FOWPpPaCdXqboQ+TW/7518/dnzxfOpz5aJnhvVRvye
- zcGfcszpEPYKpjKPPP6u83hKbvsS6xT/9Lh9y6BSN6qydhekeH5Ase6nwJ/SRlYaoqcqHeBCs+
- 8oI1L+yB72uIeJG/1vZNU3B57gLvuRwjdjL/k6aAmFYnrQMBzG18DKOdRosbJPAwzqL9BFi6Ro
- FI3lj+b0W71YxtiBLCvonoJGrVSxoWi/OkSigorPrqVE6an8+0LAQuqwfhn1/dVRUd8KwtSczF
- 8zM=
-X-IronPort-AV: E=Sophos;i="5.78,385,1599494400"; d="scan'208";a="158458598"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 02 Dec 2020 14:23:47 +0800
-IronPort-SDR: IqPp1gVWlIVMBoqWCOcrO5r8+DjwK3lkJF4dxeL/WE97H8KpDiOEpZ6AkTtweP5bMxW/ySocSs
- lviVmhi6vKcUoFvBHyJQWbFDzlsKoWnzE=
+ bh=DGst3WtKZogqGUvuhSXY1Do01tQZeR4MGYSWqYweif8=;
+ b=r4OYlcdPKRfVsGx9tbp7SI2LBcl8sVRFVXmEjBYZVhX8AznX3tXavR3h
+ RwDdrYjDApyRQGuQkgTiFyhemjtPYqRUM4/RqaYjoB6zYNMvKXmHZM9mO
+ 3Xa/XvhEBZIzXwwQPIzS6IIj35CWikIncFS89YS+NExSpmgcQGe2xU+gJ
+ WIdfQ8s/vLDGEUFDZ/y4FuL5cUlaDQVGnDWjFa6dLpBQTwBbUlXEM5N4w
+ MD5h5L7ALahBVABmhART/2SVVyVEMi+vY+sQik5UAJqhl4yO02l/Co7Lz
+ 4srsowbp/2KYId1BcKtfCAVVt47EcEA6f+Xgn4epgAXDoCq38FZyRJs4r g==;
+IronPort-SDR: yZ6jzImFaIxPHxtbKJzLY9wWVxd2ThA8q87sSVEfWhESYnUHJ5oeVMDvAAS/SseyeHfW26a/SZ
+ VPKCKV0KSvfoKu+vOUSXQACK2q12D18fHK1riL9dcIet2vQR//VqrAWyEZUU0Yy7fsMq4EhIkx
+ dso35MVYUXAA/FH2NDdIKBPcew2ys7S5dBILRxgz/N8qziFlgghFZ2zgCXfAqpzFFhB3Q9JlW7
+ MnxAhg821qRVVlcbUvImiYCjC//CzAv29pF8QoEh5y1R7PsbVdU4jH+rajzJsj0lllR3tc1sya
+ mEI=
+X-IronPort-AV: E=Sophos;i="5.78,385,1599494400"; d="scan'208";a="154060517"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Dec 2020 14:23:54 +0800
+IronPort-SDR: tFUNmMwDYFFYTY3N+rIj0HYJVWYPCd/nGw5mbUaY7LAoBQmXh6ALiAXy2Funb9JzjxIO4sIVQb
+ 4SRXNYV5+KL96vRqgOOPvFGUI4P0n4fMA=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2020 22:07:59 -0800
-IronPort-SDR: vZR7hBErOwRxhih13IvEpZq+gcAzgtYTdIRxvmOm7ikZiQAm+GML9an6SmLs58wrffQTxMazfu
- BFeyHTE0AVmQ==
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2020 22:09:29 -0800
+IronPort-SDR: njVwyJp2xVsuqJqEziWlWXHeH9JfpNTAWREwm6IRzwIuh12ZmFU0s34CSNf0czw+//YGcXZNQp
+ BD2YQhPZ8efg==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 01 Dec 2020 22:23:47 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 01 Dec 2020 22:23:54 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH V4 7/9] nvmet: add zns cmd effects to support zbdev
-Date: Tue,  1 Dec 2020 22:22:25 -0800
-Message-Id: <20201202062227.9826-8-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V4 8/9] nvmet: add zns bdev config support
+Date: Tue,  1 Dec 2020 22:22:26 -0800
+Message-Id: <20201202062227.9826-9-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20201202062227.9826-1-chaitanya.kulkarni@wdc.com>
 References: <20201202062227.9826-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201202_012349_002055_2497976C 
-X-CRM114-Status: GOOD (  11.32  )
+X-CRM114-CacheID: sfid-20201202_012356_608832_5D6F27FA 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,27 +98,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Update the target side command effects logs with support for
-ZNS commands for zbdev.
+For zbd based bdev backend we need to override the ns->blksize_shift
+with the physical block size instead of using the logical block size
+so that SMR drives will not result in an error.
+
+Update the nvmet_bdev_ns_enable() to reflect that.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/target/io-cmd-bdev.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index cd368cbe3855..0099275951da 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -191,6 +191,8 @@ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
- 	log->iocs[nvme_cmd_dsm]			= cpu_to_le32(1 << 0);
- 	log->iocs[nvme_cmd_write_zeroes]	= cpu_to_le32(1 << 0);
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 125dde3f410e..e1f6d59dd341 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -86,6 +86,9 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY_T10))
+ 		nvmet_bdev_ns_enable_integrity(ns);
  
-+	nvmet_zns_add_cmd_effects(log);
++	if (bdev_is_zoned(ns->bdev) && !nvmet_bdev_zns_enable(ns))
++		return -EINVAL;
 +
- 	status = nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
+ 	return 0;
+ }
  
- 	kfree(log);
 -- 
 2.22.1
 
