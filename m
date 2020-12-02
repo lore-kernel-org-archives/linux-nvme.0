@@ -2,82 +2,84 @@ Return-Path: <SRS0=R6Dd=FG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D771C64E8A
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 06:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1797C64E8A
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 06:23:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 673BB221E9
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 06:22:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 673BB221E9
+	by mail.kernel.org (Postfix) with ESMTPS id 0E965221E9
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 06:23:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0E965221E9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=TTDXfwzJP1G14Jn9/49ZYwJ8LxCnJECPSzR5+iHdYdg=; b=vk2GfGsh7RbdPvLQ+Z4YbzvAGN
-	RQ30GdVO1rSCutoITrJtah329xDX+/VJKxNhuZvtLpWquFYm6yZ+iW4ki7/Vd++vu4N5jcqagKxty
-	dLnTqbb1IAOSesDIm+dZ0xMN0+FiouNIqy39wyiDI+taroAsb/ASUs9d5h+CgynuQ52RYGu/ODzYG
-	EnbGcT4d3xwEuQHknu7TvyKINDq9HxgU8GLpLIbRCEpYs/sXijOfQI8IFkHAnOXr29+ncfKb2cCdM
-	D+Gqgm7Rb7xyY3zzOAa0QRkiLfU7A3Tt9fKZmvuS5NDrDnybvZPZ7g+RBFWmWS3CpgThwq2fL2PVf
-	5gF+GpFA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=MIbFsRHcmQSBOaM0/L8FbAxt7evnPff1XMiwiKtTmo0=; b=zhT0Al1UVsUf9z8clCZahlcwt
+	3V6r7tH59nTkk3B/BN7CdOcz01gWmw7c7/VfPhm0+kmndXL8vBmPoECI5FD9uq1Ct8lSInJJAXphr
+	ZdSBcmEGhztui/7LhaBtLMCzRWpFYvI6KYNQzjpNsviu9Isw4XK/qxKdDwShYdtac9hNH0mVjBNtv
+	48fw2qpPikS9gA18VDf5hS0kgxZicBqdP8EHnZNk5HXaUK1W4+1Nb148r5fK98dIDiMfMdb9HsMCL
+	d5Njtrn1naYo6Lx+46+zFJ7aB31Yyx0zVhSLI0BLY5kEYu+PwpG4HFYjxz/rT7rytr5SA8KrzRoXz
+	/32ddLc8w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kkLXC-0005OQ-0r; Wed, 02 Dec 2020 06:22:38 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1kkLXW-0005Pw-W9; Wed, 02 Dec 2020 06:22:59 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kkLX8-0005NZ-NE
- for linux-nvme@lists.infradead.org; Wed, 02 Dec 2020 06:22:35 +0000
+ id 1kkLXT-0005PR-Pp
+ for linux-nvme@lists.infradead.org; Wed, 02 Dec 2020 06:22:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1606890154; x=1638426154;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=+U3GdEDI7ytLsMd0GtYdOsJ0q+8o/7LcYvYBSUjzkp4=;
- b=Po3nCXWQP45OKbquRq6Gb59mZ3stTtrdFc65gT5hJvM1vcH8qZCOeeFy
- SWH4rc3+M2EMe2s67CBmScyF6A+7JtAXXM/czyqR/CrTLT35a/x+fiUHS
- BamqW8m7bqkHqHDfrnbV4OB67ArcBbk38yL8JavLwFjEmTNsF8DydsIFm
- pp+RwetEQC+h8TAuuoW3Mwu55yDCIzTDF3LOSOO8bKcX7og8CRiYndCFY
- pKEHF0YzfJW4KVRbU+XZ6UMoXpFJxpL4wczn8YKzMxbBi7wlez5Xv0fl+
- SeRte8ScPvqywUv7OI+OyD+OAb+8WiMQcGLihDISpUx40hZf0n6CZU2lb Q==;
-IronPort-SDR: ZgKOrosAoHqsQlRy8zkpHwT3KebvduVzVjc2J/yBTFto0bat/pUmXCDJi9TCRtXGQTXWsFWUB/
- wOr3Z2hlBxZzKayOr4s4GlC0MQsoxdDVdWlJiPzgpRja3K77AGWtU9cVp01f/A+8/Gog+EGAnz
- UWuPUQN9mFlKTeK2ts+V8VXN9HeUc393SATvIvMiEazsHW4B5kAu24yC6m8czdpIsph4bc5p9/
- SIOSufCgfPj6IaBbwzeZzwOxVk845aQsUTdtOnGVWHXF+A/xirNwFMGoZafWRfY12h93VTTtCi
- UO4=
-X-IronPort-AV: E=Sophos;i="5.78,385,1599494400"; d="scan'208";a="154060431"
+ t=1606890175; x=1638426175;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=82+/5kJqGP6zI/njb0x75RSCgHH8h3QmrRRPprctKjs=;
+ b=ZCkehM7vao3Z+hyciXu+wFcPTQXMEmXQainsQ1t/LP2qMg4eSkzqHrqZ
+ SSBAzbF34u2gNoybf1G6X2LeqBVNk0krTMh48x4U44aaasNL/1OIb9QyQ
+ 6UdNUfDwERCj8PgBbUk2Nh/xytfagtz02tDITrR154Uege0cniFXUlg/w
+ JALhQ6yCrKkOTEJzz0QOJ6F10tc2dY7MCACmOL5ufhlNPQu3nnJwkO+b0
+ zpSYukOnldZ2nUpzlIfQMhtYsLtMVNbp1CWEF/uNBMphnxNlNnbrEiYOT
+ c1j/YGMrjIV7fsAR+KRCt8XSGRZyDNZ5BQOjAXQyjePaLz722yLX78Xf3 A==;
+IronPort-SDR: hnR8H1jKz1+G4fkFf/McNtpLJ83u7irIPofL6t2GN+JP1aSCx7Or1t9WWo4KbS81IKJ9uW787s
+ qL/6058mb6A/7KFOXmq6AhOcGhHyccTHsqNuvgoxfqsaihT7F6655PuZIn2p6BgpMmrwL1HvWQ
+ iukauW4cHCCjvzSsQEoUAgM+aULaphYmU5YJiwfPH6oz6QESgLcibxBNtQ40+lsKiwX6vED4K7
+ 7KZRuQvDeGAbDrOUqmny6VRpwZxDqDKSid7y0jywMOHfLq3XyUPXoplObJEeH7lW62VvkZ/GE+
+ WNs=
+X-IronPort-AV: E=Sophos;i="5.78,385,1599494400"; d="scan'208";a="264126071"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 02 Dec 2020 14:22:30 +0800
-IronPort-SDR: Rgru+ZmRUO4VKa9IMqrF4CtlheNy/IDkAqnMMwxG/QxAf1evLFekhvcXpF9umnf22qNu2sm6J+
- LZG/RcpKRpx3zcCHs0svIaEC0gkvHBlFc=
+ by ob1.hgst.iphmx.com with ESMTP; 02 Dec 2020 14:22:53 +0800
+IronPort-SDR: yOlssIUqGfM8GavpGnOtSP07VKD/FmzEIF/tjJ1ZhnBUZU3N/L6wk+UNMyqK4UTFSLaeKvkpN4
+ iN6gDU98Z+VAz9vmDq265ZpO5W9QCHzhI=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2020 22:08:05 -0800
-IronPort-SDR: 5gaJgnyq4tJtGlrJGLKj6SIPZVek34FGwWDOHm6IAhCvvCrlVHLCVT8RUdprTfoNOIAj2emDiY
- opmpLnYz9k3w==
+ 01 Dec 2020 22:08:27 -0800
+IronPort-SDR: FNXPoB4WvPAm0gJxkZMp4eSWXqfhXKyjMr67/9mErB6XiLHz3b0Vx13uYOkiOCzfVzrFFyfv2F
+ OVk0pD3ek5Fw==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 01 Dec 2020 22:22:30 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 01 Dec 2020 22:22:52 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH V4 0/9] nvmet: add ZBD backend support
-Date: Tue,  1 Dec 2020 22:22:18 -0800
-Message-Id: <20201202062227.9826-1-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V4 1/9] block: allow bvec for zone append get pages
+Date: Tue,  1 Dec 2020 22:22:19 -0800
+Message-Id: <20201202062227.9826-2-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
+In-Reply-To: <20201202062227.9826-1-chaitanya.kulkarni@wdc.com>
+References: <20201202062227.9826-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201202_012234_972055_DAA211DC 
-X-CRM114-Status: GOOD (  17.76  )
+X-CRM114-CacheID: sfid-20201202_012256_013690_EF48ADD5 
+X-CRM114-Status: GOOD (  11.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,235 +98,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+Remove the bvec check in the bio_iov_iter_get_pages() for
+REQ_OP_ZONE_APPEND so that we can reuse the code and build iter from
+bvec.
 
-NVMeOF Host is capable of handling the NVMe Protocol based Zoned Block
-Devices (ZBD) in the Zoned Namespaces (ZNS) mode with the passthru
-backend. There is no support for a generic block device backend to
-handle the ZBD devices which are not NVMe protocol compliant yet provide
-NVMe ZNS interface.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ block/bio.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-This adds support to export the ZBDs (which are not NVMe drives) to host
-the from target via NVMeOF using the host side ZNS interface.
-
-The patch series is generated in bottom-top manner where, it first adds
-prep patch and ZNS command-specific handlers on the top of genblk and 
-updates the data structures, then one by one it wires up the admin cmds
-in the order host calls them in namespace initializing sequence. Once
-everything is ready, it wires-up the I/O command handlers. See below for 
-patch-series overview.
-
-All the testcases are passing for the ZoneFS with ZBD exported with NVMeOF
-backed by null_blk ZBD and null_blk ZBD without NVMeOF.
-
-Please consider this for nvme-5.11.
-
-Regards,
-Chaitanya
-
-Changes from V3:-
-
-1.  Get rid of the bio_max_zasl check.
-2.  Remove extra lines.
-4.  Remove the block layer api export patch.
-5.  Remove the bvec check in the bio_iov_iter_get_pages() for
-    REQ_OP_ZONE_APPEND so that we can reuse the code.
-
-Changes from V2:-
-
-1.  Move conventional zone bitmap check into 
-    nvmet_bdev_validate_zns_zones(). 
-2.  Don't use report zones call to check the runt zone.
-3.  Trim nvmet_zasl() helper.
-4.  Fix typo in the nvmet_zns_update_zasl().
-5.  Remove the comment and fix the mdts calculation in
-    nvmet_execute_identify_cns_cs_ctrl().
-6.  Use u64 for bufsize in nvmet_bdev_execute_zone_mgmt_recv().
-7.  Remove nvmet_zones_to_desc_size() and fix the nr_zones
-    calculation.
-8.  Remove the op variable in nvmet_bdev_execute_zone_append().
-9.  Fix the nr_zones calculation nvmet_bdev_execute_zone_mgmt_recv().
-10. Update cover letter subject.
-
-Changes from V1:-
-
-1.  Remove the nvmet-$(CONFIG_BLK_DEV_ZONED) += zns.o.
-2.  Mark helpers inline.
-3.  Fix typos in the comments and update the comments.
-4.  Get rid of the curly brackets.
-5.  Don't allow drives with last smaller zones.
-6.  Calculate the zasl as a function of ax_zone_append_sectors,
-    bio_max_pages so we don't have to split the bio.
-7.  Add global subsys->zasl and update the zasl when new namespace
-    is enabled.
-8.  Rmove the loop in the nvmet_bdev_execute_zone_mgmt_recv() and
-    move functionality in to the report zone callback.
-9.  Add goto for default case in nvmet_bdev_execute_zone_mgmt_send().
-10. Allocate the zones buffer with zones size instead of bdev nr_zones.
-
-Chaitanya Kulkarni (9):
-  block: allow bvec for zone append get pages
-  nvmet: add ZNS support for bdev-ns
-  nvmet: trim down id-desclist to use req->ns
-  nvmet: add NVME_CSI_ZNS in ns-desc for zbdev
-  nvmet: add cns-cs-ctrl in id-ctrl for ZNS bdev
-  nvmet: add cns-cs-ns in id-ctrl for ZNS bdev
-  nvmet: add zns cmd effects to support zbdev
-  nvmet: add zns bdev config support
-  nvmet: add ZNS based I/O cmds handlers
-
- block/bio.c                       |   2 -
- drivers/nvme/target/Makefile      |   2 +-
- drivers/nvme/target/admin-cmd.c   |  38 ++-
- drivers/nvme/target/io-cmd-bdev.c |  12 +
- drivers/nvme/target/io-cmd-file.c |   2 +-
- drivers/nvme/target/nvmet.h       |  19 ++
- drivers/nvme/target/zns.c         | 417 ++++++++++++++++++++++++++++++
- 7 files changed, 475 insertions(+), 17 deletions(-)
- create mode 100644 drivers/nvme/target/zns.c
-
-
-Test Results :-
-# nvme zns id-ctrl /dev/nvme
-NVMe ZNS Identify Controller:
-zasl    : 4
-#
-#
-# nvme zns id-ctrl /dev/nvme1n1
-NVMe ZNS Identify Controller:
-zasl    : 4
-# nvme zns id-ns /dev/nvme1n1
-#
-#
-ZNS Command Set Identify Namespace:
-zoc     : 0
-ozcs    : 0
-mar     : 0
-mor     : 0
-rrl     : 0
-frl     : 0
-lbafe  0: zsze:0x10000 zdes:0 (in use)
-# 
-#
-#
-# lsblk | grep null
-nullb0            252:0    0    1G  0 disk 
-# 
-# 
-# 
-# ./zonefs-tests.sh /dev/nullb0 
-Gathering information on /dev/nullb0...
-zonefs-tests on /dev/nullb0:
-  4 zones (0 conventional zones, 4 sequential zones)
-  524288 512B sectors zone size (256 MiB)
-  0 max open zones
-Running tests
-  Test 0010:  mkzonefs (options)                                   ... PASS
-  Test 0011:  mkzonefs (force format)                              ... PASS
-  Test 0012:  mkzonefs (invalid device)                            ... PASS
-  Test 0013:  mkzonefs (super block zone state)                    ... PASS
-  Test 0020:  mount (default)                                      ... PASS
-  Test 0021:  mount (invalid device)                               ... PASS
-  Test 0022:  mount (check mount directory sub-directories)        ... PASS
-  Test 0023:  mount (options)                                      ... PASS
-  Test 0030:  Number of files (default)                            ... PASS
-  Test 0031:  Number of files (aggr_cnv)                           ... skip
-  Test 0032:  Number of files using stat (default)                 ... PASS
-  Test 0033:  Number of files using stat (aggr_cnv)                ... PASS
-  Test 0034:  Number of blocks using stat (default)                ... PASS
-  Test 0035:  Number of blocks using stat (aggr_cnv)               ... PASS
-  Test 0040:  Files permissions (default)                          ... PASS
-  Test 0041:  Files permissions (aggr_cnv)                         ... skip
-  Test 0042:  Files permissions (set value)                        ... PASS
-  Test 0043:  Files permissions (set value + aggr_cnv)             ... skip
-  Test 0050:  Files owner (default)                                ... PASS
-  Test 0051:  Files owner (aggr_cnv)                               ... skip
-  Test 0052:  Files owner (set value)                              ... PASS
-  Test 0053:  Files owner (set value + aggr_cnv)                   ... skip
-  Test 0060:  Files size (default)                                 ... PASS
-  Test 0061:  Files size (aggr_cnv)                                ... skip
-  Test 0070:  Conventional file truncate                           ... skip
-  Test 0071:  Conventional file truncate (aggr_cnv)                ... skip
-  Test 0072:  Conventional file unlink                             ... skip
-  Test 0073:  Conventional file unlink (aggr_cnv)                  ... skip
-  Test 0074:  Conventional file random write                       ... skip
-  Test 0075:  Conventional file random write (direct)              ... skip
-  Test 0076:  Conventional file random write (aggr_cnv)            ... skip
-  Test 0077:  Conventional file random write (aggr_cnv, direct)    ... skip
-  Test 0078:  Conventional file mmap read/write                    ... skip
-  Test 0079:  Conventional file mmap read/write (aggr_cnv)         ... skip
-  Test 0080:  Sequential file truncate                             ... PASS
-  Test 0081:  Sequential file unlink                               ... PASS
-  Test 0082:  Sequential file buffered write IO                    ... PASS
-  Test 0083:  Sequential file overwrite                            ... PASS
-  Test 0084:  Sequential file unaligned write (sync IO)            ... PASS
-  Test 0085:  Sequential file unaligned write (async IO)           ... PASS
-  Test 0086:  Sequential file append (sync)                        ... PASS
-  Test 0087:  Sequential file append (async)                       ... PASS
-  Test 0088:  Sequential file random read                          ... PASS
-  Test 0089:  Sequential file mmap read/write                      ... PASS
-  Test 0090:  sequential file 4K synchronous write                 ... PASS
-  Test 0091:  Sequential file large synchronous write              ... PASS
-
-46 / 46 tests passed
-# 
-# 
-# 
-# ./zonefs-tests.sh /dev/nvme1n1 
-Gathering information on /dev/nvme1n1...
-zonefs-tests on /dev/nvme1n1:
-  4 zones (0 conventional zones, 4 sequential zones)
-  524288 512B sectors zone size (256 MiB)
-  1 max open zones
-Running tests
-  Test 0010:  mkzonefs (options)                                   ... PASS
-  Test 0011:  mkzonefs (force format)                              ... PASS
-  Test 0012:  mkzonefs (invalid device)                            ... PASS
-  Test 0013:  mkzonefs (super block zone state)                    ... PASS
-  Test 0020:  mount (default)                                      ... PASS
-  Test 0021:  mount (invalid device)                               ... PASS
-  Test 0022:  mount (check mount directory sub-directories)        ... PASS
-  Test 0023:  mount (options)                                      ... PASS
-  Test 0030:  Number of files (default)                            ... PASS
-  Test 0031:  Number of files (aggr_cnv)                           ... skip
-  Test 0032:  Number of files using stat (default)                 ... PASS
-  Test 0033:  Number of files using stat (aggr_cnv)                ... PASS
-  Test 0034:  Number of blocks using stat (default)                ... PASS
-  Test 0035:  Number of blocks using stat (aggr_cnv)               ... PASS
-  Test 0040:  Files permissions (default)                          ... PASS
-  Test 0041:  Files permissions (aggr_cnv)                         ... skip
-  Test 0042:  Files permissions (set value)                        ... PASS
-  Test 0043:  Files permissions (set value + aggr_cnv)             ... skip
-  Test 0050:  Files owner (default)                                ... PASS
-  Test 0051:  Files owner (aggr_cnv)                               ... skip
-  Test 0052:  Files owner (set value)                              ... PASS
-  Test 0053:  Files owner (set value + aggr_cnv)                   ... skip
-  Test 0060:  Files size (default)                                 ... PASS
-  Test 0061:  Files size (aggr_cnv)                                ... skip
-  Test 0070:  Conventional file truncate                           ... skip
-  Test 0071:  Conventional file truncate (aggr_cnv)                ... skip
-  Test 0072:  Conventional file unlink                             ... skip
-  Test 0073:  Conventional file unlink (aggr_cnv)                  ... skip
-  Test 0074:  Conventional file random write                       ... skip
-  Test 0075:  Conventional file random write (direct)              ... skip
-  Test 0076:  Conventional file random write (aggr_cnv)            ... skip
-  Test 0077:  Conventional file random write (aggr_cnv, direct)    ... skip
-  Test 0078:  Conventional file mmap read/write                    ... skip
-  Test 0079:  Conventional file mmap read/write (aggr_cnv)         ... skip
-  Test 0080:  Sequential file truncate                             ... PASS
-  Test 0081:  Sequential file unlink                               ... PASS
-  Test 0082:  Sequential file buffered write IO                    ... PASS
-  Test 0083:  Sequential file overwrite                            ... PASS
-  Test 0084:  Sequential file unaligned write (sync IO)            ... PASS
-  Test 0085:  Sequential file unaligned write (async IO)           ... PASS
-  Test 0086:  Sequential file append (sync)                        ... PASS
-  Test 0087:  Sequential file append (async)                       ... PASS
-  Test 0088:  Sequential file random read                          ... PASS
-  Test 0089:  Sequential file mmap read/write                      ... PASS
-  Test 0090:  sequential file 4K synchronous write                 ... PASS
-  Test 0091:  Sequential file large synchronous write              ... PASS
-
-46 / 46 tests passed
+diff --git a/block/bio.c b/block/bio.c
+index fa01bef35bb1..54b532bb39f3 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -1110,8 +1110,6 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
+ 
+ 	do {
+ 		if (bio_op(bio) == REQ_OP_ZONE_APPEND) {
+-			if (WARN_ON_ONCE(is_bvec))
+-				return -EINVAL;
+ 			ret = __bio_iov_append_get_pages(bio, iter);
+ 		} else {
+ 			if (is_bvec)
 -- 
 2.22.1
 
