@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 958F6C64E7C
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 09:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB3DC64E7C
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 09:20:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EE08520709
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 09:10:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EE08520709
+	by mail.kernel.org (Postfix) with ESMTPS id 07F9A20872
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 09:20:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 07F9A20872
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QDC62ztS2fa0RYZHUOqik9jyFGKyAxnL9eV6DI+Tqwc=; b=wwjtHfG7bd0JK90okSoE1zD34
-	Wu8puS0nhIlNdfEDCc3mcu/t9Z1yLrXP+HymBNzkVHmHgco7s3I4OuvU2KuHaEndix1Jvh+nyazye
-	abpqCMvjDAaA2ETeJgg6L7V2dzRhqN1d2eCq5VEatEhS7emCFIq5sgBc/Xy2SHuIOZTQNznnWzWiT
-	FfABIfJC2zLCoIPEKkLd4lL4kXmDlQE18uXhwW9PQDvgYvNbWOkAKnC4hEpRauvo9Iq1L/4TkpvUf
-	BrBE5d7s4praSWg//ziaO5wOwStLKxZ7fS9jymGdwknqLjIF5y+lB+9ZrLghLplbH4C0L7Q4Juss2
-	5e5fja8VQ==;
+	 bh=kKzhh8tcbG9TnPkGa0edlxE7bADNM6gyt5UeM5AWKmM=; b=X+ubrYzzj6vDEoQt9/2NSgr0P
+	LHH3Eh5YzS26IpgjnXWvrZeM/qvQw1xF+4rQkUyl+gawYnjCUAweFUTvxnGaLrPmS5kUK7K/+/JYj
+	THbod6SC4SI84cMGSFGj99y8swjVryoGpnLqoZQOZFb3dDkt8KHATdA8NAgb67o3Z3uAEH7VcNvsw
+	Gxswzqa1b6aejl40msmA6OQOgMyy9lnQZHis6yRH/+afkUHP4jpllW/xhPMjd7/+3caR6CURbCAaE
+	oNzJsk8+VmL7Bm41ykvAcP+7kZHum7qtFJkvU3fUQHyClaTT80h7PAM3uwidenRnoildSBJFg7+c5
+	26kegYozQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kkO9Y-00008I-OG; Wed, 02 Dec 2020 09:10:24 +0000
+	id 1kkOJE-0001pf-BZ; Wed, 02 Dec 2020 09:20:24 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kkO9V-000077-9L
- for linux-nvme@lists.infradead.org; Wed, 02 Dec 2020 09:10:21 +0000
+ id 1kkOJC-0001p5-FY
+ for linux-nvme@lists.infradead.org; Wed, 02 Dec 2020 09:20:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 9196E67373; Wed,  2 Dec 2020 10:10:19 +0100 (CET)
-Date: Wed, 2 Dec 2020 10:10:18 +0100
+ id 403D868AFE; Wed,  2 Dec 2020 10:20:20 +0100 (CET)
+Date: Wed, 2 Dec 2020 10:20:19 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH V4 5/9] nvmet: add cns-cs-ctrl in id-ctrl for ZNS bdev
-Message-ID: <20201202091018.GD2952@lst.de>
+Subject: Re: [PATCH V4 0/9] nvmet: add ZBD backend support
+Message-ID: <20201202092019.GA3957@lst.de>
 References: <20201202062227.9826-1-chaitanya.kulkarni@wdc.com>
- <20201202062227.9826-6-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201202062227.9826-6-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20201202062227.9826-1-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201202_041021_481508_2F48D7E4 
-X-CRM114-Status: UNSURE (   9.27  )
+X-CRM114-CacheID: sfid-20201202_042022_639384_AA3C506E 
+X-CRM114-Status: UNSURE (   7.56  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -71,13 +70,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 01, 2020 at 10:22:23PM -0800, Chaitanya Kulkarni wrote:
-> Update the nvmet_execute_identify() such that it can now handle
-> NVME_ID_CNS_CS_CTRL when identify.cis is set to ZNS. This allows
-> host to identify the support for ZNS.
-
-The changs in this and all following patches really belong into the current
-patch 2.
+Unless I'm missing something this fails to advertise multiple command
+support in the CAP property, as well as the enablement in the CC
+property.  How does the host manage to even use this?
 
 _______________________________________________
 Linux-nvme mailing list
