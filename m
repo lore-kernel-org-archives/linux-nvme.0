@@ -2,79 +2,71 @@ Return-Path: <SRS0=R6Dd=FG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91632C64E7C
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 19:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26CBEC6369E
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 21:04:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C442722256
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 19:07:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C442722256
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9A6CF206CA
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Dec 2020 21:04:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A6CF206CA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:Date:To:From:
-	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=BioM1wRJ1iOCvzW6/SoC1R3xqWU3Pq4cTHvO/FWop7s=; b=F13QsJ9mo8huR9CJnNNfV5sp8
-	Bj/+HXG/+/ii473apf8mRsxvBkNZbMbtY4CY/9KtXMdjvQeZDLBMgphn6fRk/+9gDgzx3e/auCtnd
-	aTbTS8z+iISIUC9DiZUBiuMS3F2t9c2OC1epAmYd8PEQ2slJqN+vocsnE2E/AQcVrym9suJL9STc0
-	1SHcf5jzBIjNj4gEjZPpvVpZAcri1+YLcm9PQV/84HmYvBA9vq7yU9niQRrHFJS9DZnNTybMua78S
-	uEzVkgudM9bODCm8pa1RAci45eeiIe7JhxtfvynW10EydQyKLEyReQQIfpLJ9P3hMNrTJZbEn/V+H
-	JoLjWIzBw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OZwr+YfgE1nMXqfMXfFRZGp+W55J77YGAfu3KqqbAfM=; b=xuTsC09hyq/Eg+0S1nlblbW/02
+	JhniCUTHwJ3aQkmgwQCbGG8edW9oTxMLh6tS6Xlvcx5z53QxKCUMG2KzBrCO2nvYXb0uazZym8+9v
+	4l0AS4EBvQjUFH39JHQX5jHqsVMEr+RUrUkjkxDzOjG9MuEUhJlVArMfkSrtgAQEEQ4Ejjmy1YVmj
+	8QchecHjQCMbRQ3wXZq8nJLq1l70JxlZcRzBVOjW5ajKi3OuPeu6q+qomvJV7ylCAyhGh9+AxnTSb
+	wuqTbpJ4jggis3fGjha3+NJHJvRWxzkfKUc3TqYUHVdOjtPCyrx5FJcxSiKwNMV2Phvcj2fMVDJK9
+	uAfKlHtQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kkXTO-0008Jk-26; Wed, 02 Dec 2020 19:07:30 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1kkZIh-0003dS-No; Wed, 02 Dec 2020 21:04:35 +0000
+Received: from mga05.intel.com ([192.55.52.43])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kkXTM-0008JG-CP
- for linux-nvme@lists.infradead.org; Wed, 02 Dec 2020 19:07:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606936047;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GyPnByql6hDKb++n9qwMPEM+6fVfKn8Oppnc5Ohl5K0=;
- b=gtcVUyzF+wVrgjtihv/bKeGl2rtnHgbIiwAHzv4pmDZ17MUUKSvHBgD1ez5F9zR4zSevPN
- IGXfJuDAFIksnMCqNTdr8SE5qCOC+kDy/0h6vkXNCsdj6bBWDYcL+QaDLSuyZ5icSJQGCB
- nbgUUddd9owsaVf27gu5IlKL9+SEsUM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-OCx1hdEmPci61uW7KC8THA-1; Wed, 02 Dec 2020 14:07:16 -0500
-X-MC-Unique: OCx1hdEmPci61uW7KC8THA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C49CB8145E6;
- Wed,  2 Dec 2020 19:07:14 +0000 (UTC)
-Received: from ovpn-66-132.rdu2.redhat.com (unknown [10.10.67.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E4836060F;
- Wed,  2 Dec 2020 19:07:08 +0000 (UTC)
-Message-ID: <b70f46b855858a28b0e77ee7efbb2dbffbb56490.camel@redhat.com>
-Subject: Re: [PATCH 0/3] blk-mq/nvme-loop: use nvme-loop's lock class for
- addressing lockdep false positive warning
-From: Qian Cai <qcai@redhat.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, Christoph
- Hellwig <hch@lst.de>
-Date: Wed, 02 Dec 2020 14:07:08 -0500
-In-Reply-To: <20201130023606.GC230145@T590>
-References: <20201112075526.947079-1-ming.lei@redhat.com>
- <20201130023606.GC230145@T590>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ id 1kkZII-0003RE-83
+ for linux-nvme@lists.infradead.org; Wed, 02 Dec 2020 21:04:28 +0000
+IronPort-SDR: qUNgsmksYoeEPdDmSnzajSoArSvwnoYNClKXIFpgaT61EZ5gm1R0w524eP49C7cMaLF6IijtJJ
+ SBSzHMp4JmpA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="257798994"
+X-IronPort-AV: E=Sophos;i="5.78,387,1599548400"; d="scan'208";a="257798994"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2020 13:04:06 -0800
+IronPort-SDR: UzQF4FG9s+hHIssHliDgQBJAuk2LyNP+JDBa6qE9tshFcqUqaGzlu1Nmtw4ak23Vk97OQ82qUS
+ flZH+J6u/O8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,387,1599548400"; d="scan'208";a="368149154"
+Received: from lkp-server01.sh.intel.com (HELO 54133fc185c3) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 02 Dec 2020 13:04:05 -0800
+Received: from kbuild by 54133fc185c3 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kkZID-0000L3-0j; Wed, 02 Dec 2020 21:04:05 +0000
+Date: Thu, 3 Dec 2020 05:03:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: James Smart <james.smart@broadcom.com>
+Subject: [linux-nvme:nvme-5.11 1/23] drivers/nvme/target/fcloop.c:1506:6:
+ warning: %x in format string (no. 1) requires 'unsigned int but the argument
+ type is 'signed int
+Message-ID: <202012030517.jxsC8lFW-lkp@intel.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201202_140728_462866_4472761B 
-X-CRM114-Status: GOOD (  10.70  )
+X-CRM114-CacheID: sfid-20201202_160410_510637_00987796 
+X-CRM114-Status: GOOD (  13.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,21 +78,67 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sumit Saxena <sumit.saxena@broadcom.com>, Hannes Reinecke <hare@suse.de>,
- John Garry <john.garry@huawei.com>, Bart Van Assche <bvanassche@acm.org>,
- Kashyap Desai <kashyap.desai@broadcom.com>
+Cc: kbuild-all@lists.01.org, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 2020-11-30 at 10:36 +0800, Ming Lei wrote:
-> Any chance to take a look? And this issue has been reported several
-> times in RH internal test.
+tree:   git://git.infradead.org/nvme.git nvme-5.11
+head:   2f4c9ba23b887e7a69a474e9d53f38b5833a2119
+commit: 03d99e5d63dabe2c0cea0d8fe1cb89bde33f7939 [1/23] nvme-fcloop: add sysfs attribute to inject command drop
+compiler: c6x-elf-gcc (GCC) 9.3.0
 
-I suppose that you will need to rebase as it does not apply cleanly on today's
-linux-next.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
+
+"cppcheck warnings: (new ones prefixed by >>)"
+>> drivers/nvme/target/fcloop.c:1506:6: warning: %x in format string (no. 1) requires 'unsigned int *' but the argument type is 'signed int *'. [invalidScanfArgType_int]
+    if (sscanf(buf, "%x:%d:%d", &opcode, &starting, &amount) != 3)
+        ^
+   drivers/nvme/target/fcloop.c:1632:32: warning: Uninitialized variable: lport [uninitvar]
+     ret = __wait_localport_unreg(lport);
+                                  ^
+   drivers/nvme/target/fcloop.c:1615:28: warning: Uninitialized variable: nport [uninitvar]
+     ret = __remoteport_unreg(nport, rport);
+                              ^
+
+vim +1506 drivers/nvme/target/fcloop.c
+
+  1499	
+  1500	static ssize_t
+  1501	fcloop_set_cmd_drop(struct device *dev, struct device_attribute *attr,
+  1502			const char *buf, size_t count)
+  1503	{
+  1504		int opcode, starting, amount;
+  1505	
+> 1506		if (sscanf(buf, "%x:%d:%d", &opcode, &starting, &amount) != 3)
+  1507			return -EBADRQC;
+  1508	
+  1509		drop_current_cnt = 0;
+  1510		drop_fabric_opcode = (opcode & ~DROP_OPCODE_MASK) ? true : false;
+  1511		drop_opcode = (opcode & DROP_OPCODE_MASK);
+  1512		drop_instance = starting;
+  1513		/* the check to drop routine uses instance + count to know when
+  1514		 * to end. Thus, if dropping 1 instance, count should be 0.
+  1515		 * so subtract 1 from the count.
+  1516		 */
+  1517		drop_amount = amount - 1;
+  1518	
+  1519		pr_info("%s: DROP: Starting at instance %d of%s opcode x%x drop +%d "
+  1520			"instances\n",
+  1521			__func__, drop_instance, drop_fabric_opcode ? " fabric" : "",
+  1522			drop_opcode, drop_amount);
+  1523	
+  1524		return count;
+  1525	}
+  1526	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
