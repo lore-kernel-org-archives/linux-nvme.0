@@ -2,150 +2,58 @@ Return-Path: <SRS0=dg6g=FI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B6B0C4361A
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 11:25:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65801C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 12:08:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 255E022581
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 11:25:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 255E022581
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id BCAC7225A9
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 12:08:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCAC7225A9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=IUte5kJvwMS13L+CRb4UUNHPY+Nfsf76OBJtc+AVfag=; b=CrTzdzYCbndtcWy1g69oYalzr
-	e6pQNmDE5Rfh7O10uSAB/PLkz9gBD6u+RIpxgVw1M+laEcrVISayXAaA5UX8RIQPDb1FzPOHrlirv
-	dqslC+uDPhaK61alOB7MlV2yIOMehWLZVWXi8EvGRAapVQRou450b0eE+XzK7pDK7jOhi3bYjXY+Y
-	cQm0WEfParxEOVC9e1utOAUt8r8zzwDKxpY0BOwzKgtGFbbqDpiKOh74jJEhbBnTjPp4AFl3XtzeT
-	DNEbIjIupLIEzpnrzEjjfFNdFPvqO3BuKXhewZYuPjB3SX2LSmE6rRJjuQyu/ltonEPZyz0PQdf+L
-	BnC/ZGhsA==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=lblIUGm6oYOKJvI737UHJ95iBPaF8l2nu1aZTp8taXg=; b=3PrUD0VL8XuVi0Jtb+wKhcUPW
+	PL4e8qgWtAbs7PVKbiV1KJNiX7Q7ZqBnE85HWU3+i9sb3OPIcn7B1t46lTX/k08cZK17so7STZ+MZ
+	RwI60KyYgwT8LoqkygZmdquEbazyfsEWYarrFvXZpZI/iN2cZydfO9OOtKMK1HYP60C8/0K/P5JHf
+	lQJCsaXgJtvdTh9bkrXEvdOXA3zT1Rwoi2TWbLmIEOyxxzmunX69rvQ5pL9QPZwcf+tBUb+UkYKXn
+	Di07HvUmcPUK/qyVs5WEp8IusiVgHU/QMGbsJ68ie8Pll/tGIMx3VOlb+/ws4Zz3cPd4aKMR81SrQ
+	TSMcg+Brw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kl9DG-00077a-5T; Fri, 04 Dec 2020 11:25:22 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1kl9sj-0003gR-0p; Fri, 04 Dec 2020 12:08:13 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kl9DC-000774-DJ
- for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 11:25:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1607081118; x=1638617118;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=lyweAXYJEUD3vcj9hAsIGOhjob3wm0WUZuyfC7HYKvU=;
- b=dZey6Q/gPBhZwcn01Vy6KBlYe+8js5psIIcrnYOxBh8NXrFmlGaxVRrq
- 1g1CtlMaIdMdZlTd82Y+CVsAqx7CbMerkXvWfIGpNJxJG08laiUVWTo3m
- tUExamCuLjsT2KYJXZKv++cA6CUJ21sd5WM8FNTza4qe1v4cmL/oCacMe
- ppK3QlM4DTfYL+VxR0rVnj30uGix91X5XYMShbkCFmQEHhLuJ/Q4+G8ea
- xah4ln/AvNwK7crKsSdHECY/ZpOeaGitE357TIRNgkhsjAePNHTdXO5Xm
- XZV4kRIHXZEu3WhxPkiOz8Pd5P3uBKsZXmsIbep5cOJkExrLE9DfUtGYl Q==;
-IronPort-SDR: 8jaZBTanwCqy4mEbB/a3zGKcpVqfVH5bx6iG7Wq8QNK38OkBXLE7PCqQH2q3cT5HdQ8wDbUBNU
- KYm5fgTABi/muPEBYSpuEy4JdcSlcctHDNTV5gvcoj+codlgCJWN6TbODBcU7N768yUXrZY363
- IlgCEcK+J1Okid47UdncuWv157VXUU0Qj5YSaZbEw759vwsVNGXq/DxqWCG8DGiKnjCzdrEQGy
- olZRLhHFJ6UDPaE9X9Hv+e9qm/xCYixUZs7wbeZGghhNcUXfi5hDm/J7R1TFkyhSej136qe2NN
- dko=
-X-IronPort-AV: E=Sophos;i="5.78,392,1599494400"; d="scan'208";a="264579782"
-Received: from mail-dm6nam12lp2171.outbound.protection.outlook.com (HELO
- NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.171])
- by ob1.hgst.iphmx.com with ESMTP; 04 Dec 2020 19:25:15 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=geXXzXWeY556CY90qL5D9svChhq4fncvFICd/KIS7DSytuDN5QOrv30zEpbggbZZEtb0DpApqSmIjY3/3EP5EOjg/MbkDSr0HJVxWsQV85wtF3ltxHJFPSholvC9nKIc1a8H8Rmjl4lpWUs4N8fGvMEUEBT/LjKQIlYMrWImElDs8D7UOj5+vWXtXiikDcoeQiVy2G83SY2T10Fprj2wrq147yI0Fk4ZQr0HL8yVMB/evDCXZqZ7YUquJnGLj1ywXOUaTkOsk5q1xjtGKhYxHMoFgoLUuEBKLXMX/1VdvKSF4d8yqQre76NeoWD02VbITB9SzqUefoHQZ7T9+4LVMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FLjFZ/Sovl/XIRW8xFXzc036bfFKtqTTJbIJQJzq964=;
- b=D3UGDfhIwIQlkWbIEwRs1Jbp711OvB0tDRkAkL5CP9AcX+m3Vp399QszTC7QtSSipVpNy0vDg+v8SFrT3tOnjKOrmUDrRTTOAPpWX+JLwt+z5pqaxKHhJlVG+jQWw/ZuYzEm2shE4DuzDJcTYXbhaVh7+795mMOKtS0fCYcY7wwct3A9si5bh1Jiz3E4l8L04LdLUMxxlsm303pVhgDuao2IH506zGNAIsYjbkSRqI+PEs1Eaf+KvlhwZqCNY2AFx+rdFsx24/5ILuj4mB32VNMhcLztw3Owc4fXA0dbNpCdVJKRsXNVrKhyIJvxhBCYHQRObPeNCO3eiqz/WyhkeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FLjFZ/Sovl/XIRW8xFXzc036bfFKtqTTJbIJQJzq964=;
- b=B6PlkWfTRENhICR95eme4CCbfOfsLZF16d3AC94zl5OKc5xyuFt2QRO6m0B2t3ktA6ahOk+JgQ3dwXDzP98hCmlmw84nbCOE6xE7EqXYcEzL9s6QK5i44YBte9xpoyNmakMsuKtOoxBqYOGLjiu/Si+6s3biZA2mlhiwuNyiw3I=
-Received: from CH2PR04MB6522.namprd04.prod.outlook.com (2603:10b6:610:34::19)
- by CH2PR04MB6773.namprd04.prod.outlook.com (2603:10b6:610:95::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Fri, 4 Dec
- 2020 11:25:12 +0000
-Received: from CH2PR04MB6522.namprd04.prod.outlook.com
- ([fe80::897c:a04b:4eb0:640a]) by CH2PR04MB6522.namprd04.prod.outlook.com
- ([fe80::897c:a04b:4eb0:640a%7]) with mapi id 15.20.3589.022; Fri, 4 Dec 2020
- 11:25:12 +0000
-From: Damien Le Moal <Damien.LeMoal@wdc.com>
-To: SelvaKumar S <selvakuma.s1@samsung.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: Re: [RFC PATCH v2 0/2] add simple copy support
-Thread-Topic: [RFC PATCH v2 0/2] add simple copy support
-Thread-Index: AQHWyiztcinYLb1afkCNvyh+SmI/oQ==
-Date: Fri, 4 Dec 2020 11:25:12 +0000
-Message-ID: <CH2PR04MB6522F1188557C829285ED5E8E7F10@CH2PR04MB6522.namprd04.prod.outlook.com>
-References: <CGME20201204094719epcas5p23b3c41223897de3840f92ae3c229cda5@epcas5p2.samsung.com>
- <20201204094659.12732-1-selvakuma.s1@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: samsung.com; dkim=none (message not signed)
- header.d=none;samsung.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [2400:2411:43c0:6000:5458:21bf:70ee:2847]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 365128f2-0c71-4214-0ced-08d8984743f0
-x-ms-traffictypediagnostic: CH2PR04MB6773:
-x-microsoft-antispam-prvs: <CH2PR04MB67733E8C5C03A26F94B188CAE7F10@CH2PR04MB6773.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +i/280XiUrz7Lug2VI/UQ+rhTgH1eLdX9qrNyq1fcLfhCZggU92eS0kB6ASkXtijmebkc3PNPPnE+sIg0dtcCCYiq2MKn9kwKSgUH2Uee6vTMjScMWvP2lyalQjCepP5Rok4+nN1ucC3h8LqCLkwFklV0YFGgXvQRPecREAH359iJcxi35MdE8HkVS0+nkE1oFBX9T/6WJAxjsbNrU7lBPxC0JGwYw0DOVOD1nPkIQ3ImEZls2yrNBKmWKgJx0HsQvyGAWeVPrruHeP4QswAvMp8HoJ36/GR7nmM0DqMORXtIeFdBoW0rvQqTZB/nDL4g5j1henZGBdsoBCyXdkUnRnMi6UUxxp6nXqDDFo36k9y//MQSC7q9VIUXMs+PNC8kzwipMW7Rah/bnrajR440XBcb1jn2b2UXcvKICjqiA8ej6LEzzwKSvi+eRgDMoGuivJ2mout2R3onzjYtMzmpFx4XRnAF/flD+gBK0AYGks=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR04MB6522.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(346002)(376002)(39860400002)(136003)(110136005)(2906002)(8676002)(6506007)(5660300002)(53546011)(33656002)(478600001)(86362001)(66446008)(52536014)(64756008)(7696005)(71200400001)(966005)(66556008)(76116006)(66946007)(91956017)(4326008)(83380400001)(66476007)(316002)(186003)(7416002)(55016002)(8936002)(54906003)(9686003)(43620500001)(15398625002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?92oygtK7aS1igR7/5a/PDTPjAOGjsxYnwK4lz63sUia+HVGkJKDPgLjoKpTC?=
- =?us-ascii?Q?QO4JRkvSoiGxMlQcLIK9ym0x49gBki3hOpTADA56lSDhmGByu0fc1jag5tcv?=
- =?us-ascii?Q?BcFQd627ZxQPcIr9kMBkCk/vId217knnM4aftMJDrbnBFfAKtnMlMdFlPbyy?=
- =?us-ascii?Q?I9DxhQ4BQCROiRnRjqlr5iNXdTKwOAybqfMgkLywEOV+WFY8RMH3XTJltRUg?=
- =?us-ascii?Q?3hRsq96zY6uRoxQ/VxvB8+umlKVhZHOtYYvqHutwol2u0ow25XeicMUqo8sc?=
- =?us-ascii?Q?qm1R0Jcp8a0Ved4Fb6dx7WwbyA8uUf6Pdc2eMjikLC5N1qvZQT9EeE5mvhCE?=
- =?us-ascii?Q?XEPj6fqUDDROb8ca+eVnnMtDeCpxOme43zW+j6uKpblYcv34Z51OZAzwhP1f?=
- =?us-ascii?Q?2Kn2YUIZ/3V6i2DZOLITA6iXIk3YOpSQVVDOqLT+hgPtH8cAYV63rsxS708w?=
- =?us-ascii?Q?Irg/Fnq40ojNUDYMrNdO4W1m2P/tfrciCJcWEZ5VxXysfAxMO/RslBei42iv?=
- =?us-ascii?Q?wGOX5qJSO/gJiKPZ49ID4uvlAF7j5Sfjox6G9+cbB5T9jLH9ghEpriYH2qEh?=
- =?us-ascii?Q?yRj6mKgDuIC+soJ5zWvqJvQMT5bTg7vaO0kALYhvQmNJDsk8Y+mnYVQXOj6C?=
- =?us-ascii?Q?qLXY1RSi8N4wqMjCT506twF0saiJ9TFhU0wUr6IDqSOJOzLjzTE3ElglPVAl?=
- =?us-ascii?Q?HJBPcKjPfqz4iq9510Ibb8ykQxldKtInr2M+SBAq2INlZgV1rxVgZj5Pxuyp?=
- =?us-ascii?Q?ya9S3wqQt14hIaelj1V1y+MhCbnFNzh35bcJiCUArato/kyiZmHGjXtGjMTU?=
- =?us-ascii?Q?wYL5ivbeG5MrWL9XmqRZF5b4sm7ZF870eLlLDoPFOvCbGBo1eLWce7utEcSu?=
- =?us-ascii?Q?3CFt/Jivk/Y2U92zc3WAPz90yYjWX2ik/OBgZKLfRkqDuDRj+ket32iqcWv9?=
- =?us-ascii?Q?ZTh/DbJHyofohEUuJFqnDftHHVBjuKj4rh5x4X2rY166GoKJTP8l9NACA66o?=
- =?us-ascii?Q?4BFiHPbxtxRsUqMitxUc+umreS80gSv9yZ/UGoLrcX5XPfK6S3doq3ipoAEJ?=
- =?us-ascii?Q?8QvN5Wuk?=
-x-ms-exchange-transport-forked: True
+ id 1kl9se-0003fx-MB
+ for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 12:08:09 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 8315C67373; Fri,  4 Dec 2020 13:08:03 +0100 (CET)
+Date: Fri, 4 Dec 2020 13:08:03 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?=
+ <marmarek@invisiblethingslab.com>
+Subject: Re: GPF on 0xdead000000000100 in nvme_map_data - Linux 5.9.9
+Message-ID: <20201204120803.GA20727@lst.de>
+References: <20201129035639.GW2532@mail-itl>
+ <20201130164010.GA23494@redsun51.ssa.fujisawa.hgst.com>
+ <20201202000642.GJ201140@mail-itl> <20201204110847.GU201140@mail-itl>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR04MB6522.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 365128f2-0c71-4214-0ced-08d8984743f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2020 11:25:12.1655 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JyxWB2Oe3jjtYFH1Ut9EdnYdm1bmjcp5idVZeopuDqXjNy6AFjBfCcQHpLXzjjG5f4LmVEqa0MI+YVUXAQCUrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6773
+Content-Disposition: inline
+In-Reply-To: <20201204110847.GU201140@mail-itl>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201204_062518_602667_C03E596C 
-X-CRM114-Status: GOOD (  22.35  )
+X-CRM114-CacheID: sfid-20201204_070808_872082_C5C4F589 
+X-CRM114-Status: GOOD (  10.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,98 +65,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "snitzer@redhat.com" <snitzer@redhat.com>,
- "selvajove@gmail.com" <selvajove@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "javier.gonz@samsung.com" <javier.gonz@samsung.com>, "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Juergen Gross <jgross@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, xen-devel <xen-devel@lists.xenproject.org>,
+ Christoph Hellwig <hch@lst.de>,
+ Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020/12/04 20:02, SelvaKumar S wrote:
-> This patchset tries to add support for TP4065a ("Simple Copy Command"),
-> v2020.05.04 ("Ratified")
-> 
-> The Specification can be found in following link.
-> https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs-1.zip
-> 
-> This is an RFC. Looking forward for any feedbacks or other alternate
-> designs for plumbing simple copy to IO stack.
-> 
-> Simple copy command is a copy offloading operation and is  used to copy
-> multiple contiguous ranges (source_ranges) of LBA's to a single destination
-> LBA within the device reducing traffic between host and device.
-> 
-> This implementation accepts destination, no of sources and arrays of
-> source ranges from application and attach it as payload to the bio and
-> submits to the device.
-> 
-> Following limits are added to queue limits and are exposed in sysfs
-> to userspace
-> 	- *max_copy_sectors* limits the sum of all source_range length
-> 	- *max_copy_nr_ranges* limits the number of source ranges
-> 	- *max_copy_range_sectors* limit the maximum number of sectors
-> 		that can constitute a single source range.
+On Fri, Dec 04, 2020 at 12:08:47PM +0100, Marek Marczykowski-G=F3recki wrot=
+e:
+> culprit: =
 
-Same comment as before. I think this is a good start, but for this to be really
-useful to users and kernel components alike, this really needs copy emulation
-for drives that do not have a native copy feature, similarly to what write zeros
-handling for instance: if the drive does not have a copy command (simple copy
-for NVMe or XCOPY for scsi), then the block layer should issue read/write
-commands to seamlessly execute the copy. Otherwise, this will only serve a small
-niche for users and will not be optimal for FS and DM drivers that could be
-simplified with a generic block layer copy functionality.
+> =
 
-This is my 10 cents though, others may differ about this.
+> commit 9e2369c06c8a181478039258a4598c1ddd2cadfa
+> Author: Roger Pau Monne <roger.pau@citrix.com>
+> Date:   Tue Sep 1 10:33:26 2020 +0200
+> =
 
-> 
-> Changes from v1:
-> 
-> 1. Fix memory leak in __blkdev_issue_copy
-> 2. Unmark blk_check_copy inline
-> 3. Fix line break in blk_check_copy_eod
-> 4. Remove p checks and made code more readable
-> 5. Don't use bio_set_op_attrs and remove op and set
->    bi_opf directly
-> 6. Use struct_size to calculate total_size
-> 7. Fix partition remap of copy destination
-> 8. Remove mcl,mssrl,msrc from nvme_ns
-> 9. Initialize copy queue limits to 0 in nvme_config_copy
-> 10. Remove return in QUEUE_FLAG_COPY check
-> 11. Remove unused OCFS
-> 
-> SelvaKumar S (2):
->   block: add simple copy support
->   nvme: add simple copy support
-> 
->  block/blk-core.c          |  94 ++++++++++++++++++++++++++---
->  block/blk-lib.c           | 123 ++++++++++++++++++++++++++++++++++++++
->  block/blk-merge.c         |   2 +
->  block/blk-settings.c      |  11 ++++
->  block/blk-sysfs.c         |  23 +++++++
->  block/blk-zoned.c         |   1 +
->  block/bounce.c            |   1 +
->  block/ioctl.c             |  43 +++++++++++++
->  drivers/nvme/host/core.c  |  87 +++++++++++++++++++++++++++
->  include/linux/bio.h       |   1 +
->  include/linux/blk_types.h |  15 +++++
->  include/linux/blkdev.h    |  15 +++++
->  include/linux/nvme.h      |  43 ++++++++++++-
->  include/uapi/linux/fs.h   |  13 ++++
->  14 files changed, 461 insertions(+), 11 deletions(-)
-> 
+>     xen: add helpers to allocate unpopulated memory
+>     =
 
+> I'm adding relevant people and xen-devel to the thread.
+> For completeness, here is the original crash message:
 
--- 
-Damien Le Moal
-Western Digital Research
+That commit definitively adds a new ZONE_DEVICE user, so it does look
+related.  But you are not running on Xen, are you?
 
 _______________________________________________
 Linux-nvme mailing list
