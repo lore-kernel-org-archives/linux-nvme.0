@@ -2,92 +2,64 @@ Return-Path: <SRS0=dg6g=FI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F8FC4361A
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 12:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67AB2C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 14:40:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ECC5722795
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 12:21:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ECC5722795
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=invisiblethingslab.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2CAAC22B2D
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 14:40:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2CAAC22B2D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:References:Message-ID:Subject:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4DSU8IFA9OLL6TlovTqF7qDuNEoSNLNspPditdpt45o=; b=AWYY2zjJ1lEBBEQpNYOpmW7x+
-	gHApxRYERbHS67heiSu+k173mCu0t7+qpu2IT7+BIG3eO2ktUhNkkRPQT0UMi6l3rDvHZ0X/yfTAY
-	t5yQF+5eZ/Kix0fRQddlGyfcQs6Gm01V8jrCX2Kg2EgH9BiNIrYvPLxKuXFu6jKGTc0FJwTuqHIJF
-	jfg+xFP4caYIv//m8kWeNBkEiXtphDpyvbd5IJRntRJibK1GOr22kqE0bHbTdH1qOPxuDzMgXdMgT
-	DOEVrv/qBbARameYBmLSKHe7wZ09v869KT2WaIJtXsMUOhmHklT+DDwQoPKaaxaxlHMH1mE82vPLG
-	z9iUG50UA==;
+	 bh=sNbXVUDtLl8x+vJTEkvysuZn+cubCHnh7mi5qFaWb84=; b=KCny9AmnVzSZKQY0mDUsRgrxZ
+	kF1A9rbUzPzP0kxQcpVjLPOxKV3rxQWv1cprs2DN3pQyFmAzi72JkJoaNk0WKzyLjcm6j6UmDaBxv
+	1+9phA1O3RWZJfkpGLP6KzpAR9HFQixMQyILdeRRdfW5Aq2POaCnW3/M3kqj8DFOw6ci+onnmjkac
+	2557kA+jqRXp/O9HQoOAkG/2pzDU+KtF162cRmWZKCvKVaxt/dVDt4y8fJnCetYTt8F+1iMagLdgp
+	nE6QqhzJMB+gHn/ORJQD0NMIyUsQMzRlv9DFW3A1Ikzc5DEWfiBI6asM3KJVTYHYtoPi1fw9cbfMC
+	+Bi2T4Rfg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1klA5G-0006sx-5g; Fri, 04 Dec 2020 12:21:10 +0000
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25])
+	id 1klCFr-0006eg-IQ; Fri, 04 Dec 2020 14:40:15 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1klA5D-0006rg-41
- for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 12:21:08 +0000
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 7D48F378;
- Fri,  4 Dec 2020 07:21:01 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 04 Dec 2020 07:21:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=DCUEX7
- nYunDYFqZ66Iy4I5yxcBSzLhwsOOKi4sQNbxE=; b=jkuCdY3OXTe4z6HTv8gsMK
- THIBhv0L3s3BJ4huVkWib64+kuNu8WHLfpjA0c+/LqoJcYj8kqr1ucQrbPZDKIxU
- Bb+2rMa79seYtfrVKbTLx99//zM00bAiaqvffwGjri9ErlN2e0uUv8JqlNXJt/k7
- /TicAtQY+/pASlRra/Rf8gA5ZH/H3D/J20HiVsrEngoZzbby1B8u6VdrH+cfnzvc
- KAY0eN0nUC92VHywjbcRoq8DLlpaPTgcYjGk5HgN2gB+iNBqk8GrZKaj5dwhPIwG
- 66iD1UeCqagDxaQ1DurXfXyFPlo6p/LLl9gKXEl3prXBp/+3WtmYxysfT2HF8mkg
- ==
-X-ME-Sender: <xms:qynKXwSjrZx3CdVygWImNiUIt-H-1Ix-BMYv95GxLB56kORMrG9F6g>
- <xme:qynKX9wcCr6HqR-LcjbyfJZ3cO2prBEEO2IsewewuNErBOe-o5zu7sJ3ODY-r2GNj
- 09eSZmCWVMxWg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeikedgfeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforghrvghk
- ucforghrtgiihihkohifshhkihdqifpkrhgvtghkihcuoehmrghrmhgrrhgvkhesihhnvh
- hishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeetveff
- iefghfekhffggeeffffhgeevieektedthfehveeiheeiiedtudegfeetffenucfkpheple
- durdeigedrudejtddrkeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
- rghilhhfrhhomhepmhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsg
- drtghomh
-X-ME-Proxy: <xmx:qynKX91JbFohpmDykhajFlzyB76jBqEP8gkQAto8mwKVZ-yXuapycA>
- <xmx:qynKX0BtF81arDY7PNYsEhYxzS3CHV_fVY3rVjxGSXqzT5--J3j6tg>
- <xmx:qynKX5jIZNJH9z_bWhR6LSEZco6vjtZbk0bhU2GQuPT10QLMkSLdpA>
- <xmx:rSnKX5ciGKP_FiNkCvScwmc82ipCUF4NANsxLL3CxUikpTnih9X_kQ>
-Received: from mail-itl (ip5b40aa59.dynamic.kabel-deutschland.de
- [91.64.170.89])
- by mail.messagingengine.com (Postfix) with ESMTPA id F371E1080059;
- Fri,  4 Dec 2020 07:20:57 -0500 (EST)
-Date: Fri, 4 Dec 2020 13:20:54 +0100
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: GPF on 0xdead000000000100 in nvme_map_data - Linux 5.9.9
-Message-ID: <20201204122054.GV201140@mail-itl>
-References: <20201129035639.GW2532@mail-itl>
- <20201130164010.GA23494@redsun51.ssa.fujisawa.hgst.com>
- <20201202000642.GJ201140@mail-itl>
- <20201204110847.GU201140@mail-itl> <20201204120803.GA20727@lst.de>
+ id 1klCFo-0006dc-1x
+ for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 14:40:13 +0000
+Date: Fri, 4 Dec 2020 23:40:03 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607092810;
+ bh=uvtPoUqekE4ysrPkcwN2m2pvmLXmJsPsKTH0pCoQOwU=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I7lh3BQP018ZryVSybF2HF+vDP9xIgie2+3oUbLevvAPt1bI5uCSFT3O857/mw6tH
+ 2dAaMkiSlJXFlsnh7E0zL6i1ElPKE7r97FFgtt6lG/FG7sgDmFmSvksH0gtqds8JXZ
+ euyKyTB+IFz5FZVtcc5dVttsZdsYwdKPCl9uNPPLPWjGb6fLqdwH+pLhxMwvIbUEUU
+ z1BaIEGceWAPgxjSoh8MfssdXWvYRWhotdB6/h+0AkWnbw/4Qhf4XxNZ+6czkvqrIK
+ 4tpPwkUiWg/9BcaCRZXxvJjLDifRCK+bJJWSL3x6AuAEW5DzAaRTdAjKcR6ixo9jAi
+ klEnMtskQGb3w==
+From: Keith Busch <kbusch@kernel.org>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
+Subject: Re: [RFC PATCH v2 0/2] add simple copy support
+Message-ID: <20201204144003.GA8868@redsun51.ssa.fujisawa.hgst.com>
+References: <CGME20201204094719epcas5p23b3c41223897de3840f92ae3c229cda5@epcas5p2.samsung.com>
+ <20201204094659.12732-1-selvakuma.s1@samsung.com>
+ <CH2PR04MB6522F1188557C829285ED5E8E7F10@CH2PR04MB6522.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20201204120803.GA20727@lst.de>
+Content-Disposition: inline
+In-Reply-To: <CH2PR04MB6522F1188557C829285ED5E8E7F10@CH2PR04MB6522.namprd04.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201204_072107_294646_64413871 
-X-CRM114-Status: GOOD (  13.09  )
+X-CRM114-CacheID: sfid-20201204_094012_224284_918A8D24 
+X-CRM114-Status: GOOD (  21.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,81 +71,63 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, xen-devel <xen-devel@lists.xenproject.org>,
- Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-Content-Type: multipart/mixed; boundary="===============4945494027949319209=="
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "snitzer@redhat.com" <snitzer@redhat.com>,
+ "selvajove@gmail.com" <selvajove@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>,
+ "javier.gonz@samsung.com" <javier.gonz@samsung.com>, "hch@lst.de" <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, Dec 04, 2020 at 11:25:12AM +0000, Damien Le Moal wrote:
+> On 2020/12/04 20:02, SelvaKumar S wrote:
+> > This patchset tries to add support for TP4065a ("Simple Copy Command"),
+> > v2020.05.04 ("Ratified")
+> > 
+> > The Specification can be found in following link.
+> > https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs-1.zip
+> > 
+> > This is an RFC. Looking forward for any feedbacks or other alternate
+> > designs for plumbing simple copy to IO stack.
+> > 
+> > Simple copy command is a copy offloading operation and is  used to copy
+> > multiple contiguous ranges (source_ranges) of LBA's to a single destination
+> > LBA within the device reducing traffic between host and device.
+> > 
+> > This implementation accepts destination, no of sources and arrays of
+> > source ranges from application and attach it as payload to the bio and
+> > submits to the device.
+> > 
+> > Following limits are added to queue limits and are exposed in sysfs
+> > to userspace
+> > 	- *max_copy_sectors* limits the sum of all source_range length
+> > 	- *max_copy_nr_ranges* limits the number of source ranges
+> > 	- *max_copy_range_sectors* limit the maximum number of sectors
+> > 		that can constitute a single source range.
+> 
+> Same comment as before. I think this is a good start, but for this to be really
+> useful to users and kernel components alike, this really needs copy emulation
+> for drives that do not have a native copy feature, similarly to what write zeros
+> handling for instance: if the drive does not have a copy command (simple copy
+> for NVMe or XCOPY for scsi), then the block layer should issue read/write
+> commands to seamlessly execute the copy. Otherwise, this will only serve a small
+> niche for users and will not be optimal for FS and DM drivers that could be
+> simplified with a generic block layer copy functionality.
+> 
+> This is my 10 cents though, others may differ about this.
 
---===============4945494027949319209==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="0vPiNU+Cgjd3emdO"
-Content-Disposition: inline
-
-
---0vPiNU+Cgjd3emdO
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: GPF on 0xdead000000000100 in nvme_map_data - Linux 5.9.9
-
-On Fri, Dec 04, 2020 at 01:08:03PM +0100, Christoph Hellwig wrote:
-> On Fri, Dec 04, 2020 at 12:08:47PM +0100, Marek Marczykowski-G=C3=B3recki=
- wrote:
-> > culprit:=20
-> >=20
-> > commit 9e2369c06c8a181478039258a4598c1ddd2cadfa
-> > Author: Roger Pau Monne <roger.pau@citrix.com>
-> > Date:   Tue Sep 1 10:33:26 2020 +0200
-> >=20
-> >     xen: add helpers to allocate unpopulated memory
-> >    =20
-> > I'm adding relevant people and xen-devel to the thread.
-> > For completeness, here is the original crash message:
->=20
-> That commit definitively adds a new ZONE_DEVICE user, so it does look
-> related.  But you are not running on Xen, are you?
-
-I am. It is Xen dom0.
-
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-
---0vPiNU+Cgjd3emdO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAl/KKacACgkQ24/THMrX
-1yyQigf/Ummc+PwREciQfLShPK41N+ndzLA5XCtY+J8j4jCaXFLTiLe0qmJ+dbio
-TiB1PJ4wUlJ5A6OA2nE69SG+xBCSeBkO/uaMOTNdkqjTMadsTbgZwC8eNOLNqmmp
-LHN8g6+Z+nT1A1v5vpNdHb9mFb7kCSNuTlqMMbUSGspw9LDPXGhpHB/r+6AZSS4v
-DXXb+ZKK82wI01M7lLDzpBtAYNRI5EOoRNK3RC5DlBLjd0ZYzOAtckZ6TKPSm22K
-QMo1CWOuCeE6so2nH3aIcEiHI076PVSy0WqCmjskFb3zxZ5YW4VL7695mg7Vhr/E
-HU6X5ein1vG+FyxHWtI1jMNQpGk1Sg==
-=6oGg
------END PGP SIGNATURE-----
-
---0vPiNU+Cgjd3emdO--
-
-
---===============4945494027949319209==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Yes, I agree that copy emulation support should be included with the
+hardware enabled solution.
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============4945494027949319209==--
-
