@@ -2,91 +2,150 @@ Return-Path: <SRS0=dg6g=FI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57D5AC4361A
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 11:09:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B6B0C4361A
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 11:25:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C1E572253D
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 11:09:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1E572253D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=invisiblethingslab.com
+	by mail.kernel.org (Postfix) with ESMTPS id 255E022581
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 11:25:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 255E022581
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:References:Message-ID:Subject:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=gGV5wKG5TXn7DwQrynDUkBZwmrGiwJ8Wlk87T+LpZ/c=; b=ht/bjvO3R3FZnYKWK1xT7RaXd
-	RiuOlzY4eWbIsHU6ULreJTQP0JH95bimnnhNiYfmJwPRdm0wrpSFNQ598xqaUDifOVzTKRNAH/SZy
-	2CjplvKfddTOHgEC6vHNE0HS7bVYKuJl3sVNQa5uv3McS+uyDE9881FxfgQDBJDanYRvfSwiULsbM
-	TPGMv3OIW34xNTFLNfDq+LpWj4kkRPsU170t6qque2TTgibYodO9R8uoZHrSCprhZUo1MVEa2YY+u
-	5wb319Q1NOFOXpZH/3xASXz9AIMNKujIq6Ao6y6H7u5xEmKyGu2VrAkC/lin2CWr9SSoXIkssZpmY
-	/rkH6MTYg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=IUte5kJvwMS13L+CRb4UUNHPY+Nfsf76OBJtc+AVfag=; b=CrTzdzYCbndtcWy1g69oYalzr
+	e6pQNmDE5Rfh7O10uSAB/PLkz9gBD6u+RIpxgVw1M+laEcrVISayXAaA5UX8RIQPDb1FzPOHrlirv
+	dqslC+uDPhaK61alOB7MlV2yIOMehWLZVWXi8EvGRAapVQRou450b0eE+XzK7pDK7jOhi3bYjXY+Y
+	cQm0WEfParxEOVC9e1utOAUt8r8zzwDKxpY0BOwzKgtGFbbqDpiKOh74jJEhbBnTjPp4AFl3XtzeT
+	DNEbIjIupLIEzpnrzEjjfFNdFPvqO3BuKXhewZYuPjB3SX2LSmE6rRJjuQyu/ltonEPZyz0PQdf+L
+	BnC/ZGhsA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kl8xR-0002s9-UD; Fri, 04 Dec 2020 11:09:01 +0000
-Received: from out5-smtp.messagingengine.com ([66.111.4.29])
+	id 1kl9DG-00077a-5T; Fri, 04 Dec 2020 11:25:22 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kl8xP-0002r6-As
- for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 11:09:00 +0000
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id E2F855C0116;
- Fri,  4 Dec 2020 06:08:52 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 04 Dec 2020 06:08:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=pE2wbx
- tydrzwQsmeEJiqEhudgsi/298pIjDCfrCe31k=; b=RA2fCGRA+2UCP/UlmO0o6i
- 6KpC3gbmIoVy7pySCWRP9FrEZLpVXkx4S/LZLjyO9Ih2Bw1ZHZPRnxKMeExPUwwA
- bbspdFpjfSZeMQyqhRJrFFbu7yNSGj/cYv2hCnCXmSNfTIDFR/4LgW2f36Onc0BZ
- EQUD9nFpU8AJQI4QZe+uzfOBsr78rsq+RKBzMqNq1oe3RA2xbFBP4DE7u8SNoXaX
- P96MILn+Ldl8lVHWhMjetOzQ3VkNoJzDIisTpuGWCG2b3xpA1xJMzzVAyb8sSj7b
- DhmhHfry6VhTd1OWnctqxQF6orQhkpgsAhtw76jgKCN7zyMYos8T4dsnZ9Ncik3Q
- ==
-X-ME-Sender: <xms:wxjKX7aLi9mDY1DnK2m0WV8_t6q-Qu4gvHR-27MFbWQiHsRg1FEt6w>
- <xme:wxjKX6YcruexLR9PhWmOIrNDpE8P6KIbmYFkJHyDAtDHW6c3J3997WxYPKZCvH3ZV
- q6M1ZryFiwQZw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeikedgvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforghrvghk
- ucforghrtgiihihkohifshhkihdqifpkrhgvtghkihcuoehmrghrmhgrrhgvkhesihhnvh
- hishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeetveff
- iefghfekhffggeeffffhgeevieektedthfehveeiheeiiedtudegfeetffenucfkpheple
- durdeigedrudejtddrkeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
- rghilhhfrhhomhepmhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsg
- drtghomh
-X-ME-Proxy: <xmx:wxjKX9-uR2dIjUi9EXEAJGWujLIw7jFU_9x4qJt1kXkL3-CKECziuw>
- <xmx:wxjKXxo7GT0NEcLK4IaXaF_rfslDyYrNOmSHGUIH9MIfvPbuCEt1iw>
- <xmx:wxjKX2pKE_PXD3oDPpVwtWWdg015qxxEeXAz51zfB2ta1pXIxH36sQ>
- <xmx:xBjKX_kXmOM-s69NFQAlxjPr0KM0eAOevxNE4SEtslw9Rxjno9lfnA>
-Received: from mail-itl (unknown [91.64.170.89])
- by mail.messagingengine.com (Postfix) with ESMTPA id C68AC240057;
- Fri,  4 Dec 2020 06:08:50 -0500 (EST)
-Date: Fri, 4 Dec 2020 12:08:47 +0100
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
-To: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>,
- Juergen Gross <jgross@suse.com>
-Subject: Re: GPF on 0xdead000000000100 in nvme_map_data - Linux 5.9.9
-Message-ID: <20201204110847.GU201140@mail-itl>
-References: <20201129035639.GW2532@mail-itl>
- <20201130164010.GA23494@redsun51.ssa.fujisawa.hgst.com>
- <20201202000642.GJ201140@mail-itl>
+ id 1kl9DC-000774-DJ
+ for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 11:25:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1607081118; x=1638617118;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=lyweAXYJEUD3vcj9hAsIGOhjob3wm0WUZuyfC7HYKvU=;
+ b=dZey6Q/gPBhZwcn01Vy6KBlYe+8js5psIIcrnYOxBh8NXrFmlGaxVRrq
+ 1g1CtlMaIdMdZlTd82Y+CVsAqx7CbMerkXvWfIGpNJxJG08laiUVWTo3m
+ tUExamCuLjsT2KYJXZKv++cA6CUJ21sd5WM8FNTza4qe1v4cmL/oCacMe
+ ppK3QlM4DTfYL+VxR0rVnj30uGix91X5XYMShbkCFmQEHhLuJ/Q4+G8ea
+ xah4ln/AvNwK7crKsSdHECY/ZpOeaGitE357TIRNgkhsjAePNHTdXO5Xm
+ XZV4kRIHXZEu3WhxPkiOz8Pd5P3uBKsZXmsIbep5cOJkExrLE9DfUtGYl Q==;
+IronPort-SDR: 8jaZBTanwCqy4mEbB/a3zGKcpVqfVH5bx6iG7Wq8QNK38OkBXLE7PCqQH2q3cT5HdQ8wDbUBNU
+ KYm5fgTABi/muPEBYSpuEy4JdcSlcctHDNTV5gvcoj+codlgCJWN6TbODBcU7N768yUXrZY363
+ IlgCEcK+J1Okid47UdncuWv157VXUU0Qj5YSaZbEw759vwsVNGXq/DxqWCG8DGiKnjCzdrEQGy
+ olZRLhHFJ6UDPaE9X9Hv+e9qm/xCYixUZs7wbeZGghhNcUXfi5hDm/J7R1TFkyhSej136qe2NN
+ dko=
+X-IronPort-AV: E=Sophos;i="5.78,392,1599494400"; d="scan'208";a="264579782"
+Received: from mail-dm6nam12lp2171.outbound.protection.outlook.com (HELO
+ NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.171])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Dec 2020 19:25:15 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=geXXzXWeY556CY90qL5D9svChhq4fncvFICd/KIS7DSytuDN5QOrv30zEpbggbZZEtb0DpApqSmIjY3/3EP5EOjg/MbkDSr0HJVxWsQV85wtF3ltxHJFPSholvC9nKIc1a8H8Rmjl4lpWUs4N8fGvMEUEBT/LjKQIlYMrWImElDs8D7UOj5+vWXtXiikDcoeQiVy2G83SY2T10Fprj2wrq147yI0Fk4ZQr0HL8yVMB/evDCXZqZ7YUquJnGLj1ywXOUaTkOsk5q1xjtGKhYxHMoFgoLUuEBKLXMX/1VdvKSF4d8yqQre76NeoWD02VbITB9SzqUefoHQZ7T9+4LVMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FLjFZ/Sovl/XIRW8xFXzc036bfFKtqTTJbIJQJzq964=;
+ b=D3UGDfhIwIQlkWbIEwRs1Jbp711OvB0tDRkAkL5CP9AcX+m3Vp399QszTC7QtSSipVpNy0vDg+v8SFrT3tOnjKOrmUDrRTTOAPpWX+JLwt+z5pqaxKHhJlVG+jQWw/ZuYzEm2shE4DuzDJcTYXbhaVh7+795mMOKtS0fCYcY7wwct3A9si5bh1Jiz3E4l8L04LdLUMxxlsm303pVhgDuao2IH506zGNAIsYjbkSRqI+PEs1Eaf+KvlhwZqCNY2AFx+rdFsx24/5ILuj4mB32VNMhcLztw3Owc4fXA0dbNpCdVJKRsXNVrKhyIJvxhBCYHQRObPeNCO3eiqz/WyhkeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FLjFZ/Sovl/XIRW8xFXzc036bfFKtqTTJbIJQJzq964=;
+ b=B6PlkWfTRENhICR95eme4CCbfOfsLZF16d3AC94zl5OKc5xyuFt2QRO6m0B2t3ktA6ahOk+JgQ3dwXDzP98hCmlmw84nbCOE6xE7EqXYcEzL9s6QK5i44YBte9xpoyNmakMsuKtOoxBqYOGLjiu/Si+6s3biZA2mlhiwuNyiw3I=
+Received: from CH2PR04MB6522.namprd04.prod.outlook.com (2603:10b6:610:34::19)
+ by CH2PR04MB6773.namprd04.prod.outlook.com (2603:10b6:610:95::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Fri, 4 Dec
+ 2020 11:25:12 +0000
+Received: from CH2PR04MB6522.namprd04.prod.outlook.com
+ ([fe80::897c:a04b:4eb0:640a]) by CH2PR04MB6522.namprd04.prod.outlook.com
+ ([fe80::897c:a04b:4eb0:640a%7]) with mapi id 15.20.3589.022; Fri, 4 Dec 2020
+ 11:25:12 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: SelvaKumar S <selvakuma.s1@samsung.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: Re: [RFC PATCH v2 0/2] add simple copy support
+Thread-Topic: [RFC PATCH v2 0/2] add simple copy support
+Thread-Index: AQHWyiztcinYLb1afkCNvyh+SmI/oQ==
+Date: Fri, 4 Dec 2020 11:25:12 +0000
+Message-ID: <CH2PR04MB6522F1188557C829285ED5E8E7F10@CH2PR04MB6522.namprd04.prod.outlook.com>
+References: <CGME20201204094719epcas5p23b3c41223897de3840f92ae3c229cda5@epcas5p2.samsung.com>
+ <20201204094659.12732-1-selvakuma.s1@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: samsung.com; dkim=none (message not signed)
+ header.d=none;samsung.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2400:2411:43c0:6000:5458:21bf:70ee:2847]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 365128f2-0c71-4214-0ced-08d8984743f0
+x-ms-traffictypediagnostic: CH2PR04MB6773:
+x-microsoft-antispam-prvs: <CH2PR04MB67733E8C5C03A26F94B188CAE7F10@CH2PR04MB6773.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +i/280XiUrz7Lug2VI/UQ+rhTgH1eLdX9qrNyq1fcLfhCZggU92eS0kB6ASkXtijmebkc3PNPPnE+sIg0dtcCCYiq2MKn9kwKSgUH2Uee6vTMjScMWvP2lyalQjCepP5Rok4+nN1ucC3h8LqCLkwFklV0YFGgXvQRPecREAH359iJcxi35MdE8HkVS0+nkE1oFBX9T/6WJAxjsbNrU7lBPxC0JGwYw0DOVOD1nPkIQ3ImEZls2yrNBKmWKgJx0HsQvyGAWeVPrruHeP4QswAvMp8HoJ36/GR7nmM0DqMORXtIeFdBoW0rvQqTZB/nDL4g5j1henZGBdsoBCyXdkUnRnMi6UUxxp6nXqDDFo36k9y//MQSC7q9VIUXMs+PNC8kzwipMW7Rah/bnrajR440XBcb1jn2b2UXcvKICjqiA8ej6LEzzwKSvi+eRgDMoGuivJ2mout2R3onzjYtMzmpFx4XRnAF/flD+gBK0AYGks=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR04MB6522.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(346002)(376002)(39860400002)(136003)(110136005)(2906002)(8676002)(6506007)(5660300002)(53546011)(33656002)(478600001)(86362001)(66446008)(52536014)(64756008)(7696005)(71200400001)(966005)(66556008)(76116006)(66946007)(91956017)(4326008)(83380400001)(66476007)(316002)(186003)(7416002)(55016002)(8936002)(54906003)(9686003)(43620500001)(15398625002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?92oygtK7aS1igR7/5a/PDTPjAOGjsxYnwK4lz63sUia+HVGkJKDPgLjoKpTC?=
+ =?us-ascii?Q?QO4JRkvSoiGxMlQcLIK9ym0x49gBki3hOpTADA56lSDhmGByu0fc1jag5tcv?=
+ =?us-ascii?Q?BcFQd627ZxQPcIr9kMBkCk/vId217knnM4aftMJDrbnBFfAKtnMlMdFlPbyy?=
+ =?us-ascii?Q?I9DxhQ4BQCROiRnRjqlr5iNXdTKwOAybqfMgkLywEOV+WFY8RMH3XTJltRUg?=
+ =?us-ascii?Q?3hRsq96zY6uRoxQ/VxvB8+umlKVhZHOtYYvqHutwol2u0ow25XeicMUqo8sc?=
+ =?us-ascii?Q?qm1R0Jcp8a0Ved4Fb6dx7WwbyA8uUf6Pdc2eMjikLC5N1qvZQT9EeE5mvhCE?=
+ =?us-ascii?Q?XEPj6fqUDDROb8ca+eVnnMtDeCpxOme43zW+j6uKpblYcv34Z51OZAzwhP1f?=
+ =?us-ascii?Q?2Kn2YUIZ/3V6i2DZOLITA6iXIk3YOpSQVVDOqLT+hgPtH8cAYV63rsxS708w?=
+ =?us-ascii?Q?Irg/Fnq40ojNUDYMrNdO4W1m2P/tfrciCJcWEZ5VxXysfAxMO/RslBei42iv?=
+ =?us-ascii?Q?wGOX5qJSO/gJiKPZ49ID4uvlAF7j5Sfjox6G9+cbB5T9jLH9ghEpriYH2qEh?=
+ =?us-ascii?Q?yRj6mKgDuIC+soJ5zWvqJvQMT5bTg7vaO0kALYhvQmNJDsk8Y+mnYVQXOj6C?=
+ =?us-ascii?Q?qLXY1RSi8N4wqMjCT506twF0saiJ9TFhU0wUr6IDqSOJOzLjzTE3ElglPVAl?=
+ =?us-ascii?Q?HJBPcKjPfqz4iq9510Ibb8ykQxldKtInr2M+SBAq2INlZgV1rxVgZj5Pxuyp?=
+ =?us-ascii?Q?ya9S3wqQt14hIaelj1V1y+MhCbnFNzh35bcJiCUArato/kyiZmHGjXtGjMTU?=
+ =?us-ascii?Q?wYL5ivbeG5MrWL9XmqRZF5b4sm7ZF870eLlLDoPFOvCbGBo1eLWce7utEcSu?=
+ =?us-ascii?Q?3CFt/Jivk/Y2U92zc3WAPz90yYjWX2ik/OBgZKLfRkqDuDRj+ket32iqcWv9?=
+ =?us-ascii?Q?ZTh/DbJHyofohEUuJFqnDftHHVBjuKj4rh5x4X2rY166GoKJTP8l9NACA66o?=
+ =?us-ascii?Q?4BFiHPbxtxRsUqMitxUc+umreS80gSv9yZ/UGoLrcX5XPfK6S3doq3ipoAEJ?=
+ =?us-ascii?Q?8QvN5Wuk?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-In-Reply-To: <20201202000642.GJ201140@mail-itl>
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR04MB6522.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 365128f2-0c71-4214-0ced-08d8984743f0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2020 11:25:12.1655 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JyxWB2Oe3jjtYFH1Ut9EdnYdm1bmjcp5idVZeopuDqXjNy6AFjBfCcQHpLXzjjG5f4LmVEqa0MI+YVUXAQCUrA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6773
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201204_060859_479250_6EACD1E7 
-X-CRM114-Status: GOOD (  25.79  )
+X-CRM114-CacheID: sfid-20201204_062518_602667_C03E596C 
+X-CRM114-Status: GOOD (  22.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,207 +157,100 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>,
- xen-devel <xen-devel@lists.xenproject.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: multipart/mixed; boundary="===============1374404074480026752=="
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "snitzer@redhat.com" <snitzer@redhat.com>,
+ "selvajove@gmail.com" <selvajove@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "javier.gonz@samsung.com" <javier.gonz@samsung.com>, "hch@lst.de" <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 2020/12/04 20:02, SelvaKumar S wrote:
+> This patchset tries to add support for TP4065a ("Simple Copy Command"),
+> v2020.05.04 ("Ratified")
+> 
+> The Specification can be found in following link.
+> https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs-1.zip
+> 
+> This is an RFC. Looking forward for any feedbacks or other alternate
+> designs for plumbing simple copy to IO stack.
+> 
+> Simple copy command is a copy offloading operation and is  used to copy
+> multiple contiguous ranges (source_ranges) of LBA's to a single destination
+> LBA within the device reducing traffic between host and device.
+> 
+> This implementation accepts destination, no of sources and arrays of
+> source ranges from application and attach it as payload to the bio and
+> submits to the device.
+> 
+> Following limits are added to queue limits and are exposed in sysfs
+> to userspace
+> 	- *max_copy_sectors* limits the sum of all source_range length
+> 	- *max_copy_nr_ranges* limits the number of source ranges
+> 	- *max_copy_range_sectors* limit the maximum number of sectors
+> 		that can constitute a single source range.
 
---===============1374404074480026752==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lKkRBIzN5W0l28vM"
-Content-Disposition: inline
+Same comment as before. I think this is a good start, but for this to be really
+useful to users and kernel components alike, this really needs copy emulation
+for drives that do not have a native copy feature, similarly to what write zeros
+handling for instance: if the drive does not have a copy command (simple copy
+for NVMe or XCOPY for scsi), then the block layer should issue read/write
+commands to seamlessly execute the copy. Otherwise, this will only serve a small
+niche for users and will not be optimal for FS and DM drivers that could be
+simplified with a generic block layer copy functionality.
 
+This is my 10 cents though, others may differ about this.
 
---lKkRBIzN5W0l28vM
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: GPF on 0xdead000000000100 in nvme_map_data - Linux 5.9.9
-
-On Wed, Dec 02, 2020 at 01:06:46AM +0100, Marek Marczykowski-G=C3=B3recki w=
-rote:
-> On Tue, Dec 01, 2020 at 01:40:10AM +0900, Keith Busch wrote:
-> > On Sun, Nov 29, 2020 at 04:56:39AM +0100, Marek Marczykowski-G=C3=B3rec=
-ki wrote:
-> > > I can reliably hit kernel panic in nvme_map_data() which looks like t=
-he
-> > > one below. It happens on Linux 5.9.9, while 5.4.75 works fine. I have=
-n't
-> > > tried other version on this hardware. Linux is running as Xen
-> > > PV dom0, on top of nvme there is LUKS and then LVM with thin
-> > > provisioning. The crash happens reliably when starting a Xen domU (wh=
-ich
-> > > uses one of thin provisioned LVM volumes as its disk). But booting do=
-m0
-> > > works fine (even though it is using the same disk setup for its root
-> > > filesystem).
-> > >=20
-> > > I did a bit of debugging and found it's about this part:
-> > >=20
-> > > drivers/nvme/host/pci.c:
-> > >  800 static blk_status_t nvme_map_data(struct nvme_dev *dev, struct r=
-equest *req,
-> > >  801         struct nvme_command *cmnd)
-> > >  802 {
-> > >  803     struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
-> > >  804     blk_status_t ret =3D BLK_STS_RESOURCE;
-> > >  805     int nr_mapped;
-> > >  806=20
-> > >  807     if (blk_rq_nr_phys_segments(req) =3D=3D 1) {
-> > >  808         struct bio_vec bv =3D req_bvec(req);
-> > >  809=20
-> > >  810         if (!is_pci_p2pdma_page(bv.bv_page)) {
-> > >=20
-> > > Here, bv.bv_page->pgmap is LIST_POISON1, while page_zonenum(bv.bv_pag=
-e)
-> > > says ZONE_DEVICE. So, is_pci_p2pdma_page() crashes on accessing
-> > > bv.bv_page->pgmap->type.
-> >=20
-> > Something sounds off. I thought all ZONE_DEVICE pages require a pgmap
-> > because that's what holds a references to the device's live-ness. What
-> > are you allocating this memory from that makes ZONE_DEVICE true without
-> > a pgmap?
->=20
-> Well, I allocate anything myself. I just try to start the system with
-> unmodified Linux 5.9.9 and NVME drive...
-> I didn't managed to find where this page is allocated, nor where it gets
-> broken. I _suspect_ it gets allocated as ZONE_DEVICE page and then gets
-> released as ZONE_NORMAL which sets another part of the union to
-> LIST_POISON1. But I have absolutely no data to confirm/deny this theory.
-
-I've bisected this (thanks to a bit of scripting, PXE and git bisect
-run, it was long, but fairly painless) and identified this commit as the
-culprit:=20
-
-commit 9e2369c06c8a181478039258a4598c1ddd2cadfa
-Author: Roger Pau Monne <roger.pau@citrix.com>
-Date:   Tue Sep 1 10:33:26 2020 +0200
-
-    xen: add helpers to allocate unpopulated memory
-   =20
-I'm adding relevant people and xen-devel to the thread.
-For completeness, here is the original crash message:
-
-general protection fault, probably for non-canonical address 0xdead00000000=
-0100: 0000 [#1] SMP NOPTI
-CPU: 1 PID: 134 Comm: kworker/u12:2 Not tainted 5.9.9-1.qubes.x86_64 #1
-Hardware name: LENOVO 20M9CTO1WW/20M9CTO1WW, BIOS N2CET50W (1.33 ) 01/15/20=
-20
-Workqueue: dm-thin do_worker [dm_thin_pool]
-RIP: e030:nvme_map_data+0x300/0x3a0 [nvme]
-Code: b8 fe ff ff e9 a8 fe ff ff 4c 8b 56 68 8b 5e 70 8b 76 74 49 8b 02 48 =
-c1 e8 33 83 e0 07 83 f8 04 0f 85 f2 fe ff ff 49 8b 42 08 <83> b8 d0 00 00 0=
-0 04 0f 85 e1 fe ff ff e9 38 fd ff ff 8b 55 70 be
-RSP: e02b:ffffc900010e7ad8 EFLAGS: 00010246
-RAX: dead000000000100 RBX: 0000000000001000 RCX: ffff8881a58f5000
-RDX: 0000000000001000 RSI: 0000000000000000 RDI: ffff8881a679e000
-RBP: ffff8881a5ef4c80 R08: ffff8881a5ef4c80 R09: 0000000000000002
-R10: ffffea0003dfff40 R11: 0000000000000008 R12: ffff8881a679e000
-R13: ffffc900010e7b20 R14: ffff8881a70b5980 R15: ffff8881a679e000
-FS:  0000000000000000(0000) GS:ffff8881b5440000(0000) knlGS:0000000000000000
-CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000001d64408 CR3: 00000001aa2c0000 CR4: 0000000000050660
-Call Trace:
- nvme_queue_rq+0xa7/0x1a0 [nvme]
- __blk_mq_try_issue_directly+0x11d/0x1e0
- ? add_wait_queue_exclusive+0x70/0x70
- blk_mq_try_issue_directly+0x35/0xc0l[
- blk_mq_submit_bio+0x58f/0x660
- __submit_bio_noacct+0x300/0x330
- process_shared_bio+0x126/0x1b0 [dm_thin_pool]
- process_cell+0x226/0x280 [dm_thin_pool]
- process_thin_deferred_cells+0x185/0x320 [dm_thin_pool]
- process_deferred_bios+0xa4/0x2a0 [dm_thin_pool]UX
- do_worker+0xcc/0x130 [dm_thin_pool]
- process_one_work+0x1b4/0x370
- worker_thread+0x4c/0x310
- ? process_one_work+0x370/0x370
- kthread+0x11b/0x140
- ? __kthread_bind_mask+0x60/0x60<
- ret_from_fork+0x22/0x30
-Modules linked in: loop snd_seq_dummy snd_hrtimer nf_tables nfnetlink vfat =
-fat snd_sof_pci snd_sof_intel_byt snd_sof_intel_ipc snd_sof_intel_hda_commo=
-n snd_soc_hdac_hda snd_sof_xtensa_dsp snd_sof_intel_hda snd_sof snd_soc_skl
-snd_soc_sst_
-ipc snd_soc_sst_dsp snd_hda_ext_core snd_soc_acpi_intel_match snd_soc_acpi =
-snd_soc_core snd_compress ac97_bus snd_pcm_dmaengine elan_i2c snd_hda_codec=
-_hdmi mei_hdcp iTCO_wdt intel_powerclamp intel_pmc_bxt ee1004 intel_rapl_msr
-iTCO_vendor
-_support joydev pcspkr intel_wmi_thunderbolt wmi_bmof thunderbolt ucsi_acpi=
- idma64 typec_ucsi snd_hda_codec_realtek typec snd_hda_codec_generic snd_hd=
-a_intel snd_intel_dspcfg snd_hda_codec thinkpad_acpi snd_hda_core ledtrig_a=
-udio
-int3403_
-thermal snd_hwdep snd_seq snd_seq_device snd_pcm iwlwifi snd_timer processo=
-r_thermal_device mei_me cfg80211 intel_rapl_common snd e1000e mei int3400_t=
-hermal int340x_thermal_zone i2c_i801 acpi_thermal_rel soundcore intel_soc_d=
-ts_iosf
-i2c_s
-mbus rfkill intel_pch_thermal xenfs
- ip_tables dm_thin_pool dm_persistent_data dm_bio_prison dm_crypt nouveau r=
-tsx_pci_sdmmc mmc_core mxm_wmi crct10dif_pclmul ttm crc32_pclmul crc32c_int=
-el i915 ghash_clmulni_intel i2c_algo_bit serio_raw nvme drm_kms_helper cec =
-xhci_pci
-nvme
-_core rtsx_pci xhci_pci_renesas drm xhci_hcd wmi video pinctrl_cannonlake p=
-inctrl_intel xen_privcmd xen_pciback xen_blkback xen_gntalloc xen_gntdev xe=
-n_evtchn uinput
----[ end trace f8d47e4aa6724df4 ]---
-RIP: e030:nvme_map_data+0x300/0x3a0 [nvme]
-Code: b8 fe ff ff e9 a8 fe ff ff 4c 8b 56 68 8b 5e 70 8b 76 74 49 8b 02 48 =
-c1 e8 33 83 e0 07 83 f8 04 0f 85 f2 fe ff ff 49 8b 42 08 <83> b8 d0 00 00 0=
-0 04 0f 85 e1 fe ff ff e9 38 fd ff ff 8b 55 70 be
-RSP: e02b:ffffc900010e7ad8 EFLAGS: 00010246
-RAX: dead000000000100 RBX: 0000000000001000 RCX: ffff8881a58f5000
-RDX: 0000000000001000 RSI: 0000000000000000 RDI: ffff8881a679e000
-RBP: ffff8881a5ef4c80 R08: ffff8881a5ef4c80 R09: 0000000000000002
-R10: ffffea0003dfff40 R11: 0000000000000008 R12: ffff8881a679e000
-R13: ffffc900010e7b20 R14: ffff8881a70b5980 R15: ffff8881a679e000
-FS:  0000000000000000(0000) GS:ffff8881b5440000(0000) knlGS:0000000000000000
-CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000001d64408 CR3: 00000001aa2c0000 CR4: 0000000000050660
-Kernel panic - not syncing: Fatal exception
-Kernel Offset: disabled
+> 
+> Changes from v1:
+> 
+> 1. Fix memory leak in __blkdev_issue_copy
+> 2. Unmark blk_check_copy inline
+> 3. Fix line break in blk_check_copy_eod
+> 4. Remove p checks and made code more readable
+> 5. Don't use bio_set_op_attrs and remove op and set
+>    bi_opf directly
+> 6. Use struct_size to calculate total_size
+> 7. Fix partition remap of copy destination
+> 8. Remove mcl,mssrl,msrc from nvme_ns
+> 9. Initialize copy queue limits to 0 in nvme_config_copy
+> 10. Remove return in QUEUE_FLAG_COPY check
+> 11. Remove unused OCFS
+> 
+> SelvaKumar S (2):
+>   block: add simple copy support
+>   nvme: add simple copy support
+> 
+>  block/blk-core.c          |  94 ++++++++++++++++++++++++++---
+>  block/blk-lib.c           | 123 ++++++++++++++++++++++++++++++++++++++
+>  block/blk-merge.c         |   2 +
+>  block/blk-settings.c      |  11 ++++
+>  block/blk-sysfs.c         |  23 +++++++
+>  block/blk-zoned.c         |   1 +
+>  block/bounce.c            |   1 +
+>  block/ioctl.c             |  43 +++++++++++++
+>  drivers/nvme/host/core.c  |  87 +++++++++++++++++++++++++++
+>  include/linux/bio.h       |   1 +
+>  include/linux/blk_types.h |  15 +++++
+>  include/linux/blkdev.h    |  15 +++++
+>  include/linux/nvme.h      |  43 ++++++++++++-
+>  include/uapi/linux/fs.h   |  13 ++++
+>  14 files changed, 461 insertions(+), 11 deletions(-)
+> 
 
 
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-
---lKkRBIzN5W0l28vM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAl/KGMAACgkQ24/THMrX
-1yyq/wf+Oj7E49JnpUC4yd/NdOWLI89rsYqR6UvBjYlR8QUh+FtVBoPdtfKKGm+A
-Btb4LYgmHqT2oO9y86ZugGpP+MQbjIBva5MpR3TrbVsK4GZGaPKBQjkssRMnXBug
-rvdNZEGUaylOJry8DzGiYo3/5kGzXhM7HNhNuvdkbGvwKdsQLbM6NBr3kOMbzktH
-mquqn3uiLD1Inn6+8UtO2NPo0U5RSS1/h/ac/3v0/1ZXQh5ryW65e+y+WJuaKgdT
-Nt5Scuz1FziTMxCeGp3E+sW1PHkS405VFL/XBntzD2A21HiJFtyMwlJZRbzD/Sw6
-tQfHwvC25Bi6hxCe8p0N6gyUUxkRbQ==
-=tfVN
------END PGP SIGNATURE-----
-
---lKkRBIzN5W0l28vM--
-
-
---===============1374404074480026752==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+Damien Le Moal
+Western Digital Research
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============1374404074480026752==--
-
