@@ -2,64 +2,69 @@ Return-Path: <SRS0=dg6g=FI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67AB2C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 14:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C4AC4361A
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 14:41:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2CAAC22B2D
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 14:40:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2CAAC22B2D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id DBC9822571
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 14:40:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DBC9822571
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sNbXVUDtLl8x+vJTEkvysuZn+cubCHnh7mi5qFaWb84=; b=KCny9AmnVzSZKQY0mDUsRgrxZ
-	kF1A9rbUzPzP0kxQcpVjLPOxKV3rxQWv1cprs2DN3pQyFmAzi72JkJoaNk0WKzyLjcm6j6UmDaBxv
-	1+9phA1O3RWZJfkpGLP6KzpAR9HFQixMQyILdeRRdfW5Aq2POaCnW3/M3kqj8DFOw6ci+onnmjkac
-	2557kA+jqRXp/O9HQoOAkG/2pzDU+KtF162cRmWZKCvKVaxt/dVDt4y8fJnCetYTt8F+1iMagLdgp
-	nE6QqhzJMB+gHn/ORJQD0NMIyUsQMzRlv9DFW3A1Ikzc5DEWfiBI6asM3KJVTYHYtoPi1fw9cbfMC
-	+Bi2T4Rfg==;
+	 bh=+39d/Ig1AT7Hv3dB09xiyPoGnprCtQdRm7QTZ3O/VFw=; b=sZ7BinYQfe8HHXU1pYaExtIbN
+	qak+5dyH7hadh7Kdw/iywTg7Qejmw3TPOZZIiR0I2NwmVi+lVkeZVWI7IezFpw9e5QGOqV6Sj+Nv0
+	myIkoHpLknSCO5SVoHHIBaF+c1DSboOMnH+fK5N+IKyNWKOctNZN8hl0gho3ZeNelptzuiTWJyBXp
+	IuAlm+wr0PSHIlkuh6p9o5A5wl9pI8KQXgyhUFOOF4nYxnv0VcDUI2MuQ5bRvBuvTqW/3TtfwSACG
+	wLe8zVqhBoZ1Twz/g8zzobeUn7PNCk7SFFhYNb3tLDFMKj7qdR7vw1QYzQtnBtogltgrKu6YUTxlu
+	60J4IQMRw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1klCFr-0006eg-IQ; Fri, 04 Dec 2020 14:40:15 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1klCGX-0006qg-My; Fri, 04 Dec 2020 14:40:57 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1klCFo-0006dc-1x
- for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 14:40:13 +0000
-Date: Fri, 4 Dec 2020 23:40:03 +0900
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607092810;
- bh=uvtPoUqekE4ysrPkcwN2m2pvmLXmJsPsKTH0pCoQOwU=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=I7lh3BQP018ZryVSybF2HF+vDP9xIgie2+3oUbLevvAPt1bI5uCSFT3O857/mw6tH
- 2dAaMkiSlJXFlsnh7E0zL6i1ElPKE7r97FFgtt6lG/FG7sgDmFmSvksH0gtqds8JXZ
- euyKyTB+IFz5FZVtcc5dVttsZdsYwdKPCl9uNPPLPWjGb6fLqdwH+pLhxMwvIbUEUU
- z1BaIEGceWAPgxjSoh8MfssdXWvYRWhotdB6/h+0AkWnbw/4Qhf4XxNZ+6czkvqrIK
- 4tpPwkUiWg/9BcaCRZXxvJjLDifRCK+bJJWSL3x6AuAEW5DzAaRTdAjKcR6ixo9jAi
- klEnMtskQGb3w==
-From: Keith Busch <kbusch@kernel.org>
-To: Damien Le Moal <Damien.LeMoal@wdc.com>
-Subject: Re: [RFC PATCH v2 0/2] add simple copy support
-Message-ID: <20201204144003.GA8868@redsun51.ssa.fujisawa.hgst.com>
-References: <CGME20201204094719epcas5p23b3c41223897de3840f92ae3c229cda5@epcas5p2.samsung.com>
- <20201204094659.12732-1-selvakuma.s1@samsung.com>
- <CH2PR04MB6522F1188557C829285ED5E8E7F10@CH2PR04MB6522.namprd04.prod.outlook.com>
+ id 1klCGU-0006pM-Qu
+ for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 14:40:55 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D2C2AAECB;
+ Fri,  4 Dec 2020 14:40:50 +0000 (UTC)
+Subject: Re: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
+ group
+To: "George, Martin" <Martin.George@netapp.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
+References: <20201118114859.7985-1-marting@netapp.com>
+ <20201118162415.GA16753@lst.de>
+ <7fd0b51f3b7bc73abf7132aaa5ee7c493a93aef0.camel@netapp.com>
+ <20201120094432.GA25846@lst.de>
+ <20201123173611.GB2865091@dhcp-10-100-145-180.wdc.com>
+ <f2afd4dc-dd4b-d7d0-7421-11daac94b61c@grimberg.me>
+ <d50766c203d849fa97003ef9585af47f059dc42c.camel@netapp.com>
+ <20201123194337.GC2865091@dhcp-10-100-145-180.wdc.com>
+ <acad8941fcf536a5db672b46f83115b723e9b721.camel@netapp.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <1292bd00-fe1f-9838-d400-61ae3e3e1cc2@suse.de>
+Date: Fri, 4 Dec 2020 15:40:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CH2PR04MB6522F1188557C829285ED5E8E7F10@CH2PR04MB6522.namprd04.prod.outlook.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <acad8941fcf536a5db672b46f83115b723e9b721.camel@netapp.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201204_094012_224284_918A8D24 
-X-CRM114-Status: GOOD (  21.43  )
+X-CRM114-CacheID: sfid-20201204_094055_033054_D73D6431 
+X-CRM114-Status: GOOD (  22.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,63 +76,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "snitzer@redhat.com" <snitzer@redhat.com>,
- "selvajove@gmail.com" <selvajove@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>,
- "javier.gonz@samsung.com" <javier.gonz@samsung.com>, "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "anton@lightbitslabs.com" <anton@lightbitslabs.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 04, 2020 at 11:25:12AM +0000, Damien Le Moal wrote:
-> On 2020/12/04 20:02, SelvaKumar S wrote:
-> > This patchset tries to add support for TP4065a ("Simple Copy Command"),
-> > v2020.05.04 ("Ratified")
-> > 
-> > The Specification can be found in following link.
-> > https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs-1.zip
-> > 
-> > This is an RFC. Looking forward for any feedbacks or other alternate
-> > designs for plumbing simple copy to IO stack.
-> > 
-> > Simple copy command is a copy offloading operation and is  used to copy
-> > multiple contiguous ranges (source_ranges) of LBA's to a single destination
-> > LBA within the device reducing traffic between host and device.
-> > 
-> > This implementation accepts destination, no of sources and arrays of
-> > source ranges from application and attach it as payload to the bio and
-> > submits to the device.
-> > 
-> > Following limits are added to queue limits and are exposed in sysfs
-> > to userspace
-> > 	- *max_copy_sectors* limits the sum of all source_range length
-> > 	- *max_copy_nr_ranges* limits the number of source ranges
-> > 	- *max_copy_range_sectors* limit the maximum number of sectors
-> > 		that can constitute a single source range.
-> 
-> Same comment as before. I think this is a good start, but for this to be really
-> useful to users and kernel components alike, this really needs copy emulation
-> for drives that do not have a native copy feature, similarly to what write zeros
-> handling for instance: if the drive does not have a copy command (simple copy
-> for NVMe or XCOPY for scsi), then the block layer should issue read/write
-> commands to seamlessly execute the copy. Otherwise, this will only serve a small
-> niche for users and will not be optimal for FS and DM drivers that could be
-> simplified with a generic block layer copy functionality.
-> 
-> This is my 10 cents though, others may differ about this.
-
-Yes, I agree that copy emulation support should be included with the
-hardware enabled solution.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMTEvMjYvMjAgNToxNiBQTSwgR2VvcmdlLCBNYXJ0aW4gd3JvdGU6Cj4gT24gTW9uLCAyMDIw
+LTExLTIzIGF0IDExOjQzIC0wODAwLCBLZWl0aCBCdXNjaCB3cm90ZToKPj4gT24gTW9uLCBOb3Yg
+MjMsIDIwMjAgYXQgMDc6Mjk6MDVQTSArMDAwMCwgR2VvcmdlLCBNYXJ0aW4gd3JvdGU6Cj4+PiBP
+biBNb24sIDIwMjAtMTEtMjMgYXQgMTE6MTYgLTA4MDAsIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4+
+Pj4gVGhpcyBsb29rcyBsaWtlIGEgZ29vZCBzaW1wbGUgc29sdXRpb24gdG8gbWUuLi4KPj4+Pgo+
+Pj4+PiAtLS0KPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L211bHRpcGF0aC5j
+Cj4+Pj4+IGIvZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMKPj4+Pj4gaW5kZXggNzQ4OTZi
+ZTQwYzE3Li4zMDBjZmY4YzYxNmQgMTAwNjQ0Cj4+Pj4+IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0
+L211bHRpcGF0aC5jCj4+Pj4+ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L211bHRpcGF0aC5jCj4+
+Pj4+IEBAIC02NjcsNiArNjY3LDggQEAgdm9pZCBudm1lX21wYXRoX2FkZF9kaXNrKHN0cnVjdCBu
+dm1lX25zCj4+Pj4+ICpucywKPj4+Pj4gc3RydWN0IG52bWVfaWRfbnMgKmlkKQo+Pj4+PiAgICAg
+ICAgICAgICAgICBpZiAoZGVzYy5zdGF0ZSkgewo+Pj4+PiAgICAgICAgICAgICAgICAgICAgICAg
+IC8qIGZvdW5kIHRoZSBncm91cCBkZXNjOiB1cGRhdGUgKi8KPj4+Pj4gICAgICAgICAgICAgICAg
+ICAgICAgICBudm1lX3VwZGF0ZV9uc19hbmFfc3RhdGUoJmRlc2MsIG5zKTsKPj4+Pj4gKyAgICAg
+ICAgICAgICB9IGVsc2Ugewo+Pj4+PiArICAgICAgICAgICAgICAgICAgICAgbnZtZV9yZWFkX2Fu
+YV9sb2coY3RybCk7Cj4+Pgo+Pj4gU2hvdWxkbid0IHRoaXMgYmUgbnZtZV9yZWFkX2FuYV9sb2co
+bnMtPmN0cmwpPwo+Pgo+PiBPb3BzLCBJIGp1c3QgZGlkIGEgcXVpY2sgY29weS1wYXN0ZS4gWW91
+IGFyZSBjb3JyZWN0Lgo+IAo+IElmIHRoZXJlIGlzIG5vIGZ1cnRoZXIgZmVlZGJhY2ssIGNvdWxk
+IHdlIG1vdmUgYWhlYWQgd2l0aCB0aGlzIGZpeD8gT3IKPiBkb2VzIGl0IG5lZWQgdG8gYmUgc2Vu
+dCBhcyBhIHNlcGFyYXRlIHBhdGNoIGZpcnN0Pwo+IApJJ20gbm90IF90aGF0XyBoYXBweSB3aXRo
+IHRoaXMgYXBwcm9hY2gsIGFzIHdlJ3JlIGRvaW5nIEkvTyBpbiB0aGUgCm1pZGRsZSBvZiBhbiB1
+bnJlY292ZXJhYmxlIHNlY3Rpb247IGlmIHJlYWRpbmcgdGhlIEFOQSBsb2cgZmFpbHMgd2UgaGF2
+ZSAKbm8gd2F5IHRvIHJlY292ZXIsIGFuZCBlbmQgdXAgd2l0aCBhIG5hbXNwYWNlIGluIGFuIHVu
+ZGVmaW5lZCBzdGF0ZTsgCmFjdHVhbGx5IGl0IGxvb2tzIGFzIGlmIHRoZSBuYW1lc3BhY2Ugd2ls
+bCB0aGVuIGJlIHByZXNlbnRlZCB0byB0aGUgT1MKd2l0aCBubyBBTkEgaW5mb3JtYXRpb24gd2hh
+dHNvZXZlciwgYW5kIHdlIGNhbiBqdXN0IGhvcGUgdGhhdCBpdCdzIG5vdCAKcGFydCBvZiBhIG11
+bHRpcGF0aGVkIG5hbWVzcGFjZSwgb3RoZXJ3aXNlIHdlJ3JlIHNjcmV3ZWQuCgpJJ2QgcmF0aGVy
+IGhvb2sgaW4gdGhlIGFuYSBsb2cgcGFyc2luZyBpbnRvIHRoZSBBRU4gaGFuZGxpbmcgY29kZSwg
+c3VjaCAKdGhhdCB3ZSdyZSByZS1yZWFkaW5nIHRoZSBBTkEgbG9nIGZvciBldmVyeSBOUyBDSEFO
+R0VEIEFFTiBiZWZvcmUgCmNhbGxpbmcgbnZtZV9xdWV1ZV9zY2FuKCkuIFRoYXQgd2F5IHdlIGhh
+dmUgYSBjbGVhciByZWNvdmVyeSBwYXRoIGFuZCAKd29uJ3QgbmVlZCB0byB3b3JyeSBhYm91dCBk
+dXBsaWNhdGUgbmFtZXNwYWNlcy4KClBhdGNoIHRvIGZvbGxvdy4KCkNoZWVycywKCkhhbm5lcwot
+LSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNo
+aXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3
+NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0
+MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6
+IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZy
+YWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
+dXgtbnZtZQo=
