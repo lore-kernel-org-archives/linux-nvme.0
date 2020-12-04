@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE052C4361A
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 09:27:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 411BCC4361B
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 09:28:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 27EFB225AB
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 09:27:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27EFB225AB
+	by mail.kernel.org (Postfix) with ESMTPS id A26F4225AB
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Dec 2020 09:28:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A26F4225AB
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,37 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=gPMDu5pPNbrXBa2X4QBAizNBwZ1EdqNVWZ64mvQliWE=; b=E2eTWU+Ehd+PY2KiGLNGcY6xG
-	KxoN0lg9sqO3P1B9KCvdPc3sxLfMVUQVZRyOXgFeSwdokOf5Qzv9ZMRYa5Ip5YOv+sfH810+5v+Zx
-	27SzDb6VFh/uppwxVsft7l/8KaTpMSS/UqOYyFc7xQBKFogYDtH60OfMOjr+ZX3uXx3pXd57Qq/jU
-	0Y5SQNMA1cx+2OHy3awOwm3jejYOPqdvZb4uGZwob4iHh/YXVIuH0jqjS6IYWwT1e7QtnknDgeOUw
-	mkvlRDILv+RAGVkAc2YSodTBwO+W4UCpg5qigazvVU9GaWZiJfp7g8vu8wxKdc86IK5vJI5Ip2vkq
-	jpXSuns6g==;
+	 bh=Rb5I6eJxnpnfZJWgXVu9rrSIFC2vTpe3xV1ppoYtPlc=; b=i0q6nGGn4IY9Gjcw9me+7scUB
+	ouBpL9VYKMfOTLPBSZCyltCpEfkJS4tdTrrj9bEROowgN4vfnn6aQv2IRxGKNNWbH83pAz6nKguIm
+	mBXEA8sCvA8nTPiK5kqWRFIFYrlvIBcantIKVyTy8qJfxpJIc+vOq3SqHmJ0A8mwMYX/vaJ6Xd6Iu
+	f0oVrpNirtxgXZKqCoBneiYoO3++N3euMMa3lbUzK8wTthqIsCYtcrtt6FN4EzJxFYCOIjQVGlvrE
+	QUr2wkBc0NCIGPhA9EHXktWl+Ul2FcTm4Al0ogl0GJXjYNBt2IRkNy96M+T5tAS6++k5Okg7HNdnh
+	584wPaT0w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kl7NV-000621-VO; Fri, 04 Dec 2020 09:27:50 +0000
+	id 1kl7OC-00069k-UV; Fri, 04 Dec 2020 09:28:32 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kl7NT-00060J-Ej
- for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 09:27:48 +0000
+ id 1kl7OA-00068z-DV
+ for linux-nvme@lists.infradead.org; Fri, 04 Dec 2020 09:28:31 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C436E6736F; Fri,  4 Dec 2020 10:27:42 +0100 (CET)
-Date: Fri, 4 Dec 2020 10:27:42 +0100
+ id BB5C36736F; Fri,  4 Dec 2020 10:28:28 +0100 (CET)
+Date: Fri, 4 Dec 2020 10:28:28 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH V4 2/9] nvmet: add ZNS support for bdev-ns
-Message-ID: <20201204092742.GA8955@lst.de>
+Subject: Re: [PATCH V4 5/9] nvmet: add cns-cs-ctrl in id-ctrl for ZNS bdev
+Message-ID: <20201204092828.GA9208@lst.de>
 References: <20201202062227.9826-1-chaitanya.kulkarni@wdc.com>
- <20201202062227.9826-3-chaitanya.kulkarni@wdc.com>
- <20201202090715.GA2952@lst.de>
- <BYAPR04MB4965E50D3DCEFE4A0970631286F10@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <20201202062227.9826-6-chaitanya.kulkarni@wdc.com>
+ <20201202091018.GD2952@lst.de>
+ <BYAPR04MB49654267EFD18AF2A65BECB486F10@BYAPR04MB4965.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <BYAPR04MB4965E50D3DCEFE4A0970631286F10@BYAPR04MB4965.namprd04.prod.outlook.com>
+In-Reply-To: <BYAPR04MB49654267EFD18AF2A65BECB486F10@BYAPR04MB4965.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201204_042747_684645_4A5BD8A2 
-X-CRM114-Status: GOOD (  19.94  )
+X-CRM114-CacheID: sfid-20201204_042830_575012_AF5A26B2 
+X-CRM114-Status: GOOD (  17.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,38 +76,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 04, 2020 at 03:13:40AM +0000, Chaitanya Kulkarni wrote:
-> >> +	if (!bdev_is_zoned(nvmet_bdev(req)))
-> >> +		return NVME_SC_SUCCESS;
-> >> +
-> >> +	return nvmet_copy_ns_identifier(req, NVME_NIDT_CSI, NVME_NIDT_CSI_LEN,
-> >> +					&nvme_cis_zns, off);
-> >> +}
-> > This looks weird.  We can want to support the command set identifier in
-> > general, so this should go into common code, and just look up the command
-> > set identifier in the nvmet_ns structure.
+On Fri, Dec 04, 2020 at 03:20:40AM +0000, Chaitanya Kulkarni wrote:
+> On 12/2/20 01:10, Christoph Hellwig wrote:
+> > On Tue, Dec 01, 2020 at 10:22:23PM -0800, Chaitanya Kulkarni wrote:
+> >> Update the nvmet_execute_identify() such that it can now handle
+> >> NVME_ID_CNS_CS_CTRL when identify.cis is set to ZNS. This allows
+> >> host to identify the support for ZNS.
+> > The changs in this and all following patches really belong into the current
+> > patch 2.
+> >
 > 
-> ZNS is the only user for this, so I've added to the zns code. I'll move to
+> This and each following patch doing one specific thing for which host
 > 
-> admin-cmd.
+> side component is responsible, with one patch for backend handlers and
+> 
+> wiring up of the same on for admin-cmd.c and io-cmd-bdev.c seems
+> 
+> we are packing too much into one, unlike what we have has a nice
+> 
+> bottom-up flow for the implementation, why not we keep that nice flow ?
 
-CSI is a generic feature, ZNS is just the first thing that requires it.
-
-> > This will change the limit when a new namespaces is added.  I think we need
-> > to just pick the value of the first namespaces and refuse adding a new
-> > one if the limit is lower to not completely break hosts.
-> 
-> But that will force users to add ns with highest zasl first no matter what.
-> 
-> Isn't there should be a way to update the host with async event
-> 
-> so that host can refresh the ctrl->zasl when ns addition async notification
-> 
-> is generated ?
-
-I'd rather not go too dynamic and change capabilities down dynamically.
-I think that will cause all kinds of fun problems with I/Os already
-queue up in the block layer while the limit changes.
+Patches should do one thing at time.  With this series patch 2
+is very incomplete, which makes both review and later reading the
+commit history very hard.
 
 _______________________________________________
 Linux-nvme mailing list
