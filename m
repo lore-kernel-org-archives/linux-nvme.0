@@ -2,80 +2,61 @@ Return-Path: <SRS0=D68J=FL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA32EC4361B
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 14:57:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 613C3C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 15:25:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6221423601
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 14:57:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6221423601
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id DA1CF2371F
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 15:25:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA1CF2371F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=p0/5NcJwaECZjY+SQkLMzt+BUMK8Jwcf8Dj3s9ukeUU=; b=0wuS3Kl1oGUCBLUAfGBY3q+fj
-	3zq4Y+1edeagAWQBgacuukamfMdgCWzt+FbnIf3vo5m5WoiCuM+e5XYDnhU5BZS6XSZXwL4bqEN4o
-	JgpdbaVHBjac6TtliGw3EB4PAxltTCG6nnGhymenpPJr2F/lWNdoQWPX+dltDq4KAOGcdTq5Vb3qX
-	3YZ8vTStuK7XkVYLa5G6Tf0JSiQgEauvWIMEyrcyjpgQ/9fPHSAxZeo0CSG7+IXokUmqN/6K/8Vyy
-	DjYOGcA2NtAjXhySei4YxBE4sJkHedGGbJmFklvql4DubF9oFh7EB+k8ohvWnUCb8nCOm9B90TDup
-	89wyksssw==;
+	 bh=oIXVOfmcKlvbj7XKaZ70QjMQbBHokeDFc/dLjdwIMfw=; b=eBHO5v8DuF+i/qKJeHm4NhoHp
+	tvrFcdGSdxiWMdS/cKa4jg2d63GO7J4q1t96XZoqKUV+QqzfbIKawmApUXLNcfXKsPLmtg4uiSTau
+	FvZZKkN+eQ2G/+eUz0UpSGyjIl+11Ykj7HTtbZYstKHigr2Bi7QLvyPshx5RUXzfmjS/ctnHV1c+u
+	kRytG/ZLVVYQxnt0QXvF4Uog9rs8RD9LlA18N3n7pUlU8WtQAHyKJ6Uky65YV+ej0IyCxv1jqfdJ6
+	u6l1aJB/kxAAUvNJs8vdNJVNtFlxjxRk1MCASmMO88d9r294Bba/Ey05xVhBcg621mbWslgX0EDVP
+	sG+RNWQwQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmHxG-0005TN-HN; Mon, 07 Dec 2020 14:57:34 +0000
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142])
+	id 1kmIOS-0007qr-69; Mon, 07 Dec 2020 15:25:40 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmHxD-0005Sc-Tv
- for linux-nvme@lists.infradead.org; Mon, 07 Dec 2020 14:57:32 +0000
-Received: by mail-il1-x142.google.com with SMTP id x15so12444007ilq.1
- for <linux-nvme@lists.infradead.org>; Mon, 07 Dec 2020 06:57:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BdzMWmghWMnmqJzPNphPqafzWOiOvEaXvaPDnRpTyig=;
- b=XAbT0sIGBd/lF/JpvMHWnpZhkY6ndEKj+4VNfzBQa+YwFTpXwWhd82chdPi99aEdtR
- TJfRyYD7rqsjkjYOtmVR9fkbdH3SXZii52oM+mc7xsE2GI5CyRu3lDB5DFVOX0Af3saH
- 0cjWRLbl/3VTVuxnR1/sgozX4ifKxZUAfq4kodrdjf3JSrfLySW6hU2/h036dSXZpwaB
- 18HvdbtEJo5jUs6y+1SKBCyHRXkiQO7CjoMU6QSHtFzOZBSKYKdTczI+DuJa6vgfQbH2
- Brt5cucKMyHJWrLnvsxu8EpYRjASHs0KY0TzYcT1fT3m7V1bjRnp79R2unvmGEr9iWbw
- gVRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BdzMWmghWMnmqJzPNphPqafzWOiOvEaXvaPDnRpTyig=;
- b=bq37/dzoYw5g2osBgvMWIOumY9ZfnJdRArpTGKUCnOGF6yYK4jAlI6L/wiZFR4PC2z
- hCk1l3hxp87OIGNoGDTbV/JKI+Y5zznjW5+dehdHzyKir/uE1flLOxTW8w/hbvgXlB6Q
- rEmcdVwxB38s4tu4GfEFVVrWYoJ1VPA2lK/odCm9CNhQPAM0zmFULf4fGZiLDbvmPnri
- e84YWafcPPZpR0GHlNjaQzPTXMGujXF1tlMqJUGoU3RMZ5qSuNIt6QqGkIxlydW4Bpyl
- 9dxFBUDzMIgLhFcunDEdrt2DtPDa2sUQ6AB+TCZ7Brb/ncQ7HWMtLpoeR2HwQmsGQehw
- 9RLA==
-X-Gm-Message-State: AOAM533Uk1eZs76MzfTLs8Y7xrPLUzjHRjWv8ej4qzZ5t+E9Zc7MwHvB
- 13WX3e6oPeedsgy1EHn6B2E9JslI3oPUYt0Jvkw=
-X-Google-Smtp-Source: ABdhPJzWgUFyUwn4oRQGFwhc7sjEZmk8MIUigwiYjc70guXN2OnSLrKLaIK50f+C57huiWudj+gdKgGdrTXAcHcP4D8=
-X-Received: by 2002:a92:4c3:: with SMTP id 186mr21869621ile.177.1607353048343; 
- Mon, 07 Dec 2020 06:57:28 -0800 (PST)
+ id 1kmIOO-0007pc-QT
+ for linux-nvme@lists.infradead.org; Mon, 07 Dec 2020 15:25:38 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 6408667373; Mon,  7 Dec 2020 16:25:32 +0100 (CET)
+Date: Mon, 7 Dec 2020 16:25:32 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: "Knight, Frederick" <Frederick.Knight@netapp.com>
+Subject: Re: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
+ group
+Message-ID: <20201207152532.GA4527@lst.de>
+References: <20201118114859.7985-1-marting@netapp.com>
+ <20201118162415.GA16753@lst.de>
+ <7fd0b51f3b7bc73abf7132aaa5ee7c493a93aef0.camel@netapp.com>
+ <20201120094432.GA25846@lst.de>
+ <185CE0F5-617A-4446-A5C6-86A832D5A188@netapp.com>
+ <DM5PR0601MB362496D2C29A18B3B1B77A61F1FC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
 MIME-Version: 1.0
-References: <20201207131918.2252553-1-hch@lst.de>
- <20201207131918.2252553-6-hch@lst.de>
-In-Reply-To: <20201207131918.2252553-6-hch@lst.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Mon, 7 Dec 2020 15:57:21 +0100
-Message-ID: <CAOi1vP9q7iGLmDryWJ0Duk2uQODr5W=5RCt2GAAxKk+N_k9OOg@mail.gmail.com>
-Subject: Re: [PATCH 5/6] rbd: remove the ->set_read_only method
-To: Christoph Hellwig <hch@lst.de>
+Content-Disposition: inline
+In-Reply-To: <DM5PR0601MB362496D2C29A18B3B1B77A61F1FC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201207_095732_022063_CCA09EF3 
-X-CRM114-Status: GOOD (  19.91  )
+X-CRM114-CacheID: sfid-20201207_102536_984757_56B039E8 
+X-CRM114-Status: GOOD (  15.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,77 +68,59 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- Mike Snitzer <snitzer@redhat.com>, Oleksii Kurochko <olkuroch@cisco.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>,
- linux-block <linux-block@vger.kernel.org>, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Ceph Development <ceph-devel@vger.kernel.org>, Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "George, Martin" <Martin.George@netapp.com>,
+ Hannes Reinecke <hare@suse.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>, "Meneghini,
+ John" <John.Meneghini@netapp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 7, 2020 at 2:21 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Now that the hardware read-only state can't be changed by the BLKROSET
-> ioctl, the code in this method is not required anymore.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> ---
->  drivers/block/rbd.c | 19 -------------------
->  1 file changed, 19 deletions(-)
->
-> diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
-> index 2ed79b09439a82..2c64ca15ca079f 100644
-> --- a/drivers/block/rbd.c
-> +++ b/drivers/block/rbd.c
-> @@ -692,29 +692,10 @@ static void rbd_release(struct gendisk *disk, fmode_t mode)
->         put_device(&rbd_dev->dev);
->  }
->
-> -static int rbd_set_read_only(struct block_device *bdev, bool ro)
-> -{
-> -       struct rbd_device *rbd_dev = bdev->bd_disk->private_data;
-> -
-> -       /*
-> -        * Both images mapped read-only and snapshots can't be marked
-> -        * read-write.
-> -        */
-> -       if (!ro) {
-> -               if (rbd_is_ro(rbd_dev))
-> -                       return -EROFS;
-> -
-> -               rbd_assert(!rbd_is_snap(rbd_dev));
-> -       }
-> -
-> -       return 0;
-> -}
-> -
->  static const struct block_device_operations rbd_bd_ops = {
->         .owner                  = THIS_MODULE,
->         .open                   = rbd_open,
->         .release                = rbd_release,
-> -       .set_read_only          = rbd_set_read_only,
->  };
->
->  /*
-> --
-> 2.29.2
->
-
-If nothing can mess with read-only state after set_disk_ro(disk, true),
-looks good.
-
-Acked-by: Ilya Dryomov <idryomov@gmail.com>
-
-Thanks,
-
-                Ilya
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+R2V0dGluZyBiYWNrIHRvIHRoaXMgd2hpbGUgSSdtIHJldmlld2luZyB0aGUgbGF0ZXN0IGNvbXBl
+dGluZyBwYXRjaGVzLgoKT24gTW9uLCBOb3YgMjMsIDIwMjAgYXQgMDM6Mjc6MzVQTSArMDAwMCwg
+S25pZ2h0LCBGcmVkZXJpY2sgd3JvdGU6Cj4gSGVyZSBpcyB3aGF0IEkgd291bGQgZXhwZWN0IHRv
+Ogo+IEEpIGNyZWF0ZSBhIG5hbWVzcGFjZSBpbiBleGlzdGluZyBBTkEgZ3JvdXA6Cj4gCTEpIE5T
+IEF0dHJpYnV0ZSBDaGFuZ2VkIEFFTiAoYmVjYXVzZSB0aGUgTlMgTGlzdCByZXR1cm5lZCBoYXMg
+Y2hhbmdlZCkKPiAJMikgSG9zdCBnZXRzIHRoZSBsaXN0IC0gZGlzY292ZXJzIHRoZSBORVcgTlMK
+PiAJCUluY2x1ZGluZzogRGV0ZXJtaW5lIHdoaWNoIEFOQUdSUElEIHRoYXQgTlMgYmVsb25ncyB0
+byAoZm9yIHdoaWNoIHRoZSBob3N0IGFscmVhZHkga25vd3MgdGhlIHN0YXRlKS4KClllcy4KCj4g
+Cj4gQikgY3JlYXRlIGEgbmFtZXNwYWNlIGluIGEgTkVXIEFOQSBncm91cAo+IAkxKSBOUyBBdHRy
+aWJ1dGUgQ2hhbmdlZCBBRU4gKGJlY2F1c2UgdGhlIE5TIExpc3QgcmV0dXJuZWQgaGFzIGNoYW5n
+ZWQpCj4gCTIpIEhvc3QgZ2V0cyB0aGUgbGlzdCAtIGRpc2NvdmVycyB0aGUgbmV3IE5TCj4gCQlJ
+bmNsdWRpbmc6IERldGVybWluZSB0aGVyZSBpcyBhIEJSQU5EIE5FVyBBTkFHUlBJRCB0aGF0IHRo
+ZSBob3N0IGtub3dzIE5PVEhJTkcgYWJvdXQuCj4gCQlTaW5jZSB0aGUgaG9zdCBrbm93cyBOT1RI
+SU5HIGFib3V0IHRoYXQgQU5BR1JQSUQsIGl0IHNlZW1zIHRoZSBob3N0IHNob3VsZCBnbyBsb29r
+LgoKSSBzdHJvbmdseSBkaXNhZ3JlZS4KCj4gSXQgc2VlbXMgdGhhdCB0aGUgZXhpc3RpbmcgdGV4
+dCBzYXlzIHRoZXJlIGlzIE5PIEFOQSBBRU4gZm9yIGEgIm5ldyIgbmFtZXNwYWNlLiAgSm9obiBx
+dW90ZWQgdGhlIHRleHQ6Cj4gCj4gQSBjb250cm9sbGVyIHNoYWxsIG5vdCBzZW5kIHRoaXMgZXZl
+bnQgaWY6Cj4gYSkJdGhlIGNoYW5nZSBpcyBkdWUgdG8gdGhlIGNyZWF0aW9uIG9mIGEgbmFtZXNw
+YWNlIChyZWZlciB0byBzZWN0aW9uIDUuMjApOyBvcgo+IGIpCXRoZSBjaGFuZ2UgaXMgZHVlIHRv
+IHRoZSBkZWxldGlvbiBvZiBhIG5hbWVzcGFjZSAocmVmZXIgdG8gc2VjdGlvbiA1LjIwKSwKPiBh
+cyB0aGUgTmFtZXNwYWNlIEF0dHJpYnV0ZSBDaGFuZ2VkIGV2ZW50IGlzIHNlbnQgZm9yIHRoZXNl
+IGNoYW5nZXMuCgpFeGFjdGx5ISAgQnV0IG9ubHkgaWYgdGhlIGNoYW5nZSBpcyBkdWUgdGhlIGNy
+ZWF0aW9uIG9yIGRlbGV0aW9uIG9mCmEgbmFtZXNwYWNlcy4gIE5vdGUgdGhlIGNyZWF0aW9uIG9m
+IGJvdGggYSBuYW1lc3BhY2UgYW5kIGEgQU5BIGdyb3VwIGF0CnRoZSBzYW1lIHRpbWUuICBJbiBm
+YWN0IEkgZG9uJ3Qgc2VlIGFueXRoaW5nIGluIE5WTWUgd2hpY2ggd291bGQgYWxsb3cKZm9yIHRo
+aXMgY29tcG91bmQgb3BlcmF0aW9ucy4gIFlvdSBhbHdheXMgbmVlZCB0byBjcmVhdGUgYW4gQU5B
+IGdyb3VwCmZpcnN0LCBhbmQgY2FuIHRoZW4gY3JlYXRlIGEgbmFtZXNwYWNlIHVzaW5nIGl0LCBh
+bmQgeW91IG5lZWQgdG8gc2VuZCB0aGUKQXN5bW1ldHJpYyBOYW1lc3BhY2UgQWNjZXNzIENoYW5n
+ZSBBRU4gdGhhdCBhIG5ldyBBTkEgZ3JvdXAgaGFzIGJlZW4KY3JlYXRlZCwgYW5kIHRoZW4gYSBO
+YW1lc3BhY2UgQXR0cmlidXRlIENoYW5nZWQgb25lLgoKCj4gQ2hyaXN0b3BoIGNsYWltcyB0aGF0
+IHRoZSBBTkEgQUVOIHNob3VsZCBiZSBzZW5kIGJlZm9yZSB0aGUgTlMgQXR0cmlidXRlIENoYW5n
+ZWQgQUVOLiAgQW5kLCB0aGF0IGNvdWxkIGJlIHRydWUgZm9yIGFuIEFOQUdSUElEIHRoYXQgY2hh
+bmdlZCAoYWx0aG91Z2gsIEkgZG9uJ3Qgc2VlIHRleHQgZGVzY3JpYmluZyBhbnkgcHJlY2VkZW5j
+ZSBvciBvcmRlciByZXF1aXJlbWVudHMgZm9yIGRlbGl2ZXJ5IG9mIEFFTnMpLCBidXQgdGhlIE5T
+IGNyZWF0aW9uIGNhc2UgaXMgZXhwbGljaXRseSBleGNsdWRlZC4gIEZXSVcg4oCTIENocmlzdG9w
+aCB3YXMgb25lIG9mIHRoZSBwZW9wbGUgdGhhdCByZXF1ZXN0ZWQgdGhpcyBleGNsdXNpb24gdG8g
+cHJldmVudCBzcGFtaW5nIHRoZSBob3N0IHdpdGggbXVsdGlwbGUgQUVOcyBmb3IgdGhlIHNhbWUg
+ZXZlbnQgKGEgTlMgY3JlYXRlKS4KClllcywgYW5kIHRoZSBleGNsdXNpb24gYXMgaXQgZXhpc3Rz
+IGluIHRoZSBzcGVjIG1ha2VzIHBlcmZlY3Qgc2Vuc2UgLQp0aGUgaG9zdCBkb2VzIG5vdCBuZWVk
+IHR3byBBRU4gdG8gbm90aWZ5IHRoYXQgYSBuYW1lc3BhY2UgaGFzIGJlZW4gY3JlYXRlZAphbmQg
+YXMgcGFydCBvZiB0aGUgY3JlYXRpb24gd2FzIGFkZGVkIHRvIGFuIEFFTiBncm91cC4gIEJ1dCB0
+aGUgaG9zdCBkb2VzCm5lZWQgYW4gQUVOIHdoZW4gYSBuZXcgZ3JvdXAgaGFzIGJlZW4gY3JlYXRl
+ZCwgcGVyaW9kLiAgVGhlcmUgYWxzbyBpcyBubwpsYW5ndWFnZSB0aGF0IGFsbG93cyBza2lwcGlu
+ZyB0aGF0LgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+TGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0
+dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
