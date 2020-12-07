@@ -2,81 +2,58 @@ Return-Path: <SRS0=D68J=FL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75AD2C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 20:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D213C4361B
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 21:07:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E20042368A
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 20:30:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E20042368A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9E0192388C
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 21:07:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9E0192388C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=HGI7A+8LJOXXSg3a8J4KZcjqTU7N1nT0Zas33gNlNio=; b=P4p
-	84V+TmO17ump4typG9x71igTD2rHi8QfB3QTqiIGswkRyHN40vjmvLxQbsPaKoFWP7bIT6KOvWsEY
-	JKyQhUCkYhV6VRPI72gnJxLcOnKKAP9QAF6rWhpDkJK1Pz55ex84ebCCiiepvcKVFbw2psh0HCg1x
-	WD6juB59TVG3EwmDTs+IBS3rFsREHFWM70mz7NPvSQjiyx7oZ3PhreSvj7CCDYztYLocXsubK+iWl
-	PGtH79n/S36jjm5kNKgqCA0L7QWIdvrHRzOJ4rzK7QLhW7Omtc7ISDxnDWlSqBsHXt94rmDP4LC+O
-	vErsRDu2F7s2rXvBMfhm4CBjaSfuJMQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wKQO68rIS4ch3b81e84qtuYIBsZC5oRcqBMCnK/tWnE=; b=lCn0x88mLg8Ic4Frjf5mVXg6Jr
+	xUyZxbzZDsxPoX5x3w8Azb6Lvq4yQQ8fvYhOEBcntZkj03Uq2/ou208Fo6Y0lOsoTX4D3uGbovx6m
+	7DAuu+0HxxaNmyqWUdhY8TrJik6qVpv6R99D4ECIOQwpL6HbO9p0IDgu1YP/BFyMo0D2lQaojRult
+	2gT3/oAyc6rAu91/lvbtzBu3qOctcklhTIkR8MPTP1DAvl1YzMa4cXa4HxEuY3CtTMBsh4/kWNtp9
+	9Iahq4v+e7PEZefaY/3AZqypIUNYHf0BiVFfXzbwgI8ahiWbeyiHi73dnWbtLueb5OHCuQOwK9KM+
+	UMH67BlQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmN96-0006PO-Gy; Mon, 07 Dec 2020 20:30:08 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmN90-0006MP-0d
- for linux-nvme@lists.infradead.org; Mon, 07 Dec 2020 20:30:04 +0000
-Received: by mail-pg1-x542.google.com with SMTP id m9so9977364pgb.4
- for <linux-nvme@lists.infradead.org>; Mon, 07 Dec 2020 12:30:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=Y7M2Ci+3lb1U8NzlzgeHqlOEQyielomeDnQdWHzDwJw=;
- b=MhKor5B6rWftaD7OgZWqwqMWubOVdF1zT5KZgLFOLk7WFX+xPY9NBqEW732nqY1heR
- q23XI6LIpyFthqGaQdFt4MQvRXPc2LQnffx55Qc9JNF4Kx4jK4zK9RTZdpdTmhBt8s05
- VSK6bqmS5aspjH8cpi2RSDSTgsObQxxBkx81o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version;
- bh=Y7M2Ci+3lb1U8NzlzgeHqlOEQyielomeDnQdWHzDwJw=;
- b=IG34HssOoypXtHcP3ZOhkxtdtqM5YygvqAW2cWXLly/3mWChlD0dqjJBzjyEUKqrmF
- EmTzWqKatEsSoJ74tUeZpZRY/B0Aj6/ZD/EzuNAvMWhqRROvDkwCBgX+nWe76nfg4yKc
- 2SDn0r/rDcKoOUSjt+aQ07GWHKv9mEJMC8ijTC4k7Bp3T4tccy0lI/KB3wU7dXwD2UoF
- HLr7G2zAUedBjjZioBIZn0O/H8UJMTj5rOrMgjTv02k2tiKZJQWWILybhN7DIvfFV0MP
- T2EyplkDt2BfwWAxifmYcJfd4I77j6qAqT84DG0/PRHE8b77cKN17SczHR8usaCk9r5F
- zpmQ==
-X-Gm-Message-State: AOAM532p1nHeZLvl6AECPNVitFpO+7aE4AzjKQRtx/411HXPVcTym5x+
- AG6G1QHeZLKUvWSPKyKV+KlWABV9BMR4OrE50sG6LUtt/PxUGu89UE/IxN4Men9cN8Oimu/fsyG
- /31NATY4W/7KfI/y2iIDgr8pRCS/R6x3cMyC362fw6wA3sT9DUXo6CwAwYaEJCTbtFTFDeWIIm/
- fv1EPL9fAm
-X-Google-Smtp-Source: ABdhPJzALPAwMrzIA+jQpGXsWfPsDAEKMfLLF1H5GDgtLso+yp9j/zmgqedDvMzrtzyKufc0on8ghw==
-X-Received: by 2002:a17:902:ba8b:b029:d7:e6da:cd21 with SMTP id
- k11-20020a170902ba8bb02900d7e6dacd21mr18303311pls.38.1607372997780; 
- Mon, 07 Dec 2020 12:29:57 -0800 (PST)
-Received: from localhost.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id l70sm11992106pgd.79.2020.12.07.12.29.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 12:29:57 -0800 (PST)
-From: James Smart <james.smart@broadcom.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-fcloop: Fix sscanf type and list_first_entry_or_null
- warnings
-Date: Mon,  7 Dec 2020 12:29:40 -0800
-Message-Id: <20201207202940.2904-1-james.smart@broadcom.com>
-X-Mailer: git-send-email 2.26.2
+	id 1kmNio-0000yR-ST; Mon, 07 Dec 2020 21:07:02 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kmNij-0000u6-5g
+ for linux-nvme@lists.infradead.org; Mon, 07 Dec 2020 21:06:59 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ borisp@mellanox.com) with SMTP; 7 Dec 2020 23:06:52 +0200
+Received: from gen-l-vrt-133.mtl.labs.mlnx. (gen-l-vrt-133.mtl.labs.mlnx
+ [10.237.11.160])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 0B7L6qI8029788;
+ Mon, 7 Dec 2020 23:06:52 +0200
+From: Boris Pismenny <borisp@mellanox.com>
+To: kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
+ sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org,
+ viro@zeniv.linux.org.uk, edumazet@google.com
+Subject: [PATCH v1 net-next 00/15] nvme-tcp receive offloads
+Date: Mon,  7 Dec 2020 23:06:34 +0200
+Message-Id: <20201207210649.19194-1-borisp@mellanox.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201207_153002_308261_9B3A085A 
-X-CRM114-Status: GOOD (  16.16  )
+X-CRM114-CacheID: sfid-20201207_160657_563183_BBB02A5E 
+X-CRM114-Status: GOOD (  23.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,182 +65,228 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <james.smart@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============3805597228869037593=="
+Cc: yorayz@nvidia.com, boris.pismenny@gmail.com, benishay@nvidia.com,
+ linux-nvme@lists.infradead.org, netdev@vger.kernel.org, ogerlitz@nvidia.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============3805597228869037593==
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000950c5f05b5e5b06f"
+This series adds support for nvme-tcp receive offloads
+which do not mandate the offload of the network stack to the device.
+Instead, these work together with TCP to offload:
+1. copy from SKB to the block layer buffers
+2. CRC verification for received PDU
 
---000000000000950c5f05b5e5b06f
-Content-Type: text/plain; charset="US-ASCII"
+The series implements these as a generic offload infrastructure for storage
+protocols, which we call TCP Direct Data Placement (TCP_DDP) and TCP DDP CRC,
+respectively. We use this infrastructure to implement NVMe-TCP offload for copy
+and CRC. Future implementations can reuse the same infrastructure for other
+protcols such as iSCSI.
 
-Kernel robot had the following warnings:
+Note:
+These offloads are similar in nature to the packet-based NIC TLS offloads,
+which are already upstream (see net/tls/tls_device.c).
+You can read more about TLS offload here:
+https://www.kernel.org/doc/html/latest/networking/tls-offload.html
 
->> fcloop.c:1506:6: warning: %x in format string (no. 1) requires
->> 'unsigned int *' but the argument type is 'signed int *'.
->> [invalidScanfArgType_int]
->>    if (sscanf(buf, "%x:%d:%d", &opcode, &starting, &amount) != 3)
->>        ^
+Initialization and teardown:
+=========================================
+The offload for IO queues is initialized after the handshake of the
+NVMe-TCP protocol is finished by calling `nvme_tcp_offload_socket`
+with the tcp socket of the nvme_tcp_queue:
+This operation sets all relevant hardware contexts in
+hardware. If it fails, then the IO queue proceeds as usually with no offload.
+If it succeeds then `nvme_tcp_setup_ddp` and `nvme_tcp_teardown_ddp` may be
+called to perform copy offload, and crc offload will be used.
+This initialization does not change the normal operation of nvme-tcp in any
+way besides adding the option to call the above mentioned NDO operations.
 
-Resolve by changing opcode from and int to an unsigned int
+For the admin queue, nvme-tcp does not initialize the offload.
+Instead, nvme-tcp calls the driver to configure limits for the controller,
+such as max_hw_sectors and max_segments; these must be limited to accomodate
+potential HW resource limits, and to improve performance.
 
-and
->>  fcloop.c:1632:32: warning: Uninitialized variable: lport [uninitvar]
->>     ret = __wait_localport_unreg(lport);
->>                                  ^
+If some error occured, and the IO queue must be closed or reconnected, then
+offload is teardown and initialized again. Additionally, we handle netdev
+down events via the existing error recovery flow.
 
->>  fcloop.c:1615:28: warning: Uninitialized variable: nport [uninitvar]
->>     ret = __remoteport_unreg(nport, rport);
->>                              ^
+Copy offload works as follows:
+=========================================
+The nvme-tcp layer calls the NIC drive to map block layer buffers to ccid using
+`nvme_tcp_setup_ddp` before sending the read request. When the repsonse is
+received, then the NIC HW will write the PDU payload directly into the
+designated buffer, and build an SKB such that it points into the destination
+buffer; this SKB represents the entire packet received on the wire, but it
+points to the block layer buffers. Once nvme-tcp attempts to copy data from
+this SKB to the block layer buffer it can skip the copy by checking in the
+copying function (memcpy_to_page):
+if (src == dst) -> skip copy
+Finally, when the PDU has been processed to completion, the nvme-tcp layer
+releases the NIC HW context be calling `nvme_tcp_teardown_ddp` which
+asynchronously unmaps the buffers from NIC HW.
 
-These aren't actual issues as the values are assigned prior to use.
-It appears the tool doesn't understand list_first_entry_or_null().
-Regardless, quiet the tool by initializing the pointers to NULL at
-declaration.
+As the last change is to a sensative function, we are careful to place it under
+static_key which is only enabled when this functionality is actually used for
+nvme-tcp copy offload.
 
-Signed-off-by: James Smart <james.smart@broadcom.com>
----
- drivers/nvme/target/fcloop.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Asynchronous completion:
+=========================================
+The NIC must release its mapping between command IDs and the target buffers.
+This mapping is released when NVMe-TCP calls the NIC
+driver (`nvme_tcp_offload_socket`).
+As completing IOs is performance criticial, we introduce asynchronous
+completions for NVMe-TCP, i.e. NVMe-TCP calls the NIC, which will later
+call NVMe-TCP to complete the IO (`nvme_tcp_ddp_teardown_done`).
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 733d9363900e..68213f0a052b 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -1501,7 +1501,8 @@ static ssize_t
- fcloop_set_cmd_drop(struct device *dev, struct device_attribute *attr,
- 		const char *buf, size_t count)
- {
--	int opcode, starting, amount;
-+	unsigned int opcode;
-+	int starting, amount;
- 
- 	if (sscanf(buf, "%x:%d:%d", &opcode, &starting, &amount) != 3)
- 		return -EBADRQC;
-@@ -1588,8 +1589,8 @@ static int __init fcloop_init(void)
- 
- static void __exit fcloop_exit(void)
- {
--	struct fcloop_lport *lport;
--	struct fcloop_nport *nport;
-+	struct fcloop_lport *lport = NULL;
-+	struct fcloop_nport *nport = NULL;
- 	struct fcloop_tport *tport;
- 	struct fcloop_rport *rport;
- 	unsigned long flags;
+An alternative approach is to move all the functions related to coping from
+SKBs to the block layer buffers inside the nvme-tcp code - about 200 LOC.
+
+CRC offload works as follows:
+=========================================
+After offload is initialized, we use the SKB's ddp_crc bit to indicate that:
+"there was no problem with the verification of all CRC fields in this packet's
+payload". The bit is set to zero if there was an error, or if HW skipped
+offload for some reason. If *any* SKB in a PDU has (ddp_crc != 1), then software
+must compute the CRC, and check it. We perform this check, and
+accompanying software fallback at the end of the processing of a received PDU.
+
+SKB changes:
+=========================================
+The CRC offload requires an additional bit in the SKB, which is useful for
+preventing the coalescing of SKB with different crc offload values. This bit
+is similar in concept to the "decrypted" bit. 
+
+Performance:
+=========================================
+The expected performance gain from this offload varies with the block size.
+We perform a CPU cycles breakdown of the copy/CRC operations in nvme-tcp
+fio random read workloads:
+For 4K blocks we see up to 11% improvement for a 100% read fio workload,
+while for 128K blocks we see upto 52%. If we run nvme-tcp, and skip these
+operations, then we observe a gain of about 1.1x and 2x respectively.
+
+Resynchronization:
+=========================================
+The resynchronization flow is performed to reset the hardware tracking of
+NVMe-TCP PDUs within the TCP stream. The flow consists of a request from
+the driver, regarding a possible location of a PDU header. Followed by
+a response from the nvme-tcp driver.
+
+This flow is rare, and it should happen only after packet loss or
+reordering events that involve nvme-tcp PDU headers.
+
+The patches are organized as follows:
+=========================================
+Patch 1         the iov_iter change to skip copy if (src == dst)
+Patches 2-3     the infrastructure for all TCP DDP
+                and TCP DDP CRC offloads, respectively.
+Patch 4         exposes the get_netdev_for_sock function from TLS
+Patch 5         NVMe-TCP changes to call NIC driver on queue init/teardown
+Patches 6       NVMe-TCP changes to call NIC driver on IO operation
+                setup/teardown, and support async completions.
+Patches 7       NVMe-TCP changes to support CRC offload on receive.
+                Also, this patch moves CRC calculation to the end of PDU
+                in case offload requires software fallback.
+Patches 8       NVMe-TCP handling of netdev events: stop the offload if
+                netdev is going down
+Patches 9-15    implement support for NVMe-TCP copy and CRC offload in
+                the mlx5 NIC driver as the first user
+
+Testing:
+=========================================
+This series was tested using fio with various configurations of IO sizes,
+depths, MTUs, and with both the SPDK and kernel NVMe-TCP targets.
+
+Future work:
+=========================================
+A follow-up series will introduce support for transmit side CRC. Then,
+we will work on adding support for TLS in NVMe-TCP and combining the
+two offloads.
+
+Changes since RFC v1:
+=========================================
+* Split mlx5 driver patches to several commits
+* Fix nvme-tcp handling of recovery flows. In particular, move queue offlaod
+  init/teardown to the start/stop functions.
+
+Ben Ben-ishay (5):
+  net/mlx5: Header file changes for nvme-tcp offload
+  net/mlx5: Add 128B CQE for NVMEoTCP offload
+  net/mlx5e: NVMEoTCP DDP offload control path
+  net/mlx5e: NVMEoTCP, data-path for DDP offload
+  net/mlx5e: NVMEoTCP statistics
+
+Boris Pismenny (7):
+  iov_iter: Skip copy in memcpy_to_page if src==dst
+  net: Introduce direct data placement tcp offload
+  net: Introduce crc offload for tcp ddp ulp
+  net/tls: expose get_netdev_for_sock
+  nvme-tcp: Add DDP offload control path
+  nvme-tcp: Add DDP data-path
+  net/mlx5e: TCP flow steering for nvme-tcp
+
+Or Gerlitz (1):
+  nvme-tcp: Deal with netdevice DOWN events
+
+Yoray Zack (2):
+  nvme-tcp : Recalculate crc in the end of the capsule
+  net/mlx5e: NVMEoTCP workaround CRC after resync
+
+ .../net/ethernet/mellanox/mlx5/core/Kconfig   |   11 +
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |    2 +
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |   31 +-
+ .../net/ethernet/mellanox/mlx5/core/en/fs.h   |    4 +-
+ .../ethernet/mellanox/mlx5/core/en/params.h   |    1 +
+ .../net/ethernet/mellanox/mlx5/core/en/txrx.h |   13 +
+ .../ethernet/mellanox/mlx5/core/en/xsk/rx.c   |    1 +
+ .../ethernet/mellanox/mlx5/core/en/xsk/rx.h   |    1 +
+ .../mellanox/mlx5/core/en_accel/en_accel.h    |    9 +-
+ .../mellanox/mlx5/core/en_accel/fs_tcp.c      |   10 +
+ .../mellanox/mlx5/core/en_accel/fs_tcp.h      |    2 +-
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.c    | 1002 +++++++++++++++++
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.h    |  119 ++
+ .../mlx5/core/en_accel/nvmeotcp_rxtx.c        |  270 +++++
+ .../mlx5/core/en_accel/nvmeotcp_rxtx.h        |   26 +
+ .../mlx5/core/en_accel/nvmeotcp_utils.h       |   80 ++
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |   39 +-
+ .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   72 +-
+ .../ethernet/mellanox/mlx5/core/en_stats.c    |   37 +
+ .../ethernet/mellanox/mlx5/core/en_stats.h    |   24 +
+ .../net/ethernet/mellanox/mlx5/core/en_txrx.c |   16 +
+ drivers/net/ethernet/mellanox/mlx5/core/fw.c  |    6 +
+ drivers/nvme/host/tcp.c                       |  443 +++++++-
+ include/linux/mlx5/device.h                   |   43 +-
+ include/linux/mlx5/mlx5_ifc.h                 |  104 +-
+ include/linux/mlx5/qp.h                       |    1 +
+ include/linux/netdev_features.h               |    4 +
+ include/linux/netdevice.h                     |    5 +
+ include/linux/skbuff.h                        |    5 +
+ include/linux/uio.h                           |    2 +
+ include/net/inet_connection_sock.h            |    4 +
+ include/net/sock.h                            |   17 +
+ include/net/tcp_ddp.h                         |  129 +++
+ lib/iov_iter.c                                |   11 +-
+ net/Kconfig                                   |   17 +
+ net/core/skbuff.c                             |    9 +-
+ net/ethtool/common.c                          |    2 +
+ net/ipv4/tcp_input.c                          |    7 +
+ net/ipv4/tcp_ipv4.c                           |    3 +
+ net/ipv4/tcp_offload.c                        |    3 +
+ net/tls/tls_device.c                          |   20 +-
+ 41 files changed, 2551 insertions(+), 54 deletions(-)
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.h
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
+ create mode 100644 include/net/tcp_ddp.h
+
 -- 
-2.26.2
+2.24.1
 
-
--- 
-This electronic communication and the information and any files transmitted 
-with it, or attached to it, are confidential and are intended solely for 
-the use of the individual or entity to whom it is addressed and may contain 
-information that is confidential, legally privileged, protected by privacy 
-laws, or otherwise restricted from disclosure to anyone else. If you are 
-not the intended recipient or the person responsible for delivering the 
-e-mail to the intended recipient, you are hereby notified that any use, 
-copying, distributing, dissemination, forwarding, printing, or copying of 
-this e-mail is strictly prohibited. If you received this e-mail in error, 
-please return the e-mail to the sender, delete it from your computer, and 
-destroy any printed copy of it.
-
---000000000000950c5f05b5e5b06f
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-AanDaJF6fE9TEzbfn5AWgVgHkbqS3VY3Gq05xkLhRugDQ60IGwT29K1B+wGfcujKSaalhQIDAQAB
-o4IBzzCCAcswDgYDVR0PAQH/BAQDAgWgMIGeBggrBgEFBQcBAQSBkTCBjjBNBggrBgEFBQcwAoZB
-aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NwZXJzb25hbHNpZ24yc2hhMmcz
-b2NzcC5jcnQwPQYIKwYBBQUHMAGGMWh0dHA6Ly9vY3NwMi5nbG9iYWxzaWduLmNvbS9nc3BlcnNv
-bmFsc2lnbjJzaGEyZzMwTQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwRAYDVR0fBD0w
-OzA5oDegNYYzaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc3BlcnNvbmFsc2lnbjJzaGEyZzMu
-Y3JsMCMGA1UdEQQcMBqBGGphbWVzLnNtYXJ0QGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEF
-BQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJnXsLYTAdBgNVHQ4EFgQUUXCHNA1n5KXj
-CXL1nHkJ8oKX5wYwDQYJKoZIhvcNAQELBQADggEBAGQDKmIdULu06w+bE15XZJOwlarihiP2PHos
-/4bNU3NRgy/tCQbTpJJr3L7LU9ldcPam9qQsErGZKmb5ypUjVdmS5n5M7KN42mnfLs/p7+lOOY5q
-ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
-2JU2wwirL0Sy5S1DREQmTMAuHL+M9Qwbl+uh/AprkVqaSYuvUzWFwBVgafOl2XgGdn8r6ubxSZhX
-9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
-ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
-MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgculSTNSkUKX5kXlC
-WiQov7eHRhbvOZBQu49rnXBA/WkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjAxMjA3MjAyOTU4WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
-ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAHaFSaDy66+/Yp49Mwa5lFVlFz8+C5eVoiZQ
-7kyfr7VThXjX3mIREzApxGSuuoyU0+MBXeA+d7D5fAB8kQmqlXoFCxYpfOgEjGcU++z4FQcvb685
-z9wWK+fC2m7iTMnpJN6xVwc4xEIC0zEx1UvSK+Aqb5DuYOzxuvEmAYh0k4JW8rKYE5W27BDcj5Pn
-cnvJldfNLh1ZrgfQ436ps2qdCTcS0LtipzdPrr1+51Ocwvdj+X02fcTzDlbQTK9aTTJwuJz6ssRB
-TUXhOd0lp/EXDqg1jzBat5lLldpU959fd/oAhc6zyUrlsHtLPG97QFpV2ShOHLTrDMapGa6l8C+J
-Res=
---000000000000950c5f05b5e5b06f--
-
-
---===============3805597228869037593==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============3805597228869037593==--
-
