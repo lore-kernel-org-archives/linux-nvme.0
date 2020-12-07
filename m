@@ -2,60 +2,80 @@ Return-Path: <SRS0=D68J=FL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4600C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 14:56:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA32EC4361B
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 14:57:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6C28A23601
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 14:56:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C28A23601
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 6221423601
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Dec 2020 14:57:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6221423601
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SXaPCBby3wpn4RbbLBeQHs0UgzAIt7eDx1DP6OCF0E4=; b=rERb9ccR0KKWpiCIYIN1SVclS
-	5UzNLU9wC/Ebzvrs9T5Q5G3nG/9jLQGdHaGN0blHBqN8aoyCnrPX8WpC5vLmKHs/nK46pNz6vx9cT
-	XjjEf9qLSHslfDs4NlyEm67bTQQLsfHlTpp8bDrmYNqEtSGSGaB8C537V3cgR0MMI9HL/0TvOnV5Z
-	ubHrRmXfPwm6Y/1Pvak+xtkt1v29HI84IY/Ow4Q2RyAarwDZ6KFfoh+v/86DtxU1rd6V0wpv9fhqK
-	bfm+vweY7h79CZC6T20x8RgwIDFeU4oHy6iPl7m8Ya452vbGam5yNu0U1OSGXA39mA6dV3NicVIQV
-	jZK5WNRLQ==;
+	 bh=p0/5NcJwaECZjY+SQkLMzt+BUMK8Jwcf8Dj3s9ukeUU=; b=0wuS3Kl1oGUCBLUAfGBY3q+fj
+	3zq4Y+1edeagAWQBgacuukamfMdgCWzt+FbnIf3vo5m5WoiCuM+e5XYDnhU5BZS6XSZXwL4bqEN4o
+	JgpdbaVHBjac6TtliGw3EB4PAxltTCG6nnGhymenpPJr2F/lWNdoQWPX+dltDq4KAOGcdTq5Vb3qX
+	3YZ8vTStuK7XkVYLa5G6Tf0JSiQgEauvWIMEyrcyjpgQ/9fPHSAxZeo0CSG7+IXokUmqN/6K/8Vyy
+	DjYOGcA2NtAjXhySei4YxBE4sJkHedGGbJmFklvql4DubF9oFh7EB+k8ohvWnUCb8nCOm9B90TDup
+	89wyksssw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmHw5-0005MN-Eb; Mon, 07 Dec 2020 14:56:21 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1kmHxG-0005TN-HN; Mon, 07 Dec 2020 14:57:34 +0000
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmHw3-0005Lz-Tt
- for linux-nvme@lists.infradead.org; Mon, 07 Dec 2020 14:56:20 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7663EAB63;
- Mon,  7 Dec 2020 14:56:17 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 0/2] add simple copy support
-To: Christoph Hellwig <hch@lst.de>, SelvaKumar S <selvakuma.s1@samsung.com>
-References: <CGME20201204094719epcas5p23b3c41223897de3840f92ae3c229cda5@epcas5p2.samsung.com>
- <20201204094659.12732-1-selvakuma.s1@samsung.com>
- <20201207141123.GC31159@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <01fe46ac-16a5-d4db-f23d-07a03d3935f3@suse.de>
-Date: Mon, 7 Dec 2020 15:56:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ id 1kmHxD-0005Sc-Tv
+ for linux-nvme@lists.infradead.org; Mon, 07 Dec 2020 14:57:32 +0000
+Received: by mail-il1-x142.google.com with SMTP id x15so12444007ilq.1
+ for <linux-nvme@lists.infradead.org>; Mon, 07 Dec 2020 06:57:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BdzMWmghWMnmqJzPNphPqafzWOiOvEaXvaPDnRpTyig=;
+ b=XAbT0sIGBd/lF/JpvMHWnpZhkY6ndEKj+4VNfzBQa+YwFTpXwWhd82chdPi99aEdtR
+ TJfRyYD7rqsjkjYOtmVR9fkbdH3SXZii52oM+mc7xsE2GI5CyRu3lDB5DFVOX0Af3saH
+ 0cjWRLbl/3VTVuxnR1/sgozX4ifKxZUAfq4kodrdjf3JSrfLySW6hU2/h036dSXZpwaB
+ 18HvdbtEJo5jUs6y+1SKBCyHRXkiQO7CjoMU6QSHtFzOZBSKYKdTczI+DuJa6vgfQbH2
+ Brt5cucKMyHJWrLnvsxu8EpYRjASHs0KY0TzYcT1fT3m7V1bjRnp79R2unvmGEr9iWbw
+ gVRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BdzMWmghWMnmqJzPNphPqafzWOiOvEaXvaPDnRpTyig=;
+ b=bq37/dzoYw5g2osBgvMWIOumY9ZfnJdRArpTGKUCnOGF6yYK4jAlI6L/wiZFR4PC2z
+ hCk1l3hxp87OIGNoGDTbV/JKI+Y5zznjW5+dehdHzyKir/uE1flLOxTW8w/hbvgXlB6Q
+ rEmcdVwxB38s4tu4GfEFVVrWYoJ1VPA2lK/odCm9CNhQPAM0zmFULf4fGZiLDbvmPnri
+ e84YWafcPPZpR0GHlNjaQzPTXMGujXF1tlMqJUGoU3RMZ5qSuNIt6QqGkIxlydW4Bpyl
+ 9dxFBUDzMIgLhFcunDEdrt2DtPDa2sUQ6AB+TCZ7Brb/ncQ7HWMtLpoeR2HwQmsGQehw
+ 9RLA==
+X-Gm-Message-State: AOAM533Uk1eZs76MzfTLs8Y7xrPLUzjHRjWv8ej4qzZ5t+E9Zc7MwHvB
+ 13WX3e6oPeedsgy1EHn6B2E9JslI3oPUYt0Jvkw=
+X-Google-Smtp-Source: ABdhPJzWgUFyUwn4oRQGFwhc7sjEZmk8MIUigwiYjc70guXN2OnSLrKLaIK50f+C57huiWudj+gdKgGdrTXAcHcP4D8=
+X-Received: by 2002:a92:4c3:: with SMTP id 186mr21869621ile.177.1607353048343; 
+ Mon, 07 Dec 2020 06:57:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201207141123.GC31159@lst.de>
-Content-Language: en-US
+References: <20201207131918.2252553-1-hch@lst.de>
+ <20201207131918.2252553-6-hch@lst.de>
+In-Reply-To: <20201207131918.2252553-6-hch@lst.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Mon, 7 Dec 2020 15:57:21 +0100
+Message-ID: <CAOi1vP9q7iGLmDryWJ0Duk2uQODr5W=5RCt2GAAxKk+N_k9OOg@mail.gmail.com>
+Subject: Re: [PATCH 5/6] rbd: remove the ->set_read_only method
+To: Christoph Hellwig <hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201207_095620_084755_32D7EC8E 
-X-CRM114-Status: GOOD (  22.76  )
+X-CRM114-CacheID: sfid-20201207_095732_022063_CCA09EF3 
+X-CRM114-Status: GOOD (  19.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +87,77 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, damien.lemoal@wdc.com, sagi@grimberg.me,
- snitzer@redhat.com, selvajove@gmail.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- dm-devel@redhat.com, Mikulas Patocka <mpatocka@redhat.com>,
- joshi.k@samsung.com, "Martin K. Petersen" <martin.petersen@oracle.com>,
- kbusch@kernel.org, javier.gonz@samsung.com, linux-scsi@vger.kernel.org,
- nj.shetty@samsung.com, Bart Van Assche <bvanassche@acm.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ Mike Snitzer <snitzer@redhat.com>, Oleksii Kurochko <olkuroch@cisco.com>,
+ Dongsheng Yang <dongsheng.yang@easystack.cn>,
+ linux-block <linux-block@vger.kernel.org>, dm-devel@redhat.com,
+ linux-nvme@lists.infradead.org,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Ceph Development <ceph-devel@vger.kernel.org>, Hannes Reinecke <hare@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTIvNy8yMCAzOjExIFBNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBTbywgSSdtIHJl
-YWxseSB3b3JyaWVkIGFib3V0Ogo+IAo+ICAgYSkgYSBnb29kIHVzZSBjYXNlLiAgR0MgaW4gZjJm
-cyBvciBidHJmcyBzZWVtIGxpa2UgZ29vZCB1c2UgY2FzZXMsIGFzCj4gICAgICBkb2VzIGFjY2Vs
-YXRpbmcgZG0ta2NvcHlkLiAgSSBhZ3JlZSB3aXRoIERhbWllbiB0aGF0IGxpZnRpbmcgZG0ta2Nv
-cHlkCj4gICAgICB0byBjb21tb24gY29kZSB3b3VsZCBhbHNvIGJlIHJlYWxseSBuaWNlLiAgSSdt
-IG5vdCAxMDAlIHN1cmUgaXQgc2hvdWxkCj4gICAgICBiZSBhIHJlcXVpcmVtZW50LCBidXQgaXQg
-c3VyZSB3b3VsZCBiZSBuaWNlIHRvIGhhdmUKPiAgICAgIEkgZG9uJ3QgdGhpbmsganVzdCBhZGRp
-bmcgYW4gaW9jdGwgaXMgZW5vdWdoIG9mIGEgdXNlIGNhc2UgZm9yIGNvbXBsZXgKPiAgICAgIGtl
-cm5lbCBpbmZyYXN0cnVjdHVyZS4KPiAgIGIpIFdlIGhhZCBhIGJ1bmNoIG9mIGRpZmZlcmVudCBh
-dHRlbXB0cyBhdCBTQ1NJIFhDT1BZIHN1cHBvcnQgZm9ybSBJSVJDCj4gICAgICBNYXJ0aW4sIEJh
-cnQgYW5kIE1pa3VsYXMuICBJIHRoaW5rIHdlIG5lZWQgdG8gcHVsbCB0aGVtIGludG8gdGhpcwo+
-ICAgICAgZGlzY3Vzc2lvbiwgYW5kIG1ha2Ugc3VyZSB3aGF0ZXZlciB3ZSBkbyBjb3ZlcnMgdGhl
-IFNDU0kgbmVlZHMuCj4gCkFuZCB3ZSBzaG91bGRuJ3QgZm9yZ2V0IHRoYXQgdGhlIG1haW4gaXNz
-dWUgd2hpY2gga2lsbGVkIGFsbCBwcmV2aW91cyAKaW1wbGVtZW50YXRpb25zIHdhcyBhIG1pc3Np
-bmcgUW9TIGd1YXJhbnRlZS4KSXQncyBuaWNlIHRvIGhhdmUgc2ltcGx5IGNvcHksIGJ1dCBpZiB0
-aGUgaW1wbGVtZW50YXRpb24gaXMgX3Nsb3dlcl8gCnRoYW4gZG9pbmcgaXQgYnkgaGFuZCBmcm9t
-IHRoZSBPUyB0aGVyZSBpcyB2ZXJ5IGxpdHRsZSBwb2ludCBpbiBldmVuIAphdHRlbXB0aW5nIHRv
-IGRvIHNvLgpJIGNhbid0IHNlZSBhbnkgcHJvdmlzaW9ucyBmb3IgdGhhdCBpbiB0aGUgVFBBUiwg
-bGVhZGluZyBtZSB0byB0aGUgCmFzc3VtcHRpb24gdGhhdCBOVk1lIHNpbXBsZSBjb3B5IHdpbGwg
-c3VmZmVyIGZyb20gdGhlIHNhbWUgaXNzdWUuCgpTbyBpZiB3ZSBjYW4ndCBhZGRyZXNzIHRoaXMg
-SSBndWVzcyB0aGlzIGF0dGVtcHQgd2lsbCBmYWlsLCB0b28uCgpDaGVlcnMsCgpIYW5uZXMKLS0g
-CkRyLiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0
-ZWN0CmhhcmVAc3VzZS5kZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICs0OSA5MTEgNzQw
-NTMgNjg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5
-IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xocmVyOiBG
-ZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LW52bWUK
+On Mon, Dec 7, 2020 at 2:21 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Now that the hardware read-only state can't be changed by the BLKROSET
+> ioctl, the code in this method is not required anymore.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> ---
+>  drivers/block/rbd.c | 19 -------------------
+>  1 file changed, 19 deletions(-)
+>
+> diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+> index 2ed79b09439a82..2c64ca15ca079f 100644
+> --- a/drivers/block/rbd.c
+> +++ b/drivers/block/rbd.c
+> @@ -692,29 +692,10 @@ static void rbd_release(struct gendisk *disk, fmode_t mode)
+>         put_device(&rbd_dev->dev);
+>  }
+>
+> -static int rbd_set_read_only(struct block_device *bdev, bool ro)
+> -{
+> -       struct rbd_device *rbd_dev = bdev->bd_disk->private_data;
+> -
+> -       /*
+> -        * Both images mapped read-only and snapshots can't be marked
+> -        * read-write.
+> -        */
+> -       if (!ro) {
+> -               if (rbd_is_ro(rbd_dev))
+> -                       return -EROFS;
+> -
+> -               rbd_assert(!rbd_is_snap(rbd_dev));
+> -       }
+> -
+> -       return 0;
+> -}
+> -
+>  static const struct block_device_operations rbd_bd_ops = {
+>         .owner                  = THIS_MODULE,
+>         .open                   = rbd_open,
+>         .release                = rbd_release,
+> -       .set_read_only          = rbd_set_read_only,
+>  };
+>
+>  /*
+> --
+> 2.29.2
+>
+
+If nothing can mess with read-only state after set_disk_ro(disk, true),
+looks good.
+
+Acked-by: Ilya Dryomov <idryomov@gmail.com>
+
+Thanks,
+
+                Ilya
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
