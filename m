@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D510CC4167B
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 00:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29564C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 00:42:28 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9FACC238EB
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 00:40:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FACC238EB
+	by mail.kernel.org (Postfix) with ESMTPS id 9AC15238EB
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 00:42:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AC15238EB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,70 +23,70 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=PK7GZjH43ROc38ourzA+Xr9O2i8EEuC1v5rXYTg8HCE=; b=FJI3g3upMLgjTcV2cyOEnnnJY
-	6AEnIWXMw1SFoZ+ea3QcW+giFtV6JZSU+RZaUvFnE+SSevHuVPunYK94oBKZU4ip5BpWr/JWNCHiL
-	EYLHJac8hfyY6ns8zUhWh7T/ih/f4WudJiM6ojRh1Y4xkaa5supJzpgph7ra1fkyhd+597R+hX5wU
-	KKQ15xlWS2bqpJoEC3U9ESRBPLhJqnvhC8RWf7ADBK0YkXrwIicclhswf/hRO1gdkW3xfSV26exRm
-	eWXGJ+t65xYL59Xd3IyHEtQz+zdl4LxtRzbvB5Fg+j/InVJbJwkHBhavuHUqJhhIds7N0i4vwJjlL
-	BgWrbgpmQ==;
+	 bh=rJFahMtGuDzKHzwVZqhBfxxUJI6zysQr00QbdMo7oag=; b=Gpu630nOLcq2A5Oh2m+Mzmr41
+	HUC5vDLw/wYPfJRG8Qq9X7HFIeSiTerQHvWXDBeHfbmRqk8wnoZUUzpH6eh1D99GeBD+84xlSSqUk
+	3QwNt6CwiO032tp7hottOgglc12h8TH89eYdLQfYudlXawB+9uDLsEZnZd7xvgAZmDSEDj4A7gu6u
+	Q9CCXWqKyjtcGhTb99ugK7EL0o9MiEsbFL+eHwtkfV5hZHCrbOzUtzDMp+T42UqyYA+fDTJX0umMr
+	QggLggIMnzo0HCg4kArM25O/pZSKCRi7NMBN+0aJJam51axtArgY92i7zzLQI8iB79NN6Nts3xQ1O
+	7PAwQPhsQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmR2p-0007h6-C9; Tue, 08 Dec 2020 00:39:55 +0000
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344])
+	id 1kmR5E-0007ub-6d; Tue, 08 Dec 2020 00:42:24 +0000
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmR2m-0007gS-Q1
- for linux-nvme@lists.infradead.org; Tue, 08 Dec 2020 00:39:53 +0000
-Received: by mail-ot1-x344.google.com with SMTP id x13so6859003oto.8
- for <linux-nvme@lists.infradead.org>; Mon, 07 Dec 2020 16:39:47 -0800 (PST)
+ id 1kmR5B-0007u4-Tj
+ for linux-nvme@lists.infradead.org; Tue, 08 Dec 2020 00:42:22 +0000
+Received: by mail-ot1-x342.google.com with SMTP id w3so13747165otp.13
+ for <linux-nvme@lists.infradead.org>; Mon, 07 Dec 2020 16:42:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=U4k5wKBczYHBTO62E0uZ8Zf8NuwGQyb1owA7NqdovSM=;
- b=GkeXKtPADgX0hh+zlMBORIWKeNxE98QJlU+epcTcdDSvMp8N5U0U4Cr9+8vs6kWv6C
- hx6YdtDArg2EEAbiAXqQWqNOX6HpAPfKNp/6X9TXpzK9c6Gweb5FRH58lCmJm5GvMrty
- 9TcgLtEVDDS0r/czCCSX6nBlVEKRRB4XMlXeBDbKrjQh/Ttryf9uDk76EvxB1l6oHLur
- 1bP9/SEQ2/H5cKCTwbBsgrJjrO+QrqgydjeqN4V7dna3/zKX+FHDJ/jCMbxSZ8smPLp+
- UXHRy1nwc6SotPmQp6YzZpnyfa99UTfXrVR1idsRXYIfcxlbWBVLQo296UiFbb55vNJM
- zQCQ==
+ bh=ZYYj64iOJHuX/xMvVRv3ZXW74hgbsDQts9uFztE8vxU=;
+ b=mhJOpXUGZhTUU7AcHlTdW98b1GB3AGcLBXUf2HD/TrqkWJIp60mvwZ0lghNWMFlgnv
+ IIxmvJNVr1PUa9mDs5gdnNVNLytg6KngttDEYraSbZpNTmInnQHde4nPHkEslEUOqYdh
+ TSPfVtOvD38FBEF7bTjBW0AL/6Sj9z2ZUaseeZW3Cs73ZoR4leHciuVFwl42/UHHgERb
+ RTzCuQuIaP2mFaG937ZnYINaNLnLIm7m6Qv5NrkcOLCTHPX4PWvZS5aOFw7Q0egYb/tt
+ exXtY5oLB5UTH93Hdx2NmzwlA2xvZNx8DL6eAGZdqc/NG7vGoyQRMJbF6qHVg5dOjgrQ
+ HGQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=U4k5wKBczYHBTO62E0uZ8Zf8NuwGQyb1owA7NqdovSM=;
- b=pyEqLPJxA5jD84AWnxxsdWvYCyXRPhHfEC3uGavo7XOXSQT7EgM9OfddRfzeSrP0l0
- bLJoiaq9fHmgHpKlUB0/yXU8y1XDrtx9igLU97ccrs9Nyc6+jzRSvWy51WJypyKoL6IA
- QxDCFpgA7BGSir+OkjNWJ3HDu5DC2kOYR4wiE2uBx/1lVtbBEd5L2c9ziWd+nL3RfuKf
- 88x+nZzhKQaJHhZElTPTTMkyGOXnEosPfk+f0KiYwC0kOevTYyN2mDW+GvdLEs7Or4BZ
- tvew611DEZAyeW34AZI+FRSzV37LaYqqOYnCC9CR4iAwxFUtzr0UPHIqcHiflfkldhVX
- 5taA==
-X-Gm-Message-State: AOAM531c1MQRA8xBYst23cdy7TgyVMr93I3neur5J+jd/rK4ZOjClYX/
- M1ks4X1jMhxV9kPEmRRyLtY=
-X-Google-Smtp-Source: ABdhPJydlze5vCp7cmil/C34PNuT1u22opM6OmcgbCllRmtWcs3UCtZCUA570dmUxT0GQ5l8XVst/g==
-X-Received: by 2002:a9d:2de9:: with SMTP id g96mr2368302otb.209.1607387985833; 
- Mon, 07 Dec 2020 16:39:45 -0800 (PST)
+ bh=ZYYj64iOJHuX/xMvVRv3ZXW74hgbsDQts9uFztE8vxU=;
+ b=Ww7XCCJbU6jZgZPCLjuF9fo7bx8nS8z/LF4ncWgkFn6Tj+p++AOCqczvqU77KIMDs3
+ TK/C2f31bnb6+/Bwod3k4oXAnNZF2evY010N+izuV+V+mVHf9mf7EXKlqvox/1jVNJae
+ lmxIqoyqYuTnLR+UH1o5RAJYGRWsKmDvx8JUdHS+dXA0ukzLIp9yvU4Kn274C5VdzFfw
+ S/nx2309I6/qvPIq2w7aucpJVdYHG4KB3zmWRct239GwJ91Ev28GkoLJJDwcuOKqSSRc
+ eUwTTx7cKNDmIR3hfyfzgmukQaJe5iZ87nwF/QFf289X/sf7WcOj5wM7P5beJdmEQKGP
+ dZgw==
+X-Gm-Message-State: AOAM531otkvmqUfs8jbwx1NYtmkh6KEKM5P8GBUZdRzm9EyERsCFlz+I
+ qMnMDOPYAUNeYCzYL9tctU4=
+X-Google-Smtp-Source: ABdhPJwm4OctedO/dz22kdPnSZtfmeyJoO5kTh1gOZgT6QX6t7RmShIuEaZGVqnk9lW7wj9QuI6beA==
+X-Received: by 2002:a9d:261:: with SMTP id 88mr14686997otb.202.1607388139095; 
+ Mon, 07 Dec 2020 16:42:19 -0800 (PST)
 Received: from Davids-MacBook-Pro.local ([8.48.134.51])
- by smtp.googlemail.com with ESMTPSA id i25sm292033oto.56.2020.12.07.16.39.43
+ by smtp.googlemail.com with ESMTPSA id l12sm3148666ooe.27.2020.12.07.16.42.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Dec 2020 16:39:45 -0800 (PST)
-Subject: Re: [PATCH v1 net-next 01/15] iov_iter: Skip copy in memcpy_to_page
- if src==dst
+ Mon, 07 Dec 2020 16:42:18 -0800 (PST)
+Subject: Re: [PATCH v1 net-next 02/15] net: Introduce direct data placement
+ tcp offload
 To: Boris Pismenny <borisp@mellanox.com>, kuba@kernel.org,
  davem@davemloft.net, saeedm@nvidia.com, hch@lst.de, sagi@grimberg.me,
  axboe@fb.com, kbusch@kernel.org, viro@zeniv.linux.org.uk, edumazet@google.com
 References: <20201207210649.19194-1-borisp@mellanox.com>
- <20201207210649.19194-2-borisp@mellanox.com>
+ <20201207210649.19194-3-borisp@mellanox.com>
 From: David Ahern <dsahern@gmail.com>
-Message-ID: <f399b37d-872b-c832-be43-c7930b487a16@gmail.com>
-Date: Mon, 7 Dec 2020 17:39:40 -0700
+Message-ID: <6f48fa5d-465c-5c38-ea45-704e86ba808b@gmail.com>
+Date: Mon, 7 Dec 2020 17:42:14 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
  Gecko/20100101 Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20201207210649.19194-2-borisp@mellanox.com>
+In-Reply-To: <20201207210649.19194-3-borisp@mellanox.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201207_193952_909494_16EA70DA 
-X-CRM114-Status: GOOD (  15.77  )
+X-CRM114-CacheID: sfid-20201207_194221_992831_F010C21A 
+X-CRM114-Status: GOOD (  20.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,20 +108,38 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 12/7/20 2:06 PM, Boris Pismenny wrote:
-> When using direct data placement the NIC writes some of the payload
-> directly to the destination buffer, and constructs the SKB such that it
-> points to this data. As a result, the skb_copy datagram_iter call will
-> attempt to copy data when it is not necessary.
+> This commit introduces direct data placement offload for TCP.
+> This capability is accompanied by new net_device operations that
+> configure
+> hardware contexts. There is a context per socket, and a context per DDP
+> opreation. Additionally, a resynchronization routine is used to assist
+> hardware handle TCP OOO, and continue the offload.
+> Furthermore, we let the offloading driver advertise what is the max hw
+> sectors/segments.
 > 
-> This patch adds a check to avoid this copy, and a static_key to enabled
-> it when TCP direct data placement is possible.
+> Using this interface, the NIC hardware will scatter TCP payload directly
+> to the BIO pages according to the command_id.
+> To maintain the correctness of the network stack, the driver is expected
+> to construct SKBs that point to the BIO pages.
+> 
+> This, the SKB represents the data on the wire, while it is pointing
+> to data that is already placed in the destination buffer.
+> As a result, data from page frags should not be copied out to
+> the linear part.
+> 
+> As SKBs that use DDP are already very memory efficient, we modify
+> skb_condence to avoid copying data from fragments to the linear
+> part of SKBs that belong to a socket that uses DDP offload.
+> 
+> A follow-up patch will use this interface for DDP in NVMe-TCP.
 > 
 
-Why not mark the skb as ZEROCOPY -- an Rx version of the existing
-SKBTX_DEV_ZEROCOPY and skb_shared_info->tx_flags? Use that as a generic
-way of indicating to the stack what is happening.
+You call this Direct Data Placement - which sounds like a marketing name.
 
-
+Fundamentally, this starts with offloading TCP socket buffers for a
+specific flow, so generically a TCP Rx zerocopy for kernel stack managed
+sockets (as opposed to AF_XDP's zerocopy). Why is this not building in
+that level of infrastructure first and adding ULPs like NVME on top?
 
 _______________________________________________
 Linux-nvme mailing list
