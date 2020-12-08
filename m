@@ -7,147 +7,88 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1190C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 12:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE07C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 13:13:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7D2A123A52
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 12:41:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D2A123A52
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id 10BA823AA7
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 13:13:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10BA823AA7
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=ZoUtUSUsHNGO0AyL28dBUH4Dkhu4KqFdeIdOrT6ruyo=; b=RVmruAvWwhQby1ieDJaRTQLEL
-	qyNJ7vJkgUlnKysUYXR6EqY5Prn0AVGohkIR5uIA837TxV25zgkN3LSgFGFNN4VWNtwApyvkqY56H
-	+sfB7fyO/Kwcsbb+D8j+xdXXdeyhQxH7WHpHCEpvtVl6WBAilJ2rlbyE6mmEo18QqZ9tn7VAycXm2
-	3QNEypwuxqNuWa+a6EyQMkkji6b8CsRKomrQIS8414DCRHoxNQSzLGX4Qs4JbfYtJTv/C+haFvMQP
-	8chocKC+cO7KfbBB+XdGlS4hEkpehBYPkpSnbGh24kXdxQyBiFijFS2quSmuiH0H3hyn50aLnRAe3
-	nfIjJ6dxg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=hZY+426LZKH6sKbaaVyD4reHr5s2+MPhQ6Iucl6Cd84=; b=0xzECtKS28RFRX5qi4kIL7BXu
+	63+QNDFP9UuxlgiNbqs79vlGRwhdwCcyrO8OzxwnRNybGrno8nz7BIoC/zDwTIk+iVf7/qV6+Vkpc
+	ir4MInBezywXM4tVq806+TeJAExB132wai/z1Vp3/5gHBIWy9diIYwhot6H7OlrCUmCoIsH7V7uHz
+	mSZJtUZLsv5aVal6cEMmH5SDfpYGDXHJWg+qtwrCG3CQoZQQn0IL8gPiVTfIt/RHth1VoYRTGwit/
+	iXI0/dERvIeS+kWtuBNeBNtxTdkukHWDRflsBAlHK3R5AiodMAB5kpvA6R2DfnNrWTFvDwBQYUc2X
+	5VFRR0Juw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmcIw-0006VP-JA; Tue, 08 Dec 2020 12:41:18 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1kmcoF-0001Yq-1r; Tue, 08 Dec 2020 13:13:39 +0000
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmcIu-0006Uf-Vx
- for linux-nvme@lists.infradead.org; Tue, 08 Dec 2020 12:41:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1607431276; x=1638967276;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=SDDjCz3Q8d02dyHddQcPwAJHGuEVHRu6FkZnyJU4bwI=;
- b=YPc14N5tlKgQeSDMWshpZ8XjxQDeOT5imxj3/IP1mCPlG2q3FAFG7i4B
- Zj6CImWdqJAHbSgXQ7+6Avf7x8lRjOglzRnAiD0gVgiEXzGBaBjXldIkc
- xhOXIk0jS1LTzNX7aCR9JAwhVA6hQ3LpG/qMpBAud4RuaOokzi7i/1tdw
- uGNIamSEkyCA6uPFiQNebrdbrhaMVpqlyvSOryG5YKIUu9/JXa5AJ5NI+
- NI8ceScVvPdXGmvscX7OhOcooWt0LdD1Wn1or7JKZDMCbZCyeeALyUldq
- xqqYd0e+yg3EaGVWWx0TtijmGgR4efTh/UOKcrkZAKJL0fCQCiE1f+BKl Q==;
-IronPort-SDR: mjitjmbcx3V/XXhRIGPD3YtoFwPa5sHZM5lfwa8siKK1Iwf6f1dolPd7b2Wa185lm1GTlSnYXh
- HCDNwDjG9xQnqQQafntoMA5T3pw8cHV+kPKO2t2F82znSrIipMfcsQdc/agZcdETh/vvBkAOpH
- 5tqQpgViQkSXpip6PeNLH4jq1Gdr6oGXT1mGOkn5y167+bjy+BKvHr7KPwoM3Bz6MRLwqTbwIV
- rzgx9eMFi5NJfSjWzKUT8DSqdO1ORLSNkAyAOE228bkBBNbAR2ZTQ3HvitkdkMOT3oRroE+7/l
- ZdE=
-X-IronPort-AV: E=Sophos;i="5.78,402,1599494400"; d="scan'208";a="264839600"
-Received: from mail-mw2nam12lp2041.outbound.protection.outlook.com (HELO
- NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.41])
- by ob1.hgst.iphmx.com with ESMTP; 08 Dec 2020 20:41:13 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P94Mf/QiOb2SGLjYzKDfiTSYFw3MMwSEvWpKhPwG6n3G28DcwR4PwSm2VnyLLmYa5Va4kR2Xsh8GMQDrdd5MsQySXhigY/1NC6B6eDolWefPZRrHd3dHHhol/Oiv60x4izOf+1XtbAfQ5kx5j5FpCyrI8NtVxKd2Z7jq8bmDmdck6tiXFwnEG8VcBWZzLifbArAUPorbJJWhGBxMWaLuKJAoalkmyenusmF19wDbpuS9p4EbImGPXe8Mwiby8+jxJcKJfOYRZJ1hSzuyTlF1Ju6GupBG2/UvMnzueYB/vMtDUBbsWUzmXRLETyxY/hTEdFwjdx1G9ka7XC8dUhGXag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gF0EUjK6uJjlTJ7TVtmXWsZavGryq7rxrytfpULhXCY=;
- b=cadH5Eshe5YvvOTkO9XRsUe00lnpDcKfGltxpDG+QWseFwCc+WuAbhGsG+O0YLtF6XFKRr6CDka9Ws10bdbTsYTQ8F7oRAvPAUMmoitEXN7fuJSEdrvYyRvLjvrWUIN7++8W76+s6lzkyFm4l+RQWyz6nWWuQ57fFQUuFoyCbGQ49WALwpOtAgtIFS1WggIT+9pWdUnJs3NuXgdCW6QExb78C8cH8BNgxb8s6OfmMx4eGWankc51d9zhLFnFWQljXqjSxeQbg0b3640U/vinpFMZSP69R+Kfidv2gbAEBXojiORCH64Fj8j/TgrUosJYEtx6EzdDKQtYVUxqmhTGrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+ id 1kmcoC-0001YX-Fi
+ for linux-nvme@lists.infradead.org; Tue, 08 Dec 2020 13:13:37 +0000
+Received: by mail-ed1-x541.google.com with SMTP id b2so17536253edm.3
+ for <linux-nvme@lists.infradead.org>; Tue, 08 Dec 2020 05:13:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gF0EUjK6uJjlTJ7TVtmXWsZavGryq7rxrytfpULhXCY=;
- b=CRIRGAX3H7OIlk9DIXdiiVa2ro4MXK/5ux3H7pzO3xOkXNUTrup7E24IntOKXekDVnQ96rzyu/WH3NaUAjl6iNGeyfF3uJePavnuaTK2FuOkk8Xj6W1AFaZIIrOksa2GKeow2t4mCeQ+s8D/UdXQts7Vabes46GyOFJIup3DtDg=
-Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
- (2603:10b6:803:47::21) by SN6PR04MB4688.namprd04.prod.outlook.com
- (2603:10b6:805:ab::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 8 Dec
- 2020 12:41:13 +0000
-Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
- ([fe80::65d7:592a:32d4:9f98]) by SN4PR0401MB3598.namprd04.prod.outlook.com
- ([fe80::65d7:592a:32d4:9f98%6]) with mapi id 15.20.3589.038; Tue, 8 Dec 2020
- 12:41:13 +0000
-From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To: Christoph Hellwig <hch@lst.de>, "Martin K. Petersen"
- <martin.petersen@oracle.com>
-Subject: Re: [PATCH 4/6] block: propagate BLKROSET on the whole device to all
- partitions
-Thread-Topic: [PATCH 4/6] block: propagate BLKROSET on the whole device to all
- partitions
-Thread-Index: AQHWzJwqypaea6Vyp0+8epdHcF8jHA==
-Date: Tue, 8 Dec 2020 12:41:12 +0000
-Message-ID: <SN4PR0401MB35980E0D76B523779FA25E379BCD0@SN4PR0401MB3598.namprd04.prod.outlook.com>
-References: <20201207131918.2252553-1-hch@lst.de>
- <20201207131918.2252553-5-hch@lst.de> <yq1y2i8x42d.fsf@ca-mkp.ca.oracle.com>
- <20201208092545.GA13901@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [129.253.240.72]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c17cdc9c-941b-42dc-7682-08d89b768c01
-x-ms-traffictypediagnostic: SN6PR04MB4688:
-x-microsoft-antispam-prvs: <SN6PR04MB46889091982F32F8BCC9221B9BCD0@SN6PR04MB4688.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:597;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Sl1nd1RqO+u4dwevOYOXgPucUsisq5LU+zWfuZVF9NDLbSxxnHN7MbtJE46SOc1toidLcyZMJ1zdyBzNjlGdFL7V6Dov3296TSIkK/bsl44xVfuE9LJkQ3V2KTQ5XGq6LkA9oRNaN0wQwdk7HdirpAKSQoUR1vkmblhkix7kURuKgjXqaJf1SxksszuR7ss99KJAVCMZ9uK3noZNFFcnWcGQXDJgnC8lEExO4gCsEATyO/fhGfCo/sOkUVUM25MwyPYY8wRpgiJ7cT3P0RjK77UxsvqhgmB3zCfX9DeTobbDhpj2YWrPwLa+YEOEe1iq
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0401MB3598.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(136003)(376002)(186003)(6506007)(53546011)(5660300002)(66556008)(7416002)(54906003)(4326008)(110136005)(26005)(86362001)(8936002)(66446008)(91956017)(66946007)(66476007)(64756008)(71200400001)(76116006)(7696005)(2906002)(52536014)(508600001)(8676002)(9686003)(55016002)(33656002)(4744005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?jw3ecY5btQkRWBUVLOfRe4sY45sdRPxGSBJ9sCyp9LS/iJZ4bBHsRZYIIpfI?=
- =?us-ascii?Q?m+xmlWd5NhCaw/qgkzEXSP/RaQnyL3BqZnrqq7kdY97bYC/O3fQKOJ6wnpwK?=
- =?us-ascii?Q?uSdjNSnTnjTjiwRt8becBZpDG7aQ7yqD9Uo6eplpHOWQuXzLgrAq76Nnz4GD?=
- =?us-ascii?Q?1ahxxKB7tqqv9tsbj/zbvMdQGODUZG7lPKon6b2rdVGBYJ16SIyzV2NN7w3W?=
- =?us-ascii?Q?Ol72SEYgSxszty9vr4M2m24Mzorfbla88PzcLTq2a08XK68Cng9GmjDPa1xv?=
- =?us-ascii?Q?/Qpkag3COYkNUZrnysjEGy24l5PCpsujPayP+Zq8Ar079yMMy6hSBTyUvG0k?=
- =?us-ascii?Q?3JdoBjH4cFBOhdPfjuzKxCEZTQ/b7QPw4/cj8CBT7QY44alZXvcOZ/Ju3YyW?=
- =?us-ascii?Q?YpE0c09tmT22Y50Oakj0QbIjM1yEaEicJ0P8Z9kMrGmO4HDmPtf+rHfb8ljk?=
- =?us-ascii?Q?w8VE5ybHh+Fv0m16lOVTMkfqt6WLUlleiLmAJVdSjlS9ZhGtP1LQ4dcS310F?=
- =?us-ascii?Q?vEDUyZhyvDSJuOD20K7S8+4gyF7n4VW1B6EXd9f4NyImMUThTcRgTIYXf/Wo?=
- =?us-ascii?Q?R8jMWnzvLxbLLO/MOyfLPPJDLgJxA3EXEtgD6d853uIEvPCnogRagnjVw7mC?=
- =?us-ascii?Q?3npbCsxM7duReOFViV11Etw5xOD8l6V7kxU6PJhQz1gLkC4ZQdH4/UnGhfvK?=
- =?us-ascii?Q?fP5bEEy3vglh4JLRcr6zCHPdWnOHgCU8S3PHKs3Ibn4HQn4nLG4mODAYrIFG?=
- =?us-ascii?Q?Jp0dYkrAvXiT3NY1hw1/8PzOsoTJxcdEVAMPykPolFhgNxXeNwl7V3Sy32CH?=
- =?us-ascii?Q?HYxhozrDYnKFkXZmEEai8xFtiKAFSdFeD++QYv/Nf9ITEF3qX60PfDm1bi0M?=
- =?us-ascii?Q?jYiwXljswgyFEMIFkAITJgI3eNwjdWA2OlQ3L6uLrUPh6SGY7/zZeMbp3ZU6?=
- =?us-ascii?Q?IUbbBaMHhwW1/P4lsLfI2QkXYCYvvr3pm2djwbm3hvtPpdJbcVVXT1vXdog8?=
- =?us-ascii?Q?Ynmh?=
-x-ms-exchange-transport-forked: True
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=4H0t76z3d9Gm8+rnlsRXMej2iqZW90QwJGGNcAOGfNQ=;
+ b=JAzSmLxxgeFhhHjbJmv4czCcTVN37dDptyYJOl2vbRL3Kg0Eda4yv79sD8kMfO0W9S
+ 755X4aNtjn8/PDQ714OSMQWmUEpi3o2kj48M0Pau3F+eON22OEuSEQSgv+ssnT/+K6eC
+ 5aj7Lne6pqgTUjZ7ZbBS/DFNldcQ4aFV/HcS5eZwxiOlFpf0/ZDx99a28W3UW/PBlcL4
+ +BweyvMen5WEQ6Zi/Y52ky0t+B/lP2/Sm1hV4x59IV2xMORTLdcltLMa+0e7nQqg6sg6
+ wcabTKaDzHQcnkkWBuazi1q1wH8oXbHxXekHtbytDm2B0X1FmRK+IbhrMf17qT6GBY5i
+ 8rvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=4H0t76z3d9Gm8+rnlsRXMej2iqZW90QwJGGNcAOGfNQ=;
+ b=YjzUWDB5B7LToNwKQvVUwVt6uN/1cSHzAl87gwCWbtN14AYoQXOhok6s2/lMW4mufH
+ 3R69CCtUW/7ZOuhO/j83Hnqxo7l+MWVIdQtY8LMgGfwCcIGz2PxNoRYQbOtdzdmC3C+a
+ p+Nz6LhQXuaZ0vdl/6Ln5aTNNfe863iHB+6qqSvyA/iyj7YmTWOyCJSpqxQPaxDhnyCb
+ 1zX0d3kDZojF+Iil45vs3T/7bRMOk4pi6bJoYKo8J6Ay364R+gTFUWAeZ1pbD0y2bTiq
+ WHqm9/eLgfZIa2ec96CHhkQ3Ckh9+0H/sBdsyZnN3QsP8o9uHqN+JAkSOuCQkBkBwuBH
+ mcdg==
+X-Gm-Message-State: AOAM531pnMK3otlFZJ/mYDLdS2DLKoM2rIcP5oxT9gVcXEMZ+nbMBX7Q
+ iPTk/DrBpLNVAs3Q1orm3iBzDA==
+X-Google-Smtp-Source: ABdhPJxzR3lshkmLf680nwJwf3iSrf8fXTQ9WUttlW08OFCU+GJEW3f7mGgCqOCWWXeIGq2QqC1DUQ==
+X-Received: by 2002:aa7:dac5:: with SMTP id x5mr25105016eds.198.1607433214946; 
+ Tue, 08 Dec 2020 05:13:34 -0800 (PST)
+Received: from localhost (5.186.124.214.cgn.fibianet.dk. [5.186.124.214])
+ by smtp.gmail.com with ESMTPSA id u5sm16894960edp.5.2020.12.08.05.13.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Dec 2020 05:13:34 -0800 (PST)
+Date: Tue, 8 Dec 2020 14:13:33 +0100
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+Subject: Re: [RFC PATCH v2 0/2] add simple copy support
+Message-ID: <20201208131333.xoxincxcnh7iz33z@mpHalley>
+References: <CGME20201204094719epcas5p23b3c41223897de3840f92ae3c229cda5@epcas5p2.samsung.com>
+ <20201204094659.12732-1-selvakuma.s1@samsung.com>
+ <20201207141123.GC31159@lst.de>
+ <01fe46ac-16a5-d4db-f23d-07a03d3935f3@suse.de>
+ <20201207192453.vc6clbdhz73hzs7l@mpHalley>
+ <SN4PR0401MB35988951265391511EBC8C6E9BCD0@SN4PR0401MB3598.namprd04.prod.outlook.com>
+ <20201208122248.utv7pqthmmn6uwv6@mpHalley>
+ <SN4PR0401MB35983464199FB173FB0C29479BCD0@SN4PR0401MB3598.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3598.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c17cdc9c-941b-42dc-7682-08d89b768c01
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2020 12:41:12.9168 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: j7XJCytn1pku3szi0/+ynqgTLy+5dkysgKKkDl1J9xh6QOz6rN9WVxvn1jYWUKUCZUejZVFw78KLr/yUXYwkKqdAzXlrrzlI/VkZ4MUnRFg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB4688
+Content-Disposition: inline
+In-Reply-To: <SN4PR0401MB35983464199FB173FB0C29479BCD0@SN4PR0401MB3598.namprd04.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201208_074117_196481_FCD6E54E 
-X-CRM114-Status: GOOD (  13.31  )
+X-CRM114-CacheID: sfid-20201208_081336_979782_E9B27874 
+X-CRM114-Status: GOOD (  17.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,45 +100,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- Mike Snitzer <snitzer@redhat.com>, Oleksii Kurochko <olkuroch@cisco.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>,
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Damien Le Moal <Damien.LeMoal@wdc.com>,
+ SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "snitzer@redhat.com" <snitzer@redhat.com>,
+ "selvajove@gmail.com" <selvajove@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Ilya Dryomov <idryomov@gmail.com>,
- "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Mikulas Patocka <mpatocka@redhat.com>, Hannes Reinecke <hare@suse.de>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Bart Van Assche <bvanassche@acm.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 08/12/2020 10:28, Christoph Hellwig wrote:
-> On Tue, Dec 08, 2020 at 12:27:41AM -0500, Martin K. Petersen wrote:
->>
->> Christoph,
->>
->>> The existing behavior is inconsistent in the sense that doing:
->>>
->>> permits writes. But:
->>>
->>> <something triggers revalidate>
->>>
->>> doesn't.
->>>
->>> And a subsequent:
->>
->> Looks like the command line pieces got zapped from the commit
->> description.
-> 
-> Yeah.  It seems like git commit just removed them after I pasted them,
-> weird.
-> 
-
-Might be because of a leading #, happened to me as well in the past. Just
-add a single space on the start of the line and git commit is happy.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMDguMTIuMjAyMCAxMjozNywgSm9oYW5uZXMgVGh1bXNoaXJuIHdyb3RlOgo+T24gMDgvMTIv
+MjAyMCAxMzoyMiwgSmF2aWVyIEdvbnrDoWxleiB3cm90ZToKPj4gR29vZCBpZGVhLiBBcmUgeW91
+IHRoaW5raW5nIG9mIGEgc3lzZnMgZW50cnkgdG8gc2VsZWN0IHRoZSBiYWNrZW5kPwo+Cj5Ob3Qg
+c3VyZSBvbiB0aGlzIG9uZSwgaW5pdGlhbGx5IEkgdGhvdWdodCBvZiBhIHN5c2ZzIGZpbGUsIGJ1
+dCB0aGVuCj5ob3cgd291bGQgeW91IGRvIGl0LiBPbmUgImdsb2JhbCIgc3lzZnMgZW50cnkgaXMg
+cHJvYmFibHkgYSBiYWQgaWRlYS4KPkhhdmluZyBvbmUgcGVyIGJsb2NrIGRldmljZSB0byBzZWxl
+Y3QgbmF0aXZlIHZzIGVtdWxhdGlvbiBtYXliZT8gQW5kCj5hIGdvb2Qgd2F5IHRvIGJlbmNobWFy
+ay4KCkkgd2FzIHRoaW5raW5nIGEgcGVyIGJsb2NrIGRldmljZSB0byB0YXJnZXQgdGhlIHVzZSBj
+YXNlIHdoZXJlIGEgY2VydGFpbgppbXBsZW1lbnRhdGlvbiAvIHdvcmtsb2FkIGlzIGJldHRlciBv
+bmUgd2F5IG9yIHRoZSBvdGhlci4KCj4KPlRoZSBvdGhlciBpZGVhIHdvdWxkIGJlIGEgYmVuY2ht
+YXJrIGxvb3Agb24gYm9vdCBsaWtlIHRoZSByYWlkIGxpYnJhcnkKPmRvZXMuCj4KPlRoZW4gb24g
+dGhlIG90aGVyIGhhbmQsIHRoZXJlIG1pZ2h0IGJlIHdvcmtsb2FkcyB0aGF0IHJ1biBmYXN0ZXIg
+d2l0aAo+dGhlIGVtdWxhdGlvbiBhbmQgc29tZSB0aGF0IHJ1biBmYXN0ZXIgd2l0aCB0aGUgaGFy
+ZHdhcmUgYWNjZWxlcmF0aW9uLgo+Cj5JIHRoaW5rIHRoZXNlIHBvaW50cyBhcmUgdGhlIHJlYXNv
+biB0aGUgbGFzdCBhdHRlbXB0cyBnb3Qgc3R1Y2suCgpZZXMuIEkgYmVsaWV2ZSB0aGF0IGFueSBi
+ZW5jaG1hcmsgd2UgcnVuIHdvdWxkIGJlIGJpYXNlZCBpbiBhIGNlcnRhaW4Kd2F5LiBJZiB3ZSBj
+YW4gbW92ZSBmb3J3YXJkIHdpdGggYSBzeXNmcyBlbnRyeSBhbmQgZGVmYXVsdCB0byBsZWdhY3kK
+cGF0aCwgd2Ugd291bGQgbm90IGFsdGVyIGN1cnJlbnQgYmVoYXZpb3IgYW5kIGVuYWJsZSBOVk1l
+IGNvcHkgb2ZmbG9hZAooZm9yIG5vdykgZm9yIHRob3NlIHRoYXQgd2FudCB0byB1c2UgaXQuIFdl
+IGNhbiB0aGVuIGJ1aWxkIG9uIHRvcCBvZiBpdC4KCkRvZXMgdGhpcyBzb3VuZCBsaWtlIGEgcmVh
+c29uYWJsZSBhcHByb2FjaD8KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFk
+ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LW52bWUK
