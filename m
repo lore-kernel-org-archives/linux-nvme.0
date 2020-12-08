@@ -2,20 +2,20 @@ Return-Path: <SRS0=lokR=FM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3ECEC433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 13:56:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B45C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 14:04:02 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 26CDA23A53
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 13:56:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 26CDA23A53
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 79CFF23A22
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 14:04:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 79CFF23A22
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -23,43 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lTXgRi7SHEw06lkNHBlHqp3VD2fwMBhmy3jWuYn7TPY=; b=sY5vo8gjYTCwv5RMPIUxKyx8x
-	JjEUoOS7u4RpQULafdrRoXzWDTZXtWivg1HCKZPTq5i0mrdYbaR65PSsmMyKJxWoVJ7wpXqVIIogE
-	3p5yu0TFTPE8hsw6EwJuNlQLBeYFbTB/D11ZY7NIrqv3k+nNmsUmx1BBd7h7/0tJAW3NlIReiCJgD
-	UOxT5WayFfViA3CbafQ1bp0aJlgmNVKHmBClGGdDIa3iIELlkj5Qcu7io6g51f9MjJHTZDd+3axro
-	K9TfTSE0X4aSKM/k9OocLRkDxsAqpgq+qxhk33GpJFn813uKmXatBnjWdDtDf8ORo2WE4W3Nq/0Pl
-	D8uirZeQQ==;
+	 bh=0eAI6oeGLyqfAA0dRrjSxVx/6JmDsn7Yl7qc5MyQQJk=; b=XlpO4tdHBfehLdLo5/Wz/imYx
+	5/fqXsI5RYVOTWMhFN6kW5cwKhJWKC1gEs5Zv9lBVcrCS9iafRP19f3h3QX0jBX7GAhQWPJTe5E8W
+	/P6ILzWnEjFikyoUXiiYG864GtjonhsQGd7aMHcJbhJHDalGlLYNbMRf6U88N/yoFcWT76Q8fNo6l
+	1QMY+0Svb/bkZB4TpNHabzgibjwJizzlFRQNZwtZuc1Htje/gjm4CA4HfoX6LvlWNo29RNYUks+Ho
+	OpprmdpLUgVjn4UY7H9K2mLGJnc6lNAQHI5/+GarvC9u6VBOF9Z+NA/mq3h0yi7mdSBsSFXiuo6Fg
+	xYH7DKPrQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmdTZ-0000Zv-Nt; Tue, 08 Dec 2020 13:56:21 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1kmdaw-0002Kc-9U; Tue, 08 Dec 2020 14:03:58 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmdTY-0000Zb-2l
- for linux-nvme@merlin.infradead.org; Tue, 08 Dec 2020 13:56:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=XYDpXg9CTQvvO2zGH4cqKQUFyn+zcgg/9AwNB2fd4cw=; b=Z0HXQUhYW7HNbygyi/Sn2yiCAC
- 0qdlBZ5wdxINMkkf2VfB4W4Ux6eUuNStoHRBPdgVBEcMVPvSVczD/1y4Yr6ag8/iqSYsVwn6iIZBp
- 7aKs0HoQAfn0hGngwjCVXM7HVFWGUEVJ1308vJgLYUZSOggeSYjPw/3WgQWHV4ag668ERokl6HLac
- 0woP6V+VgOVyaZiBJjxRb/CgL77NCgOMBK2uknGap9NITXktBRAFAQhy4mfLgwx0OoeqlvHMnik3C
- XkOE20fiurDxLSH9KpeiPUrkAS9HEMfYdxLpWZ7sAMqT9IROQCTe5No38uBji3N4chgVVKySytEm+
- YPPPGFow==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1kmdTW-000051-Se; Tue, 08 Dec 2020 13:56:18 +0000
-Date: Tue, 8 Dec 2020 13:56:18 +0000
-From: Christoph Hellwig <hch@infradead.org>
-To: James Smart <james.smart@broadcom.com>
-Subject: Re: [PATCH] nvme-fcloop: Fix sscanf type and
- list_first_entry_or_null warnings
-Message-ID: <20201208135618.GA32719@infradead.org>
-References: <20201207202940.2904-1-james.smart@broadcom.com>
+ id 1kmdat-0002Jv-MZ
+ for linux-nvme@lists.infradead.org; Tue, 08 Dec 2020 14:03:56 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 830AC6736F; Tue,  8 Dec 2020 15:03:52 +0100 (CET)
+Date: Tue, 8 Dec 2020 15:03:52 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme: retrigger ANA log update if group descriptor
+ isn't found
+Message-ID: <20201208140352.GB2919@lst.de>
+References: <20201205152901.56665-1-hare@suse.de>
+ <20201207153121.GA3679937@dhcp-10-100-145-180.wdc.com>
+ <20201207153443.GA6236@lst.de>
+ <20201207154650.GB3679937@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201207202940.2904-1-james.smart@broadcom.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20201207154650.GB3679937@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20201208_090355_861059_63EFF640 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,15 +66,28 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+On Mon, Dec 07, 2020 at 07:46:50AM -0800, Keith Busch wrote:
+> > But as I just outlined it just papers over buggy controllers.  I really
+> > don't think we should just silently do that.
+> 
+> Okay, that's fine with me too. I agree with you on what the correct
+> event sequence should be, but I just thought this looks like a fairly
+> harmless work-around.
 
-applied to nvme-5.11.
+I see three major downsides:
+
+ (1) it papers over our host side bug where we do not process the
+     different AENs in the order that the controller generated them
+ (2) the code is black magic as there is no indicator why this condition
+     would happen
 
 _______________________________________________
 Linux-nvme mailing list
