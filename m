@@ -7,74 +7,87 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE07C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 13:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B012C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 13:24:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 10BA823AA7
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 13:13:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10BA823AA7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2D7A023A79
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 13:24:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D7A023A79
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hZY+426LZKH6sKbaaVyD4reHr5s2+MPhQ6Iucl6Cd84=; b=0xzECtKS28RFRX5qi4kIL7BXu
-	63+QNDFP9UuxlgiNbqs79vlGRwhdwCcyrO8OzxwnRNybGrno8nz7BIoC/zDwTIk+iVf7/qV6+Vkpc
-	ir4MInBezywXM4tVq806+TeJAExB132wai/z1Vp3/5gHBIWy9diIYwhot6H7OlrCUmCoIsH7V7uHz
-	mSZJtUZLsv5aVal6cEMmH5SDfpYGDXHJWg+qtwrCG3CQoZQQn0IL8gPiVTfIt/RHth1VoYRTGwit/
-	iXI0/dERvIeS+kWtuBNeBNtxTdkukHWDRflsBAlHK3R5AiodMAB5kpvA6R2DfnNrWTFvDwBQYUc2X
-	5VFRR0Juw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=CfwzFa9PFBPGzqsUHl9nqL9k7Y+75XCDyqQFwYOlq0Y=; b=RYF21Fv4DLcTdopTC7wARBPbh
+	II1dqcDws+X4HNmsBiPM8by+yAinUvPin8OqKZGTXqpIprjbJSwPdOXwzzqcLzRsAbQueMOXlJ/TO
+	GRc3JPR6JVY/nOPN+P8x8/7yCBge0SFZ4fC73v35dd1BpkADc2Rs+p4yFO5V/cAI5pFehmt0BGzjq
+	vdGAbxr0u1AA3vnp05kEgqaSkjRUrtJb5tfyufuABzidIhwdQU9kfbONWkY64RxljXEL121Z0/ESy
+	OSRO1gGxcEVAyOyxtYXfxyYJDt1D7fEsWlgaQ/ZUYM0AUJB43Szg8TE0lDkyoqWBhYhD6yKcphBVJ
+	NcNkYfqkw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmcoF-0001Yq-1r; Tue, 08 Dec 2020 13:13:39 +0000
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541])
+	id 1kmcz4-0002Vm-Cd; Tue, 08 Dec 2020 13:24:50 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmcoC-0001YX-Fi
- for linux-nvme@lists.infradead.org; Tue, 08 Dec 2020 13:13:37 +0000
-Received: by mail-ed1-x541.google.com with SMTP id b2so17536253edm.3
- for <linux-nvme@lists.infradead.org>; Tue, 08 Dec 2020 05:13:35 -0800 (PST)
+ id 1kmcz0-0002Ug-EY
+ for linux-nvme@lists.infradead.org; Tue, 08 Dec 2020 13:24:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1607434774; x=1638970774;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=91EJSzxq/YEfbAkcIdLSupxnoZVXuWbvJqJer5qsXXY=;
+ b=anEmM6bXiGz6WTN2nmpbwPYS9Fe6wdctENzFtl/IbsE6DgQADO9A4Ck8
+ iAgbkBTR9fX04hCnjP0/1iFFLnV/UvGttkICy20zXdRCyQFmJfFDEXTQ5
+ c+uvLWkfh0Gb9AR5VcSjSnPzdF3ytB61BpyLySFp0m6l5Y4phSEBJ7Aye
+ bV6qSq1IIfzENGwIEzSOmbDUqkNDCZW6TKL83E+vEDh/7JoErioKsnmO/
+ eSwyYiK5rzxjkZTx9INlXvDVkJJZeDGpW7rtDLhyv4vQ2nSdyme1eOA3O
+ MiXLy+Yv/rkh+hF1keENZAI5ZwiFcFjmenY/lOf3tLxVAqBo05yb7h/Gc Q==;
+IronPort-SDR: fb+bTgp3khtlTJU1k780w0Mgb/LQlDHmka4017BhxJFw++OKZJvthnX3hi35EvE37Ww4vCURIk
+ ldJ+oghszShiUxAMnk/9gD1bTbir/laQpoFEeu+MJgmDH4fNY/OtH2NKrIjYQJDxX8YzQpJG/P
+ u5ZnRV9fFWMc4s2BPPdDe0QHlLH6+F8DQaXCJ8es439dbikk9fEP1o9PGARNC1rrNsiUAmeDAv
+ o50JQ1l/s+SWUON1XqsYT35E11+uhqdXxnFVgu8zbHngMxTQ3jakD8Ywk1l7Ud5dZXUIpBXh6E
+ QLk=
+X-IronPort-AV: E=Sophos;i="5.78,402,1599494400"; d="scan'208";a="258402624"
+Received: from mail-dm6nam11lp2176.outbound.protection.outlook.com (HELO
+ NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.176])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Dec 2020 21:39:27 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ONGkVEQyptpK40NvOLHTBfr2ixWPcd+UCzLlEbWIh1nR08tH9OBSeUpqkpV7bBuQVN8x4Kbya+IYTgNaaa1/Y/PxIDypD0WYYbHNgLvNO46Ltu+A8bhznttarB6v8+gCt5Z3s523t9U0+K5N+fHxAIlzUilFar97e5pzrw3ieJENLNcc1RW2aChIlLodN5irXEKRi6r5wzVgF2IX+5Lj8ZO/ypAiK97BWTynQIn3C6o0R8L20tu8EBCtzo8B1lf4r5JStleJDLVb1NHug+mHs5LOjMEsGd7Ug8ihYgn7TdS7m6lovSu2/0J4aX98QiiqS8x4l/o9bfU0t/dYdsN41Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=91EJSzxq/YEfbAkcIdLSupxnoZVXuWbvJqJer5qsXXY=;
+ b=AWXIoty2HUcJtMQZEZPcIRcg8CABm5AP8RXwqHJglhMsFP3koB4RVo4hCBPJpsbJVm7+hc/bKAy42Cknl8sEWInS+jcG3KdgMEkztuBxBDdoNfiTmkz84YExT9YtZPD6fuV148CkxZY73vf+7NoxbPi5s/DYuAdmpwcKZFT1S5AKpsyGLjcjcGJL4/7ZLEoYbSenMMTDMiExR2kfCueCYiQ/fKLuBc+27CQyVKOQQwj1ZHPPFNKc2KdxiVKu5s4+uSjFMQOAQw1cDcWXKNPz/MZhntAOUZzslT51RLd9C52s3Wqvj1b5tnmsCdgmuJ3bDm3QZZ0IIftCQA9sSESLYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=4H0t76z3d9Gm8+rnlsRXMej2iqZW90QwJGGNcAOGfNQ=;
- b=JAzSmLxxgeFhhHjbJmv4czCcTVN37dDptyYJOl2vbRL3Kg0Eda4yv79sD8kMfO0W9S
- 755X4aNtjn8/PDQ714OSMQWmUEpi3o2kj48M0Pau3F+eON22OEuSEQSgv+ssnT/+K6eC
- 5aj7Lne6pqgTUjZ7ZbBS/DFNldcQ4aFV/HcS5eZwxiOlFpf0/ZDx99a28W3UW/PBlcL4
- +BweyvMen5WEQ6Zi/Y52ky0t+B/lP2/Sm1hV4x59IV2xMORTLdcltLMa+0e7nQqg6sg6
- wcabTKaDzHQcnkkWBuazi1q1wH8oXbHxXekHtbytDm2B0X1FmRK+IbhrMf17qT6GBY5i
- 8rvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=4H0t76z3d9Gm8+rnlsRXMej2iqZW90QwJGGNcAOGfNQ=;
- b=YjzUWDB5B7LToNwKQvVUwVt6uN/1cSHzAl87gwCWbtN14AYoQXOhok6s2/lMW4mufH
- 3R69CCtUW/7ZOuhO/j83Hnqxo7l+MWVIdQtY8LMgGfwCcIGz2PxNoRYQbOtdzdmC3C+a
- p+Nz6LhQXuaZ0vdl/6Ln5aTNNfe863iHB+6qqSvyA/iyj7YmTWOyCJSpqxQPaxDhnyCb
- 1zX0d3kDZojF+Iil45vs3T/7bRMOk4pi6bJoYKo8J6Ay364R+gTFUWAeZ1pbD0y2bTiq
- WHqm9/eLgfZIa2ec96CHhkQ3Ckh9+0H/sBdsyZnN3QsP8o9uHqN+JAkSOuCQkBkBwuBH
- mcdg==
-X-Gm-Message-State: AOAM531pnMK3otlFZJ/mYDLdS2DLKoM2rIcP5oxT9gVcXEMZ+nbMBX7Q
- iPTk/DrBpLNVAs3Q1orm3iBzDA==
-X-Google-Smtp-Source: ABdhPJxzR3lshkmLf680nwJwf3iSrf8fXTQ9WUttlW08OFCU+GJEW3f7mGgCqOCWWXeIGq2QqC1DUQ==
-X-Received: by 2002:aa7:dac5:: with SMTP id x5mr25105016eds.198.1607433214946; 
- Tue, 08 Dec 2020 05:13:34 -0800 (PST)
-Received: from localhost (5.186.124.214.cgn.fibianet.dk. [5.186.124.214])
- by smtp.gmail.com with ESMTPSA id u5sm16894960edp.5.2020.12.08.05.13.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 05:13:34 -0800 (PST)
-Date: Tue, 8 Dec 2020 14:13:33 +0100
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=91EJSzxq/YEfbAkcIdLSupxnoZVXuWbvJqJer5qsXXY=;
+ b=AViTZSTaiqwKfdC8oWiALX98Z8KmcL3uG0PbmZZ/JTfXtsRsRMjvKWiNrve136C7/Yg1u3tJhrwb3wNfz/ITZbzBcfa9KB50f8COGCXbN934g3F7LvehHGcBG8JC/XIQbPODHa5VQsZlxa/Rd7wVdMusjICvuzjFEZWK8TieeEc=
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ (2603:10b6:803:47::21) by SN4PR0401MB3597.namprd04.prod.outlook.com
+ (2603:10b6:803:45::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.23; Tue, 8 Dec
+ 2020 13:24:40 +0000
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::65d7:592a:32d4:9f98]) by SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::65d7:592a:32d4:9f98%6]) with mapi id 15.20.3589.038; Tue, 8 Dec 2020
+ 13:24:40 +0000
+From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
 Subject: Re: [RFC PATCH v2 0/2] add simple copy support
-Message-ID: <20201208131333.xoxincxcnh7iz33z@mpHalley>
+Thread-Topic: [RFC PATCH v2 0/2] add simple copy support
+Thread-Index: AQHWyi08xMuKL73ZZUaIarInYKlQvg==
+Date: Tue, 8 Dec 2020 13:24:40 +0000
+Message-ID: <SN4PR0401MB3598226CD4A32F65320A47379BCD0@SN4PR0401MB3598.namprd04.prod.outlook.com>
 References: <CGME20201204094719epcas5p23b3c41223897de3840f92ae3c229cda5@epcas5p2.samsung.com>
  <20201204094659.12732-1-selvakuma.s1@samsung.com>
  <20201207141123.GC31159@lst.de>
@@ -83,12 +96,61 @@ References: <CGME20201204094719epcas5p23b3c41223897de3840f92ae3c229cda5@epcas5p2
  <SN4PR0401MB35988951265391511EBC8C6E9BCD0@SN4PR0401MB3598.namprd04.prod.outlook.com>
  <20201208122248.utv7pqthmmn6uwv6@mpHalley>
  <SN4PR0401MB35983464199FB173FB0C29479BCD0@SN4PR0401MB3598.namprd04.prod.outlook.com>
+ <20201208131333.xoxincxcnh7iz33z@mpHalley>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: javigon.com; dkim=none (message not signed)
+ header.d=none;javigon.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [129.253.240.72]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 10798663-c440-4025-bf1f-08d89b7c9e17
+x-ms-traffictypediagnostic: SN4PR0401MB3597:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN4PR0401MB359773CB1B0034B8931C20259BCD0@SN4PR0401MB3597.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: c2PLqFM/Jm3mCxGb2iAJ7P19oC1TfnGtmHWbypWEN+5MAmxBp6MUaFBPZEWCiz83phD63b1ZEfDMFBl/GUuH4Yc/qP679K0sjaSstvrMoO++72CDWxYtyxx9pR5FUZdHBmWPes5q8Nsj+e/leZqleUMvh68xOjDc74HgGR7+CgJbYtF6E+kWcFr8OgxaOR2eJ7jAjh8uY+sQvrDkOZL/060Btx9kKdmTUedrr3W5gTiKPFB7YWh2NW9sreYsjB0eXehJjuZ12XmaUPyAcgcVXARyOuXx5EjTXClmK77hWA2zgvDceo0tEyy6vBETI4exDFnXfy6QYe3Lgxldvu+Jww==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0401MB3598.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(376002)(366004)(4326008)(66476007)(91956017)(55016002)(7696005)(508600001)(64756008)(76116006)(9686003)(66556008)(5660300002)(8676002)(2906002)(8936002)(66946007)(86362001)(7416002)(6916009)(33656002)(52536014)(83380400001)(6506007)(66446008)(26005)(186003)(54906003)(71200400001)(53546011);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?JDlF4xjuWz48JgWAeT6R0gHSc7vBPMAYX1Iifak8svrQTF6ofyjwSm2wkI?=
+ =?iso-8859-1?Q?Mz0cs2yYeB0KCe09bK820AXPs7Hy40YqUbdTgey+9J7je9JmqLHn8XszFb?=
+ =?iso-8859-1?Q?/erzT/UwTxwzOAfOAY4vRXzfu7ISE/T+B4M0iZHy9beR7WSo/02VQBykNG?=
+ =?iso-8859-1?Q?6KV3q20i6fLDg33m0/hAVxjgGpROd4+DF7y4/pbbfOByf5bdpilz7YQoRg?=
+ =?iso-8859-1?Q?GP3V4duYTmePyrtmJVx3Si4NsFTAuM6M4o1TqMbWq8vlDYz0cshY62HDbc?=
+ =?iso-8859-1?Q?f3IXmOgA7Fiq253lCmzw5Vvinfu1TWpXGP36Hb1jBXRD9aBZD6/MQDbM5Z?=
+ =?iso-8859-1?Q?P4wmzjrItBGKyqtPWDWGGiSRZkVgJ1vSwvQE13xusCl2Qoo9pq9b+nz540?=
+ =?iso-8859-1?Q?6JettY9PtPX82eF1ABNyDNAQ2+WEEyoqX9fnuQw4xg4gfGaS4rO3TpAD/K?=
+ =?iso-8859-1?Q?z8gZO72Waj+Z4mQSXN4f9170MdAlvtfii5YvB3Qxc5V1nri/vkCKqxal6P?=
+ =?iso-8859-1?Q?CcLafYQbKQ+qHw0ANyMBr/4KZooFeRd5UyxqYqxM0txlNnEOSwfNYVgD7t?=
+ =?iso-8859-1?Q?5IbdWISg1yLsrkTvoUp1f3iXsLvrS7PvwFlQx/bnRao7iEybm2SejxV7jm?=
+ =?iso-8859-1?Q?IbTKquTCV9gFV+fk6wKW8ZZI407u8uz1RHzd0qQafc398ehZyLQFaJPnk7?=
+ =?iso-8859-1?Q?xs2uQkImVox93YhcqSycbRmsLh4iihZL+VXhAGvllaDyTHdcNkS4hJRC2v?=
+ =?iso-8859-1?Q?qa7dWBqJm0s10o3Ui0YQucKhNfoOp30+p4r6j+dI+lYL/z2ibJrhWk5wNp?=
+ =?iso-8859-1?Q?VcQTHMBKICQ3+bJVYWZ2nGOk4BOdbR1+HcSXCHugdSirTNHJPdRvyJiMNe?=
+ =?iso-8859-1?Q?oWEf1B69VFcGGXb6Qtl/Gd43C1Bg49WUUpv2js2siRdi4U0lmI7NUOm2qX?=
+ =?iso-8859-1?Q?o5mncb7KTsliZ2XElNAoHd9XtP1XDBLZLu97maJWfjxj8tWJJfVmq5MBUj?=
+ =?iso-8859-1?Q?z9bYGqfeHbpMihUHPC8U7n0wiBfMeOhyUy8LSc?=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <SN4PR0401MB35983464199FB173FB0C29479BCD0@SN4PR0401MB3598.namprd04.prod.outlook.com>
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3598.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10798663-c440-4025-bf1f-08d89b7c9e17
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2020 13:24:40.2752 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TdRTaI6g/b3dVS9wANrGo3W7hTOb+JWw3Q4aOh4P33V5HBLvSx8iQjqjszszzV2ySMtCA/ZyEc4qJlvQIy9LCV13i3bMKVgmpTb/1WWbe+E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0401MB3597
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201208_081336_979782_E9B27874 
-X-CRM114-Status: GOOD (  17.10  )
+X-CRM114-CacheID: sfid-20201208_082446_725314_D9B81CDB 
+X-CRM114-Status: GOOD (  18.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,32 +177,50 @@ Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Damien Le Moal <Damien.LeMoal@wdc.com>,
  "kbusch@kernel.org" <kbusch@kernel.org>,
  "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
  Christoph Hellwig <hch@lst.de>, Bart Van Assche <bvanassche@acm.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMDguMTIuMjAyMCAxMjozNywgSm9oYW5uZXMgVGh1bXNoaXJuIHdyb3RlOgo+T24gMDgvMTIv
-MjAyMCAxMzoyMiwgSmF2aWVyIEdvbnrDoWxleiB3cm90ZToKPj4gR29vZCBpZGVhLiBBcmUgeW91
-IHRoaW5raW5nIG9mIGEgc3lzZnMgZW50cnkgdG8gc2VsZWN0IHRoZSBiYWNrZW5kPwo+Cj5Ob3Qg
-c3VyZSBvbiB0aGlzIG9uZSwgaW5pdGlhbGx5IEkgdGhvdWdodCBvZiBhIHN5c2ZzIGZpbGUsIGJ1
-dCB0aGVuCj5ob3cgd291bGQgeW91IGRvIGl0LiBPbmUgImdsb2JhbCIgc3lzZnMgZW50cnkgaXMg
-cHJvYmFibHkgYSBiYWQgaWRlYS4KPkhhdmluZyBvbmUgcGVyIGJsb2NrIGRldmljZSB0byBzZWxl
-Y3QgbmF0aXZlIHZzIGVtdWxhdGlvbiBtYXliZT8gQW5kCj5hIGdvb2Qgd2F5IHRvIGJlbmNobWFy
-ay4KCkkgd2FzIHRoaW5raW5nIGEgcGVyIGJsb2NrIGRldmljZSB0byB0YXJnZXQgdGhlIHVzZSBj
-YXNlIHdoZXJlIGEgY2VydGFpbgppbXBsZW1lbnRhdGlvbiAvIHdvcmtsb2FkIGlzIGJldHRlciBv
-bmUgd2F5IG9yIHRoZSBvdGhlci4KCj4KPlRoZSBvdGhlciBpZGVhIHdvdWxkIGJlIGEgYmVuY2ht
-YXJrIGxvb3Agb24gYm9vdCBsaWtlIHRoZSByYWlkIGxpYnJhcnkKPmRvZXMuCj4KPlRoZW4gb24g
-dGhlIG90aGVyIGhhbmQsIHRoZXJlIG1pZ2h0IGJlIHdvcmtsb2FkcyB0aGF0IHJ1biBmYXN0ZXIg
-d2l0aAo+dGhlIGVtdWxhdGlvbiBhbmQgc29tZSB0aGF0IHJ1biBmYXN0ZXIgd2l0aCB0aGUgaGFy
-ZHdhcmUgYWNjZWxlcmF0aW9uLgo+Cj5JIHRoaW5rIHRoZXNlIHBvaW50cyBhcmUgdGhlIHJlYXNv
-biB0aGUgbGFzdCBhdHRlbXB0cyBnb3Qgc3R1Y2suCgpZZXMuIEkgYmVsaWV2ZSB0aGF0IGFueSBi
-ZW5jaG1hcmsgd2UgcnVuIHdvdWxkIGJlIGJpYXNlZCBpbiBhIGNlcnRhaW4Kd2F5LiBJZiB3ZSBj
-YW4gbW92ZSBmb3J3YXJkIHdpdGggYSBzeXNmcyBlbnRyeSBhbmQgZGVmYXVsdCB0byBsZWdhY3kK
-cGF0aCwgd2Ugd291bGQgbm90IGFsdGVyIGN1cnJlbnQgYmVoYXZpb3IgYW5kIGVuYWJsZSBOVk1l
-IGNvcHkgb2ZmbG9hZAooZm9yIG5vdykgZm9yIHRob3NlIHRoYXQgd2FudCB0byB1c2UgaXQuIFdl
-IGNhbiB0aGVuIGJ1aWxkIG9uIHRvcCBvZiBpdC4KCkRvZXMgdGhpcyBzb3VuZCBsaWtlIGEgcmVh
-c29uYWJsZSBhcHByb2FjaD8KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LW52bWUK
+On 08/12/2020 14:13, Javier Gonz=E1lez wrote:
+> On 08.12.2020 12:37, Johannes Thumshirn wrote:
+>> On 08/12/2020 13:22, Javier Gonz=E1lez wrote:
+>>> Good idea. Are you thinking of a sysfs entry to select the backend?
+>>
+>> Not sure on this one, initially I thought of a sysfs file, but then
+>> how would you do it. One "global" sysfs entry is probably a bad idea.
+>> Having one per block device to select native vs emulation maybe? And
+>> a good way to benchmark.
+> =
+
+> I was thinking a per block device to target the use case where a certain
+> implementation / workload is better one way or the other.
+
+Yes something along those lines.
+
+>>
+>> The other idea would be a benchmark loop on boot like the raid library
+>> does.
+>>
+>> Then on the other hand, there might be workloads that run faster with
+>> the emulation and some that run faster with the hardware acceleration.
+>>
+>> I think these points are the reason the last attempts got stuck.
+> =
+
+> Yes. I believe that any benchmark we run would be biased in a certain
+> way. If we can move forward with a sysfs entry and default to legacy
+> path, we would not alter current behavior and enable NVMe copy offload
+> (for now) for those that want to use it. We can then build on top of it.
+> =
+
+> Does this sound like a reasonable approach?
+> =
+
+
+Yes this sounds like a reasonable approach to me.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
