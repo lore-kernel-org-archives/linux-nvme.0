@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9A00C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 16:35:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F9EC433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 16:37:23 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6388223AFA
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 16:35:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6388223AFA
+	by mail.kernel.org (Postfix) with ESMTPS id 3716923AFA
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 16:37:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3716923AFA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,38 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+mjKUD12fcoBPOCfgOpfxjuzESAwtW6KSHz5dPvNDz4=; b=vNBhRAOgDi+pNkK5nasTkbmsi
-	0c0H2rdw7Ib6saRugv4MUMmZPSQneAJJ4CjwdDIlDDxZeWi65e9BuSgGhMX5iX1qAg0hTdaHWqrDT
-	eFlf4li+XI+fvHKlqip4LTtFeANzFHE8TvgdnTsIofIcCmPChWRds5YoF/8lI81fOlpixrySzP7EX
-	2mRdPeR2k4I8ggDwZOy3uvTGq2K84QpsZddTwq8xW3b9PeSpesfasTp5k4rcNJ59wE1Rf00XLUcWF
-	5dmkdZ0pR5o9UVDCqbhnfsNY+SOdHTaA1VJLMDmB6jcAI5CZS6U5Z8xJXNO4Zr0JjWVkiJbt1rpTh
-	OIMgexV3A==;
+	 bh=2N/u0cnmeWZIVXxotXoecVSBKCe1oUNYk8Cc0pm2gV4=; b=m/SWxlvt5sHq0W+dYk+Zkk85Y
+	EPfCIB8TZ6KYKq9P9i2AuusOb2CzMELkyl17LqIKYERG2lGB2tKLzjh+5mjvI2P5Vom0XGPkCXup3
+	z/K3LcPJ+qFYijaIXr9XTzvHgNvw+Fai8v7xMyt9mpkuu2okrVr/tqFaGQ5lW8KUBYZ6zaEIoqDCV
+	+L61MH2+f0YBK0PQcvg8yEnFqdGOWJ23vtgZS/1kap1s2By/XQldsIXrAT1/ImuwA7cFqwycHFFHh
+	dw3ST4xCbzo88fKncVnW3/x3ZnqoG1Elb1FYlCQJp+sdfEeQu9PX/l8Jk8pvghDsillsIl+mt7+TC
+	mGXRHkRiQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmfxF-0001If-5T; Tue, 08 Dec 2020 16:35:09 +0000
+	id 1kmfzK-00029H-TZ; Tue, 08 Dec 2020 16:37:19 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmfxB-0001Hk-Co
- for linux-nvme@merlin.infradead.org; Tue, 08 Dec 2020 16:35:05 +0000
+ id 1kmfzI-00027k-LP
+ for linux-nvme@merlin.infradead.org; Tue, 08 Dec 2020 16:37:16 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=FcrfDLXDMA6oQ175CyeC3VNyPVZW/odXwBqmYwf7d6s=; b=NbDUxu3AofBgFFaEc6xSfIhXOw
- c7uvYPpuX5u9/zeVdKnrjZFeNQaTZKOBIJ7Yp9OXPLhRHUm/XzX46cZdPGlAc4Nfb6S2XsbS/e4x6
- tINnMYr9bWpAHYEY7HZ3nZC5wTVtr2zNzLsF+sB0ZBQgdsZBvgrdZ05ZPRzOm7m6CEiLFpkkfvV++
- XMuSfHOgIbo0JYdoThDm+vhmMvPg73O1tZkI0nRNRchwezl803XDFGmt4WUEICTMr93kqLKXSAms8
- z5gpTzgFAJyIR2cSDudEYXqtXbbSoDJ69nkjyMrq8padi8W8wewDHZiKQ35URTLaEAan/7FGABTap
- Ljz+GWiQ==;
+ bh=EBhLdT431wF39exhzTZiipbDTSt+Tm7KUxYzNdjbIMs=; b=DLCeJ9Nb2t/STiB3KylgCsjak5
+ LDood77yKQEqfZTm4zLEsCmVIyMd1ND36bzWvuToIkpzQ3wuEsq3KyaHCDfMP7i94Wj7JEfKAZKLH
+ IoQp5PgJ1eO5UAWw5ZviRO5Zr+CGjmYK0FgwEi+mvX17T9ZnKOO/ghCAw08Iu3Z1NNMQnmWmE05K3
+ URr7/4HBJPTfFsq4ctwQCa3CrCCMYNQ9ArDtVFoe5FCCMF2GZMgapb//ZHz/dJ/ZlJnZB3Z3e5dwQ
+ ZrFEKZibGWXVPK/d6+d09nxS8YZ1V6tOdpzK+4MbBMbgYM1KfRzqKnIlYFOBpjdo/BmgPg/nVMi/f
+ TV4ZkloA==;
 Received: from 089144200046.atnat0009.highway.a1.net ([89.144.200.46]
  helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmfx9-0001Dj-SE; Tue, 08 Dec 2020 16:35:04 +0000
+ id 1kmfzH-0001Nq-0q; Tue, 08 Dec 2020 16:37:15 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 2/6] block: remove the NULL bdev check in bdev_read_only
-Date: Tue,  8 Dec 2020 17:28:25 +0100
-Message-Id: <20201208162829.2424563-3-hch@lst.de>
+Subject: [PATCH 3/6] block: add a hard-readonly flag to struct gendisk
+Date: Tue,  8 Dec 2020 17:28:26 +0100
+Message-Id: <20201208162829.2424563-4-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201208162829.2424563-1-hch@lst.de>
 References: <20201208162829.2424563-1-hch@lst.de>
@@ -78,53 +78,166 @@ Cc: Sagi Grimberg <sagi@grimberg.me>, Mike Snitzer <snitzer@redhat.com>,
  linux-block@vger.kernel.org, dm-devel@redhat.com,
  linux-nvme@lists.infradead.org,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
- Ilya Dryomov <idryomov@gmail.com>, ceph-devel@vger.kernel.org
+ Ilya Dryomov <idryomov@gmail.com>, ceph-devel@vger.kernel.org,
+ Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Only a single caller can end up in bdev_read_only, so move the check
-there.
+Commit 20bd1d026aac ("scsi: sd: Keep disk read-only when re-reading
+partition") addressed a long-standing problem with user read-only
+policy being overridden as a result of a device-initiated revalidate.
+The commit has since been reverted due to a regression that left some
+USB devices read-only indefinitely.
 
+To fix the underlying problems with revalidate we need to keep track
+of hardware state and user policy separately.
+
+The gendisk has been updated to reflect the current hardware state set
+by the device driver. This is done to allow returning the device to
+the hardware state once the user clears the BLKROSET flag.
+
+The resulting semantics are as follows:
+
+ - If BLKROSET sets a given partition read-only, that partition will
+   remain read-only even if the underlying storage stack initiates a
+   revalidate. However, the BLKRRPART ioctl will cause the partition
+   table to be dropped and any user policy on partitions will be lost.
+
+ - If BLKROSET has not been set, both the whole disk device and any
+   partitions will reflect the current write-protect state of the
+   underlying device.
+
+Based on a patch from Martin K. Petersen <martin.petersen@oracle.com>.
+
+Reported-by: Oleksii Kurochko <olkuroch@cisco.com>
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=201221
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Ming Lei <ming.lei@redhat.com>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- block/genhd.c | 3 ---
- fs/super.c    | 3 ++-
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ block/blk-core.c        |  4 +---
+ block/genhd.c           | 33 +++++++++++++++++++--------------
+ block/partitions/core.c |  3 +--
+ include/linux/genhd.h   |  6 ++++--
+ 4 files changed, 25 insertions(+), 21 deletions(-)
 
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 96e5fcd7f071b6..9123c2c86414ae 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -693,9 +693,7 @@ static inline bool should_fail_request(struct block_device *part,
+ 
+ static inline bool bio_check_ro(struct bio *bio, struct block_device *part)
+ {
+-	const int op = bio_op(bio);
+-
+-	if (part->bd_read_only && op_is_write(op)) {
++	if (op_is_write(bio_op(bio)) && bdev_read_only(part)) {
+ 		char b[BDEVNAME_SIZE];
+ 
+ 		if (op_is_flush(bio->bi_opf) && !bio_sectors(bio))
 diff --git a/block/genhd.c b/block/genhd.c
-index b84b8671e6270a..8f2b89d1161813 100644
+index 8f2b89d1161813..d9f989c1514123 100644
 --- a/block/genhd.c
 +++ b/block/genhd.c
-@@ -1652,11 +1652,8 @@ EXPORT_SYMBOL(set_disk_ro);
+@@ -1632,27 +1632,32 @@ static void set_disk_ro_uevent(struct gendisk *gd, int ro)
+ 	kobject_uevent_env(&disk_to_dev(gd)->kobj, KOBJ_CHANGE, envp);
+ }
+ 
+-void set_disk_ro(struct gendisk *disk, int flag)
++/**
++ * set_disk_ro - set a gendisk read-only
++ * @disk:	gendisk to operate on
++ * @ready_only:	%true to set the disk read-only, %false set the disk read/write
++ *
++ * This function is used to indicate whether a given disk device should have its
++ * read-only flag set. set_disk_ro() is typically used by device drivers to
++ * indicate whether the underlying physical device is write-protected.
++ */
++void set_disk_ro(struct gendisk *disk, bool read_only)
+ {
+-	struct disk_part_iter piter;
+-	struct block_device *part;
+-
+-	if (disk->part0->bd_read_only != flag) {
+-		set_disk_ro_uevent(disk, flag);
+-		disk->part0->bd_read_only = flag;
++	if (read_only) {
++		if (test_and_set_bit(GD_READ_ONLY, &disk->state))
++			return;
++	} else {
++		if (!test_and_clear_bit(GD_READ_ONLY, &disk->state))
++			return;
+ 	}
+-
+-	disk_part_iter_init(&piter, disk, DISK_PITER_INCL_EMPTY);
+-	while ((part = disk_part_iter_next(&piter)))
+-		part->bd_read_only = flag;
+-	disk_part_iter_exit(&piter);
++	set_disk_ro_uevent(disk, read_only);
+ }
+-
+ EXPORT_SYMBOL(set_disk_ro);
  
  int bdev_read_only(struct block_device *bdev)
  {
--	if (!bdev)
--		return 0;
- 	return bdev->bd_read_only;
+-	return bdev->bd_read_only;
++	return bdev->bd_read_only ||
++		test_bit(GD_READ_ONLY, &bdev->bd_disk->state);
  }
--
  EXPORT_SYMBOL(bdev_read_only);
  
- /*
-diff --git a/fs/super.c b/fs/super.c
-index 2c6cdea2ab2d9e..5a1f384ffc74f6 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -865,7 +865,8 @@ int reconfigure_super(struct fs_context *fc)
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index deca253583bd3f..5a9633183343c0 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -194,7 +194,7 @@ static ssize_t part_start_show(struct device *dev,
+ static ssize_t part_ro_show(struct device *dev,
+ 			    struct device_attribute *attr, char *buf)
+ {
+-	return sprintf(buf, "%d\n", dev_to_bdev(dev)->bd_read_only);
++	return sprintf(buf, "%d\n", bdev_read_only(dev_to_bdev(dev)));
+ }
  
- 	if (fc->sb_flags_mask & SB_RDONLY) {
- #ifdef CONFIG_BLOCK
--		if (!(fc->sb_flags & SB_RDONLY) && bdev_read_only(sb->s_bdev))
-+		if (!(fc->sb_flags & SB_RDONLY) && sb->s_bdev &&
-+		    bdev_read_only(sb->s_bdev))
- 			return -EACCES;
- #endif
+ static ssize_t part_alignment_offset_show(struct device *dev,
+@@ -360,7 +360,6 @@ static struct block_device *add_partition(struct gendisk *disk, int partno,
  
+ 	bdev->bd_start_sect = start;
+ 	bdev_set_nr_sectors(bdev, len);
+-	bdev->bd_read_only = get_disk_ro(disk);
+ 
+ 	if (info) {
+ 		err = -ENOMEM;
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index 809aaa32d53cba..a62ccbfac54b48 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -163,6 +163,7 @@ struct gendisk {
+ 	int flags;
+ 	unsigned long state;
+ #define GD_NEED_PART_SCAN		0
++#define GD_READ_ONLY			1
+ 	struct kobject *slave_dir;
+ 
+ 	struct timer_rand_state *random;
+@@ -249,11 +250,12 @@ static inline void add_disk_no_queue_reg(struct gendisk *disk)
+ extern void del_gendisk(struct gendisk *gp);
+ extern struct block_device *bdget_disk(struct gendisk *disk, int partno);
+ 
+-extern void set_disk_ro(struct gendisk *disk, int flag);
++void set_disk_ro(struct gendisk *disk, bool read_only);
+ 
+ static inline int get_disk_ro(struct gendisk *disk)
+ {
+-	return disk->part0->bd_read_only;
++	return disk->part0->bd_read_only ||
++		test_bit(GD_READ_ONLY, &disk->state);
+ }
+ 
+ extern void disk_block_events(struct gendisk *disk);
 -- 
 2.29.2
 
