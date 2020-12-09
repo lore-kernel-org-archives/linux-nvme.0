@@ -2,53 +2,72 @@ Return-Path: <SRS0=8yfk=FN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B88C4167B
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 17:20:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B37C4361B
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 17:39:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B7CA523A33
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 17:20:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7CA523A33
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
+	by mail.kernel.org (Postfix) with ESMTPS id 6A7FE20684
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 17:39:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A7FE20684
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=b3G1tt2euHOqqKint2iu8+zdOmBvrt7moZV5rzsv6tE=; b=QPOwt+WGSqg5i9eyF7KNNHThcJ
-	E8/hOFB6mDRy37SbuqmzlVUC01koB44k5dTAriCKBwEWqjuqV/Sav9KviUIqSw9L0TGJ4CqnGFV0X
-	uz23nctbtDkYv6FDWYMXiwkCV5+uUNc+GFh/YgpH1JVEkqqMWEUtcTFxqpISkitlJy/qkQGBDj2d3
-	s/67CCPaY76CMQyrYS4R8RonKZQ3RAIvWPFGDs4gcwbNw94/WKX/hUA2L0q6mBLIwxaQSJCY4SwP6
-	Q2FETPpI4PO3t0t4SHqMfMN1frmh9XcrMyG/brY8C4fie0QE5TTP6QiTf0CcUEJ6W66I5kvvWvUrE
-	qhxheOXA==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=hUY3VPinapsK1UpVZMBb3LzheeWeCjhKkUKIumr5+c4=; b=M+fzsVJGCptHnsxdgxVquKFQg
+	xHwR/I2uHpLGpciID2l9H6n227CYPy+0HF2pwY6JiO4Bl5zR9Fjy3npNNJ7MUXzzpFgr683w5ESvS
+	uU2TO1Ty55pFMWceIhW/aRq8dCwyPYFgpZ8gnR4TGgyXk+n5bC2uu0WBTL+0b0nrqiVd1+nGu1/fg
+	eIMrLDWjw9kQXpXXmVWt19dYlE/oM2/FW7KAsFV4IfURSuIbDQOUzWRn6YNLdMtGqAG2ilhTUSaps
+	2dnS9wMauKlCYAkH0rXUBoFBeLx5hudqMvhbsk5c3lv1JKKA+fxWzcAdtCYPyb3NZP7MPfEq7cyV8
+	gf8EY781A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kn38R-0006pt-4n; Wed, 09 Dec 2020 17:20:15 +0000
-Received: from stargate.chelsio.com ([12.32.117.8])
+	id 1kn3RL-0000xb-AF; Wed, 09 Dec 2020 17:39:47 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kn38K-0006pI-5g
- for linux-nvme@lists.infradead.org; Wed, 09 Dec 2020 17:20:12 +0000
-Received: from localhost (mehrangarh.blr.asicdesigners.com [10.193.185.169])
- by stargate.chelsio.com (8.13.8/8.13.8) with ESMTP id 0B9HJJCd030552;
- Wed, 9 Dec 2020 09:19:20 -0800
-Date: Wed, 9 Dec 2020 22:49:18 +0530
-From: Potnuri Bharat Teja <bharat@chelsio.com>
-To: sagi@grimberg.me
-Subject: Request timeout seen with NVMEoF TCP
-Message-ID: <X9EHFnhujZo175Kw@chelsio.com>
+ id 1kn3RI-0000vq-M9
+ for linux-nvme@lists.infradead.org; Wed, 09 Dec 2020 17:39:45 +0000
+Date: Thu, 10 Dec 2020 02:39:36 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607535583;
+ bh=BeoeoxKmm35DQTByQ+ZDVrqz3IfZY3cOSRSpp6EZnGU=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mYFOuagUW6R6oQhKDAiSaHJViv2fRQuwbUIR+tNr5OQM8TeJk38/wRqkU/7MwjUlF
+ ntbVZ5PUsy3FApu4EEFoGKiZBbZZHmRP1uNpJB9NKBYT3FcH2i/bG7I5hEdccT4+28
+ 6GaAi7IzWfBR/eJynF8Na/nrcY2T7pgLxIa9mnQqK1JgbAzznzpHPnExYLlUiDoPxJ
+ cme6l0YBKVjwMrJofVmWtXuwCqVITaP4hF6nb9IY5g+OZACcw8kZfid1b/7DUN3YDv
+ leHVHbFoMx1Yov94GdDXha6svMkMRpnGz9pBSnmDKDjDbctaVcZr4qCu/f2IcLae9r
+ 09yTnpb6ymGJw==
+From: Keith Busch <kbusch@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
+ group
+Message-ID: <20201209173936.GA31971@redsun51.ssa.fujisawa.hgst.com>
+References: <20201208183444.GB27155@redsun51.ssa.fujisawa.hgst.com>
+ <DM5PR0601MB3624104F7CC63DF394AD0772F1CD0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201208214650.GF27155@redsun51.ssa.fujisawa.hgst.com>
+ <DM5PR0601MB362434919691D589BCCF637BF1CC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201209072806.GA10037@lst.de>
+ <DM5PR0601MB36241F3E2F4BF6AECD96B72BF1CC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201209155321.GA31729@redsun51.ssa.fujisawa.hgst.com>
+ <b9c9e5f9-a447-2a2e-b687-304dd8f3d2b2@suse.de>
+ <20201209161911.GA31836@redsun51.ssa.fujisawa.hgst.com>
+ <66bad47c-0cd3-8461-3629-146778f15059@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <66bad47c-0cd3-8461-3629-146778f15059@suse.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201209_122008_355856_DE6384F6 
-X-CRM114-Status: UNSURE (   6.00  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201209_123944_919031_1B1597B5 
+X-CRM114-Status: GOOD (  23.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,65 +79,68 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org
+Cc: "George, Martin" <Martin.George@netapp.com>,
+ Hannes Reinecke <hare@suse.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "hch@lst.de" <hch@lst.de>, "Knight, Frederick" <Frederick.Knight@netapp.com>,
+ "Meneghini, John" <John.Meneghini@netapp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi All,
-I am seeing the following timeouts and reconnects on NVMF TCP initiator with latest v5.10-rc5 
-kernel.
-I see the same behavior with nvme tree too (branch:nvme-5.11)
-I last ran this with 5.8, where it was running fine.
+On Wed, Dec 09, 2020 at 06:04:29PM +0100, Hannes Reinecke wrote:
+> On 12/9/20 5:19 PM, Keith Busch wrote:
+> > On Wed, Dec 09, 2020 at 05:02:05PM +0100, Hannes Reinecke wrote:
+> > > On 12/9/20 4:53 PM, Keith Busch wrote:
+> > > > On Wed, Dec 09, 2020 at 03:20:57PM +0000, Knight, Frederick wrote:
+> > > > > When a namespace is created (and contained in an ANA Group), the act
+> > > > > of creating that namespace results in a change to the ANA Log page -
+> > > > > therefore AEN.
+> > > > 
+> > > > That is wrong: creating a namespace doesn't do anything to the ANA log.
+> > > > Only attached namespaces appear in the log. Creating a namespace
+> > > > doesn't result in automatically attaching it to any controller.
+> > > > 
+> > > > You are thinking of Namespace Attach from section 5.19, and the spec
+> > > > doesn't define any special exceptions for events resulting from *that*
+> > > > command, which is also the command that triggered this thread.
+> > > > 
+> > > Actually, no, we're not thinking about 'Namespace Attach'.
+> > 
+> > This patch is the result from an Attach command, otherwise the host
+> > driver wouldn't have found an unknown ANA group for a new namespace
+> > during the rescan.
+> > 
+> > > This is a normal namespace creation on the controller side.
+> > > 
+> > > I do agree that 'Namespace Attach' would have different constrains and rules
+> > > under which AENs will be sent, but this is not what our initial use-case was
+> > > about.
+> > 
+> > The use case in this patch is about getting the host to recognize the
+> > ANA group of a newly attached namespace. If you stop at namespace
+> > creation, then this patch doesn't do anything.
+> > 
+> Now you got me confused.
+> Of course the namespace is attached to a controller, but this is _not_ the
+> result of a 'namespace attach' command from the host.
+> If that's what you imply.
+> Not sure, though; as said, I'm confused now.
+> 
+> The use-case I'm trying to describe is that the admin on the storage array
+> is creating a namespace and attaching it to an existing subsystem,
+> completely without interaction from the host. It just so happens that this
+> new namespace has a different ANA group than the existing namespaces in this
+> subsystem.
+> Then the array has to notify the host about this.
+> And the whole discussion is about which AENs this controller/storage array
+> should be sending.
 
-Target configuration is, 1 target with 1gb ramdisk namespace. On intiator,
-discover, connect and run fio or Iozone. Traces are seen within couple of minutes 
-after starting the test.
-
-initiator dmesg:
---
-[77206.339485] nvme nvme1: queue 11: timeout request 0x34 type 6
-[77206.340070] nvme nvme1: starting error recovery
-[77206.340360] nvme nvme1: queue 11: timeout request 0x36 type 6
-[77206.340766] nvme nvme1: queue 11: timeout request 0x38 type 6
-[77206.341128] nvme nvme1: queue 11: timeout request 0x39 type 6
-[77206.341515] nvme nvme1: queue 11: timeout request 0x3a type 4
-[77206.341871] block nvme1n1: no usable path - requeuing I/O
-[77206.342103] nvme nvme1: Reconnecting in 10 seconds...
-[77206.342170] block nvme1n1: no usable path - requeuing I/O
-[77206.342871] block nvme1n1: no usable path - requeuing I/O
-[77206.343183] block nvme1n1: no usable path - requeuing I/O
-[77206.343498] block nvme1n1: no usable path - requeuing I/O
-[77206.343810] block nvme1n1: no usable path - requeuing I/O
-[77206.344103] block nvme1n1: no usable path - requeuing I/O
-[77206.344387] block nvme1n1: no usable path - requeuing I/O
-[77206.344705] block nvme1n1: no usable path - requeuing I/O
-[77206.345027] block nvme1n1: no usable path - requeuing I/O
-[77211.971543] nvme_ns_head_submit_bio: 449 callbacks suppressed
-[77211.971547] block nvme1n1: no usable path - requeuing I/O
-[77216.600034] block nvme1n1: no usable path - requeuing I/O
-[77216.600386] block nvme1n1: no usable path - requeuing I/O
-[77216.600752] block nvme1n1: no usable path - requeuing I/O
-[77216.601150] block nvme1n1: no usable path - requeuing I/O
-[77216.601531] block nvme1n1: no usable path - requeuing I/O
-[77216.601915] block nvme1n1: no usable path - requeuing I/O
-[77216.602176] block nvme1n1: no usable path - requeuing I/O
-[77216.602467] block nvme1n1: no usable path - requeuing I/O
-[77216.602830] block nvme1n1: no usable path - requeuing I/O
-[77216.603597] nvme nvme1: creating 16 I/O queues.
-[77216.642166] nvme nvme1: mapped 16/0/0 default/read/poll queues.
-[77216.642516] debugfs: Directory 'hctx0' with parent '/' already present!
-[77216.642899] debugfs: Directory 'hctx1' with parent '/' already present!
-[77216.643177] debugfs: Directory 'hctx2' with parent '/' already present!
-[77216.643475] debugfs: Directory 'hctx3' with parent '/' already present!
---
-
-Please let me know if I could help with anything.
-
-Thanks,
-Bharat.
-
+Fred keeps saying the spec's rules for NVMe's namespace create command
+from section 5.20 allow him to not send events, but it turns out you're
+not even using this command? Why would the spec's defined behavior apply
+to this proprietary use case?
 
 _______________________________________________
 Linux-nvme mailing list
