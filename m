@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB469C433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 02:53:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4222C4361B
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 02:55:28 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1510A23888
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 02:53:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1510A23888
+	by mail.kernel.org (Postfix) with ESMTPS id 6D81A23888
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 02:55:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D81A23888
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,55 +23,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xvpwZfMacCkk4lsgSYgrmVHN/0DkDYfILs0sBcvAdg8=; b=T9NEWdg/pY6TdMYxGmgqtCRBA
-	VSKNwkFFDgpeCHKtNGMF7A9uLm9m5qm7zE9ZOFQ5C9KJLUdZYAo03jxSt8FyLDagpIPPvfiYifijF
-	l7jO56nxF5KqdtgQl8KJa2fMHhf295ExuzKTkDosPuuCJpzjzczP79xxCHAR/CA8N+FA/amvufYb+
-	PkYqx9OkYRizgLxjrXaRVteIudTmi/JNeMs6gegiXbmDBhjHrNMjEtqi0SX7QGET/kB+G+z5VcLOl
-	Dgp1LZj23TD+B5r906rWRaCywHWiCODWzEZntUcrhI1YFiqN9ndolNrqa/BgHzrPxQLPN13y3efYG
-	FTuUJssqQ==;
+	 bh=PYFOaJM89/q8YVK3Jl8zFZx1eANu5y6dCcSVW3ye2/M=; b=aeHzUOwfoRDwcns4inVLi/pW9
+	4L+Z57jH3o2boiZR30+wx1dvggfGGvLpaUojt32n6gT/TknYnyJ5+pqAkyTagZ4YPYuuXIVO85DxC
+	Rala8fQNeurw/BojHCg/4C3PHsKe+lsroM16BhFl2SP4OmlngJGRefo0HL60zrW4wnlqrcMV/aE7y
+	CITpo3mxv/KgU7t2F3noNAwjNDOpLl5rcutcWdq83dE5jtjUYR4hl0NQ7xZveduEWqHlxl1mnjGZB
+	F3GYEVYIwpD5b6Xtsc862RGXtuy1K2AU2CFpiN1fNwcPxBlSJifq7oG2w3Y2RK+06pI7qmOimEpEr
+	pfLAS3+pA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmpbF-00008G-NG; Wed, 09 Dec 2020 02:53:05 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1kmpdW-0000UI-5H; Wed, 09 Dec 2020 02:55:26 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmpbD-00007k-GW
- for linux-nvme@lists.infradead.org; Wed, 09 Dec 2020 02:53:04 +0000
+ id 1kmpdT-0000TU-9a
+ for linux-nvme@lists.infradead.org; Wed, 09 Dec 2020 02:55:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607482383;
+ s=mimecast20190719; t=1607482523;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cFNY6oR+hixdAWaVKQm4SgGYUWW8X4hMf/ko6NanEgg=;
- b=Cds9MCj9zTNt580aj687JYv2uwlK5g/aR20yGlmmdtjQQ8+tKgvuFWdJV1LsocXv/28VcK
- /KYUMnw+oiGqXaPplN3xLz3EK+1EmmIj4t4tCd+opZU5UXKi3tffzp4eiheDtZYt7pmync
- AZKp5i63jN2t4bM8pUmU+4MGKYGD0m0=
+ bh=0WZQF5SlAEi9+waVA6LQzgtvN5ftR3nM5/xd5tk5h3g=;
+ b=VFsUCELRHREyRktOKgD6uGfs+RIdQxHy+O5UUjac8bcEt5owEo45JOofcCTyYOeag9azVl
+ ogv01weuOwiSQDrkAxypnBw21/n1K2qhvKOyXfajFq4N/SswIMBmIfKCUmIezsQmb7sJl7
+ 85/NhD6qpG4S6UP/f7xJxqFZtFH5cVE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-q6C_rUbMONuOm0y1RKtmGw-1; Tue, 08 Dec 2020 21:52:59 -0500
-X-MC-Unique: q6C_rUbMONuOm0y1RKtmGw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-374-7xfTxa8XOY-IC20s3V-rdQ-1; Tue, 08 Dec 2020 21:55:19 -0500
+X-MC-Unique: 7xfTxa8XOY-IC20s3V-rdQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A816107ACE3;
- Wed,  9 Dec 2020 02:52:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F945107ACE3;
+ Wed,  9 Dec 2020 02:55:17 +0000 (UTC)
 Received: from T590 (ovpn-12-139.pek2.redhat.com [10.72.12.139])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84BED6064B;
- Wed,  9 Dec 2020 02:52:41 +0000 (UTC)
-Date: Wed, 9 Dec 2020 10:52:36 +0800
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B90D019725;
+ Wed,  9 Dec 2020 02:55:01 +0000 (UTC)
+Date: Wed, 9 Dec 2020 10:54:56 +0800
 From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 5/6] rbd: remove the ->set_read_only method
-Message-ID: <20201209025236.GE1217988@T590>
+Subject: Re: [PATCH 6/6] nvme: allow revalidate to set a namespace read-only
+Message-ID: <20201209025456.GF1217988@T590>
 References: <20201208162829.2424563-1-hch@lst.de>
- <20201208162829.2424563-6-hch@lst.de>
+ <20201208162829.2424563-7-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201208162829.2424563-6-hch@lst.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201208162829.2424563-7-hch@lst.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201208_215303_588445_553DBCDE 
-X-CRM114-Status: GOOD (  20.46  )
+X-CRM114-CacheID: sfid-20201208_215523_398397_9117DED7 
+X-CRM114-Status: GOOD (  17.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,59 +88,41 @@ Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
  Dongsheng Yang <dongsheng.yang@easystack.cn>, linux-block@vger.kernel.org,
  dm-devel@redhat.com, linux-nvme@lists.infradead.org,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
- Ilya Dryomov <idryomov@gmail.com>, ceph-devel@vger.kernel.org,
- Hannes Reinecke <hare@suse.de>
+ Keith Busch <kbusch@kernel.org>, Ilya Dryomov <idryomov@gmail.com>,
+ ceph-devel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 08, 2020 at 05:28:28PM +0100, Christoph Hellwig wrote:
-> Now that the hardware read-only state can't be changed by the BLKROSET
-> ioctl, the code in this method is not required anymore.
+On Tue, Dec 08, 2020 at 05:28:29PM +0100, Christoph Hellwig wrote:
+> Unconditionally call set_disk_ro now that it only updates the hardware
+> state.  This allows to properly set up the Linux devices read-only when
+> the controller turns a previously writable namespace read-only.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> Acked-by: Ilya Dryomov <idryomov@gmail.com>
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
 > Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 > ---
->  drivers/block/rbd.c | 19 -------------------
->  1 file changed, 19 deletions(-)
+>  drivers/nvme/host/core.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
-> index 2ed79b09439a82..2c64ca15ca079f 100644
-> --- a/drivers/block/rbd.c
-> +++ b/drivers/block/rbd.c
-> @@ -692,29 +692,10 @@ static void rbd_release(struct gendisk *disk, fmode_t mode)
->  	put_device(&rbd_dev->dev);
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index ce1b6151944131..3a0557ccc9fc5d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2114,9 +2114,8 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>  	nvme_config_discard(disk, ns);
+>  	nvme_config_write_zeroes(disk, ns);
+>  
+> -	if ((id->nsattr & NVME_NS_ATTR_RO) ||
+> -	    test_bit(NVME_NS_FORCE_RO, &ns->flags))
+> -		set_disk_ro(disk, true);
+> +	set_disk_ro(disk, (id->nsattr & NVME_NS_ATTR_RO) ||
+> +		test_bit(NVME_NS_FORCE_RO, &ns->flags));
 >  }
 >  
-> -static int rbd_set_read_only(struct block_device *bdev, bool ro)
-> -{
-> -	struct rbd_device *rbd_dev = bdev->bd_disk->private_data;
-> -
-> -	/*
-> -	 * Both images mapped read-only and snapshots can't be marked
-> -	 * read-write.
-> -	 */
-> -	if (!ro) {
-> -		if (rbd_is_ro(rbd_dev))
-> -			return -EROFS;
-> -
-> -		rbd_assert(!rbd_is_snap(rbd_dev));
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  static const struct block_device_operations rbd_bd_ops = {
->  	.owner			= THIS_MODULE,
->  	.open			= rbd_open,
->  	.release		= rbd_release,
-> -	.set_read_only		= rbd_set_read_only,
->  };
->  
->  /*
+>  static inline bool nvme_first_scan(struct gendisk *disk)
 > -- 
 > 2.29.2
 > 
