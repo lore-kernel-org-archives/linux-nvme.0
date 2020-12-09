@@ -1,102 +1,140 @@
-Return-Path: <SRS0=lokR=FM=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=8yfk=FN=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 202A5C4361B
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 22:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B565C433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 00:07:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8904A239FD
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Dec 2020 22:14:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8904A239FD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8612923A6A
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Dec 2020 00:07:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8612923A6A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=netapp.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=c7br9Ovz3h0F4V8vUx8KfCB6fnX4ku5GsE01iIcWOgo=; b=HMnlzfm+4HfHr7j8RCDtx6G2a
-	UT2aLq8XQEokE9ObTk1dRFHVnvNiWT2FrPq1tzCOH6kG7NlcqkrE7+UiYQx3k4frhsfTEe1Mx3n68
-	0fVGzr4gRVPTmyD6+icX82QO3K4aHYg6uBWBPhS77H7uGKguTn8tuVYVa3MFeje+tJy5qkhleinxN
-	rRdajhnlgsoR67PTMypd0ENy8wgh8d4sLjBKrwWG7+TXEpp74FHFxV7H5KZh80Bmrbgimk3BjWXy+
-	pGOOzJBCHIuC57EUsn+w4QVMXXCmbSvO8sa3q/Igrv7zM/Gk0DBtStJa/TdfAnqBXmKGS/BNrRkY1
-	eQADTaXjw==;
+	 bh=KtHc4g5UM42EwdfRqFeCkHQ+DGwLoiznXRAgLf6D4/s=; b=pvADV3eXM8f21TqoaaN6T1d94
+	9xsDnZJUx+BUP5CA8RtWSwZHGaJPMXwzYVXHB7DL/fxJukeCjXnXd3wpF4VlUl5VwD1bNEuLKHEsV
+	noZPq0TVRO6X0NA9pahuqGUhpVYLrEvUDk2WgkLLAWDbGf2uNWg0+1MEtnmgKNGb5Ypg6b08r4qjf
+	APkcpat49kny3igfXGQHj82hOwbeG7A1i9KseW/Izkj8vuX8PSdZ5I2SqWRAfwdhSMEDy2OEGw6S7
+	ShjaevOfJV1pW4I1hgVqobn7mBcvgqF5ToCIuSpeYEfXz5sP5trAw2qtKOx6vJ9Vpg1RfiU1Bg1B2
+	S1HoOuwbw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kmlFr-0002Us-BI; Tue, 08 Dec 2020 22:14:43 +0000
-Received: from aserp2120.oracle.com ([141.146.126.78])
+	id 1kmn0m-0006Kh-Sq; Wed, 09 Dec 2020 00:07:16 +0000
+Received: from mail-dm6nam11on2076.outbound.protection.outlook.com
+ ([40.107.223.76] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kmlFo-0002U9-5p
- for linux-nvme@lists.infradead.org; Tue, 08 Dec 2020 22:14:41 +0000
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8M9gcj079883;
- Tue, 8 Dec 2020 22:14:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=FKx2Im4t9Wd8aF+D2tVt7Nq1tPyD+KE6DK+9XVHHFdg=;
- b=psR5Nh5i256gDK6BSLNfBCcMc2EKYXHkNCxOq0mTiDDnBobcCZ4j0P7do6N3wUEkhTy3
- X8kzOqaCfc1xdia/Ug9ACqLLRp5qAKFG5aFRAjnG1MK/TMHy/9V6VrTI5J5TPLY/LhHr
- /uQPY0fDpRgIZSRXFnuwdNTIQMGASwDJV7M23iw1a4NyVUfFKrzM5oMQXlVys59kMS6G
- W/xsFpBwJaMMJehDgY5OCFFPt4YIgy3HrvrVgZQvodjyyjEpXAPO71dI+JpFbEOOaDPd
- rBSNp6OMWKdJBwrs1p/Sm2O8+qmONb9B2rH4AAt2VtR4BTQ2IjlhcmhSjspVKa4o14Y+ hA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 35825m59dj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 08 Dec 2020 22:14:24 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8MAVEM048505;
- Tue, 8 Dec 2020 22:14:24 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 358m3ybgbh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 08 Dec 2020 22:14:24 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B8MEHad030733;
- Tue, 8 Dec 2020 22:14:18 GMT
-Received: from char.us.oracle.com (/10.152.32.25)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 08 Dec 2020 14:14:17 -0800
-Received: by char.us.oracle.com (Postfix, from userid 1000)
- id 542B86A0121; Tue,  8 Dec 2020 17:16:17 -0500 (EST)
-Date: Tue, 8 Dec 2020 17:16:17 -0500
-From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To: Jianxiong Gao <jxgao@google.com>
-Subject: Re: [PATCH] [PATCH] Keep offset when mapping data via SWIOTLB.
-Message-ID: <20201208221617.GA27569@char.us.oracle.com>
-References: <20201207214204.1839028-1-jxgao@google.com>
+ id 1kmn0i-0006K9-LP
+ for linux-nvme@lists.infradead.org; Wed, 09 Dec 2020 00:07:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OJ1UWMNW6AU590T0HWqfXtt3sx+oObOofDJmM0W5fzu8MPcDztv5jVbpgFvVHF8xraKaRHxC+DfCix+eUEKkcBtolcOezGRyJYnuUjpwYFeEFgJPyTiQtd9sokJKV06O7mPSpYtCEcoi81UmXDw9xGxI9QqBqXiI4ml9pW5DCr/LEeXSFZ3N6e+7uHvy1rJZIj1+bGlhbIAvacFcb2sr8ASkszhEPzEa8Sj3HPIahZBE0NQWlbag4V573bH+gl3DYwY59E8W5WL1uJz/gprLUohUqb3uxiYWomenaN4Rk/3bcICSGT8kI8m+t8W5iUJ7l9SIcT76CxYwKoiaJXTPlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jkO32RGDA/1WZtKJUWX9scxi0E9EGPG0yQg5zgcpRuk=;
+ b=WeOT68oX6aOZy3gHihyabHf/so4sJ3howZvdTEk7HNuThPFsZ2akYAW0r+txa/zbO66+wgYuhUyvFswZbRSc7cbXyN60LdJdDG7qiVlQ1QA4tIEPruW/MaJ1OC4Hjq9cX/Es76jkSjT4rtZb06FGCRJ9iZ10aBAxL8E3BVWTgWkNZ3EU2zT9HzBzZxNN6FvhH/NzCXIGGdsGfNrR0apvyfFz/uteDV3OLdiETp5YJ4XOj7WoMoMmOwyi9Ve57f9XWCix9PZUr3TL+1N2PRCv4Ci1cZhj4mZ9x5WMMgfcGIxEGmjiFgpybmKhHduQLe0ZoHVmJj2jHjraWUdmhg/v5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=netapp.com; dmarc=pass action=none header.from=netapp.com;
+ dkim=pass header.d=netapp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netapp.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jkO32RGDA/1WZtKJUWX9scxi0E9EGPG0yQg5zgcpRuk=;
+ b=RLrxrma41rXvI2JpufkAgAG2d9O2t4FUflELNuWPDJvr03sNqw+a3MtTlKLDL8bIWK5xLMouVMwZHFEZX8O4PcVGtTTtfId1AQ7x4qyg58bbZLF6B2vnnEqI+anNWHONoMx1xnqMjoIgtqwTPZtL6SONNFw+EvkZtfQ/8RaBNgNiJPXkKi7S1OOSJkRwkFTmNtFu55goYq2Bz6rMUZgepjnb2neXZYsgi3kDsN7kCcrFuI99atZJ7SJVJd9uJY/POLXXG15s4fMIpat3i0EAefueEXdCA9mUZr4pgfln+Ro5DlvpM6Kci8L5ADS2nOqI9c4MIvVQ64ClxbBcSS87fA==
+Received: from DM5PR0601MB3624.namprd06.prod.outlook.com (2603:10b6:4:7f::28)
+ by DM6PR06MB6521.namprd06.prod.outlook.com (2603:10b6:5:25c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.19; Wed, 9 Dec
+ 2020 00:07:09 +0000
+Received: from DM5PR0601MB3624.namprd06.prod.outlook.com
+ ([fe80::7512:336:92f6:8610]) by DM5PR0601MB3624.namprd06.prod.outlook.com
+ ([fe80::7512:336:92f6:8610%4]) with mapi id 15.20.3632.023; Wed, 9 Dec 2020
+ 00:07:09 +0000
+From: "Knight, Frederick" <Frederick.Knight@netapp.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: RE: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
+ group
+Thread-Topic: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
+ group
+Thread-Index: AQHWvceZTKwQ33oCEkWHEJt+GYZ8+qnOUfKAgAJ1/QCABLR8gIAAWHaQgBYJ9gCAAAOmgIABtGiAgAACP8CAAAzlAIAABdaQgAAv1gCAACa3YA==
+Date: Wed, 9 Dec 2020 00:07:08 +0000
+Message-ID: <DM5PR0601MB36241CA22888CE6A6C66A702F1CC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+References: <7fd0b51f3b7bc73abf7132aaa5ee7c493a93aef0.camel@netapp.com>
+ <20201120094432.GA25846@lst.de>
+ <185CE0F5-617A-4446-A5C6-86A832D5A188@netapp.com>
+ <DM5PR0601MB362496D2C29A18B3B1B77A61F1FC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201207152532.GA4527@lst.de>
+ <DM5PR0601MB362473E145AC665C0DE96286F1CD0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201208174033.GA27155@redsun51.ssa.fujisawa.hgst.com>
+ <DM5PR0601MB362465A52C0B59002A0867F4F1CD0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201208183444.GB27155@redsun51.ssa.fujisawa.hgst.com>
+ <DM5PR0601MB3624104F7CC63DF394AD0772F1CD0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201208214650.GF27155@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <20201208214650.GF27155@redsun51.ssa.fujisawa.hgst.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=netapp.com;
+x-originating-ip: [2601:186:0:56d0:5cd3:ab9b:a8f1:b122]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 22b68447-c8ab-4828-79f3-08d89bd65ef7
+x-ms-traffictypediagnostic: DM6PR06MB6521:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR06MB6521A1798144BDB639C182FEF1CC0@DM6PR06MB6521.namprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: t8dOR6uwKtX7jHRVgIgy7hDRc2FAmG7EJL4lEbcDGTGUypMf71An/6zo3CvfF2alOL7Lh1NWfIzJhp3HiNguYtvDQVCJVJeUAbNtkNKStgrBcTJPXBMgDCiEEm+k9Hvr52v5Ooic+QMDS3Tk9UMGfXGlVav9IgB/MgE/8Q7WJPckeO+x76tdGQslJevVgmRus2l2djF38cz0BrnzFeXhhbKb0Gzr+080Wfcx868YB02gssHpz2z1cggdTa95KZdTGNGaEZJTN8y8cLC9MAlzdc8T62eTEH+RVL0YS/qwzfWs/jQhfXrAc5N67KduvfnAcEszZvmDiA5ywSPY8bzREA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR0601MB3624.namprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(346002)(376002)(86362001)(2906002)(4326008)(53546011)(508600001)(83380400001)(8936002)(55016002)(6916009)(52536014)(66946007)(15650500001)(9686003)(6506007)(33656002)(76116006)(8676002)(5660300002)(186003)(66556008)(66476007)(71200400001)(64756008)(54906003)(66446008)(7696005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?x4Sy0DZC8XjZPJfKnnp9/15jtABq/4mPBe6lqlp8E76QrSxsdCYiSFg2EqCS?=
+ =?us-ascii?Q?OjIGA9lbS4aEi6tYn2gaYzadZ70pZeJBxVNRTnhgoalSOG80CQvVGZTA7kFw?=
+ =?us-ascii?Q?VYUieMG2HTfyMzvMyGr3mN0ZuWVkWMKSZk70OrE4o8Sx1Xx1bvYIZn0dChP9?=
+ =?us-ascii?Q?4ZhvwYdoNntMYGV21FvibZ8JoHU15p5lWQwgPswwPzjjU8AULaMyKLVdus7M?=
+ =?us-ascii?Q?kB62oI57nA2zqPHDzJt+EAMmNg/R1g774LVUkX23mb1BdElb+1klCHRRqYNw?=
+ =?us-ascii?Q?wzQXjIgHvhWWUqV7OvmNKjtak7N2NGyZy+BQ/+lyt5Ez9s+PspcGr103zOBZ?=
+ =?us-ascii?Q?b7Pcs96OahCG999hMg6bUkVppyctZz+TCZepCoMjvlXdWG1fK8c7MtgtE2Of?=
+ =?us-ascii?Q?hQWu1nAZ8nOMK58VGwXrSQrIbJP121cgRXXQsna5ug70GbS5qGt7MW39fHyZ?=
+ =?us-ascii?Q?P2aoeUSNlrm3okoDNioJ2N4Rr309ECc3WgmUZnY6g/w1RZQ1ETLQdiYLEcn5?=
+ =?us-ascii?Q?UXXIis3YewyIEaY8Z8oyKjvtHJqcg0BAyMGySuQbEeYA3fBXzXuGaSeX2JcO?=
+ =?us-ascii?Q?5B77vFuU/E4YYd6uiH9K0rfnj85Jis1fff0BRGEbjzV3IWlj0VqEUCqBSM2A?=
+ =?us-ascii?Q?HrNKfFPiqJxGLrJyh/JGdz3lnjCAwKHxMrE3TeMIrNpMjK0fNc6SSNco/IKM?=
+ =?us-ascii?Q?LLDMr7GG/1NYJuZs6x0xIXw89HJ4SWYzj656yt6/RLKWmlvoFQzEu/n7sOa4?=
+ =?us-ascii?Q?FOiQ19Kxj1bO2rpjlRa89HeyCbKo/zZuSunKptHKGihANvkT4yAIKTIQ40qE?=
+ =?us-ascii?Q?AdNnnLAtGyzOGHIjbvQhfE5wii1RfKIr5JrA2nzt+zQblGmDPqWvQLN5Nei3?=
+ =?us-ascii?Q?DLgHDBvgxTU4WdNxLnx30usRhxXarHsCWLMJauN3OrFnYFS1dIBcXT13BMaF?=
+ =?us-ascii?Q?qPuz4nSbkBz8kiYALVkhT3JFlneYMpAVmd9cGX8YSjofqxwJsP/lYdDaMLtc?=
+ =?us-ascii?Q?V+/WiFTr7SI0gA0Nh5dF4T08tlBR2haj0D06M+ChUHiGb9E=3D?=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201207214204.1839028-1-jxgao@google.com>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- malwarescore=0 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012080138
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012080138
+X-OriginatorOrg: netapp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR0601MB3624.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22b68447-c8ab-4828-79f3-08d89bd65ef7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2020 00:07:08.9849 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4b0911a0-929b-4715-944b-c03745165b3a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: L5NBTn/cVQcjKR/ZlJOhzB0azfMuhfQ7IeDBeag4PRVnoZIPcbxBDJaw7ORO0QYhQQI+3bPEY+pZdGUbhCb9Ng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR06MB6521
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201208_171440_406324_7C347989 
-X-CRM114-Status: GOOD (  32.52  )
+X-CRM114-CacheID: sfid-20201208_190713_142669_4D51CB55 
+X-CRM114-Status: UNSURE (   8.63  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,70 +146,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, axboe@fb.com, iommu@lists.linux-foundation.org,
- David Rientjes <rientjes@google.com>, kbusch@kernel.org, robin.murphy@arm.com,
- hch@lst.de, m.szyprowski@samsung.com
+Cc: "George, Martin" <Martin.George@netapp.com>,
+ Hannes Reinecke <hare@suse.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "hch@lst.de" <hch@lst.de>, "Meneghini, John" <John.Meneghini@netapp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 07, 2020 at 01:42:04PM -0800, Jianxiong Gao wrote:
-> NVMe driver and other applications depend on the data offset
-> to operate correctly. Currently when unaligned data is mapped via
-> SWIOTLB, the data is mapped as slab aligned with the SWIOTLB. When
-> booting with --swiotlb=force option and using NVMe as interface,
-> running mkfs.xfs on Rhel fails because of the unalignment issue.
-> This patch makes sure the mapped data preserves
-> its offset of the orginal address. Tested on latest kernel that
-> this patch fixes the issue.
+If you want to make that a transition, then bring a TPAR to change it.
 
-Lets reword this comment a bit more since you are not providing
-the RHEL Bug, and instead are focusing on the upstream kernel.
+When ANA Groups are created, they already have a state.  There is NO transition; there is NO AEN.
 
-I can do that for you..
+	Fred
 
-> 
-> Signed-off-by: Jianxiong Gao <jxgao@google.com>
-> Acked-by: David Rientjes <rientjes@google.com>
-> ---
->  kernel/dma/swiotlb.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index 781b9dca197c..56a35e71b3fd 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -483,6 +483,12 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
->  	max_slots = mask + 1
->  		    ? ALIGN(mask + 1, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT
->  		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
-> + 
-> +	/*
-> +	 * We need to keep the offset when mapping, so adding the offset
-> +	 * to the total set we need to allocate in SWIOTLB
-> +	 */
-> +	alloc_size += offset_in_page(orig_addr);
->  
->  	/*
->  	 * For mappings greater than or equal to a page, we limit the stride
-> @@ -567,6 +573,11 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
->  	 */
->  	for (i = 0; i < nslots; i++)
->  		io_tlb_orig_addr[index+i] = orig_addr + (i << IO_TLB_SHIFT);
-> +	/*
-> +	 * When keeping the offset of the original data, we need to advance
-> +	 * the tlb_addr by the offset of orig_addr.
-> +	 */
-> +	tlb_addr += orig_addr & (PAGE_SIZE - 1);
->  	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
->  	    (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
->  		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_TO_DEVICE);
-> -- 
-> 2.27.0
-> 
-> 
+-----Original Message-----
+From: Keith Busch <kbusch@kernel.org> 
+Sent: Tuesday, December 8, 2020 4:47 PM
+To: Knight, Frederick <Frederick.Knight@netapp.com>
+Cc: hch@lst.de; Meneghini, John <John.Meneghini@netapp.com>; George, Martin <Martin.George@netapp.com>; linux-nvme@lists.infradead.org; sagi@grimberg.me; Hannes Reinecke <hare@suse.com>
+Subject: Re: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA group
+
+NetApp Security WARNING: This is an external email. Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+
+
+
+On Tue, Dec 08, 2020 at 07:13:00PM +0000, Knight, Frederick wrote:
+> Setting up a new ANA Group does NOT cause a transition from <UNKNOWN state> to <some known state>.  The establishment of initial state is NOT a change of state as defined in section 8.20.3.6.
+>
+> An ANA AEN is prohibited if the ANA change is due to the creation of a namespace.
+
+Yes, the AEN is prohibited if the ANA change is due to the creation of a namespace. In this scenario, though, the ANA change is due to a group entering a state, and you're required to notify that as long as ANA events are enabled. There is no text in section 8.20.3.6 or anywhere else that I can find that says creating a group with a valid state disqualifies it as "entering" that state. However, I do find that section 8.20.3.5 says transitions may occur from states not visible to the host, so <UNKNOWN state> to <known state> is a transition according to the spec.
 
 _______________________________________________
 Linux-nvme mailing list
