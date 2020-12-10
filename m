@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0BEC4361B
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 07:50:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46963C4361B
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 08:51:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C6E2923B97
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 07:50:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C6E2923B97
+	by mail.kernel.org (Postfix) with ESMTPS id E5CD022CA1
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 08:51:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5CD022CA1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/PECCxqugZmM9FwvEC8QZWzjf21IjwyoK5d9rzI7snE=; b=EgONujxg3AsHDlvq4/F70xd8g
-	I4qMA4uGwKKGRUK0nkwPftlPS3afjLrJqKyEmKTxlyZlZDEQ3e5ipxUnj0r4WmiHE3S1BycP1bHVv
-	b7yjXJUesGPwjyvrvUqZhq2+13flgX5bEyggLmACwZVYjp9Ip//RSv8sTNvjAfL2BvTwJMOjVFaS4
-	3WRrY4Pk3rEOn3RNG6SJBfEQvFnz0s6uxBM7NMygPkUO2ks9vWqOloed7E7MvbIdRXUv6k15OT3GA
-	qIMatyzC/mEb5vkvTUlgAtcfL+wf2HIXygYsOZQERw80oOz4iQ3TdrIJ2V1V2tsFH/KnYoJQpxpMA
-	wyzctywiA==;
+	 bh=BNCgecnXHLR1WPJTNV8HiXBanxYaGPIQJRSdsOzqor0=; b=QboJ6Hd8OYSAdyP4DMLzJ/IWK
+	93RXgnRijz0cboxwpERxCrdf68auCIq/qswl43PdvcQ0lbBZCQZpDP/9giytpSuznv3/z41WH1LII
+	BmgFcWhz5K8QTtBrCCcV+dIZ0L7WoAHc+RauEJITr0PYlC0yow5KetENj+wMbhBtNHSdLR3hQIsdV
+	xXo20VCgOxGgqT2XiTBXIIop55ebyMMFcxxT3gSoVpV8uQXyocVdJIxaKbhQMv5YzMrXu/qqLWAYe
+	F3MWYzrisYP8Z0V4arCgkpr2ZWBSP7ik0OIneroQoyA4Zn7txYUhUJ4Jl9730N4IzWIQEcUaaFrGO
+	JVaVDwkVA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knGiL-0001l4-R5; Thu, 10 Dec 2020 07:50:13 +0000
+	id 1knHfk-0000ER-EQ; Thu, 10 Dec 2020 08:51:36 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knGiJ-0001kV-V8
- for linux-nvme@lists.infradead.org; Thu, 10 Dec 2020 07:50:12 +0000
+ id 1knHfP-00006K-HH
+ for linux-nvme@lists.infradead.org; Thu, 10 Dec 2020 08:51:16 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id DC72568AFE; Thu, 10 Dec 2020 08:50:08 +0100 (CET)
-Date: Thu, 10 Dec 2020 08:50:08 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Subject: Re: split hard read-only vs read-only policy v2
-Message-ID: <20201210075008.GA13525@lst.de>
-References: <20201207131918.2252553-1-hch@lst.de>
+ id 552C868AFE; Thu, 10 Dec 2020 09:51:11 +0100 (CET)
+Date: Thu, 10 Dec 2020 09:51:11 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
+ group
+Message-ID: <20201210085111.GA15999@lst.de>
+References: <20201209072806.GA10037@lst.de>
+ <DM5PR0601MB36241F3E2F4BF6AECD96B72BF1CC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201209155321.GA31729@redsun51.ssa.fujisawa.hgst.com>
+ <b9c9e5f9-a447-2a2e-b687-304dd8f3d2b2@suse.de>
+ <20201209161911.GA31836@redsun51.ssa.fujisawa.hgst.com>
+ <66bad47c-0cd3-8461-3629-146778f15059@suse.de>
+ <20201209173936.GA31971@redsun51.ssa.fujisawa.hgst.com>
+ <20201209174718.GA19512@lst.de>
+ <DM5PR0601MB3624722C4C00B5A7EDB7E6A0F1CC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201209213437.GA3682670@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201207131918.2252553-1-hch@lst.de>
+In-Reply-To: <20201209213437.GA3682670@dhcp-10-100-145-180.wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_025012_132417_08E6D620 
-X-CRM114-Status: UNSURE (   6.22  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20201210_035115_719045_E7B939FC 
+X-CRM114-Status: GOOD (  12.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,18 +72,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Mike Snitzer <snitzer@redhat.com>,
- Oleksii Kurochko <olkuroch@cisco.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>, linux-block@vger.kernel.org,
- dm-devel@redhat.com, linux-nvme@lists.infradead.org,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Ilya Dryomov <idryomov@gmail.com>, ceph-devel@vger.kernel.org
+Cc: "George, Martin" <Martin.George@netapp.com>,
+ Hannes Reinecke <hare@suse.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Hannes Reinecke <hare@suse.de>, "hch@lst.de" <hch@lst.de>, "Knight,
+ Frederick" <Frederick.Knight@netapp.com>, "Meneghini,
+ John" <John.Meneghini@netapp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Jens, can you pick this up for 5.11?
+On Wed, Dec 09, 2020 at 01:34:37PM -0800, Keith Busch wrote:
+> Linux hosts currently want an ANA AEN anytime the host needs to refresh
+> the ANA log. That includes any condition that adds groups that didn't
+> exist from the host's previous reading.
+> 
+> If the Namespace Attach occurs to an ANA group the host already knows
+> about, then you don't need to send an ANA AEN because there's nothing
+> new in the log that the host requires. You just need to send the NS
+> Notify AEN.
+> 
+> But if a side effect of attaching a namespace results in a new ANA group
+> becoming visible to the host, then that group creation is considered a
+> separate event, so the host wants both AENs. I believe this is where
+> Christoph is trying to steer the interpretation and the text.
+
+Exactly.  Although as Hannes pointed out, this language:
+
+  If, for an ANA Group, there are no namespaces attached to the
+  controller processing the command, then no ANA Group Descriptor is
+  returned for that ANA Group (i.e., an ANA Group Descriptor is returned
+  only if that ANA Group contains namespaces that are attached to the
+  controller processing the command.
+
+creates a bit of a chicken an egg problem in that case of a newly
+attached namespace that is the first one referencing an ANA group.
 
 _______________________________________________
 Linux-nvme mailing list
