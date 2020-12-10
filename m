@@ -6,14 +6,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23729C4167B
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 13:34:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F0D9C4361B
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 15:05:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2CFB221E2
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 13:34:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E2CFB221E2
+	by mail.kernel.org (Postfix) with ESMTPS id 0823523BAB
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 15:05:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0823523BAB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,52 +22,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=gFZbxMDb2EkqSzFhIAf8pTVrUxK/vcL0p1lvEq0lpDw=; b=CP6ybwWiDdxhdh4FWlTicf23f
-	nS2nRfY/qKzfcrAn1ycyOitUilORFWlKPlUmKWFACxSWASW/QA+gLKjYExx6fKk1sGe2wDVaMpDiT
-	A9xzTBRK0+ujm52Ym3yv2kQRSN2PfdzGujcu654+bMKp6CN5zzuEa096wQFyO4XUFonUojVWlGSai
-	NaMgOQuRZ+WXeC53tFrPDoy/67QIbSTB3Npe9TI1M3/RdKLZXrTcyyleAHzpXKxGMi9jM56RryrLW
-	FTaCvT1t6+JB7Vee8ygapKaqdFBi+H8Ay3ucDDWvCBeWN+rhGdO+d5wZl0bE0dYL2B3W/+K9Fx76G
-	kcrRrg15w==;
+	 bh=OxA0+HhDCjq84EbNNNssFbfD/PV3k/dU6gzGoZG+N44=; b=qGsWllqpeKmwlAQb/138pbWpw
+	G01N1z0REEs4NmUZ3gjiU7oD8xaXpHsT6b27GCair8Lzv17r1JCe5ubXeq9gFr5Hv3yQzmNrW/Gt3
+	cNoZAGaT31n41MB8F7qhdea5H986snM67/YjRRMN0lde1bvj4S+x6CLS1SyXFBQws+wQJRNBXl7yv
+	1RwhDYKrd9ZYW5QX1f+jAWaNos0tqhtIY/VT8p4JyHvoK/uxc51kMYcmpYDDHsrafS0iXQP9aW1mu
+	al0YebRhrNhRIsZP+9hzH4m0C8nlaclKigxd5wmAdEhF++p1dtNw0m4TiVWpcBnSy+zuQu2+mXNbm
+	Aw0tGX7UQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knM5V-0001KZ-2G; Thu, 10 Dec 2020 13:34:29 +0000
+	id 1knNVp-0001qC-Oh; Thu, 10 Dec 2020 15:05:45 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knM5S-0001K4-Tx
- for linux-nvme@lists.infradead.org; Thu, 10 Dec 2020 13:34:27 +0000
-Date: Thu, 10 Dec 2020 22:34:18 +0900
+ id 1knNVm-0001pR-RX
+ for linux-nvme@lists.infradead.org; Thu, 10 Dec 2020 15:05:43 +0000
+Date: Fri, 11 Dec 2020 00:05:34 +0900
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607607265;
- bh=IWn87ZU011oOqgttaLlLsPczzR7kVfBqfQLFPK2SPq4=;
+ s=k20201202; t=1607612741;
+ bh=rUc8kAAzgIPOPqDkqYodpVmwWA4T53QTUItA9JEQX1E=;
  h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hav0XSJjz4pQZL4eUO9AXPPNr20NwYo7AIsAG4uHh1l1I8lTYXSfwieJDVFvk8Kew
- l8oh2aBQUUWseqzCcMUBCSJbfHnfLXBMKn5gBRJ72ok6Cr0YZIJZAwJ2PjibxeBose
- xswElAi8b+mGRgGoMyQvlCz6TIbTlF7cttWu0FqMp8Mydm7D3GDwHFYos0p6ekGt+F
- 0cC+n1IICFe9xPtKO5tPO0ByxHPzkHUmIkWYtFde3JBCro9t6EhSlPcJQhZpUOe8Qt
- jRpo8mcfwhZtqHzQNd7qSnQMdtltTw79m3R4FrpVA583I4GQgIoDNC/qZIE60SafLK
- y0mSFW40WyWNw==
+ b=BBRxezUJnM3zNgdAvq4O81fM22NGLO6WD4VT4KIBL45R0sAi6OJNS5aU0RPJuKDht
+ zzn76UtpaSkcsrialYwyBtsugPN0m2FGjEW6Bg3PEEputq613IEZ6C00i6HBRvQQTu
+ Xl8Q8m1RlIt6NIVK11t2rQ5d9D/dZ3ahieMLgTbQ5nquTo9T6DmbRQNLfVBR7yv3Wc
+ 82UE48MhuNU8JLDo/FT4F6W3uGJ1mLrJPdnlmLE5TxuWxHjlhxNPNPZPkddcDd2G9e
+ /hi5QTxQoauLWg9L20PsRjHYiojVHlpsPchoTH/bhE0kIrYwLqaBJ9LbjaPLLsKoqZ
+ A8buRGoPAyJvg==
 From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
- group
-Message-ID: <20201210133418.GA3645@redsun51.ssa.fujisawa.hgst.com>
-References: <20201209155321.GA31729@redsun51.ssa.fujisawa.hgst.com>
- <b9c9e5f9-a447-2a2e-b687-304dd8f3d2b2@suse.de>
- <20201209161911.GA31836@redsun51.ssa.fujisawa.hgst.com>
- <66bad47c-0cd3-8461-3629-146778f15059@suse.de>
- <20201209173936.GA31971@redsun51.ssa.fujisawa.hgst.com>
- <20201209174718.GA19512@lst.de>
- <DM5PR0601MB3624722C4C00B5A7EDB7E6A0F1CC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
- <20201209213437.GA3682670@dhcp-10-100-145-180.wdc.com>
- <20201210085111.GA15999@lst.de>
- <baa8c2e6-1376-1cad-4c84-1129bd80d4ca@suse.de>
+To: Enzo Matsumiya <ematsumiya@suse.de>
+Subject: Re: [PATCH] nvme: hwmon: fix crash on device teardown
+Message-ID: <20201210150534.GB3645@redsun51.ssa.fujisawa.hgst.com>
+References: <20201209213228.5044-1-ematsumiya@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <baa8c2e6-1376-1cad-4c84-1129bd80d4ca@suse.de>
+In-Reply-To: <20201209213228.5044-1-ematsumiya@suse.de>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_083427_105066_2A81860D 
-X-CRM114-Status: GOOD (  25.66  )
+X-CRM114-CacheID: sfid-20201210_100542_981250_B47021DD 
+X-CRM114-Status: UNSURE (   8.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,73 +70,22 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "George, Martin" <Martin.George@netapp.com>,
- Hannes Reinecke <hare@suse.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>, "Knight, Frederick" <Frederick.Knight@netapp.com>,
- "Meneghini, John" <John.Meneghini@netapp.com>
+Cc: Jens Axboe <axboe@fb.com>, linux-kernel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 10, 2020 at 10:13:02AM +0100, Hannes Reinecke wrote:
-> On 12/10/20 9:51 AM, hch@lst.de wrote:
-> > On Wed, Dec 09, 2020 at 01:34:37PM -0800, Keith Busch wrote:
-> > > Linux hosts currently want an ANA AEN anytime the host needs to refresh
-> > > the ANA log. That includes any condition that adds groups that didn't
-> > > exist from the host's previous reading.
-> > > 
-> > > If the Namespace Attach occurs to an ANA group the host already knows
-> > > about, then you don't need to send an ANA AEN because there's nothing
-> > > new in the log that the host requires. You just need to send the NS
-> > > Notify AEN.
-> > > 
-> > > But if a side effect of attaching a namespace results in a new ANA group
-> > > becoming visible to the host, then that group creation is considered a
-> > > separate event, so the host wants both AENs. I believe this is where
-> > > Christoph is trying to steer the interpretation and the text.
-> > 
-> > Exactly.  Although as Hannes pointed out, this language:
-> > 
-> >    If, for an ANA Group, there are no namespaces attached to the
-> >    controller processing the command, then no ANA Group Descriptor is
-> >    returned for that ANA Group (i.e., an ANA Group Descriptor is returned
-> >    only if that ANA Group contains namespaces that are attached to the
-> >    controller processing the command.
-> > 
-> > creates a bit of a chicken an egg problem in that case of a newly
-> > attached namespace that is the first one referencing an ANA group.
-> > 
-> Yes, this was what I tried to outline.
-> 
-> Personally I don't mind whether the controller is required to send an ANA
-> change AEN together with the NS change AEN.
-> Requiring both will pose an ordering issue (as on fabrics we can't control
-> the completion ordering), so effectively we'll have to implement handling
-> for AENs arriving in any order.
+On Wed, Dec 09, 2020 at 06:32:27PM -0300, Enzo Matsumiya wrote:
+> +void nvme_hwmon_exit(struct nvme_ctrl *ctrl)
+> +{
+> +	hwmon_device_unregister(ctrl->dev);
+> +}
 
-I was thinking more about this, and it's actually not a problem based on
-how the controller is allowed to send AEN completions:
-
-  When the controller posts a completion queue entry for an outstanding
-  Asynchronous Event Request command and thus reports an asynchronous
-  event, subsequent events of that event type are automatically masked by
-  the controller until the host clears that event.
-
-These are both "Notice" event types, so the controller is not allowed to
-send both at the same time. The host must acknowledge the first before
-the second can be seen, so we can enforce a deterministic sequence.
-
-And while it may make sense if the first event seen is the ANA one
-before the NS, it doesn't look like Linux cares if we observe them the
-other way around. The only thing the driver needs to do is synchronize
-the work queues for each event.
-
-> But I'm also fine with just getting one AEN; the patch will solve that
-> situation just fine.
-
-I'm also okay with that patch, too.
+The hwmon registration uses the devm_ version, so don't we need to use
+the devm_hwmon_device_unregister() here?
 
 _______________________________________________
 Linux-nvme mailing list
