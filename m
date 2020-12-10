@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29FA2C4361B
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 06:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1FE9C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 06:27:15 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C073523C43
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 06:27:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C073523C43
+	by mail.kernel.org (Postfix) with ESMTPS id 943C523C43
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Dec 2020 06:27:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 943C523C43
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,63 +23,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=FS5vA43THWDwLYOS0eBYJ5B+Lwdc4iqacXo8EIoZNvs=; b=0HeqrapZpO+34VXXUT5WfNbzm
-	TqM5TmaApHdCK0Nu47Bf5gtMI7aM6c80cOAQ4QQaWcyRE9666ADmuS2rXcPcAkgdH5Hvi4x8ye39B
-	lBt27YZJsY27kbkx2uhDgVAH8cvGvI5nS3C2DVnkUc2Gc/JApdSr0Kcmilp9XGONj4/A4nwuu8rzR
-	wG5oTHFLm1PDJVOlotu7AOt1oq3uIjS6x3xa3UCFnT77GUe2Z4h2l1KuqWm/meG+hkpvkAbN0jaG6
-	8d6w/02P5SZo4r7qhLbo9qPa9CpPPkm7OGXdXzEmmo0tbdvSU5ISO2AKqMq9PKCb5kJJWdv2TN/mQ
-	UWN6sZX6w==;
+	 bh=dtSPQmEaLpZifVT7UvOiA5MnAcKrXU6w8VWPDThY+jA=; b=IdnCCdkAnUiBMNxrXye0uhNll
+	xG47VU54ejSd3HbJ1A0hlDqfYvmDsXXgadfiz4vubVcmBhANTTrpy+tKshgU+xVQKfK/ouZA0SuFc
+	hudQMi4zSTWeV7egsdeoNYKo8GydH+UQ9tvlJSJltjbk4m3BMHDh83K9/ErzXBFUVweYfp8CDLmJJ
+	dOZnkzbyugLngT/PFLxucG16FEOkHkzDDwPS6EXUEueCmD/M4vFzA7vMaLbSlE9TC5A4lX9j9DZSy
+	UpfROwLHm6eSCVwqU/l/QssrGIsTlgXfJ3t8bb6PjaTV+86dvftfuLHK7mVPePWB/wHzbyo9DixPr
+	pjz6gQdbQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knFPm-00014n-Bb; Thu, 10 Dec 2020 06:26:58 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1knFQ1-00016u-E0; Thu, 10 Dec 2020 06:27:13 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knFPk-00014I-MN
- for linux-nvme@lists.infradead.org; Thu, 10 Dec 2020 06:26:57 +0000
+ id 1knFPy-00016E-0C
+ for linux-nvme@lists.infradead.org; Thu, 10 Dec 2020 06:27:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1607582522; x=1639118522;
+ t=1607581630; x=1639117630;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kbD12zBzctjxO9RwwcaW7bNd0XMBbypoSxCzWKSeYbQ=;
- b=YISKpuC2A0qUHOQGkZS+effLnuqungKphF+Y5oLqmqpfb4jU3L7r0ugK
- V5WOweY1d2Fo6/X1sBUS71I2kbelJ12bsx8D/g4iGj1/V9Vl6DYQHkobC
- oice1mxS9y5XMHI599fbkZ7WhLLGZVllEz8H3riVGm4qmuRLx710L54tf
- oPbir9qvfKkksK5SQGdyVnbvl2Ml0OjqnKjY8oO6Rmc/nPHGfSVTGgpMc
- MVmZXYaI2qLr6Z5vQR0thiFpaSJbzVNdal5/bxWhXQwV/Vo5izpV3MqJD
- Q9FOUr72bQYtBKRB3uMvIRBWpICT5/xzwv6mlpAgOoyVkbpiteU0yP0cX A==;
-IronPort-SDR: YoEzhsynfJeQsLCR8C9BCmZVSGIST1uv6BvjKwyYtskoqkGohVv5WTwknmvtPueFgScKRRtLDs
- MA8owsSoGN0Wjp7LKLt9MteLttmfKr37+M6RHHDtLPXrcuX8JaQLXQTJ8hHlYJvdxJLpLxJdUx
- weCXMODvYVZV1745kHenj4BQgbpZwhwg5E0pBTDVY8BI/OV65BuGz1gzXbndcEBnYefRE+FZVg
- eDoGYpSdcTx91UGmGIfX99cUWnROHTvckMf0F18zXrFVGyJP3800ZRwH7/lsIsQ2UiXzXEkpNE
- +po=
-X-IronPort-AV: E=Sophos;i="5.78,407,1599494400"; d="scan'208";a="258559142"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ bh=a3cbrc1i+f6XdSMIC94PGM/AVELFn5l85gX6A2VwJpU=;
+ b=ZBDqrzpQ/u+mzA1US09o2bkLf9lcqjy/WURQip/rgqR7Cyb7rW3t+DOk
+ qoqIGNLhX7R04dc3oEXqM3bM8K/UxMFtfVRXp0G2zWKddEw8tj8hPCdls
+ kn/X7be+NX8Bs273ms2Q2Q6dl4RKT+RiXU17pfmxX393sBr0pevm+xoYP
+ 7Pzw38UEMxHB/k0Q6PYH3PmbI2A/YA77tCdrYugLyRrMTG9KvOSm7mgbU
+ h8patyR0oyVJ+EomtPpFzL89hQ26Fs8LGu/I9AU/wKiXLcluipNEJG1N0
+ FztLcmp+RrHElVgDTUD5u9VXUxc8gDV3XyBdqFF7iqbU8t7vAoc99+Hb6 A==;
+IronPort-SDR: yZocP/JpSsPJx9IhFzmtL/X2fT8Pjkd1TpvMPYmPI6HuZckk6oiT6+RsfyhFRE3/IjNGpjm9pD
+ OiHZbvJfRipkiIul+mawaK8CAFTjKzrF0lJcKdVz0nh+0j5HDJSedeYffNypUDqi1/fE2Po896
+ nxtjVkbOaJsNoHwbUjOUbhOLxOtDNfxJymaqaMjb6yDmLsjaWQYeWZxcweY2jxqete3XzBHl4B
+ bv/7h6dXpzMJ/V+LRKNYOkfyDiq+y+hT1RYeZlbbZsO2LZcGGBpzd/lzOIsZBNraxEEBbSVnme
+ 43U=
+X-IronPort-AV: E=Sophos;i="5.78,407,1599494400"; d="scan'208";a="156044706"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2020 14:42:00 +0800
-IronPort-SDR: lHzDYp/6Tf2JyYycqOUfYdf/ilyUE5vXeUiYapQ6QlJOmciOe+oAb96H0l79cXhSfycd+wMNuH
- t5sqQEFLH9P5rAw8GtNHrQdwN71+Cm0N0=
+ by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2020 14:27:08 +0800
+IronPort-SDR: LooZCC9oRrHkG0r2HucVca49FjGApDH9Wb/IWRlVDC0RrZBe07jvJA30nMQkItDNEM91tq2rZy
+ SKELXwEbmpKq4XXEdgfjL/QD8/Yv44Dzs=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2020 22:12:20 -0800
-IronPort-SDR: WQGmA6JiphSJf2xEAHGsFsG4Ge+fvDHu0b5dqlFsXlcGLPu3Fc2CodM7BiPMD92Kb6BKnnnlA0
- 25Fx54q15ehw==
+ 09 Dec 2020 22:12:32 -0800
+IronPort-SDR: rMiCZkrn+/4NPj7vVwT+RPvI0fEZ6dyYykNeF4T1xLOeKY2nvVYipfkd94HXka5uI0uWGqpPYs
+ g2uPOwTB5Oew==
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2020 22:26:56 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2020 22:27:08 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH V5 2/6] nvmet: add lba to sect coversion helpers
-Date: Wed,  9 Dec 2020 22:26:18 -0800
-Message-Id: <20201210062622.62053-3-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V5 3/6] nvmet: add NVM command set identifier support
+Date: Wed,  9 Dec 2020 22:26:19 -0800
+Message-Id: <20201210062622.62053-4-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20201210062622.62053-1-chaitanya.kulkarni@wdc.com>
 References: <20201210062622.62053-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201210_012656_879461_FF603599 
-X-CRM114-Status: GOOD (  11.91  )
+X-CRM114-CacheID: sfid-20201210_012710_200041_0A23EF5B 
+X-CRM114-Status: GOOD (  16.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,70 +98,126 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In this preparation patch we add helpers to convert lbas to sectors and
-sectors to lba. This is needed to eliminate code duplication in the ZBD
-backend.
+NVMe TP 4056 allows controller to support different command sets.
+NVMeoF target currently only supports namespaces that contain
+traditional logical blocks that may be randomly read and written. In
+some applications there is value in exposing namespaces that contain
+logical blocks that have special access rules (e.g. sequentially write
+required namespace such as Zoned Namespace (ZNS)).
 
-Use these helpers in the block device backennd.
+In order to support the Zoned Block Devices (ZBD) backend, controller
+needs to have support for ZNS Command Set Identifier (CSI).
+
+In this preparation patch we adjust the code such that it can now
+support different command sets. We update the namespace data
+structure to store the CSI value which defaults to NVME_CSI_NVM
+which represents traditional logical blocks namespace type.
+
+The CSI support is required to implement the ZBD backend over NVMe ZNS
+interface, since ZNS commands belongs to different command set than
+the default one.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/io-cmd-bdev.c |  8 +++-----
- drivers/nvme/target/nvmet.h       | 10 ++++++++++
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 33 ++++++++++++++++++++-------------
+ drivers/nvme/target/core.c      | 13 ++++++++++++-
+ drivers/nvme/target/nvmet.h     |  1 +
+ 3 files changed, 33 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 125dde3f410e..23095bdfce06 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -256,8 +256,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	if (is_pci_p2pdma_page(sg_page(req->sg)))
- 		op |= REQ_NOMERGE;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 74620240ac47..f4c0f3aca485 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -176,19 +176,26 @@ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
+ 	if (!log)
+ 		goto out;
  
--	sector = le64_to_cpu(req->cmd->rw.slba);
--	sector <<= (req->ns->blksize_shift - 9);
-+	sector = nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
+-	log->acs[nvme_admin_get_log_page]	= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_identify]		= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_abort_cmd]		= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_set_features]	= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_get_features]	= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_async_event]	= cpu_to_le32(1 << 0);
+-	log->acs[nvme_admin_keep_alive]		= cpu_to_le32(1 << 0);
+-
+-	log->iocs[nvme_cmd_read]		= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_write]		= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_flush]		= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_dsm]			= cpu_to_le32(1 << 0);
+-	log->iocs[nvme_cmd_write_zeroes]	= cpu_to_le32(1 << 0);
++	switch (req->cmd->get_log_page.csi) {
++	case NVME_CSI_NVM:
++		log->acs[nvme_admin_get_log_page]	= cpu_to_le32(1 << 0);
++		log->acs[nvme_admin_identify]		= cpu_to_le32(1 << 0);
++		log->acs[nvme_admin_abort_cmd]		= cpu_to_le32(1 << 0);
++		log->acs[nvme_admin_set_features]	= cpu_to_le32(1 << 0);
++		log->acs[nvme_admin_get_features]	= cpu_to_le32(1 << 0);
++		log->acs[nvme_admin_async_event]	= cpu_to_le32(1 << 0);
++		log->acs[nvme_admin_keep_alive]		= cpu_to_le32(1 << 0);
++
++		log->iocs[nvme_cmd_read]		= cpu_to_le32(1 << 0);
++		log->iocs[nvme_cmd_write]		= cpu_to_le32(1 << 0);
++		log->iocs[nvme_cmd_flush]		= cpu_to_le32(1 << 0);
++		log->iocs[nvme_cmd_dsm]			= cpu_to_le32(1 << 0);
++		log->iocs[nvme_cmd_write_zeroes]	= cpu_to_le32(1 << 0);
++		break;
++	default:
++		status = NVME_SC_INVALID_LOG_PAGE;
++		break;
++	}
  
- 	if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN) {
- 		bio = &req->b.inline_bio;
-@@ -345,7 +344,7 @@ static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
- 	int ret;
+ 	status = nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
  
- 	ret = __blkdev_issue_discard(ns->bdev,
--			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
-+			nvmet_lba_to_sect(ns, range->slba),
- 			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
- 			GFP_KERNEL, 0, bio);
- 	if (ret && ret != -EOPNOTSUPP) {
-@@ -414,8 +413,7 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
- 	if (!nvmet_check_transfer_len(req, 0))
- 		return;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 8ce4d59cc9e7..672e4009f8d6 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -681,6 +681,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
  
--	sector = le64_to_cpu(write_zeroes->slba) <<
--		(req->ns->blksize_shift - 9);
-+	sector = nvmet_lba_to_sect(req->ns, write_zeroes->slba);
- 	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
- 		(req->ns->blksize_shift - 9));
+ 	uuid_gen(&ns->uuid);
+ 	ns->buffered_io = false;
++	ns->csi = NVME_CSI_NVM;
  
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 592763732065..4cb4cdae858c 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -603,4 +603,14 @@ static inline bool nvmet_ns_has_pi(struct nvmet_ns *ns)
- 	return ns->pi_type && ns->metadata_size == sizeof(struct t10_pi_tuple);
+ 	return ns;
+ }
+@@ -1103,6 +1104,16 @@ static inline u8 nvmet_cc_iocqes(u32 cc)
+ 	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
  }
  
-+static inline u64 nvmet_sect_to_lba(struct nvmet_ns *ns, sector_t sect)
++static inline bool nvmet_cc_css_check(u8 cc_css)
 +{
-+	return sect >> (ns->blksize_shift - SECTOR_SHIFT);
++	switch (cc_css <<= NVME_CC_CSS_SHIFT) {
++	case NVME_CC_CSS_NVM:
++		return true;
++	default:
++		return false;
++	}
 +}
 +
-+static inline sector_t nvmet_lba_to_sect(struct nvmet_ns *ns, __le64 lba)
-+{
-+	return le64_to_cpu(lba) << (ns->blksize_shift - SECTOR_SHIFT);
-+}
-+
- #endif /* _NVMET_H */
+ static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
+ {
+ 	lockdep_assert_held(&ctrl->lock);
+@@ -1111,7 +1122,7 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
+ 	    nvmet_cc_iocqes(ctrl->cc) != NVME_NVM_IOCQES ||
+ 	    nvmet_cc_mps(ctrl->cc) != 0 ||
+ 	    nvmet_cc_ams(ctrl->cc) != 0 ||
+-	    nvmet_cc_css(ctrl->cc) != 0) {
++	    !nvmet_cc_css_check(nvmet_cc_css(ctrl->cc))) {
+ 		ctrl->csts = NVME_CSTS_CFS;
+ 		return;
+ 	}
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 4cb4cdae858c..0360594abd93 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -81,6 +81,7 @@ struct nvmet_ns {
+ 	struct pci_dev		*p2p_dev;
+ 	int			pi_type;
+ 	int			metadata_size;
++	u8			csi;
+ };
+ 
+ static inline struct nvmet_ns *to_nvmet_ns(struct config_item *item)
 -- 
 2.22.1
 
