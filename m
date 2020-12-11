@@ -2,64 +2,95 @@ Return-Path: <SRS0=PNO/=FP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C22FCC433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 18:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F25B2C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 18:43:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 786BC23ED2
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 18:05:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 786BC23ED2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 7AA6222BEA
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 18:43:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7AA6222BEA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hJ795bAYt9zI72gU+xX+p/nm80RUWK6O0A9mLri3pv8=; b=f+fLlHwSJ/XGAsH4P3BltnkOs
-	cILkrj2sUj3n1uuRAwO5Bh30kfYgY7vKKf/cqi4RMc07U7HwaxC1F4Pb1IKe+f3SF+Z1HAPBvW5jj
-	bZG+ypB5MYWuUTc5BvpbR80AsSEGDBrIFJpN0PiWZoYcZ4zLYyuyiMAbqg6JXS9V9owq/ZhZgjsA2
-	uI+AO6bRCH2szFZIwMweKiA0ZpsLgDzK2v7FN1a7wW4vDaKtRIyZE71yTUf81y0Qyn8JWOnuY2VO1
-	jyTWeoTuT3i5MWFAvLand6kcgc00GrF5OvmhZVYYmhizcvTeOCjefw2KP++ALKOgS/7IdDAx+R6Ry
-	g801sogfA==;
+	 bh=btF2sCT8YKUmMFgGE5iQUVOSBTR+/Eybr+tOcj6/W6g=; b=cKj4mPNDxWNCLUhG0kSjf/arj
+	tQXMP83zZFZ462yAO//Tzjl+1fsh7zMmghpyH66Ni94wTYnpBgvm0GxkR0+SCQ8GFOfmkcdi+1EFg
+	U/1xhRuAF2rV/LWRjj3ybeeYzPGxtvC42Zj3dBXUxaQ6JxwpE1zITT9hiYlr+CIxzG5Sftfbk1bgL
+	XndBLXfigDVmQWkBDSRuoVmxitx8SLWzF+Rr7CoowCVEZMhTdxXrVZgorOEpxyL7Mi7LZc/V+fF+H
+	yun8YPm5tyKGDSIzHS2jkJtSsunwk65cSU9Gpwl7M+CDHev9D50FEUwvxFl9UuK7iY2nLFZL5cRiY
+	5yb5ZA0Rw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knmmv-0001uT-00; Fri, 11 Dec 2020 18:05:05 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1knnOE-0004wK-2b; Fri, 11 Dec 2020 18:43:38 +0000
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knmmr-0001tR-Cs
- for linux-nvme@lists.infradead.org; Fri, 11 Dec 2020 18:05:02 +0000
-Date: Sat, 12 Dec 2020 03:04:51 +0900
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607709900;
- bh=Ib27xs5IAcJ0qL2DAfNKgNMEdNLfkeQEpcKwRi5G7mA=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=kr+OWHANq+KjPZyzOGZUSiSgISj2y2/sM3LVsR+TeJNbyhdOL5EPWLwqo3LgfIz0J
- iZT1rjJMfVaRNo+Ll3fmlXWFWu7OFedFVeINgnAOFETfIhgwFcfhadAg7uOGxlLNcb
- FraBSV2iiM+YEzGBDvclal9L8zJ2hwW6UbQX2eV2EluwptM99dVpO3mJ0pKVuYK6mJ
- izig/qX+Var2q3VcIYh0RTphDxuSJX5vJmKCyB3kOcjbg+Cj7uQaFkWlJ709U4DeDK
- 2MsWIicLLhd+VS2Elg7zMfuCCn3IKTxb4Nu6EsgNsP4vHyL4gprdLYPaBB89v5g8mo
- d2ff2xkWDbhng==
-From: Keith Busch <kbusch@kernel.org>
-To: SelvaKumar S <selvakuma.s1@samsung.com>
-Subject: Re: [RFC PATCH v3 1/2] block: add simple copy support
-Message-ID: <20201211180451.GA9103@redsun51.ssa.fujisawa.hgst.com>
-References: <20201211135139.49232-1-selvakuma.s1@samsung.com>
- <CGME20201211135200epcas5p217eaa00b35a59b3468c198d85309fd7d@epcas5p2.samsung.com>
- <20201211135139.49232-2-selvakuma.s1@samsung.com>
+ id 1knnOA-0004vr-OY
+ for linux-nvme@lists.infradead.org; Fri, 11 Dec 2020 18:43:35 +0000
+Received: by mail-wr1-x441.google.com with SMTP id r7so10041110wrc.5
+ for <linux-nvme@lists.infradead.org>; Fri, 11 Dec 2020 10:43:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zdJOjs4dTsfUx4y7I8FwfWeld9WmUm3RT92AXbQ7uCk=;
+ b=WxRGxYL08TEYNZHjLDqOYS9lXzrSamCXC6RJC07gJfBWKY9nQp4wJ71jwaCxpZcrnF
+ VWguMXHh6INfY8IM/GS1xha/1tqEUnQm9oYWX/nctHYvkA5Iwd47ZEFV4nleU+miRp/Z
+ BcJydnVWEd/Bm7HJ27p+KNUGMFyPX0OdQiZx4KHe8go3uL9vDyo9Z2OG43dk7PQvw8ns
+ pU/SaeSBGJKfCv1GJkF5QSleqe0jxeGFvE8QqbMOY4d4fp3DAe55muZGdrzKwWIC73JC
+ 0w2NarE8kqgBlogU6HBBcuQYT+AE5VU8NPErcjHonvEljy2k66fyu3gNkq1IOnWJ1QKm
+ 1vqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zdJOjs4dTsfUx4y7I8FwfWeld9WmUm3RT92AXbQ7uCk=;
+ b=ZzhGJrBezRw4wEklGkgvEZy5Q/mib5vw8kNDRl5Wx77TWgcZl/JSZdWHOQBUeXA6yM
+ +p6JC5dekvEd+tiNZ392JBWPbAkjy9+l38w4CzEMjl8Aq95m0fjsOvh7Xi5qnu3XJYK/
+ PZ/yb38aAhOSOjfGmC8yEqDwfIEkPg6IZQhk6khxQdB89sqYn2H6LyOWjBtN9Of4r0DM
+ 38xoBXn9gaaZ4kfzjUt8QaNsZsNCfcXQ3y/HKg3HWbkmNCO5tTsdUoy3PdoSst5vJHxL
+ UOWJcYoJRhuVmrKYqaYf4cf99kLQuCMclbxiVmYhjoxiJF2Lydm5kfTyggFD3iK3bDty
+ c5Fg==
+X-Gm-Message-State: AOAM532gFMmHUPd1nHURaPn3Q1JgfXmp+wF1Ql/6vQB0nHI9zugEdA37
+ aVqqdZkVJxV/DH/oDNiOjeM=
+X-Google-Smtp-Source: ABdhPJwjehiuk7uz83zaxeXY6J28+VwLRyO3Lo50+MZF1WOP0Ke+pyo1OwjcI6Vbe82aJm+ibH05Xg==
+X-Received: by 2002:a5d:674c:: with SMTP id l12mr5254294wrw.399.1607712212101; 
+ Fri, 11 Dec 2020 10:43:32 -0800 (PST)
+Received: from [192.168.1.11] ([213.57.108.142])
+ by smtp.gmail.com with ESMTPSA id p19sm19744861wrg.18.2020.12.11.10.43.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Dec 2020 10:43:31 -0800 (PST)
+Subject: Re: [PATCH v1 net-next 04/15] net/tls: expose get_netdev_for_sock
+To: David Ahern <dsahern@gmail.com>, Boris Pismenny <borisp@mellanox.com>,
+ kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
+ sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org, viro@zeniv.linux.org.uk,
+ edumazet@google.com
+References: <20201207210649.19194-1-borisp@mellanox.com>
+ <20201207210649.19194-5-borisp@mellanox.com>
+ <f38e30af-f4c0-9adc-259a-5e54214e16b1@gmail.com>
+ <104d25c4-d0d3-234d-4d15-8e5d6ef1ce28@gmail.com>
+ <ae89bba7-2541-e994-41da-fb791ced7aa7@gmail.com>
+From: Boris Pismenny <borispismenny@gmail.com>
+Message-ID: <da5594c1-47ed-e4aa-4c28-7b61529399fd@gmail.com>
+Date: Fri, 11 Dec 2020 20:43:27 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201211135139.49232-2-selvakuma.s1@samsung.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <ae89bba7-2541-e994-41da-fb791ced7aa7@gmail.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201211_130501_558347_FBDD20F4 
-X-CRM114-Status: GOOD (  15.54  )
+X-CRM114-CacheID: sfid-20201211_134334_816270_76C3B6CB 
+X-CRM114-Status: GOOD (  12.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +102,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, damien.lemoal@wdc.com, sagi@grimberg.me,
- linux-scsi@vger.kernel.org, selvajove@gmail.com, Johannes.Thumshirn@wdc.com,
- snitzer@redhat.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, nj.shetty@samsung.com,
- linux-block@vger.kernel.org, dm-devel@redhat.com, mpatocka@redhat.com,
- hare@suse.de, martin.petersen@oracle.com, joshi.k@samsung.com,
- javier.gonz@samsung.com, hch@lst.de, bvanassche@acm.org
+Cc: yorayz@nvidia.com, boris.pismenny@gmail.com, benishay@nvidia.com,
+ linux-nvme@lists.infradead.org, netdev@vger.kernel.org, ogerlitz@nvidia.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 11, 2020 at 07:21:38PM +0530, SelvaKumar S wrote:
-> +int blk_copy_emulate(struct block_device *bdev, struct blk_copy_payload *payload,
-> +		gfp_t gfp_mask)
-> +{
-> +	struct request_queue *q = bdev_get_queue(bdev);
-> +	struct bio *bio;
-> +	void *buf = NULL;
-> +	int i, nr_srcs, max_range_len, ret, cur_dest, cur_size;
-> +
-> +	nr_srcs = payload->copy_range;
-> +	max_range_len = q->limits.max_copy_range_sectors << SECTOR_SHIFT;
 
-The default value for this limit is 0, and this is the function for when
-the device doesn't support copy. Are we expecting drivers to set this
-value to something else for that case?
+On 10/12/2020 5:39, David Ahern wrote:
+> On 12/9/20 12:41 AM, Boris Pismenny wrote:
+> 
+>> is applied there is relevant here. More generally, this offload is
+>> very similar in concept to TLS offload (tls_device).
+>>
+> 
+> I disagree with the TLS comparison. As an example, AIUI the TLS offload
+> works with userspace sockets, and it is a protocol offload.
+> 
 
-> +	cur_dest = payload->dest;
-> +	buf = kvmalloc(max_range_len, GFP_ATOMIC);
-> +	if (!buf)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < nr_srcs; i++) {
-> +		bio = bio_alloc(gfp_mask, 1);
-> +		bio->bi_iter.bi_sector = payload->range[i].src;
-> +		bio->bi_opf = REQ_OP_READ;
-> +		bio_set_dev(bio, bdev);
-> +
-> +		cur_size = payload->range[i].len << SECTOR_SHIFT;
-> +		ret = bio_add_page(bio, virt_to_page(buf), cur_size,
-> +						   offset_in_page(payload));
+First, tls offload can be used by kernel sockets just as userspace
+sockets. Second, it is not a protocol offload per-se, if you are looking
+for a carch-phrase to define it partial/autonomous offload is what I
+think fits better.
 
-'buf' is vmalloc'ed, so we don't necessarily have congituous pages. I
-think you need to allocate the bio with bio_map_kern() or something like
-that instead with that kind of memory.
+IMO, the concepts are very similar, and those who implemented offload
+using the tls_device APIs will find this offload fits both hardware drivers
+naturally.
 
-> +		if (ret != cur_size) {
-> +			ret = -ENOMEM;
-> +			goto out;
-> +		}
-> +
-> +		ret = submit_bio_wait(bio);
-> +		bio_put(bio);
-> +		if (ret)
-> +			goto out;
-> +
-> +		bio = bio_alloc(gfp_mask, 1);
-> +		bio_set_dev(bio, bdev);
-> +		bio->bi_opf = REQ_OP_WRITE;
-> +		bio->bi_iter.bi_sector = cur_dest;
-> +		ret = bio_add_page(bio, virt_to_page(buf), cur_size,
-> +						   offset_in_page(payload));
-> +		if (ret != cur_size) {
-> +			ret = -ENOMEM;
-> +			goto out;
-> +		}
-> +
-> +		ret = submit_bio_wait(bio);
-> +		bio_put(bio);
-> +		if (ret)
-> +			goto out;
-> +
-> +		cur_dest += payload->range[i].len;
-> +	}
-
-I think this would be a faster implementation if the reads were
-asynchronous with a payload buffer allocated specific to that read, and
-the callback can enqueue the write part. This would allow you to
-accumulate all the read data and write it in a single call. 
+To compare between them, please look at the NDOs, in particular the add/del/resync.
+Additionally, see the similarity between skb->ddp_crc and skb->decrypted.
+Also, consider the software-fallback flows used in both.
 
 _______________________________________________
 Linux-nvme mailing list
