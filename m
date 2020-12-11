@@ -2,99 +2,101 @@ Return-Path: <SRS0=PNO/=FP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D41CC4361B
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 20:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 254E6C4167B
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 20:40:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 57A6C2311A
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 20:00:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 57A6C2311A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id A19FB24056
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 20:40:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A19FB24056
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lt/KgY855ElMtwvxKnAi3aQ4Q6mvavYAJbOslmF0pyw=; b=x8Lwz4QXyJTk3D/FU89rdeza3
-	th08PsG5KkQvVROvuqdUatkOu9I+I2/xnqtybWjcdNqQD8acviSpAdnZGp5jgAthOsHjMWYtG9YFq
-	LUQZwX+B58HsDnh8r7RmvpscM1wgSgfDtfUsI2+2wufX5bx6I762yISkzWeKBTBpY3agOn3NArn06
-	i0FppEQmnow3MAkVLuQgO6CXnlmGO1O/wC9ocwvwDxO/8d6xE9lVUYDllTLpMFJvTqcFIRAq1Ncav
-	lJ6psweYEZLGj1WWXStzCnr+bhrU+qpRBieutCgqsxXnljRnWNUiSWHvTvnDWayGxE9sA9e5LgsOo
-	roxnW727A==;
+	 bh=GcbNwAHAqZIWPCyeb3GzwCraBQ0jNLvSgEPmVnS3tAs=; b=W0z5lldHhj7bSlZ+DAUvFZru9
+	SQ19NvXtluXAKWMGsp5Ehuwv8ENphp5xDbgwyNZOJrUNiu0qCJykkZlxx7E6OxbGRag47+sjuqKkP
+	vGshN99vwoXaa59BIy+BrlLtzogbhqeVEtfI9oMnb7R81g44hVbyYC1KLE5paW1MibUADBWcSjy+t
+	uu1QdJdGefmnku7QSuWXOcNYDh8K8FQim9Muusu5PsKNAyWc14da8mjAHfERd3lOnI/Go/1TITiQo
+	JBMxMqYP2cmX+mrk6syoNqsHfvOtRcDsB30P7PJUPODjx7lA9C8JPYVP1tCTAgK0q8opFeJrquHbT
+	zHKuDvXOw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knoa9-0000eP-5B; Fri, 11 Dec 2020 20:00:01 +0000
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242])
+	id 1knpCr-0002qt-52; Fri, 11 Dec 2020 20:40:01 +0000
+Received: from aserp2130.oracle.com ([141.146.126.79])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knoa5-0000dq-Sz
- for linux-nvme@lists.infradead.org; Fri, 11 Dec 2020 19:59:58 +0000
-Received: by mail-oi1-x242.google.com with SMTP id 9so4033611oiq.3
- for <linux-nvme@lists.infradead.org>; Fri, 11 Dec 2020 11:59:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GXouTMg9z7FxGREV13t5lB9zURmuWrbw3x7YOJeBTgM=;
- b=uEyEY3EPAxWX3oGWTVNPUuEUfSH8bFqor4l/2fgf60BGehsY1bJ41QWiUEJ5XuKljy
- yNF2EMdJI0/VPcyTfOg6gU598Ppdx9lKtzdsoA5u2KspNJkMD5qWHD5Yyk90WB+fVHqF
- zM7As+I+S2ySbShGJsY80spNK0eZnSvab90q5RpmZFCWlrIj+gKOu/JXwHDU+amEvl4b
- NTDPzhllgUd8iZUn4d0RvKZd9R3jIiLnbQaXp9qU++PyRKHoY70YwMC6eBKqi6v+NgUU
- bBZZePrYoMggpeZ2fNv75GuBLe7z9QpWEjgrlEZ+DHjmWSheZXKj+NXqqLcQm1A7HU99
- Amkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GXouTMg9z7FxGREV13t5lB9zURmuWrbw3x7YOJeBTgM=;
- b=GuGjcmNQiHKbjxzS2a6lPbtq/QzyMPRZ61Yklz2X7xSlYGsaapJBg8IWYNEFr/Wb+6
- ZgHnyvD4HXNPdWnrelOKv7cCnwBAKdILXb09J3HLdygSwlBXehXTl0WN5he1zjCI/j+p
- bia3xqy7PYQ/ZiG9ifYx2uNUCSwXh8bDPefiivRDB6rfLG28U5wknsWva9HSwkdaP6sK
- hMD3ZWcoxXm2HW6368JglXsvz3XKwUO2y3CBGC7GfnY17AF6H35TaWW3HY1AbuP6Gn4E
- uU7fKzz69PncHPHvFefCshogs5OIe7h2Cb1b82Liu7/+ZeIgagVXC/ZVH2OFePnqfNuY
- iE8w==
-X-Gm-Message-State: AOAM530NHsKJBJaBSgNtQWEtylgqV9WUg+WpOv2xLaSdMAce9urcn1Cn
- sGQgHffWenKvH0rT9+7PkgY=
-X-Google-Smtp-Source: ABdhPJzxtMM7NQoSo5eoOOehPBdJgEAWO056zfguSFANeHCqz4IKmjGwP0JfVn+DZVXqR46X9uVNvA==
-X-Received: by 2002:aca:1b1a:: with SMTP id b26mr10534497oib.43.1607716794557; 
- Fri, 11 Dec 2020 11:59:54 -0800 (PST)
-Received: from Davids-MacBook-Pro.local
- ([2601:282:800:dc80:6139:6f39:a803:1a61])
- by smtp.googlemail.com with ESMTPSA id l5sm2014127ooo.2.2020.12.11.11.59.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 11:59:53 -0800 (PST)
-Subject: Re: [PATCH v1 net-next 02/15] net: Introduce direct data placement
- tcp offload
-To: Jakub Kicinski <kuba@kernel.org>
-References: <20201207210649.19194-1-borisp@mellanox.com>
- <20201207210649.19194-3-borisp@mellanox.com>
- <6f48fa5d-465c-5c38-ea45-704e86ba808b@gmail.com>
- <f52a99d2-03a4-6e9f-603e-feba4aad0512@gmail.com>
- <65dc5bba-13e6-110a-ddae-3d0c260aa875@gmail.com>
- <ab298844-c95e-43e6-b4bb-fe5ce78655d8@gmail.com>
- <921a110f-60fa-a711-d386-39eeca52199f@gmail.com>
- <20201210180108.3eb24f2b@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
- <5cadcfa0-b992-f124-f006-51872c86b804@gmail.com>
- <20201211104445.30684242@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From: David Ahern <dsahern@gmail.com>
-Message-ID: <281b12de-7730-05a7-1187-e4f702c19cda@gmail.com>
-Date: Fri, 11 Dec 2020 12:59:52 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.1
+ id 1knpCo-0002qP-1o
+ for linux-nvme@lists.infradead.org; Fri, 11 Dec 2020 20:39:59 +0000
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BBKddHG009641;
+ Fri, 11 Dec 2020 20:39:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=VJbiclNNRWf5xTx/cOG6L27Mu0uBf4+urMq60QMEkZQ=;
+ b=EhOUs7gvrNa7q1zY28PdvyObjpDx8qFhEnpy2F605x0pZuZtUv+42KWiJtC6ZMKWv9a0
+ Xr/nOmQpZQvZo/sWi0tgNYeJeIwcpPDwvyD6wOafFilC3nMaiNCdxiEiNV6wQLxIo0X9
+ BbU4u9pMbDM384jdixZPCf49MBVF8gdHprFGbWSBLjeDpGVtry/JLgse83r1szQHNSkb
+ Ve3zB63J1/Il4cbGcfsH4IwrFraBJl2TqYJa7NpQxumNKExcPVBkv7pIOd30PpP2Zlxa
+ yeaQeoR+7n2TxaZozPONQTWyz3NZa5ELk2J30zFH4YLj+O2RhSiCgP45pdrPxQwzedTl NA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 357yqccqcn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 11 Dec 2020 20:39:39 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BBKFt9q027268;
+ Fri, 11 Dec 2020 20:37:39 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 358m54hysd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Dec 2020 20:37:38 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BBKbZ4E006505;
+ Fri, 11 Dec 2020 20:37:36 GMT
+Received: from char.us.oracle.com (/10.152.32.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 11 Dec 2020 12:37:35 -0800
+Received: by char.us.oracle.com (Postfix, from userid 1000)
+ id 309196A0121; Fri, 11 Dec 2020 15:39:38 -0500 (EST)
+Date: Fri, 11 Dec 2020 15:39:38 -0500
+From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+To: Jianxiong Gao <jxgao@google.com>
+Subject: Re: [PATCH] [PATCH] Keep offset when mapping data via SWIOTLB.
+Message-ID: <20201211203938.GA16598@char.us.oracle.com>
+References: <20201207214204.1839028-1-jxgao@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20201211104445.30684242@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201207214204.1839028-1-jxgao@google.com>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9832
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 suspectscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012110135
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9832
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ clxscore=1015 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012110136
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201211_145957_954876_3595E468 
-X-CRM114-Status: GOOD (  14.35  )
+X-CRM114-CacheID: sfid-20201211_153958_240081_31FE6662 
+X-CRM114-Status: GOOD (  31.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,38 +108,80 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Yoray Zack <yorayz@mellanox.com>, sagi@grimberg.me, yorayz@nvidia.com,
- Boris Pismenny <borisp@nvidia.com>, boris.pismenny@gmail.com,
- Ben Ben-Ishay <benishay@mellanox.com>, edumazet@google.com,
- linux-nvme@lists.infradead.org, davem@davemloft.net, axboe@fb.com,
- Boris Pismenny <borispismenny@gmail.com>, ogerlitz@nvidia.com,
- viro@zeniv.linux.org.uk, netdev@vger.kernel.org, kbusch@kernel.org,
- Or Gerlitz <ogerlitz@mellanox.com>, benishay@nvidia.com, saeedm@nvidia.com,
- hch@lst.de, Boris Pismenny <borisp@mellanox.com>
+Cc: sagi@grimberg.me, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, axboe@fb.com, iommu@lists.linux-foundation.org,
+ David Rientjes <rientjes@google.com>, kbusch@kernel.org, robin.murphy@arm.com,
+ hch@lst.de, m.szyprowski@samsung.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/11/20 11:45 AM, Jakub Kicinski wrote:
-> Ack, these patches are not exciting (to me), so I'm wondering if there
-> is a better way. The only reason NIC would have to understand a ULP for
-> ZC is to parse out header/message lengths. There's gotta be a way to
-> pass those in header options or such...
+On Mon, Dec 07, 2020 at 01:42:04PM -0800, Jianxiong Gao wrote:
+> NVMe driver and other applications depend on the data offset
+> to operate correctly. Currently when unaligned data is mapped via
+> SWIOTLB, the data is mapped as slab aligned with the SWIOTLB. When
+> booting with --swiotlb=force option and using NVMe as interface,
+> running mkfs.xfs on Rhel fails because of the unalignment issue.
+> This patch makes sure the mapped data preserves
+> its offset of the orginal address. Tested on latest kernel that
+> this patch fixes the issue.
 > 
-> And, you know, if we figure something out - maybe we stand a chance
-> against having 4 different zero copy implementations (this, TCP,
-> AF_XDP, netgpu) :(
+> Signed-off-by: Jianxiong Gao <jxgao@google.com>
+> Acked-by: David Rientjes <rientjes@google.com>
 
-AF_XDP is for userspace IP/TCP/packet handling.
+This breaks DHCP with upstream kernel (applied this on top v5.10-rc7)
+and used swiotlb=262144,force and now the dhclient is not working:
 
-netgpu is fundamentally kernel stack socket with zerocopy direct to
-userspace buffers. Yes, it has more complications like the process is
-running on a GPU, but essential characteristics are header / payload
-split, a kernel stack managed socket, and dedicated H/W queues for the
-socket and those are all common to what the nvme patches are doing. So,
-can we create a common framework for those characteristics which enables
-other use cases (like a more generic Rx zerocopy)?
+[  119.300502] bnxt_en 0000:3b:00.0 eno2np0: NIC Link is Up, 25000 Mbps full duplex, Flow control: ON - receive & transmit
+[  119.437573] bnxt_en 0000:3b:00.0 eno2np0: FEC autoneg off encoding: None
+[   90.064220] dracut-initqueue[1477]: Warning: dhcp for interface eno2np0 failed
+[  101.155295] dracut-initqueue[1477]: Warning: dhcp for interfa[  142.361359] bnxt_en 0000:3b:00.1 eno3np1: NIC Link is Up, 25000 Mbps full duplex, Flow control: ON - receive & transmit
+ce eno2np0 faile[  142.501860] bnxt_en 0000:3b:00.1 eno3np1: FEC autoneg off encoding: None
+d
+[  113.054108] dracut-initqueue[1477]: Warning: dhcp for interface eno3np1 failed
+[  123.867108] dracut-initqueue[1477]: Warning: dhcp for interface eno3np1 failed
+[  251.888002] dracut-initqueue[1477]: Warning: dracut-initqueue timeout - starting timeout scripts
+
+Dropping from linux-next.
+
+> ---
+>  kernel/dma/swiotlb.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index 781b9dca197c..56a35e71b3fd 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -483,6 +483,12 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+>  	max_slots = mask + 1
+>  		    ? ALIGN(mask + 1, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT
+>  		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
+> + 
+> +	/*
+> +	 * We need to keep the offset when mapping, so adding the offset
+> +	 * to the total set we need to allocate in SWIOTLB
+> +	 */
+> +	alloc_size += offset_in_page(orig_addr);
+>  
+>  	/*
+>  	 * For mappings greater than or equal to a page, we limit the stride
+> @@ -567,6 +573,11 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+>  	 */
+>  	for (i = 0; i < nslots; i++)
+>  		io_tlb_orig_addr[index+i] = orig_addr + (i << IO_TLB_SHIFT);
+> +	/*
+> +	 * When keeping the offset of the original data, we need to advance
+> +	 * the tlb_addr by the offset of orig_addr.
+> +	 */
+> +	tlb_addr += orig_addr & (PAGE_SIZE - 1);
+>  	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+>  	    (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
+>  		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_TO_DEVICE);
+> -- 
+> 2.27.0
+> 
+> 
 
 _______________________________________________
 Linux-nvme mailing list
