@@ -2,85 +2,58 @@ Return-Path: <SRS0=PNO/=FP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3DB3C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 06:55:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01BE8C4361B
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 07:26:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 67D0B23F2A
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 06:55:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 67D0B23F2A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=bytedance.com
+	by mail.kernel.org (Postfix) with ESMTPS id D2859239E5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 07:26:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D2859239E5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=f58Vg6ceyf631Md9m100nlWdpP4+uX2av3ZH9NPFeus=; b=0YXDjDAF3DZuRhsuLUnYkb/rOs
-	n0cLvPcq1Fom8fG86eCsOIiEGqFJhM16UwNkLhLxTRMZdJ6XRRQir4m4KXHZUWusfEu1zX8zkxXo7
-	VxDFTYB3ZhDQqgjYJJo8mau+MQGa6mGQQEc1FH4rT0QS9YojHx8lcJlnUwbRa/cecDX9XSYSv8M2Q
-	am+5VaCcFUD6vyq4ZiXzB3RDtz3RZyM2Z2PRpWU9PsvUig8LVRxUIYxQX6TAmmfgcKbInhA2PO8SV
-	ETVgIGj9gegB6B1eOtiblvgE5dDkh6ClNktW4LGP2/lvRIBLE11YlzSe716vtyMkpaRGKu2gVMyMe
-	j7VYgGpQ==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=ZC5ySlDYBP84rfqSO8O3kdut0w2wOm5OmqZi+GV5oRE=; b=OXSqKFxIG5A4nJwvvEE4e4lKc
+	DOgBSwWQ5xrpk9+cWErXagXH6In8TpCM4nqNqY8QrGIROu6Y+sZgsC/Y537mKD8c1vl5mQbk7FIHV
+	yomdEEPLuvGjHCUaBOVSTBFwFs8hpsST7FscJlKJkFLJsmnXQFpFuehCmDkTPGk5RaxaiEdMKpagN
+	wDhuqtvp3My4SeDwkzyuoz1hFGjQdVC6BUuKsmXWCmSCrSZ5CSVtlmNyrbKNicpEXNfEBkk7UI1Sl
+	qRbTElXjd/Lx3xc9BddRcvGI7JZ4hxeyyXWM5pHZmEGRMVAXHyU17ENXWPRIwSKzeW4jaMjvFbIZ9
+	kUMNqyJsw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kncKd-00015t-Jq; Fri, 11 Dec 2020 06:55:11 +0000
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544])
+	id 1kncpA-0003Nf-69; Fri, 11 Dec 2020 07:26:44 +0000
+Received: from stargate.chelsio.com ([12.32.117.8])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kncKa-00014s-Kj
- for linux-nvme@lists.infradead.org; Fri, 11 Dec 2020 06:55:10 +0000
-Received: by mail-pg1-x544.google.com with SMTP id t37so6496637pga.7
- for <linux-nvme@lists.infradead.org>; Thu, 10 Dec 2020 22:55:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PtrdIWHf0l79DvI8uc1Iscj77P/+6pPa3TMd8+VMU9Q=;
- b=ZLsBaj030AG9Jd2Wql+Z67a/Whr7yxh1QxDSlPOvUlzYYAFrseeRVMUf9XDx+0m2Dt
- h37H8qLOaBvDzHqedMPLL7OtLkihWNk8uPpA2Ic+5l3uYgSVzUcAuc8djacrwQfjSsYc
- PwSn0kGuI9KTzsRtA47X82AjIrz6nK9RYxWGVva6GzfC+9pOnA8xIw+OUL/XVNW5gX6t
- QbOPY/DSfdYyaNpmSq5kidYanddewxmfdcbpczC+oRbaTeTpXQplXA+bSeMsEHEyBoDG
- 9/5YsYcC7VF1BsgtVUlTOFDxW6YrDjWuEDQ8rtmiS01+M3tEHikQybBZXjKY+so/ryvU
- UnvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PtrdIWHf0l79DvI8uc1Iscj77P/+6pPa3TMd8+VMU9Q=;
- b=lXBH4ToSSgRcRceRSUrQUCF4V7SqfqxLFvlIGdWinJhvJTGv2OOngZ5/DEQdiwxICq
- cBEyVEOrtOOnkXRtB+GJOg6yIfzOJm4XaWj7gZhRnetc/1o95duoi+KSV9pNzqd6A90g
- 9RGHBCraac7QOJcycwjf0ynJH9SkmzXieJWM/5E1MtoXf2iJs51fMfNpYhPJ1PEgBnaO
- ME7sdsnzitqLUnoi5PdUhvn+3sAWdBVn9glu/ZUgL2eBfaUu/82znQO63uLRVqOpNizD
- aFodHDI56h3mke32l4/eTXEGrcoF/fETkaBv4046/WxEvJUVtX6Yj9T3UhDW66G7yqsk
- NxXA==
-X-Gm-Message-State: AOAM533xLZFMOxF/N77NqVdz0wB/QPwunXRDxiS6N76Ki1aRb5nGpdEY
- rZytGE3hd72x52KfVBoT3BIcwA==
-X-Google-Smtp-Source: ABdhPJwnuq4yl3DgTCz7YGdMgNP5ou5xBAC1KAsUJKEkSeaV6Wu7QcesQ7TJ6K5XbKGGuA37oST4Nw==
-X-Received: by 2002:a63:170f:: with SMTP id x15mr10167670pgl.157.1607669704694; 
- Thu, 10 Dec 2020 22:55:04 -0800 (PST)
-Received: from always-libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id s29sm8242252pgn.65.2020.12.10.22.55.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 22:55:04 -0800 (PST)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: hch@lst.de,
-	sagi@grimberg.me,
-	chaitanya.kulkarni@wdc.com
-Subject: [PATCH] nvmet: fix mismatched serial
-Date: Fri, 11 Dec 2020 14:54:56 +0800
-Message-Id: <20201211065456.826822-1-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
+ id 1kncp5-0003NA-Ix
+ for linux-nvme@lists.infradead.org; Fri, 11 Dec 2020 07:26:42 +0000
+Received: from localhost (mehrangarh.blr.asicdesigners.com [10.193.185.169])
+ by stargate.chelsio.com (8.13.8/8.13.8) with ESMTP id 0BB7QRbq007602;
+ Thu, 10 Dec 2020 23:26:28 -0800
+Date: Fri, 11 Dec 2020 12:56:27 +0530
+From: Potnuri Bharat Teja <bharat@chelsio.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: Request timeout seen with NVMEoF TCP
+Message-ID: <X9MfI872AfM+WMV/@chelsio.com>
+References: <X9EHFnhujZo175Kw@chelsio.com>
+ <0fc0166c-a65f-125f-4305-d0cb761336ac@grimberg.me>
+ <X9JVp9mjtC1p0iLS@chelsio.com>
+ <3e7aa593-16b0-3bbd-f918-caffa6f5b20b@grimberg.me>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <3e7aa593-16b0-3bbd-f918-caffa6f5b20b@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201211_015508_794005_B5C02829 
-X-CRM114-Status: GOOD (  12.89  )
+X-CRM114-CacheID: sfid-20201211_022639_780179_B51F0ACA 
+X-CRM114-Status: GOOD (  24.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,50 +65,94 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: pizhenwei@bytedance.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
+Cc: "hch@lst.de" <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Target side uses 'bin2hex' to convert u64 serial number to a hex
-string, saving serial number as be64 to keep right byte order.
+On Friday, December 12/11/20, 2020 at 03:17:11 +0530, Sagi Grimberg wrote:
+> >>> Hi All,
+> >>> I am seeing the following timeouts and reconnects on NVMF TCP initiator with latest v5.10-rc5
+> >>> kernel.
+> >>> I see the same behavior with nvme tree too (branch:nvme-5.11)
+> >>> I last ran this with 5.8, where it was running fine.
+> >>>
+> >>> Target configuration is, 1 target with 1gb ramdisk namespace. On intiator,
+> >>> discover, connect and run fio or Iozone. Traces are seen within couple of minutes
+> >>> after starting the test.
+> >>
+> >> Hey Potnuri,
+> >>
+> >> Can you also attach the target side logs? it seems like an I/O times out
+> >> for no apparent reason..
+> > 
+> > I see nothing much logged on target.
+> 
+> Hey Potnuri,
+> 
+> This issue is consistent with what Baharat reported.
+> 
+> Can you please check if the below solves the issue?
+> -- 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 1ba659927442..9193b05d7bda 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -1122,6 +1122,14 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>                                  pending = true;
+>                          else if (unlikely(result < 0))
+>                                  break;
+> +               } else {
+> +                       /*
+> +                        * submission path is sending, we need to
+> +                        * continue or resched because the submission
+> +                        * path direct send is not concerned with
+> +                        * rescheduling...
+> +                        */
+> +                       pending = true;
+>                  }
+> 
+>                  result = nvme_tcp_try_recv(queue);
+> --
 
-Test on x86 server, config '0123456789abcdef' to 'attr_serial' on
-target side, and run 'nvme id-ctrl /dev/nvme0' on initiator side,
-then we can get the same SN string.
+Hi Sagi,
+With above patch I still see the issue but less frequently. Without patch I was 
+able to consistently reproduce the timouts with 4 target devices. With patch I 
+see IO running fine for 4 targets. Tried the same test with 8 target devices 
+and I see the below timeout. I've observed only one instance of timeout. So, 
+I'll let it run for somemore time or rerun and update.
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+Target dmesg:
 ---
- drivers/nvme/target/configfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[ 1704.132366] nvmet: creating controller 1 for subsystem nvme-ram0 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+[ 1704.185987] nvmet: creating controller 2 for subsystem nvme-ram1 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+[ 1704.230065] nvmet: creating controller 3 for subsystem nvme-ram2 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+[ 1704.277712] nvmet: creating controller 4 for subsystem nvme-ram3 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+[ 1704.314457] nvmet: creating controller 5 for subsystem nvme-ram4 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+[ 1704.370124] nvmet: creating controller 6 for subsystem nvme-ram5 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+[ 1704.435581] nvmet: creating controller 7 for subsystem nvme-ram6 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+[ 1704.501813] nvmet: creating controller 8 for subsystem nvme-ram7 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+[ 2103.965017] nvmet: creating controller 6 for subsystem nvme-ram5 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
+^^^^^^^^^^^^^^^
+---
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 37e1d7784e17..e7808a86ccef 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -997,7 +997,7 @@ static ssize_t nvmet_subsys_attr_serial_show(struct config_item *item,
- {
- 	struct nvmet_subsys *subsys = to_subsys(item);
- 
--	return snprintf(page, PAGE_SIZE, "%llx\n", subsys->serial);
-+	return snprintf(page, PAGE_SIZE, "%llx\n", be64_to_cpu(subsys->serial));
- }
- 
- static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
-@@ -1009,7 +1009,7 @@ static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
- 		return -EINVAL;
- 
- 	down_write(&nvmet_config_sem);
--	to_subsys(item)->serial = serial;
-+	to_subsys(item)->serial = cpu_to_be64(serial);
- 	up_write(&nvmet_config_sem);
- 
- 	return count;
--- 
-2.25.1
+Initiator dmesg:
+---
+[ 1735.038634] EXT4-fs (nvme7n1): mounted filesystem with ordered data mode. Opts: (null)
+[ 2111.990419] nvme nvme5: queue 7: timeout request 0x57 type 4
+[ 2111.991835] nvme nvme5: starting error recovery
+[ 2111.998796] block nvme5n1: no usable path - requeuing I/O
+[ 2111.998816] nvme nvme5: Reconnecting in 10 seconds...
+[ 2122.253431] block nvme5n1: no usable path - requeuing I/O
+[ 2122.254732] nvme nvme5: creating 16 I/O queues.
+[ 2122.301169] nvme nvme5: mapped 16/0/0 default/read/poll queues.
+[ 2122.314229] nvme nvme5: Successfully reconnected (1 attempt)
+---
 
+
+Thanks.
 
 _______________________________________________
 Linux-nvme mailing list
