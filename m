@@ -2,95 +2,69 @@ Return-Path: <SRS0=PNO/=FP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F25B2C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 18:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E0CC4361B
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 18:45:54 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7AA6222BEA
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 18:43:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7AA6222BEA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5D3F823F37
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Dec 2020 18:45:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D3F823F37
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=btF2sCT8YKUmMFgGE5iQUVOSBTR+/Eybr+tOcj6/W6g=; b=cKj4mPNDxWNCLUhG0kSjf/arj
-	tQXMP83zZFZ462yAO//Tzjl+1fsh7zMmghpyH66Ni94wTYnpBgvm0GxkR0+SCQ8GFOfmkcdi+1EFg
-	U/1xhRuAF2rV/LWRjj3ybeeYzPGxtvC42Zj3dBXUxaQ6JxwpE1zITT9hiYlr+CIxzG5Sftfbk1bgL
-	XndBLXfigDVmQWkBDSRuoVmxitx8SLWzF+Rr7CoowCVEZMhTdxXrVZgorOEpxyL7Mi7LZc/V+fF+H
-	yun8YPm5tyKGDSIzHS2jkJtSsunwk65cSU9Gpwl7M+CDHev9D50FEUwvxFl9UuK7iY2nLFZL5cRiY
-	5yb5ZA0Rw==;
+	 bh=1wGTT+gOXaTxVS0sxWnGnJcz4egrp7R3KfsptB3ZTuU=; b=CRxCb4b1ECyRYrIKeMhDLwFr7
+	iUu6TLY9PceAuB5fsLBr5/4rFBO9s57nw6N0jmyA+ASglWz5rlab9wx05iZ7jEH+6fo//6b9ZTQwP
+	UMvKEYZh4gX43kIHuPQqPHI8BCsG/IYMq5vnK/UVi2JKkpdZ0fpU5M//ZSV8tUPfGPj2vc9UNCW1t
+	rEQwUat1hyYhpgsHi0H43IB5nskz12gJZc/bHN0dVnQW1/MCeO6/LDUeHHp0Mb9eEIJmDSRym+bEH
+	8IGbViOTiky82DWZE0Es3GmGIhpE64neV2f9z026SZE9j26IvxQQAZjqOOtGeanm9dmdtU5AWjfS7
+	n/E50FetQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knnOE-0004wK-2b; Fri, 11 Dec 2020 18:43:38 +0000
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441])
+	id 1knnQN-00057A-Ge; Fri, 11 Dec 2020 18:45:51 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knnOA-0004vr-OY
- for linux-nvme@lists.infradead.org; Fri, 11 Dec 2020 18:43:35 +0000
-Received: by mail-wr1-x441.google.com with SMTP id r7so10041110wrc.5
- for <linux-nvme@lists.infradead.org>; Fri, 11 Dec 2020 10:43:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zdJOjs4dTsfUx4y7I8FwfWeld9WmUm3RT92AXbQ7uCk=;
- b=WxRGxYL08TEYNZHjLDqOYS9lXzrSamCXC6RJC07gJfBWKY9nQp4wJ71jwaCxpZcrnF
- VWguMXHh6INfY8IM/GS1xha/1tqEUnQm9oYWX/nctHYvkA5Iwd47ZEFV4nleU+miRp/Z
- BcJydnVWEd/Bm7HJ27p+KNUGMFyPX0OdQiZx4KHe8go3uL9vDyo9Z2OG43dk7PQvw8ns
- pU/SaeSBGJKfCv1GJkF5QSleqe0jxeGFvE8QqbMOY4d4fp3DAe55muZGdrzKwWIC73JC
- 0w2NarE8kqgBlogU6HBBcuQYT+AE5VU8NPErcjHonvEljy2k66fyu3gNkq1IOnWJ1QKm
- 1vqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zdJOjs4dTsfUx4y7I8FwfWeld9WmUm3RT92AXbQ7uCk=;
- b=ZzhGJrBezRw4wEklGkgvEZy5Q/mib5vw8kNDRl5Wx77TWgcZl/JSZdWHOQBUeXA6yM
- +p6JC5dekvEd+tiNZ392JBWPbAkjy9+l38w4CzEMjl8Aq95m0fjsOvh7Xi5qnu3XJYK/
- PZ/yb38aAhOSOjfGmC8yEqDwfIEkPg6IZQhk6khxQdB89sqYn2H6LyOWjBtN9Of4r0DM
- 38xoBXn9gaaZ4kfzjUt8QaNsZsNCfcXQ3y/HKg3HWbkmNCO5tTsdUoy3PdoSst5vJHxL
- UOWJcYoJRhuVmrKYqaYf4cf99kLQuCMclbxiVmYhjoxiJF2Lydm5kfTyggFD3iK3bDty
- c5Fg==
-X-Gm-Message-State: AOAM532gFMmHUPd1nHURaPn3Q1JgfXmp+wF1Ql/6vQB0nHI9zugEdA37
- aVqqdZkVJxV/DH/oDNiOjeM=
-X-Google-Smtp-Source: ABdhPJwjehiuk7uz83zaxeXY6J28+VwLRyO3Lo50+MZF1WOP0Ke+pyo1OwjcI6Vbe82aJm+ibH05Xg==
-X-Received: by 2002:a5d:674c:: with SMTP id l12mr5254294wrw.399.1607712212101; 
- Fri, 11 Dec 2020 10:43:32 -0800 (PST)
-Received: from [192.168.1.11] ([213.57.108.142])
- by smtp.gmail.com with ESMTPSA id p19sm19744861wrg.18.2020.12.11.10.43.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 10:43:31 -0800 (PST)
-Subject: Re: [PATCH v1 net-next 04/15] net/tls: expose get_netdev_for_sock
-To: David Ahern <dsahern@gmail.com>, Boris Pismenny <borisp@mellanox.com>,
- kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
- sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org, viro@zeniv.linux.org.uk,
- edumazet@google.com
+ id 1knnQL-00056i-OU
+ for linux-nvme@lists.infradead.org; Fri, 11 Dec 2020 18:45:50 +0000
+Date: Fri, 11 Dec 2020 10:45:34 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607712348;
+ bh=vq7bQM3DXTCBGxuTRrXjVx4jcyD7Jiq6JLDy65/2dbY=;
+ h=From:To:Cc:Subject:In-Reply-To:References:From;
+ b=JECrMjjthufSyLYA3in7PoJvwcOIxZTdx6yQGryDlx73zqhkhTSq6aTpfhwQHZcUH
+ ZkFDePlVsbOx3fTnn54CXPi3/WrnvKBKZCUji5JErN1og0Th6bNgUqSopADarsYyLb
+ 1YG1llHixG0UkkDloYRY4vY4aY5eL8xSDiTmqqi+BIYHkFf2YTnfyVesHfgCRxdHfM
+ QUYqCdzTUYWWq03Jb9fxQkzKFaQrg+yO/mERelymOGYNhSS+UGhJ5jIKODcb3dbrFm
+ 5Xnkt2MtugzKSE9qO2RqL95jyaRU3cmoyonlQ2Rc7VE0UNcFwVocJEuoy4MNr4E+pI
+ TE1psYP4YZ3ig==
+From: Jakub Kicinski <kuba@kernel.org>
+To: David Ahern <dsahern@gmail.com>
+Subject: Re: [PATCH v1 net-next 02/15] net: Introduce direct data placement
+ tcp offload
+Message-ID: <20201211104445.30684242@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <5cadcfa0-b992-f124-f006-51872c86b804@gmail.com>
 References: <20201207210649.19194-1-borisp@mellanox.com>
- <20201207210649.19194-5-borisp@mellanox.com>
- <f38e30af-f4c0-9adc-259a-5e54214e16b1@gmail.com>
- <104d25c4-d0d3-234d-4d15-8e5d6ef1ce28@gmail.com>
- <ae89bba7-2541-e994-41da-fb791ced7aa7@gmail.com>
-From: Boris Pismenny <borispismenny@gmail.com>
-Message-ID: <da5594c1-47ed-e4aa-4c28-7b61529399fd@gmail.com>
-Date: Fri, 11 Dec 2020 20:43:27 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+ <20201207210649.19194-3-borisp@mellanox.com>
+ <6f48fa5d-465c-5c38-ea45-704e86ba808b@gmail.com>
+ <f52a99d2-03a4-6e9f-603e-feba4aad0512@gmail.com>
+ <65dc5bba-13e6-110a-ddae-3d0c260aa875@gmail.com>
+ <ab298844-c95e-43e6-b4bb-fe5ce78655d8@gmail.com>
+ <921a110f-60fa-a711-d386-39eeca52199f@gmail.com>
+ <20201210180108.3eb24f2b@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
+ <5cadcfa0-b992-f124-f006-51872c86b804@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ae89bba7-2541-e994-41da-fb791ced7aa7@gmail.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201211_134334_816270_76C3B6CB 
-X-CRM114-Status: GOOD (  12.33  )
+X-CRM114-CacheID: sfid-20201211_134550_049111_F2B6BE95 
+X-CRM114-Status: GOOD (  32.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,37 +76,123 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: yorayz@nvidia.com, boris.pismenny@gmail.com, benishay@nvidia.com,
- linux-nvme@lists.infradead.org, netdev@vger.kernel.org, ogerlitz@nvidia.com
+Cc: Yoray Zack <yorayz@mellanox.com>, sagi@grimberg.me, yorayz@nvidia.com,
+ Boris Pismenny <borisp@nvidia.com>, boris.pismenny@gmail.com,
+ Ben Ben-Ishay <benishay@mellanox.com>, edumazet@google.com,
+ linux-nvme@lists.infradead.org, davem@davemloft.net, axboe@fb.com,
+ Boris Pismenny <borispismenny@gmail.com>, ogerlitz@nvidia.com,
+ viro@zeniv.linux.org.uk, netdev@vger.kernel.org, kbusch@kernel.org,
+ Or Gerlitz <ogerlitz@mellanox.com>, benishay@nvidia.com, saeedm@nvidia.com,
+ hch@lst.de, Boris Pismenny <borisp@mellanox.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 10/12/2020 5:39, David Ahern wrote:
-> On 12/9/20 12:41 AM, Boris Pismenny wrote:
+On Thu, 10 Dec 2020 19:43:57 -0700 David Ahern wrote:
+> On 12/10/20 7:01 PM, Jakub Kicinski wrote:
+> > On Wed, 9 Dec 2020 21:26:05 -0700 David Ahern wrote:  
+> >> Yes, TCP is a byte stream, so the packets could very well show up like this:
+> >>
+> >>  +--------------+---------+-----------+---------+--------+-----+
+> >>  | data - seg 1 | PDU hdr | prev data | TCP hdr | IP hdr | eth |
+> >>  +--------------+---------+-----------+---------+--------+-----+
+> >>  +-----------------------------------+---------+--------+-----+
+> >>  |     payload - seg 2               | TCP hdr | IP hdr | eth |
+> >>  +-----------------------------------+---------+--------+-----+
+> >>  +-------- +-------------------------+---------+--------+-----+
+> >>  | PDU hdr |    payload - seg 3      | TCP hdr | IP hdr | eth |
+> >>  +---------+-------------------------+---------+--------+-----+
+> >>
+> >> If your hardware can extract the NVMe payload into a targeted SGL like
+> >> you want in this set, then it has some logic for parsing headers and
+> >> "snapping" an SGL to a new element. ie., it already knows 'prev data'
+> >> goes with the in-progress PDU, sees more data, recognizes a new PDU
+> >> header and a new payload. That means it already has to handle a
+> >> 'snap-to-PDU' style argument where the end of the payload closes out an
+> >> SGL element and the next PDU hdr starts in a new SGL element (ie., 'prev
+> >> data' closes out sgl[i], and the next PDU hdr starts sgl[i+1]). So in
+> >> this case, you want 'snap-to-PDU' but that could just as easily be 'no
+> >> snap at all', just a byte stream and filling an SGL after the protocol
+> >> headers.  
+> > 
+> > This 'snap-to-PDU' requirement is something that I don't understand
+> > with the current TCP zero copy. In case of, say, a storage application  
 > 
->> is applied there is relevant here. More generally, this offload is
->> very similar in concept to TLS offload (tls_device).
->>
+> current TCP zero-copy does not handle this and it can't AFAIK. I believe
+> it requires hardware level support where an Rx queue is dedicated to a
+> flow / socket and some degree of header and payload splitting (header is
+> consumed by the kernel stack and payload goes to socket owner's memory).
+
+Yet, Google claims to use the RX ZC in production, and with a CX3 Pro /
+mlx4 NICs.
+
+Simple workaround that comes to mind is have the headers and payloads
+on separate TCP streams. That doesn't seem too slick.. but neither is
+the 4k MSS, so maybe that's what Google does?
+
+> > which wants to send some headers (whatever RPC info, block number,
+> > etc.) and then a 4k block of data - how does the RX side get just the
+> > 4k block a into a page so it can zero copy it out to its storage device?
+> > 
+> > Per-connection state in the NIC, and FW parsing headers is one way,
+> > but I wonder how this record split problem is best resolved generically.
+> > Perhaps by passing hints in the headers somehow?
+> > 
+> > Sorry for the slight off-topic :)
+> >   
+> Hardware has to be parsing the incoming packets to find the usual
+> ethernet/IP/TCP headers and TCP payload offset. Then the hardware has to
+> have some kind of ULP processor to know how to parse the TCP byte stream
+> at least well enough to find the PDU header and interpret it to get pdu
+> header length and payload length.
+
+The big difference between normal headers and L7 headers is that one is
+at ~constant offset, self-contained, and always complete (PDU header
+can be split across segments).
+
+Edwin Peer did an implementation of TLS ULP for the NFP, it was
+complex. Not to mention it's L7 protocol ossification.
+
+To put it bluntly maybe it's fine for smaller shops but I'm guessing
+it's going to be a hard sell to hyperscalers and people who don't like
+to be locked in to HW.
+
+> At that point you push the protocol headers (eth/ip/tcp) into one buffer
+> for the kernel stack protocols and put the payload into another. The
+> former would be some page owned by the OS and the latter owned by the
+> process / socket (generically, in this case it is a kernel level
+> socket). In addition, since the payload is spread across multiple
+> packets the hardware has to keep track of TCP sequence number and its
+> current place in the SGL where it is writing the payload to keep the
+> bytes contiguous and detect out-of-order.
 > 
-> I disagree with the TLS comparison. As an example, AIUI the TLS offload
-> works with userspace sockets, and it is a protocol offload.
+> If the ULP processor knows about PDU headers it knows when enough
+> payload has been found to satisfy that PDU in which case it can tell the
+> cursor to move on to the next SGL element (or separate SGL). That's what
+> I meant by 'snap-to-PDU'.
 > 
+> Alternatively, if it is any random application with a byte stream not
+> understood by hardware, the cursor just keeps moving along the SGL
+> elements assigned it for this particular flow.
+> 
+> If you have a socket whose payload is getting offloaded to its own queue
+> (which this set is effectively doing), you can create the queue with
+> some attribute that says 'NVMe ULP', 'iscsi ULP', 'just a byte stream'
+> that controls the parsing when you stop writing to one SGL element and
+> move on to the next. Again, assuming hardware support for such attributes.
+> 
+> I don't work for Nvidia, so this is all supposition based on what the
+> patches are doing.
 
-First, tls offload can be used by kernel sockets just as userspace
-sockets. Second, it is not a protocol offload per-se, if you are looking
-for a carch-phrase to define it partial/autonomous offload is what I
-think fits better.
+Ack, these patches are not exciting (to me), so I'm wondering if there
+is a better way. The only reason NIC would have to understand a ULP for
+ZC is to parse out header/message lengths. There's gotta be a way to
+pass those in header options or such...
 
-IMO, the concepts are very similar, and those who implemented offload
-using the tls_device APIs will find this offload fits both hardware drivers
-naturally.
-
-To compare between them, please look at the NDOs, in particular the add/del/resync.
-Additionally, see the similarity between skb->ddp_crc and skb->decrypted.
-Also, consider the software-fallback flows used in both.
+And, you know, if we figure something out - maybe we stand a chance
+against having 4 different zero copy implementations (this, TCP,
+AF_XDP, netgpu) :(
 
 _______________________________________________
 Linux-nvme mailing list
