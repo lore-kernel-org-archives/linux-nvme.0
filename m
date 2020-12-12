@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DBB5C4361B
-	for <linux-nvme@archiver.kernel.org>; Sat, 12 Dec 2020 04:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA20C433FE
+	for <linux-nvme@archiver.kernel.org>; Sat, 12 Dec 2020 06:54:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 14EC123158
-	for <linux-nvme@archiver.kernel.org>; Sat, 12 Dec 2020 04:36:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 14EC123158
+	by mail.kernel.org (Postfix) with ESMTPS id 30FA823125
+	for <linux-nvme@archiver.kernel.org>; Sat, 12 Dec 2020 06:54:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30FA823125
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,76 +23,76 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=SFr8DUPDReXmn0dSl2aemPuK/ose9XNbCU7BNRmt4a4=; b=K7lC0N8aJGva/0nVfiEs31W3r
-	HQIVS3oSI5DTJ9QarmSGW9AMrTPhOvPx60fe50T8k4mArCIW/AlWctzMjSapdzesBRaTSryqAI0dh
-	NJpZB1q2/3np50p3A38uLCuf+qwM3HXt/3HAegpq3/RMRpXybASmNpKmusisZKV/pnOzZI7vLy/5d
-	lhfTqIwA+jpTkEUthC4mhgVgp4+NClUh2xT6ewKR3e/hATqoaRHBzit9V+w7bE8JRHC2R9j/Go0Up
-	9ZiDZg/owr5q6RgjbbHgFUwhyh68CzNSYvf/npK7q7AC7Ep5IjPfiEOLxv6c9SmnkrzSmUfSd0LpG
-	6/+eozC6A==;
+	 bh=7MCcxVzp+JCli+CREVIuDaw56StkOqyH5P/zSzuOgZQ=; b=VuZVUU3uZ8lnLvsFqmw5Tuc/q
+	cy8tbNRBtVEapVhQwyShDpChHBpm63TeLAvyt/EFjlmab84tLGWhXzYoP+XLGp/DhAIGsiwEh0Xwf
+	4gje+i5tKkZFWVWy7FzSBvEwBDGwU+9i+nKIcxEJZ1/I0pXgU9tyap84MVO4gJCRthjuMj/NwU1BK
+	IBtEQstj+XbjDZsh7gy82nKO5QZa8f7Yr8QuWv5XWhkTLNZL1m9SYNVzvXGjrkIBQ11HyPlW+tRue
+	zopde7UFC1En/pU0s6r+C7gqe/hAJ9PqCQOWep0BtABzlO6PId2cqKx874pRf/XrxxnQwgflUWI+i
+	/ZJOS4Pbw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1knweI-0007A2-Iy; Sat, 12 Dec 2020 04:36:50 +0000
+	id 1knynZ-00055e-BM; Sat, 12 Dec 2020 06:54:33 +0000
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knweF-00079f-Ed
- for linux-nvme@lists.infradead.org; Sat, 12 Dec 2020 04:36:48 +0000
+ id 1knynT-00055G-Sq
+ for linux-nvme@lists.infradead.org; Sat, 12 Dec 2020 06:54:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1607747807; x=1639283807;
+ t=1607756067; x=1639292067;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=3nna6Z52ksTAq4MysufUlTSRDGQgPKiPQ942E4RpWL4=;
- b=XJ7Mk9V5QPBj5mQ67VOqW13gfgaNHAQK0LIAdwk8MoqME8cBc+IcDN1X
- 8lBQsgy4pro5/U9MU8/44JeP1zEfUiTqGHYk259A1nF0qiq+O2oGb1zE0
- 5+yd6AGR7JmTRxxVg75Yki2SCA+zG4gbsDTNS9coYow9Q7hPYA4/VC8Yg
- uB4B2UhBXdHUmzm1fGP9wy+gm9pGGwK3RyfJVS8dwW0bR/xo3T6xluTaA
- F2RlJvcLOtwtJHNTx0sar/EV3uCNj+rV5t3SyhpGCfke1dPpIRenWg//k
- Om3tdcpxCyeIR9HoI88Cr0U+hnrYctlDnUFUn9PXLsMLcC84Ru0Jb/ili Q==;
-IronPort-SDR: DiyPeaSrE/8RRAz6UNFMZt6qOOz6VKmHpT6Szg/acyZDp4hg0vEEWpZlYUNPOal18kXYwuo59X
- DEo9VyzoXL0RyXk20WDPJVqBC1cRPH85kMHCSzCthg5o6punHAiqYvdmudCtMfOa+CL6q7WBly
- Fnbh+driU4WQnbpm1NLS1lXkWJvHu/7bGg9kF/UKWYKh9gS8cXyKgt0qvv4bn+4uHvJ5yRunoR
- 4lQ68PPQkechR9rEvjZEq9RNG+4YUXlSVs3CxaGTLgDPQTnvpvjQSZS0yHHTw/91aX/XTokK5R
- j2k=
-X-IronPort-AV: E=Sophos;i="5.78,413,1599494400"; d="scan'208";a="159443287"
-Received: from mail-mw2nam10lp2102.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.102])
- by ob1.hgst.iphmx.com with ESMTP; 12 Dec 2020 12:36:43 +0800
+ bh=FTwjlZWdAQNidYAsMOJg/47ptiBhDrN7KMSV42ynrXU=;
+ b=PxqMfmAVrWK+q24e0tuu5XKIguC6dXyWZAzKranuAZTAPoAo60CgNfnI
+ EbM0kyXL2j9yw2jj5lY8ork750KAOHgPlnPESHvuPnml8kqIdb2BuJlme
+ tOCpiwXTPqAKE40JwZoYMa1zZYbdvKuHpHmmxopw0raAt/mKs1swgYjbq
+ KQhJRcFpymqRPO9tOS3WIFBU6WXZbmqvNAfYrHfhchFci35XnTtpTMsyD
+ wfZVgTnEq7Dx64I0+0UmLPm+x5/5oMAxUDgtfVbL+SstbKmO3lmXrtfnY
+ vbzLcmun/XocwxO/xlDJT56oK12GvrNqDAR02xrUcV4MJc8CCAJxgblb4 Q==;
+IronPort-SDR: UvgiLr9ziT6sVzhIAdr/n00GLAm5o3nQ/G9/76etN6+N0bfS0rn5XUBznr/bBqFzJGkrGYrmn2
+ FDCC5ILExx6V1CUH1cDIeOPInsQVR1dkj3OBQyX8O7JMPQLSkjMkNCXmXIK2K+Vwi18eNsmWKP
+ z9HKYkDJXxllOvkTUtY33of+31Wq4zxGx2w9e8hzli6znBIvFVR4rbxprs2eUbPIeimaYHbHPY
+ F+fM4HNt7RnBGW4qSApsQhsdFf3m0vFqrU+pkJQQx4S1NuXYNCOSbZfMe0yhaE8eXE/5bmoqXk
+ QPo=
+X-IronPort-AV: E=Sophos;i="5.78,413,1599494400"; d="scan'208";a="159446394"
+Received: from mail-mw2nam10lp2106.outbound.protection.outlook.com (HELO
+ NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.106])
+ by ob1.hgst.iphmx.com with ESMTP; 12 Dec 2020 14:54:25 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HZesuiaQ+u1NOHjDKKJzN7yHsaoluDfdNf/MFn2CpaIVr7UIHs1anm5sLm3ipl/1oyMmdt/W0kqTUir2maMQari+iMLJVd536439SAD41/ThQ72YPM6gRyqvaTjUjHPwrqWuwKkc9mcyUnHknyALRrpHOy02w+846ZM2Wvk8JRq9Ega2+viZpMjoJWB/5EA8SdobF/wmFjw9ZRpkyDiitJivZIcVbq/eQmHNV/aj6wBle5XpssRUtpOGZTjTsn42Q3xoUQys5wQJ7d3QUlbVdYKl0MLuX10o/zD172iG6NCy7ouZ4gNOilbQCwoUqkasAIWOiFyz1tYgmWOCjybwLw==
+ b=K2qA1eDBQSXiuOZM6YLpkLHdhUJtBGS5fLRjZnrRyh6cn4f4mYdUzB/lfpWKvBboF/2OICK37tIXtlP4z6H6nw+KWWYS5hr5p3KPztjJqnQ/CaZJwJw6I/yyQZqNnLF66I10Yb/NENx4hdojDPopIlFPrVBE/nxvZS+NCwKVyLldw58wj1juclqSlDWRZcPJOoxwLhtL7NOXeftJb3CRMSGujTpTvLhzFH3ka7kv47DCAEcyq5PnvMITQS8yZHT081J8phwDAS7v33x5VqHtfMrXjtecol9eEU5GBRvElqexqcPfv+egYrltylZbkfhfdPwGw0sYCL7yOXi1+umkPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6y8f8kjeld8s2nDccZlaQnB05zAuCgKpo9PGbfyo2mE=;
- b=fGan0ft+0QktlpWp2lHkxHVQk2o1O2034AouDKMXcfd6L5xJYHp6RnH+l6e72OL9Mgm+fQCi9pZNQeutcCwtVMhr8b2sDPoNl7jiKW9Xd2Kyz804OY2pC7PyCQZ1ZDpCKotoE2dF9cgy5vlePAv5jsyZsT49T7B6fWLiQg7l1SsZ8TRv74Wp/EGQ02aAgtG9ReRlHU+8aTkzKrdil50Ouw+lUX1eWeolx66yayFlQsj8cfkXRZvMQkFUJUexOOyYPQCU9Rb3lhqxaIsihMwoCNgo5DHlft/+ALgygGz9bJHYNd739UpeFlCJCXD/NCwrNCGrG7WKRWkFYPFO4SGWDQ==
+ bh=cBOh2ttDYMR8UUXsnBYksTnQenzk6JAonT+dbbzPR7M=;
+ b=grMJNtDjWVIZgDneZQPvQU1EkMvE6T/ewL7IrZAfxuMFiCx9c9wDtaHZsZexTnCL6YUVopzaFFT+JxXdzfhaMeZmZA77m3yimJa21umFK1K+DEqJgFB6e8xsPysbCaxHsxH3AGn9C6DMV2SjoAh8k2W05s1Apl6WwtLJvPUN9/nueBxuPi2ywAElpwKWqwyxqxnJG/oRMho0sP0w976xcRUGjYGKQERRt0Ve5MTpIY0jhTruneJe16OEimGPLJE4OSI/wCxSHY198Iux04hIjAGuqQbkqfebjgGu9daO33rHRkkK5tgwOzUIWRuvcpDRPBR5Qf0frO4Z6gx3tS3STg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6y8f8kjeld8s2nDccZlaQnB05zAuCgKpo9PGbfyo2mE=;
- b=nkybFkE0qG0/QqXJa9ErY8OECw7geBlIrmJTyRUBhGYn9a3QPx1LFzXmvzTy06zojqPIQ9MehMj5n9ekC68xTkOXA7mPPvvx1anB8O/uco6vz63JRfNOdpUsn318tgpgewtVgWdxX0JNaEFsL52wSV/6Z3mNeCZvii6cmV0VMag=
+ bh=cBOh2ttDYMR8UUXsnBYksTnQenzk6JAonT+dbbzPR7M=;
+ b=tRfEV1RLAAM+/VG1LcHJHKXwQbsHf8lDqUPGtmXaSHpa0AD2StC1OzFEnD1M9OlAcz6vZ+mGigHn2RWixFpaSTh2NEu5x2FhpWDAAyr4BAuWOWUFzk6AoTDyXp+eL/PK786sJF2EtVNgepa8r9hCH4PohV4Kh63fR24VqahHoPo=
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BY5PR04MB6552.namprd04.prod.outlook.com (2603:10b6:a03:1d8::22)
+ by BYAPR04MB4662.namprd04.prod.outlook.com (2603:10b6:a03:14::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Sat, 12 Dec
- 2020 04:36:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.21; Sat, 12 Dec
+ 2020 06:54:21 +0000
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::99ae:ab95:7c27:99e4]) by BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::99ae:ab95:7c27:99e4%7]) with mapi id 15.20.3632.025; Sat, 12 Dec 2020
- 04:36:39 +0000
+ 06:54:21 +0000
 From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
 To: Damien Le Moal <Damien.LeMoal@wdc.com>, "linux-block@vger.kernel.org"
  <linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
  <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH V5 2/6] nvmet: add lba to sect coversion helpers
-Thread-Topic: [PATCH V5 2/6] nvmet: add lba to sect coversion helpers
-Thread-Index: AQHWzr13f9+9GqQQ4E+2kMWDl1NOOg==
-Date: Sat, 12 Dec 2020 04:36:39 +0000
-Message-ID: <BYAPR04MB49654B4D7540896CFD9AB31586C90@BYAPR04MB4965.namprd04.prod.outlook.com>
+Subject: Re: [PATCH V5 4/6] nvmet: add ZBD over ZNS backend support
+Thread-Topic: [PATCH V5 4/6] nvmet: add ZBD over ZNS backend support
+Thread-Index: AQHWzr2FuszvFJU9HEW4WB60UcvV9w==
+Date: Sat, 12 Dec 2020 06:54:21 +0000
+Message-ID: <BYAPR04MB49652F762776AC04BC2719A386C90@BYAPR04MB4965.namprd04.prod.outlook.com>
 References: <20201210062622.62053-1-chaitanya.kulkarni@wdc.com>
- <20201210062622.62053-3-chaitanya.kulkarni@wdc.com>
- <CH2PR04MB652229BB9545FFAB75F5A754E7CA0@CH2PR04MB6522.namprd04.prod.outlook.com>
+ <20201210062622.62053-5-chaitanya.kulkarni@wdc.com>
+ <CH2PR04MB652299EA78B1304157CC8234E7CA0@CH2PR04MB6522.namprd04.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -102,51 +102,52 @@ authentication-results: wdc.com; dkim=none (message not signed)
 x-originating-ip: [199.255.45.62]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a219a7c8-fea0-4f85-6568-08d89e5784c7
-x-ms-traffictypediagnostic: BY5PR04MB6552:
+x-ms-office365-filtering-correlation-id: f51d0bea-e8dc-4deb-e8a1-08d89e6ac12c
+x-ms-traffictypediagnostic: BYAPR04MB4662:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR04MB655276D2B98BC3965F977D3D86C90@BY5PR04MB6552.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <BYAPR04MB4662B87351930B45BCB248B786C90@BYAPR04MB4662.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-ms-oob-tlc-oobclassifiers: OLM:2201;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KFtS++djkIyB/40VU5zfkroUqsMITshR9b/crhC7eGHvJp9/u8ZC0XnOR2tBAEfQjn7x8lS3EGAWnLxNwMECEnMevxSx7aRY+f+8Zy1Noq/l6TA2xakJSKljLK8hrxVdf1ayBh391gfzSjV0ZssVp4l+216rju+yDQyGUZQLguE/lW0VyQg9uZSVrlYYsA/Mre+rgLw/qlw6HtlnPsr2JKNe5uN2cCaZfr2zDCj/yFteAGmoGg2oZaNufPhwo9/YUTJ07ZHmnYrwx7KO3Xn0DvmgnpYrDajCM+wOnfopFrPw7x2VtvLnEApUXjgszoo8f/+2wn4hss1suob1wLYPyA==
+x-microsoft-antispam-message-info: ZqY3yCmCryln9PDg0p85uFOBTG/+Lor1/SZwyEfyxzRCGXWfWC0UXmKqW24AKAt77d+kHhEV02jA+08lxa9RU+JMvJS+6/G7iqeqNsWhYQYPo7LbHGnQBB0eEFJAu3F/UuUG5ECi3jgQS23RKU1kc3p/SjHXhpdkBmnEsQum0c7CWjbBB3B7FivfylAJXPn0SbgIeQdSRXVU8J18K+vnG1knW4yQdUtRbxt7Sc62nICFGUqC9CU2r2LUzZjbbKFJklvfzKImIvCmdviE86k9Nkg+BnzXTPMLsiYg2Vze5WALb1gGcKrucx+hBhot0mEr
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(136003)(366004)(9686003)(76116006)(83380400001)(33656002)(71200400001)(66476007)(64756008)(66556008)(66946007)(52536014)(66446008)(5660300002)(8936002)(86362001)(8676002)(110136005)(54906003)(2906002)(508600001)(4326008)(55016002)(26005)(186003)(53546011)(6506007)(7696005);
+ SFS:(4636009)(376002)(136003)(346002)(366004)(83380400001)(6506007)(55016002)(9686003)(33656002)(8936002)(8676002)(4326008)(30864003)(66476007)(2906002)(66446008)(53546011)(64756008)(110136005)(52536014)(66556008)(186003)(54906003)(26005)(76116006)(7696005)(71200400001)(508600001)(5660300002)(66946007)(86362001)(579004)(559001);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?bCQ5CwmE/AAsGM9ZcSNb7D7X0zQ1N+Zti3r5Xm48kWbtXr+omtdKTqgTaANs?=
- =?us-ascii?Q?uLCrDZoyud6LDxNu9XAhzHyzKgOZRTrGzbJ06naqBTdQfJOEaXDX7Oh+rvJL?=
- =?us-ascii?Q?2T1jXQp/DzPG/xnzNCDEi1L89JQDqKatapnTOFRIf+YgZx9zuaoHq0LqWrfH?=
- =?us-ascii?Q?W6N1A/Mr3RuIg/MOWmwpzBzLfWLbX7ecDRrpsBIcicO/dSkpehSAk+c8wz6y?=
- =?us-ascii?Q?ExSRX/P07IjcxOTS/NYf6Tnv6JuBUeARIGyLIk9bJJch5BP5+tbaOKLRULev?=
- =?us-ascii?Q?iZ/zEnv2+Q/9Jw/uTlaOvVkUktMmG6TIZAgu7jvTWBc3oMQVQ2tfTQdKFsnm?=
- =?us-ascii?Q?OoaQ6y17Mu2eeKtQlt4YF2ymrHsruxFNVljPYKnfDvwKO6z1/zwqjFN7oW8i?=
- =?us-ascii?Q?WWsNM8651qJr1gIwFaW4984T9EGSMsM/ycaKFwa1+SwgRcRBSVhgCWgWJjf9?=
- =?us-ascii?Q?M2kLLoDHEerCndCRb3agXdHHIxOE8XANlMmD8Jf3bp60m4RZDGmSuXARCaiK?=
- =?us-ascii?Q?/TTuUh76vHNpBbw0l5t3RhDKbfmaJbUw6jKLcx1obGkYYae0EyOioM8Ja1rC?=
- =?us-ascii?Q?xcR+vQ+l7Zmcw5CcurR7OB8kPCrrGT52EoLIsIptM16cdoO5ld7SLrDvyocR?=
- =?us-ascii?Q?vixErLFWCIkiyqFCzRpCPbENPEpGddl/AJ3FY8UlZ1mT5fYbUs5ZSe6XiIc9?=
- =?us-ascii?Q?v33re0q7oDsmzJ4X+V5KtHvfY9B74VfGRUHtJtW9MlHNS0wwCqwNXe89vGmc?=
- =?us-ascii?Q?uL+/mS+Y/vNYcRk9ZMktBtyIYjJMTY68JcCoRcKxqgos/btjrd/vQXHJyr1P?=
- =?us-ascii?Q?3sJJjSlaPieY7d2FPf6OrE6by7vnhwpAznVfudvoWN39TFArdaQGUTKPKVBn?=
- =?us-ascii?Q?Lhkey+Eo4qLn2nSr4DMbQRyy6JH72TJ90POYopctxWhE3qcvhiNdG0Tfb4RY?=
- =?us-ascii?Q?yHJ77fU4XtWqS9PxSyH9nXDVo32mNrDhHnB6WWeWzx357JG3IE+r6W15eTuJ?=
- =?us-ascii?Q?y/qQ?=
+x-ms-exchange-antispam-messagedata: =?Windows-1252?Q?ot9jYQV6rWdzm2jEK22WJUK1gQ0DNz622oRinWM2vRN8IlW3hdMyc9j5?=
+ =?Windows-1252?Q?VPdnh+5TG9y5VNlanRh2QZW20xCaSW0UUC/J+x79wdwEMjTWS/KDIyhR?=
+ =?Windows-1252?Q?Mf6zlZ6uXW+n5fkGuLN9QAokmNeP6ZVktrSRxkcNVZqisB7DU5DDq8Ec?=
+ =?Windows-1252?Q?KI5BBIqmBLvRiub5+MMXXT8uHAnM+eXja1Iosj+l1f2tb0NvCyUM7WyA?=
+ =?Windows-1252?Q?p0k0njS7To3pM95bTJ/99dfdpYpf692nVPTRpT6CUcmBvkYe6RIGYEoE?=
+ =?Windows-1252?Q?pns5R/wIvWk8zhMcIy50TO28wOLi3qPE571ArBdU+48OI7GQniO4w3Fg?=
+ =?Windows-1252?Q?eC9P64X2xVd4CzlSFRPs9PWl00PvQ/EGtG60CVP9buvLxW3Aktn4yN/0?=
+ =?Windows-1252?Q?3QZlTm6nsceR4u86jax1JVxCqiJx5ceq+04jqxY7CCY8JnmcEqh/vKhU?=
+ =?Windows-1252?Q?my/4ZSX0u9wwzg1ZA6JitPgpxICqkcNKqraFsE2dT1kGJusYr8/3rROz?=
+ =?Windows-1252?Q?lyOpr2xqPSqN5xSbdRT8+26HkRzjs+XGn3uRiltnDM/Y2QT5g//Sjwzl?=
+ =?Windows-1252?Q?tXiNw27APd8TZiBl6UNtbcXzt0rDt7WWLrzXGmn1rrOianzFCR32irOp?=
+ =?Windows-1252?Q?Rm+8V4PjFI1ermE20+KYEgNaChnpBwiElQbFYRbEFtHJ1FePqhyoAlBQ?=
+ =?Windows-1252?Q?PcVWxzYaE1urztLT+J0sG8kIx8DtrMm7wevPzaF8HYzWkeLMOTqFDC/O?=
+ =?Windows-1252?Q?Uf3lqJutkFr0f4qAC34sFKSUxZN6FN4FGSzqotCkXMznE9+mp/8l6l7o?=
+ =?Windows-1252?Q?PY/RptSb4/LN3vGbjzGokg20R0wMY/IFhtA/34x1qpDrz9XUjE93MZ72?=
+ =?Windows-1252?Q?sJLFe353LvovqJX9Fs7JsDf5lE2dNIaQv8qx7Wx6i0SF9rPOKUVhefNB?=
+ =?Windows-1252?Q?C1Jd0Vr66RqF9h9K3xZTa2iqzdA0dMkiEoaXwvMAh3SpUyoZ+mTTZtTJ?=
+ =?Windows-1252?Q?AJ3gGkqxdbWSQxGkklNSZWt10fb14uwFrUyIqZnu6vMwZt4dfeMht6g1?=
+ =?Windows-1252?Q?rCiayRjPJF1nYnEW?=
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a219a7c8-fea0-4f85-6568-08d89e5784c7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2020 04:36:39.9189 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f51d0bea-e8dc-4deb-e8a1-08d89e6ac12c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2020 06:54:21.6033 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FcLqU+T0EGhvzVw5lghdWSC0BNgmkeQowz6rXtLS48I7nOt6FJYOw4WOiAYrmz3wufuYMIKWKLoUzyyX9ripmaF8JgAVEDh0Fu8LtYJyqHk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6552
+X-MS-Exchange-CrossTenant-userprincipalname: tbvxnzNeNIct8mcRL2asxvvK+BsTLuhTcklkJiiAOD/5mz4XagUq0Ymyvb9JESr3O1H7fODoilfQNWcfNbJ1sXv5FHfVa6X5sOjIxg5XJr0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4662
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201211_233647_833630_DD9E397F 
-X-CRM114-Status: GOOD (  15.45  )
+X-CRM114-CacheID: sfid-20201212_015428_447934_6BD02E96 
+X-CRM114-Status: GOOD (  17.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,107 +160,818 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: "sagi@grimberg.me" <sagi@grimberg.me>, "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/10/20 16:50, Damien Le Moal wrote:
+On 12/10/20 17:18, Damien Le Moal wrote:
 > On 2020/12/10 15:27, Chaitanya Kulkarni wrote:
->> In this preparation patch we add helpers to convert lbas to sectors and
->> sectors to lba. This is needed to eliminate code duplication in the ZBD
->> backend.
+>> NVMe TP 4053 =96 Zoned Namespaces (ZNS) allows host software to
+>> communicate with a non-volatile memory subsystem using zones for
+>> NVMe protocol based controllers. NVMeOF already support the ZNS NVMe
+>> Protocol compliant devices on the target in the passthru mode. There
+>> are Generic Zoned Block Devices like  Shingled Magnetic Recording (SMR)
+> Please remove "Generic" from this sentence. It is confusing. Also, I do n=
+ot
+> think you need to capitalize ZOned Block Devices. That is something Linux
+> defines. It is not defined by any standard.
+Since target supports ZNS in the passthru mode term generic is needed
+to differentiate the backend type.
+Regarding zbd I'm fine with that.
+>> HDD which are not based on the NVMe protocol.
 >>
->> Use these helpers in the block device backennd.
-> s/backennd/backend
->
-> And in the title:
->
-> s/coversion/conversion
->
-> scripts/checkpatch.pl does spell checking...
-I'll double check, it did not spit any warningand I rely on checkpatch.
-
-zbd-nvmeof/v5/0002-nvmet-add-lba-to-sect-coversion-helpers.patch
-----------------------------------------------------------------
-total: 0 errors, 0 warnings, 40 lines checked
-
-zbd-nvmeof/v5/0002-nvmet-add-lba-to-sect-coversion-helpers.patch has no
-obvious style problems and is ready for submission.
-
->
+>> This patch adds ZNS backend to support the ZBDs for NVMeOF target.
+>>
+>> This support inculdes implementing the new command set NVME_CSI_ZNS,
+> s/inculdes/includes
+Okay.
+>> adding different command handlers for ZNS command set such as
+>> NVMe Identify Controller, NVMe Identify Namespace, NVMe Zone Append,
+>> NVMe Zone Management Send and NVMe Zone Management Receive.
+>>
+>> With new command set identifier we also update the target command effects
+>> logs to reflect the ZNS compliant commands.
+>>
 >> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 >> ---
->>  drivers/nvme/target/io-cmd-bdev.c |  8 +++-----
->>  drivers/nvme/target/nvmet.h       | 10 ++++++++++
->>  2 files changed, 13 insertions(+), 5 deletions(-)
+>>  drivers/nvme/target/Makefile      |   1 +
+>>  drivers/nvme/target/admin-cmd.c   |  26 +++
+>>  drivers/nvme/target/core.c        |   1 +
+>>  drivers/nvme/target/io-cmd-bdev.c |  33 ++-
+>>  drivers/nvme/target/nvmet.h       |  38 ++++
+>>  drivers/nvme/target/zns.c         | 327 ++++++++++++++++++++++++++++++
+>>  6 files changed, 418 insertions(+), 8 deletions(-)
+>>  create mode 100644 drivers/nvme/target/zns.c
 >>
->> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
->> index 125dde3f410e..23095bdfce06 100644
+>> diff --git a/drivers/nvme/target/Makefile b/drivers/nvme/target/Makefile
+>> index ebf91fc4c72e..9837e580fa7e 100644
+>> --- a/drivers/nvme/target/Makefile
+>> +++ b/drivers/nvme/target/Makefile
+>> @@ -12,6 +12,7 @@ obj-$(CONFIG_NVME_TARGET_TCP)		+=3D nvmet-tcp.o
+>>  nvmet-y		+=3D core.o configfs.o admin-cmd.o fabrics-cmd.o \
+>>  			discovery.o io-cmd-file.o io-cmd-bdev.o
+>>  nvmet-$(CONFIG_NVME_TARGET_PASSTHRU)	+=3D passthru.o
+>> +nvmet-$(CONFIG_BLK_DEV_ZONED)		+=3D zns.o
+>>  nvme-loop-y	+=3D loop.o
+>>  nvmet-rdma-y	+=3D rdma.o
+>>  nvmet-fc-y	+=3D fc.o
+>> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin=
+-cmd.c
+>> index f4c0f3aca485..6f5279b15aa6 100644
+>> --- a/drivers/nvme/target/admin-cmd.c
+>> +++ b/drivers/nvme/target/admin-cmd.c
+>> @@ -192,6 +192,15 @@ static void nvmet_execute_get_log_cmd_effects_ns(st=
+ruct nvmet_req *req)
+>>  		log->iocs[nvme_cmd_dsm]			=3D cpu_to_le32(1 << 0);
+>>  		log->iocs[nvme_cmd_write_zeroes]	=3D cpu_to_le32(1 << 0);
+>>  		break;
+>> +	case NVME_CSI_ZNS:
+>> +		if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
+>> +			u32 *iocs =3D log->iocs;
+>> +
+>> +			iocs[nvme_cmd_zone_append]	=3D cpu_to_le32(1 << 0);
+>> +			iocs[nvme_cmd_zone_mgmt_send]	=3D cpu_to_le32(1 << 0);
+>> +			iocs[nvme_cmd_zone_mgmt_recv]	=3D cpu_to_le32(1 << 0);
+>> +		}
+>> +		break;
+>>  	default:
+>>  		status =3D NVME_SC_INVALID_LOG_PAGE;
+>>  		break;
+>> @@ -614,6 +623,7 @@ static u16 nvmet_copy_ns_identifier(struct nvmet_req=
+ *req, u8 type, u8 len,
+>>  =
+
+>>  static void nvmet_execute_identify_desclist(struct nvmet_req *req)
+>>  {
+>> +	u16 nvme_cis_zns =3D NVME_CSI_ZNS;
+>>  	u16 status =3D 0;
+>>  	off_t off =3D 0;
+>>  =
+
+>> @@ -638,6 +648,14 @@ static void nvmet_execute_identify_desclist(struct =
+nvmet_req *req)
+>>  		if (status)
+>>  			goto out;
+>>  	}
+>> +	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
+>> +		if (req->ns->csi =3D=3D NVME_CSI_ZNS)
+>> +			status =3D nvmet_copy_ns_identifier(req, NVME_NIDT_CSI,
+>> +							  NVME_NIDT_CSI_LEN,
+>> +							  &nvme_cis_zns, &off);
+>> +		if (status)
+>> +			goto out;
+>> +	}
+>>  =
+
+>>  	if (sg_zero_buffer(req->sg, req->sg_cnt, NVME_IDENTIFY_DATA_SIZE - off,
+>>  			off) !=3D NVME_IDENTIFY_DATA_SIZE - off)
+>> @@ -655,8 +673,16 @@ static void nvmet_execute_identify(struct nvmet_req=
+ *req)
+>>  	switch (req->cmd->identify.cns) {
+>>  	case NVME_ID_CNS_NS:
+>>  		return nvmet_execute_identify_ns(req);
+>> +	case NVME_ID_CNS_CS_NS:
+>> +		if (req->cmd->identify.csi =3D=3D NVME_CSI_ZNS)
+>> +			return nvmet_execute_identify_cns_cs_ns(req);
+>> +		break;
+>>  	case NVME_ID_CNS_CTRL:
+>>  		return nvmet_execute_identify_ctrl(req);
+>> +	case NVME_ID_CNS_CS_CTRL:
+>> +		if (req->cmd->identify.csi =3D=3D NVME_CSI_ZNS)
+>> +			return nvmet_execute_identify_cns_cs_ctrl(req);
+>> +		break;
+>>  	case NVME_ID_CNS_NS_ACTIVE_LIST:
+>>  		return nvmet_execute_identify_nslist(req);
+>>  	case NVME_ID_CNS_NS_DESC_LIST:
+>> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+>> index 672e4009f8d6..17a99c7134dc 100644
+>> --- a/drivers/nvme/target/core.c
+>> +++ b/drivers/nvme/target/core.c
+>> @@ -1107,6 +1107,7 @@ static inline u8 nvmet_cc_iocqes(u32 cc)
+>>  static inline bool nvmet_cc_css_check(u8 cc_css)
+>>  {
+>>  	switch (cc_css <<=3D NVME_CC_CSS_SHIFT) {
+>> +	case NVME_CC_CSS_CSI:
+>>  	case NVME_CC_CSS_NVM:
+>>  		return true;
+>>  	default:
+>> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-=
+cmd-bdev.c
+>> index 23095bdfce06..6178ef643962 100644
 >> --- a/drivers/nvme/target/io-cmd-bdev.c
 >> +++ b/drivers/nvme/target/io-cmd-bdev.c
->> @@ -256,8 +256,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
->>  	if (is_pci_p2pdma_page(sg_page(req->sg)))
->>  		op |= REQ_NOMERGE;
->>  
->> -	sector = le64_to_cpu(req->cmd->rw.slba);
->> -	sector <<= (req->ns->blksize_shift - 9);
->> +	sector = nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
->>  
->>  	if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN) {
->>  		bio = &req->b.inline_bio;
->> @@ -345,7 +344,7 @@ static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
+>> @@ -63,6 +63,14 @@ static void nvmet_bdev_ns_enable_integrity(struct nvm=
+et_ns *ns)
+>>  	}
+>>  }
+>>  =
+
+>> +void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
+>> +{
+>> +	if (ns->bdev) {
+>> +		blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
+>> +		ns->bdev =3D NULL;
+>> +	}
+>> +}
+>> +
+>>  int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+>>  {
 >>  	int ret;
->>  
->>  	ret = __blkdev_issue_discard(ns->bdev,
->> -			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
->> +			nvmet_lba_to_sect(ns, range->slba),
->>  			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
->>  			GFP_KERNEL, 0, bio);
->>  	if (ret && ret != -EOPNOTSUPP) {
->> @@ -414,8 +413,7 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
->>  	if (!nvmet_check_transfer_len(req, 0))
->>  		return;
->>  
->> -	sector = le64_to_cpu(write_zeroes->slba) <<
->> -		(req->ns->blksize_shift - 9);
->> +	sector = nvmet_lba_to_sect(req->ns, write_zeroes->slba);
->>  	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
->>  		(req->ns->blksize_shift - 9));
->>  
+>> @@ -86,15 +94,15 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+>>  	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY_T10))
+>>  		nvmet_bdev_ns_enable_integrity(ns);
+>>  =
+
+>> -	return 0;
+>> -}
+>> -
+>> -void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
+>> -{
+>> -	if (ns->bdev) {
+>> -		blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
+>> -		ns->bdev =3D NULL;
+>> +	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) && bdev_is_zoned(ns->bdev)) {
+>> +		if (!nvmet_bdev_zns_enable(ns)) {
+>> +			nvmet_bdev_ns_disable(ns);
+>> +			return -EINVAL;
+>> +		}
+>> +		ns->csi =3D NVME_CSI_ZNS;
+>>  	}
+>> +
+>> +	return 0;
+>>  }
+>>  =
+
+>>  void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns)
+>> @@ -448,6 +456,15 @@ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req)
+>>  	case nvme_cmd_write_zeroes:
+>>  		req->execute =3D nvmet_bdev_execute_write_zeroes;
+>>  		return 0;
+>> +	case nvme_cmd_zone_append:
+>> +		req->execute =3D nvmet_bdev_execute_zone_append;
+>> +		return 0;
+>> +	case nvme_cmd_zone_mgmt_recv:
+>> +		req->execute =3D nvmet_bdev_execute_zone_mgmt_recv;
+>> +		return 0;
+>> +	case nvme_cmd_zone_mgmt_send:
+>> +		req->execute =3D nvmet_bdev_execute_zone_mgmt_send;
+>> +		return 0;
+>>  	default:
+>>  		pr_err("unhandled cmd %d on qid %d\n", cmd->common.opcode,
+>>  		       req->sq->qid);
 >> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
->> index 592763732065..4cb4cdae858c 100644
+>> index 0360594abd93..dae6ecba6780 100644
 >> --- a/drivers/nvme/target/nvmet.h
 >> +++ b/drivers/nvme/target/nvmet.h
->> @@ -603,4 +603,14 @@ static inline bool nvmet_ns_has_pi(struct nvmet_ns *ns)
->>  	return ns->pi_type && ns->metadata_size == sizeof(struct t10_pi_tuple);
+>> @@ -252,6 +252,10 @@ struct nvmet_subsys {
+>>  	unsigned int		admin_timeout;
+>>  	unsigned int		io_timeout;
+>>  #endif /* CONFIG_NVME_TARGET_PASSTHRU */
+>> +
+>> +#ifdef CONFIG_BLK_DEV_ZONED
+>> +	u8			zasl;
+>> +#endif /* CONFIG_BLK_DEV_ZONED */
+>>  };
+>>  =
+
+>>  static inline struct nvmet_subsys *to_subsys(struct config_item *item)
+>> @@ -614,4 +618,38 @@ static inline sector_t nvmet_lba_to_sect(struct nvm=
+et_ns *ns, __le64 lba)
+>>  	return le64_to_cpu(lba) << (ns->blksize_shift - SECTOR_SHIFT);
 >>  }
->>  
->> +static inline u64 nvmet_sect_to_lba(struct nvmet_ns *ns, sector_t sect)
+>>  =
+
+>> +#ifdef CONFIG_BLK_DEV_ZONED
+>> +bool nvmet_bdev_zns_enable(struct nvmet_ns *ns);
+>> +void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req);
+>> +void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req);
+>> +void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req);
+>> +void nvmet_bdev_execute_zone_mgmt_send(struct nvmet_req *req);
+>> +void nvmet_bdev_execute_zone_append(struct nvmet_req *req);
+>> +#else  /* CONFIG_BLK_DEV_ZONED */
+>> +static inline bool nvmet_bdev_zns_enable(struct nvmet_ns *ns)
 >> +{
->> +	return sect >> (ns->blksize_shift - SECTOR_SHIFT);
+>> +	return false;
 >> +}
->> +
->> +static inline sector_t nvmet_lba_to_sect(struct nvmet_ns *ns, __le64 lba)
+>> +static inline void
+>> +nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req)
 >> +{
->> +	return le64_to_cpu(lba) << (ns->blksize_shift - SECTOR_SHIFT);
 >> +}
+>> +static inline void
+>> +nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
+>> +{
+>> +}
+>> +static inline void
+>> +nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req)
+>> +{
+>> +}
+>> +static inline void
+>> +nvmet_bdev_execute_zone_mgmt_send(struct nvmet_req *req)
+>> +{
+>> +}
+>> +static inline void
+>> +nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+>> +{
+>> +}
+>> +#endif /* CONFIG_BLK_DEV_ZONED */
 >> +
-> One thing here that I am not a fan of is the inconsistency between the 2 helpers
-> regarding the LBA endianess: nvmet_lba_to_sect() takes LE lba value, but
-> nvmet_sect_to_lba() returns a CPU endian lba value. Can't we unify them to work
-> on CPU endian values, and then if needed add another helper like:
->
-> static inline sector_t nvmet_lelba_to_sect(struct nvmet_ns *ns, __le64 lba)
-> {
-> 	return nvmet_lba_to_sect(ns, le64_to_cpu(lba));
-> }
->
-I'll add the endian version of the nvmet_sect_to_lba() which matches the
-nvmet_lba_to_sect() that is anyways needed to get rid of the
-cpu_to_le64() calls
-in the zns patch.
 >>  #endif /* _NVMET_H */
+>> diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+>> new file mode 100644
+>> index 000000000000..ae51bae996f9
+>> --- /dev/null
+>> +++ b/drivers/nvme/target/zns.c
+>> @@ -0,0 +1,327 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * NVMe ZNS-ZBD command implementation.
+>> + * Copyright (c) 2020-2021 HGST, a Western Digital Company.
+>> + */
+>> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>> +#include <linux/uio.h>
+>> +#include <linux/nvme.h>
+>> +#include <linux/xarray.h>
+>> +#include <linux/blkdev.h>
+>> +#include <linux/module.h>
+>> +#include "nvmet.h"
+>> +
+>> +/*
+>> + * We set the Memory Page Size Minimum (MPSMIN) for target controller t=
+o 0
+>> + * which gets added by 12 in the nvme_enable_ctrl() which results in 2^=
+12 =3D 4k
+>> + * as page_shift value. When calculating the ZASL use shift by 12.
+>> + */
+>> +#define NVMET_MPSMIN_SHIFT	12
+>> +
+>> +static u16 nvmet_bdev_zns_checks(struct nvmet_req *req)
+>> +{
+>> +	u16 status =3D 0;
+>> +
+>> +	if (!bdev_is_zoned(req->ns->bdev)) {
+>> +		status =3D NVME_SC_INVALID_NS | NVME_SC_DNR;
+>> +		goto out;
+>> +	}
+>> +
+>> +	if (req->cmd->zmr.zra !=3D NVME_ZRA_ZONE_REPORT) {
+>> +		status =3D NVME_SC_INVALID_FIELD;
+>> +		goto out;
+>> +	}
+>> +
+>> +	if (req->cmd->zmr.zrasf !=3D NVME_ZRASF_ZONE_REPORT_ALL) {
+>> +		status =3D NVME_SC_INVALID_FIELD;
+>> +		goto out;
+>> +	}
+>> +
+>> +	if (req->cmd->zmr.pr !=3D NVME_REPORT_ZONE_PARTIAL)
+>> +		status =3D NVME_SC_INVALID_FIELD;
+>> +
+>> +out:
+>> +	return status;
+>> +}
+> I really fail to see how the gotos here help with the code "being better".
+> Are you absolutely sure you want to keep this super convoluted style for a
+> function that is that simple ?
+>
+> +
+> +/*
+> + *  ZNS related command implementation and helpers.
+> + */
+> +
+> +static inline u8 nvmet_zasl(unsigned int zone_append_sects)
+> +{
+> +	/*
+> +	 * Zone Append Size Limit is the value experessed in the units
+> +	 * of minimum memory page size (i.e. 12) and is reported power of 2.
+> +	 */
+> +	return ilog2((zone_append_sects << 9) >> NVMET_MPSMIN_SHIFT);
+> +}
+> +
+> +static inline bool nvmet_zns_update_zasl(struct nvmet_ns *ns)
+> +{
+> +	struct request_queue *q =3D ns->bdev->bd_disk->queue;
+> +	u8 zasl =3D nvmet_zasl(queue_max_zone_append_sectors(q));
+> +
+> +	if (ns->subsys->zasl)
+> +		return ns->subsys->zasl < zasl ? false : true;
+> +
+> +	ns->subsys->zasl =3D zasl;
+> +	return true;
+> +}
+> +
+> +bool nvmet_bdev_zns_enable(struct nvmet_ns *ns)
+> +{
+> +	if (ns->bdev->bd_disk->queue->conv_zones_bitmap) {
+> Hmm... BIO based DM devices do not have this bitmap set since they do not=
+ have a
+> scheduler. So if one setup a dm-linear device on top of an SMR disk and e=
+xport
+> the DM device through fabric, then this check will fail to verify if
+> conventional zones are present. There may be no other option than to do a=
+ full
+> report zones here if queue->seq_zones_wlock is NULL (meaning the queue is=
+ for a
+> stacked device).
+
+If I'm not wrong each LLD does call the report zones at disk revalidation,
+as we should be able to reuse it instead of repeating for each zbd ns
+especially for static property:-
+
+1. drivers/block/null_blk_zoned.c:-
+    null_register_zoned_dev int
+        ret =3D blk_revalidate_disk_zones(nullb->disk, NULL);
+2. drivers/nvme/host/zns.c:-
+    nvme_revalidate_zones
+        ret =3D blk_revalidate_disk_zones(ns->disk, NULL);
+3. drivers/scsi/sd_zbc.c:-
+    sd_zbc_revalidate_zones
+        ret =3D blk_revalidate_disk_zones(disk, sd_zbc_revalidate_zones_cb);
+
+Calling report again is a duplication of the work consuming cpu cycles for
+each zbd ns.
+
+Unless something wrong we can get away with following prep patch with one
+call in zns.c :-
+
+From abceef7bfdf9b278c492c755bf5f242159ef51e5 Mon Sep 17 00:00:00 2001
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Date: Fri, 11 Dec 2020 21:21:44 -0800
+Subject: [PATCH V6 2/7] block: add nr_conv_zones and nr_seq_zones helpers
+
+Add two request members that are needed to implement the NVMeOF ZBD
+backend which exports a number of conventional zones and a number of
+sequential zones so we don't have to repeat the work what
+blk_revalidate_disk_zones() already does.
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ block/blk-sysfs.c      | 14 ++++++++++++++
+ block/blk-zoned.c      |  9 +++++++++
+ include/linux/blkdev.h | 13 +++++++++++++
+ 3 files changed, 36 insertions(+)
+
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index b513f1683af0..f10cf45ae177 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -307,6 +307,16 @@ static ssize_t queue_nr_zones_show(struct
+request_queue *q, char *page)
+     return queue_var_show(blk_queue_nr_zones(q), page);
+ }
+ =
+
++static ssize_t queue_nr_conv_zones_show(struct request_queue *q, char
+*page)
++{
++    return queue_var_show(blk_queue_nr_conv_zones(q), page);
++}
++
++static ssize_t queue_nr_seq_zones_show(struct request_queue *q, char *page)
++{
++    return queue_var_show(blk_queue_nr_seq_zones(q), page);
++}
++
+ static ssize_t queue_max_open_zones_show(struct request_queue *q, char
+*page)
+ {
+     return queue_var_show(queue_max_open_zones(q), page);
+@@ -588,6 +598,8 @@ QUEUE_RO_ENTRY(queue_zone_append_max,
+"zone_append_max_bytes");
+ =
+
+ QUEUE_RO_ENTRY(queue_zoned, "zoned");
+ QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
++QUEUE_RO_ENTRY(queue_nr_conv_zones, "nr_conv_zones");
++QUEUE_RO_ENTRY(queue_nr_seq_zones, "nr_seq_zones");
+ QUEUE_RO_ENTRY(queue_max_open_zones, "max_open_zones");
+ QUEUE_RO_ENTRY(queue_max_active_zones, "max_active_zones");
+ =
+
+@@ -642,6 +654,8 @@ static struct attribute *queue_attrs[] =3D {
+     &queue_nonrot_entry.attr,
+     &queue_zoned_entry.attr,
+     &queue_nr_zones_entry.attr,
++    &queue_nr_conv_zones_entry.attr,
++    &queue_nr_seq_zones_entry.attr,
+     &queue_max_open_zones_entry.attr,
+     &queue_max_active_zones_entry.attr,
+     &queue_nomerges_entry.attr,
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index 6817a673e5ce..ea38c7928e41 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -390,6 +390,8 @@ struct blk_revalidate_zone_args {
+     unsigned long    *conv_zones_bitmap;
+     unsigned long    *seq_zones_wlock;
+     unsigned int    nr_zones;
++    unsigned int    nr_conv_zones;
++    unsigned int    nr_seq_zones;
+     sector_t    zone_sectors;
+     sector_t    sector;
+ };
+@@ -449,6 +451,7 @@ static int blk_revalidate_zone_cb(struct blk_zone
+*zone, unsigned int idx,
+                 return -ENOMEM;
+         }
+         set_bit(idx, args->conv_zones_bitmap);
++        args->nr_conv_zones++;
+         break;
+     case BLK_ZONE_TYPE_SEQWRITE_REQ:
+     case BLK_ZONE_TYPE_SEQWRITE_PREF:
+@@ -458,6 +461,7 @@ static int blk_revalidate_zone_cb(struct blk_zone
+*zone, unsigned int idx,
+             if (!args->seq_zones_wlock)
+                 return -ENOMEM;
+         }
++        args->nr_seq_zones++;
+         break;
+     default:
+         pr_warn("%s: Invalid zone type 0x%x at sectors %llu\n",
+@@ -489,6 +493,9 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+     struct request_queue *q =3D disk->queue;
+     struct blk_revalidate_zone_args args =3D {
+         .disk        =3D disk,
++        /* just for redability */
++        .nr_conv_zones    =3D 0,
++        .nr_seq_zones    =3D 0,
+     };
+     unsigned int noio_flag;
+     int ret;
+@@ -519,6 +526,8 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+     if (ret >=3D 0) {
+         blk_queue_chunk_sectors(q, args.zone_sectors);
+         q->nr_zones =3D args.nr_zones;
++        q->nr_conv_zones =3D args.nr_conv_zones;
++        q->nr_seq_zones =3D args.nr_seq_zones;
+         swap(q->seq_zones_wlock, args.seq_zones_wlock);
+         swap(q->conv_zones_bitmap, args.conv_zones_bitmap);
+         if (update_driver_data)
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 2bdaa7cacfa3..697ded01e049 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -526,6 +526,9 @@ struct request_queue {
+     unsigned long        *seq_zones_wlock;
+     unsigned int        max_open_zones;
+     unsigned int        max_active_zones;
++    unsigned int        nr_conv_zones;
++    unsigned int        nr_seq_zones;
++
+ #endif /* CONFIG_BLK_DEV_ZONED */
+ =
+
+     /*
+@@ -726,6 +729,16 @@ static inline unsigned int
+blk_queue_nr_zones(struct request_queue *q)
+     return blk_queue_is_zoned(q) ? q->nr_zones : 0;
+ }
+ =
+
++static inline unsigned int blk_queue_nr_conv_zones(struct request_queue *q)
++{
++    return blk_queue_is_zoned(q) ? q->nr_conv_zones : 0;
++}
++
++static inline unsigned int blk_queue_nr_seq_zones(struct request_queue *q)
++{
++    return blk_queue_is_zoned(q) ? q->nr_seq_zones : 0;
++}
++
+ static inline unsigned int blk_queue_zone_no(struct request_queue *q,
+                          sector_t sector)
+ {
+-- =
+
+2.22.1
+
+
+>> +		pr_err("block devices with conventional zones are not supported.");
+>> +		return false;
+>> +	}
+>> +
+>> +	/*
+>> +	 * For ZBC and ZAC devices, writes into sequential zones must be align=
+ed
+>> +	 * to the device physical block size. So use this value as the logical
+>> +	 * block size to avoid errors.
+>> +	 */
+>> +	ns->blksize_shift =3D blksize_bits(bdev_physical_block_size(ns->bdev));
+>> +
+>> +	if (!nvmet_zns_update_zasl(ns))
+>> +		return false;
+>> +
+>> +	return !(get_capacity(ns->bdev->bd_disk) &
+>> +			(bdev_zone_sectors(ns->bdev) - 1));
+>> +}
+>> +
+>> +/*
+>> + * ZNS related Admin and I/O command handlers.
+>> + */
+>> +void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req)
+>> +{
+>> +	u8 zasl =3D req->sq->ctrl->subsys->zasl;
+>> +	struct nvmet_ctrl *ctrl =3D req->sq->ctrl;
+>> +	struct nvme_id_ctrl_zns *id;
+>> +	u16 status;
+>> +
+>> +	id =3D kzalloc(sizeof(*id), GFP_KERNEL);
+>> +	if (!id) {
+>> +		status =3D NVME_SC_INTERNAL;
+>> +		goto out;
+>> +	}
+>> +
+>> +	if (ctrl->ops->get_mdts)
+>> +		id->zasl =3D min_t(u8, ctrl->ops->get_mdts(ctrl), zasl);
+>> +	else
+>> +		id->zasl =3D zasl;
+>> +
+>> +	status =3D nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+>> +
+>> +	kfree(id);
+>> +out:
+>> +	nvmet_req_complete(req, status);
+>> +}
+>> +
+>> +void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
+>> +{
+>> +	struct nvme_id_ns_zns *id_zns;
+>> +	u16 status =3D 0;
+>> +	u64 zsze;
+>> +
+>> +	if (le32_to_cpu(req->cmd->identify.nsid) =3D=3D NVME_NSID_ALL) {
+>> +		req->error_loc =3D offsetof(struct nvme_identify, nsid);
+>> +		status =3D NVME_SC_INVALID_NS | NVME_SC_DNR;
+>> +		goto out;
+>> +	}
+>> +
+>> +	id_zns =3D kzalloc(sizeof(*id_zns), GFP_KERNEL);
+>> +	if (!id_zns) {
+>> +		status =3D NVME_SC_INTERNAL;
+>> +		goto out;
+>> +	}
+>> +
+>> +	req->ns =3D nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsi=
+d);
+>> +	if (!req->ns) {
+>> +		status =3D NVME_SC_INTERNAL;
+>> +		goto done;
+>> +	}
+>> +
+>> +	if (!bdev_is_zoned(req->ns->bdev)) {
+>> +		req->error_loc =3D offsetof(struct nvme_identify, nsid);
+>> +		status =3D NVME_SC_INVALID_NS | NVME_SC_DNR;
+>> +		goto done;
+>> +	}
+>> +
+>> +	nvmet_ns_revalidate(req->ns);
+>> +	zsze =3D (bdev_zone_sectors(req->ns->bdev) << 9) >>
+>> +					req->ns->blksize_shift;
+>> +	id_zns->lbafe[0].zsze =3D cpu_to_le64(zsze);
+>> +	id_zns->mor =3D cpu_to_le32(bdev_max_open_zones(req->ns->bdev));
+>> +	id_zns->mar =3D cpu_to_le32(bdev_max_active_zones(req->ns->bdev));
+>> +
+>> +done:
+>> +	status =3D nvmet_copy_to_sgl(req, 0, id_zns, sizeof(*id_zns));
+>> +	kfree(id_zns);
+>> +out:
+>> +	nvmet_req_complete(req, status);
+>> +}
+>> +
+>> +struct nvmet_report_zone_data {
+>> +	struct nvmet_ns *ns;
+>> +	struct nvme_zone_report *rz;
+>> +};
+>> +
+>> +static int nvmet_bdev_report_zone_cb(struct blk_zone *z, unsigned int i=
+dx,
+>> +				     void *data)
+>> +{
+>> +	struct nvmet_report_zone_data *report_zone_data =3D data;
+>> +	struct nvme_zone_descriptor *entries =3D report_zone_data->rz->entries;
+>> +	struct nvmet_ns *ns =3D report_zone_data->ns;
+>> +
+>> +	entries[idx].zcap =3D cpu_to_le64(nvmet_sect_to_lba(ns, z->capacity));
+>> +	entries[idx].zslba =3D cpu_to_le64(nvmet_sect_to_lba(ns, z->start));
+>> +	entries[idx].wp =3D cpu_to_le64(nvmet_sect_to_lba(ns, z->wp));
+>> +	entries[idx].za =3D z->reset ? 1 << 2 : 0;
+>> +	entries[idx].zt =3D z->type;
+>> +	entries[idx].zs =3D z->cond << 4;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req)
+>> +{
+>> +	sector_t sect =3D nvmet_lba_to_sect(req->ns, req->cmd->zmr.slba);
+>> +	u64 bufsize =3D (le32_to_cpu(req->cmd->zmr.numd) + 1) << 2;
+>> +	struct nvmet_report_zone_data data =3D { .ns =3D req->ns };
+>> +	unsigned int nr_zones;
+>> +	int reported_zones;
+>> +	u16 status;
+>> +
+>> +	nr_zones =3D (bufsize - sizeof(struct nvme_zone_report)) /
+>> +			sizeof(struct nvme_zone_descriptor);
+> This is a 64 bits division. This will not compile on 32-bits arch, no ? I=
+.e.,
+> you must use do_div64() here I think. Or just a bit shift since struct
+> nvme_zone_descriptor is exactly 64B. Or have bufsize be a 32 bits. There =
+is no
+> need for that variable to be 64 bits.
+I'll make it u32.
+>> +
+>> +	status =3D nvmet_bdev_zns_checks(req);
+>> +	if (status)
+>> +		goto out;
+>> +
+>> +	data.rz =3D __vmalloc(bufsize, GFP_KERNEL | __GFP_NORETRY);
+>> +	if (!data.rz) {
+>> +		status =3D NVME_SC_INTERNAL;
+>> +		goto out;
+>> +	}
+>> +
+>> +	reported_zones =3D blkdev_report_zones(req->ns->bdev, sect, nr_zones,
+>> +					     nvmet_bdev_report_zone_cb,
+>> +					     &data);
+>> +	if (reported_zones < 0) {
+>> +		status =3D NVME_SC_INTERNAL;
+>> +		goto out_free_report_zones;
+>> +	}
+>> +
+>> +	data.rz->nr_zones =3D cpu_to_le64(reported_zones);
+>> +
+>> +	status =3D nvmet_copy_to_sgl(req, 0, data.rz, bufsize);
+> reported_zoned may be far less than the request nr_zones. So you may want=
+ to
+> recalculate bufsize before doing this to not copy garbage data into the r=
+eply
+> buffer. Another thing that needs verification is: don't you need to zero-=
+oput
+> the data.rz buffer with GFP_ZERO, for security ?
+With __GFP_ZERO used (for data.rz) we need to use the entire buffer size
+such
+thatit will zerout the command buffer that we get from the host. If we only
+use the updated buffer size function of the reported_zones then rest of
+the buffer will not get zeroed.
+>
+>> +
+>> +out_free_report_zones:
+>> +	kvfree(data.rz);
+>> +out:
+>> +	nvmet_req_complete(req, status);
+>> +}
+>> +
+>> +void nvmet_bdev_execute_zone_mgmt_send(struct nvmet_req *req)
+>> +{
+>> +	sector_t sect =3D nvmet_lba_to_sect(req->ns, req->cmd->zms.slba);
+>> +	sector_t nr_sect =3D bdev_zone_sectors(req->ns->bdev);
+>> +	enum req_opf op =3D REQ_OP_LAST;
+>> +	u16 status =3D NVME_SC_SUCCESS;
+>> +	int ret;
+>> +
+>> +	if (req->cmd->zms.select_all)
+>> +		nr_sect =3D get_capacity(req->ns->bdev->bd_disk);
+>> +
+>> +	switch (req->cmd->zms.zsa) {
+>> +	case NVME_ZONE_OPEN:
+>> +		op =3D REQ_OP_ZONE_OPEN;
+>> +		break;
+>> +	case NVME_ZONE_CLOSE:
+>> +		op =3D REQ_OP_ZONE_CLOSE;
+>> +		break;
+>> +	case NVME_ZONE_FINISH:
+>> +		op =3D REQ_OP_ZONE_FINISH;
+>> +		break;
+>> +	case NVME_ZONE_RESET:
+>> +		op =3D REQ_OP_ZONE_RESET;
+>> +		break;
+>> +	default:
+>> +		status =3D NVME_SC_INVALID_FIELD;
+>> +		goto out;
+>> +	}
+>> +
+>> +	ret =3D blkdev_zone_mgmt(req->ns->bdev, op, sect, nr_sect, GFP_KERNEL);
+>> +	if (ret)
+>> +		status =3D NVME_SC_INTERNAL;
+>> +out:
+>> +	nvmet_req_complete(req, status);
+>> +}
+>> +
+>> +void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+>> +{
+>> +	sector_t sect =3D nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
+>> +	struct request_queue *q =3D req->ns->bdev->bd_disk->queue;
+>> +	unsigned int max_sects =3D queue_max_zone_append_sectors(q);
+>> +	u16 status =3D NVME_SC_SUCCESS;
+>> +	unsigned int total_len =3D 0;
+>> +	struct scatterlist *sg;
+>> +	int ret =3D 0, sg_cnt;
+>> +	struct bio *bio;
+>> +
+>> +	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
+>> +		return;
+>> +
+>> +	if (!req->sg_cnt) {
+>> +		nvmet_req_complete(req, 0);
+>> +		return;
+>> +	}
+>> +
+>> +	if (req->transfer_len <=3D NVMET_MAX_INLINE_DATA_LEN) {
+>> +		bio =3D &req->b.inline_bio;
+>> +		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
+>> +	} else {
+>> +		bio =3D bio_alloc(GFP_KERNEL, req->sg_cnt);
+>> +	}
+>> +
+>> +	bio_set_dev(bio, req->ns->bdev);
+>> +	bio->bi_iter.bi_sector =3D sect;
+>> +	bio->bi_opf =3D REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
+>> +	if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
+>> +		bio->bi_opf |=3D REQ_FUA;
+>> +
+>> +	for_each_sg(req->sg, sg, req->sg_cnt, sg_cnt) {
+>> +		struct page *p =3D sg_page(sg);
+>> +		unsigned int l =3D sg->length;
+>> +		unsigned int o =3D sg->offset;
+>> +		bool same_page =3D false;
+>> +
+>> +		ret =3D bio_add_hw_page(q, bio, p, l, o, max_sects, &same_page);
+>> +		if (ret !=3D sg->length) {
+>> +			status =3D NVME_SC_INTERNAL;
+>> +			goto out_bio_put;
+>> +		}
+>> +		if (same_page)
+>> +			put_page(p);
+>> +
+>> +		total_len +=3D sg->length;
+>> +	}
+>> +
+>> +	if (total_len !=3D nvmet_rw_data_len(req)) {
+>> +		status =3D NVME_SC_INTERNAL | NVME_SC_DNR;
+>> +		goto out_bio_put;
+>> +	}
+>> +
+>> +	ret =3D submit_bio_wait(bio);
+>> +	status =3D ret < 0 ? NVME_SC_INTERNAL : status;
+>> +
+>> +	sect +=3D (total_len >> 9);
+> This is incorrect: sect is the start sector of the append operation targe=
+t zone.
+> Adding to it the request size does not give the actual sector written on =
+the
+> backend. You need to get that from the completed BIO. And do not add the =
+request
+> size. The result is the first written sector, not the sector following th=
+e last
+> one written.
+Yes, indeed it should be bio->bi_iter.bi_sector correct me if I'm wrong.
+>> +	req->cqe->result.u64 =3D cpu_to_le64(nvmet_sect_to_lba(req->ns, sect));
+>> +
+>> +out_bio_put:
+>> +	if (bio !=3D &req->b.inline_bio)
+>> +		bio_put(bio);
+>> +	nvmet_req_complete(req, status);
+>> +}
 >>
 >
 
