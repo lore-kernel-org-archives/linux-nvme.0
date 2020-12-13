@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE18C4361B
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Dec 2020 19:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB16C433FE
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Dec 2020 19:14:52 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 03B5F2395C
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Dec 2020 19:14:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 03B5F2395C
+	by mail.kernel.org (Postfix) with ESMTPS id B03BC224DE
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Dec 2020 19:14:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B03BC224DE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,54 +23,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=I/lbTx/s56sAyc/YEauaax4VRdxOEXq9+42bO7YDT+M=; b=Xgi0JgDpIq41/voxLkY/6Wb/D
-	MN3xDGdxsz7XMJShAX3oGlzECx1L+nd8zLEfjvvUiQYIFCU7V+nvkH2W7P8T+WXk8a0tw1YB1sMV+
-	+OSO1QdUkRpuJsJyJJZBxyC7iyeLE/EQDCZ/lv3K7MoOSuG646yi74SaALx9pkMo/FtaWyph5+aMi
-	AZsgROeTaxIG/OKrq2J9rNPqNJog5uAo+YGq9tGn6M5gx6ANMIU3eZh9rMDol7YtC0kSO4R3gEI0a
-	tsnetsS7E3THG47UOzoGbaQjgri9zxeKBz1ZMw+x1qQyR4O4y74+WLY6t8qYyKEL1F2bxRdCGTRMp
-	CIiv/qLPA==;
+	 bh=T4GPCeMbPE5DPslnsL1m8C5dBpkAiJRshcbByLOvosw=; b=qWR1CHqtobtG2fGrYr6PFkpHp
+	xLzGbFyQK5saoubx30aGHpQN8sXEwOUDoGOxkvJd7bM8UXPDXFdGeaejOumoYKR3cQakdCYhrLr2q
+	BREphJYKnoqR67DRf8c3gSCydqvLIqppUpD5gdN1hq3akonocyHcIqmd3mxZIMnurPhvnbcwFvnTS
+	O8Y+TK5XD0MVAiAaHSq6jqTXDjjNCSYopFKMxOq54FHsJELLMphRdOmHrnoI8oIhsxsH7KqkWjYae
+	DzLGhob9s+LX0c26DLMyqRo3Mv/KsQunx3CQwcDtTu+82uBbGpvYi7N6M22akrAy2PjJ52fwf9uyk
+	s2XA4OGHw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1koWpO-0004qC-Le; Sun, 13 Dec 2020 19:14:42 +0000
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
+	id 1koWpU-0004re-4i; Sun, 13 Dec 2020 19:14:48 +0000
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
+ helo=mx0b-0016f401.pphosted.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1koWpM-0004pK-1V
- for linux-nvme@lists.infradead.org; Sun, 13 Dec 2020 19:14:41 +0000
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 0BDJAiE8032152; Sun, 13 Dec 2020 11:14:30 -0800
+ id 1koWpR-0004ql-AA
+ for linux-nvme@lists.infradead.org; Sun, 13 Dec 2020 19:14:46 +0000
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 0BDJBjZD011021; Sun, 13 Dec 2020 11:14:37 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0220; bh=kq2fwSgw+SAfOs1hMjodXjGBZXDDzQdVm6olq76oe9E=;
- b=ExGW4aRrIu7uoRkJetV+e23V4mNqmuPZ/fq8EF1IuatoZh0YWlScAZOFLEU+z3DBKUWS
- Aposscuy57FTJe3IQ49HNELMyyWGrVi+v7A6nf7Zo7aJ6kXwdrYc6lJH0Chz2USA8CmN
- myEe1Z3N2WlwIF2Z/7jd69CIHQVX0xbF4FA7iDhIvr1eP2Vq/fMXrH/c++MG8ohFiCoe
- OtQKqCdi3Q8NhhrtvScfNHgczp4gDNInTmjVKpfgVL4VtkN6OR/sVTAOtx9yH+oKkHsQ
- 7weHBK/yX71bUYEcSI3OWbrMq8FtkJ5z0r+Xr4PY+mrZfBaqFtQbi1Kr8Mh3aBMx80l9 gw== 
-Received: from sc-exch01.marvell.com ([199.233.58.181])
- by mx0b-0016f401.pphosted.com with ESMTP id 35cx8t28em-1
+ content-type; s=pfpt0220; bh=ufUCzPPsduCTIqDf5n8Z2nwQqWQqcKeiJym0cT892fk=;
+ b=X/XPHfK2cGYZT9tMdnaUAVzqreVOZwDxiyz07PmpcNuFi/dt0wVq/SJUtMS5vxIcU6La
+ LC+C4l6Vi3wN4m+KYyKNbvgB0+t6JUDjJ4EGFChe6ZQrRMOG5mF4ByOfsbajsoBMLBAL
+ suioGjPrbuRaz3z/5+bIo0ssHtRBhboaUHhsxQQAXTQbCcWVhd9I/qdm3pxxb2dzvCE0
+ 77sIAZ3lQrqVaX8uZykV1Lzz+MhAe1OhwA4IKODisH7ZOwJzj4sFRadMSuf4GoeoKv1m
+ OU2366WfFa5CK2cHVj08STP6yUgamhEKAqT5UtJB/ZN6vQ5R4fEX3V6WIlnxaAy1UO/3 HQ== 
+Received: from sc-exch02.marvell.com ([199.233.58.182])
+ by mx0a-0016f401.pphosted.com with ESMTP id 35cv3stjkw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Sun, 13 Dec 2020 11:14:30 -0800
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH01.marvell.com
- (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 13 Dec
- 2020 11:14:28 -0800
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 13 Dec 2020 11:14:28 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sun, 13 Dec 2020 11:14:28 -0800
+ Sun, 13 Dec 2020 11:14:37 -0800
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by SC-EXCH02.marvell.com
+ (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Sun, 13 Dec 2020 11:14:36 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sun, 13 Dec 2020 11:14:36 -0800
 Received: from lbtlvb-pcie154.il.qlogic.org (unknown [10.5.220.141])
- by maili.marvell.com (Postfix) with ESMTP id 5557C3F703F;
- Sun, 13 Dec 2020 11:14:25 -0800 (PST)
+ by maili.marvell.com (Postfix) with ESMTP id 511E63F7040;
+ Sun, 13 Dec 2020 11:14:33 -0800 (PST)
 From: Shai Malin <smalin@marvell.com>
 To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>,
  <Erik.Smith@dell.com>, <Douglas.Farley@dell.com>, <liuw@vmware.com>
-Subject: [RFC PATCH v2 5/7] nvme-tcp-offload: Add controller level error
- recovery implementation
-Date: Sun, 13 Dec 2020 21:13:59 +0200
-Message-ID: <20201213191401.22734-6-smalin@marvell.com>
+Subject: [RFC PATCH v2 7/7] nvme-tcp-offload: Add IO level implementation
+Date: Sun, 13 Dec 2020 21:14:01 +0200
+Message-ID: <20201213191401.22734-8-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20201213191401.22734-1-smalin@marvell.com>
 References: <20201213191401.22734-1-smalin@marvell.com>
@@ -79,8 +76,8 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
  definitions=2020-12-13_06:2020-12-11,
  2020-12-13 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201213_141440_189083_93D90ABB 
-X-CRM114-Status: GOOD (  22.70  )
+X-CRM114-CacheID: sfid-20201213_141445_519162_FAEB08AF 
+X-CRM114-Status: GOOD (  23.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,204 +97,174 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Arie Gershberg <agershberg@marvell.com>
+From: Dean Balandin <dbalandin@marvell.com>
 
-In this patch, we implement controller level error handling and recovery.
-Upon an error discovered by the ULP or reset controller initiated by the
-nvme-core (using reset_ctrl workqueue), the ULP will initiate a controller
-recovery which includes teardown and re-connect of all queues.
+In this patch, we present the IO level functionality.
+The nvme-tcp-offload shall work on the IO-level, meaning the nvme-tcp-offload
+ULP module shall pass the request to the nvme-tcp-offload vendor driver and
+shall expect for the request compilation.
+No additional handling is needed in between, this design will reduce the CPU
+utilization as we will describe below.
 
-Signed-off-by: Arie Gershberg <agershberg@marvell.com>
+The nvme-tcp-offload vendor driver shall register to nvme-tcp-offload ULP
+with the following IO-path ops:
+ - init_req
+ - map_sg - in order to map the request sg (similar to nvme_rdma_map_data).
+ - send_req - in order to pass the request to the handling of the offload
+   driver that shall pass it to the vendor specific device.
+ - poll_queue
+
+The vendor driver will manage the context from which the request will be
+executed and the request aggregations.
+Once the IO completed, the nvme-tcp-offload vendor driver shall call
+command.done() that shall invoke the nvme-tcp-offload ULP layer for
+completing the request.
+
+Signed-off-by: Dean Balandin <dbalandin@marvell.com>
 Signed-off-by: Shai Malin <smalin@marvell.com>
 Signed-off-by: Ariel Elior <aelior@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
 ---
- drivers/nvme/host/tcp-offload.c | 121 +++++++++++++++++++++++++++++++-
- drivers/nvme/host/tcp-offload.h |   4 ++
- 2 files changed, 124 insertions(+), 1 deletion(-)
+ drivers/nvme/host/tcp-offload.c | 80 +++++++++++++++++++++++++++++----
+ 1 file changed, 72 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
-index 0d25903d6832..d9da0fc5eb75 100644
+index 12f675bdd221..37046ed46aea 100644
 --- a/drivers/nvme/host/tcp-offload.c
 +++ b/drivers/nvme/host/tcp-offload.c
-@@ -73,6 +73,23 @@ void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev)
- }
- EXPORT_SYMBOL_GPL(nvme_tcp_ofld_unregister_dev);
- 
-+/**
-+ * nvme_tcp_ofld_error_recovery() - NVMeTCP Offload Library error recovery.
-+ * function.
-+ * @nctrl:	NVMe controller instance to change to resetting.
-+ *
-+ * API function that change the controller state to resseting.
-+ * Part of the overall controller reset sequence.
-+ */
-+void nvme_tcp_ofld_error_recovery(struct nvme_ctrl *nctrl)
-+{
-+	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_RESETTING))
-+		return;
-+
-+	queue_work(nvme_reset_wq, &to_tcp_ofld_ctrl(nctrl)->err_work);
-+}
-+EXPORT_SYMBOL_GPL(nvme_tcp_ofld_error_recovery);
-+
+@@ -113,6 +113,7 @@ int nvme_tcp_ofld_report_queue_err(struct nvme_tcp_ofld_queue *queue)
  /**
-  * nvme_tcp_ofld_report_queue_err() - NVMeTCP Offload report error event
-  * callback function. Pointed to by nvme_tcp_ofld_queue->report_err.
-@@ -286,6 +303,27 @@ nvme_tcp_ofld_configure_io_queues(struct nvme_ctrl *nctrl, bool new)
- 	return rc;
- }
- 
-+static void nvme_tcp_ofld_reconnect_or_remove(struct nvme_ctrl *nctrl)
-+{
-+	/* If we are resetting/deleting then do nothing */
-+	if (nctrl->state != NVME_CTRL_CONNECTING) {
-+		WARN_ON_ONCE(nctrl->state == NVME_CTRL_NEW ||
-+			     nctrl->state == NVME_CTRL_LIVE);
-+		return;
-+	}
-+
-+	if (nvmf_should_reconnect(nctrl)) {
-+		dev_info(nctrl->device, "Reconnecting in %d seconds...\n",
-+			 nctrl->opts->reconnect_delay);
-+		queue_delayed_work(nvme_wq,
-+				   &to_tcp_ofld_ctrl(nctrl)->connect_work,
-+				   nctrl->opts->reconnect_delay * HZ);
-+	} else {
-+		dev_info(nctrl->device, "Removing controller...\n");
-+		nvme_delete_ctrl(nctrl);
-+	}
-+}
-+
- static int nvme_tcp_ofld_setup_ctrl(struct nvme_ctrl *nctrl, bool new)
+  * nvme_tcp_ofld_req_done() - NVMeTCP Offload request done callback
+  * function. Pointed to by nvme_tcp_ofld_req->done.
++ * Handles both NVME_TCP_F_DATA_SUCCESS flag and NVMe CQE.
+  * @req:	NVMeTCP offload request to complete.
+  * @result:     The nvme_result.
+  * @status:     The completion status.
+@@ -125,7 +126,10 @@ nvme_tcp_ofld_req_done(struct nvme_tcp_ofld_req *req,
+ 		       union nvme_result *result,
+ 		       __le16 status)
  {
- 	struct nvmf_ctrl_options *opts = nctrl->opts;
-@@ -394,10 +432,62 @@ nvme_tcp_ofld_teardown_io_queues(struct nvme_ctrl *nctrl, bool remove)
- 	/* Placeholder - teardown_io_queues */
+-	/* Placeholder - complete request with/without error */
++	struct request *rq = blk_mq_rq_from_pdu(req);
++
++	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), *result))
++		nvme_complete_rq(rq);
  }
  
-+static void nvme_tcp_ofld_reconnect_ctrl_work(struct work_struct *work)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl =
-+				container_of(to_delayed_work(work),
-+					     struct nvme_tcp_ofld_ctrl,
-+					     connect_work);
-+	struct nvme_ctrl *nctrl = &ctrl->nctrl;
-+
-+	++nctrl->nr_reconnects;
-+
-+	if (nvme_tcp_ofld_setup_ctrl(nctrl, false))
-+		goto requeue;
-+
-+	dev_info(nctrl->device, "Successfully reconnected (%d attempt)\n",
-+		 nctrl->nr_reconnects);
-+
-+	nctrl->nr_reconnects = 0;
-+
-+	return;
-+
-+requeue:
-+	dev_info(nctrl->device, "Failed reconnect attempt %d\n",
-+		 nctrl->nr_reconnects);
-+	nvme_tcp_ofld_reconnect_or_remove(nctrl);
-+}
-+
-+static void nvme_tcp_ofld_error_recovery_work(struct work_struct *work)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl =
-+		container_of(work, struct nvme_tcp_ofld_ctrl, err_work);
-+	struct nvme_ctrl *nctrl = &ctrl->nctrl;
-+
-+	nvme_stop_keep_alive(nctrl);
-+	nvme_tcp_ofld_teardown_io_queues(nctrl, false);
-+	/* unquiesce to fail fast pending requests */
-+	nvme_start_queues(nctrl);
-+	nvme_tcp_ofld_teardown_admin_queue(nctrl, false);
-+	blk_mq_unquiesce_queue(nctrl->admin_q);
-+
-+	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_CONNECTING)) {
-+		/* state change failure is ok if we started nctrl delete */
-+		WARN_ON_ONCE(nctrl->state != NVME_CTRL_DELETING &&
-+			     nctrl->state != NVME_CTRL_DELETING_NOIO);
-+		return;
-+	}
-+
-+	nvme_tcp_ofld_reconnect_or_remove(nctrl);
-+}
-+
- static void
- nvme_tcp_ofld_teardown_ctrl(struct nvme_ctrl *nctrl, bool shutdown)
+ struct nvme_tcp_ofld_dev *
+@@ -734,9 +738,10 @@ nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
  {
--	/* Placeholder - err_work and connect_work */
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+
-+	cancel_work_sync(&ctrl->err_work);
-+	cancel_delayed_work_sync(&ctrl->connect_work);
- 	nvme_tcp_ofld_teardown_io_queues(nctrl, shutdown);
- 	blk_mq_quiesce_queue(nctrl->admin_q);
- 	if (shutdown)
-@@ -412,6 +502,31 @@ static void nvme_tcp_ofld_delete_ctrl(struct nvme_ctrl *nctrl)
- 	nvme_tcp_ofld_teardown_ctrl(nctrl, true);
- }
+ 	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_tcp_ofld_ctrl *ctrl = set->driver_data;
++	int qid = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
  
-+static void nvme_tcp_ofld_reset_ctrl_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *nctrl =
-+		container_of(work, struct nvme_ctrl, reset_work);
+-	/* Placeholder - init request */
+-
++	req->queue = &ctrl->queues[qid];
++	nvme_req(rq)->ctrl = &ctrl->nctrl;
+ 	req->done = nvme_tcp_ofld_req_done;
+ 	ctrl->dev->ops->init_req(req);
+ 
+@@ -749,11 +754,30 @@ nvme_tcp_ofld_queue_rq(struct blk_mq_hw_ctx *hctx,
+ {
+ 	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(bd->rq);
+ 	struct nvme_tcp_ofld_queue *queue = hctx->driver_data;
+-	struct nvme_tcp_ofld_ops *ops = queue->dev->ops;
++	struct nvme_tcp_ofld_ctrl *ctrl = queue->ctrl;
++	struct nvme_ns *ns = hctx->queue->queuedata;
++	struct nvme_tcp_ofld_dev *dev = queue->dev;
++	struct nvme_tcp_ofld_ops *ops = dev->ops;
++	struct request *rq = bd->rq;
++	bool queue_ready;
++	int rc;
 +
-+	nvme_stop_ctrl(nctrl);
-+	nvme_tcp_ofld_teardown_ctrl(nctrl, false);
++	queue_ready = test_bit(NVME_TCP_OFLD_Q_LIVE, &queue->flags);
++	if (!nvmf_check_ready(&ctrl->nctrl, rq, queue_ready))
++		return nvmf_fail_nonready_command(&ctrl->nctrl, rq);
 +
-+	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_CONNECTING)) {
-+		/* state change failure is ok if we started ctrl delete */
-+		WARN_ON_ONCE(nctrl->state != NVME_CTRL_DELETING &&
-+			     nctrl->state != NVME_CTRL_DELETING_NOIO);
-+		return;
-+	}
-+
-+	if (nvme_tcp_ofld_setup_ctrl(nctrl, false))
-+		goto out_fail;
-+
-+	return;
-+
-+out_fail:
-+	++nctrl->nr_reconnects;
-+	nvme_tcp_ofld_reconnect_or_remove(nctrl);
++	rc = nvme_setup_cmd(ns, rq, &req->nvme_cmd);
++	if (unlikely(rc))
++		return rc;
+ 
+-	/* Call nvme_setup_cmd(...) */
++	blk_mq_start_request(rq);
++	rc = ops->map_sg(dev, req);
++	if (unlikely(rc))
++		return rc;
+ 
+-	/* Call ops->map_sg(...) */
++	rc = ops->send_req(req);
++	if (unlikely(rc))
++		return rc;
+ 
+ 	return BLK_STS_OK;
+ }
+@@ -823,9 +847,47 @@ static int nvme_tcp_ofld_map_queues(struct blk_mq_tag_set *set)
+ 
+ static int nvme_tcp_ofld_poll(struct blk_mq_hw_ctx *hctx)
+ {
+-	/* Placeholder - Implement polling mechanism */
++	struct nvme_tcp_ofld_queue *queue = hctx->driver_data;
++	struct nvme_tcp_ofld_dev *dev = queue->dev;
++	struct nvme_tcp_ofld_ops *ops = dev->ops;
+ 
+-	return 0;
++	return ops->poll_queue(queue);
 +}
 +
- static int
- nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
- 			   struct request *rq,
-@@ -512,6 +627,10 @@ nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
- 			     opts->nr_poll_queues + 1;
- 	nctrl->sqsize = opts->queue_size - 1;
- 	nctrl->kato = opts->kato;
-+	INIT_DELAYED_WORK(&ctrl->connect_work,
-+			  nvme_tcp_ofld_reconnect_ctrl_work);
-+	INIT_WORK(&ctrl->err_work, nvme_tcp_ofld_error_recovery_work);
-+	INIT_WORK(&nctrl->reset_work, nvme_tcp_ofld_reset_ctrl_work);
- 	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
- 		opts->trsvcid =
- 			kstrdup(__stringify(NVME_TCP_DISC_PORT), GFP_KERNEL);
-diff --git a/drivers/nvme/host/tcp-offload.h b/drivers/nvme/host/tcp-offload.h
-index c8a93685fd2a..c3f74f700c6a 100644
---- a/drivers/nvme/host/tcp-offload.h
-+++ b/drivers/nvme/host/tcp-offload.h
-@@ -84,6 +84,9 @@ struct nvme_tcp_ofld_ctrl {
- 	struct blk_mq_tag_set admin_tag_set;
- 	struct nvme_tcp_ofld_queue *queues;
- 
-+	struct work_struct err_work;
-+	struct delayed_work connect_work;
++static enum blk_eh_timer_return
++nvme_tcp_ofld_timeout(struct request *rq, bool reserved)
++{
++	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
++	struct nvme_tcp_ofld_ctrl *ctrl = req->queue->ctrl;
 +
- 	/*
- 	 * Each entry in the array indicates the number of queues of
- 	 * corresponding type.
-@@ -172,3 +175,4 @@ struct nvme_tcp_ofld_ops {
- /* Exported functions for lower vendor specific offload drivers */
- int nvme_tcp_ofld_register_dev(struct nvme_tcp_ofld_dev *dev);
- void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev);
-+void nvme_tcp_ofld_error_recovery(struct nvme_ctrl *nctrl);
++	/* Restart the timer if a controller reset is already scheduled. Any
++	 * timed out request would be handled before entering the connecting
++	 * state.
++	 */
++	if (ctrl->nctrl.state == NVME_CTRL_RESETTING)
++		return BLK_EH_RESET_TIMER;
++
++	dev_warn(ctrl->nctrl.device,
++		 "queue %d: timeout request %#x type %d\n",
++		 nvme_tcp_ofld_qid(req->queue), rq->tag,
++		 req->nvme_cmd.common.opcode);
++
++	if (ctrl->nctrl.state != NVME_CTRL_LIVE) {
++		/*
++		 * Teardown immediately if controller times out while starting
++		 * or we are already started error recovery. all outstanding
++		 * requests are completed on shutdown, so we return BLK_EH_DONE.
++		 */
++		flush_work(&ctrl->err_work);
++		nvme_tcp_ofld_teardown_io_queues(&ctrl->nctrl, false);
++		nvme_tcp_ofld_teardown_admin_queue(&ctrl->nctrl, false);
++		return BLK_EH_DONE;
++	}
++
++	dev_warn(ctrl->nctrl.device, "starting error recovery\n");
++	nvme_tcp_ofld_error_recovery(&ctrl->nctrl);
++
++	return BLK_EH_RESET_TIMER;
+ }
+ 
+ static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
+@@ -835,6 +897,7 @@ static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
+ 	.exit_request	= nvme_tcp_ofld_exit_request,
+ 	.init_hctx	= nvme_tcp_ofld_init_hctx,
+ 	.map_queues	= nvme_tcp_ofld_map_queues,
++	.timeout	= nvme_tcp_ofld_timeout,
+ 	.poll		= nvme_tcp_ofld_poll,
+ };
+ 
+@@ -844,6 +907,7 @@ static struct blk_mq_ops nvme_tcp_ofld_admin_mq_ops = {
+ 	.complete	= nvme_complete_rq,
+ 	.exit_request	= nvme_tcp_ofld_exit_request,
+ 	.init_hctx	= nvme_tcp_ofld_init_hctx,
++	.timeout	= nvme_tcp_ofld_timeout,
+ };
+ 
+ static const struct nvme_ctrl_ops nvme_tcp_ofld_ctrl_ops = {
 -- 
 2.22.0
 
