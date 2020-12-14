@@ -7,55 +7,81 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC01EC4361B
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Dec 2020 18:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63BE2C4361B
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Dec 2020 19:27:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4F72B2246B
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Dec 2020 18:06:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4F72B2246B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3382F22C7B
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Dec 2020 19:27:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3382F22C7B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kalrayinc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Subject:References:In-Reply-To:
+	Message-ID:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=w3BS7DxjpVF8aaxdB4pbCvk6UUCC28D1m6iyuPwOHfw=; b=qSrPQu6a/jvd3uPZjwpzvNfVp
-	LJ9hPzogNU/LS1BlDlFIRMuoGnXYWBbOIqOLe4Ckk2uAqyEVYKXJDmlfyW6pFs6RNIP8ujeYmii1L
-	2lWJwH2mb8he+NHu8gBIHI+O6RP1asl+jGsHdUSCTnKo6Mqdzj62VMA9HwHSb+NNdR0Zc55fZqe4v
-	mgqIprnVEj/6H70LrFUvILpHqCSjtTtzmvYeIxLfqS5Nk/zaXnpJJunor6m4DnhRgwRJxVrI7D4Gt
-	L5Hv9zoE2D4ra5CKySqx7Zgr3FZx+XIbJ0BjnxXj3RL+Pr+nXSnrhqHmvWmJti2PWuNy5NneYjRUW
-	MFrXWAemg==;
+	 bh=r01tA0KTXKzhx4EOzxyRjYf7u/f14vLPaZIvMHc2Kf8=; b=3NJ/0xNRwZ9vd0Wz+XAyKW62F
+	sOUmCmLYMdDtPHXm4+8Dgxr1gGRYGe+uPZQNARedlvUtBH4ZM76ArJfh/7thtJ0VV3mu0Zs0IWcHK
+	sKFxZmsW+Qh9tRdS4AU5pmo9bax5b10uNtOMMYeEDlepTatry2AX4hegj2ZXLkKhwYLa1mNun85Ay
+	Zp978jEoVLA1WV2fGVg75/6+dYLqazyuu3rl5zFo2DaNEnmHn1UNPvYF2nkhSF6L1Ypr+6VRrnb4g
+	JLCGa25kZ/bQ0YzUPjuge5gjBvEdfQfJ1cy53zNunKli2c+s1G2QQ+2xu3X4CzfIJ/vn3EcO/JGY/
+	E5UpmJMuA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kosEa-0005XI-2p; Mon, 14 Dec 2020 18:06:08 +0000
-Received: from stargate.chelsio.com ([12.32.117.8])
+	id 1kotVc-00056X-Bo; Mon, 14 Dec 2020 19:27:48 +0000
+Received: from mib.mailinblack.com ([137.74.84.110])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kosEW-0005Ws-Jo
- for linux-nvme@lists.infradead.org; Mon, 14 Dec 2020 18:06:05 +0000
-Received: from localhost (mehrangarh.blr.asicdesigners.com [10.193.185.169])
- by stargate.chelsio.com (8.13.8/8.13.8) with ESMTP id 0BEI5W4P028753;
- Mon, 14 Dec 2020 10:05:32 -0800
-Date: Mon, 14 Dec 2020 23:35:31 +0530
-From: Potnuri Bharat Teja <bharat@chelsio.com>
+ id 1kotVZ-00055f-8V
+ for linux-nvme@lists.infradead.org; Mon, 14 Dec 2020 19:27:46 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by mib.mailinblack.com (Postfix) with ESMTP id 31BBA1A4650
+ for <linux-nvme@lists.infradead.org>; Mon, 14 Dec 2020 19:27:42 +0000 (UTC)
+Received: from mib.mailinblack.com (localhost [127.0.0.1])
+ by mib.mailinblack.com with SMTP (Mib Daemon ) id KIOY8MV2;
+ Mon, 14 Dec 2020 19:27:42 +0000 (UTC)
+Received: from zimbra2.kalray.eu (zimbra2.kalray.eu [92.103.151.219])
+ by mib.mailinblack.com (Postfix) with ESMTPS id EA1EB1A464A;
+ Mon, 14 Dec 2020 19:27:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by zimbra2.kalray.eu (Postfix) with ESMTP id B778627E06CF;
+ Mon, 14 Dec 2020 20:27:41 +0100 (CET)
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+ by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id GoJD70PdDtjI; Mon, 14 Dec 2020 20:27:41 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zimbra2.kalray.eu (Postfix) with ESMTP id EEA0227E06D0;
+ Mon, 14 Dec 2020 20:27:40 +0100 (CET)
+X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+ by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 0bqr6GjL3KLy; Mon, 14 Dec 2020 20:27:40 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+ by zimbra2.kalray.eu (Postfix) with ESMTP id CFAAA27E06CF;
+ Mon, 14 Dec 2020 20:27:40 +0100 (CET)
+Date: Mon, 14 Dec 2020 20:27:40 +0100 (CET)
+From: Samuel Jones <sjones@kalrayinc.com>
 To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: Request timeout seen with NVMEoF TCP
-Message-ID: <X9epa3PPORdBKZ71@chelsio.com>
+Message-ID: <1186883669.22294090.1607974060434.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <X9epa3PPORdBKZ71@chelsio.com>
 References: <X9EHFnhujZo175Kw@chelsio.com>
  <0fc0166c-a65f-125f-4305-d0cb761336ac@grimberg.me>
  <X9JVp9mjtC1p0iLS@chelsio.com>
  <3e7aa593-16b0-3bbd-f918-caffa6f5b20b@grimberg.me>
  <X9MfI872AfM+WMV/@chelsio.com>
  <dbb14893-da35-2f7e-0583-c33ce9f41243@grimberg.me>
+ <X9epa3PPORdBKZ71@chelsio.com>
+Subject: Re: Request timeout seen with NVMEoF TCP
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <dbb14893-da35-2f7e-0583-c33ce9f41243@grimberg.me>
+X-Originating-IP: [192.168.40.202]
+X-Mailer: Zimbra 8.8.15_GA_3895 (ZimbraWebClient - FF70 (Linux)/8.8.15_GA_3895)
+Thread-Topic: Request timeout seen with NVMEoF TCP
+Thread-Index: fvPX1wIR+6yEfhPgxaC8tskwsGxBdQ==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201214_130604_849111_40989993 
-X-CRM114-Status: GOOD (  19.78  )
+X-CRM114-CacheID: sfid-20201214_142745_459227_8705A104 
+X-CRM114-Status: GOOD (  22.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,12 +93,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Samuel Jones <sjones@kalrayinc.com>, "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Potnuri Bharat Teja <bharat@chelsio.com>, hch@lst.de,
+ linux-nvme <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
+
+Hi Sagi,
+
+Without instrumenting the driver it's hard to say what might be happening here. But I did make a few comments at the end of my initial email which might be relevant:
+
+1. It seems abnormal to me that the direct send path does not check the return value of nvme_tcp_try_send(), given that this routine at least claims to be able to fail transiently. nvme_tcp_queue_request should reschedule the workqueue if nvme_tcp_try_send() does not return 1, IMHO.
+
+2. If, for whatever reason, kernel_sendpage or sock_no_sendpage returns -EAGAIN, the nvme_tcp_try_send() returns 0. This will be interpreted by nvme_tcp_io_work() as meaning there is nothing more to do. This is wrong, because in fact there is more work to do and nvme_tcp_io_work() should reschedule itself in this case. Unfortunately, as the system is coded, nvme_tcp_io_work() has no way of distinguishing between "nvme_tcp_try_send returned 0 because there is nothing to do" and "nvme_tcp_try_send returned 0 because of a transient failure".
+
+Not sure how possible these cases are in practice but theoretically they can occur..
+
+Regards
+Samuel
+
+----- Original Message -----
+From: "Potnuri Bharat Teja" <bharat@chelsio.com>
+To: "Sagi Grimberg" <sagi@grimberg.me>
+Cc: hch@lst.de, "linux-nvme" <linux-nvme@lists.infradead.org>, "Samuel Jones" <sjones@kalrayinc.com>
+Sent: Monday, 14 December, 2020 19:05:31
+Subject: Re: Request timeout seen with NVMEoF TCP
 
 On Monday, December 12/14/20, 2020 at 09:51:28 -0800, Sagi Grimberg wrote:
 > 
@@ -202,7 +248,8 @@ dmesg on intiator:
 > > 
 > > 
 > > Thanks.
-> > 
+> >
+
 
 _______________________________________________
 Linux-nvme mailing list
