@@ -2,70 +2,67 @@ Return-Path: <SRS0=G3e6=FS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63BE2C4361B
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Dec 2020 19:27:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B9FCC4361B
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Dec 2020 20:13:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3382F22C7B
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Dec 2020 19:27:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3382F22C7B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kalrayinc.com
+	by mail.kernel.org (Postfix) with ESMTPS id C091E207A0
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Dec 2020 20:13:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C091E207A0
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Subject:References:In-Reply-To:
-	Message-ID:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=r01tA0KTXKzhx4EOzxyRjYf7u/f14vLPaZIvMHc2Kf8=; b=3NJ/0xNRwZ9vd0Wz+XAyKW62F
-	sOUmCmLYMdDtPHXm4+8Dgxr1gGRYGe+uPZQNARedlvUtBH4ZM76ArJfh/7thtJ0VV3mu0Zs0IWcHK
-	sKFxZmsW+Qh9tRdS4AU5pmo9bax5b10uNtOMMYeEDlepTatry2AX4hegj2ZXLkKhwYLa1mNun85Ay
-	Zp978jEoVLA1WV2fGVg75/6+dYLqazyuu3rl5zFo2DaNEnmHn1UNPvYF2nkhSF6L1Ypr+6VRrnb4g
-	JLCGa25kZ/bQ0YzUPjuge5gjBvEdfQfJ1cy53zNunKli2c+s1G2QQ+2xu3X4CzfIJ/vn3EcO/JGY/
-	E5UpmJMuA==;
+	 bh=Mi71SjCXj8nCZx0R/DlpdWgou8HlmQ3opjJ9/ao23ZU=; b=eKUqflEPEg/MWFeQuKBXoXiN+
+	BRfUhpLPl4vk/9n3E3+M3/WvhKJ6sJFcmyFmMHZUZGjtJZIsvcnGoH6bTDm5FENNx9y9nn7eN/8jg
+	04+Kzw4wNQ8f7YwupyxRkn2Zfl4jvQDY2MYoTVTvWnc+d/kOdMNaFXXAavLpRNjfQNinzeiwEW8b4
+	DDGELD7LsNrrffz5vtF3gDwIjeZmIv1pG3JTdcvZ30vGUhFLZi9zr9YpkFYBkq3CTg9QyowEYpHXe
+	pibYwlADHxcUzgZ87LWXze5cNydy+TsAmtoC+6YoYPobtM/aWpNIu88Zxb/4Bb00VUtaF6TIUvq05
+	2ghAbNGJg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kotVc-00056X-Bo; Mon, 14 Dec 2020 19:27:48 +0000
-Received: from mib.mailinblack.com ([137.74.84.110])
+	id 1kouDf-0001db-U8; Mon, 14 Dec 2020 20:13:19 +0000
+Received: from mail-pl1-f181.google.com ([209.85.214.181])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kotVZ-00055f-8V
- for linux-nvme@lists.infradead.org; Mon, 14 Dec 2020 19:27:46 +0000
-Received: from localhost (localhost [127.0.0.1])
- by mib.mailinblack.com (Postfix) with ESMTP id 31BBA1A4650
- for <linux-nvme@lists.infradead.org>; Mon, 14 Dec 2020 19:27:42 +0000 (UTC)
-Received: from mib.mailinblack.com (localhost [127.0.0.1])
- by mib.mailinblack.com with SMTP (Mib Daemon ) id KIOY8MV2;
- Mon, 14 Dec 2020 19:27:42 +0000 (UTC)
-Received: from zimbra2.kalray.eu (zimbra2.kalray.eu [92.103.151.219])
- by mib.mailinblack.com (Postfix) with ESMTPS id EA1EB1A464A;
- Mon, 14 Dec 2020 19:27:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id B778627E06CF;
- Mon, 14 Dec 2020 20:27:41 +0100 (CET)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
- by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id GoJD70PdDtjI; Mon, 14 Dec 2020 20:27:41 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id EEA0227E06D0;
- Mon, 14 Dec 2020 20:27:40 +0100 (CET)
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
- by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 0bqr6GjL3KLy; Mon, 14 Dec 2020 20:27:40 +0100 (CET)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id CFAAA27E06CF;
- Mon, 14 Dec 2020 20:27:40 +0100 (CET)
-Date: Mon, 14 Dec 2020 20:27:40 +0100 (CET)
-From: Samuel Jones <sjones@kalrayinc.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <1186883669.22294090.1607974060434.JavaMail.zimbra@kalray.eu>
-In-Reply-To: <X9epa3PPORdBKZ71@chelsio.com>
+ id 1kouDd-0001d2-0k
+ for linux-nvme@lists.infradead.org; Mon, 14 Dec 2020 20:13:18 +0000
+Received: by mail-pl1-f181.google.com with SMTP id g20so8582293plo.2
+ for <linux-nvme@lists.infradead.org>; Mon, 14 Dec 2020 12:13:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=n5YZp13rsFgAt27IYdP25M+AvoCMH0mI7GUdV9gIp1I=;
+ b=lzHhpp8COWPV3nVoB1BpHhqKbllRYUrsSjDZT4Hwc9cR5Vz5ENmhzUZNMEEH5d4Ax9
+ 67CorUSj/yAIWnBUOQ9VCEkF8UzIYF7KWBeIOGGwLZqwLEX9cLMTYHWJdWtRlINljR68
+ 9L/SLApAI8/xlc6HGIgCPFsrZdezNTZJfnF2ce4A867yfEA404PyrSU7oK6sKaUsrvOF
+ Bz2hUbJ64viTiRriGW6leODYSbYixGLjjf5lMO1PtMaoiB7DwZkB4UN4Q/Czd8TBhFLf
+ i+PmL2doYAr/AupqfZqvjPeJLqkntJ4kFS6ItzSfpwO0aBAZRphrYACI4Kfjgej5wE7R
+ qz4g==
+X-Gm-Message-State: AOAM5324ibAMxdsM0O/briMEbowhLZ5aTVCVw34DIM4IyJh33eh2GdeD
+ cIVsHGTkFeAsA2DLyeYqp1M3PZufzrI=
+X-Google-Smtp-Source: ABdhPJwNV8OdLMNUUE7uPYKXioP4D6TiubNHUDRTZNYLmpg0fImXcJkffNswAcM2eMYF4/vym8m1+g==
+X-Received: by 2002:a17:90a:f3c5:: with SMTP id
+ ha5mr15361006pjb.61.1607976795501; 
+ Mon, 14 Dec 2020 12:13:15 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:b6ef:7a90:5c54:72f9?
+ ([2601:647:4802:9070:b6ef:7a90:5c54:72f9])
+ by smtp.gmail.com with ESMTPSA id b37sm20827044pgl.31.2020.12.14.12.13.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Dec 2020 12:13:14 -0800 (PST)
+Subject: Re: Request timeout seen with NVMEoF TCP
+To: Samuel Jones <sjones@kalrayinc.com>
 References: <X9EHFnhujZo175Kw@chelsio.com>
  <0fc0166c-a65f-125f-4305-d0cb761336ac@grimberg.me>
  <X9JVp9mjtC1p0iLS@chelsio.com>
@@ -73,15 +70,18 @@ References: <X9EHFnhujZo175Kw@chelsio.com>
  <X9MfI872AfM+WMV/@chelsio.com>
  <dbb14893-da35-2f7e-0583-c33ce9f41243@grimberg.me>
  <X9epa3PPORdBKZ71@chelsio.com>
-Subject: Re: Request timeout seen with NVMEoF TCP
+ <1186883669.22294090.1607974060434.JavaMail.zimbra@kalray.eu>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <269f3e56-f6da-1125-2cea-a29862f904dd@grimberg.me>
+Date: Mon, 14 Dec 2020 12:13:13 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Originating-IP: [192.168.40.202]
-X-Mailer: Zimbra 8.8.15_GA_3895 (ZimbraWebClient - FF70 (Linux)/8.8.15_GA_3895)
-Thread-Topic: Request timeout seen with NVMEoF TCP
-Thread-Index: fvPX1wIR+6yEfhPgxaC8tskwsGxBdQ==
+In-Reply-To: <1186883669.22294090.1607974060434.JavaMail.zimbra@kalray.eu>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201214_142745_459227_8705A104 
-X-CRM114-Status: GOOD (  22.98  )
+X-CRM114-CacheID: sfid-20201214_151317_086653_B7C1FB27 
+X-CRM114-Status: GOOD (  18.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,161 +95,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Potnuri Bharat Teja <bharat@chelsio.com>, hch@lst.de,
  linux-nvme <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Sagi,
 
-Without instrumenting the driver it's hard to say what might be happening here. But I did make a few comments at the end of my initial email which might be relevant:
+> Hi Sagi,
 
-1. It seems abnormal to me that the direct send path does not check the return value of nvme_tcp_try_send(), given that this routine at least claims to be able to fail transiently. nvme_tcp_queue_request should reschedule the workqueue if nvme_tcp_try_send() does not return 1, IMHO.
+Hey Sam,
 
-2. If, for whatever reason, kernel_sendpage or sock_no_sendpage returns -EAGAIN, the nvme_tcp_try_send() returns 0. This will be interpreted by nvme_tcp_io_work() as meaning there is nothing more to do. This is wrong, because in fact there is more work to do and nvme_tcp_io_work() should reschedule itself in this case. Unfortunately, as the system is coded, nvme_tcp_io_work() has no way of distinguishing between "nvme_tcp_try_send returned 0 because there is nothing to do" and "nvme_tcp_try_send returned 0 because of a transient failure".
+> Without instrumenting the driver it's hard to say what might be happening here.
 
-Not sure how possible these cases are in practice but theoretically they can occur..
+Yes, that would be the next step.
 
-Regards
-Samuel
-
------ Original Message -----
-From: "Potnuri Bharat Teja" <bharat@chelsio.com>
-To: "Sagi Grimberg" <sagi@grimberg.me>
-Cc: hch@lst.de, "linux-nvme" <linux-nvme@lists.infradead.org>, "Samuel Jones" <sjones@kalrayinc.com>
-Sent: Monday, 14 December, 2020 19:05:31
-Subject: Re: Request timeout seen with NVMEoF TCP
-
-On Monday, December 12/14/20, 2020 at 09:51:28 -0800, Sagi Grimberg wrote:
+  But I did make a few comments at the end of my initial email which 
+might be relevant:
 > 
-> > Hi Sagi,
-> > With above patch I still see the issue but less frequently. Without patch I was
-> > able to consistently reproduce the timouts with 4 target devices. With patch I
-> > see IO running fine for 4 targets. Tried the same test with 8 target devices
-> > and I see the below timeout. I've observed only one instance of timeout. So,
-> > I'll let it run for somemore time or rerun and update.
+> 1. It seems abnormal to me that the direct send path does not check the return value of nvme_tcp_try_send(), given that this routine at least claims to be able to fail transiently. nvme_tcp_queue_request should reschedule the workqueue if nvme_tcp_try_send() does not return 1, IMHO.
 > 
-> Hey Potnuri,
+> 2. If, for whatever reason, kernel_sendpage or sock_no_sendpage returns -EAGAIN, the nvme_tcp_try_send() returns 0. This will be interpreted by nvme_tcp_io_work() as meaning there is nothing more to do. This is wrong, because in fact there is more work to do and nvme_tcp_io_work() should reschedule itself in this case. Unfortunately, as the system is coded, nvme_tcp_io_work() has no way of distinguishing between "nvme_tcp_try_send returned 0 because there is nothing to do" and "nvme_tcp_try_send returned 0 because of a transient failure".
 > 
-> Have you observed this further?
-> 
-> I'd think that if the io_work reschedule itself when it races
-> with the direct send path this should not happen, but we may be
-> seeing a different race going on here, adding Samuel who saw
-> a similar phenomenon.
-> 
+> Not sure how possible these cases are in practice but theoretically they can occur..
 
-Yes, I have seen it further too but very intermittently. Below is the dmesg that
-I saved before my test got stopped for some other reason. From the timestamps, 
-timeouts were around ~20min, ~45min and ~3 hours apart.
+The design is that if sendpage fails with a transient error (e.g.
+EAGAIN) the socket buffer is full and we're guaranteed to be called
+with nvme_tcp_write_space when the socket makes additional room, when
+write_space is called, we schedule io_work to resume its work, hence
+the direct send path is not rescheduling the io_work in this case.
 
-dmesg on intiator:
----
-[ 1735.038634] EXT4-fs (nvme7n1): mounted filesystem with ordered data mod                                                                                e. Opts: (null)
-[ 2111.990419] nvme nvme5: queue 7: timeout request 0x57 type 4
-[ 2111.991835] nvme nvme5: starting error recovery
-[ 2111.998796] block nvme5n1: no usable path - requeuing I/O
-[ 2111.998816] nvme nvme5: Reconnecting in 10 seconds...
-[ 2122.253431] block nvme5n1: no usable path - requeuing I/O
-[ 2122.254732] nvme nvme5: creating 16 I/O queues.
-[ 2122.301169] nvme nvme5: mapped 16/0/0 default/read/poll queues.
-[ 2122.314229] nvme nvme5: Successfully reconnected (1 attempt)
-[ 2522.795467] perf: interrupt took too long (2503 > 2500), lowering kerne                                                                                l.perf_event_max_sample_rate to 79000
-[ 3043.544758] perf: interrupt took too long (3135 > 3128), lowering kerne                                                                                l.perf_event_max_sample_rate to 63000
-[ 4197.260041] perf: interrupt took too long (3922 > 3918), lowering kerne                                                                                l.perf_event_max_sample_rate to 50000
-[ 4848.175367] nvme nvme1: queue 6: timeout request 0x42 type 4
-[ 4848.176086] nvme nvme1: starting error recovery
-[ 4848.176864] nvme nvme1: queue 6: timeout request 0x43 type 4
-[ 4848.178194] nvme nvme1: queue 6: timeout request 0x44 type 4
-[ 4848.179873] block nvme1n1: no usable path - requeuing I/O
-[ 4848.180665] block nvme1n1: no usable path - requeuing I/O
-[ 4848.180775] nvme nvme1: Reconnecting in 10 seconds...
-[ 4848.181372] block nvme1n1: no usable path - requeuing I/O
-[ 4848.183022] block nvme1n1: no usable path - requeuing I/O
-[ 4848.183782] block nvme1n1: no usable path - requeuing I/O
-[ 4858.436889] block nvme1n1: no usable path - requeuing I/O
-[ 4858.437558] block nvme1n1: no usable path - requeuing I/O
-[ 4858.438168] block nvme1n1: no usable path - requeuing I/O
-[ 4858.439547] nvme nvme1: creating 16 I/O queues.
-[ 4858.489650] nvme nvme1: mapped 16/0/0 default/read/poll queues.
-[ 4858.490357] debugfs: Directory 'hctx0' with parent '/' already present!
-[ 4858.491256] debugfs: Directory 'hctx1' with parent '/' already present!
-[ 4858.492790] debugfs: Directory 'hctx2' with parent '/' already present!
-[ 4858.493601] debugfs: Directory 'hctx3' with parent '/' already present!
-[ 4858.494362] debugfs: Directory 'hctx4' with parent '/' already present!
-[ 4858.495310] debugfs: Directory 'hctx5' with parent '/' already present!
-[ 4858.496261] debugfs: Directory 'hctx6' with parent '/' already present!
-[ 4858.497098] debugfs: Directory 'hctx7' with parent '/' already present!
-[ 4858.497972] debugfs: Directory 'hctx8' with parent '/' already present!
-[ 4858.498806] debugfs: Directory 'hctx9' with parent '/' already present!
-[ 4858.499574] debugfs: Directory 'hctx10' with parent '/' already present                                                                                !
-[ 4858.500268] debugfs: Directory 'hctx11' with parent '/' already present                                                                                !
-[ 4858.501030] debugfs: Directory 'hctx12' with parent '/' already present                                                                                !
-[ 4858.501807] debugfs: Directory 'hctx13' with parent '/' already present                                                                                !
-[ 4858.502459] debugfs: Directory 'hctx14' with parent '/' already present                                                                                !
-[ 4858.503196] debugfs: Directory 'hctx15' with parent '/' already present                                                                                !
-[ 4858.510075] nvme nvme1: Successfully reconnected (1 attempt)
-[12905.117166] perf: interrupt took too long (4944 > 4902), lowering kernel.perf_event_max_sample_rate to 40000
-[15436.031342] nvme nvme0: queue 16: timeout request 0x22 type 4
-[15436.031920] nvme nvme0: starting error recovery
-[15436.033746] block nvme0n1: no usable path - requeuing I/O
-[15436.035221] nvme nvme0: Reconnecting in 10 seconds...
-[15446.292544] block nvme0n1: no usable path - requeuing I/O
-[15446.293541] nvme nvme0: creating 16 I/O queues.
-[15446.339595] nvme nvme0: mapped 16/0/0 default/read/poll queues.
-[15446.340846] debugfs: Directory 'hctx0' with parent '/' already present!
-[15446.342664] debugfs: Directory 'hctx1' with parent '/' already present!
-[15446.343413] debugfs: Directory 'hctx2' with parent '/' already present!
-[15446.344228] debugfs: Directory 'hctx3' with parent '/' already present!
-[15446.345155] debugfs: Directory 'hctx4' with parent '/' already present!
-[15446.345948] debugfs: Directory 'hctx5' with parent '/' already present!
-[15446.346767] debugfs: Directory 'hctx6' with parent '/' already present!
-[15446.347368] debugfs: Directory 'hctx7' with parent '/' already present!
-[15446.348129] debugfs: Directory 'hctx8' with parent '/' already present!
-[15446.348948] debugfs: Directory 'hctx9' with parent '/' already present!
-[15446.349538] debugfs: Directory 'hctx10' with parent '/' already present!
-[15446.350185] debugfs: Directory 'hctx11' with parent '/' already present!
-[15446.350757] debugfs: Directory 'hctx12' with parent '/' already present!
-[15446.351539] debugfs: Directory 'hctx13' with parent '/' already present!
-[15446.352200] debugfs: Directory 'hctx14' with parent '/' already present!
-[15446.352722] debugfs: Directory 'hctx15' with parent '/' already present!
-[15446.358750] nvme nvme0: Successfully reconnected (1 attempt)
+It may be possible that write_space is called when the socket buffer has
+some more room, but it immediately gets filled with the direct send path
+but then the io_work should be triggered and with the proposed fix it
+should reschedule itself if it wasn't able to acquire the send_mutex.
 
----
-
-
-> > 
-> > Target dmesg:
-> > ---
-> > [ 1704.132366] nvmet: creating controller 1 for subsystem nvme-ram0 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > [ 1704.185987] nvmet: creating controller 2 for subsystem nvme-ram1 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > [ 1704.230065] nvmet: creating controller 3 for subsystem nvme-ram2 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > [ 1704.277712] nvmet: creating controller 4 for subsystem nvme-ram3 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > [ 1704.314457] nvmet: creating controller 5 for subsystem nvme-ram4 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > [ 1704.370124] nvmet: creating controller 6 for subsystem nvme-ram5 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > [ 1704.435581] nvmet: creating controller 7 for subsystem nvme-ram6 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > [ 1704.501813] nvmet: creating controller 8 for subsystem nvme-ram7 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > [ 2103.965017] nvmet: creating controller 6 for subsystem nvme-ram5 for NQN nqn.2014-08.org.nvmexpress:uuid:77f6ffad-1c4a-4c0e-9f11-23cd4daf0216.
-> > ^^^^^^^^^^^^^^^
-> > ---
-> > 
-> > Initiator dmesg:
-> > ---
-> > [ 1735.038634] EXT4-fs (nvme7n1): mounted filesystem with ordered data mode. Opts: (null)
-> > [ 2111.990419] nvme nvme5: queue 7: timeout request 0x57 type 4
-> > [ 2111.991835] nvme nvme5: starting error recovery
-> > [ 2111.998796] block nvme5n1: no usable path - requeuing I/O
-> > [ 2111.998816] nvme nvme5: Reconnecting in 10 seconds...
-> > [ 2122.253431] block nvme5n1: no usable path - requeuing I/O
-> > [ 2122.254732] nvme nvme5: creating 16 I/O queues.
-> > [ 2122.301169] nvme nvme5: mapped 16/0/0 default/read/poll queues.
-> > [ 2122.314229] nvme nvme5: Successfully reconnected (1 attempt)
-> > ---
-> > 
-> > 
-> > Thanks.
-> >
-
+But apparently there is a different race here that we're not seeing
+at the moment...
 
 _______________________________________________
 Linux-nvme mailing list
