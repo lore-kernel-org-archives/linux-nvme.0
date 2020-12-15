@@ -2,83 +2,98 @@ Return-Path: <SRS0=/AMA=FT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B3FC4361B
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 01:53:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E313AC4361B
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 05:19:49 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1F10122483
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 01:53:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1F10122483
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 497D922287
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 05:19:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 497D922287
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jv8ZeS2gfkXnT4Dp0MS18ITHWd+8fXs622j3q2WBzIs=; b=ba7cmsDUyYC9tM0hw8KAX/Kcl
-	m/20sdf09Pjs2Otj11Daua65mICu7Y5ZVb5hL5ynNlid7TdndZ6EQ6cIgvdRQKx9VBup8OUAKytgg
-	DDIuS6FacF3x1Qnl3Xk5QvxEeOCTIaFj9rks9uR79TEX/sRB8+TDdPxmdwqcjxVp6ikNBvTv9tA02
-	wenKSYimxXNkKiMAY28wcPn1oKz1WSpNvNgwYZ4O+5HWHFDrxLB5gTAxqAdwEfQvP5KDFo8tN+v3n
-	YPdj5dT6ArbGnWypbY2eZXWqPDKJTvv+1vyz5kYsWhzPV/cat5NPH1Agc2iNZBXjhaAezgryWjoWG
-	AF4Edw9CQ==;
+	 bh=+H1SiaHBFIJmiTzBU0FFRDqC9N8hinUIu+CoQJuB4W8=; b=Uv2q1wJ2TueK199OsJBZsaM+T
+	Znw3IeZNR5+vxvQ1beAty1q8qBasJvwustZvE1iA6ST3ru0SNAiIr5qrJ9SPXknSpBNHak1A/3t0q
+	o09tjlhjf059GYMqRa2p6m4kkZhQxFay4Jqly16PyeqSOO0XtfwZ9tMkXEqIeRICRJ5QbaYnu3c/o
+	guWw7nvZmXpkmX1lJmGwi6wZomqrq+k2KwJZ8EtndD7DtZzl6o11dp6cPQEVff680EJ9MEoqL/Gda
+	BkKJiIIo3N6CbXoeKpcL9JIf9ZmSDXDhOV3WuM9QzZ8fbrKtHHN00cMwf4Sl8Qir/4m7cQ1itf2he
+	D3mMvBhsA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kozXC-0007cM-PB; Tue, 15 Dec 2020 01:53:50 +0000
-Received: from mail-pf1-f193.google.com ([209.85.210.193])
+	id 1kp2kB-0004ct-17; Tue, 15 Dec 2020 05:19:27 +0000
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kozXA-0007bz-7q
- for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 01:53:49 +0000
-Received: by mail-pf1-f193.google.com with SMTP id c12so13478195pfo.10
- for <linux-nvme@lists.infradead.org>; Mon, 14 Dec 2020 17:53:47 -0800 (PST)
+ id 1kp2k8-0004cX-CC
+ for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 05:19:25 +0000
+Received: by mail-ot1-x343.google.com with SMTP id a109so18204234otc.1
+ for <linux-nvme@lists.infradead.org>; Mon, 14 Dec 2020 21:19:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TFo6pAamw/C8vc/02hjCiGROhwkSZktycdxG10y7qZ0=;
+ b=mVpXqXVxZtcE6fCuBJPyeNUdFd4DPDGHfpJ6BjipAl9/7Gx0LvOTMriLLRFH44Y43C
+ xlyhS0qagPyyOvRtlMbVEShJLhgVmoLx1OgLJx/IcA1utBUBSZwpdg6Xxqf7iintVXpZ
+ 3fn3p3mxyTOtDeJBBHe1SyV/Uv923f470YtbfdsS36dnBrD6zY3oh4UI7cEB7Gd8dyYM
+ Ausm0t80bfB+XqFKWW64s5FHZcX8CGN16yPkIrIGKpwlcOnCigAPhVjVmbrMX/YT94zT
+ X9VsZXFfonVx32BHmvEbEze1cyb5t9p+udJLvXW6UHsOE3Dv7qPQgcQuJC6NNtCYzCK3
+ Xusw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tUxNDETj9tZBTd4kjdqQePsAnL+hglxSw0dmcL49Q3I=;
- b=IBolH2pJ+tAVe29J7bRH5IhlWuAU/Sej5OprC3NLVHRKWVIAY6CdvhO6kIa/PyB6Fq
- Qfc34irD+1I014qESezzIWfrp2OJypup6vZgbrlFfv9fDQuXvUHBxCWuaEB0i9nf/hbz
- ITcCo8qXeUbOtXImTZ/AAvh7TVCdMvA89twtrjnwqL3owPP+LbywWQ0XXD+CLaqGaQeU
- uIQIOPOGyyXRNUzfG0/bbGL7A2TcKfHbL9xPYbQqR/lNKsxpMiqQQkUgDz9HtX48lSmz
- 4ZiXHd+rqJzjrY7LaYYV9qwfh9VPyjSNG/rZNWUvYug81PWLR3iySaRrFAyihfTlZEPA
- zjrg==
-X-Gm-Message-State: AOAM533bSw4Tsc77YX+ThS0XhNDrFQY1ZkNYi/4LdJ+izJnCA/K0ZQie
- H315+cRK0yR/e7EPne9m4NygRlkkXso=
-X-Google-Smtp-Source: ABdhPJztZ0ylDbL093ztD6NDXOyeRvepdKR6u2ggBob2OW8r8VzBloWi3Nd5usRnps4Lv0aCSKNaqA==
-X-Received: by 2002:a63:4504:: with SMTP id s4mr7961502pga.284.1607997226523; 
- Mon, 14 Dec 2020 17:53:46 -0800 (PST)
-Received: from ?IPv6:2601:647:4802:9070:b6ef:7a90:5c54:72f9?
- ([2601:647:4802:9070:b6ef:7a90:5c54:72f9])
- by smtp.gmail.com with ESMTPSA id m8sm1196591pjr.39.2020.12.14.17.53.45
+ bh=TFo6pAamw/C8vc/02hjCiGROhwkSZktycdxG10y7qZ0=;
+ b=C4jJeTDl3HBLeAHyJtDkW3kI77teVU7DFUXXbmT8bIkluK1HSNy6hcBVkLSIL8Zg8R
+ M5EbxMU8ga1ko69xILvC3bd775BH5msk3nXi+KY01Uov9nFqSObst4iNeZ4rBox16TAJ
+ dy35tKzBrtiZnk2BQtZegPUYQi+CmULnJw3x7vBw4wj/wOJmEfy3f6FiC+3UlDsiABzK
+ mlCXLEd7DEzpCIGOzshKfnj/+/C9kX/zFL8O30RGemwLxtVXKJ0u29MdtzeIwBoTWDyB
+ v39baJF+IMx29aZuMKT7X49jYs8u4Fml8868byxBc970WWZGnDM0EJUakE50eCKcWm+J
+ 0rPQ==
+X-Gm-Message-State: AOAM530vs5PvCaY0Q9jy/4GFWhE5RFgzBTHcjBh5wAHaflQ+GsLsS31x
+ XvItrg8noNIWKZkBj9Q5r/E=
+X-Google-Smtp-Source: ABdhPJxL6Hi5P/uULO+noA7VRc6fjnRSGZdaXTLpVC3WOXw1MnUy+i70A+TZNvPN4LKWcpBATTEcdg==
+X-Received: by 2002:a9d:da3:: with SMTP id 32mr18505468ots.337.1608009560925; 
+ Mon, 14 Dec 2020 21:19:20 -0800 (PST)
+Received: from Davids-MacBook-Pro.local ([2601:282:800:dc80:1f6:1ed:9027:4e75])
+ by smtp.googlemail.com with ESMTPSA id w131sm4872004oif.8.2020.12.14.21.19.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 17:53:45 -0800 (PST)
-Subject: Re: Request timeout seen with NVMEoF TCP
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Potnuri Bharat Teja <bharat@chelsio.com>
-References: <X9EHFnhujZo175Kw@chelsio.com>
- <0fc0166c-a65f-125f-4305-d0cb761336ac@grimberg.me>
- <X9JVp9mjtC1p0iLS@chelsio.com>
- <3e7aa593-16b0-3bbd-f918-caffa6f5b20b@grimberg.me>
- <X9MfI872AfM+WMV/@chelsio.com>
- <dbb14893-da35-2f7e-0583-c33ce9f41243@grimberg.me>
-Message-ID: <a204cb8e-6f3b-b5dc-9972-54651c9c75cc@grimberg.me>
-Date: Mon, 14 Dec 2020 17:53:44 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Mon, 14 Dec 2020 21:19:20 -0800 (PST)
+Subject: Re: [PATCH v1 net-next 02/15] net: Introduce direct data placement
+ tcp offload
+To: Boris Pismenny <borispismenny@gmail.com>,
+ Boris Pismenny <borisp@mellanox.com>, kuba@kernel.org, davem@davemloft.net,
+ saeedm@nvidia.com, hch@lst.de, sagi@grimberg.me, axboe@fb.com,
+ kbusch@kernel.org, viro@zeniv.linux.org.uk, edumazet@google.com
+References: <20201207210649.19194-1-borisp@mellanox.com>
+ <20201207210649.19194-3-borisp@mellanox.com>
+ <6f48fa5d-465c-5c38-ea45-704e86ba808b@gmail.com>
+ <f52a99d2-03a4-6e9f-603e-feba4aad0512@gmail.com>
+ <65dc5bba-13e6-110a-ddae-3d0c260aa875@gmail.com>
+ <ab298844-c95e-43e6-b4bb-fe5ce78655d8@gmail.com>
+ <921a110f-60fa-a711-d386-39eeca52199f@gmail.com>
+ <ca9f42e5-fa4b-1fa0-c2a8-393e577cb6c9@gmail.com>
+From: David Ahern <dsahern@gmail.com>
+Message-ID: <128d5ddc-ef46-1125-c27e-381f78a49a96@gmail.com>
+Date: Mon, 14 Dec 2020 22:19:15 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <dbb14893-da35-2f7e-0583-c33ce9f41243@grimberg.me>
+In-Reply-To: <ca9f42e5-fa4b-1fa0-c2a8-393e577cb6c9@gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201214_205348_333170_DF75F4C9 
-X-CRM114-Status: GOOD (  21.59  )
+X-CRM114-CacheID: sfid-20201215_001924_444236_63BA7D41 
+X-CRM114-Status: GOOD (  27.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,87 +105,99 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Samuel Jones <sjones@kalrayinc.com>, "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Yoray Zack <yorayz@mellanox.com>, yorayz@nvidia.com,
+ Boris Pismenny <borisp@nvidia.com>, boris.pismenny@gmail.com,
+ Ben Ben-Ishay <benishay@mellanox.com>, benishay@nvidia.com,
+ linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ Or Gerlitz <ogerlitz@mellanox.com>, ogerlitz@nvidia.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> Hey Potnuri,
+On 12/13/20 11:21 AM, Boris Pismenny wrote:
+>>> as zerocopy for the following reasons:
+>>> (1) The former places buffers *exactly* where the user requests
+>>> regardless of the order of response arrivals, while the latter places packets
+>>> in anonymous buffers according to packet arrival order. Therefore, zerocopy
+>>> can be implemented using data placement, but not vice versa.
+>>
+>> Fundamentally, it is an SGL and a TCP sequence number. There is a
+>> starting point where seq N == sgl element 0, position 0. Presumably
+>> there is a hardware cursor to track where you are in filling the SGL as
+>> packets are processed. You abort on OOO, so it seems like a fairly
+>> straightfoward problem.
+>>
 > 
-> Have you observed this further?
+> We do not abort on OOO. Moreover, we can keep going as long as
+> PDU headers are not reordered.
+
+Meaning packets received OOO which contain all or part of a PDU header
+are aborted, but pure data packets can arrive out-of-order?
+
+Did you measure the affect of OOO packets? e.g., randomly drop 1 in 1000
+nvme packets, 1 in 10,000, 1 in 100,000? How does that affect the fio
+benchmarks?
+
+>> Similarly for the NVMe SGLs and DDP offload - a more generic solution
+>> allows other use cases to build on this as opposed to the checks you
+>> want for a special case. For example, a split at the protocol headers /
+>> payload boundaries would be a generic solution where kernel managed
+>> protocols get data in one buffer and socket data is put into a given
+>> SGL. I am guessing that you have to be already doing this to put PDU
+>> payloads into an SGL and other headers into other memory to make a
+>> complete packet, so this is not too far off from what you are already doing.
+>>
 > 
-> I'd think that if the io_work reschedule itself when it races
-> with the direct send path this should not happen, but we may be
-> seeing a different race going on here, adding Samuel who saw
-> a similar phenomenon.
+> Splitting at protocol header boundaries and placing data at socket defined
+> SGLs is not enough for nvme-tcp because the nvme-tcp protocol can reorder
+> responses. Here is an example:
+> 
+> the host submits the following requests:
+> +--------+--------+--------+
+> | Read 1 | Read 2 | Read 3 |
+> +--------+--------+--------+
+> 
+> the target responds with the following responses:
+> +--------+--------+--------+
+> | Resp 2 | Resp 3 | Resp 1 |
+> +--------+--------+--------+
 
-I think we still have a race here with the following:
-1. queue_rq sends h2cdata PDU (no data)
-2. host receives r2t - prepares data PDU to send and schedules io_work
-3. queue_rq sends another h2cdata PDU - ends up sending (2) because it 
-was queued before it
-4. io_work starts, loops but never able to acquire the send_mutex - 
-eventually just ends (dosn't requeue)
-5. (3) completes, now nothing will send (2)
+Does 'Resp N' == 'PDU + data' like this:
 
-We can either schedule the io_work from the direct send path, but that
-is less efficient than just trying to drain the send queue in the
-direct send path and if not all was sent, the write_space callback
-will trigger it.
+ +---------+--------+---------+--------+---------+--------+
+ | PDU hdr | Resp 2 | PDU hdr | Resp 3 | PDU hdr | Resp 1 |
+ +---------+--------+---------+--------+---------+--------+
 
-Potnuri, does this patch solves what you are seeing?
---
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 1ba659927442..1b4e25624ba4 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -262,6 +262,16 @@ static inline void nvme_tcp_advance_req(struct 
-nvme_tcp_request *req,
-         }
-  }
+or is it 1 PDU hdr + all of the responses?
 
-+static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
-+{
-+       int ret;
-+
-+       /* drain the send queue as much as we can... */
-+       do {
-+               ret = nvme_tcp_try_send(queue);
-+       } while (ret > 0);
-+}
-+
-  static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
-                 bool sync, bool last)
-  {
-@@ -279,7 +289,7 @@ static inline void nvme_tcp_queue_request(struct 
-nvme_tcp_request *req,
-         if (queue->io_cpu == smp_processor_id() &&
-             sync && empty && mutex_trylock(&queue->send_mutex)) {
-                 queue->more_requests = !last;
--               nvme_tcp_try_send(queue);
-+               nvme_tcp_send_all(queue);
-                 queue->more_requests = false;
-                 mutex_unlock(&queue->send_mutex);
-         } else if (last) {
-@@ -1122,6 +1132,14 @@ static void nvme_tcp_io_work(struct work_struct *w)
-                                 pending = true;
-                         else if (unlikely(result < 0))
-                                 break;
-+               } else {
-+                       /*
-+                        * submission path is sending, we need to
-+                        * continue or resched because the submission
-+                        * path direct send is not concerned with
-+                        * rescheduling...
-+                        */
-+                       pending = true;
-                 }
+> 
+> I think that the interface we created (tcp_ddp) is sufficiently generic
+> for the task at hand, which is offloading protocols that can re-order
+> their responses, a non-trivial task that we claim is important.
+> 
+> We designed it to support other protocols and not just nvme-tcp,
+> which is merely an example. For instance, I think that supporting iSCSI
+> would be natural, and that other protocols will fit nicely.
 
-                 result = nvme_tcp_try_recv(queue);
---
+It would be good to add documentation that describes the design, its
+assumptions and its limitations. tls has several under
+Documentation/networking. e.g., one important limitation to note is that
+this design only works for TCP sockets owned by kernel modules.
+
+> 
+>> ###
+>>
+>> A dump of other comments about this patch set:
+> 
+> Thanks for reviewing! We will fix and resubmit.
+
+Another one I noticed today. You have several typecasts like this:
+
+cqe128 = (struct mlx5e_cqe128 *)((char *)cqe - 64);
+
+since cqe is a member of cqe128, container_of should be used instead of
+the magic '- 64'.
 
 _______________________________________________
 Linux-nvme mailing list
