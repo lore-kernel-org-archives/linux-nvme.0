@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D34BC4361B
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 06:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F79C4361B
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 06:04:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 118C8207A0
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 06:04:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 118C8207A0
+	by mail.kernel.org (Postfix) with ESMTPS id B9A4320791
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 06:04:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9A4320791
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,69 +23,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9lylXLbPGHSkKMtJ6BKBlDPcOt25/kiUyFsX/dESU80=; b=NyrUcaE6CM0x4axsq9RWqB7M5
-	Q0SMqJ9umhUBuSH9+3NjrjcBgx1k3sfc7gYocwop6vEwvCBrN6aqgQLg38rYdF7wFMXMeYzCGSLnc
-	RJBgf/BGaW/VCE3Q3gtVONWEnRx20UikyhPS6UZaWzdxmwGURwiDI/0SezGI3sJqlGBO5tT0Aio3Q
-	c/qZo9DIx850czsUisQdPd28QnHcmmG88XJEg5goBUeN2EBtE1uBgEPIqjIJiqltMjlU1xNsrtEvs
-	8pE5LB2Hnck0f4NpR6+2fYbsDmDcW4vAik9Z9ogkOwQ5PUvIlLjx6FaXtZaH/a5c2fRETzo1n0RKd
-	OhqLFasYg==;
+	 bh=utXUoKscth+OiFBi0SRPoBqHkJ9LiH27usrz6PiO5hc=; b=qx9Yd+vlah1ucN1smH75n19xh
+	XHXcwPidG1xOBvrInltIP2S47iKzLPKXDspktMQB6lMMosp42UycrT0qgzHM9gM3ZPaDKCrXKRCeb
+	irKb5V+1Ak3URHf1M3pPI/yGo10ZHgPB6O4KSRLf2BNJ9mlTNK1ciLs5J+VUv6wghoWKHQQpjLT7u
+	3ufj+zzJG6yGwwehiQ4XrhtL3tkEjWRQwrB6DVgW/LpYcLSGx7iEXIQimq0KgfZoa6+vWN0Va1VwL
+	T4UXjw7olFy+H6Wu9PWy1AAVgv9rE5WXIXqIMqyW2S3A2BMPiKA8xbpghNxE087RARhEudaLGUzAi
+	fWEQ1hR8A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kp3RO-0007qL-Ve; Tue, 15 Dec 2020 06:04:07 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1kp3RX-0007tq-Et; Tue, 15 Dec 2020 06:04:15 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kp3RK-0007ou-US
- for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 06:04:04 +0000
+ id 1kp3RU-0007sE-54
+ for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 06:04:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608012242; x=1639548242;
+ t=1608012252; x=1639548252;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PPDiSY5mJQRDmFoGvUppmX0kTxns+mXyQ/4JveVI9hc=;
- b=MonpYEOx/gJYcA0aYakk1jy73UNeSRrxeDY56yKZF0VoWlr4LkZxOYpV
- a9CI+oO0QRwOpo38A5TbctYPVIxpZuEY2stSMGvwJA/wvIXRxUplOWg2T
- bpD7635Z/tOiI4SonqRhc3GvKCycSSzM0c+fvZVcWVea74DiC5h+NREBv
- F9M8NvXICKeLfsBKe5HSfbxOgFE4L3Kd13ao28KnT4jR72CX12vWm2b4Q
- c2oZtIqIuKTqXaV4nC4Jjta49KBZEmdpJxdFoT3459QVmDvqhRvPWaIlq
- OPvSlHojH5Xw3dTHsl9+D2+YNC/zVTbyp63Q0zx7LM/0nAenS48Poj1Ff Q==;
-IronPort-SDR: ld8FTGK+Z1CKhf7eZbIqJNKRXNgIJasqr0JvayOxJuxz1IghM6CjXA5C3MIJw1a4AMdiloDBKT
- w/pvNgVgbZPAY5PzEGjbZF/vhabGFETMFkw45S9UPlIzHCeaOlYsNW47KmVTvefplS1iCJFwBe
- Ehx1efgtBW3vn1e9JUKIiHdzBX3IwO4qcRq0SsJt6euJTzPIAbJegS9iYyhz7T9Q99CLl+drdk
- cbLLVBlezcfIqBz//SG/5T5QhaWEipxA+K10BsElJ+k5Dg6ig0CyS8nmE4tHotut1x6BZmX3Zv
- igk=
-X-IronPort-AV: E=Sophos;i="5.78,420,1599494400"; d="scan'208";a="159618816"
+ bh=2WRsibq+qDho+pjgl/Wk32oPiBilraCut4aAJwCYJ8M=;
+ b=MwJXHF9w0v04guraFI/7eKo9E+D6b4wFqLlTbuKY8felFjP38mytXDyg
+ iKUUV0NXJoaThxw0Xwtb3Dns8w8JWoAHN7uCpthumLQLK+ePHk9Reb5cb
+ nQZd9d07ffdhjkaHuo3GoaCG/sSZ9srkAe7S3rLG85ggsJddge8K8S6oC
+ hPe07TUf18NxbqmkbCROMx7YxMJ9wWVkCL65Hb1ExxiyTFOeU2GaSJAly
+ UuBc2/gcD8t31O06nhIt7C6oISXNT/3s38YDFti/H19/pJlCmG9KQ73MO
+ G+lPqLQ6y8jWxEw+2nYKWNtC94tmohvmz/GRhkxhbytvMW9Ec9ZQrUL/a g==;
+IronPort-SDR: bcopDB98Wd/5BXHlsyA6I8BFWcf3e7hsZqJbn/OcPvWK8ovWs6YBgeu/D6k3eSRSKiEYkhOgrE
+ zk04sJ/bBOroLFAVaRh8RFm2heIkhfZqTL+/cHFa2r9t0bfCsZ5l4UZMR32k+oQZA9xDSOz1Nc
+ hISytONIMd0hV78+ONxmQa2s8Rrkn6KwiLRmfEyw+9UYN7QX5sC4wVTiQNFWIq/kTbP1yXBZal
+ R5LtuKb4/B+LUGAxkb2X+3b5lyE9UsCHm4CXSO/7ZDJ20zSvpJq9o02jQJXRF1owmcIzA+5TIU
+ Kgw=
+X-IronPort-AV: E=Sophos;i="5.78,420,1599494400"; d="scan'208";a="155158428"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 15 Dec 2020 14:04:01 +0800
-IronPort-SDR: HoX1YhiSP1NO4ZJrcd/JdMMw0rGZGmKrMUbLjurhz4t9EiibP49Q3ds23k56d3yUwmmMe5w2C3
- cfO1sd5A6q/u4PiCP8z/7VkoGYzThjsrI/XdDYSyiVpIdoha5ArrvRjmnlJOHex7O9R5wIxaN+
- ZtZUtBRtdqnC/yD0P0G4MQsnGIQzhyXdZb/NHdelKQFc4+xo84vcT5zRuLmm1aeO9r/bm37AdP
- WywSe9g+S+isPAyBpdNXMQobh64R/y9VOlOOIHkHd4/i0ATxtoTq7Nr/24NJsC1F8uQvqwIGSb
- gSL0J8VmMDlljxnhLsJTyECI
+ by ob1.hgst.iphmx.com with ESMTP; 15 Dec 2020 14:04:11 +0800
+IronPort-SDR: tprLdkgRQ1GryKGeI5R0DMZBtiRvXnMHkFNu7FO8Zlc1nMXXbhBkMGra2Z+GLyYOQqYPBa6HyR
+ 3ONuuiHIdEw8WM7JgMQ865sVTqRunCaWpCDkLG34fj1ngMQlt9IUwUuFAXmYrBkd5SHnXRZF1d
+ etoveUogGoh6bJe0zkfuujnisHv3wZe4OCMoeCM2ve/wjp32W/BO+Hp8ySrzRIwIX9+PeIpMFK
+ FcTePBB35P2dW2OEpuj5Gz7hFetI87UgSHyKknCrwhiwBQVGgqOYkKet75eWMVSIXU+lGyq6wW
+ hUkUNIhf47ivQZsu5u7FJWQK
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2020 21:47:44 -0800
-IronPort-SDR: 0c8iRz3GQa4vDOc4N59zYYpKgspvZNwyXG4IMFQcaWcm8DPFzJz1SVYOekcQYbcLUzUCWl9aXW
- +9LW4IDEJ5LIUlV0U9JXSBa84iTK1YcVKkycDyoRhVrpiJ4/vm+4VquezoSrd1JxHNHEqy0Dpg
- nmGvzE6MEGFvo+DEMsesuVVDB6yb51Asto6v8upPNELiOxce+iVDwEEq09Y2JEB78ulL7RMN7G
- dSRM19/SkqVygfy1nsUEvqOKxA/aaTh8+CvblqSjnxFqzo16CU9mxai6D8iKppbGjQe66+siWs
- 7qk=
+ 14 Dec 2020 21:47:54 -0800
+IronPort-SDR: BmMmOzY6yL12xaJFftEGsBKcBk4EVNmQVzbyJSa/WgM6aQgDS0z+Iw+cakoRcTkhjwpU9+KZNo
+ s9FFwWwtH6dXYa5Ll4QyvRdRNgdC4tGz6daHVEmfp1H2M7PTlUSJfiuRaaCYB4n4PhcUrBCyWS
+ NCWSu4uXj3P5atQSlKS/bqKc2ZDw0de8zKi32uxl1h8eRmurwkhE3aaWydcNH7TMcS+pB9DUVL
+ lmujSaEu8TedQ+Z1Rz+hWJewdC/feyQOb3rsbh3UQF5ARL6UBbOlvUaYdDV/+l2fPfsBiIqs2W
+ Bak=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 14 Dec 2020 22:04:02 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 14 Dec 2020 22:04:12 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH V7 5/6] nvmet: add bio get helper for different backends
-Date: Mon, 14 Dec 2020 22:03:04 -0800
-Message-Id: <20201215060305.28141-6-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V7 6/6] nvmet: add bio put helper for different backends
+Date: Mon, 14 Dec 2020 22:03:05 -0800
+Message-Id: <20201215060305.28141-7-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20201215060305.28141-1-chaitanya.kulkarni@wdc.com>
 References: <20201215060305.28141-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201215_010403_163464_A584EE39 
-X-CRM114-Status: GOOD (  18.00  )
+X-CRM114-CacheID: sfid-20201215_010412_393398_2334A91E 
+X-CRM114-Status: GOOD (  14.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,81 +99,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: damien.lemoal@wdc.com, sagi@grimberg.me,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, hch@lst.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-V2l0aCB0aGUgYWRkaXRpb24gb2YgdGhlIHpucyBiYWNrZW5kIG5vdyB3ZSBoYXZlIHRocmVlIGRp
-ZmZlcmVudApiYWNrZW5kcyB3aXRoIGlubGluZSBiaW8gb3B0aW1pemF0aW9uLiBUaGF0IGxlYWRz
-IHRvIGhhdmluZwpkdXBsaWNhdGUgY29kZSBpbiBmb3IgYWxsb2NhdGluZyBvciBpbml0aWFsaXpp
-bmcgdGhlIGJpbyBpbiBhbGwKdGhyZWUgYmFja2VuZHM6IGdlbmVyaWMgYmRldiwgcGFzc3N0aHJ1
-LCBhbmQgZ2VuZXJpYyB6bnMuCgpBZGQgYSBoZWxwZXIgZnVuY3Rpb24gdG8gcmVkdWNlIHRoZSBk
-dXBsaWNhdGUgY29kZSBzdWNoIHRoYXQgaGVscGVyCmZ1bmN0aW9uIGFjY2VwdHMgdGhlIGJpX2Vu
-ZF9pbyBjYWxsYmFjayB3aGljaCBnZXRzIGluaXRpYWxpemUgZm9yIHRoZQpub24taW5saW5lIGJp
-b19hbGxvYygpIGNhc2UuIFRoaXMgaXMgZHVlIHRvIHRoZSBzcGVjaWFsIGNhc2UgbmVlZGVkIGZv
-cgp0aGUgcGFzc3RocnUgYmFja2VuZCBub24taW5saW5lIGJpbyBhbGxvY2F0aW9uIGJpb19hbGxv
-YygpIHdoZXJlIHdlIHNldAp0aGUgYmlvLT5iaV9lbmRfaW8gPSBiaW9fcHV0LCBoYXZpbmcgdGhp
-cyBwYXJhbWV0ZXIgYXZvaWRzIHRoZSBleHRyYQpicmFuY2ggaW4gdGhlIHBhc3N0aHJ1IGZhc3Qg
-cGF0aC4gRm9yIHJlc3Qgb2YgdGhlIGJhY2tlbmRzLCB3ZSBzZXQgdGhlCnNhbWUgYmlfZW5kX2lv
-IGNhbGxiYWNrIGZvciBpbmxpbmUgYW5kIG5vbi1pbmxpbmUgY2FzZXMsIHRoYXQgaXMgZm9yCmdl
-bmVyaWMgYmRldiB3ZSBzZXQgdG8gbnZtZXRfYmlvX2RvbmUoKSBhbmQgZm9yIGdlbmVyaWMgem5z
-IHdlIHNldCB0bwpOVUxMLiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oAoKU2lnbmVkLW9mZi1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxjaGFpdGFueWEua3Vsa2FybmlA
-d2RjLmNvbT4KLS0tCiBkcml2ZXJzL252bWUvdGFyZ2V0L2lvLWNtZC1iZGV2LmMgfCAgNyArLS0t
-LS0tCiBkcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmggICAgICAgfCAxNiArKysrKysrKysrKysr
-KysrCiBkcml2ZXJzL252bWUvdGFyZ2V0L3Bhc3N0aHJ1LmMgICAgfCAgOCArLS0tLS0tLQogZHJp
-dmVycy9udm1lL3RhcmdldC96bnMuYyAgICAgICAgIHwgIDggKy0tLS0tLS0KIDQgZmlsZXMgY2hh
-bmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgMjAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9udm1lL3RhcmdldC9pby1jbWQtYmRldi5jIGIvZHJpdmVycy9udm1lL3RhcmdldC9pby1j
-bWQtYmRldi5jCmluZGV4IDYxNzhlZjY0Mzk2Mi4uNzI3NDZlMjljYjBkIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL252bWUvdGFyZ2V0L2lvLWNtZC1iZGV2LmMKKysrIGIvZHJpdmVycy9udm1lL3Rhcmdl
-dC9pby1jbWQtYmRldi5jCkBAIC0yNjYsMTIgKzI2Niw3IEBAIHN0YXRpYyB2b2lkIG52bWV0X2Jk
-ZXZfZXhlY3V0ZV9ydyhzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpCiAKIAlzZWN0b3IgPSBudm1ldF9s
-YmFfdG9fc2VjdChyZXEtPm5zLCByZXEtPmNtZC0+cncuc2xiYSk7CiAKLQlpZiAocmVxLT50cmFu
-c2Zlcl9sZW4gPD0gTlZNRVRfTUFYX0lOTElORV9EQVRBX0xFTikgewotCQliaW8gPSAmcmVxLT5i
-LmlubGluZV9iaW87Ci0JCWJpb19pbml0KGJpbywgcmVxLT5pbmxpbmVfYnZlYywgQVJSQVlfU0la
-RShyZXEtPmlubGluZV9idmVjKSk7Ci0JfSBlbHNlIHsKLQkJYmlvID0gYmlvX2FsbG9jKEdGUF9L
-RVJORUwsIG1pbihzZ19jbnQsIEJJT19NQVhfUEFHRVMpKTsKLQl9CisJYmlvID0gbnZtZXRfcmVx
-X2Jpb19nZXQocmVxLCBOVUxMKTsKIAliaW9fc2V0X2RldihiaW8sIHJlcS0+bnMtPmJkZXYpOwog
-CWJpby0+YmlfaXRlci5iaV9zZWN0b3IgPSBzZWN0b3I7CiAJYmlvLT5iaV9wcml2YXRlID0gcmVx
-OwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL3RhcmdldC9udm1ldC5oIGIvZHJpdmVycy9udm1l
-L3RhcmdldC9udm1ldC5oCmluZGV4IDczNjE2NjU1ODVhMi4uM2ZjODRmNzljY2UxIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmgKKysrIGIvZHJpdmVycy9udm1lL3Rhcmdl
-dC9udm1ldC5oCkBAIC02NTIsNCArNjUyLDIwIEBAIG52bWV0X2JkZXZfZXhlY3V0ZV96b25lX2Fw
-cGVuZChzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpCiB9CiAjZW5kaWYgLyogQ09ORklHX0JMS19ERVZf
-Wk9ORUQgKi8KIAorc3RhdGljIGlubGluZSBzdHJ1Y3QgYmlvICpudm1ldF9yZXFfYmlvX2dldChz
-dHJ1Y3QgbnZtZXRfcmVxICpyZXEsCisJCQkJCSAgICBiaW9fZW5kX2lvX3QgKmJpX2VuZF9pbykK
-K3sKKwlzdHJ1Y3QgYmlvICpiaW87CisKKwlpZiAocmVxLT50cmFuc2Zlcl9sZW4gPD0gTlZNRVRf
-TUFYX0lOTElORV9EQVRBX0xFTikgeworCQliaW8gPSAmcmVxLT5iLmlubGluZV9iaW87CisJCWJp
-b19pbml0KGJpbywgcmVxLT5pbmxpbmVfYnZlYywgQVJSQVlfU0laRShyZXEtPmlubGluZV9idmVj
-KSk7CisJCXJldHVybiBiaW87CisJfQorCisJYmlvID0gYmlvX2FsbG9jKEdGUF9LRVJORUwsIHJl
-cS0+c2dfY250KTsKKwliaW8tPmJpX2VuZF9pbyA9IGJpX2VuZF9pbzsKKwlyZXR1cm4gYmlvOwor
-fQorCiAjZW5kaWYgLyogX05WTUVUX0ggKi8KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJn
-ZXQvcGFzc3RocnUuYyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvcGFzc3RocnUuYwppbmRleCBiOTc3
-NmZjOGYwOGYuLjU0Zjc2NWI1NjZlZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9w
-YXNzdGhydS5jCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvcGFzc3RocnUuYwpAQCAtMTk0LDEz
-ICsxOTQsNyBAQCBzdGF0aWMgaW50IG52bWV0X3Bhc3N0aHJ1X21hcF9zZyhzdHJ1Y3QgbnZtZXRf
-cmVxICpyZXEsIHN0cnVjdCByZXF1ZXN0ICpycSkKIAlpZiAocmVxLT5zZ19jbnQgPiBCSU9fTUFY
-X1BBR0VTKQogCQlyZXR1cm4gLUVJTlZBTDsKIAotCWlmIChyZXEtPnRyYW5zZmVyX2xlbiA8PSBO
-Vk1FVF9NQVhfSU5MSU5FX0RBVEFfTEVOKSB7Ci0JCWJpbyA9ICZyZXEtPnAuaW5saW5lX2JpbzsK
-LQkJYmlvX2luaXQoYmlvLCByZXEtPmlubGluZV9idmVjLCBBUlJBWV9TSVpFKHJlcS0+aW5saW5l
-X2J2ZWMpKTsKLQl9IGVsc2UgewotCQliaW8gPSBiaW9fYWxsb2MoR0ZQX0tFUk5FTCwgbWluKHJl
-cS0+c2dfY250LCBCSU9fTUFYX1BBR0VTKSk7Ci0JCWJpby0+YmlfZW5kX2lvID0gYmlvX3B1dDsK
-LQl9CisJYmlvID0gbnZtZXRfcmVxX2Jpb19nZXQocmVxLCBiaW9fcHV0KTsKIAliaW8tPmJpX29w
-ZiA9IHJlcV9vcChycSk7CiAKIAlmb3JfZWFjaF9zZyhyZXEtPnNnLCBzZywgcmVxLT5zZ19jbnQs
-IGkpIHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQvem5zLmMgYi9kcml2ZXJzL252
-bWUvdGFyZ2V0L3pucy5jCmluZGV4IDM5ODFiYWE2NDdiMi4uOGJhZmFiOThkMDc2IDEwMDY0NAot
-LS0gYS9kcml2ZXJzL252bWUvdGFyZ2V0L3pucy5jCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQv
-em5zLmMKQEAgLTI5NiwxMyArMjk2LDcgQEAgdm9pZCBudm1ldF9iZGV2X2V4ZWN1dGVfem9uZV9h
-cHBlbmQoc3RydWN0IG52bWV0X3JlcSAqcmVxKQogCQlyZXR1cm47CiAJfQogCi0JaWYgKHJlcS0+
-dHJhbnNmZXJfbGVuIDw9IE5WTUVUX01BWF9JTkxJTkVfREFUQV9MRU4pIHsKLQkJYmlvID0gJnJl
-cS0+Yi5pbmxpbmVfYmlvOwotCQliaW9faW5pdChiaW8sIHJlcS0+aW5saW5lX2J2ZWMsIEFSUkFZ
-X1NJWkUocmVxLT5pbmxpbmVfYnZlYykpOwotCX0gZWxzZSB7Ci0JCWJpbyA9IGJpb19hbGxvYyhH
-RlBfS0VSTkVMLCByZXEtPnNnX2NudCk7Ci0JfQotCisJYmlvID0gbnZtZXRfcmVxX2Jpb19nZXQo
-cmVxLCBOVUxMKTsKIAliaW9fc2V0X2RldihiaW8sIHJlcS0+bnMtPmJkZXYpOwogCWJpby0+Ymlf
-aXRlci5iaV9zZWN0b3IgPSBzZWN0OwogCWJpby0+Ymlfb3BmID0gUkVRX09QX1pPTkVfQVBQRU5E
-IHwgUkVRX1NZTkMgfCBSRVFfSURMRTsKLS0gCjIuMjIuMQoKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4
-LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+With the addition of zns backend now we have three different
+backends with inline bio optimization. That leads to having duplicate
+code in for freeing the bio in all three backends: generic bdev,
+passsthru and generic zns.
+
+Add a helper function to avoid the duplicate code and update the
+respective backends.
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/io-cmd-bdev.c | 3 +--
+ drivers/nvme/target/nvmet.h       | 6 ++++++
+ drivers/nvme/target/passthru.c    | 3 +--
+ drivers/nvme/target/zns.c         | 3 +--
+ 4 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 72746e29cb0d..6ffd84a620e7 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -172,8 +172,7 @@ static void nvmet_bio_done(struct bio *bio)
+ 	struct nvmet_req *req = bio->bi_private;
+ 
+ 	nvmet_req_complete(req, blk_to_nvme_status(req, bio->bi_status));
+-	if (bio != &req->b.inline_bio)
+-		bio_put(bio);
++	nvmet_req_bio_put(req, bio);
+ }
+ 
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 3fc84f79cce1..e770086b5890 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -668,4 +668,10 @@ static inline struct bio *nvmet_req_bio_get(struct nvmet_req *req,
+ 	return bio;
+ }
+ 
++static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
++{
++	if (bio != &req->b.inline_bio)
++		bio_put(bio);
++}
++
+ #endif /* _NVMET_H */
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index 54f765b566ee..a4a73d64c603 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -200,8 +200,7 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+ 	for_each_sg(req->sg, sg, req->sg_cnt, i) {
+ 		if (bio_add_pc_page(rq->q, bio, sg_page(sg), sg->length,
+ 				    sg->offset) < sg->length) {
+-			if (bio != &req->p.inline_bio)
+-				bio_put(bio);
++			nvmet_req_bio_put(req, bio);
+ 			return -EINVAL;
+ 		}
+ 	}
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index 8bafab98d076..d6a8310cf672 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -330,7 +330,6 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ 						 bio->bi_iter.bi_sector);
+ 
+ out_bio_put:
+-	if (bio != &req->b.inline_bio)
+-		bio_put(bio);
++	nvmet_req_bio_put(req, bio);
+ 	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL : status);
+ }
+-- 
+2.22.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
