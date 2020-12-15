@@ -7,15 +7,15 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAD7AC4361B
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 19:56:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3F3C4361B
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 20:22:49 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 84EC922A99
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 19:56:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 84EC922A99
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	by mail.kernel.org (Postfix) with ESMTPS id 66C3022475
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 20:22:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 66C3022475
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=zurich.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -23,64 +23,87 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=V+i0TrCgurgsblWELhHnABoiswAEthDdhYjK6u3vsoo=; b=n+MEeinWrotbk7YKQYD2YvN06p
-	rTvd+EfkdcDak6kS/EVMaxs4mKX/6mrJ7Xh+G8HACMDklwpfsFjdI2n9Bn6cyxzt8ZK7Lq4uF+t3E
-	oj8rfuZbr7QvyoAgqkLjCcS5lhjuPZdmEezWe2yFYsxBFM25MNH/1u2IdIzR3va5BvIMd66dvKv11
-	aRXlye+M9tRqipxsi4YUMUqTt3lRT6rHzh5+pPtWKhKWLmc8iZah9h34biPEwN2JDxzIbtvhjZm43
-	1S2QR2cqW+4w2L4Lo8ajYjJkMHe88Aq2h4ny8CuzMir/jXTlnny6VbQvtWIeD49+6+J5f7vjTul6z
-	MA+b9L0Q==;
+	bh=2YTKHC3YncbWTAlOiz0ynhlLxdJccZgkNNNzS7WZ4qc=; b=wcRhujN7eITAeG07fnllO8jIhG
+	DQJbnd9jFpXocwmHITJCGI9+/E1Fjs0odTs0oy1ZrrIAJ+4NrHnky+Wc9dOD1oCVSFOnMk7JloVpY
+	3XDiehijtoB1y9JiXoTjf63uec/LA6ozpSo1MmrlGwBKS5x0KxGEeHCMK4P5VhAGfYlq1/LZxry8p
+	BNr8nk+nzbmksBtKpompotE8PExWrh6AInMZWNjzikhJOFubhKSSpykzgYecTWLHSf3mDmfCiIVYm
+	pYfW29wV3mC32/CCZujYsArNMEpEkXzxm5FoeWWgdCjR/9CoWpgdurFHXtFDGehElAs4LdLrL73sO
+	IGpE5t8w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kpGQe-0004sZ-Mk; Tue, 15 Dec 2020 19:56:12 +0000
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544])
+	id 1kpGqI-0007oW-Qm; Tue, 15 Dec 2020 20:22:43 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kpGQX-0004rf-Qy
- for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 19:56:11 +0000
-Received: by mail-ed1-x544.google.com with SMTP id cm17so22398470edb.4
- for <linux-nvme@lists.infradead.org>; Tue, 15 Dec 2020 11:56:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Eiq42WtdlN+5DpxE9WF7wPXJGgMItt7GPgDZ38JEu8c=;
- b=dRlvP54CVoivUXFVM1Z0Y9WzM3UwYmBQUeTkOgz8GBkVf3dNsrnGj1cqplGhXzRUyv
- ROwuEsjoewjZkHpfQIa5XPrMLTUYODGDzrlQA0ZhMactEVZBvmGN3nT5QzisVkFsK4a7
- NyNI0VpyUhmC/yNN7HBF+l86mcCiet7Al7zJulMXrwHAzDvi0aeW/rv7cS0WoLoM/PL8
- clX4od9y14uhqxfxcSd8w/j8hhpdCmEYHK6/oMBN/BK/ydV7KDThuPlYlpA8KqEVbELI
- TxHzPuyK5Ohyt/MiDJvdB0zqd2ttm/PqIpaTh9g6JJs435T19mM2+AYl4yP25n5/l8lD
- PGiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Eiq42WtdlN+5DpxE9WF7wPXJGgMItt7GPgDZ38JEu8c=;
- b=gjY4/JsNdLAHb8dkr2rlNIQpFHPsNYDa1bSRcTVVstghu6GHKRFxKwKq2pL+W+ffMV
- Bln1g3aYY4/9/oe9mAGb095iGDRj8QWr8wsUAZ0fMkmGlivrNvY1VBcIm75wcmATU+EN
- gv7bXFR0kjJsuavi7k5bJd2Sqv3lJLNFbOTPAowioM17NGx2PNLZv4Hx1gMZqHPncFbq
- AO6lablgtnrKnvraNNMpZYY9XmrGcgbpmqktqaYW37mqfMWhu9SCdTvhY+jo/h1oi+lV
- 0cWAPnBvyo/b5df+Cm/hEoEDQC8ZFvhg1CxkdJvQV+/Uh2Xb0voIU/Tfxy+XUdS/Op7g
- Rp9g==
-X-Gm-Message-State: AOAM53257n+s2zuWpQDq+jw3CpFwY0yQ3UbkjWssIDpJZJM4ErAW6CMk
- kWMBM5YhaScs29y9zDkwTeTOpRlnC/P1IS1DgEQ=
-X-Google-Smtp-Source: ABdhPJymQR6z98SeD2QaCOZrzsxUpaQj6W1x5YQREyg+3TcMM3R+UWbdKThlUxugyP9v5z3fyVmCeQ==
-X-Received: by 2002:a50:ab51:: with SMTP id t17mr31496082edc.89.1608062162233; 
- Tue, 15 Dec 2020 11:56:02 -0800 (PST)
-Received: from ch-wrk-javier.localdomain (5.186.124.214.cgn.fibianet.dk.
- [5.186.124.214])
- by smtp.gmail.com with ESMTPSA id s1sm2112395ejx.25.2020.12.15.11.56.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 11:56:01 -0800 (PST)
-From: javier@javigon.com
-X-Google-Original-From: javier.gonz@samsung.com
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH V3] nvme: enable char device per namespace
-Date: Tue, 15 Dec 2020 20:55:57 +0100
-Message-Id: <20201215195557.30169-1-javier.gonz@samsung.com>
-X-Mailer: git-send-email 2.17.1
+ id 1kpGqC-0007nd-A4
+ for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 20:22:38 +0000
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BFK2HvY023581; Tue, 15 Dec 2020 15:22:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=zpJ5kY43A33URA/SFwyJ21J55hUUGCH3rbjPW+6tZFI=;
+ b=iZy9wpyN+CltswJLFyXmkwdv4XathDx7yRXl2GI4maACskCCZ74Bd6lGswbzisl8l11e
+ dqexFcb8AlkouN/UgS0Uz736Xw10g7xj1wBv7IxZiIyUiCzEWPedpzl6+9cBHqBa0TC+
+ gt7Sg7je1XldurP7igKWbZfFeBkYDm9SlsCxK1f9FQh7W79lifDKdt0fO9KYPEsEnHts
+ +6TZPHOPEVo8a2ynqOcHeTzmDCyvtQoOMAgl5QJaYOdnCcJ3ajZl32GYHOOrbj2qjUnE
+ XDCx9iDksN3y81mn8ARcHb0PgFB4zSzA5Hp99jLXmtgdEBLAV+7M1ramEQhCAyYSKHvN lw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35f2g1k8as-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Dec 2020 15:22:34 -0500
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BFK5Fn7037907;
+ Tue, 15 Dec 2020 15:22:34 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35f2g1k89y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Dec 2020 15:22:33 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BFKDPue017905;
+ Tue, 15 Dec 2020 20:22:31 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03fra.de.ibm.com with ESMTP id 35cng8dbt8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Dec 2020 20:22:31 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0BFKJxHY30474592
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 15 Dec 2020 20:19:59 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6AD2211C054;
+ Tue, 15 Dec 2020 20:19:59 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D33BD11C04C;
+ Tue, 15 Dec 2020 20:19:56 +0000 (GMT)
+Received: from Pescara.zurich.ibm.com (unknown [9.163.19.166])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 15 Dec 2020 20:19:56 +0000 (GMT)
+From: Bernard Metzler <bmt@zurich.ibm.com>
+To: linux-rdma@vger.kernel.org
+Subject: [PATCH v2] RDMA/siw: Fix handling of zero-sized Read and Receive
+ Queues.
+Date: Tue, 15 Dec 2020 21:19:18 +0100
+Message-Id: <20201215201918.4050-1-bmt@zurich.ibm.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-15_12:2020-12-15,
+ 2020-12-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ mlxlogscore=858 malwarescore=0 clxscore=1015 mlxscore=0 bulkscore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012150130
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201215_145606_040525_E4CA998B 
-X-CRM114-Status: GOOD (  29.56  )
+X-CRM114-CacheID: sfid-20201215_152236_845314_BC0BF260 
+X-CRM114-Status: GOOD (  30.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,199 +115,344 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-block@vger.kernel.org, minwoo.im.dev@gmail.com,
- kbusch@kernel.org,
- =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier.gonz@samsung.com>, hch@lst.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Bernard Metzler <bmt@zurich.ibm.com>, Yi Zhang <yi.zhang@redhat.com>,
+ Kamal Heib <kamalheib1@gmail.com>, linux-nvme@lists.infradead.org,
+ jgg@nvidia.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-RnJvbTogSmF2aWVyIEdvbnrDoWxleiA8amF2aWVyLmdvbnpAc2Ftc3VuZy5jb20+CgpDcmVhdGUg
-YSBjaGFyIGRldmljZSBwZXIgTlZNZSBuYW1lc3BhY2UuIFRoaXMgY2hhciBkZXZpY2UgaXMgYWx3
-YXlzCmluaXRpYWxpemVkLCBpbmRlcGVuZGVudGx5IG9mIHdoZXRoZXIgdGhlIGZlYXR1cmVzIGlt
-cGxlbWVudGVkIGJ5IHRoZQpkZXZpY2UgYXJlIHN1cHBvcnRlZCBieSB0aGUga2VybmVsLiBVc2Vy
-LXNwYWNlIGNhbiB0aGVyZWZvcmUgYWx3YXlzCmlzc3VlIElPQ1RMcyB0byB0aGUgTlZNZSBkcml2
-ZXIgdXNpbmcgdGhlIGNoYXIgZGV2aWNlLgoKVGhlIGNoYXIgZGV2aWNlIGlzIHByZXNlbnRlZCBh
-cyAvZGV2L2dlbmVyaWMtbnZtZVhjWW5aLiBUaGlzIG5hbWluZwpzY2hlbWUgZm9sbG93cyB0aGUg
-Y29udmVudGlvbiBvZiB0aGUgaGlkZGVuIGRldmljZSAobnZtZVhjWW5aKS4gU3VwcG9ydApmb3Ig
-bXVsdGlwYXRoIHdpbGwgZm9sbG93LgoKQ2hyaXN0b3BoLCBLZWl0aDogSXMgdGhpcyBnb2luZyBp
-biB0aGUgcmlnaHQgZGlyZWN0aW9uPwoKS2VpdGg6IFJlZ2FyZGluZyBudm1lLWNsaSBzdXBwb3J0
-LCB3aGF0IGRvIHlvdSB0aGluayBhYm91dCByZXBvcnRpbmcgdGhlCmNoYXIgZGV2aWNlIGFzIGV4
-aXN0aW5nIGJsb2NrIGRldmljZXM/IElmIHRoaXMgaXMgT0sgd2l0aCB5b3UsIEkgd2lsbApzdWJt
-aXQgcGF0Y2hlcyBmb3IgdGhlIGZpbHRlcnMuCgpDaGFuZ2VzIHNpbmNlIFYyOgogIC0gQXBwbHkg
-YSBudW1iZXIgb2YgbmFtaW5nIGFuZCBjb2RlIHN0cnVjdHVyZSBpbXByb3ZlbWVudHMgKGZyb20K
-ICAgIENocmlzdG9waCkKICAtIFVzZSBpX2NkZXYgdG8gcHVsbCBzdHJ1Y3QgbnZtZV9ucyBpbiB0
-aGUgaW9jdGwgcGF0aCBpbnN0ZWFkIG9mCiAgICBwb3B1bGF0aW5nIGZpbGUtPnByaXZhdGVfZGF0
-YSAoZnJvbSBDaHJpc3RvcGgpCiAgLSBDaGFuZ2UgY2hhciBkZXZpY2UgYW5kIHN5c2ZzIGVudHJp
-ZXMgdG8gL2Rldi9nZW5lcmljLW52bWVYY1luWiB0bwogICAgZm9sbG93IHRoZSBoaWRkZW4gZGV2
-aWNlIG5hbWluZyBzY2hlbWUgKGZyb20gQ2hyaXN0b3BoIGFuZCBLZWl0aCkKCkNoYW5nZXMgc2lu
-Y2UgVjE6CiAgLSBSZW1vdmUgcGF0Y2hlcyAxLTMgd2hpY2ggYXJlIGFscmVhZHkgcGlja2VkIHVw
-IGJ5IENocmlzdG9waAogIC0gQ2hhbmdlIHRoZSBjaGFyIGRldmljZSBhbmQgc3lzZnMgZW50cmll
-cyB0byBudm1lWG5ZYyAvIGMgc2lnbmFscwogICAgY2hhciBkZXZpY2UKICAtIEFkZHJlc3MgTWlu
-d29vJ3MgY29tbWVudHMgb24gaW5saW5lIGZ1bmN0aW9ucyBhbmQgc3R5bGUKClNpZ25lZC1vZmYt
-Ynk6IEphdmllciBHb256w6FsZXogPGphdmllci5nb256QHNhbXN1bmcuY29tPgotLS0KIGRyaXZl
-cnMvbnZtZS9ob3N0L2NvcmUuYyB8IDE0MiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrLS0tLS0KIGRyaXZlcnMvbnZtZS9ob3N0L252bWUuaCB8ICAgOCArKysKIDIgZmlsZXMgY2hh
-bmdlZCwgMTM0IGluc2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvbnZtZS9ob3N0L2NvcmUuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwppbmRleCA5
-OWY5MWVmZTM4MjQuLjAwNmFjOGVlOWM3YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3Qv
-Y29yZS5jCisrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwpAQCAtODYsNyArODYsOSBAQCBz
-dGF0aWMgREVGSU5FX01VVEVYKG52bWVfc3Vic3lzdGVtc19sb2NrKTsKIAogc3RhdGljIERFRklO
-RV9JREEobnZtZV9pbnN0YW5jZV9pZGEpOwogc3RhdGljIGRldl90IG52bWVfY3RybF9iYXNlX2No
-cl9kZXZ0Oworc3RhdGljIGRldl90IG52bWVfbnNfYmFzZV9jaHJfZGV2dDsKIHN0YXRpYyBzdHJ1
-Y3QgY2xhc3MgKm52bWVfY2xhc3M7CitzdGF0aWMgc3RydWN0IGNsYXNzICpudm1lX25zX2NsYXNz
-Owogc3RhdGljIHN0cnVjdCBjbGFzcyAqbnZtZV9zdWJzeXNfY2xhc3M7CiAKIHN0YXRpYyB2b2lk
-IG52bWVfcHV0X3N1YnN5c3RlbShzdHJ1Y3QgbnZtZV9zdWJzeXN0ZW0gKnN1YnN5cyk7CkBAIC01
-MzgsNiArNTQwLDcgQEAgc3RhdGljIHZvaWQgbnZtZV9mcmVlX25zKHN0cnVjdCBrcmVmICprcmVm
-KQogCWlmIChucy0+bmRldikKIAkJbnZtZV9udm1fdW5yZWdpc3Rlcihucyk7CiAKKwljZGV2X2Rl
-dmljZV9kZWwoJm5zLT5jZGV2LCAmbnMtPmNkZXZfZGV2aWNlKTsKIAlwdXRfZGlzayhucy0+ZGlz
-ayk7CiAJbnZtZV9wdXRfbnNfaGVhZChucy0+aGVhZCk7CiAJbnZtZV9wdXRfY3RybChucy0+Y3Ry
-bCk7CkBAIC0xNzM4LDE1ICsxNzQxLDE1IEBAIHN0YXRpYyBpbnQgbnZtZV9oYW5kbGVfY3RybF9p
-b2N0bChzdHJ1Y3QgbnZtZV9ucyAqbnMsIHVuc2lnbmVkIGludCBjbWQsCiAJcmV0dXJuIHJldDsK
-IH0KIAotc3RhdGljIGludCBudm1lX2lvY3RsKHN0cnVjdCBibG9ja19kZXZpY2UgKmJkZXYsIGZt
-b2RlX3QgbW9kZSwKLQkJdW5zaWduZWQgaW50IGNtZCwgdW5zaWduZWQgbG9uZyBhcmcpCitzdGF0
-aWMgaW50IG52bWVfZGlza19pb2N0bChzdHJ1Y3QgZ2VuZGlzayAqZGlzaywgdW5zaWduZWQgaW50
-IGNtZCwKKwkJCSAgIHVuc2lnbmVkIGxvbmcgYXJnKQogewogCXN0cnVjdCBudm1lX25zX2hlYWQg
-KmhlYWQgPSBOVUxMOwogCXZvaWQgX191c2VyICphcmdwID0gKHZvaWQgX191c2VyICopYXJnOwog
-CXN0cnVjdCBudm1lX25zICpuczsKIAlpbnQgc3JjdV9pZHgsIHJldDsKIAotCW5zID0gbnZtZV9n
-ZXRfbnNfZnJvbV9kaXNrKGJkZXYtPmJkX2Rpc2ssICZoZWFkLCAmc3JjdV9pZHgpOworCW5zID0g
-bnZtZV9nZXRfbnNfZnJvbV9kaXNrKGRpc2ssICZoZWFkLCAmc3JjdV9pZHgpOwogCWlmICh1bmxp
-a2VseSghbnMpKQogCQlyZXR1cm4gLUVXT1VMREJMT0NLOwogCkBAIC0xNzgzLDYgKzE3ODYsMTIg
-QEAgc3RhdGljIGludCBudm1lX2lvY3RsKHN0cnVjdCBibG9ja19kZXZpY2UgKmJkZXYsIGZtb2Rl
-X3QgbW9kZSwKIAlyZXR1cm4gcmV0OwogfQogCitzdGF0aWMgaW50IG52bWVfaW9jdGwoc3RydWN0
-IGJsb2NrX2RldmljZSAqYmRldiwgZm1vZGVfdCBtb2RlLAorCQkgICAgICB1bnNpZ25lZCBpbnQg
-Y21kLCB1bnNpZ25lZCBsb25nIGFyZykKK3sKKwlyZXR1cm4gbnZtZV9kaXNrX2lvY3RsKGJkZXYt
-PmJkX2Rpc2ssIGNtZCwgYXJnKTsKK30KKwogI2lmZGVmIENPTkZJR19DT01QQVQKIHN0cnVjdCBu
-dm1lX3VzZXJfaW8zMiB7CiAJX191OAlvcGNvZGU7CkBAIC0xODI0LDEwICsxODMzLDggQEAgc3Rh
-dGljIGludCBudm1lX2NvbXBhdF9pb2N0bChzdHJ1Y3QgYmxvY2tfZGV2aWNlICpiZGV2LCBmbW9k
-ZV90IG1vZGUsCiAjZGVmaW5lIG52bWVfY29tcGF0X2lvY3RsCU5VTEwKICNlbmRpZiAvKiBDT05G
-SUdfQ09NUEFUICovCiAKLXN0YXRpYyBpbnQgbnZtZV9vcGVuKHN0cnVjdCBibG9ja19kZXZpY2Ug
-KmJkZXYsIGZtb2RlX3QgbW9kZSkKK3N0YXRpYyBpbnQgbnZtZV9uc19vcGVuKHN0cnVjdCBudm1l
-X25zICpucykKIHsKLQlzdHJ1Y3QgbnZtZV9ucyAqbnMgPSBiZGV2LT5iZF9kaXNrLT5wcml2YXRl
-X2RhdGE7Ci0KICNpZmRlZiBDT05GSUdfTlZNRV9NVUxUSVBBVEgKIAkvKiBzaG91bGQgbmV2ZXIg
-YmUgY2FsbGVkIGR1ZSB0byBHRU5IRF9GTF9ISURERU4gKi8KIAlpZiAoV0FSTl9PTl9PTkNFKG5z
-LT5oZWFkLT5kaXNrKSkKQEAgLTE4NDYsMTQgKzE4NTMsMjIgQEAgc3RhdGljIGludCBudm1lX29w
-ZW4oc3RydWN0IGJsb2NrX2RldmljZSAqYmRldiwgZm1vZGVfdCBtb2RlKQogCXJldHVybiAtRU5Y
-SU87CiB9CiAKLXN0YXRpYyB2b2lkIG52bWVfcmVsZWFzZShzdHJ1Y3QgZ2VuZGlzayAqZGlzaywg
-Zm1vZGVfdCBtb2RlKQorc3RhdGljIHZvaWQgbnZtZV9uc19yZWxlYXNlKHN0cnVjdCBudm1lX25z
-ICpucykKIHsKLQlzdHJ1Y3QgbnZtZV9ucyAqbnMgPSBkaXNrLT5wcml2YXRlX2RhdGE7Ci0KIAlt
-b2R1bGVfcHV0KG5zLT5jdHJsLT5vcHMtPm1vZHVsZSk7CiAJbnZtZV9wdXRfbnMobnMpOwogfQog
-CitzdGF0aWMgaW50IG52bWVfb3BlbihzdHJ1Y3QgYmxvY2tfZGV2aWNlICpiZGV2LCBmbW9kZV90
-IG1vZGUpCit7CisJcmV0dXJuIG52bWVfbnNfb3BlbihiZGV2LT5iZF9kaXNrLT5wcml2YXRlX2Rh
-dGEpOworfQorCitzdGF0aWMgdm9pZCBudm1lX3JlbGVhc2Uoc3RydWN0IGdlbmRpc2sgKmRpc2ss
-IGZtb2RlX3QgbW9kZSkKK3sKKwludm1lX25zX3JlbGVhc2UoZGlzay0+cHJpdmF0ZV9kYXRhKTsK
-K30KKwogc3RhdGljIGludCBudm1lX2dldGdlbyhzdHJ1Y3QgYmxvY2tfZGV2aWNlICpiZGV2LCBz
-dHJ1Y3QgaGRfZ2VvbWV0cnkgKmdlbykKIHsKIAkvKiBzb21lIHN0YW5kYXJkIHZhbHVlcyAqLwpA
-QCAtMjIwOSw2ICsyMjI0LDEzIEBAIHN0YXRpYyBpbnQgbnZtZV91cGRhdGVfbnNfaW5mbyhzdHJ1
-Y3QgbnZtZV9ucyAqbnMsIHN0cnVjdCBudm1lX2lkX25zICppZCkKIAlyZXR1cm4gMDsKIAogb3V0
-X3VuZnJlZXplOgorCS8qCisJICogV2hlbiB0aGUgZGV2aWNlIGRvZXMgbm90IHN1cHBvcnQgYW55
-IG9mIHRoZSBmZWF0dXJlcyByZXF1aXJlZCBieSB0aGUKKwkgKiBrZXJuZWwgKG9yIHZpY2V2ZXJz
-YSksIGhpZGUgdGhlIGJsb2NrIGRldmljZS4gV2UgY2FuIHN0aWxsIHJlbHkgb24KKwkgKiB0aGUg
-bmFtZXNwYWNlIGNoYXIgZGV2aWNlIGZvciBzdWJtaXR0aW5nIElPQ1RMcworCSAqLworCW5zLT5k
-aXNrLT5mbGFncyB8PSBHRU5IRF9GTF9ISURERU47CisKIAlibGtfbXFfdW5mcmVlemVfcXVldWUo
-bnMtPmRpc2stPnF1ZXVlKTsKIAlyZXR1cm4gcmV0OwogfQpAQCAtMjM0Niw2ICsyMzY4LDM4IEBA
-IHN0YXRpYyBjb25zdCBzdHJ1Y3QgYmxvY2tfZGV2aWNlX29wZXJhdGlvbnMgbnZtZV9iZGV2X29w
-cyA9IHsKIAkucHJfb3BzCQk9ICZudm1lX3ByX29wcywKIH07CiAKK3N0YXRpYyBpbnQgbnZtZV9j
-ZGV2X29wZW4oc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZpbGUgKmZpbGUpCit7CisJc3Ry
-dWN0IG52bWVfbnMgKm5zID0gY29udGFpbmVyX29mKGlub2RlLT5pX2NkZXYsIHN0cnVjdCBudm1l
-X25zLCBjZGV2KTsKKworCXJldHVybiBudm1lX25zX29wZW4obnMpOworfQorCitzdGF0aWMgaW50
-IG52bWVfY2Rldl9yZWxlYXNlKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBmaWxlICpmaWxl
-KQoreworCXN0cnVjdCBudm1lX25zICpucyA9IGNvbnRhaW5lcl9vZihpbm9kZS0+aV9jZGV2LCBz
-dHJ1Y3QgbnZtZV9ucywgY2Rldik7CisKKwludm1lX25zX3JlbGVhc2UobnMpOworCXJldHVybiAw
-OworfQorCitzdGF0aWMgbG9uZyBudm1lX2NkZXZfaW9jdGwoc3RydWN0IGZpbGUgKmZpbGUsIHVu
-c2lnbmVkIGludCBjbWQsCisJCQkgICAgdW5zaWduZWQgbG9uZyBhcmcpCit7CisJc3RydWN0IG52
-bWVfbnMgKm5zID0gY29udGFpbmVyX29mKGZpbGUtPmZfaW5vZGUtPmlfY2RldiwKKwkJCQlzdHJ1
-Y3QgbnZtZV9ucywgY2Rldik7CisKKwlyZXR1cm4gbnZtZV9kaXNrX2lvY3RsKG5zLT5kaXNrLCBj
-bWQsIGFyZyk7Cit9CisKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIG52bWVf
-Y2Rldl9mb3BzID0geworCS5vd25lcgkJPSBUSElTX01PRFVMRSwKKwkub3BlbgkJPSBudm1lX2Nk
-ZXZfb3BlbiwKKwkucmVsZWFzZQk9IG52bWVfY2Rldl9yZWxlYXNlLAorCS51bmxvY2tlZF9pb2N0
-bAk9IG52bWVfY2Rldl9pb2N0bCwKKwkuY29tcGF0X2lvY3RsCT0gY29tcGF0X3B0cl9pb2N0bCwK
-K307CisKICNpZmRlZiBDT05GSUdfTlZNRV9NVUxUSVBBVEgKIHN0YXRpYyBpbnQgbnZtZV9uc19o
-ZWFkX29wZW4oc3RydWN0IGJsb2NrX2RldmljZSAqYmRldiwgZm1vZGVfdCBtb2RlKQogewpAQCAt
-MzM0Myw2ICszMzk3LDkgQEAgc3RhdGljIGlubGluZSBzdHJ1Y3QgbnZtZV9uc19oZWFkICpkZXZf
-dG9fbnNfaGVhZChzdHJ1Y3QgZGV2aWNlICpkZXYpCiB7CiAJc3RydWN0IGdlbmRpc2sgKmRpc2sg
-PSBkZXZfdG9fZGlzayhkZXYpOwogCisJaWYgKGRldi0+Y2xhc3MgPT0gbnZtZV9uc19jbGFzcykK
-KwkJcmV0dXJuIG52bWVfZ2V0X25zX2Zyb21fY2RldihkZXYpLT5oZWFkOworCiAJaWYgKGRpc2st
-PmZvcHMgPT0gJm52bWVfYmRldl9vcHMpCiAJCXJldHVybiBudm1lX2dldF9uc19mcm9tX2Rldihk
-ZXYpLT5oZWFkOwogCWVsc2UKQEAgLTM0NzQsNiArMzUzMSwxMSBAQCBjb25zdCBzdHJ1Y3QgYXR0
-cmlidXRlX2dyb3VwICpudm1lX25zX2lkX2F0dHJfZ3JvdXBzW10gPSB7CiAJTlVMTCwKIH07CiAK
-K2NvbnN0IHN0cnVjdCBhdHRyaWJ1dGVfZ3JvdXAgKm52bWVfbnNfY2hhcl9pZF9hdHRyX2dyb3Vw
-c1tdID0geworCSZudm1lX25zX2lkX2F0dHJfZ3JvdXAsCisJTlVMTCwKK307CisKICNkZWZpbmUg
-bnZtZV9zaG93X3N0cl9mdW5jdGlvbihmaWVsZCkJCQkJCQlcCiBzdGF0aWMgc3NpemVfdCAgZmll
-bGQjI19zaG93KHN0cnVjdCBkZXZpY2UgKmRldiwJCQkJXAogCQkJICAgIHN0cnVjdCBkZXZpY2Vf
-YXR0cmlidXRlICphdHRyLCBjaGFyICpidWYpCQlcCkBAIC0zODY2LDYgKzM5MjgsMzYgQEAgc3Ry
-dWN0IG52bWVfbnMgKm52bWVfZmluZF9nZXRfbnMoc3RydWN0IG52bWVfY3RybCAqY3RybCwgdW5z
-aWduZWQgbnNpZCkKIH0KIEVYUE9SVF9TWU1CT0xfTlNfR1BMKG52bWVfZmluZF9nZXRfbnMsIE5W
-TUVfVEFSR0VUX1BBU1NUSFJVKTsKIAorc3RhdGljIGludCBudm1lX2FsbG9jX2NoYXJkZXZfbnMo
-c3RydWN0IG52bWVfY3RybCAqY3RybCwgc3RydWN0IG52bWVfbnMgKm5zKQoreworCWNoYXIgY2Rp
-c2tfbmFtZVtESVNLX05BTUVfTEVOXTsKKwlpbnQgcmV0OworCisJZGV2aWNlX2luaXRpYWxpemUo
-Jm5zLT5jZGV2X2RldmljZSk7CisJbnMtPmNkZXZfZGV2aWNlLmRldnQgPSBNS0RFVihNQUpPUihu
-dm1lX25zX2Jhc2VfY2hyX2RldnQpLAorCQkJCSAgICAgbnMtPmhlYWQtPmluc3RhbmNlKTsKKwlu
-cy0+Y2Rldl9kZXZpY2UuY2xhc3MgPSBudm1lX25zX2NsYXNzOworCW5zLT5jZGV2X2RldmljZS5w
-YXJlbnQgPSBjdHJsLT5kZXZpY2U7CisJbnMtPmNkZXZfZGV2aWNlLmdyb3VwcyA9IG52bWVfbnNf
-Y2hhcl9pZF9hdHRyX2dyb3VwczsKKwlkZXZfc2V0X2RydmRhdGEoJm5zLT5jZGV2X2RldmljZSwg
-bnMpOworCisJc3ByaW50ZihjZGlza19uYW1lLCAibnZtZS1nZW5lcmljLSVkYyVkbiVkIiwgY3Ry
-bC0+c3Vic3lzLT5pbnN0YW5jZSwKKwkJY3RybC0+aW5zdGFuY2UsIG5zLT5oZWFkLT5pbnN0YW5j
-ZSk7CisKKwlyZXQgPSBkZXZfc2V0X25hbWUoJm5zLT5jZGV2X2RldmljZSwgIiVzIiwgY2Rpc2tf
-bmFtZSk7CisJaWYgKHJldCkKKwkJcmV0dXJuIHJldDsKKworCWNkZXZfaW5pdCgmbnMtPmNkZXYs
-ICZudm1lX2NkZXZfZm9wcyk7CisJbnMtPmNkZXYub3duZXIgPSBjdHJsLT5vcHMtPm1vZHVsZTsK
-KworCXJldCA9IGNkZXZfZGV2aWNlX2FkZCgmbnMtPmNkZXYsICZucy0+Y2Rldl9kZXZpY2UpOwor
-CWlmIChyZXQpCisJCWtmcmVlX2NvbnN0KG5zLT5jZGV2X2RldmljZS5rb2JqLm5hbWUpOworCisJ
-cmV0dXJuIHJldDsKK30KKwogc3RhdGljIHZvaWQgbnZtZV9hbGxvY19ucyhzdHJ1Y3QgbnZtZV9j
-dHJsICpjdHJsLCB1bnNpZ25lZCBuc2lkLAogCQlzdHJ1Y3QgbnZtZV9uc19pZHMgKmlkcykKIHsK
-QEAgLTM5MTIsOCArNDAwNCw3IEBAIHN0YXRpYyB2b2lkIG52bWVfYWxsb2NfbnMoc3RydWN0IG52
-bWVfY3RybCAqY3RybCwgdW5zaWduZWQgbnNpZCwKIAltZW1jcHkoZGlzay0+ZGlza19uYW1lLCBk
-aXNrX25hbWUsIERJU0tfTkFNRV9MRU4pOwogCW5zLT5kaXNrID0gZGlzazsKIAotCWlmIChudm1l
-X3VwZGF0ZV9uc19pbmZvKG5zLCBpZCkpCi0JCWdvdG8gb3V0X3B1dF9kaXNrOworCW52bWVfdXBk
-YXRlX25zX2luZm8obnMsIGlkKTsKIAogCWlmICgoY3RybC0+cXVpcmtzICYgTlZNRV9RVUlSS19M
-SUdIVE5WTSkgJiYgaWQtPnZzWzBdID09IDB4MSkgewogCQlpZiAobnZtZV9udm1fcmVnaXN0ZXIo
-bnMsIGRpc2tfbmFtZSwgbm9kZSkpIHsKQEAgLTM5MjksOSArNDAyMCwxMiBAQCBzdGF0aWMgdm9p
-ZCBudm1lX2FsbG9jX25zKHN0cnVjdCBudm1lX2N0cmwgKmN0cmwsIHVuc2lnbmVkIG5zaWQsCiAJ
-bnZtZV9nZXRfY3RybChjdHJsKTsKIAogCWRldmljZV9hZGRfZGlzayhjdHJsLT5kZXZpY2UsIG5z
-LT5kaXNrLCBudm1lX25zX2lkX2F0dHJfZ3JvdXBzKTsKLQogCW52bWVfbXBhdGhfYWRkX2Rpc2so
-bnMsIGlkKTsKIAludm1lX2ZhdWx0X2luamVjdF9pbml0KCZucy0+ZmF1bHRfaW5qZWN0LCBucy0+
-ZGlzay0+ZGlza19uYW1lKTsKKworCWlmIChudm1lX2FsbG9jX2NoYXJkZXZfbnMoY3RybCwgbnMp
-KQorCQlnb3RvIG91dF9wdXRfZGlzazsKKwogCWtmcmVlKGlkKTsKIAogCXJldHVybjsKQEAgLTQ3
-MzMsMjMgKzQ4MjcsMzggQEAgc3RhdGljIGludCBfX2luaXQgbnZtZV9jb3JlX2luaXQodm9pZCkK
-IAlpZiAocmVzdWx0IDwgMCkKIAkJZ290byBkZXN0cm95X2RlbGV0ZV93cTsKIAorCXJlc3VsdCA9
-IGFsbG9jX2NocmRldl9yZWdpb24oJm52bWVfbnNfYmFzZV9jaHJfZGV2dCwgMCwKKwkJCU5WTUVf
-TUlOT1JTLCAibnZtZWMiKTsKKwlpZiAocmVzdWx0IDwgMCkKKwkJZ290byB1bnJlZ2lzdGVyX2Rl
-dl9jaHJkZXY7CisKIAludm1lX2NsYXNzID0gY2xhc3NfY3JlYXRlKFRISVNfTU9EVUxFLCAibnZt
-ZSIpOwogCWlmIChJU19FUlIobnZtZV9jbGFzcykpIHsKIAkJcmVzdWx0ID0gUFRSX0VSUihudm1l
-X2NsYXNzKTsKLQkJZ290byB1bnJlZ2lzdGVyX2NocmRldjsKKwkJZ290byB1bnJlZ2lzdGVyX25z
-X2NocmRldjsKIAl9CiAJbnZtZV9jbGFzcy0+ZGV2X3VldmVudCA9IG52bWVfY2xhc3NfdWV2ZW50
-OwogCisJbnZtZV9uc19jbGFzcyA9IGNsYXNzX2NyZWF0ZShUSElTX01PRFVMRSwgIm52bWUtbnMi
-KTsKKwlpZiAoSVNfRVJSKG52bWVfbnNfY2xhc3MpKSB7CisJCXJlc3VsdCA9IFBUUl9FUlIobnZt
-ZV9uc19jbGFzcyk7CisJCWdvdG8gZGVzdHJveV9kZXZfY2xhc3M7CisJfQorCiAJbnZtZV9zdWJz
-eXNfY2xhc3MgPSBjbGFzc19jcmVhdGUoVEhJU19NT0RVTEUsICJudm1lLXN1YnN5c3RlbSIpOwog
-CWlmIChJU19FUlIobnZtZV9zdWJzeXNfY2xhc3MpKSB7CiAJCXJlc3VsdCA9IFBUUl9FUlIobnZt
-ZV9zdWJzeXNfY2xhc3MpOwotCQlnb3RvIGRlc3Ryb3lfY2xhc3M7CisJCWdvdG8gZGVzdHJveV9u
-c19jbGFzczsKIAl9CiAJcmV0dXJuIDA7CiAKLWRlc3Ryb3lfY2xhc3M6CitkZXN0cm95X25zX2Ns
-YXNzOgorCWNsYXNzX2Rlc3Ryb3kobnZtZV9uc19jbGFzcyk7CitkZXN0cm95X2Rldl9jbGFzczoK
-IAljbGFzc19kZXN0cm95KG52bWVfY2xhc3MpOwotdW5yZWdpc3Rlcl9jaHJkZXY6Cit1bnJlZ2lz
-dGVyX25zX2NocmRldjoKKwl1bnJlZ2lzdGVyX2NocmRldl9yZWdpb24obnZtZV9uc19iYXNlX2No
-cl9kZXZ0LCBOVk1FX01JTk9SUyk7Cit1bnJlZ2lzdGVyX2Rldl9jaHJkZXY6CiAJdW5yZWdpc3Rl
-cl9jaHJkZXZfcmVnaW9uKG52bWVfY3RybF9iYXNlX2Nocl9kZXZ0LCBOVk1FX01JTk9SUyk7CiBk
-ZXN0cm95X2RlbGV0ZV93cToKIAlkZXN0cm95X3dvcmtxdWV1ZShudm1lX2RlbGV0ZV93cSk7CkBA
-IC00NzY1LDYgKzQ4NzQsNyBAQCBzdGF0aWMgdm9pZCBfX2V4aXQgbnZtZV9jb3JlX2V4aXQodm9p
-ZCkKIHsKIAljbGFzc19kZXN0cm95KG52bWVfc3Vic3lzX2NsYXNzKTsKIAljbGFzc19kZXN0cm95
-KG52bWVfY2xhc3MpOworCXVucmVnaXN0ZXJfY2hyZGV2X3JlZ2lvbihudm1lX25zX2Jhc2VfY2hy
-X2RldnQsIE5WTUVfTUlOT1JTKTsKIAl1bnJlZ2lzdGVyX2NocmRldl9yZWdpb24obnZtZV9jdHJs
-X2Jhc2VfY2hyX2RldnQsIE5WTUVfTUlOT1JTKTsKIAlkZXN0cm95X3dvcmtxdWV1ZShudm1lX2Rl
-bGV0ZV93cSk7CiAJZGVzdHJveV93b3JrcXVldWUobnZtZV9yZXNldF93cSk7CmRpZmYgLS1naXQg
-YS9kcml2ZXJzL252bWUvaG9zdC9udm1lLmggYi9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgKaW5k
-ZXggYmZjZWRmYTRiMDU3Li4xZGQ5OWYyMDdhZWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9o
-b3N0L252bWUuaAorKysgYi9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgKQEAgLTQzOSw2ICs0Mzks
-OSBAQCBzdHJ1Y3QgbnZtZV9ucyB7CiAJc3RydWN0IGtyZWYga3JlZjsKIAlzdHJ1Y3QgbnZtZV9u
-c19oZWFkICpoZWFkOwogCisJc3RydWN0IGRldmljZSBjZGV2X2RldmljZTsJLyogY2hhciBkZXZp
-Y2UgKi8KKwlzdHJ1Y3QgY2RldiBjZGV2OworCiAJaW50IGxiYV9zaGlmdDsKIAl1MTYgbXM7CiAJ
-dTE2IHNnczsKQEAgLTgxOCw2ICs4MjEsMTEgQEAgc3RhdGljIGlubGluZSBzdHJ1Y3QgbnZtZV9u
-cyAqbnZtZV9nZXRfbnNfZnJvbV9kZXYoc3RydWN0IGRldmljZSAqZGV2KQogCXJldHVybiBkZXZf
-dG9fZGlzayhkZXYpLT5wcml2YXRlX2RhdGE7CiB9CiAKK3N0YXRpYyBpbmxpbmUgc3RydWN0IG52
-bWVfbnMgKm52bWVfZ2V0X25zX2Zyb21fY2RldihzdHJ1Y3QgZGV2aWNlICpkZXYpCit7CisJcmV0
-dXJuIGRldl9nZXRfZHJ2ZGF0YShkZXYpOworfQorCiAjaWZkZWYgQ09ORklHX05WTUVfSFdNT04K
-IGludCBudm1lX2h3bW9uX2luaXQoc3RydWN0IG52bWVfY3RybCAqY3RybCk7CiAjZWxzZQotLSAK
-Mi4xNy4xCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-TGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0
-dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+During connection setup, the application may choose to zero-size
+inbound and outbound READ queues, as well as the Receive queue.
+This patch fixes handling of zero-sized queues, but not prevents
+it.
+
+v2 changes:
+- Fix uninitialized variable introduced in siw_qp_rx.c, as
+  Reported-by: kernel test robot <lkp@intel.com>
+- Add initial error report as
+  Reported-by: Kamal Heib <kamalheib1@gmail.com>
+
+Kamal Heib says in an initial error report:
+When running the blktests over siw the following shift-out-of-bounds is
+reported, this is happening because the passed IRD or ORD from the ulp
+could be zero which will lead to unexpected behavior when calling
+roundup_pow_of_two(), fix that by blocking zero values of ORD or IRD.
+
+UBSAN: shift-out-of-bounds in ./include/linux/log2.h:57:13
+shift exponent 64 is too large for 64-bit type 'long unsigned int'
+CPU: 20 PID: 3957 Comm: kworker/u64:13 Tainted: G S     5.10.0-rc6 #2
+Hardware name: Dell Inc. PowerEdge R630/02C2CP, BIOS 2.1.5 04/11/2016
+Workqueue: iw_cm_wq cm_work_handler [iw_cm]
+Call Trace:
+ dump_stack+0x99/0xcb
+ ubsan_epilogue+0x5/0x40
+ __ubsan_handle_shift_out_of_bounds.cold.11+0xb4/0xf3
+ ? down_write+0x183/0x3d0
+ siw_qp_modify.cold.8+0x2d/0x32 [siw]
+ ? __local_bh_enable_ip+0xa5/0xf0
+ siw_accept+0x906/0x1b60 [siw]
+ ? xa_load+0x147/0x1f0
+ ? siw_connect+0x17a0/0x17a0 [siw]
+ ? lock_downgrade+0x700/0x700
+ ? siw_get_base_qp+0x1c2/0x340 [siw]
+ ? _raw_spin_unlock_irqrestore+0x39/0x40
+ iw_cm_accept+0x1f4/0x430 [iw_cm]
+ rdma_accept+0x3fa/0xb10 [rdma_cm]
+ ? check_flush_dependency+0x410/0x410
+ ? cma_rep_recv+0x570/0x570 [rdma_cm]
+ nvmet_rdma_queue_connect+0x1a62/0x2680 [nvmet_rdma]
+ ? nvmet_rdma_alloc_cmds+0xce0/0xce0 [nvmet_rdma]
+ ? lock_release+0x56e/0xcc0
+ ? lock_downgrade+0x700/0x700
+ ? lock_downgrade+0x700/0x700
+ ? __xa_alloc_cyclic+0xef/0x350
+ ? __xa_alloc+0x2d0/0x2d0
+ ? rdma_restrack_add+0xbe/0x2c0 [ib_core]
+ ? __ww_mutex_die+0x190/0x190
+ cma_cm_event_handler+0xf2/0x500 [rdma_cm]
+ iw_conn_req_handler+0x910/0xcb0 [rdma_cm]
+ ? _raw_spin_unlock_irqrestore+0x39/0x40
+ ? trace_hardirqs_on+0x1c/0x150
+ ? cma_ib_handler+0x8a0/0x8a0 [rdma_cm]
+ ? __kasan_kmalloc.constprop.7+0xc1/0xd0
+ cm_work_handler+0x121c/0x17a0 [iw_cm]
+ ? iw_cm_reject+0x190/0x190 [iw_cm]
+ ? trace_hardirqs_on+0x1c/0x150
+ process_one_work+0x8fb/0x16c0
+ ? pwq_dec_nr_in_flight+0x320/0x320
+ worker_thread+0x87/0xb40
+ ? __kthread_parkme+0xd1/0x1a0
+ ? process_one_work+0x16c0/0x16c0
+ kthread+0x35f/0x430
+ ? kthread_mod_delayed_work+0x180/0x180
+ ret_from_fork+0x22/0x30
+
+Fixes: a531975279f3 ("rdma/siw: main include file")
+Fixes: f29dd55b0236 ("rdma/siw: queue pair methods")
+Fixes: 8b6a361b8c48 ("rdma/siw: receive path")
+Fixes: b9be6f18cf9e ("rdma/siw: transmit path")
+Fixes: 303ae1cdfdf7 ("rdma/siw: application interface")
+Reported-by: Kamal Heib <kamalheib1@gmail.com>
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Signed-off-by: Bernard Metzler <bmt@zurich.ibm.com>
+---
+ drivers/infiniband/sw/siw/siw.h       |  2 +-
+ drivers/infiniband/sw/siw/siw_qp.c    | 54 ++++++++++++++++-----------
+ drivers/infiniband/sw/siw/siw_qp_rx.c | 26 +++++++++----
+ drivers/infiniband/sw/siw/siw_qp_tx.c |  4 +-
+ drivers/infiniband/sw/siw/siw_verbs.c | 18 +++++++--
+ 5 files changed, 68 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/infiniband/sw/siw/siw.h b/drivers/infiniband/sw/siw/siw.h
+index e9753831ac3f..6f17392f975a 100644
+--- a/drivers/infiniband/sw/siw/siw.h
++++ b/drivers/infiniband/sw/siw/siw.h
+@@ -654,7 +654,7 @@ static inline struct siw_sqe *orq_get_free(struct siw_qp *qp)
+ {
+ 	struct siw_sqe *orq_e = orq_get_tail(qp);
+ 
+-	if (orq_e && READ_ONCE(orq_e->flags) == 0)
++	if (READ_ONCE(orq_e->flags) == 0)
+ 		return orq_e;
+ 
+ 	return NULL;
+diff --git a/drivers/infiniband/sw/siw/siw_qp.c b/drivers/infiniband/sw/siw/siw_qp.c
+index 875d36d4b1c6..b686a09a75ae 100644
+--- a/drivers/infiniband/sw/siw/siw_qp.c
++++ b/drivers/infiniband/sw/siw/siw_qp.c
+@@ -199,26 +199,28 @@ void siw_qp_llp_write_space(struct sock *sk)
+ 
+ static int siw_qp_readq_init(struct siw_qp *qp, int irq_size, int orq_size)
+ {
+-	irq_size = roundup_pow_of_two(irq_size);
+-	orq_size = roundup_pow_of_two(orq_size);
+-
+-	qp->attrs.irq_size = irq_size;
+-	qp->attrs.orq_size = orq_size;
+-
+-	qp->irq = vzalloc(irq_size * sizeof(struct siw_sqe));
+-	if (!qp->irq) {
+-		siw_dbg_qp(qp, "irq malloc for %d failed\n", irq_size);
+-		qp->attrs.irq_size = 0;
+-		return -ENOMEM;
++	if (irq_size) {
++		irq_size = roundup_pow_of_two(irq_size);
++		qp->irq = vzalloc(irq_size * sizeof(struct siw_sqe));
++		if (!qp->irq) {
++			siw_dbg_qp(qp, "irq malloc for %d failed\n", irq_size);
++			qp->attrs.irq_size = 0;
++			return -ENOMEM;
++		}
+ 	}
+-	qp->orq = vzalloc(orq_size * sizeof(struct siw_sqe));
+-	if (!qp->orq) {
+-		siw_dbg_qp(qp, "orq malloc for %d failed\n", orq_size);
+-		qp->attrs.orq_size = 0;
+-		qp->attrs.irq_size = 0;
+-		vfree(qp->irq);
+-		return -ENOMEM;
++	if (orq_size) {
++		orq_size = roundup_pow_of_two(orq_size);
++		qp->orq = vzalloc(orq_size * sizeof(struct siw_sqe));
++		if (!qp->orq) {
++			siw_dbg_qp(qp, "orq malloc for %d failed\n", orq_size);
++			qp->attrs.orq_size = 0;
++			qp->attrs.irq_size = 0;
++			vfree(qp->irq);
++			return -ENOMEM;
++		}
+ 	}
++	qp->attrs.irq_size = irq_size;
++	qp->attrs.orq_size = orq_size;
+ 	siw_dbg_qp(qp, "ORD %d, IRD %d\n", orq_size, irq_size);
+ 	return 0;
+ }
+@@ -288,13 +290,14 @@ int siw_qp_mpa_rts(struct siw_qp *qp, enum mpa_v2_ctrl ctrl)
+ 	if (ctrl & MPA_V2_RDMA_WRITE_RTR)
+ 		wqe->sqe.opcode = SIW_OP_WRITE;
+ 	else if (ctrl & MPA_V2_RDMA_READ_RTR) {
+-		struct siw_sqe *rreq;
++		struct siw_sqe *rreq = NULL;
+ 
+ 		wqe->sqe.opcode = SIW_OP_READ;
+ 
+ 		spin_lock(&qp->orq_lock);
+ 
+-		rreq = orq_get_free(qp);
++		if (qp->attrs.orq_size)
++			rreq = orq_get_free(qp);
+ 		if (rreq) {
+ 			siw_read_to_orq(rreq, &wqe->sqe);
+ 			qp->orq_put++;
+@@ -889,6 +892,9 @@ int siw_activate_tx(struct siw_qp *qp)
+ 	struct siw_wqe *wqe = tx_wqe(qp);
+ 	int rv = 1;
+ 
++	if (!qp->attrs.irq_size)
++		goto no_irq;
++
+ 	irqe = &qp->irq[qp->irq_get % qp->attrs.irq_size];
+ 
+ 	if (irqe->flags & SIW_WQE_VALID) {
+@@ -933,6 +939,7 @@ int siw_activate_tx(struct siw_qp *qp)
+ 
+ 		goto out;
+ 	}
++no_irq:
+ 	sqe = sq_get_next(qp);
+ 	if (sqe) {
+ skip_irq:
+@@ -971,7 +978,7 @@ int siw_activate_tx(struct siw_qp *qp)
+ 			}
+ 			spin_lock(&qp->orq_lock);
+ 
+-			if (!siw_orq_empty(qp)) {
++			if (qp->attrs.orq_size && !siw_orq_empty(qp)) {
+ 				qp->tx_ctx.orq_fence = 1;
+ 				rv = 0;
+ 			}
+@@ -981,6 +988,11 @@ int siw_activate_tx(struct siw_qp *qp)
+ 			   wqe->sqe.opcode == SIW_OP_READ_LOCAL_INV) {
+ 			struct siw_sqe *rreq;
+ 
++			if (unlikely(!qp->attrs.orq_size)) {
++				/* We negotiated not to send READ req's */
++				rv = -EINVAL;
++				goto out;
++			}
+ 			wqe->sqe.num_sge = 1;
+ 
+ 			spin_lock(&qp->orq_lock);
+diff --git a/drivers/infiniband/sw/siw/siw_qp_rx.c b/drivers/infiniband/sw/siw/siw_qp_rx.c
+index 4bd1f1f84057..981e11f31b2d 100644
+--- a/drivers/infiniband/sw/siw/siw_qp_rx.c
++++ b/drivers/infiniband/sw/siw/siw_qp_rx.c
+@@ -678,6 +678,10 @@ static int siw_init_rresp(struct siw_qp *qp, struct siw_rx_stream *srx)
+ 				   DDP_ECODE_UT_INVALID_MSN_RANGE, 0);
+ 		return -EPROTO;
+ 	}
++	if (unlikely(!qp->attrs.irq_size)) {
++		run_sq = 0;
++		goto error_irq;
++	}
+ 	spin_lock_irqsave(&qp->sq_lock, flags);
+ 
+ 	if (tx_work->wr_status == SIW_WR_IDLE) {
+@@ -712,8 +716,9 @@ static int siw_init_rresp(struct siw_qp *qp, struct siw_rx_stream *srx)
+ 		/* RRESP now valid as current TX wqe or placed into IRQ */
+ 		smp_store_mb(resp->flags, SIW_WQE_VALID);
+ 	} else {
+-		pr_warn("siw: [QP %u]: irq %d exceeded %d\n", qp_id(qp),
+-			qp->irq_put % qp->attrs.irq_size, qp->attrs.irq_size);
++error_irq:
++		pr_warn("siw: [QP %u]: IRQ exceeded or null, size %d\n",
++			qp_id(qp), qp->attrs.irq_size);
+ 
+ 		siw_init_terminate(qp, TERM_ERROR_LAYER_RDMAP,
+ 				   RDMAP_ETYPE_REMOTE_OPERATION,
+@@ -740,6 +745,9 @@ static int siw_orqe_start_rx(struct siw_qp *qp)
+ 	struct siw_sqe *orqe;
+ 	struct siw_wqe *wqe = NULL;
+ 
++	if (unlikely(!qp->attrs.orq_size))
++		return -EPROTO;
++
+ 	/* make sure ORQ indices are current */
+ 	smp_mb();
+ 
+@@ -796,8 +804,8 @@ int siw_proc_rresp(struct siw_qp *qp)
+ 		 */
+ 		rv = siw_orqe_start_rx(qp);
+ 		if (rv) {
+-			pr_warn("siw: [QP %u]: ORQ empty at idx %d\n",
+-				qp_id(qp), qp->orq_get % qp->attrs.orq_size);
++			pr_warn("siw: [QP %u]: ORQ empty, size %d\n",
++				qp_id(qp), qp->attrs.orq_size);
+ 			goto error_term;
+ 		}
+ 		rv = siw_rresp_check_ntoh(srx, frx);
+@@ -1290,11 +1298,13 @@ static int siw_rdmap_complete(struct siw_qp *qp, int error)
+ 					      wc_status);
+ 		siw_wqe_put_mem(wqe, SIW_OP_READ);
+ 
+-		if (!error)
++		if (!error) {
+ 			rv = siw_check_tx_fence(qp);
+-		else
+-			/* Disable current ORQ eleement */
+-			WRITE_ONCE(orq_get_current(qp)->flags, 0);
++		} else {
++			/* Disable current ORQ element */
++			if (qp->attrs.orq_size)
++				WRITE_ONCE(orq_get_current(qp)->flags, 0);
++		}
+ 		break;
+ 
+ 	case RDMAP_RDMA_READ_REQ:
+diff --git a/drivers/infiniband/sw/siw/siw_qp_tx.c b/drivers/infiniband/sw/siw/siw_qp_tx.c
+index d19d8325588b..7989c4043db4 100644
+--- a/drivers/infiniband/sw/siw/siw_qp_tx.c
++++ b/drivers/infiniband/sw/siw/siw_qp_tx.c
+@@ -1107,8 +1107,8 @@ int siw_qp_sq_process(struct siw_qp *qp)
+ 		/*
+ 		 * RREQ may have already been completed by inbound RRESP!
+ 		 */
+-		if (tx_type == SIW_OP_READ ||
+-		    tx_type == SIW_OP_READ_LOCAL_INV) {
++		if ((tx_type == SIW_OP_READ ||
++		     tx_type == SIW_OP_READ_LOCAL_INV) && qp->attrs.orq_size) {
+ 			/* Cleanup pending entry in ORQ */
+ 			qp->orq_put--;
+ 			qp->orq[qp->orq_put % qp->attrs.orq_size].flags = 0;
+diff --git a/drivers/infiniband/sw/siw/siw_verbs.c b/drivers/infiniband/sw/siw/siw_verbs.c
+index 7cf3242ffb41..95003678cf3f 100644
+--- a/drivers/infiniband/sw/siw/siw_verbs.c
++++ b/drivers/infiniband/sw/siw/siw_verbs.c
+@@ -362,13 +362,23 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
+ 	if (rv)
+ 		goto err_out;
+ 
++	num_sqe = attrs->cap.max_send_wr;
++	num_rqe = attrs->cap.max_recv_wr;
++
+ 	/* All queue indices are derived from modulo operations
+ 	 * on a free running 'get' (consumer) and 'put' (producer)
+ 	 * unsigned counter. Having queue sizes at power of two
+ 	 * avoids handling counter wrap around.
+ 	 */
+-	num_sqe = roundup_pow_of_two(attrs->cap.max_send_wr);
+-	num_rqe = roundup_pow_of_two(attrs->cap.max_recv_wr);
++	if (num_sqe)
++		num_sqe = roundup_pow_of_two(num_sqe);
++	else {
++		/* Zero sized SQ is not supported */
++		rv = -EINVAL;
++		goto err_out;
++	}
++	if (num_rqe)
++		num_rqe = roundup_pow_of_two(num_rqe);
+ 
+ 	if (udata)
+ 		qp->sendq = vmalloc_user(num_sqe * sizeof(struct siw_sqe));
+@@ -960,9 +970,9 @@ int siw_post_receive(struct ib_qp *base_qp, const struct ib_recv_wr *wr,
+ 	unsigned long flags;
+ 	int rv = 0;
+ 
+-	if (qp->srq) {
++	if (qp->srq || qp->attrs.rq_size == 0) {
+ 		*bad_wr = wr;
+-		return -EOPNOTSUPP; /* what else from errno.h? */
++		return -EINVAL;
+ 	}
+ 	if (!rdma_is_kernel_res(&qp->base_qp.res)) {
+ 		siw_dbg_qp(qp, "no kernel post_recv for user mapped rq\n");
+-- 
+2.17.2
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
