@@ -2,107 +2,88 @@ Return-Path: <SRS0=/AMA=FT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47BDBC4361B
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 12:23:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC3DC4361B
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 13:34:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AE285224BE
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 12:23:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE285224BE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=zurich.ibm.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8564C22482
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 13:34:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8564C22482
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=l9wGraURJUC15z9UrRRABYT83hC0nUxVXUt8rlHXAjg=; b=W9WHwLSP6GzZr3VrwOU5EskamL
-	ogLsL4njmqJb7NExROVgxVtUuQIn5pZpGbNtwMQABG8jqLlSyoqdgRS9quVAybhIWcmmsJ1+6zqs8
-	IcUARRNGgdi9VUMd5CUf17iRQRlH7MyKKZrPJK24lNaPzeVg7p1aK5bn5qKs6T/5Y8ZFI5fpi2UO3
-	u2+BckKfSBjRwK6bO1USwmUcodqKle/xCvdUus8/rHouxCqi61kTXNy3iZ1Yid0eR879xCYWuKtMH
-	c6UTuLgHB3jesLujV0VcOS83pSNUQNq9uqJQQZaEV1N35oHomeKsxCWHOXQfxChMTZc8vvwVkqmdi
-	lEJBla8g==;
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=SMWuszBn4Lf0FE8FZADg/0Ijec5JXOJagxXb5y70mvk=; b=BFdMaT3i22s5JIOj5sOJwGnqw
+	CL85lwPpHw2Q1/oK6o0JICR9ecDxpccmpofI/BNRJwYneZL4jtPgir92qqgv1YnLW2ZFv+iD4EH03
+	hhHTSOhssjRmoo4fbgNPN8f4U+mU0fm+Fq5Io/nHHSdBDIVFFhXvT2oxSFN7UHMzFPJbII87zo8a+
+	rQ1wQuSyWasGWqKNvW+6Vlg4BhpkSHjDJGLN8qfR+YhPoJNQJHAri6iUWJqjNnInb7ooWZZdhQhi3
+	4WkJNneRLYfM30DhdL7rQqYs5LWZ14y32AlqW8AcEk32rWfWq+a+cOMEl09xvIETCpfAJcbe13fQ4
+	q8/3xC0aA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kp9Mx-0003wE-UU; Tue, 15 Dec 2020 12:23:55 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1kpASy-0002dK-DI; Tue, 15 Dec 2020 13:34:12 +0000
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kp9Mv-0003vl-9D
- for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 12:23:54 +0000
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BFCD3eH075677; Tue, 15 Dec 2020 07:23:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=1Ke6IdGHfHQf/3VRLeN4JoR5y0TXK6UIBlUzSKCRduE=;
- b=bV3nODdijstu/dmXlc99MdDOM/w7iwtVkWsb22rjt8QQlbXKIhYDuJUq/+hNeCcicevW
- w6RHgBoNpVpSitxCdKpbgHAuhs0bQc8PeTtYDF23Kj1U7Om/x7TP05j04UCjsHZJrJWU
- +KViqCb0NkIMxdO8s0oWL3agKsYWhlfdT5YxvmgIVLajf+copqbNapcRADau4lue4LZ+
- f7ayvYt5y1G0V/WyBrDYqHwAREVIGKTz1RAMEkV5o28m70+NQQkS0gE9P+yJkJTZ/KLF
- 4qwpfZ7CjCkuDaYOjoeiBvf/rq5s7JOuoZhv18cOJeZtJ1edtpiF44PG3Ci9yG0HyDoC Qg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35evxsr999-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Dec 2020 07:23:52 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BFCJ4Mf096263;
- Tue, 15 Dec 2020 07:23:51 -0500
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35evxsr98h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Dec 2020 07:23:51 -0500
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BFCGgGD031160;
- Tue, 15 Dec 2020 12:23:49 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 35cng837p3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Dec 2020 12:23:49 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BFCNlcb11731378
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Dec 2020 12:23:47 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 61C1411C04C;
- Tue, 15 Dec 2020 12:23:47 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D296911C050;
- Tue, 15 Dec 2020 12:23:44 +0000 (GMT)
-Received: from Pescara.zurich.ibm.com (unknown [9.163.44.2])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 15 Dec 2020 12:23:44 +0000 (GMT)
-From: Bernard Metzler <bmt@zurich.ibm.com>
-To: linux-rdma@vger.kernel.org
-Subject: [PATCH] RDMA/siw: Fix handling of zero-sized Read and Receive Queues.
-Date: Tue, 15 Dec 2020 13:23:06 +0100
-Message-Id: <20201215122306.3886-1-bmt@zurich.ibm.com>
-X-Mailer: git-send-email 2.29.2
+ id 1kpASs-0002cx-Ar
+ for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 13:34:10 +0000
+Received: by mail-ed1-x543.google.com with SMTP id b73so20982860edf.13
+ for <linux-nvme@lists.infradead.org>; Tue, 15 Dec 2020 05:34:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8fHZY8jQhIBpusF6yf8e92qQDUahX34y07cjU+x+4Lc=;
+ b=cO/R8zqzXQWaqT/sxc9QrhmMQ2504daZiE8+OwYV4SXqyBvDGUtrz9RfITI24qs9Wo
+ j/eq9yOerSXt+zy1In85b1+nscjDqMKMC+0peh5PgLjQ+9be35aZyQJEi//jyAtT4Oe3
+ fE1VKs79YGUHzNdq9eOcX2SXWF831SNcnGl5bngL3X6j+HOl0oX+ZKNmKySDU3LYYine
+ JQwFUUCETA/CngNdVEkHP4jTArbiUAs/TaPaKrV5BqM0BUxv+I4/GP9NGkhwQoanUMt6
+ bA9cuoCvN/zEet9oHUn/36WFPydl4hsLpq7HTFoSaLVEuckDOL/fmUYojEhtdTyiLE/l
+ Wp4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8fHZY8jQhIBpusF6yf8e92qQDUahX34y07cjU+x+4Lc=;
+ b=hkCFvSht0USI2QLfAX3qdWrTkvBSEFgt8joCuntxmTmn1vzjNbmfD1i4HYgU5qcvTe
+ G7gTwgmQnkyT/pGwMwbu+zuK/MpeaZd7yg28yVzmxhEf9DHF17NPiu7YdA/7hxVAMJ+/
+ C0S1IJ11XenX8AvEOrouB6T5VKatus6mNRQ4MYpfk/pJ1E1TYJNFqYsMqIAsTX9OeTCq
+ 6B/El9mT8+1ci6AFzGq5kZU7Lr9GNcFM38+PGNYnhciDcvZckG1sYv5e5Mz2LeZ5Lu0Y
+ iFP0rWJTRqkkL+pnvWwmvZNvISdT5cfcc5FHTzBEsig9oFPq21BoGtbABQ7dL7j26A0X
+ lPiw==
+X-Gm-Message-State: AOAM533syv8MgeIXh4LAeYR0nGG7hliiXSi3uZ4j26zAtJJuNUkIceci
+ hQ92LzQd56lIvqFF41oIwpMvp4IdYfLfi1ZAEfg=
+X-Google-Smtp-Source: ABdhPJyOR8l+ibYSEWSbxbgeDrfjSe24miZDy1PKnHAvU2OPvW5AecKexf8MaJ2VVOKAVGTZVgbXdYNr6BRVh7dc5yo=
+X-Received: by 2002:a50:8744:: with SMTP id 4mr29241136edv.362.1608039242936; 
+ Tue, 15 Dec 2020 05:34:02 -0800 (PST)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-15_10:2020-12-14,
- 2020-12-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=929 clxscore=1015 impostorscore=0 bulkscore=0 mlxscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 malwarescore=0
- spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012150081
+References: <20201207210649.19194-1-borisp@mellanox.com>
+ <20201207210649.19194-6-borisp@mellanox.com>
+ <PH0PR18MB3845486FF240614CA08E7B4CCCCB0@PH0PR18MB3845.namprd18.prod.outlook.com>
+ <0a272589-940c-6488-9cb9-1833400f38b3@gmail.com>
+In-Reply-To: <0a272589-940c-6488-9cb9-1833400f38b3@gmail.com>
+From: Shai Malin <malin1024@gmail.com>
+Date: Tue, 15 Dec 2020 15:33:50 +0200
+Message-ID: <CAKKgK4xvS9SeM3NmNKDNe5oFxxfi0m_=iHCXeXX0DGcgzG_BBA@mail.gmail.com>
+Subject: Re: [PATCH v1 net-next 05/15] nvme-tcp: Add DDP offload control path
+To: Boris Pismenny <borispismenny@gmail.com>,
+ Boris Pismenny <borisp@mellanox.com>, "kuba@kernel.org" <kuba@kernel.org>,
+ "davem@davemloft.net" <davem@davemloft.net>, 
+ "saeedm@nvidia.com" <saeedm@nvidia.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, 
+ "axboe@fb.com" <axboe@fb.com>, "kbusch@kernel.org" <kbusch@kernel.org>, 
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+ "edumazet@google.com" <edumazet@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201215_072353_471200_4EF777BF 
-X-CRM114-Status: GOOD (  28.96  )
+X-CRM114-CacheID: sfid-20201215_083406_408917_EAD1C206 
+X-CRM114-Status: GOOD (  20.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,274 +95,62 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Bernard Metzler <bmt@zurich.ibm.com>, yi.zhang@redhat.com,
- kamalheib1@gmail.com, linux-nvme@lists.infradead.org, jgg@nvidia.com
+Cc: Yoray Zack <yorayz@mellanox.com>, Ariel Elior <aelior@marvell.com>,
+ Ben Ben-Ishay <benishay@mellanox.com>, Michal Kalderon <mkalderon@marvell.com>,
+ "boris.pismenny@gmail.com" <boris.pismenny@gmail.com>,
+ "yorayz@nvidia.com" <yorayz@nvidia.com>, Shai Malin <smalin@marvell.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "benishay@nvidia.com" <benishay@nvidia.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ Or Gerlitz <ogerlitz@mellanox.com>, Shai Malin <malin1024@gmail.com>,
+ "ogerlitz@nvidia.com" <ogerlitz@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-During connection setup, the application may choose to zero-size
-inbound and outbound READ queues, as well as the Receive queue.
-This patch fixes handling of zero-sized queues.
+On 12/14/2020 08:38, Boris Pismenny wrote:
+> On 10/12/2020 19:15, Shai Malin wrote:
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c index c0c33320fe65..ef96e4a02bbd 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -14,6 +14,7 @@
+> >  #include <linux/blk-mq.h>
+> >  #include <crypto/hash.h>
+> >  #include <net/busy_poll.h>
+> > +#include <net/tcp_ddp.h>
+> >
+> >  #include "nvme.h"
+> >  #include "fabrics.h"
+> > @@ -62,6 +63,7 @@ enum nvme_tcp_queue_flags {
+> >       NVME_TCP_Q_ALLOCATED    = 0,
+> >       NVME_TCP_Q_LIVE         = 1,
+> >       NVME_TCP_Q_POLLING      = 2,
+> > +     NVME_TCP_Q_OFFLOADS     = 3,
+> >  };
+> >
+> > The same comment from the previous version - we are concerned that perhaps
+> > the generic term "offload" for both the transport type (for the Marvell work)
+> > and for the DDP and CRC offload queue (for the Mellanox work) may be
+> > misleading and confusing to developers and to users.
+> >
+> > As suggested by Sagi, we can call this NVME_TCP_Q_DDP.
+> >
+>
+> While I don't mind changing the naming here. I wonder  why not call the
+> toe you use TOE and not TCP_OFFLOAD, and then offload is free for this?
 
-Reported-by: Kamal Heib <kamalheib1@gmail.com>
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Signed-off-by: Bernard Metzler <bmt@zurich.ibm.com>
----
- drivers/infiniband/sw/siw/siw.h       |  2 +-
- drivers/infiniband/sw/siw/siw_qp.c    | 54 ++++++++++++++++-----------
- drivers/infiniband/sw/siw/siw_qp_rx.c | 26 +++++++++----
- drivers/infiniband/sw/siw/siw_qp_tx.c |  4 +-
- drivers/infiniband/sw/siw/siw_verbs.c | 18 +++++++--
- 5 files changed, 68 insertions(+), 36 deletions(-)
+Thanks - please do change the name to NVME_TCP_Q_DDP.
+The Marvell nvme-tcp-offload patch series introducing the offloading of both the
+TCP as well as the NVMe/TCP layer, therefore it's not TOE.
 
-diff --git a/drivers/infiniband/sw/siw/siw.h b/drivers/infiniband/sw/siw/siw.h
-index e9753831ac3f..6f17392f975a 100644
---- a/drivers/infiniband/sw/siw/siw.h
-+++ b/drivers/infiniband/sw/siw/siw.h
-@@ -654,7 +654,7 @@ static inline struct siw_sqe *orq_get_free(struct siw_qp *qp)
- {
- 	struct siw_sqe *orq_e = orq_get_tail(qp);
- 
--	if (orq_e && READ_ONCE(orq_e->flags) == 0)
-+	if (READ_ONCE(orq_e->flags) == 0)
- 		return orq_e;
- 
- 	return NULL;
-diff --git a/drivers/infiniband/sw/siw/siw_qp.c b/drivers/infiniband/sw/siw/siw_qp.c
-index 875d36d4b1c6..b686a09a75ae 100644
---- a/drivers/infiniband/sw/siw/siw_qp.c
-+++ b/drivers/infiniband/sw/siw/siw_qp.c
-@@ -199,26 +199,28 @@ void siw_qp_llp_write_space(struct sock *sk)
- 
- static int siw_qp_readq_init(struct siw_qp *qp, int irq_size, int orq_size)
- {
--	irq_size = roundup_pow_of_two(irq_size);
--	orq_size = roundup_pow_of_two(orq_size);
--
--	qp->attrs.irq_size = irq_size;
--	qp->attrs.orq_size = orq_size;
--
--	qp->irq = vzalloc(irq_size * sizeof(struct siw_sqe));
--	if (!qp->irq) {
--		siw_dbg_qp(qp, "irq malloc for %d failed\n", irq_size);
--		qp->attrs.irq_size = 0;
--		return -ENOMEM;
-+	if (irq_size) {
-+		irq_size = roundup_pow_of_two(irq_size);
-+		qp->irq = vzalloc(irq_size * sizeof(struct siw_sqe));
-+		if (!qp->irq) {
-+			siw_dbg_qp(qp, "irq malloc for %d failed\n", irq_size);
-+			qp->attrs.irq_size = 0;
-+			return -ENOMEM;
-+		}
- 	}
--	qp->orq = vzalloc(orq_size * sizeof(struct siw_sqe));
--	if (!qp->orq) {
--		siw_dbg_qp(qp, "orq malloc for %d failed\n", orq_size);
--		qp->attrs.orq_size = 0;
--		qp->attrs.irq_size = 0;
--		vfree(qp->irq);
--		return -ENOMEM;
-+	if (orq_size) {
-+		orq_size = roundup_pow_of_two(orq_size);
-+		qp->orq = vzalloc(orq_size * sizeof(struct siw_sqe));
-+		if (!qp->orq) {
-+			siw_dbg_qp(qp, "orq malloc for %d failed\n", orq_size);
-+			qp->attrs.orq_size = 0;
-+			qp->attrs.irq_size = 0;
-+			vfree(qp->irq);
-+			return -ENOMEM;
-+		}
- 	}
-+	qp->attrs.irq_size = irq_size;
-+	qp->attrs.orq_size = orq_size;
- 	siw_dbg_qp(qp, "ORD %d, IRD %d\n", orq_size, irq_size);
- 	return 0;
- }
-@@ -288,13 +290,14 @@ int siw_qp_mpa_rts(struct siw_qp *qp, enum mpa_v2_ctrl ctrl)
- 	if (ctrl & MPA_V2_RDMA_WRITE_RTR)
- 		wqe->sqe.opcode = SIW_OP_WRITE;
- 	else if (ctrl & MPA_V2_RDMA_READ_RTR) {
--		struct siw_sqe *rreq;
-+		struct siw_sqe *rreq = NULL;
- 
- 		wqe->sqe.opcode = SIW_OP_READ;
- 
- 		spin_lock(&qp->orq_lock);
- 
--		rreq = orq_get_free(qp);
-+		if (qp->attrs.orq_size)
-+			rreq = orq_get_free(qp);
- 		if (rreq) {
- 			siw_read_to_orq(rreq, &wqe->sqe);
- 			qp->orq_put++;
-@@ -889,6 +892,9 @@ int siw_activate_tx(struct siw_qp *qp)
- 	struct siw_wqe *wqe = tx_wqe(qp);
- 	int rv = 1;
- 
-+	if (!qp->attrs.irq_size)
-+		goto no_irq;
-+
- 	irqe = &qp->irq[qp->irq_get % qp->attrs.irq_size];
- 
- 	if (irqe->flags & SIW_WQE_VALID) {
-@@ -933,6 +939,7 @@ int siw_activate_tx(struct siw_qp *qp)
- 
- 		goto out;
- 	}
-+no_irq:
- 	sqe = sq_get_next(qp);
- 	if (sqe) {
- skip_irq:
-@@ -971,7 +978,7 @@ int siw_activate_tx(struct siw_qp *qp)
- 			}
- 			spin_lock(&qp->orq_lock);
- 
--			if (!siw_orq_empty(qp)) {
-+			if (qp->attrs.orq_size && !siw_orq_empty(qp)) {
- 				qp->tx_ctx.orq_fence = 1;
- 				rv = 0;
- 			}
-@@ -981,6 +988,11 @@ int siw_activate_tx(struct siw_qp *qp)
- 			   wqe->sqe.opcode == SIW_OP_READ_LOCAL_INV) {
- 			struct siw_sqe *rreq;
- 
-+			if (unlikely(!qp->attrs.orq_size)) {
-+				/* We negotiated not to send READ req's */
-+				rv = -EINVAL;
-+				goto out;
-+			}
- 			wqe->sqe.num_sge = 1;
- 
- 			spin_lock(&qp->orq_lock);
-diff --git a/drivers/infiniband/sw/siw/siw_qp_rx.c b/drivers/infiniband/sw/siw/siw_qp_rx.c
-index 4bd1f1f84057..981e11f31b2d 100644
---- a/drivers/infiniband/sw/siw/siw_qp_rx.c
-+++ b/drivers/infiniband/sw/siw/siw_qp_rx.c
-@@ -678,6 +678,10 @@ static int siw_init_rresp(struct siw_qp *qp, struct siw_rx_stream *srx)
- 				   DDP_ECODE_UT_INVALID_MSN_RANGE, 0);
- 		return -EPROTO;
- 	}
-+	if (unlikely(!qp->attrs.irq_size)) {
-+		run_sq = 0;
-+		goto error_irq;
-+	}
- 	spin_lock_irqsave(&qp->sq_lock, flags);
- 
- 	if (tx_work->wr_status == SIW_WR_IDLE) {
-@@ -712,8 +716,9 @@ static int siw_init_rresp(struct siw_qp *qp, struct siw_rx_stream *srx)
- 		/* RRESP now valid as current TX wqe or placed into IRQ */
- 		smp_store_mb(resp->flags, SIW_WQE_VALID);
- 	} else {
--		pr_warn("siw: [QP %u]: irq %d exceeded %d\n", qp_id(qp),
--			qp->irq_put % qp->attrs.irq_size, qp->attrs.irq_size);
-+error_irq:
-+		pr_warn("siw: [QP %u]: IRQ exceeded or null, size %d\n",
-+			qp_id(qp), qp->attrs.irq_size);
- 
- 		siw_init_terminate(qp, TERM_ERROR_LAYER_RDMAP,
- 				   RDMAP_ETYPE_REMOTE_OPERATION,
-@@ -740,6 +745,9 @@ static int siw_orqe_start_rx(struct siw_qp *qp)
- 	struct siw_sqe *orqe;
- 	struct siw_wqe *wqe = NULL;
- 
-+	if (unlikely(!qp->attrs.orq_size))
-+		return -EPROTO;
-+
- 	/* make sure ORQ indices are current */
- 	smp_mb();
- 
-@@ -796,8 +804,8 @@ int siw_proc_rresp(struct siw_qp *qp)
- 		 */
- 		rv = siw_orqe_start_rx(qp);
- 		if (rv) {
--			pr_warn("siw: [QP %u]: ORQ empty at idx %d\n",
--				qp_id(qp), qp->orq_get % qp->attrs.orq_size);
-+			pr_warn("siw: [QP %u]: ORQ empty, size %d\n",
-+				qp_id(qp), qp->attrs.orq_size);
- 			goto error_term;
- 		}
- 		rv = siw_rresp_check_ntoh(srx, frx);
-@@ -1290,11 +1298,13 @@ static int siw_rdmap_complete(struct siw_qp *qp, int error)
- 					      wc_status);
- 		siw_wqe_put_mem(wqe, SIW_OP_READ);
- 
--		if (!error)
-+		if (!error) {
- 			rv = siw_check_tx_fence(qp);
--		else
--			/* Disable current ORQ eleement */
--			WRITE_ONCE(orq_get_current(qp)->flags, 0);
-+		} else {
-+			/* Disable current ORQ element */
-+			if (qp->attrs.orq_size)
-+				WRITE_ONCE(orq_get_current(qp)->flags, 0);
-+		}
- 		break;
- 
- 	case RDMAP_RDMA_READ_REQ:
-diff --git a/drivers/infiniband/sw/siw/siw_qp_tx.c b/drivers/infiniband/sw/siw/siw_qp_tx.c
-index d19d8325588b..7989c4043db4 100644
---- a/drivers/infiniband/sw/siw/siw_qp_tx.c
-+++ b/drivers/infiniband/sw/siw/siw_qp_tx.c
-@@ -1107,8 +1107,8 @@ int siw_qp_sq_process(struct siw_qp *qp)
- 		/*
- 		 * RREQ may have already been completed by inbound RRESP!
- 		 */
--		if (tx_type == SIW_OP_READ ||
--		    tx_type == SIW_OP_READ_LOCAL_INV) {
-+		if ((tx_type == SIW_OP_READ ||
-+		     tx_type == SIW_OP_READ_LOCAL_INV) && qp->attrs.orq_size) {
- 			/* Cleanup pending entry in ORQ */
- 			qp->orq_put--;
- 			qp->orq[qp->orq_put % qp->attrs.orq_size].flags = 0;
-diff --git a/drivers/infiniband/sw/siw/siw_verbs.c b/drivers/infiniband/sw/siw/siw_verbs.c
-index 7cf3242ffb41..95003678cf3f 100644
---- a/drivers/infiniband/sw/siw/siw_verbs.c
-+++ b/drivers/infiniband/sw/siw/siw_verbs.c
-@@ -362,13 +362,23 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
- 	if (rv)
- 		goto err_out;
- 
-+	num_sqe = attrs->cap.max_send_wr;
-+	num_rqe = attrs->cap.max_recv_wr;
-+
- 	/* All queue indices are derived from modulo operations
- 	 * on a free running 'get' (consumer) and 'put' (producer)
- 	 * unsigned counter. Having queue sizes at power of two
- 	 * avoids handling counter wrap around.
- 	 */
--	num_sqe = roundup_pow_of_two(attrs->cap.max_send_wr);
--	num_rqe = roundup_pow_of_two(attrs->cap.max_recv_wr);
-+	if (num_sqe)
-+		num_sqe = roundup_pow_of_two(num_sqe);
-+	else {
-+		/* Zero sized SQ is not supported */
-+		rv = -EINVAL;
-+		goto err_out;
-+	}
-+	if (num_rqe)
-+		num_rqe = roundup_pow_of_two(num_rqe);
- 
- 	if (udata)
- 		qp->sendq = vmalloc_user(num_sqe * sizeof(struct siw_sqe));
-@@ -960,9 +970,9 @@ int siw_post_receive(struct ib_qp *base_qp, const struct ib_recv_wr *wr,
- 	unsigned long flags;
- 	int rv = 0;
- 
--	if (qp->srq) {
-+	if (qp->srq || qp->attrs.rq_size == 0) {
- 		*bad_wr = wr;
--		return -EOPNOTSUPP; /* what else from errno.h? */
-+		return -EINVAL;
- 	}
- 	if (!rdma_is_kernel_res(&qp->base_qp.res)) {
- 		siw_dbg_qp(qp, "no kernel post_recv for user mapped rq\n");
--- 
-2.17.2
+>
+> Moreover, the most common use of offload in the kernel is for partial offloads
+> like this one, and not for full offloads (such as toe).
 
+Because each vendor might implement a different partial offload I
+suggest naming it
+with the specific technique which is used, as was suggested - NVME_TCP_Q_DDP.
 
 _______________________________________________
 Linux-nvme mailing list
