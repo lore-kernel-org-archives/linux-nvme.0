@@ -6,153 +6,102 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E396C4361B
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 18:31:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21B4AC4361B
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 19:35:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4079227C3
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 18:31:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4079227C3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9B01C22B2D
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Dec 2020 19:35:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B01C22B2D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=zurich.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Message-Id:References:MIME-Version:Date:To:From:
+	Subject:In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GvY1a4+725SRavd21G6BvFquiyNOE3CBsOpWgyGXt9E=; b=FUvU0RrBKM5oqpsi2Sm0hj8zs
-	aWpUaZAyZYNr8pXv9tyVC3CXxBKrQFfzMhgzZmbb/hkQsUmv25iTmaS7Sk6T5fGnvalX5DxEAoJR+
-	FJSbCYb1gLAggaBVWzDZgam75joJ/hGazVSyBCLSB7O0OojncPxBJqxSRmQ1haBJsdNGE75M3sOhx
-	EFGBhsePriZkdouXPzGK/2c+L6f/TInykvviw/LcqMoGIpiYFospHgaFQO3BvqYFG6SJEheH7vMDs
-	ZyXWtF3g60lM3vrFZeQXIYjv+VRkM+qEm2Va0A19R8xjgNzJPOpj7eyaapGYR8Rt3gNxSjlf8GhKn
-	bVOIG+R8g==;
+	 bh=QZbzfdk6EKKCw3magKrko1ot/JaL47HsPsuCPbMZFfE=; b=MlSpdhHjbYrqMTX0vB+x6wcfn
+	TXfkl11vaMGpZ1NBy0HkaEwLgiAVqW+GyVrFBSXhHvYa9/689pkAUTKSK5/nboUTWyVXJ8hUtlaja
+	Toe3rBACRrNKfd34QYRzjKJOPiwk8fKHsCF0tOOLif+TlDl3gmuIuKnNKGnMvYiMddNtRls//W3pe
+	NhZHEIkARC0C1C4HJeuED1rCFXrcmmy2XQ2AKl/bclME0fkbXY5PdcUuLrgdHrjvad4Uky8KZi73k
+	Z5a5im/zbsoIQd2jeYRlY8zCApb4LUATeu83utcUHwcoDNmTZgltsQbKEkyLTkoHqXC9owfTJSph3
+	JLU9R9ANg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kpF6B-0005nn-Ra; Tue, 15 Dec 2020 18:30:59 +0000
-Received: from mga06.intel.com ([134.134.136.31])
+	id 1kpG6r-0003EH-95; Tue, 15 Dec 2020 19:35:45 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kpF68-0005nK-BJ
- for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 18:30:57 +0000
-IronPort-SDR: tMcZ7pATSZnQmfrCnp8GR+yNtMMpjQ/dVYU5d3ntKubQXtcshZ3vmY9Mlootn2iuvXXHy5mPRJ
- zJKd2kXZqwrw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9836"; a="236510593"
-X-IronPort-AV: E=Sophos;i="5.78,422,1599548400"; d="scan'208";a="236510593"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2020 10:30:52 -0800
-IronPort-SDR: p+9jviGPs/sActTfUKCjSnYOwNGJ2ZBxk2qWIDJebKDM0JUj/iG93UHp9i7ejkOAHQurQ0pfNg
- PIbkalUhc9Bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,422,1599548400"; d="scan'208";a="451307152"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by fmsmga001.fm.intel.com with ESMTP; 15 Dec 2020 10:30:51 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 15 Dec 2020 10:30:51 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 15 Dec 2020 10:30:51 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Tue, 15 Dec 2020 10:30:50 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MYYIlz5XfcZM9caP6c65tkrlCR2aps1sDen1xRACC3JPj7mjzu03Ll5wBJH36vlgK0lErKIphQHIscbLyugtGKObfLtQTN7QW/rR+VWtqo4TK7SPgcLIRmKyeYYQVnwFmk/vV6QY0hDDUPexjEb6Z+cZRDFOcteTmA8nrTlaMaaqgF5pcfqv8SNMnH1eT4IVQDvxpzGDFcDwhsiszgnwYhnfxAtzR166Vphtr0ZnY980gBWjgnUd5VSNZ4OxXRoUt9YAW7bldSBxaCQeUyROMTn4LrDTvNbakJ7iy36mMV7txx5mzRYqZrpydJ2lEuwn45xX4lU8yMBCDjgrWa5/pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r6mzkr0psGHkNxu3DNQMvbydKZjxhcA4W6BRmKbYgD8=;
- b=TFuxulfrQ+FO3XYKAROwdeXf5V0V70yXR863BtzQ9y60nyABGipxnB7rnUlLJKGbKX49H80UEZK3g7k4CcgQDzz4pECv5YjQzPKlUBszFQcw1jRZ9NgcBSgBwJRsuqQjtQ7LcrdDC/1nX+lUzmDPduAmNVH0NU6Yd+Mhc+hpFXGWm5N18bEIpmRZmqQW7S3ACCxNpUMVS9ymFalnAmySB8bQI9wjBNolyinsTiap3cfyXp8WHPZSFcWYQh3FiSh0aObS8RORTdHT3v+Tl0P5tA4lK6CIM1THtX4sGNmSQR1uiThELmEtjyHtoViBg6irEmy+uDZxFxbvXM5y64328g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r6mzkr0psGHkNxu3DNQMvbydKZjxhcA4W6BRmKbYgD8=;
- b=AZgrUliI8w1juYnvNO4F/VWE4RD076/do6ulGKAocGU862XVXGbIZ34/1I3pnlpoc3HidcoMWToRwlW9FklmFSRquunPQoPKkHpj+AeTKs6giQUCyI1e1m+iHtUVtq5eRC4ExAGCSCoS5+qMGvgeyYzaw0ktl5U0GO4EY5HjUCc=
-Received: from BYAPR11MB2869.namprd11.prod.outlook.com (2603:10b6:a02:c0::15)
- by BYAPR11MB2647.namprd11.prod.outlook.com (2603:10b6:a02:be::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.26; Tue, 15 Dec
- 2020 18:30:49 +0000
-Received: from BYAPR11MB2869.namprd11.prod.outlook.com
- ([fe80::b47b:94af:71b8:63c9]) by BYAPR11MB2869.namprd11.prod.outlook.com
- ([fe80::b47b:94af:71b8:63c9%5]) with mapi id 15.20.3654.025; Tue, 15 Dec 2020
- 18:30:49 +0000
-From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Potnuri Bharat Teja <bharat@chelsio.com>
-Subject: RE: Request timeout seen with NVMEoF TCP
-Thread-Topic: Request timeout seen with NVMEoF TCP
-Thread-Index: AQHWzlAXYH2cnFU/502idFqudV31nKnvDmuAgAGCpICAAE5YgIAAodiAgAVlnwCAAIa/AIABArfg
-Date: Tue, 15 Dec 2020 18:30:49 +0000
-Message-ID: <BYAPR11MB2869100E0BA40ACB0CDDEFB0E5C60@BYAPR11MB2869.namprd11.prod.outlook.com>
-References: <X9EHFnhujZo175Kw@chelsio.com>
- <0fc0166c-a65f-125f-4305-d0cb761336ac@grimberg.me>
- <X9JVp9mjtC1p0iLS@chelsio.com>
- <3e7aa593-16b0-3bbd-f918-caffa6f5b20b@grimberg.me>
- <X9MfI872AfM+WMV/@chelsio.com>
- <dbb14893-da35-2f7e-0583-c33ce9f41243@grimberg.me>
- <a204cb8e-6f3b-b5dc-9972-54651c9c75cc@grimberg.me>
-In-Reply-To: <a204cb8e-6f3b-b5dc-9972-54651c9c75cc@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: grimberg.me; dkim=none (message not signed)
- header.d=none;grimberg.me; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [71.238.29.134]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f637881e-b39f-4603-fff3-08d8a1278c16
-x-ms-traffictypediagnostic: BYAPR11MB2647:
-x-microsoft-antispam-prvs: <BYAPR11MB264717CCC2A3E7EC11B52A8DE5C60@BYAPR11MB2647.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wq56csGwvg9c5R5uk3BqAWFDEREzA5O76/xth4BHZGFyA48OULRZ6Ypbhvi6JeGeKY7O1h87cADEPJM9p+O3jGC/1u2rcdaSEAWWWTJcwnOBvRmSuCItid60Hqb2l7YxPAQdf+QBCVdKbrXN2Ne3c94RQmJgHeuST3DUVLQ/mAGbnA0tbfAH4j9Jz2vzYWZHMlsVVox0N2E466Uc0oDk7t1E4M5qLttoO7eSRDveR6CjnGY4A0rmw9HSf94aWy3Ykl37lVCNUkiUg/p6RnxHqJSqvHKbXYCTm5HZNCvtBPWOuB9BETz/ToFkgZkYWlG/VpbnNJpojXCspc+dz8YFCw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2869.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(86362001)(76116006)(498600001)(33656002)(66946007)(64756008)(66556008)(52536014)(66446008)(26005)(83380400001)(9686003)(4326008)(66476007)(8936002)(5660300002)(54906003)(110136005)(55016002)(7696005)(71200400001)(6506007)(186003)(8676002)(2906002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?co4k3G8Lwv/pl6sjYuF5aYoc/TVk8pqDjh6PZqdQYGJSJQt2hTQ1OeddTDr4?=
- =?us-ascii?Q?qkhf+kRVyxijXY5gnAq9ory9Rr7U3BKYOfu/2VO+XnNhBN0hvpNsbkYiUV/M?=
- =?us-ascii?Q?NjWgqsuFnCK4fYQCFX+lhQwA0P0OqnlbmxINvcafyUywhFGn0ojGE6HADGT3?=
- =?us-ascii?Q?9tcNLsiJGKkvubkKlSsRS7On6I2Vuh2BfOfSie2HG7gSTdYIa81RcOVKR+H1?=
- =?us-ascii?Q?OE4i4gmTbe7+I9/nz2tyDFjadyj4yqQoVZcsiv1BAHBMNUTpGqwnQbCCNPXY?=
- =?us-ascii?Q?o5mf3cKFESjaaG3xHU1F04T47obyTnL+s3H1z4ecby3PHxi1a3qG6BF5T6h7?=
- =?us-ascii?Q?vQaWFlERRvAA4jvAEhVE9d/SmcKNd9ymp7n6Vs6llsYq5QThp/RcZ2IpPhq6?=
- =?us-ascii?Q?wqZxDMTtkNmCdKSJrm8WpZFqanEGRBbLx1l6eGHDT3rIHEDpZMdL8YaIZbpE?=
- =?us-ascii?Q?Gg1tfr4BdmnBvv/1Zzl3Cs9uNuQH+8+Mdq80D9AOJrhJxrM7ebIyPUcgNHf6?=
- =?us-ascii?Q?pjDsH9NfwXMwOjDx6kN+dGz449V17BqLTMm6dcYOIiymcXx5UGBIm1FLMau1?=
- =?us-ascii?Q?TEd+ls+Bclj8aI6n3QJlwlPpGh/+6NH5Vb6CgYeVwP38vK+PLdleZfslFTfg?=
- =?us-ascii?Q?WccoyP4kaJiTTPJP1JTPOOZ+ApWbCOdTfurhJTANoHNw8XPDObD3L/TN05l9?=
- =?us-ascii?Q?O5FcQHKQ+Z01EDr2lUveEPo6ETZx6J1X5Pl8CidGgmvTOK1FOqcjIXP2GuV/?=
- =?us-ascii?Q?WIvGGUor49OxkyK5LRLrm3s4WQD31bOP4PBY1kO8/0fGQrEWiKXNZfmd28IZ?=
- =?us-ascii?Q?AdC2eEVuUiOiVy0iJNxgNxgj4HQ2m8rdUbtVogAqX8n0I1pEVDxu4REIW4Kg?=
- =?us-ascii?Q?ZSMBtD0SsS0jPLnZDz0qxSKyiuAF/g/sb2Q7zVIewHZxKSAnO2Z+uBLktiqv?=
- =?us-ascii?Q?2tln5AzYrBxiTy8dCozmqm67qmfxdouZRGevgGBPYts=3D?=
-x-ms-exchange-transport-forked: True
+ id 1kpG6o-0003Dj-1X
+ for linux-nvme@lists.infradead.org; Tue, 15 Dec 2020 19:35:43 +0000
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BFJX1du169026
+ for <linux-nvme@lists.infradead.org>; Tue, 15 Dec 2020 14:35:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=in-reply-to : subject :
+ from : to : cc : date : mime-version : references :
+ content-transfer-encoding : content-type : message-id; s=pp1;
+ bh=UKzW9BqnXXwM+6ii7AqIUISXKtJ9gr8ZMMNqd8HV9hQ=;
+ b=H9g1RiMaJWI2UdC9yJCq6n4AYC0sHznVnKq645FQckV65lwktKpuw/b/gkGtQwWz/Qrq
+ gG9YVayTolaud4RePhO7PWWjRngRDwPVToxsuWan2mR0lOBN3hB8oR9g5f0VE8Do831r
+ QlnN3J9JYnlx8rajAB+yMc6buPoKFfovLLSF6ctkxP0MahCY7oDLAB9y6URXXnjwZxeJ
+ ykEg7ngV0AkcxLkhhi8Whk/P/gclZ2aAQbY2cuaODOSWqlyqz4uXwjIeAfMCczULTKUo
+ iIsaivR+/pPqGDYzb1izv2Hrht1h9n66SUR/1Ed4NcLMAsRXbaP7Jg8yJasgRZFOyKw9 XA== 
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com
+ [158.85.210.119])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35f093rp9u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-nvme@lists.infradead.org>; Tue, 15 Dec 2020 14:35:39 -0500
+Received: from localhost
+ by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+ for <linux-nvme@lists.infradead.org> from <BMT@zurich.ibm.com>;
+ Tue, 15 Dec 2020 19:35:38 -0000
+Received: from us1b3-smtp01.a3dr.sjc01.isc4sb.com (10.122.7.174)
+ by smtp.notes.na.collabserv.com (10.122.182.123) with
+ smtp.notes.na.collabserv.com ESMTP; Tue, 15 Dec 2020 19:35:36 -0000
+Received: from us1b3-mail162.a3dr.sjc03.isc4sb.com ([10.160.174.187])
+ by us1b3-smtp01.a3dr.sjc01.isc4sb.com
+ with ESMTP id 2020121519353576-694740 ;
+ Tue, 15 Dec 2020 19:35:35 +0000 
+In-Reply-To: <20201215174717.GZ552508@nvidia.com>
+Subject: Re: Re: [PATCH] RDMA/siw: Fix handling of zero-sized Read and Receive
+ Queues.
+From: "Bernard Metzler" <BMT@zurich.ibm.com>
+To: "Jason Gunthorpe" <jgg@nvidia.com>
+Date: Tue, 15 Dec 2020 19:35:35 +0000
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2869.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f637881e-b39f-4603-fff3-08d8a1278c16
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2020 18:30:49.7600 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oueqhk5KF7SwrEjQW7YT1KiYal8infdW8/v1rIHU6MAAm4hNvk/zUKel2a4DIbUgWGWdKnziicW78a7lj8Iqa1OaXiVsc969/S0tL87qvIs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2647
-X-OriginatorOrg: intel.com
+Sensitivity: 
+Importance: Normal
+X-Priority: 3 (Normal)
+References: <20201215174717.GZ552508@nvidia.com>,
+ <20201215122306.3886-1-bmt@zurich.ibm.com>
+X-Mailer: IBM iNotes ($HaikuForm 1054.1) | IBM Domino Build
+ SCN1812108_20180501T0841_FP65 April 15, 2020 at 09:48
+X-KeepSent: 33B51ADA:D0F7149E-0025863F:00628A52;
+ type=4; name=$KeepSent
+X-LLNOutbound: False
+X-Disclaimed: 11451
+X-TNEFEvaluated: 1
+x-cbid: 20121519-3975-0000-0000-0000036D5596
+X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
+ SC=0.399202; ST=0; TS=0; UL=0; ISC=; MB=0.000684
+X-IBM-SpamModules-Versions: BY=3.00014381; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000295; SDB=6.01478589; UDB=6.00796658; IPR=6.01261195; 
+ MB=3.00035512; MTD=3.00000008; XFM=3.00000015; UTC=2020-12-15 19:35:37
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2020-12-15 17:42:41 - 6.00012142
+x-cbparentid: 20121519-3976-0000-0000-000077248F3A
+Message-Id: <OF33B51ADA.D0F7149E-ON0025863F.00628A52-0025863F.006BA0D9@notes.na.collabserv.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-15_12:2020-12-15,
+ 2020-12-15 signatures=0
+X-Proofpoint-Spam-Reason: orgsafe
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201215_133056_850909_275F003C 
-X-CRM114-Status: GOOD (  12.84  )
+X-CRM114-CacheID: sfid-20201215_143542_411734_7794E626 
+X-CRM114-Status: GOOD (  17.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,22 +113,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Samuel Jones <sjones@kalrayinc.com>, "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: linux-rdma@vger.kernel.org, yi.zhang@redhat.com, kamalheib1@gmail.com,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> I think we still have a race here with the following:
-> 1. queue_rq sends h2cdata PDU (no data)
-> 2. host receives r2t - prepares data PDU to send and schedules io_work 3. queue_rq sends another h2cdata PDU - ends up sending (2) because it was queued before it 4. io_work starts, loops but never able to acquire > the send_mutex - eventually just ends (dosn't requeue) 5. (3) completes, now nothing will send (2)
+-----"Jason Gunthorpe" <jgg@nvidia.com> wrote: -----
 
-> We can either schedule the io_work from the direct send path, but that is less efficient than just trying to drain the send queue in the direct send path and if not all was sent, the write_space callback will trigger it.
+>To: "Bernard Metzler" <bmt@zurich.ibm.com>
+>From: "Jason Gunthorpe" <jgg@nvidia.com>
+>Date: 12/15/2020 06:48PM
+>Cc: <linux-rdma@vger.kernel.org>, <kamalheib1@gmail.com>,
+><yi.zhang@redhat.com>, <linux-nvme@lists.infradead.org>
+>Subject: [EXTERNAL] Re: [PATCH] RDMA/siw: Fix handling of zero-sized
+>Read and Receive Queues.
+>
+>On Tue, Dec 15, 2020 at 01:23:06PM +0100, Bernard Metzler wrote:
+>> During connection setup, the application may choose to zero-size
+>> inbound and outbound READ queues, as well as the Receive queue.
+>> This patch fixes handling of zero-sized queues.
+>
+>This fixes a crasher? Copy the fixes line and oops from  Kamal?
+>
+>Jason
+>
+Yes. it does. Will resend with a small change fixing
+an uninitialized variable I just invented with the patch (uuuhh).
 
-Wouldn't the addition of the change to io_work() itself result in step (4) above never occurring?  Pending always being set if mutex can not be acquired, and if io_work() then exceeds time period it always re-queues itself.  So io_work() should always end up draining any send list eventually.  Unless io_work() exits early for some reason via the try_recv (ret < 0) return point without requeuing.
+I will attach Kamal's oops report, but his fix was
+blocking allowed application behavior (setting some queue
+sizes to zero). The intention of my patch is to fix siw
+to handle that application behavior correctly. So the fixes
+lines will be different.
+ 
 
-Or, can there be a case where there are sends through queue_rq where 'last' is false (and inline send conditions fail), but there is no subsequent send with 'last' true to schedule io_work()?  Might try changing queue_request() to always queue io_work() if inline send fails (not looking at last.  And add the second part of your patch for io_work() to set pending to true.  Also trap if ret<0 case above ever happens (or do break instead of return).  Re-run and see if failure still occurs.  Just a thought.
+Thanks,
+Bernard.
+
 
 _______________________________________________
 Linux-nvme mailing list
