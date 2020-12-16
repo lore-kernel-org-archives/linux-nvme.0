@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 661BBC4361B
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 12:24:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C590EC4361B
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 12:24:41 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F134E230FA
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 12:24:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F134E230FA
+	by mail.kernel.org (Postfix) with ESMTPS id 6236C230FA
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 12:24:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6236C230FA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,63 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:In-Reply-To:Message-Id:Date:Subject:To:From:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=kFMiELN6MVeBoW09kzJWxlRJYF1DW+9WDKqUrgUmWL0=; b=Y23+ETIHOZIvPviKwOSbijJkn
-	1TaOLDcndRK2j4HThC2lzNzbY+qWC04iQ8v/fQlXqX2X5KMnm6Q48B9OgVO0Nuw1yl82slVgtdwr0
-	FEh04DX+J5ub7CNb7aoxVISbafpis+PbCD1KN5nSqhVlO2Z2l/RHuUryn16yoBk7HkOTahd9aFEHW
-	c1C8qzZHsuJK1YRByi1Am2ULGf++pJI1MUl2aybdU0i0gnakE2V7SJFdBvw6uaRCewhmeHZNTuJ4U
-	Ts65c527/JFMuCQREF5f7BnQenpXmaYarDosxdeCO1cC43G+6sGTppnPgKY1ADpxIcK50yw4olc5B
-	2AB1QUc4A==;
+	 bh=5lqxWTCSBLmOCdCXLJ6LbTD0rl6Ms5gqjVoN80Nq8/o=; b=FDS8bJj4+8aQY21DCWRxTS0IG
+	vt9XHJY7pFvIXJxlSP8B9ysCMZ9VWWrFWzCQ1AR0lT/in5kXeRxKWzwh9JbIw5wIN3hquplsdrh9w
+	gUUXcsx7JhCCJflWNVvIXebuujzEZp97GjEz8SBwTBBeV6oh7BFR9R8wTE6weOJzaUz1qQFU+aUQy
+	k5/0vhpcXQXb5udUIq7HAUhr55gvyrLeTIuuFf92WcGJlndHiSRpR0FXwEpsMzo4kGItaic6lF29N
+	YJzGfgknESajaMCgre6I8pzVOf2hVJeL5CUMx5y97vEKsIhfUZt3cqv1x+akij7CnDJlsnDnZvG/t
+	0ui0TWZ3w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kpVqh-0002kb-PS; Wed, 16 Dec 2020 12:24:09 +0000
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+	id 1kpVr8-0002yH-4G; Wed, 16 Dec 2020 12:24:34 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kpVqA-0002RI-6Y
- for linux-nvme@lists.infradead.org; Wed, 16 Dec 2020 12:23:35 +0000
-Received: by mail-pj1-x1031.google.com with SMTP id lj6so1407273pjb.0
- for <linux-nvme@lists.infradead.org>; Wed, 16 Dec 2020 04:23:32 -0800 (PST)
+ id 1kpVqC-0002TL-7w
+ for linux-nvme@lists.infradead.org; Wed, 16 Dec 2020 12:23:39 +0000
+Received: by mail-pf1-x433.google.com with SMTP id c12so16468032pfo.10
+ for <linux-nvme@lists.infradead.org>; Wed, 16 Dec 2020 04:23:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
- :references; bh=NYaXDpZlyifkZ9cyXCtEDhAo5aEu7RnZHksOrP6a208=;
- b=bIsvWXrohncaMDo9wSiu0tmVGB+LRnprDPZFyOLj65dxqKQCjMVjao/yiEAveyVL3F
- t8zuQwSu590iOaLAhICjVkvx9WHzREUzREWl+S+n9WC6HmmIlRz6TwviAlgg/5MX0tQp
- H5yMLYFuq2JjpSDrx2kOdaqzJ7qJIAWhKJj4g=
+ :references; bh=olNfjhzVuuqPBsnuhHS8h8zvWuu5i5w1JmOw/FfVfxQ=;
+ b=RnQDhbcZJFqvDG8xdi6UJyVehj59HeehvT/CCgf3Qc8A5IEpWt/qNaiT4i3bNfcFRb
+ 9PVM1fehnZoKziH176kUBPK//2uDenSP1MTQ071jMwaD/9pyIDHqzlD8qOFOAUIwy8B5
+ nT2FdtpdGRFFt7lRomSX9svR0GLm7fEsEBBjo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=NYaXDpZlyifkZ9cyXCtEDhAo5aEu7RnZHksOrP6a208=;
- b=cj3rZOTU95Dq49azaBKX/T03mdjlV8Ks/U8y4CmMQmRavo+Zykz5/ZC9A6v3uoP2FH
- rFeZc4igwnZsLtcDlcGVhVua6qil066EfNT1L9mMohhEVlWoFELs+z4q0P7sLqtFmtYD
- XBPHGhpM207svMQKNF1g+SOPyrCoxSoPfN2kJlDwb21agLoN2uoHAfuTZeRwEkUz5FxU
- 1CfLlqbOOujog8GWS8TUXQwUSoxD8glmxbblXalMn7Sk4yNotnYrnd3/QU+2Am9dIv49
- ZipTik8IgTDg5jVypzmW6tp9xbhv0rnGR61Lzdp7aRRMKIsGFpFfZ7Oa8q1JvWT/RJx3
- jeuw==
+ bh=olNfjhzVuuqPBsnuhHS8h8zvWuu5i5w1JmOw/FfVfxQ=;
+ b=lDPWg1ipxvWG+incBrCCZQwLwTQDX1B8iAOwLN1ru3sW/h+KUh2bCIeFo8cv8uYwxB
+ cC9PyPszg37Og7QiXgyqm1UhvkOPsNEILqjIaKwnCq4S+0P6HbIoeVFUVwZMfVXw5rCU
+ 20BYmNEuifWnw2AFt+1DoZa+UyvQsk4z4pinjor7RuEDfvdzyKIS6STaSse4SEcQCZFF
+ 5I1MvXN2v8bXkqkQA+5zEmFC/0HXLGghO0xl+OZBi7nU9oHBko4DpEAEhE7EV7j2tZRd
+ CEmLdxMdykDeiRkzbYkIzyVDb6uXeQCEt5qmWomA4q5OIPV2c1plnANmZkqNuHHeyNya
+ 0kxA==
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM530qVh/1Sc0NBQT8dFB78fbJAC5paK65UVRounSlYRnjQ3yBjvMM
- KOaPJKHi6EcbzM25G8btYepXXBQoLBkO/CeaYI76aMrpVApAy2M29+ztSlfPVTPjWI9Xqcs9TYS
- MAgX8jMbtHM1H7AW2MQ==
-X-Google-Smtp-Source: ABdhPJwLmFxGL4mwi2zxaBunbUBgpYo8LJvFnyoTYyE1TIeLr91bM8pjItWzGbAJ4xoZJ1pEnKNARw==
-X-Received: by 2002:a17:902:c584:b029:da:cc62:22f1 with SMTP id
- p4-20020a170902c584b02900dacc6222f1mr31228355plx.54.1608121410288; 
- Wed, 16 Dec 2020 04:23:30 -0800 (PST)
+X-Gm-Message-State: AOAM531KkL2n0/H9TFx1H7+/NQZOrha4nVEetuSblnb4mgLkAs9nFmKs
+ ZiaFhlqc985/TVmK5tkx09GPtpVGEm0RSpQP5C2VkMz56dernFTZT58IZLINgwS68Vzr+Vuloe4
+ jJNFz3eHCA2Ke5SkhOQ==
+X-Google-Smtp-Source: ABdhPJyEf7CyZT7C66b/EEx2UbhLas684xVkyY3bnYFihIvUv3c6V2bBlVBT4oIl1Mqa2Ck5fFm4PA==
+X-Received: by 2002:aa7:9722:0:b029:19e:2832:4f63 with SMTP id
+ k2-20020aa797220000b029019e28324f63mr32005029pfg.58.1608121413898; 
+ Wed, 16 Dec 2020 04:23:33 -0800 (PST)
 Received: from localhost.localdomain ([192.19.234.250])
- by smtp.gmail.com with ESMTPSA id s7sm2477296pfh.207.2020.12.16.04.23.27
+ by smtp.gmail.com with ESMTPSA id s7sm2477296pfh.207.2020.12.16.04.23.30
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 16 Dec 2020 04:23:29 -0800 (PST)
+ Wed, 16 Dec 2020 04:23:33 -0800 (PST)
 From: Muneendra <muneendra.kumar@broadcom.com>
 To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org, hare@suse.de
-Subject: [PATCH v5 12/16] lpfc: vmid: Appends the vmid in the wqe before
- sending
-Date: Wed, 16 Dec 2020 10:59:42 +0530
-Message-Id: <1608096586-21656-13-git-send-email-muneendra.kumar@broadcom.com>
+Subject: [PATCH v5 13/16] lpfc: vmid: Timeout implementation for vmid
+Date: Wed, 16 Dec 2020 10:59:43 +0530
+Message-Id: <1608096586-21656-14-git-send-email-muneendra.kumar@broadcom.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1608096586-21656-1-git-send-email-muneendra.kumar@broadcom.com>
 References: <1608096586-21656-1-git-send-email-muneendra.kumar@broadcom.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201216_072334_367483_A3ABBDAA 
-X-CRM114-Status: GOOD (  15.70  )
+X-CRM114-CacheID: sfid-20201216_072337_428582_8EE7D397 
+X-CRM114-Status: GOOD (  21.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,29 +92,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: pbonzini@redhat.com, jsmart2021@gmail.com, mkumar@redhat.com,
  emilne@redhat.com, Gaurav Srivastava <gaurav.srivastava@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============3220791607348099751=="
+Content-Type: multipart/mixed; boundary="===============8899170544709415711=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============3220791607348099751==
+--===============8899170544709415711==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000719c5305b693f12f"
+	boundary="000000000000a75e2e05b693f1d1"
 
---000000000000719c5305b693f12f
+--000000000000a75e2e05b693f1d1
 Content-Type: text/plain; charset="US-ASCII"
 
 From: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
 
-This patch adds the vmid in wqe before sending out the request.
-The type of vmid depends on the configured type and is checked before
-being appended.
+This patch implements the timeout functionality for the vmid. After the
+set time period of inactivity, the vmid is deregistered from the switch.
 
 Signed-off-by: Gaurav Srivastava  <gaurav.srivastava@broadcom.com>
 Signed-off-by: James Smart <jsmart2021@gmail.com>
 
 ---
 v5:
-Modified the comments
+No change
 
 v4:
 No change
@@ -126,104 +124,188 @@ No change
 v2:
 Ported the patch on top of 5.10/scsi-queue
 ---
- drivers/scsi/lpfc/lpfc_sli.c | 56 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 55 insertions(+), 1 deletion(-)
+ drivers/scsi/lpfc/lpfc_hbadisc.c | 109 +++++++++++++++++++++++++++++++
+ drivers/scsi/lpfc/lpfc_init.c    |  40 ++++++++++++
+ 2 files changed, 149 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index f9b6e32db618..a63371e9feaa 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -3856,7 +3856,7 @@ lpfc_sli_sp_handle_rspiocb(struct lpfc_hba *phba, struct lpfc_sli_ring *pring,
+diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbadisc.c
+index 2b6b5fc671fe..be71f3a47c95 100644
+--- a/drivers/scsi/lpfc/lpfc_hbadisc.c
++++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
+@@ -229,6 +229,115 @@ lpfc_dev_loss_tmo_callbk(struct fc_rport *rport)
+ 	return;
+ }
  
- 		if (irsp->ulpStatus) {
- 			/* Rsp ring <ringno> error: IOCB */
--			lpfc_printf_log(phba, KERN_WARNING, LOG_SLI,
-+			lpfc_printf_log(phba, KERN_ERR, LOG_SLI,
- 					"0328 Rsp Ring %d error: "
- 					"IOCB Data: "
- 					"x%x x%x x%x x%x "
-@@ -9762,6 +9762,8 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 				*pcmd == ELS_CMD_RSCN_XMT ||
- 				*pcmd == ELS_CMD_FDISC ||
- 				*pcmd == ELS_CMD_LOGO ||
-+				*pcmd == ELS_CMD_QFPA ||
-+				*pcmd == ELS_CMD_UVEM ||
- 				*pcmd == ELS_CMD_PLOGI)) {
- 				bf_set(els_req64_sp, &wqe->els_req, 1);
- 				bf_set(els_req64_sid, &wqe->els_req,
-@@ -9893,6 +9895,24 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 			ptr = &wqe->words[22];
- 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
- 		}
++/**
++ * lpfc_check_inactive_vmid_one - VMID inactivity checker for a vport
++ * @vport: Pointer to vport context object.
++ *
++ * This function checks for idle vmid entries related to a particular vport. If
++ * found unused/idle, it frees them accordingly.
++ **/
++static void lpfc_check_inactive_vmid_one(struct lpfc_vport *vport)
++{
++	u16 i, keep;
++	u32 difftime = 0, r;
++	u64 *lta;
++	int cpu;
 +
-+		/* add the VMID tags as per switch response */
-+		if (iocbq->iocb_flag & LPFC_IO_VMID) {
-+			union lpfc_wqe128 *wqe128;
++	write_lock(&vport->vmid_lock);
 +
-+			if (phba->pport->vmid_priority_tagging) {
-+				bf_set(wqe_ccpe, &wqe->fcp_iwrite.wqe_com, 1);
-+				bf_set(wqe_ccp, &wqe->fcp_iwrite.wqe_com,
-+				       (iocbq->vmid_tag.cs_ctl_vmid));
-+				/* Bit 0 must be 0 */
-+			} else {
-+				wqe128 = (union lpfc_wqe128 *)wqe;
-+				bf_set(wqe_appid, &wqe->fcp_iwrite.wqe_com, 1);
-+				bf_set(wqe_wqes, &wqe128->fcp_iwrite.wqe_com,
-+				       1);
-+				wqe128->words[31] = iocbq->vmid_tag.app_id;
++	if (!vport->cur_vmid_cnt)
++		goto out;
++
++	/* iterate through the table */
++	for (i = 0; i < LPFC_VMID_HASH_SIZE; ++i) {
++		if (vport->hash_table[i] && (vport->hash_table[i]->flag &
++					     LPFC_VMID_REGISTERED)) {
++			/* check if the particular vmid is in use */
++			/* for all available per cpu variable */
++			for_each_possible_cpu(cpu) {
++				/* if last access time is less than timeout */
++				lta = per_cpu_ptr(
++					vport->hash_table[i]->last_io_time,
++					cpu);
++				if (!lta)
++					continue;
++				difftime = (jiffies) - (*lta);
++				if ((vport->vmid_inactivity_timeout *
++				     JIFFIES_PER_HR) > difftime) {
++					keep = 1;
++					break;
++				}
++			}
++
++			/* if none of the cpus have been used by the vm, */
++			/*  remove the entry if already registered */
++			if (!keep) {
++				/* mark the entry for deregistration */
++				vport->hash_table[i]->flag =
++					LPFC_VMID_DE_REGISTER;
++				write_unlock(&vport->vmid_lock);
++				if (vport->vmid_priority_tagging)
++					r = lpfc_vmid_uvem(vport,
++							   vport->hash_table[i],
++							   false);
++				else
++					r = lpfc_vmid_cmd(vport,
++							  SLI_CTAS_DAPP_IDENT,
++							  vport->hash_table[i]);
++
++				/* decrement number of active vms and mark */
++				/* entry in slot as free */
++				write_lock(&vport->vmid_lock);
++				if (!r) {
++					struct lpfc_vmid *ht =
++							vport->hash_table[i];
++					vport->cur_vmid_cnt--;
++					ht->flag = LPFC_VMID_SLOT_FREE;
++					free_percpu(ht->last_io_time);
++					ht->last_io_time = NULL;
++					vport->hash_table[i] = NULL;
++				}
 +			}
 +		}
- 		break;
- 	case CMD_FCP_IREAD64_CR:
- 		/* word3 iocb=iotag wqe=payload_offset_len */
-@@ -9957,6 +9977,23 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 			ptr = &wqe->words[22];
- 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
- 		}
++		keep = 0;
++	}
++ out:
++	write_unlock(&vport->vmid_lock);
++}
 +
-+		/* add the VMID tags as per switch response */
-+		if (iocbq->iocb_flag & LPFC_IO_VMID) {
-+			union lpfc_wqe128 *wqe128;
++/**
++ * lpfc_check_inactive_vmid - VMID inactivity checker
++ * @phba: Pointer to hba context object.
++ *
++ * This function is called from the worker thread to determine if an entry in
++ * the vmid table can be released since there was no IO activity seen from that
++ * particular VM for the specified time. When this happens, the entry in the
++ * table is released and also the resources on the switch cleared.
++ **/
 +
-+			if (phba->pport->vmid_priority_tagging) {
-+				bf_set(wqe_ccpe, &wqe->fcp_iread.wqe_com, 1);
-+				bf_set(wqe_ccp, &wqe->fcp_iread.wqe_com,
-+				       (iocbq->vmid_tag.cs_ctl_vmid));
-+				/* Bit 0 must be 0 */
-+			} else {
-+				wqe128 = (union lpfc_wqe128 *)wqe;
-+				bf_set(wqe_appid, &wqe->fcp_iread.wqe_com, 1);
-+				bf_set(wqe_wqes, &wqe128->fcp_iread.wqe_com, 1);
-+				wqe128->words[31] = iocbq->vmid_tag.app_id;
-+			}
-+		}
- 		break;
- 	case CMD_FCP_ICMND64_CR:
- 		/* word3 iocb=iotag wqe=payload_offset_len */
-@@ -10014,6 +10051,23 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 			ptr = &wqe->words[22];
- 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
- 		}
++void lpfc_check_inactive_vmid(struct lpfc_hba *phba)
++{
++	struct lpfc_vport *vport;
++	struct lpfc_vport **vports;
++	int i;
 +
-+		/* add the VMID tags as per switch response */
-+		if (iocbq->iocb_flag & LPFC_IO_VMID) {
-+			union lpfc_wqe128 *wqe128;
++	vports = lpfc_create_vport_work_array(phba);
++	if (!vports)
++		return;
 +
-+			if (phba->pport->vmid_priority_tagging) {
-+				bf_set(wqe_ccpe, &wqe->fcp_icmd.wqe_com, 1);
-+				bf_set(wqe_ccp, &wqe->fcp_icmd.wqe_com,
-+				       (iocbq->vmid_tag.cs_ctl_vmid));
-+				/* Bit 0 must be 0 */
-+			} else {
-+				wqe128 = (union lpfc_wqe128 *)wqe;
-+				bf_set(wqe_appid, &wqe->fcp_icmd.wqe_com, 1);
-+				bf_set(wqe_wqes, &wqe128->fcp_icmd.wqe_com, 1);
-+				wqe128->words[31] = iocbq->vmid_tag.app_id;
-+			}
-+		}
- 		break;
- 	case CMD_GEN_REQUEST64_CR:
- 		/* For this command calculate the xmit length of the
++	for (i = 0; i <= phba->max_vports; i++) {
++		if ((!vports[i]) && (i == 0))
++			vport = phba->pport;
++		else
++			vport = vports[i];
++		if (!vport)
++			break;
++
++		lpfc_check_inactive_vmid_one(vport);
++	}
++	lpfc_destroy_vport_work_array(phba, vports);
++}
++
+ /**
+  * lpfc_dev_loss_tmo_handler - Remote node devloss timeout handler
+  * @ndlp: Pointer to remote node object.
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 8318dfdc7d87..d1187ec80cb3 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -4811,6 +4811,42 @@ lpfc_sli4_fcf_redisc_wait_tmo(struct timer_list *t)
+ 	lpfc_worker_wake_up(phba);
+ }
+ 
++/**
++ * lpfc_vmid_poll - VMID timeout detection
++ * @ptr: Map to lpfc_hba data structure pointer.
++ *
++ * This routine is invoked when there is no IO on by a VM for the specified
++ * amount of time. When this situation is detected, the VMID has to be
++ * deregistered from the switch and all the local resources freed. The VMID
++ * will be reassigned to the VM once the IO begins.
++ **/
++static void
++lpfc_vmid_poll(struct timer_list *t)
++{
++	struct lpfc_hba *phba = from_timer(phba, t, inactive_vmid_poll);
++	u32 wake_up = 0;
++
++	/* check if there is a need to issue QFPA */
++	if (phba->pport->vmid_priority_tagging) {
++		wake_up = 1;
++		phba->pport->work_port_events |= WORKER_CHECK_VMID_ISSUE_QFPA;
++	}
++
++	/* Is the vmid inactivity timer enabled */
++	if (phba->pport->vmid_inactivity_timeout ||
++	    phba->pport->load_flag & FC_DEREGISTER_ALL_APP_ID) {
++		wake_up = 1;
++		phba->pport->work_port_events |= WORKER_CHECK_INACTIVE_VMID;
++	}
++
++	if (wake_up)
++		lpfc_worker_wake_up(phba);
++
++	/* restart the timer for the next iteration */
++	mod_timer(&phba->inactive_vmid_poll, jiffies + msecs_to_jiffies(1000 *
++							LPFC_VMID_TIMER));
++}
++
+ /**
+  * lpfc_sli4_parse_latt_fault - Parse sli4 link-attention link fault code
+  * @phba: pointer to lpfc hba data structure.
+@@ -6657,6 +6693,10 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
+ 	phba->hbqs[LPFC_ELS_HBQ].hbq_alloc_buffer = lpfc_sli4_rb_alloc;
+ 	phba->hbqs[LPFC_ELS_HBQ].hbq_free_buffer = lpfc_sli4_rb_free;
+ 
++	/* for VMID idle timeout if VMID is enabled */
++	if (lpfc_is_vmid_enabled(phba))
++		timer_setup(&phba->inactive_vmid_poll, lpfc_vmid_poll, 0);
++
+ 	/*
+ 	 * Initialize the SLI Layer to run with lpfc SLI4 HBAs.
+ 	 */
 -- 
 2.26.2
 
@@ -241,7 +323,7 @@ this e-mail is strictly prohibited. If you received this e-mail in error,
 please return the e-mail to the sender, delete it from your computer, and 
 destroy any printed copy of it.
 
---000000000000719c5305b693f12f
+--000000000000a75e2e05b693f1d1
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -312,19 +394,19 @@ LbMkW5lUoTb8ycBNOKLYhNE8UEOY8jRTUtMEhzT6NJDEE+1hb3kSGfArrrF3Z8pRYiUUhcpC5GKL
 EpmWnHflnrBcah5Ozy137DGCAm8wggJrAgEBMG0wXTELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEds
 b2JhbFNpZ24gbnYtc2ExMzAxBgNVBAMTKkdsb2JhbFNpZ24gUGVyc29uYWxTaWduIDIgQ0EgLSBT
 SEEyNTYgLSBHMwIMX/krgFDQUQNyOf+1MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEi
-BCB3f+g34ftbdiqP0+GAA/r9ODEwOokWiaME92lLa5jxfTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDEyMTYxMjIzMzBaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
+BCC2ti9CyFOc4MK8sjZ9syFmO16fuXavR25+S2y41dwrDDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
+AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDEyMTYxMjIzMzRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
 AWUDBAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEK
-MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAe7YsldtegCgFlsXF
-43fYyYoProdEC3do2GqxOhQ14ba62qO9TJKmOknJ8fWX+AWvoAomGQIAiazjXBdZ6Eic49AKh0TK
-teQHYiPU7hN9a9o5uWpEIFMvYVyoc30ajpYXp85Fzf+5oL53GWTevKIrDcS7rWuSH4siRxsgEcml
-3T1Ry0UmokitsLFsl6TJ+5kNahIDG+4FfsXbrHxl/Sn/bN5TTa3cLOaPHr4T3aU3KOZ6FTR7V4YW
-hJm/4/GkWXzYjZ9CyOeLLxrAGP1PbBAGwKMAB6s8vzdDkGZVI165Qn4FRevQv4T1H/flOlgaCkap
-/jpa+xN3balM47hGGT2L5A==
---000000000000719c5305b693f12f--
+MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEACV8wbRFYRCCF+WGP
+IX1QTVTFuutlmEtdOgoAaSentEMcg92bwAWWfolwRzq4wSg0nXo9vr+vFMhlFfU2mEZV8mlvKYat
+1g20tGZeUw6OrjmbWU7N8MgkWTBJihJeA+qx6xlwTi8x01f81bQYNKuLeXK4DDG4WQo9teCD8Mf4
+KccK7tUFctL2lTxgS2XHcqP/YzAOQ6jNb4zPyGgiFn5DfpqIYSwUAAgr19nE+zBW+IQu9en+2TzN
+C5+BESM1ga3rbPJwcSXZ9CsbRkSSBiDZPmQguj8VimeHS95ExOcaURn8lQDXsEfsRZK1UdvnUq6E
+K3UmVo4RJ+neu+KOktoHhA==
+--000000000000a75e2e05b693f1d1--
 
 
---===============3220791607348099751==
+--===============8899170544709415711==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -335,5 +417,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============3220791607348099751==--
+--===============8899170544709415711==--
 
