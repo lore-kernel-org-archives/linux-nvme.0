@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84506C4361B
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 15:14:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5AC6C4361B
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 15:48:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 012672313B
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 15:14:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 012672313B
+	by mail.kernel.org (Postfix) with ESMTPS id 1E71022B40
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 15:48:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E71022B40
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,54 +23,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:MIME-Version:References:Message-ID:Subject:To:From:Date:Reply-To
 	:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+6+B+SA9x2mbSgNfmiYQaUYugIeXxiRpTcVkZiupsCY=; b=w5JQ5POaXAFLIx7t1ExtN6HNM
-	2ocOG/b5nDKghBsNQ9d4PK0ClMfMBRcA12YmzePMNF3GRj84QPkUu++cGho56KkFK+7bzXRBER241
-	r9Vy5QCGnfsk6WbByXh5bcIdUxxktkEHfV0pM2CKkD2f6g68wF3RRKyDWFwCeh4WVKWFwbclWw+Op
-	IwPBZR3M0tPfA4Bd3bFd6O1yKyV6x5ZO9lBxdacwAnxjP0EfactkOxdUIPTIJQ1aD/7JcXni1DTM5
-	TQKgQ1QDsnSZESi8EdfbOtJAcXB0mM2YXz3uRalpd/Dqe9Jp/KEx4r2zu9dxXNiTHQQiOw+4jj05D
-	dvzcrMGwg==;
+	 bh=AdWSRcMFZhCBhBl1ybQrxh9f2CuQ1Fo9pGT/2VXykJE=; b=v1wB7THy0JeezcKZphtKv+v73
+	xXqAl4prn/2xMo0BGZ3G6m3uQHzl9s/3dYLYv/4sr4N3YAiileFbCBh4C1gjWDNOVKYBWBk+37nsz
+	l/cNmKV0ddpfr/LIoUVB/6xgowvubgSCGV4MHVNjsFAb8NxhWqRdKYZi4xYnNU2s16KsGg9m4m/vJ
+	9JxsB5EP6Y3ExK5tY4blf98sdtuYQMELF3h+JrwS6vUEJlX2+7NrgAoBIrAcgYQVZZK7+dVwS1JUW
+	RDux358uoIAhrIrv2hWjkTS+Ek4Ujh+BIpZ8xpowxJPj6dbyeghuxqeeEpjY3sv/Ux8mF8xRMyWtp
+	RBSLYfTcw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kpYVF-0002NL-1t; Wed, 16 Dec 2020 15:14:09 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1kpZ28-0005Be-JG; Wed, 16 Dec 2020 15:48:08 +0000
+Received: from mga04.intel.com ([192.55.52.120])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kpYVA-0002M8-JW
- for linux-nvme@lists.infradead.org; Wed, 16 Dec 2020 15:14:06 +0000
-IronPort-SDR: dRy3WHHjPtA/t5P4WXkwuN38UZzRExUW68E0zO5AoysYYWptQkLEtZTYxnkclS3vHn6S7VsKzt
- vNi1W5SCE3qA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9836"; a="175183189"
+ id 1kpZ24-0005Am-Pb
+ for linux-nvme@lists.infradead.org; Wed, 16 Dec 2020 15:48:06 +0000
+IronPort-SDR: 9Aamw7BRiYo3uX/FFW2vd2+OnwGHQ7yjERgztokk15KYi3GLwViFEME8GcV6k/jyrGHTr0uG6a
+ 4zDlS5h138gQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="172512446"
 X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; 
- d="gz'50?scan'50,208,50";a="175183189"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2020 07:13:56 -0800
-IronPort-SDR: b5ahhb/GUTxUo4AA73vhmU3qhbnAyMN8oYDm+QWfEPmYVPhOPnkbchKHOE6mUZ4yWxQ749MkJQ
- VerUOqhqisyg==
+ d="gz'50?scan'50,208,50";a="172512446"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2020 07:48:01 -0800
+IronPort-SDR: pqXAiBfkoz77mhVkI5Nfw5I9JGezQoxz3KqqT+qvZjSzQ9frMAQF1DngOnxPSmykUZsDTXDSdn
+ cLwnbIzwXcKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; 
- d="gz'50?scan'50,208,50";a="386508505"
+ d="gz'50?scan'50,208,50";a="557444885"
 Received: from lkp-server02.sh.intel.com (HELO 070e1a605002) ([10.239.97.151])
- by fmsmga002.fm.intel.com with ESMTP; 16 Dec 2020 07:13:52 -0800
+ by orsmga005.jf.intel.com with ESMTP; 16 Dec 2020 07:47:57 -0800
 Received: from kbuild by 070e1a605002 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1kpYUx-00005U-Uw; Wed, 16 Dec 2020 15:13:51 +0000
-Date: Wed, 16 Dec 2020 23:13:11 +0800
+ id 1kpZ1w-00006J-S4; Wed, 16 Dec 2020 15:47:56 +0000
+Date: Wed, 16 Dec 2020 23:47:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Muneendra <muneendra.kumar@broadcom.com>, linux-block@vger.kernel.org,
  linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org, hare@suse.de
-Subject: Re: [PATCH v5 08/16] lpfc: vmid: Add support for vmid in mailbox
- command, does vmid resource allocation and vmid cleanup
-Message-ID: <202012162348.l9wD5rSH-lkp@intel.com>
-References: <1608096586-21656-9-git-send-email-muneendra.kumar@broadcom.com>
+Subject: Re: [PATCH v5 09/16] lpfc: vmid: Implements ELS commands for appid
+ patch
+Message-ID: <202012162314.KPhCSZlZ-lkp@intel.com>
+References: <1608096586-21656-10-git-send-email-muneendra.kumar@broadcom.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="rwEMma7ioTxnRzrJ"
+Content-Type: multipart/mixed; boundary="T4sUOijqQbZv57TR"
 Content-Disposition: inline
-In-Reply-To: <1608096586-21656-9-git-send-email-muneendra.kumar@broadcom.com>
+In-Reply-To: <1608096586-21656-10-git-send-email-muneendra.kumar@broadcom.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201216_101405_274129_EFBAB709 
-X-CRM114-Status: GOOD (  28.24  )
+X-CRM114-CacheID: sfid-20201216_104805_274057_25D718B5 
+X-CRM114-Status: GOOD (  24.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,7 +89,7 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
---rwEMma7ioTxnRzrJ
+--T4sUOijqQbZv57TR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -111,10 +111,10 @@ compiler: ia64-linux-gcc (GCC) 9.3.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/03480ee8b62a90ab2917fccf45d0e56185c1f8a5
+        # https://github.com/0day-ci/linux/commit/65751f65f5df79aaa25cd5752589ca91ebddde18
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Muneendra/blkcg-Support-to-track-FC-storage-blk-io-traffic/20201216-202913
-        git checkout 03480ee8b62a90ab2917fccf45d0e56185c1f8a5
+        git checkout 65751f65f5df79aaa25cd5752589ca91ebddde18
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=ia64 
 
@@ -123,9 +123,26 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/scsi/lpfc/lpfc_init.c:4288:1: warning: no previous prototype for 'lpfc_vmid_res_alloc' [-Wmissing-prototypes]
-    4288 | lpfc_vmid_res_alloc(struct lpfc_hba *phba, struct lpfc_vport *vport)
-         | ^~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/lpfc/lpfc_els.c:10354:6: warning: no previous prototype for 'lpfc_init_cs_ctl_bitmap' [-Wmissing-prototypes]
+   10354 | void lpfc_init_cs_ctl_bitmap(struct lpfc_vport *vport)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/lpfc/lpfc_els.c:10360:1: warning: no previous prototype for 'lpfc_vmid_set_cs_ctl_range' [-Wmissing-prototypes]
+   10360 | lpfc_vmid_set_cs_ctl_range(struct lpfc_vport *vport, u32 min, u32 max)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/lpfc/lpfc_els.c:10371:6: warning: no previous prototype for 'lpfc_vmid_put_cs_ctl' [-Wmissing-prototypes]
+   10371 | void lpfc_vmid_put_cs_ctl(struct lpfc_vport *vport, u32 ctcl_vmid)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/lpfc/lpfc_els.c: In function 'lpfc_issue_els_qfpa':
+   drivers/scsi/lpfc/lpfc_els.c:10491:19: warning: variable 'psli' set but not used [-Wunused-but-set-variable]
+   10491 |  struct lpfc_sli *psli;
+         |                   ^~~~
+   drivers/scsi/lpfc/lpfc_els.c:10488:10: warning: variable 'icmd' set but not used [-Wunused-but-set-variable]
+   10488 |  IOCB_t *icmd;
+         |          ^~~~
+   drivers/scsi/lpfc/lpfc_els.c: In function 'lpfc_vmid_uvem':
+   drivers/scsi/lpfc/lpfc_els.c:10537:10: warning: variable 'icmd' set but not used [-Wunused-but-set-variable]
+   10537 |  IOCB_t *icmd;
+         |          ^~~~
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for FRAME_POINTER
@@ -134,76 +151,42 @@ Kconfig warnings: (for reference only)
    - FAULT_INJECTION_STACKTRACE_FILTER && FAULT_INJECTION_DEBUG_FS && STACKTRACE_SUPPORT && !X86_64 && !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM && !ARC && !X86
 
 
-vim +/lpfc_vmid_res_alloc +4288 drivers/scsi/lpfc/lpfc_init.c
+vim +/lpfc_init_cs_ctl_bitmap +10354 drivers/scsi/lpfc/lpfc_els.c
 
-  4275	
-  4276	/**
-  4277	 * lpfc_vmid_res_alloc - Allocates resources for VMID
-  4278	 * @phba: pointer to lpfc hba data structure.
-  4279	 * @vport: pointer to vport data structure
-  4280	 *
-  4281	 * This routine allocated the resources needed for the vmid.
-  4282	 *
-  4283	 * Return codes
-  4284	 *	0 on Succeess
-  4285	 *	Non-0 on Failure
-  4286	 */
-  4287	u8
-> 4288	lpfc_vmid_res_alloc(struct lpfc_hba *phba, struct lpfc_vport *vport)
-  4289	{
-  4290		u16 i;
-  4291	
-  4292		/* vmid feature is supported only on SLI4 */
-  4293		if (phba->sli_rev == LPFC_SLI_REV3) {
-  4294			phba->cfg_vmid_app_header = 0;
-  4295			phba->cfg_vmid_priority_tagging = 0;
-  4296		}
-  4297	
-  4298		/* if enabled, then allocated the resources */
-  4299		if (lpfc_is_vmid_enabled(phba)) {
-  4300			vport->vmid =
-  4301			    kmalloc_array(phba->cfg_max_vmid, sizeof(struct lpfc_vmid),
-  4302					  GFP_KERNEL);
-  4303			if (!vport->vmid)
-  4304				return FAILURE;
-  4305	
-  4306			memset(vport->vmid, 0,
-  4307			       phba->cfg_max_vmid * sizeof(struct lpfc_vmid));
-  4308	
-  4309			rwlock_init(&vport->vmid_lock);
-  4310	
-  4311			/* setting the VMID parameters for the vport */
-  4312			vport->vmid_priority_tagging = phba->cfg_vmid_priority_tagging;
-  4313			vport->vmid_inactivity_timeout =
-  4314			    phba->cfg_vmid_inactivity_timeout;
-  4315			vport->max_vmid = phba->cfg_max_vmid;
-  4316			vport->cur_vmid_cnt = 0;
-  4317	
-  4318			for (i = 0; i < LPFC_VMID_HASH_SIZE; i++)
-  4319				vport->hash_table[i] = NULL;
-  4320	
-  4321			vport->vmid_priority_range = bitmap_zalloc
-  4322				(LPFC_VMID_MAX_PRIORITY_RANGE, GFP_KERNEL);
-  4323	
-  4324			if (!vport->vmid_priority_range) {
-  4325				kfree(vport->vmid);
-  4326				return FAILURE;
-  4327			}
-  4328		}
-  4329		return 0;
-  4330	}
-  4331	
+ 10353	
+ 10354	void lpfc_init_cs_ctl_bitmap(struct lpfc_vport *vport)
+ 10355	{
+ 10356		bitmap_zero(vport->vmid_priority_range, LPFC_VMID_MAX_PRIORITY_RANGE);
+ 10357	}
+ 10358	
+ 10359	void
+ 10360	lpfc_vmid_set_cs_ctl_range(struct lpfc_vport *vport, u32 min, u32 max)
+ 10361	{
+ 10362		u32 i;
+ 10363	
+ 10364		if ((min > max) || (max > LPFC_VMID_MAX_PRIORITY_RANGE))
+ 10365			return;
+ 10366	
+ 10367		for (i = min; i <= max; i++)
+ 10368			set_bit(i, vport->vmid_priority_range);
+ 10369	}
+ 10370	
+ 10371	void lpfc_vmid_put_cs_ctl(struct lpfc_vport *vport, u32 ctcl_vmid)
+ 10372	{
+ 10373		set_bit(ctcl_vmid, vport->vmid_priority_range);
+ 10374	}
+ 10375	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---rwEMma7ioTxnRzrJ
+--T4sUOijqQbZv57TR
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICBcb2l8AAy5jb25maWcAlDxbd9s20u/9FTrJS/vQri+pNz3f8QMIghJWJMEAoCzlhcd1
+H4sICOAm2l8AAy5jb25maWcAlDxbd9s20u/9FTrJS/vQri+pNz3f8QMIghJWJMEAoCzlhcd1
 lNRnEzsr29tmf/03A94GICileYk5MxgCg7kD1OsfXi/Yy/Pjl9vn+7vbz5+/LT7tH/aH2+f9
 h8XH+8/7/1ukalEquxCptL8AcX7/8PLXP+5vr94sfv3l/OyXs58Pd+eL9f7wsP+84I8PH+8/
 vcDw+8eHH17/wFWZyWXDebMR2khVNlZs7fUrHP7zZ+T086e7u8WPS85/Wvz2y+UvZ6/IGGka
@@ -1369,7 +1352,7 @@ k0XPbgatYnyKFUTY6CMhv+tvd7u9YwPwj8dwcQ1yJwldMWv5VLFqHUZUAvPNcGgYr0QbYI3d
 iHaHEIWBkZGA7DBKc3cY4P1OA33kDgTnGKBPGC2S2JvgUaqgdLmVYtiMBOB0n9t9cxXzrrt2
 PjHclqC3YfDWYx40uBeIgvL/A3VDh8PY7QMA
 
---rwEMma7ioTxnRzrJ
+--T4sUOijqQbZv57TR
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1380,5 +1363,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---rwEMma7ioTxnRzrJ--
+--T4sUOijqQbZv57TR--
 
