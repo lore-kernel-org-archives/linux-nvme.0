@@ -2,108 +2,80 @@ Return-Path: <SRS0=a62X=FU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE92C4361B
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 11:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDA1C4361B
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 12:23:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BCAC623124
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 11:09:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCAC623124
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=zurich.ibm.com
+	by mail.kernel.org (Postfix) with ESMTPS id ADEB123109
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 12:23:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADEB123109
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=K75K6hbrdaHMYmBNjJ+in63hqNzBQ5trz+LjFxFNgaE=; b=h/Zvz5IrZLjDswuaIF3g0cbi+6
-	6PhPTxaXm6MhXHu0dU9bl5two5zAaqd89a6+EpiYEwxpuGh384iqJtTF3tY9okpy+a+kO+uhJPOLo
-	7V5FJkz9Xn0uHzf/vDUOrPSYRWD/BTXsiwYJEXWPXX+lkmqcmuoln9OKga/H+p5bTF1DvuucoDDy3
-	D5Vg1GucUYw91O3BQvejObOR/67e58BhksCgVo19R7nRBIrp/W3xj+5Yyt1Aqayx2sWrjfM2JjC1e
-	lEsHfFYOPAPhOe+ngNXRQyiCaKljLadSuln3v4yhQs5pryWhwSvJuAhxkVg14S+uIuoG66B/ua3nw
-	bfcXThQw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Message-Id:Date:Subject:To:From:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=iyFTuIBdQ/eA8FkvL8rLlz891rvIxUFVrsws9jmuRw8=; b=q6R
+	T7xdFYFBYXYLdidJDNEDxeYXm199QJ/EX9G7tH2oClDEWhXV+nvy9VScD3oKbjbn4e3plslb+Oz0z
+	4n1vBXtis1DVgKHJdqoP+1avn7GzabQ3NHIngEB+plPY3Ga/kRhN/Nd++g5Ec8o3qkydWV3p7PELZ
+	BvyvgDCpKl/IhFbMEQhVhM7xqIbtQ6IJ/c8dcOzlIo1CseBLAXq/9b7yEGWUvLfaogHoMILqvo87o
+	lNiODel0GVOF5p+eAnvgMp5YsgS7eVCLta79jCrJPWztGHGDLBDkq6wtvTfV+snESbZ0qXcU+3bUZ
+	rDfSMnKt9WqfGngRTqJVInViCxG5mCw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kpUfr-0000No-Id; Wed, 16 Dec 2020 11:08:51 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1kpVpY-0002B6-4C; Wed, 16 Dec 2020 12:22:56 +0000
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kpUYt-0004Kl-CO
- for linux-nvme@lists.infradead.org; Wed, 16 Dec 2020 11:01:42 +0000
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BGAXuej110251; Wed, 16 Dec 2020 06:01:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=Q3UxFmIr8gEe4h/GGjldxFL1IwlqA+QLZuMDfsAVSuE=;
- b=MtAHlG5i8eOr3rLcMjDfhAbzJhCPLmNLHSkNVJap610wgKEj2pVUsQZ5UMVxDzeYc0Eg
- mdHet46sjenySqs5LS4gCdhnSpOkFpbFWq5wC07QAYBSxI88SYR26gWYWTpqmqnk4N77
- sLbGD4clls7E2ewRLILGMyrTI3AmclcBa4LzCQ0b8hliiYnZ0LqocF6/TUeiEhvzdF7d
- L7HyPBhZI/kmSpZcUcNPIWwbEaKrcD7CmalI23O1pP7BFWJZQnCYzK4obgJ8HqkqUvZi
- IkQrCHj3O4eOlLXeqDOxb/+/QsUJ6EBRZEqHeiXWO6BBEmaKTMUdb9tBHy/gU8rT6zur ZA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35fgfarwq0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Dec 2020 06:01:31 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BGAY57Y111210;
- Wed, 16 Dec 2020 06:01:31 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35fgfarwn6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Dec 2020 06:01:31 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BGAvsmC012719;
- Wed, 16 Dec 2020 11:01:28 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 35cng8c6m4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Dec 2020 11:01:28 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BGB1QUt24838512
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Dec 2020 11:01:26 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 13223A4051;
- Wed, 16 Dec 2020 11:01:26 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E2335A4059;
- Wed, 16 Dec 2020 11:01:22 +0000 (GMT)
-Received: from Pescara.zurich.ibm.com (unknown [9.163.56.144])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 16 Dec 2020 11:01:22 +0000 (GMT)
-From: Bernard Metzler <bmt@zurich.ibm.com>
-To: linux-rdma@vger.kernel.org
-Subject: [PATCH v3] RDMA/siw: Fix handling of zero-sized Read and Receive
- Queues.
-Date: Wed, 16 Dec 2020 12:00:00 +0100
-Message-Id: <20201216110000.611-1-bmt@zurich.ibm.com>
-X-Mailer: git-send-email 2.29.2
+ id 1kpVpS-00029f-C2
+ for linux-nvme@lists.infradead.org; Wed, 16 Dec 2020 12:22:53 +0000
+Received: by mail-pj1-x102b.google.com with SMTP id lb18so1389849pjb.5
+ for <linux-nvme@lists.infradead.org>; Wed, 16 Dec 2020 04:22:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=mime-version:from:to:cc:subject:date:message-id;
+ bh=gvUQUUNJbdkxajLxhN7Ij74RpUf11NtiqGL/mDL+pPs=;
+ b=gLOdH9lW2nGkwDqDZDY4Rkd+ZunvBF17o6p7+dlZG4hf3n3mLYGDUJZgEvgPAquZvR
+ EmLmp5BGyX/8HnJzZtDEbawUa7p4K8fvWz1cAQ7GpNfJZsBwg1Buy8dlooBN6b65oP8k
+ u/T6Ku0KLqnDrH1N3yu+dl1Ll5SBnzBSRFaaI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=gvUQUUNJbdkxajLxhN7Ij74RpUf11NtiqGL/mDL+pPs=;
+ b=Wiu+GWTWxWhtR1mZmPbOuZiKsq7ID3FyT1leQXjuxK72ibS1/hLETt9zSr9znxOut0
+ 6oe94vmdrHgUTX18wFX5Bktndhyks/kFyWIDzMMEc2tCsqQFfH4eyzSD9OIaAkBswKKh
+ mRyDwkEV25Mtdt6n1qP9Gg2ra9r1FR6MbCKdCsQFNToa6h1yiwrdBJaajjhSub9Rbdsi
+ aSvliiCz1jEEGsIwOzyWXSKY23CclwDy4tmFzlsNIfuOASz0us5rkJ7woCdPSznJsU+5
+ KNcWnEUGwHnRq4w+lDBfCHMip/eBHC9tcRY38GC3I2b4UrAx4iVzMljzGacJWPyg8yo5
+ gLPg==
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-16_04:2020-12-15,
- 2020-12-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 impostorscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 priorityscore=1501 phishscore=0
- malwarescore=0 lowpriorityscore=0 spamscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012160063
+X-Gm-Message-State: AOAM5324aQyGaIueQmd9VXLlWU+wuiSJoBO6vcoMzzpkN3FInACJ12m/
+ uaXT8rY5r7zcN1uNDhdC7Cqom/qcQsuuh7QrJoNqsBRaRqR2qwjWWPQSGjXKvXqLm+uv8cZcL7r
+ ElKWaOXGRkxwOoGN5rw==
+X-Google-Smtp-Source: ABdhPJy8NnByWAYwsRu9jCFmaCXklcEJRWrTzv5wETTbmnLT4euQZiXC14W6oFqEq1HLjl95oVW3Hg==
+X-Received: by 2002:a17:902:c409:b029:dc:1b6:7448 with SMTP id
+ k9-20020a170902c409b02900dc01b67448mr12041214plk.19.1608121366816; 
+ Wed, 16 Dec 2020 04:22:46 -0800 (PST)
+Received: from localhost.localdomain ([192.19.234.250])
+ by smtp.gmail.com with ESMTPSA id s7sm2477296pfh.207.2020.12.16.04.22.43
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 16 Dec 2020 04:22:46 -0800 (PST)
+From: Muneendra <muneendra.kumar@broadcom.com>
+To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
+ linux-nvme@lists.infradead.org, hare@suse.de
+Subject: [PATCH v5 00/16] blkcg:Support to track FC storage blk io traffic
+Date: Wed, 16 Dec 2020 10:59:30 +0530
+Message-Id: <1608096586-21656-1-git-send-email-muneendra.kumar@broadcom.com>
+X-Mailer: git-send-email 1.8.3.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201216_060139_772313_24F0AB03 
-X-CRM114-Status: GOOD (  31.26  )
+X-CRM114-CacheID: sfid-20201216_072250_982549_E95F0C9F 
+X-CRM114-Status: GOOD (  16.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,365 +87,236 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Yi Zhang <yi.zhang@redhat.com>, kernel test robot <lkp@intel.com>,
- leon@kernel.org, linux-nvme@lists.infradead.org,
- Kamal Heib <kamalheib1@gmail.com>, jgg@nvidia.com,
- Bernard Metzler <bmt@zurich.ibm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: pbonzini@redhat.com, jsmart2021@gmail.com, mkumar@redhat.com,
+ emilne@redhat.com, Muneendra <muneendra.kumar@broadcom.com>
+Content-Type: multipart/mixed; boundary="===============3589061684679882418=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-During connection setup, the application may choose to zero-size
-inbound and outbound READ queues, as well as the Receive queue.
-This patch fixes handling of zero-sized queues, but not prevents
-it.
+--===============3589061684679882418==
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000da61e005b693eeb2"
 
-Kamal Heib says in an initial error report:
-When running the blktests over siw the following shift-out-of-bounds is
-reported, this is happening because the passed IRD or ORD from the ulp
-could be zero which will lead to unexpected behavior when calling
-roundup_pow_of_two(), fix that by blocking zero values of ORD or IRD.
+--000000000000da61e005b693eeb2
+Content-Type: text/plain; charset="US-ASCII"
 
-UBSAN: shift-out-of-bounds in ./include/linux/log2.h:57:13
-shift exponent 64 is too large for 64-bit type 'long unsigned int'
-CPU: 20 PID: 3957 Comm: kworker/u64:13 Tainted: G S     5.10.0-rc6 #2
-Hardware name: Dell Inc. PowerEdge R630/02C2CP, BIOS 2.1.5 04/11/2016
-Workqueue: iw_cm_wq cm_work_handler [iw_cm]
-Call Trace:
- dump_stack+0x99/0xcb
- ubsan_epilogue+0x5/0x40
- __ubsan_handle_shift_out_of_bounds.cold.11+0xb4/0xf3
- ? down_write+0x183/0x3d0
- siw_qp_modify.cold.8+0x2d/0x32 [siw]
- ? __local_bh_enable_ip+0xa5/0xf0
- siw_accept+0x906/0x1b60 [siw]
- ? xa_load+0x147/0x1f0
- ? siw_connect+0x17a0/0x17a0 [siw]
- ? lock_downgrade+0x700/0x700
- ? siw_get_base_qp+0x1c2/0x340 [siw]
- ? _raw_spin_unlock_irqrestore+0x39/0x40
- iw_cm_accept+0x1f4/0x430 [iw_cm]
- rdma_accept+0x3fa/0xb10 [rdma_cm]
- ? check_flush_dependency+0x410/0x410
- ? cma_rep_recv+0x570/0x570 [rdma_cm]
- nvmet_rdma_queue_connect+0x1a62/0x2680 [nvmet_rdma]
- ? nvmet_rdma_alloc_cmds+0xce0/0xce0 [nvmet_rdma]
- ? lock_release+0x56e/0xcc0
- ? lock_downgrade+0x700/0x700
- ? lock_downgrade+0x700/0x700
- ? __xa_alloc_cyclic+0xef/0x350
- ? __xa_alloc+0x2d0/0x2d0
- ? rdma_restrack_add+0xbe/0x2c0 [ib_core]
- ? __ww_mutex_die+0x190/0x190
- cma_cm_event_handler+0xf2/0x500 [rdma_cm]
- iw_conn_req_handler+0x910/0xcb0 [rdma_cm]
- ? _raw_spin_unlock_irqrestore+0x39/0x40
- ? trace_hardirqs_on+0x1c/0x150
- ? cma_ib_handler+0x8a0/0x8a0 [rdma_cm]
- ? __kasan_kmalloc.constprop.7+0xc1/0xd0
- cm_work_handler+0x121c/0x17a0 [iw_cm]
- ? iw_cm_reject+0x190/0x190 [iw_cm]
- ? trace_hardirqs_on+0x1c/0x150
- process_one_work+0x8fb/0x16c0
- ? pwq_dec_nr_in_flight+0x320/0x320
- worker_thread+0x87/0xb40
- ? __kthread_parkme+0xd1/0x1a0
- ? process_one_work+0x16c0/0x16c0
- kthread+0x35f/0x430
- ? kthread_mod_delayed_work+0x180/0x180
- ret_from_fork+0x22/0x30
+This Patch added a unique application identifier i.e
+app_id  knob to  blkcg which allows identification of traffic
+sources at an individual cgroup based Applications
+(ex:virtual machine (VM))level in both host and
+fabric infrastructure.
 
-Fixes: a531975279f3 ("rdma/siw: main include file")
-Fixes: f29dd55b0236 ("rdma/siw: queue pair methods")
-Fixes: 8b6a361b8c48 ("rdma/siw: receive path")
-Fixes: b9be6f18cf9e ("rdma/siw: transmit path")
-Fixes: 303ae1cdfdf7 ("rdma/siw: application interface")
-Reported-by: Kamal Heib <kamalheib1@gmail.com>
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bernard Metzler <bmt@zurich.ibm.com>
----
-v2 changes:
-- Fix uninitialized variable introduced in siw_qp_rx.c, as
-  Reported-by: kernel test robot <lkp@intel.com>
-- Add initial error report as
-  Reported-by: Kamal Heib <kamalheib1@gmail.com>
+Added a new sysfs attribute appid_store to set the application identfier
+in  the blkcg associted with cgroup id
+/sys/class/fc/fc_udev_device/*
+With this new interface the user can set the application identfier
+in  the blkcg associted with cgroup id.
 
-v3 changes:
-- correct patch changelog location
-- remove prints for failed queue malloc's as pointed out by
-  Leon Romanovsky
+This capability can be utilized by multiple block transport infrastructure
+like fc,iscsi,roce.
 
- drivers/infiniband/sw/siw/siw.h       |  2 +-
- drivers/infiniband/sw/siw/siw_qp.c    | 52 ++++++++++++++++-----------
- drivers/infiniband/sw/siw/siw_qp_rx.c | 26 +++++++++-----
- drivers/infiniband/sw/siw/siw_qp_tx.c |  4 +--
- drivers/infiniband/sw/siw/siw_verbs.c | 20 +++++++----
- 5 files changed, 66 insertions(+), 38 deletions(-)
+Existing FC fabric will use this feature and the description of
+the use case is below.
 
-diff --git a/drivers/infiniband/sw/siw/siw.h b/drivers/infiniband/sw/siw/siw.h
-index e9753831ac3f..6f17392f975a 100644
---- a/drivers/infiniband/sw/siw/siw.h
-+++ b/drivers/infiniband/sw/siw/siw.h
-@@ -654,7 +654,7 @@ static inline struct siw_sqe *orq_get_free(struct siw_qp *qp)
- {
- 	struct siw_sqe *orq_e = orq_get_tail(qp);
- 
--	if (orq_e && READ_ONCE(orq_e->flags) == 0)
-+	if (READ_ONCE(orq_e->flags) == 0)
- 		return orq_e;
- 
- 	return NULL;
-diff --git a/drivers/infiniband/sw/siw/siw_qp.c b/drivers/infiniband/sw/siw/siw_qp.c
-index 875d36d4b1c6..05fb289c1819 100644
---- a/drivers/infiniband/sw/siw/siw_qp.c
-+++ b/drivers/infiniband/sw/siw/siw_qp.c
-@@ -199,26 +199,26 @@ void siw_qp_llp_write_space(struct sock *sk)
- 
- static int siw_qp_readq_init(struct siw_qp *qp, int irq_size, int orq_size)
- {
--	irq_size = roundup_pow_of_two(irq_size);
--	orq_size = roundup_pow_of_two(orq_size);
--
--	qp->attrs.irq_size = irq_size;
--	qp->attrs.orq_size = orq_size;
--
--	qp->irq = vzalloc(irq_size * sizeof(struct siw_sqe));
--	if (!qp->irq) {
--		siw_dbg_qp(qp, "irq malloc for %d failed\n", irq_size);
--		qp->attrs.irq_size = 0;
--		return -ENOMEM;
-+	if (irq_size) {
-+		irq_size = roundup_pow_of_two(irq_size);
-+		qp->irq = vzalloc(irq_size * sizeof(struct siw_sqe));
-+		if (!qp->irq) {
-+			qp->attrs.irq_size = 0;
-+			return -ENOMEM;
-+		}
- 	}
--	qp->orq = vzalloc(orq_size * sizeof(struct siw_sqe));
--	if (!qp->orq) {
--		siw_dbg_qp(qp, "orq malloc for %d failed\n", orq_size);
--		qp->attrs.orq_size = 0;
--		qp->attrs.irq_size = 0;
--		vfree(qp->irq);
--		return -ENOMEM;
-+	if (orq_size) {
-+		orq_size = roundup_pow_of_two(orq_size);
-+		qp->orq = vzalloc(orq_size * sizeof(struct siw_sqe));
-+		if (!qp->orq) {
-+			qp->attrs.orq_size = 0;
-+			qp->attrs.irq_size = 0;
-+			vfree(qp->irq);
-+			return -ENOMEM;
-+		}
- 	}
-+	qp->attrs.irq_size = irq_size;
-+	qp->attrs.orq_size = orq_size;
- 	siw_dbg_qp(qp, "ORD %d, IRD %d\n", orq_size, irq_size);
- 	return 0;
- }
-@@ -288,13 +288,14 @@ int siw_qp_mpa_rts(struct siw_qp *qp, enum mpa_v2_ctrl ctrl)
- 	if (ctrl & MPA_V2_RDMA_WRITE_RTR)
- 		wqe->sqe.opcode = SIW_OP_WRITE;
- 	else if (ctrl & MPA_V2_RDMA_READ_RTR) {
--		struct siw_sqe *rreq;
-+		struct siw_sqe *rreq = NULL;
- 
- 		wqe->sqe.opcode = SIW_OP_READ;
- 
- 		spin_lock(&qp->orq_lock);
- 
--		rreq = orq_get_free(qp);
-+		if (qp->attrs.orq_size)
-+			rreq = orq_get_free(qp);
- 		if (rreq) {
- 			siw_read_to_orq(rreq, &wqe->sqe);
- 			qp->orq_put++;
-@@ -889,6 +890,9 @@ int siw_activate_tx(struct siw_qp *qp)
- 	struct siw_wqe *wqe = tx_wqe(qp);
- 	int rv = 1;
- 
-+	if (!qp->attrs.irq_size)
-+		goto no_irq;
-+
- 	irqe = &qp->irq[qp->irq_get % qp->attrs.irq_size];
- 
- 	if (irqe->flags & SIW_WQE_VALID) {
-@@ -933,6 +937,7 @@ int siw_activate_tx(struct siw_qp *qp)
- 
- 		goto out;
- 	}
-+no_irq:
- 	sqe = sq_get_next(qp);
- 	if (sqe) {
- skip_irq:
-@@ -971,7 +976,7 @@ int siw_activate_tx(struct siw_qp *qp)
- 			}
- 			spin_lock(&qp->orq_lock);
- 
--			if (!siw_orq_empty(qp)) {
-+			if (qp->attrs.orq_size && !siw_orq_empty(qp)) {
- 				qp->tx_ctx.orq_fence = 1;
- 				rv = 0;
- 			}
-@@ -981,6 +986,11 @@ int siw_activate_tx(struct siw_qp *qp)
- 			   wqe->sqe.opcode == SIW_OP_READ_LOCAL_INV) {
- 			struct siw_sqe *rreq;
- 
-+			if (unlikely(!qp->attrs.orq_size)) {
-+				/* We negotiated not to send READ req's */
-+				rv = -EINVAL;
-+				goto out;
-+			}
- 			wqe->sqe.num_sge = 1;
- 
- 			spin_lock(&qp->orq_lock);
-diff --git a/drivers/infiniband/sw/siw/siw_qp_rx.c b/drivers/infiniband/sw/siw/siw_qp_rx.c
-index 4bd1f1f84057..60116f20653c 100644
---- a/drivers/infiniband/sw/siw/siw_qp_rx.c
-+++ b/drivers/infiniband/sw/siw/siw_qp_rx.c
-@@ -680,6 +680,10 @@ static int siw_init_rresp(struct siw_qp *qp, struct siw_rx_stream *srx)
- 	}
- 	spin_lock_irqsave(&qp->sq_lock, flags);
- 
-+	if (unlikely(!qp->attrs.irq_size)) {
-+		run_sq = 0;
-+		goto error_irq;
-+	}
- 	if (tx_work->wr_status == SIW_WR_IDLE) {
- 		/*
- 		 * immediately schedule READ response w/o
-@@ -712,8 +716,9 @@ static int siw_init_rresp(struct siw_qp *qp, struct siw_rx_stream *srx)
- 		/* RRESP now valid as current TX wqe or placed into IRQ */
- 		smp_store_mb(resp->flags, SIW_WQE_VALID);
- 	} else {
--		pr_warn("siw: [QP %u]: irq %d exceeded %d\n", qp_id(qp),
--			qp->irq_put % qp->attrs.irq_size, qp->attrs.irq_size);
-+error_irq:
-+		pr_warn("siw: [QP %u]: IRQ exceeded or null, size %d\n",
-+			qp_id(qp), qp->attrs.irq_size);
- 
- 		siw_init_terminate(qp, TERM_ERROR_LAYER_RDMAP,
- 				   RDMAP_ETYPE_REMOTE_OPERATION,
-@@ -740,6 +745,9 @@ static int siw_orqe_start_rx(struct siw_qp *qp)
- 	struct siw_sqe *orqe;
- 	struct siw_wqe *wqe = NULL;
- 
-+	if (unlikely(!qp->attrs.orq_size))
-+		return -EPROTO;
-+
- 	/* make sure ORQ indices are current */
- 	smp_mb();
- 
-@@ -796,8 +804,8 @@ int siw_proc_rresp(struct siw_qp *qp)
- 		 */
- 		rv = siw_orqe_start_rx(qp);
- 		if (rv) {
--			pr_warn("siw: [QP %u]: ORQ empty at idx %d\n",
--				qp_id(qp), qp->orq_get % qp->attrs.orq_size);
-+			pr_warn("siw: [QP %u]: ORQ empty, size %d\n",
-+				qp_id(qp), qp->attrs.orq_size);
- 			goto error_term;
- 		}
- 		rv = siw_rresp_check_ntoh(srx, frx);
-@@ -1290,11 +1298,13 @@ static int siw_rdmap_complete(struct siw_qp *qp, int error)
- 					      wc_status);
- 		siw_wqe_put_mem(wqe, SIW_OP_READ);
- 
--		if (!error)
-+		if (!error) {
- 			rv = siw_check_tx_fence(qp);
--		else
--			/* Disable current ORQ eleement */
--			WRITE_ONCE(orq_get_current(qp)->flags, 0);
-+		} else {
-+			/* Disable current ORQ element */
-+			if (qp->attrs.orq_size)
-+				WRITE_ONCE(orq_get_current(qp)->flags, 0);
-+		}
- 		break;
- 
- 	case RDMAP_RDMA_READ_REQ:
-diff --git a/drivers/infiniband/sw/siw/siw_qp_tx.c b/drivers/infiniband/sw/siw/siw_qp_tx.c
-index d19d8325588b..7989c4043db4 100644
---- a/drivers/infiniband/sw/siw/siw_qp_tx.c
-+++ b/drivers/infiniband/sw/siw/siw_qp_tx.c
-@@ -1107,8 +1107,8 @@ int siw_qp_sq_process(struct siw_qp *qp)
- 		/*
- 		 * RREQ may have already been completed by inbound RRESP!
- 		 */
--		if (tx_type == SIW_OP_READ ||
--		    tx_type == SIW_OP_READ_LOCAL_INV) {
-+		if ((tx_type == SIW_OP_READ ||
-+		     tx_type == SIW_OP_READ_LOCAL_INV) && qp->attrs.orq_size) {
- 			/* Cleanup pending entry in ORQ */
- 			qp->orq_put--;
- 			qp->orq[qp->orq_put % qp->attrs.orq_size].flags = 0;
-diff --git a/drivers/infiniband/sw/siw/siw_verbs.c b/drivers/infiniband/sw/siw/siw_verbs.c
-index 7cf3242ffb41..fb25e8011f5a 100644
---- a/drivers/infiniband/sw/siw/siw_verbs.c
-+++ b/drivers/infiniband/sw/siw/siw_verbs.c
-@@ -362,13 +362,23 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
- 	if (rv)
- 		goto err_out;
- 
-+	num_sqe = attrs->cap.max_send_wr;
-+	num_rqe = attrs->cap.max_recv_wr;
-+
- 	/* All queue indices are derived from modulo operations
- 	 * on a free running 'get' (consumer) and 'put' (producer)
- 	 * unsigned counter. Having queue sizes at power of two
- 	 * avoids handling counter wrap around.
- 	 */
--	num_sqe = roundup_pow_of_two(attrs->cap.max_send_wr);
--	num_rqe = roundup_pow_of_two(attrs->cap.max_recv_wr);
-+	if (num_sqe)
-+		num_sqe = roundup_pow_of_two(num_sqe);
-+	else {
-+		/* Zero sized SQ is not supported */
-+		rv = -EINVAL;
-+		goto err_out;
-+	}
-+	if (num_rqe)
-+		num_rqe = roundup_pow_of_two(num_rqe);
- 
- 	if (udata)
- 		qp->sendq = vmalloc_user(num_sqe * sizeof(struct siw_sqe));
-@@ -376,7 +386,6 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
- 		qp->sendq = vzalloc(num_sqe * sizeof(struct siw_sqe));
- 
- 	if (qp->sendq == NULL) {
--		siw_dbg(base_dev, "SQ size %d alloc failed\n", num_sqe);
- 		rv = -ENOMEM;
- 		goto err_out_xa;
- 	}
-@@ -410,7 +419,6 @@ struct ib_qp *siw_create_qp(struct ib_pd *pd,
- 			qp->recvq = vzalloc(num_rqe * sizeof(struct siw_rqe));
- 
- 		if (qp->recvq == NULL) {
--			siw_dbg(base_dev, "RQ size %d alloc failed\n", num_rqe);
- 			rv = -ENOMEM;
- 			goto err_out_xa;
- 		}
-@@ -960,9 +968,9 @@ int siw_post_receive(struct ib_qp *base_qp, const struct ib_recv_wr *wr,
- 	unsigned long flags;
- 	int rv = 0;
- 
--	if (qp->srq) {
-+	if (qp->srq || qp->attrs.rq_size == 0) {
- 		*bad_wr = wr;
--		return -EOPNOTSUPP; /* what else from errno.h? */
-+		return -EINVAL;
- 	}
- 	if (!rdma_is_kernel_res(&qp->base_qp.res)) {
- 		siw_dbg_qp(qp, "no kernel post_recv for user mapped rq\n");
+Various virtualization technologies used in Fibre Channel
+SAN deployments have created the opportunity to identify
+and associate traffic with specific virtualized applications.
+The concepts behind the T11 Application Services standard is
+to provide the general mechanisms needed to identify
+virtualized services.
+It enables the Fabric and the storage targets to
+identify, monitor, and handle FC traffic
+based on vm tags by inserting application specific identification
+into the FC frame.
+
+The patches were cut against  5.11/scsi-queue tree
+
+v5:
+Renamed the function cgroup_get_from_kernfs_id to
+cgroup_get_from_id.
+
+Moved the input validation at the beginning of the function in 
+Renamed the arguments appropriatley.
+
+Changed Return code to non-numeric/SymbolChanged Return code
+to non-numeric/Symbol
+
+Modified the comments.
+
+v4:
+Addressed the error reported by  kernel test robot
+
+v3:
+removed RFC.
+
+Renamed the functions and app_id to more specific
+Addressed the reference leaks in blkcg_set_app_identifier
+Added a new config BLK_CGROUP_FC_APPID and made changes to 
+select the same under SCSI_FC_ATTRS
+
+V2:
+renamed app_identifier to app_id.
+removed the  sysfs interface blkio.app_identifie under
+/sys/fs/cgroup/blkio
+Ported the patch on top of 5.10/scsi-queue.
+Removed redundant code due to changes since last submit.
+Added a fix for issuing QFPA command.
+
+
+
+Gaurav Srivastava (12):
+  lpfc: vmid: Add the datastructure for supporting VMID in lpfc
+  lpfc: vmid: Supplementary data structures for vmid and APIs
+  lpfc: vmid: Forward declarations for APIs
+  lpfc: vmid: VMID params initialization
+  lpfc: vmid: Add support for vmid in mailbox command, does vmid
+    resource allocation and vmid cleanup
+  lpfc: vmid: Implements ELS commands for appid patch
+  lpfc: vmid: Functions to manage vmids
+  lpfc: vmid: Implements CT commands for appid.
+  lpfc: vmid: Appends the vmid in the wqe before sending
+  lpfc: vmid: Timeout implementation for vmid
+  lpfc: vmid: Adding qfpa and vmid timeout check in worker thread
+  lpfc: vmid: Introducing vmid in io path.
+
+Muneendra (4):
+  cgroup: Added cgroup_get_from_id
+  blkcg: Added a app identifier support for blkcg
+  nvme: Added a newsysfs attribute appid_store
+  scsi: Made changes in Kconfig to select BLK_CGROUP_FC_APPID
+
+ block/Kconfig                    |   9 +
+ drivers/nvme/host/fc.c           |  73 +++++-
+ drivers/scsi/Kconfig             |  13 ++
+ drivers/scsi/lpfc/lpfc.h         | 121 ++++++++++
+ drivers/scsi/lpfc/lpfc_attr.c    |  47 ++++
+ drivers/scsi/lpfc/lpfc_crtn.h    |  11 +
+ drivers/scsi/lpfc/lpfc_ct.c      | 249 +++++++++++++++++++++
+ drivers/scsi/lpfc/lpfc_disc.h    |   1 +
+ drivers/scsi/lpfc/lpfc_els.c     | 371 ++++++++++++++++++++++++++++++-
+ drivers/scsi/lpfc/lpfc_hbadisc.c | 151 +++++++++++++
+ drivers/scsi/lpfc/lpfc_hw.h      | 124 ++++++++++-
+ drivers/scsi/lpfc/lpfc_hw4.h     |  12 +
+ drivers/scsi/lpfc/lpfc_init.c    | 108 +++++++++
+ drivers/scsi/lpfc/lpfc_mbox.c    |   6 +
+ drivers/scsi/lpfc/lpfc_scsi.c    | 325 +++++++++++++++++++++++++++
+ drivers/scsi/lpfc/lpfc_sli.c     |  65 +++++-
+ drivers/scsi/lpfc/lpfc_sli.h     |   8 +
+ include/linux/blk-cgroup.h       |  56 +++++
+ include/linux/cgroup.h           |   6 +
+ kernel/cgroup/cgroup.c           |  26 +++
+ 20 files changed, 1769 insertions(+), 13 deletions(-)
+
 -- 
-2.17.2
+2.26.2
 
+
+-- 
+This electronic communication and the information and any files transmitted 
+with it, or attached to it, are confidential and are intended solely for 
+the use of the individual or entity to whom it is addressed and may contain 
+information that is confidential, legally privileged, protected by privacy 
+laws, or otherwise restricted from disclosure to anyone else. If you are 
+not the intended recipient or the person responsible for delivering the 
+e-mail to the intended recipient, you are hereby notified that any use, 
+copying, distributing, dissemination, forwarding, printing, or copying of 
+this e-mail is strictly prohibited. If you received this e-mail in error, 
+please return the e-mail to the sender, delete it from your computer, and 
+destroy any printed copy of it.
+
+--000000000000da61e005b693eeb2
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+J/4V6ms/nIUi+/4vPYjckYUbRzkXm1/X0IyUfpp5cgdrFn9jBIk69fQGAUEhnVvwcXnHWotYxZFd
+Xew5Fz0CAwEAAaOCAdMwggHPMA4GA1UdDwEB/wQEAwIFoDCBngYIKwYBBQUHAQEEgZEwgY4wTQYI
+KwYBBQUHMAKGQWh0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5jb20vY2FjZXJ0L2dzcGVyc29uYWxz
+aWduMnNoYTJnM29jc3AuY3J0MD0GCCsGAQUFBzABhjFodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5j
+b20vZ3NwZXJzb25hbHNpZ24yc2hhMmczME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsG
+AQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAA
+MEQGA1UdHwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NwZXJzb25hbHNp
+Z24yc2hhMmczLmNybDAnBgNVHREEIDAegRxtdW5lZW5kcmEua3VtYXJAYnJvYWRjb20uY29tMBMG
+A1UdJQQMMAoGCCsGAQUFBwMEMB8GA1UdIwQYMBaAFGlygmIxZ5VEhXeRgMQENkmdewthMB0GA1Ud
+DgQWBBR6On9cEmlB2VsuST951zNMSKtFBzANBgkqhkiG9w0BAQsFAAOCAQEAOGDBLQ17Ge8BVULh
+hsKhgh5eDx0mNmRRdhvTJnxOTRX5QsOKvsJGOUbyrKjD3BTTcGmIUti9HmbqDe/3gRTbhu8LA508
+LbMkW5lUoTb8ycBNOKLYhNE8UEOY8jRTUtMEhzT6NJDEE+1hb3kSGfArrrF3Z8pRYiUUhcpC5GKL
+9KsxA+DECRfSGfXJJQSq6nEZUGKhz+dz5CV1s8UIZLe9HEEfyJO4eRP+Fw9X16cthAbY0kpVnAvT
+/j45FAauY/h87uphdvSb5wC9v5w4VO0JKs0yNUjyWXg/RG+6JCvcViLFLAlRCLrcRcVaQwWZQ3YB
+EpmWnHflnrBcah5Ozy137DGCAm8wggJrAgEBMG0wXTELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEds
+b2JhbFNpZ24gbnYtc2ExMzAxBgNVBAMTKkdsb2JhbFNpZ24gUGVyc29uYWxTaWduIDIgQ0EgLSBT
+SEEyNTYgLSBHMwIMX/krgFDQUQNyOf+1MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEi
+BCCN5XDXdZhj2RM6Pe8ABSPZ/ydYva13bHegfL1JgFfBLTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
+AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDEyMTYxMjIyNDdaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
+AWUDBAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEK
+MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAixxpsO7q1mtD2IPe
+XW87hwQN1g2zNqpJzKSiVTF3oI9yQfdDiZN1aENXQcT0/v42xM5QGfeWGhwQEiZhcwcxADpbWvLU
+ftHA8ISYA4R6jrRyMoEUhM5t+NFk25nvKXCTHzYH5k+DqiCarfbg3iXVS0HwLcw776ghoi7D4ajs
+PFIZZkv9YGaFZxps3QPXYoU2zf2T+PHpLe0BktJfYk+Kmr+nNd8GKkZ7dhrgxjbHwGI/Bkj1LciJ
+3no1ahgKZXcdUZ5WPqyPXxN9eZD62HYnSdR7H5KzKxDZ96m9nuqhf4HaBdnMq7j2/0Uk0cxWB7Lb
+Tq9oA/CpSe832tiVZx+btA==
+--000000000000da61e005b693eeb2--
+
+
+--===============3589061684679882418==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--===============3589061684679882418==--
+
