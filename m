@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5AC6C4361B
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 15:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 854EAC4361B
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 16:24:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1E71022B40
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 15:48:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E71022B40
+	by mail.kernel.org (Postfix) with ESMTPS id C545F2339E
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Dec 2020 16:24:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C545F2339E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,54 +23,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:MIME-Version:References:Message-ID:Subject:To:From:Date:Reply-To
 	:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AdWSRcMFZhCBhBl1ybQrxh9f2CuQ1Fo9pGT/2VXykJE=; b=v1wB7THy0JeezcKZphtKv+v73
-	xXqAl4prn/2xMo0BGZ3G6m3uQHzl9s/3dYLYv/4sr4N3YAiileFbCBh4C1gjWDNOVKYBWBk+37nsz
-	l/cNmKV0ddpfr/LIoUVB/6xgowvubgSCGV4MHVNjsFAb8NxhWqRdKYZi4xYnNU2s16KsGg9m4m/vJ
-	9JxsB5EP6Y3ExK5tY4blf98sdtuYQMELF3h+JrwS6vUEJlX2+7NrgAoBIrAcgYQVZZK7+dVwS1JUW
-	RDux358uoIAhrIrv2hWjkTS+Ek4Ujh+BIpZ8xpowxJPj6dbyeghuxqeeEpjY3sv/Ux8mF8xRMyWtp
-	RBSLYfTcw==;
+	 bh=dx18bm0tbfH4cSsmCxF/eafD0uTNbGcnKSK63f8+cq8=; b=UIyEHT4EXAi2VBqIGikqPUUkD
+	vLjD5PGPjf7nYxPPCKGHIAiZpCTRW7NvchEnUkRekGyQoPC84EGYh0fdiiETf4YcUBmqIwHp0NTa2
+	WpmvXQkv9x6lV8Zqy9dmVs8qbnpLf/Nza/xv0UMcZR3wF0XuWV+s1BsmXwyZLLTzvn0ts6Ea1+ysw
+	ixibZbw828ISQbHx/zp6buhc2qz0dU3acvNlrgA92zRqpmvIdUW2HtnQFzfBeySre/TMWLaIyh8Ip
+	en94DvKuUU9Pj6nC6fwNxKo/VRXX2C2jnyBa4r4SfwIpTLOZrF9pGO1TcSER8jPRP52NhmCHEliXA
+	mQY2Ik7zQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kpZ28-0005Be-JG; Wed, 16 Dec 2020 15:48:08 +0000
-Received: from mga04.intel.com ([192.55.52.120])
+	id 1kpZaz-0000lR-6w; Wed, 16 Dec 2020 16:24:09 +0000
+Received: from mga05.intel.com ([192.55.52.43])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kpZ24-0005Am-Pb
- for linux-nvme@lists.infradead.org; Wed, 16 Dec 2020 15:48:06 +0000
-IronPort-SDR: 9Aamw7BRiYo3uX/FFW2vd2+OnwGHQ7yjERgztokk15KYi3GLwViFEME8GcV6k/jyrGHTr0uG6a
- 4zDlS5h138gQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="172512446"
+ id 1kpZav-0000ko-Nl
+ for linux-nvme@lists.infradead.org; Wed, 16 Dec 2020 16:24:07 +0000
+IronPort-SDR: A1lDd14RqRXgV0zovy/5lzrJfBne2C6K+5YgMWTP0v16mtRmZxpRdUa6SOJ308+oPdGovArZoA
+ fyxkvBU3Cn1g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="259816637"
 X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; 
- d="gz'50?scan'50,208,50";a="172512446"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2020 07:48:01 -0800
-IronPort-SDR: pqXAiBfkoz77mhVkI5Nfw5I9JGezQoxz3KqqT+qvZjSzQ9frMAQF1DngOnxPSmykUZsDTXDSdn
- cLwnbIzwXcKQ==
+ d="gz'50?scan'50,208,50";a="259816637"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2020 08:24:03 -0800
+IronPort-SDR: zFU1emfiG15ElDBLPfxfeI8haD3OpWnUQHWhhcl9uMHp1rPKMdwTgvhp4V4w5hpDd3VNVcIAWI
+ VGm2r6XI5rhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; 
- d="gz'50?scan'50,208,50";a="557444885"
+ d="gz'50?scan'50,208,50";a="342113938"
 Received: from lkp-server02.sh.intel.com (HELO 070e1a605002) ([10.239.97.151])
- by orsmga005.jf.intel.com with ESMTP; 16 Dec 2020 07:47:57 -0800
+ by orsmga006.jf.intel.com with ESMTP; 16 Dec 2020 08:23:59 -0800
 Received: from kbuild by 070e1a605002 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1kpZ1w-00006J-S4; Wed, 16 Dec 2020 15:47:56 +0000
-Date: Wed, 16 Dec 2020 23:47:35 +0800
+ id 1kpZao-000075-BU; Wed, 16 Dec 2020 16:23:58 +0000
+Date: Thu, 17 Dec 2020 00:23:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Muneendra <muneendra.kumar@broadcom.com>, linux-block@vger.kernel.org,
  linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org, hare@suse.de
-Subject: Re: [PATCH v5 09/16] lpfc: vmid: Implements ELS commands for appid
- patch
-Message-ID: <202012162314.KPhCSZlZ-lkp@intel.com>
-References: <1608096586-21656-10-git-send-email-muneendra.kumar@broadcom.com>
+Subject: Re: [PATCH v5 10/16] lpfc: vmid: Functions to manage vmids
+Message-ID: <202012170055.7XFOznM6-lkp@intel.com>
+References: <1608096586-21656-11-git-send-email-muneendra.kumar@broadcom.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="T4sUOijqQbZv57TR"
+Content-Type: multipart/mixed; boundary="/9DWx/yDrRhgMJTb"
 Content-Disposition: inline
-In-Reply-To: <1608096586-21656-10-git-send-email-muneendra.kumar@broadcom.com>
+In-Reply-To: <1608096586-21656-11-git-send-email-muneendra.kumar@broadcom.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201216_104805_274057_25D718B5 
-X-CRM114-Status: GOOD (  24.03  )
+X-CRM114-CacheID: sfid-20201216_112406_218749_20C06CEC 
+X-CRM114-Status: GOOD (  28.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,7 +88,7 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
---T4sUOijqQbZv57TR
+--/9DWx/yDrRhgMJTb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -111,10 +110,10 @@ compiler: ia64-linux-gcc (GCC) 9.3.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/65751f65f5df79aaa25cd5752589ca91ebddde18
+        # https://github.com/0day-ci/linux/commit/8417ca99565475d5bf5493657fcf90922607f1b1
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Muneendra/blkcg-Support-to-track-FC-storage-blk-io-traffic/20201216-202913
-        git checkout 65751f65f5df79aaa25cd5752589ca91ebddde18
+        git checkout 8417ca99565475d5bf5493657fcf90922607f1b1
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=ia64 
 
@@ -123,26 +122,15 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/scsi/lpfc/lpfc_els.c:10354:6: warning: no previous prototype for 'lpfc_init_cs_ctl_bitmap' [-Wmissing-prototypes]
-   10354 | void lpfc_init_cs_ctl_bitmap(struct lpfc_vport *vport)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/lpfc/lpfc_els.c:10360:1: warning: no previous prototype for 'lpfc_vmid_set_cs_ctl_range' [-Wmissing-prototypes]
-   10360 | lpfc_vmid_set_cs_ctl_range(struct lpfc_vport *vport, u32 min, u32 max)
+>> drivers/scsi/lpfc/lpfc_scsi.c:5179:1: warning: no previous prototype for 'lpfc_put_vmid_in_hashtable' [-Wmissing-prototypes]
+    5179 | lpfc_put_vmid_in_hashtable(struct lpfc_vport *vport, u32 hash,
          | ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/lpfc/lpfc_els.c:10371:6: warning: no previous prototype for 'lpfc_vmid_put_cs_ctl' [-Wmissing-prototypes]
-   10371 | void lpfc_vmid_put_cs_ctl(struct lpfc_vport *vport, u32 ctcl_vmid)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c: In function 'lpfc_issue_els_qfpa':
-   drivers/scsi/lpfc/lpfc_els.c:10491:19: warning: variable 'psli' set but not used [-Wunused-but-set-variable]
-   10491 |  struct lpfc_sli *psli;
-         |                   ^~~~
-   drivers/scsi/lpfc/lpfc_els.c:10488:10: warning: variable 'icmd' set but not used [-Wunused-but-set-variable]
-   10488 |  IOCB_t *icmd;
-         |          ^~~~
-   drivers/scsi/lpfc/lpfc_els.c: In function 'lpfc_vmid_uvem':
-   drivers/scsi/lpfc/lpfc_els.c:10537:10: warning: variable 'icmd' set but not used [-Wunused-but-set-variable]
-   10537 |  IOCB_t *icmd;
-         |          ^~~~
+>> drivers/scsi/lpfc/lpfc_scsi.c:5233:6: warning: no previous prototype for 'lpfc_vmid_update_entry' [-Wmissing-prototypes]
+    5233 | void lpfc_vmid_update_entry(struct lpfc_vport *vport, struct scsi_cmnd
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/lpfc/lpfc_scsi.c:5254:6: warning: no previous prototype for 'lpfc_vmid_assign_cs_ctl' [-Wmissing-prototypes]
+    5254 | void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport, struct lpfc_vmid *vmid)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for FRAME_POINTER
@@ -151,42 +139,124 @@ Kconfig warnings: (for reference only)
    - FAULT_INJECTION_STACKTRACE_FILTER && FAULT_INJECTION_DEBUG_FS && STACKTRACE_SUPPORT && !X86_64 && !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM && !ARC && !X86
 
 
-vim +/lpfc_init_cs_ctl_bitmap +10354 drivers/scsi/lpfc/lpfc_els.c
+vim +/lpfc_put_vmid_in_hashtable +5179 drivers/scsi/lpfc/lpfc_scsi.c
 
- 10353	
- 10354	void lpfc_init_cs_ctl_bitmap(struct lpfc_vport *vport)
- 10355	{
- 10356		bitmap_zero(vport->vmid_priority_range, LPFC_VMID_MAX_PRIORITY_RANGE);
- 10357	}
- 10358	
- 10359	void
- 10360	lpfc_vmid_set_cs_ctl_range(struct lpfc_vport *vport, u32 min, u32 max)
- 10361	{
- 10362		u32 i;
- 10363	
- 10364		if ((min > max) || (max > LPFC_VMID_MAX_PRIORITY_RANGE))
- 10365			return;
- 10366	
- 10367		for (i = min; i <= max; i++)
- 10368			set_bit(i, vport->vmid_priority_range);
- 10369	}
- 10370	
- 10371	void lpfc_vmid_put_cs_ctl(struct lpfc_vport *vport, u32 ctcl_vmid)
- 10372	{
- 10373		set_bit(ctcl_vmid, vport->vmid_priority_range);
- 10374	}
- 10375	
+  5168	
+  5169	/*
+  5170	 * lpfc_put_vmid_from_hastable - put the VMID in the hash table
+  5171	 * @vport: The virtual port for which this call is being executed.
+  5172	 * @hash - calculated hash value
+  5173	 * @vmp: Pointer to a VMID entry representing a VM sending IO
+  5174	 *
+  5175	 * This routine will insert the newly acquired vmid entity in the hash table.
+  5176	 * Make sure to acquire the appropriate lock before invoking this routine.
+  5177	 */
+  5178	int
+> 5179	lpfc_put_vmid_in_hashtable(struct lpfc_vport *vport, u32 hash,
+  5180				   struct lpfc_vmid *vmp)
+  5181	{
+  5182		int count = 0;
+  5183	
+  5184		while (count < LPFC_VMID_HASH_SIZE) {
+  5185			if (!vport->hash_table[hash]) {
+  5186				vport->hash_table[hash] = vmp;
+  5187				vmp->hash_index = hash;
+  5188				return FAILURE;
+  5189			}
+  5190			/* if the slot is already occupied, a collision has occurred. */
+  5191			/* Store in the next available slot */
+  5192			count++;
+  5193			hash++;
+  5194			/* table is full */
+  5195			if (hash == LPFC_VMID_HASH_SIZE)
+  5196				hash = 0;
+  5197		}
+  5198		return 0;
+  5199	}
+  5200	
+  5201	/*
+  5202	 * lpfc_vmid_hash_fn- creates a hash value of the UUID
+  5203	 * @uuid: uuid associated with the VE
+  5204	 * @len: length of the UUID
+  5205	 * Returns the calculated hash value
+  5206	 */
+  5207	int lpfc_vmid_hash_fn(char *vmid, int len)
+  5208	{
+  5209		int c;
+  5210		int hash = 0;
+  5211	
+  5212		if (len == 0)
+  5213			return 0;
+  5214		while (len--) {
+  5215			c = *vmid++;
+  5216			if (c >= 'A' && c <= 'Z')
+  5217				c += 'a' - 'A';
+  5218	
+  5219			hash = (hash + (c << LPFC_VMID_HASH_SHIFT) +
+  5220				(c >> LPFC_VMID_HASH_SHIFT)) * 19;
+  5221		}
+  5222	
+  5223		return hash & LPFC_VMID_HASH_MASK;
+  5224	}
+  5225	
+  5226	/*
+  5227	 * lpfc_vmid_update_entry - update the vmid entry in the hash table
+  5228	 * @vport: The virtual port for which this call is being executed.
+  5229	 * @cmd: address of scsi cmmd descriptor
+  5230	 * @vmp: Pointer to a VMID entry representing a VM sending IO
+  5231	 * @tag: VMID tag
+  5232	 */
+> 5233	void lpfc_vmid_update_entry(struct lpfc_vport *vport, struct scsi_cmnd
+  5234					   *cmd, struct lpfc_vmid *vmp,
+  5235					   union lpfc_vmid_io_tag *tag)
+  5236	{
+  5237		u64 *lta;
+  5238	
+  5239		if (vport->vmid_priority_tagging)
+  5240			tag->cs_ctl_vmid = vmp->un.cs_ctl_vmid;
+  5241		else
+  5242			tag->app_id = vmp->un.app_id;
+  5243	
+  5244		if (cmd->sc_data_direction == DMA_TO_DEVICE)
+  5245			vmp->io_wr_cnt++;
+  5246		else
+  5247			vmp->io_rd_cnt++;
+  5248	
+  5249		/* update the last access timestamp in the table */
+  5250		lta = per_cpu_ptr(vmp->last_io_time, raw_smp_processor_id());
+  5251		*lta = jiffies;
+  5252	}
+  5253	
+> 5254	void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport, struct lpfc_vmid *vmid)
+  5255	{
+  5256		u32 hash;
+  5257		struct lpfc_vmid *pvmid;
+  5258	
+  5259		if (vport->port_type == LPFC_PHYSICAL_PORT) {
+  5260			vmid->un.cs_ctl_vmid = lpfc_vmid_get_cs_ctl(vport);
+  5261		} else {
+  5262			hash = lpfc_vmid_hash_fn(vmid->host_vmid, vmid->vmid_len);
+  5263			pvmid =
+  5264			    lpfc_get_vmid_from_hastable(vport->phba->pport, hash,
+  5265							vmid->host_vmid);
+  5266			if (!pvmid)
+  5267				vmid->un.cs_ctl_vmid = pvmid->un.cs_ctl_vmid;
+  5268			else
+  5269				vmid->un.cs_ctl_vmid = lpfc_vmid_get_cs_ctl(vport);
+  5270		}
+  5271	}
+  5272	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---T4sUOijqQbZv57TR
+--/9DWx/yDrRhgMJTb
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICOAm2l8AAy5jb25maWcAlDxbd9s20u/9FTrJS/vQri+pNz3f8QMIghJWJMEAoCzlhcd1
+H4sICBgu2l8AAy5jb25maWcAlDxbd9s20u/9FTrJS/vQri+pNz3f8QMIghJWJMEAoCzlhcd1
 lNRnEzsr29tmf/03A94GICileYk5MxgCg7kD1OsfXi/Yy/Pjl9vn+7vbz5+/LT7tH/aH2+f9
 h8XH+8/7/1ukalEquxCptL8AcX7/8PLXP+5vr94sfv3l/OyXs58Pd+eL9f7wsP+84I8PH+8/
 vcDw+8eHH17/wFWZyWXDebMR2khVNlZs7fUrHP7zZ+T086e7u8WPS85/Wvz2y+UvZ6/IGGka
@@ -1352,7 +1422,7 @@ k0XPbgatYnyKFUTY6CMhv+tvd7u9YwPwj8dwcQ1yJwldMWv5VLFqHUZUAvPNcGgYr0QbYI3d
 iHaHEIWBkZGA7DBKc3cY4P1OA33kDgTnGKBPGC2S2JvgUaqgdLmVYtiMBOB0n9t9cxXzrrt2
 PjHclqC3YfDWYx40uBeIgvL/A3VDh8PY7QMA
 
---T4sUOijqQbZv57TR
+--/9DWx/yDrRhgMJTb
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1363,5 +1433,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---T4sUOijqQbZv57TR--
+--/9DWx/yDrRhgMJTb--
 
