@@ -2,90 +2,99 @@ Return-Path: <SRS0=3eeX=FV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B410C4361B
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Dec 2020 13:30:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B88C4361B
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Dec 2020 18:51:51 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0AD0D22E02
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Dec 2020 13:30:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0AD0D22E02
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0893823118
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Dec 2020 18:51:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0893823118
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=J3ZnUS2dpJTUiMMxYb6+Nx70VFg1C/vWQppRUuXQ8fo=; b=mCeCKqt4FFIVmLmrsYP/YR1UZ
-	okRiR84AC0WwYWONY2OCGr1/RPhhpLdOEHCqTaGAI9RwljxcL3CLUpcKJA/sf3jkCo17AFmqclilO
-	TeO4zKexIy8yaPZW2XGTo/7Jo8e4+3Jnqir0CMociIdksdZh3PldkzoGsk6OpIDo5IuDaQ5WLonr8
-	RjHTRuvbeWz26b95RMmlk9LuUSQii7+8NvISmVVidKrdgT821DmxT9SY9d6EWZLHdYP9OkX/JNPSJ
-	O44Akl5HYqiOnbMkmPt4p+KZahMmUNY8ZqUhxyojHkW87r7OeMoIy6vPXXe4TOWSiKg4any6WE1Mz
-	6V2iL4kIg==;
+	 bh=3e7a510G7ZkqtkTWMaIp9FSONOyTWWBCKVdfuYe46Js=; b=OorCD6im0DWdpnnpGDJIyqlsi
+	LHGtHmCaIMdpr8lg5UcFsTRXStzPD+z8T/ixfyOEbcTLkjTAE5MfF5kJBBN0PL9iZKHTYycW7JP6P
+	c6T6gAx/YqLVBYz+i5P9XuOHcWF5faiVl7bfUxiEVVlltiPTZJIaMK4meiLVYe7lXXlvjrEeQlRvO
+	bY9wJiU2OCEqjg5V04h/sBy8g9nHbWSmv6VbTNAI46j+LinQIEIKTmJmIRjzDt6br0CWsyNP3Cl6p
+	67fOfAkLT/kZylm96BPwx8CVakLPIJdCtIRBHSB3hKHTCzEphwfiw/QIVGBNNCA0iSErDPGU7ymei
+	ZZnVb6PNg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kptM7-0001zQ-Oo; Thu, 17 Dec 2020 13:30:07 +0000
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+	id 1kpyNL-0002dz-ED; Thu, 17 Dec 2020 18:51:43 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kptLi-0001ym-M0
- for linux-nvme@lists.infradead.org; Thu, 17 Dec 2020 13:29:43 +0000
-Received: by mail-ed1-x52f.google.com with SMTP id j16so6195876edr.0
- for <linux-nvme@lists.infradead.org>; Thu, 17 Dec 2020 05:29:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=1BSY6kpvRH25aR6tgxXyew31N03tNmdGM4l7dDerG+8=;
- b=Ui2GhRBdHoQLhgzq3LaQMwyNM1FnyxlYOHoIV6Cz4vUequOcYmrsbCUWk1SLbJc6wt
- qyOyT8OXH8JYRpzF82Yh98yS9xSKQzNRqUP/kDoBLwTYPqONnh6ARLxxgWYCDZxmq8DM
- gU9QWFhqWmJdGPNmSdliiukFBHxcLGiZkUkys/TJx5LLMBBITYIHIfe+E4yB6gdmniNd
- dEtr2n7gH/7Bg0cyujXy/x6BkY2l2kVJE6PlpjhPRjEUrVXkETVebRMwCGtb7ujIh67i
- c+jyc9QaQaV/l9PGEGiAJn4bKpZMtClzf32X//G3cmD9CAzfFlTB8HizIdm2P9nPwmlI
- yGkw==
+ id 1kpyNJ-0002dO-12
+ for linux-nvme@lists.infradead.org; Thu, 17 Dec 2020 18:51:41 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id g185so6605444wmf.3
+ for <linux-nvme@lists.infradead.org>; Thu, 17 Dec 2020 10:51:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PqIJU/UiiYdbQyKwDiZYB1eA+uLCOP7hSkA3qwa+zco=;
+ b=McD3QmJiKEZC2vyxVD4y7kISfiGNAb5U2+z3LuY4GlGEB/sOXGudnGS95ebu1bjd2e
+ ZybYiyV+oUg6OtiKuKLXdm2zCwCDMoms1GBto6HVJvHS4gNqs98AMCaFVMPy5ywHndQ3
+ uDhk9g1+zU3md/Bq69wk3b57+MUbRYDQRPoXX1agn8qoR9eduoyhyTcmXadrcRREIBOn
+ AkQ3TKl0Sufix48jV79VIllBm0R66u4xtbfZF7hSqprB6tQf01sdCt4jzfB9iaEhenY+
+ tjjagr7Hb/4TqoekqIPok5MJhu6nvHTUFLdEJmVQNm31Dbbg0e5bp5IqbZZevmZIKowT
+ LYcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=1BSY6kpvRH25aR6tgxXyew31N03tNmdGM4l7dDerG+8=;
- b=moyED+CFg2eozy0Ylkw35ACmRhf8BhIPKSpzZTbfbdacWNjR0y571Ka/UGBv7vC9wz
- AAxHJSxlDOdPi1CAHHbDR6mgzthKoRazrXRfzR7vWjoE216K8ywy1SbTcMpmvJSiTfaQ
- M/uXawrT5NilnzVFMO3saQSBKCvDRce1ZnBDsJXLmP63ojwO1VpJif38ECwu1pRVJFZF
- 5agqHQNKDuIE+99+XtJ7c9MVC7T/6kNBZGiYNJynvjZ65VG1DpGCtK7QzIWRPZR6+tNQ
- q2y8iFAB8cujr12ofwwo7lIBRAb2vV/4lpfN4sNf+CYmyw0tfQEsyZvoiUMroWKSc7SY
- Mz1Q==
-X-Gm-Message-State: AOAM532Cc4qoCfFuzWh8/+CTwSIJDrg9veOflsJfB1ndRxaq0pHU/OPk
- P8MQ4yd6gbOuKKTy31T1cRaSGw==
-X-Google-Smtp-Source: ABdhPJxVeHu+AlfAuTrOx4tmtzB26fWL4M/0KwddBdphatLAru+U95pCunKDgeb625eQXQDR5CTNCA==
-X-Received: by 2002:a50:e719:: with SMTP id a25mr1287074edn.12.1608211777885; 
- Thu, 17 Dec 2020 05:29:37 -0800 (PST)
-Received: from localhost (5.186.124.214.cgn.fibianet.dk. [5.186.124.214])
- by smtp.gmail.com with ESMTPSA id l22sm3838719ejk.14.2020.12.17.05.29.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 05:29:36 -0800 (PST)
-Date: Thu, 17 Dec 2020 14:29:36 +0100
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: nvme: enable char device per namespace
-Message-ID: <20201217132936.3wvuguclzwll5kqu@unifi>
-References: <20201215224607.GB3915989@dhcp-10-100-145-180.wdc.com>
- <10318EDE-F4D0-4C89-B69D-3D5ACA4308C2@javigon.com>
- <20201216162631.GA77639@dhcp-10-100-145-180.wdc.com>
- <20201216174322.v2ahfdhvgix536gd@unifi>
- <20201216175311.GA31311@redsun51.ssa.fujisawa.hgst.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PqIJU/UiiYdbQyKwDiZYB1eA+uLCOP7hSkA3qwa+zco=;
+ b=XBxRxDIbI3KU4+/2p6aAmA/tcOH0qe5CXIqiREvHygp7ijXUP6QSgUUgJKvyHaLeBq
+ xwJkHAlE1F6G9XwJFvzfZjbLDvSylA5jQjsdE8/QEoPP3NJwEFAIlVAxPpjW97DAb+GM
+ EMyIborVvJnyC53C6i8lyao3FkNQeP7DTd4rfGFPrZmbL9WH9RP06GLN8R2L1gru7hx9
+ /lMEB+AFj3ouGXEIxAXvHbVJ4xlXnYHMapoqOYaPrLD2RO6rbR1kD4CazOnnGyhli1qg
+ WbbCDEA2vOq/fTZDycxyn82bIUqXAnz6+wlk1RSJO5OEjU7WYwVeDxZ5WET9dy0ehATP
+ IwEg==
+X-Gm-Message-State: AOAM5327J7FQzPE+JUuE/52kzPYUl5o/9dTs7Pqwa0VH5W35S4frgnsk
+ K6bceBHDSWpzym/nYjlXGpo=
+X-Google-Smtp-Source: ABdhPJwvd9Qf99bvDwqHusFUK1jWFZSS0hypNsWzRO4Qx002zrPwHv1FjEMMOcE8taNkkjgcvzYzdw==
+X-Received: by 2002:a1c:630b:: with SMTP id x11mr719402wmb.138.1608231098472; 
+ Thu, 17 Dec 2020 10:51:38 -0800 (PST)
+Received: from [192.168.1.11] ([213.57.108.142])
+ by smtp.gmail.com with ESMTPSA id f9sm11279137wrw.81.2020.12.17.10.51.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Dec 2020 10:51:35 -0800 (PST)
+Subject: Re: [PATCH v1 net-next 05/15] nvme-tcp: Add DDP offload control path
+To: Shai Malin <malin1024@gmail.com>, Boris Pismenny <borisp@mellanox.com>,
+ "kuba@kernel.org" <kuba@kernel.org>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "saeedm@nvidia.com" <saeedm@nvidia.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "axboe@fb.com" <axboe@fb.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+ "edumazet@google.com" <edumazet@google.com>
+References: <20201207210649.19194-1-borisp@mellanox.com>
+ <20201207210649.19194-6-borisp@mellanox.com>
+ <PH0PR18MB3845486FF240614CA08E7B4CCCCB0@PH0PR18MB3845.namprd18.prod.outlook.com>
+ <0a272589-940c-6488-9cb9-1833400f38b3@gmail.com>
+ <CAKKgK4xvS9SeM3NmNKDNe5oFxxfi0m_=iHCXeXX0DGcgzG_BBA@mail.gmail.com>
+From: Boris Pismenny <borispismenny@gmail.com>
+Message-ID: <c667ccb0-7444-6892-f647-8971d0b0b461@gmail.com>
+Date: Thu, 17 Dec 2020 20:51:31 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201216175311.GA31311@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <CAKKgK4xvS9SeM3NmNKDNe5oFxxfi0m_=iHCXeXX0DGcgzG_BBA@mail.gmail.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201217_082942_846238_50A108B4 
-X-CRM114-Status: GOOD (  11.99  )
+X-CRM114-CacheID: sfid-20201217_135141_113615_E754835F 
+X-CRM114-Status: GOOD (  19.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,22 +106,77 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, minwoo.im.dev@gmail.com, hch@lst.de,
- linux-nvme@lists.infradead.org, sagi@grimberg.me
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Yoray Zack <yorayz@mellanox.com>, Ariel Elior <aelior@marvell.com>,
+ Ben Ben-Ishay <benishay@mellanox.com>, Michal Kalderon <mkalderon@marvell.com>,
+ "boris.pismenny@gmail.com" <boris.pismenny@gmail.com>,
+ "yorayz@nvidia.com" <yorayz@nvidia.com>, Shai Malin <smalin@marvell.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "benishay@nvidia.com" <benishay@nvidia.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ Or Gerlitz <ogerlitz@mellanox.com>,
+ "ogerlitz@nvidia.com" <ogerlitz@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTcuMTIuMjAyMCAwMjo1MywgS2VpdGggQnVzY2ggd3JvdGU6Cj5PbiBXZWQsIERlYyAxNiwg
-MjAyMCBhdCAwNjo0MzoyMlBNICswMTAwLCBKYXZpZXIgR29uesOhbGV6IHdyb3RlOgo+PiBUaGFu
-a3MgS2VpdGguIEkgd2lsbCBzZW5kIGEgbmV3IHZlcnNpb24gdG9kYXkuCj4+Cj4+IFJlZ2FyZGlu
-ZyBudm1lLWNsaTogd2hhdCBhcmUgeW91ciB0aG91Z2h0cz8KPgo+SSB3YXMgdGhpbmtpbmcgd2Ug
-Y291bGQgYWRkIGEgY29sdW1uIGZvciB0aGVzZSB3aXRoIHRoZSAnLS12ZXJib3NlJwo+b3B0aW9u
-IGluIHRoZSBuYW1lc3BhY2Ugc2VjdGlvbi4KCk1ha2VzIHNlbnNlLiBJIHdpbGwgbG9vayBpbnRv
-IGl0IC0gcHJvYmFibHkgb24gdGhlIG90aGVyIHNpZGUgb2YKQ2hyaXN0bWFzLiBTaG91bGQgZ2l2
-ZSBwbGVudHkgb2YgdGltZSBzaW5jZSB0aGlzIHRpbGwgbm90IGJlIG1lcmdlZAp1bnRpbCA1LjEy
-LgoKU2hvdWxkIGdpdmUgbWUgdGltZSB0byBhZGQgbXVsdGlwYXRoIGluIGEgZm9sbG93LXVwIHBh
-dGNoIHRoZW4uCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3Jn
-Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+
+
+On 15/12/2020 15:33, Shai Malin wrote:
+> On 12/14/2020 08:38, Boris Pismenny wrote:
+>> On 10/12/2020 19:15, Shai Malin wrote:
+>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c index c0c33320fe65..ef96e4a02bbd 100644
+>>> --- a/drivers/nvme/host/tcp.c
+>>> +++ b/drivers/nvme/host/tcp.c
+>>> @@ -14,6 +14,7 @@
+>>>  #include <linux/blk-mq.h>
+>>>  #include <crypto/hash.h>
+>>>  #include <net/busy_poll.h>
+>>> +#include <net/tcp_ddp.h>
+>>>
+>>>  #include "nvme.h"
+>>>  #include "fabrics.h"
+>>> @@ -62,6 +63,7 @@ enum nvme_tcp_queue_flags {
+>>>       NVME_TCP_Q_ALLOCATED    = 0,
+>>>       NVME_TCP_Q_LIVE         = 1,
+>>>       NVME_TCP_Q_POLLING      = 2,
+>>> +     NVME_TCP_Q_OFFLOADS     = 3,
+>>>  };
+>>>
+>>> The same comment from the previous version - we are concerned that perhaps
+>>> the generic term "offload" for both the transport type (for the Marvell work)
+>>> and for the DDP and CRC offload queue (for the Mellanox work) may be
+>>> misleading and confusing to developers and to users.
+>>>
+>>> As suggested by Sagi, we can call this NVME_TCP_Q_DDP.
+>>>
+>>
+>> While I don't mind changing the naming here. I wonder  why not call the
+>> toe you use TOE and not TCP_OFFLOAD, and then offload is free for this?
+> 
+> Thanks - please do change the name to NVME_TCP_Q_DDP.
+> The Marvell nvme-tcp-offload patch series introducing the offloading of both the
+> TCP as well as the NVMe/TCP layer, therefore it's not TOE.
+> 
+
+Will do.
+
+>>
+>> Moreover, the most common use of offload in the kernel is for partial offloads
+>> like this one, and not for full offloads (such as toe).
+> 
+> Because each vendor might implement a different partial offload I
+> suggest naming it
+> with the specific technique which is used, as was suggested - NVME_TCP_Q_DDP.
+> 
+
+
+IIUC, if TCP/IP is offloaded entirely then it is called TOE. It doesn't matter
+than you offload additional stuff (nvme-tcp)
+
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
