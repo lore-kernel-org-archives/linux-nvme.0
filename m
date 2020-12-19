@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4853EC4361B
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Dec 2020 17:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB99C4361B
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Dec 2020 17:15:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D7DCD23A82
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Dec 2020 17:12:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D7DCD23A82
+	by mail.kernel.org (Postfix) with ESMTPS id D92CA23A00
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Dec 2020 17:15:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D92CA23A00
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,31 +23,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hQYa/z+/Q9BT9HXRRdyD2xouXbDwNlGgeI5cjMo/Fsk=; b=NJbGGOTo8S4MGFJG5WUpHa6jN
-	2tA9qlkhSCWiHaEZtfNy0mJtSLFfKRDzF35GjslmJafhqqOH8dK+Dj1fhSDGutyoEP0alD2j18n8+
-	odAaKnHugFqxV0MnXF8E6n4doh4Xep7aHx+jWmezk5idgHOhzr8lsmpmMilykH7wGNJf5jnzRSCuw
-	d+HczW3IxYWk7zt2MnEFSTZdCSNrI9Hm7FCKs8Ywtafta692waipN/yFm5b4HogfRlTpuIkMUh+Rg
-	37OwQlAygxzFcGmLHm9+g+/wYFE9mCqdLIasvxSaa2WBZkOtkX1gnWNTM3QC9prkenMB44sPKgeaR
-	BknI038yw==;
+	 bh=mCuCPkAHB6mEeVkqByCEYI5vFbOJj8rYEB62ujpxQMU=; b=PXCmARusalYdVzkVFF2uRa4af
+	Bh/706QADzVENBWa4XofXEsh2FQBEDVfcWM4Duey+IFXNHY/p5d6UhCDtP/Hif15HKYSajd4O8HvZ
+	qMFIK5WlEe2t981HLvWxmOjzfkBVNdJ0xwHmBYxyVnTL3GzyPdkoy+VAHZg/TI/PBrxdfqoNGYUIB
+	4LQ+UbX3XiQtTAcDKKQP1wLU79/0nAMGipWY86hfWQwg5B921G1pUunjKMN/m7ISYOuvlxWdGR0Hm
+	sZJ6yoRuc3uCoWHyTC3r1Q76+qN4VNXTdObAfW6YWLLGqD2LbFWKINCpDoo+G+HbFO4eYoXfi/JpC
+	bzyIn7XDg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kqfmN-0005a3-LP; Sat, 19 Dec 2020 17:12:27 +0000
+	id 1kqfoy-0005gV-2J; Sat, 19 Dec 2020 17:15:08 +0000
 Received: from [2601:1c0:6280:3f0::64ea]
  by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kqfmJ-0005Zq-Ch; Sat, 19 Dec 2020 17:12:23 +0000
-Subject: Re: [PATCH v5 02/16] blkcg: Added a app identifier support for blkcg
+ id 1kqfow-0005gC-8H; Sat, 19 Dec 2020 17:15:06 +0000
+Subject: Re: [PATCH v5 16/16] scsi: Made changes in Kconfig to select
+ BLK_CGROUP_FC_APPID
 To: Muneendra <muneendra.kumar@broadcom.com>, linux-block@vger.kernel.org,
  linux-scsi@vger.kernel.org, tj@kernel.org, linux-nvme@lists.infradead.org,
  hare@suse.de
 References: <1608096586-21656-1-git-send-email-muneendra.kumar@broadcom.com>
- <1608096586-21656-3-git-send-email-muneendra.kumar@broadcom.com>
+ <1608096586-21656-17-git-send-email-muneendra.kumar@broadcom.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b765fa4e-87ba-a9a4-6c8c-68f3b410129b@infradead.org>
-Date: Sat, 19 Dec 2020 09:12:17 -0800
+Message-ID: <e60169fc-c973-da16-31c4-96b497aa6291@infradead.org>
+Date: Sat, 19 Dec 2020 09:15:00 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <1608096586-21656-3-git-send-email-muneendra.kumar@broadcom.com>
+In-Reply-To: <1608096586-21656-17-git-send-email-muneendra.kumar@broadcom.com>
 Content-Language: en-US
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -67,43 +68,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
+
 On 12/15/20 9:29 PM, Muneendra wrote:
-
-Hi--
-
-> ---
->  block/Kconfig              |  9 ++++++
->  include/linux/blk-cgroup.h | 56 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 65 insertions(+)
-> 
-> diff --git a/block/Kconfig b/block/Kconfig
-> index a2297edfdde8..1920388fb0e9 100644
-> --- a/block/Kconfig
-> +++ b/block/Kconfig
-> @@ -144,6 +144,15 @@ config BLK_CGROUP_IOLATENCY
+> diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
+> index 701b61ec76ee..1c73c60e398f 100644
+> --- a/drivers/scsi/Kconfig
+> +++ b/drivers/scsi/Kconfig
+> @@ -235,6 +235,19 @@ config SCSI_FC_ATTRS
+>  	  each attached FiberChannel device to sysfs, say Y.
+>  	  Otherwise, say N.
 >  
->  	Note, this is an experimental interface and could be changed someday.
->  
-> +config BLK_CGROUP_FC_APPID
-> +	bool "Enable support to track FC io Traffic across cgroup applications"
-> +	depends on BLK_CGROUP=y
+> +config FC_APPID
+> +	bool "Enable support to track FC io Traffic"
+
+	                                 IO  {or I/O}
+
+> +	depends on BLOCK && BLK_CGROUP
+> +	depends on SCSI
+> +	select BLK_CGROUP_FC_APPID
+> +	default y
 > +	help
-> +	Enabling this option enables the support to track FC io traffic across
-> +	cgroup applications.It enables the Fabric and the storage targets to
-> +	identify, monitor, and handle FC traffic based on vm tags by inserting
-> +	application specific identification into the FC frame.
+> +	  If you say Y here, it enables the support to track
+> +	  FC IO traffic over fabric.It enables the Fabric and the
 
-Please follow coding-style for Kconfig files:
+	                over fabric. It
 
-from Documentation/process/coding-style.rst, section 10):
+> +	  storage targets to identify, monitor, and handle FC traffic
+> +	  based on vm tags by inserting application specific
 
-For all of the Kconfig* configuration files throughout the source tree,
-the indentation is somewhat different.  Lines under a ``config`` definition
-are indented with one tab, while help text is indented an additional two
-spaces.
+	           VM
+
+> +	  identification into the FC frame
+
+	                             frame.
 
 
-thanks.
+
 -- 
 ~Randy
 
