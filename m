@@ -1,81 +1,88 @@
-Return-Path: <SRS0=757D=FW=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=BlPy=FX=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF5AC4361B
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Dec 2020 18:05:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E34ABC2D0E4
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Dec 2020 01:04:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8BF0423B54
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Dec 2020 18:05:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8BF0423B54
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=yadro.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8FD0C23BA7
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Dec 2020 01:04:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FD0C23BA7
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VGgJH59K9jljWlwL+K0z9bESemgJp6gaEOKNKIPykso=; b=Dh3T6iRy0ei9y4AQ8GYrTR68A
-	wfbo05yJJW+H+EbRvSFKdK6/j0WgRbtlQ0u7pdUWb1mN7HwGTeOZm8PhLRFyOuw4ah5t9M7mVFBoq
-	HFXo8aTuMCndncMJy+WglvCa5pPMMRm8F2RnJVfmtvzZgo6NRxKnaSs3dwlUPq1v9/xvTYisX16EI
-	LDfihAAGUlpWyjGgKJWo35zNMY2o4vyMO/B5masOeSEfmgr4Yxelc+N2sNVRBpcwcFwPiBmVLJPH8
-	xcoL3jkgsDDQiY6SoxHqwq1mvgI4ajLfbjG0cBLvq5f2zObzukX9bgt5A39uOKo9dEARESM8j4fmc
-	50OVnjEWg==;
+	 bh=JV5A14KkNvUkcRY2o7/kxoIfxIAP5JonXwRwbbdH3Hk=; b=q4hRaiSv8Oxwf2/6dF4oBeVou
+	4M8XYCYjdYc8arQGJmzHT7FO2hhxuoXdBkvgXsQdeMP+823k0PPyl6zQK+CNXx7C1cCkBI1RIz98G
+	6GTPqCvzoN+p9X1XF+LuHSLR1kMkywAqf8LMxaXkznxlXRAS6q+4YqLyxsNedZL5+O0zzIF+BG7Te
+	awWMrI3em965hB1lwVTkg2AMnawGRy8vxmfG6Toa7DMg1qD7/pm5yZgxBm5Sp8UXchhA+VspH8/bH
+	E3zQGPovSt+iFsGNa4ypvZivVD1IFLsL2LDYdZBE3WD8IkVYn6e8XVEYcoXD7JnGl4EsgAPdPmY5U
+	7cZQUW1Jg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kqK7b-0002RT-Rx; Fri, 18 Dec 2020 18:04:55 +0000
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
+	id 1kqQfU-0005vw-KM; Sat, 19 Dec 2020 01:04:20 +0000
+Received: from mail-pl1-f181.google.com ([209.85.214.181])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kqJvo-00008H-B4
- for linux-nvme@lists.infradead.org; Fri, 18 Dec 2020 17:52:55 +0000
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 7409C413D5;
- Fri, 18 Dec 2020 17:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:date:subject
- :subject:from:from:received:received:received; s=mta-01; t=
- 1608313292; x=1610127693; bh=cLgLn4rXA1xiaAB3ENuZEne5ERVt5u32Jus
- mMyXwWHM=; b=fWEezA475dRWxuKNqbIf1tW5G5lCL3v3YDTS0Qhv27i6xC9Me21
- K/0cwxljMltO4inYY1SvxrENm+7iNii2kmawyz3zqOWMoAcNITOQ72okdt6rd1Ut
- k4jLEgONfLP/KoUk2SX4CGzXGdBf0xIDssIiJZ+08F8Gp/pip7u5gt/g=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7Rbb2F7mdMFZ; Fri, 18 Dec 2020 20:41:32 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id EB213413E0;
- Fri, 18 Dec 2020 20:41:10 +0300 (MSK)
-Received: from NB-148.yadro.com (172.17.15.136) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 18
- Dec 2020 20:41:10 +0300
-From: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>
-To: <linux-pci@vger.kernel.org>
-Subject: [PATCH v9 24/26] nvme-pci: Handle movable BARs
-Date: Fri, 18 Dec 2020 20:40:09 +0300
-Message-ID: <20201218174011.340514-25-s.miroshnichenko@yadro.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20201218174011.340514-1-s.miroshnichenko@yadro.com>
-References: <20201218174011.340514-1-s.miroshnichenko@yadro.com>
+ id 1kqQfR-0005vW-H6
+ for linux-nvme@lists.infradead.org; Sat, 19 Dec 2020 01:04:18 +0000
+Received: by mail-pl1-f181.google.com with SMTP id j1so2318734pld.3
+ for <linux-nvme@lists.infradead.org>; Fri, 18 Dec 2020 17:04:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lHX2UXM6413Wf4iTuhtPAfpR9dCw8ZxcnlcIfmSPsW4=;
+ b=qYFxfcZH9LmIKM2iCYaV4S91x5IWkwQuinA5gSZeCEp/OyR3+lprIILBKRyyhuSuAY
+ v9Nu5moTKEGmWmiSV/dHGcDT7BZbSkEZ4ppnUMmTCLrZpJOI58Pgp1IfI5Xq4Y9Fzk/T
+ toqvlo+XI8B/AcNie5XiiJVVo7hZ+ZKRVDCOE3d+pB473xVsCW9A7lbMAQxp9U92Mc+Z
+ wFZagawOeOP3DsLIcE0ZDNJdD31q4RjkLB347j/SKbiDGTnjCmBHeVuZSp++XygU9KK3
+ pEAWtEpOHaUTN6jtntS3Wb26Hq7jD6F9w5zbFjnUpFI4rWYIWNxx4ToRRJi/f07D/kUa
+ z/Dw==
+X-Gm-Message-State: AOAM533yB795OA4Zo0ohLntTqwqLYVC2r6YlETunKUkrR2mpgrERtN9R
+ Vljl4/Wx3x5Xe4iaZ/nQAgvRmpv9gf0=
+X-Google-Smtp-Source: ABdhPJwDrunVS1tQLc8VZtPwSMMlbP226iC8GPofMsQr3tlRVdGQZAHoHO9EfgibuLWvUpePcROEOw==
+X-Received: by 2002:a17:90a:73c5:: with SMTP id
+ n5mr6766731pjk.118.1608339853881; 
+ Fri, 18 Dec 2020 17:04:13 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:ad66:235c:5bd3:e462?
+ ([2601:647:4802:9070:ad66:235c:5bd3:e462])
+ by smtp.gmail.com with ESMTPSA id m13sm9360589pff.21.2020.12.18.17.04.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Dec 2020 17:04:12 -0800 (PST)
+Subject: Re: Request timeout seen with NVMEoF TCP
+To: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ Potnuri Bharat Teja <bharat@chelsio.com>
+References: <X9EHFnhujZo175Kw@chelsio.com>
+ <0fc0166c-a65f-125f-4305-d0cb761336ac@grimberg.me>
+ <X9JVp9mjtC1p0iLS@chelsio.com>
+ <3e7aa593-16b0-3bbd-f918-caffa6f5b20b@grimberg.me>
+ <X9MfI872AfM+WMV/@chelsio.com>
+ <dbb14893-da35-2f7e-0583-c33ce9f41243@grimberg.me>
+ <a204cb8e-6f3b-b5dc-9972-54651c9c75cc@grimberg.me>
+ <BYAPR11MB2869100E0BA40ACB0CDDEFB0E5C60@BYAPR11MB2869.namprd11.prod.outlook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <f6162f73-ad03-c266-0289-4b8eb1c9f330@grimberg.me>
+Date: Fri, 18 Dec 2020 17:04:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Originating-IP: [172.17.15.136]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
+In-Reply-To: <BYAPR11MB2869100E0BA40ACB0CDDEFB0E5C60@BYAPR11MB2869.namprd11.prod.outlook.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201218_125247_242785_42210A3C 
-X-CRM114-Status: GOOD (  16.87  )
+X-CRM114-CacheID: sfid-20201218_200417_602351_690E8445 
+X-CRM114-Status: GOOD (  10.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,117 +94,18 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Rajat Jain <rajatja@google.com>, Andy Lavr <andy.lavr@gmail.com>,
- David Laight <David.Laight@ACULAB.COM>,
- Sergei Miroshnichenko <s.miroshnichenko@yadro.com>,
- linux-nvme@lists.infradead.org, linux@yadro.com,
- Lukas Wunner <lukas@wunner.de>, Bjorn Helgaas <helgaas@kernel.org>,
- Stefan Roese <sr@denx.de>, Christoph Hellwig <hch@lst.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Samuel Jones <sjones@kalrayinc.com>, "hch@lst.de" <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hot-added devices can affect the existing ones by moving their BARs. The
-PCI subsystem will inform the NVME driver about this by invoking the
-.rescan_prepare() and .rescan_done() hooks, so the BARs can by re-mapped.
 
-Tested under the "randrw" mode of the fio tool, and when using an NVME
-drive as a root filesystem storage. Before the hot-adding:
+> Wouldn't the addition of the change to io_work() itself result in step (4) above never occurring?  Pending always being set if mutex can not be acquired, and if io_work() then exceeds time period it always re-queues itself.  So io_work() should always end up draining any send list eventually.  Unless io_work() exits early for some reason via the try_recv (ret < 0) return point without requeuing.
 
-  % sudo cat /proc/iomem
-  ...
-                3fe800000000-3fe8007fffff : PCI Bus 0020:0b
-                  3fe800000000-3fe8007fffff : PCI Bus 0020:18
-                    3fe800000000-3fe8000fffff : 0020:18:00.0
-                      3fe800000000-3fe8000fffff : nvme
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-                    3fe800100000-3fe80017ffff : 0020:18:00.0
-  ...
-
-Then another NVME drive was hot-added, so BARs of the 0020:18:00.0 are
-moved:
-
-  % sudo cat /proc/iomem
-    ...
-                3fe800000000-3fe800ffffff : PCI Bus 0020:0b
-                  3fe800000000-3fe8007fffff : PCI Bus 0020:10
-                    3fe800000000-3fe800003fff : 0020:10:00.0
-                      3fe800000000-3fe800003fff : nvme
-                    3fe800010000-3fe80001ffff : 0020:10:00.0
-                  3fe800800000-3fe800ffffff : PCI Bus 0020:18
-                    3fe800800000-3fe8008fffff : 0020:18:00.0
-                      3fe800800000-3fe8008fffff : nvme
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-                    3fe800900000-3fe80097ffff : 0020:18:00.0
-    ...
-
-During the rescanning, both READ and WRITE speeds drop to zero for a while
-due to driver's pause, then restore.
-
-Cc: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>
----
- drivers/nvme/host/pci.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b4385cb0ff60..7993062b11b6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1656,7 +1656,7 @@ static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	if (size <= dev->bar_mapped_size)
-+	if (dev->bar && size <= dev->bar_mapped_size)
- 		return 0;
- 	if (size > pci_resource_len(pdev, 0))
- 		return -ENOMEM;
-@@ -3152,6 +3152,28 @@ static void nvme_error_resume(struct pci_dev *pdev)
- 	flush_work(&dev->ctrl.reset_work);
- }
- 
-+static bool nvme_bar_fixed(struct pci_dev *pdev, int resno)
-+{
-+	return false;
-+}
-+
-+static void nvme_rescan_prepare(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	nvme_dev_disable(dev, true);
-+	nvme_dev_unmap(dev);
-+	dev->bar = NULL;
-+}
-+
-+static void nvme_rescan_done(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	nvme_dev_map(dev);
-+	nvme_reset_ctrl(&dev->ctrl);
-+}
-+
- static const struct pci_error_handlers nvme_err_handler = {
- 	.error_detected	= nvme_error_detected,
- 	.slot_reset	= nvme_slot_reset,
-@@ -3238,6 +3260,9 @@ static struct pci_driver nvme_driver = {
- #endif
- 	.sriov_configure = pci_sriov_configure_simple,
- 	.err_handler	= &nvme_err_handler,
-+	.rescan_prepare	= nvme_rescan_prepare,
-+	.rescan_done	= nvme_rescan_done,
-+	.bar_fixed	= nvme_bar_fixed,
- };
- 
- static int __init nvme_init(void)
--- 
-2.24.1
-
+nvme_tcp_try_recv returns what it consumed, so it can return 0 if it did 
+not have anything to recv in the socket, hence it may not reschedule itself.
 
 _______________________________________________
 Linux-nvme mailing list
