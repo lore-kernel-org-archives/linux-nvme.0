@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C11C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 07:08:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F9FC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 07:08:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8D08A23124
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 07:08:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D08A23124
+	by mail.kernel.org (Postfix) with ESMTPS id 0F9502311D
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 07:08:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0F9502311D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,62 +23,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:In-Reply-To:Message-Id:Date:Subject:To:From:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2DHQFIP4t63CAM1LDyB4Y0IMp2HPhh7ir8Es/dqVipM=; b=W+oXHMJ7SOhnJTZmj2KJKjriU
-	s6mmdD1ex2KzdUCLo7znqNiqWXC/eca06SsnNWq28OHF4i59TUBr/bkIcdoFh21Rx1NMrAsV0n4l/
-	7OwQkPm+nH+UGedSmvDoAkmNOGfOZE21kBqvbqCUnBEiPfl9BzowppM1KkICGcW0IRcBIJNtSw1jM
-	arsU3boeTsXIoPG6BJMYOjkF3Qow7JqumhBhJ8jB6WC9LVKjKMtpULrceMB4N9H3VhPOt2eN+BFRm
-	Gh440IAI+CvG12gF2ArDGBM4MnJzTG5158fItuTg3AQoojuyOShSwuhkFqhKwXPyxZK/U0KEBMrEx
-	oT45baO+w==;
+	 bh=DUt3crjcT9uJG+4fwW7Cxm+7Iizw0qO0DagykL3aC5A=; b=Stp1YDArqiGKcjzLe6F2Tj624
+	3bE0SA/qlKidunS53VRjRkI27ityJDt2kbDBRF9Fk+mXGj5nJraMlPYBhxdbBVC0zvrAjaQ5Apfv8
+	Hqfvkkj+c/7NH92V+ZLtSpfLb9mNcku7VVZOJlZm/LN/woKjGrDM3nRxGojJjpkIekDJUuJz4OZnK
+	3yaNzSIccVPZ+HPSgni1V5tSR2Bixv/F4wf9WtAiMSE1R5pVs4OxnXVmhw/6FW2Q72desHak5ZQOf
+	rzi7j6UkRvZ82tCY0cNoJbboUlAVrcD2K+3KXgopHayhicFNQpDtAr73SKdMVJWRc6Le2TPPiTO9W
+	eyAmQxoMA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1krbm4-0008IW-DT; Tue, 22 Dec 2020 07:08:00 +0000
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+	id 1krbmH-0008No-14; Tue, 22 Dec 2020 07:08:13 +0000
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1krbjt-0007Q9-KR
- for linux-nvme@lists.infradead.org; Tue, 22 Dec 2020 07:05:48 +0000
-Received: by mail-pj1-x1029.google.com with SMTP id b5so837193pjk.2
- for <linux-nvme@lists.infradead.org>; Mon, 21 Dec 2020 23:05:45 -0800 (PST)
+ id 1krbjy-0007SJ-5x
+ for linux-nvme@lists.infradead.org; Tue, 22 Dec 2020 07:05:52 +0000
+Received: by mail-pl1-x631.google.com with SMTP id r4so6939302pls.11
+ for <linux-nvme@lists.infradead.org>; Mon, 21 Dec 2020 23:05:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
- :references; bh=IKdTRoQLQgyXaMkxRE59fXJcextSN21ixTp2AZXMIqI=;
- b=Vr3Gqa+z9j1dFhYMCqwkbSp28NC2zQ7I7Urd5d5CVNtxX097yeFxX5KgNn2aDjrln/
- wAjVPLnMKD0K/UcpdQPTiWuH9+ZT3H0CHWpwnLsOSEoMKOBaHsjpBsLQBVl/HHlKG3xH
- UvQhdACGeQL2CNv6yKoU7FOxAXpBJxGZZDQp0=
+ :references; bh=bi8TL+Wu6uOY/0JL4SVxC7PQcgXlY0mndsH5eSjrwjQ=;
+ b=BcN/ioIXYQtnI2ifoaPqFduy3PZg0byHq/Vi6d6YefropXxdRa5v0SNOl5kcGAAjG2
+ RMm1SXftvWaaW60lNL8bHb0EEJcgix6hbtsRwegdRJDVdsCPtYVvp+P21cbJGt48vF2O
+ Cie/Hd+BmFeLyp7PknVMEJRslpnRS+dWI86N4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=IKdTRoQLQgyXaMkxRE59fXJcextSN21ixTp2AZXMIqI=;
- b=g/EFVJOiRCi0cCXm1q4FQCdopi0SCFD50cWnhhAJ9DrmX1f99q9uQulmhOJnmpwD92
- dYiAv+EXn3MIj+OsXUFCpBZeZjE1U0dUn3eKg7FwGn75ZKwtXMC5lAKudHRzogzTAQzN
- vsQsoHc2228ewuiUbzoO+hBqJNKqXo0WQTi65O6TOo12zFBmIMhe9m4tSyeObS9C9mPY
- jQEzUoLCQusMOkhCJRosQBzXqdpUO0ZvdaUtm7ITG48PRnW7cENTfY+la/jkK7sidz2t
- 8arDK2MJn2FzrAq/kV09Xu3eAJpK2B8ljwZr31W76NrfTVYK/55NCtJS4niGYJrhIAYX
- +IBQ==
+ bh=bi8TL+Wu6uOY/0JL4SVxC7PQcgXlY0mndsH5eSjrwjQ=;
+ b=kq4bW0j+iRMTeeRLxF+3nrm/2ClcUdK49ivyY5XG7qnisahOaV7d4LRzox0cTNCQUg
+ Tyo4/Qw80sRs5kQm2dP57GtEtzO8ckrxR8qRuOj93jVAY7AzJ0/Cbmtgx+/HfIhaQdb6
+ yfDCkvPbBoUpelcq02Bgxi/jy0L4IbnAZpp7IG0lj875pg/s1ICpkpZnv/I4cfHtkUbY
+ TmWi5XWXF2+ToGK78u2p7oRgM1XTvW6sVA7l5YTaZqSrIt2vRbkUjhky55NuZqON9lYu
+ Uf2fNlF2o75uFH9YxctFtZzh7aDkPu3HuZ+5st8hc4OE3o0YPWqzGzEA7RHOmnlMY8MC
+ LA6w==
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM530/13AfZ4CWSurOMH/APmQiv7cYGn5PlcsDmHRKbc+nCKBCAr2I
- y6BSA1zbQhP6HNsmLtBC8Y0LZBdS8UDS6/5TT3QQoVZ0PIeNI3BHdHprgUCuBdSZHMW6xZevGAs
- HxIbrXJ1uf6dlMaRGpg==
-X-Google-Smtp-Source: ABdhPJxk77lBKK/RtdZ6O+xI0wqcFsfpcsNlBiNjxh5OA2GeFDHIukWwVXRnLpPNoWF432hiWdnW0g==
-X-Received: by 2002:a17:90a:e507:: with SMTP id
- t7mr20870261pjy.26.1608620743119; 
- Mon, 21 Dec 2020 23:05:43 -0800 (PST)
+X-Gm-Message-State: AOAM533SLIiDiXCFVjsCUqHUym0N7UnPLzwbz5bTEZnq/SUfSQG5PdNo
+ 0qJOIJy6k1HAJuPaqAlhLuMweBhrQetF1LHlK1mshVB9hRRkW2JfgV6WrR9glzoGAiCUW8Z4XbN
+ e0Tkm9/ssrQsihIDFFg==
+X-Google-Smtp-Source: ABdhPJwfoQalTltke74oJx7cztqkx1PQvIrPTPXzo5Pv43BgLNSj2+Vdz8UTS5agYMhDq61SklaASg==
+X-Received: by 2002:a17:90a:b395:: with SMTP id
+ e21mr20929169pjr.197.1608620747779; 
+ Mon, 21 Dec 2020 23:05:47 -0800 (PST)
 Received: from localhost.localdomain ([192.19.234.250])
- by smtp.gmail.com with ESMTPSA id t9sm12466082pgh.41.2020.12.21.23.05.39
+ by smtp.gmail.com with ESMTPSA id t9sm12466082pgh.41.2020.12.21.23.05.43
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Dec 2020 23:05:42 -0800 (PST)
+ Mon, 21 Dec 2020 23:05:47 -0800 (PST)
 From: Muneendra <muneendra.kumar@broadcom.com>
 To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org, hare@suse.de
-Subject: [PATCH v6 11/16] lpfc: vmid: Implements CT commands for appid.
-Date: Tue, 22 Dec 2020 05:41:53 +0530
-Message-Id: <1608595918-21954-12-git-send-email-muneendra.kumar@broadcom.com>
+Subject: [PATCH v6 12/16] lpfc: vmid: Appends the vmid in the wqe before
+ sending
+Date: Tue, 22 Dec 2020 05:41:54 +0530
+Message-Id: <1608595918-21954-13-git-send-email-muneendra.kumar@broadcom.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1608595918-21954-1-git-send-email-muneendra.kumar@broadcom.com>
 References: <1608595918-21954-1-git-send-email-muneendra.kumar@broadcom.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201222_020545_789696_57AE2774 
-X-CRM114-Status: GOOD (  23.06  )
+X-CRM114-CacheID: sfid-20201222_020550_349379_45A6D865 
+X-CRM114-Status: GOOD (  16.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,33 +93,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: pbonzini@redhat.com, jsmart2021@gmail.com, mkumar@redhat.com,
  emilne@redhat.com, Gaurav Srivastava <gaurav.srivastava@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============7731995398172744048=="
+Content-Type: multipart/mixed; boundary="===============6156013665051475966=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============7731995398172744048==
+--===============6156013665051475966==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000ffb6e705b70833a2"
+	boundary="00000000000047851305b7083446"
 
---000000000000ffb6e705b70833a2
+--00000000000047851305b7083446
 Content-Type: text/plain; charset="US-ASCII"
 
 From: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
 
-The patch implements CT commands for registering and deregistering the
-appid for the application. Also, a small change in decrementing the ndlp
-ref counter has been added.
+This patch adds the vmid in wqe before sending out the request.
+The type of vmid depends on the configured type and is checked before
+being appended.
 
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Gaurav Srivastava  <gaurav.srivastava@broadcom.com>
 Signed-off-by: James Smart <jsmart2021@gmail.com>
 
 ---
 v6:
-Added Forward declarations and functions to static
+No change
 
 v5:
-No change
+Modified the comments
 
 v4:
 No change
@@ -128,278 +128,105 @@ No change
 
 v2:
 Ported the patch on top of 5.10/scsi-queue
-Removed redundant code due to changes since last submit
 ---
- drivers/scsi/lpfc/lpfc_ct.c | 252 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 252 insertions(+)
+ drivers/scsi/lpfc/lpfc_sli.c | 56 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 55 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_ct.c b/drivers/scsi/lpfc/lpfc_ct.c
-index dd0b432f7ac5..fc1150e8adc6 100644
---- a/drivers/scsi/lpfc/lpfc_ct.c
-+++ b/drivers/scsi/lpfc/lpfc_ct.c
-@@ -75,6 +75,9 @@
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index f9b6e32db618..a63371e9feaa 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -3856,7 +3856,7 @@ lpfc_sli_sp_handle_rspiocb(struct lpfc_hba *phba, struct lpfc_sli_ring *pring,
  
- 
- static char *lpfc_release_version = LPFC_DRIVER_VERSION;
-+static void
-+lpfc_cmpl_ct_cmd_vmid(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
-+		      struct lpfc_iocbq *rspiocb);
- 
- static void
- lpfc_ct_ignore_hbq_buffer(struct lpfc_hba *phba, struct lpfc_iocbq *piocbq,
-@@ -3744,3 +3747,252 @@ lpfc_decode_firmware_rev(struct lpfc_hba *phba, char *fwrevision, int flag)
- 	}
- 	return;
- }
+ 		if (irsp->ulpStatus) {
+ 			/* Rsp ring <ringno> error: IOCB */
+-			lpfc_printf_log(phba, KERN_WARNING, LOG_SLI,
++			lpfc_printf_log(phba, KERN_ERR, LOG_SLI,
+ 					"0328 Rsp Ring %d error: "
+ 					"IOCB Data: "
+ 					"x%x x%x x%x x%x "
+@@ -9762,6 +9762,8 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
+ 				*pcmd == ELS_CMD_RSCN_XMT ||
+ 				*pcmd == ELS_CMD_FDISC ||
+ 				*pcmd == ELS_CMD_LOGO ||
++				*pcmd == ELS_CMD_QFPA ||
++				*pcmd == ELS_CMD_UVEM ||
+ 				*pcmd == ELS_CMD_PLOGI)) {
+ 				bf_set(els_req64_sp, &wqe->els_req, 1);
+ 				bf_set(els_req64_sid, &wqe->els_req,
+@@ -9893,6 +9895,24 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
+ 			ptr = &wqe->words[22];
+ 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
+ 		}
 +
-+static void
-+lpfc_cmpl_ct_cmd_vmid(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
-+		      struct lpfc_iocbq *rspiocb)
-+{
-+	struct lpfc_vport *vport = cmdiocb->vport;
-+	struct lpfc_dmabuf *inp = cmdiocb->context1;
-+	struct lpfc_dmabuf *outp = cmdiocb->context2;
-+	struct lpfc_sli_ct_request *ctcmd = inp->virt;
-+	struct lpfc_sli_ct_request *ctrsp = outp->virt;
-+	u16 rsp = ctrsp->CommandResponse.bits.CmdRsp;
-+	struct app_id_object *app;
-+	u32 cmd, hash;
-+	struct lpfc_vmid *vmp;
-+	u8 *data = outp->virt;
-+	int i;
++		/* add the VMID tags as per switch response */
++		if (iocbq->iocb_flag & LPFC_IO_VMID) {
++			union lpfc_wqe128 *wqe128;
 +
-+	cmd = be16_to_cpu(ctcmd->CommandResponse.bits.CmdRsp);
-+	if (cmd == SLI_CTAS_DALLAPP_ID)
-+		lpfc_ct_free_iocb(phba, cmdiocb);
-+
-+	if (lpfc_els_chk_latt(vport) || rspiocb->iocb.ulpStatus) {
-+		if (cmd != SLI_CTAS_DALLAPP_ID)
-+			return;
-+	}
-+	/* Check for a CT LS_RJT response */
-+	if (rsp == be16_to_cpu(SLI_CT_RESPONSE_FS_RJT)) {
-+		if (cmd != SLI_CTAS_DALLAPP_ID)
-+			lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+					 "3306 VMID FS_RJT Data: x%x  %x %x\n",
-+				 cmd, ctrsp->ReasonCode, ctrsp->Explanation);
-+		if ((cmd != SLI_CTAS_DALLAPP_ID) ||
-+		    (ctrsp->ReasonCode != SLI_CT_UNABLE_TO_PERFORM_REQ) ||
-+		    (ctrsp->Explanation != SLI_CT_APP_ID_NOT_AVAILABLE)) {
-+			/* If DALLAPP_ID failed retry later */
-+			if (cmd == SLI_CTAS_DALLAPP_ID)
-+				vport->load_flag |= FC_DEREGISTER_ALL_APP_ID;
-+			return;
++			if (phba->pport->vmid_priority_tagging) {
++				bf_set(wqe_ccpe, &wqe->fcp_iwrite.wqe_com, 1);
++				bf_set(wqe_ccp, &wqe->fcp_iwrite.wqe_com,
++				       (iocbq->vmid_tag.cs_ctl_vmid));
++				/* Bit 0 must be 0 */
++			} else {
++				wqe128 = (union lpfc_wqe128 *)wqe;
++				bf_set(wqe_appid, &wqe->fcp_iwrite.wqe_com, 1);
++				bf_set(wqe_wqes, &wqe128->fcp_iwrite.wqe_com,
++				       1);
++				wqe128->words[31] = iocbq->vmid_tag.app_id;
++			}
 +		}
-+	}
+ 		break;
+ 	case CMD_FCP_IREAD64_CR:
+ 		/* word3 iocb=iotag wqe=payload_offset_len */
+@@ -9957,6 +9977,23 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
+ 			ptr = &wqe->words[22];
+ 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
+ 		}
 +
-+	switch (cmd) {
-+	case SLI_CTAS_RAPP_IDENT:
-+		app = (struct app_id_object *)(RAPP_IDENT_OFFSET + data);
-+		lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+				 "6712 RAPP_IDENT app id %d  port id %x id\n"
-+				 "len %d\n", be32_to_cpu(app->app_id),
-+				 be32_to_cpu(app->port_id),
-+				 app->obj.entity_id_len);
++		/* add the VMID tags as per switch response */
++		if (iocbq->iocb_flag & LPFC_IO_VMID) {
++			union lpfc_wqe128 *wqe128;
 +
-+		if (app->obj.entity_id_len == 0 || app->port_id == 0)
-+			return;
-+
-+		hash = lpfc_vmid_hash_fn(app->obj.entity_id,
-+					 app->obj.entity_id_len);
-+		vmp = lpfc_get_vmid_from_hastable(vport, hash,
-+						  app->obj.entity_id);
-+		if (vmp) {
-+			vmp->un.app_id = be32_to_cpu(app->app_id);
-+			vmp->flag |= LPFC_VMID_REGISTERED;
-+			vmp->flag &= ~LPFC_VMID_REQ_REGISTER;
-+			/* Set IN USE flag */
-+			vport->vmid_flag |= LPFC_VMID_IN_USE;
-+		} else {
-+			lpfc_printf_vlog(vport, KERN_DEBUG,
-+					 LOG_DISCOVERY, "6901 No entry found\n"
-+					 "%s hash %d\n", app->obj.entity_id,
-+					 hash);
++			if (phba->pport->vmid_priority_tagging) {
++				bf_set(wqe_ccpe, &wqe->fcp_iread.wqe_com, 1);
++				bf_set(wqe_ccp, &wqe->fcp_iread.wqe_com,
++				       (iocbq->vmid_tag.cs_ctl_vmid));
++				/* Bit 0 must be 0 */
++			} else {
++				wqe128 = (union lpfc_wqe128 *)wqe;
++				bf_set(wqe_appid, &wqe->fcp_iread.wqe_com, 1);
++				bf_set(wqe_wqes, &wqe128->fcp_iread.wqe_com, 1);
++				wqe128->words[31] = iocbq->vmid_tag.app_id;
++			}
 +		}
-+		break;
-+	case SLI_CTAS_DAPP_IDENT:
-+		app = (struct app_id_object *)(DAPP_IDENT_OFFSET + data);
-+		lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+				 "6713 DAPP_IDENT app id %d  port id %x",
-+				 cpu_to_be32(app->app_id),
-+				 cpu_to_be32(app->port_id));
-+		break;
-+	case SLI_CTAS_DALLAPP_ID:
-+		lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+				 "8856 Deregistered all app ids");
-+		for (i = 0; i < phba->cfg_max_vmid; i++) {
-+			vmp = &vport->vmid[i];
-+			if (vmp->flag != LPFC_VMID_SLOT_FREE)
-+				memset(vmp, 0, sizeof(struct lpfc_vmid));
+ 		break;
+ 	case CMD_FCP_ICMND64_CR:
+ 		/* word3 iocb=iotag wqe=payload_offset_len */
+@@ -10014,6 +10051,23 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
+ 			ptr = &wqe->words[22];
+ 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
+ 		}
++
++		/* add the VMID tags as per switch response */
++		if (iocbq->iocb_flag & LPFC_IO_VMID) {
++			union lpfc_wqe128 *wqe128;
++
++			if (phba->pport->vmid_priority_tagging) {
++				bf_set(wqe_ccpe, &wqe->fcp_icmd.wqe_com, 1);
++				bf_set(wqe_ccp, &wqe->fcp_icmd.wqe_com,
++				       (iocbq->vmid_tag.cs_ctl_vmid));
++				/* Bit 0 must be 0 */
++			} else {
++				wqe128 = (union lpfc_wqe128 *)wqe;
++				bf_set(wqe_appid, &wqe->fcp_icmd.wqe_com, 1);
++				bf_set(wqe_wqes, &wqe128->fcp_icmd.wqe_com, 1);
++				wqe128->words[31] = iocbq->vmid_tag.app_id;
++			}
 +		}
-+		for (i = 0; i < LPFC_VMID_HASH_SIZE; i++)
-+			vport->hash_table[i] = NULL;
-+		vport->load_flag |= FC_ALLOW_VMID;
-+		break;
-+	default:
-+		lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+				 "8857 Invalid command code");
-+	}
-+}
-+
-+/**
-+ * lpfc_vmid_cmd - Build and send a FDMI cmd to the specified NPort
-+ * @vport: pointer to a host virtual N_Port data structure.
-+ * @ndlp: ndlp to send FDMI cmd to (if NULL use FDMI_DID)
-+ * cmdcode: FDMI command to send
-+ * mask: Mask of HBA or PORT Attributes to send
-+ *
-+ * Builds and sends a FDMI command using the CT subsystem.
-+ */
-+int
-+lpfc_vmid_cmd(struct lpfc_vport *vport,
-+	      int cmdcode, struct lpfc_vmid *vmid)
-+{
-+	struct lpfc_hba *phba = vport->phba;
-+	struct lpfc_dmabuf *mp, *bmp;
-+	struct lpfc_sli_ct_request *ctreq;
-+	struct ulp_bde64 *bpl;
-+	u32 size;
-+	u32 rsp_size;
-+	u8 *data;
-+	struct lpfc_vmid_rapp_ident_list *rap;
-+	struct lpfc_vmid_dapp_ident_list *dap;
-+	u8 retry = 0;
-+	struct lpfc_nodelist *ndlp;
-+
-+	void (*cmpl)(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
-+		     struct lpfc_iocbq *rspiocb);
-+
-+	ndlp = lpfc_findnode_did(vport, FDMI_DID);
-+	if (!ndlp || ndlp->nlp_state != NLP_STE_UNMAPPED_NODE)
-+		return 0;
-+
-+	cmpl = lpfc_cmpl_ct_cmd_vmid;
-+
-+	/* fill in BDEs for command */
-+	/* Allocate buffer for command payload */
-+	mp = kmalloc(sizeof(*mp), GFP_KERNEL);
-+	if (!mp)
-+		goto vmid_free_mp_exit;
-+
-+	mp->virt = lpfc_mbuf_alloc(phba, 0, &mp->phys);
-+	if (!mp->virt)
-+		goto vmid_free_mp_virt_exit;
-+
-+	/* Allocate buffer for Buffer ptr list */
-+	bmp = kmalloc(sizeof(*bmp), GFP_KERNEL);
-+	if (!bmp)
-+		goto vmid_free_bmp_exit;
-+
-+	bmp->virt = lpfc_mbuf_alloc(phba, 0, &bmp->phys);
-+	if (!bmp->virt)
-+		goto vmid_free_bmp_virt_exit;
-+
-+	INIT_LIST_HEAD(&mp->list);
-+	INIT_LIST_HEAD(&bmp->list);
-+
-+	lpfc_printf_vlog(vport, KERN_INFO, LOG_DISCOVERY,
-+			 "0218 VMID Request Data: x%x x%x x%x",
-+			 vport->fc_flag, vport->port_state, cmdcode);
-+	ctreq = (struct lpfc_sli_ct_request *)mp->virt;
-+	data = mp->virt;
-+	/* First populate the CT_IU preamble */
-+	memset(data, 0, LPFC_BPL_SIZE);
-+	ctreq->RevisionId.bits.Revision = SLI_CT_REVISION;
-+	ctreq->RevisionId.bits.InId = 0;
-+
-+	ctreq->FsType = SLI_CT_MANAGEMENT_SERVICE;
-+	ctreq->FsSubType = SLI_CT_APP_SEV_Subtypes;
-+
-+	ctreq->CommandResponse.bits.CmdRsp = cpu_to_be16(cmdcode);
-+	rsp_size = LPFC_BPL_SIZE;
-+	size = 0;
-+
-+	switch (cmdcode) {
-+	case SLI_CTAS_RAPP_IDENT:
-+		lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+				 "1329 RAPP_IDENT for %s", vmid->host_vmid);
-+		ctreq->un.PortID = cpu_to_be32(vport->fc_myDID);
-+		rap = (struct lpfc_vmid_rapp_ident_list *)
-+			(DAPP_IDENT_OFFSET + data);
-+		rap->no_of_objects = cpu_to_be32(1);
-+		rap->obj[0].entity_id_len = vmid->vmid_len;
-+		memcpy(rap->obj[0].entity_id, vmid->host_vmid, vmid->vmid_len);
-+		size = RAPP_IDENT_OFFSET +
-+			sizeof(struct lpfc_vmid_rapp_ident_list);
-+		retry = 1;
-+		break;
-+
-+	case SLI_CTAS_GALLAPPIA_ID:
-+		ctreq->un.PortID = cpu_to_be32(vport->fc_myDID);
-+		size = GALLAPPIA_ID_SIZE;
-+		break;
-+
-+	case SLI_CTAS_DAPP_IDENT:
-+		lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+				 "1469 DAPP_IDENT for %s", vmid->host_vmid);
-+		ctreq->un.PortID = cpu_to_be32(vport->fc_myDID);
-+		dap = (struct lpfc_vmid_dapp_ident_list *)
-+			(DAPP_IDENT_OFFSET + data);
-+		dap->no_of_objects = cpu_to_be32(1);
-+		dap->obj[0].entity_id_len = vmid->vmid_len;
-+		memcpy(dap->obj[0].entity_id, vmid->host_vmid, vmid->vmid_len);
-+		size = DAPP_IDENT_OFFSET +
-+			sizeof(struct lpfc_vmid_dapp_ident_list);
-+		vmid->flag &= ~LPFC_VMID_REGISTERED;
-+		retry = 1;
-+		break;
-+
-+	case SLI_CTAS_DALLAPP_ID:
-+		ctreq->un.PortID = cpu_to_be32(vport->fc_myDID);
-+		size = DALLAPP_ID_SIZE;
-+		break;
-+
-+	default:
-+		lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+				 "7062 VMID cmdcode x%x not supported",
-+				 cmdcode);
-+		goto vmid_free_all_mem;
-+	}
-+
-+	ctreq->CommandResponse.bits.Size = cpu_to_be16(rsp_size);
-+
-+	bpl = (struct ulp_bde64 *)bmp->virt;
-+	bpl->addrHigh = putPaddrHigh(mp->phys);
-+	bpl->addrLow = putPaddrLow(mp->phys);
-+	bpl->tus.f.bdeFlags = 0;
-+	bpl->tus.f.bdeSize = size;
-+
-+	/* The lpfc_ct_cmd/lpfc_get_req shall increment ndlp reference count
-+	 * to hold ndlp reference for the corresponding callback function.
-+	 */
-+	if (!lpfc_ct_cmd(vport, mp, bmp, ndlp, cmpl, rsp_size, retry))
-+		return 0;
-+
-+	/* Decrement ndlp reference count to release ndlp reference held
-+	 * for the failed command's callback function.
-+	 */
-+	lpfc_nlp_put(ndlp);
-+
-+ vmid_free_all_mem:
-+	lpfc_mbuf_free(phba, bmp->virt, bmp->phys);
-+ vmid_free_bmp_virt_exit:
-+	kfree(bmp);
-+ vmid_free_bmp_exit:
-+	lpfc_mbuf_free(phba, mp->virt, mp->phys);
-+ vmid_free_mp_virt_exit:
-+	kfree(mp);
-+ vmid_free_mp_exit:
-+
-+	/* Issue FDMI request failed */
-+	lpfc_printf_vlog(vport, KERN_DEBUG, LOG_DISCOVERY,
-+			 "0244 Issue FDMI request failed Data: x%x", cmdcode);
-+	return FAILURE;
-+}
+ 		break;
+ 	case CMD_GEN_REQUEST64_CR:
+ 		/* For this command calculate the xmit length of the
 -- 
 2.26.2
 
@@ -417,7 +244,7 @@ this e-mail is strictly prohibited. If you received this e-mail in error,
 please return the e-mail to the sender, delete it from your computer, and 
 destroy any printed copy of it.
 
---000000000000ffb6e705b70833a2
+--00000000000047851305b7083446
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -488,19 +315,19 @@ LbMkW5lUoTb8ycBNOKLYhNE8UEOY8jRTUtMEhzT6NJDEE+1hb3kSGfArrrF3Z8pRYiUUhcpC5GKL
 EpmWnHflnrBcah5Ozy137DGCAm8wggJrAgEBMG0wXTELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEds
 b2JhbFNpZ24gbnYtc2ExMzAxBgNVBAMTKkdsb2JhbFNpZ24gUGVyc29uYWxTaWduIDIgQ0EgLSBT
 SEEyNTYgLSBHMwIMX/krgFDQUQNyOf+1MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEi
-BCBO12MUh7MfYkjGn2475t1FOfwVNXskvB5PB8QVdKgKUjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDEyMjIwNzA1NDNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
+BCCe470slY3qEafPyt9F9RU0yOnpiiz/Z5RMRDmYnJ2fgjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
+AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDEyMjIwNzA1NDhaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
 AWUDBAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEK
-MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAp9wlULykKN5l0swa
-UVumLYdEEispEYLjnnLaT1Nv4fKq2OXKZUtGxPOdiysX1j6Lk0b6VNkd3Rv+26PmP0VGbLWCKhr9
-K4m0eODfOAC34Lbo5tl8lCcwe/nk26S2ZJkBtEB9a+ymv9/i15tmok8z1jFxq25XcZRWrFypuKDJ
-yhdWH2ST/a7HiL+tONAb9vxrVgR4O7o6J4InGqYAyx+yPHe6vrQ4M8lpU2n5Zp0V20wQeYD/og56
-N/NMfDhVkBeGq6Yl+hy1zOSNdzHxB0wFWWxPw26+SN0GOdS+LWUnQpPZuABVJbnkj4dVNgzn0DBJ
-uocLab2PvhCFwZMtBmpV/g==
---000000000000ffb6e705b70833a2--
+MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEArrBZowEiByEQRuTC
+Shbt7JqwisAOKB+kYk3MD9vfRpC1o4dY4N9fgq+eDSFnYP9lFubTcRbMT+SZh3QGyn53b7YUy9Fa
+Tf8pLYGzLglyz6pn+zeYFRxaGyVlekP9TloNSEpYLzqR1JY60T1GlcR2j5mMsHE0reQ0PKrD68Ty
+FP8If3wZYI+Jyj/8e7EC8QNsjnE3FizhHMVi5rje+QdOovAOk8Vc8br/nI9wMAjfbc/2Jchak2Ff
+UGVuRcMs8x8UEWq/6+1/6LTYoMzMOSJiZ9Wrek9AGrCfF5UGp/EFYp4RaEWoThOaoXatrJmfod4x
+CuaEGsQVfP8j7jZvQFCVrg==
+--00000000000047851305b7083446--
 
 
---===============7731995398172744048==
+--===============6156013665051475966==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -511,5 +338,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============7731995398172744048==--
+--===============6156013665051475966==--
 
