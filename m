@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99C1CC43381
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 07:05:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E099CC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 07:05:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D34523122
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 07:05:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D34523122
+	by mail.kernel.org (Postfix) with ESMTPS id 7EB3A2312E
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 07:05:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7EB3A2312E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,62 +23,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:In-Reply-To:Message-Id:Date:Subject:To:From:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=u6eZXmNqKLzZgfEoJ2G3uYFoNhA42a8nsvH9Mzecq+o=; b=qrYNFPaXzp7WN8tFlfO/dE439
-	ovUSZudvLq46o0dz6dGaxHwkgh9owM/lR2mJRUl+t8hbnzQzelaJ2HtZo4R80gYwDTMakM0nLbVdO
-	dH5cy1zwjZd6x4FcIQTqY6E4mTX0ZY2PgJNjnmTmUpwVQdxetpvrxgQLOasC6+lf6gks074qwdYt7
-	i4qHhwktMXBJUvi1B2zfOk3FD7roERj9JmPYrbWxhBKklJkIKN9QcQ83JUaEy4Uvft08Vu/iIcEzX
-	9fSRJLdNnFokluN5hRQDfOnyDm7YZIHeL9HUh8LkbaasmDEuNYrTlrUHK2yJ0FRlph2jxScnW5bgX
-	srdNOj2BA==;
+	 bh=+CW+vWxy1JfDhYmOHK3eLRrRDKUJBCWtESLiwwcfpdk=; b=yrXKJJ6V1lAPsZLbwC7qRr3gN
+	3jHRTJcnnvL15r/dbWQtwdtlji4rNiNT23YSGNU7ugov5CFy9L++Z41z9yfFRM1GiAZRJ90/H7jnZ
+	4TNDHLFFc7H/AwpHo+gls45qlZ6UVXSvQToOD2z7oHLblo2Fn93+iM19oCxh3Njmwl7pkhm7WT5C9
+	hOBOxakN6xcJvMY+DPJItTHQwudewizQNsoRbWn319gFmkMKjcj98iX+zUXhx7pmMzvyoI2MOc8w4
+	7pSIHh3aX/eEsCiY/p4T4gjmEIkwdQwcAlqbK/UunKRwJMl0NnWVGHmqTecMIDeP7hRXZFYQYxF2a
+	g7FdqMmpA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1krbjQ-0007Dl-Ml; Tue, 22 Dec 2020 07:05:16 +0000
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+	id 1krbjV-0007FM-DD; Tue, 22 Dec 2020 07:05:21 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1krbjN-0007CZ-Hk
- for linux-nvme@lists.infradead.org; Tue, 22 Dec 2020 07:05:15 +0000
-Received: by mail-pf1-x430.google.com with SMTP id 11so7924675pfu.4
- for <linux-nvme@lists.infradead.org>; Mon, 21 Dec 2020 23:05:13 -0800 (PST)
+ id 1krbjS-0007Dm-3x
+ for linux-nvme@lists.infradead.org; Tue, 22 Dec 2020 07:05:19 +0000
+Received: by mail-pf1-x433.google.com with SMTP id 11so7924797pfu.4
+ for <linux-nvme@lists.infradead.org>; Mon, 21 Dec 2020 23:05:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
  h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
- :references; bh=Ln/6Ms7Ng555+O6OSYqH7EVEMBn6anBN1UtlW23QTJY=;
- b=AlzMR4/z6/dhqxSAk+n9rLYdpc+4CvN5F+sswJbWdEsFnM1MPjoHR2v6Gja9BIFHlk
- V+JhFP+vSgIWXA5JRiimdIOI2zUNJqhaqHNhHFHSp1SNei3hsNYkCJYpwl66MI5jgS2S
- Xk/BDytXy3jFuHdG91kJ+5YrU6pBFfTQCueuI=
+ :references; bh=G/I0SF0Gx9VpGG5KZ71Ik8QT6OvVq5prTQigY6k3iBo=;
+ b=Dq7gcbUm8ciO1Nq8bUkbbarGXUm3n3VD6xSv9XSM/Rxl/o2oiRmji1F24ipq5Q3hr6
+ +nXSKvg99jvZdEfIZAxlmCNEqx3lyyswce73IboqECtpULc6Tkc/BF9nLzkZ6E4RAEQA
+ aatvSnY9Fogc1/ygfJGE78R5leEs3mDOZVWLs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Ln/6Ms7Ng555+O6OSYqH7EVEMBn6anBN1UtlW23QTJY=;
- b=UcRPjJx0AvI+IXNr9jywuyJ488GOe5hTa07GhQpTsqIfv/GAWGqafFGTzGRH3itfVv
- mqZXRWrTzGqA/s1PqbNRTHdBRGHTUZEpbhfDID/F+itmLoF8kYs1OouQ4J5NEFzVDV9B
- BzaFMxedpopvAI2v8AWo8NlkPwlin3FstdSMPRSrUAGOz2fDwYy2ho4tZsfpul837v5/
- 8pOp0R2vurY+f3F391zykflE8Uz2imqBLqlKt6nqdYfPb8xDZvYy2HOZtlJ7pouOQSLF
- NmN3nOjSYkwEAz0hUxdE6Kzc7DC4i16oSwyDMMPgBhJDtIFTBmJP20uRXRzFuCC2L/UZ
- rVCQ==
+ bh=G/I0SF0Gx9VpGG5KZ71Ik8QT6OvVq5prTQigY6k3iBo=;
+ b=YtRd1Z0YJrVRLb00bvHB+YlCbvn/l95/s4WNIRlIksprqCcUa0j5bjdCF6i6Q8wDI4
+ AwAE9vHH19/T/e9m6/4+W23ElOPlw6HURhvaQc/KV+Q8p/J5rJ0tq0Y6g3pWjRTvpkq/
+ yrdqYM3PrKY9Sc/XU46nmCeurVBBIgeGZPNq2NLDFaCPRdbwakm5TZubguMFpY2fL83z
+ HX+zBFXcLkxTM/E4TF5RU8T3FhtO8CqJgDvJoSbOypYTUzdfyH8l0l4gX6+1mCXmJ5gs
+ vszQi9sEKEDNUqyDP4pnhqd2lfj74Ih/RyZbH9Me29Xzw5t5AGe2nbw7KChiBx1lYHat
+ MvnQ==
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM533j60cbrjXNIkuvIhPGO0fJ4obD0rz1my0dHlRSBqMJqGnbNfe4
- +sGx6T4cNPRl8nQbCmx2NEyj2FcZu6Y92SG8XMIUQmwqAt7ykpts52s/zKw0RcGSac9JE3+hwiQ
- 1zagOfnYGPfvnT2BeAw==
-X-Google-Smtp-Source: ABdhPJzl1tBL2RsR9v6fzkc2l6hlsiV7+GmUEvxwCzT00IFIgql6b8zxPh3bCH+sflXVGu+yM9vW4g==
-X-Received: by 2002:a63:2f05:: with SMTP id v5mr18689049pgv.3.1608620711359;
- Mon, 21 Dec 2020 23:05:11 -0800 (PST)
+X-Gm-Message-State: AOAM530BXmP/830/jGPHxTbYbimB5HNPmjD+Sw0Tx23Ch5n2+6JHD6Zx
+ Jqwb0wUNSRvqZg6ln+fpkgy9lOtBGhgOcbWOBxwkX2btLMwrYNxsMr8T4OPCoVRLUMUlr3MrGzb
+ Ww/Uuvs26/2beU/omFw==
+X-Google-Smtp-Source: ABdhPJy7Q7c6KcsZgvO3y5o7C+Wvc8ostOVCfexVJu2ee3eEve5DR+IZGKGWuyrDf/EB4d/gDXF27Q==
+X-Received: by 2002:a62:84ca:0:b029:19e:6f95:11b1 with SMTP id
+ k193-20020a6284ca0000b029019e6f9511b1mr18415098pfd.68.1608620715860; 
+ Mon, 21 Dec 2020 23:05:15 -0800 (PST)
 Received: from localhost.localdomain ([192.19.234.250])
- by smtp.gmail.com with ESMTPSA id t9sm12466082pgh.41.2020.12.21.23.05.07
+ by smtp.gmail.com with ESMTPSA id t9sm12466082pgh.41.2020.12.21.23.05.11
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Dec 2020 23:05:10 -0800 (PST)
+ Mon, 21 Dec 2020 23:05:15 -0800 (PST)
 From: Muneendra <muneendra.kumar@broadcom.com>
 To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org, hare@suse.de
-Subject: [PATCH v6 04/16] lpfc: vmid: Add the datastructure for supporting
- VMID in lpfc
-Date: Tue, 22 Dec 2020 05:41:46 +0530
-Message-Id: <1608595918-21954-5-git-send-email-muneendra.kumar@broadcom.com>
+Subject: [PATCH v6 05/16] lpfc: vmid: Supplementary data structures for vmid
+ and APIs
+Date: Tue, 22 Dec 2020 05:41:47 +0530
+Message-Id: <1608595918-21954-6-git-send-email-muneendra.kumar@broadcom.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1608595918-21954-1-git-send-email-muneendra.kumar@broadcom.com>
 References: <1608595918-21954-1-git-send-email-muneendra.kumar@broadcom.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201222_020514_600253_15A28EA9 
-X-CRM114-Status: GOOD (  16.15  )
+X-CRM114-CacheID: sfid-20201222_020518_227949_1F79F698 
+X-CRM114-Status: GOOD (  21.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +93,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: pbonzini@redhat.com, jsmart2021@gmail.com, mkumar@redhat.com,
  emilne@redhat.com, Gaurav Srivastava <gaurav.srivastava@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============4064408149099566969=="
+Content-Type: multipart/mixed; boundary="===============5777873105834854269=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============4064408149099566969==
+--===============5777873105834854269==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000001a5e1805b70832d9"
+	boundary="0000000000005f78bc05b70832fb"
 
---0000000000001a5e1805b70832d9
+--0000000000005f78bc05b70832fb
 Content-Type: text/plain; charset="US-ASCII"
 
 From: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
 
-This patch adds the primary datastructures needed to implement VMID in lpfc
-driver. It maintains the capability, current state, hash table for the
-vmid/appid along with other information.
+This patch adds additional data structures for supporting the two
+versions of vmid implementation. First type uses app header while
+the other types uses priority tagging mechanism. These data
+structures are used mostly for ELS and CT commands for the
+two vmid implementation.
+
+The API determines if VMID is enabled by the user or not.
 
 Signed-off-by: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
 Signed-off-by: James Smart <jsmart2021@gmail.com>
@@ -117,7 +122,8 @@ v6:
 No change
 
 v5:
-No Change
+Merged the patch5 of v4 to this patch
+Uniform data type naming scheme
 
 v4:
 No change
@@ -127,157 +133,267 @@ No change
 
 v2:
 Ported the patch on top of 5.10/scsi-queue
-Removed unused variable.
 ---
- drivers/scsi/lpfc/lpfc.h | 97 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
+ drivers/scsi/lpfc/lpfc.h      |  24 +++++++
+ drivers/scsi/lpfc/lpfc_disc.h |   1 +
+ drivers/scsi/lpfc/lpfc_hw.h   | 124 ++++++++++++++++++++++++++++++++--
+ drivers/scsi/lpfc/lpfc_sli.h  |   8 +++
+ 4 files changed, 153 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
-index a54c8da30273..ab61352363d4 100644
+index ab61352363d4..6d9617c47db0 100644
 --- a/drivers/scsi/lpfc/lpfc.h
 +++ b/drivers/scsi/lpfc/lpfc.h
-@@ -303,6 +303,63 @@ struct lpfc_stats {
- struct lpfc_hba;
+@@ -1513,3 +1513,27 @@ static const char *routine(enum enum_name table_key)			\
+ 	}								\
+ 	return name;							\
+ }
++
++/**
++ * lpfc_is_vmid_enabled - returns if VMID is enabled for either switch types
++ * @phba: Pointer to HBA context object.
++ *
++ * Relationship between the enable, target support and if vmid tag is required
++ * for the particular combination
++ * ---------------------------------------------------
++ * Switch    Enable Flag  Target Support  VMID Needed
++ * ---------------------------------------------------
++ * App Id     0              NA              N
++ * App Id     1               0              N
++ * App Id     1               1              Y
++ * Pr Tag     0              NA              N
++ * Pr Tag     1               0              N
++ * Pr Tag     1               1              Y
++ * Pr Tag     2               *              Y
++ ---------------------------------------------------
++ *
++ **/
++static inline int lpfc_is_vmid_enabled(struct lpfc_hba *phba)
++{
++	return phba->cfg_vmid_app_header || phba->cfg_vmid_priority_tagging;
++}
+diff --git a/drivers/scsi/lpfc/lpfc_disc.h b/drivers/scsi/lpfc/lpfc_disc.h
+index ea07afcb750a..25d119c005dd 100644
+--- a/drivers/scsi/lpfc/lpfc_disc.h
++++ b/drivers/scsi/lpfc/lpfc_disc.h
+@@ -117,6 +117,7 @@ struct lpfc_nodelist {
+ 	uint8_t         nlp_fcp_info;	        /* class info, bits 0-3 */
+ #define NLP_FCP_2_DEVICE   0x10			/* FCP-2 device */
+ 	u8		nlp_nvme_info;	        /* NVME NSLER Support */
++	uint8_t		vmid_support;		/* destination VMID support */
+ #define NLP_NVME_NSLER     0x1			/* NVME NSLER device */
+ 
+ 	struct timer_list   nlp_delayfunc;	/* Used for delayed ELS cmds */
+diff --git a/drivers/scsi/lpfc/lpfc_hw.h b/drivers/scsi/lpfc/lpfc_hw.h
+index 42682d95af52..4a5a85ed42ec 100644
+--- a/drivers/scsi/lpfc/lpfc_hw.h
++++ b/drivers/scsi/lpfc/lpfc_hw.h
+@@ -275,6 +275,7 @@ struct lpfc_sli_ct_request {
+ #define  SLI_CT_ACCESS_DENIED             0x10
+ #define  SLI_CT_INVALID_PORT_ID           0x11
+ #define  SLI_CT_DATABASE_EMPTY            0x12
++#define  SLI_CT_APP_ID_NOT_AVAILABLE      0x40
+ 
+ /*
+  * Name Server Command Codes
+@@ -400,16 +401,16 @@ struct csp {
+ 	uint16_t altBbCredit:1;	/* FC Word 1, bit 27 */
+ 	uint16_t edtovResolution:1;	/* FC Word 1, bit 26 */
+ 	uint16_t multicast:1;	/* FC Word 1, bit 25 */
+-	uint16_t broadcast:1;	/* FC Word 1, bit 24 */
++	uint16_t app_hdr_support:1;	/* FC Word 1, bit 24 */
+ 
+-	uint16_t huntgroup:1;	/* FC Word 1, bit 23 */
++	uint16_t priority_tagging:1;	/* FC Word 1, bit 23 */
+ 	uint16_t simplex:1;	/* FC Word 1, bit 22 */
+ 	uint16_t word1Reserved1:3;	/* FC Word 1, bit 21:19 */
+ 	uint16_t dhd:1;		/* FC Word 1, bit 18 */
+ 	uint16_t contIncSeqCnt:1;	/* FC Word 1, bit 17 */
+ 	uint16_t payloadlength:1;	/* FC Word 1, bit 16 */
+ #else	/*  __LITTLE_ENDIAN_BITFIELD */
+-	uint16_t broadcast:1;	/* FC Word 1, bit 24 */
++	uint16_t app_hdr_support:1;	/* FC Word 1, bit 24 */
+ 	uint16_t multicast:1;	/* FC Word 1, bit 25 */
+ 	uint16_t edtovResolution:1;	/* FC Word 1, bit 26 */
+ 	uint16_t altBbCredit:1;	/* FC Word 1, bit 27 */
+@@ -423,7 +424,7 @@ struct csp {
+ 	uint16_t dhd:1;		/* FC Word 1, bit 18 */
+ 	uint16_t word1Reserved1:3;	/* FC Word 1, bit 21:19 */
+ 	uint16_t simplex:1;	/* FC Word 1, bit 22 */
+-	uint16_t huntgroup:1;	/* FC Word 1, bit 23 */
++	uint16_t priority_tagging:1;	/* FC Word 1, bit 23 */
+ #endif
+ 
+ 	uint8_t bbRcvSizeMsb;	/* Upper nibble is reserved */
+@@ -607,6 +608,8 @@ struct fc_vft_header {
+ #define ELS_CMD_LIRR      0x7A000000
+ #define ELS_CMD_LCB	  0x81000000
+ #define ELS_CMD_FPIN	  0x16000000
++#define ELS_CMD_QFPA      0xB0000000
++#define ELS_CMD_UVEM      0xB1000000
+ #else	/*  __LITTLE_ENDIAN_BITFIELD */
+ #define ELS_CMD_MASK      0xffff
+ #define ELS_RSP_MASK      0xff
+@@ -649,6 +652,8 @@ struct fc_vft_header {
+ #define ELS_CMD_LIRR      0x7A
+ #define ELS_CMD_LCB	  0x81
+ #define ELS_CMD_FPIN	  ELS_FPIN
++#define ELS_CMD_QFPA      0xB0
++#define ELS_CMD_UVEM      0xB1
+ #endif
+ 
+ /*
+@@ -1317,6 +1322,117 @@ struct fc_rdp_res_frame {
+ };
  
  
-+#define LPFC_VMID_TIMER   300	/* timer interval in seconds. */
++/* UVEM */
 +
-+#define LPFC_MAX_VMID_SIZE      256
-+#define LPFC_COMPRESS_VMID_SIZE 16
++#define LPFC_UVEM_SIZE 60
++#define LPFC_UVEM_VEM_ID_DESC_SIZE 16
++#define LPFC_UVEM_VE_MAP_DESC_SIZE 20
 +
-+union lpfc_vmid_io_tag {
-+	u32 app_id;	/* App Id vmid */
-+	u8 cs_ctl_vmid;	/* Priority tag vmid */
++#define VEM_ID_DESC_TAG  0x0001000A
++struct lpfc_vem_id_desc {
++	uint32_t tag;
++	uint32_t length;
++	uint8_t vem_id[16];
 +};
 +
-+#define JIFFIES_PER_HR	(HZ * 60 * 60)
++#define LPFC_QFPA_SIZE	4
 +
-+struct lpfc_vmid {
-+	u8 flag;
-+#define LPFC_VMID_SLOT_FREE     0x0
-+#define LPFC_VMID_SLOT_USED     0x1
-+#define LPFC_VMID_REQ_REGISTER  0x2
-+#define LPFC_VMID_REGISTERED    0x4
-+#define LPFC_VMID_DE_REGISTER   0x8
-+	u8 host_vmid[LPFC_MAX_VMID_SIZE];
-+	union lpfc_vmid_io_tag un;
-+	u64 io_rd_cnt;
-+	u64 io_wr_cnt;
-+	u8 vmid_len;
-+	u8 delete_inactive; /* Delete if inactive flag 0 = no, 1 = yes */
-+	u32 hash_index;
-+	u64 __percpu *last_io_time;
++#define INSTANTIATED_VE_DESC_TAG  0x0001000B
++struct instantiated_ve_desc {
++	uint32_t tag;
++	uint32_t length;
++	uint8_t global_vem_id[16];
++	uint32_t word6;
++#define lpfc_instantiated_local_id_SHIFT   0
++#define lpfc_instantiated_local_id_MASK    0x000000ff
++#define lpfc_instantiated_local_id_WORD    word6
++#define lpfc_instantiated_nport_id_SHIFT   8
++#define lpfc_instantiated_nport_id_MASK    0x00ffffff
++#define lpfc_instantiated_nport_id_WORD    word6
 +};
 +
-+#define lpfc_vmid_is_type_priority_tag(vport)\
-+	(vport->vmid_priority_tagging ? 1 : 0)
-+
-+#define LPFC_VMID_HASH_SIZE     256
-+#define LPFC_VMID_HASH_MASK     255
-+#define LPFC_VMID_HASH_SHIFT    6
-+
-+struct lpfc_vmid_context {
-+	struct lpfc_vmid *vmp;
-+	struct lpfc_nodelist *nlp;
-+	u8 instantiated;
++#define DEINSTANTIATED_VE_DESC_TAG  0x0001000C
++struct deinstantiated_ve_desc {
++	uint32_t tag;
++	uint32_t length;
++	uint8_t global_vem_id[16];
++	uint32_t word6;
++#define lpfc_deinstantiated_nport_id_SHIFT   0
++#define lpfc_deinstantiated_nport_id_MASK    0x000000ff
++#define lpfc_deinstantiated_nport_id_WORD    word6
++#define lpfc_deinstantiated_local_id_SHIFT   24
++#define lpfc_deinstantiated_local_id_MASK    0x00ffffff
++#define lpfc_deinstantiated_local_id_WORD    word6
 +};
 +
-+struct lpfc_vmid_priority_range {
-+	u8 low;
-+	u8 high;
-+	u8 qos;
++/* Query Fabric Priority Allocation Response */
++#define LPFC_PRIORITY_RANGE_DESC_SIZE 12
++
++struct priority_range_desc {
++	uint32_t tag;
++	uint32_t length;
++	uint8_t lo_range;
++	uint8_t hi_range;
++	uint8_t qos_priority;
++	uint8_t local_ve_id;
 +};
 +
-+struct lpfc_vmid_priority_info {
-+	u32 num_descriptors;
-+	struct lpfc_vmid_priority_range *vmid_range;
++struct fc_qfpa_res {
++	uint32_t reply_sequence;	/* LS_ACC or LS_RJT */
++	uint32_t length;	/* FC Word 1    */
++	struct priority_range_desc desc[1];
 +};
 +
-+#define QFPA_EVEN_ONLY 0x01
-+#define QFPA_ODD_ONLY  0x02
-+#define QFPA_EVEN_ODD  0x03
++/* Application Server command code */
++/* VMID               */
 +
- enum discovery_state {
- 	LPFC_VPORT_UNKNOWN     =  0,    /* vport state is unknown */
- 	LPFC_VPORT_FAILED      =  1,    /* vport has failed */
-@@ -442,6 +499,9 @@ struct lpfc_vport {
- #define WORKER_RAMP_DOWN_QUEUE         0x800	/* hba: Decrease Q depth */
- #define WORKER_RAMP_UP_QUEUE           0x1000	/* hba: Increase Q depth */
- #define WORKER_SERVICE_TXQ             0x2000	/* hba: IOCBs on the txq */
-+#define WORKER_CHECK_INACTIVE_VMID     0x4000	/* hba: check inactive vmids */
-+#define WORKER_CHECK_VMID_ISSUE_QFPA   0x8000	/* vport: Check if qfpa need */
-+						/* to issue */
- 
- 	struct timer_list els_tmofunc;
- 	struct timer_list delayed_disc_tmo;
-@@ -452,6 +512,8 @@ struct lpfc_vport {
- #define FC_LOADING		0x1	/* HBA in process of loading drvr */
- #define FC_UNLOADING		0x2	/* HBA in process of unloading drvr */
- #define FC_ALLOW_FDMI		0x4	/* port is ready for FDMI requests */
-+#define FC_ALLOW_VMID		0x8	/* Allow VMID IO's */
-+#define FC_DEREGISTER_ALL_APP_ID	0x10	/* Deregister all vmid's */
- 	/* Vport Config Parameters */
- 	uint32_t cfg_scan_down;
- 	uint32_t cfg_lun_queue_depth;
-@@ -470,9 +532,36 @@ struct lpfc_vport {
- 	uint32_t cfg_tgt_queue_depth;
- 	uint32_t cfg_first_burst_size;
- 	uint32_t dev_loss_tmo_changed;
-+	/* VMID parameters */
-+	u8 lpfc_vmid_host_uuid[LPFC_COMPRESS_VMID_SIZE];
-+	u32 max_vmid;	/* maximum VMIDs allowed per port */
-+	u32 cur_vmid_cnt;	/* Current VMID count */
-+#define LPFC_MIN_VMID	4
-+#define LPFC_MAX_VMID	255
-+	u32 vmid_inactivity_timeout;	/* Time after which the VMID */
-+						/* deregisters from switch */
-+	u32 vmid_priority_tagging;
-+#define LPFC_VMID_PRIO_TAG_DISABLE	0 /* Disable */
-+#define LPFC_VMID_PRIO_TAG_SUP_TARGETS	1 /* Allow supported targets only */
-+#define LPFC_VMID_PRIO_TAG_ALL_TARGETS	2 /* Allow all targets */
-+	unsigned long *vmid_priority_range;
-+#define LPFC_VMID_MAX_PRIORITY_RANGE    256
-+#define LPFC_VMID_PRIORITY_BITMAP_SIZE  32
-+	u8 vmid_flag;
-+#define LPFC_VMID_IN_USE		0x1
-+#define LPFC_VMID_ISSUE_QFPA		0x2
-+#define LPFC_VMID_QFPA_CMPL		0x4
-+#define LPFC_VMID_QOS_ENABLED		0x8
-+#define LPFC_VMID_TIMER_ENBLD		0x10
-+	struct fc_qfpa_res *qfpa_res;
- 
- 	struct fc_vport *fc_vport;
- 
-+	struct lpfc_vmid *vmid;
-+	struct lpfc_vmid *hash_table[LPFC_VMID_HASH_SIZE];
-+	rwlock_t vmid_lock;
-+	struct lpfc_vmid_priority_info vmid_priority;
++#define SLI_CT_APP_SEV_Subtypes     0x20	/* Application Server subtype */
 +
- #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
- 	struct dentry *debug_disc_trc;
- 	struct dentry *debug_nodelist;
-@@ -934,6 +1023,13 @@ struct lpfc_hba {
- 	struct nvmet_fc_target_port *targetport;
- 	lpfc_vpd_t vpd;		/* vital product data */
++#define SLI_CTAS_GAPPIA_ENT    0x0100	/* Get Application Identifier */
++#define SLI_CTAS_GALLAPPIA     0x0101	/* Get All Application Identifier */
++#define SLI_CTAS_GALLAPPIA_ID  0x0102	/* Get All Application Identifier */
++					/* for Nport */
++#define SLI_CTAS_GAPPIA_IDAPP  0x0103	/* Get Application Identifier */
++					/* for Nport */
++#define SLI_CTAS_RAPP_IDENT    0x0200	/* Register Application Identifier */
++#define SLI_CTAS_DAPP_IDENT    0x0300	/* Deregister Application */
++					/* Identifier */
++#define SLI_CTAS_DALLAPP_ID    0x0301	/* Deregister All Application */
++					/* Identifier */
++
++struct entity_id_object {
++	uint8_t entity_id_len;
++	uint8_t entity_id[255];	/* VM UUID */
++};
++
++struct app_id_object {
++	uint32_t port_id;
++	uint32_t app_id;
++	struct entity_id_object obj;
++};
++
++struct lpfc_vmid_rapp_ident_list {
++	uint32_t no_of_objects;
++	struct entity_id_object obj[1];
++};
++
++struct lpfc_vmid_dapp_ident_list {
++	uint32_t no_of_objects;
++	struct entity_id_object obj[1];
++};
++
++#define GALLAPPIA_ID_LAST  0x80
++struct lpfc_vmid_gallapp_ident_list {
++	uint8_t control;
++	uint8_t reserved[3];
++	struct app_id_object app_id;
++};
++
++#define RAPP_IDENT_OFFSET  (offsetof(struct lpfc_sli_ct_request, un) + 4)
++#define DAPP_IDENT_OFFSET  (offsetof(struct lpfc_sli_ct_request, un) + 4)
++#define GALLAPPIA_ID_SIZE  (offsetof(struct lpfc_sli_ct_request, un) + 4)
++#define DALLAPP_ID_SIZE    (offsetof(struct lpfc_sli_ct_request, un) + 4)
++
+ /******** FDMI ********/
  
-+	u32 cfg_max_vmid;	/* maximum VMIDs allowed per port */
-+	u32 cfg_vmid_app_header;
-+#define LPFC_VMID_APP_HEADER_DISABLE	0
-+#define LPFC_VMID_APP_HEADER_ENABLE	1
-+	u32 cfg_vmid_priority_tagging;
-+	u32 cfg_vmid_inactivity_timeout;	/* Time after which the VMID */
-+						/*  deregisters from switch */
- 	struct pci_dev *pcidev;
- 	struct list_head      work_list;
- 	uint32_t              work_ha;      /* Host Attention Bits for WT */
-@@ -1175,6 +1271,7 @@ struct lpfc_hba {
- 	struct list_head ct_ev_waiters;
- 	struct unsol_rcv_ct_ctx ct_ctx[LPFC_CT_CTX_MAX];
- 	uint32_t ctx_idx;
-+	struct timer_list inactive_vmid_poll;
+ /* lpfc_sli_ct_request defines the CT_IU preamble for FDMI commands */
+diff --git a/drivers/scsi/lpfc/lpfc_sli.h b/drivers/scsi/lpfc/lpfc_sli.h
+index 4f6936014ff5..ff5a2a492405 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.h
++++ b/drivers/scsi/lpfc/lpfc_sli.h
+@@ -35,6 +35,12 @@ typedef enum _lpfc_ctx_cmd {
+ 	LPFC_CTX_HOST
+ } lpfc_ctx_cmd;
  
- 	/* RAS Support */
- 	struct lpfc_ras_fwlog ras_fwlog;
++union lpfc_vmid_iocb_tag {
++	uint32_t app_id;
++	uint8_t cs_ctl_vmid;
++	struct lpfc_vmid_context *vmid_context;	/* UVEM context information */
++};
++
+ struct lpfc_cq_event {
+ 	struct list_head list;
+ 	uint16_t hdwq;
+@@ -100,6 +106,7 @@ struct lpfc_iocbq {
+ #define LPFC_IO_NVME	        0x200000 /* NVME FCP command */
+ #define LPFC_IO_NVME_LS		0x400000 /* NVME LS command */
+ #define LPFC_IO_NVMET		0x800000 /* NVMET command */
++#define LPFC_IO_VMID            0x1000000 /* VMID tagged IO */
+ 
+ 	uint32_t drvrTimeout;	/* driver timeout in seconds */
+ 	struct lpfc_vport *vport;/* virtual port pointer */
+@@ -114,6 +121,7 @@ struct lpfc_iocbq {
+ 		struct lpfc_node_rrq *rrq;
+ 	} context_un;
+ 
++	union lpfc_vmid_iocb_tag vmid_tag;
+ 	void (*fabric_iocb_cmpl)(struct lpfc_hba *, struct lpfc_iocbq *,
+ 			   struct lpfc_iocbq *);
+ 	void (*wait_iocb_cmpl)(struct lpfc_hba *, struct lpfc_iocbq *,
 -- 
 2.26.2
 
@@ -295,7 +411,7 @@ this e-mail is strictly prohibited. If you received this e-mail in error,
 please return the e-mail to the sender, delete it from your computer, and 
 destroy any printed copy of it.
 
---0000000000001a5e1805b70832d9
+--0000000000005f78bc05b70832fb
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -366,19 +482,19 @@ LbMkW5lUoTb8ycBNOKLYhNE8UEOY8jRTUtMEhzT6NJDEE+1hb3kSGfArrrF3Z8pRYiUUhcpC5GKL
 EpmWnHflnrBcah5Ozy137DGCAm8wggJrAgEBMG0wXTELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEds
 b2JhbFNpZ24gbnYtc2ExMzAxBgNVBAMTKkdsb2JhbFNpZ24gUGVyc29uYWxTaWduIDIgQ0EgLSBT
 SEEyNTYgLSBHMwIMX/krgFDQUQNyOf+1MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEi
-BCD2Nk/OcExcTf941SqrQwaQptD96/LGETyqDgjgFePzPjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDEyMjIwNzA1MTFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
+BCCaaBtG16RmqpV5GDlKWe0nr/gP45ouKHbUO3ns/hkiQDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
+AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDEyMjIwNzA1MTZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
 AWUDBAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEK
-MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEASlX5nMlSS0SjnSAq
-MR5xG8I6ixUvAAvNK0NCgl+Dx6nA7JzzIBy0tuMv90Cwbl2tkmLEem8x1FOa1JPgPz+2Z19+8oH7
-lCHSVeNMuCbVPHJ5EQOLQ+PWGxGzzW/Tlc/T7fRzn7BotykTR6f/IZC+R4gdOmBNXtghEbZFtQCf
-1DxNK//LICoOgn9uGWqUKJqcrOXxAQhwAWhpGVtTEYvG2kyFR0S/enMZLiEQBUpmcnXDCrld9zf2
-RaWZXfMtpZ00OHJRZC4IWz+IgF7Ti5t0C0lOi+Gp0Y8tpRmm1o+OIIo40WdlTia6Bvi1a/InYfZE
-kp6bXqZGGRgjYA55Ioeq8A==
---0000000000001a5e1805b70832d9--
+MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAp+Su267jmHkPJzHz
+wj4WgLtO2mIjxqyX4tdWr8T+KVzSeVhYtXheQOZAlG7YJ2U0SjkSUolCRcmOI5mT1ARs1XGiiJzS
+bAjLPOXv/rIHs3Wo/yZPb3kryqC6y+02EDhUjB/hGnHWiF5ll8l3Fhd9BhuYeJmw0JwmfG5Gl8Jc
+goq8VWEdaPXe3P6wf3xj3sY8Zr7Oa2wVq9Gb0qlK0DdDC45k8G9P+ehHh9fQeer24nP8DhW3CBfx
+fU4QStNv0t1fRCbLinoMImGITTL95iEv+oTgSwvZO5M7uA/SKP3ZOdy/mOd37JSU8KoVhE5U8zJ0
+EbbAyl26kT7GxBIxOGpHFg==
+--0000000000005f78bc05b70832fb--
 
 
---===============4064408149099566969==
+--===============5777873105834854269==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -389,5 +505,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---===============4064408149099566969==--
+--===============5777873105834854269==--
 
