@@ -1,56 +1,84 @@
-Return-Path: <SRS0=EJ6s=FZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=D3NM=F2=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B62C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Dec 2020 14:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1899C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 06:03:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E5DF722BEA
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Dec 2020 14:14:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5DF722BEA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=chelsio.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5F2EC20855
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Dec 2020 06:03:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F2EC20855
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:To:
+	Subject:Message-ID:Date:MIME-Version:In-Reply-To:References:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=BVlPAXUISTbSGqzvGanPp7A3uUZ503JgPTTvETJzjhw=; b=UFofnUi3KZtB5USXiB9l/96bM
-	e0wQ7SQ9pY0ZSPzwg5mSWoin0TPmNJzQyFds3WlyOA1u1iFh5r48p3jgZBWZ1nIciHD5awF0GY42H
-	iGz9wTLAr6XsXj4JpNK8hU+rgvozelmRG/Haf/l9Phd4khBsq/yrE3G2gL7msM6IX6WJ/UIRbOQNY
-	YxVtEok/KoVbrLMmZafIUbFbxszn2sAimwmmMw8EMNnB3HQ8ldjhek9XBmbuXV5g/AREJYP2+yln0
-	2NJHlsAwSmJ2sePWElr6ke67tkLN9r1zFFx/y/W1Sl49ItdCuw0cD3qQHFMxiNVoZlhrx5/9HlMJi
-	ocQEJM6NQ==;
+	 bh=iN8Uh3WIm6sqrGOXS5zqOjRMhcAMPzuSGcYwGrp4Yqw=; b=jWkifeJLlWRriQQhtZBJ1Dmkn
+	X9VieE2iE2v9otKeCxJFsKV6G0ZLoagLTJexK3y0dk4gB0hAUhMWaYt3YuZRuWIuxDTqXSRslG097
+	S9F39ZSZGWs2tFtD+t5m8iep8HPFryg8zkJBxHlAQWeM1b0XJWIpOJHthd+NNxu22zz5JZ/FCt750
+	/JkcSQfUrqgifJxNYmbECqI2gM4ZUj5DbzBOal0N+GRzuEs9tKkEgzrMgIYZFDuxIt+QPAa7uh2MR
+	QjdenKdeyhewQwPl2NU0Kit1izvMinVIj7rW5vUTm7N5tJzNgcf4D31+EjMaCHCywq28TWR3yJDsF
+	vplnHSQuQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1krLx9-0002gg-FZ; Mon, 21 Dec 2020 14:14:23 +0000
-Received: from stargate.chelsio.com ([12.32.117.8])
+	id 1kralL-0004Id-7H; Tue, 22 Dec 2020 06:03:11 +0000
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1krLx6-0002f2-CM
- for linux-nvme@lists.infradead.org; Mon, 21 Dec 2020 14:14:21 +0000
-Received: from localhost (mehrangarh.blr.asicdesigners.com [10.193.185.169])
- by stargate.chelsio.com (8.13.8/8.13.8) with ESMTP id 0BLEDDkf015078;
- Mon, 21 Dec 2020 06:13:23 -0800
-Date: Mon, 21 Dec 2020 19:43:03 +0530
-From: Potnuri Bharat Teja <bharat@chelsio.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme-tcp: Fix possible race of io_work and direct send
-Message-ID: <X+Ctbyv8vrkBl59I@chelsio.com>
-References: <20201221080339.945164-1-sagi@grimberg.me>
+ id 1kralH-0004HN-BK
+ for linux-nvme@lists.infradead.org; Tue, 22 Dec 2020 06:03:10 +0000
+Received: by mail-oo1-xc43.google.com with SMTP id j21so2730926oou.11
+ for <linux-nvme@lists.infradead.org>; Mon, 21 Dec 2020 22:03:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=from:references:in-reply-to:mime-version:thread-index:date
+ :message-id:subject:to:cc;
+ bh=mobH+gQWPGq+gpGh2KV/0UQFbv7x7J20ItKlfb9upZ0=;
+ b=cevihxCRidtnGepx/5YsE9bhzn545v6lYOQMYBbYEK5jQYaXQcdd+xhvLqDfjc1+gJ
+ z/RWLTn5gWRwp2wp97OXqNFQ4Wmm7c9QR+kzxWlKAyG2giOsCnMiH16vQR0MVfCTGQni
+ 9iKBiSRjbBAWd6x2qsLIrmQ7U8RY+AXR9YjMM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:references:in-reply-to:mime-version
+ :thread-index:date:message-id:subject:to:cc;
+ bh=mobH+gQWPGq+gpGh2KV/0UQFbv7x7J20ItKlfb9upZ0=;
+ b=D+vai/P0ijRDq1PEt0SEtgcPKEgTX4lOROxw7L6BPhHhRz+6qGumcQU4Id+/oJlVp8
+ JK2jALn7uWwNXtalZgLr2ZvTj6Y6MTymUjJkDY3/JdUtUDLT3PASDer3Qu7KNHSbNuc1
+ 5HH9SuZsyg9RQHz21VdhIUPT2RevnySbXlsYtX0r2foyfiiRK255nJth53f8JJeKsyJn
+ OuDIk+WMsiTDXEj6eE3xsWwSL319r+tOZGc6ZJy5um/8jljU/trrwIK61kl+aSfW/Uis
+ IZ/8ujKB7HVKWgPprjda1Fm2Z6oUNM9l6jxgf67s0UHPsC21fcKNGfVk7PirFKjHmGO1
+ NmFg==
+X-Gm-Message-State: AOAM5303IltkumrdK4KJX0j0rB72RpqQHekEJEZsIBD/NsWmeUzn2kQk
+ dVu7URvieFjW0/AnJlyI0k1SxE2N7k0Or3L46sEbeR+eXIFZnKntjgwJEr3+dwWJSrZLymfSmJs
+ SZGD47AL+kfhz9ldJy0AuvyWOB9PxCVzDsw==
+X-Google-Smtp-Source: ABdhPJyyvdF7xTn2PhNHoFpkWTRLF0ZiGDmaRR1KL7ajuipLeNItHptYqPzHC7zheuDHphFVaB6HQ0TICLHxnZW0VOQ=
+X-Received: by 2002:a4a:3001:: with SMTP id q1mr13888022oof.88.1608616980352; 
+ Mon, 21 Dec 2020 22:03:00 -0800 (PST)
+From: Muneendra Kumar M <muneendra.kumar@broadcom.com>
+References: <1608096586-21656-1-git-send-email-muneendra.kumar@broadcom.com>
+ <1608096586-21656-3-git-send-email-muneendra.kumar@broadcom.com>
+ <b765fa4e-87ba-a9a4-6c8c-68f3b410129b@infradead.org>
+In-Reply-To: <b765fa4e-87ba-a9a4-6c8c-68f3b410129b@infradead.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201221080339.945164-1-sagi@grimberg.me>
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQGglR+rh46kAP1ZRtKDc6OPzwqQQgG3o1MuAa0lddKqU/9fcA==
+Date: Tue, 22 Dec 2020 11:32:58 +0530
+Message-ID: <4f119560bc2610e263f91f85a9853c76@mail.gmail.com>
+Subject: RE: [PATCH v5 02/16] blkcg: Added a app identifier support for blkcg
+To: Randy Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, tj@kernel.org, linux-nvme@lists.infradead.org, 
+ hare@suse.de
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201221_091420_596809_E637D090 
-X-CRM114-Status: GOOD (  26.83  )
+X-CRM114-CacheID: sfid-20201222_010307_650447_1D1428ED 
+X-CRM114-Status: GOOD (  15.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,100 +90,189 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: pbonzini@redhat.com, jsmart2021@gmail.com, mkumar@redhat.com,
+ emilne@redhat.com
+Content-Type: multipart/mixed; boundary="===============0993332695464162412=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Monday, December 12/21/20, 2020 at 13:33:39 +0530, Sagi Grimberg wrote:
-> We may send a request (with or without its data) from two
-> paths:
-> 
-> 1. From our I/O context nvme_tcp_io_work which
-> is triggered from:
-> - queue_rq
-> - r2t reception
-> - socket data_ready and write_space callbacks
-> 
-> 2. Directly from queue_rq if the send_list is empty (because
-> we want to save the context switch associated with scheduling
-> our io_work).
-> 
-> However, given that now we have the send_mutex, we may run into
-> a race condition where none of these contexts will send the pending
-> payload to the controller. Both io_work send path and queue_rq send
-> path opportunistically attempt to acquire the send_mutex however
-> queue_rq only attempts to send a single request, and if io_work
-> context fails to acquire the send_mutex it will complete without
-> rescheduling itself.
-> 
-> The race can trigger with the following sequence:
-> 1. queue_rq sends request (no incapsule data) and blocks
-> 2. RX path receives r2t - prepares data PDU to send, adds h2cdata PDU to the
->    send_list and schedules io_work
-> 3. io_work triggers and cannot acquire the send_mutex - because of (1), ends
->    without self rescheduling
-> 4. queue_rq completes the send, and completes
-> ==> no context will send the h2cdata - timeout.
-> 
-> Fix this by having queue_rq sending as much as it can from the send_list
-> such that if it still has any left, its because the socket buffer is
-> full and the socket write_space callback will trigger, thus guaranteeing
-> that a context will be scheduled to send the h2cdata PDU.
-> 
-> Fixes: db5ad6b7f8cd ("nvme-tcp: try to send request in queue_rq context")
-> Reported-by: Potnuri Bharat Teja <bharat@chelsio.com>
-> Reported-by: Samuel Jones <sjones@kalrayinc.com>
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+--===============0993332695464162412==
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000b7f09005b707537c"
 
-Tested-by: Potnuri Bharat Teja <bharat@chelsio.com>
+--000000000000b7f09005b707537c
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Randy,
+Thanks for your comments.
+I will incorporate your comments in my next version.
+
+Regards,
+Muneendra.
+
+-----Original Message-----
+From: Randy Dunlap [mailto:rdunlap@infradead.org]
+Sent: Saturday, December 19, 2020 10:42 PM
+To: Muneendra <muneendra.kumar@broadcom.com>; linux-block@vger.kernel.org;
+linux-scsi@vger.kernel.org; tj@kernel.org; linux-nvme@lists.infradead.org;
+hare@suse.de
+Cc: jsmart2021@gmail.com; emilne@redhat.com; mkumar@redhat.com;
+pbonzini@redhat.com
+Subject: Re: [PATCH v5 02/16] blkcg: Added a app identifier support for
+blkcg
+
+On 12/15/20 9:29 PM, Muneendra wrote:
+
+Hi--
 
 > ---
->  drivers/nvme/host/tcp.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 1ba659927442..979ee31b8dd1 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -262,6 +262,16 @@ static inline void nvme_tcp_advance_req(struct nvme_tcp_request *req,
->  	}
->  }
->  
-> +static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
-> +{
-> +	int ret;
-> +
-> +	/* drain the send queue as much as we can... */
-> +	do {
-> +		ret = nvme_tcp_try_send(queue);
-> +	} while (ret > 0);
-> +}
-> +
->  static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
->  		bool sync, bool last)
->  {
-> @@ -279,7 +289,7 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
->  	if (queue->io_cpu == smp_processor_id() &&
->  	    sync && empty && mutex_trylock(&queue->send_mutex)) {
->  		queue->more_requests = !last;
-> -		nvme_tcp_try_send(queue);
-> +		nvme_tcp_send_all(queue);
->  		queue->more_requests = false;
->  		mutex_unlock(&queue->send_mutex);
->  	} else if (last) {
-> -- 
-> 2.25.1
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>  block/Kconfig              |  9 ++++++
+>  include/linux/blk-cgroup.h | 56
+> ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 65 insertions(+)
+>
+> diff --git a/block/Kconfig b/block/Kconfig index
+> a2297edfdde8..1920388fb0e9 100644
+> --- a/block/Kconfig
+> +++ b/block/Kconfig
+> @@ -144,6 +144,15 @@ config BLK_CGROUP_IOLATENCY
+>
+>  	Note, this is an experimental interface and could be changed
+someday.
+>
+> +config BLK_CGROUP_FC_APPID
+> +	bool "Enable support to track FC io Traffic across cgroup
+applications"
+> +	depends on BLK_CGROUP=y
+> +	help
+> +	Enabling this option enables the support to track FC io traffic
+across
+> +	cgroup applications.It enables the Fabric and the storage targets
+to
+> +	identify, monitor, and handle FC traffic based on vm tags by
+inserting
+> +	application specific identification into the FC frame.
+
+Please follow coding-style for Kconfig files:
+
+from Documentation/process/coding-style.rst, section 10):
+
+For all of the Kconfig* configuration files throughout the source tree,
+the indentation is somewhat different.  Lines under a ``config``
+definition are indented with one tab, while help text is indented an
+additional two spaces.
+
+
+thanks.
+--
+~Randy
+
+-- 
+This electronic communication and the information and any files transmitted 
+with it, or attached to it, are confidential and are intended solely for 
+the use of the individual or entity to whom it is addressed and may contain 
+information that is confidential, legally privileged, protected by privacy 
+laws, or otherwise restricted from disclosure to anyone else. If you are 
+not the intended recipient or the person responsible for delivering the 
+e-mail to the intended recipient, you are hereby notified that any use, 
+copying, distributing, dissemination, forwarding, printing, or copying of 
+this e-mail is strictly prohibited. If you received this e-mail in error, 
+please return the e-mail to the sender, delete it from your computer, and 
+destroy any printed copy of it.
+
+--000000000000b7f09005b707537c
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+J/4V6ms/nIUi+/4vPYjckYUbRzkXm1/X0IyUfpp5cgdrFn9jBIk69fQGAUEhnVvwcXnHWotYxZFd
+Xew5Fz0CAwEAAaOCAdMwggHPMA4GA1UdDwEB/wQEAwIFoDCBngYIKwYBBQUHAQEEgZEwgY4wTQYI
+KwYBBQUHMAKGQWh0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5jb20vY2FjZXJ0L2dzcGVyc29uYWxz
+aWduMnNoYTJnM29jc3AuY3J0MD0GCCsGAQUFBzABhjFodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5j
+b20vZ3NwZXJzb25hbHNpZ24yc2hhMmczME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsG
+AQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAA
+MEQGA1UdHwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NwZXJzb25hbHNp
+Z24yc2hhMmczLmNybDAnBgNVHREEIDAegRxtdW5lZW5kcmEua3VtYXJAYnJvYWRjb20uY29tMBMG
+A1UdJQQMMAoGCCsGAQUFBwMEMB8GA1UdIwQYMBaAFGlygmIxZ5VEhXeRgMQENkmdewthMB0GA1Ud
+DgQWBBR6On9cEmlB2VsuST951zNMSKtFBzANBgkqhkiG9w0BAQsFAAOCAQEAOGDBLQ17Ge8BVULh
+hsKhgh5eDx0mNmRRdhvTJnxOTRX5QsOKvsJGOUbyrKjD3BTTcGmIUti9HmbqDe/3gRTbhu8LA508
+LbMkW5lUoTb8ycBNOKLYhNE8UEOY8jRTUtMEhzT6NJDEE+1hb3kSGfArrrF3Z8pRYiUUhcpC5GKL
+9KsxA+DECRfSGfXJJQSq6nEZUGKhz+dz5CV1s8UIZLe9HEEfyJO4eRP+Fw9X16cthAbY0kpVnAvT
+/j45FAauY/h87uphdvSb5wC9v5w4VO0JKs0yNUjyWXg/RG+6JCvcViLFLAlRCLrcRcVaQwWZQ3YB
+EpmWnHflnrBcah5Ozy137DGCAm8wggJrAgEBMG0wXTELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEds
+b2JhbFNpZ24gbnYtc2ExMzAxBgNVBAMTKkdsb2JhbFNpZ24gUGVyc29uYWxTaWduIDIgQ0EgLSBT
+SEEyNTYgLSBHMwIMX/krgFDQUQNyOf+1MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEi
+BCDTngoPcO6xDAtshY2ilL0J5TFseFiJFh4hksTEA+st0DAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
+AQcBMBwGCSqGSIb3DQEJBTEPFw0yMDEyMjIwNjAzMDBaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZI
+AWUDBAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEK
+MAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAsBYAUPgVInWcjT0i
+65x3Fyefocm5hXc/jI+Al/Wi9pkn3Wob2XwZUgwsnmw2WhqI22IvDJd4tnBZiS83flGItJVX/xwe
+0pIGWRJlBH7hSWEzHLFUnNYAPEDkOPWLLmf04mJJu70pdpGBa0KgmYqCkAjOWsSVQxPYOjQTjeEf
+A5V5xBBT1VB+RFfKj0+t2Gk2PLAoEmyfbp/ldfulVj5QRHROF9BW4ynPekquvnaRLqXGGk2x+xID
+/RDRG8RMvxnDnij1jh5fXnzalhcVH3VHPG0e/X3e58IV1ViDsT+1vPXLhwgH9zkpE2hVGb2YKaOC
+HMivWyILqCOdzS5Um/pL0A==
+--000000000000b7f09005b707537c--
+
+
+--===============0993332695464162412==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--===============0993332695464162412==--
+
