@@ -2,81 +2,66 @@ Return-Path: <SRS0=oc1E=F3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C62B5C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Dec 2020 08:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA1FCC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Dec 2020 08:43:39 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 47649222BB
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Dec 2020 08:41:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 47649222BB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 4445220674
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Dec 2020 08:43:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4445220674
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=TEJXJDp9c2J+OcG/rUtwQa1GPk/hOoA+qxSoM5itTYA=; b=rEuEqexcaChR6Zagtn/2oqIDp
-	5WzF+jlwTgJX61Pg94Us/cYCXg5fdBU2bumj2wu/ZGek++1O0kprIGx7eNl/RllePE0Tc6RgEVz3y
-	p/THkBwM2jhLrUjBOX6LpnEjaEZy4IPjkusilVhyaZXzkdyNRfGZjB4EO5k251s+sWwlTLKxOgcaB
-	WsuS2QaMOXlnDvlNg9NWojRVNZk+5yNbzxbTrrwf4DbyqGtVn9pI5okhQnkZaNt/0LypHkl47mii0
-	38B3lFjkljgXuEEbeVOGoadfFT06nP9smfXVSxXV8L5WSr8wFdyPWHHUBO33/VYpD4KkcBsUiYrXQ
-	bavJamHow==;
+	 bh=euFIuSS59N8St085vSf/B3U2AY5Ks7Coex0nO8ZF4vU=; b=UEseGc3GZA0YMGBlV8gi+G7mE
+	ZYf5qsddtPaJsoMGXQPZzbKqhc31S4IWr48hcCr05bDK3uS/5/swnR2sEvvomri3j6D2bRP9o4n7n
+	cb1pTi5jEmGZcIoLrVBN0apbHfZPja8y/fv5e5kl4d4a/L6wbOYjq2v5pwg2TDDKnrmZI3zRD51uJ
+	vckxwsxbqmDEs9m8qh/NQwdNPhIHQ78OC1hne/qsahK5cXHqM8jQRLi7avj/ZG9cpcpWXgH+uE7Rj
+	rKiv72ASP3fyA36RdV/DbdfEpkjp/vveJs5L9IJkNykzo3GXrwV2d9LJ4MAaBB7n+wQCZ1JBmptiN
+	htFxMVeqQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1krziC-00072l-8t; Wed, 23 Dec 2020 08:41:36 +0000
-Received: from mail-pf1-f169.google.com ([209.85.210.169])
+	id 1krzk8-0007Je-KE; Wed, 23 Dec 2020 08:43:36 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1krzi9-00072F-Qf
- for Linux-nvme@lists.infradead.org; Wed, 23 Dec 2020 08:41:34 +0000
-Received: by mail-pf1-f169.google.com with SMTP id c79so9987004pfc.2
- for <Linux-nvme@lists.infradead.org>; Wed, 23 Dec 2020 00:41:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+kvU70Q+bL/jVLvVahoRP9ss1P9cc7wEbcGmJpYWLVs=;
- b=l80BzJGk+GbhIi+cxdVyKvCBjZHRkCHZUhA7bzGbUnAAbF5PNr0TVGbulLF2Y1kHlv
- 70KNOeDfg0h0eTAOI48sV05TAhsWanRBr8dGHuZhVciDIV8LHFjGjiuIXSIj4zDqbndX
- Wq0AwU1zF0TJ/TlvqkEIWRa0wSINWaIalUrTh95acSMxxtMHw7wl/TtxNWms2sociRqx
- Rc3D5KrFqZaOrqamBrbeOliUAt6yuNy5T4QoPqozljM17F6cBgT66vjjr7v1rR60qmv+
- RMGSCPuKueYZMrvmPNSnmICrCONF96mT6vJ+3EaSBTjrcTBVUJ7Rv3kKpRIDCauyGp67
- ztQA==
-X-Gm-Message-State: AOAM533jDW0r3kMWBIPovEdbKDQv62LBsZMN0jDeJjAlZA0QRq9EGEIJ
- Te/Z71mVgN7AT6D2QsEYhCmSKlVwqb0=
-X-Google-Smtp-Source: ABdhPJz0U85HnYck7cErREgbtdmr3za1IcYKf+0s+cgXpX4G5WweNQ9+4nS6EPBPYvhZNQeyKGFWBA==
-X-Received: by 2002:a62:384b:0:b029:19d:a5c6:d76 with SMTP id
- f72-20020a62384b0000b029019da5c60d76mr22875614pfa.16.1608712892206; 
- Wed, 23 Dec 2020 00:41:32 -0800 (PST)
-Received: from ?IPv6:2601:647:4802:9070:8c81:7d09:c1ab:94c8?
- ([2601:647:4802:9070:8c81:7d09:c1ab:94c8])
- by smtp.gmail.com with ESMTPSA id f90sm21773313pjd.32.2020.12.23.00.41.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Dec 2020 00:41:31 -0800 (PST)
+ id 1krzk6-0007J9-Gs
+ for linux-nvme@merlin.infradead.org; Wed, 23 Dec 2020 08:43:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=27fr01eTMWUlN3D6NqYYkycmLQZdGjLguMYnYrcjh0k=; b=jvsIF/r8BGIzbY62uHhaNRi5K/
+ rfckmJFFbTcCUYZIOdJOawNI4/lvVSmoSua2QAVZEG3w1mEnkPvj653NwdoaXibbmNi/6zkpGZShi
+ NYQYuJI6/Rp1uoYsPMPQMlBOvRphBOSu1nxYcZz2ym/dKAeHeBPROyZUuGcsErERwNN/0xyvCOnzY
+ 0spUgj0ZWRh/DN9AL6r0TnZ20dnQIqrFhO1QZN2KhlFs7TZz31Xk5+8JMBXh6+2yby6ozlg7FPXBD
+ o/9Tbuvz1+/D4h0kchV8Id1VsZnWwSp8bqtYnKDURHcprJCysY7er74vnoVf2tnNQQ//OB2wEXV5Z
+ XXw5junA==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
+ Linux)) id 1krzk4-0007y6-GT; Wed, 23 Dec 2020 08:43:32 +0000
+Date: Wed, 23 Dec 2020 08:43:32 +0000
+From: Christoph Hellwig <hch@infradead.org>
+To: Sagi Grimberg <sagi@grimberg.me>
 Subject: Re: Data corruption when using multiple devices with NVMEoF TCP
-To: Hao Wang <pkuwangh@gmail.com>
+Message-ID: <20201223084332.GA30502@infradead.org>
 References: <CAJS6EdjsTVgs3JK3q2DePjEz1A0s9RJTOwqo=Ka7kinNMECtJw@mail.gmail.com>
  <2c0ff5ec-4ae2-ad29-67fb-4744514dab47@grimberg.me>
  <CAJS6Edh8aVAHhKRGqU+7v5C3KY7YxczVg_7Q8QrPGtyvVw7K3w@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <fd4541e4-78c5-ec3b-b272-467fd11f7472@grimberg.me>
-Date: Wed, 23 Dec 2020 00:41:30 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <fd4541e4-78c5-ec3b-b272-467fd11f7472@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <CAJS6Edh8aVAHhKRGqU+7v5C3KY7YxczVg_7Q8QrPGtyvVw7K3w@mail.gmail.com>
-Content-Language: en-US
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201223_034133_928844_0152C754 
-X-CRM114-Status: GOOD (  15.39  )
+Content-Disposition: inline
+In-Reply-To: <fd4541e4-78c5-ec3b-b272-467fd11f7472@grimberg.me>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,34 +73,14 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Linux-nvme@lists.infradead.org
+Cc: Hao Wang <pkuwangh@gmail.com>, Linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> Also really strange to me. This has been burning me 16+ hours a day
-> for 2 days doing
-> 
-> And for your question, yes I did.
-> Locally on the target side, no data corruption happening, with the
-> same process of creating a partition on each device, creating a
-> 2-device raid-0 volume, and creating a filesystem.
-> I have also tested on multiple sets of machines, but no luck.
-> 
-> Another point I should've mentioned is that corruption does not always
-> happen. Sometimes if I only copy one .gz file (~100MB), it seems fine.
-> But whenever I copy a large directory with many .gz files (~100GB in
-> total), there are always some .gz files corrupted.
-
-OK, interesting.
-
-Can you retry the test with setting max_sectors_kb to 512:
-echo 512 > /sys/block/nvmeXnY/queue/max_sectors_kb
-
-I'm trying to understand if there is an issue related
-to large IOs.
+Wouldn't testing with a not completely outdated kernel a better first
+step?
 
 _______________________________________________
 Linux-nvme mailing list
