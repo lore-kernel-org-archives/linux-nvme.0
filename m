@@ -2,85 +2,92 @@ Return-Path: <SRS0=K5Lp=F4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC62C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Dec 2020 10:29:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E819C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Dec 2020 11:06:23 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6F99E22228
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Dec 2020 10:29:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F99E22228
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id BF4362222D
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Dec 2020 11:06:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF4362222D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lOGShIN168F1bO5PqiGj+7vsXHXjPHbQbU6wJAttxWU=; b=N0Dv/tbmPEN475j1zTtXvb1i8
-	TgGlYV7+UJcHm5IQy2LvgtlAlyPqYkdOQZRaf/GsjjJL3t+iMErUnMQc1V/SNdUIRBQdsCGnQda/V
-	78RtSwqMQe+h+nm+nlcK6IslZNCB4E4ZHdQCCfqqZNJJCHJMm98UCUlAtjqKguoJ3Ms69kBwLfmbg
-	Pi8zYljiLfDo4v7xbkQ4qvXHNFKigewEWoNDQmxxiryD8EjTZX8IBuUlWWNVkYFcLhjuGtEpOK9es
-	5wtBWEUlXhRLbV7g2aF+mB+urRICFIp/C5cWLx8gK5RW3NcpumGFC4i2sXqqLvYtnFHbANKho7dXv
-	UlNQVgqZg==;
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dlbyuF/RnHhudboDUc1LXKtJwxz1H3KpHtc+PVnxAJc=; b=dAa9mT9jnY85/3yPbEsjW1oolQ
+	8pjhF4LRg3SpWvItdIlpDIpKY0i0orYKSC72SLBF9b2Jp9AQ/B+K+b3rswO1b51jlE+hgg2d3jDKk
+	bF1lVIzcqIqkOzZUCUWRibzBwRXF4yLNBuEfGvEfpMTYv7dv7O8SW3LqUcucDWOJGxpbBpQH44EJ2
+	AOJUCFjMLAjxknpAEdrnc+wnmH7G1lO+GWey8IfH37eyXDELhGbz16NgHNFeWOT/RlzwUx8PcaDJ3
+	Dlx0d3fkro4PWK23a1pDD5uvHG9w5vbXA5B3u3mc1ZR75JQHChLMhBouUOXSfeRQ3B8ebrKpPKFDq
+	qlYxVgFw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ksNrt-0008DY-TI; Thu, 24 Dec 2020 10:29:13 +0000
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e])
+	id 1ksORk-0001sh-I6; Thu, 24 Dec 2020 11:06:16 +0000
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ksNrq-0008Cr-T3
- for Linux-nvme@lists.infradead.org; Thu, 24 Dec 2020 10:29:11 +0000
-Received: by mail-yb1-xb2e.google.com with SMTP id v67so1944019ybi.1
- for <Linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 02:29:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LseoGloo/fGGCMefHJyF2TU1M0NScN8reyYKbDo9kNE=;
- b=lIvCKH9gRm4EAbs8HPvgg5tuZU05frEWJnCl+U/go3BD1WWIi5EDsZzYoSN4po0+p1
- mXWfCbUgtXncgfVHV2JCtNa9DMggeECYaMlcd6GC9RMH38fyf44ZFRW3XbVUyd3KPsNn
- +Nfg3W85ffA7EKpCYFUFc33wOBr5wdhklEuSPUVCmNkTeMC1abkFkQklU2uPuVt1lZqb
- liz8PAnJgzU8eDMTb6CSen+rmJmKL8+G0pByWJu1Dn/UeAWD3CT48wkr8nyFHteiDtiS
- hs5l829E4k8ataoowuBC3fcFT+M2WPEVi/eSNfhgriNOuYTRPaQ4KVlfDqYyUZrg9jJ5
- sZfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LseoGloo/fGGCMefHJyF2TU1M0NScN8reyYKbDo9kNE=;
- b=l1fdINUXUv7fH4LE3WQKR96jyE/CSb5c2TdSP+6kZUsHal4NrywXhcnQ4jX1IufvSe
- WZkluT5PwuYYu9oaKLec1QgNXsKUqwHZDGLEhyfokc/62G+RRz2+1lDw2lYlnX1LZ4Yb
- KvifqVNNy/T7bStD+kri52HdXo6FmQDisNzil7BilwclVP5OQ+2mxwAM+WMS7Jc7snnq
- wzGWPre2krAVIe/64zUxtcxTRcWxVBJ4kdnXrPw9ppEGt7DDCIwTF/mLZD31OxWzLXfR
- 9gzlaSTvhvHntwNXxcRY0QzalxtZ1TxUtj7Pj7f+vKKNJptfEJB/QRnOzKa8aHu7vVVB
- FbrA==
-X-Gm-Message-State: AOAM531NXB4vm7hsJXzeYCYtJ00DeVUOnSUVA7MAfqFk7omfhxvMJWnm
- 89w6+LkrzkNVf4TgoKjQhpRO9mbNTXrBoRAXXdo=
-X-Google-Smtp-Source: ABdhPJzfcg21XFq//CGPapzbcgn+sd+qFUTbZ+F1EJEoPxBKVPpMd+67SRmyEz9gJzVoJMkj1n6BRRzFLRDyRlfhK/k=
-X-Received: by 2002:a25:6ec3:: with SMTP id
- j186mr42671231ybc.165.1608805748957; 
- Thu, 24 Dec 2020 02:29:08 -0800 (PST)
-MIME-Version: 1.0
-References: <CAJS6EdjsTVgs3JK3q2DePjEz1A0s9RJTOwqo=Ka7kinNMECtJw@mail.gmail.com>
- <2c0ff5ec-4ae2-ad29-67fb-4744514dab47@grimberg.me>
- <CAJS6Edh8aVAHhKRGqU+7v5C3KY7YxczVg_7Q8QrPGtyvVw7K3w@mail.gmail.com>
- <fd4541e4-78c5-ec3b-b272-467fd11f7472@grimberg.me>
- <20201223084332.GA30502@infradead.org>
- <CAJS6EdijX6ws_wHxygdpcYGtB6JFwLDbDE3A0t0QUYS-LbRakg@mail.gmail.com>
- <16d876c1-524a-38d3-3cff-99ec694464b2@grimberg.me>
-In-Reply-To: <16d876c1-524a-38d3-3cff-99ec694464b2@grimberg.me>
-From: Hao Wang <pkuwangh@gmail.com>
-Date: Thu, 24 Dec 2020 02:28:57 -0800
-Message-ID: <CAJS6EdivEF0c=3FmKj4wGZoVRKbUvjH_qJLXmO7Tvwsp+km0rw@mail.gmail.com>
-Subject: Re: Data corruption when using multiple devices with NVMEoF TCP
-To: Sagi Grimberg <sagi@grimberg.me>
+ id 1ksORh-0001rw-Q1
+ for linux-nvme@lists.infradead.org; Thu, 24 Dec 2020 11:06:15 +0000
+Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
+ by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 0BOB3kaf027332
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : cc : subject : date : message-id; s=smtpout1;
+ bh=v0/HAblaSot77F3n7el3TvOALx5ZhAeoYJj1o93ojNQ=;
+ b=a5kOZjmRUlAGx48DhrYQV7D24Xh3S7gHHnNXLtteNTgztnMukyv2OJ7V1FsJnranL8g/
+ e4hWQQ7Fl/ePVMNcvqoguucWuG01qiRpL9sUIUMWjdnB67wzU0e6vwaIXU8kuwK06Leb
+ 3H5eXsi2VtIb22i/BvxF3xx8fG9XAsFHLMqRFT0GNwDHgbrNu6bnO5vafHY0Erk4XrPF
+ q5Z28gjgdY0YJbzd1yje9PuMlVp+2ULTm3CdaMJ9wGRDsvOJx80OxUtdQ4cSLT1d9Mja
+ nL8P62sxkrAPYgqYKTk8Kb559W341/nEDC1fVTcF0JSaR4q6KepY41QwWnMYstiyybpG mw== 
+Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com
+ [67.231.157.37])
+ by mx0a-00154904.pphosted.com with ESMTP id 35k0edt7ja-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:09 -0500
+Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
+ by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 0BOB1Zit023437
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:08 -0500
+Received: from esaploutdur05.us.dell.com ([128.221.233.10])
+ by mx0b-00154901.pphosted.com with ESMTP id 35mnkvtf5g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:08 -0500
+X-PREM-Routing: D-Outbound
+X-LoopCount0: from 10.55.160.55
+Received: from unknown (HELO arwen6.xiolab.lab.emc.com) ([10.55.160.55])
+ by esaploutdur05.us.dell.com with ESMTP; 24 Dec 2020 05:06:07 -0600
+From: leonid.ravich@dell.com
+To: james.smart@broadcom.com
+Subject: [PATCH] nvmet-fc: associations list replaced with hlist rcu,
+Date: Thu, 24 Dec 2020 13:05:40 +0200
+Message-Id: <20201224110542.22219-1-leonid.ravich@dell.com>
+X-Mailer: git-send-email 2.16.2
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-24_06:2020-12-24,
+ 2020-12-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1011
+ mlxlogscore=925 spamscore=0 bulkscore=0 adultscore=0 impostorscore=0
+ malwarescore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012240069
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 phishscore=0
+ bulkscore=0 mlxscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012240069
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201224_052910_988506_592D10AA 
-X-CRM114-Status: GOOD (  20.40  )
+X-CRM114-CacheID: sfid-20201224_060614_015675_4D49B237 
+X-CRM114-Status: GOOD (  19.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,97 +99,207 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Christoph Hellwig <hch@infradead.org>, Linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Leonid Ravich <Leonid.Ravich@dell.com>,
+ Christoph Hellwig <hch@lst.de>, lravich@gmail.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sagi, thanks a lot for helping look into this.
+From: Leonid Ravich <Leonid.Ravich@emc.com>
 
-> Question, if you build the raid0 in the target and expose that over nvmet-tcp (with a single namespace), does the issue happen?
-No, it works fine in that case.
-Actually with this setup, initially the latency was pretty bad, and it
-seems enabling CONFIG_NVME_MULTIPATH improved it significantly.
-I'm not exactly sure though as I've changed too many things and didn't
-specifically test for this setup.
-Could you help confirm that?
+to remove locking from nvmet_fc_find_target_queue
+which called per IO.
 
-And after applying your patch,
- - With the problematic setup, i.e. creating a 2-device raid0, I did
-see numerous numerous prints popping up in dmesg; a few lines are
-pasted below:
- - With the good setup, i.e. only using 1 device, this line also pops
-up, but a lot less frequent.
+Signed-off-by: Leonid Ravich <Leonid.Ravich@emc.com>
+---
+ drivers/nvme/target/fc.c | 54 ++++++++++++++++++++++++++++--------------------
+ 1 file changed, 32 insertions(+), 22 deletions(-)
 
-[  390.240595] nvme_tcp: rq 10 (WRITE) contains multiple bios bvec:
-nsegs 25 size 102400 offset 0
-[  390.243146] nvme_tcp: rq 35 (WRITE) contains multiple bios bvec:
-nsegs 7 size 28672 offset 4096
-[  390.246893] nvme_tcp: rq 35 (WRITE) contains multiple bios bvec:
-nsegs 25 size 102400 offset 4096
-[  390.250631] nvme_tcp: rq 35 (WRITE) contains multiple bios bvec:
-nsegs 4 size 16384 offset 16384
-[  390.254374] nvme_tcp: rq 11 (WRITE) contains multiple bios bvec:
-nsegs 7 size 28672 offset 0
-[  390.256869] nvme_tcp: rq 11 (WRITE) contains multiple bios bvec:
-nsegs 25 size 102400 offset 12288
-[  390.266877] nvme_tcp: rq 57 (READ) contains multiple bios bvec:
-nsegs 4 size 16384 offset 118784
-[  390.269444] nvme_tcp: rq 58 (READ) contains multiple bios bvec:
-nsegs 4 size 16384 offset 118784
-[  390.273281] nvme_tcp: rq 59 (READ) contains multiple bios bvec:
-nsegs 4 size 16384 offset 0
-[  390.275776] nvme_tcp: rq 60 (READ) contains multiple bios bvec:
-nsegs 4 size 16384 offset 118784
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index cd4e73aa9807..3928a17d073c 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -105,7 +105,7 @@ struct nvmet_fc_tgtport {
+ 	struct list_head		ls_rcv_list;
+ 	struct list_head		ls_req_list;
+ 	struct list_head		ls_busylist;
+-	struct list_head		assoc_list;
++	struct hlist_head		assoc_list;
+ 	struct list_head		host_list;
+ 	struct ida			assoc_cnt;
+ 	struct nvmet_fc_port_entry	*pe;
+@@ -163,10 +163,11 @@ struct nvmet_fc_tgt_assoc {
+ 	struct nvmet_fc_tgtport		*tgtport;
+ 	struct nvmet_fc_hostport	*hostport;
+ 	struct nvmet_fc_ls_iod		*rcv_disconn;
+-	struct list_head		a_list;
++	struct hlist_node		a_list;
+ 	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES + 1];
+ 	struct kref			ref;
+ 	struct work_struct		del_work;
++	struct rcu_head		rcu_head;
+ };
+ 
+ 
+@@ -965,24 +966,23 @@ nvmet_fc_find_target_queue(struct nvmet_fc_tgtport *tgtport,
+ 	struct nvmet_fc_tgt_queue *queue;
+ 	u64 association_id = nvmet_fc_getassociationid(connection_id);
+ 	u16 qid = nvmet_fc_getqueueid(connection_id);
+-	unsigned long flags;
+ 
+ 	if (qid > NVMET_NR_QUEUES)
+ 		return NULL;
+ 
+-	spin_lock_irqsave(&tgtport->lock, flags);
+-	list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
++	rcu_read_lock();
++	hlist_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
+ 		if (association_id == assoc->association_id) {
+ 			queue = assoc->queues[qid];
+ 			if (queue &&
+ 			    (!atomic_read(&queue->connected) ||
+ 			     !nvmet_fc_tgt_q_get(queue)))
+ 				queue = NULL;
+-			spin_unlock_irqrestore(&tgtport->lock, flags);
++			rcu_read_unlock();
+ 			return queue;
+ 		}
+ 	}
+-	spin_unlock_irqrestore(&tgtport->lock, flags);
++	rcu_read_unlock();
+ 	return NULL;
+ }
+ 
+@@ -1118,7 +1118,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
+ 
+ 	assoc->tgtport = tgtport;
+ 	assoc->a_id = idx;
+-	INIT_LIST_HEAD(&assoc->a_list);
++	INIT_HLIST_NODE(&assoc->a_list);
+ 	kref_init(&assoc->ref);
+ 	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc);
+ 	atomic_set(&assoc->terminating, 0);
+@@ -1129,7 +1129,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
+ 
+ 		spin_lock_irqsave(&tgtport->lock, flags);
+ 		needrandom = false;
+-		list_for_each_entry(tmpassoc, &tgtport->assoc_list, a_list) {
++		hlist_for_each_entry(tmpassoc, &tgtport->assoc_list, a_list) {
+ 			if (ran == tmpassoc->association_id) {
+ 				needrandom = true;
+ 				break;
+@@ -1137,7 +1137,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
+ 		}
+ 		if (!needrandom) {
+ 			assoc->association_id = ran;
+-			list_add_tail(&assoc->a_list, &tgtport->assoc_list);
++			hlist_add_tail_rcu(&assoc->a_list, &tgtport->assoc_list);
+ 		}
+ 		spin_unlock_irqrestore(&tgtport->lock, flags);
+ 	}
+@@ -1153,6 +1153,17 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
+ 	return NULL;
+ }
+ 
++void nvmet_assoc_free_queue_rcu(struct rcu_head *rcu_head) {
++	struct nvmet_fc_tgt_assoc *assoc =
++		container_of(rcu_head, struct nvmet_fc_tgt_assoc, rcu_head);
++	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
++
++	kfree(assoc);
++	dev_info(tgtport->dev,
++		"{%d:%d} Association freed\n",
++		tgtport->fc_target_port.port_num, assoc->a_id);
++}
++
+ static void
+ nvmet_fc_target_assoc_free(struct kref *ref)
+ {
+@@ -1167,17 +1178,14 @@ nvmet_fc_target_assoc_free(struct kref *ref)
+ 
+ 	nvmet_fc_free_hostport(assoc->hostport);
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+-	list_del(&assoc->a_list);
++	hlist_del_rcu(&assoc->a_list);
+ 	oldls = assoc->rcv_disconn;
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 	/* if pending Rcv Disconnect Association LS, send rsp now */
+ 	if (oldls)
+ 		nvmet_fc_xmt_ls_rsp(tgtport, oldls);
+ 	ida_simple_remove(&tgtport->assoc_cnt, assoc->a_id);
+-	dev_info(tgtport->dev,
+-		"{%d:%d} Association freed\n",
+-		tgtport->fc_target_port.port_num, assoc->a_id);
+-	kfree(assoc);
++	call_rcu(&assoc->rcu_head, nvmet_assoc_free_queue_rcu);
+ 	nvmet_fc_tgtport_put(tgtport);
+ }
+ 
+@@ -1237,7 +1245,7 @@ nvmet_fc_find_target_assoc(struct nvmet_fc_tgtport *tgtport,
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+-	list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
++	hlist_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
+ 		if (association_id == assoc->association_id) {
+ 			ret = assoc;
+ 			if (!nvmet_fc_tgt_a_get(assoc))
+@@ -1397,7 +1405,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
+ 	INIT_LIST_HEAD(&newrec->ls_rcv_list);
+ 	INIT_LIST_HEAD(&newrec->ls_req_list);
+ 	INIT_LIST_HEAD(&newrec->ls_busylist);
+-	INIT_LIST_HEAD(&newrec->assoc_list);
++	INIT_HLIST_HEAD(&newrec->assoc_list);
+ 	INIT_LIST_HEAD(&newrec->host_list);
+ 	kref_init(&newrec->ref);
+ 	ida_init(&newrec->assoc_cnt);
+@@ -1473,11 +1481,12 @@ nvmet_fc_tgtport_get(struct nvmet_fc_tgtport *tgtport)
+ static void
+ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
+ {
+-	struct nvmet_fc_tgt_assoc *assoc, *next;
++	struct nvmet_fc_tgt_assoc *assoc;
++	struct hlist_node *next;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+-	list_for_each_entry_safe(assoc, next,
++	hlist_for_each_entry_safe(assoc, next,
+ 				&tgtport->assoc_list, a_list) {
+ 		if (!nvmet_fc_tgt_a_get(assoc))
+ 			continue;
+@@ -1522,12 +1531,13 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
+ 			void *hosthandle)
+ {
+ 	struct nvmet_fc_tgtport *tgtport = targetport_to_tgtport(target_port);
+-	struct nvmet_fc_tgt_assoc *assoc, *next;
++	struct nvmet_fc_tgt_assoc *assoc;
++	struct hlist_node *next;
+ 	unsigned long flags;
+ 	bool noassoc = true;
+ 
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+-	list_for_each_entry_safe(assoc, next,
++	hlist_for_each_entry_safe(assoc, next,
+ 				&tgtport->assoc_list, a_list) {
+ 		if (!assoc->hostport ||
+ 		    assoc->hostport->hosthandle != hosthandle)
+@@ -1569,7 +1579,7 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+ 		spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+ 
+ 		spin_lock_irqsave(&tgtport->lock, flags);
+-		list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
++		hlist_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
+ 			queue = assoc->queues[0];
+ 			if (queue && queue->nvme_sq.ctrl == ctrl) {
+ 				if (nvmet_fc_tgt_a_get(assoc))
+-- 
+2.16.2
 
-On Wed, Dec 23, 2020 at 6:57 PM Sagi Grimberg <sagi@grimberg.me> wrote:
->
->
-> > Okay, tried both v5.10 and latest 58cf05f597b0.
-> >
-> > And same behavior
-> >   - data corruption on the initiator side when creating a raid-0 volume
-> > using 2 nvme-tcp devices;
-> >   - no data corruption either on local target side, or on initiator
-> > side but only using 1 nvme-tcp devoce.
-> >
-> > A difference I can see on the max_sectors_kb is that, now on the
-> > target side, /sys/block/nvme*n1/queue/max_sectors_kb also becomes
-> > 1280.
-> >
->
-> Thanks Hao,
->
-> I'm thinking we maybe have an issue with bio splitting/merge/cloning.
->
-> Question, if you build the raid0 in the target and expose that over
-> nvmet-tcp (with a single namespace), does the issue happen?
->
-> Also, would be interesting to add this patch and see if the following
-> print pops up, and if it correlates when you see the issue:
->
-> --
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 979ee31b8dd1..d0a68cdb374f 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -243,6 +243,9 @@ static void nvme_tcp_init_iter(struct
-> nvme_tcp_request *req,
->                  nsegs = bio_segments(bio);
->                  size = bio->bi_iter.bi_size;
->                  offset = bio->bi_iter.bi_bvec_done;
-> +               if (rq->bio != rq->biotail)
-> +                       pr_info("rq %d (%s) contains multiple bios bvec:
-> nsegs %d size %d offset %ld\n",
-> +                               rq->tag, dir == WRITE ? "WRITE" :
-> "READ", nsegs, size, offset);
->          }
->
->          iov_iter_bvec(&req->iter, dir, vec, nsegs, size);
-> --
->
-> I'll try to look further to understand if we have an issue there.
 
 _______________________________________________
 Linux-nvme mailing list
