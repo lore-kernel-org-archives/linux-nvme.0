@@ -7,87 +7,90 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E819C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Dec 2020 11:06:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FF5C433E6
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Dec 2020 11:06:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BF4362222D
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Dec 2020 11:06:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF4362222D
+	by mail.kernel.org (Postfix) with ESMTPS id 4A7E32222D
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Dec 2020 11:06:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A7E32222D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=dlbyuF/RnHhudboDUc1LXKtJwxz1H3KpHtc+PVnxAJc=; b=dAa9mT9jnY85/3yPbEsjW1oolQ
-	8pjhF4LRg3SpWvItdIlpDIpKY0i0orYKSC72SLBF9b2Jp9AQ/B+K+b3rswO1b51jlE+hgg2d3jDKk
-	bF1lVIzcqIqkOzZUCUWRibzBwRXF4yLNBuEfGvEfpMTYv7dv7O8SW3LqUcucDWOJGxpbBpQH44EJ2
-	AOJUCFjMLAjxknpAEdrnc+wnmH7G1lO+GWey8IfH37eyXDELhGbz16NgHNFeWOT/RlzwUx8PcaDJ3
-	Dlx0d3fkro4PWK23a1pDD5uvHG9w5vbXA5B3u3mc1ZR75JQHChLMhBouUOXSfeRQ3B8ebrKpPKFDq
-	qlYxVgFw==;
+	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dlbyuF/RnHhudboDUc1LXKtJwxz1H3KpHtc+PVnxAJc=; b=RvnN8S9pvzK2Cj7zFMnWmqnHJ/
+	FK3c/pWChd4MTEKhrHE2w7hio3OzMssxXKQjdG3jOKHcmffx0kxkZXx5o5D+Og16SSQYo4RRz66L+
+	c2hN8u2lFLWQ1E8lhPuipqrZUQGk1ZIgnaoOOvFfLL9Hvold7V/9TI1KwcYt0CI5qkHCVQDJVKpDx
+	ijZokE4NN8UG0xka/WsWIEV1eADf464rDg/rYqZEHYmsJmRmMJ4poq5ZUFDR1PBIW/S58x9G/s5oU
+	D5l9KgpbcyNryRxwigvapnwERoS4/XqQOj4pyDvg74Dk3o5VAAmE3cWvYwGE5YwidxEhJXrJ1sP+5
+	O864fejw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ksORk-0001sh-I6; Thu, 24 Dec 2020 11:06:16 +0000
+	id 1ksORp-0001tV-DD; Thu, 24 Dec 2020 11:06:21 +0000
 Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ksORh-0001rw-Q1
- for linux-nvme@lists.infradead.org; Thu, 24 Dec 2020 11:06:15 +0000
-Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
+ id 1ksORl-0001sm-CT
+ for linux-nvme@lists.infradead.org; Thu, 24 Dec 2020 11:06:19 +0000
+Received: from pps.filterd (m0170393.ppops.net [127.0.0.1])
  by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 0BOB3kaf027332
- for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:09 -0500
+ 0BOB3E8P016443
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=smtpout1;
  bh=v0/HAblaSot77F3n7el3TvOALx5ZhAeoYJj1o93ojNQ=;
- b=a5kOZjmRUlAGx48DhrYQV7D24Xh3S7gHHnNXLtteNTgztnMukyv2OJ7V1FsJnranL8g/
- e4hWQQ7Fl/ePVMNcvqoguucWuG01qiRpL9sUIUMWjdnB67wzU0e6vwaIXU8kuwK06Leb
- 3H5eXsi2VtIb22i/BvxF3xx8fG9XAsFHLMqRFT0GNwDHgbrNu6bnO5vafHY0Erk4XrPF
- q5Z28gjgdY0YJbzd1yje9PuMlVp+2ULTm3CdaMJ9wGRDsvOJx80OxUtdQ4cSLT1d9Mja
- nL8P62sxkrAPYgqYKTk8Kb559W341/nEDC1fVTcF0JSaR4q6KepY41QwWnMYstiyybpG mw== 
-Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com
- [67.231.157.37])
- by mx0a-00154904.pphosted.com with ESMTP id 35k0edt7ja-1
+ b=sHwPO6IYFydJPSf/6v85biv/4VXOHoYRidEctNAAI5RQxPAunySYWYy0qXBOiccSdnzu
+ LcMZAWpXJPPSFdl2sgfgrpvAlmojKOoffoeQtCrZvwiJRWa2xOOhTcLrkqpoWCw5tBTW
+ NY5LeAIbNNXk8I7V9RBvQtEYrbKm85eqgAWhwFwvD1ict5eksYgqibTJZXKwloMFC+Jo
+ EvojYntsi6g3ILShusEjOL8uyPKvN7y/yqnvmh+m4hQk4GSdVYLrXJ9z59u9MWcLrEDS
+ tEO0dw4N2DmCub/Wgsqy2KXn/NwzunR9FKrs41Bz7Mua+NGWB6bg8FhJyN+6H/B+g2Yo Nw== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
+ [67.231.149.39])
+ by mx0a-00154904.pphosted.com with ESMTP id 35k0e127un-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:09 -0500
-Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
- by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 0BOB1Zit023437
- for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:08 -0500
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:16 -0500
+Received: from pps.filterd (m0134746.ppops.net [127.0.0.1])
+ by mx0a-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 0BOB2ekA111888
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:16 -0500
 Received: from esaploutdur05.us.dell.com ([128.221.233.10])
- by mx0b-00154901.pphosted.com with ESMTP id 35mnkvtf5g-1
+ by mx0a-00154901.pphosted.com with ESMTP id 35m99gsrj2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:08 -0500
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Dec 2020 06:06:16 -0500
 X-PREM-Routing: D-Outbound
 X-LoopCount0: from 10.55.160.55
 Received: from unknown (HELO arwen6.xiolab.lab.emc.com) ([10.55.160.55])
- by esaploutdur05.us.dell.com with ESMTP; 24 Dec 2020 05:06:07 -0600
+ by esaploutdur05.us.dell.com with ESMTP; 24 Dec 2020 05:06:13 -0600
 From: leonid.ravich@dell.com
 To: james.smart@broadcom.com
 Subject: [PATCH] nvmet-fc: associations list replaced with hlist rcu,
-Date: Thu, 24 Dec 2020 13:05:40 +0200
-Message-Id: <20201224110542.22219-1-leonid.ravich@dell.com>
+Date: Thu, 24 Dec 2020 13:05:41 +0200
+Message-Id: <20201224110542.22219-2-leonid.ravich@dell.com>
 X-Mailer: git-send-email 2.16.2
+In-Reply-To: <20201224110542.22219-1-leonid.ravich@dell.com>
+References: <20201224110542.22219-1-leonid.ravich@dell.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
  definitions=2020-12-24_06:2020-12-24,
  2020-12-24 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011
- mlxlogscore=925 spamscore=0 bulkscore=0 adultscore=0 impostorscore=0
- malwarescore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=950 spamscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 phishscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2012240069
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0 phishscore=0
- bulkscore=0 mlxscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 malwarescore=0
+ adultscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2012240069
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20201224_060614_015675_4D49B237 
-X-CRM114-Status: GOOD (  19.40  )
+X-CRM114-CacheID: sfid-20201224_060617_564938_EC18549A 
+X-CRM114-Status: GOOD (  19.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
