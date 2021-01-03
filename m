@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97AFDC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E24FC433E0
 	for <linux-nvme@archiver.kernel.org>; Sun,  3 Jan 2021 18:13:40 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 10B9120782
-	for <linux-nvme@archiver.kernel.org>; Sun,  3 Jan 2021 18:13:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10B9120782
+	by mail.kernel.org (Postfix) with ESMTPS id 29303207C9
+	for <linux-nvme@archiver.kernel.org>; Sun,  3 Jan 2021 18:13:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 29303207C9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,59 +23,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SSwoYiX0HPNKmnmE22OJZBTkJ1znpXvuFjl97+UfwoU=; b=IM9gsykZsHpbwpJKMufP2WqweR
-	mMlhbSJghRGkWXCaiBxEiXMJtT8OYVtV6khFffIZ1dPRMms9ezGekP29rRNXd9lRcKUklnVU2ikXq
-	snUuV8QYs+elkCC+RDqYln6lmpchjF70WWOScKLuC8b5Te9R4lUqwcQUPh0wGmGCPPWjHgbu39VqU
-	9fThpqB2Bvyvbw/QCLMdbxYq65na2iaFTSMFnsHClkblY6xXEKUfAwUA36KsXbri4I++VpnBI/0xS
-	qLdCRsmIQMkg3KBNpPlq+yR78hHLNzP7mqgMm07bl+p84YO/JzdBPmgiUX+BBJ9IsXoqBx7UYe2Ik
-	4ph1Wklw==;
+	bh=SSwoYiX0HPNKmnmE22OJZBTkJ1znpXvuFjl97+UfwoU=; b=piePUfY/gNE2rEA6B7p+N0RWTA
+	QwBKIpBmtrq3DQ3zWMTKrn5kretRkM84mZcq3dvdew7BicCyHKQ7Wba4GY815GhTdZ4T15iRD7Eqe
+	dOyqrhRDAxNyKOw2wcXom1vdOL5ueA3EfpFHg26Yngt+cuHuVEuEMT6UNP7YJsYN7SqNa1kukbQj2
+	HF+BytBbe0j8cxzunmcucRrljmMF9yjuN83RmZSghvpYLsb+Zby6wgKUmFGfTQZGSht6PKsgWcdjp
+	mBbtu4TJX36cBBoIp3ZWedxAQCi3St6UJA99q1yQQFcMNfh033i+GwfM6OxmCmQ906U7E4PdWgO5G
+	H6jUtUig==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kw7sb-0003D5-HY; Sun, 03 Jan 2021 18:13:25 +0000
+	id 1kw7sa-0003Cn-Jv; Sun, 03 Jan 2021 18:13:24 +0000
 Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kw7sW-0003BM-6M
+ id 1kw7sW-0003BL-5p
  for linux-nvme@lists.infradead.org; Sun, 03 Jan 2021 18:13:21 +0000
-Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
  by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 103ICxMd003570
- for <linux-nvme@lists.infradead.org>; Sun, 3 Jan 2021 13:13:17 -0500
+ 103ID6Ns021439
+ for <linux-nvme@lists.infradead.org>; Sun, 3 Jan 2021 13:13:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=smtpout1;
  bh=p1JDwNjo4kW+Onlqx41wby/8vL/xJp1erYMmcX8soa4=;
- b=cFFsfDCfl7GQiyccoTsHcnD+jsJpDsKbnK7eHCO9BLdiaWz6E7apDmUebdndd0GkO8pZ
- +2jdrwlOs+LmqZQNCyv3wNBblj7hRURRgv5mBY0pHX5CnnpcMKEOYYkSzEQfj4nB7un3
- roW+zMd59/jNR6N/RIsRckVTYkRvdj+URSsuS4s1pS3KOZXfEMzSg/a8rpjf1V01+O8Y
- 5d5FM05MSQ71j2siiWU7feJqnPI50R+UEOmrlklx59QkVm3vDDv2noBV80EMbcHRjNQq
- g2sVNOFNviE19nA0C2REFFI7UoG8RPf9crHwV5VZJuayCkY96eNAk2V14Go/IbP8E79A aQ== 
+ b=Mp0/IMXiqgZVXcpwSVyLpl/oXUp8xmq1DsM32+CKD5gI2wDU7n3dQcFZ5jGiDqn4dAu3
+ m4yhrBP6hRp7dQDPHzpyxVyJWCf/dGgASizwzme8p359i/NPDqck5cfKUajChNz5158W
+ HTFEjGoWn2oeenpdSH+MCWTmuFJCZH4/JiJL8J8Ttr8SpbAvg/ndv/iDq8btI/i2r1A9
+ ZzcE1+lETjIG0I8jgBQXN8nVP8iJkynjNHhSKTR0OS7dy0JcOZnSxqBmmgBk8A0DkUiM
+ SEjZpXHY6lTByfmvd6bsXx24dnsCq0qM/pvg7uAIctB9R6qOccWdchR3z4jgXzq2GZBb ag== 
 Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
  [67.231.157.37])
- by mx0b-00154904.pphosted.com with ESMTP id 35tjsyjj75-1
+ by mx0b-00154904.pphosted.com with ESMTP id 35tpctj97j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Sun, 03 Jan 2021 13:13:17 -0500
+ for <linux-nvme@lists.infradead.org>; Sun, 03 Jan 2021 13:13:15 -0500
 Received: from pps.filterd (m0144103.ppops.net [127.0.0.1])
  by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 103I67K1041393
- for <linux-nvme@lists.infradead.org>; Sun, 3 Jan 2021 13:13:16 -0500
+ 103I67K0041393
+ for <linux-nvme@lists.infradead.org>; Sun, 3 Jan 2021 13:13:15 -0500
 Received: from esaploutdur04.us.dell.com ([128.221.233.10])
- by mx0b-00154901.pphosted.com with ESMTP id 35u720ckrt-2
+ by mx0b-00154901.pphosted.com with ESMTP id 35u720ckrt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Sun, 03 Jan 2021 13:13:16 -0500
+ for <linux-nvme@lists.infradead.org>; Sun, 03 Jan 2021 13:13:15 -0500
 X-PREM-Routing: D-Outbound
 X-LoopCount0: from 10.55.226.146
 Received: from unknown (HELO vd-leonidr.xiolab.lab.emc.com) ([10.55.226.146])
- by esaploutdur04.us.dell.com with ESMTP; 03 Jan 2021 12:13:15 -0600
+ by esaploutdur04.us.dell.com with ESMTP; 03 Jan 2021 12:13:13 -0600
 From: leonid.ravich@dell.com
 To: james.smart@broadcom.com
 Subject: [PATCH v2] nvmet-fc: associations list protected by rcu,
  instead of spinlock_irq where possible.
-Date: Sun,  3 Jan 2021 20:12:54 +0200
-Message-Id: <1609697575-103348-2-git-send-email-leonid.ravich@dell.com>
+Date: Sun,  3 Jan 2021 20:12:53 +0200
+Message-Id: <1609697575-103348-1-git-send-email-leonid.ravich@dell.com>
 X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1609697575-103348-1-git-send-email-leonid.ravich@dell.com>
+In-Reply-To: <20201224110542.22219-1-leonid.ravich@dell.com>
 References: <20201224110542.22219-1-leonid.ravich@dell.com>
- <1609697575-103348-1-git-send-email-leonid.ravich@dell.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
  definitions=2021-01-03_11:2020-12-31,
  2021-01-03 signatures=0
@@ -85,14 +84,14 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 suspectscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2101030117
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- suspectscore=0 mlxscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101030118
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ adultscore=0
+ mlxlogscore=999 suspectscore=0 phishscore=0 malwarescore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101030118
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210103_131320_492307_D9F655B5 
-X-CRM114-Status: GOOD (  20.97  )
+X-CRM114-CacheID: sfid-20210103_131320_492928_3BE193E6 
+X-CRM114-Status: GOOD (  20.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
