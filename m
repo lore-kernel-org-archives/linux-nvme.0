@@ -2,19 +2,20 @@ Return-Path: <SRS0=JqC7=GH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FBECC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 18:44:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B94FC433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 19:03:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D65821D93
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 18:44:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D65821D93
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1ADAB21D93
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 19:03:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1ADAB21D93
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -22,43 +23,79 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=h8H7WCiuC+oopi2984204CTazXg9c8CZgMg7LYFDvq4=; b=jUDsw8nBzoBvrQ8skrrvFsP6U
-	dz3mqGCcUQA87rVyrBhd7HanYbxs9+GB1kO0RHwCyY2p4K5NKmnxC8DbB5DhcHSt2Bk2lKXATf2oW
-	Jk8yXdwf1ie9LwfJaQCXSO2U1mQq1VeiWDM6HlHjRQ9UxpcYb70BBbGUFyL0jDU9lIjrIE7JEHkSp
-	di3+dNyPcdfHZbgGEoR1mhAgpWnNpE4ADWXwp1WWkz0J5z0cpSIs0erVDg212maTYObnk1obmlgr8
-	YMmwdPmFvkBBAGKRM0edHff9adPRsLO7GqjHpKNtirz6a5zZZl0K8bVlXOdnc04HCZ1gac6ijRwBY
-	H4vMRsNfw==;
+	 bh=YM2ADTgwiXfrY3tuBl6rnlQvlwSypg/ijlTqmYNb8+8=; b=fT4mS6PNQK531r/pV1npFrX4B
+	xIH9nf8Ke5FqIbDnwnBV17q66pdBq3EJHiwZAGZSM1xcyILGZEy6N7t9f+Mmq/yntuPG9lWyJw9B5
+	usZLDyfNVxTbhRaOpOmobmxIX/X9QM9nRoD8q4dorRjcWyCXXI0lKFELlkftRz2W2ua+HyBmUgz48
+	yytrh6Ol2V/VnQsSlle1QtjJdS7NgZZXItsj/3tAZ+KBNvAhYbtEXV+evdf28gsRMIfJjkyla7whA
+	sPBftlojWFY4vVdTzrenWIxIIYn2/L1/MweWUWtnAUWT/zqhEZ6/z5WOlVisTeifp78mfDl2Ek5F8
+	4qDVFGv/g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwUqP-0002au-IN; Mon, 04 Jan 2021 18:44:41 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kwV8N-00061E-1e; Mon, 04 Jan 2021 19:03:15 +0000
+Received: from aserp2130.oracle.com ([141.146.126.79])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwUqM-0002aO-TY
- for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 18:44:39 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED70E21D1B;
- Mon,  4 Jan 2021 18:44:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609785878;
- bh=BZCbDCfAIPGMN8C51RV1GNs2Lj/tpg4E0GmzGukteb8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=L19PZFd8a54PiyrBCqoaRN6yON4E5SEa1gsGIjojdNCbCSaPVnNndbRkw/iIVm/sh
- Xe5A2+Ee3wtpOnPsN8syf5YW9SEsOEeHyZ9VWleBJUc+yobaMjC+PVuFjCyIgvSRc/
- J0QyYl2+l21zjvgT3YcyLA1BXB5QlJiPPCRs2cHVdRtN3uIQSl3fQF53uWgVxu622J
- L24ZLJqpUVE+a02KA/G0Ls56yJR4xhEC+hVF97h1DsF9v9az+4SBgiI9I49J9fdbQR
- sxlPxlinKeqV0a1EgoI/+SNMeDcKooJJ65EnZDBQg+vi71nmEFPp/FOCnxjjwtG3N4
- 2kplfZUJADzpQ==
-Date: Mon, 4 Jan 2021 10:44:35 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Subject: Re: Are AER corrected errors worrying?
-Message-ID: <20210104184435.GE1024941@dhcp-10-100-145-180.wdc.com>
-References: <20210101224028.4akud7meibjavvtf@function>
+ id 1kwV8K-000608-3g
+ for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 19:03:13 +0000
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 104Iii5I048337;
+ Mon, 4 Jan 2021 19:03:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=Dj8qlp11GBVoQ/PXDNUMvZRUWJhzb98drblxMpLf7d8=;
+ b=YlvrJ9pvv8jqYS7xnScPI+4Io2iDAPTPtBLFPxTsKNDXcJ5TJ8hX52NRUv9sSwHADDz3
+ ML1uG/AUUJKpU4aYUJY5JdKQnibeD+giW2PR4Yy7wEfjIEAaZvC5ZQAf5kyXn2BIJdCM
+ 7Y/D+RCTZjoDwwnQ/+lXDZzyFaV9O5xwX5np0dqH5XtuP59LcGjvFF+b+TLcu3ZzYLrS
+ sTeuSPw4pfUNJYIJdnjN2VvyA/1iNRj8sticLigZnzxbBOCOU7teU6AlZuvMRmRqnteV
+ XEGqP6YXJ0eS1oqeCOUx4KGeOfpWT4V/IyEduD14NWrJLnhXHcWjTXPJ7PAf04MpwT07 Mw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2130.oracle.com with ESMTP id 35tebanu3t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 04 Jan 2021 19:03:02 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 104IkLJE024624;
+ Mon, 4 Jan 2021 19:03:02 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 35v4rah92q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 04 Jan 2021 19:03:02 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 104J2u4u021597;
+ Mon, 4 Jan 2021 19:02:57 GMT
+Received: from localhost (/67.169.218.210)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 04 Jan 2021 11:02:56 -0800
+Date: Mon, 4 Jan 2021 11:02:54 -0800
+From: "Darrick J. Wong" <darrick.wong@oracle.com>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
+Subject: Re: [dm-devel] [RFC PATCH v4 2/3] block: add simple copy support
+Message-ID: <20210104190254.GB6919@magnolia>
+References: <20210104104159.74236-1-selvakuma.s1@samsung.com>
+ <CGME20210104104249epcas5p458d1b5c39b5acfad4e7786eca5dd5c49@epcas5p4.samsung.com>
+ <20210104104159.74236-3-selvakuma.s1@samsung.com>
+ <BL0PR04MB651402CFA75F72826AC8EE1CE7D20@BL0PR04MB6514.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210101224028.4akud7meibjavvtf@function>
+In-Reply-To: <BL0PR04MB651402CFA75F72826AC8EE1CE7D20@BL0PR04MB6514.namprd04.prod.outlook.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9854
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101040120
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9854
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1011 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101040120
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210104_134439_028671_2744E995 
-X-CRM114-Status: GOOD (  14.02  )
+X-CRM114-CacheID: sfid-20210104_140312_271184_360B3D60 
+X-CRM114-Status: GOOD (  38.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,41 +107,175 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "selvajove@gmail.com" <selvajove@gmail.com>,
+ "snitzer@redhat.com" <snitzer@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "mpatocka@redhat.com" <mpatocka@redhat.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>,
+ "javier.gonz@samsung.com" <javier.gonz@samsung.com>, "hch@lst.de" <hch@lst.de>,
+ "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
+ "bvanassche@acm.org" <bvanassche@acm.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 01, 2021 at 11:40:28PM +0100, Samuel Thibault wrote:
-> Hello,
-> 
-> Our lab has bought a new Dell Latitude 5410 laptop, I installed debian
-> bullseye on it with kernel 5.9.0-5-amd64, but it is spitting these
-> errors now and then (sometimes a dozen per a minute):
-> 
-> Jan  1 23:30:53 begin kernel: [   46.675818] pcieport 0000:00:1d.0: AER: Corrected error received: 0000:02:00.0
-> Jan  1 23:30:53 begin kernel: [   46.675933] nvme 0000:02:00.0: PCIe Bus Error: severity=Corrected, type=Physical Layer, (Receiver ID)
-> Jan  1 23:30:53 begin kernel: [   46.676048] nvme 0000:02:00.0:   device [15b7:5006] error status/mask=00000001/0000e000
-> Jan  1 23:30:53 begin kernel: [   46.676140] nvme 0000:02:00.0:    [ 0] RxErr
-> 
-> Since it's corrected it's not actually an issue, but how worrying is it
-> to see such errors on new hardware? Documentation/PCI/pcieaer-howto.rst
-> is not commenting whether we are really supposed to see some of them. I
-> see forums telling to use pci=noaer to stop the error logging, but is
-> that really something to do?
+SelvaKumar S: This didn't show up on dm-devel, sorry for the OT reply...
 
-Additional work has to happen to correct a receiver error, so it's
-possible you're getting degraded performance. You may not notice worse
-performance if these are infrequent enough, though.
+On Mon, Jan 04, 2021 at 12:47:11PM +0000, Damien Le Moal wrote:
+> On 2021/01/04 19:48, SelvaKumar S wrote:
+> > Add new BLKCOPY ioctl that offloads copying of one or more sources
+> > ranges to a destination in the device. Accepts copy_ranges that contains
+> > destination, no of sources and pointer to the array of source
+> > ranges. Each range_entry contains start and length of source
+> > ranges (in bytes).
+> > =
 
-Sometimes these types of errors occur from low power settings, so you
-can try disabling the automatic management of these (assuming the
-hardware supports it). To disable nvme specific power state transitions,
-the kernel parameter is "nvme_core.default_ps_max_latency_us=0". PCI
-also has automatic link power savings that you can disable with
-parameter "pcie_aspm=off". It might be worth seeing if either of those
-changes your observation.
+> > Introduce REQ_OP_COPY, a no-merge copy offload operation. Create
+> > bio with control information as payload and submit to the device.
+> > REQ_OP_COPY(19) is a write op and takes zone_write_lock when submitted
+> > to zoned device.
+> > =
+
+> > If the device doesn't support copy or copy offload is disabled, then
+> > copy is emulated by allocating memory of total copy size. The source
+> > ranges are read into memory by chaining bio for each source ranges and
+> > submitting them async and the last bio waits for completion. After data
+> > is read, it is written to the destination.
+> > =
+
+> > bio_map_kern() is used to allocate bio and add pages of copy buffer to
+> > bio. As bio->bi_private and bio->bi_end_io is needed for chaining the
+> > bio and over written, invalidate_kernel_vmap_range() for read is called
+> > in the caller.
+> > =
+
+> > Introduce queue limits for simple copy and other helper functions.
+> > Add device limits as sysfs entries.
+> > 	- copy_offload
+> > 	- max_copy_sectors
+> > 	- max_copy_ranges_sectors
+> > 	- max_copy_nr_ranges
+> > =
+
+> > copy_offload(=3D 0) is disabled by default.
+> > max_copy_sectors =3D 0 indicates the device doesn't support native copy.
+> > =
+
+> > Native copy offload is not supported for stacked devices and is done via
+> > copy emulation.
+> > =
+
+> > Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+> > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> > Signed-off-by: Javier Gonz=E1lez <javier.gonz@samsung.com>
+> > ---
+> >  block/blk-core.c          |  94 ++++++++++++++--
+> >  block/blk-lib.c           | 223 ++++++++++++++++++++++++++++++++++++++
+> >  block/blk-merge.c         |   2 +
+> >  block/blk-settings.c      |  10 ++
+> >  block/blk-sysfs.c         |  50 +++++++++
+> >  block/blk-zoned.c         |   1 +
+> >  block/bounce.c            |   1 +
+> >  block/ioctl.c             |  43 ++++++++
+> >  include/linux/bio.h       |   1 +
+> >  include/linux/blk_types.h |  15 +++
+> >  include/linux/blkdev.h    |  13 +++
+> >  include/uapi/linux/fs.h   |  13 +++
+
+This series should also be cc'd to linux-api since you're adding a new
+userspace api.
+
+Alternately, save yourself the trouble of passing userspace API review
+by hooking this up to the existing copy_file_range call in the vfs.  /me
+hopes you sent blktests to check the operation of this thing, since none
+of the original patches made it to this list.
+
+If you really /do/ need a new kernel call for this, then please send in
+a manpage documenting the fields of struct range_entry and copy_range,
+and how users are supposed to use this.
+
+<now jumping to the ioctl definition because Damien already reviewed the
+plumbing...>
+
+> > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> > index f44eb0a04afd..5cadb176317a 100644
+> > --- a/include/uapi/linux/fs.h
+> > +++ b/include/uapi/linux/fs.h
+> > @@ -64,6 +64,18 @@ struct fstrim_range {
+> >  	__u64 minlen;
+> >  };
+> >  =
+
+> > +struct range_entry {
+> > +	__u64 src;
+
+Is this an offset?  Or the fd of an open bdev?
+
+> > +	__u64 len;
+> > +};
+> > +
+> > +struct copy_range {
+> > +	__u64 dest;
+> > +	__u64 nr_range;
+> > +	__u64 range_list;
+
+Hm, I think this is a pointer?  Why not just put the range_entry array
+at the end of struct copy_range?
+
+> > +	__u64 rsvd;
+
+Also needs a flags argument so we don't have to add BLKCOPY2 in like 3
+months.
+
+--D
+
+> > +};
+> > +
+> >  /* extent-same (dedupe) ioctls; these MUST match the btrfs ioctl defin=
+itions */
+> >  #define FILE_DEDUPE_RANGE_SAME		0
+> >  #define FILE_DEDUPE_RANGE_DIFFERS	1
+> > @@ -184,6 +196,7 @@ struct fsxattr {
+> >  #define BLKSECDISCARD _IO(0x12,125)
+> >  #define BLKROTATIONAL _IO(0x12,126)
+> >  #define BLKZEROOUT _IO(0x12,127)
+> > +#define BLKCOPY _IOWR(0x12, 128, struct copy_range)
+> >  /*
+> >   * A jump here: 130-131 are reserved for zoned block devices
+> >   * (see uapi/linux/blkzoned.h)
+> > =
+
+> =
+
+> =
+
+> -- =
+
+> Damien Le Moal
+> Western Digital Research
+> =
+
+> =
+
+> =
+
+> --
+> dm-devel mailing list
+> dm-devel@redhat.com
+> https://www.redhat.com/mailman/listinfo/dm-devel
+> =
+
 
 _______________________________________________
 Linux-nvme mailing list
