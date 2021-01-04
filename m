@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D40BC433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:10:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C422EC433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:10:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E344B2087E
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:10:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E344B2087E
+	by mail.kernel.org (Postfix) with ESMTPS id 3B3B82087E
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:10:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B3B82087E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Rza/g1xxxllQlmfkiAwcC+0hScZ4+mG8ZoQPH00XRww=; b=GmrpLjaonuF/4FCjXXWsO85xX
-	XfoEcCsmFZZb2BYovuvlgb397zxlRwdIwxZoKuUr5ollVvrzB578j0Nj9o6ddWt5ZrysUexGxTRrd
-	YI4MeS3V+3qJsl1xa+mTgzAYK5ogqYnI5+Yv6Qva9iTP+a26mL3jJUOQ97TXitT+L3S2dTF2ynMLu
-	pkUafMevcvvZjZnKt1Bn7XAGKtWgJucUNJDVlWgp4Ew52AcRl4N1qOA3ZLrDMo4YPK6xqkYLQ4AzO
-	PIcv8lfF/d6+UoX4U5AMmSPvVj1xb8EO4u/UGX4noURylxdLNY7bWLBAOEodkoE61SXQjLq5lk0Ls
-	T1bX8nMtg==;
+	 bh=NCxYEPD4kGaKifNSac5tjIh2U9q3WT+hhUQiLCN10+0=; b=LdetK312e4rZ12zuh0VU1RSsV
+	M2CbT0fso/GlMo1ltrj13dB3YBODVQfVGXD/96IpAgqqbUp7jIX6zdYxJPCs4U99mIr87r8yE1dEI
+	fM65kwr+97bRU7Z5m62ThqIj0bwvZ5owaqlv0N62QzvXXrgP3fD72fJbSMXtmjhdgiNwsi/P+oHbA
+	GWV8LFJ6SbB9xo61x794UNdyeRLGBpLTPyiuGBDOnLGrkZFFEprZfYM5X0OJyW+MvFTd+xt6ICtWF
+	4EpuPWf8iMGoZm3+wwJ94bcA+7lCAlEd6uF6aHxMNc7w9ASaftKd0xa5+PUt7kfi/ZIf7laHB56DF
+	ibgW7wy+A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwI8V-00032O-Uz; Mon, 04 Jan 2021 05:10:31 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1kwI8d-000359-1K; Mon, 04 Jan 2021 05:10:39 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwI8R-00030l-Fv
- for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 05:10:29 +0000
+ id 1kwI8a-000340-0l
+ for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 05:10:37 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1609737027; x=1641273027;
+ t=1609737699; x=1641273699;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=1y14BfiDYeW2GPW7aJ8piMTbIb+XExWNPhFvc+apnpU=;
- b=o1Vfn02cmNgwilMyiMQbMN6btUXbH5K6EPJQASJu3ObZ76sb9qQ0UhzE
- CZuIx/2eLRfCc6kkRyWzGfFilH3Xo35tlu4gSpKw8LfcCDBWFu72smEFP
- V1dwMOGfckxjXBDetpDLFr7J4g5LYOTt3TjUc1CRnTgJID0aah5OxccUl
- 60nMuxVy6UtO3EOy1olE1uUIq76/OlWPdkVoZ9Y/U7GbLuqYzZqTQoJP6
- VVewn5b5OGTifjdZk/VH2xpPEM7pC41UnTqaAbnPhhnq8BibS5MYQMlzo
- yXKpzVMW6uS4aOyhZnFdZYgGNB8St8Ojcx5bFzAKmf31J5QA3/oq7YPLC Q==;
-IronPort-SDR: szWv+cV2j0wmGHR4nTvQ3wR8rUOJma3bHdtu/NI/tqtt65Tvv5sS44n9/mJg7HfVqfvUNKANw2
- WtYQC6I0N8su70BYLOywJ/eTxNZITHjfwXMrQnc/OVSSDi71xO/p3NXy2iE+UhWtMNYF0naEIJ
- C5oQ2e3ehUnqK2YpfR8j98qcIoiVI2knR5I6B8auoAuuZIEliigqzzq01WCpLJtGMVD9q+lBfF
- i6/r+IgDEmHL/A61XTmHa5tqc19F+J2UWu68hnB2xwGVlrhV9H5BQ3Vn5ntnoYMA8zSGPXQ5p/
- 3DE=
-X-IronPort-AV: E=Sophos;i="5.78,473,1599494400"; d="scan'208";a="156435517"
+ bh=b7JlLdLhTEJHSJkJ2Ot7J3cXNRNUJqtnFvAN4lx8PoE=;
+ b=RY9vWxbfr/81jYwG3Ved827/V1DxV7sM3/8sto2nRC2GpkbNHM1Hh/JU
+ fIGZ5S49X6AuDr19WyoGHF8TnXbWvhHq41WlMjvCDiXVj2QdTja/byKEq
+ 6dZool08uG2MBVUcn9hjadBe0jvUPEBGI7I/Rtc6aebi+fwAFBuKclj8b
+ jWUqVpfoyhQS9aYO2lzRUpLOkPgfmSZzyd953+wx172cC2nGJwXp+xXqQ
+ mbVWJBt7rYoZWp6NJcfd7xKqKNqOmuDNXuhLIr8QgFfLHKa0cVkyQSxPc
+ pJ3YIGuj8ir/4aeAWgrha6nfO7Pxs9MfFI3+g5SZDnp5id5RZVnzTVGZL Q==;
+IronPort-SDR: 7l3DHVwOESVgtN2TO4+BIkeW4MiLKjgIpMybObdL7uzlRUJ3aqf0CpS1ws0ivrZQxzorUuP/2J
+ P7gM22TNgBxpJfuhdL7ugD3JJ0VSnteqK/C33OpStMxYF4V52lSyX9z56HnedOhnaNiRefSvEg
+ daoQJaMBzpaBMaE65I749MWZPTZGhWznPFbMhJX6IxeD34RBn7e0586f0nXPRMv73tHuHTe25D
+ VSHC1xA7RS930tnBa4p+BNMZXOlLLEZln+sWo2S/1/dpp/bHC3+XUmlft177usGRuewtxN9DwA
+ qpQ=
+X-IronPort-AV: E=Sophos;i="5.78,473,1599494400"; d="scan'208";a="260321536"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 Jan 2021 13:10:26 +0800
-IronPort-SDR: VRXdzc6QxD3sUupcUPsITmS+fCXwykbKas+TGzSqRbZtmQovvsPyIb1xj5UPxeJavxwvsD5swG
- 7WQR/5hFdfXKuRF06NZ1I3Szz2HTRVC9nlENued6v6qJ/pqlbJOVjmSrSlF8uwzHuYnAb2UQAQ
- C2TCyfF1sai4v6ITXUCJFzp2jDU7yF347SMLl/iYEzWuVhSXxo2BiQaqAEl5QzQqGyLp7VIk2b
- LYubMbwFW7ruKSDgTMsNcyelnVURMyWwkYcLDMg8TE+Gc3or0MOZmM+1gH0Tz7vOTAj3OAOxMX
- RUjM2pQtLQGdDamdo/CCtJLy
+ by ob1.hgst.iphmx.com with ESMTP; 04 Jan 2021 13:21:36 +0800
+IronPort-SDR: bNzIDBgwQ04mXwUK6TE8QOsNTqsIQj6MDZ/AvPIHngtN9ZRkxeL44hNCR873aExUZTzSU1TWDT
+ xXDGkayQHIBvfpk6tyYfGFU1JWTAlKRppFGC+M9K6mUldxIm2zkHz1S+qzxygfud0bGWsMUnTS
+ i9nV2lvfLrrtaCDatdkZy5kmkPTe94Ucx5FoGLasdtUGRv3xmj/PGIVzJXWkj3A+b02IC1xyxJ
+ BmdqDuqxzMC3k+dG82AGS/3iuu4Xwvhmj9YHbQ+XEsZZZlpXbhGw07tyJSEkTcnZrf42PMyXJU
+ EF8XKsGOxtmIAPS9gtZoZiBX
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2021 20:55:21 -0800
-IronPort-SDR: hT0rgF/BJr/2speCIYspfSILnUrLaG4YOkZDETUf4tcuwLfwAlfOFUoj92Y/X6iGMhZ2RJBUmp
- OouUyLMkibVzu/0gbz2k1fyi+EGK6nV78tklosOmgjq89NY08qT6vGHy0lPifh/w4SHxkx8RBZ
- b1i8tsYxI8vlo4j0hbz2juVijLBku0NSumEUJSQmwj3VPRt0HkJRKkvleD/tyQZiyDTVNhL7WX
- arIlogtJLfEcVeucn9KS/GynQmZ8SGyUEzV521lbrMFAsLmR8D+6/er4R57Gs/EEigmFQfWiDm
- Tic=
+ 03 Jan 2021 20:55:29 -0800
+IronPort-SDR: P3psn+7q+AuoW4ooHJLfm6KWAOxCiuHTe7jGpXzzg5K1GMrgh4T4nYjgR3m9Eklitx+ZIo42pq
+ 3eD8mEaRhq/SvCIRObPS5L/XfQS0P20AYsmniQsy90ChdULVAR7N8It89e0e3XkUH+weOVSwn/
+ D1AisNgqeW4WcXQGn6PXytmMtfYWYGecV4mmbi4idY4ySjhfdwun79dMo4ShQJHlf83gGevZhU
+ cOI0oBoj6tiMRYE3XCC1XxLoUav8LbiSr3gq8wgA/BzhwUf+fHpUBXJqAugHooSsjQIhEOB0eQ
+ ZpE=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 03 Jan 2021 21:10:27 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 03 Jan 2021 21:10:35 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V8 5/9] nvmet: add bio get helper for different backends
-Date: Sun,  3 Jan 2021 21:09:34 -0800
-Message-Id: <20210104050938.25745-6-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V8 6/9] nvmet: add bio init helper for different backends
+Date: Sun,  3 Jan 2021 21:09:35 -0800
+Message-Id: <20210104050938.25745-7-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210104050938.25745-1-chaitanya.kulkarni@wdc.com>
 References: <20210104050938.25745-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210104_001027_817482_B4C48E20 
-X-CRM114-Status: GOOD (  17.27  )
+X-CRM114-CacheID: sfid-20210104_001036_493101_BB10CAD3 
+X-CRM114-Status: GOOD (  15.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,81 +98,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  sagi@grimberg.me
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-V2l0aCB0aGUgYWRkaXRpb24gb2YgdGhlIHpucyBiYWNrZW5kIG5vdyB3ZSBoYXZlIHRocmVlIGRp
-ZmZlcmVudApiYWNrZW5kcyB3aXRoIGlubGluZSBiaW8gb3B0aW1pemF0aW9uLiBUaGF0IGxlYWRz
-IHRvIGhhdmluZyBkdXBsaWNhdGUKY29kZSBmb3IgYWxsb2NhdGluZyBvciBpbml0aWFsaXppbmcg
-dGhlIGJpbyBpbiBhbGwgdGhyZWUgYmFja2VuZHM6CmdlbmVyaWMgYmRldiwgcGFzc3N0aHJ1LCBh
-bmQgZ2VuZXJpYyB6bnMuCgpBZGQgYSBoZWxwZXIgZnVuY3Rpb24gdG8gcmVkdWNlIHRoZSBkdXBs
-aWNhdGUgY29kZSBzdWNoIHRoYXQgaGVscGVyCmZ1bmN0aW9uIGFjY2VwdHMgdGhlIGJpX2VuZF9p
-byBjYWxsYmFjayB3aGljaCBnZXRzIGluaXRpYWxpemUgZm9yIHRoZQpub24taW5saW5lIGJpb19h
-bGxvYygpIGNhc2UuIFRoaXMgaXMgZHVlIHRvIHRoZSBzcGVjaWFsIGNhc2UgbmVlZGVkIGZvcgp0
-aGUgcGFzc3RocnUgYmFja2VuZCBub24taW5saW5lIGJpbyBhbGxvY2F0aW9uIGJpb19hbGxvYygp
-IHdoZXJlIHdlIHNldAp0aGUgYmlvLT5iaV9lbmRfaW8gPSBiaW9fcHV0LCBoYXZpbmcgdGhpcyBw
-YXJhbWV0ZXIgYXZvaWRzIHRoZSBleHRyYQpicmFuY2ggaW4gdGhlIHBhc3N0aHJ1IGZhc3QgcGF0
-aC4gRm9yIHJlc3Qgb2YgdGhlIGJhY2tlbmRzLCB3ZSBzZXQgdGhlCnNhbWUgYmlfZW5kX2lvIGNh
-bGxiYWNrIGZvciBpbmxpbmUgYW5kIG5vbi1pbmxpbmUgY2FzZXMsIHRoYXQgaXMgZm9yCmdlbmVy
-aWMgYmRldiB3ZSBzZXQgdG8gbnZtZXRfYmlvX2RvbmUoKSBhbmQgZm9yIGdlbmVyaWMgem5zIHdl
-IHNldCB0bwpOVUxMLiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoAoK
-U2lnbmVkLW9mZi1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxjaGFpdGFueWEua3Vsa2FybmlAd2Rj
-LmNvbT4KLS0tCiBkcml2ZXJzL252bWUvdGFyZ2V0L2lvLWNtZC1iZGV2LmMgfCAgNyArLS0tLS0t
-CiBkcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmggICAgICAgfCAxNiArKysrKysrKysrKysrKysr
-CiBkcml2ZXJzL252bWUvdGFyZ2V0L3Bhc3N0aHJ1LmMgICAgfCAgOCArLS0tLS0tLQogZHJpdmVy
-cy9udm1lL3RhcmdldC96bnMuYyAgICAgICAgIHwgIDggKy0tLS0tLS0KIDQgZmlsZXMgY2hhbmdl
-ZCwgMTkgaW5zZXJ0aW9ucygrKSwgMjAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9udm1lL3RhcmdldC9pby1jbWQtYmRldi5jIGIvZHJpdmVycy9udm1lL3RhcmdldC9pby1jbWQt
-YmRldi5jCmluZGV4IDYxNzhlZjY0Mzk2Mi4uNzI3NDZlMjljYjBkIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL252bWUvdGFyZ2V0L2lvLWNtZC1iZGV2LmMKKysrIGIvZHJpdmVycy9udm1lL3RhcmdldC9p
-by1jbWQtYmRldi5jCkBAIC0yNjYsMTIgKzI2Niw3IEBAIHN0YXRpYyB2b2lkIG52bWV0X2JkZXZf
-ZXhlY3V0ZV9ydyhzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpCiAKIAlzZWN0b3IgPSBudm1ldF9sYmFf
-dG9fc2VjdChyZXEtPm5zLCByZXEtPmNtZC0+cncuc2xiYSk7CiAKLQlpZiAocmVxLT50cmFuc2Zl
-cl9sZW4gPD0gTlZNRVRfTUFYX0lOTElORV9EQVRBX0xFTikgewotCQliaW8gPSAmcmVxLT5iLmlu
-bGluZV9iaW87Ci0JCWJpb19pbml0KGJpbywgcmVxLT5pbmxpbmVfYnZlYywgQVJSQVlfU0laRShy
-ZXEtPmlubGluZV9idmVjKSk7Ci0JfSBlbHNlIHsKLQkJYmlvID0gYmlvX2FsbG9jKEdGUF9LRVJO
-RUwsIG1pbihzZ19jbnQsIEJJT19NQVhfUEFHRVMpKTsKLQl9CisJYmlvID0gbnZtZXRfcmVxX2Jp
-b19nZXQocmVxLCBOVUxMKTsKIAliaW9fc2V0X2RldihiaW8sIHJlcS0+bnMtPmJkZXYpOwogCWJp
-by0+YmlfaXRlci5iaV9zZWN0b3IgPSBzZWN0b3I7CiAJYmlvLT5iaV9wcml2YXRlID0gcmVxOwpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL3RhcmdldC9udm1ldC5oIGIvZHJpdmVycy9udm1lL3Rh
-cmdldC9udm1ldC5oCmluZGV4IDczNjE2NjU1ODVhMi4uM2ZjODRmNzljY2UxIDEwMDY0NAotLS0g
-YS9kcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmgKKysrIGIvZHJpdmVycy9udm1lL3RhcmdldC9u
-dm1ldC5oCkBAIC02NTIsNCArNjUyLDIwIEBAIG52bWV0X2JkZXZfZXhlY3V0ZV96b25lX2FwcGVu
-ZChzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpCiB9CiAjZW5kaWYgLyogQ09ORklHX0JMS19ERVZfWk9O
-RUQgKi8KIAorc3RhdGljIGlubGluZSBzdHJ1Y3QgYmlvICpudm1ldF9yZXFfYmlvX2dldChzdHJ1
-Y3QgbnZtZXRfcmVxICpyZXEsCisJCQkJCSAgICBiaW9fZW5kX2lvX3QgKmJpX2VuZF9pbykKK3sK
-KwlzdHJ1Y3QgYmlvICpiaW87CisKKwlpZiAocmVxLT50cmFuc2Zlcl9sZW4gPD0gTlZNRVRfTUFY
-X0lOTElORV9EQVRBX0xFTikgeworCQliaW8gPSAmcmVxLT5iLmlubGluZV9iaW87CisJCWJpb19p
-bml0KGJpbywgcmVxLT5pbmxpbmVfYnZlYywgQVJSQVlfU0laRShyZXEtPmlubGluZV9idmVjKSk7
-CisJCXJldHVybiBiaW87CisJfQorCisJYmlvID0gYmlvX2FsbG9jKEdGUF9LRVJORUwsIHJlcS0+
-c2dfY250KTsKKwliaW8tPmJpX2VuZF9pbyA9IGJpX2VuZF9pbzsKKwlyZXR1cm4gYmlvOworfQor
-CiAjZW5kaWYgLyogX05WTUVUX0ggKi8KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQv
-cGFzc3RocnUuYyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvcGFzc3RocnUuYwppbmRleCBiOTc3NmZj
-OGYwOGYuLjU0Zjc2NWI1NjZlZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9wYXNz
-dGhydS5jCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvcGFzc3RocnUuYwpAQCAtMTk0LDEzICsx
-OTQsNyBAQCBzdGF0aWMgaW50IG52bWV0X3Bhc3N0aHJ1X21hcF9zZyhzdHJ1Y3QgbnZtZXRfcmVx
-ICpyZXEsIHN0cnVjdCByZXF1ZXN0ICpycSkKIAlpZiAocmVxLT5zZ19jbnQgPiBCSU9fTUFYX1BB
-R0VTKQogCQlyZXR1cm4gLUVJTlZBTDsKIAotCWlmIChyZXEtPnRyYW5zZmVyX2xlbiA8PSBOVk1F
-VF9NQVhfSU5MSU5FX0RBVEFfTEVOKSB7Ci0JCWJpbyA9ICZyZXEtPnAuaW5saW5lX2JpbzsKLQkJ
-YmlvX2luaXQoYmlvLCByZXEtPmlubGluZV9idmVjLCBBUlJBWV9TSVpFKHJlcS0+aW5saW5lX2J2
-ZWMpKTsKLQl9IGVsc2UgewotCQliaW8gPSBiaW9fYWxsb2MoR0ZQX0tFUk5FTCwgbWluKHJlcS0+
-c2dfY250LCBCSU9fTUFYX1BBR0VTKSk7Ci0JCWJpby0+YmlfZW5kX2lvID0gYmlvX3B1dDsKLQl9
-CisJYmlvID0gbnZtZXRfcmVxX2Jpb19nZXQocmVxLCBiaW9fcHV0KTsKIAliaW8tPmJpX29wZiA9
-IHJlcV9vcChycSk7CiAKIAlmb3JfZWFjaF9zZyhyZXEtPnNnLCBzZywgcmVxLT5zZ19jbnQsIGkp
-IHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQvem5zLmMgYi9kcml2ZXJzL252bWUv
-dGFyZ2V0L3pucy5jCmluZGV4IDJhNzFmNTZlNTY4ZC4uYzMyZTkzYTNjN2UxIDEwMDY0NAotLS0g
-YS9kcml2ZXJzL252bWUvdGFyZ2V0L3pucy5jCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvem5z
-LmMKQEAgLTI5NiwxMyArMjk2LDcgQEAgdm9pZCBudm1ldF9iZGV2X2V4ZWN1dGVfem9uZV9hcHBl
-bmQoc3RydWN0IG52bWV0X3JlcSAqcmVxKQogCQlyZXR1cm47CiAJfQogCi0JaWYgKHJlcS0+dHJh
-bnNmZXJfbGVuIDw9IE5WTUVUX01BWF9JTkxJTkVfREFUQV9MRU4pIHsKLQkJYmlvID0gJnJlcS0+
-Yi5pbmxpbmVfYmlvOwotCQliaW9faW5pdChiaW8sIHJlcS0+aW5saW5lX2J2ZWMsIEFSUkFZX1NJ
-WkUocmVxLT5pbmxpbmVfYnZlYykpOwotCX0gZWxzZSB7Ci0JCWJpbyA9IGJpb19hbGxvYyhHRlBf
-S0VSTkVMLCByZXEtPnNnX2NudCk7Ci0JfQotCisJYmlvID0gbnZtZXRfcmVxX2Jpb19nZXQocmVx
-LCBOVUxMKTsKIAliaW9fc2V0X2RldihiaW8sIHJlcS0+bnMtPmJkZXYpOwogCWJpby0+YmlfaXRl
-ci5iaV9zZWN0b3IgPSBzZWN0OwogCWJpby0+Ymlfb3BmID0gUkVRX09QX1pPTkVfQVBQRU5EIHwg
-UkVRX1NZTkMgfCBSRVFfSURMRTsKLS0gCjIuMjIuMQoKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52
-bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2xpbnV4LW52bWUK
+With the addition of the zns backend now we have two different backends
+with the same bio initialization code. That leads to having duplicate
+code in two backends: generic bdev and generic zns.
+
+Add a helper function to reduce the duplicate code such that helper
+function initializes the various bio initialization parameters such as
+bio block device, op flags, sector, end io callback, and private member,
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/io-cmd-bdev.c |  6 +-----
+ drivers/nvme/target/nvmet.h       | 11 +++++++++++
+ drivers/nvme/target/zns.c         |  6 +++---
+ 3 files changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 72746e29cb0d..b1fb0bb1f39f 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -267,11 +267,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	sector = nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
+ 
+ 	bio = nvmet_req_bio_get(req, NULL);
+-	bio_set_dev(bio, req->ns->bdev);
+-	bio->bi_iter.bi_sector = sector;
+-	bio->bi_private = req;
+-	bio->bi_end_io = nvmet_bio_done;
+-	bio->bi_opf = op;
++	nvmet_bio_init(bio, req->ns->bdev, op, sector, req, nvmet_bio_done);
+ 
+ 	blk_start_plug(&plug);
+ 	if (req->metadata_len)
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 3fc84f79cce1..1ec9e1b35c67 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -668,4 +668,15 @@ static inline struct bio *nvmet_req_bio_get(struct nvmet_req *req,
+ 	return bio;
+ }
+ 
++static inline void nvmet_bio_init(struct bio *bio, struct block_device *bdev,
++				  unsigned int op, sector_t sect, void *private,
++				  bio_end_io_t *bi_end_io)
++{
++	bio_set_dev(bio, bdev);
++	bio->bi_opf = op;
++	bio->bi_iter.bi_sector = sect;
++	bio->bi_private = private;
++	bio->bi_end_io = bi_end_io;
++}
++
+ #endif /* _NVMET_H */
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index c32e93a3c7e1..92213bed0006 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -281,6 +281,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ {
+ 	sector_t sect = nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
+ 	struct request_queue *q = req->ns->bdev->bd_disk->queue;
++	unsigned int op = REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
+ 	unsigned int max_sects = queue_max_zone_append_sectors(q);
+ 	u16 status = NVME_SC_SUCCESS;
+ 	unsigned int total_len = 0;
+@@ -297,9 +298,8 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ 	}
+ 
+ 	bio = nvmet_req_bio_get(req, NULL);
+-	bio_set_dev(bio, req->ns->bdev);
+-	bio->bi_iter.bi_sector = sect;
+-	bio->bi_opf = REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
++	nvmet_bio_init(bio, req->ns->bdev, op, sect, NULL, NULL);
++
+ 	if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
+ 		bio->bi_opf |= REQ_FUA;
+ 
+-- 
+2.22.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
