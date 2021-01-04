@@ -2,87 +2,89 @@ Return-Path: <SRS0=JqC7=GH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7413BC433E6
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 04:52:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1FA7C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 04:52:52 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 03A942075F
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 04:52:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 03A942075F
+	by mail.kernel.org (Postfix) with ESMTPS id 405D22075F
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 04:52:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 405D22075F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=i/A6od40s6d/2YdY2qw+ns8xkYLEOpppu71n0FJ/oUw=; b=W2y2nLBD/nCjdl0M1hyZZsZ/jn
-	ESIFa1lVXVThm/LiUCNKMZa7W4KDBWLhVsgGmV8Pneq38B+EVFbywGFQExb07xFMeCbikVo/y+k3z
-	Dto4oozmztyIrwnakJMtTmQe+xCghm9pTcOzuquIUMe4rvg+sXb8ScRGeCZ70/AnK1u7xqzLx7opa
-	0OUm878QpzbRSKf54ZmuWBWOzprmYYdiEVh21ICqS0tyzvf9lE8gufZyaQBgYuGBmsPlZHW43z+sN
-	QU0GGk3C31mgsDdoNQfWDC5p9koA0uaeRXN/izLW+GhxGJOl7R2QRZjskb4j442XZ3nLZYgM/vuh5
-	+T14nBKw==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Beu32lpNj/Bz7k3UVFEA3u01JoI/vmIb4X6hO6TIfhk=; b=BrN/L59IhvdJLyerb+2oeM7lB
+	5p0YnOJwn5Ns3R9Mjy8rai8eq+ZVLxAS4QBAm9RkwgN4Sbtdi0CRa5nfSJVU6JtXIiGQF/vFAYx7M
+	gjTfQS2bGXLveeZ70v0OM+4cXcNQDrTRwt+9B6QvH3IG5uxmOim70A7ZLymnVHE1uV/QEwg8sQWtx
+	vyuvErIA68XxD96BA/XnAai/nmyfBPI0fFrc9fWxldtY23T8ouRfj5ez59pqnDCQVNdjpc3EPlyHp
+	QurGPIQD7H4X7bcdyZ8honxgfCujZwo2hRdjJ9c0jPYUXvAqlhg5LGaaR6DOIOh4rufQ/zpf6meT7
+	bbyJiwvDw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwHqu-0000Mg-2K; Mon, 04 Jan 2021 04:52:20 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1kwHrJ-0000Te-9U; Mon, 04 Jan 2021 04:52:45 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwHqn-0000Jz-4g
- for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 04:52:15 +0000
+ id 1kwHrD-0000SG-D8
+ for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 04:52:43 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1609735933; x=1641271933;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=0RlfNU15CVk4C5x0u5hanL6whsN0v+NS/RomWYCVDFQ=;
- b=hf7H3PngmrPMXr235R47TwR8XoIbeLZamTD3QdN36Kosk6t67WmX1w4q
- weObsVum9P4Q4UQNwzzyGkAMRKbKMjaJIQ2+CWypc5ieCt0y+6nH59P18
- UZLbmb5luZLAFmWsk4EvSlLm7FsS+Bfo+DdaXjLlx8zN8OcqeXPgmjkZf
- p9wlagPCmUuUP4FvSvRo9irpSWcHTeDh1auokm3LACiogpvVdh88e94Dp
- bXTrOahh/8FSfGDZFRTMJNhz6tviBz5cFlKw66jfOcPsFLvhdfxarbQSv
- u2B6OOtEJsx6Un7wVvfWaFHx04EzbxTK0FVQdI4vLV/4aWHoUWm4MKNYK w==;
-IronPort-SDR: rHkVIcGG2A1uN0z5vF/zUqcdQj9iVWToFbHTT/LFjELkUNbcmoTqqsfEXL7LTU01rEBBox/iUQ
- TQwoYWh0llvUVuXQBN5o7MUn2Zu+02UAHJf5WRhsKP58u7O1gluqrmyNKNVqLm+UZ9ETLlj37a
- XeS6L1F9FRAKVEkrDSKFbTFicTJmcmgbF8MEc5zHduzDF3aGW/Y9LpnbGWJxKfqybFrpR4LRbX
- 3HqKva3EN/5YZRTchF3XXQIW6VotE2RKo7Ve8CkdjgwbGk+KrjKFBlsa8BYim0q11NJSB+wtcX
- cpw=
-X-IronPort-AV: E=Sophos;i="5.78,473,1599494400"; d="scan'208";a="156434422"
+ t=1609735959; x=1641271959;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=sFe4cdxjumntlSIxYHRIMddGtmBjNFu9Is0T3KlCg+g=;
+ b=d1kqRYPdnLUVsJcDvhnwH9GXsCIRQ1Qf+hcLq5HdvEEQ2RA6j/K1Gh41
+ NG9PgkPSXfkzFBnWXy5BDHqu3BhMtAm4EztWvxZwUk656C3hgcjr96fn6
+ H963cqGqaHRdPz4+pliSBgivlXQEnh12HcgcEijcJPQm6osr0GWKok0rq
+ uiVJxVwqebODAgxc/4xSiVmQB292Q91NhteTBfaemzC9Xfa6le9jbkRg9
+ F4YqnKGnsA7rSuSuP/FWkBrKMQVHQnIgD4GsRjImymLgOLsfeLasF4E3b
+ Cw3TMMbzOOJkx7dzvTgJpnxpkNdUtsNRFaAfIaqGm/0Io9W8Fd6tCUwQq w==;
+IronPort-SDR: rWQwGLPh4vBuakW7XxeFpQXohyTc8jcNFNXzsIwoBfX8qQZWHa1UQakYLbpENlRL/RtAmIz2Oe
+ ZDjoE42lm5z00ZN9buqLVDjBvkA3GGUx3jLXhR0skIOm/SHgnRXlRyIWuGmaEFZ1mkmQbbWZ4o
+ S+ZZNmvuVpmicyqsENsHeI8QGlZ2CKBZg839QfKpOzzmB2XNDRJi/7upr2fYgIDABjr6gWQDVe
+ l2qWSMTF20EehtMxejrtVzd3ScJ/tJjotNj/lpX83R9VSUHsWUXG+uEQ86nsRJ/RryzwvMCYwq
+ 41w=
+X-IronPort-AV: E=Sophos;i="5.78,473,1599494400"; d="scan'208";a="156479888"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 04 Jan 2021 12:52:06 +0800
-IronPort-SDR: zOW1hTtdvzTV7MuakVdLKxDocHWyO2ROEbsejn1Gk+vDkh5hjJNfOcHd0vIGjys8QNk7ig1aGI
- TkHXMaW8MWxQboY1DWtZH0NclYNYwzQcPqgu/4Xcht0/kFxnCQL0FFhhLmIcBvyMMJqlnFDs4M
- 4ds7/1/G1mvq1wdBLPICQN2+QRfuBUvZaEHgRO3Kv10MZbrot0+r34vS48THvcUzRNkHBbOgnj
- zkxTHQ0RA3J+tBnNyP81ZLNW6SQJCb5WeyGUfJ5t9BCNoNSWekQpcurQCQ1W6qxywEViVCyH/Z
- YLjbbWDjqRqQglJ81rpFYiNE
+ by ob1.hgst.iphmx.com with ESMTP; 04 Jan 2021 12:52:38 +0800
+IronPort-SDR: v7C5F90frI/oyjvE/H4wnULfouISETP+7vv9YbCk7PGS9WWM3ohI0Iir2z09XiZ8KlExYPM3cL
+ bxbyZrLPHS76lLd0dUDkMKXPdIkP1YPA5GCbtlEjY2PJr585fEdTgBSAr8jD41kXI07xt+B0R7
+ bL/q68cj7ukkXFPQaVUK9HDQSAqocbYKPVm4RCKObxVGQwk5qltaGNc5g7HbjwZatF5zJYPUMh
+ EpE8hOKV2v92yY+C7I5YuzjvB2fe6DUk0bAuGOWn6kmA2HwuYCwaCKRD0PdDAm9bioBzQj4dYo
+ Vm6YC7WwaxxlpJSmPdeobC5d
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2021 20:35:15 -0800
-IronPort-SDR: MGnpnvC+ZCvTTZo+h9lazobXFqhndRj7TfUpf90vpNEq6kRpbB2W/pVOoLbh46GHSgsKGQ3Jya
- NIw2gKg9Fz1Rvt6zhsmgAaN/sVz82M0Kd0vzM8baC4TSm4IYuLdMrXXwotRdVmGfXeONjoWUch
- dhUX1VZb8MDp8E2lPqFBSR7gjE6rRLfbYCEicxuJ8XLJ3DCU9LEb8G7ECXJFSu/kOJ9lvdopOC
- q9Oy3Nk2nFqTPo1pf5xbEpZ7gib4MLkHBmI7qjEGWaNd+wOruzjC+iEIlOUZifPKiO/DJzQVq2
- 8cs=
+ 03 Jan 2021 20:35:48 -0800
+IronPort-SDR: rQ8Pe9smeBjPHyABSCY4TnrC+pLJtOTpyI5Zz2I9ccu2RS83b7e1ChR751j6/JKy9OTzhqF6C4
+ 6sxVf/znYXFz2IDR0MUJaZQ1mhWtFvvUHt9sK0XyoRLX3PtZl3TqtwxCGh0gsqz5YfhWIO2UUc
+ xkfciImbcRy7u1RestmBr2bRzlSTkamriX2PAvasCVkw9LASiYb/fU1CVM0La0GQMKbAQVAJmq
+ nzNgePxhp/leEfeW7ZoesGO52FtcBxcsSIreZUEUpJOsexj74wOuyATwtndw7ibBsSRa3q24Ht
+ svY=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 03 Jan 2021 20:52:06 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 03 Jan 2021 20:52:38 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 0/4] nvmet: admin-cmd related cleanups and a fix 
-Date: Sun,  3 Jan 2021 20:51:59 -0800
-Message-Id: <20210104045203.24472-1-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 4/4] nvmet: set right status on error in id-ns handler
+Date: Sun,  3 Jan 2021 20:52:03 -0800
+Message-Id: <20210104045203.24472-5-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
+In-Reply-To: <20210104045203.24472-1-chaitanya.kulkarni@wdc.com>
+References: <20210104045203.24472-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210103_235213_875622_AFE6E05F 
-X-CRM114-Status: GOOD (  11.13  )
+X-CRM114-CacheID: sfid-20210103_235241_344625_774FC994 
+X-CRM114-Status: GOOD (  15.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,100 +103,92 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+The function nvmet_execute_identify_ns() does't set the status
+if call to nvmet_find_namespace() fails. In that case we set the
+status of the request to the value return by the nvmet_copy_sgl().
 
-There are three functions where local variable ns is used instead of
-using req->ns which leads to duplicate nvmet_put_namespace() calls.
-We can just use req->ns and not the local variable to avoid duplicate
-calls. First three patches fix that.
+Set the status to NVME_SC_INVALID_NS and adjust the code such that
+request will have the right status on nvmet_find_namespace() failure.
 
-The last patch sets the right error status code when namespace is not
-found in nvmet_execute_identify_ns().
+Without this patch :-
+# nvme id-ns /dev/nvme1 -n 3
+NVME Identify Namespace 3:
+nsze    : 0
+ncap    : 0
+nuse    : 0
+nsfeat  : 0
+nlbaf   : 0
+flbas   : 0
+mc      : 0
+dpc     : 0
+dps     : 0
+nmic    : 0
+rescap  : 0
+fpi     : 0
+dlfeat  : 0
+nawun   : 0
+nawupf  : 0
+nacwu   : 0
+nabsn   : 0
+nabo    : 0
+nabspf  : 0
+noiob   : 0
+nvmcap  : 0
+mssrl   : 0
+mcl     : 0
+msrc    : 0
+nsattr	: 0
+nvmsetid: 0
+anagrpid: 0
+endgid  : 0
+nguid   : 00000000000000000000000000000000
+eui64   : 0000000000000000
+lbaf  0 : ms:0   lbads:0  rp:0 (in use)
 
-I've tested this series with nvme blktests, all the testcases are
-passing.
+With this patch-series :-
 
--ck
+# gitlog -4
+3fd4a1736f35 (HEAD -> nvme-5.11) nvmet: set right status on error in id-ns handler
+4d8a9ebec05e nvmet: remove extra variable in id-desclist
+de9e611ac167 nvmet: remove extra variable in identify ns
+54165b5c1ca3 nvmet: remove extra variable in smart log nsid
+# nvme id-ns /dev/nvme1 -n 3
+NVMe status: INVALID_NS: The namespace or the format of that namespace is invalid(0xb)
 
-Changes from V1:-
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/admin-cmd.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-1. Rebase and retest on the latest nvme-5.11.
-
-Chaitanya Kulkarni (4):
-  nvmet: remove extra variable in smart log nsid
-  nvmet: remove extra variable in identify ns
-  nvmet: remove extra variable in id-desclist
-  nvmet: set right status on error in id-ns handler
-
- drivers/nvme/target/admin-cmd.c | 77 +++++++++++++++++----------------
- 1 file changed, 39 insertions(+), 38 deletions(-)
-
-Test Result :-
-
-blktests (master) # ./check tests/nvme/
-nvme/002 (create many subsystems and test discovery)         [passed]
-    runtime  24.027s  ...  24.214s
-nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
-    runtime  10.134s  ...  10.134s
-nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
-    runtime  2.463s  ...  2.436s
-nvme/005 (reset local loopback target)                       [not run]
-    nvme_core module does not have parameter multipath
-nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
-    runtime  0.091s  ...  0.093s
-nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
-    runtime  0.061s  ...  0.062s
-nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
-    runtime  2.446s  ...  2.457s
-nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
-    runtime  2.457s  ...  2.427s
-nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
-    runtime  19.340s  ...  28.696s
-nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
-    runtime  225.867s  ...  235.098s
-nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
-    runtime  42.473s  ...  42.824s
-nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
-    runtime  251.344s  ...  714.369s
-nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
-    runtime  21.070s  ...  30.622s
-nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
-    runtime  23.212s  ...  29.880s
-nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
-    runtime  14.002s  ...  18.465s
-nvme/017 (create/delete many file-ns and test discovery)     [passed]
-    runtime  13.758s  ...  14.368s
-nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
-    runtime  2.424s  ...  2.458s
-nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
-    runtime  2.439s  ...  2.520s
-nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
-    runtime  2.409s  ...  2.586s
-nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
-    runtime  2.440s  ...  2.470s
-nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
-    runtime  2.843s  ...  3.091s
-nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
-    runtime  2.439s  ...  2.520s
-nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
-    runtime  2.419s  ...  2.451s
-nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
-    runtime  2.417s  ...  2.582s
-nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
-    runtime  2.399s  ...  2.546s
-nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
-    runtime  2.419s  ...  2.641s
-nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
-    runtime  2.394s  ...  2.575s
-nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
-    runtime  2.694s  ...  3.300s
-nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
-    runtime  0.327s  ...  0.390s
-nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
-    runtime  13.381s  ...  15.152s
-nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
-    runtime  0.038s  ...  0.043s
-
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 955ca5a653fb..220edacfccfb 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -484,8 +484,10 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 
+ 	/* return an all zeroed buffer if we can't find an active namespace */
+ 	req->ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
+-	if (!req->ns)
++	if (!req->ns) {
++		status = NVME_SC_INVALID_NS;
+ 		goto done;
++	}
+ 
+ 	nvmet_ns_revalidate(req->ns);
+ 
+@@ -538,7 +540,11 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 	if (req->ns->readonly)
+ 		id->nsattr |= (1 << 0);
+ done:
+-	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
++	if (nvmet_copy_to_sgl(req, 0, id, sizeof(*id))) {
++		if (!status)
++			status = NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
++	}
++
+ 	kfree(id);
+ out:
+ 	nvmet_req_complete(req, status);
 -- 
 2.22.1
 
