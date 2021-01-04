@@ -2,71 +2,63 @@ Return-Path: <SRS0=JqC7=GH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B37C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 13:00:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F24FC433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 15:48:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF9A2207B1
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 13:00:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF9A2207B1
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3C6822245C
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 15:48:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C6822245C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eWXQd/2hYq6hH1LzWIWLUKgZj4uSdHUu7FLX/GAZbKs=; b=wek7toEyJi8o/m/OEIOTM0Hffv
-	2hzjFQ4vyjP2Z/YLpawi8uvctX3IBrVM4uxmc6g5VtenH43jXtO6hRqtqBNQigdgJK9uKHlIha+m0
-	dA1b638udZQ4MzS36M/WM2aJAqNWfB/honsy8+/204tbDoYh5umhKxsEd1UJoU8g5CfCbvq4Yl5YN
-	81eVVYig+zv4bCB5c/VIw77a0o1zpKSjFuA8qtrCHibZOEeGbEewLL06C+v+rROQwBBreZVjoblXT
-	DVLa2lxzEaUPwM4uMToW9yhRc6GzM4Iy5s1IYgnvzJ8aTaF5DKA0f0wgpF5un7DV+i0YFRTeafCSU
-	cjb4Bspg==;
+	bh=mEwVflaAGNFVsr72kqcP/7PCUPxurx6U3MrPQ234YPQ=; b=K6e5MxMzO/pUpBl1oXP/1XTUy5
+	7w0vWoCn4BEx0FeGEABcAITa8TJm8WtMs33PSSAJwlnUZvLvc4X0d5z91SALX8qilUhdBm+ep7rVZ
+	+K2+7fAjPLu4i1qMdCB4O73zD9zmpsjxPOVyMfOUDsrawTjdcNfw/zXszeolN0od6c4rYVupnzib9
+	48s9heVYk811UJ3SLr80m/mhZGcJTlE7NchW88C+pTjUJI8N4rqWRhj6BEcoWIOGko3gVhh1Rq/Vw
+	HE0fwBJouE+WXC2wElGsC//9lGGCIFkqWMjl6j2HIdR49j0iRTMl4Tokt3+pfSxxz7PW0G8r1sU7w
+	3bvSGIZg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwPT2-0000K2-R2; Mon, 04 Jan 2021 13:00:12 +0000
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65])
+	id 1kwS5l-0001Jv-F4; Mon, 04 Jan 2021 15:48:21 +0000
+Received: from mga05.intel.com ([192.55.52.43])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwPSs-0000BF-S3
- for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 13:00:04 +0000
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5ff311480000>; Mon, 04 Jan 2021 04:59:52 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 Jan
- 2021 12:59:51 +0000
-Received: from r-nvmx02.mtr.labs.mlnx (172.20.145.6) by mail.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Mon, 4 Jan 2021 12:59:48 +0000
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-To: <oren@nvidia.com>, <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>,
- <kbusch@kernel.org>, <hch@lst.de>, <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH 1/1] nvme: update enumerations for status codes
-Date: Mon, 4 Jan 2021 12:59:47 +0000
-Message-ID: <20210104125947.160984-1-mgurtovoy@nvidia.com>
-X-Mailer: git-send-email 2.25.4
+ id 1kwS5j-0001JC-B0
+ for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 15:48:20 +0000
+IronPort-SDR: yZktKXz3xnv502pM8gLaMxBUGhg9QXXJgpWkzMFV7RQohdRGk3MgR9zcSXS9CXNTvS2aUQHozi
+ HIh7j+/zGt0w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="261728539"
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; d="scan'208";a="261728539"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2021 07:48:15 -0800
+IronPort-SDR: OeiV2dok42sYso8rDASRp45ErpXBbrpAbt1GZWHmkG7eB7JdSQcv4Th6r5TSVPOVtQYutPw0FN
+ +y8kt/gqAIBg==
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; d="scan'208";a="378464043"
+Received: from michal-desk.igk.intel.com (HELO michal-desk) ([10.102.102.231])
+ by orsmga008-auth.jf.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 07:48:13 -0800
+Date: Mon, 4 Jan 2021 16:53:43 +0100
+From: Michal Krakowiak <michal.krakowiak@linux.intel.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme: trace: parse format nvm command in detail
+Message-ID: <20210104155343.GA26034@michal-desk>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1609765192; bh=ha/brA+it28Obm9D2pFaGCO2SrxCOc1Hm2nn122MaMs=;
- h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
- Content-Transfer-Encoding:Content-Type;
- b=RWy8a/z6WhmALrY7pxX4zaGx0pO6BKS13gjn+1Q985Cj9NcN11+eUQcrPGBcIVz3M
- qMvaoB1VgJTV03EcE0zOBUicytR/n/v0TY/wHToCpJtPiP45f6mptmg+LiD6xcOD2n
- ysWGVgDl7JOl3x5uBOYQy8NYPEP8xRlK05Sf1m8FrOfz8TIKfP2QXnrcxd4v3Qv5GJ
- tbSpcl7/bKnRr76IQg5xiOSd0Wz/0Yj0DWFb2MKUPOxz/H5Tpyd6HXU8FZHBYY11ZN
- PGsj2hLUCwC1OqzUDOZVQMVe9dR1Q5Xo/nRiEqGHKEX0+EA4W/moI7UnkuoqSo5AI/
- +s1FOYzZ04Swg==
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210104_080003_151121_6401590C 
-X-CRM114-Status: UNSURE (   8.41  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210104_104819_561804_EACEC71F 
+X-CRM114-Status: GOOD (  10.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,75 +70,66 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: israelr@nvidia.com, mgurtovoy@nvidia.com, nitzanc@nvidia.com
+Cc: Michal Krakowiak <michal.krakowiak@intel.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All the updates are mentioned in the ratified NVMe 1.4 spec.
+FTrace does not parse NVMe commands consistently. There are commands
+that are being parsed in detail and commands for which the trace log
+contains only raw bytes of command dwords. Add detailed parsing of
+format nvm admin command to make the trace log more consistent and
+human-readable.
 
-Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+Signed-off-by: Michal Krakowiak <michal.krakowiak@intel.com>
+Acked-by: Dan Williams <dan.j.williams@intel.com>
 ---
- include/linux/nvme.h | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ drivers/nvme/host/trace.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index d92535997687..1c9c34be8194 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1467,20 +1467,29 @@ enum {
- 	NVME_SC_SGL_INVALID_DATA	= 0xf,
- 	NVME_SC_SGL_INVALID_METADATA	= 0x10,
- 	NVME_SC_SGL_INVALID_TYPE	= 0x11,
--
-+	NVME_SC_CMB_INVALID_USE		= 0x12,
-+	NVME_SC_PRP_INVALID_OFFSET	= 0x13,
-+	NVME_SC_ATOMIC_WU_EXCEEDED	= 0x14,
-+	NVME_SC_OP_DENIED		= 0x15,
- 	NVME_SC_SGL_INVALID_OFFSET	= 0x16,
--	NVME_SC_SGL_INVALID_SUBTYPE	= 0x17,
--
-+	NVME_SC_RESERVED		= 0x17,
-+	NVME_SC_HOST_ID_INCONSIST	= 0x18,
-+	NVME_SC_KA_TIMEOUT_EXPIRED	= 0x19,
-+	NVME_SC_KA_TIMEOUT_INVALID	= 0x1A,
-+	NVME_SC_ABORTED_PREEMPT_ABORT	= 0x1B,
- 	NVME_SC_SANITIZE_FAILED		= 0x1C,
- 	NVME_SC_SANITIZE_IN_PROGRESS	= 0x1D,
--
-+	NVME_SC_SGL_INVALID_GRANULARITY	= 0x1E,
-+	NVME_SC_CMD_NOT_SUP_CMB_QUEUE	= 0x1F,
- 	NVME_SC_NS_WRITE_PROTECTED	= 0x20,
- 	NVME_SC_CMD_INTERRUPTED		= 0x21,
-+	NVME_SC_TRANSIENT_TR_ERR	= 0x22,
- 
- 	NVME_SC_LBA_RANGE		= 0x80,
- 	NVME_SC_CAP_EXCEEDED		= 0x81,
- 	NVME_SC_NS_NOT_READY		= 0x82,
- 	NVME_SC_RESERVATION_CONFLICT	= 0x83,
-+	NVME_SC_FORMAT_IN_PROGRESS	= 0x84,
- 
- 	/*
- 	 * Command Specific Status:
-@@ -1513,8 +1522,15 @@ enum {
- 	NVME_SC_NS_NOT_ATTACHED		= 0x11a,
- 	NVME_SC_THIN_PROV_NOT_SUPP	= 0x11b,
- 	NVME_SC_CTRL_LIST_INVALID	= 0x11c,
-+	NVME_SC_SELT_TEST_IN_PROGRESS	= 0x11d,
- 	NVME_SC_BP_WRITE_PROHIBITED	= 0x11e,
-+	NVME_SC_CTRL_ID_INVALID		= 0x11f,
-+	NVME_SC_SEC_CTRL_STATE_INVALID	= 0x120,
-+	NVME_SC_CTRL_RES_NUM_INVALID	= 0x121,
-+	NVME_SC_RES_ID_INVALID		= 0x122,
- 	NVME_SC_PMR_SAN_PROHIBITED	= 0x123,
-+	NVME_SC_ANA_GROUP_ID_INVALID	= 0x124,
-+	NVME_SC_ANA_ATTACH_FAILED	= 0x125,
- 
- 	/*
- 	 * I/O Command Set Specific - NVM commands:
--- 
-2.25.4
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 5c3cb6928f3c..e0400de713b5 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -102,6 +102,23 @@ static const char *nvme_trace_get_lba_status(struct trace_seq *p,
+ 	return ret;
+ }
+
++static const char *nvme_trace_admin_format_nvm(struct trace_seq *p, u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u8 lbaf = cdw10[0] & 0xF;
++	u8 mset = (cdw10[0] >> 4) & 0x1;
++	u8 pi = (cdw10[0] >> 5) & 0x7;
++	u8 pil = cdw10[1] & 0x1;
++	u8 ses = (cdw10[1] >> 1) & 0x7;
++
++	trace_seq_printf(p, "lbaf=%u, mset=%u, pi=%u, pil=%u, ses=%u",
++			lbaf, mset, pi, pil, ses);
++
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
+ static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
+ {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+@@ -159,6 +176,8 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
+ 		return nvme_trace_admin_get_features(p, cdw10);
+ 	case nvme_admin_get_lba_status:
+ 		return nvme_trace_get_lba_status(p, cdw10);
++	case nvme_admin_format_nvm:
++		return nvme_trace_admin_format_nvm(p, cdw10);
+ 	default:
+ 		return nvme_trace_common(p, cdw10);
+ 	}
+--
+2.20.1
 
 
 _______________________________________________
