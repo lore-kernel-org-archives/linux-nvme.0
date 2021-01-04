@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C422EC433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 958A5C433E9
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:11:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3B3B82087E
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:10:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B3B82087E
+	by mail.kernel.org (Postfix) with ESMTPS id 541D92087E
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:11:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 541D92087E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=NCxYEPD4kGaKifNSac5tjIh2U9q3WT+hhUQiLCN10+0=; b=LdetK312e4rZ12zuh0VU1RSsV
-	M2CbT0fso/GlMo1ltrj13dB3YBODVQfVGXD/96IpAgqqbUp7jIX6zdYxJPCs4U99mIr87r8yE1dEI
-	fM65kwr+97bRU7Z5m62ThqIj0bwvZ5owaqlv0N62QzvXXrgP3fD72fJbSMXtmjhdgiNwsi/P+oHbA
-	GWV8LFJ6SbB9xo61x794UNdyeRLGBpLTPyiuGBDOnLGrkZFFEprZfYM5X0OJyW+MvFTd+xt6ICtWF
-	4EpuPWf8iMGoZm3+wwJ94bcA+7lCAlEd6uF6aHxMNc7w9ASaftKd0xa5+PUt7kfi/ZIf7laHB56DF
-	ibgW7wy+A==;
+	 bh=BrNt/auezuR4TATrjVe2dueOmtWdFnbbHCWsazxnJ1g=; b=RZOVZYzqegyn+Gri5QPV1troD
+	IsUWHhCGknv9kwJdeENQOmfye+06e4Edg8/Mc91z7Q68tjhwaPl3Olv67ihR1vLKx6t8jiOOjffZc
+	lXlh8SurKgNX5RFJvTyQbcMW8zamJhB8KRla1njSs1tS6MXgqxFy4k5bp3EHHtp1ZfHDTcqkzMlLc
+	/hZYrijF/9DicvqV3/hdo6KgfCGFb7XBMHwfHzrWlg1enVP/r3ez2o6FYuQLUAhj9mCIO1nZkAOeP
+	PUiJxaqhynTKPEHn/wqfPb2vaad/0F1aQKDFzbxUnGY1aHnGDiiKDE43VMc+3bXaNJfPCSEaPyzaO
+	Db1ivglzQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwI8d-000359-1K; Mon, 04 Jan 2021 05:10:39 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1kwI8l-00038E-8s; Mon, 04 Jan 2021 05:10:47 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwI8a-000340-0l
- for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 05:10:37 +0000
+ id 1kwI8i-00036t-4I
+ for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 05:10:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1609737699; x=1641273699;
+ t=1609737043; x=1641273043;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=b7JlLdLhTEJHSJkJ2Ot7J3cXNRNUJqtnFvAN4lx8PoE=;
- b=RY9vWxbfr/81jYwG3Ved827/V1DxV7sM3/8sto2nRC2GpkbNHM1Hh/JU
- fIGZ5S49X6AuDr19WyoGHF8TnXbWvhHq41WlMjvCDiXVj2QdTja/byKEq
- 6dZool08uG2MBVUcn9hjadBe0jvUPEBGI7I/Rtc6aebi+fwAFBuKclj8b
- jWUqVpfoyhQS9aYO2lzRUpLOkPgfmSZzyd953+wx172cC2nGJwXp+xXqQ
- mbVWJBt7rYoZWp6NJcfd7xKqKNqOmuDNXuhLIr8QgFfLHKa0cVkyQSxPc
- pJ3YIGuj8ir/4aeAWgrha6nfO7Pxs9MfFI3+g5SZDnp5id5RZVnzTVGZL Q==;
-IronPort-SDR: 7l3DHVwOESVgtN2TO4+BIkeW4MiLKjgIpMybObdL7uzlRUJ3aqf0CpS1ws0ivrZQxzorUuP/2J
- P7gM22TNgBxpJfuhdL7ugD3JJ0VSnteqK/C33OpStMxYF4V52lSyX9z56HnedOhnaNiRefSvEg
- daoQJaMBzpaBMaE65I749MWZPTZGhWznPFbMhJX6IxeD34RBn7e0586f0nXPRMv73tHuHTe25D
- VSHC1xA7RS930tnBa4p+BNMZXOlLLEZln+sWo2S/1/dpp/bHC3+XUmlft177usGRuewtxN9DwA
- qpQ=
-X-IronPort-AV: E=Sophos;i="5.78,473,1599494400"; d="scan'208";a="260321536"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 Jan 2021 13:21:36 +0800
-IronPort-SDR: bNzIDBgwQ04mXwUK6TE8QOsNTqsIQj6MDZ/AvPIHngtN9ZRkxeL44hNCR873aExUZTzSU1TWDT
- xXDGkayQHIBvfpk6tyYfGFU1JWTAlKRppFGC+M9K6mUldxIm2zkHz1S+qzxygfud0bGWsMUnTS
- i9nV2lvfLrrtaCDatdkZy5kmkPTe94Ucx5FoGLasdtUGRv3xmj/PGIVzJXWkj3A+b02IC1xyxJ
- BmdqDuqxzMC3k+dG82AGS/3iuu4Xwvhmj9YHbQ+XEsZZZlpXbhGw07tyJSEkTcnZrf42PMyXJU
- EF8XKsGOxtmIAPS9gtZoZiBX
+ bh=R91N4OJCuometnQDJ1w4j46SwlbKLZn5XO72xfDzsGA=;
+ b=L76C3bvYtrYUe/EzfDLFKQbf/0NfzUGQtJfxp6drYZajiaBxYfhz3pN1
+ cne5HJ943JLaW17qvS5GRnNLptA5Sh9y6eEHx1dF3KABsJyTb56mP/Bkr
+ OU6SiPlHCW2ZJXGb85OeqAuep4mNrRwe1dCJKmiU5c5L4qTkTNLtMiWIu
+ REgfJ+GX3lozc4pma+6hiJSUqcmmPkM+HrTgETpd84lK2BH0KFcC/42ab
+ PYgt+O0Mnq9RT6enSp6VOaNCWzOlHZQ2P47y0Fxgb5li6z0Gty/TGkIEX
+ w7Xi1oM8jMzPhlDitMwcdwyZ8kBePMFR3tz05ktpJvuxqzBmPhC1r1ZIs A==;
+IronPort-SDR: iRK+pTFsSy+Rf2vQpYDL+vZdSAzDFJq5+uFsRn8phkqAvAHdeT7Iu51w2SavRDJD9bGZcelEOv
+ 6U6djhlNw+W4pTNwbYDHvRUayVxiP7mrx0YtMvVo/kfT/AuGOz/o8/3dGisO72OrhS93OKRr/2
+ Igtjznyw0jqKv9uQJ7wmK797CBO81EMT7i+YLOFPR8MWStkJtfPCeteXlQwym8BM2fAF8EtatQ
+ vka5pyBAGdlQcXlzkPoMJ2aQmQYL/FuI0iCCxnt7poSz6y9R1J4HBFtSzp3ZJT0csCZTXGswcO
+ CF8=
+X-IronPort-AV: E=Sophos;i="5.78,473,1599494400"; d="scan'208";a="156480939"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Jan 2021 13:10:43 +0800
+IronPort-SDR: LV7NsyVWYTYeuLiaHRhAtpawKmZxsNUfuKJhahQRTp2s+NOjqJbe9IgCvXHZY3XxtmgHk32zxE
+ IXF9KLr1reLI+nzMC1hqBczBW9t2a8wXJ8y3EiQgvupxSi9bKsuVlz8oUOfUvSIHx1/qXLQSl7
+ OPGlcA4ZBp65gcNMDk9eqfymKLr+7kxc81GSBJ8A2m6Um/JrDBlPT3U1vBrO+5p5ubU5S9NWag
+ /1WAlIqyKVttx374LxmMZ+wq2CYeXV/djpjWXmB42g8F2LePSYSl0JqGSLq6o5jbrXk7F29jH/
+ cXyT3D3FDBGrAPkb16rry50+
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2021 20:55:29 -0800
-IronPort-SDR: P3psn+7q+AuoW4ooHJLfm6KWAOxCiuHTe7jGpXzzg5K1GMrgh4T4nYjgR3m9Eklitx+ZIo42pq
- 3eD8mEaRhq/SvCIRObPS5L/XfQS0P20AYsmniQsy90ChdULVAR7N8It89e0e3XkUH+weOVSwn/
- D1AisNgqeW4WcXQGn6PXytmMtfYWYGecV4mmbi4idY4ySjhfdwun79dMo4ShQJHlf83gGevZhU
- cOI0oBoj6tiMRYE3XCC1XxLoUav8LbiSr3gq8wgA/BzhwUf+fHpUBXJqAugHooSsjQIhEOB0eQ
- ZpE=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2021 20:53:52 -0800
+IronPort-SDR: y5NIO1FexAdalp4SIBa89uhDg3qCKmw/sGNx1X2YozLSKDfqvqNfTraN/HFn193MUCk4Ru7lzM
+ K4UhrF9TnfYcZZauiDzzzzxHpdFQTeOME6ZGjfM9432XSEadbXRGb7gQpcWJBRjA9FLOVKTF2C
+ rou2e/FE1edgRnHVzPacj7w9cUJAqNlulPTxm4uz3W7FrAWOZ5ERFfAlE4Zsp/wG/Ea7o5Vcl5
+ APjf3/NchZmGZl3/5SKtHnFQtK5XBnrzyK7PahRSsvbdb8g3IYaLp5wRFdfV6u/v4LGlQdqYaK
+ +MM=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 03 Jan 2021 21:10:35 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 03 Jan 2021 21:10:44 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V8 6/9] nvmet: add bio init helper for different backends
-Date: Sun,  3 Jan 2021 21:09:35 -0800
-Message-Id: <20210104050938.25745-7-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V8 7/9] nvmet: add bio put helper for different backends
+Date: Sun,  3 Jan 2021 21:09:36 -0800
+Message-Id: <20210104050938.25745-8-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210104050938.25745-1-chaitanya.kulkarni@wdc.com>
 References: <20210104050938.25745-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210104_001036_493101_BB10CAD3 
-X-CRM114-Status: GOOD (  15.01  )
+X-CRM114-CacheID: sfid-20210104_001044_341084_61B0D199 
+X-CRM114-Status: GOOD (  14.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,82 +103,78 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With the addition of the zns backend now we have two different backends
-with the same bio initialization code. That leads to having duplicate
-code in two backends: generic bdev and generic zns.
+With the addition of zns backend now we have three different backends
+with inline bio optimization. That leads to having duplicate code in for
+freeing the bio in all three backends: generic bdev, passsthru and
+generic zns.
 
-Add a helper function to reduce the duplicate code such that helper
-function initializes the various bio initialization parameters such as
-bio block device, op flags, sector, end io callback, and private member,
+Add a helper function to avoid the duplicate code and update the
+respective backends.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/io-cmd-bdev.c |  6 +-----
- drivers/nvme/target/nvmet.h       | 11 +++++++++++
- drivers/nvme/target/zns.c         |  6 +++---
- 3 files changed, 15 insertions(+), 8 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 3 +--
+ drivers/nvme/target/nvmet.h       | 6 ++++++
+ drivers/nvme/target/passthru.c    | 3 +--
+ drivers/nvme/target/zns.c         | 3 +--
+ 4 files changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 72746e29cb0d..b1fb0bb1f39f 100644
+index b1fb0bb1f39f..562c2dd9c08c 100644
 --- a/drivers/nvme/target/io-cmd-bdev.c
 +++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -267,11 +267,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	sector = nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
+@@ -172,8 +172,7 @@ static void nvmet_bio_done(struct bio *bio)
+ 	struct nvmet_req *req = bio->bi_private;
  
- 	bio = nvmet_req_bio_get(req, NULL);
--	bio_set_dev(bio, req->ns->bdev);
--	bio->bi_iter.bi_sector = sector;
--	bio->bi_private = req;
--	bio->bi_end_io = nvmet_bio_done;
--	bio->bi_opf = op;
-+	nvmet_bio_init(bio, req->ns->bdev, op, sector, req, nvmet_bio_done);
- 
- 	blk_start_plug(&plug);
- 	if (req->metadata_len)
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 3fc84f79cce1..1ec9e1b35c67 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -668,4 +668,15 @@ static inline struct bio *nvmet_req_bio_get(struct nvmet_req *req,
- 	return bio;
+ 	nvmet_req_complete(req, blk_to_nvme_status(req, bio->bi_status));
+-	if (bio != &req->b.inline_bio)
+-		bio_put(bio);
++	nvmet_req_bio_put(req, bio);
  }
  
-+static inline void nvmet_bio_init(struct bio *bio, struct block_device *bdev,
-+				  unsigned int op, sector_t sect, void *private,
-+				  bio_end_io_t *bi_end_io)
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 1ec9e1b35c67..93ebc9ae3fe4 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -679,4 +679,10 @@ static inline void nvmet_bio_init(struct bio *bio, struct block_device *bdev,
+ 	bio->bi_end_io = bi_end_io;
+ }
+ 
++static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
 +{
-+	bio_set_dev(bio, bdev);
-+	bio->bi_opf = op;
-+	bio->bi_iter.bi_sector = sect;
-+	bio->bi_private = private;
-+	bio->bi_end_io = bi_end_io;
++	if (bio != &req->b.inline_bio)
++		bio_put(bio);
 +}
 +
  #endif /* _NVMET_H */
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index 54f765b566ee..a4a73d64c603 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -200,8 +200,7 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+ 	for_each_sg(req->sg, sg, req->sg_cnt, i) {
+ 		if (bio_add_pc_page(rq->q, bio, sg_page(sg), sg->length,
+ 				    sg->offset) < sg->length) {
+-			if (bio != &req->p.inline_bio)
+-				bio_put(bio);
++			nvmet_req_bio_put(req, bio);
+ 			return -EINVAL;
+ 		}
+ 	}
 diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index c32e93a3c7e1..92213bed0006 100644
+index 92213bed0006..bba1d6957b6a 100644
 --- a/drivers/nvme/target/zns.c
 +++ b/drivers/nvme/target/zns.c
-@@ -281,6 +281,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
- {
- 	sector_t sect = nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
- 	struct request_queue *q = req->ns->bdev->bd_disk->queue;
-+	unsigned int op = REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
- 	unsigned int max_sects = queue_max_zone_append_sectors(q);
- 	u16 status = NVME_SC_SUCCESS;
- 	unsigned int total_len = 0;
-@@ -297,9 +298,8 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
- 	}
+@@ -330,7 +330,6 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ 						 bio->bi_iter.bi_sector);
  
- 	bio = nvmet_req_bio_get(req, NULL);
--	bio_set_dev(bio, req->ns->bdev);
--	bio->bi_iter.bi_sector = sect;
--	bio->bi_opf = REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
-+	nvmet_bio_init(bio, req->ns->bdev, op, sect, NULL, NULL);
-+
- 	if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
- 		bio->bi_opf |= REQ_FUA;
- 
+ out_bio_put:
+-	if (bio != &req->b.inline_bio)
+-		bio_put(bio);
++	nvmet_req_bio_put(req, bio);
+ 	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL : status);
+ }
 -- 
 2.22.1
 
