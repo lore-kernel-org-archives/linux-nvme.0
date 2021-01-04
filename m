@@ -2,83 +2,151 @@ Return-Path: <SRS0=JqC7=GH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E13C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 12:43:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A8CC433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 12:47:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5647921D93
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 12:43:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5647921D93
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 100B321D93
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 12:47:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 100B321D93
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EfzJHUrim+bv5JcehjIQJSAPXtIV21dJbRkkn7hRgpg=; b=qLV0phonGMzpr57Xvh2bRs0rf
-	Qd9qnZW7zMkqWUz4lJ5gN8VlV6+Ryz99VmDqTUP03sHgjsqFEIqz5dmtodmTZbCbzdQQEhqTuCtkd
-	h8jcGjwHb3HD6JccOEIwL9qQzBXkkMvJKSJjKHJjT9Zwr6QwoUpjKVR7aNGOEAfYNsUO1XPvdbroY
-	dzOnrL3+0uNToZW+Tj19fEfMaa6DUNFvxh2T9bUJLFShciv17yjdNFCbcYlrqqNywJX/ua9X43Kk1
-	ceuUuQcbNMYAK92JkucnnG00677OvcJaHfRsB2mLcyX98wy0OtUJ6COw157H6K/71gb0fVjk96tMR
-	aXPZqTpEA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=sqkc1Zlcy9zgb8TNlVF1Dy6JtPb8/WvO7ejjNp6b/4U=; b=wlWYVDJnfmZrRMvvyAdGDW79J
+	/PTsDp1j4fptJ9G0Jmm/GfOb1pE6VyLuHH9jRMBW1zd8vczerSrjIoJwyIX+xRbzwyxjRGAAsLqe/
+	VAVUpsWL5EkYMHIVVkxipL9jO0c0nXw5lZYhnlqg1Byx5P/JmyjhNEwm7RLX2gCwUWo+reGgIED8G
+	PUBqA9pOKwMzWctgl8M4M2QH+DIGOG53pIixW94uTHXNISPFWS1EmBWMFpeTn5QsbFy7Wipf61e8N
+	iKk9kOZzsPLBBw54O+xTmFakjs/cO7OkBIv9CvJc5VKptcaA5OvCzMulHk6X9a5zdVr5CAbZqeB42
+	0VgXSN9KQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwPCK-0007QL-9G; Mon, 04 Jan 2021 12:42:56 +0000
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+	id 1kwPGc-0002iY-5h; Mon, 04 Jan 2021 12:47:22 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwPCI-0007O7-13
- for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 12:42:55 +0000
-Received: by mail-ej1-x62d.google.com with SMTP id ce23so36585584ejb.8
- for <linux-nvme@lists.infradead.org>; Mon, 04 Jan 2021 04:42:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rZ4LGlK8t6B2Ly3eEurbHpHQoNf2RZlRTogtRk6wi6I=;
- b=OZtau2X7JLY3EeaL0vUwonTH8SRHkJASO32dRB2kYesG//bEP4SaZzuyAHIbE8uRxF
- YQh36KBJ91CaZYIzTSeOtCOZb732OFHaEZkCMVU8elBc+B0c1VwclwtLdl97I/2w/hEy
- IxeqAdS/qUEvl2AXaErOHhqjJlFH9X3MYC8E1JEHDyzpV3bmHF249p4uTdnLX2cwMbvR
- kff7QrA9uV+5VDrIBZIk4l/JAr59DBh5XV0TbcVJ1RtumQyK/+Zyb4BduSG4JOBtFN8X
- HporEIy9BjlXaD9ta87ZqYsiNKLeCUqatx+qz3gKeRdQMYN5Vh/TTuAVA7yejVk/9yDn
- 5MPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rZ4LGlK8t6B2Ly3eEurbHpHQoNf2RZlRTogtRk6wi6I=;
- b=Knk0x0OTgffM87ZspQ01biSBd+f0WgZ44gppC8JUG4vLpCHyAei7HjRIkmeCGLzoVx
- JRvHTbRldTwvMZh4cNf68xfO+Z6gRqi7k63i2XFyJXNLf7lANGe+/Zf4OLfo1PQ0s8jc
- 4o7Kzgjcj/mU6tNm/SLNsPx9/gUGXyVHRnh4gI3qOvyqJVI+9WpWzcdhpGN01YR13jxo
- 0v7RBGtvFw4tNcK8OJ9G2Fu26oK6kAO5Wtauc47sHNgBBg5XGOQeeoWHDa+8Va5AMtC5
- I64pPg18Mn2WqrSHnaCbXxc08y99pmJcvY23AvWiBMYLtuy2CojaSyEbZXx20NIjmCMA
- TNDQ==
-X-Gm-Message-State: AOAM532FIviR3cx9SBfLfTOuAoXf8sWLhMBrzEwFKprQux9N30qRf/mJ
- ai735ZTz668TdHnUEagBxDTI9bjKxkTCapzARCo=
-X-Google-Smtp-Source: ABdhPJxwYB1Zb9l3tnKL6RKFyWxN5t6NeOfBATjkNz0+iOKlwVm8wlAvD0ezqYE3Ujva2bM13wJtSYbmW5Co7o5A/i4=
-X-Received: by 2002:a17:906:68d1:: with SMTP id
- y17mr66905761ejr.447.1609764171043; 
- Mon, 04 Jan 2021 04:42:51 -0800 (PST)
-MIME-Version: 1.0
+ id 1kwPGX-0002hE-TO
+ for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 12:47:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1609764438; x=1641300438;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=lT7gZsaO1E1rdk9Aixw39N/e8+yfoVrDxDLoqxzWDmI=;
+ b=X6RHCoFqujodIF/9G0brbprml1NgQFLEV0F2XfUypH5wpw0uSUapFyEw
+ RcbySn82kAspPLFFLETKRyJKO7pyoUb/SotbAv+iCr6GmQdmhwMwhlrpb
+ OUvHERreCb4q00UKT3A8F3yo6FnZnE37Svk2gnTVsWIo92hDjQPiBXwnK
+ wYo1YIYqulb0VfgTzNCp81IBzXcpeAyw3vOTP4t+WmtLIabpoOGi/dl6H
+ 78TRqSWvXONYvR8hJ315cBx9jZUxCELrhZdBrdF3t+abpoRcaZmBPGBpH
+ +cfb2XwyKKSq8Uv7MTNb0uvufguSlrs69lu1A4KSXfShucrbfPf4eu9Xz w==;
+IronPort-SDR: ryQfaLyUgE9/LIGC4+8Z8zX6zyskNahgjTqxo4FK+74kz8IYEQu4Opp1ddqYUPJiKTKURFNcpG
+ k1s046zrkJSeEw+M7pAl8LOjaQoWBShSvLelekA3lQ68g9A2JGTKH5ABudXVD8iXWDKu63sbgI
+ 2Fb2npOHtW64AJadUfHm9RhK34KI/wjGFhGPbCYsUatRb3kOQH33bKtCFZoUMi7vUF+jfGQZAZ
+ DNtWum1h23NojpXgjiAkcqdiwT0i9TI5geNmlx6gAAgmHC8o/54ExoAx/Frf/DedoDItJ1cdR4
+ G+8=
+X-IronPort-AV: E=Sophos;i="5.78,474,1599494400"; d="scan'208";a="157682311"
+Received: from mail-bn7nam10lp2105.outbound.protection.outlook.com (HELO
+ NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.105])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Jan 2021 20:47:15 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gK2kO0cNkqgQjeBwwbIki4VfDVlS1X3kGP671B5ITdrhkJKORY/cA+fqrMhzfhl4gji8nKcM+W1aSBeWGwpZWQK5eQq+pGCklME/0ifp5O3NiSCwinc7p/JmjwuSFhhCTfdZx5ux6vOTmIQujektIAY81jKRfzt5WxoNJgV8jc3saK16lLz5wim5zfM1l6k9RHpINwNPPOX1H0mBNEsym9trciKnhS0879uZV0sYaSwkRJZgdGsljVd3xzuGDXw1CEifISB+BnrTg0/iWvzCfV7iZdcJb2LFjmObnAzz3auXoboasysfjOVvhZh7Q6vYziaeHiFWOJ6ou2U4AaC4aA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N1Rgduml+ewGksjFW7gD25GDYcw3uG6fPBwP1mT7ocQ=;
+ b=eDBHUJ8Kr5X5JNI0pZykyEnrI8bqy4zEY1930e8NvjAaglECgOaCMN8hYwMCplcIGZ1iBByGDBPgzmjp95XGD70jwaIAuhTE+8isKXlkkSd++09v+1gTnK0DHiCWTyKUbU9mNY97wU5SYYsgyogtMnpB3r74C2mNMzpTcP5LC38K09urx280n2sBt7Tzob59uKmVpw32TMPilLn9fBL37rrarkcvdYtg/y5nc+O5rgccX4WbtpVa2EBz/5SA7tVM6pF8iDEaCwJQlc6ME+luTht/wfyHjASwiQ5qGz/Yhlt/0KGHtnzzettOgcRvGTq4lTGSD0XZ3T82KLMTqsnZFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N1Rgduml+ewGksjFW7gD25GDYcw3uG6fPBwP1mT7ocQ=;
+ b=yGc2f0XNdpkaN7j+uVa3ugtqJSUf37QQlUxIFipuUjcJG+gObQwrBuEkx4CCb/oVtXcBIlPOg+GaddNt1i1c6/p5nna320/Dfy42xV2xH0v1+XDoh2AJnFU5Wib9ao5iikKoZmeknoVmMV5w0lzNVzfssoKGjE7ihpT0B9gsuGQ=
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com (2603:10b6:208:1ca::23)
+ by BL0PR04MB4612.namprd04.prod.outlook.com (2603:10b6:208:47::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.23; Mon, 4 Jan
+ 2021 12:47:11 +0000
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::2dbb:7e01:f076:eca0]) by BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::2dbb:7e01:f076:eca0%9]) with mapi id 15.20.3721.024; Mon, 4 Jan 2021
+ 12:47:11 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: SelvaKumar S <selvakuma.s1@samsung.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: Re: [RFC PATCH v4 2/3] block: add simple copy support
+Thread-Topic: [RFC PATCH v4 2/3] block: add simple copy support
+Thread-Index: AQHW4ocZGQHbBBU/JES2xoCYHwM80A==
+Date: Mon, 4 Jan 2021 12:47:11 +0000
+Message-ID: <BL0PR04MB651402CFA75F72826AC8EE1CE7D20@BL0PR04MB6514.namprd04.prod.outlook.com>
 References: <20210104104159.74236-1-selvakuma.s1@samsung.com>
- <CGME20210104104245epcas5p26ed395efbf74e78a4e44048a6d7d6ba7@epcas5p2.samsung.com>
- <20210104104159.74236-2-selvakuma.s1@samsung.com>
- <BL0PR04MB6514554D569AC302850BA1DDE7D20@BL0PR04MB6514.namprd04.prod.outlook.com>
-In-Reply-To: <BL0PR04MB6514554D569AC302850BA1DDE7D20@BL0PR04MB6514.namprd04.prod.outlook.com>
-From: Selva Jove <selvajove@gmail.com>
-Date: Mon, 4 Jan 2021 18:12:39 +0530
-Message-ID: <CAHqX9vbuq=N0LwH25x6fHajy8Q65dyKyKJhJOksKYW1U3YGHZw@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 1/3] block: export bio_map_kern()
-To: Damien Le Moal <Damien.LeMoal@wdc.com>
+ <CGME20210104104249epcas5p458d1b5c39b5acfad4e7786eca5dd5c49@epcas5p4.samsung.com>
+ <20210104104159.74236-3-selvakuma.s1@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: samsung.com; dkim=none (message not signed)
+ header.d=none;samsung.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2400:2411:43c0:6000:4d2:96cc:b27d:4f9]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: a00fc8d3-18d2-4d26-fdcd-08d8b0aedafd
+x-ms-traffictypediagnostic: BL0PR04MB4612:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BL0PR04MB4612C28EFF1470A6CBBA755BE7D20@BL0PR04MB4612.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: MbOZiEO1wAR/IrJmIQH55XpV1fJ5yZIORDy5qo3uQXBtvL673Vi3zVAwHzqgJyWitReW/HrNi30V1pK3QiNCMnLvpPQP//eU2B9ug5QI140Lb30E9vkKEMCTStQ85BB3fNtPj+fRqIukZAKdy0R/g2sWWa92sgjJIKUt5muwZAf/cKcwuTN79NY7nLHsT/8fwPTOaFBkibOyxk5fRYdqC+zTfOsXB76C0x1CZGW9qb5e5JvL5M75BpQSwlvzUPvX0UHtzQAbFO+9FCrSEWWSrGmkX/C/z+xoEK4VWWCZlguvgEnrPf3uVFiDIb9rgoXOY2+NkUbQVn7TQui2femD8KHKf+rZCG3igj4Wbfh0djc79HD17t5Nw/6kJDUtQbtCu3Awi3Ln6SttH1dn/6EK1Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR04MB6514.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(39860400002)(396003)(346002)(136003)(6506007)(33656002)(66946007)(66556008)(83380400001)(86362001)(53546011)(2906002)(66476007)(110136005)(4326008)(7416002)(478600001)(52536014)(5660300002)(54906003)(71200400001)(186003)(66446008)(9686003)(8936002)(30864003)(76116006)(8676002)(64756008)(91956017)(7696005)(316002)(55016002)(66574015)(579004)(559001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?p3YMngy2QtvS65DJ3nE45Qx6gkfBHFHdFKpqpzBVuNJ2XsUV/WlAv9Z4j5?=
+ =?iso-8859-1?Q?jY4yNCYxygQEnU3iFblf5zz6n56vnYPnxtTu5rX9gYAdLKhT8HQnQ0N9Bv?=
+ =?iso-8859-1?Q?kdI6WiAHF9AWaOHAWgwELwuvKH7+CNu5Tm2WpakE6D31WrtKz/SbHeTuVF?=
+ =?iso-8859-1?Q?Z7NRnzDG7OQSIfnlfPpTbeJwSEd6OQIy5dUyh9FcztOS5dF5RsqxMimdig?=
+ =?iso-8859-1?Q?YRZfFb3chc6LBK/RGVyqy9jKe9pL9GNBTWy7/3tMOGQySUTfTbt7OvqfeC?=
+ =?iso-8859-1?Q?Q4b6Cf2etQuq9nRanPRtwgTpUhXd8r+qao9MnDOhPtkQsLzSwVbySXYYob?=
+ =?iso-8859-1?Q?BDItphtiq4rRwXxWO2s0A5tX4aWiE4eYvoKfl82OAvmw4qPw3dF0kcX6ZT?=
+ =?iso-8859-1?Q?mGO+f+KQjf0l9pvOfrulswCyzjbrjkeE699IwWnYpbbtdkNhRVYIRkIxIN?=
+ =?iso-8859-1?Q?3pEjxkwGOkweVvgozVw8839dg4AxBlCIbaZJjk5/2Z2MtxGqGja5AfKhqP?=
+ =?iso-8859-1?Q?oeNCRtLsKC+cBLxxAAdNve9JH7WahjAf03bDoWNsEbzsiAhPnWWRj0Brp4?=
+ =?iso-8859-1?Q?eD2AO7m4D9hI6yPzfeM7g8a9m/GwHJYA7gpFj1YbH4sqV+jXmh/OLJ+H95?=
+ =?iso-8859-1?Q?+BUDD8+edX7mU8q45YQcB6+yEvjUARIwoYI/M+i1N54E+1f996cQgqvd7a?=
+ =?iso-8859-1?Q?WwkUsMrL/XJJAmwjOSa5784irSdyV2a1IBC2LDKl9l6cE9I06W9/mAof7y?=
+ =?iso-8859-1?Q?zUQPtSR8tybbrnpIVHntei1Ngj/8IiIbcY020QAje7XzdZxzivveWIQxmC?=
+ =?iso-8859-1?Q?lGtot7uGBkxX8Zs4KGq53Bi8ViJRMT8s8JdPlJ1G90CpPXT9DWk9V856SY?=
+ =?iso-8859-1?Q?vttUErB1JXs9384/cQ/emMTNp/tbOz3x9SdRCJrrviBFX6/42xujt83j+7?=
+ =?iso-8859-1?Q?qpjMktSgdRGTempcO3j+Bm6RkJHOdzz+MTubv5XS31mngF6bd6a3zQq+OV?=
+ =?iso-8859-1?Q?ikyoPePdXm+6Yli2rZqtqI5CCG2TZyWkRFO4CEkifVe7o2hcCJz8Q5J7A9?=
+ =?iso-8859-1?Q?YXVPpHzzubXyiVvWwxwncezqAp5FIpBVw6B8zQ+vjYhM?=
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6514.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a00fc8d3-18d2-4d26-fdcd-08d8b0aedafd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2021 12:47:11.6995 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: T2XIryl4kelYWH2ZfRsH2h+EwZm4i4kLbRd+0NRY4tD4ZMYA2vZ+ZmxlUk//qC47fCOpN6ga+kA/enfhpQM6hw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR04MB4612
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210104_074254_126954_39F785A1 
-X-CRM114-Status: GOOD (  22.01  )
+X-CRM114-CacheID: sfid-20210104_074718_316406_191CE9AD 
+X-CRM114-Status: GOOD (  29.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,12 +159,12 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "selvajove@gmail.com" <selvajove@gmail.com>,
+ "sagi@grimberg.me" <sagi@grimberg.me>,
  "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
  Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  "snitzer@redhat.com" <snitzer@redhat.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  "dm-devel@redhat.com" <dm-devel@redhat.com>,
@@ -106,69 +174,909 @@ Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
  "kbusch@kernel.org" <kbusch@kernel.org>,
  "javier.gonz@samsung.com" <javier.gonz@samsung.com>, "hch@lst.de" <hch@lst.de>,
  "bvanassche@acm.org" <bvanassche@acm.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks Damien, Will update that.
+On 2021/01/04 19:48, SelvaKumar S wrote:
+> Add new BLKCOPY ioctl that offloads copying of one or more sources
+> ranges to a destination in the device. Accepts copy_ranges that contains
+> destination, no of sources and pointer to the array of source
+> ranges. Each range_entry contains start and length of source
+> ranges (in bytes).
+> =
 
-On Mon, Jan 4, 2021 at 5:45 PM Damien Le Moal <Damien.LeMoal@wdc.com> wrote:
->
-> On 2021/01/04 19:48, SelvaKumar S wrote:
-> > Export bio_map_kern() so that copy offload emulation can use
-> > it to add vmalloced memory to bio.
-> >
-> > Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
-> > ---
-> >  block/blk-map.c        | 3 ++-
-> >  include/linux/blkdev.h | 2 ++
-> >  2 files changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/block/blk-map.c b/block/blk-map.c
-> > index 21630dccac62..50d61475bb68 100644
-> > --- a/block/blk-map.c
-> > +++ b/block/blk-map.c
-> > @@ -378,7 +378,7 @@ static void bio_map_kern_endio(struct bio *bio)
-> >   *   Map the kernel address into a bio suitable for io to a block
-> >   *   device. Returns an error pointer in case of error.
-> >   */
-> > -static struct bio *bio_map_kern(struct request_queue *q, void *data,
-> > +struct bio *bio_map_kern(struct request_queue *q, void *data,
-> >               unsigned int len, gfp_t gfp_mask)
-> >  {
-> >       unsigned long kaddr = (unsigned long)data;
-> > @@ -428,6 +428,7 @@ static struct bio *bio_map_kern(struct request_queue *q, void *data,
-> >       bio->bi_end_io = bio_map_kern_endio;
-> >       return bio;
-> >  }
-> > +EXPORT_SYMBOL(bio_map_kern);
->
-> Simple copy support is a block layer code, so you I do not think you need this.
-> You only need to remove the static declaration of the function.
->
-> >
-> >  static void bio_copy_kern_endio(struct bio *bio)
-> >  {
-> > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> > index 070de09425ad..81f9e7bec16c 100644
-> > --- a/include/linux/blkdev.h
-> > +++ b/include/linux/blkdev.h
-> > @@ -936,6 +936,8 @@ extern int blk_rq_map_user(struct request_queue *, struct request *,
-> >                          struct rq_map_data *, void __user *, unsigned long,
-> >                          gfp_t);
-> >  extern int blk_rq_unmap_user(struct bio *);
-> > +extern struct bio *bio_map_kern(struct request_queue *q, void *data,
-> > +                             unsigned int len, gfp_t gfp_mask);
-> >  extern int blk_rq_map_kern(struct request_queue *, struct request *, void *, unsigned int, gfp_t);
-> >  extern int blk_rq_map_user_iov(struct request_queue *, struct request *,
-> >                              struct rq_map_data *, const struct iov_iter *,
-> >
->
->
-> --
-> Damien Le Moal
-> Western Digital Research
+> Introduce REQ_OP_COPY, a no-merge copy offload operation. Create
+> bio with control information as payload and submit to the device.
+> REQ_OP_COPY(19) is a write op and takes zone_write_lock when submitted
+> to zoned device.
+> =
+
+> If the device doesn't support copy or copy offload is disabled, then
+> copy is emulated by allocating memory of total copy size. The source
+> ranges are read into memory by chaining bio for each source ranges and
+> submitting them async and the last bio waits for completion. After data
+> is read, it is written to the destination.
+> =
+
+> bio_map_kern() is used to allocate bio and add pages of copy buffer to
+> bio. As bio->bi_private and bio->bi_end_io is needed for chaining the
+> bio and over written, invalidate_kernel_vmap_range() for read is called
+> in the caller.
+> =
+
+> Introduce queue limits for simple copy and other helper functions.
+> Add device limits as sysfs entries.
+> 	- copy_offload
+> 	- max_copy_sectors
+> 	- max_copy_ranges_sectors
+> 	- max_copy_nr_ranges
+> =
+
+> copy_offload(=3D 0) is disabled by default.
+> max_copy_sectors =3D 0 indicates the device doesn't support native copy.
+> =
+
+> Native copy offload is not supported for stacked devices and is done via
+> copy emulation.
+> =
+
+> Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Javier Gonz=E1lez <javier.gonz@samsung.com>
+> ---
+>  block/blk-core.c          |  94 ++++++++++++++--
+>  block/blk-lib.c           | 223 ++++++++++++++++++++++++++++++++++++++
+>  block/blk-merge.c         |   2 +
+>  block/blk-settings.c      |  10 ++
+>  block/blk-sysfs.c         |  50 +++++++++
+>  block/blk-zoned.c         |   1 +
+>  block/bounce.c            |   1 +
+>  block/ioctl.c             |  43 ++++++++
+>  include/linux/bio.h       |   1 +
+>  include/linux/blk_types.h |  15 +++
+>  include/linux/blkdev.h    |  13 +++
+>  include/uapi/linux/fs.h   |  13 +++
+>  12 files changed, 458 insertions(+), 8 deletions(-)
+> =
+
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 96e5fcd7f071..4a5cd3f53cd2 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -719,6 +719,17 @@ static noinline int should_fail_bio(struct bio *bio)
+>  }
+>  ALLOW_ERROR_INJECTION(should_fail_bio, ERRNO);
+>  =
+
+> +static inline int bio_check_copy_eod(struct bio *bio, sector_t start,
+> +		sector_t nr_sectors, sector_t maxsector)
+> +{
+> +	if (nr_sectors && maxsector &&
+> +	    (nr_sectors > maxsector || start > maxsector - nr_sectors)) {
+> +		handle_bad_sector(bio, maxsector);
+> +		return -EIO;
+> +	}
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Check whether this bio extends beyond the end of the device or partit=
+ion.
+>   * This may well happen - the kernel calls bread() without checking the =
+size of
+> @@ -737,6 +748,65 @@ static inline int bio_check_eod(struct bio *bio, sec=
+tor_t maxsector)
+>  	return 0;
+>  }
+>  =
+
+> +/*
+> + * Check for copy limits and remap source ranges if needed.
+> + */
+> +static int blk_check_copy(struct bio *bio)
+> +{
+> +	struct block_device *p =3D NULL;
+> +	struct request_queue *q =3D bio->bi_disk->queue;
+> +	struct blk_copy_payload *payload;
+> +	int i, maxsector, start_sect =3D 0, ret =3D -EIO;
+> +	unsigned short nr_range;
+> +
+> +	rcu_read_lock();
+> +
+> +	p =3D __disk_get_part(bio->bi_disk, bio->bi_partno);
+> +	if (unlikely(!p))
+> +		goto out;
+> +	if (unlikely(should_fail_request(p, bio->bi_iter.bi_size)))
+> +		goto out;
+> +	if (unlikely(bio_check_ro(bio, p)))
+> +		goto out;
+> +
+> +	maxsector =3D  bdev_nr_sectors(p);
+> +	start_sect =3D p->bd_start_sect;
+> +
+> +	payload =3D bio_data(bio);
+> +	nr_range =3D payload->copy_range;
+> +
+> +	/* cannot handle copy crossing nr_ranges limit */
+> +	if (payload->copy_range > q->limits.max_copy_nr_ranges)
+> +		goto out;
+
+If payload->copy_range indicates the number of ranges to be copied, you sho=
+uld
+name it payload->copy_nr_ranges.
+
+> +
+> +	/* cannot handle copy more than copy limits */
+
+Why ? You could loop... Similarly to discard, zone reset etc.
+
+> +	if (payload->copy_size > q->limits.max_copy_sectors)
+> +		goto out;
+
+Shouldn't the list of source ranges give the total size to be copied ?
+Otherwise, if payload->copy_size is user provided, you would need to check =
+that
+the sum of the source ranges actually is equal to copy_size, no ? That means
+that dropping copy_size sound like the right thing to do here.
+
+> +
+> +	/* check if copy length crosses eod */
+> +	if (unlikely(bio_check_copy_eod(bio, bio->bi_iter.bi_sector,
+> +					payload->copy_size, maxsector)))
+> +		goto out;
+> +	bio->bi_iter.bi_sector +=3D start_sect;
+> +
+> +	for (i =3D 0; i < nr_range; i++) {
+> +		if (unlikely(bio_check_copy_eod(bio, payload->range[i].src,
+> +					payload->range[i].len, maxsector)))
+> +			goto out;
+> +
+> +		/* single source range length limit */
+> +		if (payload->range[i].src > q->limits.max_copy_range_sectors)
+> +			goto out;
+> +		payload->range[i].src +=3D start_sect;
+> +	}
+> +
+> +	bio->bi_partno =3D 0;
+> +	ret =3D 0;
+> +out:
+> +	rcu_read_unlock();
+> +	return ret;
+> +}
+> +
+>  /*
+>   * Remap block n of partition p to block n+start(p) of the disk.
+>   */
+> @@ -826,14 +896,16 @@ static noinline_for_stack bool submit_bio_checks(st=
+ruct bio *bio)
+>  	if (should_fail_bio(bio))
+>  		goto end_io;
+>  =
+
+> -	if (bio->bi_partno) {
+> -		if (unlikely(blk_partition_remap(bio)))
+> -			goto end_io;
+> -	} else {
+> -		if (unlikely(bio_check_ro(bio, bio->bi_disk->part0)))
+> -			goto end_io;
+> -		if (unlikely(bio_check_eod(bio, get_capacity(bio->bi_disk))))
+> -			goto end_io;
+> +	if (likely(!op_is_copy(bio->bi_opf))) {
+> +		if (bio->bi_partno) {
+> +			if (unlikely(blk_partition_remap(bio)))
+> +				goto end_io;
+> +		} else {
+> +			if (unlikely(bio_check_ro(bio, bio->bi_disk->part0)))
+> +				goto end_io;
+> +			if (unlikely(bio_check_eod(bio, get_capacity(bio->bi_disk))))
+> +				goto end_io;
+> +		}
+>  	}
+>  =
+
+>  	/*
+> @@ -857,6 +929,12 @@ static noinline_for_stack bool submit_bio_checks(str=
+uct bio *bio)
+>  		if (!blk_queue_discard(q))
+>  			goto not_supported;
+>  		break;
+> +	case REQ_OP_COPY:
+> +		if (!blk_queue_copy(q))
+> +			goto not_supported;
+
+This check could be inside blk_check_copy(). In any case, since you added t=
+he
+read-write emulation, why are you even checking this ? That will prevent th=
+e use
+of the read-write emulation for devices that lack the simple copy support, =
+no ?
+
+> +		if (unlikely(blk_check_copy(bio)))
+> +			goto end_io;
+> +		break;
+>  	case REQ_OP_SECURE_ERASE:
+>  		if (!blk_queue_secure_erase(q))
+>  			goto not_supported;
+> diff --git a/block/blk-lib.c b/block/blk-lib.c
+> index 752f9c722062..4c0f12e2ed7c 100644
+> --- a/block/blk-lib.c
+> +++ b/block/blk-lib.c
+> @@ -150,6 +150,229 @@ int blkdev_issue_discard(struct block_device *bdev,=
+ sector_t sector,
+>  }
+>  EXPORT_SYMBOL(blkdev_issue_discard);
+>  =
+
+> +int blk_copy_offload(struct block_device *bdev, struct blk_copy_payload =
+*payload,
+> +		sector_t dest, gfp_t gfp_mask)
+> +{
+> +	struct bio *bio;
+> +	int ret, total_size;
+> +
+> +	bio =3D bio_alloc(gfp_mask, 1);
+> +	bio->bi_iter.bi_sector =3D dest;
+> +	bio->bi_opf =3D REQ_OP_COPY | REQ_NOMERGE;
+> +	bio_set_dev(bio, bdev);
+> +
+> +	total_size =3D struct_size(payload, range, payload->copy_range);
+> +	ret =3D bio_add_page(bio, virt_to_page(payload), total_size,
+
+How is payload allocated ? If it is a structure on-stack in the caller, I a=
+m not
+sure it would be wise to do an IO using the thread stack page...
+
+> +					   offset_in_page(payload));
+> +	if (ret !=3D total_size) {
+> +		ret =3D -ENOMEM;
+> +		bio_put(bio);
+> +		goto err;
+> +	}
+> +
+> +	ret =3D submit_bio_wait(bio);
+> +err:
+> +	bio_put(bio);
+> +	return ret;
+> +
+> +}
+> +
+> +int blk_read_to_buf(struct block_device *bdev, struct blk_copy_payload *=
+payload,
+> +		gfp_t gfp_mask, void **buf_p)
+> +{
+> +	struct request_queue *q =3D bdev_get_queue(bdev);
+> +	struct bio *bio, *parent =3D NULL;
+> +	void *buf =3D NULL;
+> +	bool is_vmalloc;
+> +	int i, nr_srcs, copy_len, ret, cur_size, t_len =3D 0;
+> +
+> +	nr_srcs =3D payload->copy_range;
+> +	copy_len =3D payload->copy_size << SECTOR_SHIFT;
+> +
+> +	buf =3D kvmalloc(copy_len, gfp_mask);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +	is_vmalloc =3D is_vmalloc_addr(buf);
+> +
+> +	for (i =3D 0; i < nr_srcs; i++) {
+> +		cur_size =3D payload->range[i].len << SECTOR_SHIFT;
+> +
+> +		bio =3D bio_map_kern(q, buf + t_len, cur_size, gfp_mask);
+> +		if (IS_ERR(bio)) {
+> +			ret =3D PTR_ERR(bio);
+> +			goto out;
+> +		}
+> +
+> +		bio->bi_iter.bi_sector =3D payload->range[i].src;
+> +		bio->bi_opf =3D REQ_OP_READ;
+> +		bio_set_dev(bio, bdev);
+> +		bio->bi_end_io =3D NULL;
+> +		bio->bi_private =3D NULL;
+> +
+> +		if (parent) {
+> +			bio_chain(parent, bio);
+> +			submit_bio(parent);
+> +		}
+> +
+> +		parent =3D bio;
+> +		t_len +=3D cur_size;
+> +	}
+> +
+> +	ret =3D submit_bio_wait(bio);
+> +	bio_put(bio);
+> +	if (is_vmalloc)
+> +		invalidate_kernel_vmap_range(buf, copy_len);
+> +	if (ret)
+> +		goto out;
+> +
+> +	*buf_p =3D buf;
+> +	return 0;
+> +out:
+> +	kvfree(buf);
+> +	return ret;
+> +}
+> +
+> +int blk_write_from_buf(struct block_device *bdev, void *buf, sector_t de=
+st,
+> +		int copy_len, gfp_t gfp_mask)
+> +{
+> +	struct request_queue *q =3D bdev_get_queue(bdev);
+> +	struct bio *bio;
+> +	int ret;
+> +
+> +	bio =3D bio_map_kern(q, buf, copy_len, gfp_mask);
+> +	if (IS_ERR(bio)) {
+> +		ret =3D PTR_ERR(bio);
+> +		goto out;
+> +	}
+> +	bio_set_dev(bio, bdev);
+> +	bio->bi_opf =3D REQ_OP_WRITE;
+> +	bio->bi_iter.bi_sector =3D dest;
+> +
+> +	bio->bi_end_io =3D NULL;
+> +	ret =3D submit_bio_wait(bio);
+> +	bio_put(bio);
+> +out:
+> +	return ret;
+> +}
+> +
+> +int blk_prepare_payload(struct block_device *bdev, int nr_srcs, struct r=
+ange_entry *rlist,
+> +		gfp_t gfp_mask, struct blk_copy_payload **payload_p)
+> +{
+> +
+> +	struct request_queue *q =3D bdev_get_queue(bdev);
+> +	struct blk_copy_payload *payload;
+> +	sector_t bs_mask;
+> +	sector_t src_sects, len =3D 0, total_len =3D 0;
+> +	int i, ret, total_size;
+> +
+> +	if (!q)
+> +		return -ENXIO;
+> +
+> +	if (!nr_srcs)
+> +		return -EINVAL;
+> +
+> +	if (bdev_read_only(bdev))
+> +		return -EPERM;
+> +
+> +	bs_mask =3D (bdev_logical_block_size(bdev) >> 9) - 1;
+> +
+> +	total_size =3D struct_size(payload, range, nr_srcs);
+> +	payload =3D kmalloc(total_size, gfp_mask);
+> +	if (!payload)
+> +		return -ENOMEM;
+
+OK. So this is what goes into the bio. The function blk_copy_offload() assu=
+mes
+this is at most one page, so total_size <=3D PAGE_SIZE. Where is that check=
+ed ?
+
+> +
+> +	for (i =3D 0; i < nr_srcs; i++) {
+> +		/*  copy payload provided are in bytes */
+> +		src_sects =3D rlist[i].src;
+> +		if (src_sects & bs_mask) {
+> +			ret =3D  -EINVAL;
+> +			goto err;
+> +		}
+> +		src_sects =3D src_sects >> SECTOR_SHIFT;
+> +
+> +		if (len & bs_mask) {
+> +			ret =3D -EINVAL;
+> +			goto err;
+> +		}
+> +
+> +		len =3D rlist[i].len >> SECTOR_SHIFT;
+> +
+> +		total_len +=3D len;
+> +
+> +		WARN_ON_ONCE((src_sects << 9) > UINT_MAX);
+> +
+> +		payload->range[i].src =3D src_sects;
+> +		payload->range[i].len =3D len;
+> +	}
+> +
+> +	/* storing # of source ranges */
+> +	payload->copy_range =3D i;
+> +	/* storing copy len so far */
+> +	payload->copy_size =3D total_len;
+
+The comments here make the code ugly. Rename the variables and structure fi=
+elds
+to have something self explanatory.
+
+> +
+> +	*payload_p =3D payload;
+> +	return 0;
+> +err:
+> +	kfree(payload);
+> +	return ret;
+> +}
+> +
+> +/**
+> + * blkdev_issue_copy - queue a copy
+> + * @bdev:       source block device
+> + * @nr_srcs:	number of source ranges to copy
+> + * @rlist:	array of source ranges (in bytes)
+> + * @dest_bdev:	destination block device
+> + * @dest:	destination (in bytes)
+> + * @gfp_mask:   memory allocation flags (for bio_alloc)
+> + *
+> + * Description:
+> + *	Copy array of source ranges from source block device to
+> + *	destination block devcie.
+> + */
+> +
+> +
+> +int blkdev_issue_copy(struct block_device *bdev, int nr_srcs,
+> +		struct range_entry *src_rlist, struct block_device *dest_bdev,
+> +		sector_t dest, gfp_t gfp_mask)
+> +{
+> +	struct request_queue *q =3D bdev_get_queue(bdev);
+> +	struct blk_copy_payload *payload;
+> +	sector_t bs_mask, dest_sect;
+> +	void *buf =3D NULL;
+> +	int ret;
+> +
+> +	ret =3D blk_prepare_payload(bdev, nr_srcs, src_rlist, gfp_mask, &payloa=
+d);
+> +	if (ret)
+> +		return ret;
+> +
+> +	bs_mask =3D (bdev_logical_block_size(dest_bdev) >> 9) - 1;
+> +	if (dest & bs_mask) {
+> +		return -EINVAL;
+> +		goto out;
+> +	}
+> +	dest_sect =3D dest >> SECTOR_SHIFT;
+
+dest should already be a 512B sector as all block layer functions interface=
+ use
+this unit. What is this doing ?
+
+> +
+> +	if (bdev =3D=3D dest_bdev && q->limits.copy_offload) {
+> +		ret =3D blk_copy_offload(bdev, payload, dest_sect, gfp_mask);
+> +		if (ret)
+> +			goto out;
+> +	} else {
+> +		ret =3D blk_read_to_buf(bdev, payload, gfp_mask, &buf);
+> +		if (ret)
+> +			goto out;
+> +		ret =3D blk_write_from_buf(dest_bdev, buf, dest_sect,
+> +				payload->copy_size << SECTOR_SHIFT, gfp_mask);
+
+Arg... This is really not pretty. At the very least, this should all be in a
+blk_copy_emulate() helper or something named like that.
+
+My worry though is that this likely slow for large copies, not to mention t=
+hat
+buf is likely to fail to allocate for large copy cases. As commented previo=
+usly,
+dm-kcopyd already does such copy well, with a read-write streaming pipeline=
+ and
+zone support too for the write side. This should really be reused, at least
+partly, instead of re-implementing this read-write here.
+
+> +	}
+> +
+> +	if (buf)
+> +		kvfree(buf);
+> +out:
+> +	kvfree(payload);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(blkdev_issue_copy);
+> +
+>  /**
+>   * __blkdev_issue_write_same - generate number of bios with same page
+>   * @bdev:	target blockdev
+> diff --git a/block/blk-merge.c b/block/blk-merge.c
+> index 808768f6b174..4e04f24e13c1 100644
+> --- a/block/blk-merge.c
+> +++ b/block/blk-merge.c
+> @@ -309,6 +309,8 @@ void __blk_queue_split(struct bio **bio, unsigned int=
+ *nr_segs)
+>  	struct bio *split =3D NULL;
+>  =
+
+>  	switch (bio_op(*bio)) {
+> +	case REQ_OP_COPY:
+> +			break;
+>  	case REQ_OP_DISCARD:
+>  	case REQ_OP_SECURE_ERASE:
+>  		split =3D blk_bio_discard_split(q, *bio, &q->bio_split, nr_segs);
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index 43990b1d148b..93c15ba45a69 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -60,6 +60,10 @@ void blk_set_default_limits(struct queue_limits *lim)
+>  	lim->io_opt =3D 0;
+>  	lim->misaligned =3D 0;
+>  	lim->zoned =3D BLK_ZONED_NONE;
+> +	lim->copy_offload =3D 0;
+> +	lim->max_copy_sectors =3D 0;
+> +	lim->max_copy_nr_ranges =3D 0;
+> +	lim->max_copy_range_sectors =3D 0;
+>  }
+>  EXPORT_SYMBOL(blk_set_default_limits);
+>  =
+
+> @@ -565,6 +569,12 @@ int blk_stack_limits(struct queue_limits *t, struct =
+queue_limits *b,
+>  	if (b->chunk_sectors)
+>  		t->chunk_sectors =3D gcd(t->chunk_sectors, b->chunk_sectors);
+>  =
+
+> +	/* simple copy not supported in stacked devices */
+> +	t->copy_offload =3D 0;
+> +	t->max_copy_sectors =3D 0;
+> +	t->max_copy_range_sectors =3D 0;
+> +	t->max_copy_nr_ranges =3D 0;
+> +
+>  	/* Physical block size a multiple of the logical block size? */
+>  	if (t->physical_block_size & (t->logical_block_size - 1)) {
+>  		t->physical_block_size =3D t->logical_block_size;
+> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+> index b513f1683af0..51b35a8311d9 100644
+> --- a/block/blk-sysfs.c
+> +++ b/block/blk-sysfs.c
+> @@ -166,6 +166,47 @@ static ssize_t queue_discard_granularity_show(struct=
+ request_queue *q, char *pag
+>  	return queue_var_show(q->limits.discard_granularity, page);
+>  }
+>  =
+
+> +static ssize_t queue_copy_offload_show(struct request_queue *q, char *pa=
+ge)
+> +{
+> +	return queue_var_show(q->limits.copy_offload, page);
+> +}
+> +
+> +static ssize_t queue_copy_offload_store(struct request_queue *q,
+> +				       const char *page, size_t count)
+> +{
+> +	unsigned long copy_offload;
+> +	ssize_t ret =3D queue_var_store(&copy_offload, page, count);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (copy_offload < 0 || copy_offload > 1)
+
+err... "copy_offload !=3D 1" ?
+
+> +		return -EINVAL;
+> +
+> +	if (q->limits.max_copy_sectors =3D=3D 0 && copy_offload =3D=3D 1)
+> +		return -EINVAL;
+> +
+> +	q->limits.copy_offload =3D copy_offload;
+> +	return ret;
+> +}
+> +
+> +static ssize_t queue_max_copy_sectors_show(struct request_queue *q, char=
+ *page)
+> +{
+> +	return queue_var_show(q->limits.max_copy_sectors, page);
+> +}
+> +
+> +static ssize_t queue_max_copy_range_sectors_show(struct request_queue *q,
+> +		char *page)
+> +{
+> +	return queue_var_show(q->limits.max_copy_range_sectors, page);
+> +}
+> +
+> +static ssize_t queue_max_copy_nr_ranges_show(struct request_queue *q,
+> +		char *page)
+> +{
+> +	return queue_var_show(q->limits.max_copy_nr_ranges, page);
+> +}
+> +
+>  static ssize_t queue_discard_max_hw_show(struct request_queue *q, char *=
+page)
+>  {
+>  =
+
+> @@ -591,6 +632,11 @@ QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
+>  QUEUE_RO_ENTRY(queue_max_open_zones, "max_open_zones");
+>  QUEUE_RO_ENTRY(queue_max_active_zones, "max_active_zones");
+>  =
+
+> +QUEUE_RW_ENTRY(queue_copy_offload, "copy_offload");
+> +QUEUE_RO_ENTRY(queue_max_copy_sectors, "max_copy_sectors");
+> +QUEUE_RO_ENTRY(queue_max_copy_range_sectors, "max_copy_range_sectors");
+> +QUEUE_RO_ENTRY(queue_max_copy_nr_ranges, "max_copy_nr_ranges");
+> +
+>  QUEUE_RW_ENTRY(queue_nomerges, "nomerges");
+>  QUEUE_RW_ENTRY(queue_rq_affinity, "rq_affinity");
+>  QUEUE_RW_ENTRY(queue_poll, "io_poll");
+> @@ -636,6 +682,10 @@ static struct attribute *queue_attrs[] =3D {
+>  	&queue_discard_max_entry.attr,
+>  	&queue_discard_max_hw_entry.attr,
+>  	&queue_discard_zeroes_data_entry.attr,
+> +	&queue_copy_offload_entry.attr,
+> +	&queue_max_copy_sectors_entry.attr,
+> +	&queue_max_copy_range_sectors_entry.attr,
+> +	&queue_max_copy_nr_ranges_entry.attr,
+>  	&queue_write_same_max_entry.attr,
+>  	&queue_write_zeroes_max_entry.attr,
+>  	&queue_zone_append_max_entry.attr,
+> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+> index 7a68b6e4300c..02069178d51e 100644
+> --- a/block/blk-zoned.c
+> +++ b/block/blk-zoned.c
+> @@ -75,6 +75,7 @@ bool blk_req_needs_zone_write_lock(struct request *rq)
+>  	case REQ_OP_WRITE_ZEROES:
+>  	case REQ_OP_WRITE_SAME:
+>  	case REQ_OP_WRITE:
+> +	case REQ_OP_COPY:
+>  		return blk_rq_zone_is_seq(rq);
+>  	default:
+>  		return false;
+> diff --git a/block/bounce.c b/block/bounce.c
+> index d3f51acd6e3b..5e052afe8691 100644
+> --- a/block/bounce.c
+> +++ b/block/bounce.c
+> @@ -254,6 +254,7 @@ static struct bio *bounce_clone_bio(struct bio *bio_s=
+rc, gfp_t gfp_mask,
+>  	bio->bi_iter.bi_size	=3D bio_src->bi_iter.bi_size;
+>  =
+
+>  	switch (bio_op(bio)) {
+> +	case REQ_OP_COPY:
+>  	case REQ_OP_DISCARD:
+>  	case REQ_OP_SECURE_ERASE:
+>  	case REQ_OP_WRITE_ZEROES:
+> diff --git a/block/ioctl.c b/block/ioctl.c
+> index d61d652078f4..d50b6abe2883 100644
+> --- a/block/ioctl.c
+> +++ b/block/ioctl.c
+> @@ -133,6 +133,47 @@ static int blk_ioctl_discard(struct block_device *bd=
+ev, fmode_t mode,
+>  				    GFP_KERNEL, flags);
+>  }
+>  =
+
+> +static int blk_ioctl_copy(struct block_device *bdev, fmode_t mode,
+> +		unsigned long arg)
+> +{
+> +	struct copy_range crange;
+> +	struct range_entry *rlist;
+> +	struct request_queue *q =3D bdev_get_queue(bdev);
+> +	sector_t dest;
+> +	int ret;
+> +
+> +	if (!(mode & FMODE_WRITE))
+> +		return -EBADF;
+> +
+> +	if (!blk_queue_copy(q))
+> +		return -EOPNOTSUPP;
+
+But you added the read-write emulation. So what is the point here ? This io=
+ctl
+should work for any device, with or without simple copy support. Did you te=
+st that ?
+
+> +
+> +	if (copy_from_user(&crange, (void __user *)arg, sizeof(crange)))
+> +		return -EFAULT;
+> +
+> +	if (crange.dest & ((1 << SECTOR_SHIFT) - 1))
+> +		return -EFAULT;
+> +	dest =3D crange.dest;
+> +
+> +	rlist =3D kmalloc_array(crange.nr_range, sizeof(*rlist),
+> +			GFP_KERNEL);
+> +
+
+Unnecessary blank line here.
+
+> +	if (!rlist)
+> +		return -ENOMEM;
+> +
+> +	if (copy_from_user(rlist, (void __user *)crange.range_list,
+> +				sizeof(*rlist) * crange.nr_range)) {
+> +		ret =3D -EFAULT;
+> +		goto out;
+> +	}
+> +
+> +	ret =3D blkdev_issue_copy(bdev, crange.nr_range, rlist, bdev, dest,
+> +			GFP_KERNEL);
+> +out:
+> +	kfree(rlist);
+> +	return ret;
+> +}
+> +
+>  static int blk_ioctl_zeroout(struct block_device *bdev, fmode_t mode,
+>  		unsigned long arg)
+>  {
+> @@ -458,6 +499,8 @@ static int blkdev_common_ioctl(struct block_device *b=
+dev, fmode_t mode,
+>  	case BLKSECDISCARD:
+>  		return blk_ioctl_discard(bdev, mode, arg,
+>  				BLKDEV_DISCARD_SECURE);
+> +	case BLKCOPY:
+> +		return blk_ioctl_copy(bdev, mode, arg);
+>  	case BLKZEROOUT:
+>  		return blk_ioctl_zeroout(bdev, mode, arg);
+>  	case BLKREPORTZONE:
+> diff --git a/include/linux/bio.h b/include/linux/bio.h
+> index 1edda614f7ce..164313bdfb35 100644
+> --- a/include/linux/bio.h
+> +++ b/include/linux/bio.h
+> @@ -71,6 +71,7 @@ static inline bool bio_has_data(struct bio *bio)
+>  static inline bool bio_no_advance_iter(const struct bio *bio)
+>  {
+>  	return bio_op(bio) =3D=3D REQ_OP_DISCARD ||
+> +	       bio_op(bio) =3D=3D REQ_OP_COPY ||
+>  	       bio_op(bio) =3D=3D REQ_OP_SECURE_ERASE ||
+>  	       bio_op(bio) =3D=3D REQ_OP_WRITE_SAME ||
+>  	       bio_op(bio) =3D=3D REQ_OP_WRITE_ZEROES;
+> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> index 866f74261b3b..d4d11e9ff814 100644
+> --- a/include/linux/blk_types.h
+> +++ b/include/linux/blk_types.h
+> @@ -380,6 +380,8 @@ enum req_opf {
+>  	REQ_OP_ZONE_RESET	=3D 15,
+>  	/* reset all the zone present on the device */
+>  	REQ_OP_ZONE_RESET_ALL	=3D 17,
+> +	/* copy ranges within device */
+> +	REQ_OP_COPY		=3D 19,
+>  =
+
+>  	/* SCSI passthrough using struct scsi_request */
+>  	REQ_OP_SCSI_IN		=3D 32,
+> @@ -506,6 +508,11 @@ static inline bool op_is_discard(unsigned int op)
+>  	return (op & REQ_OP_MASK) =3D=3D REQ_OP_DISCARD;
+>  }
+>  =
+
+> +static inline bool op_is_copy(unsigned int op)
+> +{
+> +	return (op & REQ_OP_MASK) =3D=3D REQ_OP_COPY;
+> +}
+> +
+>  /*
+>   * Check if a bio or request operation is a zone management operation, w=
+ith
+>   * the exception of REQ_OP_ZONE_RESET_ALL which is treated as a special =
+case
+> @@ -565,4 +572,12 @@ struct blk_rq_stat {
+>  	u64 batch;
+>  };
+>  =
+
+> +struct blk_copy_payload {
+> +	sector_t	dest;
+> +	int		copy_range;
+> +	int		copy_size;
+> +	int		err;
+> +	struct	range_entry	range[];
+> +};
+> +
+>  #endif /* __LINUX_BLK_TYPES_H */
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 81f9e7bec16c..4c7e861e57e4 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -340,10 +340,14 @@ struct queue_limits {
+>  	unsigned int		max_zone_append_sectors;
+>  	unsigned int		discard_granularity;
+>  	unsigned int		discard_alignment;
+> +	unsigned int		copy_offload;
+> +	unsigned int		max_copy_sectors;
+>  =
+
+>  	unsigned short		max_segments;
+>  	unsigned short		max_integrity_segments;
+>  	unsigned short		max_discard_segments;
+> +	unsigned short		max_copy_range_sectors;
+> +	unsigned short		max_copy_nr_ranges;
+>  =
+
+>  	unsigned char		misaligned;
+>  	unsigned char		discard_misaligned;
+> @@ -625,6 +629,7 @@ struct request_queue {
+>  #define QUEUE_FLAG_RQ_ALLOC_TIME 27	/* record rq->alloc_time_ns */
+>  #define QUEUE_FLAG_HCTX_ACTIVE	28	/* at least one blk-mq hctx is active =
+*/
+>  #define QUEUE_FLAG_NOWAIT       29	/* device supports NOWAIT */
+> +#define QUEUE_FLAG_COPY		30	/* supports copy */
+
+I think this should be called QUEUE_FLAG_SIMPLE_COPY to indicate more preci=
+sely
+the type of copy supported. SCSI XCOPY is more advanced...
+
+>  =
+
+>  #define QUEUE_FLAG_MQ_DEFAULT	((1 << QUEUE_FLAG_IO_STAT) |		\
+>  				 (1 << QUEUE_FLAG_SAME_COMP) |		\
+> @@ -647,6 +652,7 @@ bool blk_queue_flag_test_and_set(unsigned int flag, s=
+truct request_queue *q);
+>  #define blk_queue_io_stat(q)	test_bit(QUEUE_FLAG_IO_STAT, &(q)->queue_fl=
+ags)
+>  #define blk_queue_add_random(q)	test_bit(QUEUE_FLAG_ADD_RANDOM, &(q)->qu=
+eue_flags)
+>  #define blk_queue_discard(q)	test_bit(QUEUE_FLAG_DISCARD, &(q)->queue_fl=
+ags)
+> +#define blk_queue_copy(q)	test_bit(QUEUE_FLAG_COPY, &(q)->queue_flags)
+>  #define blk_queue_zone_resetall(q)	\
+>  	test_bit(QUEUE_FLAG_ZONE_RESETALL, &(q)->queue_flags)
+>  #define blk_queue_secure_erase(q) \
+> @@ -1061,6 +1067,9 @@ static inline unsigned int blk_queue_get_max_sector=
+s(struct request_queue *q,
+>  		return min(q->limits.max_discard_sectors,
+>  			   UINT_MAX >> SECTOR_SHIFT);
+>  =
+
+> +	if (unlikely(op =3D=3D REQ_OP_COPY))
+> +		return q->limits.max_copy_sectors;
+> +
+>  	if (unlikely(op =3D=3D REQ_OP_WRITE_SAME))
+>  		return q->limits.max_write_same_sectors;
+>  =
+
+> @@ -1335,6 +1344,10 @@ extern int __blkdev_issue_discard(struct block_dev=
+ice *bdev, sector_t sector,
+>  		sector_t nr_sects, gfp_t gfp_mask, int flags,
+>  		struct bio **biop);
+>  =
+
+> +extern int blkdev_issue_copy(struct block_device *bdev, int nr_srcs,
+> +		struct range_entry *src_rlist, struct block_device *dest_bdev,
+> +		sector_t dest, gfp_t gfp_mask);
+> +
+>  #define BLKDEV_ZERO_NOUNMAP	(1 << 0)  /* do not free blocks */
+>  #define BLKDEV_ZERO_NOFALLBACK	(1 << 1)  /* don't write explicit zeroes =
+*/
+>  =
+
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index f44eb0a04afd..5cadb176317a 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -64,6 +64,18 @@ struct fstrim_range {
+>  	__u64 minlen;
+>  };
+>  =
+
+> +struct range_entry {
+> +	__u64 src;
+> +	__u64 len;
+> +};
+> +
+> +struct copy_range {
+> +	__u64 dest;
+> +	__u64 nr_range;
+> +	__u64 range_list;
+> +	__u64 rsvd;
+> +};
+> +
+>  /* extent-same (dedupe) ioctls; these MUST match the btrfs ioctl definit=
+ions */
+>  #define FILE_DEDUPE_RANGE_SAME		0
+>  #define FILE_DEDUPE_RANGE_DIFFERS	1
+> @@ -184,6 +196,7 @@ struct fsxattr {
+>  #define BLKSECDISCARD _IO(0x12,125)
+>  #define BLKROTATIONAL _IO(0x12,126)
+>  #define BLKZEROOUT _IO(0x12,127)
+> +#define BLKCOPY _IOWR(0x12, 128, struct copy_range)
+>  /*
+>   * A jump here: 130-131 are reserved for zoned block devices
+>   * (see uapi/linux/blkzoned.h)
+> =
+
+
+
+-- =
+
+Damien Le Moal
+Western Digital Research
 
 _______________________________________________
 Linux-nvme mailing list
