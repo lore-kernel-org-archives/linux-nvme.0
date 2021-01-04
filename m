@@ -7,84 +7,123 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32651C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA5E6C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 10:48:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ECB6321D79
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 05:11:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ECB6321D79
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9486321D93
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Jan 2021 10:48:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9486321D93
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	List-Unsubscribe:List-Id:References:MIME-Version:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sP621EdieohlYIDjsYqbTOHxW01FeUL+KzNpwTV9DEk=; b=sFdlttFbG6qk5J8dAWfT6WZEV
-	cGD8f8+7uG1BSFYL1zfWBZLWAW9OYXbowMKoypLAolrSYsHvAhKJ7n1eiog1ZEd0IKt+UNR0H3oLi
-	1kIj7A6L5BhvJamrwxYdHHqUEpUzZ1EFHqIIHgurzIw+N4UXnnEjgZIDehsk6O+O4mGd1x0EdkcLi
-	EmViy98nCrkroVTxIqpWza979+vD5ClRbZ9937Ooo7qoFvYqzKSqW88a88JNcjqn3Bn3XSzBCUzIb
-	2RwGvF5GZvV56ulQc+af6eDlY1yVusJ3XrGuboBX2r+6ZYl+lHyyaPhcn36OEWL1J5c6hMFBCeuGj
-	z/nBfY75A==;
+	 bh=7PlvDv6ifo0a9G3MTOci8qikvW5/Txf+9RWXF9O8dXA=; b=nGggLxR9rCnerB7WYfXiIDO3h
+	xJT4qMC5/lIlYFoTjXMCQL8o7su1BXZY0zEWEuijh5HqCOf6wyuFnWwQxOtxYEJZQOpwEthM6FdPL
+	tQVPDafYp59wfToxIgNgcwT+i/3tUiDr1ulsAzD/RbDDh2IxtrU2tUuRYQY+Q/gpx5dTu4C4qYbNv
+	ztXVcqLaF1b7B4T66Xu3fMzc/6AkBZwCG/SF4h02JE/q9A5r5OUTdTtgKYkBXs8WcCWxk9wieYUWp
+	zXbFPKYA2PGiIMUSA78G+aQN/n79tY6Y9RjJrsswEwmru+YDtQpYS7/Qu6DBmwPuTPT3rMaq+zrzR
+	pdbgBEXpA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwI97-0003HH-72; Mon, 04 Jan 2021 05:11:09 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1kwNP9-0001Kl-Oa; Mon, 04 Jan 2021 10:48:03 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwI8z-0003EA-VG
- for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 05:11:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1609737738; x=1641273738;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qwXyOBMpSjhNvMX3TuA4Swa6BZth8f79ppVgwTS1V1A=;
- b=qOT/28fC22lCBvCBASz1A98m5ITFSHIKwUf0v8/JTeD1QCJDhc1zYfRv
- DqGcUPJlC7VeRgFi467oP+1SQoqfFRPMOO3ffKZOjXaqCGe+/r+7i2eJd
- IMXU0BcKEZY3Kxqs8L7weXjgYFMw1CbzmyIxvSn7k2zX/+Py8n9BOepwf
- g+oCIHZfc+/j+M/N5sCYZxij2xVGOwDJNDtquYwdSq4GAqhv81MpCACnG
- 4DpqbrDEuIqB11/XSChnEBzVPMB/N/Z83K6wYfhUl7G8WCG5aqlZP/m96
- Bj1vH9IAeQdpBaEcvyJrKi3fF12nw1c0rJlhVLXPtqTrBZ+S5JjqHXfKx g==;
-IronPort-SDR: 7QvGZzf8kFToNFE/nwQwanQRt3iEyhdE8AKSjmcS7CFW/sMFgAfln5nxPvAAXiIbsGUlGBAlaK
- LiAZZMGWtelHq902ygDLlFqGqgZzFq/k/Y/MSc+UbROtCe6TYIkTOqcn48OpJ15uDlOO8+68MI
- AFNG+Gl3Tx+E8GkZTrZWf+bTfozOWc6kGvBoMj/4mCL4GfbUOg0BP+f52Ko3cW3wwguS30/BBA
- 4+6mdM3xtYaxYaEV9dUA4ouHcbz0ILx5EALIzfU7d4AQ97Hsf1dGK1UtHkaPG3Bf7Rn2glSW7A
- rr8=
-X-IronPort-AV: E=Sophos;i="5.78,473,1599494400"; d="scan'208";a="260321548"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 04 Jan 2021 13:22:17 +0800
-IronPort-SDR: BnEUpVF3HN6PQn27J0UW1iYPAwoPsIVeYx3APnWAtqSVzcJf/Q8xEjCeouj4R0nMr9TmKdnugY
- 50eV0H/ZSKZs/Me0DHJpUwEpCYsGO6hzsW3ZW/5PHNgy2QocRBxC6hk53jHqZT/LqUYXl/TstZ
- uDiXXBCn2YXDa/x1E62KnKCN8NkkXBVPWm50Bm5LYgatmlm0yr92OOZ0PFz1kfynMhoTKp6kjp
- PGLg8U8FvxxDUDvCWLE7YGZGa2Omypzf6SR5oL5N18ayYbbjr8apugrxHK/6At9AizVfkXhPDF
- PkvvMTXQ5hUnuVcfq+RJdXGk
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2021 20:54:10 -0800
-IronPort-SDR: Qs2Ws6SathLHE/zvV7u2GucAlk4qXW96sXoMKJrgmZS24gY/DC4ozow6/yb6kCo9JZFqwygXTW
- KdKOOsDVqU9zXNR8CgBgCsXYNVc2QAy4jxsGuhjNSiFI4iFZdfL5Jf3smUXh3amue6j3DJ4XJv
- lY4vBBIbO2WCIOtqRReG7BX81N2M/12oTygW3ilkYCKkH8jKhHdr/1mFtL6MDNPgeb9VHTsNtu
- vtmptVJ87z7lc+b9s6/2iHY8ZWeHsv6TmuwduJTZYBrGbMbpy12QuhfuDpgYL8aGLFH4KwNKfd
- r3Q=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 03 Jan 2021 21:11:02 -0800
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+ id 1kwNP6-0001Jt-M8
+ for linux-nvme@lists.infradead.org; Mon, 04 Jan 2021 10:48:02 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20210104104757epoutp034ad5e70e399201c472ceb05b407f2d68~XAbb7uE9q0066100661epoutp03R
+ for <linux-nvme@lists.infradead.org>; Mon,  4 Jan 2021 10:47:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20210104104757epoutp034ad5e70e399201c472ceb05b407f2d68~XAbb7uE9q0066100661epoutp03R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1609757277;
+ bh=se1iOPEZbpJwXQhd0pgbmujHr0vCQMYue/1sZVmCAt8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=P0Yw5KzH19Zu3gXh+13AhhgSH6DKdnZnQxLlovu2paw8APiR94L+Rp4Msec0wFOFZ
+ IBXlqYK1FQORfnJDAGYbOLLI1+apqzdBS6dx9c9lCF7mx8nZL3RKV6429GsPlKNevf
+ GEgl38tRErGCxpJXcVaK8WyLW2wmTyyhhk5E4GUs=
+Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210104104756epcas5p2463d7073352e6e05c863a2e0fa5e6c3e~XAbbZzIUP1369413694epcas5p2K;
+ Mon,  4 Jan 2021 10:47:56 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 54.EB.15682.C52F2FF5; Mon,  4 Jan 2021 19:47:56 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210104104245epcas5p26ed395efbf74e78a4e44048a6d7d6ba7~XAW5TGqSH1410114101epcas5p2B;
+ Mon,  4 Jan 2021 10:42:45 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210104104245epsmtrp26734063a694e2facc96f3b410277c463~XAW5L3Al02765227652epsmtrp2a;
+ Mon,  4 Jan 2021 10:42:45 +0000 (GMT)
+X-AuditID: b6c32a49-8bfff70000013d42-ee-5ff2f25c2282
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ E8.49.13470.421F2FF5; Mon,  4 Jan 2021 19:42:44 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210104104241epsmtip117c7fe2b1a2f9988eaeba82911994104~XAW2Q7Njl1453914539epsmtip1b;
+ Mon,  4 Jan 2021 10:42:41 +0000 (GMT)
+From: SelvaKumar S <selvakuma.s1@samsung.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V8 9/9] nvmet: call nvmet_bio_done() for zone append
-Date: Sun,  3 Jan 2021 21:09:38 -0800
-Message-Id: <20210104050938.25745-10-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20210104050938.25745-1-chaitanya.kulkarni@wdc.com>
-References: <20210104050938.25745-1-chaitanya.kulkarni@wdc.com>
+Subject: [RFC PATCH v4 1/3] block: export bio_map_kern()
+Date: Mon,  4 Jan 2021 16:11:57 +0530
+Message-Id: <20210104104159.74236-2-selvakuma.s1@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210104104159.74236-1-selvakuma.s1@samsung.com>
 MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxjGc+69vb0tKbsWMo7dB9Aom5DyETc9Wza3xLndxX/MMrO5oKzC
+ DcWVj7QwUDZlgiJVCzYOpaJgZYpFC9auVrTLUgQFQxBaKOLAGgvJrNgKzAkIDHpr5n/P+z7P
+ e37nPTkULi4jJVRWTj6rypErpaSQsLateleWOjGRlrzvVDRqGq4kUXVgGkf7yp9hyP7kBA9d
+ N+gwdL6pHUMP/5rkoznNCIbaF8ZJpHMMAGQfSkDO1loS1Z0d5aODbhuJzt2cx9CRA/0Yss7W
+ 4ch11IAjk89PII/fzUe+550k2n/pH/Dp64zTtZG5qh/mMz0jlwjG2V3AmI0VJHO5YQ9z7W4J
+ yTwdHSIY/x/9JKO1GAFz+XYxM2l+myn/8yC2SfSd8KMMVpn1I6tKWve9UOE/PsDPqwovap9q
+ wUpAV5gGCChIvwc7DvmABggpMX0NwIaxoVAxAeBJU3WoeAbgea2F93KkaspJcIYdwKML0yRX
+ TAKor19yBBRJy+BAgzmoI2kpnGveG5zA6bs47JuZ4C8ZETSC023a4LEEvRLWLpTiS1pEfwxv
+ /XIM53DRsKbv32BeQK+Dut4RHpdZBjtrvEEAvpgp/f0EvgSAdKUAuuc1obt+Bp2BbsDpCPjo
+ poXPaQmcfGInOV0IxyqqMU6XAKj1F3L6E9h7fW6xTy0CVsHm1iSu/Rb8tcuEcdxweHjWGxoV
+ QdspbzAO6TjYdWUN134TBtpaQyQGGi6OhR7rCIBlY2aiCsToX1lH/8o6+v/J9QA3guVsnjo7
+ k1W/n5eSwxYmquXZ6oKczMT03GwzCH7U+C9tYNgTSHQAjAIOAClcGikquhNIE4sy5Dt3sarc
+ NFWBklU7wBsUIY0S2ZI9aWI6U57P/sCyeazqpYtRAkkJFrE5Zvy1M8Tgtx483bet+N5WWYbV
+ FnflflR0pCRMMZVrsmlelO7t9/y02rsz8/nf2kaXtskY/dvatalK4eeuD6KKzxXFpLu6hsYt
+ j4+fnEp8VEd2bGml989b6kt1CYbtFO0ji3vmktjRGzyJ9fYunTN2ueVxVqxq5mf4UNe4w9zL
+ +3Bw02ysOHmwOX91U0vGA3G57FDkmZGvuosku+35nTVr/CJlXP0txwWrJ15m2DaTsv2GwtRR
+ G9GyQ+7s2ZNt++a0uW5LWGPhF4qY9cr1XrbiqnTD7gP37pStVPRprA+OJbj7X6Su6D1bHc5W
+ VjVI4y5u2NgpdT995/DXCfeNulwpoVbIU+JxlVr+H94mhXkXBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRmVeSWpSXmKPExsWy7bCSnK7Kx0/xBj1XTCxW3+1ns5j24Sez
+ RWv7NyaLve9ms1rsWTSJyWLl6qNMFo/vfGa3+Nt1j8ni6P+3bBaTDl1jtNh7S9vi8q45bBbz
+ lz1lt+i+voPNYvnxf0wWEzuuMlls+z2f2eLKlEXMFutev2exePD+OrvF6x8n2SzaNn5ldBDz
+ uHzF22PnrLvsHufvbWTxuHy21GPTqk42j81L6j1232xg8/j49BaLx/t9V9k8+rasYvTYfLra
+ 4/MmOY/2A91MAbxRXDYpqTmZZalF+nYJXBnvZ1xjL5jAV3H0ywamBsZT3F2MnBwSAiYSE75c
+ Zuli5OIQEtjNKDH19zMmiISMxNq7nWwQtrDEyn/P2SGKPjJK3Fx8GizBJqArcW3JJhYQW0RA
+ SeLv+iawScwCn5kl5u9qA0sIC1hI/DzcxwpiswioSsz538wMYvMK2EqcaJzODLFBXmLmpe/s
+ IDangJ3EpIv3gOo5gLbZSixqFYYoF5Q4OfMJ2EhmoPLmrbOZJzAKzEKSmoUktYCRaRWjZGpB
+ cW56brFhgWFearlecWJucWleul5yfu4mRnDMamnuYNy+6oPeIUYmDsZDjBIczEoivBUXPsQL
+ 8aYkVlalFuXHF5XmpBYfYpTmYFES573QdTJeSCA9sSQ1OzW1ILUIJsvEwSnVwHT5W7mz2e6T
+ ky+knWLJuV+ldKnq7tzyTrsFaS+E89Tyly+M1mUW2DIj5EtfoULmiZA3B7/WOgU5sXUZ3e/v
+ /3vDjHFqpn9a+t6eZ1MqwxTjSycwrhGLOLmf9Rszm5HmrlhrQct7i39+PsVx8+k075Kcn7w7
+ PwoZyjvUT7vtffRwq8GBpxJHnb5+4Ln01vq9I7PubNWNbgu2/FixmWHHyr/22Sd396W+3JB+
+ 3WLJinfntlUE+nH7zrRw5Gd46Xj9+ERuN8tf7Qsj9nxMnzfr5irZL+dmpUe6iMpMDCrKyHxl
+ v8TyzZ6U1uKoCZ1aujXrlN99cDyi7tQ6LSNpdyPX1j/fRfVMDCoOSV87tG7t5HAlluKMREMt
+ 5qLiRADXL7wrSAMAAA==
+X-CMS-MailID: 20210104104245epcas5p26ed395efbf74e78a4e44048a6d7d6ba7
+X-Msg-Generator: CA
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210104104245epcas5p26ed395efbf74e78a4e44048a6d7d6ba7
+References: <20210104104159.74236-1-selvakuma.s1@samsung.com>
+ <CGME20210104104245epcas5p26ed395efbf74e78a4e44048a6d7d6ba7@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210104_001102_279395_88D7DB12 
-X-CRM114-Status: GOOD (  13.34  )
+X-CRM114-CacheID: sfid-20210104_054801_408642_F2E7ABC8 
+X-CRM114-Status: GOOD (  18.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,97 +135,63 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- sagi@grimberg.me
+Cc: axboe@kernel.dk, damien.lemoal@wdc.com,
+ SelvaKumar S <selvakuma.s1@samsung.com>, sagi@grimberg.me,
+ linux-scsi@vger.kernel.org, selvajove@gmail.com, Johannes.Thumshirn@wdc.com,
+ snitzer@redhat.com, linux-kernel@vger.kernel.org, nj.shetty@samsung.com,
+ linux-block@vger.kernel.org, dm-devel@redhat.com, mpatocka@redhat.com,
+ hare@suse.de, joshi.k@samsung.com, martin.petersen@oracle.com,
+ kbusch@kernel.org, javier.gonz@samsung.com, hch@lst.de, bvanassche@acm.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The function nvmet_bdev_execute_zone_append() does exactly same thing
-for completion of the bio that is done in the nvmet_bio_done(),
-completing the request & calling nvmet_bio_put()_to put non online bio.
+Export bio_map_kern() so that copy offload emulation can use
+it to add vmalloced memory to bio.
 
-Export the function nvmet_bio_done() and use that in the
-nvmet_bdev_execute_zone_append() for the request completion and bio
-processing. Set the bio->private after the call to submit_bio_wait() to
-nvmet request. The call to nvmet_bio_done() also updates error log page
-via call to blk_to_nvme_status() from nvmet_bio_done().
-
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
 ---
- drivers/nvme/target/io-cmd-bdev.c |  2 +-
- drivers/nvme/target/nvmet.h       |  1 +
- drivers/nvme/target/zns.c         | 10 ++++------
- 3 files changed, 6 insertions(+), 7 deletions(-)
+ block/blk-map.c        | 3 ++-
+ include/linux/blkdev.h | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index c23a719513b0..72a22351da2a 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -167,7 +167,7 @@ static u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
- 	return status;
- }
- 
--static void nvmet_bio_done(struct bio *bio)
-+void nvmet_bio_done(struct bio *bio)
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 21630dccac62..50d61475bb68 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -378,7 +378,7 @@ static void bio_map_kern_endio(struct bio *bio)
+  *	Map the kernel address into a bio suitable for io to a block
+  *	device. Returns an error pointer in case of error.
+  */
+-static struct bio *bio_map_kern(struct request_queue *q, void *data,
++struct bio *bio_map_kern(struct request_queue *q, void *data,
+ 		unsigned int len, gfp_t gfp_mask)
  {
- 	struct nvmet_req *req = bio->bi_private;
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index f4f9d622df0d..ab84ab75b952 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -535,6 +535,7 @@ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
- void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns);
- int nvmet_file_ns_revalidate(struct nvmet_ns *ns);
- void nvmet_ns_revalidate(struct nvmet_ns *ns);
-+void nvmet_bio_done(struct bio *bio);
- 
- static inline u32 nvmet_rw_data_len(struct nvmet_req *req)
- {
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 149bc8ce7010..da4be0231428 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -283,7 +283,6 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
- 	struct request_queue *q = req->ns->bdev->bd_disk->queue;
- 	unsigned int op = REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
- 	unsigned int max_sects = queue_max_zone_append_sectors(q);
--	u16 status = NVME_SC_SUCCESS;
- 	unsigned int total_len = 0;
- 	struct scatterlist *sg;
- 	int ret = 0, sg_cnt;
-@@ -306,7 +305,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
- 
- 		ret = bio_add_hw_page(q, bio, p, l, o, max_sects, &same_page);
- 		if (ret != sg->length) {
--			status = NVME_SC_INTERNAL;
-+			bio->bi_status = BLK_STS_IOERR;
- 			goto out_bio_put;
- 		}
- 		if (same_page)
-@@ -316,15 +315,14 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
- 	}
- 
- 	if (total_len != nvmet_rw_data_len(req)) {
--		status = NVME_SC_INTERNAL | NVME_SC_DNR;
-+		bio->bi_status = BLK_STS_IOERR;
- 		goto out_bio_put;
- 	}
- 
- 	ret = submit_bio_wait(bio);
- 	req->cqe->result.u64 = nvmet_sect_to_lba(req->ns,
- 						 bio->bi_iter.bi_sector);
--
- out_bio_put:
--	nvmet_req_bio_put(req, bio);
--	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL : status);
-+	bio->bi_private = req;
-+	nvmet_bio_done(bio);
+ 	unsigned long kaddr = (unsigned long)data;
+@@ -428,6 +428,7 @@ static struct bio *bio_map_kern(struct request_queue *q, void *data,
+ 	bio->bi_end_io = bio_map_kern_endio;
+ 	return bio;
  }
++EXPORT_SYMBOL(bio_map_kern);
+ 
+ static void bio_copy_kern_endio(struct bio *bio)
+ {
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 070de09425ad..81f9e7bec16c 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -936,6 +936,8 @@ extern int blk_rq_map_user(struct request_queue *, struct request *,
+ 			   struct rq_map_data *, void __user *, unsigned long,
+ 			   gfp_t);
+ extern int blk_rq_unmap_user(struct bio *);
++extern struct bio *bio_map_kern(struct request_queue *q, void *data,
++				unsigned int len, gfp_t gfp_mask);
+ extern int blk_rq_map_kern(struct request_queue *, struct request *, void *, unsigned int, gfp_t);
+ extern int blk_rq_map_user_iov(struct request_queue *, struct request *,
+ 			       struct rq_map_data *, const struct iov_iter *,
 -- 
-2.22.1
+2.25.1
 
 
 _______________________________________________
