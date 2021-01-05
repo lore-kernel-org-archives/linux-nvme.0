@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0D03C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 19:16:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD2BC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 19:32:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77B7722D58
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 19:16:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77B7722D58
+	by mail.kernel.org (Postfix) with ESMTPS id 7BD8022D6E
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 19:32:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7BD8022D6E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,65 +24,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4lcpf7Rts2+ayqltvdHBpULkUFBbIbGJlAakp9cj4WY=; b=B3vhlUk8rcHGIfrFfLQgkYDKv
-	xI9+OchAHqa3BgNDfQug7Vz5xdW9QLen1BXUE3pCUDMmXpg6GZnCjoK5qX52hZa8cmFuswwBVSrti
-	RSl3CGQC0MnzaZBQuteT+XjUW5QBEDFPQl6Cm9gkSjtiqa1mou+41Q+fjullVkwzwfEm9ilQqGQfL
-	0SSamgKnlb+QoEEbrvM1YKfbT/wPL5AXRtJDkM6bAeFkwSplLCDS4IglUfQVbdy3DYjqILAWsnna1
-	3HvR+fvr+2vC89NQ3xWGBQB4TtLQ1/z/2pCdUR9fnHoFajJCZDlJ+qYIEgx30z+cTjaxq+rd3xGEB
-	6qubtShcg==;
+	 bh=D2mBlCY7b/BfltDKE4HSj4uO5pjD2+Rp/f+TP0myDA4=; b=C8i8k3kEkAWfYUTdWVskLLmXQ
+	6WjAxtW6ssalu9GkC+N8rrrXasEyx+wP4/noGdoWsvVQ7d9OA+9GL6v3RHK/BeKa3fTgyS0c+drt6
+	LRkKoY2njHbNMPY4Nq3xliPj7Vr9ItTUqcFfG5CJvBfw+jewwRPSF+4IdTuc1O0bUt8Bkf+aO/Yvr
+	BrYKNxhEnhkBGUyxgYikRZanm0TzT2ySDgQePFFUQ3uqgvL4xaRxJd+foEzznhOrAycjmAO8KUVSn
+	rrhkhFcv7TpviObignhtIkst0wnBrdv/ltZasYrQussxr+eEoIgCYob3o6xSdo+j6s23iRMsTaGIO
+	S3cvT71rw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwrp0-0006ic-1k; Tue, 05 Jan 2021 19:16:46 +0000
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+	id 1kws3r-0008MG-39; Tue, 05 Jan 2021 19:32:07 +0000
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwrox-0006iG-Ms
- for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 19:16:44 +0000
-Received: by mail-pf1-x436.google.com with SMTP id c12so288320pfo.10
- for <linux-nvme@lists.infradead.org>; Tue, 05 Jan 2021 11:16:42 -0800 (PST)
+ id 1kws3n-0008Kv-Cy
+ for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 19:32:04 +0000
+Received: by mail-pf1-x431.google.com with SMTP id h10so312384pfo.9
+ for <linux-nvme@lists.infradead.org>; Tue, 05 Jan 2021 11:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=vWNDNO/XfL/ncHE2eKOk0BmDNlW2uHwe3nGMOUQkjSg=;
- b=qL9igD4xefW/McBb0zKsXnDcsGrq9Yif5tKyBfFA6BpjyRHrPi5vFFi/r3viVAOTab
- 49Uq6t0dtq4WAEQSA+TXs72nJdz2LUs4qejtcipbOmRYIFCH/7YS2S8ABxtnHzgobznO
- 3+nD0w2ly7DU3R8bT20xshiavl1o+TM1v+VvTRwhMVzRZROmZztA2xbr5Z/mydULguHK
- urIWtrMW7uiRT5oDKIOMvF/CSgvaHUq0loCqNhYi4Oiqj/WwLPUmbeM+URR4mpB3YQ6A
- Vsl/rA8YlXy982aT0gHNniol35+ZF1e9e19Kt+ur/ytRO9Ay6IrxWMTRJAhZ9Sr4eptr
- d1UQ==
+ bh=63yBsUdAnnZDjRjjVnpeI0yOk7dIpYMSTjutMDUiV3w=;
+ b=e60sTImT3YHStDq+q3kzqQGg8+BD5TzIf/q4qgJ1x5luMq1hVMM5Bo/ertE+q4RaVZ
+ rwa4NPqffnYqbVJucPY/j97AYU7WbkWPaCvP9Nu94rOSbzUrEsoN5xwdhxKATS/M8Wg/
+ nVvbnnf57y9Z9nxDpSbccx+8oeqfXUpPZMd5L39v/RpW2RbTfIzDgCYgkO2GjdVz2KrL
+ 4e5sykyhyaqV3wM8DViNAX+oCLE2Mun2KrTQir1LNR8xUrpuBQGXZS4Z4/K4/0tmjxAf
+ 5rJwe/iGGka/d+8kvgpBwRhj2vLo6SzBx4jVwN47XBgQ7+l9K7/jM+d7GnHC2VMQ9LII
+ znWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=vWNDNO/XfL/ncHE2eKOk0BmDNlW2uHwe3nGMOUQkjSg=;
- b=KYCunNnlZ3kYeCVhMRV7QHE8fpMheSEaBRf2lgeuNIKCbg5f2xUTyumKzPL0GB/r3r
- DTqfGJOzGE90435stc5jJdHhfHQBijRfx5hoWQWtSHJF2w5uJPNDvI0lkKjaGVTBPzh6
- /qanyRjbME7W8ucNOOuG45OUuF8rf7+D9icvBYJvl9aA1JihIK79cHh3mBYKDgF7/+sp
- 7NeTqiEgXYIXdFsDhDPjLz14PV5MJQWZKVLdpEwEDPKmI5ppZjrVVv21lNfF37vdpjQv
- jtFW/1caBTR2WlwBzTmO6qjKWA0yWkCjEaHSAM2p6UU37O34xGWnSrGy6qP7VIFDJbe4
- sE9A==
-X-Gm-Message-State: AOAM530wnCJLtI9uZTK45XB2Ba0MTIJ9TYZMdpxDKFxu3MZw7rcdWPgr
- Q5qSsHSp1N0Tv06OAAoBP34=
-X-Google-Smtp-Source: ABdhPJwnCbZ6s6swHj0RW0g4MBZMoRxL+5uEW0Ap+ch1WTG+LATyWC4Dx0JMgN+mbiBWk9+6DhDozg==
-X-Received: by 2002:a63:c64f:: with SMTP id x15mr760054pgg.196.1609874201094; 
- Tue, 05 Jan 2021 11:16:41 -0800 (PST)
+ bh=63yBsUdAnnZDjRjjVnpeI0yOk7dIpYMSTjutMDUiV3w=;
+ b=eITbnGwaZNgeudp5lcRY9/7xRScQpCVJosKnrrCjeJ3uaosO+bVThg4iKXSiv6n8AF
+ QfQjZawhnloSrNESo3ALjLj7mK1J0VdrVHVTWyLQgx8Rj3BdtIXDKa0a2hIg+53ktcTB
+ TUX6qh6qCbMeVhRZcCxExkbfPQ1eWUWzxTQHS6wFj/IT8bZZEOO8a+5pyOEB88kkkYr1
+ Bx8QEeloLxBRjcj3JNKYtLx16yv1QvvQWEKrPlEEzr5as3bVRY1mLOVh7ykHWEN+3MUE
+ u8fCzhNTAIS9HJQCVxCpBED29bHkes94ZNUdBGCFijohTCnMj7PRlxCb4HD9CZki9tNa
+ 9+mA==
+X-Gm-Message-State: AOAM533cYv/9T1KYntUjShZZgaThDao9ycyA+mXuVAFObB6iZb59qcsS
+ pA67Zs9ShjPXkfbGxQ+ecw4=
+X-Google-Smtp-Source: ABdhPJwvRgOVCeobsh750figvDUO6xvDyxpNN2UQy3xtmzvcDGvrus2hfQqHYndsDKwOUuJs1vRzig==
+X-Received: by 2002:a63:3d8:: with SMTP id 207mr765742pgd.215.1609875121297;
+ Tue, 05 Jan 2021 11:32:01 -0800 (PST)
 Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id p9sm10811pjb.3.2021.01.05.11.16.40
+ by smtp.gmail.com with ESMTPSA id jz20sm30030pjb.4.2021.01.05.11.32.00
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 05 Jan 2021 11:16:40 -0800 (PST)
-Date: Wed, 6 Jan 2021 04:16:38 +0900
+ Tue, 05 Jan 2021 11:32:00 -0800 (PST)
+Date: Wed, 6 Jan 2021 04:31:57 +0900
 From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Chao Leng <lengchao@huawei.com>
-Subject: Re: [PATCH 1/6] blk-mq: introduce blk_mq_set_request_complete
-Message-ID: <20210105191638.GB4426@localhost.localdomain>
-References: <20210105071936.25097-1-lengchao@huawei.com>
- <20210105071936.25097-2-lengchao@huawei.com>
+To: Michal Krakowiak <michal.krakowiak@linux.intel.com>
+Subject: Re: [PATCH] nvme: trace: parse format nvm command in detail
+Message-ID: <20210105193157.GC4426@localhost.localdomain>
+References: <20210104155343.GA26034@michal-desk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210105071936.25097-2-lengchao@huawei.com>
+In-Reply-To: <20210104155343.GA26034@michal-desk>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210105_141643_775123_B7B99192 
-X-CRM114-Status: GOOD (  16.59  )
+X-CRM114-CacheID: sfid-20210105_143203_480856_4F23F1BB 
+X-CRM114-Status: GOOD (  20.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,8 +93,10 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, linux-block@vger.kernel.org, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, axboe@fb.com, kbusch@kernel.org, hch@lst.de
+Cc: Michal Krakowiak <michal.krakowiak@intel.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
@@ -103,34 +104,76 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Hello,
 
-On 21-01-05 15:19:31, Chao Leng wrote:
-> In some scenarios, nvme need setting the state of request to
-> MQ_RQ_COMPLETE. So add an inline function blk_mq_set_request_complete.
-> For details, see the subsequent patches.
+On 21-01-04 16:53:43, Michal Krakowiak wrote:
+> FTrace does not parse NVMe commands consistently. There are commands
+> that are being parsed in detail and commands for which the trace log
+> contains only raw bytes of command dwords. Add detailed parsing of
+> format nvm admin command to make the trace log more consistent and
+> human-readable.
 > 
-> Signed-off-by: Chao Leng <lengchao@huawei.com>
-> ---
->  include/linux/blk-mq.h | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index e7482e6ad3ec..cee72d31054d 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -493,6 +493,11 @@ static inline int blk_mq_request_completed(struct request *rq)
->  	return blk_mq_rq_state(rq) == MQ_RQ_COMPLETE;
->  }
->  
-> +static inline void blk_mq_set_request_complete(struct request *rq)
-> +{
-> +	WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
-> +}
-> +
+> Signed-off-by: Michal Krakowiak <michal.krakowiak@intel.com>
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
 
-Maybe we can have this newly added helper with updating caller
-in blk_mq_complete_request_remote() also ?
+Looks good to me unless driver decides to go to raw trace with
+user-space application like blkparse according to Keith's opinion.
+
+Actually Format command has several meaningful fields related
+to LBA format and protection information slo so that I would be happy
+for format command to be parsed for now.
+
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
 Thanks,
+
+> ---
+>  drivers/nvme/host/trace.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+> index 5c3cb6928f3c..e0400de713b5 100644
+> --- a/drivers/nvme/host/trace.c
+> +++ b/drivers/nvme/host/trace.c
+> @@ -102,6 +102,23 @@ static const char *nvme_trace_get_lba_status(struct trace_seq *p,
+>  	return ret;
+>  }
+> 
+> +static const char *nvme_trace_admin_format_nvm(struct trace_seq *p, u8 *cdw10)
+> +{
+> +	const char *ret = trace_seq_buffer_ptr(p);
+> +	u8 lbaf = cdw10[0] & 0xF;
+> +	u8 mset = (cdw10[0] >> 4) & 0x1;
+> +	u8 pi = (cdw10[0] >> 5) & 0x7;
+> +	u8 pil = cdw10[1] & 0x1;
+> +	u8 ses = (cdw10[1] >> 1) & 0x7;
+> +
+> +	trace_seq_printf(p, "lbaf=%u, mset=%u, pi=%u, pil=%u, ses=%u",
+> +			lbaf, mset, pi, pil, ses);
+> +
+> +	trace_seq_putc(p, 0);
+> +
+> +	return ret;
+> +}
+> +
+>  static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
+>  {
+>  	const char *ret = trace_seq_buffer_ptr(p);
+> @@ -159,6 +176,8 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
+>  		return nvme_trace_admin_get_features(p, cdw10);
+>  	case nvme_admin_get_lba_status:
+>  		return nvme_trace_get_lba_status(p, cdw10);
+> +	case nvme_admin_format_nvm:
+> +		return nvme_trace_admin_format_nvm(p, cdw10);
+>  	default:
+>  		return nvme_trace_common(p, cdw10);
+>  	}
+> --
+> 2.20.1
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
 
 _______________________________________________
 Linux-nvme mailing list
