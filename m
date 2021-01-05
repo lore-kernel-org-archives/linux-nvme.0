@@ -4,58 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D44E1C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 07:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66544C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 08:47:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7FB3C224F9
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 07:20:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7FB3C224F9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0C95922525
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 08:47:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C95922525
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=OYjAg8/LToukUrbhLmscXqMwLhVp5QWO9j6ckLoToZs=; b=YabTwQRHaqESlqfzWnSCSr9Xz
-	K6+WAaNQ8Wd+jlQAzCEHyvIu4DRcs+o8cwgkDX03CRrP7CmHSnybpsdIcct7lZodpF5QOed4RbYu6
-	0esbvScSfsfQl3cbyoiB+IG+c1/6azLP2rZZGtbvZeuyuFDQZblP3rCdkW8/ISIq6V8ulMmXAe85H
-	EKH7ZZ9tsXBNsGJ5bmZP62MOxOjhPgAmrq0H3lotqJvbBpi/3zSrUXSnqczoEr4ffv9YAWRY0yhQ0
-	FZEgt2Nj4W6me5MOC6B5IfLYFYyDJsjmcfNcOtCS7TRmDooxb4KF2oAPz2/aAV0Dz4fbeo7JpYGvW
-	IEVTiSayA==;
+	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OnPVROyuReZN1d0lbiL5W0iyIeyAhFkoKSWuN4iJ//E=; b=kpfYTvK07Xt6aO7/Wrr3ob9USU
+	y5OHR0/iydPy6llscq4454KujA3W/8dzuvWb/9nSJ9qxGajLzyB3jA4OIjmuJIqXKF/qN4A3vKfoi
+	RLK/PPXNncR8ZGolZirlP65DAoZHuZztqcI0bRKzugIhB+sLAMeNcToCersxk5xcmvVZyaRSUA8KH
+	K3h1rqLugol4rVhZFEyvlW1RqWP6gp2IJ+InecUC2dzQitsNVGCogl1ucziJ5yJjfZXVuLkiq9wsS
+	zWwTpalUo2G+5Vxup+RLIhB0R0mMgSc2znW9tmTNudwgBXlrxtWerOCsvdrD2TpiThVJl+e4eFY+h
+	jkqT366A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwgdT-00075m-Dp; Tue, 05 Jan 2021 07:20:07 +0000
-Received: from szxga04-in.huawei.com ([45.249.212.190])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwgdQ-0006y3-OT
- for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 07:20:05 +0000
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D93l34Btlz15nlh;
- Tue,  5 Jan 2021 15:18:55 +0800 (CST)
-Received: from huawei.com (10.29.88.127) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Tue, 5 Jan 2021
- 15:19:39 +0800
-From: Chao Leng <lengchao@huawei.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: [PATCH 4/6] nvme-rdma: avoid IO error and repeated request completion
-Date: Tue, 5 Jan 2021 15:19:34 +0800
-Message-ID: <20210105071936.25097-5-lengchao@huawei.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20210105071936.25097-1-lengchao@huawei.com>
-References: <20210105071936.25097-1-lengchao@huawei.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.29.88.127]
-X-CFilter-Loop: Reflected
+	id 1kwhzu-0002Ew-CM; Tue, 05 Jan 2021 08:47:22 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kwhzo-0002EV-RR
+ for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 08:47:19 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ israelr@nvidia.com) with SMTP; 5 Jan 2021 10:47:11 +0200
+Received: from rsws50.mtr.labs.mlnx (rsws50.mtr.labs.mlnx [10.210.9.36])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 1058lBlH021838;
+ Tue, 5 Jan 2021 10:47:11 +0200
+From: Israel Rukshin <israelr@nvidia.com>
+To: Linux-nvme <linux-nvme@lists.infradead.org>
+Subject: [PATCH] nvmet-rdma: Fix list_del corruption on queue establishment
+ failure
+Date: Tue,  5 Jan 2021 10:46:54 +0200
+Message-Id: <1609836414-44997-1-git-send-email-israelr@nvidia.com>
+X-Mailer: git-send-email 1.8.4.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210105_022005_183243_43CC164F 
-X-CRM114-Status: GOOD (  14.14  )
+X-CRM114-CacheID: sfid-20210105_034717_204349_3AA571F2 
+X-CRM114-Status: UNSURE (   9.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,51 +63,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, linux-block@vger.kernel.org, sagi@grimberg.me,
- axboe@fb.com, lengchao@huawei.com, kbusch@kernel.org, hch@lst.de
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Israel Rukshin <israelr@nvidia.com>,
+ Nitzan Carmi <nitzanc@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a request is queued failed, blk_status_t is directly returned
-to the blk-mq. If blk_status_t is not BLK_STS_RESOURCE,
-BLK_STS_DEV_RESOURCE, BLK_STS_ZONE_RESOURCE, blk-mq call
-blk_mq_end_request to complete the request with BLK_STS_IOERR.
-In two scenarios, the request should be retried and may succeed.
-First, if work with nvme multipath, the request may be retried
-successfully in another path, because the error is probably related to
-the path. Second, if work without multipath software, the request may
-be retried successfully after error recovery.
-If the request is complete with BLK_STS_IOERR in blk_mq_dispatch_rq_list.
-The state of request may be changed to MQ_RQ_IN_FLIGHT. If free the
-request asynchronously such as in nvme_submit_user_cmd, in extreme
-scenario the request will be repeated freed in tear down.
-If a non-resource error occurs in queue_rq, should directly call
-nvme_complete_rq to complete request and set the state of request to
-MQ_RQ_COMPLETE. nvme_complete_rq will decide to retry, fail over or end
-the request.
+When a queue is in NVMET_RDMA_Q_CONNECTING state, it may has some
+requests at rsp_wait_list. In case a disconnect occurs at this
+state, no one will empty this list and will return the requests to
+free_rsps list. Normally nvmet_rdma_queue_established() free those
+requests after moving the queue to NVMET_RDMA_Q_LIVE state, but in
+this case __nvmet_rdma_queue_disconnect() is called before. The
+crash happens at nvmet_rdma_free_rsps() when calling
+list_del(&rsp->free_list), because the request exists only at
+the wait list. To fix the issue, simply clear rsp_wait_list when
+destroying the queue.
 
-Signed-off-by: Chao Leng <lengchao@huawei.com>
+Signed-off-by: Israel Rukshin <israelr@nvidia.com>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/host/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/rdma.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index df9f6f4549f1..4a89bf44ecdc 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2093,7 +2093,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- unmap_qe:
- 	ib_dma_unmap_single(dev, req->sqe.dma, sizeof(struct nvme_command),
- 			    DMA_TO_DEVICE);
--	return ret;
-+	return nvme_try_complete_failed_req(rq, ret);
- }
- 
- static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx)
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 5c1e7cb7fe0d..bdfc22eb2a10 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1641,6 +1641,16 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
+ 	spin_lock_irqsave(&queue->state_lock, flags);
+ 	switch (queue->state) {
+ 	case NVMET_RDMA_Q_CONNECTING:
++		while (!list_empty(&queue->rsp_wait_list)) {
++			struct nvmet_rdma_rsp *rsp;
++
++			rsp = list_first_entry(&queue->rsp_wait_list,
++					       struct nvmet_rdma_rsp,
++					       wait_list);
++			list_del(&rsp->wait_list);
++			nvmet_rdma_put_rsp(rsp);
++		}
++		fallthrough;
+ 	case NVMET_RDMA_Q_LIVE:
+ 		queue->state = NVMET_RDMA_Q_DISCONNECTING;
+ 		disconnect = true;
 -- 
-2.16.4
+2.18.2
 
 
 _______________________________________________
