@@ -2,56 +2,60 @@ Return-Path: <SRS0=mRFX=GI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66544C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 08:47:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDBBC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 09:46:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0C95922525
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 08:47:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C95922525
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id D98FD22257
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 09:46:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D98FD22257
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=OnPVROyuReZN1d0lbiL5W0iyIeyAhFkoKSWuN4iJ//E=; b=kpfYTvK07Xt6aO7/Wrr3ob9USU
-	y5OHR0/iydPy6llscq4454KujA3W/8dzuvWb/9nSJ9qxGajLzyB3jA4OIjmuJIqXKF/qN4A3vKfoi
-	RLK/PPXNncR8ZGolZirlP65DAoZHuZztqcI0bRKzugIhB+sLAMeNcToCersxk5xcmvVZyaRSUA8KH
-	K3h1rqLugol4rVhZFEyvlW1RqWP6gp2IJ+InecUC2dzQitsNVGCogl1ucziJ5yJjfZXVuLkiq9wsS
-	zWwTpalUo2G+5Vxup+RLIhB0R0mMgSc2znW9tmTNudwgBXlrxtWerOCsvdrD2TpiThVJl+e4eFY+h
-	jkqT366A==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=jxtgeo9BpaevfPxPkRD0B/6+H+st5DAZ32pR2cWv2Hs=; b=KWMcO23mugd164pvnk852TTDq
+	p9LNEAx64dz1XZJKFnP3hHs89lk6mzWoU5S/GsdZ4QNrqOD3nJZ8FV8UeykFDiA2yuZxiWmMnxoQ5
+	6w+/lbtlNAqrwp4u/+76xXEZgpFhQ259mSZNUlL/vqj1jTSmONy51s/iBtM3fHr/uWMsJv0wWbxvX
+	bpf3ONIxX0Ms8Z5/gDCZo5FAT8Kv7rqai7OZGeCRiUXztOIbRiXFYMNlUjrG0EDSd2Vb/LSvjKYJA
+	+4T3L/GFCTYXXd1Cw6442+4L8fY2dZNZs5lOifbc2wt0tTiTKsMwRKGQSbg7lgbfZ7izAOr0g6Kd8
+	0IW/3aUNA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwhzu-0002Ew-CM; Tue, 05 Jan 2021 08:47:22 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwhzo-0002EV-RR
- for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 08:47:19 +0000
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from
- israelr@nvidia.com) with SMTP; 5 Jan 2021 10:47:11 +0200
-Received: from rsws50.mtr.labs.mlnx (rsws50.mtr.labs.mlnx [10.210.9.36])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 1058lBlH021838;
- Tue, 5 Jan 2021 10:47:11 +0200
-From: Israel Rukshin <israelr@nvidia.com>
-To: Linux-nvme <linux-nvme@lists.infradead.org>
-Subject: [PATCH] nvmet-rdma: Fix list_del corruption on queue establishment
- failure
-Date: Tue,  5 Jan 2021 10:46:54 +0200
-Message-Id: <1609836414-44997-1-git-send-email-israelr@nvidia.com>
-X-Mailer: git-send-email 1.8.4.3
+	id 1kwiuW-0002Xr-C4; Tue, 05 Jan 2021 09:45:52 +0000
+Received: from mx2.suse.de ([195.135.220.15])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kwiuS-0002Wh-LH
+ for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 09:45:49 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 56758AD29;
+ Tue,  5 Jan 2021 09:45:46 +0000 (UTC)
+Date: Tue, 5 Jan 2021 10:45:45 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Enzo Matsumiya <ematsumiya@suse.de>
+Subject: Re: [PATCH] nvme: hwmon: fix crash on device teardown
+Message-ID: <20210105094545.3tq7c6ev5yn3bhyi@beryllium.lan>
+References: <20201209213228.5044-1-ematsumiya@suse.de>
+ <4ebb1b8c-4bb0-6ebf-3417-d4aee1bdd3a8@suse.de>
+ <20201230143805.2v4izgkzbnisssvr@beryllium.lan>
+ <20201230151653.ozlqlwef7f2tarwz@beryllium.lan>
+ <20201230153138.4f2jd2yd2vkqndby@beryllium.lan>
+ <20210104210610.hliiupywksawgei3@hyori>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210104210610.hliiupywksawgei3@hyori>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210105_034717_204349_3AA571F2 
-X-CRM114-Status: UNSURE (   9.61  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210105_044548_820875_D9D30389 
+X-CRM114-Status: GOOD (  13.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,56 +67,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Israel Rukshin <israelr@nvidia.com>,
- Nitzan Carmi <nitzanc@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-MIME-Version: 1.0
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+ Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a queue is in NVMET_RDMA_Q_CONNECTING state, it may has some
-requests at rsp_wait_list. In case a disconnect occurs at this
-state, no one will empty this list and will return the requests to
-free_rsps list. Normally nvmet_rdma_queue_established() free those
-requests after moving the queue to NVMET_RDMA_Q_LIVE state, but in
-this case __nvmet_rdma_queue_disconnect() is called before. The
-crash happens at nvmet_rdma_free_rsps() when calling
-list_del(&rsp->free_list), because the request exists only at
-the wait list. To fix the issue, simply clear rsp_wait_list when
-destroying the queue.
+On Mon, Jan 04, 2021 at 06:06:10PM -0300, Enzo Matsumiya wrote:
+> @Daniel maybe try tweaking your tests to use a smaller controller
+> loss timeout (-l option)? I do this on my tests because the default
+> value kicks in about 30min after hot-removal -- i.e. you
+> have to actually wait for the timeout to expire to trigger the bug.
 
-Signed-off-by: Israel Rukshin <israelr@nvidia.com>
-Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
----
- drivers/nvme/target/rdma.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 5c1e7cb7fe0d..bdfc22eb2a10 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1641,6 +1641,16 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
- 	spin_lock_irqsave(&queue->state_lock, flags);
- 	switch (queue->state) {
- 	case NVMET_RDMA_Q_CONNECTING:
-+		while (!list_empty(&queue->rsp_wait_list)) {
-+			struct nvmet_rdma_rsp *rsp;
-+
-+			rsp = list_first_entry(&queue->rsp_wait_list,
-+					       struct nvmet_rdma_rsp,
-+					       wait_list);
-+			list_del(&rsp->wait_list);
-+			nvmet_rdma_put_rsp(rsp);
-+		}
-+		fallthrough;
- 	case NVMET_RDMA_Q_LIVE:
- 		queue->state = NVMET_RDMA_Q_DISCONNECTING;
- 		disconnect = true;
--- 
-2.18.2
-
+As far I can tell, the blktests test I am using will trigger the same
+bug. The problem is that the lifetime of hwmon sysfs entry should be
+aligned to the lifetime of the nvme sysfs entry. Currently, hwmon's
+lifetime is bound to the lifetime of the ctl sysfs entry. When the nvme
+entry goes away (and obviously also the underlying device), the hwmon
+sysfs entry still references it.
 
 _______________________________________________
 Linux-nvme mailing list
