@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FDE9C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33965C433E6
 	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 07:20:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B5490224F9
+	by mail.kernel.org (Postfix) with ESMTPS id BB038225AC
 	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 07:20:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5490224F9
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BB038225AC
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,30 +23,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EvG1tNwBz6/nvNRc1hVWLHY1Ru97GFJzG8vswn8gxVI=; b=xIj4clASWRE6STZsDTlaYaRDU
-	bWw8KdTEiWcdRNXXAor8NeNlR1JfwIiF3uXBheYspWJ2zThrOWPN6ZdDzFpUyFHYHtxfMmackk4Dc
-	bXYY0cR1gK/wKI/L+pSs/baXbddRiK72yVKuQjJd6gDS04TH/Epw40lq6m+0g3MB8m5mLFsqDp7yj
-	eO8Uh4d1vndXdAqkSgthjmxhufyJOH52mbtbgktY4n4DPFqpkXOuzfTuECly5LH7g45dQEHRbsTCx
-	7FCRzIS2WpxHVUwZcb2EzQriIhLtGP+KtviFcixCmGt6ve9Sh4mGL/VU6YiBdy/DBsLnasHNx1du2
-	ZYqjDnHTw==;
+	 bh=fu0cDGa6YmiI7bdj2anxnvxpZIcPSfTRgmPZmDAyuOA=; b=taZL9cjnN4v6FC19/MIkwsuY4
+	nvzEgDeVdkPeuPSrK6vhF7OLHt4G0mW8If/+zmD+pNtrOtZwotfnnttkYwWZ16so8DSgY2jMiDS6q
+	5Ewuyzr1kpY+Uw0qyNay2ksCuOvHrCxs8tlB5Lj02RCyhdO4oabVq0dRxnXaRq4JmfOQx7eL2sco8
+	9/3Rk4tLx8HESaPddM078PxNGuhvuW3uDikUSpu2SbGrSi1i38C76Gzb8zIEyIGgAT8L+JDGIemsY
+	9gA2/GC858o7wjrqPZvcSai9ZkG4WX1pcmSQe7VXjKft2oanYcclEQ2WZA15oRnDL5GFYhm3GLxtH
+	mtMpP8dFg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwgdK-00071v-RQ; Tue, 05 Jan 2021 07:19:58 +0000
-Received: from szxga04-in.huawei.com ([45.249.212.190])
+	id 1kwgdI-00070s-Dp; Tue, 05 Jan 2021 07:19:56 +0000
+Received: from szxga07-in.huawei.com ([45.249.212.35])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwgdG-0006yC-1W
- for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 07:19:56 +0000
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D93l33yQRz15nk1;
- Tue,  5 Jan 2021 15:18:55 +0800 (CST)
+ id 1kwgdF-0006xU-CF
+ for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 07:19:54 +0000
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D93kz0fwpz7PQx;
+ Tue,  5 Jan 2021 15:18:51 +0800 (CST)
 Received: from huawei.com (10.29.88.127) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Tue, 5 Jan 2021
- 15:19:40 +0800
+ 15:19:37 +0800
 From: Chao Leng <lengchao@huawei.com>
 To: <linux-nvme@lists.infradead.org>
-Subject: [PATCH 5/6] nvme-tcp: avoid IO error and repeated request completion
-Date: Tue, 5 Jan 2021 15:19:35 +0800
-Message-ID: <20210105071936.25097-6-lengchao@huawei.com>
+Subject: [PATCH 1/6] blk-mq: introduce blk_mq_set_request_complete
+Date: Tue, 5 Jan 2021 15:19:31 +0800
+Message-ID: <20210105071936.25097-2-lengchao@huawei.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20210105071936.25097-1-lengchao@huawei.com>
 References: <20210105071936.25097-1-lengchao@huawei.com>
@@ -54,8 +54,9 @@ MIME-Version: 1.0
 X-Originating-IP: [10.29.88.127]
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210105_021955_000002_953627F5 
-X-CRM114-Status: GOOD (  14.06  )
+X-CRM114-CacheID: sfid-20210105_021953_711188_0EE21B82 
+X-CRM114-Status: UNSURE (   8.41  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,42 +75,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a request is queued failed, blk_status_t is directly returned
-to the blk-mq. If blk_status_t is not BLK_STS_RESOURCE,
-BLK_STS_DEV_RESOURCE, BLK_STS_ZONE_RESOURCE, blk-mq call
-blk_mq_end_request to complete the request with BLK_STS_IOERR.
-In two scenarios, the request should be retried and may succeed.
-First, if work with nvme multipath, the request may be retried
-successfully in another path, because the error is probably related to
-the path. Second, if work without multipath software, the request may
-be retried successfully after error recovery.
-If the request is completed with BLK_STS_IOERR in blk_mq_dispatch_rq_list.
-The state of request may be changed to MQ_RQ_IN_FLIGHT. If free the
-request asynchronously such as in nvme_submit_user_cmd, in extreme
-scenario the request will be repeated freed in tear down.
-If a non-resource error occurs when queue_rq, should directly call
-nvme_complete_rq to complete request and set the state of request to
-MQ_RQ_COMPLETE. nvme_complete_rq will decide to retry, fail over or end
-the request.
+In some scenarios, nvme need setting the state of request to
+MQ_RQ_COMPLETE. So add an inline function blk_mq_set_request_complete.
+For details, see the subsequent patches.
 
 Signed-off-by: Chao Leng <lengchao@huawei.com>
 ---
- drivers/nvme/host/tcp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/blk-mq.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 1ba659927442..a81683ce8cff 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2306,7 +2306,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index e7482e6ad3ec..cee72d31054d 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -493,6 +493,11 @@ static inline int blk_mq_request_completed(struct request *rq)
+ 	return blk_mq_rq_state(rq) == MQ_RQ_COMPLETE;
+ }
  
- 	ret = nvme_tcp_setup_cmd_pdu(ns, rq);
- 	if (unlikely(ret))
--		return ret;
-+		return nvme_try_complete_failed_req(rq, ret);
- 
- 	blk_mq_start_request(rq);
- 
++static inline void blk_mq_set_request_complete(struct request *rq)
++{
++	WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
++}
++
+ void blk_mq_start_request(struct request *rq);
+ void blk_mq_end_request(struct request *rq, blk_status_t error);
+ void __blk_mq_end_request(struct request *rq, blk_status_t error);
 -- 
 2.16.4
 
