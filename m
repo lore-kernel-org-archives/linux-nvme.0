@@ -2,82 +2,86 @@ Return-Path: <SRS0=mRFX=GI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 647A3C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 19:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7B08C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 22:50:12 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E37BD22D5A
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 19:45:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E37BD22D5A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 7B6B122E00
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 22:50:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B6B122E00
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Xbj0GRWvb/OOaM/8qFas48XLStbFc9LwjtEVtgTR8LQ=; b=hl/d8ooOOou2evJ9//kd5dOGT
-	6gkLzTZIq8ISTqgUWSYTqszzQtmovo4U/4bMXjbHPsleU/MSVKLsCRV89QA1dYhqu7CeWeq2K69yM
-	htkQwcuwlRTwQr7nBk0YLd20T12oBZuY61pBVkrG44SiWNoiuOdvBBuLF7U9nxiC1hnfuWTpuZVMD
-	5qSrGiimTrsTBt+cXlvUmqmaCU/rTLXtmNgwBncl+3lkVN0I0+SOQWisJPPFMCZP9/WxbWLxCWN4p
-	xr/N7IAGldxIZU/gejSbIxhOu9ULtxqpVfuRp3LS51SD01317UhOw4jDKRNbsnhbp+3kuv5LndQWi
-	fEgguUZ5g==;
+	 bh=V/dDwAOx4bXlP+ap6o/eTjVy3SY4wxEhtNrZRpoOisM=; b=bpsBLJQh1CEhkWKCSafrrZ0Tn
+	Kw9ajamqmrtZYOa2xe+VYtQPdeAj+pwXK1x/qkRtOk2rK8AlT6tBQ2B/uC8iHPL/g3kaDKZaOgH+7
+	P529Sq0kvkQM2b/xglRadIA+Uintquml0DsqaMiI7aoO4+uE29vtNg0nYKG2t54R9x2LEPqxVT1+j
+	zWmNbxoEgF6Z1Nr0NnMaATHKzgRf8lsUNe7HL6TcKXQENABwhU/tN+49IF4VJ4WmytR9TM3UNkSwT
+	dUliCR+YK+qljble1y6WCy4WF/J+dCVwBQbvXRhnIMml7NA0mN2AskpVvrrW80E7glsVBD7GQ1ITF
+	A/uSHHSjA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwsGo-0001SE-2L; Tue, 05 Jan 2021 19:45:30 +0000
-Received: from mail-pg1-f180.google.com ([209.85.215.180])
+	id 1kwv9J-0002C1-E7; Tue, 05 Jan 2021 22:49:57 +0000
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwsGl-0001Rf-5s
- for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 19:45:28 +0000
-Received: by mail-pg1-f180.google.com with SMTP id v19so531287pgj.12
- for <linux-nvme@lists.infradead.org>; Tue, 05 Jan 2021 11:45:24 -0800 (PST)
+ id 1kwv9F-0002AS-Hw
+ for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 22:49:54 +0000
+Received: by mail-pg1-x52c.google.com with SMTP id i5so884212pgo.1
+ for <linux-nvme@lists.infradead.org>; Tue, 05 Jan 2021 14:49:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KBNaH8oSCrU7IQxNXOZDbTq4i7ueJLqqzxia33+BLhc=;
+ b=neph9sX0+6XXQYi7CqtgA3UjtQ0o1T0n5aEiSvcgs6PMkPUIynokOnIi8BdvAHwfm4
+ 4Ig6HUO3p8UHvZ+ZKYWe+ix/oxw/aUtD2a9RrDdei2/Igdo96YNh5MzfvFuE3UOu6kB+
+ rcQrMpJQ5Bipk/bhHIpziH1NcvbfCoyOH1D+Ek/umNd+MJI/0ZYkpGaiK/jrsi1khnOL
+ wdAjBHKZ3xKOI25IgZc1qBJkMaVks9w/3jA1oFSUzYzOjOs8hpIh3/glw4V7NJXLaVkB
+ 014ne4bByOWBbVGORicSbxd17Wzq8xYcfZm0op6EhDr0uEiC5tRwdGJK6hmQRY43t5nM
+ dhTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dOKcdHgwLsKq51svGXxAsgsUpKjGWKFDGU5xECA6lTA=;
- b=S3W4e7k6EX+7xwwakFfQ1mY/Y7phYIREzGxAnXi5iYFK8c3gCSdrBwQxPCVwhZS3G9
- DADLG7RZ5aAhulAesN6uq0lP0xv5enaIpV1LMbIzz02bd4JC6Y6+HZttVViS8AqGwk+/
- fM/75JrjSsS4nkTO/yHmy7XtDpxTG6jILKVXeGAvMd8DNAnuBPJ4sZhDkOI2Lkv7QBVt
- kvjEuNsfJNwe2DepHbFBap46O8RD/Kem5dTAjnF3GQZjobu4bj/6GJse6SAmG4Gs/+5z
- FqycctRj316t7XVP0eI9cttNV/OKs2blF9PXB+m5I/LjTXaN0gS8pSQi+yvqwP7qhrll
- 7eaQ==
-X-Gm-Message-State: AOAM531rT3B6IX7T1dw82S0DHvMz53F7MzjQqW+tZ9GeQ4fvmaBBQWkW
- l1wB1s/d0DyTHUtDD6Bp8XDGGXp+zfo=
-X-Google-Smtp-Source: ABdhPJzoxzIbvGKnIJvVXNMFouhQVMW/qaXqDhYXrul1evK4NNqgUOUNgWd+p2iT3zY7H2/ITqOgAQ==
-X-Received: by 2002:a63:5309:: with SMTP id h9mr845063pgb.19.1609875923465;
- Tue, 05 Jan 2021 11:45:23 -0800 (PST)
-Received: from ?IPv6:2601:647:4802:9070:8cad:710d:d1f1:8ff1?
- ([2601:647:4802:9070:8cad:710d:d1f1:8ff1])
- by smtp.gmail.com with ESMTPSA id p187sm185147pfp.60.2021.01.05.11.45.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jan 2021 11:45:22 -0800 (PST)
-Subject: Re: kernel panic in nvmet_tcp when receiving malformed admin command
-To: "Engel, Amit" <Amit.Engel@Dell.com>, "Anner, Ran" <Ran.Anner@dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <BL0PR1901MB2067C827A2D826C0FBFE985591320@BL0PR1901MB2067.namprd19.prod.outlook.com>
- <cee26269-c9c3-7ce7-8486-4ed16a632e44@grimberg.me>
- <BL0PR1901MB20671CF789D8C246AF911B4D91330@BL0PR1901MB2067.namprd19.prod.outlook.com>
- <DS7PR19MB4439372515F931BA5A1578ABEED30@DS7PR19MB4439.namprd19.prod.outlook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <dec5fc1d-62d6-1c1e-e2f8-4aa5aeb084af@grimberg.me>
-Date: Tue, 5 Jan 2021 11:45:21 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KBNaH8oSCrU7IQxNXOZDbTq4i7ueJLqqzxia33+BLhc=;
+ b=DLxJ5skrFhB569vG40SNJmO/JaBIi5pFWkBMfaWW7Aj2AsPNb15SPhmpumDEnkP/sP
+ 5Zu4SGBMqdm4EvVnclP9pQVGRlEKMqKIvktOMpTLty92gYRgLgV/Y2m2CaGdCr3O9Dv/
+ B5FpJsCgNyvPE56UsWXo01veDjufTJ8cZEnvjEMPkDmcNS74yhz0i94U26VMA0jGr8Xa
+ B9cBlJsC8oQpsBaYjW1j30CPrM82P1K8WxeiWXTAjTvIfy9maNYZs5h7z0etRATKTzLM
+ DLOLmytz4TRPqLHD4Wp7x7FLiAgWaQafJlz0ajlEr6diFfxKgfY6iWid4rriyi55KYTH
+ 0gbA==
+X-Gm-Message-State: AOAM532e4d91w/bPsNJ//BXVWhARRyulDbdsbjuIeXWsDT3/FLkwHQTY
+ CJGhIG1LAPtXvKAMPhi95NTcf9spoAYdoRSlqjM=
+X-Google-Smtp-Source: ABdhPJwR9n8/Bl+l177IWtmSQU4OH+UDzua0QcU3wqf5tHjmcoR2hYFspZAk5+w0+XApldTdQrYI6g==
+X-Received: by 2002:a63:d814:: with SMTP id b20mr1371223pgh.202.1609886989535; 
+ Tue, 05 Jan 2021 14:49:49 -0800 (PST)
+Received: from kai-mayerc-x40e.us.kioxia.com ([12.201.142.42])
+ by smtp.gmail.com with ESMTPSA id 6sm351516pfj.216.2021.01.05.14.49.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 14:49:49 -0800 (PST)
+From: klayph@gmail.com
+X-Google-Original-From: clay.mayers@kioxia.com
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH 1/2] nvme: support fused nvme requests
+Date: Tue,  5 Jan 2021 14:49:38 -0800
+Message-Id: <20210105224939.1336-2-clay.mayers@kioxia.com>
+X-Mailer: git-send-email 2.27.0.windows.1
+In-Reply-To: <20210105224939.1336-1-clay.mayers@kioxia.com>
+References: <20210105224939.1336-1-clay.mayers@kioxia.com>
 MIME-Version: 1.0
-In-Reply-To: <DS7PR19MB4439372515F931BA5A1578ABEED30@DS7PR19MB4439.namprd19.prod.outlook.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210105_144527_248472_8E572C70 
-X-CRM114-Status: GOOD (  11.08  )
+X-CRM114-CacheID: sfid-20210105_174953_615515_73668A8E 
+X-CRM114-Status: GOOD (  19.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,17 +93,109 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "Zinger, Eldad" <Eldad.Zinger@dell.com>, "Grupi,
- Elad" <Elad.Grupi@dell.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Clay Mayers <mayerc@kioxia.com>
 
-> Hi Sagi, is the patch addressing the below issue is already out there?
+Adds support for fused nvme commands to be tunneled through a blk_mq
+queue and submitted atomically to an nvme device queue.
 
-No, thanks for reminding me, I'll have a look into this.
+If the nvme cmnd has the first fused flag set, nvme_request.nrq2 points
+to the nvme_request for the second fused command. Instead of submitting
+the first request, its cmnd is saved in the second command's
+nvme_request to be submitted as a pair once the second request is
+processed by nvme_queue_rq().
+
+Signed-off-by: Clay Mayers <clay.mayers@kioxia.com>
+---
+ drivers/nvme/host/core.c |  1 +
+ drivers/nvme/host/nvme.h |  2 ++
+ drivers/nvme/host/pci.c  | 32 +++++++++++++++++++++++++++++++-
+ 3 files changed, 34 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9a270e49df17..a498cf6a9eaf 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -514,6 +514,7 @@ static inline void nvme_clear_nvme_request(struct request *req)
+ 	if (!(req->rq_flags & RQF_DONTPREP)) {
+ 		nvme_req(req)->retries = 0;
+ 		nvme_req(req)->flags = 0;
++		nvme_req(req)->nrq2 = NULL;
+ 		req->rq_flags |= RQF_DONTPREP;
+ 	}
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 567f7ad18a91..187dde1f11fe 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -157,6 +157,8 @@ struct nvme_request {
+ 	u8			flags;
+ 	u16			status;
+ 	struct nvme_ctrl	*ctrl;
++	struct nvme_request	*nrq2;	/* Points to second fused request */
++	struct nvme_command	cmnd;	/* Saved fused first cmnd */
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3be352403839..c24729e100bc 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -491,6 +491,30 @@ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
+ 	nvmeq->last_sq_tail = nvmeq->sq_tail;
+ }
+ 
++/**
++ * nvme_submit_cmd2() - Copy fused commands into a queue and ring the doorbell
++ * @nvmeq: The queue to use
++ * @cmd: The first command to send
++ * @cmd2: the second command to send
++ * @write_sq: whether to write to the SQ doorbell
++ */
++static void nvme_submit_cmd2(struct nvme_queue *nvmeq, struct nvme_command *cmd,
++			     struct nvme_command *cmd2, bool write_sq)
++{
++	spin_lock(&nvmeq->sq_lock);
++	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
++		cmd, sizeof(*cmd));
++	if (++nvmeq->sq_tail == nvmeq->q_depth)
++		nvmeq->sq_tail = 0;
++	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
++		cmd2, sizeof(*cmd2));
++	if (++nvmeq->sq_tail == nvmeq->q_depth)
++		nvmeq->sq_tail = 0;
++	nvme_write_sq_db(nvmeq, write_sq);
++	spin_unlock(&nvmeq->sq_lock);
++}
++
++
+ /**
+  * nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
+  * @nvmeq: The queue to use
+@@ -918,7 +942,13 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	}
+ 
+ 	blk_mq_start_request(req);
+-	nvme_submit_cmd(nvmeq, &cmnd, bd->last);
++
++	if (cmnd.common.flags & NVME_CMD_FUSE_FIRST)
++		memcpy(&nvme_req(req)->nrq2->cmnd, &cmnd, sizeof(cmnd));
++	else if (cmnd.common.flags & NVME_CMD_FUSE_SECOND)
++		nvme_submit_cmd2(nvmeq, &nvme_req(req)->cmnd, &cmnd, bd->last);
++	else
++		nvme_submit_cmd(nvmeq, &cmnd, bd->last);
+ 	return BLK_STS_OK;
+ out_unmap_data:
+ 	nvme_unmap_data(dev, req);
+-- 
+2.27.0
+
 
 _______________________________________________
 Linux-nvme mailing list
