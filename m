@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7B08C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1086C433E0
 	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 22:50:12 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B6B122E00
+	by mail.kernel.org (Postfix) with ESMTPS id 676FE22D6E
 	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 22:50:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B6B122E00
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 676FE22D6E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,64 +24,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=V/dDwAOx4bXlP+ap6o/eTjVy3SY4wxEhtNrZRpoOisM=; b=bpsBLJQh1CEhkWKCSafrrZ0Tn
-	Kw9ajamqmrtZYOa2xe+VYtQPdeAj+pwXK1x/qkRtOk2rK8AlT6tBQ2B/uC8iHPL/g3kaDKZaOgH+7
-	P529Sq0kvkQM2b/xglRadIA+Uintquml0DsqaMiI7aoO4+uE29vtNg0nYKG2t54R9x2LEPqxVT1+j
-	zWmNbxoEgF6Z1Nr0NnMaATHKzgRf8lsUNe7HL6TcKXQENABwhU/tN+49IF4VJ4WmytR9TM3UNkSwT
-	dUliCR+YK+qljble1y6WCy4WF/J+dCVwBQbvXRhnIMml7NA0mN2AskpVvrrW80E7glsVBD7GQ1ITF
-	A/uSHHSjA==;
+	 bh=ZKExHaZMNjUjdRk1gLwAp2mPLwgNh3Z0mxU6VJQWjS8=; b=Z0Xwoahi96g8j9Umh30zs13Q5
+	t2jc2IdoXI+XeFMGt9JGaN1u6abtexIXF3nAHV+Z+0om1IZJQResO3vHa/+cDwCSVFNZ2VGnINI/T
+	BpqJfTeFnSvn2EMIf43exc2SPfC+jURCe5FUeuFel/Qt2gpqU9rI8e916diTuGMUybjnDBP4LGUMp
+	b8JsAsqWDmPAq0UG57fGByAsUUVk+YGkULXXOKxMq9T1LwBzLc9cUudvJduLK4EtHHiZe5f1e+5ds
+	PeZza1JCsBps0bVjQST00mDPtVVyPou7dj1xpAwcfNibuPemo73g3YRmYbRa5t22nF2Nja5FMc2D8
+	3rbhCTZBg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwv9J-0002C1-E7; Tue, 05 Jan 2021 22:49:57 +0000
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+	id 1kwv9K-0002CF-7m; Tue, 05 Jan 2021 22:49:58 +0000
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwv9F-0002AS-Hw
- for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 22:49:54 +0000
-Received: by mail-pg1-x52c.google.com with SMTP id i5so884212pgo.1
- for <linux-nvme@lists.infradead.org>; Tue, 05 Jan 2021 14:49:51 -0800 (PST)
+ id 1kwv9F-0002Ao-PC
+ for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 22:49:55 +0000
+Received: by mail-pg1-x534.google.com with SMTP id g15so858484pgu.9
+ for <linux-nvme@lists.infradead.org>; Tue, 05 Jan 2021 14:49:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KBNaH8oSCrU7IQxNXOZDbTq4i7ueJLqqzxia33+BLhc=;
- b=neph9sX0+6XXQYi7CqtgA3UjtQ0o1T0n5aEiSvcgs6PMkPUIynokOnIi8BdvAHwfm4
- 4Ig6HUO3p8UHvZ+ZKYWe+ix/oxw/aUtD2a9RrDdei2/Igdo96YNh5MzfvFuE3UOu6kB+
- rcQrMpJQ5Bipk/bhHIpziH1NcvbfCoyOH1D+Ek/umNd+MJI/0ZYkpGaiK/jrsi1khnOL
- wdAjBHKZ3xKOI25IgZc1qBJkMaVks9w/3jA1oFSUzYzOjOs8hpIh3/glw4V7NJXLaVkB
- 014ne4bByOWBbVGORicSbxd17Wzq8xYcfZm0op6EhDr0uEiC5tRwdGJK6hmQRY43t5nM
- dhTg==
+ bh=a/ew2aNo3OYpuVhdNa1HAF1LqyVa38yd7xKEEyHhhHo=;
+ b=cgVMqhtOkzCvvQOcanhs3oV6DHBf7SiYevEzjs9Buddtpsav+W8bBrkBeEUo9hRonW
+ g/uh9YwGeKimEEwpuZJYyBW49N+d7zD7CCR93KdcIwYDlLpNfWmy4qjPACMf915EjvM/
+ 0KH/fjUFJKbj3VZzbT4QrcffVyHQjyf5OddyTCOLMqOcMzrETEzc3EwnExrQXSVUTdc5
+ lizA6nRtkXSs5WzfWBBdYkbrlC+u3BLHqBvIv7M8hVMQbROEU7Nw7mMuMD3oa5DEVduz
+ X3ydIfAxPoAShZnjmMIHbrNiqBL2iFxXp0cgma4Qj0RbAXm8iSWuO1cO+hFLutskHXiz
+ 9ZhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KBNaH8oSCrU7IQxNXOZDbTq4i7ueJLqqzxia33+BLhc=;
- b=DLxJ5skrFhB569vG40SNJmO/JaBIi5pFWkBMfaWW7Aj2AsPNb15SPhmpumDEnkP/sP
- 5Zu4SGBMqdm4EvVnclP9pQVGRlEKMqKIvktOMpTLty92gYRgLgV/Y2m2CaGdCr3O9Dv/
- B5FpJsCgNyvPE56UsWXo01veDjufTJ8cZEnvjEMPkDmcNS74yhz0i94U26VMA0jGr8Xa
- B9cBlJsC8oQpsBaYjW1j30CPrM82P1K8WxeiWXTAjTvIfy9maNYZs5h7z0etRATKTzLM
- DLOLmytz4TRPqLHD4Wp7x7FLiAgWaQafJlz0ajlEr6diFfxKgfY6iWid4rriyi55KYTH
- 0gbA==
-X-Gm-Message-State: AOAM532e4d91w/bPsNJ//BXVWhARRyulDbdsbjuIeXWsDT3/FLkwHQTY
- CJGhIG1LAPtXvKAMPhi95NTcf9spoAYdoRSlqjM=
-X-Google-Smtp-Source: ABdhPJwR9n8/Bl+l177IWtmSQU4OH+UDzua0QcU3wqf5tHjmcoR2hYFspZAk5+w0+XApldTdQrYI6g==
-X-Received: by 2002:a63:d814:: with SMTP id b20mr1371223pgh.202.1609886989535; 
- Tue, 05 Jan 2021 14:49:49 -0800 (PST)
+ bh=a/ew2aNo3OYpuVhdNa1HAF1LqyVa38yd7xKEEyHhhHo=;
+ b=c/cNk+4lgiMry7DfBUKnTDG+1oXd2AtcIcFozD6c8F1QTzxwkMx8lVPZxudqpUuPvL
+ f2SQoLLo7EtgMOlwx77RPSNGmnXUQpUf1LjuWZP7tgJgI3gbHW/y74v0d4NQjMTBS7Jr
+ mxa5rrdXgeGkDEas1FfOHHmaBXvrcwTaEPE6Ic9at6DVBOAXRnwrSKYlzOjQebMuIWBH
+ ar2ey+kCscmiJA97k2mx2OLwruuZAMuCIWesdD5ZTokcAsjLGpImDkh7gHnGr8MRdsWX
+ nQpPVmhsIgfAJgBx0/I7Bt3UVfY7wpGy9/1CytPP6SL5JvoqMYDqnpQCQBvt7HoxZZNh
+ q03Q==
+X-Gm-Message-State: AOAM533BNkSJ6SMHBNEgEbPfhCJLM3qjXI/3HTMapya0eVn72dnvds+O
+ tw4sp1VKSyS8RTyAxY3U0cLUHRxyzGkYiaWxrB0=
+X-Google-Smtp-Source: ABdhPJw/XJO6IExKmuRMk4LAChHUzXkfL+KBMhUKr83Ul9nMkWXZwPqVeDJCzVR/wAFeVljjAUIqog==
+X-Received: by 2002:a63:2cd:: with SMTP id 196mr1364614pgc.398.1609886991406; 
+ Tue, 05 Jan 2021 14:49:51 -0800 (PST)
 Received: from kai-mayerc-x40e.us.kioxia.com ([12.201.142.42])
- by smtp.gmail.com with ESMTPSA id 6sm351516pfj.216.2021.01.05.14.49.48
+ by smtp.gmail.com with ESMTPSA id 6sm351516pfj.216.2021.01.05.14.49.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 14:49:49 -0800 (PST)
+ Tue, 05 Jan 2021 14:49:50 -0800 (PST)
 From: klayph@gmail.com
 X-Google-Original-From: clay.mayers@kioxia.com
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/2] nvme: support fused nvme requests
-Date: Tue,  5 Jan 2021 14:49:38 -0800
-Message-Id: <20210105224939.1336-2-clay.mayers@kioxia.com>
+Subject: [PATCH 2/2] nvme: support fused NVME_IOCTL_SUBMIT_IO
+Date: Tue,  5 Jan 2021 14:49:39 -0800
+Message-Id: <20210105224939.1336-3-clay.mayers@kioxia.com>
 X-Mailer: git-send-email 2.27.0.windows.1
 In-Reply-To: <20210105224939.1336-1-clay.mayers@kioxia.com>
 References: <20210105224939.1336-1-clay.mayers@kioxia.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210105_174953_615515_73668A8E 
-X-CRM114-Status: GOOD (  19.36  )
+X-CRM114-CacheID: sfid-20210105_174953_937932_9E2F727B 
+X-CRM114-Status: GOOD (  24.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,97 +102,346 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Clay Mayers <mayerc@kioxia.com>
 
-Adds support for fused nvme commands to be tunneled through a blk_mq
-queue and submitted atomically to an nvme device queue.
+Extends the functionality of the NVME_IOCTL_SUBMIT_IO ioctl to support
+a pair of fused nvme_user_io requests.
 
-If the nvme cmnd has the first fused flag set, nvme_request.nrq2 points
-to the nvme_request for the second fused command. Instead of submitting
-the first request, its cmnd is saved in the second command's
-nvme_request to be submitted as a pair once the second request is
-processed by nvme_queue_rq().
+When submitting a fused pair, an array of two nvme_user_io structs are
+supplied when invoking NVME_IOCTL_SUBMIT_IO ioctl.  Rather than
+introduce a new ioctl code, the presence of a fused pair is indicated
+by the nvme_user_io.flags having the value of NVME_CMD_FUSED_FIRST.
+This then indicates a second nvme_user_io struct follows the first with
+an nvme_user_io.flags set to NVME_CMD_FUSED_SECOND.
+
+A fused pair may fail to submit with -EWOULDBLOCK.  This indicates the
+device queue selected for the first command didn't have a tag available
+when the request for the second command was created.
 
 Signed-off-by: Clay Mayers <clay.mayers@kioxia.com>
 ---
- drivers/nvme/host/core.c |  1 +
- drivers/nvme/host/nvme.h |  2 ++
- drivers/nvme/host/pci.c  | 32 +++++++++++++++++++++++++++++++-
- 3 files changed, 34 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 260 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 200 insertions(+), 60 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9a270e49df17..a498cf6a9eaf 100644
+index a498cf6a9eaf..ce5d2a9a08a8 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -514,6 +514,7 @@ static inline void nvme_clear_nvme_request(struct request *req)
- 	if (!(req->rq_flags & RQF_DONTPREP)) {
- 		nvme_req(req)->retries = 0;
- 		nvme_req(req)->flags = 0;
-+		nvme_req(req)->nrq2 = NULL;
- 		req->rq_flags |= RQF_DONTPREP;
- 	}
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 567f7ad18a91..187dde1f11fe 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -157,6 +157,8 @@ struct nvme_request {
- 	u8			flags;
- 	u16			status;
- 	struct nvme_ctrl	*ctrl;
-+	struct nvme_request	*nrq2;	/* Points to second fused request */
-+	struct nvme_command	cmnd;	/* Saved fused first cmnd */
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3be352403839..c24729e100bc 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -491,6 +491,30 @@ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
- 	nvmeq->last_sq_tail = nvmeq->sq_tail;
+@@ -1468,16 +1468,40 @@ static void __user *nvme_to_user_ptr(uintptr_t ptrval)
+ 	return (void __user *)ptrval;
  }
  
-+/**
-+ * nvme_submit_cmd2() - Copy fused commands into a queue and ring the doorbell
-+ * @nvmeq: The queue to use
-+ * @cmd: The first command to send
-+ * @cmd2: the second command to send
-+ * @write_sq: whether to write to the SQ doorbell
-+ */
-+static void nvme_submit_cmd2(struct nvme_queue *nvmeq, struct nvme_command *cmd,
-+			     struct nvme_command *cmd2, bool write_sq)
+-static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
++struct nvme_user_io_req {
++	struct nvme_command cmd;
++	struct request *rq;
++	struct bio *bio;	/* bio in rq at the time of allocation */
++	void *meta;
++	void __user *udata;
++	void __user *umeta;
++	unsigned int len;
++	unsigned int mlen;
++	u32 mseed;
++};
++
++static void nvme_free_io(struct nvme_user_io_req *nrq)
 +{
-+	spin_lock(&nvmeq->sq_lock);
-+	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
-+		cmd, sizeof(*cmd));
-+	if (++nvmeq->sq_tail == nvmeq->q_depth)
-+		nvmeq->sq_tail = 0;
-+	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
-+		cmd2, sizeof(*cmd2));
-+	if (++nvmeq->sq_tail == nvmeq->q_depth)
-+		nvmeq->sq_tail = 0;
-+	nvme_write_sq_db(nvmeq, write_sq);
-+	spin_unlock(&nvmeq->sq_lock);
++	if (!nrq)
++		return;
++	kfree(nrq->meta);
++	if (nrq->bio)
++		blk_rq_unmap_user(nrq->bio);
++	if (nrq->rq)
++		blk_mq_free_request(nrq->rq);
++	nrq->meta = NULL;
++	nrq->bio = NULL;
++	nrq->rq = NULL;
 +}
 +
-+
- /**
-  * nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
-  * @nvmeq: The queue to use
-@@ -918,7 +942,13 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
++static int nvme_prep_io(struct nvme_ns *ns, struct nvme_user_io_req *nrq,
++			struct nvme_user_io __user *uio, int size)
+ {
+ 	struct nvme_user_io io;
+-	struct nvme_command c;
+-	unsigned length, meta_len;
+-	void __user *metadata;
+ 
+-	if (copy_from_user(&io, uio, sizeof(io)))
++	if (unlikely(copy_from_user(&io, uio, size)))
+ 		return -EFAULT;
+-	if (io.flags)
++	if (unlikely(io.flags & ~(NVME_CMD_FUSE_FIRST|NVME_CMD_FUSE_SECOND)))
+ 		return -EINVAL;
+ 
+ 	switch (io.opcode) {
+@@ -1489,33 +1513,160 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 		return -EINVAL;
  	}
  
- 	blk_mq_start_request(req);
--	nvme_submit_cmd(nvmeq, &cmnd, bd->last);
+-	length = (io.nblocks + 1) << ns->lba_shift;
+-	meta_len = (io.nblocks + 1) * ns->ms;
+-	metadata = nvme_to_user_ptr(io.metadata);
++	nrq->udata = nvme_to_user_ptr(io.addr);
++	nrq->len = (io.nblocks + 1) << ns->lba_shift;
++	nrq->umeta = nvme_to_user_ptr(io.metadata);
++	nrq->mlen = (io.nblocks + 1) * ns->ms;
++	nrq->mseed = lower_32_bits(io.slba);
++	nrq->bio = nrq->meta = NULL;
+ 
+ 	if (ns->features & NVME_NS_EXT_LBAS) {
+-		length += meta_len;
+-		meta_len = 0;
+-	} else if (meta_len) {
++		nrq->len += nrq->mlen;
++		nrq->mlen = 0;
++	} else if (nrq->mlen) {
+ 		if ((io.metadata & 3) || !io.metadata)
+ 			return -EINVAL;
+ 	}
+ 
+-	memset(&c, 0, sizeof(c));
+-	c.rw.opcode = io.opcode;
+-	c.rw.flags = io.flags;
+-	c.rw.nsid = cpu_to_le32(ns->head->ns_id);
+-	c.rw.slba = cpu_to_le64(io.slba);
+-	c.rw.length = cpu_to_le16(io.nblocks);
+-	c.rw.control = cpu_to_le16(io.control);
+-	c.rw.dsmgmt = cpu_to_le32(io.dsmgmt);
+-	c.rw.reftag = cpu_to_le32(io.reftag);
+-	c.rw.apptag = cpu_to_le16(io.apptag);
+-	c.rw.appmask = cpu_to_le16(io.appmask);
+-
+-	return nvme_submit_user_cmd(ns->queue, &c,
+-			nvme_to_user_ptr(io.addr), length,
+-			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
++	memset(&nrq->cmd, 0, sizeof(nrq->cmd));
++	nrq->cmd.rw.opcode = io.opcode;
++	nrq->cmd.rw.flags = io.flags;
++	nrq->cmd.rw.nsid = cpu_to_le32(ns->head->ns_id);
++	nrq->cmd.rw.slba = cpu_to_le64(io.slba);
++	nrq->cmd.rw.length = cpu_to_le16(io.nblocks);
++	nrq->cmd.rw.control = cpu_to_le16(io.control);
++	nrq->cmd.rw.dsmgmt = cpu_to_le32(io.dsmgmt);
++	nrq->cmd.rw.reftag = cpu_to_le32(io.reftag);
++	nrq->cmd.rw.apptag = cpu_to_le16(io.apptag);
++	nrq->cmd.rw.appmask = cpu_to_le16(io.appmask);
 +
-+	if (cmnd.common.flags & NVME_CMD_FUSE_FIRST)
-+		memcpy(&nvme_req(req)->nrq2->cmnd, &cmnd, sizeof(cmnd));
-+	else if (cmnd.common.flags & NVME_CMD_FUSE_SECOND)
-+		nvme_submit_cmd2(nvmeq, &nvme_req(req)->cmnd, &cmnd, bd->last);
++	return 0;
++}
++
++static struct request *nvme_mk_req_io(struct nvme_ns *ns,
++				      struct nvme_user_io_req *nrq,
++				      blk_mq_req_flags_t flags, int qid,
++				      int timeout)
++{
++	bool write = nvme_is_write(&nrq->cmd);
++	struct request_queue *q = ns->queue;
++	struct gendisk *disk = ns->disk;
++	struct request *rq;
++	struct bio *bio = NULL;
++	void *meta = NULL;
++	int ret;
++
++	rq = nvme_alloc_request(q, &nrq->cmd, flags, qid);
++	if (unlikely(IS_ERR(rq)))
++		return rq;
++
++	rq->timeout = timeout ? timeout : ADMIN_TIMEOUT;
++	nvme_req(rq)->flags |= NVME_REQ_USERCMD;
++
++	if (nrq->udata && nrq->len) {
++		ret = blk_rq_map_user(q, rq, NULL, nrq->udata, nrq->len,
++				GFP_KERNEL);
++		if (ret)
++			goto out;
++		bio = rq->bio;
++		bio->bi_disk = disk;
++		if (disk && nrq->umeta && nrq->mlen) {
++			meta = nvme_add_user_metadata(bio, nrq->umeta, nrq->mlen,
++					nrq->mseed, write);
++			if (IS_ERR(meta)) {
++				ret = PTR_ERR(meta);
++				goto out_unmap;
++			}
++			nrq->meta = meta;
++		}
++	}
++	nrq->bio = bio;
++	return rq;
++out_unmap:
++	if (bio)
++		blk_rq_unmap_user(bio);
++ out:
++	blk_mq_free_request(rq);
++	return ERR_PTR(ret);
++}
++
++static int nvme_unprep_io(struct nvme_user_io_req *nrq,
++			  u64 *result)
++{
++	struct request *rq = nrq->rq;
++	int write = nvme_is_write(&nrq->cmd);
++	int ret;
++
++	if (unlikely(nvme_req(rq)->flags & NVME_REQ_CANCELLED))
++		ret = -EINTR;
 +	else
-+		nvme_submit_cmd(nvmeq, &cmnd, bd->last);
- 	return BLK_STS_OK;
- out_unmap_data:
- 	nvme_unmap_data(dev, req);
++		ret = nvme_req(rq)->status;
++	if (result)
++		*result = le64_to_cpu(nvme_req(rq)->result.u64);
++	if (nrq->meta && !ret && !write) {
++		if (copy_to_user(nrq->umeta, nrq->meta, nrq->mlen))
++			ret = -EFAULT;
++	}
++	nvme_free_io(nrq);
++	return ret;
++}
++
++/* support both NVME_IOCTL_SUBMIT_IO and NVME_IOCTL_SUBMIT_IO32 */
++static int nvme_submit_io(struct nvme_ns *ns, void __user *uio,
++			  int size)
++{
++	struct nvme_user_io_req nrq, nrq2;
++	struct request *rq, *rq2;
++	int ret, fused;
++
++	ret = nvme_prep_io(ns, &nrq, uio, size);
++	if (unlikely(ret))
++		return ret;
++	fused = (nrq.cmd.common.flags == NVME_CMD_FUSE_FIRST);
++	if (fused) {
++		ret = nvme_prep_io(ns, &nrq2, uio+size, size);
++		if (unlikely(ret))
++			return ret;
++		if (unlikely(nrq2.cmd.common.flags != NVME_CMD_FUSE_SECOND))
++			return -EINVAL;
++	} else if (unlikely(nrq.cmd.common.flags)) {
++		return -EINVAL;
++	}
++	rq = nvme_mk_req_io(ns, &nrq, 0, NVME_QID_ANY, 0);
++	if (unlikely(IS_ERR(rq)))
++		return PTR_ERR(rq);
++	nrq.rq = rq;
++	if (fused) {
++		DECLARE_COMPLETION_ONSTACK(wait);
++
++		rq2 = nvme_mk_req_io(ns, &nrq2, BLK_MQ_REQ_NOWAIT,
++				     nvme_req_qid(rq), 0);
++		if (unlikely(IS_ERR(rq2))) {
++			nvme_free_io(&nrq);
++			return PTR_ERR(rq2);
++		}
++		nvme_req(rq)->nrq2 = nvme_req(rq2);
++		nrq2.rq = rq2;
++
++		rq->cmd_flags |= REQ_NOMERGE;
++		rq2->cmd_flags |= REQ_NOMERGE;
++		rq->end_io_data = &wait;
++		blk_execute_rq_nowait(rq->q, ns->disk, rq, false, nvme_end_sync_rq);
++		nvme_execute_passthru_rq(rq2);
++
++		/*
++		 * both will be complete at this point, but nvme spec doesn't
++		 * specify cqe ordering for fused operations so wait for the
++		 * first to complete as well
++		 */
++		wait_for_completion_io(&wait);
++		nvme_unprep_io(&nrq, NULL);
++		ret = nvme_unprep_io(&nrq2, NULL);
++	} else {
++		nvme_execute_passthru_rq(rq);
++		ret = nvme_unprep_io(&nrq, NULL);
++	}
++	return ret;
+ }
+ 
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+@@ -1672,6 +1823,23 @@ static int nvme_handle_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 	return ret;
+ }
+ 
++struct nvme_user_io32 {
++	__u8	opcode;
++	__u8	flags;
++	__u16	control;
++	__u16	nblocks;
++	__u16	rsvd;
++	__u64	metadata;
++	__u64	addr;
++	__u64	slba;
++	__u32	dsmgmt;
++	__u32	reftag;
++	__u16	apptag;
++	__u16	appmask;
++} __attribute__((__packed__));
++
++#define NVME_IOCTL_SUBMIT_IO32	_IOW('N', 0x42, struct nvme_user_io32)
++
+ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 		unsigned int cmd, unsigned long arg)
+ {
+@@ -1700,8 +1868,10 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 	case NVME_IOCTL_IO_CMD:
+ 		ret = nvme_user_cmd(ns->ctrl, ns, argp);
+ 		break;
++	case NVME_IOCTL_SUBMIT_IO32:
++		fallthrough;	/* structures are identical except size */
+ 	case NVME_IOCTL_SUBMIT_IO:
+-		ret = nvme_submit_io(ns, argp);
++		ret = nvme_submit_io(ns, argp, _IOC_SIZE(cmd));
+ 		break;
+ 	case NVME_IOCTL_IO64_CMD:
+ 		ret = nvme_user_cmd64(ns->ctrl, ns, argp);
+@@ -1717,41 +1887,11 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 	return ret;
+ }
+ 
+-#ifdef CONFIG_COMPAT
+-struct nvme_user_io32 {
+-	__u8	opcode;
+-	__u8	flags;
+-	__u16	control;
+-	__u16	nblocks;
+-	__u16	rsvd;
+-	__u64	metadata;
+-	__u64	addr;
+-	__u64	slba;
+-	__u32	dsmgmt;
+-	__u32	reftag;
+-	__u16	apptag;
+-	__u16	appmask;
+-} __attribute__((__packed__));
+-
+-#define NVME_IOCTL_SUBMIT_IO32	_IOW('N', 0x42, struct nvme_user_io32)
+ 
++#ifdef CONFIG_COMPAT
+ static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
+ 		unsigned int cmd, unsigned long arg)
+ {
+-	/*
+-	 * Corresponds to the difference of NVME_IOCTL_SUBMIT_IO
+-	 * between 32 bit programs and 64 bit kernel.
+-	 * The cause is that the results of sizeof(struct nvme_user_io),
+-	 * which is used to define NVME_IOCTL_SUBMIT_IO,
+-	 * are not same between 32 bit compiler and 64 bit compiler.
+-	 * NVME_IOCTL_SUBMIT_IO32 is for 64 bit kernel handling
+-	 * NVME_IOCTL_SUBMIT_IO issued from 32 bit programs.
+-	 * Other IOCTL numbers are same between 32 bit and 64 bit.
+-	 * So there is nothing to do regarding to other IOCTL numbers.
+-	 */
+-	if (cmd == NVME_IOCTL_SUBMIT_IO32)
+-		return nvme_ioctl(bdev, mode, NVME_IOCTL_SUBMIT_IO, arg);
+-
+ 	return nvme_ioctl(bdev, mode, cmd, arg);
+ }
+ #else
+@@ -3118,7 +3258,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ret = nvme_configure_apst(ctrl);
+ 	if (ret < 0)
+ 		return ret;
+-	
++
+ 	ret = nvme_configure_timestamp(ctrl);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.27.0
 
