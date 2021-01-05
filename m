@@ -2,84 +2,152 @@ Return-Path: <SRS0=mRFX=GI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA71FC433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 23:05:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 137E4C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 23:34:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 85AD4230FB
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 23:05:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 85AD4230FB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	by mail.kernel.org (Postfix) with ESMTPS id A35832067C
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Jan 2021 23:34:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A35832067C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QBCrV0379kYnjszAc27LM9IGxsbczvwiSLjEQYP6txg=; b=08N/vDmS5uyvek5EZs6iBd2gM
-	QxkPwBRIuzbPwIhPfxp4+qJXG8fU751betGDPPiOUXchqWw59PFrgCercy22gOCtum8qnPGQ2qYNj
-	8EYZAlXh2ooLiE8JTBZUYbqemEAxoQRsnTvWEJqyoqO0CQ0klcPwILZF4DWOawfy6Zl2uYCjsS0pg
-	DoJzGHbz5oAu98v2TOLJQ0oMI5LGSAvzR1IhJxRn3/NYaqBBVB6hiUn5MWHAIofT9kMt+uuA/YBGN
-	efDFVgblcnboojSPECl4JbPmWTlz3Y+8kMiOe6ICBnvnnVPFeGS8NqSB0P+x+RoEzmw7LVG57ZAOS
-	+7qs7DRRg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=rYLG7VsSNQclZ9EWRA3t77LhvU7ocBx0t4+HVD33ioI=; b=WS5lKnE6Vr4aZDnH4xM0vaLlc
+	fSczYlsiFZcIToV9+sPyqmNpg3+hKCd5QU7vu93KyMpGzfZ/9eu3HJ4TEGJgKS1r7l16N52ia12jP
+	b08Zdz9Y5VsQRoAvXp3I+fgCjz/N0rf04HsFYgGwa33YAyU6vm92SCEzDzQEa7gs0RbBTYKyNls+9
+	9bDmz83wQy/FtHm8pjd27w/N+OPz5TgKFyXtuMi6iOuKU5Y28+3bZ+VvCPndwEc9znO5lBTrUyWgr
+	DxXP7JzyFGKheUIa+LsbbO5gB98mXr6+HNogywnyz6PSyyd1o+vtLpRiLqQERmD3O9AVy7CAOQs70
+	fJZFli5zA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kwvNj-00047U-Iv; Tue, 05 Jan 2021 23:04:51 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1kwvq4-0000N2-UI; Tue, 05 Jan 2021 23:34:08 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kwvNg-000472-PN
- for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 23:04:50 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id n3so1682852pjm.1
- for <linux-nvme@lists.infradead.org>; Tue, 05 Jan 2021 15:04:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to;
- bh=Muauhhx/Kby/5kVebQTJ+ZPEVLZSWk4R63vBz9huqBU=;
- b=NyNe5r9KR6HhuuhkMU5kLsp2spSvatvqUoxaSLbaTP3pZCeo50OM4tKRA0dw+ukT1b
- S94sacUS74iHDEVVMWfSDWsSq1fvX2SqVP/OGTBurlItGfprqXgYlb2LxG9nNQhmr3SP
- 0ilocm3ETNEZ6DyN+ol4E0bWbjyQ+0ZESdrJY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to;
- bh=Muauhhx/Kby/5kVebQTJ+ZPEVLZSWk4R63vBz9huqBU=;
- b=VxgPHRgKDL8wpycx7H954S2dvdlrjXYVhHyYFj4mxZz/TgGmMEPixHRBxKGQcX3Pob
- 4jSpdA1qs5EsCFxRsHRHboZ/HIG22TWbBjcjK7nMc3FB6Y1rFgFRvjxBl+juhbM1poa/
- GcgQzcFd5DbVHgQaN+rMEiUjNv1ELBzPdNaHIvIm4AV5y19nfecGgsXFI8fXM90DVbIk
- XGnI0P/k87aAuZYufelF1kgX9Ae/UEvATVADX2rAig1oUixq8qIsAMnrFTlQI6XHTPY2
- x4LNC2CFSclktrSklnUmDv7/f+u3RCH3I03Nf2tobJm/RJdxPSJru7DbDv7Kvvuzu0Uz
- 1gyQ==
-X-Gm-Message-State: AOAM533+dPtP/G+7fd3fv9jfQG7K/JQ2vLT1r9Vu6fp9qOrblVRl9uNK
- ItehDi+SqujCVnH1X6qAeaB3A9G16alhYN8ZhxaHgxP3I2YS7ZIQ9lQ9v6ZbpP3X4ZjqhCbMG29
- TpfX7hroX4/DYnU73uh2a8oW9Bw==
-X-Google-Smtp-Source: ABdhPJxHIEXMYzHyrE7lFVEO317dRUHZZfcqPhRz62m7x+OWuexhDNayQ4fhPAZAvR1Is55CwxvBHQ==
-X-Received: by 2002:a17:90b:1987:: with SMTP id
- mv7mr1423111pjb.66.1609887885280; 
- Tue, 05 Jan 2021 15:04:45 -0800 (PST)
-Received: from [10.69.69.102] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id m13sm398405pff.21.2021.01.05.15.04.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jan 2021 15:04:44 -0800 (PST)
-Subject: Re: [PATCH 0/2] nvme: Support for fused NVME_IOCTL_SUBMIT_IO
-To: klayph@gmail.com, linux-nvme@lists.infradead.org
-References: <20210105224939.1336-1-clay.mayers@kioxia.com>
-From: James Smart <james.smart@broadcom.com>
-Message-ID: <7104fe82-7b05-b747-5529-edab6ada2082@broadcom.com>
-Date: Tue, 5 Jan 2021 15:04:43 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ id 1kwvq0-0000MY-UY
+ for linux-nvme@lists.infradead.org; Tue, 05 Jan 2021 23:34:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1609890383; x=1641426383;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=psEs2d+0zgxdFClIxSEI5heJG/J2EwVtf1QxqeLv+Q0=;
+ b=qCmYLWokvl2ZUcIlGM83IwTdyenB8yKZczpuk4XCxSvtsP26/8fDR6ka
+ GxIw15Xt4KAmE0frcqiPvnkmKBpN5sby9aha6WP/NYp4aqW+tlhoEHP07
+ SU2X/W7rwNjzO8wJVdRkQLTVmDTS+3PK/Cwbe+k6aM3yZ3Jufom70TI1R
+ c7udMBUlXE5wxtnNYvTSWC9LZDbzhHlu4CVMdTufbCuVb6QP2jgfddNxE
+ ibBcydNs9Xd+veGRZF5G5Uub7WuFRob1A1/UBMBASH4aDBibnB6ydOGoS
+ RgcAWPtR1Wq7IPxqRG4p//9FitAbBJYZJjK7wt/XrgxiGvnyYyrJFwIOC Q==;
+IronPort-SDR: BLEkSgpdCav+lIQvaPAEpTjy6dcracGRcdKg/1XeWgCuwi/I/qmWl03RwW3t2k1/r8HE4O7ZgF
+ U0LZnCH8U1U/LFiFi1IFLK5nbv/VCb55G3ka2zVJbuwyTSA/uo8lKiztBet2Wo0MU/vG0HD6FB
+ fTKNeBzRPIZxdIQz5KVb+wFqibDeMM/W39Rgznkxioj9NWOLTf/Yw3pZPRr9nq6gCaVoTBk6ny
+ HLMnRh2DSCmdjXf3UrRrzgngL7hO491sKjuKiSDaN12cgZ8DrGllhP9Zv+BptVEMhWN37cTOnv
+ 8uY=
+X-IronPort-AV: E=Sophos;i="5.78,478,1599494400"; d="scan'208";a="260468325"
+Received: from mail-sn1nam04lp2055.outbound.protection.outlook.com (HELO
+ NAM04-SN1-obe.outbound.protection.outlook.com) ([104.47.44.55])
+ by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2021 07:46:18 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mskciRyczE/29jrcrHPwVl9g9/7w2bre+u11KOa2jd6LY0MQtdj2oIuRIakBR1cDGrZAdhQcOpU3XXQHqlMVVfvKg/JjWxTbJy3dl64db8QaF5nYMRVWyO65daCg7NFF+NSwKc1I/goNJeQKUiRhwsS/nP1T2/VPsczuU/5zlb6WNjAcImvVmOlpWt3W/hWG2GSkC73rUw7fvcUo0lAHe4/XPx/n5Mkj8oZKMDeqQ19xRUF/qpTeQk6N9c9Z5knQt1Qgzto/CrK/krgbRTPW2qFSIwo6E1rFz1IfGGFDRETsAQ7o/HjLxf8BMIotCkniJz7lujG2SxF5yymPd1QBeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H3qYlFH0F0lQJwMt0hLXmPYM5Wx3L4BIKxlLZNGD4mM=;
+ b=P3LinirVVwRXluwN3ZnAiIaPYl9dxtdEW6v45g+maj12RDdw7ZMFXCH0suy3Zt/GDce7MjAx3P4b2a/opsIA5F0BE+8gulhal6Rh+ycRpiBBO3uqUWuI8lK9hanuq2gHLvugkuaKHdmb26poi7s7Vvn8yPrzNLj+qeQmJSFW+33k8gr7NcoVs7AZuTYslzxId/7F+TkywPAcDS+EJzPMeRSU/Rg702DS/xxSbKN0XuQKtyo7LcmADiBO9ms+5qg9aSYBpOs1nSq7UIGrL1u4kEiFslNuV6EMplnWJA+TmAFC3w1C8Qh0749oHTGnfIBD1x/HKJugVmgz+X2jBq+WLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H3qYlFH0F0lQJwMt0hLXmPYM5Wx3L4BIKxlLZNGD4mM=;
+ b=j3agv33T+EmvO+vRNR9LOCbbG5W93JIoXdq0gSDkbKJaOOHEdNIyGJmHWzaAC9zAPZfVc+pZu9paUSEDRz9tCnEd4IhA/96BLc6tGwdRro9Y6jtV7cKfSTfBP8sS9Pa+lChUNVzewiiFn58H/tutpG8aDo7LGfcmC/k8IKEZFR0=
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com (2603:10b6:208:1ca::23)
+ by MN2PR04MB6415.namprd04.prod.outlook.com (2603:10b6:208:1a4::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.20; Tue, 5 Jan
+ 2021 23:33:57 +0000
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::2dbb:7e01:f076:eca0]) by BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::2dbb:7e01:f076:eca0%9]) with mapi id 15.20.3721.024; Tue, 5 Jan 2021
+ 23:33:57 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: Selva Jove <selvajove@gmail.com>
+Subject: Re: [RFC PATCH v4 2/3] block: add simple copy support
+Thread-Topic: [RFC PATCH v4 2/3] block: add simple copy support
+Thread-Index: AQHW4ocZGQHbBBU/JES2xoCYHwM80A==
+Date: Tue, 5 Jan 2021 23:33:57 +0000
+Message-ID: <BL0PR04MB6514233D8AE368455EF35AB6E7D10@BL0PR04MB6514.namprd04.prod.outlook.com>
+References: <20210104104159.74236-1-selvakuma.s1@samsung.com>
+ <CGME20210104104249epcas5p458d1b5c39b5acfad4e7786eca5dd5c49@epcas5p4.samsung.com>
+ <20210104104159.74236-3-selvakuma.s1@samsung.com>
+ <BL0PR04MB651402CFA75F72826AC8EE1CE7D20@BL0PR04MB6514.namprd04.prod.outlook.com>
+ <CAHqX9vafJ9JwkT-oDJRfbLV0WKym-6FiTQqngcP1pk8J+zgbxQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2400:2411:43c0:6000:78c3:a7df:f52d:1169]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 51f69e64-7d67-431f-86b8-08d8b1d25f93
+x-ms-traffictypediagnostic: MN2PR04MB6415:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR04MB641567A8D9845D79B33FEB52E7D10@MN2PR04MB6415.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RSQVOL/XD7BHC327oOnUutZyoMh1w6qi68EJEPLgtoggC9fxTFTxFlqWO7TgOUcC1FtYl6zlIumWK0DUf6pLBuJFtxhTgwpPZfkY8FoTMGygUVFNhuX60r+FHP2IndQKlg2ySz3rXejHmhwsprcoPV8wMPREozMZntbxtJYf/JNZ+SxG+XkWnXTD6piiyfj39opk2a6W2ylIRkby/jLk4FlAG3rn5nWDx3AM+MtBPMBpTGQPw16PqhVs5t+dWsDpSBSjerVE+knmqm0HrUefOjLoavFFDAs2lNt6xjJJuYLatOKb+PfqncHswzhaIc+6+6/RidzvueZ1c+RdfVgSqkQjtc+f9Kv+LcFv3xlJtJvTlqqQS1OgoUVf+4nt9fEdPtS9MCgoqLzv0CObyxSKIqM+wFBQsdbh3nd7++1I8NUGNuCcOcy/CLF0pVr67+wY
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR04MB6514.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(346002)(39860400002)(376002)(136003)(53546011)(6506007)(66574015)(6916009)(4326008)(8936002)(91956017)(76116006)(86362001)(2906002)(83380400001)(5660300002)(9686003)(52536014)(64756008)(55016002)(186003)(7416002)(316002)(66946007)(66556008)(30864003)(66446008)(33656002)(54906003)(66476007)(7696005)(8676002)(478600001)(71200400001)(21314003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?vpG3TdYvkB6EYwMlj/tsGk46dduzVtwzmDKw/hPwD2Q/JuC9N0MUG78b6x?=
+ =?iso-8859-1?Q?zYhUTVwn+fpwsJSKPYWJn5er6PeGBHjBAUOnBaWL9s/cwrBqag7fivcSh7?=
+ =?iso-8859-1?Q?u+MCs8hSYYvIiCD7hYMw8Fe/51m5Xw+sRNj2D2KEHAD0mdwWhgQXD03fMJ?=
+ =?iso-8859-1?Q?CyAFT3r1T4Z5xghZlCenZqSvZv73nTHtXMdbHhbCD6PwrL9ljfHMiW7NzY?=
+ =?iso-8859-1?Q?pXUjPYsWOt0SsZmthKHDowpLsgsUWBD1+XSCRR1mj9/9dBcPrQkWAyX/3T?=
+ =?iso-8859-1?Q?C5XVBV5p/uACquz3T4okGvon456sr6Z22eBppiSK8kMZ1uJHbxrIjUjgUq?=
+ =?iso-8859-1?Q?z/UlZ9aVoCoXReSeFuJcuOqvq+shK8c/DY6AL3zk19qQTPUuRtdJsyu9u4?=
+ =?iso-8859-1?Q?AH3sNbmv0JAKgyBIFPsaVnc73mki6lx7IClWbM4CzryN6b0xT0N5d3fUKD?=
+ =?iso-8859-1?Q?cPt9We9lmnd7KF/2EuZbf8wMWSv9UO2mRtrnRktpEb6/+Iw4ZOH0gKth8n?=
+ =?iso-8859-1?Q?54UPyB+QLb2Yfsvm4g8WxMz/EUUQoNPRliH5UkErcdij0H9JE/O7B2Eum7?=
+ =?iso-8859-1?Q?ujS6v82uKHFmmjgL97VMAsRMSMt+sgFmIQd7HZRa4ZbMiOmQRuvA92RyRL?=
+ =?iso-8859-1?Q?V9BaGys4KtY3B2BxB/9WtdDSsAdY7/4gj3XNo71kNUHf3iq99ap8iuyBvP?=
+ =?iso-8859-1?Q?7bQWY5UlDmouoyKsECP6QovGUHMWtzC1PVD1VjLHNFcBEmJFUloUKhUg5B?=
+ =?iso-8859-1?Q?AW6igkSK6Wt/QJMyBupBmS8vzxYC8kWqx5Nperjy+r9HF92boKjvjkef/X?=
+ =?iso-8859-1?Q?mi3TWMVrZf4KT/P9+RZdblQyFPK1Kj38iFGTJMl1gkTDRlyt2ZkOE3LosH?=
+ =?iso-8859-1?Q?tu6xGYkh/siqTT/sK3GmARdg8KPlUGFOGrmPaK6sRBKf7TJJQA7RV3MFPN?=
+ =?iso-8859-1?Q?ORsLto/E/f7B6alCnUiZowucUggCJF/q/oVvzs7pd/q7jJHkopYaspXCez?=
+ =?iso-8859-1?Q?LCg/LoOQuGstf8aG2FNXw6ondHxbkAaj46U5UPovJIwWxT2n0FlVwuWe8I?=
+ =?iso-8859-1?Q?/8ZtJX1NjREWnKC6NWlAEPnJOC1ZwPXHgkHp5rPi9QVN?=
 MIME-Version: 1.0
-In-Reply-To: <20210105224939.1336-1-clay.mayers@kioxia.com>
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6514.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51f69e64-7d67-431f-86b8-08d8b1d25f93
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2021 23:33:57.5984 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rUpWRjsipFlxK93Aw0CrX3WVaJ6e5W+rFEZQRQjAPaiNWEc/xGUqVlE9V3qRReqW1j+BM6TionLE8q9RIU5NIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6415
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210105_180449_047497_0841C8AD 
-X-CRM114-Status: GOOD (  18.25  )
+X-CRM114-CacheID: sfid-20210105_183405_421919_7D6FF780 
+X-CRM114-Status: GOOD (  23.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,176 +159,614 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Content-Type: multipart/mixed; boundary="===============6447545484696081040=="
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ "snitzer@redhat.com" <snitzer@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "mpatocka@redhat.com" <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "javier.gonz@samsung.com" <javier.gonz@samsung.com>, "hch@lst.de" <hch@lst.de>,
+ "bvanassche@acm.org" <bvanassche@acm.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============6447545484696081040==
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000909aee05b82f3b3c"
+On 2021/01/05 21:24, Selva Jove wrote:
+> Thanks for the review, Damien.
+> =
 
---000000000000909aee05b82f3b3c
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+> On Mon, Jan 4, 2021 at 6:17 PM Damien Le Moal <Damien.LeMoal@wdc.com> wro=
+te:
+>>
+>> On 2021/01/04 19:48, SelvaKumar S wrote:
+>>> Add new BLKCOPY ioctl that offloads copying of one or more sources
+>>> ranges to a destination in the device. Accepts copy_ranges that contains
+>>> destination, no of sources and pointer to the array of source
+>>> ranges. Each range_entry contains start and length of source
+>>> ranges (in bytes).
+>>>
+>>> Introduce REQ_OP_COPY, a no-merge copy offload operation. Create
+>>> bio with control information as payload and submit to the device.
+>>> REQ_OP_COPY(19) is a write op and takes zone_write_lock when submitted
+>>> to zoned device.
+>>>
+>>> If the device doesn't support copy or copy offload is disabled, then
+>>> copy is emulated by allocating memory of total copy size. The source
+>>> ranges are read into memory by chaining bio for each source ranges and
+>>> submitting them async and the last bio waits for completion. After data
+>>> is read, it is written to the destination.
+>>>
+>>> bio_map_kern() is used to allocate bio and add pages of copy buffer to
+>>> bio. As bio->bi_private and bio->bi_end_io is needed for chaining the
+>>> bio and over written, invalidate_kernel_vmap_range() for read is called
+>>> in the caller.
+>>>
+>>> Introduce queue limits for simple copy and other helper functions.
+>>> Add device limits as sysfs entries.
+>>>       - copy_offload
+>>>       - max_copy_sectors
+>>>       - max_copy_ranges_sectors
+>>>       - max_copy_nr_ranges
+>>>
+>>> copy_offload(=3D 0) is disabled by default.
+>>> max_copy_sectors =3D 0 indicates the device doesn't support native copy.
+>>>
+>>> Native copy offload is not supported for stacked devices and is done via
+>>> copy emulation.
+>>>
+>>> Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+>>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+>>> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+>>> Signed-off-by: Javier Gonz=E1lez <javier.gonz@samsung.com>
+>>> ---
+>>>  block/blk-core.c          |  94 ++++++++++++++--
+>>>  block/blk-lib.c           | 223 ++++++++++++++++++++++++++++++++++++++
+>>>  block/blk-merge.c         |   2 +
+>>>  block/blk-settings.c      |  10 ++
+>>>  block/blk-sysfs.c         |  50 +++++++++
+>>>  block/blk-zoned.c         |   1 +
+>>>  block/bounce.c            |   1 +
+>>>  block/ioctl.c             |  43 ++++++++
+>>>  include/linux/bio.h       |   1 +
+>>>  include/linux/blk_types.h |  15 +++
+>>>  include/linux/blkdev.h    |  13 +++
+>>>  include/uapi/linux/fs.h   |  13 +++
+>>>  12 files changed, 458 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/block/blk-core.c b/block/blk-core.c
+>>> index 96e5fcd7f071..4a5cd3f53cd2 100644
+>>> --- a/block/blk-core.c
+>>> +++ b/block/blk-core.c
+>>> @@ -719,6 +719,17 @@ static noinline int should_fail_bio(struct bio *bi=
+o)
+>>>  }
+>>>  ALLOW_ERROR_INJECTION(should_fail_bio, ERRNO);
+>>>
+>>> +static inline int bio_check_copy_eod(struct bio *bio, sector_t start,
+>>> +             sector_t nr_sectors, sector_t maxsector)
+>>> +{
+>>> +     if (nr_sectors && maxsector &&
+>>> +         (nr_sectors > maxsector || start > maxsector - nr_sectors)) {
+>>> +             handle_bad_sector(bio, maxsector);
+>>> +             return -EIO;
+>>> +     }
+>>> +     return 0;
+>>> +}
+>>> +
+>>>  /*
+>>>   * Check whether this bio extends beyond the end of the device or part=
+ition.
+>>>   * This may well happen - the kernel calls bread() without checking th=
+e size of
+>>> @@ -737,6 +748,65 @@ static inline int bio_check_eod(struct bio *bio, s=
+ector_t maxsector)
+>>>       return 0;
+>>>  }
+>>>
+>>> +/*
+>>> + * Check for copy limits and remap source ranges if needed.
+>>> + */
+>>> +static int blk_check_copy(struct bio *bio)
+>>> +{
+>>> +     struct block_device *p =3D NULL;
+>>> +     struct request_queue *q =3D bio->bi_disk->queue;
+>>> +     struct blk_copy_payload *payload;
+>>> +     int i, maxsector, start_sect =3D 0, ret =3D -EIO;
+>>> +     unsigned short nr_range;
+>>> +
+>>> +     rcu_read_lock();
+>>> +
+>>> +     p =3D __disk_get_part(bio->bi_disk, bio->bi_partno);
+>>> +     if (unlikely(!p))
+>>> +             goto out;
+>>> +     if (unlikely(should_fail_request(p, bio->bi_iter.bi_size)))
+>>> +             goto out;
+>>> +     if (unlikely(bio_check_ro(bio, p)))
+>>> +             goto out;
+>>> +
+>>> +     maxsector =3D  bdev_nr_sectors(p);
+>>> +     start_sect =3D p->bd_start_sect;
+>>> +
+>>> +     payload =3D bio_data(bio);
+>>> +     nr_range =3D payload->copy_range;
+>>> +
+>>> +     /* cannot handle copy crossing nr_ranges limit */
+>>> +     if (payload->copy_range > q->limits.max_copy_nr_ranges)
+>>> +             goto out;
+>>
+>> If payload->copy_range indicates the number of ranges to be copied, you =
+should
+>> name it payload->copy_nr_ranges.
+>>
+> =
+
+> Agreed. Will rename the entries.
+> =
+
+>>> +
+>>> +     /* cannot handle copy more than copy limits */
+>>
+>> Why ? You could loop... Similarly to discard, zone reset etc.
+>>
+> =
+
+> Sure. Will add the support for handling copy larger than device limits.
+> =
+
+>>
+>>> +     if (payload->copy_size > q->limits.max_copy_sectors)
+>>> +             goto out;
+>>
+>> Shouldn't the list of source ranges give the total size to be copied ?
+>> Otherwise, if payload->copy_size is user provided, you would need to che=
+ck that
+>> the sum of the source ranges actually is equal to copy_size, no ? That m=
+eans
+>> that dropping copy_size sound like the right thing to do here.
+>>
+> =
+
+> payload->copy_size is used in copy emulation to allocate the buffer.
+> Let me check
+> one more time if it is possible to do without this.
+
+If this is used for the emulation only, then it should be a local variable =
+in
+the emulation helper.
+
+[...]
+>>
+>>> +             if (unlikely(blk_check_copy(bio)))
+>>> +                     goto end_io;
+>>> +             break;
+>>>       case REQ_OP_SECURE_ERASE:
+>>>               if (!blk_queue_secure_erase(q))
+>>>                       goto not_supported;
+>>> diff --git a/block/blk-lib.c b/block/blk-lib.c
+>>> index 752f9c722062..4c0f12e2ed7c 100644
+>>> --- a/block/blk-lib.c
+>>> +++ b/block/blk-lib.c
+>>> @@ -150,6 +150,229 @@ int blkdev_issue_discard(struct block_device *bde=
+v, sector_t sector,
+>>>  }
+>>>  EXPORT_SYMBOL(blkdev_issue_discard);
+>>>
+>>> +int blk_copy_offload(struct block_device *bdev, struct blk_copy_payloa=
+d *payload,
+>>> +             sector_t dest, gfp_t gfp_mask)
+>>> +{
+>>> +     struct bio *bio;
+>>> +     int ret, total_size;
+>>> +
+>>> +     bio =3D bio_alloc(gfp_mask, 1);
+>>> +     bio->bi_iter.bi_sector =3D dest;
+>>> +     bio->bi_opf =3D REQ_OP_COPY | REQ_NOMERGE;
+>>> +     bio_set_dev(bio, bdev);
+>>> +
+>>> +     total_size =3D struct_size(payload, range, payload->copy_range);
+>>> +     ret =3D bio_add_page(bio, virt_to_page(payload), total_size,
+>>
+>> How is payload allocated ? If it is a structure on-stack in the caller, =
+I am not
+>> sure it would be wise to do an IO using the thread stack page...
+>>
+>>> +                                        offset_in_page(payload));
+>>> +     if (ret !=3D total_size) {
+>>> +             ret =3D -ENOMEM;
+>>> +             bio_put(bio);
+>>> +             goto err;
+>>> +     }
+>>> +
+>>> +     ret =3D submit_bio_wait(bio);
+>>> +err:
+>>> +     bio_put(bio);
+>>> +     return ret;
+>>> +
+>>> +}
+>>> +
+>>> +int blk_read_to_buf(struct block_device *bdev, struct blk_copy_payload=
+ *payload,
+>>> +             gfp_t gfp_mask, void **buf_p)
+>>> +{
+>>> +     struct request_queue *q =3D bdev_get_queue(bdev);
+>>> +     struct bio *bio, *parent =3D NULL;
+>>> +     void *buf =3D NULL;
+>>> +     bool is_vmalloc;
+>>> +     int i, nr_srcs, copy_len, ret, cur_size, t_len =3D 0;
+>>> +
+>>> +     nr_srcs =3D payload->copy_range;
+>>> +     copy_len =3D payload->copy_size << SECTOR_SHIFT;
+>>> +
+>>> +     buf =3D kvmalloc(copy_len, gfp_mask);
+>>> +     if (!buf)
+>>> +             return -ENOMEM;
+>>> +     is_vmalloc =3D is_vmalloc_addr(buf);
+>>> +
+>>> +     for (i =3D 0; i < nr_srcs; i++) {
+>>> +             cur_size =3D payload->range[i].len << SECTOR_SHIFT;
+>>> +
+>>> +             bio =3D bio_map_kern(q, buf + t_len, cur_size, gfp_mask);
+>>> +             if (IS_ERR(bio)) {
+>>> +                     ret =3D PTR_ERR(bio);
+>>> +                     goto out;
+>>> +             }
+>>> +
+>>> +             bio->bi_iter.bi_sector =3D payload->range[i].src;
+>>> +             bio->bi_opf =3D REQ_OP_READ;
+>>> +             bio_set_dev(bio, bdev);
+>>> +             bio->bi_end_io =3D NULL;
+>>> +             bio->bi_private =3D NULL;
+>>> +
+>>> +             if (parent) {
+>>> +                     bio_chain(parent, bio);
+>>> +                     submit_bio(parent);
+>>> +             }
+>>> +
+>>> +             parent =3D bio;
+>>> +             t_len +=3D cur_size;
+>>> +     }
+>>> +
+>>> +     ret =3D submit_bio_wait(bio);
+>>> +     bio_put(bio);
+>>> +     if (is_vmalloc)
+>>> +             invalidate_kernel_vmap_range(buf, copy_len);
+>>> +     if (ret)
+>>> +             goto out;
+>>> +
+>>> +     *buf_p =3D buf;
+>>> +     return 0;
+>>> +out:
+>>> +     kvfree(buf);
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +int blk_write_from_buf(struct block_device *bdev, void *buf, sector_t =
+dest,
+>>> +             int copy_len, gfp_t gfp_mask)
+>>> +{
+>>> +     struct request_queue *q =3D bdev_get_queue(bdev);
+>>> +     struct bio *bio;
+>>> +     int ret;
+>>> +
+>>> +     bio =3D bio_map_kern(q, buf, copy_len, gfp_mask);
+>>> +     if (IS_ERR(bio)) {
+>>> +             ret =3D PTR_ERR(bio);
+>>> +             goto out;
+>>> +     }
+>>> +     bio_set_dev(bio, bdev);
+>>> +     bio->bi_opf =3D REQ_OP_WRITE;
+>>> +     bio->bi_iter.bi_sector =3D dest;
+>>> +
+>>> +     bio->bi_end_io =3D NULL;
+>>> +     ret =3D submit_bio_wait(bio);
+>>> +     bio_put(bio);
+>>> +out:
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +int blk_prepare_payload(struct block_device *bdev, int nr_srcs, struct=
+ range_entry *rlist,
+>>> +             gfp_t gfp_mask, struct blk_copy_payload **payload_p)
+>>> +{
+>>> +
+>>> +     struct request_queue *q =3D bdev_get_queue(bdev);
+>>> +     struct blk_copy_payload *payload;
+>>> +     sector_t bs_mask;
+>>> +     sector_t src_sects, len =3D 0, total_len =3D 0;
+>>> +     int i, ret, total_size;
+>>> +
+>>> +     if (!q)
+>>> +             return -ENXIO;
+>>> +
+>>> +     if (!nr_srcs)
+>>> +             return -EINVAL;
+>>> +
+>>> +     if (bdev_read_only(bdev))
+>>> +             return -EPERM;
+>>> +
+>>> +     bs_mask =3D (bdev_logical_block_size(bdev) >> 9) - 1;
+>>> +
+>>> +     total_size =3D struct_size(payload, range, nr_srcs);
+>>> +     payload =3D kmalloc(total_size, gfp_mask);
+>>> +     if (!payload)
+>>> +             return -ENOMEM;
+>>
+>> OK. So this is what goes into the bio. The function blk_copy_offload() a=
+ssumes
+>> this is at most one page, so total_size <=3D PAGE_SIZE. Where is that ch=
+ecked ?
+>>
+> =
+
+> CMIIW. As payload was allocated via kmalloc, it would be represented by a=
+ single
+> contiguous segment. In case it crosses one page, rely on multi-page bio_v=
+ec to
+> cover it.
+
+That is not how I understand the code. If the allocation is more than one p=
+age,
+you still need to add ALL pages to the BIO. What the multi-page bvec code w=
+ill
+do is to use a single bvec for all physically contiguous pages instead of a=
+dding
+one bvec per page.
+
+Thinking more about it, I think the function blk_copy_offload() could simpl=
+y use
+bio_map_kern() to allocate and prepare the BIO. That will avoid the need fo=
+r the
+add page loop.
+
+> =
+
+>>> +
+>>> +     for (i =3D 0; i < nr_srcs; i++) {
+>>> +             /*  copy payload provided are in bytes */
+>>> +             src_sects =3D rlist[i].src;
+>>> +             if (src_sects & bs_mask) {
+>>> +                     ret =3D  -EINVAL;
+>>> +                     goto err;
+>>> +             }
+>>> +             src_sects =3D src_sects >> SECTOR_SHIFT;
+>>> +
+>>> +             if (len & bs_mask) {
+>>> +                     ret =3D -EINVAL;
+>>> +                     goto err;
+>>> +             }
+>>> +
+>>> +             len =3D rlist[i].len >> SECTOR_SHIFT;
+>>> +
+>>> +             total_len +=3D len;
+>>> +
+>>> +             WARN_ON_ONCE((src_sects << 9) > UINT_MAX);
+>>> +
+>>> +             payload->range[i].src =3D src_sects;
+>>> +             payload->range[i].len =3D len;
+>>> +     }
+>>> +
+>>> +     /* storing # of source ranges */
+>>> +     payload->copy_range =3D i;
+>>> +     /* storing copy len so far */
+>>> +     payload->copy_size =3D total_len;
+>>
+>> The comments here make the code ugly. Rename the variables and structure=
+ fields
+>> to have something self explanatory.
+>>
+> =
+
+> Agreed.
+> =
+
+>>> +
+>>> +     *payload_p =3D payload;
+>>> +     return 0;
+>>> +err:
+>>> +     kfree(payload);
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +/**
+>>> + * blkdev_issue_copy - queue a copy
+>>> + * @bdev:       source block device
+>>> + * @nr_srcs: number of source ranges to copy
+>>> + * @rlist:   array of source ranges (in bytes)
+>>> + * @dest_bdev:       destination block device
+>>> + * @dest:    destination (in bytes)
+>>> + * @gfp_mask:   memory allocation flags (for bio_alloc)
+>>> + *
+>>> + * Description:
+>>> + *   Copy array of source ranges from source block device to
+>>> + *   destination block devcie.
+>>> + */
+>>> +
+>>> +
+>>> +int blkdev_issue_copy(struct block_device *bdev, int nr_srcs,
+>>> +             struct range_entry *src_rlist, struct block_device *dest_=
+bdev,
+>>> +             sector_t dest, gfp_t gfp_mask)
+>>> +{
+>>> +     struct request_queue *q =3D bdev_get_queue(bdev);
+>>> +     struct blk_copy_payload *payload;
+>>> +     sector_t bs_mask, dest_sect;
+>>> +     void *buf =3D NULL;
+>>> +     int ret;
+>>> +
+>>> +     ret =3D blk_prepare_payload(bdev, nr_srcs, src_rlist, gfp_mask, &=
+payload);
+>>> +     if (ret)
+>>> +             return ret;
+>>> +
+>>> +     bs_mask =3D (bdev_logical_block_size(dest_bdev) >> 9) - 1;
+>>> +     if (dest & bs_mask) {
+>>> +             return -EINVAL;
+>>> +             goto out;
+>>> +     }
+>>> +     dest_sect =3D dest >> SECTOR_SHIFT;
+>>
+>> dest should already be a 512B sector as all block layer functions interf=
+ace use
+>> this unit. What is this doing ?
+>>
+> =
+
+> As source ranges and length received were in bytes, to keep things
+> same, dest was
+> also chosen to be in bytes. Seems wrong. Will change it to the 512B secto=
+r.
+
+Using a byte interface seems very dangerous since writes can only be at bes=
+t LBA
+sized, and must be physical sector size aligned for zoned block devices. I
+strobgly suggest that the interface use sector_t 512B unit.
+
+> =
+
+>>
+>>> +
+>>> +     if (bdev =3D=3D dest_bdev && q->limits.copy_offload) {
+>>> +             ret =3D blk_copy_offload(bdev, payload, dest_sect, gfp_ma=
+sk);
+>>> +             if (ret)
+>>> +                     goto out;
+>>> +     } else {
+>>> +             ret =3D blk_read_to_buf(bdev, payload, gfp_mask, &buf);
+>>> +             if (ret)
+>>> +                     goto out;
+>>> +             ret =3D blk_write_from_buf(dest_bdev, buf, dest_sect,
+>>> +                             payload->copy_size << SECTOR_SHIFT, gfp_m=
+ask);
+>>
+>> Arg... This is really not pretty. At the very least, this should all be =
+in a
+>> blk_copy_emulate() helper or something named like that.
+>>
+> =
+
+> Okay. Will move this to a helper.
+> =
+
+>> My worry though is that this likely slow for large copies, not to mentio=
+n that
+>> buf is likely to fail to allocate for large copy cases. As commented pre=
+viously,
+>> dm-kcopyd already does such copy well, with a read-write streaming pipel=
+ine and
+>> zone support too for the write side. This should really be reused, at le=
+ast
+>> partly, instead of re-implementing this read-write here.
+>>
+> =
+
+> I was a bit hesitant to use dm layer code in the block layer. It makes se=
+nse to
+> reuse the code as much as possible. Will try to reuse dm-kcopyd code for =
+copy
+> emulation part.
+
+You missed my point. I never suggested that you use DM code in the block la=
+yer.
+That would be wrong. What I suggested is that you move the dm-kcopyd code f=
+rom
+DM into the block layer, changing the function names to blk_copy_xxx(). See=
+ the
+current interface in include/linux/dm-kcopyd.h: there is absolutely nothing=
+ that
+is DM specific in there, so moving that code into block/blk-copy.c should be
+straightforward, mostly.
+
+The way I see it, your series should look something like this:
+1) A prep patch that moves dm-kcopyd to the block layer, changing the API n=
+ames
+and converting all DM driver users to the new API. This may be a very large
+patch though, so splitting it into multiple peaces may be required to facil=
+itate
+review.
+2) A prep patch that introduces queue flags for devices to advertize their
+support for simple copy and a generic api for simple copy BIOs
+3) A patch that adds the use of simple copy BIO into the moved dm-kcopyd co=
+de
+4) The NVMe driver bits that probably will look like what you have now
+
+With this, all DM drivers that currently use dm-kcopyd (RAID and dm-zoned at
+least) will get free offload using simple copy commands for sector copies w=
+ithin
+the same device. All other copy cases will still work as per kcopyd code. T=
+hat
+is very neat I think.
+
+And you can add one more patch that use this generic copy block interface to
+implement copy_file_range for raw block devices as Darrick suggested.
 
 
-On 1/5/2021 2:49 PM, klayph@gmail.com wrote:
-> From: Clay Mayers <clay.mayers@kioxia.com>
->
-> Enables fused compare/write to be issued from user mode.
->
-> The first patch allows a pair of pass through requests
-> to be linked and submitted as a fused pair to the nvme
-> device queue.  The second patch exposes it through an
-> nvme ioctl so a cmp/write can be issued from user mode.
->
-> There was a question regarding Linux support for this
-> functionality in nvme-cli.  With these patches, that
-> would be possible.
->
-> https://github.com/linux-nvme/nvme-cli/issues/318
->
-> Clay Mayers (2):
->    nvme: support fused nvme requests
->    nvme: support fused NVME_IOCTL_SUBMIT_IO
->
->   drivers/nvme/host/core.c | 261 ++++++++++++++++++++++++++++++---------
->   drivers/nvme/host/nvme.h |   2 +
->   drivers/nvme/host/pci.c  |  32 ++++-
->   3 files changed, 234 insertions(+), 61 deletions(-)
->
+[...]
+>>> +static ssize_t queue_copy_offload_store(struct request_queue *q,
+>>> +                                    const char *page, size_t count)
+>>> +{
+>>> +     unsigned long copy_offload;
+>>> +     ssize_t ret =3D queue_var_store(&copy_offload, page, count);
+>>> +
+>>> +     if (ret < 0)
+>>> +             return ret;
+>>> +
+>>> +     if (copy_offload < 0 || copy_offload > 1)
+>>
+>> err... "copy_offload !=3D 1" ?
+> =
 
-Hmmm... I don't expect fused support to be simple. There's the whole=20
-notion of: submitting the two commands such that back-to-back queue_rq()=20
-calls are made to the transport for the same queue and the back-to-back=20
-calls (different request contexts) just happen to be the fused commands;=20
-as well as under error, if queues are frozen, then replayed, the same=20
-back-to-back calling sequence occurs (and I hope a freeze occuring while=20
-one sent another not, would recover).
+> Initial thought was to keep it either 0 or 1.  I'll change it to 0 or els=
+e.
 
-And... the transports better be able to support fused commands as well.=C2=
-=A0=20
-nvme-fc does not as fused commands were explicitly deemed unsupported.
+If you use 0 and 1, then make copy_offload a bool. That is more natural giv=
+en
+the variable name.
 
-But - I'll look to see what you have in the patches.
+[...]
+>>> +static int blk_ioctl_copy(struct block_device *bdev, fmode_t mode,
+>>> +             unsigned long arg)
+>>> +{
+>>> +     struct copy_range crange;
+>>> +     struct range_entry *rlist;
+>>> +     struct request_queue *q =3D bdev_get_queue(bdev);
+>>> +     sector_t dest;
+>>> +     int ret;
+>>> +
+>>> +     if (!(mode & FMODE_WRITE))
+>>> +             return -EBADF;
+>>> +
+>>> +     if (!blk_queue_copy(q))
+>>> +             return -EOPNOTSUPP;
+>>
+>> But you added the read-write emulation. So what is the point here ? This=
+ ioctl
+>> should work for any device, with or without simple copy support. Did you=
+ test that ?
+>>
+> =
 
--- james
+> Sorry. It was a mistake. Will fix this.
 
---=20
-This electronic communication and the information and any files transmitted=
-=20
-with it, or attached to it, are confidential and are intended solely for=20
-the use of the individual or entity to whom it is addressed and may contain=
-=20
-information that is confidential, legally privileged, protected by privacy=
-=20
-laws, or otherwise restricted from disclosure to anyone else. If you are=20
-not the intended recipient or the person responsible for delivering the=20
-e-mail to the intended recipient, you are hereby notified that any use,=20
-copying, distributing, dissemination, forwarding, printing, or copying of=
-=20
-this e-mail is strictly prohibited. If you received this e-mail in error,=
-=20
-please return the e-mail to the sender, delete it from your computer, and=
-=20
-destroy any printed copy of it.
-
---000000000000909aee05b82f3b3c
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-AanDaJF6fE9TEzbfn5AWgVgHkbqS3VY3Gq05xkLhRugDQ60IGwT29K1B+wGfcujKSaalhQIDAQAB
-o4IBzzCCAcswDgYDVR0PAQH/BAQDAgWgMIGeBggrBgEFBQcBAQSBkTCBjjBNBggrBgEFBQcwAoZB
-aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NwZXJzb25hbHNpZ24yc2hhMmcz
-b2NzcC5jcnQwPQYIKwYBBQUHMAGGMWh0dHA6Ly9vY3NwMi5nbG9iYWxzaWduLmNvbS9nc3BlcnNv
-bmFsc2lnbjJzaGEyZzMwTQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwRAYDVR0fBD0w
-OzA5oDegNYYzaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc3BlcnNvbmFsc2lnbjJzaGEyZzMu
-Y3JsMCMGA1UdEQQcMBqBGGphbWVzLnNtYXJ0QGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEF
-BQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJnXsLYTAdBgNVHQ4EFgQUUXCHNA1n5KXj
-CXL1nHkJ8oKX5wYwDQYJKoZIhvcNAQELBQADggEBAGQDKmIdULu06w+bE15XZJOwlarihiP2PHos
-/4bNU3NRgy/tCQbTpJJr3L7LU9ldcPam9qQsErGZKmb5ypUjVdmS5n5M7KN42mnfLs/p7+lOOY5q
-ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
-2JU2wwirL0Sy5S1DREQmTMAuHL+M9Qwbl+uh/AprkVqaSYuvUzWFwBVgafOl2XgGdn8r6ubxSZhX
-9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
-ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
-MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgdC9JajD7VObw2/BG
-ZRGtq63wDFJ8obNGuCmFT233tYgwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjEwMTA1MjMwNDQ1WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
-ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAGo5SL4GNCqF7D60aEwwxoTEfCDyr8Ikph5k
-2e3V1HLQ5nJiZvrwmKU3sRp14IEj/qMK4IUdqcSPbtha9EoYcUXG0zLONt6d8PbJibLGi1bHQYCQ
-m8A3hZNslpfd3F6W6MyadRx+DkD6FnoOHrZyhudzpete4oHUFyLEm4SVWeJYIJgkVFfXGFK00AYD
-qbMkhjm4OGLs5Dq3D9leu7EHtThWmH0ZlHmoHDK+9xS0ZWJkdFnZtZTdGFY/OyjyX1wnx5ALDcEd
-dG5PYefUvzFSrvmROWyMdjpIvRjYzZMzidkXopuT+VasY4SZDjPWf3IN7G5EJ9Vn1X4dfUgiveu3
-NM0=
---000000000000909aee05b82f3b3c--
+Please make sure to test to catch such mistakes before sending. It does sou=
+nd
+like your read-write manual copy has not been tested.
 
 
---===============6447545484696081040==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- =
+
+Damien Le Moal
+Western Digital Research
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============6447545484696081040==--
-
