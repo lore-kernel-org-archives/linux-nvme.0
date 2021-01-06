@@ -2,20 +2,20 @@ Return-Path: <SRS0=rRT3=GK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1FDC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Jan 2021 04:55:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C683C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Jan 2021 04:55:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B5F3322D71
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Jan 2021 04:55:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5F3322D71
+	by mail.kernel.org (Postfix) with ESMTPS id 2E08522D71
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Jan 2021 04:55:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E08522D71
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,58 +24,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=B9ZLyphQGwb6TMUvzRmvqkfnNQ9NRVKpmvUlUSmcRuA=; b=V44rmbseEJY3wmYtnQODRQZvcM
-	8X16/1q29Q+dp65+EWc4rgR3Cmu6yd5q0B4yFPKDPgvEhxQJBEQt1wP7/PHk1BCvds//Jl1VDsUw3
-	sl2Cx68sVfwJQUElNwMh+xsN36TH19ncLTdv0cQYJFVs9uctlee9u+xUt0MBO60Ifjvjxjcj9ZVvK
-	78BJMu2bK0EYwiJOHVvLv2TXEEXflXJe056CRWwJZVmxWKpyeej9xvDdYFFctpjhVlPhFAsdW7DX9
-	Bb7KJCxeaYL9s/puKS5SOrMKfykwNU6TUH+IRVgQkVYExWXUJaP1qv9Q4Hg9uRzZsfkwKSYjk6WF2
-	it0VJ/GA==;
+	bh=R0CnXFNWISnksfrexzGnu4+YoAytTN0gPUs6pSe4ugE=; b=KnElSq1iaNnOqLafKz3GTecdGv
+	kai6IzmI3iwCNSJm1KhQfu3tH2lXBMBamdQzggq5kEntiMUgm22Fw9r1JtPKSUni4uxWHwAZdKGsr
+	E2DjzNvt+smbssB4eRWVal8R/sxmQyWoU/a1fYQ69FdnVQY2gnY+H6Xk2WtUEcLDMLamCXCjXa/IK
+	yBtJSk+IiCeOEXjvjF8wesIOsyP8+mqe+AXT3e6LKlwLMTx4w6aaz2QHVil+uooJNW6WVvbKDB6MT
+	kRPyfzKqnQLON+p7MZzgdHdkK+7O6nxzhu2SP4GTlugtq249TnsO5EujKDGhcl3d5Ci5QQz06oxPg
+	j7viBt8A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kxNKa-0008KB-SD; Thu, 07 Jan 2021 04:55:28 +0000
+	id 1kxNKf-0008Mt-AA; Thu, 07 Jan 2021 04:55:33 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kxNKT-0008GA-J4
+ id 1kxNKT-0008G8-GR
  for linux-nvme@merlin.infradead.org; Thu, 07 Jan 2021 04:55:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=References:In-Reply-To:Message-Id:Date:
  Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=oCiXCNkSj/8UHoUY+LSMmuUM0dnEUtzsgDTRmncrqAo=; b=VlxucASZCukrLG4xoheSzaNVhD
- 86QTP/dyaseBni6TjRn7ywZLYzA/+w8VhoeHRQeIW9yAITO7zaI7zH8ROzqXeGrAholAcYGS24dzv
- HPnkRsSR+ZcDNhtcPF4tUND3R95SnBrEbTTorFZZsTjbfny3Qw7NXygYCUS7snWbtq2NfioM9KOTT
- OEm1S0DtkUpSS89Exs+cgVrBph+ixtV6uJDPgERY7pMovB7ZB8lhxCdDTCubGAin+nfea9Hlwe5o6
- 49PcMSIXgNI9Nv/+xm84gKX16pUWyQHdEzWwbEESZMWMJNXYK9+8JE8LHeOxAgUTvJ6/oKdmdl4nu
- 2NXXP+7w==;
+ bh=mnfXvaGZzm9nCQvroVbOWvmRzpEIGwUGMst/MqSbO24=; b=bipB3dSzqUFHft+vmBA/fbCNw3
+ s/U4/CBSUgMYL9PaL/76+m8NhTBkzh7Zwq1g6FGCYLG687I5Jobs62Fuqug05OUyPD9DRMWzpDyjR
+ tLlsKS4knwEUIDXwUfwseTuhstLWU6ty6Fkz+fBRTZ7wJHZGI5gKnY+xlXfYpJhOzDEvRIzIC3LbM
+ nhBpU9unnJsVuAw8Vi+JHH3jP4Iimw9P47qKO8iW0MA99SGUFF9N5B0ZrFKlHJpAY52eo9FHyYjOV
+ UQS4tH7JeCEuSuCyBbNjatx0iF0NnqDCiRdQs8c0M/8ku6jJBcyijoAveeolFnnhnnCmLTcL+YONt
+ aeovONXg==;
 Received: from relay.smtp-ext.broadcom.com ([192.19.221.30])
  by casper.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1kxNJj-0032vF-T1
+ id 1kxNJh-0032vE-LL
  for linux-nvme@lists.infradead.org; Thu, 07 Jan 2021 04:55:06 +0000
 Received: from localhost.localdomain (unknown [10.157.2.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by relay.smtp-ext.broadcom.com (Postfix) with ESMTPS id C2CE182D05;
+ by relay.smtp-ext.broadcom.com (Postfix) with ESMTPS id 20EE782D11;
  Wed,  6 Jan 2021 20:53:25 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com C2CE182D05
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 20EE782D11
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
- s=dkimrelay; t=1609995206;
- bh=YxAC2zas7cVbvfJrxByndQEpVchX5Sk+o2+hA06DQnM=;
+ s=dkimrelay; t=1609995205;
+ bh=+4U6dpCkZRrPqFu5zH0ETei5QQSz6bNZi13yDsKBYoQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EMuWuPpenFKxRe6+U511r1MqKAT2KRI67b/Pn/5WXxu/QLMRCDo4WsValxcvW8jUk
- 9rBJdpzERbqqmCjLqpS+wAwCAystbKgyRtUeJIqozBegjHTZX6yOHyBZqcqRsWTiQn
- rBsPMoaeVLsar3kfOxrpMSdGNeHv7k32ovOWKDhg=
+ b=u+gNwlRwJ5TLOXbSvoq1bZl8G1zUkCOC9uqOJru4ZdQb1cHY13m4APpa0gKmUgNk2
+ HXI5DuTaHMWKr6CGWGMNYls6rWJuY/ADlN6nykXkSXMlNQHOMzB87ua5uGhU24Eh09
+ 4B4mkod9MAYIYfn/OTbhIURz5tsWHBThbvpsCrBI=
 From: Muneendra <muneendra.kumar@broadcom.com>
 To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org, hare@suse.de
-Subject: [PATCH v7 10/16] lpfc: vmid: Functions to manage vmids
-Date: Thu,  7 Jan 2021 03:30:24 +0530
-Message-Id: <1609970430-19084-11-git-send-email-muneendra.kumar@broadcom.com>
+Subject: [PATCH v7 09/16] lpfc: vmid: Implements ELS commands for appid patch
+Date: Thu,  7 Jan 2021 03:30:23 +0530
+Message-Id: <1609970430-19084-10-git-send-email-muneendra.kumar@broadcom.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1609970430-19084-1-git-send-email-muneendra.kumar@broadcom.com>
 References: <1609970430-19084-1-git-send-email-muneendra.kumar@broadcom.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210107_045506_509371_ED9292B1 
-X-CRM114-Status: GOOD (  23.61  )
+X-CRM114-CacheID: sfid-20210107_045506_525339_C3E94541 
+X-CRM114-Status: GOOD (  23.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,9 +97,9 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
 
-This patch contains the routines to save, retrieve and remove the vmids
-from the data structure. A hash table is used to save the vmids and
-the corresponding UUIDs associated with the application/VMs.
+This patch implements ELS command like QFPA and UVEM for the priority
+tagging appid support. Other supporting functions are also part of this
+patch.
 
 Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Gaurav Srivastava  <gaurav.srivastava@broadcom.com>
@@ -110,10 +110,12 @@ v7:
 No change
 
 v6:
-Added Forward declarations and functions to static
+Added Forward declarations, static functions and
+removed unused variables
 
 v5:
-Changed Return code to non-numeric/Symbol
+Changed Return code to non-numeric/Symbol.
+Addressed the review comments by Hannes
 
 v4:
 No change
@@ -124,182 +126,450 @@ No change
 v2:
 Ported the patch on top of 5.10/scsi-queue
 ---
- drivers/scsi/lpfc/lpfc_scsi.c | 148 ++++++++++++++++++++++++++++++++++
- 1 file changed, 148 insertions(+)
+ drivers/scsi/lpfc/lpfc_els.c | 369 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 362 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_scsi.c b/drivers/scsi/lpfc/lpfc_scsi.c
-index b79b6f03cdb6..53baee21e0f9 100644
---- a/drivers/scsi/lpfc/lpfc_scsi.c
-+++ b/drivers/scsi/lpfc/lpfc_scsi.c
-@@ -28,6 +28,7 @@
- #include <asm/unaligned.h>
- #include <linux/t10-pi.h>
- #include <linux/crc-t10dif.h>
-+#include <linux/blk-cgroup.h>
- #include <net/checksum.h>
+diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
+index 96c087b8b474..dc88275db973 100644
+--- a/drivers/scsi/lpfc/lpfc_els.c
++++ b/drivers/scsi/lpfc/lpfc_els.c
+@@ -25,6 +25,7 @@
+ #include <linux/pci.h>
+ #include <linux/slab.h>
+ #include <linux/interrupt.h>
++#include <linux/delay.h>
  
  #include <scsi/scsi.h>
-@@ -86,6 +87,14 @@ static void
- lpfc_release_scsi_buf_s3(struct lpfc_hba *phba, struct lpfc_io_buf *psb);
- static int
- lpfc_prot_group_type(struct lpfc_hba *phba, struct scsi_cmnd *sc);
-+static int
-+lpfc_put_vmid_in_hashtable(struct lpfc_vport *vport, u32 hash,
-+			   struct lpfc_vmid *vmp);
-+static void lpfc_vmid_update_entry(struct lpfc_vport *vport, struct scsi_cmnd
-+				   *cmd, struct lpfc_vmid *vmp,
-+				   union lpfc_vmid_io_tag *tag);
-+static void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport,
-+				    struct lpfc_vmid *vmid);
+ #include <scsi/scsi_device.h>
+@@ -55,9 +56,15 @@ static int lpfc_issue_els_fdisc(struct lpfc_vport *vport,
+ 				struct lpfc_nodelist *ndlp, uint8_t retry);
+ static int lpfc_issue_fabric_iocb(struct lpfc_hba *phba,
+ 				  struct lpfc_iocbq *iocb);
++static void lpfc_cmpl_els_uvem(struct lpfc_hba *, struct lpfc_iocbq *,
++			       struct lpfc_iocbq *);
  
- static inline unsigned
- lpfc_cmd_blksize(struct scsi_cmnd *sc)
-@@ -5131,6 +5140,145 @@ void lpfc_poll_timeout(struct timer_list *t)
+ static int lpfc_max_els_tries = 3;
+ 
++static void lpfc_init_cs_ctl_bitmap(struct lpfc_vport *vport);
++static void lpfc_vmid_set_cs_ctl_range(struct lpfc_vport *vport, u32 min, u32 max);
++static void lpfc_vmid_put_cs_ctl(struct lpfc_vport *vport, u32 ctcl_vmid);
++
+ /**
+  * lpfc_els_chk_latt - Check host link attention event for a vport
+  * @vport: pointer to a host virtual N_Port data structure.
+@@ -312,12 +319,12 @@ lpfc_prep_els_iocb(struct lpfc_vport *vport, uint8_t expectRsp,
+ 	if (expectRsp) {
+ 		/* Xmit ELS command <elsCmd> to remote NPORT <did> */
+ 		lpfc_printf_vlog(vport, KERN_INFO, LOG_ELS,
+-				 "0116 Xmit ELS command x%x to remote "
+-				 "NPORT x%x I/O tag: x%x, port state:x%x "
+-				 "rpi x%x fc_flag:x%x\n",
++				 "0116 Xmit ELS command x%x to remote\n"
++				 "NPORT x%x I/O tag: x%x, port state:x%x\n"
++				 "rpi x%x fc_flag:x%x nlp_flag:x%x vport:x%p\n",
+ 				 elscmd, did, elsiocb->iotag,
+ 				 vport->port_state, ndlp->nlp_rpi,
+-				 vport->fc_flag);
++				 vport->fc_flag, ndlp->nlp_flag, vport);
+ 	} else {
+ 		/* Xmit ELS response <elsCmd> to remote NPORT <did> */
+ 		lpfc_printf_vlog(vport, KERN_INFO, LOG_ELS,
+@@ -1111,12 +1118,16 @@ lpfc_cmpl_els_flogi(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 
+ 	/* FLOGI completes successfully */
+ 	lpfc_printf_vlog(vport, KERN_INFO, LOG_ELS,
+-			 "0101 FLOGI completes successfully, I/O tag:x%x, "
+-			 "xri x%x Data: x%x x%x x%x x%x x%x %x\n",
++			 "0101 FLOGI completes successfully, I/O tag:x%x,\n"
++			 "xri x%x Data: x%x x%x x%x x%x x%x %x %x\n",
+ 			 cmdiocb->iotag, cmdiocb->sli4_xritag,
+ 			 irsp->un.ulpWord[4], sp->cmn.e_d_tov,
+ 			 sp->cmn.w2.r_a_tov, sp->cmn.edtovResolution,
+-			 vport->port_state, vport->fc_flag);
++			 vport->port_state, vport->fc_flag,
++			 sp->cmn.priority_tagging);
++
++	if (sp->cmn.priority_tagging)
++		vport->vmid_flag |= LPFC_VMID_ISSUE_QFPA;
+ 
+ 	if (vport->port_state == LPFC_FLOGI) {
+ 		/*
+@@ -1298,6 +1309,18 @@ lpfc_issue_els_flogi(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 	if (sp->cmn.fcphHigh < FC_PH3)
+ 		sp->cmn.fcphHigh = FC_PH3;
+ 
++	/* to deterine if switch supports priority tagging */
++	if (phba->cfg_vmid_priority_tagging) {
++		sp->cmn.priority_tagging = 1;
++		/* lpfc_vmid_host_uuid is combination of wwpn and wwnn */
++		if (uuid_is_null((uuid_t *)vport->lpfc_vmid_host_uuid)) {
++			memcpy(vport->lpfc_vmid_host_uuid, phba->wwpn,
++			       sizeof(phba->wwpn));
++			memcpy(&vport->lpfc_vmid_host_uuid[8], phba->wwnn,
++			       sizeof(phba->wwnn));
++		}
++	}
++
+ 	if  (phba->sli_rev == LPFC_SLI_REV4) {
+ 		if (bf_get(lpfc_sli_intf_if_type, &phba->sli4_hba.sli_intf) ==
+ 		    LPFC_SLI_INTF_IF_TYPE_0) {
+@@ -1928,6 +1951,7 @@ lpfc_cmpl_els_plogi(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 	struct lpfc_nodelist *ndlp, *free_ndlp;
+ 	struct lpfc_dmabuf *prsp;
+ 	int disc;
++	struct serv_parm *sp = NULL;
+ 
+ 	/* we pass cmdiocb to state machine which needs rspiocb as well */
+ 	cmdiocb->context_un.rsp_iocb = rspiocb;
+@@ -2018,6 +2042,23 @@ lpfc_cmpl_els_plogi(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 				   cmdiocb->context2)->list.next,
+ 				  struct lpfc_dmabuf, list);
+ 		ndlp = lpfc_plogi_confirm_nport(phba, prsp->virt, ndlp);
++
++		sp = (struct serv_parm *)((u8 *)prsp->virt +
++					  sizeof(u32));
++
++		ndlp->vmid_support = 0;
++		if ((phba->cfg_vmid_app_header && sp->cmn.app_hdr_support) ||
++		    (phba->cfg_vmid_priority_tagging &&
++		     sp->cmn.priority_tagging)) {
++			lpfc_printf_log(phba, KERN_DEBUG, LOG_ELS,
++					"4018 app_hdr_support %d tagging %d DID x%x",
++					sp->cmn.app_hdr_support,
++					sp->cmn.priority_tagging,
++					ndlp->nlp_DID);
++			/* if the dest port supports VMID, mark it in ndlp */
++			ndlp->vmid_support = 1;
++		}
++
+ 		lpfc_disc_state_machine(vport, ndlp, cmdiocb,
+ 					NLP_EVT_CMPL_PLOGI);
  	}
+@@ -2142,6 +2183,14 @@ lpfc_issue_els_plogi(struct lpfc_vport *vport, uint32_t did, uint8_t retry)
+ 	memset(sp->un.vendorVersion, 0, sizeof(sp->un.vendorVersion));
+ 	sp->cmn.bbRcvSizeMsb &= 0xF;
+ 
++	/* check if the destination port supports VMID */
++	ndlp->vmid_support = 0;
++	if (vport->vmid_priority_tagging)
++		sp->cmn.priority_tagging = 1;
++	else if (phba->cfg_vmid_app_header &&
++		 bf_get(lpfc_ftr_ashdr, &phba->sli4_hba.sli4_flags))
++		sp->cmn.app_hdr_support = 1;
++
+ 	lpfc_debugfs_disc_trc(vport, LPFC_DISC_TRC_ELS_CMD,
+ 		"Issue PLOGI:     did:x%x",
+ 		did, 0, 0);
+@@ -10306,3 +10355,309 @@ lpfc_sli_abts_recover_port(struct lpfc_vport *vport,
+ 	lpfc_unreg_rpi(vport, ndlp);
  }
  
-+/*
-+ * lpfc_get_vmid_from_hastable - search the UUID in the hash table
-+ * @vport: The virtual port for which this call is being executed.
-+ * @hash: calculated hash value
-+ * @buf: uuid associated with the VE
-+ * Returns the vmid entry associated with the UUID
-+ * Make sure to acquire the appropriate lock before invoking this routine.
-+ */
-+struct lpfc_vmid *lpfc_get_vmid_from_hastable(struct lpfc_vport *vport,
-+					      u32 hash, u8 *buf)
++static void lpfc_init_cs_ctl_bitmap(struct lpfc_vport *vport)
 +{
-+	struct lpfc_vmid *vmp;
-+	u16 count = 0;
-+
-+	while (count < LPFC_VMID_HASH_SIZE) {
-+		vmp = vport->hash_table[hash];
-+		if (vmp) {
-+			if (strncmp(&vmp->host_vmid[0], buf, 16) == 0)
-+				return vmp;
-+		} else {
-+			return NULL;
-+		}
-+		/* search the next available slot and continue till entry */
-+		/* is found */
-+		count++;
-+		hash++;
-+
-+		/* or the end is reached */
-+		if (hash == LPFC_VMID_HASH_SIZE)
-+			hash = 0;
-+	}
-+	return NULL;
++	bitmap_zero(vport->vmid_priority_range, LPFC_VMID_MAX_PRIORITY_RANGE);
 +}
 +
-+/*
-+ * lpfc_put_vmid_from_hastable - put the VMID in the hash table
-+ * @vport: The virtual port for which this call is being executed.
-+ * @hash - calculated hash value
-+ * @vmp: Pointer to a VMID entry representing a VM sending IO
-+ *
-+ * This routine will insert the newly acquired vmid entity in the hash table.
-+ * Make sure to acquire the appropriate lock before invoking this routine.
-+ */
-+static int
-+lpfc_put_vmid_in_hashtable(struct lpfc_vport *vport, u32 hash,
-+			   struct lpfc_vmid *vmp)
++static void
++lpfc_vmid_set_cs_ctl_range(struct lpfc_vport *vport, u32 min, u32 max)
 +{
-+	int count = 0;
++	u32 i;
 +
-+	while (count < LPFC_VMID_HASH_SIZE) {
-+		if (!vport->hash_table[hash]) {
-+			vport->hash_table[hash] = vmp;
-+			vmp->hash_index = hash;
-+			return FAILURE;
-+		}
-+		/* if the slot is already occupied, a collision has occurred. */
-+		/* Store in the next available slot */
-+		count++;
-+		hash++;
-+		/* table is full */
-+		if (hash == LPFC_VMID_HASH_SIZE)
-+			hash = 0;
++	if ((min > max) || (max > LPFC_VMID_MAX_PRIORITY_RANGE))
++		return;
++
++	for (i = min; i <= max; i++)
++		set_bit(i, vport->vmid_priority_range);
++}
++
++static void lpfc_vmid_put_cs_ctl(struct lpfc_vport *vport, u32 ctcl_vmid)
++{
++	set_bit(ctcl_vmid, vport->vmid_priority_range);
++}
++
++u32 lpfc_vmid_get_cs_ctl(struct lpfc_vport *vport)
++{
++	u32 i;
++
++	i = find_first_bit(vport->vmid_priority_range,
++			   LPFC_VMID_MAX_PRIORITY_RANGE);
++
++	if (i == LPFC_VMID_MAX_PRIORITY_RANGE)
++		return 0;
++
++	clear_bit(i, vport->vmid_priority_range);
++	return i;
++}
++
++#define MAX_PRIORITY_DESC	255
++
++static void
++lpfc_cmpl_els_qfpa(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
++		   struct lpfc_iocbq *rspiocb)
++{
++	struct lpfc_vport *vport = cmdiocb->vport;
++	struct priority_range_desc *desc;
++	struct lpfc_dmabuf *prsp = NULL;
++	struct lpfc_vmid_priority_range *vmid_range = NULL;
++	u32 *data;
++	struct lpfc_dmabuf *dmabuf = cmdiocb->context2;
++	IOCB_t *irsp = &rspiocb->iocb;
++	u8 *pcmd;
++	u32 len, i;
++	struct lpfc_nodelist *ndlp = NULL;
++
++	prsp = list_get_first(&dmabuf->list, struct lpfc_dmabuf, list);
++	if (!prsp)
++		goto out;
++
++	ndlp = (struct lpfc_nodelist *) cmdiocb->context1;
++	pcmd = prsp->virt;
++	data = (u32 *)pcmd;
++	if (data[0] == ELS_CMD_LS_RJT) {
++		lpfc_printf_vlog(vport, KERN_WARNING, LOG_SLI,
++				 "6528 QFPA LS_RJT %x  %x ", data[0], data[1]);
++		goto out;
 +	}
++	if (irsp->ulpStatus) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_SLI,
++				 "6529 QFPA failed with status %x  %x ",
++				 irsp->ulpStatus, irsp->un.ulpWord[4]);
++		goto out;
++	}
++
++	if (!vport->qfpa_res) {
++		vport->qfpa_res = kmalloc(FCELSSIZE, GFP_KERNEL);
++		if (!vport->qfpa_res)
++			goto out;
++		memset(vport->qfpa_res, 0, FCELSSIZE);
++	}
++
++	len = *((u32 *)(pcmd + 4));
++	len = be32_to_cpu(len);
++	memcpy(vport->qfpa_res, pcmd, len + 8);
++	len = len / LPFC_PRIORITY_RANGE_DESC_SIZE;
++
++	desc = (struct priority_range_desc *)(pcmd + 8);
++	vmid_range = vport->vmid_priority.vmid_range;
++	if (!vmid_range) {
++		vmid_range = kmalloc_array(MAX_PRIORITY_DESC,
++					   sizeof
++					   (struct lpfc_vmid_priority_range),
++					   GFP_KERNEL);
++		if (!vmid_range)
++			goto out;
++		memset(vmid_range, 0, MAX_PRIORITY_DESC *
++		       sizeof(struct lpfc_vmid_priority_range));
++		vport->vmid_priority.vmid_range = vmid_range;
++	}
++	vport->vmid_priority.num_descriptors = len;
++
++	for (i = 0; i < len; i++, vmid_range++, desc++) {
++		lpfc_printf_vlog(vport, KERN_DEBUG, LOG_ELS,
++				 "6539 vmid values low=%d, high=%d, qos=%d,\n"
++				 " local ve id=%d\n", desc->lo_range,
++				 desc->hi_range, desc->qos_priority,
++				 desc->local_ve_id);
++
++		vmid_range->low = desc->lo_range << 1;
++		if (desc->local_ve_id == QFPA_ODD_ONLY)
++			vmid_range->low++;
++		if (desc->qos_priority)
++			vport->vmid_flag |= LPFC_VMID_QOS_ENABLED;
++		vmid_range->qos = desc->qos_priority;
++
++		vmid_range->high = desc->hi_range << 1;
++		if ((desc->local_ve_id == QFPA_ODD_ONLY) ||
++		    (desc->local_ve_id == QFPA_EVEN_ODD))
++			vmid_range->high++;
++	}
++	lpfc_init_cs_ctl_bitmap(vport);
++	for (i = 0; i < vport->vmid_priority.num_descriptors; i++) {
++		lpfc_vmid_set_cs_ctl_range(vport,
++				vport->vmid_priority.vmid_range[i].low,
++				vport->vmid_priority.vmid_range[i].high);
++	}
++
++	vport->vmid_flag |= LPFC_VMID_QFPA_CMPL;
++ out:
++	lpfc_els_free_iocb(phba, cmdiocb);
++	if (ndlp)
++		lpfc_nlp_put(ndlp);
++}
++
++int lpfc_issue_els_qfpa(struct lpfc_vport *vport)
++{
++	struct lpfc_hba *phba = vport->phba;
++	struct lpfc_nodelist *ndlp;
++	struct lpfc_iocbq *elsiocb;
++	u8 *pcmd;
++	int ret;
++
++	ndlp = lpfc_findnode_did(phba->pport, Fabric_DID);
++	if (!ndlp || ndlp->nlp_state != NLP_STE_UNMAPPED_NODE)
++		return FAILURE;
++
++	if (!ndlp)
++		return FAILURE;
++
++	elsiocb = lpfc_prep_els_iocb(vport, 1, LPFC_QFPA_SIZE, 2, ndlp,
++				     ndlp->nlp_DID, ELS_CMD_QFPA);
++	if (!elsiocb)
++		return FAILURE;
++
++	pcmd = (u8 *)(((struct lpfc_dmabuf *)elsiocb->context2)->virt);
++
++	*((u32 *)(pcmd)) = ELS_CMD_QFPA;
++	pcmd += 4;
++
++	elsiocb->iocb_cmpl = lpfc_cmpl_els_qfpa;
++
++	elsiocb->context1 = lpfc_nlp_get(ndlp);
++	if (!elsiocb->context1)
++		return FAILURE;
++
++	ret = lpfc_sli_issue_iocb(phba, LPFC_ELS_RING, elsiocb, 2);
++	if (ret != IOCB_SUCCESS) {
++		lpfc_nlp_put(ndlp);
++		lpfc_els_free_iocb(phba, elsiocb);
++		return FAILURE;
++	}
++	vport->vmid_flag &= ~LPFC_VMID_QOS_ENABLED;
 +	return 0;
 +}
 +
-+/*
-+ * lpfc_vmid_hash_fn- creates a hash value of the UUID
-+ * @uuid: uuid associated with the VE
-+ * @len: length of the UUID
-+ * Returns the calculated hash value
-+ */
-+int lpfc_vmid_hash_fn(char *vmid, int len)
++int
++lpfc_vmid_uvem(struct lpfc_vport *vport,
++	       struct lpfc_vmid *vmid, bool instantiated)
 +{
-+	int c;
-+	int hash = 0;
++	struct lpfc_vem_id_desc *vem_id_desc;
++	struct lpfc_nodelist *ndlp;
++	struct lpfc_iocbq *elsiocb;
++	struct instantiated_ve_desc *inst_desc;
++	struct lpfc_vmid_context *vmid_context;
++	u8 *pcmd;
++	u32 *len;
++	int ret = 0;
 +
-+	if (len == 0)
-+		return 0;
-+	while (len--) {
-+		c = *vmid++;
-+		if (c >= 'A' && c <= 'Z')
-+			c += 'a' - 'A';
++	ndlp = lpfc_findnode_did(vport, Fabric_DID);
++	if (!ndlp || ndlp->nlp_state != NLP_STE_UNMAPPED_NODE)
++		return FAILURE;
 +
-+		hash = (hash + (c << LPFC_VMID_HASH_SHIFT) +
-+			(c >> LPFC_VMID_HASH_SHIFT)) * 19;
-+	}
++	vmid_context = kmalloc(sizeof(*vmid_context), GFP_KERNEL);
++	if (!vmid_context)
++		return FAILURE;
++	elsiocb = lpfc_prep_els_iocb(vport, 1, LPFC_UVEM_SIZE, 2,
++				     ndlp, Fabric_DID, ELS_CMD_UVEM);
++	if (!elsiocb)
++		goto out;
 +
-+	return hash & LPFC_VMID_HASH_MASK;
-+}
++	lpfc_printf_vlog(vport, KERN_DEBUG, LOG_ELS,
++			 "3427 %s %d", vmid->host_vmid, instantiated);
++	vmid_context->vmp = vmid;
++	vmid_context->nlp = ndlp;
++	vmid_context->instantiated = instantiated;
++	elsiocb->vmid_tag.vmid_context = vmid_context;
++	pcmd = (u8 *)(((struct lpfc_dmabuf *)elsiocb->context2)->virt);
 +
-+/*
-+ * lpfc_vmid_update_entry - update the vmid entry in the hash table
-+ * @vport: The virtual port for which this call is being executed.
-+ * @cmd: address of scsi cmmd descriptor
-+ * @vmp: Pointer to a VMID entry representing a VM sending IO
-+ * @tag: VMID tag
-+ */
-+static void lpfc_vmid_update_entry(struct lpfc_vport *vport, struct scsi_cmnd
-+				   *cmd, struct lpfc_vmid *vmp,
-+				   union lpfc_vmid_io_tag *tag)
-+{
-+	u64 *lta;
++	if (uuid_is_null((uuid_t *)vport->lpfc_vmid_host_uuid))
++		memcpy(vport->lpfc_vmid_host_uuid, vmid->host_vmid,
++		       LPFC_COMPRESS_VMID_SIZE);
 +
-+	if (vport->vmid_priority_tagging)
-+		tag->cs_ctl_vmid = vmp->un.cs_ctl_vmid;
-+	else
-+		tag->app_id = vmp->un.app_id;
++	*((u32 *)(pcmd)) = ELS_CMD_UVEM;
++	len = (u32 *)(pcmd + 4);
++	*len = cpu_to_be32(LPFC_UVEM_SIZE - 8);
 +
-+	if (cmd->sc_data_direction == DMA_TO_DEVICE)
-+		vmp->io_wr_cnt++;
-+	else
-+		vmp->io_rd_cnt++;
++	vem_id_desc = (struct lpfc_vem_id_desc *)(pcmd + 8);
++	vem_id_desc->tag = be32_to_cpu(VEM_ID_DESC_TAG);
++	vem_id_desc->length = be32_to_cpu(LPFC_UVEM_VEM_ID_DESC_SIZE);
++	memcpy(vem_id_desc->vem_id, vport->lpfc_vmid_host_uuid,
++	       LPFC_COMPRESS_VMID_SIZE);
 +
-+	/* update the last access timestamp in the table */
-+	lta = per_cpu_ptr(vmp->last_io_time, raw_smp_processor_id());
-+	*lta = jiffies;
-+}
++	inst_desc = (struct instantiated_ve_desc *)(pcmd + 32);
++	inst_desc->tag = be32_to_cpu(INSTANTIATED_VE_DESC_TAG);
++	inst_desc->length = be32_to_cpu(LPFC_UVEM_VE_MAP_DESC_SIZE);
++	memcpy(inst_desc->global_vem_id, vmid->host_vmid,
++	       LPFC_COMPRESS_VMID_SIZE);
 +
-+static void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport,
-+				    struct lpfc_vmid *vmid)
-+{
-+	u32 hash;
-+	struct lpfc_vmid *pvmid;
-+
-+	if (vport->port_type == LPFC_PHYSICAL_PORT) {
-+		vmid->un.cs_ctl_vmid = lpfc_vmid_get_cs_ctl(vport);
++	bf_set(lpfc_instantiated_nport_id, inst_desc, vport->fc_myDID);
++	bf_set(lpfc_instantiated_local_id, inst_desc,
++	       vmid->un.cs_ctl_vmid);
++	if (instantiated) {
++		inst_desc->tag = be32_to_cpu(INSTANTIATED_VE_DESC_TAG);
 +	} else {
-+		hash = lpfc_vmid_hash_fn(vmid->host_vmid, vmid->vmid_len);
-+		pvmid =
-+		    lpfc_get_vmid_from_hastable(vport->phba->pport, hash,
-+						vmid->host_vmid);
-+		if (!pvmid)
-+			vmid->un.cs_ctl_vmid = pvmid->un.cs_ctl_vmid;
-+		else
-+			vmid->un.cs_ctl_vmid = lpfc_vmid_get_cs_ctl(vport);
++		inst_desc->tag = be32_to_cpu(DEINSTANTIATED_VE_DESC_TAG);
++		lpfc_vmid_put_cs_ctl(vport, vmid->un.cs_ctl_vmid);
 +	}
++	inst_desc->word6 = cpu_to_be32(inst_desc->word6);
++
++	elsiocb->iocb_cmpl = lpfc_cmpl_els_uvem;
++
++	elsiocb->context1 = lpfc_nlp_get(ndlp);
++	if (!elsiocb->context1)
++		return FAILURE;
++
++	ret = lpfc_sli_issue_iocb(vport->phba, LPFC_ELS_RING, elsiocb, 0);
++	if (ret != IOCB_SUCCESS) {
++		lpfc_els_free_iocb(vport->phba, elsiocb);
++		goto out;
++	}
++
++	return 0;
++ out:
++	kfree(vmid_context);
++	return FAILURE;
 +}
 +
- /**
-  * lpfc_queuecommand - scsi_host_template queuecommand entry point
-  * @shost: kernel scsi host pointer.
++static void
++lpfc_cmpl_els_uvem(struct lpfc_hba *phba, struct lpfc_iocbq *icmdiocb,
++		   struct lpfc_iocbq *rspiocb)
++{
++	struct lpfc_vport *vport = icmdiocb->vport;
++	struct lpfc_dmabuf *prsp = NULL;
++	struct lpfc_vmid_context *vmid_context =
++	    icmdiocb->vmid_tag.vmid_context;
++	struct lpfc_nodelist *ndlp = icmdiocb->context1;
++	u8 *pcmd;
++	u32 *data;
++	IOCB_t *irsp = &rspiocb->iocb;
++	struct lpfc_dmabuf *dmabuf = icmdiocb->context2;
++	struct lpfc_vmid *vmid;
++
++	vmid = vmid_context->vmp;
++	if (!ndlp || ndlp->nlp_state != NLP_STE_UNMAPPED_NODE)
++		ndlp = NULL;
++
++	prsp = list_get_first(&dmabuf->list, struct lpfc_dmabuf, list);
++	if (!prsp)
++		goto out;
++	pcmd = prsp->virt;
++	data = (u32 *)pcmd;
++	if (data[0] == ELS_CMD_LS_RJT) {
++		lpfc_printf_vlog(vport, KERN_WARNING, LOG_SLI,
++				 "4532 UVEM LS_RJT %x %x ", data[0], data[1]);
++		goto out;
++	}
++	if (irsp->ulpStatus) {
++		lpfc_printf_vlog(vport, KERN_WARNING, LOG_SLI,
++				 "4533 UVEM error status %x: %x ",
++				 irsp->ulpStatus, irsp->un.ulpWord[4]);
++		goto out;
++	}
++	spin_lock(&phba->hbalock);
++	/* Set IN USE flag */
++	vport->vmid_flag |= LPFC_VMID_IN_USE;
++	phba->pport->vmid_flag |= LPFC_VMID_IN_USE;
++	spin_unlock(&phba->hbalock);
++
++	if (vmid_context->instantiated) {
++		vmid->flag |= LPFC_VMID_REGISTERED;
++		vmid->flag &= ~LPFC_VMID_REQ_REGISTER;
++	}
++
++ out:
++	kfree(vmid_context);
++	lpfc_els_free_iocb(phba, icmdiocb);
++	lpfc_nlp_put(ndlp);
++}
 -- 
 2.26.2
 
