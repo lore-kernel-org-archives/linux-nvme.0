@@ -2,83 +2,79 @@ Return-Path: <SRS0=mUlG=GL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD6AC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 14:47:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01B72C433DB
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 20:20:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0E8D4235FF
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 14:47:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0E8D4235FF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8245723AC0
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 20:20:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8245723AC0
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/Xb2JmHGCqsla4VGLVaudOaLNIuaP+HDkZDOkoi0I90=; b=QKZcLB+qUJwZ5FS6+Y5EyTW7JD
-	PzaYMIVxhSWQHCEO8aQbgMqFyKLnntLFsw1DZrnp6dJEuiiPgLkjs4OwfNtQkCKbGIA9SGhWKeMmy
-	+kwrek4AQLB14XZaust9NlggJVEHVDXbPRAARpTALA65KXkWvmlfoWWI425cPcIv1ICQ3hU0j2AS7
-	8cx5vxqsrvWqR2gQAoV79J46F5wUhkAEHfW0klEbq9QYp/3dF4UaR80DI13GEe2I4QDehajOBCJ8V
-	GPD7maEr39JOn1kwUzu/96bf1TFXJOv/U58c6G7L60La8HuG1HEv8/8J7vtB0HhF/00ybVNRxNe7J
-	xJQnFAFg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=05JWI6d0qNdKHr6PbMy41l0mjO/GVLmdF2xHfe63Ov0=; b=AbjGyJtBdYoZHu0sOJSWnq4G7
+	qVzSSzXDf8LkS0hVNRi0DTw98s/YM6lE5JIzXHi1H94yiACdmz1E6JK7Z0vdgRwve8D5qGh/SXRtS
+	3bMD8XKWSG3uf7vHyOaATFfTyU2hyXbTlJNl748M5RocF1uEL/3Mf0CjTW+KdEkl7KZggVY57MKUK
+	oIF2atZAAbvcJd/9WpbRZab5YNW8KfNQyAQt1vIC7fvHAQ9ILtEtDDmDBtTgQA9kbE3RYEJctuh9t
+	qbgBL02vlVqgOGyr+PGW5owF2VUCJdWM86wDqfs7b5jp4NeBBcKeubskDW4OzD5hgmTiCXocASIQL
+	Rf/n5ZBrA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kxt2q-0003HY-Rf; Fri, 08 Jan 2021 14:47:16 +0000
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+	id 1kxyFI-0003AA-1y; Fri, 08 Jan 2021 20:20:28 +0000
+Received: from mail-oi1-f181.google.com ([209.85.167.181])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kxt2o-0003EN-9i
- for linux-nvme@lists.infradead.org; Fri, 08 Jan 2021 14:47:15 +0000
-Received: by mail-pf1-x430.google.com with SMTP id d2so6375820pfq.5
- for <linux-nvme@lists.infradead.org>; Fri, 08 Jan 2021 06:47:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pxw/+Q9QrzSYFB8Us6yvkM/4KvUR/CwP98yYrhz4hiQ=;
- b=K4/9OGJKb6fjw7dYfjJLcuVuScnkMPqsvgSWfWm/D+xU4x5Y4vVKfoz0RqS4phwMOv
- n3NkwZx+xbuFlJGo8hQm8QdBS9rM89In/JP9NKtZZ25Ep3vp898ujEv4DP4Mw4B+MF6z
- ikcJ/uJk7FxTxPKO4kKNKjy3L3cumqerqqvOBpy9FOU9IB+7Tpjnl44eHJi+T0sogL/i
- XfLnX4m72WBQSBlDvM0P3vAcnQqUFKYlBJW8Ox7I6yTrypaBiVA6ZC0w3oKb31ybWHGH
- KeJr9UNE10966zxubSPJwKzy3vsIZ5UhJIRsCSaqD2Zxag3W+NqrxpSaysLWsoV/AHbe
- xJqA==
+ id 1kxyFD-00038t-GI
+ for linux-nvme@lists.infradead.org; Fri, 08 Jan 2021 20:20:24 +0000
+Received: by mail-oi1-f181.google.com with SMTP id x13so12734751oic.5
+ for <linux-nvme@lists.infradead.org>; Fri, 08 Jan 2021 12:20:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=pxw/+Q9QrzSYFB8Us6yvkM/4KvUR/CwP98yYrhz4hiQ=;
- b=fzLVSzl4VzNmkZJL7JzdvuCcFnV9m5VSsw7wJ9R3bf4j+ChLamTMaHSfFFN04BVwmf
- 98WTGIEDJ88pAa8beh/tVujSQ4Y9iZUKSdcqT+NwOQ6hFVtiVtnUQKCs3qIvIvxTXEcu
- AErp+9JUIsBkjFcARoj/fIC3+OpGKjHONTHVRijdamOrDFWolIXFh0H1qP69IyCcEvMp
- oPpy/gf89o8/0tW3nVjGnguQraaiJNa/o0mdNhNXxk3vmTKbhbFJ1fKjzxIaFuaa78MC
- x0hzObUdpG5202Ln/csLIkdejpUgpFUho5HUsJqafYO8SCYKRE2xfX0F/lLk1dFhCPUO
- oH0g==
-X-Gm-Message-State: AOAM5312SnODqCgwYuMNW0OwKkfspuUVpgZGNiJXLCvpIouwlLToiFEC
- 08zxXh4yBdh8e3V7qXQjfwQN6kDT1wPYpw==
-X-Google-Smtp-Source: ABdhPJxnavcI5NaIZYMYEqohRH6umsdPUGgCLamXfz4msTOYlaOlEUueQ2FqXS+LCCmJJdWH7tlFrA==
-X-Received: by 2002:a63:f512:: with SMTP id w18mr7407498pgh.154.1610117231643; 
- Fri, 08 Jan 2021 06:47:11 -0800 (PST)
-Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id w11sm9875391pge.28.2021.01.08.06.47.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 06:47:11 -0800 (PST)
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/3] nvme: support command retry delay for admin command
-Date: Fri,  8 Jan 2021 23:46:57 +0900
-Message-Id: <20210108144659.7126-2-minwoo.im.dev@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210108144659.7126-1-minwoo.im.dev@gmail.com>
-References: <20210108144659.7126-1-minwoo.im.dev@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=u+FQiCN2E00Q71ctkpKMaqXwGxda5BVBlS6+lfb5V5U=;
+ b=jkpEfDz18/cRdq0zCHyU/7MiQpyNp+0iQwvlEVoKAq+De1WqBklh+uQrgh6vWqK6Ag
+ V8Q/81Lq4gVyFGUUm5hr9BN/HTkbY1021CVT2TCRT81i4gXfdLVZKS5ruaWbatzskG6M
+ 9W1UrZt+xaRW44JdxdKI+EDUgAMqRGmgtfEVfby9KT94nsUsKKziZyCrc6t+90O631y0
+ udkVh0ZVE6K0Rtu4nRwE6b3pdgfiYpHebHLxk+gPtfGcByZpxfi1SXbIo3fZkR/K5bsK
+ UtZz2pCh/CAtXAssFgCHYlhmVgDpDOvy8Alm3rwUDRMiTD0HG0IMPJSLFRupJ5tnxEaL
+ RxLQ==
+X-Gm-Message-State: AOAM533RqPPx1931daMT+n6guW9oywsqWYdcNiN/jEYZ8eih+vhM0OgC
+ tvK/UExX33lDrrjMtt6x2vI=
+X-Google-Smtp-Source: ABdhPJwbHPBS2/Aam6uACMtnCoHf8WJBFUtF/mnTyZ6rPjtvYzCWDbgicu9eFuc3LkQ2PXBM4CG1lA==
+X-Received: by 2002:aca:f382:: with SMTP id r124mr3461303oih.175.1610137218343; 
+ Fri, 08 Jan 2021 12:20:18 -0800 (PST)
+Received: from ?IPv6:2600:1700:65a0:78e0:bedd:602e:8a53:5431?
+ ([2600:1700:65a0:78e0:bedd:602e:8a53:5431])
+ by smtp.gmail.com with ESMTPSA id 73sm1984792otv.26.2021.01.08.12.20.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jan 2021 12:20:17 -0800 (PST)
+Subject: Re: [PATCH] nvme-tcp: Fix possible race of io_work and direct send
+To: Or Gerlitz <gerlitz.or@gmail.com>
+References: <20201221080339.945164-1-sagi@grimberg.me>
+ <CAJ3xEMj8Y_=Y=orV59GR9=L4M3r4+mZzMW6w2cv2K9d5eKXZDA@mail.gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <e206eb55-8792-b9c2-64cb-bd76ed09e12e@grimberg.me>
+Date: Fri, 8 Jan 2021 12:20:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ3xEMj8Y_=Y=orV59GR9=L4M3r4+mZzMW6w2cv2K9d5eKXZDA@mail.gmail.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210108_094714_351727_7B129783 
-X-CRM114-Status: GOOD (  14.55  )
+X-CRM114-CacheID: sfid-20210108_152023_583396_5E790063 
+X-CRM114-Status: GOOD (  17.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,60 +86,80 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Keith Busch <kbusch@kernel.org>, Boris Pismenny <borispismenny@gmail.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Ben Ben-ishay <benishay@mellanox.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Once driver decides to retry a command that failed, it can have some
-delay based on Command Retry Delay(CRD) in Completion Queue Entry.  If
-CRD indicates Command Retry Delay Time 1, 2, or 3, driver calcualtes
-delay in Identify Controller data structure.
 
-This feature can be applied not only I/O queue commands, but also admin
-queue commands.  Admin command during the initialization may fail due to
-some un-ready state of a controller, so it would be better to have this
-feature for admin commands also.
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+> 
+>> @@ -279,7 +289,7 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
+>>          if (queue->io_cpu == smp_processor_id() &&
+>>              sync && empty && mutex_trylock(&queue->send_mutex)) {
+> 
+> but we can't rely on the processor id if we are on preemptible state..
+> 
+>    373.940336] BUG: using smp_processor_id() in preemptible [00000000]
+> code: kworker/u8:4/457
+> [  373.942037] caller is nvme_tcp_submit_async_event+0x4da/0x690 [nvme_tcp]
+> [  373.942144] CPU: 0 PID: 457 Comm: kworker/u8:4 Not tainted 5.11.0-rc1+ #116
+> [  373.942171] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
+> BIOS rel-1.12.1-0-ga5cab58e9a3f-prebuilt.qemu.org 04/01/2014
+> [  373.942196] Workqueue: nvme-wq nvme_async_event_work [nvme_core]
+> [  373.942259] Call Trace:
+> [  373.942286]  dump_stack+0xd0/0x119
+> [  373.942346]  check_preemption_disabled+0xec/0xf0
+> [  373.942397]  nvme_tcp_submit_async_event+0x4da/0x690 [nvme_tcp]
+> [  373.942449]  nvme_async_event_work+0x11d/0x1f0 [nvme_core]
+> [  373.942496]  ? nvme_ctrl_loss_tmo_show+0x140/0x140 [nvme_core]
+> [  373.942576]  process_one_work+0x9f3/0x1630
+> [  373.942649]  ? pwq_dec_nr_in_flight+0x330/0x330
+> [  373.942765]  worker_thread+0x9e/0xf60
+> [  373.942849]  ? process_one_work+0x1630/0x1630
+> [  373.942889]  kthread+0x362/0x480
+> [  373.942918]  ? kthread_create_on_node+0x100/0x100
 
-This patch simply removed getting namespace instance(struct nvme_ns) from
-the struct request and get a controller instance(struct nvme_ctrl) by
-nvme_req() helper.  Now, nvme_retry_req() calculates the delay
-regardless to namespace instance which meant this request is for I/O
-command.
+Well, this is a heuristic anyways, too bad we need to
+disable preemption just for this...
 
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
----
- drivers/nvme/host/core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+I'm assuming that this makes the issue go away?
+--
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index cf856103025a..ea07336ca179 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -281,8 +281,11 @@ static inline void nvme_tcp_queue_request(struct 
+nvme_tcp_request *req,
+                 bool sync, bool last)
+  {
+         struct nvme_tcp_queue *queue = req->queue;
++       int cpu;
+         bool empty;
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ce1b61519441..d0c99a9400ea 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -280,14 +280,13 @@ static blk_status_t nvme_error_status(u16 status)
- 
- static void nvme_retry_req(struct request *req)
- {
--	struct nvme_ns *ns = req->q->queuedata;
- 	unsigned long delay = 0;
- 	u16 crd;
- 
- 	/* The mask and shift result must be <= 3 */
- 	crd = (nvme_req(req)->status & NVME_SC_CRD) >> 11;
--	if (ns && crd)
--		delay = ns->ctrl->crdt[crd - 1] * 100;
-+	if (crd)
-+		delay = nvme_req(req)->ctrl->crdt[crd - 1] * 100;
- 
- 	nvme_req(req)->retries++;
- 	blk_mq_requeue_request(req, false);
--- 
-2.17.1
++       cpu = get_cpu();
++       put_cpu();
+         empty = llist_add(&req->lentry, &queue->req_list) &&
+                 list_empty(&queue->send_list) && !queue->request;
 
+@@ -291,8 +294,8 @@ static inline void nvme_tcp_queue_request(struct 
+nvme_tcp_request *req,
+          * directly, otherwise queue io_work. Also, only do that if we
+          * are on the same cpu, so we don't introduce contention.
+          */
+-       if (queue->io_cpu == smp_processor_id() &&
+-           sync && empty && mutex_trylock(&queue->send_mutex)) {
++       if (queue->io_cpu == cpu && sync && empty &&
++           mutex_trylock(&queue->send_mutex)) {
+                 queue->more_requests = !last;
+                 nvme_tcp_send_all(queue);
+                 queue->more_requests = false;
+
+--
 
 _______________________________________________
 Linux-nvme mailing list
