@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0231C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 14:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E67C433E9
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 14:47:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 35E7A235FF
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 14:47:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 35E7A235FF
+	by mail.kernel.org (Postfix) with ESMTPS id 6AD27235FF
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 14:47:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6AD27235FF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,62 +24,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wc2+oTaXVhom8qNSe9WMLabOEtYa2NI2ouMelA9Ores=; b=VJQOpyKJkt2Ky498MKueNM0UpR
-	DSMFIsLVbFA8z4vmNdE5cOzU2y6PaFCKEKk8siSB0xWZxXLaX9a/+3cZDGhvv5rNiz/1n64mbikV6
-	mLVADtoLYd04qiLdrvul5ORZ3fwjNRQCgoGL24os2JbxUMSnH/LnTodhFc7zwcEdjFJR/xuSnuSnD
-	8HCWXOgrHsLfakUnkQqWGc0bo31m5m/O7xyI2+G1azaaI06G7wuTESU0/BPexmFuKgMKervkjl6HG
-	/rW7a0dbl26ccaIfEaiARlCQrhlbYeBCkXHT4+/9e8jL8SaaFsizYO2M/rIADIygcbtqPNxlMZ3/T
-	4fH4MipA==;
+	bh=naL9scfA1u9KbmKCWIFqecGIWUNNUzkrzHFyUumMM4o=; b=e5eJjrndwPcpwjZvARJ1ugDviT
+	1DXPIm/fxU2TTP++oj75Dx8NPYDNBqsB3LtORehJGY4/gdMrLKshsX86PYn41Lx0IeiAR30kljM+f
+	YinNDA4AiC0ObmXjKNxU0W/xUweJz0RtJEeS53m9mZFD9HA3wlF7vfnN9n9LdDQsA8eZc2inLE261
+	yxkihG6AEAqgEzF7HmfIbc5ZvjMWYpcH9FzAKQBAKrA7SMAlEKJqJ3sW1weBOUary8ROfJHfqeoqs
+	6FETM59DKBO20EazYCOlYr1f7LRI9cNCPQDLLthUtzdgo4OtQL8+HYr3ZNXhxvBZ1BjUxVOqL8oAt
+	hR0PdUmA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kxt2u-0003KU-EM; Fri, 08 Jan 2021 14:47:20 +0000
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+	id 1kxt2w-0003ME-3u; Fri, 08 Jan 2021 14:47:22 +0000
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kxt2q-0003Ff-VC
- for linux-nvme@lists.infradead.org; Fri, 08 Jan 2021 14:47:18 +0000
-Received: by mail-pj1-x1034.google.com with SMTP id n3so5677450pjm.1
- for <linux-nvme@lists.infradead.org>; Fri, 08 Jan 2021 06:47:16 -0800 (PST)
+ id 1kxt2t-0003IK-HJ
+ for linux-nvme@lists.infradead.org; Fri, 08 Jan 2021 14:47:20 +0000
+Received: by mail-pl1-x632.google.com with SMTP id q4so5762448plr.7
+ for <linux-nvme@lists.infradead.org>; Fri, 08 Jan 2021 06:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=t94jF8Zwj9l+GtRe7t4utc2KgSA2lSlDQFu2xMPLjqI=;
- b=OqnkLoFp/9V4mimHurZwgXsPzZC3oMGCM9CIX66+mhMUCt3AZXb5uPWZetCyPU23hT
- Avgg+QBVgbkuFovVcc9z07qTdKd9ajojRpPrF4QTUjKJceMK6srIE17jqYGqCpqCPBGL
- NTOQ+N7PfmO6KmMV8LkfA+vaoBsB6U6zosqNniN79JXAUVs+XpURTvmvbkH33TSoZOnS
- fQ4eVBRoIbUPEIgm67cVmaMXXuq1XWdO+G5B/E5azq0s2+OiG7JzixndmsSHapEy6vfN
- wYT08oYXjmuIkVEK7aGO1ASUBj4JiITCEU0ghI2FPLn8ic/1xtO91yVg0YeD7JyhVR8u
- yrzg==
+ bh=Csm3BcFUkY+Zk0CMkUG8slH8/RvLEi0kqJM3xLFE/fI=;
+ b=mYRNKVInEQ34RYR/ZTYK132//1zQ8WNODcPZAynF1++Uff0nAuCwY84pFmdTmodK2s
+ MIr4hHj+6qaH6lkO3r1ke8sbJWPhDe4bNcSvTIK5feA48T8eYZc7V4lWIavlRz7fnYoa
+ 9S4mJjT5ZmT2T/yLKLhZMSbmKakLaX5oLd9dWsDvMPpYC+PqCRm9ZHXlpWhAJgfZcU/P
+ vr+i3Rg+iPrHaNxDFL15H5rF7G9SKazFrRnYLhOVjnKoF4pXtLbYqn4nTvR+V+GYHj3t
+ WCoe8ALJGCi6P2NkQYI43E5Bvaz98/1iiovc2muHfPuewA1D/xq9c/OgrYV8gLbeL6eP
+ vd5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=t94jF8Zwj9l+GtRe7t4utc2KgSA2lSlDQFu2xMPLjqI=;
- b=ah7/pUfA1U5PkEDhGg49psHf4wJrjiDcWkpWgn7aAF3MBo1pOCKUMjuMGyqqkcUoiZ
- xGNXe4guZofoHFE8TmbFh2vcfdMhLFm2t5u9vq1lkPj2ckKya05lFtcKEkST916ERwf7
- 18rjWu7klIBqgbTiZaw3fiJSj+7achqwXtC8dreSWMvd1FuWibXzNKPB9xulg1HOXCrK
- 0jLuheWomzSWeNxpQ8tuA2vSQMQC3hyHHv8t9avXZled5lNvhUpZxG37rXqCln8kLOyk
- lJl8yk+Ps++wW++D6PBHM4bGmW7ZdDKHE8oHJNVyPIM8Tt+LF7htOWivfNiphR+kGULg
- OUZQ==
-X-Gm-Message-State: AOAM53166TgATQAXVvfAEng/6PKyapeT58H3D0EB62IXuodL0MabGmUR
- LnrYr5VnGXXhkRlIUNFeI6jU118AYypZKw==
-X-Google-Smtp-Source: ABdhPJxNWRoCl0Q1MR3mK9jZsaEdbmwk12eS04E3XQf/O3wUmmnjD/ST1Fl3dKBtUyI8Hur6VeB+hg==
-X-Received: by 2002:a17:90b:14c7:: with SMTP id
- jz7mr4080741pjb.40.1610117234428; 
- Fri, 08 Jan 2021 06:47:14 -0800 (PST)
+ bh=Csm3BcFUkY+Zk0CMkUG8slH8/RvLEi0kqJM3xLFE/fI=;
+ b=bXzSehkN4A+BdCmJc5y1P49BEeKj9G2a5O6t1+DhmFgunc2Rm2jBfpnMuavpWWiRmg
+ vwd85Q+kEQSNB5yFWiJYNQgrHS+gp+Fhi4KU/vrvb3NU5G0972cVVJ6bNp4SaMiqL7zE
+ XPd2GzaJwvRQ2chy90z8tD82qZJ46Q/H9ECkvadCFRWtsl1M7+uZ3Zue9soLZ4njS4I2
+ wOatVpiRo4U64OhYCbsirZaiawgwV1v/p+GVolohVW47KUkFKzpLNo2DtUJZAHGK/1lN
+ s192NA3Qcp/d8w1JvnnUqvAq+VgZZd2OJkJug4OBFzlhwcRnkgqV1tGhn9uFj3tdpqjD
+ qhKQ==
+X-Gm-Message-State: AOAM531al++u9eu4Qm/URxvdZoTFV/5HY1MVeEnUV/410VorqpNI7tzI
+ zdTO6p1AVu2WXaXrwzaF4ZEaQ0ki5gEjqQ==
+X-Google-Smtp-Source: ABdhPJzh5XpulWCKYuCmzNGeobUlz8Rdlw5vvp7wEnnP/u2qz1+y/lGiSr1p7q7/fAhNGzsaLOOmlA==
+X-Received: by 2002:a17:90a:7485:: with SMTP id
+ p5mr3984206pjk.132.1610117236948; 
+ Fri, 08 Jan 2021 06:47:16 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id w11sm9875391pge.28.2021.01.08.06.47.12
+ by smtp.gmail.com with ESMTPSA id w11sm9875391pge.28.2021.01.08.06.47.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 06:47:14 -0800 (PST)
+ Fri, 08 Jan 2021 06:47:16 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 2/3] nvme: check all retry delay times in Identify Controller
-Date: Fri,  8 Jan 2021 23:46:58 +0900
-Message-Id: <20210108144659.7126-3-minwoo.im.dev@gmail.com>
+Subject: [PATCH 3/3] nvme: add parameter command_retry to enable retry
+Date: Fri,  8 Jan 2021 23:46:59 +0900
+Message-Id: <20210108144659.7126-4-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210108144659.7126-1-minwoo.im.dev@gmail.com>
 References: <20210108144659.7126-1-minwoo.im.dev@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210108_094717_034434_F89DCAE9 
-X-CRM114-Status: GOOD (  16.09  )
+X-CRM114-CacheID: sfid-20210108_094719_700788_E6EB9CD8 
+X-CRM114-Status: GOOD (  16.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,33 +100,48 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If none of Command Retry Delay Time(CRDT)s are set, then we can simply
-skip to configure Advanced Command Retry Enable(ACRE).
+nvme_init_request() has set REQ_FAILFAST_DRIVER to make requests
+non-retryable.  This command flag value is checked in
+nvme_decide_disposition() to decide whether to RETRY or other
+operations.  In that point, blk_noretry_request() macro will be used to
+check if command flags have one of REQ_FAILFAST_*.  If so, it just
+decides to complete the request without retrying.
 
-CRDT selection will be made in Completion Queue Entry that controller
-has responsibility to decide.
-
-This patch checks all CRDT[0, 1, and 2] in Identify Controller data
-structrure instead of checking the first one: CRDT[0].
+This patch added a module parameter named command_retry to turn on the
+command retry feature in this driver.  If turning it on,
+REQ3_FAILFAST_DRIVER will not be set to requests so that retry can be
+reached out to nvme_retry_req() based on the module parameter.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d0c99a9400ea..6e428fdc25a8 100644
+index 6e428fdc25a8..e1836ca9956f 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2501,7 +2501,7 @@ static int nvme_configure_acre(struct nvme_ctrl *ctrl)
- 	int ret;
+@@ -44,6 +44,10 @@ static unsigned char shutdown_timeout = 5;
+ module_param(shutdown_timeout, byte, 0644);
+ MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
  
- 	/* Don't bother enabling the feature if retry delay is not reported */
--	if (!ctrl->crdt[0])
-+	if (!ctrl->crdt[0] && !ctrl->crdt[1] && !ctrl->crdt[2])
- 		return 0;
++static bool command_retry;
++module_param(command_retry, bool, 0644);
++MODULE_PARM_DESC(command_retry, "retry commands up to nvme_max_retries");
++
+ static u8 nvme_max_retries = 5;
+ module_param_named(max_retries, nvme_max_retries, byte, 0644);
+ MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
+@@ -560,7 +564,8 @@ static inline void nvme_init_request(struct request *req,
+ 	else /* no queuedata implies admin queue */
+ 		req->timeout = NVME_ADMIN_TIMEOUT;
  
- 	host = kzalloc(sizeof(*host), GFP_KERNEL);
+-	req->cmd_flags |= REQ_FAILFAST_DRIVER;
++	if (!command_retry)
++		req->cmd_flags |= REQ_FAILFAST_DRIVER;
+ 	nvme_clear_nvme_request(req);
+ 	nvme_req(req)->cmd = cmd;
+ }
 -- 
 2.17.1
 
