@@ -2,83 +2,104 @@ Return-Path: <SRS0=mUlG=GL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FCFC433E6
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 20:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F74C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 20:38:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7447A23AC0
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 20:24:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7447A23AC0
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 9E64623A68
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Jan 2021 20:38:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9E64623A68
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=aR5GGrulTE9YDbMtgYbPeLEzF2ureHGowe4WINXXeAI=; b=Q4JrW8wYjU/LvniFlKyj3ACdC
-	miCTLcpKtC4IKG0ih7BR+59TMmstNVn/zlvFSrC8uxVvzgMNFNKpObFF6IgdyDVEfaggNCoNsmqZ8
-	vJ86Pzz7IZBdA0vb56EvTCz/7ZxitLeGDnjE/z5hZzgdIul+yuy2rA6Oe2uPLKHSY9+Il+KFDjNg1
-	7sb4Iuzdon66UMYaTUb0oy/3d91wNYzV6WOdn66aFPl0rIr7aQ8RwmlivXY1SEYN9VS4jgUQvc7wS
-	q3Ex7QHsc+VCDh5bdKS4iPQ6LcGHJ1PasbfZjDH1TOqVOKriN7InhSv6amSp5D0HBiBuvPbbsciOx
-	I5DLAs8QQ==;
+	 bh=j6SeBt6r1naOIS44xw79IA4wlftNGYjBJvhODV9HwSA=; b=1SSaaKAzqXx6NPaMfrYNIuCEZ
+	vvffQppoUQ3+TBuSS+Hco4rMa26Z7Ysg7OJaFDmivk36rOw680naWezo1qT0+TiM3Zghxhe5eEWqi
+	1A2yanqn2ngx0h488cXQHCNgSoF05VHd5wMKf3P5ObI8MQgIP1u+UNk1xZbgucCBJFVNKcy0zLQvE
+	YYoihnQuFknhFqTjlPnqAun/qRJyedzCHIWXLw9OA9No3Y8q+0Zc5h1C+s2GI4/VrYWxNYBeCJvd2
+	dWEsGba1Rjtgl1UdMWn56u348igb61dfLyyGbftK860X9Z9H9Hn+WrxLa9R2pSGisJFl1+izgATry
+	3dgY9aS9g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kxyIo-0003bc-IO; Fri, 08 Jan 2021 20:24:06 +0000
-Received: from mail-oi1-f172.google.com ([209.85.167.172])
+	id 1kxyX5-0006Do-Kg; Fri, 08 Jan 2021 20:38:51 +0000
+Received: from nat-hk.nvidia.com ([203.18.50.4])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kxyIk-0003aY-L6
- for linux-nvme@lists.infradead.org; Fri, 08 Jan 2021 20:24:04 +0000
-Received: by mail-oi1-f172.google.com with SMTP id d203so12805332oia.0
- for <linux-nvme@lists.infradead.org>; Fri, 08 Jan 2021 12:24:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gkHlTk67HT9dIY8TS2DWa8VjYb84w7fj1W1Xt1Mo/cs=;
- b=mzeszCVMyGymZs4wshIEG+kYCcXNNOtsURuiQ+HvpyJvKYEVam79xwS+T9U6nVsU7X
- t2RxxKQ66OhdzX+CHY+25dQCWo0vkmab/KPCI6KxYmRdUd3H41SMCkPkcOQIZJ7UkHGj
- 7JXH+tk67tVdxImBpOCG3LNxuAMT83q+VdWZZZetGBbMYBIN3dNlhC3EvNqezD+yX/nK
- pU3S4WtggAoQEoIr6DhegfWS/Li319tC73FOLH836cxK+oasGbmRsk1MEBk/TK5bUR65
- ZaUEJD6zD/jHrYR3QGx+5kWWkcuhk/zYpv4WEadLpw/Eaa/TH/M23KNc03kD3HBQCw5F
- xMCA==
-X-Gm-Message-State: AOAM531OQc3t0kDRAWyCraBXINv8SDdZr6jyfQreVprxdHDybWe4Ryeh
- oqzrOpRytTEanA16MfPwKtc=
-X-Google-Smtp-Source: ABdhPJwXLXvHuY6rel13XrIBKrjdwvOI7RjspLrO2LXFpg5DXjEAhcX06I9PYVbfcBIZdWU5HVDDhg==
-X-Received: by 2002:aca:bac3:: with SMTP id k186mr3307536oif.93.1610137441736; 
- Fri, 08 Jan 2021 12:24:01 -0800 (PST)
-Received: from ?IPv6:2600:1700:65a0:78e0:bedd:602e:8a53:5431?
- ([2600:1700:65a0:78e0:bedd:602e:8a53:5431])
- by smtp.gmail.com with ESMTPSA id c18sm2180159oib.31.2021.01.08.12.24.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jan 2021 12:24:00 -0800 (PST)
-Subject: Re: kernel panic in nvmet_tcp when receiving malformed admin command
-From: Sagi Grimberg <sagi@grimberg.me>
-To: "Engel, Amit" <Amit.Engel@Dell.com>, "Anner, Ran" <Ran.Anner@dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <BL0PR1901MB2067C827A2D826C0FBFE985591320@BL0PR1901MB2067.namprd19.prod.outlook.com>
- <cee26269-c9c3-7ce7-8486-4ed16a632e44@grimberg.me>
- <BL0PR1901MB20671CF789D8C246AF911B4D91330@BL0PR1901MB2067.namprd19.prod.outlook.com>
- <DS7PR19MB4439372515F931BA5A1578ABEED30@DS7PR19MB4439.namprd19.prod.outlook.com>
- <dec5fc1d-62d6-1c1e-e2f8-4aa5aeb084af@grimberg.me>
-Message-ID: <2f2b2df4-ba06-a7ae-23cf-31eb17998c6e@grimberg.me>
-Date: Fri, 8 Jan 2021 12:23:59 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1kxyX0-0006D5-Qt
+ for linux-nvme@lists.infradead.org; Fri, 08 Jan 2021 20:38:49 +0000
+Received: from HKMAIL103.nvidia.com (Not Verified[10.18.92.77]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5ff8c2ce0000>; Sat, 09 Jan 2021 04:38:38 +0800
+Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL103.nvidia.com
+ (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 8 Jan
+ 2021 20:38:37 +0000
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (104.47.38.52) by
+ HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS)
+ id 15.0.1473.3 via Frontend Transport; Fri, 8 Jan 2021 20:38:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kWzH8TfH1V7b6kRdBNDILYZniBm4ljtmXu/msmmnFCVjcnAba6IajWwY30wVKP+OOy1PTYhGUXoDtWk8DWiLIQ8WcZOSMuBjM68OdIaoUB7slSxPWa0LirPv6AqwnOEqCUGDzeQvWoaNPl3MvbWIO6tRCI/0zG/WkfI0/ANkEwOKCshi+H1z3Pv+PURX7qJneWUxghfh8wTY3FD14UxyrTE1e8n1/Pj0jS6gAddngIazUr67VL+83zUQEZ2eU3pTY22KThb05DCKcH2O/Ecy18t1WvAoq/W3mjj1ag3nOCQpHnXS5jlTuJEcCpuMzMnSyF4HgqarEpm3g2a5sUuM+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=98d7rm0+5UE/SEVI0x2a/xqjUv/VWp5R9tWetG86OQ0=;
+ b=GamH5ARHAmR0Hc07PvhmQf/+8A8MeiGnu5XcVGQx93v2FiHaRy+mi46tRoVp3SZoZkCDENlPn3IhbEEQzDPZb5zOyFW/T/XSu7eHh9M87DdEvB3ix4SNGY75LuW4BwWs2iI97TuGA3wtwunm75yq05PSKvV9c7nA778oZ3aHB8Q6nnsxBCMKV6SSEUUDVxlw2OOwVJg3dDSldDOATA81a/gqaW5bTUqDgZFHqmFBQRv//aF2dh7/EfYV16fGAkvQaDjveAC4V07dJpgVmx2Gxe/8Y1nOaC+Z9+Uz5qp9S4m5ZC4WHlz7dAgpjdgXen/eKE5zwKPLtp4hgbffv/tLKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3929.namprd12.prod.outlook.com (2603:10b6:5:148::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.9; Fri, 8 Jan
+ 2021 20:38:34 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::546d:512c:72fa:4727]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::546d:512c:72fa:4727%7]) with mapi id 15.20.3742.008; Fri, 8 Jan 2021
+ 20:38:34 +0000
+Date: Fri, 8 Jan 2021 16:38:32 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Bernard Metzler <bmt@zurich.ibm.com>
+Subject: Re: [PATCH v4] RDMA/siw: Fix handling of zero-sized Read and Receive
+ Queues.
+Message-ID: <20210108203832.GA1050149@nvidia.com>
+References: <20210108125845.1803-1-bmt@zurich.ibm.com>
+Content-Disposition: inline
+In-Reply-To: <20210108125845.1803-1-bmt@zurich.ibm.com>
+X-ClientProxiedBy: BL1PR13CA0290.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::25) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-In-Reply-To: <dec5fc1d-62d6-1c1e-e2f8-4aa5aeb084af@grimberg.me>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.115.133) by
+ BL1PR13CA0290.namprd13.prod.outlook.com (2603:10b6:208:2bc::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.2 via Frontend
+ Transport; Fri, 8 Jan 2021 20:38:34 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1kxyWm-004PCw-M1; Fri, 08 Jan 2021 16:38:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1610138318; bh=98d7rm0+5UE/SEVI0x2a/xqjUv/VWp5R9tWetG86OQ0=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=rbm0KZThEIDY2OzDgLtyzf8P/UKCyQ7LCjGBARelpFC69GnY+G9OzSuOJsgXlkVlT
+ 0cubfau2pVWYcu7Vr3TQlcuxO8n5qfLOXdD2QQ8BsoflpjoszFsGTEGRIlQ/v94Rbh
+ wNUcLr5HBAF4MPTTtsj3itBbiSrFYpyuiki3IOt5Hb0W/WliODj69QnkBiWVHvgHok
+ lDfnVIuePMPj8Rp8T3yGfO3VrJHYOppJXn3EKFmxHpragl+bq9sLvP7BvNVjeJb1lp
+ qmqKa7surCMYFqqROqP0urrK2ckSuTNpm1U4HLyYEBZ2FuxcobsgatiIIpgJm7/9Te
+ HCFr8RYUqghVw==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210108_152402_743293_6D046C58 
-X-CRM114-Status: GOOD (  20.73  )
+X-CRM114-CacheID: sfid-20210108_153847_320640_F5FB056F 
+X-CRM114-Status: GOOD (  15.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,224 +111,110 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "Zinger, Eldad" <Eldad.Zinger@dell.com>, "Grupi,
- Elad" <Elad.Grupi@dell.com>
+Cc: Yi Zhang <yi.zhang@redhat.com>, kernel test robot <lkp@intel.com>,
+ leon@kernel.org, linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Kamal Heib <kamalheib1@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->> Hi Sagi, is the patch addressing the below issue is already out there?
+On Fri, Jan 08, 2021 at 01:58:45PM +0100, Bernard Metzler wrote:
+> During connection setup, the application may choose to zero-size
+> inbound and outbound READ queues, as well as the Receive queue.
+> This patch fixes handling of zero-sized queues, but not prevents
+> it.
 > 
-> No, thanks for reminding me, I'll have a look into this.
+> Kamal Heib says in an initial error report:
+> When running the blktests over siw the following shift-out-of-bounds is
+> reported, this is happening because the passed IRD or ORD from the ulp
+> could be zero which will lead to unexpected behavior when calling
+> roundup_pow_of_two(), fix that by blocking zero values of ORD or IRD.
+> 
+> UBSAN: shift-out-of-bounds in ./include/linux/log2.h:57:13
+> shift exponent 64 is too large for 64-bit type 'long unsigned int'
+> CPU: 20 PID: 3957 Comm: kworker/u64:13 Tainted: G S     5.10.0-rc6 #2
+> Hardware name: Dell Inc. PowerEdge R630/02C2CP, BIOS 2.1.5 04/11/2016
+> Workqueue: iw_cm_wq cm_work_handler [iw_cm]
+> Call Trace:
+>  dump_stack+0x99/0xcb
+>  ubsan_epilogue+0x5/0x40
+>  __ubsan_handle_shift_out_of_bounds.cold.11+0xb4/0xf3
+>  ? down_write+0x183/0x3d0
+>  siw_qp_modify.cold.8+0x2d/0x32 [siw]
+>  ? __local_bh_enable_ip+0xa5/0xf0
+>  siw_accept+0x906/0x1b60 [siw]
+>  ? xa_load+0x147/0x1f0
+>  ? siw_connect+0x17a0/0x17a0 [siw]
+>  ? lock_downgrade+0x700/0x700
+>  ? siw_get_base_qp+0x1c2/0x340 [siw]
+>  ? _raw_spin_unlock_irqrestore+0x39/0x40
+>  iw_cm_accept+0x1f4/0x430 [iw_cm]
+>  rdma_accept+0x3fa/0xb10 [rdma_cm]
+>  ? check_flush_dependency+0x410/0x410
+>  ? cma_rep_recv+0x570/0x570 [rdma_cm]
+>  nvmet_rdma_queue_connect+0x1a62/0x2680 [nvmet_rdma]
+>  ? nvmet_rdma_alloc_cmds+0xce0/0xce0 [nvmet_rdma]
+>  ? lock_release+0x56e/0xcc0
+>  ? lock_downgrade+0x700/0x700
+>  ? lock_downgrade+0x700/0x700
+>  ? __xa_alloc_cyclic+0xef/0x350
+>  ? __xa_alloc+0x2d0/0x2d0
+>  ? rdma_restrack_add+0xbe/0x2c0 [ib_core]
+>  ? __ww_mutex_die+0x190/0x190
+>  cma_cm_event_handler+0xf2/0x500 [rdma_cm]
+>  iw_conn_req_handler+0x910/0xcb0 [rdma_cm]
+>  ? _raw_spin_unlock_irqrestore+0x39/0x40
+>  ? trace_hardirqs_on+0x1c/0x150
+>  ? cma_ib_handler+0x8a0/0x8a0 [rdma_cm]
+>  ? __kasan_kmalloc.constprop.7+0xc1/0xd0
+>  cm_work_handler+0x121c/0x17a0 [iw_cm]
+>  ? iw_cm_reject+0x190/0x190 [iw_cm]
+>  ? trace_hardirqs_on+0x1c/0x150
+>  process_one_work+0x8fb/0x16c0
+>  ? pwq_dec_nr_in_flight+0x320/0x320
+>  worker_thread+0x87/0xb40
+>  ? __kthread_parkme+0xd1/0x1a0
+>  ? process_one_work+0x16c0/0x16c0
+>  kthread+0x35f/0x430
+>  ? kthread_mod_delayed_work+0x180/0x180
+>  ret_from_fork+0x22/0x30
+> 
+> Fixes: a531975279f3 ("rdma/siw: main include file")
+> Fixes: f29dd55b0236 ("rdma/siw: queue pair methods")
+> Fixes: 8b6a361b8c48 ("rdma/siw: receive path")
+> Fixes: b9be6f18cf9e ("rdma/siw: transmit path")
+> Fixes: 303ae1cdfdf7 ("rdma/siw: application interface")
+> Reported-by: Kamal Heib <kamalheib1@gmail.com>
+> Reported-by: Yi Zhang <yi.zhang@redhat.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Bernard Metzler <bmt@zurich.ibm.com>
+> ---
+> v2 changes:
+> - Fix uninitialized variable introduced in siw_qp_rx.c, as
+>   Reported-by: kernel test robot <lkp@intel.com>
+> - Add initial error report as
+>   Reported-by: Kamal Heib <kamalheib1@gmail.com>
+> 
+> v3 changes:
+> - correct patch changelog location
+> - remove prints for failed queue malloc's as pointed out by
+>   Leon Romanovsky
+> 
+> v4 changes:
+> - unwind siw_activate_tx function avoiding confusing
+>   goto's as requested by Jason Gunthorp
+> 
+>  drivers/infiniband/sw/siw/siw.h       |   2 +-
+>  drivers/infiniband/sw/siw/siw_qp.c    | 271 ++++++++++++++------------
+>  drivers/infiniband/sw/siw/siw_qp_rx.c |  26 ++-
+>  drivers/infiniband/sw/siw/siw_qp_tx.c |   4 +-
+>  drivers/infiniband/sw/siw/siw_verbs.c |  20 +-
+>  5 files changed, 177 insertions(+), 146 deletions(-)
 
-Amit, Ran,
+Applied to for-next, thanks
 
-Does this solve your issue?
-This needs to split to patches but would be good to understand
-if this works.
---
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index dc1f0f647189..c41902f7ce39 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -204,7 +204,6 @@ nvmet_tcp_get_cmd(struct nvmet_tcp_queue *queue)
-         cmd->rbytes_done = cmd->wbytes_done = 0;
-         cmd->pdu_len = 0;
-         cmd->pdu_recv = 0;
--       cmd->iov = NULL;
-         cmd->flags = 0;
-         return cmd;
-  }
-@@ -294,6 +293,7 @@ static void nvmet_tcp_unmap_pdu_iovec(struct 
-nvmet_tcp_cmd *cmd)
-
-         for (i = 0; i < cmd->nr_mapped; i++)
-                 kunmap(sg_page(&sg[i]));
-+       cmd->nr_mapped = 0;
-  }
-
-  static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
-@@ -341,6 +341,14 @@ static void nvmet_tcp_socket_error(struct 
-nvmet_tcp_queue *queue, int status)
-                 nvmet_tcp_fatal_error(queue);
-  }
-
-+static void nvmet_tcp_unmap_data(struct nvmet_tcp_cmd *cmd)
-+{
-+       kfree(cmd->iov);
-+       cmd->iov = NULL;
-+       sgl_free(cmd->req.sg);
-+       cmd->req.sg = NULL;
-+}
-+
-  static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
-  {
-         struct nvme_sgl_desc *sgl = &cmd->req.cmd->common.dptr.sgl;
-@@ -375,6 +383,7 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
-         return 0;
-  err:
-         sgl_free(cmd->req.sg);
-+       cmd->req.sg = NULL;
-         return NVME_SC_INTERNAL;
-  }
-
-@@ -571,17 +580,13 @@ static int nvmet_try_send_data(struct 
-nvmet_tcp_cmd *cmd, bool last_in_batch)
-         } else {
-                 if (queue->nvme_sq.sqhd_disabled) {
-                         cmd->queue->snd_cmd = NULL;
-+                       nvmet_tcp_unmap_data(cmd);
-                         nvmet_tcp_put_cmd(cmd);
-                 } else {
-                         nvmet_setup_response_pdu(cmd);
-                 }
-         }
-
--       if (queue->nvme_sq.sqhd_disabled) {
--               kfree(cmd->iov);
--               sgl_free(cmd->req.sg);
--       }
--
-         return 1;
-
-  }
-@@ -609,9 +614,8 @@ static int nvmet_try_send_response(struct 
-nvmet_tcp_cmd *cmd,
-         if (left)
-                 return -EAGAIN;
-
--       kfree(cmd->iov);
--       sgl_free(cmd->req.sg);
-         cmd->queue->snd_cmd = NULL;
-+       nvmet_tcp_unmap_data(cmd);
-         nvmet_tcp_put_cmd(cmd);
-         return 1;
-  }
-@@ -665,6 +669,7 @@ static int nvmet_try_send_ddgst(struct nvmet_tcp_cmd 
-*cmd, bool last_in_batch)
-
-         if (queue->nvme_sq.sqhd_disabled) {
-                 cmd->queue->snd_cmd = NULL;
-+               nvmet_tcp_unmap_data(cmd);
-                 nvmet_tcp_put_cmd(cmd);
-         } else {
-                 nvmet_setup_response_pdu(cmd);
-@@ -1082,15 +1087,16 @@ static int nvmet_tcp_try_recv_data(struct 
-nvmet_tcp_queue *queue)
-
-         nvmet_tcp_unmap_pdu_iovec(cmd);
-
--       if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
--           cmd->rbytes_done == cmd->req.transfer_len) {
--               if (queue->data_digest) {
--                       nvmet_tcp_prep_recv_ddgst(cmd);
--                       return 0;
--               }
--               cmd->req.execute(&cmd->req);
-+       if (queue->data_digest) {
-+               nvmet_tcp_prep_recv_ddgst(cmd);
-+               return 0;
-         }
-
-+       if (unlikely(cmd->flags & NVMET_TCP_F_INIT_FAILED))
-+               nvmet_tcp_finish_cmd(cmd);
-+       else if (cmd->rbytes_done == cmd->req.transfer_len)
-+               cmd->req.execute(&cmd->req);
-+
-         nvmet_prepare_receive_pdu(queue);
-         return 0;
-  }
-@@ -1120,14 +1126,16 @@ static int nvmet_tcp_try_recv_ddgst(struct 
-nvmet_tcp_queue *queue)
-                         queue->idx, cmd->req.cmd->common.command_id,
-                         queue->pdu.cmd.hdr.type, 
-le32_to_cpu(cmd->recv_ddgst),
-                         le32_to_cpu(cmd->exp_ddgst));
-+               nvmet_req_uninit(&cmd->req);
-                 nvmet_tcp_finish_cmd(cmd);
-                 nvmet_tcp_fatal_error(queue);
-                 ret = -EPROTO;
-                 goto out;
-         }
-
--       if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
--           cmd->rbytes_done == cmd->req.transfer_len)
-+       if (unlikely(cmd->flags & NVMET_TCP_F_INIT_FAILED))
-+               nvmet_tcp_finish_cmd(cmd);
-+       else if (cmd->rbytes_done == cmd->req.transfer_len)
-                 cmd->req.execute(&cmd->req);
-         ret = 0;
-  out:
-@@ -1139,7 +1147,8 @@ static int nvmet_tcp_try_recv_one(struct 
-nvmet_tcp_queue *queue)
-  {
-         int result = 0;
-
--       if (unlikely(queue->rcv_state == NVMET_TCP_RECV_ERR))
-+       if (unlikely(queue->rcv_state == NVMET_TCP_RECV_ERR ||
-+                    queue->state == NVMET_TCP_Q_DISCONNECTING))
-                 return 0;
-
-         if (queue->rcv_state == NVMET_TCP_RECV_PDU) {
-@@ -1333,10 +1342,26 @@ static void 
-nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
-
-  static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
-  {
--       nvmet_req_uninit(&cmd->req);
-         nvmet_tcp_unmap_pdu_iovec(cmd);
--       kfree(cmd->iov);
--       sgl_free(cmd->req.sg);
-+       nvmet_tcp_unmap_data(cmd);
-+       nvmet_tcp_put_cmd(cmd);
-+}
-+
-+static void nvmet_tcp_unmap_cmds(struct nvmet_tcp_queue *queue)
-+{
-+       struct nvmet_tcp_cmd *cmd = queue->cmds;
-+       int i;
-+
-+       for (i = 0; i < queue->nr_cmds; i++, cmd++) {
-+               nvmet_tcp_unmap_pdu_iovec(cmd);
-+               nvmet_tcp_unmap_data(cmd);
-+       }
-+
-+       if (!queue->nr_cmds) {
-+               /* failed in connect */
-+               nvmet_tcp_unmap_pdu_iovec(cmd);
-+               nvmet_tcp_unmap_data(cmd);
-+       }
-  }
-
-  static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
-@@ -1346,12 +1371,12 @@ static void nvmet_tcp_uninit_data_in_cmds(struct 
-nvmet_tcp_queue *queue)
-
-         for (i = 0; i < queue->nr_cmds; i++, cmd++) {
-                 if (nvmet_tcp_need_data_in(cmd))
--                       nvmet_tcp_finish_cmd(cmd);
-+                       nvmet_req_uninit(&cmd->req);
-         }
-
-         if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
-                 /* failed in connect */
--               nvmet_tcp_finish_cmd(&queue->connect);
-+               nvmet_req_uninit(&cmd->req);
-         }
-  }
-
-@@ -1370,6 +1395,7 @@ static void nvmet_tcp_release_queue_work(struct 
-work_struct *w)
-         nvmet_tcp_uninit_data_in_cmds(queue);
-         nvmet_sq_destroy(&queue->nvme_sq);
-         cancel_work_sync(&queue->io_work);
-+       nvmet_tcp_unmap_cmds(queue);
-         sock_release(queue->sock);
-         nvmet_tcp_free_cmds(queue);
-         if (queue->hdr_digest || queue->data_digest)
---
+Jason
 
 _______________________________________________
 Linux-nvme mailing list
