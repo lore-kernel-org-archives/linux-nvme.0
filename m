@@ -2,88 +2,81 @@ Return-Path: <SRS0=Xmhu=GN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8472C433E0
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Jan 2021 01:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EE17C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Jan 2021 08:07:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 335C423715
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Jan 2021 01:33:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 335C423715
+	by mail.kernel.org (Postfix) with ESMTPS id AF78323B02
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Jan 2021 08:07:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF78323B02
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=S6OrZhcX/5VAjoaXj1sWItTW+x5Fc5kS5dHu1/7wXgg=; b=iXDAkOgtFvo086eGp9x1YHOlL
-	1HG98oi+CvnA/PE7ZTaBNJ/9UUob1II33orzCXAl0QYKNPvz9i4JSfN6wjyZWI4dbfPBTS6zsaEDp
-	XRRxYvMsn6aCKRUz/pFzwbR/p09j6dLSQjFZNQIyeyJfffWth9LfOR+LRfjknjd/MNKOoL9YHGnNC
-	VwavkBq0LhBIAxbYKmeHEhHaqrImI/fUepWMetkRqkt1+CXWpDKxGu/zQw5b3Ep4kT5LV4dW0sl4b
-	LwpxNkLKFRpmiJJT8O+GVtVe97tE2g5cx5+LwFewp5vIGVdk1DyTqU3ewaB5zw/AHBoP/sNlZaJ8y
-	W3XS69vUw==;
+	 bh=/DVzB8+vNeJttA3mTzDlHTZLsjB1KC/DC8B0GTbou/s=; b=mymzoqe7ef4l8HGrEcDyn8DKg
+	0AL08IlIwQtPz92mVyRAeSQ4iM3WJeNbFuiAG8UW4E7OZ2uhzhoJ3bQR7mPTmTdjPGm25sG8nPIib
+	sfNl/KNzbsN6dqJkZJpgyiPwlGOABl0bfeLSGMBCdiWkGOjPgkgcV6omCNtkE+jnYWB87HsWFVeCe
+	FSvXQPFSeM+OEOOUAk3s3FjuTih8sVfcXDH5kSY203c/XCH4R2rVd1JG3oKiB5kBsLOSgOUndWRLO
+	UiFiRvtCkgTAtcAmeb64UuTADrrDc1ODfSyGFU58IGj9/nmABpHTkknh8Ml81GsexYXPDyDM6M/mf
+	0T+29b6QQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kyPbj-0005fF-Qo; Sun, 10 Jan 2021 01:33:27 +0000
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+	id 1kyVkk-0003Fr-KH; Sun, 10 Jan 2021 08:07:10 +0000
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kyPbf-0005e9-Qp
- for linux-nvme@lists.infradead.org; Sun, 10 Jan 2021 01:33:24 +0000
-Received: by mail-pl1-x634.google.com with SMTP id s15so7641097plr.9
- for <linux-nvme@lists.infradead.org>; Sat, 09 Jan 2021 17:33:21 -0800 (PST)
+ id 1kyVkf-0003Dw-LU
+ for linux-nvme@lists.infradead.org; Sun, 10 Jan 2021 08:07:06 +0000
+Received: by mail-yb1-xb2c.google.com with SMTP id w127so13823967ybw.8
+ for <linux-nvme@lists.infradead.org>; Sun, 10 Jan 2021 00:07:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=wWO8jhhNyLOacdDRAuU4Yd5s+q23iUqhz3X3JZq4KIk=;
- b=pzLv/69ns72Ip4ZEQRLsCgSe5Ml6g9E1utpL/DfDg0UKIWPm4XR3wpfBLq0KdYrNDs
- Vgx6BxPFG4IVDbKDCRUh9S5yLfTzSzo1PZ1yn2AY77B0BR80ifD82lq093f0JAjLDquU
- p8qAdCiPoe/pBy5Nu7ckLAtClaD+tnNHm+SvrunU9ynhWAUTXF9K82y1R3WL2uHuE5cQ
- 1hH4B5nIBNfqqksCr+N9E3B1n91j0cQRqPOGNaCJyGYmhQFDf4FFfS+i5Uk5kEdj/caS
- fgUFEDcCU1Fr8SvOznaERsVXKc3a3I8F0oAthr1jb15Ila7owMdl3xn6pcHVQnbKmt+4
- tIig==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6SynVo8msW0U7oUuxBPHsDBxiZxwhvdV7Q3p6COSBM8=;
+ b=qUBEsF9y5BBgc/5bs3bPLdgrMy7UfBEMT4PjEo2DyoGhrWbTE3eSewhgsul3IuO9h2
+ ZYMms/P8RS3L343//f9XStjNSU5PVqkyyMrcf0j1NKNuSKJqosZRl7m/yApXniHni/57
+ sN9VysdVng5Xj6+RPUTmOaZFjWVO8o+btq2He2ReM7URSQC9KZU5/Ox5ftGsA8pzYomt
+ lrNkgMW3uuZNkYN8Dx97ZtIW7t6FwpXxqPyjNXA+Bq+sZtbH2+92hpG5d5eT8XF5mSLA
+ DGorE/sjqZ6ps73AhG8hHNb09RFrSvC4iB7KklXYmAf68h3ukDuO/Ss1WPAqFS8T7FU7
+ tMfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=wWO8jhhNyLOacdDRAuU4Yd5s+q23iUqhz3X3JZq4KIk=;
- b=Ts8anBPnufQv2VdgANkiLBj+FITp9KZd03jpTnh/7v222gsKU8dPevB+UvlDrEB0s+
- xtenRHq1oGr0ahc4RggoGeDQW2GWSqYpGe7pLN1NYpD1M8BqCPS0KEWouhcB8XzNwfC1
- ecWd4+Rx/VyD8vggWyUhyGeiCfGvsg6aHEAjnNURnrbIPYUx9ujWyoHRgBEAwCfZtytd
- AXXyA2ZwyxhVtlIiN+1zmAFDsLqyo5xnGsrCjvQPj/JbAP117E1Y58t77AWOUU1cCj++
- 2SwGWyOj35lRy+417GfVa7hzJ9bIPgOtmJtsG8/8LxU+2uysVuv3SRzQBgv6QYxakA+Q
- OyYA==
-X-Gm-Message-State: AOAM533BOximToMB5GLSDiVJJVyqkI7EroRrSJ2xUg3jnLYygYXZXswt
- LYH0sbD+A0NCqjnWRl0EjEw=
-X-Google-Smtp-Source: ABdhPJxcKNjCoKMNS8JVLrKhUKqQwGYaH7U+Q2G4rmmTuqfafJZ2elEXqzNk1tlOF8nvotfm/VLRkA==
-X-Received: by 2002:a17:902:aa45:b029:de:2fb:995 with SMTP id
- c5-20020a170902aa45b02900de02fb0995mr8463438plr.81.1610242399648; 
- Sat, 09 Jan 2021 17:33:19 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id s7sm9175076pju.37.2021.01.09.17.33.18
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 09 Jan 2021 17:33:19 -0800 (PST)
-Date: Sun, 10 Jan 2021 10:33:16 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH 1/3] nvme: support command retry delay for admin command
-Message-ID: <20210110013316.GA4369@localhost.localdomain>
-References: <20210108144659.7126-1-minwoo.im.dev@gmail.com>
- <20210108144659.7126-2-minwoo.im.dev@gmail.com>
- <BYAPR04MB4965078A7B0C75B03D342EFD86AD0@BYAPR04MB4965.namprd04.prod.outlook.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6SynVo8msW0U7oUuxBPHsDBxiZxwhvdV7Q3p6COSBM8=;
+ b=C/yOqQGdDDZjCmrYPVE8JSPiMX06hl4DYU5sz4HgdZjuzxEGH0SSeHDep1mjHUL64z
+ Gk26WrmkPN8E8a7C9iT2VKWtPbTDIk5ymV1jOwdKTbcMryY06BkV6K1930EGv94S+oGW
+ eRvKN/mYQISTVYiddRgezrZKDaAKVMHFvJNb3YeLM3VKEOMeuhzMCK4de7K7bY99xpe+
+ ctsaCX/tUuQ2S5F1ud2+O/LsBywqck9zZTVXe6hQymqwrdKw6Z6yrClCYjGx+3MTXRQv
+ oGVQH9fp+9ECs/L2D05DB1ONdA/P/IA78pmeLNVxWDhzv2kCi4TcCKN70yAPHrYu51ky
+ g6Wg==
+X-Gm-Message-State: AOAM531l6Tw/rk0r4nhtjvjTbeYAUEtOBHfJ8u2ZMj4vneFCraSHfuwW
+ by0XtD92SPTco851Re4L73FGqsiUuL8NRq6T7ms=
+X-Google-Smtp-Source: ABdhPJzAbBDG2KXR6bVLMnXqLmfV6I+HrXnsoYIbTxpFOStSgB0JxTQBV4WEvs7jnT7V96klt4HV1MWvF5obEtxbaRA=
+X-Received: by 2002:a25:e68d:: with SMTP id
+ d135mr16944771ybh.329.1610266022123; 
+ Sun, 10 Jan 2021 00:07:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BYAPR04MB4965078A7B0C75B03D342EFD86AD0@BYAPR04MB4965.namprd04.prod.outlook.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20201221080339.945164-1-sagi@grimberg.me>
+ <CAJ3xEMj8Y_=Y=orV59GR9=L4M3r4+mZzMW6w2cv2K9d5eKXZDA@mail.gmail.com>
+ <e206eb55-8792-b9c2-64cb-bd76ed09e12e@grimberg.me>
+In-Reply-To: <e206eb55-8792-b9c2-64cb-bd76ed09e12e@grimberg.me>
+From: Or Gerlitz <gerlitz.or@gmail.com>
+Date: Sun, 10 Jan 2021 10:06:51 +0200
+Message-ID: <CAJ3xEMj_GYOQA3hisdAPw3ybR55Un24+_9M51kvwiAkqvUOojg@mail.gmail.com>
+Subject: Re: [PATCH] nvme-tcp: Fix possible race of io_work and direct send
+To: Sagi Grimberg <sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210109_203323_903548_4AD39AE1 
-X-CRM114-Status: GOOD (  11.71  )
+X-CRM114-CacheID: sfid-20210110_030705_959564_20D68436 
+X-CRM114-Status: GOOD (  17.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,29 +88,57 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Boris Pismenny <borispismenny@gmail.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Ben Ben-ishay <benishay@mellanox.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+On Fri, Jan 8, 2021 at 10:20 PM Sagi Grimberg <sagi@grimberg.me> wrote:
 
-On 21-01-09 20:34:11, Chaitanya Kulkarni wrote:
-> On 1/8/21 06:54, Minwoo Im wrote:
-> > This feature can be applied not only I/O queue commands, but also admin
-> > queue commands.  Admin command during the initialization may fail due to
-> > some un-ready state of a controller, so it would be better to have this
-> > feature for admin commands also.
-> What is some un-ready state ?
+> Well, this is a heuristic anyways, too bad we need to
+> disable preemption just for this...
+>
+> I'm assuming that this makes the issue go away?
+> --
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index cf856103025a..ea07336ca179 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -281,8 +281,11 @@ static inline void nvme_tcp_queue_request(struct
+> nvme_tcp_request *req,
+>                  bool sync, bool last)
+>   {
+>          struct nvme_tcp_queue *queue = req->queue;
+> +       int cpu;
+>          bool empty;
+>
+> +       cpu = get_cpu();
+> +       put_cpu();
+>          empty = llist_add(&req->lentry, &queue->req_list) &&
+>                  list_empty(&queue->send_list) && !queue->request;
+>
+> @@ -291,8 +294,8 @@ static inline void nvme_tcp_queue_request(struct
+> nvme_tcp_request *req,
+>           * directly, otherwise queue io_work. Also, only do that if we
+>           * are on the same cpu, so we don't introduce contention.
+>           */
+> -       if (queue->io_cpu == smp_processor_id() &&
+> -           sync && empty && mutex_trylock(&queue->send_mutex)) {
+> +       if (queue->io_cpu == cpu && sync && empty &&
 
-State that controller is unable to process successfully command as
-"Command Interrupt" status code represents.
 
-Thanks,
+if preemption happens here, the value returned by get_cpu() is not where
+we run when the actual comparison takes place. So what you are saying
+is that overall correctness will not be hurt? worth putting a comment
+here for readers / future modifiers of the code
+
+> +           mutex_trylock(&queue->send_mutex)) {
+>                  queue->more_requests = !last;
+>                  nvme_tcp_send_all(queue);
+>                  queue->more_requests = false;
 
 _______________________________________________
 Linux-nvme mailing list
