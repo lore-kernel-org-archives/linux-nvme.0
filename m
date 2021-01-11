@@ -7,15 +7,15 @@ X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 220E2C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 03:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E1A3C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 07:29:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CC14B221ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 03:48:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC14B221ED
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 37B532255F
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 07:29:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 37B532255F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
@@ -23,48 +23,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XEaBnfdgKrj9SQkvtePWdD0yJL907R6V6mT7V56sWAc=; b=S3OVTA2rqay/vzTLZ5Qj+wCIb
-	DzR+yWNIR5F6ZgvyHMKRYuhOd1jJHekNlXh2mZvwkAFI8S9IA7Z4q4+UrvauldoXOSAavh/ivJHbT
-	fTJ50iSiasxz+lbIlHngVTEkr/ZlwcQ+xJpfhyplhGzqH4fCXL3ghqqAeFv121udmDyDHMjnF8qy7
-	jfoYb18u7yFGoAyTq2HEduPfIIikL0mhmYhiL0b9LVSzvwuvibKC3vXZArj/KWKN+FC3ZAUiqlrBB
-	gFiuLD5KZ5xlxyb8v6Gv4LSRsMAWy40+fJiMCcJmp+yu5KKwF9apZDMaEeK+/nxrQuWLf2aY/aSpP
-	d8zYSukyA==;
+	 bh=TBbO/mXEqDON92eWBEIzyJwlVSLOMjyO6mWfFefxBaI=; b=G+8/Ply4AV3jt4Sxt86dOD5lR
+	M3kC6Hy3qJv/FjMuiJ7yfjYChduqkkkNzCAZbsQ2aWXSyE+pgp3XVv/dDAw4KYLchcRQx/hqv3ymm
+	T5xoapr4Kd3hK5KRW0UUn3G2O7Zz+rmGuePczP+HMtVlbtu/P/4026T5T+aj9wNNPVWFkJoiq6NUC
+	Wed0GxElP1a8GruPVJdZkKU0U8KsPrF4aGoUyeV53IuWvRei3cq229BALdH4nA+QqeGXCuIrdBlJj
+	eWtlOgvSLM0VhEbfULALJAzm3v/ZiEzuXeUMcYWRMFGU2V2gLeStSf8TlPaK/lK+BV6hZX0hm0Mjr
+	ah4SrSOYw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kyoBn-0006vV-Te; Mon, 11 Jan 2021 03:48:19 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1kyrdj-0004gI-LC; Mon, 11 Jan 2021 07:29:23 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kyoBe-0006rS-V7
- for linux-nvme@lists.infradead.org; Mon, 11 Jan 2021 03:48:12 +0000
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4DDfll18C8z5G97;
- Mon, 11 Jan 2021 11:46:59 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 11 Jan 2021 11:47:58 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1913.5; Mon, 11
- Jan 2021 11:47:57 +0800
-Subject: Re: [PATCH 3/3] nvme: add parameter command_retry to enable retry
-To: Minwoo Im <minwoo.im.dev@gmail.com>, <linux-nvme@lists.infradead.org>
-References: <20210108144659.7126-1-minwoo.im.dev@gmail.com>
- <20210108144659.7126-4-minwoo.im.dev@gmail.com>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <dfe59030-3eab-a178-7264-792f76dffe4c@huawei.com>
-Date: Mon, 11 Jan 2021 11:47:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1kyrdg-0004fA-9I
+ for linux-nvme@lists.infradead.org; Mon, 11 Jan 2021 07:29:21 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 015F6AB3E;
+ Mon, 11 Jan 2021 07:29:19 +0000 (UTC)
+Subject: Re: [PATCH v7 01/16] cgroup: Added cgroup_get_from_id
+To: Muneendra <muneendra.kumar@broadcom.com>, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, tj@kernel.org, linux-nvme@lists.infradead.org
+References: <1609970430-19084-1-git-send-email-muneendra.kumar@broadcom.com>
+ <1609970430-19084-2-git-send-email-muneendra.kumar@broadcom.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <0a1453c2-9f8a-0818-1678-78e1775a773b@suse.de>
+Date: Mon, 11 Jan 2021 08:29:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210108144659.7126-4-minwoo.im.dev@gmail.com>
+In-Reply-To: <1609970430-19084-2-git-send-email-muneendra.kumar@broadcom.com>
 Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme712-chm.china.huawei.com (10.1.199.108) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210110_224811_288846_1728128E 
-X-CRM114-Status: GOOD (  21.84  )
+X-CRM114-CacheID: sfid-20210111_022920_472626_18DB1210 
+X-CRM114-Status: GOOD (  21.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +67,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: jsmart2021@gmail.com, mkumar@redhat.com, emilne@redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2021/1/8 22:46, Minwoo Im wrote:
-> nvme_init_request() has set REQ_FAILFAST_DRIVER to make requests
-> non-retryable.  This command flag value is checked in
-> nvme_decide_disposition() to decide whether to RETRY or other
-> operations.  In that point, blk_noretry_request() macro will be used to
-> check if command flags have one of REQ_FAILFAST_*.  If so, it just
-> decides to complete the request without retrying.
-> 
-> This patch added a module parameter named command_retry to turn on the
-> command retry feature in this driver.  If turning it on,
-> REQ3_FAILFAST_DRIVER will not be set to requests so that retry can be
-> reached out to nvme_retry_req() based on the module parameter.
-> 
-> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> ---
->   drivers/nvme/host/core.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 6e428fdc25a8..e1836ca9956f 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -44,6 +44,10 @@ static unsigned char shutdown_timeout = 5;
->   module_param(shutdown_timeout, byte, 0644);
->   MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
->   
-> +static bool command_retry;
-> +module_param(command_retry, bool, 0644);
-> +MODULE_PARM_DESC(command_retry, "retry commands up to nvme_max_retries");
-> +
->   static u8 nvme_max_retries = 5;
->   module_param_named(max_retries, nvme_max_retries, byte, 0644);
->   MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
-> @@ -560,7 +564,8 @@ static inline void nvme_init_request(struct request *req,
->   	else /* no queuedata implies admin queue */
->   		req->timeout = NVME_ADMIN_TIMEOUT;
->   
-> -	req->cmd_flags |= REQ_FAILFAST_DRIVER;
-> +	if (!command_retry)
-> +		req->cmd_flags |= REQ_FAILFAST_DRIVER;
-In abnormal scenarios, such as request time out, connection process may takes long time or the admin command waits for long time.
-Retry only for non-host errors may be a better choice. Maybe we can make some optimizations in nvme_decide_disposition.
->   	nvme_clear_nvme_request(req);
->   	nvme_req(req)->cmd = cmd;
->   }
-> 
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMS82LzIxIDExOjAwIFBNLCBNdW5lZW5kcmEgd3JvdGU6Cj4gQWRkZWQgYSBuZXcgZnVuY3Rp
+b24gY2dyb3VwX2dldF9mcm9tX2lkICB0byByZXRyaWV2ZSB0aGUgY2dyb3VwCj4gYXNzb2NpYXRl
+ZCB3aXRoIGNncm91cCBpZC4KPiBFeHBvcnRlZCB0aGUgc2FtZSBhcyB0aGlzIGNhbiBiZSB1c2Vk
+IGJ5IGJsay1jZ29ydXAuYwo+IAo+IEFkZGVkIGZ1bmN0aW9uIGRlY2xhcmF0aW9uIG9mIGNncm91
+cF9nZXRfZnJvbV9pZCBpbiBjZ29ydXAuaAo+IAo+IFRoaXMgcGF0Y2ggYWxzbyBleHBvcnRlZCB0
+aGUgZnVuY3Rpb24gY2dyb3VwX2dldF9lX2Nzcwo+IGFzIHRoaXMgaXMgZ2V0dGluZyB1c2VkIGlu
+IGJsay1jZ3JvdXAuaAo+IAo+IFNpZ25lZC1vZmYtYnk6IE11bmVlbmRyYSA8bXVuZWVuZHJhLmt1
+bWFyQGJyb2FkY29tLmNvbT4KPiAKPiAtLS0KPiB2NzoKPiBObyBjaGFuZ2UKPiAKPiB2NjoKPiBO
+byBjaGFuZ2UKPiAKPiB2NToKPiByZW5hbWVkIHRoZSBmdW5jdGlvbiBjZ3JvdXBfZ2V0X2Zyb21f
+a2VybmZzX2lkIHRvCj4gY2dyb3VwX2dldF9mcm9tX2lkCj4gCj4gdjQ6Cj4gTm8gY2hhbmdlCj4g
+Cj4gdjM6Cj4gRXhwb3J0ZWQgdGhlIGNncm91cF9nZXRfZV9jc3MKPiAKPiB2MjoKPiBOZXcgcGF0
+Y2gKPiAtLS0KPiAgIGluY2x1ZGUvbGludXgvY2dyb3VwLmggfCAgNiArKysrKysKPiAgIGtlcm5l
+bC9jZ3JvdXAvY2dyb3VwLmMgfCAyNiArKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICAgMiBm
+aWxlcyBjaGFuZ2VkLCAzMiBpbnNlcnRpb25zKCspCj4gClJldmlld2VkLWJ5OiBIYW5uZXMgUmVp
+bmVja2UgPGhhcmVAc3VzZS5kZT4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWlu
+ZWNrZSAgICAgICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRl
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0
+d2FyZSBTb2x1dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAz
+NjgwOSAoQUcgTsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZl
+cgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgt
+bnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9s
+aXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
