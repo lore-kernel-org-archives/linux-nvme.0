@@ -2,84 +2,90 @@ Return-Path: <SRS0=B93q=GO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A808C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 18:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A358C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 18:15:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1140B2250E
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 18:12:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1140B2250E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	by mail.kernel.org (Postfix) with ESMTPS id 61671207B1
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 18:15:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61671207B1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=kdmIyLcr8uJi5OkAiMJV8ccfC0mNI9cJFyLWr8wZYMk=; b=kAnp+vXMQCDl0CnP+tQFYftrU
-	AxbNyRwT8irwmjIX+Yg90T/CZxgW3FW2dTpf0Ee14vsic+sonKtZIRc/0YVli+j2EfMO3vUOR/WOd
-	qaxsCGl1zbR5tTul1wnlbbrFNQ7ldIL1SfoLvQmXwfH4a552wURcu5zESn6g07r7FQIyrEWC0LSav
-	gEPr/z5kOHp0B99HPocATo23G8xCW7tSPPudHPspLtS8lIKZuOrqMRPGojDSvLTgaJMy+C4fUMz3v
-	u3InokLhC9VxtLZPm34S5rm9wN31hZwoD4VRVFOS2T9EOFm7W/M8XvrpIW/4xlwxuNdQk6FJqi72a
-	Rg8pDakGQ==;
+	 bh=CmtItqUKDfE6Fy90D+Ng/4tGn9bsLW1WRkD0cKeLrUA=; b=BORvKI7ua2WEAr3eQ3Lb8n8Ma
+	9CFrzWGXFwtMzWgTy/zKRG1EtoIHmVdaC2Sk6sJfCh2nhnfM5GvovrgRlf2JurMNImZsM3DYgLjZc
+	DRV7Z13t3iMmw3LISBwh2RtGRV8fe/+2VhyN+fMPVkOvh056Bl4XlnLX5z1KHRE5WNyd61Ci6jrNV
+	NvR510NT0LkaHMIGiwLllg6J5GbABoYtvfz5HtEsEktSi1410bv5VOOw1nDWV4m5vwcivG5y0XzMw
+	l9CO258AgMQ8Tl94u32YfZ9dv8lav6plSu4xebk0FlJaVcVULzpspHErpbugORb1NeN5AX/pzwzH4
+	zg+2n7P9w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kz1g8-0004R0-Tk; Mon, 11 Jan 2021 18:12:32 +0000
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+	id 1kz1jI-0005Hx-RG; Mon, 11 Jan 2021 18:15:48 +0000
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kz1g4-0004PJ-R2
- for linux-nvme@lists.infradead.org; Mon, 11 Jan 2021 18:12:31 +0000
-Received: by mail-pj1-x102d.google.com with SMTP id b5so23683pjk.2
- for <linux-nvme@lists.infradead.org>; Mon, 11 Jan 2021 10:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to;
- bh=EvcVJtWGCHSdmRzoU/bHzKRKyTUB0Cg3iSiALYUjdXU=;
- b=QOgdBSK7uofDGRkpYKoiPwvCcf97LtyggvuMp7NGZ3tPXS5PdPdUSMwluaEzMmUZKN
- UADvE/IG0y2ughyzsg2CbjexKZ18Yi0P3xseMYsvr40Io6w3Lwzqlc4OJPXs+deKZTt2
- aVfFqISiHXCgj4QevfNjXEUPODomQtdBzL5zU=
+ id 1kz1jE-0005FZ-4k
+ for linux-nvme@lists.infradead.org; Mon, 11 Jan 2021 18:15:45 +0000
+Received: by mail-ed1-x532.google.com with SMTP id cw27so738737edb.5
+ for <linux-nvme@lists.infradead.org>; Mon, 11 Jan 2021 10:15:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RcqeDQE5LH6fB8dKfgjP3DrZ9mN0XGhWSFEEnVxfPPA=;
+ b=Q1oOEB13Vdab2t3qwH8Zwl05Ng6pBt2qINhmY3XojRUsq2UuxwBZ0II2OqOaSRmynn
+ nRtgPruahcr+LSQX0HuLn9BdXu9wAKrJJT0NSsyJhhLrqpKxaEBIxlnnHe/TV63uwVw9
+ m3ABg1HXuu7GDDjdA9S78T59C9YJAcVrpRxIq2UZr25qcUTKgkpcHRq32tFB2GyzwTNn
+ VsSVg/zh3PCsa9r0QCUTaV+mk0iZk4gJgRDRmhv/laSNTX4zUvoYFIH4Raxj98ZmZ/cW
+ 0u7jYbdci3CVsGamDshB8OyIUKZhXq9bw4CbyOsmAdgMxrVRt82NIMH5suCp4asoceJY
+ uL+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to;
- bh=EvcVJtWGCHSdmRzoU/bHzKRKyTUB0Cg3iSiALYUjdXU=;
- b=MNwencPCyajEH/aJMCWhk/Ik/VRe16XVdnYW33vzgGIJy88u2Xbe7N7KfVPwrcA15g
- F9wTqzzff5kGinFRRCxr0GK3Q7HxVY206NW7Eg7iGn1QD5ubsKx1chqSALjA4iJTAFQh
- 1+he5P8UTpFkLQhVixNnSPaSHoVeTlaWlU+SVJAjtuI1+ENJXrGOfXOmm58ZztZbG5CU
- vzWwnFsU4gOhGj8ub5RXFWIi6ZsS+7C+Mm4GqRNAMPtRpplbMGfVQcQnXpW2LOuBR74a
- RNFovTaOYtWEic7VNQejbsNT4/KxT+QIpl0tNxeEJLv52YjD0ZYQ2VjB5jpfofzxgppu
- GtSg==
-X-Gm-Message-State: AOAM532ynvpoApCKEaKisRdvtE9Xh2t2ZfIbgGGcVQDkNPniPNwTxByn
- kJbf4+XIV/vBoTrokPCSyZGdUmkTu6nbr70RpSXnR39oyWdneukIu6DcDd9rUpPyNlKsz7f4P6K
- ZMDxWkzTGWF+KY4jL9+FOCV3TgQ==
-X-Google-Smtp-Source: ABdhPJzX5knTVqQUKiy5MAF+eIR8tSaJEPtNpKGHjd11xVX0dxq7FJCXHzPUbsg2jKDcjaFmvaPhrg==
-X-Received: by 2002:a17:90a:5513:: with SMTP id b19mr69553pji.99.1610388745438; 
- Mon, 11 Jan 2021 10:12:25 -0800 (PST)
-Received: from [10.69.69.102] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id a131sm283555pfd.171.2021.01.11.10.12.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jan 2021 10:12:24 -0800 (PST)
-Subject: Re: [PATCH] nvmet-fc: associations list replaced with hlist rcu,
-To: leonid.ravich@dell.com
-References: <20201224110542.22219-1-leonid.ravich@dell.com>
- <20201224110542.22219-2-leonid.ravich@dell.com>
-From: James Smart <james.smart@broadcom.com>
-Message-ID: <7478952e-cc5d-6d63-8a33-37bcad1cce59@broadcom.com>
-Date: Mon, 11 Jan 2021 10:12:23 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RcqeDQE5LH6fB8dKfgjP3DrZ9mN0XGhWSFEEnVxfPPA=;
+ b=E9HGh5wWoM6O8wE8UzAw4s/nkPCjY8DILIqOI+MSkMTf9/NpkNBnmGKsme5mnTF/34
+ qbpJzHd4uxCAtORXUn9kLsMPOt2izo6sJjXcDjlO3Q9lz3mLq/3HZFmnPFar/b1CcX5y
+ wUppVovnF2IwiujwSV7z5VOfeOap65Or9eedApiOayWJQNAl5/UspA7FMGP6lIvrSzw0
+ JhEAoEhqGy4Mv67z9eADCIK0XHGP47Z+UmaUHdrKw3PiBRP6aaY63Ho5pYIpoQ/nb7oa
+ iwB1gL42OBQAeilujnoS0KD8bKOCos9v5Q48lMCqjSb7lcx4e/esxD6GS0bKUsPpzMej
+ IMSw==
+X-Gm-Message-State: AOAM530q+lQrKoECSl90eMBtqLvVMMwo4gadZlo37s4hey4syU1LsuSN
+ n0YAQZHAw+0qar1gNFB9Zub76miTY+X8i29t8Q==
+X-Google-Smtp-Source: ABdhPJxSKTIJIOYWpNVP5ohJgBgBTu87uL/BXE8BXfqusJA8HocWzSfztjJiiBKcH+VYM30fnvze1mg6lpuQ3bXOZuI=
+X-Received: by 2002:a50:bf4a:: with SMTP id g10mr443744edk.201.1610388939997; 
+ Mon, 11 Jan 2021 10:15:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201224110542.22219-2-leonid.ravich@dell.com>
+References: <20201112140752.1554-1-rach4x0r@gmail.com>
+ <5a954c4e-aa84-834d-7d04-0ce3545d45c9@kernel.dk>
+ <da0c7aea-d917-4f3a-5136-89c30d12ba1f@grimberg.me>
+ <fd12993a-bcb7-7b45-5406-61da1979d49d@kernel.dk>
+ <10993ce4-7048-a369-ea44-adf445acfca7@grimberg.me>
+ <c4cb66f6-8a66-7973-dc03-0f4f61d0a1e4@kernel.dk>
+ <cbe18a3d-8a6b-e775-81bb-3b3f11045183@grimberg.me>
+ <26a1cd20-6b25-eaa6-7ab6-ba7f5afaf6dd@kernel.dk>
+ <81cdcb58-9a23-8192-6213-7f2408a3b8ee@grimberg.me>
+ <CAKeUqKKHg1wD19pnwJEd8whubnuGVic_ZhDjebaq3kKmY9TtsQ@mail.gmail.com>
+ <CAKeUqKK3yykq8LNv1CCHZTHSz1=bzBaCwVQmi6bhpbYzqVJsqQ@mail.gmail.com>
+In-Reply-To: <CAKeUqKK3yykq8LNv1CCHZTHSz1=bzBaCwVQmi6bhpbYzqVJsqQ@mail.gmail.com>
+From: Rachit Agarwal <rach4x0r@gmail.com>
+Date: Mon, 11 Jan 2021 13:15:28 -0500
+Message-ID: <CAKeUqKJKXP8iJY1x=wXc7Vz+qQPhP=MaUmy71x2f2H_YdHf_8w@mail.gmail.com>
+Subject: Re: [PATCH] iosched: Add i10 I/O Scheduler
+To: Sagi Grimberg <sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210111_131228_908103_B35BA8A4 
-X-CRM114-Status: GOOD (  12.07  )
+X-CRM114-CacheID: sfid-20210111_131544_263204_CA656359 
+X-CRM114-Status: GOOD (  37.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,145 +97,95 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- lravich@gmail.com
-Content-Type: multipart/mixed; boundary="===============3693832711166911722=="
+Cc: Jens Axboe <axboe@kernel.dk>, Qizhe Cai <qc228@cornell.edu>,
+ Rachit Agarwal <ragarwal@cornell.edu>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, Midhul Vuppalapati <mvv25@cornell.edu>,
+ Jaehyun Hwang <jaehyun.hwang@cornell.edu>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@lightbitslabs.com>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============3693832711166911722==
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000026069f05b8a3d9d3"
+[Resending the last message] Happy 2021 everyone!
 
---00000000000026069f05b8a3d9d3
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-
-On 12/24/2020 3:05 AM, leonid.ravich@dell.com wrote:
-> From: Leonid Ravich <Leonid.Ravich@emc.com>
+> Dear all:
 >
-> to remove locking from nvmet_fc_find_target_queue
-> which called per IO.
+> Hope you are all well.
 >
-> Signed-off-by: Leonid Ravich <Leonid.Ravich@emc.com>
-> ---
->   drivers/nvme/target/fc.c | 54 ++++++++++++++++++++++++++++--------------------
->   1 file changed, 32 insertions(+), 22 deletions(-)
-
-was this replaced by the v2 patch ?
-
--- james
-
-
-
--- 
-This electronic communication and the information and any files transmitted 
-with it, or attached to it, are confidential and are intended solely for 
-the use of the individual or entity to whom it is addressed and may contain 
-information that is confidential, legally privileged, protected by privacy 
-laws, or otherwise restricted from disclosure to anyone else. If you are 
-not the intended recipient or the person responsible for delivering the 
-e-mail to the intended recipient, you are hereby notified that any use, 
-copying, distributing, dissemination, forwarding, printing, or copying of 
-this e-mail is strictly prohibited. If you received this e-mail in error, 
-please return the e-mail to the sender, delete it from your computer, and 
-destroy any printed copy of it.
-
---00000000000026069f05b8a3d9d3
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-AanDaJF6fE9TEzbfn5AWgVgHkbqS3VY3Gq05xkLhRugDQ60IGwT29K1B+wGfcujKSaalhQIDAQAB
-o4IBzzCCAcswDgYDVR0PAQH/BAQDAgWgMIGeBggrBgEFBQcBAQSBkTCBjjBNBggrBgEFBQcwAoZB
-aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NwZXJzb25hbHNpZ24yc2hhMmcz
-b2NzcC5jcnQwPQYIKwYBBQUHMAGGMWh0dHA6Ly9vY3NwMi5nbG9iYWxzaWduLmNvbS9nc3BlcnNv
-bmFsc2lnbjJzaGEyZzMwTQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwRAYDVR0fBD0w
-OzA5oDegNYYzaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc3BlcnNvbmFsc2lnbjJzaGEyZzMu
-Y3JsMCMGA1UdEQQcMBqBGGphbWVzLnNtYXJ0QGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEF
-BQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJnXsLYTAdBgNVHQ4EFgQUUXCHNA1n5KXj
-CXL1nHkJ8oKX5wYwDQYJKoZIhvcNAQELBQADggEBAGQDKmIdULu06w+bE15XZJOwlarihiP2PHos
-/4bNU3NRgy/tCQbTpJJr3L7LU9ldcPam9qQsErGZKmb5ypUjVdmS5n5M7KN42mnfLs/p7+lOOY5q
-ZwPZfsjYiUuaCWDGMvVpuBgJtdADOE1v24vgyyLZjtCbvSUzsgKKda3/Z/iwLFCRrIogixS1L6Vg
-2JU2wwirL0Sy5S1DREQmTMAuHL+M9Qwbl+uh/AprkVqaSYuvUzWFwBVgafOl2XgGdn8r6ubxSZhX
-9SybOi1fAXGcISX8GzOd85ygu/3dFqvMyCBpNke4vdweIll52KZIMyWji3y2PKJYfgqO+bxo7BAa
-ROYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNh
-MTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0gRzMCDH5i
-rbJ+nCPBux48wjANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgEDXgFPmlgx2051s7
-iEAFixRZMTxxtlEgDGpv3+dRNWAwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
-CQUxDxcNMjEwMTExMTgxMjI1WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgB
-ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcw
-CwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAHLuRYH7zyiIf1UcTWjC6WayIs/Lqof6IMGg
-+qPg4NPlSMtq/ANcr36dqfUc0EgWCcZ2ruJQZY/R8OrYvbVitDr0lsdg0Lxb5zilPmqxWOF3+JBu
-qTITWLA4x6A2mwprnsKv9r1ueBwKerDNhc4g207EqjkIaxk6uwP7vjL3ewHSlwCWBF7AEsA8MlWh
-XQ0ARUidEEUlrtbv5yo8m8M8MPvrXzCGejsJBfXaZCeWWsHxKiEiNVrrlrlZUDOPkbXPA3kEB94i
-Ro5BtN1BXiWm9/tksAJPM2z6QkNRoPPTYFlm68F+Ln3y/xV6FPHOqtn18JUpuw46YsW59Gm1gbGK
-74U=
---00000000000026069f05b8a3d9d3--
-
-
---===============3693832711166911722==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> Sagi and I were wondering if you have any additional feedback on the
+> updated patch? (@Ming?) We have been receiving a lot of
+> interest/questions from industry on incorporation of i10 in the
+> kernel. If people do not have additional feedback, it would be nice to
+> move this forward.
+>
+> Looking forward to hearing from you!
+> ~Rachit
+>
+> On Sat, Nov 28, 2020 at 12:49 AM Rachit Agarwal <rach4x0r@gmail.com> wrote:
+> >
+> >
+> >
+> > On Fri, Nov 13, 2020 at 4:56 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+> >>
+> >>
+> >> >>>> But if you think this has a better home, I'm assuming that the guys
+> >> >>>> will be open to that.
+> >> >>>
+> >> >>> Also see the reply from Ming. It's a balancing act - don't want to add
+> >> >>> extra overhead to the core, but also don't want to carry an extra
+> >> >>> scheduler if the main change is really just variable dispatch batching.
+> >> >>> And since we already have a notion of that, seems worthwhile to explore
+> >> >>> that venue.
+> >> >>
+> >> >> I agree,
+> >> >>
+> >> >> The main difference is that this balancing is not driven from device
+> >> >> resource pressure, but rather from an assumption of device specific
+> >> >> optimization (and also with a specific optimization target), hence a
+> >> >> scheduler a user would need to opt-in seemed like a good compromise.
+> >> >>
+> >> >> But maybe Ming has some good ideas on a different way to add it..
+> >> >
+> >> > So here's another case - virtualized nvme. The commit overhead is
+> >> > suitably large there that performance suffers quite a bit, similarly to
+> >> > your remote storage case. If we had suitable logic in the core, then we
+> >> > could easily propagate this knowledge when setting up the queue. Then it
+> >> > could happen automatically, without needing a configuration to switch to
+> >> > a specific scheduler.
+> >>
+> >> Yes, these use-cases share characteristics. I'm not at all opposed to
+> >> placing this in the core. I do think that in order to put something like
+> >> this in the core, the bar needs to be higher such that an optimization
+> >> target cannot be biased towards a workload (i.e. needs to be adaptive).
+> >>
+> >> I'm still not sure how we would build this on top of what we already
+> >> have as it is really centered around device being busy (which is not
+> >> the case for nvme), but I didn't put enough thought into it yet.
+> >>
+> >
+> > Dear all:
+> >
+> > Thanks, again, for the very constructive decisions.
+> >
+> > I am writing back with quite a few updates:
+> >
+> > 1. We have now included a detailed comparison of i10 scheduler with Kyber with NVMe-over-TCP (https://github.com/i10-kernel/upstream-linux/blob/master/i10-evaluation.pdf). In a nutshell, when operating with NVMe-over-TCP, i10 demonstrates the core tradeoff: higher latency, but also higher throughput. This seems to be the core tradeoff exposed by i10.
+> >
+> > 2. We have now implemented an adaptive version of i10 I/O scheduler, that uses the number of outstanding requests at the time of batch dispatch (and whether the dispatch was triggered by timeout or not) to adaptively set the batching size. The new results (https://github.com/i10-kernel/upstream-linux/blob/master/i10-evaluation.pdf) show that i10-adaptive further improves performance for low loads, while keeping the performance for high loads. IMO, there is much to do on designing improved adaptation algorithms.
+> >
+> > 3. We have now updated the i10-evaluation document to include results for local storage access. The core take-away here is that i10-adaptive can achieve similar throughput and latency at low loads and at high loads when compared to noop, but still requires more work for lower loads. However, given that the tradeoff exposed by i10 scheduler is particularly useful for remote storage devices (and as Jens suggested, perhaps for virtualized local storage access), I do agree with Sagi -- I think we should consider including it in the core, since this may be useful for a broad range of new use cases.
+> >
+> > We have also created a second version of the patch that includes these updates: https://github.com/i10-kernel/upstream-linux/blob/master/0002-iosched-Add-i10-I-O-Scheduler.patch
+> >
+> > As always, thank you for the constructive discussion and I look forward to working with you on this.
+> >
+> > Best,
+> > ~Rachit
+> >
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============3693832711166911722==--
-
