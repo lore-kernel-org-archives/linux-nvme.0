@@ -2,57 +2,91 @@ Return-Path: <SRS0=B93q=GO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36256C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 08:12:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA2B9C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 08:56:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 72E2222A84
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 08:12:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72E2222A84
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 6D95F22581
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 08:56:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D95F22581
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=PdLspOkhqqtcVkyq2XShSp9MHPyqTNHoM/6veKW3EmQ=; b=2Pdr7/Ymu6vi0Wddu1XTOhORV
-	EAjj8Gm1cPbckshQkkFfabKZuvTkH9mnbyW5A5P6D4Z6lc7v9RDp4wrhr2wFq8mPDzemDomsDIZSR
-	tRlp1IvZD3FJNYSoJUuS7Jox22CnxkYulD923SNLoYatpznNllcLaXYNPjyhnuCI63TRM2U9cJ5g/
-	FTswAKAAlZNGzCNfISTSmVmprs2Yttx0j1ijoE4dBwv3y3d8EvP+0s0QArYxdH4zbNQlipAjG20EF
-	srvstJS2YOd/0bUIMwJKZCKmqUxQW40G8suN6ljm+XMSMTSzMvfJPH7QFbGGsB20oN+iQX1wiiswd
-	YcwxOgJTw==;
+	 bh=RlOgPcq9E14VV696vg/lTSEFYqkhhsihxXxBRZRyx+Q=; b=gc/PFyXZVe4NQewsLOwtGv4A1
+	O6SzF/YdXF+yaBqT12qpZv10UiDv6PeTjgLbzGdPpdQqr6jhTD3HyvgEBjHa1VYcSWGICT+f+c3QV
+	vYp/BmmiLReBojonVquejUYkWLUHCa/KeZmYLgicL7vFpgy183wVd+abyjO0ZbMgWRw2Plri91fIU
+	1czUt8BHpLD5VShOBUPnvI9CgzFfAN3ShEI/0yKvz+WmVs0T2HG39vfc+7YbVhW2mj1dL0E65HDVH
+	IOhaxU2kkitCpc6qsrOGa2PxKQm0MZcbVAcB2O9lNFQtjKhmq7VG20zv/TF3NdDINk7tJD/fz8EYR
+	ZrQIrdWsw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kysIx-0003gT-4k; Mon, 11 Jan 2021 08:11:59 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1kyszy-0000wU-VT; Mon, 11 Jan 2021 08:56:27 +0000
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kysIs-0003ek-Ur
- for linux-nvme@lists.infradead.org; Mon, 11 Jan 2021 08:11:56 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id BE95667373; Mon, 11 Jan 2021 09:11:46 +0100 (CET)
-Date: Mon, 11 Jan 2021 09:11:46 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: leonid.ravich@dell.com
-Subject: Re: [PATCH v2] nvmet-fc: associations list protected by rcu,
- instead of spinlock_irq where possible.
-Message-ID: <20210111081146.GA27116@lst.de>
-References: <20201224110542.22219-1-leonid.ravich@dell.com>
- <1609697575-103348-1-git-send-email-leonid.ravich@dell.com>
+ id 1kyszv-0000uY-Tn
+ for Linux-nvme@lists.infradead.org; Mon, 11 Jan 2021 08:56:25 +0000
+Received: by mail-ej1-x634.google.com with SMTP id ga15so23607324ejb.4
+ for <Linux-nvme@lists.infradead.org>; Mon, 11 Jan 2021 00:56:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R7Ds5gNtbzHPta9ELhuQeLgV2+IDvMvxsXzMy1lN7VU=;
+ b=Cb4oEJuynucZXQgeYzH7HIjQOF4OgbMuS4qjMjUBwenNMmKMJijMLfBsOQDBYLUVkm
+ FknC08IHkM/PtxZMj3UI+ZSyCjH3Dv4n1+m/g4h5C6GDJYsS9G7DY5K5w0SUiosNchoy
+ qHx10p9LInoPsGuP6z43gv/4L7k8P5qlcfvzm0yBmPq+oPQfJEUNz7mPHflKKwHe2bFW
+ 3nwDEAGMAjcNdiP/WdNT+iDPmHxXuO7wIfZH9fhdTqlt8KUcZvcxQKqQsKHdFjfCNKW9
+ r/wc1gZ5OijeLpZjXNOZ+QSijG5b+ZFM43+qIpi/bslNYg8T5ygwN6zVOFMSZpYvIAXt
+ 8CSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R7Ds5gNtbzHPta9ELhuQeLgV2+IDvMvxsXzMy1lN7VU=;
+ b=X73iCy8XBvP85kbFqN6WAlIdIY+Dn1bLQnUfX+fuq3l+JRvwwHFHLWyy4awYjdioZd
+ H7oTzJK7BkvHvIVtV6iWCILUFA9OQuUyMJVXxneDZEa+RYYIuCbHzoMtxK6FDUDtWbKX
+ eVHKkHo8rdV+MwLZ0g7v0++2ENaB/lWraYmeGnrCZPNuxuDUqZKdCy4E3S2ygK4QY+qP
+ JwGprpxdrrR05WcyeC4Q1UY2xB2k3zDM3EuqP9RbIgv5CAzfzuuAVebPJ+KlCrDkjk2f
+ P0+yJWJM5e2jO4cjf9Tt55nB//l0qsLv9+mR1tfiHSQsdEAbX55W+og5DDHRnSdS3Xgv
+ YyRQ==
+X-Gm-Message-State: AOAM532laHJObg28Oy1jLA7Mkhes7zGcZwWdaGIKq2rfPBAAYRSyHr21
+ pprqPdQox04AiPp5dsjpWjO0/tHz2l8/9YO+KWc=
+X-Google-Smtp-Source: ABdhPJxb0Ji7TeviEn9KfkVXOo6vIUWfflVS0N3vNWH6R1X+jgCA76JsgW8jg1RRMKPMXEYGVmQaJqABvMzgF+YinGg=
+X-Received: by 2002:a17:906:4348:: with SMTP id
+ z8mr10188567ejm.371.1610355380753; 
+ Mon, 11 Jan 2021 00:56:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1609697575-103348-1-git-send-email-leonid.ravich@dell.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <CAJS6EdjsTVgs3JK3q2DePjEz1A0s9RJTOwqo=Ka7kinNMECtJw@mail.gmail.com>
+ <2c0ff5ec-4ae2-ad29-67fb-4744514dab47@grimberg.me>
+ <CAJS6Edh8aVAHhKRGqU+7v5C3KY7YxczVg_7Q8QrPGtyvVw7K3w@mail.gmail.com>
+ <fd4541e4-78c5-ec3b-b272-467fd11f7472@grimberg.me>
+ <20201223084332.GA30502@infradead.org>
+ <CAJS6EdijX6ws_wHxygdpcYGtB6JFwLDbDE3A0t0QUYS-LbRakg@mail.gmail.com>
+ <16d876c1-524a-38d3-3cff-99ec694464b2@grimberg.me>
+ <CAJS6EdivEF0c=3FmKj4wGZoVRKbUvjH_qJLXmO7Tvwsp+km0rw@mail.gmail.com>
+ <f631893c-5ce9-95fd-c32c-35a7e70d093c@grimberg.me>
+ <CAJS6EdjUAb77-rWd=XmFhsM2_3Hds6VV6jQUVPJoJQHhk12J_Q@mail.gmail.com>
+ <a6564a08-a3b0-5c22-51e3-712c4714bcc5@grimberg.me>
+ <CAJS6Edgb+yCW5q5dA=MEkL0eYs4MXoopdiz72nhkxpkd5Fe_cA@mail.gmail.com>
+ <ae5b1654-e580-88be-0498-0cd111b53fa2@grimberg.me>
+In-Reply-To: <ae5b1654-e580-88be-0498-0cd111b53fa2@grimberg.me>
+From: Hao Wang <pkuwangh@gmail.com>
+Date: Mon, 11 Jan 2021 00:56:09 -0800
+Message-ID: <CAJS6Edjkfvs4pfH9XvwAT0h4STuoDh1PahSxkkTWOsKwgL5pZQ@mail.gmail.com>
+Subject: Re: Data corruption when using multiple devices with NVMEoF TCP
+To: Sagi Grimberg <sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210111_031155_238980_523D3833 
-X-CRM114-Status: GOOD (  21.93  )
+X-CRM114-CacheID: sfid-20210111_035624_006428_CAFCD76E 
+X-CRM114-Status: GOOD (  11.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,270 +98,113 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, james.smart@broadcom.com,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, lravich@gmail.com
+Cc: Christoph Hellwig <hch@infradead.org>, Linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-James, can you review this patch?
+Hey Sagi,
 
-On Sun, Jan 03, 2021 at 08:12:53PM +0200, leonid.ravich@dell.com wrote:
-> From: Leonid Ravich <Leonid.Ravich@emc.com>
-> 
-> searching assoc_list protected by rcu_read_lock if list not changed inline.
-> and according to the rcu list rules.
-> 
-> queue array embedded into nvmet_fc_tgt_assoc protected by rcu_read_lock
-> according to rcu dereference/assign rules.
-> 
-> queue and assoc object freed after grace period by call_rcu.
-> 
-> tgtport lock taken for changing assoc_list.
-> 
-> Reviewed-by: Eldad Zinger <Eldad.Zinger@dell.com>
-> Reviewed-by: Elad Grupi <Elad.Grupi@dell.com>
-> Signed-off-by: Leonid Ravich <Leonid.Ravich@emc.com>
-> ---
-> 1) fixed sytle issus 
-> 2) queues array protects by rcu as well
-> 
->  drivers/nvme/target/fc.c | 81 +++++++++++++++++++++++-------------------------
->  1 file changed, 38 insertions(+), 43 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index cd4e73a..c14c60b 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -145,6 +145,7 @@ struct nvmet_fc_tgt_queue {
->  	struct list_head		avail_defer_list;
->  	struct workqueue_struct		*work_q;
->  	struct kref			ref;
-> +	struct rcu_head			rcu;
->  	struct nvmet_fc_fcp_iod		fod[];		/* array of fcp_iods */
->  } __aligned(sizeof(unsigned long long));
->  
-> @@ -167,6 +168,7 @@ struct nvmet_fc_tgt_assoc {
->  	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES + 1];
->  	struct kref			ref;
->  	struct work_struct		del_work;
-> +	struct rcu_head			rcu;
->  };
->  
->  
-> @@ -790,7 +792,6 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  			u16 qid, u16 sqsize)
->  {
->  	struct nvmet_fc_tgt_queue *queue;
-> -	unsigned long flags;
->  	int ret;
->  
->  	if (qid > NVMET_NR_QUEUES)
-> @@ -829,9 +830,7 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  		goto out_fail_iodlist;
->  
->  	WARN_ON(assoc->queues[qid]);
-> -	spin_lock_irqsave(&assoc->tgtport->lock, flags);
-> -	assoc->queues[qid] = queue;
-> -	spin_unlock_irqrestore(&assoc->tgtport->lock, flags);
-> +	rcu_assign_pointer(assoc->queues[qid], queue);
->  
->  	return queue;
->  
-> @@ -851,11 +850,8 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  {
->  	struct nvmet_fc_tgt_queue *queue =
->  		container_of(ref, struct nvmet_fc_tgt_queue, ref);
-> -	unsigned long flags;
->  
-> -	spin_lock_irqsave(&queue->assoc->tgtport->lock, flags);
-> -	queue->assoc->queues[queue->qid] = NULL;
-> -	spin_unlock_irqrestore(&queue->assoc->tgtport->lock, flags);
-> +	rcu_assign_pointer(queue->assoc->queues[queue->qid], NULL);
->  
->  	nvmet_fc_destroy_fcp_iodlist(queue->assoc->tgtport, queue);
->  
-> @@ -863,7 +859,7 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  
->  	destroy_workqueue(queue->work_q);
->  
-> -	kfree(queue);
-> +	kfree_rcu(queue, rcu);
->  }
->  
->  static void
-> @@ -965,24 +961,23 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  	struct nvmet_fc_tgt_queue *queue;
->  	u64 association_id = nvmet_fc_getassociationid(connection_id);
->  	u16 qid = nvmet_fc_getqueueid(connection_id);
-> -	unsigned long flags;
->  
->  	if (qid > NVMET_NR_QUEUES)
->  		return NULL;
->  
-> -	spin_lock_irqsave(&tgtport->lock, flags);
-> -	list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
->  		if (association_id == assoc->association_id) {
-> -			queue = assoc->queues[qid];
-> +			queue = rcu_dereference(assoc->queues[qid]);
->  			if (queue &&
->  			    (!atomic_read(&queue->connected) ||
->  			     !nvmet_fc_tgt_q_get(queue)))
->  				queue = NULL;
-> -			spin_unlock_irqrestore(&tgtport->lock, flags);
-> +			rcu_read_unlock();
->  			return queue;
->  		}
->  	}
-> -	spin_unlock_irqrestore(&tgtport->lock, flags);
-> +	rcu_read_unlock();
->  	return NULL;
->  }
->  
-> @@ -1137,7 +1132,7 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  		}
->  		if (!needrandom) {
->  			assoc->association_id = ran;
-> -			list_add_tail(&assoc->a_list, &tgtport->assoc_list);
-> +			list_add_tail_rcu(&assoc->a_list, &tgtport->assoc_list);
->  		}
->  		spin_unlock_irqrestore(&tgtport->lock, flags);
->  	}
-> @@ -1167,7 +1162,7 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  
->  	nvmet_fc_free_hostport(assoc->hostport);
->  	spin_lock_irqsave(&tgtport->lock, flags);
-> -	list_del(&assoc->a_list);
-> +	list_del_rcu(&assoc->a_list);
->  	oldls = assoc->rcv_disconn;
->  	spin_unlock_irqrestore(&tgtport->lock, flags);
->  	/* if pending Rcv Disconnect Association LS, send rsp now */
-> @@ -1177,7 +1172,7 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  	dev_info(tgtport->dev,
->  		"{%d:%d} Association freed\n",
->  		tgtport->fc_target_port.port_num, assoc->a_id);
-> -	kfree(assoc);
-> +	kfree_rcu(assoc, rcu);
->  	nvmet_fc_tgtport_put(tgtport);
->  }
->  
-> @@ -1198,7 +1193,6 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  {
->  	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
->  	struct nvmet_fc_tgt_queue *queue;
-> -	unsigned long flags;
->  	int i, terminating;
->  
->  	terminating = atomic_xchg(&assoc->terminating, 1);
-> @@ -1207,19 +1201,23 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  	if (terminating)
->  		return;
->  
-> -	spin_lock_irqsave(&tgtport->lock, flags);
-> +
->  	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
-> -		queue = assoc->queues[i];
-> -		if (queue) {
-> -			if (!nvmet_fc_tgt_q_get(queue))
-> -				continue;
-> -			spin_unlock_irqrestore(&tgtport->lock, flags);
-> -			nvmet_fc_delete_target_queue(queue);
-> -			nvmet_fc_tgt_q_put(queue);
-> -			spin_lock_irqsave(&tgtport->lock, flags);
-> +		rcu_read_lock();
-> +		queue = rcu_dereference(assoc->queues[i]);
-> +		if (!queue) {
-> +			rcu_read_unlock();
-> +			continue;
-> +		}
-> +
-> +		if (!nvmet_fc_tgt_q_get(queue)) {
-> +			rcu_read_unlock();
-> +			continue;
->  		}
-> +		rcu_read_unlock();
-> +		nvmet_fc_delete_target_queue(queue);
-> +		nvmet_fc_tgt_q_put(queue);
->  	}
-> -	spin_unlock_irqrestore(&tgtport->lock, flags);
->  
->  	dev_info(tgtport->dev,
->  		"{%d:%d} Association deleted\n",
-> @@ -1234,10 +1232,9 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  {
->  	struct nvmet_fc_tgt_assoc *assoc;
->  	struct nvmet_fc_tgt_assoc *ret = NULL;
-> -	unsigned long flags;
->  
-> -	spin_lock_irqsave(&tgtport->lock, flags);
-> -	list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
->  		if (association_id == assoc->association_id) {
->  			ret = assoc;
->  			if (!nvmet_fc_tgt_a_get(assoc))
-> @@ -1245,7 +1242,7 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  			break;
->  		}
->  	}
-> -	spin_unlock_irqrestore(&tgtport->lock, flags);
-> +	rcu_read_unlock();
->  
->  	return ret;
->  }
-> @@ -1473,19 +1470,17 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  static void
->  __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
->  {
-> -	struct nvmet_fc_tgt_assoc *assoc, *next;
-> -	unsigned long flags;
-> +	struct nvmet_fc_tgt_assoc *assoc;
->  
-> -	spin_lock_irqsave(&tgtport->lock, flags);
-> -	list_for_each_entry_safe(assoc, next,
-> -				&tgtport->assoc_list, a_list) {
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
->  		if (!nvmet_fc_tgt_a_get(assoc))
->  			continue;
->  		if (!schedule_work(&assoc->del_work))
->  			/* already deleting - release local reference */
->  			nvmet_fc_tgt_a_put(assoc);
->  	}
-> -	spin_unlock_irqrestore(&tgtport->lock, flags);
-> +	rcu_read_unlock();
->  }
->  
->  /**
-> @@ -1568,16 +1563,16 @@ static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
->  			continue;
->  		spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
->  
-> -		spin_lock_irqsave(&tgtport->lock, flags);
-> -		list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
-> -			queue = assoc->queues[0];
-> +		rcu_read_lock();
-> +		list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
-> +			queue = rcu_dereference(assoc->queues[0]);
->  			if (queue && queue->nvme_sq.ctrl == ctrl) {
->  				if (nvmet_fc_tgt_a_get(assoc))
->  					found_ctrl = true;
->  				break;
->  			}
->  		}
-> -		spin_unlock_irqrestore(&tgtport->lock, flags);
-> +		rcu_read_unlock();
->  
->  		nvmet_fc_tgtport_put(tgtport);
->  
-> -- 
-> 1.9.3
----end quoted text---
+I exported 4 devices to the initiator, created a raid-0 array, and
+copied a 98G directory with many ~100MB .gz files.
+With the patch you give on top of 58cf05f597b0 (fairly new), I saw
+about 24K prints from dmesg. Below are some of them:
+[ 3775.256547] nvme_tcp: rq 22 (READ) data_len 131072 bio[1/2] sector
+a388200 bvec: nsegs 19 size 77824 offset 0
+[ 3775.256768] nvme_tcp: rq 19 (READ) data_len 131072 bio[1/2] sector
+a388300 bvec: nsegs 19 size 77824 offset 0
+[ 3775.256774] nvme_tcp: rq 20 (READ) data_len 131072 bio[1/2] sector
+a388400 bvec: nsegs 19 size 77824 offset 0
+[ 3775.256787] nvme_tcp: rq 5 (READ) data_len 131072 bio[1/2] sector
+a388300 bvec: nsegs 19 size 77824 offset 0
+[ 3775.256791] nvme_tcp: rq 6 (READ) data_len 131072 bio[1/2] sector
+a388400 bvec: nsegs 19 size 77824 offset 0
+[ 3775.256794] nvme_tcp: rq 117 (READ) data_len 131072 bio[1/2] sector
+a388300 bvec: nsegs 19 size 77824 offset 0
+[ 3775.256797] nvme_tcp: rq 118 (READ) data_len 131072 bio[1/2] sector
+a388400 bvec: nsegs 19 size 77824 offset 0
+[ 3775.256800] nvme_tcp: rq 5 (READ) data_len 262144 bio[1/4] sector
+a388300 bvec: nsegs 19 size 77824 offset 0
+[ 3775.257002] nvme_tcp: rq 21 (READ) data_len 131072 bio[1/2] sector
+a388500 bvec: nsegs 19 size 77824 offset 0
+[ 3775.257006] nvme_tcp: rq 22 (READ) data_len 131072 bio[1/2] sector
+a388600 bvec: nsegs 19 size 77824 offset 0
+[ 3775.257009] nvme_tcp: rq 7 (READ) data_len 131072 bio[1/2] sector
+a388500 bvec: nsegs 19 size 77824 offset 0
+[ 3775.257012] nvme_tcp: rq 8 (READ) data_len 131072 bio[1/2] sector
+a388600 bvec: nsegs 19 size 77824 offset 0
+[ 3775.257014] nvme_tcp: rq 7 (READ) data_len 131072 bio[1/2] sector
+a388500 bvec: nsegs 19 size 77824 offset 0
+[ 3775.257017] nvme_tcp: rq 8 (READ) data_len 131072 bio[1/2] sector
+a388600 bvec: nsegs 19 size 77824 offset 0
+[ 3775.257020] nvme_tcp: rq 6 (READ) data_len 262144 bio[1/4] sector
+a388500 bvec: nsegs 19 size 77824 offset 0
+[ 3775.262587] nvme_tcp: rq 22 (WRITE) data_len 131072 bio[1/2] sector
+a388200 bvec: nsegs 19 size 77824 offset 0
+[ 3775.262600] nvme_tcp: rq 22 (WRITE) data_len 131072 bio[2/2] sector
+a388298 bvec: nsegs 13 size 53248 offset 0
+[ 3775.262610] nvme_tcp: rq 5 (WRITE) data_len 262144 bio[1/4] sector
+a388300 bvec: nsegs 19 size 77824 offset 0
+[ 3775.262617] nvme_tcp: rq 5 (WRITE) data_len 262144 bio[2/4] sector
+a388398 bvec: nsegs 13 size 53248 offset 0
+[ 3775.262623] nvme_tcp: rq 5 (WRITE) data_len 262144 bio[3/4] sector
+a388400 bvec: nsegs 19 size 77824 offset 0
+[ 3775.262629] nvme_tcp: rq 5 (WRITE) data_len 262144 bio[4/4] sector
+a388498 bvec: nsegs 13 size 53248 offset 0
+[ 3775.262635] nvme_tcp: rq 6 (WRITE) data_len 262144 bio[1/4] sector
+a388500 bvec: nsegs 19 size 77824 offset 0
+[ 3775.262641] nvme_tcp: rq 6 (WRITE) data_len 262144 bio[2/4] sector
+a388598 bvec: nsegs 13 size 53248 offset 0
+[ 3775.262647] nvme_tcp: rq 6 (WRITE) data_len 262144 bio[3/4] sector
+a388600 bvec: nsegs 19 size 77824 offset 0
+[ 3775.262653] nvme_tcp: rq 6 (WRITE) data_len 262144 bio[4/4] sector
+a388698 bvec: nsegs 13 size 53248 offset 0
+[ 3775.263009] nvme_tcp: rq 5 (WRITE) data_len 131072 bio[1/2] sector
+a388300 bvec: nsegs 19 size 77824 offset 0
+[ 3775.263019] nvme_tcp: rq 5 (WRITE) data_len 131072 bio[2/2] sector
+a388398 bvec: nsegs 13 size 53248 offset 0
+[ 3775.263027] nvme_tcp: rq 6 (WRITE) data_len 131072 bio[1/2] sector
+a388400 bvec: nsegs 19 size 77824 offset 0
+[ 3775.263034] nvme_tcp: rq 6 (WRITE) data_len 131072 bio[2/2] sector
+a388498 bvec: nsegs 13 size 53248 offset 0
+[ 3775.263040] nvme_tcp: rq 7 (WRITE) data_len 131072 bio[1/2] sector
+a388500 bvec: nsegs 19 size 77824 offset 0
+[ 3775.263047] nvme_tcp: rq 7 (WRITE) data_len 131072 bio[2/2] sector
+a388598 bvec: nsegs 13 size 53248 offset 0
+[ 3775.263052] nvme_tcp: rq 8 (WRITE) data_len 131072 bio[1/2] sector
+a388600 bvec: nsegs 19 size 77824 offset 0
+[ 3775.263059] nvme_tcp: rq 8 (WRITE) data_len 131072 bio[2/2] sector
+a388698 bvec: nsegs 13 size 53248 offset 0
+[ 3775.264341] nvme_tcp: rq 19 (WRITE) data_len 131072 bio[1/2] sector
+a388300 bvec: nsegs 19 size 77824 offset 0
+[ 3775.264353] nvme_tcp: rq 19 (WRITE) data_len 131072 bio[2/2] sector
+a388398 bvec: nsegs 13 size 53248 offset 0
+[ 3775.264361] nvme_tcp: rq 20 (WRITE) data_len 131072 bio[1/2] sector
+a388400 bvec: nsegs 19 size 77824 offset 0
+[ 3775.264369] nvme_tcp: rq 20 (WRITE) data_len 131072 bio[2/2] sector
+a388498 bvec: nsegs 13 size 53248 offset 0
+[ 3775.264380] nvme_tcp: rq 21 (WRITE) data_len 131072 bio[1/2] sector
+a388500 bvec: nsegs 19 size 77824 offset 0
+[ 3775.264387] nvme_tcp: rq 21 (WRITE) data_len 131072 bio[2/2] sector
+a388598 bvec: nsegs 13 size 53248 offset 0
+[ 3775.264410] nvme_tcp: rq 22 (WRITE) data_len 131072 bio[1/2] sector
+a388600 bvec: nsegs 19 size 77824 offset 0
+
+Hao
+
+On Tue, Jan 5, 2021 at 5:53 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+>
+> Hey Hao,
+>
+> > Okay, will do that in a few days. Something else just popped up and I
+> > have a limited time window to use some machines.
+> >
+> > BTW, what is the performance implication of disabling merge? My usage
+> > pattern is mostly sequential read and write, and write bandwidth is
+> > pretty high.
+>
+> Did you get a chance to look into this?
 
 _______________________________________________
 Linux-nvme mailing list
