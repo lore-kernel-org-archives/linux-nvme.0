@@ -2,92 +2,89 @@ Return-Path: <SRS0=B93q=GO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC60C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 10:11:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF11CC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 12:28:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 390FE22283
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 10:11:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 390FE22283
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 6F180222F9
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Jan 2021 12:28:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F180222F9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=U/vyJ1SCZ6g6gGXNSz2OxITm00eSCKAr9C7yGQsDCtA=; b=wt6Mjxnebjcae6V6zA0t/8x8+
-	GrpmXnNBCR6cgP8bQUFt3wKwYHSX3xH0R/O9ZRuHWvAPPYb2Eq9txOVSlcECx30KP+W/2GmJsnqLW
-	F8xQsIFEtIJ5nugNuR9dmYDvOXIjljM9QLFxd8FyKpuOUcvrTuU7LDFcZSWYNg5MgP1xd9SJZdlD7
-	z4GmgxVeFpb1hxY+slJGoC1ZyONQRItW7tOMqUOuJTdUC/kLj6IxVFmYavURlM8TV59EJspEL1GN4
-	U5wJykfZtZYA0zgiU3gNhOqmTF46kxtlLI+8QZ1ZPzYOYOsa/aXtjm0rSEqiEztE1qHEEGlbYSSYV
-	AaHWORAqA==;
+	 bh=JVCrGzEvbvmCRYHAgPE0qU23LiEqIBiOhkeniv2zbYk=; b=dHYERHI3Qy2osmse1LNIIzbnm
+	B8R/ZhQ7icePdKpAT6JoUV/ikKMcwIvwtzUwUXJyVBPnB/SmfES+Gvtqxn6CnnlUGb+ynWXc7t7y9
+	2/LlDwhNZD9mb8SFwwmk62tit/2XPumF53Cybig6rSO5cUbTCAYjMDdK1LbUumR+NV1Kpx53L7cYZ
+	pabaH4aN7OhIr5EetHM8O45ND5pMnnOAvDkkHPncnXYZvO8ifIdmPpdpCk335GYjYJhb2HFA82Jvj
+	D6nGezKqDzzB9VDSEO22H0fnyiVUGxxLSelY9DKgrtp5JAAAZ+OFfrdaPcDyf55P9iqhLyq21C+OI
+	FdrhF/96w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kyuAH-00082a-AA; Mon, 11 Jan 2021 10:11:09 +0000
-Received: from mail-pj1-f41.google.com ([209.85.216.41])
+	id 1kywIf-0001kR-2p; Mon, 11 Jan 2021 12:27:57 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kyuAE-00080c-CH
- for Linux-nvme@lists.infradead.org; Mon, 11 Jan 2021 10:11:08 +0000
-Received: by mail-pj1-f41.google.com with SMTP id iq13so7506609pjb.3
- for <Linux-nvme@lists.infradead.org>; Mon, 11 Jan 2021 02:11:05 -0800 (PST)
+ id 1kywId-0001je-6c
+ for linux-nvme@lists.infradead.org; Mon, 11 Jan 2021 12:27:56 +0000
+Received: by mail-pl1-x633.google.com with SMTP id t6so9446596plq.1
+ for <linux-nvme@lists.infradead.org>; Mon, 11 Jan 2021 04:27:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=AFQB3KvRtY2Z0yWWDcb9UFtXL25/GUNfZr3zcxo4lMc=;
+ b=TIwxMfYW/3LGrRYtFQC5Rc6eQmLQ68X2/FimjW1xFlnUIZ3WOwlLb/Uyjt27x46o5w
+ 9OxJQTXZ4xIlz000fzg/yBhMxzATk0H9kpnskhtVl1CA19Xx6gs8M7rmrgf+W+BiLgt2
+ WgS7b8j/5Eh9ke7ITtm/kpyP0b/dRo6G20R9exvV5VU76PMEDeso6zXw8uDpYKiw8WCJ
+ DU6NIrwEbSzTrzRQbnwm/1WoKDZX1NWZTzNRLkYE8jr2SevMF6HK0HCYpeXQp/TjVWrg
+ yvFcM2g6Jjvt0fqfvXeoMhr7aMKr5UhyRvj1s1aTgmcVnY20dXlUysPPXopAzyJj2YHK
+ 2obg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tQXVRgvfonJ4PEuTRbzxudPjNRS7omJH7DB35YDBEbE=;
- b=qS1Mv7agQxrH891K0OGsesQy0Zk2VMgELyvWbefH9Flln1w3Pgx8+1EoRf/wU6x/1r
- ZK6t1ZMNjWraNNn/52knenBCRl9YbKsczTUuxvEJNyf66nq1PzL5rY82D6kQiH+PFlMa
- C/9ek2Xni5bFsdm/6NqUa3DAUd1pd+AyPnNtgTpSwWKQiEm6kEbYm/pUO0Urnv43A3iD
- ZxvItvKk4Bh0SJA5iilCAGBD/nk/slssNTpuIKcYFYqAv+BbkFXMwnImsoo+abNUm4/u
- mGAsEQu3oMOsEsa2INH1LugSTvws5QKA0/xWUOeIbaCrS/t/UpscCpvhmKbuA/spe0bI
- 8feg==
-X-Gm-Message-State: AOAM530aMomQn3PzuTSG0THbsFWafanyX1MV0JvHLDWVDQ5C2WNJftmU
- SgLYe7XESXIX9j0v9fUTn8Fk0CoGfpQ=
-X-Google-Smtp-Source: ABdhPJwJMxM/LlQgCSxn/uIxwfrGBNphIw7dpdd/ooij9jeB0BTlJSD0Prjqrk7Cb0BGsmTmywi3dA==
-X-Received: by 2002:a17:90a:c082:: with SMTP id
- o2mr17604769pjs.197.1610359863620; 
- Mon, 11 Jan 2021 02:11:03 -0800 (PST)
-Received: from ?IPv6:2601:647:4802:9070:4dcc:f2e6:c29b:ef3c?
- ([2601:647:4802:9070:4dcc:f2e6:c29b:ef3c])
- by smtp.gmail.com with ESMTPSA id b13sm18702490pfi.162.2021.01.11.02.11.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jan 2021 02:11:02 -0800 (PST)
-Subject: Re: Data corruption when using multiple devices with NVMEoF TCP
-To: Hao Wang <pkuwangh@gmail.com>
-References: <CAJS6EdjsTVgs3JK3q2DePjEz1A0s9RJTOwqo=Ka7kinNMECtJw@mail.gmail.com>
- <2c0ff5ec-4ae2-ad29-67fb-4744514dab47@grimberg.me>
- <CAJS6Edh8aVAHhKRGqU+7v5C3KY7YxczVg_7Q8QrPGtyvVw7K3w@mail.gmail.com>
- <fd4541e4-78c5-ec3b-b272-467fd11f7472@grimberg.me>
- <20201223084332.GA30502@infradead.org>
- <CAJS6EdijX6ws_wHxygdpcYGtB6JFwLDbDE3A0t0QUYS-LbRakg@mail.gmail.com>
- <16d876c1-524a-38d3-3cff-99ec694464b2@grimberg.me>
- <CAJS6EdivEF0c=3FmKj4wGZoVRKbUvjH_qJLXmO7Tvwsp+km0rw@mail.gmail.com>
- <f631893c-5ce9-95fd-c32c-35a7e70d093c@grimberg.me>
- <CAJS6EdjUAb77-rWd=XmFhsM2_3Hds6VV6jQUVPJoJQHhk12J_Q@mail.gmail.com>
- <a6564a08-a3b0-5c22-51e3-712c4714bcc5@grimberg.me>
- <CAJS6Edgb+yCW5q5dA=MEkL0eYs4MXoopdiz72nhkxpkd5Fe_cA@mail.gmail.com>
- <ae5b1654-e580-88be-0498-0cd111b53fa2@grimberg.me>
- <CAJS6Edjkfvs4pfH9XvwAT0h4STuoDh1PahSxkkTWOsKwgL5pZQ@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <16fe1e9c-3a43-ef28-7b69-755e6a86464f@grimberg.me>
-Date: Mon, 11 Jan 2021 02:11:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=AFQB3KvRtY2Z0yWWDcb9UFtXL25/GUNfZr3zcxo4lMc=;
+ b=m7eIrgftZDYeyiwXoki2prGEdETK8KAQ0ktfECnEnemNwQcMLjtGCB6oZ5UCLVyLn4
+ 0+ynMz1fYWze/50ZGitgPUuA6RGx4jdYXS0B32ZxrMGxgPVqBCPD5Q1MWz4rHn6uHrp8
+ qzIHeX8zWwoNa89gCbHmzv+BsKn9iVL8PvKsBxGJ+ltrs5bt0itCZVqXxgSQDaYXlqAi
+ YOJ28nP+3wBPNE5hSeE5QfBINyuWKT0W0ZH2pimd77PLvcINPSR29QmZ2oI0jplCKAK/
+ oNsASYmybMtYRjTjkLBsbJgSgf4MKA+ZyXCzEAiXh3ZwQUWjAE8RnAsK0zpCldSNsYgo
+ kkag==
+X-Gm-Message-State: AOAM5309ol/Zih+1DNbfviaUMoW5stBFVg8YreF4PxFq6/pjOvw9s6Mu
+ T+EGq7GRy5RyJRM3SP3k7Xc=
+X-Google-Smtp-Source: ABdhPJxcQv42C4axaj7zguLrPSXDNkU7OH5H/4kEY5O+AoN3AUipmSnulrPXFX/HfZZcI6x0u4EE1A==
+X-Received: by 2002:a17:90a:2b88:: with SMTP id
+ u8mr18017589pjd.161.1610368071280; 
+ Mon, 11 Jan 2021 04:27:51 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id d4sm18968377pfo.127.2021.01.11.04.27.50
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 11 Jan 2021 04:27:50 -0800 (PST)
+Date: Mon, 11 Jan 2021 21:27:48 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Chao Leng <lengchao@huawei.com>
+Subject: Re: [PATCH 3/3] nvme: add parameter command_retry to enable retry
+Message-ID: <20210111122748.GA6831@localhost.localdomain>
+References: <20210108144659.7126-1-minwoo.im.dev@gmail.com>
+ <20210108144659.7126-4-minwoo.im.dev@gmail.com>
+ <dfe59030-3eab-a178-7264-792f76dffe4c@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJS6Edjkfvs4pfH9XvwAT0h4STuoDh1PahSxkkTWOsKwgL5pZQ@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <dfe59030-3eab-a178-7264-792f76dffe4c@huawei.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210111_051106_467125_74B1EBB8 
-X-CRM114-Status: GOOD (  14.04  )
+X-CRM114-CacheID: sfid-20210111_072755_268352_9B86190D 
+X-CRM114-Status: GOOD (  27.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,134 +96,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Christoph Hellwig <hch@infradead.org>, Linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hello,
 
-> Hey Sagi,
+On 21-01-11 11:47:56, Chao Leng wrote:
+> 
+> 
+> On 2021/1/8 22:46, Minwoo Im wrote:
+> > nvme_init_request() has set REQ_FAILFAST_DRIVER to make requests
+> > non-retryable.  This command flag value is checked in
+> > nvme_decide_disposition() to decide whether to RETRY or other
+> > operations.  In that point, blk_noretry_request() macro will be used to
+> > check if command flags have one of REQ_FAILFAST_*.  If so, it just
+> > decides to complete the request without retrying.
+> > 
+> > This patch added a module parameter named command_retry to turn on the
+> > command retry feature in this driver.  If turning it on,
+> > REQ3_FAILFAST_DRIVER will not be set to requests so that retry can be
+> > reached out to nvme_retry_req() based on the module parameter.
+> > 
+> > Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> > ---
+> >   drivers/nvme/host/core.c | 7 ++++++-
+> >   1 file changed, 6 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index 6e428fdc25a8..e1836ca9956f 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -44,6 +44,10 @@ static unsigned char shutdown_timeout = 5;
+> >   module_param(shutdown_timeout, byte, 0644);
+> >   MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
+> > +static bool command_retry;
+> > +module_param(command_retry, bool, 0644);
+> > +MODULE_PARM_DESC(command_retry, "retry commands up to nvme_max_retries");
+> > +
+> >   static u8 nvme_max_retries = 5;
+> >   module_param_named(max_retries, nvme_max_retries, byte, 0644);
+> >   MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
+> > @@ -560,7 +564,8 @@ static inline void nvme_init_request(struct request *req,
+> >   	else /* no queuedata implies admin queue */
+> >   		req->timeout = NVME_ADMIN_TIMEOUT;
+> > -	req->cmd_flags |= REQ_FAILFAST_DRIVER;
+> > +	if (!command_retry)
+> > +		req->cmd_flags |= REQ_FAILFAST_DRIVER;
+> In abnormal scenarios, such as request time out, connection process may takes long time or the admin command waits for long time.
+> Retry only for non-host errors may be a better choice. Maybe we can make some optimizations in nvme_decide_disposition.
 
-Hey Hao,
+Thanks for your review!
 
-> I exported 4 devices to the initiator, created a raid-0 array, and
-> copied a 98G directory with many ~100MB .gz files.
-> With the patch you give on top of 58cf05f597b0 (fairly new), I saw
-> about 24K prints from dmesg. Below are some of them:
+Oh, I agreed that it might wait for so long time in connecting process.
+Restricting some of commands that should be retried would be better as
+you mentiond.
 
-Yes, I understand it generated tons of prints, but it seems that
-something is strange here.
+Do you mean that maybe we can check this module parameter in
+nvme_decide_disposition()?  Like, even if blk_noretry_request(req) says
+that it's non-retriable, if this module parameter is enabled, then we
+can retry rather than failfast?
 
-> [ 3775.256547] nvme_tcp: rq 22 (READ) data_len 131072 bio[1/2] sector
-> a388200 bvec: nsegs 19 size 77824 offset 0
-
-This is a read request and has 2 bios, one spans 19 4K buffers (starting
-from sector a388200) and the second probably spans 13 4K buffers. The
-host is asking the target to send 128K (data_len 131072), but I don't
-see anywhere that the host is receiving the residual of the data
-transfer..
-
-Should be in the form of:
-
-nvme_tcp: rq 22 (READ) data_len 131072 bio[2/2] sector 0xa388298 bvec: 
-nsegs 13 size 53248 offset 0
-
-In your entire log, do you see any (READ) print that spans bio that
-is not [1/x]? e.g. a read that spans other bios in the request (like
-[2/2], [2/3], etc..)?
-
-> [ 3775.256768] nvme_tcp: rq 19 (READ) data_len 131072 bio[1/2] sector
-> a388300 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.256774] nvme_tcp: rq 20 (READ) data_len 131072 bio[1/2] sector
-> a388400 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.256787] nvme_tcp: rq 5 (READ) data_len 131072 bio[1/2] sector
-> a388300 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.256791] nvme_tcp: rq 6 (READ) data_len 131072 bio[1/2] sector
-> a388400 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.256794] nvme_tcp: rq 117 (READ) data_len 131072 bio[1/2] sector
-> a388300 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.256797] nvme_tcp: rq 118 (READ) data_len 131072 bio[1/2] sector
-> a388400 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.256800] nvme_tcp: rq 5 (READ) data_len 262144 bio[1/4] sector
-> a388300 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.257002] nvme_tcp: rq 21 (READ) data_len 131072 bio[1/2] sector
-> a388500 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.257006] nvme_tcp: rq 22 (READ) data_len 131072 bio[1/2] sector
-> a388600 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.257009] nvme_tcp: rq 7 (READ) data_len 131072 bio[1/2] sector
-> a388500 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.257012] nvme_tcp: rq 8 (READ) data_len 131072 bio[1/2] sector
-> a388600 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.257014] nvme_tcp: rq 7 (READ) data_len 131072 bio[1/2] sector
-> a388500 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.257017] nvme_tcp: rq 8 (READ) data_len 131072 bio[1/2] sector
-> a388600 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.257020] nvme_tcp: rq 6 (READ) data_len 262144 bio[1/4] sector
-> a388500 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.262587] nvme_tcp: rq 22 (WRITE) data_len 131072 bio[1/2] sector
-> a388200 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.262600] nvme_tcp: rq 22 (WRITE) data_len 131072 bio[2/2] sector
-> a388298 bvec: nsegs 13 size 53248 offset 0
-
-For (WRITE) request we see the desired sequence, we first write the
-content of the first bio (19 4K segments) and then the content of the
-second bio (13 4K segments).
-
-> [ 3775.262610] nvme_tcp: rq 5 (WRITE) data_len 262144 bio[1/4] sector
-> a388300 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.262617] nvme_tcp: rq 5 (WRITE) data_len 262144 bio[2/4] sector
-> a388398 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.262623] nvme_tcp: rq 5 (WRITE) data_len 262144 bio[3/4] sector
-> a388400 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.262629] nvme_tcp: rq 5 (WRITE) data_len 262144 bio[4/4] sector
-> a388498 bvec: nsegs 13 size 53248 offset 0
-
-Same here and on...
-
-> [ 3775.262635] nvme_tcp: rq 6 (WRITE) data_len 262144 bio[1/4] sector
-> a388500 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.262641] nvme_tcp: rq 6 (WRITE) data_len 262144 bio[2/4] sector
-> a388598 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.262647] nvme_tcp: rq 6 (WRITE) data_len 262144 bio[3/4] sector
-> a388600 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.262653] nvme_tcp: rq 6 (WRITE) data_len 262144 bio[4/4] sector
-> a388698 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.263009] nvme_tcp: rq 5 (WRITE) data_len 131072 bio[1/2] sector
-> a388300 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.263019] nvme_tcp: rq 5 (WRITE) data_len 131072 bio[2/2] sector
-> a388398 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.263027] nvme_tcp: rq 6 (WRITE) data_len 131072 bio[1/2] sector
-> a388400 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.263034] nvme_tcp: rq 6 (WRITE) data_len 131072 bio[2/2] sector
-> a388498 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.263040] nvme_tcp: rq 7 (WRITE) data_len 131072 bio[1/2] sector
-> a388500 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.263047] nvme_tcp: rq 7 (WRITE) data_len 131072 bio[2/2] sector
-> a388598 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.263052] nvme_tcp: rq 8 (WRITE) data_len 131072 bio[1/2] sector
-> a388600 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.263059] nvme_tcp: rq 8 (WRITE) data_len 131072 bio[2/2] sector
-> a388698 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.264341] nvme_tcp: rq 19 (WRITE) data_len 131072 bio[1/2] sector
-> a388300 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.264353] nvme_tcp: rq 19 (WRITE) data_len 131072 bio[2/2] sector
-> a388398 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.264361] nvme_tcp: rq 20 (WRITE) data_len 131072 bio[1/2] sector
-> a388400 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.264369] nvme_tcp: rq 20 (WRITE) data_len 131072 bio[2/2] sector
-> a388498 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.264380] nvme_tcp: rq 21 (WRITE) data_len 131072 bio[1/2] sector
-> a388500 bvec: nsegs 19 size 77824 offset 0
-> [ 3775.264387] nvme_tcp: rq 21 (WRITE) data_len 131072 bio[2/2] sector
-> a388598 bvec: nsegs 13 size 53248 offset 0
-> [ 3775.264410] nvme_tcp: rq 22 (WRITE) data_len 131072 bio[1/2] sector
-> a388600 bvec: nsegs 19 size 77824 offset 0
-
- From the code it seems like it should do the right thing assuming
-that the data does arrive, will look deeper.
-
-Thanks for helping to dissect this issue.
+Thanks,
 
 _______________________________________________
 Linux-nvme mailing list
