@@ -2,89 +2,67 @@ Return-Path: <SRS0=XnCc=GP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1251EC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 21:15:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75052C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 21:36:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 96CE923117
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 21:15:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96CE923117
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id EB4ED230FC
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 21:36:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB4ED230FC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=utVVrFyx1HoVUDcERFSymBtOcHJCjWTfNRnl31uy0ao=; b=Hbw7xDkDQgw3734PsrWB0/RWX
-	inVIOwBjJbJgiqzv3PkIPkF6f2DBSvWlp16Dm94/1s6RplNJA+G7s/ITqTf/M2agYp7EM+XFBAOyK
-	6ltaH5DlWCSHLmyGCFa3VMBsBZLR+3S2Q022iMHPhCJLm6VzjmGPOxHhzKyi1LtitUUqpY7nLYfxd
-	d00SLxSKgBkBksK+sV7Z/Ubh4GEeliQ5zINfDjhdlvA2I5TFt2TDnDoPuz3Z8oTKMaRTkewW48bRb
-	e+RAKz3+aixUXM2rd3+gpUL8ujzJqU3J0cQ5r/LioG6jxYirv+K7SI4m4AB6P6pr6jLnnUm9T/JJE
-	YNzIEgOXw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FV2TBHXIZLCI+qQVlkzvOyIu0PRVROyW6n4LBAPfg+U=; b=aF/lGBk9rhP31QXfYEV2uMljYd
+	5F4HmdfSsf47fPtqUk8ZFcNVkPpn+GsDPSwYd6Ff349PcV2TwK9ma4RpyBJ2M7tagMaGoTCRahGXC
+	+MOjQzSm9aup++09oEDKjSO/ybg4arIyuW6ca/3MGqLO+quvaW45xPxqLdprlbfFxlfE5OazUPj8M
+	MtpC32oLVqvybbEbRX4kHXSni7x3C7IN+ZDwaezlQyKrwnlYFi1UcqH7221JIqRbYTmXIKEKAGqPZ
+	GNJZU+L0UVSxL6yRUGs3Jv9oQznQVoEVUlQkUF07ffCmUc7moLpekVxa4NLMU6sIKvYX3y0xdZI2s
+	I+UjZs/Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzR05-0005As-Kl; Tue, 12 Jan 2021 21:14:49 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1kzRKO-0003t5-B9; Tue, 12 Jan 2021 21:35:48 +0000
+Received: from mga14.intel.com ([192.55.52.115])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzR01-00058n-Ff
- for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 21:14:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1610486085; x=1642022085;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=H6WKAOvS9K42+IxKmAFc7sFIm6sD4xp2WIr4KjkcEQk=;
- b=jycerl+TyKKtaTGHFk4G0JHqtLe2cYH8A18vjf51Bz2wRVOekB6btjqX
- cvfE4T/z/CSgJAEu50vS0WepOzqhvBO4H5kbaIUxyh3ghdpcfrIfc9yfQ
- lSBrHgc8stUJQ3pnDHsr6O1+6a0AP4ZMEmzRw4MBebs2hIpZcAvT4rHOy
- TMr13yOYyE7RonC0gMu7OsC8N2jVxb/jM9n9tK8BHRbNmNNKD2gKG29sa
- iyN3D6vKv8DxXyLSuBWBZG4JitIThvTdGuNcoE/GL75Cxrj7Sl+VQo0qU
- ejsX5Q76E57Q4GKIFZyKK6lSNzevQdz3RkNKDB6FchoQD4KN4clED2KRv A==;
-IronPort-SDR: d/ZF1g3Tq7bvgzgqONODagd6qiqSURnK2zbrJRxthEv4XmR0MZg65yPpOMY4ttAOWlbrQhktrS
- zcJ9WCl3gz0DE3Fbr989TKTxPKYSQxwoKDB2Vvk/3EIbLftCWmR5aFeSfXJZDu2qvZlLweSGJf
- FDSD0yhlS17+TjPrjEjp4mXN+Y3TOWmwjA6f2l7Zz0XMO71QdJqPm/y7FG3kiCEH7WZ2/BwCU7
- Bey1et6E2CaeBT1JopHwDEJ+M7AG2LWd4/g1S1aIPYo1d+1L19D0tkBfYFFQ8+WUrcXnmzJw7g
- lqw=
-X-IronPort-AV: E=Sophos;i="5.79,342,1602518400"; d="scan'208";a="267576977"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 13 Jan 2021 05:14:44 +0800
-IronPort-SDR: Rb+9j4GXjLncRii461ovbP+BNE1v9mY7mO68ZUHzddrtGQUu0HIZooU0qmS5ljsRDBkCOCYGED
- twGjnREAN5ZHby99lhLeN0du344qW8mJODVP3vkDWIlC4lZ9AcEGhNDQVOmxqM1Yz6CqbWRgNp
- j5QRBSOZx2zXldmEXqtKcpCMbtj7zcf+Wf3UZz1h/Sbs65+lsUmo2wqColRHclSXi6WDyDuBL+
- GCSr6kwmAebUnbHYp85JSlagA2nJK2RZCVmQGQHhsCdle2MxUHQM4DhLEvgiC37xihCipq1A//
- lb/JzHgUxoUwhtnVSnC9IQY3
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2021 12:59:28 -0800
-IronPort-SDR: nDGSH+p0kz10LfPAjYXD/oB5hqEzOPDJ4CZrVbh9ctWYT6rVZM1Ogit8ZT7bgINadEkM59Ngca
- X0+YHaP3rMLpUPV0BeFTy9xTzVGnasIJDBGSlPS8RHlr3GPYgFuMvhVukKWZoIoDuPmByk22D6
- SqLbkMJ8qYqqoHlz7a1bGhz4qoMSFlJsh7h7tfvf8juNsMPPMmxRYD6ZSaFYgneCW8eZ7l9s0+
- 14Z48Oz46972MrjJ+VZ9viLQrCnFFJdXGMtq1ppYmSsHQkFTdgl9cZCYJrOoSI4DNHKkdUVt2h
- Q3k=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip01.wdc.com with ESMTP; 12 Jan 2021 13:14:44 -0800
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [V3 4/4] nvmet: remove extra variable in identify ns
-Date: Tue, 12 Jan 2021 13:14:10 -0800
-Message-Id: <20210112211410.24742-5-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20210112211410.24742-1-chaitanya.kulkarni@wdc.com>
-References: <20210112211410.24742-1-chaitanya.kulkarni@wdc.com>
+ id 1kzRKJ-0003r0-V6
+ for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 21:35:45 +0000
+IronPort-SDR: tivy7ka1/QmDf3sknSwoPfufuA/wuOg8+TRvR9P7EZ1HLKvNY6LqkkjQcc+0MkLmnOvu1a5WQ8
+ WOXZorPg+0Tw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="177334718"
+X-IronPort-AV: E=Sophos;i="5.79,342,1602572400"; d="scan'208";a="177334718"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2021 13:35:40 -0800
+IronPort-SDR: KAykxP5C/yhl0bldAR76vKU4IizYtxDTAKa1N7JdaB8FqU2Thj44kYlc0rBq2gQ/Ptcyox9pcu
+ 4IebFRXSxbYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,342,1602572400"; d="scan'208";a="400316762"
+Received: from lkp-server01.sh.intel.com (HELO b73930e00c65) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2021 13:35:38 -0800
+Received: from kbuild by b73930e00c65 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kzRKE-0000VC-9Z; Tue, 12 Jan 2021 21:35:38 +0000
+Date: Wed, 13 Jan 2021 05:35:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-5.11] BUILD SUCCESS
+ 1f22a063446758d58d5ca577101736b16cbb9280
+Message-ID: <5ffe1623.jAsyb0zoFEhUIQsV%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210112_161445_839399_CC15B332 
-X-CRM114-Status: GOOD (  16.57  )
+X-CRM114-CacheID: sfid-20210112_163544_192445_2E2226ED 
+X-CRM114-Status: GOOD (  10.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,108 +74,235 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We remove the extra local variable struct nvmet_ns in
-nvmet_execute_identify_ns() since req already has ns member that can be
-reused, this also eliminates the explicit call to nvmet_put_namespace()
-which is already present in the request completion path.
+tree/branch: git://git.infradead.org/nvme.git  nvme-5.11
+branch HEAD: 1f22a063446758d58d5ca577101736b16cbb9280  nvme: support command retry delay for admin command
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+elapsed time: 783m
+
+configs tested: 205
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm64                            allyesconfig
+arm64                               defconfig
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                           se7206_defconfig
+sh                               allmodconfig
+um                            kunit_defconfig
+powerpc                     akebono_defconfig
+powerpc                  mpc866_ads_defconfig
+mips                         db1xxx_defconfig
+mips                           rs90_defconfig
+powerpc                mpc7448_hpc2_defconfig
+xtensa                  cadence_csp_defconfig
+h8300                       h8s-sim_defconfig
+mips                      pic32mzda_defconfig
+powerpc                  storcenter_defconfig
+arm                        neponset_defconfig
+arm                          pxa910_defconfig
+powerpc                 mpc85xx_cds_defconfig
+arm                    vt8500_v6_v7_defconfig
+powerpc                   motionpro_defconfig
+c6x                        evmc6678_defconfig
+m68k                       m5275evb_defconfig
+h8300                               defconfig
+arm                         shannon_defconfig
+sparc64                             defconfig
+arm                            xcep_defconfig
+arm                            hisi_defconfig
+powerpc                     tqm8548_defconfig
+mips                           jazz_defconfig
+powerpc                      cm5200_defconfig
+arm                          iop32x_defconfig
+powerpc                 mpc8540_ads_defconfig
+powerpc                     ep8248e_defconfig
+mips                    maltaup_xpa_defconfig
+arm                          collie_defconfig
+arc                     nsimosci_hs_defconfig
+arm                         cm_x300_defconfig
+m68k                       m5475evb_defconfig
+ia64                          tiger_defconfig
+mips                      loongson3_defconfig
+m68k                          amiga_defconfig
+mips                        qi_lb60_defconfig
+ia64                         bigsur_defconfig
+powerpc                 mpc836x_mds_defconfig
+sh                           se7780_defconfig
+sh                          sdk7786_defconfig
+arm                         mv78xx0_defconfig
+arm                          tango4_defconfig
+powerpc                       ebony_defconfig
+arm                            lart_defconfig
+arm                         lubbock_defconfig
+arm                     am200epdkit_defconfig
+mips                        bcm47xx_defconfig
+ia64                      gensparse_defconfig
+arm                          moxart_defconfig
+powerpc                      arches_defconfig
+arm                             rpc_defconfig
+arc                        nsimosci_defconfig
+m68k                          multi_defconfig
+h8300                     edosk2674_defconfig
+arm                           h5000_defconfig
+sh                  sh7785lcr_32bit_defconfig
+mips                        bcm63xx_defconfig
+mips                         tb0219_defconfig
+sh                           se7712_defconfig
+m68k                          sun3x_defconfig
+powerpc                      ppc6xx_defconfig
+mips                  decstation_64_defconfig
+arm                         orion5x_defconfig
+sh                      rts7751r2d1_defconfig
+openrisc                  or1klitex_defconfig
+arm                        magician_defconfig
+arm                           corgi_defconfig
+sh                          r7785rp_defconfig
+powerpc                       eiger_defconfig
+m68k                            mac_defconfig
+arm                       spear13xx_defconfig
+sh                                  defconfig
+mips                      malta_kvm_defconfig
+sh                ecovec24-romimage_defconfig
+mips                        maltaup_defconfig
+sh                        dreamcast_defconfig
+powerpc                      tqm8xx_defconfig
+powerpc                     tqm5200_defconfig
+c6x                                 defconfig
+c6x                              alldefconfig
+openrisc                 simple_smp_defconfig
+arm                           h3600_defconfig
+m68k                         amcore_defconfig
+sh                            shmin_defconfig
+c6x                        evmc6472_defconfig
+sh                              ul2_defconfig
+powerpc                    socrates_defconfig
+um                           x86_64_defconfig
+arm                         palmz72_defconfig
+arm                         assabet_defconfig
+powerpc                     stx_gp3_defconfig
+sh                   rts7751r2dplus_defconfig
+sh                           se7722_defconfig
+powerpc                 mpc834x_itx_defconfig
+csky                             alldefconfig
+arm                           omap1_defconfig
+mips                         cobalt_defconfig
+m68k                       bvme6000_defconfig
+arm                        cerfcube_defconfig
+sh                             shx3_defconfig
+m68k                           sun3_defconfig
+sparc64                          alldefconfig
+powerpc                     kmeter1_defconfig
+xtensa                  nommu_kc705_defconfig
+arm                          prima2_defconfig
+arm                           stm32_defconfig
+arc                           tb10x_defconfig
+arc                              alldefconfig
+mips                 decstation_r4k_defconfig
+powerpc                      bamboo_defconfig
+arm                          ixp4xx_defconfig
+arm                         hackkit_defconfig
+m68k                          atari_defconfig
+arm                              zx_defconfig
+powerpc                          g5_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a002-20210112
+i386                 randconfig-a005-20210112
+i386                 randconfig-a006-20210112
+i386                 randconfig-a003-20210112
+i386                 randconfig-a001-20210112
+i386                 randconfig-a004-20210112
+x86_64               randconfig-a015-20210112
+x86_64               randconfig-a012-20210112
+x86_64               randconfig-a013-20210112
+x86_64               randconfig-a016-20210112
+x86_64               randconfig-a014-20210112
+x86_64               randconfig-a011-20210112
+i386                 randconfig-a012-20210112
+i386                 randconfig-a011-20210112
+i386                 randconfig-a016-20210112
+i386                 randconfig-a013-20210112
+i386                 randconfig-a015-20210112
+i386                 randconfig-a014-20210112
+x86_64               randconfig-a004-20210111
+x86_64               randconfig-a006-20210111
+x86_64               randconfig-a001-20210111
+x86_64               randconfig-a003-20210111
+x86_64               randconfig-a005-20210111
+x86_64               randconfig-a002-20210111
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a006-20210112
+x86_64               randconfig-a004-20210112
+x86_64               randconfig-a001-20210112
+x86_64               randconfig-a005-20210112
+x86_64               randconfig-a003-20210112
+x86_64               randconfig-a002-20210112
+x86_64               randconfig-a015-20210111
+x86_64               randconfig-a012-20210111
+x86_64               randconfig-a013-20210111
+x86_64               randconfig-a016-20210111
+x86_64               randconfig-a014-20210111
+x86_64               randconfig-a011-20210111
+
 ---
- drivers/nvme/target/admin-cmd.c | 30 ++++++++++++++----------------
- 1 file changed, 14 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 5a75676da259..1952ff28f95c 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -467,7 +467,6 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- static void nvmet_execute_identify_ns(struct nvmet_req *req)
- {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
--	struct nvmet_ns *ns;
- 	struct nvme_id_ns *id;
- 	u16 status = 0;
- 
-@@ -484,20 +483,20 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 	}
- 
- 	/* return an all zeroed buffer if we can't find an active namespace */
--	ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
--	if (!ns) {
-+	req->ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
-+	if (!req->ns) {
- 		status = NVME_SC_INVALID_NS;
- 		goto done;
- 	}
- 
--	nvmet_ns_revalidate(ns);
-+	nvmet_ns_revalidate(req->ns);
- 
- 	/*
- 	 * nuse = ncap = nsze isn't always true, but we have no way to find
- 	 * that out from the underlying device.
- 	 */
--	id->ncap = id->nsze = cpu_to_le64(ns->size >> ns->blksize_shift);
--	switch (req->port->ana_state[ns->anagrpid]) {
-+	id->ncap = id->nsze = cpu_to_le64(req->ns->size >> req->ns->blksize_shift);
-+	switch (req->port->ana_state[req->ns->anagrpid]) {
- 	case NVME_ANA_INACCESSIBLE:
- 	case NVME_ANA_PERSISTENT_LOSS:
- 		break;
-@@ -506,8 +505,8 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 		break;
-         }
- 
--	if (ns->bdev)
--		nvmet_bdev_set_limits(ns->bdev, id);
-+	if (req->ns->bdev)
-+		nvmet_bdev_set_limits(req->ns->bdev, id);
- 
- 	/*
- 	 * We just provide a single LBA format that matches what the
-@@ -521,25 +520,24 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 	 * controllers, but also with any other user of the block device.
- 	 */
- 	id->nmic = (1 << 0);
--	id->anagrpid = cpu_to_le32(ns->anagrpid);
-+	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
- 
--	memcpy(&id->nguid, &ns->nguid, sizeof(id->nguid));
-+	memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
- 
--	id->lbaf[0].ds = ns->blksize_shift;
-+	id->lbaf[0].ds = req->ns->blksize_shift;
- 
--	if (ctrl->pi_support && nvmet_ns_has_pi(ns)) {
-+	if (ctrl->pi_support && nvmet_ns_has_pi(req->ns)) {
- 		id->dpc = NVME_NS_DPC_PI_FIRST | NVME_NS_DPC_PI_LAST |
- 			  NVME_NS_DPC_PI_TYPE1 | NVME_NS_DPC_PI_TYPE2 |
- 			  NVME_NS_DPC_PI_TYPE3;
- 		id->mc = NVME_MC_EXTENDED_LBA;
--		id->dps = ns->pi_type;
-+		id->dps = req->ns->pi_type;
- 		id->flbas = NVME_NS_FLBAS_META_EXT;
--		id->lbaf[0].ms = cpu_to_le16(ns->metadata_size);
-+		id->lbaf[0].ms = cpu_to_le16(req->ns->metadata_size);
- 	}
- 
--	if (ns->readonly)
-+	if (req->ns->readonly)
- 		id->nsattr |= (1 << 0);
--	nvmet_put_namespace(ns);
- done:
- 	if (nvmet_copy_to_sgl(req, 0, id, sizeof(*id)) && !status)
- 		status = NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
--- 
-2.22.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
