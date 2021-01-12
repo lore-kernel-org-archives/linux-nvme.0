@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FCAAC433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 21:15:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1251EC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 21:15:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E431E23117
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 21:15:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E431E23117
+	by mail.kernel.org (Postfix) with ESMTPS id 96CE923117
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 21:15:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96CE923117
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=G/vwaWJELbohaOzKuf9ESd9dP4MNJ+UmyhrqmyOmDNs=; b=k7azPUzDQ9bviFyR3CdE3wBLB
-	i+chA6nCaZoMXAN4qyomTXYKRDynxvgAX1PJd7En2eb/NT5EIeWe8TbYpoRbmlsgP9oLD1SGSYwK7
-	4eNUOLJHzODxdILo7yG3N5G0vAd6zXoglm+chsvgubMWXUVN45YWKsuKeYsbz+PNxEXZ6exR213h/
-	6FmoAQGzS/PsIG6962dKv95CznX5r7GUn3qzJNCNY1MmJGuSRZ6hBwL0Zv1t9wrwggL74URIXz3uM
-	JtVDHCtu8u8e6pcHYWu0mMuqAIlKrovviHnqNikL/BVFnqRMcquKgCw4Xak5vN6xjefj0Z8nseHbn
-	C/GHXfWmQ==;
+	 bh=utVVrFyx1HoVUDcERFSymBtOcHJCjWTfNRnl31uy0ao=; b=Hbw7xDkDQgw3734PsrWB0/RWX
+	inVIOwBjJbJgiqzv3PkIPkF6f2DBSvWlp16Dm94/1s6RplNJA+G7s/ITqTf/M2agYp7EM+XFBAOyK
+	6ltaH5DlWCSHLmyGCFa3VMBsBZLR+3S2Q022iMHPhCJLm6VzjmGPOxHhzKyi1LtitUUqpY7nLYfxd
+	d00SLxSKgBkBksK+sV7Z/Ubh4GEeliQ5zINfDjhdlvA2I5TFt2TDnDoPuz3Z8oTKMaRTkewW48bRb
+	e+RAKz3+aixUXM2rd3+gpUL8ujzJqU3J0cQ5r/LioG6jxYirv+K7SI4m4AB6P6pr6jLnnUm9T/JJE
+	YNzIEgOXw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzQzy-00057K-41; Tue, 12 Jan 2021 21:14:42 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1kzR05-0005As-Kl; Tue, 12 Jan 2021 21:14:49 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzQzu-00055E-BH
- for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 21:14:39 +0000
+ id 1kzR01-00058n-Ff
+ for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 21:14:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1610486078; x=1642022078;
+ t=1610486085; x=1642022085;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uyjCMQqY3Np/PjmwiZ78wPcvHpLOXQQJcg5ChL/AY6c=;
- b=q1FE0aY/1aZLSiPH8sHSNMW8m0P6HF6RwviNfRa4CAWPQXRy+WUyunl9
- a7YzApUfMfcQYLTqmqU7qyP+EDFmgohGJkAoW/m35G9I4qIF7JinLQtxI
- frBFYpRzlyJMlpqzYjx5x+rg0pbxuUJSqZcDH18Z0FVz6ZzrQ+GZRVNYw
- TL5nOVm5rgmW/imXtSulRdA2aFHXYZjnCWt0+zu1vfpHTfiXqwpl9qXFJ
- og7wWmNiyJ9KVYLm26QX5QGWQNvMMOvZ7NOkymavS4NhmlhLOvz1ytEzN
- 2R9imz3FTaPBTM2/oQWb94y/M5kWh/MRM8QHE1366WA10gQMlbtq1HtNe A==;
-IronPort-SDR: kFSpAQ5ACzr9FwJNa93CnfKFu+l33tnql5blUqQdd6JMpFhn9HkzK7ITLc51G0pqS9cB4iH4eb
- 5JespOfWtW/5HtMMSUKnSi+3VCGyk93CJkkmVsRTZFrHNxsCZAn/vHxZ3CzJH30u1l5OioVkuT
- XVNilQMjBZqiJxCtN0Xf5j2PVIv5fsRSsQdH0sDCeHMnMRLGZQOoY2IimPSZQo7jxGk4UTXFMF
- hVWb7AguNT3WR/C6My70I9jWYVfyoWOnOIyH/oqJ2DFZNm4hT4d72s181mnKdZJn1S15Ngqiyp
- bH0=
-X-IronPort-AV: E=Sophos;i="5.79,342,1602518400"; d="scan'208";a="157272249"
+ bh=H6WKAOvS9K42+IxKmAFc7sFIm6sD4xp2WIr4KjkcEQk=;
+ b=jycerl+TyKKtaTGHFk4G0JHqtLe2cYH8A18vjf51Bz2wRVOekB6btjqX
+ cvfE4T/z/CSgJAEu50vS0WepOzqhvBO4H5kbaIUxyh3ghdpcfrIfc9yfQ
+ lSBrHgc8stUJQ3pnDHsr6O1+6a0AP4ZMEmzRw4MBebs2hIpZcAvT4rHOy
+ TMr13yOYyE7RonC0gMu7OsC8N2jVxb/jM9n9tK8BHRbNmNNKD2gKG29sa
+ iyN3D6vKv8DxXyLSuBWBZG4JitIThvTdGuNcoE/GL75Cxrj7Sl+VQo0qU
+ ejsX5Q76E57Q4GKIFZyKK6lSNzevQdz3RkNKDB6FchoQD4KN4clED2KRv A==;
+IronPort-SDR: d/ZF1g3Tq7bvgzgqONODagd6qiqSURnK2zbrJRxthEv4XmR0MZg65yPpOMY4ttAOWlbrQhktrS
+ zcJ9WCl3gz0DE3Fbr989TKTxPKYSQxwoKDB2Vvk/3EIbLftCWmR5aFeSfXJZDu2qvZlLweSGJf
+ FDSD0yhlS17+TjPrjEjp4mXN+Y3TOWmwjA6f2l7Zz0XMO71QdJqPm/y7FG3kiCEH7WZ2/BwCU7
+ Bey1et6E2CaeBT1JopHwDEJ+M7AG2LWd4/g1S1aIPYo1d+1L19D0tkBfYFFQ8+WUrcXnmzJw7g
+ lqw=
+X-IronPort-AV: E=Sophos;i="5.79,342,1602518400"; d="scan'208";a="267576977"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 13 Jan 2021 05:14:36 +0800
-IronPort-SDR: 0mnAki61f7EPwZnTUCi60KnKkLUoZsz6n9YdHx7aXK4nAgZYqa2srkDawAA6mMGH6QM4oKBHgX
- Jlog7xswqRzuwM8Tg00vy7HjUry8Ew3DK0419SstCeFsEzVsVx4GpeKkZhNyrPr7enpmZDuX0l
- 57jGfBsRGDbiLgOAKZrcNVBiLdnOZscg9QZV3e0Pwb4SoeLYGOVp8LmUoa1xn9dFYqz/hz46+c
- y8LHhiCpJzdGm3cA2yfLGtj8kXKmCPxu9TeTIzWWCGhfPwlTsIXLvDAf2UJWzBZlBk5RgEEHzn
- Gdka+r4dKJSy44wg8ZS90gvV
+ by ob1.hgst.iphmx.com with ESMTP; 13 Jan 2021 05:14:44 +0800
+IronPort-SDR: Rb+9j4GXjLncRii461ovbP+BNE1v9mY7mO68ZUHzddrtGQUu0HIZooU0qmS5ljsRDBkCOCYGED
+ twGjnREAN5ZHby99lhLeN0du344qW8mJODVP3vkDWIlC4lZ9AcEGhNDQVOmxqM1Yz6CqbWRgNp
+ j5QRBSOZx2zXldmEXqtKcpCMbtj7zcf+Wf3UZz1h/Sbs65+lsUmo2wqColRHclSXi6WDyDuBL+
+ GCSr6kwmAebUnbHYp85JSlagA2nJK2RZCVmQGQHhsCdle2MxUHQM4DhLEvgiC37xihCipq1A//
+ lb/JzHgUxoUwhtnVSnC9IQY3
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2021 12:59:21 -0800
-IronPort-SDR: cLMAQc2fud/DNb2qN1QydCEJ2tq/p59Gq+0zdCh3jxRusE5YuhCGl4fJVv8wRp2vYbmlbkzlHy
- 0bDYHu4Y6CLlS3DVW1rs/BsYN5mRZGyGqVewyLaXGi4VtIHwApllhKQlxhYtRyjFq3i+/suZT4
- LtO6/fgeNHZsSUo1sB4TPID5DSYJfqI9ce7h+lW5WR/5CqvxSXcuS1gsTk0dbL60raIxBBMBYG
- VebrOJ4apzhCaJ562LoHhbJIcm8vniJGNPHZq/xOvSbb+EkjX4ZnDV8c/sgA1NSgP95sqB/5V4
- jpI=
+ 12 Jan 2021 12:59:28 -0800
+IronPort-SDR: nDGSH+p0kz10LfPAjYXD/oB5hqEzOPDJ4CZrVbh9ctWYT6rVZM1Ogit8ZT7bgINadEkM59Ngca
+ X0+YHaP3rMLpUPV0BeFTy9xTzVGnasIJDBGSlPS8RHlr3GPYgFuMvhVukKWZoIoDuPmByk22D6
+ SqLbkMJ8qYqqoHlz7a1bGhz4qoMSFlJsh7h7tfvf8juNsMPPMmxRYD6ZSaFYgneCW8eZ7l9s0+
+ 14Z48Oz46972MrjJ+VZ9viLQrCnFFJdXGMtq1ppYmSsHQkFTdgl9cZCYJrOoSI4DNHKkdUVt2h
+ Q3k=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip01.wdc.com with ESMTP; 12 Jan 2021 13:14:37 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 12 Jan 2021 13:14:44 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [V3 3/4] nvmet: remove extra variable in id-desclist
-Date: Tue, 12 Jan 2021 13:14:09 -0800
-Message-Id: <20210112211410.24742-4-chaitanya.kulkarni@wdc.com>
+Subject: [V3 4/4] nvmet: remove extra variable in identify ns
+Date: Tue, 12 Jan 2021 13:14:10 -0800
+Message-Id: <20210112211410.24742-5-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210112211410.24742-1-chaitanya.kulkarni@wdc.com>
 References: <20210112211410.24742-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210112_161438_613301_0C325735 
-X-CRM114-Status: GOOD (  13.96  )
+X-CRM114-CacheID: sfid-20210112_161445_839399_CC15B332 
+X-CRM114-Status: GOOD (  16.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,67 +104,97 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 We remove the extra local variable struct nvmet_ns in
-nvmet_execute_identify_desclist() since req already has ns member that
-can be reused, this also eliminates the explicit call to
-nvmet_put_namespace() which is already present in the request
-completion path.
+nvmet_execute_identify_ns() since req already has ns member that can be
+reused, this also eliminates the explicit call to nvmet_put_namespace()
+which is already present in the request completion path.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 30 ++++++++++++++----------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index d6713139708a..5a75676da259 100644
+index 5a75676da259..1952ff28f95c 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -605,37 +605,35 @@ static u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
- 
- static void nvmet_execute_identify_desclist(struct nvmet_req *req)
+@@ -467,7 +467,6 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ static void nvmet_execute_identify_ns(struct nvmet_req *req)
  {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
 -	struct nvmet_ns *ns;
+ 	struct nvme_id_ns *id;
  	u16 status = 0;
- 	off_t off = 0;
  
--	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
+@@ -484,20 +483,20 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 	}
+ 
+ 	/* return an all zeroed buffer if we can't find an active namespace */
+-	ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
 -	if (!ns) {
-+	req->ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
++	req->ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
 +	if (!req->ns) {
- 		req->error_loc = offsetof(struct nvme_identify, nsid);
- 		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
- 		goto out;
+ 		status = NVME_SC_INVALID_NS;
+ 		goto done;
  	}
  
--	if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-+	if (memchr_inv(&req->ns->uuid, 0, sizeof(req->ns->uuid))) {
- 		status = nvmet_copy_ns_identifier(req, NVME_NIDT_UUID,
- 						  NVME_NIDT_UUID_LEN,
--						  &ns->uuid, &off);
-+						  &req->ns->uuid, &off);
- 		if (status)
--			goto out_put_ns;
-+			goto out;
- 	}
--	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid))) {
-+	if (memchr_inv(req->ns->nguid, 0, sizeof(req->ns->nguid))) {
- 		status = nvmet_copy_ns_identifier(req, NVME_NIDT_NGUID,
- 						  NVME_NIDT_NGUID_LEN,
--						  &ns->nguid, &off);
-+						  &req->ns->nguid, &off);
- 		if (status)
--			goto out_put_ns;
-+			goto out;
+-	nvmet_ns_revalidate(ns);
++	nvmet_ns_revalidate(req->ns);
+ 
+ 	/*
+ 	 * nuse = ncap = nsze isn't always true, but we have no way to find
+ 	 * that out from the underlying device.
+ 	 */
+-	id->ncap = id->nsze = cpu_to_le64(ns->size >> ns->blksize_shift);
+-	switch (req->port->ana_state[ns->anagrpid]) {
++	id->ncap = id->nsze = cpu_to_le64(req->ns->size >> req->ns->blksize_shift);
++	switch (req->port->ana_state[req->ns->anagrpid]) {
+ 	case NVME_ANA_INACCESSIBLE:
+ 	case NVME_ANA_PERSISTENT_LOSS:
+ 		break;
+@@ -506,8 +505,8 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 		break;
+         }
+ 
+-	if (ns->bdev)
+-		nvmet_bdev_set_limits(ns->bdev, id);
++	if (req->ns->bdev)
++		nvmet_bdev_set_limits(req->ns->bdev, id);
+ 
+ 	/*
+ 	 * We just provide a single LBA format that matches what the
+@@ -521,25 +520,24 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 	 * controllers, but also with any other user of the block device.
+ 	 */
+ 	id->nmic = (1 << 0);
+-	id->anagrpid = cpu_to_le32(ns->anagrpid);
++	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+ 
+-	memcpy(&id->nguid, &ns->nguid, sizeof(id->nguid));
++	memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
+ 
+-	id->lbaf[0].ds = ns->blksize_shift;
++	id->lbaf[0].ds = req->ns->blksize_shift;
+ 
+-	if (ctrl->pi_support && nvmet_ns_has_pi(ns)) {
++	if (ctrl->pi_support && nvmet_ns_has_pi(req->ns)) {
+ 		id->dpc = NVME_NS_DPC_PI_FIRST | NVME_NS_DPC_PI_LAST |
+ 			  NVME_NS_DPC_PI_TYPE1 | NVME_NS_DPC_PI_TYPE2 |
+ 			  NVME_NS_DPC_PI_TYPE3;
+ 		id->mc = NVME_MC_EXTENDED_LBA;
+-		id->dps = ns->pi_type;
++		id->dps = req->ns->pi_type;
+ 		id->flbas = NVME_NS_FLBAS_META_EXT;
+-		id->lbaf[0].ms = cpu_to_le16(ns->metadata_size);
++		id->lbaf[0].ms = cpu_to_le16(req->ns->metadata_size);
  	}
  
- 	if (sg_zero_buffer(req->sg, req->sg_cnt, NVME_IDENTIFY_DATA_SIZE - off,
- 			off) != NVME_IDENTIFY_DATA_SIZE - off)
- 		status = NVME_SC_INTERNAL | NVME_SC_DNR;
--out_put_ns:
+-	if (ns->readonly)
++	if (req->ns->readonly)
+ 		id->nsattr |= (1 << 0);
 -	nvmet_put_namespace(ns);
-+
- out:
- 	nvmet_req_complete(req, status);
- }
+ done:
+ 	if (nvmet_copy_to_sgl(req, 0, id, sizeof(*id)) && !status)
+ 		status = NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
 -- 
 2.22.1
 
