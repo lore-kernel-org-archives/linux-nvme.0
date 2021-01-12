@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CDDC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 04:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ACEBC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 04:28:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3CCE122D2A
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 04:28:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3CCE122D2A
+	by mail.kernel.org (Postfix) with ESMTPS id C078622D05
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 04:28:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C078622D05
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,69 +23,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=T4G2QLk1BmrOWuATbfmnhpqrTfGzINme5ZELNmJCGBE=; b=kc07BxIh8zLl2f9UlwhBB8sB3
-	WFuk1SYi1ZKaTgIZU4orB7wSVpXilVTEdo+HkvtSOiNsBAWm31qnTVPHcCPNhrCDaLLmBf4qc8y6x
-	966BVJ9r65i5APHV4tPUsiGjgaLaGLSqWY+5DW48dBoGlA4ziPYqYKUhzAg0qN9HhZEoDxkmlDmGB
-	fT+94/ZfCfXXz15tme84p8uegbflkciaUqh26cGRldLBDynKJJNP2/WgNR/fgfeqBxpAbSlPLirJZ
-	Ty+3GwNkYG0I1BJ38UJkp82+Mm8Wa4cSFiQfbtWe1DsL1HJ3QkWsa8nnIToHqH2cW7eikLimcG+9/
-	BIVgBN+uQ==;
+	 bh=sP621EdieohlYIDjsYqbTOHxW01FeUL+KzNpwTV9DEk=; b=PKDT9BgaN+k/v8vcF3IS5KD3v
+	uZV98t2QKlQ+1E2UL8TOTYdha4AvuW7UhyrZLSwamBhWqcwq4ilr7deF0kGq64iM9AKMe4Lahd4oi
+	wHuET8DABXq0l+P3AgP8qShS7zrhgD1gUaOvnMTbpdjesUR2kCp1n5d669BtIixLdG+alT75k3A8p
+	DTKLPkgmMt5b+CkaHEtrLhf7Id+JqYGJEwih5f1Fgrz72TBuk8W28OJjMvX/RURW/34udLEpR8x5t
+	PT+CyRZXRbcg2TmsxJp/mOEEok6LDztzqC+TBpPCx1NKB/5duYM2OAAxKl6ELDu2doUCAuYBAx+ov
+	IfqMSZKQw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzBHi-000146-CL; Tue, 12 Jan 2021 04:27:58 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1kzBHu-0001AR-IK; Tue, 12 Jan 2021 04:28:10 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzBHc-000110-IR
- for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 04:27:56 +0000
+ id 1kzBHl-00015c-UC
+ for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 04:28:04 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1610425672; x=1641961672;
+ t=1610425681; x=1641961681;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=mkVK7yH9lL1rJQMlF1XEDeT3WD/vS4iMg1KelSLXgKo=;
- b=OQqjvGA29ngdrwuUpZgclKrrFXodCu8Qz4yaN20HS/sSySpsVT5NJZ0H
- u2yd0rSX0LnytweiuUz2q7vZOSjQmnbl+qYJLmaU98qgNEXONp+ZrZKB9
- Vtrvp3cWnI2k5oh1HGSMVbHd7AG3k5draHzoQzv0EZIceL1RI17S+bn7i
- /LQm+MPjOgLZMQAadF7fHgcR+eHp49L0/7LW/W5kH7XvAchiKG1eVf/uS
- KLE78FwyX4Br2bELzHOmzZoYc1KZO3nHsNydI65u1j8iYS03LOR9V65+b
- JHD66cYA3w7Sjv9ZMNQLUY5T7eSg8sD7XBPZt/6ff1v6DVv/90HZO0l4g g==;
-IronPort-SDR: 5GqFz0gvNT0EvjhjLuDjnszrTrVGMo1cspg/PwqlO1qxdEZgkl2suA7nb9wzM/3ZFgi/lMvCj8
- rvU4uotC7yWXCcDRpAC/aihjq6M5eoB+Pd298V0C/es53a/y9Ep9HntpyjI5cMpda0xcj5a8k6
- uYn1/0Y2gjyq/WRhe6W90BIwnFn2q8ExlXHU0htXuytbHphBdueMgn4tiqag4ixf4ANuiP9LK2
- hHIuVmvHya3KfITh04jcoX4o75YfTS6Ujg9RpF0/cBvOs8ifpiYawiEryiCe0OjiuCMvJPCUkh
- YeA=
-X-IronPort-AV: E=Sophos;i="5.79,340,1602518400"; d="scan'208";a="158381174"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 12 Jan 2021 12:27:51 +0800
-IronPort-SDR: LxxqzQMwiHgRYAhqEtR/wpVTkIQZPq0iIGO1a90PL36Av8PJlS3t5vVSVQtePGLeQ2SeDTEv6g
- i1/FNNsOV15W38wn9rjE4gqqoOBEQN20PFf0g5rGa5Yzp47u8ZUJb64/IEtw6S0mY4ieFm/0Kz
- GojHSpEUZ0sN/IV+CsvWtIH9m3+4qpGr3dhKhqMoyoKa+07jggKdLE37tCYcQuEi1L52LtdkNP
- qS1bOkUVgBgjRqiaAGpKgy5qNBQt5Pum2bMH1h7C4PXjO4/VRwpRtAep/6r6u4pRdmCTkaPGhV
- zkM0ebE3xxUmKEz7dl8EIfcM
+ bh=qwXyOBMpSjhNvMX3TuA4Swa6BZth8f79ppVgwTS1V1A=;
+ b=S0HcdCoF1E+RpCStD0wHVcWbXWG/K/WxlhCMNgIPMEF50u6qNEoc2YsH
+ nHTRX/Cz2uu3i5EfEZnu0kFs1IuIw0ynovs8pNbM7En1+e0iN0mw16LPl
+ z9nwSB1uRBjOATTtOECLGG27gFXfdedq7fSjD9K0cmbSlugT7G4GZ3/h4
+ WLAYhDdrs/0n+qMfVDwrYUCNwlOtcOd0tSZUbH3VmMJSNg764jfYrb/8F
+ kNUt4GiNd5WvpfBQrO5uKBtfkF7jSnzz6gH917fEKLyiPRVKuLNLQXjly
+ G56b/I3CpeYA9BtbFbNfRsCTOTNodmxZHj7PIkeoQOPE7mrfILfdkEBoS Q==;
+IronPort-SDR: ETCnTx+CPGSkNJ9ASskQp/HXCurYTx9JsZdPilytFYvlVBatKN5pBavgcXxCUXjqVlT734ZkRU
+ bQoxDH5dCw1W6N0DyUMIj+hjgjv6lWohY0pJl90bAuqocZs4MngmyRTkPEGJnJuAgMCrDnOe+w
+ 0cSZoLMhAugQBa/3LnKM9WuaKg9ytQ/bfdENeUJ3N9gEMtfu+iHiuBgSI4/vX2K6DVYtUi40Y4
+ RvlUEfRYtqZJxtf0ArMREYdXqe9CViAFF/eVl8MgxtwlRALKXZDTcNNcm08lzejn0AbiVIYB1u
+ O4M=
+X-IronPort-AV: E=Sophos;i="5.79,340,1602518400"; d="scan'208";a="267504917"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 12 Jan 2021 12:28:00 +0800
+IronPort-SDR: 1oe/fVCL6RbqT7ZuyAAmo5DSKoEbdWse8EvuMbTm0dr9nH4tbv3zHBubAv5ss6dPLpmPElPWrc
+ woP04l0+NSwOTswx8vWc/99vh0lcsef/KdO2Auq5mQRYujXzTv90bvI+SQCDiPxhDawK3p9T/1
+ Rdha1axshh7g09Q1x4sxg5nowE1PSWmXZ7luMEcKXto00VAVrecFBDHa0P1NlKNuE7+hcEWA8W
+ wThzDQScgagqHbyyDXbSus5dY6bVANa+sD4bQPcl78Mh3AFxlGIzWDHR5oeUFaKErVSp1ZMGBn
+ n9p3Gsj9nOPY2iAYQWacK5Le
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2021 20:10:44 -0800
-IronPort-SDR: 7tCkuG4QOhKS272Hg88kxZohCM1ZnvsSJQI7gWspgz0AH+5wZl3u7NrxobRGnuMs04fmuGPvvU
- Segbqb1mC8uBV6gsLous42UXP4pdxVrse2TnqzuC203ErZ+gJrsLKPbs5JGkXultFjFrYfkOhn
- vejhVy8M6c0F7LiEa1V9VHr3YF9qPGsCo4XDuXD4Lderd3Xi7BUaSBvEGo2c3c4UKesnThw57q
- uGhDxWSWqNetmDy6ZBG8hH4tS83izbk1HT00rhjFrIddDWIYFoAzxLz9XE65s8HuB4NKXfLFR1
- EEs=
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2021 20:12:45 -0800
+IronPort-SDR: ENoUV6ViD+OhN4SyMyEOGFgI1dfOUK26uYgQuHPz0wjpqBXCXRofaWIQj9QJ1FEOdiBsp/jLbq
+ dWvFH7tbkuwLeUOngPa6+3Irn8pa/s/qNgi2Y2McntxGmIeS/BLyrWeOjRQ3KI6gtx/4DUOlw3
+ c10XoWgTBpgKuVT8DRRbvmh6ip62q/G3tQqoiBlZS+sLMzfWi3+IDg/be2kFeDtr5lDCcjM0rG
+ cieMweCeSYmMbjjrNtYIxm5v6vb7pDPEKACiGlxSu1DXvAoQCI2TPlk3i05ornGsBMNF4jSOGT
+ 4mc=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 11 Jan 2021 20:27:50 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 11 Jan 2021 20:28:00 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH V9 8/9] nvmet: add common I/O length check helper
-Date: Mon, 11 Jan 2021 20:26:22 -0800
-Message-Id: <20210112042623.6316-9-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V9 9/9] nvmet: call nvmet_bio_done() for zone append
+Date: Mon, 11 Jan 2021 20:26:23 -0800
+Message-Id: <20210112042623.6316-10-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210112042623.6316-1-chaitanya.kulkarni@wdc.com>
 References: <20210112042623.6316-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210111_232752_782960_84C5CB52 
-X-CRM114-Status: GOOD (  17.45  )
+X-CRM114-CacheID: sfid-20210111_232803_825913_D41558C7 
+X-CRM114-Status: GOOD (  14.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,107 +104,88 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With the addition of zns backend now we have three different backends
-with which checks for the nvmet request's transfer len and nvmet
-request's sg_cnt. That leads to having duplicate code in for three
-backends: generic bdev, file and generic zns.
+The function nvmet_bdev_execute_zone_append() does exactly same thing
+for completion of the bio that is done in the nvmet_bio_done(),
+completing the request & calling nvmet_bio_put()_to put non online bio.
 
-Add a helper function to avoid the duplicate code and update the
-respective backends.
+Export the function nvmet_bio_done() and use that in the
+nvmet_bdev_execute_zone_append() for the request completion and bio
+processing. Set the bio->private after the call to submit_bio_wait() to
+nvmet request. The call to nvmet_bio_done() also updates error log page
+via call to blk_to_nvme_status() from nvmet_bio_done().
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/io-cmd-bdev.c |  8 +-------
- drivers/nvme/target/io-cmd-file.c |  7 +------
- drivers/nvme/target/nvmet.h       | 14 ++++++++++++++
- drivers/nvme/target/zns.c         |  7 +------
- 4 files changed, 17 insertions(+), 19 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c |  2 +-
+ drivers/nvme/target/nvmet.h       |  1 +
+ drivers/nvme/target/zns.c         | 10 ++++------
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 562c2dd9c08c..c23a719513b0 100644
+index c23a719513b0..72a22351da2a 100644
 --- a/drivers/nvme/target/io-cmd-bdev.c
 +++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -240,16 +240,10 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	int op, i, rc;
- 	struct sg_mapping_iter prot_miter;
- 	unsigned int iter_flags;
--	unsigned int total_len = nvmet_rw_data_len(req) + req->metadata_len;
- 
--	if (!nvmet_check_transfer_len(req, total_len))
-+	if (!nvmet_continue_io(req, nvmet_rw_data_len(req) + req->metadata_len))
- 		return;
- 
--	if (!req->sg_cnt) {
--		nvmet_req_complete(req, 0);
--		return;
--	}
--
- 	if (req->cmd->rw.opcode == nvme_cmd_write) {
- 		op = REQ_OP_WRITE | REQ_SYNC | REQ_IDLE;
- 		if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 0abbefd9925e..e7caff221b7b 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -241,14 +241,9 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- {
- 	ssize_t nr_bvec = req->sg_cnt;
- 
--	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
-+	if (!nvmet_continue_io(req, nvmet_rw_data_len(req)))
- 		return;
- 
--	if (!req->sg_cnt || !nr_bvec) {
--		nvmet_req_complete(req, 0);
--		return;
--	}
--
- 	if (nr_bvec > NVMET_MAX_INLINE_BIOVEC)
- 		req->f.bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
- 				GFP_KERNEL);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 93ebc9ae3fe4..f4f9d622df0d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -685,4 +685,18 @@ static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
- 		bio_put(bio);
+@@ -167,7 +167,7 @@ static u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
+ 	return status;
  }
  
-+static inline bool nvmet_continue_io(struct nvmet_req *req,
-+				     unsigned int total_len)
-+{
-+	if (!nvmet_check_transfer_len(req, total_len))
-+		return false;
-+
-+	if (!req->sg_cnt) {
-+		nvmet_req_complete(req, 0);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- #endif /* _NVMET_H */
+-static void nvmet_bio_done(struct bio *bio)
++void nvmet_bio_done(struct bio *bio)
+ {
+ 	struct nvmet_req *req = bio->bi_private;
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index f4f9d622df0d..ab84ab75b952 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -535,6 +535,7 @@ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
+ void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns);
+ int nvmet_file_ns_revalidate(struct nvmet_ns *ns);
+ void nvmet_ns_revalidate(struct nvmet_ns *ns);
++void nvmet_bio_done(struct bio *bio);
+ 
+ static inline u32 nvmet_rw_data_len(struct nvmet_req *req)
+ {
 diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index bba1d6957b6a..149bc8ce7010 100644
+index 149bc8ce7010..da4be0231428 100644
 --- a/drivers/nvme/target/zns.c
 +++ b/drivers/nvme/target/zns.c
-@@ -289,14 +289,9 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+@@ -283,7 +283,6 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ 	struct request_queue *q = req->ns->bdev->bd_disk->queue;
+ 	unsigned int op = REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
+ 	unsigned int max_sects = queue_max_zone_append_sectors(q);
+-	u16 status = NVME_SC_SUCCESS;
+ 	unsigned int total_len = 0;
+ 	struct scatterlist *sg;
  	int ret = 0, sg_cnt;
- 	struct bio *bio;
+@@ -306,7 +305,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
  
--	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
-+	if (!nvmet_continue_io(req, nvmet_rw_data_len(req)))
- 		return;
+ 		ret = bio_add_hw_page(q, bio, p, l, o, max_sects, &same_page);
+ 		if (ret != sg->length) {
+-			status = NVME_SC_INTERNAL;
++			bio->bi_status = BLK_STS_IOERR;
+ 			goto out_bio_put;
+ 		}
+ 		if (same_page)
+@@ -316,15 +315,14 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ 	}
  
--	if (!req->sg_cnt) {
--		nvmet_req_complete(req, 0);
--		return;
--	}
+ 	if (total_len != nvmet_rw_data_len(req)) {
+-		status = NVME_SC_INTERNAL | NVME_SC_DNR;
++		bio->bi_status = BLK_STS_IOERR;
+ 		goto out_bio_put;
+ 	}
+ 
+ 	ret = submit_bio_wait(bio);
+ 	req->cqe->result.u64 = nvmet_sect_to_lba(req->ns,
+ 						 bio->bi_iter.bi_sector);
 -
- 	bio = nvmet_req_bio_get(req, NULL);
- 	nvmet_bio_init(bio, req->ns->bdev, op, sect, NULL, NULL);
- 
+ out_bio_put:
+-	nvmet_req_bio_put(req, bio);
+-	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL : status);
++	bio->bi_private = req;
++	nvmet_bio_done(bio);
+ }
 -- 
 2.22.1
 
