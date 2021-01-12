@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 713E4C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 08:09:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E91C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 08:27:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F023222D2C
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 08:09:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F023222D2C
+	by mail.kernel.org (Postfix) with ESMTPS id AD17722DD3
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 08:27:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD17722DD3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jCrU1rwQFYcR9YL/hz4N+rxqlCmVCzJA5w3AL4V0CBM=; b=d8fMnFrDOUgVvqlfg0fEWRLTq
-	vkGbGP3dTXl3tA+QPzY3eLEdXu63Uka/3o48IPCDieHJaheOk3IiFSV6qmWWv35wjsbiR+GuaHCl5
-	M6bS40NSwVUEhHY5fiYGSCLrMPAv2tGxG000t+20kd97C8Nt8663j9HxCLBWd5Qh/T5AxFoFHGCyd
-	BfCJfXoPptcPIOvSgnJB6WSpmyo6BLqXYKK9w+weSHE5gT0XWFkpXHWjgfWmRR6BBaZTsZetUFlvk
-	kmX8W/hLTQAR63wQML9ZAXi2KgyJobrmZce95B46KCZvO5WZlADGsDGnbIrK4exDpBjA0AJ0C32WI
-	hkW3YM4YQ==;
+	 bh=lTXgRi7SHEw06lkNHBlHqp3VD2fwMBhmy3jWuYn7TPY=; b=qojEh0/VTvq1ruEVPgG5WZ7OY
+	LnVj2NTUaKD/laKbmf5bIiRIvU5MWWkmEgudBqiEFtxZVC8ULFXK7sHyznrHg/ayuFiiss8O+gkge
+	r3pf93rL4zDdunB0tHOP/yhm7B938/Ax1X4hP4LIOxxHYY5KlZBClYIskuSUl22BRLIXgacNalSe2
+	7J747LGa36tF5OAkO6LcpVNJqZ4r61PAe6rIZYlBrnx7RAGp2iA0B+LCMWZA+R6muLg3fgT9RWRkT
+	TO4N8/Yyqi06o0ylGk1LE4pXeJ5ScmbR//AV3+UfkNtz3I3B8GzCaYRpBJle2j+s6Evigw5uxrE4+
+	YfTkNy/tw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzEkA-0005oZ-E9; Tue, 12 Jan 2021 08:09:34 +0000
+	id 1kzF0w-00038h-84; Tue, 12 Jan 2021 08:26:55 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzEk4-0005mp-Lg
- for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 08:09:31 +0000
+ id 1kzF0s-00035R-CC
+ for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 08:26:51 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id A74C967373; Tue, 12 Jan 2021 09:09:26 +0100 (CET)
-Date: Tue, 12 Jan 2021 09:09:26 +0100
+ id 8667867373; Tue, 12 Jan 2021 09:26:41 +0100 (CET)
+Date: Tue, 12 Jan 2021 09:26:41 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH 3/3] nvme: add parameter command_retry to enable retry
-Message-ID: <20210112080926.GD24949@lst.de>
-References: <20210108144659.7126-1-minwoo.im.dev@gmail.com>
- <20210108144659.7126-4-minwoo.im.dev@gmail.com>
+To: leonid.ravich@dell.com
+Subject: Re: [PATCH v2] nvmet-fc: associations list protected by rcu,
+ instead of spinlock_irq where possible.
+Message-ID: <20210112082641.GA25502@lst.de>
+References: <20201224110542.22219-1-leonid.ravich@dell.com>
+ <1609697575-103348-1-git-send-email-leonid.ravich@dell.com>
+ <1609697575-103348-2-git-send-email-leonid.ravich@dell.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210108144659.7126-4-minwoo.im.dev@gmail.com>
+In-Reply-To: <1609697575-103348-2-git-send-email-leonid.ravich@dell.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210112_030929_851358_33D3FD27 
-X-CRM114-Status: GOOD (  11.65  )
+X-CRM114-CacheID: sfid-20210112_032650_559714_B59F636F 
+X-CRM114-Status: UNSURE (   6.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,22 +66,18 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, james.smart@broadcom.com,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, lravich@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 08, 2021 at 11:46:59PM +0900, Minwoo Im wrote:
-> This patch added a module parameter named command_retry to turn on the
-> command retry feature in this driver.  If turning it on,
-> REQ3_FAILFAST_DRIVER will not be set to requests so that retry can be
-> reached out to nvme_retry_req() based on the module parameter.
+Thanks,
 
-Why would we want to do that, and if so why only conditional on a module
-parameter?
+applied to nvme-5.11.
 
 _______________________________________________
 Linux-nvme mailing list
