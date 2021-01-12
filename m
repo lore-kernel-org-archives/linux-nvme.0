@@ -2,19 +2,19 @@ Return-Path: <SRS0=XnCc=GP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84577C433E9
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 12:57:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38268C433E6
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 12:57:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2877A23129
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 12:57:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2877A23129
+	by mail.kernel.org (Postfix) with ESMTPS id BA94823131
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Jan 2021 12:57:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA94823131
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,38 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DdmAdM/98IE4TrhNbqxhqpkyNLaWFOVP0CnTj0rNhlA=; b=1ApvlaZrlOGo2wByICIGPOizY
-	LA6u/o9WRy+c7gEjI/5AlcNlz3GheQqgYpP1sNl3fuxRTY4kylRwvVbYuQxUfxJnt908AoFeapgzu
-	OADMOvnDR63UcJmNYYVsv4pIoKtyJJfd8CvAHE6+v7IujZ8Ep1auudb0vfn12RVdHmF2NGF87qd5Q
-	ivzLsDpH3OQfpxc0T2xxbjxYzjz6m+PIvfz9V8cM2CGHVi125rxzg6+iEha7yJYrbqxDCm+VEiyTQ
-	sztphE/kxXY4qIME6dGANU3+vyGkHQ+ULBQvoRgjKWaDMAewsEtSSFdXBAsFCpWwLwE33CrMrtefB
-	0i8vw2+ww==;
+	 bh=6JhaEUUBMVIfNIZ2WBYmWemoZcPt54ckDwN67ed7scA=; b=oUjco1aRBxZWtVP/nykitwDFS
+	QjiKW+i9RcPapQ9NbH1+zI3HjBRETy3Lf7QnKHLoJncdhfHzFzmFvuHrI+Wngj7wA0xEz/WKDeB3T
+	MSR2kYXEqW07NQR8Ebmb/++TgRAO8YaqY04xBQqSpIxDbY1uezKDT74kKkZCHHyvYTgppgeftD7y1
+	I7AjagriDMB6yq+qQXNdLBw3HVVq+dZXFIBDo+ZvPQmkSEONx/d5gORnSV6yyCbYlgBw4kCw/732a
+	q9Hr5o0309TmGtvAB9Jsk5O6KXBjfbKEN1gMZrPswmKzcKS35nvPTTSo0b9pK1cQ3tekhbDi0N53v
+	fRbOjkj6w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzJEO-0000Zh-Gr; Tue, 12 Jan 2021 12:57:04 +0000
+	id 1kzJES-0000cI-Ll; Tue, 12 Jan 2021 12:57:08 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzJDn-0000Gv-5e
+ id 1kzJDo-0000HT-I6
  for linux-nvme@lists.infradead.org; Tue, 12 Jan 2021 12:56:31 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A6E102313E;
- Tue, 12 Jan 2021 12:56:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E10D92332A;
+ Tue, 12 Jan 2021 12:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610456186;
- bh=6F7ZdDt4Gdnvj9HB0/c8v4mGbdGjGQCEU00+4wZsiBk=;
+ s=k20201202; t=1610456187;
+ bh=EjGNnS50natGBkIa2TTFogr5F7Cron9uqr8pY0Zl1LQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ULvVA36tYqVFn36aykf8KsrthytzYGv2yJGbJ8u55R06T92yYq0b4qSDPteDHGw9V
- Bwd6ngccJtFnFLe7beHlhjqm91Q6hKJPVNUf6H3Uf41JjnrOpjStV5JpoM52JpLy1d
- iwRdm5ckQNgL51f6MLGZJfMQDHmftf8cdpFaZ/ScVQUOwDW6C3NRnEZv6b6prxC5kP
- +BcWB8+JfHT2i7yrzrVeE/NAmUukPwDn58fWJ6PiuPhV8C4IFfRIoTYAmPaeCPg6Gz
- C+5wUvmjIuLrNmiWVY4ugRhpdFFKvQ7iG9DxT7bGn7MzWEnMGij8tCGKfZ1C6KwoIV
- TlFghPJR7nhgg==
+ b=IXsCB0nRryze43y9DPBAhWR7PCe1SL5FjWnJRqXQD5rCXrFOcBWGRWbGJT1lpqp8K
+ 0gxl8aPeRdLPBqpBjRKb/Sa9Ynjf0pTCyndIELtGFiHK2kv+zAz6vOswlOUHcdKbCD
+ ca8IhBs4WRWLjwhWVTra/lbMxYYIi/45KrmGlCbjm3LOoHkPzFPjjjTiP7VNIrgD+n
+ s25c03yLQoyfClGlb9ARJ8nQgLXDp4Ept6tkQBm97q3ziSbnLYLjuNOhrbGigCO8mW
+ QUPN6okc2MJla6JqU2dkJaprgPWfLQk5fTp4rPDo94SptV0DiSoaoYSYt+V6XVAifK
+ OtbHaVQALHpPw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 39/51] nvme: avoid possible double fetch in
- handling CQE
-Date: Tue, 12 Jan 2021 07:55:21 -0500
-Message-Id: <20210112125534.70280-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 40/51] nvmet-rdma: Fix list_del corruption on
+ queue establishment failure
+Date: Tue, 12 Jan 2021 07:55:22 -0500
+Message-Id: <20210112125534.70280-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210112125534.70280-1-sashal@kernel.org>
 References: <20210112125534.70280-1-sashal@kernel.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210112_075627_357062_DDC4B0D4 
-X-CRM114-Status: GOOD (  12.57  )
+X-CRM114-CacheID: sfid-20210112_075628_755162_BC7E22CA 
+X-CRM114-Status: GOOD (  11.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,72 +75,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Lalithambika Krishnakumar <lalithambika.krishnakumar@intel.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+Cc: Israel Rukshin <israelr@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Lalithambika Krishnakumar <lalithambika.krishnakumar@intel.com>
+From: Israel Rukshin <israelr@nvidia.com>
 
-[ Upstream commit 62df80165d7f197c9c0652e7416164f294a96661 ]
+[ Upstream commit 9ceb7863537748c67fa43ac4f2f565819bbd36e4 ]
 
-While handling the completion queue, keep a local copy of the command id
-from the DMA-accessible completion entry. This silences a time-of-check
-to time-of-use (TOCTOU) warning from KF/x[1], with respect to a
-Thunderclap[2] vulnerability analysis. The double-read impact appears
-benign.
+When a queue is in NVMET_RDMA_Q_CONNECTING state, it may has some
+requests at rsp_wait_list. In case a disconnect occurs at this
+state, no one will empty this list and will return the requests to
+free_rsps list. Normally nvmet_rdma_queue_established() free those
+requests after moving the queue to NVMET_RDMA_Q_LIVE state, but in
+this case __nvmet_rdma_queue_disconnect() is called before. The
+crash happens at nvmet_rdma_free_rsps() when calling
+list_del(&rsp->free_list), because the request exists only at
+the wait list. To fix the issue, simply clear rsp_wait_list when
+destroying the queue.
 
-There may be a theoretical window for @command_id to be used as an
-adversary-controlled array-index-value for mounting a speculative
-execution attack, but that mitigation is saved for a potential follow-on.
-A man-in-the-middle attack on the data payload is out of scope for this
-analysis and is hopefully mitigated by filesystem integrity mechanisms.
-
-[1] https://github.com/intel/kernel-fuzzer-for-xen-project
-[2] http://thunderclap.io/thunderclap-paper-ndss2019.pdf
-Signed-off-by: Lalithambika Krishna Kumar <lalithambika.krishnakumar@intel.com>
+Signed-off-by: Israel Rukshin <israelr@nvidia.com>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/nvme/target/rdma.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 143f16a9f8d7e..a89d74c5cd1a7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -967,6 +967,7 @@ static inline struct blk_mq_tags *nvme_queue_tagset(struct nvme_queue *nvmeq)
- static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- {
- 	struct nvme_completion *cqe = &nvmeq->cqes[idx];
-+	__u16 command_id = READ_ONCE(cqe->command_id);
- 	struct request *req;
- 
- 	/*
-@@ -975,17 +976,17 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- 	 * aborts.  We don't even bother to allocate a struct request
- 	 * for them but rather special case them here.
- 	 */
--	if (unlikely(nvme_is_aen_req(nvmeq->qid, cqe->command_id))) {
-+	if (unlikely(nvme_is_aen_req(nvmeq->qid, command_id))) {
- 		nvme_complete_async_event(&nvmeq->dev->ctrl,
- 				cqe->status, &cqe->result);
- 		return;
- 	}
- 
--	req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), cqe->command_id);
-+	req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), command_id);
- 	if (unlikely(!req)) {
- 		dev_warn(nvmeq->dev->ctrl.device,
- 			"invalid id %d completed on queue %d\n",
--			cqe->command_id, le16_to_cpu(cqe->sq_id));
-+			command_id, le16_to_cpu(cqe->sq_id));
- 		return;
- 	}
- 
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 5c1e7cb7fe0de..bdfc22eb2a10f 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1641,6 +1641,16 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
+ 	spin_lock_irqsave(&queue->state_lock, flags);
+ 	switch (queue->state) {
+ 	case NVMET_RDMA_Q_CONNECTING:
++		while (!list_empty(&queue->rsp_wait_list)) {
++			struct nvmet_rdma_rsp *rsp;
++
++			rsp = list_first_entry(&queue->rsp_wait_list,
++					       struct nvmet_rdma_rsp,
++					       wait_list);
++			list_del(&rsp->wait_list);
++			nvmet_rdma_put_rsp(rsp);
++		}
++		fallthrough;
+ 	case NVMET_RDMA_Q_LIVE:
+ 		queue->state = NVMET_RDMA_Q_DISCONNECTING;
+ 		disconnect = true;
 -- 
 2.27.0
 
