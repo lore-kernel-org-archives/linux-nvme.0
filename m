@@ -2,79 +2,73 @@ Return-Path: <SRS0=mLmp=GQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB2EC433E6
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jan 2021 21:57:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29999C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jan 2021 21:57:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF7052313E
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jan 2021 21:57:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF7052313E
+	by mail.kernel.org (Postfix) with ESMTPS id A420C23136
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jan 2021 21:57:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A420C23136
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AXV50dVaki2BNhmkskMPEc2SUPGkLlbLA1LW8umJ2eY=; b=G7GSTvcESXpn1gH9HMwlw4IeI
-	Gc7jWN75pr597bT9htf2ozRUwbNKl3kPVm4Oxfb5f2BN9W7Ev+N+KOxKGjFv+Rf/99rlcaHnUoaqY
-	L+9gx8sUvURvLye6WG8q17KQDXgd8npN7831Olz/hvt+rEjK2jyTcMJK1+sF7uGEB5ZcCAt7uQeWP
-	i+qbZ441B6IcXKFO7yz+evzsgvk++zmzWMfiA5/0Z3jqihJMdukeWHLGEe0mGjQAe2Sg/xOK+0ZAG
-	NbKjbdNcyj1q6cYkpc1VybEREx11Oatjzc+gK1Nl+tHRmu1F0S89I7Ke4b1MsTQmGbNVLGhvURAh4
-	Aga2v/gTA==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=V/OSr/FU9+1jUfzo8Tdc9VRxmKlXo6kGxKr1ONA77wU=; b=kwCjGDnIIS1mBXu9ZEIl8HUS0Q
+	8U/+ZMk7+8e/tXD8yXjMAlscjjqjOLo3E83LuEtnAf6hbk8RjsF+NxuqAzH24qc+DXiyPM+ogINFO
+	xl60n00Cj6U1+y2dr9HYtS8MulViAoHgT7IUIjTpO9Jy73dHkEbrW/mzI4qZymhb9bZ8YU+XWVv0r
+	j11cFLkjvsfpnDzeOSpGGzx9k6SPGAOnfesJcNhRp/J+dM2oFBYfC74uHOT0etvp9YX10ReMfe0cw
+	ElcROSr60TENDurl0/gWnuAu2F48BU32JeeGV3a5V7DC+dSFexqTGvQhzbGJm+vSjH6X0byw7XTr5
+	iHvMcFpA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzo8F-0005G3-Oe; Wed, 13 Jan 2021 21:56:47 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1kzo8Y-0005Ia-Mj; Wed, 13 Jan 2021 21:57:06 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzo8C-0005FX-9d
- for linux-nvme@lists.infradead.org; Wed, 13 Jan 2021 21:56:45 +0000
-Received: by mail-wr1-f41.google.com with SMTP id v15so43193wrx.4
- for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 13:56:42 -0800 (PST)
+ id 1kzo8W-0005HE-6t
+ for linux-nvme@lists.infradead.org; Wed, 13 Jan 2021 21:57:05 +0000
+Received: by mail-wr1-f43.google.com with SMTP id w5so3701280wrm.11
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 13:57:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=0JfOkLAWZ4C5HPxx+sVKP+QqfNrkjNYLpW/pO/NooDQ=;
- b=fsWXjY+YfRKvlNPx4SfGBoX1G7JKGop66g/0ndOt8/hm3RNyh9KqtgzyGLCjayKoG3
- gJ1v40Kh+NxwRyZQGNkNmYO0hU1xyEoVYtz+1UJgI2m0RBWLLTvN+oVfRKMaaTrmmPbK
- 6UoDIBX1kO11rIZq8ZVE9WNNMjP86j2nkoFS8RQJiVtrvpTiZyL/SZ+LVbMoOrzOnZzQ
- 7JDVWD+MNsRWJaw70c9JXW6TSiFsGjji7NG+QN3OizvmMR0vu6WdzqqgWpBILyOKqB+P
- 80yIde1cSpriFJ/HoRUF6G1FIXXMwLVvkvITNZatIIORZ/jGNXyR0kprAIIPp4dvzffl
- oLvg==
-X-Gm-Message-State: AOAM530yzgM+UB+QX/Gloog75KmNF5BH4ZKWtKYbuSPKj/YakM1K46Q5
- yjKJriVWOBf0Y0uDWHGJ4V/Hf0TIaWc=
-X-Google-Smtp-Source: ABdhPJwNS/8OaJzX4pA/Ufne8qYKRxO/JUJMEeI0fBTHqWdEx/9D3mqD4X91oyN7ByyXOIWI/4sSOw==
-X-Received: by 2002:adf:df03:: with SMTP id y3mr4639555wrl.102.1610575001755; 
- Wed, 13 Jan 2021 13:56:41 -0800 (PST)
-Received: from ?IPv6:2601:647:4802:9070:e70c:620a:4d8a:b988?
- ([2601:647:4802:9070:e70c:620a:4d8a:b988])
- by smtp.gmail.com with ESMTPSA id n9sm5377165wrq.41.2021.01.13.13.56.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 13:56:41 -0800 (PST)
-Subject: Re: [PATCH] nvme-tcp: fix possible data corruption with bio merges
-To: Christoph Hellwig <hch@lst.de>
-References: <20210113182449.1580181-1-sagi@grimberg.me>
- <20210113183142.GA19254@lst.de>
+ bh=IHjGm60tqa8W5pdU5sGxvbMUWOnZwDBfwNw5s24adBY=;
+ b=pE9uc9n4VnqPxnQdYFmLy2QbO4psk7ywOQ14vL5L3wKk2AdVRjOpHfNJr3nXMuCXHH
+ lsBdajK/aLrg6RRBkKIhsS5y+lbZq+8SZBJjce4z6XjtGxmBXCkfly8LdQK+gz3s/fb+
+ 8dnnGO6uBCcmi+ng5+5gugKRKm5xPREVOP3MTLYwlxp4gclcvHsG1mnJWglQS4CwHBtV
+ UR0OWlixNj8BNwUTbBvuyoLiciTxeAiODsJbGkM+FXZLn0DDhX/f4EDBH5lrnjbygN67
+ 6mIop4l7Sv98mOU0D1LUov4CyW+62kkKK7AIM5D+qJqYHh1J0CddZEJaUjDEC8hYqyHv
+ IC3A==
+X-Gm-Message-State: AOAM530L8Z+MhZJyUkmtSJZz6qdUX8NjVAiCz+3ENfOOwpd7hh2H+grM
+ Z+y/5WsssJK91V0SWq3teUY=
+X-Google-Smtp-Source: ABdhPJw+24pLDdJag5dJgoXfLThVbj6UpX6mmLp8zLoB9/vW44+jqh19/dT80PFsUtn+dKiirwl1JA==
+X-Received: by 2002:adf:e590:: with SMTP id l16mr4662311wrm.294.1610575022639; 
+ Wed, 13 Jan 2021 13:57:02 -0800 (PST)
+Received: from localhost.localdomain ([2601:647:4802:9070:e70c:620a:4d8a:b988])
+ by smtp.gmail.com with ESMTPSA id l8sm7205124wrb.73.2021.01.13.13.57.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 13:57:02 -0800 (PST)
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <4aca0d8b-f873-1b78-9468-57e5864d9441@grimberg.me>
-Date: Wed, 13 Jan 2021 13:56:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>
+Subject: [PATCH v2] nvme-tcp: fix possible data corruption with bio merges
+Date: Wed, 13 Jan 2021 13:56:57 -0800
+Message-Id: <20210113215657.1613817-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210113183142.GA19254@lst.de>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210113_165644_424575_AE28CB0F 
-X-CRM114-Status: GOOD (  13.50  )
+X-CRM114-CacheID: sfid-20210113_165704_289340_DC19BA9C 
+X-CRM114-Status: GOOD (  15.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,29 +80,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+When a bio merges, we can get a request that spans multiple
+bios, and the overall request payload size is the sum of
+all bios. When we calculate how much we need to send
+from the existing bio (and bvec), we did not take into
+account the iov_iter byte count cap.
 
->>   static inline size_t nvme_tcp_req_cur_length(struct nvme_tcp_request *req)
->>   {
->> -	return min_t(size_t, req->iter.bvec->bv_len - req->iter.iov_offset,
->> -			req->pdu_len - req->pdu_sent);
->> +	return min_t(size_t, req->iter.count,
->> +			min_t(size_t, req->iter.bvec->bv_len - req->iter.iov_offset,
->> +				req->pdu_len - req->pdu_sent));
-> 
-> We are not supposed to directly poke into an iov_iter.
-> 
-> I suspect this should be something like:
-> 
-> 	return min_t(size_t, iov_iter_single_seg_count(&req->iter),
-> 		     req->pdu_len - req->pdu_sent);
+Since multipage bvecs support, bvecs can split in the middle
+which means that when we account for the last bvec send we
+should also take the iov_iter byte count cap as it might be
+lower than the last bvec size.
 
-You are absolutely right, will send out a v2. thanks.
+Reported-by: Hao Wang <pkuwangh@gmail.com>
+Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+Tested-by: Hao Wang <pkuwangh@gmail.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Changes from v1:
+- use iov_iter_single_seg_count instead of poking into the iov_iter
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 979ee31b8dd1..1ff6d6c5eb41 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -201,7 +201,7 @@ static inline size_t nvme_tcp_req_cur_offset(struct nvme_tcp_request *req)
+ 
+ static inline size_t nvme_tcp_req_cur_length(struct nvme_tcp_request *req)
+ {
+-	return min_t(size_t, req->iter.bvec->bv_len - req->iter.iov_offset,
++	return min_t(size_t, iov_iter_single_seg_count(&req->iter),
+ 			req->pdu_len - req->pdu_sent);
+ }
+ 
+-- 
+2.25.1
+
 
 _______________________________________________
 Linux-nvme mailing list
