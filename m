@@ -2,92 +2,85 @@ Return-Path: <SRS0=mLmp=GQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71ABBC433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jan 2021 11:57:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 753E2C43381
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jan 2021 14:35:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EDC8B233F7
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jan 2021 11:57:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDC8B233F7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	by mail.kernel.org (Postfix) with ESMTPS id F075023437
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Jan 2021 14:35:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F075023437
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=u4hE1c6uKlqWfNPuIL6g0q+CfupnYFE+OmusKkaagOo=; b=jNce//61DrHrLsEnlxVcOI2lNG
-	wU1+jtmb3EjpXB1qGTeKHMQmufrAsgcAJwPA3H7eNi7sP3J8pbqi1V6phhVhT+6i1nYp5MrGf57bj
-	hW0tJhnNPDmbRlTyj3/kdcDBI+mMEG4RxkNpJcLI3YKXlUaknfJBvohC8lWMaRc6HocPncGncvQVV
-	qSRYELFbkm8h2oJm7qSIw22uvzvAmk2ofO+I/0nuxEGUZbzaiUVzIe4xC1vsNh7/nHXNWHR03J7Si
-	Fi/C6Ix2aT/Oi/u56c6KbVzHmvQ7X+1gpLXiLTYUeXkZC6Uh5dCKTwZeOOMI9I1MQd8ouA9rZx62i
-	tk33mR+g==;
+	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/74b9LqsvXmLH2G4oIQ+JCWFN7SryWoY6m0N/KoFKrA=; b=nATQ9o2w8CVQfbHv7Xmh7W+Omv
+	YVWVRA855Paawu9ek0mtdctle8U6eNl0NXBuCs8nsU9rm0/k4nz85TTEh/P5rSI5hq2pYOWL4I2DN
+	9Fhy4lYNfjmemvGA4+FU61VuLdff/DLC6FszecSjyFar/hbfC++yrOdmhkVUtTo0FJ1ziZeCYWyHt
+	p0Lvc/k1tl74MEaP72dzYvkwI0EAx2enznIW/tC7SvteVUG5ubc6VWDIva+x+kmz7PXj//EbxASk8
+	6eFJwBPVk9QrCKa/DzH68yNb9qkLctrvXEPLbje0cZ+lv0V//ip1kW5V01VHjHVpQaJiM+pX2AWfd
+	81J5YWRA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzely-00079U-Pm; Wed, 13 Jan 2021 11:57:10 +0000
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
+	id 1kzhEw-0000b6-VU; Wed, 13 Jan 2021 14:35:14 +0000
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzelt-00078T-To
- for linux-nvme@lists.infradead.org; Wed, 13 Jan 2021 11:57:07 +0000
-Received: from pps.filterd (m0170393.ppops.net [127.0.0.1])
- by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10DBrUc6015318
- for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 06:57:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=7s0OuJh8ZVcb0+zT6V1Q9rXLs91YdNMH5x2JJ19F8pQ=;
- b=m6TJyW8DhQY3w3KQIpeAhnJ9dkXUHtnFRKJ3ao/v4fQ4syoapiwDlERJU5l2oCaetdOe
- lK6bqDi0dJt1XZ36TLhqGTnp/A1xLFiUVMFHv3ByOLBSFWl4dKA7kBNl5ptMtu8fzvXn
- KKeOjVXouEt5N9J1E1vA0P44HGRH/zhs8dyHNXPvTRXmYoR/7QnUOTU/ivGMXUuRFKeu
- BHP7VPduVMgj8VO5vewBavxsyfdYiXXw3i78ZNeKgAZsFN/bDMSrtHBchd5PA+CPMjCI
- PwYhv2Q8zYLrjFEkNaS3+O2AEZQpaMJ8xHSXm7fCZwEYDo6QfKbo2wsu0J+MsPjbGgJ/ Ug== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
- [67.231.149.39])
- by mx0a-00154904.pphosted.com with ESMTP id 361fy9k18d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 06:57:02 -0500
-Received: from pps.filterd (m0142693.ppops.net [127.0.0.1])
- by mx0a-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10DBpWe6090849
- for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 06:57:02 -0500
-Received: from esaploutdur05.us.dell.com ([128.221.233.10])
- by mx0a-00154901.pphosted.com with ESMTP id 361v8wuqfs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 06:56:59 -0500
-X-PREM-Routing: D-Outbound
-X-LoopCount0: from 10.55.224.148
-Received: from vd-grupie.xiolab.lab.emc.com ([10.55.224.148])
- by esaploutdur05.us.dell.com with ESMTP; 13 Jan 2021 05:51:56 -0600
-From: elad.grupi@dell.com
-To: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-tcp: fix a segmentation fault during io parsing error
-Date: Wed, 13 Jan 2021 13:51:52 +0200
-Message-Id: <20210113115152.69692-1-elad.grupi@dell.com>
-X-Mailer: git-send-email 2.16.5
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-13_07:2021-01-13,
- 2021-01-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 phishscore=0
- impostorscore=0 spamscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
- clxscore=1015 mlxscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101130073
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0
- suspectscore=0 mlxlogscore=999 adultscore=0 spamscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101130073
+ id 1kzhEg-0000Xt-BO
+ for linux-nvme@lists.infradead.org; Wed, 13 Jan 2021 14:35:02 +0000
+Received: by mail-pg1-x52d.google.com with SMTP id i7so1601983pgc.8
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 06:34:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=sesLVgnwP7XNfVw93uzCMsBbwsNC3kfCmoQy7b5qpcU=;
+ b=Al8dE884+Wrc0UtcjaEyhg6+sY/riXv3MPBpQSUXyVCsKo/DWWk5fTBIT7bGVv42NW
+ ghzzdWQQTuTg+zvmVGt5GGGWHCPmiH61wePLhNE4TSHBIynRqHJJCpHmdqRM1mmAofI5
+ yzgEbOLVJU3q3rJbhPHV6CVVkFji31C4hlWEKCrzOcrNTrkkLxBQBJrR69ZktvuLKa2i
+ blayoM+5CE4jsvH7V1Xv+AzXT4o3N+misMO8/aIacaC/6eRXXW86OZ55k6VxvNrgM9EJ
+ wAi81rQz6KQSzZJnFvVjYzbxLgFNpcsA5O5a4lj82NV19Od2K0O0zghr+NM7pdN/nMwb
+ O4bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=sesLVgnwP7XNfVw93uzCMsBbwsNC3kfCmoQy7b5qpcU=;
+ b=Zwhm/qajLT6Yi1ySC1np+3rf7agZFCAvY0im3wHPJRdU0nIrsKULy+rvrBOPzlYv2e
+ NI3Jw9RjmOdbC9v7hQYoH12jWlufDH3ECKb6BCUl9anxjuLKIgw6VCe0mJQY+fficsQx
+ 13fV5COJp8KbjC3wjJDqiWHynJ+qeVesMfMRriFFwHoetv/J61KeppJtFxhfbjVfuHti
+ gPbl4blLJLhoxZI1aR3XskyttPkJK2baqlnmLQFUg+zXaxshsSOupl8Z5KEgGNO9XgxL
+ nTdC30JRkRBTulTazE6liTiI8qriDZykhj4MgHwsGxhtV/F+axemh5iyumkyz64KGXIx
+ 8vyQ==
+X-Gm-Message-State: AOAM531MKWglwi/tSXp77qCSmhxwHzX3r6sdejXkiOLEdguxDjWbvmNc
+ PuMWpKbpwMpUDbmE+rz6LVw=
+X-Google-Smtp-Source: ABdhPJwoNupYnLwb/wY+pl4lhOoDXLr0wKJVFe7in+OkRGY/maIa1t6wRz7GDD9EwP6+10SAKB3QOA==
+X-Received: by 2002:a62:5b85:0:b029:19e:432a:2717 with SMTP id
+ p127-20020a625b850000b029019e432a2717mr2430275pfb.73.1610548496073; 
+ Wed, 13 Jan 2021 06:34:56 -0800 (PST)
+Received: from localhost.localdomain ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id c5sm3248265pjo.4.2021.01.13.06.34.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 06:34:55 -0800 (PST)
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+Subject: [PATCH V5 1/1] block: reject I/O for same fd if block size changed
+Date: Wed, 13 Jan 2021 23:34:32 +0900
+Message-Id: <20210113143432.426-2-minwoo.im.dev@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210113143432.426-1-minwoo.im.dev@gmail.com>
+References: <20210113143432.426-1-minwoo.im.dev@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210113_065706_177555_849D208A 
-X-CRM114-Status: GOOD (  18.99  )
+X-CRM114-CacheID: sfid-20210113_093458_480460_C72AFC05 
+X-CRM114-Status: GOOD (  24.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,52 +92,134 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Elad Grupi <elad.grupi@dell.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig <hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Elad Grupi <elad.grupi@dell.com>
+This patch fixes I/O errors during BLKRRPART ioctl() behavior right
+after format operation that changed logical block size of the block
+device with a same file descriptor opened.
 
-    In case there is an io that contains inline data and it goes to
-    parsing error flow, command response will free command and iov
-    before clearing the data on the socket buffer.
-    This will delay the command response until receive flow is completed.
+This issue can be easily reproduced with a single format command in case
+of NVMe (logical block size 512B to 4096B).
 
-Signed-off-by: Elad Grupi <elad.grupi@dell.com>
+	nvme format /dev/nvme0n1 --lbaf=1 --force
+
+This is because the application, nvme-cli format subcommand issues an
+admin command followed by BLKRRPART ioctl to re-read partition
+information without closing the file descriptor.  If file descriptor
+stays opened, __blkdev_get() will not be invoked at all even logical
+block size has been changed.
+
+It will cause I/O errors with invalid Read operations during the
+BLKRRPART ioctl due to i_blkbits mismatch. The invalid operations in
+BLKRRPART happens with under-flowed Number of LBA(NLB) values
+0xffff(65535) because i_blkbits is still set to 9 even the logical block
+size has been updated to 4096.  The BLKRRPART will lead buffer_head to
+hold 512B data which is less than the logical lock size of the block
+device.
+
+The root cause, which is because i_blkbits of inode of the block device
+is not updated, can be solved easily by re-opening file descriptor
+again from application.  But, that's just for application's business
+and kernel should reject invalid Read operations during the BLKRRPART
+ioctl.
+
+This patch rejects I/O from the path of add_partitions() to avoid
+issuing invalid Read operations to device.  It sets a flag to
+request_queue in blk_queue_logical_block_size to minimize caller-side
+updates.
+
+Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/target/tcp.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ block/blk-settings.c    |  3 +++
+ block/partitions/core.c | 12 ++++++++++++
+ fs/block_dev.c          |  8 ++++++++
+ include/linux/blkdev.h  |  1 +
+ 4 files changed, 24 insertions(+)
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index d535080b781f..dea94da4c9ba 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -146,6 +146,7 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_tcp_queue_response(struct nvmet_req *req);
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 43990b1d148b..48a6fc7bb5f5 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -329,6 +329,9 @@ void blk_queue_logical_block_size(struct request_queue *q, unsigned int size)
+ {
+ 	struct queue_limits *limits = &q->limits;
  
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -476,7 +477,11 @@ static struct nvmet_tcp_cmd *nvmet_tcp_fetch_cmd(struct nvmet_tcp_queue *queue)
- 		nvmet_setup_c2h_data_pdu(queue->snd_cmd);
- 	else if (nvmet_tcp_need_data_in(queue->snd_cmd))
- 		nvmet_setup_r2t_pdu(queue->snd_cmd);
--	else
-+	else if (nvmet_tcp_has_data_in(queue->snd_cmd) &&
-+			nvmet_tcp_has_inline_data(queue->snd_cmd)) {
-+		nvmet_tcp_queue_response(&queue->snd_cmd->req);
-+		queue->snd_cmd = NULL;
-+	} else
- 		nvmet_setup_response_pdu(queue->snd_cmd);
++	if (limits->logical_block_size != size)
++		blk_queue_flag_set(QUEUE_FLAG_LBSZ_CHANGED, q);
++
+ 	limits->logical_block_size = size;
  
- 	return queue->snd_cmd;
+ 	if (limits->physical_block_size < size)
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index e7d776db803b..6f175ea18ff3 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -612,12 +612,24 @@ static bool blk_add_partition(struct gendisk *disk, struct block_device *bdev,
+ 
+ int blk_add_partitions(struct gendisk *disk, struct block_device *bdev)
+ {
++	struct request_queue *q = bdev_get_queue(bdev);
+ 	struct parsed_partitions *state;
+ 	int ret = -EAGAIN, p, highest;
+ 
+ 	if (!disk_part_scan_enabled(disk))
+ 		return 0;
+ 
++	/*
++	 * Reject to check partition information if block size has been changed
++	 * in the runtime.  If block size of a block device has been changed,
++	 * the file descriptor should be opened agian to update the blkbits.
++	 */
++	if (test_bit(QUEUE_FLAG_LBSZ_CHANGED, &q->queue_flags)) {
++		pr_warn("%s: rejecting checking partition. fd should be opened again.\n",
++				disk->disk_name);
++		return -EBADFD;
++	}
++
+ 	state = check_partition(disk, bdev);
+ 	if (!state)
+ 		return 0;
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 3b8963e228a1..db5b0b75f0be 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -130,7 +130,15 @@ EXPORT_SYMBOL(truncate_bdev_range);
+ 
+ static void set_init_blocksize(struct block_device *bdev)
+ {
++	struct request_queue *q = bdev_get_queue(bdev);
++
+ 	bdev->bd_inode->i_blkbits = blksize_bits(bdev_logical_block_size(bdev));
++
++	/*
++	 * Allow I/O commands for this block device.  We can say that this
++	 * block device has proper blkbits updated.
++	 */
++	blk_queue_flag_clear(QUEUE_FLAG_LBSZ_CHANGED, q);
+ }
+ 
+ int set_blocksize(struct block_device *bdev, int size)
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 070de09425ad..6d0542434be6 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -625,6 +625,7 @@ struct request_queue {
+ #define QUEUE_FLAG_RQ_ALLOC_TIME 27	/* record rq->alloc_time_ns */
+ #define QUEUE_FLAG_HCTX_ACTIVE	28	/* at least one blk-mq hctx is active */
+ #define QUEUE_FLAG_NOWAIT       29	/* device supports NOWAIT */
++#define QUEUE_FLAG_LBSZ_CHANGED	30	/* logical block size changed */
+ 
+ #define QUEUE_FLAG_MQ_DEFAULT	((1 << QUEUE_FLAG_IO_STAT) |		\
+ 				 (1 << QUEUE_FLAG_SAME_COMP) |		\
 -- 
-2.16.5
+2.17.1
 
 
 _______________________________________________
