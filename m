@@ -2,81 +2,79 @@ Return-Path: <SRS0=kiw1=GR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 846BDC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 01:10:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B167EC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 01:11:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C3F4823406
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 01:10:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C3F4823406
+	by mail.kernel.org (Postfix) with ESMTPS id 1325F23435
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 01:11:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1325F23435
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
 	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=zyVzRaY/sOsu5IzeSFxZEuDyUbZ+Esc86ip0aW+szWY=; b=k91OAbpcMcMP7HHTCPVsVmreu
-	4CaIaGwJShf12D4TaqwLLkt2NMaVFkp1+zmTL+PbP/5lgQb+3PK0Zfnb9BTbCWR5ANsri/ZYkodJ/
-	ZbRlB0mV9x27qmPR0YQJKQj4q053moYOWAOlWmhZ8x5+nNn5+d0ktZzylPJRxn3iXMPwGsvnUn5V/
-	IO027ChvXB90dkHfRDvNy9AS4DUB6ii4b3nYUjyJaYj1fyGivfW/jtxwHMO3w+10EEMvxLR/Pz2F9
-	DfGGZ/ZQX+avMDP0/UiOzoR3NYStNstRUx0yonMrYqkoYv51Um7nsHdUjfbmrIHoTcoEaKvGcGVT3
-	R21WGaEAw==;
+	 bh=4MMisumePJ39DdAPk9XKf1eWklXWJc6Jx8s71wy/lWA=; b=K/i/wpvHqHA1RtP4tIRSuma5f
+	nKXrr8NSfKS56ydXmTt2loxAUl4F6jkw4z9g+QVHRYS+Uxl87jq2chXCteXhiGmlWru9RrbVeHOq4
+	l5MLRjWLpyz8bvwb1zcuh0s+aWfgDk98IFtaPl956X/IpgVVfNmh0bPL8lgcRxmYDtCNZIX1sf4C/
+	pZQ8o9DV6+xPS61Ej2PlIkp8F4BoHLphJNlIhlCKsEd7naSCbTWL0KhJtebKhyunXj61J+MRpHs3F
+	AeS+upqWDSfGoYNRJRabJ4yG6SIKMRNue2nnv3CI/wHHC9uKR+7quE+0iBaV1D/S0qpgEBEP6h+mE
+	A9MduSljg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzr9T-00050j-5L; Thu, 14 Jan 2021 01:10:15 +0000
+	id 1kzrAT-00055O-Ac; Thu, 14 Jan 2021 01:11:17 +0000
 Received: from mail-wr1-f50.google.com ([209.85.221.50])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzr9Q-00050K-5w
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 01:10:13 +0000
-Received: by mail-wr1-f50.google.com with SMTP id v15so391811wrx.4
- for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 17:10:10 -0800 (PST)
+ id 1kzrAQ-00054x-Fn
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 01:11:15 +0000
+Received: by mail-wr1-f50.google.com with SMTP id t30so4088402wrb.0
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 17:11:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=w+VuZrTP/bwrCEn7v11x9xUabW2osjpyIGb9iYlIfvE=;
- b=U4N+LCrJ/3OSU9jFcbNHqLfKwGtsh67ocyvjgpg8YrO6aAFOSoa10zrAnRYTmQ5oBe
- 6bdSQLYGfeI53rff+t04ZNkB9aDwFru0a/WqsWnGK/iJ6UV6TpGRBJTdSoGZIic99eNr
- oMbjRbrfqDF2xptiuvNbVqXRl1YEgLtHR9OepsOpcZVKGmiHaKvon7zczqeZlBy1X069
- cxUsRT5O1VXkwXZvRBB7ATyHA0PywiOUXxwpZMKBo4yrpbSuZIE3ar6rLvI8HZpbq/ch
- OAn3QcnCfuuAlmixBjcd7uTN3JSwl4OqfdGjlDWd9gpVLZ+P/C66VUGuh4V5tUSQFBsf
- D+oQ==
-X-Gm-Message-State: AOAM531iAOXFOPVyeNHOF1OebCtQ+Kkvt6RAAExVNpRlz0+tH4ZDT+Pb
- L8/qELM5pjzxeXdJJmHDXJE=
-X-Google-Smtp-Source: ABdhPJybfyfN4c9LoaWtiKpifwB351lZNctsGrL1m7upj7zsNXsAgIxRgYEbB8mWdqz7Xr4pMu2sew==
-X-Received: by 2002:a05:6000:1290:: with SMTP id
- f16mr5275265wrx.298.1610586609268; 
- Wed, 13 Jan 2021 17:10:09 -0800 (PST)
+ bh=OQp03nloi2yTDHHvvrT0JOpvhMT0tEuY/rJbaCztNFg=;
+ b=L/nPFuN4Kb2EFICriGiiTG5b8RETqhZs1TT57QAau7DKew/allK4ePjOhZegrA0JO5
+ VAxzMnfUdR3ljoqxrshLq8YbMYbvVfB4Fy/Uw0Mo1UT6227F5NAs7tm1m1FlICwUSRpk
+ 2CpQYfo1ff8k873de5HmJk6SVH5RinYWjpb6dOwJxdqoYsmZOthEm6qqVIYk6q3Vri/I
+ BY2qTz8mlCI/zl2GRdiEpAEa1//8u9szQJT5NDrMQhNHMLDon3x7claBgTi0ZaLRpB1J
+ 1eUvhtygF6n1omeKveEcLo2ZtJVwOH0CNKFuvRg3+BaZj5TdstWzyhAIQ25k0kfxKTbh
+ XlOg==
+X-Gm-Message-State: AOAM533ep4C2HYwZQiFYs92ackajk2cA7RICk+Ik+6amZVR3YNMitGMA
+ S56wwK5bGeXtPmkTvvz/7jI=
+X-Google-Smtp-Source: ABdhPJyQJEv2bCZCJ94oJFBQ0n7/9HZt8DadRyePecDuwIP1smCTh9Vfd9YwiL9UX9MXoXUi+xzFyA==
+X-Received: by 2002:adf:eb87:: with SMTP id t7mr5091370wrn.316.1610586673479; 
+ Wed, 13 Jan 2021 17:11:13 -0800 (PST)
 Received: from ?IPv6:2601:647:4802:9070:e70c:620a:4d8a:b988?
  ([2601:647:4802:9070:e70c:620a:4d8a:b988])
- by smtp.gmail.com with ESMTPSA id r2sm6052986wrn.83.2021.01.13.17.10.07
+ by smtp.gmail.com with ESMTPSA id w4sm5251394wmc.13.2021.01.13.17.11.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 17:10:08 -0800 (PST)
-Subject: Re: fabrics connect cmd with a non-zero reserved value
+ Wed, 13 Jan 2021 17:11:13 -0800 (PST)
+Subject: Re: [PATCH] nvme-rdma: avoid repeated request completion for
+ concurrent nvme_rdma_timeout
+To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
+References: <20210106063635.7452-1-lengchao@huawei.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-To: "Engel, Amit" <Amit.Engel@Dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <SN6PR1901MB202957C808A7D493E252D873EED00@SN6PR1901MB2029.namprd19.prod.outlook.com>
- <6e271be1-088b-5a23-0eec-23578f707c28@grimberg.me>
-Message-ID: <69465d48-5a63-5c49-50aa-39c4f921ed4a@grimberg.me>
-Date: Wed, 13 Jan 2021 17:10:05 -0800
+Message-ID: <002e7d37-433c-f8fa-f460-bfb2447d6bc0@grimberg.me>
+Date: Wed, 13 Jan 2021 17:11:10 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <6e271be1-088b-5a23-0eec-23578f707c28@grimberg.me>
+In-Reply-To: <20210106063635.7452-1-lengchao@huawei.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210113_201012_243126_65AE994B 
-X-CRM114-Status: GOOD (  13.92  )
+X-CRM114-CacheID: sfid-20210113_201114_568275_8C600137 
+X-CRM114-Status: GOOD (  24.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,54 +86,101 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "Anner, Ran" <Ran.Anner@dell.com>, Frederick.Knight@netapp.com, "Grupi,
- Elad" <Elad.Grupi@dell.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAxLzEzLzIxIDQ6MzQgUE0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4gCj4+IEhlbGxvLAo+
-PiBXZSBzZWUgdGhhdCB3aGVuIGV4ZWN1dGluZyBudm1lIGNvbm5lY3QgY21kIChPcGNvZGU6IDB4
-N2YgRmFicmljIENtZCkKPj4gVGhlIGhvc3QgaXMgc3VibWl0dGluZyB0aGUgY21kIHdpdGggcmVz
-ZXJ2ZWQgZmlsZWQgc2V0IHRvIG5vbi16ZXJvIAo+PiB2YWx1ZSAtIHdoaWNoIGlzIG91dCBvZiBz
-cGVjLgo+PiBTZWVtcyBsaWtlIHRoaXMgaXNzdWUgaXMgbm90IG9ubHkgZm9yIGNvbm5lY3QgYnV0
-IGFsc28gZm9yIG90aGVyIAo+PiBmYWJyaWNzIGNtZHMuCj4+Cj4+IEhlcmUgaXMgYSBwYWNrZXQg
-Y2FwdHVyZSBmb3IgbnZtZSBjb25uZWN0IDoKPj4KPj4gwqDCoMKgwqAgTlZNIEV4cHJlc3MgRmFi
-cmljcyAoQ21kKQo+PiDCoMKgwqDCoMKgwqDCoMKgIE9wY29kZTogMHg3ZiBGYWJyaWMgQ21kCj4+
-IMKgwqDCoMKgwqDCoMKgwqAgW0ZhYnJpYyBDcWUgaW46IDMwMl0KPj4gwqDCoMKgwqDCoMKgwqDC
-oCBSZXNlcnZlZDogMHg0MAo+PiDCoMKgwqDCoMKgwqDCoMKgIENvbW1hbmQgSUQ6IDB4MDAwMAo+
-PiDCoMKgwqDCoMKgwqDCoMKgIEZhYnJpYyBDbWQgVHlwZTogQ29ubmVjdCAoMHgwMSkKPj4gwqDC
-oMKgwqDCoMKgwqDCoCBSZXNlcnZlZDogMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-MDAwMDAKPj4gwqDCoMKgwqDCoMKgwqDCoCBTR0wxCj4+IMKgwqDCoMKgwqDCoMKgwqAgUmVjb3Jk
-IEZvcm1hdDogMHgwMDAwCj4+IMKgwqDCoMKgwqDCoMKgwqAgUXVldWUgSUQ6IDB4MDAwMAo+PiDC
-oMKgwqDCoMKgwqDCoMKgIFNRIFNpemU6IDB4MDAxZgo+PiDCoMKgwqDCoMKgwqDCoMKgIENvbm5l
-Y3QgQXR0cmlidXRlczogMHgwMAo+PiDCoMKgwqDCoMKgwqDCoMKgIFJlc2VydmVkOiAwMAo+PiDC
-oMKgwqDCoMKgwqDCoMKgIEtlZXAgQWxpdmUgVGltZW91dDogMTUwMDBtcwo+PiDCoMKgwqDCoMKg
-wqDCoMKgIFJlc2VydmVkOiAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAKPj4gwqDCoMKgwqAgRGF0
-YQo+PiDCoMKgwqDCoMKgwqDCoMKgIEhvc3QgSWRlbnRpZmllcjogZjFhYTk3ODQtMTk1Yi00ODE0
-LTg5M2QtNDRmOTBhNmE5MmQ5Cj4+IMKgwqDCoMKgwqDCoMKgwqAgQ29udHJvbGxlciBJRDogMHhm
-ZmZmCj4+IMKgwqDCoMKgwqDCoMKgwqAgUmVzZXJ2ZWQ6IAo+PiAwMDAwMDAwMDAwMDAwMDAwMDAw
-MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAuLi4g
-Cj4+Cj4+IMKgwqDCoMKgwqDCoMKgwqAgU3Vic3lzdGVtIE5RTjogCj4+IG5xbi4yMDE1LTEwLmNv
-bS5kZWxsOmRlbGxlbWMtcG93ZXJzdG9yZS0yM2I1MTQ1NTkxOTc1RURGRjJGRQo+PiDCoMKgwqDC
-oMKgwqDCoMKgIEhvc3QgTlFOOiBucW4uMjAxNC0wOC5vcmcubnZtZXhwcmVzczp1dWlkOm5jNTE5
-OTAwNwo+PiDCoMKgwqDCoMKgwqDCoMKgIFJlc2VydmVkOiAKPj4gMDAwMDAwMDAwMDAwMDAwMDAw
-MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwLi4u
-IAo+Pgo+Pgo+PiAweDQwIHZhbHVlIGlzIGNvcnJlc3BvbmRpbmcgdG8gUFNEVCwgaW4gYSBub3Jt
-YWwgKG5vbi1mYWJyaWMpIG52bWUgCj4+IGNtZCwgUFNEVCBmaWVsZCBleGlzdHMuCj4+IERvIHdl
-IGV4cGVjdCBmb3IgdGhlIHNhbWUgZm9yIGZhYnJpYyBjbWQ/Cj4+IElmIHNvLCB0aGUgc3BlYyBj
-YW4ndCBtYXJrIHRoZSBzZWNvbmQgYnl0ZSBvZiBjb25uZWN0IGNtZCBhcyByZXNlcnZlZC4KPj4g
-QmFzZWQgb24gbnZtZSBzcGVjOgo+PiAiQSByZXNlcnZlZCBiaXQsIGJ5dGUsIHdvcmQsIGZpZWxk
-LCBvciByZWdpc3RlciBzaGFsbCBiZSBjbGVhcmVkIHRvIAo+PiAwaCwgb3IgaW4gYWNjb3JkYW5j
-ZSB3aXRoIGEgZnV0dXJlIGV4dGVuc2lvbiB0byB0aGlzIHNwZWNpZmljYXRpb24iCj4+Cj4+IElz
-IHRoaXMgYSByZWFsIGJ1ZyBvciBhIHNwZWMgYnVnPwo+IAo+IFdlIHNob3VsZG4ndCBiZSBzZXR0
-aW5nIHJlc2VydmVkIGJpdHMuIEJ1dCBmcm9tIHdoYXQgSSBzZWUsIHdlIHplcm8gdGhlIAo+IG52
-bWUgY29tbWFuZHMgYmVmb3JlIHNldHRpbmcgaXQgc28gdGhpcyBpcyBzdHJhbmdlIHRvIG1lLi4K
-Ck9LLCBub3cgSSBzZWUgdGhlIGlzc3VlLgoKVGhpcyBhcHBlYXJzIHRvIG1lIHRoaXMgd291bGQg
-YmUgYW4gaXNzdWUgd2l0aCB0aGUgc3BlYy4gQXMgdGhlIGNvbm5lY3QKZGF0YSAobGlrZSBhbnkg
-Y29tbWFuZCBwYXlsb2FkKSBpcyBjb21pbmcgaW4gdGhlIGZvcm0gb2YgYW4gc2dsLgoKQWRkaW5n
-IEZyZWQgZm9yIHRoaXMgcXVlc3Rpb24uCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3Rz
-LmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9saW51eC1udm1lCg==
+
+On 1/5/21 10:36 PM, Chao Leng wrote:
+> A crash happens when inject completing request long time(nearly 30s).
+> Each name space has a request queue, when inject completing request long
+> time, multi request queues may has time out requests at the same time,
+> nvme_rdma_timeout will execute concurrently. Multi requests in different
+> request queues may be queued in the same rdma queue, multi
+> nvme_rdma_timeout may call nvme_rdma_stop_queue at the same time.
+> The first nvme_rdma_timeout will clear NVME_RDMA_Q_LIVE and continue
+> stopping the rdma queue(drain qp), but the others check NVME_RDMA_Q_LIVE
+> is already cleared, and then directly complete the requests, but the
+> rdma queue may be not stopped and the request may be already completed
+> in qp and wait treated, the request will be repeated completed.
+> Add a multex lock to serialize nvme_rdma_stop_queue.
+
+This looks reasonable to me,
+
+Mind sending one for nvme-tcp as well?
+
+> 
+> Signed-off-by: Chao Leng <lengchao@huawei.com>
+> ---
+>   drivers/nvme/host/rdma.c | 15 +++++++++++----
+>   1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index df9f6f4549f1..d5c66e3eeb4a 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -97,6 +97,7 @@ struct nvme_rdma_queue {
+>   	struct completion	cm_done;
+>   	bool			pi_support;
+>   	int			cq_size;
+> +	struct mutex		queue_lock;
+>   };
+>   
+>   struct nvme_rdma_ctrl {
+> @@ -579,6 +580,7 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+>   	int ret;
+>   
+>   	queue = &ctrl->queues[idx];
+> +	mutex_init(&queue->queue_lock);
+>   	queue->ctrl = ctrl;
+>   	if (idx && ctrl->ctrl.max_integrity_segments)
+>   		queue->pi_support = true;
+> @@ -598,7 +600,8 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+>   	if (IS_ERR(queue->cm_id)) {
+>   		dev_info(ctrl->ctrl.device,
+>   			"failed to create CM ID: %ld\n", PTR_ERR(queue->cm_id));
+> -		return PTR_ERR(queue->cm_id);
+> +		ret = PTR_ERR(queue->cm_id);
+> +		goto out_destroy_mutex;
+>   	}
+>   
+>   	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR)
+> @@ -628,6 +631,8 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+>   out_destroy_cm_id:
+>   	rdma_destroy_id(queue->cm_id);
+>   	nvme_rdma_destroy_queue_ib(queue);
+> +out_destroy_mutex:
+> +	mutex_destroy(&queue->queue_lock);
+>   	return ret;
+>   }
+>   
+> @@ -639,9 +644,10 @@ static void __nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
+>   
+>   static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
+>   {
+> -	if (!test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags))
+> -		return;
+> -	__nvme_rdma_stop_queue(queue);
+> +	mutex_lock(&queue->queue_lock);
+> +	if (test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags))
+> +		__nvme_rdma_stop_queue(queue);
+> +	mutex_unlock(&queue->queue_lock);
+>   }
+>   
+>   static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
+> @@ -649,6 +655,7 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
+>   	if (!test_and_clear_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
+>   		return;
+>   
+> +	mutex_destroy(&queue->queue_lock);
+>   	nvme_rdma_destroy_queue_ib(queue);
+>   	rdma_destroy_id(queue->cm_id);
+>   }
+> 
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
