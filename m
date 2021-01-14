@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB0CC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 07:23:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 133EEC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 07:27:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 34DE4239CF
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 07:23:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 34DE4239CF
+	by mail.kernel.org (Postfix) with ESMTPS id 7D590207AE
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 07:27:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D590207AE
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,34 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xCvM2eRDmBnduo/syeYQSknABCTpfYO9DZ4lz6yvO3o=; b=A+21PqFKY8SvyKf+0aqTJqT/v
-	e3soDtDFGwk0DOq3QHM6PP+aIT6Dr2dJeoi9pImdG2EfWcRMJX9cIqSLpoBvNdozY8NOpiYoqw0z+
-	vtzG4HyYqJcMn93O6JhNQ53JtxMKySv+oSrBU6H0Wp3YJeyFYacOeupxVmAR2/WS9zjLHtkA9nw8X
-	2XfYe4cKkB8lYCco5agBqDPq2NN7NyREA/cDZgjfGALqBCvFtG9MgmyCAFUgIEJfL20ItNrayT2qU
-	xGOg8OqhJrv0hTMtM16YEMjqNy+GFteoOeeQ0KFJYmmfEeIiD/XpPUTBmUy+9eGS53hqyIAdwEjup
-	gdvIDXijA==;
+	 bh=xCvM2eRDmBnduo/syeYQSknABCTpfYO9DZ4lz6yvO3o=; b=dpt2G02/ttb5xrkeOhFpPoWSJ
+	YDPPMcEv/DG56GiIVbJRg18kwEjF3gstJgOFx1WM8FTF/cSlDwen3wXgGc4Xi+ps/eAS+MrW5AE6L
+	njtX8eY5iUm1hn9TgKVlryu79x/pOmwlJuPJjffOaZGRleAFdPOBmMOVeg+WMmGJgm9vRXkOxdkMK
+	ctg5rjXm2ez8TR2axyPLKwZpzrhfUCdsG2ClavBl6DAejo4O0x4OkEDRLXHF7CUZ6rYCUTbx5pDp+
+	X+9DH9FlRWk6DCfhcXt6WP43muwiECtm08hoFoRi+NYPsTr2FoT46VDYTqP63xQkCWMJzGeMfxFzt
+	1yX7SIiOQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzwyQ-000215-Ht; Thu, 14 Jan 2021 07:23:14 +0000
+	id 1kzx1v-0002Lx-7C; Thu, 14 Jan 2021 07:26:51 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzwyO-00020l-Jt
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 07:23:13 +0000
+ id 1kzx1t-0002Lb-F8
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 07:26:50 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 1E8EB68AFE; Thu, 14 Jan 2021 08:23:11 +0100 (CET)
-Date: Thu, 14 Jan 2021 08:23:10 +0100
+ id 083D968AFE; Thu, 14 Jan 2021 08:26:47 +0100 (CET)
+Date: Thu, 14 Jan 2021 08:26:46 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v2] nvme-tcp: fix possible data corruption with bio merges
-Message-ID: <20210114072310.GA581@lst.de>
-References: <20210113215657.1613817-1-sagi@grimberg.me>
+Subject: Re: [PATCH] nvme: don't intialize hwmon for discovery controllers
+Message-ID: <20210114072646.GA670@lst.de>
+References: <20210114000022.1641939-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210113215657.1613817-1-sagi@grimberg.me>
+In-Reply-To: <20210114000022.1641939-1-sagi@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_022312_775056_F2BB6345 
-X-CRM114-Status: UNSURE (   8.22  )
+X-CRM114-CacheID: sfid-20210114_022649_636921_EF29BFCA 
+X-CRM114-Status: UNSURE (   8.13  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
