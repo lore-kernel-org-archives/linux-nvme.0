@@ -2,19 +2,19 @@ Return-Path: <SRS0=kiw1=GR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB49C433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 02:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA2FCC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 02:30:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AD2D423447
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 02:22:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD2D423447
+	by mail.kernel.org (Postfix) with ESMTPS id 738D3235FA
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 02:30:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 738D3235FA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,58 +23,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mm4be+4Syc4yboB7xlpnWauqXkvAXnRJjIpAjw7d5d4=; b=VgtOYa9wmeY4eHTwnfTUBiZ9J
-	62FAX5zWYYhdHlho3uaXTsPjSri7ZN6Uzb/226icErmHFknxXASpYtsP+N1mWBtuubKtHlc5NMzvF
-	FXomjU0c2PMsVnBhdM1hP76w6CkC7alzz9/QWBEEGuAPxAzyzsgRPTsJjjUpAc4q4WKQmR9ig8zUH
-	OTe7HJABD6/igEd6g8c4PPNLjTIUyAO6gw1rXMH2Vg+PfADFNr8E8jD3ErRYUozwDgZBA82fmjAsg
-	MZ0IW8CY5ml43WZrBBba/wJ+Xde4a5CZ1n/npFY0bKmxrIcmgvcHS3AqRBEY6/JKXKDn5SFVsGFfe
-	Mrk0dl1kQ==;
+	 bh=sP79Ja8ov6/bPh40fmRXbtriBONB1F+Al4e+ih34e7Y=; b=NlePlRj6ex6Gr49MNXQAeV0JL
+	2T/2xjf2yAJBNPC52b4vrFQHp/bZwJazHBIdzpCjjlxS8S18Vu7hTaSxYnF8I6fUABIHOD7eM8B7j
+	DhlPsHzcL19tAjFQfAi4a2QHoZ7woVIqT+SYdZFJUt1b/6RAecDC1JeAwnzDqbrdAW+V7nt0O7otO
+	QVU0saJWZQK6B/AKfMcnWW4XuINhFc4SX1/8vm+38WA3Qal08pSLSdU6iPUh/wVZTjj9ULXtkZF0o
+	l0NqYPRhnquQORzD+6HV/ImG/+18V9WEx/uI5QK5Ei5xl6QYGfpRhnOTzDHyvDaZAVB1oMeO41b40
+	p0OXV38/A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzsHW-0005za-Ri; Thu, 14 Jan 2021 02:22:38 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1kzsOW-0006sL-QG; Thu, 14 Jan 2021 02:29:52 +0000
+Received: from mail-wr1-f42.google.com ([209.85.221.42])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzsHT-0005yy-Ds
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 02:22:36 +0000
-Received: by mail-wm1-f44.google.com with SMTP id i63so3245501wma.4
- for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 18:22:35 -0800 (PST)
+ id 1kzsOU-0006rn-9K
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 02:29:51 +0000
+Received: by mail-wr1-f42.google.com with SMTP id d26so4176328wrb.12
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 18:29:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=t/V8IRtAGG/y+FV0LkhuC70rohEDLjvq/NjzjMZzs1A=;
- b=ouqjn1+A1+GfgsaNHmXyAJyk8ldKsRwYEoH9IUURSEH1yEKmy3rxcYeF827gXK+5MO
- ZTZ3i1GKxHKcAxpIAceYEzPFBMgnuqTMRv1+K/vtEKfM83IGap6gZPU2ulnwR6wJMwhb
- C/Tig/PJEW300ztUxd7/dFSYbGS+gy+RitcBFG0zKFQASXZyUHk3YWEPKeGRHbTJ+7Uq
- gLlHKzMJITuO1BSEazxk3AlhNdpWb1+Vjs3YZDmBp0IGlXcFnqqCk31NlVuwrqZ+QDrU
- MF6M5mYasKDpjBl0Dw5MhnDW1wwpCaBSTOABuFhC8ro4wbVh5G1qm2n6v2vR3hk84xEB
- Stdw==
-X-Gm-Message-State: AOAM532LBtren0FUSJ4Rry8blXrzLmIIjn6y2SOcFAnBgLOeS83YKM6D
- PZS/40fkpZfLO5dmJBEn3yA=
-X-Google-Smtp-Source: ABdhPJxcnFAwKMo3lpKsN0pY5ASpv5UbhMHqEkrxcMBmNrw+JS9EFfXW7l3t79K163kNwEQEaD9jjQ==
-X-Received: by 2002:a1c:1f86:: with SMTP id f128mr1682827wmf.174.1610590954198; 
- Wed, 13 Jan 2021 18:22:34 -0800 (PST)
+ bh=VrlFugT0A4MwX/4X8Z67yhcTtUJ+zVHZbK90zoOHCSc=;
+ b=JoKlGUXw59Grlvo/dLASGOqyfaRvYX/i2Ugc+ZllyTdcHozI3DTy7WkNbfWjMW7ruz
+ wqvPXnx5LCpeROY0ldxABHnl6P5Qrg0DOZD7jfG9FPXZy3tBfy02IDnZuULz5BNT5qok
+ ojcu0dvl6rJuJxA0SPXgA8IDy+lgHEFBX/ByqQJa+67QXf83cL0O8UDY/l/kShnLABIR
+ DkwJPtOr391Bx9lLpjs20L/vDBBu7AtGqu9Dcn4Uxk6+3lAuGUu9H7GD0eVV4uaUfpJk
+ 6IlEDgqTfJy6EQeyX5rUxdi8kPq7tRPo6HRtlXfTn/Rgkd5ENdFybcWCICANkcjWxaN8
+ zMjg==
+X-Gm-Message-State: AOAM532nahVbStP3QY4qd+s6mnN1Sv9JRbFhxGBf25eN6jAeFiwODRB9
+ 1SBJLaNW6kvOd/m6ZkBpUbI=
+X-Google-Smtp-Source: ABdhPJwNaGLiBa0E0trZrusu1Kdb9dMlXj0qM6Ee5LRn5T/leTpRlR6SOSUQW6TGt9S+esP1pHoHRA==
+X-Received: by 2002:adf:fb49:: with SMTP id c9mr5483493wrs.72.1610591389003;
+ Wed, 13 Jan 2021 18:29:49 -0800 (PST)
 Received: from ?IPv6:2601:647:4802:9070:e70c:620a:4d8a:b988?
  ([2601:647:4802:9070:e70c:620a:4d8a:b988])
- by smtp.gmail.com with ESMTPSA id i5sm4778512wmq.27.2021.01.13.18.22.32
+ by smtp.gmail.com with ESMTPSA id s13sm6955631wra.53.2021.01.13.18.29.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 18:22:33 -0800 (PST)
-Subject: Re: [RFC PATCH 0/2] nvmet-tcp: introduce idle poll option
+ Wed, 13 Jan 2021 18:29:48 -0800 (PST)
+Subject: Re: [RFC PATCH 2/2] nvmet_tcp: enable polling nvme for completions
 To: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <BYAPR11MB2869A106FF8E7D7FEAD30EF1E5C60@BYAPR11MB2869.namprd11.prod.outlook.com>
+References: <BYAPR11MB28696A3E9DB98DE8AC271EFDE5C60@BYAPR11MB2869.namprd11.prod.outlook.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <62cf6b4c-3b8b-db9f-f960-85efaf0896b6@grimberg.me>
-Date: Wed, 13 Jan 2021 18:22:30 -0800
+Message-ID: <65f7e710-a9fd-8ebb-70ad-5a6cfde4cc9e@grimberg.me>
+Date: Wed, 13 Jan 2021 18:29:45 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR11MB2869A106FF8E7D7FEAD30EF1E5C60@BYAPR11MB2869.namprd11.prod.outlook.com>
+In-Reply-To: <BYAPR11MB28696A3E9DB98DE8AC271EFDE5C60@BYAPR11MB2869.namprd11.prod.outlook.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210113_212235_498606_4D77B9C2 
-X-CRM114-Status: GOOD (  24.50  )
+X-CRM114-CacheID: sfid-20210113_212950_384891_4FBCF377 
+X-CRM114-Status: GOOD (  33.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,124 +86,218 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "Vasudevan, Anil" <anil.vasudevan@intel.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "Vasudevan, Anil" <anil.vasudevan@intel.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGV5IE1hcmssCgpPbiAxMi8xNC8yMCA1OjExIFBNLCBXdW5kZXJsaWNoLCBNYXJrIHdyb3RlOgo+
-IFRoaXMgUkZDIDIgcGF0Y2ggc2VyaWVzIHdhcyBjcmVhdGVkIGFzIGFuIGFsdGVybmF0aXZlIHNv
-bHV0aW9uIHRvIHRoZSBwcmV2aW91cyBzZXJpZXMgSSBzdWJtaXR0ZWQgYmFjayBvbiA4LzI3LzIw
-MjAgW252bWV0X3RjcDogaW50cm9kdWNlIHBvbGwgZ3JvdXBzIGFuZCBwb2xsaW5nIG9wdGltaXph
-dGlvbnNdLCB3aGVyZSBvbmx5IHRoZSBmaXJzdCBwYXRjaCBpbiB0aGF0IHNlcmllcyB3YXMgYWNj
-ZXB0ZWQuICBUaGlzIHNlcmllcyBpcyBncmVhdGx5IHNpbXBsaWZpZWQgZnJvbSB0aGF0IHByZXZp
-b3VzIHBhdGNoIHNlcmllcyBpbiB0aGF0IGl0IGRvZXMgbm90IGV4cGxpY2l0bHkgY3JlYXRlIG1h
-bmFnZWQvdHJhY2tlZCBwb2xsIGdyb3Vwcywgd2l0aCB0aGUgaW9fd29yaygpIGZ1bmN0aW9uIHBy
-b2Nlc3Npbmcgb2YgYSBzaW5nbGUgcXVldWUgcHJlc2VydmVkLiAgVGhpcyBzaW1wbGlmaWVkIHBh
-dGNoIHNlcmllcyByZWxpZXMgb24gdGhlIGFjY2VwdGVkIG5ldyBxdWV1ZSBjb250ZXh0IGFzc2ln
-bm1lbnQgdG8gc29faW5jb21pbmdfY3B1IHRvIGxvZ2ljYWxseSBtYWludGFpbiBzaGFyZWQgcHJv
-Y2Vzc2luZyBvZiBhIGxvZ2ljYWwgZ3JvdXAgb2YgcXVldWVzIG9uIHRoZSBzYW1lIENQVSBjb3Jl
-Lgo+IAo+IFdoYXQgdGhpcyBuZXcgcGF0Y2ggcGFpciBwcm92aWRlcyBpcyB0d29mb2xkLiBGaXJz
-dCwgaXQgaW50cm9kdWNlcyBjaGFuZ2VzIGFuZCBhIG5ldyBudm1ldC10Y3AgbW9kdWxlIG9wdGlv
-biAnaWRsZV9wb2xsX3BlcmlvZCcgdGhhdCBlbmFibGVzIHRoZSBrd29ya2VyIGZvciBhIGdpdmVu
-IHF1ZXVlIHRvIHBlcnNpc3RlbnRseSBnZXQgcmUtcXVldWVkIHVudGlsIHRoZSBxdWV1ZSBpcyBz
-ZW5zZWQgYXMgYmVpbmcgJ2lkbGUnLiAgSWRsZSBiZWluZyBkZXRlcm1pbmVkIGFzIGJlaW5nIHdo
-ZW4gdGhlcmUgaXMgbm8gbmV3IHJlcXVlc3RzIG9yIHBlbmRpbmcgYmFja2VuZCBkZXZpY2UgY29t
-cGxldGlvbnMgZm9yIHRoZSBzcGVjaWZpZWQgJ2lkbGVfcG9sbF9wZXJpb2QnIGxlbmd0aCBvZiB0
-aW1lLiAgQnkgYWxsb3dpbmcgdGhpcyB0eXBlIG9mIHBlcnNpc3RlbnQgcG9sbCBiZWhhdmlvciBp
-dCBpcyB0aGVuIHBvc3NpYmxlIHRvIGludHJvZHVjZSB0aGUgY2FwYWJpbGl0eSBjb250YWluZWQg
-aW4gdGhlIHNlY29uZCBwYXRjaCBvZiB0aGUgc2V0LCB0aGlzIGJlaW5nIHRoZSBhYmlsaXR5IHRv
-IGhhdmUgdGhlIGt3b3JrZXIgZGlyZWN0bHkgcG9sbCBhIGJhY2tlbmQgTlZNZSBkZXZpY2UgZm9y
-IGNvbXBsZXRpb25zIGluc3RlYWQgb2Ygd2FpdGluZyBmb3IgdGhlIE5WTWUgZGV2aWNlIHRvIGlu
-dGVycnVwdCBhbmQgcHVzaCBvdXQgY29tcGxldGlvbnMuCj4gCj4gVGhlIGRhdGEgYmVsb3cgc2hv
-d3MgdGhhdCB0aGlzIG5ldyBwb2xsaW5nIG9wdGlvbiwgYW5kIHJlbW92aW5nIG9mIE5WTWUgZGV2
-aWNlIGludGVycnVwdHMsIGNhbiBoYXZlIGEgYmVuZWZpdCB0byBwZXJmb3JtYW5jZS4gIEJ1dCBp
-dCBpcyB1bmRlcnN0b29kIHRoYXQgdGhpcyBjaGFuZ2UgcHJvdG90eXBlIGhhcyBzb21lIGRyYXdi
-YWNrcywgb25lIHNwZWNpZmljYWxseSBiZWluZyBob3cgdGhlIG52bWV0LXRjcCBtb2R1bGUgaXMg
-YmVpbmcgYWxsb3dlZCB0byBkaXJlY3RseSBjYWxsIHRoZSBuZXdseSBpbnRyb2R1Y2VkIGJsb2Nr
-IGxheWVyIHBvbGwgb25jZSBmdW5jdGlvbiB3aGljaCBjYW4gYmUgY29uc2lkZXJlZCBhIGxheWVy
-aW5nIHZpb2xhdGlvbi4gIEJ1dCBpbiBpdCdzIGN1cnJlbnQgc3RhdGUgdGhlIHBhdGNoIHNlcmll
-cyBhdCBsZWFzdCBpcyBhIG1lYW5zIHRvIG9wZW4gZGlzY3Vzc2lvbiB0b3dhcmRzIHRoZSBiZW5l
-Zml0cyBvZiB3b3JraW5nIHRvd2FyZHMgZW5hYmxpbmcgc3VjaCBhIHBvbGxpbmcgbW9kZWwuICBJ
-cyBpdCBhIHNvdW5kIGNvbmNlcHQsIGJ1dCBiZXN0IGltcGxlbWVudGVkIGluIHRoZSBudm1lIHRh
-cmdldCBjb3JlIGxheWVyIGluc3RlYWQ/ICBNYXliZSBtb3ZpbmcgYXdheSBmcm9tIHVzaW5nIGt3
-b3JrZXJzIGFuZCBoYXZpbmcgbW9yZSBkZWRpY2F0ZWQgY29yZSBzZXJ2aWNlIHRhc2tzIGZvciBs
-b2dpY2FsIHF1ZXVlIGdyb3Vwcz8KPiAKPiBUaGUgZm9sbG93aW5nIHRlc3QgZGF0YSB3YXMgY29s
-bGVjdGVkIHVzaW5nIHRoZSBmb2xsb3dpbmcgY29uZmlnOgo+IC4gRklPIGlvX3VyaW5nLCB1c2lu
-ZyBISVBSSSBvcHRpb24KPiAuIDQgRklPIGpvYnMsIGVhY2ggZGlyZWN0ZWQgYXQgMyBOVk1lIGRl
-dmljZSBuYW1lc3BhY2VzLCBlYWNoIHdpdGggNCB0aHJlYWRzIHBpbm5lZCB0byBpc29sYXRlZCBO
-VU1BIG5vZGUgQ1BVIGNsb3NlIHRvIE5JQyBmb3IgdG90YWwgb2YgMTYgYWN0aXZlIHRocmVhZCBj
-b25uZWN0aW9ucy4KPiAuIDRLLCByYW5kb20gcmVhZCBJL08gcGF0dGVybgo+IC4gUXVldWUgRGVw
-dGggMzIsIEJhdGNoIHNpemUgOAo+IC4gSW5pdGlhdG9yIE5JQyBIVyBxdWV1ZXMgc2V0IHRvIDUy
-IChudW1iZXIgb2YgbG9jYWwgTlVNQSBjb3JlcyksIEhXIHF1ZXVlIGFmZmluaXR5IHNldCB0byBs
-b2NhbCBOVU1BIGNvcmVzLgo+IC4gVGFyZ2V0IE5JQyBIVyBxdWV1ZXMgc2V0IHRvIDggLCBIVyBx
-dWV1ZSBhZmZpbml0eSBzZXQgdG8gbG9jYWwgTlVNQSBjb3Jlcy4KPiAuIEluaXRpYXRvciB0byBU
-YXJnZXQgY29ubmVjdGVkIHVzaW5nIDEgZGVmYXVsdCwgMzIgcG9sbCBxdWV1ZXMuCj4gLiBXaGVu
-IHRlc3Rpbmcgd2l0aCAnaWRsZV9wb2xsX3BlcmlvZCcgZW5hYmxlZCwgdG8gdGVzdCBwb2xsaW5n
-IE5WTWUgZGV2aWNlcywgdGhlIHRhcmdldCBOVk1lIG1vZHVsZSBsb2FkZWQgd2l0aCBtb2R1bGUg
-b3B0aW9uIHRvIGVuYWJsZSAxNiBwb2xsIHF1ZXVlcy4KPiAuIFBhdGNoZXMgdGVzdGVkIGFuZCBk
-ZXZlbG9wZWQgb24gbGludXgtbnZtZSBudm1lLTUuMTAgYnJhbmNoLgo+IC4gQWxsIG1lYXN1cmVk
-IHRpbWVzIGluIHVzZWNzIHVubGVzcyBvdGhlcndpc2Ugbm90ZWQuCj4gLiBGZXdlciB0YXJnZXQg
-SFcgcXVldWVzIHZzLiBudW1iZXIgb2YgYWN0aXZlIGNvbm5lY3Rpb25zIHRvIG1lYXN1cmUgdGhl
-IGltcGFjdCBvZiB2aXJ0dWFsIGdyb3VwaW5nIG9mIGNvbm5lY3Rpb24gcHJvY2Vzc2luZyBvbiBz
-aGFyZWQgdGFyZ2V0IGNvcmVzLgo+IAo+IEJhc2VsaW5lIC0gcGF0Y2hlcyBub3QgYXBwbGllZAo+
-IElPUFMoaynCoCDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIEF2ZyBMYXTCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgOTkuOTnCoMKgwqDCoCA5OS45MMKgwqDCoMKgIDk5LjAwwqDC
-oMKgwqAgU3RkZXbCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBDb250ZXh0
-IFN3aXRjaMKgIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgVGd0LiBDUFUgVXRpbC4KPiAx
-OTEwwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAyNTIuOTLCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDY4NcKgwqDCoMKgwqDCoMKgIDU3OMKgwqDCoMKg
-wqDCoMKgIDUwMsKgwqDCoMKgwqDCoMKgIDk4LjQ1wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgfjIxNUvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA4MDEuMzcKPiAKPiBQYXRjaGVzIGFwcGxpZWQgb24g
-dGFyZ2V0IC0gbW9kdWxlIG9wdGlvbiAnaWRsZV9wb2xsX3BlcmlvZCcgbm90IHNldC4KPiAyMTUy
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAyMjMuMzHCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDY4NcKgwqDCoMKgwqDCoMKgIDYxMcKgwqDCoMKgwqDC
-oMKgIDQyNMKgwqDCoMKgwqDCoMKgIDkyLjExwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgfjEyMEvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA4ODIuMTQKPiAKPiBQYXRjaGVzIGFwcGxpZWQgb24gdGFy
-Z2V0IC0gbW9kdWxlIG9wdGlvbiAnaWRsZV9wb2xsX3BlcmlvZCcgc2V0IHRvIDc1MDAwMCB1c2Vj
-cy4gKE5WTWUgbW9kdWxlIG5vdCBlbmFibGluZyBwb2xsIHF1ZXVlcykKPiAyMjI3wqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAyMTYuNjXCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIDYyN8KgwqDCoMKgwqDCoMKgIDU1M8KgwqDCoMKgwqDCoMKgIDM4OMKg
-wqDCoMKgwqDCoMKgIDY5LjQ4wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-fjEwMC00MDDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCA5MzQuMzUKPiAKPiBQYXRjaGVzIGFwcGxpZWQgb24gdGFyZ2V0IC0gbW9kdWxlIG9wdGlv
-biAnaWRsZV9wb2xsX3BlcmlvZCcgc2V0IHRvIDc1MDAwMCB1c2Vjcy4gTlZNZSBtb2R1bGUgbG9h
-ZGVkIGVuYWJsaW5nIDE2IHBvbGwgcXVldWVzLgo+IDI3NznCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIDE2OC42MMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgNTQ1wqDCoMKgwqDCoMKgwqAgNDc0wqDCoMKgwqDCoMKgwqAgMzc1wqDCoMKgwqDCoMKgwqAg
-NTMuMjTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB+MTAwLTQwMMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDgwMgo+IAo+
-IFRoaXMgZGF0YSBzaG93cyB0aGF0IGFkZGluZyB0aGUgbmV3IGlkbGUgcG9sbCBvcHRpb24gZG9l
-cyBub3QgaW1wYWN0IHBlcmZvcm1hbmNlIHdoZW4gbm90IHVzZWQuICBXaGVuIHVzZWQgd2l0aCB0
-aGUgYWRkaXRpb24gb2YgZGlyZWN0IE5WTWUgZGV2aWNlIHBvbGxpbmcgZm9yIGNvbXBsZXRpb25z
-LCB0aGVyZSBpcyBhIG5pY2UgcGVyZm9ybWFuY2UgYmVuZWZpdC4KPiBJdCB3YXMgbm90ZWQgZHVy
-aW5nIHRlc3RpbmcgdGhhdCBsb2dpY2FsIGdyb3VwaW5nIG9mIHF1ZXVlcyB0byBjb3JlcyBvbiB0
-aGUgdGFyZ2V0IGNhbiB2YXJ5IGFzIGEgcmVzdWx0IG9mIFJTUyB3aGljaCB3aWxsIG9yIHdpdGhv
-dXQgdGhpcyBwYXRjaCBzZXJpZXMgd2hpY2ggY2FuIHZhcnkgdGhlIHBlcmZvcm1hbmNlIGFjaGll
-dmVkLCBidXQgd2hlbiB1c2luZyB0aGUgcGF0Y2ggc2V0IHdpdGggZGlyZWN0IE5WTWUgZGV2aWNl
-IHBvbGxpbmcgdGhlbiB0aGUgbG9naWNhbCBxdWV1ZSBncm91cGluZyB3YXMgbW9yZSBjb25zaXN0
-ZW50IGFuZCBwZXJmb3JtYW5jZSB2YXJpZWQgbGVzcy4KClNvIGl0IGRvZXMgc2VlbSB0aGF0IHBv
-bGxpbmcgdGhlIGJhY2tlbmQgZGV2aWNlcyBkb2VzIGhhdmUgbWVyaXQsIGFuZCAKdGhlIGNvbW1h
-bmQgdHJhY2tpbmcgaW5kaWNhdG9yIGlmIHdlIHNob3VsZCBwb2xsIHRoZSBiYWNrZW5kIGRldmlj
-ZXMgaXMKYW4gaW50ZXJlc3RpbmcgaWRlYS4KCkhvd2V2ZXIgdGhpcyBzaG91bGQgc29tZXRoaW5n
-IHRoYXQgc2hvdWxkIHJlYWxseSBiZSBoYW5kbGVkIGJ5IG52bWV0CmNvcmUuIFdlIGNvdWxkIHBv
-dGVudGlhbGx5IGFkZCBzb21lIGNvdW50ZXJzIHRvIG52bWV0X3NxIGFuZC9vcgpudm1ldF9jcS4K
-Ck15IGRpZmZpY3VsdHkgaXMgdG8gdW5kZXJzdGFuZCBpZiB3ZSBjYW4gbW92ZSB0aGUgSS9PIHRo
-cmVhZHMgZnJvbSB0aGUKdHJhbnNwb3J0IGRyaXZlcnMgdG8gdGhlIGNvcmUuIFJpZ2h0IG5vdyB0
-aGUgSS9PIGNvbnRleHRzIGFyZSBwcm92aWRlZApieSBlaXRoZXIgdGhlIHRyYW5zcG9ydHMgb3Ig
-dGhlIGJhY2tlbmQgZGV2aWNlcy4gSUZGIHdlIHdhbnQgdG8gZXhwbG9yZQp0aGlzIChhbmQgYXMg
-SSBzYWlkLCB5b3UgY2xlYXJseSBzaG93ZWQgaXQgaGFzIG1lcml0KSwgd2Ugd291bGQgbmVlZCB0
-bwpleHBsb3JlIGlmIG1vdmluZyB0aGUgSS9PIGNvbnRleHQgYW5kIGJ1aWxkCnRyYW5zcG9ydF9w
-b2xsL3RyYW5zcG9ydF93YWl0IHNvcnQgb2YgaW50ZXJmYWNlIGZvciB0aGlzLgoKVGhpcyBjYW4g
-YmUgZG9uZSBmb3IgdGNwL3JkbWEgYW5kIGxvb3AgZm9yIHN1cmUsIGJ1dCBJJ20gbm90IHN1cmUK
-d2hhdCB3ZSBjYW4gZG8gZm9yIEZDIChidXQgbWF5YmUgdGhpcyBpcyBwb3NzaWJsZSwgbmVlZCB0
-byBsb29rCmZ1cnRoZXIpLgoKQWRkaW5nIENoYWl0YW55YSB3aG8gbG9va2VkIGludG8gZGV2aWNl
-IHBvbGxpbmcgaW4gdGhlIHBhc3QgdG8gZ2V0CmhpcyBmZWVkYmFjayBpZiB0aGlzIGlzIHNvbWV0
-aGluZyBpbnRlcmVzdGluZy4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LW52bWUK
+
+> nvmet_tcp: enable polling nvme for completions
+> 
+> NVMe device queue interrupt activity can conflict with CPUs
+> processing NVMe/TCP network queues.  This patch adds the ability
+> to poll an NVMe device for completions, when NVMe device poll
+> queues are configured.
+> 
+> A new non-blocking blk_poll_once() function is introduced to
+> provide a one shot option to poll an individual NVMe device
+> queue.
+> 
+> Per-queue tracking of outstanding requests to specific NVMe
+> devices established to facilitate directed use of the new
+> blk_poll_once() function.
+> 
+> These changes are viable after adding the previous patch
+> that added the idle_poll_period option to io_work(). If this
+> option is not enabled then use of NVMe device polling is
+> bypassed.
+> 
+> Signed-off-by: Mark Wunderlich <mark.wunderlich@intel.com>
+> ---
+>   block/blk-mq.c                    |   22 +++++++++
+>   drivers/nvme/target/io-cmd-bdev.c |    6 ++
+>   drivers/nvme/target/nvmet.h       |    4 ++
+>   drivers/nvme/target/tcp.c         |   90 ++++++++++++++++++++++++++++++++++++-
+>   include/linux/blkdev.h            |    1
+>   5 files changed, 120 insertions(+), 3 deletions(-)
+
+Patches for block, nvmet core and nvmet-tcp should be split into
+sub-patches.
+
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 55bcee5dc032..ceacf327f65e 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -3832,6 +3832,28 @@ static bool blk_mq_poll_hybrid(struct request_queue *q,
+>   	return blk_mq_poll_hybrid_sleep(q, rq);
+>   }
+>   
+> +int blk_poll_once(struct request_queue *q)
+> +{
+> +	struct blk_mq_hw_ctx *hctx;
+> +	int ret;
+> +
+> +	if (!test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
+> +		return 0;
+> +
+> +	hctx = blk_mq_map_queue_type(q, HCTX_TYPE_POLL, smp_processor_id());
+
+This should probably be __smp_processor_id() in a preemptible context.
+
+> +	if (!hctx) {
+> +		pr_err("%s: hctx not resolved\n", __func__);
+> +		return 0;
+> +	}
+> +
+> +	hctx->poll_invoked++;
+> +	ret = q->mq_ops->poll(hctx);
+> +	if (ret > 0)
+> +		hctx->poll_success++;
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(blk_poll_once);
+> +
+>   /**
+>    * blk_poll - poll for IO completions
+>    * @q:  the queue
+> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+> index 125dde3f410e..1d9ee8546ae1 100644
+> --- a/drivers/nvme/target/io-cmd-bdev.c
+> +++ b/drivers/nvme/target/io-cmd-bdev.c
+> @@ -269,6 +269,12 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+>   	bio->bi_iter.bi_sector = sector;
+>   	bio->bi_private = req;
+>   	bio->bi_end_io = nvmet_bio_done;
+> +	/* Set hipri flag to trigger use of poll queues */
+> +	if ((req->op & REQ_HIPRI) &&
+> +	    test_bit(QUEUE_FLAG_POLL, &bio->bi_disk->queue->queue_flags)) {
+> +		op |= REQ_HIPRI;
+> +		req->queue = bio->bi_disk->queue;
+> +	}
+>   	bio->bi_opf = op;
+>   
+>   	blk_start_plug(&plug);
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 559a15ccc322..65900df2b45d 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -341,6 +341,10 @@ struct nvmet_req {
+>   	size_t			transfer_len;
+>   	size_t			metadata_len;
+>   
+> +	/* details to support polling */
+> +	struct request_queue	*queue;
+> +	int			op;
+> +
+>   	struct nvmet_port	*port;
+>   
+>   	void (*execute)(struct nvmet_req *req);
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 739d67985d93..43a0cc630bc7 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -62,6 +62,12 @@ enum {
+>   	NVMET_TCP_F_INIT_FAILED = (1 << 0),
+>   };
+>   
+> +struct nvmet_tcp_devq {
+> +	u32				pend_cnt;
+> +	struct request_queue		*queue;
+> +	struct list_head		entry;
+> +};
+> +
+>   struct nvmet_tcp_cmd {
+>   	struct nvmet_tcp_queue		*queue;
+>   	struct nvmet_req		req;
+> @@ -82,6 +88,7 @@ struct nvmet_tcp_cmd {
+>   	struct kvec			*iov;
+>   	u32				flags;
+>   
+> +	struct nvmet_tcp_devq		*devq;
+>   	struct list_head		entry;
+>   	struct llist_node		lentry;
+>   
+> @@ -142,6 +149,9 @@ struct nvmet_tcp_queue {
+>   	int			idx;
+>   	struct list_head	queue_list;
+>   
+> +	/* ref to group subsys devq entry */
+> +	struct list_head	devq_list;
+> +
+>   	struct nvmet_tcp_cmd	connect;
+>   
+>   	struct page_frag_cache	pf_cache;
+> @@ -237,6 +247,42 @@ static inline int queue_cpu(struct nvmet_tcp_queue *queue)
+>   	return queue->sock->sk->sk_incoming_cpu;
+>   }
+>   
+> +static int nvmet_tcp_track_queue(struct nvmet_tcp_queue *queue)
+> +{
+> +	struct nvmet_tcp_devq *devq;
+> +	struct nvmet_req *req = &queue->cmd->req;
+> +
+> +	/* track only requests issued as poll requests */
+> +	if (req->queue == NULL)
+> +		return 0;
+> +
+> +	list_for_each_entry(devq, &queue->devq_list, entry) {
+> +		if (devq->queue == req->queue)
+> +			goto update;
+> +	}
+> +
+> +	devq = kzalloc(sizeof(*devq), GFP_KERNEL);
+> +	if (!devq)
+> +		return -ENOMEM;
+> +	list_add_tail(&devq->entry, &queue->devq_list);
+> +	devq->queue = req->queue;
+> +update:
+> +	devq->pend_cnt++;
+> +	queue->cmd->devq = devq;
+> +	return 0;
+> +}
+> +
+> +static void nvmet_tcp_free_dev_tracking(struct nvmet_tcp_queue *queue)
+> +{
+> +	struct nvmet_tcp_devq *devq;
+> +
+> +	while ((devq = list_first_entry_or_null(
+> +			&queue->devq_list, struct nvmet_tcp_devq, entry))) {
+> +		list_del_init(&devq->entry);
+> +		kfree(devq);
+> +	}
+> +}
+> +
+>   static inline u8 nvmet_tcp_hdgst_len(struct nvmet_tcp_queue *queue)
+>   {
+>   	return queue->hdr_digest ? NVME_TCP_DIGEST_LENGTH : 0;
+> @@ -479,6 +525,25 @@ static void nvmet_setup_response_pdu(struct nvmet_tcp_cmd *cmd)
+>   	}
+>   }
+>   
+> +static inline void nvmet_tcp_poll_init(struct nvmet_req *req)
+> +{
+> +	req->queue = NULL;
+> +	if (idle_poll_period)
+> +		req->op |= REQ_HIPRI;
+> +	else
+> +		req->op = 0;
+> +}
+
+All of this patch really exemplifies why none of this should live
+in nvme-tcp.
+
+All of this management, tracking, and decisions should live in
+nvmet core. But as I said, I'm not convinced that this is an easy
+change because it fundamentally changes the target architecture (not
+saying we shouldn't do this, but it is a rather intrusive change).
+
+Would be good to hear what others think on this. I do think that all
+transports would benefit from backend device polling (despite
+demonstrated on nvme-tcp).
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
