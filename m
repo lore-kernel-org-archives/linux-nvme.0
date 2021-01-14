@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B1BDC433E6
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:13:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A40C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:13:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 50DCB23A6C
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:13:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 50DCB23A6C
+	by mail.kernel.org (Postfix) with ESMTPS id 0061723A5F
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:13:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0061723A5F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,41 +24,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lXoROS2i/wzPS43ikal24vgnIADgon9pb81NVRuWOIE=; b=QuhsMIaIFwW8VcXFrZbR4zjFH
-	0Pofm9ztWlj5UdZYWtLrzeueXe6S2Nzxi8W9Ahf0J0RiZEUWrA/JLaLHEckVVn0fFvG/kBBDpGjIc
-	i4/ZGGEo5CVttxvcwOe0kuyJ91VUhPwW6GKMGmaS8P+cqoI/vZdPC3oDOgQaL0WOBW97pH9foH67d
-	G9IOxWeLEM/DhaHtVL2ZFLYxx33agK3wgbuSka9CM4BoD2KNLCqmEEFHBjt9bNySwcX2vvn0JOOsi
-	n4r7ljcJ4Ub2GC7Z7jV8G+O9g13LB7AUAQubHiHUW74fcS5OQp3wlE6a9fokjsI8OyhJftby9PuJM
-	cO03apt5w==;
+	 bh=AiF1IL7mQb7hTzi+PucU9iW6S2oDITl2/zNs6F6JwSM=; b=o71h2V0CGefajeZlCK9Nh6S0L
+	JxY6hdxGEiKHmBgVzeMfHzw28vBqOMyTiuMO7xsfMzCM79Z2thE/j93lx+5HIo6CcdJEoMc2NL87V
+	bOva/A3gbOOymxExtDQaRRvWc72iEbhpC972wIJKOwFmv9EVcYMLiSm2WuUGz+vhG0B6ds/F9f3jW
+	UOHkRBflqeZHOoSmCQxu6QoYonlfccievdBP8/UlQdqMY90tV4wX3yL0IR5dZBk1BT+N4BvWR2of1
+	VoQeylyXP2yTG0VeB4lEJaUvjRm2QyISKwgPrzpNs8S8298kvUbIFm4hTu/bWiTTfHZapuN7/yLDr
+	y3j4G4ygw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l04IT-0001Pt-FA; Thu, 14 Jan 2021 15:12:25 +0000
+	id 1l04Ix-0001fb-AV; Thu, 14 Jan 2021 15:12:55 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l04Gy-0000gH-Vm
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 15:11:11 +0000
+ id 1l04Gy-0000g3-Vp
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 15:11:12 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  borisp@mellanox.com) with SMTP; 14 Jan 2021 17:10:44 +0200
 Received: from gen-l-vrt-133.mtl.labs.mlnx. (gen-l-vrt-133.mtl.labs.mlnx
  [10.237.11.160])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 10EFAh0A000835;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 10EFAh02000835;
  Thu, 14 Jan 2021 17:10:44 +0200
 From: Boris Pismenny <borisp@mellanox.com>
 To: kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
  sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org,
  viro@zeniv.linux.org.uk, edumazet@google.com, dsahern@gmail.com,
  smalin@marvell.com
-Subject: [PATCH v2 net-next 10/21] net/mlx5: Header file changes for nvme-tcp
+Subject: [PATCH v2 net-next 02/21] net: Introduce direct data placement tcp
  offload
-Date: Thu, 14 Jan 2021 17:10:22 +0200
-Message-Id: <20210114151033.13020-11-borisp@mellanox.com>
+Date: Thu, 14 Jan 2021 17:10:14 +0200
+Message-Id: <20210114151033.13020-3-borisp@mellanox.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20210114151033.13020-1-borisp@mellanox.com>
 References: <20210114151033.13020-1-borisp@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_101053_650071_EDD54EF8 
-X-CRM114-Status: GOOD (  12.55  )
+X-CRM114-CacheID: sfid-20210114_101053_650989_3FC5BDF8 
+X-CRM114-Status: GOOD (  27.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,250 +71,321 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Yoray Zack <yorayz@mellanox.com>, yorayz@nvidia.com,
- boris.pismenny@gmail.com, benishay@nvidia.com, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, Or Gerlitz <ogerlitz@mellanox.com>,
- ogerlitz@nvidia.com
+ boris.pismenny@gmail.com, Ben Ben-Ishay <benishay@mellanox.com>,
+ benishay@nvidia.com, linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ Or Gerlitz <ogerlitz@mellanox.com>, ogerlitz@nvidia.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Ben Ben-ishay <benishay@nvidia.com>
+This commit introduces direct data placement offload for TCP.
+This capability is accompanied by new net_device operations that
+configure hardware contexts. There is a context per socket, and a context per DDP
+opreation. Additionally, a resynchronization routine is used to assist
+hardware handle TCP OOO, and continue the offload.
+Furthermore, we let the offloading driver advertise what is the max hw
+sectors/segments.
 
-Add the necessary infrastructure for NVMEoTCP offload:
+Using this interface, the NIC hardware will scatter TCP payload directly
+to the BIO pages according to the command_id.
+To maintain the correctness of the network stack, the driver is expected
+to construct SKBs that point to the BIO pages.
 
-- Add nvmeocp_en + nvmeotcp_crc_en bit to the TIR for identify NVMEoTCP offload flow
-  And tag_buffer_id that will be used by the connected nvmeotcp_queues
-- Add new CQE field that will be used to pass scattered data information to SW
-- Add new capability to HCA_CAP that represnts the NVMEoTCP offload ability
+This, the SKB represents the data on the wire, while it is pointing
+to data that is already placed in the destination buffer.
+As a result, data from page frags should not be copied out to
+the linear part.
 
-Signed-off-by: Ben Ben-ishay <benishay@nvidia.com>
+As SKBs that use DDP are already very memory efficient, we modify
+skb_condence to avoid copying data from fragments to the linear
+part of SKBs that belong to a socket that uses DDP offload.
+
+A follow-up patch will use this interface for DDP in NVMe-TCP.
+
 Signed-off-by: Boris Pismenny <borisp@mellanox.com>
+Signed-off-by: Ben Ben-Ishay <benishay@mellanox.com>
 Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
 Signed-off-by: Yoray Zack <yorayz@mellanox.com>
 ---
- include/linux/mlx5/device.h   |   8 +++
- include/linux/mlx5/mlx5_ifc.h | 101 +++++++++++++++++++++++++++++++++-
- include/linux/mlx5/qp.h       |   1 +
- 3 files changed, 107 insertions(+), 3 deletions(-)
+ include/linux/netdev_features.h    |   2 +
+ include/linux/netdevice.h          |   5 ++
+ include/net/inet_connection_sock.h |   4 +
+ include/net/tcp_ddp.h              | 136 +++++++++++++++++++++++++++++
+ net/Kconfig                        |   9 ++
+ net/core/skbuff.c                  |   9 +-
+ net/ethtool/common.c               |   1 +
+ 7 files changed, 165 insertions(+), 1 deletion(-)
+ create mode 100644 include/net/tcp_ddp.h
 
-diff --git a/include/linux/mlx5/device.h b/include/linux/mlx5/device.h
-index 00057eae89ab..4433ff213d32 100644
---- a/include/linux/mlx5/device.h
-+++ b/include/linux/mlx5/device.h
-@@ -263,6 +263,7 @@ enum {
- enum {
- 	MLX5_MKEY_MASK_LEN		= 1ull << 0,
- 	MLX5_MKEY_MASK_PAGE_SIZE	= 1ull << 1,
-+	MLX5_MKEY_MASK_XLT_OCT_SIZE     = 1ull << 2,
- 	MLX5_MKEY_MASK_START_ADDR	= 1ull << 6,
- 	MLX5_MKEY_MASK_PD		= 1ull << 7,
- 	MLX5_MKEY_MASK_EN_RINVAL	= 1ull << 8,
-@@ -1171,6 +1172,7 @@ enum mlx5_cap_type {
- 	MLX5_CAP_VDPA_EMULATION = 0x13,
- 	MLX5_CAP_DEV_EVENT = 0x14,
- 	MLX5_CAP_IPSEC,
-+	MLX5_CAP_DEV_NVMEOTCP = 0x19,
- 	/* NUM OF CAP Types */
- 	MLX5_CAP_NUM
- };
-@@ -1391,6 +1393,12 @@ enum mlx5_qcam_feature_groups {
- #define MLX5_CAP_IPSEC(mdev, cap)\
- 	MLX5_GET(ipsec_cap, (mdev)->caps.hca_cur[MLX5_CAP_IPSEC], cap)
+diff --git a/include/linux/netdev_features.h b/include/linux/netdev_features.h
+index 934de56644e7..fb35dcac03d2 100644
+--- a/include/linux/netdev_features.h
++++ b/include/linux/netdev_features.h
+@@ -84,6 +84,7 @@ enum {
+ 	NETIF_F_GRO_FRAGLIST_BIT,	/* Fraglist GRO */
  
-+#define MLX5_CAP_DEV_NVMEOTCP(mdev, cap)\
-+	MLX5_GET(nvmeotcp_cap, mdev->caps.hca_cur[MLX5_CAP_DEV_NVMEOTCP], cap)
-+
-+#define MLX5_CAP64_NVMEOTCP(mdev, cap)\
-+	MLX5_GET64(nvmeotcp_cap, mdev->caps.hca_cur[MLX5_CAP_DEV_NVMEOTCP], cap)
-+
- enum {
- 	MLX5_CMD_STAT_OK			= 0x0,
- 	MLX5_CMD_STAT_INT_ERR			= 0x1,
-diff --git a/include/linux/mlx5/mlx5_ifc.h b/include/linux/mlx5/mlx5_ifc.h
-index ec0d01e26b3e..923f8961d50d 100644
---- a/include/linux/mlx5/mlx5_ifc.h
-+++ b/include/linux/mlx5/mlx5_ifc.h
-@@ -1271,7 +1271,9 @@ struct mlx5_ifc_cmd_hca_cap_bits {
- 	u8         log_max_srq_sz[0x8];
- 	u8         log_max_qp_sz[0x8];
- 	u8         event_cap[0x1];
--	u8         reserved_at_91[0x7];
-+	u8         reserved_at_91[0x5];
-+	u8         nvmeotcp[0x1];
-+	u8         reserved_at_97[0x1];
- 	u8         prio_tag_required[0x1];
- 	u8         reserved_at_99[0x2];
- 	u8         log_max_qp[0x5];
-@@ -3020,6 +3022,21 @@ struct mlx5_ifc_roce_addr_layout_bits {
- 	u8         reserved_at_e0[0x20];
- };
+ 	NETIF_F_HW_MACSEC_BIT,		/* Offload MACsec operations */
++	NETIF_F_HW_TCP_DDP_BIT,		/* TCP direct data placement offload */
  
-+struct mlx5_ifc_nvmeotcp_cap_bits {
-+	u8    zerocopy[0x1];
-+	u8    crc_rx[0x1];
-+	u8    crc_tx[0x1];
-+	u8    reserved_at_3[0x15];
-+	u8    version[0x8];
+ 	/*
+ 	 * Add your fresh new feature above and remember to update
+@@ -157,6 +158,7 @@ enum {
+ #define NETIF_F_GRO_FRAGLIST	__NETIF_F(GRO_FRAGLIST)
+ #define NETIF_F_GSO_FRAGLIST	__NETIF_F(GSO_FRAGLIST)
+ #define NETIF_F_HW_MACSEC	__NETIF_F(HW_MACSEC)
++#define NETIF_F_HW_TCP_DDP	__NETIF_F(HW_TCP_DDP)
+ 
+ /* Finds the next feature with the highest number of the range of start till 0.
+  */
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 259be67644e3..3dd3cdf5dec3 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -941,6 +941,7 @@ struct dev_ifalias {
+ 
+ struct devlink;
+ struct tlsdev_ops;
++struct tcp_ddp_dev_ops;
+ 
+ struct netdev_name_node {
+ 	struct hlist_node hlist;
+@@ -1937,6 +1938,10 @@ struct net_device {
+ 	const struct tlsdev_ops *tlsdev_ops;
+ #endif
+ 
++#ifdef CONFIG_TCP_DDP
++	const struct tcp_ddp_dev_ops *tcp_ddp_ops;
++#endif
 +
-+	u8    reserved_at_20[0x13];
-+	u8    log_max_nvmeotcp_tag_buffer_table[0x5];
-+	u8    reserved_at_38[0x3];
-+	u8    log_max_nvmeotcp_tag_buffer_size[0x5];
+ 	const struct header_ops *header_ops;
+ 
+ 	unsigned int		flags;
+diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
+index 7338b3865a2a..a08b85b53aa8 100644
+--- a/include/net/inet_connection_sock.h
++++ b/include/net/inet_connection_sock.h
+@@ -66,6 +66,8 @@ struct inet_connection_sock_af_ops {
+  * @icsk_ulp_ops	   Pluggable ULP control hook
+  * @icsk_ulp_data	   ULP private data
+  * @icsk_clean_acked	   Clean acked data hook
++ * @icsk_ulp_ddp_ops	   Pluggable ULP direct data placement control hook
++ * @icsk_ulp_ddp_data	   ULP direct data placement private data
+  * @icsk_listen_portaddr_node	hash to the portaddr listener hashtable
+  * @icsk_ca_state:	   Congestion control state
+  * @icsk_retransmits:	   Number of unrecovered [RTO] timeouts
+@@ -94,6 +96,8 @@ struct inet_connection_sock {
+ 	const struct tcp_ulp_ops  *icsk_ulp_ops;
+ 	void __rcu		  *icsk_ulp_data;
+ 	void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
++	const struct tcp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
++	void __rcu		  *icsk_ulp_ddp_data;
+ 	struct hlist_node         icsk_listen_portaddr_node;
+ 	unsigned int		  (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
+ 	__u8			  icsk_ca_state:5,
+diff --git a/include/net/tcp_ddp.h b/include/net/tcp_ddp.h
+new file mode 100644
+index 000000000000..31e5b1a16d0f
+--- /dev/null
++++ b/include/net/tcp_ddp.h
+@@ -0,0 +1,136 @@
++/* SPDX-License-Identifier: GPL-2.0
++ *
++ * tcp_ddp.h
++ *	Author:	Boris Pismenny <borisp@mellanox.com>
++ *	Copyright (C) 2021 Mellanox Technologies.
++ */
++#ifndef _TCP_DDP_H
++#define _TCP_DDP_H
 +
-+	u8    reserved_at_40[0x7c0];
++#include <linux/netdevice.h>
++#include <net/inet_connection_sock.h>
++#include <net/sock.h>
++
++/* limits returned by the offload driver, zero means don't care */
++struct tcp_ddp_limits {
++	int	 max_ddp_sgl_len;
 +};
 +
- union mlx5_ifc_hca_cap_union_bits {
- 	struct mlx5_ifc_cmd_hca_cap_bits cmd_hca_cap;
- 	struct mlx5_ifc_odp_cap_bits odp_cap;
-@@ -3036,6 +3053,7 @@ union mlx5_ifc_hca_cap_union_bits {
- 	struct mlx5_ifc_tls_cap_bits tls_cap;
- 	struct mlx5_ifc_device_mem_cap_bits device_mem_cap;
- 	struct mlx5_ifc_virtio_emulation_cap_bits virtio_emulation_cap;
-+	struct mlx5_ifc_nvmeotcp_cap_bits nvmeotcp_cap;
- 	u8         reserved_at_0[0x8000];
- };
- 
-@@ -3230,7 +3248,9 @@ struct mlx5_ifc_tirc_bits {
- 
- 	u8         disp_type[0x4];
- 	u8         tls_en[0x1];
--	u8         reserved_at_25[0x1b];
-+	u8         nvmeotcp_zero_copy_en[0x1];
-+	u8         nvmeotcp_crc_en[0x1];
-+	u8         reserved_at_27[0x19];
- 
- 	u8         reserved_at_40[0x40];
- 
-@@ -3261,7 +3281,8 @@ struct mlx5_ifc_tirc_bits {
- 
- 	struct mlx5_ifc_rx_hash_field_select_bits rx_hash_field_selector_inner;
- 
--	u8         reserved_at_2c0[0x4c0];
-+	u8         nvmeotcp_tag_buffer_table_id[0x20];
-+	u8         reserved_at_2e0[0x4a0];
- };
- 
- enum {
-@@ -10716,12 +10737,14 @@ enum {
- 	MLX5_HCA_CAP_GENERAL_OBJECT_TYPES_ENCRYPTION_KEY = BIT_ULL(0xc),
- 	MLX5_HCA_CAP_GENERAL_OBJECT_TYPES_IPSEC = BIT_ULL(0x13),
- 	MLX5_HCA_CAP_GENERAL_OBJECT_TYPES_SAMPLER = BIT_ULL(0x20),
-+	MLX5_HCA_CAP_GENERAL_OBJECT_TYPES_NVMEOTCP_TAG_BUFFER_TABLE = BIT_ULL(0x21),
- };
- 
- enum {
- 	MLX5_GENERAL_OBJECT_TYPES_ENCRYPTION_KEY = 0xc,
- 	MLX5_GENERAL_OBJECT_TYPES_IPSEC = 0x13,
- 	MLX5_GENERAL_OBJECT_TYPES_SAMPLER = 0x20,
-+	MLX5_GENERAL_OBJECT_TYPES_NVMEOTCP_TAG_BUFFER_TABLE = 0x21
- };
- 
- enum {
-@@ -10823,6 +10846,20 @@ struct mlx5_ifc_create_sampler_obj_in_bits {
- 	struct mlx5_ifc_sampler_obj_bits sampler_object;
- };
- 
-+struct mlx5_ifc_nvmeotcp_tag_buf_table_obj_bits {
-+	u8    modify_field_select[0x40];
-+
-+	u8    reserved_at_20[0x20];
-+
-+	u8    reserved_at_40[0x1b];
-+	u8    log_tag_buffer_table_size[0x5];
++enum tcp_ddp_type {
++	TCP_DDP_NVME = 1,
 +};
 +
-+struct mlx5_ifc_create_nvmeotcp_tag_buf_table_in_bits {
-+	struct mlx5_ifc_general_obj_in_cmd_hdr_bits general_obj_in_cmd_hdr;
-+	struct mlx5_ifc_nvmeotcp_tag_buf_table_obj_bits nvmeotcp_tag_buf_table_obj;
++/**
++ * struct tcp_ddp_config - Generic tcp ddp configuration: tcp ddp IO queue
++ * config implementations must use this as the first member.
++ * Add new instances of tcp_ddp_config below (nvme-tcp, etc.).
++ */
++struct tcp_ddp_config {
++	enum tcp_ddp_type    type;
++	unsigned char        buf[];
 +};
 +
- enum {
- 	MLX5_GENERAL_OBJECT_TYPE_ENCRYPTION_KEY_KEY_SIZE_128 = 0x0,
- 	MLX5_GENERAL_OBJECT_TYPE_ENCRYPTION_KEY_KEY_SIZE_256 = 0x1,
-@@ -10833,6 +10870,18 @@ enum {
- 	MLX5_GENERAL_OBJECT_TYPE_ENCRYPTION_KEY_TYPE_IPSEC = 0x2,
++/**
++ * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO queue
++ *
++ * @pfv:        pdu version (e.g., NVME_TCP_PFV_1_0)
++ * @cpda:       controller pdu data alignmend (dwords, 0's based)
++ * @dgst:       digest types enabled.
++ *              The netdev will offload crc if ddp_crc is supported.
++ * @queue_size: number of nvme-tcp IO queue elements
++ * @queue_id:   queue identifier
++ * @cpu_io:     cpu core running the IO thread for this queue
++ */
++struct nvme_tcp_ddp_config {
++	struct tcp_ddp_config   cfg;
++
++	u16			pfv;
++	u8			cpda;
++	u8			dgst;
++	int			queue_size;
++	int			queue_id;
++	int			io_cpu;
++};
++
++/**
++ * struct tcp_ddp_io - tcp ddp configuration for an IO request.
++ *
++ * @command_id:  identifier on the wire associated with these buffers
++ * @nents:       number of entries in the sg_table
++ * @sg_table:    describing the buffers for this IO request
++ * @first_sgl:   first SGL in sg_table
++ */
++struct tcp_ddp_io {
++	u32			command_id;
++	int			nents;
++	struct sg_table		sg_table;
++	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
++};
++
++/* struct tcp_ddp_dev_ops - operations used by an upper layer protocol to configure ddp offload
++ *
++ * @tcp_ddp_limits:    limit the number of scatter gather entries per IO.
++ *                     the device driver can use this to limit the resources allocated per queue.
++ * @tcp_ddp_sk_add:    add offload for the queue represennted by the socket+config pair.
++ *                     this function is used to configure either copy, crc or both offloads.
++ * @tcp_ddp_sk_del:    remove offload from the socket, and release any device related resources.
++ * @tcp_ddp_setup:     request copy offload for buffers associated with a command_id in tcp_ddp_io.
++ * @tcp_ddp_teardown:  release offload resources association between buffers and command_id in
++ *                     tcp_ddp_io.
++ * @tcp_ddp_resync:    respond to the driver's resync_request. Called only if resync is successful.
++ */
++struct tcp_ddp_dev_ops {
++	int (*tcp_ddp_limits)(struct net_device *netdev,
++			      struct tcp_ddp_limits *limits);
++	int (*tcp_ddp_sk_add)(struct net_device *netdev,
++			      struct sock *sk,
++			      struct tcp_ddp_config *config);
++	void (*tcp_ddp_sk_del)(struct net_device *netdev,
++			       struct sock *sk);
++	int (*tcp_ddp_setup)(struct net_device *netdev,
++			     struct sock *sk,
++			     struct tcp_ddp_io *io);
++	int (*tcp_ddp_teardown)(struct net_device *netdev,
++				struct sock *sk,
++				struct tcp_ddp_io *io,
++				void *ddp_ctx);
++	void (*tcp_ddp_resync)(struct net_device *netdev,
++			       struct sock *sk, u32 seq);
++};
++
++#define TCP_DDP_RESYNC_REQ BIT(0)
++
++/**
++ * struct tcp_ddp_ulp_ops - Interface to register uppper layer Direct Data Placement (DDP) TCP offload
++ */
++struct tcp_ddp_ulp_ops {
++	/* NIC requests ulp to indicate if @seq is the start of a message */
++	bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
++	/* NIC driver informs the ulp that ddp teardown is done - used for async completions*/
++	void (*ddp_teardown_done)(void *ddp_ctx);
++};
++
++/**
++ * struct tcp_ddp_ctx - Generic tcp ddp context: device driver per queue contexts must
++ * use this as the first member.
++ */
++struct tcp_ddp_ctx {
++	enum tcp_ddp_type    type;
++	unsigned char        buf[];
++};
++
++static inline struct tcp_ddp_ctx *tcp_ddp_get_ctx(const struct sock *sk)
++{
++	struct inet_connection_sock *icsk = inet_csk(sk);
++
++	return (__force struct tcp_ddp_ctx *)icsk->icsk_ulp_ddp_data;
++}
++
++static inline void tcp_ddp_set_ctx(struct sock *sk, void *ctx)
++{
++	struct inet_connection_sock *icsk = inet_csk(sk);
++
++	rcu_assign_pointer(icsk->icsk_ulp_ddp_data, ctx);
++}
++
++#endif //_TCP_DDP_H
+diff --git a/net/Kconfig b/net/Kconfig
+index f4c32d982af6..3876861cdc90 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -457,6 +457,15 @@ config ETHTOOL_NETLINK
+ 	  netlink. It provides better extensibility and some new features,
+ 	  e.g. notification messages.
+ 
++config TCP_DDP
++	bool "TCP direct data placement offload"
++	default n
++	help
++	  Direct Data Placement (DDP) offload for TCP enables ULP, such as
++	  NVMe-TCP/iSCSI, to request the NIC to place TCP payload data
++	  of a command response directly into kernel pages.
++
++
+ endif   # if NET
+ 
+ # Used by archs to tell that they support BPF JIT compiler plus which flavour.
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index f62cae3f75d8..791c1b6bc067 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -69,6 +69,7 @@
+ #include <net/xfrm.h>
+ #include <net/mpls.h>
+ #include <net/mptcp.h>
++#include <net/tcp_ddp.h>
+ 
+ #include <linux/uaccess.h>
+ #include <trace/events/skb.h>
+@@ -6140,9 +6141,15 @@ EXPORT_SYMBOL(pskb_extract);
+  */
+ void skb_condense(struct sk_buff *skb)
+ {
++	bool is_ddp = false;
++
++#ifdef CONFIG_TCP_DDP
++	is_ddp = skb->sk && inet_csk(skb->sk) &&
++		 inet_csk(skb->sk)->icsk_ulp_ddp_data;
++#endif
+ 	if (skb->data_len) {
+ 		if (skb->data_len > skb->end - skb->tail ||
+-		    skb_cloned(skb))
++		    skb_cloned(skb) || is_ddp)
+ 			return;
+ 
+ 		/* Nice, we can free page frag(s) right now */
+diff --git a/net/ethtool/common.c b/net/ethtool/common.c
+index 24036e3055a1..a2ff7a4a6bbf 100644
+--- a/net/ethtool/common.c
++++ b/net/ethtool/common.c
+@@ -68,6 +68,7 @@ const char netdev_features_strings[NETDEV_FEATURE_COUNT][ETH_GSTRING_LEN] = {
+ 	[NETIF_F_HW_TLS_RX_BIT] =	 "tls-hw-rx-offload",
+ 	[NETIF_F_GRO_FRAGLIST_BIT] =	 "rx-gro-list",
+ 	[NETIF_F_HW_MACSEC_BIT] =	 "macsec-hw-offload",
++	[NETIF_F_HW_TCP_DDP_BIT] =	 "tcp-ddp-offload",
  };
  
-+enum {
-+	MLX5_TRANSPORT_STATIC_PARAMS_ACC_TYPE_XTS               = 0x0,
-+	MLX5_TRANSPORT_STATIC_PARAMS_ACC_TYPE_TLS               = 0x1,
-+	MLX5_TRANSPORT_STATIC_PARAMS_ACC_TYPE_NVMETCP           = 0x2,
-+	MLX5_TRANSPORT_STATIC_PARAMS_ACC_TYPE_NVMETCP_WITH_TLS  = 0x3,
-+};
-+
-+enum {
-+	MLX5_TRANSPORT_STATIC_PARAMS_TI_INITIATOR  = 0x0,
-+	MLX5_TRANSPORT_STATIC_PARAMS_TI_TARGET     = 0x1,
-+};
-+
- struct mlx5_ifc_tls_static_params_bits {
- 	u8         const_2[0x2];
- 	u8         tls_version[0x4];
-@@ -10873,4 +10922,50 @@ enum {
- 	MLX5_MTT_PERM_RW	= MLX5_MTT_PERM_READ | MLX5_MTT_PERM_WRITE,
- };
- 
-+struct mlx5_ifc_nvmeotcp_progress_params_bits {
-+	u8    next_pdu_tcp_sn[0x20];
-+
-+	u8    hw_resync_tcp_sn[0x20];
-+
-+	u8    pdu_tracker_state[0x2];
-+	u8    offloading_state[0x2];
-+	u8    reserved_at_64[0xc];
-+	u8    cccid_ttag[0x10];
-+};
-+
-+struct mlx5_ifc_transport_static_params_bits {
-+	u8    const_2[0x2];
-+	u8    tls_version[0x4];
-+	u8    const_1[0x2];
-+	u8    reserved_at_8[0x14];
-+	u8    acc_type[0x4];
-+
-+	u8    reserved_at_20[0x20];
-+
-+	u8    initial_record_number[0x40];
-+
-+	u8    resync_tcp_sn[0x20];
-+
-+	u8    gcm_iv[0x20];
-+
-+	u8    implicit_iv[0x40];
-+
-+	u8    reserved_at_100[0x8];
-+	u8    dek_index[0x18];
-+
-+	u8    reserved_at_120[0x14];
-+	u8    const1[0x1];
-+	u8    ti[0x1];
-+	u8    zero_copy_en[0x1];
-+	u8    ddgst_offload_en[0x1];
-+	u8    hdgst_offload_en[0x1];
-+	u8    ddgst_en[0x1];
-+	u8    hddgst_en[0x1];
-+	u8    pda[0x5];
-+
-+	u8    nvme_resync_tcp_sn[0x20];
-+
-+	u8    reserved_at_160[0xa0];
-+};
-+
- #endif /* MLX5_IFC_H */
-diff --git a/include/linux/mlx5/qp.h b/include/linux/mlx5/qp.h
-index d75ef8aa8fac..5fa8b82c9edb 100644
---- a/include/linux/mlx5/qp.h
-+++ b/include/linux/mlx5/qp.h
-@@ -220,6 +220,7 @@ struct mlx5_wqe_ctrl_seg {
- #define MLX5_WQE_CTRL_OPCODE_MASK 0xff
- #define MLX5_WQE_CTRL_WQE_INDEX_MASK 0x00ffff00
- #define MLX5_WQE_CTRL_WQE_INDEX_SHIFT 8
-+#define MLX5_WQE_CTRL_TIR_TIS_INDEX_SHIFT 8
- 
- enum {
- 	MLX5_ETH_WQE_L3_INNER_CSUM      = 1 << 4,
+ const char
 -- 
 2.24.1
 
