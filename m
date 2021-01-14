@@ -2,85 +2,80 @@ Return-Path: <SRS0=kiw1=GR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D92BFC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA65C433E6
 	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 13:31:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9CAE823A55
+	by mail.kernel.org (Postfix) with ESMTPS id A7EAE23A58
 	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 13:31:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9CAE823A55
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7EAE23A58
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gPTrUYJrKl7i9oi1yqb4/BCvAeyAbBk59sWpqjtRoUo=; b=xdcp2WYTSG7YzA5mvOWqNFR+IY
-	lbuUoEIF0LqxjMwhFtzKC5Qg+Bwpz7peHPeDpQXkf8ILMF/Vq7xAG9nVtyau3St7gE98GZgB8QDCA
-	UZAOAulWibVscNY4Id1HNauMW/CUvzZiSfbkpjGZiw5jUjzMjHWfQu8gugRCIyDrAEuo4dduvGA5m
-	TRrCL2nBvKZ6UaOdIZVolzbgqB1mEDE814+6b8Ksj1S4KAnGvOBcL07uWBBM56pm/bsPsfjyfmaGc
-	1yUbGtPqBPgPaJEGtMLmYVEoex1jocSaJC5dKx4C/1qpjoxOG3JT26LDR4eHa/Lg2lVKatXCTAURh
-	UWf+eiwg==;
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rffs+WYVkQ6GiJwplZ21cQCQGyTw2W6PkxL9tw3ww84=; b=GrbcnprgxoNOvHSofRw2MNEvht
+	25hjX99JpxHU67EC3FH2+9HunJ/sPaQNoKFNVkvw0VZqPgWHITR9ys1ppw/yfAmTnOljl5xCEsMo1
+	33GRu3AC2rQNnRH3TuqgrrBGYgicgVjEX9utmBr7l3W/n7nxdkaVyVZcI4jYZIWejNdAUAR1KPXu9
+	AHbGlS97UBZr11js2iP/C5/mih02RjbxHR4NNJ0v4dLpFOPGTl1oZ2YMQJl/zzLqf7deMs4EYcOTd
+	R6QtVStxapbmXtYSEzox+bt5DvWF8KQ414tBUYhhVkXWU1qrToIFjPoE7YYLyrdO2P1nwejPRJw3V
+	vmAXRmaw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l02il-0001TL-4Z; Thu, 14 Jan 2021 13:31:27 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+	id 1l02ih-0001Rt-Kf; Thu, 14 Jan 2021 13:31:23 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l02ii-0001Ri-Bh
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 13:31:25 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id l23so3195536pjg.1
- for <linux-nvme@lists.infradead.org>; Thu, 14 Jan 2021 05:31:23 -0800 (PST)
+ id 1l02if-0001RF-M0
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 13:31:22 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id x126so3334337pfc.7
+ for <linux-nvme@lists.infradead.org>; Thu, 14 Jan 2021 05:31:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=9s8mDrj9Qo2c5wOTAo1lHo80hmVfcACcbXc+pNkTdF0=;
- b=oHrBHiGz/nvtrpEBz1cDEmrcn6xLodTBZGbD6LlHx2/sKLXyyuVzW+yS1k147/tVAS
- HsUsMRO+mTSc+3hnO8WokkilPtoZKtyT6DbExwK7beLA8Q8B0i4UZvDCbXLw5A/r4G3p
- ZrcUjuOuDGFOzrIfVTvnSaK1PKYNRfoFGpav94+zogAL0tlgnefqsLjA9s671iVIxjy4
- iB1jsXD+Z+8ap5YozNdtA2hH2e5HyY3+CZonxbeZPBQ2gQZQCUbMZ5DI0GfziyrFUxfG
- ebe1beqmeQb1oVjj+ZAjaA0m5nUJiAovXDovB+moikj1EN4VBI9lW42pqQX6GGIFDABn
- ruSQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=4H9YjBNMVAROXOnZO8WHitqaBFbRcp4EDhjK1fSukvY=;
+ b=oawDNDbI0Cv4ZxNVB9yUvKSwHwJbiVftbMZqPaaOzVffNQtgYgfFPc+oHdwB7Nom2d
+ GB9WUbq8MeE4lQWHQbcwlrQ2Agkm9v71vWhzW1YeJx7tDWBKJbpmFpRsAq49DC/QluNG
+ n1wZvkb9DvK0yr5O4Z2Q1BIZuVuxjuc7y1GJWboiIWCqlgovKeaUElReKfIFJm6IFX73
+ Tne1n7nfZ6H+C3BfFy7Im6wdexfM/IkgtyRvJ1KsyM/41wZu4yESvRZwSC86Vbym89cE
+ FrqAci4FrHJgbRNjIii7ad74OPVK31l/1dxjr7eVlrw5N0iDcv2bB8109HnmmH2RE4X/
+ mtaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=9s8mDrj9Qo2c5wOTAo1lHo80hmVfcACcbXc+pNkTdF0=;
- b=e+NtivhexLuW15MXlbTq+It4a+Ri5eRTQ+chpfYew619G0mRj7KgACJPtqzF8aYAOB
- YBTd+Sf8V2DiV3ybCOkDMzLVthyEQ+UZY0Ib1nRWvSz1AKnVQAg+Suwjr+KuuJystn5W
- VYkad6L6ek0Yj4S0BkZHt51K3byikE50nOzjbvOyra+EAbd5qiq4xKIB6imi0JNmr1ZH
- tMjst/iU8gJFtMjLcetZw35g7TAm/orz7+WIfnBSRh/1PXu//5Y7MafQluLuffHCxUQU
- DuHKfSkBIHNqLZx1E4JnsiDCvEEjRE6AS+iMkROs9uKwkWxSTlkFVr54+xBNdaImlOYA
- ZR2g==
-X-Gm-Message-State: AOAM533D84WdQydPZR7dw+a3YVHdoapuQ2LIAq+BL/KgfMzLJZJ0DNB3
- 4nJEkVIGG5xQFPV5WTWQEc+ZSFGZjZz3qg==
-X-Google-Smtp-Source: ABdhPJz3htMfC+Z5Z7CwxPezRzXOa5i4WBvhUR8VYTmFUSrKHrBQcj00Q93vyvEjGUYPbQKLPqM6AQ==
-X-Received: by 2002:a17:902:ff0a:b029:de:1d1f:8558 with SMTP id
- f10-20020a170902ff0ab02900de1d1f8558mr7571172plj.85.1610631081908; 
- Thu, 14 Jan 2021 05:31:21 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=4H9YjBNMVAROXOnZO8WHitqaBFbRcp4EDhjK1fSukvY=;
+ b=if5zkZwtAA/p7TAQt2+zi/Mq7j5jTfEl/TpqbdhxTm8S4igKwOKe84UtA9gUuyN9BH
+ SaeZQRSF8NyYUyuXREKZl4XbZjCFS50VYNLy9P/G+lL2FkM3Omxh7jWRx56eLIJ6FMIu
+ eefPBeOvAqWk5+wR6PHjqTKVWj0NlnKjZhuc9+XLKwBNdNDUcOpO5kU/OeEKePu+djja
+ bPPdx93AsMwfE7HGSt1PBIuXoEyRe1WOCarci+xFq7mXu8M2wO4X3uX4VruUwtuKXHpF
+ YjJRCeuy346VjJt6g7xAn8JrL/cfRMAsBzomYgtxOGas0Rve5Z6C/1U7VC2+Xt7YJyOz
+ JPpQ==
+X-Gm-Message-State: AOAM5302NKBEg+vaMv9zUOJZDVLwT7XImWBQleV41k4x3vAHhP9x9gys
+ 12gP65Im4Wq8r4Rmr8CsapTSdRl6/Z9njg==
+X-Google-Smtp-Source: ABdhPJyzCPAJKhGVI2JOzQVQavstdjr8NGc2smSBEO8pMsFK0hdAHZnXQO3TBCsInFVdru1kHFw+mQ==
+X-Received: by 2002:a63:74b:: with SMTP id 72mr7618105pgh.4.1610631079145;
+ Thu, 14 Jan 2021 05:31:19 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id gb9sm5549860pjb.40.2021.01.14.05.31.20
+ by smtp.gmail.com with ESMTPSA id gb9sm5549860pjb.40.2021.01.14.05.31.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 05:31:21 -0800 (PST)
+ Thu, 14 Jan 2021 05:31:18 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V3 1/3] nvme: check all retry delay times in Identify
- Controller
-Date: Thu, 14 Jan 2021 22:31:08 +0900
-Message-Id: <20210114133110.20779-2-minwoo.im.dev@gmail.com>
+Subject: [PATCH V3 0/3] nvme: fixes for command retry
+Date: Thu, 14 Jan 2021 22:31:07 +0900
+Message-Id: <20210114133110.20779-1-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210114133110.20779-1-minwoo.im.dev@gmail.com>
-References: <20210114133110.20779-1-minwoo.im.dev@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_083124_449427_EBFCCF1F 
-X-CRM114-Status: GOOD (  16.33  )
+X-CRM114-CacheID: sfid-20210114_083121_925448_B26E07F5 
+X-CRM114-Status: GOOD (  11.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,35 +96,41 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If none of Command Retry Delay Time(CRDT)s are set, then we can simply
-skip to configure Advanced Command Retry Enable(ACRE).
+Hello,
 
-CRDT selection will be made in Completion Queue Entry that controller
-has responsibility to decide.
+Here's V3 patch series for Advanced Command Retery Enable (ACRE).  This
+series enables command retry feature based on a flag introduced to nvme
+controller instance in this series.
 
-This patch checks all CRDT[0, 1, and 2] in Identify Controller data
-structrure instead of checking the first one: CRDT[0] for cases that:
+This patchset placed ACRE flag check first than REQ_FAILFAST_* cmd_flags
+checking.  It makes Set Feature for Host Bevior in reset_work more
+meaningful.
 
-	- CRDT[0] == 0, but CRDT[1 or 2] != 0
+Please review.
 
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks!
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fff49e544fdf..a8cee380b3c0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2499,7 +2499,7 @@ static int nvme_configure_acre(struct nvme_ctrl *ctrl)
- 	int ret;
- 
- 	/* Don't bother enabling the feature if retry delay is not reported */
--	if (!ctrl->crdt[0])
-+	if (!ctrl->crdt[0] && !ctrl->crdt[1] && !ctrl->crdt[2])
- 		return 0;
- 
- 	host = kzalloc(sizeof(*host), GFP_KERNEL);
+Since V2:
+  - Update commit description more informative. (Sagi)
+  - Split [2/2] patch into two patches. (Sagi)
+  - Fix condition to return COMPLETE in [2/2]. (Chao and Keith)
+
+Since V1:
+  - The first patch has been applied (Christoph).  Removed from this
+    series.
+  - Update the last patch to take acre flag from the controller
+    instance instead of module parameter by updating
+    nvme_decide_disposition().  (Chao)
+
+Minwoo Im (3):
+  nvme: check all retry delay times in Identify Controller
+  nvme: introduce acre flag in nvme_ctrl
+  nvme: retry commands based on ACRE flag
+
+ drivers/nvme/host/core.c | 18 +++++++++++++++---
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
 -- 
 2.17.1
 
