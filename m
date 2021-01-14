@@ -2,18 +2,18 @@ Return-Path: <SRS0=kiw1=GR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CCBCC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 23:05:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FE98C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 23:16:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B7B723A5C
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 23:05:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B7B723A5C
+	by mail.kernel.org (Postfix) with ESMTPS id 42C2423A59
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 23:16:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 42C2423A59
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,45 +22,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GsACpdXMlwfJmA0eF07MxoiGPUWVLL6jRgKaVhyjwqY=; b=xXYMEev7pFQpeRgeGY4GVJ24V
-	UYbEaxrAYaAZq4rr5t3tAQUYILEbwiO5pO2v3+n8aRhqdZrH+f9ibVEM/9Jh2hjbqPdSQNBkllPh2
-	ClBfRGvKk9LTkQoumw8+IG6sGTRdnjdbQ896/eUukD9jTa1j7LdQuugxaHfQPzIQItgPTqADCa/cy
-	O907ew8U97By9Ln9uJQIrwDUoCGYkNQOsEQPkjsV1Dkb07FXZzRp9xcZA5s4sxa01/y1J8VnEZcIP
-	PKVwRduubLgxZ/73KGDG3xQ+QE0c4tWvm+F7SFWz2f1lXwa9dOWc/fjT+qLM++eCzrbJ8TD7t4sDm
-	B1MwO5Sbw==;
+	 bh=h0utYZO9cRlzFOZdtUIoMQrTFsGfWMXUDzpEb+nsLzc=; b=ZViq9OG6LUrFCwWMp7NsDUWg+
+	6lgCoyQgsjMIgfP7CLuZAzD1mZzcL0UVvTY1f9QbmYDsmi+LoL6aMmfQZlYgLMtOlKmu1MNVUXPWY
+	561zDdcct2dueOVBE34qIIzak3O6LWNUn30pzHR946PbdIoV0kFOT6opcHIFbPzG4/pywOh2rhYsU
+	qFar8UH3WBr9Fhm8m6knUQMUrrd/seQp/ndnu+m4BNp7n8tD+eLk5x82cNWDnN3GjiTwsw4lJ5Kta
+	fdUWLTeiSQk9bqFs+7cfGRb8Y3LZlgwHdsCN995rUwf/ZxlDRca/RX/2eoL2hqLJAYeYMitA0awnk
+	5yTsCORxw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l0BgL-0004bB-Ic; Thu, 14 Jan 2021 23:05:33 +0000
+	id 1l0Bqn-00057k-B4; Thu, 14 Jan 2021 23:16:21 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l0BgI-0004ap-C5
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 23:05:31 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1057D23A59;
- Thu, 14 Jan 2021 23:05:28 +0000 (UTC)
+ id 1l0Bqj-00057M-Ok
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 23:16:18 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2435B23A5B;
+ Thu, 14 Jan 2021 23:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610665529;
- bh=Yhj2nP5cNNBUP3HWJRTODjzAYMKKSmP65QfONrT7Gy8=;
+ s=k20201202; t=1610666176;
+ bh=6qn8GqXzqOdKpQWrPejbXnvun5bZ/gmgyF8LUK2pclQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pKB7B1lEbpaJpPw/eSVmk+Rw0zy3EVJ6dfDEeVBWWn2QBcERnKp4//P5Ti9LX44ZL
- moAo1UpvkQxXKJoTeLa9E4NW4r8EQzQ5z9vla4MHl0fKM4w+KSn7IeGMmjlJjDh4qh
- 2LaCgeXMZMm5CBCfs0SznRiS3pGOzwBpO5J+PX6HjXMTJtX7lAu0hKQAbCj51iyKPg
- DQYNe59MbasjGjH46xPip8STkTSyEXaJRiqt1IazUqOz+jSpsg9lL/Ic0JRYWYbdiU
- 3s+deiby+5sphJ+LSjfn0IroVu9zfH5X2y3NwG0L+aL6F/YCRF0Kzs7f/LDuuve7H4
- D7/wyRFc9aHlw==
-Date: Thu, 14 Jan 2021 15:05:27 -0800
+ b=Apet3DJjQNu8sHVjB7IMRD0vHoW72RGPMjW8l5yhlSv82ojmFnnyHt1zG7b2VSbTP
+ hV+6cXhbd0FJMq9DHz0zwkgKpncS2ADHMrxTk0mloI7jjrvdchoaIAedgdMLCCMXpz
+ myLh1KPGykq1ToHOPJmf2ScDG/Eof69MPkdchNL76GXDbsnTNBaCW/xSstUebi2jwJ
+ wO8AjFsayzm+hcEw2Qm2RiMYd31ibQMd56zoMn/enti31MkSf3Z4QyqXlVOq3osy8V
+ sD9/FHRebfvSknwm4l3crygDJuD7++/HWRLLp9VvQP4mRQeu3YZbCG2Z9AYsCiji5e
+ AHgQWx97Dq+Iw==
+Date: Thu, 14 Jan 2021 15:16:14 -0800
 From: Keith Busch <kbusch@kernel.org>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH V4 1/4] nvmet: set right status on error in id-ns handler
-Message-ID: <20210114230527.GD1511902@dhcp-10-100-145-180.wdc.com>
-References: <20210114013354.33946-1-chaitanya.kulkarni@wdc.com>
- <20210114013354.33946-2-chaitanya.kulkarni@wdc.com>
+To: "Knight, Frederick" <Frederick.Knight@netapp.com>
+Subject: Re: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
+ group
+Message-ID: <20210114231614.GE1511902@dhcp-10-100-145-180.wdc.com>
+References: <66bad47c-0cd3-8461-3629-146778f15059@suse.de>
+ <20201209173936.GA31971@redsun51.ssa.fujisawa.hgst.com>
+ <20201209174718.GA19512@lst.de>
+ <DM5PR0601MB3624722C4C00B5A7EDB7E6A0F1CC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201209213437.GA3682670@dhcp-10-100-145-180.wdc.com>
+ <20201210085111.GA15999@lst.de>
+ <baa8c2e6-1376-1cad-4c84-1129bd80d4ca@suse.de>
+ <20201210133418.GA3645@redsun51.ssa.fujisawa.hgst.com>
+ <eb84db43-5e63-19b4-cdb9-53f52d1c45e8@grimberg.me>
+ <DM5PR0601MB3624BB4004C273271F30052AF1A80@DM5PR0601MB3624.namprd06.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210114013354.33946-2-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <DM5PR0601MB3624BB4004C273271F30052AF1A80@DM5PR0601MB3624.namprd06.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_180530_483352_6823695B 
-X-CRM114-Status: UNSURE (   5.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210114_181617_906652_DEB4B1CC 
+X-CRM114-Status: GOOD (  10.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,15 +80,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
+Cc: "George, Martin" <Martin.George@netapp.com>,
+ Hannes Reinecke <hare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Hannes Reinecke <hare@suse.de>, "hch@lst.de" <hch@lst.de>, "Meneghini,
+ John" <John.Meneghini@netapp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Patch looks good.
+On Thu, Jan 14, 2021 at 10:59:09PM +0000, Knight, Frederick wrote:
+> Attached is the proposed clarification.  This has had ZERO review time in the NVMe committee.  So just FYI at this point.
+> 
+> Feel free to share thoughts.
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+The ECN retains the text that no new ANA event shall be sent if "the
+change is due to the creation of a namespace", which seems odd to
+continue pointing out given that namespace creation doesn't alter the
+ANA log.
+
+Also, if you're going to use this ECN to ensure namespace attachment to
+a new ANA group suppresses the ANA event, could you also update section
+8.20.3.6 to change: 
+
+  c) upon entry to the following ANA states:
+
+to something like
+
+  c) upon entry to the following ANA states except if the state entry
+     occurs as a result of a namespace attachment:
+
+Just so everyone is consistent with the "exceptions".
 
 _______________________________________________
 Linux-nvme mailing list
