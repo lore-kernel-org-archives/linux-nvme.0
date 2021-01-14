@@ -2,64 +2,79 @@ Return-Path: <SRS0=kiw1=GR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA9FCC433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 03:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51143C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 03:13:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3C8F5235FA
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 03:11:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C8F5235FA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 8D54D23619
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 03:13:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D54D23619
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jkPCq6TePBTPByhHVlCvQUtncZPHzqoQnr8z1Tfl/oU=; b=X9gaHHN5kSNkYeeBNw6/6hv3Z
-	JpxIwcox/kip6Ff080q4h8vk6Zny1RNHAWyJTy1zPx5nxYwqYLFF+4vSKejA/Aj5lAvWWSIhYt0NN
-	0daAHaXE27YqwfHOzlrbF+cbyd5QCo47c0O0w5NmWYiqMdY6sLgOEN0KP9qAARm4GQI0j9/se2nJH
-	qM1uF3fbDD1shRn6n3e49IBhJRA2iuLV8suV2bXAiyXjF229QKBzCKWYjw0yGhk4FcAbdc95VO2Bm
-	6VSw5LIjeM38wG/gjI40tnIPf9dmIk0nngt59DYrUcNBjcerbguxP9VOZuUmi5HL/R5CHET+fdSNf
-	THmyr3u3w==;
+	 bh=4SQM17+x7hLVgMhmS8rLsUVmBFJsAvTA12H5kbCH/NI=; b=3hFz3rOz8/3iKD5rgCKM9VC78
+	AA80zPkKlaaug4CJR+Tq3qhVZ8rbZUp4XUD2pbC95C5iZLJ7o+bwkJh+osTTstXzP+WJdbJC8vBnd
+	4b8TqcI0TFz3RXIiMNPOnChN3HfUFmDbdqcoxOkGoR4T064f94ehhuthsM3J+wJyHS2kEnWIxiwwx
+	ESyBvjiAmUGKJBHkcA0BN8Dyz7IHBTUaDvnaOdBR5br//CABbIrTi3g2Hh7rDwOLntjauOudRL4zP
+	XNJk1DSfjS3/HzKndlpENZ6ia3vWEPvoK8ndl94SThgGgOKAMnWzN11n1kSjx8q1T/PKq217lUn23
+	h3bz8z6mg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kzt2U-0002G9-DI; Thu, 14 Jan 2021 03:11:10 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1kzt4W-0002Px-Pk; Thu, 14 Jan 2021 03:13:16 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kzt2S-0002FV-Bv
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 03:11:09 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0786E235FA;
- Thu, 14 Jan 2021 03:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610593865;
- bh=uLHWQbuedDPcaHc2U2TMoOhpzmQvHbXgND2Q7kYmujY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jsjK+hr2Qz0gSgcjcginvUyYhsnPKCUl8ntTtY6+gMULWhZkgml/lZxy7LPfHyM9u
- XRlgMfxGwD3KUcLCnR5nG5piNSSjg3nAkrfRz/3n6985XakXDCPso5fvBQZ7LyxHec
- 7VrkcALdBLvsgkZbqtF9sWRL5UfFO0edFSEWZ6GD2t4uA8AgKl9XP4w3mEYqD6egfh
- REC1EJxrmsfD5KGVnTMc6Cd1todd5YZXttSyCcBXDj0q4gbLq4oM7sARgxyvbIqI3T
- hgv+mMJAdkRstNxHGjMxBbIlrdIAKc2c1DMtBVduXDrWQf+O41lUS/8ifQYrWYxMzr
- eCyZ/lyl9f2Mg==
-Date: Wed, 13 Jan 2021 19:11:02 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH V2 2/2] nvme: retry commands based on ACRE result
-Message-ID: <20210114031102.GA1509941@dhcp-10-100-145-180.wdc.com>
-References: <20210113143538.554-1-minwoo.im.dev@gmail.com>
- <20210113143538.554-3-minwoo.im.dev@gmail.com>
+ id 1kzt4V-0002PX-4g
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 03:13:15 +0000
+Received: by mail-wr1-f44.google.com with SMTP id a9so797261wrt.5
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Jan 2021 19:13:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=C0ul08ZwssAyJkNm3gLb4aqG1XLmghUqYXuBN0KVAXY=;
+ b=q1q3ua50r3oST6ilam5E/WSNOPr9eIjfJpe80dfEwKzQPVdjP3dbu8lce0DwaPKtLu
+ tIdQrM6ClRmfmDxFLO0g5V7n56czsId9iLFMveCL+tYMqk3flCRY3FPUbLsmgeapZ5Tu
+ uAE/EmXmNzsr6emmJRmvTj4MxX4GPSFEkHJXlyhux0fCS2peHrcwBAz4sj+miLZeQhRy
+ bZ+wKoGmPqh/FFoTlUyxbhwYv030MzowH8jdgByItWg/ltJjFZhZDKzGlWGcGxpGgJii
+ F+R6KY3/NgoY2ZElTAZgK5QFUM56SmZQr/styLS9AnTqepD2SOQ+PCKeXnipmTBRs9y0
+ S3Ng==
+X-Gm-Message-State: AOAM53071ijTb8NwzBljaa+NP+RgHFpEdsT0gWeyEeLub5sFlEbVK9eh
+ LMkyPO7nM/dHdi6Q5CfVlobAPOfYTDg=
+X-Google-Smtp-Source: ABdhPJzzmEI1MX2lTS+zZyuawBwM4dEx/8qzOQn6i0UX2/20oGl8x+HEfglCeM0GArKfkY/SLS/jgA==
+X-Received: by 2002:a5d:6902:: with SMTP id t2mr5456697wru.214.1610593993992; 
+ Wed, 13 Jan 2021 19:13:13 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:e70c:620a:4d8a:b988?
+ ([2601:647:4802:9070:e70c:620a:4d8a:b988])
+ by smtp.gmail.com with ESMTPSA id f14sm5877288wme.14.2021.01.13.19.13.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 19:13:13 -0800 (PST)
+Subject: Re: [PATCH] nvme: retrigger ANA log update if group descriptor isn't
+ found
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+References: <20201205152901.56665-1-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <cbfc78e1-87be-cc09-9b8d-44bf0659eb26@grimberg.me>
+Date: Wed, 13 Jan 2021 19:13:10 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210113143538.554-3-minwoo.im.dev@gmail.com>
+In-Reply-To: <20201205152901.56665-1-hare@suse.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210113_221108_492700_D9E98EB1 
-X-CRM114-Status: GOOD (  11.99  )
+X-CRM114-CacheID: sfid-20210113_221315_233094_236B5C83 
+X-CRM114-Status: GOOD (  20.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +86,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, Chao Leng <lengchao@huawei.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-nvme@lists.infradead.org, Keith Busch <keith.busch@wdc.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 13, 2021 at 11:35:38PM +0900, Minwoo Im wrote:
-> @@ -317,6 +316,13 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
->  			return COMPLETE;
->  	}
->  
-> +	if (nvme_req(req)->ctrl->acre) {
-> +		if (!nvme_is_path_error(nvme_req(req)->status) &&
-> +				!blk_queue_dying(req->q))
-> +			return RETRY;
-> +	} else if (blk_noretry_request(req))
-> +		return COMPLETE;
-> +
->  	return RETRY;
->  }
 
-This is returning RETRY for path related errors when blk_notry_request()
-is true. That will deadlock initialization on a command timeout. The
-check should be something like this:
+> If ANA is enabled but no ANA group descriptor is found when creating
+> a new namespace the ANA log is most likely out of date, so trigger
+> a re-read. The namespace will be tagged with the NS_ANA_PENDING flag
+> to exclude it from path selection until the ANA log has been re-read.
+> 
+> Reported-by: Martin George <marting@netapp.com>
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/host/multipath.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 74896be40c17..ee4a42dc99a0 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -667,6 +667,10 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   		if (desc.state) {
+>   			/* found the group desc: update */
+>   			nvme_update_ns_ana_state(&desc, ns);
+> +		} else {
+> +			/* group desc not found: trigger a re-read */
+> +			set_bit(NVME_NS_ANA_PENDING, &ns->flags);
+> +			queue_work(nvme_wq, &ns->ctrl->ana_work);
 
-	if (nvme_req(req)->ctrl->acre &&
-	    !nvme_is_path_error(nvme_req(req)->status) &&
-	    !blk_queue_dying(req->q))
-		return RETRY;
-	else if (blk_noretry_request(req))
-		return COMPLETE;
+btw, I just commented on the original thread, but I do like this
+one better.
 
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
 _______________________________________________
 Linux-nvme mailing list
