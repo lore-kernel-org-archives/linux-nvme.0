@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10629C433E6
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:11:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98177C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:11:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CB1ED23A69
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:11:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB1ED23A69
+	by mail.kernel.org (Postfix) with ESMTPS id 51CE823A69
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:11:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 51CE823A69
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,41 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=W5dEBocK6Oit6B6EFB8nVQJlxUQPw/gKoqbWXPC2H4U=; b=r13JJJWIPvGdfIn71G+FjhTqQ
-	8XilMi2fBU5AfYC+ysFGEX+JhgGlQl13g88Ey1cJBIpit5UdJ2IsyVBLH3IR2Q26zc+z/J4uNM34+
-	sosXA9pRsG8KV67Y0ATx6dfWe1ohjOnVGhsPettk1C7n131LjfT2sTY9p2u7s9OKDoXpYebETMfR0
-	5r1Ie1ZJfGEwnVCFWmvpDRqVgUAMFyQ/Fy8oWzL2iDVps6JTim9AjmdKkl32j40skF/JBGC6bk7bO
-	bB6x+LaUUJk5Oj9k8y0Sf3I2yBIYxiYw4Vo3QMbAIcvwH+CO6+lYdyvfa90NzV952FADv4uQavTDu
-	ig7iNBz1A==;
+	 bh=vwmi90MKU8koIR5X1f8J2RpoAc4wLxDZaxug0t6J5g4=; b=b/nxPKdgavuPkCCD0TR/9ok0W
+	YdyniyAlZiXCxCK+Am5dP7MoMfc044wikrBKkisHE0Srtw/GGwVQuvnsHK0Mq5l14cuyb1PknoPdI
+	WcufdNrCDsTmTlNPbEbNDZq8NocJzKa1j1FeEAhpumMZtdPMelQpAocKLLu72VvQyS14g2YuwvQ+g
+	q8gftRJ6juWn9q8pV+jNFU14skjnqR5T0h6jXn1++XZD7xvfdodMBrCRGO+Pf1NQ+nttgR+Sel7ny
+	hD3WVOnF/Azr3nj2zB30Y7+As3lmC+HsTbVHd+DCxXVqTItU6QL+LAo/rKK9wREW/co8SM8rSQobp
+	AKJL7KbSQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l04H2-0000lO-0L; Thu, 14 Jan 2021 15:10:56 +0000
+	id 1l04HC-0000oY-By; Thu, 14 Jan 2021 15:11:06 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l04Gv-0000gA-K6
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 15:10:52 +0000
+ id 1l04Gv-0000g9-Mo
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 15:10:57 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  borisp@mellanox.com) with SMTP; 14 Jan 2021 17:10:44 +0200
 Received: from gen-l-vrt-133.mtl.labs.mlnx. (gen-l-vrt-133.mtl.labs.mlnx
  [10.237.11.160])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 10EFAh01000835;
- Thu, 14 Jan 2021 17:10:43 +0200
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 10EFAh03000835;
+ Thu, 14 Jan 2021 17:10:44 +0200
 From: Boris Pismenny <borisp@mellanox.com>
 To: kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
  sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org,
  viro@zeniv.linux.org.uk, edumazet@google.com, dsahern@gmail.com,
  smalin@marvell.com
-Subject: [PATCH v2 net-next 01/21] iov_iter: Introduce new procedures for copy
- to iter/pages
-Date: Thu, 14 Jan 2021 17:10:13 +0200
-Message-Id: <20210114151033.13020-2-borisp@mellanox.com>
+Subject: [PATCH v2 net-next 03/21] net: Introduce crc offload for tcp ddp ulp
+Date: Thu, 14 Jan 2021 17:10:15 +0200
+Message-Id: <20210114151033.13020-4-borisp@mellanox.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20210114151033.13020-1-borisp@mellanox.com>
 References: <20210114151033.13020-1-borisp@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_101050_033642_CF7BB0C6 
-X-CRM114-Status: GOOD (  12.71  )
+X-CRM114-CacheID: sfid-20210114_101050_422175_30C3C1DC 
+X-CRM114-Status: GOOD (  18.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,132 +77,164 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When using direct data placement the NIC writes some of the payload
-directly to the destination buffer, and constructs the SKB such that it
-points to this data. As a result, the skb_copy datagram_iter call will
-attempt to copy data when it is not necessary.
+This commit introduces support for CRC offload to direct data placement
+ULP on the receive side. Both DDP and CRC share a common API to
+initialize the offload for a TCP socket. But otherwise, both can
+be executed independently.
 
-Introduce new procedures for copy to iter/pages in case that the
-source of the copy operation might be identical to the destination,
-in such cases the copy is skipped only for bio_vec, later commits
-uses those functions to introduce new skb copy(+hash) functions.
+On the receive side, CRC offload requires a new SKB bit that
+indicates that no CRC error was encountered while processing this packet.
+If all packets of a ULP message have this bit set, then the CRC
+verification for the message can be skipped, as hardware already checked
+it.
+
+The following patches will set and use this bit to perform NVME-TCP
+CRC offload.
+
+A subsequent series, will add NVMe-TCP transmit side CRC support.
 
 Signed-off-by: Boris Pismenny <borisp@mellanox.com>
 Signed-off-by: Ben Ben-Ishay <benishay@mellanox.com>
 Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
 Signed-off-by: Yoray Zack <yorayz@mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- include/linux/uio.h | 12 ++++++++++++
- lib/iov_iter.c      | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 57 insertions(+)
+ include/linux/netdev_features.h | 2 ++
+ include/linux/skbuff.h          | 5 +++++
+ net/Kconfig                     | 8 ++++++++
+ net/ethtool/common.c            | 1 +
+ net/ipv4/tcp_input.c            | 7 +++++++
+ net/ipv4/tcp_ipv4.c             | 3 +++
+ net/ipv4/tcp_offload.c          | 3 +++
+ 7 files changed, 29 insertions(+)
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 72d88566694e..3c42125a7f24 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -123,6 +123,7 @@ size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
- 			 struct iov_iter *i);
+diff --git a/include/linux/netdev_features.h b/include/linux/netdev_features.h
+index fb35dcac03d2..dc79709586cd 100644
+--- a/include/linux/netdev_features.h
++++ b/include/linux/netdev_features.h
+@@ -85,6 +85,7 @@ enum {
  
- size_t _copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i);
-+size_t _ddp_copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i);
- size_t _copy_from_iter(void *addr, size_t bytes, struct iov_iter *i);
- bool _copy_from_iter_full(void *addr, size_t bytes, struct iov_iter *i);
- size_t _copy_from_iter_nocache(void *addr, size_t bytes, struct iov_iter *i);
-@@ -137,6 +138,15 @@ size_t copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
- 		return _copy_to_iter(addr, bytes, i);
- }
+ 	NETIF_F_HW_MACSEC_BIT,		/* Offload MACsec operations */
+ 	NETIF_F_HW_TCP_DDP_BIT,		/* TCP direct data placement offload */
++	NETIF_F_HW_TCP_DDP_CRC_RX_BIT,	/* TCP DDP CRC RX offload */
  
-+static __always_inline __must_check
-+size_t ddp_copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
-+{
-+	if (unlikely(!check_copy_size(addr, bytes, true)))
-+		return 0;
-+	else
-+		return _ddp_copy_to_iter(addr, bytes, i);
-+}
-+
- static __always_inline __must_check
- size_t copy_from_iter(void *addr, size_t bytes, struct iov_iter *i)
- {
-@@ -265,6 +275,8 @@ size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum, struct io
- bool csum_and_copy_from_iter_full(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
- size_t hash_and_copy_to_iter(const void *addr, size_t bytes, void *hashp,
- 		struct iov_iter *i);
-+size_t ddp_hash_and_copy_to_iter(const void *addr, size_t bytes, void *hashp,
-+		struct iov_iter *i);
+ 	/*
+ 	 * Add your fresh new feature above and remember to update
+@@ -159,6 +160,7 @@ enum {
+ #define NETIF_F_GSO_FRAGLIST	__NETIF_F(GSO_FRAGLIST)
+ #define NETIF_F_HW_MACSEC	__NETIF_F(HW_MACSEC)
+ #define NETIF_F_HW_TCP_DDP	__NETIF_F(HW_TCP_DDP)
++#define NETIF_F_HW_TCP_DDP_CRC_RX	__NETIF_F(HW_TCP_DDP_CRC_RX)
  
- struct iovec *iovec_from_user(const struct iovec __user *uvector,
- 		unsigned long nr_segs, unsigned long fast_segs,
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 1635111c5bd2..92c07cf4a3c9 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -473,6 +473,16 @@ static void memcpy_from_page(char *to, struct page *page, size_t offset, size_t
- 	kunmap_atomic(from);
- }
- 
-+static void ddp_memcpy_to_page(struct page *page, size_t offset, const char *from, size_t len)
-+{
-+	char *to = kmap_atomic(page);
-+
-+	if (to + offset != from)
-+		memcpy(to + offset, from, len);
-+
-+	kunmap_atomic(to);
-+}
-+
- static void memcpy_to_page(struct page *page, size_t offset, const char *from, size_t len)
- {
- 	char *to = kmap_atomic(page);
-@@ -625,6 +635,22 @@ static size_t csum_and_copy_to_pipe_iter(const void *addr, size_t bytes,
- 	return bytes;
- }
- 
-+size_t _ddp_copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
-+{
-+	const char *from = addr;
-+	if (unlikely(iov_iter_is_pipe(i)))
-+		return copy_pipe_to_iter(addr, bytes, i);
-+	if (iter_is_iovec(i))
-+		might_fault();
-+	iterate_and_advance(i, bytes, v, NULL,
-+		ddp_memcpy_to_page(v.bv_page, v.bv_offset,
-+				   (from += v.bv_len) - v.bv_len, v.bv_len),
-+		NULL)
-+
-+	return bytes;
-+}
-+EXPORT_SYMBOL(_ddp_copy_to_iter);
-+
- size_t _copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
- {
- 	const char *from = addr;
-@@ -1566,6 +1592,25 @@ size_t csum_and_copy_to_iter(const void *addr, size_t bytes, void *csump,
- }
- EXPORT_SYMBOL(csum_and_copy_to_iter);
- 
-+size_t ddp_hash_and_copy_to_iter(const void *addr, size_t bytes, void *hashp,
-+		struct iov_iter *i)
-+{
-+#ifdef CONFIG_CRYPTO_HASH
-+	struct ahash_request *hash = hashp;
-+	struct scatterlist sg;
-+	size_t copied;
-+
-+	copied = ddp_copy_to_iter(addr, bytes, i);
-+	sg_init_one(&sg, addr, copied);
-+	ahash_request_set_crypt(hash, &sg, NULL, copied);
-+	crypto_ahash_update(hash);
-+	return copied;
-+#else
-+	return 0;
+ /* Finds the next feature with the highest number of the range of start till 0.
+  */
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 333bcdc39635..a841bc974452 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -683,6 +683,7 @@ typedef unsigned char *sk_buff_data_t;
+  *		CHECKSUM_UNNECESSARY (max 3)
+  *	@dst_pending_confirm: need to confirm neighbour
+  *	@decrypted: Decrypted SKB
++ *	@ddp_crc: NIC is responsible for PDU's CRC computation and verification
+  *	@napi_id: id of the NAPI struct this skb came from
+  *	@sender_cpu: (aka @napi_id) source CPU in XPS
+  *	@secmark: security marking
+@@ -859,6 +860,10 @@ struct sk_buff {
+ #ifdef CONFIG_TLS_DEVICE
+ 	__u8			decrypted:1;
+ #endif
++#ifdef CONFIG_TCP_DDP_CRC
++	__u8                    ddp_crc:1;
 +#endif
-+}
-+EXPORT_SYMBOL(ddp_hash_and_copy_to_iter);
 +
- size_t hash_and_copy_to_iter(const void *addr, size_t bytes, void *hashp,
- 		struct iov_iter *i)
- {
+ 
+ #ifdef CONFIG_NET_SCHED
+ 	__u16			tc_index;	/* traffic control index */
+diff --git a/net/Kconfig b/net/Kconfig
+index 3876861cdc90..80ed9f038968 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -465,6 +465,14 @@ config TCP_DDP
+ 	  NVMe-TCP/iSCSI, to request the NIC to place TCP payload data
+ 	  of a command response directly into kernel pages.
+ 
++config TCP_DDP_CRC
++	bool "TCP direct data placement CRC offload"
++	default n
++	help
++	  Direct Data Placement (DDP) CRC32C offload for TCP enables ULP, such as
++	  NVMe-TCP/iSCSI, to request the NIC to calculate/verify the data digest
++	  of commands as they go through the NIC. Thus avoiding the costly
++	  per-byte overhead.
+ 
+ endif   # if NET
+ 
+diff --git a/net/ethtool/common.c b/net/ethtool/common.c
+index a2ff7a4a6bbf..cc6858105449 100644
+--- a/net/ethtool/common.c
++++ b/net/ethtool/common.c
+@@ -69,6 +69,7 @@ const char netdev_features_strings[NETDEV_FEATURE_COUNT][ETH_GSTRING_LEN] = {
+ 	[NETIF_F_GRO_FRAGLIST_BIT] =	 "rx-gro-list",
+ 	[NETIF_F_HW_MACSEC_BIT] =	 "macsec-hw-offload",
+ 	[NETIF_F_HW_TCP_DDP_BIT] =	 "tcp-ddp-offload",
++	[NETIF_F_HW_TCP_DDP_CRC_RX_BIT] =	 "tcp-ddp-crc-rx-offload",
+ };
+ 
+ const char
+diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+index c7e16b0ed791..090c695e18b8 100644
+--- a/net/ipv4/tcp_input.c
++++ b/net/ipv4/tcp_input.c
+@@ -5147,6 +5147,9 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ 		memcpy(nskb->cb, skb->cb, sizeof(skb->cb));
+ #ifdef CONFIG_TLS_DEVICE
+ 		nskb->decrypted = skb->decrypted;
++#endif
++#ifdef CONFIG_TCP_DDP_CRC
++		nskb->ddp_crc = skb->ddp_crc;
+ #endif
+ 		TCP_SKB_CB(nskb)->seq = TCP_SKB_CB(nskb)->end_seq = start;
+ 		if (list)
+@@ -5180,6 +5183,10 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ #ifdef CONFIG_TLS_DEVICE
+ 				if (skb->decrypted != nskb->decrypted)
+ 					goto end;
++#endif
++#ifdef CONFIG_TCP_DDP_CRC
++				if (skb->ddp_crc != nskb->ddp_crc)
++					goto end;
+ #endif
+ 			}
+ 		}
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 58207c7769d0..64ccaf08fb3a 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -1815,6 +1815,9 @@ bool tcp_add_backlog(struct sock *sk, struct sk_buff *skb)
+ 	      TCP_SKB_CB(skb)->tcp_flags) & (TCPHDR_ECE | TCPHDR_CWR)) ||
+ #ifdef CONFIG_TLS_DEVICE
+ 	    tail->decrypted != skb->decrypted ||
++#endif
++#ifdef CONFIG_TCP_DDP_CRC
++	    tail->ddp_crc != skb->ddp_crc ||
+ #endif
+ 	    thtail->doff != th->doff ||
+ 	    memcmp(thtail + 1, th + 1, hdrlen - sizeof(*th)))
+diff --git a/net/ipv4/tcp_offload.c b/net/ipv4/tcp_offload.c
+index e09147ac9a99..39f5f0bcf181 100644
+--- a/net/ipv4/tcp_offload.c
++++ b/net/ipv4/tcp_offload.c
+@@ -262,6 +262,9 @@ struct sk_buff *tcp_gro_receive(struct list_head *head, struct sk_buff *skb)
+ #ifdef CONFIG_TLS_DEVICE
+ 	flush |= p->decrypted ^ skb->decrypted;
+ #endif
++#ifdef CONFIG_TCP_DDP_CRC
++	flush |= p->ddp_crc ^ skb->ddp_crc;
++#endif
+ 
+ 	if (flush || skb_gro_receive(p, skb)) {
+ 		mss = 1;
 -- 
 2.24.1
 
