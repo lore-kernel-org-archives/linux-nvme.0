@@ -2,77 +2,81 @@ Return-Path: <SRS0=kiw1=GR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC550C433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D14AC433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:58:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 810CD23A69
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:14:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 810CD23A69
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	by mail.kernel.org (Postfix) with ESMTPS id C691E23A1E
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 15:58:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C691E23A1E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=google.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sdghNhqM5R7vfw1vX4Ba16N3jXw1hAzE9NrgoK51AEE=; b=cFwt0rap0t8/y7agL71fXkZNO
-	c6/1pA7sgktfmqkIs/CW9AgU8qkVM1WiW4J5QL74ZQmC9XfFwYgee8Q9LBcJ0aRQLfZ8El6X+oUbo
-	uaZxGoE/Ox60Y+x35A1+TQSXOvrYUFpKkSfsT5c01Out3UE5qOZgTuxcTMzy4QGFs3TAS2E+z59Je
-	oOxuKx3lBkvoCP/yuE6fkxpxRdeyi+aim7cuCE3QcSsEfZTKqrB5Gvomh90vqHxr93N9BOexydEJ9
-	Ie3btMn23fneVEm33OS/Fu5BsSzfjgWUI1N7rmECDuG4bwKZa/LqcTgF5q2oCEKnLk9ldbNjJ52UA
-	CvsgcH8hg==;
+	 bh=tMoAqpvgpJd/v9EKaNH1bX6fwLyWKV9zFB9wlaFzCN4=; b=usjviY8D5GCFnSxl//dJXWIVK
+	WLoND+lTnTPK+I8u7NdS5VzS69eb8ohy7a8wkcRBzB8q6aPFZth1Ly86FE5dCLG8rBZXl+CrrhdCf
+	WC8K37E4Sh/E0fTUOMmbeGpknnu0athCa0iBRtJV/osZNZ4i5EYwxSoM1sXT78TtsseT0Kgdsw/pe
+	oei7ZnO1mBZG9ER6mQ+FUeh7vXEwgaIN/cY6Et+XiOBoYETxuQpeIewKv2LS/5Y1udHED06uSzaqA
+	fHD9PVR8w21Gl2mgNWg+Ig2jqP8fPy+6JteVig4XvugwIStFob09Pib06TCv7RuJKDIDARvGynOY7
+	Kbg16187A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l04K5-00029L-3X; Thu, 14 Jan 2021 15:14:05 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1l050e-0006HV-C9; Thu, 14 Jan 2021 15:58:04 +0000
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l04I1-00019q-5a
- for linux-nvme@merlin.infradead.org; Thu, 14 Jan 2021 15:11:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=dTpCVoRJu3Jg0cMoYhIGpyHNvKedr/9Dg1kD+X47TMk=; b=D8yObaDbHTHSm5aITUAcKvVKB7
- 4TJ/u1JyfBRqJBDQ+75KmYYjZkCc2Fa/rAVF3oSeOwY8jZ8C389UmkFt2bqUMhrGC5/kwKuf244Gf
- O8r6ScmT5eEUR7kz14SclG1fN0QGZzTeqvQtJ0ese2usrKBYNbwnMt2MgD5AkFeset/ZxySOU4IzF
- G1eLxk+roJwGjzA73xoU2k6xCMcXQOBYyVma/3RbliPBg8A0KX8SbStYhSZFGu5Wnbpp2u3cCdZPG
- fmC2x82zsb/5WHTNI0SsCu1BZmJpubG/aYZtZTjBRtjfCDJsJ4JBs9mkxPLsVVVkE276X47QLmVc1
- VazXHYLw==;
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by casper.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1l04HC-007iLw-NM
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 15:11:24 +0000
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from
- borisp@mellanox.com) with SMTP; 14 Jan 2021 17:10:45 +0200
-Received: from gen-l-vrt-133.mtl.labs.mlnx. (gen-l-vrt-133.mtl.labs.mlnx
- [10.237.11.160])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 10EFAh0J000835;
- Thu, 14 Jan 2021 17:10:45 +0200
-From: Boris Pismenny <borisp@mellanox.com>
-To: kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
- sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org,
- viro@zeniv.linux.org.uk, edumazet@google.com, dsahern@gmail.com,
- smalin@marvell.com
-Subject: [PATCH v2 net-next 19/21] net/mlx5e: NVMEoTCP,
- data-path for DDP offload
-Date: Thu, 14 Jan 2021 17:10:31 +0200
-Message-Id: <20210114151033.13020-20-borisp@mellanox.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20210114151033.13020-1-borisp@mellanox.com>
-References: <20210114151033.13020-1-borisp@mellanox.com>
+ id 1l050b-0006EP-IN
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 15:58:02 +0000
+Received: by mail-io1-xd34.google.com with SMTP id r9so12071153ioo.7
+ for <linux-nvme@lists.infradead.org>; Thu, 14 Jan 2021 07:57:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TEd4FvpCnqmF9ilJEnm49k6fOWwSzOxXxhRrb5zYXmM=;
+ b=SA/voKtieDHVN0lSUbl6o620n1g6C517cc4bczjeXJWrjQ5vLf60pXVkcy21peUM+r
+ l0xOnPmkbPOD9Kb5ffxddvS92yiMvnT+y5YAzbZLu7XG7eU+gTrEkK2Qmp++kJR7d4Dl
+ ZYtggHDCmBtJB1hS9+TmyMa9ocI9R+bW9nifFqBvVB2zkmVBTat4oU0jsaERfGNwxK2f
+ r0tzQRk6w82q3ualaSZjtcsyd2cAQZQJaUALANWXjJc2qSQldReef1MlNBeuyb3DBfNk
+ +sbn7cgQ2VVzsCRT+H2ppZtfXFEkpIB47UCIgh3/XboOyEY4IGc+/t/H1xPwohl968O+
+ /NxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TEd4FvpCnqmF9ilJEnm49k6fOWwSzOxXxhRrb5zYXmM=;
+ b=PYVSAfZfjQ6zwl3edPxWDA/UwK/32GCsrU8JKfpEdSXm8MuS1du8FIRpHBn42aoh1s
+ zh2UR1l7q/C1fipnMKTEjuwlQqiyoP0oIVAbLPgry7sG09bDdt3GWav+yweT2G1cxnoa
+ si5N6IDqScARGC6J+d8TqN6w++aBjRhQBi8+w+IB2XZb2pjtVo9W2xmNbnLUqiNWHBm4
+ wLPR5yBqNa8UPJAof5EJYB43xC/hrjutXdd9UxloFgeV51oKEBAvqg9iZLei5jTcVeVX
+ xzUFklRmdBnJxVQdzv5w3AbrrCz/y+WoahguLf5QQNPvrfyUzb97Ta/qr1yD5WC0lGw/
+ PKJw==
+X-Gm-Message-State: AOAM533StLCku057JtmsKjbAIcYwiAf/Yik22GOzLHJ5hbxPcb6wUxtp
+ Q7zL5GV93awR95oadY/JiEBTTtyBKFBztZHRCf1UcQ==
+X-Google-Smtp-Source: ABdhPJw4aJcMWp4yaN9Ho3yBlfCePUiOK4nZyW8sHrWDijyTTjZU2ttutgwknAe1QckcPR87+oLD+JK1XJQ90L9NXYM=
+X-Received: by 2002:a05:6602:2f89:: with SMTP id
+ u9mr5245659iow.99.1610639864817; 
+ Thu, 14 Jan 2021 07:57:44 -0800 (PST)
 MIME-Version: 1.0
+References: <20210114151033.13020-1-borisp@mellanox.com>
+ <20210114151033.13020-3-borisp@mellanox.com>
+In-Reply-To: <20210114151033.13020-3-borisp@mellanox.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Thu, 14 Jan 2021 16:57:32 +0100
+Message-ID: <CANn89iJaFRFxVe-eV7hcwC_5Zp+HtWHxTQt+BNYcKOwZUriSDg@mail.gmail.com>
+Subject: Re: [PATCH v2 net-next 02/21] net: Introduce direct data placement
+ tcp offload
+To: Boris Pismenny <borisp@mellanox.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_151123_999780_F8B7025B 
-X-CRM114-Status: GOOD (  25.40  )
+X-CRM114-CacheID: sfid-20210114_105801_652212_0D0C2BE6 
+X-CRM114-Status: GOOD (  43.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,526 +88,340 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Yoray Zack <yorayz@mellanox.com>, yorayz@nvidia.com,
- boris.pismenny@gmail.com, benishay@nvidia.com, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, Or Gerlitz <ogerlitz@mellanox.com>,
+Cc: smalin@marvell.com, sagi@grimberg.me, yorayz@nvidia.com,
+ boris.pismenny@gmail.com, Ben Ben-Ishay <benishay@mellanox.com>,
+ Yoray Zack <yorayz@mellanox.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, axboe@fb.com, netdev <netdev@vger.kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, David Ahern <dsahern@gmail.com>,
+ kbusch@kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ Or Gerlitz <ogerlitz@mellanox.com>, benishay@nvidia.com,
+ Saeed Mahameed <saeedm@nvidia.com>, David Miller <davem@davemloft.net>,
  ogerlitz@nvidia.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Ben Ben-Ishay <benishay@nvidia.com>
+On Thu, Jan 14, 2021 at 4:10 PM Boris Pismenny <borisp@mellanox.com> wrote:
+>
+> This commit introduces direct data placement offload for TCP.
+> This capability is accompanied by new net_device operations that
+> configure hardware contexts. There is a context per socket, and a context per DDP
+> opreation. Additionally, a resynchronization routine is used to assist
+> hardware handle TCP OOO, and continue the offload.
+> Furthermore, we let the offloading driver advertise what is the max hw
+> sectors/segments.
+>
+> Using this interface, the NIC hardware will scatter TCP payload directly
+> to the BIO pages according to the command_id.
+> To maintain the correctness of the network stack, the driver is expected
+> to construct SKBs that point to the BIO pages.
+>
+> This, the SKB represents the data on the wire, while it is pointing
+> to data that is already placed in the destination buffer.
+> As a result, data from page frags should not be copied out to
+> the linear part.
+>
+> As SKBs that use DDP are already very memory efficient, we modify
+> skb_condence to avoid copying data from fragments to the linear
+> part of SKBs that belong to a socket that uses DDP offload.
+>
+> A follow-up patch will use this interface for DDP in NVMe-TCP.
+>
+> Signed-off-by: Boris Pismenny <borisp@mellanox.com>
+> Signed-off-by: Ben Ben-Ishay <benishay@mellanox.com>
+> Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
+> Signed-off-by: Yoray Zack <yorayz@mellanox.com>
+> ---
+>  include/linux/netdev_features.h    |   2 +
+>  include/linux/netdevice.h          |   5 ++
+>  include/net/inet_connection_sock.h |   4 +
+>  include/net/tcp_ddp.h              | 136 +++++++++++++++++++++++++++++
+>  net/Kconfig                        |   9 ++
+>  net/core/skbuff.c                  |   9 +-
+>  net/ethtool/common.c               |   1 +
+>  7 files changed, 165 insertions(+), 1 deletion(-)
+>  create mode 100644 include/net/tcp_ddp.h
+>
+> diff --git a/include/linux/netdev_features.h b/include/linux/netdev_features.h
+> index 934de56644e7..fb35dcac03d2 100644
+> --- a/include/linux/netdev_features.h
+> +++ b/include/linux/netdev_features.h
+> @@ -84,6 +84,7 @@ enum {
+>         NETIF_F_GRO_FRAGLIST_BIT,       /* Fraglist GRO */
+>
+>         NETIF_F_HW_MACSEC_BIT,          /* Offload MACsec operations */
+> +       NETIF_F_HW_TCP_DDP_BIT,         /* TCP direct data placement offload */
+>
+>         /*
+>          * Add your fresh new feature above and remember to update
+> @@ -157,6 +158,7 @@ enum {
+>  #define NETIF_F_GRO_FRAGLIST   __NETIF_F(GRO_FRAGLIST)
+>  #define NETIF_F_GSO_FRAGLIST   __NETIF_F(GSO_FRAGLIST)
+>  #define NETIF_F_HW_MACSEC      __NETIF_F(HW_MACSEC)
+> +#define NETIF_F_HW_TCP_DDP     __NETIF_F(HW_TCP_DDP)
+>
+>  /* Finds the next feature with the highest number of the range of start till 0.
+>   */
+> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> index 259be67644e3..3dd3cdf5dec3 100644
+> --- a/include/linux/netdevice.h
+> +++ b/include/linux/netdevice.h
+> @@ -941,6 +941,7 @@ struct dev_ifalias {
+>
+>  struct devlink;
+>  struct tlsdev_ops;
+> +struct tcp_ddp_dev_ops;
+>
+>  struct netdev_name_node {
+>         struct hlist_node hlist;
+> @@ -1937,6 +1938,10 @@ struct net_device {
+>         const struct tlsdev_ops *tlsdev_ops;
+>  #endif
+>
+> +#ifdef CONFIG_TCP_DDP
+> +       const struct tcp_ddp_dev_ops *tcp_ddp_ops;
+> +#endif
+> +
+>         const struct header_ops *header_ops;
+>
+>         unsigned int            flags;
+> diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
+> index 7338b3865a2a..a08b85b53aa8 100644
+> --- a/include/net/inet_connection_sock.h
+> +++ b/include/net/inet_connection_sock.h
+> @@ -66,6 +66,8 @@ struct inet_connection_sock_af_ops {
+>   * @icsk_ulp_ops          Pluggable ULP control hook
+>   * @icsk_ulp_data         ULP private data
+>   * @icsk_clean_acked      Clean acked data hook
+> + * @icsk_ulp_ddp_ops      Pluggable ULP direct data placement control hook
+> + * @icsk_ulp_ddp_data     ULP direct data placement private data
+>   * @icsk_listen_portaddr_node  hash to the portaddr listener hashtable
+>   * @icsk_ca_state:        Congestion control state
+>   * @icsk_retransmits:     Number of unrecovered [RTO] timeouts
+> @@ -94,6 +96,8 @@ struct inet_connection_sock {
+>         const struct tcp_ulp_ops  *icsk_ulp_ops;
+>         void __rcu                *icsk_ulp_data;
+>         void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
 
-NVMEoTCP direct data placement constructs an SKB from each CQE, while
-pointing at NVME buffers.
+#ifdef CONFIG_TCP_DDP ?
 
-This enables the offload, as the NVMe-TCP layer will skip the copy when
-src == dst.
+> +       const struct tcp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
+> +       void __rcu                *icsk_ulp_ddp_data;
+>         struct hlist_node         icsk_listen_portaddr_node;
+>         unsigned int              (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
+>         __u8                      icsk_ca_state:5,
+> diff --git a/include/net/tcp_ddp.h b/include/net/tcp_ddp.h
+> new file mode 100644
+> index 000000000000..31e5b1a16d0f
+> --- /dev/null
+> +++ b/include/net/tcp_ddp.h
+> @@ -0,0 +1,136 @@
+> +/* SPDX-License-Identifier: GPL-2.0
+> + *
+> + * tcp_ddp.h
+> + *     Author: Boris Pismenny <borisp@mellanox.com>
+> + *     Copyright (C) 2021 Mellanox Technologies.
+> + */
+> +#ifndef _TCP_DDP_H
+> +#define _TCP_DDP_H
+> +
+> +#include <linux/netdevice.h>
+> +#include <net/inet_connection_sock.h>
+> +#include <net/sock.h>
+> +
+> +/* limits returned by the offload driver, zero means don't care */
+> +struct tcp_ddp_limits {
+> +       int      max_ddp_sgl_len;
+> +};
+> +
+> +enum tcp_ddp_type {
+> +       TCP_DDP_NVME = 1,
+> +};
+> +
+> +/**
+> + * struct tcp_ddp_config - Generic tcp ddp configuration: tcp ddp IO queue
+> + * config implementations must use this as the first member.
+> + * Add new instances of tcp_ddp_config below (nvme-tcp, etc.).
+> + */
+> +struct tcp_ddp_config {
+> +       enum tcp_ddp_type    type;
+> +       unsigned char        buf[];
+> +};
+> +
+> +/**
+> + * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO queue
+> + *
+> + * @pfv:        pdu version (e.g., NVME_TCP_PFV_1_0)
+> + * @cpda:       controller pdu data alignmend (dwords, 0's based)
+> + * @dgst:       digest types enabled.
+> + *              The netdev will offload crc if ddp_crc is supported.
+> + * @queue_size: number of nvme-tcp IO queue elements
+> + * @queue_id:   queue identifier
+> + * @cpu_io:     cpu core running the IO thread for this queue
+> + */
+> +struct nvme_tcp_ddp_config {
+> +       struct tcp_ddp_config   cfg;
+> +
+> +       u16                     pfv;
+> +       u8                      cpda;
+> +       u8                      dgst;
+> +       int                     queue_size;
+> +       int                     queue_id;
+> +       int                     io_cpu;
+> +};
+> +
+> +/**
+> + * struct tcp_ddp_io - tcp ddp configuration for an IO request.
+> + *
+> + * @command_id:  identifier on the wire associated with these buffers
+> + * @nents:       number of entries in the sg_table
+> + * @sg_table:    describing the buffers for this IO request
+> + * @first_sgl:   first SGL in sg_table
+> + */
+> +struct tcp_ddp_io {
+> +       u32                     command_id;
+> +       int                     nents;
+> +       struct sg_table         sg_table;
+> +       struct scatterlist      first_sgl[SG_CHUNK_SIZE];
+> +};
+> +
+> +/* struct tcp_ddp_dev_ops - operations used by an upper layer protocol to configure ddp offload
+> + *
+> + * @tcp_ddp_limits:    limit the number of scatter gather entries per IO.
+> + *                     the device driver can use this to limit the resources allocated per queue.
+> + * @tcp_ddp_sk_add:    add offload for the queue represennted by the socket+config pair.
+> + *                     this function is used to configure either copy, crc or both offloads.
+> + * @tcp_ddp_sk_del:    remove offload from the socket, and release any device related resources.
+> + * @tcp_ddp_setup:     request copy offload for buffers associated with a command_id in tcp_ddp_io.
+> + * @tcp_ddp_teardown:  release offload resources association between buffers and command_id in
+> + *                     tcp_ddp_io.
+> + * @tcp_ddp_resync:    respond to the driver's resync_request. Called only if resync is successful.
+> + */
+> +struct tcp_ddp_dev_ops {
+> +       int (*tcp_ddp_limits)(struct net_device *netdev,
+> +                             struct tcp_ddp_limits *limits);
+> +       int (*tcp_ddp_sk_add)(struct net_device *netdev,
+> +                             struct sock *sk,
+> +                             struct tcp_ddp_config *config);
+> +       void (*tcp_ddp_sk_del)(struct net_device *netdev,
+> +                              struct sock *sk);
+> +       int (*tcp_ddp_setup)(struct net_device *netdev,
+> +                            struct sock *sk,
+> +                            struct tcp_ddp_io *io);
+> +       int (*tcp_ddp_teardown)(struct net_device *netdev,
+> +                               struct sock *sk,
+> +                               struct tcp_ddp_io *io,
+> +                               void *ddp_ctx);
+> +       void (*tcp_ddp_resync)(struct net_device *netdev,
+> +                              struct sock *sk, u32 seq);
+> +};
+> +
+> +#define TCP_DDP_RESYNC_REQ BIT(0)
+> +
+> +/**
+> + * struct tcp_ddp_ulp_ops - Interface to register uppper layer Direct Data Placement (DDP) TCP offload
+> + */
+> +struct tcp_ddp_ulp_ops {
+> +       /* NIC requests ulp to indicate if @seq is the start of a message */
+> +       bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
+> +       /* NIC driver informs the ulp that ddp teardown is done - used for async completions*/
+> +       void (*ddp_teardown_done)(void *ddp_ctx);
+> +};
+> +
+> +/**
+> + * struct tcp_ddp_ctx - Generic tcp ddp context: device driver per queue contexts must
+> + * use this as the first member.
+> + */
+> +struct tcp_ddp_ctx {
+> +       enum tcp_ddp_type    type;
+> +       unsigned char        buf[];
+> +};
+> +
+> +static inline struct tcp_ddp_ctx *tcp_ddp_get_ctx(const struct sock *sk)
+> +{
+> +       struct inet_connection_sock *icsk = inet_csk(sk);
+> +
+> +       return (__force struct tcp_ddp_ctx *)icsk->icsk_ulp_ddp_data;
+> +}
+> +
+> +static inline void tcp_ddp_set_ctx(struct sock *sk, void *ctx)
+> +{
+> +       struct inet_connection_sock *icsk = inet_csk(sk);
+> +
+> +       rcu_assign_pointer(icsk->icsk_ulp_ddp_data, ctx);
+> +}
+> +
+> +#endif //_TCP_DDP_H
+> diff --git a/net/Kconfig b/net/Kconfig
+> index f4c32d982af6..3876861cdc90 100644
+> --- a/net/Kconfig
+> +++ b/net/Kconfig
+> @@ -457,6 +457,15 @@ config ETHTOOL_NETLINK
+>           netlink. It provides better extensibility and some new features,
+>           e.g. notification messages.
+>
+> +config TCP_DDP
+> +       bool "TCP direct data placement offload"
+> +       default n
+> +       help
+> +         Direct Data Placement (DDP) offload for TCP enables ULP, such as
+> +         NVMe-TCP/iSCSI, to request the NIC to place TCP payload data
+> +         of a command response directly into kernel pages.
+> +
+> +
+>  endif   # if NET
+>
+>  # Used by archs to tell that they support BPF JIT compiler plus which flavour.
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> index f62cae3f75d8..791c1b6bc067 100644
+> --- a/net/core/skbuff.c
+> +++ b/net/core/skbuff.c
+> @@ -69,6 +69,7 @@
+>  #include <net/xfrm.h>
+>  #include <net/mpls.h>
+>  #include <net/mptcp.h>
+> +#include <net/tcp_ddp.h>
+>
+>  #include <linux/uaccess.h>
+>  #include <trace/events/skb.h>
+> @@ -6140,9 +6141,15 @@ EXPORT_SYMBOL(pskb_extract);
+>   */
+>  void skb_condense(struct sk_buff *skb)
+>  {
+> +       bool is_ddp = false;
+> +
+> +#ifdef CONFIG_TCP_DDP
 
-Signed-off-by: Boris Pismenny <borisp@mellanox.com>
-Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
-Signed-off-by: Yoray Zack <yorayz@mellanox.com>
----
- .../net/ethernet/mellanox/mlx5/core/Makefile  |   2 +-
- drivers/net/ethernet/mellanox/mlx5/core/en.h  |   1 +
- .../ethernet/mellanox/mlx5/core/en/xsk/rx.c   |   1 +
- .../ethernet/mellanox/mlx5/core/en/xsk/rx.h   |   1 +
- .../mlx5/core/en_accel/nvmeotcp_rxtx.c        | 243 ++++++++++++++++++
- .../mlx5/core/en_accel/nvmeotcp_rxtx.h        |  43 ++++
- .../net/ethernet/mellanox/mlx5/core/en_rx.c   |  41 ++-
- 7 files changed, 325 insertions(+), 7 deletions(-)
- create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.c
- create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.h
+This looks strange to me : TCP should call this helper while skb->sk is NULL
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/Makefile b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-index ada8cd22f8fb..fe22895ab1ee 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-@@ -97,4 +97,4 @@ mlx5_core-$(CONFIG_MLX5_SF) += sf/vhca_event.o sf/dev/dev.o sf/dev/driver.o
- #
- mlx5_core-$(CONFIG_MLX5_SF_MANAGER) += sf/cmd.o sf/hw_table.o sf/devlink.o
- 
--mlx5_core-$(CONFIG_MLX5_EN_NVMEOTCP) += en_accel/fs_tcp.o en_accel/nvmeotcp.o
-+mlx5_core-$(CONFIG_MLX5_EN_NVMEOTCP) += en_accel/fs_tcp.o en_accel/nvmeotcp.o en_accel/nvmeotcp_rxtx.o
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-index dc6ebcfffb1b..f41eb807d026 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-@@ -573,6 +573,7 @@ struct mlx5e_rq;
- typedef void (*mlx5e_fp_handle_rx_cqe)(struct mlx5e_rq*, struct mlx5_cqe64*);
- typedef struct sk_buff *
- (*mlx5e_fp_skb_from_cqe_mpwrq)(struct mlx5e_rq *rq, struct mlx5e_mpw_info *wi,
-+			       struct mlx5_cqe64 *cqe,
- 			       u16 cqe_bcnt, u32 head_offset, u32 page_idx);
- typedef struct sk_buff *
- (*mlx5e_fp_skb_from_cqe)(struct mlx5e_rq *rq, struct mlx5_cqe64 *cqe,
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/xsk/rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en/xsk/rx.c
-index 8e7b877d8a12..9a6fbd1b1c34 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/xsk/rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/xsk/rx.c
-@@ -25,6 +25,7 @@ static struct sk_buff *mlx5e_xsk_construct_skb(struct mlx5e_rq *rq, void *data,
- 
- struct sk_buff *mlx5e_xsk_skb_from_cqe_mpwrq_linear(struct mlx5e_rq *rq,
- 						    struct mlx5e_mpw_info *wi,
-+						    struct mlx5_cqe64 *cqe,
- 						    u16 cqe_bcnt,
- 						    u32 head_offset,
- 						    u32 page_idx)
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/xsk/rx.h b/drivers/net/ethernet/mellanox/mlx5/core/en/xsk/rx.h
-index 7f88ccf67fdd..112c5b3ec165 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/xsk/rx.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/xsk/rx.h
-@@ -11,6 +11,7 @@
- 
- struct sk_buff *mlx5e_xsk_skb_from_cqe_mpwrq_linear(struct mlx5e_rq *rq,
- 						    struct mlx5e_mpw_info *wi,
-+						    struct mlx5_cqe64 *cqe,
- 						    u16 cqe_bcnt,
- 						    u32 head_offset,
- 						    u32 page_idx);
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.c
-new file mode 100644
-index 000000000000..f446b5d56d64
---- /dev/null
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.c
-@@ -0,0 +1,243 @@
-+// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-+/* Copyright (c) 2021 Mellanox Technologies. */
-+
-+#include "en_accel/nvmeotcp_rxtx.h"
-+#include "en_accel/nvmeotcp.h"
-+#include <linux/mlx5/mlx5_ifc.h>
-+
-+#define	MLX5E_TC_FLOW_ID_MASK  0x00ffffff
-+static void nvmeotcp_update_resync(struct mlx5e_nvmeotcp_queue *queue,
-+				   struct mlx5e_cqe128 *cqe128)
-+{
-+	const struct tcp_ddp_ulp_ops *ulp_ops;
-+	u32 seq;
-+
-+	seq = be32_to_cpu(cqe128->resync_tcp_sn);
-+	ulp_ops = inet_csk(queue->sk)->icsk_ulp_ddp_ops;
-+	if (ulp_ops && ulp_ops->resync_request)
-+		ulp_ops->resync_request(queue->sk, seq, TCP_DDP_RESYNC_REQ);
-+}
-+
-+static void mlx5e_nvmeotcp_advance_sgl_iter(struct mlx5e_nvmeotcp_queue *queue)
-+{
-+	struct nvmeotcp_queue_entry *nqe = &queue->ccid_table[queue->ccid];
-+
-+	queue->ccoff += nqe->sgl[queue->ccsglidx].length;
-+	queue->ccoff_inner = 0;
-+	queue->ccsglidx++;
-+}
-+
-+static inline void
-+mlx5e_nvmeotcp_add_skb_frag(struct net_device *netdev, struct sk_buff *skb,
-+			    struct mlx5e_nvmeotcp_queue *queue,
-+			    struct nvmeotcp_queue_entry *nqe, u32 fragsz)
-+{
-+	dma_sync_single_for_cpu(&netdev->dev,
-+				nqe->sgl[queue->ccsglidx].offset + queue->ccoff_inner,
-+				fragsz, DMA_FROM_DEVICE);
-+	page_ref_inc(compound_head(sg_page(&nqe->sgl[queue->ccsglidx])));
-+	// XXX: consider reducing the truesize, as no new memory is consumed
-+	skb_add_rx_frag(skb, skb_shinfo(skb)->nr_frags,
-+			sg_page(&nqe->sgl[queue->ccsglidx]),
-+			nqe->sgl[queue->ccsglidx].offset + queue->ccoff_inner,
-+			fragsz,
-+			fragsz);
-+}
-+
-+static struct sk_buff*
-+mlx5_nvmeotcp_add_tail_nonlinear(struct mlx5e_nvmeotcp_queue *queue,
-+				 struct sk_buff *skb, skb_frag_t *org_frags,
-+				 int org_nr_frags, int frag_index)
-+{
-+	struct mlx5e_priv *priv = queue->priv;
-+
-+	while (org_nr_frags != frag_index) {
-+		if (skb_shinfo(skb)->nr_frags >= MAX_SKB_FRAGS) {
-+			dev_kfree_skb_any(skb);
-+			return NULL;
-+		}
-+		skb_add_rx_frag(skb, skb_shinfo(skb)->nr_frags,
-+				skb_frag_page(&org_frags[frag_index]),
-+				skb_frag_off(&org_frags[frag_index]),
-+				skb_frag_size(&org_frags[frag_index]),
-+				skb_frag_size(&org_frags[frag_index]));
-+		page_ref_inc(skb_frag_page(&org_frags[frag_index]));
-+		frag_index++;
-+	}
-+	return skb;
-+}
-+
-+static struct sk_buff*
-+mlx5_nvmeotcp_add_tail(struct mlx5e_nvmeotcp_queue *queue, struct sk_buff *skb,
-+		       int offset, int len)
-+{
-+	struct mlx5e_priv *priv = queue->priv;
-+
-+	if (skb_shinfo(skb)->nr_frags >= MAX_SKB_FRAGS) {
-+		dev_kfree_skb_any(skb);
-+		return NULL;
-+	}
-+	skb_add_rx_frag(skb, skb_shinfo(skb)->nr_frags,
-+			virt_to_page(skb->data),
-+			offset,
-+			len,
-+			len);
-+	page_ref_inc(virt_to_page(skb->data));
-+	return skb;
-+}
-+
-+static void mlx5_nvmeotcp_trim_nonlinear(struct sk_buff *skb,
-+					 skb_frag_t *org_frags,
-+					 int *frag_index,
-+					 int remaining)
-+{
-+	unsigned int frag_size;
-+	int nr_frags;
-+
-+	/* skip @remaining bytes in frags */
-+	*frag_index = 0;
-+	while (remaining) {
-+		frag_size = skb_frag_size(&skb_shinfo(skb)->frags[*frag_index]);
-+		if (frag_size > remaining) {
-+			skb_frag_off_add(&skb_shinfo(skb)->frags[*frag_index],
-+					 remaining);
-+			skb_frag_size_sub(&skb_shinfo(skb)->frags[*frag_index],
-+					  remaining);
-+			remaining = 0;
-+		} else {
-+			remaining -= frag_size;
-+			skb_frag_unref(skb, *frag_index);
-+			*frag_index += 1;
-+		}
-+	}
-+
-+	/* save original frags for the tail and unref */
-+	nr_frags = skb_shinfo(skb)->nr_frags;
-+	memcpy(&org_frags[*frag_index], &skb_shinfo(skb)->frags[*frag_index],
-+	       (nr_frags - *frag_index) * sizeof(skb_frag_t));
-+	while (--nr_frags >= *frag_index)
-+		skb_frag_unref(skb, nr_frags);
-+
-+	/* remove frags from skb */
-+	skb_shinfo(skb)->nr_frags = 0;
-+	skb->len -= skb->data_len;
-+	skb->truesize -= skb->data_len;
-+	skb->data_len = 0;
-+}
-+
-+struct sk_buff*
-+mlx5e_nvmeotcp_handle_rx_skb(struct net_device *netdev, struct sk_buff *skb,
-+			     struct mlx5_cqe64 *cqe, u32 cqe_bcnt,
-+			     bool linear)
-+{
-+	int ccoff, cclen, hlen, ccid, remaining, fragsz, to_copy = 0;
-+	struct mlx5e_priv *priv = netdev_priv(netdev);
-+	skb_frag_t org_frags[MAX_SKB_FRAGS];
-+	struct mlx5e_nvmeotcp_queue *queue;
-+	struct nvmeotcp_queue_entry *nqe;
-+	int org_nr_frags, frag_index;
-+	struct mlx5e_cqe128 *cqe128;
-+	u32 queue_id;
-+
-+	queue_id = (be32_to_cpu(cqe->sop_drop_qpn) & MLX5E_TC_FLOW_ID_MASK);
-+	queue = mlx5e_nvmeotcp_get_queue(priv->nvmeotcp, queue_id);
-+	if (unlikely(!queue)) {
-+		dev_kfree_skb_any(skb);
-+		return NULL;
-+	}
-+
-+	cqe128 = container_of(cqe, struct mlx5e_cqe128, cqe64);
-+	if (cqe_is_nvmeotcp_resync(cqe)) {
-+		nvmeotcp_update_resync(queue, cqe128);
-+		mlx5e_nvmeotcp_put_queue(queue);
-+		return skb;
-+	}
-+
-+#ifdef CONFIG_TCP_DDP_CRC
-+	/* If a resync occurred in the previous cqe,
-+	 * the current cqe.crcvalid bit may not be valid,
-+	 * so we will treat it as 0
-+	 */
-+	skb->ddp_crc = queue->after_resync_cqe ? 0 :
-+		cqe_is_nvmeotcp_crcvalid(cqe);
-+	queue->after_resync_cqe = 0;
-+#endif
-+	if (!cqe_is_nvmeotcp_zc(cqe)) {
-+		mlx5e_nvmeotcp_put_queue(queue);
-+		return skb;
-+	}
-+
-+	/* cc ddp from cqe */
-+	ccid = be16_to_cpu(cqe128->ccid);
-+	ccoff = be32_to_cpu(cqe128->ccoff);
-+	cclen = be16_to_cpu(cqe128->cclen);
-+	hlen  = be16_to_cpu(cqe128->hlen);
-+
-+	/* carve a hole in the skb for DDP data */
-+	if (linear) {
-+		skb_trim(skb, hlen);
-+	} else {
-+		org_nr_frags = skb_shinfo(skb)->nr_frags;
-+		mlx5_nvmeotcp_trim_nonlinear(skb, org_frags, &frag_index,
-+					     cclen);
-+	}
-+
-+	nqe = &queue->ccid_table[ccid];
-+
-+	/* packet starts new ccid? */
-+	if (queue->ccid != ccid || queue->ccid_gen != nqe->ccid_gen) {
-+		queue->ccid = ccid;
-+		queue->ccoff = 0;
-+		queue->ccoff_inner = 0;
-+		queue->ccsglidx = 0;
-+		queue->ccid_gen = nqe->ccid_gen;
-+	}
-+
-+	/* skip inside cc until the ccoff in the cqe */
-+	while (queue->ccoff + queue->ccoff_inner < ccoff) {
-+		remaining = nqe->sgl[queue->ccsglidx].length - queue->ccoff_inner;
-+		fragsz = min_t(off_t, remaining,
-+			       ccoff - (queue->ccoff + queue->ccoff_inner));
-+
-+		if (fragsz == remaining)
-+			mlx5e_nvmeotcp_advance_sgl_iter(queue);
-+		else
-+			queue->ccoff_inner += fragsz;
-+	}
-+
-+	/* adjust the skb according to the cqe cc */
-+	while (to_copy < cclen) {
-+		if (skb_shinfo(skb)->nr_frags >= MAX_SKB_FRAGS) {
-+			dev_kfree_skb_any(skb);
-+			mlx5e_nvmeotcp_put_queue(queue);
-+			return NULL;
-+		}
-+
-+		remaining = nqe->sgl[queue->ccsglidx].length - queue->ccoff_inner;
-+		fragsz = min_t(int, remaining, cclen - to_copy);
-+
-+		mlx5e_nvmeotcp_add_skb_frag(netdev, skb, queue, nqe, fragsz);
-+		to_copy += fragsz;
-+		if (fragsz == remaining)
-+			mlx5e_nvmeotcp_advance_sgl_iter(queue);
-+		else
-+			queue->ccoff_inner += fragsz;
-+	}
-+
-+	if (cqe_bcnt > hlen + cclen) {
-+		remaining = cqe_bcnt - hlen - cclen;
-+		if (linear)
-+			skb = mlx5_nvmeotcp_add_tail(queue, skb,
-+						     offset_in_page(skb->data) +
-+								hlen + cclen,
-+						     remaining);
-+		else
-+			skb = mlx5_nvmeotcp_add_tail_nonlinear(queue, skb,
-+							       org_frags,
-+							       org_nr_frags,
-+							       frag_index);
-+	}
-+
-+	mlx5e_nvmeotcp_put_queue(queue);
-+	return skb;
-+}
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.h b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.h
-new file mode 100644
-index 000000000000..65456b46c33f
---- /dev/null
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.h
-@@ -0,0 +1,43 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
-+/* Copyright (c) 2021 Mellanox Technologies. */
-+#ifndef __MLX5E_NVMEOTCP_RXTX_H__
-+#define __MLX5E_NVMEOTCP_RXTX_H__
-+
-+#ifdef CONFIG_MLX5_EN_NVMEOTCP
-+
-+#include <linux/skbuff.h>
-+#include "en.h"
-+
-+struct sk_buff*
-+mlx5e_nvmeotcp_handle_rx_skb(struct net_device *netdev, struct sk_buff *skb,
-+			     struct mlx5_cqe64 *cqe, u32 cqe_bcnt, bool linear);
-+
-+static inline int mlx5_nvmeotcp_get_headlen(struct mlx5_cqe64 *cqe, u32 cqe_bcnt)
-+{
-+	struct mlx5e_cqe128 *cqe128;
-+
-+	if (!cqe_is_nvmeotcp_zc(cqe) || cqe_is_nvmeotcp_resync(cqe))
-+		return cqe_bcnt;
-+
-+	cqe128 = container_of(cqe, struct mlx5e_cqe128, cqe64);
-+	return be16_to_cpu(cqe128->hlen);
-+}
-+
-+#else
-+static inline struct sk_buff*
-+mlx5e_nvmeotcp_handle_rx_skb(struct net_device *netdev, struct sk_buff *skb,
-+			     struct mlx5_cqe64 *cqe, u32 cqe_bcnt, bool linear)
-+{ return skb; }
-+
-+static inline int mlx5_nvmeotcp_get_headlen(struct mlx5_cqe64 *cqe, u32 cqe_bcnt)
-+{ return cqe_bcnt; }
-+
-+#endif /* CONFIG_MLX5_EN_NVMEOTCP */
-+
-+static inline u16 mlx5e_get_headlen_hint(struct mlx5_cqe64 *cqe, u32 cqe_bcnt)
-+{
-+	return min_t(u32, MLX5E_RX_MAX_HEAD, mlx5_nvmeotcp_get_headlen(cqe, cqe_bcnt));
-+}
-+
-+
-+#endif /* __MLX5E_NVMEOTCP_RXTX_H__ */
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-index 598d62366af2..168a4f490b8d 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-@@ -48,6 +48,7 @@
- #include "en_accel/ipsec_rxtx.h"
- #include "en_accel/tls_rxtx.h"
- #include "en_accel/nvmeotcp.h"
-+#include "en_accel/nvmeotcp_rxtx.h"
- #include "lib/clock.h"
- #include "en/xdp.h"
- #include "en/xsk/rx.h"
-@@ -57,9 +58,11 @@
- 
- static struct sk_buff *
- mlx5e_skb_from_cqe_mpwrq_linear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *wi,
-+				struct mlx5_cqe64 *cqe,
- 				u16 cqe_bcnt, u32 head_offset, u32 page_idx);
- static struct sk_buff *
- mlx5e_skb_from_cqe_mpwrq_nonlinear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *wi,
-+				   struct mlx5_cqe64 *cqe,
- 				   u16 cqe_bcnt, u32 head_offset, u32 page_idx);
- static void mlx5e_handle_rx_cqe(struct mlx5e_rq *rq, struct mlx5_cqe64 *cqe);
- static void mlx5e_handle_rx_cqe_mpwrq(struct mlx5e_rq *rq, struct mlx5_cqe64 *cqe);
-@@ -1189,6 +1192,12 @@ mlx5e_skb_from_cqe_linear(struct mlx5e_rq *rq, struct mlx5_cqe64 *cqe,
- 	/* queue up for recycling/reuse */
- 	page_ref_inc(di->page);
- 
-+#if defined(CONFIG_TCP_DDP) && defined(CONFIG_MLX5_EN_NVMEOTCP)
-+	if (cqe_is_nvmeotcp(cqe))
-+		skb = mlx5e_nvmeotcp_handle_rx_skb(rq->netdev, skb, cqe,
-+						   cqe_bcnt, true);
-+#endif
-+
- 	return skb;
- }
- 
-@@ -1197,8 +1206,8 @@ mlx5e_skb_from_cqe_nonlinear(struct mlx5e_rq *rq, struct mlx5_cqe64 *cqe,
- 			     struct mlx5e_wqe_frag_info *wi, u32 cqe_bcnt)
- {
- 	struct mlx5e_rq_frag_info *frag_info = &rq->wqe.info.arr[0];
-+	u16 headlen = mlx5e_get_headlen_hint(cqe, cqe_bcnt);
- 	struct mlx5e_wqe_frag_info *head_wi = wi;
--	u16 headlen      = min_t(u32, MLX5E_RX_MAX_HEAD, cqe_bcnt);
- 	u16 frag_headlen = headlen;
- 	u16 byte_cnt     = cqe_bcnt - headlen;
- 	struct sk_buff *skb;
-@@ -1207,7 +1216,7 @@ mlx5e_skb_from_cqe_nonlinear(struct mlx5e_rq *rq, struct mlx5_cqe64 *cqe,
- 	 * might spread among multiple pages.
- 	 */
- 	skb = napi_alloc_skb(rq->cq.napi,
--			     ALIGN(MLX5E_RX_MAX_HEAD, sizeof(long)));
-+			     ALIGN(headlen, sizeof(long)));
- 	if (unlikely(!skb)) {
- 		rq->stats->buff_alloc_err++;
- 		return NULL;
-@@ -1233,6 +1242,12 @@ mlx5e_skb_from_cqe_nonlinear(struct mlx5e_rq *rq, struct mlx5_cqe64 *cqe,
- 	skb->tail += headlen;
- 	skb->len  += headlen;
- 
-+#if defined(CONFIG_TCP_DDP) && defined(CONFIG_MLX5_EN_NVMEOTCP)
-+	if (cqe_is_nvmeotcp(cqe))
-+		skb = mlx5e_nvmeotcp_handle_rx_skb(rq->netdev, skb, cqe,
-+						   cqe_bcnt, false);
-+#endif
-+
- 	return skb;
- }
- 
-@@ -1387,7 +1402,7 @@ static void mlx5e_handle_rx_cqe_mpwrq_rep(struct mlx5e_rq *rq, struct mlx5_cqe64
- 	skb = INDIRECT_CALL_2(rq->mpwqe.skb_from_cqe_mpwrq,
- 			      mlx5e_skb_from_cqe_mpwrq_linear,
- 			      mlx5e_skb_from_cqe_mpwrq_nonlinear,
--			      rq, wi, cqe_bcnt, head_offset, page_idx);
-+			      rq, wi, cqe, cqe_bcnt, head_offset, page_idx);
- 	if (!skb)
- 		goto mpwrq_cqe_out;
- 
-@@ -1418,17 +1433,18 @@ const struct mlx5e_rx_handlers mlx5e_rx_handlers_rep = {
- 
- static struct sk_buff *
- mlx5e_skb_from_cqe_mpwrq_nonlinear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *wi,
-+				   struct mlx5_cqe64 *cqe,
- 				   u16 cqe_bcnt, u32 head_offset, u32 page_idx)
- {
--	u16 headlen = min_t(u16, MLX5E_RX_MAX_HEAD, cqe_bcnt);
- 	struct mlx5e_dma_info *di = &wi->umr.dma_info[page_idx];
-+	u16 headlen = mlx5e_get_headlen_hint(cqe, cqe_bcnt);
- 	u32 frag_offset    = head_offset + headlen;
- 	u32 byte_cnt       = cqe_bcnt - headlen;
- 	struct mlx5e_dma_info *head_di = di;
- 	struct sk_buff *skb;
- 
- 	skb = napi_alloc_skb(rq->cq.napi,
--			     ALIGN(MLX5E_RX_MAX_HEAD, sizeof(long)));
-+			     ALIGN(headlen, sizeof(long)));
- 	if (unlikely(!skb)) {
- 		rq->stats->buff_alloc_err++;
- 		return NULL;
-@@ -1459,11 +1475,18 @@ mlx5e_skb_from_cqe_mpwrq_nonlinear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *w
- 	skb->tail += headlen;
- 	skb->len  += headlen;
- 
-+#if defined(CONFIG_TCP_DDP) && defined(CONFIG_MLX5_EN_NVMEOTCP)
-+	if (cqe_is_nvmeotcp(cqe))
-+		skb = mlx5e_nvmeotcp_handle_rx_skb(rq->netdev, skb, cqe,
-+						   cqe_bcnt, false);
-+#endif
-+
- 	return skb;
- }
- 
- static struct sk_buff *
- mlx5e_skb_from_cqe_mpwrq_linear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *wi,
-+				struct mlx5_cqe64 *cqe,
- 				u16 cqe_bcnt, u32 head_offset, u32 page_idx)
- {
- 	struct mlx5e_dma_info *di = &wi->umr.dma_info[page_idx];
-@@ -1505,6 +1528,12 @@ mlx5e_skb_from_cqe_mpwrq_linear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *wi,
- 	/* queue up for recycling/reuse */
- 	page_ref_inc(di->page);
- 
-+#if defined(CONFIG_TCP_DDP) && defined(CONFIG_MLX5_EN_NVMEOTCP)
-+	if (cqe_is_nvmeotcp(cqe))
-+		skb = mlx5e_nvmeotcp_handle_rx_skb(rq->netdev, skb, cqe,
-+						   cqe_bcnt, true);
-+#endif
-+
- 	return skb;
- }
- 
-@@ -1543,7 +1572,7 @@ static void mlx5e_handle_rx_cqe_mpwrq(struct mlx5e_rq *rq, struct mlx5_cqe64 *cq
- 	skb = INDIRECT_CALL_2(rq->mpwqe.skb_from_cqe_mpwrq,
- 			      mlx5e_skb_from_cqe_mpwrq_linear,
- 			      mlx5e_skb_from_cqe_mpwrq_nonlinear,
--			      rq, wi, cqe_bcnt, head_offset, page_idx);
-+			      rq, wi, cqe, cqe_bcnt, head_offset, page_idx);
- 	if (!skb)
- 		goto mpwrq_cqe_out;
- 
--- 
-2.24.1
+Are you sure this is not dead code ?
 
+> +       is_ddp = skb->sk && inet_csk(skb->sk) &&
+> +                inet_csk(skb->sk)->icsk_ulp_ddp_data;
+> +#endif
+>         if (skb->data_len) {
+>                 if (skb->data_len > skb->end - skb->tail ||
+> -                   skb_cloned(skb))
+> +                   skb_cloned(skb) || is_ddp)
+>                         return;
+>
+>                 /* Nice, we can free page frag(s) right now */
+> diff --git a/net/ethtool/common.c b/net/ethtool/common.c
+> index 24036e3055a1..a2ff7a4a6bbf 100644
+> --- a/net/ethtool/common.c
+> +++ b/net/ethtool/common.c
+> @@ -68,6 +68,7 @@ const char netdev_features_strings[NETDEV_FEATURE_COUNT][ETH_GSTRING_LEN] = {
+>         [NETIF_F_HW_TLS_RX_BIT] =        "tls-hw-rx-offload",
+>         [NETIF_F_GRO_FRAGLIST_BIT] =     "rx-gro-list",
+>         [NETIF_F_HW_MACSEC_BIT] =        "macsec-hw-offload",
+> +       [NETIF_F_HW_TCP_DDP_BIT] =       "tcp-ddp-offload",
+>  };
+>
+>  const char
+> --
+> 2.24.1
+>
 
 _______________________________________________
 Linux-nvme mailing list
