@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2DBC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 19:18:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4A52C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 19:22:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C455523B54
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 19:18:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C455523B54
+	by mail.kernel.org (Postfix) with ESMTPS id 8CBF623B1A
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 19:22:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8CBF623B1A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,69 +24,72 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=aL2Br9ie9sVjw9JoIzRzA9AAS75H4suOaP5CnqSH+TQ=; b=1G7I3jdp227Q43yh0pOVhFYW0
-	3fpYit7M0xr9QIvSBuW4OCS7JWtJ1jB2JAEQcJ6/XPoxnon6YLnsB0iTvmyJDF4L0J4ds9ru75u7Y
-	X2zx654RJDWzr+eJuC2WEN9/huz2nlSX8GdxRYKj+f+qCRTGSeZz1l2FSUPrVPvNvsdGZRg4uSRFh
-	LQKQq2d8jzK5GaGY0R7FrfVAcEa1fZjosjP5MaMkV3bvSl+dlDKnXOUmbnc4KC3LdR1bUt5GEFP02
-	Ngq53Wz0pZGSkAF/7BtAee1SeoMA7qMK3M+Pzt9wCTex+GtlN4GPLjXGWDDR7E1OKTQJNXRKV+yi5
-	mj+pnBYDA==;
+	 bh=a83wpkkogMcpWT1Q92g93kI1UAWXKzw7KmR+hhrwmmY=; b=1VezWkAqRKVSygDuzs1s57XId
+	ylZu55rm2NYc8/IhMZCwQTcj2xDfsL4XJWxnGyDEUZs+KZINHILUQ29hg7OgjTQC7bb7OM9Yzio7u
+	vlCyxeNZOwpRBF/fK0h+maLxfuISmgCf7q4btg5QQtQVP3qzFLU3cz+QgjHIcRpQpBfNBIGLQPvIm
+	G8BA8MHD6k5RVmdRy3+GSynIAMFybJFVGgC8KsbKLGWlRNZsGQM2gPuYejWirg3ZKaYAMiqdaGm9Q
+	VSxwUHaZE6uwMMPSK71Vv/IOlSAvRECwoqFe+niw7otpgPCFxcHUsLRReqnOCVNYjwbn56uiL/kAd
+	bsfM+BsUQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l0881-0000pY-39; Thu, 14 Jan 2021 19:17:53 +0000
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+	id 1l08Bu-0001GP-NN; Thu, 14 Jan 2021 19:21:54 +0000
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l087y-0000ou-Rp
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 19:17:51 +0000
-Received: by mail-ed1-x52e.google.com with SMTP id c7so6934627edv.6
- for <linux-nvme@lists.infradead.org>; Thu, 14 Jan 2021 11:17:48 -0800 (PST)
+ id 1l08Bs-0001Fs-JO
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 19:21:53 +0000
+Received: by mail-ej1-x62c.google.com with SMTP id g12so9844475ejf.8
+ for <linux-nvme@lists.infradead.org>; Thu, 14 Jan 2021 11:21:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=23yPPjHaxPNE0KQ8oCeJXs/2B0KQYJpURsDNWLZSAcw=;
- b=JP8/L5FxaJp8SIEa8lbXAMOJLRP6uOXYR+1zg4CKs2mMcKjtmd1Ju05OR1YO9KDGsc
- EHueb5Bv3XGQBGIzCBX3Jvz+G26B/f8Xp28IUN96NYmW8ciVCQw/W1N3c9OhqXAi7Qd9
- kQuv4Nt4YIEYc9+A3wYSaLDnP6feew+hrHIrChzphXSb6kJzf3VAYbHD3PlP0/PQA1Gf
- 0hmoy/ni49VmWwBoXGsziVOsoFg4XTN5WDnIkVnCOcnR2nxQCNLUKWUfN+gohzh9iL0p
- 6D8u+eOTQDzCvYFlnmrpinFBAoMEklm1UmM+EirqS+8kYVT1+UtMQey1b/g/XhI8+VYO
- fszg==
+ bh=hJ4PbZRXWGKbnNFaGjb6sbAezL9+pJDA5n1ewEcRakw=;
+ b=b9JJTPOrthVfyFbfmueN5xKP6jsW2O1dwykI3ofvYqnA/17z96hcmzg1VwdbLS0LEM
+ cLK7067HCIDL3Tz3ewDachamz7UUuJWQFDeVSTcU1pIDrBb9DeQlNMGVPlMH6dPylM6L
+ hVXzhPwxtxUYWJYTrwWNZVMzHfwU0Zvlsa5lKWvcvl0VQqM+CDo6yArtH2fe3JPymQxa
+ l2YuKlQBM8UJ6oaDgLwgGHlkUUzMoqx5ipnqcZPwSKf7+ZH0aSs7mvbhWO75/R8OMBX7
+ yQdsrTg4rHRLbmlE1v0aeehMwMqX+LUWXvCZcAQhcMSvvrvZgPFmgXOThTK638Oq33xq
+ KGSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=23yPPjHaxPNE0KQ8oCeJXs/2B0KQYJpURsDNWLZSAcw=;
- b=XMEcZpCliI704BLp/L/zRiOl5VoRDSJ57OvM8eNCLddGtvhjej14jMfe17FZdjTc4C
- +cK14+8nl2WdBTeBw2xYRN8U+zcKBOow5/pOSzRirrxu6bZAznzG9m1HK4B1sWNSz3Dx
- 8VpmRoL+C/MqaUjQRUj5VNlDF/rDmHgckYmIfq2+k54KRucq2zS+mbya7kBjfWUjzD00
- KxeVR6w0OX/EOBsdIXt3t3/ajXo/Mr6avr1LFG+fpBH798QqFXeOOmPoKRs/xzNXsH7o
- mULK8Wc+0ZImQjwT2VOhpkHEsLdM00u5z/Xbu0sUkZx1Y/M6Ijjx3v8X0xgpgHVzg7M9
- hzhg==
-X-Gm-Message-State: AOAM533UayUkV1frp5DT9NNMrv2E3ij/ph6reyQ3wKUWVJSKrTm5qpqd
- QAmUb1T2oiUXduszd5Id4Os=
-X-Google-Smtp-Source: ABdhPJxnN3T7iKOqlx2qPLp1AqWPuSAkIY+4c8+TYBZzC0CHFiyIt2kw56oSY68Gpwpehf5pzKYbqQ==
-X-Received: by 2002:aa7:c543:: with SMTP id s3mr6806760edr.88.1610651867820;
- Thu, 14 Jan 2021 11:17:47 -0800 (PST)
+ bh=hJ4PbZRXWGKbnNFaGjb6sbAezL9+pJDA5n1ewEcRakw=;
+ b=mIrrfLneKCeIWpr6fiwqgWAb69U5IWogSTfNLgnjG2ay1sqH6NWkrCRCyQPuJmhjS4
+ +yFnH55CJ7rRKoUkSeQ+LxxoNcqVJjKigdp5p0DfPK8u/6HlcRrjm3U6/WXD4K3eVUBu
+ rvw0xW+4CqYS/7h0FIsFBWm5OsDR/azDw1mnIJAebWhHLbxcw78k623rYiEEM3NxDLhQ
+ gSrDWrJ9uyDcVJ1QtAqpnt2XLhFG0sdP+dpixg5SQNyQHbHqkNTU3XijLNoVtefOxJMy
+ 7neUai2fdO7G/zb6AhiM/mZJnCDub5RKlhuemiqPfy2RGGDh211zSlRSOi5Awt4UNSuc
+ VNbQ==
+X-Gm-Message-State: AOAM533WZq1T51x0zRLLg7WDFuAgABJkIkkm7oRtGyzWarsmuxu4XMoW
+ jq2Vhh2muX7tyh4VDeLg6Wk=
+X-Google-Smtp-Source: ABdhPJymSRUtSVJJhoQUpZwedJopflzkCpJOkUSDAw1HwbYgz6q2T//Gpwkn6qPjSq8EsINMfJs2Ow==
+X-Received: by 2002:a17:906:1b41:: with SMTP id
+ p1mr3250203ejg.162.1610652111079; 
+ Thu, 14 Jan 2021 11:21:51 -0800 (PST)
 Received: from [192.168.1.11] ([213.57.108.142])
- by smtp.gmail.com with ESMTPSA id x16sm919744ejc.22.2021.01.14.11.17.45
+ by smtp.gmail.com with ESMTPSA id v25sm2349174ejw.21.2021.01.14.11.21.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 11:17:47 -0800 (PST)
+ Thu, 14 Jan 2021 11:21:50 -0800 (PST)
 Subject: Re: [PATCH v1 net-next 00/15] nvme-tcp receive offloads
-To: Sagi Grimberg <sagi@grimberg.me>, Boris Pismenny <borisp@mellanox.com>,
- kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com, hch@lst.de,
- axboe@fb.com, kbusch@kernel.org, viro@zeniv.linux.org.uk, edumazet@google.com
+To: David Ahern <dsahern@gmail.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Boris Pismenny <borisp@mellanox.com>, kuba@kernel.org, davem@davemloft.net,
+ saeedm@nvidia.com, hch@lst.de, axboe@fb.com, kbusch@kernel.org,
+ viro@zeniv.linux.org.uk, edumazet@google.com
 References: <20201207210649.19194-1-borisp@mellanox.com>
  <69f9a7c3-e2ab-454a-2713-2e9c9dea4e47@grimberg.me>
+ <967ae867-42c9-731d-9cb1-2c81fcc1ef77@gmail.com>
 From: Boris Pismenny <borispismenny@gmail.com>
-Message-ID: <6b9da1e6-c4d0-7853-15fb-edf655ead33f@gmail.com>
-Date: Thu, 14 Jan 2021 21:17:43 +0200
+Message-ID: <a14d5ab8-e62c-65ac-3b8b-0e657226625f@gmail.com>
+Date: Thu, 14 Jan 2021 21:21:47 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <69f9a7c3-e2ab-454a-2713-2e9c9dea4e47@grimberg.me>
+In-Reply-To: <967ae867-42c9-731d-9cb1-2c81fcc1ef77@gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_141750_918675_3A8E03E1 
-X-CRM114-Status: GOOD (  16.89  )
+X-CRM114-CacheID: sfid-20210114_142152_687319_F1C3733B 
+X-CRM114-Status: GOOD (  12.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,42 +103,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: yorayz@nvidia.com, boris.pismenny@gmail.com, linux-nvme@lists.infradead.org,
  benishay@nvidia.com, netdev@vger.kernel.org, ogerlitz@nvidia.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 14/01/2021 3:27, Sagi Grimberg wrote:
-> Hey Boris, sorry for some delays on my end...
-> 
-> I saw some long discussions on this set with David, what is
-> the status here?
-> 
-
-The main purpose of this series is to address these.
-
-> I'll take some more look into the patches, but if you
-> addressed the feedback from the last iteration I don't
-> expect major issues with this patch set (at least from
-> nvme-tcp side).
-> 
->> Changes since RFC v1:
->> =========================================
->> * Split mlx5 driver patches to several commits
->> * Fix nvme-tcp handling of recovery flows. In particular, move queue offlaod
->>    init/teardown to the start/stop functions.
-> 
-> I'm assuming that you tested controller resets and network hiccups
-> during traffic right?
-> 
-
-Network hiccups were tested through netem packet drops and reordering.
-We tested error recovery by taking the controller down and bringing it
-back up while the system is quiescent and during traffic.
-
-If you have another test in mind, please let me know.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiAxNC8wMS8yMDIxIDY6NDcsIERhdmlkIEFoZXJuIHdyb3RlOgo+IE9uIDEvMTMvMjEgNjoy
+NyBQTSwgU2FnaSBHcmltYmVyZyB3cm90ZToKPj4+IENoYW5nZXMgc2luY2UgUkZDIHYxOgo+Pj4g
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KPj4+ICogU3BsaXQgbWx4
+NSBkcml2ZXIgcGF0Y2hlcyB0byBzZXZlcmFsIGNvbW1pdHMKPj4+ICogRml4IG52bWUtdGNwIGhh
+bmRsaW5nIG9mIHJlY292ZXJ5IGZsb3dzLiBJbiBwYXJ0aWN1bGFyLCBtb3ZlIHF1ZXVlCj4+PiBv
+ZmZsYW9kCj4+PiDCoMKgIGluaXQvdGVhcmRvd24gdG8gdGhlIHN0YXJ0L3N0b3AgZnVuY3Rpb25z
+Lgo+Pgo+PiBJJ20gYXNzdW1pbmcgdGhhdCB5b3UgdGVzdGVkIGNvbnRyb2xsZXIgcmVzZXRzIGFu
+ZCBuZXR3b3JrIGhpY2N1cHMKPj4gZHVyaW5nIHRyYWZmaWMgcmlnaHQ/Cj4gCj4gSSBoYWQgcXVl
+c3Rpb25zIG9uIHRoaXMgcGFydCBhcyB3ZWxsIC0tIGUuZy4sIHdoYXQgaGFwcGVucyBvbiBhIFRD
+UAo+IHJldHJ5PyBwYWNrZXRzIGFycml2ZSwgc2dsIGZpbGxlZCBmb3IgdGhlIGNvbW1hbmQgaWQs
+IGJ1dCBwYWNrZXQgaXMKPiBkcm9wcGVkIGluIHRoZSBzdGFjayAoZS5nLiwgZW5xdWV1ZSBiYWNr
+bG9nIGlzIGZpbGxlZCwgc28gcGFja2V0IGdldHMKPiBkcm9wcGVkKQo+IAoKT24gcmUtdHJhbnNt
+aXNzaW9uIHRoZSBIVyBjb250ZXh0J3MgZXhwZWN0ZWQgdGNwIHNlcXVlbmNlIG51bWJlciBkb2Vz
+bid0Cm1hdGNoLiBBcyBhIHJlc3VsdCwgdGhlIHJlY2VpdmVkIHBhY2tldCBpcyB1bi1vZmZsb2Fk
+ZWQgYW5kIHNvZnR3YXJlCndpbGwgZG8gdGhlIGNvcHkvY3JjIGZvciBpdHMgZGF0YS4KCkFzIGEg
+Z2VuZXJhbCBydWxlLCBpZiBIVyBjb250ZXh0IGV4cGVjdGVkIHNlcXVlbmNlIG51bWJlcnMgZG9u
+J3QgbWF0Y2gsCnRoZW4gdGhlcmUncyBubyBvZmZsb2FkLgoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgt
+bnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxt
+YW4vbGlzdGluZm8vbGludXgtbnZtZQo=
