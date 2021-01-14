@@ -2,106 +2,102 @@ Return-Path: <SRS0=kiw1=GR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDB55C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 11:49:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAEC5C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 11:54:55 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 312EB23741
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 11:49:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 312EB23741
+	by mail.kernel.org (Postfix) with ESMTPS id 2D0262310E
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Jan 2021 11:54:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D0262310E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=U+5r/W99me7lODSCwm338r3NuWlMkbT2e1YvGqk7c5I=; b=kCN390NVQC/4uuQiKJ6dEW4Tw
-	B9fdD3XSnxlf3mmZV14+l0mVGXqD2n2l0DHai9lmMKB5jZiel1xXpt/xRtBPfl2UlDqdro0NCl3hL
-	OEvcQqpANMHlsPMrM+kbuVCqTmJuMKXMinbDFt9nrlATioYy+CL4B4X9OfipcFWg33oGvwCYLxRG8
-	x1YYOcEDmQDT/I5UAZ/t8IKLjBguBFSSMVLaC2EQ1CkpKN/GCWR3DX/zLti3rcPYuKamOpoU8kiHG
-	U1JVC3rqJeJSiVWOE7v2V1jgqWMZoXqxmlSiSCUL1Qay0k6gMZ4X1USaGT+/rno2nMOqi7Jf2Zlje
-	yigSPF6Ww==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8qkwnmyFdT7gNwK0LZCrgYZPj9V/gvtCb7rKB/zWva0=; b=F1CV4fppkwvjaka+K2n5F4cVhE
+	tSxA0NV7vjq+S39P0UkWgJv4UcnejO9izdc+daRva9qFu4IUmSs8tdm5L6ukZ50Qmbjgn+uCQdRvi
+	uEDSnlxtz9OmtOWnHKtmv9B3Iq5ulaLBf43EiFJppyYhuMjtY5oauYf8Si6mEDH+yeP8HVEDIpk+G
+	EGILr2ZIGDoKo+tsGmGUgNfO3wAuFuOd0XYQ8igr06c61bJZ2JcUH/bFwVJzlMzW9BANy/SRI+MqZ
+	EiqjzLtBtczd3wmlB7sfJrseycqcQXZrCDtvD7MmmGNlzDczcpkMWzwp4x3FvQhaCnkOTO6ILZENE
+	J0TB3tXw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l018A-0004IY-NN; Thu, 14 Jan 2021 11:49:34 +0000
+	id 1l01D6-00054v-I5; Thu, 14 Jan 2021 11:54:40 +0000
 Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l0186-0004HF-O4
- for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 11:49:32 +0000
-Received: from pps.filterd (m0170390.ppops.net [127.0.0.1])
+ id 1l01D3-000543-5g
+ for linux-nvme@lists.infradead.org; Thu, 14 Jan 2021 11:54:38 +0000
+Received: from pps.filterd (m0170391.ppops.net [127.0.0.1])
  by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10EBhWhB004529; Thu, 14 Jan 2021 06:49:26 -0500
+ 10EBpm0l004871; Thu, 14 Jan 2021 06:54:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=smtpout1;
- bh=w+HwP0e0cVkyYhYdHsMR8QbCg/82JcLuihXK7xsVyz8=;
- b=WX+wQ6J2XRo9Bt/nB1mr+C35WyVfxRY6Dyxa8kH9NkIfgJy35oAKGOL/FulIbyJjQkNC
- SJRP2jnUj19Om0aqkh7yjrvEWdHmNUdQLBN/2/Y9WBdE73HaHDLjJi5Ma/DOyr8geCyP
- Ven9DZm9F1HuPu7SqHJdYaEOXAJCfTnH6F4D/RP1vuVdo7glD7YqNam21b3pX3T8JzpO
- jsU8jY44mrrarr7x3kSnuwdqgECB35q8NyqvFlcBtN/IipttxbEFbE/NuO5jsylB/uuq
- EOotQTAtBlV+wIFle6+H2bhEydH74gtgJL+rHBZ9/2GDFYvwyWPTvZF0OhdeJFZYz16E 0w== 
-Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com
- [67.231.157.37])
- by mx0a-00154904.pphosted.com with ESMTP id 361fy9q0r0-1
+ bh=OTDTjNDlWA6nSH+u+OBEJoogscPYgI3JxgFEjpVMasU=;
+ b=qho8A3gfcYLygbwFc1bsnUy6dOFD8QRPdFOEgdTDY3UVXtyR3fzBISgC+sQWWfWEK2kN
+ 1kAPw3e/ct/9vwjtuEIcbMJP+dkbbqlcUOOdeGsRIA5sK/Tv6KWzCVrtWgAKJlsqAlnz
+ klrXUv1V76Flh+sQmdSHLSnYMSYGAXy5bHWAtE3iVCzCiJKiwOkOD6dmF7OkaxlTVlMU
+ RWXCPu8DVuqqrKfGolZ7V3GLOyfxJcaY7utabA3hQR76pU6JVILWTQxQGL17J/vC1dBA
+ TZEs1PRHbGYoOOlmoWtIH9iSu8Xv4zAtbLaL/utCZGTx1lEz71m4ObEIfJRIngseLMMa RA== 
+Received: from mx0b-00154901.pphosted.com (mx0a-00154901.pphosted.com
+ [67.231.149.39])
+ by mx0a-00154904.pphosted.com with ESMTP id 361fybeyw8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 06:49:26 -0500
-Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
+ Thu, 14 Jan 2021 06:54:34 -0500
+Received: from pps.filterd (m0090350.ppops.net [127.0.0.1])
  by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10EBjUpx128788; Thu, 14 Jan 2021 06:49:25 -0500
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2102.outbound.protection.outlook.com [104.47.58.102])
- by mx0b-00154901.pphosted.com with ESMTP id 362kd5hpfq-1
+ 10EBsUX9163756; Thu, 14 Jan 2021 06:54:33 -0500
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
+ by mx0b-00154901.pphosted.com with ESMTP id 362kne15sm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 06:49:25 -0500
+ Thu, 14 Jan 2021 06:54:28 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C/HeHADZCSiXGX63ZpGG6ww8vK5aKxZgkc2rEym6WzOm2K66IWQJk/y86YKef0H7+DE4DCP1B6tSZsyylvrEobTBpNRA9QrZ3IqMxbdJWw8v8RiAKgUvRq/IMVNLQRrNI+3CHhBrp10pF+n+yJKCWAyFB/LOyCtjwAjE9QYyKrEqTV0ah435TtvT5gdUkKSNrXcIxKA/C5ZmQru/nSKc/Xnxz1xfYk9BqiQ0Rw8JZihi/B2r4BKPGorluANX9ENHNjvGmoYufgd9uUbIbHJNcUDoJozrelBDzdNlNM7GZzr9NTV2h8/s/PZkjPfcln/TNmrWKxkUeze9DLO9/8NAOw==
+ b=J0J6bh/DLyJT0eCbElWxGDXcnkPuxgcaHrGVnspakF5aKFCSxsDpQRuBG33i1S3J3pe1doSMYEzkp4VxgowuSooIgLOnSj0YllONO9nMERJxfAKGZUdV8mUKrTfHJbqHHt74GsywoTgmo9D29YgNE/GEFvjhtCmUfZ3cFwhIOtIqYV19hjWTpmH4ViM3qW2kyBIjX6+kQkAtWxseHjcttQrqxf+rr2MPm/qbgGTEknf9lOgjUmzpNxjlGbGoxp93JlNHsaf1SdBFpDdg741nc1UwaVM1eDk+qTXVgQJJj3ZBX7u0W535R+oLmfdIe3ELrqQGwQISg2C0AZtTxG6Qcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w+HwP0e0cVkyYhYdHsMR8QbCg/82JcLuihXK7xsVyz8=;
- b=EA479PONGCY0WCObS29Lx1aREEohSVjjfv/v7+S8U0LVB/smSP/v0hZgVH1GoHasMfvAF3O+WTftAeC6SGETIrJiGLb91XAy+Pl+hQSM5wVBlGMXPxffkfIHj+hf0SFMAECaFi4GIp0kszh0w8hX4WPMPh3D+CvHClg4ah+Cuu940A99E44OjjKizIO12PIrIhKuETT3SDtBlFhCf0txTTmS4eL8JG12nftMfqsaB6Z2jvVAwQ6NcHlEDyAfuIWrADkxao0nlcA712yG+iVF3rll+WUyPHRl48l6o91ORAZAVsu2dL1nBuakggZSU17tTKVQZznfoLyfjKMyd93JIw==
+ bh=OTDTjNDlWA6nSH+u+OBEJoogscPYgI3JxgFEjpVMasU=;
+ b=E/11KSS/HWdtCkghE6TfxwDez5D7CjhnfOV4HOHFJsnxlTWguu7ktyxW9LmANcTGHltMVYtse8jWX3fR2jJVyCiTIaUfgDpQS0BLyEnR+Ha8VhGGwd9gXl48u7eZaAOlW9w+dyUCwBPBi7nPBVgqDLi7NQ1iuwQFnJXAGgpKTQbC3S7BktYhvTLrcpEjXyGWKFpQE0GCAkWLU8zt9ZfaFb0rMA2E1JjrhpMJ19q+Z5qhdkCjxR0X7OoecBwAlnn+KLkePnLrVs7yu9UHFueSyNq3+y895svRfUE1pewJYtuuCP5QjWa5B8TVLnXF7cTmWZcZnvgCRJanEweqErwjVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
  dkim=pass header.d=dell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Dell.onmicrosoft.com; 
  s=selector1-Dell-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w+HwP0e0cVkyYhYdHsMR8QbCg/82JcLuihXK7xsVyz8=;
- b=BTx8mZRKOTp7eOlRmZ+OEVkh0Ip+qE+c1laOMj86IHGM6VthbRAjb5tyleCawnvIh9X0EUVKESPooQArXoRLNeE5+vuEcAC5f/ZueWinQEb6KtXLGkR+MTA663KFLRCqwD0gjRY0C0DQ8d7iIM2ihuafqFiGqxkxLOXn2bnc/M8=
+ bh=OTDTjNDlWA6nSH+u+OBEJoogscPYgI3JxgFEjpVMasU=;
+ b=pG1SR2+iWuMxUawzC4oWAOZ0hk2wZufokFyj0Ejh0woH3hg8xXfTz+L+nGJb9vGeGo22V6G3uFCO2MfNjYMY5+Fljf4E7Nka06R54F90wG8edkzuMAfl6m0YoJxqCgebhgNQqDDZnwLIeaw002kG8dcdDT9Gz2pwGV4eKPblN1Y=
 Received: from DM6PR19MB4011.namprd19.prod.outlook.com (2603:10b6:5:22b::15)
  by DM6PR19MB3162.namprd19.prod.outlook.com (2603:10b6:5:191::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Thu, 14 Jan
- 2021 11:49:23 +0000
+ 2021 11:51:05 +0000
 Received: from DM6PR19MB4011.namprd19.prod.outlook.com
  ([fe80::a416:4c53:4922:67d2]) by DM6PR19MB4011.namprd19.prod.outlook.com
  ([fe80::a416:4c53:4922:67d2%5]) with mapi id 15.20.3763.009; Thu, 14 Jan 2021
- 11:49:23 +0000
+ 11:51:05 +0000
 From: "Grupi, Elad" <Elad.Grupi@dell.com>
-To: Sagi Grimberg <sagi@grimberg.me>, "Engel, Amit" <Amit.Engel@Dell.com>,
- "Anner, Ran" <Ran.Anner@dell.com>, "linux-nvme@lists.infradead.org"
+To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
  <linux-nvme@lists.infradead.org>
-Subject: RE: kernel panic in nvmet_tcp when receiving malformed admin command
-Thread-Topic: kernel panic in nvmet_tcp when receiving malformed admin command
-Thread-Index: AdaWdvf+7tpUpYyWRD2wZy6V/04JWAAKtLKAAB62/8ASo86R4AB72xCAAJg5OIABG48NkA==
-Date: Thu, 14 Jan 2021 11:49:23 +0000
-Message-ID: <DM6PR19MB401188A9DCF3FCC762A3CCE4EFA80@DM6PR19MB4011.namprd19.prod.outlook.com>
-References: <BL0PR1901MB2067C827A2D826C0FBFE985591320@BL0PR1901MB2067.namprd19.prod.outlook.com>
- <cee26269-c9c3-7ce7-8486-4ed16a632e44@grimberg.me>
- <BL0PR1901MB20671CF789D8C246AF911B4D91330@BL0PR1901MB2067.namprd19.prod.outlook.com>
- <DS7PR19MB4439372515F931BA5A1578ABEED30@DS7PR19MB4439.namprd19.prod.outlook.com>
- <dec5fc1d-62d6-1c1e-e2f8-4aa5aeb084af@grimberg.me>
- <2f2b2df4-ba06-a7ae-23cf-31eb17998c6e@grimberg.me>
-In-Reply-To: <2f2b2df4-ba06-a7ae-23cf-31eb17998c6e@grimberg.me>
+Subject: RE: [PATCH] nvme-tcp: fix a segmentation fault during io parsing error
+Thread-Topic: [PATCH] nvme-tcp: fix a segmentation fault during io parsing
+ error
+Thread-Index: AQHW6aKA9bVKdUdQXk+axFkWm5Fl+KomKNIAgADakqA=
+Date: Thu, 14 Jan 2021 11:51:05 +0000
+Message-ID: <DM6PR19MB401194016A086DDF8A82C554EFA80@DM6PR19MB4011.namprd19.prod.outlook.com>
+References: <20210113115152.69692-1-elad.grupi@dell.com>
+ <ad9f038b-9920-21da-755c-85f4e2228a22@grimberg.me>
+In-Reply-To: <ad9f038b-9920-21da-755c-85f4e2228a22@grimberg.me>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -109,80 +105,80 @@ X-MS-TNEF-Correlator:
 msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Elad.Grupi@emc.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2021-01-14T11:49:19.3206162Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2021-01-14T11:51:01.6075850Z;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
  Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=45a0c025-2c3b-46c0-852e-57eb1747db75;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=0705b098-3b8a-409d-983f-3bb036b2467d;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
 authentication-results: grimberg.me; dkim=none (message not signed)
  header.d=none;grimberg.me; dmarc=none action=none header.from=dell.com;
 x-originating-ip: [152.62.109.204]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 513d17f9-cb8b-4e2b-6537-08d8b8827007
+x-ms-office365-filtering-correlation-id: 35a3b62a-e827-4bd3-d222-08d8b882ac8a
 x-ms-traffictypediagnostic: DM6PR19MB3162:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR19MB316200DBCFFE33CF4EABA3E0EFA80@DM6PR19MB3162.namprd19.prod.outlook.com>
+x-microsoft-antispam-prvs: <DM6PR19MB3162E5769FBC7F56C2A31541EFA80@DM6PR19MB3162.namprd19.prod.outlook.com>
 x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: k15Zqo0Lwa3g8e4lf9ZpGSr0nLC5yq/189D3M4Rd1VP+g+sQwsFJTDAiFXU6nIg4ysv/3uwTQ6ACQsGfiMKjbI6R25+piRG9Ymy/YCpPHH6b+IezABq20DcHASLLmgMMVgJKjhtWit1RXB/6gNSni5j4joMXkJGs8bpDB6EZ72ovEPCUEjZXBn4EoqLxmgxfkx0h+UvwUhCtfzKfM8RhwABgUiOTXbImUYtGZT4q0TC5cA63PbPfU0cKz8pL8DKAPegyPkp3BvvFMLOiculMTXu37dqBQdGGN2bJXY9tKplosMut9G0OZ34HqFX59cBuKHYgSNyeWUkL4XEXsXDaFj6YorbZ7FQfb0J4xclTJM5a6JCLANxW56b3OfGtP95hC+olHcNiR33tfmz/4dqan33gRxu/4ymRXlQFFIgiMiaDVWJKMfWtPxCPaGq8CP1BzvEZfHkUjHf65oL6NjIR0w==
+x-microsoft-antispam-message-info: 1ukSJpNiQZQCBNRMFwxoqZ7ebOkJZW6fSFwiDMQMAFUFWkqs93E6W8uYYx3bxc6u/ScyS3cWVVMwgZp9wAALVujjfNpcuQKiZDbK2Ylbll9B9Il8VVi4ivWp8REC0xzSw9hTYCMEewivUO8eHYUCfkzFq/64dpGiks1nY23dpV6iHJ127Ao4//LzPR0H1gJYuaj1i/wAY+XrcKqrgHNLbuSQhzB7c3wycTqHtbu0MOTRQdxiJ8ZXQL9OYHgt+jruVOcoORWdDLCBq9tNSBSFqbdT6Qz+ATs3diyhX5v2dQxi/UOH2VEHPtudDbo7COr2eEt2fhJ5I+CwEdRxqEYMpMETuCreSPNbx9BEd5gYvDE/F0EdzbIZqPX+zMx+aJ14soFCkX2nbNkNmaX6EYzc4A==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR19MB4011.namprd19.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(136003)(346002)(396003)(376002)(66946007)(4326008)(66476007)(66556008)(66446008)(64756008)(52536014)(33656002)(71200400001)(2906002)(7696005)(8936002)(107886003)(76116006)(5660300002)(53546011)(786003)(55016002)(83380400001)(110136005)(86362001)(8676002)(186003)(316002)(26005)(966005)(9686003)(6506007)(478600001);
+ SFS:(4636009)(366004)(39860400002)(136003)(346002)(396003)(376002)(66946007)(66476007)(66556008)(66446008)(64756008)(52536014)(33656002)(71200400001)(2906002)(7696005)(8936002)(76116006)(5660300002)(53546011)(786003)(55016002)(83380400001)(110136005)(86362001)(8676002)(186003)(316002)(26005)(9686003)(6506007)(478600001);
  DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?RitjbmRHcE8xcW01VkVTaG4wb1p5bkhPc01CUFJYK1pKbGpYY3N6WmdOd0F6?=
- =?utf-8?B?ZHkxV3BkM0NENkoyaXo2aW1OOThUQTRJOEN4L1hZT1UweXdEeTFhQ2pYUzFm?=
- =?utf-8?B?NURodVFkcm4rMHc1cCtFdXpQYnVhK3QrRUhiSU5DQmkxQ0xNVkNyQWlKeUcz?=
- =?utf-8?B?Qm9yVmRGREVvZ3NRZFkvcHA5am1iOWNkWXhWYS92NHE0Rm93SlgzTC9YbFFC?=
- =?utf-8?B?UWN5ZjJ2eVFlNHo2MExhUDBxQTMvd1NCbmt2YUlOV216bHFlS1JoR3h3aVEw?=
- =?utf-8?B?d3AxWkNLZjBDSllRRHBBMjZxcy9qaytGMWQ5M2M3N2lzRlV0MTBTNllET1gz?=
- =?utf-8?B?eDJaUlNNL3pUUjgzMFNYcGdqUDRrT2I0U2FOQ2RXUlBkbzNWWlVqTGk5R0hp?=
- =?utf-8?B?akNIYlM5MldEZ0Q0L056QmthN2JrSWtSNytsV2ZWZ0VPYlVhVFlyMlVSYXlQ?=
- =?utf-8?B?NTh1SS9QUHArTHRvVUVEOHM1aEhVZi80WDEwajhJUTF6eWs4Z2tSYjlYbEE4?=
- =?utf-8?B?T2FTemk2ZkpNQ29vL1ZuRUFodVhlaU1UOURUUHI0SHF1Ymc3V3FodjRodlJW?=
- =?utf-8?B?NU5ZekVIZ3ZGdEFvQkVtemJkZFhTcDBDMzdYNHZucjZpZU9uWHVObjZ2YzNn?=
- =?utf-8?B?ekoxYXV5ajVuVm1rTUpoOTBVSWdBS3hiWVNIMi8wU3p3RlIyVmVFN2ViQmw3?=
- =?utf-8?B?TXhSdnJEZCsxZGpSUXcvc1JJMUZtSTJhRGlTUmJrOHlFSHd4RVZ0dTRpK2tz?=
- =?utf-8?B?bk00cUM0TTNsMXBuMHNGZWlzVXk2eU10R1ZQRkdWWW90U2xxNWdUMFl4R25P?=
- =?utf-8?B?cnhpb0VHWURtNTFtZ3BXRkltZkVmL1BWeFhMWFNpTFJRWXV5ajBHQXplNjVE?=
- =?utf-8?B?VG8yTkdURHlHbGJTcHNYYXQ2Zi9mMUp4elVGUUlkcDdwQ1grWEVTczV2Vnkz?=
- =?utf-8?B?ZHp3eGIwYkRHby9KaVlIZVlnTDJjR0R4TTRkQlR4Sk5KbHlRaVdtbHNBWVNH?=
- =?utf-8?B?M3dDZ2syRlROVVdqZ09pVVB2UkdXOFl5Sld1d3lxbFB4cFpBVi9FVzhmRXg3?=
- =?utf-8?B?cldVL0JlUW1Ha3BBV0ZCMVRNU1lYLytscHVadHNaaXQ1aU8weS9WWFUvRW5r?=
- =?utf-8?B?ZnlqUm1CMkZtaVBTRWVZMndydXpYRmorUTFscVhqUjZHUmxkZlNwRzYreXZ6?=
- =?utf-8?B?ZjYreDN1Uy9wWUo5dllBVFZTa2dKcFlLRjNObE1RU3ZuNW53VXF2Vm5NN1dZ?=
- =?utf-8?B?OUhjY0FRUEpKWXhWUUR4cWJ5aW9uMG1ORnNlMmZTWjF1U0NrdE5Od0pGQUF0?=
- =?utf-8?Q?TxaZnQ6Z6npYU=3D?=
+x-ms-exchange-antispam-messagedata: =?utf-8?B?bFFmNHo0N0hIaHVkL29DVThmWkZNSzM5OFNyOXhMemg3am9CQlZiaFpPVVpq?=
+ =?utf-8?B?VnY4ckZWdXdQbDlmR0YzZEhhb1VCK2Q0dWZ6SGZNQ0I0Y0tKYVJiakNCYjR3?=
+ =?utf-8?B?UU5lbVdBemRSVGdvYVAwSkM1MElUUis4L3E1SHNsMytKSHFycHJvRlR3VVlv?=
+ =?utf-8?B?VkprWEpVU0JZaTlWWUtqajBoWEoydnFLQkE2anJXUjE0Qnl4QXJYZzFybVJZ?=
+ =?utf-8?B?SGRGazhscUVsRlF1Nkk4WlJEYjFEUFZYaXU1cW5SOFNLcHBaUVVDd1pyMVl1?=
+ =?utf-8?B?QnV3TjZiQ3NSQWhyYysvQngvUEVzclRMMFdNOTVJdWVxZ0lDRmNEemZlWURk?=
+ =?utf-8?B?MGtNNzdzY1hiQ3BwRzRqSk85ZVRDdDNzZGppRlp0QVZLS1hxb05pZ2Y5b0k5?=
+ =?utf-8?B?dDhmV2FjM2RFVmFaZmhOMWtnSWkvVnhQaEZjVUN2V2JJYVhnS2JKUHZrb0ky?=
+ =?utf-8?B?ZWJGcnc4WkcyMVM0dTlLd3BPdjFtNG1wbitNeXUyZ3BCU2pFRnNFVk1SbXFj?=
+ =?utf-8?B?TTFqaXRVUW0wY1ZPMTlvcWhaN3YycGUxV084UTVJR0Q2aVJzZ1grUk9WQlF0?=
+ =?utf-8?B?V0F4Ri96Q3VKZmhPbGY3TnVYTmgwRzBBQ2gwYTRGVisxVllLdUQrWS9KQksv?=
+ =?utf-8?B?NWN3WHU4ZENhRG5KNTAxZ0RoSFg1dFRrNDFtVldyWlJtS0lJS2VqZmFZR0o1?=
+ =?utf-8?B?M2VzV1ppckg5ZWJFaU5mZkpvZjZaeFBzcTNtb3ZCYVMzVmhZbHk2QzAvUG02?=
+ =?utf-8?B?V1NCK3lrR3IrU0RRckZkQXcySG5qQnN2VWE0MGZkb3ZmQkd0V3B3K3ovU3FE?=
+ =?utf-8?B?UmkrUC9tbDhJNnhPU3NvRzB4N0xuREdvTUZEc053SXJxS1BYY3oyKzNPdnR1?=
+ =?utf-8?B?dGppZDZsOHF5TnNaZE5IS3hNa0JrMlhqelk4L0dmRWZhbitVYjc5RDBIUHM0?=
+ =?utf-8?B?MjI3UFB5V0NNZ292dnkwOEd1dXNyQzlIcTdqd2RGTTlkYnZsV3QvODJUNURE?=
+ =?utf-8?B?STFXSFBwdTJxNHNodnlnRDN6VXdTSVJPUXhMemRwdm5QNUl4Rmt6Y3A1R1RI?=
+ =?utf-8?B?QmczMzlCSTJyWkdhRlJtbCtIME0vcHZvemdqRE8wc1RxbmNvZDczQk03MUVC?=
+ =?utf-8?B?eFVzK2EzMXJ5TlMzbVZYVWQyVU1FaXpjRk1OMFVCd3Fxd0ZjZW5pWjRSM2JM?=
+ =?utf-8?B?eFFTcFhIZE9rWFVKOUxQRDM1L1NnR2oxdmdSVElvUlo5RndIWnlUbmFsY3Ez?=
+ =?utf-8?B?cFNVWEdqS3J6UDU5dlJjRGpuZWVpa3V2SlZOSEtxd2FabHdia2VyYkxLY3ZG?=
+ =?utf-8?Q?oIbwQrp4YQy/I=3D?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: Dell.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR19MB4011.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 513d17f9-cb8b-4e2b-6537-08d8b8827007
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2021 11:49:23.6472 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35a3b62a-e827-4bd3-d222-08d8b882ac8a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2021 11:51:05.2415 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kfFdpw019X0jNbuACdEAoKWomuzjT77TVpj4GYJeyIxh2xSaHoVJcSRfw/GckldrBCN5iUzOek/3451TMpONuQ==
+X-MS-Exchange-CrossTenant-userprincipalname: IZVv7imjWyR6/vCrQvelj0PgsBG2KuxJSTnbZaWsb58fuEHG1ctSE8qExB2vmHDPB+rMQQz38vlvJP6KcxN6wQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR19MB3162
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
  definitions=2021-01-14_04:2021-01-14,
  2021-01-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- malwarescore=0 impostorscore=0 bulkscore=0 priorityscore=1501
- clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101140069
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0 mlxscore=0
- spamscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101140069
+ lowpriorityscore=0
+ phishscore=0 mlxscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101140070
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ malwarescore=0
+ bulkscore=0 phishscore=0 spamscore=0 adultscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101140070
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_064931_275993_287E0ECC 
-X-CRM114-Status: GOOD (  24.85  )
+X-CRM114-CacheID: sfid-20210114_065437_345880_AFC7B9BF 
+X-CRM114-Status: GOOD (  28.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,238 +190,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "Zinger, Eldad" <Eldad.Zinger@dell.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Sagi
+Thank you Sagi,
 
-This patch did not solve the below issue. We still see the same kernel panic.
-We reproduce the issue by adding a validation to the resv1 field in connect command.
-
-Few comments about your patch:
-
-In nvmet_tcp_unmap_cmds, need to use queue->connect instead of cmd:
-+               /* failed in connect */
-+               nvmet_tcp_unmap_pdu_iovec(cmd);
-+               nvmet_tcp_unmap_data(cmd);
-
-Also in nvmet_tcp_uninit_data_in_cmds same issue:
-                 /* failed in connect */
--               nvmet_tcp_finish_cmd(&queue->connect);
-+               nvmet_req_uninit(&cmd->req);
+I will submit a new patch with a comment as requested.
+The patch you sent did not solve that issue, I submitted some comments on the relevant thread.
 
 Elad
 
 -----Original Message-----
-From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> On Behalf Of Sagi Grimberg
-Sent: Friday, 8 January 2021 22:24
-To: Engel, Amit; Anner, Ran; linux-nvme@lists.infradead.org
-Cc: Zinger, Eldad; Grupi, Elad
-Subject: Re: kernel panic in nvmet_tcp when receiving malformed admin command
+From: Sagi Grimberg <sagi@grimberg.me> 
+Sent: Thursday, 14 January 2021 0:47
+To: Grupi, Elad; linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-tcp: fix a segmentation fault during io parsing error
 
 
 [EXTERNAL EMAIL] 
 
+Hey Elad,
 
->> Hi Sagi, is the patch addressing the below issue is already out there?
+> From: Elad Grupi <elad.grupi@dell.com>
 > 
-> No, thanks for reminding me, I'll have a look into this.
+>      In case there is an io that contains inline data and it goes to
+>      parsing error flow, command response will free command and iov
+>      before clearing the data on the socket buffer.
+>      This will delay the command response until receive flow is completed.
+> 
+> Signed-off-by: Elad Grupi <elad.grupi@dell.com>
+> ---
+>   drivers/nvme/target/tcp.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c 
+> index d535080b781f..dea94da4c9ba 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -146,6 +146,7 @@ static struct workqueue_struct *nvmet_tcp_wq;
+>   static struct nvmet_fabrics_ops nvmet_tcp_ops;
+>   static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
+>   static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
+> +static void nvmet_tcp_queue_response(struct nvmet_req *req);
+>   
+>   static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
+>   		struct nvmet_tcp_cmd *cmd)
+> @@ -476,7 +477,11 @@ static struct nvmet_tcp_cmd *nvmet_tcp_fetch_cmd(struct nvmet_tcp_queue *queue)
+>   		nvmet_setup_c2h_data_pdu(queue->snd_cmd);
+>   	else if (nvmet_tcp_need_data_in(queue->snd_cmd))
+>   		nvmet_setup_r2t_pdu(queue->snd_cmd);
+> -	else
+> +	else if (nvmet_tcp_has_data_in(queue->snd_cmd) &&
+> +			nvmet_tcp_has_inline_data(queue->snd_cmd)) {
 
-Amit, Ran,
+This deserves a comment I think.
 
-Does this solve your issue?
-This needs to split to patches but would be good to understand if this works.
---
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c index dc1f0f647189..c41902f7ce39 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -204,7 +204,6 @@ nvmet_tcp_get_cmd(struct nvmet_tcp_queue *queue)
-         cmd->rbytes_done = cmd->wbytes_done = 0;
-         cmd->pdu_len = 0;
-         cmd->pdu_recv = 0;
--       cmd->iov = NULL;
-         cmd->flags = 0;
-         return cmd;
-  }
-@@ -294,6 +293,7 @@ static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+Did you get a chance to look into what I sent you guys?
 
-         for (i = 0; i < cmd->nr_mapped; i++)
-                 kunmap(sg_page(&sg[i]));
-+       cmd->nr_mapped = 0;
-  }
-
-  static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd) @@ -341,6 +341,14 @@ static void nvmet_tcp_socket_error(struct nvmet_tcp_queue *queue, int status)
-                 nvmet_tcp_fatal_error(queue);
-  }
-
-+static void nvmet_tcp_unmap_data(struct nvmet_tcp_cmd *cmd) {
-+       kfree(cmd->iov);
-+       cmd->iov = NULL;
-+       sgl_free(cmd->req.sg);
-+       cmd->req.sg = NULL;
-+}
-+
-  static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
-  {
-         struct nvme_sgl_desc *sgl = &cmd->req.cmd->common.dptr.sgl; @@ -375,6 +383,7 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
-         return 0;
-  err:
-         sgl_free(cmd->req.sg);
-+       cmd->req.sg = NULL;
-         return NVME_SC_INTERNAL;
-  }
-
-@@ -571,17 +580,13 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
-         } else {
-                 if (queue->nvme_sq.sqhd_disabled) {
-                         cmd->queue->snd_cmd = NULL;
-+                       nvmet_tcp_unmap_data(cmd);
-                         nvmet_tcp_put_cmd(cmd);
-                 } else {
-                         nvmet_setup_response_pdu(cmd);
-                 }
-         }
-
--       if (queue->nvme_sq.sqhd_disabled) {
--               kfree(cmd->iov);
--               sgl_free(cmd->req.sg);
--       }
--
-         return 1;
-
-  }
-@@ -609,9 +614,8 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
-         if (left)
-                 return -EAGAIN;
-
--       kfree(cmd->iov);
--       sgl_free(cmd->req.sg);
-         cmd->queue->snd_cmd = NULL;
-+       nvmet_tcp_unmap_data(cmd);
-         nvmet_tcp_put_cmd(cmd);
-         return 1;
-  }
-@@ -665,6 +669,7 @@ static int nvmet_try_send_ddgst(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
-
-         if (queue->nvme_sq.sqhd_disabled) {
-                 cmd->queue->snd_cmd = NULL;
-+               nvmet_tcp_unmap_data(cmd);
-                 nvmet_tcp_put_cmd(cmd);
-         } else {
-                 nvmet_setup_response_pdu(cmd); @@ -1082,15 +1087,16 @@ static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
-
-         nvmet_tcp_unmap_pdu_iovec(cmd);
-
--       if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
--           cmd->rbytes_done == cmd->req.transfer_len) {
--               if (queue->data_digest) {
--                       nvmet_tcp_prep_recv_ddgst(cmd);
--                       return 0;
--               }
--               cmd->req.execute(&cmd->req);
-+       if (queue->data_digest) {
-+               nvmet_tcp_prep_recv_ddgst(cmd);
-+               return 0;
-         }
-
-+       if (unlikely(cmd->flags & NVMET_TCP_F_INIT_FAILED))
-+               nvmet_tcp_finish_cmd(cmd);
-+       else if (cmd->rbytes_done == cmd->req.transfer_len)
-+               cmd->req.execute(&cmd->req);
-+
-         nvmet_prepare_receive_pdu(queue);
-         return 0;
-  }
-@@ -1120,14 +1126,16 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
-                         queue->idx, cmd->req.cmd->common.command_id,
-                         queue->pdu.cmd.hdr.type, le32_to_cpu(cmd->recv_ddgst),
-                         le32_to_cpu(cmd->exp_ddgst));
-+               nvmet_req_uninit(&cmd->req);
-                 nvmet_tcp_finish_cmd(cmd);
-                 nvmet_tcp_fatal_error(queue);
-                 ret = -EPROTO;
-                 goto out;
-         }
-
--       if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
--           cmd->rbytes_done == cmd->req.transfer_len)
-+       if (unlikely(cmd->flags & NVMET_TCP_F_INIT_FAILED))
-+               nvmet_tcp_finish_cmd(cmd);
-+       else if (cmd->rbytes_done == cmd->req.transfer_len)
-                 cmd->req.execute(&cmd->req);
-         ret = 0;
-  out:
-@@ -1139,7 +1147,8 @@ static int nvmet_tcp_try_recv_one(struct nvmet_tcp_queue *queue)
-  {
-         int result = 0;
-
--       if (unlikely(queue->rcv_state == NVMET_TCP_RECV_ERR))
-+       if (unlikely(queue->rcv_state == NVMET_TCP_RECV_ERR ||
-+                    queue->state == NVMET_TCP_Q_DISCONNECTING))
-                 return 0;
-
-         if (queue->rcv_state == NVMET_TCP_RECV_PDU) { @@ -1333,10 +1342,26 @@ static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
-
-  static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
-  {
--       nvmet_req_uninit(&cmd->req);
-         nvmet_tcp_unmap_pdu_iovec(cmd);
--       kfree(cmd->iov);
--       sgl_free(cmd->req.sg);
-+       nvmet_tcp_unmap_data(cmd);
-+       nvmet_tcp_put_cmd(cmd);
-+}
-+
-+static void nvmet_tcp_unmap_cmds(struct nvmet_tcp_queue *queue) {
-+       struct nvmet_tcp_cmd *cmd = queue->cmds;
-+       int i;
-+
-+       for (i = 0; i < queue->nr_cmds; i++, cmd++) {
-+               nvmet_tcp_unmap_pdu_iovec(cmd);
-+               nvmet_tcp_unmap_data(cmd);
-+       }
-+
-+       if (!queue->nr_cmds) {
-+               /* failed in connect */
-+               nvmet_tcp_unmap_pdu_iovec(cmd);
-+               nvmet_tcp_unmap_data(cmd);
-+       }
-  }
-
-  static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue) @@ -1346,12 +1371,12 @@ static void nvmet_tcp_uninit_data_in_cmds(struct
-nvmet_tcp_queue *queue)
-
-         for (i = 0; i < queue->nr_cmds; i++, cmd++) {
-                 if (nvmet_tcp_need_data_in(cmd))
--                       nvmet_tcp_finish_cmd(cmd);
-+                       nvmet_req_uninit(&cmd->req);
-         }
-
-         if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
-                 /* failed in connect */
--               nvmet_tcp_finish_cmd(&queue->connect);
-+               nvmet_req_uninit(&cmd->req);
-         }
-  }
-
-@@ -1370,6 +1395,7 @@ static void nvmet_tcp_release_queue_work(struct
-work_struct *w)
-         nvmet_tcp_uninit_data_in_cmds(queue);
-         nvmet_sq_destroy(&queue->nvme_sq);
-         cancel_work_sync(&queue->io_work);
-+       nvmet_tcp_unmap_cmds(queue);
-         sock_release(queue->sock);
-         nvmet_tcp_free_cmds(queue);
-         if (queue->hdr_digest || queue->data_digest)
---
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+> +		nvmet_tcp_queue_response(&queue->snd_cmd->req);
+> +		queue->snd_cmd = NULL;
+> +	} else
+>   		nvmet_setup_response_pdu(queue->snd_cmd);
+>   
+>   	return queue->snd_cmd;
+> 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
