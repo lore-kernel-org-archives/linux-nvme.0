@@ -2,63 +2,69 @@ Return-Path: <SRS0=b72z=GS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C24C433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jan 2021 02:01:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1911C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jan 2021 02:17:12 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 54FEC23A5A
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jan 2021 02:01:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54FEC23A5A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id E246323AAA
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jan 2021 02:17:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E246323AAA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=abmi11MJ3NLLNI6GBwsnunjVd1TT2U7fhRcKCbEHqKM=; b=UqA5K18FQsNZFj/dKz7o0U4jjP
-	9HoDgFye8xIfdwxiao9MUDgCzKGDsSyhlq8WLUk24PNSCl1d+SRYKMA6DXLboGtPnyugSwnkTFbX/
-	08qxUlOk8dJr374u/Qncgak8NACP7a3E+6e7ec4llhddvTptx/9Mof4PKLcJohCfCpM8BZ9yVGLyI
-	fTvM6VlQ709eU1a2g6RMfqIeFGcDJmcyMs8G4Su+vRy+9Z+PRlBNhSm87vRt+WmJfdZBH8gUF2sHx
-	yf9CjEpR8p2qgKOXmmSJxR+FEvsmSSnG88GLSKTynGNFuHK0LEEs70Ic/aFKqEESwgsWvThITjb+f
-	ptgOE7Uw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=cb0BtiKqi8kmRlfXsuFJqjqkZ5Bg0DSbyjjF+VVYMto=; b=A4Uij7g2a3O/FKYG1/Xll61XY
+	4mUY9RHBP2UbYv3Ogx4NxGkYYw8LIb0jKVDJGUEMffASaJTHZvcDK0hyJSmurD87R16JLocnvPNkX
+	tc5c8MI1cZBsasCeCb+59CyBeYE07g0hiQnKkYEuyyt/P2IQLLKMw40QtmnKWUcJvZSb8FXvBELCJ
+	X2AOcbZtQupwD7/OpiZHM0mA9uDVFAvIG4XnGTKhjyiY+YS+S+XMmhtJ0S0T0JhnxQYqaYiCoWu3r
+	YypU0qLnJp0qzuFU4KDhKd6iZNvTKxu7nsjUPnEVax3ygONgVtrEygv/ai6Y+ikWOaBkTFy8D2RId
+	V+UIstdIg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l0EPs-0006kg-GT; Fri, 15 Jan 2021 02:00:44 +0000
-Received: from mga14.intel.com ([192.55.52.115])
+	id 1l0Efg-0007WM-Ku; Fri, 15 Jan 2021 02:17:04 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l0EPp-0006k2-V7
- for linux-nvme@lists.infradead.org; Fri, 15 Jan 2021 02:00:43 +0000
-IronPort-SDR: ZmkfFbS/33V8pWCjm/3JFp+b9cs7ifMU+IlwIvcmj+zaMgFlSjMpXPieO1PWxAn9c948/fkbej
- o2ipxa/SUs1w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="177701817"
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="177701817"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2021 18:00:35 -0800
-IronPort-SDR: WhBNKSenLTHVZAvC1ReoRmX2t2kUP8fJiIvprAsbct1GQas0xCrwaoJTaEnstZfYVqGn3DVKKL
- NjT7IwHMHLuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="499778226"
-Received: from linux-machine.lm.intel.com ([10.232.116.101])
- by orsmga004.jf.intel.com with ESMTP; 14 Jan 2021 18:00:34 -0800
-From: Revanth Rajashekar <revanth.rajashekar@intel.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: [PATCH v3] nvme: Check the PRINFO bit and the Metadata size before
- deciding the host buffer length
-Date: Thu, 14 Jan 2021 18:55:07 -0700
-Message-Id: <20210115015507.45615-1-revanth.rajashekar@intel.com>
-X-Mailer: git-send-email 2.17.1
+ id 1l0Efd-0007Vu-C8
+ for linux-nvme@lists.infradead.org; Fri, 15 Jan 2021 02:17:03 +0000
+Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4DH4Xh2Zskz5H7y;
+ Fri, 15 Jan 2021 10:15:48 +0800 (CST)
+Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
+ DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Fri, 15 Jan 2021 10:16:50 +0800
+Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
+ (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1913.5; Fri, 15
+ Jan 2021 10:16:49 +0800
+Subject: Re: [PATCH V3 2/3] nvme: introduce acre flag in nvme_ctrl
+To: Minwoo Im <minwoo.im.dev@gmail.com>, <linux-nvme@lists.infradead.org>
+References: <20210114133110.20779-1-minwoo.im.dev@gmail.com>
+ <20210114133110.20779-3-minwoo.im.dev@gmail.com>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <9bd3a29a-6033-13bb-5957-28560ba91b9c@huawei.com>
+Date: Fri, 15 Jan 2021 10:16:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <20210114133110.20779-3-minwoo.im.dev@gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.169.42.93]
+X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
+ dggema772-chm.china.huawei.com (10.1.198.214)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210114_210042_165735_A329CCA9 
-X-CRM114-Status: GOOD (  12.66  )
+X-CRM114-CacheID: sfid-20210114_211702_218473_29F3F3EA 
+X-CRM114-Status: GOOD (  18.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,66 +76,66 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
- Revanth Rajashekar <revanth.rajashekar@intel.com>, hch@lst.de,
- Jonathan Derrick <jonathan.derrick@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-According to NVMe spec v1.4, section 8.3.1, the PRINFO bit and
-the metadata size play a vital role in deteriming the host buffer size.
+Reviewed-by: Chao Leng <lengchao@huawei.com>
 
-If PRIFNO bit is set and MS==8, the host doesn't add the metadata buffer,
-instead the controller adds it.
-
-Changes from v2:
-1. Use sizeof(struct t10_pi_tuple) to check against MS.
-2. Use if-else statements to set the meta_len and metadata
-
-Changes from v1:
-1. Remove the definition 'NVME_PRINFO_CTRL_BIT'
-2. Remove variable 'control'
-3. Remove test_bit and check the bit with the CPU arch's native endianness
-
-Signed-off-by: Revanth Rajashekar <revanth.rajashekar@intel.com>
----
- drivers/nvme/host/core.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f320273fc672..ec9f8f686460 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1543,8 +1543,21 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	}
-
- 	length = (io.nblocks + 1) << ns->lba_shift;
--	meta_len = (io.nblocks + 1) * ns->ms;
--	metadata = nvme_to_user_ptr(io.metadata);
-+
-+	if ((io.control & NVME_RW_PRINFO_PRACT) &&
-+		ns->ms == sizeof(struct t10_pi_tuple)) {
-+		/*
-+		 * Protection information is stripped/inserted by the
-+		 * controller.
-+		 */
-+		if (nvme_to_user_ptr(io.metadata))
-+			return -EINVAL;
-+		meta_len = 0;
-+		metadata = NULL;
-+	} else {
-+		meta_len = (io.nblocks + 1) * ns->ms;
-+		metadata = nvme_to_user_ptr(io.metadata);
-+	}
-
- 	if (ns->features & NVME_NS_EXT_LBAS) {
- 		length += meta_len;
---
-2.17.1
-
+On 2021/1/14 21:31, Minwoo Im wrote:
+> Advanced Command Retry Enable (ACRE) flag is added in nvme_ctrl
+> instance to indicate that Set Features for Host Behavior Support with
+> ACRE enabled is whether successfully done or not during reset_work.
+> 
+> This flag will be used to decide to retry commands that fail or not in
+> the followed patch.
+> 
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> ---
+>   drivers/nvme/host/core.c | 6 ++++++
+>   drivers/nvme/host/nvme.h | 1 +
+>   2 files changed, 7 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index a8cee380b3c0..a286e3422c61 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2498,6 +2498,8 @@ static int nvme_configure_acre(struct nvme_ctrl *ctrl)
+>   	struct nvme_feat_host_behavior *host;
+>   	int ret;
+>   
+> +	ctrl->acre = false;
+> +
+>   	/* Don't bother enabling the feature if retry delay is not reported */
+>   	if (!ctrl->crdt[0] && !ctrl->crdt[1] && !ctrl->crdt[2])
+>   		return 0;
+> @@ -2509,6 +2511,10 @@ static int nvme_configure_acre(struct nvme_ctrl *ctrl)
+>   	host->acre = NVME_ENABLE_ACRE;
+>   	ret = nvme_set_features(ctrl, NVME_FEAT_HOST_BEHAVIOR, 0,
+>   				host, sizeof(*host), NULL);
+> +
+> +	if (!ret)
+> +		ctrl->acre = true;
+> +
+>   	kfree(host);
+>   	return ret;
+>   }
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 88a6b97247f5..db8b45e8ffde 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -270,6 +270,7 @@ struct nvme_ctrl {
+>   #ifdef CONFIG_BLK_DEV_ZONED
+>   	u32 max_zone_append;
+>   #endif
+> +	bool acre;
+>   	u16 crdt[3];
+>   	u16 oncs;
+>   	u16 oacs;
+> 
 
 _______________________________________________
 Linux-nvme mailing list
