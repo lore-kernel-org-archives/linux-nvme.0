@@ -2,96 +2,72 @@ Return-Path: <SRS0=b72z=GS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6448FC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jan 2021 06:32:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF16C433DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jan 2021 07:15:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CA1D8235DD
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jan 2021 06:32:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CA1D8235DD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=irrelevant.dk
+	by mail.kernel.org (Postfix) with ESMTPS id A9E2622597
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Jan 2021 07:15:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A9E2622597
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:References:Message-ID:Subject:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=nQA7mV5PWaVZ4QISXEa7CSq7AXa8KusoGNWTMfvuy1o=; b=JPNS1bhDaTlnmfc3R52QSk6r4
-	Bg8+YITp3vvidwbUwZSZe/d3pqi4jNY8/uvbWdi8hvQlXuGbZip9YMK8lWqa7jpbTO3azV7QZ/ota
-	pvIcGhuFFALdWTIf8UNYh1O3/9jlR1pS/Wxl2PTcH8+3aWM4XsD4B5uk3dJFWzmmxV9eIVIUdxasy
-	aLyQ93bqCMlaKsxEbEWHMTr1EgApwnAF3upTYCcmfpFGZuLECkyo0g72jkI6w0BZ9h7zthr5fdG2c
-	8gzQMHyxXeiPcR1tuH2KMegMbOqqTfrWVQ6/1IHghoYA7DHL1XwJy3t43g+JyHXq7xks7TA49SMgZ
-	9vfsO7JTg==;
+	 bh=zf/4EI2rmUvOyrndgHOV0OceB5GzdCfD4ikjVd9diFc=; b=QN6dOr70hQi7ylK4CfHQ8UbFh
+	V2mkO+BN5wgvhi4j7X2/wq4xfgqrVe5V0LGbkVERn5WDBgEzAx+/NBw/LGXUhcQEawWYb04Ijl+/F
+	/68KwWvobg5YSpNgBlVblPOAptDwAq9gzTSQaJHvZnuoJFBiFoZ/ftMuyPyTne3MSrxb39l32kazL
+	RFx4cQFb/Np7KP+jiqE81VSgNON5F75APUkFqIJE+p9PMySRyNolI8d9P/ONUAGrTPSqOy6AZjYHM
+	XSwTDY5v718ACS+92+EbMeswnsMvPTmFXI6Lz/NK0JL3dGRpdeDxgCCvPZ/F4AElr+FHdsGP32I9+
+	uBrXPs8yQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l0Ieo-0006FH-J5; Fri, 15 Jan 2021 06:32:26 +0000
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+	id 1l0JKF-0000XB-SM; Fri, 15 Jan 2021 07:15:15 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l0Iem-0006Em-8J
- for linux-nvme@lists.infradead.org; Fri, 15 Jan 2021 06:32:24 +0000
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8CEBB5C00B6;
- Fri, 15 Jan 2021 01:32:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 15 Jan 2021 01:32:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=xpEsxA6y9Y1w5nIkSqkW6j0h0Zy
- NX6ec0RTZZ5uLIaY=; b=CY6qIxybOucn3pm5uIh8KIft3iJrkcD07rGWduyDsxn
- 1Lwv/E9Va1lni5Q5dfa7nI5WAxTfijP2beAz9ktUjnPrG7d0WSOg2w81677sW8OC
- By6QbiOXwf9FStEbtWUuGF21Enqx0b4Pa+EEcumRm+FhqkpDZn07FxVhqiunExHA
- neLraoaM8Y4kukvSnF738ssUKo7O9doag7yMbaEco7iWPSXOE53DUSslsSbkbZFU
- jR/RaAfBZy/QS7UuNCrOakv74TlgIA+kOWC4gPg0TKDWozsqWGHhJV9Jv7nX65nq
- fjuX6a9doAMVjG25XWuWPuEX3EZKKq7c59GnQmYAkjw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=xpEsxA
- 6y9Y1w5nIkSqkW6j0h0ZyNX6ec0RTZZ5uLIaY=; b=SKuTbMH4rjZArVPxPK6uk+
- y25jqUzeYOd3OEviSfbwUv5g4BRY16SzkyKBQ/eAWmmREr8Jp/3xrRayGxhL/XIa
- 9BTr+oHKAhVAHEaVDRMZCZlhn5vFEGUrC3hmW42gphSjcrzIiqvKWSytfaL0N2zl
- WsHRyS72jKxuZ4y3yonQW7yGW07GsSYRLOqIjNpSQM/+p+pvLZzQniOb+Bi3HAxV
- PVDB3GIrbnuhZ5T/kWAZvKJDO85duFY9ELdS9EOpTI/vE1yIi3Gc0i4S9s7w8ulS
- /K+ipfRQO8RUziMZ/xHmAZWqZzl9aGQdUW7a1VGu5/TNn5e+cw6VcOj8Z+qvh72A
- ==
-X-ME-Sender: <xms:9DYBYEijSVYR-S5mIYHvE_hrpIHbyN74ENvUsq1tLM9UuV6zec6SfQ>
- <xme:9DYBYNBRYyT9JOsLU7eUmn9-pIDTYR7iEeHfKWvsWeuXdyyOMLepe8LKbdXSISrb8
- u9iUbA1neU5tXTJjfE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddugdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:9DYBYMEN63wEIKVcGXOW9Myd4A02iVMu-KUgi9ANFWqIqbwTW2CLSA>
- <xmx:9DYBYFStP6_Iu-D5ABdAYkNVoWJ1qzaJkqfOeyKqz4rFKH3AWqucCg>
- <xmx:9DYBYBwJirHy8jGQZVs4IYXxjuFM_gg7II0tokIgZaVgTiyzbMjoSQ>
- <xmx:9TYBYEre-4v2S59bOR4niEbVezqw3bg4PNX5ANWHGodeMoJoBnfY8w>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id C7FCA240057;
- Fri, 15 Jan 2021 01:32:19 -0500 (EST)
-Date: Fri, 15 Jan 2021 07:32:18 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] nvme: allow use of cmb on v1.4 controllers
-Message-ID: <YAE28i5Aq0U40fPB@apples.localdomain>
-References: <20210115063046.274495-1-its@irrelevant.dk>
+ id 1l0JKB-0000Wi-Nn
+ for linux-nvme@lists.infradead.org; Fri, 15 Jan 2021 07:15:12 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 94F6DAB7A;
+ Fri, 15 Jan 2021 07:15:07 +0000 (UTC)
+Subject: Re: [PATCH] nvme-core: update NS Attr Changed AEN handling for ANA
+ group
+To: "Knight, Frederick" <Frederick.Knight@netapp.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+References: <20201209155321.GA31729@redsun51.ssa.fujisawa.hgst.com>
+ <b9c9e5f9-a447-2a2e-b687-304dd8f3d2b2@suse.de>
+ <20201209161911.GA31836@redsun51.ssa.fujisawa.hgst.com>
+ <66bad47c-0cd3-8461-3629-146778f15059@suse.de>
+ <20201209173936.GA31971@redsun51.ssa.fujisawa.hgst.com>
+ <20201209174718.GA19512@lst.de>
+ <DM5PR0601MB3624722C4C00B5A7EDB7E6A0F1CC0@DM5PR0601MB3624.namprd06.prod.outlook.com>
+ <20201209213437.GA3682670@dhcp-10-100-145-180.wdc.com>
+ <20201210085111.GA15999@lst.de>
+ <baa8c2e6-1376-1cad-4c84-1129bd80d4ca@suse.de>
+ <20201210133418.GA3645@redsun51.ssa.fujisawa.hgst.com>
+ <eb84db43-5e63-19b4-cdb9-53f52d1c45e8@grimberg.me>
+ <DM5PR0601MB3624BB4004C273271F30052AF1A80@DM5PR0601MB3624.namprd06.prod.outlook.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <3f96f147-cc19-f799-7832-0391459828ea@suse.de>
+Date: Fri, 15 Jan 2021 08:15:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210115063046.274495-1-its@irrelevant.dk>
+In-Reply-To: <DM5PR0601MB3624BB4004C273271F30052AF1A80@DM5PR0601MB3624.namprd06.prod.outlook.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210115_013224_338521_AB6173B4 
-X-CRM114-Status: UNSURE (   8.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210115_021511_912070_1AD142E4 
+X-CRM114-Status: GOOD (  14.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,68 +79,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Klaus Jensen <k.jensen@samsung.com>,
- linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: multipart/mixed; boundary="===============6173170466206441181=="
+Cc: "George, Martin" <Martin.George@netapp.com>,
+ Hannes Reinecke <hare@suse.com>, "hch@lst.de" <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "Meneghini,
+ John" <John.Meneghini@netapp.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
---===============6173170466206441181==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1U8gbzxJNV82M3VG"
-Content-Disposition: inline
-
-
---1U8gbzxJNV82M3VG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Jan 15 07:30, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Since NVMe v1.4 the Controller Memory Buffer must be explicitly enabled
-> by the host.
->=20
-
-Sorry, messed up and missed adding the changes for v2.
-
-v2:
-  - Do not explicitly check the NVMe version, rely on the presence of
-    the new register instead. (Christoph)
-  - Use hi_lo_writeq. (Christoph, Keith)
-  - Fix missing offset and use pci_bus_address(). (Keith)
-
---1U8gbzxJNV82M3VG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmABNuwACgkQTeGvMW1P
-DelOBggAsOWPWqP1jQiNj9M5TyKKmCMZXVgMRiAyHX0NIXPQJYePYleMU572MNvQ
-HJai6Z0+YpnRZCG6XAmHSj61pJ/jum64DSBwRmVMAIjYyv6r/4n56XvP4QobIr9J
-cTQ+HN89ueW77SzLgDDwsAplW+9l/siY4o5UDJE1RIXnVpy/HSoyV1hWrQD1hFze
-41G5/O9MAx8srSpGbO90tmY/eZ4EvrI8S4AY/2D/CX/ElOkodJsf9PM7qHz/I0Ly
-lrneSiU34OhvufoFunmWcN0OWQowHqHLr4Jpm/RxAgJG8ucaB0WlUuMzMdx0VFI0
-KVmU3V/zt54k0UAwJy2jYcXY7WXkNA==
-=zs9f
------END PGP SIGNATURE-----
-
---1U8gbzxJNV82M3VG--
-
-
---===============6173170466206441181==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============6173170466206441181==--
-
+T24gMS8xNC8yMSAxMTo1OSBQTSwgS25pZ2h0LCBGcmVkZXJpY2sgd3JvdGU6Cj4gQXR0YWNoZWQg
+aXMgdGhlIHByb3Bvc2VkIGNsYXJpZmljYXRpb24uICBUaGlzIGhhcyBoYWQgWkVSTyByZXZpZXcg
+dGltZSBpbiB0aGUgTlZNZSBjb21taXR0ZWUuICBTbyBqdXN0IEZZSSBhdCB0aGlzIHBvaW50Lgo+
+IAo+IEZlZWwgZnJlZSB0byBzaGFyZSB0aG91Z2h0cy4KPiAKVGh1bWJzIHVwIGZyb20gbXkgc2lk
+ZS4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgICAg
+ICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21i
+SCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJn
+KSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QK
+TGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
+L21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
