@@ -2,186 +2,74 @@ Return-Path: <SRS0=VvGj=GU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E78AC433E0
-	for <linux-nvme@archiver.kernel.org>; Sun, 17 Jan 2021 09:47:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF90C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun, 17 Jan 2021 18:59:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C76A7229EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 17 Jan 2021 09:47:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C76A7229EF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	by mail.kernel.org (Postfix) with ESMTPS id 679DA224BD
+	for <linux-nvme@archiver.kernel.org>; Sun, 17 Jan 2021 18:59:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 679DA224BD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=comcast.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
-	:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:Subject:To:From:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TVOslVPK9AWXMylAfIjO/c0FwNgSNC6i0auQRjS4DR0=; b=eGR8tacyPKlDZLqQ70OynG9hE2
-	PSc0KRYm8dLkNctqnVeRqP9yTCt5WbK/DHNCBIv0q9qNFjx4wPxMPZ5iWnSBbLkEwjqVRD0AyviMX
-	wlKZYhd7bWSrRuqAGkRXYwT0wGC43kDeAUkLEWy1VpWBmr9R6k5vjUgEcRXvhLUNc+IwxkfwktNj4
-	ehD2zmaDMtw7AkKnSDOMjteUvT1QRufAheoPuY7IUxrNj4+Pzjd7hzvgcoOovrokCjUC0ZpudsFD2
-	Tau6K1T6AK+R/bGTCTPuHR69uf4Pi/76IsMFgOb2Rs6dbANV5xuzcqB0QdrqK0RfHwUvFDyBjBFyZ
-	74b1X2ow==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Reply-To:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:To:Subject
+	:From:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=aBcoFIm8oCz2dP+6etRNG2caxvW0mrOPHZVYdnl+KwA=; b=hLU5Q6VXKBe9N0Pk54kqdxK1ZO
+	giSb16ArJgm5dQT+hsU7vmWBT6d+JaYxgHHRNp9dyh0WuuKlw0L/kVSlm4IqrVYEqVSc1B2nzX03F
+	wcQ3RkMx0SuP7vM7JIsPjjDnG8arHlbZXllopqQX/+CwMS7RQcfOa4xujQBdBCqPvaCwyqF0VWsRk
+	Yxdpt/seovY16MD6gam/SSJLGny/A2QgeFL3iZq9KJM4TWtviyrYSviVfrFHRoyWye62SyiTa2fr1
+	FtVb74xrI4EUOxpotKyipRcVXd6VsoDVYQLt7oYhE7R6M7rKGg1VoF86cMQ/BTg6UY3EToZjXcdV7
+	ewCsSYww==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l14eL-000479-Qj; Sun, 17 Jan 2021 09:47:09 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1l1DGW-00078h-Dm; Sun, 17 Jan 2021 18:59:08 +0000
+Received: from resqmta-po-05v.sys.comcast.net
+ ([2001:558:fe16:19:96:114:154:164])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l14eJ-00046V-1d
- for linux-nvme@lists.infradead.org; Sun, 17 Jan 2021 09:47:08 +0000
-Received: from pps.filterd (m0170396.ppops.net [127.0.0.1])
- by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10H9gIOR001626; Sun, 17 Jan 2021 04:46:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : subject :
- date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=sO3E0K1P2DtaXw2JFzn+kNIBER96toNGdGw/jiqqVBg=;
- b=fkgSraLQi1xl48KAft+vrq3c6FqKWs/q5NLdKIgU8rtpxvlNGHvri+v9Z9QtPnPepn1Z
- NFqt9H2EgsXSExPevik9rKyJiJZmQQB8KtfP5URktOWm6+FS4qrw+qOpjo8nev1rc1Y6
- ue3mJF4t/T52NCn4EdmPCw3TYUqH5Y0sergkgPzdKrU8NNPn6bfqZ7bRsTt4WtJT0awo
- h+rkRNMvD6gSLcKR+6zb+7w6wh4jE1O2QIv5XeQxvUH716wrKUyeRu8fhkCjoV/PKmLj
- 6dcVWO8VxtXDw7qfieDJ2/10Y+dgecZkIjzP9unuOsnIMJ/DDDLInzJcJ+JWxTm1GfgN Gw== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
- [67.231.149.39])
- by mx0b-00154904.pphosted.com with ESMTP id 363vv11f54-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 17 Jan 2021 04:46:58 -0500
-Received: from pps.filterd (m0142699.ppops.net [127.0.0.1])
- by mx0a-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10H9fghh185937; Sun, 17 Jan 2021 04:46:57 -0500
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
- by mx0a-00154901.pphosted.com with ESMTP id 364e181ssh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 17 Jan 2021 04:46:57 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aQW4++BHD1yNUWHmblOAHulVMb8TJk0al3MYQfR45NvnIBQukXqLdphBReGYQf2NGKWIdJqpPdLL0U/WdD1mwTaxEPzTQ90wonxrDKrvHQP8EvoEKvHiPd0Cm9esErnYHDHjJLOVTYz/1qhvqRDLPZYfoCQGVdkYcQ6HYyansCaXfjeuyLIVVX7cRkdEOK3hyRZYOMgn8xEcuvIPBAfzJTm09B6beRybZ7RnLiNVbFuR8pRjoQfqUIDUdR5A87tImuGE8F2LNYfCKegfSXuza+2gl4J1gEpJuq+1JWxooadDG35T/0jSZLVu9xGqD8IaD7NeZ/3C/voaJROS6h1Q2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sO3E0K1P2DtaXw2JFzn+kNIBER96toNGdGw/jiqqVBg=;
- b=jR97a+HeALi/ybDaXJDalCV7zf+DCZCsimMwXnX4M/6ojlvvyDrzXByu6DT45SDiHj5pTjoM5raT7ko0+twDcRnQtrs9NIOB4yGGglbMeWgNj9U+w2TqauK20h064xGDfRiOsYl7wDCLfCA5kdVozdenR8aB7HDhGL8nzruLg/QBZfK7PoOcc5BRFj2/Lukiy1C6mL3chRffoON1bSoXJA3h3kJR37AbazvXBbdAt9Le4fYtgjRHdy064CCQHP5eX7AhlAMGAV6QP4Q4GAmX/r9KrdVYvpAulzcco32/3B3jtHZH7SEKHAJaCEHkDcQRKjKiMzS7qg5XJ9LYCEG8fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Dell.onmicrosoft.com; 
- s=selector1-Dell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sO3E0K1P2DtaXw2JFzn+kNIBER96toNGdGw/jiqqVBg=;
- b=kUO7IRRU/Mk+L/K8SGhokpm6tt+WIE8NLZyqDUGfKiPIHCVmOF0evkGbTAQK2CpLE091pcRuVQNXAq9eyOcYPg3wjMb+eYmklFeJ7FDNSNiCcsYjZRCnxd8Ay1r6P6UqMTGK3rLbZIX1BXHItDuvYv+HqlytRh4/0SP7oW+j3fc=
-Received: from DM6PR19MB4011.namprd19.prod.outlook.com (2603:10b6:5:22b::15)
- by DM6PR19MB4091.namprd19.prod.outlook.com (2603:10b6:5:229::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Sun, 17 Jan
- 2021 09:46:55 +0000
-Received: from DM6PR19MB4011.namprd19.prod.outlook.com
- ([fe80::a416:4c53:4922:67d2]) by DM6PR19MB4011.namprd19.prod.outlook.com
- ([fe80::a416:4c53:4922:67d2%5]) with mapi id 15.20.3763.014; Sun, 17 Jan 2021
- 09:46:55 +0000
-From: "Grupi, Elad" <Elad.Grupi@dell.com>
-To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: RE: [PATCH] nvme-tcp: fix a segmentation fault during io parsing error
-Thread-Topic: [PATCH] nvme-tcp: fix a segmentation fault during io parsing
- error
-Thread-Index: AQHW6aKA9bVKdUdQXk+axFkWm5Fl+KomKNIAgADakqCAAJ7gAIAABJXggAHRIICAAh/SYA==
-Date: Sun, 17 Jan 2021 09:46:55 +0000
-Message-ID: <DM6PR19MB4011D61F1BF2A4F66228E9EEEFA50@DM6PR19MB4011.namprd19.prod.outlook.com>
-References: <20210113115152.69692-1-elad.grupi@dell.com>
- <ad9f038b-9920-21da-755c-85f4e2228a22@grimberg.me>
- <DM6PR19MB401194016A086DDF8A82C554EFA80@DM6PR19MB4011.namprd19.prod.outlook.com>
- <f5b8dbc2-7960-894e-47ea-b18665536e70@grimberg.me>
- <DM6PR19MB4011A4116FAB37BEC28BBC91EFA80@DM6PR19MB4011.namprd19.prod.outlook.com>
- <6459e22f-f2f2-9183-0862-654bcc5e90eb@grimberg.me>
-In-Reply-To: <6459e22f-f2f2-9183-0862-654bcc5e90eb@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Elad.Grupi@emc.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2021-01-17T09:46:51.9559312Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=58469963-4dc2-4484-bb01-6ef8e94a7820;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-authentication-results: grimberg.me; dkim=none (message not signed)
- header.d=none;grimberg.me; dmarc=none action=none header.from=dell.com;
-x-originating-ip: [152.62.109.202]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0356b099-49b2-4d1e-41f0-08d8baccd393
-x-ms-traffictypediagnostic: DM6PR19MB4091:
-x-microsoft-antispam-prvs: <DM6PR19MB4091A2DD8E7F7731AFA22BCCEFA50@DM6PR19MB4091.namprd19.prod.outlook.com>
-x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: groooLc4eHXKtY+rsqWgYSelWEDndpY4LLc63ovJUBVQtw06RAyqz50+uH9PgDRMBTAGB1EwHfb286gfif3fF+I6GA6fuiDlw2bl5C6Mo9h4MdyTN8oCQqhTVr1s5EWpL4F5A/x2MvMLdznthS0OM22iSHuHajGZS15rVVm9KZ2uKFMuQbxlU/OlFQqMhG/j+X6YIUsWjeSdpJcPgNmB2zO/H2QIEScKfkHrF5zq4rEP+1mc340CpDdfPoZV2xri9CWnkG/ilniklqQt+LuMJ0o3JhA7bq3mWGlpiRaJtI0BDujjozHA1xEo9n7zRgKt6LHdbgaoLYR68PUvLdGdJsu2bz2kTMI1EIpFSsrh8Evf7yipj5VSSw2RAzA/qEM7/dcg3PxNxlHitc4uF3r4W3J1Vk4j7L8vm4iT2f3eVeBrdtpEeg6G8AmX+Zzup/qzZxtvLoqeQqV54wkwPNaeHiE/5pSAwQjBn/hJvtBXSskzZbqTqhzLJmw5esjk8oyofIKxVdVIAJx+ogIh4FY/MQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR19MB4011.namprd19.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(376002)(39860400002)(346002)(366004)(316002)(110136005)(53546011)(786003)(8676002)(76116006)(478600001)(186003)(6506007)(64756008)(66556008)(66446008)(86362001)(66946007)(66476007)(26005)(55016002)(8936002)(9686003)(83380400001)(71200400001)(52536014)(5660300002)(7696005)(2906002)(33656002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?RTJnQnpPQkVLc2Zzci9hZ2pKT1l4d2l2akdqVUhJVWdTUHY5ZlZaaWNnMTZp?=
- =?utf-8?B?L3lsOW5zc2xoQ3VTVUlybWFvdmh2RlM0Z2cwbUN4VHpwVnBleDA0RUtrMnJ2?=
- =?utf-8?B?QWlDNy9sZWEyWFpmcHJndTR6bWZuTng0YnRDL1MyVXF2d0dGdFN4TGk1QW1I?=
- =?utf-8?B?VGFNTHU5VjVQb2lXK1FvaDFhOGxNaTdMZGNCaUhHT3ZrOTNmMEl4NjVuVXhL?=
- =?utf-8?B?ZDZlbkhEY0c0TDcrRk5DT3RIbG5tQlM2ek1CZ0tnTytoOGduM3hBK0Y5UFVS?=
- =?utf-8?B?VjY0OFNZMEx1RGlRUHRDYU9QbnVhdTdrV25RT3JMMjh5QTk4QlowU1FHVjZ6?=
- =?utf-8?B?SjJvT3A0M0psamlFcnVGbkpnK3lrcXEyazVveUgzOEpqWUtMMjRDbmVxdytH?=
- =?utf-8?B?VUxVbGtBUVZUMjN0TnEraDB2Q09oWFdBSVIvWnEyRkFLb3gyRkMxc2dlcU91?=
- =?utf-8?B?WWkrWWJWQnJKT2UrTGU1YjNhQy8yZHZrbGZHRklsSkZRV0dCZTFWSG9Pbkl1?=
- =?utf-8?B?N1hvWkRuZ2lnY1VBaE9lN0JUVjEwanNxdlg3K1UwYnpjTmNlTnlkZk9NV0dq?=
- =?utf-8?B?ZTdTRUREZmczeEtneTRYbEFuN0VFVEVZVEVlYWtvb1hxUU4vUFAwMSt1Rmk2?=
- =?utf-8?B?dUNTbGVFSUc1d1h1cWxJSEdaQlNUU3A5QjBuaEtYam5RbnZERktadWVOb3J2?=
- =?utf-8?B?VldaWkgwZHVueDl0c1MrM3VVbk8rSWs2UjlUcy9SYm13dGV1RGJGZ29yQWZy?=
- =?utf-8?B?Y1FDTWJOOGZzbUZ4cVo2aHRoR3d1ZW05c2huM1IxTmxnMTVzNDlrVjJ2MFQ4?=
- =?utf-8?B?L05aY2dSUndSWE9NTG5Pdm9Ca3BtcHErZ3lJMHVsTmd0SnBvOXAxeFVOYmR5?=
- =?utf-8?B?cGkxeFNMT2ZFRjVtRzdFeU5sWVlwU04rWEJPMXpneWRMaVBjN3FtWStrWGlu?=
- =?utf-8?B?RCtBSlFqODN0aXlNY1JEbi9NRzBJM2hHY09ocTN6TVllTHQ1QVZzU2FtWUlJ?=
- =?utf-8?B?N2lZdlJ1UGZieEZlSTlNcTFRR212U25pMTNuS3Y1bWRkL28yZnptanM2L09Z?=
- =?utf-8?B?cEhFWGhra0hmcFRqbDZGb25rRjlranZHN0wvSXRRUmlSRitPUDNaK0VCdlpM?=
- =?utf-8?B?K1QwM1VwV0p3RXdGS0x5TTNOcDdwbnNnZ1hWYWhBcGNKK3E1VGdCSHN3cFJQ?=
- =?utf-8?B?Sld2ZGN2cVhHeWt5R0E4NXJxdnRhek82NXRUelJyWk9YamxaUUR1OGk5LzZ3?=
- =?utf-8?B?VG0rYWtVaSs0bWRNaVdWellqQzAxSVV6dzg1SlNLUkFwV3NCb1dxRi9VaGo5?=
- =?utf-8?Q?f+Ys10NB6U/HE=3D?=
-x-ms-exchange-transport-forked: True
+ id 1l1DGS-00077f-GU
+ for linux-nvme@lists.infradead.org; Sun, 17 Jan 2021 18:59:06 +0000
+Received: from resomta-po-06v.sys.comcast.net ([96.114.154.230])
+ by resqmta-po-05v.sys.comcast.net with ESMTP
+ id 1Bh7lztFEoWle1DG9lSRxu; Sun, 17 Jan 2021 18:58:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=comcast.net;
+ s=20190202a; t=1610909925;
+ bh=BO7ZtFLHpZa1ItXLdekUBY2CbepGktIcRylz4HAsiok=;
+ h=Received:Received:From:Subject:Reply-To:To:Message-ID:Date:
+ MIME-Version:Content-Type;
+ b=t5Lk2j3rTcD+YFYIcgZiPVl53R+sano1kEtybeqQj+WV5TptopdQf8qPp+8nJSaeS
+ Kw6E/2OmY/D+QUjmF/rDnBfEzbEqm4rjhPR3yIdyOxke7bq7KzgvVKMZsHmQsqjDKm
+ 7/3IF0jtHX+9uaBcgDylCw2gBdOVQD48DC7pVk4o34CyGhmyoYcU7QhfcbLBe8eYek
+ tFUgEr1fx7pkOMmqiV3PmCGttl24fHo3Mr6Klv7xWDNf8FMnbKa6IhwBFriIDoZxnR
+ Cum7txK8WQX0RYrA/VvdylGz2L7bo/0AG9P+xwRdv5b09TutyvgoLAp4+QDNL09QND
+ L8szl+SbC9tIA==
+Received: from [IPv6:2601:147:c380:23e0:563f:596c:c2c1:5c73]
+ ([IPv6:2601:147:c380:23e0:563f:596c:c2c1:5c73])
+ by resomta-po-06v.sys.comcast.net with ESMTPSA
+ id 1DFylRQuB1WFp1DFylDdRA; Sun, 17 Jan 2021 18:58:43 +0000
+X-Xfinity-VMeta: sc=0.00;st=legit
+From: Bradley Chapman <chapman6235@comcast.net>
+Subject: Problem with SPCC 256GB NVMe 1.3 drive - refcount_t: underflow;
+ use-after-free.
+To: linux-nvme@lists.infradead.org
+Message-ID: <f50bc59c-db11-bb44-55be-7b9db1119872@comcast.net>
+Date: Sun, 17 Jan 2021 13:58:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.6.0
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR19MB4011.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0356b099-49b2-4d1e-41f0-08d8baccd393
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2021 09:46:55.7846 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9IgRej1qyL3I6alrTWwrjXclLjZG2xLc1jYVVgZJ0tB+n5GkUfaNG5aNpsuQXGV2pcHYzGXPcwXkwEEuSJrr4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR19MB4091
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-17_03:2021-01-15,
- 2021-01-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
- mlxlogscore=999 priorityscore=1501 adultscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101170060
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 spamscore=0
- bulkscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101170060
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210117_044707_321132_054E0A4A 
-X-CRM114-Status: GOOD (  12.19  )
+X-CRM114-CacheID: sfid-20210117_135905_186790_0B4E8986 
+X-CRM114-Status: GOOD (  14.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,66 +81,259 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Reply-To: chapman6235@comcast.net
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Yes, it was reproduced with the validity check of resv1 field of connect command.
+All,
 
-Jan 17 09:43:36 FNM00183301763-A kernel: nvmet_tcp: failed cmd 000000006fe9c801 id 0 opcode 127, data_len: 1024                                                                                                                                          
-Jan 17 09:43:36 FNM00183301763-A kernel: general protection fault: 0000 [#1] SMP NOPTI                                                                                                                                                                   
-Jan 17 09:43:36 FNM00183301763-A kernel: CPU: 10 PID: 615 Comm: kworker/10:1H Kdump: loaded Tainted: P           OE     4.19.158-coreos-r9999.188fe4a1ba192d57eaaa3462db70e1d9 #1                                                                        
-Jan 17 09:43:36 FNM00183301763-A kernel: Hardware name: EMC 900-532-002/110-551-910C-01, BIOS 20.12 11/12/2020                                                                                                                                           
-Jan 17 09:43:36 FNM00183301763-A kernel: Workqueue: nvmet_tcp_wq nvmet_tcp_io_work [nvmet_tcp]                                                                                                                                                           
-Jan 17 09:43:36 FNM00183301763-A kernel: RIP: 0010:memcpy_erms+0x6/0x10                                                                                                                                                                                  
-Jan 17 09:43:36 FNM00183301763-A kernel: Code: 90 90 90 90 eb 1e 0f 1f 00 48 89 f8 48 89 d1 48 c1 e9 03 83 e2 07 f3 48 a5 89 d1 f3 a4 c3 66 0f 1f 44 00 00 48 89 f8 48 89 d1 <f3> a4 c3 0f 1f 80 00 00 00 00 48 89 f8 48 83 fa 20 72 7e 40 38 fe         
-Jan 17 09:43:36 FNM00183301763-A kernel: RSP: 0018:ffffc90007bc3c70 EFLAGS: 00010206
-Jan 17 09:43:36 FNM00183301763-A kernel: RAX: 34e40d75735a3225 RBX: 0000000000000400 RCX: 0000000000000400
-Jan 17 09:43:36 FNM00183301763-A kernel: RDX: 0000000000000400 RSI: ffff8887f03368ca RDI: 34e40d75735a3225
-Jan 17 09:43:36 FNM00183301763-A kernel: RBP: ffff88884ead9d60 R08: ffff8888b53e0530 R09: ffff889789776b4c
-Jan 17 09:43:36 FNM00183301763-A kernel: R10: ffff8897897766c8 R11: ffff8887f03368ca R12: 0000000000000400
-Jan 17 09:43:36 FNM00183301763-A kernel: R13: 0000000000000400 R14: ffff8887f0336cca R15: 0000000000000000
-Jan 17 09:43:36 FNM00183301763-A kernel: FS:  0000000000000000(0000) GS:ffff8897dfe80000(0000) knlGS:0000000000000000
-Jan 17 09:43:36 FNM00183301763-A kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-Jan 17 09:43:36 FNM00183301763-A kernel: CR2: 00007f592924d890 CR3: 000000000220a002 CR4: 00000000007606e0
-Jan 17 09:43:36 FNM00183301763-A kernel: DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-Jan 17 09:43:36 FNM00183301763-A kernel: DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Jan 17 09:43:36 FNM00183301763-A kernel: PKRU: 55555554
-Jan 17 09:43:36 FNM00183301763-A kernel: Call Trace:
-Jan 17 09:43:36 FNM00183301763-A kernel:  _copy_to_iter+0x333/0x3d0
-Jan 17 09:43:36 FNM00183301763-A kernel:  ? tcp_write_xmit+0x403/0xfe0
-Jan 17 09:43:36 FNM00183301763-A kernel:  skb_copy_datagram_iter+0x7b/0x260
-Jan 17 09:43:36 FNM00183301763-A kernel:  tcp_recvmsg+0x238/0xc90
-Jan 17 09:43:36 FNM00183301763-A kernel:  ? tcp_sendpage_locked+0x44/0x60
-Jan 17 09:43:36 FNM00183301763-A kernel:  ? __local_bh_enable_ip+0x60/0x70
-Jan 17 09:43:36 FNM00183301763-A kernel:  ? tcp_sendpage+0x41/0x50
-Jan 17 09:43:36 FNM00183301763-A kernel:  inet_recvmsg+0x5b/0xd0
-Jan 17 09:43:36 FNM00183301763-A kernel:  nvmet_tcp_io_work+0x116/0xb40 [nvmet_tcp]
-Jan 17 09:43:36 FNM00183301763-A kernel:  process_one_work+0x206/0x400
-Jan 17 09:43:36 FNM00183301763-A kernel:  worker_thread+0x2d/0x3e0
-Jan 17 09:43:36 FNM00183301763-A kernel:  ? process_one_work+0x400/0x400
-Jan 17 09:43:36 FNM00183301763-A kernel:  kthread+0x112/0x130
-Jan 17 09:43:36 FNM00183301763-A kernel:  ? kthread_bind+0x20/0x20
-Jan 17 09:43:36 FNM00183301763-A kernel:  ret_from_fork+0x1f/0x40
+I recently plugged a 256GB SPCC NVMe 1.3 drive into the secondary slot 
+on my Asus X570-P motherboard, running a Ryzen 5 3600 CPU. After 
+partitioning and formatting the drive, it is detected thusly by the 
+5.9.15 and 5.10.6 kernels:
 
+[    1.653074] nvme nvme1: pci function 0000:04:00.0
+[    1.657181] nvme nvme1: missing or invalid SUBNQN field.
+[    1.662294] nvme nvme1: allocated 64 MiB host memory buffer.
+[    1.663105] nvme nvme1: 15/0/0 default/read/poll queues
+[    1.665815]  nvme1n1: p1
 
------Original Message-----
-From: Sagi Grimberg <sagi@grimberg.me> 
-Sent: Saturday, 16 January 2021 3:19
-To: Grupi, Elad; linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-tcp: fix a segmentation fault during io parsing error
+However, any I/O to the drive (including mounting its filesystem) causes 
+the following errors to appear in the dmesg. These errors occur with 
+both the 5.9.15 kernel and the 5.10.6 kernel, and with X570-P BIOS 
+version 1406 and version 3001. I have modified the BIOS settings to 
+specify that a GEN 3 device is plugged into the M.2_2 slot instead of 
+allowing the BIOS to auto-detect the drive.
 
+[ 2745.659502] refcount_t: underflow; use-after-free.
+[ 2745.659510] WARNING: CPU: 2 PID: 0 at lib/refcount.c:28 
+refcount_warn_saturate+0xab/0xf0
+[ 2745.659510] Modules linked in: rfcomm(E) cmac(E) bnep(E) 
+binfmt_misc(E) nls_ascii(E) nls_cp437(E) vfat(E) fat(E) uas(E) 
+usb_storage(E) btusb(E) btrtl(E) crct10dif_pclmul(E) btbcm(E) 
+crc32_pclmul(E) btintel(E) ghash_clmulni_intel(E) bluetooth(E) rfkill(E) 
+aesni_intel(E) crypto_simd(E) cryptd(E) glue_helper(E) efi_pstore(E) 
+jitterentropy_rng(E) drbg(E) ccp(E) ansi_cprng(E) ecdh_generic(E) ecc(E) 
+acpi_cpufreq(E) nft_counter(E) efivarfs(E) crc32c_intel(E)
+[ 2745.659527] CPU: 2 PID: 0 Comm: swapper/2 Tainted: G            E 
+5.10.6-BET #1
+[ 2745.659528] Hardware name: System manufacturer System Product 
+Name/PRIME X570-P, BIOS 3001 12/04/2020
+[ 2745.659529] RIP: 0010:refcount_warn_saturate+0xab/0xf0
+[ 2745.659530] Code: 05 af d2 72 01 01 e8 7a 06 87 00 0f 0b c3 80 3d 9d 
+d2 72 01 00 75 90 48 c7 c7 78 60 44 af c6 05 8d d2 72 01 01 e8 5b 06 87 
+00 <0f> 0b c3 80 3d 7c d2 72 01 00 0f 85 6d ff ff ff 48 c7 c7 d0 60 44
+[ 2745.659531] RSP: 0018:ffffaf1880298f30 EFLAGS: 00010086
+[ 2745.659532] RAX: 0000000000000000 RBX: ffff9873cf3bc300 RCX: 
+0000000000000027
+[ 2745.659533] RDX: 0000000000000027 RSI: ffff987acea92e80 RDI: 
+ffff987acea92e88
+[ 2745.659533] RBP: ffff9873d0e661f0 R08: 0000000000000000 R09: 
+c0000000ffffdfff
+[ 2745.659534] R10: ffffaf1880298d50 R11: ffffaf1880298d48 R12: 
+0000000000000001
+[ 2745.659534] R13: ffff9873d0f98580 R14: ffff9873cdf8ac00 R15: 
+0000000000000000
+[ 2745.659535] FS:  0000000000000000(0000) GS:ffff987acea80000(0000) 
+knlGS:0000000000000000
+[ 2745.659536] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 2745.659536] CR2: 00005588763902c8 CR3: 0000000107248000 CR4: 
+0000000000350ee0
+[ 2745.659537] Call Trace:
+[ 2745.659538]  <IRQ>
+[ 2745.659541]  nvme_irq+0x104/0x190
+[ 2745.659543]  __handle_irq_event_percpu+0x2e/0xd0
+[ 2745.659545]  handle_irq_event_percpu+0x33/0x80
+[ 2745.659545]  handle_irq_event+0x39/0x70
+[ 2745.659547]  handle_edge_irq+0x7c/0x1a0
+[ 2745.659549]  asm_call_irq_on_stack+0x12/0x20
+[ 2745.659549]  </IRQ>
+[ 2745.659551]  common_interrupt+0xd7/0x160
+[ 2745.659552]  asm_common_interrupt+0x1e/0x40
+[ 2745.659554] RIP: 0010:cpuidle_enter_state+0xd2/0x2e0
+[ 2745.659555] Code: e8 93 22 6a ff 31 ff 49 89 c5 e8 29 2c 6a ff 45 84 
+ff 74 12 9c 58 f6 c4 02 0f 85 c4 01 00 00 31 ff e8 a2 d8 6f ff fb 45 85 
+f6 <0f> 88 c9 00 00 00 49 63 ce be 68 00 00 00 4c 2b 2c 24 48 89 ca 48
+[ 2745.659556] RSP: 0018:ffffaf188014fe80 EFLAGS: 00000202
+[ 2745.659557] RAX: ffff987acea9ce00 RBX: 0000000000000002 RCX: 
+000000000000001f
+[ 2745.659557] RDX: 0000027f460f1f90 RSI: 00000000239f5229 RDI: 
+0000000000000000
+[ 2745.659558] RBP: ffff9873c1a4e800 R08: 0000000000000002 R09: 
+000000000001c600
+[ 2745.659558] R10: 0000090da145abf0 R11: ffff987acea9be24 R12: 
+ffffffffaf6d38e0
+[ 2745.659559] R13: 0000027f460f1f90 R14: 0000000000000002 R15: 
+0000000000000000
+[ 2745.659561]  cpuidle_enter+0x30/0x50
+[ 2745.659562]  do_idle+0x24f/0x290
+[ 2745.659564]  cpu_startup_entry+0x1b/0x20
+[ 2745.659566]  start_secondary+0x10b/0x150
+[ 2745.659567]  secondary_startup_64_no_verify+0xb0/0xbb
+[ 2745.659569] ---[ end trace be84281f034198f3 ]---
+[ 2776.138874] nvme nvme1: I/O 414 QID 3 timeout, aborting
+[ 2776.138886] nvme nvme1: I/O 415 QID 3 timeout, aborting
+[ 2776.138891] nvme nvme1: I/O 416 QID 3 timeout, aborting
+[ 2776.138895] nvme nvme1: I/O 417 QID 3 timeout, aborting
+[ 2776.138912] nvme nvme1: Abort status: 0x0
+[ 2776.138921] nvme nvme1: I/O 428 QID 3 timeout, aborting
+[ 2776.138922] nvme nvme1: Abort status: 0x0
+[ 2776.138925] nvme nvme1: Abort status: 0x0
+[ 2776.138974] nvme nvme1: Abort status: 0x0
+[ 2776.138977] nvme nvme1: Abort status: 0x0
+[ 2806.346792] nvme nvme1: I/O 414 QID 3 timeout, reset controller
+[ 2806.363566] nvme nvme1: 15/0/0 default/read/poll queues
+[ 2836.554298] nvme nvme1: I/O 415 QID 3 timeout, disable controller
+[ 2836.672064] blk_update_request: I/O error, dev nvme1n1, sector 16350 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672072] blk_update_request: I/O error, dev nvme1n1, sector 16093 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672074] blk_update_request: I/O error, dev nvme1n1, sector 15836 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672076] blk_update_request: I/O error, dev nvme1n1, sector 15579 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672078] blk_update_request: I/O error, dev nvme1n1, sector 15322 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672080] blk_update_request: I/O error, dev nvme1n1, sector 15065 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672082] blk_update_request: I/O error, dev nvme1n1, sector 14808 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672083] blk_update_request: I/O error, dev nvme1n1, sector 14551 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672085] blk_update_request: I/O error, dev nvme1n1, sector 14294 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672087] blk_update_request: I/O error, dev nvme1n1, sector 14037 
+op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
+[ 2836.672121] nvme nvme1: failed to mark controller live state
+[ 2836.672123] nvme nvme1: Removing after probe failure status: -19
+[ 2836.689016] Aborting journal on device dm-0-8.
+[ 2836.689024] Buffer I/O error on dev dm-0, logical block 25198592, 
+lost sync page write
+[ 2836.689027] JBD2: Error -5 detected when updating journal superblock 
+for dm-0-8.
 
-[EXTERNAL EMAIL] 
+[ 2836.723821] percpu ref (hd_struct_free) <= 0 (-28) after switching to 
+atomic
+[ 2836.723828] WARNING: CPU: 8 PID: 0 at lib/percpu-refcount.c:196 
+percpu_ref_switch_to_atomic_rcu+0x139/0x140
+[ 2836.723828] Modules linked in: rfcomm(E) cmac(E) bnep(E) 
+binfmt_misc(E) nls_ascii(E) nls_cp437(E) vfat(E) fat(E) uas(E) 
+usb_storage(E) btusb(E) btrtl(E) crct10dif_pclmul(E) btbcm(E) 
+crc32_pclmul(E) btintel(E) ghash_clmulni_intel(E) bluetooth(E) rfkill(E) 
+aesni_intel(E) crypto_simd(E) cryptd(E) glue_helper(E) efi_pstore(E) 
+jitterentropy_rng(E) drbg(E) ccp(E) ansi_cprng(E) ecdh_generic(E) ecc(E) 
+acpi_cpufreq(E) nft_counter(E) efivarfs(E) crc32c_intel(E)
+[ 2836.723844] CPU: 8 PID: 0 Comm: swapper/8 Tainted: G        W   E 
+5.10.6-BET #1
+[ 2836.723845] Hardware name: System manufacturer System Product 
+Name/PRIME X570-P, BIOS 3001 12/04/2020
+[ 2836.723847] RIP: 0010:percpu_ref_switch_to_atomic_rcu+0x139/0x140
+[ 2836.723848] Code: 80 3d f9 f0 72 01 00 0f 85 52 ff ff ff 49 8b 54 24 
+e0 49 8b 74 24 e8 48 c7 c7 88 5f 44 af c6 05 db f0 72 01 01 e8 ad 24 87 
+00 <0f> 0b e9 2e ff ff ff 41 55 49 89 f5 41 54 55 48 89 fd 53 48 83 ec
+[ 2836.723849] RSP: 0018:ffffaf18803a0f20 EFLAGS: 00010282
+[ 2836.723850] RAX: 0000000000000000 RBX: 7fffffffffffffe3 RCX: 
+0000000000000027
+[ 2836.723850] RDX: 0000000000000027 RSI: ffff987acec12e80 RDI: 
+ffff987acec12e88
+[ 2836.723851] RBP: 0000369db0c0e3c8 R08: 0000000000000000 R09: 
+c0000000ffffdfff
+[ 2836.723851] R10: ffffaf18803a0d40 R11: ffffaf18803a0d38 R12: 
+ffff9873c0bbbda0
+[ 2836.723852] R13: ffffffffaf765f10 R14: 0000000000000202 R15: 
+ffffffffaf6060c0
+[ 2836.723853] FS:  0000000000000000(0000) GS:ffff987acec00000(0000) 
+knlGS:0000000000000000
+[ 2836.723853] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 2836.723854] CR2: 0000558899b414c0 CR3: 0000000101cd2000 CR4: 
+0000000000350ee0
+[ 2836.723854] Call Trace:
+[ 2836.723855]  <IRQ>
+[ 2836.723859]  rcu_core+0x196/0x420
+[ 2836.723862]  __do_softirq+0xc9/0x214
+[ 2836.723863]  asm_call_irq_on_stack+0x12/0x20
+[ 2836.723864]  </IRQ>
+[ 2836.723866]  do_softirq_own_stack+0x31/0x40
+[ 2836.723867]  irq_exit_rcu+0x9a/0xa0
+[ 2836.723869]  sysvec_apic_timer_interrupt+0x2c/0x80
+[ 2836.723870]  asm_sysvec_apic_timer_interrupt+0x12/0x20
+[ 2836.723872] RIP: 0010:cpuidle_enter_state+0xd2/0x2e0
+[ 2836.723873] Code: e8 93 22 6a ff 31 ff 49 89 c5 e8 29 2c 6a ff 45 84 
+ff 74 12 9c 58 f6 c4 02 0f 85 c4 01 00 00 31 ff e8 a2 d8 6f ff fb 45 85 
+f6 <0f> 88 c9 00 00 00 49 63 ce be 68 00 00 00 4c 2b 2c 24 48 89 ca 48
+[ 2836.723874] RSP: 0018:ffffaf188017fe80 EFLAGS: 00000202
+[ 2836.723874] RAX: ffff987acec1ce00 RBX: 0000000000000002 RCX: 
+000000000000001f
+[ 2836.723875] RDX: 0000029479ea3f98 RSI: 00000000239f5229 RDI: 
+0000000000000000
+[ 2836.723875] RBP: ffff9873c1a4ec00 R08: 0000000000000002 R09: 
+000000000001c600
+[ 2836.723876] R10: 00000959d0ea6498 R11: ffff987acec1be24 R12: 
+ffffffffaf6d38e0
+[ 2836.723876] R13: 0000029479ea3f98 R14: 0000000000000002 R15: 
+0000000000000000
+[ 2836.723878]  cpuidle_enter+0x30/0x50
+[ 2836.723880]  do_idle+0x24f/0x290
+[ 2836.723882]  cpu_startup_entry+0x1b/0x20
+[ 2836.723884]  start_secondary+0x10b/0x150
+[ 2836.723885]  secondary_startup_64_no_verify+0xb0/0xbb
+[ 2836.723887] ---[ end trace be84281f034198f4 ]---
 
+After these errors are generated, the device becomes inaccessible and 
+unmounting its filesystem (which does not hang in D state) generates 
+additional errors:
 
->> This was a silly typo, did you check if it addressed your issue when you applied the needed change?
-> 
-> Yes. We applied the needed change before testing your patch, but still had kernel panic on recv flow when we had unread inline data on the socket.
+[ 2868.181018] Buffer I/O error on dev dm-0, logical block 0, lost sync 
+page write
+[ 2868.181022] EXT4-fs (dm-0): I/O error while writing superblock
 
+After the filesystem is unmounted the device no longer appears in the 
+output of lsblk(8) and its device node(s) disappear after the kernel 
+removes the device. Prior to the I/O failures, the nvme error-log 
+command returns no error entries for any of the 64 log entries present.
 
-Can you share the stack trace?
+nvme fw-log and nvme smart-log return the following output:
+
+Firmware Log for device:nvme1
+afi  : 0x20
+
+Smart Log for NVME device:nvme1 namespace-id:ffffffff
+critical_warning                    : 0
+temperature                         : 48 C
+available_spare                     : 100%
+available_spare_threshold           : 10%
+percentage_used                     : 0%
+data_units_read                     : 234
+data_units_written                  : 2,149
+host_read_commands                  : 4,202
+host_write_commands                 : 421,917
+controller_busy_time                : 0
+power_cycles                        : 7
+power_on_hours                      : 11
+unsafe_shutdowns                    : 0
+media_errors                        : 0
+num_err_log_entries                 : 0
+Warning Temperature Time            : 0
+Critical Composite Temperature Time : 0
+Temperature Sensor 1                : 48 C
+Thermal Management T1 Trans Count   : 0
+Thermal Management T2 Trans Count   : 0
+Thermal Management T1 Total Time    : 0
+Thermal Management T2 Total Time    : 0
+
+I've checked the kernel change logs and I know that the refcount_t error 
+has been occurring in other kernel subsystems and was subsequently fixed 
+in recent kernel point releases, so I will be trying to reproduce this 
+error with the most recent 5.10 and 5.11-rc kernels.
+
+Any suggestions on what else to try next?
+
+Thanks!
+
+Brad
+
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
