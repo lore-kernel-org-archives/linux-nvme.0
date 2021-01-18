@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 395D9C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jan 2021 18:34:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD66C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jan 2021 18:34:54 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED0C722CAD
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jan 2021 18:34:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED0C722CAD
+	by mail.kernel.org (Postfix) with ESMTPS id A0997206BE
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Jan 2021 18:34:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0997206BE
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,38 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hqhxgM6wh6FE6lqdhMGFRL7GR4SMRYvlGm5D5/JG5oc=; b=bBg1FF+ObVdWNRso8LKRuBwrM
-	kOL8L6eZJjN4HmmDSTo88OFwocmuXXv32fumhhJ3QWH3weAA/m/8AJA32wjBPeqKoIh4rlUig9nKR
-	OcCsR/FBB81PY4bCV4GdgwOMVFwghobxMBAWDyAIPqf/wRDGNzoXLHzHzK2fbmwE4JyYxTSXSty9U
-	zeucyxW9UfAyWve7LXn0fK/R1h0F6CYY7hg3ij2DQFpd5C/FhDGnmlmsB2aK1Z/v1GKGcyt1iCTV0
-	+mCa6k6iJEHHHRZ0PnUQdZIaH05kPEaVud4ovFN5J+0NaG3yeNucexHeOttenpSgqBKkTXldLbXgw
-	Nneq5tm7w==;
+	 bh=8M4ipTM4rZORl/6NChnsFMulxAKVcVyYuPvoaDmvNCw=; b=JhV1LGd0hUsPtN51YedV/VpHm
+	SxVJGlbp2CkjpfIENb1rhDU5GjNoDDgLgUMPLWR0uGu8Y6LyeEyvyLpDZbFSfa6EwjmZYyki5sJUR
+	zlw3Lasrb/M6B9VHWg//8QwMPrjtJxgCY1bw26FB2FPASQAPqEphqDAV+AAhdkgHYhUeM0fuq01Kv
+	qeIACD9zsacYlB3J2DJu2CdiTz3o/GMHvKlE5Z4Y7ePXmmm9OofZ9+pnRrxw8QS1RuVLdB+AFNGkt
+	EY0pC9fo8b5DaWgGyT6XBgqnZlT7K8XIiYGAh57yht06vqxsf53R7vZosDUCzHSzySzQV3rjJMFxN
+	KphY6K+fQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l1ZLj-00026l-Gy; Mon, 18 Jan 2021 18:33:59 +0000
+	id 1l1ZMQ-0002IZ-Tv; Mon, 18 Jan 2021 18:34:42 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l1ZLg-00025n-DJ
- for linux-nvme@lists.infradead.org; Mon, 18 Jan 2021 18:33:57 +0000
+ id 1l1ZMN-0002HR-AE
+ for linux-nvme@lists.infradead.org; Mon, 18 Jan 2021 18:34:41 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 1FAFE6736F; Mon, 18 Jan 2021 19:33:53 +0100 (CET)
-Date: Mon, 18 Jan 2021 19:33:53 +0100
+ id B3AB767373; Mon, 18 Jan 2021 19:34:37 +0100 (CET)
+Date: Mon, 18 Jan 2021 19:34:37 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH V9 6/9] nvmet: add bio init helper for different backends
-Message-ID: <20210118183353.GA11556@lst.de>
+Subject: Re: [PATCH V9 8/9] nvmet: add common I/O length check helper
+Message-ID: <20210118183437.GB11556@lst.de>
 References: <20210112042623.6316-1-chaitanya.kulkarni@wdc.com>
- <20210112042623.6316-7-chaitanya.kulkarni@wdc.com>
- <20210112073358.GB24288@lst.de>
- <BYAPR04MB4965824B7DB93A26C625AAD586A90@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <20210112042623.6316-9-chaitanya.kulkarni@wdc.com>
+ <20210112073503.GC24288@lst.de>
+ <BYAPR04MB4965136E54EA80910B9ED43986A90@BYAPR04MB4965.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <BYAPR04MB4965824B7DB93A26C625AAD586A90@BYAPR04MB4965.namprd04.prod.outlook.com>
+In-Reply-To: <BYAPR04MB4965136E54EA80910B9ED43986A90@BYAPR04MB4965.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210118_133356_599318_1B55EDB5 
-X-CRM114-Status: UNSURE (   9.06  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210118_133439_489386_7B79BD21 
+X-CRM114-Status: GOOD (  12.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,16 +74,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 13, 2021 at 05:04:49AM +0000, Chaitanya Kulkarni wrote:
-> On 1/11/21 23:34, Christoph Hellwig wrote:
-> > Nothing NVMe specific about this.  The helper also doesn't relaly contain
-> > any logic either.
+On Wed, Jan 13, 2021 at 05:07:16AM +0000, Chaitanya Kulkarni wrote:
+> On 1/11/21 23:35, Christoph Hellwig wrote:
+> > I can't say I like this helper.  The semantics are a little confusing,
+> > not helped by the name.
 > >
-> What is the preferable name ? just bio_init_fields() ?
+> Is it because of the name of the helper ? if so can you please suggest a
+> name.
+> Because all it has a same code repeated in the three backends and it really
+> bothers me to see duplicate code, but that just me :P.
 
-We'll eventually need to replace bio_alloc with something initializing
-the additional fields.  For now I'd just do nothing and skip the helper
-for now.
+Also because it does two rather unrelated things.  Or in other words:
+I don't think the helper helps the readability of the code.
 
 _______________________________________________
 Linux-nvme mailing list
