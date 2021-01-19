@@ -2,20 +2,19 @@ Return-Path: <SRS0=ulAu=GW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABAF9C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Jan 2021 14:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B5EC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Jan 2021 19:07:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 542FF22241
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Jan 2021 14:56:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 542FF22241
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by mail.kernel.org (Postfix) with ESMTPS id 0741722E00
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Jan 2021 19:07:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0741722E00
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -23,65 +22,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xFf/pfPCS6HpXXg5Ep6Mzhnrca1wcrbkEyfOocOr064=; b=x1rJiy4HLWDwEayrPHTfmg4rC
-	rBzkBu79BmAtYFDiDxcPd4lxDWoXvR+ti81ghb30vBljqW8LCpfNdlqnwEy0uhtbuWNhN+534ig4Y
-	tZ4QNRZOxvfZJhggrGC/42c4yKiCdTsUnBM7kBmsbi5o4pyzx32lnJ+RnLm3fL2y5xHA/srbrje+d
-	zhbksTlFkdK8CSJmxLn6ZshioMjNDQmhdz6isv1wwFB019WAEFAw4YBybYrCw+Jm5S+xDq38FtFSG
-	TGISDr2+qr+fC7XZ0Gx/a61fAh9ObTXdUr9n0VRmebMoyFoVIYwptmZ+aHiq6jnZjWiw/V4CzLbtW
-	93IuqT37g==;
+	 bh=hgd61BmSc1UxJx+3lAXoGLYohpAV0CuADB/oJlOGanc=; b=bR8vo0MsXYEjx/hXcUVLAsfHK
+	aQ3CVmk8IC6JJvaBaa61qJA9yOSAZGuQgJ0aOroS3t5ZSpXjWWxch5AXTysxxNAitPBIfUd8JF04i
+	aN5H/UqXbe31nWd17RiKB67We6QYyY28fBRwcTWSvMs72FkgRIZYpLDtK//+uChsTFuJXyavVpLwP
+	d1xEeM1wuZjOYGrYOkWkF/Yuge4QQYM0KPn3PgTvUvp1/EBoB+HSN9ty9RjrpbMx6u50BBvdfDp8u
+	S5qzz1r2547isqabKUkJKZ49t3qRIMb9P9MS+2pIh0xkDiE3dqUCZ7SvhUsuSR7lTpiX92Eu0ncon
+	DDzm6JiGw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l1sQz-0007Ay-T4; Tue, 19 Jan 2021 14:56:41 +0000
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b])
+	id 1l1vkD-0005zA-C0; Tue, 19 Jan 2021 18:28:45 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l1sQw-0007A9-H3
- for linux-nvme@lists.infradead.org; Tue, 19 Jan 2021 14:56:39 +0000
-Received: by mail-ot1-x32b.google.com with SMTP id e70so4583519ote.11
- for <linux-nvme@lists.infradead.org>; Tue, 19 Jan 2021 06:56:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=4i3Rll4bQzwaYc7jqahBOCWHr4xjlROp3I2HYYJ4CnM=;
- b=KGBiR5eN0piVSzud74WxxtNthFcVS7akLF4V0P083UrZTFpupb2KjH8e9ZWXkRU/ny
- ElJ8Z0UVUYLW8zx9KQF4PHlBaO793+x8ae8pLR6O2fUar3atq+tjhzZwJpJoQzLtsZka
- nZZqd47UzidWTE3UVOChTLe5icHs48R0RBMMKk79PHJqpPDAs871bSAhSi5+l+jjh1Sq
- 7JUuyhswjF+KvP1KZMwsBlnS3R5ao7J2ZujTPHpwlOgaovpJm8TmiBY0L9uEkrDVqj/k
- sKSjt4TakNGiJGM1W4/2GJG+vYaForZz8DeWPPnrj1RrMN6le8vXTI889Usn5sDnktLm
- wlWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=4i3Rll4bQzwaYc7jqahBOCWHr4xjlROp3I2HYYJ4CnM=;
- b=USHqs25gBxVqI+NTBtA/pcUWCn05Hqc0MalNcY1+mRvknQ/9whvBqXEtsmueO1nZwP
- FtzxJM/EgOfVtQcqnVSYr8a7lIIEHxcIwfUrzQsWD6K0zV+rg42yLxUfjTzzGMKYyGx6
- KM9duAnQkkwYZuyfOLnPMiMOZ4Og+jn5qRb2TT3J+BFwJ7e+VTHud04h+Eztm7dQ63Yy
- /Gyrc3LjamIo9ovSd0HLNmJhsBkrMRlxTVnuDEKhNwchDUQs+ety8IsGhC2FexuMDgF9
- 1C8qqrRLI4VEgJOjpxCM71Sozqiw25uivGDqjYd9Nqw2tCeMHegfHz2EWbDb7xl4skFV
- +DyQ==
-X-Gm-Message-State: AOAM530kZtlJFotm3ie7h/jjprOh3QMCwimbhn1pc+Y/OhgiSBL/iWo0
- U4L3iSG9Pm8w2j01GtjINCQ=
-X-Google-Smtp-Source: ABdhPJy0SvL5wkyy011ZOu36ILkATNIWQgi3GyDPOPsoWsa33SdDvbpi7STrCns7PFqsZZtp51VttA==
-X-Received: by 2002:a05:6830:572:: with SMTP id
- f18mr3771274otc.109.1611068194818; 
- Tue, 19 Jan 2021 06:56:34 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id v17sm4241573oou.41.2021.01.19.06.56.33
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 19 Jan 2021 06:56:34 -0800 (PST)
-Date: Tue, 19 Jan 2021 06:56:32 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCHv2] nvme/hwmon: rework to avoid devm allocation
-Message-ID: <20210119145632.GD54031@roeck-us.net>
-References: <20210119064318.124415-1-hare@suse.de>
+ id 1l1vkA-0005yE-DT
+ for linux-nvme@lists.infradead.org; Tue, 19 Jan 2021 18:28:43 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6430B20776;
+ Tue, 19 Jan 2021 18:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611080921;
+ bh=G/Iizd+1i4ee0dIyL2dAo1EGK2IkTYImCzy6WPT7wqc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nUQkbo0POaBcn5Ait+ahdyxuahnsdJR4IjsPao47GP0GMpkog+10I4cJs/UFHCf1u
+ niuPwxohZbF2dR79igFzkx/NNC9WIYGLMluKeA5L+Df0c7KmRF5tpyNI1fyfzCxMio
+ JAvG8f2S+UuihKllomZwxntFUE2f68Q/gUtWrE3bw8Rue6oOEsoYYbXRtQ4dofiTDW
+ /qDpnXr2iMRaLuEorhxryrKgBwhoXWdvShxySSQR1pG2yacIMFBPN2xYFNlb5622L2
+ dx4qyhXfIy5Q02oDEKa+lH0jVk21X4cIZREoI8iaqAX6otDk5Ww50cVYbqWqDP+6mZ
+ MJlPP08pn9PpQ==
+Date: Wed, 20 Jan 2021 03:28:38 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH V3 3/3] nvme: retry commands based on ACRE flag
+Message-ID: <20210119180535.GA1520627@dhcp-10-100-145-180.wdc.com>
+References: <20210114133110.20779-1-minwoo.im.dev@gmail.com>
+ <20210114133110.20779-4-minwoo.im.dev@gmail.com>
+ <20210115170412.GA1515933@dhcp-10-100-145-180.wdc.com>
+ <20210115182602.GA2822@localhost.localdomain>
+ <20210118174051.GA8542@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210119064318.124415-1-hare@suse.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210118174051.GA8542@lst.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210119_095638_579097_32A65F38 
-X-CRM114-Status: GOOD (  27.11  )
+X-CRM114-CacheID: sfid-20210119_132842_536184_ABEFD4F7 
+X-CRM114-Status: GOOD (  23.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,146 +75,48 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: Jens Axboe <axboe@fb.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Chao Leng <lengchao@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 19, 2021 at 07:43:18AM +0100, Hannes Reinecke wrote:
-> The original design to use device-managed resource allocation
-> doesn't really work as the NVMe controller has a vastly different
-> lifetime than the hwmon sysfs attributes, causing warning about
-> duplicate sysfs entries upon reconnection.
-> This patch reworks the hwmon allocation to avoid device-managed
-> resource allocation, and uses the NVMe controller as parent for
-> the sysfs attributes.
-
-I don't really know enough about the nvme infrastructure to understand
-this part of the change. Couple of questions: Why is the parent change
-needed, and does the "sensors" command still work after this change ?
-
-Guenter
-
+On Mon, Jan 18, 2021 at 06:40:51PM +0100, Christoph Hellwig wrote:
+> On Sat, Jan 16, 2021 at 03:26:02AM +0900, Minwoo Im wrote:
+> > > I am not sure we should ignore the FAILFAST for non-path errors. If we
+> > > need retryable admin commands, we should let the driver provide a way
+> > > for callers to dispatch requests without that flag.
+> > 
+> > Understood.  I thought the opposite way about FAILFAST in case with
+> > acre, if device is enabled with acre, all commands would be retried
+> > regardless to FAILFAST...  Thanks for pointing that out!
+> > 
+> > How do you think which one is right choice to go with if a user-space
+> > application(e.g., nvme-cli) wants a command to be retired in case of
+> > ACRE && Error && !DNR:
+> > 
+> >   - User-space application should figure out !DNR and retry the command.
+> >     (Maybe we are not able to easily figure out exact status code from
+> >     the user-space application by the return value).
+> > 
+> >   - Driver should retry the command right before putting result up to
+> >     the user-space even it's a FAILFAST request.
+> > 
+> > Thanks,
 > 
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> Tested-by: Daniel Wagner <dwagner@suse.de>
+> We could come up with a version of the ioctls that use the normal
+> retry mechanisms.  nvme_passthru_cmd64 has two reserved fields we
+> could use for UAPI flags like this.
 
-Maybe add
+Yeah, I'm totally okay with adding driver control flags for this sort of
+behavior.
 
-Fixes: 400b6a7b13a3f ("nvme: Add hardware monitoring support")
-
-> ---
->  drivers/nvme/host/core.c  |  1 +
->  drivers/nvme/host/hwmon.c | 31 +++++++++++++++++++++----------
->  drivers/nvme/host/nvme.h  |  6 ++++++
->  3 files changed, 28 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index fff49e544fdf..3c6c77e44bf7 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4419,6 +4419,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
->  
->  void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
->  {
-> +	nvme_hwmon_exit(ctrl);
->  	nvme_fault_inject_fini(&ctrl->fault_inject);
->  	dev_pm_qos_hide_latency_tolerance(ctrl->device);
->  	cdev_device_del(&ctrl->cdev, ctrl->device);
-> diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
-> index 552dbc04567b..8f9e96986780 100644
-> --- a/drivers/nvme/host/hwmon.c
-> +++ b/drivers/nvme/host/hwmon.c
-> @@ -223,12 +223,12 @@ static const struct hwmon_chip_info nvme_hwmon_chip_info = {
->  
->  int nvme_hwmon_init(struct nvme_ctrl *ctrl)
->  {
-> -	struct device *dev = ctrl->dev;
-> +	struct device *dev = ctrl->device;
->  	struct nvme_hwmon_data *data;
->  	struct device *hwmon;
->  	int err;
->  
-> -	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
->  	if (!data)
->  		return 0;
->  
-> @@ -237,19 +237,30 @@ int nvme_hwmon_init(struct nvme_ctrl *ctrl)
->  
->  	err = nvme_hwmon_get_smart_log(data);
->  	if (err) {
-> -		dev_warn(ctrl->device,
-> -			"Failed to read smart log (error %d)\n", err);
-> -		devm_kfree(dev, data);
-> +		dev_warn(dev, "Failed to read smart log (error %d)\n", err);
-> +		kfree(data);
->  		return err;
->  	}
->  
-> -	hwmon = devm_hwmon_device_register_with_info(dev, "nvme", data,
-> -						     &nvme_hwmon_chip_info,
-> -						     NULL);
-> +	hwmon = hwmon_device_register_with_info(dev, "nvme",
-> +						data, &nvme_hwmon_chip_info,
-> +						NULL);
->  	if (IS_ERR(hwmon)) {
->  		dev_warn(dev, "Failed to instantiate hwmon device\n");
-> -		devm_kfree(dev, data);
-> +		kfree(data);
->  	}
-> -
-> +	ctrl->hwmon_device = hwmon;
->  	return 0;
->  }
-> +
-> +void nvme_hwmon_exit(struct nvme_ctrl *ctrl)
-> +{
-> +	if (ctrl->hwmon_device) {
-> +		struct nvme_hwmon_data *data =
-> +			dev_get_drvdata(ctrl->hwmon_device);
-> +
-> +		hwmon_device_unregister(ctrl->hwmon_device);
-> +		ctrl->hwmon_device = NULL;
-> +		kfree(data);
-> +	}
-> +}
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 88a6b97247f5..f51b942bb4f5 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -246,6 +246,9 @@ struct nvme_ctrl {
->  	struct rw_semaphore namespaces_rwsem;
->  	struct device ctrl_device;
->  	struct device *device;	/* char device */
-> +#ifdef CONFIG_NVME_HWMON
-> +	struct device *hwmon_device;
-> +#endif
->  	struct cdev cdev;
->  	struct work_struct reset_work;
->  	struct work_struct delete_work;
-> @@ -809,11 +812,14 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
->  
->  #ifdef CONFIG_NVME_HWMON
->  int nvme_hwmon_init(struct nvme_ctrl *ctrl);
-> +void nvme_hwmon_exit(struct nvme_ctrl *ctrl);
->  #else
->  static inline int nvme_hwmon_init(struct nvme_ctrl *ctrl)
->  {
->  	return 0;
->  }
-> +
-> +static inline int nvme_hwmon_exit(struct nvme_ctrl *ctrl) {}
->  #endif
->  
->  u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-> -- 
-> 2.29.2
-> 
+For the moment, the ioctl interface has always been 1:1 for commands
+submitted to completions received, so all user space applications using
+this should have been prepared to receive unfiltered status back and
+handle retries on their own.
 
 _______________________________________________
 Linux-nvme mailing list
