@@ -2,19 +2,20 @@ Return-Path: <SRS0=ulAu=GW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05FD4C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Jan 2021 03:47:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1EBC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Jan 2021 04:19:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3534B22509
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Jan 2021 03:47:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3534B22509
+	by mail.kernel.org (Postfix) with ESMTPS id 24A9520707
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Jan 2021 04:19:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 24A9520707
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,70 +24,70 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=zwo4ALbbhW2U69KaQS5wcGZCMcetYCShemVRXgX8NVA=; b=ZLTQX/1+FSNfWRgs6KeGiAjkr
-	SFAKk7WnsZFndZJFSfK9by2UHmxPPTkVFgqOn40fB+0m/YfSk2tVA/RL/CBtgTuzYJsQGW8ZRStv5
-	O1/O2tHbg4lNZChzn1PeYfS7pNX1jDMuEcOqX6Po/rb54wWj6mUf4iYggcJY+pely1YXU/H3bXp8W
-	2dX1avKu+FVThTcsoj7nhx2MOasfTVOB1NFYHMwN+M55cSpF81V9v9pM0IMim1uBaA5uVlv3/wbsG
-	lr6hbeSo8Op0N32fLm7/MHBARwpsWgefpFTY7MzEZfZQWBkafYOScK58S0sc9nzx2KOVZy+dZ7TDO
-	K/3AISAAA==;
+	 bh=0kJ0fgxmnRPdgvZquT0sV3rIkwn/q2SJsCwDgczHD4M=; b=g6RqRYRihAbdi8MY3XHLVKmo1
+	bA8hVMVcdde/x7iSIsd19uWfXDBJToP1lV9QYYkAcEe44+rUwfOUKvfnPTmVrbQrX7W0NpELoxxwT
+	yArvOzf2cT3A8r1cwVvwZjVEtEd2azRs3GaFLLQ4kltBSjdxssd+9520/Gl8G7VJ0rotk+A3saA0f
+	5ppw2A1HCyRcTC9PIKn9b0TvtQptSgv3v7BMc6ejFFoVh/HKyr9+qeQKpJWvwLSMp0+WUVYICaeZd
+	6Ko1dbYxRl1vjxtcab14d+4uDna4QQnJvOoNf8NL7MyXuQL2ZZTxbU+JyVMqYa+4X/7X4nvd75As8
+	2fVy0WmVg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l1hzC-0001Ft-JX; Tue, 19 Jan 2021 03:47:18 +0000
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332])
+	id 1l1iTj-0003SI-On; Tue, 19 Jan 2021 04:18:51 +0000
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l1hz9-0001F3-Ej
- for linux-nvme@lists.infradead.org; Tue, 19 Jan 2021 03:47:16 +0000
-Received: by mail-ot1-x332.google.com with SMTP id o11so18524723ote.4
- for <linux-nvme@lists.infradead.org>; Mon, 18 Jan 2021 19:47:12 -0800 (PST)
+ id 1l1iTh-0003Rj-0T
+ for linux-nvme@lists.infradead.org; Tue, 19 Jan 2021 04:18:50 +0000
+Received: by mail-ot1-x32c.google.com with SMTP id w3so18526347otp.13
+ for <linux-nvme@lists.infradead.org>; Mon, 18 Jan 2021 20:18:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LEBogkZ4IQHYkFDaqnlPZw8aJhD0X+Er1BtoG8LWR7o=;
- b=qvLA3LvTgXP7DgsVwyVP5kRc9Ias6NBJtlQVAy4CcSsJWClVFh30Xfn3JIBOrrUAzf
- L1TStHr6oyVSXIYg/EC3a5h7+dZU5drk7yawYs6bbIaeEH8tdlgdi+BJDaYS8VP77204
- X5xaABMF9RyN/S4zKmMC78vcVFFYvbA+8tekxfwJC1dCtNT2trMyaj8I4rtQZXpDi11g
- SahJhXmcuUlWUqszcPi50Ap1DsT3YI+1J2NyQ0diT/S14yWCy8Wdx2f1RRlnwPegDOIA
- QqFULfN7mjBKneEDxOpdPLNZSB00BhR46xvcJU8ueRT/Ob1kUU9tl6ZPnehqJGs02mfR
- o/xw==
+ bh=PGQWnRykzJUb1S9lKNedKSEMsPVcpfZ4OcuUTj/9aeM=;
+ b=jP8BzF3xDMu98sFpJMShdpW0yMy492LbJFp9GgFB4p6qmu05mg6wXNTqe0as8tKID3
+ 3UCIfRJDpxP16GSu2ZbGgFb8cuR384r8AtUvpUEtgrw7CfRPg40P1xPFudQ1MzNcQ89j
+ kKlXJ4aq+6rCXtKqG13+9+j1tn/Y+zZb68EHOJaVVUPRr5sk2UrU+aJmKVWMIE/0Vmxh
+ de6R6nIrGMmm39nu+xLtYPPpz7Axydq9DuadhgwbHckUKMjfZy72vAts6vDAv+llpAx2
+ kCtHbpy5Sj/nIf1Py2JH+WsazdaztC0eQTInDpfyL3COgusRoYfnGkIjhoQS3RwkYpHm
+ 1Y8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LEBogkZ4IQHYkFDaqnlPZw8aJhD0X+Er1BtoG8LWR7o=;
- b=XWZmGZe3fZT31X5SQ1FDAJ6D6g247KWyLIE5dnlXynOLNbm6s9fcBmfKVqhrtczpZ1
- j4Vriw+cqGy9S2oQ/WPh0o9MzqgJuQVIGtphQ8D8/nL0O0HZ1pv90CT+ReK1rt1M3LXq
- CzGFne8jgxN/qMIRyOUFoGp6cNEntF9KQqpMAJeTIXC2TNyZ0pD6bTivWYQFXqsCFkQp
- PICm39OwlJ9wT09fGJQufWgETlJPzpVVwjW7Prukvnw50fCyPEhWyehXthrOe4AFqcIB
- W7OxBWlR3tgHvs+hCuBPFkgmVcUtPIgAyQZOUUZ312pQf9pJzKK4wBmxOZ766TfvUq5A
- 3BkA==
-X-Gm-Message-State: AOAM531nDqcBv7aAtM0N2dInu5bMUuu42bjyFoMdkPPb3BH0aSYLz2aY
- j3xsEFwfGwd1cXRrMbb+dd0=
-X-Google-Smtp-Source: ABdhPJyjOHYOkMe+KTHzBd+kmzzYF6C/9dZKi7sFMS5JhOO50R20PtuG16/OG7KfcTEhekCRAImIug==
-X-Received: by 2002:a9d:8f6:: with SMTP id 109mr2116503otf.199.1611028031149; 
- Mon, 18 Jan 2021 19:47:11 -0800 (PST)
-Received: from Davids-MacBook-Pro.local ([8.6.112.193])
- by smtp.googlemail.com with ESMTPSA id v67sm2185482otb.43.2021.01.18.19.47.09
+ bh=PGQWnRykzJUb1S9lKNedKSEMsPVcpfZ4OcuUTj/9aeM=;
+ b=CcVM0mkccfL2/nQxad25thyIxtpqa5WzcAWo+Dx93b6XY5UwaJQY1biI9v7DAMGyNk
+ Tk6FkkU2UlpEoDyqdSPU7X4EiGq0O7lRX56+T2bUMS/fiJtTamCJOwx026yN+TCYWOY7
+ evDJwKwEtKM9ICpqIWY7tgRgCLp9UM9UtKpbIo6xLQh/Rcb4QdH7jk8nVRbh7dQMaxiY
+ 9BycfMImpXMZvW4C5jhyE5VXthLWIi63A4dEq3cQ78gxstrK0Usn0N5fZrgzsACA+oXb
+ lPDqSdK4q+VefFBSZu95/z/VUeiNtF1WNwbeH29hDIeqyaEpZPmqbI7WB8yqxTgTh+Rd
+ yPlA==
+X-Gm-Message-State: AOAM531repkEau3VMZdtGmFVW+ioj5haFQBe6V2POe/KAmv7jbkEYO61
+ tr926UegtOVHmlFNm4OY99w=
+X-Google-Smtp-Source: ABdhPJxdWVSAgii/2MkPvERcKolGR6i+7ta0jZQ7GpHk/SqwbsPfyB7CKBksX1tJHuK0ErHfmPxpNA==
+X-Received: by 2002:a9d:4e87:: with SMTP id v7mr2070437otk.302.1611029926930; 
+ Mon, 18 Jan 2021 20:18:46 -0800 (PST)
+Received: from Davids-MacBook-Pro.local ([8.6.112.196])
+ by smtp.googlemail.com with ESMTPSA id y84sm3786465oig.36.2021.01.18.20.18.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jan 2021 19:47:10 -0800 (PST)
-Subject: Re: [PATCH v2 net-next 06/21] nvme-tcp: Add DDP offload control path
+ Mon, 18 Jan 2021 20:18:46 -0800 (PST)
+Subject: Re: [PATCH v2 net-next 07/21] nvme-tcp: Add DDP data-path
 To: Boris Pismenny <borisp@mellanox.com>, kuba@kernel.org,
  davem@davemloft.net, saeedm@nvidia.com, hch@lst.de, sagi@grimberg.me,
  axboe@fb.com, kbusch@kernel.org, viro@zeniv.linux.org.uk,
  edumazet@google.com, smalin@marvell.com
 References: <20210114151033.13020-1-borisp@mellanox.com>
- <20210114151033.13020-7-borisp@mellanox.com>
+ <20210114151033.13020-8-borisp@mellanox.com>
 From: David Ahern <dsahern@gmail.com>
-Message-ID: <37861060-9651-49c8-e583-2b070914361c@gmail.com>
-Date: Mon, 18 Jan 2021 20:47:08 -0700
+Message-ID: <84cc2af1-22e8-abf5-07da-bc7b4a2b6b12@gmail.com>
+Date: Mon, 18 Jan 2021 21:18:44 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
  Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210114151033.13020-7-borisp@mellanox.com>
+In-Reply-To: <20210114151033.13020-8-borisp@mellanox.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210118_224715_510358_33C794E7 
-X-CRM114-Status: GOOD (  18.20  )
+X-CRM114-CacheID: sfid-20210118_231849_357638_AE757623 
+X-CRM114-Status: GOOD (  18.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,120 +109,64 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 1/14/21 8:10 AM, Boris Pismenny wrote:
-> +static
-> +int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
-> +{
-> +	struct net_device *netdev = get_netdev_for_sock(queue->sock->sk, true);
-> +	struct nvme_tcp_ddp_config config = {};
-> +	int ret;
-> +
-> +	if (!netdev) {
-> +		dev_info_ratelimited(queue->ctrl->ctrl.device, "netdev not found\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (!(netdev->features & NETIF_F_HW_TCP_DDP)) {
-> +		dev_put(netdev);
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	config.cfg.type		= TCP_DDP_NVME;
-> +	config.pfv		= NVME_TCP_PFV_1_0;
-> +	config.cpda		= 0;
-> +	config.dgst		= queue->hdr_digest ?
-> +		NVME_TCP_HDR_DIGEST_ENABLE : 0;
-> +	config.dgst		|= queue->data_digest ?
-> +		NVME_TCP_DATA_DIGEST_ENABLE : 0;
-> +	config.queue_size	= queue->queue_size;
-> +	config.queue_id		= nvme_tcp_queue_id(queue);
-> +	config.io_cpu		= queue->io_cpu;
-> +
-> +	ret = netdev->tcp_ddp_ops->tcp_ddp_sk_add(netdev,
-> +						  queue->sock->sk,
-> +						  (struct tcp_ddp_config *)&config);
-
-typecast is not needed; tcp_ddp_config is an element of nvme_tcp_ddp_config
-
-> +	if (ret) {
-> +		dev_put(netdev);
-> +		return ret;
-> +	}
-> +
-> +	inet_csk(queue->sock->sk)->icsk_ulp_ddp_ops = &nvme_tcp_ddp_ulp_ops;
-> +	if (netdev->features & NETIF_F_HW_TCP_DDP)
-> +		set_bit(NVME_TCP_Q_OFF_DDP, &queue->flags);
-> +
-> +	return ret;
-> +}
-> +
-> +static
-> +void nvme_tcp_unoffload_socket(struct nvme_tcp_queue *queue)
-> +{
-> +	struct net_device *netdev = queue->ctrl->offloading_netdev;
-> +
-> +	if (!netdev) {
-> +		dev_info_ratelimited(queue->ctrl->ctrl.device, "netdev not found\n");
-> +		return;
-> +	}
-> +
-> +	netdev->tcp_ddp_ops->tcp_ddp_sk_del(netdev, queue->sock->sk);
-> +
-> +	inet_csk(queue->sock->sk)->icsk_ulp_ddp_ops = NULL;
-> +	dev_put(netdev); /* put the queue_init get_netdev_for_sock() */
-
-have you validated the netdev reference counts? You have a put here, and ...
-
-> +}
-> +
-> +static
-> +int nvme_tcp_offload_limits(struct nvme_tcp_queue *queue)
-> +{
-> +	struct net_device *netdev = get_netdev_for_sock(queue->sock->sk, true);
-
-... a get here ....
-
-> +	struct tcp_ddp_limits limits;
-> +	int ret = 0;
-> +
-> +	if (!netdev) {
-> +		dev_info_ratelimited(queue->ctrl->ctrl.device, "netdev not found\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (netdev->features & NETIF_F_HW_TCP_DDP &&
-> +	    netdev->tcp_ddp_ops &&
-> +	    netdev->tcp_ddp_ops->tcp_ddp_limits)
-> +		ret = netdev->tcp_ddp_ops->tcp_ddp_limits(netdev, &limits);
-> +	else
-> +		ret = -EOPNOTSUPP;
-> +
-> +	if (!ret) {
-> +		queue->ctrl->offloading_netdev = netdev;
-
-
-... you have the device here, but then ...
-
-> +		dev_dbg_ratelimited(queue->ctrl->ctrl.device,
-> +				    "netdev %s offload limits: max_ddp_sgl_len %d\n",
-> +				    netdev->name, limits.max_ddp_sgl_len);
-> +		queue->ctrl->ctrl.max_segments = limits.max_ddp_sgl_len;
-> +		queue->ctrl->ctrl.max_hw_sectors =
-> +			limits.max_ddp_sgl_len << (ilog2(SZ_4K) - 9);
+> @@ -664,8 +753,15 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (!nvme_try_complete_req(rq, cqe->status, cqe->result))
+> -		nvme_complete_rq(rq);
+> +	req = blk_mq_rq_to_pdu(rq);
+> +	if (req->offloaded) {
+> +		req->status = cqe->status;
+> +		req->result = cqe->result;
+> +		nvme_tcp_teardown_ddp(queue, cqe->command_id, rq);
 > +	} else {
-> +		queue->ctrl->offloading_netdev = NULL;
+> +		if (!nvme_try_complete_req(rq, cqe->status, cqe->result))
+> +			nvme_complete_rq(rq);
 > +	}
-> +
-> +	dev_put(netdev);
+>  	queue->nr_cqe++;
+>  
+>  	return 0;
+> @@ -859,9 +955,18 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+>  static inline void nvme_tcp_end_request(struct request *rq, u16 status)
+>  {
+>  	union nvme_result res = {};
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	struct nvme_tcp_queue *queue = req->queue;
+> +	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
+>  
+> -	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
+> -		nvme_complete_rq(rq);
+> +	if (req->offloaded) {
+> +		req->status = cpu_to_le16(status << 1);
+> +		req->result = res;
+> +		nvme_tcp_teardown_ddp(queue, pdu->command_id, rq);
+> +	} else {
+> +		if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
+> +			nvme_complete_rq(rq);
+> +	}
+>  }
+>  
+>  static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
 
-... put here. And this is the limit checking function which seems like
-an odd place to set offloading_netdev vs nvme_tcp_offload_socket which
-sets no queue variable but yet hangs on to a netdev reference count.
 
-netdev reference count leaks are an absolute PITA to find. Code that
-takes and puts the counts should be clear and obvious as to when and
-why. The symmetry of offload and unoffload are clear when the offload
-saves the address in offloading_netdev. What you have now is dubious.
+The req->offload checks assume the offload is to the expected
+offload_netdev, but you do not verify the data arrived as expected. You
+might get lucky if both netdev's belong to the same PCI device (assuming
+the h/w handles it a certain way), but it will not if the netdev's
+belong to different devices.
 
+Consider a system with 2 network cards -- even if it is 2 mlx5 based
+devices. One setup can have the system using a bond with 1 port from
+each PCI device. The tx path picks a leg based on the hash of the ntuple
+and that (with Tariq's bond patches) becomes the expected offload
+device. A similar example holds for a pure routing setup with ECMP. For
+both there is full redundancy in the network - separate NIC cards
+connected to separate TORs to have independent network paths.
+
+A packet arrives on the *other* netdevice - you have *no* control over
+the Rx path. Your current checks will think the packet arrived with DDP
+but it did not.
 
 _______________________________________________
 Linux-nvme mailing list
