@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 222EDC433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Jan 2021 15:20:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C33B3C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Jan 2021 15:24:03 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97C7D2339D
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Jan 2021 15:20:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97C7D2339D
+	by mail.kernel.org (Postfix) with ESMTPS id 742CB2336D
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Jan 2021 15:24:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 742CB2336D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=google.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,58 +23,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fpobA7/jxtbX6lBT80ojVqFemUBFwFpP9MdVYfwxn34=; b=dhFwSxsHGV0oLXSMbvbE73QzD
-	x8TsObDB4CKKIr/xLQnKAG5G/+w7jillJjNpHE01FDIzJjjZ6qcc2b4R/EJCbFnLYHMu+RG+HMqqj
-	iYO98CVJkD3X0hxekbcKzqG4Ih+sgSp7NuUB9IgXQ2WXXfSZYC0RA1d8rZrHZnFT9PcNSUX+G4FKQ
-	Gx/kwWoUca+X2No+qnxLBbxDZ7ryvng+mIefVR4JdnNR1Qoh5kzqU2+aEjo/AgcLy5DSU9nZaKfvX
-	6fhJPaUmrajO8AuQAEi82FXs2baZdiYwkRUmQ8OTc+TV6t0XfRbY61+Eo+0uHpItvAyOln/nCIwD9
-	V3XEz5Urw==;
+	 bh=fJ+1WpzHgqukDmZi/NRgp6km4JF68i25FchMMvsTyE8=; b=Eio+zk0A9JxCbJuMLJoQf2PuE
+	bS4a40Zj8OomczOX1vHqMy8Gklv9tmDE28yRbbTmpFFjWaDpsKn48rmZKFd8e/0Ob8qap3lucP14s
+	tTR9XjSfWDsRZBqLOFHAL6oI7jFI34HWDqm/vIo73aI+vf+DNGejBv98Y19l9isQhaio3aVmgMALC
+	H1ZGzFFT4pCyycD+GfDS8/lNcN60CpElH7jkjm0NYjCGVWY39bWfORfHChGsa2Lp93cnfxumNJDvR
+	Bw4xQ6dS1rZ7mLdqvFn+BaaKOJvsT1g27yqFPhT4guGk7wDl7H+HBA97hB1LueWkeJhAD/WrNX4/q
+	wR1NqCavw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l2FGx-00059O-Kb; Wed, 20 Jan 2021 15:19:51 +0000
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+	id 1l2FKr-0005MP-RE; Wed, 20 Jan 2021 15:23:53 +0000
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l2FGu-000593-ET
- for linux-nvme@lists.infradead.org; Wed, 20 Jan 2021 15:19:49 +0000
-Received: by mail-wr1-x434.google.com with SMTP id a12so23437534wrv.8
- for <linux-nvme@lists.infradead.org>; Wed, 20 Jan 2021 07:19:47 -0800 (PST)
+ id 1l2FKq-0005M1-3m
+ for linux-nvme@lists.infradead.org; Wed, 20 Jan 2021 15:23:52 +0000
+Received: by mail-wr1-x42c.google.com with SMTP id a1so2173019wrq.6
+ for <linux-nvme@lists.infradead.org>; Wed, 20 Jan 2021 07:23:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=02lpwE8mJbgIWd4VaYLHxMcemFjPSmV7V0E7yEZKL+U=;
- b=nNH9+dZ7FHTvqdwkIj4ODTMQK8n6/MDlmnPEvcYzTlPlHtNgXedne9SvlZHDfnrsG+
- nGC63kgDMPijo4fajFpvCn6e/+8zzr0NNmzBqHJ+6XZ4ELxr711mpbYeT9dm5fGH0bHp
- zwb2tLRqJjrNRjTm24A+KvLeTCF21STprZqMJvLzJGJuiRQ6M1tHtfuzsbofnRMDkI5e
- z5gxVfKzNxgvmAVChw6ZhIWTL5H1GpXiUhAqVaKzomAZl0Y1dkjoQdpN3Htruy5Qkjuf
- wO0yO9ZflXdh/ppQ4U75JmzZOzcXb690rCBazC5AfRZSj+5gWCrF9CfoLks8+romulUV
- ro1Q==
+ :cc; bh=EyVyUw84UNnjHlxL9x6M4okmeqlFndl4L385NvS5Piw=;
+ b=p/liRKz7PzEPWZZBCaMnkzajewgANbqYBpWoX2HUtZNgZfWwJWyLCg5GU2iCcXGigl
+ aSBJQQbOZtLUoarMXogeUz844fpL8FmcWe/JeDcA59TBDMXMGxWDTODMb8L015DNSwVe
+ A2ORoLi69X7SIGL1VKJZTu1J6F3273mRWyRTJsiOCJfbBLI1lWYnven2vhn4l0S8o//M
+ WHqr/FBQ3MKLKbMFfeTlg6taQb7cr5OiO30W9YMOuSF3++QbZwnXhtIPYRBJFT35z6id
+ cyijY40HGCce35Ysu9sLDZzG4F+hJdJt4LLnAyc1aWl+d9HFlaUkAcGPQ2qzYfkZyUoA
+ vN8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=02lpwE8mJbgIWd4VaYLHxMcemFjPSmV7V0E7yEZKL+U=;
- b=ZFXulVHqsxbu9VmHCX+rSqddtohAR+25O9OAhCsGsbgCLncUn1xEgcdPNn2IiYf1lQ
- lrD9/C2H3JXYjwoFN5cA8Rob19FFkx9HRdDD39NnixcRKtW5TT5P3ynsh+rBVpxOVSJu
- tws+fyL1Fqk5NAPm0eowkgRMKkZgoFoXCU+XJBB32yWk/XeWq4V3kh5jsEXdWcdyQw2S
- aaPFua45BEw1ebP0spNdX4akbegEH/Q+sDKicOeOo+9WbLdSSmDKy5mkbn72qCoywYqe
- iqdH6WIf+GQkf7mxWnSGTT0jm2CTlGV1Wb4IMpxdEj5UWioFBV5Cbv79xbQpAuJu69/V
- YgWQ==
-X-Gm-Message-State: AOAM5315gHW7tsgpzf93x84yQQABYj1nA118hGHN6ZxH0x/QgUh/9mxq
- ZBSBzZgdhgp9YcF6hR8FMmVERCCrMlmH50mR0aQL93hRe24=
-X-Google-Smtp-Source: ABdhPJztZT3jmTVBaju65l04ZEdw+NEZkAKTvXOOXZTUh0w7ckYilV9Dd9djW/Kd8kRvexGZgBW1QvkBVzz2mDHMZG4=
-X-Received: by 2002:adf:ee4d:: with SMTP id w13mr9850264wro.216.1611155986490; 
- Wed, 20 Jan 2021 07:19:46 -0800 (PST)
+ bh=EyVyUw84UNnjHlxL9x6M4okmeqlFndl4L385NvS5Piw=;
+ b=uaEySz9lzKF5nEmrD/oXV+nwUs036LhzSvn3fs4dmiRCyO86S/9tqZtA5vXc/bfr4L
+ zJNstZ9uF827zDJjZiMCK433YeFtpGrRurnpYDv68rp2+UD7fjxzN76MqgNBc/xvhU3u
+ +YTMJ8Vg5yB7LGoNDIlREurQILAOS6UaD8Zqzhow7Zz6EZncu2re2I7ZDAMA9N+OuUFH
+ Nqe2+MBFmPuOa+4s0g0D64vfeLupo80ejB0w8JcJAVQl+b4RuH+bHZt19LCFwSliXc2R
+ 11DreWK2dukVAcsBQ3BjWqLCjAl4HOsrnJtxuvPWqaEB3d+xfi2/6En+YcW/Qw4F9xpx
+ 39zA==
+X-Gm-Message-State: AOAM532GJDrVSFRk7S0T+33YZ509GK/tr0CCGGTU2CHo3wYC9JnOwldl
+ wQeLdUEuEX4Xe3K8JdTr2uTs6V4Oaacu3LX3rtJEow6WnXE=
+X-Google-Smtp-Source: ABdhPJzrrw4IdLp5ULlNlolhCSEQcWR4Zjk99sfA52lBV/gPQLH6rnbgrKueOe5vBTBsF4I97BGOy59607NejUeZUdg=
+X-Received: by 2002:a05:6000:104d:: with SMTP id
+ c13mr9698219wrx.127.1611156230450; 
+ Wed, 20 Jan 2021 07:23:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20210120094915.3198346-1-hch@lst.de>
- <20210120094915.3198346-2-hch@lst.de>
-In-Reply-To: <20210120094915.3198346-2-hch@lst.de>
+ <20210120094915.3198346-3-hch@lst.de>
+In-Reply-To: <20210120094915.3198346-3-hch@lst.de>
 From: Marc Orr <marcorr@google.com>
-Date: Wed, 20 Jan 2021 07:19:34 -0800
-Message-ID: <CAA03e5FYn0Z2gQhOBVRCyffeNs8iQ=2ZUVgZbig5b6xe60iE4g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] nvme-pci: refactor nvme_unmap_data
+Date: Wed, 20 Jan 2021 07:23:39 -0800
+Message-ID: <CAA03e5Hb49rpNq2A8hmvo6tVrLnon0yAUiZvWvd8THCXyDQ-kg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] nvme-pci: fix error unwind in nvme_map_data
 To: Christoph Hellwig <hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210120_101948_848754_057BE609 
-X-CRM114-Status: GOOD (  21.66  )
+X-CRM114-CacheID: sfid-20210120_102352_224904_8DB01523 
+X-CRM114-Status: GOOD (  19.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,116 +95,105 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On Wed, Jan 20, 2021 at 1:49 AM Christoph Hellwig <hch@lst.de> wrote:
 >
-> Split out three helpers from nvme_unmap_data that will allow finer grained
-> unwinding from nvme_map_data.
+> Properly unwind step by step using refactored helpers from nvme_unmap_data
+> to avoid a potential double dma_unmap on a mapping failure.
 >
+> Reported-by: Marc Orr <marcorr@google.com>
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Should these patches go to stable?
+
 > ---
->  drivers/nvme/host/pci.c | 77 ++++++++++++++++++++++++++---------------
->  1 file changed, 49 insertions(+), 28 deletions(-)
+>  drivers/nvme/host/pci.c | 28 ++++++++++++++++++----------
+>  1 file changed, 18 insertions(+), 10 deletions(-)
 >
 > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 25456d02eddb8c..e29ece9e4d4b8e 100644
+> index e29ece9e4d4b8e..4e93d1b52df202 100644
 > --- a/drivers/nvme/host/pci.c
 > +++ b/drivers/nvme/host/pci.c
-> @@ -543,50 +543,71 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
->         return true;
+> @@ -683,7 +683,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+>                         __le64 *old_prp_list = prp_list;
+>                         prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+>                         if (!prp_list)
+> -                               return BLK_STS_RESOURCE;
+> +                               goto free_prps;
+>                         list[iod->npages++] = prp_list;
+>                         prp_list[0] = old_prp_list[i - 1];
+>                         old_prp_list[i - 1] = cpu_to_le64(prp_dma);
+> @@ -703,14 +703,14 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+>                 dma_addr = sg_dma_address(sg);
+>                 dma_len = sg_dma_len(sg);
+>         }
+> -
+>  done:
+>         cmnd->dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
+>         cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma);
+> -
+>         return BLK_STS_OK;
+> -
+> - bad_sgl:
+> +free_prps:
+> +       nvme_free_prps(dev, req);
+> +       return BLK_STS_RESOURCE;
+> +bad_sgl:
+>         WARN(DO_ONCE(nvme_print_sgl, iod->sg, iod->nents),
+>                         "Invalid SGL for payload:%d nents:%d\n",
+>                         blk_rq_payload_bytes(req), iod->nents);
+> @@ -782,7 +782,7 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+>
+>                         sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
+>                         if (!sg_list)
+> -                               return BLK_STS_RESOURCE;
+> +                               goto free_sgls;
+>
+>                         i = 0;
+>                         nvme_pci_iod_list(req)[iod->npages++] = sg_list;
+> @@ -795,6 +795,9 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+>         } while (--entries > 0);
+>
+>         return BLK_STS_OK;
+> +free_sgls:
+> +       nvme_free_sgls(dev, req);
+> +       return BLK_STS_RESOURCE;
 >  }
 >
-> -static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
-> +static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
->  {
-> -       struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->         const int last_prp = NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
-> -       dma_addr_t dma_addr = iod->first_dma, next_dma_addr;
-> +       struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> +       dma_addr_t dma_addr = iod->first_dma;
->         int i;
+>  static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
+> @@ -863,7 +866,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+>         sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
+>         iod->nents = blk_rq_map_sg(req->q, req, iod->sg);
+>         if (!iod->nents)
+> -               goto out;
+> +               goto out_free_sg;
 >
-> -       if (iod->dma_len) {
-> -               dma_unmap_page(dev->dev, dma_addr, iod->dma_len,
-> -                              rq_dma_dir(req));
-> -               return;
-> +       for (i = 0; i < iod->npages; i++) {
-> +               __le64 *prp_list = nvme_pci_iod_list(req)[i];
-> +               dma_addr_t next_dma_addr = le64_to_cpu(prp_list[last_prp]);
+>         if (is_pci_p2pdma_page(sg_page(iod->sg)))
+>                 nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
+> @@ -872,16 +875,21 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+>                 nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
+>                                              rq_dma_dir(req), DMA_ATTR_NO_WARN);
+>         if (!nr_mapped)
+> -               goto out;
+> +               goto out_free_sg;
+>
+>         iod->use_sgl = nvme_pci_use_sgls(dev, req);
+>         if (iod->use_sgl)
+>                 ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw, nr_mapped);
+>         else
+>                 ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
+> -out:
+>         if (ret != BLK_STS_OK)
+> -               nvme_unmap_data(dev, req);
+> +               goto out_dma_unmap;
+> +       return BLK_STS_OK;
 > +
-> +               dma_pool_free(dev->prp_page_pool, prp_list, dma_addr);
-> +               dma_addr = next_dma_addr;
->         }
->
-> -       WARN_ON_ONCE(!iod->nents);
-> +}
->
-> -       if (is_pci_p2pdma_page(sg_page(iod->sg)))
-> -               pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
-> -                                   rq_dma_dir(req));
-> -       else
-> -               dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
-> +static void nvme_free_sgls(struct nvme_dev *dev, struct request *req)
-> +{
-> +       const int last_sg = SGES_PER_PAGE - 1;
-> +       struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> +       dma_addr_t dma_addr = iod->first_dma;
-> +       int i;
->
-> +       for (i = 0; i < iod->npages; i++) {
-> +               struct nvme_sgl_desc *sg_list = nvme_pci_iod_list(req)[i];
-> +               dma_addr_t next_dma_addr = le64_to_cpu((sg_list[last_sg]).addr);
->
-> -       if (iod->npages == 0)
-> -               dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
-> -                       dma_addr);
-> +               dma_pool_free(dev->prp_page_pool, sg_list, dma_addr);
-> +               dma_addr = next_dma_addr;
-> +       }
->
-> -       for (i = 0; i < iod->npages; i++) {
-> -               void *addr = nvme_pci_iod_list(req)[i];
-> +}
->
-> -               if (iod->use_sgl) {
-> -                       struct nvme_sgl_desc *sg_list = addr;
-> +static void nvme_unmap_sg(struct nvme_dev *dev, struct request *req)
-> +{
-> +       struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->
-> -                       next_dma_addr =
-> -                           le64_to_cpu((sg_list[SGES_PER_PAGE - 1]).addr);
-> -               } else {
-> -                       __le64 *prp_list = addr;
-> +       if (is_pci_p2pdma_page(sg_page(iod->sg)))
-> +               pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
-> +                                   rq_dma_dir(req));
-> +       else
-> +               dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
-> +}
->
-> -                       next_dma_addr = le64_to_cpu(prp_list[last_prp]);
-> -               }
-> +static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
-> +{
-> +       struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->
-> -               dma_pool_free(dev->prp_page_pool, addr, dma_addr);
-> -               dma_addr = next_dma_addr;
-> +       if (iod->dma_len) {
-> +               dma_unmap_page(dev->dev, iod->first_dma, iod->dma_len,
-> +                              rq_dma_dir(req));
-> +               return;
->         }
->
-> +       WARN_ON_ONCE(!iod->nents);
-> +
+> +out_dma_unmap:
+
+nit: Naming this label out_sg_unmap or out_unmap_sg might be a little
+more clear, since the line below doesn't have the word dma anywhere.
+
 > +       nvme_unmap_sg(dev, req);
-> +       if (iod->npages == 0)
-> +               dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
-> +                             iod->first_dma);
-> +       else if (iod->use_sgl)
-> +               nvme_free_sgls(dev, req);
-> +       else
-> +               nvme_free_prps(dev, req);
->         mempool_free(iod->sg, dev->iod_mempool);
+> +out_free_sg:
+> +       mempool_free(iod->sg, dev->iod_mempool);
+>         return ret;
 >  }
 
 Reviewed-by: Marc Orr <marcorr@google.com>
