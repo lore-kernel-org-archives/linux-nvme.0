@@ -2,79 +2,72 @@ Return-Path: <SRS0=kOig=GY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D69C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Jan 2021 09:06:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C55C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Jan 2021 09:10:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 45D7C22B51
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Jan 2021 09:06:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45D7C22B51
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id A0F3E23602
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Jan 2021 09:10:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0F3E23602
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=HBuha7LAfXuYy52pcHLhwiyLU4/Eg2m6apXdG2fIQ8o=; b=3cNRUWQJh0EbL02KL2mn6nRM0
-	2KE796cAwBFzn4DZFOO5wOEQXlhL4MZm/pxk6jKa0h63JIswLoU0eKHQwlmEIl4WfsbBTK81pHH9e
-	cCTxx3sH/a6AjonDJd3o5vD+/am4h2UfbZjMw3s+N9zXsHvJoKuCceUr8X/R0vnfMHNkLI0SzIalm
-	0DKAI/+KkTHPxwk26fNfeMMsqSI/DhX7g42EYb9gKbKCzDOD2szu1ugTnt6dNgeVt1PsPuxANw4e4
-	8a94Ojp4plVfROxg9ntPLxqzRlJKDxg21Z9PGo/2vkGK+jJiZ1W/rCiOlaCQ00VwUFnzptNQ75yGj
-	zmYmtNpuQ==;
+	 bh=P57KMZrAqQuNJBc1mY6ZUqSVhc+QTJj6wDVldKYaha8=; b=gWQfzMm2FUVpzsZF3YIWzwbh/
+	kZtVc6KMDkrVHYge/AGBfFBkjG9tgoogUvgOf9v1sL4IX8IlYMnWGIUPsd2O5jgweuA1gEjgC2HFx
+	yU0rrt7pmfIGjPeUB0ZLWjMQ77qFGX2zpbxN7bESeYEhyJus57oCB75eMLl5TWF+WKfUWr3Mttmk5
+	zt+p/XSiCCQ2FsLkW/c+GBj4JbYdbK/Vf86gHe9zzk4fK3B7mz7sPi9sbo9NADCiwS1Y244Tn9+x4
+	45fXCHVTEQ0ShWo43dvcGnb7UVsJ4T+gczuBvbC7XcOFtib1VaiKNO0XTd1Vt5pcUIOb5/Iym4wtq
+	ANJ+4VM2Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l2VvC-0002bg-Db; Thu, 21 Jan 2021 09:06:30 +0000
-Received: from mail-wm1-f48.google.com ([209.85.128.48])
+	id 1l2Vyf-0003Oj-EH; Thu, 21 Jan 2021 09:10:05 +0000
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l2VvA-0002aG-4g
- for linux-nvme@lists.infradead.org; Thu, 21 Jan 2021 09:06:28 +0000
-Received: by mail-wm1-f48.google.com with SMTP id 190so775899wmz.0
- for <linux-nvme@lists.infradead.org>; Thu, 21 Jan 2021 01:06:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5HmyGtKqj+8I9c2l4T8oRXQ+RIfM350busV8nW/+tzo=;
- b=BB3XyB01j4YM1nWq/YR/wP/gPWwDRM5h1VBZPP3Jq0C0hop7gDEgycYq32A4b1D7Qn
- uiv4amOLGxqqRYNJKfG9To0CI2mvA8lEP/YfhC1F8Ze0P7ejS8l7yIibRtInZcshNDOd
- +Ublhz/qgv/L0oZQPAySNM3t9F8MH79AoLSb910WAZMd/F8OalYW5RmIqEQSLn+KM0gd
- 8eWe29Nr3G2HwhDk+csaploYKf/AbjvhvwImUGkDokq7bpiumlKcp2feU6FbB5CoTL8F
- w8yucZ0R8+bz7RW052j5UJwO3AfvlH7o072wTE6aHKGXdDeQCAawnGZgD3cv7CiAF1/d
- V4+g==
-X-Gm-Message-State: AOAM531ubSnznU3gEZzBTSY/EwvsH9o4idY5hq28EYfHFKkejub0b5t9
- vwalZ1s0pv9t58nwHeGF5CZ80vZ7fZo=
-X-Google-Smtp-Source: ABdhPJw9heKUjEIa/CCuvLoU6GFc/LwFPnmT9pbkklrEx/2Xnr6IBm7lL0i3M5PBJ1CC+j4fah9mPQ==
-X-Received: by 2002:a1c:4907:: with SMTP id w7mr7997521wma.118.1611219986440; 
- Thu, 21 Jan 2021 01:06:26 -0800 (PST)
-Received: from ?IPv6:2601:647:4802:9070:fd72:cb73:9874:5790?
- ([2601:647:4802:9070:fd72:cb73:9874:5790])
- by smtp.gmail.com with ESMTPSA id r25sm6529123wrr.64.2021.01.21.01.06.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 01:06:25 -0800 (PST)
-Subject: Re: kernel oops after nvme_set_queue_count()
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <d5f00c36-2981-0a0c-7a6d-b4ab2c8d139e@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <7b532e99-8d94-28c1-6e82-bb1d9eb4b439@grimberg.me>
-Date: Thu, 21 Jan 2021 01:06:22 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1l2VyZ-0003MR-M1
+ for linux-nvme@lists.infradead.org; Thu, 21 Jan 2021 09:10:03 +0000
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B600944e60000>; Thu, 21 Jan 2021 01:09:58 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 Jan
+ 2021 09:09:58 +0000
+Received: from r-nvmx02.mtr.labs.mlnx (172.20.145.6) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Thu, 21 Jan 2021 09:09:56 +0000
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <kbusch@kernel.org>, 
+ <hch@lst.de>, <chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 2/2] nvme: resync header file with common nvme-cli tool
+Date: Thu, 21 Jan 2021 09:09:48 +0000
+Message-ID: <20210121090948.8027-4-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20210121090948.8027-1-mgurtovoy@nvidia.com>
+References: <20210121090948.8027-1-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <d5f00c36-2981-0a0c-7a6d-b4ab2c8d139e@suse.de>
-Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1611220199; bh=Qsa8bX95Pq1jZo8u/RHWiFE+UMJLomJVYfbuaAo0P2Y=;
+ h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+ References:MIME-Version:Content-Transfer-Encoding:Content-Type;
+ b=DeS+QnbJT+Tfp58AQDfxxuPsBFAcbZcb7Fetu4UtOmciPyhNLo8RfqAIU3AnfCbs0
+ fcyFDi/gUiB1EpASxYa3KoX+pF3ijQ0yvXOTmImlwbDGulv3sMSoRGfew6P0FpwCdp
+ I2KbOghuaNQTCpxp/yEGggiF7lyXucYgn/gkQz/cRt27I/ngDy4vkaTxbLu3gwcxDi
+ wnmo2yDH/3JDr2+6UyHkPAUUWgL4sNK1E8sCRW9uhotzVkEkj+6zwF57Z8YaJZ4+Nf
+ hd2R1wns27PzintjGt57mDD13jBvLi5DMscgh5sI2ehfPX68BgCwHOS40RQMpD1nvD
+ B1b0FNinmG4vQ==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210121_040628_194857_94321646 
-X-CRM114-Status: GOOD (  25.19  )
+X-CRM114-CacheID: sfid-20210121_040959_852969_760D4BE0 
+X-CRM114-Status: GOOD (  11.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,51 +79,199 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cj4gSGkgYWxsLAo+IAo+IGEgY3VzdG9tZXIgb2Ygb3VycyByYW4gaW50byB0aGlzIG9vcHM6Cj4g
-Cj4gWzQ0MTU3LjkxODk2Ml0gbnZtZSBudm1lNTogSS9PIDIyIFFJRCAwIHRpbWVvdXQKPiBbNDQx
-NjMuMzQ3NDY3XSBudm1lIG52bWU1OiBDb3VsZCBub3Qgc2V0IHF1ZXVlIGNvdW50ICg4ODApCj4g
-WzQ0MTYzLjM0NzU1MV0gbnZtZSBudm1lNTogU3VjY2Vzc2Z1bGx5IHJlY29ubmVjdGVkICg2IGF0
-dGVtcHRzKQo+IFs0NDE2OC40MTQ5NzddIEJVRzogdW5hYmxlIHRvIGhhbmRsZSBrZXJuZWwgcGFn
-aW5nIHJlcXVlc3QgYXQgCj4gZmZmZjg4OGUyNjFlNzgwOAo+IFs0NDE2OC40MTQ5ODhdIElQOiAw
-eGZmZmY4ODhlMjYxZTc4MDgKPiBbNDQxNjguNDE0OTk0XSBQR0QgOThjMmFlMDY3IFA0RCA5OGMy
-YWUwNjcgUFVEIGY1NzkzNzA2MyBQTUQgCj4gODAwMDAwMGY2NjAwMDFlMwo+IAo+IEl0J3MgcmVs
-YXRlZCB0byB0aGlzIGNvZGUgc25pcHBldCBpbiBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKPiAK
-PiAgwqDCoMKgwqAvKgo+ICDCoMKgwqDCoCAqIERlZ3JhZGVkIGNvbnRyb2xsZXJzIG1pZ2h0IHJl
-dHVybiBhbiBlcnJvciB3aGVuIHNldHRpbmcgdGhlIHF1ZXVlCj4gIMKgwqDCoMKgICogY291bnQu
-wqAgV2Ugc3RpbGwgd2FudCB0byBiZSBhYmxlIHRvIGJyaW5nIHRoZW0gb25saW5lIGFuZCBvZmZl
-cgo+ICDCoMKgwqDCoCAqIGFjY2VzcyB0byB0aGUgYWRtaW4gcXVldWUsIGFzIHRoYXQgbWlnaHQg
-YmUgb25seSB3YXkgdG8gZml4IHRoZW0gCj4gdXAuCj4gIMKgwqDCoMKgICovCj4gIMKgwqDCoMKg
-aWYgKHN0YXR1cyA+IDApIHsKPiAgwqDCoMKgwqDCoMKgwqAgZGV2X2VycihjdHJsLT5kZXZpY2Us
-ICJDb3VsZCBub3Qgc2V0IHF1ZXVlIGNvdW50ICglZClcbiIsIHN0YXR1cyk7Cj4gIMKgwqDCoMKg
-wqDCoMKgICpjb3VudCA9IDA7Cj4gCj4gCj4gY2F1c2luZyBudm1lX3NldF9xdWV1ZV9jb3VudCgp
-IF9ub3RfIHRvIHJldHVybiBhbiBlcnJvciwgYnV0IHJhdGhlciBsZXQgCj4gdGhlIHJlY29ubmVj
-dCBjb21wbGV0ZS4KPiBPZiBjb3Vyc2UsIGFzIHRoaXMgZmFpbHVyZSBpcyBkdWUgdG8gYSB0aW1l
-b3V0IChjZiB0aGUgc3RhdHVzIGNvZGU7IDg4MAo+IGlzIE5WTUVfU0NfSE9TVF9QQVRIX0VSUk9S
-KSwgdGhlIGFkbWluIHF1ZXVlIGhhcyBiZWVuIHRvcm4gZG93biBieSB0aGUgCj4gdHJhbnNwb3J0
-LCBjYXVzaW5nIHRoaXMgY3Jhc2guCj4gCj4gU28sIHF1ZXN0aW9uOiBfd2h5XyBkbyB3ZSBpZ25v
-cmUgdGhlIHN0YXR1cz8KClRoaXMgdXNlZCB0byBleGlzdCBpbiBwY2kgd2hlcmUgYSBjb250cm9s
-bGVyIHJlc2V0IHdpbGwgZmFpbCB0byBzZXQgdXAKSS9PIHF1ZXVlcywgYXQgbGVhc3QgdGhlIGNv
-bnRyb2xsZXIgY2FuIGFjY2VwdCBhZG1pbiBjb21tYW5kcyB0byBnZXQKc29tZSBkaWFnbm9zdGlj
-cyAocGVyaGFwcyBhbiBlcnJvciBsb2cgcGFnZSkuCgo+IEZvciBmYWJyaWNzIEkgY29tcGxldGVs
-eSBmYWlsIHRvIHNlZSB0aGUgcmVhc29uIGhlcmU7IGV2ZW4gX2lmXyBpdCAKPiB3b3JrZWQgd2Ug
-d291bGQgZW5kIHVwIHdpdGggYSBjb25uZWN0aW9uIGZvciB3aGljaCBqdXN0IHRoZSBhZG1pbiBx
-dWV1ZSAKPiBpcyBvcGVyYWJsZSwgdGhlIHN0YXRlIGlzIExJVkUsIGFuZCBhbGwgaW5mb3JtYXRp
-b24gd2UgY291bGQgZ2xhbmNlIAo+IHdvdWxkIGluZGljYXRlIHRoYXQgdGhlIGNvbm5lY3Rpb24g
-aXMgcGVyZmVjdGx5IGhlYWx0aHkuCgpXZSBhbHNvIGhhZCBhIEFETUlOX09OTFkgc3RhdGUgYXQg
-c29tZSBwb2ludCwgYnV0IHRoYXQgd2FzIGRyb3BwZWQgYXMKd2VsbCBmb3IgcmVhc29ucyBJIGRv
-bid0IHJlbWVtYmVyIGF0IHRoZSBtb21lbnQuCgo+IEl0IGp1c3QgZG9lc24ndCBoYXZlIGFueSBJ
-L08gcXVldWVzLgo+IFdoaWNoIHdpbGwgbGVhZCB0byBzb21lIHZlcnkgY29uZnVzZWQgY3VzdG9t
-ZXJzIGFuZCBzb21lIHZlcnkgdW5oYXBweSAKPiBzdXBwb3J0IGZvbGtzIHRyeWluZyB0byBmaWd1
-cmUgb3V0IHdoYXQgaGFzIGhhcHBlbmVkLgo+IAo+IENhbiB3ZSBqdXN0IGtpbGwgdGhpcyBzdGF0
-ZW1lbnQgYW5kIGFsd2F5cyByZXR1cm4gYW4gZXJyb3I/Cj4gSW4gYWxsIG90aGVyIGNhc2VzIHdl
-IGFyZSBxdWl0ZSB0cmlnZ2VyLWhhcHB5IHdpdGggY29udHJvbGxlciByZXNldDsgd2h5IAo+IG5v
-dCBoZXJlPwoKSSB0aGluayB3ZSB3aWxsIHdhbnQgdG8ga2VlcCB0aGUgZXhpc3RpbmcgYmVoYXZp
-b3IgZm9yIHBjaSwgYnV0IGFncmVlIHdlCnByb2JhYmx5IHdhbnQgdG8gY2hhbmdlIGl0IGZvciBm
-YWJyaWNzLi4uCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcK
-aHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+Import constant definitions that were added to nvme-cli and were not
+added to Linux. This is the first step to align nvme.h files from Linux
+kernel include/linux/nvme.h and nvme-cli linux/nvme.h.
+
+Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+---
+ include/linux/nvme.h | 66 ++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 52 insertions(+), 14 deletions(-)
+
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 1c9c34be8194..5d10c4cf3d33 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -113,18 +113,16 @@ enum {
+ 	NVME_REG_CMBSZ	= 0x003c,	/* Controller Memory Buffer Size */
+ 	NVME_REG_BPINFO	= 0x0040,	/* Boot Partition Information */
+ 	NVME_REG_BPRSEL	= 0x0044,	/* Boot Partition Read Select */
+-	NVME_REG_BPMBL	= 0x0048,	/* Boot Partition Memory Buffer
+-					 * Location
+-					 */
++	NVME_REG_BPMBL	= 0x0048,	/* Boot Partition Memory Buffer Location */
++	NVME_REG_CMBMSC	= 0x0050,	/* Controller Memory Buffer Memory Space Control */
++	NVME_REG_CMBSTS	= 0x0058,	/* Controller Memory Buffer Status */
++
+ 	NVME_REG_PMRCAP	= 0x0e00,	/* Persistent Memory Capabilities */
+ 	NVME_REG_PMRCTL	= 0x0e04,	/* Persistent Memory Region Control */
+ 	NVME_REG_PMRSTS	= 0x0e08,	/* Persistent Memory Region Status */
+-	NVME_REG_PMREBS	= 0x0e0c,	/* Persistent Memory Region Elasticity
+-					 * Buffer Size
+-					 */
+-	NVME_REG_PMRSWTP = 0x0e10,	/* Persistent Memory Region Sustained
+-					 * Write Throughput
+-					 */
++	NVME_REG_PMREBS	= 0x0e0c,	/* Persistent Memory Region Elasticity Buffer Size */
++	NVME_REG_PMRSWTP = 0x0e10,	/* Persistent Memory Region Sustained Write Throughput */
++	NVME_REG_PMRMSC = 0x0e14,	/* Persistent Memory Region Controller Memory Space Control */
+ 	NVME_REG_DBS	= 0x1000,	/* SQ 0 Tail Doorbell */
+ };
+ 
+@@ -138,6 +136,14 @@ enum {
+ 
+ #define NVME_CMB_BIR(cmbloc)	((cmbloc) & 0x7)
+ #define NVME_CMB_OFST(cmbloc)	(((cmbloc) >> 12) & 0xfffff)
++#define NVME_CMB_SZ(cmbsz)	(((cmbsz) >> 12) & 0xfffff)
++#define NVME_CMB_SZU(cmbsz)	(((cmbsz) >> 8) & 0xf)
++
++#define NVME_CMB_WDS(cmbsz)	((cmbsz) & 0x10)
++#define NVME_CMB_RDS(cmbsz)	((cmbsz) & 0x8)
++#define NVME_CMB_LISTS(cmbsz)	((cmbsz) & 0x4)
++#define NVME_CMB_CQS(cmbsz)	((cmbsz) & 0x2)
++#define NVME_CMB_SQS(cmbsz)	((cmbsz) & 0x1)
+ 
+ enum {
+ 	NVME_CMBSZ_SQS		= 1 << 0,
+@@ -238,7 +244,10 @@ struct nvme_id_ctrl {
+ 	__le32			rtd3e;
+ 	__le32			oaes;
+ 	__le32			ctratt;
+-	__u8			rsvd100[28];
++	__le16			rrls;
++	__u8			rsvd102[9];
++	__u8			cntrltype;
++	char			fguid[16];
+ 	__le16			crdt1;
+ 	__le16			crdt2;
+ 	__le16			crdt3;
+@@ -270,12 +279,14 @@ struct nvme_id_ctrl {
+ 	__le32			sanicap;
+ 	__le32			hmminds;
+ 	__le16			hmmaxd;
+-	__u8			rsvd338[4];
++	__le16			nsetidmax;
++	__le16			endgidmax;
+ 	__u8			anatt;
+ 	__u8			anacap;
+ 	__le32			anagrpmax;
+ 	__le32			nanagrpid;
+-	__u8			rsvd352[160];
++	__le32			pels;
++	__u8			rsvd356[156];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__le16			maxcmd;
+@@ -289,7 +300,7 @@ struct nvme_id_ctrl {
+ 	__u8			nvscc;
+ 	__u8			nwpc;
+ 	__le16			acwu;
+-	__u8			rsvd534[2];
++	__le16			ocfs;
+ 	__le32			sgls;
+ 	__le32			mnan;
+ 	__u8			rsvd544[224];
+@@ -362,7 +373,10 @@ struct nvme_id_ns {
+ 	__le16			npdg;
+ 	__le16			npda;
+ 	__le16			nows;
+-	__u8			rsvd74[18];
++	__le16			mssrl;
++	__le32			mcl;
++	__u8			msrc;
++	__u8			rsvd81[11];
+ 	__le32			anagrpid;
+ 	__u8			rsvd96[3];
+ 	__u8			nsattr;
+@@ -404,8 +418,10 @@ enum {
+ 	NVME_ID_CNS_CTRL		= 0x01,
+ 	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
+ 	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
++	NVME_ID_CNS_NVMSET_LIST		= 0x04,
+ 	NVME_ID_CNS_CS_NS		= 0x05,
+ 	NVME_ID_CNS_CS_CTRL		= 0x06,
++	NVME_ID_CNS_CS_NS_ACTIVE_LIST	= 0x07,
+ 	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
+ 	NVME_ID_CNS_NS_PRESENT		= 0x11,
+ 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+@@ -413,6 +429,10 @@ enum {
+ 	NVME_ID_CNS_SCNDRY_CTRL_LIST	= 0x15,
+ 	NVME_ID_CNS_NS_GRANULARITY	= 0x16,
+ 	NVME_ID_CNS_UUID_LIST		= 0x17,
++	NVME_ID_CNS_CSI_NS_PRESENT_LIST	= 0x1a,
++	NVME_ID_CNS_CSI_NS_PRESENT	= 0x1b,
++	NVME_ID_CNS_CSI			= 0x1c,
++
+ };
+ 
+ enum {
+@@ -673,6 +693,7 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_report	= 0x0e,
+ 	nvme_cmd_resv_acquire	= 0x11,
+ 	nvme_cmd_resv_release	= 0x15,
++	nvme_cmd_copy		= 0x19,
+ 	nvme_cmd_zone_mgmt_send	= 0x79,
+ 	nvme_cmd_zone_mgmt_recv	= 0x7a,
+ 	nvme_cmd_zone_append	= 0x7d,
+@@ -1042,6 +1063,7 @@ enum {
+ 	NVME_FEAT_PLM_WINDOW	= 0x14,
+ 	NVME_FEAT_HOST_BEHAVIOR	= 0x16,
+ 	NVME_FEAT_SANITIZE	= 0x17,
++	NVME_FEAT_IOCS_PROFILE	= 0x19,
+ 	NVME_FEAT_SW_PROGRESS	= 0x80,
+ 	NVME_FEAT_HOST_ID	= 0x81,
+ 	NVME_FEAT_RESV_MASK	= 0x82,
+@@ -1058,9 +1080,14 @@ enum {
+ 	NVME_LOG_TELEMETRY_HOST = 0x07,
+ 	NVME_LOG_TELEMETRY_CTRL = 0x08,
+ 	NVME_LOG_ENDURANCE_GROUP = 0x09,
++	NVME_LOG_PRELAT_PER_NVMSET	= 0x0a,
++	NVME_LOG_PRELAT_EVENT_AGG	= 0x0b,
+ 	NVME_LOG_ANA		= 0x0c,
++	NVME_LOG_PERSISTENT_EVENT   = 0x0d,
+ 	NVME_LOG_DISC		= 0x70,
+ 	NVME_LOG_RESERVATION	= 0x80,
++	NVME_LOG_SANITIZE	= 0x81,
++	NVME_LOG_ZONE_CHANGED_LIST = 0xbf,
+ 	NVME_FWACT_REPL		= (0 << 3),
+ 	NVME_FWACT_REPL_ACTV	= (1 << 3),
+ 	NVME_FWACT_ACTV		= (2 << 3),
+@@ -1300,6 +1327,9 @@ struct nvmf_disc_rsp_page_entry {
+ 			__u16	pkey;
+ 			__u8	resv10[246];
+ 		} rdma;
++		struct tcp {
++			__u8	sectype;
++		} tcp;
+ 	} tsas;
+ };
+ 
+@@ -1532,6 +1562,14 @@ enum {
+ 	NVME_SC_ANA_GROUP_ID_INVALID	= 0x124,
+ 	NVME_SC_ANA_ATTACH_FAILED	= 0x125,
+ 
++	/*
++	 * Command Set Specific - Namespace Types commands:
++	 */
++	NVME_SC_IOCS_NOT_SUPPORTED	= 0x129,
++	NVME_SC_IOCS_NOT_ENABLED	= 0x12a,
++	NVME_SC_IOCS_COMBINATION_REJ	= 0x12b,
++	NVME_SC_INVALID_IOCS		= 0x12c,
++
+ 	/*
+ 	 * I/O Command Set Specific - NVM commands:
+ 	 */
+-- 
+2.25.4
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
