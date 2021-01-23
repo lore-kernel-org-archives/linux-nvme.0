@@ -2,84 +2,171 @@ Return-Path: <SRS0=wnYM=G2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 954AFC433E0
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 Jan 2021 00:55:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 966ACC433E0
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 Jan 2021 02:43:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0281F239D4
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 Jan 2021 00:55:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0281F239D4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=comcast.net
+	by mail.kernel.org (Postfix) with ESMTPS id 411F723B55
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 Jan 2021 02:43:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 411F723B55
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:Reply-To:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=p8PbvIB8YKi0ouVGMPxBjqT/p/3bEEVYsbgv7BlPVcA=; b=ROKZFfSGrlyGpk
-	6xdxns1j7UU32hzaBe98/RIEACvzvhsRlHSp9FFhNiiH3CjWfFADr8WstX5MRgsswYAkW2e/o2NPw
-	6gH5ajV8rg1RsfyWOpgH2B/tyDzQWEXC5wIilzeXxhTvUae5GNt530qSgg70Bbp8a1xXdhX/zwGGJ
-	DUUs+bm2zNd6NYcnIoD8EDuRahFshtFVz+snOhOUOHKlM4zIhXweIovXNFMEhMsHZ0ows68VO8ZdX
-	A+Kk1iwviepHTTG7+cpnlSycUVx62Ifs7QjphozAActYT2ORalup8WouMga741M1c2dd5tiLIlOIe
-	jWfLsmh9SCsWcVk906KQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:References:Message-ID:
+	From:Subject:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=t+uke1foWz3/Vo3IWG47C0562Vr7/YhVVzDeyx5FGw8=; b=p4kXr0XKY/ba05+k35mn/UjKZ
+	6b4JVFCUcC6Wxdp8+YrIvek3gtnCWtwuhvcXWimmcXfCTAN3rfxSH6W2+4WX6mM52qj9ckkJqAnx9
+	PRHDZY9r2RigpyNHziwenyube6B+bdQHe7nHSxRApwtwOQNUljglhDttGpFp/yXajSBfWuqRIAsb6
+	FNg7mRWSCYkjxf9yx614Okj4gQkxpnZGiOLC4FXcU0OC0FBvo/NESdsS8BOVmunZlzu97b4wtqE9P
+	wmNp78vcSipgT9LnzMe/v+aL462KNqV2rH+/OdUGMB3maxldSRFgMBS/s1Ztu4HjXQWbCq0J8R0hZ
+	w3+mxUvnA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l37CU-0001jk-8b; Sat, 23 Jan 2021 00:54:50 +0000
-Received: from resqmta-ch2-06v.sys.comcast.net
- ([2001:558:fe21:29:69:252:207:38])
+	id 1l38tO-0007RA-Ev; Sat, 23 Jan 2021 02:43:14 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l37CM-0001jK-Md
- for linux-nvme@lists.infradead.org; Sat, 23 Jan 2021 00:54:43 +0000
-Received: from resomta-ch2-12v.sys.comcast.net ([69.252.207.108])
- by resqmta-ch2-06v.sys.comcast.net with ESMTP
- id 36mzlcZVtsjoS37CAlzaKF; Sat, 23 Jan 2021 00:54:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=comcast.net;
- s=20190202a; t=1611363270;
- bh=JkxuGv/sjDm+WPZwSYtsbloOLem1xmigvCQ1i7v0vz0=;
- h=Received:Received:Reply-To:Subject:To:From:Message-ID:Date:
- MIME-Version:Content-Type;
- b=X25KC/B0HwEg31jkgqcfBImLbhaPegQPIPdWbU0tD6OS41vrxmBF/cFucdUsV6Zzv
- beO+0UxPZFgkcqR+DDrjyP8cAh1Nm1fxKKowmjiefmp8eYXU0Dl8hAQtlx4B8xR81J
- ngNBHPcniR7uFZmgxCAbw0/dqNzA1bWf5LLfm8r7hd19NjuJ9ejBQmyRxnEKVw33vd
- vNyAyW4uisrwKgMecDEGZFqPKpwd6x32EIBnBUkAGNbKgNGI0alEKlS2UywZWk6dPO
- NnVwVNp4w2ThoL2IBNQI6ZOpNwfJXqQXAO3lZtdtnq7umIfHa2CfYyf0tcsaPksqOC
- yCOlW5c08TIfg==
-Received: from [IPv6:2601:147:c380:23e0:15bc:3da9:16c9:a52a]
- ([IPv6:2601:147:c380:23e0:15bc:3da9:16c9:a52a])
- by resomta-ch2-12v.sys.comcast.net with ESMTPSA
- id 37C6llaKho85j37C7lzNRQ; Sat, 23 Jan 2021 00:54:28 +0000
-X-Xfinity-VMeta: sc=-100.00;st=legit
-Subject: Re: Problem with SPCC 256GB NVMe 1.3 drive - refcount_t: underflow;
- use-after-free.
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-References: <f50bc59c-db11-bb44-55be-7b9db1119872@comcast.net>
- <BYAPR04MB49659C0F0F0E11D166B31E0586A40@BYAPR04MB4965.namprd04.prod.outlook.com>
- <a4c75497-d170-1e0f-8608-282231ff3a8e@comcast.net>
- <BYAPR04MB496542BEF594F0380F7D41CF86A20@BYAPR04MB4965.namprd04.prod.outlook.com>
- <df46d7ce-ce70-1f43-0efd-7153761bcff0@comcast.net>
- <20210121124459.GA156577@localhost.localdomain>
- <c48abecf-8e4f-b76a-c751-1a0d239c99b3@comcast.net>
- <BYAPR04MB4965404638B4C43DBA577D1686A00@BYAPR04MB4965.namprd04.prod.outlook.com>
- <BYAPR04MB4965342B52D5C3C6D8A7892D86A00@BYAPR04MB4965.namprd04.prod.outlook.com>
-From: Bradley Chapman <chapman6235@comcast.net>
-Message-ID: <23f49172-5d0e-618a-199d-d568f695dc30@comcast.net>
-Date: Fri, 22 Jan 2021 19:54:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.6.0
+ id 1l38tL-0007Qf-Rm
+ for linux-nvme@lists.infradead.org; Sat, 23 Jan 2021 02:43:12 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10N2eaPB177972;
+ Sat, 23 Jan 2021 02:43:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=kmBJ+jdpt2WVkfHM2gCCt5gITW2rlR59T3KA8pXemuE=;
+ b=Q9goJ+E45cY2ejOIkQIuQvB5gIq32iPm43sBYRX/cf7ZMKcyNVP2CQdnEJcLuA6wjbhA
+ e1ITLJiUmNds5pjvF/wnaQM2UEwti8HN2T51AIRY2ZtTCf8Uonq7OQa+5h2TRw2SRLuq
+ 2fI7D14Pl9Vk6pg/v39ydmIyfSQhPRFuYefgUPkVhOLWqCt/jGWHVfLS/egIiUbWyx3g
+ 4lLIKE/cextx/XmRoy4bDRyzn3xiKRA6gNKFJ4VtLfDD9ByoEVlRwvaKsJ+rAGA+bGMZ
+ c+lOmI/LpqQpkQFqgyVHRVcjwVw/9qEXrSb8UdbgOhkzSbnhWKHKbmPIKiby27HHoUas QA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 368b7qg037-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 23 Jan 2021 02:43:09 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10N2a8e8144711;
+ Sat, 23 Jan 2021 02:43:08 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
+ by aserp3020.oracle.com with ESMTP id 3668rjdv9r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 23 Jan 2021 02:43:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kLsIsKKSlotUWXKvzTE09Ote3e1kSj+2CmR0eoN3jEOx3e9xLZRLQQLFZq7HC0+ZCE6uDjGPuwRd8H1756kcvbEuj8kgyafiqZCL8ew491SVWXhu6bC36NunmD7iJWOjfS6jz6B1G439/HltmYM8viZY4oFVaZi2d7myl6dSnN/ejdvh2ZqqX5F5D2osNU0qJu3aAnAm388Dcpxcy2Wb/N4s+p6d1o0a86NgE+8DPCrqRNFLmkJFLOMN2CBP1ckTO5bGkIDvGMEjdKllKTRTYsyzpGD8+iJ3BEy9vapWJ/Frlo9DOoWRbdsmDyRCDSAPN0shU6gWnqQdboEz1l6eaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kmBJ+jdpt2WVkfHM2gCCt5gITW2rlR59T3KA8pXemuE=;
+ b=CGug7WpEP8oCwXUS63m/egy1DJMPMcYSI7VW1gLIrSCubNWYUpAIFdM9VD7Wbs/GVoVf7f80GFZkdO3S5569CzJlofiz7p395dp4yxDsweHhgbHu5g+qCQQedTeVDOA1byivopqOpAAhfWBFU2MAk57gXXfb2B6A+rjN+Ma+wOLwiCZ5Xt2RAbPGFFmX08PLkNG9zl5Ha4AlVvGJUlMfffFw0yMbZ5tgMVZye9k9brYyY+x9m8vpctCOicLWjt1fw/zV/8m6qOSWre7VlIU+y7TN7YwM+j2ifk0X4zAT3ye53rErouTDmIZsZ/RmZa8hsr3Rk4PeaM9NtMuA/b2Xsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kmBJ+jdpt2WVkfHM2gCCt5gITW2rlR59T3KA8pXemuE=;
+ b=neZd+SqdaLLh6Zkb6HKaMrm8ygVZvcSFgl+1VaHSVW49HwvnpAxVhq5SAkL+mUyQEtEIextbFxw1St9CNTPD6P94IchQt1eBX6HvGc7rKIXflIQvBqfy4Q3VTxAX08kAUmGjX0g2qRgc5wdRd5luTx7lIIWIuW5MPf0qUgxtvpM=
+Authentication-Results: wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=none action=none header.from=oracle.com;
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by PH0PR10MB4536.namprd10.prod.outlook.com (2603:10b6:510:40::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Sat, 23 Jan
+ 2021 02:43:06 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::54f3:a8aa:a2cd:a3a4]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::54f3:a8aa:a2cd:a3a4%5]) with mapi id 15.20.3784.016; Sat, 23 Jan 2021
+ 02:43:06 +0000
+To: Damien Le Moal <damien.lemoal@wdc.com>
+Subject: Re: [PATCH v3 1/3] block: introduce zone_write_granularity limit
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle
+Message-ID: <yq1sg6sbche.fsf@ca-mkp.ca.oracle.com>
+References: <20210122080014.174391-1-damien.lemoal@wdc.com>
+ <20210122080014.174391-2-damien.lemoal@wdc.com>
+Date: Fri, 22 Jan 2021 21:43:02 -0500
+In-Reply-To: <20210122080014.174391-2-damien.lemoal@wdc.com> (Damien Le Moal's
+ message of "Fri, 22 Jan 2021 17:00:12 +0900")
+X-Originating-IP: [138.3.200.58]
+X-ClientProxiedBy: DM5PR06CA0057.namprd06.prod.outlook.com
+ (2603:10b6:3:37::19) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-In-Reply-To: <BYAPR04MB4965342B52D5C3C6D8A7892D86A00@BYAPR04MB4965.namprd04.prod.outlook.com>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ca-mkp.ca.oracle.com (138.3.200.58) by
+ DM5PR06CA0057.namprd06.prod.outlook.com (2603:10b6:3:37::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.12 via Frontend Transport; Sat, 23 Jan 2021 02:43:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7f7d30cf-cd99-4765-9388-08d8bf489cbb
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4536:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <PH0PR10MB453653AF6AE512C1386CDF898EBF9@PH0PR10MB4536.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pm6QGZ4tH564vw2lZNS3ZwPx3zvXyx6Wk46FV6v55jW1oCHAbE/i8TVG+yxnmRUMT19WTkzmyWPXDCnGT9JA7xtS30ALHe5+9uM5JguqCd07RgJnB5Lt+Z1d5bSW/HhE4tp8WNtVqwRdapOSLDctbY9pGvcuBjxG4Yw0fVfsCMUFldrcu0gcKYXCuTyoJVctQvpbs3Ip4zlOcBsshgwr0LFmmVAOy9lFVsy9lzIpTb2Pr3sjqZhn3dGw3G8kDAS0ofc4vuxQvbvPxGLnbkTpIgJ2ygZtcZ7klkRmBJE13dG5HAPPYDG2nMdnjsw/+waPX50VmZn2rPPXwZYoRDGe/eYCRP4kFaAbc3/D1rQFvsffLYA2new6H9H2VSlCQxbIo3fWssIypKnN/ERnd8ejew==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB4759.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(396003)(376002)(39860400002)(136003)(346002)(6666004)(54906003)(478600001)(66946007)(66476007)(66556008)(86362001)(8936002)(55016002)(316002)(83380400001)(8676002)(5660300002)(956004)(7696005)(36916002)(52116002)(2906002)(16526019)(186003)(26005)(6916009)(4326008)(4744005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?eRqdyddfGjGu/G+LNnSEQcICcqSB4oUTpknq02BKS5AtPX7KWulSh6bfmLxu?=
+ =?us-ascii?Q?HVsaWH8EvTVfOfah35qrUM4ySyFczZ4XB3bMeVhklDDQOSQjxhbasI7CVIU/?=
+ =?us-ascii?Q?n6VvyXO257Ja+lvYyyF/gefdwfFbaa/ceXY+Z6ICJBOEEPFc+JGTVOnnQFO4?=
+ =?us-ascii?Q?Ptbp7nmJW+wEP1blKJ46t2TDc02YfCYvQn6z07KCFBrHQcJkthozLKSzso4o?=
+ =?us-ascii?Q?qH+7+UbAmVDWXExLSRJ+w1DojOtCRGZRneGH0UOPZapX9zuVP6vMiruUgs9R?=
+ =?us-ascii?Q?G5XJJgICU2c6MupIpi244qdyjj2ZNP4HdrQFV8LHM2A4T19reis8aLqZQNUp?=
+ =?us-ascii?Q?3QQSEQUrV8MDMlLEDQLOpCs/uT97OQef8Je96bdsuBuGKmTNyHgPwRvYjH3C?=
+ =?us-ascii?Q?sIW2vIUNl6DQnFL0bc7+paFnXZmbRwFTmLgJESqQj0RXI9DUH0cmm7ov7XoH?=
+ =?us-ascii?Q?iz3V71IpywyCJg5LxNMkiHGHRRg7J3BFHU2rXXTfL3H+dNkzovXVqIpSjgg5?=
+ =?us-ascii?Q?B/zfaFmmvmf9ZL9IDzRymDBifJx80dAjtsu7Xbxr420zC9VLDbsY+Goh9pyQ?=
+ =?us-ascii?Q?fmw4VA+Q/u4rsb99/DVe+uEfJTowTZmgqtbgfRX3Wc6aSdaPs/M6KANohR4B?=
+ =?us-ascii?Q?5B6bDLi95PepsZDpBcafZLBQK9T3I+kZV84FxjCiEujSQdmOcb3q3LsFdw6a?=
+ =?us-ascii?Q?NjU/ekQ6HvxQmWBb3GnfcV1whnnJ2gmu5h9FJcFj1ruEpyJMriINbVQFNIOu?=
+ =?us-ascii?Q?xYJsto0anSTX4hAqibkXd3lDrt0jXzSv+u0b+edDaDTqbQ/+KGkzm2GwUNT5?=
+ =?us-ascii?Q?YR/bW4D4NqOmF1SLhzuzdv0TXrKS4nF4vW86ZRVkdVHWNIlh8luyFxy6lE+D?=
+ =?us-ascii?Q?pK4IDoXCelh/JYK22Uf6wl6FWosFYN8b3DAE8oPr9+jntILdBzlfIjQ8VX0C?=
+ =?us-ascii?Q?umNARe7vDtw2MAbCSH2ZZKJa/2lS1j3d4UgdmZmDGOxdyengawpX/j/HPeox?=
+ =?us-ascii?Q?8+bhRtjsk3bzQBZY9L5vxjDV8G3u+2YL8y9kpbjotI/G8AQb9r27N99rdHj8?=
+ =?us-ascii?Q?gfZM0lxw?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f7d30cf-cd99-4765-9388-08d8bf489cbb
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2021 02:43:06.2856 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NcVrDf6B8QWUKN0jxRbQgSugRjdldSDmEmEN1qngPAXkcW0Wgi8dJYNz/4y9D0ux9O8FVmIcZuwGevezABjgntO0U9f/EE6K5NkLa7cK3Y4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4536
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9872
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101230014
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9872
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 phishscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 clxscore=1011 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101230014
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210122_195442_946215_23586753 
-X-CRM114-Status: GOOD (  28.61  )
+X-CRM114-CacheID: sfid-20210122_214312_038404_B67E6025 
+X-CRM114-Status: GOOD (  18.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,109 +178,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: chapman6235@comcast.net
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <keith.busch@wdc.com>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-scsi@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello sir!
 
-I didn't check my e-mail until this evening, so I saw all four of your 
-e-mails at once. I ran the commands you specified based on the following 
-information from dmesg and lspci:
+Damien,
 
-dmesg:
-[    1.633908] nvme nvme1: pci function 0000:04:00.0
+> To solve this, introduce the zone_write_granularity queue limit to
+> indicate the alignment constraint, in bytes, of write operations into
+> zones of a zoned block device. This new limit is exported as a
+> read-only sysfs queue attribute and the helper
+> blk_queue_zone_write_granularity() introduced for drivers to set this
+> limit. The scsi disk driver is modified to use this helper to set
+> host-managed SMR disk zone write granularity to the disk physical
+> block size. The ZNS support code of the NVMe driver is also modified
+> to use this helper to set the new limit to the logical block size of
+> the namespace. The nullblk driver is similarly modified too.
 
-lspci:
-04:00.0 Non-Volatile memory controller: Device 1d97:2263 (rev 03)
+Looks fine.
 
-$ cat /sys/bus/pci/devices/0000\:04\:00.0/device
-0x2263
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 
-$ cat /sys/bus/pci/devices/0000\:04\:00.0/vendor
-0x1d97
-
-On 1/21/21 10:16 PM, Chaitanya Kulkarni wrote:
-> On 1/21/21 6:57 PM, Chaitanya Kulkarni wrote:
->> Bradley,
->>
->> On 1/21/21 6:54 PM, Bradley Chapman wrote:
->>> I compiled the kernel from the above git tree, rebooted and attempted to
->>> mount the filesystem on the NVMe drive. This is what the kernel put into
->>> the dmesg when I attempted to list the contents of the filesystem root,
->>> create an inode for a zero-byte file and then unmount the filesystem.
->>>
->>> Brad
->> Did you get a chance to see my response to your previous email ?
->>
-> You can try following patch with some modification :-
-> 
->>From e162a2e91e4895ceac6f80042a87c4ba6a4fbbf5 Mon Sep 17 00:00:00 2001
-> From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> Date: Thu, 21 Jan 2021 19:05:13 -0800
-> Subject: [PATCH] nvme-pci: add device quirk wip
-> 
-> This is work in progress patch which is based on nvme-5.12
-> HEAD : b116d37fc0f5 nvmet: add lba to sect conversion helpers
-> 
-> Replace <YOUR DEVICE'S VENDOR ID> and <YOUR DEVICE's DEVICE ID> with
-> actual values sysfs entries in patch below before you apply the patch :-
-> 
-> cat  /sys/bus/pci/devices/<your device id>/device
-> cat  /sys/bus/pci/devices/<your device id>/vendor
-> 
-> This patch is not tested at all.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> ---
->   drivers/nvme/host/pci.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 25456d02eddb..c5b43bcf57b0 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3228,6 +3228,8 @@ static const struct pci_device_id nvme_id_table[] = {
->           .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
->       { PCI_DEVICE(0x15b7, 0x2001),   /*  Sandisk Skyhawk */
->           .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-> +    { PCI_DEVICE(<YOUR DEVICE's VENDOR ID>, <YOUR DEVICE's DEVICE ID>),
-> +        .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
->       { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
->           .driver_data = NVME_QUIRK_SINGLE_VECTOR },
->       { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
-> 
-
-With the following patch applied to the NVMe tree, my system hard-locked 
-and would not respond to Alt+SysRQ once I mounted the filesystem and 
-attempted a directory listing of the root of the filesystem.
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 25456d02eddb..7ba5e8e92e19 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3228,6 +3228,8 @@ static const struct pci_device_id nvme_id_table[] = {
-                 .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-         { PCI_DEVICE(0x15b7, 0x2001),   /*  Sandisk Skyhawk */
-                 .driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+       { PCI_DEVICE(0x1d97, 0x2263),   /*  SPCC */
-+               .driver_data = NVME_QUIRK_SINGLE_VECTOR },
-         { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
-                 .driver_data = NVME_QUIRK_SINGLE_VECTOR },
-         { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
-
-I don't have a serial console, nor a serial port or other suitable 
-cabling to make one, so I have no console logs of what caused the hard 
-lockup, and the lack of response to Alt+SysRQ+S meant that I have no 
-written logs to share with you all. I'm a bit leery of hard-locking the 
-system multiple times to try to snipe the dmesg, since I don't want to 
-trash the other filesystems on this host. What else can I try before I 
-do that?
-
-Brad
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
 _______________________________________________
 Linux-nvme mailing list
