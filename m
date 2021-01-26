@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF8A8C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC4AC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6921322B3F
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6921322B3F
+	by mail.kernel.org (Postfix) with ESMTPS id 943C4221FC
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 943C4221FC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,45 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=97Vk4CZuJ9kvrsOOyV8jMryonLrTZIzsMhf3jYqnnRA=; b=KSfBevwuNB0rI0WEIOUGulqnw
-	a094Oul0VG0TNbFMkCnbgYPsia5IGrueuxZHQAIWYjESjBL5vzLyMtDpDK5OmJqfCho9Bgy2ZNpGB
-	wAywdxSt5801duyXPYJmd9b5+G8VAWJczB6R/Q9IjMkNOtqCUyca8oaNPCB3xOKoBAuCrpfH3m7eY
-	NWPGG919p1OC98hN0Uss4LLbfgQbcuEHJ5NVCXZ9BZNDPNs+ou2gio/W+BA7nvU1CZyERds5+7us0
-	IwblbTcP1NzpWKB00SPBFCaFhnnCSb7v6mdygCfHH6jxpXER03AQV/onhjzj9BE/AzansYq9MSX99
-	9+NqC3YSg==;
+	 bh=xOzldbCcLfsH1Kt3Fbfz0nvfBiIa8VQyEuPrfhQn0V4=; b=M45Jj0hT7vZDKjDI9v/u84isy
+	gpxD0zt6Sze5eQZLqQjAIkm+0Xb7u/BZCovtcRn0MljVJFualDtfCX8KqHPGnkKb1OOriGbYAFACG
+	7SnrIpSjKKjT/A+K7J8TCr98dkI6UV3H6D0nCdm/kt0HZPGeSoDAYfRVYWqkrISsuoOPrNpDBzVyL
+	yBTMmvrt/4It+ajhPwA1GCKCKhCyWaPl8YsaonPR7sFbMdcQ/NOjIPPigYjk/Am/obapAbr3fjOl7
+	TUkLydfvSehtpmXBMnqA6w98wqkGy18A42F6H5nmPUctwfHGrAnFUiMF9WvPzV/WjaVfaDyZp9aij
+	lJhtDPFAQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4V36-0001O7-SX; Tue, 26 Jan 2021 20:34:52 +0000
+	id 1l4V3S-0001ZY-37; Tue, 26 Jan 2021 20:35:14 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4V27-0000xr-OQ
- for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 20:33:58 +0000
+ id 1l4V29-0000zD-JH
+ for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 20:33:59 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1611693226; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1611693228; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gawt+uZ5P44KcrlzDKrGoLvXhXdwcdexQ1CJ2cq7aVI=;
- b=TbmoVrFygjjylOnEZAT0GOpsmvY889Sdd+vueMxW8gBIhsK8nAfDrGTn1zeo2F+YH28FQv
- glofHq+c3WxvdCGvDpj8kO4+6FL0cd3D7bqnz6CQ+sNZtZIljb4tKYaGPVCPSaZQUvOUfD
- enoUd8sLe9OKO/zXxQSN2PoL5AquTvU=
+ bh=+R4qK439ZE2zPetCKY5IAjiKBZpwOhlHqIUG6rpkCrc=;
+ b=KLtKbJwiRb6vjlVtce3kFEGI1/Ru6BBxQc/1iSiJV9JEYKvpExLqOlxsRhiNd1403C+Moh
+ /00SecoajIq9wMwc3Ma7L5aXUZP9gfs+2f+bvfuUqNhsIw084pOxwGC1zZQHxiuIFOvF8A
+ S1tJ+2d1Z/XDc10zQ1W6XuIftwR7b6o=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5A50BB001;
- Tue, 26 Jan 2021 20:33:46 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 392F8B05E;
+ Tue, 26 Jan 2021 20:33:48 +0000 (UTC)
 From: mwilck@suse.com
 To: Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 14/35] monitor: implement handling of fc_udev_device
-Date: Tue, 26 Jan 2021 21:33:03 +0100
-Message-Id: <20210126203324.23610-15-mwilck@suse.com>
+Subject: [PATCH 20/35] fabrics: export arg_str(), parse_conn_arg(),
+ and remove_ctrl()
+Date: Tue, 26 Jan 2021 21:33:09 +0100
+Message-Id: <20210126203324.23610-21-mwilck@suse.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210126203324.23610-1-mwilck@suse.com>
 References: <20210126203324.23610-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210126_153352_153125_D968F059 
-X-CRM114-Status: GOOD (  20.11  )
+X-CRM114-CacheID: sfid-20210126_153353_795977_CA1093BD 
+X-CRM114-Status: GOOD (  14.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,156 +84,67 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
-The reason we fork off discovery tasks is two-fold: Firstly, we'd
-otherwise be forced to make all discovery connections sequentially,
-which would be slow, as connecting controllers can block on
-the order of seconds even in successful cases.
-
-Secondly, this allows us to use the some static variables like
-cfg and tracked_ctrls in the discovery code path. Without forking,
-we'd have to re-write much more code in fabrics.c. In general,
-the alternative to forking would be creating threads, but the
-that would probably require a large rewrite of our code base.
-
-A single-threaded server that forks off the actual discovery makes
-most sense at this point.
+These functions are used by the monitor functionality that will
+be added in follow-up commits.
 
 Signed-off-by: Martin Wilck <mwilck@suse.com>
 ---
- monitor.c | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 107 insertions(+), 3 deletions(-)
+ fabrics.c | 6 +++---
+ fabrics.h | 4 ++++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/monitor.c b/monitor.c
-index 2a906db..6547265 100644
---- a/monitor.c
-+++ b/monitor.c
-@@ -30,7 +30,9 @@
+diff --git a/fabrics.c b/fabrics.c
+index e3d2a3a..e2629d5 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -102,7 +102,7 @@ static const match_table_t opt_tokens = {
+ 	{ OPT_ERR,		NULL		},
+ };
  
- #include "common.h"
- #include "nvme-status.h"
-+#include "nvme.h"
- #include "util/argconfig.h"
-+#include "fabrics.h"
- #include "monitor.h"
- #define LOG_FUNCNAME 1
- #include "log.h"
-@@ -117,11 +119,113 @@ static int monitor_init_signals(void)
- 	return 0;
- }
- 
-+static int monitor_get_fc_uev_props(struct udev_device *ud,
-+				    char *traddr, size_t tra_sz,
-+				    char *host_traddr, size_t htra_sz)
-+{
-+	const char *sysname = udev_device_get_sysname(ud);
-+	const char *tra = NULL, *host_tra = NULL;
-+	bool fc_event_seen = false;
-+	struct udev_list_entry *entry;
-+
-+	entry = udev_device_get_properties_list_entry(ud);
-+	if (!entry) {
-+		log(LOG_NOTICE, "%s: emtpy properties list\n", sysname);
-+		return -ENOENT;
-+	}
-+
-+	for (; entry; entry = udev_list_entry_get_next(entry)) {
-+		const char *name = udev_list_entry_get_name(entry);
-+
-+		if (!strcmp(name, "FC_EVENT") &&
-+		    !strcmp(udev_list_entry_get_value(entry), "nvmediscovery"))
-+				fc_event_seen = true;
-+		else if (!strcmp(name, "NVMEFC_HOST_TRADDR"))
-+			host_tra = udev_list_entry_get_value(entry);
-+		else if (!strcmp(name, "NVMEFC_TRADDR"))
-+			tra = udev_list_entry_get_value(entry);
-+	}
-+	if (!fc_event_seen) {
-+		log(LOG_DEBUG, "%s: FC_EVENT property missing or unsupported\n",
-+		    sysname);
-+		return -EINVAL;
-+	}
-+	if (!tra || !host_tra) {
-+		log(LOG_WARNING, "%s: transport properties missing\n", sysname);
-+		return -EINVAL;
-+	}
-+
-+	if (!memccpy(traddr, tra, '\0', tra_sz) ||
-+	    !memccpy(host_traddr, host_tra, '\0', htra_sz)) {
-+		log(LOG_ERR, "traddr (%zu) or host_traddr (%zu) overflow\n",
-+		    strlen(traddr), strlen(host_traddr));
-+		return -ENAMETOOLONG;
-+	}
-+
-+	return 0;
-+}
-+
-+static int monitor_discovery(char *transport, char *traddr, char *trsvcid,
-+			     char *host_traddr)
-+{
-+	char argstr[BUF_SIZE];
-+	pid_t pid;
-+	int rc;
-+
-+	pid = fork();
-+	if (pid == -1) {
-+		log(LOG_ERR, "failed to fork discovery task: %m");
-+		return -errno;
-+	} else if (pid > 0)
-+		return 0;
-+
-+	log(LOG_NOTICE, "starting %s discovery for %s==>%s(%s)\n",
-+	    transport, host_traddr, traddr, trsvcid ? trsvcid : "none");
-+	cfg.nqn = NVME_DISC_SUBSYS_NAME;
-+	cfg.transport = transport;
-+	cfg.traddr = traddr;
-+	cfg.trsvcid = trsvcid;
-+	cfg.host_traddr = host_traddr;
-+	/* Without the following, the kernel returns EINVAL */
-+	cfg.tos = -1;
-+
-+	rc = build_options(argstr, sizeof(argstr), true);
-+	log(LOG_DEBUG, "%s\n", argstr);
-+	rc = do_discover(argstr, mon_cfg.autoconnect);
-+
-+	exit(-rc);
-+	/* not reached */
-+	return rc;
-+}
-+
-+static void monitor_handle_fc_uev(struct udev_device *ud)
-+{
-+	const char *action = udev_device_get_action(ud);
-+	const char *sysname = udev_device_get_sysname(ud);
-+	char traddr[NVMF_TRADDR_SIZE], host_traddr[NVMF_TRADDR_SIZE];
-+
-+	if (strcmp(action, "change") || strcmp(sysname, "fc_udev_device"))
-+		return;
-+
-+	if (monitor_get_fc_uev_props(ud, traddr, sizeof(traddr),
-+				     host_traddr, sizeof(host_traddr)))
-+		return;
-+
-+	monitor_discovery("fc", traddr, NULL, host_traddr);
-+}
-+
- static void monitor_handle_udevice(struct udev_device *ud)
+-static const char *arg_str(const char * const *strings,
++const char *arg_str(const char * const *strings,
+ 		size_t array_size, size_t idx)
  {
--	log(LOG_INFO, "uevent: %s %s\n",
--		udev_device_get_action(ud),
--		udev_device_get_sysname(ud));
-+	const char *subsys  = udev_device_get_subsystem(ud);
-+
-+	if (log_level >= LOG_INFO) {
-+		const char *action = udev_device_get_action(ud);
-+		const char *syspath = udev_device_get_syspath(ud);
-+
-+		log(LOG_INFO, "%s %s\n", action, syspath);
-+	}
-+	if (!strcmp(subsys, "fc"))
-+		monitor_handle_fc_uev(ud);
+ 	if (idx < array_size && strings[idx])
+@@ -208,7 +208,7 @@ int do_discover(char *argstr, bool connect);
+  * If field found, return string containing field value. If field
+  * not found, return an empty string.
+  */
+-static char *parse_conn_arg(char *conargs, const char delim, const char *field)
++char *parse_conn_arg(char *conargs, const char delim, const char *field)
+ {
+ 	char *s, *e;
+ 	size_t cnt;
+@@ -476,7 +476,7 @@ out:
+ 	return ret;
  }
  
- static void monitor_handle_uevents(struct udev_monitor *monitor)
+-static int remove_ctrl(int instance)
++int remove_ctrl(int instance)
+ {
+ 	char *sysfs_path;
+ 	int ret;
+diff --git a/fabrics.h b/fabrics.h
+index 1dfbd67..ddc7423 100644
+--- a/fabrics.h
++++ b/fabrics.h
+@@ -12,6 +12,8 @@ extern int fabrics_disconnect_all(const char *desc, int argc, char **argv);
+ 
+ /* Symbols used by monitor.c */
+ 
++const char *arg_str(const char * const *strings, size_t array_size, size_t idx);
++
+ struct config {
+ 	const char *nqn;
+ 	const char *transport;
+@@ -44,5 +46,7 @@ extern struct config cfg;
+ int build_options(char *argstr, int max_len, bool discover);
+ int do_discover(char *argstr, bool connect);
+ int ctrl_instance(const char *device);
++char *parse_conn_arg(char *conargs, const char delim, const char *field);
++int remove_ctrl(int instance);
+ 
+ #endif
 -- 
 2.29.2
 
