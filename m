@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC2FC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B152BC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:39:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 56C4B207A8
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:38:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 56C4B207A8
+	by mail.kernel.org (Postfix) with ESMTPS id D6EB8221FC
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:39:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6EB8221FC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,45 +23,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=5OyywPKqfb3CzW3xkJl7p+Nc0q1riG/3/BxjOVD3ZlM=; b=TQxyj52o8f2uGs+zwJswvWNUL
-	gPUySIRDuAAdUjS8Ls/NkYJrfS0WiX7rXMNav6HK/H/19VErjAheg2DFAtToNbGN4AmipzR4B/mRm
-	0NVJM9HW0zaFopuVPKBuV2MRvJOcSnWrBJT0zDhPsEfLsmweO0LRgM4XvZ7uYXRQw/KddThA5omqN
-	aNimifyLNx8YBFSQUYbnX+ayXBOhsy1FaXQBEYO067RpciUMwn4a3YpLDf9sJa6lwn1vv1gehzitl
-	Own+2/UFko2fmj4xRmt9W9TmABW22SWj7PaGXI4agb2L4b9sbp41IqdnN1PEog8kuBFIZogoHxwLn
-	6xv10fCAw==;
+	 bh=wuebu4rpYrxkH7ym5uRb/Gd52JoV2GNfp6eDY+ql640=; b=lF4HktoOPYzbrB6oltv78BiCt
+	DF7nq0t7DVRV/L8eS6IPG/LVI4Ps01tDtiOlY/pL4KqwGG/PWeCND8UJOf2HajAzaCQho+ojkueF3
+	DEG3VoHT7pBtvGv9mvZS6lk6bMhy6rKBZbajP5sOcTGy+YP7EEPUOJq1M4X2u30g2MmYSUcK0O+w2
+	PqkJB48CI+IXv9cpLHi1XbacluPjV0Iu7CwBfHNHtiyTRcEd+oF96CY0KNIe8CT3O9rPdDkJBqNLz
+	SIAGNir5G7HXqQgG+wT4zd/L0cKn5wvXjrB3TRYw/31IewUeCsOYShEja0vDe5h00+ie2mT4iO043
+	MtYsQF/oQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4V65-0002nV-5W; Tue, 26 Jan 2021 20:37:57 +0000
+	id 1l4V6g-00033K-Dv; Tue, 26 Jan 2021 20:38:34 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4V2E-00013j-K8
- for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 20:34:12 +0000
+ id 1l4V2D-00013D-J2
+ for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 20:34:15 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
  t=1611693232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8hVBm7/Pk0a3/7wQOKYQKx9OHYJfsLSxo5V5wWSfas0=;
- b=EgqNsMmpOGDgpI6NEncgncd2xYsSbpC213khiQbh6ufxiK2b5RM8Te4VxwF7Nk2ZXfKj4h
- y5BBbQBmYQrVmYYoyyPRgVuKvRzfT53S/+1Gez8m3serx/wL0VmCQgbfZoA6McAW1ZaSej
- McOjnIwT8gsJsDhamBRymZM4ieENcio=
+ bh=OCi4XgW8tqeA8gaHiHGrQLQEXJfq0xjDGP8+dYMvSjQ=;
+ b=ryTV9an1Bvc1PsbzYU5qvsEV3jGTihkoaeQppOE0K/tRTLXNmmu8DMuSKj5X91cJ+Tvp7N
+ OT2G9qXMHrnYN3mcxv9Q0rGhkAf6iXus67cMRErWBhYh2zpAdjfZKjM1kGdLkb9kO16jPY
+ 1XuS8JFAvmJPrbQYVBBgTMmwX2zmhUU=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 83960B173;
+ by mx2.suse.de (Postfix) with ESMTP id 45FACB168;
  Tue, 26 Jan 2021 20:33:52 +0000 (UTC)
 From: mwilck@suse.com
 To: Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 35/35] monitor: add option --keep/-K
-Date: Tue, 26 Jan 2021 21:33:24 +0100
-Message-Id: <20210126203324.23610-36-mwilck@suse.com>
+Subject: [PATCH 34/35] nvme-monitor(1): add man page for nvme-monitor
+Date: Tue, 26 Jan 2021 21:33:23 +0100
+Message-Id: <20210126203324.23610-35-mwilck@suse.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210126203324.23610-1-mwilck@suse.com>
 References: <20210126203324.23610-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210126_153358_946174_2438D7E7 
-X-CRM114-Status: GOOD (  20.06  )
+X-CRM114-CacheID: sfid-20210126_153358_022489_9D1B7441 
+X-CRM114-Status: GOOD (  20.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,205 +83,1469 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
-With this option, "nvme monitor" will keep created discovery controllers
-running even after it exits. If running in the initrd, this is will be
-done automatically. That has the advantage that the new monitor instance
-that will be started automatically after switching root can simply take
-over the already created discovery controllers.
-
 Signed-off-by: Martin Wilck <mwilck@suse.com>
 ---
- Documentation/nvme-monitor.1    | 28 +++++++++++++++++++++-------
- Documentation/nvme-monitor.html | 30 ++++++++++++++++++++++++------
- Documentation/nvme-monitor.txt  |  1 +
- monitor.c                       | 15 ++++++++++++++-
- 4 files changed, 60 insertions(+), 14 deletions(-)
+ Documentation/cmds-main.txt     |    4 +
+ Documentation/nvme-monitor.1    |  204 ++++++
+ Documentation/nvme-monitor.html | 1049 +++++++++++++++++++++++++++++++
+ Documentation/nvme-monitor.txt  |  169 +++++
+ 4 files changed, 1426 insertions(+)
+ create mode 100644 Documentation/nvme-monitor.1
+ create mode 100644 Documentation/nvme-monitor.html
+ create mode 100644 Documentation/nvme-monitor.txt
 
+diff --git a/Documentation/cmds-main.txt b/Documentation/cmds-main.txt
+index 46df03d..d058a54 100644
+--- a/Documentation/cmds-main.txt
++++ b/Documentation/cmds-main.txt
+@@ -168,3 +168,7 @@ linknvme:nvme-disconnect-all[1]::
+ 
+ linknvme:nvme-get-property[1]::
+ 	Reads and shows NVMe-over-Fabrics controller property
++
++linknvme:nvme-monitor[1]::
++	Monitor Discovery events and Discover and Connect automatically
++
 diff --git a/Documentation/nvme-monitor.1 b/Documentation/nvme-monitor.1
-index 1578e4c..36b015d 100644
---- a/Documentation/nvme-monitor.1
+new file mode 100644
+index 0000000..1578e4c
+--- /dev/null
 +++ b/Documentation/nvme-monitor.1
-@@ -2,12 +2,12 @@
- .\"     Title: nvme-monitor
- .\"    Author: [FIXME: author] [see http://www.docbook.org/tdg5/en/html/author]
- .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
--.\"      Date: 01/20/2021
-+.\"      Date: 01/25/2021
- .\"    Manual: NVMe Manual
- .\"    Source: NVMe
- .\"  Language: English
- .\"
--.TH "NVME\-MONITOR" "1" "01/20/2021" "NVMe" "NVMe Manual"
-+.TH "NVME\-MONITOR" "1" "01/25/2021" "NVMe" "NVMe Manual"
- .\" -----------------------------------------------------------------
- .\" * Define some portability stuff
- .\" -----------------------------------------------------------------
-@@ -33,9 +33,10 @@ nvme-monitor \- Monitor Discovery events and Discover and Connect automatically
- .sp
- .nf
- \fInvme discover\fR
--                [\-\-autoconnect            | \-A
--                [\-\-startup                | \-U
--                [\-\-persistent             | \-p
-+                [\-\-autoconnect            | \-A]
-+                [\-\-startup                | \-U]
+@@ -0,0 +1,204 @@
++'\" t
++.\"     Title: nvme-monitor
++.\"    Author: [FIXME: author] [see http://www.docbook.org/tdg5/en/html/author]
++.\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
++.\"      Date: 01/20/2021
++.\"    Manual: NVMe Manual
++.\"    Source: NVMe
++.\"  Language: English
++.\"
++.TH "NVME\-MONITOR" "1" "01/20/2021" "NVMe" "NVMe Manual"
++.\" -----------------------------------------------------------------
++.\" * Define some portability stuff
++.\" -----------------------------------------------------------------
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.\" http://bugs.debian.org/507673
++.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.ie \n(.g .ds Aq \(aq
++.el       .ds Aq '
++.\" -----------------------------------------------------------------
++.\" * set default formatting
++.\" -----------------------------------------------------------------
++.\" disable hyphenation
++.nh
++.\" disable justification (adjust text to left margin only)
++.ad l
++.\" -----------------------------------------------------------------
++.\" * MAIN CONTENT STARTS HERE *
++.\" -----------------------------------------------------------------
++.SH "NAME"
++nvme-monitor \- Monitor Discovery events and Discover and Connect automatically
++.SH "SYNOPSIS"
++.sp
++.nf
++\fInvme discover\fR
++                [\-\-autoconnect            | \-A
++                [\-\-startup                | \-U
++                [\-\-persistent             | \-p
++                [\-\-hostnqn=<hostnqn>      | \-q <hostnqn>]
++                [\-\-hostid=<hostid>        | \-I <hostid>]
++                [\-\-keep\-alive\-tmo=<#>     | \-k <#>]
++                [\-\-reconnect\-delay=<#>    | \-c <#>]
++                [\-\-ctrl\-loss\-tmo=<#>      | \-l <#>]
++                [\-\-hdr\-digest             | \-g]
++                [\-\-data\-digest            | \-G]
++                [\-\-nr\-io\-queues=<#>       | \-i <#>]
++                [\-\-nr\-write\-queues=<#>    | \-W <#>]
++                [\-\-nr\-poll\-queues=<#>     | \-P <#>]
++                [\-\-queue\-size=<#>         | \-Q <#>]
++                [\-\-matching               | \-m]
 +                [\-\-persistent             | \-p]
-+                [\-\-keep                   | \-K]
-                 [\-\-hostnqn=<hostnqn>      | \-q <hostnqn>]
-                 [\-\-hostid=<hostid>        | \-I <hostid>]
-                 [\-\-keep\-alive\-tmo=<#>     | \-k <#>]
-@@ -118,9 +119,22 @@ option to make the Discovery Controllers persist after retrieving the Discovery
- This option has the same meaning as for
- \fInvme discover\fR; Discovery Controllers will remain after the Discovery Log Page has been retrieved\&. This is necessary for receiving AENs from the transport connection that the Discovery controller is associated with\&. Without this option, AENs can only be received and acted upon if the administrator manually creates persistent Discovery controller connections\&. When
- \fInvme monitor\fR
--terminates, it will attempt to take down all Discovery Controllers it has created (i\&.e\&. ones that didn\(cqt already exist when
-+terminates and the, it will attempt to take down all Discovery Controllers it has created (i\&.e\&. ones that didn\(cqt already exist when
- \fInvme monitor\fR
--was started\&.
-+was started (but see
-+\fI\-\-keep\fR)\&.
++                [\-\-silent                 | \-S]
++                [\-\-verbose                | \-v]
++                [\-\-debug                  | \-D]
++                [\-\-clockstamps            | \-C]
++.fi
++.SH "DESCRIPTION"
++.sp
++Listen to Discovery events (Asynchronous Event Notifications, AENs) on NVMe\-over\-Fabrics (NVMeoF) Discovery Controllers and for other events related to NVMeoF Discovery, and optionally connect to newly discovered controllers\&.
++.sp
++If no parameters are given, then \fInvme monitor\fR listens to Discovery\-related udev events (uevents)\&. If an event is received, it connects to the Discovery Controller and performs the equivalent of an \fInvme discover\fR on the associated transport address\&. If the \fI\-\-autoconnect\fR option is given, it performs the equivalent of an \fInvme connect\-all\fR instead\&. When run through a systemd service in \fI\-\-autoconnect\fR mode, the monitor can be used as an alternative to the udev\-rule based auto\-activation of NVMeoF connections\&.
++.sp
++Currently, the following event types are supported:
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++"Discovery Log Page Change" Asynchronous Event Notifications (AENs) delivered via persistent connections to NVMeoF discovery controllers connected to the discovery service (nqn\&.2014\-08\&.org\&.nvmexpress\&.discovery)\&. Note that without the
++\fI\-\-persistent\fR
++option,
++\fInvme monitor\fR
++will not create persistent Discovery controllers itself, but it will receive and act upon AENs sent from persistent Discovery Controllers which were created manually or by other programs\&.
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++FC\-NVMe auto\-connect uevents sent when the FibreChannel transport discovers N_Ports offering NVMe services\&.
++.RE
++.sp
++See the documentation for the nvme\-connect\-all(1) and nvme\-discover(1) commands for further background\&.
++.SH "OPTIONS"
++.PP
++\-A, \-\-autoconnect
++.RS 4
++If this option is given,
++\fInvme monitor\fR
++will attempt to connect to newly discovered controllers\&. In order to avoid race conditions with
++\fInvme connect\-all\fR
++commands spawned by udev rules via systemd\(cqs
++nvmf\-connect@\&.service, an empty rule is created under
++/run/udev/rules\&.d/70\-nvmf\-autoconnect\&.rules, disabling the udev rules that start this service\&. The file will be deleted when
++\fInvme monitor\fR
++terminates\&.
 +.RE
 +.PP
-+\-K, \-\-keep
++\-U, \-\-startup
 +.RS 4
-+Do not tear down created persistent discovery controllers when exiting\&. This option makes only sense together with
-+\fI\-\-persistent\fR\&. When
++Look for existing NVMe connections (i\&.e\&. transport addresses with at least one connected controller) during startup, start a discovery controller on every detected connection, retrieve the log page and (if
++\fI\-\-autoconnect\fR
++is also given) connect to all discovered controllers\&. Use the
++\fI\-\-persistent\fR
++option to make the Discovery Controllers persist after retrieving the Discovery Log page\&.
++.RE
++.PP
++\-p, \-\-persistent
++.RS 4
++This option has the same meaning as for
++\fInvme discover\fR; Discovery Controllers will remain after the Discovery Log Page has been retrieved\&. This is necessary for receiving AENs from the transport connection that the Discovery controller is associated with\&. Without this option, AENs can only be received and acted upon if the administrator manually creates persistent Discovery controller connections\&. When
 +\fInvme monitor\fR
-+detects that it is running in the initial RAM FS (initrd),
-+\fI\-\-keep\fR
-+is implicitly assumed, i\&.e\&. discovery connections are not stopped\&. This is because after switching from the initrd to the real root file system, another
++terminates, it will attempt to take down all Discovery Controllers it has created (i\&.e\&. ones that didn\(cqt already exist when
 +\fInvme monitor\fR
-+instance will probably be started that can reuse the created controller instances\&.
- .RE
- .PP
- \-q <hostnqn>, \-\-hostnqn=<hostnqn>, \-I <hostid>, \-\-hostid=<hostid>, \-k <#>, \-\-keep\-alive\-tmo=<#>, \-c <#>, \-\-reconnect\-delay=<#>, \-l <#>, \-\-ctrl\-loss\-tmo=<#>, \-g, \-\-hdr\-digest, \-G, \-\-data\-digest, \-i <#>, \-\-nr\-io\-queues=<#>, \-W <#>, \-\-nr\-write\-queues=<#>, \-P <#>, \-\-nr\-poll\-queues=<#>, \-Q <#>, \-\-queue\-size=<#>, \-m, \-\-matching
++was started\&.
++.RE
++.PP
++\-q <hostnqn>, \-\-hostnqn=<hostnqn>, \-I <hostid>, \-\-hostid=<hostid>, \-k <#>, \-\-keep\-alive\-tmo=<#>, \-c <#>, \-\-reconnect\-delay=<#>, \-l <#>, \-\-ctrl\-loss\-tmo=<#>, \-g, \-\-hdr\-digest, \-G, \-\-data\-digest, \-i <#>, \-\-nr\-io\-queues=<#>, \-W <#>, \-\-nr\-write\-queues=<#>, \-P <#>, \-\-nr\-poll\-queues=<#>, \-Q <#>, \-\-queue\-size=<#>, \-m, \-\-matching
++.RS 4
++These options have the same meaning as for
++\fInvme connect\-all\fR\&. See the man page nvme\-connect\-all(1) for details\&.
++.RE
++.PP
++\-p, \-\-persistent
++.RS 4
++Don\(cqt remove the discovery controller after retrieving the discovery log page\&.
++.RE
++.PP
++\-S, \-\-silent
++.RS 4
++Only print warnings and severe error messages\&. Do not log discoveries and newly created controllers\&.
++.RE
++.PP
++\-v, \-\-verbose
++.RS 4
++Log informational messages\&. This option overrides
++\fI\-\-silent\fR\&.
++.RE
++.PP
++\-D, \-\-debug
++.RS 4
++Log informational and debug messages\&. This option overrieds
++\fI\-\-silent\fR
++and
++\fI\-\-verbose\fR\&.
++.RE
++.SH "EXAMPLES"
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Listen to FC\-NVME events and AENs, creating persistent Discovery Controllers on the way, and automatically connect to all discovered controllers:
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme discover \-\-autoconnect \-\-persistent
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Like the above, but print more log messages and try to set up Discovery Controllers on startup, and using a different host NQN:
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme discover \-\-autoconnect \-\-persistent \-\-startup \-\-verbose \e
++\-\-hostqn=host1\-rogue\-nqn
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.SH "SEE ALSO"
++.sp
++nvme\-discover(1) nvme\-connect\-all(1)
++.SH "NVME"
++.sp
++Part of the nvme\-user suite
 diff --git a/Documentation/nvme-monitor.html b/Documentation/nvme-monitor.html
-index c2b9a64..bd57a22 100644
---- a/Documentation/nvme-monitor.html
+new file mode 100644
+index 0000000..c2b9a64
+--- /dev/null
 +++ b/Documentation/nvme-monitor.html
-@@ -750,9 +750,10 @@ nvme-monitor(1) Manual Page
- <div class="sectionbody">
- <div class="verseblock">
- <pre class="content"><em>nvme discover</em>
--                [--autoconnect            | -A
--                [--startup                | -U
--                [--persistent             | -p
-+                [--autoconnect            | -A]
-+                [--startup                | -U]
-+                [--persistent             | -p]
-+                [--keep                   | -K]
-                 [--hostnqn=&lt;hostnqn&gt;      | -q &lt;hostnqn&gt;]
-                 [--hostid=&lt;hostid&gt;        | -I &lt;hostid&gt;]
-                 [--keep-alive-tmo=&lt;#&gt;     | -k &lt;#&gt;]
-@@ -863,9 +864,26 @@ commands for further background.</p></div>
-         this option, AENs can only be received and acted upon if the
-         administrator manually creates persistent Discovery controller
-         connections.
--        When <em>nvme monitor</em> terminates, it will attempt to take down all
-+        When <em>nvme monitor</em> terminates and the, it will attempt to take down all
-         Discovery Controllers it has created (i.e. ones that didn&#8217;t already
--        exist when <em>nvme monitor</em> was started.
-+        exist when <em>nvme monitor</em> was started (but see <em>--keep</em>).
+@@ -0,0 +1,1049 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
++    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<head>
++<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
++<meta name="generator" content="AsciiDoc" />
++<title>nvme-monitor(1)</title>
++<style type="text/css">
++/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
++
++/* Default font. */
++body {
++  font-family: Georgia,serif;
++}
++
++/* Title font. */
++h1, h2, h3, h4, h5, h6,
++div.title, caption.title,
++thead, p.table.header,
++#toctitle,
++#author, #revnumber, #revdate, #revremark,
++#footer {
++  font-family: Arial,Helvetica,sans-serif;
++}
++
++body {
++  margin: 1em 5% 1em 5%;
++}
++
++a {
++  color: blue;
++  text-decoration: underline;
++}
++a:visited {
++  color: fuchsia;
++}
++
++em {
++  font-style: italic;
++  color: navy;
++}
++
++strong {
++  font-weight: bold;
++  color: #083194;
++}
++
++h1, h2, h3, h4, h5, h6 {
++  color: #527bbd;
++  margin-top: 1.2em;
++  margin-bottom: 0.5em;
++  line-height: 1.3;
++}
++
++h1, h2, h3 {
++  border-bottom: 2px solid silver;
++}
++h2 {
++  padding-top: 0.5em;
++}
++h3 {
++  float: left;
++}
++h3 + * {
++  clear: left;
++}
++h5 {
++  font-size: 1.0em;
++}
++
++div.sectionbody {
++  margin-left: 0;
++}
++
++hr {
++  border: 1px solid silver;
++}
++
++p {
++  margin-top: 0.5em;
++  margin-bottom: 0.5em;
++}
++
++ul, ol, li > p {
++  margin-top: 0;
++}
++ul > li     { color: #aaa; }
++ul > li > * { color: black; }
++
++.monospaced, code, pre {
++  font-family: "Courier New", Courier, monospace;
++  font-size: inherit;
++  color: navy;
++  padding: 0;
++  margin: 0;
++}
++pre {
++  white-space: pre-wrap;
++}
++
++#author {
++  color: #527bbd;
++  font-weight: bold;
++  font-size: 1.1em;
++}
++#email {
++}
++#revnumber, #revdate, #revremark {
++}
++
++#footer {
++  font-size: small;
++  border-top: 2px solid silver;
++  padding-top: 0.5em;
++  margin-top: 4.0em;
++}
++#footer-text {
++  float: left;
++  padding-bottom: 0.5em;
++}
++#footer-badges {
++  float: right;
++  padding-bottom: 0.5em;
++}
++
++#preamble {
++  margin-top: 1.5em;
++  margin-bottom: 1.5em;
++}
++div.imageblock, div.exampleblock, div.verseblock,
++div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
++div.admonitionblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.admonitionblock {
++  margin-top: 2.0em;
++  margin-bottom: 2.0em;
++  margin-right: 10%;
++  color: #606060;
++}
++
++div.content { /* Block element content. */
++  padding: 0;
++}
++
++/* Block element titles. */
++div.title, caption.title {
++  color: #527bbd;
++  font-weight: bold;
++  text-align: left;
++  margin-top: 1.0em;
++  margin-bottom: 0.5em;
++}
++div.title + * {
++  margin-top: 0;
++}
++
++td div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content + div.title {
++  margin-top: 0.0em;
++}
++
++div.sidebarblock > div.content {
++  background: #ffffee;
++  border: 1px solid #dddddd;
++  border-left: 4px solid #f0f0f0;
++  padding: 0.5em;
++}
++
++div.listingblock > div.content {
++  border: 1px solid #dddddd;
++  border-left: 5px solid #f0f0f0;
++  background: #f8f8f8;
++  padding: 0.5em;
++}
++
++div.quoteblock, div.verseblock {
++  padding-left: 1.0em;
++  margin-left: 1.0em;
++  margin-right: 10%;
++  border-left: 5px solid #f0f0f0;
++  color: #888;
++}
++
++div.quoteblock > div.attribution {
++  padding-top: 0.5em;
++  text-align: right;
++}
++
++div.verseblock > pre.content {
++  font-family: inherit;
++  font-size: inherit;
++}
++div.verseblock > div.attribution {
++  padding-top: 0.75em;
++  text-align: left;
++}
++/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
++div.verseblock + div.attribution {
++  text-align: left;
++}
++
++div.admonitionblock .icon {
++  vertical-align: top;
++  font-size: 1.1em;
++  font-weight: bold;
++  text-decoration: underline;
++  color: #527bbd;
++  padding-right: 0.5em;
++}
++div.admonitionblock td.content {
++  padding-left: 0.5em;
++  border-left: 3px solid #dddddd;
++}
++
++div.exampleblock > div.content {
++  border-left: 3px solid #dddddd;
++  padding-left: 0.5em;
++}
++
++div.imageblock div.content { padding-left: 0; }
++span.image img { border-style: none; vertical-align: text-bottom; }
++a.image:visited { color: white; }
++
++dl {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++dt {
++  margin-top: 0.5em;
++  margin-bottom: 0;
++  font-style: normal;
++  color: navy;
++}
++dd > *:first-child {
++  margin-top: 0.1em;
++}
++
++ul, ol {
++    list-style-position: outside;
++}
++ol.arabic {
++  list-style-type: decimal;
++}
++ol.loweralpha {
++  list-style-type: lower-alpha;
++}
++ol.upperalpha {
++  list-style-type: upper-alpha;
++}
++ol.lowerroman {
++  list-style-type: lower-roman;
++}
++ol.upperroman {
++  list-style-type: upper-roman;
++}
++
++div.compact ul, div.compact ol,
++div.compact p, div.compact p,
++div.compact div, div.compact div {
++  margin-top: 0.1em;
++  margin-bottom: 0.1em;
++}
++
++tfoot {
++  font-weight: bold;
++}
++td > div.verse {
++  white-space: pre;
++}
++
++div.hdlist {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++div.hdlist tr {
++  padding-bottom: 15px;
++}
++dt.hdlist1.strong, td.hdlist1.strong {
++  font-weight: bold;
++}
++td.hdlist1 {
++  vertical-align: top;
++  font-style: normal;
++  padding-right: 0.8em;
++  color: navy;
++}
++td.hdlist2 {
++  vertical-align: top;
++}
++div.hdlist.compact tr {
++  margin: 0;
++  padding-bottom: 0;
++}
++
++.comment {
++  background: yellow;
++}
++
++.footnote, .footnoteref {
++  font-size: 0.8em;
++}
++
++span.footnote, span.footnoteref {
++  vertical-align: super;
++}
++
++#footnotes {
++  margin: 20px 0 20px 0;
++  padding: 7px 0 0 0;
++}
++
++#footnotes div.footnote {
++  margin: 0 0 5px 0;
++}
++
++#footnotes hr {
++  border: none;
++  border-top: 1px solid silver;
++  height: 1px;
++  text-align: left;
++  margin-left: 0;
++  width: 20%;
++  min-width: 100px;
++}
++
++div.colist td {
++  padding-right: 0.5em;
++  padding-bottom: 0.3em;
++  vertical-align: top;
++}
++div.colist td img {
++  margin-top: 0.3em;
++}
++
++@media print {
++  #footer-badges { display: none; }
++}
++
++#toc {
++  margin-bottom: 2.5em;
++}
++
++#toctitle {
++  color: #527bbd;
++  font-size: 1.1em;
++  font-weight: bold;
++  margin-top: 1.0em;
++  margin-bottom: 0.1em;
++}
++
++div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
++  margin-top: 0;
++  margin-bottom: 0;
++}
++div.toclevel2 {
++  margin-left: 2em;
++  font-size: 0.9em;
++}
++div.toclevel3 {
++  margin-left: 4em;
++  font-size: 0.9em;
++}
++div.toclevel4 {
++  margin-left: 6em;
++  font-size: 0.9em;
++}
++
++span.aqua { color: aqua; }
++span.black { color: black; }
++span.blue { color: blue; }
++span.fuchsia { color: fuchsia; }
++span.gray { color: gray; }
++span.green { color: green; }
++span.lime { color: lime; }
++span.maroon { color: maroon; }
++span.navy { color: navy; }
++span.olive { color: olive; }
++span.purple { color: purple; }
++span.red { color: red; }
++span.silver { color: silver; }
++span.teal { color: teal; }
++span.white { color: white; }
++span.yellow { color: yellow; }
++
++span.aqua-background { background: aqua; }
++span.black-background { background: black; }
++span.blue-background { background: blue; }
++span.fuchsia-background { background: fuchsia; }
++span.gray-background { background: gray; }
++span.green-background { background: green; }
++span.lime-background { background: lime; }
++span.maroon-background { background: maroon; }
++span.navy-background { background: navy; }
++span.olive-background { background: olive; }
++span.purple-background { background: purple; }
++span.red-background { background: red; }
++span.silver-background { background: silver; }
++span.teal-background { background: teal; }
++span.white-background { background: white; }
++span.yellow-background { background: yellow; }
++
++span.big { font-size: 2em; }
++span.small { font-size: 0.6em; }
++
++span.underline { text-decoration: underline; }
++span.overline { text-decoration: overline; }
++span.line-through { text-decoration: line-through; }
++
++div.unbreakable { page-break-inside: avoid; }
++
++
++/*
++ * xhtml11 specific
++ *
++ * */
++
++div.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.tableblock > table {
++  border: 3px solid #527bbd;
++}
++thead, p.table.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.table {
++  margin-top: 0;
++}
++/* Because the table frame attribute is overridden by CSS in most browsers. */
++div.tableblock > table[frame="void"] {
++  border-style: none;
++}
++div.tableblock > table[frame="hsides"] {
++  border-left-style: none;
++  border-right-style: none;
++}
++div.tableblock > table[frame="vsides"] {
++  border-top-style: none;
++  border-bottom-style: none;
++}
++
++
++/*
++ * html5 specific
++ *
++ * */
++
++table.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++thead, p.tableblock.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.tableblock {
++  margin-top: 0;
++}
++table.tableblock {
++  border-width: 3px;
++  border-spacing: 0px;
++  border-style: solid;
++  border-color: #527bbd;
++  border-collapse: collapse;
++}
++th.tableblock, td.tableblock {
++  border-width: 1px;
++  padding: 4px;
++  border-style: solid;
++  border-color: #527bbd;
++}
++
++table.tableblock.frame-topbot {
++  border-left-style: hidden;
++  border-right-style: hidden;
++}
++table.tableblock.frame-sides {
++  border-top-style: hidden;
++  border-bottom-style: hidden;
++}
++table.tableblock.frame-none {
++  border-style: hidden;
++}
++
++th.tableblock.halign-left, td.tableblock.halign-left {
++  text-align: left;
++}
++th.tableblock.halign-center, td.tableblock.halign-center {
++  text-align: center;
++}
++th.tableblock.halign-right, td.tableblock.halign-right {
++  text-align: right;
++}
++
++th.tableblock.valign-top, td.tableblock.valign-top {
++  vertical-align: top;
++}
++th.tableblock.valign-middle, td.tableblock.valign-middle {
++  vertical-align: middle;
++}
++th.tableblock.valign-bottom, td.tableblock.valign-bottom {
++  vertical-align: bottom;
++}
++
++
++/*
++ * manpage specific
++ *
++ * */
++
++body.manpage h1 {
++  padding-top: 0.5em;
++  padding-bottom: 0.5em;
++  border-top: 2px solid silver;
++  border-bottom: 2px solid silver;
++}
++body.manpage h2 {
++  border-style: none;
++}
++body.manpage div.sectionbody {
++  margin-left: 3em;
++}
++
++@media print {
++  body.manpage div#toc { display: none; }
++}
++
++
++</style>
++<script type="text/javascript">
++/*<![CDATA[*/
++var asciidoc = {  // Namespace.
++
++/////////////////////////////////////////////////////////////////////
++// Table Of Contents generator
++/////////////////////////////////////////////////////////////////////
++
++/* Author: Mihai Bazon, September 2002
++ * http://students.infoiasi.ro/~mishoo
++ *
++ * Table Of Content generator
++ * Version: 0.4
++ *
++ * Feel free to use this script under the terms of the GNU General Public
++ * License, as long as you do not remove or alter this notice.
++ */
++
++ /* modified by Troy D. Hanson, September 2006. License: GPL */
++ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
++
++// toclevels = 1..4.
++toc: function (toclevels) {
++
++  function getText(el) {
++    var text = "";
++    for (var i = el.firstChild; i != null; i = i.nextSibling) {
++      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
++        text += i.data;
++      else if (i.firstChild != null)
++        text += getText(i);
++    }
++    return text;
++  }
++
++  function TocEntry(el, text, toclevel) {
++    this.element = el;
++    this.text = text;
++    this.toclevel = toclevel;
++  }
++
++  function tocEntries(el, toclevels) {
++    var result = new Array;
++    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
++    // Function that scans the DOM tree for header elements (the DOM2
++    // nodeIterator API would be a better technique but not supported by all
++    // browsers).
++    var iterate = function (el) {
++      for (var i = el.firstChild; i != null; i = i.nextSibling) {
++        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
++          var mo = re.exec(i.tagName);
++          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
++            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
++          }
++          iterate(i);
++        }
++      }
++    }
++    iterate(el);
++    return result;
++  }
++
++  var toc = document.getElementById("toc");
++  if (!toc) {
++    return;
++  }
++
++  // Delete existing TOC entries in case we're reloading the TOC.
++  var tocEntriesToRemove = [];
++  var i;
++  for (i = 0; i < toc.childNodes.length; i++) {
++    var entry = toc.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div'
++     && entry.getAttribute("class")
++     && entry.getAttribute("class").match(/^toclevel/))
++      tocEntriesToRemove.push(entry);
++  }
++  for (i = 0; i < tocEntriesToRemove.length; i++) {
++    toc.removeChild(tocEntriesToRemove[i]);
++  }
++
++  // Rebuild TOC entries.
++  var entries = tocEntries(document.getElementById("content"), toclevels);
++  for (var i = 0; i < entries.length; ++i) {
++    var entry = entries[i];
++    if (entry.element.id == "")
++      entry.element.id = "_toc_" + i;
++    var a = document.createElement("a");
++    a.href = "#" + entry.element.id;
++    a.appendChild(document.createTextNode(entry.text));
++    var div = document.createElement("div");
++    div.appendChild(a);
++    div.className = "toclevel" + entry.toclevel;
++    toc.appendChild(div);
++  }
++  if (entries.length == 0)
++    toc.parentNode.removeChild(toc);
++},
++
++
++/////////////////////////////////////////////////////////////////////
++// Footnotes generator
++/////////////////////////////////////////////////////////////////////
++
++/* Based on footnote generation code from:
++ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
++ */
++
++footnotes: function () {
++  // Delete existing footnote entries in case we're reloading the footnodes.
++  var i;
++  var noteholder = document.getElementById("footnotes");
++  if (!noteholder) {
++    return;
++  }
++  var entriesToRemove = [];
++  for (i = 0; i < noteholder.childNodes.length; i++) {
++    var entry = noteholder.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
++      entriesToRemove.push(entry);
++  }
++  for (i = 0; i < entriesToRemove.length; i++) {
++    noteholder.removeChild(entriesToRemove[i]);
++  }
++
++  // Rebuild footnote entries.
++  var cont = document.getElementById("content");
++  var spans = cont.getElementsByTagName("span");
++  var refs = {};
++  var n = 0;
++  for (i=0; i<spans.length; i++) {
++    if (spans[i].className == "footnote") {
++      n++;
++      var note = spans[i].getAttribute("data-note");
++      if (!note) {
++        // Use [\s\S] in place of . so multi-line matches work.
++        // Because JavaScript has no s (dotall) regex flag.
++        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
++        spans[i].innerHTML =
++          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++        spans[i].setAttribute("data-note", note);
++      }
++      noteholder.innerHTML +=
++        "<div class='footnote' id='_footnote_" + n + "'>" +
++        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
++        n + "</a>. " + note + "</div>";
++      var id =spans[i].getAttribute("id");
++      if (id != null) refs["#"+id] = n;
++    }
++  }
++  if (n == 0)
++    noteholder.parentNode.removeChild(noteholder);
++  else {
++    // Process footnoterefs.
++    for (i=0; i<spans.length; i++) {
++      if (spans[i].className == "footnoteref") {
++        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
++        href = href.match(/#.*/)[0];  // Because IE return full URL.
++        n = refs[href];
++        spans[i].innerHTML =
++          "[<a href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++      }
++    }
++  }
++},
++
++install: function(toclevels) {
++  var timerId;
++
++  function reinstall() {
++    asciidoc.footnotes();
++    if (toclevels) {
++      asciidoc.toc(toclevels);
++    }
++  }
++
++  function reinstallAndRemoveTimer() {
++    clearInterval(timerId);
++    reinstall();
++  }
++
++  timerId = setInterval(reinstall, 500);
++  if (document.addEventListener)
++    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
++  else
++    window.onload = reinstallAndRemoveTimer;
++}
++
++}
++asciidoc.install();
++/*]]>*/
++</script>
++</head>
++<body class="manpage">
++<div id="header">
++<h1>
++nvme-monitor(1) Manual Page
++</h1>
++<h2>NAME</h2>
++<div class="sectionbody">
++<p>nvme-monitor -
++   Monitor Discovery events and Discover and Connect automatically
 +</p>
-+</dd>
++</div>
++</div>
++<div id="content">
++<div class="sect1">
++<h2 id="_synopsis">SYNOPSIS</h2>
++<div class="sectionbody">
++<div class="verseblock">
++<pre class="content"><em>nvme discover</em>
++                [--autoconnect            | -A
++                [--startup                | -U
++                [--persistent             | -p
++                [--hostnqn=&lt;hostnqn&gt;      | -q &lt;hostnqn&gt;]
++                [--hostid=&lt;hostid&gt;        | -I &lt;hostid&gt;]
++                [--keep-alive-tmo=&lt;#&gt;     | -k &lt;#&gt;]
++                [--reconnect-delay=&lt;#&gt;    | -c &lt;#&gt;]
++                [--ctrl-loss-tmo=&lt;#&gt;      | -l &lt;#&gt;]
++                [--hdr-digest             | -g]
++                [--data-digest            | -G]
++                [--nr-io-queues=&lt;#&gt;       | -i &lt;#&gt;]
++                [--nr-write-queues=&lt;#&gt;    | -W &lt;#&gt;]
++                [--nr-poll-queues=&lt;#&gt;     | -P &lt;#&gt;]
++                [--queue-size=&lt;#&gt;         | -Q &lt;#&gt;]
++                [--matching               | -m]
++                [--persistent             | -p]
++                [--silent                 | -S]
++                [--verbose                | -v]
++                [--debug                  | -D]
++                [--clockstamps            | -C]</pre>
++<div class="attribution">
++</div></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_description">DESCRIPTION</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Listen to Discovery events (Asynchronous Event Notifications, AENs) on
++NVMe-over-Fabrics (NVMeoF) Discovery Controllers and for other events related
++to NVMeoF Discovery, and optionally connect to newly discovered controllers.</p></div>
++<div class="paragraph"><p>If no parameters are given, then <em>nvme monitor</em> listens to Discovery-related
++udev events (uevents). If an event is received, it connects to the Discovery
++Controller and performs the equivalent of an <em>nvme discover</em> on the associated
++transport address. If the <em>--autoconnect</em> option is given, it performs the
++equivalent of an <em>nvme connect-all</em> instead. When run through a systemd
++service in <em>--autoconnect</em> mode, the monitor can be used as an alternative to
++the udev-rule based auto-activation of NVMeoF connections.</p></div>
++<div class="paragraph"><p>Currently, the following event types are supported:</p></div>
++<div class="ulist"><ul>
++<li>
++<p>
++"Discovery Log Page Change" Asynchronous Event Notifications (AENs)
++  delivered via persistent connections to NVMeoF discovery controllers
++  connected to the discovery service (<code>nqn.2014-08.org.nvmexpress.discovery</code>).
++  Note that without the <em>--persistent</em> option, <em>nvme monitor</em> will not create
++  persistent Discovery controllers itself, but it will receive and act upon
++  AENs sent from persistent Discovery Controllers which were created manually
++  or by other programs.
++</p>
++</li>
++<li>
++<p>
++FC-NVMe auto-connect uevents sent when the FibreChannel transport discovers
++  N_Ports offering NVMe services.
++</p>
++</li>
++</ul></div>
++<div class="paragraph"><p>See the documentation for the nvme-connect-all(1) and nvme-discover(1)
++commands for further background.</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_options">OPTIONS</h2>
++<div class="sectionbody">
++<div class="dlist"><dl>
 +<dt class="hdlist1">
-+-K
++-A
 +</dt>
 +<dt class="hdlist1">
-+--keep
++--autoconnect
 +</dt>
 +<dd>
 +<p>
-+        Do not tear down created persistent discovery controllers when
-+        exiting. This option makes only sense together with <em>--persistent</em>.
-+        When <em>nvme monitor</em> detects that it is running in the initial RAM FS
-+        (initrd), <em>--keep</em> is implicitly assumed, i.e. discovery connections
-+        are not stopped. This is because after switching from the initrd to
-+        the real root file system, another <em>nvme monitor</em> instance will
-+        probably be started that can reuse the created controller instances.
- </p>
- </dd>
- <dt class="hdlist1">
-@@ -1042,7 +1060,7 @@ nvme-connect-all(1)</p></div>
- <div id="footer">
- <div id="footer-text">
- Last updated
-- 2021-01-20 23:53:52 CET
-+ 2021-01-25 22:35:29 CET
- </div>
- </div>
- </body>
++        If this option is given, <em>nvme monitor</em> will attempt to connect to
++        newly discovered controllers.
++        In order to avoid race conditions with <em>nvme connect-all</em> commands
++        spawned by udev rules via systemd&#8217;s <code>nvmf-connect@.service</code>, an empty
++        rule is created under <code>/run/udev/rules.d/70-nvmf-autoconnect.rules</code>,
++        disabling the udev rules that start this service. The file will be
++        deleted when <em>nvme monitor</em> terminates.
++</p>
++</dd>
++<dt class="hdlist1">
++-U
++</dt>
++<dt class="hdlist1">
++--startup
++</dt>
++<dd>
++<p>
++        Look for existing NVMe connections (i.e. transport addresses with at
++        least one connected controller) during startup, start a discovery
++        controller on every detected connection, retrieve the log page and (if
++        <em>--autoconnect</em> is also given) connect to all discovered controllers.
++        Use the <em>--persistent</em> option to make the Discovery Controllers
++        persist after retrieving the Discovery Log page.
++</p>
++</dd>
++<dt class="hdlist1">
++-p
++</dt>
++<dt class="hdlist1">
++--persistent
++</dt>
++<dd>
++<p>
++        This option has the same meaning as for <em>nvme discover</em>; Discovery
++        Controllers will remain after the Discovery Log Page has been
++        retrieved. This is necessary for receiving AENs from the transport
++        connection that the Discovery controller is associated with. Without
++        this option, AENs can only be received and acted upon if the
++        administrator manually creates persistent Discovery controller
++        connections.
++        When <em>nvme monitor</em> terminates, it will attempt to take down all
++        Discovery Controllers it has created (i.e. ones that didn&#8217;t already
++        exist when <em>nvme monitor</em> was started.
++</p>
++</dd>
++<dt class="hdlist1">
++-q &lt;hostnqn&gt;
++</dt>
++<dt class="hdlist1">
++--hostnqn=&lt;hostnqn&gt;
++</dt>
++<dt class="hdlist1">
++-I &lt;hostid&gt;
++</dt>
++<dt class="hdlist1">
++--hostid=&lt;hostid&gt;
++</dt>
++<dt class="hdlist1">
++-k &lt;#&gt;
++</dt>
++<dt class="hdlist1">
++--keep-alive-tmo=&lt;#&gt;
++</dt>
++<dt class="hdlist1">
++-c &lt;#&gt;
++</dt>
++<dt class="hdlist1">
++--reconnect-delay=&lt;#&gt;
++</dt>
++<dt class="hdlist1">
++-l &lt;#&gt;
++</dt>
++<dt class="hdlist1">
++--ctrl-loss-tmo=&lt;#&gt;
++</dt>
++<dt class="hdlist1">
++-g
++</dt>
++<dt class="hdlist1">
++--hdr-digest
++</dt>
++<dt class="hdlist1">
++-G
++</dt>
++<dt class="hdlist1">
++--data-digest
++</dt>
++<dt class="hdlist1">
++-i &lt;#&gt;
++</dt>
++<dt class="hdlist1">
++--nr-io-queues=&lt;#&gt;
++</dt>
++<dt class="hdlist1">
++-W &lt;#&gt;
++</dt>
++<dt class="hdlist1">
++--nr-write-queues=&lt;#&gt;
++</dt>
++<dt class="hdlist1">
++-P &lt;#&gt;
++</dt>
++<dt class="hdlist1">
++--nr-poll-queues=&lt;#&gt;
++</dt>
++<dt class="hdlist1">
++-Q &lt;#&gt;
++</dt>
++<dt class="hdlist1">
++--queue-size=&lt;#&gt;
++</dt>
++<dt class="hdlist1">
++-m
++</dt>
++<dt class="hdlist1">
++--matching
++</dt>
++<dd>
++<p>
++        These options have the same meaning as for <em>nvme connect-all</em>. See the
++        man page nvme-connect-all(1) for details.
++</p>
++</dd>
++<dt class="hdlist1">
++-p
++</dt>
++<dt class="hdlist1">
++--persistent
++</dt>
++<dd>
++<p>
++        Don&#8217;t remove the discovery controller after retrieving the discovery
++        log page.
++</p>
++</dd>
++<dt class="hdlist1">
++-S
++</dt>
++<dt class="hdlist1">
++--silent
++</dt>
++<dd>
++<p>
++        Only print warnings and severe error messages. Do not log discoveries
++        and newly created controllers.
++</p>
++</dd>
++<dt class="hdlist1">
++-v
++</dt>
++<dt class="hdlist1">
++--verbose
++</dt>
++<dd>
++<p>
++        Log informational messages. This option overrides <em>--silent</em>.
++</p>
++</dd>
++<dt class="hdlist1">
++-D
++</dt>
++<dt class="hdlist1">
++--debug
++</dt>
++<dd>
++<p>
++        Log informational and debug messages. This option overrieds <em>--silent</em>
++        and <em>--verbose</em>.
++</p>
++</dd>
++</dl></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_examples">EXAMPLES</h2>
++<div class="sectionbody">
++<div class="ulist"><ul>
++<li>
++<p>
++Listen to FC-NVME events and AENs, creating persistent Discovery Controllers
++on the way, and automatically connect to all discovered controllers:
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme discover --autoconnect --persistent</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Like the above, but print more log messages and try to set up Discovery
++Controllers on startup, and using a different host NQN:
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme discover --autoconnect --persistent --startup --verbose \
++--hostqn=host1-rogue-nqn</code></pre>
++</div></div>
++</li>
++</ul></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_see_also">SEE ALSO</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>nvme-discover(1)
++nvme-connect-all(1)</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_nvme">NVME</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Part of the nvme-user suite</p></div>
++</div>
++</div>
++</div>
++<div id="footnotes"><hr /></div>
++<div id="footer">
++<div id="footer-text">
++Last updated
++ 2021-01-20 23:53:52 CET
++</div>
++</div>
++</body>
++</html>
 diff --git a/Documentation/nvme-monitor.txt b/Documentation/nvme-monitor.txt
-index 9232fab..517d036 100644
---- a/Documentation/nvme-monitor.txt
+new file mode 100644
+index 0000000..9232fab
+--- /dev/null
 +++ b/Documentation/nvme-monitor.txt
-@@ -12,6 +12,7 @@ SYNOPSIS
- 		[--autoconnect            | -A]
- 		[--startup                | -U]
- 		[--persistent             | -p]
-+		[--keep                   | -K]
- 		[--hostnqn=<hostnqn>      | -q <hostnqn>]
- 		[--hostid=<hostid>        | -I <hostid>]
- 		[--keep-alive-tmo=<#>     | -k <#>]
-diff --git a/monitor.c b/monitor.c
-index ecf6706..40d1f29 100644
---- a/monitor.c
-+++ b/monitor.c
-@@ -44,6 +44,7 @@ static struct monitor_config {
- 	bool autoconnect;
- 	bool skip_udev_on_exit;
- 	bool start_ctrls;
-+	bool keep_ctrls;
- } mon_cfg;
- 
- static struct udev *udev;
-@@ -669,6 +670,7 @@ static int monitor_parse_opts(const char *desc, int argc, char **argv)
- 		OPT_FLAG("autoconnect",    'A', &mon_cfg.autoconnect, "automatically connect newly discovered controllers"),
- 		OPT_FLAG("startup",        'U', &mon_cfg.start_ctrls, "start discovery controllers on startup"),
- 		OPT_FLAG("persistent",     'p', &cfg.persistent,      "persistent discovery connections"),
-+		OPT_FLAG("keep",           'K', &mon_cfg.keep_ctrls,  "keep discovery controllers after exit"),
- 		OPT_LIST("hostnqn",        'q', &cfg.hostnqn,         "user-defined hostnqn (if default not used)"),
- 		OPT_LIST("hostid",         'I', &cfg.hostid,          "user-defined hostid (if default not used)"),
- 		OPT_INT("keep-alive-tmo",  'k', &cfg.keep_alive_tmo,  "keep alive timeout period in seconds"),
-@@ -716,6 +718,11 @@ static int monitor_parse_opts(const char *desc, int argc, char **argv)
- 	return ret;
- }
- 
-+static bool running_in_initrd(void)
-+{
-+	return access("/etc/initrd-release", F_OK) >= 0;
-+}
+@@ -0,0 +1,169 @@
++nvme-monitor(1)
++===============
 +
- int aen_monitor(const char *desc, int argc, char **argv)
- {
- 	int ret;
-@@ -724,11 +731,16 @@ int aen_monitor(const char *desc, int argc, char **argv)
- 	ret = monitor_parse_opts(desc, argc, argv);
- 	if (ret)
- 		goto out;
++NAME
++----
++nvme-monitor - Monitor Discovery events and Discover and Connect automatically
 +
- 	ret = monitor_init_signals();
- 	if (ret != 0) {
- 		log(LOG_ERR, "monitor: failed to initialize signals: %m\n");
- 		goto out;
- 	}
++SYNOPSIS
++--------
++[verse]
++'nvme discover'
++		[--autoconnect            | -A]
++		[--startup                | -U]
++		[--persistent             | -p]
++		[--hostnqn=<hostnqn>      | -q <hostnqn>]
++		[--hostid=<hostid>        | -I <hostid>]
++		[--keep-alive-tmo=<#>     | -k <#>]
++		[--reconnect-delay=<#>    | -c <#>]
++		[--ctrl-loss-tmo=<#>      | -l <#>]
++		[--hdr-digest             | -g]
++		[--data-digest            | -G]
++		[--nr-io-queues=<#>       | -i <#>]
++		[--nr-write-queues=<#>    | -W <#>]
++		[--nr-poll-queues=<#>     | -P <#>]
++		[--queue-size=<#>         | -Q <#>]
++		[--matching               | -m]
++		[--persistent             | -p]
++		[--silent                 | -S]
++		[--verbose                | -v]
++		[--debug                  | -D]
++		[--clockstamps            | -C]
 +
-+	if (running_in_initrd())
-+		mon_cfg.keep_ctrls = true;
++DESCRIPTION
++-----------
++Listen to Discovery events (Asynchronous Event Notifications, AENs) on
++NVMe-over-Fabrics (NVMeoF) Discovery Controllers and for other events related
++to NVMeoF Discovery, and optionally connect to newly discovered controllers.
 +
- 	ret = create_udev_monitor(&monitor);
- 	if (ret == 0) {
- 		conndb_init_from_sysfs();
-@@ -739,7 +751,8 @@ int aen_monitor(const char *desc, int argc, char **argv)
- 	}
- 
- 	conndb_for_each(monitor_kill_discovery_task, NULL);
--	if (mon_cfg.autoconnect || mon_cfg.start_ctrls)
-+	if ((mon_cfg.autoconnect || mon_cfg.start_ctrls) &&
-+	    !mon_cfg.keep_ctrls)
- 		conndb_for_each(monitor_remove_discovery_ctrl, NULL);
- 	conndb_free();
- 
++If no parameters are given, then 'nvme monitor' listens to Discovery-related
++udev events (uevents). If an event is received, it connects to the Discovery
++Controller and performs the equivalent of an 'nvme discover' on the associated
++transport address. If the '--autoconnect' option is given, it performs the
++equivalent of an 'nvme connect-all' instead. When run through a systemd
++service in '--autoconnect' mode, the monitor can be used as an alternative to
++the udev-rule based auto-activation of NVMeoF connections.
++
++Currently, the following event types are supported:
++
++- "Discovery Log Page Change" Asynchronous Event Notifications (AENs)
++  delivered via persistent connections to NVMeoF discovery controllers
++  connected to the discovery service (`nqn.2014-08.org.nvmexpress.discovery`).
++  Note that without the '--persistent' option, 'nvme monitor' will not create
++  persistent Discovery controllers itself, but it will receive and act upon
++  AENs sent from persistent Discovery Controllers which were created manually
++  or by other programs.
++
++- FC-NVMe auto-connect uevents sent when the FibreChannel transport discovers
++  N_Ports offering NVMe services.
++
++See the documentation for the nvme-connect-all(1) and nvme-discover(1)
++commands for further background.
++
++OPTIONS
++-------
++
++-A::
++--autoconnect::
++	If this option is given, 'nvme monitor' will attempt to connect to
++	newly discovered controllers.
++	In order to avoid race conditions with 'nvme connect-all' commands
++	spawned by udev rules via systemd's `nvmf-connect@.service`, an empty
++	rule is created under `/run/udev/rules.d/70-nvmf-autoconnect.rules`,
++	disabling the udev rules that start this service. The file will be
++	deleted when 'nvme monitor' terminates.
++	
++-U::
++--startup::
++	Look for existing NVMe connections (i.e. transport addresses with at
++	least one connected controller) during startup, start a discovery
++	controller on every detected connection, retrieve the log page and (if
++	'--autoconnect' is also given) connect to all discovered controllers.
++	Use the '--persistent' option to make the Discovery Controllers
++	persist after retrieving the Discovery Log page.
++
++-p::
++--persistent::
++	This option has the same meaning as for 'nvme discover'; Discovery
++	Controllers will remain after the Discovery Log Page has been
++	retrieved. This is necessary for receiving AENs from the transport
++	connection that the Discovery controller is associated with. Without
++	this option, AENs can only be received and acted upon if the
++	administrator manually creates persistent Discovery controller
++	connections.
++	When 'nvme monitor' terminates, it will attempt to take down all
++	Discovery Controllers it has created (i.e. ones that didn't already
++	exist when 'nvme monitor' was started.
++	
++-q <hostnqn>::
++--hostnqn=<hostnqn>::
++-I <hostid>::
++--hostid=<hostid>::
++-k <#>::
++--keep-alive-tmo=<#>::
++-c <#>::
++--reconnect-delay=<#>::
++-l <#>::
++--ctrl-loss-tmo=<#>::
++-g::
++--hdr-digest::
++-G::
++--data-digest::
++-i <#>::
++--nr-io-queues=<#>::
++-W <#>::
++--nr-write-queues=<#>::
++-P <#>::
++--nr-poll-queues=<#>::
++-Q <#>::
++--queue-size=<#>::
++-m::
++--matching::
++	These options have the same meaning as for 'nvme connect-all'. See the
++	man page nvme-connect-all(1) for details.
++
++-p::
++--persistent::
++	Don't remove the discovery controller after retrieving the discovery
++	log page.
++
++-S::
++--silent::
++	Only print warnings and severe error messages. Do not log discoveries
++	and newly created controllers.
++
++-v::
++--verbose::
++	Log informational messages. This option overrides '--silent'.
++
++-D::
++--debug::
++	Log informational and debug messages. This option overrieds '--silent'
++	and '--verbose'.
++
++
++EXAMPLES
++--------
++* Listen to FC-NVME events and AENs, creating persistent Discovery Controllers
++on the way, and automatically connect to all discovered controllers:
+++
++------------
++# nvme discover --autoconnect --persistent
++------------
+++
++* Like the above, but print more log messages and try to set up Discovery
++Controllers on startup, and using a different host NQN:
+++
++-----------
++# nvme discover --autoconnect --persistent --startup --verbose \
++--hostqn=host1-rogue-nqn
++------------
++
++SEE ALSO
++--------
++nvme-discover(1)
++nvme-connect-all(1)
++
++NVME
++----
++Part of the nvme-user suite
 -- 
 2.29.2
 
