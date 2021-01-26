@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 418E3C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 14:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20563C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 14:37:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A82BC23110
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 14:36:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A82BC23110
+	by mail.kernel.org (Postfix) with ESMTPS id 5750E2251F
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 14:37:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5750E2251F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,37 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7CKdkWlJZ8JgVTZVBWgvR9TtaVpD0ph/c0iObbVP77g=; b=SxnMbWMIxEJJryYjnCNrVajcx
-	FDiN/vgvGPHLFfpJxlYwx/R8D3JMVjqmCrq29ScFjbXso9GLLlQw3WVSkk9jhjHLW8XV3lDz3FWbb
-	1glBiAPLHA0zW75H0Z8j1hoaFS6kKSBTgZiK1akEuSbptycSGY2U+vKnZv+aht53jmkJC69vTFNjP
-	kATAVTaCMOKDRibrFjmttdyXhMz694Csw9zkibb2i31XsO5PV2bwSdtXLx5D6LvYtnXy5I1cEYHVV
-	5Cnaj5p2gbvMbMThY+GDDp54hmlu/aBy9aSvXIgpEx/Qk8oZmXwTNBc7/sZMOSvBS0YDW32yc/XLz
-	b1sezWubw==;
+	 bh=1WWt21/zY82aEkGQLwY5qpWbKDDqQplbE+MrWwVc2Gs=; b=IQ3Ube65g7qqJtMvEafazpze7
+	Sh5BAhp4eMcYIdDqTCF0Bi7JaXzWiPRB4R2eEawqm3JnKUtbRDAJwYuWeBcS6kmZZ/aOzOkyZBmTj
+	qB8TfNnZLwtyjBbkd/sI+GkBTABKtaOMUJJr4vH6DM8uBlROtnc6cRVv8en+JZMkTbV6QfaMLD5kY
+	zg/5iG5lp+v9NsXAclaXkHiEzWmskpKZY0Ci2BX2HUrkr4Ie01Olt/OajjWKoAXpbVxNRp98ULYVo
+	IZO3uEG8l9IfVUFJlnv9/li3fRGzUv3IPNGgC/qlZfb4RB2uimiT8EfAN+3HKHpVz2Z3m0rQBZWxT
+	LiJMpKH4A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4PRl-0003sz-Jv; Tue, 26 Jan 2021 14:35:57 +0000
+	id 1l4PSk-00041l-J3; Tue, 26 Jan 2021 14:36:58 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4PRk-0003sn-00
- for linux-nvme@merlin.infradead.org; Tue, 26 Jan 2021 14:35:56 +0000
+ id 1l4PSj-00041D-0S
+ for linux-nvme@merlin.infradead.org; Tue, 26 Jan 2021 14:36:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=uAijLOVlzlFNtFA5epK1dLVk2Tr9v2ryv/7iM8cK8Zo=; b=Ovbezc3+HTgEaW4815+0vDmjXn
- f7s6rCMADSJtocBqb/jiquCUK3OOt4DBLalRbHTj4mi7j8HVLi2jj4DEscvd79lqopS07NoC9wD+/
- 7oBLkWs3uJV2RX9tp9QFMtde8dMiQW6+JXxIiKDGKbClw/LgdNRX5DytSPRibTFd4/x6XExaVAD+x
- PQ6H7hF1grNMuD6XU5e7uGVlqZYAno94gsGlCf3dAhlydV2EU12gv87EBzouilzkpXDWcCe/kiAip
- oCB8Kp1eGFvttT7bmdQsQEGmUrZnd0AyPzgnrFeS1RXyUN8nnNqSLiDQGCOOnHl4AzEbe33FrtyFQ
- 12/d7R5w==;
+ bh=2XqxOZtHM5Bw3MRdYJR44mpyg5vHzYUaISWk2JVAadc=; b=edrJAdJuPY6f6qVPJO4fPTtVAX
+ iMRzc0A+vsa3NTAFYev7OmOY7x/E+P9UHYBInZlxwfF+EBNsvbnmn9tf4WQPAufCPbH7rZZnlL7hY
+ TUeviDNB5qbrRbIxoFaukOhCRra93/besKn1YtVMHtXkCnzAczbRJVsi9kxZb2A6zHWZWNz+Oxpg0
+ G0AVtYRsexRC2I6frlCUwMxznPmpGRqgV0MUeIi6JB5uce57AAmjBls4yBJNQW/PVL7eJtXRgDygM
+ kcS6hKjuc/axg0POGV6FZKmqSMx0LsWogSMRvCMHl6s2th3Uph1VeDgLRTWYNCWuhadNK/ZtYyY5A
+ nNPdeXjQ==;
 Received: from [2001:4bb8:191:e347:5918:ac86:61cb:8801] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1l4PQm-005kHu-Tg; Tue, 26 Jan 2021 14:35:04 +0000
+ id 1l4PRk-005kQp-5o; Tue, 26 Jan 2021 14:36:14 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: axboe@kernel.dk
-Subject: [PATCH 1/3] nvme: use bio_set_dev to assign ->bi_bdev
-Date: Tue, 26 Jan 2021 15:33:06 +0100
-Message-Id: <20210126143308.1960860-2-hch@lst.de>
+Subject: [PATCH 2/3] bcache: use bio_set_dev to assign ->bi_bdev
+Date: Tue, 26 Jan 2021 15:33:07 +0100
+Message-Id: <20210126143308.1960860-3-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210126143308.1960860-1-hch@lst.de>
 References: <20210126143308.1960860-1-hch@lst.de>
@@ -83,59 +83,22 @@ other state related to the device is uptodate.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c      | 2 +-
- drivers/nvme/host/lightnvm.c  | 2 +-
- drivers/nvme/host/multipath.c | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/md/bcache/debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index eb7963fb167b56..ba5df80881ea98 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1133,7 +1133,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 		if (ret)
- 			goto out;
- 		bio = req->bio;
--		bio->bi_bdev = bdev;
-+		bio_set_dev(bio, bdev);
- 		if (bdev && meta_buffer && meta_len) {
- 			meta = nvme_add_user_metadata(bio, meta_buffer, meta_len,
- 					meta_seed, write);
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index ec38128f51e994..b705988629f224 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -816,7 +816,7 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
- 			vcmd->ph_rw.metadata = cpu_to_le64(metadata_dma);
- 		}
- 
--		bio->bi_bdev = ns->disk->part0;
-+		bio_set_dev(bio, ns->disk->part0);
- 	}
- 
- 	blk_execute_rq(NULL, rq, 0);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index a6d44e7a775f54..65bd6efa5e1c69 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -312,7 +312,7 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
- 	srcu_idx = srcu_read_lock(&head->srcu);
- 	ns = nvme_find_path(head);
- 	if (likely(ns)) {
--		bio->bi_bdev = ns->disk->part0;
-+		bio_set_dev(bio, ns->disk->part0);
- 		bio->bi_opf |= REQ_NVME_MPATH;
- 		trace_block_bio_remap(bio, disk_devt(ns->head->disk),
- 				      bio->bi_iter.bi_sector);
-@@ -352,7 +352,7 @@ static void nvme_requeue_work(struct work_struct *work)
- 		 * Reset disk to the mpath node and resubmit to select a new
- 		 * path.
- 		 */
--		bio->bi_bdev = head->disk->part0;
-+		bio_set_dev(bio, head->disk->part0);
- 		submit_bio_noacct(bio);
- 	}
- }
+diff --git a/drivers/md/bcache/debug.c b/drivers/md/bcache/debug.c
+index 058dd80144281e..63e809f38e3f51 100644
+--- a/drivers/md/bcache/debug.c
++++ b/drivers/md/bcache/debug.c
+@@ -114,7 +114,7 @@ void bch_data_verify(struct cached_dev *dc, struct bio *bio)
+ 	check = bio_kmalloc(GFP_NOIO, bio_segments(bio));
+ 	if (!check)
+ 		return;
+-	check->bi_bdev = bio->bi_bdev;
++	bio_set_dev(check, bio->bi_bdev);
+ 	check->bi_opf = REQ_OP_READ;
+ 	check->bi_iter.bi_sector = bio->bi_iter.bi_sector;
+ 	check->bi_iter.bi_size = bio->bi_iter.bi_size;
 -- 
 2.29.2
 
