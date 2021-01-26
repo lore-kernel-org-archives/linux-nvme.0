@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37315C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E91B6C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:56 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E3ED8221FC
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E3ED8221FC
+	by mail.kernel.org (Postfix) with ESMTPS id 9FFC3221FC
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FFC3221FC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,45 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=N8La9e1YunAgkf5MPvoPA/I82ZEVJfbyZM5XkGfIXnQ=; b=g+0qWnhuP72CmNbTL48md66x+
-	gMYY7QJjeTBvsFoaIC88UnoXRvuabbnNjKJK1hZxJKLoaQWy4BDeBBWmY/5jS7G1LlHgcrlMkwtJg
-	vK4/VNDmIwIg/FlqqsjAjcWBO7wSEsjvtzwL0n5zLx+Do9r3OTV22mbi6eElqjyLFbqg+1fZEYvjB
-	XcqCO4VQaYpCqUJPBbKxcbsXSxQxDj3XPF9pp1gNtwM+nq48PI8t+I6SKI3CkaJtO6HAxsWwNb/NK
-	LkLHWNcNjjfbyVXD1HiHPwN3mmpW7gkZvv/Y0NPqGhkC/+/xi7Cy0hGeU5dCUHI1c5VX3IPSSdpMd
-	iWalO9FbA==;
+	 bh=0O+ybu0poxAGV0pXTzZaivF+u69MFNojhYHxJba7HTo=; b=1loF7JTZUdlzoUtezLZc51hJo
+	Pf4idkLHAztkeylcOMTcWRJeXHZ/JnwZMvJpTl1QmJDOMqgJHbXuH7h+f/MaMaWsN3jXjX18w+n2Z
+	2XgGMiQpirbOoJSCVvkI3l9lofVQqdyZlx/P/R0QokiHyVnbnr8r9Ja2pCq7QAvUn4t+Gr78y8dWo
+	iuKuS6v+HkmajgW3s+aCoo+jf279YcYUcD4cXsRsjVXxn++vN4t6LBAp+5KlOms4tnBNceF5P0NEx
+	5Envk3gbubi8/DFTh0NSinIONlst+7tfyGxxg2OG+pEoZEGXQsec3BKxECq/Sn3PRk5Z6qPKHAk82
+	o3ITIYi7w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4V3w-0001pk-8F; Tue, 26 Jan 2021 20:35:44 +0000
+	id 1l4V3D-0001Rj-7l; Tue, 26 Jan 2021 20:34:59 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4V2A-0000zi-8L
- for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 20:34:06 +0000
+ id 1l4V27-0000xs-ON
+ for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 20:33:58 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1611693228; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1611693226; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U5cnnlYyDJZG+ovUnlQgrRjPvhVRRdI2e4gWyg8/V8g=;
- b=UBX69sQQAx0Z/9jqawFNFc4gVLo9pYfpe0QSghvBj5hgC5Hl2/43cdmlQoa203uDwAFyJU
- PEOC6H7y96gjz09iNLifxjqvjupGOS5QhE9YDbIBzHYt6gJ4+4WZpWJRvIIMntB+juBR0G
- D8Xqm2g3ya3NhsR9YowQ09709Q9YBOc=
+ bh=JqYq6i+77Cc3/8pGBrBQIIJQy3ewKxUL6VSxVIAyWKg=;
+ b=XNokWBEw9Zlldarw8DTZ/DYN0FroMBGYPJHvYkln7qwXAzLNlegenK7LkBA5wiICd453ib
+ mb8oU89yfvkpVgVr/JW62YMiakXr7IcfkXaQk3ugvCdDKwQtw6KXy90YaCD5PpfQaS3H8+
+ USCsQEZcrXNeK82VEoZmomzsFtrZAEg=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 82BE1B066;
- Tue, 26 Jan 2021 20:33:48 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 13018AFFA;
+ Tue, 26 Jan 2021 20:33:46 +0000 (UTC)
 From: mwilck@suse.com
 To: Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 21/35] nvme-cli: add "list.h"
-Date: Tue, 26 Jan 2021 21:33:10 +0100
-Message-Id: <20210126203324.23610-22-mwilck@suse.com>
+Subject: [PATCH 13/35] monitor: disable nvmf-autoconnect udev rules in
+ autoconnect mode
+Date: Tue, 26 Jan 2021 21:33:02 +0100
+Message-Id: <20210126203324.23610-14-mwilck@suse.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210126203324.23610-1-mwilck@suse.com>
 References: <20210126203324.23610-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210126_153354_617239_226C2C71 
-X-CRM114-Status: GOOD (  26.93  )
+X-CRM114-CacheID: sfid-20210126_153352_152326_FBE447DA 
+X-CRM114-Status: GOOD (  21.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,386 +84,161 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
-Adding "list.h" from multipath-tools, which got it from the kernel
-long ago.
+If autoconnect is enabled, disable the respective udev rules
+by symlinking /run/udev/rules.d to /dev/null, in order to avoid
+the connections being set up by the monitor and the udev workers
+at the same time. This is probably the preferred mode of operation
+for the monitor.
+
+Users can override this by copying 70-nvmf-autoconnect.rules
+from /usr/lib/udev/rules.d to /etc/udev/rules.d (/etc/udev/rules.d
+takes precedence over /run/udev/rules.d).
+
+If the symlink can't be created for some reason, autoconnect will
+be disabled. There is  only one exception: If
+/run/udev/rules.d/70-nvmf-autoconnect.rules already points to
+/dev/null at startup, autoconnect can be left on, but the symlink
+isn't removed on exit.
 
 Signed-off-by: Martin Wilck <mwilck@suse.com>
 ---
- list.h | 365 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 365 insertions(+)
- create mode 100644 list.h
+ monitor.c | 75 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 73 insertions(+), 2 deletions(-)
 
-diff --git a/list.h b/list.h
-new file mode 100644
-index 0000000..ced021f
---- /dev/null
-+++ b/list.h
-@@ -0,0 +1,365 @@
-+/*
-+ * Copied from the Linux kernel source tree, version 2.6.0-test1.
-+ *
-+ * Licensed under the GPL v2 as per the whole kernel source tree.
-+ *
-+ */
+diff --git a/monitor.c b/monitor.c
+index ecf3be2..2a906db 100644
+--- a/monitor.c
++++ b/monitor.c
+@@ -17,14 +17,18 @@
+ 
+ #include <stddef.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <unistd.h>
+ #include <errno.h>
+ #include <libudev.h>
+ #include <signal.h>
+ #include <time.h>
++#include <limits.h>
+ #include <syslog.h>
++#include <sys/stat.h>
+ #include <sys/epoll.h>
+ 
++#include "common.h"
+ #include "nvme-status.h"
+ #include "util/argconfig.h"
+ #include "monitor.h"
+@@ -33,6 +37,7 @@
+ 
+ static struct monitor_config {
+ 	bool autoconnect;
++	bool skip_udev_on_exit;
+ } mon_cfg;
+ 
+ static struct udev *udev;
+@@ -45,6 +50,8 @@ static void close_ptr(int *p)
+ 	}
+ }
+ 
++CLEANUP_FUNC(char)
 +
-+#ifndef _LIST_H
-+#define _LIST_H
+ static void cleanup_monitor(struct udev_monitor **pmon)
+ {
+ 	if (*pmon) {
+@@ -174,12 +181,64 @@ static int monitor_main_loop(struct udev_monitor *monitor)
+ 	return ret;
+ }
+ 
++static const char autoconnect_rules[] = "/run/udev/rules.d/70-nvmf-autoconnect.rules";
 +
-+#include <stddef.h>
-+
-+/**
-+ * container_of - cast a member of a structure out to the containing structure
-+ *
-+ * @ptr:	the pointer to the member.
-+ * @type:	the type of the container struct this is embedded in.
-+ * @member:	the name of the member within the struct.
-+ *
-+ */
-+#define container_of_const(ptr, type, member) ({		\
-+	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
-+	(const type *)( (const char *)__mptr - offsetof(type,member) );})
-+
-+#define container_of(ptr, type, member) ({		\
-+	typeof( ((type *)0)->member ) *__mptr = (ptr);	\
-+	(type *)( (char *)__mptr - offsetof(type,member) );})
-+
-+/*
-+ * These are non-NULL pointers that will result in page faults
-+ * under normal circumstances, used to verify that nobody uses
-+ * non-initialized list entries.
-+ */
-+#define LIST_POISON1  ((void *) 0x00100100)
-+#define LIST_POISON2  ((void *) 0x00200200)
-+
-+/*
-+ * Simple doubly linked list implementation.
-+ *
-+ * Some of the internal functions ("__xxx") are useful when
-+ * manipulating whole lists rather than single entries, as
-+ * sometimes we already know the next/prev entries and we can
-+ * generate better code by using them directly rather than
-+ * using the generic single-entry routines.
-+ */
-+
-+struct list_head {
-+	struct list_head *next, *prev;
-+};
-+
-+#define LIST_HEAD_INIT(name) { &(name), &(name) }
-+
-+#define LIST_HEAD(name) \
-+	struct list_head name = LIST_HEAD_INIT(name)
-+
-+#define INIT_LIST_HEAD(ptr) do { \
-+	(ptr)->next = (ptr); (ptr)->prev = (ptr); \
-+} while (0)
-+
-+/*
-+ * Insert a new entry between two known consecutive entries.
-+ *
-+ * This is only for internal list manipulation where we know
-+ * the prev/next entries already!
-+ */
-+static inline void __list_add(struct list_head *new,
-+			      struct list_head *prev,
-+			      struct list_head *next)
++static int monitor_disable_udev_rules(void)
 +{
-+	next->prev = new;
-+	new->next = next;
-+	new->prev = prev;
-+	prev->next = new;
-+}
++	CLEANUP(char, path) = strdup(autoconnect_rules);
++	char *s1, *s2;
++	int rc;
 +
-+/**
-+ * list_add - add a new entry
-+ * @new: new entry to be added
-+ * @head: list head to add it after
-+ *
-+ * Insert a new entry after the specified head.
-+ * This is good for implementing stacks.
-+ */
-+static inline void list_add(struct list_head *new, struct list_head *head)
-+{
-+	__list_add(new, head, head->next);
-+}
++	if (!path)
++		return -ENOMEM;
 +
-+/**
-+ * list_add_tail - add a new entry
-+ * @new: new entry to be added
-+ * @head: list head to add it before
-+ *
-+ * Insert a new entry before the specified head.
-+ * This is useful for implementing queues.
-+ */
-+static inline void list_add_tail(struct list_head *new, struct list_head *head)
-+{
-+	__list_add(new, head->prev, head);
-+}
++	s2 = strrchr(path, '/');
++	for (s1 = s2 - 1; s1 > path && *s1 != '/'; s1--);
 +
-+/*
-+ * Delete a list entry by making the prev/next entries
-+ * point to each other.
-+ *
-+ * This is only for internal list manipulation where we know
-+ * the prev/next entries already!
-+ */
-+static inline void __list_del(struct list_head * prev, struct list_head * next)
-+{
-+	next->prev = prev;
-+	prev->next = next;
-+}
-+
-+/**
-+ * list_del - deletes entry from list.
-+ * @entry: the element to delete from the list.
-+ * Note: list_empty on entry does not return true after this, the entry is
-+ * in an undefined state.
-+ */
-+static inline void list_del(struct list_head *entry)
-+{
-+	__list_del(entry->prev, entry->next);
-+	entry->next = LIST_POISON1;
-+	entry->prev = LIST_POISON2;
-+}
-+
-+/**
-+ * list_del_init - deletes entry from list and reinitialize it.
-+ * @entry: the element to delete from the list.
-+ */
-+static inline void list_del_init(struct list_head *entry)
-+{
-+	__list_del(entry->prev, entry->next);
-+	INIT_LIST_HEAD(entry);
-+}
-+
-+/**
-+ * list_move - delete from one list and add as another's head
-+ * @list: the entry to move
-+ * @head: the head that will precede our entry
-+ */
-+static inline void list_move(struct list_head *list, struct list_head *head)
-+{
-+	__list_del(list->prev, list->next);
-+	list_add(list, head);
-+}
-+
-+/**
-+ * list_move_tail - delete from one list and add as another's tail
-+ * @list: the entry to move
-+ * @head: the head that will follow our entry
-+ */
-+static inline void list_move_tail(struct list_head *list,
-+				  struct list_head *head)
-+{
-+	__list_del(list->prev, list->next);
-+	list_add_tail(list, head);
-+}
-+
-+/**
-+ * list_empty - tests whether a list is empty
-+ * @head: the list to test.
-+ */
-+static inline int list_empty(struct list_head *head)
-+{
-+	return head->next == head;
-+}
-+
-+static inline void __list_splice(const struct list_head *list,
-+				 struct list_head *prev,
-+				 struct list_head *next)
-+{
-+	struct list_head *first = list->next;
-+	struct list_head *last = list->prev;
-+
-+	first->prev = prev;
-+	prev->next = first;
-+
-+	last->next = next;
-+	next->prev = last;
-+}
-+
-+/**
-+ * list_splice - join two lists
-+ * @list: the new list to add.
-+ * @head: the place to add it in the first list.
-+ */
-+static inline void list_splice(struct list_head *list, struct list_head *head)
-+{
-+	if (!list_empty(list))
-+		__list_splice(list, head, head->next);
-+}
-+
-+/**
-+ * list_splice_tail - join two lists, each list being a queue
-+ * @list: the new list to add.
-+ * @head: the place to add it in the first list.
-+ */
-+static inline void list_splice_tail(struct list_head *list,
-+				    struct list_head *head)
-+{
-+	if (!list_empty(list))
-+		__list_splice(list, head->prev, head);
-+}
-+
-+/**
-+ * list_splice_init - join two lists and reinitialise the emptied list.
-+ * @list: the new list to add.
-+ * @head: the place to add it in the first list.
-+ *
-+ * The list at @list is reinitialised
-+ */
-+static inline void list_splice_init(struct list_head *list,
-+				    struct list_head *head)
-+{
-+	if (!list_empty(list)) {
-+		__list_splice(list, head, head->next);
-+		INIT_LIST_HEAD(list);
++	*s2 = *s1 = '\0';
++	rc = mkdir(path, 0755);
++	if (rc == 0 || errno == EEXIST) {
++		*s1 = '/';
++		rc = mkdir(path, 0755);
++		if (rc == 0 || errno == EEXIST) {
++			*s2 = '/';
++			rc = symlink("/dev/null", path);
++		}
 +	}
++	if (rc) {
++		if (errno == EEXIST) {
++			char target[PATH_MAX];
++
++			if (readlink(path, target, sizeof(target)) != -1 &&
++			    !strcmp(target, "/dev/null")) {
++				log(LOG_INFO,
++				    "symlink %s -> /dev/null exists already\n",
++				    autoconnect_rules);
++				return 1;
++			}
++		}
++		log(LOG_ERR, "error creating %s: %m\n", autoconnect_rules);
++	} else
++		log(LOG_INFO, "created %s\n", autoconnect_rules);
++
++	return rc ? (errno ? -errno : -EIO) : 0;
 +}
 +
-+/**
-+ * list_splice_tail_init - join two lists and reinitialise the emptied list
-+ * @list: the new list to add.
-+ * @head: the place to add it in the first list.
-+ *
-+ * Each of the lists is a queue.
-+ * The list at @list is reinitialised
-+ */
-+static inline void list_splice_tail_init(struct list_head *list,
-+					 struct list_head *head)
++static void monitor_enable_udev_rules(void)
 +{
-+	if (!list_empty(list)) {
-+		__list_splice(list, head->prev, head);
-+		INIT_LIST_HEAD(list);
-+	}
++	if (unlink(autoconnect_rules) == -1 && errno != ENOENT)
++		log(LOG_ERR, "error removing %s: %m\n", autoconnect_rules);
++	else
++		log(LOG_INFO, "removed %s\n", autoconnect_rules);
 +}
 +
-+/**
-+ * list_entry - get the struct for this entry
-+ * @ptr:	the &struct list_head pointer.
-+ * @type:	the type of the struct this is embedded in.
-+ * @member:	the name of the list_struct within the struct.
-+ */
-+#define list_entry(ptr, type, member) \
-+	container_of(ptr, type, member)
+ static int monitor_parse_opts(const char *desc, int argc, char **argv)
+ {
+ 	bool quiet = false;
+ 	bool verbose = false;
+ 	bool debug = false;
+-	int ret;
++	int ret = 0;
 +
-+/**
-+ * list_for_each	-	iterate over a list
-+ * @pos:	the &struct list_head to use as a loop counter.
-+ * @head:	the head for your list.
-+ */
-+#define list_for_each(pos, head) \
-+	for (pos = (head)->next; pos != (head); \
-+		pos = pos->next)
-+
-+/**
-+ * __list_for_each	-	iterate over a list
-+ * @pos:	the &struct list_head to use as a loop counter.
-+ * @head:	the head for your list.
-+ *
-+ * This variant differs from list_for_each() in that it's the
-+ * simplest possible list iteration code.
-+ * Use this for code that knows the list to be very short (empty
-+ * or 1 entry) most of the time.
-+ */
-+#define __list_for_each(pos, head) \
-+	for (pos = (head)->next; pos != (head); pos = pos->next)
-+
-+/**
-+ * list_for_each_prev	-	iterate over a list backwards
-+ * @pos:	the &struct list_head to use as a loop counter.
-+ * @head:	the head for your list.
-+ */
-+#define list_for_each_prev(pos, head) \
-+	for (pos = (head)->prev; pos != (head); pos = pos->prev)
-+
-+/**
-+ * list_for_each_safe	-	iterate over a list safe against removal of list entry
-+ * @pos:	the &struct list_head to use as a loop counter.
-+ * @n:		another &struct list_head to use as temporary storage
-+ * @head:	the head for your list.
-+ */
-+#define list_for_each_safe(pos, n, head) \
-+	for (pos = (head)->next, n = pos->next; pos != (head); \
-+		pos = n, n = pos->next)
-+
-+/**
-+ * list_for_each_entry	-	iterate over list of given type
-+ * @pos:	the type * to use as a loop counter.
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_struct within the struct.
-+ */
-+#define list_for_each_entry(pos, head, member)				\
-+	for (pos = list_entry((head)->next, typeof(*pos), member);	\
-+	     &pos->member != (head);					\
-+	     pos = list_entry(pos->member.next, typeof(*pos), member))
-+
-+/**
-+ * list_for_each_entry_reverse - iterate backwards over list of given type.
-+ * @pos:	the type * to use as a loop counter.
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_struct within the struct.
-+ */
-+#define list_for_each_entry_reverse(pos, head, member)			\
-+	for (pos = list_entry((head)->prev, typeof(*pos), member);	\
-+	     &pos->member != (head);					\
-+	     pos = list_entry(pos->member.prev, typeof(*pos), member))
-+
-+/**
-+ * list_for_each_entry_safe - iterate over list of given type safe against removal of list entry
-+ * @pos:	the type * to use as a loop counter.
-+ * @n:		another type * to use as temporary storage
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_struct within the struct.
-+ */
-+#define list_for_each_entry_safe(pos, n, head, member)			\
-+	for (pos = list_entry((head)->next, typeof(*pos), member),	\
-+		n = list_entry(pos->member.next, typeof(*pos), member);	\
-+	     &pos->member != (head);					\
-+	     pos = n, n = list_entry(n->member.next, typeof(*n), member))
-+
-+/**
-+ * list_for_each_entry_reverse_safe - iterate backwards over list of given type safe against removal of list entry
-+ * @pos:	the type * to use as a loop counter.
-+ * @n:		another type * to use as temporary storage
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_struct within the struct.
-+ */
-+#define list_for_each_entry_reverse_safe(pos, n, head, member)          \
-+	for (pos = list_entry((head)->prev, typeof(*pos), member),      \
-+		 n = list_entry(pos->member.prev, typeof(*pos), member);\
-+	     &pos->member != (head);                                    \
-+	     pos = n, n = list_entry(n->member.prev, typeof(*n), member))
-+
-+/**
-+ * list_for_some_entry_safe - iterate list from the given begin node to the given end node safe against removal of list entry
-+ * @pos:	the type * to use as a loop counter.
-+ * @n:		another type * to use as temporary storage
-+ * @from:	the begin node of the iteration.
-+ * @to:		the end node of the iteration.
-+ * @member:	the name of the list_struct within the struct.
-+ */
-+#define list_for_some_entry_safe(pos, n, from, to, member)              \
-+	for (pos = list_entry((from)->next, typeof(*pos), member),      \
-+	     n = list_entry(pos->member.next, typeof(*pos), member);    \
-+	     &pos->member != (to);                                      \
-+	     pos = n, n = list_entry(n->member.next, typeof(*n), member))
-+
-+/**
-+ * list_for_some_entry_reverse_safe - iterate backwards list from the given begin node to the given end node safe against removal of list entry
-+ * @pos:	the type * to use as a loop counter.
-+ * @n:		another type * to use as temporary storage
-+ * @from:	the begin node of the iteration.
-+ * @to:		the end node of the iteration.
-+ * @member:	the name of the list_struct within the struct.
-+ */
-+#define list_for_some_entry_reverse_safe(pos, n, from, to, member)      \
-+	for (pos = list_entry((from)->prev, typeof(*pos), member),      \
-+	     n = list_entry(pos->member.prev, typeof(*pos), member);    \
-+	     &pos->member != (to);                                      \
-+	     pos = n, n = list_entry(n->member.prev, typeof(*n), member))
-+
-+#endif /* _LIST_H */
+ 	OPT_ARGS(opts) = {
+ 		OPT_FLAG("autoconnect",    'A', &mon_cfg.autoconnect, "automatically connect newly discovered controllers"),
+ 		OPT_FLAG("silent",         'S', &quiet,               "log level: silent"),
+@@ -198,7 +257,17 @@ static int monitor_parse_opts(const char *desc, int argc, char **argv)
+ 		log_level = LOG_INFO;
+ 	if (debug)
+ 		log_level = LOG_DEBUG;
+-
++	if (mon_cfg.autoconnect) {
++		ret = monitor_disable_udev_rules();
++		if (ret < 0) {
++			mon_cfg.autoconnect = false;
++			log(LOG_WARNING, "autoconnect disabled\n");
++			ret = 0;
++		} else if (ret > 0) {
++			mon_cfg.skip_udev_on_exit = true;
++			ret = 0;
++		}
++	}
+ 	return ret;
+ }
+ 
+@@ -221,6 +290,8 @@ int aen_monitor(const char *desc, int argc, char **argv)
+ 		udev_monitor_unref(monitor);
+ 	}
+ 	udev = udev_unref(udev);
++	if (mon_cfg.autoconnect && !mon_cfg.skip_udev_on_exit)
++		monitor_enable_udev_rules();
+ out:
+ 	return nvme_status_to_errno(ret, true);
+ }
 -- 
 2.29.2
 
