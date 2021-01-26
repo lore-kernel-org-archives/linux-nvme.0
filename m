@@ -2,58 +2,61 @@ Return-Path: <SRS0=0e7J=G5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35CEFC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44726C433E6
 	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 08:16:23 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C5E82206FB
+	by mail.kernel.org (Postfix) with ESMTPS id C5EBC22B3B
 	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 08:16:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5E82206FB
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5EBC22B3B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=1UASA2fJwp8tRuNA3QeDrv5A0rxLO1o7l5xpj9clfGk=; b=UgxJz5gHpbiY7lShMG0USjmw7E
-	z0FHqgtpp0X0//KjIFf21gfZ8ltjQ3iiPwMN4Sn95mUnaHiSZQ44UPHPUQz8n6q/NKSIx/tOKC1N4
-	5/76PeJISq1Nt5wn+vYsiLzeHXCDkXAAqsdSA4Sxp5ynR7FuzPHpMpmeVXQYuFfrc2wtxTp1tfSp2
-	KteGyEDCfLPI4u9Uyjt1OQtqgGFb9eKfLVQzZnOxQ70WDzcSyeukfUgmyE2wJS+Q1bPLhPvVXy68D
-	IhTlQ5SaUZIKFWl8CFSIMjcGy4LtqYHJViJaI7/EhfHenlDQ5B6E19wzyqIeKhu6QmFhge9Lg0TbM
-	X4OESCJA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=x+4gJvTNSjP3DLwF1RtodCTAgDLyYqIs5rKQb/V04hA=; b=JlxbByJgZ+FCfwAa7f5qimwvL
+	D92kI3oCAiVMXQNxegwfyOO7ohkGooeHyokiycrwOqwSIDXieGgnFZ4vpKsuZ/E4Li2WuZ9aRxqRY
+	tcvQuSoShFczVHbPghFMNDANIXJp6rJiu4+r/onm6Ymeb//CPQ77yEgQZLDJv6+Yhe3cMfXVFdAvp
+	eL1R1TIQYAH0YznQyQrnqihux88xexg8WI2uyMI0/hFw/c8ZOGURqtCZ1eAJkIBRiApDX0XhYSFiW
+	svkR/Yc4C1SZ6xPtd3T4faFxwMiSl49HxREOk2dh+XYI7wvnehpQ2wmZRvZh1Iv2vKg/fExTQavBQ
+	MnxwkX0iQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4JW8-00024P-RQ; Tue, 26 Jan 2021 08:16:04 +0000
+	id 1l4JW7-00023e-IJ; Tue, 26 Jan 2021 08:16:03 +0000
 Received: from szxga05-in.huawei.com ([45.249.212.191])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4JVx-0001xo-Th
- for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 08:15:55 +0000
+ id 1l4JVx-0001xl-FX
+ for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 08:15:54 +0000
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DPzzX1Hz9zjDQL;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DPzzX1Z0fzjDS4;
  Tue, 26 Jan 2021 16:14:32 +0800 (CST)
 Received: from huawei.com (10.29.88.127) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Tue, 26 Jan 2021
- 16:15:39 +0800
+ 16:15:41 +0800
 From: Chao Leng <lengchao@huawei.com>
 To: <linux-nvme@lists.infradead.org>
-Subject: [PATCH v4 0/5] avoid double request completion and IO error
-Date: Tue, 26 Jan 2021 16:15:34 +0800
-Message-ID: <20210126081539.13320-1-lengchao@huawei.com>
+Subject: [PATCH v4 3/5] nvme-fabrics: avoid double request completion for
+ nvmf_fail_nonready_command
+Date: Tue, 26 Jan 2021 16:15:37 +0800
+Message-ID: <20210126081539.13320-4-lengchao@huawei.com>
 X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20210126081539.13320-1-lengchao@huawei.com>
+References: <20210126081539.13320-1-lengchao@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.29.88.127]
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210126_031554_655552_7EAB232A 
-X-CRM114-Status: UNSURE (   7.61  )
+X-CRM114-CacheID: sfid-20210126_031553_759740_1A59E182 
+X-CRM114-Status: UNSURE (   8.70  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -73,35 +76,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add blk_mq_set_request_complete and nvme_complete_failed_req for two bug
-fixs.
-First avoid double request completion for nvmf_fail_nonready_command.
-Second avoid IO error for nvme native multipath.
+When reconnect, the request may be completed with NVME_SC_HOST_PATH_ERROR
+in nvmf_fail_nonready_command. The state of request will be changed to
+MQ_RQ_IN_FLIGHT before call nvme_complete_rq. If free the request
+asynchronously such as in nvme_submit_user_cmd, in extreme scenario
+the request may be completed again in tear down process.
+nvmf_fail_nonready_command do not need calling blk_mq_start_request
+before complete the request. nvmf_fail_nonready_command should set
+the state of request to MQ_RQ_COMPLETE before complete the request.
 
-V4:
-	- add status parameter for nvme_complete_failed_req.
-	- export nvme_complete_failed_req instead of inline function.
-V3:
-	- complete the request just for HBA driver path related error.
-V2:
-	- use "switch" instead "if" to check return status.
-
-Chao Leng (5):
-  blk-mq: introduce blk_mq_set_request_complete
-  nvme-core: introduce complete failed request
-  nvme-fabrics: avoid double request completion for
-    nvmf_fail_nonready_command
-  nvme-rdma: avoid IO error for nvme native multipath
-  nvme-fc: avoid IO error for nvme native multipath
-
- drivers/nvme/host/core.c    | 8 ++++++++
+Signed-off-by: Chao Leng <lengchao@huawei.com>
+---
  drivers/nvme/host/fabrics.c | 4 +---
- drivers/nvme/host/fc.c      | 7 ++++++-
- drivers/nvme/host/nvme.h    | 1 +
- drivers/nvme/host/rdma.c    | 9 ++++++++-
- include/linux/blk-mq.h      | 5 +++++
- 6 files changed, 29 insertions(+), 5 deletions(-)
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 72ac00173500..40f40c0debc1 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -553,9 +553,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+ 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+ 		return BLK_STS_RESOURCE;
+ 
+-	nvme_req(rq)->status = NVME_SC_HOST_PATH_ERROR;
+-	blk_mq_start_request(rq);
+-	nvme_complete_rq(rq);
++	nvme_complete_failed_rq(rq, NVME_SC_HOST_PATH_ERROR);
+ 	return BLK_STS_OK;
+ }
+ EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
 -- 
 2.16.4
 
