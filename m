@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C735C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B14CC433E6
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F3A7A221FC
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F3A7A221FC
+	by mail.kernel.org (Postfix) with ESMTPS id C1F9A221FC
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 20:35:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1F9A221FC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,45 +23,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+WV0JgI3w69fZuH9XAxCR5e+tVStezyDbmc3OqCRFX8=; b=uKUjdOxa/VBI+shfdX+Hsfk4H
-	asoc/ur1hRUqfU1EAls83NM6Aagg29vwRP0nuPqCTCf1qWw1KLzdRt2vzg8XZUdscHUEGnJLEVGPc
-	E7a/1KSbUO3dj+1uf+J3q6yQzkj0TumN8AsVifutj952rWJpLqcZd1f8prqun92pyaRNPpOIISqQJ
-	ATcyY1OCXmc4FN8z7x/SavHgTnq2jIJ5GdttlaBB5X0/6dfZiUiJbmpp8T37mxgS9qrseSCAHnyYS
-	CeboaBWuVydrnii5PyWInoNuPfjr2w1QiOLoGS4PWKblNARtpgZPnYITlQIMzV47VoZruhlvM4obt
-	PmYFDGXnw==;
+	 bh=YgfEoNBAFdKHcIGZZAcR4u09lEehi36q+LzucolLbck=; b=anQEB47ylEX3exsJ4TvhEUepX
+	jUmok2q+aijiiDYL/3XZJwYf6QJHdYWyKQ5KdiMDQ8+SwRvWoDlt6aTZkBM602agYNInnGrlmnw46
+	f2xGbHszTFu35OjRE5f09p9qOP8kXIH5xPU7apNyClgre0WH6O7ViIQeE45+TbNcLSQqE8Lz6TgYY
+	fixpFe3CYESPaf7FMFtlJ7ZmTiV4gBhMdsFjzrpICf9YPqetLBXN1MQX05WXMLPDojZrmVTPQKV9e
+	+fCnrxXwY9iZAgQYX8UfQWF31hg3lRDEA0rPVklN6U2nqfprEWW/EqQWcQabJVeNHD3Y/O5SUSCq3
+	/N5yKs3qg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4V39-0001Pn-NJ; Tue, 26 Jan 2021 20:34:55 +0000
+	id 1l4V3h-0001hB-8r; Tue, 26 Jan 2021 20:35:29 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4V28-0000yC-KS
- for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 20:33:58 +0000
+ id 1l4V29-0000zC-JE
+ for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 20:34:01 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1611693227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1611693228; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+l55K/GBuORPHy5zf+uqeI00xYSOSv2JaHnkP31Gsc8=;
- b=dmZRnHtiAN2ViKvTHKqO7dIK2OnT8sV7fJdY86jLeiJcZ0IBnxpbLlScsDQS0W5rJi8F6D
- W127KGmHY7KIV51hw68poeWyxnUWZB4j4Cj0RADvei4NSpUGE9+qfTVKsp8x6uhfVAov6H
- WTajShgtZA7E52ptOuEB4aLbd+6xC84=
+ bh=nkjN005NtMsT6WM7eZNX8WRG6FJYNw8Qqy53wks8vfM=;
+ b=mhUMu/AKb+enDINR/GI8g1ts8CD+npPj6GA6iNcpxdRsoPlbuY/B99LLnGqf09z7jQqvp9
+ GzVkPvIuYolhqZkbjYlCKzaR1D4Edmlw5sfuvA3lOcxvrOnn4sBfvlgLCWOe+tTU7fQbgH
+ +WciQgEW0SvXWXWcyXgfrSpwObpO4AA=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A5E82AF00;
+ by mx2.suse.de (Postfix) with ESMTP id ECF77B05C;
  Tue, 26 Jan 2021 20:33:47 +0000 (UTC)
 From: mwilck@suse.com
 To: Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 17/35] monitor: handle SIGCHLD for terminated child processes
-Date: Tue, 26 Jan 2021 21:33:06 +0100
-Message-Id: <20210126203324.23610-18-mwilck@suse.com>
+Subject: [PATCH 19/35] fabrics: use "const char *" in struct config
+Date: Tue, 26 Jan 2021 21:33:08 +0100
+Message-Id: <20210126203324.23610-20-mwilck@suse.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210126203324.23610-1-mwilck@suse.com>
 References: <20210126203324.23610-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210126_153352_856971_AC98D19D 
-X-CRM114-Status: GOOD (  17.27  )
+X-CRM114-CacheID: sfid-20210126_153353_892930_B5311174 
+X-CRM114-Status: GOOD (  15.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,105 +83,135 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
+This is easily done, and allows passing in some const char* pointers
+that would otherwise need to be strdup()d first.
+
+constifying cfg->device requires changes in the ctrl_instance()
+function, because basename() can't be used.
+
 Signed-off-by: Martin Wilck <mwilck@suse.com>
 ---
- monitor.c | 50 ++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 48 insertions(+), 2 deletions(-)
+ fabrics.c | 23 ++++++++++++++---------
+ fabrics.h | 17 +++++++++--------
+ 2 files changed, 23 insertions(+), 17 deletions(-)
 
-diff --git a/monitor.c b/monitor.c
-index 9375a14..8db40e6 100644
---- a/monitor.c
-+++ b/monitor.c
-@@ -26,6 +26,8 @@
- #include <limits.h>
- #include <syslog.h>
- #include <sys/stat.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
- #include <sys/epoll.h>
- 
- #include "common.h"
-@@ -100,6 +102,13 @@ static void monitor_int_handler(int sig)
- 	must_exit = 1;
+diff --git a/fabrics.c b/fabrics.c
+index c1a4bb5..e3d2a3a 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -252,17 +252,22 @@ empty_field:
+ 	return strdup("\0");
  }
  
-+static sig_atomic_t got_sigchld;
-+
-+static void monitor_chld_handler(int sig)
-+{
-+	got_sigchld = 1;
-+}
-+
- static sigset_t orig_sigmask;
- 
- static int monitor_init_signals(void)
-@@ -118,6 +127,9 @@ static int monitor_init_signals(void)
- 		return -errno;
- 	if (sigaction(SIGINT, &sa, NULL) == -1)
- 		return -errno;
-+	sa.sa_handler = monitor_chld_handler;
-+	if (sigaction(SIGCHLD, &sa, NULL) == -1)
-+		return -errno;
- 	return 0;
- }
- 
-@@ -336,6 +348,34 @@ static void monitor_handle_uevents(struct udev_monitor *monitor)
- 	}
- }
- 
-+static void handle_sigchld(void)
-+{
-+	while (true) {
-+		int wstatus;
-+		pid_t pid;
-+
-+		pid = waitpid(-1, &wstatus, WNOHANG);
-+		switch(pid) {
-+		case -1:
-+			if (errno != ECHILD)
-+				log(LOG_ERR, "error in waitpid: %m\n");
-+			return;
-+		case 0:
-+			return;
-+		default:
-+			break;
-+		}
-+		if (!WIFEXITED(wstatus))
-+			log(LOG_WARNING, "child %ld didn't exit normally\n",
-+			    (long)pid);
-+		else if (WEXITSTATUS(wstatus) != 0)
-+			log(LOG_NOTICE, "child %ld exited with status \"%s\"\n",
-+			    (long)pid, strerror(WEXITSTATUS(wstatus)));
-+		else
-+			log(LOG_DEBUG, "child %ld exited normally\n", (long)pid);
-+	};
-+}
-+
- #define MAX_EVENTS 1
- static int monitor_main_loop(struct udev_monitor *monitor)
+-static int ctrl_instance(char *device)
++int ctrl_instance(const char *device)
  {
-@@ -357,13 +397,19 @@ static int monitor_main_loop(struct udev_monitor *monitor)
- 	sigfillset(&ep_mask);
- 	sigdelset(&ep_mask, SIGTERM);
- 	sigdelset(&ep_mask, SIGINT);
-+	sigdelset(&ep_mask, SIGCHLD);
- 	while (1) {
- 		int rc, i;
+ 	char d[64];
++	const char *p;
+ 	int ret, instance;
  
- 		rc = epoll_pwait(ep_fd, events, MAX_EVENTS, -1, &ep_mask);
- 		if (rc == -1 && errno == EINTR) {
--			log(LOG_NOTICE, "monitor: exit signal received\n");
--			return 0;
-+			if (must_exit) {
-+				log(LOG_NOTICE, "monitor: exit signal received\n");
-+				return 0;
-+			} else if (got_sigchld) {
-+				got_sigchld = 0;
-+				handle_sigchld();
-+			}
- 		} else if (rc == -1) {
- 			log(LOG_ERR, "monitor: epoll_wait: %m\n");
- 			return -errno;
+-	device = basename(device);
+-	ret = sscanf(device, "nvme%d", &instance);
++	p = strrchr(device, '/');
++	if (p == NULL)
++		p = device;
++	else
++		p++;
++	ret = sscanf(p, "nvme%d", &instance);
+ 	if (ret <= 0)
+ 		return -EINVAL;
+ 	if (snprintf(d, sizeof(d), "nvme%d", instance) <= 0 ||
+-	    strcmp(device, d))
++	    strcmp(p, d))
+ 		return -EINVAL;
+ 	return instance;
+ }
+@@ -273,7 +278,7 @@ static int ctrl_instance(char *device)
+  * given.
+  * Return true/false based on whether it matches
+  */
+-static bool ctrl_matches_connectargs(char *name, struct connect_args *args)
++static bool ctrl_matches_connectargs(const char *name, struct connect_args *args)
+ {
+ 	struct connect_args cargs;
+ 	bool found = false;
+@@ -815,7 +820,7 @@ add_int_argument(char **argstr, int *max_len, char *arg_str, int arg,
+ }
+ 
+ static int
+-add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
++add_argument(char **argstr, int *max_len, char *arg_str, const char *arg)
+ {
+ 	int len;
+ 
+@@ -1541,7 +1546,7 @@ static int scan_sys_nvme_filter(const struct dirent *d)
+ /*
+  * Returns 1 if disconnect occurred, 0 otherwise.
+  */
+-static int disconnect_subsys(char *nqn, char *ctrl)
++static int disconnect_subsys(const char *nqn, char *ctrl)
+ {
+ 	char *sysfs_nqn_path = NULL, *sysfs_del_path = NULL;
+ 	char subsysnqn[NVMF_NQN_SIZE] = {};
+@@ -1579,7 +1584,7 @@ static int disconnect_subsys(char *nqn, char *ctrl)
+ /*
+  * Returns the number of controllers successfully disconnected.
+  */
+-static int disconnect_by_nqn(char *nqn)
++static int disconnect_by_nqn(const char *nqn)
+ {
+ 	struct dirent **devices = NULL;
+ 	int i, n, ret = 0;
+@@ -1601,7 +1606,7 @@ static int disconnect_by_nqn(char *nqn)
+ 	return ret;
+ }
+ 
+-static int disconnect_by_device(char *device)
++static int disconnect_by_device(const char *device)
+ {
+ 	int instance;
+ 
+diff --git a/fabrics.h b/fabrics.h
+index ce965a3..1dfbd67 100644
+--- a/fabrics.h
++++ b/fabrics.h
+@@ -13,13 +13,13 @@ extern int fabrics_disconnect_all(const char *desc, int argc, char **argv);
+ /* Symbols used by monitor.c */
+ 
+ struct config {
+-	char *nqn;
+-	char *transport;
+-	char *traddr;
+-	char *trsvcid;
+-	char *host_traddr;
+-	char *hostnqn;
+-	char *hostid;
++	const char *nqn;
++	const char *transport;
++	const char *traddr;
++	const char *trsvcid;
++	const char *host_traddr;
++	const char *hostnqn;
++	const char *hostid;
+ 	int  nr_io_queues;
+ 	int  nr_write_queues;
+ 	int  nr_poll_queues;
+@@ -29,7 +29,7 @@ struct config {
+ 	int  ctrl_loss_tmo;
+ 	int  tos;
+ 	char *raw;
+-	char *device;
++	const char *device;
+ 	int  duplicate_connect;
+ 	int  disable_sqflow;
+ 	int  hdr_digest;
+@@ -43,5 +43,6 @@ extern struct config cfg;
+ 
+ int build_options(char *argstr, int max_len, bool discover);
+ int do_discover(char *argstr, bool connect);
++int ctrl_instance(const char *device);
+ 
+ #endif
 -- 
 2.29.2
 
