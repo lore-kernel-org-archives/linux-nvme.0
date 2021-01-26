@@ -2,92 +2,89 @@ Return-Path: <SRS0=0e7J=G5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DEFCC433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 15:38:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2C2BC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 15:50:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 563872245C
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 15:38:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 563872245C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	by mail.kernel.org (Postfix) with ESMTPS id 61E2C2083E
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Jan 2021 15:50:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61E2C2083E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LrORDDjJFDV6eSPoVEecFrfaZYKnowzS2ianvS88zDg=; b=3KnrlGdppt9c9Dgjqt4Vui5PLv
-	b0al1gx/5deDAvcmSzHaCtCXDIEKg86gtVLveDUVreGA+4xWe1jkNgd+gzQCtzTYtRMU6FMkDDely
-	6Luwponb2q8R4TlwonzEZ/h7qE29D5B4gTJhhFNfinab8g2o1tRAJGVKoVmaP7/7tuQ29eO4P9clC
-	2HkEMAXTs6w7zuPvsEzRTeyafJb9T5tL/d4+I1MG15J/GAZfqDQb1hq5qcgjJRB8m/o56OFthG7AG
-	hUkL9p/hTf1nx3AmIbIPE3osPzWfYjLT7WhghQaDBnDGGSCt75zBqx9CP2K8uLH1B9wHPB///fvuu
-	/+0GHzxQ==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=7HVRdUEe383VJvDE74S9RuVWSnyttQ+MvdyALTGsO98=; b=HyfvWQUbouMdl7v7YsR0T/SUs
+	EwfeoEPkB/K2sbks407XFOA+8W2K3siwQBIeOSPwO0igxYsW5aegAI0sBttBbEK3oP34P862iXxQ6
+	6ViOYGwp6E/vOsJgASMGJ9TKEjNZnP1g3QOyXJHjr32DLGfhyuuIIxg4UHimG0C5aFBvxGsKCLUe5
+	WQYCzkFe3ZZ+EJHxOmNZlTgY+nhzzScg120cz5W29ew2s4OudlOgGYFjb3Rh64VduWEHHBMsE+OX3
+	Xd57uFwHUuaNLxyNl9e49QPHyySlehcwUvrX2MV6tPwvwEizuwrR0Qu9muPmUMiqS6hbtqlfKH1RK
+	EkfNiRYHA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4QPz-0004Gh-RY; Tue, 26 Jan 2021 15:38:11 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1l4Qbk-0005yT-Cr; Tue, 26 Jan 2021 15:50:20 +0000
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4QPw-0004GC-Ov
- for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 15:38:09 +0000
-Received: from pps.filterd (m0170396.ppops.net [127.0.0.1])
- by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10QFCFMZ027026
- for <linux-nvme@lists.infradead.org>; Tue, 26 Jan 2021 10:38:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=NPNhxZTS/WWYzNYZjkwtPZrrMyTLmlAjZFCUpr5Qwg0=;
- b=FMbqPOxXlFGECOrpJA5bx4FkPGcgsqb7XYqNdABmpdoaeqtMpS9FMlP8Ev757BSK2dOq
- aYgbnZRTAqAT6yV1phgoP6DPOrQqYhdq/iQJv2RNt5eFBJzdB40dXYZMofgi6hQkckBp
- xl5b+cB/ENgEb1PmbqQpnm3cAcrRnHNobaTFPwED9aUbkLAzNwK0Awg1ZGnx5SGM1Q1u
- 22arb88XdKfjGZlAGC9aWqLKD2P+FwpNL4mEPXSxQ9cbRfbEXXAt9wNuLHyEIBM06Ed7
- vJZTSMTvvbKNrTKcFsk5TsoakY4jWiyrpu8XWPE7bmNYXqvfjfWGuNv3A4Jy8xmQjhRf yw== 
-Received: from mx0b-00154901.pphosted.com (mx0a-00154901.pphosted.com
- [67.231.149.39])
- by mx0b-00154904.pphosted.com with ESMTP id 368gh38vnk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Tue, 26 Jan 2021 10:38:06 -0500
-Received: from pps.filterd (m0090350.ppops.net [127.0.0.1])
- by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10QFFQOo185980
- for <linux-nvme@lists.infradead.org>; Tue, 26 Jan 2021 10:38:05 -0500
-Received: from esaploutdur04.us.dell.com ([128.221.233.10])
- by mx0b-00154901.pphosted.com with ESMTP id 3691w1tjrv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Tue, 26 Jan 2021 10:38:05 -0500
-X-PREM-Routing: D-Outbound
-X-LoopCount0: from 10.55.224.148
-Received: from vd-grupie.xiolab.lab.emc.com ([10.55.224.148])
- by esaploutdur04.us.dell.com with ESMTP; 26 Jan 2021 09:38:03 -0600
-From: elad.grupi@dell.com
-To: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-tcp: proper handling of tcp socket closing flows
-Date: Tue, 26 Jan 2021 17:37:57 +0200
-Message-Id: <20210126153757.99451-1-elad.grupi@dell.com>
-X-Mailer: git-send-email 2.16.5
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-26_08:2021-01-26,
- 2021-01-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 mlxscore=0
- clxscore=1015 malwarescore=0 bulkscore=0 priorityscore=1501 suspectscore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101260084
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0 adultscore=0
- malwarescore=0 phishscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101260084
+ id 1l4Qbh-0005xV-J5
+ for linux-nvme@lists.infradead.org; Tue, 26 Jan 2021 15:50:18 +0000
+Received: by mail-pf1-x42c.google.com with SMTP id 11so10655806pfu.4
+ for <linux-nvme@lists.infradead.org>; Tue, 26 Jan 2021 07:50:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SsOHsp4CNkFxjdTZshpM5g+g+qO3mJ0CLTnLDYGv8F8=;
+ b=Q/fVoQh5K93yJcNdbudRk4luINyrwHUURtqGAC6/JqYcOPosFilLAg+2J9JqCAyANZ
+ EnsGBpNvfjgopsphz2sovbPJTKzmrCA4ASTUfBXE6n5cw0t3FfMmYTlyc1xvJ3u4wQkQ
+ Y0g4X+JIUu0F+4XBCTzkbegxLAe6uGJ9kLMY+tHukHRybvSz+0BFvNicJpql+rcTOst4
+ R+9elAJWLiLOLRWZkaX9ONwxX4kAU4kEKAJNJ7ldWH9kdI13qMOMw3Tw4lgEoMSa2iix
+ gpvu7RWlVeK3KO+3PC7yJ38PHoTMygY6TEZX80x/gMEorKUHLXX4Y1vfo2A9Qe3S+DTK
+ 3pSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SsOHsp4CNkFxjdTZshpM5g+g+qO3mJ0CLTnLDYGv8F8=;
+ b=SnNwd/t5V9sdOpsOISzMSmKq5m+pC86jXhkjy9JCcqDwZhU2yln537qJodiaCd3Y5P
+ +TqCRpyqEPir38cj0yKbbSMTQwxXykHTFBLJN+q3x9dk1C30M6Kv86OQSf740tx7QacH
+ uSrkTkKmx25E9hnJnNhHHvlsGJOwyV/ElzUwZL7VGClv9XS5h74BNqBxny7SbUthV2TC
+ pABf1ou8b4NlaBgvncvM48ULRJ0XPUNK1z+2ye3IQe90QTm9qk2fGK4gKxnA3Yf0VQLs
+ XzphJWvUq8zfMDjZokcGzae/KB7hiBmGevUNO3vBVVEwDerwHYVGrcYfturUyx8FeYI0
+ qCDw==
+X-Gm-Message-State: AOAM533rprhpWQMLq8XYz8VNR0qaB5bgm5eUZFScMmlvvOsR9drYP1uJ
+ keyriT57UIxYDOFX2zVNBOLcgg==
+X-Google-Smtp-Source: ABdhPJxFgCpz0Tr3yR3J/h+CulR4O67CYepxBdICoMBSME41Ibjc9P2FhWI9Jz3iszjTH1K/mjzkMA==
+X-Received: by 2002:a65:5241:: with SMTP id q1mr6163039pgp.143.1611676212261; 
+ Tue, 26 Jan 2021 07:50:12 -0800 (PST)
+Received: from [192.168.4.41] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
+ by smtp.gmail.com with ESMTPSA id
+ y16sm19967027pfb.83.2021.01.26.07.50.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jan 2021 07:50:11 -0800 (PST)
+Subject: Re: additional ->bi_bdev fixups
+To: Christoph Hellwig <hch@lst.de>
+References: <20210126143308.1960860-1-hch@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <b33aeb19-094e-c32a-2da0-33cff6f9e418@kernel.dk>
+Date: Tue, 26 Jan 2021 08:50:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210126143308.1960860-1-hch@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210126_103808_908218_8BE92E63 
-X-CRM114-Status: GOOD (  21.04  )
+X-CRM114-CacheID: sfid-20210126_105017_735082_D073275E 
+X-CRM114-Status: GOOD (  13.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,88 +96,23 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Elad Grupi <elad.grupi@dell.com>
-MIME-Version: 1.0
+Cc: linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Elad Grupi <elad.grupi@dell.com>
+On 1/26/21 7:33 AM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> more fixes for the (so far theoretical) fallout from the ->bi_bdev
+> conversion.
 
-avoid calling nvmet_tcp_release_queue_work if tcp socket was closed
-before setting the sk callbacks.
+Applied, thanks.
 
-prevent io_work from enqueuing while closing the tcp queue to
-avoid race with nvmet_tcp_release_queue_work.
-
-Signed-off-by: Elad Grupi <elad.grupi@dell.com>
----
- drivers/nvme/target/tcp.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index d535080b781f..937f2a746d8b 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -647,7 +647,7 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
- 	struct nvmet_tcp_cmd *cmd = queue->snd_cmd;
- 	int ret = 0;
- 
--	if (!cmd || queue->state == NVMET_TCP_Q_DISCONNECTING) {
-+	if (!cmd) {
- 		cmd = nvmet_tcp_fetch_cmd(queue);
- 		if (unlikely(!cmd))
- 			return 0;
-@@ -1196,7 +1196,7 @@ static void nvmet_tcp_io_work(struct work_struct *w)
- 	/*
- 	 * We exahusted our budget, requeue our selves
- 	 */
--	if (pending)
-+	if (pending && queue->state != NVMET_TCP_Q_DISCONNECTING)
- 		queue_work_on(queue->cpu, nvmet_tcp_wq, &queue->io_work);
- }
- 
-@@ -1453,9 +1453,27 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
- 	sock->sk->sk_state_change = nvmet_tcp_state_change;
- 	queue->write_space = sock->sk->sk_write_space;
- 	sock->sk->sk_write_space = nvmet_tcp_write_space;
-+
-+	switch (sk->sk_state) {
-+	case TCP_FIN_WAIT1:
-+	case TCP_CLOSE_WAIT:
-+	case TCP_CLOSE:
-+		/* FALLTHRU */
-+		sock->sk->sk_data_ready =  queue->data_ready;
-+		sock->sk->sk_state_change = queue->state_change;
-+		sock->sk->sk_write_space = queue->write_space;
-+		sk->sk_user_data = NULL;
-+		queue->state = NVMET_TCP_Q_DISCONNECTING;
-+		ret = -ENOTCONN;
-+		break;
-+	default:
-+		queue_work_on(queue->cpu, nvmet_tcp_wq, &queue->io_work);
-+		ret = 0;
-+	}
-+
- 	write_unlock_bh(&sock->sk->sk_callback_lock);
- 
--	return 0;
-+	return ret;
- }
- 
- static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
-@@ -1506,8 +1524,6 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	if (ret)
- 		goto out_destroy_sq;
- 
--	queue_work_on(queue->cpu, nvmet_tcp_wq, &queue->io_work);
--
- 	return 0;
- out_destroy_sq:
- 	mutex_lock(&nvmet_tcp_queue_mutex);
 -- 
-2.16.5
+Jens Axboe
 
 
 _______________________________________________
