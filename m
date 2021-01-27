@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B80FC433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 17:46:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C43AC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 17:47:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 246A164DA8
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 17:46:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 246A164DA8
+	by mail.kernel.org (Postfix) with ESMTPS id 0091664DA9
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 17:47:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0091664DA9
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,34 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/rxW8oc6RBpUO6lpG70oHkIJC92L++lK3qEGfzoJClc=; b=uiF6oa+VLsCyEJt6vs+SYeha/
-	6WFiMJDtQIO6aagsrt5V/wft7pKAYkeWMKSQqxRJCgPRSzc5xKfV7HceN8XwicJnEBf8srT9q4+ag
-	xY6dUQSLS1NdspyWJYRCi/m8k0fCfD1sMEBc5XI2gz8GV9E1CI1mtpDF8Twu+JAPeWwnRLot1FZBO
-	fMbZbYoXcP/ke0Hw/UVnW3afYqiqrlsMRGyl2+M4hangG4hTQ9Tb0SFeuFnFP2r0bZAQJ8V1Wv9KZ
-	cijJ9pMXypDCCkO3LdLE1TnJRH95GcNH+0W3oOLGOL7kUCXSQazsNm5wJEZhocb+dNadie6ZZ6es0
-	Eu9Qesb1Q==;
+	 bh=/rxW8oc6RBpUO6lpG70oHkIJC92L++lK3qEGfzoJClc=; b=ftUF1i4f9noltWj51RFC6riO5
+	QWV8iYQfVquzOjpxRBiBb9BWLU49OELC6AowauvJ/nNGXsuagrZBxZqsNPBlUUuSUzi1XvvGrO9db
+	42UTvrjdxLy0iKFkWnZde3Dd1mH/qulTBl6te8SVzhWR+bpkqmXwXk2VmiFEb0FQIw51aTBdRd10W
+	R7ZfX5/9wCNfMmLRr9eZ0LgVoQi0AfHQR+0tEyz4C2oCCiAPUvHRlH/r311BgBmof67zcnUZo4hDc
+	9DDT7NG6ssfAuGfjiwJ61Wp3F6LaLxVmltPzUldJ9GwlvC4hVZDDlWQ9b7z3Br1y1xYf192dPG0RM
+	05WGMoghw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4otp-0002qk-CL; Wed, 27 Jan 2021 17:46:37 +0000
+	id 1l4ouc-0003An-E4; Wed, 27 Jan 2021 17:47:26 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4otm-0002pN-Dn
- for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 17:46:35 +0000
+ id 1l4ouA-00030t-Bk
+ for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 17:46:59 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C7B6068B05; Wed, 27 Jan 2021 18:46:32 +0100 (CET)
-Date: Wed, 27 Jan 2021 18:46:32 +0100
+ id A194368AFE; Wed, 27 Jan 2021 18:46:56 +0100 (CET)
+Date: Wed, 27 Jan 2021 18:46:56 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH] nvme: add tracing of zns commands
-Message-ID: <20210127174632.GC28180@lst.de>
-References: <46eeed2fcf2530d02fe5727a0a91a6e4675f6edd.1611683161.git.johannes.thumshirn@wdc.com>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: Re: [PATCH 1/2] nvme: update enumerations for status codes
+Message-ID: <20210127174656.GE28180@lst.de>
+References: <20210121090948.8027-1-mgurtovoy@nvidia.com>
+ <20210121090948.8027-3-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <46eeed2fcf2530d02fe5727a0a91a6e4675f6edd.1611683161.git.johannes.thumshirn@wdc.com>
+In-Reply-To: <20210121090948.8027-3-mgurtovoy@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210127_124634_669245_A79DD6D2 
-X-CRM114-Status: UNSURE (   6.76  )
+X-CRM114-CacheID: sfid-20210127_124658_599626_AE4EAF3F 
+X-CRM114-Status: UNSURE (   6.25  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -63,9 +64,9 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: sagi@grimberg.me, chaitanya.kulkarni@wdc.com,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
+ kbusch@kernel.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
