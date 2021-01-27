@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B59B9C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 11:00:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 566D8C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 11:00:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3FCBB20724
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 11:00:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3FCBB20724
+	by mail.kernel.org (Postfix) with ESMTPS id ED5A02074B
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 11:00:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED5A02074B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,37 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=tVPptV8lmLbzW5QhkV/lkKDB4/0S6rNtpX6TFhoiRr4=; b=KDmJvuvIkB5cl2KWtN3Lnzoj0
-	eyFGjy+U7LoL56cTcw5UJMAAtUKy/c59Lq66yIBCAhnVtF2n808/sEntSeKEdk6n6DMCY5hFV3UjZ
-	Na4dMcdys35fWsY3rOgPBXzKPhXevvmtrOlYc4zgybcvpHtVFq+MVlInjo4eQWRANDFoq9YXPTpq+
-	OPll1bJQU6JIcGY3wMAr2iKR/peR+sP1oHJPInaq5110TJm7erFI3fB9H18yR/2nzDDJK4YVMJTxI
-	m3cJEB9Qe9/Qe5GlmKNF3safZUf6681c/qW5XikzX/UJETB1lPpbkXF8NcdBQfcxi6Vzqe2fiWo7C
-	TT545ZExQ==;
+	 bh=eBz2aU9CzwMGoPcMvC4r+dDqYNXHyXIIBNbBwANlX7I=; b=0BB2qEMcXNdFDMJ5jZ+nYMBKR
+	GvCToNJIOXiO6QNoLQzWkxM0BbtrRkG26Mrkp2hzO3/yRItBVYD2EOlB5SbvH+jPGznxhSSoinC+s
+	RnxuASF5b3okwMdDkA+QF6uTdqmVcX18ejYNSwskOVy1vCexv4+tSgFTyI/Vctt6Gs0ciV0NLfMdn
+	m7E96ACI+cEzrTP5ZTI9Mp0Nh1o7sX5fCGX6kic+We6rTXT/R5+67tU5npJ3F/xKgpvWgsYv9S8Uu
+	Ug/MX/J9Qu0/wLsnWkllPBlesaCYcrXj+opdiuUgYTrBoADyiepHjMvDIhJxB/O3Dm04HMgBVJcMo
+	TJ4R4XIow==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4iYC-0003A1-LL; Wed, 27 Jan 2021 10:59:52 +0000
+	id 1l4iYU-0003Et-28; Wed, 27 Jan 2021 11:00:10 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4iYA-00038m-M8
- for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 10:59:51 +0000
+ id 1l4iYR-0003E7-Ja
+ for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 11:00:08 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7568CAD2B;
- Wed, 27 Jan 2021 10:59:49 +0000 (UTC)
-Date: Wed, 27 Jan 2021 11:59:49 +0100
+ by mx2.suse.de (Postfix) with ESMTP id 7B33AADA2;
+ Wed, 27 Jan 2021 11:00:06 +0000 (UTC)
+Date: Wed, 27 Jan 2021 12:00:06 +0100
 From: Daniel Wagner <dwagner@suse.de>
 To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 2/5] nvme-fc: set NVME_REQ_CANCELLED in
- nvme_fc_terminate_exchange()
-Message-ID: <20210127105949.yjwazlyif4eifvpt@beryllium.lan>
+Subject: Re: [PATCH 3/5] nvme-fc: return NVME_SC_HOST_ABORTED_CMD when a
+ command has been aborted
+Message-ID: <20210127110006.gx6j465hnz3j2p4v@beryllium.lan>
 References: <20210127103326.16191-1-hare@suse.de>
- <20210127103326.16191-3-hare@suse.de>
+ <20210127103326.16191-4-hare@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210127103326.16191-3-hare@suse.de>
+In-Reply-To: <20210127103326.16191-4-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210127_055950_918768_A50DAD65 
-X-CRM114-Status: GOOD (  12.34  )
+X-CRM114-CacheID: sfid-20210127_060007_793145_ADF38FD5 
+X-CRM114-Status: GOOD (  12.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,10 +73,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 27, 2021 at 11:33:23AM +0100, Hannes Reinecke wrote:
-> nvme_fc_terminate_exchange() is being called when exchanges are
-> being deleted, and as such we should be setting the NVME_REQ_CANCELLED
-> flag to have identical behaviour on all transports.
+On Wed, Jan 27, 2021 at 11:33:24AM +0100, Hannes Reinecke wrote:
+> When a command has been aborted we should return NVME_SC_HOST_ABORTED_CMD
+> to be consistent with the other transports.
 > 
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
 
