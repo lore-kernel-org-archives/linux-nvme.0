@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E708C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 16:36:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E733C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 16:40:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D4F3560187
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 16:36:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D4F3560187
+	by mail.kernel.org (Postfix) with ESMTPS id CBA6660187
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 16:40:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CBA6660187
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,37 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AXxvWOKfDSniRMJWkTUWTHpRNlQa0+7DhztPg4evwwM=; b=NDbzpkTh4hqhfutTT47cO9wmp
-	YYlOMSTBcwTLk09+0Iv3jB1aaXBZKbOGGWbsScYRMZBH5QSQmLKyMpgx7pjvNcMzCtH4rqgfaKlww
-	DkZUtRjhoxWztOCmP393jgFgCltxeyw6nQGHCnOkZroWEVvqWZM44IHTLZzvPrN8GC3H1NTQeOxXY
-	jyKeY7S6DzZbi9M14LD1KxAeWccclz9W4yug9ky/lCJ5UsoPA4LcKz7CTtxHsaxwtpq3xuh/59B2A
-	2pOXX3OdbIj5peWa1eZhHl5iMfkocsMbaUMp0Hnrbi2a2/uuZprO6oXVTnVuTvZklnDDreDGsxuhw
-	z6CaXEKfw==;
+	 bh=Grg1CuCQcpMj2ScLDZ2ss84ycii0v90e+RoEt1rwRVE=; b=cLHYxcAqxp+BXKjdt90QVniin
+	iG6yVzwjbV7SDj4FSVUCks0ueS2ZINPLdtjZThjCAQQ+UP+CUEDoDESKKzPSHw+tJRs918kGaOGYT
+	TUUYudYcnvGXrr3iVz8kw9rpvlJGW2RxPVa/wKsrM+F/SsuX/BXdony8UxJpV0TsNoFNgQ/+ouWy2
+	DMqdQh/1QHqmsvHlFsQ+bUFJtfYXrod8lb9airJfDqmsWQoPiOCGLY8BfOTQ3TsKPbJJoOIrzXwaj
+	X2SMBJK1VpTaHizUEDcwjKpWoVZnlJTpmwuUQgoqbKbtvp+Ad0T76R2UAkKjqFQOS//Q5w1v0ho5V
+	yY0HnAfvA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4nnX-0004i5-Cc; Wed, 27 Jan 2021 16:36:03 +0000
+	id 1l4nrp-0004yX-2s; Wed, 27 Jan 2021 16:40:29 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4nnU-0004ds-J0
- for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 16:36:01 +0000
+ id 1l4nrm-0004y0-3V
+ for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 16:40:27 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8C0B868AFE; Wed, 27 Jan 2021 17:35:55 +0100 (CET)
-Date: Wed, 27 Jan 2021 17:35:55 +0100
+ id 2C0EE68B02; Wed, 27 Jan 2021 17:40:21 +0100 (CET)
+Date: Wed, 27 Jan 2021 17:40:20 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCHv2] nvme/hwmon: rework to avoid devm allocation
-Message-ID: <20210127163555.GA22717@lst.de>
-References: <20210119064318.124415-1-hare@suse.de>
- <20210119145632.GD54031@roeck-us.net>
- <1093bedb-9b6d-b365-85d0-de8ef7eceb95@suse.de>
- <efddf566-a5a1-cda0-5fec-5e8a1d6bffb3@roeck-us.net>
+To: Chao Leng <lengchao@huawei.com>
+Subject: Re: [PATCH v4 1/5] blk-mq: introduce blk_mq_set_request_complete
+Message-ID: <20210127164020.GA23417@lst.de>
+References: <20210126081539.13320-1-lengchao@huawei.com>
+ <20210126081539.13320-2-lengchao@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <efddf566-a5a1-cda0-5fec-5e8a1d6bffb3@roeck-us.net>
+In-Reply-To: <20210126081539.13320-2-lengchao@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210127_113600_770472_6B3A8E7F 
-X-CRM114-Status: UNSURE (   7.97  )
+X-CRM114-CacheID: sfid-20210127_114026_281153_92EE738C 
+X-CRM114-Status: UNSURE (   6.73  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -66,19 +64,20 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@wdc.com>, Sagi Grimberg <sagi@grimberg.me>,
- Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: axboe@kernel.dk, linux-block@vger.kernel.org, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, axboe@fb.com, kbusch@kernel.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 19, 2021 at 09:54:30PM -0800, Guenter Roeck wrote:
-> It needs lm-sensors version 3.5.0 or later. Older versions
-> don't support a device hierarchy.
+> +static inline void blk_mq_set_request_complete(struct request *rq)
+> +{
+> +	WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
+> +}
 
-Hannes, did you get a chance to test this with lm-sensors?
+This function needs a detailed comment explaining the use case.
+Otherwise we'll get lots of driver abuses.
 
 _______________________________________________
 Linux-nvme mailing list
