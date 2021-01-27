@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7CF1C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 08:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8044C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 08:06:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3B7812073C
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 08:06:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B7812073C
+	by mail.kernel.org (Postfix) with ESMTPS id 68BAE2071E
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 08:06:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 68BAE2071E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Hp4FclrJhA6GBHK7RTR6QHEe5j4htTDLKc3O/0a4abE=; b=RiGwVQ+NNKUYoEN32Vh6GRcYB
-	lhDtxJxy2cDPC+R/H+WFIniCquYByg0lef0x3opUBSRyaL8050rWvu0TUdgohdbh7b/UDEeYweams
-	KJbtCyPr05OJsmkbeux5PxfFb1a7LK3sVQH3/AMWm1uci0HD1NX3ARNXT6u3TbZIxSRydBDlCPwBI
-	XDd1Eea89ZZ/rIq59LVdghHkwc1wJxSl7DOUL1/1i44jd5kY0NIQEIRI7rw5q7kFZtT6fblS2GuM9
-	59bgQEqWE8vqujR+lcPn3XwwLISYllYxC1+b4j91QfA7eWai6NtU5U1VbVXLGKDeg5wKMdLA1LRzS
-	QJkcFlBrQ==;
+	 bh=bTVHLkIzXl688cP3z/ZgIhTrMqGKxMubzn/bwJwbfZc=; b=fDgvYyOSwo4XFRwX2CizewRws
+	P2wu23ysriWd/DC+JicE5rR5v4yyMkRL7zn3eGyK1oev0fO7EMsFqyclLJW91CqoRb/B51pOULrpv
+	y/zbwx+eH9QUaakgj2joIXw+/PLeguus4sChGLgB2VfZmw7tNfvca1ytTfTLPg1I9QreJGB+blXvi
+	Pvlt/Bb7oq9/c3GbcnyR6mbqje9HEeTsotgawvkTuClcyj1VnyxYzf6S6Kknp1LE+iN2OwqpOCbI7
+	F4rmDXqPqAg4eN/oR/sfJfotQnjDLIQHayXdsHHDPd5eHSXEj2GKqytXRvanx2NAC1uYu1BkAKCxP
+	8dP+o2emg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4fq9-0002FW-8i; Wed, 27 Jan 2021 08:06:13 +0000
+	id 1l4fq8-0002FC-1t; Wed, 27 Jan 2021 08:06:12 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4fq4-0002Ds-UH
- for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 08:06:10 +0000
+ id 1l4fq4-0002Dr-UH
+ for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 08:06:09 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3B169B72D;
+ by mx2.suse.de (Postfix) with ESMTP id 38B6FAE04;
  Wed, 27 Jan 2021 08:06:07 +0000 (UTC)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 2/2] nvme: return -ETIMEDOUT in nvme_submit_sync_cmd()
-Date: Wed, 27 Jan 2021 09:06:05 +0100
-Message-Id: <20210127080605.146627-3-hare@suse.de>
+Subject: [PATCH 1/2] nvme: add NVME_REQ_CANCELLED flag in nvme_cancel_request()
+Date: Wed, 27 Jan 2021 09:06:04 +0100
+Message-Id: <20210127080605.146627-2-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210127080605.146627-1-hare@suse.de>
 References: <20210127080605.146627-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210127_030609_152727_F00A801D 
-X-CRM114-Status: GOOD (  15.55  )
+X-CRM114-CacheID: sfid-20210127_030609_152306_3A3069D8 
+X-CRM114-Status: GOOD (  14.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,66 +71,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a command times out we should be returning -ETIMEDOUT in
-nvme_submit_sync_cmd(), and not requiring the caller to guess whether
-a specific NVMe status should be interpreted as a timeout.
+NVME_REQ_CANCELLED is translated into -EINTR in nvme_submit_sync_cmd(),
+so we should be setting this flags during nvme_cancel_request() to
+ensure that the callers to nvme_submit_sync_cmd() will get the correct
+error code when the controller is reset.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/core.c | 2 ++
- drivers/nvme/host/nvme.h | 1 +
- drivers/nvme/host/rdma.c | 1 +
- drivers/nvme/host/tcp.c  | 1 +
- 4 files changed, 5 insertions(+)
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 279d506ce794..d7fea5a0aa1f 100644
+index ce1b61519441..279d506ce794 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -972,6 +972,8 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		*result = nvme_req(req)->result;
- 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
- 		ret = -EINTR;
-+	else if (nvme_req(req)->flags & NVME_REQ_TIMEOUT)
-+		ret = -ETIMEDOUT;
- 	else
- 		ret = nvme_req(req)->status;
-  out:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 7e49f61f81df..0d3c16d9e493 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -167,6 +167,7 @@ struct nvme_request {
- enum {
- 	NVME_REQ_CANCELLED		= (1 << 0),
- 	NVME_REQ_USERCMD		= (1 << 1),
-+	NVME_REQ_TIMEOUT		= (1 << 2),
- };
+@@ -367,6 +367,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+ 		return true;
  
- static inline struct nvme_request *nvme_req(struct request *req)
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index cf6c49d09c82..a4d5fbd50212 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1977,6 +1977,7 @@ static void nvme_rdma_complete_timed_out(struct request *rq)
- 	nvme_rdma_stop_queue(queue);
- 	if (blk_mq_request_started(rq) && !blk_mq_request_completed(rq)) {
- 		nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
-+		nvme_req(rq)->flags |= NVME_REQ_TIMEOUT;
- 		blk_mq_complete_request(rq);
- 	}
- }
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 1ba659927442..21415cba1c69 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2170,6 +2170,7 @@ static void nvme_tcp_complete_timed_out(struct request *rq)
- 	nvme_tcp_stop_queue(ctrl, nvme_tcp_queue_id(req->queue));
- 	if (blk_mq_request_started(rq) && !blk_mq_request_completed(rq)) {
- 		nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
-+		nvme_req(rq)->flags |= NVME_REQ_TIMEOUT;
- 		blk_mq_complete_request(rq);
- 	}
+ 	nvme_req(req)->status = NVME_SC_HOST_ABORTED_CMD;
++	nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 	blk_mq_complete_request(req);
+ 	return true;
  }
 -- 
 2.29.2
