@@ -2,55 +2,54 @@ Return-Path: <SRS0=3Lap=G6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ACFBC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 07:14:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA2AC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 08:06:27 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08E8E20729
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 07:14:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08E8E20729
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 3A1952071E
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Jan 2021 08:06:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A1952071E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=paZLpDC7kSjnh/2PgrW5x+p/R7oeTJg82UQsKWz/4nE=; b=s3/zCtA77sLYQJwsHrApK+Bsq
-	uUle3+fuS0lkxgx8qtlKB9ys4HlkPCtFLq6YlngBuo9uji9NJOzmYlpizYmR7wW6sv5zNd0sswUim
-	VY0Q8/ZumxDHRmOshOt/rlJQxrCM0aTsW6qHAK5lVq+QCh4wrZ+8fBAUqqYSOcfvfQfIjrNxYaZGq
-	WzfklYiOUX2wJwNroJDuaHa4u0zsE865AktpKjiAYgl3nByCuNscuPAiePxYrfVBKefo6wFoT2BlI
-	YAnZJ0miQ/FZ79mTSFE+rwMI/CEM4MjyOCbPmiqSHaE1DLYR2qZYtO3soILmnAjq5FXVo+4tP1vkG
-	inLc9tXsw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2rREKSZwW39U/Tq/sTjr3pxpvZm0Olz8HetfVBe6ugw=; b=Fd8ThPgymmjsXq0LMVDT7whK4O
+	cfl9AF3np23JXtzyjXhZdjPmh8iCrgdaV+MGMOm8iIKhW04VPFhX03Iw0WAO4EWRsbeFO/dbyB1SV
+	GAvx/z1dT8P2SD1P/fVo5FpYXMM37Wx35c/vPxpG6JosYT4Uc//03265bQ23dR+GK6IKk0uxycMVE
+	f1UF1H2pxUMgKarEJlfriF0qNTyiapuW2CO8wbDFZhX+WBHe0Ja2Atp2Au3HUJq2m1cdPQ/K6abXf
+	mTC7w1gYQX9qUXbUC/u/hFWGzuBCD9WIUXK+vlllsqUXM2H95pIalwc8wFm/Cd5RZQBeZJFln9rqI
+	jFDZSEQQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4f1V-0005p4-Oi; Wed, 27 Jan 2021 07:13:53 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1l4fqA-0002Fp-4U; Wed, 27 Jan 2021 08:06:14 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4f1T-0005oO-Qn
- for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 07:13:52 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 4CD2467373; Wed, 27 Jan 2021 08:13:44 +0100 (CET)
-Date: Wed, 27 Jan 2021 08:13:44 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH] nvme-core: check bdev value for NULL
-Message-ID: <20210127071344.GA21223@lst.de>
-References: <20210127053738.4922-1-chaitanya.kulkarni@wdc.com>
+ id 1l4fq4-0002Dt-UG
+ for linux-nvme@lists.infradead.org; Wed, 27 Jan 2021 08:06:10 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 38378AD7F;
+ Wed, 27 Jan 2021 08:06:07 +0000 (UTC)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [PATCH 0/2] Fixup return value for nvme_submit_sync_cmd()
+Date: Wed, 27 Jan 2021 09:06:03 +0100
+Message-Id: <20210127080605.146627-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210127053738.4922-1-chaitanya.kulkarni@wdc.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210127_021352_090232_0A274595 
-X-CRM114-Status: GOOD (  21.29  )
+X-CRM114-CacheID: sfid-20210127_030609_155243_B38EB010 
+X-CRM114-Status: GOOD (  15.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,113 +61,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, axboe@fb.com, kbusch@kernel.org, hch@lst.de,
- linux-nvme@lists.infradead.org
+Cc: linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+Hi all,
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+here are two small patches for fixing up the return value of nvme_submit_sync_cmd().
+As Keith correctly noted, nvme_submit_sync_cmd() should be returning
+an error if the command could not be performed; however, currently
+only pci does that.
+So the first patch fixes up nvme_cancel_request() to return an -EINTR
+on any pending sync commands during reset.
+And the second patch adds a new flag 'NVME_REQ_TIMEOUT' to indicate
+that a command had been aborted due to a timeout, and translates that
+back into -ETIMEDOUT as a return code for nvme_submit_sync_cmd().
 
-Jens, can you pick this up as it fixes an issue I introduced in
-for-5.12/block?
+As usual, comments and reviews are welcome.
 
-On Tue, Jan 26, 2021 at 09:37:38PM -0800, Chaitanya Kulkarni wrote:
-> The nvme-core sets the bdev to NULL when admin comamnd is issued from
-> IOCTL in the following path e.g. nvme list :-
-> 
-> block_ioctl()
->  blkdev_ioctl()
->   nvme_ioctl()
->    nvme_user_cmd()
->     nvme_submit_user_cmd()
-> 
-> The commit 309dca309fc3 ("block: store a block_device pointer in struct bio")
-> now uses bdev unconditionally in the macro bio_set_dev() and assumes
-> that bdev value is not NULL which results in the following crash in
-> since thats where bdev is actually accessed :-
-> 
-> void bio_associate_blkg_from_css(struct bio *bio,
-> 				 struct cgroup_subsys_state *css)
-> {
-> 	if (bio->bi_blkg)
-> 		blkg_put(bio->bi_blkg);
-> 
-> 	if (css && css->parent) {
-> 		bio->bi_blkg = blkg_tryget_closest(bio, css);
-> 	} else {
-> -------------->	blkg_get(bio->bi_bdev->bd_disk->queue->root_blkg);
-> 		bio->bi_blkg = bio->bi_bdev->bd_disk->queue->root_blkg;
-> 	}
-> }
-> EXPORT_SYMBOL_GPL(bio_associate_blkg_from_css);
-> 
-> <1>[  345.385947] BUG: kernel NULL pointer dereference, address: 0000000000000690
-> <1>[  345.387103] #PF: supervisor read access in kernel mode
-> <1>[  345.387894] #PF: error_code(0x0000) - not-present page
-> <6>[  345.388756] PGD 162a2b067 P4D 162a2b067 PUD 1633eb067 PMD 0
-> <4>[  345.389625] Oops: 0000 [#1] SMP NOPTI
-> <4>[  345.390206] CPU: 15 PID: 4100 Comm: nvme Tainted: G           OE     5.11.0-rc5blk+ #141
-> <4>[  345.391377] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-59-gc9ba52764
-> <4>[  345.393074] RIP: 0010:bio_associate_blkg_from_css.cold.47+0x58/0x21f
-> 
-> <4>[  345.396362] RSP: 0018:ffffc90000dbbce8 EFLAGS: 00010246
-> <4>[  345.397078] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000027
-> <4>[  345.398114] RDX: 0000000000000000 RSI: ffff888813be91f0 RDI: ffff888813be91f8
-> <4>[  345.399039] RBP: ffffc90000dbbd30 R08: 0000000000000001 R09: 0000000000000001
-> <4>[  345.399950] R10: 0000000064c66670 R11: 00000000ef955201 R12: ffff888812d32800
-> <4>[  345.401031] R13: 0000000000000000 R14: ffff888113e51540 R15: ffff888113e51540
-> <4>[  345.401976] FS:  00007f3747f1d780(0000) GS:ffff888813a00000(0000) knlGS:0000000000000000
-> <4>[  345.402997] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> <4>[  345.403737] CR2: 0000000000000690 CR3: 000000081a4bc000 CR4: 00000000003506e0
-> <4>[  345.404685] Call Trace:
-> <4>[  345.405031]  bio_associate_blkg+0x71/0x1c0
-> <4>[  345.405649]  nvme_submit_user_cmd+0x1aa/0x38e [nvme_core]
-> <4>[  345.406348]  nvme_user_cmd.isra.73.cold.98+0x54/0x92 [nvme_core]
-> <4>[  345.407117]  nvme_ioctl+0x226/0x260 [nvme_core]
-> <4>[  345.407707]  blkdev_ioctl+0x1c8/0x2b0
-> <4>[  345.408183]  block_ioctl+0x3f/0x50
-> <4>[  345.408627]  __x64_sys_ioctl+0x84/0xc0
-> <4>[  345.409117]  do_syscall_64+0x33/0x40
-> <4>[  345.409592]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> <4>[  345.410233] RIP: 0033:0x7f3747632107
-> 
-> <4>[  345.413125] RSP: 002b:00007ffe461b6648 EFLAGS: 00000206 ORIG_RAX: 0000000000000010
-> <4>[  345.414086] RAX: ffffffffffffffda RBX: 00000000007b7fd0 RCX: 00007f3747632107
-> <4>[  345.414998] RDX: 00007ffe461b6650 RSI: 00000000c0484e41 RDI: 0000000000000004
-> <4>[  345.415966] RBP: 0000000000000004 R08: 00000000007b7fe8 R09: 00000000007b9080
-> <4>[  345.416883] R10: 00007ffe461b62c0 R11: 0000000000000206 R12: 00000000007b7fd0
-> <4>[  345.417808] R13: 0000000000000000 R14: 0000000000000003 R15: 0000000000000000
-> 
-> Add a NULL check before we set the bdev for bio.
-> 
-> This issue is found on block/for-next tree.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> ---
->  drivers/nvme/host/core.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index ba5df80881ea..1a3cdc6b1036 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1133,7 +1133,8 @@ static int nvme_submit_user_cmd(struct request_queue *q,
->  		if (ret)
->  			goto out;
->  		bio = req->bio;
-> -		bio_set_dev(bio, bdev);
-> +		if (bdev)
-> +			bio_set_dev(bio, bdev);
->  		if (bdev && meta_buffer && meta_len) {
->  			meta = nvme_add_user_metadata(bio, meta_buffer, meta_len,
->  					meta_seed, write);
-> -- 
-> 2.22.1
----end quoted text---
+Hannes Reinecke (2):
+  nvme: add NVME_REQ_CANCELLED flag in nvme_cancel_request()
+  nvme: return -ETIMEDOUT in nvme_submit_sync_cmd()
+
+ drivers/nvme/host/core.c | 3 +++
+ drivers/nvme/host/nvme.h | 1 +
+ drivers/nvme/host/rdma.c | 1 +
+ drivers/nvme/host/tcp.c  | 1 +
+ 4 files changed, 6 insertions(+)
+
+-- 
+2.29.2
+
 
 _______________________________________________
 Linux-nvme mailing list
