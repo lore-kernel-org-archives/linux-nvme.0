@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B35AC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:17:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F10C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:17:52 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 80AB164DD6
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:17:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 80AB164DD6
+	by mail.kernel.org (Postfix) with ESMTPS id 56AA564DD6
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:17:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 56AA564DD6
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=G1RnpDyLXT65X+J+2elMRtWHt8SogXhd1AoY44mVw28=; b=p0Lal+VVb9RG52CTbf+w69QIY
-	Z5dEBXgnmH76ScVlobiu07kli2HelcvGjlqXfboZ6d+CP/PqLQPg1W551EbkxOeFT56Sll0eQkkll
-	iN4BC9SgL+YaGDfkRJOnp9zgaVHqAwOwun7rcp0EQh+Y536JtRMw7LeTfqTSkvAJCwYka29LNLC1g
-	SrJ3ahX4GqqOMh15vv73KWKBCKHq4LBs7TVl3Vh6H4sN8fUoL4wN1Go4v20X9bxXObdVurJXFFdOy
-	/AUa62zWEjAkv0S7hTNz2bOcyjE6y24lrNnJw8+2CpXjF4tRIZDfq/w2Q3MUdScy4Iu8d4TDDg9aL
-	iBGmFlj9w==;
+	 bh=QHX0CkvZdH5V3kIwc4dOba5YzNEr7sVKWOXVIc0ZMW8=; b=U/AMOrcvO8VKA22es22eysfH5
+	mhB7WMmtBixtAcfHlDZwpE24zSUP1OuOoU6RB2e8H4wWJl10NkqPY/Of69l6o9xDIXiu3z85VlHl0
+	a1mfp7XOt6c0AJIimgZTcuJXEtS5acEDAdo4KhgQNnTbp6OS1D26px9X6QPV1y9N1NXKlqhw39FDy
+	IegDFSLcstrsnM6KTfQhpc7WMiK3h8xcQ+S/8eGrfm2XsdOWQD8/SRyEsqzPCmtZtlUersfcHEKAS
+	ZzdHzlTctcdqBi/lKH5HR8QLNUU5LM4wW4ag3h9z0WCdnvhUghKI6RFQiEWCj0ShjMNVBD2DXx6Wp
+	OL8IBdrCg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l53Qj-0008V2-IN; Thu, 28 Jan 2021 09:17:33 +0000
+	id 1l53Qz-00006B-IJ; Thu, 28 Jan 2021 09:17:49 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l53Qh-0008UR-Ci
- for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 09:17:32 +0000
+ id 1l53Qx-00005b-Ai
+ for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 09:17:48 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 480C468B02; Thu, 28 Jan 2021 10:17:27 +0100 (CET)
-Date: Thu, 28 Jan 2021 10:17:27 +0100
+ id B835E68B05; Thu, 28 Jan 2021 10:17:45 +0100 (CET)
+Date: Thu, 28 Jan 2021 10:17:45 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Damien Le Moal <damien.lemoal@wdc.com>
-Subject: Re: [PATCH v4 3/8] nullb: use blk_queue_set_zoned() to setup zoned
- devices
-Message-ID: <20210128091727.GB1959@lst.de>
+Subject: Re: [PATCH v4 4/8] block: use blk_queue_set_zoned in add_partition()
+Message-ID: <20210128091745.GC1959@lst.de>
 References: <20210128044733.503606-1-damien.lemoal@wdc.com>
- <20210128044733.503606-4-damien.lemoal@wdc.com>
+ <20210128044733.503606-5-damien.lemoal@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210128044733.503606-4-damien.lemoal@wdc.com>
+In-Reply-To: <20210128044733.503606-5-damien.lemoal@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210128_041731_549315_5EE23D4F 
-X-CRM114-Status: GOOD (  11.14  )
+X-CRM114-CacheID: sfid-20210128_041747_495327_CCA9B644 
+X-CRM114-Status: UNSURE (   9.13  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,14 +74,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 28, 2021 at 01:47:28PM +0900, Damien Le Moal wrote:
-> Use blk_queue_set_zoned() to set a nullb device zone model instead of
-> directly assigning the device queue zoned limit. This initialization of
-> the devicve zoned model as well as the setup of the queue flag
-> QUEUE_FLAG_ZONE_RESETALL and of the device queue elevator feature are
-> moved from null_init_zoned_dev() to null_register_zoned_dev() so that
-> the initialization of the queue limits is done when the gendisk of the
-> nullb device is available.
+On Thu, Jan 28, 2021 at 01:47:29PM +0900, Damien Le Moal wrote:
+> When changing the zoned model of host-aware zoned block devices, use
+> blk_queue_set_zoned() instead of directly assigning the gendisk queue
+> zoned limit.
+> 
+> Signed-off-by: Damien Le Moal <damien.lemoal@wdc.com>
 
 Looks good,
 
