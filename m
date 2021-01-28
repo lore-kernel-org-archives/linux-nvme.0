@@ -4,69 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 615E0C433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 18:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1AD9C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 18:16:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F07C764E17
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 18:01:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F07C764E17
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7551964DF5
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 18:16:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7551964DF5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=oPBDsSme92CbROb3NZQ9JzXIrMXjNy0V969oqOsU/+g=; b=BqWdRJ1dwjTrtaQN0/AtLCAPa
-	Ur/O0lPz45qEl+N6KrZ3qkCVrI4/Hq7KaLaIKCa2ieXlT7VAZg8kcqDW2F8SkE+BmAft0KoSsQKgN
-	7Z08NCtxaNfZfpsze8k3JGKnR9qQjK9HPMIDHmAvfb0D5QW7clhb79jM1wXtpo2v4IJ9/UJhrhH8G
-	a4oQmS3Nam6+FjUZCic+f6HNsrrxd6RtAhO/QiM6BuuNARX9d5sX50z8yDYhGGtoTNwnNDRoRUoB1
-	k/3Jl6lVe4b8AwXNSQCIrn+ZOoHAsGHQG93/f3hlHiCTXpTmsAEwzS0SVrfkLjUbM9CdToStRjTuX
-	5P4nNsU0A==;
+	 bh=vOeo3n9oVYxctA4MUeZrbQH7xENzxWvUFEDNa+mtv64=; b=qyL3wi0Id+vkGq64r3IvfobuH
+	5lCZjlsUmojjlT+k1u55r7tB+mL555/VlwP6n5USm9bC7EJihkuHsTl5tzbfRZ3xPJtSVEFp09LCW
+	Xst3P3owJHghnHi9iyWpmO4AbSwdtUXyufs9HDmmQL2P8sNN6/gY/VybSGd/q68tmHy2oWIOAcc/z
+	yh+gwGtzcoHBF9CIUCLwQCUXH68vVvQCu0yi+xwlK8l4SDVvMejz6hW4nciD3ewkFztEr8OO8VGnf
+	Cpbdo6qNbRaW2OsxJQargGMTC89cPyCVcLUf/gp6zM74AYdq6ekwVDGGUbX55OZ5Ipc5nlfYMYKck
+	Jqo22IKbA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l5BbR-0006zJ-3t; Thu, 28 Jan 2021 18:01:09 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l5BbO-0006ym-8x
- for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 18:01:07 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D8E9313A1;
- Thu, 28 Jan 2021 10:01:02 -0800 (PST)
-Received: from [10.57.35.163] (unknown [10.57.35.163])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B34273F719;
- Thu, 28 Jan 2021 10:00:59 -0800 (PST)
-Subject: Re: [PATCH 3/3] Adding device_dma_parameters->offset_preserve_mask to
- NVMe driver.
-To: Jianxiong Gao <jxgao@google.com>, erdemaktas@google.com,
- marcorr@google.com, hch@lst.de, m.szyprowski@samsung.com,
- gregkh@linuxfoundation.org, saravanak@google.com,
- heikki.krogerus@linux.intel.com, rafael.j.wysocki@intel.com,
- andriy.shevchenko@linux.intel.com, dan.j.williams@intel.com,
- bgolaszewski@baylibre.com, jroedel@suse.de,
- iommu@lists.linux-foundation.org, konrad.wilk@oracle.com, kbusch@kernel.org,
- axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
+	id 1l5Bpx-000076-Q7; Thu, 28 Jan 2021 18:16:09 +0000
+Received: from verein.lst.de ([213.95.11.211])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l5Bpu-00006f-Dt
+ for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 18:16:07 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id B320468B02; Thu, 28 Jan 2021 19:15:58 +0100 (CET)
+Date: Thu, 28 Jan 2021 19:15:57 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 1/3] Adding page_offset_mask to device_dma_parameters
+Message-ID: <20210128181557.GA11790@lst.de>
 References: <20210128003829.1892018-1-jxgao@google.com>
- <20210128003829.1892018-4-jxgao@google.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <0550ca25-1389-ffc2-e738-8127ceb1712f@arm.com>
-Date: Thu, 28 Jan 2021 18:00:58 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ <20210128003829.1892018-2-jxgao@google.com>
+ <2863b6d2-47f6-51fa-f60c-ba24904818e9@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210128003829.1892018-4-jxgao@google.com>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <2863b6d2-47f6-51fa-f60c-ba24904818e9@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210128_130106_454761_A05A6E7E 
-X-CRM114-Status: GOOD (  24.07  )
+X-CRM114-CacheID: sfid-20210128_131606_609141_0529060D 
+X-CRM114-Status: GOOD (  19.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,92 +64,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: axboe@fb.com, heikki.krogerus@linux.intel.com, sagi@grimberg.me,
+ saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
+ gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
+ linux-kernel@vger.kernel.org, andriy.shevchenko@linux.intel.com,
+ kbusch@kernel.org, bgolaszewski@baylibre.com, iommu@lists.linux-foundation.org,
+ jroedel@suse.de, linux-nvme@lists.infradead.org, erdemaktas@google.com,
+ dan.j.williams@intel.com, Jianxiong Gao <jxgao@google.com>, hch@lst.de,
+ m.szyprowski@samsung.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2021-01-28 00:38, Jianxiong Gao wrote:
-> NVMe driver relies on the address offset to function properly.
-> This patch adds the offset preserve mask to NVMe driver when mapping
-> via dma_map_sg_attrs and unmapping via nvme_unmap_sg. The mask
-> depends on the page size defined by CC.MPS register of NVMe
-> controller.
-> 
-> Signed-off-by: Jianxiong Gao <jxgao@google.com>
-> ---
->   drivers/nvme/host/pci.c | 19 +++++++++++++++++--
->   1 file changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 856aa31931c1..0b23f04068be 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -580,12 +580,15 @@ static void nvme_free_sgls(struct nvme_dev *dev, struct request *req)
->   static void nvme_unmap_sg(struct nvme_dev *dev, struct request *req)
->   {
->   	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> -
-> +	if (dma_set_page_offset_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1))
-> +		dev_warn(dev->dev, "dma_set_page_offset_mask failed to set offset\n");
->   	if (is_pci_p2pdma_page(sg_page(iod->sg)))
->   		pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
->   				    rq_dma_dir(req));
->   	else
->   		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
-> +	if (dma_set_page_offset_mask(dev->dev, 0))
-> +		dev_warn(dev->dev, "dma_set_page_offset_mask failed to reset offset\n");
->   }
->   
->   static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
-> @@ -842,7 +845,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->   {
->   	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->   	blk_status_t ret = BLK_STS_RESOURCE;
-> -	int nr_mapped;
-> +	int nr_mapped, offset_ret;
->   
->   	if (blk_rq_nr_phys_segments(req) == 1) {
->   		struct bio_vec bv = req_bvec(req);
-> @@ -868,12 +871,24 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->   	if (!iod->nents)
->   		goto out_free_sg;
->   
-> +	offset_ret = dma_set_page_offset_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1);
-> +	if (offset_ret) {
-> +		dev_warn(dev->dev, "dma_set_page_offset_mask failed to set offset\n");
-> +		goto out_free_sg;
-> +	}
-> +
->   	if (is_pci_p2pdma_page(sg_page(iod->sg)))
->   		nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
->   				iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
->   	else
->   		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
->   					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
-> +
-> +	offset_ret = dma_set_page_offset_mask(dev->dev, 0);
-> +	if (offset_ret) {
-> +		dev_warn(dev->dev, "dma_set_page_offset_mask failed to reset offset\n");
-> +		goto out_free_sg;
+On Thu, Jan 28, 2021 at 05:27:25PM +0000, Robin Murphy wrote:
+> On 2021-01-28 00:38, Jianxiong Gao wrote:
+>> Some devices rely on the address offset in a page to function
+>> correctly (NVMe driver as an example). These devices may use
+>> a different page size than the Linux kernel. The address offset
+>> has to be preserved upon mapping, and in order to do so, we
+>> need to record the page_offset_mask first.
+>>
+>> Signed-off-by: Jianxiong Gao <jxgao@google.com>
+>> ---
+>>   include/linux/device.h      |  1 +
+>>   include/linux/dma-mapping.h | 17 +++++++++++++++++
+>>   2 files changed, 18 insertions(+)
+>>
+>> diff --git a/include/linux/device.h b/include/linux/device.h
+>> index 1779f90eeb4c..f44e0659fc66 100644
+>> --- a/include/linux/device.h
+>> +++ b/include/linux/device.h
+>> @@ -292,6 +292,7 @@ struct device_dma_parameters {
+>>   	 */
+>>   	unsigned int max_segment_size;
+>>   	unsigned long segment_boundary_mask;
+>> +	unsigned int page_offset_mask;
+>
+> Could we call this something more like "min_align_mask" (sorry, I can't 
+> think of a name that's actually good and descriptive right now). 
+> Essentially I worry that having "page" in there is going to be too easy to 
+> misinterpret as having anything to do what "page" means almost everywhere 
+> else (even before you throw IOMMU pages into the mix).
+>
+> Also note that of all the possible ways to pack two ints and a long, this 
+> one is the worst ;)
 
-If it were possible for this to fail, you might leak the DMA mapping 
-here. However if dev->dma_parms somehow disappeared since a dozen lines 
-above then I think you've got far bigger problems anyway.
-
-That said, do you really need to keep toggling this back and forth all 
-the time? Even if the device does make other mappings elsewhere that 
-don't necessarily need the same strict alignment, would it be 
-significantly harmful just to set it once at probe and leave it in place 
-anyway?
-
-Robin.
-
-> +	}
->   	if (!nr_mapped)
->   		goto out_free_sg;
->   
-> 
+The block layer uses virt_boundary for the related concept, but that
+is pretty horrible too.
 
 _______________________________________________
 Linux-nvme mailing list
