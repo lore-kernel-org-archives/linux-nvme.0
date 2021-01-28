@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F41B2C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E60A5C433E9
 	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 00:39:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 82A7B64DCE
+	by mail.kernel.org (Postfix) with ESMTPS id 6952360C3D
 	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 00:39:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 82A7B64DCE
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6952360C3D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=google.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,57 +23,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:List-Id:To:From:Subject:References:Mime-Version:Message-Id:In-Reply-To:Date:
 	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PhMT4zAZel5u77OhSub6G2PNDItHBEP0q78S5IM5zmA=; b=3UWTudl4R8RBY6ytWZLt17mMWy
-	h7aqX5abMF4MApjYe8TZSvc0F/ww5DaDj0kYm05Eh2Ji+vWVxI8C7t56IusXyrixdeqnvBIE09Cdt
-	QZAtuHcAF31XYgprppO7IwiRJQ3Bu9pENjjFlHRXEweIcdPpI0kUUaViOeltcisLxfSnRYr0pM18O
-	RNjPW5PBoE3loEMIWh0XVXYmguLvfyrGs/gF8AYLgDbbX4QzSmtiIzXEueB+LKmZnSFIscuzIBp2/
-	Xnh0PJ3/30Ux0CHr0qQsXClQVSc4s795HcTmUZDIRktnQehA/QmM5taTypiwcgn/vkKgqD5LSm7pN
-	Eud9yiFw==;
+	bh=kepd6r2xThqBDBDaJOIdE1vXeG4ZZ6SBCUvbAkbU6wQ=; b=ng9aJewbnbNFCCEsmjZwogiKWi
+	+15o3tIHEDVzE9gPzHRSXj2VdhKhi09/id6c6c6NBbUwcAfTIj1LN57tFh0byMNTuFzhd/jL6tAv6
+	XWvesncuQ+G9b5eav14vUMKwwrrQ8s1K5KjwwgkKGEkb9616nufhtv9SfjDo5TGP/lHyHr2NfthxW
+	uHN1EB4o7bYWan2R9TJRJAsVwxF3e88mQC3Q12wXeNS+Q3p5sJoHVMAtkYRuAkW3pESyPklQQPDE6
+	qtzX894p6Dr+hbkz3JCi+iks1mm5bW4mJLTpRzA4Hu7pmPfCui4wAJPz/66swAtLskOxuSlu5Zkp4
+	bKJGPAZw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4vKt-0006Gx-Cy; Thu, 28 Jan 2021 00:38:59 +0000
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
+	id 1l4vKv-0006HT-4V; Thu, 28 Jan 2021 00:39:01 +0000
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4vKl-0006F3-J4
- for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 00:38:52 +0000
-Received: by mail-yb1-xb4a.google.com with SMTP id y1so4099213ybe.11
- for <linux-nvme@lists.infradead.org>; Wed, 27 Jan 2021 16:38:48 -0800 (PST)
+ id 1l4vKl-0006F2-Lt
+ for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 00:38:53 +0000
+Received: by mail-pg1-x549.google.com with SMTP id s17so2646872pgv.14
+ for <linux-nvme@lists.infradead.org>; Wed, 27 Jan 2021 16:38:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to; bh=S76UV5kxidYXbgCR1VuCa1vuB9V23gC9gqu6RBvYKNI=;
- b=fz1zYJOGH62ztoJUartn4VEw2vyYszv5Q1bITcQeeg34HhxJNH56QOsyD61zYCGfxd
- O7A+iQPhET5O5Iva7LqnCizGtkPKW4pfNGMbubFOMH1RBYzMSGU6xD3q6/QrXA18Ff8/
- 5G8BPmR7JcKzxA4ITYT/eKsnQTpPWpXcI/M9cTyZChpy28GxXqVXqWhRuu2H7is+0Nz1
- iIQrn6/kJilKpc9BmD7xkjcwDbgncjcB4rjOZKh56EcTNP8lVA/tlr0fWqnoMSCAJSqF
- yoceWAFFLD9BpXjDiLmsgFwfEl0Gu/npahweWe2ZfSjj7rurxZpp86jkHhmxZ3VXcOXU
- PX0Q==
+ :from:to; bh=qnjnlmt/aDtctSbauuE/youvqobwVlPzhUiWyRCjmfE=;
+ b=qJxdZcF/2iL7L7BpzsbCYhi4F1nBavg4WlPlFpgXDOY5JnypjMuB5Jl8F1glrX+A4C
+ n5cFVsxGI6pfe/w0G7OBYdhPN9oZnZgnLpywUZwj5ri8PaSP2OWVp0agQOBxmWy3mIvz
+ KSFd69aDCb0KQBfTmnJ62PQ3um4VDyswVGzu5SPQyhwapIATIv82EijymGjd/0268xT2
+ wv/zpLEU0J95cFOqUQnbGni/pwRmqfy6nQ96Wx3eJcvOVyYCLU49ayvU8D/1YZcpSmEQ
+ cQVhVPIIf6skPQ09HLkASCP/JwRrVQzdGPjF5JYdynrGeqJ4Xp2kxKWvkcG5Zs6dpAi0
+ huSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
  :references:subject:from:to;
- bh=S76UV5kxidYXbgCR1VuCa1vuB9V23gC9gqu6RBvYKNI=;
- b=og5AGQ9AYkVYp7nAxJ10eJwsYfcQRrCBYmPRKa2/GMlLXzJFieQzgli6k1y2y4wfPJ
- T9yyU8n2l9jD69mPEmjgfLqjxv86N1K9zcE7nfRd+rGgtoxTSiX0cLDBsahegzqx4+zG
- geLH8UMqd2iF7FoTKc+i7ljf9k6y0ELIXHRREdp5uidgbbk2L3uCKat9Vbpe2ZtXWVH9
- 7jYbgV0T6lZKBCdEimRa9lp4NO6uDb62PmIjQDxdWKVix6IQe0+PiW9uh6YjtFU9JgyO
- TsBC2z8bl68OjGBqZombUdARgzxhJ3gdZOdomKUup8cRvAqXKt5otMqFIr4UQsiD/aeu
- kHZw==
-X-Gm-Message-State: AOAM532f1XQi+xJyE6QD98s/tAFsLRTkscdqegsgiKF0W8XEX/jp1YmA
- 8Hsqjp5gd9gPTEkjXXE4mfwBRw4hww==
-X-Google-Smtp-Source: ABdhPJxhW9bnAu6awThXrNNK9h8pR96zH9JI9NukbN8uc2eD0HCU4F2glSXLYN/SAof/oTTUS9ZxUoM4Wg==
+ bh=qnjnlmt/aDtctSbauuE/youvqobwVlPzhUiWyRCjmfE=;
+ b=kBA+tdiAgtsx8qpJgb9JZtzk0grsH7pOTYe6bd2OLArj3Y83G/939w3WqurPXdzQNK
+ UrJp4XQAEeIDMXHBqSwTmhGUPyf1b3A1FG+epsMHn82hoIZE00kQMqAfr2rLG+sUZx6p
+ Iu07J4GvuGDJCd1UL/l9xUOyBINRdp8Hurm7xOwNbwqZIxTZMH7h2iXjh4UmQ52OluXL
+ o7T1nOOQakeMbZMiUJS19WHIPYAEUhVkGCkRrwEI8OkS/2rqUUMmNIHkTWo2PX5jzqsZ
+ aaq3gqsC1z6Wt45LS1qpwGfmWZv60kMdkIKZ5KL92F3UrrxfoN76SlVFRO2hKuKluhv+
+ 1DRQ==
+X-Gm-Message-State: AOAM533YQxmOoUDPASbkTg6Br/QZRUzjjd9Qv7vNQMD70iCRSsdn6aUS
+ yIO7DJ4NLiFu96J/D75d+9kz1p7mgw==
+X-Google-Smtp-Source: ABdhPJxItXQ1+mD1tytZkMFhh6fWETP78nnpd+zRsRgJzoZEVagoHzp8VktIvxmKZTm1x9AHDy922qsZ4Q==
 X-Received: from jxgao.kir.corp.google.com
  ([2620:0:1008:11:4d90:620d:7a68:ffc5])
- (user=jxgao job=sendgmr) by 2002:a5b:30f:: with SMTP id
- j15mr19901700ybp.431.1611794326856; 
- Wed, 27 Jan 2021 16:38:46 -0800 (PST)
-Date: Wed, 27 Jan 2021 16:38:29 -0800
+ (user=jxgao job=sendgmr) by 2002:a17:90a:d181:: with SMTP id
+ fu1mr8266312pjb.188.1611794325104; Wed, 27 Jan 2021 16:38:45 -0800 (PST)
+Date: Wed, 27 Jan 2021 16:38:28 -0800
 In-Reply-To: <20210128003829.1892018-1-jxgao@google.com>
-Message-Id: <20210128003829.1892018-4-jxgao@google.com>
+Message-Id: <20210128003829.1892018-3-jxgao@google.com>
 Mime-Version: 1.0
 References: <20210128003829.1892018-1-jxgao@google.com>
 X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
-Subject: [PATCH 3/3] Adding device_dma_parameters->offset_preserve_mask to
- NVMe driver.
+Subject: [PATCH 2/3] Add swiotlb offset preserving mapping when
+ dma_dma_parameters->page_offset_mask is non zero.
 From: Jianxiong Gao <jxgao@google.com>
 To: jxgao@google.com, erdemaktas@google.com, marcorr@google.com, hch@lst.de, 
  m.szyprowski@samsung.com, robin.murphy@arm.com, gregkh@linuxfoundation.org,
@@ -84,8 +83,8 @@ To: jxgao@google.com, erdemaktas@google.com, marcorr@google.com, hch@lst.de,
  axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
  linux-kernel@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210127_193851_734761_C1D98122 
-X-CRM114-Status: GOOD (  14.08  )
+X-CRM114-CacheID: sfid-20210127_193851_807728_8001AB2F 
+X-CRM114-Status: GOOD (  16.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,72 +101,85 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMe driver relies on the address offset to function properly.
-This patch adds the offset preserve mask to NVMe driver when mapping
-via dma_map_sg_attrs and unmapping via nvme_unmap_sg. The mask
-depends on the page size defined by CC.MPS register of NVMe
-controller.
+For devices that need to preserve address offset on mapping through
+swiotlb, this patch adds offset preserving based on page_offset_mask
+and keeps the offset if the mask is non zero. This is needed for
+device drivers like NVMe.
 
 Signed-off-by: Jianxiong Gao <jxgao@google.com>
 ---
- drivers/nvme/host/pci.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ kernel/dma/swiotlb.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 856aa31931c1..0b23f04068be 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -580,12 +580,15 @@ static void nvme_free_sgls(struct nvme_dev *dev, struct request *req)
- static void nvme_unmap_sg(struct nvme_dev *dev, struct request *req)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--
-+	if (dma_set_page_offset_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1))
-+		dev_warn(dev->dev, "dma_set_page_offset_mask failed to set offset\n");
- 	if (is_pci_p2pdma_page(sg_page(iod->sg)))
- 		pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
- 				    rq_dma_dir(req));
- 	else
- 		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
-+	if (dma_set_page_offset_mask(dev->dev, 0))
-+		dev_warn(dev->dev, "dma_set_page_offset_mask failed to reset offset\n");
- }
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 7c42df6e6100..4cab35f2c9bc 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -468,7 +468,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+ 	dma_addr_t tbl_dma_addr = phys_to_dma_unencrypted(hwdev, io_tlb_start);
+ 	unsigned long flags;
+ 	phys_addr_t tlb_addr;
+-	unsigned int nslots, stride, index, wrap;
++	unsigned int nslots, stride, index, wrap, page_offset_mask, page_offset;
+ 	int i;
+ 	unsigned long mask;
+ 	unsigned long offset_slots;
+@@ -500,12 +500,16 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+ 		    ? ALIGN(mask + 1, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT
+ 		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
  
- static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
-@@ -842,7 +845,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	blk_status_t ret = BLK_STS_RESOURCE;
--	int nr_mapped;
-+	int nr_mapped, offset_ret;
- 
- 	if (blk_rq_nr_phys_segments(req) == 1) {
- 		struct bio_vec bv = req_bvec(req);
-@@ -868,12 +871,24 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 	if (!iod->nents)
- 		goto out_free_sg;
- 
-+	offset_ret = dma_set_page_offset_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1);
-+	if (offset_ret) {
-+		dev_warn(dev->dev, "dma_set_page_offset_mask failed to set offset\n");
-+		goto out_free_sg;
-+	}
++	page_offset_mask = dma_get_page_offset_mask(hwdev);
++	page_offset = orig_addr & page_offset_mask;
++	alloc_size += page_offset;
 +
- 	if (is_pci_p2pdma_page(sg_page(iod->sg)))
- 		nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
- 				iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
+ 	/*
+ 	 * For mappings greater than or equal to a page, we limit the stride
+ 	 * (and hence alignment) to a page size.
+ 	 */
+ 	nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+-	if (alloc_size >= PAGE_SIZE)
++	if ((alloc_size >= PAGE_SIZE) || (page_offset_mask > (1 << IO_TLB_SHIFT)))
+ 		stride = (1 << (PAGE_SHIFT - IO_TLB_SHIFT));
  	else
- 		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
- 					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
-+
-+	offset_ret = dma_set_page_offset_mask(dev->dev, 0);
-+	if (offset_ret) {
-+		dev_warn(dev->dev, "dma_set_page_offset_mask failed to reset offset\n");
-+		goto out_free_sg;
-+	}
- 	if (!nr_mapped)
- 		goto out_free_sg;
+ 		stride = 1;
+@@ -583,6 +587,11 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+ 	 */
+ 	for (i = 0; i < nslots; i++)
+ 		io_tlb_orig_addr[index+i] = orig_addr + (i << IO_TLB_SHIFT);
++	/*
++	 * When keeping the offset of the original data, we need to advance
++	 * the tlb_addr by the offset of orig_addr.
++	 */
++	tlb_addr += page_offset;
+ 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+ 	    (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
+ 		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_TO_DEVICE);
+@@ -598,7 +607,9 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
+ 			      enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	unsigned long flags;
+-	int i, count, nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
++	unsigned int num_page_offset_slabs, page_offset_mask = dma_get_page_offset_mask(hwdev);
++	int i, count;
++	int nslots = ALIGN(alloc_size + tlb_addr & page_offset_mask, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+ 	int index = (tlb_addr - io_tlb_start) >> IO_TLB_SHIFT;
+ 	phys_addr_t orig_addr = io_tlb_orig_addr[index];
  
+@@ -610,6 +621,14 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
+ 	    ((dir == DMA_FROM_DEVICE) || (dir == DMA_BIDIRECTIONAL)))
+ 		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_FROM_DEVICE);
+ 
++	/*
++	 * When dma_get_page_offset_mask is used, we may have padded more slabs
++	 * when padding exceeds one slab. We need to move index back to the
++	 * beginning of the padding.
++	 */
++	num_page_offset_slabs =  (tlb_addr & page_offset_mask) / (1 << IO_TLB_SHIFT);
++	index -= num_page_offset_slabs;
++
+ 	/*
+ 	 * Return the buffer to the free list by setting the corresponding
+ 	 * entries to indicate the number of contiguous entries available.
 -- 
 2.27.0
 
