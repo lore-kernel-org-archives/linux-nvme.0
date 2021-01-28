@@ -2,19 +2,19 @@ Return-Path: <SRS0=ghx+=G7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 697A9C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3430BC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:21:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E912B64DD1
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:19:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E912B64DD1
+	by mail.kernel.org (Postfix) with ESMTPS id B24DB64DBD
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:21:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B24DB64DBD
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ef05KNwQxb++GwfxrYo8FxQdYaBVyp3WnMgcjGMxf50=; b=qEigICYEoxVdjsxIpQea5kqTm
-	w2PgG2BrcAYKRgDvPmp3HhNSt58OWzFvLfyC2ZlUWaowtlPjrJa/IXmzcwIAqfcDDQi9TZe8GwpKQ
-	6cy4QC7sXqoFtWvc6RB7kRLCkd0BgdAc1JMEAlJSmTlGsLj0yyDclMrCr6OM6j/xwbZdZ0Fc2YftO
-	qVEAFLi1UA9y3JffP0Ur9YRmS3MEQEhicpHkp1S5yRwdzpmzILJjboDfFkPiPhw9DH1aqCMsb1Eqg
-	JkJjDXe9/QNHbih+4xzK9nIWMOjnNHNkPyxIiOl0fhOsCMBVLGnB4N0NUCWR6+nUzugPDTNPjjo+g
-	vwJBh/ajA==;
+	 bh=Mx06xCSNdcAOrR0s7Xs0lcr1uTpjnffQ2X+iotW+OIU=; b=bQsEdRL2kkvyHeqK4rThV0e4C
+	Sp4E5GrVVkrsrELh1A/hn5ugZUK4AEal/Itf+7pY/gakoj8motWySm1ARYUkeyG2J2PY2lBCkC9XY
+	onpAkXAMTJVvFa+38ORfrjIKfJM1gYGAYjaBFOqOG0OsoeZiJcIuCW07oA4vE2Y3U0xRRhcLHPGMD
+	U4zJRTv/JHWJO5xt1RENbrVmzFhTNsdF2CVG5BSUB4jIJIu0pnL3tgTz/b/p0rSN5IeKvP4jUg92m
+	/PFu5tsou+Dev64Abkb9sTbFQnwFPVMlYh2IrzumJ0l0sY0wwaYpxomyagzsxs4y2v9f4ctigNibI
+	LbdIkcwQQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l53Sg-0000Nj-Gh; Thu, 28 Jan 2021 09:19:34 +0000
+	id 1l53UN-0000rV-RH; Thu, 28 Jan 2021 09:21:19 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l53Se-0000Mx-Ei
- for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 09:19:33 +0000
+ id 1l53UE-0000lL-Mx
+ for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 09:21:17 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id AF17468AFE; Thu, 28 Jan 2021 10:19:30 +0100 (CET)
-Date: Thu, 28 Jan 2021 10:19:30 +0100
+ id D5BE468B05; Thu, 28 Jan 2021 10:21:08 +0100 (CET)
+Date: Thu, 28 Jan 2021 10:21:07 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Damien Le Moal <damien.lemoal@wdc.com>
-Subject: Re: [PATCH v4 5/8] block: introduce zone_write_granularity limit
-Message-ID: <20210128091930.GD1959@lst.de>
+Subject: Re: [PATCH v4 7/8] block: introduce blk_queue_clear_zone_settings()
+Message-ID: <20210128092107.GE1959@lst.de>
 References: <20210128044733.503606-1-damien.lemoal@wdc.com>
- <20210128044733.503606-6-damien.lemoal@wdc.com>
+ <20210128044733.503606-8-damien.lemoal@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210128044733.503606-6-damien.lemoal@wdc.com>
+In-Reply-To: <20210128044733.503606-8-damien.lemoal@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210128_041932_610618_76A4D2F6 
-X-CRM114-Status: UNSURE (   7.14  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210128_042110_957317_1A5380F0 
+X-CRM114-Status: GOOD (  11.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,16 +73,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +	t->zone_write_granularity = max(t->zone_write_granularity,
-> +					b->zone_write_granularity);
->  	t->zoned = max(t->zoned, b->zoned);
+On Thu, Jan 28, 2021 at 01:47:32PM +0900, Damien Le Moal wrote:
+> Introduce the internal function blk_queue_clear_zone_settings() to
+> cleanup all limits and resources related to zoned block devices. This
+> new function is called from blk_queue_set_zoned() when a disk zoned
+> model is set to BLK_ZONED_NONE. This particular case can happens when a
+> partition is created on a host-aware scsi disk.
 
-Totally superficial nit:  it would read a little nicer if
-zone_write_granularity is assigned after the zoned value.
-
-Otherwise this looks perfect.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Shouldn't we just do all this work when blk_queue_set_zoned is called
+with a BLK_ZONED_NONE argument?  That seems like the more obvious API
+to me.
 
 _______________________________________________
 Linux-nvme mailing list
