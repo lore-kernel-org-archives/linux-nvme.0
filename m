@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 229AFC433E9
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 18:18:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD9E9C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 18:25:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AA7FE64E70
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 18:18:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AA7FE64E70
+	by mail.kernel.org (Postfix) with ESMTPS id 5D9D264E21
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 18:25:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D9D264E21
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,37 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZbiuoDm0c7iOcjCWCKKrjLg2+nhq5TSlkOeH5PHLq6o=; b=bpbLZvh76ac2Ld5TP01Gr4Two
-	IikOY8JIICeOhEyme5rewXx2ZX42cOc3/zueY3kB0KocOP7yqVAX4T+BYWp+1hnZ82CNxNyrIsaOD
-	e/3CjupPtJhJUjM+0XXKWGX3mLUyuflQppiav1W2UCTziBoQAdQYLLM0pHKvECYsWtZhyIzW7nfnz
-	i1j7pjEdaKFm6C3WuTdaD/ZrWKP3msPMDpZqNqhbTUNJsO+gt6cK1V+ySP8eIMVGSqUCczMYBfgON
-	YsRcY/PEdhwHXJu0PTk4NwlbDfuG0RUrpK5bSvhh9zM+ihRuo4qG+jtS9STDnNWWYSifYpXAljMHX
-	NFmdCa5zA==;
+	 bh=lTXgRi7SHEw06lkNHBlHqp3VD2fwMBhmy3jWuYn7TPY=; b=3c87eZZI4bFPL1ILsSbMLdUEa
+	Az/15igW5aPH0yVuxT8FgHVk8gWc8ppmTvtUzR8t91UYytqidpbrIDcHRPxRtcQUEmwAIzhmunRZQ
+	LwH1u61DVhs2DjSG7prqHBtaFUYX8mQ+heW26n+fNFS7VX3ydd01Y4YrT6lgPpDxRI/L5QDGrekT+
+	RRA4gyIDNCIPTwcsoh/VPbhWnSZF9yZ6LEr5mdPY/+YDAyS0+B7xNkXbGszI951FUA3vUYBDHqhzW
+	CTjmCbu+w6zccdYeNDNMezkDZDmU3z09SHgP/8IoiVJYHy61/twFlHzaFGQ3DGEu0J2vFkfgNlV1y
+	5uVB8dyLQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l5Brt-0000af-UM; Thu, 28 Jan 2021 18:18:09 +0000
+	id 1l5Byz-0001sq-Bn; Thu, 28 Jan 2021 18:25:29 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l5Brq-0000Zp-Tz
- for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 18:18:07 +0000
+ id 1l5Byw-0001s9-Sk
+ for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 18:25:27 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 4681768AFE; Thu, 28 Jan 2021 19:18:05 +0100 (CET)
-Date: Thu, 28 Jan 2021 19:18:04 +0100
+ id 5A1C068B02; Thu, 28 Jan 2021 19:25:24 +0100 (CET)
+Date: Thu, 28 Jan 2021 19:25:24 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 3/3] Adding device_dma_parameters->offset_preserve_mask
- to NVMe driver.
-Message-ID: <20210128181804.GC11790@lst.de>
-References: <20210128003829.1892018-1-jxgao@google.com>
- <20210128003829.1892018-4-jxgao@google.com>
- <0550ca25-1389-ffc2-e738-8127ceb1712f@arm.com>
+To: Chao Leng <lengchao@huawei.com>
+Subject: Re: [PATCH] nvme-core: use list_add_tail_rcu instead of
+ list_add_tail for nvme_init_ns_head
+Message-ID: <20210128182524.GA12912@lst.de>
+References: <20210128033351.22116-1-lengchao@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0550ca25-1389-ffc2-e738-8127ceb1712f@arm.com>
+In-Reply-To: <20210128033351.22116-1-lengchao@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210128_131807_078621_20EE7259 
-X-CRM114-Status: GOOD (  14.92  )
+X-CRM114-CacheID: sfid-20210128_132527_051747_7EC2E5A5 
+X-CRM114-Status: UNSURE (   6.73  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,35 +64,16 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@fb.com, heikki.krogerus@linux.intel.com, sagi@grimberg.me,
- saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
- gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
- linux-kernel@vger.kernel.org, andriy.shevchenko@linux.intel.com,
- kbusch@kernel.org, bgolaszewski@baylibre.com, iommu@lists.linux-foundation.org,
- jroedel@suse.de, linux-nvme@lists.infradead.org, erdemaktas@google.com,
- dan.j.williams@intel.com, Jianxiong Gao <jxgao@google.com>, hch@lst.de,
- m.szyprowski@samsung.com
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 28, 2021 at 06:00:58PM +0000, Robin Murphy wrote:
-> If it were possible for this to fail, you might leak the DMA mapping here. 
-> However if dev->dma_parms somehow disappeared since a dozen lines above 
-> then I think you've got far bigger problems anyway.
->
-> That said, do you really need to keep toggling this back and forth all the 
-> time? Even if the device does make other mappings elsewhere that don't 
-> necessarily need the same strict alignment, would it be significantly 
-> harmful just to set it once at probe and leave it in place anyway?
+Thanks,
 
-Yes, we should kept it set all the time.  While some NVMe devices have
-the optional to use SGLs that do not have this limitation, I have
-absolutely no sympathy for anyone running NVMe with swiotlb as that
-means their system imposes an addressing limitation.  We need to make
-sure it does not corrupt data, but we're not going to make any effort
-to optimize for such a degenerated setup.
+applied to nvme-5.11.
 
 _______________________________________________
 Linux-nvme mailing list
