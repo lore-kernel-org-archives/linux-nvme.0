@@ -2,89 +2,68 @@ Return-Path: <SRS0=ghx+=G7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E60A5C433E9
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 00:39:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54056C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 01:31:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6952360C3D
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 00:39:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6952360C3D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=google.com
+	by mail.kernel.org (Postfix) with ESMTPS id EA50E64DD9
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 01:31:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA50E64DD9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
-	:List-Id:To:From:Subject:References:Mime-Version:Message-Id:In-Reply-To:Date:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kepd6r2xThqBDBDaJOIdE1vXeG4ZZ6SBCUvbAkbU6wQ=; b=ng9aJewbnbNFCCEsmjZwogiKWi
-	+15o3tIHEDVzE9gPzHRSXj2VdhKhi09/id6c6c6NBbUwcAfTIj1LN57tFh0byMNTuFzhd/jL6tAv6
-	XWvesncuQ+G9b5eav14vUMKwwrrQ8s1K5KjwwgkKGEkb9616nufhtv9SfjDo5TGP/lHyHr2NfthxW
-	uHN1EB4o7bYWan2R9TJRJAsVwxF3e88mQC3Q12wXeNS+Q3p5sJoHVMAtkYRuAkW3pESyPklQQPDE6
-	qtzX894p6Dr+hbkz3JCi+iks1mm5bW4mJLTpRzA4Hu7pmPfCui4wAJPz/66swAtLskOxuSlu5Zkp4
-	bKJGPAZw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=GeZUHFAcXYZNZNf3WCBSG9KLG5f6r20Uq+Dc9JWRgY0=; b=C2jTaP9K2Xf1E+K6uFPf2hot+
+	jY/YwIySdkCK80LmhgAMe3Zj0yt5Ipm6tg9bvYlc6WwSMBHgGfwP9nuOa55WvnEcUtkG7WKm2y2lY
+	yBErUJ4pful1vPb305AY5AWWeKeHX0nNTY03e/p8OAtovw0a6rmPFmjuwBn1tZqzk3PI/84ULpFeM
+	K5abSmbAKGWRM4LyIhfx1OSA1aDMimQEe+4usfup8ZTShl2Qi4omNYJjxi8rQKvL3N4bkURXLTpgA
+	3o/FyJZsx7AHk73Ft1UeUgIDm32jZSB1d8hYBsDRjK/5TEjCyqt6itdvM2Iuala6BRNOzSIUwT/Dx
+	qzf4m0G5w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l4vKv-0006HT-4V; Thu, 28 Jan 2021 00:39:01 +0000
-Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549])
+	id 1l4w9s-0006jX-Rh; Thu, 28 Jan 2021 01:31:40 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4vKl-0006F2-Lt
- for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 00:38:53 +0000
-Received: by mail-pg1-x549.google.com with SMTP id s17so2646872pgv.14
- for <linux-nvme@lists.infradead.org>; Wed, 27 Jan 2021 16:38:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to; bh=qnjnlmt/aDtctSbauuE/youvqobwVlPzhUiWyRCjmfE=;
- b=qJxdZcF/2iL7L7BpzsbCYhi4F1nBavg4WlPlFpgXDOY5JnypjMuB5Jl8F1glrX+A4C
- n5cFVsxGI6pfe/w0G7OBYdhPN9oZnZgnLpywUZwj5ri8PaSP2OWVp0agQOBxmWy3mIvz
- KSFd69aDCb0KQBfTmnJ62PQ3um4VDyswVGzu5SPQyhwapIATIv82EijymGjd/0268xT2
- wv/zpLEU0J95cFOqUQnbGni/pwRmqfy6nQ96Wx3eJcvOVyYCLU49ayvU8D/1YZcpSmEQ
- cQVhVPIIf6skPQ09HLkASCP/JwRrVQzdGPjF5JYdynrGeqJ4Xp2kxKWvkcG5Zs6dpAi0
- huSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
- :references:subject:from:to;
- bh=qnjnlmt/aDtctSbauuE/youvqobwVlPzhUiWyRCjmfE=;
- b=kBA+tdiAgtsx8qpJgb9JZtzk0grsH7pOTYe6bd2OLArj3Y83G/939w3WqurPXdzQNK
- UrJp4XQAEeIDMXHBqSwTmhGUPyf1b3A1FG+epsMHn82hoIZE00kQMqAfr2rLG+sUZx6p
- Iu07J4GvuGDJCd1UL/l9xUOyBINRdp8Hurm7xOwNbwqZIxTZMH7h2iXjh4UmQ52OluXL
- o7T1nOOQakeMbZMiUJS19WHIPYAEUhVkGCkRrwEI8OkS/2rqUUMmNIHkTWo2PX5jzqsZ
- aaq3gqsC1z6Wt45LS1qpwGfmWZv60kMdkIKZ5KL92F3UrrxfoN76SlVFRO2hKuKluhv+
- 1DRQ==
-X-Gm-Message-State: AOAM533YQxmOoUDPASbkTg6Br/QZRUzjjd9Qv7vNQMD70iCRSsdn6aUS
- yIO7DJ4NLiFu96J/D75d+9kz1p7mgw==
-X-Google-Smtp-Source: ABdhPJxItXQ1+mD1tytZkMFhh6fWETP78nnpd+zRsRgJzoZEVagoHzp8VktIvxmKZTm1x9AHDy922qsZ4Q==
-X-Received: from jxgao.kir.corp.google.com
- ([2620:0:1008:11:4d90:620d:7a68:ffc5])
- (user=jxgao job=sendgmr) by 2002:a17:90a:d181:: with SMTP id
- fu1mr8266312pjb.188.1611794325104; Wed, 27 Jan 2021 16:38:45 -0800 (PST)
-Date: Wed, 27 Jan 2021 16:38:28 -0800
-In-Reply-To: <20210128003829.1892018-1-jxgao@google.com>
-Message-Id: <20210128003829.1892018-3-jxgao@google.com>
-Mime-Version: 1.0
-References: <20210128003829.1892018-1-jxgao@google.com>
-X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
-Subject: [PATCH 2/3] Add swiotlb offset preserving mapping when
- dma_dma_parameters->page_offset_mask is non zero.
-From: Jianxiong Gao <jxgao@google.com>
-To: jxgao@google.com, erdemaktas@google.com, marcorr@google.com, hch@lst.de, 
- m.szyprowski@samsung.com, robin.murphy@arm.com, gregkh@linuxfoundation.org,
- saravanak@google.com, heikki.krogerus@linux.intel.com, 
- rafael.j.wysocki@intel.com, andriy.shevchenko@linux.intel.com, 
- dan.j.williams@intel.com, bgolaszewski@baylibre.com, jroedel@suse.de, 
- iommu@lists.linux-foundation.org, konrad.wilk@oracle.com, kbusch@kernel.org, 
- axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
- linux-kernel@vger.kernel.org
+ id 1l4w9q-0006iN-FK
+ for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 01:31:39 +0000
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4DR2wB6nWYz5L7Y;
+ Thu, 28 Jan 2021 09:30:18 +0800 (CST)
+Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Thu, 28 Jan 2021 09:31:32 +0800
+Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
+ (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Thu, 28
+ Jan 2021 09:31:31 +0800
+Subject: Re: [PATCH v2] nvme-multipath: Early exit if no path is available
+To: Daniel Wagner <dwagner@suse.de>, <linux-nvme@lists.infradead.org>
+References: <20210127103033.15318-1-dwagner@suse.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <db9baae0-547c-7ff4-8b2c-0b95f14be67c@huawei.com>
+Date: Thu, 28 Jan 2021 09:31:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <20210127103033.15318-1-dwagner@suse.de>
+Content-Language: en-US
+X-Originating-IP: [10.169.42.93]
+X-ClientProxiedBy: dggeme704-chm.china.huawei.com (10.1.199.100) To
+ dggema772-chm.china.huawei.com (10.1.198.214)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210127_193851_807728_8001AB2F 
-X-CRM114-Status: GOOD (  16.86  )
+X-CRM114-CacheID: sfid-20210127_203138_791720_8E205A1C 
+X-CRM114-Status: GOOD (  17.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,93 +75,51 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org, Jens
+ Axboe <axboe@fb.com>, Hannes Reinecke <hare@suse.de>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For devices that need to preserve address offset on mapping through
-swiotlb, this patch adds offset preserving based on page_offset_mask
-and keeps the offset if the mask is non zero. This is needed for
-device drivers like NVMe.
 
-Signed-off-by: Jianxiong Gao <jxgao@google.com>
----
- kernel/dma/swiotlb.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 7c42df6e6100..4cab35f2c9bc 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -468,7 +468,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
- 	dma_addr_t tbl_dma_addr = phys_to_dma_unencrypted(hwdev, io_tlb_start);
- 	unsigned long flags;
- 	phys_addr_t tlb_addr;
--	unsigned int nslots, stride, index, wrap;
-+	unsigned int nslots, stride, index, wrap, page_offset_mask, page_offset;
- 	int i;
- 	unsigned long mask;
- 	unsigned long offset_slots;
-@@ -500,12 +500,16 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
- 		    ? ALIGN(mask + 1, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT
- 		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
- 
-+	page_offset_mask = dma_get_page_offset_mask(hwdev);
-+	page_offset = orig_addr & page_offset_mask;
-+	alloc_size += page_offset;
-+
- 	/*
- 	 * For mappings greater than or equal to a page, we limit the stride
- 	 * (and hence alignment) to a page size.
- 	 */
- 	nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
--	if (alloc_size >= PAGE_SIZE)
-+	if ((alloc_size >= PAGE_SIZE) || (page_offset_mask > (1 << IO_TLB_SHIFT)))
- 		stride = (1 << (PAGE_SHIFT - IO_TLB_SHIFT));
- 	else
- 		stride = 1;
-@@ -583,6 +587,11 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
- 	 */
- 	for (i = 0; i < nslots; i++)
- 		io_tlb_orig_addr[index+i] = orig_addr + (i << IO_TLB_SHIFT);
-+	/*
-+	 * When keeping the offset of the original data, we need to advance
-+	 * the tlb_addr by the offset of orig_addr.
-+	 */
-+	tlb_addr += page_offset;
- 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
- 	    (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
- 		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_TO_DEVICE);
-@@ -598,7 +607,9 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
- 			      enum dma_data_direction dir, unsigned long attrs)
- {
- 	unsigned long flags;
--	int i, count, nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
-+	unsigned int num_page_offset_slabs, page_offset_mask = dma_get_page_offset_mask(hwdev);
-+	int i, count;
-+	int nslots = ALIGN(alloc_size + tlb_addr & page_offset_mask, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
- 	int index = (tlb_addr - io_tlb_start) >> IO_TLB_SHIFT;
- 	phys_addr_t orig_addr = io_tlb_orig_addr[index];
- 
-@@ -610,6 +621,14 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
- 	    ((dir == DMA_FROM_DEVICE) || (dir == DMA_BIDIRECTIONAL)))
- 		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_FROM_DEVICE);
- 
-+	/*
-+	 * When dma_get_page_offset_mask is used, we may have padded more slabs
-+	 * when padding exceeds one slab. We need to move index back to the
-+	 * beginning of the padding.
-+	 */
-+	num_page_offset_slabs =  (tlb_addr & page_offset_mask) / (1 << IO_TLB_SHIFT);
-+	index -= num_page_offset_slabs;
-+
- 	/*
- 	 * Return the buffer to the free list by setting the corresponding
- 	 * entries to indicate the number of contiguous entries available.
--- 
-2.27.0
-
+On 2021/1/27 18:30, Daniel Wagner wrote:
+> nvme_round_robin_path() should test if the return ns pointer is
+> valid. nvme_next_ns() will return a NULL pointer if there is no path
+> left.
+> 
+> Fixes: 75c10e732724 ("nvme-multipath: round-robin I/O policy")
+> Cc: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+> v2:
+>    - moved NULL test into the if conditional statement
+>    - added Fixes tag
+> 
+>   drivers/nvme/host/multipath.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 9ac762b28811..282b7a4ea9a9 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -221,7 +221,7 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
+>   	}
+>   
+>   	for (ns = nvme_next_ns(head, old);
+> -	     ns != old;
+> +	     ns && ns != old;
+nvme_round_robin_path just be called when !"old".
+nvme_next_ns should not return NULL when !"old".
+It seems unnecessary to add checking "ns".
+Is there a bug that "old" in not in "head" list?
+If yes, we should fix it.
+>   	     ns = nvme_next_ns(head, ns)) {
+>   		if (nvme_path_is_disabled(ns))
+>   			continue;
+> 
 
 _______________________________________________
 Linux-nvme mailing list
