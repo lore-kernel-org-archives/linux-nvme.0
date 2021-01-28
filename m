@@ -2,56 +2,151 @@ Return-Path: <SRS0=ghx+=G7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15609C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:24:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3DCC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:27:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9ECB264DDC
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:24:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9ECB264DDC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 5157964DD1
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Jan 2021 09:27:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5157964DD1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=eIPQGzRP11hHkorhBUbw84G2kupADLFzeXj8llyKOys=; b=c9htpTRYd4qiibsYf+sJhBVBr
-	mUcYEvZUbBTsMaTSFipai+xrufo5o3jA/srcJ2kE61OAnQlwgdDdESN+CP5qeZLPAmwptBFA84IuV
-	J3V9mwlaJeEV+6IJherDNoiYQd61ztECIMTDD+7iDWoyT6Rb+D9DdE/1wa9wb9JyWCPO7IijWRKY8
-	01HzJE5RiyfHXChkczAXtis5oPurZcdRumLCpWCrxBgBD5GC6JGIUp+6Bj3OKufQd2dT3ssTY/DKr
-	FjlIKbyNl+Bcxhi427D8BeUTGBjjkkzSDytaeNIvuODL4T3Cd5RMmGnOvmIHy1SkZ0bsM/nhd8ISx
-	XoHhpXwTQ==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=7M5ixJYcJTmfMQv9pZCiDklRCFykGYeZMLq3cReVXPk=; b=ad35QgV08+sYdYQSm+iz2nNBD
+	6zPMUzF4SBZfAkHEForjVn2v/mCouoJsHJi2XaRcFnzpwRAGSLYxhMUzlPBsVcPaVyML0OeAX4/Ge
+	/L4ArjNmjTs+mCNkjM+7wlcABCOhk7L9J5Z5V7Jdy5lWJ5p/lJ1U58QHoNaHT8JOeXDTdVlIz8Khi
+	xG96rFhizNiHDt8N2Q6/JtFi5hRCw8jtfWOM6vSjjIaz0k2sdlQHdyTJJkfM5H4UV++qbJcKisvEH
+	ugwkjaFkkcwR9ohxwYwtdaxRZe/qrZnzhSSWgRF4JI1Z5ycTZgw4AnC16HAX8Bny+f+83oCE42irL
+	9zJjxCJYg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l53X8-0001k0-W5; Thu, 28 Jan 2021 09:24:11 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1l53af-0002aK-5N; Thu, 28 Jan 2021 09:27:49 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l53X6-0001is-EJ
- for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 09:24:09 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 67D2068AFE; Thu, 28 Jan 2021 10:24:06 +0100 (CET)
-Date: Thu, 28 Jan 2021 10:24:06 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Damien Le Moal <damien.lemoal@wdc.com>
-Subject: Re: [PATCH v4 8/8] sd_zbc: clear zone resources for non-zoned case
-Message-ID: <20210128092406.GA2607@lst.de>
+ id 1l53ac-0002Z5-0W
+ for linux-nvme@lists.infradead.org; Thu, 28 Jan 2021 09:27:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1611826065; x=1643362065;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=4QG8BfIzoaJiyvziUvgIlfTHkb/nU+Ud/ojtL0/UOFc=;
+ b=UXU/0oCfJt/e0gOVKfSHySqtlWre7rf3BCv0KdQMqDd1cFBZbmGJTA2K
+ LAM3RAduj6+q/PKngnrMAuEU3+Xu0UniHvB/k4Yl9OMApFJvBzKaPCF41
+ MSupRE7rNKcTQdlxxJDIYdpFfQn/31b13naKs/mowLA5z4Hzwt5ZIbfCB
+ /YL9QBRHXeFWUxdMs/Zr1k1zjsQVAbJhZn/iHlUZ3aBgAyvFWepPj3q8y
+ tHHpzLtmPkBUBfAWUUJy6BquU68kMO10DrsNQjjtLscuiA3ezQnAZ4I/x
+ yGbRSEpZDvqr3GqNvPlZHmbsRMn50/E7WBfrFAznuaKTWhUzIMrpVZlz8 g==;
+IronPort-SDR: 6LPSzRpVwat3q/ezDQqa+mK6n9xjJhqjMaQtfTH0B3OS8SrFIlGDG0T1x53JSjYMP9xQ3in1Il
+ wtUny3OaKs1FHue+dHgrrdjVqmni+3aBrn5DQW93InOO2eUEyoy7WMtEvyjCcsy+jukSn3aw+W
+ w5c1kegBW16SvX4KHEufxUEQExIHWCTE4Krpr6GMkGF3EhB/c2M48OsLF+dzAMjdf3QRv3iHwB
+ sV7T5H0Djoqk4QvgqBsXROKbGCNL9AhN9dcz/61a5azuVvnIGbCWMF03w3z24DturN5nKuLDhK
+ FTo=
+X-IronPort-AV: E=Sophos;i="5.79,382,1602518400"; d="scan'208";a="268903708"
+Received: from mail-mw2nam10lp2107.outbound.protection.outlook.com (HELO
+ NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.107])
+ by ob1.hgst.iphmx.com with ESMTP; 28 Jan 2021 17:27:42 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DMvDf+p7VNIIx2SkDgmdzNiAZrFwBmhb7vCi+YNVfoDABKzvLvNx63nurRuDbjM/boFe+UJV0owOfv4P+9ft1fAwq+w9fbXmR9H6XAwapjkIBrIbG70ClQ2BNBtIvuVqHrMO0+CikzY+zVuHjgYbMT0iVBrfp4iIJc5fHtPgQZyFnI5fBfUkygBtfQDVtN/orBRFyZmczvCTfuq1fgauJRQJkqjzrJKDL6E8Xi6xDRH39Hj3RTO4vLGyG7cg3A5ytajdhSUwYU6WW4sLHw4hu4c0evWXm1VjyNHWrECjshtNZowLhcA/6wnfCIFqvDkck7yMKsfhKFuIeIpiwc5slQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MZNxkTm5NHlqW1ic8cGE6UWnD0PuMV43Yb4q6oKqCVQ=;
+ b=l65Rmz0S4C9qnQNT5/klZFc5mEijh7GvUnRW0wj1qKN45ZUdZKUHWzUuex2d0ETGHwE8OVdc2+i9lAoWh+592abgTNZto+A1GobQH3yAd5zZ1v+xrnscUJYe6jGofLhnGraAMZY3IZNNc0Ht0pbuDEfS5hp9uEj8E7DkM3RfohZ1Fq6clSkaukl65NuKQuNmtuMOLW/F06cKVIa8/YNy8eGRApLa45sLH+iIbbBaZ1o3fEH/SLMlBIU2PedwaVuOztEmq8EKDmlUigxBKz29LeOUzP8nYF6l3TOPyUwUAX+9vyfF9f6YFxALDk2xBnU3xX+Z7cuHQMqRMZLo9YYv5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MZNxkTm5NHlqW1ic8cGE6UWnD0PuMV43Yb4q6oKqCVQ=;
+ b=c7ndW6vJCHb9whu2RxXkPcYXfagJAR37xSmUWqTLNut0WrKavGOYfIIGkSTtwtVZ4YS4UxVyy9gSwOiOmoCA3DEkSoYI0rBeGHxkiaaeBjx7KKztgUp7AevdolGK1Ex/8FHRMFpWUH7pIMyqwAlpKpCWXTJwFq/luW/fywJYzgA=
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com (2603:10b6:208:1ca::23)
+ by MN2PR04MB7038.namprd04.prod.outlook.com (2603:10b6:208:1e6::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Thu, 28 Jan
+ 2021 09:27:41 +0000
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::b880:19d5:c7fe:329d]) by BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::b880:19d5:c7fe:329d%7]) with mapi id 15.20.3784.017; Thu, 28 Jan 2021
+ 09:27:41 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v4 2/8] nvme: cleanup zone information initialization
+Thread-Topic: [PATCH v4 2/8] nvme: cleanup zone information initialization
+Thread-Index: AQHW9TE8Qz1Y83XHg0q7+29bC+5A+w==
+Date: Thu, 28 Jan 2021 09:27:41 +0000
+Message-ID: <BL0PR04MB6514F6AD357E545CBCAB877DE7BA9@BL0PR04MB6514.namprd04.prod.outlook.com>
 References: <20210128044733.503606-1-damien.lemoal@wdc.com>
- <20210128044733.503606-9-damien.lemoal@wdc.com>
+ <20210128044733.503606-3-damien.lemoal@wdc.com>
+ <20210128091710.GA1959@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2400:2411:43c0:6000:47a:7b5a:7dfa:1b1e]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 516253bd-cc03-4968-c1ac-08d8c36ef5e7
+x-ms-traffictypediagnostic: MN2PR04MB7038:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR04MB70388A0A2C0A3D103352C939E7BA9@MN2PR04MB7038.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bi38zY+3JLF5Jvt1fluF8hzifmSEXenVVRa1cQ0XpU6U9l5HbE8bJEHGN7FASRyRLzrXHeiDz6T1TmO6KVjZPgud5rekVUfVc9o4u+XdMXwW2YZIHyxNEoqjHcsNJfy6f7sASRTOa8mpkKRbeWl20QamB5qqgt6Dyjs/aBkqkk2dJ173RKdo4fLbXUkTUEOOi2AVtoYQ7G9lKUpRTEAYKe65HEy+RHytRuBzo3MsT66hTGSyHdbdi6LwfFPpxCDs2XhmRoVw7AYQwI9hTNHFSWokTLq0m90e/0Xou5UpjYZT/l06BiSduIV2KcXF6F+HhXJJLZWlpexGeHVEkhyIcCIuZSHkMq89Gai2+DEi3LibOUFQAIAwM51pbWAhw/udSKrQysynkAKFfoo4JZnk+oX0Qf1KWn+MB1X9PGuJYiTABxFDpsOh2Eabjh6VbENA56IKbSXghiPlKlhifg/pCfQ/yLv4Z/LY5t1SH9plOD/WNgS7UknDEDLuv9polOXrWlJjt868mHFS9BDbM7jF6Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR04MB6514.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(376002)(366004)(136003)(396003)(478600001)(86362001)(64756008)(71200400001)(91956017)(2906002)(55016002)(6916009)(6506007)(53546011)(8676002)(7696005)(9686003)(54906003)(66946007)(4326008)(8936002)(316002)(186003)(52536014)(83380400001)(66446008)(5660300002)(66556008)(66476007)(33656002)(76116006);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?D5krP9oTkkDi7r/F2X7wNh5PfG3P7TPPc2kq+WM2KCU109hgpkRPioTSaf2y?=
+ =?us-ascii?Q?PszPtJyNc2mltows+yO+1yclME08FRpnxA8UCAcz3BffMVlFTXLRDKlmnb5+?=
+ =?us-ascii?Q?kXCxHRYUb1lHrDcLHr9Q0Sf+T+nwD3Q1EJ0NYxfJgyNI52jByCrhE46WfJEt?=
+ =?us-ascii?Q?X660H0qmQrygSuPIzyRIGIq/Zvc5Z27Wb39TMjKjQPcSsMMAu4VkICYSjHAx?=
+ =?us-ascii?Q?xthkXPHnUATXN8Xd9699JVCcxQBulwcAvbQbG1MtSIFDP3Y7xIsWUx6PQeaN?=
+ =?us-ascii?Q?6gRCuqqTXHrqmXrUi0o/pkaJVCpRQABKwIlPwnwsmUxMh65tZRkwmE7ly2kN?=
+ =?us-ascii?Q?QM8dlZY729JHIhQFgPNB5YNnJ4CnZccEHACBgaWDEclFAwBmVOYpV1EPA8D8?=
+ =?us-ascii?Q?KoDL3FfUdBfv/GzWXydv/KCJ3DlaeY2SEl4UjIR7fAs+KPCNrMIK8sfYpHKg?=
+ =?us-ascii?Q?ZbE0KvHfIwY8LnLmGFjcSSFg6oumHOzZV8WhWolMPZaZzWIeUmXCQoBY+g/d?=
+ =?us-ascii?Q?b3qWDcDE0B+e7uj+d/dzlK9CKGGytCbhzvJry0xoBFggD07DIvVnuSi1Fr/a?=
+ =?us-ascii?Q?DgUAGb2a3gs8Bk1e/hYt0L/yWnv7qnvwqZ0sreicPkQ3ZdZkqoc3NEAR/gRK?=
+ =?us-ascii?Q?i4j2LrIe8+/rdatHSxSsL2qdje2vl30vcgVZknsCx0UYO/2dJIjaw1assct7?=
+ =?us-ascii?Q?haO59A/BgfT65xORsfFJ13wtkZ2yXn7LCRpzgWn+UYaR91fz9K2DzmrIoKSb?=
+ =?us-ascii?Q?QfN72RtyEa/k/jyscDWBqTu0iIWkgMWcpPbVItzYxYshZ+pCxdWQp0VyN9pS?=
+ =?us-ascii?Q?gZoq4AcAS1h4fEooIUUArYLbebQsGN4KpyGBclJlzV5FgUYldWp88OysF7cD?=
+ =?us-ascii?Q?IKTIA7Fz/GMATWIh+KnTlmcdI6EI3JiUVTRllG9YWFhgtIajwU1WZpaM3Oeu?=
+ =?us-ascii?Q?mk3hj6DNwx4BdUlYenCSA8b2wLrNJgx/Bac+bwMgUr3+NWTzvhBK8UGC/sX4?=
+ =?us-ascii?Q?stu+33ZZN6eNHq8bbZUUkMJIZuh0gPqY7CJyluL/X5Ye2xBsocdnYyG3s/nR?=
+ =?us-ascii?Q?19uyolyvMki/C4pOXCMXpXNBPP4gvsl7HqOeBJKCZYkTOX/eBHHOrsLec+NR?=
+ =?us-ascii?Q?Oc4jZonrxQHHhGUqwaIp6sVpUaIX6mUZ8A=3D=3D?=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210128044733.503606-9-damien.lemoal@wdc.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6514.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 516253bd-cc03-4968-c1ac-08d8c36ef5e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2021 09:27:41.1359 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3RhIG8p26vfR3Vu4gOGT14ET02j27SC6KUZt0EtaJC6Gqv914TZPzp+ZG8p6nCZKuD3m+VzCA/ecuNy618uW7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB7038
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210128_042408_755038_6361EEB6 
-X-CRM114-Status: GOOD (  17.31  )
+X-CRM114-CacheID: sfid-20210128_042746_287206_1A770670 
+X-CRM114-Status: GOOD (  13.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,42 +158,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <keith.busch@wdc.com>,
- linux-scsi@vger.kernel.org, "Martin K . Petersen" <martin.petersen@oracle.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Keith Busch <Keith.Busch@wdc.com>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 28, 2021 at 01:47:33PM +0900, Damien Le Moal wrote:
-> For host-aware ZBC disk, setting the device zoned model to BLK_ZONED_HA
-> using blk_queue_set_zoned() in sd_read_block_characteristics() may
-> result in the block device effective zoned model to be "none"
-> (BLK_ZONED_NONE) if partitions are present on the device. In this case,
-> sd_zbc_read_zones() should not setup the zone related queue limits for
-> the disk so that the device limits and configuration is consistent with
-> a regular disk and resources not uselessly allocated (e.g. the zone
-> write pointer tracking array for zone append emulation).
+On 2021/01/28 18:17, Christoph Hellwig wrote:
+>>  int nvme_revalidate_zones(struct nvme_ns *ns)
+>>  {
+>> -	struct request_queue *q = ns->queue;
+>> -	int ret;
+>> -
+>> -	ret = blk_revalidate_disk_zones(ns->disk, NULL);
+>> -	if (!ret)
+>> -		blk_queue_max_zone_append_sectors(q, ns->ctrl->max_zone_append);
+>> -	return ret;
+>> +	return blk_revalidate_disk_zones(ns->disk, NULL);
 > 
-> Furthermore, if the disk zoned model changes at run time due to the
-> creation of a partition by the user, the zone related resources can be
-> released.
+> We can just kill off nvme_revalidate_zones now and open code it in
+> the caller as the stub is no needed now that blk_queue_is_zoned always
+> return false for the !CONFIG_BLK_DEV_ZONED case.
+
+I tried that first, but it did not work. I end up with
+blk_revalidate_disk_zones() undefined error with !CONFIG_BLK_DEV_ZONED.
+This is because blk_queue_is_zoned() is *not* stubbed for !CONFIG_BLK_DEV_ZONED.
+It will simply always return 0/none in that case. We would need to have:
+
+if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) && blk_queue_is_zoned()) {
+	ret = blk_revalidate_disk_zones(ns->disk, NULL);
+	...
+
+Or stub blk_queue_is_zoned()...
+
 > 
-> Fix both problems by introducing the function sd_zbc_clear_zone_info()
-> to reset the scsi disk zone information and free resources and by
-> returning early in sd_zbc_read_zones() for a block device that has a
-> zoned model equal to BLK_ZONED_NONE.
+> Otherwise this look great, nice cleanup:
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
 
-So creating the partition doesn't even call into the driver, which
-means we'll leak the info for now.  But I guess the next revalidate
-will simply clean it up, so it is not a major issue.
 
-Looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+-- 
+Damien Le Moal
+Western Digital Research
 
 _______________________________________________
 Linux-nvme mailing list
