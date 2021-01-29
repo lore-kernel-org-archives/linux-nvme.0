@@ -2,76 +2,60 @@ Return-Path: <SRS0=47LT=HA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDBEEC433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 03:50:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D18C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 05:25:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6ACE964DBD
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 03:50:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6ACE964DBD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id BBF7D64DFF
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 05:25:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBF7D64DFF
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=LJncelTzrp9AqEXqxzfQQ+G5uYsWGAEctlVknBJUoGM=; b=ik301uFprwEO2LfIg9xEstBQW
-	SWQkXg4pNo+8xU0bzA6lIKkRRiOIl/O/pBeNwurKSOcT/QbSCILZfuABOH1/+16tbOGyZyN4ebt7W
-	RvQ++kRXAAyRfmjflDF1pYcPx5oiBRi8l5jcGAt/PDDlsvIvahSMxOXcVGGfXqVMuBjjC+A0jY0wG
-	msPq2s7UjvM67R6xVVbfNN50GStnBt74uscWVLMpckd3gbn+hLbpuRcdteUuL/4J4lySKNKuFW/0y
-	YdJqf4Kwph/5gyyIZXFFNSEN4Hg9LxIsMUKf0InjAQk+pJHWSZ1me3wCkqMO2We8dBR1+kJoa1GfP
-	HZJe7+wrw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=94sm7BwiP1+f0AlVF50vQrFM77/BOlVxPER6f7F+Pxo=; b=ukY06/aZ21KnOub+IoY0Sa1r7h
+	TmXno3K/n4qAN70Moe2DrpfHxax4nRk8uE1TyGhSaeL1p9PnXQe8VRY7VdpDk8CeNmmsT0QGW+KgY
+	k06veZMwIU4/TvcZIZAelBAihIOcWXxTgYPNrUqCN7VsBg3YiX0rnFOaOdHqAyB1verIMywF3tAZm
+	XyuVFLGlkgp8bepTn0Voy8xhMOMb9gKhTiVx10UhODMmL6JyI6YFEBEy0lJa7Qb01K64ftykkBYX1
+	gpi5WYYwpTppMwkGAg63W5F7RHqLQN9sdNIDNhWTzVkLTiRxZdiPhDNt3jzjHtXG1fQi4El7Yz1wd
+	rlToeBMw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l5Knu-00038d-UR; Fri, 29 Jan 2021 03:50:38 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1l5MHA-0008WF-4o; Fri, 29 Jan 2021 05:24:56 +0000
+Received: from wp530.webpack.hosteurope.de ([2a01:488:42:1000:50ed:8234::])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l5Knr-00037r-Ss
- for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 03:50:38 +0000
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4DRjy33vMHz5MVr;
- Fri, 29 Jan 2021 11:49:15 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Fri, 29 Jan 2021 11:50:29 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Fri, 29
- Jan 2021 11:50:28 +0800
-Subject: Re: [PATCH v4 4/5] nvme-rdma: avoid IO error for nvme native multipath
-To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>
-References: <20210126081539.13320-1-lengchao@huawei.com>
- <20210126081539.13320-5-lengchao@huawei.com>
- <5a368693-65fd-1bdf-924a-f90df7f59b2a@grimberg.me>
- <9c30b18a-6fdd-be1c-f3bc-1d44c35ae274@huawei.com>
- <ca300cac-1f6c-01b2-8691-9a545381523a@grimberg.me>
- <29ccc5e0-66e9-93db-e9b9-09012f1c8fe2@huawei.com>
- <1651456a-3251-77db-42c9-fc1a2d2c5c13@grimberg.me>
- <b5b70392-d4f7-6f0c-d337-a6023dc4b992@huawei.com>
- <a55689cc-0925-c3a3-b7bf-e155cc3d4fe9@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <871fd11a-b4e7-aa63-97f0-be483b3e1f9e@huawei.com>
-Date: Fri, 29 Jan 2021 11:50:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1l5MH6-0008Vb-Sr
+ for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 05:24:54 +0000
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110]
+ helo=truhe.fritz.box); authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ id 1l5MGx-0002RQ-9k; Fri, 29 Jan 2021 06:24:43 +0100
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-pci: add quirk to make Kingston A2000 SSD avoid deepest
+ sleep state
+Date: Fri, 29 Jan 2021 06:24:42 +0100
+Message-Id: <20210129052442.310780-1-linux@leemhuis.info>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <a55689cc-0925-c3a3-b7bf-e155cc3d4fe9@grimberg.me>
-Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme714-chm.china.huawei.com (10.1.199.110) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1611897892;05e96e2b;
+X-HE-SMSGID: 1l5MGx-0002RQ-9k
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210128_225037_041732_4107A513 
-X-CRM114-Status: GOOD (  11.14  )
+X-CRM114-CacheID: sfid-20210129_002453_057970_8564C185 
+X-CRM114-Status: GOOD (  14.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,52 +67,95 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, axboe@fb.com, linux-block@vger.kernel.org, hch@lst.de,
- axboe@kernel.dk
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAyMDIxLzEvMjkgMTE6MzcsIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4gCj4+Pj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L3JkbWEuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L3JkbWEu
-Ywo+Pj4+IGluZGV4IGI3Y2U0ZjIyMWQ5OS4uNjZiNjk3NDYxYmQ5IDEwMDY0NAo+Pj4+IC0tLSBh
-L2RyaXZlcnMvbnZtZS9ob3N0L3JkbWEuYwo+Pj4+ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L3Jk
-bWEuYwo+Pj4+IEBAIC0yMDg0LDggKzIwODQsMTMgQEAgc3RhdGljIGJsa19zdGF0dXNfdCBudm1l
-X3JkbWFfcXVldWVfcnEoc3RydWN0IGJsa19tcV9od19jdHggKmhjdHgsCj4+Pj4KPj4+PiDCoMKg
-wqDCoMKgwqDCoMKgIGVyciA9IG52bWVfcmRtYV9wb3N0X3NlbmQocXVldWUsIHNxZSwgcmVxLT5z
-Z2UsIHJlcS0+bnVtX3NnZSwKPj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgcmVxLT5tciA/ICZyZXEtPnJlZ193ci53ciA6IE5VTEwpOwo+Pj4+IC3C
-oMKgwqDCoMKgwqAgaWYgKHVubGlrZWx5KGVycikpCj4+Pj4gK8KgwqDCoMKgwqDCoCBpZiAodW5s
-aWtlbHkoZXJyKSkgewo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChlcnIg
-PT0gLUVJTykgewo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBudm1lX2NvbXBsZXRlX2ZhaWxlZF9ycShycSwgTlZNRV9TQ19IT1NUX1BBVEhfRVJST1Ip
-Owo+Pj4KPj4+IEkgd2FzIHRoaW5raW5nIGFib3V0Ogo+Pj4gLS0gCj4+PiDCoMKgwqDCoMKgwqDC
-oMKgIGVyciA9IG52bWVfcmRtYV9wb3N0X3NlbmQocXVldWUsIHNxZSwgcmVxLT5zZ2UsIHJlcS0+
-bnVtX3NnZSwKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCByZXEtPm1yID8gJnJlcS0+cmVnX3dyLndyIDogTlVMTCk7Cj4+PiDCoMKgwqDCoMKgwqDC
-oMKgIGlmICh1bmxpa2VseShlcnIpKSB7Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBpZiAoZXJyID09IC1FSU8pIHsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAvKgo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBGYWlsIHRoZSByZXVxZXN0IHNvIHVwcGVyIGxheWVyIGNh
-biBmYWlsb3ZlciBJL08KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgICogaWYgYW5vdGhlciBwYXRoIGlzIGF2YWlsYWJsZQo+Pj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXEtPnN0YXR1cyA9IE5W
-TUVfU0NfSE9TVF9QQVRIX0VSUk9SOwo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIG52bWVfcmRtYV9jb21wbGV0ZV9ycShycSk7Cj4+PiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIEJMS19TVFNf
-T0s7TmVlZCB0byBkbyBjbGVhbi4gc28gY2FuIG5vdCBkaXJlY3RseSByZXR1cm4uCj4gCj4gVGhl
-IGNvbXBsZXRpb24gcGF0aCBjbGVhbnMgdXAgdGhvdWdoCm9rLCBpIHNlZS4KQnV0IHdlIG5lZWQg
-dG8gdXNlIHRoZSBuZXcgaGVscGVyIG52bWVfY29tcGxldGVfZmFpbGVkX3JxIHRvIGF2b2lkIGRv
-dWJsZSByZXF1ZXN0IGNvbXBsZXRpb24uCk9yIHdlIGNhbiBkbyBsaWtlIHRoaXM6CnJlcS0+c3Rh
-dHVzID0gTlZNRV9TQ19IT1NUX1BBVEhfRVJST1I7CmJsa19tcV9zZXRfcmVxdWVzdF9jb21wbGV0
-ZShyZXEpOwpudm1lX3JkbWFfY29tcGxldGVfcnEocnEpOwo+IAo+Pj4KPj4+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGdvdG8gZXJyX3VubWFwOwo+Pj4gwqDCoMKgwqDCoMKgwqDCoCB9Cj4+PiAtLSAKPj4+IC4K
-Pj4KPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4g
-TGludXgtbnZtZSBtYWlsaW5nIGxpc3QKPj4gTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3Jn
-Cj4+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZt
-ZQo+IC4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxp
-bnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRw
-Oi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Some Kingston A2000 NVMe SSDs sooner or later get confused and stop
+working when they use the deepest APST sleep while running Linux. The
+system then crashes and one has to cold boot it to get the SSD working
+again.
+
+Kingston seems to known about this since at least mid-September 2020:
+https://bbs.archlinux.org/viewtopic.php?pid=1926994#p1926994
+
+Someone working for a German company representing Kingston to the German
+press confirmed to me Kingston engineering is aware of the issue and
+investigating; the person stated that to their current knowledge only
+the deepest APST sleep state causes trouble. Therefore, make Linux avoid
+it for now by applying the NVME_QUIRK_NO_DEEPEST_PS to this SSD.
+
+I have two such SSDs, but it seems the problem doesn't occur with them.
+I hence couldn't verify if this patch really fixes the problem, but all
+the data in front of me suggests it should.
+
+This patch can easily be reverted or improved upon if a better solution
+surfaces.
+
+FWIW, there are many reports about the issue scattered around the web;
+most of the users disabled APST completely to make things work, some
+just made Linux avoid the deepest sleep state:
+
+https://bugzilla.kernel.org/show_bug.cgi?id=195039#c65
+https://bugzilla.kernel.org/show_bug.cgi?id=195039#c73
+https://bugzilla.kernel.org/show_bug.cgi?id=195039#c74
+https://bugzilla.kernel.org/show_bug.cgi?id=195039#c78
+https://bugzilla.kernel.org/show_bug.cgi?id=195039#c79
+https://bugzilla.kernel.org/show_bug.cgi?id=195039#c80
+https://askubuntu.com/questions/1222049/nvmekingston-a2000-sometimes-stops-giving-response-in-ubuntu-18-04dell-inspir
+https://community.acer.com/en/discussion/604326/m-2-nvme-ssd-aspire-517-51g-issue-compatibility-kingston-a2000-linux-ubuntu
+
+For the record, some data from 'nvme id-ctrl /dev/nvme0'
+
+NVME Identify Controller:
+vid       : 0x2646
+ssvid     : 0x2646
+mn        : KINGSTON SA2000M81000G
+fr        : S5Z42105
+[...]
+ps    0 : mp:9.00W operational enlat:0 exlat:0 rrt:0 rrl:0
+          rwt:0 rwl:0 idle_power:- active_power:-
+ps    1 : mp:4.60W operational enlat:0 exlat:0 rrt:1 rrl:1
+          rwt:1 rwl:1 idle_power:- active_power:-
+ps    2 : mp:3.80W operational enlat:0 exlat:0 rrt:2 rrl:2
+          rwt:2 rwl:2 idle_power:- active_power:-
+ps    3 : mp:0.0450W non-operational enlat:2000 exlat:2000 rrt:3 rrl:3
+          rwt:3 rwl:3 idle_power:- active_power:-
+ps    4 : mp:0.0040W non-operational enlat:15000 exlat:15000 rrt:4 rrl:4
+          rwt:4 rwl:4 idle_power:- active_power:-
+
+Cc: stable@vger.kernel.org # 4.14+
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
+
+Once this is out I will post a link to it in
+https://bugzilla.kernel.org/show_bug.cgi?id=195039, maybe someone there
+might be able to confirm that this fixes the issue.
+
+---
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 856aa31931c1..421735e16870 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3257,6 +3257,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x15b7, 0x2001),   /*  Sandisk Skyhawk */
+ 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
++		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
+ 		.driver_data = NVME_QUIRK_SINGLE_VECTOR },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+-- 
+2.29.2
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
