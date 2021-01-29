@@ -2,20 +2,20 @@ Return-Path: <SRS0=47LT=HA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1529BC433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 03:08:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD92AC433DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 03:24:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 35F2764DFA
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 03:08:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 35F2764DFA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 237A260234
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 03:24:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 237A260234
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
@@ -23,53 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=i0AcG2Z9LNtLzI/Am5eawZ3O/jcYKRZxKnEMUUFiROk=; b=tNAPOPFEc+67jKZE6WKzpVq3G
-	4Vd3S5+nvBD9+6Aqas0ZMlXVI2m7/0ietl/MLmlo1eSDU4gtOiEQHIM3s8MCYuqO2nrGp0KSMUAg1
-	8MmKnJCGy/PnG3y7uhc7EGjrAlxiOcmBrVDSDJpHxjyuqz5/YMS0nHQ4mqVNelPbCu5H9JW3cfY8H
-	l6PLfUB/xjx5py09m0mEpeeCczaFEVOQkBbEKbYPLBm5BnyRpVeDxCslgRkiI/WYz5Qpv1GPMWzKw
-	F/Emoj0b1Jbzmy11BCmA6PH0i16zObzOuZ+f4a6scdmw9vzGlXsazywW5JtE4I5wV72HDIh6v3/BV
-	Xm0Yu3yLA==;
+	 bh=klhtM/gj5zrhHXi9Tm0teqetRlPMub+hk2155IR+kgE=; b=LEFdm2uWBhI8i26Em5jQTQXz6
+	H6/bvQkbcebcNKvBiKSe7wZcfm8DXyWsvMmoQclz8eSLdwZi29Wfd8vlaj55pqPDaj2sOYxUhsni+
+	Ds+75FS2gGJDop4sGNPywfD4i4zE6qWtkjWQQ0kJ0mZuhbxXabOIzMTddCHdxYkzsdRIvTfGz7QaQ
+	xfBaZWpTbMGBRG0Uvl1BRdM03LUB5Nc/kPKjipf5bPrf+JQ/SVIGRkqFzVcsOL/IQOVgvhMMDMpM9
+	2Rf3+pQPt5N6jxkAq7qrrlzAjr5tIzxcniVueko1ujgwaNcphd2RrR2TBqA1hBOZfzTidfT7FdQDK
+	HNBTlBr5g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l5K8q-0008IR-8E; Fri, 29 Jan 2021 03:08:12 +0000
-Received: from szxga08-in.huawei.com ([45.249.212.255])
+	id 1l5KOU-0000y9-6y; Fri, 29 Jan 2021 03:24:22 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l5K8n-0008Hs-MP
- for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 03:08:11 +0000
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4DRj0845LQz13mVC;
- Fri, 29 Jan 2021 11:06:00 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Fri, 29 Jan 2021 11:08:00 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Fri, 29
- Jan 2021 11:07:59 +0800
-Subject: Re: [PATCH v2] nvme-multipath: Early exit if no path is available
-To: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>
-References: <20210127103033.15318-1-dwagner@suse.de>
- <db9baae0-547c-7ff4-8b2c-0b95f14be67c@huawei.com>
- <20210128075837.u5u56t23fq5gu6ou@beryllium.lan>
- <69575290-200e-b4a1-4269-c71e4c2cc37b@huawei.com>
- <20210128094004.erwnszjqcxlsi2kd@beryllium.lan>
- <ebb1d098-3ded-e592-4419-e905aabe824f@huawei.com>
- <675d3cf7-1ae8-adc5-b6d0-359fe10f6b23@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <59cd053e-46cb-0235-141f-4ce919c93f48@huawei.com>
-Date: Fri, 29 Jan 2021 11:07:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1l5KOS-0000xl-8O
+ for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 03:24:21 +0000
+Received: by mail-wr1-f46.google.com with SMTP id q7so7396030wre.13
+ for <linux-nvme@lists.infradead.org>; Thu, 28 Jan 2021 19:24:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5GG8/DHZriqjxDmM2Ga/OsXfYmbiNsvsK+fvLtzb83I=;
+ b=BZq73KryyjGxxh4gPWp1zgqw29oQtn712ts7lewCgev9isiRJDQdcjnnMC3XaM6q0f
+ NhwXZZvzaiJMicdCu7CoHggHhGMXgKxS4yD/9dyhmLdauQRTeJIPBjK7aCNCbW+EGQOh
+ LtWZS2+YocQ5AUMzVWKXac0VScq2wazhT8pgPWzTb419yA4MfA+vGOIk5Vo0IsQVzm4w
+ qXltPNZ4X7GgQNdOJ2UlzzPJEvPAb+ZKlDrPJQO/oBsQhsWTU4nQBp6W6OYN5SGmh5lw
+ rEugEI0b9sugPaIedhU875m1ugqd964MBa7ZJlVBPgbRPnDQOL2mRZqQD8N/IJU/xRzT
+ o4AQ==
+X-Gm-Message-State: AOAM531893bDzdSxwmI8tJK1fPnqpifPok0wff1ueWOh3hiMCksN9nt9
+ AlDn1A70KkvG9JCIX9AXwNfhCPG8TJs=
+X-Google-Smtp-Source: ABdhPJzRi2JjEDG0HDYiPXvDBSUHQbkXPJaoF4QHN4wOgx9Xzw+WAGzmwgArCjMQsVl4OWS7SxaFNg==
+X-Received: by 2002:adf:9261:: with SMTP id 88mr2073565wrj.227.1611890659229; 
+ Thu, 28 Jan 2021 19:24:19 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:3d48:4849:d506:e578?
+ ([2601:647:4802:9070:3d48:4849:d506:e578])
+ by smtp.gmail.com with ESMTPSA id h15sm9650294wrt.10.2021.01.28.19.24.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jan 2021 19:24:18 -0800 (PST)
+Subject: Re: [PATCH v4 4/5] nvme-rdma: avoid IO error for nvme native multipath
+To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
+References: <20210126081539.13320-1-lengchao@huawei.com>
+ <20210126081539.13320-5-lengchao@huawei.com>
+ <5a368693-65fd-1bdf-924a-f90df7f59b2a@grimberg.me>
+ <9c30b18a-6fdd-be1c-f3bc-1d44c35ae274@huawei.com>
+ <ca300cac-1f6c-01b2-8691-9a545381523a@grimberg.me>
+ <29ccc5e0-66e9-93db-e9b9-09012f1c8fe2@huawei.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <1651456a-3251-77db-42c9-fc1a2d2c5c13@grimberg.me>
+Date: Thu, 28 Jan 2021 19:24:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <675d3cf7-1ae8-adc5-b6d0-359fe10f6b23@grimberg.me>
+In-Reply-To: <29ccc5e0-66e9-93db-e9b9-09012f1c8fe2@huawei.com>
 Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme703-chm.china.huawei.com (10.1.199.99) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210128_220810_126649_1119D83D 
-X-CRM114-Status: GOOD (  14.95  )
+X-CRM114-CacheID: sfid-20210128_222420_319242_922282C9 
+X-CRM114-Status: GOOD (  20.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,52 +90,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, Jens
- Axboe <axboe@fb.com>, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: kbusch@kernel.org, axboe@fb.com, linux-block@vger.kernel.org, hch@lst.de,
+ axboe@kernel.dk
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2021/1/29 9:42, Sagi Grimberg wrote:
-> 
->>> You can't see exactly where it dies but I followed the assembly to
->>> nvme_round_robin_path(). Maybe it's not the initial nvme_next_ns(head,
->>> old) which returns NULL but nvme_next_ns() is returning NULL eventually
->>> (list_next_or_null_rcu()).
->> So there is other bug cause nvme_next_ns abormal.
->> I review the code about head->list and head->current_path, I find 2 bugs
->> may cause the bug:
->> First, I already send the patch. see:
->> https://lore.kernel.org/linux-nvme/20210128033351.22116-1-lengchao@huawei.com/
->> Second, in nvme_ns_remove, list_del_rcu is before
->> nvme_mpath_clear_current_path. This may cause "old" is deleted from the
->> "head", but still use "old". I'm not sure there's any other
->> consideration here, I will check it and try to fix it.
-> 
-> The reason why we first remove from head->list and only then clear
-> current_path is because the other way around there is no way
-> to guarantee that that the ns won't be assigned as current_path
-> again (because it is in head->list).
-ok, I see.
-> 
-> nvme_ns_remove fences continue of deletion of the ns by synchronizing
-> the srcu such that for sure the current_path clearance is visible.
-The list will be like this:
-head->next = ns1;
-ns1->next = head;
-old->next = ns1;
-This may cause infinite loop in nvme_round_robin_path.
-for (ns = nvme_next_ns(head, old);
-	ns != old;
-	ns = nvme_next_ns(head, ns))
-The ns will always be ns1, and then infinite loop.
-> .
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Cj4+Pj4gV2h5IG5vdCBqdXN0IGNhbGwgc2V0IHRoZSBzdGF0dXMgYW5kIGNhbGwgbnZtZV9yZG1h
+X2NvbXBsZXRlX3JxIGFuZAo+Pj4+IHJldHVybiBoZXJlPwo+Pj4gSWYgdGhlIGVyciBpcyBFTk9N
+RU0gb3IgRUFHQUlOLCBJIGFtIG5vdCBzdXJlIHRoZSBlcnIgbXVzdCBiZSBhCj4+PiBwYXRoLXJl
+bGF0ZWQgZXJyb3IgZm9yIGFsbCBIQkEgZHJpdmVycy4gU28gcmV1c2VkIHRoZSBlcnJvciBjaGVj
+ayBjb2RlLgo+Pj4gSSB0aGluayBpdCB3b3VsZCBiZSBtb3JlIHJlYXNvbmFibGUgdG8gYXNzdW1l
+IGFueSBlcnJvcnMgcmV0dXJuZWQgYnkgSEJBCj4+PiBkcml2ZXIgYXMgcGF0aC1yZWxhdGVkIGVy
+cm9ycy4KPj4+IElmIHlvdSB0aGluayBzbywgSSB3aWxsIG1vZGlmeSBpdCBpbiBuZXh0IHBhdGNo
+IHZlcnNpb24uCj4+Cj4+IE1lYW50IHRvIGRvIHRoYXQgb25seSBmb3IgLUVJTy4gV2Ugc2hvdWxk
+IGFic29sdXRlbHkgbm90IGRvIGFueSBvZiB0aGlzCj4+IGZvciBzdHVmZiBsaWtlIEVJTlZBTCwg
+RU9QTk9UU1VQUCwgRVBFUk0gb3IgYW55IHN0cmFuZ2UgZXJyb3IgdGhhdCBtYXkKPj4gcmV0dXJu
+IGR1ZSB0byBhIGJ1ZyBvciBhbnl0aGluZyBsaWtlIHRoYXQuCj4gb2ssIHBsZWFzZSByZXZpZXcg
+YWdhaW4sIHRoYW5rIHlvdS4KPiAtLS0KPiAgwqBkcml2ZXJzL252bWUvaG9zdC9yZG1hLmMgfCA5
+ICsrKysrKystLQo+ICDCoDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDIgZGVsZXRp
+b25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L3JkbWEuYyBiL2RyaXZl
+cnMvbnZtZS9ob3N0L3JkbWEuYwo+IGluZGV4IGI3Y2U0ZjIyMWQ5OS4uNjZiNjk3NDYxYmQ5IDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L3JkbWEuYwo+ICsrKyBiL2RyaXZlcnMvbnZt
+ZS9ob3N0L3JkbWEuYwo+IEBAIC0yMDg0LDggKzIwODQsMTMgQEAgc3RhdGljIGJsa19zdGF0dXNf
+dCBudm1lX3JkbWFfcXVldWVfcnEoc3RydWN0IAo+IGJsa19tcV9od19jdHggKmhjdHgsCj4gCj4g
+IMKgwqDCoMKgwqDCoMKgIGVyciA9IG52bWVfcmRtYV9wb3N0X3NlbmQocXVldWUsIHNxZSwgcmVx
+LT5zZ2UsIHJlcS0+bnVtX3NnZSwKPiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCByZXEtPm1yID8gJnJlcS0+cmVnX3dyLndyIDogTlVMTCk7Cj4gLcKgwqDC
+oMKgwqDCoCBpZiAodW5saWtlbHkoZXJyKSkKPiArwqDCoMKgwqDCoMKgIGlmICh1bmxpa2VseShl
+cnIpKSB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGVyciA9PSAtRUlPKSB7
+Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG52bWVfY29t
+cGxldGVfZmFpbGVkX3JxKHJxLCAKPiBOVk1FX1NDX0hPU1RfUEFUSF9FUlJPUik7CgpJIHdhcyB0
+aGlua2luZyBhYm91dDoKLS0KICAgICAgICAgZXJyID0gbnZtZV9yZG1hX3Bvc3Rfc2VuZChxdWV1
+ZSwgc3FlLCByZXEtPnNnZSwgcmVxLT5udW1fc2dlLAogICAgICAgICAgICAgICAgICAgICAgICAg
+cmVxLT5tciA/ICZyZXEtPnJlZ193ci53ciA6IE5VTEwpOwogICAgICAgICBpZiAodW5saWtlbHko
+ZXJyKSkgewogICAgICAgICAgICAgICAgIGlmIChlcnIgPT0gLUVJTykgewogICAgICAgICAgICAg
+ICAgICAgICAgICAgLyoKICAgICAgICAgICAgICAgICAgICAgICAgICAqIEZhaWwgdGhlIHJldXFl
+c3Qgc28gdXBwZXIgbGF5ZXIgY2FuIGZhaWxvdmVyIEkvTwogICAgICAgICAgICAgICAgICAgICAg
+ICAgICogaWYgYW5vdGhlciBwYXRoIGlzIGF2YWlsYWJsZQogICAgICAgICAgICAgICAgICAgICAg
+ICAgICovCiAgICAgICAgICAgICAgICAgICAgICAgICByZXEtPnN0YXR1cyA9IE5WTUVfU0NfSE9T
+VF9QQVRIX0VSUk9SOwogICAgICAgICAgICAgICAgICAgICAgICAgbnZtZV9yZG1hX2NvbXBsZXRl
+X3JxKHJxKTsKICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBCTEtfU1RTX09LOwoKICAg
+ICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgZ290byBlcnJfdW5tYXA7CiAgICAgICAg
+IH0KLS0KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxp
+bnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRw
+Oi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
