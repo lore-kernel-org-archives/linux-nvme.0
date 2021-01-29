@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F776C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 20:08:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF9DFC433DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 20:09:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AAFF264E04
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 20:08:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AAFF264E04
+	by mail.kernel.org (Postfix) with ESMTPS id 3EF4864E04
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 20:09:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3EF4864E04
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,60 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=yZ3wwQMM/+xqfdhga798we5H7D8dBwN3so0vwvOCgrA=; b=sUNSYNUShLoMCD7RV01hsZx73
-	jMrk9Z4JC+UA3GafogWv9bBUOTvzly/NuuVq/YETIAiPGtOlNFqlFI7PXYqdi1KakTMXHo280EcoD
-	GylCnIGkxjNu2Sv3gQANxVeGpD1ssX4MKKGSNkxFDter9X/3IobYMGs4zlA9Oj/dPgAAK329tqxTP
-	t5FFwgsKdxZIIDZ8DtsedmZLPLkusDYm17BzTsmJD+W1HsdGIS5squE9gTkZJVcyjycm9clzrGkgn
-	QtGO2N2EWUrAEP4yJ0oHIKIgr4mGfeWJ0eDXYCWxOROelB3ixdYnxW9Wk/ESYKxbTjRDOZIgtamK+
-	r2MzXvLig==;
+	 bh=0QKSWFTQ66RoiYivbkz/e+nSesCCYmbpDmiEnqwE+94=; b=RUquZVQPiKeJbT3l+PvS3EtJe
+	cbXL9/dz2UrrRxNPf92qoLSHR3eUuOqVkVJ9EPFBTwXpiqg1bi7JSs1UB4YKvzUs7XHvR42sH/nc5
+	clhg1xfnngqbLsieO/JvtJ6hMDJVLew9K5zXn8PxfXPmhUf8CgB6ahOF1GuLdxM1qUu8Se526kx61
+	uuaJKfyTqQ+u7Q3iCIckNfwyPESaHjRhnAy42N+5irkC4G1oR2cdyZqcWr4B2nR57THrOKQJPDzim
+	FaWRdeSghPGxE7pL0KRr9b88lT1Ufxsp9dwXWH7MDZkwM4IEQKS3/boIsWOT5xv8IomotZn03YgzS
+	9/twU6BAg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l5a3y-00074P-Ib; Fri, 29 Jan 2021 20:08:14 +0000
-Received: from mail-pf1-f174.google.com ([209.85.210.174])
+	id 1l5a54-0007Gi-Kl; Fri, 29 Jan 2021 20:09:22 +0000
+Received: from mail-pl1-f173.google.com ([209.85.214.173])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l5a3v-000742-VD
- for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 20:08:12 +0000
-Received: by mail-pf1-f174.google.com with SMTP id m6so6921912pfk.1
- for <linux-nvme@lists.infradead.org>; Fri, 29 Jan 2021 12:08:11 -0800 (PST)
+ id 1l5a52-0007Fg-NJ
+ for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 20:09:21 +0000
+Received: by mail-pl1-f173.google.com with SMTP id b8so5872016plh.12
+ for <linux-nvme@lists.infradead.org>; Fri, 29 Jan 2021 12:09:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6NMabYib4iWnCph0KB5MlXVyYMqHdtFKzmhhwfniiyw=;
- b=EsNDHBGeKSOdwf21Quw+4XKbyGk2UV14NuoDfjCzWpdaieOSe36/hetAQLLXAYIS5E
- UZOnE9tyWhVs6ihaz7YHJ+qyYidsiKcVDFS1fFFHUx0fQYZZGNRomN9yi7V2bxloX+LU
- RGBI/JfIwve3kHAqh3rlKCjWzedrvcyJKh14FfVYNCoa9SdwC3CMJk62A4C6SQ+t8QJA
- N2LHuOgLlIC3Lwk8tpKHlVOSvlXIRcbahJ0Fm2w5gi4JkpnRHUU8B9kHBYHlRnZKqFKB
- Q3v8Lef6Pa6YOLX8lT/RABrxEcnuUErp/qfRxjVDwEb6HessuHDIUvniVnodfcMmbiAM
- SJjA==
-X-Gm-Message-State: AOAM533nPnMxXdPPaSkHpEit6Jk/1OgiBld5/FHF0uyWULeRFFVu8+2H
- 8qZ8oVgKDY1FdBoGtbRhiYo=
-X-Google-Smtp-Source: ABdhPJzc6BVjQ3rSdHf64zr71vvwzze7r5KOmuKXC2wqBi9jzat4nI++rHYPJCqMFpy+GwKMpaNybQ==
-X-Received: by 2002:a63:d42:: with SMTP id 2mr6651231pgn.236.1611950890528;
- Fri, 29 Jan 2021 12:08:10 -0800 (PST)
+ bh=5bJDCSp7K7veuMVDVVdhO7mdyx5Bl4l+8SBRiXwDgAE=;
+ b=DoenlxYAw5ypbd03778BGJhxMmcA+kErZdhCJN0O35EEeRB18qhd42SO8xMgHJ+35J
+ u17K2XYF2MpyZtLT5JG3y1S4AtqvcaDLrgtv2BKwp04ZSawur+fEPAaWrNarXS5bqhoT
+ pP+aj0vU+RMM0AvTYNcpajn5PNcCiDZvvDY2Ph3o2Jablu5eYKRVoJ/wTuVII9FesiJd
+ ilQR4M/frJ/KhFmlnPcb7SzHoX7+fdSjsIwLHkJL9rwknYlNgeQvD0fgDxk9fuvIrOsN
+ 1DBmUEKwIcoa4qMclxJ+jMH169cvgzx3Pz9pN4L63UUVEN/by4zQ8Obl06JTdr/apOR+
+ tzWg==
+X-Gm-Message-State: AOAM530w8t3a0/BMQdmc3Q+OUSKQ2L1oOn46koTtkgyRWo9wpJzs0RHk
+ DGpatqrIFccKAmnWThDH3VA=
+X-Google-Smtp-Source: ABdhPJyHeuJOqlGwCjmLf4RwRo/PP9RW79FJEW+vrGR2Te6neyoJNcOFj3FaRHW8ROefMMN0tT+Wzw==
+X-Received: by 2002:a17:90a:de81:: with SMTP id
+ n1mr684196pjv.215.1611950959493; 
+ Fri, 29 Jan 2021 12:09:19 -0800 (PST)
 Received: from ?IPv6:2601:647:4802:9070:db7:4f5:6eca:f1ab?
  ([2601:647:4802:9070:db7:4f5:6eca:f1ab])
- by smtp.gmail.com with ESMTPSA id h23sm9815190pgh.64.2021.01.29.12.08.09
+ by smtp.gmail.com with ESMTPSA id q2sm9520145pfg.190.2021.01.29.12.09.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jan 2021 12:08:09 -0800 (PST)
-Subject: Re: [PATCH 00/35] RFC: add "nvme monitor" subcommand
+ Fri, 29 Jan 2021 12:09:18 -0800 (PST)
+Subject: Re: [PATCH 11/35] monitor: add option -A / --autoconnect
 To: Martin Wilck <mwilck@suse.com>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org
 References: <20210126203324.23610-1-mwilck@suse.com>
- <60846bb5-c0df-ac23-260b-b53afd48f661@grimberg.me>
- <d8956cf973867ad7cc6c4d968682ec3db3054aa3.camel@suse.com>
+ <20210126203324.23610-12-mwilck@suse.com>
+ <d9c74675-a324-b863-1dee-454fc90d5e77@grimberg.me>
+ <cbf4808b0becc3978b758d5be5cc3f3c1c6fe86f.camel@suse.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <d8e35845-31d3-a46d-b464-728d751d0b33@grimberg.me>
-Date: Fri, 29 Jan 2021 12:08:08 -0800
+Message-ID: <e48f239d-0642-c07a-a442-6922070ab23a@grimberg.me>
+Date: Fri, 29 Jan 2021 12:09:17 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <d8956cf973867ad7cc6c4d968682ec3db3054aa3.camel@suse.com>
+In-Reply-To: <cbf4808b0becc3978b758d5be5cc3f3c1c6fe86f.camel@suse.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210129_150812_102753_DEE01089 
-X-CRM114-Status: GOOD (  42.59  )
+X-CRM114-CacheID: sfid-20210129_150920_793472_D3FDE91C 
+X-CRM114-Status: GOOD (  10.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,243 +92,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Hannes Reinecke <hare@suse.de>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-15"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>>
->>> This method for discovery and autodetection has some advantages
->>> over the
->>> current udev-rule based approach:
->>>
->>>  =A0 * By using the `--persistent` option, users can easily control
->>> whether
->>>  =A0=A0=A0 persistent discovery controllers for discovered transport
->>> addresses should
->>>  =A0=A0=A0 be created and monitored for AEN events. **nvme monitor**
->>> watches known
->>>  =A0=A0=A0 transport addresses, creates discovery controllers as requir=
-ed,
->>> and re-uses
->>>  =A0=A0=A0 existing ones if possible.
+>>> With this option, the monitor will try to connect to newly
+>>> discovered
+>>> controllers.
 >>
->> What does that mean?
-> =
-
-> In general, if the monitor detects a new host_traddr/traddr/trsvcid
-> tuple, it runs a discovery on it, and keeps the discovery controller
-> open if=A0--persistent was given. On startup, it scans existing
-> controllers, and if it finds already existing discovery controllers,
-> re-uses them. These will not be shut down when the monitor exits.
-
-And if it doesn't run with --persistent it deletes them? even if these
-weren't created by it?
-
-And, if none exist where does it get new discovery controller details?
-Today we use discovery.conf for that.
-
-> This allows users fine-grained control about what discovery controllers
-> to operate persistently. Users who want all discovery controllers to be
-> persistent just use --persistent. Others can set up those that they
-> want to have (manually or with a script), and not use --persistent.
-> =
-
-> The background is that hosts may not need every detected discovery
-> controller to be persistent. In multipath scenarios, you may see more
-> discovery subsystems than anything else, and not everyone likes that.
-> That's a generic issue and unrelated to the monitor, but running the
-> monitor with --persistent creates discovery controllers that would
-> otherwise not be visible.
-> =
-
-> Hope this clarifies it.
-
-Well, How do people expect to know if stuff change without a persistent
-discovery controller? Not sure if people may see more discovery
-controllers this is a real issue given what they are getting from it.
-
-But OK.
-
->>>  =A0 * In certain situations, the systemd-based approach may miss
->>> events due to
->>>  =A0=A0=A0 race conditions. This can happen e.g. if an FC remote port is
->>> detected, but
->>>  =A0=A0=A0 shortly after it's detection an FC relogin procedure is
->>> necessary e.g. due to
->>>  =A0=A0=A0 an RSCN. In this case, an `fc_udev_device` uevent will be
->>> received on the
->>>  =A0=A0=A0 first detection and handled by an `nvme connect-all` command
->>> run from
->>>  =A0=A0=A0 `nvmf-connect@.service`. The connection attempt to the rport=
- in
->>> question will
->>>  =A0=A0=A0 fail with "no such device" because of the simultaneous FC
->>>  =A0=A0=A0 relogin. `nvmf-connect@.service` may not terminate immediate=
-ly,
->>> because it
->>>  =A0=A0=A0 attempts to establish other connections listed in the Discov=
-ery
->>> Log page it
->>>  =A0=A0=A0 retrieved. When the FC relogin eventually finishes, a new
->>> uevent will be
->>>  =A0=A0=A0 received, and `nvmf-connect@` will be started again, but *th=
-is
->>> has no effect*
->>>  =A0=A0=A0 if the previous `nvmf-connect@` service hasn't finished yet.
->>> This is the
->>>  =A0=A0=A0 general semantics of systemd services, no easy workaround
->>> exists.=A0 **nvme
->>>  =A0=A0=A0 monitor** doesn't suffer from this problem. If it sees an
->>> uevent for a
->>>  =A0=A0=A0 transport address for which a discovery is already running, =
-it
->>> will queue the
->>>  =A0=A0=A0 handling of this event up and restart the discovery after it=
-'s
->>> finished.
+>> Maybe I'm missing something here, but what does it do without
+>> autoconnect?
 >>
->> While I understand the issue, this reason alone is an overkill for
->> doing
->> this.
-> =
+> 
+> Basically it just runs "nvme discover". When events come in,
+> it runs the discovery and prints the results, like "discover" would.
+> 
+> We can change that of course.
 
-> I agree. But it's not easy to fix the issue otherwise. In the customer
-> problem where we observed it, I worked around it by adding the udev
-> seqnum to the "instance name" of the systemd service, thus allowing
-> several "nvme connect-all" processes to run for the same transport
-> address simultaneously. But I don't think that would scale well;
-> the monitor can handle it more cleanly.
-
-Still changing the entire thing for a corner case...
-
-> =
-
->>>  =A0 * Resource consumption for handling uevents is lower. Instead of
->>> running an
->>>  =A0=A0=A0 udev worker, executing the rules, executing `systemctl start`
->>> from the
->>>  =A0=A0=A0 worker, starting a systemd service, and starting a separate
->>> **nvme-cli**
->>>  =A0=A0=A0 instance, only a single `fork()` operation is necessary. Of
->>> course, on the
->>>  =A0=A0=A0 back side, the monitor itself consumes resources while it's
->>> running and
->>>  =A0=A0=A0 waiting for events. On my system with 8 persistent discovery
->>> controllers,
->>>  =A0=A0=A0 its RSS is ~3MB. CPU consumption is zero as long as no events
->>> occur.
->>
->> What is the baseline with what we have today?
-> =
-
-> A meaningful comparsion is difficult and should be done when the
-> monitor functionality is finalized. I made this statement only to
-> provide a rough idea of the resource usage, not more.
-
-You mention that the utilization is lower than what we do today, hence
-my question is by how much?
-
->>>  =A0 * **nvme monitor** could be easily extended to handle events for
->>> non-FC
->>>  =A0=A0=A0 transports.
->>
->> Which events?
-> =
-
-> Network discovery, mDNS or the like. I haven't digged into the details
-> yet.
-
-Yes, that is possible, would probably be easier to do this in a higher
-level language but libavahi can also do this...
-
->>> I've tested `fc_udev_device` handling for NVMeoFC with an Ontap
->>> target, and
->>> AEN handling for RDMA using a Linux **nvmet** target.
->>>
->>> ### Implementation notes
->>>
->>> I've tried to change the exisiting **nvme-cli** code as little as
->>> possible
->>> while reusing the code from `fabrics.c`. The majority of changes in
->>> the
->>> existing code exports formerly static functions and variables, so
->>> that they
->>> are usable from the monitor code.
->>
->> General comment, can you please separate out fixes/cleanups that are
->> not
->> related to the goal of this patchset?
-> =
-
-> Which ones are you referring to? 09 and 19? While these are minor
-> improvements to the existing code, I wouldn't say they qualify as fixes
-> or cleanups. They aren't necessary without adding the monitor code.
-
-Patches that are not directly related to the goal of this should
-be splitted out to ease the review.
-
-> But yes, I can post all changes to existing code separately.
-> =
-
->>>  =A0 *=A0 When "add" uevents for nvme controller devices are received,
->>> the
->>>  =A0=A0=A0=A0 controller is consistently not in `live` state yet, and
->>> attempting to read
->>>  =A0=A0=A0=A0 the `subsysnqn` sysfs attribute returns `(efault)`. While=
- this
->>> should
->>>  =A0=A0=A0=A0 arguably be fixed in the kernel, it could be worked aroun=
-d in
->>> user space
->>>  =A0=A0=A0=A0 by using timers or polling the `state` sysfs attribute for
->>> changes.
->>
->> This is a bug, what in the code causes this? nothing in controller
->> state
->> should prevent from this sysfs read from executing correctly...
-> =
-
-> I think it can be fixed by making nvme_sysfs_show_subsysnqn() fall back
-> to ctrl->opts->subsysnqn if ctrl->subsys is NULL.
-> =
-
-> I'll send a patch. Anyway, it'll take time until this is fixed
-> everywhere.
-
-Thanks.
-
-> =
-
->>
->>>  =A0 * Parse and handle `discovery.conf` on startup.
->>
->> This is a must I think, where do you get the known transport
->> addresses
->> on startup today?
-> =
-
-> There's a systemd service that runs "nvme connect-all" once during
-> boot. That exists today. I'm not sure if it should be integrated in the
-> monitor, perhaps it's good to keep these separate. People who don't
-> need the monitor can still run the existing service only, whereas for
-> others, the two would play together just fine.
-
-Then doesn't this service need to run after it?
-
->>>  =A0 * Implement support for RDMA and TCP protocols.
->>
->> What is needed for supporting them? Not sure I follow (I thought
->> you mentioned that you tested against linux nvmet-rdma?)
->>
-> =
-
-> AENs over existing discovery controllers are supported for all
-> transports. But there's no support for discovery of new transports
-> except for NVMeoFC's "fc_udev_device" mechanism.
-
-I see. thanks.
+But its a daemon, seems not very useful, but ok..
 
 _______________________________________________
 Linux-nvme mailing list
