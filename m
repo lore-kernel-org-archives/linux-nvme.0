@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A4CC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 21:18:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 401D4C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 21:21:36 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 945D864E00
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 21:18:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 945D864E00
+	by mail.kernel.org (Postfix) with ESMTPS id 9198C64E00
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 21:21:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9198C64E00
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,63 +23,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=yiMqOGmzqb2sOSLzGqlddotmAGrJLIci1O8FWGifTOk=; b=adp4oY1/Q2ddKaCA2jzOxJW+/
-	mRTvJ+zoAC2TeBp47+ro2ThOQW9d53jETKs/HgMRusDwKRVOT2qBKO+jr8YhCnMI6HvjBBBQYCSh+
-	86F56PnHt3kKdAQ0+a1GwSvjYw/L+hniD0IZgsUOIJqoIGpsVIfnSMyBS0I+nwXq/dNLgm3JhPqZ9
-	bMvsxRBz0/fhzV7g3In8nN+EhjGuR5Vxtc3mPS/qXeolWSzlzfrOJdCEk/vmwjZOBBpzNRXAY1ONV
-	j1Z2+sWoewEnK1aUSOosnNP+k9f6kJXGpg5HmPq4MaDp5FbqOTOLFgeQRDaQo3BPiyrZ4fTolHo0j
-	l05TPyNOg==;
+	 bh=hN3Gk75YSq+49hZ0LyfcXX2Vw7aIoeOspOFtODnvNEI=; b=HpUucDw8eM8ltR63KUf7mkaaY
+	0OamdHVGOizZJ3XRGnxr98NmYyg6bjP7RImvqgokt9Oy331pRBg2+sjqPkxP73OcdN2VSGluiWlp4
+	+lufa52V1SC0ma7Q+ehEA4OfYyaLr01lD/n/vb8mr96ji6bN12D+cmokfLTiz9c22wTJBcpy50VdV
+	nkmU5S3zD/e2/aN74+hoDeJ8yulahTtWagzOj3MPfqM77Ndmx8wajejUGCCIPxOaVpY4dO7FxvFwU
+	EI6Vem22POs6pldtNadyWA/HeIIQqbHa30TuuISBFcimuQ/6cMokJc7WVK+cUhMYkHzjbbz/J+QZP
+	GKm4evhpg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l5b9r-0006Na-Hz; Fri, 29 Jan 2021 21:18:23 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1l5bCs-00077O-Ke; Fri, 29 Jan 2021 21:21:30 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l5b9p-0006MN-02
- for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 21:18:21 +0000
-Received: by mail-wr1-f44.google.com with SMTP id z6so10152005wrq.10
- for <linux-nvme@lists.infradead.org>; Fri, 29 Jan 2021 13:18:19 -0800 (PST)
+ id 1l5bCp-00076U-Dv
+ for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 21:21:28 +0000
+Received: by mail-wm1-f54.google.com with SMTP id j18so7856361wmi.3
+ for <linux-nvme@lists.infradead.org>; Fri, 29 Jan 2021 13:21:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=pKnGoZmP+ufYK/1dkCjnHW6V0mytsCRV5iBotLfg70I=;
- b=hcwLFqKYqVv2LGUHknn+k89aza0MewEenVRaiYJ/UGQGUxKC+pdt0rszISsvraDqhm
- 3H1xRTwUmOmozsJneWK/38B2ZPCt3bfAVacwTGk/XibFytkwZd8bNk7lHxfyRn2DYth/
- gqi+EM+QUo6fNU5CDX+Z9pHCMio5rm6saGdwQ56/Xhd6YKmNoFz88+/ERggpyirDR/pf
- EcVRmcEvrDLP3wHPpzwwkr0EH5kUhMg0ZCMxoRRxLKmkmQnaSJMwfXUmKczi8V2DA8rl
- yIMlxkyW2DrkzxdsIcuTY2WoPbrsppNkAU+DtTScLQ8g6NbyzK54w97olDBCEvkhjG7A
- OrPA==
-X-Gm-Message-State: AOAM530EpODAt1kMBDp2SiyHOd3oo6Q3PJJCOTSStCK0tlf7up69OQhq
- lvNdUTMKQz/R5KrIomQghbk=
-X-Google-Smtp-Source: ABdhPJzXLkgYo3Ma21WRaxgQf2pC4+xJ+G3q1qVZYw7M5M+lKXujpBo2ShD3g7N+RRuxI4nqIPDV+Q==
-X-Received: by 2002:a05:6000:12c8:: with SMTP id
- l8mr6461141wrx.81.1611955098467; 
- Fri, 29 Jan 2021 13:18:18 -0800 (PST)
+ bh=g9aASbVtO3kirRVW8wwjA/ipbkGa0/JCkGxzb7a17hI=;
+ b=smu9kKLRtUTNBdCKLhGBvvdoPpCJT22ZqBh1VNsSxsgQjyxR+Ge48m/OwXLGpwK8ou
+ 3BaZ3R0rrlJDo9kwhO88H4d9UMRhwuFHkndbE+qPST9d7EvlRybaePq82JeN/oAwQJF4
+ wc1aWnPOwUpmqvigDBCr+SFAupOus3GvGr9MYI7DZzHKGuWe/z/W+ZxeJ0h5/01AQtsP
+ eL8cM6jiWh3wfLP0o2usiXJj8SMwIfpT8AMCystBUE5BjACy3+plQvq5modWE0Bf8/zk
+ MmswfQuBErVGjabrfyRuquGiwQqDt05laiX+YV7ZSO1A5OG+e1wwz5pVA+equT76E4jC
+ CXZg==
+X-Gm-Message-State: AOAM533LoW88gjiK2Lqre+XaoNBX9Zexsw2LxpsetD9BrKitKqMdwKLR
+ EE9XkJYgXKtWvceyi9QJiuscP9kBpMc=
+X-Google-Smtp-Source: ABdhPJzgotjUbt6roB0pQuhkEVPHQEJXpFbD5g2b1brF0w6yQmnEwaebsKVEQcv4N3Xk/qgK0FRnjA==
+X-Received: by 2002:a1c:e912:: with SMTP id q18mr5521919wmc.162.1611955285900; 
+ Fri, 29 Jan 2021 13:21:25 -0800 (PST)
 Received: from ?IPv6:2601:647:4802:9070:db7:4f5:6eca:f1ab?
  ([2601:647:4802:9070:db7:4f5:6eca:f1ab])
- by smtp.gmail.com with ESMTPSA id z14sm14314899wrm.5.2021.01.29.13.18.16
+ by smtp.gmail.com with ESMTPSA id e4sm14572038wrw.96.2021.01.29.13.21.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jan 2021 13:18:17 -0800 (PST)
-Subject: Re: [PATCH 26/35] monitor: implement starting discovery controllers
- on startup
+ Fri, 29 Jan 2021 13:21:25 -0800 (PST)
+Subject: Re: [PATCH 35/35] monitor: add option --keep/-K
 To: Martin Wilck <mwilck@suse.com>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org
 References: <20210126203324.23610-1-mwilck@suse.com>
- <20210126203324.23610-27-mwilck@suse.com>
- <18970cbc-1c58-9529-3bb5-919249e97b5c@grimberg.me>
- <0c56ef14e84354f9601dbe694c7550d77d990f54.camel@suse.com>
+ <20210126203324.23610-36-mwilck@suse.com>
+ <90145500-c2c5-023c-6d69-27db6ee600a7@grimberg.me>
+ <12827c5f748bd2eff31450c47bbef1cfc7b73459.camel@suse.com>
+ <400d4f5e-a578-e89f-ae45-7ed15d089a8d@grimberg.me>
+ <b4b9a52011d17ef16cbc86d81ef3d19f7a517d93.camel@suse.com>
+ <c127bde8-7cae-677c-4b8d-44cf757d05eb@grimberg.me>
+ <2394e23e80f2bdcf0a95eb39e5eefcb00237d52f.camel@suse.com>
+ <8cb1830e-b7f3-48ef-1190-0d917aa200bb@grimberg.me>
+ <5623aeee6a57889123b8a3441ee6df7b97f76451.camel@suse.com>
+ <552cb65a-8f1b-e414-4de8-f53ff469e8a1@grimberg.me>
+ <c00de29ef02bf39ae231a2816f03c8e920ebdc29.camel@suse.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <809c3240-50d9-cc86-9ae8-878c62e49460@grimberg.me>
-Date: Fri, 29 Jan 2021 13:18:14 -0800
+Message-ID: <01314926-1d33-53e1-165d-346290101ba7@grimberg.me>
+Date: Fri, 29 Jan 2021 13:21:22 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <0c56ef14e84354f9601dbe694c7550d77d990f54.camel@suse.com>
+In-Reply-To: <c00de29ef02bf39ae231a2816f03c8e920ebdc29.camel@suse.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210129_161821_087784_932BDAAE 
-X-CRM114-Status: GOOD (  19.33  )
+X-CRM114-CacheID: sfid-20210129_162127_489299_92E736C1 
+X-CRM114-Status: GOOD (  11.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,46 +105,18 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> If the -U/--startup option is used, nvme monitor looks for exsiting
->>> nvme controllers on startup, and runs a discovery on the associated
->>> transport address (connection); i.e. tries to connect to a
->>> discovery
->>> subsystem on the same address, retrieve the discovery log pages,
->>> and (if --autoconnect is given) connect all listed controllers.
->>
->> Oh no no no no... This is a completely wrong assumption to make.
->> Nothing
->> suggest that an nvme controller will have a discovery controller on
->> the
->> same port.
->>
->> There is a discovery controller and an NVM controller, the only
->> connection between the two is that a discovery controller can
->> refer to an nvme controller (or a different discovery controller).
->>
->> Information about discovery controllers may be obtained in different
->> ways, but it absolutely cannot be obtained by any nvme controller.
->>
->> Now I understand a bit more on the --keep discussion. The monitor
->> should today get discovery controller endpoints from a conf file
->> (maybe discovery.conf) and in the future by any other automatic
->> way, not even looking into the currently connected nvme controllers.
->>
+>> I don't even see how does this help in early boot anyways, how
+>> do the existing controllers get connected?
 > 
-> I hear you. I'll drop this in the next version, no problem.
-> 
-> I didn't expect that probing for a discovery controller was a problem.
+> For FC, it works today. You can start the monitor in the initrd, it
+> will receive the fc_udev_device events, and autoconnect (just like
+> traditional udev/systemd based discovery). For other transports, it'd
+> be more work, as we'd need to do mDNS discovery from an initrd
+> environment. I wouldn't say it's impossible though.
 
-It's not a "problem" in the sense that nothing devastating will happen.
-it's just wrong. One can also randomize a transport endpoint and attempt
-to connect to it.
-
-> IIUC, if we get an fc_udev_device event for a NVMe remote port, we
-> can't be sure that that remote port offers a discovery controller,
-> either. We try to connect, and give up if it fails.
-
-I'm assuming that this is what the spec mandates the host should do,
-which is not the case here.
+I was referring to the nvme controller walk and connect a discovery
+controller to that endpoint. I thought you meant that this helps
+you at early boot time.
 
 _______________________________________________
 Linux-nvme mailing list
