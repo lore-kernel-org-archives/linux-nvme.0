@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7736CC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 14:17:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0680BC433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 14:18:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E78EB64DEB
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 14:17:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E78EB64DEB
+	by mail.kernel.org (Postfix) with ESMTPS id 8B74764DF1
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 14:18:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8B74764DF1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,48 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:To:From:
 	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3WtZ8EJ1ochflQssCHqGM7ezrYGvMFPN5H6YPtawMKY=; b=ErDnaY6iDGCP4IrXXYnHn6xIO
-	6/2vFuCKwRnbeLGPk8w5G9OGRnzFzrpcILT/TPZp/lVbm2PeI0h7bITOC6/KFrgMyGfo92pxMATd3
-	gRuBGjAZKNex1supkkIN7b7bjPHEY7DLDxe/8PehgwHYjNlJHhiM7RCOxQ/GRcZa7vGA/Px+61N41
-	d2wmQ+5Mxv/Vpu/PIwfiKkELreaAMAZGU6lgcjwHcADUbaVVmyoj8JqDlXO01+CEoGYh0M700BSFC
-	fx+QD3lckRkE9GE2NNtaAqgXoysRSwMEtjkUH9fM7w0mRhwqe922fxtt4T8zvoNdt/A//4UinBkGT
-	91NomM3uA==;
+	 bh=1jrhWYgk0h7b5k6gVlJL2jkPICSK+l7LX3MHF71mhPs=; b=exby4jzgK1S/jxHrpPLDp1tKQ
+	QY+nIGDunxeXO2b+Bf0ElkQVM6Gl3IlcBgp89/KXhfzr/2FGmXL5ns/w4VByGZZrtN/9xPAJRP+ly
+	ShfW2vX8+8Nwwskh4PioLtr9B0T5zY86NN0azV0rHe88bbmKy8CdPVpjhOdgrrV9KFnIpC03ZKXtz
+	d2jvyjS9YP5zxzbRNVjenqFzQhAnVe+2JXAOy5UjNsXXOheJp6ZGwIfFF96u1kqFQkDQuPTZURK5+
+	hAE8IUBW+i6iHDfD+yZ8RcW9TWQ+Gbdiu7dMff1mCKUnFuSXAaHntUJe5uWRWhRHrhgxdf3A3xW8u
+	nfhvmlc/A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l5UZw-0005wC-7W; Fri, 29 Jan 2021 14:16:52 +0000
+	id 1l5UbF-00064C-9Q; Fri, 29 Jan 2021 14:18:13 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l5UZq-0005vk-9t
- for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 14:16:49 +0000
+ id 1l5Ub9-00062z-TO
+ for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 14:18:12 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1611929802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1611929887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9kgukIpqoEPi63rRDb8upaAiMkJ1BN7Qk3fn4P39uh8=;
- b=l7RDf+29v+hge+YhlpSECtj9Qzl7945On6zcBYTAIkwYJJywBSXWuXHfDOS0hTVdb1vbCP
- t+Ova0u/HTElfNSFFFE4Htc1zWVVDn6A3+gcSbkD8yDW0XmAJJuna834i7Sv8b+B4FnLyS
- XzgNJsuiYLxiTK6kAI5vL9zDc7edbNA=
+ bh=HPvXblaohWa0XgHxbwLufXVc5JgrFGP6qZHTGnwIzBA=;
+ b=NrqeNHxTVu8fQb1YVHH9K3xNPbHFVMEWJUuhWBXuZNQY00dQWtVHJ0CQn+46BlbR2IsxOO
+ e52dCNJWVNgvD3HWJt6oJ/ZNvu6dELHnr1S/ApxOjr5RcXHDmWVAxDGkMWC280v0lj7M2a
+ /nuvS06VL1ofxhKl95j/TlRbTK/O2fE=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 08C36B16A;
- Fri, 29 Jan 2021 14:16:42 +0000 (UTC)
-Message-ID: <f6d3cc4105475207eab760d1d2e1c1693f3c3e16.camel@suse.com>
-Subject: Re: [PATCH 13/35] monitor: disable nvmf-autoconnect udev rules in
- autoconnect mode
+ by mx2.suse.de (Postfix) with ESMTP id DC2CFB173;
+ Fri, 29 Jan 2021 14:18:06 +0000 (UTC)
+Message-ID: <292a1b5ddd336c446ae63c06ee275af165c81ebc.camel@suse.com>
+Subject: Re: [PATCH 22/35] conn-db: add simple connection registry
 From: Martin Wilck <mwilck@suse.com>
 To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, 
  linux-nvme@lists.infradead.org
-Date: Fri, 29 Jan 2021 15:16:40 +0100
-In-Reply-To: <8990bb65-fb2d-7ab1-82cd-210c4c4dba13@grimberg.me>
+Date: Fri, 29 Jan 2021 15:18:06 +0100
+In-Reply-To: <322b27a0-ff3e-265b-4c69-fae54466631e@grimberg.me>
 References: <20210126203324.23610-1-mwilck@suse.com>
- <20210126203324.23610-14-mwilck@suse.com>
- <8990bb65-fb2d-7ab1-82cd-210c4c4dba13@grimberg.me>
+ <20210126203324.23610-23-mwilck@suse.com>
+ <322b27a0-ff3e-265b-4c69-fae54466631e@grimberg.me>
 User-Agent: Evolution 3.38.2 
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210129_091647_205466_70F46B94 
-X-CRM114-Status: GOOD (  20.46  )
+X-CRM114-CacheID: sfid-20210129_091808_062137_642802C1 
+X-CRM114-Status: GOOD (  15.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,54 +77,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Hannes Reinecke <hare@suse.de>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Content-Type: text/plain; charset="iso-8859-15"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2021-01-28 at 17:52 -0800, Sagi Grimberg wrote:
-> =
-
-> =
-
-> On 1/26/21 12:33 PM, mwilck@suse.com=A0wrote:
+On Thu, 2021-01-28 at 17:59 -0800, Sagi Grimberg wrote:
+> 
 > > From: Martin Wilck <mwilck@suse.com>
-> > =
+> > 
+> > The monitor works best if it maintains a discovery controller
+> > connection
+> > to every transport address that provides a discovery subsystem.
+> > 
+> > While controllers are easily tracked in sysfs, addresses
+> > ("connections"),
+> > i.e. (transport, traddr, trsvid, host_traddr) tuples, are not.
+> > Create
+> > a simple registry that tracks the state of "connections" and their
+> > associated discovery controllers.
+> > 
+> > A detailed description of the API is provided in the header file
+> > conn-db.h.
+> 
+> If this is more flexible, perhaps also the main fabrics 
+> discover/connect/connect-all can be converted to use it as well.
+> 
 
-> > If autoconnect is enabled, disable the respective udev rules
-> > by symlinking /run/udev/rules.d to /dev/null, in order to avoid
-> > the connections being set up by the monitor and the udev workers
-> > at the same time. This is probably the preferred mode of operation
-> > for the monitor.
-> > =
+Yes. Could we do that in a separate step later.
 
-> > Users can override this by copying 70-nvmf-autoconnect.rules
-> > from /usr/lib/udev/rules.d to /etc/udev/rules.d (/etc/udev/rules.d
-> > takes precedence over /run/udev/rules.d).
-> > =
-
-> > If the symlink can't be created for some reason, autoconnect will
-> > be disabled. There is=A0 only one exception: If
-> > /run/udev/rules.d/70-nvmf-autoconnect.rules already points to
-> > /dev/null at startup, autoconnect can be left on, but the symlink
-> > isn't removed on exit.
-> =
-
-> Can't we just document that just one should be enabled and skip
-> the entire thing? Especially when its not critical if both run..
-
-It's not critical, but it makes no sense to have the rules enabled when
-the monitor runs. And having to mask/unmask them manually is a pain.=A0
-
-It could be done in the systemd service file using ExecStartPre /
-ExecStopPost, with small restrictions (we couldn't distinguish whether
-the rules were already masked before we started). That would be more
-transparent for users.
-
-I'm ok with not doing it automatically if that's generally preferred.
-
-Regards
+Regards,
 Martin
+
 
 
 
