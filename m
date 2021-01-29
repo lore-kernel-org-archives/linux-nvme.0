@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0680BC433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 14:18:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB800C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 14:18:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8B74764DF1
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 14:18:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8B74764DF1
+	by mail.kernel.org (Postfix) with ESMTPS id 9446D64DF5
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Jan 2021 14:18:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9446D64DF5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,47 +23,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:To:From:
 	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1jrhWYgk0h7b5k6gVlJL2jkPICSK+l7LX3MHF71mhPs=; b=exby4jzgK1S/jxHrpPLDp1tKQ
-	QY+nIGDunxeXO2b+Bf0ElkQVM6Gl3IlcBgp89/KXhfzr/2FGmXL5ns/w4VByGZZrtN/9xPAJRP+ly
-	ShfW2vX8+8Nwwskh4PioLtr9B0T5zY86NN0azV0rHe88bbmKy8CdPVpjhOdgrrV9KFnIpC03ZKXtz
-	d2jvyjS9YP5zxzbRNVjenqFzQhAnVe+2JXAOy5UjNsXXOheJp6ZGwIfFF96u1kqFQkDQuPTZURK5+
-	hAE8IUBW+i6iHDfD+yZ8RcW9TWQ+Gbdiu7dMff1mCKUnFuSXAaHntUJe5uWRWhRHrhgxdf3A3xW8u
-	nfhvmlc/A==;
+	 bh=RsbhZRAB55O5UE60d9M9QJ9l9XqSHlZ1el2sphiDksE=; b=Vb5c6UicuehMR8R4YNNBXSUBm
+	EfmkfaW78RHP0q3yvq8MuMJHDdyCvW+3QA8H1dSkSYtkkCrelrXggUtfMCmdv6xMRTJeobcQ4LX1S
+	Yc+2pcgWCtIuIg7vaooxuwQaAehYCKE4PuFoobm+DQGaSV2fLkpMRSW/Rj6UM/ggGkIUZoQtaZY2E
+	NSo0nIsHpa4aMQtC/Lj3XSh4qtcY0wl388Bx4yQD5SIXMnbJ+vnLxRVZobKP+vnPsZT7jrwPu7HDi
+	xCwNTZyTemYC4CIfsD0BaX42jarvNLcRJhcKCz+cMXIDub7TJrL0WTKIEC7WR3LlA0i3bNqlVkiX9
+	0zlBMZG6w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l5UbF-00064C-9Q; Fri, 29 Jan 2021 14:18:13 +0000
+	id 1l5Ubw-00068m-1k; Fri, 29 Jan 2021 14:18:56 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l5Ub9-00062z-TO
- for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 14:18:12 +0000
+ id 1l5Ubs-00068K-NM
+ for linux-nvme@lists.infradead.org; Fri, 29 Jan 2021 14:18:54 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1611929887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1611929930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HPvXblaohWa0XgHxbwLufXVc5JgrFGP6qZHTGnwIzBA=;
- b=NrqeNHxTVu8fQb1YVHH9K3xNPbHFVMEWJUuhWBXuZNQY00dQWtVHJ0CQn+46BlbR2IsxOO
- e52dCNJWVNgvD3HWJt6oJ/ZNvu6dELHnr1S/ApxOjr5RcXHDmWVAxDGkMWC280v0lj7M2a
- /nuvS06VL1ofxhKl95j/TlRbTK/O2fE=
+ bh=3Gdcn85ukeBHtKrWG90MaBBVcgHCNgoLYlgakB9HRYo=;
+ b=KKbDHUfHD1XzNuvR/bjvRab+P5RCHDYdEVjO8F3lcfqblL1zEjInJ9+qU+gs1YKGbLThHC
+ m2+AEETCQvGcZiRujAxZWpOKmQ+EpyWcAubHdVx4v45fFAMqDrZBlGTeiPQaquvRsTSiyn
+ 5hVKRmJaw3dGX/OjwBG02DAHwhza0y8=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DC2CFB173;
- Fri, 29 Jan 2021 14:18:06 +0000 (UTC)
-Message-ID: <292a1b5ddd336c446ae63c06ee275af165c81ebc.camel@suse.com>
-Subject: Re: [PATCH 22/35] conn-db: add simple connection registry
+ by mx2.suse.de (Postfix) with ESMTP id A5BE0B1B5;
+ Fri, 29 Jan 2021 14:18:49 +0000 (UTC)
+Message-ID: <6abf2fd0c4e04b3c11cb5240068200018449309c.camel@suse.com>
+Subject: Re: [PATCH 16/35] monitor: reset children's signal disposition
 From: Martin Wilck <mwilck@suse.com>
 To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, 
  linux-nvme@lists.infradead.org
-Date: Fri, 29 Jan 2021 15:18:06 +0100
-In-Reply-To: <322b27a0-ff3e-265b-4c69-fae54466631e@grimberg.me>
+Date: Fri, 29 Jan 2021 15:18:49 +0100
+In-Reply-To: <35ef1b10-1d24-f0f3-3af8-2d14d710533c@grimberg.me>
 References: <20210126203324.23610-1-mwilck@suse.com>
- <20210126203324.23610-23-mwilck@suse.com>
- <322b27a0-ff3e-265b-4c69-fae54466631e@grimberg.me>
+ <20210126203324.23610-17-mwilck@suse.com>
+ <35ef1b10-1d24-f0f3-3af8-2d14d710533c@grimberg.me>
 User-Agent: Evolution 3.38.2 
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210129_091808_062137_642802C1 
-X-CRM114-Status: GOOD (  15.37  )
+X-CRM114-CacheID: sfid-20210129_091852_888586_E418268B 
+X-CRM114-Status: UNSURE (   7.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,35 +83,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2021-01-28 at 17:59 -0800, Sagi Grimberg wrote:
-> 
-> > From: Martin Wilck <mwilck@suse.com>
-> > 
-> > The monitor works best if it maintains a discovery controller
-> > connection
-> > to every transport address that provides a discovery subsystem.
-> > 
-> > While controllers are easily tracked in sysfs, addresses
-> > ("connections"),
-> > i.e. (transport, traddr, trsvid, host_traddr) tuples, are not.
-> > Create
-> > a simple registry that tracks the state of "connections" and their
-> > associated discovery controllers.
-> > 
-> > A detailed description of the API is provided in the header file
-> > conn-db.h.
-> 
-> If this is more flexible, perhaps also the main fabrics 
-> discover/connect/connect-all can be converted to use it as well.
-> 
+On Thu, 2021-01-28 at 17:54 -0800, Sagi Grimberg wrote:
+> No commit message?
 
-Yes. Could we do that in a separate step later.
+I'm sorry. I'll add one next time. For #17 likewise.
 
-Regards,
 Martin
-
-
-
 
 
 
