@@ -2,94 +2,181 @@ Return-Path: <SRS0=pTPU=HC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA838C433DB
-	for <linux-nvme@archiver.kernel.org>; Sun, 31 Jan 2021 10:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4530C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun, 31 Jan 2021 15:47:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9636564E1F
-	for <linux-nvme@archiver.kernel.org>; Sun, 31 Jan 2021 10:40:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9636564E1F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2384B64E22
+	for <linux-nvme@archiver.kernel.org>; Sun, 31 Jan 2021 15:47:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2384B64E22
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mDPw47i4apabquitRwZdgKHB0Vi3ZQTkhgt91C+pS+I=; b=MVfAiHf9mBXUENalesVY9Fypu
-	ccSjdat39ohVQHIdp6OnNNyHfVniNIoPcyBbD2R1tRMPQ0VXVF2nfolTv+pVLLdENqMccRJgac1kY
-	DFBPdIaJj7rQfLcvKqLsBd2OfwhhIgbvVvGhfroxy7Bl0hdis96SkWWawHJK1+wOR2J1AMmqdMx5l
-	rQe3f/vm5aacE3f77vF2kQ7zv7RnSXZfKNm3/o2G0nlOL8kSrxK3p52bB2epgCNn5OwqRbFANdoJZ
-	VJfdNgrAe5IjVqDox3rlteUmFySSM2qEL8vFk4m9gN+f+dLoFjJ68h98ZhbfOavTEYGA1o526teC5
-	9CO5VXRww==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oENOlqpL8xMf0OkXYCYdrQkUOc2TjfgP+gH0IAfPLM0=; b=kZjIARc7mCUXdcIraTohOgg/Un
+	T12bOCTU+QyYo4XGih4U3lYMILX/HB6S9x9NiEgHQ0ZUwy5GQOE601Ca1t0gzN2WTWcjWid1DaY4d
+	RHGBuyyJRIIrEym/3JF+GjdAts8MheyNFWPD3/8E28S2/qiJW3R26NS7j+ZKy/MDkAYGgZiZq/s3c
+	KYYihg5WLXacZxcrzNktHPo4R4MQxsYB9Qofz5DwGn51Ud73LcqjmQv/53zLCdLECaTrrIj8NqgMS
+	5uYY8cPCMzDaE0JL72sA4CFj4leSQ+533v/4/31OsUQLAA5BVO8wArgLlAtxySyb8fpb0ND2I73bx
+	bxZ9R3lw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l6A9S-0005RO-5o; Sun, 31 Jan 2021 10:40:18 +0000
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+	id 1l6Ewa-0004td-6J; Sun, 31 Jan 2021 15:47:20 +0000
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l6A9N-0005Qv-TN
- for linux-nvme@lists.infradead.org; Sun, 31 Jan 2021 10:40:15 +0000
-Received: by mail-ej1-x631.google.com with SMTP id a10so19631007ejg.10
- for <linux-nvme@lists.infradead.org>; Sun, 31 Jan 2021 02:40:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ab+D6VKE8Tn13kki+NRjL4c+WxoJNRVtEDDim1YOq9Y=;
- b=Rlq/oYLugWrcwwzEkGBv7p0jzl9kLDQMAC4TmaQccxKrlluipMS1TXL1sf6vbaxOgG
- uDOWHZQGiaFTB8U8MhzxT35Oqo1la6c2gXyl6sW2duFi8S/wsVAxwFW5TVDnrhKIEf2A
- hMUxI2L1232pI5qwrBecgyYejggwRjCSfOEBUSu9bYzG7KOmYNYwfgZLt2Z3GacOJ5jW
- m+5yEURh6/kMWmrGrM4sYmXrMXcWE6F2N+xT2cacmkNc0qXVbNBvklnLfuJf8W9DYeBA
- hjY2IX9DO8CiWMyaij0zLcNqkodMUO4aC5zPORxLlbTeEF9vgNsFA8Yx19KLNNspIHmY
- Hz8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ab+D6VKE8Tn13kki+NRjL4c+WxoJNRVtEDDim1YOq9Y=;
- b=RHvq3mfU/AO9ixeeQtaXpk9QgpXoa8nx9F/4FMz5pg+Xv3uUWGFvscBrWzQwM+2ktV
- KVOmY361j25C0iFoa2ebrue7sNFQmPdjXq9blgKwfqAKQaz7KwH8JCL8SXFAcMn7K5Vu
- MK2zokbtKXUbtzKjHMuhhsatvxlzevKBMd1KfEhweGcF/VGA+jlxdMpVHfpjf+OWpiwN
- euXjEtCq2x1UleHwGglXcilQXtcY5FTys74rWgQwg2H/dqPOACR6MBA2ZP6CoosmWiXL
- vw+Kn5fryWpiUvFOrrYUywzQTwhxA5x4J9HbfT9Bms4KDxuuCsctuPAjlhEVR6ue6XhD
- CY+A==
-X-Gm-Message-State: AOAM530i7TEH+4Fy2NopgAfqsN6iprc6qYlhjIlkMsidFsO2BqSljDhk
- QUe/iT8BjOG3cWtm1TY/2sc=
-X-Google-Smtp-Source: ABdhPJzxk65SsJpJfhoZ20qrn0wS60mF0T23Cpj1SLjNIXKEcsGZCvjAuExb/EwyBBRBCFWDn2e23Q==
-X-Received: by 2002:a17:906:f195:: with SMTP id
- gs21mr771305ejb.225.1612089612590; 
- Sun, 31 Jan 2021 02:40:12 -0800 (PST)
-Received: from [132.68.43.126] ([132.68.43.126])
- by smtp.gmail.com with ESMTPSA id y8sm6893717edd.97.2021.01.31.02.40.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 Jan 2021 02:40:11 -0800 (PST)
-Subject: Re: [PATCH v2 net-next 02/21] net: Introduce direct data placement
- tcp offload
-To: Eric Dumazet <edumazet@google.com>
-References: <20210114151033.13020-1-borisp@mellanox.com>
- <20210114151033.13020-3-borisp@mellanox.com>
- <CANn89iJaFRFxVe-eV7hcwC_5Zp+HtWHxTQt+BNYcKOwZUriSDg@mail.gmail.com>
- <62d4606a-0a41-2b12-cf16-3523d0b73573@gmail.com>
- <CANn89i+7HNP6o5TkR9WKW3QkuH0cCArETfGTis8PWPR64BTFEQ@mail.gmail.com>
-From: Boris Pismenny <borispismenny@gmail.com>
-Message-ID: <8e4cd169-f1b7-0f39-eaad-8cf441077f84@gmail.com>
-Date: Sun, 31 Jan 2021 12:40:09 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-MIME-Version: 1.0
-In-Reply-To: <CANn89i+7HNP6o5TkR9WKW3QkuH0cCArETfGTis8PWPR64BTFEQ@mail.gmail.com>
+ id 1l6EwX-0004t7-7F
+ for linux-nvme@lists.infradead.org; Sun, 31 Jan 2021 15:47:18 +0000
+Received: from pps.filterd (m0170394.ppops.net [127.0.0.1])
+ by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 10VFcAsf020571; Sun, 31 Jan 2021 10:47:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=Ol30J0h6Ia92+PlIY1i9dueJZJPhyaxsK2iD6espMH0=;
+ b=K0dG0RSu77mm5dI1VrukxUt9ULT3KZZNJlE+MN8Ibu00BRP5B0g2uos/sYlgKVEXWpne
+ LQxXYQxgjc3o5FOb4N1nXqBMZmh4Nc+jsZIX/tUjirpqi/xuvZUUD5dl7CK9vA6DOb3f
+ qlbmUx0RqArUbEnpFZaw1E+sWmplDk+lh8QsJJfBu32eboS7/mRL0+1Jf7TL6+71dAtT
+ HB6Twwnc35aM9jVRt6vzrIkmH9NlAgKiySH1iFMODLCZjxkihIuoYqftSq6/gRWquNEz
+ DkuVnMnJ0uQp6MjDo0KMHKxlOaW5fmLAk4QqhT7oI73nAiDFcB6s1aLIm5kp4KQ3IFrB tA== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
+ [67.231.149.39])
+ by mx0b-00154904.pphosted.com with ESMTP id 36d2waj2bm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 31 Jan 2021 10:47:10 -0500
+Received: from pps.filterd (m0090351.ppops.net [127.0.0.1])
+ by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 10VFf0lW063273; Sun, 31 Jan 2021 10:47:09 -0500
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
+ by mx0b-00154901.pphosted.com with ESMTP id 36dnmektqb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 31 Jan 2021 10:47:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZBqDfmff7U2xuJdiymtZo0gbL7mB7fndPctTG+WKKedLfPBZk8gejnbxIOo0dd93fw7nRuR3wZoczX3W+YBdpmyeroGKoeYFIs1pBZFske/JomZ/VGnTapfFUJuwd7x/oo0La6X0OwJjl8xkwwH5GA74lMj34EU9utlZXFi9zF1RgkkqSF/w47VyIb+1kyKVFIzLLUGRvnTYm+uAfIhYqOvM2bYCUfhnDP5EYvW6kOs5yW5sYX+S+ejFfZY8W8+ojBg1173IPzcWbxtOxrwqutbiOtGmGhpsebZ+aaTMpCIRQZucjVhiQ3xTxxh8E/YaBbkTaiTMYIOpSezcf34V9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ol30J0h6Ia92+PlIY1i9dueJZJPhyaxsK2iD6espMH0=;
+ b=KjQHSB7cmM1iitOS7vnL86v6axfSYt9i0Lx5r1FPlDWLn4BycpiXGBYaAMWVEYsSnc1M4mXJPhGREuMoV38giC1nYTTRIPpsVKx9TOCxmjp7ypxf47WndAAnCFHC/kCPz5tgdULOTsuiTiyesakV0a+NAxtYM9YjG8cGZO3yA/aWf7bjwrIIPAmZqKWcaTg33nnUYP3kmSb+aBw/nIpGhjUUq8x2BZ/okA/shScaLR3DrHbaSvXKD8SJ4Ag0REGqjcjer48nyCJwA+O1L84949LgsLAcSapsTRi5RHEaL8p0NN+qEsKS+zmcmyAK1WriqHHMsvEeUD+8ygHCoF7D0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+Received: from DM6PR19MB4011.namprd19.prod.outlook.com (2603:10b6:5:22b::15)
+ by DM6PR19MB4327.namprd19.prod.outlook.com (2603:10b6:5:2b1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Sun, 31 Jan
+ 2021 15:47:07 +0000
+Received: from DM6PR19MB4011.namprd19.prod.outlook.com
+ ([fe80::a416:4c53:4922:67d2]) by DM6PR19MB4011.namprd19.prod.outlook.com
+ ([fe80::a416:4c53:4922:67d2%5]) with mapi id 15.20.3805.024; Sun, 31 Jan 2021
+ 15:47:07 +0000
+From: "Grupi, Elad" <Elad.Grupi@dell.com>
+To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: RE: [PATCH] nvme-tcp: proper handling of tcp socket closing flows
+Thread-Topic: [PATCH] nvme-tcp: proper handling of tcp socket closing flows
+Thread-Index: AQHW9Yot5sDcdvF1ckSEbnpOtZTZe6o9l6yAgAAQh7CAAAjDAIAEM4Sg
+Date: Sun, 31 Jan 2021 15:47:07 +0000
+Message-ID: <DM6PR19MB4011E46B215215B04910F67CEFB79@DM6PR19MB4011.namprd19.prod.outlook.com>
+References: <20210128152758.114112-1-elad.grupi@dell.com>
+ <2c2a3aa6-ca43-e9b0-7928-28c6962ea1bc@grimberg.me>
+ <DM6PR19MB40113530FCB4DF6F52E8C752EFBA9@DM6PR19MB4011.namprd19.prod.outlook.com>
+ <9d974783-dc05-61b1-902e-a0cbe13199f0@grimberg.me>
+In-Reply-To: <9d974783-dc05-61b1-902e-a0cbe13199f0@grimberg.me>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Elad.Grupi@emc.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2021-01-31T15:47:02.7280804Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=d038c4e3-5f06-4cea-b555-65c3901efa07;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+authentication-results: grimberg.me; dkim=none (message not signed)
+ header.d=none;grimberg.me; dmarc=none action=none header.from=dell.com;
+x-originating-ip: [152.62.109.202]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 27478d22-d1fd-461c-6d2d-08d8c5ff76e9
+x-ms-traffictypediagnostic: DM6PR19MB4327:
+x-microsoft-antispam-prvs: <DM6PR19MB43270B4E1A77E1A12D863E04EFB79@DM6PR19MB4327.namprd19.prod.outlook.com>
+x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PkSL0ByEefJgFFHUusXGdTg1uC2M0+m/OZUz+q+nqXbdzLWfovJ1g4l02pt+SZRMZIoBIcc6BtGcBgcn0Y+KsPjrXiHE71wvBaAN7p/qB2kD48IvFs/6tTkEwMRcsa3fXBY0fi/csizLh6ryKzrxGxu+F+vmGVufhcntY7SBcwOtVUQx535Tq5Aqw7cgBEGdSXXj8j04DPs3tE08PbmYR1Ac1dk3e+HWnXeBJj+A+yvEOpAMd9ky8DO2kUnsY3qDIxZEQjVgKFGnpiQMSvGXzJAcf7mKHu8OtyvCFIFhgIKg1rrAYr92H62oPdoZfs/JmgRTsRNqkJwgxhDN8a34RSj2x3f9jDiFyckLu3hmWX8NEU3PGw1xTPVTiXrIKs0dejqxRalrFKpEjoppNjtFZkVKfK6lRxEp4nLz1qBx4OUOOO2klYLM1BDm2W1K/vSS4+7pUMOLt21YsYerzaLgqqnGQxbWAZIYlcSh6NXSk2UlpWeC1AKs8xQ89NzoUW4C4RwiqWFzqPWv1jsTxEy5CA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR19MB4011.namprd19.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(39860400002)(136003)(366004)(396003)(66476007)(52536014)(5660300002)(83380400001)(55016002)(66556008)(66446008)(64756008)(9686003)(66946007)(86362001)(33656002)(76116006)(110136005)(26005)(7696005)(186003)(2906002)(786003)(316002)(478600001)(8676002)(8936002)(71200400001)(53546011)(6506007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?MWJFYllwdko0SGYvR2dwYU1ySVhsMHU0V3ArNVc4alZ0UmVYTktnOXJpZnE4?=
+ =?utf-8?B?RGdFRGFOVDYyRlpoTWFRMVR0V2R6bnFBZUl6R0xnMjNlbHQ5UENjK3FqSWZ6?=
+ =?utf-8?B?c2FpMVhsUXU5SVpld3lQZGM2aVdPVG1hTW84L3gycnhFZHNzUjE1NUc4MXI1?=
+ =?utf-8?B?TTFBN1E1WXB1RG5EVFlEM0QvNGJDVWhtVU1WNHNGSmh0ZkZnSnIyUm9IOHBL?=
+ =?utf-8?B?YkUyc0cxUHpaRS9TRlJKdmxYZWg5b09oK2V2T25uQWhtck9nNTI3emFId1Nm?=
+ =?utf-8?B?ODVUMU1Pc1Y2bkdSZDhvazZIaS9OM0orT2FYSlhTdFQzcXBuSXBsQXhzVGIx?=
+ =?utf-8?B?bGNudzY4b3FwUVVsZ1pSK1lwblZXR1d6QzZTUnlhNVlMeUtaWk5CdWREaFhP?=
+ =?utf-8?B?YXl0ZUI4Ni83RUFTR2ZXbzJvRFhPRk5mMWtOK1NmYWVQL1lFZzA3Y2t1bGdJ?=
+ =?utf-8?B?VVVuYjgwbTNDeHVURGFVUTZoMnFYSUk3NUpxR3djTitzRjlTMGl1dHRlaDhi?=
+ =?utf-8?B?cjk5MElycHFPQWdENWdqNjR5UW1JS3hHZVVzMkl2N2U5YXRWVm52K0orbnNJ?=
+ =?utf-8?B?Yk5rMGdiWTJjYVZhckx5Y0VGL0l3cDFRMXIxMkJOd0xXUnZWUWYvZkRod0Er?=
+ =?utf-8?B?b1BRVHdsQ2JPNWw2ZlhkTFZ1UW1zQ0RHU0FSTnJXVjBDWXlTZGRTcitlNmxk?=
+ =?utf-8?B?cFJsdm01ellZM1ZqQmx1ejFZeHF5R0VRemZYcTE1bGNSNEZSSjdxNXpGV2dP?=
+ =?utf-8?B?ZEdhOHEyaWlLVmpPTzJQUVVuN3BKd01MRTlBenBhS0IzdzNEVDREUnBjY1Ft?=
+ =?utf-8?B?bDRPWnR4cDIzZXRINHVBYTh6cnRhZUtFWjMzdkdKTVozNEpibGxJbVJlZmQ1?=
+ =?utf-8?B?d0pacXdjck5nOHRURllkK05zQ2p6cGZjOWdJSjExYkFENFg4WFFSL2JnN2dS?=
+ =?utf-8?B?cXBKZmwycFJVcmV3QjltSHBEdkxFR0d5OUpNczhXTmNZOTB1ZzFYQ3FQUWdj?=
+ =?utf-8?B?ZnVqbWM4TGVZcUM0dm82dHlEU0hIUVFpM3NsNW5vUWtBc1RqYnFGa3ZjY0J0?=
+ =?utf-8?B?VDdWN1YyM1k5RE03blB3TklraHB5c0xSeXRZekVsZm0yS1dLS1NMMnhIOVBi?=
+ =?utf-8?B?c3o3d3FZejg3Sm1XODd4ODl2TGQwRXN2L0FjU2RrYkdQMDVtNlhLMW9BWlBn?=
+ =?utf-8?B?NFc1RmtmMmV4UmhUQW1TMmdiMlVaaHc5VDN1dFpaU2s2MTQ2OUUweDhmYXla?=
+ =?utf-8?B?VjhZYWpUc21WQmxlM3FTQlNyaURudU5RM3UzbkVzUTA3ZmpnQTZwZmd1eTU2?=
+ =?utf-8?B?T1M2WStEVXpuVzhEQ09FdmxlM28vRE04NmRaZFJOVzFWbytOZTZnRFBkTUJp?=
+ =?utf-8?B?MU5hVHlXNkJXdmNpN05zSlFvRDNpM2pPMTIyQlJ1WkhreS9lVE5qMDZtZkdH?=
+ =?utf-8?Q?uURegf0y?=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR19MB4011.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27478d22-d1fd-461c-6d2d-08d8c5ff76e9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2021 15:47:07.2449 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZtZQVeFdlQzK6jAGHZYEgon35L4xZhzBsTPJKmJQ6Gmbv9L+GRPiQqdSJm9eUcTV4iSESBcHl83Wj/C7tLjbpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR19MB4327
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
+ definitions=2021-01-31_04:2021-01-29,
+ 2021-01-31 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ malwarescore=0 clxscore=1015 suspectscore=0 spamscore=0 impostorscore=0
+ adultscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101310090
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ malwarescore=0
+ adultscore=0 suspectscore=0 spamscore=0 bulkscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101310090
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210131_054014_030370_15EE7317 
-X-CRM114-Status: GOOD (  27.73  )
+X-CRM114-CacheID: sfid-20210131_104717_379837_9396A884 
+X-CRM114-Status: GOOD (  23.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,378 +188,85 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: smalin@marvell.com, sagi@grimberg.me, yorayz@nvidia.com,
- boris.pismenny@gmail.com, Ben Ben-Ishay <benishay@mellanox.com>,
- Yoray Zack <yorayz@mellanox.com>, linux-nvme@lists.infradead.org,
- David Miller <davem@davemloft.net>, axboe@fb.com,
- netdev <netdev@vger.kernel.org>, ogerlitz@nvidia.com,
- Al Viro <viro@zeniv.linux.org.uk>, David Ahern <dsahern@gmail.com>,
- kbusch@kernel.org, Jakub Kicinski <kuba@kernel.org>,
- Or Gerlitz <ogerlitz@mellanox.com>, benishay@nvidia.com,
- Saeed Mahameed <saeedm@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Boris Pismenny <borisp@mellanox.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Is it possible that we will have the following flow:
+
+Thread 1 taking sk_callback_lock and goes into the switch case of sk_state, going to line:
+	sock->sk->sk_user_data = queue;
+
+at that point, thread 2 invokes sk_state_change, but this is still the original state_change callback because we didn't set yet to nvmet_tcp_state_change.
+
+Thread 1 continues and set the callback to nvmet_tcp_state_change, but the state was already changed and nvmet_tcp_state_change will be never called.
+
+I think this race still exist even when locked by sk_callback_lock.
 
 
-On 14/01/2021 22:43, Eric Dumazet wrote:
-> On Thu, Jan 14, 2021 at 9:19 PM Boris Pismenny <borispismenny@gmail.com> wrote:
->>
->>
->>
->> On 14/01/2021 17:57, Eric Dumazet wrote:
->>> On Thu, Jan 14, 2021 at 4:10 PM Boris Pismenny <borisp@mellanox.com> wrote:
->>>>
->>>> This commit introduces direct data placement offload for TCP.
->>>> This capability is accompanied by new net_device operations that
->>>> configure hardware contexts. There is a context per socket, and a context per DDP
->>>> opreation. Additionally, a resynchronization routine is used to assist
->>>> hardware handle TCP OOO, and continue the offload.
->>>> Furthermore, we let the offloading driver advertise what is the max hw
->>>> sectors/segments.
->>>>
->>>> Using this interface, the NIC hardware will scatter TCP payload directly
->>>> to the BIO pages according to the command_id.
->>>> To maintain the correctness of the network stack, the driver is expected
->>>> to construct SKBs that point to the BIO pages.
->>>>
->>>> This, the SKB represents the data on the wire, while it is pointing
->>>> to data that is already placed in the destination buffer.
->>>> As a result, data from page frags should not be copied out to
->>>> the linear part.
->>>>
->>>> As SKBs that use DDP are already very memory efficient, we modify
->>>> skb_condence to avoid copying data from fragments to the linear
->>>> part of SKBs that belong to a socket that uses DDP offload.
->>>>
->>>> A follow-up patch will use this interface for DDP in NVMe-TCP.
->>>>
->>>> Signed-off-by: Boris Pismenny <borisp@mellanox.com>
->>>> Signed-off-by: Ben Ben-Ishay <benishay@mellanox.com>
->>>> Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
->>>> Signed-off-by: Yoray Zack <yorayz@mellanox.com>
->>>> ---
->>>>  include/linux/netdev_features.h    |   2 +
->>>>  include/linux/netdevice.h          |   5 ++
->>>>  include/net/inet_connection_sock.h |   4 +
->>>>  include/net/tcp_ddp.h              | 136 +++++++++++++++++++++++++++++
->>>>  net/Kconfig                        |   9 ++
->>>>  net/core/skbuff.c                  |   9 +-
->>>>  net/ethtool/common.c               |   1 +
->>>>  7 files changed, 165 insertions(+), 1 deletion(-)
->>>>  create mode 100644 include/net/tcp_ddp.h
->>>>
->>>> diff --git a/include/linux/netdev_features.h b/include/linux/netdev_features.h
->>>> index 934de56644e7..fb35dcac03d2 100644
->>>> --- a/include/linux/netdev_features.h
->>>> +++ b/include/linux/netdev_features.h
->>>> @@ -84,6 +84,7 @@ enum {
->>>>         NETIF_F_GRO_FRAGLIST_BIT,       /* Fraglist GRO */
->>>>
->>>>         NETIF_F_HW_MACSEC_BIT,          /* Offload MACsec operations */
->>>> +       NETIF_F_HW_TCP_DDP_BIT,         /* TCP direct data placement offload */
->>>>
->>>>         /*
->>>>          * Add your fresh new feature above and remember to update
->>>> @@ -157,6 +158,7 @@ enum {
->>>>  #define NETIF_F_GRO_FRAGLIST   __NETIF_F(GRO_FRAGLIST)
->>>>  #define NETIF_F_GSO_FRAGLIST   __NETIF_F(GSO_FRAGLIST)
->>>>  #define NETIF_F_HW_MACSEC      __NETIF_F(HW_MACSEC)
->>>> +#define NETIF_F_HW_TCP_DDP     __NETIF_F(HW_TCP_DDP)
->>>>
->>>>  /* Finds the next feature with the highest number of the range of start till 0.
->>>>   */
->>>> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
->>>> index 259be67644e3..3dd3cdf5dec3 100644
->>>> --- a/include/linux/netdevice.h
->>>> +++ b/include/linux/netdevice.h
->>>> @@ -941,6 +941,7 @@ struct dev_ifalias {
->>>>
->>>>  struct devlink;
->>>>  struct tlsdev_ops;
->>>> +struct tcp_ddp_dev_ops;
->>>>
->>>>  struct netdev_name_node {
->>>>         struct hlist_node hlist;
->>>> @@ -1937,6 +1938,10 @@ struct net_device {
->>>>         const struct tlsdev_ops *tlsdev_ops;
->>>>  #endif
->>>>
->>>> +#ifdef CONFIG_TCP_DDP
->>>> +       const struct tcp_ddp_dev_ops *tcp_ddp_ops;
->>>> +#endif
->>>> +
->>>>         const struct header_ops *header_ops;
->>>>
->>>>         unsigned int            flags;
->>>> diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
->>>> index 7338b3865a2a..a08b85b53aa8 100644
->>>> --- a/include/net/inet_connection_sock.h
->>>> +++ b/include/net/inet_connection_sock.h
->>>> @@ -66,6 +66,8 @@ struct inet_connection_sock_af_ops {
->>>>   * @icsk_ulp_ops          Pluggable ULP control hook
->>>>   * @icsk_ulp_data         ULP private data
->>>>   * @icsk_clean_acked      Clean acked data hook
->>>> + * @icsk_ulp_ddp_ops      Pluggable ULP direct data placement control hook
->>>> + * @icsk_ulp_ddp_data     ULP direct data placement private data
->>>>   * @icsk_listen_portaddr_node  hash to the portaddr listener hashtable
->>>>   * @icsk_ca_state:        Congestion control state
->>>>   * @icsk_retransmits:     Number of unrecovered [RTO] timeouts
->>>> @@ -94,6 +96,8 @@ struct inet_connection_sock {
->>>>         const struct tcp_ulp_ops  *icsk_ulp_ops;
->>>>         void __rcu                *icsk_ulp_data;
->>>>         void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
->>>
->>> #ifdef CONFIG_TCP_DDP ?
->>>
->>>> +       const struct tcp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
->>>> +       void __rcu                *icsk_ulp_ddp_data;
->>>>         struct hlist_node         icsk_listen_portaddr_node;
->>>>         unsigned int              (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
->>>>         __u8                      icsk_ca_state:5,
->>>> diff --git a/include/net/tcp_ddp.h b/include/net/tcp_ddp.h
->>>> new file mode 100644
->>>> index 000000000000..31e5b1a16d0f
->>>> --- /dev/null
->>>> +++ b/include/net/tcp_ddp.h
->>>> @@ -0,0 +1,136 @@
->>>> +/* SPDX-License-Identifier: GPL-2.0
->>>> + *
->>>> + * tcp_ddp.h
->>>> + *     Author: Boris Pismenny <borisp@mellanox.com>
->>>> + *     Copyright (C) 2021 Mellanox Technologies.
->>>> + */
->>>> +#ifndef _TCP_DDP_H
->>>> +#define _TCP_DDP_H
->>>> +
->>>> +#include <linux/netdevice.h>
->>>> +#include <net/inet_connection_sock.h>
->>>> +#include <net/sock.h>
->>>> +
->>>> +/* limits returned by the offload driver, zero means don't care */
->>>> +struct tcp_ddp_limits {
->>>> +       int      max_ddp_sgl_len;
->>>> +};
->>>> +
->>>> +enum tcp_ddp_type {
->>>> +       TCP_DDP_NVME = 1,
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct tcp_ddp_config - Generic tcp ddp configuration: tcp ddp IO queue
->>>> + * config implementations must use this as the first member.
->>>> + * Add new instances of tcp_ddp_config below (nvme-tcp, etc.).
->>>> + */
->>>> +struct tcp_ddp_config {
->>>> +       enum tcp_ddp_type    type;
->>>> +       unsigned char        buf[];
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO queue
->>>> + *
->>>> + * @pfv:        pdu version (e.g., NVME_TCP_PFV_1_0)
->>>> + * @cpda:       controller pdu data alignmend (dwords, 0's based)
->>>> + * @dgst:       digest types enabled.
->>>> + *              The netdev will offload crc if ddp_crc is supported.
->>>> + * @queue_size: number of nvme-tcp IO queue elements
->>>> + * @queue_id:   queue identifier
->>>> + * @cpu_io:     cpu core running the IO thread for this queue
->>>> + */
->>>> +struct nvme_tcp_ddp_config {
->>>> +       struct tcp_ddp_config   cfg;
->>>> +
->>>> +       u16                     pfv;
->>>> +       u8                      cpda;
->>>> +       u8                      dgst;
->>>> +       int                     queue_size;
->>>> +       int                     queue_id;
->>>> +       int                     io_cpu;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct tcp_ddp_io - tcp ddp configuration for an IO request.
->>>> + *
->>>> + * @command_id:  identifier on the wire associated with these buffers
->>>> + * @nents:       number of entries in the sg_table
->>>> + * @sg_table:    describing the buffers for this IO request
->>>> + * @first_sgl:   first SGL in sg_table
->>>> + */
->>>> +struct tcp_ddp_io {
->>>> +       u32                     command_id;
->>>> +       int                     nents;
->>>> +       struct sg_table         sg_table;
->>>> +       struct scatterlist      first_sgl[SG_CHUNK_SIZE];
->>>> +};
->>>> +
->>>> +/* struct tcp_ddp_dev_ops - operations used by an upper layer protocol to configure ddp offload
->>>> + *
->>>> + * @tcp_ddp_limits:    limit the number of scatter gather entries per IO.
->>>> + *                     the device driver can use this to limit the resources allocated per queue.
->>>> + * @tcp_ddp_sk_add:    add offload for the queue represennted by the socket+config pair.
->>>> + *                     this function is used to configure either copy, crc or both offloads.
->>>> + * @tcp_ddp_sk_del:    remove offload from the socket, and release any device related resources.
->>>> + * @tcp_ddp_setup:     request copy offload for buffers associated with a command_id in tcp_ddp_io.
->>>> + * @tcp_ddp_teardown:  release offload resources association between buffers and command_id in
->>>> + *                     tcp_ddp_io.
->>>> + * @tcp_ddp_resync:    respond to the driver's resync_request. Called only if resync is successful.
->>>> + */
->>>> +struct tcp_ddp_dev_ops {
->>>> +       int (*tcp_ddp_limits)(struct net_device *netdev,
->>>> +                             struct tcp_ddp_limits *limits);
->>>> +       int (*tcp_ddp_sk_add)(struct net_device *netdev,
->>>> +                             struct sock *sk,
->>>> +                             struct tcp_ddp_config *config);
->>>> +       void (*tcp_ddp_sk_del)(struct net_device *netdev,
->>>> +                              struct sock *sk);
->>>> +       int (*tcp_ddp_setup)(struct net_device *netdev,
->>>> +                            struct sock *sk,
->>>> +                            struct tcp_ddp_io *io);
->>>> +       int (*tcp_ddp_teardown)(struct net_device *netdev,
->>>> +                               struct sock *sk,
->>>> +                               struct tcp_ddp_io *io,
->>>> +                               void *ddp_ctx);
->>>> +       void (*tcp_ddp_resync)(struct net_device *netdev,
->>>> +                              struct sock *sk, u32 seq);
->>>> +};
->>>> +
->>>> +#define TCP_DDP_RESYNC_REQ BIT(0)
->>>> +
->>>> +/**
->>>> + * struct tcp_ddp_ulp_ops - Interface to register uppper layer Direct Data Placement (DDP) TCP offload
->>>> + */
->>>> +struct tcp_ddp_ulp_ops {
->>>> +       /* NIC requests ulp to indicate if @seq is the start of a message */
->>>> +       bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
->>>> +       /* NIC driver informs the ulp that ddp teardown is done - used for async completions*/
->>>> +       void (*ddp_teardown_done)(void *ddp_ctx);
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct tcp_ddp_ctx - Generic tcp ddp context: device driver per queue contexts must
->>>> + * use this as the first member.
->>>> + */
->>>> +struct tcp_ddp_ctx {
->>>> +       enum tcp_ddp_type    type;
->>>> +       unsigned char        buf[];
->>>> +};
->>>> +
->>>> +static inline struct tcp_ddp_ctx *tcp_ddp_get_ctx(const struct sock *sk)
->>>> +{
->>>> +       struct inet_connection_sock *icsk = inet_csk(sk);
->>>> +
->>>> +       return (__force struct tcp_ddp_ctx *)icsk->icsk_ulp_ddp_data;
->>>> +}
->>>> +
->>>> +static inline void tcp_ddp_set_ctx(struct sock *sk, void *ctx)
->>>> +{
->>>> +       struct inet_connection_sock *icsk = inet_csk(sk);
->>>> +
->>>> +       rcu_assign_pointer(icsk->icsk_ulp_ddp_data, ctx);
->>>> +}
->>>> +
->>>> +#endif //_TCP_DDP_H
->>>> diff --git a/net/Kconfig b/net/Kconfig
->>>> index f4c32d982af6..3876861cdc90 100644
->>>> --- a/net/Kconfig
->>>> +++ b/net/Kconfig
->>>> @@ -457,6 +457,15 @@ config ETHTOOL_NETLINK
->>>>           netlink. It provides better extensibility and some new features,
->>>>           e.g. notification messages.
->>>>
->>>> +config TCP_DDP
->>>> +       bool "TCP direct data placement offload"
->>>> +       default n
->>>> +       help
->>>> +         Direct Data Placement (DDP) offload for TCP enables ULP, such as
->>>> +         NVMe-TCP/iSCSI, to request the NIC to place TCP payload data
->>>> +         of a command response directly into kernel pages.
->>>> +
->>>> +
->>>>  endif   # if NET
->>>>
->>>>  # Used by archs to tell that they support BPF JIT compiler plus which flavour.
->>>> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
->>>> index f62cae3f75d8..791c1b6bc067 100644
->>>> --- a/net/core/skbuff.c
->>>> +++ b/net/core/skbuff.c
->>>> @@ -69,6 +69,7 @@
->>>>  #include <net/xfrm.h>
->>>>  #include <net/mpls.h>
->>>>  #include <net/mptcp.h>
->>>> +#include <net/tcp_ddp.h>
->>>>
->>>>  #include <linux/uaccess.h>
->>>>  #include <trace/events/skb.h>
->>>> @@ -6140,9 +6141,15 @@ EXPORT_SYMBOL(pskb_extract);
->>>>   */
->>>>  void skb_condense(struct sk_buff *skb)
->>>>  {
->>>> +       bool is_ddp = false;
->>>> +
->>>> +#ifdef CONFIG_TCP_DDP
->>>
->>> This looks strange to me : TCP should call this helper while skb->sk is NULL
->>>
->>> Are you sure this is not dead code ?
->>>
->>
->> Will verify again on Sunday. AFAICT, early demux sets skb->sk before this code
->> is called.
-> 
-> 
-> First, early demux is optional.
-> 
-> Secondly, skb->sk is stolen in skb_steal_sock() if early demux was performed.
-> 
-> 
-> Just to clarify, the purpose of this code is to avoid skb condensing
->> data that is already placed into destination buffers.
-> 
-> Then this has not been tested. This suggests this code could be
-> removed, I doubt that your target traffic would ever be 'condensed'.
-> 
+-----Original Message-----
+From: Sagi Grimberg <sagi@grimberg.me> 
+Sent: Friday, 29 January 2021 1:34
+To: Grupi, Elad; linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-tcp: proper handling of tcp socket closing flows
 
-Thanks for the feedback!
 
-Some retrospective about this:
-We originally used the skb->ddp_crc bit for this check, but later we
-tried to avoid it so as to reduce our dependence on said skb bit.
-Unfortunately, that later change wasn't tested thoroughly.
+[EXTERNAL EMAIL] 
 
-We'll post v3 patches that will use the skb->ddp_crc bit for this check.
-After re-testing with the new v3 patch I'm confident it will work.
 
->>
->>>> +       is_ddp = skb->sk && inet_csk(skb->sk) &&
->>>> +                inet_csk(skb->sk)->icsk_ulp_ddp_data;
->>>> +#endif
->>>>         if (skb->data_len) {
->>>>                 if (skb->data_len > skb->end - skb->tail ||
->>>> -                   skb_cloned(skb))
->>>> +                   skb_cloned(skb) || is_ddp)
->>>>                         return;
->>>>
->>>>                 /* Nice, we can free page frag(s) right now */
->>>> diff --git a/net/ethtool/common.c b/net/ethtool/common.c
->>>> index 24036e3055a1..a2ff7a4a6bbf 100644
->>>> --- a/net/ethtool/common.c
->>>> +++ b/net/ethtool/common.c
->>>> @@ -68,6 +68,7 @@ const char netdev_features_strings[NETDEV_FEATURE_COUNT][ETH_GSTRING_LEN] = {
->>>>         [NETIF_F_HW_TLS_RX_BIT] =        "tls-hw-rx-offload",
->>>>         [NETIF_F_GRO_FRAGLIST_BIT] =     "rx-gro-list",
->>>>         [NETIF_F_HW_MACSEC_BIT] =        "macsec-hw-offload",
->>>> +       [NETIF_F_HW_TCP_DDP_BIT] =       "tcp-ddp-offload",
->>>>  };
->>>>
->>>>  const char
->>>> --
->>>> 2.24.1
->>>>
+> That will work if sk_state_change is called under sk_callback_lock.
 
+It is.
+
+> In addition, need to flush_work(&queue->port->accept_work) in nvmet_tcp_release_queue_work because accept_work is still using queue struct after unlocking sk_callback_lock.
+
+
+But sk->sk_user_data was not set, so I don't see how the release work can invoke.
+
+> What about this instead?
+> --
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c 
+> index c41902f7ce39..6388d18ca7c2 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1494,16 +1494,28 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+>                   ip_sock_set_tos(sock->sk, inet->rcv_tos);
+> 
+>           write_lock_bh(&sock->sk->sk_callback_lock);
+> -       sock->sk->sk_user_data = queue;
+> -       queue->data_ready = sock->sk->sk_data_ready;
+> -       sock->sk->sk_data_ready = nvmet_tcp_data_ready;
+> -       queue->state_change = sock->sk->sk_state_change;
+> -       sock->sk->sk_state_change = nvmet_tcp_state_change;
+> -       queue->write_space = sock->sk->sk_write_space;
+> -       sock->sk->sk_write_space = nvmet_tcp_write_space;
+> +       switch (sk->sk_state) {
+> +       case TCP_FIN_WAIT1:
+> +       case TCP_CLOSE_WAIT:
+> +       case TCP_CLOSE:
+> +               /*
+> +                * If the socket is already closing, don't even start
+> +                * consuming it
+> +                */
+> +               ret = -ENOTCONN;
+> +               break;
+> +       default:
+> +               sock->sk->sk_user_data = queue;
+> +               queue->data_ready = sock->sk->sk_data_ready;
+> +               sock->sk->sk_data_ready = nvmet_tcp_data_ready;
+> +               queue->state_change = sock->sk->sk_state_change;
+> +               sock->sk->sk_state_change = nvmet_tcp_state_change;
+> +               queue->write_space = sock->sk->sk_write_space;
+> +               sock->sk->sk_write_space = nvmet_tcp_write_space;
+> +       }
+>           write_unlock_bh(&sock->sk->sk_callback_lock);
+> 
+> -       return 0;
+> +       return ret;
+>    }
+> --
+> 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
