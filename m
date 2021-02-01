@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9C5C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 10:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA143C433E6
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 10:14:37 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 81B8764DB2
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 10:14:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81B8764DB2
+	by mail.kernel.org (Postfix) with ESMTPS id 5E9FA64DB2
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 10:14:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5E9FA64DB2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,39 +24,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Eqn5+riNGZJkG15ypKrGfWl3288bLd5Bg75ycXdi6zk=; b=t36WOoRy0D3SE1/d28iaakvDH
-	Eq3DyDafIUqPIZEZLi3k2N2JMRhynTkHuQjZtT4w6ykzZrVJrL1Z5tTaa0ZbYRO9V4Oj8TqT42Onk
-	aIWM3RaH9AXeVnLllbyMPDafmCwK5kOqGo4UKPi7h6gPb4vVGGIFVNUQDoECbF8Rttn94vHoxvPTt
-	l83seQkTntW/LJQ4zpKsGpbkphCbGLxXNK1U+quniJFQhdamPzJmVdyI2OPn1zbzr0WsJtquDwmsu
-	9yUUNTnRvkaTSOn+GNYuqsbfnuVPUbzJRxrwp2rYEfbRLg+JnM3eeH6A0nY4/GkUG5dRdEoL2mgF4
-	DSDwm13TA==;
+	 bh=T91//PCQVzVAY+HV2ZrI0qfFiB2qkF95Icppw8RWzV8=; b=i5BTsdo1v6Ek/ufOOcU3AcnBk
+	JVMKqhFF/5/IIcocXWlKhJakhJ1ny740xOAKxxHq+SrYt/aEXKAZjxfCvS/wsXj1EEalqASVEuyqt
+	Gb1KXt0VNkkJySS9nYl5nzIVLqsFKrKiHiOq7hg/GKFwAM1hXmtUz65tSVLTzrqCnIvUTdgALjZhI
+	yXuw1sL0tqrXonNSKg4cZEV/cBhHm5je8hSnBaSHegZhZ/faN5N+K2Q+LnXf4z3a0FaZurpAT4uXE
+	7e4tYQWfN43jjj5lPBPIxR/85sCCYiikD0ZYN+9DwZ8Yx+zk6nbDJ7FZxkO4p6+k4oVz67kb47uG/
+	e03jAZdiA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l6WDz-0007pE-Qx; Mon, 01 Feb 2021 10:14:27 +0000
+	id 1l6WE3-0007r7-6Y; Mon, 01 Feb 2021 10:14:31 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l6W59-00042Z-7G
- for linux-nvme@lists.infradead.org; Mon, 01 Feb 2021 10:05:24 +0000
+ id 1l6W59-00042R-9F
+ for linux-nvme@lists.infradead.org; Mon, 01 Feb 2021 10:05:25 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  borisp@mellanox.com) with SMTP; 1 Feb 2021 12:05:13 +0200
 Received: from gen-l-vrt-133.mtl.labs.mlnx. (gen-l-vrt-133.mtl.labs.mlnx
  [10.237.11.160])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 111A5C02029353;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 111A5Cxv029353;
  Mon, 1 Feb 2021 12:05:13 +0200
 From: Boris Pismenny <borisp@mellanox.com>
 To: dsahern@gmail.com, kuba@kernel.org, davem@davemloft.net, saeedm@nvidia.com,
  hch@lst.de, sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org,
  viro@zeniv.linux.org.uk, edumazet@google.com, smalin@marvell.com
-Subject: [PATCH v3 net-next  09/21] nvme-tcp: Deal with netdevice DOWN events
-Date: Mon,  1 Feb 2021 12:04:57 +0200
-Message-Id: <20210201100509.27351-10-borisp@mellanox.com>
+Subject: [PATCH v3 net-next 04/21] net: SKB copy(+hash) iterators for DDP
+ offloads
+Date: Mon,  1 Feb 2021 12:04:52 +0200
+Message-Id: <20210201100509.27351-5-borisp@mellanox.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20210201100509.27351-1-borisp@mellanox.com>
 References: <20210201100509.27351-1-borisp@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210201_050519_772203_FF082F7C 
-X-CRM114-Status: GOOD (  16.72  )
+X-CRM114-CacheID: sfid-20210201_050519_987934_AA87A77E 
+X-CRM114-Status: GOOD (  14.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,117 +70,116 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Yoray Zack <yorayz@mellanox.com>, yorayz@nvidia.com,
- boris.pismenny@gmail.com, Ben Ben-Ishay <benishay@mellanox.com>,
- benishay@nvidia.com, linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- Or Gerlitz <ogerlitz@mellanox.com>, ogerlitz@nvidia.com
+ boris.pismenny@gmail.com, benishay@nvidia.com, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, Or Gerlitz <ogerlitz@mellanox.com>,
+ ogerlitz@nvidia.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Or Gerlitz <ogerlitz@mellanox.com>
+From: Ben Ben-ishay <benishay@nvidia.com>
 
-For ddp setup/teardown and resync, the offloading logic
-uses HW resources at the NIC driver such as SQ and CQ.
+This commit introduces new functions to support direct data placement
+operation, when using direct data placement the copy of the data from
+the SKB to the destination buffer might be unnecessary and thus the
+copy should be skipped, those functions take care of it in cases that
+the destination buffer is represented by bio_vec.
 
-These resources are destroyed when the netdevice does down
-and hence we must stop using them before the NIC driver
-destroys them.
-
-Use netdevice notifier for that matter -- offloaded connections
-are stopped before the stack continues to call the NIC driver
-close ndo.
-
-We use the existing recovery flow which has the advantage
-of resuming the offload once the connection is re-set.
-
-This also buys us proper handling for the UNREGISTER event
-b/c our offloading starts in the UP state, and down is always
-there between up to unregister.
-
-Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
 Signed-off-by: Boris Pismenny <borisp@mellanox.com>
-Signed-off-by: Ben Ben-Ishay <benishay@mellanox.com>
+Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
+Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
 Signed-off-by: Yoray Zack <yorayz@mellanox.com>
 ---
- drivers/nvme/host/tcp.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ include/linux/skbuff.h |  5 +++++
+ net/core/datagram.c    | 44 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index eb47cf6982d7..5f6eed3a9bc5 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -146,6 +146,7 @@ struct nvme_tcp_ctrl {
- 
- static LIST_HEAD(nvme_tcp_ctrl_list);
- static DEFINE_MUTEX(nvme_tcp_ctrl_mutex);
-+static struct notifier_block nvme_tcp_netdevice_nb;
- static struct workqueue_struct *nvme_tcp_wq;
- static const struct blk_mq_ops nvme_tcp_mq_ops;
- static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
-@@ -2930,6 +2931,27 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 	return ERR_PTR(ret);
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 32c5ab8e2f67..79fdcdd1261b 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -3546,6 +3546,8 @@ __poll_t datagram_poll(struct file *file, struct socket *sock,
+ 			   struct poll_table_struct *wait);
+ int skb_copy_datagram_iter(const struct sk_buff *from, int offset,
+ 			   struct iov_iter *to, int size);
++int skb_ddp_copy_datagram_iter(const struct sk_buff *from, int offset,
++			       struct iov_iter *to, int size);
+ static inline int skb_copy_datagram_msg(const struct sk_buff *from, int offset,
+ 					struct msghdr *msg, int size)
+ {
+@@ -3556,6 +3558,9 @@ int skb_copy_and_csum_datagram_msg(struct sk_buff *skb, int hlen,
+ int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
+ 			   struct iov_iter *to, int len,
+ 			   struct ahash_request *hash);
++int skb_ddp_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
++					struct iov_iter *to, int len,
++					struct ahash_request *hash);
+ int skb_copy_datagram_from_iter(struct sk_buff *skb, int offset,
+ 				 struct iov_iter *from, int len);
+ int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *frm);
+diff --git a/net/core/datagram.c b/net/core/datagram.c
+index 81809fa735a7..bbc476cadc71 100644
+--- a/net/core/datagram.c
++++ b/net/core/datagram.c
+@@ -495,6 +495,25 @@ static int __skb_datagram_iter(const struct sk_buff *skb, int offset,
+ 	return 0;
  }
  
-+static int nvme_tcp_netdev_event(struct notifier_block *this,
-+				 unsigned long event, void *ptr)
++/**
++ *	skb_ddp_copy_and_hash_datagram_iter - Copies datagrams from skb frags to
++ *	an iterator and update a hash. If the iterator and skb frag point to the
++ *	same page and offset, then the copy is skipped.
++ *	@skb: buffer to copy
++ *	@offset: offset in the buffer to start copying from
++ *	@to: iovec iterator to copy to
++ *	@len: amount of data to copy from buffer to iovec
++ *      @hash: hash request to update
++ */
++int skb_ddp_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
++					struct iov_iter *to, int len,
++					struct ahash_request *hash)
 +{
-+	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-+	struct nvme_tcp_ctrl *ctrl;
++	return __skb_datagram_iter(skb, offset, to, len, true,
++			ddp_hash_and_copy_to_iter, hash);
++}
++EXPORT_SYMBOL(skb_ddp_copy_and_hash_datagram_iter);
 +
-+	switch (event) {
-+	case NETDEV_GOING_DOWN:
-+		mutex_lock(&nvme_tcp_ctrl_mutex);
-+		list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list) {
-+			if (ndev != ctrl->offloading_netdev)
-+				continue;
-+			nvme_tcp_error_recovery(&ctrl->ctrl);
-+		}
-+		mutex_unlock(&nvme_tcp_ctrl_mutex);
-+		flush_workqueue(nvme_reset_wq);
-+		/* we assume that the going down part of error recovery is over */
-+	}
-+	return NOTIFY_DONE;
+ /**
+  *	skb_copy_and_hash_datagram_iter - Copy datagram to an iovec iterator
+  *          and update a hash.
+@@ -513,6 +532,31 @@ int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
+ }
+ EXPORT_SYMBOL(skb_copy_and_hash_datagram_iter);
+ 
++static size_t simple_ddp_copy_to_iter(const void *addr, size_t bytes,
++				      void *data __always_unused,
++				      struct iov_iter *i)
++{
++	return ddp_copy_to_iter(addr, bytes, i);
 +}
 +
- static struct nvmf_transport_ops nvme_tcp_transport = {
- 	.name		= "tcp",
- 	.module		= THIS_MODULE,
-@@ -2944,13 +2966,26 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
- 
- static int __init nvme_tcp_init_module(void)
++/**
++ *	skb_ddp_copy_datagram_iter - Copies datagrams from skb frags to an
++ *	iterator. If the iterator and skb frag point to the same page and
++ *	offset, then the copy is skipped.
++ *	@skb: buffer to copy
++ *	@offset: offset in the buffer to start copying from
++ *	@to: iovec iterator to copy to
++ *	@len: amount of data to copy from buffer to iovec
++ */
++int skb_ddp_copy_datagram_iter(const struct sk_buff *skb, int offset,
++			       struct iov_iter *to, int len)
++{
++	trace_skb_copy_datagram_iovec(skb, len);
++	return __skb_datagram_iter(skb, offset, to, len, false,
++			simple_ddp_copy_to_iter, NULL);
++}
++EXPORT_SYMBOL(skb_ddp_copy_datagram_iter);
++
+ static size_t simple_copy_to_iter(const void *addr, size_t bytes,
+ 		void *data __always_unused, struct iov_iter *i)
  {
-+	int ret;
-+
- 	nvme_tcp_wq = alloc_workqueue("nvme_tcp_wq",
- 			WQ_MEM_RECLAIM | WQ_HIGHPRI, 0);
- 	if (!nvme_tcp_wq)
- 		return -ENOMEM;
- 
-+	nvme_tcp_netdevice_nb.notifier_call = nvme_tcp_netdev_event;
-+	ret = register_netdevice_notifier(&nvme_tcp_netdevice_nb);
-+	if (ret) {
-+		pr_err("failed to register netdev notifier\n");
-+		goto out_err_reg_notifier;
-+	}
-+
- 	nvmf_register_transport(&nvme_tcp_transport);
- 	return 0;
-+
-+out_err_reg_notifier:
-+	destroy_workqueue(nvme_tcp_wq);
-+	return ret;
- }
- 
- static void __exit nvme_tcp_cleanup_module(void)
-@@ -2958,6 +2993,7 @@ static void __exit nvme_tcp_cleanup_module(void)
- 	struct nvme_tcp_ctrl *ctrl;
- 
- 	nvmf_unregister_transport(&nvme_tcp_transport);
-+	unregister_netdevice_notifier(&nvme_tcp_netdevice_nb);
- 
- 	mutex_lock(&nvme_tcp_ctrl_mutex);
- 	list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list)
 -- 
 2.24.1
 
