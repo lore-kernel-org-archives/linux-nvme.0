@@ -2,20 +2,19 @@ Return-Path: <SRS0=DeHG=HD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE920C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 18:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85AC9C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 18:06:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EDC2364EBD
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 18:03:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDC2364EBD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 478BA64DAE
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 18:06:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 478BA64DAE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -23,35 +22,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lhnyRNbl3txDbREFgW8xgklj0hjTO3TB75tuOY2/0x0=; b=PXZwzOJb73sFrsTVZT3S05jHX
-	DKnrn+1eLLcl1si+gIgSGhcJMEWzb8O9H5xVrVJ+NhE70Zj+gIZQA5lgyiUWhcQ/Rhpuskm7NikLl
-	Xan45rvfd3lCnlEz0eYWsrOSMitDe4YcPZ8GN6fyzof3kIzvSMhu3beGFB6idF4iuh4xr6VEbyX53
-	6hc5r3g2ue1fsXMKUD4v1U9tePso8lrWICAh+lt0aK7Q+xZDPzWuUDMOZ3tHnEVttL7skjbyyt03F
-	ee+AHHgMIGCheU3n6p+nqsb82aJU4TKF9LBw9y9suiFO3AWYoOoqVz5PDPPJQZzCHDqJ8mA0iBKz7
-	RBPOQcUwg==;
+	 bh=v3KbKPp+3QD+1hcNyarDApeJZOOp50rTJ8VSKaM7lfk=; b=fl5ythvcAmF0Axc727PsDN030
+	bDi3r+QiWWT1dC9eI3wF9aoPEuV0owYVgBojBSkRa88NWWyc2UlHjPiOBbL7psCicir3IBNg6psM/
+	P+t04cVF7NqZq+hAgirSdjwdnNHfZLMJItf91RvDyxT0MZB9NpzyfVvhwZhMJHsN1O4ce0MOeuBok
+	YpS81d+uoIYNmlNG0wr5cnVxlYEIg8dilEyxgSFLx0Xeu3fhdJ3K6rMMDSTpW6vgUwvZpTeXGIxk/
+	jNylNmw+RFDgEWgFaPzl43bJTEiW3HC8f3EunexDYfolLxTsM8/1h1DWybxoQV5jMF7pc3EFAevkj
+	eYY1cKFAg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l6dXU-0001kQ-2w; Mon, 01 Feb 2021 18:03:04 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1l6dav-00020W-I2; Mon, 01 Feb 2021 18:06:37 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l6dXQ-0001jp-IM
- for linux-nvme@lists.infradead.org; Mon, 01 Feb 2021 18:03:02 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 1D6E26736F; Mon,  1 Feb 2021 19:02:58 +0100 (CET)
-Date: Mon, 1 Feb 2021 19:02:57 +0100
-From: "hch@lst.de" <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: Buffer I/O Errors from Zoned NVME devices
-Message-ID: <20210201180257.GA14971@lst.de>
-References: <BYAPR04MB56561E48A54530BC7F6DCF30EAB69@BYAPR04MB5656.namprd04.prod.outlook.com>
- <20210201175306.GA2127465@dhcp-10-100-145-180.wdc.com>
+ id 1l6dat-0001zw-5o
+ for linux-nvme@lists.infradead.org; Mon, 01 Feb 2021 18:06:36 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E613064DAE;
+ Mon,  1 Feb 2021 18:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612202794;
+ bh=jBixFA9Yju8fU3gC8qCP8B/CoWgq7ulAIUcKuzXChRY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uWfbzSsA7GdKf5jF9OlHncmGFckbPS8A7qub8UwSUlYOd3zTkNUY3ZPmSQb+cWn/v
+ KVh6ZAKdTzXaIX6pfWcqyZoARSP+txju4gA6GgHmqQkLNKF3YuiK5saeev2rbVIl5A
+ hP0dF1WHnDFBya6tHnQ1Jv6DzlATNrcgQc+T3dCvgCk+IRymNFaJCQDgvLSaZzOVyT
+ MnZaZMIeCwGayvR+TxkkAUr21gPL5ZAExqRlP3P5LrH+ZnndN7fsI2N0hFgfLQvv3U
+ u2dDpAGHOc+JL6m2/n3vJKOYOLy2t7UBuGkYnk+38TNza+M2NAA4gWkmI6zFs+M2nU
+ r8Mh/IUlDZmdQ==
+Date: Mon, 1 Feb 2021 10:06:31 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: "Belanger, Martin" <Martin.Belanger@dell.com>
+Subject: Re: How to submit bugs for the nvme kernel modules?
+Message-ID: <20210201180631.GB2127465@dhcp-10-100-145-180.wdc.com>
+References: <SJ0PR19MB45442FC3EA568AD0D5FFFE9BF2B69@SJ0PR19MB4544.namprd19.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210201175306.GA2127465@dhcp-10-100-145-180.wdc.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <SJ0PR19MB45442FC3EA568AD0D5FFFE9BF2B69@SJ0PR19MB4544.namprd19.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210201_130300_777698_9E7A2F3D 
-X-CRM114-Status: GOOD (  15.58  )
+X-CRM114-CacheID: sfid-20210201_130635_318043_182E9597 
+X-CRM114-Status: GOOD (  12.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,38 +70,25 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Jeffrey Lien <Jeff.Lien@wdc.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 01, 2021 at 09:53:06AM -0800, Keith Busch wrote:
-> On Mon, Feb 01, 2021 at 02:36:12PM +0000, Jeffrey Lien wrote:
-> > Christoph, Keith
-> > We're seeing a lot of these Buffer I/O errors with our zoned nvme devices.  One of the FW developers looked into it and had the following explanation:
-> > All these Reads are from the kernel during enumeration and for LBAs that are in last zone's hole hence expected to return boundary error which is getting logged by kernel.
-> > 
-> > [65281.936988] Buffer I/O error on dev nvme1n2, logical block 3800039296, async page read
-> > [65281.937165] blk_update_request: I/O error, dev nvme1n2, sector 3800039297 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
-> > [65281.937166] Buffer I/O error on dev nvme1n2, logical block 3800039297, async page read
-> > [65281.937335] blk_update_request: I/O error, dev nvme1n2, sector 3800039298 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
-> > [65281.937336] Buffer I/O error on dev nvme1n2, logical block 3800039298, async page read
-> > [65281.937498] blk_update_request: I/O error, dev nvme1n2, sector 3800039299 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
-> > 
-> > Are you aware of this issue and if so, do you have any recommendations on how to avoid or resolve?  
+On Mon, Feb 01, 2021 at 05:53:48PM +0000, Belanger, Martin wrote:
+> Hi,
 > 
-> Is this from the partition scanning? We don't partition zoned devices,
-> so I think we can skip it. Does the following resolve the issue?
+> How does one submit a bug against the nvme kernel modules. I found the
+> GitHub for the user space nvme utilities
+> (https://github.com/linux-nvme/), but I assume that's not the right
+> place to file bugs against the kernel modules (or is it?).
 
-We already have special zoned device handling in the partitioning code.
+You can send nvme kernel bug reports to this mailing list. Some people
+also use https://bugzilla.kernel.org/.
 
-But NVMe should make sure to never span a zone boundary as we set the
-chunk size to avoid that.
-
-What kernel version is this?  Is CONFIG_BLK_DEV_ZONED enabled?
+The github link you found is just for user space tools and is not used
+for kernel issues.
 
 _______________________________________________
 Linux-nvme mailing list
