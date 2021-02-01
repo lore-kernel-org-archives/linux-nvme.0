@@ -2,19 +2,19 @@ Return-Path: <SRS0=DeHG=HD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A90C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 17:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F27C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 17:27:38 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F2C1064EAA
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 17:24:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F2C1064EAA
+	by mail.kernel.org (Postfix) with ESMTPS id 825EA64EAA
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Feb 2021 17:27:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 825EA64EAA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EK3iQdfOSIyu9xv/k1LhGSyzqpM3BHSDUVb3U40Y0Ws=; b=PIMY2VGlwOn5AR4iGUPA7Ag0m
-	MOH/8dhJ77Ooh6wnoPy9Ezy5vsC/UKmFgxL42U1bsOHQj1z4w+fhzqfE/DuPwwSSXQCVxFkZEg7r2
-	gJEW1Q0uAsxIuYy7tQjNYXfBIBlpgasBSW/mTb1UEnc+tgg1P5uYz9sBsmrx0ATWgEYRn/LYcVRNJ
-	mFwvQSyndDM59Wn7S0lghXc4/Ws3VzpVGYofW6Ayq3JJ+EA1/fphuWX1X8xwiK93P8vnENM2XbxpK
-	CLH9zkqvLfskxpcFYx0F0GhOfM9DXymlA2GokDYS4TZ8EmWqqREazgUAAnVRU/4v3/Vdvxorz1p8d
-	MNqMBLKGQ==;
+	 bh=87g4QxQIctDnrHinFGZKwSbD070rZumnAx2pC2+3b5w=; b=KLRIJJuyS/AAPKokxZS4rSb3B
+	UAcS377CLJYzcGGVVmkXDaDSVHMIdwutsCEU0DmU99RexZ2+18nStakcKqsU2cVlXDCkMpqCvZiqd
+	aZgr32nIUqtsmG0nU/HaOvpUW9ETqduXRQJAMltONQKcJ0lWK3De7CqBt5ZPV6sh5ckVJgSpYvPT2
+	hhqLz1HDl5OIK11653EshRVihnFsKoF7I64koLl274qRjbInu7RXw0sjNdkxy1jymtY9yMfTXv4JP
+	cBpyezuGH0FRhgH8UZbhf7Y0SEuCooTEUD+tdvwnUsJpc4li2G881uADkwvhoEPz1at4Jtmfw7n21
+	8/fTUbofw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l6cwR-0005hv-OM; Mon, 01 Feb 2021 17:24:47 +0000
+	id 1l6cz9-0005v0-2e; Mon, 01 Feb 2021 17:27:35 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l6cwN-0005hJ-IG
- for linux-nvme@lists.infradead.org; Mon, 01 Feb 2021 17:24:44 +0000
+ id 1l6cz6-0005ud-Ro
+ for linux-nvme@lists.infradead.org; Mon, 01 Feb 2021 17:27:33 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 26FD26736F; Mon,  1 Feb 2021 18:24:39 +0100 (CET)
-Date: Mon, 1 Feb 2021 18:24:38 +0100
+ id BAA256736F; Mon,  1 Feb 2021 18:27:30 +0100 (CET)
+Date: Mon, 1 Feb 2021 18:27:30 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH 01/10] nvmet: zeroout id-ns buffer for invalid nsid
-Message-ID: <20210201172438.GB12054@lst.de>
+Subject: Re: [PATCH 03/10] nvmet: set error in nvmet_find_namespace()
+Message-ID: <20210201172730.GC12054@lst.de>
 References: <20210201054138.34324-1-chaitanya.kulkarni@wdc.com>
- <20210201054138.34324-2-chaitanya.kulkarni@wdc.com>
+ <20210201054138.34324-4-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210201054138.34324-2-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20210201054138.34324-4-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210201_122443_745157_EED1BC8A 
-X-CRM114-Status: GOOD (  24.78  )
+X-CRM114-CacheID: sfid-20210201_122733_437362_304144A4 
+X-CRM114-Status: UNSURE (   9.06  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,65 +70,11 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jan 31, 2021 at 09:41:29PM -0800, Chaitanya Kulkarni wrote:
-> According to spec :-
-> "5.15.2.7 Identify Namespace data structure for an Allocated Namespace
-> ID (CNS 11h) The Identify Namespace data structure (refer to Figure 245)
-> is returned to the host for the namespace specified in the Namespace
-> Identifier (NSID) field if it is an allocated NSID. If the specified
-> namespace is an unallocated NSID then the controller returns a zero
-> filled data structure."
-> 
-> Move call to nvmet_find_namespace() in nvmet_execute_identify_ns()
-> above the id-ns buffer allocation since there is no point in allocating
-> a buffer if namespace doesn't exist. Call nvmet_zero_sgl() when call to
-> nvmet_find_namespace() fails and add an explicit comment to specify the
-> reason for zeroing the buffer which is not common for the NVMe commands.
-> Remove the done label and we can directly jump to out label from
-> nvmet_find_namespace() error case.
-> 
-> Fixes: bffcd507780e ("nvmet: set right status on error in id-ns handler")
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> ---
->  drivers/nvme/target/admin-cmd.c | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 613a4d8feac1..8cc7bb25d10d 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -476,19 +476,25 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
->  		goto out;
->  	}
->  
-> +	req->ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
-> +	if (!req->ns) {
-> +		status = NVME_SC_INVALID_NS;
-> +		/*
-> +		 * According to spec : If the specified namespace is
-> +		 * an unallocated NSID then the controller returns a zero filled
-> +		 * data structure. Also don't override the error status as invalid
-> +		 * namespace takes priority over the failed zeroout buffer case.
-> +		 */
-> +		nvmet_zero_sgl(req, 0, sizeof(*id));
-> +		goto out;
-> +	}
-> +
->  	id = kzalloc(sizeof(*id), GFP_KERNEL);
->  	if (!id) {
->  		status = NVME_SC_INTERNAL;
->  		goto out;
->  	}
->  
-> -	/* return an all zeroed buffer if we can't find an active namespace */
-> -	req->ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
-> -	if (!req->ns) {
-> -		status = NVME_SC_INVALID_NS;
-> -		goto done;
+This does look like a nice cleanup, but I think we also need to
+rename the function now that it does not return the nvmet_ns
+but only sets it in the nvmet_req structure.
 
-I think all we need to do is to remove the status assignment here.
-While you're patch avoids the memory allocation for this case, it isn't
-really the fast path so I'd rather avoid the extra code.
+What about nvmet_req_find_namespace?
 
 _______________________________________________
 Linux-nvme mailing list
