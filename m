@@ -2,67 +2,89 @@ Return-Path: <SRS0=QQ4x=HE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C32E1C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 15:23:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A8FC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 17:43:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4625964E40
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 15:23:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4625964E40
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 741C464F5F
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 17:43:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 741C464F5F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3tJ7u9WyijkzCvz5W8g31xYXoKUfUPYYZ3h8lvQ84kQ=; b=tpfE5/bbegY+B3gH8BG+hC3lU
-	5rqOmreT1o3t/MBdECQLtVFX+F6S5h7l6oaBSQB3VQBSqj3ZdBriLpLu4DuFLx3d7BaH1MECWBMmm
-	5V3A8WnP9NNtp0Nm1Hvm/D3nX1OuALL8YKEui/DuKhRCQXKq5fVb4CUCgjUq2DmCZSfiJ/GJMYB4J
-	oPpIScitwDnsnp6SGC9aX35sJW+QvyYA+Pbqib1VfWh62FbC8U15TP7AgfZTxbDT4XWqxJSpzQCEx
-	JTOshKWdvFX2EKt/RkPqu9loMH8//AF3bsGWuPe9B6GzvOfcTrVvsWRGBkuaflC2sYBY1RhxYTRJt
-	tcsh8/iJw==;
+	 bh=nSwpRv8tGGTr7A70PYM7pLCddPR4P3PmuPzOfB6xy6k=; b=xLe0+Oj1XS/QZNKolVXYMklG1
+	XMUgFz2iXBPEXCMH6aUqIKEt9YU3nYdYkeJsBy5wpAQp8l/Iuiug4MdfGGB7RlNERvrcrnKHzJgUK
+	WOQo/5Xk/ub/JY5dAMcd2cu81lvFU14QnUGyiI/P2SXzoGls5YSutECs2p4aotWFCmrY7ThIPtbDF
+	1dXZkiv85J524018qGW0dB4KFBQ1tQyfnw+QexFk7hngZ9BL8zg12yLwHRc4I3ajGbrJyHMVY241T
+	NR5+MSzfTEi35ghEko1lEU0w0bY+hoYn+CP3LzGVyTH0Rn7W1w+maqmLJNWPWf/Ixa6pkgJuhbhLN
+	yLvAL+9VA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l6xW5-00080a-2i; Tue, 02 Feb 2021 15:22:57 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1l6ziC-0008TH-HG; Tue, 02 Feb 2021 17:43:36 +0000
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l6xW2-000807-FP
- for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 15:22:55 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C178A64E9E;
- Tue,  2 Feb 2021 15:22:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612279373;
- bh=2vGmfZdLHPk5Iqf5ytlSV/TRN04rjbPOAXIjCMheVMY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B2UdaUnzNqyILVaPV0i4GPdsq5PVThHLFOG7FVE1xLYMUPJ4OhxInlFA+Pcc6E3hv
- RYfokG/dZmWcX+7nBTPtzAy1f0ur1uPm06vENXsSWdw6d0lEpNerU28izdry/NnbUr
- Y70VC//QKBPC5Fb+Cmp94mB1wnJsdBzrS357pPEjojCrbtZx8o3qnYxQyzs60ENaXb
- ozqyII90KtWPO2BzK/2mug72eZkVN+769qHuiEF3aYPCDR5URtrMRzrfQHw9eB2V9E
- ezLe6mAxYl67MPhkewBkCdJ+nDMbt6FEINmylgcrO1qWMkvvmr7V569ztjQFe/qyz+
- 7fDpFN3brKbwA==
-Date: Tue, 2 Feb 2021 07:22:50 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Jeffrey Lien <Jeff.Lien@wdc.com>
-Subject: Re: Buffer I/O Errors from Zoned NVME devices
-Message-ID: <20210202152250.GB2128135@dhcp-10-100-145-180.wdc.com>
-References: <BYAPR04MB56561E48A54530BC7F6DCF30EAB69@BYAPR04MB5656.namprd04.prod.outlook.com>
- <20210201175306.GA2127465@dhcp-10-100-145-180.wdc.com>
- <20210201180257.GA14971@lst.de>
- <BL0PR04MB65142D8FBF2B6BC88E32DCCEE7B69@BL0PR04MB6514.namprd04.prod.outlook.com>
- <BYAPR04MB5656F20169A935B9100ADC1DEAB59@BYAPR04MB5656.namprd04.prod.outlook.com>
+ id 1l6zi9-0008S7-QO
+ for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 17:43:34 +0000
+Received: by mail-io1-xd35.google.com with SMTP id u8so17128168ior.13
+ for <linux-nvme@lists.infradead.org>; Tue, 02 Feb 2021 09:43:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=AtD0BtUx5Er+Wsi4ZVwrP5AJ9In+NpH9yW0BLmuixe0=;
+ b=bPV17FHWE0VwzkPPxZvIBGx6tBb0G+Rmuk2Gj3jqdZF4eNHK77gdFJLn6UGqO4OXWc
+ QKRuR1OacuOQ/q1k9Ldj0NB0kQ6p4eNUPOBm6h2ck2MXlv7Kku1WKISsfD7EfRIqLw8r
+ pAo/abXOMZQMIIi1L6MZbD+q7DmZaYxa14RCNglqoVW0Of6M9vdiC2E8YAjwINe8bHGo
+ nOhe1Lsut9NLyJV1+tomd4FICxCP5Xof02/hxkGn7tfozrgSrbL5nPxwc9kkYS9Snx1R
+ KNKHadH840V/otPcZ6+mZsyYD+ZcDgeOyXpBGfbfcRXKV6vWrza/z5PYPFjvU+fDKzmJ
+ ak9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AtD0BtUx5Er+Wsi4ZVwrP5AJ9In+NpH9yW0BLmuixe0=;
+ b=SRd8aKFa/bH+6RHSgiVvoHEwA4++WIyUEQTVcdWJb1pZNOUUFzaHxrsrASH9eNEl9v
+ IzlDkHMyodvNumKp8VsxcIGBTrN9GwYzewyWvn4M5gvSy5rOzfu8Hp/5XXs6dz2iJu+X
+ jyo9FalZ/N2zqP3xwdYqK1HiN4Iuw164FdFqwkFL3Ue4mKU1VrQQI+3ltdcNFhnHr0Oo
+ Ixixu3KjkUWIMgvqcl+YEEV57SDV5ruORIEgKEPLPWoA2iWH+kjz6vSrhgeqj48h6JOe
+ lFF3spGeX39pQJnZ9PRmxVdZwKn5vT1xcL3C6y6vHvCZM6GUWuI9tt9KXzKpDcXyU0KB
+ 9pyQ==
+X-Gm-Message-State: AOAM5322/Y//vtgzmBtjYDLVfu7zaaSBusc3ukH8u2gs3Hpo+Gqyw1gF
+ +Jd6BqsihDg41LiZ/JKfsRWkORNmNIj8K6Vc
+X-Google-Smtp-Source: ABdhPJwFaAqjyYVbXyS580/67bS1Dm10Mi9A92fvnNillmxqvI/0Sj5e534TqKGoRt5PFqhr25f0rg==
+X-Received: by 2002:a05:6602:2e83:: with SMTP id
+ m3mr17823035iow.160.1612287809996; 
+ Tue, 02 Feb 2021 09:43:29 -0800 (PST)
+Received: from [192.168.1.30] ([65.144.74.34])
+ by smtp.gmail.com with ESMTPSA id x3sm610521iof.21.2021.02.02.09.43.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Feb 2021 09:43:29 -0800 (PST)
+Subject: Re: [GIT PULL] first round of nvme updates for 5.12
+To: Christoph Hellwig <hch@infradead.org>
+References: <YBkcYFf7hJfpK+vl@infradead.org>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <fba2a647-1885-f508-0f40-e3968b005cbe@kernel.dk>
+Date: Tue, 2 Feb 2021 10:43:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BYAPR04MB5656F20169A935B9100ADC1DEAB59@BYAPR04MB5656.namprd04.prod.outlook.com>
+In-Reply-To: <YBkcYFf7hJfpK+vl@infradead.org>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210202_102254_677697_25F5A4CB 
-X-CRM114-Status: GOOD (  26.86  )
+X-CRM114-CacheID: sfid-20210202_124333_870674_9581E65C 
+X-CRM114-Status: GOOD (  11.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,77 +96,21 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 02, 2021 at 03:06:22PM +0000, Jeffrey Lien wrote:
-> Keith, Christoph, Damien,
-> This errors are happening on both the 5.9 and 5.10.7 kernels.  CONFIG_BLK_DEV_ZONED is set to y in the .config file.   
-> 
-> I will try the patch to disable partition scanning that Keith suggested.  I'll also get the latest FW loaded and see if that resolves the issue.  
+On 2/2/21 2:33 AM, Christoph Hellwig wrote:
+>   git://git.infradead.org/nvme.git tags/nvme-5.21-2020-02-02
 
-After re-reading FW dev's explanation, it sounds like something is off
-with the implementation. The spec only allows a "boundary error" if
-you're crossing zones, but you said the reads are in the last zone, so
-there's no opprotunity to cross to the next zone. 
+Pulled, thanks.
 
-What did you mean by the "zone's hole"? Does this drive have ZCAP less
-than ZSZE and we're reading from unmapped LBAs? If so, I think we are
-supposed to be allowed to read these, but we just can't write them.
+-- 
+Jens Axboe
 
-
-> -----Original Message-----
-> From: Damien Le Moal <Damien.LeMoal@wdc.com> 
-> Sent: Monday, February 1, 2021 3:05 PM
-> To: hch@lst.de; Keith Busch <kbusch@kernel.org>
-> Cc: Jeffrey Lien <Jeff.Lien@wdc.com>; linux-nvme@lists.infradead.org
-> Subject: Re: Buffer I/O Errors from Zoned NVME devices
-> 
-> On 2021/02/02 3:03, hch@lst.de wrote:
-> > On Mon, Feb 01, 2021 at 09:53:06AM -0800, Keith Busch wrote:
-> >> On Mon, Feb 01, 2021 at 02:36:12PM +0000, Jeffrey Lien wrote:
-> >>> Christoph, Keith
-> >>> We're seeing a lot of these Buffer I/O errors with our zoned nvme devices.  One of the FW developers looked into it and had the following explanation:
-> >>> All these Reads are from the kernel during enumeration and for LBAs that are in last zone's hole hence expected to return boundary error which is getting logged by kernel.
-> >>>
-> >>> [65281.936988] Buffer I/O error on dev nvme1n2, logical block 
-> >>> 3800039296, async page read [65281.937165] blk_update_request: I/O 
-> >>> error, dev nvme1n2, sector 3800039297 op 0x0:(READ) flags 0x0 
-> >>> phys_seg 1 prio class 0 [65281.937166] Buffer I/O error on dev 
-> >>> nvme1n2, logical block 3800039297, async page read [65281.937335] 
-> >>> blk_update_request: I/O error, dev nvme1n2, sector 3800039298 op 
-> >>> 0x0:(READ) flags 0x0 phys_seg 1 prio class 0 [65281.937336] Buffer 
-> >>> I/O error on dev nvme1n2, logical block 3800039298, async page read 
-> >>> [65281.937498] blk_update_request: I/O error, dev nvme1n2, sector 
-> >>> 3800039299 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
-> >>>
-> >>> Are you aware of this issue and if so, do you have any recommendations on how to avoid or resolve?  
-> >>
-> >> Is this from the partition scanning? We don't partition zoned 
-> >> devices, so I think we can skip it. Does the following resolve the issue?
-> > 
-> > We already have special zoned device handling in the partitioning code.
-> 
-> Partitions are ignored and warning printed, but the partition table is still being read...
-> 
-> > 
-> > But NVMe should make sure to never span a zone boundary as we set the 
-> > chunk size to avoid that.
-> > 
-> > What kernel version is this?  Is CONFIG_BLK_DEV_ZONED enabled?
-> 
-> I had a very similar problem doing zonefs tests on Matias machine on a ZNS drive last week. The problem was the firmware... An upgrade to the latest version fixed the issue. Not sure what FW rev you are running here, but upgrading might solve this.
-> 
-> > 
-> 
-> 
-> --
-> Damien Le Moal
-> Western Digital Research
 
 _______________________________________________
 Linux-nvme mailing list
