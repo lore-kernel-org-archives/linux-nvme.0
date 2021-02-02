@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A71C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 18:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 207D5C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 18:10:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E7FE464E3D
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 18:01:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E7FE464E3D
+	by mail.kernel.org (Postfix) with ESMTPS id B670164F96
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 18:10:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B670164F96
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,60 +23,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0xE82TgYi8JGOCD2j2xxlpsZnGTtOCruSYECUickYMw=; b=KpTWlKbGMek7xhW+XZVFWUQDp
-	4JpsuJUyYx3KMZMja7PUEm4WoQOg20eb2KYNM31gR+y0HmwY3a40joRpfht8aBjLMjrnHja5yAHS+
-	alG19QZc0b0CEvxcmqNo46b00btO1ZAHXmpK/VQtCdtQz0y4IRpJnh4fdB5jENtetgplMx/LymoP1
-	bb12Kv2Hs8pEu+jCeovXzLiDrHzFwhQAa2GHZSVePAeCooA75lysdsvMl2UtUp3bPHVVKLdvJIFUw
-	R/4f3Q5aseV+thmcGSg30216YeHc3/bnz4ovLAvkic8Jfy8WUvu55gZSNosmuYT0aypd86UfuQXzE
-	TQActo7eg==;
+	 bh=qbyxWZ7iZCDagTJH3hRBxi8AtoiA6zKQ5MR9OK8GjqI=; b=vMz/6kgcu/q2ycCzEy3YPRhiD
+	4goiD88BR7o5nyA269zMT6NRhlWQH6j1Cs7Exkti2s+jXlcrrntBaOq7qANFiDIR77W2uEZZMVr7N
+	bEQLPuBDuIY6DFQqxl70wA+BTbKj4JOfIeN4tqWYOKJYs1GK6DxayOdLdpDP0lqP6wwUOxqmYstQ7
+	2AXRZUZPzRzIMNdhC/gWxCpIJNsUZ8etc/iqeTi6YxemZcAH9gk3G+nvXrnT4yYG53gJ067C8Y0nG
+	GUpYaOq8dP39O3fWRG+c04Z7DpWisEj61HuN648e/16eylxm3wx2qu0BFsgrmPrPtfgpli71Ev/RU
+	izpje7A1g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l6zzB-00024X-Bu; Tue, 02 Feb 2021 18:01:09 +0000
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32])
+	id 1l707q-0003K0-D0; Tue, 02 Feb 2021 18:10:06 +0000
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l6zz8-000242-P3
- for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 18:01:07 +0000
-Received: by mail-yb1-xb32.google.com with SMTP id s61so18029377ybi.4
- for <linux-nvme@lists.infradead.org>; Tue, 02 Feb 2021 10:01:04 -0800 (PST)
+ id 1l707n-0003J5-Si
+ for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 18:10:04 +0000
+Received: by mail-yb1-xb34.google.com with SMTP id i6so14949775ybq.5
+ for <linux-nvme@lists.infradead.org>; Tue, 02 Feb 2021 10:10:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v4jAtr3w+KdVnMekpGEVkBsIg1dKPD9qhThdBp+S/l0=;
- b=FQ7IY4mh+nYpIKM0TbDjFg2JoaOKUnc9PM1kdDo+KL1Cs1mIV97aJhZQ+lnE7/cS35
- 6zg+ndi7ZMkt+wtmb6Q3SX8MNhU4CWO/ywhyPnKbD9h/BZn1tiCdQfUXTCASSLEFCUuO
- eO64hfgBrtT2RmtPq+Z8sIgIUez/+rDZ+9QDAmZt17TXIYmA+jNOvqg/vyhB8lo1LNjm
- 02fi44eXdzBKISazTQ5JtcuehQzraBZm6DmB2VZNTKlmFFMpSVO7x8OzRiU+Qwj2T0XP
- e/B+CSjLRLcCjeWjUm7ekPX7oBLQU/rYOR4Uo9/qdx1ZOShEw8v5t7sctdwUMgWKih0e
- l65w==
+ :cc; bh=wWQWMpQ1iUqXAuM6iMemQjw0YP2w3Y/0NiHfP2vB73w=;
+ b=iJ/dTbF2EfUN5aP/5P9akEpw53P46bf+KKTWPVYy3Cjx87R0uaTD2eMXEi+riPIbRy
+ rt5CBWMMe+b8G3QNw8G3mtVBLcXUyw+qZDni7MQqBqJJAZyatmg+W2ATO32+AB/z7RJs
+ znFup8ui+7FrskxnUgTRLTE4Q47ZI2fQXHN0hY3qtZ05X/pT5gPr8ZcHpuZQGnz/XK96
+ aQBW9y2aSAG6j+yy4YpPI7wMbEJS3S1NIOmiX3oehp5GKfIcIvRlxu0TPROj2xPTQjtO
+ Z5xQXz/S9KjOVxHkzDYLnx+AdHHgkaxIH4FalcfwF/v9zcLl7rsyYkhwnd9UtljoGdsk
+ OC+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=v4jAtr3w+KdVnMekpGEVkBsIg1dKPD9qhThdBp+S/l0=;
- b=OQXimYUQZnaLLWd4daI5/KwSPkrc6I+3dKw11S5Mr7BOPOCtbo5ze68OrcXbCriXnZ
- oatwB9Z4jg5hxPb3B0LJwewo5gLi/TEBEP7oiqodUKtOwQ6sozMCKFkVUCDvFD7n16or
- ov+2cmvwwbJMFXIYkh7KAcSptzkxJbIfg+NpTTw4bMVK4t09jEDseOFmouOpOFlIP8bw
- lEzpzBHKiyojcjkmfSHeyRgbm32QKGhvky+325zY94kKstxXqGyYPP9SNopvVHDmP2E1
- 59PApkyFV6qHlNX3V+pR6kAZHU9n/I1Rh41YV9gQsC736ezulYMlwyV/c1hYSAEv9dm/
- kUTQ==
-X-Gm-Message-State: AOAM5336WAyilAugQCthwxURCa0SqkzF9X0eOW1k1TEiNO+dkuQPsr5J
- cJq8EoSmw14tvQ6aqplKoXXGNwcBYTvRiiAuSKs=
-X-Google-Smtp-Source: ABdhPJwkbvEbSU5cXXHfCmdD7X9SOuvrzPZ7/hIWOP+T0GImF/6eC+Xwn+3saCPR12kXniMMzTsP+EZj+GdVvLN5Gvk=
-X-Received: by 2002:a25:ba13:: with SMTP id t19mr34846787ybg.129.1612288863285; 
- Tue, 02 Feb 2021 10:01:03 -0800 (PST)
+ bh=wWQWMpQ1iUqXAuM6iMemQjw0YP2w3Y/0NiHfP2vB73w=;
+ b=OKfE/lT/X0R3x8ZoSSEC2ZK6BxTjXSDVU8zEVraGJ/wR/K2t2Jqat/EmXtVNk8S8wc
+ 8BFhgvXtfmOtdkxDT2AlMYrobcGPt7MlbnWZql1NQOihfi14DLZ8Cg3cnMZDYFTo3/pf
+ akCkky2QHCiV1OIwZxNc7kuY9zxALCGgUjSn/mclU3+2+rVBPbkfr+gVLaTMzOZGhgIi
+ HX/fPMqfOnHjI4Aep8PrDVOri5r1Xo5Xk8xVrxOoeRThCQ99XlWAjDTPAyW0UBIguDwG
+ iqbtpkfm7rchaQ5zbC7xJpoduyKwz9NVcDlTtHdHRwppoKPi+mlcZTdOPoJockHcwICb
+ 6Dxg==
+X-Gm-Message-State: AOAM530hGce0NEqlCtLc8G8/DpdsqY1vAeejTMPxrPAfwXtKP9havwjj
+ /3cBj8Zgg/cp/ni9cHso+gIAk7NQxSMve9gbBNU=
+X-Google-Smtp-Source: ABdhPJzcYBuKOmQdKrYJHwMIJBFsgUdt4Xgpb2L7VEOt4yzfgzVPHSpPjSNyPDdHccYL8mGIYqRfgijbhNb66bBEq6c=
+X-Received: by 2002:a25:858e:: with SMTP id x14mr34144460ybk.257.1612289401908; 
+ Tue, 02 Feb 2021 10:10:01 -0800 (PST)
 MIME-Version: 1.0
 References: <20210201100509.27351-1-borisp@mellanox.com>
- <20210201100509.27351-2-borisp@mellanox.com>
- <20210201173548.GA12960@lst.de>
-In-Reply-To: <20210201173548.GA12960@lst.de>
+ <20210201100509.27351-7-borisp@mellanox.com>
+ <20210201173719.GB12960@lst.de>
+In-Reply-To: <20210201173719.GB12960@lst.de>
 From: Or Gerlitz <gerlitz.or@gmail.com>
-Date: Tue, 2 Feb 2021 20:00:51 +0200
-Message-ID: <CAJ3xEMjLKoQe_OB_L+w2wwUGck74Gm6=GPA=CK73QpeFbXr7Bw@mail.gmail.com>
-Subject: Re: [PATCH v3 net-next 01/21] iov_iter: Introduce new procedures for
- copy to iter/pages
+Date: Tue, 2 Feb 2021 20:09:50 +0200
+Message-ID: <CAJ3xEMgnWKFkN3EOksLeqRMS+Ku-8oxOqwt1COkYwq5i1UYyJg@mail.gmail.com>
+Subject: Re: [PATCH v3 net-next 06/21] nvme-tcp: Add DDP offload control path
 To: Christoph Hellwig <hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210202_130106_842206_B0CC18E6 
-X-CRM114-Status: GOOD (  21.10  )
+X-CRM114-CacheID: sfid-20210202_131003_999012_2915328B 
+X-CRM114-Status: UNSURE (   9.51  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,67 +103,14 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 1, 2021 at 7:38 PM Christoph Hellwig <hch@lst.de> wrote:
-> On Mon, Feb 01, 2021 at 12:04:49PM +0200, Boris Pismenny wrote:
-> > +static __always_inline __must_check
-> > +size_t ddp_copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
-> > +{
-> > +     if (unlikely(!check_copy_size(addr, bytes, true)))
-> > +             return 0;
-> > +     else
-> > +             return _ddp_copy_to_iter(addr, bytes, i);
-> > +}
+On Mon, Feb 1, 2021 at 7:39 PM Christoph Hellwig <hch@lst.de> wrote:
+>> +static
+>> +int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
 >
-> No need for the else after a return, and the normal kernel convention
-> double underscores for magic internal functions.
-
-ack for the no-else-after-a-return
-
-Re the double underscoring, I was not sure, e.g the non-ddp counterpart
-(_copy_to_iter) is single underscored
-
-> But more importantly: does this belong into the generic header without
-> and comments what the ddp means and when it should be used?
-
-will look into this, any idea for a more suitable location?
-
-> > +static void ddp_memcpy_to_page(struct page *page, size_t offset, const char *from, size_t len)
->
-> Overly long line.  But we're also looking into generic helpers for
-> this kind of things, not sure if they made it to linux-next in the
-> meantime, but please check.
-
-This is what I found in linux-next - note sure if you were referring to it
-
-commit 11432a3cc061c39475295be533c3674c4f8a6d0b
-Author: David Howells <dhowells@redhat.com>
-
-    iov_iter: Add ITER_XARRAY
-
-> > +size_t _ddp_copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
-> > +{
-> > +     const char *from = addr;
-> > +     if (unlikely(iov_iter_is_pipe(i)))
-> > +             return copy_pipe_to_iter(addr, bytes, i);
-> > +     if (iter_is_iovec(i))
-> > +             might_fault();
-> > +     iterate_and_advance(i, bytes, v,
-> > +             copyout(v.iov_base, (from += v.iov_len) - v.iov_len, v.iov_len),
-> > +             ddp_memcpy_to_page(v.bv_page, v.bv_offset,
-> > +                                (from += v.bv_len) - v.bv_len, v.bv_len),
-> > +             memcpy(v.iov_base, (from += v.iov_len) - v.iov_len, v.iov_len)
-> > +             )
-> > +
-> > +     return bytes;
-> > +}
->
-> This bloats every kernel build, so please move it into a conditionally built file.
+> Please use the same coding style as the rest of the file, and not some
+> weirdo version.
 
 ack
-
->  And please document the whole thing.
-
-ok
 
 _______________________________________________
 Linux-nvme mailing list
