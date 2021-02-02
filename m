@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6716BC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99875C433E6
 	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 22:52:56 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0705964F6A
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 22:52:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0705964F6A
+	by mail.kernel.org (Postfix) with ESMTPS id 31D9364F72
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 22:52:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31D9364F72
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UoC5zOJntq24fyR1lMYl2nnF2W/IN/7ecAPQk7CU7n4=; b=eS+NWEc4gMvg9hF9dFr716/evZ
-	xqt4lyv5elfw1I2rpjRKwjcrNQa//O8gqYiPr3WF3YfSKnpHY2BgjSGy7LFmix1glc0CjYeUA/jTU
-	5UlYJ7bOfN7gouooSk9KuZu65/DX+W45bOhDfngmLsgK6YjhYYgDmdcdHC4Pk4wnAyFbeEi44bHBa
-	6rJLAPhtWU08U6T+C+k1NdbTEXjXE5NSi5YBl93Qpgkr/p0ucsXbqwHssd9sGU4EBisjtv2huNBZD
-	LFGGCopm8DmAzbff/oy/DzZiF6Xbryv9lSmJOcoD08znJsKwM8ZZnuwhYSv4H+zJ/ZfvJWOa0JgRi
-	H9MxNU8w==;
+	bh=qn42lBnq1VtPJ6vJdGgZ5ztsldSSN9LbkSgJCiBp750=; b=VyEVNneDOiq8QQ4+yTY9CgdWYf
+	QO+j1td8KFmmz8cZLIJP2Z5Vt52jxDLhMkEbc9oFt7ekehLt4YfZHxoysmH+Rdb7Hc7VY+0rWdOkx
+	M9xBRx+2xUsBmzw7mQAerBXg6USVgbU8+yuXLWI7zdnufJUPKRV8FDl06y5DwbQloeAaTZWWmKYV+
+	eOszNZorqnmRrnYw2Qimm6QE9UHh3JWopHpTAbm7p22/4Q699WL1AO5DDiHLI+bLr1+E7KJTx6my/
+	3Z7r29JJpueDe4ojJbn2eKwEJvo10IEGayKEV7DBwrt83JKTEFxsYaYdUNZz1z6EINAbWds31dAYp
+	qXsc6Ouw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l74XN-0000d4-JC; Tue, 02 Feb 2021 22:52:45 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1l74XQ-0000dw-SC; Tue, 02 Feb 2021 22:52:48 +0000
+Received: from mga14.intel.com ([192.55.52.115])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l74XJ-0000cd-RW
- for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 22:52:43 +0000
-IronPort-SDR: ITJEFbD0xxOU/z0AN1sIBDGcF709BGKevLgZqXqHUE3AI3S33dTf8JNfKEFfh9uVU1q61Peiop
- VV/1hHLaYQFg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9883"; a="181022567"
-X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; d="scan'208";a="181022567"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ id 1l74XN-0000d3-M7
+ for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 22:52:47 +0000
+IronPort-SDR: pUwj8FbldMYWCWLO/nl5jJRwGlZvgZqEqtYL8ZIVkJqy7OKgddnQ0PWHAIxB5gPcrHX5yOvI5w
+ v3s1f2kLbQ1Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9883"; a="180172927"
+X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; d="scan'208";a="180172927"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Feb 2021 14:52:40 -0800
-IronPort-SDR: 5tTDso63T45swK/6Am0iWFD/OoIaYdH/hp/y8MC+6qax+ZcE4axxzQ0vPh04J9/O7CGSAkZwUK
- +wLyc9sLXnlA==
+IronPort-SDR: mwXlMUZsuCkzhDa+AvHpGyOD/vbTVLJXm12IxWxFb2jMP7Etv/XcFq7yTwo1G52wfNFLWyOGwn
+ 3mJRPSjdHGDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; d="scan'208";a="507521867"
+X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; d="scan'208";a="433104723"
 Received: from lkp-server02.sh.intel.com (HELO 625d3a354f04) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 02 Feb 2021 14:52:39 -0800
+ by orsmga001.jf.intel.com with ESMTP; 02 Feb 2021 14:52:38 -0800
 Received: from kbuild by 625d3a354f04 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1l74XG-0009jX-DW; Tue, 02 Feb 2021 22:52:38 +0000
-Date: Wed, 03 Feb 2021 06:52:24 +0800
+ id 1l74XG-0009jR-8F; Tue, 02 Feb 2021 22:52:38 +0000
+Date: Wed, 03 Feb 2021 06:52:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-5.11] BUILD SUCCESS
- 46121fa7c2dc55bcbb729b6a2ab323aa1e8986cf
-Message-ID: <6019d7a8.IK+/fneCXftyxpm+%lkp@intel.com>
+Subject: [linux-nvme:nvme-5.12] BUILD SUCCESS
+ 563c81586d0ab2841487a61fb34d6e9cd5efded7
+Message-ID: <6019d7a3.aRcScetGqzreOAfa%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210202_175242_102216_52E1B18F 
-X-CRM114-Status: UNSURE (   8.46  )
+X-CRM114-CacheID: sfid-20210202_175245_920629_463B2932 
+X-CRM114-Status: UNSURE (   9.64  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -81,12 +81,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.11
-branch HEAD: 46121fa7c2dc55bcbb729b6a2ab323aa1e8986cf  update the email address for Keith Bush
+tree/branch: git://git.infradead.org/nvme.git nvme-5.12
+branch HEAD: 563c81586d0ab2841487a61fb34d6e9cd5efded7  nvme-tcp: use cancel tagset helper for tear down
 
 elapsed time: 727m
 
-configs tested: 167
+configs tested: 121
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -98,71 +98,34 @@ arm64                            allyesconfig
 arm64                               defconfig
 arm                              allyesconfig
 arm                              allmodconfig
-sh                           se7722_defconfig
-sh                        edosk7760_defconfig
-sh                        dreamcast_defconfig
-xtensa                  cadence_csp_defconfig
-m68k                          multi_defconfig
-c6x                        evmc6457_defconfig
-powerpc                      mgcoge_defconfig
-mips                        qi_lb60_defconfig
-mips                        nlm_xlr_defconfig
-powerpc                     kilauea_defconfig
 powerpc               mpc834x_itxgp_defconfig
 arm                        mvebu_v5_defconfig
 xtensa                          iss_defconfig
 sh                            hp6xx_defconfig
 arm                       spear13xx_defconfig
 mips                           ip22_defconfig
-arm                         socfpga_defconfig
-mips                      malta_kvm_defconfig
-powerpc                    klondike_defconfig
-powerpc                     ep8248e_defconfig
-parisc                generic-32bit_defconfig
-riscv                               defconfig
 powerpc                  mpc866_ads_defconfig
 arm                       imx_v6_v7_defconfig
 mips                          malta_defconfig
 arm                       multi_v4t_defconfig
 c6x                        evmc6474_defconfig
+m68k                          multi_defconfig
 s390                             alldefconfig
 arm                          exynos_defconfig
 sh                              ul2_defconfig
 powerpc                 mpc834x_mds_defconfig
-m68k                            q40_defconfig
-powerpc                     asp8347_defconfig
-powerpc                     stx_gp3_defconfig
-arc                          axs103_defconfig
 s390                       zfcpdump_defconfig
 powerpc                     mpc5200_defconfig
 arm                       omap2plus_defconfig
 mips                      pistachio_defconfig
 powerpc                 mpc85xx_cds_defconfig
-nios2                               defconfig
-openrisc                    or1ksim_defconfig
-nios2                         3c120_defconfig
-sh                          rsk7203_defconfig
-powerpc                       holly_defconfig
-mips                       lemote2f_defconfig
 arm                        cerfcube_defconfig
 arm                         mv78xx0_defconfig
-arm                         cm_x300_defconfig
-sh                           se7206_defconfig
-powerpc                     pq2fads_defconfig
-mips                             allyesconfig
-arm                      integrator_defconfig
-mips                        bcm63xx_defconfig
 powerpc                    sam440ep_defconfig
 arm                           omap1_defconfig
 mips                       capcella_defconfig
 mips                         cobalt_defconfig
 arm                        trizeps4_defconfig
-arm                            mmp2_defconfig
-powerpc                     tqm8555_defconfig
-arm                            hisi_defconfig
-m68k                            mac_defconfig
-m68k                           sun3_defconfig
-riscv                            allmodconfig
 sh                           se7750_defconfig
 sh                          rsk7264_defconfig
 um                           x86_64_defconfig
@@ -171,16 +134,6 @@ mips                     cu1830-neo_defconfig
 arm                             rpc_defconfig
 sh                            shmin_defconfig
 arm                          pxa910_defconfig
-i386                             allyesconfig
-arm                            pleb_defconfig
-arc                    vdk_hs38_smp_defconfig
-arm                          ep93xx_defconfig
-sh                           se7343_defconfig
-arm                          badge4_defconfig
-sparc                               defconfig
-mips                       rbtx49xx_defconfig
-mips                           ip32_defconfig
-mips                      maltasmvp_defconfig
 arm                           efm32_defconfig
 nios2                         10m50_defconfig
 c6x                              alldefconfig
@@ -190,20 +143,12 @@ arm                     davinci_all_defconfig
 arm                         axm55xx_defconfig
 sparc                       sparc64_defconfig
 powerpc                mpc7448_hpc2_defconfig
-powerpc                 mpc832x_rdb_defconfig
-powerpc                        fsp2_defconfig
-arm                        keystone_defconfig
-powerpc                      ppc40x_defconfig
-sh                            migor_defconfig
 ia64                             allmodconfig
 ia64                                defconfig
 ia64                             allyesconfig
 m68k                             allmodconfig
 m68k                                defconfig
 m68k                             allyesconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
 nds32                               defconfig
 nios2                            allyesconfig
 csky                                defconfig
@@ -217,9 +162,16 @@ parisc                              defconfig
 s390                             allyesconfig
 parisc                           allyesconfig
 s390                                defconfig
+i386                             allyesconfig
 sparc                            allyesconfig
+sparc                               defconfig
 i386                               tinyconfig
 i386                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+mips                             allyesconfig
 mips                             allmodconfig
 powerpc                          allyesconfig
 powerpc                          allmodconfig
@@ -246,7 +198,9 @@ riscv                    nommu_k210_defconfig
 riscv                            allyesconfig
 riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
+riscv                               defconfig
 riscv                          rv32_defconfig
+riscv                            allmodconfig
 x86_64                                   rhel
 x86_64                           allyesconfig
 x86_64                    rhel-7.6-kselftests
