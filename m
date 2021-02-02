@@ -2,20 +2,20 @@ Return-Path: <SRS0=QQ4x=HE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CBDC433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 11:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 253E5C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 11:53:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3068764E06
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 11:21:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3068764E06
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id C2B7864F4F
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 11:53:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2B7864F4F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -23,55 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=O55EmrgSIFgB16CRmm+cdBhaRzqxdI/G5JuRDQszG4U=; b=wTR8Yt+DGmTybDqY4cuImoF6y
-	gpwnIeoSUED4Al+zGmCcO5nCmGEfiUzuHefPXrb8vNIqFmMnqX2nO0b9BDRR017Rsy4ciyQmt7j+Y
-	NYe3PHkuE4memlWc0kXqet5hnlW0H5yPae5vOQR6bumWiBerppXmqSy57nLfpoSISmYBexm19g6J5
-	YyJuRlyILNd58DxH5A1Y5IS1vJSpD+svyAvi5ay8AigNS/gyQ8iHuk9ivh5QzE5cXD7p6hoCifxfe
-	NwMkeGRaSvRzqVO4XzC/M15LLISUkYa+7dBkb3q6NSPDv9A3oAM+9iss9VO04e+iSMa6CXGdCySmQ
-	27LIZVltg==;
+	 bh=HbOz2KQivDLcc2OWnE5ymI/sjw2Hveg4JutyzJIQUFY=; b=KIcwjkt73im3kRhiGFUKLtOHX
+	ta7dzdbxgq9U1rgUDH9H8/Y4ZPBbo9mRW1zNfqjk5nkb5s1KPXrSXBBM4hFi03wmX/uoy6hQASOhp
+	1LiN5V7tzTNcrNOrAFjIDv32vhRqoxpkghYwv8cdYHFYUrMbTo3SJJP++W4g2non5h2LivYM98j6J
+	pWDTyIWLWblovk+3gwzCvV3x2QoopEAQpnt+pnWSsEM7SeP06Bb5/QX8dQ+bDFm5YjAP8gFKIQ/Ps
+	pmcti4RfvwATPWINsk4huGmhJV6CJYnn7X+YbAW87ZuYX6kCnUWvAnykWH3UDKs2Ttlh4DOSNid2t
+	A1R8txN1g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l6tkL-00049D-BP; Tue, 02 Feb 2021 11:21:25 +0000
-Received: from mga04.intel.com ([192.55.52.120])
+	id 1l6uF4-0007NU-QU; Tue, 02 Feb 2021 11:53:10 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l6tkI-00048k-Ck
- for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 11:21:23 +0000
-IronPort-SDR: vI6shjrm/1RvEYyBPZJHHDw7dGDOjI6jlM8ELAY/D6CDKH73oRGcT28FyPoF/qOY5EjRsk86QW
- 8DHbyvDcL6zA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="178277567"
-X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="178277567"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2021 03:21:18 -0800
-IronPort-SDR: arxa1CnexkB+IedD8L6vPTrDVN5f4z/C8a5pzT/twDzjV3GGUUsXy2Tf3v1Tqzazeo+z2FX1Hd
- 8pL4xV87qATw==
-X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="359007943"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2021 03:21:13 -0800
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1l6tk5-001NHP-Ui; Tue, 02 Feb 2021 13:21:09 +0200
-Date: Tue, 2 Feb 2021 13:21:09 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+ id 1l6uF2-0007N7-Co
+ for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 11:53:09 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 949E264EDA;
+ Tue,  2 Feb 2021 11:53:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1612266787;
+ bh=BRH68+6vOxOQ4LInf/FRWhZDyh3A94ESv/43pW43Yt8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OJ8N1X8f4o+yVH+a6dN3B/AyPw/cXpDy9CSfhpaCFB9Pa2HmmOTPmoaihArZTNnal
+ TmR/WYbIOe25gnkHYcuWdIdweGqctOyJgUioqJreKa2g9TO4uxZrNsAJa2EbDxh24A
+ xiEodTo2bHyB5/pstyzXoaX6qrNTA/sMppxDmtLo=
+Date: Tue, 2 Feb 2021 12:53:02 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Jianxiong Gao <jxgao@google.com>
-Subject: Re: [PATCH V2 3/3] Adding
- device_dma_parameters->offset_preserve_mask to NVMe driver.
-Message-ID: <YBk1pUbQ/JZQ7WZe@smile.fi.intel.com>
+Subject: Re: [PATCH V2 0/3] SWIOTLB: Preserve swiotlb map offset when needed.
+Message-ID: <YBk9HsrdvcUb50Kz@kroah.com>
 References: <20210201183017.3339130-1-jxgao@google.com>
- <20210201183017.3339130-4-jxgao@google.com>
- <20210201205759.GA2128135@dhcp-10-100-145-180.wdc.com>
- <CAMGD6P2Gz9nWELMdsAhwQvXx3PXv2aXet=Tn9Rca61obZawfgw@mail.gmail.com>
- <CAMGD6P1_cs1W8jMt7Sz6broDdnFNPrxbiZW-JZ+GAtg5aoTdOQ@mail.gmail.com>
- <CAMGD6P0uwVxKuG503ahGTbPcwb+y2wRXSiE_gvzfdUrMfZ5YbA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAMGD6P0uwVxKuG503ahGTbPcwb+y2wRXSiE_gvzfdUrMfZ5YbA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210201183017.3339130-1-jxgao@google.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210202_062122_608046_3BF4A1FA 
-X-CRM114-Status: UNSURE (   8.52  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210202_065308_549328_50D89424 
+X-CRM114-Status: GOOD (  15.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,35 +68,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, sagi@grimberg.me,
- Saravana Kannan <saravanak@google.com>, bgolaszewski@baylibre.com,
- Marc Orr <marcorr@google.com>, gregkh@linuxfoundation.org,
+Cc: axboe@fb.com, heikki.krogerus@linux.intel.com, sagi@grimberg.me,
+ saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
  rafael.j.wysocki@intel.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- axboe@fb.com, Erdem Aktas <erdemaktas@google.com>,
- iommu@lists.linux-foundation.org, jroedel@suse.de,
- Keith Busch <kbusch@kernel.org>, dan.j.williams@intel.com,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- m.szyprowski@samsung.com
+ linux-nvme@lists.infradead.org, kbusch@kernel.org, bgolaszewski@baylibre.com,
+ iommu@lists.linux-foundation.org, jroedel@suse.de, erdemaktas@google.com,
+ dan.j.williams@intel.com, andriy.shevchenko@linux.intel.com,
+ robin.murphy@arm.com, hch@lst.de, m.szyprowski@samsung.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 01, 2021 at 04:25:55PM -0800, Jianxiong Gao wrote:
+On Mon, Feb 01, 2021 at 10:30:14AM -0800, Jianxiong Gao wrote:
+> NVMe driver and other applications may depend on the data offset
+> to operate correctly. Currently when unaligned data is mapped via
+> SWIOTLB, the data is mapped as slab aligned with the SWIOTLB. This
+> patch adds an option to make sure the mapped data preserves its
+> offset of the orginal addrss.
+> 
+> Without the patch when creating xfs formatted disk on NVMe backends,
+> with swiotlb=force in kernel boot option, creates the following error:
+> meta-data=/dev/nvme2n1   isize=512    agcount=4, agsize=131072 blks
+>          =               sectsz=512   attr=2, projid32bit=1
+>          =               crc=1        finobt=1, sparse=0, rmapbt=0, refl
+> ink=0
+> data     =               bsize=4096   blocks=524288, imaxpct=25
+>          =               sunit=0      swidth=0 blks
+> naming   =version 2      bsize=4096   ascii-ci=0 ftype=1
+> log      =internal log   bsize=4096   blocks=2560, version=2
+>          =               sectsz=512   sunit=0 blks, lazy-count=1
+> realtime =none           extsz=4096   blocks=0, rtextents=0
+> mkfs.xfs: pwrite failed: Input/output error
+> 
+> Jianxiong Gao (3):
+>   Adding page_offset_mask to device_dma_parameters
+>   Add swiotlb offset preserving mapping when
+>     dma_dma_parameters->page_offset_mask is non zero.
+>   Adding device_dma_parameters->offset_preserve_mask to NVMe driver.
+> 
+>  drivers/nvme/host/pci.c     |  4 ++++
+>  include/linux/device.h      |  1 +
+>  include/linux/dma-mapping.h | 17 +++++++++++++++++
+>  kernel/dma/swiotlb.c        | 16 +++++++++++++++-
+>  4 files changed, 37 insertions(+), 1 deletion(-)
+> 
+> -- 
+> 2.27.0
+> 
 
-> +       if (dma_set_min_align_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1))
-
-Side note: we have DMA_BIT_MASK(), please use it.
-
-> +               dev_warn(dev->dev, "dma_set_min_align_mask failed to
-> set offset\n");
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+You forgot to mention somewhere, what changed from v1 to v2 :(
 
 _______________________________________________
 Linux-nvme mailing list
