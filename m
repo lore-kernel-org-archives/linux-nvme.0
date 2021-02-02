@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74887C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 07:58:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C33C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 09:22:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9912D64EDD
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 07:58:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9912D64EDD
+	by mail.kernel.org (Postfix) with ESMTPS id 78F9364EA1
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Feb 2021 09:22:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78F9364EA1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,34 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=x+R1dQU1uX8UQDQs3lVhhoieQ7NR2UM78gY8554TtCM=; b=R11XGOIlbqXhihjBauneXFdtu
-	ILmp8eoHHgU54sEnqTtX/yOK5wowZurn5IC92CkKn9Shlseo83xhsS8qFVAYEyEVWfMQdrJuoVVyH
-	vA7eeDzFl+IWmOt46/IaE2K7OOH0Wu82MDenlDRl4AaMXwF78K3qVoO8F4RC9L1yZeuvNsNpAz6Ty
-	HZGMmTivlyeg+6YE2oH1oP8OCZ88p6+jtvp7Q/voWAmVPQ37TpI2t29FInt7H72dxvtHU188d1jLN
-	Ca4FMl1ySu5vJwxm8/v8eHkfqwi/h//A6pEjpAia5IxfG339WmQH5MrNs+ZMq1XNSyvROVNx0SW1l
-	x3M+Mk9vA==;
+	 bh=dfGG15TSfoH4hmmKRcLWihZO8neJKQHikyutt3jxdeY=; b=RLc5HQG0pLjU6iU8w1ZKwpMPL
+	1MbPwdwvkDWZx3n35/vpTuUV6zuB1tu0gyd/pquqM2GqIngMxQTYLN/UvH/tEw5/4C0JV/tSGc10G
+	rfuHK4S6JKUWbxzc2HK3EXfv2cJRL+23SC5C1dA6o1lYhtW6PLlHmaZKyZtYwgkMsyADXEvd3cIpc
+	9H5JLjizLMFwUeYSJwiDcj0Rh1kIlE8yUY2/UkQm+bVhTbMISmV3L48U+6av0hjlvrQ+jc7Nmin/3
+	faMAsFwp9dyvjLvgGJCiq0a/7hN4QUf+sCZwrhCh09xqxCSerbbuzTg2ERzhu79rSpcLHNOlEDSeO
+	gfZ6qtL8w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l6qa4-0006yc-Sa; Tue, 02 Feb 2021 07:58:36 +0000
+	id 1l6rtM-0000m5-D2; Tue, 02 Feb 2021 09:22:36 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l6qa1-0006xT-VW
- for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 07:58:35 +0000
+ id 1l6rtG-0000lH-Tn
+ for linux-nvme@lists.infradead.org; Tue, 02 Feb 2021 09:22:31 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 213276736F; Tue,  2 Feb 2021 08:58:29 +0100 (CET)
-Date: Tue, 2 Feb 2021 08:58:28 +0100
+ id 128E267357; Tue,  2 Feb 2021 10:22:25 +0100 (CET)
+Date: Tue, 2 Feb 2021 10:22:25 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: mwilck@suse.com
-Subject: Re: [PATCH v2] nvme: avoid "(efault)" from nvme_sysfs_show_subsysnqn()
-Message-ID: <20210202075828.GA12160@lst.de>
-References: <20210202005951.26614-1-mwilck@suse.com>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Subject: Re: [PATCH] nvmetcli documentation: fix typo
+Message-ID: <20210202092225.GA17125@lst.de>
+References: <20210201144756.37538-1-mlombard@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210202005951.26614-1-mwilck@suse.com>
+In-Reply-To: <20210201144756.37538-1-mlombard@redhat.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210202_025834_175087_014B6256 
-X-CRM114-Status: GOOD (  12.02  )
+X-CRM114-CacheID: sfid-20210202_042231_098387_76EC917D 
+X-CRM114-Status: UNSURE (   6.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,32 +63,15 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: hch@lst.de, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 02, 2021 at 01:59:51AM +0100, mwilck@suse.com wrote:
-> From: Martin Wilck <mwilck@suse.com>
-> 
-> While a controller is still connecting, ctrl->subsys is NULL and
-> thus reading the controller's "subsysnqn" sysfs attribute returns
-> "(efault)". This happens all the time when user space processes
-> "add" events for NVMe controller devices.
-> 
-> Fix it by returning the nvmf_ctrl_options' subsysnqn attribute
-> if ctrl->subsys isn't initialized yet.
+Thanks,
 
-This is just papering over symptoms.  We should not be sending
-events or display sysfs files until the controlle is live.
-
-In other wwords - I think we should remove the cdev_device_add
-from nvme_init_ctrl to nvme_start_ctrl (+ any error handling changes
-resulting from that).
+applied.
 
 _______________________________________________
 Linux-nvme mailing list
