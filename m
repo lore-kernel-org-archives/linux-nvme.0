@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E74C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 22:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DFA2C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 22:22:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4346964E0F
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 22:19:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4346964E0F
+	by mail.kernel.org (Postfix) with ESMTPS id 0DC7064E0F
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 22:22:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0DC7064E0F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,61 +23,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lgFg0DR+EOeSEWqWyH9qdI65EBWLa4LlYQ4p4nOpGWo=; b=v7bc4NM4+WBdEaOyydpawMGrj
-	t7xnfEZQpcnaFMj2SSTbfTD2ucG+vHUoTLDKJHRPcpHwCCfGjCxnFfwt6I3N9fo6egs0Qs0iyTP4T
-	gPabnYjYq9Wd2sfdmg8Gk7O2d1XKe0nsex3AqxB+qcFrrBonGlg5iaB/t7ptdZ68OEV+CzVc9jAUr
-	C9cfEmS3LTLYvX0NrTKizX1dKRfzbzlNvcT0iOt9w5sScdnlNTCs4WDT28q6ZDRPF/o7/u6wi7QRn
-	oyo1lEiNPQKyLHoLcX8gVfcIciCwSuqv6UyAlMPtcnGv0yco99XGY+U0rxBYw6DAL/VsIKCFRbYur
-	7NNAJMxWg==;
+	 bh=Xg7SLf+/bWmY+k3/a+WQscAsjw7yyQiX6fWMzCdDZS4=; b=U+Ftyb/dk31puSZnJ6/LfI65i
+	qbuXss+J1SDLOMDRl+EMaAv7yMVrDB1RwUIyjxDtTzU/lhMSNj1OQ1UEAaA4qf+icQORHC1m15KX6
+	vFGJEIFT91uWLy9MdynF1BPR5aew6nflnJb61UUOvnDBGBC+wpVnWLelAk/6t37ZlU3wuqAMsVbnT
+	WItYwvtGCGtN+mtjMYPEXlZnhrhf2eQPdSIZhSkLbmdXVF0pQRpyMPAJal5GVfIPoqGPSMMTbiSpI
+	baOlFscxcKoIBmaZpo18gyk949j0zcAMwU0oyuUo9ueTIsHyE2Jap+lUtSlAAF/ACzKgRgMusxPUg
+	QAPBDw8ow==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7QV4-0002xQ-Px; Wed, 03 Feb 2021 22:19:50 +0000
-Received: from mail-pl1-f174.google.com ([209.85.214.174])
+	id 1l7QXG-00032v-U6; Wed, 03 Feb 2021 22:22:06 +0000
+Received: from mail-pl1-f175.google.com ([209.85.214.175])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7QV1-0002x4-V5
- for linux-nvme@lists.infradead.org; Wed, 03 Feb 2021 22:19:48 +0000
-Received: by mail-pl1-f174.google.com with SMTP id x9so644533plb.5
- for <linux-nvme@lists.infradead.org>; Wed, 03 Feb 2021 14:19:47 -0800 (PST)
+ id 1l7QXE-00032T-HJ
+ for linux-nvme@lists.infradead.org; Wed, 03 Feb 2021 22:22:05 +0000
+Received: by mail-pl1-f175.google.com with SMTP id b8so625582plh.12
+ for <linux-nvme@lists.infradead.org>; Wed, 03 Feb 2021 14:22:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OAuWW75jZ3qiUYLn74vm1WDi4hyIDrf9X4Y9DsESe6k=;
- b=KkVDJtVgIxT51459O1e9h9/YAHOd7EjifkE/MTGxKK0owmY5ADaNxKt1UifE/BQzGR
- ouckl2v6S+EKo3EP81ZvX98deV2upejsEP4qezbMrzrwFeC0oSD2AwvkHf+Al2W2T5JX
- a5GxFeOGjgpsTw8to3v472Rvq+xf/Sacy8sw6yntUqZcMcRslhKslquOBGXs9L/8V29q
- Rz1NclgJRqORjxljGNTrHaphGBrr+cv9nygvWsClw2SEumPybdEbZu+7fXHNnNW714kS
- 05dceSUY2VtBVdmuGqz6vN6YP8SBvuphZZjocLNvLJ/UkE/Hh7DUECPYihaCrtkYqzmp
- fxxw==
-X-Gm-Message-State: AOAM533Ov9orclJ8vm+lTCIT1KDLldyUoJOZK4ck9A2QVt73+6InCZcG
- NGVlKzXR/L39fuSq1oOR8/htamjyjoY=
-X-Google-Smtp-Source: ABdhPJzYHgqx7UdoJrNpNFPxDBiySg9Ph/okE/L4bHlnv69h8PCS5V2ziz8f1bZm5FUNsnx4Zh1sqQ==
-X-Received: by 2002:a17:902:c284:b029:e1:8863:b3d6 with SMTP id
- i4-20020a170902c284b02900e18863b3d6mr4978229pld.64.1612390786645; 
- Wed, 03 Feb 2021 14:19:46 -0800 (PST)
+ bh=i/NbabQJZBZ366AVWIrLP+6MNQ/MvruNt9+cq1+IsS8=;
+ b=JgSyHbTvesYEUVi0Do/dGIBwSY7HWBY5AmgbMwtFGLujwQvptpiy0cR2BBSwmaywiK
+ Ep7z/aMxh62rLyEtqbm1R27BPUZie8Lbgx/+g/9GR6NGlGgADmET6cZed/gReCb2OayH
+ hbvO2gF0rgghsQoF57wSJU7HzFTIziVFgik9YpHzPgYwbxp+zJP/8GUFxAaZyScYUcwS
+ OUJOf0LCZ1QeaQZ8eIztleUDHvu5tNmXMvPe7gAWvZSqygKgnOKA5dR2Oye5XX/N3rEO
+ naJApXZ26nmbR9t/wkSUxFzaYog7qNLHFjjkr3U9mAg2JSWkLYMWpGwO/lLIGcbqFMu5
+ RJoA==
+X-Gm-Message-State: AOAM532x+cMvxShVhdOFBMmg2EcysNs8kdYSqpCaODD+vcg2hxuX3cp0
+ 1ewZJJcAN91+maUcgXFAqrA=
+X-Google-Smtp-Source: ABdhPJxM20NILI5ccKSLTileVt27NeMAC0am8zdczs0gB0BrleepC1oWoLCFW0e46w6hDm46biU87g==
+X-Received: by 2002:a17:90a:fd0f:: with SMTP id
+ cv15mr5303238pjb.36.1612390922345; 
+ Wed, 03 Feb 2021 14:22:02 -0800 (PST)
 Received: from ?IPv6:2601:647:4802:9070:cd99:e813:1dae:a15a?
  ([2601:647:4802:9070:cd99:e813:1dae:a15a])
- by smtp.gmail.com with ESMTPSA id m81sm878930pfd.188.2021.02.03.14.19.45
+ by smtp.gmail.com with ESMTPSA id d18sm2943910pjs.31.2021.02.03.14.22.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 14:19:45 -0800 (PST)
-Subject: Re: [PATCH v2] nvme: avoid "(efault)" from nvme_sysfs_show_subsysnqn()
-To: Keith Busch <kbusch@kernel.org>, Martin Wilck <mwilck@suse.com>
-References: <20210202005951.26614-1-mwilck@suse.com>
- <20210202075828.GA12160@lst.de>
- <a7f3114e22a07e60abfd98155df91dea3a83b386.camel@suse.com>
- <20210203165203.GA2182779@dhcp-10-100-145-180.wdc.com>
+ Wed, 03 Feb 2021 14:22:01 -0800 (PST)
+Subject: Re: [PATCH v5 0/3] avoid double request completion and IO error
+To: Christoph Hellwig <hch@lst.de>, Chao Leng <lengchao@huawei.com>
+References: <20210201034940.18891-1-lengchao@huawei.com>
+ <20210203161455.GB4116@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <8b1fc5ef-4c6b-4fa3-7cb1-b42ed71e7413@grimberg.me>
-Date: Wed, 3 Feb 2021 14:19:44 -0800
+Message-ID: <ae2ff390-739e-ac2d-a7a8-162a6297653f@grimberg.me>
+Date: Wed, 3 Feb 2021 14:22:00 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210203165203.GA2182779@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <20210203161455.GB4116@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210203_171948_038007_24AB7FDF 
-X-CRM114-Status: GOOD (  26.07  )
+X-CRM114-CacheID: sfid-20210203_172204_642423_BD0967DC 
+X-CRM114-Status: GOOD (  26.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,54 +87,113 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: kbusch@kernel.org, axboe@fb.com, linux-block@vger.kernel.org,
+ axboe@kernel.dk, linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAyLzMvMjEgODo1MiBBTSwgS2VpdGggQnVzY2ggd3JvdGU6Cj4gT24gV2VkLCBGZWIgMDMs
-IDIwMjEgYXQgMDE6MzE6MTNQTSArMDEwMCwgTWFydGluIFdpbGNrIHdyb3RlOgo+PiBPbiBUdWUs
-IDIwMjEtMDItMDIgYXQgMDg6NTggKzAxMDAsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+Pj4g
-T24gVHVlLCBGZWIgMDIsIDIwMjEgYXQgMDE6NTk6NTFBTSArMDEwMCwgbXdpbGNrQHN1c2UuY29t
-wqB3cm90ZToKPj4+PiBGcm9tOiBNYXJ0aW4gV2lsY2sgPG13aWxja0BzdXNlLmNvbT4KPj4+Pgo+
-Pj4+IFdoaWxlIGEgY29udHJvbGxlciBpcyBzdGlsbCBjb25uZWN0aW5nLCBjdHJsLT5zdWJzeXMg
-aXMgTlVMTCBhbmQKPj4+PiB0aHVzIHJlYWRpbmcgdGhlIGNvbnRyb2xsZXIncyAic3Vic3lzbnFu
-IiBzeXNmcyBhdHRyaWJ1dGUgcmV0dXJucwo+Pj4+ICIoZWZhdWx0KSIuIFRoaXMgaGFwcGVucyBh
-bGwgdGhlIHRpbWUgd2hlbiB1c2VyIHNwYWNlIHByb2Nlc3Nlcwo+Pj4+ICJhZGQiIGV2ZW50cyBm
-b3IgTlZNZSBjb250cm9sbGVyIGRldmljZXMuCj4+Pj4KPj4+PiBGaXggaXQgYnkgcmV0dXJuaW5n
-IHRoZSBudm1mX2N0cmxfb3B0aW9ucycgc3Vic3lzbnFuIGF0dHJpYnV0ZQo+Pj4+IGlmIGN0cmwt
-PnN1YnN5cyBpc24ndCBpbml0aWFsaXplZCB5ZXQuCj4+Pgo+Pj4gVGhpcyBpcyBqdXN0IHBhcGVy
-aW5nIG92ZXIgc3ltcHRvbXMuwqAgV2Ugc2hvdWxkIG5vdCBiZSBzZW5kaW5nCj4+PiBldmVudHMg
-b3IgZGlzcGxheSBzeXNmcyBmaWxlcyB1bnRpbCB0aGUgY29udHJvbGxlIGlzIGxpdmUuCj4+Cj4+
-IEkgZG9uJ3QgZm9sbG93LsKgV2hhdCdzIHdyb25nIHdpdGggYSAiY29ubmVjdGluZyIgY29udHJv
-bGxlciBkZXZpY2UgaW4KPj4gc3lzZnM/Cj4+Cj4+IENvbnRyb2xsZXJzIGNhbiBsb29zZSBjb25u
-ZWN0aXZpdHkgYW55IHRpbWUuIFdoYXQncyB0aGUgZGlmZmVyZW5jZQo+PiBiZXR3ZWVuIGEgY29u
-dHJvbGxlciB0aGF0IGlzIHJlY29ubmVjdGluZyBhZnRlciBhIGNvbm5lY3Rpb24gbG9zcyBhbmQg
-YQo+PiBmcmVzaGx5IGNyZWF0ZWQgY29udHJvbGxlciB0aGF0J3MganVzdCBub3QgbGl2ZSB5ZXQ/
-wqBZb3Ugd291bGRuJ3QKPj4gZGVsZXRlIHRoZSBmb3JtZXIgZnJvbSBzeXNmcywgSSBzdXBwb3Nl
-Lgo+Pgo+PiAgRnJvbSB0aGUgdXNlciBzcGFjZSBwb2ludCBvZiB2aWV3LCBpdCdzIHRoZSBzYW1l
-LCBhIGNvbnRyb2xsZXIgZGV2aWNlCj4+IHRoYXQgaXMgbm90IGluIHVzYWJsZSBzdGF0ZS4gSSBk
-b24ndCBzZWUgYSBnZW5lcmFsIHByb2JsZW0gd2l0aCB0aGF0Lgo+PiBTZWVpbmcgYSBjb250cm9s
-bGVyIGFwcGVhciBpbiBjb25uZWN0aW5nIHN0YXRlIG1pZ2h0IGFjdHVhbGx5IGJlIHVzZWZ1bAo+
-PiBmb3IgdXNlciBzcGFjZS4KPj4KPj4gVGhlIHN1YnN5c25xbiBhdHRyaWJ1dGUgaXMgY29ycmVj
-dCBmb3IgY29udHJvbGxlcnMgdGhhdCB3ZXJlIG9uY2UKPj4gY29ubmVjdGVkIGFuZCBsb3N0IGNv
-bm5lY3Rpdml0eS4gTXkgcGF0Y2ggd2FzIG9ubHkgaW50ZW5kZWQgdG8gZml4IHRoZQo+PiAianVz
-dCBjcmVhdGVkIGFuZCBuZXZlciBjb25uZWN0ZWQiIGNhc2UsIHdoZXJlIGl0IGlzIG5vdCwgbm90
-aGluZyBtb3JlLgo+IAo+IEkgdGhpbmsgQ2hyaXN0b3BoIGlzIHN1Z2dlc3RpbmcganVzdCB3YWl0
-IHVudGlsIHdlIGhhdmUgYWxsIHRoZQo+IHByb3BlcnRpZXMgdGhlIGRyaXZlciBleHBvcnRzIHJh
-dGhlciB0aGFuIHNwZWNpZmljYWxseSBleHBvcnRpbmcgb25seQo+IGR1cmluZyBhICdsaXZlJyBz
-dGF0ZS4gU29tZXRoaW5nIGxpa2UgdGhpcyAodW50ZXN0ZWQpIHNob3VsZCBkbyB0aGUKPiB0cmlj
-azoKPiAKPiAtLS0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJp
-dmVycy9udm1lL2hvc3QvY29yZS5jCj4gaW5kZXggMWEzY2RjNmIxMDM2Li40YzAyNThkN2ViOTEg
-MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCj4gKysrIGIvZHJpdmVycy9u
-dm1lL2hvc3QvY29yZS5jCj4gQEAgLTMwNjksNiArMzA2OSw5IEBAIGludCBudm1lX2luaXRfaWRl
-bnRpZnkoc3RydWN0IG52bWVfY3RybCAqY3RybCkKPiAgIAkJaWYgKHJldCkKPiAgIAkJCWdvdG8g
-b3V0X2ZyZWU7Cj4gICAKPiArCQlyZXQgPSBjZGV2X2RldmljZV9hZGQoJmN0cmwtPmNkZXYsIGN0
-cmwtPmRldmljZSk7Cj4gKwkJaWYgKHJldCkKPiArCQkJZ290byBvdXRfZnJlZTsKClRoaXMgaGFw
-cGVucyBvbiBldmVyeSByZXNldCwgd2Ugc2hvdWxkIHByb2JhYmx5IGp1c3QgZG8gdGhpcyBvbmNl
-PwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgt
-bnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9s
-aXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+
+
+On 2/3/21 8:14 AM, Christoph Hellwig wrote:
+> So I think this is conceptually fine, but I still find the API a little
+> arcane.  What do you think about the following incremental patch?
+> If that looks good and tests good for you I can apply the series with
+> the modifications:
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 0befaad788a094..02579f4f776c7d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -355,6 +355,21 @@ void nvme_complete_rq(struct request *req)
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_complete_rq);
+>   
+> +/*
+> + * Called to unwind from ->queue_rq on a failed command submission so that the
+> + * multipathing code gets called to potentially failover to another path.
+> + * The caller needs to unwind all transport specific resource allocations and
+> + * must return propagate the return value.
+> + */
+> +blk_status_t nvme_host_path_error(struct request *req)
+> +{
+> +	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
+> +	blk_mq_set_request_complete(req);
+> +	nvme_complete_rq(req);
+> +	return BLK_STS_OK;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_host_path_error);
+> +
+>   bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+>   {
+>   	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index cedf9b31898673..5dfd806fc2d28c 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -552,11 +552,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+>   	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
+>   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+>   		return BLK_STS_RESOURCE;
+> -
+> -	nvme_req(rq)->status = NVME_SC_HOST_PATH_ERROR;
+> -	blk_mq_set_request_complete(rq);
+> -	nvme_complete_rq(rq);
+> -	return BLK_STS_OK;
+> +	return nvme_host_path_error(rq);
+>   }
+>   EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
+>   
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index a72f0718109100..5819f038104149 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -575,6 +575,7 @@ static inline bool nvme_is_aen_req(u16 qid, __u16 command_id)
+>   }
+>   
+>   void nvme_complete_rq(struct request *req);
+> +blk_status_t nvme_host_path_error(struct request *req);
+>   bool nvme_cancel_request(struct request *req, void *data, bool reserved);
+>   void nvme_cancel_tagset(struct nvme_ctrl *ctrl);
+>   void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl);
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 6993efb27b39f0..f51af5e4970a2b 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -2091,16 +2091,6 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+>   	err = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
+>   			req->mr ? &req->reg_wr.wr : NULL);
+>   	if (unlikely(err)) {
+> -		if (err == -EIO) {
+> -			/*
+> -			 * Fail the reqest so upper layer can failover I/O
+> -			 * if another path is available
+> -			 */
+> -			req->status = NVME_SC_HOST_PATH_ERROR;
+> -			blk_mq_set_request_complete(rq);
+> -			nvme_rdma_complete_rq(rq);
+> -			return BLK_STS_OK;
+> -		}
+>   		goto err_unmap;
+>   	}
+>   
+> @@ -2109,7 +2099,9 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+>   err_unmap:
+>   	nvme_rdma_unmap_data(queue, rq);
+>   err:
+> -	if (err == -ENOMEM || err == -EAGAIN)
+> +	if (err == -EIO)
+> +		ret = nvme_host_path_error(rq);
+> +	else if (err == -ENOMEM || err == -EAGAIN)
+>   		ret = BLK_STS_RESOURCE;
+>   	else
+>   		ret = BLK_STS_IOERR;
+> 
+
+This looks good to me.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
