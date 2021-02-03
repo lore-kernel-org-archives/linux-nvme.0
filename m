@@ -2,80 +2,82 @@ Return-Path: <SRS0=tyWw=HF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15202C433E6
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 08:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77A7FC433DB
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 08:52:02 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A27A064F4E
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 08:05:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A27A064F4E
+	by mail.kernel.org (Postfix) with ESMTPS id DF34D64DE8
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 08:52:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF34D64DE8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qGv66Wy7HkDGTMnt1gLDgMG/yo3m6750Z617hGqVd1c=; b=yb2keUGgRd1RxB116AgqXnirq
-	VLCAFEC9ANdjEx2rXTkdjXOfTQ4SNItSRKE30rZJL10ttkHTMOJ1o84WdxPdtGp6BHbizMaoipF75
-	WmIcdVoqxW8m2MsJkZ/iPM4ghsEORXa4Ih6UccFAhO7RNfWQJwlhcT0mHwBwXDw3HmX5cbNciDYxe
-	0HFe1/9Xa8aJo7vbuBAkcIrJrO8wx0XzoZdxnFKkS2IiZf5y+iDkkvJ+jHEidLg78oqqd090szTvl
-	Nqy7ehJHw2fl9qEDUlVb3GKj8emtmuZpgrgE78ZvsxUTLs//VUm3usExDP2/WGOm6lQViN3tP7UjN
-	pFBD/34+A==;
+	 bh=cApuz/d5c/+ODCdrxMw9PaHUxMgCYecHlsJJDmDCeYE=; b=XbsBlr4K9YySlHY9b7nvMcp58
+	+VaMNndqRn2kiz6i1tnzM/WDJeVD6Nl7tikm5Ccf4gp6XZ5M5oBQpzHI8SPZtKQp2oBCsuxV7IigB
+	aeux8PzH6/Mec1g+MrX5YA7bZrUQtuZw/XbvbgAtmN1NZ06dwyFXXk2y4RI0Ci06zscyOPL2oKUR0
+	rLBzEZlB4bt1sCoO4gjj3VyXHbXBr7G1gslrdK4Td3sOLRWXZsuoyjpedwi9/VyqCFO41LILo2hIU
+	JnBS/dTNNAGCJ830P5KtCKRpmj+ekWXL8U1TCBo4mI1KX2K3WMylbpNt1ZEJqO3k3DSc8pQ3suu9k
+	cp3lnZI7w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7DAO-0003LO-8I; Wed, 03 Feb 2021 08:05:36 +0000
-Received: from mail-wr1-f49.google.com ([209.85.221.49])
+	id 1l7DtE-0008Hh-Al; Wed, 03 Feb 2021 08:51:56 +0000
+Received: from mail-wr1-f45.google.com ([209.85.221.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7DAL-0003Jx-DM
- for linux-nvme@lists.infradead.org; Wed, 03 Feb 2021 08:05:34 +0000
-Received: by mail-wr1-f49.google.com with SMTP id q7so23050200wre.13
- for <linux-nvme@lists.infradead.org>; Wed, 03 Feb 2021 00:05:31 -0800 (PST)
+ id 1l7DtB-0008Gm-KU
+ for linux-nvme@lists.infradead.org; Wed, 03 Feb 2021 08:51:54 +0000
+Received: by mail-wr1-f45.google.com with SMTP id l12so23225796wry.2
+ for <linux-nvme@lists.infradead.org>; Wed, 03 Feb 2021 00:51:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QyymkxOQIiK+/1MbPLuZFWzMKXwNrvTuYOPMQ1co1yY=;
- b=YUWydfr9uwcZpZhiXh7+4kcOFWtSMxIYEoAHnnPFXylb9h8Tw6/+eebmfJNskyzpDH
- qGIBbAWHKgtFRy/7tIW9byXjKRrTHpBN/oT44bib61bjOz70ufsj1gY9k1+2VnlXaLXs
- F/kyLsyT7qpJmiAxpgT00BUSWtq+5ib+UFlt16P9VE4rvmyrn7Q/d5Z5cYmDXesfDzBs
- bSlscBLENsvmysUDTbpyq/HEMjY0z23s+cG8kBeEogIlL+RlBBeUo2rA1xOBGQlOKHZn
- PocVB4i90r6cSfBgB8wIvT71tvhQUOZf9rfgOYcwj+2oJnYGmDdbEK7dTLWBA+hGfobX
- 0ooQ==
-X-Gm-Message-State: AOAM530dykIWoiHaUTpNgRLvBPQj8k9ALeBzF4MMW1sm0pXBQexXpiBV
- td+dBECgA7jCoBLNwdDYhIY2LkETUEI=
-X-Google-Smtp-Source: ABdhPJxTh6QDfE7WHZhwOfORG+j7NjEoZ+EHZHjrIOGnVBVuAzXtKUue3r9hg1iaHYRVxAMdStFnNw==
-X-Received: by 2002:a05:6000:11c5:: with SMTP id
- i5mr2062961wrx.302.1612339530830; 
- Wed, 03 Feb 2021 00:05:30 -0800 (PST)
+ bh=3mDiD0JJR4/9Mgq5fzOCXTZgztSQAbNAzSUZFA9ppc4=;
+ b=p7p7M0mMiAGfCHHxONTlzgXWpKCR4J2e4x2TdLVexDqjOqMWL0juVbIdPjg0FIKos8
+ b19cwiqsdbsVxTjfu2TsaVubukDBANPaydn7x+pUSlWMSSu59hNTOxqN/5uQ0FY796DJ
+ l71/b47ZrA6acXcudnNDFiA7xAB3fAg944Sv/mM0FbHC4fUDq4gycnL13qY+Dm9NqRUn
+ fNtxo4uczuV7L9rzq0EsxTKUc1cds8uTzLCoTufAd4JbRn0xdOwW5w4DOtaztEMZhdcS
+ 3qa5CgG9Ne8ARwupETk2TjtQdKRoO7SJd/SFaJKHEkQj/Wiz5Sdv9sJ0foXtBEKIv9PC
+ /wIw==
+X-Gm-Message-State: AOAM532rn2GYv0JPDeCMg7U+5S1ly/fX5FfkJVz0s0URzX+IRsJgwMb9
+ 2PXmyUtAcFt76deuIXbCMJU=
+X-Google-Smtp-Source: ABdhPJz/sXmbzXlifG2oC+cfB0KfIGBnEzSt3XadolhkJWhyOotfRp7ttmXDHGkeBWv3Nh3X9581Ww==
+X-Received: by 2002:adf:d206:: with SMTP id j6mr2194966wrh.427.1612342312029; 
+ Wed, 03 Feb 2021 00:51:52 -0800 (PST)
 Received: from ?IPv6:2601:647:4802:9070:819b:e1e8:19a6:9008?
  ([2601:647:4802:9070:819b:e1e8:19a6:9008])
- by smtp.gmail.com with ESMTPSA id l10sm2246104wro.4.2021.02.03.00.05.29
+ by smtp.gmail.com with ESMTPSA id i20sm1729359wmq.7.2021.02.03.00.51.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 00:05:30 -0800 (PST)
-Subject: Re: nvme-tcp bricks my computer
-To: "Belanger, Martin" <Martin.Belanger@dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <SJ0PR19MB45443358535A404035588EC5F2B69@SJ0PR19MB4544.namprd19.prod.outlook.com>
+ Wed, 03 Feb 2021 00:51:51 -0800 (PST)
+Subject: Re: [PATCH v3 net-next 07/21] nvme-tcp: Add DDP data-path
+To: Boris Pismenny <borisp@mellanox.com>, dsahern@gmail.com, kuba@kernel.org, 
+ davem@davemloft.net, saeedm@nvidia.com, hch@lst.de, axboe@fb.com,
+ kbusch@kernel.org, viro@zeniv.linux.org.uk, edumazet@google.com,
+ smalin@marvell.com
+References: <20210201100509.27351-1-borisp@mellanox.com>
+ <20210201100509.27351-8-borisp@mellanox.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <42f94a06-cc66-87dd-3a92-de793a228d22@grimberg.me>
-Date: Wed, 3 Feb 2021 00:05:27 -0800
+Message-ID: <9a8041aa-513f-09b9-63f4-3d12db19231c@grimberg.me>
+Date: Wed, 3 Feb 2021 00:51:45 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <SJ0PR19MB45443358535A404035588EC5F2B69@SJ0PR19MB4544.namprd19.prod.outlook.com>
+In-Reply-To: <20210201100509.27351-8-borisp@mellanox.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210203_030533_494961_8D5A7A4E 
-X-CRM114-Status: GOOD (  12.39  )
+X-CRM114-CacheID: sfid-20210203_035153_704498_131BC010 
+X-CRM114-Status: GOOD (  33.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,40 +89,278 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: Yoray Zack <yorayz@mellanox.com>, yorayz@nvidia.com,
+ boris.pismenny@gmail.com, Ben Ben-Ishay <benishay@mellanox.com>,
+ benishay@nvidia.com, linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ Or Gerlitz <ogerlitz@mellanox.com>, ogerlitz@nvidia.com
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> I'm running "nvme discover" over a TCP connection. The nvme-tcp module freezes completely and bricks my computer.
+
+On 2/1/21 2:04 AM, Boris Pismenny wrote:
+> Introduce the NVMe-TCP DDP data-path offload.
+> Using this interface, the NIC hardware will scatter TCP payload directly
+> to the BIO pages according to the command_id in the PDU.
+> To maintain the correctness of the network stack, the driver is expected
+> to construct SKBs that point to the BIO pages.
 > 
-> Steps:
-> $ sudo modprobe nvme-tcp
-> $ sudo nvme discover -t tcp -a [IP address] -s 8009
-> <System Bricked!>
-> Only a reboot (Alt-SysRq-B) can recover the system.
+> The data-path interface contains two routines: tcp_ddp_setup/teardown.
+> The setup provides the mapping from command_id to the request buffers,
+> while the teardown removes this mapping.
+> 
+> For efficiency, we introduce an asynchronous nvme completion, which is
+> split between NVMe-TCP and the NIC driver as follows:
+> NVMe-TCP performs the specific completion, while NIC driver performs the
+> generic mq_blk completion.
+> 
+> Signed-off-by: Boris Pismenny <borisp@mellanox.com>
+> Signed-off-by: Ben Ben-Ishay <benishay@mellanox.com>
+> Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
+> Signed-off-by: Yoray Zack <yorayz@mellanox.com>
+> ---
+>   drivers/nvme/host/tcp.c | 141 +++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 131 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index ea67caf9d326..5cb46deb56e0 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -57,6 +57,11 @@ struct nvme_tcp_request {
+>   	size_t			offset;
+>   	size_t			data_sent;
+>   	enum nvme_tcp_send_state state;
+> +
+> +	bool			offloaded;
+> +	struct tcp_ddp_io	ddp;
+> +	__le16			status;
+> +	union nvme_result	result;
+>   };
+>   
+>   enum nvme_tcp_queue_flags {
+> @@ -232,10 +237,74 @@ static inline size_t nvme_tcp_pdu_last_send(struct nvme_tcp_request *req,
+>   #ifdef CONFIG_TCP_DDP
+>   
+>   static bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags);
+> +static void nvme_tcp_ddp_teardown_done(void *ddp_ctx);
+>   static const struct tcp_ddp_ulp_ops nvme_tcp_ddp_ulp_ops = {
+>   	.resync_request		= nvme_tcp_resync_request,
+> +	.ddp_teardown_done	= nvme_tcp_ddp_teardown_done,
+>   };
+>   
+> +static
+> +int nvme_tcp_teardown_ddp(struct nvme_tcp_queue *queue,
+> +			  u16 command_id,
+> +			  struct request *rq)
+> +{
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	struct net_device *netdev = queue->ctrl->offloading_netdev;
+> +	int ret;
+> +
+> +	if (unlikely(!netdev)) {
+> +		pr_info_ratelimited("%s: netdev not found\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = netdev->tcp_ddp_ops->tcp_ddp_teardown(netdev, queue->sock->sk,
+> +						    &req->ddp, rq);
+> +	sg_free_table_chained(&req->ddp.sg_table, SG_CHUNK_SIZE);
+> +	req->offloaded = false;
 
-Do you have a stack trace to share?
+Why is the offloaded = false needed here? you also clear it when
+you setup.
 
-> Conditions to reproduce the problem:
-> The Discovery Controller must support sending Discovery Log Change Notifications. That is, bit 31 of the Identity's OAES field returned by the discovery controller must be set to 1. If OAES[31]=0, then everything is OK.
+> +	return ret;
+> +}
+> +
+> +static void nvme_tcp_ddp_teardown_done(void *ddp_ctx)
+> +{
+> +	struct request *rq = ddp_ctx;
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +
+> +	if (!nvme_try_complete_req(rq, cpu_to_le16(req->status << 1), req->result))
+> +		nvme_complete_rq(rq);
 
-What is the discovery log page returned by the nvme discovery 
-controller? Does it include referrals? There was an issue fixed
-in nvme-cli with respect to referrals (although nothing that is
-related to any oaes changes).
+Why is the status shifted here? it was taken from the cqe as is..
 
-> Systems tested:
-> 1) Ubuntu 20.04, Linux 5.8, nvme 1.13.21
-> 2) Fedora 33, Linux 5.10, nvme 1.11.1
+> +}
+> +
+> +static
+> +int nvme_tcp_setup_ddp(struct nvme_tcp_queue *queue,
+> +		       u16 command_id,
+> +		       struct request *rq)
+> +{
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	struct net_device *netdev = queue->ctrl->offloading_netdev;
+> +	int ret;
+> +
+> +	req->offloaded = false;
+> +
+> +	if (unlikely(!netdev)) {
+> +		pr_info_ratelimited("%s: netdev not found\n", __func__);
 
-Are these the default kernels that come with the distribution?
-Does this happen with the latest upstream?
+dev_info_ratelimited please.
 
-I know people are doing this for a long time now and no reports
-came in on this phenomenon.. I'm assuming this is not Linux nvmet
-target correct?
+> +		return -EINVAL;
+> +	}
+> +
+> +	req->ddp.command_id = command_id;
+> +	req->ddp.sg_table.sgl = req->ddp.first_sgl;
+> +	ret = sg_alloc_table_chained(&req->ddp.sg_table, blk_rq_nr_phys_segments(rq),
+> +				     req->ddp.sg_table.sgl, SG_CHUNK_SIZE);
+> +	if (ret)
+> +		return -ENOMEM;
+> +	req->ddp.nents = blk_rq_map_sg(rq->q, rq, req->ddp.sg_table.sgl);
+> +
+> +	ret = netdev->tcp_ddp_ops->tcp_ddp_setup(netdev,
+> +						 queue->sock->sk,
+> +						 &req->ddp);
+> +	if (!ret)
+> +		req->offloaded = true;
+> +	return ret;
+> +}
+> +
+>   static
+>   int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
+>   {
+> @@ -377,6 +446,25 @@ bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags)
+>   
+>   #else
+>   
+> +static
+> +int nvme_tcp_setup_ddp(struct nvme_tcp_queue *queue,
+> +		       u16 command_id,
+> +		       struct request *rq)
+> +{
+> +	return -EINVAL;
+> +}
+> +
+> +static
+> +int nvme_tcp_teardown_ddp(struct nvme_tcp_queue *queue,
+> +			  u16 command_id,
+> +			  struct request *rq)
+> +{
+> +	return -EINVAL;
+> +}
+> +
+> +static void nvme_tcp_ddp_teardown_done(void *ddp_ctx)
+> +{}
+> +
+>   static
+>   int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
+>   {
+> @@ -665,6 +753,7 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+>   static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+>   		struct nvme_completion *cqe)
+>   {
+> +	struct nvme_tcp_request *req;
+>   	struct request *rq;
+>   
+>   	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), cqe->command_id);
+> @@ -676,8 +765,15 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+>   		return -EINVAL;
+>   	}
+>   
+> -	if (!nvme_try_complete_req(rq, cqe->status, cqe->result))
+> -		nvme_complete_rq(rq);
+> +	req = blk_mq_rq_to_pdu(rq);
+> +	if (req->offloaded) {
+> +		req->status = cqe->status;
+> +		req->result = cqe->result;
+> +		nvme_tcp_teardown_ddp(queue, cqe->command_id, rq);
+> +	} else {
+> +		if (!nvme_try_complete_req(rq, cqe->status, cqe->result))
+> +			nvme_complete_rq(rq);
+> +	}
+
+Maybe move this to nvme_tcp_complete_request as it is called from two
+code paths.
+
+>   	queue->nr_cqe++;
+>   
+>   	return 0;
+> @@ -871,9 +967,18 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+>   static inline void nvme_tcp_end_request(struct request *rq, u16 status)
+>   {
+>   	union nvme_result res = {};
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	struct nvme_tcp_queue *queue = req->queue;
+> +	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
+>   
+> -	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
+> -		nvme_complete_rq(rq);
+> +	if (req->offloaded) {
+> +		req->status = cpu_to_le16(status << 1);
+> +		req->result = res;
+> +		nvme_tcp_teardown_ddp(queue, pdu->command_id, rq);
+> +	} else {
+> +		if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
+> +			nvme_complete_rq(rq);
+> +	}
+>   }
+>   
+>   static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+> @@ -920,12 +1025,22 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+>   		recv_len = min_t(size_t, recv_len,
+>   				iov_iter_count(&req->iter));
+>   
+> -		if (queue->data_digest)
+> -			ret = skb_copy_and_hash_datagram_iter(skb, *offset,
+> -				&req->iter, recv_len, queue->rcv_hash);
+> -		else
+> -			ret = skb_copy_datagram_iter(skb, *offset,
+> -					&req->iter, recv_len);
+> +		if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags)) {
+> +			if (queue->data_digest)
+> +				ret = skb_ddp_copy_and_hash_datagram_iter(skb, *offset,
+> +						&req->iter, recv_len, queue->rcv_hash);
+> +			else
+> +				ret = skb_ddp_copy_datagram_iter(skb, *offset,
+> +						&req->iter, recv_len);
+> +		} else {
+> +			if (queue->data_digest)
+> +				ret = skb_copy_and_hash_datagram_iter(skb, *offset,
+> +						&req->iter, recv_len, queue->rcv_hash);
+> +			else
+> +				ret = skb_copy_datagram_iter(skb, *offset,
+> +						&req->iter, recv_len);
+> +		}
+> +
+
+Maybe move this hunk to nvme_tcp_consume_skb or something?
+
+>   		if (ret) {
+>   			dev_err(queue->ctrl->ctrl.device,
+>   				"queue %d failed to copy request %#x data",
+> @@ -1149,6 +1264,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+>   	bool inline_data = nvme_tcp_has_inline_data(req);
+>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>   	int len = sizeof(*pdu) + hdgst - req->offset;
+> +	struct request *rq = blk_mq_rq_from_pdu(req);
+>   	int flags = MSG_DONTWAIT;
+>   	int ret;
+>   
+> @@ -1157,6 +1273,10 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+>   	else
+>   		flags |= MSG_EOR;
+>   
+> +	if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags) &&
+> +	    blk_rq_nr_phys_segments(rq) && rq_data_dir(rq) == READ)
+> +		nvme_tcp_setup_ddp(queue, pdu->cmd.common.command_id, rq);
+> +
+>   	if (queue->hdr_digest && !req->offset)
+>   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+>   
+> @@ -2464,6 +2584,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
+>   	req->data_len = blk_rq_nr_phys_segments(rq) ?
+>   				blk_rq_payload_bytes(rq) : 0;
+>   	req->curr_bio = rq->bio;
+> +	req->offloaded = false;
+
+offloaded is being cleared lots of times, and I'm not clear what are
+the lifetime rules here.
 
 _______________________________________________
 Linux-nvme mailing list
