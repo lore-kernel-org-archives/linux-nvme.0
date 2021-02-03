@@ -2,71 +2,82 @@ Return-Path: <SRS0=tyWw=HF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D91CC433DB
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 19:34:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E74C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 22:19:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D440264DDC
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 19:34:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D440264DDC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 4346964E0F
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Feb 2021 22:19:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4346964E0F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Z+7ABd+D1bXCC8WZzoEoV2BbHPLr3uDvlzJKVszdb8Y=; b=JdcCP9pJsEuX2Z5TODeOpVck4
-	fVQ2yrHYcgloXJ+WUfMx+xk8JvjRHSs4p/UKz/fpqVUPNqv3UEM5mSpAPRBalBSlEj2hPmBVjWAAd
-	liZ4cMK6rmj2muSdIC6BG3Ab3zu+H85qKIHRgHbrMIzPjspOyJdYTRsOU0m95D+exk1JhBnYwfc7R
-	ssgBhQR0/vXfGvt88ay4aEEDzq0o7FZ3N3dxphgqawVa8JLkK/cc2KQZ20r1R2Bl2e5b/jeXdoNyC
-	4+BI7AzldAbXJlymMA9BpWOfIUYBSZJ3NS8eH6t89+Wmzrn6ReNDBLNkIJp4nO20iMPGx3wFXg8qi
-	Oka7UdrqA==;
+	 bh=lgFg0DR+EOeSEWqWyH9qdI65EBWLa4LlYQ4p4nOpGWo=; b=v7bc4NM4+WBdEaOyydpawMGrj
+	t7xnfEZQpcnaFMj2SSTbfTD2ucG+vHUoTLDKJHRPcpHwCCfGjCxnFfwt6I3N9fo6egs0Qs0iyTP4T
+	gPabnYjYq9Wd2sfdmg8Gk7O2d1XKe0nsex3AqxB+qcFrrBonGlg5iaB/t7ptdZ68OEV+CzVc9jAUr
+	C9cfEmS3LTLYvX0NrTKizX1dKRfzbzlNvcT0iOt9w5sScdnlNTCs4WDT28q6ZDRPF/o7/u6wi7QRn
+	oyo1lEiNPQKyLHoLcX8gVfcIciCwSuqv6UyAlMPtcnGv0yco99XGY+U0rxBYw6DAL/VsIKCFRbYur
+	7NNAJMxWg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7NvD-0002XD-15; Wed, 03 Feb 2021 19:34:39 +0000
-Received: from mga04.intel.com ([192.55.52.120])
+	id 1l7QV4-0002xQ-Px; Wed, 03 Feb 2021 22:19:50 +0000
+Received: from mail-pl1-f174.google.com ([209.85.214.174])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7Nv9-0002Wp-UV
- for linux-nvme@lists.infradead.org; Wed, 03 Feb 2021 19:34:37 +0000
-IronPort-SDR: cD+7er12WAzxDj1/Te8HX0CFiEUG9F8aYkgsxnfWvtaQMNIssQz10benWINpR00Uhgh6oOVrvx
- ilGbE/xCXXDQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="178543029"
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="178543029"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2021 11:34:34 -0800
-IronPort-SDR: KMYc5m6y1qew0epiy/aL3Gs0A0RnOPmZyGoUSc1qC0R7zLd9n01mIKjMMtvfqPTxjhuY/a8TX/
- wGgGG9RN5nvg==
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="371603427"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2021 11:34:34 -0800
-Date: Wed, 3 Feb 2021 11:34:34 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v3 net-next 01/21] iov_iter: Introduce new procedures for
- copy to iter/pages
-Message-ID: <20210203193434.GD3200985@iweiny-DESK2.sc.intel.com>
-References: <20210201100509.27351-1-borisp@mellanox.com>
- <20210201100509.27351-2-borisp@mellanox.com>
- <20210201173548.GA12960@lst.de>
- <CAJ3xEMjLKoQe_OB_L+w2wwUGck74Gm6=GPA=CK73QpeFbXr7Bw@mail.gmail.com>
- <20210203165621.GB6691@lst.de>
+ id 1l7QV1-0002x4-V5
+ for linux-nvme@lists.infradead.org; Wed, 03 Feb 2021 22:19:48 +0000
+Received: by mail-pl1-f174.google.com with SMTP id x9so644533plb.5
+ for <linux-nvme@lists.infradead.org>; Wed, 03 Feb 2021 14:19:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OAuWW75jZ3qiUYLn74vm1WDi4hyIDrf9X4Y9DsESe6k=;
+ b=KkVDJtVgIxT51459O1e9h9/YAHOd7EjifkE/MTGxKK0owmY5ADaNxKt1UifE/BQzGR
+ ouckl2v6S+EKo3EP81ZvX98deV2upejsEP4qezbMrzrwFeC0oSD2AwvkHf+Al2W2T5JX
+ a5GxFeOGjgpsTw8to3v472Rvq+xf/Sacy8sw6yntUqZcMcRslhKslquOBGXs9L/8V29q
+ Rz1NclgJRqORjxljGNTrHaphGBrr+cv9nygvWsClw2SEumPybdEbZu+7fXHNnNW714kS
+ 05dceSUY2VtBVdmuGqz6vN6YP8SBvuphZZjocLNvLJ/UkE/Hh7DUECPYihaCrtkYqzmp
+ fxxw==
+X-Gm-Message-State: AOAM533Ov9orclJ8vm+lTCIT1KDLldyUoJOZK4ck9A2QVt73+6InCZcG
+ NGVlKzXR/L39fuSq1oOR8/htamjyjoY=
+X-Google-Smtp-Source: ABdhPJzYHgqx7UdoJrNpNFPxDBiySg9Ph/okE/L4bHlnv69h8PCS5V2ziz8f1bZm5FUNsnx4Zh1sqQ==
+X-Received: by 2002:a17:902:c284:b029:e1:8863:b3d6 with SMTP id
+ i4-20020a170902c284b02900e18863b3d6mr4978229pld.64.1612390786645; 
+ Wed, 03 Feb 2021 14:19:46 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:cd99:e813:1dae:a15a?
+ ([2601:647:4802:9070:cd99:e813:1dae:a15a])
+ by smtp.gmail.com with ESMTPSA id m81sm878930pfd.188.2021.02.03.14.19.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 14:19:45 -0800 (PST)
+Subject: Re: [PATCH v2] nvme: avoid "(efault)" from nvme_sysfs_show_subsysnqn()
+To: Keith Busch <kbusch@kernel.org>, Martin Wilck <mwilck@suse.com>
+References: <20210202005951.26614-1-mwilck@suse.com>
+ <20210202075828.GA12160@lst.de>
+ <a7f3114e22a07e60abfd98155df91dea3a83b386.camel@suse.com>
+ <20210203165203.GA2182779@dhcp-10-100-145-180.wdc.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <8b1fc5ef-4c6b-4fa3-7cb1-b42ed71e7413@grimberg.me>
+Date: Wed, 3 Feb 2021 14:19:44 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210203165621.GB6691@lst.de>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20210203165203.GA2182779@dhcp-10-100-145-180.wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210203_143436_128432_B2617456 
-X-CRM114-Status: GOOD (  20.81  )
+X-CRM114-CacheID: sfid-20210203_171948_038007_24AB7FDF 
+X-CRM114-Status: GOOD (  26.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,51 +89,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: smalin@marvell.com, David Ahern <dsahern@gmail.com>,
- Sagi Grimberg <sagi@grimberg.me>, yorayz@nvidia.com, boris.pismenny@gmail.com,
- Ben Ben-Ishay <benishay@mellanox.com>, Yoray Zack <yorayz@mellanox.com>,
- linux-nvme@lists.infradead.org, David Miller <davem@davemloft.net>,
- axboe@fb.com, Eric Dumazet <edumazet@google.com>,
- Or Gerlitz <ogerlitz@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Linux Netdev List <netdev@vger.kernel.org>, Keith Busch <kbusch@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Or Gerlitz <ogerlitz@mellanox.com>,
- benishay@nvidia.com, Saeed Mahameed <saeedm@nvidia.com>,
- Or Gerlitz <gerlitz.or@gmail.com>, Boris Pismenny <borisp@mellanox.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 03, 2021 at 05:56:21PM +0100, Christoph Hellwig wrote:
-> On Tue, Feb 02, 2021 at 08:00:51PM +0200, Or Gerlitz wrote:
-> > will look into this, any idea for a more suitable location?
-> 
-> Maybe just a new file under lib/ for now?
-> 
-> > > Overly long line.  But we're also looking into generic helpers for
-> > > this kind of things, not sure if they made it to linux-next in the
-> > > meantime, but please check.
-> > 
-> > This is what I found in linux-next - note sure if you were referring to it
-> > 
-> > commit 11432a3cc061c39475295be533c3674c4f8a6d0b
-> > Author: David Howells <dhowells@redhat.com>
-> > 
-> >     iov_iter: Add ITER_XARRAY
-> 
-> No, that's not it.  Ira, what is the status of the memcpy_{to,from}_page
-> helpers?
-
-Converting the entire kernel tree in one series has become unwieldy so I've
-given up.
-
-But I have a series to convert btrfs which I could release by the end of the
-week.  That should be good enough to push the memcpy_*_page() support in.
-
-I'm get it formatted and submitted,
-Ira
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiAyLzMvMjEgODo1MiBBTSwgS2VpdGggQnVzY2ggd3JvdGU6Cj4gT24gV2VkLCBGZWIgMDMs
+IDIwMjEgYXQgMDE6MzE6MTNQTSArMDEwMCwgTWFydGluIFdpbGNrIHdyb3RlOgo+PiBPbiBUdWUs
+IDIwMjEtMDItMDIgYXQgMDg6NTggKzAxMDAsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+Pj4g
+T24gVHVlLCBGZWIgMDIsIDIwMjEgYXQgMDE6NTk6NTFBTSArMDEwMCwgbXdpbGNrQHN1c2UuY29t
+wqB3cm90ZToKPj4+PiBGcm9tOiBNYXJ0aW4gV2lsY2sgPG13aWxja0BzdXNlLmNvbT4KPj4+Pgo+
+Pj4+IFdoaWxlIGEgY29udHJvbGxlciBpcyBzdGlsbCBjb25uZWN0aW5nLCBjdHJsLT5zdWJzeXMg
+aXMgTlVMTCBhbmQKPj4+PiB0aHVzIHJlYWRpbmcgdGhlIGNvbnRyb2xsZXIncyAic3Vic3lzbnFu
+IiBzeXNmcyBhdHRyaWJ1dGUgcmV0dXJucwo+Pj4+ICIoZWZhdWx0KSIuIFRoaXMgaGFwcGVucyBh
+bGwgdGhlIHRpbWUgd2hlbiB1c2VyIHNwYWNlIHByb2Nlc3Nlcwo+Pj4+ICJhZGQiIGV2ZW50cyBm
+b3IgTlZNZSBjb250cm9sbGVyIGRldmljZXMuCj4+Pj4KPj4+PiBGaXggaXQgYnkgcmV0dXJuaW5n
+IHRoZSBudm1mX2N0cmxfb3B0aW9ucycgc3Vic3lzbnFuIGF0dHJpYnV0ZQo+Pj4+IGlmIGN0cmwt
+PnN1YnN5cyBpc24ndCBpbml0aWFsaXplZCB5ZXQuCj4+Pgo+Pj4gVGhpcyBpcyBqdXN0IHBhcGVy
+aW5nIG92ZXIgc3ltcHRvbXMuwqAgV2Ugc2hvdWxkIG5vdCBiZSBzZW5kaW5nCj4+PiBldmVudHMg
+b3IgZGlzcGxheSBzeXNmcyBmaWxlcyB1bnRpbCB0aGUgY29udHJvbGxlIGlzIGxpdmUuCj4+Cj4+
+IEkgZG9uJ3QgZm9sbG93LsKgV2hhdCdzIHdyb25nIHdpdGggYSAiY29ubmVjdGluZyIgY29udHJv
+bGxlciBkZXZpY2UgaW4KPj4gc3lzZnM/Cj4+Cj4+IENvbnRyb2xsZXJzIGNhbiBsb29zZSBjb25u
+ZWN0aXZpdHkgYW55IHRpbWUuIFdoYXQncyB0aGUgZGlmZmVyZW5jZQo+PiBiZXR3ZWVuIGEgY29u
+dHJvbGxlciB0aGF0IGlzIHJlY29ubmVjdGluZyBhZnRlciBhIGNvbm5lY3Rpb24gbG9zcyBhbmQg
+YQo+PiBmcmVzaGx5IGNyZWF0ZWQgY29udHJvbGxlciB0aGF0J3MganVzdCBub3QgbGl2ZSB5ZXQ/
+wqBZb3Ugd291bGRuJ3QKPj4gZGVsZXRlIHRoZSBmb3JtZXIgZnJvbSBzeXNmcywgSSBzdXBwb3Nl
+Lgo+Pgo+PiAgRnJvbSB0aGUgdXNlciBzcGFjZSBwb2ludCBvZiB2aWV3LCBpdCdzIHRoZSBzYW1l
+LCBhIGNvbnRyb2xsZXIgZGV2aWNlCj4+IHRoYXQgaXMgbm90IGluIHVzYWJsZSBzdGF0ZS4gSSBk
+b24ndCBzZWUgYSBnZW5lcmFsIHByb2JsZW0gd2l0aCB0aGF0Lgo+PiBTZWVpbmcgYSBjb250cm9s
+bGVyIGFwcGVhciBpbiBjb25uZWN0aW5nIHN0YXRlIG1pZ2h0IGFjdHVhbGx5IGJlIHVzZWZ1bAo+
+PiBmb3IgdXNlciBzcGFjZS4KPj4KPj4gVGhlIHN1YnN5c25xbiBhdHRyaWJ1dGUgaXMgY29ycmVj
+dCBmb3IgY29udHJvbGxlcnMgdGhhdCB3ZXJlIG9uY2UKPj4gY29ubmVjdGVkIGFuZCBsb3N0IGNv
+bm5lY3Rpdml0eS4gTXkgcGF0Y2ggd2FzIG9ubHkgaW50ZW5kZWQgdG8gZml4IHRoZQo+PiAianVz
+dCBjcmVhdGVkIGFuZCBuZXZlciBjb25uZWN0ZWQiIGNhc2UsIHdoZXJlIGl0IGlzIG5vdCwgbm90
+aGluZyBtb3JlLgo+IAo+IEkgdGhpbmsgQ2hyaXN0b3BoIGlzIHN1Z2dlc3RpbmcganVzdCB3YWl0
+IHVudGlsIHdlIGhhdmUgYWxsIHRoZQo+IHByb3BlcnRpZXMgdGhlIGRyaXZlciBleHBvcnRzIHJh
+dGhlciB0aGFuIHNwZWNpZmljYWxseSBleHBvcnRpbmcgb25seQo+IGR1cmluZyBhICdsaXZlJyBz
+dGF0ZS4gU29tZXRoaW5nIGxpa2UgdGhpcyAodW50ZXN0ZWQpIHNob3VsZCBkbyB0aGUKPiB0cmlj
+azoKPiAKPiAtLS0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJp
+dmVycy9udm1lL2hvc3QvY29yZS5jCj4gaW5kZXggMWEzY2RjNmIxMDM2Li40YzAyNThkN2ViOTEg
+MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCj4gKysrIGIvZHJpdmVycy9u
+dm1lL2hvc3QvY29yZS5jCj4gQEAgLTMwNjksNiArMzA2OSw5IEBAIGludCBudm1lX2luaXRfaWRl
+bnRpZnkoc3RydWN0IG52bWVfY3RybCAqY3RybCkKPiAgIAkJaWYgKHJldCkKPiAgIAkJCWdvdG8g
+b3V0X2ZyZWU7Cj4gICAKPiArCQlyZXQgPSBjZGV2X2RldmljZV9hZGQoJmN0cmwtPmNkZXYsIGN0
+cmwtPmRldmljZSk7Cj4gKwkJaWYgKHJldCkKPiArCQkJZ290byBvdXRfZnJlZTsKClRoaXMgaGFw
+cGVucyBvbiBldmVyeSByZXNldCwgd2Ugc2hvdWxkIHByb2JhYmx5IGp1c3QgZG8gdGhpcyBvbmNl
+PwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgt
+bnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9s
+aXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
