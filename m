@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A3B8C433DB
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 18:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F51C433E6
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 18:36:52 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 91DB364D9A
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 18:30:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 91DB364D9A
+	by mail.kernel.org (Postfix) with ESMTPS id C57E464F59
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 18:36:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C57E464F59
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,60 +23,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=RVm7CzN9WQM2zjkvpgqsrTIYRnl8TvazHEu1LZUs7rM=; b=A2KCV4nZcIhUch1y4oUtTOKKl
-	1kp8Zf+kv6ERaM1SOVahDEem5g9wWSy6wUvBBMl+W/IoRhD91U1NMiZK2MC+sWidfKMeAJWyys+A0
-	xfyhZ3jiK/CLyRCRJttmIXOmqm2L+3+GJ7cEGl8wAaEQw07Zm5FXtdX+VpKkIRkOP2c1NgC6+Vkh6
-	VPobojYiwCtNGNRntH3JBB7AJGdCb7vPShihsVSAgoHWrsYKOeDHNgQKtBYRPISS4tfLEngNgIS2K
-	ddkVSG4BNRjSgYJjZrtVZ8sshMc51Qa/cLBGdZWYEjbQny8WBnYf2ExtTmUrnK+xnKtiqIee1EdIk
-	Vpd47VqJA==;
+	 bh=cxNywPAKXLagmYVTnSOmgZQ9WfYgT6IfR922vzu0k3M=; b=pqzGze6N29V6Qt6VTmwLj28gL
+	Q1011tejcyY+7uK3BPjW68d9mR3OAG4JwBRGTQ0X3uXJggsQYCWCaN02vCauMiOz07KUkPNQEXYiA
+	zkFpMCMCjPWO0QNeio8O6rukifaN5/w4gBwy9oVsCGTixKlT5V/UmQ+vJaZx2y3hoKBEir093boiy
+	Y6cqmDOlcaYc2tQGa+ulPxBUxjTvTmpo5VecqRlYoKR1KAbDm2SpG3/fKXGVGF8rJ45rD4SOQbz0H
+	ZQU1ngxs+tkrj840Hh78W9f0CB+JCwnzBywou+Qri3XC8H0E4tpgkwOuonnMCSXP/ajAJGkOVzTL4
+	DxFz6qdcQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7jOD-0001yK-B8; Thu, 04 Feb 2021 18:30:01 +0000
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+	id 1l7jUk-00033u-KG; Thu, 04 Feb 2021 18:36:46 +0000
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7jO7-0001w7-Kh
- for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 18:29:56 +0000
-Received: by mail-yb1-xb36.google.com with SMTP id w204so4192537ybg.2
- for <linux-nvme@lists.infradead.org>; Thu, 04 Feb 2021 10:29:53 -0800 (PST)
+ id 1l7jUi-000331-HI
+ for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 18:36:45 +0000
+Received: by mail-yb1-xb2e.google.com with SMTP id i6so4177924ybq.5
+ for <linux-nvme@lists.infradead.org>; Thu, 04 Feb 2021 10:36:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eWgh0XkVaRWPuWo7WK7qz5Q0H3AISoN4etSff7sqhGw=;
- b=Zm8Jwd2j2XDdwDja/gEY8F0m/doWOuQFeKvwXWxdJhS2QyIi6oaf3OHot4DBk9Hqbx
- Q3TfccWb3tsqlbkXKHWfSk7PY+9bDCoofSB5v7UxmnKqt2DgL2ggzMzmG3OVmVf59v4m
- bAKEmhAT5C4En27IXXiIIOnPGYEp1Ugk9cM1Jhaj8noNTyLvpzvO+1vyn4+kIE3ucaCl
- qMK9L6C0qsNTQWYweqWEfebQaRHIH9Qw0t/Pt5L1S2iWt/jgaz0yg/AXpmqGbhJQu23s
- ftGltkD6+LUile+VMud9NATpK9oyWJspgiDAV704nfJnZ/riL3BGqcJ+GxeA0I/1q9k9
- UA8g==
+ :cc; bh=UqMQ/GMTZ6SvjPq30QG7VPUvPnPGHPYTqgfLdXQVAkc=;
+ b=LyZ3A3Lmzqa4HkekOWrcIkvNIGnTiP8h7yn6jpXCpK655PcTayjIddQGPC2ppHDZbt
+ DNYCPOMVwbxvrROgrXImQT/KspeG7SDBbwGktObKI3gkhQuesBOKqEJbYsco4Q+F7Y7M
+ RPpECwGpoNRF/5S1x0NAovWaucKKgZsW9SonsWJ7l7i1G0r8VKOK9snb9JMlQrfIM0gJ
+ L6tQSphrZCO6JLcWzgfXjAQsqzRnJ2EvIdNW3DEhNQ6+ox5vsJLwexcdqVBZf4Fvy8yp
+ ZSv8G0CH2ZtFiyMxh8f1/ZX5NMrRP05x5G7AtfhLUqI/BjuWNuh/h1d1fZj/ytGHeaQu
+ 4MmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eWgh0XkVaRWPuWo7WK7qz5Q0H3AISoN4etSff7sqhGw=;
- b=oZXHqqRFFsZ+a4qok5oaCD6i7S5G14asT+vKY7/oOj8OUVv7M1rYtfRXCUF1xCMSIM
- ThDW+zvnFc5uBAZdrRXX+4KM3/Am+NsPuM8870258m7D9BofGvvnbY/+HV3Crfxt6WX5
- kLIhcxam1P7r6WEWZcijAuqSU2/IRwW0Xmn27YYoTrRHRcXcG+DY0leqmi8YtBlg2hNt
- y4os7mPex9MulhTHsid/Huy16lBcBCo7wX0LN0LvGwGH8HVaLZYViKZRvpMObg/HU5/+
- tmi+lEIq15RySnXXgbvBr1c9jppi5o62IbQnFEmT3OYKcN7Jy5U4mgPkTAfB6tyaFs/Q
- w1KQ==
-X-Gm-Message-State: AOAM532UE+2CArB2HP+9atoVSdk7q5FydyM8WbQrndK/xSmr4qBEMh/I
- pt/hEv/b+2ADghxQ7QjN/aZhrUKWNXQTy/+aaRk=
-X-Google-Smtp-Source: ABdhPJyPbmOvFiklD3H0VNXQr6NZf54rjz/Qni/kpYtt32m4+s71llCUvOi0m045SGW63zF5Gn5rMFTsMJzoP//s2f0=
-X-Received: by 2002:a25:ba13:: with SMTP id t19mr763188ybg.129.1612463392132; 
- Thu, 04 Feb 2021 10:29:52 -0800 (PST)
+ bh=UqMQ/GMTZ6SvjPq30QG7VPUvPnPGHPYTqgfLdXQVAkc=;
+ b=flO4sCmjK2Go781+LHaoMVVcbJl035hcnFsPb0gt1nA8D8h2VYFrkks1iSOYB0Di3q
+ gQOW8NMhaDkmgheXEQpdEq5yLwM4wEsRSl/iGI4PEjfZlYM5w9g0i9p3fHYr2Da1VIGi
+ nYsgDPU6Q2rz7+czP3FxUoq4znBIkpetAhwof2l6cRwOJLu4ZD7CjGEuksVbfO2typcA
+ kVqFqNvs5m682+bzgGyaHlliHo6AFSw1zM5HBC9Eua9qY8pBEm6YIKr2akBN6QYTa+JJ
+ hLWzS+UdY9EZNxbaWtwKKwnmiW5Uch9FcFRrl+MMsM7Qt2fnf70Egax+/kXgrmwrOjMQ
+ vlGQ==
+X-Gm-Message-State: AOAM532XCj6NUzZw/SqDr1QTgE8RTfa+fD1v0IIV6s69QaHXd+yR4qAr
+ oIWGQdSHLG6vJpQjdv6WdBBFzZfvlSdRQwwIU/k=
+X-Google-Smtp-Source: ABdhPJzNloHxgGPC4oJnyoA85Rq0G3DJrGU2d/8HUY7WajfwjT60zC6XBiMPLUIpZyr5jC/YDS6BF20iR9+NzsehnJo=
+X-Received: by 2002:a25:ba13:: with SMTP id t19mr806489ybg.129.1612463802396; 
+ Thu, 04 Feb 2021 10:36:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20210201100509.27351-1-borisp@mellanox.com>
- <20210201100509.27351-10-borisp@mellanox.com>
- <c864eb96-18ea-21dd-3ef3-15ca908c5959@grimberg.me>
-In-Reply-To: <c864eb96-18ea-21dd-3ef3-15ca908c5959@grimberg.me>
+ <20210201100509.27351-9-borisp@mellanox.com>
+ <a104a5d1-b4cb-4275-6ced-b80f911b6f47@grimberg.me>
+In-Reply-To: <a104a5d1-b4cb-4275-6ced-b80f911b6f47@grimberg.me>
 From: Or Gerlitz <gerlitz.or@gmail.com>
-Date: Thu, 4 Feb 2021 20:29:41 +0200
-Message-ID: <CAJ3xEMjzh=PEqLNwW5RMtofskGQubD3Z5+CR_JhuCUCH50jtGg@mail.gmail.com>
-Subject: Re: [PATCH v3 net-next 09/21] nvme-tcp: Deal with netdevice DOWN
- events
+Date: Thu, 4 Feb 2021 20:36:31 +0200
+Message-ID: <CAJ3xEMhSxrjLfDvfzVRCLb27K4KmRh-KHQaKxvDF_6VDbNN8Jw@mail.gmail.com>
+Subject: Re: [PATCH v3 net-next 08/21] nvme-tcp : Recalculate crc in the end
+ of the capsule
 To: Sagi Grimberg <sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210204_132955_722548_F685124E 
-X-CRM114-Status: GOOD (  14.57  )
+X-CRM114-CacheID: sfid-20210204_133644_619160_ED914092 
+X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,36 +103,41 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 3, 2021 at 11:17 AM Sagi Grimberg <sagi@grimberg.me> wrote:
-> > @@ -2930,6 +2931,27 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
-> >       return ERR_PTR(ret);
+On Wed, Feb 3, 2021 at 11:12 AM Sagi Grimberg <sagi@grimberg.me> wrote:
+
+> > @@ -1841,8 +1913,10 @@ static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
+> >       nvme_tcp_restore_sock_calls(queue);
+> >       cancel_work_sync(&queue->io_work);
+> >
+> > -     if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags))
+> > +     if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags) ||
+> > +         test_bit(NVME_TCP_Q_OFF_DDGST_RX, &queue->flags))
+> >               nvme_tcp_unoffload_socket(queue);
+> > +
+>
+> extra newline
+
+will remove
+
 > >   }
 > >
-> > +static int nvme_tcp_netdev_event(struct notifier_block *this,
-> > +                              unsigned long event, void *ptr)
-> > +{
-> > +     struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-> > +     struct nvme_tcp_ctrl *ctrl;
-> > +
-> > +     switch (event) {
-> > +     case NETDEV_GOING_DOWN:
-> > +             mutex_lock(&nvme_tcp_ctrl_mutex);
-> > +             list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list) {
-> > +                     if (ndev != ctrl->offloading_netdev)
-> > +                             continue;
-> > +                     nvme_tcp_error_recovery(&ctrl->ctrl);
-> > +             }
-> > +             mutex_unlock(&nvme_tcp_ctrl_mutex);
-> > +             flush_workqueue(nvme_reset_wq);
-> > +             /* we assume that the going down part of error recovery is over */
+> >   static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
+> > @@ -1970,8 +2044,6 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
+> >   {
+> >       int ret;
+> >
+> > -     to_tcp_ctrl(ctrl)->offloading_netdev = NULL;
+> > -
 >
-> Maybe phrase it as:
-> /*
->   * The associated controllers teardown has completed, ddp contexts
->   * were also torn down so we should be safe to continue...
->   */
+> Unclear what is the intent here.
 
-sure
+yep, unclear indeed.. will look and probably remove
+
+as for your other comment on this patch, will get back to you later on
+
+> >       ret = nvme_tcp_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
+> >       if (ret)
+> >               return ret;
 
 _______________________________________________
 Linux-nvme mailing list
