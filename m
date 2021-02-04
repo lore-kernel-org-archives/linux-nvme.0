@@ -2,68 +2,63 @@ Return-Path: <SRS0=YrQE=HG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEBF2C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 20:19:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 256ECC433DB
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 22:09:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 67B0264F3F
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 20:19:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 67B0264F3F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7675964FA1
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 22:09:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7675964FA1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=XWESDk8WZ8pa6/9Kwr231JZLlAjzwzMjJq8qkXfSpfo=; b=J6qs1K+aEw8omATcSJ8yevakNf
-	mbWyFfr1r+V6VGKqrfBZo6dv7y1rQghhVqR/Hpb9Ym8je3PkNxzZa/QFF+huqjk/z2e5GbFYQFnsx
-	HdkN048vnMulF41+oQ2sonx2QAetW7+Z7t0iZODkvqXTH0PFrB/2CQj7USCKWhgxf5xvljJUvgegX
-	HXLrBonVWRWAguIa4mJCfi22yk510j95rS3ruSJPcJ4FlcWFLUD5xF4LPa1ZX+F43hD/JQunslgFg
-	dv5SJYmJZYCCrbNhDBQ7UiYMNaE0KeRpeGE+ZxZ6QlCgl0r3lZUprKFPq4QXmtg6vy3D/ol+0oHyQ
-	gxTkn4Vg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=0pphU5PD8VYkp1CqNdKTYbnFgsKCcC3BtcgL/LDuBRg=; b=ppfY+v99h4NbreBH8gH72ktAe
+	bPUPwr3x3cLZYpb6LaFM//SRmOAV9ee4iN/kAFjoBBVWIGHOugzffO+dc2PNx5tioTvGubLajCaUH
+	ah8hdVe6csMfSATs0NQscL2G/2xjA1BtoNmmwbHS/M31Xg7le69W1hcyaBBWzXSPaY9YDfkX3H0jC
+	AXGbjdxIM/EHNe23kaBHVxvYy5aMX70Zr35Wsu8Vqk1xGND4zZ1XxBEF5ZHbKcrTpqiVIZNFl5UHm
+	YZMbD8C/nulQzbBWpNI9N9w2GpXZvxJZTNo8GZfCe9MuWlECPC5fe3pnnuDDJCgfe1qVFWsJvpkYs
+	Sg0glqVXQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7l5h-00060l-N3; Thu, 04 Feb 2021 20:19:01 +0000
-Received: from mga12.intel.com ([192.55.52.136])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7l5d-0005zQ-Sk
- for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 20:18:59 +0000
-IronPort-SDR: +NZGCu0yNqU4AdQnvyjOOflyfs4JZdSkI7lgypGRl8OZgpiubN0iitjhtH0zfswth2682XEl6k
- JZVquXz+8yUA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="160482687"
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; d="scan'208";a="160482687"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2021 12:18:48 -0800
-IronPort-SDR: 9gVJnJ+iLgW49G57HwllM/03N5m2uKEUBwIyRy1ztApYJom8ihBwyriYIYrE2AC4gkpTjMbqBr
- s3tTs7TNxI1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; d="scan'208";a="373012008"
-Received: from lkp-server02.sh.intel.com (HELO 8b832f01bb9c) ([10.239.97.151])
- by fmsmga008.fm.intel.com with ESMTP; 04 Feb 2021 12:18:47 -0800
-Received: from kbuild by 8b832f01bb9c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1l7l5T-00019d-87; Thu, 04 Feb 2021 20:18:47 +0000
-Date: Fri, 05 Feb 2021 04:18:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-5.12] BUILD SUCCESS
- aced5580e793b6d0287587bbb36f11510775b627
-Message-ID: <601c569a.lIUZfAYZ2EGdyXCI%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1l7moJ-0008Mw-VN; Thu, 04 Feb 2021 22:09:12 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l7moF-0008MN-Ri
+ for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 22:09:08 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27B9A13A1;
+ Thu,  4 Feb 2021 14:09:06 -0800 (PST)
+Received: from [10.57.49.26] (unknown [10.57.49.26])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65AC73F718;
+ Thu,  4 Feb 2021 14:09:04 -0800 (PST)
+Subject: Re: [PATCH 3/8] swiotlb: factor out a nr_slots helper
+To: Christoph Hellwig <hch@lst.de>, jxgao@google.com,
+ gregkh@linuxfoundation.org
+References: <20210204193035.2606838-1-hch@lst.de>
+ <20210204193035.2606838-4-hch@lst.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <ae995e9d-4476-cea2-a4d7-9e9cbab5aafd@arm.com>
+Date: Thu, 4 Feb 2021 22:09:02 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210204193035.2606838-4-hch@lst.de>
+Content-Language: en-GB
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210204_151858_113347_25306BA9 
-X-CRM114-Status: UNSURE (   7.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210204_170907_959156_44170566 
+X-CRM114-Status: GOOD (  21.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,153 +70,78 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
+ linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ iommu@lists.linux-foundation.org, erdemaktas@google.com,
+ m.szyprowski@samsung.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.12
-branch HEAD: aced5580e793b6d0287587bbb36f11510775b627  nvme-rdma: handle nvme_rdma_post_send failures better
+On 2021-02-04 19:30, Christoph Hellwig wrote:
+> Factor out a helper to find the number of slots for a given size.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   kernel/dma/swiotlb.c | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index 838dbad10ab916..0c0b81799edbdb 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -194,6 +194,11 @@ static inline unsigned long io_tlb_offset(unsigned long val)
+>   	return val & (IO_TLB_SEGSIZE - 1);
+>   }
+>   
+> +static unsigned long nr_slots(u64 val)
+> +{
+> +	return ALIGN(val, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
 
-elapsed time: 723m
+Would DIV_ROUND_UP(val, 1 << IOTLB_SHIFT) be even clearer?
 
-configs tested: 123
-configs skipped: 3
+Robin.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                             alldefconfig
-sh                          rsk7264_defconfig
-arm                           u8500_defconfig
-m68k                           sun3_defconfig
-mips                        vocore2_defconfig
-sh                           se7206_defconfig
-arm                        clps711x_defconfig
-arm                            hisi_defconfig
-sh                           se7343_defconfig
-arm                       multi_v4t_defconfig
-powerpc                 linkstation_defconfig
-powerpc                      cm5200_defconfig
-arm                      pxa255-idp_defconfig
-openrisc                 simple_smp_defconfig
-powerpc                     mpc5200_defconfig
-xtensa                         virt_defconfig
-powerpc                    gamecube_defconfig
-c6x                              alldefconfig
-sh                            hp6xx_defconfig
-c6x                        evmc6474_defconfig
-sh                           se7750_defconfig
-arm                        spear6xx_defconfig
-arm                            pleb_defconfig
-ia64                            zx1_defconfig
-sh                  sh7785lcr_32bit_defconfig
-powerpc                     redwood_defconfig
-s390                             alldefconfig
-powerpc                      ppc40x_defconfig
-mips                       lemote2f_defconfig
-mips                   sb1250_swarm_defconfig
-powerpc                         ps3_defconfig
-arm                       omap2plus_defconfig
-mips                     cu1830-neo_defconfig
-arc                        vdk_hs38_defconfig
-mips                           ip27_defconfig
-powerpc                     rainier_defconfig
-parisc                           alldefconfig
-x86_64                              defconfig
-arm                         cm_x300_defconfig
-powerpc                 xes_mpc85xx_defconfig
-sh                          rsk7269_defconfig
-sh                ecovec24-romimage_defconfig
-m68k                          atari_defconfig
-arc                            hsdk_defconfig
-h8300                    h8300h-sim_defconfig
-sh                     sh7710voipgw_defconfig
-powerpc                        icon_defconfig
-sh                           se7721_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210204
-i386                 randconfig-a005-20210204
-i386                 randconfig-a003-20210204
-i386                 randconfig-a006-20210204
-i386                 randconfig-a002-20210204
-i386                 randconfig-a004-20210204
-x86_64               randconfig-a013-20210204
-x86_64               randconfig-a014-20210204
-x86_64               randconfig-a015-20210204
-x86_64               randconfig-a011-20210204
-x86_64               randconfig-a016-20210204
-x86_64               randconfig-a012-20210204
-i386                 randconfig-a013-20210204
-i386                 randconfig-a016-20210204
-i386                 randconfig-a014-20210204
-i386                 randconfig-a012-20210204
-i386                 randconfig-a015-20210204
-i386                 randconfig-a011-20210204
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a006-20210204
-x86_64               randconfig-a001-20210204
-x86_64               randconfig-a005-20210204
-x86_64               randconfig-a002-20210204
-x86_64               randconfig-a004-20210204
-x86_64               randconfig-a003-20210204
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> +}
+> +
+>   /*
+>    * Early SWIOTLB allocation may be too early to allow an architecture to
+>    * perform the desired operations.  This function allows the architecture to
+> @@ -493,20 +498,20 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+>   
+>   	tbl_dma_addr &= mask;
+>   
+> -	offset_slots = ALIGN(tbl_dma_addr, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+> +	offset_slots = nr_slots(tbl_dma_addr);
+>   
+>   	/*
+>   	 * Carefully handle integer overflow which can occur when mask == ~0UL.
+>   	 */
+>   	max_slots = mask + 1
+> -		    ? ALIGN(mask + 1, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT
+> +		    ? nr_slots(mask + 1)
+>   		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
+>   
+>   	/*
+>   	 * For mappings greater than or equal to a page, we limit the stride
+>   	 * (and hence alignment) to a page size.
+>   	 */
+> -	nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+> +	nslots = nr_slots(alloc_size);
+>   	if (alloc_size >= PAGE_SIZE)
+>   		stride = (1 << (PAGE_SHIFT - IO_TLB_SHIFT));
+>   	else
+> @@ -602,7 +607,7 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
+>   			      enum dma_data_direction dir, unsigned long attrs)
+>   {
+>   	unsigned long flags;
+> -	int i, count, nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+> +	int i, count, nslots = nr_slots(alloc_size);
+>   	int index = (tlb_addr - io_tlb_start) >> IO_TLB_SHIFT;
+>   	phys_addr_t orig_addr = io_tlb_orig_addr[index];
+>   
+> 
 
 _______________________________________________
 Linux-nvme mailing list
