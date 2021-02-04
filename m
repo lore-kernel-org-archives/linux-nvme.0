@@ -2,19 +2,19 @@ Return-Path: <SRS0=YrQE=HG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC5FC433E0
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 07:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 570F2C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 07:34:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3252164F53
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 07:20:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3252164F53
+	by mail.kernel.org (Postfix) with ESMTPS id EEA7764F41
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 07:34:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EEA7764F41
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,39 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vrErC2ZPauhy0UEJLSpT6bakwBkptu56GGQQplLWf78=; b=cJTaJlI4x3Rk4lQJhBV7we0QK
-	vrSZwzGA48DmAhIbQ2V5Ne0XZvBq/WQKbwHnF/U0mPwu1mMs02xJuvclb7YPH72+PGqHqfwSrCWoJ
-	vlPrlT8pgGFC5KGf1Ci906PzNrJ27NfGpKJUUm6igGBqOBBAkN0yGaQB6dZSq58rptk1VEfBCHMKn
-	b99u2Hpp3KdjLIVC6NgPyE7gGrMvQu6gW7CaT4OMEwibTseHlJksGnuWo7odGD15v7b7tvw8UVp2x
-	PKXg4yiyWsC43gZA3xqKmum6XF98b44PSHf1bOzGCJQCrZOmlvtopBZOzWD4yyLRN/wnzHHUInwSb
-	DbzClQvpQ==;
+	 bh=TmVgds2jEzWocMS9XwwaHBLW8hNHWZdETqooz/hCfbQ=; b=ybLjPUAco0xwdvOBazlfKdZfC
+	ULqpl3hUGkr+QjfFG/IrtvqxoLzDua7xHb7ZsuHvqcvg+gutn2HWkuVpEQTtxUWPfojEo4no+KZeK
+	GAvdz+B8OxsJ8mGiHkbirOSnNLNTTUgeeCyq2hcZe+G6VJZXGFYSmQwK4vC06jlGjyg8fjzumeJO1
+	BURJRegj0U1QefpD0B6mjWyvxQSxitpV9EORu4kUPMWrOnTZu42V4XWab2KsUEezeAABjz2smqKjT
+	prL43SPRAwQ7aq3UU81NYuZQpCd7Ne/uR9+y/hurj7TTHJTv8p7M6JHqNuph03xmXE7gus+tFeYth
+	cNfye48gQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7Yw4-0006DQ-8I; Thu, 04 Feb 2021 07:20:16 +0000
+	id 1l7Z9o-0007Ft-9R; Thu, 04 Feb 2021 07:34:28 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7Yw2-0006D2-93
- for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 07:20:15 +0000
+ id 1l7Z9l-0007FX-Bh
+ for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 07:34:26 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E5DA8AEAB;
- Thu,  4 Feb 2021 07:20:12 +0000 (UTC)
-Subject: Re: [PATCH 19/35] fabrics: use "const char *" in struct config
-To: mwilck@suse.com, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org
+ by mx2.suse.de (Postfix) with ESMTP id 9E2E9AD18;
+ Thu,  4 Feb 2021 07:34:23 +0000 (UTC)
+Subject: Re: [PATCH 35/35] monitor: add option --keep/-K
+To: Martin Wilck <mwilck@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20210126203324.23610-1-mwilck@suse.com>
- <20210126203324.23610-20-mwilck@suse.com>
+ <20210126203324.23610-36-mwilck@suse.com>
+ <90145500-c2c5-023c-6d69-27db6ee600a7@grimberg.me>
+ <12827c5f748bd2eff31450c47bbef1cfc7b73459.camel@suse.com>
+ <400d4f5e-a578-e89f-ae45-7ed15d089a8d@grimberg.me>
+ <b4b9a52011d17ef16cbc86d81ef3d19f7a517d93.camel@suse.com>
+ <c127bde8-7cae-677c-4b8d-44cf757d05eb@grimberg.me>
+ <2394e23e80f2bdcf0a95eb39e5eefcb00237d52f.camel@suse.com>
+ <8cb1830e-b7f3-48ef-1190-0d917aa200bb@grimberg.me>
+ <5623aeee6a57889123b8a3441ee6df7b97f76451.camel@suse.com>
+ <552cb65a-8f1b-e414-4de8-f53ff469e8a1@grimberg.me>
+ <c00de29ef02bf39ae231a2816f03c8e920ebdc29.camel@suse.com>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <b875397b-9ecd-3630-6e97-f4852fc60fba@suse.de>
-Date: Thu, 4 Feb 2021 08:20:11 +0100
+Message-ID: <864dd77a-650f-9260-9d9d-02ab83b4a18d@suse.de>
+Date: Thu, 4 Feb 2021 08:34:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210126203324.23610-20-mwilck@suse.com>
+In-Reply-To: <c00de29ef02bf39ae231a2816f03c8e920ebdc29.camel@suse.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210204_022014_549137_C563C459 
-X-CRM114-Status: GOOD (  28.58  )
+X-CRM114-CacheID: sfid-20210204_023425_649625_B1DF1BE7 
+X-CRM114-Status: GOOD (  24.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,88 +78,108 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-15"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMS8yNi8yMSA5OjMzIFBNLCBtd2lsY2tAc3VzZS5jb20gd3JvdGU6Cj4gRnJvbTogTWFydGlu
-IFdpbGNrIDxtd2lsY2tAc3VzZS5jb20+Cj4gCj4gVGhpcyBpcyBlYXNpbHkgZG9uZSwgYW5kIGFs
-bG93cyBwYXNzaW5nIGluIHNvbWUgY29uc3QgY2hhciogcG9pbnRlcnMKPiB0aGF0IHdvdWxkIG90
-aGVyd2lzZSBuZWVkIHRvIGJlIHN0cmR1cCgpZCBmaXJzdC4KPiAKPiBjb25zdGlmeWluZyBjZmct
-PmRldmljZSByZXF1aXJlcyBjaGFuZ2VzIGluIHRoZSBjdHJsX2luc3RhbmNlKCkKPiBmdW5jdGlv
-biwgYmVjYXVzZSBiYXNlbmFtZSgpIGNhbid0IGJlIHVzZWQuCj4gCj4gU2lnbmVkLW9mZi1ieTog
-TWFydGluIFdpbGNrIDxtd2lsY2tAc3VzZS5jb20+Cj4gLS0tCj4gICBmYWJyaWNzLmMgfCAyMyAr
-KysrKysrKysrKysrKy0tLS0tLS0tLQo+ICAgZmFicmljcy5oIHwgMTcgKysrKysrKysrLS0tLS0t
-LS0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0p
-Cj4gCj4gZGlmZiAtLWdpdCBhL2ZhYnJpY3MuYyBiL2ZhYnJpY3MuYwo+IGluZGV4IGMxYTRiYjUu
-LmUzZDJhM2EgMTAwNjQ0Cj4gLS0tIGEvZmFicmljcy5jCj4gKysrIGIvZmFicmljcy5jCj4gQEAg
-LTI1MiwxNyArMjUyLDIyIEBAIGVtcHR5X2ZpZWxkOgo+ICAgCXJldHVybiBzdHJkdXAoIlwwIik7
-Cj4gICB9Cj4gICAKPiAtc3RhdGljIGludCBjdHJsX2luc3RhbmNlKGNoYXIgKmRldmljZSkKPiAr
-aW50IGN0cmxfaW5zdGFuY2UoY29uc3QgY2hhciAqZGV2aWNlKQo+ICAgewo+ICAgCWNoYXIgZFs2
-NF07Cj4gKwljb25zdCBjaGFyICpwOwo+ICAgCWludCByZXQsIGluc3RhbmNlOwo+ICAgCj4gLQlk
-ZXZpY2UgPSBiYXNlbmFtZShkZXZpY2UpOwo+IC0JcmV0ID0gc3NjYW5mKGRldmljZSwgIm52bWUl
-ZCIsICZpbnN0YW5jZSk7Cj4gKwlwID0gc3RycmNocihkZXZpY2UsICcvJyk7Cj4gKwlpZiAocCA9
-PSBOVUxMKQo+ICsJCXAgPSBkZXZpY2U7Cj4gKwllbHNlCj4gKwkJcCsrOwo+ICsJcmV0ID0gc3Nj
-YW5mKHAsICJudm1lJWQiLCAmaW5zdGFuY2UpOwo+ICAgCWlmIChyZXQgPD0gMCkKPiAgIAkJcmV0
-dXJuIC1FSU5WQUw7Cj4gICAJaWYgKHNucHJpbnRmKGQsIHNpemVvZihkKSwgIm52bWUlZCIsIGlu
-c3RhbmNlKSA8PSAwIHx8Cj4gLQkgICAgc3RyY21wKGRldmljZSwgZCkpCj4gKwkgICAgc3RyY21w
-KHAsIGQpKQo+ICAgCQlyZXR1cm4gLUVJTlZBTDsKPiAgIAlyZXR1cm4gaW5zdGFuY2U7Cj4gICB9
-Cj4gQEAgLTI3Myw3ICsyNzgsNyBAQCBzdGF0aWMgaW50IGN0cmxfaW5zdGFuY2UoY2hhciAqZGV2
-aWNlKQo+ICAgICogZ2l2ZW4uCj4gICAgKiBSZXR1cm4gdHJ1ZS9mYWxzZSBiYXNlZCBvbiB3aGV0
-aGVyIGl0IG1hdGNoZXMKPiAgICAqLwo+IC1zdGF0aWMgYm9vbCBjdHJsX21hdGNoZXNfY29ubmVj
-dGFyZ3MoY2hhciAqbmFtZSwgc3RydWN0IGNvbm5lY3RfYXJncyAqYXJncykKPiArc3RhdGljIGJv
-b2wgY3RybF9tYXRjaGVzX2Nvbm5lY3RhcmdzKGNvbnN0IGNoYXIgKm5hbWUsIHN0cnVjdCBjb25u
-ZWN0X2FyZ3MgKmFyZ3MpCj4gICB7Cj4gICAJc3RydWN0IGNvbm5lY3RfYXJncyBjYXJnczsKPiAg
-IAlib29sIGZvdW5kID0gZmFsc2U7Cj4gQEAgLTgxNSw3ICs4MjAsNyBAQCBhZGRfaW50X2FyZ3Vt
-ZW50KGNoYXIgKiphcmdzdHIsIGludCAqbWF4X2xlbiwgY2hhciAqYXJnX3N0ciwgaW50IGFyZywK
-PiAgIH0KPiAgIAo+ICAgc3RhdGljIGludAo+IC1hZGRfYXJndW1lbnQoY2hhciAqKmFyZ3N0ciwg
-aW50ICptYXhfbGVuLCBjaGFyICphcmdfc3RyLCBjaGFyICphcmcpCj4gK2FkZF9hcmd1bWVudChj
-aGFyICoqYXJnc3RyLCBpbnQgKm1heF9sZW4sIGNoYXIgKmFyZ19zdHIsIGNvbnN0IGNoYXIgKmFy
-ZykKPiAgIHsKPiAgIAlpbnQgbGVuOwo+ICAgCj4gQEAgLTE1NDEsNyArMTU0Niw3IEBAIHN0YXRp
-YyBpbnQgc2Nhbl9zeXNfbnZtZV9maWx0ZXIoY29uc3Qgc3RydWN0IGRpcmVudCAqZCkKPiAgIC8q
-Cj4gICAgKiBSZXR1cm5zIDEgaWYgZGlzY29ubmVjdCBvY2N1cnJlZCwgMCBvdGhlcndpc2UuCj4g
-ICAgKi8KPiAtc3RhdGljIGludCBkaXNjb25uZWN0X3N1YnN5cyhjaGFyICpucW4sIGNoYXIgKmN0
-cmwpCj4gK3N0YXRpYyBpbnQgZGlzY29ubmVjdF9zdWJzeXMoY29uc3QgY2hhciAqbnFuLCBjaGFy
-ICpjdHJsKQo+ICAgewo+ICAgCWNoYXIgKnN5c2ZzX25xbl9wYXRoID0gTlVMTCwgKnN5c2ZzX2Rl
-bF9wYXRoID0gTlVMTDsKPiAgIAljaGFyIHN1YnN5c25xbltOVk1GX05RTl9TSVpFXSA9IHt9Owo+
-IEBAIC0xNTc5LDcgKzE1ODQsNyBAQCBzdGF0aWMgaW50IGRpc2Nvbm5lY3Rfc3Vic3lzKGNoYXIg
-Km5xbiwgY2hhciAqY3RybCkKPiAgIC8qCj4gICAgKiBSZXR1cm5zIHRoZSBudW1iZXIgb2YgY29u
-dHJvbGxlcnMgc3VjY2Vzc2Z1bGx5IGRpc2Nvbm5lY3RlZC4KPiAgICAqLwo+IC1zdGF0aWMgaW50
-IGRpc2Nvbm5lY3RfYnlfbnFuKGNoYXIgKm5xbikKPiArc3RhdGljIGludCBkaXNjb25uZWN0X2J5
-X25xbihjb25zdCBjaGFyICpucW4pCj4gICB7Cj4gICAJc3RydWN0IGRpcmVudCAqKmRldmljZXMg
-PSBOVUxMOwo+ICAgCWludCBpLCBuLCByZXQgPSAwOwo+IEBAIC0xNjAxLDcgKzE2MDYsNyBAQCBz
-dGF0aWMgaW50IGRpc2Nvbm5lY3RfYnlfbnFuKGNoYXIgKm5xbikKPiAgIAlyZXR1cm4gcmV0Owo+
-ICAgfQo+ICAgCj4gLXN0YXRpYyBpbnQgZGlzY29ubmVjdF9ieV9kZXZpY2UoY2hhciAqZGV2aWNl
-KQo+ICtzdGF0aWMgaW50IGRpc2Nvbm5lY3RfYnlfZGV2aWNlKGNvbnN0IGNoYXIgKmRldmljZSkK
-PiAgIHsKPiAgIAlpbnQgaW5zdGFuY2U7Cj4gICAKPiBkaWZmIC0tZ2l0IGEvZmFicmljcy5oIGIv
-ZmFicmljcy5oCj4gaW5kZXggY2U5NjVhMy4uMWRmYmQ2NyAxMDA2NDQKPiAtLS0gYS9mYWJyaWNz
-LmgKPiArKysgYi9mYWJyaWNzLmgKPiBAQCAtMTMsMTMgKzEzLDEzIEBAIGV4dGVybiBpbnQgZmFi
-cmljc19kaXNjb25uZWN0X2FsbChjb25zdCBjaGFyICpkZXNjLCBpbnQgYXJnYywgY2hhciAqKmFy
-Z3YpOwo+ICAgLyogU3ltYm9scyB1c2VkIGJ5IG1vbml0b3IuYyAqLwo+ICAgCj4gICBzdHJ1Y3Qg
-Y29uZmlnIHsKPiAtCWNoYXIgKm5xbjsKPiAtCWNoYXIgKnRyYW5zcG9ydDsKPiAtCWNoYXIgKnRy
-YWRkcjsKPiAtCWNoYXIgKnRyc3ZjaWQ7Cj4gLQljaGFyICpob3N0X3RyYWRkcjsKPiAtCWNoYXIg
-Kmhvc3RucW47Cj4gLQljaGFyICpob3N0aWQ7Cj4gKwljb25zdCBjaGFyICpucW47Cj4gKwljb25z
-dCBjaGFyICp0cmFuc3BvcnQ7Cj4gKwljb25zdCBjaGFyICp0cmFkZHI7Cj4gKwljb25zdCBjaGFy
-ICp0cnN2Y2lkOwo+ICsJY29uc3QgY2hhciAqaG9zdF90cmFkZHI7Cj4gKwljb25zdCBjaGFyICpo
-b3N0bnFuOwo+ICsJY29uc3QgY2hhciAqaG9zdGlkOwo+ICAgCWludCAgbnJfaW9fcXVldWVzOwo+
-ICAgCWludCAgbnJfd3JpdGVfcXVldWVzOwo+ICAgCWludCAgbnJfcG9sbF9xdWV1ZXM7Cj4gQEAg
-LTI5LDcgKzI5LDcgQEAgc3RydWN0IGNvbmZpZyB7Cj4gICAJaW50ICBjdHJsX2xvc3NfdG1vOwo+
-ICAgCWludCAgdG9zOwo+ICAgCWNoYXIgKnJhdzsKPiAtCWNoYXIgKmRldmljZTsKPiArCWNvbnN0
-IGNoYXIgKmRldmljZTsKPiAgIAlpbnQgIGR1cGxpY2F0ZV9jb25uZWN0Owo+ICAgCWludCAgZGlz
-YWJsZV9zcWZsb3c7Cj4gICAJaW50ICBoZHJfZGlnZXN0Owo+IEBAIC00Myw1ICs0Myw2IEBAIGV4
-dGVybiBzdHJ1Y3QgY29uZmlnIGNmZzsKPiAgIAo+ICAgaW50IGJ1aWxkX29wdGlvbnMoY2hhciAq
-YXJnc3RyLCBpbnQgbWF4X2xlbiwgYm9vbCBkaXNjb3Zlcik7Cj4gICBpbnQgZG9fZGlzY292ZXIo
-Y2hhciAqYXJnc3RyLCBib29sIGNvbm5lY3QpOwo+ICtpbnQgY3RybF9pbnN0YW5jZShjb25zdCBj
-aGFyICpkZXZpY2UpOwo+ICAgCj4gICAjZW5kaWYKPiAKVGhpcyByZWFsbHkgaXMgaW5kZXBlbmRl
-bnQgb24gdGhlIG1vbml0b3IgY29kZSwgYW5kIHNob3VsZCBiZSBtb3ZlZCB0byAKdGhlIGJlZ2lu
-bmluZyBvZiB0aGUgcGF0Y2ggc2VyaWVzLgoKT3RoZXIgdGhhbiB0aGF0OgoKUmV2aWV3ZWQtYnk6
-IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4g
-SGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApo
-YXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4
-OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
-bmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXgg
-SW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5v
-cmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1l
-Cg==
+On 1/29/21 10:15 PM, Martin Wilck wrote:
+> On Fri, 2021-01-29 at 13:11 -0800, Sagi Grimberg wrote:
+>>
+>>>>> If it does, it will recreate discovery controllers for every
+>>>>> host_traddr/traddr/trsvcid tuple it finds. "--keep" semantics
+>>>>> are
+>>>>> only
+>>>>> necessary for addresses on which no regular (non-discovery)
+>>>>> connection
+>>>>> exists.
+>>>>
+>>>> Wait, Maybe I'm missing something here, but are you saying that
+>>>> for
+>>>> every traddr/trsvcid it finds (both nvm and discovery) it will
+>>>> attempt
+>>>> to connect a discovery controller?
+>>>>
+>>>> If so, this is absolutely wrong.
+>>>
+>>> Currently, it tries to do that on startup, if (and only if) the
+>>> --startup option is given. My expectation was that the connection
+>>> attempts would simply fail if there was no discovery subsystem to
+>>> connect to. Anyway, it's not the default behavior, and can be
+>>> dropped
+>>> completely if it's so bad that we shouldn't ever attempt to do it.
+>>
+>> IMO it needs to be dropped. I didn't understand this at first because
+>> it never even occurred to me that such an assumption can be even
+>> made.
+>>
+>>> If the service is started early on during boot, and event-based
+>>> discovery works (i.e. we also have the mDNS part in place), this
+>>> won't
+>>> be necessary of course.
+>>
+>> This isn't necessary regardless. At best the discovery controller
+>> endpoints should be obtained from discovery.conf or equivalent.
+> =
+
+> Understood.
+> =
+
+>> I don't even see how does this help in early boot anyways, how
+>> do the existing controllers get connected?
+> =
+
+> For FC, it works today. You can start the monitor in the initrd, it
+> will receive the fc_udev_device events, and autoconnect (just like
+> traditional udev/systemd based discovery). For other transports, it'd
+> be more work, as we'd need to do mDNS discovery from an initrd
+> environment. I wouldn't say it's impossible though.
+> =
+
+mDNS isn't related to the initrd, mDNS is for discovery discovery :-)
+For everything _but_ FC we have the problem that we don't know where to =
+
+connect to for the initial discovery (ie we don't have a list of =
+
+potential discovery controllers).
+Currently we either have to specify the parameters manually, or add them =
+
+to /etc/nvme/discovery.conf.
+Which isn't _that_ dynamic.
+mDNS will provide a way of promoting changes in any remote discovery =
+
+controllers to the potential hosts, allowing the host to pick up =
+
+information about potential discovery controllers from there.
+
+So the monitor code would need to interact with mDNS to get the =
+
+information, and should use that to establish discovery connections.
+
+As this information is transient I would not tear down discovery =
+
+controller connections on exit, but rather keep them alive.
+That way a controller restart could pick up these existing connections =
+
+and would not need to recreate them (which will be tricky as the monitor =
+
+code doesn't have the information which connections to restart).
+
+The alternative would be a callout to mDNS to get the current topology, =
+
+but that doesn't exist yet.
+
+Cheers,
+
+Hannes
+-- =
+
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 N=FCrnberg
+HRB 36809 (AG N=FCrnberg), Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
