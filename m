@@ -2,67 +2,69 @@ Return-Path: <SRS0=YrQE=HG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC5ECC433E0
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 02:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 070E2C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 05:57:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8CFA164F41
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 02:42:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8CFA164F41
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 5784364E55
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 05:56:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5784364E55
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=aJRwVgrpZUjx/WMdy9thjsrg/j2tHcGHra9pxLX/M1o=; b=v5r210SSPnH7v2V2EToVVOYiD
-	e5VyKoiV66pQDPqFG07DD93tEa4HjqH9mDRNGIr61Rz5sPT5+vp0vuhzNaB+0UlwEYOFtoKuxZPWu
-	soZjQfKryIlVwujyKd9Ns1gf/y0HDdaRhOTgVlhwpul6rqC1YNki4C0+ucyTepR6zhyC8YMFlUx2l
-	N5btpRRH3/QIuZxy20/SHbkI5IzDEiiTgoMEbpRbvdjA34SC+QmCEYzq9/pROlhFuWm76Ib7/QyzO
-	uJG4X/OWMQFRgLyMHBaXZnzNpwwenP/JOhuNWLN1ktelSpCEsOR+HhTk8SxyKZRC06tFgHmNVlzYB
-	tb2Yxn9+w==;
+	 bh=3euD5uR0covlLAjSflm6dHqENMQJ67VAdR8rBA42Plg=; b=doxKIrmak7B9GU3lfj10NLw12
+	wmTRoRrqAzxuaLsS3iuGHxv416mi8ikBmbE5I9NSPfDQ0uv2GQB1jnlxznHLanFyXy12oNQ6QVWmS
+	YrLtgP6NWcRhgti5chYbzzJJ6cHm+TXpK1xzsQjGwqQa+C/Cd9TyFVV6eHw71tO5WMzUnqQHqczxt
+	eQ/Hj+/EWEHuoP14Ah3KOCrlbayihz/pmAEjLsKyog+LmX7Rtz5gd9tuBuIdxD/wDVnQVf+EGJyG3
+	KdugB8ISC9IvPAPGisLtzv8F4du40cz1h7ieArlBUUqoCo0qtfigN3bc2k0ErFjvBLUxCU7NR0x6+
+	hAOBa8rww==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7UbD-0004TI-Sm; Thu, 04 Feb 2021 02:42:27 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1l7XdK-0007Mj-4I; Thu, 04 Feb 2021 05:56:50 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7UbC-0004St-6W
- for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 02:42:27 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 017F264F41;
- Thu,  4 Feb 2021 02:42:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612406543;
- bh=A7oD/DpDZu9kTkdz7SaDkbdeV8p423bHuSZr0I/57Wc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EPW5N4SB+BNXvrGWhhhtkWp3YvZSO1DjLMRsE7aZ32RADo+TaebnoCm3uzC3o1DlT
- gsW04tErOWOXiR8awc6OmW9YiLbyytTUU9aahrsjPBlxGkDZTRMT1VHoua3oVloPpx
- LaKqLkEWjSgH1sfqGQZGZyLUxHTm7gQ7eQbvLnOOJgICL/JZDQv5YSof3oSM9qJkrm
- G5KZdl9+kv6vORIYoJpCdyK4X/ofudiHUC56E3o/mCRBjsWVfqpFRgsE0X7VVhjVQx
- SEm5Yjxllevh2PAi5nwkeWAoGrSx//EEC/n1o/tZgrgScSXWCF1Pgojjqp6y0/ZY17
- bRVpqlQUrHNjA==
-Date: Wed, 3 Feb 2021 18:42:20 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v2] nvme: avoid "(efault)" from nvme_sysfs_show_subsysnqn()
-Message-ID: <20210204024220.GE2182779@dhcp-10-100-145-180.wdc.com>
-References: <20210202005951.26614-1-mwilck@suse.com>
- <20210202075828.GA12160@lst.de>
- <a7f3114e22a07e60abfd98155df91dea3a83b386.camel@suse.com>
- <20210203165203.GA2182779@dhcp-10-100-145-180.wdc.com>
- <8b1fc5ef-4c6b-4fa3-7cb1-b42ed71e7413@grimberg.me>
+ id 1l7XdF-0007Li-Cs
+ for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 05:56:47 +0000
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4DWSSh5Fk7z5Ngf;
+ Thu,  4 Feb 2021 13:55:16 +0800 (CST)
+Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Thu, 4 Feb 2021 13:56:35 +0800
+Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
+ (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Thu, 4 Feb
+ 2021 13:56:35 +0800
+Subject: Re: [PATCH v5 0/3] avoid double request completion and IO error
+To: Christoph Hellwig <hch@lst.de>
+References: <20210201034940.18891-1-lengchao@huawei.com>
+ <20210203161455.GB4116@lst.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <7d39e0a4-3765-85b8-aab5-b0ded93f8bec@huawei.com>
+Date: Thu, 4 Feb 2021 13:56:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8b1fc5ef-4c6b-4fa3-7cb1-b42ed71e7413@grimberg.me>
+In-Reply-To: <20210203161455.GB4116@lst.de>
+Content-Language: en-US
+X-Originating-IP: [10.169.42.93]
+X-ClientProxiedBy: dggeme716-chm.china.huawei.com (10.1.199.112) To
+ dggema772-chm.china.huawei.com (10.1.198.214)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210203_214226_425104_7A3A3BB9 
-X-CRM114-Status: GOOD (  30.60  )
+X-CRM114-CacheID: sfid-20210204_005645_947275_93D6726E 
+X-CRM114-Status: GOOD (  23.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,89 +76,111 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Christoph Hellwig <hch@lst.de>, Martin Wilck <mwilck@suse.com>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: axboe@kernel.dk, linux-block@vger.kernel.org, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, axboe@fb.com, kbusch@kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 03, 2021 at 02:19:44PM -0800, Sagi Grimberg wrote:
-> =
+This looks good to me.
+Thank you very much.
 
-> =
-
-> On 2/3/21 8:52 AM, Keith Busch wrote:
-> > On Wed, Feb 03, 2021 at 01:31:13PM +0100, Martin Wilck wrote:
-> > > On Tue, 2021-02-02 at 08:58 +0100, Christoph Hellwig wrote:
-> > > > On Tue, Feb 02, 2021 at 01:59:51AM +0100, mwilck@suse.com=A0wrote:
-> > > > > From: Martin Wilck <mwilck@suse.com>
-> > > > > =
-
-> > > > > While a controller is still connecting, ctrl->subsys is NULL and
-> > > > > thus reading the controller's "subsysnqn" sysfs attribute returns
-> > > > > "(efault)". This happens all the time when user space processes
-> > > > > "add" events for NVMe controller devices.
-> > > > > =
-
-> > > > > Fix it by returning the nvmf_ctrl_options' subsysnqn attribute
-> > > > > if ctrl->subsys isn't initialized yet.
-> > > > =
-
-> > > > This is just papering over symptoms.=A0 We should not be sending
-> > > > events or display sysfs files until the controlle is live.
-> > > =
-
-> > > I don't follow.=A0What's wrong with a "connecting" controller device =
-in
-> > > sysfs?
-> > > =
-
-> > > Controllers can loose connectivity any time. What's the difference
-> > > between a controller that is reconnecting after a connection loss and=
- a
-> > > freshly created controller that's just not live yet?=A0You wouldn't
-> > > delete the former from sysfs, I suppose.
-> > > =
-
-> > >  From the user space point of view, it's the same, a controller device
-> > > that is not in usable state. I don't see a general problem with that.
-> > > Seeing a controller appear in connecting state might actually be usef=
-ul
-> > > for user space.
-> > > =
-
-> > > The subsysnqn attribute is correct for controllers that were once
-> > > connected and lost connectivity. My patch was only intended to fix the
-> > > "just created and never connected" case, where it is not, nothing mor=
-e.
-> > =
-
-> > I think Christoph is suggesting just wait until we have all the
-> > properties the driver exports rather than specifically exporting only
-> > during a 'live' state. Something like this (untested) should do the
-> > trick:
-> > =
-
-> > ---
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 1a3cdc6b1036..4c0258d7eb91 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -3069,6 +3069,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
-> >   		if (ret)
-> >   			goto out_free;
-> > +		ret =3D cdev_device_add(&ctrl->cdev, ctrl->device);
-> > +		if (ret)
-> > +			goto out_free;
-> =
-
-> This happens on every reset, we should probably just do this once?
-
-Right, and while the function is invoked on each reset, the above code
-sequence happens only once. You can't immediately tell from looking at
-the diff, but it's in the 'if (!ctrl->identified)' code block.
+On 2021/2/4 0:14, Christoph Hellwig wrote:
+> So I think this is conceptually fine, but I still find the API a little
+> arcane.  What do you think about the following incremental patch?
+> If that looks good and tests good for you I can apply the series with
+> the modifications:
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 0befaad788a094..02579f4f776c7d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -355,6 +355,21 @@ void nvme_complete_rq(struct request *req)
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_complete_rq);
+>   
+> +/*
+> + * Called to unwind from ->queue_rq on a failed command submission so that the
+> + * multipathing code gets called to potentially failover to another path.
+> + * The caller needs to unwind all transport specific resource allocations and
+> + * must return propagate the return value.
+> + */
+> +blk_status_t nvme_host_path_error(struct request *req)
+> +{
+> +	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
+> +	blk_mq_set_request_complete(req);
+> +	nvme_complete_rq(req);
+> +	return BLK_STS_OK;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_host_path_error);
+> +
+>   bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+>   {
+>   	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index cedf9b31898673..5dfd806fc2d28c 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -552,11 +552,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+>   	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
+>   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+>   		return BLK_STS_RESOURCE;
+> -
+> -	nvme_req(rq)->status = NVME_SC_HOST_PATH_ERROR;
+> -	blk_mq_set_request_complete(rq);
+> -	nvme_complete_rq(rq);
+> -	return BLK_STS_OK;
+> +	return nvme_host_path_error(rq);
+>   }
+>   EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
+>   
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index a72f0718109100..5819f038104149 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -575,6 +575,7 @@ static inline bool nvme_is_aen_req(u16 qid, __u16 command_id)
+>   }
+>   
+>   void nvme_complete_rq(struct request *req);
+> +blk_status_t nvme_host_path_error(struct request *req);
+>   bool nvme_cancel_request(struct request *req, void *data, bool reserved);
+>   void nvme_cancel_tagset(struct nvme_ctrl *ctrl);
+>   void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl);
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 6993efb27b39f0..f51af5e4970a2b 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -2091,16 +2091,6 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+>   	err = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
+>   			req->mr ? &req->reg_wr.wr : NULL);
+>   	if (unlikely(err)) {
+> -		if (err == -EIO) {
+> -			/*
+> -			 * Fail the reqest so upper layer can failover I/O
+> -			 * if another path is available
+> -			 */
+> -			req->status = NVME_SC_HOST_PATH_ERROR;
+> -			blk_mq_set_request_complete(rq);
+> -			nvme_rdma_complete_rq(rq);
+> -			return BLK_STS_OK;
+> -		}
+>   		goto err_unmap;
+>   	}
+>   
+> @@ -2109,7 +2099,9 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+>   err_unmap:
+>   	nvme_rdma_unmap_data(queue, rq);
+>   err:
+> -	if (err == -ENOMEM || err == -EAGAIN)
+> +	if (err == -EIO)
+> +		ret = nvme_host_path_error(rq);
+> +	else if (err == -ENOMEM || err == -EAGAIN)
+>   		ret = BLK_STS_RESOURCE;
+>   	else
+>   		ret = BLK_STS_IOERR;
+> .
+> 
 
 _______________________________________________
 Linux-nvme mailing list
