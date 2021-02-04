@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F037BC433E6
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 22:12:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B70C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 23:14:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B22B664F93
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 22:12:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B22B664F93
+	by mail.kernel.org (Postfix) with ESMTPS id 1E18C64FA1
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 23:14:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E18C64FA1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,41 +24,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3C7ug6PvqoT+1D0lXoMG0+V4iUQfw0CSEoGUv1K/d1E=; b=AFKg3Sbui1iF0Lqw5DhTbv7bt
-	lXaK48aNpipztP4wl2cLmILJS9Hlql6c2BI5JR10R8dA9CB0PnXnRaBDV2rTsZo/8GH9V2uaKvmlD
-	DEhEBXtg3fVi2pAGy2RV59ycm0PPIhyFeQjdujGpo3JpZ/0g1d67PYIrgcYYWoBUnorl10Lde+ODD
-	rfShQxbXG3HP8sgY5v5zbNYC0w0Y7a+lTRRfuL6fKn5dN4cmkP90MI7ael+0DWDaPG0rsOmovtgDp
-	r85VFtpAw7N4doplMN8dHqUYn1LBvAzwdFDENW16GG2a7S0mcVHHGch/4kWzCZ5U5m0Sg4QFzwCWP
-	Xlo3uuRAg==;
+	 bh=lBzMmZSsFJcNRU5LFnBVCJ6/ApvwWDgWtmuPBlAjb70=; b=Af71WpXlziNfSLXiR4WZFxtlK
+	YoeVa3mQJb0S8a5ym7VaA8XqCQ7tpQeaPwK9QnbjDmVmzxEGSCZetGt7KbFaS1iT5VpeThZAGzzVT
+	aSP/52TaLZPvVC5KHSAxfFpbJkHH7iGE+enHbBs2JT8b+hTsuBT2HJ1/FyN+OJiFsaxg68R0Yhc/6
+	P8rglJpR21L2PjUsQVGkViqjwIUpwTkYwD2CcI7axnx4dAAOuHWs0+hsfdtyhJz9W/6FowFVgAFgC
+	3hDwWNKbkmx85cmZ526tU5J8oyH/5YWBxcelJCMoYO54Li6eMW97t6ztp0OaNgk4Kzzds+eRx8YXV
+	vnzgDgwkg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7mrf-0000BG-Ff; Thu, 04 Feb 2021 22:12:39 +0000
+	id 1l7nox-0003Sk-FH; Thu, 04 Feb 2021 23:13:55 +0000
 Received: from foss.arm.com ([217.140.110.172])
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7mrd-0000Am-8a
- for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 22:12:38 +0000
+ id 1l7not-0003SA-JN
+ for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 23:13:52 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 55BF613A1;
- Thu,  4 Feb 2021 14:12:34 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 386BFD6E;
+ Thu,  4 Feb 2021 15:13:49 -0800 (PST)
 Received: from [10.57.49.26] (unknown [10.57.49.26])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CD0F3F718;
- Thu,  4 Feb 2021 14:12:32 -0800 (PST)
-Subject: Re: [PATCH 5/8] swiotlb: refactor swiotlb_tbl_map_single
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D7ED3F719;
+ Thu,  4 Feb 2021 15:13:47 -0800 (PST)
+Subject: Re: [PATCH 7/8] swiotlb: respect min_align_mask
 To: Christoph Hellwig <hch@lst.de>, jxgao@google.com,
  gregkh@linuxfoundation.org
 References: <20210204193035.2606838-1-hch@lst.de>
- <20210204193035.2606838-6-hch@lst.de>
+ <20210204193035.2606838-8-hch@lst.de>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <f60ddc1b-94c3-32a1-06eb-b2187d56d797@arm.com>
-Date: Thu, 4 Feb 2021 22:12:31 +0000
+Message-ID: <2e51481c-1591-034c-3476-1a1f8891506a@arm.com>
+Date: Thu, 4 Feb 2021 23:13:45 +0000
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210204193035.2606838-6-hch@lst.de>
+In-Reply-To: <20210204193035.2606838-8-hch@lst.de>
 Content-Language: en-GB
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210204_171237_650432_5A95ADB7 
-X-CRM114-Status: GOOD (  23.74  )
+X-CRM114-CacheID: sfid-20210204_181351_962217_BB44B11E 
+X-CRM114-Status: GOOD (  31.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,90 +80,115 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2021-02-04 19:30, Christoph Hellwig wrote:
-> Split out a bunch of a self-contained helpers to make the function easier
-> to follow.
+> Respect the min_align_mask in struct device_dma_parameters in swiotlb.
+> 
+> There are two parts to it:
+>   1) for the lower bits of the alignment inside the io tlb slot, just
+>      extent the size of the allocation and leave the start of the slot
+>       empty
+>   2) for the high bits ensure we find a slot that matches the high bits
+>      of the alignment to avoid wasting too much memory
+> 
+> Based on an earlier patch from Jianxiong Gao <jxgao@google.com>.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   kernel/dma/swiotlb.c | 177 +++++++++++++++++++++----------------------
->   1 file changed, 87 insertions(+), 90 deletions(-)
+>   kernel/dma/swiotlb.c | 49 +++++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 42 insertions(+), 7 deletions(-)
 > 
 > diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index 79d5b236f25f10..e78615e3be2906 100644
+> index 6a2439826a1ba4..ab3192142b9906 100644
 > --- a/kernel/dma/swiotlb.c
 > +++ b/kernel/dma/swiotlb.c
-> @@ -468,134 +468,131 @@ static void swiotlb_bounce(phys_addr_t orig_addr, phys_addr_t tlb_addr,
+> @@ -468,6 +468,18 @@ static void swiotlb_bounce(phys_addr_t orig_addr, phys_addr_t tlb_addr,
 >   	}
 >   }
 >   
-> -phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
-> -		size_t mapping_size, size_t alloc_size,
-> -		enum dma_data_direction dir, unsigned long attrs)
 > +/*
-> + * Carefully handle integer overflow which can occur when boundary_mask == ~0UL.
+> + * Return the offset into a iotlb slot required to keep the device happy.
 > + */
-> +static inline unsigned long get_max_slots(unsigned long boundary_mask)
->   {
-> -	dma_addr_t tbl_dma_addr = phys_to_dma_unencrypted(hwdev, io_tlb_start);
-> -	unsigned long flags;
-> -	phys_addr_t tlb_addr;
-> -	unsigned int nslots, stride, index, wrap;
-> -	int i;
-> -	unsigned long mask;
-> -	unsigned long offset_slots;
-> -	unsigned long max_slots;
-> -	unsigned long tmp_io_tlb_used;
-> -
-> -	if (no_iotlb_memory)
-> -		panic("Can not allocate SWIOTLB buffer earlier and can't now provide you with the DMA bounce buffer");
-> -
-> -	if (mem_encrypt_active())
-> -		pr_warn_once("Memory encryption is active and system is using DMA bounce buffers\n");
-> -
-> -	if (mapping_size > alloc_size) {
-> -		dev_warn_once(hwdev, "Invalid sizes (mapping: %zd bytes, alloc: %zd bytes)",
-> -			      mapping_size, alloc_size);
-> -		return (phys_addr_t)DMA_MAPPING_ERROR;
-> -	}
-> -
-> -	mask = dma_get_seg_boundary(hwdev);
-> +	if (boundary_mask + 1 == ~0UL)
-
-Either "mask == ~0UL" or "mask + 1 == 0", surely?
-
-> +		return 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
-> +	return nr_slots(boundary_mask + 1);
-> +}
->   
-> -	tbl_dma_addr &= mask;
-> +static unsigned int wrap_index(unsigned int index)
+> +static unsigned int swiotlb_align_offset(struct device *dev, u64 addr)
 > +{
-> +	if (index >= io_tlb_nslabs)
+> +	unsigned min_align_mask = dma_get_min_align_mask(dev);
+> +
+> +	if (!min_align_mask)
 > +		return 0;
-> +	return index;
-> +}
->   
-> -	offset_slots = nr_slots(tbl_dma_addr);
-> +/*
-> + * Find a suitable number of IO TLB entries size that will fit this request and
-> + * allocate a buffer from that IO TLB pool.
-> + */
-> +static int find_slots(struct device *dev, size_t alloc_size,
-> +		dma_addr_t tbl_dma_addr)
-> +{
-> +	unsigned int max_slots = get_max_slots(dma_get_seg_boundary(dev));
-> +	unsigned int nslots = nr_slots(alloc_size), stride = 1;
-> +	unsigned int index, wrap, count = 0, i;
-> +	unsigned long flags;
->   
-> -	/*
-> -	 * Carefully handle integer overflow which can occur when mask == ~0UL.
-> -	 */
-> -	max_slots = mask + 1
-> -		    ? nr_slots(mask + 1)
-> -		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
 
-...since the condition here is effectively the latter.
+I doubt that's beneficial - even if the compiler can convert it into a 
+csel, it'll then be doing unnecessary work to throw away a 
+cheaply-calculated 0 in favour of hard-coded 0 in the one case it matters ;)
+
+> +	return addr & min_align_mask & ((1 << IO_TLB_SHIFT) - 1);
+
+(BTW, for readability throughout, "#define IO_TLB_SIZE (1 << 
+IO_TLB_SHIFT)" sure wouldn't go amiss...)
+
+> +}
+> +
+>   /*
+>    * Carefully handle integer overflow which can occur when boundary_mask == ~0UL.
+>    */
+> @@ -478,6 +490,16 @@ static inline unsigned long get_max_slots(unsigned long boundary_mask)
+>   	return nr_slots(boundary_mask + 1);
+>   }
+>   
+> +static inline bool check_alignment(phys_addr_t orig_addr,
+> +		dma_addr_t tbl_dma_addr, unsigned int index,
+> +		unsigned int min_align_mask)
+> +{
+> +	if (!min_align_mask)
+> +		return true;
+
+Ditto - even the 5 or so operations this might skip is unlikely to 
+outweigh a branch on anything that matters, and again csel would be a 
+net loss since x & 0 == y & 0 is still the correct answer.
+
+> +	return ((tbl_dma_addr + (index << IO_TLB_SHIFT)) & min_align_mask) ==
+> +		(orig_addr & min_align_mask);
+> +}
+> +
+>   static unsigned int wrap_index(unsigned int index)
+>   {
+>   	if (index >= io_tlb_nslabs)
+> @@ -489,9 +511,11 @@ static unsigned int wrap_index(unsigned int index)
+>    * Find a suitable number of IO TLB entries size that will fit this request and
+>    * allocate a buffer from that IO TLB pool.
+>    */
+> -static int find_slots(struct device *dev, size_t alloc_size,
+> -		dma_addr_t tbl_dma_addr)
+> +static int find_slots(struct device *dev, phys_addr_t orig_addr,
+> +		size_t alloc_size, dma_addr_t tbl_dma_addr)
+>   {
+> +	unsigned int min_align_mask = dma_get_min_align_mask(dev) &
+> +			~((1 << IO_TLB_SHIFT) - 1);
+>   	unsigned int max_slots = get_max_slots(dma_get_seg_boundary(dev));
+>   	unsigned int nslots = nr_slots(alloc_size), stride = 1;
+>   	unsigned int index, wrap, count = 0, i;
+> @@ -503,7 +527,9 @@ static int find_slots(struct device *dev, size_t alloc_size,
+>   	 * For mappings greater than or equal to a page, we limit the stride
+>   	 * (and hence alignment) to a page size.
+>   	 */
+> -	if (alloc_size >= PAGE_SIZE)
+> +	if (min_align_mask)
+> +		stride = (min_align_mask + 1) >> IO_TLB_SHIFT;
+
+So this can't underflow because "min_align_mask" is actually just the 
+high-order bits representing the number of iotlb slots needed to meet 
+the requirement, right? (It took a good 5 minutes to realise this wasn't 
+doing what I initially thought it did...)
+
+In that case, a) could the local var be called something like 
+iotlb_align_mask to clarify that it's *not* just a copy of the device's 
+min_align_mask, and b) maybe just have an unconditional initialisation 
+that works either way:
+
+	stride = (min_align_mask >> IO_TLB_SHIFT) + 1;
+
+In fact with that, I think could just mask orig_addr with ~IO_TLB_SIZE 
+in the call to check_alignment() below, or shift everything down by 
+IO_TLB_SHIFT in check_alignment() itself, instead of mangling 
+min_align_mask at all (I'm assuming we do need to ignore the low-order 
+bits of orig_addr at this point).
 
 Robin.
 
