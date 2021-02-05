@@ -2,175 +2,54 @@ Return-Path: <SRS0=OXBW=HH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49D98C433DB
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 02:57:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D229CC433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:29:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C936864FB4
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 02:57:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C936864FB4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3E10F64FBE
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:29:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E10F64FBE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:References:Message-ID:
-	From:Subject:To:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VLqQo+opSo/3MS7ewFntsMNsYf+nbWjRi+ngTzcmAGY=; b=TCXT/B6OD3ujb2xOkVaMM/Lao
-	8zhmmobOBk0Zon41aCv2l26w3G6P0OoVsJCK+x1+4LauyyKwYl5ljLLc7dSkIANe8rts8BpFfzeYE
-	0MBU5++fC8kpO+niHe6zcBMIChwt0VacehEpHUKvA0XMK4BPmGQ7IEbhUZJ7jJ7Y34ecnFAv8Pt4Q
-	lxI07GGLSXhLMplEKi8KTzpRwoK20HfDovZsJGHQFyG4SlOaflJm26+gajVRKn2NFp2W0Tr2UXFza
-	isxaZ5AMAGcyiErncT3JDabPi0VUEw8Gf5O5SraayFhChx1GdpArJEKQj1+IRV5tQ+M8VUrA1diDu
-	KMKmTpa5A==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=w5ZobbaZNnVxsBQfy0sVxvEY/nEJ93qpDqFmjxQn/Jw=; b=hJzSOaL5HDyg4IrROpvmZsfZk3
+	oICYnugagNtRpMzVHnk0lWM7EPXtJTzzNd1vyX/2l6mLbB/coWmNJU3hicyBQ74/j3X9rTI7JIVls
+	go0zZPebRL6ByNHIcOIH1eHK2QVvX5EFhel54hMGdTtB+j3gz1yfdAc6bYU7laQhIbXEaUp2Xwrj/
+	QHbmlRd9KNME9bvLYG1sejgBUNFI8Jzx9ZjMYf1BMCZ83+sF3q9PRy29vh8hR0z56YGle4xL95PUD
+	YyIfIQU0mp/AgJZoPn1u8bibMTNd78cOGHdFqTe8FQw9uEeR6L38h8ZvrO/CUbhqYVf5fyLw+VJAT
+	mjPUjRmg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7rIv-0001BI-MQ; Fri, 05 Feb 2021 02:57:05 +0000
-Received: from userp2130.oracle.com ([156.151.31.86])
+	id 1l7xQt-000252-39; Fri, 05 Feb 2021 09:29:43 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7rIt-0001At-As
- for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 02:57:04 +0000
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1152sX5n045701;
- Fri, 5 Feb 2021 02:57:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2020-01-29;
- bh=sI/G0LaTvhH4B/xO2CwfF61QIgr1UQhY7NaLR7lb6g8=;
- b=nxnO5E9Or6qv3KxeB2WviCiRcv6XfQlPpNS/qBCuImO4aTzu2shJNX5S9chcWsDC4dd1
- 79MtZNS1VX5DDMu36t9kSnyhTjTTH9UcOvy2Wyzw5sqG7UZlmA8jssCuLuIKyI6dPkLX
- 2nWiELZ1jQ0kNWHZ2XKQpOfqa93R+DelYPFsqKO36zTFGtc1dwn5p2x+p5l/qir5NYuB
- q3aIKo2mQtDuAAqBjc2uBw1wIOuMf+S1ewRXmJbsFOt7POZMWIaDJD994FhC0xHR3M8K
- v/OPlBSv2U6bvg0lIshYBFPcOfuNq5j/aqQBQGj6YhWJqdtr5vh+HXL/cEA7u5O2TxT3 Cw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 36cxvratu2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Feb 2021 02:57:01 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1152ohaf057048;
- Fri, 5 Feb 2021 02:57:00 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam08lp2043.outbound.protection.outlook.com [104.47.73.43])
- by userp3030.oracle.com with ESMTP id 36dhd2990u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Feb 2021 02:57:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R/EYEASBXZ098WXxEyF65crhPX65U3vbuHnVHdqUsUuqWkAKnsICeV6MLDrdGJJBrDiBl7knff541hXOcSrrqaJ/vz20/sdz9YEJOYeL4NUJ1YiztZmeFOmPIyFwba9kdlLmVG/NjSFpxbKYA+q8HF9Tzlc4SmatmO4a/ulp72toLPTwT8it3aUvDMvVAnfkqkFrWWznALZgCSt7WzJLBBkfTS1+QYJgp8dcGwtrquAxek6MamV5ZSR247NL6FFAC6dVvjao+Mi82Xou4PrjskDRBhj9jMEXe16q7pr0hhFnIM/cSWxLSmcyh2B/BiSHCzY1RRl01O5j+3z0vvWVHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sI/G0LaTvhH4B/xO2CwfF61QIgr1UQhY7NaLR7lb6g8=;
- b=Bawxd8v9VL85/j9n++kEMSexGPmOJeY7hRB19FexWnKx6hKj949ButXvh0MZ7xbS3ZuIAy4OZnNa0cMF9uvRfVF9WU2l6U9oL/2Ob+KGeM0O0pEAUZQmXCNZdn72xbn5Pz5a9gi+oMwneb3nb9hwvk9Uckay7x3JuUPIX875HsuCgRK4/y52GWKpj7rSfyaJcQNzaVhb/iqsm3MKitbt5xAK9XkP9bEtV58tQ6L4jqrNjYO6Y46QrfeRCKGnuiCkpZBgkJmSesJP5lD5Yk5h5CtDa8IfrGNqBgeTQH3mhpxnkiGJ0/sTGo8uzZsqNL1Rhauky5dB8w7+WSiqEle9uA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sI/G0LaTvhH4B/xO2CwfF61QIgr1UQhY7NaLR7lb6g8=;
- b=xWrNqdw9OLtqP4lR7VGLm5WkFSKdskDSMa0OjdfFQozzZp8CXW352rTBrTZqXG+zXUyuNPQ4byGj6R18zMwnhXEws788yU+i5AkLl44YpcYMdg5vA0QcrJZL6h2FIeUltjgcY5kcjOd1TqyTPbQ48cQxl+vuU7u+9TEyYSscchA=
-Authentication-Results: wdc.com; dkim=none (message not signed)
- header.d=none;wdc.com; dmarc=none action=none header.from=oracle.com;
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Fri, 5 Feb
- 2021 02:56:58 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::dc39:c9fa:7365:8c8e]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::dc39:c9fa:7365:8c8e%5]) with mapi id 15.20.3825.020; Fri, 5 Feb 2021
- 02:56:58 +0000
-To: Damien Le Moal <damien.lemoal@wdc.com>
-Subject: Re: [PATCH v4 8/8] sd_zbc: clear zone resources for non-zoned case
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1sg6bte6w.fsf@ca-mkp.ca.oracle.com>
-References: <20210128044733.503606-1-damien.lemoal@wdc.com>
- <20210128044733.503606-9-damien.lemoal@wdc.com>
-Date: Thu, 04 Feb 2021 21:56:54 -0500
-In-Reply-To: <20210128044733.503606-9-damien.lemoal@wdc.com> (Damien Le Moal's
- message of "Thu, 28 Jan 2021 13:47:33 +0900")
-X-Originating-IP: [138.3.200.58]
-X-ClientProxiedBy: CH2PR19CA0018.namprd19.prod.outlook.com
- (2603:10b6:610:4d::28) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+ id 1l7xQq-000249-Bv
+ for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 09:29:41 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EC476AD0B;
+ Fri,  5 Feb 2021 09:29:36 +0000 (UTC)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [PATCH] nvmet: per-host namespaces masking
+Date: Fri,  5 Feb 2021 10:29:26 +0100
+Message-Id: <20210205092926.64161-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ca-mkp.ca.oracle.com (138.3.200.58) by
- CH2PR19CA0018.namprd19.prod.outlook.com (2603:10b6:610:4d::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.20 via Frontend Transport; Fri, 5 Feb 2021 02:56:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3e788f91-4d2b-4894-4fe8-08d8c981b41b
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4664:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR10MB466491D3909CDADB43C63E5E8EB29@PH0PR10MB4664.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lJhUgsnOq9NAGqe1KAWnCQPlEjf7SS9GnjKVEtBH5m6czHnqI+L2DkXZCejlo1nYFRGTY+9qHRCrGQGFSskF8iZdCbPSDxHQ6N6W3OVnNVTYQ6CPWot9i6qC5JltrV9YTlugf8UErQotqKuCAn/a0MU8928ewXtypNnDcbq1S0dTRofR9OTUkfV4x9lU2w6zt6SVAgkFMRNS4ll3IxiIlvS1xoBxUhRiWwYOInMhF0ZjhhCV2jl8g5PwkFhCW0rAbZHVDbg00s82zayUfpOihdpK+2i7lwavsE2DFukktvYbYaU89JDq/3pD/xK9NwG5AATkOpeUBz809WcOKPNLshcfkp1HK/wU+1eFMs4/Z4Zda9AXzZJDoLfzmvJJtfKSY1Iyvbl3fj0QgnD/33H9Wp4G/yAZ4Cs148tsxQsphux2thxMy/EwYBzW1RfXHLRN1mJDMvXiId+QJL63RkSfj15BTJtWwSpVxENZhtHWLn1K9iY3sjWZmwSgrjKkWR9+7yOOojEijEX/DNlSKT64Qw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR10MB4759.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(376002)(136003)(396003)(39860400002)(366004)(52116002)(8676002)(4326008)(16526019)(55016002)(2906002)(478600001)(6916009)(5660300002)(6666004)(83380400001)(8936002)(7696005)(26005)(36916002)(66556008)(316002)(186003)(54906003)(66946007)(86362001)(956004)(66476007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?taG6Q7XmWwJKiXrtabCB8NAZ4wgxCGGfSZsYALXUL8EUiPgQ2ER/gbYDck2b?=
- =?us-ascii?Q?HRGwyGgWtYNTJ/OpnRULi5877uJByGi9gpDzDO+MfDRW/LFu467mJJ9KpSsz?=
- =?us-ascii?Q?BWkWoBl5OZTI7ZRp2mJfMmRVVSpPYUg9UhnP31IBk7y9QBZRhHnjeoAW8Jrj?=
- =?us-ascii?Q?kYQgtc1PpeH3b9SJAZfv3yq6BCApDKpr5dN1XddZvm2VqYV0mumAS+pj+6pV?=
- =?us-ascii?Q?PhNLfBOy+LId3RSoejV6sNcsAP8ugLFrg/9kQPmy0y6VdbZ4CicceKiJFa7R?=
- =?us-ascii?Q?HxAYlRkYwvhvMYON0x/Opn4L0zlEgZCaapN5NZLUUw/Qrj5fpCN/Vg06UnXA?=
- =?us-ascii?Q?fi2HearV8ZYE9zpL7d2Q8JhTJ20ZHoZzCoUfu4484SxhxxAD8pStP6a7bQzm?=
- =?us-ascii?Q?xz769H7jHMi/25RpbpE7cAzwRI8QmlZOFPH04pNAFB/B+eS5i87E82gtXd8K?=
- =?us-ascii?Q?E6OSluNRe+s61846mGVC+Fv37OU9oBZuxCuyaBhdZpf6hq02XQTNKTuPxAK+?=
- =?us-ascii?Q?GsWCGvwq08IegojntzpKDNnx8fNTHLKZbA/Bgu1IxyEO0dECt1uVeyQCGlUD?=
- =?us-ascii?Q?0TAyBD7z+luRp1aN68oQJSHkfmnRx4NdKIed0V6GViGZAuJ0L5Scl3aHuBUw?=
- =?us-ascii?Q?Wv1lBaR+MWbR+wVej0SiLtDHOR2IKd+UDQF6zgGFly4PrjsLi5b+6/I8PhW6?=
- =?us-ascii?Q?MBsaRNK61UOlkvgLOBSWNrUjAiOD+RgoSdkwtpZy1vJllj3/BL1XNS+FBBMR?=
- =?us-ascii?Q?dZM07exREb/kHqoN0P5eIs6ZIk6sbV1tpNFNkT1Ubi9rWR7Mpc4gt8ORDzTz?=
- =?us-ascii?Q?mGzWXuUxIyauZOrSX0weUQOwlFGb6sok+kqjPJYpSpVWVy6vVFKS1YiSYC2s?=
- =?us-ascii?Q?lnyLesoJX7tSXprSgOS4eerlp9nWeBGvVn8VUJRpqJiIh1ygsbQe9Iu/9JwV?=
- =?us-ascii?Q?Myc3PS1tgZ/rRypFuMDJegy/c7tBwfuqVh5Scw7961NiwHJiKWAHldfTM/N8?=
- =?us-ascii?Q?mLavHDrJzr0SN7W0HCb3QB5W0W13GdWWWRLW7lsW4hFyma8W6ROtWoRYAb0k?=
- =?us-ascii?Q?g0E9B3iXXimeNxrjoGEk9pNfFhPXw4GIKQSqZjSi5YiC9YH1Vfs9A5cRc0yo?=
- =?us-ascii?Q?Ml7+0dcwmbXsj0KsVyIVh+qcoq9qQDDt7md8Qj/wE+QdLJ861bJ/BRiZm6oY?=
- =?us-ascii?Q?fcUYoEMWgDItqR5ECrESa1cxdOm9wLjuwa3sGFEPdip8EPcvrBCmMx1Jm9Ds?=
- =?us-ascii?Q?tFzxMdDx5bBP2GyJRknhbh1yLPulePJA8b6py5qTHqTbdMeGuW1IEyYphx7a?=
- =?us-ascii?Q?g9WDI5E/Kl665SBfDQswJoyU?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e788f91-4d2b-4894-4fe8-08d8c981b41b
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 02:56:58.6321 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vph3jD+26cwiWBDPxsvTMCaULAvKnla6LB66GkZbipBNoNLNjZJ7b+q6wH5GaB86Uay7hhWyJ4S74uKF7ySEFiN2HLNwZf6rjYwz+BhpTeE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4664
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9885
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999 phishscore=0
- spamscore=0 suspectscore=0 malwarescore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102050018
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9885
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=999
- mlxscore=0 priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1015
- suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102050018
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210204_215703_534354_EED7CD86 
-X-CRM114-Status: GOOD (  19.44  )
+X-CRM114-CacheID: sfid-20210205_042940_622332_AC398886 
+X-CRM114-Status: GOOD (  19.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,42 +61,243 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <keith.busch@wdc.com>,
- linux-scsi@vger.kernel.org, "Martin K . Petersen" <martin.petersen@oracle.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <keith.busch@wdc.com>, Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Implement per-host namespaces masking, allowing to expose
+different namespaces to different hosts connecting to the
+same subsystem.
+The original method of adding host nqns to the subsystem
+takes precedence over the per-host namespace masking.
 
-Damien,
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/target/admin-cmd.c | 16 +++++++
+ drivers/nvme/target/configfs.c  | 82 +++++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c      | 21 ++++++++-
+ drivers/nvme/target/nvmet.h     |  4 ++
+ 4 files changed, 122 insertions(+), 1 deletion(-)
 
-> For host-aware ZBC disk, setting the device zoned model to
-> BLK_ZONED_HA using blk_queue_set_zoned() in
-> sd_read_block_characteristics() may result in the block device
-> effective zoned model to be "none" (BLK_ZONED_NONE) if partitions are
-> present on the device. In this case, sd_zbc_read_zones() should not
-> setup the zone related queue limits for the disk so that the device
-> limits and configuration is consistent with a regular disk and
-> resources not uselessly allocated (e.g. the zone write pointer
-> tracking array for zone append emulation).
->
-> Furthermore, if the disk zoned model changes at run time due to the
-> creation of a partition by the user, the zone related resources can be
-> released.
->
-> Fix both problems by introducing the function sd_zbc_clear_zone_info()
-> to reset the scsi disk zone information and free resources and by
-> returning early in sd_zbc_read_zones() for a block device that has a
-> zoned model equal to BLK_ZONED_NONE.
-
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 613a4d8feac1..d63fd33200db 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -489,6 +489,13 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 		goto done;
+ 	}
+ 
++	if (!nvmet_ns_host_allowed(req->ns, ctrl->hostnqn)) {
++		status = NVME_SC_INVALID_NS;
++		nvmet_put_namespace(req->ns);
++		req->ns = NULL;
++		goto out;
++	}
++
+ 	nvmet_ns_revalidate(req->ns);
+ 
+ 	/*
+@@ -566,6 +573,8 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
+ 	}
+ 
+ 	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
++		if (!nvmet_ns_host_allowed(ns, ctrl->hostnqn))
++			continue;
+ 		if (ns->nsid <= min_nsid)
+ 			continue;
+ 		list[i++] = cpu_to_le32(ns->nsid);
+@@ -613,6 +622,13 @@ static void nvmet_execute_identify_desclist(struct nvmet_req *req)
+ 		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 		goto out;
+ 	}
++	if (!nvmet_ns_host_allowed(req->ns, req->sq->ctrl->hostnqn)) {
++		nvmet_put_namespace(req->ns);
++		req->ns = NULL;
++		req->error_loc = offsetof(struct nvme_identify, nsid);
++		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
++		goto out;
++	}
+ 
+ 	if (memchr_inv(&req->ns->uuid, 0, sizeof(req->ns->uuid))) {
+ 		status = nvmet_copy_ns_identifier(req, NVME_NIDT_UUID,
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 635a7cb45d0b..5c85291eb16a 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -607,6 +607,85 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	NULL,
+ };
+ 
++static int nvmet_ns_allowed_hosts_allow_link(struct config_item *parent,
++		struct config_item *target)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(parent->ci_parent);
++	struct nvmet_host *host;
++	struct nvmet_host_link *link, *p;
++	int ret;
++
++	if (target->ci_type != &nvmet_host_type) {
++		pr_err("can only link hosts into the allowed_hosts directory!\n");
++		return -EINVAL;
++	}
++
++	host = to_host(target);
++	link = kmalloc(sizeof(*link), GFP_KERNEL);
++	if (!link)
++		return -ENOMEM;
++	link->host = host;
++
++	down_write(&nvmet_config_sem);
++	ret = -EINVAL;
++	if (ns->subsys->allow_any_host) {
++		pr_err("can't add hosts when allow_any_host is set!\n");
++		goto out_free_link;
++	}
++
++	ret = -EEXIST;
++	list_for_each_entry(p, &ns->subsys->hosts, entry) {
++		if (!strcmp(nvmet_host_name(p->host), nvmet_host_name(host)))
++			goto out_free_link;
++	}
++	list_for_each_entry(p, &ns->hosts, entry) {
++		if (!strcmp(nvmet_host_name(p->host), nvmet_host_name(host)))
++			goto out_free_link;
++	}
++	list_add_tail(&link->entry, &ns->hosts);
++	nvmet_subsys_disc_changed(ns->subsys, host);
++
++	up_write(&nvmet_config_sem);
++	return 0;
++out_free_link:
++	up_write(&nvmet_config_sem);
++	kfree(link);
++	return ret;
++}
++
++static void nvmet_ns_allowed_hosts_drop_link(struct config_item *parent,
++		struct config_item *target)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(parent->ci_parent);
++	struct nvmet_host *host = to_host(target);
++	struct nvmet_host_link *p;
++
++	down_write(&nvmet_config_sem);
++	list_for_each_entry(p, &ns->hosts, entry) {
++		if (!strcmp(nvmet_host_name(p->host), nvmet_host_name(host)))
++			goto found;
++	}
++	up_write(&nvmet_config_sem);
++	return;
++
++found:
++	list_del(&p->entry);
++	nvmet_subsys_disc_changed(ns->subsys, host);
++
++	up_write(&nvmet_config_sem);
++	kfree(p);
++}
++
++static struct configfs_item_operations nvmet_ns_allowed_hosts_item_ops = {
++	.allow_link		= nvmet_ns_allowed_hosts_allow_link,
++	.drop_link		= nvmet_ns_allowed_hosts_drop_link,
++};
++
++static const struct config_item_type nvmet_ns_allowed_hosts_type = {
++	.ct_item_ops		= &nvmet_ns_allowed_hosts_item_ops,
++	.ct_owner		= THIS_MODULE,
++};
++
+ static void nvmet_ns_release(struct config_item *item)
+ {
+ 	struct nvmet_ns *ns = to_nvmet_ns(item);
+@@ -647,6 +726,9 @@ static struct config_group *nvmet_ns_make(struct config_group *group,
+ 	if (!ns)
+ 		goto out;
+ 	config_group_init_type_name(&ns->group, name, &nvmet_ns_type);
++	config_group_init_type_name(&ns->allowed_hosts_group,
++				    "allowed_hosts", &nvmet_ns_allowed_hosts_type);
++	configfs_add_default_group(&ns->allowed_hosts_group, &ns->group);
+ 
+ 	pr_info("adding nsid %d to subsystem %s\n", nsid, subsys->subsysnqn);
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 8ce4d59cc9e7..d62a49f8a6e0 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -673,6 +673,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 
+ 	ns->nsid = nsid;
+ 	ns->subsys = subsys;
++	INIT_LIST_HEAD(&ns->hosts);
+ 
+ 	down_write(&nvmet_ana_sem);
+ 	ns->anagrpid = NVMET_DEFAULT_ANA_GRPID;
+@@ -1225,9 +1226,24 @@ u16 nvmet_check_ctrl_status(struct nvmet_req *req, struct nvme_command *cmd)
+ 	return 0;
+ }
+ 
++bool nvmet_ns_host_allowed(struct nvmet_ns *ns, const char *hostnqn)
++{
++	struct nvmet_host_link *p;
++
++	lockdep_assert_held(&nvmet_config_sem);
++
++	list_for_each_entry(p, &ns->hosts, entry) {
++		if (!strcmp(nvmet_host_name(p->host), hostnqn))
++			return true;
++	}
++	return false;
++}
++
+ bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn)
+ {
+ 	struct nvmet_host_link *p;
++	struct nvmet_ns *ns;
++	unsigned long idx;
+ 
+ 	lockdep_assert_held(&nvmet_config_sem);
+ 
+@@ -1241,7 +1257,10 @@ bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn)
+ 		if (!strcmp(nvmet_host_name(p->host), hostnqn))
+ 			return true;
+ 	}
+-
++	xa_for_each(&subsys->namespaces, idx, ns) {
++		if (nvmet_ns_host_allowed(ns, hostnqn))
++			return true;
++	}
+ 	return false;
+ }
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 8776dd1a0490..7d2e5814cfa3 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -70,6 +70,9 @@ struct nvmet_ns {
+ 	struct nvmet_subsys	*subsys;
+ 	const char		*device_path;
+ 
++	struct list_head	hosts;
++
++	struct config_group	allowed_hosts_group;
+ 	struct config_group	device_group;
+ 	struct config_group	group;
+ 
+@@ -518,6 +521,7 @@ extern u32 nvmet_ana_group_enabled[NVMET_MAX_ANAGRPS + 1];
+ extern u64 nvmet_ana_chgcnt;
+ extern struct rw_semaphore nvmet_ana_sem;
+ 
++bool nvmet_ns_host_allowed(struct nvmet_ns *ns, const char *hostnqn);
+ bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn);
+ 
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns);
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.29.2
+
 
 _______________________________________________
 Linux-nvme mailing list
