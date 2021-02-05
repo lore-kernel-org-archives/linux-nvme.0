@@ -2,71 +2,175 @@ Return-Path: <SRS0=OXBW=HH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEEFC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 02:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 724D1C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 02:56:51 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E953164F87
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 02:02:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E953164F87
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id CD9AF64FB3
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 02:56:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CD9AF64FB3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:References:Message-ID:
+	From:Subject:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GhMrlN2iKe8vd8umketA7IjkD8I6xlTjn1bFxBjNofA=; b=yrcUw9MgBJD1NRADp86JTn/Ql
-	bEP9cdHdTVYZLb8Ss4/0rgcv04sOgE9G7T2kmMvkbm74UM/NGlr3BSAB/QEmiWhsfvv5m1UcjOO+x
-	dGVSAUqzQ0iRGacT/9JU6kkGbJI9VF4CL2SPlS1J24Tf9bUDRzZIJonHv8iUXmx0bVLzwTGW0+Isw
-	5UH0IuGAfyNWwrHGzTgfhwhqpVCmZgld02YuxSWAipd5iDMc+ItlxzJ7XMK6WxgKVQpe09LN0xMvc
-	Y9JXt4CwFkTCdwR4e0F1Yc67HSATzNmbGhVEaZy4eqiArWI7CKnxvyEVj/tQqXf7JVChKJfls+NPB
-	dYVob/9QA==;
+	 bh=cIlPeOG/xsGGooGZm3X+M+bIMl0DYzwW/regr0P1D9A=; b=XbtllMiFT5XZeiDhAZaifPkYd
+	9wYPwcGuZH1pydMlEJJb+2QSzz9w9ZVDSwkjK1jtKPouM4XrFPYBzE2f1gwz3CIQkkUveQOe83bSG
+	a2ElKxzvjdjXiPwKsF7ig9ftNU7Gn5R0xRoWaj/fnVmE4Tv2jqYXqIj8BadxeFfXOC9Y1Z/GjqLY6
+	L6jeX+22wiVEIP5YvCWv5osHukfGb/RCqddnfPxaUJtE3WKhx9Q1zT4hQR9b5giluPdJNVbSri1HD
+	W30nicIxU76sEgxZq/p1a1wuHuYYD8xBySZ6FoXMQQsUrgKSbIxsXlQAicout5gFN4V1+wPzbaMO7
+	JCW3mu5ng==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7qS3-0006Ym-H4; Fri, 05 Feb 2021 02:02:27 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1l7rIY-0001A6-NX; Fri, 05 Feb 2021 02:56:42 +0000
+Received: from aserp2120.oracle.com ([141.146.126.78])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7qRz-0006Y6-R9
- for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 02:02:26 +0000
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4DWzD16hg1zY5t0;
- Fri,  5 Feb 2021 10:01:05 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Fri, 5 Feb 2021 10:02:17 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Fri, 5 Feb
- 2021 10:02:17 +0800
-Subject: Re: [PATCH v5 0/3] avoid double request completion and IO error
-To: Christoph Hellwig <hch@lst.de>
-References: <20210201034940.18891-1-lengchao@huawei.com>
- <20210203161455.GB4116@lst.de>
- <7d39e0a4-3765-85b8-aab5-b0ded93f8bec@huawei.com>
- <20210204080442.GA30542@lst.de>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <47992bb8-3f37-ac6a-1544-e2cd30caefae@huawei.com>
-Date: Fri, 5 Feb 2021 10:02:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1l7rIV-00019Y-H2
+ for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 02:56:40 +0000
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1152t2x5026353;
+ Fri, 5 Feb 2021 02:56:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=r2RYQLVhK1r1H3bFuTC5P6502twQmKxe7QZA71dM2Mw=;
+ b=ssKzhN/EyOFyfTGI+tQLKTXIJ9rpveaheV7ugg5+TS/ZgNxkHCPYPcmQAikXRVElS1za
+ YAuEMsu03W2UEv7mYY+8wRtDhoY6FwVtdJlQb3AMwq2F+BmMrq4oeDQfQBqu9jATI9xB
+ EbShJVCBW4OmhUTnXpvnAXuYxT8eC6A2At5MqCv0a7oOtPdyuh0qQ5BStwbE2SxEbh4M
+ DcCG8On5UnQm0nDY0gWgbxSGTu+iBvpKCARuDnKI0Yd9rvOjdSlIS0m3cpIkqe7UGoyq
+ bv3Xd8X6NErT9+NXW6JycfeZ0BMl2RC3vhV6tSu/kcxWTN72HKtvEcf1izsmvVOpRxJX 6A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 36cydm8226-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 05 Feb 2021 02:56:31 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1152pdZI139191;
+ Fri, 5 Feb 2021 02:54:31 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08lp2041.outbound.protection.outlook.com [104.47.73.41])
+ by aserp3030.oracle.com with ESMTP id 36dh1tb7m3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 05 Feb 2021 02:54:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YVr3l3BbJam4eQf8o6aceRfwgqa22RH70EchHTtQUz1Cs/PVy3Zzvf+ivtlUmxFqTh7/CuWxC4X8097xwRvQ2+QF9UyNATxdZO8C0BMZu77NeVfHnTa/nNPCMvaiiZd1uDDsY7vVXuk+3krubO17Y0i2xxN0AtOT4JW2ZqVJhH+hRVno/ExqpCnV5euC35UoF601Oea35cy62zbnmFQG1vmawHvFBlgLQedzKX5Uv989HNHqutAXdQH7Y1D4hYRB/J7/tfku01bAdtann3SLcMBl8ir6Ce4zYBan/HHornvCZNwgXe76LezZS1SZHslc73nToxOCWuCQ1HXDrxvzMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r2RYQLVhK1r1H3bFuTC5P6502twQmKxe7QZA71dM2Mw=;
+ b=FiUxAmt8BsfMxFxg/R9b+6Cvb6ueL8+A4OdKXQKH3R/V4RAsuM1AgNn7u+oGNdC23M5qghQjQtYLtJzQr+gnHh8lflQbhntbw5C60yh7PMCRKTw89p4V/1zt1O0uxxguTFGOR5kWs8aEYqbGD7y5fUlsN6EOUnKMzQ6Tz/fh8Lh+3Kywrs55Gc+hcHOTvMO0EZwIBuNBJ+HYjk/E90ozZeFlEhIWHv8luZUdAZxGofdpM3MKyT4qkWWJJJtAQGnT0UyJZ/8Nz+b4HUyGmD0q3wHHnNFDlAdr03kKmX7y7MgrtXArU3viiOQc0M3zBv4yLc9bUzoFD+XaX7cQvbWyYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r2RYQLVhK1r1H3bFuTC5P6502twQmKxe7QZA71dM2Mw=;
+ b=EnglsiDpgNPGsOZzhwL1tpuDeqOT3rMS8HgeTQm69okwL1qENn0GFTkJtCX2/SXVoLlvVAhQi++bykHux35hdOaGZeRwVKQkVfeuN9OWGy6Oa3TcCCu63FUk2HZLqgARBEIHkband7tMMsi4yVY8U56zzaecoSXZ3ATwCWoPKzA=
+Authentication-Results: wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=none action=none header.from=oracle.com;
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Fri, 5 Feb
+ 2021 02:54:29 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::dc39:c9fa:7365:8c8e]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::dc39:c9fa:7365:8c8e%5]) with mapi id 15.20.3825.020; Fri, 5 Feb 2021
+ 02:54:29 +0000
+To: Damien Le Moal <damien.lemoal@wdc.com>
+Subject: Re: [PATCH v4 5/8] block: introduce zone_write_granularity limit
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq1y2g3teb3.fsf@ca-mkp.ca.oracle.com>
+References: <20210128044733.503606-1-damien.lemoal@wdc.com>
+ <20210128044733.503606-6-damien.lemoal@wdc.com>
+Date: Thu, 04 Feb 2021 21:54:25 -0500
+In-Reply-To: <20210128044733.503606-6-damien.lemoal@wdc.com> (Damien Le Moal's
+ message of "Thu, 28 Jan 2021 13:47:30 +0900")
+X-Originating-IP: [138.3.200.58]
+X-ClientProxiedBy: CH0PR13CA0015.namprd13.prod.outlook.com
+ (2603:10b6:610:b1::20) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-In-Reply-To: <20210204080442.GA30542@lst.de>
-Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme712-chm.china.huawei.com (10.1.199.108) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ca-mkp.ca.oracle.com (138.3.200.58) by
+ CH0PR13CA0015.namprd13.prod.outlook.com (2603:10b6:610:b1::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.13 via Frontend Transport; Fri, 5 Feb 2021 02:54:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3114a6da-14f9-4d65-1e35-08d8c9815b46
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4664:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <PH0PR10MB466437F6325E33D3078151A08EB29@PH0PR10MB4664.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iqHi1UL3AumdgvWKhnYFT9zRru2OhBSqH4q6nvjctn0sD844fAik2sC6gRNMpLjhQdtKeEkpqknyY2xyLaGCQfDSOlmpUybAcLvnHhrds5Dk4wQZdJCd19YGg0wZxi6zLdSAbJgwmEvPEY6CDlVwV57bqATmG3rJnifle4BK4D4ldBqamO3AQD1bLUATXPSheQ/ZeqU7EY4AGrp3XnRIKhwSA4FYL7PDZXeJbuHalaz15trixq83fRBjS82o4ODJlHTpm0WCQRh3oheJdMWJHp+RxcAdUcSnRC0UUC5rnhGvr7Y00HHm2VI51yFNpJgzZB9ngs9sBYmAxAwj6GRlxA1IIDkVXFV2veSa1MgJ4XiuxBXiSHNjv044DD47jxWYTbUMLW4g9MGmP8BwXrdut2sIBkvGCgpUKou9iFbE2HJQ0YGOvQhuLEDV/euvJgaRVXrAYN9KBv9lXX6QfbUXBnQV2RCgQAPDt21NFjguyfbCfsYAAuZk4yDEHeZB3s7SCZ/EnJG/CbZaKgpVt3HRaQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB4759.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(376002)(136003)(396003)(39860400002)(366004)(52116002)(8676002)(4326008)(16526019)(55016002)(2906002)(478600001)(6916009)(5660300002)(6666004)(83380400001)(8936002)(7696005)(26005)(36916002)(66556008)(316002)(186003)(54906003)(66946007)(86362001)(956004)(66476007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?VMeLXTt+WxRkTTutt3D1LvYsFWZ6rUshhQS8t1Cre3UiQ7dlfgz3Ovjp8cmV?=
+ =?us-ascii?Q?x+evcV9W4SKPlAF9Zm537dobjWr3kNOBpTwr2OaYI+xQfka+6/gioqJNFRAJ?=
+ =?us-ascii?Q?zusrgfzJJU+bwDr+uqN0OcCWHQ8jTBmPXk4hEGL3xZoCJZALzIOLVcfaCry4?=
+ =?us-ascii?Q?KWIZCQCCS/dwLBeb5ZTCce/Zqy29oz/cQ6dX/baXsP0saLyYLqqtQ4hfeprW?=
+ =?us-ascii?Q?M3ULKC/AKHD++0+dbqaXoYxJYyIRMiwrJoflRdgkJ++zX0WcrLoAsFrgiGpW?=
+ =?us-ascii?Q?n/ezPjADPqsJF4jAjJ1jHKqjK+RBCwf9CEFnAUGvI9I3k8NojZ7Q5zAMH0kv?=
+ =?us-ascii?Q?dbZRjbgRQAvNkdJJL8JaDzGoz1p7XZIxkMXgP+LDOh1tyd1LhSou0F5ZV0cI?=
+ =?us-ascii?Q?jbO1geJnDzUvR5nll2CHNe5NZYq1BsQ6oKDoEFzIwjoKyBgiPwnjgGBduHAc?=
+ =?us-ascii?Q?0WnavJjHnwtU+DhxePrs0q4fngBBE8TTJFGllcAGLRqVba2EAxMbQdVTTAKp?=
+ =?us-ascii?Q?lgLzfo3CmgfNDJRr7DKR8HpCzKGrKZJvhZRhjNV6k2WZY8sUN1MD01CQYLkI?=
+ =?us-ascii?Q?09XLcVxzSiXfjZkWl9QUL4OdgJDVCnXjSygdf0X1cYPELITOVxrenkAE0cot?=
+ =?us-ascii?Q?UFe3IlpkKgQ2GZ2k5FkEKm26PsnJnbuM7wHMj6T0VrKCJ1T7bcCkwtlK4Qrh?=
+ =?us-ascii?Q?KezssdKHXFfqnYbhGX9ZFgdzDpNsDAU18hpIIalZUJmm3WEovX11IAsWknXY?=
+ =?us-ascii?Q?OwVmT7+zU+j7Tn9rUBK8T2w+C0Y70jQd+gWMs+B6WPi37U5YIFuYjEvCHMvW?=
+ =?us-ascii?Q?oJ2CZuLcGFbLKyoG5PWF0nFHK5Sp2+54upIIevRbKWi1uJzGfqZ7x4hk5m9X?=
+ =?us-ascii?Q?nA7cyN7ynYR+sO7/cv2VE2TMxmCy+YM8mZYvn/Wakvjg1wMGNt+MpOupa+62?=
+ =?us-ascii?Q?NAg0LdtSF5wYkkHExYnMActUeKXkvuITvN2kO/Nn8SDACy3TZmdC9j84i60o?=
+ =?us-ascii?Q?ttlmbdV8Ku3N1G8ti4qrDnpL7o3Go6jHhnQjKtrjjQMjUJVhGQDfjsL0zmgp?=
+ =?us-ascii?Q?7410cAu3U1KabY4QazGezfB5i85fHi9NcfYwGmMcgmk+Y+OOB57itWX+c18j?=
+ =?us-ascii?Q?4Kdgeq/fK2Xjm+aNEhT5vkAASnkcx19uUyT+q7vM0tkp/3I0T3V04p6Ah4mI?=
+ =?us-ascii?Q?4+QYhpLQrQyPrNUqpHqe6Qpw4sKLrKtPiYYSrUerAxXN+2N4K9XR1NvVXV3x?=
+ =?us-ascii?Q?lA/I+qlZvyv3enXkOTUXQDzDOEvATr1eQkJqB94e4o0ZU/urcypAk0IhJjyt?=
+ =?us-ascii?Q?uPrkzDpK1QxkKIHe2pzuZjOA?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3114a6da-14f9-4d65-1e35-08d8c9815b46
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 02:54:29.3057 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sCu10vPruehNlOhgC79MRZae7v/Y7OG9YCm1JohDf7F86+8c5AgOQq0X0ztxWlXIJNLAeV+8cv+ZHMVhvPGSRK8GjPZVabjEt3udPnmaxHk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4664
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9885
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 phishscore=0
+ suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102050018
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9885
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ adultscore=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 clxscore=1015
+ spamscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102050018
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210204_210224_185300_5A780237 
-X-CRM114-Status: GOOD (  12.38  )
+X-CRM114-CacheID: sfid-20210204_215639_804220_F661D7AF 
+X-CRM114-Status: GOOD (  18.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,28 +182,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, linux-block@vger.kernel.org, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, axboe@fb.com, kbusch@kernel.org
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <keith.busch@wdc.com>,
+ linux-scsi@vger.kernel.org, "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+Damien,
 
-On 2021/2/4 16:04, Christoph Hellwig wrote:
-> On Thu, Feb 04, 2021 at 01:56:34PM +0800, Chao Leng wrote:
->> This looks good to me.
->> Thank you very much.
-> 
-> Thanks a lot to you!
-> 
-> Please double check there version here:
-> 
-> http://git.infradead.org/nvme.git/shortlog/refs/heads/nvme-5.12
-Looks good.
-> .
-> 
+> Per ZBC and ZAC specifications, host-managed SMR hard-disks mandate that
+> all writes into sequential write required zones be aligned to the device
+> physical block size. However, NVMe ZNS does not have this constraint and
+> allows write operations into sequential zones to be aligned to the
+> device logical block size. This inconsistency does not help with
+> software portability across device types.
+>
+> To solve this, introduce the zone_write_granularity queue limit to
+> indicate the alignment constraint, in bytes, of write operations into
+> zones of a zoned block device. This new limit is exported as a
+> read-only sysfs queue attribute and the helper
+> blk_queue_zone_write_granularity() introduced for drivers to set this
+> limit.
+>
+> The function blk_queue_set_zoned() is modified to set this new limit to
+> the device logical block size by default. NVMe ZNS devices as well as
+> zoned nullb devices use this default value as is. The scsi disk driver
+> is modified to execute the blk_queue_zone_write_granularity() helper to
+> set the zone write granularity of host-managed SMR disks to the disk
+> physical block size.
+>
+> The accessor functions queue_zone_write_granularity() and
+> bdev_zone_write_granularity() are also introduced.
+
+Looks fine.
+
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
 _______________________________________________
 Linux-nvme mailing list
