@@ -2,19 +2,19 @@ Return-Path: <SRS0=OXBW=HH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C07B6C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:40:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9167CC433E6
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:45:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2EF2964FAB
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:40:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2EF2964FAB
+	by mail.kernel.org (Postfix) with ESMTPS id 09C5860241
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:45:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09C5860241
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fjDh5N3EEzCyZEa+afgQ4CA9ouqB2MfSeh/7VFdkXnc=; b=kKHX0EUI2iRcFAPvZdYF73Jla
-	EZcVARoIm9/M6VUoFd3sIK0IlvuOBA83ipF7Yw+id5CM1SyQzpNGnl/Yte0ANDB73uPf1zuHeUbmB
-	Zr55n7ROYdPNt5L0u4ZYGjQ4xvcVAjRV48D6K5FQmIYAnZ+3/gqDJ/s0uufqwaVY2TqT/1b1j9P6j
-	ZN7b64GQquWCx7wIN1lTWxaER5fXDPpACNCsjV0YWcDsF4TgLInC0MVD4Plxj1qaoSuBOpbDR+oTU
-	ou/XZKa7XK/A0XRRPHZw9Pgh1uXP07HXekJEjSp2JZM78vdpZ4wtWgBlrKb0V5kKU8fuPtFDTdD3V
-	vZD3hN6Qw==;
+	 bh=lOglGnNkOO/pQ1Oo28DRh5dZfnXz6aUTLGwdojfuBhs=; b=kTTis+1B+awCs1lK15aBztvAe
+	U1/pxRZKW1VloSZI8dWtvSQvxuvEMq2TvYVUWABoEZLuYkOQwj70+DjxzNOZs3oQ2EOPGZA36gCHg
+	0lF5/HC2t4ZsXu2cfMaWcKMcclnJBzZawsj13mzey6WaDn7mzxVpRffA8ZPwIDDksJBltJIBYdeOJ
+	7dh8X4odzaVVy62dBjjQqOLWhlFiRf2Wy+UWOHGLPBUqWEJsAx/empF6pxuW6Vr/+uE1hP2Ycks71
+	iXGhf52er5Ue/7AEuIO0uYkWa7QRt5Rskd7jGAvQ59oxx2nFpSkdCBxNttwza7Kge/I8aOIgbChI0
+	bR5L8m/FQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7xbb-0003PV-Ve; Fri, 05 Feb 2021 09:40:48 +0000
+	id 1l7xfy-0004Eg-QO; Fri, 05 Feb 2021 09:45:18 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7xbZ-0003OB-He
- for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 09:40:46 +0000
+ id 1l7xfw-0004DD-3C
+ for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 09:45:17 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 5ACA068AFE; Fri,  5 Feb 2021 10:40:43 +0100 (CET)
-Date: Fri, 5 Feb 2021 10:40:43 +0100
+ id 9B85068AFE; Fri,  5 Feb 2021 10:45:12 +0100 (CET)
+Date: Fri, 5 Feb 2021 10:45:11 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvmet: per-host namespaces masking
-Message-ID: <20210205094043.GA2694@lst.de>
-References: <20210205092926.64161-1-hare@suse.de>
- <20210205093237.GA2066@lst.de> <e505e360-ec8a-ba06-4a40-bf9d2006a7a0@suse.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 3/8] swiotlb: factor out a nr_slots helper
+Message-ID: <20210205094511.GA2801@lst.de>
+References: <20210204193035.2606838-1-hch@lst.de>
+ <20210204193035.2606838-4-hch@lst.de>
+ <ae995e9d-4476-cea2-a4d7-9e9cbab5aafd@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <e505e360-ec8a-ba06-4a40-bf9d2006a7a0@suse.de>
+In-Reply-To: <ae995e9d-4476-cea2-a4d7-9e9cbab5aafd@arm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210205_044045_704188_35BAFE5F 
-X-CRM114-Status: UNSURE (   9.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210205_044516_330498_B97838BB 
+X-CRM114-Status: GOOD (  11.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +64,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <keith.busch@wdc.com>, Sagi Grimberg <sagi@grimberg.me>
+Cc: saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
+ gregkh@linuxfoundation.org, linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ iommu@lists.linux-foundation.org, erdemaktas@google.com,
+ m.szyprowski@samsung.com, Christoph Hellwig <hch@lst.de>, jxgao@google.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 05, 2021 at 10:38:41AM +0100, Hannes Reinecke wrote:
-> On 2/5/21 10:32 AM, Christoph Hellwig wrote:
->> On Fri, Feb 05, 2021 at 10:29:26AM +0100, Hannes Reinecke wrote:
->>> Implement per-host namespaces masking, allowing to expose
->>> different namespaces to different hosts connecting to the
->>> same subsystem.
->>> The original method of adding host nqns to the subsystem
->>> takes precedence over the per-host namespace masking.
->>
->> Why do you want to expose a single subsystem to multiple hosts?  This
->> creates all kinds of covert channels better avoided.
->>
-> But the alternative is a subsystem per host.
-> Which leads to a proliferation of subsystems on the target.
+On Thu, Feb 04, 2021 at 10:09:02PM +0000, Robin Murphy wrote:
+>> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+>> index 838dbad10ab916..0c0b81799edbdb 100644
+>> --- a/kernel/dma/swiotlb.c
+>> +++ b/kernel/dma/swiotlb.c
+>> @@ -194,6 +194,11 @@ static inline unsigned long io_tlb_offset(unsigned long val)
+>>   	return val & (IO_TLB_SEGSIZE - 1);
+>>   }
+>>   +static unsigned long nr_slots(u64 val)
+>> +{
+>> +	return ALIGN(val, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+>
+> Would DIV_ROUND_UP(val, 1 << IOTLB_SHIFT) be even clearer?
 
-Yes, that was the choice we had in mind when writing the code.  The
-subsystems are very cheap as they don't require any resources except
-for some fairly small memory allocations.
+Not sure it is all that much cleaner, but it does fit a common pattern,
+so I'll switch to that.
 
 _______________________________________________
 Linux-nvme mailing list
