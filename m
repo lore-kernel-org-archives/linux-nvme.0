@@ -2,19 +2,19 @@ Return-Path: <SRS0=OXBW=HH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9167CC433E6
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:45:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A8D4C433DB
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:45:59 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 09C5860241
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:45:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09C5860241
+	by mail.kernel.org (Postfix) with ESMTPS id E804260241
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 09:45:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E804260241
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lOglGnNkOO/pQ1Oo28DRh5dZfnXz6aUTLGwdojfuBhs=; b=kTTis+1B+awCs1lK15aBztvAe
-	U1/pxRZKW1VloSZI8dWtvSQvxuvEMq2TvYVUWABoEZLuYkOQwj70+DjxzNOZs3oQ2EOPGZA36gCHg
-	0lF5/HC2t4ZsXu2cfMaWcKMcclnJBzZawsj13mzey6WaDn7mzxVpRffA8ZPwIDDksJBltJIBYdeOJ
-	7dh8X4odzaVVy62dBjjQqOLWhlFiRf2Wy+UWOHGLPBUqWEJsAx/empF6pxuW6Vr/+uE1hP2Ycks71
-	iXGhf52er5Ue/7AEuIO0uYkWa7QRt5Rskd7jGAvQ59oxx2nFpSkdCBxNttwza7Kge/I8aOIgbChI0
-	bR5L8m/FQ==;
+	 bh=9iEf2iPLTziJNdE4B4acm66nPh92S1/tsGBtxcqMswE=; b=vHLMjUudaJP4riqXVAqfX3DyU
+	DCLLrfnCjXgvjCdVLLdwbbVu+1evIWTV7aFPfzeISflmaH1cwB0Kj2Zx+JWnM9vExtnT0e8ICyabE
+	bjERLZRxugUaj08f6ungZuEWXZcyp0RwNj9RpVgmg+EPMUhGS9PbBN0TIhI5fUz1GchUUGYMCiH9B
+	W9zPisZMYJXDs7It7jBiEvk7VSz4MiAAIovKogGTr6s8CK5t5JrZRQiXUbnh1yKbM9wpzMlzkZrVW
+	kMGJ1uVPbrEtHEz+6LJV3zKhSbtlmUrbIjdDVk/J2BNp6B+YjI3QIlXhzZhoCYFx+vC59EFGY+7jX
+	CNep7RPlQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7xfy-0004Eg-QO; Fri, 05 Feb 2021 09:45:18 +0000
+	id 1l7xgY-0004RP-R3; Fri, 05 Feb 2021 09:45:54 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7xfw-0004DD-3C
- for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 09:45:17 +0000
+ id 1l7xgV-0004Pv-B4
+ for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 09:45:52 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 9B85068AFE; Fri,  5 Feb 2021 10:45:12 +0100 (CET)
-Date: Fri, 5 Feb 2021 10:45:11 +0100
+ id 78EE968AFE; Fri,  5 Feb 2021 10:45:49 +0100 (CET)
+Date: Fri, 5 Feb 2021 10:45:49 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 3/8] swiotlb: factor out a nr_slots helper
-Message-ID: <20210205094511.GA2801@lst.de>
+Subject: Re: [PATCH 5/8] swiotlb: refactor swiotlb_tbl_map_single
+Message-ID: <20210205094549.GB2801@lst.de>
 References: <20210204193035.2606838-1-hch@lst.de>
- <20210204193035.2606838-4-hch@lst.de>
- <ae995e9d-4476-cea2-a4d7-9e9cbab5aafd@arm.com>
+ <20210204193035.2606838-6-hch@lst.de>
+ <f60ddc1b-94c3-32a1-06eb-b2187d56d797@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <ae995e9d-4476-cea2-a4d7-9e9cbab5aafd@arm.com>
+In-Reply-To: <f60ddc1b-94c3-32a1-06eb-b2187d56d797@arm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210205_044516_330498_B97838BB 
-X-CRM114-Status: GOOD (  11.15  )
+X-CRM114-CacheID: sfid-20210205_044551_607221_6614BA50 
+X-CRM114-Status: UNSURE (   9.01  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,22 +74,14 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 04, 2021 at 10:09:02PM +0000, Robin Murphy wrote:
->> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
->> index 838dbad10ab916..0c0b81799edbdb 100644
->> --- a/kernel/dma/swiotlb.c
->> +++ b/kernel/dma/swiotlb.c
->> @@ -194,6 +194,11 @@ static inline unsigned long io_tlb_offset(unsigned long val)
->>   	return val & (IO_TLB_SEGSIZE - 1);
->>   }
->>   +static unsigned long nr_slots(u64 val)
->> +{
->> +	return ALIGN(val, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+On Thu, Feb 04, 2021 at 10:12:31PM +0000, Robin Murphy wrote:
+>> -	mask = dma_get_seg_boundary(hwdev);
+>> +	if (boundary_mask + 1 == ~0UL)
 >
-> Would DIV_ROUND_UP(val, 1 << IOTLB_SHIFT) be even clearer?
+> Either "mask == ~0UL" or "mask + 1 == 0", surely?
 
-Not sure it is all that much cleaner, but it does fit a common pattern,
-so I'll switch to that.
+I switched forth and back a few times and ended up with the broken
+variant in the middle.  Fixed.
 
 _______________________________________________
 Linux-nvme mailing list
