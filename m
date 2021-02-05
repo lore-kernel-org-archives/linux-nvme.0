@@ -1,22 +1,21 @@
-Return-Path: <SRS0=YrQE=HG=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=OXBW=HH=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B70C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 23:14:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEEFC433DB
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 02:02:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1E18C64FA1
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Feb 2021 23:14:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E18C64FA1
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+	by mail.kernel.org (Postfix) with ESMTPS id E953164F87
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Feb 2021 02:02:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E953164F87
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
@@ -24,41 +23,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lBzMmZSsFJcNRU5LFnBVCJ6/ApvwWDgWtmuPBlAjb70=; b=Af71WpXlziNfSLXiR4WZFxtlK
-	YoeVa3mQJb0S8a5ym7VaA8XqCQ7tpQeaPwK9QnbjDmVmzxEGSCZetGt7KbFaS1iT5VpeThZAGzzVT
-	aSP/52TaLZPvVC5KHSAxfFpbJkHH7iGE+enHbBs2JT8b+hTsuBT2HJ1/FyN+OJiFsaxg68R0Yhc/6
-	P8rglJpR21L2PjUsQVGkViqjwIUpwTkYwD2CcI7axnx4dAAOuHWs0+hsfdtyhJz9W/6FowFVgAFgC
-	3hDwWNKbkmx85cmZ526tU5J8oyH/5YWBxcelJCMoYO54Li6eMW97t6ztp0OaNgk4Kzzds+eRx8YXV
-	vnzgDgwkg==;
+	 bh=GhMrlN2iKe8vd8umketA7IjkD8I6xlTjn1bFxBjNofA=; b=yrcUw9MgBJD1NRADp86JTn/Ql
+	bEP9cdHdTVYZLb8Ss4/0rgcv04sOgE9G7T2kmMvkbm74UM/NGlr3BSAB/QEmiWhsfvv5m1UcjOO+x
+	dGVSAUqzQ0iRGacT/9JU6kkGbJI9VF4CL2SPlS1J24Tf9bUDRzZIJonHv8iUXmx0bVLzwTGW0+Isw
+	5UH0IuGAfyNWwrHGzTgfhwhqpVCmZgld02YuxSWAipd5iDMc+ItlxzJ7XMK6WxgKVQpe09LN0xMvc
+	Y9JXt4CwFkTCdwR4e0F1Yc67HSATzNmbGhVEaZy4eqiArWI7CKnxvyEVj/tQqXf7JVChKJfls+NPB
+	dYVob/9QA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l7nox-0003Sk-FH; Thu, 04 Feb 2021 23:13:55 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l7not-0003SA-JN
- for linux-nvme@lists.infradead.org; Thu, 04 Feb 2021 23:13:52 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 386BFD6E;
- Thu,  4 Feb 2021 15:13:49 -0800 (PST)
-Received: from [10.57.49.26] (unknown [10.57.49.26])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D7ED3F719;
- Thu,  4 Feb 2021 15:13:47 -0800 (PST)
-Subject: Re: [PATCH 7/8] swiotlb: respect min_align_mask
-To: Christoph Hellwig <hch@lst.de>, jxgao@google.com,
- gregkh@linuxfoundation.org
-References: <20210204193035.2606838-1-hch@lst.de>
- <20210204193035.2606838-8-hch@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <2e51481c-1591-034c-3476-1a1f8891506a@arm.com>
-Date: Thu, 4 Feb 2021 23:13:45 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+	id 1l7qS3-0006Ym-H4; Fri, 05 Feb 2021 02:02:27 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l7qRz-0006Y6-R9
+ for linux-nvme@lists.infradead.org; Fri, 05 Feb 2021 02:02:26 +0000
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4DWzD16hg1zY5t0;
+ Fri,  5 Feb 2021 10:01:05 +0800 (CST)
+Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Fri, 5 Feb 2021 10:02:17 +0800
+Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
+ (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Fri, 5 Feb
+ 2021 10:02:17 +0800
+Subject: Re: [PATCH v5 0/3] avoid double request completion and IO error
+To: Christoph Hellwig <hch@lst.de>
+References: <20210201034940.18891-1-lengchao@huawei.com>
+ <20210203161455.GB4116@lst.de>
+ <7d39e0a4-3765-85b8-aab5-b0ded93f8bec@huawei.com>
+ <20210204080442.GA30542@lst.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <47992bb8-3f37-ac6a-1544-e2cd30caefae@huawei.com>
+Date: Fri, 5 Feb 2021 10:02:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210204193035.2606838-8-hch@lst.de>
-Content-Language: en-GB
+In-Reply-To: <20210204080442.GA30542@lst.de>
+Content-Language: en-US
+X-Originating-IP: [10.169.42.93]
+X-ClientProxiedBy: dggeme712-chm.china.huawei.com (10.1.199.108) To
+ dggema772-chm.china.huawei.com (10.1.198.214)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210204_181351_962217_BB44B11E 
-X-CRM114-Status: GOOD (  31.17  )
+X-CRM114-CacheID: sfid-20210204_210224_185300_5A780237 
+X-CRM114-Status: GOOD (  12.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,127 +78,28 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
- linux-nvme@lists.infradead.org, kbusch@kernel.org,
- iommu@lists.linux-foundation.org, erdemaktas@google.com,
- m.szyprowski@samsung.com
+Cc: axboe@kernel.dk, linux-block@vger.kernel.org, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, axboe@fb.com, kbusch@kernel.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2021-02-04 19:30, Christoph Hellwig wrote:
-> Respect the min_align_mask in struct device_dma_parameters in swiotlb.
+
+
+On 2021/2/4 16:04, Christoph Hellwig wrote:
+> On Thu, Feb 04, 2021 at 01:56:34PM +0800, Chao Leng wrote:
+>> This looks good to me.
+>> Thank you very much.
 > 
-> There are two parts to it:
->   1) for the lower bits of the alignment inside the io tlb slot, just
->      extent the size of the allocation and leave the start of the slot
->       empty
->   2) for the high bits ensure we find a slot that matches the high bits
->      of the alignment to avoid wasting too much memory
+> Thanks a lot to you!
 > 
-> Based on an earlier patch from Jianxiong Gao <jxgao@google.com>.
+> Please double check there version here:
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   kernel/dma/swiotlb.c | 49 +++++++++++++++++++++++++++++++++++++-------
->   1 file changed, 42 insertions(+), 7 deletions(-)
+> http://git.infradead.org/nvme.git/shortlog/refs/heads/nvme-5.12
+Looks good.
+> .
 > 
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index 6a2439826a1ba4..ab3192142b9906 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -468,6 +468,18 @@ static void swiotlb_bounce(phys_addr_t orig_addr, phys_addr_t tlb_addr,
->   	}
->   }
->   
-> +/*
-> + * Return the offset into a iotlb slot required to keep the device happy.
-> + */
-> +static unsigned int swiotlb_align_offset(struct device *dev, u64 addr)
-> +{
-> +	unsigned min_align_mask = dma_get_min_align_mask(dev);
-> +
-> +	if (!min_align_mask)
-> +		return 0;
-
-I doubt that's beneficial - even if the compiler can convert it into a 
-csel, it'll then be doing unnecessary work to throw away a 
-cheaply-calculated 0 in favour of hard-coded 0 in the one case it matters ;)
-
-> +	return addr & min_align_mask & ((1 << IO_TLB_SHIFT) - 1);
-
-(BTW, for readability throughout, "#define IO_TLB_SIZE (1 << 
-IO_TLB_SHIFT)" sure wouldn't go amiss...)
-
-> +}
-> +
->   /*
->    * Carefully handle integer overflow which can occur when boundary_mask == ~0UL.
->    */
-> @@ -478,6 +490,16 @@ static inline unsigned long get_max_slots(unsigned long boundary_mask)
->   	return nr_slots(boundary_mask + 1);
->   }
->   
-> +static inline bool check_alignment(phys_addr_t orig_addr,
-> +		dma_addr_t tbl_dma_addr, unsigned int index,
-> +		unsigned int min_align_mask)
-> +{
-> +	if (!min_align_mask)
-> +		return true;
-
-Ditto - even the 5 or so operations this might skip is unlikely to 
-outweigh a branch on anything that matters, and again csel would be a 
-net loss since x & 0 == y & 0 is still the correct answer.
-
-> +	return ((tbl_dma_addr + (index << IO_TLB_SHIFT)) & min_align_mask) ==
-> +		(orig_addr & min_align_mask);
-> +}
-> +
->   static unsigned int wrap_index(unsigned int index)
->   {
->   	if (index >= io_tlb_nslabs)
-> @@ -489,9 +511,11 @@ static unsigned int wrap_index(unsigned int index)
->    * Find a suitable number of IO TLB entries size that will fit this request and
->    * allocate a buffer from that IO TLB pool.
->    */
-> -static int find_slots(struct device *dev, size_t alloc_size,
-> -		dma_addr_t tbl_dma_addr)
-> +static int find_slots(struct device *dev, phys_addr_t orig_addr,
-> +		size_t alloc_size, dma_addr_t tbl_dma_addr)
->   {
-> +	unsigned int min_align_mask = dma_get_min_align_mask(dev) &
-> +			~((1 << IO_TLB_SHIFT) - 1);
->   	unsigned int max_slots = get_max_slots(dma_get_seg_boundary(dev));
->   	unsigned int nslots = nr_slots(alloc_size), stride = 1;
->   	unsigned int index, wrap, count = 0, i;
-> @@ -503,7 +527,9 @@ static int find_slots(struct device *dev, size_t alloc_size,
->   	 * For mappings greater than or equal to a page, we limit the stride
->   	 * (and hence alignment) to a page size.
->   	 */
-> -	if (alloc_size >= PAGE_SIZE)
-> +	if (min_align_mask)
-> +		stride = (min_align_mask + 1) >> IO_TLB_SHIFT;
-
-So this can't underflow because "min_align_mask" is actually just the 
-high-order bits representing the number of iotlb slots needed to meet 
-the requirement, right? (It took a good 5 minutes to realise this wasn't 
-doing what I initially thought it did...)
-
-In that case, a) could the local var be called something like 
-iotlb_align_mask to clarify that it's *not* just a copy of the device's 
-min_align_mask, and b) maybe just have an unconditional initialisation 
-that works either way:
-
-	stride = (min_align_mask >> IO_TLB_SHIFT) + 1;
-
-In fact with that, I think could just mask orig_addr with ~IO_TLB_SIZE 
-in the call to check_alignment() below, or shift everything down by 
-IO_TLB_SHIFT in check_alignment() itself, instead of mangling 
-min_align_mask at all (I'm assuming we do need to ignore the low-order 
-bits of orig_addr at this point).
-
-Robin.
 
 _______________________________________________
 Linux-nvme mailing list
