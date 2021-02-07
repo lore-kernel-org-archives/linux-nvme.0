@@ -2,19 +2,19 @@ Return-Path: <SRS0=2jH7=HJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-22.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6467AC433E0
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E8DAC433DB
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:28 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0B6DB64D9A
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B6DB64D9A
+	by mail.kernel.org (Postfix) with ESMTPS id DD86264D9A
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD86264D9A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,42 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+SuQapfGHS7hc+XWucJE7/HeMNosKO3lANIsT0givEg=; b=V/cD390CiSDNqe7BzlNRDty6t
-	ghOQCO8TyoyvcJoAK0BCKtllb2TFayIZKd4XbNOKww6ZL1fH0V7RTMMq51xSGn4heAaLq61WgIf0Y
-	wM6JjHnzvSUZtJ+vJA1lcEQ3JaZDSHi7sERS2dCaLmHWutLyo2eN+d9OGHPaHmKfADkuxyixO1lC+
-	awMYwUZ4c2YOQb35l0lhNCO18kEoFrIPmcB+I3BfGE3sXFCOY3IsPLv2n3gSSH/Riihn2Y9jCC7UV
-	eyWHhHsYl/fsvj6cIrlwnZ1wcJw03tNOBhBuHh4N3funqeRutwwVYppQI7nzeqF1rno3An6bPbPNe
-	Oq1K83tJQ==;
+	 bh=p2MEipqSh6yfGDsCRE6qIAmc4Y26j1t4YfP+OXRoMl0=; b=fWiEGemxvF+DOb8Dmw7tXu04l
+	HOCFQL4pQ3dQ4+89ozZvnJk695w7P4b516fgURDUDx6fBsSqDplrHrjbq00ICdCc4loVvK4021xp6
+	BQ1BbtAQ6hI1jE+iD2cQpBaUCxuzux0Gmn53VdNFeP4oeO3lscBHz5CKJOa1YpWK/9zRy4o6/zDb3
+	vnM4LXeCUobcWdo8p8hywM8AWhRoCCAlnv7ajZwDoyY5ej4hmsMCPAL17a/eJe3hznyLQu4Ic2fsH
+	HVAgY0hr87WBn8+tjtzywHrCYh1IFR7v5WEGoYJfE5CrexEt5ZUys4MBo7MN8PP4umHVz3KX4EB5a
+	CWdCj63+Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l8oZg-000532-AR; Sun, 07 Feb 2021 18:14:20 +0000
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
- helo=mx0b-0016f401.pphosted.com)
+	id 1l8oZj-000545-D6; Sun, 07 Feb 2021 18:14:23 +0000
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8oZO-0004wV-JN
- for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 18:14:04 +0000
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
- by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 117I5vmZ029881; Sun, 7 Feb 2021 10:13:59 -0800
+ id 1l8oZV-0004z8-MO
+ for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 18:14:11 +0000
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+ by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 117I87Oq019283; Sun, 7 Feb 2021 10:14:03 -0800
 Received: from dc5-exch01.marvell.com ([199.233.59.181])
- by mx0a-0016f401.pphosted.com with ESMTP id 36hsbrakmg-1
+ by mx0b-0016f401.pphosted.com with ESMTP id 36hugq2dnn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Sun, 07 Feb 2021 10:13:58 -0800
-Received: from SC-EXCH02.marvell.com (10.93.176.82) by DC5-EXCH01.marvell.com
+ Sun, 07 Feb 2021 10:14:03 -0800
+Received: from SC-EXCH04.marvell.com (10.93.176.84) by DC5-EXCH01.marvell.com
  (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 7 Feb 2021 10:13:57 -0800
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 7 Feb 2021 10:13:56 -0800
+ Sun, 7 Feb 2021 10:14:01 -0800
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH04.marvell.com
+ (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Sun, 7 Feb 2021 10:14:00 -0800
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH02.marvell.com (10.69.176.39) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Sun, 7 Feb 2021 10:13:53 -0800
+ 15.0.1497.2 via Frontend Transport; Sun, 7 Feb 2021 10:13:57 -0800
 From: Shai Malin <smalin@marvell.com>
 To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
  <sagi@grimberg.me>
-Subject: [RFC PATCH v3 07/11] nvme-tcp-offload: Add IO level implementation
-Date: Sun, 7 Feb 2021 20:13:20 +0200
-Message-ID: <20210207181324.11429-8-smalin@marvell.com>
+Subject: [RFC PATCH v3 08/11] nvme-qedn: Add qedn - Marvell's NVMeTCP HW
+ offload vendor driver
+Date: Sun, 7 Feb 2021 20:13:21 +0200
+Message-ID: <20210207181324.11429-9-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20210207181324.11429-1-smalin@marvell.com>
 References: <20210207181324.11429-1-smalin@marvell.com>
@@ -67,8 +67,8 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
  definitions=2021-02-07_08:2021-02-05,
  2021-02-07 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210207_131402_817511_FFE68994 
-X-CRM114-Status: GOOD (  18.44  )
+X-CRM114-CacheID: sfid-20210207_131409_890156_864BD507 
+X-CRM114-Status: GOOD (  21.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,184 +80,342 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: smalin@marvell.com, aelior@marvell.com, mkalderon@marvell.com,
- nassa@marvell.com, Dean Balandin <dbalandin@marvell.com>, malin1024@gmail.com,
- Douglas.Farley@dell.com, Erik.Smith@dell.com, kuba@kernel.org,
- pkushwaha@marvell.com, davem@davemloft.net
+Cc: smalin@marvell.com, aelior@marvell.com,
+ Arie Gershberg <agershberg@marvell.com>, mkalderon@marvell.com,
+ nassa@marvell.com, malin1024@gmail.com, Douglas.Farley@dell.com,
+ Erik.Smith@dell.com, kuba@kernel.org, pkushwaha@marvell.com,
+ davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Dean Balandin <dbalandin@marvell.com>
+This patch will present the skeleton of the qedn driver.
+The new driver will be added under "drivers/nvme/hw/qedn" and will be
+enabled by the Kconfig "Marvell NVM Express over Fabrics TCP offload".
 
-In this patch, we present the IO level functionality.
-The nvme-tcp-offload shall work on the IO-level, meaning the
-nvme-tcp-offload ULP module shall pass the request to the nvme-tcp-offload
-vendor driver and shall expect for the request compilation.
-No additional handling is needed in between, this design will reduce the
-CPU utilization as we will describe below.
+The internal implementation:
+- qedn.h:
+  Includes all common structs to be used by the qedn vendor driver.
 
-The nvme-tcp-offload vendor driver shall register to nvme-tcp-offload ULP
-with the following IO-path ops:
- - init_req
- - map_sg - in order to map the request sg (similar to nvme_rdma_map_data)
- - send_req - in order to pass the request to the handling of the offload
-   driver that shall pass it to the vendor specific device
- - poll_queue
+- qedn.c
+  Includes the qedn_init and qedn_cleanup implementation.
+  As part of the qedn init, the driver will register as a pci device and
+  will work with the Marvell fastlinQ NICs.
+  As part of the probe, the driver will register to the nvme_tcp_offload
+  (ULP).
 
-The vendor driver will manage the context from which the request will be
-executed and the request aggregations.
-Once the IO completed, the nvme-tcp-offload vendor driver shall call
-command.done() that shall invoke the nvme-tcp-offload ULP layer for
-completing the request.
-
-Signed-off-by: Dean Balandin <dbalandin@marvell.com>
+Signed-off-by: Arie Gershberg <agershberg@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
 Signed-off-by: Ariel Elior <aelior@marvell.com>
 Signed-off-by: Shai Malin <smalin@marvell.com>
 ---
- drivers/nvme/host/tcp-offload.c | 82 ++++++++++++++++++++++++++++++---
- 1 file changed, 75 insertions(+), 7 deletions(-)
+ MAINTAINERS                   |  10 ++
+ drivers/nvme/Kconfig          |   1 +
+ drivers/nvme/Makefile         |   1 +
+ drivers/nvme/hw/Kconfig       |   8 ++
+ drivers/nvme/hw/Makefile      |   3 +
+ drivers/nvme/hw/qedn/Makefile |   3 +
+ drivers/nvme/hw/qedn/qedn.c   | 191 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/hw/qedn/qedn.h   |  14 +++
+ 8 files changed, 231 insertions(+)
+ create mode 100644 drivers/nvme/hw/Kconfig
+ create mode 100644 drivers/nvme/hw/Makefile
+ create mode 100644 drivers/nvme/hw/qedn/Makefile
+ create mode 100644 drivers/nvme/hw/qedn/qedn.c
+ create mode 100644 drivers/nvme/hw/qedn/qedn.h
 
-diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
-index f1023f2eae8d..bf64551c7a91 100644
---- a/drivers/nvme/host/tcp-offload.c
-+++ b/drivers/nvme/host/tcp-offload.c
-@@ -113,6 +113,7 @@ int nvme_tcp_ofld_report_queue_err(struct nvme_tcp_ofld_queue *queue)
- /**
-  * nvme_tcp_ofld_req_done() - NVMeTCP Offload request done callback
-  * function. Pointed to by nvme_tcp_ofld_req->done.
-+ * Handles both NVME_TCP_F_DATA_SUCCESS flag and NVMe CQE.
-  * @req:	NVMeTCP offload request to complete.
-  * @result:     The nvme_result.
-  * @status:     The completion status.
-@@ -125,7 +126,10 @@ nvme_tcp_ofld_req_done(struct nvme_tcp_ofld_req *req,
- 		       union nvme_result *result,
- 		       __le16 status)
- {
--	/* Placeholder - complete request with/without error */
-+	struct request *rq = blk_mq_rq_from_pdu(req);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 546aa66428c9..707623d92008 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14572,6 +14572,16 @@ S:	Supported
+ F:	drivers/infiniband/hw/qedr/
+ F:	include/uapi/rdma/qedr-abi.h
+ 
++QLOGIC QL4xxx NVME-TCP-OFFLOAD DRIVER
++M:	Shai Malin <smalin@marvell.com>
++M:	Ariel Elior <aelior@marvell.com>
++L:	linux-nvme@lists.infradead.org
++S:	Supported
++W:	http://git.infradead.org/nvme.git
++T:	git://git.infradead.org/nvme.git
++F:	drivers/nvme/hw/qedn/
++F:	include/linux/qed/
 +
-+	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), *result))
-+		nvme_complete_rq(rq);
- }
+ QLOGIC QLA1280 SCSI DRIVER
+ M:	Michael Reed <mdr@sgi.com>
+ L:	linux-scsi@vger.kernel.org
+diff --git a/drivers/nvme/Kconfig b/drivers/nvme/Kconfig
+index 87ae409a32b9..827c2c9f0ad1 100644
+--- a/drivers/nvme/Kconfig
++++ b/drivers/nvme/Kconfig
+@@ -3,5 +3,6 @@ menu "NVME Support"
  
- struct nvme_tcp_ofld_dev *
-@@ -754,9 +758,10 @@ nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
- {
- 	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
- 	struct nvme_tcp_ofld_ctrl *ctrl = set->driver_data;
-+	int qid = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
+ source "drivers/nvme/host/Kconfig"
+ source "drivers/nvme/target/Kconfig"
++source "drivers/nvme/hw/Kconfig"
  
--	/* Placeholder - init request */
--
-+	req->queue = &ctrl->queues[qid];
-+	nvme_req(rq)->ctrl = &ctrl->nctrl;
- 	req->done = nvme_tcp_ofld_req_done;
- 	ctrl->dev->ops->init_req(req);
+ endmenu
+diff --git a/drivers/nvme/Makefile b/drivers/nvme/Makefile
+index fb42c44609a8..14c569040ef2 100644
+--- a/drivers/nvme/Makefile
++++ b/drivers/nvme/Makefile
+@@ -2,3 +2,4 @@
  
-@@ -767,9 +772,32 @@ static blk_status_t
- nvme_tcp_ofld_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		       const struct blk_mq_queue_data *bd)
- {
--	/* Call nvme_setup_cmd(...) */
-+	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(bd->rq);
-+	struct nvme_tcp_ofld_queue *queue = hctx->driver_data;
-+	struct nvme_tcp_ofld_ctrl *ctrl = queue->ctrl;
-+	struct nvme_ns *ns = hctx->queue->queuedata;
-+	struct nvme_tcp_ofld_dev *dev = queue->dev;
-+	struct nvme_tcp_ofld_ops *ops = dev->ops;
-+	struct request *rq = bd->rq;
-+	bool queue_ready;
-+	int rc;
+ obj-y		+= host/
+ obj-y		+= target/
++obj-y		+= hw/
+\ No newline at end of file
+diff --git a/drivers/nvme/hw/Kconfig b/drivers/nvme/hw/Kconfig
+new file mode 100644
+index 000000000000..374f1f9dbd3d
+--- /dev/null
++++ b/drivers/nvme/hw/Kconfig
+@@ -0,0 +1,8 @@
++# SPDX-License-Identifier: GPL-2.0-only
++config NVME_QEDN
++	tristate "Marvell NVM Express over Fabrics TCP offload"
++	depends on NVME_TCP_OFFLOAD
++	help
++	  This enables the Marvell NVMe TCP offload support (qedn).
 +
-+	queue_ready = test_bit(NVME_TCP_OFLD_Q_LIVE, &queue->flags);
-+	if (!nvmf_check_ready(&ctrl->nctrl, rq, queue_ready))
-+		return nvmf_fail_nonready_command(&ctrl->nctrl, rq);
++	  If unsure, say N.
+diff --git a/drivers/nvme/hw/Makefile b/drivers/nvme/hw/Makefile
+new file mode 100644
+index 000000000000..7780ea5ab520
+--- /dev/null
++++ b/drivers/nvme/hw/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0-only
 +
-+	rc = nvme_setup_cmd(ns, rq, &req->nvme_cmd);
-+	if (unlikely(rc))
-+		return rc;
++obj-$(CONFIG_NVME_QEDN)		+= qedn/
+diff --git a/drivers/nvme/hw/qedn/Makefile b/drivers/nvme/hw/qedn/Makefile
+new file mode 100644
+index 000000000000..5f1bd2cd36da
+--- /dev/null
++++ b/drivers/nvme/hw/qedn/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0-only
 +
-+	blk_mq_start_request(rq);
-+	rc = ops->map_sg(dev, req);
-+	if (unlikely(rc))
-+		return rc;
- 
--	/* Call ops->map_sg(...) */
-+	rc = ops->send_req(req);
-+	if (unlikely(rc))
-+		return rc;
- 
- 	return BLK_STS_OK;
- }
-@@ -839,9 +867,47 @@ static int nvme_tcp_ofld_map_queues(struct blk_mq_tag_set *set)
- 
- static int nvme_tcp_ofld_poll(struct blk_mq_hw_ctx *hctx)
- {
--	/* Placeholder - Implement polling mechanism */
-+	struct nvme_tcp_ofld_queue *queue = hctx->driver_data;
-+	struct nvme_tcp_ofld_dev *dev = queue->dev;
-+	struct nvme_tcp_ofld_ops *ops = dev->ops;
- 
--	return 0;
-+	return ops->poll_queue(queue);
++obj-$(CONFIG_NVME_QEDN) := qedn.o
+diff --git a/drivers/nvme/hw/qedn/qedn.c b/drivers/nvme/hw/qedn/qedn.c
+new file mode 100644
+index 000000000000..1fe33335989c
+--- /dev/null
++++ b/drivers/nvme/hw/qedn/qedn.c
+@@ -0,0 +1,191 @@
++// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
++/*
++ * Copyright 2021 Marvell. All rights reserved.
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++ /* Kernel includes */
++#include <linux/kernel.h>
++#include <linux/module.h>
++
++/* Driver includes */
++#include "qedn.h"
++
++#define CHIP_NUM_AHP_NVMETCP 0x8194
++
++static struct pci_device_id qedn_pci_tbl[] = {
++	{ PCI_VDEVICE(QLOGIC, CHIP_NUM_AHP_NVMETCP), 0 },
++	{0, 0},
++};
++
++static int
++qedn_claim_dev(struct nvme_tcp_ofld_dev *dev,
++	       struct nvme_tcp_ofld_ctrl_con_params *conn_params)
++{
++	/* Placeholder - qedn_claim_dev */
++
++	return 0;
 +}
 +
-+static enum blk_eh_timer_return
-+nvme_tcp_ofld_timeout(struct request *rq, bool reserved)
++static int qedn_create_queue(struct nvme_tcp_ofld_queue *queue, int qid,
++			     size_t q_size)
 +{
-+	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
-+	struct nvme_tcp_ofld_ctrl *ctrl = req->queue->ctrl;
++	/* Placeholder - qedn_create_queue */
 +
-+	/* Restart the timer if a controller reset is already scheduled. Any
-+	 * timed out request would be handled before entering the connecting
-+	 * state.
-+	 */
-+	if (ctrl->nctrl.state == NVME_CTRL_RESETTING)
-+		return BLK_EH_RESET_TIMER;
++	return 0;
++}
 +
-+	dev_warn(ctrl->nctrl.device,
-+		 "queue %d: timeout request %#x type %d\n",
-+		 nvme_tcp_ofld_qid(req->queue), rq->tag,
-+		 req->nvme_cmd.common.opcode);
++static void qedn_drain_queue(struct nvme_tcp_ofld_queue *queue)
++{
++	/* Placeholder - qedn_drain_queue */
++}
 +
-+	if (ctrl->nctrl.state != NVME_CTRL_LIVE) {
-+		/*
-+		 * Teardown immediately if controller times out while starting
-+		 * or we are already started error recovery. all outstanding
-+		 * requests are completed on shutdown, so we return BLK_EH_DONE.
-+		 */
-+		flush_work(&ctrl->err_work);
-+		nvme_tcp_ofld_teardown_io_queues(&ctrl->nctrl, false);
-+		nvme_tcp_ofld_teardown_admin_queue(&ctrl->nctrl, false);
-+		return BLK_EH_DONE;
++static void qedn_destroy_queue(struct nvme_tcp_ofld_queue *queue)
++{
++	/* Placeholder - qedn_destroy_queue */
++}
++
++static int qedn_poll_queue(struct nvme_tcp_ofld_queue *queue)
++{
++	/* Placeholder - qedn_poll_queue */
++
++	return 0;
++}
++
++static int qedn_init_req(struct nvme_tcp_ofld_req *req)
++{
++	/* Placeholder - qedn_init_req */
++
++	return 0;
++}
++
++static int qedn_map_sg(struct nvme_tcp_ofld_dev *dev,
++		       struct nvme_tcp_ofld_req *req)
++{
++	/* Placeholder - qedn_map_sg */
++
++	return 0;
++}
++
++static int qedn_send_req(struct nvme_tcp_ofld_req *req)
++{
++	/* Placeholder - qedn_map_sg */
++
++	return 0;
++}
++
++static struct nvme_tcp_ofld_ops qedn_ofld_ops = {
++	.name = "qedn",
++	.module = THIS_MODULE,
++	.required_opts = NVMF_OPT_TRADDR,
++	.allowed_opts = NVMF_OPT_TRSVCID | NVMF_OPT_DISABLE_SQFLOW |
++			NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_HOST_TRADDR |
++			NVMF_OPT_CTRL_LOSS_TMO | NVMF_OPT_RECONNECT_DELAY |
++			NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
++			NVMF_OPT_NR_POLL_QUEUES | NVMF_OPT_TOS,
++	.claim_dev = qedn_claim_dev,
++	.create_queue = qedn_create_queue,
++	.drain_queue = qedn_drain_queue,
++	.destroy_queue = qedn_destroy_queue,
++	.poll_queue = qedn_poll_queue,
++	.init_req = qedn_init_req,
++	.map_sg = qedn_map_sg,
++	.send_req = qedn_send_req,
++};
++
++static void __qedn_remove(struct pci_dev *pdev)
++{
++	struct qedn_ctx *qedn = pci_get_drvdata(pdev);
++
++	pr_notice("Starting qedn_remove\n");
++	nvme_tcp_ofld_unregister_dev(&qedn->qedn_ofld_dev);
++	kfree(qedn);
++	pr_notice("Ending qedn_remove successfully\n");
++}
++
++static void qedn_remove(struct pci_dev *pdev)
++{
++	__qedn_remove(pdev);
++}
++
++static void qedn_shutdown(struct pci_dev *pdev)
++{
++	__qedn_remove(pdev);
++}
++
++static struct qedn_ctx *qedn_alloc_ctx(struct pci_dev *pdev)
++{
++	struct qedn_ctx *qedn = NULL;
++
++	qedn = kzalloc(sizeof(*qedn), GFP_KERNEL);
++	if (!qedn)
++		return NULL;
++
++	qedn->pdev = pdev;
++	pci_set_drvdata(pdev, qedn);
++
++	return qedn;
++}
++
++static int __qedn_probe(struct pci_dev *pdev)
++{
++	struct qedn_ctx *qedn;
++	int rc;
++
++	pr_notice("Starting qedn probe\n");
++
++	qedn = qedn_alloc_ctx(pdev);
++	if (!qedn)
++		return -ENODEV;
++
++	qedn->qedn_ofld_dev.ops = &qedn_ofld_ops;
++	INIT_LIST_HEAD(&qedn->qedn_ofld_dev.entry);
++	rc = nvme_tcp_ofld_register_dev(&qedn->qedn_ofld_dev);
++	if (rc)
++		goto release_qedn;
++
++	return 0;
++release_qedn:
++	kfree(qedn);
++
++	return rc;
++}
++
++static int qedn_probe(struct pci_dev *pdev, const struct pci_device_id *id)
++{
++	return __qedn_probe(pdev);
++}
++
++static struct pci_driver qedn_pci_driver = {
++	.name     = QEDN_MODULE_NAME,
++	.id_table = qedn_pci_tbl,
++	.probe    = qedn_probe,
++	.remove   = qedn_remove,
++	.shutdown = qedn_shutdown,
++};
++
++static int __init qedn_init(void)
++{
++	int rc;
++
++	rc = pci_register_driver(&qedn_pci_driver);
++	if (rc) {
++		pr_err("Failed to register pci driver\n");
++		return -EINVAL;
 +	}
 +
-+	dev_warn(ctrl->nctrl.device, "starting error recovery\n");
-+	nvme_tcp_ofld_error_recovery(&ctrl->nctrl);
++	pr_notice("driver loaded successfully\n");
 +
-+	return BLK_EH_RESET_TIMER;
- }
- 
- static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
-@@ -851,6 +917,7 @@ static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
- 	.exit_request	= nvme_tcp_ofld_exit_request,
- 	.init_hctx	= nvme_tcp_ofld_init_hctx,
- 	.map_queues	= nvme_tcp_ofld_map_queues,
-+	.timeout	= nvme_tcp_ofld_timeout,
- 	.poll		= nvme_tcp_ofld_poll,
- };
- 
-@@ -860,6 +927,7 @@ static struct blk_mq_ops nvme_tcp_ofld_admin_mq_ops = {
- 	.complete	= nvme_complete_rq,
- 	.exit_request	= nvme_tcp_ofld_exit_request,
- 	.init_hctx	= nvme_tcp_ofld_init_hctx,
-+	.timeout	= nvme_tcp_ofld_timeout,
- };
- 
- static const struct nvme_ctrl_ops nvme_tcp_ofld_ctrl_ops = {
++	return 0;
++}
++
++static void __exit qedn_cleanup(void)
++{
++	pci_unregister_driver(&qedn_pci_driver);
++	pr_notice("Unloading qedn ended\n");
++}
++
++module_init(qedn_init);
++module_exit(qedn_cleanup);
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/nvme/hw/qedn/qedn.h b/drivers/nvme/hw/qedn/qedn.h
+new file mode 100644
+index 000000000000..401fde08000e
+--- /dev/null
++++ b/drivers/nvme/hw/qedn/qedn.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
++/*
++ * Copyright 2021 Marvell. All rights reserved.
++ */
++
++/* Driver includes */
++#include "../../host/tcp-offload.h"
++
++#define QEDN_MODULE_NAME "qedn"
++
++struct qedn_ctx {
++	struct pci_dev *pdev;
++	struct nvme_tcp_ofld_dev qedn_ofld_dev;
++};
 -- 
 2.22.0
 
