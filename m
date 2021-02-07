@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A81C433E9
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:03:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51028C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:03:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9582E64E15
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:03:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9582E64E15
+	by mail.kernel.org (Postfix) with ESMTPS id E8E6A64DF2
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:03:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E8E6A64DF2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,38 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=NbtAspi4yHQbVfhu+UF2hadlqcrg6VFgS0QHGYeww7Q=; b=FD04wTQjQkQCFwtTFvb4Cgixc
-	cTGfl/EMdGPaLzhk9BRq+L5mlPVpBD8Ubu5hh2q+g2j8hyTxrdoeCZEcXtlNLrv/Bks2zM6Ed0/a0
-	DmHIcpP6FnEsR3tN56Wa1Tt4MKsyg17AfMlC3FBZ9XwVcW2q0au4SKReolJVmyTT9Ijc852V23LEJ
-	WkaG8aAe3yKX5uNajtqLXpfT3xhDOziMxVbpIjXINe/XXgR2W47YPQNarzLxGucwe7stXNsdW5ayH
-	H85XREjQvfRwSbZXigH0hk+d4AxyRLzOpQnwuZikJLncAh6uYnLFPU2Vf31s9Tzzp67PpwPAbngJS
-	cLGsPTRlA==;
+	 bh=PQwG6lfah/MUFOgbszmIGO86nSuq0FOZjxMnKG0PZm4=; b=nCtVDJ5zPPwkya0Y7TJ4XXj9b
+	bz81CWhhoFo84le9cxutnpbHZ0PtP2J7ONSuWnXSjMnvyuJGzG2PnGGq/sgChELNWpGXgg8ZmhwFt
+	ZchrwdcGK/CY9UajVQ6klJpwjfl1hD/BgCe9KZ4LAZqc0RckPuSmbQpi52rmWhCjjyqNN29ZN5PXK
+	Jpw6tfhnw8N9vwjDBz+FBhMPl7LZtZvE43h3wsN+QZnJWubc9N1NABqGTvEI4+EUa2gbZ7mNgd52K
+	TkzdtufP/1p9EDiR2TaMJ6NreiVgo4QPFkkhfWjtdfzftkK2uYLNnsdfVkyDJuOSl1MHTlGtXMQc5
+	VT+WoUIPw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l8mXE-0004mL-HW; Sun, 07 Feb 2021 16:03:40 +0000
+	id 1l8mXG-0004mx-V9; Sun, 07 Feb 2021 16:03:42 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8mXC-0004m1-E4
- for linux-nvme@merlin.infradead.org; Sun, 07 Feb 2021 16:03:38 +0000
+ id 1l8mXF-0004ma-Eb
+ for linux-nvme@merlin.infradead.org; Sun, 07 Feb 2021 16:03:41 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=iJpy9rgsV39pmi8VppxtQncpkrsl1R47NfkrvocjC70=; b=Ma3cD9J0Cnocp2q20R2faVzzfD
- 0jpzQbA7/8Lpuu7zqeonyAOBau2rMDR2n5vRgnvGAyv66ub2asEyz1x6dJ9zLPOUcCL00JgTn5FT2
- 5hvgBKxBcaGaRT4fO/ibkld6JQ5FZWzdLKbWnIo9D7+2zsBnV62SmG/OJUgWV0rNYtEzQioZeLswN
- kxFYdCSwIgO3BY+Fkn1CUp+9jlaGJ/Fx5YI1DKKf9S5s5df5w0ifGQhIEQ/dd+1PKtMj6kKtfpzto
- LdStRjkPxGJlAhNMbqUqg+uXoVw3P8IKP/pRCLbqgHh3jOEYq2HEVlm0BjotRXy78KvSr8qnx3Rrj
- hUCpvi8Q==;
+ bh=il2cphgHj/OPz8t3dFz6LRbdGqosPwXonL/f3xmBzyo=; b=lW0i2FRC/io17bJXBiEAQIrvMm
+ jUaNrQSSZyqSAMCL5Qn7OZsyccNUT0RkAc6vIn6MOlz1OKgoC2ucuRUf4K9KwxJatdNrRno5ymhWP
+ 3B/xRaQgS3Y1vmIhf90WsUATxWTJv5QJrEnmO7bbjyhngX8BtrqDkaHpmxF8Q04gBmN+yR2twyZEw
+ 9RRLdS8RxfwBmBvbcuHtynHmo0PBhWXRatcGoumOqoCaQqzP9YyWBSK6+MXEp6Rq3j/H9vTuf8rEj
+ nHSlg5NDIWlG5eKqEFyzmf0KgezaX9hRVZLHOScll20eos4gMgufjOylKyqlVEeyqb2j3Lc7J+KoS
+ ow3N3xEw==;
 Received: from [2001:4bb8:184:7d04:4590:5583:6cb7:77c7] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1l8mX7-004tN7-W0; Sun, 07 Feb 2021 16:03:36 +0000
+ id 1l8mXC-004tNN-63; Sun, 07 Feb 2021 16:03:39 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: jxgao@google.com,
 	gregkh@linuxfoundation.org
-Subject: [PATCH 2/9] swiotlb: add a IO_TLB_SIZE define
-Date: Sun,  7 Feb 2021 17:03:20 +0100
-Message-Id: <20210207160327.2955490-3-hch@lst.de>
+Subject: [PATCH 3/9] swiotlb: factor out an io_tlb_offset helper
+Date: Sun,  7 Feb 2021 17:03:21 +0100
+Message-Id: <20210207160327.2955490-4-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210207160327.2955490-1-hch@lst.de>
 References: <20210207160327.2955490-1-hch@lst.de>
@@ -81,91 +81,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a new IO_TLB_SIZE define instead open coding it using
-IO_TLB_SHIFT all over.
+Replace the very genericly named OFFSET macro with a little inline
+helper that hardcodes the alignment to the only value ever passed.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- include/linux/swiotlb.h |  1 +
- kernel/dma/swiotlb.c    | 14 +++++++-------
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ kernel/dma/swiotlb.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-index d9c9fc9ca5d217..5857a937c63722 100644
---- a/include/linux/swiotlb.h
-+++ b/include/linux/swiotlb.h
-@@ -29,6 +29,7 @@ enum swiotlb_force {
-  * controllable.
-  */
- #define IO_TLB_SHIFT 11
-+#define IO_TLB_SIZE (1 << IO_TLB_SHIFT)
- 
- /* default to 64MB */
- #define IO_TLB_DEFAULT_SIZE (64UL<<20)
 diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 7c42df6e61001d..768187d0e17e31 100644
+index 768187d0e17e31..7705821dcdbd27 100644
 --- a/kernel/dma/swiotlb.c
 +++ b/kernel/dma/swiotlb.c
-@@ -171,7 +171,7 @@ void __init swiotlb_adjust_size(unsigned long new_size)
- 	 * adjust/expand SWIOTLB size for their use.
- 	 */
- 	if (!io_tlb_nslabs) {
--		size = ALIGN(new_size, 1 << IO_TLB_SHIFT);
-+		size = ALIGN(new_size, IO_TLB_SIZE);
- 		io_tlb_nslabs = size >> IO_TLB_SHIFT;
- 		io_tlb_nslabs = ALIGN(io_tlb_nslabs, IO_TLB_SEGSIZE);
+@@ -50,9 +50,6 @@
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/swiotlb.h>
  
-@@ -491,20 +491,20 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+-#define OFFSET(val,align) ((unsigned long)	\
+-	                   ( (val) & ( (align) - 1)))
+-
+ #define SLABS_PER_PAGE (1 << (PAGE_SHIFT - IO_TLB_SHIFT))
  
- 	tbl_dma_addr &= mask;
- 
--	offset_slots = ALIGN(tbl_dma_addr, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
-+	offset_slots = ALIGN(tbl_dma_addr, IO_TLB_SIZE) >> IO_TLB_SHIFT;
- 
- 	/*
- 	 * Carefully handle integer overflow which can occur when mask == ~0UL.
- 	 */
- 	max_slots = mask + 1
--		    ? ALIGN(mask + 1, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT
-+		    ? ALIGN(mask + 1, IO_TLB_SIZE) >> IO_TLB_SHIFT
- 		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
- 
- 	/*
- 	 * For mappings greater than or equal to a page, we limit the stride
- 	 * (and hence alignment) to a page size.
- 	 */
--	nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
-+	nslots = ALIGN(alloc_size, IO_TLB_SIZE) >> IO_TLB_SHIFT;
- 	if (alloc_size >= PAGE_SIZE)
- 		stride = (1 << (PAGE_SHIFT - IO_TLB_SHIFT));
- 	else
-@@ -598,7 +598,7 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
- 			      enum dma_data_direction dir, unsigned long attrs)
- {
- 	unsigned long flags;
--	int i, count, nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
-+	int i, count, nslots = ALIGN(alloc_size, IO_TLB_SIZE) >> IO_TLB_SHIFT;
- 	int index = (tlb_addr - io_tlb_start) >> IO_TLB_SHIFT;
- 	phys_addr_t orig_addr = io_tlb_orig_addr[index];
- 
-@@ -649,7 +649,7 @@ void swiotlb_tbl_sync_single(struct device *hwdev, phys_addr_t tlb_addr,
- 
- 	if (orig_addr == INVALID_PHYS_ADDR)
- 		return;
--	orig_addr += (unsigned long)tlb_addr & ((1 << IO_TLB_SHIFT) - 1);
-+	orig_addr += (unsigned long)tlb_addr & (IO_TLB_SIZE - 1);
- 
- 	switch (target) {
- 	case SYNC_FOR_CPU:
-@@ -707,7 +707,7 @@ dma_addr_t swiotlb_map(struct device *dev, phys_addr_t paddr, size_t size,
- 
- size_t swiotlb_max_mapping_size(struct device *dev)
- {
--	return ((size_t)1 << IO_TLB_SHIFT) * IO_TLB_SEGSIZE;
-+	return ((size_t)IO_TLB_SIZE) * IO_TLB_SEGSIZE;
+ /*
+@@ -192,6 +189,11 @@ void swiotlb_print_info(void)
+ 	       bytes >> 20);
  }
  
- bool is_swiotlb_active(void)
++static inline unsigned long io_tlb_offset(unsigned long val)
++{
++	return val & (IO_TLB_SEGSIZE - 1);
++}
++
+ /*
+  * Early SWIOTLB allocation may be too early to allow an architecture to
+  * perform the desired operations.  This function allows the architecture to
+@@ -241,7 +243,7 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
+ 		      __func__, alloc_size, PAGE_SIZE);
+ 
+ 	for (i = 0; i < io_tlb_nslabs; i++) {
+-		io_tlb_list[i] = IO_TLB_SEGSIZE - OFFSET(i, IO_TLB_SEGSIZE);
++		io_tlb_list[i] = IO_TLB_SEGSIZE - io_tlb_offset(i);
+ 		io_tlb_orig_addr[i] = INVALID_PHYS_ADDR;
+ 	}
+ 	io_tlb_index = 0;
+@@ -375,7 +377,7 @@ swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs)
+ 		goto cleanup4;
+ 
+ 	for (i = 0; i < io_tlb_nslabs; i++) {
+-		io_tlb_list[i] = IO_TLB_SEGSIZE - OFFSET(i, IO_TLB_SEGSIZE);
++		io_tlb_list[i] = IO_TLB_SEGSIZE - io_tlb_offset(i);
+ 		io_tlb_orig_addr[i] = INVALID_PHYS_ADDR;
+ 	}
+ 	io_tlb_index = 0;
+@@ -546,7 +548,9 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+ 
+ 			for (i = index; i < (int) (index + nslots); i++)
+ 				io_tlb_list[i] = 0;
+-			for (i = index - 1; (OFFSET(i, IO_TLB_SEGSIZE) != IO_TLB_SEGSIZE - 1) && io_tlb_list[i]; i--)
++			for (i = index - 1;
++			     io_tlb_offset(i) != IO_TLB_SEGSIZE - 1 &&
++			     io_tlb_list[i]; i--)
+ 				io_tlb_list[i] = ++count;
+ 			tlb_addr = io_tlb_start + (index << IO_TLB_SHIFT);
+ 
+@@ -632,7 +636,9 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
+ 		 * Step 2: merge the returned slots with the preceding slots,
+ 		 * if available (non zero)
+ 		 */
+-		for (i = index - 1; (OFFSET(i, IO_TLB_SEGSIZE) != IO_TLB_SEGSIZE -1) && io_tlb_list[i]; i--)
++		for (i = index - 1;
++		     io_tlb_offset(i) != IO_TLB_SEGSIZE - 1 &&
++		     io_tlb_list[i]; i--)
+ 			io_tlb_list[i] = ++count;
+ 
+ 		io_tlb_used -= nslots;
 -- 
 2.29.2
 
