@@ -2,56 +2,64 @@ Return-Path: <SRS0=2jH7=HJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 701E4C433E6
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:16:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D07CC433E6
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:20:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 319D764DF6
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:16:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 319D764DF6
+	by mail.kernel.org (Postfix) with ESMTPS id A87E964E3E
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:20:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A87E964E3E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/rxW8oc6RBpUO6lpG70oHkIJC92L++lK3qEGfzoJClc=; b=gkfQ886glo7EAHsxeweYxPfg9
-	/6KOoo+czfQH7kB7JFl6hJ0YUzrgrrdEaMB7mK41mwxmzMrvUgJPsX4wbmux3Wz9Ixv+yU2as4UIK
-	AbOxq9s5VWEXOLMt5UyMIfi2JHChPaDXo/lwvU6IlPVBruspDpAp/uNYqgqjZb8cRMAxEvJLduuJr
-	LFWoh6J5VmcDK/qhKPsXtWZWUitdF1/H3ZREABMf6TBan7PwF/P/3jMqckrfcvp5x20bgN2XtFikg
-	TKFfORvXpktJ3wqdZivrHXoy8t/T9NKI+HKOyMNOYDLPT9dwK32PoevTyahVFT7QCJQ9mOIpSJSg5
-	3BddiM3pg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vXL6Jx7hkVsCDV+BvBAXzqU1LpSXfJd/Tc0NwUaYkM8=; b=nYKqFE+R4mRC4iFSvxI41CwrJG
+	w+H2b8PojChPVpLuDPaT+E8bnPyTcb+h2Pbzy7AvMgvKoNnFCRIAuSyYyJ+FDIIh7XyoRz7nb6ekd
+	sQJRLhZ34JiM4Rz7+XTF4jE8O0YTyOkg+n8hf5BzdhbRGd/8gKkkAO3QDOBurtyJ9cq+WubB1kHjT
+	pBXLywbHxzk2wCrJwOq4eJuDBs6Dqcl0C6xp1W2oO2ZFt/fFk4nNCBz8M+GQoJYf126LsSc9oxb63
+	baAWvUiORzHVxZ0DTJTHwAfC8z+AVKLYwlHnKQZPHJVwmxY1Mv9K9C5qn9NKK31/defvca1341wp+
+	amSzg6BA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l8mjh-0006yU-KE; Sun, 07 Feb 2021 16:16:33 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1l8mnb-0007Pl-LO; Sun, 07 Feb 2021 16:20:35 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8mje-0006xn-P8
- for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 16:16:31 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 2D17F68B02; Sun,  7 Feb 2021 17:16:29 +0100 (CET)
-Date: Sun, 7 Feb 2021 17:16:28 +0100
+ id 1l8mna-0007PV-Gn
+ for linux-nvme@merlin.infradead.org; Sun, 07 Feb 2021 16:20:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=3InfFcNCrleM40GguzqHlFHs4KonDyEGUQPfA/tlBbA=; b=A0PsmbXx5Lll4PltDK1813CRhe
+ QhHj0KzPLZB+BS7xGU7ij2c32Rgq4NuRjPfQKzJA2mqD2DOvxdARtDb/q9Xw66vFIrr+eGHPxWoIW
+ OSGletjkSxWdG2GAbIlMOqlyChEY5buFxTVFJbJ9KwzOrqaQF1ApgG59812iFXmMFbmV3ODWkhPYc
+ ibtAjzohXP1UqUvEVDjKYRwksTfDBg52lsmX7JnlXkUyks8D9Lz3QPBB4Ga4t5tUQgP9nNNRnjTMi
+ +RXz5itSY4oy/TZpMWcdo4iBrvuaNP00Y0PJWrATilZuCFBvJdzGaPUkogZqs3Ts4ic2DgCusDvhf
+ ivB1O+vg==;
+Received: from [2001:4bb8:184:7d04:4590:5583:6cb7:77c7] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1l8mnV-004uSO-OQ; Sun, 07 Feb 2021 16:20:30 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme-multipath: set nr_zones for zoned namespaces
-Message-ID: <20210207161628.GC25547@lst.de>
-References: <20210205195002.2657209-1-kbusch@kernel.org>
+To: Eldad.Zinger@dell.com, Leonid.Ravich@emc.com, Elad.Grupi@dell.com,
+ sagi@grimberg.me, chaitanya.kulkarni@wdc.com, james.smart@broadcom.com
+Subject: [PATCH] nvmet-fc: add a missing __rcu annotation to
+ nvmet_fc_tgt_assoc.queues
+Date: Sun,  7 Feb 2021 17:20:28 +0100
+Message-Id: <20210207162028.2959778-1-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210205195002.2657209-1-kbusch@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210207_111630_944083_BD1EE687 
-X-CRM114-Status: UNSURE (   5.58  )
-X-CRM114-Notice: Please train this message.
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,16 +71,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Damien Le Moal <damien.lemoal@wdc.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
- sagi@grimberg.me, linux-nvme@lists.infradead.org, hch@lst.de
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+Make sparse happy after the recent conversion to RCU lookups.
 
-applied to nvme-5.12.
+Fixes: 4e2f02bf77da ("nvmet-fc: use RCU proctection for assoc_list")
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/target/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index c14c60bfdf85c6..d375745fc4ed3d 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -165,7 +165,7 @@ struct nvmet_fc_tgt_assoc {
+ 	struct nvmet_fc_hostport	*hostport;
+ 	struct nvmet_fc_ls_iod		*rcv_disconn;
+ 	struct list_head		a_list;
+-	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES + 1];
++	struct nvmet_fc_tgt_queue __rcu	*queues[NVMET_NR_QUEUES + 1];
+ 	struct kref			ref;
+ 	struct work_struct		del_work;
+ 	struct rcu_head			rcu;
+-- 
+2.29.2
+
 
 _______________________________________________
 Linux-nvme mailing list
