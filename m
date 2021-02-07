@@ -2,70 +2,157 @@ Return-Path: <SRS0=2jH7=HJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 206BAC433DB
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54104C433E6
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:58:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CB5E661606
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB5E661606
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0876864DFF
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:58:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0876864DFF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9+7m6/i5oANMAJu/arD7TO9qPF+gLMeYFgVh/gDe3aE=; b=G1FQdtr1jN4hma4ualweQjGmp
-	8uEltOZE+VoVjT1XwB01s7qIbElhu41t3tl12CmMrYWf6CYbqdXnO9lFoGt+2NyvMSQpPsISDi5lX
-	TcgjqqBidmxvsZGUO5jQBb8vxyfwxZg2Hha6I8PEcK/bvouUSGUjMmA0/zr8C+2lkYpcOfVerZlIo
-	+KCMe2cPpM/3jgTfg0w414w6zf6vFHphb2MVUqsZWCNBtZx3A1XP0vQuKJU7Tf54ZUhA3VC8Q7luH
-	8r4oL56RQ6b7DZoyZI+H+iG1C2FHeEolEg4aeHzwC+5nnU1LVCJsHkjEOYoHqIHWHWwtXNzPQ3pX5
-	wYKTaLbGA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=ZiZ40FkZR0r6ncF1dZDg9hwBDK50QyU7VK7wPihJ8ls=; b=TsgNVSoJOMmtuRbGt7W7rLQYM
+	RZhWdDZkaDdkYuX1uPGYEAvmNjmeFsqIS8TiZPwTo7tMUafQwhQOdVJkzjybREaKXRGQg2uWDVPUD
+	Bf/nfgcMi1OSSbVXlcPPNvYNoUY/sZI7XufXSJprbQ1tbcRUb9D6tthkpDFF5ZOJAEf7gT+Y5dcjH
+	AuEeuSRmdIPywCgoX0IC1AQWzMqRZ4CX3EoiIIB+0UsS60/FN4U5TUR940U2Y7hH8rTOBiWkD9lZi
+	AMS2/QOVZD5IM1yYuN18932GnEZbO7y0MGrwooQWcp9bt+E5rAl8J6kLiFr8sgIyzKLoefj6I21bZ
+	PD/sKAA1w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l8oZz-0005BH-SV; Sun, 07 Feb 2021 18:14:39 +0000
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
+	id 1l8pGX-0003TI-6y; Sun, 07 Feb 2021 18:58:37 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8oZi-00053x-HC
- for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 18:14:24 +0000
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 117I7r9C019221; Sun, 7 Feb 2021 10:14:14 -0800
-Received: from dc5-exch01.marvell.com ([199.233.59.181])
- by mx0b-0016f401.pphosted.com with ESMTP id 36hugq2dnx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Sun, 07 Feb 2021 10:14:14 -0800
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 7 Feb 2021 10:14:12 -0800
-Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
- DC5-EXCH02.marvell.com (10.69.176.39) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Sun, 7 Feb 2021 10:14:09 -0800
-From: Shai Malin <smalin@marvell.com>
-To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
- <sagi@grimberg.me>
-Subject: [RFC PATCH v3 11/11] nvme-qedn: Add IRQ and fast-path resources
- initializations
-Date: Sun, 7 Feb 2021 20:13:24 +0200
-Message-ID: <20210207181324.11429-12-smalin@marvell.com>
-X-Mailer: git-send-email 2.16.6
-In-Reply-To: <20210207181324.11429-1-smalin@marvell.com>
-References: <20210207181324.11429-1-smalin@marvell.com>
+ id 1l8pGS-0003Sr-BX
+ for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 18:58:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1612724312; x=1644260312;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=duxwMG/R0BhdhTAqQ1ivaRk2f96xbF0TdmujsYZWjgg=;
+ b=ICVl1NiOrkX9uFIcr3hQqgEGGDCy2cHz6HhfF0gnaQn6dxakY9wTKBUW
+ njAnXqN8McFD07GlwtqOpcWnkm/d19BZZkrON+7jgvS0QSZESPMk7PThu
+ wf/0t5YcdgrKeI+5KF2kmBGFqXL09lG5v27FM4dsVZ7cY2UZVtByZNW0t
+ Teau0lREk9twHIvaYjHpid6hHsBA8zZUucGidwQL9BNvUyA/rp8gSRiJ3
+ QVOodSfwACwtM9av7aJ+pbi0Cr/kGff0mDgNKEwjoppSTDiGg61s3bBcQ
+ YN32GpDTBqeGviKw3rBs8FEQBbW+/301gb21XHxIp4tpMEqbcOOxCfvsp A==;
+IronPort-SDR: K3C3Q/WF2SUxKm2dvi4D7iU3KL2kbJvyUTM1kPIQIQwJXJrfBbUozzvubuX6S7Jjk7DSEBJ1+n
+ kmxBbSyte9esdNAnAgX4jWfGiu7c0P0XYPx8aeQjIRupzJ07TnWU1wisgwhOTdg90o+HHHdlv4
+ iPSSCY6YNUgAy37JI9LxIJ8vupkY45tgN5DVYwrT3BiJxrgbGsVaa5Qrc2/5Tl4NZf6hvincZ6
+ 7MW0Rv62snLeWBGCBHZ+Olpk6xS/fsm3jXoP8jAzGdYqQ3npx/CAxL+/ebJ/2vKqyVCNQxiEoc
+ cK0=
+X-IronPort-AV: E=Sophos;i="5.81,160,1610380800"; d="scan'208";a="159399608"
+Received: from mail-mw2nam10lp2109.outbound.protection.outlook.com (HELO
+ NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.109])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Feb 2021 02:58:25 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gfmG+CjLc9R0//p/4cxziplZpYSYBUflnOVUJzgDE4l/6NGfethFC0sbSxQP3VOqt4oE3LuPYr5gGgHJGhRGzvYHNslfVpGJiNLoOUNQcr8J/9Pdt+SrmKPkp7PQk2Inh7UEO3MoFG46CyS1sNLe9eY3l9XAiFPNvnCnibQMpP9GuLxUq0JLSnUGXMBl7qPMLXvk/+QZNooHSjOgO4ip4q56yuRcHegjUiadmaYPscNPYbHrg35QUy+5QykhVSZpk7nrH24yH8/njCUpO8tpNbPnzuChlnJVxDEHqPT0p+EgiRjvtKNArBZ2RtM860CT83GZwtCxVLkBJlo/bdDwfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=duxwMG/R0BhdhTAqQ1ivaRk2f96xbF0TdmujsYZWjgg=;
+ b=FNmygGQZOTFbHdvd6K3szJtZh4lib1oLnR9qhvfq2B84Ia7k9BPeLwb0YaHTd7oHd41u1LaXHH8xfs4HMb1Grm+hsrlB7naaoRXb38QOoLbgIi+Ct3zi8fVrD3IMzfpGEJIuMU+mEgsNCQ5Vz5H+B+++nijC/zvVCFkUVW8rRSmalfK4AHh8qc2wp4EAAQtRbWxaCT4IBKw+ulXW3gs1bhxcInQK0OMNGKDnIa1u6ffSqvyVosUPUjg5lxkL0Fw3Av7BmHD7x5WypNX93hgC3LmRyXFJEDsXP0gt4JnCP2skRXhOxr9/CGoFBL1shjVmXuAvDoCzkDOMHxpSD8meQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=duxwMG/R0BhdhTAqQ1ivaRk2f96xbF0TdmujsYZWjgg=;
+ b=ThQPTjmN+s3klvUVdZ6XV/j6wKwZd5OOLI3KUPgDIWnkbnZTRsfkTl1FmlWN/opNWUOrncXLI0m4qQ7jUL7Y7iGwrvRvktCo0n8M60nmjqke5Qzz+cGpvQtl1S9OtJQDqaILoFYlaXFbc5YMP/Z0Gfu9ylPRW41Yfp2ucMQON48=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by BY5PR04MB6690.namprd04.prod.outlook.com (2603:10b6:a03:22c::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.20; Sun, 7 Feb
+ 2021 18:58:22 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::1d83:38d9:143:4c9c]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::1d83:38d9:143:4c9c%5]) with mapi id 15.20.3825.027; Sun, 7 Feb 2021
+ 18:58:22 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Christoph Hellwig <hch@lst.de>, "Eldad.Zinger@dell.com"
+ <Eldad.Zinger@dell.com>, "Leonid.Ravich@emc.com" <Leonid.Ravich@emc.com>,
+ "Elad.Grupi@dell.com" <Elad.Grupi@dell.com>, "sagi@grimberg.me"
+ <sagi@grimberg.me>, "james.smart@broadcom.com" <james.smart@broadcom.com>
+Subject: Re: [PATCH] nvmet-fc: add a missing __rcu annotation to
+ nvmet_fc_tgt_assoc.queues
+Thread-Topic: [PATCH] nvmet-fc: add a missing __rcu annotation to
+ nvmet_fc_tgt_assoc.queues
+Thread-Index: AQHW/W0z2O4fTitwq0uM7A5fpJFkhA==
+Date: Sun, 7 Feb 2021 18:58:22 +0000
+Message-ID: <BYAPR04MB49655AB622A135A6FBB6B97B86B09@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <20210207162028.2959778-1-hch@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 57ef0411-a7de-4594-8d5d-08d8cb9a576f
+x-ms-traffictypediagnostic: BY5PR04MB6690:
+x-microsoft-antispam-prvs: <BY5PR04MB669006EB46B653C4711ECA1486B09@BY5PR04MB6690.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:3383;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: K6u/60evSNtW5ST6N7RKa7IPpf2AiyHv3fSVPYSQZ/Pe/F4Y67MtnOOL3gxq+J/YAmMpylY7eGDHixRV5k6XZZJLZlBQh2ClD48yZ4CluiEOsj9L7XGYF21wqPPNX6TKU7FXcZgYlY1w38qVzwQwBosHwX0EQ+Dv9yEJI/fw8c0PV3wJbGiEY6XEmldbRSHltKUXFU8Cf6a0/kiM6kQdAJq6BtUtoi2c0/y5k9t90MImqK1B+dVgZTCpc6JxhHK+3lU/N813W8jRMhTS+iF1R+goFRRKNKRUfhBsn79Cv0JFDNgTfUhYGtbU+kYJ6a1POPabwOtQlIgjURN0snrDQoIxk5DWI189L5e+IIF2gCc2A+Q+GAWUuqp1OJyzKtIAz0OJPt4DvmIiB5YT53PwEY5VEhe1teLXJWaTAVVcJdsb01N0dFvE4Ol9KcLvEsBONDnkGIzxAFbfSQtFBVCQEVUaXbaPie3lRMp/H5yotJx4fXg9mryZS/9CdDWX9EJa9/hmhMnj9clQgVep1PqS1A==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(366004)(39860400002)(376002)(396003)(66476007)(33656002)(316002)(66446008)(64756008)(66556008)(71200400001)(9686003)(478600001)(186003)(6506007)(86362001)(76116006)(66946007)(5660300002)(26005)(2906002)(55016002)(558084003)(4326008)(110136005)(8936002)(52536014)(53546011)(7696005)(8676002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?gwNIhNcdRj0aoa15l5kb82EszqvsDhj70++d4Pcaq4nvFJIzIP5Fb8+mREtS?=
+ =?us-ascii?Q?QX+BIFi9IOUV6M0A0nHFnzgruxET1qtygOfMuB+e5BbV0FAO22vviQVIqNXA?=
+ =?us-ascii?Q?DpoBUXGzyd4MGI8lSvs1IimMaSFOnmRB7qQThkZlELPYX97sj+4QtnferTNd?=
+ =?us-ascii?Q?T4rpywbz3zRx/MnEG72zdfXTDtT/7RewUc79Y5TkCTJTW4EWhK58QnXXF+om?=
+ =?us-ascii?Q?JxOWSa1Z7k3OyCB/eA5yv7eEsANym8YY4Vst/fLvFibPpsOxnLV7EG2c5axP?=
+ =?us-ascii?Q?zuIMv0VbxJ7BOWKVjJKKPYStjeGetrjMRkz4A3piUNK2bszMM1lIGDiH80zy?=
+ =?us-ascii?Q?TXhEu85nnW5mS6TkXsejTlbbLKeFUsptJRb4GGsOQhGdNx/MZobygeutVUCP?=
+ =?us-ascii?Q?KEgWgfysmwx+bHlTtzWfZNuY1TGbkQ4A3w27/Px2o9vy78peSV0xld+qHSVU?=
+ =?us-ascii?Q?62dqMVCo2vAbhD4bF3D7ihNJiQs7wCBDEzrRv2STfCWneeizKbNXwoZqmxxR?=
+ =?us-ascii?Q?PO+duJJX95W25vSLxt4uTxnsFVLSf7tALUlxrM804rzKWHpE+EKm86ncELT2?=
+ =?us-ascii?Q?vFFSahO7qOenq87T47KMrjDKIec/tkV1yWxjBe6c3WkxpfFEVOGgokzNYNeU?=
+ =?us-ascii?Q?PrWgxDbA4BqtzkJySC3yxl7S+obysEklwjLQaBHnqEozpTORII1VqwBEOotP?=
+ =?us-ascii?Q?mkhsIQdu8fYwxlMlTM3O09ZPRJ3D7FlJBQ9yE05Z+fFL5c7pSTYVT41f6GPE?=
+ =?us-ascii?Q?rAOt075CrR/aua80bQGaGx0n7o+g/YvXhzhRHFY1XWAhlOnlSLwoq7pUit/q?=
+ =?us-ascii?Q?renJja34qJscbLAUjOJvkYt8KGhh0D5zMW2LW+ICqStVPf1UNKsmrYCl96Oa?=
+ =?us-ascii?Q?zvqe/EDz092x5Ft44KqvILJVEOlQgYyYrMZE6XaKejpMWhlJWS/oUd8D7sNz?=
+ =?us-ascii?Q?vFza5OowMfyeiXpKrFZf3Krwrd9VclKuAAJDLMj8q8iG1b8cT2VZWtEMEoQU?=
+ =?us-ascii?Q?il0MA+xDKzPnYj9LUtfVkQGC7bB8it1RjRWVJxshmJhatmCNo6rEma2FXvG1?=
+ =?us-ascii?Q?W7HbofTYOxZhqIPVUCDukYCwxZBgMBw2lCkdbapXKl/xv/IMQaqqRZZ0qYSY?=
+ =?us-ascii?Q?aVk5EwL+jpFEdNgAmmQXp4ab6LgDRmgJZrM39aKPCT5IKiSYZ1dkZqbZjxZL?=
+ =?us-ascii?Q?PYXMLy2tbWlp928WVX4Ok8bCSMnJyNyo9YBtc66JOSxEwJfgC50mXBenyucr?=
+ =?us-ascii?Q?DMMz0PJmGmiZFkkBJTpEqsG6mGLMQ5BajQ0Z8f46hi67Ibwl9keyYHHyR4WK?=
+ =?us-ascii?Q?TZJEhNuR00OMWVyBSHwHI7d1?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
- definitions=2021-02-07_08:2021-02-05,
- 2021-02-07 signatures=0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57ef0411-a7de-4594-8d5d-08d8cb9a576f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2021 18:58:22.2797 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1TUTR0Q6abZtk5nmYT99i6tRdVCMAcwdBfHtGWcsKMNu5qF5HKME6yM4gsSewifvJRsQSQqts3hS7mp+JvJOMLQPDGUpDVhIssVUeoDcpKs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6690
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210207_131422_695414_6195F51F 
-X-CRM114-Status: GOOD (  24.04  )
+X-CRM114-CacheID: sfid-20210207_135832_741938_133CFBDD 
+X-CRM114-Status: GOOD (  10.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,445 +164,20 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: smalin@marvell.com, aelior@marvell.com, mkalderon@marvell.com,
- nassa@marvell.com, malin1024@gmail.com, Douglas.Farley@dell.com,
- Erik.Smith@dell.com, kuba@kernel.org, pkushwaha@marvell.com,
- davem@davemloft.net
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch will present the adding of qedn_fp_queue - this is a per cpu
-core element which handles all of the connections on that cpu core.
-The qedn_fp_queue will handle a group of connections (NVMeoF QPs) which
-are handled on the same cpu core, and will only use the same FW-driver
-resources with no need to be related to the same NVMeoF controller.
+On 2/7/21 08:20, Christoph Hellwig wrote:
+> Make sparse happy after the recent conversion to RCU lookups.
+>
+> Fixes: 4e2f02bf77da ("nvmet-fc: use RCU proctection for assoc_list")
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Looks good.
 
-The per qedn_fq_queue resources are the FW CQ and FW status block:
-- The FW CQ will be used for the FW to notify the driver that the
-  the exchange has ended and the FW will pass the incoming NVMeoF CQE
-  (if exist) to the driver.
-- FW status block - which is used for the FW to notify the driver with
-  the producer update of the FW CQE chain.
-
-The FW fast-path queues are based on qed_chain.h
-
-Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
-Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
-Signed-off-by: Shai Malin <smalin@marvell.com>
----
- drivers/nvme/hw/qedn/qedn.c | 284 +++++++++++++++++++++++++++++++++++-
- drivers/nvme/hw/qedn/qedn.h |  27 ++++
- 2 files changed, 308 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/hw/qedn/qedn.c b/drivers/nvme/hw/qedn/qedn.c
-index 11b31d086d27..64277dc28901 100644
---- a/drivers/nvme/hw/qedn/qedn.c
-+++ b/drivers/nvme/hw/qedn/qedn.c
-@@ -98,6 +98,103 @@ static struct nvme_tcp_ofld_ops qedn_ofld_ops = {
- 	.send_req = qedn_send_req,
- };
- 
-+/* Fastpath IRQ handler */
-+static irqreturn_t qedn_irq_handler(int irq, void *dev_id)
-+{
-+	/* Placeholder */
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void qedn_sync_free_irqs(struct qedn_ctx *qedn)
-+{
-+	u16 vector_idx;
-+	int i;
-+
-+	for (i = 0; i < qedn->num_fw_cqs; i++) {
-+		vector_idx = i * qedn->dev_info.common.num_hwfns +
-+			     qed_ops->common->get_affin_hwfn_idx(qedn->cdev);
-+		synchronize_irq(qedn->int_info.msix[vector_idx].vector);
-+		irq_set_affinity_hint(qedn->int_info.msix[vector_idx].vector,
-+				      NULL);
-+		free_irq(qedn->int_info.msix[vector_idx].vector,
-+			 &qedn->fp_q_arr[i]);
-+	}
-+
-+	qedn->int_info.used_cnt = 0;
-+	qed_ops->common->set_fp_int(qedn->cdev, 0);
-+}
-+
-+static int qedn_request_msix_irq(struct qedn_ctx *qedn)
-+{
-+	struct pci_dev *pdev = qedn->pdev;
-+	struct qedn_fp_queue *fp_q = NULL;
-+	int i, rc, cpu;
-+	u16 vector_idx;
-+	u32 vector;
-+
-+	cpu = cpumask_first(cpu_online_mask);
-+	for (i = 0; i < qedn->num_fw_cqs; i++) {
-+		fp_q = &qedn->fp_q_arr[i];
-+		vector_idx = i * qedn->dev_info.common.num_hwfns +
-+			     qed_ops->common->get_affin_hwfn_idx(qedn->cdev);
-+		vector = qedn->int_info.msix[vector_idx].vector;
-+		sprintf(fp_q->irqname, "qedn_queue_%x.%x.%x_%d",
-+			pdev->bus->number, PCI_SLOT(pdev->devfn),
-+			PCI_FUNC(pdev->devfn), i);
-+		rc = request_irq(vector, qedn_irq_handler, QEDN_IRQ_NO_FLAGS,
-+				 fp_q->irqname, fp_q);
-+		if (rc) {
-+			pr_err("request_irq failed.\n");
-+			qedn_sync_free_irqs(qedn);
-+
-+			return rc;
-+		}
-+
-+		fp_q->cpu = cpu;
-+		qedn->int_info.used_cnt++;
-+		rc = irq_set_affinity_hint(vector, get_cpu_mask(cpu));
-+		cpu = cpumask_next_wrap(cpu, cpu_online_mask, -1, false);
-+	}
-+
-+	return 0;
-+}
-+
-+static int qedn_setup_irq(struct qedn_ctx *qedn)
-+{
-+	int rc = 0;
-+	u8 rval;
-+
-+	rval = qed_ops->common->set_fp_int(qedn->cdev, qedn->num_fw_cqs);
-+	if (rval < qedn->num_fw_cqs) {
-+		qedn->num_fw_cqs = rval;
-+		if (rval == 0) {
-+			pr_err("set_fp_int return 0 IRQs\n");
-+
-+			return -ENODEV;
-+		}
-+	}
-+
-+	rc = qed_ops->common->get_fp_int(qedn->cdev, &qedn->int_info);
-+	if (rc) {
-+		pr_err("get_fp_int failed\n");
-+		goto exit_setup_int;
-+	}
-+
-+	if (qedn->int_info.msix_cnt) {
-+		rc = qedn_request_msix_irq(qedn);
-+		goto exit_setup_int;
-+	} else {
-+		pr_err("msix_cnt = 0\n");
-+		rc = -EINVAL;
-+		goto exit_setup_int;
-+	}
-+
-+exit_setup_int:
-+
-+	return rc;
-+}
-+
- /* Initialize qedn fields, such as locks, lists, atomics, workqueues , hashes */
- static inline void qedn_init_pf_struct(struct qedn_ctx *qedn)
- {
-@@ -143,9 +240,151 @@ static void qedn_remove_pf_from_gl_list(struct qedn_ctx *qedn)
- 	mutex_unlock(&qedn_glb.glb_mutex);
- }
- 
-+static void qedn_free_function_queues(struct qedn_ctx *qedn)
-+{
-+	struct qed_sb_info *sb_info = NULL;
-+	struct qedn_fp_queue *fp_q;
-+	int i;
-+
-+	/* Free workqueues */
-+
-+	/* Free the fast path queues*/
-+	for (i = 0; i < qedn->num_fw_cqs; i++) {
-+		fp_q = &qedn->fp_q_arr[i];
-+
-+		/* Free SB */
-+		sb_info = fp_q->sb_info;
-+		if (sb_info->sb_virt) {
-+			qed_ops->common->sb_release(qedn->cdev, sb_info,
-+						    fp_q->sb_id,
-+						    QED_SB_TYPE_STORAGE);
-+			dma_free_coherent(&qedn->pdev->dev,
-+					  sizeof(*sb_info->sb_virt),
-+					  (void *)sb_info->sb_virt,
-+					  sb_info->sb_phys);
-+			kfree(sb_info);
-+			fp_q->sb_info = NULL;
-+		}
-+
-+		qed_ops->common->chain_free(qedn->cdev, &fp_q->cq_chain);
-+	}
-+
-+	if (qedn->fw_cq_array_virt)
-+		dma_free_coherent(&qedn->pdev->dev,
-+				  qedn->num_fw_cqs * sizeof(u64),
-+				  qedn->fw_cq_array_virt,
-+				  qedn->fw_cq_array_phy);
-+	kfree(qedn->fp_q_arr);
-+	qedn->fp_q_arr = NULL;
-+}
-+
-+static int qedn_alloc_and_init_sb(struct qedn_ctx *qedn,
-+				  struct qed_sb_info *sb_info, u16 sb_id)
-+{
-+	int rc = 0;
-+
-+	sb_info->sb_virt = dma_alloc_coherent(&qedn->pdev->dev,
-+					      sizeof(struct status_block_e4),
-+					      &sb_info->sb_phys, GFP_KERNEL);
-+	if (!sb_info->sb_virt) {
-+		pr_err("Status block allocation failed\n");
-+
-+		return -ENOMEM;
-+	}
-+
-+	rc = qed_ops->common->sb_init(qedn->cdev, sb_info, sb_info->sb_virt,
-+				      sb_info->sb_phys, sb_id,
-+				      QED_SB_TYPE_STORAGE);
-+	if (rc) {
-+		pr_err("Status block initialization failed\n");
-+
-+		return rc;
-+	}
-+
-+	return 0;
-+}
-+
-+static int qedn_alloc_function_queues(struct qedn_ctx *qedn)
-+{
-+	struct qed_chain_init_params chain_params = {};
-+	struct status_block_e4 *sb = NULL;  /* To change to status_block_e4 */
-+	struct qedn_fp_queue *fp_q = NULL;
-+	int rc = 0;
-+	int i;
-+
-+	/* Place holder - IO-path workqueues */
-+
-+	qedn->fp_q_arr = kcalloc(qedn->num_fw_cqs,
-+				 sizeof(struct qedn_fp_queue), GFP_KERNEL);
-+	if (!qedn->fp_q_arr)
-+		return -ENOMEM;
-+
-+	qedn->fw_cq_array_virt = dma_alloc_coherent(&qedn->pdev->dev,
-+						    qedn->num_fw_cqs * sizeof(u64),
-+						    &qedn->fw_cq_array_phy,
-+						    GFP_KERNEL);
-+	if (!qedn->fw_cq_array_virt) {
-+		rc = -ENOMEM;
-+		goto mem_alloc_failure;
-+	}
-+
-+	/* placeholder - create task pools */
-+
-+	for (i = 0; i < qedn->num_fw_cqs; i++) {
-+		fp_q = &qedn->fp_q_arr[i];
-+		mutex_init(&fp_q->cq_mutex);
-+
-+		/* FW CQ */
-+		chain_params.intended_use = QED_CHAIN_USE_TO_CONSUME,
-+		chain_params.mode = QED_CHAIN_MODE_PBL,
-+		chain_params.cnt_type = QED_CHAIN_CNT_TYPE_U16,
-+		chain_params.num_elems = QEDN_FW_CQ_SIZE;
-+		chain_params.elem_size = 64; /*Placeholder - sizeof(struct nvmetcp_fw_cqe)*/
-+
-+		rc = qed_ops->common->chain_alloc(qedn->cdev,
-+						  &fp_q->cq_chain,
-+						  &chain_params);
-+		if (rc) {
-+			pr_err("CQ chain pci_alloc_consistent fail\n");
-+			goto mem_alloc_failure;
-+		}
-+
-+		qedn->fw_cq_array_virt[i] = qed_chain_get_pbl_phys(&fp_q->cq_chain);
-+
-+		/* SB */
-+		fp_q->sb_info = kzalloc(sizeof(*fp_q->sb_info), GFP_KERNEL);
-+		if (!fp_q->sb_info)
-+			goto mem_alloc_failure;
-+
-+		fp_q->sb_id = i;
-+		rc = qedn_alloc_and_init_sb(qedn, fp_q->sb_info, fp_q->sb_id);
-+		if (rc) {
-+			pr_err("SB allocation and initialization failed.\n");
-+			goto mem_alloc_failure;
-+		}
-+
-+		sb = fp_q->sb_info->sb_virt;
-+		fp_q->cq_prod = (u16 *)&sb->pi_array[QEDN_PROTO_CQ_PROD_IDX];
-+		fp_q->qedn = qedn;
-+
-+		/* Placeholder - Init IO-path workqueue */
-+
-+		/* Placeholder - Init IO-path resources */
-+	}
-+
-+	return 0;
-+
-+mem_alloc_failure:
-+	pr_err("Function allocation failed\n");
-+	qedn_free_function_queues(qedn);
-+
-+	return rc;
-+}
-+
- static int qedn_set_nvmetcp_pf_param(struct qedn_ctx *qedn)
- {
- 	struct qed_nvmetcp_pf_params *pf_params;
-+	int rc;
- 
- 	pf_params = &qedn->pf_params.nvmetcp_pf_params;
- 	memset(pf_params, 0, sizeof(*pf_params));
-@@ -154,9 +393,13 @@ static int qedn_set_nvmetcp_pf_param(struct qedn_ctx *qedn)
- 	pf_params->num_cons = QEDN_MAX_CONNS_PER_PF;
- 	pf_params->num_tasks = QEDN_MAX_TASKS_PER_PF;
- 
--	/* Placeholder - Initialize function level queues */
-+	rc = qedn_alloc_function_queues(qedn);
-+	if (rc) {
-+		pr_err("Global queue allocation failed.\n");
-+		goto err_alloc_mem;
-+	}
- 
--	/* Placeholder - Initialize TCP params */
-+	set_bit(QEDN_STATE_FP_WORK_THREAD_SET, &qedn->state);
- 
- 	/* Queues */
- 	pf_params->num_sq_pages_in_ring = QEDN_NVMETCP_NUM_FW_SQ_PAGES * 2;
-@@ -164,11 +407,14 @@ static int qedn_set_nvmetcp_pf_param(struct qedn_ctx *qedn)
- 	pf_params->num_uhq_pages_in_ring = QEDN_NVMETCP_NUM_FW_SQ_PAGES;
- 	pf_params->num_queues = qedn->num_fw_cqs;
- 	pf_params->cq_num_entries = QEDN_FW_CQ_SIZE;
-+	pf_params->glbl_q_params_addr = qedn->fw_cq_array_phy;
- 
- 	/* the CQ SB pi */
- 	pf_params->gl_rq_pi = QEDN_PROTO_CQ_PROD_IDX;
- 
--	return 0;
-+err_alloc_mem:
-+
-+	return rc;
- }
- 
- static inline int qedn_slowpath_start(struct qedn_ctx *qedn)
-@@ -218,9 +464,22 @@ static void __qedn_remove(struct pci_dev *pdev)
- 	else
- 		pr_err("Failed to remove from global PF list\n");
- 
-+	if (test_and_clear_bit(QEDN_STATE_IRQ_SET, &qedn->state))
-+		qedn_sync_free_irqs(qedn);
-+
-+	if (test_and_clear_bit(QEDN_STATE_NVMETCP_OPEN, &qedn->state))
-+		qed_ops->stop(qedn->cdev);
-+
-+	rc = qed_ops->common->update_drv_state(qedn->cdev, false);
-+	if (rc)
-+		pr_err("Failed to send drv state to MFW\n");
-+
- 	if (test_and_clear_bit(QEDN_STATE_CORE_OPEN, &qedn->state))
- 		qed_ops->common->slowpath_stop(qedn->cdev);
- 
-+	if (test_and_clear_bit(QEDN_STATE_FP_WORK_THREAD_SET, &qedn->state))
-+		qedn_free_function_queues(qedn);
-+
- 	if (test_and_clear_bit(QEDN_STATE_CORE_PROBED, &qedn->state))
- 		qed_ops->common->remove(qedn->cdev);
- 
-@@ -301,6 +560,25 @@ static int __qedn_probe(struct pci_dev *pdev)
- 
- 	set_bit(QEDN_STATE_MFW_STATE, &qedn->state);
- 
-+	rc = qedn_setup_irq(qedn);
-+	if (rc)
-+		goto exit_probe_and_release_mem;
-+
-+	set_bit(QEDN_STATE_IRQ_SET, &qedn->state);
-+
-+	/* NVMeTCP start HW PF */
-+	rc = qed_ops->start(qedn->cdev,
-+			    NULL /* Placeholder for FW IO-path resources */,
-+			    qedn,
-+			    NULL /* Placeholder for FW Event callback */);
-+	if (rc) {
-+		rc = -ENODEV;
-+		pr_err("Cannot start NVMeTCP Function\n");
-+		goto exit_probe_and_release_mem;
-+	}
-+
-+	set_bit(QEDN_STATE_NVMETCP_OPEN, &qedn->state);
-+
- 	qedn->qedn_ofld_dev.ops = &qedn_ofld_ops;
- 	INIT_LIST_HEAD(&qedn->qedn_ofld_dev.entry);
- 	rc = nvme_tcp_ofld_register_dev(&qedn->qedn_ofld_dev);
-diff --git a/drivers/nvme/hw/qedn/qedn.h b/drivers/nvme/hw/qedn/qedn.h
-index 634e1217639a..17cebf741314 100644
---- a/drivers/nvme/hw/qedn/qedn.h
-+++ b/drivers/nvme/hw/qedn/qedn.h
-@@ -5,6 +5,7 @@
- 
- #include <linux/qed/qed_if.h>
- #include <linux/qed/qed_nvmetcp_if.h>
-+#include <linux/qed/qed_chain.h>
- 
- /* Driver includes */
- #include "../../host/tcp-offload.h"
-@@ -26,18 +27,41 @@
- #define QEDN_PROTO_CQ_PROD_IDX	0
- #define QEDN_NVMETCP_NUM_FW_SQ_PAGES 4
- 
-+#define QEDN_PAGE_SIZE	4096 /* FW page size - Configurable */
-+#define QEDN_MAX_GLOBAL_QUEUES_PAIRS 16
-+#define QEDN_IRQ_NAME_LEN 24
-+#define QEDN_IRQ_NO_FLAGS 0
-+
-+/* TCP defines */
-+#define QEDN_TCP_RTO_DEFAULT 280
-+
- enum qedn_state {
- 	QEDN_STATE_CORE_PROBED = 0,
- 	QEDN_STATE_CORE_OPEN,
- 	QEDN_STATE_GL_PF_LIST_ADDED,
- 	QEDN_STATE_MFW_STATE,
-+	QEDN_STATE_NVMETCP_OPEN,
-+	QEDN_STATE_IRQ_SET,
-+	QEDN_STATE_FP_WORK_THREAD_SET,
- 	QEDN_STATE_REGISTERED_OFFLOAD_DEV,
- 	QEDN_STATE_MODULE_REMOVE_ONGOING,
- };
- 
-+struct qedn_fp_queue {
-+	struct qedn_ctx	*qedn;
-+	struct qed_chain cq_chain;
-+	struct qed_sb_info *sb_info;
-+	u16 sb_id;
-+	u16 *cq_prod;
-+	unsigned int cpu;
-+	char irqname[QEDN_IRQ_NAME_LEN];
-+	struct mutex cq_mutex; /* cq handler mutex */
-+};
-+
- struct qedn_ctx {
- 	struct pci_dev *pdev;
- 	struct qed_dev *cdev;
-+	struct qed_int_info int_info;
- 	struct qed_dev_nvmetcp_info dev_info;
- 	struct nvme_tcp_ofld_dev qedn_ofld_dev;
- 	struct qed_pf_params pf_params;
-@@ -50,6 +74,9 @@ struct qedn_ctx {
- 
- 	/* Fast path queues */
- 	u8 num_fw_cqs;
-+	struct qedn_fp_queue *fp_q_arr;
-+	u64 *fw_cq_array_virt;
-+	dma_addr_t fw_cq_array_phy;	/* Physical address of fw_cq_array_virt */
- };
- 
- struct qedn_global {
--- 
-2.22.0
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
 
 _______________________________________________
