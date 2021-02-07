@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2CDC433E0
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:16:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC56C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:16:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 176BA64DF6
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:16:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 176BA64DF6
+	by mail.kernel.org (Postfix) with ESMTPS id 3B7CF64DF6
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:16:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B7CF64DF6
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/rxW8oc6RBpUO6lpG70oHkIJC92L++lK3qEGfzoJClc=; b=SYArImuZRarDyyPz9CzQk5Ddr
-	9i1ex3bgPumEAWjyf4HdmyLnMaGXZ7mjeB0uECKk0nUVvNQ/x4YPzj2+bdnbYzhnYqgdN6qcI7EPr
-	3N3Bn16dgwRsCvyPslBY9a6v3bOK/rfSmXOS562iziEPqydGphWPt9+k+X7yzy8tnb22j/LU0Xuv9
-	fMd5N0PF3AYcGWdhAB4SEhNDPKKeNh4XlC2knTt72CQya95D5oQjze/R+IKaWGS7kgXUIWbUVijDW
-	jhDEsAE/FaCONICPoUR6dA/3vcmzzAFLGaZhwEY8vyPjxuXll6Z8+uLszkjwrWaZQzphP00iThnuj
-	hVfOIx2KA==;
+	 bh=/rxW8oc6RBpUO6lpG70oHkIJC92L++lK3qEGfzoJClc=; b=FsN8r+uvkjTmwrJY+HKp1K+fg
+	sAHumzW5d10cmm3rupgRysTq+UliiJnb5hwUIWOmdp4I1FnHR2Xot6qzXdvfWcbMPXLmSzDPBZzXg
+	oejhCTRDUC75UtAwZbo60EcjWYkofPdxz0hFDyFLrJTUN5mbzz0W7mLi63OhmQvztbQAaoMFa/GVd
+	2oy1BvKBQkOLoV2dmlG5+weO1c5rCK33DiVqwAa3zshZvqwq8sknsWu7E5XrKreWlm76efMhZ71GX
+	lqxovA7RYBr9kR2nreDQzlxcFWrbrMBWJv4rVYpXpnio+EkCiPxBt2b//+Ktjrk/x7pEM2enHc4oi
+	bdX0lyzqg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l8mjN-0006vz-HB; Sun, 07 Feb 2021 16:16:13 +0000
+	id 1l8mjX-0006wn-F9; Sun, 07 Feb 2021 16:16:23 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8mjL-0006vh-9E
- for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 16:16:11 +0000
+ id 1l8mjU-0006wN-HH
+ for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 16:16:21 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C867468B02; Sun,  7 Feb 2021 17:16:08 +0100 (CET)
-Date: Sun, 7 Feb 2021 17:16:08 +0100
+ id B60A468C7B; Sun,  7 Feb 2021 17:16:18 +0100 (CET)
+Date: Sun, 7 Feb 2021 17:16:18 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH] nvmet-tcp: Fix receive data digest calculation for
- multiple h2cdata PDUs
-Message-ID: <20210207161608.GA25547@lst.de>
-References: <20210203230001.18797-1-sagi@grimberg.me>
+Subject: Re: [PATCH] nvmet-tcp: fix potential race of tcp socket closing
+ accept_work
+Message-ID: <20210207161618.GB25547@lst.de>
+References: <20210205194725.625035-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210203230001.18797-1-sagi@grimberg.me>
+In-Reply-To: <20210205194725.625035-1-sagi@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210207_111611_451644_82A24C76 
-X-CRM114-Status: UNSURE (   7.92  )
+X-CRM114-CacheID: sfid-20210207_111620_693611_59171D21 
+X-CRM114-Status: UNSURE (   7.82  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -66,7 +66,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Keith Busch <kbusch@kernel.org>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+ Elad Grupi <elad.grupi@dell.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
