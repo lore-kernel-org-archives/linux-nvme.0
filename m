@@ -2,60 +2,63 @@ Return-Path: <SRS0=2jH7=HJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11561C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61680C433DB
 	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:03:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77D6364DF2
+	by mail.kernel.org (Postfix) with ESMTPS id C5AC564DF6
 	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 16:03:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77D6364DF2
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5AC564DF6
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=OYYOIC5M6TSTEIAibRCw6I/sqXv7a5LsbTYDrfOG5YY=; b=3dhBQMbLMl5b6JkswSlHvoHkKH
-	7r/5uzKYlJEBRRRdhV8hjCrps4eAukBBbw6JJxvJIgQfSN3vG1n+E2XKtFjbieWsGHXASoAutknqp
-	lGyuc3tVpz70jHD74qvCwxAPKpaTlKdLWfEXD0IXx/X/wF6S7HEBqa7o6cqNeXk7h6AV6FT4pdd3k
-	sTEre3K7vlN8ul+9sF0Es1hh4iW9Qt3nBOLdD2/soRNOEY//yqlK63GzBeVgftb1jHY29CZFbG49b
-	VB+eaIRkOcweS7smEL11NDElgbHNiaGdRwCR1xbdh36tGWGyJIyTspQyUh05yBbvYrSLFlIphcTK+
-	LoEQB2uw==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=TiBXtjqrFXklcYAuIjgHhadPmZq3Rqv5bRSGsLWZGww=; b=UOK9rERdCdtO1/Onz/r//rDmq
+	2RTIVFXXN6z7PzcY0ohv7W2yxvPaIy09+ImJlzHUAnjQPcqhxcoEYt5Cuob5UqQFOESoEHLC4ET9S
+	/BceipOwzx3uNCiyCDHiyc1IqTyQ6aqj7oN/qdWFjoYxtCB4gvl36ujxvXrv+J2+GvA22qb3k3oQC
+	hzxJ5aWeGgd2KpnmHV+eNiX6m1ywgOUzAreVk7UK2ewSwBQzes+H7FTVG6DgKmKVPC2+u9UMoxNv4
+	8E3Y2Pz2ueFZwQlCHKG58h8rP6vBlh8/bRb+SD7mmoI7tQuWxPrUPkxtEoLnJEF3C6+OvgM0lPoXl
+	H3g9mHO/A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l8mX9-0004lb-Ip; Sun, 07 Feb 2021 16:03:35 +0000
+	id 1l8mXA-0004ln-FW; Sun, 07 Feb 2021 16:03:36 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8mX7-0004lP-HN
- for linux-nvme@merlin.infradead.org; Sun, 07 Feb 2021 16:03:33 +0000
+ id 1l8mX8-0004lQ-3A
+ for linux-nvme@merlin.infradead.org; Sun, 07 Feb 2021 16:03:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=caubP3x4F2N1fMwvC+jHPhSbeSXCkxkUALBFz4aHrhY=; b=OYsthj5oNsV6Gvobfqu2KBiGzP
- dImcZ0Y5D62EEK/7FFoJNYFuuLou2PpukTOKA+AkOEKO/e8TGkz95H+PR8NcigdVw6wbS5RRDnwKN
- XdXzhWPq5VtxY5LUnzPSamVROIdZS1PhodYNJnH2ucNioNWgjeNWDbgj1p5vx/EmIaTCrn3WGQJR+
- G/xwS1N91tQ3Cf8C3DYLD6ugwFroQ4DaUYsytOsyM5DCvSA7L4apLl0UeplyNlkOllyySbwZM1wru
- kBUBaPAibcsoZGFrw0SXPc5kTGsMap2Dnlu3v10KehJrRJ5IfQeiY0KFzGj9KsMixSIBwHpNTjO6y
- 2BMeKgtQ==;
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=ADESUJp7a565Lae5zGNwqqhB0jXq9Sa1wQlflXitRbg=; b=Pl8pDGCPUk1YgPNWbatYEPi7RH
+ ftl/7knjPldTFrJa+mk6PPgDEd0dR4CKIaD0UAE1PMuboCb4GpRvvqqfES4zMPSqIQpryItwN1XCA
+ BXx7CgaL6vG+sO5Pb5x7SKIxbfQqX5UYgTRPn5p1oZz36YpeN3VIVJoc1YSYAmxmYl6XkQ6v/Bmh+
+ xrtc1sg876kjDn/CZ7FGnoyuAS0Gbb1mP00Z9J0tPHBHONavUp2YhqouC+1H5vhmfNzDSKhZYxUiD
+ ICTf1R3cfQOr5VWJnljUkb8U4/yKKHRP5HXAiN54yPMG9gCt2YjiCQXJvG9xmh6mm+eEehvClLpi5
+ N/t28LVQ==;
 Received: from [2001:4bb8:184:7d04:4590:5583:6cb7:77c7] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1l8mX4-004tMv-Bg; Sun, 07 Feb 2021 16:03:30 +0000
+ id 1l8mX6-004tN1-4A; Sun, 07 Feb 2021 16:03:32 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: jxgao@google.com,
 	gregkh@linuxfoundation.org
-Subject: preserve DMA offsets when using swiotlb v2
-Date: Sun,  7 Feb 2021 17:03:18 +0100
-Message-Id: <20210207160327.2955490-1-hch@lst.de>
+Subject: [PATCH 1/9] driver core: add a min_align_mask field to struct
+ device_dma_parameters
+Date: Sun,  7 Feb 2021 17:03:19 +0100
+Message-Id: <20210207160327.2955490-2-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210207160327.2955490-1-hch@lst.de>
+References: <20210207160327.2955490-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -79,31 +82,64 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+From: Jianxiong Gao <jxgao@google.com>
 
-this series make NVMe happy when running with swiotlb.  This caters
-towards to completely broken NVMe controllers that ignore the
-specification (hello to the biggest cloud provider on the planet!),
-to crappy SOC that have addressing limitations, or "secure"
-virtualization that force bounce buffering to enhance the user
-experience.  Or in other words, no one sane should hit it, but
-people do.
+Some devices rely on the address offset in a page to function
+correctly (NVMe driver as an example). These devices may use
+a different page size than the Linux kernel. The address offset
+has to be preserved upon mapping, and in order to do so, we
+need to record the page_offset_mask first.
 
-It is basically a respin of the
+Signed-off-by: Jianxiong Gao <jxgao@google.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ include/linux/device.h      |  1 +
+ include/linux/dma-mapping.h | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
 
-    "SWIOTLB: Preserve swiotlb map offset when needed."
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 1779f90eeb4cb4..7960bf516dd7fe 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -291,6 +291,7 @@ struct device_dma_parameters {
+ 	 * sg limitations.
+ 	 */
+ 	unsigned int max_segment_size;
++	unsigned int min_align_mask;
+ 	unsigned long segment_boundary_mask;
+ };
+ 
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 2e49996a8f391a..9c26225754e719 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -500,6 +500,22 @@ static inline int dma_set_seg_boundary(struct device *dev, unsigned long mask)
+ 	return -EIO;
+ }
+ 
++static inline unsigned int dma_get_min_align_mask(struct device *dev)
++{
++	if (dev->dma_parms)
++		return dev->dma_parms->min_align_mask;
++	return 0;
++}
++
++static inline int dma_set_min_align_mask(struct device *dev,
++		unsigned int min_align_mask)
++{
++	if (WARN_ON_ONCE(!dev->dma_parms))
++		return -EIO;
++	dev->dma_parms->min_align_mask = min_align_mask;
++	return 0;
++}
++
+ static inline int dma_get_cache_alignment(void)
+ {
+ #ifdef ARCH_DMA_MINALIGN
+-- 
+2.29.2
 
-series from Jianxiong Gao.  It complete rewrites the swiotlb part so that
-the offset really is preserved and not just the offset into the swiotlb
-slot, and to do so it grew half a dozen patches to refactor the swiotlb
-so that a mere mortal like me could actually understand it.
-
-Changes since v2:
- - cleanup nr_slots a little more
- - fix a check in get_max_slots
- - add a IO_TLB_SIZE define
- - cleanup find_slots a little more
- - fix the nvme patch to actually compile
 
 _______________________________________________
 Linux-nvme mailing list
