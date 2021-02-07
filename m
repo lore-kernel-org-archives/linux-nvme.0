@@ -2,19 +2,19 @@ Return-Path: <SRS0=2jH7=HJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-22.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35434C433E9
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA30AC433DB
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6586764D9A
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6586764D9A
+	by mail.kernel.org (Postfix) with ESMTPS id 6211D64D9A
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Feb 2021 18:14:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6211D64D9A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,43 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vUuL7/lzTORaPgXLQtnnZOROPubF5p6R1sd+/l14Zb4=; b=IFjR7fNtsImhhPun0WiusWu5b
-	3La6Bvao16NCCxuAt3TERSJenn3yBdfEbiLat0TjVyGp2Ivme0UWAsRnrXUz+93qt/MDEldAEYd3y
-	3X3HQm+JqgYYGHNSENzuAUBosrbqPIizFlTa9jp7uadHO6WAnFyH4CEhLVi9gVYSjXZWjlishk77p
-	krNV4sMZoOf9qZ7EZysNwUj9Ah7n3PdhnmlOCm4t7lub0nkTNRLU7vtzTg6yutzZ5favb8F/xLe5I
-	J6HQFjVSQnv01Ph0grSERAMthYiuScGOVqL4lIu39tUL9P74+spYR2tGcuhMOtgeAW4gaLv/J2Vuz
-	mHnthpwtw==;
+	 bh=ASwmAFUge5qlXt7iFUYI2vxR6AA/t6bll+Z9M+0ofCI=; b=nLVyg1AsPXzuWyzdyl7a8lDBx
+	B4013gkPNvwUfm+OLwhIKq6rELOdT3PbRhJUZj/3vUlbuzX8/gYWXoaTDPPsKqIBv69zlvltq0I90
+	yhJ2PN8lbtTkmEnpqUH92t7F7Z5GA9mdP8C5UzhBX0ZINpQoUNvPT8xzhvejI4d09k8aOILD7dSDG
+	XnuaBdKxQtQxf25uBOdczRBHNq2V2QZQbU/yCuEs3JB6cLhnUYcpegqv1O3kTfbWaNE5lAaiPQwFY
+	sx6MjtZZt4moDhf6aoaekF8r5SU0xs50e27xQ96vTbjZ8NiuYEfyMmG5zt60slXG/6ssiJ0bL3+xK
+	FqbIe42Hw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l8oZO-0004wh-LG; Sun, 07 Feb 2021 18:14:02 +0000
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
- helo=mx0b-0016f401.pphosted.com)
+	id 1l8oZS-0004y5-8g; Sun, 07 Feb 2021 18:14:06 +0000
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8oZD-0004tn-NO
- for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 18:13:54 +0000
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
- by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 117I5Rex029232; Sun, 7 Feb 2021 10:13:47 -0800
+ id 1l8oZH-0004uk-EV
+ for linux-nvme@lists.infradead.org; Sun, 07 Feb 2021 18:13:56 +0000
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+ by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 117I6FSi016859; Sun, 7 Feb 2021 10:13:36 -0800
 Received: from dc5-exch01.marvell.com ([199.233.59.181])
- by mx0a-0016f401.pphosted.com with ESMTP id 36hsbrakm8-1
+ by mx0b-0016f401.pphosted.com with ESMTP id 36hugq2dmu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Sun, 07 Feb 2021 10:13:47 -0800
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by DC5-EXCH01.marvell.com
+ Sun, 07 Feb 2021 10:13:36 -0800
+Received: from SC-EXCH01.marvell.com (10.93.176.81) by DC5-EXCH01.marvell.com
  (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 7 Feb 2021 10:13:46 -0800
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 7 Feb 2021 10:13:45 -0800
+ Sun, 7 Feb 2021 10:13:34 -0800
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Sun, 7 Feb 2021 10:13:33 -0800
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH02.marvell.com (10.69.176.39) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Sun, 7 Feb 2021 10:13:42 -0800
+ 15.0.1497.2 via Frontend Transport; Sun, 7 Feb 2021 10:13:31 -0800
 From: Shai Malin <smalin@marvell.com>
 To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
  <sagi@grimberg.me>
-Subject: [RFC PATCH v3 04/11] nvme-tcp-offload: Add controller level
- implementation
-Date: Sun, 7 Feb 2021 20:13:17 +0200
-Message-ID: <20210207181324.11429-5-smalin@marvell.com>
+Subject: [RFC PATCH v3 01/11] nvme-tcp-offload: Add nvme-tcp-offload - NVMeTCP
+ HW offload ULP
+Date: Sun, 7 Feb 2021 20:13:14 +0200
+Message-ID: <20210207181324.11429-2-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20210207181324.11429-1-smalin@marvell.com>
 References: <20210207181324.11429-1-smalin@marvell.com>
@@ -68,8 +67,8 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
  definitions=2021-02-07_08:2021-02-05,
  2021-02-07 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210207_131352_036405_89699639 
-X-CRM114-Status: GOOD (  23.24  )
+X-CRM114-CacheID: sfid-20210207_131355_576000_43606437 
+X-CRM114-Status: GOOD (  29.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,568 +80,396 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: smalin@marvell.com, aelior@marvell.com,
- Arie Gershberg <agershberg@marvell.com>, mkalderon@marvell.com,
- nassa@marvell.com, malin1024@gmail.com, Douglas.Farley@dell.com,
- Erik.Smith@dell.com, kuba@kernel.org, pkushwaha@marvell.com,
- davem@davemloft.net
+Cc: smalin@marvell.com, aelior@marvell.com, mkalderon@marvell.com,
+ nassa@marvell.com, Dean Balandin <dbalandin@marvell.com>, malin1024@gmail.com,
+ Douglas.Farley@dell.com, Erik.Smith@dell.com, kuba@kernel.org,
+ pkushwaha@marvell.com, davem@davemloft.net
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Arie Gershberg <agershberg@marvell.com>
+This patch will present the structure for the NVMeTCP offload common
+layer driver. This module is added under "drivers/nvme/host/" and future
+offload drivers which will register to it will be placed under
+"drivers/nvme/hw".
+This new driver will be enabled by the Kconfig "NVM Express over Fabrics
+TCP offload commmon layer".
+In order to support the new transport type, for host mode, no change is
+needed.
 
-In this patch we implement controller level functionality including:
-- create_ctrl.
-- delete_ctrl.
-- free_ctrl.
+Each new vendor-specific offload driver will register to this ULP during
+its probe function, by filling out the nvme_tcp_ofld_dev->ops and
+nvme_tcp_ofld_dev->private_data and calling nvme_tcp_ofld_register_dev
+with the initialized struct.
 
-The implementation is similar to other nvme fabrics modules, the main
-difference being that the nvme-tcp-offload ULP calls the vendor specific
-claim_dev() op with the given TCP/IP parameters to determine which device
-will be used for this controller.
-Once found, the vendor specific device and controller will be paired and
-kept in a controller list managed by the ULP.
+The internal implementation:
+- tcp-offload.h:
+  Includes all common structs and ops to be used and shared by offload
+  drivers.
 
-Signed-off-by: Arie Gershberg <agershberg@marvell.com>
+- tcp-offload.c:
+  Includes the init function which registers as a NVMf transport just
+  like any other transport.
+
+Signed-off-by: Dean Balandin <dbalandin@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
 Signed-off-by: Ariel Elior <aelior@marvell.com>
 Signed-off-by: Shai Malin <smalin@marvell.com>
 ---
- drivers/nvme/host/tcp-offload.c | 458 +++++++++++++++++++++++++++++++-
- drivers/nvme/host/tcp-offload.h |   1 +
- 2 files changed, 453 insertions(+), 6 deletions(-)
+ drivers/nvme/host/Kconfig       |  16 +++
+ drivers/nvme/host/Makefile      |   3 +
+ drivers/nvme/host/tcp-offload.c | 124 ++++++++++++++++++++++++
+ drivers/nvme/host/tcp-offload.h | 167 ++++++++++++++++++++++++++++++++
+ 4 files changed, 310 insertions(+)
+ create mode 100644 drivers/nvme/host/tcp-offload.c
+ create mode 100644 drivers/nvme/host/tcp-offload.h
 
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index a44d49d63968..6e869e94e67f 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -84,3 +84,19 @@ config NVME_TCP
+ 	  from https://github.com/linux-nvme/nvme-cli.
+ 
+ 	  If unsure, say N.
++
++config NVME_TCP_OFFLOAD
++	tristate "NVM Express over Fabrics TCP offload common layer"
++	default m
++	depends on INET
++	depends on BLK_DEV_NVME
++	select NVME_FABRICS
++	help
++	  This provides support for the NVMe over Fabrics protocol using
++	  the TCP offload transport. This allows you to use remote block devices
++	  exported using the NVMe protocol set.
++
++	  To configure a NVMe over Fabrics controller use the nvme-cli tool
++	  from https://github.com/linux-nvme/nvme-cli.
++
++	  If unsure, say N.
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index d7f6a87687b8..0e7ef044cf29 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_NVME_FABRICS)		+= nvme-fabrics.o
+ obj-$(CONFIG_NVME_RDMA)			+= nvme-rdma.o
+ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
+ obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
++obj-$(CONFIG_NVME_TCP_OFFLOAD)	+= nvme-tcp-offload.o
+ 
+ nvme-core-y				:= core.o
+ nvme-core-$(CONFIG_TRACING)		+= trace.o
+@@ -26,3 +27,5 @@ nvme-rdma-y				+= rdma.o
+ nvme-fc-y				+= fc.o
+ 
+ nvme-tcp-y				+= tcp.o
++
++nvme-tcp-offload-y		+= tcp-offload.o
 diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
-index 49e11638b4fd..da934c6fed9e 100644
---- a/drivers/nvme/host/tcp-offload.c
+new file mode 100644
+index 000000000000..ee3800250e47
+--- /dev/null
 +++ b/drivers/nvme/host/tcp-offload.c
-@@ -12,6 +12,10 @@
- 
- static LIST_HEAD(nvme_tcp_ofld_devices);
- static DECLARE_RWSEM(nvme_tcp_ofld_devices_rwsem);
-+static LIST_HEAD(nvme_tcp_ofld_ctrl_list);
-+static DECLARE_RWSEM(nvme_tcp_ofld_ctrl_rwsem);
-+static struct blk_mq_ops nvme_tcp_ofld_admin_mq_ops;
-+static struct blk_mq_ops nvme_tcp_ofld_mq_ops;
- 
- static inline struct nvme_tcp_ofld_ctrl *
- to_tcp_ofld_ctrl(struct nvme_ctrl *nctrl)
-@@ -127,26 +131,423 @@ nvme_tcp_ofld_lookup_dev(struct nvme_tcp_ofld_ctrl *ctrl)
- 	return dev;
- }
- 
-+static struct blk_mq_tag_set *
-+nvme_tcp_ofld_alloc_tagset(struct nvme_ctrl *nctrl, bool admin)
+@@ -0,0 +1,124 @@
++// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
++/*
++ * Copyright 2021 Marvell. All rights reserved.
++ */
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++/* Kernel includes */
++#include <linux/kernel.h>
++#include <linux/module.h>
++
++/* Driver includes */
++#include "tcp-offload.h"
++
++static LIST_HEAD(nvme_tcp_ofld_devices);
++static DECLARE_RWSEM(nvme_tcp_ofld_devices_rwsem);
++
++/**
++ * nvme_tcp_ofld_register_dev() - NVMeTCP Offload Library registration
++ * function.
++ * @dev:	NVMeTCP offload device instance to be registered to the
++ *		common tcp offload instance.
++ *
++ * API function that registers the type of vendor specific driver
++ * being implemented to the common NVMe over TCP offload library. Part of
++ * the overall init sequence of starting up an offload driver.
++ */
++int nvme_tcp_ofld_register_dev(struct nvme_tcp_ofld_dev *dev)
 +{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	struct blk_mq_tag_set *set;
-+	int rc;
++	struct nvme_tcp_ofld_ops *ops = dev->ops;
 +
-+	if (admin) {
-+		set = &ctrl->admin_tag_set;
-+		memset(set, 0, sizeof(*set));
-+		set->ops = &nvme_tcp_ofld_admin_mq_ops;
-+		set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
-+		set->reserved_tags = 2; /* connect + keep-alive */
-+		set->numa_node = nctrl->numa_node;
-+		set->flags = BLK_MQ_F_BLOCKING;
-+		set->cmd_size = sizeof(struct nvme_tcp_ofld_req);
-+		set->driver_data = ctrl;
-+		set->nr_hw_queues = 1;
-+		set->timeout = NVME_ADMIN_TIMEOUT;
-+	} else {
-+		set = &ctrl->tag_set;
-+		memset(set, 0, sizeof(*set));
-+		set->ops = &nvme_tcp_ofld_mq_ops;
-+		set->queue_depth = nctrl->sqsize + 1;
-+		set->reserved_tags = 1; /* fabric connect */
-+		set->numa_node = nctrl->numa_node;
-+		set->flags = BLK_MQ_F_SHOULD_MERGE | BLK_MQ_F_BLOCKING;
-+		set->cmd_size = sizeof(struct nvme_tcp_ofld_req);
-+		set->driver_data = ctrl;
-+		set->nr_hw_queues = nctrl->queue_count - 1;
-+		set->timeout = NVME_IO_TIMEOUT;
-+		set->nr_maps = nctrl->opts->nr_poll_queues ?
-+							HCTX_MAX_TYPES : 2;
-+	}
-+
-+	rc = blk_mq_alloc_tag_set(set);
-+	if (rc)
-+		return ERR_PTR(rc);
-+
-+	return set;
-+}
-+
-+static int nvme_tcp_ofld_configure_admin_queue(struct nvme_ctrl *nctrl,
-+					       bool new)
-+{
-+	int rc;
-+
-+	/* Placeholder - alloc_admin_queue */
-+	if (new) {
-+		nctrl->admin_tagset =
-+				nvme_tcp_ofld_alloc_tagset(nctrl, true);
-+		if (IS_ERR(nctrl->admin_tagset)) {
-+			rc = PTR_ERR(nctrl->admin_tagset);
-+			nctrl->admin_tagset = NULL;
-+			goto out_free_queue;
-+		}
-+
-+		nctrl->fabrics_q = blk_mq_init_queue(nctrl->admin_tagset);
-+		if (IS_ERR(nctrl->fabrics_q)) {
-+			rc = PTR_ERR(nctrl->fabrics_q);
-+			nctrl->fabrics_q = NULL;
-+			goto out_free_tagset;
-+		}
-+
-+		nctrl->admin_q = blk_mq_init_queue(nctrl->admin_tagset);
-+		if (IS_ERR(nctrl->admin_q)) {
-+			rc = PTR_ERR(nctrl->admin_q);
-+			nctrl->admin_q = NULL;
-+			goto out_cleanup_fabrics_q;
-+		}
-+	}
-+
-+	/* Placeholder - nvme_tcp_ofld_start_queue */
-+
-+	rc = nvme_enable_ctrl(nctrl);
-+	if (rc)
-+		goto out_stop_queue;
-+
-+	blk_mq_unquiesce_queue(nctrl->admin_q);
-+
-+	rc = nvme_init_identify(nctrl);
-+	if (rc)
-+		goto out_stop_queue;
-+
-+	return 0;
-+
-+out_stop_queue:
-+	/* Placeholder - stop offload queue */
-+
-+out_cleanup_fabrics_q:
-+	if (new)
-+		blk_cleanup_queue(nctrl->fabrics_q);
-+out_free_tagset:
-+	if (new)
-+		blk_mq_free_tag_set(nctrl->admin_tagset);
-+out_free_queue:
-+	/* Placeholder - free admin queue */
-+
-+	return rc;
-+}
-+
-+static int
-+nvme_tcp_ofld_configure_io_queues(struct nvme_ctrl *nctrl, bool new)
-+{
-+	int rc;
-+
-+	/* Placeholder - alloc_io_queues */
-+
-+	if (new) {
-+		nctrl->tagset = nvme_tcp_ofld_alloc_tagset(nctrl, false);
-+		if (IS_ERR(nctrl->tagset)) {
-+			rc = PTR_ERR(nctrl->tagset);
-+			nctrl->tagset = NULL;
-+			goto out_free_io_queues;
-+		}
-+
-+		nctrl->connect_q = blk_mq_init_queue(nctrl->tagset);
-+		if (IS_ERR(nctrl->connect_q)) {
-+			rc = PTR_ERR(nctrl->connect_q);
-+			nctrl->connect_q = NULL;
-+			goto out_free_tag_set;
-+		}
-+	}
-+
-+	/* Placeholder - start_io_queues */
-+
-+	if (!new) {
-+		nvme_start_queues(nctrl);
-+		if (!nvme_wait_freeze_timeout(nctrl, NVME_IO_TIMEOUT)) {
-+			/*
-+			 * If we timed out waiting for freeze we are likely to
-+			 * be stuck.  Fail the controller initialization just
-+			 * to be safe.
-+			 */
-+			rc = -ENODEV;
-+			goto out_wait_freeze_timed_out;
-+		}
-+		blk_mq_update_nr_hw_queues(nctrl->tagset, nctrl->queue_count - 1);
-+		nvme_unfreeze(nctrl);
-+	}
-+
-+	return 0;
-+
-+out_wait_freeze_timed_out:
-+	nvme_stop_queues(nctrl);
-+
-+	/* Placeholder - Stop IO queues */
-+
-+	if (new)
-+		blk_cleanup_queue(nctrl->connect_q);
-+out_free_tag_set:
-+	if (new)
-+		blk_mq_free_tag_set(nctrl->tagset);
-+
-+out_free_io_queues:
-+	/* Placeholder - free_io_queues */
-+
-+	return rc;
-+}
-+
- static int nvme_tcp_ofld_setup_ctrl(struct nvme_ctrl *nctrl, bool new)
- {
--	/* Placeholder - validates inputs and creates admin and IO queues */
-+	struct nvmf_ctrl_options *opts = nctrl->opts;
-+	int rc;
-+
-+	rc = nvme_tcp_ofld_configure_admin_queue(nctrl, new);
-+	if (rc)
-+		goto destroy_admin;
-+
-+	if (nctrl->icdoff) {
-+		dev_err(nctrl->device, "icdoff is not supported!\n");
-+		rc = -EINVAL;
-+		goto destroy_admin;
-+	}
-+
-+	if (opts->queue_size > nctrl->sqsize + 1)
-+		dev_warn(nctrl->device,
-+			 "queue_size %zu > ctrl sqsize %u, clamping down\n",
-+			 opts->queue_size, nctrl->sqsize + 1);
-+
-+	if (nctrl->sqsize + 1 > nctrl->maxcmd) {
-+		dev_warn(nctrl->device,
-+			 "sqsize %u > ctrl maxcmd %u, clamping down\n",
-+			 nctrl->sqsize + 1, nctrl->maxcmd);
-+		nctrl->sqsize = nctrl->maxcmd - 1;
-+	}
-+
-+	if (nctrl->queue_count > 1) {
-+		rc = nvme_tcp_ofld_configure_io_queues(nctrl, new);
-+		if (rc)
-+			goto destroy_admin;
-+	}
-+
-+	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_LIVE)) {
-+		/*
-+		 * state change failure is ok if we started ctrl delete,
-+		 * unless we're during creation of a new controller to
-+		 * avoid races with teardown flow.
-+		 */
-+		WARN_ON_ONCE(nctrl->state != NVME_CTRL_DELETING &&
-+			     nctrl->state != NVME_CTRL_DELETING_NOIO);
-+		WARN_ON_ONCE(new);
-+		rc = -EINVAL;
-+		goto destroy_io;
-+	}
-+
-+	nvme_start_ctrl(nctrl);
-+	return 0;
-+
-+destroy_io:
-+	/* Placeholder - stop and destroy io queues*/
-+destroy_admin:
-+	/* Placeholder - stop and destroy admin queue*/
-+
-+	return rc;
-+}
-+
-+static int
-+nvme_tcp_ofld_check_dev_opts(struct nvmf_ctrl_options *opts,
-+			     struct nvme_tcp_ofld_ops *ofld_ops)
-+{
-+	unsigned int nvme_tcp_ofld_opt_mask = NVMF_ALLOWED_OPTS |
-+			ofld_ops->allowed_opts | ofld_ops->required_opts;
-+	if (opts->mask & ~nvme_tcp_ofld_opt_mask) {
-+		pr_warn("One or more of the nvmf options isn't supported by %s.\n",
-+			ofld_ops->name);
++	if (!ops->claim_dev ||
++	    !ops->create_queue ||
++	    !ops->drain_queue ||
++	    !ops->destroy_queue ||
++	    !ops->poll_queue ||
++	    !ops->init_req ||
++	    !ops->map_sg ||
++	    !ops->send_req)
 +		return -EINVAL;
-+	}
- 
- 	return 0;
- }
- 
-+static void nvme_tcp_ofld_free_ctrl(struct nvme_ctrl *nctrl)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	struct nvme_tcp_ofld_dev *dev = ctrl->dev;
 +
-+	if (list_empty(&ctrl->list))
-+		goto free_ctrl;
++	down_write(&nvme_tcp_ofld_devices_rwsem);
++	list_add_tail(&dev->entry, &nvme_tcp_ofld_devices);
++	up_write(&nvme_tcp_ofld_devices_rwsem);
 +
-+	down_write(&nvme_tcp_ofld_ctrl_rwsem);
-+	list_del(&ctrl->list);
-+	up_write(&nvme_tcp_ofld_ctrl_rwsem);
-+
-+	nvmf_free_options(nctrl->opts);
-+free_ctrl:
-+	module_put(dev->ops->module);
-+	kfree(ctrl->queues);
-+	kfree(ctrl);
++	return 0;
 +}
++EXPORT_SYMBOL_GPL(nvme_tcp_ofld_register_dev);
 +
-+static void nvme_tcp_ofld_submit_async_event(struct nvme_ctrl *arg)
++/**
++ * nvme_tcp_ofld_unregister_dev() - NVMeTCP Offload Library unregistration
++ * function.
++ * @dev:	NVMeTCP offload device instance to be unregistered from the
++ *		common tcp offload instance.
++ *
++ * API function that unregisters the type of vendor specific driver being
++ * implemented from the common NVMe over TCP offload library.
++ * Part of the overall exit sequence of unloading the implemented driver.
++ */
++void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev)
 +{
-+	/* Placeholder - submit_async_event */
++	down_write(&nvme_tcp_ofld_devices_rwsem);
++	list_del(&dev->entry);
++	up_write(&nvme_tcp_ofld_devices_rwsem);
 +}
++EXPORT_SYMBOL_GPL(nvme_tcp_ofld_unregister_dev);
 +
-+static void
-+nvme_tcp_ofld_teardown_admin_queue(struct nvme_ctrl *ctrl, bool remove)
++/**
++ * nvme_tcp_ofld_report_queue_err() - NVMeTCP Offload report error event
++ * callback function. Pointed to by nvme_tcp_ofld_queue->report_err.
++ * @queue:	NVMeTCP offload queue instance on which the error has occurred.
++ *
++ * API function that allows the vendor specific offload driver to reports errors
++ * to the common offload layer, to invoke error recovery.
++ */
++int nvme_tcp_ofld_report_queue_err(struct nvme_tcp_ofld_queue *queue)
 +{
-+	/* Placeholder - teardown_admin_queue */
-+}
-+
-+static void
-+nvme_tcp_ofld_teardown_io_queues(struct nvme_ctrl *nctrl, bool remove)
-+{
-+	/* Placeholder - teardown_io_queues */
-+}
-+
-+static void
-+nvme_tcp_ofld_teardown_ctrl(struct nvme_ctrl *nctrl, bool shutdown)
-+{
-+	/* Placeholder - err_work and connect_work */
-+	nvme_tcp_ofld_teardown_io_queues(nctrl, shutdown);
-+	blk_mq_quiesce_queue(nctrl->admin_q);
-+	if (shutdown)
-+		nvme_shutdown_ctrl(nctrl);
-+	else
-+		nvme_disable_ctrl(nctrl);
-+	nvme_tcp_ofld_teardown_admin_queue(nctrl, shutdown);
-+}
-+
-+static void nvme_tcp_ofld_delete_ctrl(struct nvme_ctrl *nctrl)
-+{
-+	nvme_tcp_ofld_teardown_ctrl(nctrl, true);
-+}
-+
-+static int
-+nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
-+			   struct request *rq,
-+			   unsigned int hctx_idx,
-+			   unsigned int numa_node)
-+{
-+	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
-+	struct nvme_tcp_ofld_ctrl *ctrl = set->driver_data;
-+
-+	/* Placeholder - init request */
-+
-+	req->done = nvme_tcp_ofld_req_done;
-+	ctrl->dev->ops->init_req(req);
++	/* Placeholder - invoke error recovery flow */
 +
 +	return 0;
 +}
 +
-+static blk_status_t
-+nvme_tcp_ofld_queue_rq(struct blk_mq_hw_ctx *hctx,
-+		       const struct blk_mq_queue_data *bd)
++/**
++ * nvme_tcp_ofld_req_done() - NVMeTCP Offload request done callback
++ * function. Pointed to by nvme_tcp_ofld_req->done.
++ * @req:	NVMeTCP offload request to complete.
++ * @result:     The nvme_result.
++ * @status:     The completion status.
++ *
++ * API function that allows the vendor specific offload driver to report request
++ * completions to the common offload layer.
++ */
++void
++nvme_tcp_ofld_req_done(struct nvme_tcp_ofld_req *req,
++		       union nvme_result *result,
++		       __le16 status)
 +{
-+	/* Call nvme_setup_cmd(...) */
-+
-+	/* Call ops->map_sg(...) */
-+
-+	return BLK_STS_OK;
++	/* Placeholder - complete request with/without error */
 +}
 +
-+static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
-+	.queue_rq	= nvme_tcp_ofld_queue_rq,
-+	.init_request	= nvme_tcp_ofld_init_request,
-+	/*
-+	 * All additional ops will be also implemented and registered similar to
-+	 * tcp.c
-+	 */
++static struct nvmf_transport_ops nvme_tcp_ofld_transport = {
++	.name		= "tcp_offload",
++	.module		= THIS_MODULE,
++	.required_opts	= NVMF_OPT_TRADDR,
++	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_DISABLE_SQFLOW |
++			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_HOST_TRADDR |
++			  NVMF_OPT_CTRL_LOSS_TMO | NVMF_OPT_RECONNECT_DELAY |
++			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
++			  NVMF_OPT_NR_POLL_QUEUES | NVMF_OPT_TOS,
 +};
 +
-+static struct blk_mq_ops nvme_tcp_ofld_admin_mq_ops = {
-+	.queue_rq	= nvme_tcp_ofld_queue_rq,
-+	.init_request	= nvme_tcp_ofld_init_request,
-+	/*
-+	 * All additional ops will be also implemented and registered similar to
-+	 * tcp.c
-+	 */
-+};
-+
-+static const struct nvme_ctrl_ops nvme_tcp_ofld_ctrl_ops = {
-+	.name			= "tcp_offload",
-+	.module			= THIS_MODULE,
-+	.flags			= NVME_F_FABRICS,
-+	.reg_read32		= nvmf_reg_read32,
-+	.reg_read64		= nvmf_reg_read64,
-+	.reg_write32		= nvmf_reg_write32,
-+	.free_ctrl		= nvme_tcp_ofld_free_ctrl,
-+	.submit_async_event	= nvme_tcp_ofld_submit_async_event,
-+	.delete_ctrl		= nvme_tcp_ofld_delete_ctrl,
-+	.get_address		= nvmf_get_address,
-+};
-+
-+static bool
-+nvme_tcp_ofld_existing_controller(struct nvmf_ctrl_options *opts)
++static int __init nvme_tcp_ofld_init_module(void)
 +{
-+	struct nvme_tcp_ofld_ctrl *ctrl;
-+	bool found = false;
++	nvmf_register_transport(&nvme_tcp_ofld_transport);
 +
-+	down_read(&nvme_tcp_ofld_ctrl_rwsem);
-+	list_for_each_entry(ctrl, &nvme_tcp_ofld_ctrl_list, list) {
-+		found = nvmf_ip_options_match(&ctrl->nctrl, opts);
-+		if (found)
-+			break;
-+	}
-+	up_read(&nvme_tcp_ofld_ctrl_rwsem);
-+
-+	return found;
++	return 0;
 +}
 +
- static struct nvme_ctrl *
- nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
- {
-+	struct nvme_tcp_ofld_queue *queue;
- 	struct nvme_tcp_ofld_ctrl *ctrl;
- 	struct nvme_tcp_ofld_dev *dev;
- 	struct nvme_ctrl *nctrl;
--	int rc = 0;
-+	int i, rc = 0;
- 
- 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
- 	if (!ctrl)
- 		return ERR_PTR(-ENOMEM);
- 
--	/* Init nvme_tcp_ofld_ctrl and nvme_ctrl params based on received opts */
-+	INIT_LIST_HEAD(&ctrl->list);
-+	nctrl = &ctrl->nctrl;
-+	nctrl->opts = opts;
-+	nctrl->queue_count = opts->nr_io_queues + opts->nr_write_queues +
-+			     opts->nr_poll_queues + 1;
-+	nctrl->sqsize = opts->queue_size - 1;
-+	nctrl->kato = opts->kato;
-+	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
-+		opts->trsvcid =
-+			kstrdup(__stringify(NVME_TCP_DISC_PORT), GFP_KERNEL);
-+		if (!opts->trsvcid) {
-+			rc = -ENOMEM;
-+			goto out_free_ctrl;
-+		}
-+		opts->mask |= NVMF_OPT_TRSVCID;
-+	}
++static void __exit nvme_tcp_ofld_cleanup_module(void)
++{
++	nvmf_unregister_transport(&nvme_tcp_ofld_transport);
++}
 +
-+	rc = inet_pton_with_scope(&init_net, AF_UNSPEC, opts->traddr,
-+				  opts->trsvcid,
-+				  &ctrl->conn_params.remote_ip_addr);
-+	if (rc) {
-+		pr_err("malformed address passed: %s:%s\n",
-+		       opts->traddr, opts->trsvcid);
-+		goto out_free_ctrl;
-+	}
-+
-+	if (opts->mask & NVMF_OPT_HOST_TRADDR) {
-+		rc = inet_pton_with_scope(&init_net, AF_UNSPEC,
-+					  opts->host_traddr, NULL,
-+					  &ctrl->conn_params.local_ip_addr);
-+		if (rc) {
-+			pr_err("malformed src address passed: %s\n",
-+			       opts->host_traddr);
-+			goto out_free_ctrl;
-+		}
-+	}
-+
-+	if (!opts->duplicate_connect &&
-+	    nvme_tcp_ofld_existing_controller(opts)) {
-+		rc = -EALREADY;
-+		goto out_free_ctrl;
-+	}
- 
- 	/* Find device that can reach the dest addr */
- 	dev = nvme_tcp_ofld_lookup_dev(ctrl);
-@@ -157,18 +558,55 @@ nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
- 		goto out_free_ctrl;
- 	}
- 
-+	rc = nvme_tcp_ofld_check_dev_opts(opts, dev->ops);
-+	if (rc)
-+		goto out_module_put;
-+
- 	ctrl->dev = dev;
- 
--	/* Init queues */
-+	ctrl->queues = kcalloc(nctrl->queue_count,
-+			       sizeof(struct nvme_tcp_ofld_queue),
-+			       GFP_KERNEL);
-+	if (!ctrl->queues) {
-+		rc = -ENOMEM;
-+		goto out_module_put;
-+	}
-+
-+	for (i = 0; i < nctrl->queue_count; ++i) {
-+		queue = &ctrl->queues[i];
-+		queue->ctrl = ctrl;
-+		queue->dev = dev;
-+		queue->report_err = nvme_tcp_ofld_report_queue_err;
-+	}
- 
--	/* Call nvme_init_ctrl */
-+	rc = nvme_init_ctrl(nctrl, ndev, &nvme_tcp_ofld_ctrl_ops, 0);
-+	if (rc)
-+		goto out_free_queues;
-+
-+	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_CONNECTING)) {
-+		WARN_ON_ONCE(1);
-+		rc = -EINTR;
-+		goto out_uninit_ctrl;
-+	}
- 
- 	rc = nvme_tcp_ofld_setup_ctrl(nctrl, true);
- 	if (rc)
--		goto out_module_put;
-+		goto out_uninit_ctrl;
-+
-+	dev_info(nctrl->device, "new ctrl: NQN \"%s\", addr %pISp\n",
-+		 opts->subsysnqn, &ctrl->conn_params.remote_ip_addr);
-+
-+	down_write(&nvme_tcp_ofld_ctrl_rwsem);
-+	list_add_tail(&ctrl->list, &nvme_tcp_ofld_ctrl_list);
-+	up_write(&nvme_tcp_ofld_ctrl_rwsem);
- 
- 	return nctrl;
- 
-+out_uninit_ctrl:
-+	nvme_uninit_ctrl(nctrl);
-+	nvme_put_ctrl(nctrl);
-+out_free_queues:
-+	kfree(ctrl->queues);
- out_module_put:
- 	module_put(dev->ops->module);
- out_free_ctrl:
-@@ -198,7 +636,15 @@ static int __init nvme_tcp_ofld_init_module(void)
- 
- static void __exit nvme_tcp_ofld_cleanup_module(void)
- {
-+	struct nvme_tcp_ofld_ctrl *ctrl;
-+
- 	nvmf_unregister_transport(&nvme_tcp_ofld_transport);
-+
-+	down_write(&nvme_tcp_ofld_ctrl_rwsem);
-+	list_for_each_entry(ctrl, &nvme_tcp_ofld_ctrl_list, list)
-+		nvme_delete_ctrl(&ctrl->nctrl);
-+	up_write(&nvme_tcp_ofld_ctrl_rwsem);
-+	flush_workqueue(nvme_delete_wq);
- }
- 
- module_init(nvme_tcp_ofld_init_module);
++module_init(nvme_tcp_ofld_init_module);
++module_exit(nvme_tcp_ofld_cleanup_module);
++MODULE_LICENSE("GPL v2");
 diff --git a/drivers/nvme/host/tcp-offload.h b/drivers/nvme/host/tcp-offload.h
-index 468617a58e34..a9bcd4f7d150 100644
---- a/drivers/nvme/host/tcp-offload.h
+new file mode 100644
+index 000000000000..468617a58e34
+--- /dev/null
 +++ b/drivers/nvme/host/tcp-offload.h
-@@ -76,6 +76,7 @@ struct nvme_tcp_ofld_ctrl_con_params {
- /* Allocated by nvme_tcp_ofld */
- struct nvme_tcp_ofld_ctrl {
- 	struct nvme_ctrl nctrl;
-+	struct list_head list;
- 	struct nvme_tcp_ofld_dev *dev;
- 
- 	/* admin and IO queues */
+@@ -0,0 +1,167 @@
++/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
++/*
++ * Copyright 2021 Marvell. All rights reserved.
++ */
++
++/* Linux includes */
++#include <linux/dma-mapping.h>
++#include <linux/scatterlist.h>
++#include <linux/types.h>
++#include <linux/nvme-tcp.h>
++
++/* Driver includes */
++#include "nvme.h"
++#include "fabrics.h"
++
++/* Forward declarations */
++struct nvme_tcp_ofld_ops;
++
++/* Representation of a vendor-specific device. This is the struct used to
++ * register to the offload layer by the vendor-specific driver during its probe
++ * function.
++ * Allocated by vendor-specific driver.
++ */
++struct nvme_tcp_ofld_dev {
++	struct list_head entry;
++	struct nvme_tcp_ofld_ops *ops;
++};
++
++/* Per IO struct holding the nvme_request and command
++ * Allocated by blk-mq.
++ */
++struct nvme_tcp_ofld_req {
++	struct nvme_request req;
++	struct nvme_command nvme_cmd;
++	struct nvme_tcp_ofld_queue *queue;
++
++	/* Vendor specific driver context */
++	void *private_data;
++
++	void (*done)(struct nvme_tcp_ofld_req *req,
++		     union nvme_result *result,
++		     __le16 status);
++};
++
++/* Allocated by nvme_tcp_ofld */
++struct nvme_tcp_ofld_queue {
++	/* Offload device associated to this queue */
++	struct nvme_tcp_ofld_dev *dev;
++	struct nvme_tcp_ofld_ctrl *ctrl;
++
++	/* Vendor specific driver context */
++	void *private_data;
++
++	/* Error callback function */
++	int (*report_err)(struct nvme_tcp_ofld_queue *queue);
++};
++
++/* Connectivity (routing) params used for establishing a connection */
++struct nvme_tcp_ofld_ctrl_con_params {
++	/* Input params */
++	struct sockaddr_storage remote_ip_addr;
++
++	/* If NVMF_OPT_HOST_TRADDR is provided it will be set in local_ip_addr
++	 * in nvme_tcp_ofld_create_ctrl().
++	 * If NVMF_OPT_HOST_TRADDR is not provided the local_ip_addr will be
++	 * initialized by claim_dev().
++	 */
++	struct sockaddr_storage local_ip_addr;
++
++	/* Output params */
++	struct sockaddr	remote_mac_addr;
++	struct sockaddr	local_mac_addr;
++	u16 vlan_id;
++};
++
++/* Allocated by nvme_tcp_ofld */
++struct nvme_tcp_ofld_ctrl {
++	struct nvme_ctrl nctrl;
++	struct nvme_tcp_ofld_dev *dev;
++
++	/* admin and IO queues */
++	struct blk_mq_tag_set tag_set;
++	struct blk_mq_tag_set admin_tag_set;
++	struct nvme_tcp_ofld_queue *queues;
++
++	/* Connectivity params */
++	struct nvme_tcp_ofld_ctrl_con_params conn_params;
++
++	/* Vendor specific driver context */
++	void *private_data;
++};
++
++struct nvme_tcp_ofld_ops {
++	const char *name;
++	struct module *module;
++
++	/* For vendor-specific driver to report what opts it supports */
++	int required_opts; /* bitmap using enum nvmf_parsing_opts */
++	int allowed_opts; /* bitmap using enum nvmf_parsing_opts */
++
++	/**
++	 * claim_dev: Return True if addr is reachable via offload device.
++	 * @dev: The offload device to check.
++	 * @conn_params: ptr to routing params to be filled by the lower
++	 *               driver. Input+Output argument.
++	 */
++	int (*claim_dev)(struct nvme_tcp_ofld_dev *dev,
++			 struct nvme_tcp_ofld_ctrl_con_params *conn_params);
++
++	/**
++	 * create_queue: Create offload queue and establish TCP + NVMeTCP
++	 * (icreq+icresp) connection. Return true on successful connection.
++	 * Based on nvme_tcp_alloc_queue.
++	 * @queue: The queue itself - used as input and output.
++	 * @qid: The queue ID associated with the requested queue.
++	 * @q_size: The queue depth.
++	 */
++	int (*create_queue)(struct nvme_tcp_ofld_queue *queue, int qid,
++			    size_t q_size);
++
++	/**
++	 * drain_queue: Drain a given queue - Returning from this function
++	 * ensures that no additional completions will arrive on this queue.
++	 * @queue: The queue to drain.
++	 */
++	void (*drain_queue)(struct nvme_tcp_ofld_queue *queue);
++
++	/**
++	 * destroy_queue: Close the TCP + NVMeTCP connection of a given queue
++	 * and make sure its no longer active (no completions will arrive on the
++	 * queue).
++	 * @queue: The queue to destroy.
++	 */
++	void (*destroy_queue)(struct nvme_tcp_ofld_queue *queue);
++
++	/**
++	 * poll_queue: Poll a given queue for completions.
++	 * @queue: The queue to poll.
++	 */
++	int (*poll_queue)(struct nvme_tcp_ofld_queue *queue);
++
++	/**
++	 * init_req: Initialize vendor-specific params for a new request.
++	 * @req: Ptr to request to be initialized. Input+Output argument.
++	 */
++	int (*init_req)(struct nvme_tcp_ofld_req *req);
++
++	/**
++	 * send_req: Dispatch a request. Returns the execution status.
++	 * @req: Ptr to request to be sent.
++	 */
++	int (*send_req)(struct nvme_tcp_ofld_req *req);
++
++	/**
++	 * map_sg: Map a scatter/gather list to DMA addresses Returns the
++	 * number of SGs entries mapped successfully.
++	 * @dev: The device for which the DMA addresses are to be created.
++	 * @req: The request corresponding to the SGs, to allow vendor-specific
++	 *       driver to initialize additional params if it needs to.
++	 */
++	int (*map_sg)(struct nvme_tcp_ofld_dev *dev,
++		      struct nvme_tcp_ofld_req *req);
++};
++
++/* Exported functions for lower vendor specific offload drivers */
++int nvme_tcp_ofld_register_dev(struct nvme_tcp_ofld_dev *dev);
++void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev);
 -- 
 2.22.0
 
