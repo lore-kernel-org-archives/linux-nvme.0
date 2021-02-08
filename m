@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F16AC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 17:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88088C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 18:00:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2BE3464E28
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 17:59:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BE3464E28
+	by mail.kernel.org (Postfix) with ESMTPS id 2903764E8B
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 18:00:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2903764E8B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=nzfs1e5URqx5dtJFUJ8H7qZx4c4/qpuTnsVADdQGJ3o=; b=VXvk1Ug8WRMfOtJGlD4MlYp65
-	WsJ9Ct5JS+twEoHpuo8W0KA75c7z3bkGhqJcAeqKIlUlUkeLV360+2kBh0AXm6SsENN024z66hqwW
-	P6pDoExz2mQZMpMcjwVwnu59C00mzbqq4u6WfhArzIFJGwPup/xz+31vyWNwCvyIWawGKJH3vnaoh
-	faX431mj5iJE2hG0ud9NQ1ivsIYdFsOLY3rWzL1i4YSUhzAsVF6hGKAPvhTslNsQYcQCOlmv/nkz1
-	Dj1gzHl1C1vsnvBvtH8hkHx34rx29uNquZcp3O8QObM37NXEP4jnBE9V3oPGB4UvzYCxaYHcbaXeU
-	treLsds9A==;
+	 bh=jpYpf71F44emncIX7XJ9QlfL3i+gCCcgRAp4EjaX1G4=; b=psDMYKAxJz0PHDR3zoJkNkuK1
+	x50ChCAIFXaUky0Lzj3X5q6X75/3UTmg+phqD/XRoXeLT7hdk626YRRzKhTxSsLqVS01UOisuljZl
+	buypg67s8oeY/xlYGX180xakcFl4dB6zK1OSqdWZPblNsHn17d78s7OocgfTWuWb9zu8tcT8G15uf
+	XThJfxY5vMgaEttYhCz8fMagN9dDMHxuAL8BSG4YrYfTuurclJofaQRw0rU72hrohPPebQcwIlG2S
+	gWTV7KK5ZwX4HJdHCT8tepvslpgXdKKGlTMW4LJA52gi69KmhjrcyQavP6/eyr8Vbw/wE0HO7jpba
+	RXJ4jPPlA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9AoK-0006vz-TV; Mon, 08 Feb 2021 17:58:57 +0000
+	id 1l9Apm-0007j4-Jy; Mon, 08 Feb 2021 18:00:26 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9Anx-0006iG-BF
- for linux-nvme@lists.infradead.org; Mon, 08 Feb 2021 17:58:34 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C9D0764EB4;
- Mon,  8 Feb 2021 17:58:31 +0000 (UTC)
+ id 1l9Aoa-00075K-23
+ for linux-nvme@lists.infradead.org; Mon, 08 Feb 2021 17:59:12 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 95F6864ED3;
+ Mon,  8 Feb 2021 17:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612807112;
- bh=ZFoiftedcPW1T0wT4Qk0AvrsqyH9fxnYyCmPDwIS3gs=;
+ s=k20201202; t=1612807151;
+ bh=5dOnDzvovKBWKay6kA4mi5Nr/o/4H+wvdKdjlKXUnwI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hCCiDPcOft7KbepV++xCnu5o2o/CLzX7j7OsT+1BBonFDotnVv7EKpPrqZxSijXDP
- PvBJD6mXZluHCTw0okQM6+Mt3hh6QMJ+T670K54HCBrNVOqr3cZ4rQ4AMjpQIaAg4z
- DI6wK6/+lSMoDLOtfDOg7pdkF5xrhj28Q4ING04CYczTASpCC5l00DmKMorXFFr81s
- PgLWXGzHvE7InsvxEreQhmyWFue8qKdM9Qh2qZXyLdR2ohA3dI55LlQmF7Cne7ttYY
- kpJkxxfCuQDAKP7flAQJKC3euFlawbawOv0/0z5jRnsFdByqnv5GdcmizXpBY6i8T3
- j1FgrogcuyyHw==
+ b=H507NOJNlNtziA34YpF60mQhi9Em+g1WT0Evb6EKahdzlZ6qe5jSBq5VkkDfjUmJy
+ 62zUWshqoKjrelY2x4LDbxpukI1GEEThsQbzAGBKdWA0G2LF1RhnADQQXz/k6/Jssf
+ Pv7kwR0NJS+HtiYkQgjOJ8q2nPoY4SyvOIrP5qV0AXz0sHiQhFrwCxxIwiR3pCdx4i
+ gbqmpmY8PKIiKAVvAaZvQqjleRLuUo4/ypVv8hajL1ifY2VnIhehZTC/C304kU2wnM
+ n4J5qJ69oFhaaKXGsX0tIQh9Ju5EEuKpmf1HNAa2IhfmW/GPzb2cHDfKHR95gCKTB1
+ FwWLObaw4eQug==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 19/36] nvme-pci: ignore the subsysem NQN on
- Phison E16
-Date: Mon,  8 Feb 2021 12:57:49 -0500
-Message-Id: <20210208175806.2091668-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 09/19] nvme-pci: ignore the subsysem NQN on Phison
+ E16
+Date: Mon,  8 Feb 2021 12:58:48 -0500
+Message-Id: <20210208175858.2092008-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210208175806.2091668-1-sashal@kernel.org>
-References: <20210208175806.2091668-1-sashal@kernel.org>
+In-Reply-To: <20210208175858.2092008-1-sashal@kernel.org>
+References: <20210208175858.2092008-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210208_125833_537301_0FF98B37 
+X-CRM114-CacheID: sfid-20210208_125912_220811_7D77DABD 
 X-CRM114-Status: GOOD (  12.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -100,10 +100,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a3486c1c27f0c..59c4e124f5482 100644
+index ef93bd3ed339c..511992b86399d 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3247,6 +3247,8 @@ static const struct pci_device_id nvme_id_table[] = {
+@@ -3147,6 +3147,8 @@ static const struct pci_device_id nvme_id_table[] = {
  	{ PCI_DEVICE(0x144d, 0xa822),   /* Samsung PM1725a */
  		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY |
  				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
