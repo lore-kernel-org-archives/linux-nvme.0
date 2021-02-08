@@ -2,84 +2,68 @@ Return-Path: <SRS0=c0j7=HK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED041C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 06:48:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1726CC433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 08:30:04 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 83B7864E6D
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 06:48:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 83B7864E6D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id A036D64E7D
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 08:30:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A036D64E7D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lc1ts6F1pcMM6krT1nxjXwkD/Ijgp76aK3WDBzW68Zg=; b=T5UdqvtZEoFthnNrp3QmMEvjW
-	/H2UqyvLczXhxWPmNL1ZAhLbo7DSC7hS47u2yanJla6Ze5eRg/6f6oehgwzXxIqiD7fgA1Z7sRfUb
-	21wfE5puFnGEP8d9EjKYYlWFqrcwesw7LDVs9hfVFdp0a39MZZdACugbC8QhDzg2v5dc11r+TOie6
-	AgoIQuufvwLGKVpaHo2brPPf31yE7BXFgI/TjsdQ/WCGlDZpyc+D6KablSIonx55GBfq5xtnmdxNV
-	sbhUlBX3GAK52tZtwUi/M5V5P0Cx+5My8VJ1owDd29XsXNmgkxVrff76/YR4hd4BMc9akCwotXVxx
-	8g1cezsow==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+SFkhRBkMFD4nOciYJHeSa84G4DO0KyVdP0hlUVJmh4=; b=YsAi+jEjVffd1rv479c6PjTmt7
+	+kpmkGI9z3hb/aUYBKkZBQRankCijJx1+M4ko2wA3a//xwx9BmJYq+SI6CWRwVteHHOxed9YzBk2k
+	fjKsjczl6Xe5bzjakVLGK4zdUV5e2ejm6ZqrvtjW7TK4lPPhYFpcOr4wneBNTah25f2HM/Rf3F4iF
+	RQAequmLxNnKVrcfCTeQzVl1upuP5M9zu4PG5QqNYFm6tMAqPpWhtH/DZIfVtZyc7nqJlkoFYqyry
+	RZMLlv5l2vWiTIqQnmQT1ljNpfTqKT41xhL9X72EASF8F/pQK0eUYM2RF/5y1IOMs4XzVQik8szJx
+	VDyocIrg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l90LZ-0000KR-Ks; Mon, 08 Feb 2021 06:48:33 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1l91vf-0000X3-RV; Mon, 08 Feb 2021 08:29:55 +0000
+Received: from mga02.intel.com ([134.134.136.20])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l90LT-0000Jc-OX
- for linux-nvme@lists.infradead.org; Mon, 08 Feb 2021 06:48:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612766906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f5CaU1MyH5H8Hj9CUshwG5TX0YIuttmYfvo+2Lb4+Fo=;
- b=M7NbZocq7WSfoqWK4Re5dnvZqlQc1Tt0AFr8bMsfSv0JfpQAW75zBBqlxLms+PXZXe+0mP
- DXLMFzAlj9MUr0pn5CwPlQeJPXZa9A3eVvg7+6mPHDqlRlyWVwUTRrFb+8dePjAQW+Z9os
- Yk1i051g/czoyHhhWylcb+vnDuON+/c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-RXMfEEjLNq-28-idzwEEEw-1; Mon, 08 Feb 2021 01:48:21 -0500
-X-MC-Unique: RXMfEEjLNq-28-idzwEEEw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71B1C803648;
- Mon,  8 Feb 2021 06:48:19 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.71.19.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F2BC7722F9;
- Mon,  8 Feb 2021 06:48:13 +0000 (UTC)
-Subject: Re: kernel null pointer at nvme_tcp_init_iter[nvme_tcp] with blktests
- nvme-tcp/012
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-block <linux-block@vger.kernel.org>
-References: <cki.F3E139361A.EN5MUSJKK9@redhat.com>
- <630237787.11660686.1612580898410.JavaMail.zimbra@redhat.com>
- <80b7184e-cdfb-cebc-fe07-a228ce57a9e7@redhat.com>
- <BYAPR04MB49654E940FACB778A787B68E86B09@BYAPR04MB4965.namprd04.prod.outlook.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Message-ID: <79af2e42-f1f1-bb51-2e6c-b0d8a7294bcc@redhat.com>
-Date: Mon, 8 Feb 2021 14:48:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ id 1l91vc-0000WT-BZ
+ for linux-nvme@lists.infradead.org; Mon, 08 Feb 2021 08:29:54 +0000
+IronPort-SDR: EnTnV/SRR+M3kinLol2ULcWFSkU538A78Bltd6HNRLa03WDAHL13Uwn1THE3B90BAd3JSVUBQi
+ 3AdZwShOcXiw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9888"; a="168801749"
+X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; d="scan'208";a="168801749"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 00:29:50 -0800
+IronPort-SDR: cFQNan25VvbO5S3zkp+a3IU/+XcEREvwy/yBAXa1YUyd85cPeX95Rz4zXEcc6wB1ZcvUCNRMiX
+ l/qZaFCcy8YQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; d="scan'208";a="358649874"
+Received: from lkp-server01.sh.intel.com (HELO 00bbc5cefaae) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 08 Feb 2021 00:29:49 -0800
+Received: from kbuild by 00bbc5cefaae with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1l91vY-00000z-Dn; Mon, 08 Feb 2021 08:29:48 +0000
+Date: Mon, 08 Feb 2021 16:29:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-5.12] BUILD SUCCESS
+ 51964ee257c859c06c62887f8709c82f9dafd67e
+Message-ID: <6020f64d.9CMxJyseLFpJKb3I%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <BYAPR04MB49654E940FACB778A787B68E86B09@BYAPR04MB4965.namprd04.prod.outlook.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210208_014827_877560_5D828004 
-X-CRM114-Status: GOOD (  21.67  )
+X-CRM114-CacheID: sfid-20210208_032952_560019_D213CD26 
+X-CRM114-Status: UNSURE (   9.20  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,132 +75,124 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Rachel Sibley <rasibley@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, CKI Project <cki-project@redhat.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAyLzcvMjEgMToyNSBQTSwgQ2hhaXRhbnlhIEt1bGthcm5pIHdyb3RlOgo+IFlpLAo+Cj4g
-T24gMi82LzIxIDIwOjUxLCBZaSBaaGFuZyB3cm90ZToKPj4gVGhlIGlzc3VlIHdhcyBpbnRyb2R1
-Y2VkIGFmdGVyIG1lcmdlIHRoZSBOVk1lIHVwZGF0ZXMKPj4KPj4gY29tbWl0IDBmZDY0NTZmZDFm
-NGM4ZjNlYzVhMmRmNmVkN2YzNDQ1OGExODA0MDkgKEhFQUQpCj4+IE1lcmdlOiA0NGQxMGU0YjJm
-MmMgMGQ3Mzg5NzE4YzMyCj4+IEF1dGhvcjogSmVucyBBeGJvZSA8YXhib2VAa2VybmVsLmRrPgo+
-PiBEYXRlOiAgIFR1ZSBGZWIgMiAwNzoxMjowNiAyMDIxIC0wNzAwCj4+Cj4+ICAgICAgIE1lcmdl
-IGJyYW5jaCAnZm9yLTUuMTIvZHJpdmVycycgaW50byBmb3ItbmV4dAo+Pgo+PiAgICAgICAqIGZv
-ci01LjEyL2RyaXZlcnM6ICgyMiBjb21taXRzKQo+PiAgICAgICAgIG52bWUtdGNwOiB1c2UgY2Fu
-Y2VsIHRhZ3NldCBoZWxwZXIgZm9yIHRlYXIgZG93bgo+PiAgICAgICAgIG52bWUtcmRtYTogdXNl
-IGNhbmNlbCB0YWdzZXQgaGVscGVyIGZvciB0ZWFyIGRvd24KPj4gICAgICAgICBudm1lLXRjcDog
-YWRkIGNsZWFuIGFjdGlvbiBmb3IgZmFpbGVkIHJlY29ubmVjdGlvbgo+PiAgICAgICAgIG52bWUt
-cmRtYTogYWRkIGNsZWFuIGFjdGlvbiBmb3IgZmFpbGVkIHJlY29ubmVjdGlvbgo+PiAgICAgICAg
-IG52bWUtY29yZTogYWRkIGNhbmNlbCB0YWdzZXQgaGVscGVycwo+PiAgICAgICAgIG52bWUtY29y
-ZTogZ2V0IHJpZCBvZiB0aGUgZXh0cmEgc3BhY2UKPj4gICAgICAgICBudm1lOiBhZGQgdHJhY2lu
-ZyBvZiB6bnMgY29tbWFuZHMKPj4gICAgICAgICBudm1lOiBwYXJzZSBmb3JtYXQgbnZtIGNvbW1h
-bmQgZGV0YWlscyB3aGVuIHRyYWNpbmcKPj4gICAgICAgICBudm1lOiB1cGRhdGUgZW51bWVyYXRp
-b25zIGZvciBzdGF0dXMgY29kZXMKPj4gICAgICAgICBudm1ldDogYWRkIGxiYSB0byBzZWN0IGNv
-bnZlcnNpb24gaGVscGVycwo+PiAgICAgICAgIG52bWV0OiByZW1vdmUgZXh0cmEgdmFyaWFibGUg
-aW4gaWRlbnRpZnkgbnMKPj4gICAgICAgICBudm1ldDogcmVtb3ZlIGV4dHJhIHZhcmlhYmxlIGlu
-IGlkLWRlc2NsaXN0Cj4+ICAgICAgICAgbnZtZXQ6IHJlbW92ZSBleHRyYSB2YXJpYWJsZSBpbiBz
-bWFydCBsb2cgbnNpZAo+PiAgICAgICAgIG52bWU6IHJlZmFjdG9yIG5zLT5jdHJsIGJ5IHJlcXVl
-c3QKPj4gICAgICAgICBudm1lLXRjcDogcGFzcyBtdWx0aXBhZ2UgYnZlYyB0byByZXF1ZXN0IGlv
-dl9pdGVyCj4+ICAgICAgICAgbnZtZS10Y3A6IGdldCByaWQgb2YgdW51c2VkIGhlbHBlciBmdW5j
-dGlvbgo+PiAgICAgICAgIG52bWUtdGNwOiBmaXggd3Jvbmcgc2V0dGluZyBvZiByZXF1ZXN0IGlv
-dl9pdGVyCj4+ICAgICAgICAgbnZtZTogc3VwcG9ydCBjb21tYW5kIHJldHJ5IGRlbGF5IGZvciBh
-ZG1pbiBjb21tYW5kCj4+ICAgICAgICAgbnZtZTogY29uc3RpZnkgc3RhdGljIGF0dHJpYnV0ZV9n
-cm91cCBzdHJ1Y3RzCj4+ICAgICAgICAgbnZtZXQtZmM6IHVzZSBSQ1UgcHJvY3RlY3Rpb24gZm9y
-IGFzc29jX2xpc3QKPj4KPj4KPj4gT24gMi82LzIxIDExOjA4IEFNLCBZaSBaaGFuZyB3cm90ZToK
-Pj4+IGJsa3Rlc3RzIG52bWUtdGNwLzAxMgo+IFRoYW5rcyBmb3IgcmVwb3J0aW5nLCB5b3UgY2Fu
-IGZ1cnRoZXIgYmlzZWN0IHRoaXMgdXNpbmcgZm9sbG93aW5nCj4gTlZNZSB0cmVlIGlmIGlzIGZy
-b20gTlZNRWUgdHJlZSA6LSBodHRwOi8vZ2l0LmluZnJhZGVhZC5vcmcvbnZtZS5naXQKPiBCcmFu
-Y2ggOi0gNS4xMgpJJ3ZlIHRyaWVkIHRoYXQgYnJhbmNoLCBidXQgZW5jb3VudGVyZWQgYW5vdGhl
-ciBOVUxMIHBvaW50ZXIuCgpbwqAgMjI0LjI5MDcyMF0gcnVuIGJsa3Rlc3RzIG52bWUvMDEyIGF0
-IDIwMjEtMDItMDggMDE6NDY6MjUKW8KgIDIyNC41MTU0NzldIEJVRzoga2VybmVsIE5VTEwgcG9p
-bnRlciBkZXJlZmVyZW5jZSwgYWRkcmVzczogCjAwMDAwMDAwMDAwMDAzNjgKW8KgIDIyNC41MjI0
-NDJdICNQRjogc3VwZXJ2aXNvciByZWFkIGFjY2VzcyBpbiBrZXJuZWwgbW9kZQpbwqAgMjI0LjUy
-NzU5MF0gI1BGOiBlcnJvcl9jb2RlKDB4MDAwMCkgLSBub3QtcHJlc2VudCBwYWdlClvCoCAyMjQu
-NTMyNzM3XSBQR0QgMCBQNEQgMApbwqAgMjI0LjUzNTI3Nl0gT29wczogMDAwMCBbIzFdIFNNUCBQ
-VEkKW8KgIDIyNC41Mzg3NzBdIENQVTogMCBQSUQ6IDI0MDMgQ29tbTogbXVsdGlwYXRoIFRhaW50
-ZWQ6IEcgUyBJwqDCoMKgwqDCoMKgIAo1LjExLjAtcmM1KyAjMQpbwqAgMjI0LjU0Njc3Nl0gSGFy
-ZHdhcmUgbmFtZTogRGVsbCBJbmMuIFBvd2VyRWRnZSBSNjQwLzA4SFQ4VCwgQklPUyAKMi4xMC4w
-IDExLzEyLzIwMjAKW8KgIDIyNC41NTQzNDBdIFJJUDogMDAxMDpiaW9fYXNzb2NpYXRlX2Jsa2df
-ZnJvbV9jc3MrMHhiZC8weDJjMApbwqAgMjI0LjU2MDAwOV0gQ29kZTogMDMgNzUgNzkgNjUgNDgg
-ZmYgMDAgZTggYjEgOTQgY2MgZmYgZTggYWMgOTQgY2MgZmYgCjQ5IDg5IDVjIDI0IDQ4IDQ4IDgz
-IGM0IDEwIDViIDVkIDQxIDVjIDQxIDVkIDQxIDVlIDQxIDVmIGMzIDQ5IDhiIDQ0IDI0IAowOCA8
-NDg+IDhiIDgwOApbwqAgMjI0LjU3ODc2MV0gUlNQOiAwMDE4OmZmZmZhZDc0OGVjNWJkNzggRUZM
-QUdTOiAwMDAxMDI0NgpbwqAgMjI0LjU4Mzk4OF0gUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDog
-ZmZmZmEwZTk2NDUyYjNjMCBSQ1g6IAowMDAwMDAwMDAwMDAwMDAwClvCoCAyMjQuNTkxMTIwXSBS
-RFg6IGZmZmZhMTEwNzcwODgwMDAgUlNJOiBmZmZmZmZmZmEwNmVkYjIwIFJESTogCmZmZmZhMGU5
-NjQ1MmIzYzAKW8KgIDIyNC41OTgyNTNdIFJCUDogMDAwMDAwMDAwMDAwMDAwMCBSMDg6IDAwMDAw
-MDAwMDAwMDAwMDAgUjA5OiAKMDAwMDAwMDAwMDAwMDAwMgpbwqAgMjI0LjYwNTM4NV0gUjEwOiAw
-MDAwMDAwMDAwMDAwMDIyIFIxMTogMDAwMDAwMDAwMDAwMGMxMCBSMTI6IApmZmZmYTBlOTY0NTJi
-M2MwClvCoCAyMjQuNjEyNTE2XSBSMTM6IGZmZmZmZmZmYTA2ZWRiMjAgUjE0OiAwMDAwMDAwMDAw
-MDAxMDAwIFIxNTogCjAwMDAwMDAwMDAwMDAwMDAKW8KgIDIyNC42MTk2NDldIEZTOsKgIDAwMDA3
-ZmI2NjQ3ZmViMDAoMDAwMCkgR1M6ZmZmZmExMDdmMDAwMDAwMCgwMDAwKSAKa25sR1M6MDAwMDAw
-MDAwMDAwMDAwMApbwqAgMjI0LjYyNzczNF0gQ1M6wqAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBD
-UjA6IDAwMDAwMDAwODAwNTAwMzMKW8KgIDIyNC42MzM0NzldIENSMjogMDAwMDAwMDAwMDAwMDM2
-OCBDUjM6IDAwMDAwMDI4ODRiNTQwMDIgQ1I0OiAKMDAwMDAwMDAwMDc3MDZmMApbwqAgMjI0LjY0
-MDYxMV0gRFIwOiAwMDAwMDAwMDAwMDAwMDAwIERSMTogMDAwMDAwMDAwMDAwMDAwMCBEUjI6IAow
-MDAwMDAwMDAwMDAwMDAwClvCoCAyMjQuNjQ3NzUxXSBEUjM6IDAwMDAwMDAwMDAwMDAwMDAgRFI2
-OiAwMDAwMDAwMGZmZmUwZmYwIERSNzogCjAwMDAwMDAwMDAwMDA0MDAKW8KgIDIyNC42NTQ4ODRd
-IFBLUlU6IDU1NTU1NTU0ClvCoCAyMjQuNjU3NTk1XSBDYWxsIFRyYWNlOgpbwqAgMjI0LjY2MDA0
-M13CoCBiaW9fYXNzb2NpYXRlX2Jsa2crMHgyMC8weDcwClvCoCAyMjQuNjY0MDU1XcKgIG52bWVf
-c3VibWl0X3VzZXJfY21kKzB4ZDcvMHgzNDAgW252bWVfY29yZV0KW8KgIDIyNC42NjkzNzVdwqAg
-bnZtZV91c2VyX2NtZC5pc3JhLjgyKzB4MTIwLzB4MTkwIFtudm1lX2NvcmVdClvCoCAyMjQuNjc0
-ODU5XcKgIG52bWVfZGV2X2lvY3RsKzB4MTNiLzB4MTUwIFtudm1lX2NvcmVdClvCoCAyMjQuNjc5
-NzM4XcKgIF9feDY0X3N5c19pb2N0bCsweDg0LzB4YzAKW8KgIDIyNC42ODM1MDBdwqAgZG9fc3lz
-Y2FsbF82NCsweDMzLzB4NDAKW8KgIDIyNC42ODcwODhdwqAgZW50cnlfU1lTQ0FMTF82NF9hZnRl
-cl9od2ZyYW1lKzB4NDQvMHhhOQpbwqAgMjI0LjY5MjE0OV0gUklQOiAwMDMzOjB4N2ZiNjYzMzgx
-NjFiClvCoCAyMjQuNjk1NzI2XSBDb2RlOiAwZiAxZSBmYSA0OCA4YiAwNSA2ZCBiOCAyYyAwMCA2
-NCBjNyAwMCAyNiAwMCAwMCAwMCAKNDggYzcgYzAgZmYgZmYgZmYgZmYgYzMgNjYgMGYgMWYgNDQg
-MDAgMDAgZjMgMGYgMWUgZmEgYjggMTAgMDAgMDAgMDAgMGYgCjA1IDw0OD4gM2QgMDE4ClvCoCAy
-MjQuNzE0NDY5XSBSU1A6IDAwMmI6MDAwMDdmZmVhZTU5YWJhOCBFRkxBR1M6IDAwMDAwMjQ2IE9S
-SUdfUkFYOiAKMDAwMDAwMDAwMDAwMDAxMApbwqAgMjI0LjcyMjAzNl0gUkFYOiBmZmZmZmZmZmZm
-ZmZmZmRhIFJCWDogMDAwMDAwMDAwMDAwMDAwMCBSQ1g6IAowMDAwN2ZiNjYzMzgxNjFiClvCoCAy
-MjQuNzI5MTY4XSBSRFg6IDAwMDA3ZmZlYWU1OWFiYjAgUlNJOiAwMDAwMDAwMGMwNDg0ZTQxIFJE
-STogCjAwMDAwMDAwMDAwMDAwMDMKW8KgIDIyNC43MzYzMDBdIFJCUDogMDAwMDdmZmVhZTU5YWMx
-MCBSMDg6IDAwMDA1NTlhZjBiYjNkMjAgUjA5OiAKMDAwMDdmYjY2MzQwZTU4MApbwqAgMjI0Ljc0
-MzQzMV0gUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IAow
-MDAwN2ZmZWFlNTliY2IwClvCoCAyMjQuNzUwNTYzXSBSMTM6IDAwMDA1NTlhZjBiYjNkMjAgUjE0
-OiAwMDAwMDAwMDAwMDAwMDAzIFIxNTogCjAwMDAwMDAwMDAwMDAwMDAKW8KgIDIyNC43NTc2OTdd
-IE1vZHVsZXMgbGlua2VkIGluOiBsb29wIG52bWVfdGNwIG52bWVfZmFicmljcyBudm1lX2NvcmUg
-Cm52bWV0X3RjcCBudm1ldCByZmtpbGwgc3VucnBjIGRtX211bHRpcGF0aCBpbnRlbF9yYXBsX21z
-ciAKaW50ZWxfcmFwbF9jb21tb24gaXNzdF9pZl9jb2QKW8KgIDIyNC44MzMyNjRdIENSMjogMDAw
-MDAwMDAwMDAwMDM2OApbwqAgMjI0LjgzNjYwNF0gLS0tWyBlbmQgdHJhY2UgZmE3N2U3Y2MyNmY4
-Y2ZjMSBdLS0tClvCoCAyMjQuODgzOTE1XSBSSVA6IDAwMTA6YmlvX2Fzc29jaWF0ZV9ibGtnX2Zy
-b21fY3NzKzB4YmQvMHgyYzAKW8KgIDIyNC44ODk1ODRdIENvZGU6IDAzIDc1IDc5IDY1IDQ4IGZm
-IDAwIGU4IGIxIDk0IGNjIGZmIGU4IGFjIDk0IGNjIGZmIAo0OSA4OSA1YyAyNCA0OCA0OCA4MyBj
-NCAxMCA1YiA1ZCA0MSA1YyA0MSA1ZCA0MSA1ZSA0MSA1ZiBjMyA0OSA4YiA0NCAyNCAKMDggPDQ4
-PiA4YiA4MDgKW8KgIDIyNC45MDgzMjldIFJTUDogMDAxODpmZmZmYWQ3NDhlYzViZDc4IEVGTEFH
-UzogMDAwMTAyNDYKW8KgIDIyNC45MTM1NTRdIFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6IGZm
-ZmZhMGU5NjQ1MmIzYzAgUkNYOiAKMDAwMDAwMDAwMDAwMDAwMApbwqAgMjI0LjkyMDY4Nl0gUkRY
-OiBmZmZmYTExMDc3MDg4MDAwIFJTSTogZmZmZmZmZmZhMDZlZGIyMCBSREk6IApmZmZmYTBlOTY0
-NTJiM2MwClvCoCAyMjQuOTI3ODE4XSBSQlA6IDAwMDAwMDAwMDAwMDAwMDAgUjA4OiAwMDAwMDAw
-MDAwMDAwMDAwIFIwOTogCjAwMDAwMDAwMDAwMDAwMDIKW8KgIDIyNC45MzQ5NDhdIFIxMDogMDAw
-MDAwMDAwMDAwMDAyMiBSMTE6IDAwMDAwMDAwMDAwMDBjMTAgUjEyOiAKZmZmZmEwZTk2NDUyYjNj
-MApbwqAgMjI0Ljk0MjA4Ml0gUjEzOiBmZmZmZmZmZmEwNmVkYjIwIFIxNDogMDAwMDAwMDAwMDAw
-MTAwMCBSMTU6IAowMDAwMDAwMDAwMDAwMDAwClvCoCAyMjQuOTQ5MjEzXSBGUzrCoCAwMDAwN2Zi
-NjY0N2ZlYjAwKDAwMDApIEdTOmZmZmZhMTA3ZjAwMDAwMDAoMDAwMCkgCmtubEdTOjAwMDAwMDAw
-MDAwMDAwMDAKW8KgIDIyNC45NTczMDFdIENTOsKgIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1Iw
-OiAwMDAwMDAwMDgwMDUwMDMzClvCoCAyMjQuOTYzMDQ0XSBDUjI6IDAwMDAwMDAwMDAwMDAzNjgg
-Q1IzOiAwMDAwMDAyODg0YjU0MDAyIENSNDogCjAwMDAwMDAwMDA3NzA2ZjAKW8KgIDIyNC45NzAx
-NzddIERSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAKMDAw
-MDAwMDAwMDAwMDAwMApbwqAgMjI0Ljk3NzMwOV0gRFIzOiAwMDAwMDAwMDAwMDAwMDAwIERSNjog
-MDAwMDAwMDBmZmZlMGZmMCBEUjc6IAowMDAwMDAwMDAwMDAwNDAwClvCoCAyMjQuOTg0NDQxXSBQ
-S1JVOiA1NTU1NTU1NApbwqAgMjI0Ljk4NzE1NV0gS2VybmVsIHBhbmljIC0gbm90IHN5bmNpbmc6
-IEZhdGFsIGV4Y2VwdGlvbgpbwqAgMjI1LjQyNTI3OV0gS2VybmVsIE9mZnNldDogMHgxZDQwMDAw
-MCBmcm9tIDB4ZmZmZmZmZmY4MTAwMDAwMCAKKHJlbG9jYXRpb24gcmFuZ2U6IDB4ZmZmZmZmZmY4
-MDAwMDAwMC0weGZmZmZmZmZmYmZmZmZmZmYpClvCoCAyMjUuNDc4MjY4XSAtLS1bIGVuZCBLZXJu
-ZWwgcGFuaWMgLSBub3Qgc3luY2luZzogRmF0YWwgZXhjZXB0aW9uIF0tLS0KCj4gTG9va2luZyBh
-dCB0aGUgY29tbWl0IGxvZyBpdCBzZWVtcyBsaWtlIG52bWUtdGNwIGNvbW1pdHMgbWlnaHQgYmUK
-PiB0aGUgaXNzdWUgZ2l2ZW4gdGhhdCB5b3UgZ290IHRoZSBwcm9ibGVtIGluIG52bWVfdGNwX2lu
-aXRfaXRlcigpCj4gYW5kIGp1c3QgZWxpbWluYXRpbmcgYnkgdGhlIGxvb2tpbmcgYXQgdGhlIGNv
-ZGUKPiBjb21taXQgOWY5OWEyOWU1MzA3IGNhbiBsZWFkIHRvIHRoaXMgYmVoYXZpb3IuCj4KPiAq
-SSBtYXkgYmUgY29tcGxldGVseSB3cm9uZyBhcyBJJ20gbm90IGV4cGVydCBpbiB0aGUgbnZtZS10
-Y3AgaG9zdC4qCj4KPgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KPiBMaW51eC1udm1lIG1haWxpbmcgbGlzdAo+IExpbnV4LW52bWVAbGlzdHMuaW5m
-cmFkZWFkLm9yZwo+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8v
-bGludXgtbnZtZQo+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQu
-b3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZt
-ZQo=
+tree/branch: git://git.infradead.org/nvme.git nvme-5.12
+branch HEAD: 51964ee257c859c06c62887f8709c82f9dafd67e  nvme-multipath: set nr_zones for zoned namespaces
+
+elapsed time: 966m
+
+configs tested: 92
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc64                           defconfig
+powerpc                      ppc44x_defconfig
+i386                             alldefconfig
+arm                          gemini_defconfig
+arm                      pxa255-idp_defconfig
+arm                         vf610m4_defconfig
+mips                           ip32_defconfig
+s390                             allyesconfig
+arc                        nsim_700_defconfig
+parisc                generic-32bit_defconfig
+arm                      integrator_defconfig
+um                           x86_64_defconfig
+arm                           h3600_defconfig
+sparc                               defconfig
+arm                             mxs_defconfig
+arm                       cns3420vb_defconfig
+microblaze                          defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a001-20210208
+i386                 randconfig-a005-20210208
+i386                 randconfig-a003-20210208
+i386                 randconfig-a002-20210208
+i386                 randconfig-a006-20210208
+i386                 randconfig-a004-20210208
+x86_64               randconfig-a013-20210208
+x86_64               randconfig-a014-20210208
+x86_64               randconfig-a015-20210208
+x86_64               randconfig-a012-20210208
+x86_64               randconfig-a016-20210208
+x86_64               randconfig-a011-20210208
+i386                 randconfig-a013-20210207
+i386                 randconfig-a016-20210207
+i386                 randconfig-a014-20210207
+i386                 randconfig-a012-20210207
+i386                 randconfig-a015-20210207
+i386                 randconfig-a011-20210207
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a006-20210208
+x86_64               randconfig-a001-20210208
+x86_64               randconfig-a005-20210208
+x86_64               randconfig-a004-20210208
+x86_64               randconfig-a002-20210208
+x86_64               randconfig-a003-20210208
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
