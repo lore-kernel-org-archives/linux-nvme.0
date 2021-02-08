@@ -2,68 +2,81 @@ Return-Path: <SRS0=c0j7=HK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1726CC433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 08:30:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03126C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 09:46:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A036D64E7D
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 08:30:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A036D64E7D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7A25364E27
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Feb 2021 09:46:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A25364E27
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=+SFkhRBkMFD4nOciYJHeSa84G4DO0KyVdP0hlUVJmh4=; b=YsAi+jEjVffd1rv479c6PjTmt7
-	+kpmkGI9z3hb/aUYBKkZBQRankCijJx1+M4ko2wA3a//xwx9BmJYq+SI6CWRwVteHHOxed9YzBk2k
-	fjKsjczl6Xe5bzjakVLGK4zdUV5e2ejm6ZqrvtjW7TK4lPPhYFpcOr4wneBNTah25f2HM/Rf3F4iF
-	RQAequmLxNnKVrcfCTeQzVl1upuP5M9zu4PG5QqNYFm6tMAqPpWhtH/DZIfVtZyc7nqJlkoFYqyry
-	RZMLlv5l2vWiTIqQnmQT1ljNpfTqKT41xhL9X72EASF8F/pQK0eUYM2RF/5y1IOMs4XzVQik8szJx
-	VDyocIrg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=CUmfT67mhJWztgXFDo8GxTv85qnDmgLHQlXP0PLDxOY=; b=qSWus9KKo/Sihgp8pvCG6c0E1
+	XiGjPw0+qvc+IYQigmz8S7N/soUNtPk8I6H0XkdRdqNS8dlAm3vaQNZcNRxj9iPHF4GW1f6wkvD1s
+	ka9MQnhmkuaCRi74bETpFG8/lbWYJnbHTzrM259GouhvcsR87fMyQCdErP5EAZdqK3PD0E4u//Vjm
+	NT4obVWobFwX7htaDjlpzU/P/OqM1vFu/G/jKqMd7cydHquNuvsdIVHPK/XZqnMNPnnth+YDIy9PP
+	ijjWBY4dbws3sCj1iJKVeE70IqvCU53/qUyVpNJ8B0p0nPlsIT4dChlcuZgLLQlJS+acaNBuRDLl5
+	IGf5NpAXA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l91vf-0000X3-RV; Mon, 08 Feb 2021 08:29:55 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1l937h-0007ac-Ag; Mon, 08 Feb 2021 09:46:25 +0000
+Received: from mail-pl1-f172.google.com ([209.85.214.172])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l91vc-0000WT-BZ
- for linux-nvme@lists.infradead.org; Mon, 08 Feb 2021 08:29:54 +0000
-IronPort-SDR: EnTnV/SRR+M3kinLol2ULcWFSkU538A78Bltd6HNRLa03WDAHL13Uwn1THE3B90BAd3JSVUBQi
- 3AdZwShOcXiw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9888"; a="168801749"
-X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; d="scan'208";a="168801749"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2021 00:29:50 -0800
-IronPort-SDR: cFQNan25VvbO5S3zkp+a3IU/+XcEREvwy/yBAXa1YUyd85cPeX95Rz4zXEcc6wB1ZcvUCNRMiX
- l/qZaFCcy8YQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,161,1610438400"; d="scan'208";a="358649874"
-Received: from lkp-server01.sh.intel.com (HELO 00bbc5cefaae) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 08 Feb 2021 00:29:49 -0800
-Received: from kbuild by 00bbc5cefaae with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1l91vY-00000z-Dn; Mon, 08 Feb 2021 08:29:48 +0000
-Date: Mon, 08 Feb 2021 16:29:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-5.12] BUILD SUCCESS
- 51964ee257c859c06c62887f8709c82f9dafd67e
-Message-ID: <6020f64d.9CMxJyseLFpJKb3I%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1l937f-0007Zk-7U
+ for linux-nvme@lists.infradead.org; Mon, 08 Feb 2021 09:46:24 +0000
+Received: by mail-pl1-f172.google.com with SMTP id a16so7515498plh.8
+ for <linux-nvme@lists.infradead.org>; Mon, 08 Feb 2021 01:46:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+5lag2Pu6I7LiNjAlkA3XIIi+18BqMl/gWMUP4PB43A=;
+ b=iypi7NxIGbY6O6nmJzwmpMKCMskjWmIWFjc+db+z82pEY0caD00AGdv+5Fzj6jDhA+
+ wkAPt3rBZpKP2KSsF6lgZF0iHL3URX2UtsIH99htjVcgztEmh+GCU6lHoZJxsH3A4kx1
+ ViSI5iWMVwh/Gj3IZcinXZDTeordSDijPwPdeUuOQamlQ2p7ZtFzlye4ja3Ql3PRrbgW
+ kgtJ6FukWV6IV25M4MDmmlk51tmBJ+6azAk6OQnqj23EwjvnDMwGU7AgaPiyoZ992T2t
+ 1d3urDuTa6MDWk3EsIrQGC+xePPz81Fmd82p6Icb78dzOmAkYZgbfeIiVQp9pwt9v9WM
+ KIkg==
+X-Gm-Message-State: AOAM532ZUkt7VCMxDyv6hOBo9Z8UMseqaSY1BBzteetQkl76UzSQe1Uv
+ 551dB6MsFPZZjP4mOJLaz1WzWjcu9LA=
+X-Google-Smtp-Source: ABdhPJy8xQLPSwWLgKj+ORWAdbX7wyFKae7Xnn0rh4IR5FnLBcnBgwMyNw18lwvLuxv1Aj5O+MLVyQ==
+X-Received: by 2002:a17:902:b485:b029:e1:916c:a4d6 with SMTP id
+ y5-20020a170902b485b02900e1916ca4d6mr15412946plr.57.1612777581324; 
+ Mon, 08 Feb 2021 01:46:21 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:a769:ced1:851:e710?
+ ([2601:647:4802:9070:a769:ced1:851:e710])
+ by smtp.gmail.com with ESMTPSA id g5sm17831358pfm.115.2021.02.08.01.46.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 01:46:20 -0800 (PST)
+Subject: Re: kernel null pointer at nvme_tcp_init_iter+0x7d/0xd0 [nvme_tcp]
+To: Yi Zhang <yi.zhang@redhat.com>, linux-nvme@lists.infradead.org,
+ linux-block <linux-block@vger.kernel.org>
+References: <cki.F3E139361A.EN5MUSJKK9@redhat.com>
+ <630237787.11660686.1612580898410.JavaMail.zimbra@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <e1d08160-ca49-91e2-dafc-3ee80516842d@grimberg.me>
+Date: Mon, 8 Feb 2021 01:46:17 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
+In-Reply-To: <630237787.11660686.1612580898410.JavaMail.zimbra@redhat.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210208_032952_560019_D213CD26 
-X-CRM114-Status: UNSURE (   9.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210208_044623_288756_18FB1981 
+X-CRM114-Status: GOOD (  13.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,122 +88,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: axboe@kernel.dk, Rachel Sibley <rasibley@redhat.com>,
+ CKI Project <cki-project@redhat.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.12
-branch HEAD: 51964ee257c859c06c62887f8709c82f9dafd67e  nvme-multipath: set nr_zones for zoned namespaces
 
-elapsed time: 966m
+> Hello
+> 
+> We found this kernel NULL pointer issue with latest linux-block/for-next and it's 100% reproduced, let me know if you need more info/testing, thanks
+> 
+> Kernel repo: https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
+> Commit: 11f8b6fd0db9 - Merge branch 'for-5.12/io_uring' into for-next
+> 
+> Reproducer: blktests nvme-tcp/012
 
-configs tested: 92
-configs skipped: 2
+Thanks for reporting Ming, I've tried to reproduce this on my VM
+but did not succeed. Given that you have it 100% reproducible,
+can you try to revert commit:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+0dc9edaf80ea nvme-tcp: pass multipage bvec to request iov_iter
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc64                           defconfig
-powerpc                      ppc44x_defconfig
-i386                             alldefconfig
-arm                          gemini_defconfig
-arm                      pxa255-idp_defconfig
-arm                         vf610m4_defconfig
-mips                           ip32_defconfig
-s390                             allyesconfig
-arc                        nsim_700_defconfig
-parisc                generic-32bit_defconfig
-arm                      integrator_defconfig
-um                           x86_64_defconfig
-arm                           h3600_defconfig
-sparc                               defconfig
-arm                             mxs_defconfig
-arm                       cns3420vb_defconfig
-microblaze                          defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210208
-i386                 randconfig-a005-20210208
-i386                 randconfig-a003-20210208
-i386                 randconfig-a002-20210208
-i386                 randconfig-a006-20210208
-i386                 randconfig-a004-20210208
-x86_64               randconfig-a013-20210208
-x86_64               randconfig-a014-20210208
-x86_64               randconfig-a015-20210208
-x86_64               randconfig-a012-20210208
-x86_64               randconfig-a016-20210208
-x86_64               randconfig-a011-20210208
-i386                 randconfig-a013-20210207
-i386                 randconfig-a016-20210207
-i386                 randconfig-a014-20210207
-i386                 randconfig-a012-20210207
-i386                 randconfig-a015-20210207
-i386                 randconfig-a011-20210207
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a006-20210208
-x86_64               randconfig-a001-20210208
-x86_64               randconfig-a005-20210208
-x86_64               randconfig-a004-20210208
-x86_64               randconfig-a002-20210208
-x86_64               randconfig-a003-20210208
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Also, would it be possible to share your config?
 
 _______________________________________________
 Linux-nvme mailing list
