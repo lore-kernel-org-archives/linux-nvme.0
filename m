@@ -2,75 +2,82 @@ Return-Path: <SRS0=1rws=HL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 085B5C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 10:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 779C6C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 10:26:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7539664E6C
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 10:12:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7539664E6C
+	by mail.kernel.org (Postfix) with ESMTPS id 05A8864E6F
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 10:26:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 05A8864E6F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3BW59+/wPjd6O5MdMg5NzIF1hv0T+ULZtgEq/NYFLmA=; b=R1R5n4NIuzZOsnNgbQln1Ea7B
-	Rai/7E6Zd/VT9s6mIspk1tV2SXzQjwpdtQITfnhReFn4meaihodvVFrjoWbqMeFjNlUUj4TnCjNSI
-	EPUGMJKVqgyDPI7f+Ah5MYGk3Wd6q2g+tl/JeQqpevQj/EhnxwT+Yh7rNurTPG6ehdaCAPSa3e0ul
-	MAXxvs51vccv5QXrFNgVrpwTMXCYHWWLFJrT5hv0c5cv200AmlJbBXOFmMlbte7curbSURPfDi6pI
-	vKwhZfN528bMPaHQIb93PSIgRDIJIRNjLc5tzc0CU8r3UimGSzzyCV9dTV6Un57gE6muayISx1RUl
-	Jz1VgepaQ==;
+	 bh=SEAptVghapq6AGUs/kmD28I1qDn6Evg4umznDQHVZ30=; b=FxD5cSLMsENQUcqIOFfQEVNQh
+	MZLE04hAavmhS0ervQVXpIMaUcodB09vxkuUZL1hvWC8tpOxmOBSya1Q/WHPYQw7NLIqr6Ftzcpj5
+	/vmE7qOgqbn/lMfKP70/M5MRJDxIFPbvKHRsDEW6z3smN+l6zwxmmnmCA9j4sUMR5SdmbO5lo2RNd
+	55vr8YO7ysleuhj8+SdozB0JLQxinO2rJKz+WMxWPgJ9KuAncQmTr6Cq+7JBV4FN1ak3fxOr8GmXf
+	tHVrxw58IDgKYHSEft9d7AsOmQ3nsosSmWQNlLCEtIK3wrnf5aXwiFKhsBUYbG3XzNjT1r7xn5AGg
+	3Km5MuIhw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9Q0n-0004ml-1e; Tue, 09 Feb 2021 10:12:49 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1l9QDd-0006rx-Eo; Tue, 09 Feb 2021 10:26:05 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9Q0j-0004lI-HX
- for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 10:12:46 +0000
-Received: by mail-wr1-f50.google.com with SMTP id v15so20886371wrx.4
- for <linux-nvme@lists.infradead.org>; Tue, 09 Feb 2021 02:12:45 -0800 (PST)
+ id 1l9QDa-0006rI-AE
+ for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 10:26:03 +0000
+Received: by mail-wm1-f41.google.com with SMTP id 190so2576770wmz.0
+ for <linux-nvme@lists.infradead.org>; Tue, 09 Feb 2021 02:26:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3PQ1WN+bvRt6BG086CEuTsYRusSq02lU7GgJZRbqPTo=;
- b=QlaJa4ZSPYUv+zqr1vF599/5qTBalRP3fHj/zSvU+kdSJ/K7MgmD0JVX9EW+cneQ4L
- 38+Ubm7ia03z4Z0H0QuSyiyWOgdn5RzL4EDfGhGq95FajHcSb7npWrSA8ncV87gZPWyw
- GpA2ySJ5npv5S4/qyidD89BCXBJlyBpl7NDeo8GXs2DYa525xALQxPe2gdSXJ0lr89K7
- WRUnixs+lndT4qqF9Q1DLcgkVERVAl5myG4EsFmyrcik/uUrKPdpmq4dYiRj8yVFW/kn
- rb48k+NphoBzxnsf5WDbGLlRV/uhVV1C8217o4V5nQMAzAyx4cO5AfDlfL71zbqdZ4xf
- gtpw==
-X-Gm-Message-State: AOAM5324X0e2/qyyMYEKWn4E3Mu4b+65KSX+EQrbMyDCPUE99s41375J
- I6ybEvJQO3X4WTEn5gv8jy8l/2+wdVM=
-X-Google-Smtp-Source: ABdhPJxS1Y1rN/FPGME4CD5Uq3l+dcbS/I6Q9llNMnaIcIjELoCCgwesAqzmB/NlOAH1fGP0rP7pew==
-X-Received: by 2002:adf:e510:: with SMTP id j16mr16087260wrm.153.1612865563814; 
- Tue, 09 Feb 2021 02:12:43 -0800 (PST)
-Received: from localhost.localdomain ([2601:647:4802:9070:2121:4cf7:e6f6:2dc5])
- by smtp.gmail.com with ESMTPSA id h9sm11173396wrc.94.2021.02.09.02.12.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 02:12:43 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ibV/jLkBrn87E5CW6kJR0CKTV/LoaHX30Sh+5d0LRZA=;
+ b=pRnYOTthgS6c1x7gRNgCZAq6DBMaIZrjE4batOaXEqRWIDc7P7bZXnjWM0cBAqYSI1
+ 2lyfgNVmpZLxhq6iSvLWH/V7Pt2R6TW2YKVmXvwHNgCFzfTiTnebSDejL8ZXqk4N2wMi
+ RnY4JAkZZTRQPbiUxhg/FyKPIUaEOMCSM65vsjxjZTgnuDGBzeQyTTHR5puYMOvLDoPP
+ wcD2JQmvQKNDWsC2XzmziGEsq1vjAHKVHLqVbxRqRzBkgI87U+4paMYVS3+HvtTnzpUU
+ XmOOnBQMfId/1c+YxA++kjgAZO0nNg7eToHcRnSDMfWALAZje82ofwFqWUXlf938kT2u
+ w88w==
+X-Gm-Message-State: AOAM531sMBFhDrklBbCr/LjoOl9N4noD1VpW+PhZMVW/TMU4NU5mFHci
+ ANhbx/X+PVKwQhWWfGM2Cww=
+X-Google-Smtp-Source: ABdhPJwQ+cVQLW3Ht0As419gQ0XUQrXNHud+lSTx41ToJ41y0uyo86ZxMiOcq3S+N2Lb/gMkU5C1Rw==
+X-Received: by 2002:a1c:4483:: with SMTP id r125mr2679863wma.80.1612866360943; 
+ Tue, 09 Feb 2021 02:26:00 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:2121:4cf7:e6f6:2dc5?
+ ([2601:647:4802:9070:2121:4cf7:e6f6:2dc5])
+ by smtp.gmail.com with ESMTPSA id m131sm4012557wmf.41.2021.02.09.02.25.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Feb 2021 02:26:00 -0800 (PST)
+Subject: Re: kernel null pointer at nvme_tcp_init_iter+0x7d/0xd0 [nvme_tcp]
+To: Yi Zhang <yi.zhang@redhat.com>, linux-nvme@lists.infradead.org,
+ linux-block <linux-block@vger.kernel.org>
+References: <cki.F3E139361A.EN5MUSJKK9@redhat.com>
+ <630237787.11660686.1612580898410.JavaMail.zimbra@redhat.com>
+ <e1d08160-ca49-91e2-dafc-3ee80516842d@grimberg.me>
+ <5848858e-239d-acb2-fa24-c371a3360557@redhat.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 2/2] nvme: don't set iosqes,iocqes for discovery controllers
-Date: Tue,  9 Feb 2021 02:12:35 -0800
-Message-Id: <20210209101235.1539917-2-sagi@grimberg.me>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210209101235.1539917-1-sagi@grimberg.me>
-References: <20210209101235.1539917-1-sagi@grimberg.me>
+Message-ID: <a88fd4c8-8d5c-6934-39bc-5c864e3ed84f@grimberg.me>
+Date: Tue, 9 Feb 2021 02:25:56 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
+In-Reply-To: <5848858e-239d-acb2-fa24-c371a3360557@redhat.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210209_051245_596582_6BEEFA72 
-X-CRM114-Status: GOOD (  15.26  )
+X-CRM114-CacheID: sfid-20210209_052602_381152_A1CCCB87 
+X-CRM114-Status: GOOD (  17.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,69 +89,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Martin.Belanger@dell.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: axboe@kernel.dk, Rachel Sibley <rasibley@redhat.com>,
+ Chaitanya.Kulkarni@wdc.com, CKI Project <cki-project@redhat.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From the base spec, Figure 78:
-"Controller Configuration, these fields are defined as parameters to
-configure an "I/O Controller (IOC)" and not to configure a "Discovery
-Controller (DC)".
-...
-"If the controller does not support I/O queues, then this field shall
-be read-only with a value of 0h"
 
-Set these only for I/O controllers.
+> Hi Sagi
+> 
+> On 2/8/21 5:46 PM, Sagi Grimberg wrote:
+>>
+>>> Hello
+>>>
+>>> We found this kernel NULL pointer issue with latest 
+>>> linux-block/for-next and it's 100% reproduced, let me know if you 
+>>> need more info/testing, thanks
+>>>
+>>> Kernel repo: 
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
+>>> Commit: 11f8b6fd0db9 - Merge branch 'for-5.12/io_uring' into for-next
+>>>
+>>> Reproducer: blktests nvme-tcp/012
+>>
+>> Thanks for reporting Ming, I've tried to reproduce this on my VM
+>> but did not succeed. Given that you have it 100% reproducible,
+>> can you try to revert commit:
+>>
+>> 0dc9edaf80ea nvme-tcp: pass multipage bvec to request iov_iter
+>>
+> 
+> Revert this commit fixed the issue and I've attached the config. :)
 
-Reported-by: Belanger, Martin <Martin.Belanger@dell.com>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/core.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Hey Ming,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 546a10407385..a7578c601727 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2443,6 +2443,11 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
- 
-+static inline bool nvme_discovery_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	return ctrl->opts && ctrl->opts->discovery_nqn;
-+}
-+
- int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
- {
- 	unsigned dev_page_min;
-@@ -2468,7 +2473,8 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
- 		ctrl->ctrl_config = NVME_CC_CSS_NVM;
- 	ctrl->ctrl_config |= (NVME_CTRL_PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
- 	ctrl->ctrl_config |= NVME_CC_AMS_RR | NVME_CC_SHN_NONE;
--	ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
-+	if (!nvme_discovery_ctrl(ctrl))
-+		ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
- 	ctrl->ctrl_config |= NVME_CC_ENABLE;
- 
- 	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
-@@ -2888,11 +2894,6 @@ static const struct attribute_group *nvme_subsys_attrs_groups[] = {
- 	NULL,
- };
- 
--static inline bool nvme_discovery_ctrl(struct nvme_ctrl *ctrl)
--{
--	return ctrl->opts && ctrl->opts->discovery_nqn;
--}
--
- static bool nvme_validate_cntlid(struct nvme_subsystem *subsys,
- 		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- {
--- 
-2.27.0
+Instead of revert, does this patch makes the issue go away?
+--
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 619b0d8f6e38..69f59d2c5799 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2271,7 +2271,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct 
+nvme_ns *ns,
+         req->data_len = blk_rq_nr_phys_segments(rq) ?
+                                 blk_rq_payload_bytes(rq) : 0;
+         req->curr_bio = rq->bio;
+-       if (req->curr_bio)
++       if (req->curr_bio && req->data_len)
+                 nvme_tcp_init_iter(req, rq_data_dir(rq));
 
+         if (rq_data_dir(rq) == WRITE &&
+--
 
 _______________________________________________
 Linux-nvme mailing list
