@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB96C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46691C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A80464EAA
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A80464EAA
+	by mail.kernel.org (Postfix) with ESMTPS id 0721964EAA
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0721964EAA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QVmoVfJyv5Uy076ZCcwCmE39T40iP3H4NrJJPI6+3cc=; b=YK1gYC0YsBZmfV66biCANPDKL
-	tl4yol+zNOYU/GQDOarnQuDzdx62qclu6TarJfuD0m4Bd3jQLpRadyh7jIlC3c+FyzpVouSSZEXyR
-	KdEeor+fEMCQlL7W2CjmY3h13cGh5pBxfXEoKEIrn0++Yf7UJW/elNh+bRR07Q4aOTd+Lg1eDu6i7
-	dt9VLMTaoDQbYy6eu+oGq3+2X8IfbmW5+kw5m4xwvS6SMHDkafAEerEAdAeyKcil0R9Sjm8QLlbIx
-	rFCzoDPVqc+wSTpllmmakRkYbViE+oaxEpLeoliq0CkWEAFeqLY37aslLtwPdP1L3IzI8ya3/KhP9
-	cnd5utPPQ==;
+	 bh=oc/K2uNxmMtQfh9IOeJQSlLxFsW9+1Yvt427Hh4/RCQ=; b=eRfhMVZtkhAUyCc32N7/iCQhW
+	K0d56sNknmJXexl5c8K/JLeLRDBulIBE9qCA9q8qizLh0rHBOVof5NvbVRjnRtX3QoTJE5LYn1srw
+	6Ma2rkblLo25q4OMLYRHLslp0MboMlenNOUokqi5qjlAiea0CuJIM9iSYaspiHyiXzQywK//Wd1S7
+	7A3Zx/r3viLV7mCPLRhplxFVshmPTYpamhK4BxzmiUdKZsHjJjdg4QF8tY5SEccyHZxmbaso4+av2
+	aoLaJsFrzOQKkkmZoNKiPpis69Oy+/NuVtskTRKeJ5Gck+ed+Qjyi55WVL5tlrKig+hOk/zM7v1ZS
+	POY1ZGtQQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9KL5-00037X-00; Tue, 09 Feb 2021 04:09:23 +0000
+	id 1l9KL9-00039a-6W; Tue, 09 Feb 2021 04:09:27 +0000
 Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9KKj-0002x8-T3
+ id 1l9KKn-0002zV-8q
  for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 04:09:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1612843741; x=1644379741;
+ t=1612843745; x=1644379745;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ZMFIjq/D8g27gEw+tEHJS6OWJntYoNbVSk5eHeJjEsQ=;
- b=Ej1cubzm1OU6BDAh2DGVTCb7PO56Gf6hj4lx2se6e/SbdgW4p4cVMCNk
- P4+Aq/BSXBtG4oDf5X5dI/QvsM2YjXYPPozvYGGydY3MUvR9chXw928lj
- akF/rvVpf/kqJEo7eHVFiujfSkDj+4JAIKWGrFywom/DmLyRHPuUGb5sO
- 0kRElYhbe17L9PjJYhypEUuCkz3MwSssrh73DUUtWvzfKPJiFdcc6mbEI
- gVcpPH3cIv8nK/doeWeo0dhIaJ1iOvqMmjkZMKCrVn09+3hTGn2zRP0Nm
- vWTOcCw3cVqdZKBsJSP5Rj7JQZHV+flKf+Jl9a8JTIjbBO4QcUXsD4eUD Q==;
-IronPort-SDR: Y4XtmH3HBfpi40AsNpfb+JTwWxT8jTMCVF5HLnjPvYBLKv4HyLvpFAx0vsKKcIF6rOC6EHrBkQ
- nDtR4KuwgJNhY+Q4og53TqCvVXzHoYiKNA1/k0QeUr5t5/lR8EGHwiop6RtwNLESN9eIEUIDda
- b05HZWXdv4Co0ggW2s5omX0+9nXAoenpJXIQ/svCkdiaR/qfyXQkzsmGIK2s9KYwUaSAjWhsHF
- MeWJ8xOq2evEkB7YhH6WrhC4Dhd/ItxCd3NmvSXDxzuYn5yRZ3L+s13o7gXnBgfiSv17ZUhsJG
- yq8=
-X-IronPort-AV: E=Sophos;i="5.81,164,1610380800"; d="scan'208";a="269970525"
+ bh=OJAynS3Kv/UlTyycM5j8QungtTUtwyaJ38ZPqHX5QPA=;
+ b=IoG9ld+wRQmhzL4CJvdd9YK6pDKRs7PmGWRjghyZcj5EPZRdL2ZwFfN/
+ VL0FJZpVlk/3rKMJS3v+YnYzR+0GtZOQ0MjbwHqgic3wh7y8m15Tm+QXc
+ hpZxyEKyv1m1AGZaNtVmzosUNjZ0+OuvAtXpahkiAuJc/dzyBLznshTZa
+ fn0379o6WM65I9AIoaFIc+Lm8GUlKxkLi2ZpGvcqsKEakkRi+rz/hhZOQ
+ EYINbkVl/vB8s/4mBnFmeZdHje32FOlJdAnIcedbC+m+Zyb25bRfRGAiB
+ IB5PHcKINqv9CscG3yECs92tPwRHhQl99b7WglTWaM8McQGTjwEotQ9Ig g==;
+IronPort-SDR: SqvEarM82hjlaBRHzpiqPsk8k1yDnGCRFuVzYgGK1xHhBo0e/uC4GOg+8SN072c2olaQIN3oVG
+ 1SH990vnc1CHf+8lfhxPNbsGZmvUcuj8XkPPzi5IhBi2nTSA9Rhn4Iblyu/pONsncwOox6HRCb
+ lX9ELGlqoLY+4rIx/PnI1P/58FqKncydAuChsssONhyZ/LWVpV4+OLt478dsZAxRMfF485X1lT
+ CZEpLUjQG0Za8x+yeMhkO8QiP7noMlYk6TtWpa8sjrJERO6SXyQW4UURc2i/bRTSWZh0sI+dYR
+ CN0=
+X-IronPort-AV: E=Sophos;i="5.81,164,1610380800"; d="scan'208";a="269970529"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 09 Feb 2021 12:09:01 +0800
-IronPort-SDR: TbpWVzJdqCteYyOQWplwZB9bQKdU7X4Nq4B+61KB+ibpD6m2jDvgEieMUoTM1StuyYKKwO5cKw
- jQR3d1pKgjMqdJ0UA+UXLNFRRR4RqfvYO74KYMKJ9Qf34htpMfZKPoQmXnmlw4zAA9O2tkQCUC
- nLMNV5aJ8EKCYP1oCfzyesoW6zxrQtt1k0SzYFWoUdUdhfWHoP/hGng3b9CrZZCTywhPghE897
- TjQ8QzawonjaMUvGMj4gIMrOvO+msQ9TyiLsHezmIkR54apIilCApr1K0slQEm2pVjebaJSQxi
- 4P81CBH/7knKhB0euT/bBF4Z
+ by ob1.hgst.iphmx.com with ESMTP; 09 Feb 2021 12:09:04 +0800
+IronPort-SDR: yv3eQt0h8uhFW6MczLII1WH3PYI/wqvucI21uCcrW21q8ByE6SSMmGr9hCo9d1s5RXwi1GTdju
+ +jRfvxmceutKSsIJHYCzrur/cdyxe2AfmCMowjB8YvpzFONYkXbTmtgQJKCJ6hX9ZDhg7LLy73
+ kxK6DzfiewoLlaljdodKFEl19FcX0ZNAZYhxl0urAhYfNx4XsA3BGglOwG1VChRCuGgmDBUKT6
+ W6OI6CQ/h078wfL5aIYVbfAr+TZxrS+oNpfMQSSabsvc394+BxjkgOJy8X58L1SHbrGHpOp0OC
+ +I0wsMz8bgAwH+NH9VK6XT6S
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2021 19:50:54 -0800
-IronPort-SDR: LjSiiM0wwHVyxDLko70jSBoya5qIuPhPNtnKOH/mUIQwe0g8sixGK8kKtDy/M2Qk6Jr7xJo+u0
- IlyGjVKN2jMgtnooyQbHHKgig2MNhOHa3jtqFfET2YgORKE8DcOP346ojZRVU5Gd/J4hqE4X1h
- fV/sq2Bq4rE6KgO2SPzzUtOHUbu+r8J6qLFQHP1IfthV6nXD+X7oloHk0lVGl2oYo+wPp/gtAl
- 7HGzBY/m2o+g4E4FivxTU+/XezwKSYM8TVk2SBRXQDJx5f2GRr4ggo6sJsngLBjF+EA5nfOr0V
- FwY=
+ 08 Feb 2021 19:50:58 -0800
+IronPort-SDR: 4+675NJ7Oj4l11/vdyzxO21009iaGEVqkVjpXB9eG2flKJhTxOaWFost9aJF8fou/JDhh2wUQI
+ PkAqUUg6UpTpqu7OVIn373iU/eL97/MEsIZw07antqjgWl72HnyY1FrcRBr2JhkdbGZ1Lses54
+ lDbzxWAbuLPebPIjyVYrSr4NGuVdhut+1PKCTwsbxr2GIMxRFO6tAXJUQ5/21KSgHXQdl9QrXo
+ +bC70tp4HH2IaAWzyBOcRVhi2hvqN7NvlvwWaPSQDkHiQ85ssTzqXLRbzBLzQsUBlB5htO2RZo
+ 0xM=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 08 Feb 2021 20:09:01 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 08 Feb 2021 20:09:05 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 09/11] nvme-loop: rename variable to get rid of the warn
-Date: Mon,  8 Feb 2021 20:08:41 -0800
-Message-Id: <20210209040843.45572-10-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 11/11] nvmet: remove else at the end of the function
+Date: Mon,  8 Feb 2021 20:08:43 -0800
+Message-Id: <20210209040843.45572-12-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210209040843.45572-1-chaitanya.kulkarni@wdc.com>
 References: <20210209040843.45572-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210208_230902_314155_EFE439D0 
-X-CRM114-Status: GOOD (  13.17  )
+X-CRM114-CacheID: sfid-20210208_230905_498999_3BD348FA 
+X-CRM114-Status: GOOD (  13.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,29 +98,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  sagi@grimberg.me
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-UmVuYW1lIHRoZSBudm1lX2xvb3BfaW5pdF9yZXF1ZXN0KCkgbnVtYV9ub2RlIHBhcmFtZXRlciB0
-bwpod19xdWV1ZV9udW1hX25vZGUgc28gdGhhdCB3ZSBjYW4gZ2V0IHJpZCBvZiB0aGUgZm9sbG93
-aW5nIHdhcm5pbmcgOi0KCmRyaXZlcnMvbnZtZS90YXJnZXQvbG9vcC5jOiBJbiBmdW5jdGlvbiDi
-gJhudm1lX2xvb3BfaW5pdF9yZXF1ZXN04oCZOgpkcml2ZXJzL252bWUvdGFyZ2V0L2xvb3AuYzoy
-MDU6MTY6IHdhcm5pbmc6IGRlY2xhcmF0aW9uIG9mIOKAmG51bWFfbm9kZeKAmSBzaGFkb3dzIGEg
-Z2xvYmFsIGRlY2xhcmF0aW9uIFstV3NoYWRvd10KICAgdW5zaWduZWQgaW50IG51bWFfbm9kZSkK
-ClNpZ25lZC1vZmYtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8Y2hhaXRhbnlhLmt1bGthcm5pQHdk
-Yy5jb20+Ci0tLQogZHJpdmVycy9udm1lL3RhcmdldC9sb29wLmMgfCAyICstCiAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L252bWUvdGFyZ2V0L2xvb3AuYyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvbG9vcC5jCmluZGV4IGNi
-NmY4NjU3MmIyNC4uODhkMDY1NmFkNGE1IDEwMDY0NAotLS0gYS9kcml2ZXJzL252bWUvdGFyZ2V0
-L2xvb3AuYworKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2xvb3AuYwpAQCAtMjAyLDcgKzIwMiw3
-IEBAIHN0YXRpYyBpbnQgbnZtZV9sb29wX2luaXRfaW9kKHN0cnVjdCBudm1lX2xvb3BfY3RybCAq
-Y3RybCwKIAogc3RhdGljIGludCBudm1lX2xvb3BfaW5pdF9yZXF1ZXN0KHN0cnVjdCBibGtfbXFf
-dGFnX3NldCAqc2V0LAogCQlzdHJ1Y3QgcmVxdWVzdCAqcmVxLCB1bnNpZ25lZCBpbnQgaGN0eF9p
-ZHgsCi0JCXVuc2lnbmVkIGludCBudW1hX25vZGUpCisJCXVuc2lnbmVkIGludCBod19xdWV1ZV9u
-dW1hX25vZGUpCiB7CiAJc3RydWN0IG52bWVfbG9vcF9jdHJsICpjdHJsID0gc2V0LT5kcml2ZXJf
-ZGF0YTsKIAotLSAKMi4yMi4xCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZy
-YWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
-dXgtbnZtZQo=
+The function nvmet_parse_io_cmd() returns value from
+nvmet_file_parse_io_cmd() or nvmet_bdev_parse_io_cmd() based on which
+backend is set for the request. Remove the else and just return the
+value from nvmet_bdev_parse_io_cmd().
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 32221f98f1cc..1d5516272530 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -882,8 +882,8 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+ 
+ 	if (req->ns->file)
+ 		return nvmet_file_parse_io_cmd(req);
+-	else
+-		return nvmet_bdev_parse_io_cmd(req);
++
++	return nvmet_bdev_parse_io_cmd(req);
+ }
+ 
+ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+-- 
+2.22.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
