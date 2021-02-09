@@ -2,58 +2,72 @@ Return-Path: <SRS0=1rws=HL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F67C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 15:35:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA5AC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 15:39:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 44E5964EB8
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 15:35:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 44E5964EB8
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id EBE4164EB8
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 15:39:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EBE4164EB8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kioxia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=IpcnokamIDCSEmrZjfGuRjJSq7AA3ejdpZ4mbgJ3+mo=; b=CCS6rGd4/rW3Z5qDR19ZPCQla
-	GqfVKlbqlTtcw3RXlGoN91Ygjl6rHX17j9u+Rrk98R0v8P35GvX7ZHR2mWbLsXJr++MrMJK7Cp36V
-	ksT/IQyaO2BUJZ8aD3xm1xwpNKhb+3BiM9DjODI0RZZ2bDbpN1lBwYeHYAVSg4QSCCBrN9tOreXUG
-	IDPkADYR6PuTok5sxQby3SbJjNOJCHjtvbp9OASGaR2H8KICATwdvnOYAbqISUXmYfNeyafyMUtjy
-	GL9Kn/dsO4ReSWOhBFHFG7X9vRcAwfK1kPoxcJW76QTTL1PO7mhuG7G8HWweyW/q10+xIt1Mov539
-	+Xoa2IMwg==;
+	 bh=XcmOjDbEgv5NzJd+TiZB7FEKnnvE+uKKy3hUAKwPW7I=; b=p/L/xUhTLdrXyAnT46x91Shz0
+	Z6C/0T4YdvYAxM7f1SkA6CvwvsPrq6bDAnsVlPZiIF7oILvqpXxVLHULMZx7g5wbmthU2QF1U91wV
+	38A9GEPbuRmw35e/jQqH6sEZiA6+pMnEsfpBNzYum+yE3GeH0NpYWj/uWO6d9bFGm9GRqYIhm2Uwx
+	l8qlq+WDpznHB3HmA1v0VPWCzhRSvcCPe3LZZPn5nO3HWDTe5cZz4KGnh/vF+WanG5BdFGrhSDUJv
+	h2nwh6qJsuT/1mIAXoXEb2nUVj1TwsLpvZV1BcViknRfwmaoIP6XSx1zoRpomfikhCj71/DIaEbGr
+	Oi9I2f8zQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9V2o-00015f-AI; Tue, 09 Feb 2021 15:35:14 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1l9V6T-0001Vx-UE; Tue, 09 Feb 2021 15:39:01 +0000
+Received: from usmailhost21.kioxia.com ([12.0.68.226]
+ helo=SJSMAIL01.us.kioxia.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9V2m-00014n-E0
- for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 15:35:13 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id AE07D67373; Tue,  9 Feb 2021 16:35:03 +0100 (CET)
-Date: Tue, 9 Feb 2021 16:35:03 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: Re: [PATCH 2/2] nvme: resync header file with common nvme-cli tool
-Message-ID: <20210209153503.GA8607@lst.de>
-References: <20210121090948.8027-1-mgurtovoy@nvidia.com>
- <20210121090948.8027-4-mgurtovoy@nvidia.com> <20210127174717.GF28180@lst.de>
- <BYAPR12MB349445BDAFCBD9C9FBC32701DE8E9@BYAPR12MB3494.namprd12.prod.outlook.com>
+ id 1l9V6O-0001VF-UC
+ for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 15:38:59 +0000
+Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
+ SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Tue, 9 Feb 2021 07:38:53 -0800
+Received: from SJSMAIL01.us.kioxia.com ([fe80::98fb:6d15:be65:b22d]) by
+ SJSMAIL01.us.kioxia.com ([fe80::98fb:6d15:be65:b22d%3]) with mapi id
+ 15.01.1779.007; Tue, 9 Feb 2021 07:38:53 -0800
+From: Clay Mayers <Clay.Mayers@kioxia.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: RE: [PATCH V2 0/2] nvme: Support for fused NVME_IOCTL_SUBMIT_IO
+Thread-Topic: [PATCH V2 0/2] nvme: Support for fused NVME_IOCTL_SUBMIT_IO
+Thread-Index: AQHW81Uk6e6cbZGyEU2+tznAk87Vf6o6RTXQgBS+TpCAAL7WAIAARTzQ
+Date: Tue, 9 Feb 2021 15:38:53 +0000
+Message-ID: <16731baa6d8f4729a10edeea57267c41@kioxia.com>
+References: <20210105224939.1336-2-clay.mayers@kioxia.com>
+ <20210125195844.1390581-1-clay.mayers@kioxia.com>
+ <BYAPR04MB49650B6342C736B5268F833686BC9@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <b5c179e3eb904800931712d6b92cfbeb@kioxia.com>
+ <BYAPR04MB49652EA8F4CF06D41C708E2386BC9@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <b2a0593cd1fc4f239bbd44f3f43d4bcd@kioxia.com>
+ <20210209031252.GA97526@C02WT3WMHTD6>
+In-Reply-To: <20210209031252.GA97526@C02WT3WMHTD6>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.90.53.138]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BYAPR12MB349445BDAFCBD9C9FBC32701DE8E9@BYAPR12MB3494.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210209_103512_600400_C0843757 
-X-CRM114-Status: UNSURE (   7.48  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210209_103856_992032_141C192C 
+X-CRM114-Status: GOOD (  24.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,20 +79,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
- "chaitanya.kulkarni@wdc.com" <chaitanya.kulkarni@wdc.com>,
- Christoph Hellwig <hch@lst.de>,
+Cc: Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 09, 2021 at 03:07:05PM +0000, Max Gurtovoy wrote:
-> is this respin still needed ?
+> From: Keith Busch <kbusch@kernel.org>
+> Sent: Monday, February 8, 2021 7:13 PM
+> To: Clay Mayers <Clay.Mayers@kioxia.com>
+> Cc: linux-nvme@lists.infradead.org; Jens Axboe <axboe@fb.com>; Chaitanya
+> Kulkarni <Chaitanya.Kulkarni@wdc.com>; Christoph Hellwig <hch@lst.de>;
+> Sagi Grimberg <sagi@grimberg.me>
+> Subject: Re: [PATCH V2 0/2] nvme: Support for fused
+> NVME_IOCTL_SUBMIT_IO
+> 
+> On Tue, Feb 09, 2021 at 12:53:17AM +0000, Clay Mayers wrote:
+> > Is there any other feedback on V2?
+> >
+> > My main concern I have about my implementation is how fused requests
+> > are tunneled through the mq request layer.  The 1st request is marked
+> > as started but it won't be in the device until the 2nd command is
+> > queued.  As Keith pointed out, a device reset can split the two so
+> > care must be taken to correctly handle this case.  Despite this, I
+> > thought this was a better approach than modifying mq requests to be
+> > fused.  Especially given Christoph's concern of cost vs value.  This is the
+> lightest touch I could come up with.
+> >
+> > Further consideration of this patch may need a more compelling use case.
+> > I've worked on a proprietary storage systems that relied on fused
+> > NVMeOF support so it seems compelling to me.  There's a comment in
+> > target/core.c that there is "no support for fused commands yet"
+> > implying it's been considered.  Is pci only support for fused too soon
+> > or too little?  What would make it more compelling?
+> 
+> The complications it introduces to the IO path and error handling for an
+> archaic feature has me on the "Nak" side. NVMeOF was introduced well after
+> the spec define Reservations, and the kernel has supported that capability
+> for many years. I'm not aware of any other use case for fused commands, so
+> it appears to be dead weight in the spec.
 
-Yes.
+Thanks for sharing your perspective.  I can see the point that reservations are
+good enough for many.  For VmWare, moving from reservations to cmp/write
+on SCSI led to an increase in performance (couldn't find an actual # but heard
+30% anecdotally). That's a specialized use case (storage for VMs) on a much
+slower medium that may not translate to more general storage systems or
+much faster storage.
+
 
 _______________________________________________
 Linux-nvme mailing list
