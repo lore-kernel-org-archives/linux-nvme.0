@@ -2,81 +2,67 @@ Return-Path: <SRS0=1rws=HL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09279C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:21:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40152C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:25:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 51D8E64E10
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:21:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 51D8E64E10
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id B7FDB64E70
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:25:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7FDB64E70
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=apache.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+beqPX2k6s7jGjzqYzgIDe0tbfV+wCGpigf0+Mxqloc=; b=r9LzASb9nAHQFW+TAi4xNf0jL
-	B5UsvbIPqvzzF8bh+qj1TRopRRP2fmSgGUuET3nTWARC0pQNmuhRSRNlpd3OzQQ4FY1sikbBS0oPN
-	lh1+hPTwzdXgRTraVUFASaBHSwgUjRsx9vC64khnPIeBfG5MBITOhvJnC45yxTWLy32SOfIgLO0ky
-	+Vgiwq94CiYY4scRHxVu7jxCW1XX+6wFmNCtSaXeVUZd4G3VAfzqCe4g37Rxs+wJhzjP3srC92ggZ
-	W+u5EhOh9SdXxsQ+3naG7T2UQRf7sgUx7O8KmJggxO9p63DMeDD2zyweVnPaoYqqOJqH/4h7Gs8Kn
-	3p57kzZhw==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:To:Subject:Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=lHKLpGKxCSOMeDDB5NVsu0EViCtRj+fbaQmobz+NF8I=; b=VwsHVsEhT+hBpXZAkMFg81ZASB
+	jrJqB2ypKmB+PRmCbCrWTfP3ulfUzUm7PwQFE4Z+R9JjmPA18Ms6HSrgHHc7zLD0lF/KoqDmQOZh6
+	RXY/0zL2zwkW+64WNziXleIzcnaiykwoJ/H08cnohI5ulpQEj+gB5PvNkMJppXY48ASpYdsFUk66O
+	+4frZNhypYMQrrCubwfNPqSeBnW1l3BG2ZTfEUQnn5KDRny9M4nPn2Fy1jJ4cq3rCdFKsPBaB3Jed
+	5xYjXWy1qXnawjJoqFb0CiQIoWuwipRQ8W/6dcnUCFC/denz01/AnIW7nWkM6+xp6v4Lbm8Th51se
+	e9AB9oaw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9KWq-0005hl-Bu; Tue, 09 Feb 2021 04:21:32 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1l9Ka9-00060z-9J; Tue, 09 Feb 2021 04:24:57 +0000
+Received: from mail-il1-f182.google.com ([209.85.166.182])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9KWm-0005gc-Jf
- for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 04:21:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612844486;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/eFer26DbD5JrI/cKhVP4gnabxdLf1Clq3I+VIutzqc=;
- b=iad+p0+drs5nEEDt14ibsxhvTyo3mEqmJKyKpOI+0OjNQWDMiJxl9T5jF/Zl+pMVfTHzuP
- 4uV9GkQtlQa/j/f9lL7X6exGlkE7876SxUO8KwpryWBBFqTQstVwJi/QinQcd+lDWrfLtR
- /58IRx2TCb9p4HSigGru+nch+0aOit0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-2-cxNutzMUG-vfdb2RmxEw-1; Mon, 08 Feb 2021 23:21:23 -0500
-X-MC-Unique: 2-cxNutzMUG-vfdb2RmxEw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C32B9192D789;
- Tue,  9 Feb 2021 04:21:20 +0000 (UTC)
-Received: from T590 (ovpn-13-86.pek2.redhat.com [10.72.13.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF37F10013D7;
- Tue,  9 Feb 2021 04:21:07 +0000 (UTC)
-Date: Tue, 9 Feb 2021 12:21:03 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: kernel null pointer at nvme_tcp_init_iter+0x7d/0xd0 [nvme_tcp]
-Message-ID: <20210209042103.GB63798@T590>
-References: <cki.F3E139361A.EN5MUSJKK9@redhat.com>
- <630237787.11660686.1612580898410.JavaMail.zimbra@redhat.com>
- <e1d08160-ca49-91e2-dafc-3ee80516842d@grimberg.me>
- <5848858e-239d-acb2-fa24-c371a3360557@redhat.com>
- <af1d7e9d-0170-82f6-30e1-01f045d73fc7@grimberg.me>
- <6147d452-a12e-c76c-22f1-5d9e7cb6b01d@grimberg.me>
+ id 1l9Ka6-0005zy-CK
+ for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 04:24:55 +0000
+Received: by mail-il1-f182.google.com with SMTP id a16so14941870ilq.5
+ for <linux-nvme@lists.infradead.org>; Mon, 08 Feb 2021 20:24:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=5Hd1VlrGUd7v9n0IZCCFjDz6vVzEiWM+Y5M7sHW/IPI=;
+ b=k64gYQxC9At9siXPYLqdiELNWQ7v+6JFrFYP+GmUXehQLJVW5Iw41iMQ4CQl3e+wal
+ vrC7njuXmhZt/mHIfvhuwmxuMy4MOGiBoE51sDb2YzuyaaE9WSYgXdLG6WR+3UK1LQij
+ L+BEmWoykfKqkbaVbyz/YjmYijAotebAjW+u2zwwbe4Mm7N+NDfKmbaLI7RzwSraJgeN
+ syVA9vz5lnsfmP5rJ4KDXVujzozSGq/gKY2LAAYfJmZEaS2pYqAycLSswMVXXGExODQI
+ D6MAfGkGQ3tG34P2/J2VyiLPAcq/BKTsibukCpaH5jstUKvuC0ofraUJK//winAog7Vi
+ 84vA==
+X-Gm-Message-State: AOAM532Fwk5R1T/fUvdZoJvbFOl2VqZCHefdDj/NsccoOIhLIW5mm3H5
+ Vinwwdw7Pz+ybGHC6XMkGJtTMr6ozmRn3kNG0+wLrDX+6wY=
+X-Google-Smtp-Source: ABdhPJzIkL9GaWUIx8pQCpGKePu8bZcSQbSsp16uAomqhCypl4i5ksANW09Gv9OqlO3LVVhlW9HkLnmal8UeLMYefHA=
+X-Received: by 2002:a92:c712:: with SMTP id a18mr18838754ilp.84.1612844691665; 
+ Mon, 08 Feb 2021 20:24:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6147d452-a12e-c76c-22f1-5d9e7cb6b01d@grimberg.me>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+From: Roman Shaposhnik <rvs@apache.org>
+Date: Mon, 8 Feb 2021 20:24:40 -0800
+Message-ID: <CA+ULb+v-2jigmQA=Z2WmWP0n3wCbEs_s94oCoNbjJMw14ATCjw@mail.gmail.com>
+Subject: vhost/virtio fabric
+To: linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210208_232128_725463_F81753C5 
-X-CRM114-Status: GOOD (  28.42  )
+X-CRM114-CacheID: sfid-20210208_232454_444080_CF458456 
+X-CRM114-Status: UNSURE (   8.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,132 +74,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, Rachel Sibley <rasibley@redhat.com>,
- Yi Zhang <yi.zhang@redhat.com>, Chaitanya.Kulkarni@wdc.com,
- linux-nvme@lists.infradead.org, linux-block <linux-block@vger.kernel.org>,
- CKI Project <cki-project@redhat.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 08, 2021 at 10:42:28AM -0800, Sagi Grimberg wrote:
-> =
+Hi!
 
-> > > Hi Sagi
-> > > =
+I'm looking at using NVMe protocol in a KVM virtualization context
+along the lines of:
+    https://patchwork.kernel.org/project/qemu-devel/patch/1516003315-17878-2-git-send-email-changpeng.liu@intel.com/
+but with an eye towards using NVMe-OF so that I can terminate
+in the kernel target itself, as opposed to a userland process.
 
-> > > On 2/8/21 5:46 PM, Sagi Grimberg wrote:
-> > > > =
+Effectively, I'm looking for vhost/virtio fabric similar to:
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/vhost/scsi.c?h=v5.10.14
 
-> > > > > Hello
-> > > > > =
+This search made me come across an old set of slides from
+Christoph Hellwig that did, indeed, mention that at some point
+vhost/virtio fabric was considered.
 
-> > > > > We found this kernel NULL pointer issue with latest
-> > > > > linux-block/for-next and it's 100% reproduced, let me know
-> > > > > if you need more info/testing, thanks
-> > > > > =
+Please let me know if there's any work that has ever been done
+in the direction (even if in a form of unmerged patches) or whether
+if I need this functionality I'd have to implement it from scratch (probably
+aping a great deal of drivers/vhost/scsi.c).
 
-> > > > > Kernel repo:
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
-.git
-> > > > > Commit: 11f8b6fd0db9 - Merge branch 'for-5.12/io_uring' into for-=
-next
-> > > > > =
-
-> > > > > Reproducer: blktests nvme-tcp/012
-> > > > =
-
-> > > > Thanks for reporting Ming, I've tried to reproduce this on my VM
-> > > > but did not succeed. Given that you have it 100% reproducible,
-> > > > can you try to revert commit:
-> > > > =
-
-> > > > 0dc9edaf80ea nvme-tcp: pass multipage bvec to request iov_iter
-> > > > =
-
-> > > =
-
-> > > Revert this commit fixed the issue and I've attached the config. :)
-> > =
-
-> > Good to know,
-> > =
-
-> > I see some differences that I should probably change to hit this:
-> > -- =
-
-> > @@ -254,14 +256,15 @@ CONFIG_PERF_EVENTS=3Dy
-> >  =A0# end of Kernel Performance Events And Counters
-> > =
-
-> >  =A0CONFIG_VM_EVENT_COUNTERS=3Dy
-> > +CONFIG_SLUB_DEBUG=3Dy
-> >  =A0# CONFIG_COMPAT_BRK is not set
-> > -CONFIG_SLAB=3Dy
-> > -# CONFIG_SLUB is not set
-> > -# CONFIG_SLOB is not set
-> > -CONFIG_SLAB_MERGE_DEFAULT=3Dy
-> > -# CONFIG_SLAB_FREELIST_RANDOM is not set
-> > +# CONFIG_SLAB is not set
-> > +CONFIG_SLUB=3Dy
-> > +# CONFIG_SLAB_MERGE_DEFAULT is not set
-> > +CONFIG_SLAB_FREELIST_RANDOM=3Dy
-> >  =A0# CONFIG_SLAB_FREELIST_HARDENED is not set
-> > -# CONFIG_SHUFFLE_PAGE_ALLOCATOR is not set
-> > +CONFIG_SHUFFLE_PAGE_ALLOCATOR=3Dy
-> > +CONFIG_SLUB_CPU_PARTIAL=3Dy
-> >  =A0CONFIG_SYSTEM_DATA_VERIFICATION=3Dy
-> >  =A0CONFIG_PROFILING=3Dy
-> >  =A0CONFIG_TRACEPOINTS=3Dy
-> > @@ -299,7 +302,8 @@ CONFIG_HAVE_INTEL_TXT=3Dy
-> >  =A0CONFIG_X86_64_SMP=3Dy
-> >  =A0CONFIG_ARCH_SUPPORTS_UPROBES=3Dy
-> >  =A0CONFIG_FIX_EARLYCON_MEM=3Dy
-> > -CONFIG_PGTABLE_LEVELS=3D4
-> > +CONFIG_DYNAMIC_PHYSICAL_MASK=3Dy
-> > +CONFIG_PGTABLE_LEVELS=3D5
-> >  =A0CONFIG_CC_HAS_SANE_STACKPROTECTOR=3Dy
-> > -- =
-
-> > =
-
-> > Probably CONFIG_SLUB and CONFIG_SLUB_DEBUG should be used.
-> =
-
-> Used your profile and this still does not happen :(
-
-One obvious error is that nr_segments is computed wrong.
-
-Yi, can you try the following patch?
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 881d28eb15e9..a393d99b74e1 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -239,9 +239,14 @@ static void nvme_tcp_init_iter(struct nvme_tcp_request=
- *req,
- 		offset =3D 0;
- 	} else {
- 		struct bio *bio =3D req->curr_bio;
-+		struct bio_vec bv;
-+		struct bvec_iter iter;
-+
-+		nsegs =3D 0;
-+		bio_for_each_bvec(bv, bio, iter)
-+			nsegs++;
- =
-
- 		vec =3D __bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter);
--		nsegs =3D bio_segments(bio);
- 		size =3D bio->bi_iter.bi_size;
- 		offset =3D bio->bi_iter.bi_bvec_done;
- 	}
-
--- =
-
-Ming
-
+Thanks,
+Roman.
 
 _______________________________________________
 Linux-nvme mailing list
