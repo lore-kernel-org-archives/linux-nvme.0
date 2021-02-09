@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8748C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45ABAC433E6
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 560F464EAA
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 560F464EAA
+	by mail.kernel.org (Postfix) with ESMTPS id DAA8064EA4
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DAA8064EA4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jKWU60WEtnRffqjSRWmewb/mTXEyb1QTQQMxZFezL1Q=; b=uqy60wS4INdkrUsde9eiP7z0p
-	95AT2frX90uYXHAr66ml7+Jp/gccHD0oTQP9PaV5uEJfx23UxxkL8o25YNkRYyirKJQ3jucy1vqW8
-	ImzSSZDVpQX7IDSHtmqEDuybZQWbI7jZfumW2rHKpnWoJl/lz7xdh0Za5elwd0LrnARISVotexg7x
-	4X2lQIqL2KBs5WI3bQQnr2wbAt6OKwLm0y3Y171FW723oJNp+f+TJspfVVkHXY4NKF56VgFdrqAdv
-	eVWDCJ3sOgpkWkWJhDbpCLVoQktZ6cRy+mfcO+Cg8Yx3GnQR9KkPP2m/1ZnP6dZvQmX/XDj7rE+B2
-	I8QodiUxg==;
+	 bh=GbjshXmDHcOmXl1mZE44XFMsGXhbUMQijSHFsX+cUMg=; b=uw1MRs09TUMnVJXNqaNTpiGlc
+	q2q8oiNes7KlRWn7Lz2ukiUhn7y+ftTnP52yU4M/LHUDUbufSpIZWDoDbjPz1/VLj4+gJgsmoR/n5
+	GhwBXrUEDQbscuwHU/w92o5s5S03PMl5EV9OKFLzVvDxwa1d1es716Duzm7CI5XR1vv6qzLqflkZb
+	LYDvwni6okvGIZxHjddlnZZRno4WU5WSHEtzxiqtzBKDWHzd4h3Gfm3Z6BBFcJR1CYp1i8sz94HHV
+	QNO9OFdCqyMawwHuI/lKM8Mp2LVAOK3fk+jH+hofl1+0zxQah1bNIhVYONZdf7LuE4nssmGzLk9f6
+	IXgf/zBDg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9KKz-00034F-34; Tue, 09 Feb 2021 04:09:17 +0000
+	id 1l9KL2-00035z-EF; Tue, 09 Feb 2021 04:09:20 +0000
 Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9KKh-0002vT-CX
- for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 04:09:00 +0000
+ id 1l9KKl-0002yo-HG
+ for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 04:09:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1612843739; x=1644379739;
+ t=1612843743; x=1644379743;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HLNCgs6FmGmZpmRQvprKO971sRF9/BEIJ/U3TacA39k=;
- b=SW9gxshZbNMFY3Wm06TihVIiH4oCmqjUfsFmoJBRLLok9LW9uGRmGS3v
- vzUMb0Qz7B2s/ed1Yi1WdIF9mk3P8kUg9pyTKOihw8k29Glg+cYxsoHW6
- QDAr7RAZylvw6IYGajJOqetXor/53ASscNcMe9b3+uR97yVrJPpWLJLuR
- Mu5PFBIsg77s21GmuBEvALOOctj3OhSdXhydBw0Nhi0B66LBRc4gxnevq
- 6yGQkTYMpC8Q54H8D5yl7ZWKeMsMwsp8VeBuHFbSxWnlVXsk2G7IX0p28
- cb428pwBlK00A/Ny8CvLLpxCxzLz8JfCU+Ddgrzzn6x4NVCidO35zRf0a A==;
-IronPort-SDR: MHhysJeTba1ZikqZmg0uQYNzwrTgLCq7R0JUR6XUj88XhjLKSGbGDFEIQ/ImuTXY0YkbEpsjtX
- 2P7gNjgYeG+Xbu17z0xwMz4QFB4trnIPTpO/Edx2f5ije1er/i8DEM6cf0NontKdNlBkGHYLR+
- xKYqvaPr5S08vy1jdstiS2UFmZnWGgpNTN1ganXyPJYV8TcF1lIlYqUcSmIEmL3bdTfl02JM+R
- 60tYHx578FEWxmSlAW2DnpQMjPeP+1Nzz60ROkt10AI4FOjr+Cz6SiLnqkjXMedhTd1y9jpUTG
- obY=
-X-IronPort-AV: E=Sophos;i="5.81,164,1610380800"; d="scan'208";a="269970524"
+ bh=hqjKH0b3GaMIuk77BXo948xHjOvl6jHVXAT3s+VpoRY=;
+ b=oleEA3EPF4mOSRzkJahhLxI6geNtqg4lGrJI1mi4TrZkOOA+6e5RPZi0
+ 22QKwcD6X6nG05gEBdordLDuk5YpTPy5xBRd2S8q+NQ24bR8eNIzdYinL
+ QlezO1QFNy30ayGuNht8ytOHPrxjVfRGMKRorsZDoql/wKZBRTVsSqz7C
+ Osh8ao7CRuAifXMWFnbGnIaYArGbQSQR5OiSQvyscgBMq/zEPBjYXLd9q
+ 11+Z/ajyIibKt7B4+GWLqsFThU7MAWgTDFnykVIYLA8PHbU5DYX4IItxz
+ 3rGbyypraLcJDBY32CbvxexG/xaSKaD4b9ghmmAOZe12fDtUEOkihE/20 A==;
+IronPort-SDR: LYqp9iC3lSQV97UclotdQqrh71nqEF/coY0hGBp4qbiw0RUSTUKs/d9BelOrqXvM5OOQdsbl1w
+ 9NYPVPosVT5QhbnNFJv+jOm4Ob2pNkxbC+eY9QobulVSAv/9ZlwWQ8xw+3yAxz7n2AR4VJjTrY
+ Gz3bf6PCAhU8w/vySUS2lD980W7yRDlzDJTM+myP5U12H+J2LvTpbkzSO4ls4MI9z3/bZJG9IH
+ gryy945yN02t5hgblVlMjTpBbyFgXKCeVNzsdX5oMPur+BgsmnXBOffrcuUjdJTmZ/8CT7GowT
+ qwE=
+X-IronPort-AV: E=Sophos;i="5.81,164,1610380800"; d="scan'208";a="269970527"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 09 Feb 2021 12:08:59 +0800
-IronPort-SDR: /Pcea6rZospXg2tHcCMNvabeJqDhBxjvz+RKsGPUiIH9Xx0cBXb5JMnYu8NK87yM05pvFyBSry
- ZZlbIZqfoJ2kcnaOg3fm5iTfwq3GbG88inr7zjAuUObJEZp1ELzPdAWIESq4fg6dsC8eoSF+7N
- w0cax75hbDSpYg/gqA9DayT8zdbI/S+eJf6G0vbK5F2eCpyaqjegi9vQGE/kNQDrMgueKKGZ3Y
- gpbYE028Utbm2/LPDGsk/j1XsTEuVHDVigbccWyEydWPm7rZtDSWGLgjJYiHIv9QXAb/YF/q5L
- FQABrE549JVbljZMAkmbU7T8
+ by ob1.hgst.iphmx.com with ESMTP; 09 Feb 2021 12:09:02 +0800
+IronPort-SDR: LsRsV9oUui5yJWirPeLPmbFKtM7OyT2bIB3iIPYLiSHvCuc+sdc/63m/P5cxX1vI6MwAKmJIIb
+ bicCaYQaQpOz3/iqO8EclRz1s4mKrTznYfmmd2dsx3njBR9k3mQ8HLt08js7GH8AwcPPd9wYYk
+ LYSgFyazWtt1806V3bL2rx130RdCOEwaNkobkwSZTfXZjzrAbyBmqf+kQ6LlyRu06ryhBRoy5a
+ 8UAaOvvBkB7RD0YtHO+tgCGRDyJkUdigYkiohdr+5m/AMv/U19x8yggvVWlMTAEpYNd7iWhN0q
+ FY9wuxXNgNrvguLQwBdB3KK6
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2021 19:50:53 -0800
-IronPort-SDR: 7WeOD9Mq38SzE7xGUbMOSHRXGfqdWhLCO0fT9dzeilwPStmv00cL0CDWXSA4aiYn9Bc9yWimPN
- hJ1snmdSx5bUYRt2mW45pnAG7RNmNPfYoCJCFzm4jABLF0c85/OjJdhkFVYmKSx1ZQjj42Sk9v
- meYqHdjjrx1+QfqRLw/8LbRmpLOpnP4O3UEOAqdNU1NcMY3nub5epkyVxp0ihLSfxjSQWfVkHQ
- evnvJuN/x3HUARpjZZK0uJZQQSqYGubl5ZVp5QfVIpT9tHd6eN+dlhj3F6oUxfxcu+2ulMcOiu
- Qfs=
+ 08 Feb 2021 19:50:56 -0800
+IronPort-SDR: eHHC5TpF0ZZ5IIABNvmP6hPNK05upl6XGWukibn3x1Hmhjf79Vqcmxcy+wPayPeL27YKm+Jl53
+ vi6LICI5nRn+/iDW2YmEK8flDAv8rFthPG6NI789opkVy72OyfhLrGc3cZB3IXugFy6LjcOtkb
+ WS8zOKy7HSI+r2XuzwFAPjft7XRD9xFO5K27Thg3Dx7dAj96ddfiPUskpFbMPlot2CI4SNU0mD
+ xrZmw1x+OJGcoLavI1LmzdcsDQTRw2esTm8TeMA7V12CZ/1P7l4YYv4sFMxtIvO5S2023C340E
+ btE=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 08 Feb 2021 20:09:00 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 08 Feb 2021 20:09:03 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 08/11] nvmet: use min of device_path and disk len
-Date: Mon,  8 Feb 2021 20:08:40 -0800
-Message-Id: <20210209040843.45572-9-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 10/11] nvmet: add nvmet_req_subsys() helper
+Date: Mon,  8 Feb 2021 20:08:42 -0800
+Message-Id: <20210209040843.45572-11-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210209040843.45572-1-chaitanya.kulkarni@wdc.com>
 References: <20210209040843.45572-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210208_230859_688647_1237CBC6 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20210208_230903_773710_D9C3720A 
+X-CRM114-Status: GOOD (  16.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,55 +98,131 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  sagi@grimberg.me
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SW4gZnVuY3Rpb24gX19hc3NpZ25fcmVxX25hbWUoKSBpbnN0ZWFkIG9mIHVzaW5nIHRoZSBERVZJ
-Q0VfTkFNRV9MRU4gaW4Kc3RybmNweSgpIHVzZSBtaW4gb2YgRElTS19OQU1FX0xFTiBhbmQgc3Ry
-bGVuKHJlcS0+bnMtPmRldmljZV9wYXRoKS4KClRoaXMgaXMgbmVlZGVkIHRvIHR1cm4gb2ZmIHRo
-ZSBmb2xsb3dpbmcgd2FybmluZ3M6LQoKSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGRyaXZlcnMvbnZt
-ZS90YXJnZXQvY29yZS5jOjE0OgpJbiBmdW5jdGlvbiDigJhfX2Fzc2lnbl9yZXFfbmFtZeKAmSwK
-ICAgIGlubGluZWQgZnJvbSDigJh0cmFjZV9ldmVudF9yYXdfZXZlbnRfbnZtZXRfcmVxX2luaXTi
-gJkgYXQgZHJpdmVycy9udm1lL3RhcmdldC8uL3RyYWNlLmg6NTg6MToKZHJpdmVycy9udm1lL3Rh
-cmdldC90cmFjZS5oOjUyOjM6IHdhcm5pbmc6IOKAmHN0cm5jcHnigJkgc3BlY2lmaWVkIGJvdW5k
-IDMyIGVxdWFscyBkZXN0aW5hdGlvbiBzaXplIFstV3N0cmluZ29wLXRydW5jYXRpb25dCiAgIHN0
-cm5jcHkobmFtZSwgcmVxLT5ucy0+ZGV2aWNlX3BhdGgsIERJU0tfTkFNRV9MRU4pOwogICBefn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgpJbiBmdW5jdGlv
-biDigJhfX2Fzc2lnbl9yZXFfbmFtZeKAmSwKICAgIGlubGluZWQgZnJvbSDigJhwZXJmX3RyYWNl
-X252bWV0X3JlcV9jb21wbGV0ZeKAmSBhdCBkcml2ZXJzL252bWUvdGFyZ2V0Ly4vdHJhY2UuaDox
-MDA6MToKZHJpdmVycy9udm1lL3RhcmdldC90cmFjZS5oOjUyOjM6IHdhcm5pbmc6IOKAmHN0cm5j
-cHnigJkgc3BlY2lmaWVkIGJvdW5kIDMyIGVxdWFscyBkZXN0aW5hdGlvbiBzaXplIFstV3N0cmlu
-Z29wLXRydW5jYXRpb25dCiAgIHN0cm5jcHkobmFtZSwgcmVxLT5ucy0+ZGV2aWNlX3BhdGgsIERJ
-U0tfTkFNRV9MRU4pOwogICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fgpJbiBmdW5jdGlvbiDigJhfX2Fzc2lnbl9yZXFfbmFtZeKAmSwKICAgIGlubGlu
-ZWQgZnJvbSDigJhwZXJmX3RyYWNlX252bWV0X3JlcV9pbml04oCZIGF0IGRyaXZlcnMvbnZtZS90
-YXJnZXQvLi90cmFjZS5oOjU4OjE6CmRyaXZlcnMvbnZtZS90YXJnZXQvdHJhY2UuaDo1MjozOiB3
-YXJuaW5nOiDigJhzdHJuY3B54oCZIHNwZWNpZmllZCBib3VuZCAzMiBlcXVhbHMgZGVzdGluYXRp
-b24gc2l6ZSBbLVdzdHJpbmdvcC10cnVuY2F0aW9uXQogICBzdHJuY3B5KG5hbWUsIHJlcS0+bnMt
-PmRldmljZV9wYXRoLCBESVNLX05BTUVfTEVOKTsKICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KSW4gZnVuY3Rpb24g4oCYX19hc3NpZ25fcmVxX25h
-bWXigJksCiAgICBpbmxpbmVkIGZyb20g4oCYdHJhY2VfZXZlbnRfcmF3X2V2ZW50X252bWV0X3Jl
-cV9jb21wbGV0ZeKAmSBhdCBkcml2ZXJzL252bWUvdGFyZ2V0Ly4vdHJhY2UuaDoxMDA6MToKZHJp
-dmVycy9udm1lL3RhcmdldC90cmFjZS5oOjUyOjM6IHdhcm5pbmc6IOKAmHN0cm5jcHnigJkgc3Bl
-Y2lmaWVkIGJvdW5kIDMyIGVxdWFscyBkZXN0aW5hdGlvbiBzaXplIFstV3N0cmluZ29wLXRydW5j
-YXRpb25dCiAgIHN0cm5jcHkobmFtZSwgcmVxLT5ucy0+ZGV2aWNlX3BhdGgsIERJU0tfTkFNRV9M
-RU4pOwogICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fgoKU2lnbmVkLW9mZi1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxjaGFpdGFueWEua3Vsa2FybmlA
-d2RjLmNvbT4KLS0tCiBkcml2ZXJzL252bWUvdGFyZ2V0L3RyYWNlLmggfCA0ICsrKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL252bWUvdGFyZ2V0L3RyYWNlLmggYi9kcml2ZXJzL252bWUvdGFyZ2V0L3RyYWNlLmgK
-aW5kZXggYzE0ZTMyNDlhMTRkLi45NThkY2E3YmNmYzcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZt
-ZS90YXJnZXQvdHJhY2UuaAorKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L3RyYWNlLmgKQEAgLTQ4
-LDggKzQ4LDEwIEBAIHN0YXRpYyBpbmxpbmUgc3RydWN0IG52bWV0X2N0cmwgKm52bWV0X3JlcV90
-b19jdHJsKHN0cnVjdCBudm1ldF9yZXEgKnJlcSkKIAogc3RhdGljIGlubGluZSB2b2lkIF9fYXNz
-aWduX3JlcV9uYW1lKGNoYXIgKm5hbWUsIHN0cnVjdCBudm1ldF9yZXEgKnJlcSkKIHsKKwlzaXpl
-X3QgbGVuID0gbWluX3Qoc2l6ZV90LCBESVNLX05BTUVfTEVOLCBzdHJsZW4ocmVxLT5ucy0+ZGV2
-aWNlX3BhdGgpKTsKKwogCWlmIChyZXEtPm5zKQotCQlzdHJuY3B5KG5hbWUsIHJlcS0+bnMtPmRl
-dmljZV9wYXRoLCBESVNLX05BTUVfTEVOKTsKKwkJc3RybmNweShuYW1lLCByZXEtPm5zLT5kZXZp
-Y2VfcGF0aCwgbGVuKTsKIAllbHNlCiAJCW1lbXNldChuYW1lLCAwLCBESVNLX05BTUVfTEVOKTsK
-IH0KLS0gCjIuMjIuMQoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFk
-Lm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52
-bWUK
+Just like what we have to get the passthru ctrl from the req, add an
+helper to get the subsystem associated with the nvmet_req() instead
+of open coding the chain of structures.
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/admin-cmd.c | 10 +++++-----
+ drivers/nvme/target/core.c      |  2 +-
+ drivers/nvme/target/nvmet.h     |  7 ++++++-
+ drivers/nvme/target/passthru.c  |  4 ++--
+ 4 files changed, 14 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index d551571b538c..8f8382021c31 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -690,7 +690,7 @@ static u16 nvmet_write_protect_flush_sync(struct nvmet_req *req)
+ static u16 nvmet_set_feat_write_protect(struct nvmet_req *req)
+ {
+ 	u32 write_protect = le32_to_cpu(req->cmd->common.cdw11);
+-	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
++	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+ 	u16 status;
+ 
+ 	status = nvmet_req_find_ns(req);
+@@ -750,7 +750,7 @@ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask)
+ 
+ void nvmet_execute_set_features(struct nvmet_req *req)
+ {
+-	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
++	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+ 	u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
+ 	u16 status = 0;
+@@ -794,7 +794,7 @@ void nvmet_execute_set_features(struct nvmet_req *req)
+ 
+ static u16 nvmet_get_feat_write_protect(struct nvmet_req *req)
+ {
+-	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
++	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+ 	u32 result;
+ 
+ 	result = nvmet_req_find_ns(req);
+@@ -824,7 +824,7 @@ void nvmet_get_feat_async_event(struct nvmet_req *req)
+ 
+ void nvmet_execute_get_features(struct nvmet_req *req)
+ {
+-	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
++	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+ 	u16 status = 0;
+ 
+@@ -931,7 +931,7 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 
+ 	if (nvme_is_fabrics(cmd))
+ 		return nvmet_parse_fabrics_cmd(req);
+-	if (req->sq->ctrl->subsys->type == NVME_NQN_DISC)
++	if (nvmet_req_subsys(req)->type == NVME_NQN_DISC)
+ 		return nvmet_parse_discovery_cmd(req);
+ 
+ 	ret = nvmet_check_ctrl_status(req, cmd);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 95b58d4b1af2..32221f98f1cc 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -421,7 +421,7 @@ u16 nvmet_req_find_ns(struct nvmet_req *req)
+ {
+ 	u32 nsid = le32_to_cpu(req->cmd->common.nsid);
+ 
+-	req->ns = xa_load(&req->sq->ctrl->subsys->namespaces, nsid);
++	req->ns = xa_load(&nvmet_req_subsys(req)->namespaces, nsid);
+ 	if (unlikely(!req->ns)) {
+ 		req->error_loc = offsetof(struct nvme_common_command, nsid);
+ 		return NVME_SC_INVALID_NS | NVME_SC_DNR;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 6b5f1b60cf50..50535563e8c5 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -551,6 +551,11 @@ static inline u32 nvmet_dsm_len(struct nvmet_req *req)
+ 		sizeof(struct nvme_dsm_range);
+ }
+ 
++static inline struct nvmet_subsys *nvmet_req_subsys(struct nvmet_req *req)
++{
++	return req->sq->ctrl->subsys;
++}
++
+ #ifdef CONFIG_NVME_TARGET_PASSTHRU
+ void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys);
+ int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys);
+@@ -585,7 +590,7 @@ static inline struct nvme_ctrl *nvmet_passthru_ctrl(struct nvmet_subsys *subsys)
+ static inline struct nvme_ctrl *
+ nvmet_req_passthru_ctrl(struct nvmet_req *req)
+ {
+-	return nvmet_passthru_ctrl(req->sq->ctrl->subsys);
++	return nvmet_passthru_ctrl(nvmet_req_subsys(req));
+ }
+ 
+ u16 errno_to_nvme_status(struct nvmet_req *req, int errno);
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index 3b22f4a868f4..f50c7b2bf21c 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -239,9 +239,9 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
+ 		}
+ 
+ 		q = ns->queue;
+-		timeout = req->sq->ctrl->subsys->io_timeout;
++		timeout = nvmet_req_subsys(req)->io_timeout;
+ 	} else {
+-		timeout = req->sq->ctrl->subsys->admin_timeout;
++		timeout = nvmet_req_subsys(req)->admin_timeout;
+ 	}
+ 
+ 	rq = nvme_alloc_request(q, req->cmd, 0);
+-- 
+2.22.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
