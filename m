@@ -2,89 +2,81 @@ Return-Path: <SRS0=1rws=HL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46691C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09279C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:21:39 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0721964EAA
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:09:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0721964EAA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id 51D8E64E10
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Feb 2021 04:21:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 51D8E64E10
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=oc/K2uNxmMtQfh9IOeJQSlLxFsW9+1Yvt427Hh4/RCQ=; b=eRfhMVZtkhAUyCc32N7/iCQhW
-	K0d56sNknmJXexl5c8K/JLeLRDBulIBE9qCA9q8qizLh0rHBOVof5NvbVRjnRtX3QoTJE5LYn1srw
-	6Ma2rkblLo25q4OMLYRHLslp0MboMlenNOUokqi5qjlAiea0CuJIM9iSYaspiHyiXzQywK//Wd1S7
-	7A3Zx/r3viLV7mCPLRhplxFVshmPTYpamhK4BxzmiUdKZsHjJjdg4QF8tY5SEccyHZxmbaso4+av2
-	aoLaJsFrzOQKkkmZoNKiPpis69Oy+/NuVtskTRKeJ5Gck+ed+Qjyi55WVL5tlrKig+hOk/zM7v1ZS
-	POY1ZGtQQ==;
+	 bh=+beqPX2k6s7jGjzqYzgIDe0tbfV+wCGpigf0+Mxqloc=; b=r9LzASb9nAHQFW+TAi4xNf0jL
+	B5UsvbIPqvzzF8bh+qj1TRopRRP2fmSgGUuET3nTWARC0pQNmuhRSRNlpd3OzQQ4FY1sikbBS0oPN
+	lh1+hPTwzdXgRTraVUFASaBHSwgUjRsx9vC64khnPIeBfG5MBITOhvJnC45yxTWLy32SOfIgLO0ky
+	+Vgiwq94CiYY4scRHxVu7jxCW1XX+6wFmNCtSaXeVUZd4G3VAfzqCe4g37Rxs+wJhzjP3srC92ggZ
+	W+u5EhOh9SdXxsQ+3naG7T2UQRf7sgUx7O8KmJggxO9p63DMeDD2zyweVnPaoYqqOJqH/4h7Gs8Kn
+	3p57kzZhw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9KL9-00039a-6W; Tue, 09 Feb 2021 04:09:27 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1l9KWq-0005hl-Bu; Tue, 09 Feb 2021 04:21:32 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9KKn-0002zV-8q
- for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 04:09:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1612843745; x=1644379745;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=OJAynS3Kv/UlTyycM5j8QungtTUtwyaJ38ZPqHX5QPA=;
- b=IoG9ld+wRQmhzL4CJvdd9YK6pDKRs7PmGWRjghyZcj5EPZRdL2ZwFfN/
- VL0FJZpVlk/3rKMJS3v+YnYzR+0GtZOQ0MjbwHqgic3wh7y8m15Tm+QXc
- hpZxyEKyv1m1AGZaNtVmzosUNjZ0+OuvAtXpahkiAuJc/dzyBLznshTZa
- fn0379o6WM65I9AIoaFIc+Lm8GUlKxkLi2ZpGvcqsKEakkRi+rz/hhZOQ
- EYINbkVl/vB8s/4mBnFmeZdHje32FOlJdAnIcedbC+m+Zyb25bRfRGAiB
- IB5PHcKINqv9CscG3yECs92tPwRHhQl99b7WglTWaM8McQGTjwEotQ9Ig g==;
-IronPort-SDR: SqvEarM82hjlaBRHzpiqPsk8k1yDnGCRFuVzYgGK1xHhBo0e/uC4GOg+8SN072c2olaQIN3oVG
- 1SH990vnc1CHf+8lfhxPNbsGZmvUcuj8XkPPzi5IhBi2nTSA9Rhn4Iblyu/pONsncwOox6HRCb
- lX9ELGlqoLY+4rIx/PnI1P/58FqKncydAuChsssONhyZ/LWVpV4+OLt478dsZAxRMfF485X1lT
- CZEpLUjQG0Za8x+yeMhkO8QiP7noMlYk6TtWpa8sjrJERO6SXyQW4UURc2i/bRTSWZh0sI+dYR
- CN0=
-X-IronPort-AV: E=Sophos;i="5.81,164,1610380800"; d="scan'208";a="269970529"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 09 Feb 2021 12:09:04 +0800
-IronPort-SDR: yv3eQt0h8uhFW6MczLII1WH3PYI/wqvucI21uCcrW21q8ByE6SSMmGr9hCo9d1s5RXwi1GTdju
- +jRfvxmceutKSsIJHYCzrur/cdyxe2AfmCMowjB8YvpzFONYkXbTmtgQJKCJ6hX9ZDhg7LLy73
- kxK6DzfiewoLlaljdodKFEl19FcX0ZNAZYhxl0urAhYfNx4XsA3BGglOwG1VChRCuGgmDBUKT6
- W6OI6CQ/h078wfL5aIYVbfAr+TZxrS+oNpfMQSSabsvc394+BxjkgOJy8X58L1SHbrGHpOp0OC
- +I0wsMz8bgAwH+NH9VK6XT6S
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2021 19:50:58 -0800
-IronPort-SDR: 4+675NJ7Oj4l11/vdyzxO21009iaGEVqkVjpXB9eG2flKJhTxOaWFost9aJF8fou/JDhh2wUQI
- PkAqUUg6UpTpqu7OVIn373iU/eL97/MEsIZw07antqjgWl72HnyY1FrcRBr2JhkdbGZ1Lses54
- lDbzxWAbuLPebPIjyVYrSr4NGuVdhut+1PKCTwsbxr2GIMxRFO6tAXJUQ5/21KSgHXQdl9QrXo
- +bC70tp4HH2IaAWzyBOcRVhi2hvqN7NvlvwWaPSQDkHiQ85ssTzqXLRbzBLzQsUBlB5htO2RZo
- 0xM=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 08 Feb 2021 20:09:05 -0800
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 11/11] nvmet: remove else at the end of the function
-Date: Mon,  8 Feb 2021 20:08:43 -0800
-Message-Id: <20210209040843.45572-12-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20210209040843.45572-1-chaitanya.kulkarni@wdc.com>
-References: <20210209040843.45572-1-chaitanya.kulkarni@wdc.com>
+ id 1l9KWm-0005gc-Jf
+ for linux-nvme@lists.infradead.org; Tue, 09 Feb 2021 04:21:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612844486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/eFer26DbD5JrI/cKhVP4gnabxdLf1Clq3I+VIutzqc=;
+ b=iad+p0+drs5nEEDt14ibsxhvTyo3mEqmJKyKpOI+0OjNQWDMiJxl9T5jF/Zl+pMVfTHzuP
+ 4uV9GkQtlQa/j/f9lL7X6exGlkE7876SxUO8KwpryWBBFqTQstVwJi/QinQcd+lDWrfLtR
+ /58IRx2TCb9p4HSigGru+nch+0aOit0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-583-2-cxNutzMUG-vfdb2RmxEw-1; Mon, 08 Feb 2021 23:21:23 -0500
+X-MC-Unique: 2-cxNutzMUG-vfdb2RmxEw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C32B9192D789;
+ Tue,  9 Feb 2021 04:21:20 +0000 (UTC)
+Received: from T590 (ovpn-13-86.pek2.redhat.com [10.72.13.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF37F10013D7;
+ Tue,  9 Feb 2021 04:21:07 +0000 (UTC)
+Date: Tue, 9 Feb 2021 12:21:03 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: kernel null pointer at nvme_tcp_init_iter+0x7d/0xd0 [nvme_tcp]
+Message-ID: <20210209042103.GB63798@T590>
+References: <cki.F3E139361A.EN5MUSJKK9@redhat.com>
+ <630237787.11660686.1612580898410.JavaMail.zimbra@redhat.com>
+ <e1d08160-ca49-91e2-dafc-3ee80516842d@grimberg.me>
+ <5848858e-239d-acb2-fa24-c371a3360557@redhat.com>
+ <af1d7e9d-0170-82f6-30e1-01f045d73fc7@grimberg.me>
+ <6147d452-a12e-c76c-22f1-5d9e7cb6b01d@grimberg.me>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <6147d452-a12e-c76c-22f1-5d9e7cb6b01d@grimberg.me>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210208_230905_498999_3BD348FA 
-X-CRM114-Status: GOOD (  13.11  )
+X-CRM114-CacheID: sfid-20210208_232128_725463_F81753C5 
+X-CRM114-Status: GOOD (  28.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,40 +88,131 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- sagi@grimberg.me
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: axboe@kernel.dk, Rachel Sibley <rasibley@redhat.com>,
+ Yi Zhang <yi.zhang@redhat.com>, Chaitanya.Kulkarni@wdc.com,
+ linux-nvme@lists.infradead.org, linux-block <linux-block@vger.kernel.org>,
+ CKI Project <cki-project@redhat.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The function nvmet_parse_io_cmd() returns value from
-nvmet_file_parse_io_cmd() or nvmet_bdev_parse_io_cmd() based on which
-backend is set for the request. Remove the else and just return the
-value from nvmet_bdev_parse_io_cmd().
+On Mon, Feb 08, 2021 at 10:42:28AM -0800, Sagi Grimberg wrote:
+> =
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/target/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> > > Hi Sagi
+> > > =
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 32221f98f1cc..1d5516272530 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -882,8 +882,8 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
- 
- 	if (req->ns->file)
- 		return nvmet_file_parse_io_cmd(req);
--	else
--		return nvmet_bdev_parse_io_cmd(req);
+> > > On 2/8/21 5:46 PM, Sagi Grimberg wrote:
+> > > > =
+
+> > > > > Hello
+> > > > > =
+
+> > > > > We found this kernel NULL pointer issue with latest
+> > > > > linux-block/for-next and it's 100% reproduced, let me know
+> > > > > if you need more info/testing, thanks
+> > > > > =
+
+> > > > > Kernel repo:
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
+.git
+> > > > > Commit: 11f8b6fd0db9 - Merge branch 'for-5.12/io_uring' into for-=
+next
+> > > > > =
+
+> > > > > Reproducer: blktests nvme-tcp/012
+> > > > =
+
+> > > > Thanks for reporting Ming, I've tried to reproduce this on my VM
+> > > > but did not succeed. Given that you have it 100% reproducible,
+> > > > can you try to revert commit:
+> > > > =
+
+> > > > 0dc9edaf80ea nvme-tcp: pass multipage bvec to request iov_iter
+> > > > =
+
+> > > =
+
+> > > Revert this commit fixed the issue and I've attached the config. :)
+> > =
+
+> > Good to know,
+> > =
+
+> > I see some differences that I should probably change to hit this:
+> > -- =
+
+> > @@ -254,14 +256,15 @@ CONFIG_PERF_EVENTS=3Dy
+> >  =A0# end of Kernel Performance Events And Counters
+> > =
+
+> >  =A0CONFIG_VM_EVENT_COUNTERS=3Dy
+> > +CONFIG_SLUB_DEBUG=3Dy
+> >  =A0# CONFIG_COMPAT_BRK is not set
+> > -CONFIG_SLAB=3Dy
+> > -# CONFIG_SLUB is not set
+> > -# CONFIG_SLOB is not set
+> > -CONFIG_SLAB_MERGE_DEFAULT=3Dy
+> > -# CONFIG_SLAB_FREELIST_RANDOM is not set
+> > +# CONFIG_SLAB is not set
+> > +CONFIG_SLUB=3Dy
+> > +# CONFIG_SLAB_MERGE_DEFAULT is not set
+> > +CONFIG_SLAB_FREELIST_RANDOM=3Dy
+> >  =A0# CONFIG_SLAB_FREELIST_HARDENED is not set
+> > -# CONFIG_SHUFFLE_PAGE_ALLOCATOR is not set
+> > +CONFIG_SHUFFLE_PAGE_ALLOCATOR=3Dy
+> > +CONFIG_SLUB_CPU_PARTIAL=3Dy
+> >  =A0CONFIG_SYSTEM_DATA_VERIFICATION=3Dy
+> >  =A0CONFIG_PROFILING=3Dy
+> >  =A0CONFIG_TRACEPOINTS=3Dy
+> > @@ -299,7 +302,8 @@ CONFIG_HAVE_INTEL_TXT=3Dy
+> >  =A0CONFIG_X86_64_SMP=3Dy
+> >  =A0CONFIG_ARCH_SUPPORTS_UPROBES=3Dy
+> >  =A0CONFIG_FIX_EARLYCON_MEM=3Dy
+> > -CONFIG_PGTABLE_LEVELS=3D4
+> > +CONFIG_DYNAMIC_PHYSICAL_MASK=3Dy
+> > +CONFIG_PGTABLE_LEVELS=3D5
+> >  =A0CONFIG_CC_HAS_SANE_STACKPROTECTOR=3Dy
+> > -- =
+
+> > =
+
+> > Probably CONFIG_SLUB and CONFIG_SLUB_DEBUG should be used.
+> =
+
+> Used your profile and this still does not happen :(
+
+One obvious error is that nr_segments is computed wrong.
+
+Yi, can you try the following patch?
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 881d28eb15e9..a393d99b74e1 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -239,9 +239,14 @@ static void nvme_tcp_init_iter(struct nvme_tcp_request=
+ *req,
+ 		offset =3D 0;
+ 	} else {
+ 		struct bio *bio =3D req->curr_bio;
++		struct bio_vec bv;
++		struct bvec_iter iter;
 +
-+	return nvmet_bdev_parse_io_cmd(req);
- }
- 
- bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
--- 
-2.22.1
++		nsegs =3D 0;
++		bio_for_each_bvec(bv, bio, iter)
++			nsegs++;
+ =
+
+ 		vec =3D __bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter);
+-		nsegs =3D bio_segments(bio);
+ 		size =3D bio->bi_iter.bi_size;
+ 		offset =3D bio->bi_iter.bi_bvec_done;
+ 	}
+
+-- =
+
+Ming
 
 
 _______________________________________________
