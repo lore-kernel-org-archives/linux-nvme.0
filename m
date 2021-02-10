@@ -2,80 +2,75 @@ Return-Path: <SRS0=Gy4h=HM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FCCDC433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Feb 2021 18:36:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4404DC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Feb 2021 22:04:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 46BA264E0B
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Feb 2021 18:36:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46BA264E0B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id C06C964E08
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Feb 2021 22:04:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C06C964E08
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9tGj/TlN9R4F/cxJs97Ujm3Pi2yFSI1Pyq+W5ajIVag=; b=KVefsi8Y4bSzDOSss1lwZ/XF6
-	O7TgTetHuVQPgLUAq66/NffcnkYLArpub0jLDrL2U7YZ+EKeV8B7i2xKwuMzsNpW0ANQateCHpbHM
-	JEKxBgqcci/F6rebjoCYY+pc86yrzMhGiaQQ1Mz9K1tewdXU59WVfYqailzQanC/i8oWQNAGE5aQF
-	A4C68l8yfubA1F3JvNFYT9BSLl1f9WynxwkZ9hZ7EEbOPLZs02pVMG7zZg8+ZTMZs+sC+8T1pxQak
-	dSgLWQGqaw4ycwp2pP8nUx9TgWzbVCxj377ZJD4E3Jer7kI3dtU7mhIz4P1cB3tnkdmI+jyO4/opL
-	govpYKhUw==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=nzV1m35Alw3B1ySRmBrWVkvvme+Gc17N1SlxQBcr6M0=; b=vRA9/oacvIfUiSssHCVOZR0TmD
+	xrdOUnG+TmWNoyPHyn4SETfKk9a139kJSqccH4R/MOERQf5OkLqZ+I96iN/nbiyPHGwKv/xRL9JWj
+	F+UTOJYv+xB5bjDXAAzVyl7Zy1gDXg4/R/msvyvIP+mJwyQWBBA4lWJuhScsOT0hUIa8IWHM6FIvj
+	surt9olntn3PxxISQRVfx6QYT9AJ3hcvMV+8g8B9Av3RvSxOqa/Pi17wKEV0zb/LUTUrn/hPlHs9P
+	489oujFCCCOVgGcAy9l3/6WLt3jTj72+pnwgloQQ4yIN0l/iqNCqOwr2JTvdPFkfP0Oqn0RFqSKIx
+	O0mFe4vA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9uLW-00075c-IG; Wed, 10 Feb 2021 18:36:14 +0000
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131])
+	id 1l9xaj-0001vm-S0; Wed, 10 Feb 2021 22:04:09 +0000
+Received: from mail-pj1-f47.google.com ([209.85.216.47])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9uLT-00074M-JN
- for linux-nvme@lists.infradead.org; Wed, 10 Feb 2021 18:36:12 +0000
-Received: by mail-il1-x131.google.com with SMTP id q9so2803168ilo.1
- for <linux-nvme@lists.infradead.org>; Wed, 10 Feb 2021 10:36:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lBDCvyJpnRoMGXXlPlEf1Flpq8L16c/Bw3NNP/aH7+c=;
- b=RaFWiE/gqCdewkU49GZyCM4ypktTMiXKfWwE2CmdWR4TXVjmS1TDrDKbZxoIieyxXW
- ppFP8qYOwTLvxLZFqanyWwga6ZoqHKqQnSSmdj6WiyNx0a6v0LEdoKTeQd7RqQM20P8U
- BWDOEyQT9lHe/2Gf5HM+hFwDm8pfx5nZR12x6shF3GSYfwO002nMuZz83B3qfoJcyn4X
- fnjptCWVPopo8rU53wvdJdO+hT53jMko16i11R49QVmLQce9IxaiUXUcJew8uWulG6yl
- +kq603S0rEjAseK1wAYCRyGoVpQ54nEFaCJsvFA8pkfdEWObUbIUQyZYsjR+uGDb/W7W
- g6nQ==
+ id 1l9xaf-0001uh-UT
+ for linux-nvme@lists.infradead.org; Wed, 10 Feb 2021 22:04:07 +0000
+Received: by mail-pj1-f47.google.com with SMTP id my11so3589619pjb.1
+ for <linux-nvme@lists.infradead.org>; Wed, 10 Feb 2021 14:04:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lBDCvyJpnRoMGXXlPlEf1Flpq8L16c/Bw3NNP/aH7+c=;
- b=eBymzmu2fYVt9zMruTzWJpK8S7GijSqdZJB2eESTLdYFUKPbA+OjscQBrEVEMXshDj
- 0N2BCOFgXbSfm/ondsYthPo15MLavQ06ptDlHFyEvitbBEIRs0+ueoFaVgFuHl16KhnH
- X1+WEnwaoBCaQXy8xVjOMh9aQuEdxwaC6l2osRsFV6R1drqhOWSgbRmJCiQWhSQZGDEF
- f7LCwLz1Pe7eQP98N3wKU/1C2FYi+CG/Kb6qzMDohEd4bPPZEyeYF2Q5ofZyIRjc2ApR
- uO4DXLt314B/oq7JhHgX1rra8QlujtVp+Dpv5mqqwK1B2rQCn4hwncboFZj5LiLgBKnz
- GUqg==
-X-Gm-Message-State: AOAM532p2KurKOKxRqjsihp+85+iNjFW8sNkkuKVwl2kqxitCWPyB0Pi
- HEIMzvJteB4X+0yjUyEzeZR3vIU1SHbYBnbPyZk=
-X-Google-Smtp-Source: ABdhPJxKTfKkr8g59IBH4ahpsBo+oKBYbD3kJmiSDivIl2VFY3OUw9t3klNWWdCxlhcDUkw6ZUt9WN9LPiS7J4e2o9s=
-X-Received: by 2002:a05:6e02:13e8:: with SMTP id
- w8mr2252236ilj.273.1612982167923; 
- Wed, 10 Feb 2021 10:36:07 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UQcs3fT817b0aL28c8ILem23vdhysrELWRM4DscWGNc=;
+ b=JI0ecw9zb+/jyDZpuFUeZmBt+v0yYrhSRS6cIlb1KOc6XPbKWUr2hn33r6nUHJf9U7
+ cVeST8JsYIGbIQD9x1TyMnJfJNo9aLJBjC28DiqaMAcZyTc0bDlg+lT8lq3O8HBW0j7C
+ 3ihlZxwgXClis6sNfyc7mVmjo2+J54uarjSvM+GNPCsVDiIvnWYnlp8s0wx6Uf7L9D3h
+ Sf9KAcNnfd3+eZPw65znK73p3DM3fWfJC4Zb2d5Ub+mlKOOp4bxjISQW4rBCD+HsGfha
+ Mkq5Ccrulg9BtE1K/eQcrXRdrrT3umAZiGFWQ6uPCG8SZPqve5HSWk/qCy413uXu3Bje
+ fwvQ==
+X-Gm-Message-State: AOAM530UmphUSbnrRhzEy7UcWn4q+uMKcyBA0FW8IK40LZkW9QOHwHQ5
+ t2FQlIon0v9dZH/ZFD1jZP6l2XabR7M=
+X-Google-Smtp-Source: ABdhPJztaUerzUAwryz0LRMBFtBL5VtJLpKrTsY9NA3iW+n3e0lAzjgDFrJwgycw0w8AJQcq52s9Ow==
+X-Received: by 2002:a17:90a:1a0b:: with SMTP id 11mr982552pjk.58.1612994643060; 
+ Wed, 10 Feb 2021 14:04:03 -0800 (PST)
+Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
+ ([2601:647:4802:9070:d52b:e830:d3b2:ec6f])
+ by smtp.gmail.com with ESMTPSA id z10sm3469790pff.179.2021.02.10.14.04.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Feb 2021 14:04:02 -0800 (PST)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme-tcp: fix crash triggered with a dataless request
+ submission
+Date: Wed, 10 Feb 2021 14:04:00 -0800
+Message-Id: <20210210220400.1730263-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <BYAPR04MB5656896D86A830305A2AFE31EA8D9@BYAPR04MB5656.namprd04.prod.outlook.com>
-In-Reply-To: <BYAPR04MB5656896D86A830305A2AFE31EA8D9@BYAPR04MB5656.namprd04.prod.outlook.com>
-From: Eric Curtin <ericcurtin17@gmail.com>
-Date: Wed, 10 Feb 2021 18:35:56 +0000
-Message-ID: <CANpvso5nv0LO6XwAVtj8Lc=4HbxUjjNnTmj9T7ap5F=3mccKoA@mail.gmail.com>
-Subject: Re: NVMe CLI Commit - Input expects device name without /dev
-To: Jeffrey Lien <Jeff.Lien@wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210210_133611_655853_8C4A7C0C 
-X-CRM114-Status: GOOD (  12.86  )
+X-CRM114-CacheID: sfid-20210210_170406_036199_5B921F24 
+X-CRM114-Status: GOOD (  15.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,41 +82,76 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Alex Gronseth <Alex.Gronseth@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sorry yes, it made sense to print this error for this case:
+write-zeros has a bio, but does not have any data buffers associated
+with it. Hence should not initialize the request iter for it (which
+attempts to reference the bi_io_vec (and crash).
+--
+ run blktests nvme/012 at 2021-02-05 21:53:34
+ BUG: kernel NULL pointer dereference, address: 0000000000000008
+ #PF: supervisor read access in kernel mode
+ #PF: error_code(0x0000) - not-present page
+ PGD 0 P4D 0
+ Oops: 0000 [#1] SMP NOPTI
+ CPU: 15 PID: 12069 Comm: kworker/15:2H Tainted: G S        I       5.11.0-rc6+ #1
+ Hardware name: Dell Inc. PowerEdge R640/06NR82, BIOS 2.10.0 11/12/2020
+ Workqueue: kblockd blk_mq_run_work_fn
+ RIP: 0010:nvme_tcp_init_iter+0x7d/0xd0 [nvme_tcp]
+ RSP: 0018:ffffbd084447bd18 EFLAGS: 00010246
+ RAX: 0000000000000000 RBX: ffffa0bba9f3ce80 RCX: 0000000000000000
+ RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000002000000
+ RBP: ffffa0ba8ac6fec0 R08: 0000000002000000 R09: 0000000000000000
+ R10: 0000000002800809 R11: 0000000000000000 R12: 0000000000000000
+ R13: ffffa0bba9f3cf90 R14: 0000000000000000 R15: 0000000000000000
+ FS:  0000000000000000(0000) GS:ffffa0c9ff9c0000(0000) knlGS:0000000000000000
+ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+ CR2: 0000000000000008 CR3: 00000001c9c6c005 CR4: 00000000007706e0
+ DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+ DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+ PKRU: 55555554
+ Call Trace:
+  nvme_tcp_queue_rq+0xef/0x330 [nvme_tcp]
+  blk_mq_dispatch_rq_list+0x11c/0x7c0
+  ? blk_mq_flush_busy_ctxs+0xf6/0x110
+  __blk_mq_sched_dispatch_requests+0x12b/0x170
+  blk_mq_sched_dispatch_requests+0x30/0x60
+  __blk_mq_run_hw_queue+0x2b/0x60
+  process_one_work+0x1cb/0x360
+  ? process_one_work+0x360/0x360
+  worker_thread+0x30/0x370
+  ? process_one_work+0x360/0x360
+  kthread+0x116/0x130
+  ? kthread_park+0x80/0x80
+  ret_from_fork+0x1f/0x30
+--
 
-https://github.com/linux-nvme/nvme-cli/issues/879
+Fixes: cb9b870fba3e ("nvme-tcp: fix wrong setting of request iov_iter")
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-But not for others, I'll remove that fprintf line. Here's the fix:
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 619b0d8f6e38..69f59d2c5799 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2271,7 +2271,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
+ 	req->data_len = blk_rq_nr_phys_segments(rq) ?
+ 				blk_rq_payload_bytes(rq) : 0;
+ 	req->curr_bio = rq->bio;
+-	if (req->curr_bio)
++	if (req->curr_bio && req->data_len)
+ 		nvme_tcp_init_iter(req, rq_data_dir(rq));
+ 
+ 	if (rq_data_dir(rq) == WRITE &&
+-- 
+2.27.0
 
-https://github.com/linux-nvme/nvme-cli/pull/905
-
-Apologies for any inconvenience caused.
-
-
-On Wed, 10 Feb 2021 at 18:21, Jeffrey Lien <Jeff.Lien@wdc.com> wrote:
->
-> Eric,
-> The subject commit (ID dcfe0156360deaefa26b1d00053a791eefe397d1) is causing the following errors with the Linux 5.9 kernel:
-> Failed to open /sys/class/nvme-subsystem/nvme-subsys0/nvme0/hostnqn: No such file or directory
-> Failed to open /sys/class/nvme-subsystem/nvme-subsys0/nvme0/hostid: No such file or directory
-> Failed to open /sys/class/nvme-subsystem/nvme-subsys1/nvme1/hostnqn: No such file or directory
-> Failed to open /sys/class/nvme-subsystem/nvme-subsys1/nvme1/hostid: No such file or directory
-> Failed to open /sys/class/nvme-subsystem/nvme-subsys2/nvme2/hostnqn: No such file or directory
-> Failed to open /sys/class/nvme-subsystem/nvme-subsys2/nvme2/hostid: No such file or directory
->
-> I'm seeing them on the  format and nvme list command.  They don't seem to impact function but do generate questions.  Do know of a way to resolve?
->
-> Thanks
->
-> Jeff Lien
->
 
 _______________________________________________
 Linux-nvme mailing list
