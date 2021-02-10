@@ -2,75 +2,90 @@ Return-Path: <SRS0=Gy4h=HM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4404DC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Feb 2021 22:04:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57D30C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Feb 2021 22:06:41 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C06C964E08
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Feb 2021 22:04:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C06C964E08
+	by mail.kernel.org (Postfix) with ESMTPS id 0BA2064DBA
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Feb 2021 22:06:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0BA2064DBA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
-	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=nzV1m35Alw3B1ySRmBrWVkvvme+Gc17N1SlxQBcr6M0=; b=vRA9/oacvIfUiSssHCVOZR0TmD
-	xrdOUnG+TmWNoyPHyn4SETfKk9a139kJSqccH4R/MOERQf5OkLqZ+I96iN/nbiyPHGwKv/xRL9JWj
-	F+UTOJYv+xB5bjDXAAzVyl7Zy1gDXg4/R/msvyvIP+mJwyQWBBA4lWJuhScsOT0hUIa8IWHM6FIvj
-	surt9olntn3PxxISQRVfx6QYT9AJ3hcvMV+8g8B9Av3RvSxOqa/Pi17wKEV0zb/LUTUrn/hPlHs9P
-	489oujFCCCOVgGcAy9l3/6WLt3jTj72+pnwgloQQ4yIN0l/iqNCqOwr2JTvdPFkfP0Oqn0RFqSKIx
-	O0mFe4vA==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=zmMJLG0G/jziAamqq9Gs0joHicBb6Kbj0W6009T8FAg=; b=AYYNdJaUbifXSEfIgDXMJ1QAN
+	Ou/eib3ByLrxlzC6YyD7EdIxesh8JOZVXSUyo9DTJmT4GrDQzqzGaH+XUUvSjvIx+RnJiEkhuq4tp
+	8EziKEh64eOAqjhwTdXwF+ENmfV26b2N50vsMtZzC83vZfbnGoJ4ck/59zEk18BOnaLddWxEfs9rh
+	pXbHRlrZginQQ6v4hd4sEWHR+dyCi6lv/N1DhevVSPquYmQ26XJTiJFkXyCW1dsW4MR934t8lhcMU
+	YcRRUBZnkPmoJbaX8JLmcgXhIDpnzZNA38K+6zuT6GzsrR8epGLbxMDHdYrkS08zQdOwW0Nyct99F
+	suY4qifjA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1l9xaj-0001vm-S0; Wed, 10 Feb 2021 22:04:09 +0000
-Received: from mail-pj1-f47.google.com ([209.85.216.47])
+	id 1l9xd7-0002GT-U4; Wed, 10 Feb 2021 22:06:37 +0000
+Received: from mail-pl1-f176.google.com ([209.85.214.176])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l9xaf-0001uh-UT
- for linux-nvme@lists.infradead.org; Wed, 10 Feb 2021 22:04:07 +0000
-Received: by mail-pj1-f47.google.com with SMTP id my11so3589619pjb.1
- for <linux-nvme@lists.infradead.org>; Wed, 10 Feb 2021 14:04:04 -0800 (PST)
+ id 1l9xd5-0002Fy-93
+ for linux-nvme@lists.infradead.org; Wed, 10 Feb 2021 22:06:36 +0000
+Received: by mail-pl1-f176.google.com with SMTP id 8so1984679plc.10
+ for <linux-nvme@lists.infradead.org>; Wed, 10 Feb 2021 14:06:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=UQcs3fT817b0aL28c8ILem23vdhysrELWRM4DscWGNc=;
- b=JI0ecw9zb+/jyDZpuFUeZmBt+v0yYrhSRS6cIlb1KOc6XPbKWUr2hn33r6nUHJf9U7
- cVeST8JsYIGbIQD9x1TyMnJfJNo9aLJBjC28DiqaMAcZyTc0bDlg+lT8lq3O8HBW0j7C
- 3ihlZxwgXClis6sNfyc7mVmjo2+J54uarjSvM+GNPCsVDiIvnWYnlp8s0wx6Uf7L9D3h
- Sf9KAcNnfd3+eZPw65znK73p3DM3fWfJC4Zb2d5Ub+mlKOOp4bxjISQW4rBCD+HsGfha
- Mkq5Ccrulg9BtE1K/eQcrXRdrrT3umAZiGFWQ6uPCG8SZPqve5HSWk/qCy413uXu3Bje
- fwvQ==
-X-Gm-Message-State: AOAM530UmphUSbnrRhzEy7UcWn4q+uMKcyBA0FW8IK40LZkW9QOHwHQ5
- t2FQlIon0v9dZH/ZFD1jZP6l2XabR7M=
-X-Google-Smtp-Source: ABdhPJztaUerzUAwryz0LRMBFtBL5VtJLpKrTsY9NA3iW+n3e0lAzjgDFrJwgycw0w8AJQcq52s9Ow==
-X-Received: by 2002:a17:90a:1a0b:: with SMTP id 11mr982552pjk.58.1612994643060; 
- Wed, 10 Feb 2021 14:04:03 -0800 (PST)
-Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
+ bh=9/1yz6Sj+nYzo9QwRx9drCzv7Ae9nz8CKKb4s5zl1oY=;
+ b=Zzivy5A4qTZZnoHd2OhuMrXljpPRu6MZ4v3W5rQ2rSX76JdsqSkeDYn1vzQwTUBoFI
+ bL5HguplBBAG3ggofyqCcoePVYb8Y9USGPN65AP7D2BglyIvt8FIj/Doxha3AcK3cW5k
+ SQuXI0bITfoyPhKm11T7We6loIhNAtiG5POUmCPlLikYIgMHFyuOvvqfGMe/5I5v/ZWf
+ dO9m0OqPBQzPv+b/35IyVQDl6vjgFCZR904Gtdb3DYCr7vYnBendG/DL/uwp58RHgN8g
+ 7sFh5G1ODdCs7OzbpleSWlzxCvIvq/LN/CuIc7BvvgEM8akOhFbJ+pyRFfXLiXJFOKIw
+ iNeA==
+X-Gm-Message-State: AOAM532VtMrestUARph1qQuihA1Q/C6yJq3Z1WD3rEbsLALjidMs9vjn
+ jjH6DDclTx3f0cgQMSh7JjQ2cf+YCt4=
+X-Google-Smtp-Source: ABdhPJzDqxibWtlOB1Zf6iGCyu2PvpDL8llJIbwLF1crP/c64SHaCgt4cMW01Ev5LGy2lrup5OrqAg==
+X-Received: by 2002:a17:90a:4548:: with SMTP id
+ r8mr1031910pjm.16.1612994793688; 
+ Wed, 10 Feb 2021 14:06:33 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:d52b:e830:d3b2:ec6f?
  ([2601:647:4802:9070:d52b:e830:d3b2:ec6f])
- by smtp.gmail.com with ESMTPSA id z10sm3469790pff.179.2021.02.10.14.04.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 14:04:02 -0800 (PST)
+ by smtp.gmail.com with ESMTPSA id h10sm1287682pfq.97.2021.02.10.14.06.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Feb 2021 14:06:32 -0800 (PST)
+Subject: Re: kernel null pointer at nvme_tcp_init_iter+0x7d/0xd0 [nvme_tcp]
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Yi Zhang <yi.zhang@redhat.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ linux-block <linux-block@vger.kernel.org>
+References: <cki.F3E139361A.EN5MUSJKK9@redhat.com>
+ <630237787.11660686.1612580898410.JavaMail.zimbra@redhat.com>
+ <e1d08160-ca49-91e2-dafc-3ee80516842d@grimberg.me>
+ <5848858e-239d-acb2-fa24-c371a3360557@redhat.com>
+ <a88fd4c8-8d5c-6934-39bc-5c864e3ed84f@grimberg.me>
+ <aec13f12-640c-77d5-bbdd-b4a3e18f1bf2@redhat.com>
+ <6ae16841-5f51-617a-aab7-666b7eed299c@grimberg.me>
+ <1a520912-ac7c-1a3c-c432-b382a5da6177@redhat.com>
+ <BYAPR04MB49652279710E99EBB6F8AC67868D9@BYAPR04MB4965.namprd04.prod.outlook.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme-tcp: fix crash triggered with a dataless request
- submission
-Date: Wed, 10 Feb 2021 14:04:00 -0800
-Message-Id: <20210210220400.1730263-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.27.0
+Message-ID: <502e8d85-90cf-9533-0f83-364bee2fd34b@grimberg.me>
+Date: Wed, 10 Feb 2021 14:06:31 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
+In-Reply-To: <BYAPR04MB49652279710E99EBB6F8AC67868D9@BYAPR04MB4965.namprd04.prod.outlook.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210210_170406_036199_5B921F24 
-X-CRM114-Status: GOOD (  15.32  )
+X-CRM114-CacheID: sfid-20210210_170635_362902_8DA5E6F4 
+X-CRM114-Status: GOOD (  13.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,76 +97,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Rachel Sibley <rasibley@redhat.com>,
+ CKI Project <cki-project@redhat.com>, Ming Lei <ming.lei@redhat.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-write-zeros has a bio, but does not have any data buffers associated
-with it. Hence should not initialize the request iter for it (which
-attempts to reference the bi_io_vec (and crash).
---
- run blktests nvme/012 at 2021-02-05 21:53:34
- BUG: kernel NULL pointer dereference, address: 0000000000000008
- #PF: supervisor read access in kernel mode
- #PF: error_code(0x0000) - not-present page
- PGD 0 P4D 0
- Oops: 0000 [#1] SMP NOPTI
- CPU: 15 PID: 12069 Comm: kworker/15:2H Tainted: G S        I       5.11.0-rc6+ #1
- Hardware name: Dell Inc. PowerEdge R640/06NR82, BIOS 2.10.0 11/12/2020
- Workqueue: kblockd blk_mq_run_work_fn
- RIP: 0010:nvme_tcp_init_iter+0x7d/0xd0 [nvme_tcp]
- RSP: 0018:ffffbd084447bd18 EFLAGS: 00010246
- RAX: 0000000000000000 RBX: ffffa0bba9f3ce80 RCX: 0000000000000000
- RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000002000000
- RBP: ffffa0ba8ac6fec0 R08: 0000000002000000 R09: 0000000000000000
- R10: 0000000002800809 R11: 0000000000000000 R12: 0000000000000000
- R13: ffffa0bba9f3cf90 R14: 0000000000000000 R15: 0000000000000000
- FS:  0000000000000000(0000) GS:ffffa0c9ff9c0000(0000) knlGS:0000000000000000
- CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
- CR2: 0000000000000008 CR3: 00000001c9c6c005 CR4: 00000000007706e0
- DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
- DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
- PKRU: 55555554
- Call Trace:
-  nvme_tcp_queue_rq+0xef/0x330 [nvme_tcp]
-  blk_mq_dispatch_rq_list+0x11c/0x7c0
-  ? blk_mq_flush_busy_ctxs+0xf6/0x110
-  __blk_mq_sched_dispatch_requests+0x12b/0x170
-  blk_mq_sched_dispatch_requests+0x30/0x60
-  __blk_mq_run_hw_queue+0x2b/0x60
-  process_one_work+0x1cb/0x360
-  ? process_one_work+0x360/0x360
-  worker_thread+0x30/0x370
-  ? process_one_work+0x360/0x360
-  kthread+0x116/0x130
-  ? kthread_park+0x80/0x80
-  ret_from_fork+0x1f/0x30
---
 
-Fixes: cb9b870fba3e ("nvme-tcp: fix wrong setting of request iov_iter")
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/tcp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>> So it's nvme_admin_abort_cmd here
+>>
+>> [   74.017450] run blktests nvme/012 at 2021-02-09 21:41:55
+>> [   74.111311] loop: module loaded
+>> [   74.125717] loop0: detected capacity change from 2097152 to 0
+>> [   74.141026] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>> [   74.149395] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+>> [   74.158298] nvmet: creating controller 1 for subsystem
+>> blktests-subsystem-1 for NQN
+>> nqn.2014-08.org.nvmexpress:uuid:41131d88-02ca-4ccc-87b3-6ca3f28b13a4.
+>> [   74.158742] nvme nvme0: creating 48 I/O queues.
+>> [   74.163391] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+>> [   74.184623] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+>> 127.0.0.1:4420
+>> [   75.235059] nvme_tcp: rq 38 opcode 8
+>> [   75.238653] blk_update_request: I/O error, dev nvme0c0n1, sector
+>> 1048624 op 0x9:(WRITE_ZEROES) flags 0x2800800 phys_seg 0 prio class 0
+>> [   75.380179] XFS (nvme0n1): Mounting V5 Filesystem
+>> [   75.387457] XFS (nvme0n1): Ending clean mount
+>> [   75.388555] xfs filesystem being mounted at /mnt/blktests supports
+>> timestamps until 2038 (0x7fffffff)
+>> [   91.035659] XFS (nvme0n1): Unmounting Filesystem
+>> [   91.043334] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+> 
+> But write-zeores is also data less command and should not fail.
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 619b0d8f6e38..69f59d2c5799 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2271,7 +2271,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	req->data_len = blk_rq_nr_phys_segments(rq) ?
- 				blk_rq_payload_bytes(rq) : 0;
- 	req->curr_bio = rq->bio;
--	if (req->curr_bio)
-+	if (req->curr_bio && req->data_len)
- 		nvme_tcp_init_iter(req, rq_data_dir(rq));
- 
- 	if (rq_data_dir(rq) == WRITE &&
--- 
-2.27.0
-
+And it has a bio, which means that nvme-tcp tries to init an iter
+for it when it shouldn't. So the actual offending commit is:
+cb9b870fba3e, which cleaned up how the iter is initialized but 
+introduced this issue.
 
 _______________________________________________
 Linux-nvme mailing list
