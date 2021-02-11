@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97212C43381
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Feb 2021 21:11:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CC1AC433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Feb 2021 21:11:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E4D564E42
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Feb 2021 21:11:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E4D564E42
+	by mail.kernel.org (Postfix) with ESMTPS id 344D964E3E
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Feb 2021 21:11:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 344D964E3E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,44 +23,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6zGI2NOwcbEgGG7mzDX8mCGsihtXLLX4N5BQIEomYKk=; b=aw64AaMFHcCaaQTpfvxCy7/H8
-	AJLNn+Tp/gTlxlEidP6pPP/aNmV7WtFftq5h3VRelUAo6yMC10pvgdVATfe62y5H0k4qH0JBnmwaa
-	7U+ba2asFwBI/Rt3lR7ttq9E5eln0xogt40vYMyZtjZwVbUvI46/BvziJJRBwe5Mb23JdyYDnnZ7h
-	boUXpyNU1W9WcPA4zsuUwOgteeXAPnCCz/z35Wt1fYah04m7fXdFEjZgFVVKFeW4BxkgE6xY9UVfO
-	WGAVKDpCf7oyek5qGDJzta++YYifcstszYA1YDt9dr4puVC4HMlGvBTcOMwr5UUA7i5qxEqJG0pEX
-	PElwir2Kw==;
+	 bh=rjwZlSodviwD6ecYpNS3BMN6uxqSc2nXVEzTBohZY9Q=; b=lQf5F3eJmH22V0i6zZwqEue+d
+	0EnEZCAfoh/u1TA9PHlzKQLJDBsMLsYSisTTLbs2A/IZYYWG+PFZJNSo/xFyrqlpCfKyFrM3ztV1C
+	e7Erw5SV5+wi2pR5oWOBwgozU889Re9lIB532nlhifFNPGLbtNIwdAn2HObQM9DXGe7KMLH3kdLfT
+	F7y4DLjUylCiJ4s1lraZ+HP130hpve69/uLZQrVRymyWKvtl8XFL97WN8lIZfFLPnZkVQFPNWSJhL
+	5ZymaulV9eWtexkgEE9KMZb3o8iBgBbwQs/pX1vKKOCEEZnxg9+6L3YckVEFgkBOKIQqFBGVcve1X
+	WZTL1ZQUA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lAJFS-00047R-Sr; Thu, 11 Feb 2021 21:11:38 +0000
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64])
+	id 1lAJFY-00049W-7K; Thu, 11 Feb 2021 21:11:44 +0000
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lAJFD-00042Q-RE
- for linux-nvme@lists.infradead.org; Thu, 11 Feb 2021 21:11:26 +0000
+ id 1lAJFG-000433-3c
+ for linux-nvme@lists.infradead.org; Thu, 11 Feb 2021 21:11:28 +0000
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B60259d7a0001>; Thu, 11 Feb 2021 13:11:22 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 11 Feb
- 2021 21:11:13 +0000
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B60259d7d0000>; Thu, 11 Feb 2021 13:11:25 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 11 Feb
+ 2021 21:11:17 +0000
 Received: from vdi.nvidia.com (172.20.145.6) by mail.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 11 Feb 2021 21:11:08 +0000
+ Transport; Thu, 11 Feb 2021 21:11:13 +0000
 From: Boris Pismenny <borisp@mellanox.com>
 To: <dsahern@gmail.com>, <kuba@kernel.org>, <davem@davemloft.net>,
  <saeedm@nvidia.com>, <hch@lst.de>, <sagi@grimberg.me>, <axboe@fb.com>,
  <kbusch@kernel.org>, <viro@zeniv.linux.org.uk>, <edumazet@google.com>,
  <smalin@marvell.com>
-Subject: [PATCH v4 net-next 04/21] net: skb copy(+hash) iterators for DDP
- offloads
-Date: Thu, 11 Feb 2021 23:10:27 +0200
-Message-ID: <20210211211044.32701-5-borisp@mellanox.com>
+Subject: [PATCH v4 net-next  05/21] net/tls: expose get_netdev_for_sock
+Date: Thu, 11 Feb 2021 23:10:28 +0200
+Message-ID: <20210211211044.32701-6-borisp@mellanox.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20210211211044.32701-1-borisp@mellanox.com>
 References: <20210211211044.32701-1-borisp@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210211_161124_156228_EE9E43D3 
-X-CRM114-Status: GOOD (  12.95  )
+X-CRM114-CacheID: sfid-20210211_161126_369974_268D74AA 
+X-CRM114-Status: GOOD (  12.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,122 +71,97 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Yoray Zack <yorayz@mellanox.com>, Boris Pismenny <borisp@mellanox.com>,
- yorayz@nvidia.com, boris.pismenny@gmail.com, benishay@nvidia.com,
- linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- Or Gerlitz <ogerlitz@mellanox.com>, ogerlitz@nvidia.com
+Cc: Boris Pismenny <borisp@mellanox.com>, yorayz@nvidia.com,
+ boris.pismenny@gmail.com, benishay@nvidia.com, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, ogerlitz@nvidia.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This commit introduces new functions to support direct data placement
-(DDP) NIC offloads that avoid copying data from SKBs.
+get_netdev_for_sock is a utility that is used to obtain
+the net_device structure from a connected socket.
 
-Later patches will use this for nvme-tcp DDP offload.
+Later patches will use this for nvme-tcp DDP and DDP CRC offloads.
 
 Signed-off-by: Boris Pismenny <borisp@mellanox.com>
-Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-Signed-off-by: Or Gerlitz <ogerlitz@mellanox.com>
-Signed-off-by: Yoray Zack <yorayz@mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- include/linux/skbuff.h |  9 ++++++++
- net/core/datagram.c    | 48 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 57 insertions(+)
+ include/net/sock.h   | 17 +++++++++++++++++
+ net/tls/tls_device.c | 20 ++------------------
+ 2 files changed, 19 insertions(+), 18 deletions(-)
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 0d1be25574cc..0470eb3c9976 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -3594,6 +3594,10 @@ __poll_t datagram_poll(struct file *file, struct socket *sock,
- 			   struct poll_table_struct *wait);
- int skb_copy_datagram_iter(const struct sk_buff *from, int offset,
- 			   struct iov_iter *to, int size);
-+#ifdef CONFIG_TCP_DDP
-+int skb_ddp_copy_datagram_iter(const struct sk_buff *from, int offset,
-+			       struct iov_iter *to, int size);
-+#endif
- static inline int skb_copy_datagram_msg(const struct sk_buff *from, int offset,
- 					struct msghdr *msg, int size)
- {
-@@ -3604,6 +3608,11 @@ int skb_copy_and_csum_datagram_msg(struct sk_buff *skb, int hlen,
- int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
- 			   struct iov_iter *to, int len,
- 			   struct ahash_request *hash);
-+#ifdef CONFIG_TCP_DDP
-+int skb_ddp_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
-+					struct iov_iter *to, int len,
-+					struct ahash_request *hash);
-+#endif
- int skb_copy_datagram_from_iter(struct sk_buff *skb, int offset,
- 				 struct iov_iter *from, int len);
- int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *frm);
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index 81809fa735a7..f386d4d82b1b 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -495,6 +495,27 @@ static int __skb_datagram_iter(const struct sk_buff *skb, int offset,
- 	return 0;
+diff --git a/include/net/sock.h b/include/net/sock.h
+index 690e496a0e79..f6d70f689bd1 100644
+--- a/include/net/sock.h
++++ b/include/net/sock.h
+@@ -2732,4 +2732,21 @@ void sock_set_sndtimeo(struct sock *sk, s64 secs);
+ 
+ int sock_bind_add(struct sock *sk, struct sockaddr *addr, int addr_len);
+ 
++/* Assume that the socket is already connected */
++static inline struct net_device *get_netdev_for_sock(struct sock *sk, bool hold)
++{
++	struct dst_entry *dst = sk_dst_get(sk);
++	struct net_device *netdev = NULL;
++
++	if (likely(dst)) {
++		netdev = dst->dev;
++		if (hold)
++			dev_hold(netdev);
++	}
++
++	dst_release(dst);
++
++	return netdev;
++}
++
+ #endif	/* _SOCK_H */
+diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+index d9cd229aa111..792c0a477850 100644
+--- a/net/tls/tls_device.c
++++ b/net/tls/tls_device.c
+@@ -106,22 +106,6 @@ static void tls_device_queue_ctx_destruction(struct tls_context *ctx)
+ 	spin_unlock_irqrestore(&tls_device_lock, flags);
  }
  
-+#ifdef CONFIG_TCP_DDP
-+/**
-+ *	skb_ddp_copy_and_hash_datagram_iter - Copies datagrams from skb frags to
-+ *	an iterator and update a hash. If the iterator and skb frag point to the
-+ *	same page and offset, then the copy is skipped.
-+ *	@skb: buffer to copy
-+ *	@offset: offset in the buffer to start copying from
-+ *	@to: iovec iterator to copy to
-+ *	@len: amount of data to copy from buffer to iovec
-+ *      @hash: hash request to update
-+ */
-+int skb_ddp_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
-+					struct iov_iter *to, int len,
-+					struct ahash_request *hash)
-+{
-+	return __skb_datagram_iter(skb, offset, to, len, true,
-+			ddp_hash_and_copy_to_iter, hash);
-+}
-+EXPORT_SYMBOL(skb_ddp_copy_and_hash_datagram_iter);
-+#endif
-+
- /**
-  *	skb_copy_and_hash_datagram_iter - Copy datagram to an iovec iterator
-  *          and update a hash.
-@@ -513,6 +534,33 @@ int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
- }
- EXPORT_SYMBOL(skb_copy_and_hash_datagram_iter);
- 
-+#ifdef CONFIG_TCP_DDP
-+static size_t simple_ddp_copy_to_iter(const void *addr, size_t bytes,
-+				      void *data __always_unused,
-+				      struct iov_iter *i)
-+{
-+	return ddp_copy_to_iter(addr, bytes, i);
-+}
-+
-+/**
-+ *	skb_ddp_copy_datagram_iter - Copies datagrams from skb frags to an
-+ *	iterator. If the iterator and skb frag point to the same page and
-+ *	offset, then the copy is skipped.
-+ *	@skb: buffer to copy
-+ *	@offset: offset in the buffer to start copying from
-+ *	@to: iovec iterator to copy to
-+ *	@len: amount of data to copy from buffer to iovec
-+ */
-+int skb_ddp_copy_datagram_iter(const struct sk_buff *skb, int offset,
-+			       struct iov_iter *to, int len)
-+{
-+	trace_skb_copy_datagram_iovec(skb, len);
-+	return __skb_datagram_iter(skb, offset, to, len, false,
-+			simple_ddp_copy_to_iter, NULL);
-+}
-+EXPORT_SYMBOL(skb_ddp_copy_datagram_iter);
-+#endif
-+
- static size_t simple_copy_to_iter(const void *addr, size_t bytes,
- 		void *data __always_unused, struct iov_iter *i)
+-/* We assume that the socket is already connected */
+-static struct net_device *get_netdev_for_sock(struct sock *sk)
+-{
+-	struct dst_entry *dst = sk_dst_get(sk);
+-	struct net_device *netdev = NULL;
+-
+-	if (likely(dst)) {
+-		netdev = netdev_sk_get_lowest_dev(dst->dev, sk);
+-		dev_hold(netdev);
+-	}
+-
+-	dst_release(dst);
+-
+-	return netdev;
+-}
+-
+ static void destroy_record(struct tls_record_info *record)
  {
+ 	int i;
+@@ -1106,7 +1090,7 @@ int tls_set_device_offload(struct sock *sk, struct tls_context *ctx)
+ 	if (skb)
+ 		TCP_SKB_CB(skb)->eor = 1;
+ 
+-	netdev = get_netdev_for_sock(sk);
++	netdev = get_netdev_for_sock(sk, true);
+ 	if (!netdev) {
+ 		pr_err_ratelimited("%s: netdev not found\n", __func__);
+ 		rc = -EINVAL;
+@@ -1182,7 +1166,7 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
+ 	if (ctx->crypto_recv.info.version != TLS_1_2_VERSION)
+ 		return -EOPNOTSUPP;
+ 
+-	netdev = get_netdev_for_sock(sk);
++	netdev = get_netdev_for_sock(sk, true);
+ 	if (!netdev) {
+ 		pr_err_ratelimited("%s: netdev not found\n", __func__);
+ 		return -EINVAL;
 -- 
 2.24.1
 
