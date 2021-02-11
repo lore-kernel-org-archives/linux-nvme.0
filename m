@@ -2,68 +2,85 @@ Return-Path: <SRS0=cPwJ=HN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADFCDC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Feb 2021 19:42:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A06C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Feb 2021 19:44:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CF5864DAD
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Feb 2021 19:42:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CF5864DAD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7B33464DAD
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Feb 2021 19:44:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B33464DAD
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LNhs1jmVxKiDrI9YoBYV9mo6w2aMAh1odnBcPz739uo=; b=Y1i32NWLhZjW5AeQ3gvvlnZY2H
-	RvxhBuPDfI2QdkhRjUrea7/hg4UmoLpVjznWCGAi85gqUOsqPN/ftAiAdyj50hVu6SkymTgBONh/q
-	+ok9Akrmw89wz4Df1n66Jr9k015PhdwIbzsadpEzhWvuSYfSbgQiSUKwH/qZjLMb/twDLcvz37B/z
-	Ckh5UDXhXqSr+4ODfci1nfzjDOrO3xRIDCszC8Y41bBz03tbYTONfJaBVktf8K464ao6QyOSxdwyJ
-	hfof94P8RTl5FwGmpNVOZewxOifXsb+2nPI/NN0+VsAQB0SY2l+KHM47zr0Wy1wQiJ90+NOgYaTtX
-	ysGwDBqg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=yO2l3AIpbBneSn1RkAC1WnGv0N+//GqeljDV8GvBddE=; b=jEsbcalPi5HYR64R90E52w6xJ
+	cVjSEdclJQqgwfVmGGW1h4N0E1ss7nRZwJfafdjnJ94052WVaTQ56Sl4U82n31LQTh2WHXAtG5vNp
+	MlDyxNSQa5boiPWdtqGPLlsMU8jrI72P52lxrflKalzUIx93+RNx+fIccghYiym2YamegUwJMoC+t
+	pDRTUGyfJpTCkoFigX84J0ixWFdxxAp666805x3jLdO1enhi5Za++GTRN6/y3ek35VVWFC+aGSdMR
+	i9h/l15RQ1cnSSUc8z2EZfr2Q111AtEZ2CK5T1UisdpgXKCKYY9wzspqXwP2oct1880A1nH0yKOnv
+	FIb2RiOtA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lAHr1-0003gr-NW; Thu, 11 Feb 2021 19:42:19 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1lAHtS-00043l-Ff; Thu, 11 Feb 2021 19:44:50 +0000
+Received: from mail-pj1-f46.google.com ([209.85.216.46])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lAHqy-0003fV-O0
- for linux-nvme@lists.infradead.org; Thu, 11 Feb 2021 19:42:18 +0000
-IronPort-SDR: 1I8BrrY6BV1+Q4D1S/Vfon7L9C/NfEuDz4DmXHA1+5K/1Y3mCIrVhbyDl6d3y7xJEi1o+XuqpV
- 5OVhWovhW1LQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9892"; a="169434793"
-X-IronPort-AV: E=Sophos;i="5.81,171,1610438400"; d="scan'208";a="169434793"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2021 11:42:12 -0800
-IronPort-SDR: w38xOkdwLCESV6+jyvqqdtdS6EmkkWnCZoCTMALz6kWsg2/vkE+mkYRoumPK9rodRuO08SSLna
- xJbe4SdU6igw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,171,1610438400"; d="scan'208";a="397562830"
-Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 11 Feb 2021 11:42:11 -0800
-Received: from kbuild by cd560a204411 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1lAHqs-00041f-QB; Thu, 11 Feb 2021 19:42:10 +0000
-Date: Fri, 12 Feb 2021 03:41:45 +0800
-From: kernel test robot <lkp@intel.com>
+ id 1lAHtP-00042t-IC
+ for linux-nvme@lists.infradead.org; Thu, 11 Feb 2021 19:44:48 +0000
+Received: by mail-pj1-f46.google.com with SMTP id cv23so4007829pjb.5
+ for <linux-nvme@lists.infradead.org>; Thu, 11 Feb 2021 11:44:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+px3AlhCcKNWwW22WADelZhiN+SnFE93DAyp8iEoiKQ=;
+ b=geg4fMY8xVi1aUld7NX+pGTFYI8o80PEo4J50BVwvGVVWFzKwHRJ+fZz9CZx4NCbQD
+ QOYcBEFvN/bc44AWZfOP5kSOvM5qqU5zk+zxAjn+4KzuyFkhtFfQJlNxKdUA38nkhKCk
+ VwrBEBR5rnAepLvvaDNKgNKuqCduPSTbwh1m6tLWVLAZMESVtuKsThenUy0HpTDvKPQq
+ goovcUDAdOBJh1oh/EmB0vTdehsbrlgFGFINta0tGjv15sRB/ri00PfPiBkllmXyyNMF
+ Qu0/xM8Y+bOKR/BmNISZWVH0fFHGKe9uByeYlh/bnCC58jGPeayrSh6g7epVKbxi5q29
+ 7ogQ==
+X-Gm-Message-State: AOAM530drHi29KFzKznrayqsxyfw6U2w29u+KwnOZylxxTnl0/orDFtJ
+ m4flUr7raEAxGHxhKZApKEM7viz7mG0=
+X-Google-Smtp-Source: ABdhPJwNDNhTfdv1BWFmps0n7SUuUvImFnjg5flAeCX3EvWXjVee7cMATll5Wrq6pqcjJg2YcGinBw==
+X-Received: by 2002:a17:90a:f302:: with SMTP id
+ ca2mr5413224pjb.233.1613072686258; 
+ Thu, 11 Feb 2021 11:44:46 -0800 (PST)
+Received: from ?IPv6:2601:647:4802:9070:1fa1:4e73:e82c:40f2?
+ ([2601:647:4802:9070:1fa1:4e73:e82c:40f2])
+ by smtp.gmail.com with ESMTPSA id f8sm6409782pfa.207.2021.02.11.11.44.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Feb 2021 11:44:45 -0800 (PST)
+Subject: Re: [PATCH 2/2] nvme: don't set iosqes,iocqes for discovery
+ controllers
 To: Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-5.12] BUILD SUCCESS
- e11e5116171dedeaf63735931e72ad5de0f30ed5
-Message-ID: <60258879.Kj7xgZYkmPFku+rA%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+References: <20210209101235.1539917-1-sagi@grimberg.me>
+ <20210209101235.1539917-2-sagi@grimberg.me> <20210210101126.GA26624@lst.de>
+ <3702938a-cfd5-b725-bb75-7c9072a42fde@grimberg.me>
+ <20210211070250.GA13708@lst.de>
+ <f279bd6a-d4e3-52b6-740b-66f90434cf69@grimberg.me>
+ <20210211183124.GA26045@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <a5ea738a-44c4-e953-3271-a0b97668000e@grimberg.me>
+Date: Thu, 11 Feb 2021 11:44:44 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
+In-Reply-To: <20210211183124.GA26045@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210211_144216_995407_3640DC00 
-X-CRM114-Status: UNSURE (   9.49  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210211_144447_645322_E7F20EB3 
+X-CRM114-Status: GOOD (  21.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,139 +92,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Keith Busch <kbusch@kernel.org>, Martin.Belanger@dell.com,
+ linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.12
-branch HEAD: e11e5116171dedeaf63735931e72ad5de0f30ed5  nvme-tcp: fix crash triggered with a dataless request submission
 
-elapsed time: 727m
+>> The annoying thing here is that this issue will manifest in the host
+>> waiting on nvme_wait_ready for a long 7.5 seconds to understand that
+>> its maybe incompatible and re-attempt (nvme_enable_ctrl writes to cap
+>> and then polls CSTS)...
+>>
+>> What I have now looks like:
+> 
+> In terms of what to do about the retry this is what we'll have to
+> do.  That being said I think for existing controllers we should just
+> stick to the existing wrong value, and only set the correct one
+> for versions > 1.3.  This isn't exactly correct, but probably causes
+> the least harm.  It will need an extensive comment, and maybe we need
+> to add an option to override it if controllers show up that do not
+> like the wrong value.
+So you suggest that we keep the retry w.a. but continue to send the
+wrong value in 1.3 or lower?
 
-configs tested: 109
-configs skipped: 2
+I personally think that this would be extremely confusing to users, if
+they do trip on this, but I agree that they are less likely to hit
+it because existing controllers obviously accept wrong values...
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+As for option to override. I really hate it.. What is the least exposure
+we can get for this but still allow the user to control this?
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-sh                                  defconfig
-powerpc                     powernv_defconfig
-arm                         palmz72_defconfig
-mips                       bmips_be_defconfig
-mips                        bcm47xx_defconfig
-openrisc                    or1ksim_defconfig
-mips                         tb0219_defconfig
-m68k                            q40_defconfig
-mips                        qi_lb60_defconfig
-arm                           sunxi_defconfig
-m68k                          amiga_defconfig
-arm                       imx_v6_v7_defconfig
-powerpc                     tqm8555_defconfig
-sh                  sh7785lcr_32bit_defconfig
-mips                        bcm63xx_defconfig
-sh                           se7721_defconfig
-sh                         microdev_defconfig
-powerpc                         ps3_defconfig
-powerpc                      walnut_defconfig
-powerpc                    mvme5100_defconfig
-mips                     loongson1c_defconfig
-sh                           se7750_defconfig
-sh                        sh7763rdp_defconfig
-m68k                       m5275evb_defconfig
-sparc64                          alldefconfig
-powerpc                 mpc836x_mds_defconfig
-arm                             pxa_defconfig
-powerpc                 mpc832x_rdb_defconfig
-sh                           se7751_defconfig
-powerpc                     sequoia_defconfig
-ia64                         bigsur_defconfig
-ia64                      gensparse_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20210209
-x86_64               randconfig-a001-20210209
-x86_64               randconfig-a005-20210209
-x86_64               randconfig-a004-20210209
-x86_64               randconfig-a002-20210209
-x86_64               randconfig-a003-20210209
-i386                 randconfig-a001-20210209
-i386                 randconfig-a005-20210209
-i386                 randconfig-a003-20210209
-i386                 randconfig-a002-20210209
-i386                 randconfig-a006-20210209
-i386                 randconfig-a004-20210209
-i386                 randconfig-a016-20210209
-i386                 randconfig-a013-20210209
-i386                 randconfig-a012-20210209
-i386                 randconfig-a014-20210209
-i386                 randconfig-a011-20210209
-i386                 randconfig-a015-20210209
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a013-20210209
-x86_64               randconfig-a014-20210209
-x86_64               randconfig-a015-20210209
-x86_64               randconfig-a012-20210209
-x86_64               randconfig-a016-20210209
-x86_64               randconfig-a011-20210209
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Wish we had a good and reliable quirk mechanism for fabrics...
 
 _______________________________________________
 Linux-nvme mailing list
