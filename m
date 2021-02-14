@@ -1,20 +1,20 @@
-Return-Path: <SRS0=EhmY=HP=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=P1pc=HQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF68C433E0
-	for <linux-nvme@archiver.kernel.org>; Sat, 13 Feb 2021 16:47:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 718C7C433DB
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Feb 2021 07:31:31 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 664B261494
-	for <linux-nvme@archiver.kernel.org>; Sat, 13 Feb 2021 16:47:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 664B261494
+	by mail.kernel.org (Postfix) with ESMTPS id DB3DB64DCD
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Feb 2021 07:31:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB3DB64DCD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,58 +23,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=is/qtIWEC1LGCbEDY4gEirJop6YpFLxu4MJD9/u0ObE=; b=zFp1FZW6iziTBR3lo8UumllqV
-	CmVg5mO2qdv10t2QeNeA+vWaxQy086Oy7Uvlvnk9dpaYh/JW4A5vglxAJu34BSJ4ck7vYH4o1+ITX
-	Hjv4cD+amzjRj4/dlrvW6SCGyLJ34ljHLY9hESYc1fmeSJ07fDnYlIcu6Rh/AKevu1M0ZEv9uh9SP
-	/HkXXMA26fyp96ZVQ9qM0PA4AHt9jqMXQO76mCiyChGKKqrxA+WU7kA9HXlLWUOO8UzeJuKwct/vh
-	kwOXHvMsfDh7GJa+GmVcOs2dXWq7FUhtV+jiy0VCc5tvqg0mRCw0qVrcvM3wDPQPw8QqRfZ/gyHeO
-	iRXn1vY7w==;
+	 bh=Qj99JCSgdDBqOIOjSJL5s9Vk+8YHwF9Jariryj8cf7o=; b=gnR2a0/qb8sH+p+Vun+Cv/vei
+	xSMj+sR+PQv5rEMmXvjcqv7zaFl0oECY5NpA7Xlk/2ZcD3ZzMJysNNMaUONeQRAfYeUYQ6Gl4EE6U
+	IPuYl7IbatXRtSjUSgLzYGlOl3Y0xAuDvWrxFKCkdTjPdPuJNdZUAOJy+BS9DaMM6GxuWfDZkN9Gd
+	Vv+HdoEPi4UR+io0NATFVdpkilosKxb1YGAQbTQpY7O7CrcwJL36noSbI953JRovCtRXkrZO7JtQ5
+	X1Inzt7VJ6bf1By6bSEPRvJPsrCLR9ln7Vht8CiQHZYSDpO12Tzt6k6gOP9shdLM/GAzZsBNkhFlw
+	HF9MQmW0w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lAy4s-0004wI-NM; Sat, 13 Feb 2021 16:47:26 +0000
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+	id 1lBBsC-0003Yf-6Y; Sun, 14 Feb 2021 07:31:16 +0000
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lAy4j-0004sx-KY
- for linux-nvme@lists.infradead.org; Sat, 13 Feb 2021 16:47:20 +0000
-Received: by mail-ed1-x531.google.com with SMTP id y18so3378326edw.13
- for <linux-nvme@lists.infradead.org>; Sat, 13 Feb 2021 08:47:15 -0800 (PST)
+ id 1lBBs5-0003Y3-69
+ for linux-nvme@lists.infradead.org; Sun, 14 Feb 2021 07:31:10 +0000
+Received: by mail-yb1-xb2c.google.com with SMTP id b10so4048706ybn.3
+ for <linux-nvme@lists.infradead.org>; Sat, 13 Feb 2021 23:31:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hpzftsUk2/rMHUGTQ1xA+pUUko30FNDsdd0NDmeqjv0=;
- b=RprEYt5FY2DZ2gm7JJgWqw3TSdPHEW7SqRTxdyPwDHC7sglhy1VGf61gsCPHETQSdA
- uQ2pSXO9xC+4GvY7hZjxBlluvK3poKW/m41eTQByXLDrCknUaAF6X9y1XD3xdFsT9Km6
- 2iMoqZEoaweORAG+OfAW3MUFwimAw4OOc2m3ZsZCXdIWNIHtth433+Mp2owrZn2tdc41
- Y7od9jOS6ZyZJwimoIZvmxLZ2kt8Z8yPpN9TDjKo28ncDC5e4G5e16913b4xpreRa/40
- zKbTzfwH/F7tt2ANqabCoExl486d0PY3KICREEx2o1QJngAkg4qEIyESfHMd+n9XG876
- JlJw==
+ :cc; bh=L0NFRMoCIBg17R5WvEqGuR3xkawgs31RwTgIaRPst34=;
+ b=dsVHVGbtHkov8jBqlz2FSgwta/3qkQr6mHHhp0x69Z8ZWLa836pVL8+eHt72/hhcBI
+ l+jCG8n09/sfS/dqnWaokD2BJ7D+zbExgeaKGimKDz+ttZTyFiRTxZa4jqbDBOoetZ/8
+ DNKS29n8PNjoFFS7iqxjQzopUSZXVemprP68662kBW7GlUn33sWPVD7kjqB51fpLs5Os
+ fl1Oe1+aWci/OwxY/xl4c+A/I8yJlwmUyNwkNzsMN5oD5Jv+wuhmYp3+B6xPrOe08DGb
+ dP5XymjiwNuVpZBoXxalcbzzYkD2x53HEPSr3iUwK73hWPjPZElEYsDzHJx9XhIuX3Ai
+ 2USw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hpzftsUk2/rMHUGTQ1xA+pUUko30FNDsdd0NDmeqjv0=;
- b=RbKrD0KOM8XXE85jzFNg7FUZZljDiOaiyubLMHKPwJ+EeP3zJI9kqUQLpvjMSRPC8X
- UfuJW3dGTIKY8fhIyv1CyPm1Sm5BMKhLnLTKz1VvKPO+ad8htzMRF5T02HMp2DO7b9jp
- ient6p2M6FLz57ZjwDEG3+rWfHKou1u1mTTESX5yzF4w8qScyFgYVSOmqVyAVf05uRu2
- 241+wJ4f2JDCDoJS9xxHofLKo8ueRc+IFGGrYDii19YEzn9KNmFXAYa0E5I6d8cCqgXz
- rR+ecSECfzmWl64Q4bTeeggqIV5h21soRJDbkV9xn3YOw0riBRH+0g/HmJqgdR0uvfhl
- a0fA==
-X-Gm-Message-State: AOAM531p/4AzWo+BkNP9q4JqEOIVXC4kK7qJ/vjk5WTMu4VcqBdrPcf8
- HzEAqE/Dh/Q6cgjpGxviBBx7C5f/vcVgIYAa0ic=
-X-Google-Smtp-Source: ABdhPJy8mjEiLKBO4OsGl4+wG9+UbZ1yTLExMWS2oF/vDVpUZsdOZfkQX2vzMo0pB5RvCgX6yrwznmDF/vLkCrRa2ic=
-X-Received: by 2002:a50:c403:: with SMTP id v3mr8358260edf.217.1613234834578; 
- Sat, 13 Feb 2021 08:47:14 -0800 (PST)
+ bh=L0NFRMoCIBg17R5WvEqGuR3xkawgs31RwTgIaRPst34=;
+ b=O/J+5GFNyYIe6IpxKPWsylQ7MTlDrp37Oa8KcnuW04BvT40hUgyFCv42dzoBm9eKy3
+ LdUQ6pxAxaSJV0F8nUQ6RqAOS6EXVyuBllWpIDiM3aq3iT4yJ7FHpVRe+/9AbH8rHEAV
+ h5uyVZRS3Ybh40uLDk7i19YUcJ6eJSavfSge1XtQw3lg4XzhmC/nLlR9fb64qJj007w/
+ wu6Qc/fB436bvJJAp1sYaJW1lZpwHCfA0PSTzhsz52ZPCVDebFgbrX5DQizDMSdi8gW2
+ Pjri7ggCcE1Ok12dirxxFG9czQz005pMKqAPnWbHD6BPG0qAftWHW+GMMQ8YM6RSPLeT
+ V9KA==
+X-Gm-Message-State: AOAM531PZP+Tm5XShkGwFgMXLZXXxkrZAxCwd8fEwluUl2l6lfDCtmkB
+ vdhT7NhxemkFaMM3Lnk6pzVLOQ9lDlQL+l7Mr6Y=
+X-Google-Smtp-Source: ABdhPJxayp8Zt2wT/Mw2a6//3LBN8nDdADL915m2lPMX3ay1vpCHTqgiHlVD8f/oTBxu3HVrM1XFDyxjxRle/57GQUA=
+X-Received: by 2002:a25:ae14:: with SMTP id a20mr4110229ybj.129.1613287861584; 
+ Sat, 13 Feb 2021 23:31:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20210207181324.11429-1-smalin@marvell.com>
- <20210212180639.GA511742@localhost>
-In-Reply-To: <20210212180639.GA511742@localhost>
-From: Shai Malin <malin1024@gmail.com>
-Date: Sat, 13 Feb 2021 18:47:02 +0200
-Message-ID: <CAKKgK4yof3MsvUFAB-yjSBKtf-UhrTGb7vghOUv=ttYG29v1OQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 00/11] NVMeTCP Offload ULP and QEDN Device Driver
-To: Chris Leech <cleech@redhat.com>
+References: <20210212052031.18123-1-borisp@mellanox.com>
+ <a18aaeec-049e-72c1-f981-3e18381b0f49@nvidia.com>
+In-Reply-To: <a18aaeec-049e-72c1-f981-3e18381b0f49@nvidia.com>
+From: Or Gerlitz <gerlitz.or@gmail.com>
+Date: Sun, 14 Feb 2021 09:30:50 +0200
+Message-ID: <CAJ3xEMi0574vgmHMt8LCe36RhH0XJg=LoTU2Jdx+W7+FWMmkBQ@mail.gmail.com>
+Subject: Re: [PATCH v4 net-next 21/21] Documentation: add TCP DDP offload
+ documentation
+To: Nikolay Aleksandrov <nikolay@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210213_114717_774827_2D51373B 
-X-CRM114-Status: GOOD (  14.73  )
+X-CRM114-CacheID: sfid-20210214_023109_359664_055DE74A 
+X-CRM114-Status: UNSURE (   6.96  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,50 +88,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Shai Malin <smalin@marvell.com>, Ariel Elior <aelior@marvell.com>,
- sagi@grimberg.me, Michal Kalderon <mkalderon@marvell.com>,
- netdev@vger.kernel.org, linux-nvme@lists.infradead.org, kuba@kernel.org,
- Douglas.Farley@dell.com, nassa@marvell.com, Erik.Smith@dell.com,
- pkushwaha@marvell.com, davem@davemloft.net
+Cc: smalin@marvell.com, linux-nvme@lists.infradead.org,
+ Boris Pismenny <borisp@mellanox.com>, yorayz@nvidia.com,
+ boris.pismenny@gmail.com, Ben Ben-Ishay <benishay@mellanox.com>,
+ Yoray Zack <yorayz@mellanox.com>, benishay@nvidia.com,
+ David Miller <davem@davemloft.net>, axboe@fb.com,
+ Eric Dumazet <edumazet@google.com>, Linux Netdev List <netdev@vger.kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, David Ahern <dsahern@gmail.com>,
+ Keith Busch <kbusch@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Or Gerlitz <ogerlitz@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 12 Feb 2021 at 20:06, Chris Leech wrote:
->
-> On Sun, Feb 07, 2021 at 08:13:13PM +0200, Shai Malin wrote:
-> > Queue Initialization:
-> > =====================
-> > The nvme-tcp-offload ULP module shall register with the existing
-> > nvmf_transport_ops (.name = "tcp_offload"), nvme_ctrl_ops and blk_mq_ops.
-> > The nvme-tcp-offload vendor driver shall register to nvme-tcp-offload ULP
-> > with the following ops:
-> >  - claim_dev() - in order to resolve the route to the target according to
-> >                  the net_dev.
-> >  - create_queue() - in order to create offloaded nvme-tcp queue.
-> >
-> > The nvme-tcp-offload ULP module shall manage all the controller level
-> > functionalities, call claim_dev and based on the return values shall call
-> > the relevant module create_queue in order to create the admin queue and
-> > the IO queues.
->
-> Hi Shai,
->
-> How well does this claim_dev approach work with multipathing?  Is it
-> expected that providing HOST_TRADDR is sufficient control over which
-> offload device will be used with multiple valid paths to the controller?
->
-> - Chris
->
+On Fri, Feb 12, 2021 at 4:11 PM Nikolay Aleksandrov <nikolay@nvidia.com> wrote:
 
-Hi Chris,
+> I got interested and read through the doc, there are a few typos below.
 
-The nvme-tcp-offload multipath behaves the same as the non-offloaded
-nvme-tcp. The HOST_TRADDR is sufficient to control which offload device
-will be used with multiple valid paths.
-
-- Shai
+thanks for spotting these, we will fix them
 
 _______________________________________________
 Linux-nvme mailing list
