@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B61C433E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Feb 2021 13:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54667C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Feb 2021 13:06:13 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C2A12614A7
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Feb 2021 13:06:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2A12614A7
+	by mail.kernel.org (Postfix) with ESMTPS id E5A3964DEC
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Feb 2021 13:06:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5A3964DEC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,63 +24,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DjMVyzs5fHfk0K37CAEyLa11mdDvzUzi6gJ4ixdOmJU=; b=qtgJqr4bZBEQDTDSTIejGRoG8s
-	mZ1FI2MbXlfj6IE+7ekR4prZfGmKsCk3MghtrhTVzSIE9VdsIMYyzNh2dp+h4FOMbaYlIWEK7AG+5
-	kZbZBNOYFlh5luG/64rdbFm4UvYSdsykPNcpIgya3tXeXp2dD9U1jBuxNrEOmzCLhADBc3c/uFbwF
-	xwBqCuvcbnUm7PDmnwGPQR4owAC81TftDomcIaconLkqnZqYgQ2F7l6MAfxQ15MLsAFchA79kqUVM
-	GBAbWVNlV8x6ynPmzmyB/x4Nk8LAgvHfKDs53/qqQFWSlRJnJ75nU6A0qbyze4Y1IW5rhwPggQF9+
-	ur76/lNA==;
+	bh=IYoRzcdhlHW1vg8eBzkQDYgy88UzhydHs5+fXNvafjQ=; b=n7AS4fVyuuV86qMtznvOoMTY2T
+	2gfi1mwe8eiSAVmBiBoSuCNVfEjw5+xSMr1tHtTJUHsndbm89BycDvT0ck+b25kYPRoIQF0Ed2xpV
+	22QWwFRo3tl8hxWbeDgx4XN0ZARdzDL+NmoMxdoiHTq2O1qzVqyLnsB7cg8HGUz83UvOLaqh7rFzu
+	oEbs07HpP/lN4llaKrRd/EFtUBTjvLri87c/jouq+HHwmj1srJzOlJ3yiCbGOUkbLGNYDjoDQXNBU
+	jc2Z43XIAg9bucT3y1r6EnQHC5YiYDguhYxvISVA+NYXDXmPEMRJIsf6VKWsnVizdFSW99BkpMkSV
+	PQKZjnyQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lBdZn-0006hy-Pw; Mon, 15 Feb 2021 13:06:07 +0000
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+	id 1lBdZo-0006iM-Vi; Mon, 15 Feb 2021 13:06:09 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lBdZk-0006fl-JU
- for linux-nvme@lists.infradead.org; Mon, 15 Feb 2021 13:06:05 +0000
-Received: by mail-pf1-x42b.google.com with SMTP id b145so4156581pfb.4
- for <linux-nvme@lists.infradead.org>; Mon, 15 Feb 2021 05:06:04 -0800 (PST)
+ id 1lBdZm-0006hM-KG
+ for linux-nvme@lists.infradead.org; Mon, 15 Feb 2021 13:06:08 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id r2so3703979plr.10
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Feb 2021 05:06:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=9N5ExewkUvque785U6FgAfqht4C9ooYfjyRxAMk7LA8=;
- b=agfd2oot+cSYVwYQTbtzyxhUMCvAU4PovEWyZKMztMe9hNdU1Vk/4xIt6I0bfQx2dO
- vcza8sSue6TxbTYJBJon9igP66/nP4AhUjbe2UvRRYIXfwqUPLfVdJvfBYJCf0WRVSVU
- qDz3hYgYowTJAMgE1BHsFPFq5ZT5kQLAvX2+vyW5KrG1GF7czhNT6YV7W0xUt6OBtYKb
- lEELDCc0pqP8lCc1bGYekU/GtBv8glm9Ku799GJZzAlvsnHJwqwbUXC2HPUdl24Lp1It
- hpYSfI2CGE1Mggp3N70H6t/RHOCSGbcNYb49iOC4OwRUGDUA8CFFwG2BRbh5vSqzgMyp
- d+Sw==
+ bh=O/gRuDH6VVnApSmGIKi27QRWbNS2fhRQuv911IurJMg=;
+ b=PKK36CbdBxP9F+L10+D1muU1uSEEdo6KG8ufjlWB2p8wm9YUOyFz+YsQCen2S5fnsj
+ SnRfcXJ8zMTFuORHJjNSE+5u4pvvDxn3au/nG7PH9NniNNBo99v7f0/V5YasPwDZjtbC
+ eTnLuvGNlMFBN96Gy51vhf5D5HL01y2NAMRe+L96lIJ65a9L4bGtDc93QC/6bEpAo6vp
+ qSmsrFIU/ZC82oLiNrtq0QPf3srMJsHLrhQHUDkiJpmFnDGwX/R0c8rRgtuvMn8TWfZP
+ JF4JTX5ddP5vdEQ7b0xDm9nYg51AdzM2N4cPCtxe+2fej96NkyDq20t+HBCQ8xMt+tUJ
+ QbbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=9N5ExewkUvque785U6FgAfqht4C9ooYfjyRxAMk7LA8=;
- b=N09mBN2iwm7Z2DIrDfqv2Ml8vgQrvkU45+1xtwRSV4lwoT8XYn1YFCInKiAZMy2wU+
- /4PCgwkTxczK5c+gtHTWAqcYlBzYlnLaQJWnPxSKlv9UWLXuDRRRY0vGVL7GCLiyqNYt
- s6Zl+3vKMKTXOKH562ld7GZEhoxtxinR3NF80+m6lGUpcAxbfePvZBGJqOCkcyul4g1Y
- jE16ed6qomX9QF2lYUbJUKOBMzkFihpVo5fnQZGsFIxyQzcBFomsF3iAY43oCKT+fIx4
- OwzKRAM6u2BK8zVeSWxh3WI8d965T3ZtC9eehU+84reIrgnXE1lPgHN+xhy5wzsqQw3/
- MqMw==
-X-Gm-Message-State: AOAM533+uzTAp1wNBKUqIA2kEvOdsHQ/fXDaSgZJoLraxrLdp6bcUtQa
- EjAFxUfcrpY+pqR8Jnj2WzLpsuG307iHmQ==
-X-Google-Smtp-Source: ABdhPJycyPa/JIFQOzyqFqADD59owWvS0Ko3LEnq4JvXqKiB4g7x66knmvcGuZz/Qg5drXI0ng/PRQ==
-X-Received: by 2002:a62:528c:0:b029:19e:4a39:d9ea with SMTP id
- g134-20020a62528c0000b029019e4a39d9eamr15510756pfb.20.1613394362258; 
- Mon, 15 Feb 2021 05:06:02 -0800 (PST)
+ bh=O/gRuDH6VVnApSmGIKi27QRWbNS2fhRQuv911IurJMg=;
+ b=ghQlgv6c4qgcet9p6yBXJ+NXnRW3vX2nwgv2CXwQS8WWoFhWDl6PG4J2edorwj3PaM
+ bUv8Box5CmufWYmmheSrXENvkwJ9DZLMwopK5Gt3AUGLyEU+L3332V/2CCWL5cm57BKc
+ fNzAo9jq6N6r4D5SyN3rSKMRULJ5sBkpGy7n7e8BNPZ13xjORsDBnL7X4cXAFp04OT1u
+ qPRDgJZ+NMXbgxV06kWPzir0gsYEaGhla9xpSjHiU6zbm/kEKVBWguSCAwy0srLmnWPv
+ wDqlI87NnWhKHCzJoHaEsh8x1XVWC6oBbu+SNUYsSpkuscdQTtOdFwkygbz/jehLNKWU
+ COSg==
+X-Gm-Message-State: AOAM530ZEQSKte7Dy/QTuAT7vT2XFLuNn9UenuKCfe0UoCKSlhSV3H5U
+ 2rtCDG248Ai0fwEQLhO4WAo5yOoSv27o4w==
+X-Google-Smtp-Source: ABdhPJyGE7ry7HvzlAOt5cUn5UwVpqAY/XoehQ1ZqunmaFJzj7uUCIaRSgInpeQzyO47IXJqWVI+JA==
+X-Received: by 2002:a17:90b:1649:: with SMTP id
+ il9mr15613243pjb.62.1613394364195; 
+ Mon, 15 Feb 2021 05:06:04 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id q13sm11334490pfg.155.2021.02.15.05.06.00
+ by smtp.gmail.com with ESMTPSA id q13sm11334490pfg.155.2021.02.15.05.06.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 05:06:02 -0800 (PST)
+ Mon, 15 Feb 2021 05:06:04 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/2] nvme: retry command if driver control flag given for
- passthru
-Date: Mon, 15 Feb 2021 22:05:53 +0900
-Message-Id: <20210215130554.32387-2-minwoo.im.dev@gmail.com>
+Subject: [nvme-cli PATCH 2/2] nvme-ioctl: add command retry driver control
+ flag to passthru
+Date: Mon, 15 Feb 2021 22:05:54 +0900
+Message-Id: <20210215130554.32387-3-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210215130554.32387-1-minwoo.im.dev@gmail.com>
 References: <20210215130554.32387-1-minwoo.im.dev@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210215_080604_667031_0F2C507A 
-X-CRM114-Status: GOOD (  15.97  )
+X-CRM114-CacheID: sfid-20210215_080606_790734_CECE8B2F 
+X-CRM114-Status: GOOD (  19.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,78 +101,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-ioctl passthru commands are REQ_FAILFAST_DRIVER requests which are
-non-retry requests if failed.  This patch introduced `driver_ctrl` flag
-to the ioctl command structure: nvme_passthru_cmd, nvme_passthru_cmd64.
-`driver_ctrl` field has not been appended, but replaced existing
-reserved field.
+Replace existing reserved field in passthru ioctl command structures.
+This patch also removed the `--rsvd` option from the passthru command
+because even if it's given, it's not going to be passthrough to the
+kernel driver: meaningless input.
 
-Clear the REQ_FAILFASTER_DRIVER flag from the request if `driver_ctrl`
-is given with NVME_DRIVER_CTRL_RETRY set to make it retry-able if failed
-without DNR.
+This patch introduced the first flag value for command retry in case of
+!DNR failure case from controller.  If `--retry` option is given to
+passthru command, it will be retried by the driver itself rather than
+returning error to the user-space direcly.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- drivers/nvme/host/core.c        | 12 ++++++++----
- include/uapi/linux/nvme_ioctl.h | 15 +++++++++++----
- 2 files changed, 19 insertions(+), 8 deletions(-)
+ linux/nvme_ioctl.h | 12 +++++++++---
+ nvme-ioctl.c       |  5 ++---
+ nvme-ioctl.h       |  2 +-
+ nvme.c             | 15 +++++++++------
+ 4 files changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d77f3f26d8d3..20cd4a815944 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1143,7 +1143,7 @@ EXPORT_SYMBOL_NS_GPL(nvme_execute_passthru_rq, NVME_TARGET_PASSTHRU);
- static int nvme_submit_user_cmd(struct request_queue *q,
- 		struct nvme_command *cmd, void __user *ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
--		u32 meta_seed, u64 *result, unsigned timeout)
-+		u32 meta_seed, u64 *result, unsigned timeout, u16 driver_ctrl)
- {
- 	bool write = nvme_is_write(cmd);
- 	struct nvme_ns *ns = q->queuedata;
-@@ -1157,6 +1157,9 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
-+	if (driver_ctrl & NVME_DRIVER_CTRL_RETRY)
-+		req->cmd_flags &= ~REQ_FAILFAST_DRIVER;
-+
- 	if (timeout)
- 		req->timeout = timeout;
- 	nvme_req(req)->flags |= NVME_REQ_USERCMD;
-@@ -1615,7 +1618,8 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 
- 	return nvme_submit_user_cmd(ns->queue, &c,
- 			nvme_to_user_ptr(io.addr), length,
--			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
-+			metadata, meta_len, lower_32_bits(io.slba), NULL, 0,
-+			io.driver_ctrl);
- }
- 
- static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-@@ -1653,7 +1657,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
--			0, &result, timeout);
-+			0, &result, timeout, cmd.driver_ctrl);
- 
- 	if (status >= 0) {
- 		if (put_user(result, &ucmd->result))
-@@ -1697,7 +1701,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
--			0, &cmd.result, timeout);
-+			0, &cmd.result, timeout, cmd.driver_ctrl);
- 
- 	if (status >= 0) {
- 		if (put_user(cmd.result, &ucmd->result))
-diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
-index d99b5a772698..b247b3eee2e3 100644
---- a/include/uapi/linux/nvme_ioctl.h
-+++ b/include/uapi/linux/nvme_ioctl.h
-@@ -14,7 +14,7 @@ struct nvme_user_io {
+diff --git a/linux/nvme_ioctl.h b/linux/nvme_ioctl.h
+index d569414211d1..17dde016cb5c 100644
+--- a/linux/nvme_ioctl.h
++++ b/linux/nvme_ioctl.h
+@@ -23,7 +23,7 @@ struct nvme_user_io {
  	__u8	flags;
  	__u16	control;
  	__u16	nblocks;
@@ -181,7 +132,7 @@ index d99b5a772698..b247b3eee2e3 100644
  	__u64	metadata;
  	__u64	addr;
  	__u64	slba;
-@@ -27,7 +27,7 @@ struct nvme_user_io {
+@@ -36,7 +36,7 @@ struct nvme_user_io {
  struct nvme_passthru_cmd {
  	__u8	opcode;
  	__u8	flags;
@@ -190,36 +141,155 @@ index d99b5a772698..b247b3eee2e3 100644
  	__u32	nsid;
  	__u32	cdw2;
  	__u32	cdw3;
-@@ -48,7 +48,7 @@ struct nvme_passthru_cmd {
+@@ -57,7 +57,7 @@ struct nvme_passthru_cmd {
  struct nvme_passthru_cmd64 {
- 	__u8	opcode;
- 	__u8	flags;
--	__u16	rsvd1;
-+	__u16	driver_ctrl;
- 	__u32	nsid;
- 	__u32	cdw2;
- 	__u32	cdw3;
-@@ -63,7 +63,7 @@ struct nvme_passthru_cmd64 {
- 	__u32	cdw14;
- 	__u32	cdw15;
- 	__u32	timeout_ms;
--	__u32   rsvd2;
-+	__u32   rsvd;
- 	__u64	result;
- };
+     __u8    opcode;
+     __u8    flags;
+-    __u16   rsvd1;
++    __u16   driver_ctrl;
+     __u32   nsid;
+     __u32   cdw2;
+     __u32   cdw3;
+@@ -88,4 +88,10 @@ struct nvme_passthru_cmd64 {
+ #define NVME_IOCTL_ADMIN64_CMD  _IOWR('N', 0x47, struct nvme_passthru_cmd64)
+ #define NVME_IOCTL_IO64_CMD _IOWR('N', 0x48, struct nvme_passthru_cmd64)
  
-@@ -79,4 +79,11 @@ struct nvme_passthru_cmd64 {
- #define NVME_IOCTL_ADMIN64_CMD	_IOWR('N', 0x47, struct nvme_passthru_cmd64)
- #define NVME_IOCTL_IO64_CMD	_IOWR('N', 0x48, struct nvme_passthru_cmd64)
- 
-+enum {
++enum nvme_driver_ctrl_bits {
 +	/* Retry command if failed with !DNR for <= nvme_max_retries */
-+	__NVME_DRIVER_CTRL_RETRY,
-+};
++	__NVME_DRIVER_CTRL_RETRY,	};
 +
-+#define NVME_DRIVER_CTRL_RETRY  (1 << __NVME_DRIVER_CTRL_RETRY)
++#define NVME_DRIVER_CTRL_RETRY	(1 << __NVME_DRIVER_CTRL_RETRY)
 +
  #endif /* _UAPI_LINUX_NVME_IOCTL_H */
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index 3e19023be890..2176fb3747ec 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -90,7 +90,7 @@ int nvme_submit_io_passthru(int fd, struct nvme_passthru_cmd *cmd)
+ }
+ 
+ int nvme_passthru(int fd, unsigned long ioctl_cmd, __u8 opcode,
+-		  __u8 flags, __u16 rsvd,
++		  __u8 flags, __u16 driver_ctrl,
+ 		  __u32 nsid, __u32 cdw2, __u32 cdw3, __u32 cdw10, __u32 cdw11,
+ 		  __u32 cdw12, __u32 cdw13, __u32 cdw14, __u32 cdw15,
+ 		  __u32 data_len, void *data, __u32 metadata_len,
+@@ -99,7 +99,7 @@ int nvme_passthru(int fd, unsigned long ioctl_cmd, __u8 opcode,
+ 	struct nvme_passthru_cmd cmd = {
+ 		.opcode		= opcode,
+ 		.flags		= flags,
+-		.rsvd1		= rsvd,
++		.driver_ctrl	= driver_ctrl,
+ 		.nsid		= nsid,
+ 		.cdw2		= cdw2,
+ 		.cdw3		= cdw3,
+@@ -133,7 +133,6 @@ int nvme_io(int fd, __u8 opcode, __u64 slba, __u16 nblocks, __u16 control,
+ 		.flags		= 0,
+ 		.control	= control,
+ 		.nblocks	= nblocks,
+-		.rsvd		= 0,
+ 		.metadata	= (__u64)(uintptr_t) metadata,
+ 		.addr		= (__u64)(uintptr_t) data,
+ 		.slba		= slba,
+diff --git a/nvme-ioctl.h b/nvme-ioctl.h
+index 2b7640734398..a442da0275cc 100644
+--- a/nvme-ioctl.h
++++ b/nvme-ioctl.h
+@@ -17,7 +17,7 @@ int nvme_submit_admin_passthru(int fd, struct nvme_passthru_cmd *cmd);
+ int nvme_submit_io_passthru(int fd, struct nvme_passthru_cmd *cmd);
+ 
+ int nvme_passthru(int fd, unsigned long ioctl_cmd, __u8 opcode, __u8 flags,
+-		  __u16 rsvd, __u32 nsid, __u32 cdw2, __u32 cdw3,
++		  __u16 driver_ctrl, __u32 nsid, __u32 cdw2, __u32 cdw3,
+ 		  __u32 cdw10, __u32 cdw11, __u32 cdw12,
+ 		  __u32 cdw13, __u32 cdw14, __u32 cdw15,
+ 		  __u32 data_len, void *data, __u32 metadata_len,
+diff --git a/nvme.c b/nvme.c
+index 5324e8bbe79f..419b2ecbf30f 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -5060,11 +5060,11 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
+ 	int err = 0, wfd = STDIN_FILENO, fd;
+ 	__u32 result;
+ 	bool huge;
++	__u16 driver_ctrl = 0x0;
+ 
+ 	struct config {
+ 		__u8  opcode;
+ 		__u8  flags;
+-		__u16 rsvd;
+ 		__u32 namespace_id;
+ 		__u32 data_len;
+ 		__u32 metadata_len;
+@@ -5084,12 +5084,12 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
+ 		int   read;
+ 		int   write;
+ 		__u8  prefill;
++		bool  retry;
+ 	};
+ 
+ 	struct config cfg = {
+ 		.opcode       = 0,
+ 		.flags        = 0,
+-		.rsvd         = 0,
+ 		.namespace_id = 0,
+ 		.data_len     = 0,
+ 		.metadata_len = 0,
+@@ -5104,11 +5104,11 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
+ 		.cdw15        = 0,
+ 		.input_file   = "",
+ 		.prefill      = 0,
++		.retry        = false,
+ 	};
+ 
+ 	const char *opcode = "opcode (required)";
+ 	const char *flags = "command flags";
+-	const char *rsvd = "value for reserved field";
+ 	const char *namespace_id = "desired namespace";
+ 	const char *data_len = "data I/O length (bytes)";
+ 	const char *metadata_len = "metadata seg. length (bytes)";
+@@ -5128,12 +5128,12 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
+ 	const char *re = "set dataflow direction to receive";
+ 	const char *wr = "set dataflow direction to send";
+ 	const char *prefill = "prefill buffers with known byte-value, default 0";
++	const char *retry = "command retry if failed with !DNR";
+ 
+ 	OPT_ARGS(opts) = {
+ 		OPT_BYTE("opcode",       'o', &cfg.opcode,       opcode),
+ 		OPT_BYTE("flags",        'f', &cfg.flags,        flags),
+ 		OPT_BYTE("prefill",      'p', &cfg.prefill,      prefill),
+-		OPT_SHRT("rsvd",         'R', &cfg.rsvd,         rsvd),
+ 		OPT_UINT("namespace-id", 'n', &cfg.namespace_id, namespace_id),
+ 		OPT_UINT("data-len",     'l', &cfg.data_len,     data_len),
+ 		OPT_UINT("metadata-len", 'm', &cfg.metadata_len, metadata_len),
+@@ -5152,6 +5152,7 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
+ 		OPT_FLAG("dry-run",      'd', &cfg.dry_run,      dry),
+ 		OPT_FLAG("read",         'r', &cfg.read,         re),
+ 		OPT_FLAG("write",        'w', &cfg.write,        wr),
++		OPT_FLAG("retry",        'R', &cfg.retry,        retry),
+ 		OPT_END()
+ 	};
+ 
+@@ -5213,7 +5214,6 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
+ 	if (cfg.show_command) {
+ 		printf("opcode       : %02x\n", cfg.opcode);
+ 		printf("flags        : %02x\n", cfg.flags);
+-		printf("rsvd1        : %04x\n", cfg.rsvd);
+ 		printf("nsid         : %08x\n", cfg.namespace_id);
+ 		printf("cdw2         : %08x\n", cfg.cdw2);
+ 		printf("cdw3         : %08x\n", cfg.cdw3);
+@@ -5232,7 +5232,10 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
+ 	if (cfg.dry_run)
+ 		goto free_data;
+ 
+-	err = nvme_passthru(fd, ioctl_cmd, cfg.opcode, cfg.flags, cfg.rsvd,
++	if (cfg.retry)
++		driver_ctrl |= NVME_DRIVER_CTRL_RETRY;
++
++	err = nvme_passthru(fd, ioctl_cmd, cfg.opcode, cfg.flags, driver_ctrl,
+ 				cfg.namespace_id, cfg.cdw2, cfg.cdw3, cfg.cdw10,
+ 				cfg.cdw11, cfg.cdw12, cfg.cdw13, cfg.cdw14, cfg.cdw15,
+ 				cfg.data_len, data, cfg.metadata_len, metadata,
 -- 
 2.17.1
 
