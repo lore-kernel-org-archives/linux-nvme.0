@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EED64C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Feb 2021 21:24:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D81EC433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Feb 2021 21:30:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 54F6564DF0
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Feb 2021 21:24:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54F6564DF0
+	by mail.kernel.org (Postfix) with ESMTPS id 912BD64DEB
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Feb 2021 21:29:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 912BD64DEB
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,63 +23,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JbtZXyAaYXBXd0Rk2sDS2dClihu8g0oBDxmntoAQ+Ig=; b=s64LvOWIluVW2Ht7EpJakFs7q
-	4xmWuYpnaERBkvbaWzfAZbNYvfHxyC1psKQA96lp1I95gKUTVmdfUnBwo+oAa2U7AmIpKbapOnBns
-	z2SUJ+NRGI/8YGGUTNUqE6+xQJH5PKovdK9kZLIrHm5gItQqvX+ZV3TQC51KVNKphJ2nhy80Em2hP
-	hnAb4wenlUVbLfdPvtFkgT+a0Wlg9zv6WvLaYQfbrez+rgM7ldz2H71dNFcLUNHJRZDvgHcid5C+r
-	Fww6Wgo96CDg63MqWwDc9lo7ctk8Zx2uF4FEh/zDzi+rMfcQ5YEgWhD+iTkS/xzs9Yq4vJWtrsKBR
-	0bonnRSnA==;
+	 bh=MxT4WToQPjjsib+CIeDrcNJmhYBwCdL+PqGEPy50eaY=; b=vHu3H18hmjc2d36COTWDzfpPM
+	E4v0hIzegIx/afFiYC+n7R3NoOdUJe+ARVaGIQ6+OqvzpdLNDRybOEHXALvnmbVyUd+ZHb2i0+EK0
+	6jz5tjSWQWAaMeVH1a+KOmFXpUk9jntD/2E4MzbIcDOV7u33vQP9ofWJf9sX1MbNN5VHk/fGztEMf
+	RtNc8ZBF0798dhu+09omuK7jZTR+7gcnGuqtHmlHzQSv1ayf5YSIvPe+swy1YxvwF9V35g6ZyVnDj
+	Pvpy15Rq6A41bbZo66nKWGvxJSL6canSQhri2o30xGtq28jbmth0+PVZgaTQaKx/qXmfQRlCqv5g/
+	D5cGrDI6g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lBlLh-0002Rt-Jq; Mon, 15 Feb 2021 21:24:05 +0000
+	id 1lBlRK-0002xE-2H; Mon, 15 Feb 2021 21:29:54 +0000
 Received: from mail-wr1-f50.google.com ([209.85.221.50])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lBlLe-0002RG-WE
- for linux-nvme@lists.infradead.org; Mon, 15 Feb 2021 21:24:04 +0000
-Received: by mail-wr1-f50.google.com with SMTP id t15so10660021wrx.13
- for <linux-nvme@lists.infradead.org>; Mon, 15 Feb 2021 13:24:00 -0800 (PST)
+ id 1lBlRG-0002wb-T8
+ for linux-nvme@lists.infradead.org; Mon, 15 Feb 2021 21:29:51 +0000
+Received: by mail-wr1-f50.google.com with SMTP id v15so10746326wrx.4
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Feb 2021 13:29:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9WE7sfWuADZEgBkO6VBLoyU3Kt+14QI5HCaf9dRKQr0=;
- b=sdElxloTlJ87D0cUPR9pfqYZnxSS099tWEubbwYq/dFLh4hVfN/6/Z1jowbZh5bj4c
- ZG4uylUVgR+Hee+hddt5V3BaRAy8yfkCI7LQpdQhKgoC/VCxct0KBhzPMlUBYNb0sQyX
- VM1avan+z3whFCa5g3JZLZtrMsugSgGCDf6YL7uLvefJk2MQ72FL2JpgTtSKCtJyQv+k
- /86h3hkFm0jZpch1njELnuiioR4oNam6aKvTw9pFIZQ5TXifU8rBcXGb4tRcZDELTuRk
- pcBFa9b6YEejJGdoGSeoVE8rQ94uc9ZJCpVjSST6Cs2S6NeQT6eXFljHz/D9593WF9gV
- 9YHQ==
-X-Gm-Message-State: AOAM531Zh6K+sO/6uQ1qoSle/LNbtkq6Fg+AQqnShNpsczf0mbdz2EEp
- M4K3WKOUKajg+u+3G9fO4Yo=
-X-Google-Smtp-Source: ABdhPJyOdMuEiNm8u20zTsF8TOp7tAyT4IUWQCToD1uMnEiSwNxtuc3/Htz4clHlcbiBTWYOQf6beA==
-X-Received: by 2002:a05:6000:242:: with SMTP id
- m2mr20027397wrz.422.1613424240136; 
- Mon, 15 Feb 2021 13:24:00 -0800 (PST)
+ bh=s+MKjbp2tjims7Jwguvyk6qEwa7KWs9qt/eX8yJuFUE=;
+ b=Qaubwwjr1kAGCjjxcKcwhvuUlrACgXninhFUPDjw+v9DWu6OzIxSZUCnxR8ti2+bXl
+ YOiUX1IsurNSWLfj5D2dKn35uQ1L+b89zlPj0yj8zhkgt7irPuUA7PBdEh7tf7n8794l
+ 0L/KZQbDGcRB3slEA7I9Oxu9StzwsVBXajHerrQEo1WwC4YzmZg5DfQX98wlobhNEqnJ
+ yNlAwNq2/H2InMBHct1bDn5zB7PhopEFcaBS19WLNYTWvF82fwQUEJjORSX2PYTR5dwF
+ Mmg8S6mcdza5bR/wfN+zXFVXTk8tcxeharMNU5Qs4mnPhJwwyd7Cd9Xu5AfCcBY05Iit
+ 49Lw==
+X-Gm-Message-State: AOAM530Zp2zMHiQICE/CBbmhkxfapgqzltcvBiHasdZDQZKP+Z5Ueh9X
+ CCHRjt9S59C/1bWIYVyEFOUzm2Eanh0=
+X-Google-Smtp-Source: ABdhPJw81FppzKL8jTGA+041elKQYqU7nKWWWBkvJlCJ0s088DeXwoU+R0hK9cwl1gnpxfN6zAbrRQ==
+X-Received: by 2002:a5d:4e41:: with SMTP id r1mr16045804wrt.6.1613424589846;
+ Mon, 15 Feb 2021 13:29:49 -0800 (PST)
 Received: from ?IPv6:2601:647:4802:9070:e348:9c6c:4cb7:8321?
  ([2601:647:4802:9070:e348:9c6c:4cb7:8321])
- by smtp.gmail.com with ESMTPSA id t6sm16067655wrn.96.2021.02.15.13.23.58
+ by smtp.gmail.com with ESMTPSA id j71sm615134wmj.31.2021.02.15.13.29.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 13:23:59 -0800 (PST)
+ Mon, 15 Feb 2021 13:29:49 -0800 (PST)
 Subject: Re: [PATCH] nvme-tcp: Check if request has started before processing
  it
-To: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>
+To: Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>
 References: <20210212181738.79274-1-dwagner@suse.de>
  <c3a682d3-58f7-f5cc-caaa-75c36ca464e2@grimberg.me>
  <20210212210929.GA3851@redsun51.ssa.fujisawa.hgst.com>
  <ddf87227-1ad3-b8be-23ba-460433f70a85@grimberg.me>
  <73e4914e-f867-c899-954d-4b61ae2b4c33@suse.de>
+ <20210215104020.yyithlo2hkxqvguj@beryllium.lan>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <5b45835b-eb81-29e8-e319-a8509474e27f@grimberg.me>
-Date: Mon, 15 Feb 2021 13:23:55 -0800
+Message-ID: <a2064070-b511-ba6d-bd64-0b3abc208356@grimberg.me>
+Date: Mon, 15 Feb 2021 13:29:45 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <73e4914e-f867-c899-954d-4b61ae2b4c33@suse.de>
+In-Reply-To: <20210215104020.yyithlo2hkxqvguj@beryllium.lan>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210215_162403_097300_52EE4B08 
-X-CRM114-Status: GOOD (  14.86  )
+X-CRM114-CacheID: sfid-20210215_162950_989023_1D02F100 
+X-CRM114-Status: GOOD (  18.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,7 +91,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, Daniel Wagner <dwagner@suse.de>,
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
  Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
@@ -100,27 +100,39 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>>>> blk_mq_tag_to_rq() will always return a request if the command_id is
->>>>> in the valid range. Check if the request has been started. If we
->>>>> blindly process the request we might double complete a request which
->>>>> can be fatal.
+>>>>>> blk_mq_tag_to_rq() will always return a request if the command_id is
+>>>>>> in the valid range. Check if the request has been started. If we
+>>>>>> blindly process the request we might double complete a request which
+>>>>>> can be fatal.
+>>>>>
+>>>>> How did you get to this one? did the controller send a completion for
+>>>>> a completed/bogus request?
 >>>>
->>>> How did you get to this one? did the controller send a completion for
->>>> a completed/bogus request?
->>>
->>> If that is the case, then that must mean it's possible the driver could
->>> have started the command id just before the bogus completion check. Data
->>> iorruption, right?
->>
->> Yes, which is why I don't think this check is very useful..
+>>>> If that is the case, then that must mean it's possible the driver could
+>>>> have started the command id just before the bogus completion check. Data
+>>>> iorruption, right?
 > 
-> I actually view that as a valid protection against spoofed frames.
-> Without it it's easy to crash the machine by injecting fake completions 
-> with random command ids.
+> 'during TCP LIF toggles and aggr relocates' testing the host
+> crashes. TBH, I do not really know what is happening or what the test
+> does. Still trying to figure out what's going on.
 
-And this doesn't help because the command can have been easily reused
-and started... What is this protecting against? Note that none of the
-other transports checks that, why should tcp?
+Well, I think we should probably figure out why that is happening first.
+
+> I was just very
+> surprised how much the code trusts the other side to behave correctly./
+
+What does pci/rdma/fc does differently? What does scsi do here?
+
+>>> Yes, which is why I don't think this check is very useful..
+>>
+>> I actually view that as a valid protection against spoofed frames.
+>> Without it it's easy to crash the machine by injecting fake completions with
+>> random command ids.
+> 
+> In this test scenario it's not even a spoofed frame; maybe just a
+> confused controller.
+
+Maybe... I am still not sure how this patch helps here though...
 
 _______________________________________________
 Linux-nvme mailing list
