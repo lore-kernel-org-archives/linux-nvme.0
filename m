@@ -2,19 +2,19 @@ Return-Path: <SRS0=dBpD=HS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD48DC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Feb 2021 21:31:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBF38C433E6
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Feb 2021 21:31:35 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6BB6464D99
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Feb 2021 21:31:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BB6464D99
+	by mail.kernel.org (Postfix) with ESMTPS id B52DC64D99
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Feb 2021 21:31:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B52DC64D99
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=A5g6U/uWiMB8hnldK/4KJLMHrU29whePKQ898E2agjI=; b=sMsb8LvXIVP0bgBuMzlqMzAub
-	GlHl6KNh46smdnlpnl90vS04y46SBrJE9k8BlIfmW8a3YgM2MTrskKoTXiw4M8eli1/SH6eEg2iq4
-	UA1QJK8jH7b8K7idqxSj3GxuX+loTP9CVYHj9Gw1dlC+yeSoGQ5QV3L46iK0yhqoxUxfYbplh1vrT
-	KatY3aKk7o6iHJ7ZQMB/PM3tb0r7TI7XSk6fwtJqu0H6Enp89SeW9tR6OpoXM9cnVcQqfIwUf0uXE
-	ErkksT+nuDjRHL+4WEwsiA8GQP2vhYIPYn1mPFTxrXSsWlH81LL2o+j2icMDe/YQs5ZGC9/Cxt92U
-	1k96C739Q==;
+	 bh=dRIz04g5S9tcT29itLh5aEqKMztH+10WZgJhG3qAExE=; b=deOdTcE7LQMWk6RxqqNAZoMWr
+	kL2PFeHqKZX9DDEO5IlVDRzj5GcQlLLT1wSm1RtjoWLTIox9af7pAiRNAT+4xgW16zEv2KRNnb9nf
+	aFUSajEDfPLVQo/ie1S/d5bqnDf6LQ45PdOWZlhPP8t7AZyq3XB2nrQupPCqV0+SF/qJTRIsq/6sx
+	J+WtqLJXHgZkoHLJY7eQBQGOkYc3ypIimUrqlIQ8UZNI9FoGzovDpT91ZOhUSuxvymY2tDPFSF/df
+	3W9Geh9/xpskBn78/SjpBpWTcUap8xiqBXEuvEc6OpVK0j815KUMWPjNXWNfnb0CdpJTXZxRE2uRl
+	TWT6yiJfQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lC7wX-0005Tw-L9; Tue, 16 Feb 2021 21:31:37 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1lC7wP-0005SM-Gn; Tue, 16 Feb 2021 21:31:29 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lC7wV-0005TA-KW
- for linux-nvme@lists.infradead.org; Tue, 16 Feb 2021 21:31:36 +0000
+ id 1lC7wM-0005Mr-Ry
+ for linux-nvme@lists.infradead.org; Tue, 16 Feb 2021 21:31:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1613511095; x=1645047095;
+ t=1613511086; x=1645047086;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ri+BwQxJ8ZTVcVZrLxfBWwj5pGtXwYMRvjzo6KiBMp8=;
- b=FHHqJvb7MNjJRBIJXeSAi1CwaHhUdtCFwQgMDIu14iO+ulSnREX7qWlE
- EouCI15k1mWm+iWaUZBrHZdg0ocXNEHFn8fWNJkt7yQm5y+GSQ8kLEvgD
- w5u6VHCwqTG0EfwqkdRZzkmT5ODHSUJwkojDwLtNYb7wi10S/Mnuqahh1
- yWxwMfNUBHUhbWpEBkYZ0mUYmM/aIKBxi/dldA/oLGkewGwgv+T/FuAdm
- +RUWIuvD/AaljMKcjcLYwp073OXNGOXMBSv45vU0+1OYQyYiAL9MIGCp1
- BgsSRAbcB+mOBjC0j6KG3As0zRctFv7DXiiMh2T0jDHQS3aq0gUGyUAn5 A==;
-IronPort-SDR: hOju/3z7XfViWUNWBt/bR+UWnIWr9e/YV1BmeXwoQrtQAPaAtMpvI84nXsmLSP7rDPeLrH6cnc
- oXWOraKIyX1xKmstQvpqWGyjfI7bNAldTLfjessN7d/Pvy1G2bCNANXbxuuReD/PPs2y0rL8Ih
- dpPIiuMdQWcb0Os8DdpHbXgV/BUQYe9uZ6TomKuN7zkpW1GSo6Dzdo+n0b3MRDjaCLaEwDVdnU
- /DlclCkSZQeRxtCTsjkWGgYzsDNvFuRBC+oJEseFC4PnkpcTMSB6Ep2+WLhLGsEdXFx8Xga2yw
- 1NM=
-X-IronPort-AV: E=Sophos;i="5.81,184,1610380800"; d="scan'208";a="270620011"
+ bh=jSNIpHYC77Mz1eR89Sg/FjLbsHPqgbf3+qpH29cC3OQ=;
+ b=N1DJWHrmBY/sRmlYyY5rv9VRZB5X0i6fjyFlGzsk5/Yjznj3N39q+7t9
+ Ss14VwGP7WkcqmGrQ8gBewHEYPXjNWBEJVMC0j6hmnE0J0HNf7iEKCrkS
+ KtbyDRwwOaynY5PkkBK+f/i275C/9iFPPw1m3p/XdCQ2QbH+iO9E7UyqU
+ ge9kXex/ihCmQtPav2Wzhg6r0FwEjaWK32xugA44oH89CuZSYrUhmNBLM
+ eZN5omtbdsXYYSwqDw31F3Z/42nvDGjAWVc3dT+jaotGyc46U0Sfgz65k
+ MiYnjUYr1nWTwU8EOzJKJPYX4ccqsgJpyXF3hoedJfXgdrHkTgI3qQXWQ A==;
+IronPort-SDR: WwI+yFqsEL2cLruExOJdlj0pHC/vgI7INdYJhPyXi5BgA1URWkbqTnePLSvP0JmvJqUuI3+yV1
+ 4y5SrBA7JvMOlhXBQimitANVbQykzzDov3VZRpSr6/FDta7BzUg0vHF4CmEdD2P+lwbZeoKZsY
+ +LPL9t0+CXB3WqKTSV1jXTaaqqHKwpEu4A2j+u3yGTtva+lOa0HnSwdfSsUwAjEMBWI1BNyUoN
+ E0zoWkXPBQxhzTnXg6sFYKk5ndlABlZ1b7sWGr52X53nVh6ZLy09fDxPIwJFUu4pKcCUTAamnV
+ Qxw=
+X-IronPort-AV: E=Sophos;i="5.81,184,1610380800"; d="scan'208";a="164580897"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 17 Feb 2021 05:31:33 +0800
-IronPort-SDR: rsLfkBbM7XDDbR4UT7IIFPnyqqtwKehbAWda1Ql+RSzr35DOCq5pff7+qv1yr8JTSaNagxGkSy
- x4Nwr8o00a4xoRYq7XlXZEaZG6jURwXmarKr7+F1gsbM1d5RUhNdDRIEaNttT0wBpuF1HJ2vHM
- obMaCFRsSvxOOOJgAY1VR/tMhdMHkKrU9eIl20F8p7XLF16yXXeTRD9/8/1qKxDpD6nbHs0z5L
- Lz5EMkxW5HyckDoKX+E0/5taKt3zWc3rH4I/Wyx/91mayonKn5DzUu+4a9A4n5lLauWgUB3lIt
- tOj0T8wC/qjL1lmSbM8SQDnh
+ by ob1.hgst.iphmx.com with ESMTP; 17 Feb 2021 05:31:24 +0800
+IronPort-SDR: Dg+1nvSZM16TLbTCaZXXP+0rRnALZRx7KlajCAYjh4CcqtOuo23Yn66k2wHnGbblZcZKE40dsn
+ hji67VsTIU0fGKQbk0DLuWi/GtRCi5Z714Ma/S6v+bfJSFOWRT+7Lqk+mV/CF2aOh1ADHOdRa3
+ LuBFOJC23TiM2jvF36hyZdCBDdCyKbCJblCeAmdVStVVTbMnf4EdvR9xMtYUjPJIgDISAwIbsD
+ ogf+mnuOnDVsM4AAhGC7TPhRPJvnd4tPnlGi2G0uYkpAiBGOuts8AfnpnBo6rsZ+LjYZYRUfYV
+ yclw7kowYUyVF2098AxEKvO6
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2021 13:13:18 -0800
-IronPort-SDR: KiAj/CdY/lppMF5CLOrSuKo5WO4knWycORVtlXaCXvMZZzvKiwttauX5N4rjVGxJhZ4IrSdWvb
- Ljfh8B0pk9FPcl2TIS8c71RQ9vSwBdVXpyxLEL6fNboMZLCcfj08mJWCqjA2fVrYXjIeiJMlts
- T3oNjSZBC0afgDHO1Ez8tXWM4Nygv+1bQRL1Ed+45Z9bc/k9GqfpT0+hheZGLBnrR1MBFk2ejx
- x9pNi8YPGzgykzX0Sk2kBNE6LYPDgLpCSAV3d31XcVunY8JF4MbaWMOrdVp9VDRJjd7kpQHviu
- Mgc=
+ 16 Feb 2021 13:13:09 -0800
+IronPort-SDR: 3hb3JMAld87IyzMD87utdwgGD+c+NiDSjV1PDXfomP/Idt/fGeZJ2r3oCCABk2thl2VGz08dor
+ 6LYuEQcJ3kcDti+9222UdJQfnt9tASBjNEH0TpRdRajcgVVHSiWWUKhua9mvAo3RFvYOgEXen7
+ 6USusc7WM67DvKZ+iXKZYR/n9oumGYD52Ob1oZMC4VDk3ge+I6+sC5t1m6xWcMaLPYQJ+SZgZ7
+ B7CZPhtXtGgXdU1Lqr/0B9Md2KSkBZ9XdH4IEozZZQXAk7+IKGC85HjNYMzonXWhWtvdAv3EdY
+ Qt0=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 16 Feb 2021 13:31:33 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 16 Feb 2021 13:31:24 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 2/6] nvmet: set status on actual error condition
-Date: Tue, 16 Feb 2021 13:31:08 -0800
-Message-Id: <20210216213112.20078-3-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 1/6] nvmet: remove duplicate status assignment
+Date: Tue, 16 Feb 2021 13:31:07 -0800
+Message-Id: <20210216213112.20078-2-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1.dirty
 In-Reply-To: <20210216213112.20078-1-chaitanya.kulkarni@wdc.com>
 References: <20210216213112.20078-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210216_163135_826921_EAF7049C 
-X-CRM114-Status: GOOD (  12.26  )
+X-CRM114-CacheID: sfid-20210216_163127_066743_279C3307 
+X-CRM114-Status: GOOD (  10.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,33 +103,33 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In the nvmet_alloc_ctrl() set the status variable to its error value
-NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR in the actual error
-condition just like the rest of the code.
+In the function nvmet_alloc_ctrl() we assign status value before we
+call nvmet_fine_get_subsys() to :-
+status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+
+After we successfully find the subsystem we again set the status value
+to :-
+status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+
+Remove the duplicate status assignment value.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 64c08b71be2c..df2d3de0de62 100644
+index 67bbf0e3b507..64c08b71be2c 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -1305,12 +1305,12 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	int ret;
- 	u16 status;
- 
--	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
- 	subsys = nvmet_find_get_subsys(req->port, subsysnqn);
- 	if (!subsys) {
- 		pr_warn("connect request for invalid subsystem %s!\n",
- 			subsysnqn);
- 		req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
-+		status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+@@ -1314,7 +1314,6 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
  		goto out;
  	}
  
+-	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+ 	down_read(&nvmet_config_sem);
+ 	if (!nvmet_host_allowed(subsys, hostnqn)) {
+ 		pr_info("connect by host %s for subsystem %s not allowed\n",
 -- 
 2.22.1
 
