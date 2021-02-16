@@ -2,64 +2,88 @@ Return-Path: <SRS0=dBpD=HS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CFFC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Feb 2021 08:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F4C1C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Feb 2021 09:52:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C47C364DF0
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Feb 2021 08:51:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C47C364DF0
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 94A5E64DC3
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Feb 2021 09:52:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94A5E64DC3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=F1t1/zexWlYZAZN1k9eXn9YXNYZBzyubwz4zUCWD8tw=; b=aIwOdx9+dI/5j//Jf1q8F06DT
-	o98oG+2ChguJlkphGi6jMuwDhPrs6CmbQAx8Nt5WgGDlf52tK1oMp5jhYd0bsqUte3zFZif9AW5/L
-	I6vFLlNpJ4OPzZ+AUkhwwMtMDVP/B5kJP23+/sDzgPETxjycjeWcNu6hUlyvfKo1ba6wdggs3on3c
-	XoLRrjYp4KCoSyCOFed7xoFmb3bN5B0aHrwx9VjJrz6Pk7rR+4oJqwoiIvTOfgHplv9zeejmswU2o
-	tw0rUX7hQ9d5cvy1Y7kVM6+qrp8iANIfC2jx2vc8ahOLk/ftS8wlEQ6RYKEUzVnRo/+66d5Or8jrc
-	K/nurJu/g==;
+	 bh=8tQdDN3gaFADsxtm8PAEVnBW7ZsWUynPplnLA/LnBg4=; b=dwWCIfsULoL3gg4XApGjhDlNy
+	g4ePZckZjfx9ugWbXOxFD6kl72tJUZYuPOwfdXOuOefNvY+lIO3fHoqeb35ABcRPCMwjJQboNaPmc
+	MfxoHZlOKk4GhDeWRqAN5q9vAqyEeynuixyYmBwi2v4Ka5ElI0a2zvxjdV5Un4F4yxN+Nrkj/zlSM
+	EM/I8uHEJOxmU5bR12R98Gf9mlrpBmvLb62241wh0dyp+lRzoDAKYPEJjbqb3ZXOgODH9RLUr9uDc
+	zXwaExqeCnaxUkWWGx7Ob6PBA1CGAhW3MVd7+0R0aMnGa8dDC0fcE76jwAtXkNASV5CB0ww0nZ6Qw
+	ucnktetrQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lBw4X-0006Ea-JK; Tue, 16 Feb 2021 08:51:05 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1lBx1N-0004KN-Mo; Tue, 16 Feb 2021 09:51:53 +0000
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lBw4W-0006Dr-8R
- for linux-nvme@lists.infradead.org; Tue, 16 Feb 2021 08:51:05 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3C4DFAE19;
- Tue, 16 Feb 2021 08:51:01 +0000 (UTC)
-Subject: Re: [PATCH] nvme-tcp: Check if request has started before processing
- it
-To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-References: <20210212181738.79274-1-dwagner@suse.de>
- <c3a682d3-58f7-f5cc-caaa-75c36ca464e2@grimberg.me>
- <20210212210929.GA3851@redsun51.ssa.fujisawa.hgst.com>
- <ddf87227-1ad3-b8be-23ba-460433f70a85@grimberg.me>
- <73e4914e-f867-c899-954d-4b61ae2b4c33@suse.de>
- <5b45835b-eb81-29e8-e319-a8509474e27f@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <a18701ad-6880-37bb-7978-7ea6b7079c9e@suse.de>
-Date: Tue, 16 Feb 2021 09:51:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ id 1lBx1L-0004Jr-5t
+ for linux-nvme@lists.infradead.org; Tue, 16 Feb 2021 09:51:51 +0000
+Received: by mail-pf1-x434.google.com with SMTP id q20so5805167pfu.8
+ for <linux-nvme@lists.infradead.org>; Tue, 16 Feb 2021 01:51:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=zBnp4nouCS23WAxP4fKr2LRs8TJG9sd/FMHkWmpWOBk=;
+ b=VKnPBZaJShwO3iDQXyh78Zt7C04Dg9AB7tlodwJfJr9snTnsilvYZNtQWYFQ/Sqk6f
+ 9IYjV/1HyDnbhgaxzL0gwvot62rwenCEhBTjT5sU/2BJ7uOjFSjxnQuaMH/9Q/lFLR7f
+ aFV3kemm+b7ZPDKifV2eV6KKFmZus8qz0ZjE+SLFstrEDaS9PH0BFqTtxLs5hLxPpILC
+ VBQ+vIiY/25LoruxTVcpcDQmuteLWiSM1hLi7Lt4CqftK8n2WyEBdU+6S78vDpN7Pue/
+ ZGpNkzWWNxQSCgA48U4HNiQqpj1WTxvQcwj2CWoHIzec+AXWopjqeHhVFYxvtpfak+wy
+ AZ3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=zBnp4nouCS23WAxP4fKr2LRs8TJG9sd/FMHkWmpWOBk=;
+ b=Hzmo6EahCiAlJ083ddLZ0IqnwoWbunvFnEu8Rw6zanTayRmuBeTBWnNg7+3WkXF/Du
+ gUcNeku05BZa05qtPtRfnQJAQXsk9pgErCj3Triso6CtUcxtkpnC3FdLE5q+QXN/6/kd
+ Oi27NF564iyz3QEC5BLDu9jtC8UM9rC6Fwdts6NNv0XzALhVGIA7yF7YQxtWVkpwbiXg
+ kD4FAK+EzMdP3nJLccvKkKX/zVWn9z6oYYZn6lWSIXB3m64Knl0XfxtKQTq4+RfvW2eI
+ /jv7fBQADg97dDNahEPWYNP7+y4jKOGRNgU1Au99fjtNGXjz1RimLhYZWMlrMFjFoiWm
+ nhEQ==
+X-Gm-Message-State: AOAM531vb7pOLCT+mlHfQj7GM8wT1RVa7JoOPtoI0MKisXFQbmzAd7ZI
+ GF3JMaaOhBqk5Mvwc2AQTxU=
+X-Google-Smtp-Source: ABdhPJytifKhonO1scEKzIybCPCswVMNN51HEY8io+GEO2A6/WcdQC0QsEZHvkN8Hb6ep4bcncgbJg==
+X-Received: by 2002:a62:78c8:0:b029:1d3:85cc:2133 with SMTP id
+ t191-20020a6278c80000b02901d385cc2133mr19368065pfc.65.1613469109139; 
+ Tue, 16 Feb 2021 01:51:49 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id b17sm19847013pfl.190.2021.02.16.01.51.48
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 16 Feb 2021 01:51:48 -0800 (PST)
+Date: Tue, 16 Feb 2021 18:51:47 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme: introduce passthrough ioctl for multipath
+Message-ID: <20210216095147.GA2601@localhost.localdomain>
+References: <20210214110126.24023-1-minwoo.im.dev@gmail.com>
+ <20210214110126.24023-2-minwoo.im.dev@gmail.com>
+ <20210215170233.GA2707454@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <5b45835b-eb81-29e8-e319-a8509474e27f@grimberg.me>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210215170233.GA2707454@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210216_035104_413425_38A080B3 
-X-CRM114-Status: GOOD (  20.36  )
+X-CRM114-CacheID: sfid-20210216_045151_280122_D0515EC0 
+X-CRM114-Status: GOOD (  20.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,46 +95,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, Daniel Wagner <dwagner@suse.de>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8xNS8yMSAxMDoyMyBQTSwgU2FnaSBHcmltYmVyZyB3cm90ZToKPiAKPj4+Pj4+IGJsa19t
-cV90YWdfdG9fcnEoKSB3aWxsIGFsd2F5cyByZXR1cm4gYSByZXF1ZXN0IGlmIHRoZSBjb21tYW5k
-X2lkIGlzCj4+Pj4+PiBpbiB0aGUgdmFsaWQgcmFuZ2UuIENoZWNrIGlmIHRoZSByZXF1ZXN0IGhh
-cyBiZWVuIHN0YXJ0ZWQuIElmIHdlCj4+Pj4+PiBibGluZGx5IHByb2Nlc3MgdGhlIHJlcXVlc3Qg
-d2UgbWlnaHQgZG91YmxlIGNvbXBsZXRlIGEgcmVxdWVzdCB3aGljaAo+Pj4+Pj4gY2FuIGJlIGZh
-dGFsLgo+Pj4+Pgo+Pj4+PiBIb3cgZGlkIHlvdSBnZXQgdG8gdGhpcyBvbmU/IGRpZCB0aGUgY29u
-dHJvbGxlciBzZW5kIGEgY29tcGxldGlvbiBmb3IKPj4+Pj4gYSBjb21wbGV0ZWQvYm9ndXMgcmVx
-dWVzdD8KPj4+Pgo+Pj4+IElmIHRoYXQgaXMgdGhlIGNhc2UsIHRoZW4gdGhhdCBtdXN0IG1lYW4g
-aXQncyBwb3NzaWJsZSB0aGUgZHJpdmVyIGNvdWxkCj4+Pj4gaGF2ZSBzdGFydGVkIHRoZSBjb21t
-YW5kIGlkIGp1c3QgYmVmb3JlIHRoZSBib2d1cyBjb21wbGV0aW9uIGNoZWNrLiAKPj4+PiBEYXRh
-Cj4+Pj4gaW9ycnVwdGlvbiwgcmlnaHQ/Cj4+Pgo+Pj4gWWVzLCB3aGljaCBpcyB3aHkgSSBkb24n
-dCB0aGluayB0aGlzIGNoZWNrIGlzIHZlcnkgdXNlZnVsLi4KPj4KPj4gSSBhY3R1YWxseSB2aWV3
-IHRoYXQgYXMgYSB2YWxpZCBwcm90ZWN0aW9uIGFnYWluc3Qgc3Bvb2ZlZCBmcmFtZXMuCj4+IFdp
-dGhvdXQgaXQgaXQncyBlYXN5IHRvIGNyYXNoIHRoZSBtYWNoaW5lIGJ5IGluamVjdGluZyBmYWtl
-IAo+PiBjb21wbGV0aW9ucyB3aXRoIHJhbmRvbSBjb21tYW5kIGlkcy4KPiAKPiBBbmQgdGhpcyBk
-b2Vzbid0IGhlbHAgYmVjYXVzZSB0aGUgY29tbWFuZCBjYW4gaGF2ZSBiZWVuIGVhc2lseSByZXVz
-ZWQKPiBhbmQgc3RhcnRlZC4uLiBXaGF0IGlzIHRoaXMgcHJvdGVjdGluZyBhZ2FpbnN0PyBOb3Rl
-IHRoYXQgbm9uZSBvZiB0aGUKPiBvdGhlciB0cmFuc3BvcnRzIGNoZWNrcyB0aGF0LCB3aHkgc2hv
-dWxkIHRjcD8KCkJlY2F1c2UgaXQncyBwYXJ0aWN1bGFybHkgZWFzeSB0byBzcG9vZiBwYWNrZXRz
-IG9uIHRjcC4KQWxsIG90aGVyIG52bWUtb2YgdHJhbnNwb3J0cyBhcmUgbGF5ZXJlZCBvbiB0b3Ag
-b2Ygb3RoZXIgdHJhbnNwb3J0cyAKd2hpY2ggZG8gc29tZSBzYW5pdHkgY2hlY2tzIGFscmVhZHks
-IHNvIGl0IGJlY29tZXMgcmVhbGx5IGhhcmQgdG8gaW5qZWN0IAppbnZhbGlkIE5WTWUtb0YgZnJh
-bWVzIGZvciB0aG9zZS4KTlZNZS1UQ1AgaGFzIG5vbmUgb2YgdGhlc2UgcHJvdGVjdGlvbnMsIG1h
-a2luZyBpdCByZWFsbHkgZWFzeSB0byBpbmplY3QgCmZhdWx0eSBmcmFtZXMgKG9yLCBoZWF2ZW4g
-Zm9yYmlkLCBydW5uaW5nIGEgcGFja2V0IGZ1enplcikuCgpBbmQgY3Jhc2hpbmcgdGhlIG1hY2hp
-bmUgb24gaW52YWxpZCBmcmFtZXMgaXMgYWx3YXlzIGEgYmFkIGlkZWE7IEkgd291bGQgCmhhdmUg
-ZXhwZWN0ZWQgTlZNZS1UQ1AgdG8gZHJvcCB0aGVtLgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4g
-SGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApo
-YXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4
-OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
-bmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXgg
-SW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5v
-cmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1l
-Cg==
+On 21-02-15 09:02:33, Keith Busch wrote:
+> On Sun, Feb 14, 2021 at 08:01:25PM +0900, Minwoo Im wrote:
+> > We don't allow NVME_IOCTL_IO_CMD ioctl in case that a controller has
+> > multiple namespaces attached.  Also, I/O request to the controller
+> > character device has not been recommended and deprecated because we have
+> > block device to I/O with where the multipath consideration is taken.
+> > 
+> > Once kernel decided a path to I/O for a namespace based on the I/O
+> > policy of a NVMe subsystem, userspace is not allowed to choose a path to
+> > I/O.  If a path is broken(inaccessible state in ANA), then it will not
+> > try to I/O to that path.
+> > 
+> > This patch introduced NVME_IOCTL_MPATH_IO command for controller
+> > device(e.g., /dev/nvme0) to support multipath I/O passthrough for
+> > userspace.  Regardless driver's path decision, userspace can target a
+> > namespace to I/O.  In this case, `cmd.nsid` will be used to find out the
+> > namespace instance target which is hidden(e.g., nvmeXcYnZ).
+> 
+> IO commands are not allowed through the character handle with the
+> existing ioctls. A new ioctl doesn't make it okay. If it was okay, then
+> we could just remove the limitation in the current ones.
+
+Thanks for your feedback, Keith.  If you don't mind, may I ask why it's
+been entirely unsafe and deprecated in the exsiting
+ioctl(NVME_IOCTL_IO_CMD)?  I've seen a patch bfd8947194b2 ("nvme: fixes
+for NVME_IOCTL_IO_CMD on the char device), but have no idea why it's
+been really depreacted :)
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
