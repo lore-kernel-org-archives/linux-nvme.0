@@ -2,19 +2,19 @@ Return-Path: <SRS0=TApw=HT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F25D2C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 00:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1560C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 01:16:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AE1A764DDA
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 00:12:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE1A764DDA
+	by mail.kernel.org (Postfix) with ESMTPS id 4D66264E2F
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 01:16:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D66264E2F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=++84vlXu5Ld01Ntyk2oGYp4yJNTDkx0ofjLnnmdL0Rw=; b=EafkkzMS039QYMEH1ts5/Gac+
-	WoG8QlQoIB5YwnZMLVA9/ZKGkLwDoA1mWJB4UFS4wSHEeVa1uBh7T/tTUV+16F2Kwx+51ijQN4CcB
-	xzMMrfjUBFsAd92X8wtRmvsF17MfKaaSwrb1fq9BusynyYgwruorGFNX5EFwMGONLZhOcCVjTnPb+
-	HsQP+NcKPOXV7qa8Y0U81tYBXVoHJ/VT/n7ZEOsdbUF7hJnPYdpIyN5gSivsy1xRnthHQ8n2AEzZt
-	ERNZN8vZIiJWKRjOm6mmOHijwzk1dJwEwz9BLD0kylEB0ijinE/rYBpXfNzrg7X7em27Ot/Mh25sl
-	K+0j3dmBw==;
+	 bh=XJsLrrOFK45xwzc6KlNtr3QtylLqX8a/8Wb403hZsQY=; b=wb/oRsHS8LMX8HVuOG2CtECNP
+	oFmDvjBHgplmbBX6STPsg9IUgsdkWVUFgARIx+ihIf0Vz08pAmpY7MC+l0CsHZ5GQvEkAgU17d+rF
+	+kWtzEK09MO5aV3HBp9JxVr6PTfaizIouOIiVTFK3ZYLbrVMLnRuYdbqw95o9BiXC/QgZIX/Kw2pL
+	MPBT0JlbwhDYEyWOTib7u7snxwu7Hsfq+y1eICL4sN87uhNvdgROJ4u2hKqteL9HVy2z11HYBEBxD
+	Dki+v469Bp1fIJppdxfzhWq0c7j+nLSbnP2IOI84hpu/BGudNWQN1VWwBAo5bsPlNN+JSLE8nzh7A
+	ucLklLYBg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lCAS5-00085o-BK; Wed, 17 Feb 2021 00:12:21 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1lCBRw-00056J-13; Wed, 17 Feb 2021 01:16:16 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lCAS0-00083X-7v
- for linux-nvme@lists.infradead.org; Wed, 17 Feb 2021 00:12:17 +0000
+ id 1lCARe-0007uJ-Qu
+ for linux-nvme@lists.infradead.org; Wed, 17 Feb 2021 00:11:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1613520736; x=1645056736;
+ t=1613520715; x=1645056715;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=urHpzBy/RTI7tEi+MOAEn+IYROGqf1NYQicJpuVapFM=;
- b=hAL3+tydeEivMTpIY1cQzSRSaRIzV9XuQiowaFNVG+Z+5IcHU1hN5IHK
- 6Cn62srVqje3a29EE27V8nA8Q0bLLVWw6YX0CfgVcXDr+AJX8X/tUnZqx
- H+rDtwAE8gRMGWeQcVsufnW9i7dpJbi6/O4CrwKHlBVZcrZyNrUomozkj
- RlyKap7k+4VmSx4xOTe8dGBtqKMczUaGBAC8U7Ye5MvZDbHeFAQ18F5pC
- uOzMwwMdNPNrdfNdCJK47ByK7cz1ifpxH+pmbCRznC5yzy0rsursYCKbg
- Rw/QQ0xVGn4FoJ3Mg1/6H95D/ElvRtSck3monCFJcbpHMMrsiWf7VMtJ+ w==;
-IronPort-SDR: R7jLJIhep7NEcFPtmQyPCyvNTI+XjuymMIG1Sik6p6sH+GUMn/gzOy0UxWNHVbB5RzmfqnY3+V
- eirupZmxsuennxnkGQMlfx90eAtOuoaCswwuB0mhSfzL2Z6bZpeGD2jyvbMGVxzZQMGAm2VtJc
- HregTkO2gWM3fkDixgK+c3khzLodFTI2Ia+hASn01Y0EH9x1F05NBvVDXAjp6FB/WWJVqL2wHp
- fkfUCXvMOe/RxjqZlFveMfBc4yn5/uR0fXvY1XZAq+Rn1+pDJRGx+MAqVhG9JoL8PzkIAEBbFP
- EoI=
-X-IronPort-AV: E=Sophos;i="5.81,184,1610380800"; d="scan'208";a="160098801"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 17 Feb 2021 08:12:15 +0800
-IronPort-SDR: YIUofAz+MgcWtbLArkyWy8wAB3m+E8eKuzvZvIOHWpDOd5+4wcOafvgm37H/REIHUcvXnKW2TD
- iI3ceJI47DfeZw2hC5onjEQK5u+PlDz7ty8EEDVF7IFvz13enJc/KmJaVxWf/gl3LaGjhzqkoe
- R0Hmtcciq0FY6GxyTCQDSqWT/4cgAdJRXomYLwsi9q58SlJ2rDKrSv853XrpxdC9Tvwl+DRkCT
- JZaD9h7hHuzijfJgNTG3v5hoP70Srs6emHvY8wKErAxQPGBsAbDjiBXyQjPIcUz7F6FKHPPVtv
- 8yYRUTONC/jnCEHOhh2RfGDo
+ bh=oxqI8KrK4sKBKVnJHHhqIxcSYPTGc/xL6+8fR+ie+2s=;
+ b=oRfoKJJVDLgSRt4ZLnxaLK4nV1AxzD5TsLJQqLT2BJC65O7ZwjxnYIlR
+ h9fX8Ot5/hm95VaKBUZBmbWAoK9TlHUP1GKUqhCGg7KudkvY2CAvsId0Y
+ gKuC55Br7pcgt+qIzCA2EOkg5SsNaQOfwqfIHdYFX8frrkvme++KD+vex
+ SjB6mNs7S2pTVQ1MukBTdF9lJFD+xMe4H96hca2Ud/LFxwXvjTT+HwNgR
+ fhh0uV/Q7y11OOGzM08gRqsPVFX/a7o8sZEr1iUjlcjHc21tg6nGPmI9b
+ h/6ZoWEjHrdEFMUFF6lZTvytGluMgBnQTpncnfVOBi1L7Bx0lhn+Pfpfz Q==;
+IronPort-SDR: cmDsWOeyXmmvQlXiH2FgnrsuUVf0lz8NMzehUYnPvgi+PeXXb8Rsp8WD3kc4hcik9HlYeTPs9o
+ BELvHxM8w+p+PQZx6QE1K6Zxz3IfG47HBzy+D2nu4/8X23hJWFjeJ+FTXPRdUqblZ0M6K+URZu
+ Yf8SdO1pXXAza2YRCT2fmZ/dF1fvCv2rRqPgJ/XcMuq4rNYf4pMABVxUuYTVkFS4xT9Oku/cvq
+ M0ci64DAfymjneTa9dzOE6XKEex90HjDVx5VUuOsE5N5/qY5enk/4CjiLCsVZyvOhZScrkQvG9
+ vMM=
+X-IronPort-AV: E=Sophos;i="5.81,184,1610380800"; d="scan'208";a="161280088"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Feb 2021 08:11:54 +0800
+IronPort-SDR: Nx6XoTzMjp/2EMm6z8iZjKf+KewV2Uxtf/TYO+3BQHSM9cyLAA052Q6AF9htnBGTr9MzYmbSYt
+ 3U2fwkPxyW0IbyuJzjf9qkARnuYUJK89nrNNg2Lhn1Hg6GqdEGJsc29Ga90P3sM5serBtR45Lq
+ AcD2/0AbTofLJGJim06YI8h4tKtbJPKsq4B0xRkvk4axcNyiNIJriIHeDJ5t0J+ataQY5GsRaq
+ OJZNrkWuadcSoiXTHximfZJgRsM4iIeQIcPwA3D1fWs8BD62OfC9dhz7TNa0naY7Ja6Pl0V+n/
+ SrapxJAGeajfDoQ5xntFhSTR
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2021 15:55:47 -0800
-IronPort-SDR: kTPgb1rNvK3ipfO+Sz5ahPI3Jg1Ew1QHzUDH65J9a/Lvi91jWF/B+b+0yWm4JR6M3xb3BGJgXk
- PZ+FPlDbMnvppiRprspoDn2hVNbBUs7r9qH4UDeJzuS8uN8AFZ9KrZEt615IWG7ifjkLvP767k
- wMMbXUf0xCzOsQQof4DxvMGvfCtHnayxBUXDSfBu3/2N2bPfVVJaEufCXnfjJ6a0QsJNu9w9eg
- Guwd6PxzcrgNeAGd5uslW3DmtKZE282F2H0iHN3LNpJqzxuGgLN+ODpksZCkZL/VD8ukzYbhO4
- sAU=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 15:53:38 -0800
+IronPort-SDR: HhCbwzXefSbDS4Wzu7EAOViV5C4mJLKP536l5GxkE5XFkUBbjEb1rt6Lje5PZaqx4sliSbV9AC
+ IE8p5/eIpTrbR8DJfIHqzOUjF7t7DN6QbITb2XyFdYCUsh0AK6cKx9glFYUzMjoDvs4y8xnEhk
+ bpI7gyB1YB2Ap0S0m7NhhEWI6kkdufk6FlPo01xyBf0TixgtrvGR2X26039CDYXx1F9GSKnQLc
+ wzbaEemLpIl+q3vvJfuVe7YnWlfBdHifybx4i5a45a3rCp8tiJst8uE0UvHGVtQ4lDGJkJ4U0r
+ Y9s=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 16 Feb 2021 16:12:16 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 16 Feb 2021 16:11:54 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 14/14] nvmet-fc: update function documentation
-Date: Tue, 16 Feb 2021 16:10:32 -0800
-Message-Id: <20210217001032.25741-15-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 11/14] nvme-core: use likely in nvme_init_request()
+Date: Tue, 16 Feb 2021 16:10:29 -0800
+Message-Id: <20210217001032.25741-12-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1.dirty
 In-Reply-To: <20210217001032.25741-1-chaitanya.kulkarni@wdc.com>
 References: <20210217001032.25741-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210216_191216_450575_C5D96645 
-X-CRM114-Status: GOOD (  12.65  )
+X-CRM114-CacheID: sfid-20210216_191155_157175_F76012BA 
+X-CRM114-Status: GOOD (  14.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,26 +103,39 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add minimum description of the hosthandle parameter for
-nvmet_fc_rcv_ls_req() so that we can get rid of the following warning.
+For NVMeOF Target passthru backend we allocate the passthru request with
+nvme_alloc_request(). The functions :-
 
-drivers/nvme//target/fc.c:2009: warning: Function parameter or member 'hosthandle' not described in 'nvmet_fc_rcv_ls_req
+nvmet_passthru_execute_cmd()
+ nvme_alloc_request()
+  nvme_init_request()
+
+are in the fast path for I/O commands.
+
+In nvme_init_request() we set the timeout based on the
+req->q->queuedata check & that is always true for the I/O commands
+coming from the passthru backend which are high frequency commands.
+
+Annotate req->q->queuedata with likely() in nvme_init_request().
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/fc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index d375745fc4ed..1f1c70f9f8eb 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1996,6 +1996,7 @@ nvmet_fc_handle_ls_rqst_work(struct work_struct *work)
-  *
-  * @target_port: pointer to the (registered) target port the LS was
-  *              received on.
-+ * @hosthandle: pointer to the host specific data, gets stored in iod.
-  * @lsrsp:      pointer to a lsrsp structure to be used to reference
-  *              the exchange corresponding to the LS.
-  * @lsreqbuf:   pointer to the buffer containing the LS Request
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 139cbeb11c7d..a0d0c3a5abff 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -652,7 +652,7 @@ static inline unsigned int nvme_req_op(struct nvme_command *cmd)
+ static inline void nvme_init_request(struct request *req,
+ 		struct nvme_command *cmd)
+ {
+-	if (req->q->queuedata)
++	if (likely(req->q->queuedata))
+ 		req->timeout = NVME_IO_TIMEOUT;
+ 	else /* no queuedata implies admin queue */
+ 		req->timeout = NVME_ADMIN_TIMEOUT;
 -- 
 2.22.1
 
