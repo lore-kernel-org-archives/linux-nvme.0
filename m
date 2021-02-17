@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 591E0C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 00:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4BAC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 00:11:20 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 210AB64DDA
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 00:11:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 210AB64DDA
+	by mail.kernel.org (Postfix) with ESMTPS id A169264DFF
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 00:11:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A169264DFF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4DKTxhO9Gp4wttP50mpsf+UHd1hsGkSDvvJMTiWPGqA=; b=w5BnaiG8HA2GARgok+cx645jb
-	lkkoPHxq7naTDqL4puK59IJW4dBsic9j5GIhwHI3c6BMGqohfTfsITbxl6X2n41GR/Y4OTajXlwkY
-	QeH2kVGvjpNOnh245HE6jDaWEAwnTh02ycLktjx2537/KXSAevMCFKezGd70VfCdn7VtNdZGh6H/w
-	MTuFn+prbj1wylywnikq4ds4lgMNbjnxULG/RtNE7Vi56NtdS8Ig06KhZaUP7Pd+Y7tE8hvEjb1nY
-	zkACFCc037VDz9V5Ss9OOIFoRmtVTq57wgPZdSAA21Ij3lPuVjcgxr5Tdsj4rP8tL2iaLUbrqCxkI
-	x4JLlY38Q==;
+	 bh=BJQfD1ET8Bn6bcB2y4rRsFn9hX8e9RgcUqZf4ZpuCJw=; b=SDwFMvMTlmQ181nfgLCMK5Bii
+	PIEtgM31hJoKt+aY/1THBjWLJkgknRPJii2djdcg05uDTDV/V9z9UnQvWL9x3iSRDETpkiXTsqU7J
+	mhBCMZJqCiTDEAOTEfqFAHUlyvSKWv6Myif0ou0qQJ3ro5z7T5dELbonpSR5O7ENAdVZm1i8idYnZ
+	A81b5ftoHQ1ACuUcgUm0Kcv1csg5qvUBdkQb+ntKuwJgbNH8GUnbGwSfXZYEF1Af9USM/DNblf2oC
+	FElx4pvb1VoQHZLf3TsQJZb3gNcb1hP6f6qq4QemYIPk44P73MMSfQOv3NwMdIl/buU6R1jBGeohe
+	jPe4mLrmA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lCAQu-0007aq-Ti; Wed, 17 Feb 2021 00:11:08 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1lCAR2-0007cz-0k; Wed, 17 Feb 2021 00:11:16 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lCAQs-0007ZS-Kk
- for linux-nvme@lists.infradead.org; Wed, 17 Feb 2021 00:11:07 +0000
+ id 1lCAQy-0007bz-Ub
+ for linux-nvme@lists.infradead.org; Wed, 17 Feb 2021 00:11:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1613520666; x=1645056666;
+ t=1613520673; x=1645056673;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hirTfHPdIfT83yQBwJs0Tmpud5YKSBXqHqKDMMNCw98=;
- b=gcm9Jww187/5CtBn0EMze4maVc9fShIa55cINYEetxDR6zx4bGavk0wt
- +zY2Wx3c9ujVgr/K18KBxaA7Hknyz0b4WZVLVBV59Dr8U3AgB74WJjJGz
- 8oBrJAS1qdIrimkylBcjkFfLj17DMWxHpexEUoUjupqfLUOyziDzf2S8W
- V9gqrZPiYXpnxEqb48lmgHqITHyOtoElgXyF2XVuOGlE0k5Pte2X5908r
- ubeC0TGJfIcSWiar/YOffB7d7xUzQAAtYmnXU+o+Lg+zIOKsmA/D3Mb9O
- APNzSW1z9F/QLcv3CN1ITdQ5LevscyAbXNYAVFkPBpSOZ3R7S4lXXMmsq g==;
-IronPort-SDR: 48APHxhDEWA/idhKjmzUrOkYjEX19cpW+FVy3K+gQ01ST2ycv/5uwUMMo1ZyiEWWnV+Qbhuu1P
- uS0TiFt+w1P8Vpuv7ehlCP9nU/FG03JIq02GfrXwxSz6OSiM1xc9L3LZcP1eSP1PJNSZ598Gw3
- E/ckrIawwWrWDh0ZdEQI3Unof3OUsh+Nt5DtfjoFpp929rd/youfac6GTETaCEaZLUyZozameE
- 4mdSxBJ+GnL0LmlEODZLb6oO1TbDUq/AYR62ZPlaBDvtFRVmJ6eVGRZXsskZmOlFQVwhjM6M2V
- 2hA=
-X-IronPort-AV: E=Sophos;i="5.81,184,1610380800"; d="scan'208";a="160098686"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 17 Feb 2021 08:11:04 +0800
-IronPort-SDR: VY2Ppz9S45NLLXIJ5BZqp4BIlXFN033Q6lPSJ52fubqouSUfok6nDIEf4bRaBQLQSFkDcXWyUO
- W+HvZe3NLbPTD4ZCCr5DdBpPDYOMg88RKb4ZtWWneMuklTJVsaAnxPg3Qz1TXgUSGz/o7sFja2
- J/0+Vg6/8ZeMbVjZms2ilgD7GWwAPhQisDzC6Wc+MkB5Z5mgaaiq+LgtS3rqt74jY01gZrfTVY
- DTGCqxVyPvHP6gVG3CJE38QpjjOz/OJiCQZ/fO+juUhuJcHLu7RY/JbtcP07MqtYqzEIKQ2WFS
- 8BbdnS0hlndzLenHdvaAe7F3
+ bh=rnKSpX1kE8vrRAWSCMUaL5MglhL2py3C/yDNjtOLKYs=;
+ b=KnQTO8ORQbytwdOR28KICHXOoari4KeZweZNJAXj5KVKslMdHCah6Xrf
+ aG8S5I6wLKrdkm2RFHpIElQSyKE9ZvE5EUBODmAh/Dt/vvYT1OU/h+Ra7
+ O62S/6st5jG+O9sV6f/DS7KQGFKUfNbHnTPA0G1pmS5NN6OTychnhG83X
+ dzlulywxLuw3+0d4+BaxaAvvDbV0ROMt77THL6v8KQinpQY5bwBaco/E7
+ PcwOH8krsTv32OTg+8N/3p0rQROvDN0O7Gb4AVNY02v2l86G2paz89Fmz
+ QmMrJqz2V9elryShv92SHN2cdlpT3hYxCfZJouVrZ8K1kkPMxcbSfxZg0 Q==;
+IronPort-SDR: 8nVjgc8Ue0O0Zk0ASMrtQALBJQjYU4fOamyXTaCIC3BQCug/oiijVjp6wWisf4Xq+L8rB/cXTH
+ 7+9ujJAB56UDYP+mLSIB1rLrnE9sIUZQxbfI01fA4Qm69DABv/yjJdCvt7bStPEOBnh/7qdKY5
+ KzJRzZiYGmETR3DvzhixRjBTPdZDTWJg6G0B2BXx4XdeeD13zIQeLhwVTZktWHTSCQ0LpeK+U2
+ PO//kMJT8z+Psh/76n24TO0srIn3qrriyNzAUVBgNaGNgxY/qsn906uG8ayuSmAmtPxcvOUG8w
+ JZs=
+X-IronPort-AV: E=Sophos;i="5.81,184,1610380800"; d="scan'208";a="161280036"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Feb 2021 08:11:12 +0800
+IronPort-SDR: OU8kQyiVDYgu7DoECA9vd/bmzu6GQaXU9Xumc4f0dfWbJlHlRwcIpNWjGt97imb1HkRR481yeH
+ ObFtFlHIp6Lq5auGSIelPjs+/Ah9q029Gvy+EdXaCC9nDurJ6Ua98wZM0Mvh+d6XTKdJniuprp
+ Dntq3QK4Ls7YjYr9n+YxqA/jtcaFr/o9PlWOqbBnYnwnOk3UV+5uPcxMoVuPDuSXmhhR+7amHS
+ FpEEbNgFVGW3qiCfBnbgoTl0GzLS19dRhVGDHL5bcobeUG4W1eqkfKg/22MlpMTVuXS/BWTplB
+ CqFVR4ZrPSZ8hLxbla4NuI9i
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2021 15:54:36 -0800
-IronPort-SDR: 3WvkzhreQ4435V+Idn1qKwLDnT2clp3nW2EPmFw0DUyLgALtrMg88W2mOvSib4vPCtlGG45Lpy
- ayJj8u3RTrd440oRKifZQ658d7Prlo/UDGCiYs3acsUKctp9ZXwDkoIGdbd0W1C/ukWBcUdSrL
- fPX1QSbbBRSIpIPHRzVG5RTiNSWkCl7uR4HaMhW+Xe0huC2yfhmz4Is6AFoe6x5xFL9d3D4siv
- JcGLnDnqx68rp95mdX4qChXzD64MTwUwcbKCEYUkR9RZoaWGHbdKp20Yk5fi7sPaWLcjN3G6sx
- rtI=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2021 15:52:56 -0800
+IronPort-SDR: xaxWf/dm0y1yEQUr1MXSZIa624xoeQF4r4C5tn1MewVWeoVfPL15RI7r0nVn8kZWOCmNpz+JQk
+ fclZrhalDOGjHAkTLJ3vzEfn4XaVEb+rY/kYsxMDntePchJSDacx8uNVxi9GLe671G01u6wxn9
+ ehTkSM8dbk43YNp8uSS3YyOwKAFti9XOsFennXvyPtqIOjpGsTIZJb1OcALLpa1Ew9dhvNJOuQ
+ C6+xMQOnntUbqrYAMu1gaZ6riEHrqtxgz1FZ+jjxb1UIVaundRIbP7R6d6Z5rxcT4rg6crEWj4
+ nWc=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 16 Feb 2021 16:11:05 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 16 Feb 2021 16:11:12 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 04/14] nvme-core: fix the type for shutdown_timeout
-Date: Tue, 16 Feb 2021 16:10:22 -0800
-Message-Id: <20210217001032.25741-5-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 05/14] nvme-core: add helper to init ctrl transport attr
+Date: Tue, 16 Feb 2021 16:10:23 -0800
+Message-Id: <20210217001032.25741-6-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1.dirty
 In-Reply-To: <20210217001032.25741-1-chaitanya.kulkarni@wdc.com>
 References: <20210217001032.25741-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210216_191106_876520_F4754423 
-X-CRM114-Status: GOOD (  12.09  )
+X-CRM114-CacheID: sfid-20210216_191113_171444_AB49C39E 
+X-CRM114-Status: GOOD (  18.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,37 +103,107 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In the function nvme_init_identify() we calculate the
-ctrl->shutdown_timeout value with module parameter shutdown_timeout
-and transition_timeout with clamp_t().
+The function nvme_init_identify() has grown over the period of time about
+~200 lines given the size of nvme id_ctrl data structure.
 
-The variable ctrl->shutdown_timeout and transition_timeout is of type
-unsigned int.
-
-Change the module parameter shutdown_timeout from unsigned char to
-unsigned int so it stays consistent with the type of local variable
-transition_timeout, ctrl->shutdown_timeout & clamp_t unsigned int type.
+Just like the tail of the function it has small helpers to initialize
+the independent fields that needs some extra checking, add a new helper
+nvme_init_identify_transport() to initialize transport-related fields.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 71 ++++++++++++++++++++++------------------
+ 1 file changed, 40 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cae526757e03..840c32c755b2 100644
+index 840c32c755b2..f5b8f8e0ee18 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -40,8 +40,8 @@ module_param_named(io_timeout, nvme_io_timeout, uint, 0644);
- MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
- EXPORT_SYMBOL_GPL(nvme_io_timeout);
+@@ -3057,6 +3057,43 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 	return 0;
+ }
  
--static unsigned char shutdown_timeout = 5;
--module_param(shutdown_timeout, byte, 0644);
-+static unsigned int shutdown_timeout = 5;
-+module_param(shutdown_timeout, uint, 0644);
- MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
++static int nvme_init_identify_transport(struct nvme_ctrl *ctrl,
++		struct nvme_id_ctrl *id)
++{
++	if (ctrl->ops->flags & NVME_F_FABRICS) {
++		ctrl->icdoff = le16_to_cpu(id->icdoff);
++		ctrl->ioccsz = le32_to_cpu(id->ioccsz);
++		ctrl->iorcsz = le32_to_cpu(id->iorcsz);
++		ctrl->maxcmd = le16_to_cpu(id->maxcmd);
++
++		/*
++		 * In fabrics we need to verify the cntlid matches the
++		 * admin connect
++		 */
++		if (ctrl->cntlid != le16_to_cpu(id->cntlid)) {
++			dev_err(ctrl->device,
++				"Mismatching cntlid: Connect %u vs Identify "
++				"%u, rejecting\n",
++				ctrl->cntlid, le16_to_cpu(id->cntlid));
++			return -EINVAL;
++		}
++
++		if (!nvme_discovery_ctrl(ctrl) && !ctrl->kas) {
++			dev_err(ctrl->device,
++				"keep-alive support is mandatory for fabrics\n");
++			return -EINVAL;
++		}
++		return 0;
++	}
++
++	ctrl->hmpre = le32_to_cpu(id->hmpre);
++	ctrl->hmmin = le32_to_cpu(id->hmmin);
++	ctrl->hmminds = le32_to_cpu(id->hmminds);
++	ctrl->hmmaxd = le16_to_cpu(id->hmmaxd);
++
++	return 0;
++}
++
+ /*
+  * Initialize the cached copies of the Identify data and various controller
+  * register in our nvme_ctrl structure.  This should be called as soon as
+@@ -3176,37 +3213,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	}
+ 	memcpy(ctrl->psd, id->psd, sizeof(ctrl->psd));
  
- static u8 nvme_max_retries = 5;
+-	if (ctrl->ops->flags & NVME_F_FABRICS) {
+-		ctrl->icdoff = le16_to_cpu(id->icdoff);
+-		ctrl->ioccsz = le32_to_cpu(id->ioccsz);
+-		ctrl->iorcsz = le32_to_cpu(id->iorcsz);
+-		ctrl->maxcmd = le16_to_cpu(id->maxcmd);
+-
+-		/*
+-		 * In fabrics we need to verify the cntlid matches the
+-		 * admin connect
+-		 */
+-		if (ctrl->cntlid != le16_to_cpu(id->cntlid)) {
+-			dev_err(ctrl->device,
+-				"Mismatching cntlid: Connect %u vs Identify "
+-				"%u, rejecting\n",
+-				ctrl->cntlid, le16_to_cpu(id->cntlid));
+-			ret = -EINVAL;
+-			goto out_free;
+-		}
+-
+-		if (!nvme_discovery_ctrl(ctrl) && !ctrl->kas) {
+-			dev_err(ctrl->device,
+-				"keep-alive support is mandatory for fabrics\n");
+-			ret = -EINVAL;
+-			goto out_free;
+-		}
+-	} else {
+-		ctrl->hmpre = le32_to_cpu(id->hmpre);
+-		ctrl->hmmin = le32_to_cpu(id->hmmin);
+-		ctrl->hmminds = le32_to_cpu(id->hmminds);
+-		ctrl->hmmaxd = le16_to_cpu(id->hmmaxd);
+-	}
++	ret = nvme_init_identify_transport(ctrl, id);
++	if (ret < 0)
++		goto out_free;
+ 
+ 	ret = nvme_mpath_init(ctrl, id);
+ 	if (ret < 0)
 -- 
 2.22.1
 
