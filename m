@@ -2,89 +2,90 @@ Return-Path: <SRS0=TApw=HT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1560C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 01:16:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0E84C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 02:15:12 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D66264E2F
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 01:16:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D66264E2F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id 46CD864E13
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Feb 2021 02:15:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46CD864E13
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XJsLrrOFK45xwzc6KlNtr3QtylLqX8a/8Wb403hZsQY=; b=wb/oRsHS8LMX8HVuOG2CtECNP
-	oFmDvjBHgplmbBX6STPsg9IUgsdkWVUFgARIx+ihIf0Vz08pAmpY7MC+l0CsHZ5GQvEkAgU17d+rF
-	+kWtzEK09MO5aV3HBp9JxVr6PTfaizIouOIiVTFK3ZYLbrVMLnRuYdbqw95o9BiXC/QgZIX/Kw2pL
-	MPBT0JlbwhDYEyWOTib7u7snxwu7Hsfq+y1eICL4sN87uhNvdgROJ4u2hKqteL9HVy2z11HYBEBxD
-	Dki+v469Bp1fIJppdxfzhWq0c7j+nLSbnP2IOI84hpu/BGudNWQN1VWwBAo5bsPlNN+JSLE8nzh7A
-	ucLklLYBg==;
+	 bh=7v0vb7GA0t0jLcgDPKHi0Ar7oZVycbxNgqfaK74Glk0=; b=1dtwtuzuCu9HAv+J1OV/WDiXi
+	1ek7ZGXYwNUak8SshQMRzN71+EXJ1BGiNqoQiHRfLOBfhJClJae9GepBTenwtEqLRRstgX0HsYYBy
+	N8ms0vhPK+x2B38+IX5vvrAQlxG1aLNz781w9wAQIdSI/KTY8bgQSFMFuy+Lui/LGECt7nFE2vWb2
+	z9V4Z3y/VZC9nzYIze2Do1ncMAAscOCFD0X+4AyXzpdZusGTPZ/h22nJJ+kvrdYE5+PnkoBMuiUw3
+	gS9tZ+5GsWIgI/K3J1L57YE4a9ZbBXt9M5SNQmVzWT/Kl0J73QQII7s0ObogCyS+HGqZSWvSxvD16
+	usMKHVoWQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lCBRw-00056J-13; Wed, 17 Feb 2021 01:16:16 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1lCCMq-00081c-Ew; Wed, 17 Feb 2021 02:15:04 +0000
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lCARe-0007uJ-Qu
- for linux-nvme@lists.infradead.org; Wed, 17 Feb 2021 00:11:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1613520715; x=1645056715;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oxqI8KrK4sKBKVnJHHhqIxcSYPTGc/xL6+8fR+ie+2s=;
- b=oRfoKJJVDLgSRt4ZLnxaLK4nV1AxzD5TsLJQqLT2BJC65O7ZwjxnYIlR
- h9fX8Ot5/hm95VaKBUZBmbWAoK9TlHUP1GKUqhCGg7KudkvY2CAvsId0Y
- gKuC55Br7pcgt+qIzCA2EOkg5SsNaQOfwqfIHdYFX8frrkvme++KD+vex
- SjB6mNs7S2pTVQ1MukBTdF9lJFD+xMe4H96hca2Ud/LFxwXvjTT+HwNgR
- fhh0uV/Q7y11OOGzM08gRqsPVFX/a7o8sZEr1iUjlcjHc21tg6nGPmI9b
- h/6ZoWEjHrdEFMUFF6lZTvytGluMgBnQTpncnfVOBi1L7Bx0lhn+Pfpfz Q==;
-IronPort-SDR: cmDsWOeyXmmvQlXiH2FgnrsuUVf0lz8NMzehUYnPvgi+PeXXb8Rsp8WD3kc4hcik9HlYeTPs9o
- BELvHxM8w+p+PQZx6QE1K6Zxz3IfG47HBzy+D2nu4/8X23hJWFjeJ+FTXPRdUqblZ0M6K+URZu
- Yf8SdO1pXXAza2YRCT2fmZ/dF1fvCv2rRqPgJ/XcMuq4rNYf4pMABVxUuYTVkFS4xT9Oku/cvq
- M0ci64DAfymjneTa9dzOE6XKEex90HjDVx5VUuOsE5N5/qY5enk/4CjiLCsVZyvOhZScrkQvG9
- vMM=
-X-IronPort-AV: E=Sophos;i="5.81,184,1610380800"; d="scan'208";a="161280088"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 17 Feb 2021 08:11:54 +0800
-IronPort-SDR: Nx6XoTzMjp/2EMm6z8iZjKf+KewV2Uxtf/TYO+3BQHSM9cyLAA052Q6AF9htnBGTr9MzYmbSYt
- 3U2fwkPxyW0IbyuJzjf9qkARnuYUJK89nrNNg2Lhn1Hg6GqdEGJsc29Ga90P3sM5serBtR45Lq
- AcD2/0AbTofLJGJim06YI8h4tKtbJPKsq4B0xRkvk4axcNyiNIJriIHeDJ5t0J+ataQY5GsRaq
- OJZNrkWuadcSoiXTHximfZJgRsM4iIeQIcPwA3D1fWs8BD62OfC9dhz7TNa0naY7Ja6Pl0V+n/
- SrapxJAGeajfDoQ5xntFhSTR
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2021 15:53:38 -0800
-IronPort-SDR: HhCbwzXefSbDS4Wzu7EAOViV5C4mJLKP536l5GxkE5XFkUBbjEb1rt6Lje5PZaqx4sliSbV9AC
- IE8p5/eIpTrbR8DJfIHqzOUjF7t7DN6QbITb2XyFdYCUsh0AK6cKx9glFYUzMjoDvs4y8xnEhk
- bpI7gyB1YB2Ap0S0m7NhhEWI6kkdufk6FlPo01xyBf0TixgtrvGR2X26039CDYXx1F9GSKnQLc
- wzbaEemLpIl+q3vvJfuVe7YnWlfBdHifybx4i5a45a3rCp8tiJst8uE0UvHGVtQ4lDGJkJ4U0r
- Y9s=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 16 Feb 2021 16:11:54 -0800
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH 11/14] nvme-core: use likely in nvme_init_request()
-Date: Tue, 16 Feb 2021 16:10:29 -0800
-Message-Id: <20210217001032.25741-12-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1.dirty
-In-Reply-To: <20210217001032.25741-1-chaitanya.kulkarni@wdc.com>
-References: <20210217001032.25741-1-chaitanya.kulkarni@wdc.com>
+ id 1lCCMn-00080j-GB
+ for linux-nvme@lists.infradead.org; Wed, 17 Feb 2021 02:15:02 +0000
+Received: by mail-pj1-x102c.google.com with SMTP id kr16so569663pjb.2
+ for <linux-nvme@lists.infradead.org>; Tue, 16 Feb 2021 18:14:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=rDE8QJ4kq34g+Wz1YMdsNi1DYpviuDa5RWSwbBQkIas=;
+ b=GxQXhV39v+hZZBA4Dob1V1tVoGY4jOP6fdSpUuM+/bn9mbvId44tAkIlwqM7yAweHH
+ LMNSEJPKLJCPorVPBc+7xwnJYrXnd5cLcdDmUNDPpDsQAa/k+rP8J3O4cqDmxV1xVonJ
+ uqg+xpkfpn3iYHioDBFX7wSns7h4M7hQOj7sjAI3g4VU2jBNrcjT3GXqlJghgtcl6vIe
+ Ll/55WC0TdOQodq0occRJOJYN64qKiY4rBmg+DbzHNBraK8y85NMIYwqUt3fwbEnoM6Z
+ MgNhWdphwlFyBgl20N1Oh1Nx/6UglqWjS0gAOcGYmVE6GfN1s/mPInAqdcnDPvOLaCoy
+ N/rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=rDE8QJ4kq34g+Wz1YMdsNi1DYpviuDa5RWSwbBQkIas=;
+ b=s5eSmhlv61QAtTf5jxOqVskyOb4WTljQxlT4GwG46C0bnMAXRQVVaouf6x1104zDA/
+ LbzXvjBVsXchJRR6q3HWlAxvoRsR/Z7WzyNGJzmVN6wCsHMDW+OFl3V0ie77j1zfuMNL
+ 7XK70zXI7h2TEKbLE8Uz3c5J2Q1IRMyXqbYnjQNx0G2WE1RzSTToJzuTh4j4hwf744FD
+ vrXB5Q6w0o8Lhw4qdolR6pf8pajRggNWdB1xqt5U9DxasnZWsgo+0fflhe2KErtmpa7L
+ mf4fwd0OuFlgX5xMhaqSUrdVE7VvaBUjNZvrVYhugMwFjSW5wrtY8R5eZVZlxwgWzQFg
+ j2wA==
+X-Gm-Message-State: AOAM531JpiQCP9Eu1nBREvO6rqpadWF+WcrZHo8FMJ5vMLvzJ4JCS3QC
+ Q3XMl7q/PqjxM5YGCsKRzx8=
+X-Google-Smtp-Source: ABdhPJxDhJ1u7WA+oKPY6xL71QQiYpB2+LHKKCZjHSypyg5gQUi4StUQf7PB+V2LCbDvHrfnjo/H6w==
+X-Received: by 2002:a17:902:d2c1:b029:de:7c38:f86a with SMTP id
+ n1-20020a170902d2c1b02900de7c38f86amr403417plc.83.1613528097924; 
+ Tue, 16 Feb 2021 18:14:57 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id e24sm243654pjr.13.2021.02.16.18.14.57
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 16 Feb 2021 18:14:57 -0800 (PST)
+Date: Wed, 17 Feb 2021 11:14:55 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme: introduce passthrough ioctl for multipath
+Message-ID: <20210217021455.GA2251@localhost.localdomain>
+References: <20210214110126.24023-1-minwoo.im.dev@gmail.com>
+ <20210214110126.24023-2-minwoo.im.dev@gmail.com>
+ <20210215170233.GA2707454@dhcp-10-100-145-180.wdc.com>
+ <20210216095147.GA2601@localhost.localdomain>
+ <20210216175722.GC2708768@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210216175722.GC2708768@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210216_191155_157175_F76012BA 
-X-CRM114-Status: GOOD (  14.60  )
+X-CRM114-CacheID: sfid-20210216_211501_598436_6E57CD35 
+X-CRM114-Status: GOOD (  27.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,49 +97,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, hch@lst.de,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, sagi@grimberg.me
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For NVMeOF Target passthru backend we allocate the passthru request with
-nvme_alloc_request(). The functions :-
+On 21-02-16 09:57:22, Keith Busch wrote:
+> On Tue, Feb 16, 2021 at 06:51:47PM +0900, Minwoo Im wrote:
+> > On 21-02-15 09:02:33, Keith Busch wrote:
+> > > On Sun, Feb 14, 2021 at 08:01:25PM +0900, Minwoo Im wrote:
+> > > > We don't allow NVME_IOCTL_IO_CMD ioctl in case that a controller has
+> > > > multiple namespaces attached.  Also, I/O request to the controller
+> > > > character device has not been recommended and deprecated because we have
+> > > > block device to I/O with where the multipath consideration is taken.
+> > > > 
+> > > > Once kernel decided a path to I/O for a namespace based on the I/O
+> > > > policy of a NVMe subsystem, userspace is not allowed to choose a path to
+> > > > I/O.  If a path is broken(inaccessible state in ANA), then it will not
+> > > > try to I/O to that path.
+> > > > 
+> > > > This patch introduced NVME_IOCTL_MPATH_IO command for controller
+> > > > device(e.g., /dev/nvme0) to support multipath I/O passthrough for
+> > > > userspace.  Regardless driver's path decision, userspace can target a
+> > > > namespace to I/O.  In this case, `cmd.nsid` will be used to find out the
+> > > > namespace instance target which is hidden(e.g., nvmeXcYnZ).
+> > > 
+> > > IO commands are not allowed through the character handle with the
+> > > existing ioctls. A new ioctl doesn't make it okay. If it was okay, then
+> > > we could just remove the limitation in the current ones.
+> > 
+> > Thanks for your feedback, Keith.  If you don't mind, may I ask why it's
+> > been entirely unsafe and deprecated in the exsiting
+> > ioctl(NVME_IOCTL_IO_CMD)?  I've seen a patch bfd8947194b2 ("nvme: fixes
+> > for NVME_IOCTL_IO_CMD on the char device), but have no idea why it's
+> > been really depreacted :)
+> 
+> A container could read data from namespaces assigned to a different
+> container.
 
-nvmet_passthru_execute_cmd()
- nvme_alloc_request()
-  nvme_init_request()
-
-are in the fast path for I/O commands.
-
-In nvme_init_request() we set the timeout based on the
-req->q->queuedata check & that is always true for the I/O commands
-coming from the passthru backend which are high frequency commands.
-
-Annotate req->q->queuedata with likely() in nvme_init_request().
-
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 139cbeb11c7d..a0d0c3a5abff 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -652,7 +652,7 @@ static inline unsigned int nvme_req_op(struct nvme_command *cmd)
- static inline void nvme_init_request(struct request *req,
- 		struct nvme_command *cmd)
- {
--	if (req->q->queuedata)
-+	if (likely(req->q->queuedata))
- 		req->timeout = NVME_IO_TIMEOUT;
- 	else /* no queuedata implies admin queue */
- 		req->timeout = NVME_ADMIN_TIMEOUT;
--- 
-2.22.1
-
+Now I got your point! Thanks Keith, please ignore this patch :)
 
 _______________________________________________
 Linux-nvme mailing list
