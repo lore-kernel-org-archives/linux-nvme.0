@@ -2,125 +2,127 @@ Return-Path: <SRS0=hrUZ=HW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4313C433E0
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Feb 2021 02:02:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F29C43331
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Feb 2021 02:03:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 437AE64ED7
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Feb 2021 02:02:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 437AE64ED7
+	by mail.kernel.org (Postfix) with ESMTPS id BE1D164ED5
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Feb 2021 02:02:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BE1D164ED5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:MIME-Version:Message-Id:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=vEHa6Y207ci6rdPVYLe532JMrTFA6M2I+/xqUAbzXHg=; b=165b23owhruaYu98BFUF3vPbM
-	ExE+3VGpNeLX+Ouz/KrwYeSzcnF//UsoI3j6ChtHSRbrJvA8pZqBR5Hgm6CDoI22L8bCAP0NzgpOl
-	h0iBJCMiFFmFMPivEPKJXkorb+O/qtuhuiYfGRom3Ip/DDFtJuCyBDL2TFeW5S+PJN5SiqfiEoHTK
-	IgrJnlubiVwOR2JcUlHBB83PYjbx3Jk54BVKDzLHOyH7tC95zdFdiJrWCGKZCYu3eXbILjPPivlH5
-	HGVjBl7MJA91W6X0k0maKOrjv+LeH9IglrZ8gOY9ROI2B5dj61uw88Zta1OKGDd5NbxKB+QX5rxK0
-	+0x7P7ssQ==;
+	List-Unsubscribe:List-Id:References:MIME-Version:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=NHJyZo6VLVQzEMvXlMpHBEcf2O6ZIQtFXsYc9laJsWA=; b=V53uoO/B3PIeP+E2UuoJCr50+
+	qNqRIIC+xjfsZ9X85VcxZMSeXkHupp1S/6skkCII6QTAFdDHm5VwvtFGCLoNbrC9fIXSGpa2rptN5
+	1dIPEYNO+X1n8tslCjlMvcs+vbI3HzqfQbeU6CWby55PtSV2/kv5ABWiSsI3YaKB/wpHL6p0bCTPr
+	qX7B7oGIIi7MwFbZ6+X2KQe/NtCXm8FUR8aBnHX5OlIXX/y46p0uggQ5U4LtTPjddr99zWoYyk7R4
+	feledjma3NJEEF1apywQWdqedTuvs3wk4cgr8hPFFjOi5hb/JrCNnGlun02Tpjad7WQAXUMYFHzjc
+	tndJk/5/g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lDHaU-0007Pi-5W; Sat, 20 Feb 2021 02:01:38 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1lDHal-0007UN-GW; Sat, 20 Feb 2021 02:01:55 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lDHaL-0007PJ-JB
- for linux-nvme@lists.infradead.org; Sat, 20 Feb 2021 02:01:31 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20210220020124epoutp02b02d9f27f9e263e2d6dabcfcf8ddf3a0~lUkHh9ars1996219962epoutp02D
- for <linux-nvme@lists.infradead.org>; Sat, 20 Feb 2021 02:01:24 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20210220020124epoutp02b02d9f27f9e263e2d6dabcfcf8ddf3a0~lUkHh9ars1996219962epoutp02D
+ id 1lDHai-0007TM-3b
+ for linux-nvme@lists.infradead.org; Sat, 20 Feb 2021 02:01:53 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20210220020148epoutp0373868abc0717cb0d2ced1558f5d18f24~lUkeRGU_f1468314683epoutp033
+ for <linux-nvme@lists.infradead.org>; Sat, 20 Feb 2021 02:01:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20210220020148epoutp0373868abc0717cb0d2ced1558f5d18f24~lUkeRGU_f1468314683epoutp033
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1613786484;
- bh=Sg6u9R7wuTrC6qu/sR45hhAulZyBxBVXurw2sMPG0wo=;
- h=From:To:Cc:Subject:Date:References:From;
- b=gV9fcEXTZV0+RDj+gGLJek8v45UgM6BEn4zaPKGz5MGTe+WpZIQdxsQjrBJ9Oveec
- x/tYud9/dWkjDASYciaq5W5nNltb8hRRRfE1uoc/vJzMNwOCvcuRPmoO81kJbIzPao
- VkJtXTicj5uAknM7jWVEJzceTklLKHGYHbUWt+74=
-Received: from epsmges5p2new.samsung.com (unknown [182.195.42.74]) by
+ s=mail20170921; t=1613786508;
+ bh=RMGlT+b+xhqEcJeYfx7u7ifTzQXNK42RFfvFPpOCLFI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=rFk2xTb/Rt0FJ6ZtSwM9ah/GRXa6WX4CJGwS/IGl5uzh9Y2Nf9rAaVDhja0RfZG+u
+ A/Dr0XtClUulU1LPVLLy8oxb2QMZDYZ+muS7wlh7UAS0+b8vmBHWxkgV/WuB1qXPMS
+ UTqWgyLjj3JLunNm6tKeF1jUYXfSSmzhaHg5udxk=
+Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
  epcas5p1.samsung.com (KnoxPortal) with ESMTP id
- 20210220020123epcas5p1c327f1b7ff5d162b2dca52ad015f78ad~lUkGX4WTT2719627196epcas5p1v;
- Sat, 20 Feb 2021 02:01:23 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 47.F7.50652.37D60306; Sat, 20 Feb 2021 11:01:23 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ 20210220020148epcas5p151a785b7b609b7f8a20fe6fc035514a7~lUkdppwM50602606026epcas5p1M;
+ Sat, 20 Feb 2021 02:01:48 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 90.C4.15682.C8D60306; Sat, 20 Feb 2021 11:01:48 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
  epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210219124555epcas5p1334e7c4d64ada5dc4a2ca0feb48c1d44~lJtkMhXjv2749327493epcas5p1u;
- Fri, 19 Feb 2021 12:45:55 +0000 (GMT)
+ 20210219124611epcas5p1c775b63b537e75da161556e375fcf05e~lJtz0JO_60207202072epcas5p1p;
+ Fri, 19 Feb 2021 12:46:11 +0000 (GMT)
 Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210219124555epsmtrp1ccc5c622dae5027b8b45fc1018db96c7~lJtkK0wzL0509805098epsmtrp1S;
- Fri, 19 Feb 2021 12:45:55 +0000 (GMT)
-X-AuditID: b6c32a4a-6b3ff7000000c5dc-75-60306d7353dc
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210219124611epsmtrp23f2c2f78140d23a8056425889adeec3d~lJtzyneid0558405584epsmtrp2V;
+ Fri, 19 Feb 2021 12:46:11 +0000 (GMT)
+X-AuditID: b6c32a49-8bfff70000013d42-a4-60306d8c60b5
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
  epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 35.7A.13470.203BF206; Fri, 19 Feb 2021 21:45:54 +0900 (KST)
+ FB.7A.13470.313BF206; Fri, 19 Feb 2021 21:46:11 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.110.206.5]) by
  epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210219124552epsmtip2cf3293ca4764412dbf28ed31c627485a~lJthXbBGC1677516775epsmtip2v;
- Fri, 19 Feb 2021 12:45:51 +0000 (GMT)
+ 20210219124609epsmtip2151dbf1ea005f7888f9954720b9d444a~lJtxRfto21677916779epsmtip25;
+ Fri, 19 Feb 2021 12:46:09 +0000 (GMT)
 From: SelvaKumar S <selvakuma.s1@samsung.com>
 To: linux-nvme@lists.infradead.org
-Subject: [RFC PATCH v5 0/4] add simple copy support
-Date: Fri, 19 Feb 2021 18:15:13 +0530
-Message-Id: <20210219124517.79359-1-selvakuma.s1@samsung.com>
+Subject: [RFC PATCH v5 4/4] dm kcopyd: add simple copy offload support
+Date: Fri, 19 Feb 2021 18:15:17 +0530
+Message-Id: <20210219124517.79359-5-selvakuma.s1@samsung.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210219124517.79359-1-selvakuma.s1@samsung.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFKsWRmVeSWpSXmKPExsWy7bCmum5xrkGCweN1LBar7/azWbS2f2Oy
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCKsWRmVeSWpSXmKPExsWy7bCmlm5PrkGCwbI/zBar7/azWbS2f2Oy
  2PtuNqvFytVHmSwe3/nMbnH0/1s2i/NvDzNZTDp0jdFiz6YpLBZ7b2lb7Nl7ksXi8q45bBbz
  lz1lt9j2ez6zxZUpi5gt1r1+z2Lx4P11dovXP06yWbRt/MroIOyxc9Zddo/z9zayeFw+W+qx
- aVUnm8fmJfUeu282sHm833eVzaNvyypGj8+b5DzaD3QzBXBFcdmkpOZklqUW6dslcGXcvtHK
- XNCrW7H7wG22BsZ5Kl2MnBwSAiYSS04eZO9i5OIQEtjNKHFw7jk2COcTo8SKy/+hMt8YJe6s
- +8sK09I+ezsrRGIvo8S6M0eYIJzPjBKvHs1jB6liE9CVuLZkEwuILSKgJPF3fRMLSBGzwARm
- id7rc5lBEsICxhI9W64DJTg4WARUJe6/4wIJ8wrYSrzZ2Qy1TV5i5qXv7BBxQYmTM5+AzWQG
- ijdvnc0MMlNC4AaHxLHeTWwQDS4SPWt+M0PYwhKvjm9hh7ClJF72t0HZ5RLPOqcxQdgNjBJ9
- 78shbHuJi3v+MoHcwyygKbF+lz5EWFZi6ql1TBB7+SR6fz+BauWV2DHvCVi5hICaxKntZhBh
- GYkPh3dBXeMh8eHnBLBrhARiJSYcOM8ygVF+FpJvZiH5ZhbC4gWMzKsYJVMLinPTU4tNC4zy
- Usv1ihNzi0vz0vWS83M3MYKTn5bXDsaHDz7oHWJk4mA8xCjBwawkwrv9uV6CEG9KYmVValF+
- fFFpTmrxIUZpDhYlcd4dBg/ihQTSE0tSs1NTC1KLYLJMHJxSDUyrFZxuqF8TzEgr/iDf6/VO
- 68hirbch3gJi8q3/X+4+buN8a9txBuaNptt+nX7x+tYq/yI9RbZpX6a9vnFjss55BYtnV9pf
- PX/J7yRxaltDOg+XfYvkwvL3cQ9zX3nm37jLXiPb82m3YrHVNbv8J9OfTPTI7Pk67/qsalmu
- g02Hv/nme/7b9L39C9fGV+ETStaqNEl/3m9c9+VW523d6bMO6V3QOvLVYE2SnrhaxB+WKTur
- Pm45aGTK0y8Z2H58T+ibOb/s4q+m6Go1aj3y2/+3zbJyF2vCmZqgJw8efLR/nbLwTYBIhcAG
- B1dnjRKplJUHvZZwhevflpUUu7/xYWJzIqOAiJMtZ41d2+ML1ziUWIozEg21mIuKEwFwqUAo
- 7QMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRmVeSWpSXmKPExsWy7bCSvC7TZv0Eg9MnLCxW3+1ns2ht/8Zk
- sffdbFaLlauPMlk8vvOZ3eLo/7dsFuffHmaymHToGqPFnk1TWCz23tK22LP3JIvF5V1z2Czm
- L3vKbrHt93xmiytTFjFbrHv9nsXiwfvr7Bavf5xks2jb+JXRQdhj56y77B7n721k8bh8ttRj
- 06pONo/NS+o9dt9sYPN4v+8qm0ffllWMHp83yXm0H+hmCuCK4rJJSc3JLEst0rdL4Mq4faOV
- uaBXt2L3gdtsDYzzVLoYOTkkBEwk2mdvZ+1i5OIQEtjNKPF+5h02iISMxNq7nVC2sMTKf8/Z
- IYo+Mkos3PWFESTBJqArcW3JJhYQW0RASeLv+iYwm1lgGbPEo5mKILawgLFEz5brQHEODhYB
- VYn777hAwrwCthJvdjazQsyXl5h56Ts7RFxQ4uTMJ2DlzALqEuvnCUFMlJdo3jqbeQIj/ywk
- VbMQqmYhqVrAyLyKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0L10vOT93EyM46rQ0dzBuX/VB7xAj
- EwfjIUYJDmYlEd7tz/UShHhTEiurUovy44tKc1KLDzFKc7AoifNe6DoZLySQnliSmp2aWpBa
- BJNl4uCUamC6tKRTslYqM1uwsG8ux8Kpcmv2/Ojx16r994Xd+g6v5En5rb8yvi1k6Jpy4Uve
- N+UFM1smGvAx5Z0S8Hpa8GTl2hO3OVTzunJa2z4GaTMd+7sk5ushybyiNHPldY0aflVnPr+S
- N77MuTveuMOU7yk319U3Omf9TnSyBa9YuC9KN2Vr3reabtnv277d+1u349Pf35dSNULWfNry
- pe7suxlMuUv5H0xM3irkk/By35qpW3inNMr9P15op/tLRSSrwDg7pX+Xm8jkPuPc+zc402+o
- Hyk9/uL8/6kVTrM+T9xcov1L6KHf2r/G2hPDtx94pHaFb97EwsNB96QL8t6fUT9/4NTttsr5
- h2zCLh6MMBBmVGIpzkg01GIuKk4EAJSLJQwpAwAA
-X-CMS-MailID: 20210219124555epcas5p1334e7c4d64ada5dc4a2ca0feb48c1d44
+ aVUnm8fmJfUeu282sHm833eVzaNvyypGj8+b5DzaD3QzBXBFcdmkpOZklqUW6dslcGWc/S1Y
+ cEG+4u7sPywNjC1SXYycHBICJhLHXm5l7GLk4hAS2M0oMWPpWSjnE6PEi5bfjCBVQgLfGCW+
+ XUyA6fjQ+RUqvpdRonlbNUTDZ0aJjj3HWUASbAK6EteWbAKzRQSUJP6ub2IBKWIWmMAs0Xt9
+ LjNIQljATaL/Wz/YJBYBVYmDT44zgdi8ArYSa5tbWCG2yUvMvPSdHcTmFLCT2PbmGjNEjaDE
+ yZlPwBYwA9U0b53NDLJAQuAGh8S209eZIJpdJA7uuc8IYQtLvDq+hR3ClpL4/G4vG4RdLvGs
+ cxpUfQOjRN/7cgjbXuLinr9AcQ6gBZoS63fpQ4RlJaaeWscEsZdPovf3E6hWXokd856AlUsI
+ qEmc2m4GEZaR+HB4F9QmD4k/3yYxQQJuIqPEtTV2ExgVZiH5ZhaSb2YhLF7AyLyKUTK1oDg3
+ PbXYtMAwL7Vcrzgxt7g0L10vOT93EyM4IWp57mC8++CD3iFGJg7GQ4wSHMxKIrzbn+slCPGm
+ JFZWpRblxxeV5qQWH2KU5mBREufdYfAgXkggPbEkNTs1tSC1CCbLxMEp1cDkHX5E4OO/ENNp
+ a8327p/3dvmyDxw9dss2Tqtka9zeutnvnHCKgHDLNf9y5VPLJy54oTSd8SfzqQ8bdE/1v/1y
+ ZcpOI5n2z/OtV8TK7/97br7QIU67WDtB9rUGGo+lf1V27j61Y8Zs/jeLwk9qzulJTvx8+OGt
+ jUcfB1j+jugNW6bCu2BL08Lm6swDbka+Otf67/j43eW2eFptG7djqcDqutr514/5bfJlvJli
+ 4M5goa7jmXzlb3Umz48mmadHJwRweyi+W3trqs2bT4X9F8NN5Z52nsnafEApftHS3LarkS9j
+ Wh59W5LF4FLzUroyQ37Bpc/TmbPvOUXELhB5t8Fi6vuzyc81l+U1PX/CnqeXosRSnJFoqMVc
+ VJwIANk2cbf3AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRmVeSWpSXmKPExsWy7bCSvK7wZv0Eg+f9Rhar7/azWbS2f2Oy
+ 2PtuNqvFytVHmSwe3/nMbnH0/1s2i/NvDzNZTDp0jdFiz6YpLBZ7b2lb7Nl7ksXi8q45bBbz
+ lz1lt9j2ez6zxZUpi5gt1r1+z2Lx4P11dovXP06yWbRt/MroIOyxc9Zddo/z9zayeFw+W+qx
+ aVUnm8fmJfUeu282sHm833eVzaNvyypGj8+b5DzaD3QzBXBFcdmkpOZklqUW6dslcGWc/S1Y
+ cEG+4u7sPywNjC1SXYycHBICJhIfOr8ygthCArsZJW5dNoKIy0isvdvJBmELS6z895wdouYj
+ o8SN+Z4gNpuArsS1JZtYQGwRASWJv+ubwGxmgWXMEo9mKoLYwgJuEv3f+sHmswioShx8cpwJ
+ xOYVsJVY29zCCjFfXmLmpe9g8zkF7CS2vbnGDLHLVuLD92lsEPWCEidnPoGaLy/RvHU28wRG
+ gVlIUrOQpBYwMq1ilEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAiOOi3NHYzbV33QO8TI
+ xMF4iFGCg1lJhHf7c70EId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rwXuk7GCwmkJ5akZqemFqQW
+ wWSZODilGpgiuZYYzzfntTKXfXPnqAxXoc9+ro/btq7uV567Xk/hRbeTpkTdN9EDlQuOf99/
+ 1/avamhk6Snz80+s7fK/p3sfLFTlsvD1dyoOsrpSevf53siHfx9lBh1NMaqYstr1V1qmjLWO
+ WWoY9yntA5vO98/5rvH31r4nT97ernvAv/qzgNDFhE1dUor7hVnW32d7ZnkrueJQd4KG+7UT
+ 28LmyVg9vb65Y0FTzutnBebPbi6QtDMWyWe5IlO1h+Ex65LfUup35n7+w6bU5rL4149tryaa
+ vpr++/HR37fP/J2iuPz8VOYPa8riJpc1hP++suX6X+ZrWy/v073UaTz3gXDdlMiJmWkLqh6K
+ 88/1OCPZWj6tQImlOCPRUIu5qDgRADXe98IpAwAA
+X-CMS-MailID: 20210219124611epcas5p1c775b63b537e75da161556e375fcf05e
 X-Msg-Generator: CA
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
-X-CMS-RootMailID: 20210219124555epcas5p1334e7c4d64ada5dc4a2ca0feb48c1d44
-References: <CGME20210219124555epcas5p1334e7c4d64ada5dc4a2ca0feb48c1d44@epcas5p1.samsung.com>
+X-CMS-RootMailID: 20210219124611epcas5p1c775b63b537e75da161556e375fcf05e
+References: <20210219124517.79359-1-selvakuma.s1@samsung.com>
+ <CGME20210219124611epcas5p1c775b63b537e75da161556e375fcf05e@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210219_210130_193049_A04D32BD 
-X-CRM114-Status: GOOD (  25.37  )
+X-CRM114-CacheID: sfid-20210219_210152_633069_E76E3C97 
+X-CRM114-Status: GOOD (  20.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,138 +145,123 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patchset tries to add support for TP4065a ("Simple Copy Command"),
-v2020.05.04 ("Ratified")
+Introduce copy_jobs to use copy-offload if it is natively
+supported (by underlying device) or else fall back to original method.
 
-The Specification can be found in following link.
-https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs-1.zip
+run_copy_jobs() calls block layer copy offload api with
+BLKDEV_COPY_NOEMULATION. On successful completion, if only one destination
+device was present, then jobs is queued for completion. If multiple
+destinations were present, the completed destination is zeroed and
+pushed to pages_jobs to process copy offload for other destinations. In
+case of copy_offload failure, remaining destinations are processed via
+regular copying mechanism.
 
-Simple copy command is a copy offloading operation and is  used to copy
-multiple contiguous ranges (source_ranges) of LBA's to a single destination
-LBA within the device reducing traffic between host and device.
+Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+---
+ drivers/md/dm-kcopyd.c | 49 ++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 43 insertions(+), 6 deletions(-)
 
-This implementation doesn't add native copy offload support for stacked
-devices rather copy offload is done through emulation. Possible use
-cases are F2FS gc and BTRFS relocation/balance.
-
-*blkdev_issue_copy* takes source bdev, no of sources, array of source
-ranges (in sectors), destination bdev and destination offset(in sectors).
-If both source and destination block devices are same and copy_offload = 1,
-then copy is done through native copy offloading. Copy emulation is used
-in other cases.
-
-As SCSI XCOPY can take two different block devices and no of source range is
-equal to 1, this interface can be extended in future to support SCSI XCOPY.
-
-For devices supporting native simple copy, attach the control information
-as payload to the bio and submit to the device. For devices without native
-copy support, copy emulation is done by reading each source range into memory
-and writing it to the destination. Caller can choose not to try
-emulation if copy offload is not supported by setting
-BLKDEV_COPY_NOEMULATION flag.
-
-Following limits are added to queue limits and are exposed in sysfs
-to userspace
-	- *copy_offload* controls copy_offload. set 0 to disable copy
-		offload, 1 to enable native copy offloading support.
-	- *max_copy_sectors* limits the sum of all source_range length
-	- *max_copy_nr_ranges* limits the number of source ranges
-	- *max_copy_range_sectors* limit the maximum number of sectors
-		that can constitute a single source range.
-
-	max_copy_sectors = 0 indicates the device doesn't support copy
-offloading.
-
-	*copy offload* sysfs entry is configurable and can be used toggle
-between emulation and native support depending upon the usecase.
-
-Changes from v4
-
-1. Extend dm-kcopyd to leverage copy-offload, while copying within the
-same device. The other approach was to have copy-emulation by moving
-dm-kcopyd to block layer. But it also required moving core dm-io infra,
-causing a massive churn across multiple dm-targets.
-
-2. Remove export in bio_map_kern()
-3. Change copy_offload sysfs to accept 0 or else
-4. Rename copy support flag to QUEUE_FLAG_SIMPLE_COPY
-5. Rename payload entries, add source bdev field to be used while
-partition remapping, remove copy_size
-6. Change the blkdev_issue_copy() interface to accept destination and
-source values in sector rather in bytes
-7. Add payload to bio using bio_map_kern() for copy_offload case
-8. Add check to return error if one of the source range length is 0
-9. Add BLKDEV_COPY_NOEMULATION flag to allow user to not try copy
-emulation incase of copy offload is not supported. Caller can his use
-his existing copying logic to complete the io.
-10. Bug fix copy checks and reduce size of rcu_lock()
-
-Planned for next:
-- adding blktests
-- handling larger (than device limits) copy
-- decide on ioctl interface (man-page etc.)
-
-Changes from v3
-
-1. gfp_flag fixes.
-2. Export bio_map_kern() and use it to allocate and add pages to bio.
-3. Move copy offload, reading to buf, writing from buf to separate functions.
-4. Send read bio of copy offload by chaining them and submit asynchronously.
-5. Add gendisk->part0 and part->bd_start_sect changes to blk_check_copy().
-6. Move single source range limit check to blk_check_copy()
-7. Rename __blkdev_issue_copy() to blkdev_issue_copy and remove old helper.
-8. Change blkdev_issue_copy() interface generic to accepts destination bdev
-	to support XCOPY as well.
-9. Add invalidate_kernel_vmap_range() after reading data for vmalloc'ed memory.
-10. Fix buf allocoation logic to allocate buffer for the total size of copy.
-11. Reword patch commit description.
-
-Changes from v2
-
-1. Add emulation support for devices not supporting copy.
-2. Add *copy_offload* sysfs entry to enable and disable copy_offload
-	in devices supporting simple copy.
-3. Remove simple copy support for stacked devices.
-
-Changes from v1:
-
-1. Fix memory leak in __blkdev_issue_copy
-2. Unmark blk_check_copy inline
-3. Fix line break in blk_check_copy_eod
-4. Remove p checks and made code more readable
-5. Don't use bio_set_op_attrs and remove op and set
-   bi_opf directly
-6. Use struct_size to calculate total_size
-7. Fix partition remap of copy destination
-8. Remove mcl,mssrl,msrc from nvme_ns
-9. Initialize copy queue limits to 0 in nvme_config_copy
-10. Remove return in QUEUE_FLAG_COPY check
-11. Remove unused OCFS
-
-SelvaKumar S (4):
-  block: make bio_map_kern() non static
-  block: add simple copy support
-  nvme: add simple copy support
-  dm kcopyd: add simple copy offload support
-
- block/blk-core.c          | 102 +++++++++++++++--
- block/blk-lib.c           | 223 ++++++++++++++++++++++++++++++++++++++
- block/blk-map.c           |   2 +-
- block/blk-merge.c         |   2 +
- block/blk-settings.c      |  10 ++
- block/blk-sysfs.c         |  47 ++++++++
- block/blk-zoned.c         |   1 +
- block/bounce.c            |   1 +
- block/ioctl.c             |  33 ++++++
- drivers/md/dm-kcopyd.c    |  49 ++++++++-
- drivers/nvme/host/core.c  |  87 +++++++++++++++
- include/linux/bio.h       |   1 +
- include/linux/blk_types.h |  14 +++
- include/linux/blkdev.h    |  17 +++
- include/linux/nvme.h      |  43 +++++++-
- include/uapi/linux/fs.h   |  13 +++
- 16 files changed, 627 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/md/dm-kcopyd.c b/drivers/md/dm-kcopyd.c
+index 1bbe4a34ef4c..2442c4870e97 100644
+--- a/drivers/md/dm-kcopyd.c
++++ b/drivers/md/dm-kcopyd.c
+@@ -74,18 +74,20 @@ struct dm_kcopyd_client {
+ 	atomic_t nr_jobs;
+ 
+ /*
+- * We maintain four lists of jobs:
++ * We maintain five lists of jobs:
+  *
+- * i)   jobs waiting for pages
+- * ii)  jobs that have pages, and are waiting for the io to be issued.
+- * iii) jobs that don't need to do any IO and just run a callback
+- * iv) jobs that have completed.
++ * i)	jobs waiting to try copy offload
++ * ii)   jobs waiting for pages
++ * iii)  jobs that have pages, and are waiting for the io to be issued.
++ * iv) jobs that don't need to do any IO and just run a callback
++ * v) jobs that have completed.
+  *
+- * All four of these are protected by job_lock.
++ * All five of these are protected by job_lock.
+  */
+ 	spinlock_t job_lock;
+ 	struct list_head callback_jobs;
+ 	struct list_head complete_jobs;
++	struct list_head copy_jobs;
+ 	struct list_head io_jobs;
+ 	struct list_head pages_jobs;
+ };
+@@ -581,6 +583,36 @@ static int run_io_job(struct kcopyd_job *job)
+ 	return r;
+ }
+ 
++static int run_copy_job(struct kcopyd_job *job)
++{
++	int r, i, count = 0;
++	unsigned long flags = 0;
++	struct range_entry srange;
++
++	flags |= BLKDEV_COPY_NOEMULATION;
++	for (i = 0; i < job->num_dests; i++) {
++		srange.src = job->source.sector;
++		srange.len = job->source.count;
++
++		r = blkdev_issue_copy(job->source.bdev, 1, &srange,
++			job->dests[i].bdev, job->dests[i].sector, GFP_KERNEL, flags);
++		if (r)
++			break;
++
++		job->dests[i].count = 0;
++		count++;
++	}
++
++	if (count == job->num_dests) {
++		push(&job->kc->complete_jobs, job);
++	} else {
++		push(&job->kc->pages_jobs, job);
++		r = 0;
++	}
++
++	return r;
++}
++
+ static int run_pages_job(struct kcopyd_job *job)
+ {
+ 	int r;
+@@ -662,6 +694,7 @@ static void do_work(struct work_struct *work)
+ 	spin_unlock_irqrestore(&kc->job_lock, flags);
+ 
+ 	blk_start_plug(&plug);
++	process_jobs(&kc->copy_jobs, kc, run_copy_job);
+ 	process_jobs(&kc->complete_jobs, kc, run_complete_job);
+ 	process_jobs(&kc->pages_jobs, kc, run_pages_job);
+ 	process_jobs(&kc->io_jobs, kc, run_io_job);
+@@ -679,6 +712,8 @@ static void dispatch_job(struct kcopyd_job *job)
+ 	atomic_inc(&kc->nr_jobs);
+ 	if (unlikely(!job->source.count))
+ 		push(&kc->callback_jobs, job);
++	else if (job->source.bdev->bd_disk == job->dests[0].bdev->bd_disk)
++		push(&kc->copy_jobs, job);
+ 	else if (job->pages == &zero_page_list)
+ 		push(&kc->io_jobs, job);
+ 	else
+@@ -919,6 +954,7 @@ struct dm_kcopyd_client *dm_kcopyd_client_create(struct dm_kcopyd_throttle *thro
+ 	spin_lock_init(&kc->job_lock);
+ 	INIT_LIST_HEAD(&kc->callback_jobs);
+ 	INIT_LIST_HEAD(&kc->complete_jobs);
++	INIT_LIST_HEAD(&kc->copy_jobs);
+ 	INIT_LIST_HEAD(&kc->io_jobs);
+ 	INIT_LIST_HEAD(&kc->pages_jobs);
+ 	kc->throttle = throttle;
+@@ -974,6 +1010,7 @@ void dm_kcopyd_client_destroy(struct dm_kcopyd_client *kc)
+ 
+ 	BUG_ON(!list_empty(&kc->callback_jobs));
+ 	BUG_ON(!list_empty(&kc->complete_jobs));
++	BUG_ON(!list_empty(&kc->copy_jobs));
+ 	BUG_ON(!list_empty(&kc->io_jobs));
+ 	BUG_ON(!list_empty(&kc->pages_jobs));
+ 	destroy_workqueue(kc->kcopyd_wq);
 -- 
 2.25.1
 
