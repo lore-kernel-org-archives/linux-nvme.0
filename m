@@ -2,174 +2,92 @@ Return-Path: <SRS0=4MGw=HV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A6EAC433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Feb 2021 18:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91244C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Feb 2021 21:27:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5209F64E5F
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Feb 2021 18:14:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5209F64E5F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id F08C3614A7
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Feb 2021 21:27:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F08C3614A7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=REU0kPRp/BXykKbBqMdmUlOF76e9s/JXDjOocz9YBhw=; b=Ce9Zwvc14eNih81zSTo+G/xYU
-	7hL9MR47VBF5c8OLGFisGpXKr4FJ+VpmF9XCDSGb93mGGb7viZFcMax0dYGhXMZnYQXu7iGzncCSh
-	mpx7NLH003pvXVcF9WKjXkE/vKkzfXBTW9Nf8mICqi3Qh3T72LcuZu71AnrCRAkG6LmmQ8wBVn54L
-	X6e2o8Nvy9WmkuKl+FnKAcyWT4KsusqxQXVJqgATA3GQht5hhgaeYKoxEnmayL2pQTJrLlWBPWlfv
-	AzdXTBJWkM5uVXAQw5mPdgrtME0l2fpXg3ApT32VKP67Yiv6AEHwjvg+CXA83lZBFHkmXwjksdDd/
-	OyoUyGdug==;
+	 bh=DlTpxR+4prVqsvxlivNUlgasFB/ldjoG8ZcJ7CKprQE=; b=ZpZwIyMX1rsdH2SnW4BsXFyxk
+	Zc74Dblcmrx8SsYCNZAVb67dJeGcH6S6p+CgQQY0SD/K1ccI5FXGZz0ktWmrOwM+QdsKT+Qf0apJG
+	RwMyN6F5uweb45cHon3PNFAZggHj/HTAhHjMNxdq0it2O1Q5gxPca6lA1FYxTbrtpKccayWyLj5rP
+	TKiLdfiZYi+MDz9nYAJiMSWdcw/kZcDXcHT4R7MhRkAgUmeuIr7rAtba9AyESlVw+jZ+ILZ6dySAx
+	znu+FK8VKBXt6DPmnA8KsYDXMso9Ox4I8/1kA5AhqbulI/FxJObcOhmcEGttavRE7jgUkpGNRg6Ps
+	G5gdmI7BQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lDAID-0000VJ-Nl; Fri, 19 Feb 2021 18:14:17 +0000
-Received: from userp2130.oracle.com ([156.151.31.86])
+	id 1lDDIU-0007W1-3C; Fri, 19 Feb 2021 21:26:46 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lDAIA-0000U8-2v
- for linux-nvme@lists.infradead.org; Fri, 19 Feb 2021 18:14:15 +0000
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11JI99GW153659;
- Fri, 19 Feb 2021 18:14:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=z9YhpWHGGUZ/igqNbBUq55OciELKKdZWJiTyJAsGDXE=;
- b=AqAnRZYPm1EJ1RFJ4goUWycVAPnu6mQFIrRR0H1cQdYbTzt+qqY5iqmr7ffeTrVcKfdL
- u9UuZTSt9Ho1gchGD6Oxz0rPObRjopa0MT8Wc7eKg0UEOlO7zf2c9Utt6obiWUsS9C4p
- D5DVzFkL7nZ7MD8gA1l+HX3r9j05b6iFnGfkYR7hxIS7FuJrsErDGpO50GrgnQsutjQC
- Tol1Pz+CgGGoEqtatBOY5y830eRJKeCpzPa4945Q7hSAea2D1AH+kcrq06GivIUgDzkm
- Ws3cIiro7OrUsLz+iNJJj9nlOOHN4QOXzMcj1wKWl1ZKbJ7jnxoKkdtUi/if/mvFIKNe rQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 36p66radax-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Feb 2021 18:14:00 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11JI6WiL093174;
- Fri, 19 Feb 2021 18:14:00 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
- by aserp3030.oracle.com with ESMTP id 36prbsdhpx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Feb 2021 18:13:59 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KvldFWQB24frwAX+gfntClp85r4xHkXW/Zew87eDyZW9YCm7iPT6PK2SzJ74YsjIb7j0Ppj2psFNZDg7cIhjk6iP9DyX/JFsveq1r7p0mvYCB1RqY4sWwPQS2Zz4b2510VafvyIMG9XvJm1OtlV5Pvaxsl2/FUacsRCHFRIM/OlCjI/maNAqRN1G4cmE6RsEbLQbEUInlx/6jE3/7E+qeIGg2SWQXFRAjJxS/9CFxQURhyIBCmjCApo7djZAbamQ6J50fvvS9H7rsL6No1qNsdRBIMSPSmgOhWyeMW58TxNwN4LHyKDpiPrCsu4qm8+dsfM4MW7P6aCikXw+9nQlmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z9YhpWHGGUZ/igqNbBUq55OciELKKdZWJiTyJAsGDXE=;
- b=KQAvMOUoABx6WBbG3FvW7tlx5L3oGpZxUFyDGbZiT8L1hDVUk8/2NWgIVWcN6Cr/Z9KbZMtQz97uWAuyahOrSxmEwueE78hDYrFCKzmEkqgB99wOeHlwpGRZ4uJ1l3l0B4dB1FcEIbEcKbtYQ38Za1qDKnRBsZpIAMGVh4FI+bYtbOUWqgZExuEOyeB4on/xfcKUAcBidfPcRkvUscBBOpgxCwj1Hcfg1/TLTCpmRgwkHJxFlj+D8tINcvR/dQ5Ze4lH5wT5T3B6OyZ3RaozQ8ECqh5bj51Y8Cayj0wBG8LrNURRsVOgqcGize7Tjb+rJJnjYrFmAkZ3GYDImDxTxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z9YhpWHGGUZ/igqNbBUq55OciELKKdZWJiTyJAsGDXE=;
- b=dJ4eEkp5ohSXSTAO6JwtehEqKxozuWUqfBLUcVVJq0rrwD5EbrQmGKLwR2vWU5bYM9JqVVjmqbF2M/w0b0ru03qCvBRAuBvjifa9wnK0YW7IZ7AXAaarg+AYXEtP5/cFixB1p3EXYwLUhJ45hrBm5ugZ4rXwWnznNsBzdNxt6IM=
-Authentication-Results: google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com (2603:10b6:a03:85::27)
- by SJ0PR10MB4512.namprd10.prod.outlook.com (2603:10b6:a03:2dc::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.41; Fri, 19 Feb
- 2021 18:13:58 +0000
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::e180:1ba2:d87:456]) by BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::e180:1ba2:d87:456%4]) with mapi id 15.20.3846.039; Fri, 19 Feb 2021
- 18:13:58 +0000
-Date: Fri, 19 Feb 2021 13:13:52 -0500
-From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To: Jianxiong Gao <jxgao@google.com>
-Subject: Re: preserve DMA offsets when using swiotlb v2
-Message-ID: <YC//4P4mRrXegzIb@Konrads-MacBook-Pro.local>
-References: <20210207160327.2955490-1-hch@lst.de>
- <20210209084156.GA32320@lst.de>
- <CAMGD6P2QiQba=49LMOsQNZ=U9+hmAjxYLwroZGAG_AXoatUYpg@mail.gmail.com>
-Content-Disposition: inline
-In-Reply-To: <CAMGD6P2QiQba=49LMOsQNZ=U9+hmAjxYLwroZGAG_AXoatUYpg@mail.gmail.com>
-X-Originating-IP: [209.6.208.110]
-X-ClientProxiedBy: BYAPR01CA0037.prod.exchangelabs.com (2603:10b6:a03:94::14)
- To BYAPR10MB2999.namprd10.prod.outlook.com
- (2603:10b6:a03:85::27)
+ id 1lDDIR-0007Ve-PT
+ for linux-nvme@lists.infradead.org; Fri, 19 Feb 2021 21:26:44 +0000
+Received: by mail-pl1-x634.google.com with SMTP id f8so4077531plg.5
+ for <linux-nvme@lists.infradead.org>; Fri, 19 Feb 2021 13:26:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=3C74G3YVTvWHzK/ZQjDVMaLaiL6scZFTz8Wa0+4I4vE=;
+ b=KBv+ZnhVGAk9MmS5W+sLeOwDoYmkcRlrlegjL5j9kx3sE9ErCghgEZZ9yEtMjBmAVb
+ s0tC53SNNMYledEcAgXqbCKVOfiAlGUcSN1z1MTsSKIy9vrlf4Oes07GBoNRCZgjTBcj
+ ctTpnLSsULlz0k1vv1rGa/sUM5E+raV+hKO6tNRmO/LjRvin+M67lwurWbicLTYCbwKS
+ 8OX4ow+ukt06UN7kVTKUcakhThYuRIPycCzsudkGE9jjDYwKhYtz/iSpE6gbxyXWiVUU
+ +xDfW2pirzXwdkO+0Iy2lU9wvVtc3A1OFh/I4F0zQ1EwsWXTynArj9n3SogVqsqHpowl
+ /Qmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=3C74G3YVTvWHzK/ZQjDVMaLaiL6scZFTz8Wa0+4I4vE=;
+ b=FCga6yQfvdvqBpi6t5DX2BOZ9Y455FInGJHsxPgMQo2911v7ntq0/DV1UYt5Jcll1g
+ rtM4JjqBx6M254jITuHNAZ0BlSlfFAZ6OGdZ7Ys8txT4bFNX7JIaPtHGeGqEI555KpNs
+ gsZQrZVMlyVZJ1p3BoZZxtauswQrUrEGpO8xUMZihPMYXUyZJPc/PmHFvXGyVxacyy+x
+ Borqfi4VLNWVIwS5aMaTIBFgM25J/12YFyuXwjAd4phvfIb3P7GDqVHyEcuw3mXGTKuQ
+ BvqBtd3D2KZWxC7btzbLoVsy3K5w0h+Y7+J3uvRcYkM4lysa6I86JuAyF1UrbG7I18Rh
+ aRzQ==
+X-Gm-Message-State: AOAM530llkA14FRtwJXfnUmSK6Q0Dx+a0f7JGOB+ntEt+/UgV/+/E4hU
+ 1dCRIwGQCFB46zcq35aAYiE=
+X-Google-Smtp-Source: ABdhPJx13xMcml5wBHSx404eNE3NhEuKmFDUcqfKkwGMMHawaRnvl5H/4lSYQJfjezhANEfLM93xbg==
+X-Received: by 2002:a17:903:22ce:b029:e3:c57d:aaa9 with SMTP id
+ y14-20020a17090322ceb02900e3c57daaa9mr3958803plg.7.1613770000112; 
+ Fri, 19 Feb 2021 13:26:40 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id c9sm9110118pjr.44.2021.02.19.13.26.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Feb 2021 13:26:39 -0800 (PST)
+Date: Sat, 20 Feb 2021 06:26:37 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] nvme: introduce passthrough ioctl for multipath
+Message-ID: <20210219212637.GA175471@localhost.localdomain>
+References: <20210214110126.24023-1-minwoo.im.dev@gmail.com>
+ <20210214110126.24023-2-minwoo.im.dev@gmail.com>
+ <20210215170233.GA2707454@dhcp-10-100-145-180.wdc.com>
+ <20210216095147.GA2601@localhost.localdomain>
+ <20210216175722.GC2708768@dhcp-10-100-145-180.wdc.com>
+ <20210217021455.GA2251@localhost.localdomain>
+ <20210218084014.GA17997@lst.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Konrads-MacBook-Pro.local (209.6.208.110) by
- BYAPR01CA0037.prod.exchangelabs.com (2603:10b6:a03:94::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3868.27 via Frontend Transport; Fri, 19 Feb 2021 18:13:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6d67c75b-0f23-4628-f90b-08d8d5022017
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB4512:
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB451234C5D61654479D6C826089849@SJ0PR10MB4512.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rdHphktANvC2keWpVfRnuJUNy5DmyxU29yxZTVO2foaS1C/n/mDPiLgJ2DEespLks0evTJ7iKR3xnKpXZ4JESz0lRr6K9SAxU4Yd8l1/v5vUCPJZuq/ntd1/XPH/ZHVgURXpNRTZ5Dv6dgBojCjLFjj37GXXOWDEw9TfvQVbcqANcxW+oZN0eHj06R1gEJBX45pIivZICB3On3v2WbmLdnbbuok3ARgNWQMto94SyrEryYNjZEUA35xPNBMdIY/4IAonLhS8U5u6ebKZVnM8IsOGCJO3KgJ1lAJWFQIj2PSkix6FxyR4tqisFp8q5wkdGjq+QxuggUGI+8ArS6Wqn8jDzAzaLwHVi4RnZtHOltKEKk0MC3rxKbYRMl+GV3B/zgsC9X5KkqUNYHs8iD0oU+nMv9MAHFj5jJHAvJRGJi80VXsqowDrr5asksQOTiGykus8Ii+P+g2NABtiI5KsZmw9TS5QzsvwPioXRc+062sBbOaEX1y+1ytbtO5FkS+ps+3gOLlZXKmy8/xw8Yt62Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2999.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(39860400002)(366004)(346002)(396003)(136003)(7696005)(6916009)(2906002)(478600001)(26005)(186003)(52116002)(8676002)(316002)(6666004)(55016002)(8936002)(5660300002)(6506007)(4326008)(66556008)(9686003)(956004)(54906003)(16526019)(4744005)(86362001)(66946007)(66476007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?as8eLE2edH9lQx9IrLQJAeTiiOXh2f1/StLMu+HKX1rmW978Tf6Po7yjj4RK?=
- =?us-ascii?Q?QT+AeybO3md0essgmS36uKq0sxNVQK3HeHS++tOUiM++CksuLy+DfqUQSHIN?=
- =?us-ascii?Q?PCbBEKhg+dallgcV9HUupg45Gbv4tCFuercqs6v/7rQLz2sMKr2uNGpxa5C4?=
- =?us-ascii?Q?SR16Rw/oJDdj/iZNY/Zojgc2XUbw3Hb4A2mBi0Nmxgi5dV97/MHHTteJ8lN/?=
- =?us-ascii?Q?tnoE19C6bLChRDP3L74rNVmB/9xxijgfc/tiRzHu3TOxp0mxjPMkdE8N6fKm?=
- =?us-ascii?Q?I3LdW3WwX8qdVcXYssDGGlemQzYWG4qlpcYIQHl006k7UZ3k4u4w9lESWF3T?=
- =?us-ascii?Q?ZpnCGcJp4v1S8Sr1pdKUU/ifCZ/LCg87h62dlmyW1msfGmLiRPlLDS+XPGRA?=
- =?us-ascii?Q?1RfC9AeHwB1aUmg4MlJjsU9kT0b4OdSYoQdvNsbdSxxynFtF6650Vv9NImPt?=
- =?us-ascii?Q?lA6tTRDstRcH9qblVk3evrUKgyA7ZZNviAKbbPdQ4ysoiSl59ZwDROrSoj33?=
- =?us-ascii?Q?O4yIDsToINzOsdJC78Ujub6UQQWGPrrt87UesEReenmUDXdlPd2oRLZwZ0fc?=
- =?us-ascii?Q?9DcxWu2ca5eEP9ztaOtrL+KXXM44yAerw4Ysn+cydYhzH2osV6Ct8ILFFeik?=
- =?us-ascii?Q?9H3rKrLHS9CpwVjWZDNguKiHWSx8jgNpTeXQNU2ILfvHXBbwlsFQGXAS8xO0?=
- =?us-ascii?Q?/fNI3oLWaeCSrscWbDpmeLxiQ8SdMMoC0srKCsLqX772yKykl7Y2sxsisqw1?=
- =?us-ascii?Q?0+nvdcI26/KG8thYZomC5xJoGNMnjOj7CcQCp6L8xB9vtqSBsjfVHQZaRFcy?=
- =?us-ascii?Q?i1c2SQQkWPPiJ85R1gh7wcuQVERDVx9kH2GkxHKN6Q1YNIwk/r+SVUbNcmAO?=
- =?us-ascii?Q?+kRicfYcRuWHOtKhveSZHuS0zSrOZyzRDBlAF8OhT5jyWvQBi/VDqjrYv0pJ?=
- =?us-ascii?Q?itX4/JPjoCIXG13AMc7rGRP8o9SIAt3UFOkgcdHUNEyev+0aR3i/TniqZP4f?=
- =?us-ascii?Q?OIZCnkSC1oaQIm/9ntP6w1inbMnLa+xfvUEmjYuFdtrKgU5U4/6+pyzizbtU?=
- =?us-ascii?Q?D+lqyh6wDJ1xQRXDtrzU3DNGagYPRVR0qFw/pF6V7JAQ/m6sa1enCLCTNON1?=
- =?us-ascii?Q?fPQdI0TDiVImoFSuMfjcCDZi71LO2jgEskV4G8hUv91m9/HfMwN1c91c0S7E?=
- =?us-ascii?Q?KL4dJoyszFJAKm0owWx/benEjRNHJdXV9fss23SsKYw9Rfi7lvHQ+x+GkBex?=
- =?us-ascii?Q?j85+wl1vYoqd5vYzTIr6lUsdHDGR+hD/N658mvw2TlaMlKFqT+zO1jzU8OXn?=
- =?us-ascii?Q?8SpmH0gYQ7CK1//pcFw+he1O?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d67c75b-0f23-4628-f90b-08d8d5022017
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2999.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2021 18:13:57.9966 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pqDIBFcZEyYj3Ug3cHD1l6Ebvx+k+j+Bx0mNyf7AQNzW0yCkYMYovpZ6tfYnTjXgm7dCwDX3X/ZCR0YvtfOrFw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4512
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9900
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0 mlxscore=0
- phishscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102190143
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9900
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 suspectscore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 spamscore=0 mlxscore=0
- phishscore=0 malwarescore=0 bulkscore=0 adultscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102190143
+Content-Disposition: inline
+In-Reply-To: <20210218084014.GA17997@lst.de>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210219_131414_331284_207F1003 
-X-CRM114-Status: GOOD (  15.91  )
+X-CRM114-CacheID: sfid-20210219_162643_865996_CA4A1F76 
+X-CRM114-Status: GOOD (  14.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,26 +99,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>, Marc Orr <marcorr@google.com>,
- gregkh@linuxfoundation.org, linux-nvme@lists.infradead.org,
- iommu@lists.linux-foundation.org, Keith Busch <kbusch@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 09, 2021 at 11:49:40AM -0800, Jianxiong Gao wrote:
-> > Sorry for being a little pushy, any chance we could get this reviewed
-> > in time for the 5.12 merge window?
-> >
-> Tested and it looks good. Thanks for clearing it up!
-
-Let me put it on my regression bucket as last time it was able to catch
-issues which Jianxiong's rig did not.
-
+On 21-02-18 09:40:14, Christoph Hellwig wrote:
+> On Wed, Feb 17, 2021 at 11:14:55AM +0900, Minwoo Im wrote:
+> > > A container could read data from namespaces assigned to a different
+> > > container.
+> > 
+> > Now I got your point! Thanks Keith, please ignore this patch :)
 > 
-> Gao
+> Note that Javier has been working on exposing access to namespaces
+> with unsupported command sets for ioctls.  If that is what you are
+> looking for.
+
+Thank you for the information!
 
 _______________________________________________
 Linux-nvme mailing list
