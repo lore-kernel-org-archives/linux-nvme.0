@@ -2,19 +2,19 @@ Return-Path: <SRS0=4MGw=HV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE71C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 095C1C433DB
 	for <linux-nvme@archiver.kernel.org>; Fri, 19 Feb 2021 06:38:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9504D64EC4
+	by mail.kernel.org (Postfix) with ESMTPS id 94FFC64EC0
 	for <linux-nvme@archiver.kernel.org>; Fri, 19 Feb 2021 06:38:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9504D64EC4
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94FFC64EC0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,67 +23,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=iJWZ2LHaHMd0rgtAM5BaDX7W9GiRDeloU53SgkfkcfE=; b=YMuGdIYZpHmngzX8f7fcVuLffE
-	nKixce4gFaztZzCtjLTuExfej8R9AkzAX5MwGy4Uc5I5znYi0H7KQWgkGLMBbRm3gTeQdFiQ4cBlV
-	GJyni7AuiWP71ef6j+QrEFqcEelnAVI1TWm+1OgezAmkS3lqexQp1cp1Hv9vdZ4BK/Ia0T4K0Xkec
-	uLSZZHuZXUPtzUY1G1LDwuJeH/iDEKfBsnL5lYQTN7kuHVXfhrmdxr+Jatm2kZ1SZg0vncaZGwkTX
-	Lv3aPEGtw/xZuY55g47Q5gDdgGYZDY5BpA4onrFv5O+HQUM2EOYxixLDPhkjNUKqbNPSmMKqUf4v9
-	BdN0B4MQ==;
+	bh=Fm6PbpAyHPCfYSIjp5UnJmipFi9YNtXtXy5CvEeUHwA=; b=RrWMWVcUrYHRlJAPOltivbCZBG
+	jpUtSb84ReAQZVRpRUo4G4JgjM3ARyPlfvsoaTkm4Y6m3aMql5Rm11G91csi1KGJIJLaZ3yd9DyQg
+	Wc2zueOxJNNFG55z1QPufFWBQeQjEF2V0t9D5MLWpK8qVtY46F9mDDtaWIk25svG3KdqBrx381UV5
+	btvlZDhNIsWjvakDtV0MNJseLRetH+PbWED5jn9tNl4qW4lStYn8dlAVTqIu5zJEwLsrfnXZmmaRd
+	8FH1jhwbAinJAErcpr5IND8PXbzulsiXX8BSwYVnD6OHAH/7tNMOSGgGhMD8Io5sC2wfMupKS0vV+
+	axZSG87g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lCzPm-0000yB-Ot; Fri, 19 Feb 2021 06:37:22 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1lCzQ0-0000z3-OL; Fri, 19 Feb 2021 06:37:36 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lCzPk-0000x2-2Y
- for linux-nvme@lists.infradead.org; Fri, 19 Feb 2021 06:37:21 +0000
+ id 1lCzPy-0000yf-0J
+ for linux-nvme@lists.infradead.org; Fri, 19 Feb 2021 06:37:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1613716764; x=1645252764;
+ t=1613716653; x=1645252653;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=zQbchDM9gnAA0ttH5pWaJAoYa6vKIkvphKwepMpmA+o=;
- b=jKcFjLStLs041vKCGpy/GgL+I+tJMk8VgRR910IXBKhF6r+9qJzFpJ01
- zqheXjQpH82tMFEC0HpAO3TsPm6AZo2uMzbUw/fxebNiVoaW8sK4ZcCAg
- y6k2dRQDJRqPZF/Jip5xzo4/N51OEp1B7jHbgJWVb0/mR0JUhaI0rv5L7
- zcKjDi6vX+HpMQ5u9BCkxVF9KnCVdw05yi2WNDDWW0HG4HrwhVb5jPZan
- WCmkwgXNaUxkA2is+4/hI77rIAaig9YOeVEVbtAUb+KBZwH+gi5DUhpD/
- ODFOtz9gk4aAZRJvVmTVWbnSsGZq0o1BehLonvAxtSrre5ooJ1AMP3MRB g==;
-IronPort-SDR: Dd0yaHddBKCQhPkcnmxlcI/gJH4krQm1gzGsakQT1Fa/Pa1LAZdk4Uu5ky9XgPYf/5NBVA9z+P
- kVv4+H2Hy73nvHYdDsQ9sJclJZbdKWeuXk/mQJO7bmET4jdTYQShL6AxUUCgYIClzw0yPS8ZGp
- 52NYVS4i34uwfvc581sMt31qNLHr6oSCEkW0+hnetsa9B1zSDI4UB1icvoWXULgFxwS0skZdDV
- GbTMtW+K6PUgjqeAVD8relo34IQGK5zIHudgK7nXmC2GCqBr1m6bEuXKy0y16EjnPssl/V8g74
- nE4=
-X-IronPort-AV: E=Sophos;i="5.81,189,1610380800"; d="scan'208";a="264514754"
+ bh=ld1bH6SZEQJUWsUmQX7MzLhfTSfx+6fOqXlGYgmbIbo=;
+ b=geHzNsCwzDlBGEKDoeHhL5qkGQRl6cvaZ9TABrSKD35KCWIFLYtLiSwh
+ QewJ4GCM1E9PVGo0KrD00hW6VYYQRw9FiG45h0bkm+w8fYsbt/HKdJlHa
+ 30KK9htOCng2/GfgndoAZ2fIon1AF1ya8+2B8ZCAR7yp8eruTefkDyI2h
+ C+cjR3NOCVTNFBRnxS/UDFNpfUHb9W1654cK/vc9EddcgOQDddwsJDuhE
+ 9uQR0kElLOBzQGR6f0vjBqzA5hl3dbSONDZV8/NxNedcF5cKtF0SP6gJG
+ 2Ur+xsN8lcjHYhMv89zyQaaa6vQaAWtmUTuYA05wilZBibymLzyhSOo5g w==;
+IronPort-SDR: SEWNx/fkaNhPQY3ndjla0ZSuMUoXFtuRbL/HraxNS7OYep5tOuxXc4BTSyFkWAOdsOJpcFURn3
+ +vjDOkElAD4618KoIt5iqYNMIBuFwfhzj0L5obj8cAmsNCaBZJMRwgu/lUAATntY6BkNpWwYFw
+ tCLuluFOtUYDpwdlZcfSIcOWOCdlyhlCVmgBCjKhsb8HLja5G0c2vXC7MQQu8tJOy62V30n/EZ
+ sYjuZRu7Kuz8HivLC8q2njQibxL/kR8Enr+DD+wj9YRH3dYK+WBYwr8s5bunvH2HiAob47cwj7
+ qLA=
+X-IronPort-AV: E=Sophos;i="5.81,189,1610380800"; d="scan'208";a="270863829"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Feb 2021 14:39:18 +0800
-IronPort-SDR: zre6JK+kJzQG3JabW0Wa3j4l/M3inlYMEBdjHpXCM8Kv91XD6lC3ClG1Zim4mNFUPLZY6SW5oV
- QkmR2apYp1FQcFQMgGl9hG8Sgt8jFul2cy3vepx4nLi0N1e1ldAdxEbBrO6TWhFN2HRwGsqs3u
- 2fyOIxtdg0Rg66mEwICZruk99hUT48Z8DuWWhY72IyLzo2A55BEkeW9ZyavowS50MvDoMFF2l/
- EVowf6GdL5vxOHq6HSFqyuO0oDoLFCPYKDDCMs5IGaX+x/AZYuXx0bO0AC4DN7gVhZjBnc1BAn
- lNLEi04HmtpRbMiXiAKllUIP
+ by ob1.hgst.iphmx.com with ESMTP; 19 Feb 2021 14:37:27 +0800
+IronPort-SDR: imu+QPGBMJJRqmEVSJpeVNMhvxXkSw4oMd1yWFLruJhBuTmJurCJu33r3imtq+AFbRv8QXrknC
+ G885QPbKFQb9aW5onWiaN1PC5GlkwSc/n6TKhPbC8TC2ama5zIAgyD+DEL1w7WyHf5CdzuepFt
+ IxVdd+qkWPaq0t6sbX1glYajzmDw/MD1Mzbo86M6yHHTvHZcztEEd3a2cAvW+pnewWLIgah4lr
+ uFOTrHWUu+MzLkVfRsQIzwPyApNZN4G0wAUwdnkjZ4LWlzUT6sPoQqAvDDfUf30aTVVOg53IfU
+ QEICPrkoAhPIjnk07TxsR6nC
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2021 22:18:55 -0800
-IronPort-SDR: q8CVtakusesP+FYqRcdFwppgZH8+G3+RPr1r3DCF7+YjD1apQmraj6p/TDUIHWJnr6oiZeZjhP
- B/4Cjoi+LknxyZ8beMiB7cbwS3p5NnSooOJDPOAkcgCSZPcZZp+gHggXNXa62aKMz0gJyNnFXI
- eX5Jf7lcJUugRFRmP4oPe6dA4lM7hgKalZ34xfihJqarCkW8RnMcQ3U1RthHB3qmJhJ+AzXV3n
- 7XS+/1fbsPaG0FEhGtSTWtImG9hneqcN9cKx6ccdMM9bmsgFzbUFuaHR37CAm5lPv0KIkZpDjl
- uqM=
+ 18 Feb 2021 22:19:06 -0800
+IronPort-SDR: GSxGFBDy2td2h9SyE1JU5e9nbuogSv7SowFK7VlUmLuzlVud5xNHuv4qg3aLSHSZRG/LMn9HLE
+ UpPIomxRTz1Wbs+OG3VNnuSxrd2Yy7jjc6j68jdAhDWeAtpbLEJGbSTfIaK2AGkdpPuibqWgxl
+ XxdxnCCYMw044OSSTPIMcs8kpuQClxTWgEsZ3QF3Jx/3JeDapTgrRH4Z+tsa24EVRXcLrWijqT
+ xHgJYPV2gDyJVr47He1mDM/X5ZnBHmMz2X7ayFqeioCH75J5EV+a7hQULUS4lj+RqDyddceuKT
+ Rqw=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 18 Feb 2021 22:37:16 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 18 Feb 2021 22:37:27 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 0/2] nvme-pci: remove the barriers in nvme_irq()
-Date: Thu, 18 Feb 2021 22:37:15 -0800
-Message-Id: <20210219063715.63666-1-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 1/2] nvme-pci; remove the barriers nvme_irq()
+Date: Thu, 18 Feb 2021 22:37:26 -0800
+Message-Id: <20210219063726.63728-1-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1.dirty
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210219_013720_310407_9327FDB2 
-X-CRM114-Status: UNSURE (   8.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210219_013734_785944_70C81E71 
+X-CRM114-Status: GOOD (  12.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,20 +101,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+The barriers were added to the nvme_irq() in the
+commit 3a7afd8ee42a ("nvme-pci: remove the CQ lock for interrupt driven queues")
+to prevent compiler from doing memory optimization for the variabes that
+were protected previously by spinlock in nvme_irq() at completion queue
+processing and with queue head check condition..
 
-The first patch removes barrier from the nvme_irq() and second patch
-does the code cleanup for the same.
+The variable nvmeq->last_cq_head from those checks was removed in the
+commit f6c4d97b0d82 ("nvme/pci: Remove last_cq_head")") that was
+preventing  poll queues from mistakenly triggering the spurious
+interrupt detection.
 
--ck
+Remove the barriers which were protecting the updates to the variables.
 
-Chaitanya Kulkarni (2):
-  nvme-pci; remove the barriers nvme_irq()
-  nvme-pci: cleanup nvme_irq()
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/host/pci.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
- drivers/nvme/host/pci.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0045c5edf629..3729775f6a8a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1062,14 +1062,8 @@ static irqreturn_t nvme_irq(int irq, void *data)
+ 	struct nvme_queue *nvmeq = data;
+ 	irqreturn_t ret = IRQ_NONE;
+ 
+-	/*
+-	 * The rmb/wmb pair ensures we see all updates from a previous run of
+-	 * the irq handler, even if that was on another CPU.
+-	 */
+-	rmb();
+ 	if (nvme_process_cq(nvmeq))
+ 		ret = IRQ_HANDLED;
+-	wmb();
+ 
+ 	return ret;
+ }
 -- 
 2.22.1
 
