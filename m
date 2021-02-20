@@ -2,20 +2,19 @@ Return-Path: <SRS0=hrUZ=HW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 817B5C433DB
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Feb 2021 19:09:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E6D0C433E0
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Feb 2021 19:20:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6CD7064EB2
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Feb 2021 19:09:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CD7064EB2
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1502164EB3
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Feb 2021 19:20:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1502164EB3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -23,42 +22,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mgkwZTf1TD4Kt7CFRPO6iPwCPaLLsjLH5GD5/5xSiSA=; b=Y46/ZlqRxmKSg7alwBE1uJY/q
-	oJM2+4SUOrQrMxggW4+wp4sX6IPD8OOMY7lHqmLpJdeejt2X8Wa9+Dbal3z0KJJh2xZnVuHQsDEP2
-	BfUI5DBChKE8boRP6531jTK5Lq8d+KklXv5ZIH22qIqbuWMw46/F8mAYZYCke81kmL/kf1mLEmxvn
-	ajM1WooVPamQJWCUqXfUz1ssHnLf+hxpD0aaqMDFyMAyWZWfBpoW4+1GWrCypeKQdadwl8B83iK9A
-	/Az37lTeh3Wlcdc+kRiCWWdl3Wvfxi5U40rklylJUDIle/+4RomDYG3WCEwUOTzhz3bmn3rUIEllR
-	gT9jqCvmw==;
+	 bh=cmStZ7UyxiS4TDvfGdGmdBfsYEsgeOgZiXi5bXQiZJw=; b=UowYG4iowW5Jq2ROHNv5MzxVo
+	oRlCSpnpv8Am3jgw9lbnySvVu5MUn7g4Fe1iaDgH/t+Id0CfgpBQOGnLq4g3Z4N5mB/YpXhOQ4ZvU
+	Rmp8qlzgq8TnP+sFcDIvry84mKU1DpKscGWZRkhl5DqrGG0fdW9/40sSFZeY7Re6EWUyTw4lpCXAm
+	AjA1jhXzIo5ka1uGOVIB47tFYa5RJ0i8ma3qC113OYOVCVYscZEUeMmbBQYxseIbIyRsK/aZ06S3U
+	L92AnRAbJDTBGpKHChAu8DSJTe/tzVGDH2S+LKX1XODjvzXiUVy2yXU8AfM0eGAtzrKBD7F/VJIr8
+	0ede8m0ow==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lDXdG-00035Q-JR; Sat, 20 Feb 2021 19:09:34 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lDXmu-0004eN-OA; Sat, 20 Feb 2021 19:19:32 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lDXdF-00035E-4k
- for linux-nvme@merlin.infradead.org; Sat, 20 Feb 2021 19:09:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=z8+/WNpbsZkqwy3FrYALDel13DrFd2M7SHQC2LqXykk=; b=Coqv5TZ84pbYV63BlHltSBs+O6
- PKlkeMKd9GjQBqahXNppgY+/xX6UfosepmWfMMZGYxfbMYZLokGKnYGxzrHd//hRD3ea6ydPU5Ytr
- jk14BWdCLSI0Xjk4dUlY/0AuGf7+IS46QTKPcxQDHjVPt697wE7M9ASyd68sRt67wCFENbj1Sy0kt
- KqqHpoWVrNfHkIOOJDK9bcVxCM3THBS7gsYqggibHRGGsuhhWcqYjoHcE5wj4W2q5T06Uq2cui7oH
- FimgH0MLEq4pfqGbJ2iPd/+91tRxJFefAI/iiGCu+kY3koSvRTlYD9gNzRUZzIek5wvaRqZ0H05K1
- L7LLTzpg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lDXcL-004MAE-36; Sat, 20 Feb 2021 19:08:48 +0000
-Date: Sat, 20 Feb 2021 19:08:37 +0000
-From: Matthew Wilcox <willy@infradead.org>
+ id 1lDXmq-0004dW-W9
+ for linux-nvme@lists.infradead.org; Sat, 20 Feb 2021 19:19:31 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BF2264E51;
+ Sat, 20 Feb 2021 19:19:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613848768;
+ bh=opkZV9+iiOg5i7CeRhciYmBMWsz/qz9Xmo/qIEL+++w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lAzR3vLqQJN7zA0sj+1l2vnXCMVW4WzYcT/7zoi2XEkR75dxEfZxsr9ZZXs0vfoPA
+ MIIgjdK8Bfi/OCFnVUkAXbnH1QuOe78GE9Zog3tA5xLd9ntizTOGRftkJ5DbbTpQLW
+ omYiai3857LXH2o97xCBrMSxBqmNpxN940EtlMYI230TK91985WJW6trAwt3FkdY/L
+ VqIe5cfn3Bm95NdASEstDvnzMUXt7VhCJVGdKAJfJ58WvX9DqAgAts08MiZ6GAolne
+ 0nuR0yF2z+6rnQQ4z7QrJaZEUfQQrwShmPsQQ1TDKXSeEoktfn9AzBO1+I/LSxew2+
+ 2ipaElzzXH/Mw==
+Date: Sun, 21 Feb 2021 04:19:21 +0900
+From: Keith Busch <kbusch@kernel.org>
 To: David Laight <David.Laight@aculab.com>
 Subject: Re: [RFC PATCH v5 0/4] add simple copy support
-Message-ID: <20210220190837.GE2858050@casper.infradead.org>
+Message-ID: <20210220191921.GA7968@redsun51.ssa.fujisawa.hgst.com>
 References: <CGME20210219124555epcas5p1334e7c4d64ada5dc4a2ca0feb48c1d44@epcas5p1.samsung.com>
  <20210219124517.79359-1-selvakuma.s1@samsung.com>
  <146c47907c2446d4a896830de400dd81@AcuMS.aculab.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <146c47907c2446d4a896830de400dd81@AcuMS.aculab.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210220_141929_125491_9AADD1EE 
+X-CRM114-Status: GOOD (  14.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,9 +85,8 @@ Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
  "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>,
  "javier.gonz@samsung.com" <javier.gonz@samsung.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>,
  "joshiiitr@gmail.com" <joshiiitr@gmail.com>, "hch@lst.de" <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -108,18 +110,9 @@ On Sat, Feb 20, 2021 at 06:01:56PM +0000, David Laight wrote:
 > Sounds to me like the real reason is that the copy just ends up changing
 > some indirect block pointers rather than having to actually copy the data.
 
-That would be incorrect, at least for firmware that I have knowledge of.
-There are checksums which involve the logical block address of the data,
-and you can't just rewrite the checksum on NAND, you have to write the
-entire block.
-
-Now, firmware doesn't have to implement their checksum like this,
-but there are good reasons to do it this way (eg if the command gets
-corrupted in transfer and you read the wrong block, it will fail the
-checksum, preventing the drive from returning Somebody Else's Data).
-
-So let's take these people at their word.  It is to reduce traffic
-between drive and host.  And that is a good enough reason to do it.
+I guess an implementation could do that, but I think that's missing the
+point of the command. The intention is to copy the data to a new
+location on the media for host managed garbage collection. 
 
 _______________________________________________
 Linux-nvme mailing list
