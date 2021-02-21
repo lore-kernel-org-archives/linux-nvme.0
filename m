@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3699C433E0
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Feb 2021 11:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E68FDC433DB
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 Feb 2021 11:44:26 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9DC1B64F00
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Feb 2021 11:29:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9DC1B64F00
+	by mail.kernel.org (Postfix) with ESMTPS id 9F73F64F00
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 Feb 2021 11:44:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F73F64F00
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,70 +24,70 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7J8rDHipRu1GBrsg+bVNYb0IwPUTb07hLEdSCcmt3Ak=; b=CeE3iUbWtmmBj8yreh+R6ovBk
-	LuPOu+rAKzfs/39wEOJKjnGvAfVRuCUmLrmyf/Tk1pQRpMjL53TxeK0VymefxrQMkjloXF7/ok+Ui
-	Oh+yrkdQDGVbEh3Qd2MWvC55ZM85nYVKaL5nLOeZcZqmmredB5P2reyglD7p06DHk0S/gtWNsHalg
-	gKKk3NtyVpojr3TYuaOYGlmL/cAAATfb0ydVlMC1aI1X0diBJpNQmcqG11ebfxMM+vEZ1cQ9PexIs
-	8NW6F8tilRlhBUz0HnGmb5M4u5vvxHpmtNfmom7TMreoN0wd5qn2nPTlnx4IoNUTbrGAcvSm+xCt3
-	2mg0Z0/mg==;
+	 bh=yQ3/NoVvSArziV3wX8KKxbEbO1fgBhtDfb4XpwF4rmo=; b=pSKhmOgjK0P+HUq3OcNTHGtGL
+	tCTG3rP/3DFr+pzy+xF5rUgref4IZh220D04PH/nfap2dzE96xGkc8thrKHn26qLV96YWJY4TS5fv
+	H9o+58q3hI2IiJBiZBYxmEl89ryWIziE2/0wmQDqe/+74MhU+esipF6NHjAhwneUDmZeD4FQX2VXm
+	Oqfi68r91sc6tuxE1wrFAHcypMnVqvXN0Wi1F7beUxTHm3MjZITMd7spoEeDvU4vqv/nZGL7AnwJ/
+	1LrALJoOCmlRKJGO+RagXF+iRv9QERlqoW3iQ0wH2HbVRPuPcdMPqieLPIGbRu7UR+4WhsrVgOQJ3
+	GyU43pmLg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lDmvt-0004qp-LI; Sun, 21 Feb 2021 11:29:49 +0000
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+	id 1lDn9v-0005ew-PO; Sun, 21 Feb 2021 11:44:19 +0000
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lDmvq-0004qI-AK
- for linux-nvme@lists.infradead.org; Sun, 21 Feb 2021 11:29:47 +0000
-Received: by mail-ed1-x531.google.com with SMTP id q10so18189314edt.7
- for <linux-nvme@lists.infradead.org>; Sun, 21 Feb 2021 03:29:44 -0800 (PST)
+ id 1lDn9s-0005ea-FN
+ for linux-nvme@lists.infradead.org; Sun, 21 Feb 2021 11:44:17 +0000
+Received: by mail-ed1-x52a.google.com with SMTP id v22so18137140edx.13
+ for <linux-nvme@lists.infradead.org>; Sun, 21 Feb 2021 03:44:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NkqLH2iI4TGIsYEyVAwIq/vBaQt2ewB722xv9p5GaH8=;
- b=NVXRFqEWEExByzBwj7i9f834L8MsUCdcmvojkY75wdVpyoTFjKqBDhT6JmUq23R9nY
- UkV8/eAXs3jNZE0haptV7Ajct4s/a8Ewk5MQvLt3ebe3rLcjm3a5Insg+tnPTOeKakuS
- MrxTCTEU64ZZAb37iwpT6AAZu1j/OAl3g53UAC4QR4J0Vtm/maqI/IC3xfsoMQy3RGct
- atgIBrALiN6+mA5qAxu3v7at2kN577Z6o7okxXWhs+VOogtjQzwfEWsCemF3u/CfsCwF
- qofU8Fhkxvx1AGFX1orVris6c9m/83bM1TMkfCRDKN6CTY1aQZenK35EbLAlQXbG1eOg
- hr5Q==
+ bh=Dhrn779+a4z/VQxcMafxNvJ9pBhmzV8lMEegc3MEdvY=;
+ b=VYzCmz/IpOHVbebwWJ42tkC0yblsRK/yZg4sUyVdkmrp1NT9zsuGmuM52IUEOcqn5V
+ YmTwGP0a2IJeRqIHxM5WCd6d76wFYhj9lTX2DV8GcrAHoAA8mhL1uGVsjncQqi7T1UHr
+ 8dsWaCJoIziCY7Qmdb3JJh4ZUtLdLQWWH2RgtohKDvbsn+ltezHLXuHTb2t65A9TnqkG
+ huYdV+XE6r1bn3kIQofAE27iClLXTnsJm/HckFXMBukryCZibNNfQC9imCTMZRC8Xfvk
+ isU/PjSphswSQoTcV7tWRSMyr11ZyRfnUZr6NhqoyBIsclwR2hSjzzQoONutoIq/5Dm1
+ tApw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NkqLH2iI4TGIsYEyVAwIq/vBaQt2ewB722xv9p5GaH8=;
- b=GWLgt3niqC8MBFIY/sexQ9FxCGyZMYrqaua8pMayjTwszWMQCpQK5fCU4lWrY0+0So
- FsiCQ9xiM3KWqQtvB1Y70spSs1Sk6Syctpi7Tk+1cXZWO6y9qMr7wYAX2JlOrcbcNxOV
- f6Y7LonXR1/v8TCQkIYPKG3dqKjA7seg1CFS+YZ0QQeAj1JgnG3jMj4DmBccocQjG6/u
- +NOMxoWYotzQhJ0RvGL/cNgy/Bi7MYBSQZOtZgNLJ/S87dpGVxCQ+iPSs8ZYNcY1yBRb
- +K7Tp6eT+X+9T+xErITHGm3aqLxG3DcdBNMEJcr2skDr4KIAIGLJIdp5N+n2za1dTKGQ
- gijA==
-X-Gm-Message-State: AOAM532HRVHfJUhqVT+aKYrYaWz1Jbczop57yQvlX4NmA58Td3V9nuY/
- TJBTqvN0gkgAGneWvDKpVx8=
-X-Google-Smtp-Source: ABdhPJxPPe2ES370m4Jkp1KQ93EluukjDD976InpundPP02BkBdhuQJ5EsOwsIzNx5CZIwtekspfoQ==
-X-Received: by 2002:a05:6402:190a:: with SMTP id
- e10mr17851608edz.110.1613906983513; 
- Sun, 21 Feb 2021 03:29:43 -0800 (PST)
+ bh=Dhrn779+a4z/VQxcMafxNvJ9pBhmzV8lMEegc3MEdvY=;
+ b=tXDoLUghG7Ze7h381WVRXrSoS7040YwfTKwena5k9n3nS1fvOHc3eyIYrBCBdEPDP0
+ xK0tqYPPd03swnPrdOlyW98Lx2Uxsbl4xAH9y5GTHWD88vK6rrxlREQ0sox1q0pE1TKQ
+ Gx7qMvCh2xX4lD2+nEKTeDKIuS136XfQJlZBmZOCDhhJV3xx/WJAa81kGv744b6ssDvb
+ IUx1GdMQa39QTYZ5ETaR1S+8d8L+c1ZroD0f2y4g+zr2DpXlwiqGqHGBaCP0Ssg7nlkD
+ tQ90zOqKkUjyYQGTkuEvtJS+4+hp+Bo1RT740VavKMZYxdf2h/n0PoAYO0M1TMjIOTFm
+ py3A==
+X-Gm-Message-State: AOAM532JwsT70yOlmY25kWkTWnZ5PryKTAcJX1vpF1iHliqovW5Kopj+
+ imeXqvscrRZXcxCFr/Z+rqs=
+X-Google-Smtp-Source: ABdhPJw27UbxK1VZjh26CdqdQonGjkK6TO3asaERjRg0CqE5PFBBLCHMyRHm4iK+LQkAdpdIFbLfxQ==
+X-Received: by 2002:aa7:da19:: with SMTP id r25mr18337968eds.367.1613907855131; 
+ Sun, 21 Feb 2021 03:44:15 -0800 (PST)
 Received: from [132.68.43.202] ([132.68.43.202])
- by smtp.gmail.com with ESMTPSA id v9sm8128251ejd.92.2021.02.21.03.29.41
+ by smtp.gmail.com with ESMTPSA id bz20sm8514508ejc.28.2021.02.21.03.44.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 03:29:42 -0800 (PST)
-Subject: Re: [PATCH v4 net-next 06/21] nvme-tcp: Add DDP offload control path
-To: Or Gerlitz <gerlitz.or@gmail.com>, David Ahern <dsahern@gmail.com>
+ Sun, 21 Feb 2021 03:44:14 -0800 (PST)
+Subject: Re: [PATCH v4 net-next 07/21] nvme-tcp: Add DDP data-path
+To: David Ahern <dsahern@gmail.com>, Or Gerlitz <gerlitz.or@gmail.com>
 References: <20210211211044.32701-1-borisp@mellanox.com>
- <20210211211044.32701-7-borisp@mellanox.com>
- <2dd10b2f-df00-e21c-7886-93f41a987040@gmail.com>
- <CAJ3xEMjMqK81uNv21poD+DoZCRxYak0DYFZrjDbmWaSxw4R5ig@mail.gmail.com>
+ <20210211211044.32701-8-borisp@mellanox.com>
+ <cfd61c5a-c5fd-e0d9-fb60-be93f1c98735@gmail.com>
+ <CAJ3xEMgZg9dFyc8cnbuPPAFT3jd2k27TdLOz-vtVmxy9k9zHcg@mail.gmail.com>
+ <f9c45756-b823-7cab-213c-761866230c96@gmail.com>
 From: Boris Pismenny <borispismenny@gmail.com>
-Message-ID: <3f447ef7-3ded-8c1c-fdfa-ec137e11a19a@gmail.com>
-Date: Sun, 21 Feb 2021 13:29:39 +0200
+Message-ID: <c0eba1e7-f113-2400-72c1-4361e79363a7@gmail.com>
+Date: Sun, 21 Feb 2021 13:44:11 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ3xEMjMqK81uNv21poD+DoZCRxYak0DYFZrjDbmWaSxw4R5ig@mail.gmail.com>
+In-Reply-To: <f9c45756-b823-7cab-213c-761866230c96@gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210221_062946_467185_A1FBD1EA 
-X-CRM114-Status: GOOD (  20.01  )
+X-CRM114-CacheID: sfid-20210221_064416_593111_75C072B7 
+X-CRM114-Status: GOOD (  13.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,80 +99,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: smalin@marvell.com, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>, yorayz@nvidia.com, boris.pismenny@gmail.com,
- Ben Ben-Ishay <benishay@mellanox.com>, Yoray Zack <yorayz@mellanox.com>,
- benishay@nvidia.com, David Miller <davem@davemloft.net>, axboe@fb.com,
- Eric Dumazet <edumazet@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+Cc: smalin@marvell.com, Sagi Grimberg <sagi@grimberg.me>, yorayz@nvidia.com,
+ boris.pismenny@gmail.com, Ben Ben-Ishay <benishay@mellanox.com>,
+ Yoray Zack <yorayz@mellanox.com>, linux-nvme@lists.infradead.org,
+ David Miller <davem@davemloft.net>, axboe@fb.com,
+ Eric Dumazet <edumazet@google.com>, Or Gerlitz <ogerlitz@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
  Linux Netdev List <netdev@vger.kernel.org>, Keith Busch <kbusch@kernel.org>,
  Jakub Kicinski <kuba@kernel.org>, Or Gerlitz <ogerlitz@mellanox.com>,
- Or Gerlitz <ogerlitz@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ benishay@nvidia.com, Saeed Mahameed <saeedm@nvidia.com>,
  Christoph Hellwig <hch@lst.de>, Boris Pismenny <borisp@mellanox.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 17/02/2021 15:55, Or Gerlitz wrote:
-> On Sun, Feb 14, 2021 at 8:20 PM David Ahern <dsahern@gmail.com> wrote:
->> On 2/11/21 2:10 PM, Boris Pismenny wrote:
->>> @@ -223,6 +229,164 @@ static inline size_t nvme_tcp_pdu_last_send(struct nvme_tcp_request *req,
->>>       return nvme_tcp_pdu_data_left(req) <= len;
->>>  }
+On 17/02/2021 19:00, David Ahern wrote:
+> On 2/17/21 7:01 AM, Or Gerlitz wrote:
+>>>> @@ -1136,6 +1265,10 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+>>>>       else
+>>>>               flags |= MSG_EOR;
+>>>>
+>>>> +     if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags) &&
+>>>> +         blk_rq_nr_phys_segments(rq) && rq_data_dir(rq) == READ)
+>>>> +             nvme_tcp_setup_ddp(queue, pdu->cmd.common.command_id, rq);
+>>>> +
 >>>
->>> +#ifdef CONFIG_TCP_DDP
->>> +
->>> +static bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags);
->>> +static const struct tcp_ddp_ulp_ops nvme_tcp_ddp_ulp_ops = {
->>> +     .resync_request         = nvme_tcp_resync_request,
->>> +};
->>> +
->>> +static int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
->>> +{
->>> +     struct net_device *netdev = queue->ctrl->offloading_netdev;
->>> +     struct nvme_tcp_ddp_config config = {};
->>> +     int ret;
->>> +
->>> +     if (!(netdev->features & NETIF_F_HW_TCP_DDP))
+>>> For consistency, shouldn't this be wrapped in the CONFIG_TCP_DDP check too?
 >>
->> If nvme_tcp_offload_limits does not find a dst_entry on the socket then
->> offloading_netdev may not NULL at this point.
-> 
-> correct :( will look on that
-> 
-
-That's only partially true.
-If nvme_tcp_offload_limits finds a dst_entry, but then the netdevice
-goes down, then the check here will catch it. This is needed because
-nvme_tcp_offload_limits doesn't hold a reference! We opted not to grab a
-reference on nvme_tcp_offload_limits because it doesn't create a context.
-
-
->>> +             queue->ctrl->offloading_netdev = NULL;
->>> +             return -ENODEV;
->>> +     }
->>> +
->>> +     if (netdev->features & NETIF_F_HW_TCP_DDP &&
->>> +         netdev->tcp_ddp_ops &&
->>> +         netdev->tcp_ddp_ops->tcp_ddp_limits)
->>> +             ret = netdev->tcp_ddp_ops->tcp_ddp_limits(netdev, &limits);
->>> +     else
->>> +             ret = -EOPNOTSUPP;
->>> +
->>> +     if (!ret) {
->>> +             queue->ctrl->offloading_netdev = netdev;
+>> We tried to avoid the wrapping in some places where it was
+>> possible to do without adding confusion, this one is a good
+>> example IMOH.
 >>
->> you save a reference to the netdev here, but then release the refcnt
->> below. That device could be deleted between this point in time and the
->> initialization of all queues.
+>>
+> 
+> The above (and other locations like it) can easily be put into a helper
+> that has logic when the CONFIG is enabled and compiles out when not.
+> Consistency makes for simpler, cleaner code for optional features.
 > 
 
-That's true, and this is why we repeat the checks there.
+The above is consistent in the sense that we wrap only places that are
+absolutely necessary, so as to avoid ifdefs as much as possible.
 
-We avoid holding the reference here because there is no obvious
-complementary release point for nvme_tcp_offload_limits and there is no
-hardware context created here, so there is no real need to hold it at
-this stage.
+Specifically, here and in ddp_teardown, we will add a wrapper to reduce
+clutter if offload is not used.
 
 _______________________________________________
 Linux-nvme mailing list
