@@ -1,4 +1,4 @@
-Return-Path: <SRS0=yxkO=HX=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=neNW=HY=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -7,15 +7,15 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64FB1C433E0
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Feb 2021 23:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 688F0C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Feb 2021 01:32:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DD7BB64E41
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Feb 2021 23:53:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD7BB64E41
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=fromorbit.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1B3B464EF5
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Feb 2021 01:32:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B3B464EF5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -23,45 +23,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZATaV9iYi1GXgm8VgIMexzqDIHtRNZag01mSYC3RXw4=; b=kTmZZpF0kgyWQK1j26UWFbW7J
-	3qzeKZzOzu0Jw5Sb5fPD5pcjkCuxr4bQQHUZ7i9EW13E4InqZGIED6MkZg/5KNyBlbTanM356RthE
-	Z3LrNqMwdIXsaBGyLlqfTJkA7B43FtpiLJy4MtkvGFDKGPltjFaBwdhetHZKvaau0pVTogU9WXRsa
-	2yF/2TOJIly7VCe3Z2EEiWun0f5a4bdlj20AQIPnBQNh+LrdOhjPk9+5gTVNtra0wauMYhzfRpDBq
-	dwcEhaVPd2TGPfGSiXPVBB2ZqmkMDnJ70duHIzIFsPJqeCYvd/kYKFV2cSZves2QjUIRa8MlkYNT0
-	jlR8vJWhA==;
+	 bh=3/9teBDIp7O0Z1K6yZfw0oN8Iiu3SGhgTfM83zhDvME=; b=bzRctHLhV+bzefgMBtlV99Nb0
+	NE8SWwOJkOpD/x7i6TIiORqmGCuk+XetFCPRW/E1+OKWRi+fFwmY9DHe9SuIzmZibHD1f/oFxEJ7C
+	m05PKbthY8pc7vrWxQ6ZpcBF/Qyh3vQnGfrfJORQYii2xIapETvSsIsmwp7OsxRNKTzCXGDsiMqVX
+	7plY7b/05Dx4ywg42mEGXTfJv7JsZvpBY1Grt0YDeXgKW4L8iAtpdI91+dF6ODNK+ZNLITiEcVeDF
+	rx34EEwAzuGb0F3BhMDIiqB+Qmt3s7hY0MdRxeFdgRD5wpwvg3KLGeaFRILTS8v+jndzBu4262BOW
+	sPvOc1jHw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lDyX7-0000tc-HF; Sun, 21 Feb 2021 23:53:01 +0000
-Received: from mail108.syd.optusnet.com.au ([211.29.132.59])
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lDyX3-0000t9-Ur
- for linux-nvme@lists.infradead.org; Sun, 21 Feb 2021 23:52:59 +0000
-Received: from dread.disaster.area (pa49-179-130-210.pa.nsw.optusnet.com.au
- [49.179.130.210])
- by mail108.syd.optusnet.com.au (Postfix) with ESMTPS id 7E7221ADB51;
- Mon, 22 Feb 2021 10:52:49 +1100 (AEDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
- (envelope-from <david@fromorbit.com>)
- id 1lDyWu-00Fq01-QV; Mon, 22 Feb 2021 10:52:48 +1100
-Date: Mon, 22 Feb 2021 10:52:48 +1100
-From: Dave Chinner <david@fromorbit.com>
+	id 1lE05D-00060o-MA; Mon, 22 Feb 2021 01:32:20 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1lE057-0005zB-Jl
+ for linux-nvme@lists.infradead.org; Mon, 22 Feb 2021 01:32:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613957532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N34hBKZHkXIxa+0JV+MfgWWrHN+GVw6/8nre7Mkust8=;
+ b=hieEmomI5pyfS7/HG1LRWV4LCmIR2/2l/17lI8X6ihCyJo2EtpgxUqpubB26nd63UaSDZx
+ EJnmtscijgGpMbL3DVMoVApcmF5KfmUElKcHhuwsPEJrjdLsOTfDlre2gy7ImJb1KwhzR1
+ Atm6gsmvEVatCRrVSpojfAKlwee3YSU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-vCCu8_aQNUS3Y2da_gJthQ-1; Sun, 21 Feb 2021 20:32:00 -0500
+X-MC-Unique: vCCu8_aQNUS3Y2da_gJthQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA26A79EC0;
+ Mon, 22 Feb 2021 01:31:57 +0000 (UTC)
+Received: from T590 (ovpn-12-196.pek2.redhat.com [10.72.12.196])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7972B1A867;
+ Mon, 22 Feb 2021 01:31:37 +0000 (UTC)
+Date: Mon, 22 Feb 2021 09:31:33 +0800
+From: Ming Lei <ming.lei@redhat.com>
 To: SelvaKumar S <selvakuma.s1@samsung.com>
 Subject: Re: [RFC PATCH v5 0/4] add simple copy support
-Message-ID: <20210221235248.GZ4626@dread.disaster.area>
+Message-ID: <YDMJdekWhy/Y1Y1r@T590>
 References: <CGME20210219124555epcas5p1334e7c4d64ada5dc4a2ca0feb48c1d44@epcas5p1.samsung.com>
  <20210219124517.79359-1-selvakuma.s1@samsung.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20210219124517.79359-1-selvakuma.s1@samsung.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=YKPhNiOx c=1 sm=1 tr=0 cx=a_idp_d
- a=JD06eNgDs9tuHP7JIKoLzw==:117 a=JD06eNgDs9tuHP7JIKoLzw==:17
- a=kj9zAlcOel0A:10 a=qa6Q16uM49sA:10 a=pNaSbsGRAAAA:8 a=7-415B0cAAAA:8
- a=bdcsEvdjF_AAMq5uHxAA:9 a=CjuIK1q_8ugA:10 a=k8uaQqolKd8A:10
- a=cz0TccRYsqG1oLvFGeGV:22 a=biEYGPWJfzWAr4FL6Ov7:22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210221_185258_243799_B9236074 
-X-CRM114-Status: GOOD (  15.35  )
+X-CRM114-CacheID: sfid-20210221_203213_704862_18A60FBF 
+X-CRM114-Status: GOOD (  17.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,8 +87,9 @@ Cc: axboe@kernel.dk, damien.lemoal@wdc.com, kch@kernel.org, sagi@grimberg.me,
  snitzer@redhat.com, selvajove@gmail.com, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, nj.shetty@samsung.com,
  linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- dm-devel@redhat.com, joshi.k@samsung.com, javier.gonz@samsung.com,
- kbusch@kernel.org, joshiiitr@gmail.com, hch@lst.de
+ dm-devel@redhat.com, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ joshi.k@samsung.com, javier.gonz@samsung.com, kbusch@kernel.org,
+ joshiiitr@gmail.com, linux-scsi@vger.kernel.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
@@ -98,30 +109,28 @@ On Fri, Feb 19, 2021 at 06:15:13PM +0530, SelvaKumar S wrote:
 > This implementation doesn't add native copy offload support for stacked
 > devices rather copy offload is done through emulation. Possible use
 > cases are F2FS gc and BTRFS relocation/balance.
-
-It sounds like you are missing the most obvious use case for this:
-hooking up filesystem copy_file_range() implementations to allow
-userspace to offload user data copies to hardware....
-
-Another fs level feature that could use this for hardware
-acceleration fallocate(FALLOC_FL_UNSHARE).
-
-These are probably going to be far easier to hook up than filesystem
-GC algorithms, and there is also solid data integrity and stress
-testing checking infrastructure for these operations via fstests.
-
+> 
+> *blkdev_issue_copy* takes source bdev, no of sources, array of source
+> ranges (in sectors), destination bdev and destination offset(in sectors).
+> If both source and destination block devices are same and copy_offload = 1,
+> then copy is done through native copy offloading. Copy emulation is used
+> in other cases.
+> 
 > As SCSI XCOPY can take two different block devices and no of source range is
 > equal to 1, this interface can be extended in future to support SCSI XCOPY.
 
-That greatly complicates the implementation. do we even care at this
-point about cross-device XCOPY at this point?
+The patchset adds ioctl(BLKCOPY) and two userspace visible data
+struture(range_entry, and copy_range), all belong to kabi stuff, and the
+interface is generic block layer kabi.
 
-Cheers,
+The API has to be allowed to extend for supporting SCSI XCOPY in future or similar
+block copy commands without breaking previous application, so please CC linux-scsi
+and scsi guys in your next post.
 
-Dave.
+
 -- 
-Dave Chinner
-david@fromorbit.com
+Ming
+
 
 _______________________________________________
 Linux-nvme mailing list
