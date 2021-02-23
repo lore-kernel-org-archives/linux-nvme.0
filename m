@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 020A6C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04512C433E9
 	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 12:07:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A7CD464E32
+	by mail.kernel.org (Postfix) with ESMTPS id A7C9864E21
 	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 12:07:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7CD464E32
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7C9864E21
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=x7df3VnfmZXtIBNnnl7R2E7HWJEXrYwha9Lw7FOpzK8=; b=f7z5bVjDxYILG7BNlV+Tkhtwi
-	p3pfO9kvXzK5KirIDhw+SiAskercY6ESunab8nc5YY5Ao5t2EJ2AhUYU60VBPLVbjKHaXVgWFAb5B
-	urY4a//9v636icL7QmIo/tOHl0LMek5yazlN0GJHZke9xuUlLhJbY0rtzAw7NqdRcIdPs9DJUdqiE
-	ArIhdhosAc7TmkxQrRzo0tqcNBt4Fy74RsIIVaYZb/PCc+u1c7GPW7hU5ehcK+NEQlArBIHlJjA4+
-	WJnlX6KMzh6yaGCHwtQyw8D7WmwgY8f+QdjbfUQONkEhqwTo122wzwAyodJI6Q0kpdjVPIioiMliF
-	V0TM+DnUw==;
+	 bh=rr8/7lsFQDTT+qrazIui2v0eIDltPxhnlhhuIdL84Ns=; b=XKncui3smeUB1K//HgJpIpxxV
+	0lA5iv/tEXZgKIt+PdMxLcup/5bFijef1W2ytpACF/0i7m8s5BXnmU2ypyOboQg3+qrzMuScOzAeX
+	SKmty/MPRDl4kU9Jn92/HKNKa1luWLYdPXUM/UflC9f1oKayj/GViEHjyEiZlx1drSLce2nZdyv+z
+	ZHoqdlGnDHRgDcun+t9qRNH3Gx/XWwS2E4mmMr89YrWV8HXmnBOW/zMh+tFjgGszXW/EVzIgEQCzL
+	pjK24CLvOqgZrThHfKaxBMPaEWMoTi6plrR0Gg4XaBJOUDCc/PHMN2bgFBKIJtB4U3wrnil7vR7qY
+	fBLSajslA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEWTa-000078-Eu; Tue, 23 Feb 2021 12:07:38 +0000
+	id 1lEWTX-000065-33; Tue, 23 Feb 2021 12:07:35 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEWTT-0008Vw-Dc
+ id 1lEWTT-0008Vy-Dc
  for linux-nvme@lists.infradead.org; Tue, 23 Feb 2021 12:07:33 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 69036AC1D;
+ by mx2.suse.de (Postfix) with ESMTP id 69BCCAC69;
  Tue, 23 Feb 2021 12:07:30 +0000 (UTC)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 2/2] nvme: sanitize KATO setting
-Date: Tue, 23 Feb 2021 13:07:28 +0100
-Message-Id: <20210223120728.104699-3-hare@suse.de>
+Subject: [PATCH 1/2] nvme: fixup kato deadlock
+Date: Tue, 23 Feb 2021 13:07:27 +0100
+Message-Id: <20210223120728.104699-2-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210223120728.104699-1-hare@suse.de>
 References: <20210223120728.104699-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210223_070731_705578_0D049847 
-X-CRM114-Status: GOOD (  17.39  )
+X-CRM114-CacheID: sfid-20210223_070731_683402_9CB8F732 
+X-CRM114-Status: GOOD (  19.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,92 +71,81 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-According to the NVMe base spec the KATO commands should be sent
-at half of the KATO interval, to properly account for round-trip
-times.
-As we now will only ever send one KATO command per connection we
-can easily use the recommended values.
-This also fixes a potential issue where the request timeout for
-the KATO command does not match the value in the connect command,
-which might be causing spurious connection drops from the target.
+A customer of ours has run into this deadlock with RDMA:
+- The ka_work workqueue item is executed
+- A new ka_work workqueue item is scheduled just after that.
+- Now both, the kato request timeout _and_ the workqueue delay
+  will execute at roughly the same time
+- If the timing is correct the workqueue executes _before_
+  the kato request timeout triggers
+- Kato request timeout triggers, and starts error recovery
+- error recovery deadlocks, as it needs to flush the kato
+  workqueue item; this is stuck in nvme_alloc_request() as all
+  reserved tags are in use.
 
+The reserved tags would have been freed up later when cancelling all
+outstanding requests in the queue:
+
+	nvme_stop_keep_alive(&ctrl->ctrl);
+	nvme_rdma_teardown_io_queues(ctrl, false);
+	nvme_start_queues(&ctrl->ctrl);
+	nvme_rdma_teardown_admin_queue(ctrl, false);
+	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+
+but as we're stuck in nvme_stop_keep_alive() we'll never get this far.
+
+To fix this a new controller flag 'NVME_CTRL_KATO_RUNNING' is added
+which will short-circuit the nvme_keep_alive() function if one
+keep-alive command is already running.
+
+Cc: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/core.c    | 14 ++++++++++----
- drivers/nvme/host/fabrics.c |  2 +-
- drivers/nvme/host/nvme.h    |  1 -
- 3 files changed, 11 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 8 +++++++-
+ drivers/nvme/host/nvme.h | 1 +
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9b8596eb4047..eedbee80b7b9 100644
+index ea40a3c511da..9b8596eb4047 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1226,8 +1226,11 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 	    ctrl->state == NVME_CTRL_CONNECTING)
- 		startka = true;
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
--	if (startka)
--		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-+	if (startka) {
-+		unsigned long kato_delay = ctrl->kato >> 1;
-+
-+		queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
-+	}
- }
+@@ -1211,6 +1211,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ 	bool startka = false;
  
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
-@@ -1259,10 +1262,12 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	bool comp_seen = ctrl->comp_seen;
+ 	blk_mq_free_request(rq);
++	clear_bit(NVME_CTRL_KATO_RUNNING, &ctrl->flags);
  
- 	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
-+		unsigned long kato_delay = ctrl->kato >> 1;
-+
- 		dev_dbg(ctrl->device,
- 			"reschedule traffic based keep-alive timer\n");
- 		ctrl->comp_seen = false;
--		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-+		queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
- 		return;
- 	}
- 
-@@ -1276,10 +1281,11 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 
- static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	if (status) {
+ 		dev_err(ctrl->device,
+@@ -1233,10 +1234,15 @@ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
  {
-+	unsigned long kato_delay = ctrl->kato >> 1;
- 	if (unlikely(ctrl->kato == 0))
- 		return;
+ 	struct request *rq;
  
--	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-+	queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
- }
++	if (test_and_set_bit(NVME_CTRL_KATO_RUNNING, &ctrl->flags))
++		return 0;
++
+ 	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd,
+ 			BLK_MQ_REQ_RESERVED);
+-	if (IS_ERR(rq))
++	if (IS_ERR(rq)) {
++		clear_bit(NVME_CTRL_KATO_RUNNING, &ctrl->flags);
+ 		return PTR_ERR(rq);
++	}
  
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 5dfd806fc2d2..dba32e39afbf 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -382,7 +382,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	 * and add a grace period for controller kato enforcement
- 	 */
- 	cmd.connect.kato = ctrl->kato ?
--		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000) : 0;
-+		cpu_to_le32(ctrl->kato * 1000) : 0;
- 
- 	if (ctrl->opts->disable_sqflow)
- 		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
+ 	rq->timeout = ctrl->kato * HZ;
+ 	rq->end_io_data = ctrl;
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index e00e3400c8b6..de0b270f95fc 100644
+index e6efa085f08a..e00e3400c8b6 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -27,7 +27,6 @@ extern unsigned int admin_timeout;
- #define NVME_ADMIN_TIMEOUT	(admin_timeout * HZ)
+@@ -344,6 +344,7 @@ struct nvme_ctrl {
+ 	int nr_reconnects;
+ 	unsigned long flags;
+ #define NVME_CTRL_FAILFAST_EXPIRED	0
++#define NVME_CTRL_KATO_RUNNING		1
+ 	struct nvmf_ctrl_options *opts;
  
- #define NVME_DEFAULT_KATO	5
--#define NVME_KATO_GRACE		10
- 
- #ifdef CONFIG_ARCH_NO_SG_CHAIN
- #define  NVME_INLINE_SG_CNT  0
+ 	struct page *discard_page;
 -- 
 2.29.2
 
