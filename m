@@ -7,136 +7,148 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F3BCC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 05:41:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4808CC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 06:07:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9B71A64E4B
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 05:41:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B71A64E4B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=netapp.com
+	by mail.kernel.org (Postfix) with ESMTPS id DA1CA64E4D
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 06:07:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA1CA64E4D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
-	:List-Id:MIME-Version:Content-ID:In-Reply-To:References:Message-ID:Date:
-	Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RJyY8qwhCfsRF+EQq50ar6BoMtem+Pa2pjb+gI0PhXw=; b=lWc3MKXds2dVBlDpwwNU0xWzT5
-	rfYwrQyBss0Y0eNO98W8XoTHsaMsT5SgELdCdUtJC1I5nOCIm1XrCKa/8ug1DrLT7evO+Rrxd3T0Y
-	4hohWb9ImadM+htfP48Ov68ATWMjvLgz7Z0GzAd9JGqkEPAiCrNhn4ASjQUJJcV1T167wllZ/Ma7w
-	Iw5rL35Mu4zBDRaRObhn2UcAPR1gKSNl/xAU1eKSjlxMz+6xZUDz4ojYSvoSsCOdd1br2AykDe9BO
-	UTTIcYe1xJHLLZc/S3e5qQ6TSey5w87iQZ8QpPpetqIcsVcAU54ciCi1d3Hk4ho4vgUXt2tv+NV+A
-	zuRPXO1g==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=OgW1/gwo0Rp6l57Y5qPf87+dkIkNBd6OGS7x91t94VE=; b=ElS++Kp73nmT3cFvjEU0+TM9J
+	lmuSYoXBAchcchM6fjnM86KImpyAyKA1G63lnsohp1vrfYraC8hiG1O7+MBTkKSFtc6Z5YoGvUdlr
+	wWM5Zo4Fj+bqOFLREvpJcjY8D1vCZ65Doa8K4I1IJJE0lEm9Cpa/N4Qq+pEE7VlnpFTfA/lISC/ET
+	2ql6/FD2cBJKTJGcRMPwRK7q1s8P1MTNXW0+mc9C0LksNxEJrsij4BmmmmAklknCk7Qt+wW2eRqzk
+	Yp0mBjCk0NEna+GBISESJ6NS9QtMfhv4UCYoFpHJmVNfHjETHiTQsFS24RcW+5kVVWqIQD7PYfpKX
+	BEyQcjgMA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEQRX-0004Fw-1z; Tue, 23 Feb 2021 05:41:07 +0000
-Received: from mail-bn8nam11on2047.outbound.protection.outlook.com
- ([40.107.236.47] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1lEQqg-0005pv-Jt; Tue, 23 Feb 2021 06:07:06 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEQRU-0004FU-I4
- for linux-nvme@lists.infradead.org; Tue, 23 Feb 2021 05:41:06 +0000
+ id 1lEQqd-0005pB-3L
+ for linux-nvme@lists.infradead.org; Tue, 23 Feb 2021 06:07:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1614060423; x=1645596423;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=3ZLLX+QrtTlI+KQp9goXhtEIC4UA1VRYQh0s9T1i3Z4=;
+ b=dt9gYf1YttXrgcl/pnScyfDniupF3s9STJMZ4inRuTR4ivxCzspEauOY
+ EgMKLD7vwiJqGMRuTo5X9NBpFnaXruLbRtfR/jfNOAUtc4CsY1mlggQ0Q
+ wyCa8K+GDi71mZ0ajbRL9pI7X6r+FMhk6QSPZ/GBAW8UEb54ys2skiyxR
+ igYc5L0fM4wzwXd09aZtSc2s1FqHgPSng/HCkkk4fgowa0CwjjAL33ZWK
+ Y/aRI4zi8YXM3lUj4wvEsXdzPVyEOf1gymGmxPkzxMxEqE9nW7aNSXf+Y
+ D/AowpEJBePXre2BqouAVAwZ8FPPZRFJsE3VpgAt68JOIXNsnvDgYEN/w g==;
+IronPort-SDR: TqohG0LIBeVw/CnChJeBjxHLxDt2JmG+0igKbWLGl8VPpWH3Z7gv0K5egecOyKQUp9RFrrou6j
+ UKdvXKDzDQrmXxJTTVJOFEHUPY8ymGcrGuVcXhsOSFxIPLENMT/O3FsL6jo9RWjgzztYtYqe8w
+ y6WLv4bFrXZNRV6p6M+CGZ3GsH/FGvpX1VsORgScseITBgAMB4zIyxhgU88NrM/t0QNHykQgob
+ hPmUtwJ5cly4QqH73ZSbfLfOk1WCS7RZoE5GQbsYxdIMYn0V7k/dnrQN+GoXlHIXdAXuJ0E6dt
+ pko=
+X-IronPort-AV: E=Sophos;i="5.81,199,1610380800"; d="scan'208";a="160575043"
+Received: from mail-bl2nam02lp2057.outbound.protection.outlook.com (HELO
+ NAM02-BL2-obe.outbound.protection.outlook.com) ([104.47.38.57])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Feb 2021 14:06:59 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KZKu9iowlRW5qHfypIu+eC45OT9mIXXE30lINszO5wUW2fitMe5hbQB5vlByHW8ZLPrrtdhJhM20oWOs3aORETmteRDbJDIqqTAj55tz25FlwyDbJ8xWgB0K5YBLoC2/scCgp9nI1mUCY9fOEbaBUaaDYJ2dYTeXb48FEeHw/ekZVagoDjNz07GwNt3/dNVbzkOQNdz2GPwiSXQB4yYedPQeHR/CTfufXO/zG00WStfqIySY151SZU63lcAVGi6AWVDY5dVPLaMAJZJ8Kj78VcsE10d/UtDWlGQZtxHwA1XMGTPHrrIu/Ry93JcmWxM0HNJNDyeokghFEmfA2fJxRA==
+ b=TT4qRI5ZI5PPL/13uPNVSYPy1J7/73SNmAbfnzJoSvqrOCHuhKjFTHagxm7/8JaJlh8hhgQGDL3w0jk7Xbqu+wcIRS+P4L0naz3WE874DiDaNVsGlEmyP+oLe/poW5HW37aXoygsUJ90DNjY5/zxaCYcS3AS1KlOlQHfnldbY1RVLnZxsuAGWcqES94WEI2p1CDtkvIbwDse/+mb+BxAgkBAJqyuDB809ZPtw3sXxl3kDB/6EIJrJHqsnO57YjkXkgp2lATTYbqnEg2Qm1qbWQbY5CiXBQ7b6ph4/yGZgfwXc195fyHc7+nQbiaht6k+1DIO6dd1pcf2eci7Ms7qvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zgx7RjI3i46tU+vgOD/K5HC6VFgT1SPJD6BvqiG+4TM=;
- b=ZYYFCyEIw/u61jRcMlPEIQNPtE6OJ7Quvod3rx2x1LU2H5luK+A+sb7JY8uhtlwC1EzDTwJxGcaRONUwUNvO7nrCdW+Bkd0+olZNLwayrbS3PGo06Hdo7yMKJEgNd3MC1KXt3PBq8PClA6mTpxNU2BG5qvPbVYowVzFzEmew2DYzgibMtANcy0p0cMNDHBLxq9cuSp/GXWH2Jufs+beyPL4wPnUt9Kp6mTudCR1Y4egdicv5PTGOPUyrJZuRHxgi6iGpBzKABdbhyACYucLT3bL9g+vQyUf27wkeJ8XukBacyl8cKRp0/nIXQh1ue5gRDTkKG9/AOvXgWQWQokCy1Q==
+ bh=Oou70nIHEmVb2RnOSGXrm0KzSXYMS+5ZtZsjXwsUtDk=;
+ b=cPQ/HkKy8wr86rQHNC/Jd1itF84GFLQOd/vd/CfwljMB7vEDQFWdH2x9NYpdAumCRBLxFgtcXpT290V+/G8fGnrp3YZMXOHWHQiPFHfOOfvE7ga1a8w1yCgSY15vjgedq6fRAF+Brv8WJ05O+Ilm/Dl13R9LnG9Jug9v2sioavVGB9vNOV61bjhWqDX/qhnhEDgL1ggbW6/NnS321L8EO+4VIcKiCkVQ5t1uZZGbNakE7swHnErKcfNigvzQxtyGyDU/f0AAqeB2UiSWgRMy4kPeifcjacCChEovw8oa9In3LQT6eKkVtS3Z43L0Q5ZXOSW3nddJsYeOyg+prWqHEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=netapp.com; dmarc=pass action=none header.from=netapp.com;
- dkim=pass header.d=netapp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netapp.com;
- s=selector1;
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zgx7RjI3i46tU+vgOD/K5HC6VFgT1SPJD6BvqiG+4TM=;
- b=yrBtq6xxdh6Ntfa9giQLOfj29+YeTN8n8bVuha7AsCad/VAJDpfUXhwINy4ZWwp2H5+sujw7NUr6TQsiWwYojfx+73OPM7194jkCLTml0j/iDDog5pPLr/lGch54C7Spe2H7P+Vdzo1f+QYhlMzVPK8knnBbv1ONM/CW1jQCnI8fqN3Q8JhHtruiS8KZzirr4cOzZZGFuw4KuIdfHdKJ1oUrSX61eRL5jNXwd1GVEggcIMAlMiIbGOUhgZBC2hE9FVvtGWm5rzkfLBrrRfWPcPbj1KIIV/v++Hu5z1xCP8IX+LhVqV6rvHp861EtaTnzMJIeYoVuR+OTAEukz4ywow==
-Received: from DM6PR06MB4634.namprd06.prod.outlook.com (2603:10b6:5:ff::25) by
- DM6PR06MB6442.namprd06.prod.outlook.com (2603:10b6:5:110::26) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3868.27; Tue, 23 Feb 2021 05:41:00 +0000
-Received: from DM6PR06MB4634.namprd06.prod.outlook.com
- ([fe80::59f8:5b0e:ed9f:2998]) by DM6PR06MB4634.namprd06.prod.outlook.com
- ([fe80::59f8:5b0e:ed9f:2998%6]) with mapi id 15.20.3868.033; Tue, 23 Feb 2021
- 05:41:00 +0000
-From: "George, Martin" <Martin.George@netapp.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+ bh=Oou70nIHEmVb2RnOSGXrm0KzSXYMS+5ZtZsjXwsUtDk=;
+ b=OO4yIpi6PgdA1yR7UkF5pqFgt06FGPBHLQU+J3ou4vSmBUP7leHQTvw/UYcwJiUiTaer6gZmCxL2E7ZBvCtH/Y//NgK5MN96iCaMdBrnA6wZe0V7z3Xjewz11c9pNy2Ofk0jIyHIlMgUO61nHlCETARHUXGWaygiQ+QNAteoULg=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by BYAPR04MB4421.namprd04.prod.outlook.com (2603:10b6:a02:fa::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.31; Tue, 23 Feb
+ 2021 06:06:57 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::1d83:38d9:143:4c9c]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::1d83:38d9:143:4c9c%5]) with mapi id 15.20.3868.033; Tue, 23 Feb 2021
+ 06:06:57 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: "George, Martin" <Martin.George@netapp.com>
 Subject: Re: [PATCH] fabrics: ensure zero kato for non-persistent controllers
 Thread-Topic: [PATCH] fabrics: ensure zero kato for non-persistent controllers
-Thread-Index: AQHXBdwVCJJe3ZOHYEapjHnhbLUW0aplQTWA
-Date: Tue, 23 Feb 2021 05:41:00 +0000
-Message-ID: <cb89029d362a3cd61504012351f56731cec9c6fe.camel@netapp.com>
+Thread-Index: AQHXBdyzrQ9+U2AxaESwhDaryUEDkA==
+Date: Tue, 23 Feb 2021 06:06:57 +0000
+Message-ID: <BYAPR04MB4965AD8096D8F313B2BFF74C86809@BYAPR04MB4965.namprd04.prod.outlook.com>
 References: <20210218095422.5696-1-marting@netapp.com>
-In-Reply-To: <20210218095422.5696-1-marting@netapp.com>
+ <cb89029d362a3cd61504012351f56731cec9c6fe.camel@netapp.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.36.4-0ubuntu1 
-authentication-results: lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=none action=none
- header.from=netapp.com;
-x-originating-ip: [202.3.121.6]
+authentication-results: netapp.com; dkim=none (message not signed)
+ header.d=none;netapp.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 10c1dedd-7c0b-4768-27ca-08d8d7bd9a34
-x-ms-traffictypediagnostic: DM6PR06MB6442:
-x-microsoft-antispam-prvs: <DM6PR06MB6442E1F68ED38FB8900600D295809@DM6PR06MB6442.namprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1002;
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 81816ea3-c1bf-4ac5-5eeb-08d8d7c139f4
+x-ms-traffictypediagnostic: BYAPR04MB4421:
+x-microsoft-antispam-prvs: <BYAPR04MB4421571AC5EFBCEC9E6BBD3086809@BYAPR04MB4421.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KgCmAiVa30MXty8UzgYUgia4cSj3AymglMs1Rb3lNoDDH5ILOSdR57mf+j4tCurYfQdj9YxfDIStQ4IFbIS3xemNXPeuVpMQoVeMtdcBqdJPUNuRELKNT2LbYvRVblxMqrzK/87dOZRRvC3oRDSwza4jrpSQOI+cagQGUXY/1zusxco3g/HDrZwEoVaXxElG2pYVBlXiwzPPI6jjvCXLNWLlgEp3rXMsjiDehYDEhgrOuIQvGpuDvCGO2UgSWDuTiTyds6+dyFz5CMuNnr3Z2qMGUlAF2AH+ZJYoS49dmefWuuZ5v8eVmae1VuBodzp45Xwg1i5sLFb06wIq+CiBwCd9BqZQtWJM3e+1XSn3ZUadf9SKJ0ScS5jgQ3YLoin52+FEY6KWSjIdWf2GGBFsuujrPdVkjGogg0aKpCSpInfTjDQMJ8geYDi/D3uNluZ+WQMScls5xN7FwHygfqapOb2TOgACCI5B0jIOhIetthMPRZ1akxQtrjjx7N+9ZRjuZeu/V3oYJjuBsl47V5ACbQ==
+x-microsoft-antispam-message-info: Gnol4HKVVjlLLn4OSY8JDEgAjNbgT/luFNaQhu+HZLIqcW/p0SOUuW1OKS1JPs+GPeYQB4dTAA9mBOJ5VhIIqwOvdmNRggDTaq7mEKk1j5WBxds15wiIrCg4ySvNO21yBlOL8jcq3H1v+Cq8nqXPssIqbqQTVHw0L5upINQWIqZhOgqAbl49+VEyS7cWnCoRBFSuoD3kDhjDnqocx9lnJq+Jr9ON9f9YT6KNFTScJgwTGtvlWM61crUQhP7YOCyFrLpSdHjtKCfESqzEvQbMWIXS/1YyhJ6ttaJFlgabROYGAXzQNUsfW46n8m6Re3jgFiuB4TtbQee6N0dIZLbQW+doUm5iJu7SyZuGZ3vr4OGiDDMde2+plsG6uilcLoFtBijIB1xJmtwAqbcq3eJDVL9IZseaa6qbMG7pFgx52+Gi0Os/q12mWnR4UG2W5PfwrH+qynPn7LBGdJ1b7X77bLl2bWpsBvchpvrNxa7XqPuxrF7Q4l/Krmdro7mI8VpHGmPwOWKnH8dSgedDRHZnddg6zHRw1FCzvCi1d6a2HqbRKWuKr5tQnpvy1hYxPUQJqr+cV/1tqDIZUg91z7lPrREV8gDG3cESQksIkDZtCBg=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR06MB4634.namprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(346002)(39860400002)(136003)(366004)(91956017)(5660300002)(6506007)(36756003)(186003)(26005)(6486002)(71200400001)(6916009)(478600001)(2906002)(316002)(6512007)(64756008)(8936002)(66476007)(66556008)(66946007)(66446008)(8676002)(2616005)(76116006)(86362001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?U0RWK2Z1Yzg5WFd3bEowYXZXeEZEUWE4a3FzYnhlbFc5cHpEQnFEOFk2TkpX?=
- =?utf-8?B?VitkYkt6ZTN4ampPRzhXU3FLRGwvbnQ1d1RpNUt0VFBKZ0thWFF6WnpWZTBx?=
- =?utf-8?B?ai9hYzZqaFJrMGFCU1lNcE5ONm1KMnhISnNkallUNGlOdEtPVlhBODJzKzNn?=
- =?utf-8?B?T09jV05sM1dEZDlVWHp2TEZLVzRtK2JoNW9zL1VWNXdCOWlQUHlReks1cmhP?=
- =?utf-8?B?aDh5VHlSWU5pZWlaT3VQdlZsTm0veTh4dy84U1pyODQyM1c2NjZIU1l4TUpZ?=
- =?utf-8?B?dWFXeTd2cVlKZkFMaTArOUlLZUVja1Y0WktCQXZ3MjdESGhTRzYzWXI3dEo5?=
- =?utf-8?B?MVpjZ0Z1UmtTU3YrWWFWUEhVR05Id29xd05LVVBuNU5VaGUvTksyTjlKbzdm?=
- =?utf-8?B?YUROcWtqNU01djl5dlNiMWVKZXBNNjdpc3NYOGszYnFxL2p6dVVMZEd3cWxL?=
- =?utf-8?B?STBROGtJZnlUTnpSaHNqVDJ0Yjl1Q1RkWHhJS2xodjJZeGh2dHNNK0lxMTI0?=
- =?utf-8?B?cHlrMSt1SDZqN3p4RzNhTUlpUU1wa0VjQnlDZUQ0R0VZeTF4ZW9ZUkxkSVhB?=
- =?utf-8?B?bHlRQnk1dHNTazFyM2JnU3RZUWpQTUtwenJKOHI1TnJvSXl1cU1NcEpzOVFJ?=
- =?utf-8?B?TTlxdEhXckwwaVNmQlJpaVFuelQ5anI2a2VQY2RscUtrNUFrUnRqbCs0M2Nx?=
- =?utf-8?B?N2ladDJGRHhZTFVQYnhCWS9RRVJvMUJSOWxaRVJrY25hODhkLzVmakViK3d4?=
- =?utf-8?B?N05sbElQWDhIcEd0bUZBTklobGgrbk5FNWtqc2lMWW55SFQ0Mk9VZHhZN1BQ?=
- =?utf-8?B?VmRHdjZ0WDRIUEYyVGVrUEFoUXd1WWdQZkxYRzNVbkJQL25IK2FqSXpvRzRt?=
- =?utf-8?B?QXlURWJPTW5nT0FZdnRRT0Y3Yy9ieWp5Y2RjRFhsVE96cU82TlhqUzZ6RFJS?=
- =?utf-8?B?NDNrYWJqWmwyaFRtS1hkR3FQdUhBay9pU1JIU0cvdjg4cUpFaW92VDdSUVNH?=
- =?utf-8?B?KzBUQkpzR2FFNmlZY2NBbnFKK1FMNWMwcXY0bXY1Ynp4ZmJ0TkdVUW44VEEv?=
- =?utf-8?B?dHhCVWhVVThOcXV0T1cvYU41eXhoWWxyRzN4cElxSkc1Tk9vQW5STERMV2xW?=
- =?utf-8?B?d2YxVytIT1lPSEtjK3hjNEdlZWI3Sm5lWExSaEhMSWJKQmdaN3NCaVMxN3l1?=
- =?utf-8?B?Z05LVXRCOG9HcGw2Zi9lVDhOSE1EekxPOUZINi93Kzk2akRLT0ZVQS93WWhY?=
- =?utf-8?B?TURkY3JHRmpKcUhKb2JIZ0hJekVNZTRWa2syUnMvaWJCclY4UGhrK3BmdmRp?=
- =?utf-8?B?TjFKRzk2L1g1Vkd6NTJvRGg1bFVlSzlHQWtCemJYTmVESDJRRDZ4MWN4Q1lv?=
- =?utf-8?B?UTMrSS9oUC9WM1IvYkhlSE9YWmE5NjZCSFFjRzJPTzc0SXJ0T0NMSGdhSDlE?=
- =?utf-8?B?TVFvU3F5OGx0UUt2UE04UXJ5RDh3dm9uTXA0MVZVckpaQXVBeUFnVmo1M2RT?=
- =?utf-8?B?b0g1NzBpa1VnUHJCczNReC9ITVprSzRjT2pqdW90VmRxcnFpYmRrVFltM2g0?=
- =?utf-8?B?TGNiVnhMZE9tWXNVSkJyNkliaTdYa2Y2UTRXaWM2TkZrUS9MYjVGT3FJVUdE?=
- =?utf-8?B?THdOY2hURDlwRUlTUmphR2FVTTNHdUp2Y3lRV05tWXJmMm9QWTNaTzlGV244?=
- =?utf-8?B?NEZPUGtlekZIaWhEckEyUHkwS2wyd1NUV25QR3NNSTd2TFdkdzhQZ2FQSUFW?=
- =?utf-8?Q?gjkStWNTrH+KYGlVbeUOcQ3ZTK8yqapevuPV6ud?=
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(39860400002)(396003)(376002)(136003)(966005)(52536014)(71200400001)(6506007)(64756008)(186003)(9686003)(6916009)(478600001)(4326008)(66446008)(55016002)(66556008)(76116006)(66476007)(33656002)(7696005)(66946007)(86362001)(2906002)(26005)(8936002)(53546011)(5660300002)(316002)(8676002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?bfPfFOjd0/eVH06gfF9GB2557HrhHYsohGHmkx+mfYOTZeik4iw/AIiMgShh?=
+ =?us-ascii?Q?ZPi5VAUxR9XSwNGy3wK/gHEyryfeEbW3ZMWxt/rAEgpNP7F22vpWN4ZRIYrh?=
+ =?us-ascii?Q?Ou6xKH9jBH1KfbpWm2H6wMXiZuZxDJYHGfj2gqiEPPuPOZMG6kXsuSWRA3Gv?=
+ =?us-ascii?Q?QPf1uKujhLwYw+qMsqgSC6SclyPr3zmeJor2Dk/2edvmoH6zsQ/0oeWxT3J7?=
+ =?us-ascii?Q?uzjdMbeYNvw0Msgrbn/MdMu7UJ1haWZu0A50nmDmqy7796KjukFK7g9/TjSZ?=
+ =?us-ascii?Q?p8HfzPHOHLkmVNxmhKSmxhG7AM4jrpKIN25bL6cdZ6jA2k6Q0/sjBNgLFGj/?=
+ =?us-ascii?Q?0LzITOWod+8FEkPq1LVXde3ayWoyaimgD5fW9PoJQj0VdnmOwYgkQDB/F5jt?=
+ =?us-ascii?Q?T5RiVRfYQ4D6Bzwm17S+wEbDfp9n3S9DgqKorAMj9COomLAHzy1I8WdAiAz4?=
+ =?us-ascii?Q?3jUN3LOw805dqR/R23FM/mrI7gljT0+oI5Xy2haF5FGZWl6TVB315/ASg2sI?=
+ =?us-ascii?Q?A95ad2OVHhfiYIvVO6IHwneeknZtpw2nOdSO1by3xmoYgoMgDmlzvixQo/AY?=
+ =?us-ascii?Q?2mlx9cx4UUieZMAzI/LvziLlQhPFtgs1eXE+0iP8B6XRX/MfpObJhQq81SUR?=
+ =?us-ascii?Q?UaOfrxg/cQ9hJ673i1OgY75/I6TbnAV1NzEl54q0grbyil61mjNvvaEwbD0m?=
+ =?us-ascii?Q?yNSPZKe/EDXez5tHXKk/BpIx+2DOFRtA26QA75xO2KxgpFHpi5PfzNP/yLNh?=
+ =?us-ascii?Q?1CnhRncejfQWiZnZam0Q9CKyPD91puI6yK2q5ZZk4kppMbxLX6A8OKX3U1WV?=
+ =?us-ascii?Q?SgtC6WxqMdVKTmOMrIZ+Xrv2ZPJPR5zkeIpXHhl5XdaP5CnG279Ys48pqMLG?=
+ =?us-ascii?Q?ko8bK+I0X6UP4GBvikC8EPtwEMhaap5m53wmwaK6ZhKoRK2xn4N/sUXWf8zR?=
+ =?us-ascii?Q?1WeoF0sQ2TwqMYEWLFIu3jHCyrG23YmFl3JKVdnalvqeRiBruaQaNPU38zse?=
+ =?us-ascii?Q?s0ekApHEWmNE2+RoBrXFkYXeNAuUHZ0eKw/1/X73bDg616VdSMhQbsI3MZyK?=
+ =?us-ascii?Q?KxvRGaxzwVNoI6Gd40w4FhKwblHJ690uGuE2MCl6MqSprpjsZGwkGqVlR73M?=
+ =?us-ascii?Q?qoGNgij8g0bUeD+Ytel1qK2KOdog01s7foBEcBTKuy/LJJOlXCSvpddTBS9M?=
+ =?us-ascii?Q?kj6Fim+2sd6mRmPe4zu5CInyQRaNtSzM3XPZEs0Bnoj1M1LAnUWVHB6Bek1W?=
+ =?us-ascii?Q?3j/IJj2xGMDAJaxelDJvCuapGESYSCy8TLmFVSR7UnRn0UbsYVJ120ZraGTP?=
+ =?us-ascii?Q?2TxYF0bGUV056PMQwsweFDFw?=
 x-ms-exchange-transport-forked: True
-Content-ID: <A2CCE14207680B4086E6692BFDCC98D3@namprd06.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: netapp.com
+X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR06MB4634.namprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10c1dedd-7c0b-4768-27ca-08d8d7bd9a34
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2021 05:41:00.8225 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81816ea3-c1bf-4ac5-5eeb-08d8d7c139f4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2021 06:06:57.3331 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4b0911a0-929b-4715-944b-c03745165b3a
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Yv3emqI8qPfowtF/Ma6oVg8cpq3sRFXU8tTDlp8COiap4rzIbZx2TDp6nMT16bJCc8W9CMVVpGQ0T7J50wtgkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR06MB6442
+X-MS-Exchange-CrossTenant-userprincipalname: SrDIDeANdCPwqJ2+uVG/B6ZUGcXpNgXbhZ7ZNn1W04duyAqwMz32ASYax2yCzRsJpbGcEhOqy9mABYBpWRSxxVOGeFdmptaQbIFRCfWbL70=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4421
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210223_004105_226287_4DA26F0B 
-X-CRM114-Status: GOOD (  15.25  )
+X-CRM114-CacheID: sfid-20210223_010703_500643_77E0352A 
+X-CRM114-Status: GOOD (  15.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,50 +160,63 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ping?
+On 2/22/21 21:47, George, Martin wrote:
+> Ping?
+>
+> On Thu, 2021-02-18 at 15:24 +0530, Martin George wrote:
+>> Along with ensuring a non-zero kato is passed to a
+>> persistent discovery controller, also ensure a zero
+>> kato is passed to a non-persistent discovery controller.
+>>
+>> Signed-off-by: Martin George <marting@netapp.com>
+>> ---
+>>  fabrics.c | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/fabrics.c b/fabrics.c
+>> index 1880a5d..ed15e08 100644
+>> --- a/fabrics.c
+>> +++ b/fabrics.c
+>> @@ -1399,6 +1399,8 @@ static int discover_from_conf_file(const char
+>> *desc, char *argstr,
+>>
+>>                 if (cfg.persistent && !cfg.keep_alive_tmo)
+>>                         cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
+>> +               else if (!cfg.persistent && (cfg.keep_alive_tmo > 0))
+>> +                       cfg.keep_alive_tmo = 0;
+>>
+>>                 if (traddr_is_hostname(&cfg)) {
+>>                         ret = hostname2traddr(&cfg);
+>> @@ -1474,6 +1476,8 @@ int fabrics_discover(const char *desc, int
+>> argc, char **argv, bool connect)
+>>         } else {
+>>                 if (cfg.persistent && !cfg.keep_alive_tmo)
+>>                         cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
+>> +               else if (!cfg.persistent && (cfg.keep_alive_tmo > 0))
+>> +                       cfg.keep_alive_tmo = 0;
+>>
+>>                 if (traddr_is_hostname(&cfg)) {
+>>                         ret = hostname2traddr(&cfg);
+Is that if else if ladder code is repeated ? if so can you please add a
+helper ?
+unless there is a reason for keeping the duplicate code.
+Also can we remove () for (cfg.keep_alive_tmo > 0) condition ?
+>> --
+>> 2.30.0
+>>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
 
-On Thu, 2021-02-18 at 15:24 +0530, Martin George wrote:
-> Along with ensuring a non-zero kato is passed to a
-> persistent discovery controller, also ensure a zero
-> kato is passed to a non-persistent discovery controller.
-> 
-> Signed-off-by: Martin George <marting@netapp.com>
-> ---
->  fabrics.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/fabrics.c b/fabrics.c
-> index 1880a5d..ed15e08 100644
-> --- a/fabrics.c
-> +++ b/fabrics.c
-> @@ -1399,6 +1399,8 @@ static int discover_from_conf_file(const char
-> *desc, char *argstr,
-> 
->                 if (cfg.persistent && !cfg.keep_alive_tmo)
->                         cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
-> +               else if (!cfg.persistent && (cfg.keep_alive_tmo > 0))
-> +                       cfg.keep_alive_tmo = 0;
-> 
->                 if (traddr_is_hostname(&cfg)) {
->                         ret = hostname2traddr(&cfg);
-> @@ -1474,6 +1476,8 @@ int fabrics_discover(const char *desc, int
-> argc, char **argv, bool connect)
->         } else {
->                 if (cfg.persistent && !cfg.keep_alive_tmo)
->                         cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
-> +               else if (!cfg.persistent && (cfg.keep_alive_tmo > 0))
-> +                       cfg.keep_alive_tmo = 0;
-> 
->                 if (traddr_is_hostname(&cfg)) {
->                         ret = hostname2traddr(&cfg);
-> --
-> 2.30.0
-> 
+
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
