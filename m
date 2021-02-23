@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E854FC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 12:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A89BCC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 12:57:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 664D964E4B
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 12:41:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 664D964E4B
+	by mail.kernel.org (Postfix) with ESMTPS id 595CE64E2E
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 12:57:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 595CE64E2E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,67 +24,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4DZDLwraPXdN+rtOQ75B6pagXW4bABdGu5gSDfDPRx0=; b=N9QkQsN2SPJkYetVEOds5vmRF
-	7cobVDl0f1kVAjOkJbiS5XK9hziIIROqZThbodHFdFxgYiTBkRimtYOIIHNDPe0KzAB5nmE0Xoand
-	iIRyY+rYmF5DjFgkDAZywicQHLV3Ya76nHKeAzFgX4d9b1+PM9S+WlUsh8dyyb8v30YYp7E3wlw/r
-	LLy2ZqoXAzBgE4ZZ3Rdyir4f62gl1vIJvKClXwAPyY5z7c9GlPPRGw6+IH64CdiHeku06UsT9QUSl
-	Qo5CQtYtmI1HdHKLtFHXvnOJWnPY/Ts6QBFx4osZIxF5Hg8cG0rkkDhLlTUhwV56ceJOHXdY7GvoA
-	rsO41LQ0Q==;
+	 bh=NGJhrikvDbdCnm6+gKfkG8HoA7sy2KnszlugZipX4MQ=; b=T1qPhJYHx0DpjViRDWS2gVffp
+	cx4JD/u86y+NgC0EM/3o2UPZCFfhjD9cWZ/rACZ3tltAs8ISlkxjLYs32zRFmuK/a4/BQ3ZtHCENn
+	S67JVKGh+3Pxg5Gx6i/nD5GXE16DTsJNHGXym16V8G9qqmtpwDFNiGnBn1ug+89ljDn78LksG75A3
+	JbRuCFNU4Kvo+kd18z15Yx+ivyO5rz3N75Yg7C5ALlZwKEZXES+M7ZDyhrIaxXn9/Fux/cB6VjAKt
+	IAhWUrt068N1tV7OcvO7RHMxqK+lc+vrd+YHwcXdz6uOh2RNR460M+Q+UC4m1GoV4ZZ2S4goEBMgy
+	o5xCVDz8w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEX0A-000340-5M; Tue, 23 Feb 2021 12:41:18 +0000
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+	id 1lEXFO-0003tp-IP; Tue, 23 Feb 2021 12:57:02 +0000
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEX07-00033c-Tc
- for linux-nvme@lists.infradead.org; Tue, 23 Feb 2021 12:41:16 +0000
-Received: by mail-pg1-x534.google.com with SMTP id p21so12253551pgl.12
- for <linux-nvme@lists.infradead.org>; Tue, 23 Feb 2021 04:41:13 -0800 (PST)
+ id 1lEXFM-0003tT-KH
+ for linux-nvme@lists.infradead.org; Tue, 23 Feb 2021 12:57:01 +0000
+Received: by mail-pf1-x436.google.com with SMTP id q20so8711730pfu.8
+ for <linux-nvme@lists.infradead.org>; Tue, 23 Feb 2021 04:56:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=FKwUWKupv7rREcgme7x6mR39GOnj4MPWucJJkmSwTl4=;
- b=RlZ0CPCr4j8WWfzqi5rjQJ0kNFPcFrM+LRQZoO0VV6M7bzLKnq/S3xaVsHd3Xuk9JI
- 5YlxQQOvwcmQEIHiH4sFUdgWBtwvsqTD0oRhxzQhrBfL5cxLKt6cc4BQ0h+U9bqJ6mjG
- PUlX/IYw0P8NFknTRfsm6RiKLXfBuLALn925IforpO1yQchcnRf+9nPQPyOTX7mQeWvB
- WyCHH2tl1qNlA3lJVOUm4wCawvWKSJLF57nifwXZ9ANtcT89evOEiP3kovPiQfL9F4i2
- PNPHR4fw07WVPQl1pcvYp6XcTZewCHoC9ivOhYFipsQmofsgn6Pb+jt1RXi8/5mdsDAx
- +tJQ==
+ :content-disposition:in-reply-to:user-agent;
+ bh=B+8vQzq+6c3WXzqt86hoiFfYiVMwX/Xk+8ZZ6a4Copo=;
+ b=mwn4N5H7eDjLhSdfYfpHs4jBvs6+2L/aqjmse0Ghf7NCDKH/rqfgPHOQzLo84RP8JC
+ RNNu4kSTJ0vzRB0BkK4AL/QASZOcPwsLfWDG0KpAKLmoCnisGO/kf4xbTRUKtoaJF0Et
+ qAz/0ESneZEw1ScmMacPwju62bTg4N0EBxxg0xAImuuqjQwSDtgjAzvY5kgCS5cRB6wq
+ VAsWhcq6i6LI2YeBhuivgJR4PmdPMlKWxDAqJbSdn6ywQPLGBDmwKQHPwKJOzWqNeL7j
+ dlO21OAu+dYv9M1c5ZfHqDq4o7WS8v87C98Cf+ftzeSJFxkGVynv1w3ukmoS5XEp8yxm
+ w+Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=FKwUWKupv7rREcgme7x6mR39GOnj4MPWucJJkmSwTl4=;
- b=eHLOqOgUEA9+vggtW/tPm8pG9PvXP6fagK1L63Z5KLtW5PqKxdeZP51VUm2CQ4f7Tu
- ZS/wkDWFVO1Vv4wmDZ1up+wGqcqYh7TcEHgjB8gXXndNb2tqbw14iwX20m+rZ/IktGAq
- UqKixRXSj0kGhJzZ8kS5bvR1CpXmnpaBPs7fCspqRQMyOQiPBmeUq+skhSdDPQK1r7Jn
- cPY+r359P3fMdqUHh/qwLxeq3nW5YQljbLK3mDxxA2MOujFYNQW1oS7M3vTpqLs6w4YU
- 2qh7EnEV+gzkSiYnSqY1eRuG0yWftGmGRx0q0xHU7LmKI+mw6sJnCxFsDidv8/HN5yg4
- 5x8g==
-X-Gm-Message-State: AOAM531vC3ej0R3diHw72T/Ti2SvhE9KAY90kFElZsuTzLEIX1DuLYmo
- M8d+gJyCbzBiRDoTJoAmFb0=
-X-Google-Smtp-Source: ABdhPJxV7WUXsCWlGc4iBy+0kfbAUJfXUdV4P08WMbeRwACK6UTN1NCBqhhVv9JYXE23x84QbOposQ==
-X-Received: by 2002:a05:6a00:78e:b029:1ed:d3df:a480 with SMTP id
- g14-20020a056a00078eb02901edd3dfa480mr1754498pfu.72.1614084071945; 
- Tue, 23 Feb 2021 04:41:11 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=B+8vQzq+6c3WXzqt86hoiFfYiVMwX/Xk+8ZZ6a4Copo=;
+ b=MiHEvJZoPWYn95/j4xWOJjPz8M4uj4L9Mn90PX8KywdufZ4Q/1Gbz5hW8jTUcQRaAd
+ WEgryhLS5yM8UpEz7QQ90sWrgJmpsL6kh2iNlSrZZT383MADd1em6axPZC70cgvJn6u8
+ evtbeowyI7zq/bby+p9Lj1VK4ywWFUogLNLaA3/olpCRhMPCoKLd6bWJG5xXCUaP0jNG
+ DaoC8slB0HOd6i8ZS1lM1jRgpH7yjeAS5ax2jQDQ54VI0w8r9zVWtp/dWF3C749e/hK8
+ iGoEx2DG71i2JBDy0UePb/cJVi/lYi1q7GgLVw4Zz4POGhNAxm4yyvyP0B6ALwhXRpSm
+ 5ylQ==
+X-Gm-Message-State: AOAM530Oz2FASxRy2aOFhHKQ3+NBlsl3on7Cyiq9ySlJ3CXg4dfWA5bj
+ 1k1jQzphlcQM3XGYQ4SaMBs=
+X-Google-Smtp-Source: ABdhPJzBOhE9dVrjOW1nV2kdH+BHwcJEYdbAY4mp6uToQlcXi99W3ntj6S+sQKoX0OER7KP9PNgv4Q==
+X-Received: by 2002:a62:6006:0:b029:1dd:3af9:965f with SMTP id
+ u6-20020a6260060000b02901dd3af9965fmr27464611pfb.30.1614085018332; 
+ Tue, 23 Feb 2021 04:56:58 -0800 (PST)
 Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id lx1sm3020868pjb.8.2021.02.23.04.41.11
+ by smtp.gmail.com with ESMTPSA id q4sm13213626pfs.134.2021.02.23.04.56.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 04:41:11 -0800 (PST)
-Date: Tue, 23 Feb 2021 21:41:09 +0900
+ Tue, 23 Feb 2021 04:56:58 -0800 (PST)
+Date: Tue, 23 Feb 2021 21:56:56 +0900
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 1/2] nvme: add 'fail_if_no_path' sysfs attribute
-Message-ID: <20210223124109.GB2119@localhost.localdomain>
+Subject: Re: [PATCH 2/2] nvme: delete disk when last path is gone
+Message-ID: <20210223125656.GC2119@localhost.localdomain>
 References: <20210223115922.104369-1-hare@suse.de>
- <20210223115922.104369-2-hare@suse.de>
+ <20210223115922.104369-3-hare@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210223115922.104369-2-hare@suse.de>
+In-Reply-To: <20210223115922.104369-3-hare@suse.de>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210223_074116_016051_A621264E 
-X-CRM114-Status: GOOD (  21.76  )
+X-CRM114-CacheID: sfid-20210223_075700_725866_0A94CF1A 
+X-CRM114-Status: GOOD (  23.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,66 +95,83 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Keith Busch <kbusch@kernel.org>, Keith Busch <keith.busch@wdc.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMjEtMDItMjMgMTI6NTk6MjEsIEhhbm5lcyBSZWluZWNrZSB3cm90ZToKPiBJbiBzb21lIHNl
-dHVwcyBsaWtlIFJBSUQgb3IgY2x1c3RlciB3ZSBuZWVkIHRvIHJldHVybiBhbiBJL08gZXJyb3IK
-PiBvbmNlIGFsbCBwYXRocyBhcmUgdW5hdmFpbGFibGUgdG8gYWxsb3cgdGhlIHVwcGVyIGxheWVy
-cyB0byBzdGFydAo+IHRoZWlyIG93biBlcnJvciByZWNvdmVyeSAobGlrZSByZWRpcmVjdGluZyBJ
-L08gdG8gb3RoZXIgbWlycm9ycykuCj4gVGhpcyBwYXRjaCBhZGRzIGEgc3lzZnMgYXR0cmlidXRl
-ICdmYWlsX2lmX25vX3BhdGgnIHRvIGFsbG93IHRoZQo+IGFkbWluIHRvIGVuYWJsZSB0aGF0IGJl
-aGF2aW91ciBpbnN0ZWFkIG9mIHRoZSBjdXJyZW50ICdxdWV1ZSB1bnRpbAo+IGEgcGF0aCBiZWNv
-bWVzIGF2YWlsYWJsZScgcG9saWN5Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IEhhbm5lcyBSZWluZWNr
-ZSA8aGFyZUBzdXNlLmRlPgo+IC0tLQo+ICBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgICAgICB8
-ICA1ICsrKysKPiAgZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMgfCA0MyArKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKystLQo+ICBkcml2ZXJzL252bWUvaG9zdC9udm1lLmggICAg
-ICB8ICAyICsrCj4gIDMgZmlsZXMgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
-bnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJpdmVy
-cy9udm1lL2hvc3QvY29yZS5jCj4gaW5kZXggNGRlNmEzYTEzNTc1Li4yZmIzZWNjMGM1M2IgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCj4gKysrIGIvZHJpdmVycy9udm1l
-L2hvc3QvY29yZS5jCj4gQEAgLTM0NjQsNiArMzQ2NCw3IEBAIHN0YXRpYyBzdHJ1Y3QgYXR0cmli
-dXRlICpudm1lX25zX2lkX2F0dHJzW10gPSB7Cj4gICNpZmRlZiBDT05GSUdfTlZNRV9NVUxUSVBB
-VEgKPiAgCSZkZXZfYXR0cl9hbmFfZ3JwaWQuYXR0ciwKPiAgCSZkZXZfYXR0cl9hbmFfc3RhdGUu
-YXR0ciwKPiArCSZkZXZfYXR0cl9mYWlsX2lmX25vX3BhdGguYXR0ciwKPiAgI2VuZGlmCj4gIAlO
-VUxMLAo+ICB9Owo+IEBAIC0zNDk0LDYgKzM0OTUsMTAgQEAgc3RhdGljIHVtb2RlX3QgbnZtZV9u
-c19pZF9hdHRyc19hcmVfdmlzaWJsZShzdHJ1Y3Qga29iamVjdCAqa29iaiwKPiAgCQlpZiAoIW52
-bWVfY3RybF91c2VfYW5hKG52bWVfZ2V0X25zX2Zyb21fZGV2KGRldiktPmN0cmwpKQo+ICAJCQly
-ZXR1cm4gMDsKPiAgCX0KPiArCWlmIChhID09ICZkZXZfYXR0cl9mYWlsX2lmX25vX3BhdGguYXR0
-cikgewo+ICsJCWlmIChkZXZfdG9fZGlzayhkZXYpLT5mb3BzID09ICZudm1lX2JkZXZfb3BzKQo+
-ICsJCQlyZXR1cm4gMDsKPiArCX0KPiAgI2VuZGlmCj4gIAlyZXR1cm4gYS0+bW9kZTsKPiAgfQo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYyBiL2RyaXZlcnMvbnZt
-ZS9ob3N0L211bHRpcGF0aC5jCj4gaW5kZXggMDY5NjMxOWFkYWY2Li5kNTc3M2VhMTA1YjEgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMKPiArKysgYi9kcml2ZXJz
-L252bWUvaG9zdC9tdWx0aXBhdGguYwo+IEBAIC0yODMsMTAgKzI4MywxOCBAQCBzdGF0aWMgYm9v
-bCBudm1lX2F2YWlsYWJsZV9wYXRoKHN0cnVjdCBudm1lX25zX2hlYWQgKmhlYWQpCj4gIAkJCWNv
-bnRpbnVlOwo+ICAJCXN3aXRjaCAobnMtPmN0cmwtPnN0YXRlKSB7Cj4gIAkJY2FzZSBOVk1FX0NU
-UkxfTElWRToKPiArCQkJaWYgKCF0ZXN0X2JpdChOVk1FX05TSEVBRF9GQUlMX0lGX05PX1BBVEgs
-Cj4gKwkJCQkgICAgICAmaGVhZC0+ZmxhZ3MpKQo+ICsJCQkJcmV0dXJuIHRydWU7Cj4gKwkJCWlm
-IChucy0+YW5hX3N0YXRlICE9IE5WTUVfQU5BX0lOQUNDRVNTSUJMRSAmJgo+ICsJCQkgICAgbnMt
-PmFuYV9zdGF0ZSAhPSBOVk1FX0FOQV9QRVJTSVNURU5UX0xPU1MpCj4gKwkJCQlyZXR1cm4gdHJ1
-ZTsKCkl0IGxvb2tzIGxpa2UgaXQgbmVlZHMgdG8gcHJldmVudCBmYWxsdGhydSBoZXJlIHdpdGgg
-cmV0dXJuIGZhbHNlLiAgSXQKY2F1c2VzIGZvbGxvd2luZyB3YXJuaW5nOgoKICBkcml2ZXJzL252
-bWUvaG9zdC9tdWx0aXBhdGguYzogSW4gZnVuY3Rpb24g4oCYbnZtZV9hdmFpbGFibGVfcGF0aOKA
-mToKICBkcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYzoyODk6Nzogd2FybmluZzogdGhpcyBz
-dGF0ZW1lbnQgbWF5IGZhbGwgdGhyb3VnaCBbLVdpbXBsaWNpdC1mYWxsdGhyb3VnaD1dCiAgICAy
-ODkgfCAgICBpZiAobnMtPmFuYV9zdGF0ZSAhPSBOVk1FX0FOQV9JTkFDQ0VTU0lCTEUgJiYKICAg
-ICAgICB8ICAgICAgIF4KICBkcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYzoyOTI6Mzogbm90
-ZTogaGVyZQogICAgMjkyIHwgICBjYXNlIE5WTUVfQ1RSTF9SRVNFVFRJTkc6CiAgICAgICAgfCAg
-IF5+fn4KCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMgYi9kcml2
-ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYwppbmRleCBmOTk1YjgyMzQ2MjIuLmQ2OTJlYWIzZDQ4
-MyAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMKKysrIGIvZHJpdmVy
-cy9udm1lL2hvc3QvbXVsdGlwYXRoLmMKQEAgLTI4OSw2ICsyODksNyBAQCBzdGF0aWMgYm9vbCBu
-dm1lX2F2YWlsYWJsZV9wYXRoKHN0cnVjdCBudm1lX25zX2hlYWQgKmhlYWQpCiAgICAgICAgICAg
-ICAgICAgICAgICAgIGlmIChucy0+YW5hX3N0YXRlICE9IE5WTUVfQU5BX0lOQUNDRVNTSUJMRSAm
-JgogICAgICAgICAgICAgICAgICAgICAgICAgICAgbnMtPmFuYV9zdGF0ZSAhPSBOVk1FX0FOQV9Q
-RVJTSVNURU5UX0xPU1MpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHRy
-dWU7CisgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBmYWxzZTsKICAgICAgICAgICAgICAg
-IGNhc2UgTlZNRV9DVFJMX1JFU0VUVElORzoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlz
-dHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2xpbnV4LW52bWUK
+On 21-02-23 12:59:22, Hannes Reinecke wrote:
+> The multipath code currently deletes the disk only after all references
+> to it are dropped rather than when the last path to that disk is lost.
+> This has been reported to cause problems with some use cases like MD RAID.
+> 
+> This patch implements an alternative behaviour of deleting the disk when
+> the last path is gone, ie the same behaviour as non-multipathed nvme
+> devices. The new behaviour will be selected with the 'fail_if_no_path'
+> attribute, as returning it's arguably the same functionality.
+> 
+> Suggested-by: Keith Busch <kbusch@kernel.org>
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>  drivers/nvme/host/core.c      |  1 +
+>  drivers/nvme/host/multipath.c |  3 ++-
+>  drivers/nvme/host/nvme.h      | 17 +++++++++++++++--
+>  3 files changed, 18 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 2fb3ecc0c53b..d717a6283d6e 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -542,6 +542,7 @@ static void nvme_free_ns_head(struct kref *ref)
+>  		container_of(ref, struct nvme_ns_head, ref);
+>  
+>  	nvme_mpath_remove_disk(head);
+> +	nvme_mpath_put_disk(head);
+>  	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+>  	cleanup_srcu_struct(&head->srcu);
+>  	nvme_put_subsystem(head->subsys);
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index d5773ea105b1..f995b8234622 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -724,6 +724,8 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
+>  
+>  void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+>  {
+> +	if (test_bit(NVME_NSHEAD_FAIL_IF_NO_PATH, &head->flags))
+> +		return;
+>  	if (!head->disk)
+>  		return;
+>  	if (head->disk->flags & GENHD_FL_UP)
+> @@ -741,7 +743,6 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+>  		 */
+>  		head->disk->queue = NULL;
+>  	}
+> -	put_disk(head->disk);
+>  }
+>  
+>  int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 3d2513f8194d..e6efa085f08a 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -681,8 +681,12 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+>  {
+>  	struct nvme_ns_head *head = ns->head;
+>  
+> -	if (head->disk && list_empty(&head->list))
+> -		kblockd_schedule_work(&head->requeue_work);
+> +	if (head->disk && list_empty(&head->list)) {
+> +		if (test_bit(NVME_NSHEAD_FAIL_IF_NO_PATH, &head->flags))
+> +			nvme_mpath_remove_disk(head);
+
+Does it need to call nvme_mpath_remove_disk here ?  It looks like it
+returns with nothing right away if NVME_NSHEAD_FAIL_IF_NO_PATH is set.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
