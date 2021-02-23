@@ -2,88 +2,141 @@ Return-Path: <SRS0=3q+x=HZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32520C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 04:42:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F3BCC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 05:41:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 89E4864E05
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 04:42:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 89E4864E05
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9B71A64E4B
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Feb 2021 05:41:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B71A64E4B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=netapp.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=rv+jFmcWODW6xZcFj5LT6+xdp3Z0cStd31EDtTK4lPA=; b=Z6ESQ73r8hghFBA7EnomGWdo8
-	eZ7IANQ2ylX7TbZci42cIYLTSygBNJjm+85P/CVj7xmu4l9nthLgp+8lbo3KSlDg2AxTqLciOcwJp
-	zzjosdeWatdxX/cJIc5OkxGKX0LSvhmcU4RBJKWprK13NnIllDRBkeFsYxHae9LcP3gSBAfmeeCG/
-	sOpYfXbdfyUdCXAZ+p5ntwRkLg/DSsy3ITr3tBSkxwM+cACfOF3DsOzuAUiGTyAmVCsVzjcY6u0BG
-	jXBXx56zDrqV8LHAGpIR1yp9iP2vmcJBak/jyTnXJACUqmPlEo37/VBsG/6+mIl5BMKdNSl2BrB+Y
-	W4nWOWj/A==;
+	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:MIME-Version:Content-ID:In-Reply-To:References:Message-ID:Date:
+	Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RJyY8qwhCfsRF+EQq50ar6BoMtem+Pa2pjb+gI0PhXw=; b=lWc3MKXds2dVBlDpwwNU0xWzT5
+	rfYwrQyBss0Y0eNO98W8XoTHsaMsT5SgELdCdUtJC1I5nOCIm1XrCKa/8ug1DrLT7evO+Rrxd3T0Y
+	4hohWb9ImadM+htfP48Ov68ATWMjvLgz7Z0GzAd9JGqkEPAiCrNhn4ASjQUJJcV1T167wllZ/Ma7w
+	Iw5rL35Mu4zBDRaRObhn2UcAPR1gKSNl/xAU1eKSjlxMz+6xZUDz4ojYSvoSsCOdd1br2AykDe9BO
+	UTTIcYe1xJHLLZc/S3e5qQ6TSey5w87iQZ8QpPpetqIcsVcAU54ciCi1d3Hk4ho4vgUXt2tv+NV+A
+	zuRPXO1g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEPWF-0001Ek-Jh; Tue, 23 Feb 2021 04:41:55 +0000
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+	id 1lEQRX-0004Fw-1z; Tue, 23 Feb 2021 05:41:07 +0000
+Received: from mail-bn8nam11on2047.outbound.protection.outlook.com
+ ([40.107.236.47] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEPWC-0001Do-Di
- for linux-nvme@lists.infradead.org; Tue, 23 Feb 2021 04:41:53 +0000
-Received: by mail-wm1-x334.google.com with SMTP id m1so1175762wml.2
- for <linux-nvme@lists.infradead.org>; Mon, 22 Feb 2021 20:41:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=65uN+5+XK+EDD+UFbDWqQedCZGodZ0pM7BxCNYW6Fos=;
- b=Y2dhW8cTw++agpoFegKGMZyz1lMPOeYzlFiydu5D2FdbSyObouUiCTNc3tr4b1MHK6
- GWmgCon0QqOxbNw1D0SL8eQo0kmgU+hh382NJ5JD8XqNWwspiCMHWbt+Z4AsbD6f+ZYT
- 65sVLyMMekPctnfeQszyVCm7hy+sJnYocOWaYKE/cAm0c8xO0/tdm/mVT9w9KLIJjdNj
- gu8Xg/Z1hk1+jaljFsL3Dy2FifFdOPq8tZrFkcYJYz7nW8HgmWzGIpqY6MDX8tI5ouum
- eMxccg8pZ+xQ5pwZu/52lYQ6Xhq2Zq/KLkPTsvzV/M5Wy3nnKxA4KICyMhPrkMPJXiZl
- jdcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=65uN+5+XK+EDD+UFbDWqQedCZGodZ0pM7BxCNYW6Fos=;
- b=ucqd/RR3GxcM1bJPcisWBvsHBupZYa+ynKTYvyBC7vQV8AWdyTvs5Alvq6OY1dgo9z
- xtGbG+BhHxCQGizW96u/p/leHul57e/AvrdHX91CLVxzkGbxtSr3CxpxvpfyBtAZjyWW
- Y7SUga17K9axkomM4c246yWxXKMvPZXsL65kRlxrpAbB4guk5XxLd4oH1Ul8Cy3Hu8tJ
- Iv9DEYI6sGGpgU6reYAt/UB9peB5+0DFDg0nJBeFLLgr2L6OwlbMlshVsE7b0aHK9wIT
- MmtKhD56dFJTAWSJ+qIh9E1FbnkWMGCEBQZoTNBYT3/To7qbccK1KUUAtByXy4YIW4c5
- QH0Q==
-X-Gm-Message-State: AOAM533ZDtgnRsN1gozPUn8/HGjbocOTybSdxEAZiOKzRvug3dP9LRzV
- r5WND5m/gHRocVC5w5s4MfUj+azsFFL3Sd0byDo=
-X-Google-Smtp-Source: ABdhPJxI+7cMGj4HhavoKapixuOjQRwLO0qY1jT82zmd9qjLPXCIKEHW5AYieImdUa1qTlBL4tanZZQ8p93asTgDWrs=
-X-Received: by 2002:a1c:f708:: with SMTP id v8mr22428483wmh.25.1614055311109; 
- Mon, 22 Feb 2021 20:41:51 -0800 (PST)
+ id 1lEQRU-0004FU-I4
+ for linux-nvme@lists.infradead.org; Tue, 23 Feb 2021 05:41:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KZKu9iowlRW5qHfypIu+eC45OT9mIXXE30lINszO5wUW2fitMe5hbQB5vlByHW8ZLPrrtdhJhM20oWOs3aORETmteRDbJDIqqTAj55tz25FlwyDbJ8xWgB0K5YBLoC2/scCgp9nI1mUCY9fOEbaBUaaDYJ2dYTeXb48FEeHw/ekZVagoDjNz07GwNt3/dNVbzkOQNdz2GPwiSXQB4yYedPQeHR/CTfufXO/zG00WStfqIySY151SZU63lcAVGi6AWVDY5dVPLaMAJZJ8Kj78VcsE10d/UtDWlGQZtxHwA1XMGTPHrrIu/Ry93JcmWxM0HNJNDyeokghFEmfA2fJxRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zgx7RjI3i46tU+vgOD/K5HC6VFgT1SPJD6BvqiG+4TM=;
+ b=ZYYFCyEIw/u61jRcMlPEIQNPtE6OJ7Quvod3rx2x1LU2H5luK+A+sb7JY8uhtlwC1EzDTwJxGcaRONUwUNvO7nrCdW+Bkd0+olZNLwayrbS3PGo06Hdo7yMKJEgNd3MC1KXt3PBq8PClA6mTpxNU2BG5qvPbVYowVzFzEmew2DYzgibMtANcy0p0cMNDHBLxq9cuSp/GXWH2Jufs+beyPL4wPnUt9Kp6mTudCR1Y4egdicv5PTGOPUyrJZuRHxgi6iGpBzKABdbhyACYucLT3bL9g+vQyUf27wkeJ8XukBacyl8cKRp0/nIXQh1ue5gRDTkKG9/AOvXgWQWQokCy1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=netapp.com; dmarc=pass action=none header.from=netapp.com;
+ dkim=pass header.d=netapp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netapp.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zgx7RjI3i46tU+vgOD/K5HC6VFgT1SPJD6BvqiG+4TM=;
+ b=yrBtq6xxdh6Ntfa9giQLOfj29+YeTN8n8bVuha7AsCad/VAJDpfUXhwINy4ZWwp2H5+sujw7NUr6TQsiWwYojfx+73OPM7194jkCLTml0j/iDDog5pPLr/lGch54C7Spe2H7P+Vdzo1f+QYhlMzVPK8knnBbv1ONM/CW1jQCnI8fqN3Q8JhHtruiS8KZzirr4cOzZZGFuw4KuIdfHdKJ1oUrSX61eRL5jNXwd1GVEggcIMAlMiIbGOUhgZBC2hE9FVvtGWm5rzkfLBrrRfWPcPbj1KIIV/v++Hu5z1xCP8IX+LhVqV6rvHp861EtaTnzMJIeYoVuR+OTAEukz4ywow==
+Received: from DM6PR06MB4634.namprd06.prod.outlook.com (2603:10b6:5:ff::25) by
+ DM6PR06MB6442.namprd06.prod.outlook.com (2603:10b6:5:110::26) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3868.27; Tue, 23 Feb 2021 05:41:00 +0000
+Received: from DM6PR06MB4634.namprd06.prod.outlook.com
+ ([fe80::59f8:5b0e:ed9f:2998]) by DM6PR06MB4634.namprd06.prod.outlook.com
+ ([fe80::59f8:5b0e:ed9f:2998%6]) with mapi id 15.20.3868.033; Tue, 23 Feb 2021
+ 05:41:00 +0000
+From: "George, Martin" <Martin.George@netapp.com>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] fabrics: ensure zero kato for non-persistent controllers
+Thread-Topic: [PATCH] fabrics: ensure zero kato for non-persistent controllers
+Thread-Index: AQHXBdwVCJJe3ZOHYEapjHnhbLUW0aplQTWA
+Date: Tue, 23 Feb 2021 05:41:00 +0000
+Message-ID: <cb89029d362a3cd61504012351f56731cec9c6fe.camel@netapp.com>
+References: <20210218095422.5696-1-marting@netapp.com>
+In-Reply-To: <20210218095422.5696-1-marting@netapp.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.36.4-0ubuntu1 
+authentication-results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=none action=none
+ header.from=netapp.com;
+x-originating-ip: [202.3.121.6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 10c1dedd-7c0b-4768-27ca-08d8d7bd9a34
+x-ms-traffictypediagnostic: DM6PR06MB6442:
+x-microsoft-antispam-prvs: <DM6PR06MB6442E1F68ED38FB8900600D295809@DM6PR06MB6442.namprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1002;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KgCmAiVa30MXty8UzgYUgia4cSj3AymglMs1Rb3lNoDDH5ILOSdR57mf+j4tCurYfQdj9YxfDIStQ4IFbIS3xemNXPeuVpMQoVeMtdcBqdJPUNuRELKNT2LbYvRVblxMqrzK/87dOZRRvC3oRDSwza4jrpSQOI+cagQGUXY/1zusxco3g/HDrZwEoVaXxElG2pYVBlXiwzPPI6jjvCXLNWLlgEp3rXMsjiDehYDEhgrOuIQvGpuDvCGO2UgSWDuTiTyds6+dyFz5CMuNnr3Z2qMGUlAF2AH+ZJYoS49dmefWuuZ5v8eVmae1VuBodzp45Xwg1i5sLFb06wIq+CiBwCd9BqZQtWJM3e+1XSn3ZUadf9SKJ0ScS5jgQ3YLoin52+FEY6KWSjIdWf2GGBFsuujrPdVkjGogg0aKpCSpInfTjDQMJ8geYDi/D3uNluZ+WQMScls5xN7FwHygfqapOb2TOgACCI5B0jIOhIetthMPRZ1akxQtrjjx7N+9ZRjuZeu/V3oYJjuBsl47V5ACbQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR06MB4634.namprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(346002)(39860400002)(136003)(366004)(91956017)(5660300002)(6506007)(36756003)(186003)(26005)(6486002)(71200400001)(6916009)(478600001)(2906002)(316002)(6512007)(64756008)(8936002)(66476007)(66556008)(66946007)(66446008)(8676002)(2616005)(76116006)(86362001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?U0RWK2Z1Yzg5WFd3bEowYXZXeEZEUWE4a3FzYnhlbFc5cHpEQnFEOFk2TkpX?=
+ =?utf-8?B?VitkYkt6ZTN4ampPRzhXU3FLRGwvbnQ1d1RpNUt0VFBKZ0thWFF6WnpWZTBx?=
+ =?utf-8?B?ai9hYzZqaFJrMGFCU1lNcE5ONm1KMnhISnNkallUNGlOdEtPVlhBODJzKzNn?=
+ =?utf-8?B?T09jV05sM1dEZDlVWHp2TEZLVzRtK2JoNW9zL1VWNXdCOWlQUHlReks1cmhP?=
+ =?utf-8?B?aDh5VHlSWU5pZWlaT3VQdlZsTm0veTh4dy84U1pyODQyM1c2NjZIU1l4TUpZ?=
+ =?utf-8?B?dWFXeTd2cVlKZkFMaTArOUlLZUVja1Y0WktCQXZ3MjdESGhTRzYzWXI3dEo5?=
+ =?utf-8?B?MVpjZ0Z1UmtTU3YrWWFWUEhVR05Id29xd05LVVBuNU5VaGUvTksyTjlKbzdm?=
+ =?utf-8?B?YUROcWtqNU01djl5dlNiMWVKZXBNNjdpc3NYOGszYnFxL2p6dVVMZEd3cWxL?=
+ =?utf-8?B?STBROGtJZnlUTnpSaHNqVDJ0Yjl1Q1RkWHhJS2xodjJZeGh2dHNNK0lxMTI0?=
+ =?utf-8?B?cHlrMSt1SDZqN3p4RzNhTUlpUU1wa0VjQnlDZUQ0R0VZeTF4ZW9ZUkxkSVhB?=
+ =?utf-8?B?bHlRQnk1dHNTazFyM2JnU3RZUWpQTUtwenJKOHI1TnJvSXl1cU1NcEpzOVFJ?=
+ =?utf-8?B?TTlxdEhXckwwaVNmQlJpaVFuelQ5anI2a2VQY2RscUtrNUFrUnRqbCs0M2Nx?=
+ =?utf-8?B?N2ladDJGRHhZTFVQYnhCWS9RRVJvMUJSOWxaRVJrY25hODhkLzVmakViK3d4?=
+ =?utf-8?B?N05sbElQWDhIcEd0bUZBTklobGgrbk5FNWtqc2lMWW55SFQ0Mk9VZHhZN1BQ?=
+ =?utf-8?B?VmRHdjZ0WDRIUEYyVGVrUEFoUXd1WWdQZkxYRzNVbkJQL25IK2FqSXpvRzRt?=
+ =?utf-8?B?QXlURWJPTW5nT0FZdnRRT0Y3Yy9ieWp5Y2RjRFhsVE96cU82TlhqUzZ6RFJS?=
+ =?utf-8?B?NDNrYWJqWmwyaFRtS1hkR3FQdUhBay9pU1JIU0cvdjg4cUpFaW92VDdSUVNH?=
+ =?utf-8?B?KzBUQkpzR2FFNmlZY2NBbnFKK1FMNWMwcXY0bXY1Ynp4ZmJ0TkdVUW44VEEv?=
+ =?utf-8?B?dHhCVWhVVThOcXV0T1cvYU41eXhoWWxyRzN4cElxSkc1Tk9vQW5STERMV2xW?=
+ =?utf-8?B?d2YxVytIT1lPSEtjK3hjNEdlZWI3Sm5lWExSaEhMSWJKQmdaN3NCaVMxN3l1?=
+ =?utf-8?B?Z05LVXRCOG9HcGw2Zi9lVDhOSE1EekxPOUZINi93Kzk2akRLT0ZVQS93WWhY?=
+ =?utf-8?B?TURkY3JHRmpKcUhKb2JIZ0hJekVNZTRWa2syUnMvaWJCclY4UGhrK3BmdmRp?=
+ =?utf-8?B?TjFKRzk2L1g1Vkd6NTJvRGg1bFVlSzlHQWtCemJYTmVESDJRRDZ4MWN4Q1lv?=
+ =?utf-8?B?UTMrSS9oUC9WM1IvYkhlSE9YWmE5NjZCSFFjRzJPTzc0SXJ0T0NMSGdhSDlE?=
+ =?utf-8?B?TVFvU3F5OGx0UUt2UE04UXJ5RDh3dm9uTXA0MVZVckpaQXVBeUFnVmo1M2RT?=
+ =?utf-8?B?b0g1NzBpa1VnUHJCczNReC9ITVprSzRjT2pqdW90VmRxcnFpYmRrVFltM2g0?=
+ =?utf-8?B?TGNiVnhMZE9tWXNVSkJyNkliaTdYa2Y2UTRXaWM2TkZrUS9MYjVGT3FJVUdE?=
+ =?utf-8?B?THdOY2hURDlwRUlTUmphR2FVTTNHdUp2Y3lRV05tWXJmMm9QWTNaTzlGV244?=
+ =?utf-8?B?NEZPUGtlekZIaWhEckEyUHkwS2wyd1NUV25QR3NNSTd2TFdkdzhQZ2FQSUFW?=
+ =?utf-8?Q?gjkStWNTrH+KYGlVbeUOcQ3ZTK8yqapevuPV6ud?=
+x-ms-exchange-transport-forked: True
+Content-ID: <A2CCE14207680B4086E6692BFDCC98D3@namprd06.prod.outlook.com>
 MIME-Version: 1.0
-References: <CGME20210127150134epcas5p251fc1de3ff3581dd4c68b3fbe0b9dd91@epcas5p2.samsung.com>
- <20210127150029.13766-1-joshi.k@samsung.com>
- <489691ce-3b1e-30ce-9f72-d32389e33901@gmail.com>
- <a287bd9e-3474-83a4-e5c2-98df17214dc7@gmail.com>
- <CA+1E3rJHHFyjwv7Kp32E9H-cf5ksh0pOHSVdGoTpktQrB8SE6A@mail.gmail.com>
- <2d37d0ca-5853-4bb6-1582-551b9044040c@kernel.dk>
- <CA+1E3rKeqaLXBuvpMcjZ37XH9RqJHjPnTFObJj0T-u8K9Otw-w@mail.gmail.com>
- <dd0392a1-acfa-ef4d-5531-5f1dddc9efe7@kernel.dk>
- <CA+1E3rJqtpfDbKVGBjSYhX=WfzZ2bE8b0U3drUNz_=bp0u9Vuw@mail.gmail.com>
- <03c15e42-c10a-1f67-c60b-ddc11902f9c5@kernel.dk>
-In-Reply-To: <03c15e42-c10a-1f67-c60b-ddc11902f9c5@kernel.dk>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Tue, 23 Feb 2021 10:11:25 +0530
-Message-ID: <CA+1E3r+e8FgiHVA4OB_igUBboJH9iMrh+Fm1E5RoEs+o1ryCwg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] Asynchronous passthrough ioctl
-To: Jens Axboe <axboe@kernel.dk>
+X-OriginatorOrg: netapp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR06MB4634.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10c1dedd-7c0b-4768-27ca-08d8d7bd9a34
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2021 05:41:00.8225 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4b0911a0-929b-4715-944b-c03745165b3a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Yv3emqI8qPfowtF/Ma6oVg8cpq3sRFXU8tTDlp8COiap4rzIbZx2TDp6nMT16bJCc8W9CMVVpGQ0T7J50wtgkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR06MB6442
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210222_234152_501905_7A54F2EB 
-X-CRM114-Status: GOOD (  46.14  )
+X-CRM114-CacheID: sfid-20210223_004105_226287_4DA26F0B 
+X-CRM114-Status: GOOD (  15.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,165 +148,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Selvakumar S <selvakuma.s1@samsung.com>, sagi@grimberg.me,
- Kanchan Joshi <joshi.k@samsung.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- linux-fsdevel@vger.kernel.org, Nitesh Shetty <nj.shetty@samsung.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
- Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 22, 2021 at 8:03 PM Jens Axboe <axboe@kernel.dk> wrote:
->
-> On 2/22/21 6:42 AM, Kanchan Joshi wrote:
-> > On Thu, Jan 28, 2021 at 10:54 PM Jens Axboe <axboe@kernel.dk> wrote:
-> >>
-> >> On 1/28/21 10:13 AM, Kanchan Joshi wrote:
-> >>> On Thu, Jan 28, 2021 at 8:08 PM Jens Axboe <axboe@kernel.dk> wrote:
-> >>>>
-> >>>> On 1/28/21 5:04 AM, Kanchan Joshi wrote:
-> >>>>> On Wed, Jan 27, 2021 at 9:32 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
-> >>>>>>
-> >>>>>> On 27/01/2021 15:42, Pavel Begunkov wrote:
-> >>>>>>> On 27/01/2021 15:00, Kanchan Joshi wrote:
-> >>>>>>>> This RFC patchset adds asynchronous ioctl capability for NVMe devices.
-> >>>>>>>> Purpose of RFC is to get the feedback and optimize the path.
-> >>>>>>>>
-> >>>>>>>> At the uppermost io-uring layer, a new opcode IORING_OP_IOCTL_PT is
-> >>>>>>>> presented to user-space applications. Like regular-ioctl, it takes
-> >>>>>>>> ioctl opcode and an optional argument (ioctl-specific input/output
-> >>>>>>>> parameter). Unlike regular-ioctl, it is made to skip the block-layer
-> >>>>>>>> and reach directly to the underlying driver (nvme in the case of this
-> >>>>>>>> patchset). This path between io-uring and nvme is via a newly
-> >>>>>>>> introduced block-device operation "async_ioctl". This operation
-> >>>>>>>> expects io-uring to supply a callback function which can be used to
-> >>>>>>>> report completion at later stage.
-> >>>>>>>>
-> >>>>>>>> For a regular ioctl, NVMe driver submits the command to the device and
-> >>>>>>>> the submitter (task) is made to wait until completion arrives. For
-> >>>>>>>> async-ioctl, completion is decoupled from submission. Submitter goes
-> >>>>>>>> back to its business without waiting for nvme-completion. When
-> >>>>>>>> nvme-completion arrives, it informs io-uring via the registered
-> >>>>>>>> completion-handler. But some ioctls may require updating certain
-> >>>>>>>> ioctl-specific fields which can be accessed only in context of the
-> >>>>>>>> submitter task. For that reason, NVMe driver uses task-work infra for
-> >>>>>>>> that ioctl-specific update. Since task-work is not exported, it cannot
-> >>>>>>>> be referenced when nvme is compiled as a module. Therefore, one of the
-> >>>>>>>> patch exports task-work API.
-> >>>>>>>>
-> >>>>>>>> Here goes example of usage (pseudo-code).
-> >>>>>>>> Actual nvme-cli source, modified to issue all ioctls via this opcode
-> >>>>>>>> is present at-
-> >>>>>>>> https://github.com/joshkan/nvme-cli/commit/a008a733f24ab5593e7874cfbc69ee04e88068c5
-> >>>>>>>
-> >>>>>>> see https://git.kernel.dk/cgit/linux-block/log/?h=io_uring-fops
-> >>>>>>>
-> >>>>>>> Looks like good time to bring that branch/discussion back
-> >>>>>>
-> >>>>>> a bit more context:
-> >>>>>> https://github.com/axboe/liburing/issues/270
-> >>>>>
-> >>>>> Thanks, it looked good. It seems key differences (compared to
-> >>>>> uring-patch that I posted) are -
-> >>>>> 1. using file-operation instead of block-dev operation.
-> >>>>
-> >>>> Right, it's meant to span wider than just block devices.
-> >>>>
-> >>>>> 2. repurpose the sqe memory for ioctl-cmd. If an application does
-> >>>>> ioctl with <=40 bytes of cmd, it does not have to allocate ioctl-cmd.
-> >>>>> That's nifty. We still need to support passing larger-cmd (e.g.
-> >>>>> nvme-passthru ioctl takes 72 bytes) but that shouldn't get too
-> >>>>> difficult I suppose.
-> >>>>
-> >>>> It's actually 48 bytes in the as-posted version, and I've bumped it to
-> >>>> 56 bytes in the latest branch. So not quite enough for everything,
-> >>>> nothing ever will be, but should work for a lot of cases without
-> >>>> requiring per-command allocations just for the actual command.
-> >>>
-> >>> Agreed. But if I got it right, you are open to support both in-the-sqe
-> >>> command (<= 56 bytes) and out-of-sqe command (> 56 bytes) with this
-> >>> interface.
-> >>> Driver processing the ioctl can fetch the cmd from user-space in one
-> >>> case (as it does now), and skips in another.
-> >>
-> >> Your out-of-seq command would be none of io_urings business, outside of
-> >> the fact that we'd need to ensure it's stable if we need to postpone
-> >> it. So yes, that would be fine, it just means your actual command is
-> >> passed in as a pointer, and you would be responsible for copying it
-> >> in for execution
-> >>
-> >> We're going to need something to handle postponing, and something
-> >> for ensuring that eg cancelations free the allocated memory.
-> >
-> > I have few doubts about allocation/postponing. Are you referring to
-> > uring allocating memory for this case, similar to the way
-> > "req->async_data" is managed for few other opcodes?
-> > Or can it (i.e. larger cmd) remain a user-space pointer, and the
-> > underlying driver fetches the command in.
-> > If submission context changes (for sqo/io-wq case), uring seemed to
-> > apply context-grabbing techniques to make that work.
->
-> There are two concerns here:
->
-> 1) We need more space than the 48 bytes, which means we need to allocate
->    the command or part of the command when get the sqe, and of course
->    free that when the command is done.
->
-> 2) When io_uring_enter() returns and has consumed N commands, the state
->    for those commands must be stable. Hence if you're passing in a
->    pointer to a struct, that struct will have been read and store
->    safely. This prevents things like on-stack structures from being an
->    issue.
->
-> ->async_data deals with #2 here, it's used when a command needs to store
-> data because we're switching to an async context to execute the command
-> (or the command is otherwise deferred, eg links and such). You can
-> always rely on the context being sane, it's either the task itself or
-> equivalent.
+Ping?
 
-Thanks for sorting this out.
-
-> >>>>> And for some ioctls, driver may still need to use task-work to update
-> >>>>> the user-space pointers (embedded in uring/ioctl cmd) during
-> >>>>> completion.
-> >>>>>
-> >>>>> @Jens - will it be fine if I start looking at plumbing nvme-part of
-> >>>>> this series on top of your work?
-> >>>>
-> >>>> Sure, go ahead. Just beware that things are still changing, so you might
-> >>>> have to adapt it a few times. It's still early days, but I do think
-> >>>> that's the way forward in providing controlled access to what is
-> >>>> basically async ioctls.
-> >>>
-> >>> Sounds good, I will start with the latest branch that you posted. Thanks.
-> >>
-> >> It's io_uring-fops.v2 for now, use that one.
-> >
-> > Moved to v3 now.
-> > nvme_user_io is 48 bytes, while nvme passthrough requires 72 or 80
-> > bytes (passthru with 64 bit result).
-> > The block_uring_cmd has 32 bytes of available space. If NVMe defines
-> > its own "nvme_uring_cmd" (which can be used for nvme char interface)
-> > that will buy some more space, but still won't be enough for passthru
-> > command.
-> >
-> > So I am looking at adding support for large-cmd in uring. And felt the
-> > need to clear those doubts I mentioned above.
->
-> The simple solution is to just keep the command type the same on the
-> NVMe side, and just pass in a pointer to it. Then API could then be
-> nr_commands and **commands, for example.
->
-> But I think we're getting to the point where it'd be easier to just
-> discuss actual code. So if you rebase on top of the v3 code, then send
-> out those patches and we can discuss the most convenient API to present
-> for nvme passthrough and friends. Does that work?
-
-Yes, perfect. I will go about that.
-
+On Thu, 2021-02-18 at 15:24 +0530, Martin George wrote:
+> Along with ensuring a non-zero kato is passed to a
+> persistent discovery controller, also ensure a zero
+> kato is passed to a non-persistent discovery controller.
+> 
+> Signed-off-by: Martin George <marting@netapp.com>
+> ---
+>  fabrics.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/fabrics.c b/fabrics.c
+> index 1880a5d..ed15e08 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -1399,6 +1399,8 @@ static int discover_from_conf_file(const char
+> *desc, char *argstr,
+> 
+>                 if (cfg.persistent && !cfg.keep_alive_tmo)
+>                         cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
+> +               else if (!cfg.persistent && (cfg.keep_alive_tmo > 0))
+> +                       cfg.keep_alive_tmo = 0;
+> 
+>                 if (traddr_is_hostname(&cfg)) {
+>                         ret = hostname2traddr(&cfg);
+> @@ -1474,6 +1476,8 @@ int fabrics_discover(const char *desc, int
+> argc, char **argv, bool connect)
+>         } else {
+>                 if (cfg.persistent && !cfg.keep_alive_tmo)
+>                         cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
+> +               else if (!cfg.persistent && (cfg.keep_alive_tmo > 0))
+> +                       cfg.keep_alive_tmo = 0;
+> 
+>                 if (traddr_is_hostname(&cfg)) {
+>                         ret = hostname2traddr(&cfg);
+> --
+> 2.30.0
+> 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
