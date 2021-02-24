@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CE8C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 16:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E207DC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 16:25:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 30C9264EDD
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 16:24:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30C9264EDD
+	by mail.kernel.org (Postfix) with ESMTPS id 45BA664EDD
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 16:25:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45BA664EDD
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XvAYjxuN9aHmL1PKakN/fU0Hxehvx/Rbf4ZpFirUFg8=; b=vOQRPeYC9IECAM3OvYbyHqojz
-	0FOrPUfe9dd0k9seTwpxa7M3g+2UlxTzRaclLatXr0QQ4h9Onl6GDO7BebrRjWzA62wq4DQ43FWBz
-	YnU7zPqF3fOIUiKqpkZuolIFpAxrbiRnzafqPlo+su77iOqPnUkqpvAdDbiSLlhStlmY4cPKGcxvy
-	miaATuz4u6agdVC5icQkV9kiSJjVOaPYk9+DVizL8OgkovAB5vf2qxgUmRHN0kqyrpQI46N+Wpwrq
-	DeVA1vXEVDN3+AWCx6mDU7G09dg3vGqfS88aKNoMVNw0LR2ZTNAyH84y6MSc+wMQSl9rvKih6jMAv
-	1nVeIhh+g==;
+	 bh=vYM70DXn6sKhESttHm5Zi41OUNvQ/Iuo8oVf58fxem0=; b=pwGjY/wyYlmitmsI2hdseqDMJ
+	IdSszjVKRrdOasjzkSajg7BC7Tb2J4mdgma0p9Fz9DHPWjQI5fg0OLyKRKJ2SkgiZY364wpLfW5Xr
+	aDdw7UEO6YDwutt1gMf70qPuJ6trKpuunWZ0iN1qeR6EE/EhOYZYsiJGJBdKbHkzN5vDEpK2hTtCg
+	QATGMs/CqvvcIBKONaJFMOgGQtAoYCRtjlNuxY+fsuDZ/lhWBFJmnfEXoQmpx8oM5B3yQ7D8Rs6cw
+	xHTxebB0Altqj9aeox2s9B3Zpav5bTrRKdLFzu/iAjkxuY4kyIjiIDfmUL+E0/n/zfXsTurvoJG8F
+	gAX7IUU8Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEwxA-0002q6-Vv; Wed, 24 Feb 2021 16:23:57 +0000
+	id 1lEwyp-000327-Mt; Wed, 24 Feb 2021 16:25:39 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEwx8-0002pm-Pf
- for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 16:23:55 +0000
+ id 1lEwym-00031S-Rs
+ for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 16:25:37 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2875B67357; Wed, 24 Feb 2021 17:23:53 +0100 (CET)
-Date: Wed, 24 Feb 2021 17:23:50 +0100
+ id 5EF8967357; Wed, 24 Feb 2021 17:25:34 +0100 (CET)
+Date: Wed, 24 Feb 2021 17:25:34 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 2/2] nvme: sanitize KATO setting
-Message-ID: <20210224162350.GB9780@lst.de>
-References: <20210223120728.104699-1-hare@suse.de>
- <20210223120728.104699-3-hare@suse.de>
+Subject: Re: [PATCH 0/2] nvme: fix regression with MD RAID
+Message-ID: <20210224162534.GC9780@lst.de>
+References: <20210223115922.104369-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210223120728.104699-3-hare@suse.de>
+In-Reply-To: <20210223115922.104369-1-hare@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210224_112354_954084_03A6F725 
-X-CRM114-Status: UNSURE (   9.16  )
+X-CRM114-CacheID: sfid-20210224_112537_022632_B66EA094 
+X-CRM114-Status: UNSURE (   8.30  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -64,37 +63,14 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <keith.busch@wdc.com>, Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +		unsigned long kato_delay = ctrl->kato >> 1;
-> +
-> +		queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
-
-> +		unsigned long kato_delay = ctrl->kato >> 1;
-> +
-> +		queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
-
-> +	unsigned long kato_delay = ctrl->kato >> 1;
-
-> +	queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
-
-I think we need a properly documented helper for
-
-	(ctrl->kato / 2) * HZ
-
-instead of all this open coded magic.
-
->  	cmd.connect.kato = ctrl->kato ?
-> -		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000) : 0;
-> +		cpu_to_le32(ctrl->kato * 1000) : 0;
-
-cpu_to_le32(0 * 1000) is still 0, so we can remove the branch here now.
+I don't see any regression here, even if the new features sound useful.
 
 _______________________________________________
 Linux-nvme mailing list
