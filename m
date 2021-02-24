@@ -2,19 +2,19 @@ Return-Path: <SRS0=qQKB=H2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA37DC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 05:52:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4A29C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 06:00:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B3C160200
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 05:52:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B3C160200
+	by mail.kernel.org (Postfix) with ESMTPS id DD96364EBB
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 06:00:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD96364EBB
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,49 +23,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=5P77qLn0x0xpW6qHcumztNvguU5Y9BuDvybMUqqHzCc=; b=dtQS/lwxheq7ipZRW6maB+G+7
-	w5EVPSNx+6cgHx6ETH70dPMsX+Ej+FhDs4jt6oisO1AB/0id1sbFtYnxUKiGvkN2iJxvGlYwK8Ik8
-	M0k6UeV+tnPro2MQF97GzfpyM59Rdj8kfZaZLAkEPRfl5p2vJmORXcpO2Xt0ChyMEt/pmf8qkcwak
-	a9j7N9+jaPrlu31UeGM5bUO9WXFaIPB3+9Fqb7OfWxZ119PrxYcdoHs01JtFcX0ens2Wkp3I7iCwh
-	NLLZatsmpI4DBcXo1VuqqVATm22C2MKPnC0xuAwnXIQf3lCz35H2Spqbxyz8cr9yvGxZDTzM2t40i
-	Mk3ZLj/ZA==;
+	 bh=0cwqtI3v65IhsXVyxRMlTj/4MCYI+N76rCwc0UOtLK4=; b=VsrJs+b/ig7sQZHHGyva/lIsS
+	rKnzFzrKBAslxR+2S+iz0lh+heOdPS4smGayZmyZduhIS8+iBvn0qakalN9VHuV5VLmVUgZdwgKJE
+	ExP+WlMaytnF3H5nrWDj/MIyWPAjVeRA0UxtQR/ubYar/KmOWjq8JokIMPbjgFULvEl+p8/GgaylZ
+	jNKzrveweQ+7JR7OzCt+CSH7VB+566G6+dPfz89AePFrs5JTAOq/Z/+Y2RLFObUac1/4v0uJMml9w
+	yF1lX6PxTmiPvBLfnItzPxZK8wzBh0KrONhqSSKrXlJeCAxEHtT9mMt3t3Y0EyJnt8kJGruPOgK07
+	Sbffo0oAg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEn68-0008Q4-Cz; Wed, 24 Feb 2021 05:52:33 +0000
-Received: from szxga08-in.huawei.com ([45.249.212.255])
+	id 1lEnDX-0000Wr-Sn; Wed, 24 Feb 2021 06:00:12 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEn65-0008Ox-0l
- for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 05:52:31 +0000
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4DllP72tw6z13xYZ;
- Wed, 24 Feb 2021 13:49:47 +0800 (CST)
+ id 1lEnDU-0000Va-KN
+ for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 06:00:09 +0000
+Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4DllYt4PXCzWDvD;
+ Wed, 24 Feb 2021 13:57:22 +0800 (CST)
 Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Wed, 24 Feb 2021 13:52:20 +0800
+ DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Wed, 24 Feb 2021 13:59:56 +0800
 Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
  (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Wed, 24
- Feb 2021 13:52:20 +0800
+ Feb 2021 13:59:56 +0800
 Subject: Re: [PATCH] nvme-rdma: fix crash for no IO queues
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+To: Keith Busch <kbusch@kernel.org>
 References: <20210223072602.3196-1-lengchao@huawei.com>
- <BYAPR04MB49657E5EB6A8F9C8C07C736386809@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <20210223232137.GA23682@redsun51.ssa.fujisawa.hgst.com>
 From: Chao Leng <lengchao@huawei.com>
-Message-ID: <1ac356d5-f154-699e-e929-e9f351b7da07@huawei.com>
-Date: Wed, 24 Feb 2021 13:52:20 +0800
+Message-ID: <7c30ddb7-ee41-9972-4cb6-0a5c089f687c@huawei.com>
+Date: Wed, 24 Feb 2021 13:59:55 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR04MB49657E5EB6A8F9C8C07C736386809@BYAPR04MB4965.namprd04.prod.outlook.com>
+In-Reply-To: <20210223232137.GA23682@redsun51.ssa.fujisawa.hgst.com>
 Content-Language: en-US
 X-Originating-IP: [10.169.42.93]
 X-ClientProxiedBy: dggeme720-chm.china.huawei.com (10.1.199.116) To
  dggema772-chm.china.huawei.com (10.1.198.214)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210224_005229_964915_63A5A077 
-X-CRM114-Status: GOOD (  11.15  )
+X-CRM114-CacheID: sfid-20210224_010008_988558_A850ACBF 
+X-CRM114-Status: GOOD (  14.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,8 +76,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
+Cc: axboe@fb.com, hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
@@ -86,26 +84,26 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2021/2/24 6:03, Chaitanya Kulkarni wrote:
-> On 2/22/21 23:30, Chao Leng wrote:
+On 2021/2/24 7:21, Keith Busch wrote:
+> On Tue, Feb 23, 2021 at 03:26:02PM +0800, Chao Leng wrote:
 >> A crash happens when set feature(NVME_FEAT_NUM_QUEUES) timeout in nvme
 >> over rdma(roce) reconnection, the reason is use the queue which is not
 >> alloced.
 >>
 >> If it is not discovery and no io queues, the connection should fail.
->>
->> Signed-off-by: Chao Leng <lengchao@huawei.com>
 > 
-> Can you please share more information about
+> If you're getting a timeout, we need to quit initialization. Hannes
+> attempted making that status visible for fabrics here:
 > 
-> "when set feature(NVME_FEAT_NUM_QUEUES) timeout" scenario ?
-Inject a large number of bit errors intermittently. This will cause
-request time out, and then reconnection will trigger by error recovery.
-The requests of reconnect may also time out. If set feature
-(NVME_FEAT_NUM_QUEUES, which is called by nvme_set_queue_count) time out
-and the reconnection may success. Block will continue send request,
-and then crash due to use unallocated queue.
-
+>    http://lists.infradead.org/pipermail/linux-nvme/2021-January/022353.html
+I know the patch. It can not solve the scenario: target may be an
+attacker or the target behavior is incorrect.
+If target return 0 io queues or return other error code, the crash will
+still happen. We should not allow this to happen.
+> 
+> There's still some corner cases that need handling, though.
+> .
+> 
 
 _______________________________________________
 Linux-nvme mailing list
