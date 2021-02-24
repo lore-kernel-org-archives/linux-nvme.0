@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B52EFC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 16:22:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CE8C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 16:24:11 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4135B64EDD
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 16:22:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4135B64EDD
+	by mail.kernel.org (Postfix) with ESMTPS id 30C9264EDD
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 16:24:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30C9264EDD
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=dyD0Ju3XkGiy07yXHPgFbQERC2qk16+nDE1E11S9GRM=; b=Sv2d1KpAFRoJukjYfEtpq2jY9
-	fv3bI5BublV/rbSqJ+PVUPQvhIrPsx9t92DveQDuq9LBYuPrSrHPaILljpEJx3OJORaDa+BOYf497
-	MLJuHat/XetYmm+j0CNsZYn5yNi/MnU5hn422/lBNFExYEABWFh9elHhojf3amC1v06g/22dJopO4
-	Dyii6MMqHIJ01BHCzaRiPp0lX7wTQ868MLKsOL4GkM8ZmkFrGr/NELBT2glttvFSmviQt9WDvknA4
-	JQ1ofCvsHrqY8J6yjhNtEMn8oNm8CHSDjNahmLtctp1iWrWN1dok7BCfakJKGsl3i7dG/sBlN9W6e
-	8VIn5HUHg==;
+	 bh=XvAYjxuN9aHmL1PKakN/fU0Hxehvx/Rbf4ZpFirUFg8=; b=vOQRPeYC9IECAM3OvYbyHqojz
+	0FOrPUfe9dd0k9seTwpxa7M3g+2UlxTzRaclLatXr0QQ4h9Onl6GDO7BebrRjWzA62wq4DQ43FWBz
+	YnU7zPqF3fOIUiKqpkZuolIFpAxrbiRnzafqPlo+su77iOqPnUkqpvAdDbiSLlhStlmY4cPKGcxvy
+	miaATuz4u6agdVC5icQkV9kiSJjVOaPYk9+DVizL8OgkovAB5vf2qxgUmRHN0kqyrpQI46N+Wpwrq
+	DeVA1vXEVDN3+AWCx6mDU7G09dg3vGqfS88aKNoMVNw0LR2ZTNAyH84y6MSc+wMQSl9rvKih6jMAv
+	1nVeIhh+g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEwva-0002lY-Hp; Wed, 24 Feb 2021 16:22:18 +0000
+	id 1lEwxA-0002q6-Vv; Wed, 24 Feb 2021 16:23:57 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEwvX-0002lG-BM
- for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 16:22:16 +0000
+ id 1lEwx8-0002pm-Pf
+ for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 16:23:55 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 4C46267357; Wed, 24 Feb 2021 17:22:10 +0100 (CET)
-Date: Wed, 24 Feb 2021 17:22:10 +0100
+ id 2875B67357; Wed, 24 Feb 2021 17:23:53 +0100 (CET)
+Date: Wed, 24 Feb 2021 17:23:50 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 1/2] nvme: fixup kato deadlock
-Message-ID: <20210224162210.GA9780@lst.de>
+Subject: Re: [PATCH 2/2] nvme: sanitize KATO setting
+Message-ID: <20210224162350.GB9780@lst.de>
 References: <20210223120728.104699-1-hare@suse.de>
- <20210223120728.104699-2-hare@suse.de>
+ <20210223120728.104699-3-hare@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210223120728.104699-2-hare@suse.de>
+In-Reply-To: <20210223120728.104699-3-hare@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210224_112215_519897_9CB483FD 
-X-CRM114-Status: UNSURE (   9.72  )
+X-CRM114-CacheID: sfid-20210224_112354_954084_03A6F725 
+X-CRM114-Status: UNSURE (   9.16  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -72,11 +72,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Well, kato really should be doing a nowait request allocation instead
-of beeing stuck.  That being said we currently have two reserved
-requests, with one set aside for connect.  This does back to the initial
-commit, but I can't see how a keep alive could still be around when we
-reconnect, so I think one reserved command should be fine as well.
+> +		unsigned long kato_delay = ctrl->kato >> 1;
+> +
+> +		queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
+
+> +		unsigned long kato_delay = ctrl->kato >> 1;
+> +
+> +		queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
+
+> +	unsigned long kato_delay = ctrl->kato >> 1;
+
+> +	queue_delayed_work(nvme_wq, &ctrl->ka_work, kato_delay * HZ);
+
+I think we need a properly documented helper for
+
+	(ctrl->kato / 2) * HZ
+
+instead of all this open coded magic.
+
+>  	cmd.connect.kato = ctrl->kato ?
+> -		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000) : 0;
+> +		cpu_to_le32(ctrl->kato * 1000) : 0;
+
+cpu_to_le32(0 * 1000) is still 0, so we can remove the branch here now.
 
 _______________________________________________
 Linux-nvme mailing list
