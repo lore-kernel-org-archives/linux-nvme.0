@@ -2,20 +2,20 @@ Return-Path: <SRS0=qQKB=H2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 614A7C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 09:08:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70311C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 09:13:06 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D5E1C64EA4
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 09:08:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D5E1C64EA4
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id DB3CD64D79
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 09:13:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB3CD64D79
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
@@ -23,41 +23,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AP4fiePh5jHMeuN7s404LxT2qU5AgW21N0lN10J+FYg=; b=mOAXEjZ8tOIST6CLaXt9nHmGk
-	En7Cs4Ww/2KySabhlMGAc7Kt2RqaYYD3hd+MKF4h2egYMM/he4XgdsJ7xP17Yua69YN1919Y9PSl2
-	1ZGocE3TgEcT88eb1+IhYp++hq1hWK4GaO7fT/9Ut5PRlHsR59TW9hpFHkOA/6bGX3gePAJW+t5Lw
-	XWbGcyn7zVgVzMcNAitCjDI5PQ7OQrq+W79rKMusG1fnm5zbdNobriHrDDvmqk3CoctYjV4ynjeer
-	MGDSEApwdm+XpUhWoi9Oh6EsPtcutUJCMPhxVFHoGSRxtT8utDH+yWaaEEeLL3QbxIpqhBw8nWOKV
-	4gykQ+pYA==;
+	 bh=p/m17yry55ONTUBRpXlVMl7aN/cphCcCE9+fWx4+qnk=; b=PKJ4xaBn2hA+Cz465WxglbhoX
+	0b6cxIsBiTfHMg9gzGV/wMN5SUaZe1xE1eBysCAd5xgFgM00GCAgTvb2KofZ0P+2ONjFo16ntqzzn
+	TbXoXynD5kADxbiy/EK7kj7aO6yBtbjQVJ7brGlM0x4Wo//fMCr2YMij4XVcQIEinwueIabYOuvc0
+	qV/49C1Ixj8Nj73/hSmk9PbmuJPpbEejk9Nh2G7YMsRF4hNhVTn+RF2Tw+F/zoKYSganv6lZ2s99f
+	lz7wBnUcyuo4YKalOUzpCfVlQOx3vwDL95vjLyyQkuMEXRJ36+FjfJuap31VfTCNUqCdjqYV4BsXb
+	/9NofYpRQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEq9f-00007n-4q; Wed, 24 Feb 2021 09:08:23 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1lEqE4-0000VE-Dh; Wed, 24 Feb 2021 09:12:56 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEq9b-00007Q-KK
- for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 09:08:20 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 7B77D68D0A; Wed, 24 Feb 2021 10:08:14 +0100 (CET)
-Date: Wed, 24 Feb 2021 10:08:14 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 2/2] nvme: don't set iosqes,iocqes for discovery
- controllers
-Message-ID: <20210224090814.GA4721@lst.de>
-References: <20210209101235.1539917-1-sagi@grimberg.me>
- <20210209101235.1539917-2-sagi@grimberg.me> <20210210101126.GA26624@lst.de>
- <3702938a-cfd5-b725-bb75-7c9072a42fde@grimberg.me>
- <20210211070250.GA13708@lst.de>
- <f279bd6a-d4e3-52b6-740b-66f90434cf69@grimberg.me>
- <20210211183124.GA26045@lst.de>
- <a5ea738a-44c4-e953-3271-a0b97668000e@grimberg.me>
+ id 1lEqE1-0000Ue-Tv
+ for linux-nvme@merlin.infradead.org; Wed, 24 Feb 2021 09:12:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=82KCladZqIloTjZNotW0lQwlpPC3y+nkHnvLLF6zmkA=; b=mM8Y2pTps/HbZF1/i+b/oS0PiM
+ 2/IEihkeSF6SxLU5INMmZGtm/MpV0SV1LMGlFDMIKEl+7s6wj0QmzVVrt8p6hUxZFZ09NUZUVsHie
+ vNbIBvon41F3A1F+P3lEX7ZALYpl1NPnDO7ThTvfmGKJPsSi09THBkN11E2CpoAZmZVVuEfTJK5GC
+ 1Qibvh7YRTR3iEPCDAPrU+LfczIILlYL8LB4Stn8BIsy+T9JlIc49PA6LTEFZWWgHVS2L0FMhv1Vo
+ EFYeDSfFOY3p/bE6vzG5xUbVbw8YZaMSC7gZjTn8Vx7e+Ofb8jFoomNwCMA+ij5dc+H8izDHLYP2b
+ TS/iykVg==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1lEqDz-009Cr7-2K; Wed, 24 Feb 2021 09:12:52 +0000
+Date: Wed, 24 Feb 2021 09:12:51 +0000
+From: Christoph Hellwig <hch@infradead.org>
+To: jeinwag-nvme@marcapo.com
+Subject: Re: [PATCH] nvme-pci: mark Seagate Nytro XM1440 as
+ QUIRK_NO_NS_DESC_LIST.
+Message-ID: <20210224091251.GA2194345@infradead.org>
+References: <20210216122543.21509-1-jeinwag-nvme@marcapo.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <a5ea738a-44c4-e953-3271-a0b97668000e@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210224_040819_802252_FC089962 
-X-CRM114-Status: GOOD (  14.33  )
+In-Reply-To: <20210216122543.21509-1-jeinwag-nvme@marcapo.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +71,15 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, Martin.Belanger@dell.com
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 11, 2021 at 11:44:44AM -0800, Sagi Grimberg wrote:
-> So you suggest that we keep the retry w.a. but continue to send the
-> wrong value in 1.3 or lower?
->
-> I personally think that this would be extremely confusing to users, if
-> they do trip on this, but I agree that they are less likely to hit
-> it because existing controllers obviously accept wrong values...
+Thanks,
 
-Yes.  While I'd like to move to standards compliance as much as possible,
-introducing a long delay for every existing working setup is 
-very counter productive.
-
->
-> As for option to override. I really hate it.. What is the least exposure
-> we can get for this but still allow the user to control this?
-
-We can of course still override it using an option.
-
-> Wish we had a good and reliable quirk mechanism for fabrics...
-
-We do, using the serial number.  But that does not help for an issue
-during connection establishment.
+applied to nvme-5.12 with the slight commit message tweak.
 
 _______________________________________________
 Linux-nvme mailing list
