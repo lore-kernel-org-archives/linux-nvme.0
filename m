@@ -2,61 +2,88 @@ Return-Path: <SRS0=qQKB=H2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F672C433E6
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 07:59:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51D51C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 08:49:59 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 74AEF64ECF
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 07:59:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 74AEF64ECF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id DC8D4600CC
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Feb 2021 08:49:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC8D4600CC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Si9aZAYF9ZPhvijp38Gi2UHLo7A7DqlqKIxkWjxHVEk=; b=Jon97bFOkNlgsOtV5Hru0fOe+
-	r44ojd9Q9v2qnVdtYxR0eDS/+qa/7GQXNEf+n0yRvHWSeId7FC2zCjJXVOFPj74b/iah0e7lEL2+/
-	PQgVk6s47DipieYYP4KU1c0YGxiGoes45iZdJjVBkxA6Yo6XdnR6p1G6GNDimVY06QPFnkwGJ/CL9
-	kfmVzEZjI2fwh2J3SDtyXZWsc8KG+s6P1nstEHX/MLQfcW8fYA1cnldJ/MDpCOMiT9EuvB/FLpLcA
-	hEiLCOvh+PzxCg8z4ZmmSfst6MXtjcMuKvX3Pf1NYwOzRq3hGU5sr9TzT33lT38oAzN5WSyFu9nGR
-	8vXA/ejDg==;
+	 bh=C7kQwmgBgGYU7MYVe1Za5AWUbbzweMm9RPit+hCTBm8=; b=rHPpdELKmXbVMcNtBI4wmOmHW
+	NE0qHtJ0UETNiqnGJwnUGQyXkUXBmW23irFIVnFZD2U3YLGPR4HKVukKbDiSBiMFZI6Y3UUtA+zCK
+	XY6cMLa6OKQ2FqBF2A6rR5nE2SnDaEk+9QAwA3SAXYkCgOzX+gJR75wAfx58ZeLbmI8/SG5aUyJbn
+	2rjOGEh8Kr7XMA+mlrf/6myJaVE7Iw2vHmjGahb9MMTz0gzxfV4ZKWS9hRuH3of8e10VC8AI86HYc
+	ftzz3m1kA83YFLlcPfXQGJMsETq7Mu3nVE3bjq2KthXx6U5avJPPHJa3SuyWx+NqKps0Kggdt5ElC
+	gVCACPGnQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lEp4i-0001zh-Kf; Wed, 24 Feb 2021 07:59:12 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1lEprT-0006R9-OT; Wed, 24 Feb 2021 08:49:35 +0000
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEp4g-0001z6-FE
- for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 07:59:11 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3909AAE57;
- Wed, 24 Feb 2021 07:59:09 +0000 (UTC)
-Subject: Re: [PATCH 0/2] nvme: sanitize KATO handling
-To: Chao Leng <lengchao@huawei.com>, Christoph Hellwig <hch@lst.de>
-References: <20210223120728.104699-1-hare@suse.de>
- <36e3bfd8-0c69-7540-c9f2-fd37070dc107@huawei.com>
- <06e3b90a-719e-9561-5c63-67dac0a782e1@suse.de>
- <1834a11c-c472-e14f-ece3-a96ec2ced044@huawei.com>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <aef64b6f-0e12-1f17-7eda-ec3a9db9cf1e@suse.de>
-Date: Wed, 24 Feb 2021 08:59:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ id 1lEprR-0006Q3-6X
+ for linux-nvme@lists.infradead.org; Wed, 24 Feb 2021 08:49:33 +0000
+Received: by mail-pl1-x630.google.com with SMTP id u11so767492plg.13
+ for <linux-nvme@lists.infradead.org>; Wed, 24 Feb 2021 00:49:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=XDjliifyCZi4rpWEAXTJUkaBOgqONbfFKArbHcfkHMU=;
+ b=NnYaMJpqCiqU45lz47urDqS/zQfI/m8ruX0IrBlU+OD7XJ7ht7BC16UkcaEDk2tMZ7
+ zPSuySd1hX5HgQEdmMxT5snOfwMDmC4BYvgM1kyjaaVnI7ACUtGN8S/mHvl7aA7IUo5J
+ LWQC/Nam0L/e8mTPrRg1hP81ZVwYl5TqCu75C9uG5PFkjFYKIaXOwFCBHLEddA1PaF2m
+ E4zxe/1FHkAOmwQG87YgrNW5d9N4DTnqFz/lXCalKzIlnkokkFbVEOJxem0THxYLQgmX
+ 4+NwyRHILdEcX37lkgO02E7r2/forPzWcO4nxumKjXt9oOXHZEfmHLKWhWRRouwhx/bk
+ I6JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=XDjliifyCZi4rpWEAXTJUkaBOgqONbfFKArbHcfkHMU=;
+ b=NgyeRo5Q8QYXfOnOk1tRDeH7NIZI6lkgBRXOsHG8wTHoOFCGDrmLQ+mq/f60AcL9ZQ
+ 1ztWg7rM4XzQw3kmOx78/tGL9RzZRS/MUI63kjKWKQOU1oHgOp0yRZJbYm8Lk19LY9mx
+ t+FPt4qqKw5ElPGoNI3rISQk+DuwbRTwNUaivjmYScZr0MbUCtisaDKY4C1GUhOqYQ+1
+ sovEOS8zl3rrC00oMgGAl+aNpFXea+8yiW2UExrbMFem24wgzglKxt4/B3/kszyQbxtE
+ d18hjICZ7TT7A44PpffhcggfKrSs+5T7DskNvNhtBGgboALgQFxGegR5KAO6xOAl4VID
+ 9Lqg==
+X-Gm-Message-State: AOAM531C+oxbPz1kwcnOPMP5ciwM0Enhp60hlkWpiGgd7vKw94TAg8PY
+ 3cIJDcbvpdQC+cwKOZCRgJE=
+X-Google-Smtp-Source: ABdhPJwhVJxaWyGxVCAN2DLhRmdgKaNBZYNT7HXUzQklsPiiuNlTjsSHcqZ8wZV08KkWOCiTCHIAEg==
+X-Received: by 2002:a17:902:d509:b029:e3:f512:e600 with SMTP id
+ b9-20020a170902d509b02900e3f512e600mr6707689plg.81.1614156570725; 
+ Wed, 24 Feb 2021 00:49:30 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id b34sm1606141pgl.63.2021.02.24.00.49.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Feb 2021 00:49:30 -0800 (PST)
+Date: Wed, 24 Feb 2021 17:49:28 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH V2 1/2] nvme-pci; remove the barriers nvme_irq()
+Message-ID: <20210224084928.GC2166@localhost.localdomain>
+References: <20210223204741.38301-1-chaitanya.kulkarni@wdc.com>
+ <20210223204741.38301-2-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <1834a11c-c472-e14f-ece3-a96ec2ced044@huawei.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210223204741.38301-2-chaitanya.kulkarni@wdc.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210224_025910_658892_95F770F8 
-X-CRM114-Status: GOOD (  19.74  )
+X-CRM114-CacheID: sfid-20210224_034933_279348_0279848A 
+X-CRM114-Status: UNSURE (   8.33  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +95,18 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@wdc.com>, Daniel Wagner <dwagner@suse.de>,
- linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org, axboe@fb.com,
+ kbusch@kernel.org, hch@lst.de, Heiner Kallweit <hkallweit1@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8yNC8yMSA4OjIwIEFNLCBDaGFvIExlbmcgd3JvdGU6Cj4gCj4gCj4gT24gMjAyMS8yLzI0
-IDE1OjA2LCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6Cj4+IE9uIDIvMjQvMjEgNzo0MiBBTSwgQ2hh
-byBMZW5nIHdyb3RlOgo+Pj4KPj4+Cj4+PiBPbiAyMDIxLzIvMjMgMjA6MDcsIEhhbm5lcyBSZWlu
-ZWNrZSB3cm90ZToKPj4+PiBIaSBhbGwsCj4+Pj4KPj4+PiBvbmUgb2Ygb3VyIGN1c3RvbWVyIGhh
-ZCBiZWVuIHJ1bm5pbmcgaW50byBhIGRlYWRsb2NrIHRyeWluZyB0byAKPj4+PiB0ZXJtaW5hdGUK
-Pj4+PiBvdXRzdGFuZGluZyBLQVRPIGNvbW1hbmRzIGR1cmluZyByZXNldC4KPj4+PiBMb29raW5n
-IGNsb3NlciBhdCBpdCwgSSBmb3VuZCB0aGF0IHdlIG5ldmVyIGFjdHVhbGx5IF90cmFja18gaWYg
-YSBLQVRPCj4+Pj4gY29tbWFuZCBpcyBzdWJtaXR0ZWQsIHNvIHdlIG1pZ2h0IGhhcHBpbHkgYmUg
-c2VuZGluZyBzZXZlcmFsIEtBVE8gCj4+Pj4gY29tbWFuZHMKPj4+PiB0byB0aGUgc2FtZSBjb250
-cm9sbGVyIHNpbXVsdGFuZW91c2x5Lgo+Pj4gQ2FuIHlvdSBleHBsYWluIGhvdyBjYW4gc2VuZCBL
-QVRPIGNvbW1hbmRzIHNpbXVsdGFuZW91c2x5Pwo+Pgo+PiBTdXJlLgo+PiBDYWxsIG52bWVfc3Rh
-cnRfa2VlcF9hbGl2ZSgpIG9uIGEgZGVhZCBjb25uZWN0aW9uLgo+PiBKdXN0IF9hZnRlcl8gdGhl
-IEtBVE8gcmVxdWVzdCBoYXMgYmVlbiBzZW50LAo+PiBjYWxsIG52bWVfc3RhcnRfa2VlcF9hbGl2
-ZSgpIGFnYWluLgo+IENhbGwgbnZtZV9zdGFydF9rZWVwX2FsaXZlKCkgYWdhaW4/IHdoeT8KPiBO
-b3cganVzdCBudm1lX3N0YXJ0X2N0cmwgY2FsbCBudm1lX3N0YXJ0X2tlZXBfYWxpdmUoKS4KPiBU
-aGUga2Ffd29yayB3aWxsIGJlIGNhbmNlbGVkIHN5bmMgYmVmb3JlIHN0YXJ0IHJlY29ubmVjdGlv
-bi4KPiBEaWQgSSBtaXNzIHNvbWV0aGluZz8KCk15IHBvaW50IHdhcyB0aGF0IHRoZXJlIF9jYW5f
-IGJlIGEga2Ffd29yaygpIGVudHJ5IGV2ZW4gd2hlbiBhIEtBVE8gCmNvbW1hbmQgaXMgcnVubmlu
-Zy4KCkFuZCB5ZXMsIHRoZSBrYV93b3JrIGVudHJ5IHdpbGwgYmUgY2FuY2VsbGVkLCBidXQgX2Jl
-Zm9yZV8gdGhlIApvdXRzdGFuZGluZyBjb21tYW5kcyBhcmUgY2FuY2VsbGVkLgpBbmQgY2FuY2Vs
-bGluZyB0aGUga2Ffd29yayBlbnRyeSBtaWdodCBjYXVzZSB0aGUgZnVuY3Rpb24gdG8gYmUgCmV4
-ZWN1dGVkLCB3aGljaCBsZWFkcyB0byBhIGRlYWRsb2NrIGlmIGJsa19tcV9nZXRfcmVxdWVzdCgp
-IGlzIGJsb2NrZWQKKGVnIGlmIHRoZSBxdWV1ZSBpcyBhbHJlYWR5IHN0b3BwZWQgZHVlIHRvIHJl
-Y292ZXJ5KQoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAg
-ICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
-cyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xy
-bmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcg
-bGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVh
-ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+If and when it's picked up, the title of this patch should be with:
+
+	s/nvme-pci;/nvme-pci:/
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
