@@ -2,54 +2,56 @@ Return-Path: <SRS0=GtbF=H3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 440D0C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41E3DC433E6
 	for <linux-nvme@archiver.kernel.org>; Thu, 25 Feb 2021 10:56:07 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C48AC64E21
+	by mail.kernel.org (Postfix) with ESMTPS id C510864EFA
 	for <linux-nvme@archiver.kernel.org>; Thu, 25 Feb 2021 10:56:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C48AC64E21
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C510864EFA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=3qrzd+X55e6UFTBhhJeHazKJNl/ViLzH6jq1hv8BpR8=; b=BPS7w9ggwd5aigWs8YwCAgY/uv
-	DwnGr7CTW0OSWqGtVeIu3BpOWYcnsMh8d7jEnq/OAzXuo537NxEFM7aMB0ThpXpTOkgNzReUivAH2
-	YubDyPvklJpLhoVhYnGK0lu7EiAKMRQ1Kes38byCitn4GyDryYsJZA7uj6HKKsrCEQr0cONH5kFDl
-	SGgM2nZnAX2E/wVwPFic2xfgK/vhPEUtaY+dTn8YFQqSV9uSokNYyovo0hEjCrFf+XcVdK35xVXsF
-	qaV5Qw0IpadOexdDXoSFYmRMrfteyUHaSEyejgmv/FT7DhA214WV12pAefB4D3xrcRiokUSdqvlMp
-	Ga4NOncg==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=b97czySEJqrogsskNGvhdhyY3pieq3Dc3/2S61mBg1U=; b=PffXqkybDAaUgD/mxcyZI4+f+
+	RPbVF+knPJ194zRQkhQLH4P0tktHVlpnhOQI2TzsM8LPsfLqW8Kk+hK5vks6ICUKwr1Or4xlFp+UJ
+	6/g49ZoViJXTLetFRHGCf0+wdodWZ3ItYKQrUx3DGIpE9E5ZpoLyfY54KH6oUlB6l+LiBxN3Dgoq3
+	wcPkvm9H+jiBFQ0McF6eZza+6A8cXkiFVTuskELXVjeOdIWswUxKWFm6nmwkOi0At6L63+3OjSxIw
+	2ALZzVqEHBHQDc8xIb9kgPNmZNa+ccbc8/QY3YQgeOinSrk4BEoyZ4qYUyg5ANK3X7hj2NRckL73j
+	HhXUMylvQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lFEJD-0005Ma-Ej; Thu, 25 Feb 2021 10:55:51 +0000
+	id 1lFEJA-0005M7-Bb; Thu, 25 Feb 2021 10:55:48 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lFEJ4-0005Ji-C9
- for linux-nvme@lists.infradead.org; Thu, 25 Feb 2021 10:55:44 +0000
+ id 1lFEJ4-0005Jh-C8
+ for linux-nvme@lists.infradead.org; Thu, 25 Feb 2021 10:55:43 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C9D55AC6E;
+ by mx2.suse.de (Postfix) with ESMTP id CB09AAD5C;
  Thu, 25 Feb 2021 10:55:40 +0000 (UTC)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCHv3 0/6] Fixup return value for nvme_submit_sync_cmd()
-Date: Thu, 25 Feb 2021 11:55:21 +0100
-Message-Id: <20210225105527.75277-1-hare@suse.de>
+Subject: [PATCH 1/6] nvme: simplify error logic in nvme_validate_ns()
+Date: Thu, 25 Feb 2021 11:55:22 +0100
+Message-Id: <20210225105527.75277-2-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210225105527.75277-1-hare@suse.de>
+References: <20210225105527.75277-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210225_055542_993614_C8D9D835 
-X-CRM114-Status: GOOD (  14.41  )
+X-CRM114-CacheID: sfid-20210225_055542_974896_20F4DA06 
+X-CRM114-Status: GOOD (  15.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,45 +71,49 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-here are some small patches for fixing up the return value of nvme_submit_sync_cmd().
-As Keith correctly noted, nvme_submit_sync_cmd() should be returning
-an error if the command could not be performed; however, currently
-only pci does that.
-So we need to fix up nvme_cancel_request() to return an -EINTR
-on any pending sync commands during reset.
-And modify nvme-fc to return the same nvme status after timing out
-or cancelling requests.
-Plus, finally, adding a new flag 'NVME_REQ_TIMEOUT' to indicate
-that a command had been aborted due to a timeout, and translates that
-back into -ETIMEDOUT as a return code for nvme_submit_sync_cmd().
+We only should remove namespaces when we get fatal error back from
+the device or when the namespace IDs have changed.
+So instead of painfully masking out error numbers which might indicate
+that the error should be ignored we could use an NVME status code
+to indicated when the namespace should be removed.
+That simplifies the final logic and makes it less error-prone.
 
-As usual, comments and reviews are welcome.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Changes to v2:
-- Include reviews from Sagi
-- Simplify error logic from nvme_validate_ns()
-
-Changes to v1:
-- Include reviews from Daniel
-- Include changes for nvme-fc to return the same status as the
-  other transports
-
-Hannes Reinecke (6):
-  nvme: simplify error logic in nvme_validate_ns()
-  nvme: add NVME_REQ_CANCELLED flag in nvme_cancel_request()
-  nvme-fc: set NVME_REQ_CANCELLED in nvme_fc_terminate_exchange()
-  nvme-fc: return NVME_SC_HOST_ABORTED_CMD when a command has been
-    aborted
-  nvme: return NVME_SC_ABORT_QUEUE for cancelled commands
-  nvme: return -ETIMEDOUT in nvme_submit_sync_cmd()
-
- drivers/nvme/host/core.c | 11 +++++++----
- drivers/nvme/host/fc.c   | 11 ++++++++---
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/rdma.c |  1 +
- drivers/nvme/host/tcp.c  |  1 +
- 5 files changed, 18 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d77f3f26d8d3..13ed7d3fbbb3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4036,7 +4036,7 @@ static void nvme_ns_remove_by_nsid(struct nvme_ctrl *ctrl, u32 nsid)
+ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
+ {
+ 	struct nvme_id_ns *id;
+-	int ret = -ENODEV;
++	int ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 
+ 	if (test_bit(NVME_NS_DEAD, &ns->flags))
+ 		goto out;
+@@ -4045,7 +4045,7 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
+ 	if (ret)
+ 		goto out;
+ 
+-	ret = -ENODEV;
++	ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 	if (!nvme_ns_ids_equal(&ns->head->ids, ids)) {
+ 		dev_err(ns->ctrl->device,
+ 			"identifiers changed for nsid %d\n", ns->head->ns_id);
+@@ -4063,7 +4063,7 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
+ 	 *
+ 	 * TODO: we should probably schedule a delayed retry here.
+ 	 */
+-	if (ret && ret != -ENOMEM && !(ret > 0 && !(ret & NVME_SC_DNR)))
++	if (ret > 0 && (ret & NVME_SC_DNR))
+ 		nvme_ns_remove(ns);
+ }
+ 
 -- 
 2.29.2
 
