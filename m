@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B135C433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Feb 2021 08:48:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52994C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Feb 2021 09:08:56 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C9C8764E28
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Feb 2021 08:48:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C9C8764E28
+	by mail.kernel.org (Postfix) with ESMTPS id C0F3964EED
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Feb 2021 09:08:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C0F3964EED
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xEYaHqUro8oFBvLNvDVU5dRMkd8FwA2li2pWlwFhzno=; b=kqDF39KC/n2QLqVJesz7WCyF7
-	yD1Et5hp2w+sUIuzQgBBxA+8ZxzCCoN5VXalagp0w3lvcA4Xhj5XPliPiRafbZTc1+ocf1PNBqflW
-	HCBfJUd8SzecJ4or/ekPw9CU2jNbwg74J3cUllVoaNWt/9w4Hc4FpgGh9/sJf59QkM1JIpBGsXgZ2
-	no7gBGdYo2cnVTEaCVFKvezVKtjc/N5DrNynAHyNEFVQ+HQw/n8TLoSJzCZTjYzLiJ4xn1rMd8cpM
-	+RF5HKylEKhQIw75PifWqZQcIlY2/Hpl/I4VnAvutx2kPMAwxwT9VIdyM6jgFaxuulUrNccymmZcW
-	uSDrOdMdg==;
+	 bh=1Q3ElYqocQ/D2Xmm6ks96DHUPAfTx1gAd3n01GNdN5k=; b=PZ/d75bTS4oxKqs7b34jb0wRC
+	YunBG7f7FkW3jgznDcyZv/w33PjjDHI/rBQfPpkvsGa14+AwDYrWW8bXCYNa1D4rKxygVcjOs40mQ
+	yXr9Xkho8/Z5Sc4thi3u9jpJpc3cUzitwJhh9geSFvHSI4Xh+uQXN9qV2czI9ssn7RNbS6MdoXFcW
+	u9q+ExI6ZMOhDggyjqh0a5QmisweF80noTEJ0VMI/lOIMy+sgtVWMHef8lvU8t0Qr4Vlolf5vOZE4
+	VYdN3G5M2l5oR0CBB1jLOvRMvGbMZYAIvVIvlM0iMBg/Sx5XdZY/atAX39S/JZlIPi4lz8bbzs6R5
+	Z7wHdLIbQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lFXNe-0007K4-Cz; Fri, 26 Feb 2021 07:17:42 +0000
+	id 1lFXNf-0007KS-L6; Fri, 26 Feb 2021 07:17:43 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lFXNW-0007Gj-6w
+ id 1lFXNW-0007Gg-6w
  for linux-nvme@lists.infradead.org; Fri, 26 Feb 2021 07:17:36 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B9356AD57;
+ by mx2.suse.de (Postfix) with ESMTP id BB4CEADDD;
  Fri, 26 Feb 2021 07:17:32 +0000 (UTC)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 3/4] nvme-fc: set NVME_REQ_CANCELLED in
- nvme_fc_terminate_exchange()
-Date: Fri, 26 Feb 2021 08:17:27 +0100
-Message-Id: <20210226071728.106923-4-hare@suse.de>
+Subject: [PATCH 1/4] nvme: simplify error logic in nvme_validate_ns()
+Date: Fri, 26 Feb 2021 08:17:25 +0100
+Message-Id: <20210226071728.106923-2-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210226071728.106923-1-hare@suse.de>
 References: <20210226071728.106923-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210226_021734_500401_02C6F9BF 
-X-CRM114-Status: GOOD (  13.04  )
+X-CRM114-CacheID: sfid-20210226_021734_502456_E3FBBC11 
+X-CRM114-Status: GOOD (  15.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +63,67 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@wdc.com>, Sagi Grimberg <sagi@grimberg.me>,
- Daniel Wagner <dwagner@suse.de>, James Smart <james.smart@broadcom.com>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_fc_terminate_exchange() is being called when exchanges are
-being deleted, and as such we should be setting the NVME_REQ_CANCELLED
-flag to have identical behaviour on all transports.
+We only should remove namespaces when we get fatal error back from
+the device or when the namespace IDs have changed.
+So instead of painfully masking out error numbers which might indicate
+that the error should be ignored we could use an NVME status code
+to indicated when the namespace should be removed.
+That simplifies the final logic and makes it less error-prone.
 
-Cc: James Smart <james.smart@broadcom.com>
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/fc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 20dadd86e981..ef12a619daec 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2443,6 +2443,7 @@ nvme_fc_terminate_exchange(struct request *req, void *data, bool reserved)
- 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
- 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(req);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d77f3f26d8d3..bde1b22ca7f2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1439,7 +1439,7 @@ static int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+ 		goto out_free_id;
+ 	}
  
-+	op->nreq.flags |= NVME_REQ_CANCELLED;
- 	__nvme_fc_abort_op(ctrl, op);
- 	return true;
+-	error = -ENODEV;
++	error = NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 	if ((*id)->ncap == 0) /* namespace not allocated or attached */
+ 		goto out_free_id;
+ 
+@@ -4036,7 +4036,7 @@ static void nvme_ns_remove_by_nsid(struct nvme_ctrl *ctrl, u32 nsid)
+ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
+ {
+ 	struct nvme_id_ns *id;
+-	int ret = -ENODEV;
++	int ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 
+ 	if (test_bit(NVME_NS_DEAD, &ns->flags))
+ 		goto out;
+@@ -4045,7 +4045,7 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
+ 	if (ret)
+ 		goto out;
+ 
+-	ret = -ENODEV;
++	ret = NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 	if (!nvme_ns_ids_equal(&ns->head->ids, ids)) {
+ 		dev_err(ns->ctrl->device,
+ 			"identifiers changed for nsid %d\n", ns->head->ns_id);
+@@ -4063,7 +4063,7 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
+ 	 *
+ 	 * TODO: we should probably schedule a delayed retry here.
+ 	 */
+-	if (ret && ret != -ENOMEM && !(ret > 0 && !(ret & NVME_SC_DNR)))
++	if (ret > 0 && (ret & NVME_SC_DNR))
+ 		nvme_ns_remove(ns);
  }
+ 
 -- 
 2.29.2
 
