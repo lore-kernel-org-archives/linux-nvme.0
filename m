@@ -2,87 +2,89 @@ Return-Path: <SRS0=Uoxm=H7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1E8C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 02:06:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 296B9C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 02:06:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C9C8264DF2
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 02:06:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C9C8264DF2
+	by mail.kernel.org (Postfix) with ESMTPS id C953664E01
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 02:06:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C953664E01
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=AL6mMB+k6XtoHnOu9JaP32mUoI87kMxZ7XaQmfWLEBg=; b=s39kMAIUCg04ofOP6kLHN5r/Jr
-	aIsGXjDJ33dcXxLwsQa4tPyXLcVZPX5A1ssrHdwTaTyxgLdOo5DLKyo9hLeDXt63gxtQ+bZpwb+Ac
-	O95tpwSP3NVxqgCaj+06EKBqoAXYLkvNK4f6UixK/DNaWaEuVBd2QRu1G15apTvWZxsQb80VGKQaC
-	DTxvJ6QD1KtsK+T1FX+RSmpbouaiU1/a/HGog7PXeYrm8tY2jduWjYrKN6R1zsm0ZNYGaO6puPgm7
-	9X1CiLPWcfjvHzWkN0JSYHm3DAHxIGc1heH8G1U5ZhKXUs6ItEph/uj3Kj9nW5CKM66yCLdb6tsIY
-	CiOH3ARA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=6u5KJzCnzJ2hNdETUXv5vhjNstWznDOvmk8N3ZIF3vY=; b=L9Cd6f9mykcI5hrgfg9VIiTBQ
+	KGy/rKXSuy0wu76pzxaCmqqQI39uR/L1Lms+JvTmf2qq8PlP/pQLme4U8HinDiYSnAdQWb0wJimnw
+	61Si3DosQOFeuLJEBuys/H1vWdOh0hQnahcXWAqon64ZU9DNHibTAwr5WSlelZGQ+jKRCNW62RKIn
+	vvZv3QmEVKRVWq9wvV5w+cqOg/qxYnbo7SB/UWHxbUSzfcp3vxC9omsHbmuxFJK1CJ2qpKJgIjfFv
+	z0oYUzxG+LZMcmjUOIk6rFDHnFkcHaiqNuJNWfHe1rFfGtY+nYAFlVMyQx/Dt4QrV2uf3qbfbj7Et
+	D2Krrr26w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lGXx2-0004O9-Iy; Mon, 01 Mar 2021 02:06:24 +0000
+	id 1lGXxC-0004P0-JM; Mon, 01 Mar 2021 02:06:34 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lGXwv-0004Nh-VR
- for linux-nvme@lists.infradead.org; Mon, 01 Mar 2021 02:06:19 +0000
+ id 1lGXxA-0004Of-6i
+ for linux-nvme@lists.infradead.org; Mon, 01 Mar 2021 02:06:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1614564378; x=1646100378;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xE+IQP3R7Vccua+R2+i5aJCb9USbTk8KxdqxBfG0TCs=;
- b=IXdYYhcXEjmaNLIojUT3OEKjBlpmHsoy/VrnEWCtqYnHY2m9eXdOQQ3H
- iz9DVhIhbdM/5rJ8wIn1MOQSZv7GXJ8KjJBK0Eh96asOpDqpa+prs2cNd
- 8bTIbLOCcjmI0GWBWyVpcXAEWPEl+NOFpwBP++5Yggd/4biCieB9RLINC
- x73DyqJ/JMGdmmnc7gk4fNrASvVGbkqHeK17zvJwuIKQcFx07Of1DPJ3x
- CWfwtQz5hiBsN1LA/seISHFNdybBBz5DFC/IH4jhH1phW55wKm4fB2gJE
- kOwUyti+tX4ouceSPSfdtjNqYxVKJThJlPXLT1K12Wu/lZJ2DOpORhKkb A==;
-IronPort-SDR: V0VMFnxGkwLYaZpEUDbbSMd95NyPj5pgm9XhdTavJa9VwmHQwW5Us7MxOZWyqgzN2EZLCKhQTE
- noBngwGp3FLRnjuetvReQO2lnyne2aZ0Nj7c0eviPYG0dtLh5HpdSnlf055L2csLEsF0sbM9YA
- UPW28DYoix8dU3yC7g6+AaGPTGknBSjiRAyZ5DE6UW4EIiOeVoJGTkmTm0tycuDElhuwPWnKHe
- /O3nsKT3Hxxdjc3JBoziMc+6FA1NXelm/lndtT5uExTuy7JtU0aFvCFxDHWzjlnUZIQAQpKqMa
- seg=
-X-IronPort-AV: E=Sophos;i="5.81,214,1610380800"; d="scan'208";a="162191577"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Mar 2021 10:06:14 +0800
-IronPort-SDR: Rbjz1HUZJNR755Y6bUFK+UmpP2g/xxRK/MJS+8oyz2BcII1SbTBEcQTlJsaRMzFOJbbP26FO/t
- lHTBvaly6ilpDGMBFrIzTHQW/EsFqXxzVjoKhVRtsiLFBfcbxyjzlJlKoFAGYwZ0aW2Xzj6g4D
- djWz/xl6cXyrG+SBDt88mO52ATuxVZdc3JabwEVvffzMOx8vRlhzggQ7VskTuGiajkw67H8NgO
- DCyHNLpbKM9bfXaeDp5jhLeEkBBQkkq16Ptai4xS6uaTgX0uJQ67lbL5NPQAtyys3Fzlb1garX
- xFE72voHwdYd7k9nmQBi9W8e
+ t=1614564393; x=1646100393;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=TcSxzKQknbPR3+xviJ51CqO+dISg4upIivzZsoYlTKs=;
+ b=lJX8b8CyAfKMi4Hy7haNmALPBlMn/T9deJfZVlybiUGb7ryPVl7tHbbB
+ 5KDdruCqsPrcDMJEdzOENBIY0HzjnNFvd1ZmOB3wNpKMH2Q0EtMbfEMZn
+ xBPBqCaaf0gHkhk7MJgIfpqqwnA+E4ITas6JLUWOEchWBetso5/LuVqZg
+ TmlFP5bIVDxS0DVBg1GQ99tY4Xd2/iE38dJHQeC6urUMxXBorS5QnyPyj
+ jEH7mKWQLI2xKZyMGhPr+UHpRp1G3x/t+rnvVXB5inp8jj2JI3mqqjGJJ
+ oZykXjqhTwiUOYP5P/tMfYIg67c/YUzJ5TGhpaG2ZUrSofLWuQfQ/X8ec Q==;
+IronPort-SDR: 1W6QMR586mi8/uJO2KVRVqmtalIirUTYYXd/YryOSwlYBc7JL9B62UPPUVw2Lnoi9/K1KRQxXW
+ UR7kXGGmj4obfg+xAComvJMonR6heq7D1rEl5b/0bACBXkoDzJ7QkOt9fkELPRGC6kj97WM6K/
+ fln7r7vgQ7ngU242++2qefeKlrns8gfLgKa59IaWowutVEL/1NMAsl5FnkKpVpXkU0vrBN9tbf
+ h0wx2sxLaY0v3TrGBk7ZCKX2DAgymVwsdN18cqVtpDt2H/pQiRhGpKWMcQBF8TFMHZLa5BWGhn
+ 9jQ=
+X-IronPort-AV: E=Sophos;i="5.81,214,1610380800"; d="scan'208";a="162191614"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Mar 2021 10:06:32 +0800
+IronPort-SDR: RvcYMfZTJJAB1ZTep45YOBGr8EmU9Cfr5B8G/y7iHly6MguPsF5WYdove3NQOGQTse0c5s9xLz
+ oIu84AqNZYJ+ORhCo9cktGuJGE4ORgxxDQ7vtmWLX+EAxaZaxVT/D9OduWMuFuxaBZbYtP+SU6
+ Cl/YFMk1WcqzkW5BMoHKJRRiz6rYJqhjPwHiN1SXZRec74TQ+eMYECH5kuacvVfP3LgD/yTAmm
+ 4LxUGyDqzFIssqnBblG3k4TKS7MXK+0oNFnru4eujYIvEsROjS88JwHjoIO2EDJXFATbMdMzPz
+ pxrGxgicpO8QV0/LmdWpjqi+
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2021 17:49:22 -0800
-IronPort-SDR: wOxRR/Otv5wruR7u7SWy7190RJ+sYfPL3G0qSMUUREzzrHg5puLroo0n1zXYoqcivKtxInxdfm
- 4xMTC0+9SUnWYjqU1TOhjuuFTuNpl9wJ9tJeX7ffR6BkIrp8H73mXpDczJbpfYeVMTxRlDtCDy
- 5TFF/3zbD5bPj5A92N4kge8HtpVWeoSVT4JzIn0U6i44kLFdeLTc4QJr9PPu77FfHqflOQqCqk
- kdZhsfVp4FwyWquOOIJAOi6IzdZNGFX3KjL8VtFM6Ze4JFCUlLErpKVNiOjhKR+kZnF30pNwsC
- +1s=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2021 17:47:48 -0800
+IronPort-SDR: 13GbJtAKU6ytyyNfP24OWvfV2pZp7DnSpOIYWon/ETg26TOJmDS3LpDUgQS8biVu0Stka/vCxC
+ 36LbRbKZMy9dTh4oxYDoj+dEoganinf3uayzZGRicjKDXn4qXqv7jo6+vJ2CvOrJHRoCKl7Nu6
+ eRtPXRo0vnjcvkfHrJmEWViEfIjONu9rbVh7vEK8AIOYqNGjtScFNVElisxiM9a7zqjpRBXmoX
+ JT/b/cS9UuzX4tnmcAjN0fMTrzYt7jC7STPvDpdz68c6yzbH/qol/x7QoXdhtTQTbcdiTyZuXq
+ WDs=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip01.wdc.com with ESMTP; 28 Feb 2021 18:06:14 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 28 Feb 2021 18:06:31 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 0/8] nvme: few cleanups and small improvements
-Date: Sun, 28 Feb 2021 18:06:03 -0800
-Message-Id: <20210301020611.18669-1-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 2/8] nvme-core: split init identify into helper
+Date: Sun, 28 Feb 2021 18:06:05 -0800
+Message-Id: <20210301020611.18669-3-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1.dirty
+In-Reply-To: <20210301020611.18669-1-chaitanya.kulkarni@wdc.com>
+References: <20210301020611.18669-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210228_210618_241792_AFC95676 
-X-CRM114-Status: GOOD (  11.58  )
+X-CRM114-CacheID: sfid-20210228_210632_393025_B02E8FEC 
+X-CRM114-Status: GOOD (  17.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,37 +98,134 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: kbusch@kernel.org, sagi@grimberg.me, hch@lst.de,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, james.smart@broadcom.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGksCgpUaGlzIGhhcyBmZXcgY2xlYW51cHMgc3VjaCBhcyB2YXJpYWJsZSBkYXRhIHR5cGUsIHJl
-bW92aW5nwqBvbmVsaW5lcgp3cmFwcGVycyBmb3Igc2luZ2xlIGNhbGxlcnMsIHJlbW92aW5nIGR1
-cGxpY2F0ZSBrZnJlZSgpIGFuZCBzbWFsbAppbXByb3ZlbWVudHMgZm9yIE5WTWVPRiBQYXNzdGhy
-dSBmYXN0IHBhdGggc3VjaCBhcyBsaWtlbHkgYW5ub3RhdGlvbiwKcmVtb3ZpbmcgdGhlIGV4dHJh
-IGNoZWNrcywgbWFraW5nIGZ1bmN0aW9uIGlubGluZSBmb3IgaG9zdC9jb3JlLmMuCkxhc3QgY291
-cGxlIG9mIHBhdGNoZXMgZml4ZXMgd2FybmluZyBmb3IgRkMgZnVuY3Rpb24gaGVhZGVyCmRvY3Vt
-ZW50YXRpb24uCgotY2sKCnYxLT52MjoKCjEuIFJlbmFtZSB0aGUgbnZtZV9pbml0X2lkZW50aWZ5
-KCkgdG8gbnZtZV9pbml0X2N0cmxfZmluaXNoKCksCjIuIE1vdmUgbnZtZV9pZF9jdHJsIHN0cnVj
-dCBpbml0aWFsaXphdGlvbiBjb2RlIGludG8gc2VwYXJhdGUgaGVscGVyCiAgIG52bWVfaW5pdF9p
-ZGVudGlmeSgpLgozLiBSZW1vdmUgdGhlIHBhdGNoZXMgdG8gYXZvaWQgZXh0cmEgY2h1cm4sIGtl
-ZXAgdGhlIGZjIHBhdGNoZXMuCjQuIEtlZXAgdGhlIHNtYWxsIGltcHJvdmVtZW50cyB3aGljaCBh
-cmUgbmVlZGVkIGZvciB0aGUgcGFzc3RocnUgY29kZS4KNS4gQWRkIHByIGNsZWFudXAgcGF0Y2gu
-CgpDaGFpdGFueWEgS3Vsa2FybmkgKDgpOgogIG52bWUtY29yZTogcmVuYW1lIG52bWVfaW5pdF9p
-ZGVudGlmeSgpCiAgbnZtZS1jb3JlOiBzcGxpdCBpbml0IGlkZW50aWZ5IGludG8gaGVscGVyCiAg
-bnZtZS1jb3JlOiBtYXJrIG52bWVfc2V0dXBfcGFzc3N0aHJ1KCkgaW5saW5lCiAgbnZtZS1jb3Jl
-OiB1c2UgbGlrZWx5IGluIG52bWVfaW5pdF9yZXF1ZXN0KCkKICBudm1lLWNvcmU6IGRvbid0IGNo
-ZWNrIG52bWVfcmVxIGZsYWdzIGZvciBuZXcgcmVxCiAgbnZtZS1mYzogZml4IHRoZSBmdW5jdGlv
-biBkb2N1bWVudGF0aW9uIGNvbW1lbnQKICBudm1ldC1mYzogdXBkYXRlIGZ1bmN0aW9uIGRvY3Vt
-ZW50YXRpb24KICBudm1lLWNvcmU6IGFkZCBuZXcgbGluZSBhZnRlciB2YXJpYWJsZSBkZWNsYXRh
-dGlvbgoKIGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyAgIHwgNzkgKysrKysrKysrKysrKysrKysr
-KysrKy0tLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvbnZtZS9ob3N0L2ZjLmMgICAgIHwgIDQgKy0K
-IGRyaXZlcnMvbnZtZS9ob3N0L252bWUuaCAgIHwgIDIgKy0KIGRyaXZlcnMvbnZtZS9ob3N0L3Bj
-aS5jICAgIHwgIDIgKy0KIGRyaXZlcnMvbnZtZS9ob3N0L3JkbWEuYyAgIHwgIDIgKy0KIGRyaXZl
-cnMvbnZtZS9ob3N0L3RjcC5jICAgIHwgIDIgKy0KIGRyaXZlcnMvbnZtZS90YXJnZXQvZmMuYyAg
-IHwgIDEgKwogZHJpdmVycy9udm1lL3RhcmdldC9sb29wLmMgfCAgMiArLQogOCBmaWxlcyBjaGFu
-Z2VkLCA1MyBpbnNlcnRpb25zKCspLCA0MSBkZWxldGlvbnMoLSkKCi0tIAoyLjIyLjEKCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1h
-aWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmlu
-ZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+The function nvme_init_ctrl_finish() (formerly nvme_init_identify()) has
+grown over the period of time about ~200 lines given the size of nvme id
+ctrl data structure.
+
+Move the nvme_id_ctrl data structure related initilzation into helper
+nvme_init_identify() and call it from nvme_init_ctrl_finish().
+
+When we move the code into nvme_init_identify() change the local
+variable i from int to unsigned int and remove the duplicate kfree()
+after nvme_mpath_init() and jump to the label out_free if
+nvme_mpath_ini() fails.
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/host/core.c | 55 +++++++++++++++++++++++-----------------
+ 1 file changed, 32 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b72d0ec706be..379ebb54f5dd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3059,28 +3059,14 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 	return 0;
+ }
+ 
+-/*
+- * Initialize the cached copies of the Identify data and various controller
+- * register in our nvme_ctrl structure.  This should be called as soon as
+- * the admin queue is fully up and running.
+- */
+-int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
++static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_id_ctrl *id;
+ 	int ret, page_shift;
+ 	u32 max_hw_sectors;
+ 	bool prev_apst_enabled;
+ 
+-	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
+-	if (ret) {
+-		dev_err(ctrl->device, "Reading VS failed (%d)\n", ret);
+-		return ret;
+-	}
+ 	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
+-	ctrl->sqsize = min_t(u16, NVME_CAP_MQES(ctrl->cap), ctrl->sqsize);
+-
+-	if (ctrl->vs >= NVME_VS(1, 1, 0))
+-		ctrl->subsystem = NVME_CAP_NSSRC(ctrl->cap);
+ 
+ 	ret = nvme_identify_ctrl(ctrl, &id);
+ 	if (ret) {
+@@ -3098,7 +3084,7 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ 		ctrl->cntlid = le16_to_cpu(id->cntlid);
+ 
+ 	if (!ctrl->identified) {
+-		int i;
++		unsigned int i;
+ 
+ 		ret = nvme_init_subsystem(ctrl, id);
+ 		if (ret)
+@@ -3211,16 +3197,43 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ 	}
+ 
+ 	ret = nvme_mpath_init(ctrl, id);
+-	kfree(id);
+-
+ 	if (ret < 0)
+-		return ret;
++		goto out_free;
+ 
+ 	if (ctrl->apst_enabled && !prev_apst_enabled)
+ 		dev_pm_qos_expose_latency_tolerance(ctrl->device);
+ 	else if (!ctrl->apst_enabled && prev_apst_enabled)
+ 		dev_pm_qos_hide_latency_tolerance(ctrl->device);
+ 
++out_free:
++	kfree(id);
++	return ret;
++}
++
++/*
++ * Initialize the cached copies of the Identify data and various controller
++ * register in our nvme_ctrl structure.  This should be called as soon as
++ * the admin queue is fully up and running.
++ */
++int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
++{
++	int ret;
++
++	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
++	if (ret) {
++		dev_err(ctrl->device, "Reading VS failed (%d)\n", ret);
++		return ret;
++	}
++
++	ctrl->sqsize = min_t(u16, NVME_CAP_MQES(ctrl->cap), ctrl->sqsize);
++
++	if (ctrl->vs >= NVME_VS(1, 1, 0))
++		ctrl->subsystem = NVME_CAP_NSSRC(ctrl->cap);
++
++	ret = nvme_init_identify(ctrl);
++	if (ret)
++		return ret;
++
+ 	ret = nvme_configure_apst(ctrl);
+ 	if (ret < 0)
+ 		return ret;
+@@ -3246,10 +3259,6 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ 	ctrl->identified = true;
+ 
+ 	return 0;
+-
+-out_free:
+-	kfree(id);
+-	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_init_ctrl_finish);
+ 
+-- 
+2.22.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
