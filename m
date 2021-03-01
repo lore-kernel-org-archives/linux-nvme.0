@@ -2,69 +2,54 @@ Return-Path: <SRS0=Uoxm=H7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95829C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 16:53:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D40F6C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 17:56:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2633264FBB
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 16:53:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2633264FBB
+	by mail.kernel.org (Postfix) with ESMTPS id 7268C65202
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 17:56:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7268C65202
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3KUyWC3OV9Xt8Z2ZciOZiDA58ca408GRlOwPEnYaT94=; b=jTooz1F304sZW6anaQfI0P/jF
-	gW0cvqT5eMM832A+0atrjmoUB4YUAJILcNozf3+ZOGH+wlaWqAvp1QgvI6XeQhDquvMuSO7MJGTpc
-	Mh0YvTjlbaxQaCbt8HDJ1iKElskZBNVPvhdj3XacW0nxHM9yp/gSeYa/UhvplupKK9HPhH1wUVqvX
-	hsMmSwDVR11H7+1NjMrUH04TFqf8UxU+TRj2H7cO6Yh3d9T0N4EJ6HlHu87LFCogKe2lLcYOcF4IR
-	4mJOvzvdWSzzgBy1CJviD9DF1F0djeQDrVZVfZU70UDkZ6vPco8ibvUu9u0PEVQWycDtaguWyFMDi
-	dygSoBFqw==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wuVK/2siPlQwyuIwpJ2PcqlWc18czLjrytP7TxjyqZk=; b=Uht9KdG63PzKguHeDYfreSVM/F
+	KSUWSpw04f/FayDQVjA3nn90JtV3614225QcJ18AXjWZd+4/XnbRC4m5b/29LbcP20cLhgmFu5yoA
+	2ehlwhSAyMOUUvTXo2AZZhUrMm4gaDCtyNrJbPRf/GzkmG3TU4Fdbh1RwIgj13e7pOwT009lv+6CN
+	AWoPl5KTqblY4v33sRjki00052YRVqHvWda+3H64WMnv0hwZViGLJFpATKFBycTBbGcN1jZwpaE74
+	vR7ww4nA5E9BqPyorQrQKq1kkZIVdOWI/adJyEWXnrhVFYDZ1nhExX3c60JpSIw/QNpS/ZHV6+qXD
+	YvffI9tw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lGlnW-0004P7-K7; Mon, 01 Mar 2021 16:53:30 +0000
+	id 1lGmm7-0004cM-7H; Mon, 01 Mar 2021 17:56:07 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lGlnT-0004OE-Kz
- for linux-nvme@lists.infradead.org; Mon, 01 Mar 2021 16:53:28 +0000
+ id 1lGmm4-0004be-Uy
+ for linux-nvme@lists.infradead.org; Mon, 01 Mar 2021 17:56:06 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 61522AE05;
- Mon,  1 Mar 2021 16:53:26 +0000 (UTC)
-Subject: Re: [PATCH] nvme-tcp: Check if request has started before processing
- it
-To: Keith Busch <kbusch@kernel.org>
-References: <73e4914e-f867-c899-954d-4b61ae2b4c33@suse.de>
- <20210215104020.yyithlo2hkxqvguj@beryllium.lan>
- <a2064070-b511-ba6d-bd64-0b3abc208356@grimberg.me>
- <20210226123534.4oovbzk4wrnfjp64@beryllium.lan>
- <9e209b12-3771-cdca-2c9d-50451061bd2a@suse.de>
- <20210226161355.GG31593@redsun51.ssa.fujisawa.hgst.com>
- <a42d6285-ff32-3e16-b2b1-808d29f2a743@suse.de>
- <20210226171901.GA3949@redsun51.ssa.fujisawa.hgst.com>
- <20210301132639.n3eowtvkms2n5mog@beryllium.lan>
- <786dcef5-148d-ff34-590c-804b331ac519@suse.de>
- <20210301160547.GB17228@redsun51.ssa.fujisawa.hgst.com>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <b626504c-3427-e8a5-3502-e44a9e79a006@suse.de>
-Date: Mon, 1 Mar 2021 17:53:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mx2.suse.de (Postfix) with ESMTP id 97D26ADDD;
+ Mon,  1 Mar 2021 17:56:03 +0000 (UTC)
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH v2] nvme-tcp: Check if request has started before processing it
+Date: Mon,  1 Mar 2021 18:56:01 +0100
+Message-Id: <20210301175601.116405-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210301160547.GB17228@redsun51.ssa.fujisawa.hgst.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210301_115327_819720_8583B293 
-X-CRM114-Status: GOOD (  22.53  )
+X-CRM114-CacheID: sfid-20210301_125605_211924_E66991E2 
+X-CRM114-Status: GOOD (  21.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,45 +62,156 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
+ Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMy8xLzIxIDU6MDUgUE0sIEtlaXRoIEJ1c2NoIHdyb3RlOgo+IE9uIE1vbiwgTWFyIDAxLCAy
-MDIxIGF0IDAyOjU1OjMwUE0gKzAxMDAsIEhhbm5lcyBSZWluZWNrZSB3cm90ZToKPj4gT24gMy8x
-LzIxIDI6MjYgUE0sIERhbmllbCBXYWduZXIgd3JvdGU6Cj4+PiBPbiBTYXQsIEZlYiAyNywgMjAy
-MSBhdCAwMjoxOTowMUFNICswOTAwLCBLZWl0aCBCdXNjaCB3cm90ZToKPj4+PiBDcmFzaGluZyBp
-cyBiYWQsIHNpbGVudCBkYXRhIGNvcnJ1cHRpb24gaXMgd29yc2UuIElzIHRoZXJlIHRydWx5IG5v
-Cj4+Pj4gZGVmZW5zZSBhZ2FpbnN0IHRoYXQ/IElmIG5vdCwgd2h5IHNob3VsZCBhbnlvbmUgcmVs
-eSBvbiB0aGlzPwo+Pj4KPj4+IElmIHdlIHJlY2VpdmUgYW4gcmVzcG9uc2UgZm9yIHdoaWNoIHdl
-IGRvbid0IGhhdmUgYSBzdGFydGVkIHJlcXVlc3QsIHdlCj4+PiBrbm93IHRoYXQgc29tZXRoaW5n
-IGlzIHdyb25nLiBDb3VsZG4ndCB3ZSBpbiBqdXN0IHJlc2V0IHRoZSBjb25uZWN0aW9uCj4+PiBp
-biB0aGlzIGNhc2U/IFdlIGRvbid0IGhhdmUgdG8gcHJldGVuZCBub3RoaW5nIGhhcyBoYXBwZW5l
-ZCBhbmQKPj4+IGNvbnRpbnVpbmcgbm9ybWFsbHkuIFRoaXMgd291bGQgYXZvaWQgYSBob3N0IGNy
-YXNoIGFuZCB3b3VsZCBub3QgY3JlYXRlCj4+PiAobW9yZSkgZGF0YSBjb3JydXB0aW9uLiBPciBJ
-IGFtIGp1c3QgdG9vIG5haXZlPwo+Pj4KPj4gVGhpcyBpcyBhY3R1YWxseSBhIHNlbnNpYmxlIHNv
-bHV0aW9uLgo+PiBQbGVhc2Ugc2VuZCBhIHBhdGNoIGZvciB0aGF0Lgo+IAo+IElzIGEgYmFkIGZy
-YW1lIGEgcHJvYmxlbSB0aGF0IGNhbiBiZSByZXNvbHZlZCB3aXRoIGEgcmVzZXQ/Cj4gCj4gRXZl
-biBpZiBzbywgdGhlIHJlc2V0IGRvZXNuJ3QgaW5kaWNhdGUgdG8gdGhlIHVzZXIgaWYgcHJldmlv
-dXMgY29tbWFuZHMKPiBjb21wbGV0ZWQgd2l0aCBiYWQgZGF0YSwgc28gaXQgc3RpbGwgc2VlbXMg
-dW5yZWxpYWJsZS4KPiAKV2UgbmVlZCB0byBkaXN0aW5ndWlzaCB0d28gY2FzZXMgaGVyZS4KVGhl
-IG9uZSBpcyB1c2UgcmVjZWl2aW5nIGEgZnJhbWUgd2l0aCBhbiBpbnZhbGlkIHRhZywgbGVhZGlu
-ZyB0byBhIApjcmFzaC4gVGhpcyBjYW4gYmUgZWFzaWx5IHJlc29sdmVkIGJ5IGlzc3VpbmcgYSBy
-ZXNldCwgYXMgY2xlYXJseSB0aGUgCmNvbW1hbmQgd2FzIGdhcmJhZ2UgYW5kIHdlIG5lZWQgdG8g
-aW52b2tlIGVycm9yIGhhbmRsaW5nICh3aGljaCBpcyByZXNldCkuCgpUaGUgb3RoZXIgY2FzZSBp
-cyB1cyByZWNlaXZpbmcgYSBmcmFtZSB3aXRoIGEgX2R1cGxpY2F0ZV8gdGFnLCBpZSBhIHRhZyAK
-d2hpY2ggaXMgX2N1cnJlbnRseV8gdmFsaWQuIFRoaXMgaXMgYSBjYXNlIHdoaWNoIHdpbGwgZmFp
-bCBfZXZlbiBub3dfLCAKYXMgd2UgaGF2ZSBzaW1wbHkgbm8gd2F5IG9mIGRldGVjdGluZyB0aGlz
-LgoKU28gd2hhdCBhZ2FpbiBkbyB3ZSBtaXNzIGJ5IGZpeGluZyB0aGUgZmlyc3QgY2FzZT8KQXBh
-cnQgZnJvbSBhIHN5c3RlbSB3aGljaCBkb2VzIF9ub3RfIGNyYXNoPwoKQ2hlZXJzLAoKSGFubmVz
-Ci0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFy
-Y2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTEx
-IDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5
-MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJl
-cjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1udm1lCg==
+blk_mq_tag_to_rq() always returns a request if the tag id is in a
+valid range [0...max_tags). If the target replies with a tag for which
+we don't have a request but it's not started, the host will likely
+corrupt data or simply crash.
+
+Add an additional check if the a request has been started if not
+reset the connection.
+
+This addition check will not protected against an invalid tag which
+maps to a request which has been started. There is nothing we can do
+about this. Though it will at a least protect from crashing the host,
+which generally thought to be the right thing to do.
+
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+
+The patch is against nmve-5.12.
+
+I noted that nvme_tcp_process_nvme_cqe() returns EINVAL
+where as the rest uses ENOENT. Looks a bit odd to me.
+
+I've tested this with blktests.
+
+v2:
+  - moved the check into a helper to avoid code duplication
+  - use nvme_reset_ctrl if request has not been started
+  - added nvme_tcp_recv_ddgst() callsite
+
+ drivers/nvme/host/tcp.c | 56 +++++++++++++++++++++++------------------
+ 1 file changed, 31 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 69f59d2c5799..af6f725b842b 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -479,19 +479,38 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+ 	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
+ }
+ 
+-static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+-		struct nvme_completion *cqe)
++static bool nvme_tcp_tag_to_rq(struct nvme_tcp_queue *queue,
++			__u16 command_id, struct request **req)
+ {
+ 	struct request *rq;
+ 
+-	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), cqe->command_id);
++	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), command_id);
+ 	if (!rq) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"queue %d tag 0x%x not found\n",
+-			nvme_tcp_queue_id(queue), cqe->command_id);
++			nvme_tcp_queue_id(queue), command_id);
+ 		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+-		return -EINVAL;
++		return false;
+ 	}
++	if (!blk_mq_request_started(rq)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"queue %d received invalid tag\n",
++			nvme_tcp_queue_id(queue));
++		nvme_reset_ctrl(&queue->ctrl->ctrl);
++		return false;
++	}
++
++	*req = rq;
++	return true;
++}
++
++static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
++		struct nvme_completion *cqe)
++{
++	struct request *rq;
++
++	if (!nvme_tcp_tag_to_rq(queue, cqe->command_id, &rq))
++		return -EINVAL;
+ 
+ 	if (!nvme_try_complete_req(rq, cqe->status, cqe->result))
+ 		nvme_complete_rq(rq);
+@@ -505,13 +524,8 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
+ {
+ 	struct request *rq;
+ 
+-	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+-	if (!rq) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"queue %d tag %#x not found\n",
+-			nvme_tcp_queue_id(queue), pdu->command_id);
++	if (!nvme_tcp_tag_to_rq(queue, pdu->command_id, &rq))
+ 		return -ENOENT;
+-	}
+ 
+ 	if (!blk_rq_payload_bytes(rq)) {
+ 		dev_err(queue->ctrl->ctrl.device,
+@@ -609,13 +623,8 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+ 	struct request *rq;
+ 	int ret;
+ 
+-	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+-	if (!rq) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"queue %d tag %#x not found\n",
+-			nvme_tcp_queue_id(queue), pdu->command_id);
++	if (!nvme_tcp_tag_to_rq(queue, pdu->command_id, &rq))
+ 		return -ENOENT;
+-	}
+ 	req = blk_mq_rq_to_pdu(rq);
+ 
+ 	ret = nvme_tcp_setup_h2c_data_pdu(req, pdu);
+@@ -695,13 +704,8 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 	struct nvme_tcp_request *req;
+ 	struct request *rq;
+ 
+-	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+-	if (!rq) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"queue %d tag %#x not found\n",
+-			nvme_tcp_queue_id(queue), pdu->command_id);
++	if (!nvme_tcp_tag_to_rq(queue, pdu->command_id, &rq))
+ 		return -ENOENT;
+-	}
+ 	req = blk_mq_rq_to_pdu(rq);
+ 
+ 	while (true) {
+@@ -794,8 +798,10 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
+ 	}
+ 
+ 	if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
+-		struct request *rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue),
+-						pdu->command_id);
++		struct request *rq;
++
++		if (!nvme_tcp_tag_to_rq(queue, pdu->command_id, &rq))
++			return -EINVAL;
+ 
+ 		nvme_tcp_end_request(rq, NVME_SC_SUCCESS);
+ 		queue->nr_cqe++;
+-- 
+2.29.2
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
