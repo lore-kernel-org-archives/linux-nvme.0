@@ -2,20 +2,20 @@ Return-Path: <SRS0=Uoxm=H7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6F88C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 19:08:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74F48C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 19:09:53 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6EDB364DE7
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 19:08:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6EDB364DE7
+	by mail.kernel.org (Postfix) with ESMTPS id 2B2E5614A5
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 19:09:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2B2E5614A5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,69 +24,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0YdFDC35d8vhTT44EqmatsD2MOYbX9d+2VihBpu328s=; b=iGOCYZWbMmWyJtRLz4CXwDUV0
-	zXIkfDjsd9fOyVxSQHgXOF+oNjXfznrpa3YVyITG5xLQUdsZWp47lNEaxy/BDLUUoIf6Fn7k5V6oy
-	dO11xHHOrrIEQXoCoO6y3lddqfMzRRFyT9eLrtA2idH+sz8Uk8ujrYB1uo/Dp+CL9Rnq5iSTFGE/o
-	s73eaJCl8s1nUaUZdkUDmy8sras5pQNW4fU/EnlxhzAEXsMuiddEYGWSOIrBM339zWC4WM94jgzlp
-	mb9YQQcCArePT4EfubGRn0uGtOMaQ4XRA7U8SSCtbS4on/Hb8g4dMLvOd8n3EetUrH9klSHqAOp+p
-	8jZH/AaLg==;
+	 bh=2w4KzvvCDYPaxYYFJ//Wv/B5jSuPBI9j2qJOUvRfFAc=; b=QYMpGxuCNyUHlfAEu4S9LNnwX
+	UV2EaOm4BH/Oc/VOzMIWf98iiNUeOviWJHPku1lwbJ5VPz4jjc3z86bMLPEAYEZosmJB1t1adplin
+	gQmagm/K563a1pw4WITp4pBZ0ocXx8MThXk26KwMmXbCmwZhdmESnpUppHTBnNjrSnZxwE4AMCmjH
+	A+/qorGV1O8XDHzoYWjPUk4bKcYxBKeCTJPZ44b0/ij0j/8M/jUoWgVwFwZJ1Ytn5MIzySk/dLqlv
+	KTLpOadYr3mXzoCNTj02c3vxs7FxUHohXdlqXRtY+v8Qwt9WauXIIVKiAI01FoOhozGy2bzSZMU1A
+	nCZrPUzpQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lGntX-000266-HG; Mon, 01 Mar 2021 19:07:51 +0000
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+	id 1lGnvQ-0002Oe-PT; Mon, 01 Mar 2021 19:09:48 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lGntV-00024x-4a
- for linux-nvme@lists.infradead.org; Mon, 01 Mar 2021 19:07:49 +0000
-Received: by mail-pg1-x534.google.com with SMTP id o38so12195338pgm.9
- for <linux-nvme@lists.infradead.org>; Mon, 01 Mar 2021 11:07:46 -0800 (PST)
+ id 1lGnvN-0002ND-Td
+ for linux-nvme@lists.infradead.org; Mon, 01 Mar 2021 19:09:46 +0000
+Received: by mail-pf1-x429.google.com with SMTP id o188so5493915pfg.2
+ for <linux-nvme@lists.infradead.org>; Mon, 01 Mar 2021 11:09:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=TAWEGg7bIMJDflNWL0w3yf0qKrDge1TeIH2F4MT40uQ=;
- b=jVSXONdSGw2NBb0UDwt+xScmCDKol0NmQAyp4Ibx1a/6eXZpez2zN9XOHFD9ucySB5
- HrnWL3p0+1a2S1aGMXfsVeDyLCApRvz0B9mr6CAMAtW6wjxtCPQ3kCgy1JYDXdXDok+h
- RXVhx2/f8Z6IQBMvkkitz+gOXsGbioDoN7xvDR35utgW/wQIYARq0LejRGNCH8QLmloO
- RsCvoI9oB1JctkH1rCDiJj1MewyeoZRcAcRxn7OjTCmCJwGmKJvLnhwYQoM/3ddKec/d
- U/0iSd/j/eMA+rTUkrCsseXwEh0lvaG0G9m9UomYElOIJ8i84v4MFhYq0NAjU9U97m5Z
- 5mKQ==
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tkLXIsyj8QwPTa8S6ZCydBzEEuL0sPAusmidO8lcg/M=;
+ b=bqRQ5TUYvSvXmKIOgFbzZr9i1aifmPKdLLAZdbxvk47LayreepUmO1IsKtVJk1ZZkA
+ vRzcNT9n5Zy7g4eac4VEvroUuGeSzRoawIRAie058tuLCuwxmUb2esBGemkpTMj9+NG6
+ KgFoAq6w4TN9N0OlxwjO7mAST0jwgBpADXxkyAmGvW3x4X4CjJQyI4BfFxDYp+T8NUXu
+ B7VxugkEzC88f15exz1v4L9P5d1wP7jSIik213zltPQVlnvNz3CMtHhJgKapI5oXPRuz
+ LOLlQDyLowuyMtyZ9BMm+x0CwaWvm5gByKhtnijZSZOR+SxNh6b4xHeP2jD7dXv9+NRF
+ iP0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=TAWEGg7bIMJDflNWL0w3yf0qKrDge1TeIH2F4MT40uQ=;
- b=XmwNQpSAn9qh1VYbDn039sM3VMzlZMLUN8nzEvr/aCsCqO0cugJat66bXQj/xftFxp
- lnNwfwnW6ou7xvsArk8QyQDl72CML5NPQNzsBOPVsdC7MtPFn0KNS1WyXkNjC1lCKBsA
- Z5Yae1C6OSzH/Cl+hdGeconr/h+mWlX4wQixmx9eYrPGYoM8v9+oyC/z68MjeGyy9dVY
- 4yicsyQjFrGknHFpFjJEesGqqXarUL1JK40651zKOekl+f27wslBfKEk8Em5B00Ps7XC
- 40kf6plDkDbuMufmNjWtVAgCObZXDIbWI7J+S9oxUgnJ5XMs7SSnSvUqZSZ7gucPQsr4
- UEJg==
-X-Gm-Message-State: AOAM530zuU4almYNirKDlcvQ72UGn8+9PDTCwuGMQ9Kp+P+tysBfLUNm
- V4FyZIMOOTCsfytchXYfB50=
-X-Google-Smtp-Source: ABdhPJz7x4wF/88CcBvPvA00+RjowU1MPgY+08uycZY2kO8dUARRaNj84VgbG+DlX1uZYpZ+unuFXg==
-X-Received: by 2002:a05:6a00:148c:b029:1eb:aa7d:b1b4 with SMTP id
- v12-20020a056a00148cb02901ebaa7db1b4mr13893pfu.8.1614625665032; 
- Mon, 01 Mar 2021 11:07:45 -0800 (PST)
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tkLXIsyj8QwPTa8S6ZCydBzEEuL0sPAusmidO8lcg/M=;
+ b=jQSOO3abeOL86Av391egpaU9fJfdmKuKmW+uMNBLAJ/Po5pn+sFIZTpnbCPgbPrfKJ
+ rerSEBAnNPXm2BKcgVDOEqwUZkwuUWKEF90SB7v1166tuHfRCQ65uxMC2GcxiLnbs+6E
+ nj7XCektFChSNeNoMPSVKINwIcW1CmWhcbSNx9O/ltySxkz9o4M27xmInEf8hKHcG2Ua
+ +5r/gepPwff6/gYXaMGZCNttqyp43mlymUAM8XBSPBQageSahhR1yE/7W121KyHzH6Ft
+ Z6CEQFlxaKYfuM5kYdTH1X0OiAXuupKeJavgkWJOTn0i4H6Xc13+msN8zbsYrvsOpVH7
+ ZXfw==
+X-Gm-Message-State: AOAM532gLURPURXTB/doLYicV4pRSs3lXoGJuvFF89rk9i/OWfM79G4K
+ H+xKJ83LmZH6cJ637wglbN0=
+X-Google-Smtp-Source: ABdhPJzMbObpeWcyMj1RKL35/YYHcQykXuAmt3mpY/tzAlxZwG2NWds+MRqayEmf0BZioO247W0eVA==
+X-Received: by 2002:a63:4621:: with SMTP id t33mr14803865pga.22.1614625783849; 
+ Mon, 01 Mar 2021 11:09:43 -0800 (PST)
 Received: from [10.69.69.102] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id l74sm17807299pga.86.2021.03.01.11.07.44
+ by smtp.gmail.com with ESMTPSA id y20sm6203008pfb.138.2021.03.01.11.09.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 11:07:44 -0800 (PST)
-Subject: Re: [PATCH 4/4] nvme-fc: return NVME_SC_HOST_ABORTED_CMD when a
- command has been aborted
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-References: <20210226071728.106923-1-hare@suse.de>
- <20210226071728.106923-5-hare@suse.de>
+ Mon, 01 Mar 2021 11:09:43 -0800 (PST)
+Subject: Re: [PATCH V2 6/8] nvme-fc: fix the function documentation comment
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+References: <20210301020611.18669-1-chaitanya.kulkarni@wdc.com>
+ <20210301020611.18669-7-chaitanya.kulkarni@wdc.com>
 From: James Smart <jsmart2021@gmail.com>
-Message-ID: <0611f10e-fb76-faad-caa8-a069ae415ffa@gmail.com>
-Date: Mon, 1 Mar 2021 11:07:43 -0800
+Message-ID: <6a5e6fc3-9ebb-3b72-4181-d1c7a9500598@gmail.com>
+Date: Mon, 1 Mar 2021 11:09:42 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210226071728.106923-5-hare@suse.de>
+In-Reply-To: <20210301020611.18669-7-chaitanya.kulkarni@wdc.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210301_140749_232883_AAB49269 
-X-CRM114-Status: GOOD (  19.37  )
+X-CRM114-CacheID: sfid-20210301_140946_016321_F5E59F60 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,33 +97,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>,
- Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: kbusch@kernel.org, james.smart@broadcom.com, sagi@grimberg.me, hch@lst.de
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8yNS8yMDIxIDExOjE3IFBNLCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6Cj4gV2hlbiBhIGNv
-bW1hbmQgaGFzIGJlZW4gYWJvcnRlZCB3ZSBzaG91bGQgcmV0dXJuIE5WTUVfU0NfSE9TVF9BQk9S
-VEVEX0NNRAo+IHRvIGJlIGNvbnNpc3RlbnQgd2l0aCB0aGUgb3RoZXIgdHJhbnNwb3J0cy4KPgo+
-IENjOiBKYW1lcyBTbWFydCA8amFtZXMuc21hcnRAYnJvYWRjb20uY29tPgo+IFNpZ25lZC1vZmYt
-Ynk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgo+IFJldmlld2VkLWJ5OiBEYW5pZWwg
-V2FnbmVyIDxkd2FnbmVyQHN1c2UuZGU+Cj4gLS0tCj4gICBkcml2ZXJzL252bWUvaG9zdC9mYy5j
-IHwgMiArLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-Cj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvZmMuYyBiL2RyaXZlcnMvbnZtZS9o
-b3N0L2ZjLmMKPiBpbmRleCBlZjEyYTYxOWRhZWMuLjk3ZTM0MjRjN2IwMyAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL252bWUvaG9zdC9mYy5jCj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3QvZmMuYwo+
-IEBAIC0xOTU2LDcgKzE5NTYsNyBAQCBudm1lX2ZjX2ZjcGlvX2RvbmUoc3RydWN0IG52bWVmY19m
-Y3BfcmVxICpyZXEpCj4gICAJCQkJc2l6ZW9mKG9wLT5yc3BfaXUpLCBETUFfRlJPTV9ERVZJQ0Up
-Owo+ICAgCj4gICAJaWYgKG9wc3RhdGUgPT0gRkNQT1BfU1RBVEVfQUJPUlRFRCkKPiAtCQlzdGF0
-dXMgPSBjcHVfdG9fbGUxNihOVk1FX1NDX0hPU1RfUEFUSF9FUlJPUiA8PCAxKTsKPiArCQlzdGF0
-dXMgPSBjcHVfdG9fbGUxNihOVk1FX1NDX0hPU1RfQUJPUlRFRF9DTUQgPDwgMSk7Cj4gICAJZWxz
-ZSBpZiAoZnJlcS0+c3RhdHVzKSB7Cj4gICAJCXN0YXR1cyA9IGNwdV90b19sZTE2KE5WTUVfU0Nf
-SE9TVF9QQVRIX0VSUk9SIDw8IDEpOwo+ICAgCQlkZXZfaW5mbyhjdHJsLT5jdHJsLmRldmljZSwK
-CklzIHRoZXJlIGEgZGlmZmVyZW5jZSBiZXR3ZWVuIGFuIEkvTyBhYm9ydGVkIGJ5IGEgTlZNRSBB
-Qk9SVCBjbWQgdnMgYSAKdHJhbnNwb3J0LWNhbmNlbGxlZCBpbyA/wqDCoCBUaGlzIGxpbmUgaXMg
-bW9yZSB0aGUgdHJhbnNwb3J0LWNhbmNlbGxlZCBpby4KCi0tIGphbWVzCgoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxp
-c3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
-b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On 2/28/2021 6:06 PM, Chaitanya Kulkarni wrote:
+> The nvme_fc_rcv_ls_req() function has first argument as pointer to
+> remoteport named portprt, but in the documentation comment that is name
+> is used as remoteport. Fix that to get rid if the compilation warning.
+> 
+> drivers/nvme//host/fc.c:1724: warning: Function parameter or member 'portptr' not described in 'nvme_fc_rcv_ls_req'
+> drivers/nvme//host/fc.c:1724: warning: Excess function parameter 'remoteport' description in 'nvme_fc_rcv_ls_req'
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+>
+
+Thanks
+
+Reviewed-by:  James Smart <jsmart2021@gmail.com>
+
+-- james
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
