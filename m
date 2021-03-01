@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F13EAC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 02:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14044C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 02:07:19 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A4D9864DF2
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 02:07:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A4D9864DF2
+	by mail.kernel.org (Postfix) with ESMTPS id C0A6664DF2
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Mar 2021 02:07:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C0A6664DF2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QLEMeQPMS/rBKanevzwGAw1YDXROwRIf+sYv5qdq0wQ=; b=Jsy2xtxkKNK1SG6e1WD6bQLvO
-	5egSouarc9IgW8UwE/ZzvlpUl181OueE2lLCDK+zhNqB1iM2K5lBkWSfnGPF3/PLymzGLZleK2JBs
-	3fkSsDFKb5kMZzeXGyunTft07v3BJ7qJ381+CBLt7dQE9fWGIzOl5emEPScMG8RrDOHFW32aj+ycS
-	KhT4k+Pd/FPnUYDUsaYRdUJjINURTQ10ZbJgM6bwtDod81HmYjLnH7Pe11AR8rylj2bDgSHrzAbnK
-	O74sNolJ3bFH+dxy/dR8wgW3V0t6Yq29KORaivJSP1+weCZ6p04heUUpcgx+40ImUkJT28mw3NWt2
-	LmelUFzNA==;
+	 bh=97XqqOTHyL2wCuPgGrXeWhPvSwK0J5a+jZsqwuVFjGQ=; b=W18W7s2B3UsQfS4Q4ndM4kSUk
+	j//bmg4m1m1UJJZ0oQ4w/duv7N8amrR7vQksrJgUb73YHmSS0asK5XngnZE3Ai1vCW2hGA2jpN55s
+	mKOkcZzpYEW00Ou+lQLSMiZUMSh3gziHtLxnbYH56Fyhe3VxBPda4oj1aLth2P3plIHCIokbHmLV9
+	UmG14uMfH/Xka5asIz0UIEXP5oVaAaasDwpk4XJdJWy3zDBzf1zFK4wLdrEeYIU1B0UdxgBfQRpwN
+	BzMSNDfLeoIP4KGwX8VNTkXx8rwRGCadaCWuehVlzzEFG+zpLiuEj5s0rJoffogeC/nCsngkfIzMr
+	GzSaO1Jkw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1lGXxk-0004Xp-4Z; Mon, 01 Mar 2021 02:07:08 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1lGXxr-0004Zu-FP; Mon, 01 Mar 2021 02:07:15 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lGXxg-0004WR-Me
- for linux-nvme@lists.infradead.org; Mon, 01 Mar 2021 02:07:05 +0000
+ id 1lGXxm-0004YP-Qz
+ for linux-nvme@lists.infradead.org; Mon, 01 Mar 2021 02:07:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1614564424; x=1646100424;
+ t=1614564431; x=1646100431;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0a/KO9SOh+yv49Y9iynx8d4+GVkqR1iHilHcSCBLb4E=;
- b=TNlzoikhRZh6jqi+ZU/0Bk/hXha0KQlo9cyc6zLbRsXUIuCN1gZsDLTo
- 2at+Os87Tx3sqoDrAmqyIm0kFgqKvi4dUHrEHzdwSCah2i3Mt8Wl5cp9W
- /5LMJCH0mnVOlb0NmkIW6bG9RzmCJNKmJx9dv8YHaN4ZPIsZM77gVliub
- gEF0tOevZM1tzSxxy2KudUUdv1w+fyrIx9UL9PdqiTycqetyBHUIkexO1
- rOw6HRnVvTlQ6WAPW3c1DjFQkZ88xcZJVoeOY1xPoVkj6H15vtYT3NyiJ
- awkcKCVFx2QRvs3iPL27g9OjdC75ctw4/u/cW6R+x/vBKhBM5hHI4vQ+3 g==;
-IronPort-SDR: BAZYjDed38zEOatMZ1K9USVeDiVXAHyEwLyD6w3AfaAcBuD4wCsas1YDqz3iwonho5CewsM+jE
- CYdXXM5xB7C7ruKg1N1MGz54Fp4Kzp9CELcQzX3GXluPrW6Fry2utDfP8Z6sgA0Z018ZJ7H7EW
- jSfBqQ9IdR+exepl+9xyOKC58HAn6FJPTJucVDUfZy1/MmqguMHNbxcL1G2VsQzxYmqQfDg/RT
- Hmhgqo5eX9lU7zYo01sZigY63Wx+2uGzZf81ziDJVJ1d0nmAmKTyJANMQewDDKf8lvbxCA2RPK
- P5Y=
-X-IronPort-AV: E=Sophos;i="5.81,214,1610380800"; d="scan'208";a="161012166"
+ bh=z5YUtNSNR5jr3BNdqkNDefg9KnbMMzrzKnsB9lrphmk=;
+ b=RAN5lWCHnJFTNmcedfCztiWT3m5feMKa8MQfT2NGUO1MaNad8252jlud
+ beqVD7/yOTDGuk20QjFqqRrWeiHAMu6f5sHNbkEvou29Jsu8EUEB6c990
+ nlKDlTVIA0CuLfFcVV2UUyJGGeZUH4HH2Imi3WJ0tm4GeV/9/MODB01Gq
+ vKLNN6W3OPmTPOEQsjdPRM/oYSiUtMlzeANc7NCrUSbT+O2jvZGnShXDh
+ kYK9zEsWO83mdzxDGBdMKxrBHiNJj9Pfq8Ue3q98IzxGG4JXVKKAUjk67
+ 3YvokWzlNDZLuYl9s5yJX2KrHr1Tcjov6cDZ7rqD2CzMgA/Hzrqmip1o4 w==;
+IronPort-SDR: FgIEuZ6zqXnVh1GScxWpm8oV2gRAZZBWhrHMqm/tytarxYWg2Lz4RTHKupd4+p2Hm3UYtLuYQ2
+ oZzjyhRirHWj6OmGvzrl4niywSGUlxJx5sSaLh0/076qRVX1gdarkrtndZWTkJPV1eqxht3ZF6
+ 2nynPQDITyKJmK5rVnbrUs3HvAXXHjPPOGLZn/LXZnD4nA1EChG3cOWaccpanqR5sGo0JpCX8j
+ WQzo86Sg1F7wrjaeprJq4BWj24mBRCM2yNQffIjvzgsjsLOL3m68hY78IodfjvzZFnXWbj6uaW
+ EZU=
+X-IronPort-AV: E=Sophos;i="5.81,214,1610380800"; d="scan'208";a="162191659"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 01 Mar 2021 10:07:02 +0800
-IronPort-SDR: BU0EqKdhhNy9/SSa+luKDeJRSh+TSdR3OLEUrva+0LtMUtP/yJyRifjGEClA+qO2nhq6zAjJDN
- wVzNYK5EDUIWWNQ4n9ritazCbwIKLvYs2Q+9zShtYkx+qT9Gicf6uKR9odvq6kRJmW0FddA9O0
- 0rXi26liTzM5uHVeDcfNoYe4PK/KvfYX/m39VDfuT3llIH6dvlpKG4+x+Fvm2+iFemrXdZFj63
- yHImF7bIPgGEhgCqw8o2uacc39b6cIogjakxBU6PKz0e55EAiQqMFVUq8j+mS6ge7cC5V1H3IJ
- JwAI4tT5dG1xrfqIkrfvaWOM
+ by ob1.hgst.iphmx.com with ESMTP; 01 Mar 2021 10:07:11 +0800
+IronPort-SDR: 7E+y0HpaIo4hjA3UU0IrPrjR06UIElijmII3qPqtTy6DCKgKT9O0i2T+UvGffdpqPD04sNDlVg
+ 7xHRCVN2WrsucUypOvMALpyKnnUiFmYm3ZgOefWO8wHTpTdIUjX7CqylEKdHYVuLBnd+cdkRGL
+ IDx9eQvN4OuZl52bh2X5SZtuG6rAdnpuSttQm+WdTsIvDtjQitEvSuhp9F3B9cm5Y7B/ttf+fV
+ C/u7TYJdnf0i0Ra9iETHlvw5l/BtWTe80e3WoxkxdZBBIYFNQyEQv+iOEzsfxbXWAN1OYOipVm
+ AG/thMNntzl1g0z3SO7k+Vp2
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2021 17:48:19 -0800
-IronPort-SDR: v/pW1IRcvXQQPgzFLPE/pM52+k9bxxuNA2XYLPjspY0a5y9+s2euMdGAPObZj6uavDj/MWweuZ
- G+mhg6FPgSSauczaaDIYNX/HO52q9JbdU8sUFrwj1AIUEcUqFe37DMf0IAO1SQ2LGi1ZCWB5mj
- 7PlS/dQCVa+un1TxLMx5r+Diiq+TXOTvPzGQ2DMSyLiKO+TktUqVajyT41EBgurE0D1vniPmHJ
- RM9knz8yr1HHtunODDG+HcxYzMP5czOag2xGt6Oi96INKJIGSfFi+2J5DPsbwdflhhX5PINIHO
- Ct8=
+ 28 Feb 2021 17:48:27 -0800
+IronPort-SDR: TGI28IFKIb6TdFqTufpNrnawH62ZVuuL+PQNlP5B7r1QjNIfNHnTwdrqWRgYRKrDMd+hEt6XMu
+ Bvh5QK2yno5EaxJLoVeMFj9lHu+nLI9zlExDtS1sEDYubpcryovvAPkcUkzEgbTjpNWcFVdPR9
+ 0UBZv2Zr29WN+ZJg+zmSEYoedu0bKR77/5U+sgttABvpMwi/M0bNtHwNVWuZY2442b8KggOH/P
+ 3XOqaMnNrcEDkYPo0xa87rXYUwS/Cho48u/ImKlag7y4xjEw6NLd81k9+kpwbDaOPgj/1976GY
+ fO8=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip01.wdc.com with ESMTP; 28 Feb 2021 18:07:02 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 28 Feb 2021 18:07:10 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 6/8] nvme-fc: fix the function documentation comment
-Date: Sun, 28 Feb 2021 18:06:09 -0800
-Message-Id: <20210301020611.18669-7-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 7/8] nvmet-fc: update function documentation
+Date: Sun, 28 Feb 2021 18:06:10 -0800
+Message-Id: <20210301020611.18669-8-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1.dirty
 In-Reply-To: <20210301020611.18669-1-chaitanya.kulkarni@wdc.com>
 References: <20210301020611.18669-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210228_210704_889773_86BF97F5 
-X-CRM114-Status: GOOD (  13.97  )
+X-CRM114-CacheID: sfid-20210228_210711_040252_F6AD8E3B 
+X-CRM114-Status: GOOD (  14.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,31 +103,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvme_fc_rcv_ls_req() function has first argument as pointer to
-remoteport named portprt, but in the documentation comment that is name
-is used as remoteport. Fix that to get rid if the compilation warning.
+Add minimum description of the hosthandle parameter for
+nvmet_fc_rcv_ls_req() so that we can get rid of the following warning.
 
-drivers/nvme//host/fc.c:1724: warning: Function parameter or member 'portptr' not described in 'nvme_fc_rcv_ls_req'
-drivers/nvme//host/fc.c:1724: warning: Excess function parameter 'remoteport' description in 'nvme_fc_rcv_ls_req'
+drivers/nvme//target/fc.c:2009: warning: Function parameter or member 'hosthandle' not described in 'nvmet_fc_rcv_ls_req
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/fc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 962987a330d6..ad6be2263a62 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1708,7 +1708,7 @@ nvme_fc_handle_ls_rqst_work(struct work_struct *work)
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index d375745fc4ed..1f1c70f9f8eb 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1996,6 +1996,7 @@ nvmet_fc_handle_ls_rqst_work(struct work_struct *work)
   *
-  * If this routine returns error, the LLDD should abort the exchange.
-  *
-- * @remoteport: pointer to the (registered) remote port that the LS
-+ * @portptr:    pointer to the (registered) remote port that the LS
-  *              was received from. The remoteport is associated with
-  *              a specific localport.
-  * @lsrsp:      pointer to a nvmefc_ls_rsp response structure to be
+  * @target_port: pointer to the (registered) target port the LS was
+  *              received on.
++ * @hosthandle: pointer to the host specific data, gets stored in iod.
+  * @lsrsp:      pointer to a lsrsp structure to be used to reference
+  *              the exchange corresponding to the LS.
+  * @lsreqbuf:   pointer to the buffer containing the LS Request
 -- 
 2.22.1
 
