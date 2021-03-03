@@ -2,140 +2,173 @@ Return-Path: <SRS0=PLgZ=IB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED0BC433DB
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 14:16:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CA3C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 14:45:52 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 76BBA64E90
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 14:16:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 76BBA64E90
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	by mail.kernel.org (Postfix) with ESMTPS id E159E64EE1
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 14:45:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E159E64EE1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:MIME-Version:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=S1aGjwVDH9GHV2zHvJvLBJ+1bVIvmQ+vHDHC/XTrono=; b=oFjVorfgAkFnHaCa+l9qKHzHA
-	O/5mjW9oQ7gnSDZazMy1aPNgTtjGR0Zhn/Ze22SVafB1daBuv5ZhBuRoZFlfttJEJkz5K6EshGBLG
-	GalpNh9c74tYbiB0v5OaEnqeYEvNTLCfWFNzgS7vIZSAOp5MThVXkvepbraW/i3NK6klhJJe88/48
-	4RF1NOseKtUoO1p2D1lBO3DMJmDsxYMKXwnJYeOjMyqqfhtm7Szn3rOdecJwOv2XSmyb46Bukg143
-	DJ9/Vvc9vNeTY7dcqpBulzwyYSvBMKeML61IjPTo2T4NOL/cpH1abyuTB2SLaaa1UnIn8TMcAzg7K
-	/aEVXzIIg==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=qPGR+hXh6AC05QPHQmnVs3qCuBPAiY3megTYM9GI4FA=; b=hF5/Uct87ZpieTIGaAeCFknSU
+	tpCEwSBm4M018GtivGzIzqo6rqiRY6Wydn/udYhwTo/G5ZTunDVSHuHLMks4UYn9+0ouVmOKCfrIA
+	Im+HT25NPgLYyNg7H4eWAkLVt5S9vjuh3aMfhPE4tCs7615TVaZlU6c6VaEOMWJBdt+00RBYC2chT
+	8g2/TjVOmD9mwhuFMSfVu7VozU2IDwK/NMejsb2XmQlcPSWHUyT9mBdyo0YU4dwZn0Ze06bOU8LZ3
+	KBYlnBtP551AzbvuJfM0NbZUqpRiSCavg4v0lrbWFfmwRnRf+0hSulodBsv4DjyJtfQurUymcN44L
+	3KF+F804Q==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lHSIv-0055sw-Fp; Wed, 03 Mar 2021 14:16:45 +0000
+	id 1lHSks-005Cb2-DM; Wed, 03 Mar 2021 14:45:38 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lHS6Z-0052X2-6T
- for linux-nvme@desiato.infradead.org; Wed, 03 Mar 2021 14:03:59 +0000
+ id 1lHSAw-0054CL-9F
+ for linux-nvme@desiato.infradead.org; Wed, 03 Mar 2021 14:08:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=References:Content-Type:
- Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
- :To:From:Sender:Reply-To:Content-ID:Content-Description;
- bh=oYYJF2+0Q+nazX4eHeHQlijKnRKtjf1QNjpQm8uG0W0=; b=CyppvHX0hwDjRAmDH2V6xa4F15
- QLEdIHhuNk00yaVjENi3fhhPc8LN49nLmsm+bfck2CpVIcLgzIrOjkywilwm3gaK59XNv/pwdY0Nb
- 2FpczhQ7tU0gpSJt9KHYyBTQvtIZf75iO40qqc++ba72J4kbZAvL1rx9bfbdIZatYJQqL10KaF1EK
- rLqQj4/btnFWUU1J608KY+3wwBVaibKeu3sPUa/exUrUU+T/3TfHYI+LUbjqS8HVRAire94nE/4L9
- 9upypQKvgUnQccOH6G0CjjG7vP55UWlw5x38HXmA/6JicN35Ifp8jFAzz0IdelTdPY88/XcL17Kbt
- bwJuUUAg==;
-Received: from mailout1.samsung.com ([203.254.224.24])
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Transfer-Encoding:
+ Content-Type:References:Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To;
+ bh=NLlQJC5dLUFsKG8FEV3jIK91JbxOiIKZyUwm9A2D3XE=; b=bpqsklpyUKuxCxGtkC+oucoN0X
+ qMn7eRm4I/uKe86MIhwMjFCeUbCVj9M2ONDv3wGqtJ/2UximFhwvEGhE2Wimsc+o2At56zKr3Z1sE
+ AOvgoRGvYt+isRaBflmBvk5FCw87jQgoTEmOLblV1rOh+sQKaZ6iCvD79QAscqsOWmiCsgakiYKs1
+ INjIKopBtz7XqNYqPhXfRR6gVrLeb63tfTQ4dwfn0QdPZ6IIxAcuijgLvL1J3lU9C9jPDAoA34o05
+ dMeyHtAHIRLWNo1ee+/YWCWRxRl/VaPi9W8WUyTb8g5IFPNaqudoCsOmjnmfsQautRdmAoGNRvvb6
+ 3nHnSEvA==;
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by casper.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lH7bM-00HPmI-MK
- for linux-nvme@lists.infradead.org; Tue, 02 Mar 2021 16:10:30 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20210302161011epoutp01cf7f4b33d02bf20e55f93bfa311bb8b9~okmDk_eei2837028370epoutp01m
- for <linux-nvme@lists.infradead.org>; Tue,  2 Mar 2021 16:10:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20210302161011epoutp01cf7f4b33d02bf20e55f93bfa311bb8b9~okmDk_eei2837028370epoutp01m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1614701411;
- bh=oYYJF2+0Q+nazX4eHeHQlijKnRKtjf1QNjpQm8uG0W0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F71YKCM6mtEXa8aFvut+7rPQJfQwUwp+n27v5qHQucbj/0RX1wp+aNoz3XhwlYbBj
- dZoURe2UejKQG0tMm77zMZRv/sLxngbP5zDtwGppc59Q82XDnasIUsd9JiUWArFQTw
- NJUQG8zP2C0CjsdCSIlNSzDZpMENEV8xugHINvDA=
-Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTP id
- 20210302161010epcas5p3f181639ac3c6a13e3be06b4aa9d86a75~okmDMwt-r0522205222epcas5p3k;
- Tue,  2 Mar 2021 16:10:10 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 60.80.33964.2636E306; Wed,  3 Mar 2021 01:10:10 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20210302161010epcas5p4da13d3f866ff4ed45c04fb82929d1c83~okmCy6E-R2152321523epcas5p4X;
- Tue,  2 Mar 2021 16:10:10 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210302161010epsmtrp2914e3c68bd64783a29f3911909bfa95e~okmCxwOF80582505825epsmtrp2R;
- Tue,  2 Mar 2021 16:10:10 +0000 (GMT)
-X-AuditID: b6c32a4b-ea1ff700000184ac-40-603e63622c85
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- DA.5D.08745.2636E306; Wed,  3 Mar 2021 01:10:10 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210302161008epsmtip18302aae26aac4f1c9cf30025882965d4~okmBYJh5Q1292312923epsmtip1U;
- Tue,  2 Mar 2021 16:10:08 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- anuj20.g@samsung.com, javier.gonz@samsung.com, Kanchan Joshi
- <joshi.k@samsung.com>
-Subject: [RFC 3/3] nvme: wire up support for async passthrough
-Date: Tue,  2 Mar 2021 21:37:34 +0530
-Message-Id: <20210302160734.99610-4-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210302160734.99610-1-joshi.k@samsung.com>
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEKsWRmVeSWpSXmKPExsWy7bCmum5Ssl2CwcVnOhZNE/4yW6y+289m
- sXL1USaLd63nWCwe3/nMbnH0/1s2i0mHrjFazF/2lN3iypRFzA6cHpfPlnpsWtXJ5rF5Sb3H
- 7psNbB59W1YxenzeJBfAFsVlk5Kak1mWWqRvl8CV8WzvBJaCZXEVa2f0sTQwfvTtYuTgkBAw
- kfi2xLyLkYtDSGA3o8SJrffZIJxPjBIdLRegnM+MEsfb5zN2MXKCddy/c4wJIrGLUeL81+ks
- IKPAqlabgZhsApoSFyaXgpSLCBhJ7P90khWknFlgCqPEuYuHmUASwgJ2El82NbKA2CwCqhI7
- /+8Am88rYCFx7sYMdohd8hIzL31nB5nJKWApcWuvGkSJoMTJmU/AWpmBSpq3zmYGmS8h8Jdd
- 4uiadiaIXheJl097oGxhiVfHt0DNlJL4/G4vG4RdLPHrzlGo5g5GiesNM1kgEvYSF/f8ZQJZ
- zAz0zPpd+hDL+CR6fz9hgoQcr0RHmxBEtaLEvUlPWSFscYmHM5ZA2R4Sr+f/BTtBSKCHUaLz
- l9cERvlZSF6YheSFWQjLFjAyr2KUTC0ozk1PLTYtMM5LLdcrTswtLs1L10vOz93ECE42Wt47
- GB89+KB3iJGJg/EQowQHs5IIr/hL2wQh3pTEyqrUovz4otKc1OJDjNIcLErivDsMHsQLCaQn
- lqRmp6YWpBbBZJk4OKUamAT4AkTOeVtHvQitWOwt9XiW8vcY9d7eltLW7F/peZMa/CVF1r5+
- 5+59rWVl5LX7J3nt/aTMTI3f/l+0stzVIvDm8neR74Q++BbEKrR92386d024zT3hg28Ntu7S
- aDfYF8TKv+WyeX5X/a6l4hXWzl/afXy+v9XOzL1z9bn13+9PdNc0mlyc/vLGVqXAZfdzHkZI
- nyvzKiq9KNPuK1mlVn+d35ixY6GxrrBttCzHD4cZ6z46vVSbPO36H8EXvIrAeC2dPENG6Lqf
- lbHB+6e3hUOdRI+oLFYwKzyzodE94V7qhawJX62kr344wJAqwCE+1XJn+QblcteF620k3CKf
- T92hFe62fbubcITA7TQlluKMREMt5qLiRAD1rUNXpQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrELMWRmVeSWpSXmKPExsWy7bCSnG5Ssl2CwecdAhZNE/4yW6y+289m
- sXL1USaLd63nWCwe3/nMbnH0/1s2i0mHrjFazF/2lN3iypRFzA6cHpfPlnpsWtXJ5rF5Sb3H
- 7psNbB59W1YxenzeJBfAFsVlk5Kak1mWWqRvl8CV8WzvBJaCZXEVa2f0sTQwfvTtYuTkkBAw
- kbh/5xhTFyMXh5DADkaJ1xO2MEEkxCWar/1gh7CFJVb+e84OUfSRUWLxhiWMXYwcHGwCmhIX
- JpeC1IgImEksPbyGBcRmFpjBKLFhWTqILSxgJ/FlUyNYnEVAVWLn/x2MIDavgIXEuRszoObL
- S8y89J0dZCSngKXErb1qIGEhoJLJ6/6zQpQLSpyc+QRqvLxE89bZzBMYBWYhSc1CklrAyLSK
- UTK1oDg3PbfYsMAoL7Vcrzgxt7g0L10vOT93EyM42LW0djDuWfVB7xAjEwfjIUYJDmYlEV7x
- l7YJQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5NLUgtgskycXBKNTA1XOSr
- 2G589vu6d1VHyx0mJ7+48/thtZTz7Uy7uac2vrnUWpG2c6NCp0WNp8Gb3Y5PpLd5Cr8rnxCZ
- +kXwpevOlbL6AU31OTXcH+em8Zim7zqd3Vobd+WJY8nckDiVCa9e6rolZPIYvHlcP1mg/Te3
- 67Yzxt989iSyH2S63/VV5tx6zqqXh9g2C+/ImbHjo7Y218MjPl9MH20zWGlnuqO+ZY+adt7n
- T4+++0W2z/lxtFLoaMqtjhUVH/23Jsi+XHXiiXXO9qAko5TlRfP3zpM9Y8xmtOzs9T32jyVP
- t9+6KnKUR8F/RZwo0/wWjzZ+TVWRNt7tX30Klh8/Yynw9XZEieVR1keGL9/+2LfthNwqJZbi
- jERDLeai4kQAbR3UVeUCAAA=
-X-CMS-MailID: 20210302161010epcas5p4da13d3f866ff4ed45c04fb82929d1c83
-X-Msg-Generator: CA
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210302161010epcas5p4da13d3f866ff4ed45c04fb82929d1c83
+ id 1lHMJj-001kLO-TY
+ for linux-nvme@lists.infradead.org; Wed, 03 Mar 2021 07:53:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1614757992; x=1646293992;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=LPdKwje1OJBtPzVj5Vvoa4x0DoKQGl2ckXgGKUNk0Iw=;
+ b=EHID9ljYG+/BFugqltLC5UC6ry2291gUbzWOBeHYhxdCMoP/eQ94OARX
+ fZVNjG8EqzZ18vZcjOArQu+HTAdv7SAdZl+5+bGmlLh/4YQ07Hx6/esIa
+ 1ziaFH41C2W8+8X/a4UQDNqAbnB4qxlVvNcBJ0b4/BaqA1bHgpYweu3mr
+ wuTnHoC3TahBnOMJMqYqEm58QPuMc8paDCrxtGDMyweSQMoeRmwF3sfPg
+ M9hS2ZYKhXjrT83uH4XXFk7lEcB6tg3uvCj2wUT7adLySKl0yGsCxToOj
+ /zEQOVipjvhjygaZ5sVNBwz2ofk5/KA/52EcYaFqK77UcnkNoQdQIBMox Q==;
+IronPort-SDR: 0jL64WkUn4Sp646ZbUJR0obbamZQIcoO8MbDu7P8kq3+XihWABmWKQFpXCApk0Kqug6e3Yp1R7
+ VdB1r7+/wcCSrSRc9cqqiPZzzmkJXTY69rkqq0IYIQ6dbryTXFXoeWCyujHRZjw+S+nqFjlJ7X
+ bImoX0aMIIDVURq4KA2gbDjRO48UCs9m+E6H7GM8XxHNNycKauA9RDxX7lwthSoCMv3ONgv7PT
+ CQu5AJQOfQCCz8z5s3EJmUgGW2HesrfNa+8x0+u37anl+jwTcVoxMtUZxsP+EeWwLHgYFPAdKk
+ ruE=
+X-IronPort-AV: E=Sophos;i="5.81,219,1610380800"; d="scan'208";a="162400658"
+Received: from mail-co1nam11lp2175.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.175])
+ by ob1.hgst.iphmx.com with ESMTP; 03 Mar 2021 15:52:06 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X9eyENc3jTyR3RNyh9ETTRxRXI3KXM4HbLC9xdojEd+cXdwkUce3FpE16TieiAqo4l0AZJ9C8Qfo8dyu3hiarQkfFroGYEznhfHmmzXUgmJ30XxTDFQCY74bkiM0AnG4XwqRK/O+E+sTqnW3wVXMdn/5qFcEqiT8sBDL5DMKGXEpVLgNflRbxOoj/zanohaUAzGmEEOvPmsv6/WyXuBd2nYRZ2usY3oITnXU6/gTNbFZFzQow11p5oMfTyyAKKg4F586C+80cQ+uvXu4Slo3SGHZfnhLGaQuNCBthzkU0UZm71hK/WWKwhM3ssf+6Q5g/IQ2QWaCUCenm/3zJhFdzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NLlQJC5dLUFsKG8FEV3jIK91JbxOiIKZyUwm9A2D3XE=;
+ b=GZW1MLDbore6ca8KP1bsArGhzBoABeXzfgBJvviVZVjHQC483OREAVyLUc3YK5J+GEY1FZg0nuWI+Qll6GPOkrFZwcIi/UVyEAyjfSdjAmE0Un2ZzUrKYRWU3daWwg3Nd+j9UsWH4c116qkMWlW+b0GHf3WzZejqQwQX87Yxry9m2OCuolQIYe15HoHDM7N/UttNEO91emwkKATx0Gc6/QG7kyNKg27WjXuadOpJ3SGFgwNI/WXbtNVkSrKiGJ+ts1p+JYRlZxcWLcwaSFvH+Gt9M1N3cmJHtm9gSmtbYCNyxa2ulcng69DP3rvHG7ugPQUScrPDRsV+TyqebQA0PA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NLlQJC5dLUFsKG8FEV3jIK91JbxOiIKZyUwm9A2D3XE=;
+ b=DUhbUVt6+ShMGrQHtoB7eNI6CeLkCcMfWqsPQbtDbvha0qDYMOTghNKMJFz2HRtbVzxZPeFqwF6eM8daBooQemAHjrSZpOjUSmWR6kEv7duVlQli/+dWkWuwT8Be1rka4TALWyu++6mugY94o5DvGAXqXseeBumoGViLgYuQVow=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by BYAPR04MB5254.namprd04.prod.outlook.com (2603:10b6:a03:c2::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.28; Wed, 3 Mar
+ 2021 07:52:01 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::c897:a1f8:197a:706b]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::c897:a1f8:197a:706b%5]) with mapi id 15.20.3890.029; Wed, 3 Mar 2021
+ 07:52:01 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Kanchan Joshi <joshi.k@samsung.com>
+CC: "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "io-uring@vger.kernel.org"
+ <io-uring@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "anuj20.g@samsung.com"
+ <anuj20.g@samsung.com>, "javier.gonz@samsung.com" <javier.gonz@samsung.com>
+Subject: Re: [RFC 2/3] nvme: passthrough helper with callback
+Thread-Topic: [RFC 2/3] nvme: passthrough helper with callback
+Thread-Index: AQHXD/4EOPP4CH9isESsU82uWJlGPw==
+Date: Wed, 3 Mar 2021 07:52:01 +0000
+Message-ID: <BYAPR04MB496566944851825B251CA93686989@BYAPR04MB4965.namprd04.prod.outlook.com>
 References: <20210302160734.99610-1-joshi.k@samsung.com>
- <CGME20210302161010epcas5p4da13d3f866ff4ed45c04fb82929d1c83@epcas5p4.samsung.com>
+ <CGME20210302161005epcas5p23f28fe21bab5a3e07b9b382dd2406fdc@epcas5p2.samsung.com>
+ <20210302160734.99610-3-joshi.k@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: samsung.com; dkim=none (message not signed)
+ header.d=none;samsung.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: a8465f80-c233-4f61-4d8d-08d8de193ae7
+x-ms-traffictypediagnostic: BYAPR04MB5254:
+x-microsoft-antispam-prvs: <BYAPR04MB52548E0E6713A9C145A7FF1786989@BYAPR04MB5254.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 80eEKVWaSFrV+kv1SLg7/kqfx3ozZ+uP2OfWOCXFz3VXqkDCGInTVnO9p4vEXeGKpveRYkLm93l7AYT4rzYHlymv/Ss+5Cv3jytwgx4Zy7L0eUVtJOiaUb9I2qKqhdC9qyIngxzxAAPTNTj8rAQbwHjUkFWNW8fBEFd0+VdZSzqxSSUerj/bDUOJsla59rNwsTH1LO4E2Ga/jzp5YWr5kwxF5Zb3DCtzP3KIOkWsHabShiXgZNC4LK1mh77/RZ3r+PDRNV8ktGLzJT9Wx7Xm5SFdVmEXur1bLcXOjLpyWhdBiYJZjL9a2EGt5NbU4XmSXbmvGWckiysX5Se6bvUNq0nd1TnraO+sdrzGiqmCUBDkI6CFdr3jJRllcavwsLCQFhT7X6ePRQTd1XwOaV7996ICO6yFSGjrUOYC3QBp5hu1Y8IWkBvsvXY3kDLbxQFMPCjE5GVuEzLdI+PM3N5oU6D+fZcXA4j4ofqc0taqAudRtSLkE9txYk6Z58VykXiqMHUZ7GD/mTVJkyTGRDUZrQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(136003)(376002)(39860400002)(346002)(66946007)(52536014)(54906003)(8676002)(55016002)(66446008)(4326008)(5660300002)(4744005)(64756008)(26005)(76116006)(6916009)(33656002)(316002)(478600001)(8936002)(91956017)(66556008)(66476007)(71200400001)(83380400001)(7696005)(6506007)(9686003)(186003)(2906002)(86362001)(53546011);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?ZbaKr2lX+m7k+xcb+peFp78oNZrPrBcMnxlkheUkNikvHgW4L94uYHomfydJ?=
+ =?us-ascii?Q?Ec7MkJlVQpM56ZILrOiyLK8E7JL98oTSgFPoodsX2RJNYZMUiA1AG/bxCVzx?=
+ =?us-ascii?Q?5vgnUNjwfuFqGC4WuY8DWjKbNjY++qzzJb0n5N8mu3Xd3MV05swLsC+fQUXg?=
+ =?us-ascii?Q?fnXvZi/txHKUPLxltOZzoXOVOU0vGvq1r3CB42+W695IKuF0d0qzRcVUwqmj?=
+ =?us-ascii?Q?H4qrVzwTzk3AWvaKnXPiOJOVPkUYOGV39eTzo3vSAJ/D9NjvjeVuFeKYxiik?=
+ =?us-ascii?Q?5PCIsQsTpa8YM0dtah8gsIk7OOl04c4qrShTYDDo1dXwnjT4MEgUdzvyGuBA?=
+ =?us-ascii?Q?R8u0x7BlXvj8dAx9dTrPFIVYFxkzv009Bq68PFqmTChU3QcFpYjMxkEm1toT?=
+ =?us-ascii?Q?DI42tbk4H9gRvHgFByOnA5kHsP8o+sv3QSuub8SQy4evq+QJM+5A4hu+EBYX?=
+ =?us-ascii?Q?bxLb4yCmyQ82dYi8WnLAYAxRmpZXJiQVUScXNr8yU0GTIYoMKBB3f0O9dSfH?=
+ =?us-ascii?Q?+xMyEUVNOPbYlrEYE3FdNfT5Yl/NoFQMKHyJa8CITnXz4L0Dh1t8rFPenF6+?=
+ =?us-ascii?Q?O+ER1BQzDS/s0pRZKElY0XbWranaSrehdHxBb0XBSZnRGSIhQCFyIgbPJc83?=
+ =?us-ascii?Q?hEIPd65zaJ1X2CIAhPCYbZifP2z2sIKXSIC4NYiKVYSrDvc4LI4Cduv5eurY?=
+ =?us-ascii?Q?oUB2S/4Y0yEVsR0JeMFjrVCF2KJ93VsPNSr+Y8nmDPejCmMWtvYwBxEAXiqc?=
+ =?us-ascii?Q?1gwSebTwjSox+9zRuz+JKZ5wCwcF2cWHxGZU/VMFNikayxTu9U4kSWUZWPo/?=
+ =?us-ascii?Q?3qwRQgLdGraUeFyyO8/4vhJyxju7Yg1O0o7kpfnRpQFIjztUhjMSVI26t8xa?=
+ =?us-ascii?Q?C+Nne0SSkCDVH+bR+gs63QcjjYP/g1zGKbbAIcThOk9s6wshlkViulrXXlUn?=
+ =?us-ascii?Q?8uMouu7M5AWEjIlqJbYvByfegVgCjomlDBaHfM5WlBT9PLZA0UOPUHOZX2fY?=
+ =?us-ascii?Q?TRq39qL1KFRqvtk8smv2jdF87R7PVZrMVQruNvdPcZW57Iemp4E+VGIKXzmt?=
+ =?us-ascii?Q?1MEmAIHuowLjgWsdESX6Xx/V0S+1xkQmCT4xKf75Sz013FUJAWPicHrRuXAr?=
+ =?us-ascii?Q?WuDMYZpSfXquomkvHDBVNWMeFnyRL9BPeIznkUsfFTyJOq4rO8n4EsAncvqm?=
+ =?us-ascii?Q?RuTF86nguZZxMcg6tSfa50l6CtiEgM2Jv24KHVAna5jI4L8GlaYGWABbyWP9?=
+ =?us-ascii?Q?8gGZuYgRL8VJilGo4Cg5e7VE2f6VP3dKVCXqCP+AsmPgAKYgOPIKIl1BaE4l?=
+ =?us-ascii?Q?/62kdxWZrJsI+BnMsnnlQuA/?=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8465f80-c233-4f61-4d8d-08d8de193ae7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2021 07:52:01.5531 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Pf2XWMN9ngjrqb53MO+BM1tpeu5yov7DD3hVSCPJXBzz8bt/2Yp3e/tsmCc9hKq6D+2bNICtFcc1hGKUELAM7EiUI/TirftRUYJOA2GopJg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5254
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210302_161030_820447_C4B9FBA0 
-X-CRM114-Status: GOOD (  27.34  )
+X-CRM114-CacheID: sfid-20210303_075313_851424_8B821612 
+X-CRM114-Status: GOOD (  10.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,375 +185,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce handler for mq_ops->uring_cmd(), implementing async
-passthrough on block-device.
-The passthrough command is submitted to device as before, but it is not
-waited upon. When device notifies completion, driver sets up a
-task-work based callback which first updates ioctl specific
-fields/buffers and after that completes uring_cmd.
+On 3/2/21 23:22, Kanchan Joshi wrote:
+> -void nvme_execute_passthru_rq(struct request *rq)
+> +void nvme_execute_passthru_rq_common(struct request *rq,
+> +			rq_end_io_fn *done)
+>  {
+>  	struct nvme_command *cmd = nvme_req(rq)->cmd;
+>  	struct nvme_ctrl *ctrl = nvme_req(rq)->ctrl;
+> @@ -1135,9 +1136,17 @@ void nvme_execute_passthru_rq(struct request *rq)
+>  	u32 effects;
+>  
+>  	effects = nvme_passthru_start(ctrl, ns, cmd->common.opcode);
+> -	blk_execute_rq(disk, rq, 0);
+> +	if (!done)
+> +		blk_execute_rq(disk, rq, 0);
+> +	else
+> +		blk_execute_rq_nowait(disk, rq, 0, done);
+>  	nvme_passthru_end(ctrl, effects);
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
----
- drivers/nvme/host/core.c | 212 ++++++++++++++++++++++++++++++++-------
- drivers/nvme/host/nvme.h |   3 +
- drivers/nvme/host/pci.c  |   1 +
- 3 files changed, 180 insertions(+), 36 deletions(-)
+This needs a detailed explanation in order to prove the correctness.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 15c9490b593f..e894ead04935 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1053,6 +1053,89 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
- 	return ERR_PTR(ret);
- }
- 
-+/*
-+ * Convert integer values from ioctl structures to user pointers, silently
-+ * ignoring the upper bits in the compat case to match behaviour of 32-bit
-+ * kernels.
-+ */
-+static void __user *nvme_to_user_ptr(uintptr_t ptrval)
-+{
-+	if (in_compat_syscall())
-+		ptrval = (compat_uptr_t)ptrval;
-+	return (void __user *)ptrval;
-+}
-+/*
-+ * This is carved within the block_uring_cmd, to avoid dynamic allocation.
-+ * Care should be taken not to grow this beyond what is available.
-+ */
-+struct uring_cmd_data {
-+	union {
-+		struct bio *bio;
-+		u64 result; /* nvme cmd result */
-+	};
-+	void *meta; /* kernel-resident buffer */
-+	int status; /* nvme cmd status */
-+};
-+
-+inline u64 *ucmd_data_addr(struct io_uring_cmd *ioucmd)
-+{
-+	return &(((struct block_uring_cmd *)&ioucmd->pdu)->unused[0]);
-+}
-+
-+void ioucmd_task_cb(struct io_uring_cmd *ioucmd)
-+{
-+	struct uring_cmd_data *ucd;
-+	struct nvme_passthru_cmd __user *ptcmd;
-+	struct block_uring_cmd *bcmd;
-+
-+	bcmd = (struct block_uring_cmd *) &ioucmd->pdu;
-+	ptcmd = (void __user *) bcmd->addr;
-+	ucd = (struct uring_cmd_data *) ucmd_data_addr(ioucmd);
-+
-+	/* handle meta update */
-+	if (ucd->meta) {
-+		void __user *umeta = nvme_to_user_ptr(ptcmd->metadata);
-+
-+		if (!ucd->status)
-+			if (copy_to_user(umeta, ucd->meta, ptcmd->metadata_len))
-+				ucd->status = -EFAULT;
-+		kfree(ucd->meta);
-+	}
-+	/* handle result update */
-+	if (put_user(ucd->result, (u32 __user *)&ptcmd->result))
-+		ucd->status = -EFAULT;
-+	io_uring_cmd_done(ioucmd, ucd->status);
-+}
-+
-+void nvme_end_async_pt(struct request *req, blk_status_t err)
-+{
-+	struct io_uring_cmd *ioucmd;
-+	struct uring_cmd_data *ucd;
-+	struct bio *bio;
-+	int ret;
-+
-+	ioucmd = req->end_io_data;
-+	ucd = (struct uring_cmd_data *) ucmd_data_addr(ioucmd);
-+	/* extract bio before reusing the same field for status */
-+	bio = ucd->bio;
-+
-+	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-+		ucd->status = -EINTR;
-+	else
-+		ucd->status = nvme_req(req)->status;
-+	ucd->result = le64_to_cpu(nvme_req(req)->result.u64);
-+
-+	/* this takes care of setting up task-work */
-+	ret = uring_cmd_complete_in_task(ioucmd, ioucmd_task_cb);
-+	if (ret < 0)
-+		kfree(ucd->meta);
-+
-+	/* unmap pages, free bio, nvme command and request */
-+	blk_rq_unmap_user(bio);
-+	kfree(nvme_req(req)->cmd);
-+	blk_mq_free_request(req);
-+}
-+
- static u32 nvme_known_admin_effects(u8 opcode)
- {
- 	switch (opcode) {
-@@ -1149,10 +1232,27 @@ void nvme_execute_passthru_rq(struct request *rq)
- }
- EXPORT_SYMBOL_NS_GPL(nvme_execute_passthru_rq, NVME_TARGET_PASSTHRU);
- 
-+static void nvme_setup_uring_cmd_data(struct request *rq,
-+		struct io_uring_cmd *ioucmd, void *meta, bool write)
-+{
-+	struct uring_cmd_data *ucd;
-+
-+	ucd = (struct uring_cmd_data *) ucmd_data_addr(ioucmd);
-+	/* to free bio on completion, as req->bio will be null at that time */
-+	ucd->bio = rq->bio;
-+	/* meta update is required only for read requests */
-+	if (meta && !write)
-+		ucd->meta = meta;
-+	else
-+		ucd->meta = NULL;
-+	rq->end_io_data = ioucmd;
-+}
-+
- static int nvme_submit_user_cmd(struct request_queue *q,
- 		struct nvme_command *cmd, void __user *ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
--		u32 meta_seed, u64 *result, unsigned timeout)
-+		u32 meta_seed, u64 *result, unsigned int timeout,
-+		struct io_uring_cmd *ioucmd)
- {
- 	bool write = nvme_is_write(cmd);
- 	struct nvme_ns *ns = q->queuedata;
-@@ -1188,6 +1288,11 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 			req->cmd_flags |= REQ_INTEGRITY;
- 		}
- 	}
-+	if (ioucmd) { /* async handling */
-+		nvme_setup_uring_cmd_data(req, ioucmd, meta, write);
-+		nvme_execute_passthru_rq_common(req, nvme_end_async_pt);
-+		return 0;
-+	}
- 
- 	nvme_execute_passthru_rq(req);
- 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-@@ -1553,18 +1658,6 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
- 	queue_work(nvme_wq, &ctrl->async_event_work);
- }
- 
--/*
-- * Convert integer values from ioctl structures to user pointers, silently
-- * ignoring the upper bits in the compat case to match behaviour of 32-bit
-- * kernels.
-- */
--static void __user *nvme_to_user_ptr(uintptr_t ptrval)
--{
--	if (in_compat_syscall())
--		ptrval = (compat_uptr_t)ptrval;
--	return (void __user *)ptrval;
--}
--
- static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- {
- 	struct nvme_user_io io;
-@@ -1625,14 +1718,16 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 
- 	return nvme_submit_user_cmd(ns->queue, &c,
- 			nvme_to_user_ptr(io.addr), length,
--			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
-+			metadata, meta_len, lower_32_bits(io.slba), NULL, 0,
-+			NULL);
- }
- 
- static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
--			struct nvme_passthru_cmd __user *ucmd)
-+			struct nvme_passthru_cmd __user *ucmd,
-+			struct io_uring_cmd *ioucmd)
- {
- 	struct nvme_passthru_cmd cmd;
--	struct nvme_command c;
-+	struct nvme_command c, *cptr;
- 	unsigned timeout = 0;
- 	u64 result;
- 	int status;
-@@ -1644,32 +1739,44 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	if (cmd.flags)
- 		return -EINVAL;
- 
--	memset(&c, 0, sizeof(c));
--	c.common.opcode = cmd.opcode;
--	c.common.flags = cmd.flags;
--	c.common.nsid = cpu_to_le32(cmd.nsid);
--	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
--	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
--	c.common.cdw10 = cpu_to_le32(cmd.cdw10);
--	c.common.cdw11 = cpu_to_le32(cmd.cdw11);
--	c.common.cdw12 = cpu_to_le32(cmd.cdw12);
--	c.common.cdw13 = cpu_to_le32(cmd.cdw13);
--	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
--	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
-+	if (!ioucmd)
-+		cptr = &c;
-+	else {
-+		/*for async - allocate cmd dynamically */
-+		cptr = kmalloc(sizeof(struct nvme_command), GFP_KERNEL);
-+		if (!cptr)
-+			return -ENOMEM;
-+	}
-+
-+	memset(cptr, 0, sizeof(c));
-+	cptr->common.opcode = cmd.opcode;
-+	cptr->common.flags = cmd.flags;
-+	cptr->common.nsid = cpu_to_le32(cmd.nsid);
-+	cptr->common.cdw2[0] = cpu_to_le32(cmd.cdw2);
-+	cptr->common.cdw2[1] = cpu_to_le32(cmd.cdw3);
-+	cptr->common.cdw10 = cpu_to_le32(cmd.cdw10);
-+	cptr->common.cdw11 = cpu_to_le32(cmd.cdw11);
-+	cptr->common.cdw12 = cpu_to_le32(cmd.cdw12);
-+	cptr->common.cdw13 = cpu_to_le32(cmd.cdw13);
-+	cptr->common.cdw14 = cpu_to_le32(cmd.cdw14);
-+	cptr->common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
- 	if (cmd.timeout_ms)
- 		timeout = msecs_to_jiffies(cmd.timeout_ms);
- 
--	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
-+	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, cptr,
- 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
--			0, &result, timeout);
-+			0, &result, timeout, ioucmd);
- 
--	if (status >= 0) {
-+	if (!ioucmd && status >= 0) {
- 		if (put_user(result, &ucmd->result))
- 			return -EFAULT;
- 	}
- 
-+	if (ioucmd && status < 0)
-+		kfree(cptr);
-+
- 	return status;
- }
- 
-@@ -1707,7 +1814,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
--			0, &cmd.result, timeout);
-+			0, &cmd.result, timeout, NULL);
- 
- 	if (status >= 0) {
- 		if (put_user(cmd.result, &ucmd->result))
-@@ -1769,7 +1876,7 @@ static int nvme_handle_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		ret = nvme_user_cmd(ctrl, NULL, argp);
-+		ret = nvme_user_cmd(ctrl, NULL, argp, NULL);
- 		break;
- 	case NVME_IOCTL_ADMIN64_CMD:
- 		ret = nvme_user_cmd64(ctrl, NULL, argp);
-@@ -1808,7 +1915,7 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		ret = ns->head->ns_id;
- 		break;
- 	case NVME_IOCTL_IO_CMD:
--		ret = nvme_user_cmd(ns->ctrl, ns, argp);
-+		ret = nvme_user_cmd(ns->ctrl, ns, argp, NULL);
- 		break;
- 	case NVME_IOCTL_SUBMIT_IO:
- 		ret = nvme_submit_io(ns, argp);
-@@ -1827,6 +1934,39 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	return ret;
- }
- 
-+int nvme_uring_cmd(struct request_queue *q, struct io_uring_cmd *ioucmd,
-+		enum io_uring_cmd_flags flags)
-+{
-+	struct nvme_ns_head *head = NULL;
-+	struct block_device *bdev = I_BDEV(ioucmd->file->f_mapping->host);
-+	struct block_uring_cmd *bcmd = (struct block_uring_cmd *)&ioucmd->pdu;
-+	struct nvme_ns *ns;
-+	int srcu_idx, ret;
-+	void __user *argp = (void __user *) bcmd->addr;
-+
-+	BUILD_BUG_ON(sizeof(struct uring_cmd_data) >
-+			sizeof(struct block_uring_cmd) -
-+			offsetof(struct block_uring_cmd, unused));
-+
-+	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
-+	if (unlikely(!ns))
-+		return -EWOULDBLOCK;
-+
-+	switch (bcmd->ioctl_cmd) {
-+	case NVME_IOCTL_IO_CMD:
-+		ret = nvme_user_cmd(ns->ctrl, ns, argp, ioucmd);
-+		break;
-+	default:
-+		ret = -ENOTTY;
-+	}
-+
-+	if (ret >= 0)
-+		ret = -EIOCBQUEUED;
-+	nvme_put_ns_from_disk(head, srcu_idx);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(nvme_uring_cmd);
-+
- #ifdef CONFIG_COMPAT
- struct nvme_user_io32 {
- 	__u8	opcode;
-@@ -3318,7 +3458,7 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp)
- 	kref_get(&ns->kref);
- 	up_read(&ctrl->namespaces_rwsem);
- 
--	ret = nvme_user_cmd(ctrl, ns, argp);
-+	ret = nvme_user_cmd(ctrl, ns, argp, NULL);
- 	nvme_put_ns(ns);
- 	return ret;
- 
-@@ -3335,7 +3475,7 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(ctrl, NULL, argp);
-+		return nvme_user_cmd(ctrl, NULL, argp, NULL);
- 	case NVME_IOCTL_ADMIN64_CMD:
- 		return nvme_user_cmd64(ctrl, NULL, argp);
- 	case NVME_IOCTL_IO_CMD:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 07b34175c6ce..19b58311d8f7 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -19,6 +19,7 @@
- #include <linux/t10-pi.h>
- 
- #include <trace/events/block.h>
-+#include <linux/io_uring.h>
- 
- extern unsigned int nvme_io_timeout;
- #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
-@@ -620,6 +621,8 @@ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
- void nvme_start_freeze(struct nvme_ctrl *ctrl);
- 
- #define NVME_QID_ANY -1
-+int nvme_uring_cmd(struct request_queue *q, struct io_uring_cmd *ucmd,
-+		enum io_uring_cmd_flags flags);
- struct request *nvme_alloc_request(struct request_queue *q,
- 		struct nvme_command *cmd, blk_mq_req_flags_t flags);
- void nvme_cleanup_cmd(struct request *req);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7b6632c00ffd..6c84dc964259 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1629,6 +1629,7 @@ static const struct blk_mq_ops nvme_mq_ops = {
- 	.map_queues	= nvme_pci_map_queues,
- 	.timeout	= nvme_timeout,
- 	.poll		= nvme_poll,
-+	.uring_cmd	= nvme_uring_cmd,
- };
- 
- static void nvme_dev_remove_admin(struct nvme_dev *dev)
--- 
-2.25.1
 
 
 _______________________________________________
