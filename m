@@ -7,61 +7,68 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C577C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 18:45:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78759C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 18:52:28 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9CF5D64ECF
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 18:45:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9CF5D64ECF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 7F9AC60295
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 18:52:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F9AC60295
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=e04jzhD1Wtqa7haVQ8VFIzRsURC4daWnXRaH8eMptnE=; b=HT3fLUfGPOut+QrlJHVJALnY4
-	KAaXS6GBt/dWA/aczM+juluvbCXgDRDwtnjXOehKXS/wxgHPJYxxK/0x4eFxWRKdL5ztKnIhH9fBx
-	Hha4M7uXh22cEDycSszCBnrKw4jdvoNmQJCgv5cgtFdJCvstiA2wk7M4pzVm35O2FGWY7K2M6kZmU
-	QAIQmt0NqITkHZn/k1tsDLTOeMVPLQgdNN8UQwROhIDcz8q4XZdrED/t1Do3lzyQBJEE1/QjjVnlM
-	h2o6vxhX2Id/GqQ93YdgNqhXqHSjdLEIBlxSiZGdrb494n+Z9BkJiXNYvwGhpyXAVftkhR3C+tHMD
-	HUJ0RxeGw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=v4EJDLTu8NxcuCtq8Cuam4lPDf9Y7lFAuoq2gH6I9cE=; b=Xtm2C6PEzB4fPywxRfTeYHtmBI
+	tiZqygr7WAgSqBdYltOyB+Qq/fQ401PU7nuVt7VILTmIvURlzDoT6BRBiMBSQKnvHxa7Ie+XN5yAG
+	9uvFUJAw/FLrIhPqOofweL0dqWI9jxqHFZHANZw0lLVQKicI5MoRYvtyZfEOBWgtXiqkD7/OZoJKi
+	YMwH7mJ+XLht/l3CFfjtwTTOyq08iOonPc4EuFK1E2Fxx6l0ch4jPALz7ljSVQHKVtS4qSA6947b+
+	t8B+Agwx5b2LqnSoi6uEpSK5YmsnpvrhcFFjgrH+28lhe5ffJA53QSqoRAVeDNen2QoyjF0NBUDRC
+	Ha0kjXsg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lHWUj-0064lL-Sb; Wed, 03 Mar 2021 18:45:14 +0000
+	id 1lHWbW-00665U-KW; Wed, 03 Mar 2021 18:52:14 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lHT1O-005HLE-Ke
- for linux-nvme@desiato.infradead.org; Wed, 03 Mar 2021 15:02:42 +0000
+ id 1lHT1s-005HVZ-De
+ for linux-nvme@desiato.infradead.org; Wed, 03 Mar 2021 15:03:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=DaLnzHjE1NHn6E7YzCubnnV9ziQru2K+0ZXWsg1QHn0=; b=vIEQk8WvdBg6nV6UGehFFfmLbA
- Q4NdEaN8JuyBWWTp3GXDQZQoQswtXnV2Y3LclegGjNNNuTZR3XHsAaCM6RZikFSRdbSR3Lrt8t/pS
- mZxzDcwfFhNxd3EVQl4yZuPTyD1pFcxx19ygEPNCDZPyXGq0gQo69Vohkrt3OoP2HpYAevTx4wgpI
- 3rQgFMNgwVyucnm2Le1JqROgPm6CP3P5NPahf1Ht40hvJFDQmi6+aWoslWg6FhucTSaoQu/n88hMm
- sqL0LWUvwSa8BmdGtdAuftpAPqIru0EKxqqyyOqRurYECJkd1Y3sN3E3ZqANwxMkk06UlqjUE3GCY
- VCyhv+KA==;
-Received: from [2001:4bb8:180:9884:624:26dd:6387:40e9] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lHR0N-002cNy-Kt; Wed, 03 Mar 2021 12:53:37 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>,
- linux-nvme@lists.infradead.org
-Subject: [PATCH 2/3] nvme: merge nvme_keep_alive into nvme_keep_alive_work
-Date: Wed,  3 Mar 2021 13:53:03 +0100
-Message-Id: <20210303125304.1200789-3-hch@lst.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210303125304.1200789-1-hch@lst.de>
-References: <20210303125304.1200789-1-hch@lst.de>
+ d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+ Date:Subject:CC:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=YskKaysoFKBlmCZn4q0T21VeMS7fIAXadw3vtRH9R74=; b=O5U1Wd2yFhfN/5tDVWq21D4hve
+ VOlPSxSNP0HzC+shHNuHcyqXRXcnqMyDnRp0bT5uvOenanq95dvu+YB02Qo4dl8v1JRz01GAc9K1n
+ W3VIkC3XyuwUeqqilOuO8dOZqSERv4z+EgZ/GokrCuIe50BRdEyXxI3B7523/Yceyuy3XxyCrSh+c
+ yvAplUqIBOj3v/B6wjik1/kBG6nv3Z1Wm29hEkH+HvztKq+xS3ZLz0VGJHpZ7LPblYAUAhsjLp3Kb
+ 51x670A2NSRYhVdG+o3W0XpmUaxUBnhivtZV95TDY/tcekirGJWtVySOH38eK2yhkvvs5jag6vLv5
+ iwdLMjDQ==;
+Received: from szxga07-in.huawei.com ([45.249.212.35])
+ by casper.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lHHe9-00130P-Pw
+ for linux-nvme@lists.infradead.org; Wed, 03 Mar 2021 02:53:58 +0000
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Dqz6w1XyJz7kNY;
+ Wed,  3 Mar 2021 10:52:08 +0800 (CST)
+Received: from huawei.com (10.29.88.127) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Wed, 3 Mar 2021
+ 10:53:48 +0800
+From: Chao Leng <lengchao@huawei.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <kbusch@kernel.org>, <axboe@fb.com>, <hch@lst.de>, <sagi@grimberg.me>
+Subject: [PATCH] nvme-fabrics: fix crash for no IO queues
+Date: Wed, 3 Mar 2021 10:53:48 +0800
+Message-ID: <20210303025348.32133-1-lengchao@huawei.com>
+X-Mailer: git-send-email 2.16.4
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+X-Originating-IP: [10.29.88.127]
+X-CFilter-Loop: Reflected
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210303_025358_266836_D93D427B 
+X-CRM114-Status: GOOD (  10.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,70 +85,32 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Merge nvme_keep_alive into its only caller to prepare for additional
-changes to this code.
+A crash happens when set feature(NVME_FEAT_NUM_QUEUES) timeout in nvme
+over rdma(roce) reconnection, the reason is use the queue which is not
+alloced.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+If queue is not live, should not allow queue request.
+
+Signed-off-by: Chao Leng <lengchao@huawei.com>
 ---
- drivers/nvme/host/core.c | 26 ++++++++------------------
- 1 file changed, 8 insertions(+), 18 deletions(-)
+ drivers/nvme/host/fabrics.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e68a8c4ac5a6ea..bdeb3feae61899 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1225,28 +1225,12 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
- }
- 
--static int nvme_keep_alive(struct nvme_ctrl *ctrl)
--{
--	struct request *rq;
--
--	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd,
--			BLK_MQ_REQ_RESERVED);
--	if (IS_ERR(rq))
--		return PTR_ERR(rq);
--
--	rq->timeout = ctrl->kato * HZ;
--	rq->end_io_data = ctrl;
--
--	blk_execute_rq_nowait(NULL, rq, 0, nvme_keep_alive_end_io);
--
--	return 0;
--}
--
- static void nvme_keep_alive_work(struct work_struct *work)
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 733010d2eafd..2479744fc349 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -189,7 +189,7 @@ static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
  {
- 	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
- 			struct nvme_ctrl, ka_work);
- 	bool comp_seen = ctrl->comp_seen;
-+	struct request *rq;
- 
- 	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
- 		dev_dbg(ctrl->device,
-@@ -1256,12 +1240,18 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 		return;
- 	}
- 
--	if (nvme_keep_alive(ctrl)) {
-+	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd,
-+				BLK_MQ_REQ_RESERVED);
-+	if (IS_ERR(rq)) {
- 		/* allocation failure, reset the controller */
- 		dev_err(ctrl->device, "keep-alive failed\n");
- 		nvme_reset_ctrl(ctrl);
- 		return;
- 	}
-+
-+	rq->timeout = ctrl->kato * HZ;
-+	rq->end_io_data = ctrl;
-+	blk_execute_rq_nowait(NULL, rq, 0, nvme_keep_alive_end_io);
+ 	if (likely(ctrl->state == NVME_CTRL_LIVE ||
+ 		   ctrl->state == NVME_CTRL_DELETING))
+-		return true;
++		return queue_live;
+ 	return __nvmf_check_ready(ctrl, rq, queue_live);
  }
  
- static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
 -- 
-2.29.2
+2.16.4
 
 
 _______________________________________________
