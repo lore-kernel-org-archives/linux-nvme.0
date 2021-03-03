@@ -2,85 +2,76 @@ Return-Path: <SRS0=PLgZ=IB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 200D1C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 16:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72048C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 16:50:05 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97B3B614A7
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 16:32:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97B3B614A7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id CA9DA64ECF
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 16:50:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CA9DA64ECF
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mmxFoYkIkIXZ9PzlYmwRA/id+s5dbxiwCn+63RmDKTQ=; b=ctUPCifqCbonVkwgq0ngnl5rj
-	Pt0UvIvmLeDy5wvSkvkZOrCH/wxVa6MsouhBcTkjBRCgga97NRk/ZMIoQUIAw0LoSdKQ8MZdJPWf2
-	XKvBgzr+Va637WgHtOQ7gB8LEnv2t3rZF6DXMGERGXmJa+SD7FiV+CRFXkKQnNmoNRVfmDKfun3xJ
-	REIwkEYQkBm6M59DiPoCeXrkc+Gp+Hwq6gmP3Y/tXY6V9bEGnGy8dlnUP7G7Au/jQkNhW3lPM3/HN
-	QxL7+8en48oKq/1SA8s0oh8EERSGCTA4Lt6r4jUlZi68YFcuG0KmDflPNstyPgX1MX0hX+Iby94PH
-	jZFV+5z6A==;
+	 bh=ySMy1tYnQZIBxNkJ3imSrploTNselOs0WSh3IFtGMeg=; b=PT7fSk/t7VId9OMq/ioj+T+ZI
+	+wYJP1dYOy28IyMCrdQN9xzkC+wpxKnNtQ6w+ksyMSD+tGA7qmgPq+13KAEnezD8xdJRBWTTTJXGw
+	3q1OnhehIEhsuff6EjjIgfLg2cvSoYFtdNG0hhMwll3YkZWVgSVYd2PLs+ZT1OLRP1HfnOlPMaV+Q
+	OSwpfTlVHtURQszlpj0TLx8XHXNstiHBBikGbtRYJMzGW9YyBS0JgQbHjMWnA+fK+eNPkx8vOEtDV
+	GdaoCYuhUyPNwRqFqdHPOUN87vt+foJPC/pm917/7YXRBiHVmdegSVG/D4yhzPHTZFdRjcu5Zfjkg
+	6wdebAChw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lHUQF-005cLX-Jw; Wed, 03 Mar 2021 16:32:29 +0000
+	id 1lHUh8-005fj2-MB; Wed, 03 Mar 2021 16:49:55 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lHSpu-005E58-Im
- for linux-nvme@desiato.infradead.org; Wed, 03 Mar 2021 14:50:50 +0000
+ id 1lHSrH-005ERZ-CF
+ for linux-nvme@desiato.infradead.org; Wed, 03 Mar 2021 14:52:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:Subject:Sender
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
  :Reply-To:Content-ID:Content-Description;
- bh=P74/vatsOa/jxFH3lRO9VbQeRKIxe5OWHJB+8tysCB8=; b=uzLLrv1wonZPdN2kF1YSZ+oRHh
- lYmepemglvoc0iWkFdgT7t5cPaTYPIj9murdgqwZEi0fW7xChMTt38Rx2nQL1l2KYBgbTmFTEPwcS
- bRRgjbQK62qW0d2BCaBCqdmi6cWNiTxffxS76fqglO01uCqpzHdJeCrLlOQ0A8D+tke+xqqgmWt1x
- Wi0ToW0dP6kOqHb5pxRhGfl0EF6aRDt9DxAFibLDes/0zOSL8CMRgK0EpGo6UF5oqFM1yPqYKQixF
- pjTnc7ci31+gfIHV8ysVMtkqrPlMPq26w5EMirgQZu0y75UskEc5NsSqS+wErAPa5zxx1ZSr9DWI6
- 2HshTfMA==;
-Received: from szxga08-in.huawei.com ([45.249.212.255])
+ bh=fNgiF7mPmJb+a71mDbOYe1snbNaSQb36QbNPOMsGR+A=; b=MmNMUfI/sMdc7hfOa0oekWLHaS
+ yh5tvUdxlWGeLoBtnrzXHn9B20VcFKi7qGRYPxuSEjv6WPHW3vKJJDAwatyFH/+1O+99QJ8E0O2/c
+ OzKZSsAqZ8UjRWW77OOrordFlIApW2GBTdNMwzfKve83gUW0tNNhNQ+PqEIswcKwQzCe10CuzKbyX
+ ELm7gzxO0UM3jjUlpUHM+Z2sdAoSocKoMJi/lsVUqpaJYQ2xxE2jYHb1kAAzBNnP6Eu7yhLupea3i
+ bSRpPjc90Cxia0oz0OS1eQ51mQLNaWshEWGuNQY3u+mKeo09/v/o+siZ9SHGu9R173Vxx2sUDHM6Y
+ leaniWww==;
+Received: from mx2.suse.de ([195.135.220.15])
  by casper.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lHNGk-001un9-CF
- for linux-nvme@lists.infradead.org; Wed, 03 Mar 2021 08:54:11 +0000
-Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Dr75J4nFBz140nk;
- Wed,  3 Mar 2021 16:51:16 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Wed, 3 Mar 2021 16:53:59 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Wed, 3 Mar
- 2021 16:53:59 +0800
-Subject: Re: [PATCH 2/3] nvme: sanitize KATO setting
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-CC: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- Daniel Wagner <dwagner@suse.de>, <linux-nvme@lists.infradead.org>
-References: <20210302092644.80701-1-hare@suse.de>
- <20210302092644.80701-3-hare@suse.de>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <a76410f4-3e21-4e66-6dee-58ad368cab80@huawei.com>
-Date: Wed, 3 Mar 2021 16:53:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1lHNXk-001y3r-OL
+ for linux-nvme@lists.infradead.org; Wed, 03 Mar 2021 09:11:46 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 2220CAD2B;
+ Wed,  3 Mar 2021 09:11:42 +0000 (UTC)
+Subject: Re: [PATCH] nvme: send uevent once a multipath namespace is
+ operational again
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <20210226080538.108392-1-hare@suse.de>
+ <20210303083927.GA9898@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <b1a45459-634e-d174-7c03-d1bf7e450b85@suse.de>
+Date: Wed, 3 Mar 2021 10:11:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210302092644.80701-3-hare@suse.de>
+In-Reply-To: <20210303083927.GA9898@lst.de>
 Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme716-chm.china.huawei.com (10.1.199.112) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210303_085411_326260_740925F6 
-X-CRM114-Status: GOOD (  22.00  )
+X-CRM114-CacheID: sfid-20210303_091146_138953_4BD9A0F3 
+X-CRM114-Status: GOOD (  16.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,101 +83,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2021/3/2 17:26, Hannes Reinecke wrote:
-> According to the NVMe base spec the KATO commands should be sent
-> at half of the KATO interval, to properly account for round-trip
-> times.
-> As we now will only ever send one KATO command per connection we
-> can easily use the recommended values.
-> This also fixes a potential issue where the request timeout for
-> the KATO command does not match the value in the connect command,
-> which might be causing spurious connection drops from the target.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/core.c    | 9 ++++++---
->   drivers/nvme/host/fabrics.c | 2 +-
->   drivers/nvme/host/nvme.h    | 9 ++++++++-
->   3 files changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index f890b310499e..6d096d41a82f 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1223,7 +1223,8 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
->   		startka = true;
->   	spin_unlock_irqrestore(&ctrl->lock, flags);
->   	if (startka)
-> -		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-> +		queue_delayed_work(nvme_wq, &ctrl->ka_work,
-> +				   NVME_KATO_DELAY(ctrl->kato) * HZ);
-* HZ and then >> 1 is a better choice. do like this: NVME_KATO_DELAY(ctrl->kato * HZ).
->   }
->   
->   static int nvme_keep_alive(struct nvme_ctrl *ctrl)
-> @@ -1258,7 +1259,8 @@ static void nvme_keep_alive_work(struct work_struct *work)
->   		dev_dbg(ctrl->device,
->   			"reschedule traffic based keep-alive timer\n");
->   		ctrl->comp_seen = false;
-> -		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-> +		queue_delayed_work(nvme_wq, &ctrl->ka_work,
-> +				   NVME_KATO_DELAY(ctrl->kato) * HZ);
->   		return;
->   	}
->   
-> @@ -1275,7 +1277,8 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
->   	if (unlikely(ctrl->kato == 0))
->   		return;
->   
-> -	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-> +	queue_delayed_work(nvme_wq, &ctrl->ka_work,
-> +			   NVME_KATO_DELAY(ctrl->kato) * HZ);
->   }
->   
->   void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 5dfd806fc2d2..dba32e39afbf 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -382,7 +382,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
->   	 * and add a grace period for controller kato enforcement
->   	 */
->   	cmd.connect.kato = ctrl->kato ?
-> -		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000) : 0;
-> +		cpu_to_le32(ctrl->kato * 1000) : 0;
->   
->   	if (ctrl->opts->disable_sqflow)
->   		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 23711f6b7d13..912830389997 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -27,7 +27,14 @@ extern unsigned int admin_timeout;
->   #define NVME_ADMIN_TIMEOUT	(admin_timeout * HZ)
->   
->   #define NVME_DEFAULT_KATO	5
-> -#define NVME_KATO_GRACE		10
-> +
-> +/*
-> + * The recommended frequency for KATO commands
-> + * according to NVMe 1.4 section 7.12.1:
-> + * The host should send Keep Alive commands at half of the
-> + * Keep Alive Timeout accounting for transport roundtrip times [..].
-> + */
-> +#define NVME_KATO_DELAY(k)	((k) >> 1)
->   
->   #ifdef CONFIG_ARCH_NO_SG_CHAIN
->   #define  NVME_INLINE_SG_CNT  0
-> 
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMy8zLzIxIDk6MzkgQU0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IE9uIEZyaSwgRmVi
+IDI2LCAyMDIxIGF0IDA5OjA1OjM4QU0gKzAxMDAsIEhhbm5lcyBSZWluZWNrZSB3cm90ZToKPj4g
+SW4gYW4gYWxsIHBhdGhzIGRvd24gc2NlbmFyaW8gSS9PIHdpbGwgYmUgcmVxdWV1ZWQgb3IgYWJv
+cnRlZCwgYW5kIG5vCj4+IGZ1cnRoZXIgSS9PIHdpbGwgYmUgb25nb2luZyBvbiB0aGlzIG5hbWVz
+cGFjZS4KPj4gVGhpcyBsZWF2ZXMgdGhlIHVwcGVyIGxheWVycyB1bmFibGUgdG8gZGV0ZXJtaW5l
+IGlmIHRoZSBuYW1lc3BhY2UKPj4gYmVjb21lcyBvcGVyYXRpb25hbCBhZ2FpbiBlZy4gYWZ0ZXIg
+YSBzdWNjZXNzZnVsIGNvbnRyb2xsZXIgcmVzZXQuCj4+IFdpdGggdGhpcyBwYXRjaCBhICdjaGFu
+Z2UnIHVldmVudCB3aWxsIGJlIHNlbnQgcGVyIG11bHRpcGF0aGVkIG5hbWVzcGFjZQo+PiBvbmNl
+IHRoZSB1bmRlcmx5aW5nIGNvbnRyb2xsZXIgbW92ZWQgdG8gTElWRSBhbmQgc3RhcnRlZCBJL08g
+cHJvY2Vzc2luZwo+PiBieSBjYWxsaW5nIG52bWVfa2lja19yZXF1ZXVlX2xpc3RzKCkuCj4gCj4g
+VGhpcyBzaG91bGQgdXNlIGRpc2tfdWV2ZW50KCkuCj4gClJpZ2h0LiBXaWxsIGJlIHVwZGF0aW5n
+IHRoZSBwYXRjaC4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZQkJICAg
+ICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlCQkJICAgICAgICAg
+ICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xy
+bmJlcmcpLCBHRjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1l
+QGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9saW51eC1udm1lCg==
