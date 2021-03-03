@@ -2,73 +2,74 @@ Return-Path: <SRS0=PLgZ=IB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78759C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 18:52:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15431C433E9
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 19:32:30 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7F9AC60295
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 18:52:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F9AC60295
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5F3B564EE3
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Mar 2021 19:32:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F3B564EE3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=v4EJDLTu8NxcuCtq8Cuam4lPDf9Y7lFAuoq2gH6I9cE=; b=Xtm2C6PEzB4fPywxRfTeYHtmBI
-	tiZqygr7WAgSqBdYltOyB+Qq/fQ401PU7nuVt7VILTmIvURlzDoT6BRBiMBSQKnvHxa7Ie+XN5yAG
-	9uvFUJAw/FLrIhPqOofweL0dqWI9jxqHFZHANZw0lLVQKicI5MoRYvtyZfEOBWgtXiqkD7/OZoJKi
-	YMwH7mJ+XLht/l3CFfjtwTTOyq08iOonPc4EuFK1E2Fxx6l0ch4jPALz7ljSVQHKVtS4qSA6947b+
-	t8B+Agwx5b2LqnSoi6uEpSK5YmsnpvrhcFFjgrH+28lhe5ffJA53QSqoRAVeDNen2QoyjF0NBUDRC
-	Ha0kjXsg==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=LV3mRnJBWrpSSw/8QNWbtT8CRDSYl5vGTdKqzbkdWsA=; b=TebuYdVGKnKuCIJEoEybsg6WC
+	zYIAsifvONo1f1J5QH/VnX5zytKXtvMjJwEdFeJWjWkdDRADY3q5uCA3VikueP5Tnl0p88cAuqiqR
+	DM8d9O8hy7wQDpsuLKRQEgap5ODx4pOX9yL3SNU5exqepxwHe+k91CmnHkEaq5zuVj5ClAE+7n3x0
+	bfNi4aqLi2pF1Zio3pzH5bYqF2D72PaAkujPFe1aw+lIiwptcdcc6navWR9WvRe4agOaQfha4Rixt
+	4ijhRNR5ukIce6ovuLDd8JZzfM4vLUuO0eoXFXDAdOAiA6uVlWYAYcRpDJtSk/rj2kb16Wh9AJ2C4
+	FKJkjlWfA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lHWbW-00665U-KW; Wed, 03 Mar 2021 18:52:14 +0000
+	id 1lHXEG-006EGi-Fj; Wed, 03 Mar 2021 19:32:17 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lHT1s-005HVZ-De
- for linux-nvme@desiato.infradead.org; Wed, 03 Mar 2021 15:03:12 +0000
+ id 1lHT3Q-005I3L-Gd
+ for linux-nvme@desiato.infradead.org; Wed, 03 Mar 2021 15:04:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
- Date:Subject:CC:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=YskKaysoFKBlmCZn4q0T21VeMS7fIAXadw3vtRH9R74=; b=O5U1Wd2yFhfN/5tDVWq21D4hve
- VOlPSxSNP0HzC+shHNuHcyqXRXcnqMyDnRp0bT5uvOenanq95dvu+YB02Qo4dl8v1JRz01GAc9K1n
- W3VIkC3XyuwUeqqilOuO8dOZqSERv4z+EgZ/GokrCuIe50BRdEyXxI3B7523/Yceyuy3XxyCrSh+c
- yvAplUqIBOj3v/B6wjik1/kBG6nv3Z1Wm29hEkH+HvztKq+xS3ZLz0VGJHpZ7LPblYAUAhsjLp3Kb
- 51x670A2NSRYhVdG+o3W0XpmUaxUBnhivtZV95TDY/tcekirGJWtVySOH38eK2yhkvvs5jag6vLv5
- iwdLMjDQ==;
-Received: from szxga07-in.huawei.com ([45.249.212.35])
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=gIlGWJWnvXREgICNM4lizkmIQyjVLl8sbjBjiBZM+yg=; b=sn9vcg4N8GyevOMx/0TD/ETyHW
+ c3c0h6oTb3+i9dsqUyVW/BJMciNzgafsKMs1A7ADGqEo1T8fYMdYgWVaHzNaSoWcBI9rpL4jnRPnY
+ 4I02ctibqLmpIfb6fAXcMTA1vkXP87ZskJdJBzqZJMeMkw12uXfi3dmjJEmQSakXgsJkPzMxz2/ch
+ Uk2j95L/r4jZGBwZUFOahUV5eS8BnLLb2oltvoRKqEsJNGzesIDjaqLTj9c+FEgBMmZpj5tw6EM22
+ Ibq79PMbM7+HgecrDNn3dF+0rIs+Kz62Py9AMBAfpBI9dKf1u8Vmt+DC/dGib7OnuGwYYZOlD6HUq
+ hnyRectA==;
+Received: from verein.lst.de ([213.95.11.211])
  by casper.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lHHe9-00130P-Pw
- for linux-nvme@lists.infradead.org; Wed, 03 Mar 2021 02:53:58 +0000
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Dqz6w1XyJz7kNY;
- Wed,  3 Mar 2021 10:52:08 +0800 (CST)
-Received: from huawei.com (10.29.88.127) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Wed, 3 Mar 2021
- 10:53:48 +0800
-From: Chao Leng <lengchao@huawei.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <kbusch@kernel.org>, <axboe@fb.com>, <hch@lst.de>, <sagi@grimberg.me>
-Subject: [PATCH] nvme-fabrics: fix crash for no IO queues
-Date: Wed, 3 Mar 2021 10:53:48 +0800
-Message-ID: <20210303025348.32133-1-lengchao@huawei.com>
-X-Mailer: git-send-email 2.16.4
+ id 1lHQnd-002ZXB-Lq
+ for linux-nvme@lists.infradead.org; Wed, 03 Mar 2021 12:40:22 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 7491168B05; Wed,  3 Mar 2021 13:40:18 +0100 (CET)
+Date: Wed, 3 Mar 2021 13:40:18 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Chao Leng <lengchao@huawei.com>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/3] nvme: sanitize KATO setting
+Message-ID: <20210303124018.GC28477@lst.de>
+References: <20210302092644.80701-1-hare@suse.de>
+ <20210302092644.80701-3-hare@suse.de>
+ <a76410f4-3e21-4e66-6dee-58ad368cab80@huawei.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.29.88.127]
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <a76410f4-3e21-4e66-6dee-58ad368cab80@huawei.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210303_025358_266836_D93D427B 
-X-CRM114-Status: GOOD (  10.05  )
+X-CRM114-CacheID: sfid-20210303_124022_918205_5C3141B8 
+X-CRM114-Status: GOOD (  15.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,33 +86,44 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A crash happens when set feature(NVME_FEAT_NUM_QUEUES) timeout in nvme
-over rdma(roce) reconnection, the reason is use the queue which is not
-alloced.
+On Wed, Mar 03, 2021 at 04:53:58PM +0800, Chao Leng wrote:
+>
+>
+> On 2021/3/2 17:26, Hannes Reinecke wrote:
+>> According to the NVMe base spec the KATO commands should be sent
+>> at half of the KATO interval, to properly account for round-trip
+>> times.
+>> As we now will only ever send one KATO command per connection we
+>> can easily use the recommended values.
+>> This also fixes a potential issue where the request timeout for
+>> the KATO command does not match the value in the connect command,
+>> which might be causing spurious connection drops from the target.
+>>
+>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   drivers/nvme/host/core.c    | 9 ++++++---
+>>   drivers/nvme/host/fabrics.c | 2 +-
+>>   drivers/nvme/host/nvme.h    | 9 ++++++++-
+>>   3 files changed, 15 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index f890b310499e..6d096d41a82f 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -1223,7 +1223,8 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+>>   		startka = true;
+>>   	spin_unlock_irqrestore(&ctrl->lock, flags);
+>>   	if (startka)
+>> -		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
+>> +		queue_delayed_work(nvme_wq, &ctrl->ka_work,
+>> +				   NVME_KATO_DELAY(ctrl->kato) * HZ);
+> * HZ and then >> 1 is a better choice. do like this: NVME_KATO_DELAY(ctrl->kato * HZ).
 
-If queue is not live, should not allow queue request.
-
-Signed-off-by: Chao Leng <lengchao@huawei.com>
----
- drivers/nvme/host/fabrics.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 733010d2eafd..2479744fc349 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -189,7 +189,7 @@ static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- {
- 	if (likely(ctrl->state == NVME_CTRL_LIVE ||
- 		   ctrl->state == NVME_CTRL_DELETING))
--		return true;
-+		return queue_live;
- 	return __nvmf_check_ready(ctrl, rq, queue_live);
- }
- 
--- 
-2.16.4
-
+Also there is no reason to not include the "* HZ" in NVME_KATO_DELAY,
+as all callers do it anyway.  Also please turn NVME_KATO_DELAY into a
+normal inline function using normal lower case naming.  Alternatively
+we could also just do a helper for the whole queue_delayed_work, which
+might actually end up even cleaner.
 
 _______________________________________________
 Linux-nvme mailing list
