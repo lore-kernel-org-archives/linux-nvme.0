@@ -3,107 +3,153 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2742BC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Mar 2021 21:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A40CAC433DB
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Mar 2021 22:19:53 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AA14E64F84
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Mar 2021 21:50:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AA14E64F84
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	by mail.kernel.org (Postfix) with ESMTPS id 4227064FE4
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Mar 2021 22:19:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4227064FE4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sEVNyIRPnVDEXlbk0qmd8qolfgBsTXNTcGX/3AFzAP8=; b=PmwacOyzbenPLL7jvkZVjLUEu
-	Vti+6M3bZpI21V/f+uVSvQvzDP/hej01UdURf0RCV4oJekrC/HUNMXResF6SqeLKPGQbYza7iXcOT
-	oiolA/OOxGismfVekSubIKO33I1qsQEfiwzpNJ2luKj0aHh+dsk8jj2scRp8s0r1N+DRcvGrzDA4q
-	A5Jb7rw+qSiFn2EZU5EfqjxC7m4jqAWCobgZSYZwDecqRexwJe15KfEfbi/oJt/sX309d6c7Zri1l
-	4RF55h7Il4FGEsjBJ54BhHdiqDnQ6nXUNJrRDdzuGUDDtGII0KpJlQDf3eW2FVkJ6bgIF2R0yX+GO
-	/kO26iFwA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=qMi4QqxCDSHfakdlHGJizJ4MwyMtdzG8Azu9ywLLW6E=; b=GU3vy5ADqDsbddjYa1QGL7CzW
+	wPDTwcb2bobDxU1Ns+tMgkMhRBtKKcn38WBUlVJPZ1RjViraSfeSIHZSaOHb4ajSG0JNg9a534ow2
+	/cBkawgSGwloah/prE1XnQ+A5uzf0rEl47p2ik/8qVbRoedXKQqJTns3iimfpV+Y4upBC/1QVNGJ4
+	HHW8y4bzAJ1ANx+MOdCtHdot8p1V2++NC/M7IgD8ickrXCTSAJ18C1yd8YMdI1ghQgnYBxWqK85EA
+	U/e6fFTGfR377cBWEUyZh5HynrD8UX8b9GZFKGs4qC+uaix0VvLoAyIh8Gb+6FZR8/JpuhkfCrCND
+	ecoP66XyA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lHvqq-00AIXL-KO; Thu, 04 Mar 2021 21:49:44 +0000
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b])
+	id 1lHwJm-00AQRm-86; Thu, 04 Mar 2021 22:19:38 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lHvl8-00AFVh-Sc
- for linux-nvme@lists.infradead.org; Thu, 04 Mar 2021 21:43:54 +0000
-Received: by mail-ot1-x32b.google.com with SMTP id h10so18147096otm.1
- for <linux-nvme@lists.infradead.org>; Thu, 04 Mar 2021 13:43:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q7tBXV4lZRcDzR1WeLqLPxHv84GSFkk+SyKZ277C1YA=;
- b=BBwDnQyKyqeYcC+rrb3errHEavPdPrQzuH20BcbkwwSkN4sOmjPaHs3qZkHfw3LPxf
- AXPK4CFmZ17nm3gnZoT2Brknojh08y/pQegZL+u4+6Cmz3jRrAkZQwCEfq/THW2YxdtB
- D1JWY8tKCCWgDZsRdnWTJmWGyMCdbLNa6XsceoabVl1IrwZku+HFIV8lnJ9b2gtExOat
- 2wQweKIDkUDK7iiTX02F1M8X/ggX0ur2426JxvUK82PsmLZRENvpvb35XC5p9FV5cPhU
- 85ROecKQqDuatcFd0RbMUbPspXl0d1zSKXOId8XTESy039ZfA32fP5fbWSzXPc60ry1k
- g8ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q7tBXV4lZRcDzR1WeLqLPxHv84GSFkk+SyKZ277C1YA=;
- b=LQTp2KxIuIOTHLPtY5mJ/mHnB+ZgfjkuMP925TxLxtBeG/xv9TXJQLB7H+K6LoL7k2
- dd5ivIrw3+mwfvG/m1eH2jhIlVL8DTduyqUs4/sv0eT2fxEr0jeryhlOhNElSAi4YO1B
- JU9fgoF8doFOco29sGbukQcjZo8NhKykZBqVM/5viy2+TYGPJ6qSif1zE/y/Qr3vgQZu
- 31zQFR5xizoWYeciUx2nAbyFFQV3ugiGPkMlQi+WKgWUy/kYeWahSBCvQmyz4/CZS2sQ
- tsvQ9TBEBu953M+6bWZo0pRDtvMRki0sT3f17LF85iBN/+AwAzI/LagztLKF1+7AshHn
- mBbQ==
-X-Gm-Message-State: AOAM5311QJn3d/w9su75iKDy1UKVPVvKj5a0konqZsLvVAfhqgvWVJoO
- 5SddiKmE3XAd3bHxAuk8PbiSor7A3i9bH6SgwcE=
-X-Google-Smtp-Source: ABdhPJwimeJ4h5jpmQ7KLAouR5p8gllE77YCYgISzdbK9ewWwDvbV6lLJAA/SAlqY4E1J5Cw9wp51w==
-X-Received: by 2002:a05:6830:3108:: with SMTP id
- b8mr5074438ots.174.1614894227976; 
- Thu, 04 Mar 2021 13:43:47 -0800 (PST)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com.
- [209.85.167.174])
- by smtp.gmail.com with ESMTPSA id t2sm173870otq.45.2021.03.04.13.43.47
- for <linux-nvme@lists.infradead.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Mar 2021 13:43:47 -0800 (PST)
-Received: by mail-oi1-f174.google.com with SMTP id i21so122195oii.2
- for <linux-nvme@lists.infradead.org>; Thu, 04 Mar 2021 13:43:47 -0800 (PST)
-X-Received: by 2002:aca:5e85:: with SMTP id s127mr4293199oib.67.1614894226912; 
- Thu, 04 Mar 2021 13:43:46 -0800 (PST)
+ id 1lHwJb-00AQPL-Ul
+ for linux-nvme@lists.infradead.org; Thu, 04 Mar 2021 22:19:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1614896368; x=1646432368;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=VGCqWcWrH0Wo04SoSxKiWttEXhPrjShoqFA0p/ReNmY=;
+ b=Q28USUedihzuqtWcIV0ZMZ0uUnS7KAcAXUl5ZVLkgggpKu2gWYdjlwML
+ /2OEMJT4AFDwsujJ+KRQptbUqgrNahTcgew09SZXKHaMbGSgjVhwlQmE6
+ 5S+l/Q3E2Ge2KGx6M3/c44X99RyicUtih+Aj0oJ++yDF6X5ll5ZaIY4pm
+ 5KuFK4nCZ2NNTEJPySBJun4db/z1Ul5Aok2HRdZ/mOCReIeA8IgfqDtEU
+ ZAz0RwnA3D72mCWa8v0IWDT6rG/yij734l74N2mBh6P2nHff75+Jy7KNy
+ AhdbKRFUYhk41keHkRR/0W93L+UWGDECCygidIt+vROF+30E5ObBcltZC Q==;
+IronPort-SDR: FfuAsU4Awd4n65/b2LtMxQNu1mjOBJ1DPVlsbbuEjN4AQqQMfuCCfJgmeOw1AIa+q0jmQ/I5s0
+ fJtT/yzQEw6S4dxdJQMz8jF9O8oF9ef852ZdvcRDj0PhBsMIQOr/Cbv1NdXurgfgD8Chko3Eic
+ qhb9rVkHKNR1awA1LngUazm2IVbK8JDY+Oa6/mbIZKgz5s7cWAWblYU2zOQQycr6KcM4nGJ/e7
+ OgG30PiXcxNyl0MSI8hwLLhKqb33fCr/NBYkK4EKmuYF2WfA0WzMtPqaOVXEVyS1TgTNgeR0bd
+ e1w=
+X-IronPort-AV: E=Sophos;i="5.81,223,1610380800"; d="scan'208";a="162559244"
+Received: from mail-dm3nam07lp2049.outbound.protection.outlook.com (HELO
+ NAM02-DM3-obe.outbound.protection.outlook.com) ([104.47.56.49])
+ by ob1.hgst.iphmx.com with ESMTP; 05 Mar 2021 06:19:15 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d3XfybvrA8nE2N7/5FZOM8j5+ZW1oS3bXpb9vuqMysVzQcpkJf+Cch8RvcPKcdR4WJ+fkiAttlJZuGfcAvMZGV8DlYd8MEGgLka70OxZ9woUzAMxGEOkxCi/fHnWHfELHiZEXorsxLNE53hLVN9WVSlszQJN0qAH3Qp3jSo42xnzQIZrHata+MujH95DTiNt1cHJd8qoLeCWsohgLje6K3FwyPeg6v6l7WtpStFEmuX1uqeK7Q5ayu24n8dhkaqbcn11NiPcunrOaArzAiFmAT9tBs8JcIThz7Baal+NHzDvGDwex21cx3Ieg/GtC4uIoj6OU7uIzBAnHIBtaUl2mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VGCqWcWrH0Wo04SoSxKiWttEXhPrjShoqFA0p/ReNmY=;
+ b=C77RYEro07ghBMWPRgpp4eYz0vMXqVQ+SbYL6h89bK/6OvGJFLhBXuQC9eQlBlK6AoupeXsZy49BGh+ek/J/DY8N3h5VvfrDJ4J9lc7henKPcP6BUH+X+6uRTnlXFQ6hRn3vE7cz4Q/Tfy+uP/IMTP3VRXJwz0+MiD56MEXB4MZUomDAL3eCvXgg6sTrK0QST1s5DutFRvbrcfF5XmdPW12k9Z0qCAhs/k2Nrf345l921PseDXpleVBj+FzWNFZIzmaL1uM5uxqLt8Frq+8vS4SO7uX7JwhTbbK34x24Jve1yDR0jvmjnnQKc/vaHvJ+FQQcPYPXUC447DwEZqPOtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VGCqWcWrH0Wo04SoSxKiWttEXhPrjShoqFA0p/ReNmY=;
+ b=emMsmDZPDaUBRewGLM1B3fP08B5Gy0mbY4CUDiY3ftDYq61gVSW0eKubW336Wbt5AQq0XwPg1xPRfosxyS/6Ln+LgbSB93pAo3zCSQTK0RezXL9pChUZWsFet8xavRcwxBXQeLJX8yKfyUjoCnmg0bpOLDaFvUDJkNTB5vjYsPc=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by BYAPR04MB4663.namprd04.prod.outlook.com (2603:10b6:a03:58::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.28; Thu, 4 Mar
+ 2021 22:19:13 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::c897:a1f8:197a:706b]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::c897:a1f8:197a:706b%5]) with mapi id 15.20.3890.031; Thu, 4 Mar 2021
+ 22:19:13 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, "kbusch@kernel.org"
+ <kbusch@kernel.org>
+CC: "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] nvme: Switch to using the new API kobj_to_dev()
+Thread-Topic: [PATCH] nvme: Switch to using the new API kobj_to_dev()
+Thread-Index: AQHXENz14KJTiaaWk0CSO5RqL5M4nQ==
+Date: Thu, 4 Mar 2021 22:19:13 +0000
+Message-ID: <BYAPR04MB49659C667C427F1624EA4E4C86979@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <1614850889-68174-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linux.alibaba.com; dkim=none (message not signed)
+ header.d=none;linux.alibaba.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: d05d2ddb-f6ba-4085-e989-08d8df5b8aae
+x-ms-traffictypediagnostic: BYAPR04MB4663:
+x-microsoft-antispam-prvs: <BYAPR04MB466313EF542A20AF2AF40E7786979@BYAPR04MB4663.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: iuye0NzBPgHyy0lSy8zkPfNgdDDu4Q/CZyxi39akr1QkAqBeFWezWK1HzYtHybNJjKkG0dlClYeAa39RCkz9kI34cMSOUXEwZO0rfvP5bMPdOn9iYJQJDOGi2m6diWat4unft4vmI1DkSjnjOloEvKdwaZptG9MicJdPaWpKJOaGuXsWyrDRZwAGnwvBEcpQGCnVseq6EKjXLntvZK3fME/tS60yT1LRfSjsHT9A4atn1QKx1wpXcbAav/zOXrtAFeXyQvO9JFywf/wh6Jvn/rfdkQjchBiMw7Jx6BMvcUrlTW66uIEPxbEZoVaqPJWrgn8kH/2wpwaytGog4aGAzWk1M+X4PvL1xkAJIxGJpwzSYeFHnB2crfR57LfCd4NfSTAd2PM7tCMKjRvtLArVO3c64MWQ5RqtHTn7WO+AZYnrM+8X/6p+owhwQRqT5f/uXJlasgSi/GifTTqwLpeNQOl1lZyZCFO45dh5trnzyzzmtAbE5Q8W3728roP+tvDfUzF/YWa+yS7gc3fBGEp7/w==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(66476007)(66446008)(66946007)(64756008)(86362001)(33656002)(316002)(66556008)(71200400001)(53546011)(186003)(26005)(54906003)(76116006)(55016002)(91956017)(6506007)(7696005)(110136005)(9686003)(8936002)(8676002)(4326008)(478600001)(5660300002)(83380400001)(4744005)(2906002)(52536014);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?m40pPUnQ9BOC07a4fCCcxuawhuxg1PgABe2R1MxeN6aBGkBR8hAbjBs9BGoq?=
+ =?us-ascii?Q?aq/ENsUJKQal6cPbUDr1qKeLLWpNm0n0n1ZGV/6nXJk8V7B9FnRY+w5wH33G?=
+ =?us-ascii?Q?tLfHgtyqV8PD9UB+Ux/P9BqbDOxBSqKBXMYISe2gm1ezus6f8KJ+p2RpTPVU?=
+ =?us-ascii?Q?sQov7GpMmjaXsPAC73kiXiUbMot5Sz2GTpLyuQGOulBG+f7jDpnRtVmlkxc6?=
+ =?us-ascii?Q?TsNFZUb4R68JlJQrmXvIKFyoeMeSFaQlMLA/A0LGvR9kMZ3jE14E8EMXU+Dt?=
+ =?us-ascii?Q?IDPBXPigMB+kky4NvFA1P/j4dFyRVOtbHk3ManS8hWsALw30itZvDp5FSAKA?=
+ =?us-ascii?Q?YWW8+dB6oD+3Sgm1UhbUGQGKezXQCeaabSXyXe75yve7LrF4tO/nUemwfirQ?=
+ =?us-ascii?Q?M2i3luCYDm8mF2NFX7Oljl7+epOc1JOPK5Y/X4R5ez6Z21nfkLGqUIIYO/fD?=
+ =?us-ascii?Q?Gh6nM7vArbMJuX2K744iWqhe8j2i/bmPGwIernUWOOmtORkP1TcrTJUqp7qH?=
+ =?us-ascii?Q?rqMBLa++S3FHPu0nilFjN0dU0XnyBH2XfpTxtUpcu4DhQkuhh54WJx1zITnP?=
+ =?us-ascii?Q?jJRrzC0YoaeX9VsztKaJDNqZuHK634AUMFgZTP/2xyJDSy2wfmARPN6xToOi?=
+ =?us-ascii?Q?2DHmVh+mT9qHx5elmM8L3pCzVCrcthtsQ9MxavT2feJcBwks3fFx2PmGtBRV?=
+ =?us-ascii?Q?0kKICyo25RznG5OQlOsqiSql3vpz2192oVtKDIYmPmWXPFep7JdUcNuoz4ok?=
+ =?us-ascii?Q?XzUAHTb2t1gBdz5gzRI3nY/7vF8FRrsRDdfU70jI7XiVTiN7PsFVHoHrnViI?=
+ =?us-ascii?Q?s5LE0Q7XkQZM3VXJXxRaxMX8IgXNdTmPTLxFihjAJizY4nD9KF8iwk7nrLoE?=
+ =?us-ascii?Q?RlThF3JHOBT0xWWGLkN1zXqzIqzZ/xDeORXp1CiA9PvdveIi1OTdCH5G0xqh?=
+ =?us-ascii?Q?pWoQg8g1scVHE7P8EN2z8nfnB6yyk+1xkHNTTGE69qomyVp51Hvv3doW5gI5?=
+ =?us-ascii?Q?Bmog2pjMvpBK5S77sO5DiCnl1gL9mSxkGBdlffiUhBji1unDkGme+eLiUEtf?=
+ =?us-ascii?Q?HpgmnkE0HdCyO32qSr0Z6XZK/wSJeGLs7oEXwQ59dfao5FN1Aecv3o/1J/gC?=
+ =?us-ascii?Q?jIodzBHNJTWeU9T0surY1Sa7usffY4YDnIcdS+a5ACmXnE5yZXnjdkJM+Q28?=
+ =?us-ascii?Q?f+Uh5HhcfaqeRQ1HGUZRCGbiUAI83B4qipyiJKJD/laJQJWaNIbZMCcoYpb9?=
+ =?us-ascii?Q?uKQGUW55Q+BXrTKEKuSESFJdWjNXy4+FgUt9EV2AxBb0UUMYn7ZWgpY5cwe7?=
+ =?us-ascii?Q?WaLbLWz+UER4xSlln/xW0WLI?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20210303135500.24673-1-alex.bennee@linaro.org>
- <20210303135500.24673-3-alex.bennee@linaro.org>
- <ff78164cc13b4855911116c2d48929a2@intel.com>
- <87eegvgr0w.fsf@linaro.org> <590e0157d6c44d55aa166ccad6355db5@intel.com>
- <87wnumg5oe.fsf@linaro.org> <baa46857daba4bb685491ea9323fe45f@intel.com>
-In-Reply-To: <baa46857daba4bb685491ea9323fe45f@intel.com>
-From: Arnd Bergmann <arnd@linaro.org>
-Date: Thu, 4 Mar 2021 22:43:30 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0ATHxzS02_5kypbGwHYLaWZmEPG8xtZchWuuM-93o8CA@mail.gmail.com>
-Message-ID: <CAK8P3a0ATHxzS02_5kypbGwHYLaWZmEPG8xtZchWuuM-93o8CA@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/5] char: rpmb: provide a user space interface
-To: "Winkler, Tomas" <tomas.winkler@intel.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "maxim.uvarov@linaro.org" <maxim.uvarov@linaro.org>,
- "joakim.bech@linaro.org" <joakim.bech@linaro.org>, 
- "ilias.apalodimas@linaro.org" <ilias.apalodimas@linaro.org>, 
- "ruchika.gupta@linaro.org" <ruchika.gupta@linaro.org>, "Huang,
- Yang" <yang.huang@intel.com>, "Zhu, Bing" <bing.zhu@intel.com>, 
- "Matti.Moell@opensynergy.com" <Matti.Moell@opensynergy.com>,
- "hmo@opensynergy.com" <hmo@opensynergy.com>, 
- "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>, 
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, 
- Linus Walleij <linus.walleij@linaro.org>,
- Arnd Bergmann <arnd.bergmann@linaro.org>, 
- "Usyskin, Alexander" <alexander.usyskin@intel.com>,
- Avri Altman <avri.altman@sandisk.com>
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d05d2ddb-f6ba-4085-e989-08d8df5b8aae
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2021 22:19:13.3632 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /CL3oQu4vGAoqR6a711/mssPkr+yQ0bieOPRJEbNOEcEOz/Y6Ca6otHmx9hKaszNmqYVYN6L57+Yilik68keBUV5cLxL0A522FKd86RJDZQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4663
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,76 +166,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 4, 2021 at 8:54 PM Winkler, Tomas <tomas.winkler@intel.com> wrote:
-> > Winkler, Tomas <tomas.winkler@intel.com> writes:
-> > >> "Winkler, Tomas" <tomas.winkler@intel.com> writes:
-> > >>
-> > >> >> The user space API is achieved via a number of synchronous IOCTLs.
-> > >> >>
-> > >> >>   * RPMB_IOC_VER_CMD - simple versioning API
-> > >> >>   * RPMB_IOC_CAP_CMD - query of underlying capabilities
-> > >> >>   * RPMB_IOC_PKEY_CMD - one time programming of access key
-> > >> >>   * RPMB_IOC_COUNTER_CMD - query the write counter
-> > >> >>   * RPMB_IOC_WBLOCKS_CMD - write blocks to device
-> > >> >>   * RPMB_IOC_RBLOCKS_CMD - read blocks from device
-> > >> >>
-> > >> >> The keys used for programming and writing blocks to the device are
-> > >> >> key_serial_t handles as provided by the keyctl() interface.
-> > >> >>
-> > >> >> [AJB: here there are two key differences between this and the
-> > >> >> original proposal. The first is the dropping of the sequence of
-> > >> >> preformated frames in favour of explicit actions. The second is
-> > >> >> the introduction of key_serial_t and the keyring API for
-> > >> >> referencing the key to use]
-> > >> >
-> > >> > Putting it gently I'm not sure this is good idea, from the security
-> > >> > point of
-> > >> view.
-> > >> > The key has to be possession of the one that signs the frames as
-> > >> > they are,
-> > >> it doesn't mean it is linux kernel keyring, it can be other party on
-> > >> different system.
-> > >> > With this approach you will make the other usecases not applicable.
-> > >> > It is less then trivial to move key securely from one system to another.
-> > >>
-> > >> OK I can understand the desire for such a use-case but it does
-> > >> constrain the interface on the kernel with access to the hardware to
-> > >> purely providing a pipe to the raw hardware while also having to
-> > >> expose the details of the HW to userspace.
-> > > This is the use case in Android. The key is in the "trusty" which
-> > > different os running in a virtual environment. The file storage
-> > > abstraction is implemented there. I'm not sure the point of
-> > > constraining the kernel, can you please elaborate on that.
-> >
-> > Well the kernel is all about abstracting differences not baking in assumptions.
-> > However can I ask a bit more about this security model?
-> > Is the secure enclave just a separate userspace process or is it in a separate
-> > virtual machine? Is it accessible at all by the kernel running the driver?
+On 3/4/21 01:58, Jiapeng Chong wrote:
+> Fix the following coccicheck warnings:
 >
-> It's not an assumption this is working for few years already (https://source.android.com/security/trusty#application_services)
-> The model is that you have a trusted environment (TEE)  in which can be in any of the form you described above.
-> And there is established agreement via the RPMB key that TEE is only entity that can produce content to be stored on RPBM,
-> The RPMB hardware also ensure that nobody can catch it in the middle and replay that storage event.
+> ./drivers/nvme/host/core.c:3714:60-61: WARNING opportunity for
+> kobj_to_dev().
 >
-> My point is that interface you are suggesting is not covering all possible usages of RPMB, actually usages that are already in place.
-
-It turned out that the application that we (Linaro) need does have the
-same requirements and needs to store the key in a TEE, transferring
-the message with the MAC into the kernel, rather than keeping the
-key stored in user space or kernel.
-
-However, after I had a look at the nvme-rpmb user space implementation,
-I found that this is different, and always expects the key to be stored
-in a local file:
-https://github.com/linux-nvme/nvme-cli/blob/master/nvme-rpmb.c#L878
-
-This both works with the same kernel interface though, as the kernel
-would still get the data along with the HMAC, rather than having the key
-stored in the kernel, but it does mean that the frame gets passed to
-the kernel in a device specific layout, with at least nvme using an incompatible
-layout from everything else.
-
-        Arnd
+> ./drivers/nvme/host/core.c:3475:60-61: WARNING opportunity for
+> kobj_to_dev().
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+This patch is already NACKED.
 
 _______________________________________________
 Linux-nvme mailing list
