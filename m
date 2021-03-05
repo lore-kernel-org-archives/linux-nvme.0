@@ -2,67 +2,65 @@ Return-Path: <SRS0=roYe=ID=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B950C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 13:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67F7BC433DB
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 16:12:03 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E23A764FD3
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 13:23:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E23A764FD3
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id D24AD65016
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 16:12:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D24AD65016
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vSct0lANx00pNFr3JGQheZEKbMm2XckIeKLSQWxgckw=; b=OQg1BA/xo6T6LxZfoOqaA0okk
-	yOHwh5AqM7TtqVT5Gg4tZJjAj16TcpD2MNLjZ3s0+EOWz5cqtCVrY/fTAQMJ6mBoOetd2OacvDOlI
-	QIJiTzYgj/R5ctxbJoxo/Hvfwk6b5SQY86kcfz5SFdSxFJxR8kkjNtthOr14LpEb1HWOItVft3BWC
-	K2iWasHDy8OeGq8jUV79ZuIh/N4+P+Pqwp4NM69JuAp1n/RXHdPRumhcevUvVVQBz5I06gOgHj5Na
-	qu8BVFlpPRN8PQDsLXgXzTJs3kJ7kIs3XyKSEsNEaHw+5GLjQVA+/Sry8+584VcAqb5HuT9XbZo/U
-	Lfhz6AoOg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vWVDRKM4LSsdsaKpJGLh9OTIG2nYvwUq5SFm2F8EEWU=; b=I6mBJqci/rPp4OnCvNqD4deUg6
+	+oSSpKMsK+gm68hvUp8RTzYXNBaYfpAs34Nt1OxC+SD4aQgZGisDgWCHYx3/cBPc3W2tyWFqaR7T2
+	6riEDvdJ84xQbzQSR3CDRimMME3JE2i8wMPd4mWUnTuO5PerEWcZNyahSZmGwd9FEI2D4u0CS4Hss
+	KkVqC79y+UAOBm/tXvtX97v70Z5RCejC26AxONEiB5KI5AY+ggIM8lSMd/3jNrwlBmIwv4mhoPJHP
+	vhmU1xb0m1I9GcwPetES4lEYchQa393rXfdOqPWBPlPKsd893abLET7ZgpflM4D9VycgB1rB9xRc/
+	l/uFZ6YQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lIAPU-00F597-GJ; Fri, 05 Mar 2021 13:22:34 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1lID3F-00FZjf-ER; Fri, 05 Mar 2021 16:11:41 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lIAPO-00F56V-RR
- for linux-nvme@lists.infradead.org; Fri, 05 Mar 2021 13:22:24 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id E699D68B05; Fri,  5 Mar 2021 14:22:20 +0100 (CET)
-Date: Fri, 5 Mar 2021 14:22:20 +0100
-From: "hch@lst.de" <hch@lst.de>
-To: Kanchan Joshi <joshiiitr@gmail.com>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Kanchan Joshi <joshi.k@samsung.com>,
- "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "anuj20.g@samsung.com" <anuj20.g@samsung.com>,
- "javier.gonz@samsung.com" <javier.gonz@samsung.com>
-Subject: Re: [RFC 3/3] nvme: wire up support for async passthrough
-Message-ID: <20210305132220.GA10000@lst.de>
-References: <20210302160734.99610-1-joshi.k@samsung.com>
- <CGME20210302161010epcas5p4da13d3f866ff4ed45c04fb82929d1c83@epcas5p4.samsung.com>
- <20210302160734.99610-4-joshi.k@samsung.com>
- <BYAPR04MB4965E07D8D106CE6565DFB7386989@BYAPR04MB4965.namprd04.prod.outlook.com>
- <CA+1E3rJZWkOw+ZfDGduQhdhTh+=JVe5CcFEZtfQ1Jmq6mKhbSA@mail.gmail.com>
+ id 1lID30-00FZia-Rt
+ for linux-nvme@desiato.infradead.org; Fri, 05 Mar 2021 16:11:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=Wb3hp7rUaFmiEPgk5Zlai5Ac7+Fj0yvLC8OgsUfflBA=; b=LEA54gjUsFK8PPNV+ub+eqnmBr
+ tGXA6FqS9M0DclxcjoxC7jDMfoW8dBjxGQyZze5ruTh7Rg7n+o6nU89Fy+wp/XpoZSTMHYVjRsPc6
+ dflvkEgZTfPYEWEjiEbCsGR6zlXfbDaONtKKKWZiP+t6RTB2cv+wE3RZAlHzR+vjjW6M3nRcn5h3d
+ nYi4v/ujF8ybQC4TEwEw9mk8N3AD0bIYuX4tLejx0bj0vXclojX2HUW207t5SvsyCtzva6RMX6ZWe
+ ez4Z/63Jh5VrhZ4bYrIJdHc8zO9eaAFJCotQwJmkchJLQx8SrlPAfPBx38M0LUMi1wARNa56bSxze
+ 2sQuOsAw==;
+Received: from 089144194051.atnat0003.highway.a1.net ([89.144.194.51]
+ helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1lID2e-00Bxob-9w; Fri, 05 Mar 2021 16:11:13 +0000
+Date: Fri, 5 Mar 2021 17:11:01 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for 5.12
+Message-ID: <YEJYFTnbec9jteOc@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CA+1E3rJZWkOw+ZfDGduQhdhTh+=JVe5CcFEZtfQ1Jmq6mKhbSA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210305_132223_325898_FCD74B0A 
-X-CRM114-Status: GOOD (  12.18  )
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,31 +72,62 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 04, 2021 at 04:25:41PM +0530, Kanchan Joshi wrote:
-> On Thu, Mar 4, 2021 at 12:22 AM Chaitanya Kulkarni
-> <Chaitanya.Kulkarni@wdc.com> wrote:
-> >
-> > On 3/2/21 23:22, Kanchan Joshi wrote:
-> > > +     switch (bcmd->ioctl_cmd) {
-> > > +     case NVME_IOCTL_IO_CMD:
-> > > +             ret = nvme_user_cmd(ns->ctrl, ns, argp, ioucmd);
-> > > +             break;
-> > > +     default:
-> > > +             ret = -ENOTTY;
-> > > +     }
-> > Switch for one case ? why not use if else ?
-> 
-> Indeed, I should have used that. I had started off with more than one,
-> and retracted later.
+The following changes since commit 77516d25f54912a7baedeeac1b1b828b6f285152:
 
-I have to say I really do like the switch for ioctl handlers, as they
-are designed as a multiplexer, and nothing screams multiplexer more
-than a switch statement.
+  rsxx: Return -EFAULT if copy_to_user() fails (2021-03-03 06:48:44 -0700)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-5.12-2021-03-05
+
+for you to fetch changes up to d9f273b7585c380d7a10d4b3187ddc2d37f2740b:
+
+  nvmet: model_number must be immutable once set (2021-03-05 13:41:03 +0100)
+
+----------------------------------------------------------------
+nvme fixes for 5.12:
+
+ - more device quirks (Julian Einwag, Zolt=E1n B=F6sz=F6rm=E9nyi, Pascal Te=
+rjan)
+ - fix a hwmon error return (Daniel Wagner)
+ - fix the keep alive timeout initialization (Martin George)
+ - ensure the model_number can't be changed on a used subsystem
+   (Max Gurtovoy)
+
+----------------------------------------------------------------
+Daniel Wagner (1):
+      nvme-hwmon: Return error code when registration fails
+
+Julian Einwag (1):
+      nvme-pci: mark Seagate Nytro XM1440 as QUIRK_NO_NS_DESC_LIST.
+
+Martin George (1):
+      nvme-fabrics: fix kato initialization
+
+Max Gurtovoy (1):
+      nvmet: model_number must be immutable once set
+
+Pascal Terjan (1):
+      nvme-pci: add quirks for Lexar 256GB SSD
+
+Zolt=E1n B=F6sz=F6rm=E9nyi (1):
+      nvme-pci: mark Kingston SKC2000 as not supporting the deepest power s=
+tate
+
+ drivers/nvme/host/fabrics.c     |  5 ++++-
+ drivers/nvme/host/hwmon.c       |  1 +
+ drivers/nvme/host/pci.c         |  8 ++++++-
+ drivers/nvme/target/admin-cmd.c | 36 ++++++++++++++++++++---------
+ drivers/nvme/target/configfs.c  | 50 +++++++++++++++++++------------------=
+----
+ drivers/nvme/target/core.c      |  2 +-
+ drivers/nvme/target/nvmet.h     |  7 +-----
+ 7 files changed, 62 insertions(+), 47 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
