@@ -2,19 +2,19 @@ Return-Path: <SRS0=roYe=ID=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F8DFC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 10:41:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A4EC433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 10:45:42 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BC1D464FDF
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 10:41:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC1D464FDF
+	by mail.kernel.org (Postfix) with ESMTPS id C50BC64FD4
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 10:45:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C50BC64FD4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Wwp/ojyYHqaTPZYM+1efi1REIyYS+6lZjOw9214eBUI=; b=qFZ4A9NHtE4qv+M23Ho6ehqAf
-	FwEJLfEuxX5DW2Q9OBmNnzsJWVJQ5loiryk1J0pn1XkWyCTVhaiKJvH4KGrUAoGaLXiEZeGJffO+u
-	jw8rzXebOMxAv7VTL7ftbNGAuw9sgSjheVXLueVLS5knMYQb+HRGFAxj4OZEa2eNk6yfIn+qAPDsG
-	wAEzEMhRg5XiF7ircx4NxYpuL5s93FjYQvA6lvrNJ3oMOiyZYqiuNk0hND0u17tFBwCybx8W0c2SV
-	9zooHJUlQxRDvSY0atYpBobsNUYqmTNWfu706KMiqZtRaGeUkcZulO6BXE3QpoLKSGCBlaZQAL6h4
-	qjEwTUF1A==;
+	 bh=PglexNtIxc0XOAmEDllD7RexII92p18XqkelgO5zbAM=; b=VFjRwHxUep5R1ZemfQTrmiKY7
+	bMWpYpGQ0vJ+uQGRq1BsJBLCqaTE2DJIE7MoZbmKP3ImPP64iuh0BNi+78oKKMQqFpgbR696XLLZo
+	McLtNiZFyHzLLmhtxvKOHoz0sohlUDkhKvdi4ORmWtsIqmLtofLpv2a9dBVGLOmQl61W8HpbcoCXK
+	BwSyPYb5AKn0VVw47uWWzKalYW6mBDJivtmGlvCueCuk9SwJlhOPYPJmpE6rQtO/0KoeHZmgLmtlc
+	Z0vmr75avOvdrhuB/G/MJ7SX1OKdhmoFp4ogwp3OFzqze3/b1wuOVAQ2S3vfbI18YIc6w/cuqlUMd
+	IzL4MEr7w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lI7tN-00EbqJ-Ra; Fri, 05 Mar 2021 10:41:13 +0000
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+	id 1lI7xa-00EcZv-La; Fri, 05 Mar 2021 10:45:30 +0000
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lI7t2-00Ebo4-S0
- for linux-nvme@lists.infradead.org; Fri, 05 Mar 2021 10:40:55 +0000
-Received: by mail-wr1-x431.google.com with SMTP id b18so1535560wrn.6
- for <linux-nvme@lists.infradead.org>; Fri, 05 Mar 2021 02:40:48 -0800 (PST)
+ id 1lI7xF-00EcXJ-Pu
+ for linux-nvme@lists.infradead.org; Fri, 05 Mar 2021 10:45:18 +0000
+Received: by mail-wm1-x333.google.com with SMTP id m1so1032974wml.2
+ for <linux-nvme@lists.infradead.org>; Fri, 05 Mar 2021 02:45:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H95xvo9vQWpBEjEoM4WW8sLMHdulWjpm44uHAKvsKSE=;
- b=QtBqNgGK1tiNxAChBsd1aMaBD1tQwbJY/Y01r4QpFdNzSwhEdTAFrNcdOSfnN+mpSd
- HACc/kmLxu3a/1obQ4GecNWSU1EhumLdaj2ZboTieVoSzTIhP0ect1Zgm92jxdKEfgFR
- EYqqy6mjj8fFr7XeaPzjBRZZ8ezGvaNEj3G9Jpzt/drD0zztzsjoHuUYsbGMGpeLMtH8
- nWstmcT4DgvF7tTutcvIS6P5fZfuft3R1W4fhXXWkasnuSCMUMs1ewiR824mFUYwANyL
- 7a9YrGCzFSmOiRqG2ceI2MDSKRi5PcUYAFgfHJH9mYtkptflumP1DXFaiKMvDWX3Pxsy
- XkWw==
+ :cc; bh=NZwS2J3Ocb1h5Ffe7xElWH2+RmHLKydk8E116ZIyoA0=;
+ b=gZX++oMxiVwkzJUXmGCRBa8tJYvOaRsVETmtpxqGDtnmA+20uvbE0RWXTjr7Oqw0ec
+ l3DGVj38N4BRsQ/AIlMWgs6TROcI4hvhP63jiNu2R8jbkVC9DjHNqmv/olWC9Ntei51s
+ n6i6HbbWe9aiY8T5+W5xd6CsaZ/bt2AiD65Ls7TGucl1w2XYE3Xfil/EdpmL53qvLhrM
+ uh9Y4NME5dC8nTHXR/jU71iLLEs3l4Ye+JvDlzWbXRNoFJWA1Np5AtucyqIleZWCKBZy
+ Yod6fYQPc+bntuVy+NvFojzc5SQjaeNqK7foxFusH+ho08VX3K6fjaBCTFDliBcM+7Ya
+ 2+8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=H95xvo9vQWpBEjEoM4WW8sLMHdulWjpm44uHAKvsKSE=;
- b=av4fh3F+o1oNbyl9M+DLbWjEB8wk1M2b302zlC7EsSaXA+sqarUWhaWw35fwqosaM0
- /z73wi5J69hCJlmIFigZP2tP0w1+WnN+BThY8GV0ZgSDqnWNIjh+abhjY9xsrNQu6hyJ
- CgI3KdJBLOA19/cyDff3aP2GMrT5gxtwjq6X1bTJwo+hw2++YGMq0tiB2SPl36S49cWQ
- TgvEwXCfCo4yblPF/N5iMWrSqyxrAkkDyD5xB0uQEYZaQbquDSyLZlj1nOrPMzyWR0g7
- ZhmGnl3bG9U7zHdd6WGysyOzSyHXRGSnPnmBe/GSWbUtN5tbEHeMa2JO4EgmWnBymr1t
- 69ug==
-X-Gm-Message-State: AOAM5331/+xbsBK4cSbUpdP6vJ2ojiEvo5NmKLfZMEGlK9xzz469PCxZ
- /RM6IluDjNBq+6ZoNfUPjbfWtJCx0VEAUjzaf+I=
-X-Google-Smtp-Source: ABdhPJzPG/VE3eG4qnhLsT5LJ0GWlh20Mud+oLZU78uOjs5eDa1trxFOV58DpuC8BivumJPHjM2SwFudyifiDA5Db4E=
-X-Received: by 2002:a5d:56d0:: with SMTP id m16mr8473834wrw.355.1614940848299; 
- Fri, 05 Mar 2021 02:40:48 -0800 (PST)
+ bh=NZwS2J3Ocb1h5Ffe7xElWH2+RmHLKydk8E116ZIyoA0=;
+ b=FH1bto1vFR+Bog+U7QQSiWR7O9vEmrxwmk7uVxauPb8UeTFOsVTCalMDG7HUZDeRRe
+ PCdx8BRQB5zRO+1GgkrEt48JdtoWss0TF7/9fngDrQNF/zm+9PHW6kOAjff3eZlT8DDz
+ 5RlZCEkSCH9x6f6gnFm3h/a00vYIQmNZxQpk1GFxRgvzW0FXAYk6Z1TvF3c5xix1vGEQ
+ 0H3dTSYJ3OqDJFFK4f58qAM0T4nthJzhfCXqLI2wy2N/hwMvpdSamQbk+6IkABuGIKj/
+ B2t9IInQVCcJbxRD4xy839dLJwHqrdob5yGyngry4wIfySm5ZgspF8xVj9BsXKSbWEk1
+ x3uQ==
+X-Gm-Message-State: AOAM531eNS/RWBPDNtVH9CSiptQJbyjks+nrNk72TgQaWod7ql3ZD35o
+ TENydnEX9JMc+KBH98oLxnsCXiA+OuqXeHewG5o=
+X-Google-Smtp-Source: ABdhPJxUgd6mpZ9+slf42a6EXjG/w+QEsJH+sbRku7AyAEVdoJIKBIe6d69e3LLGn/HGEd9djPPUJHuDlGSh6ZZWa2M=
+X-Received: by 2002:a1c:4d09:: with SMTP id o9mr8162928wmh.15.1614941109143;
+ Fri, 05 Mar 2021 02:45:09 -0800 (PST)
 MIME-Version: 1.0
 References: <20210302160734.99610-1-joshi.k@samsung.com>
- <CGME20210302161005epcas5p23f28fe21bab5a3e07b9b382dd2406fdc@epcas5p2.samsung.com>
- <20210302160734.99610-3-joshi.k@samsung.com>
- <BYAPR04MB496566944851825B251CA93686989@BYAPR04MB4965.namprd04.prod.outlook.com>
- <CA+1E3rLCSWDmLa1rrZ986xnbx6fcsGgBE6NPP59eJj4swY+gQg@mail.gmail.com>
- <BYAPR04MB49658E6ACD06FAC7F6F26A6886969@BYAPR04MB4965.namprd04.prod.outlook.com>
-In-Reply-To: <BYAPR04MB49658E6ACD06FAC7F6F26A6886969@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <CGME20210302161010epcas5p4da13d3f866ff4ed45c04fb82929d1c83@epcas5p4.samsung.com>
+ <20210302160734.99610-4-joshi.k@samsung.com>
+ <BYAPR04MB496501DAED24CC28347A283086989@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <CA+1E3rLvrC4s2o3qDgHfRWN0JhnB5ZacHK572kjP+-5NmOPBhw@mail.gmail.com>
+ <20210305024133.GD32558@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <20210305024133.GD32558@redsun51.ssa.fujisawa.hgst.com>
 From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Fri, 5 Mar 2021 16:10:22 +0530
-Message-ID: <CA+1E3rJ62DNN=9-w1g0E7=0y4CZYjjckQ-K4Efk+3HjigbdSQA@mail.gmail.com>
-Subject: Re: [RFC 2/3] nvme: passthrough helper with callback
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, "axboe@kernel.dk" <axboe@kernel.dk>,
- "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
+Date: Fri, 5 Mar 2021 16:14:43 +0530
+Message-ID: <CA+1E3rL=xWPERkPuxAOrwg2ie3e=f8=f8r_pCVFca_BNTtvE=g@mail.gmail.com>
+Subject: Re: [RFC 3/3] nvme: wire up support for async passthrough
+To: Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Kanchan Joshi <joshi.k@samsung.com>, 
+ "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>, 
  "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>, 
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
  "anuj20.g@samsung.com" <anuj20.g@samsung.com>,
  "javier.gonz@samsung.com" <javier.gonz@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210305_104053_908476_00B0E046 
-X-CRM114-Status: GOOD (  13.92  )
+X-CRM114-CacheID: sfid-20210305_104516_951091_E17678B9 
+X-CRM114-Status: GOOD (  17.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,46 +102,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 5, 2021 at 9:44 AM Chaitanya Kulkarni
-<Chaitanya.Kulkarni@wdc.com> wrote:
+On Fri, Mar 5, 2021 at 8:11 AM Keith Busch <kbusch@kernel.org> wrote:
 >
-> On 3/4/21 03:14, Kanchan Joshi wrote:
-> > On Wed, Mar 3, 2021 at 8:52 PM Chaitanya Kulkarni
+> On Thu, Mar 04, 2021 at 04:31:11PM +0530, Kanchan Joshi wrote:
+> > On Thu, Mar 4, 2021 at 3:14 AM Chaitanya Kulkarni
 > > <Chaitanya.Kulkarni@wdc.com> wrote:
-> >> On 3/2/21 23:22, Kanchan Joshi wrote:
-> >>> -void nvme_execute_passthru_rq(struct request *rq)
-> >>> +void nvme_execute_passthru_rq_common(struct request *rq,
-> >>> +                     rq_end_io_fn *done)
-> >>>  {
-> >>>       struct nvme_command *cmd = nvme_req(rq)->cmd;
-> >>>       struct nvme_ctrl *ctrl = nvme_req(rq)->ctrl;
-> >>> @@ -1135,9 +1136,17 @@ void nvme_execute_passthru_rq(struct request *rq)
-> >>>       u32 effects;
-> >>>
-> >>>       effects = nvme_passthru_start(ctrl, ns, cmd->common.opcode);
-> >>> -     blk_execute_rq(disk, rq, 0);
-> >>> +     if (!done)
-> >>> +             blk_execute_rq(disk, rq, 0);
-> >>> +     else
-> >>> +             blk_execute_rq_nowait(disk, rq, 0, done);
-> >>>       nvme_passthru_end(ctrl, effects);
-> >> This needs a detailed explanation in order to prove the correctness.
-> > Do you see something wrong here?
-> > blk_execute_rq() employs the same helper (i.e. nowait one) and uses
-> > additional completion-variable to make it sync.
+> > >
+> > > On 3/2/21 23:22, Kanchan Joshi wrote:
+> > > > +     if (!ioucmd)
+> > > > +             cptr = &c;
+> > > > +     else {
+> > > > +             /*for async - allocate cmd dynamically */
+> > > > +             cptr = kmalloc(sizeof(struct nvme_command), GFP_KERNEL);
+> > > > +             if (!cptr)
+> > > > +                     return -ENOMEM;
+> > > > +     }
+> > > > +
+> > > > +     memset(cptr, 0, sizeof(c));
+> > > Why not kzalloc and remove memset() ?
 > >
+> > Yes sure. Ideally I want to get rid of the allocation cost. Perhaps
+> > employing kmem_cache/mempool can help. Do you think there is a better
+> > way?
 >
-> There is no gurantee that command will finish between call to
-> blk_execute_rq_nowait()
-> and nvme_passthru_end() is there ?
+> I'll need to think on this to consider if the memory cost is worth it
+> (8b to 64b), but you could replace nvme_request's 'struct nvme_command'
+> pointer with the struct itself and not have to allocate anything per IO.
+> An added bonus is that sync and async handling become more the same.
 
-Got your concern now, thanks for elaborating.
-I will move the passthru_end to when completion actually occurs, and
-get it processed via workqueue.
-
-And perhaps I should send a micro-optimization patch which will call
-passthru_end only for non-zero command-effects.
-Currently we do three checks.
+Indeed, thanks for this. I will fold that change as a prep in the next version.
 
 _______________________________________________
 Linux-nvme mailing list
