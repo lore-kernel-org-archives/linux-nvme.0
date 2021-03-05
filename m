@@ -2,65 +2,92 @@ Return-Path: <SRS0=roYe=ID=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67F7BC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 16:12:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF0F9C433DB
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 16:13:57 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D24AD65016
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 16:12:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D24AD65016
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 40C2865004
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 16:13:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40C2865004
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vWVDRKM4LSsdsaKpJGLh9OTIG2nYvwUq5SFm2F8EEWU=; b=I6mBJqci/rPp4OnCvNqD4deUg6
-	+oSSpKMsK+gm68hvUp8RTzYXNBaYfpAs34Nt1OxC+SD4aQgZGisDgWCHYx3/cBPc3W2tyWFqaR7T2
-	6riEDvdJ84xQbzQSR3CDRimMME3JE2i8wMPd4mWUnTuO5PerEWcZNyahSZmGwd9FEI2D4u0CS4Hss
-	KkVqC79y+UAOBm/tXvtX97v70Z5RCejC26AxONEiB5KI5AY+ggIM8lSMd/3jNrwlBmIwv4mhoPJHP
-	vhmU1xb0m1I9GcwPetES4lEYchQa393rXfdOqPWBPlPKsd893abLET7ZgpflM4D9VycgB1rB9xRc/
-	l/uFZ6YQ==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=YcukMwa9FKDtFtSSpxEaKzAvdqTXPq3MEUkaLxpD1Vc=; b=DJqH8+3n5Saj8gaFrdu5NiSTa
+	XR2mOvUQ88dS5cdQwnbHnR6hqby++NwzKCr8HN2WIEuIHpH6/sHZKFXYCFnnq/MXSOifr+y+ItH5S
+	9TzFyi54NT3iRr0PXIbMlNq7ULNlNTy2EJ/yy3Dl2S+ZzDYeuLq+oCo9R+/29AlCk8ykr0xCF+xRA
+	mxnOodVDj9HG4pLASRzFm3gPE5BfKJUFDIYpQp/7foAqB/9RvdwbD/7R81zGvP3pRtJTHDr7t4uur
+	qesHNQQD2FGc8phFjS+FZIdofb/oX9nFpMtiIavZR3kYkJeuWDrlIdVtGHrZSHcG3JHQoEtyG/Lm0
+	c4ArqRaSw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lID3F-00FZjf-ER; Fri, 05 Mar 2021 16:11:41 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lID5G-00FaAR-Vv; Fri, 05 Mar 2021 16:13:47 +0000
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lID30-00FZia-Rt
- for linux-nvme@desiato.infradead.org; Fri, 05 Mar 2021 16:11:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=Wb3hp7rUaFmiEPgk5Zlai5Ac7+Fj0yvLC8OgsUfflBA=; b=LEA54gjUsFK8PPNV+ub+eqnmBr
- tGXA6FqS9M0DclxcjoxC7jDMfoW8dBjxGQyZze5ruTh7Rg7n+o6nU89Fy+wp/XpoZSTMHYVjRsPc6
- dflvkEgZTfPYEWEjiEbCsGR6zlXfbDaONtKKKWZiP+t6RTB2cv+wE3RZAlHzR+vjjW6M3nRcn5h3d
- nYi4v/ujF8ybQC4TEwEw9mk8N3AD0bIYuX4tLejx0bj0vXclojX2HUW207t5SvsyCtzva6RMX6ZWe
- ez4Z/63Jh5VrhZ4bYrIJdHc8zO9eaAFJCotQwJmkchJLQx8SrlPAfPBx38M0LUMi1wARNa56bSxze
- 2sQuOsAw==;
-Received: from 089144194051.atnat0003.highway.a1.net ([89.144.194.51]
- helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lID2e-00Bxob-9w; Fri, 05 Mar 2021 16:11:13 +0000
-Date: Fri, 5 Mar 2021 17:11:01 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
+ id 1lID58-00Fa80-5O
+ for linux-nvme@lists.infradead.org; Fri, 05 Mar 2021 16:13:41 +0000
+Received: by mail-il1-x132.google.com with SMTP id p10so2460254ils.9
+ for <linux-nvme@lists.infradead.org>; Fri, 05 Mar 2021 08:13:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6DWum0PkSFOC7EqnCDn0YxayPunMKftKntuZCF5jSJc=;
+ b=sHStvXrtBm6j4SWxFCJpnJ+pVtAmQg1uacMFUfPAQteAAbaiBcpbANbT7TRRRxDPHy
+ JUdTBvSZFhigNZCUH89PlBHI1cLYC5fsV2R5d2z/T8Z0Z9yiVCYarIAE3AqHM8+bGIqB
+ 4z8CflWwuAFmyiRq16M4SO08/3yXfUv7I5YMvu80lhQ47ePg4psxwr2tcqbRsqjAyF1p
+ jo4eMNnKc7rU6ZzBrrFe9E9NHCWvHx/GTrEKyqUR1uXFg8TynqdHQ6rvNLif8KSoK4gQ
+ onVZN21d5Zlgr2uvxJLAdc7iLOG25r/0wYG6/oUfKEDZ4qs1fqnbFz7ZvbgEIniXGNj7
+ OZLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6DWum0PkSFOC7EqnCDn0YxayPunMKftKntuZCF5jSJc=;
+ b=PX364CXvlZiZiGWq6/IM34/WRE1BZO8WEdsj0zvh/xvIOPmMfkpgGjqTgtiQMvbf6p
+ DOP8LhTJwbpcBu9pcu/FPlapmFwkGfkKAxIRvs0qdNoaySn1RVPpBqALFOJMQesLePhc
+ bi0VQ5wFSI9SC7CZ4rS4hn1k2zqx2f/UPEOLXuqnl6Lvhf566nvdZJNQTNlKA/+S9PpU
+ vPgaiIrO5AlU+YpOQz4QgdGYS1m4d6kAZqqK18RfH5AKM6Ug8EQukdB8rVRIOadPWQ4t
+ lFgtuHpNySvLhcKaFx4j0BQTvSzkvsG8CYguyjq6DLTcqaYD65ETWFrCjXVwa7FmGdsp
+ BKxQ==
+X-Gm-Message-State: AOAM533j1DH4+uIrVrWZsTVKjquwbfTeEcWib/gzktymKuV3LSlXc2eY
+ PMSUjZ93cgKNqQ5T4x5Vaen9DSmkbgfRAQ==
+X-Google-Smtp-Source: ABdhPJztVmGl6jVH9oIl+8Ya5KaL8hRp1949lAmDKpwctA2ro7Y8mZ5278NfNDNTc9d08kfFDygcaQ==
+X-Received: by 2002:a05:6e02:1384:: with SMTP id
+ d4mr9470392ilo.307.1614960816442; 
+ Fri, 05 Mar 2021 08:13:36 -0800 (PST)
+Received: from [192.168.1.30] ([65.144.74.34])
+ by smtp.gmail.com with ESMTPSA id o19sm1519955ioh.47.2021.03.05.08.13.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Mar 2021 08:13:36 -0800 (PST)
+Subject: Re: [GIT PULL] nvme fixes for 5.12
+To: Christoph Hellwig <hch@infradead.org>
 Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
  Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: [GIT PULL] nvme fixes for 5.12
-Message-ID: <YEJYFTnbec9jteOc@infradead.org>
+References: <YEJYFTnbec9jteOc@infradead.org>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <353e221d-3d17-63ae-3956-507ea7d46846@kernel.dk>
+Date: Fri, 5 Mar 2021 09:13:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <YEJYFTnbec9jteOc@infradead.org>
+Content-Language: en-US
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210305_161340_011466_139B4A9E 
+X-CRM114-Status: UNSURE (   9.33  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,62 +99,19 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 77516d25f54912a7baedeeac1b1b828b6f285152:
+On 3/5/21 9:11 AM, Christoph Hellwig wrote:
+> git://git.infradead.org/nvme.git tags/nvme-5.12-2021-03-05
 
-  rsxx: Return -EFAULT if copy_to_user() fails (2021-03-03 06:48:44 -0700)
+Pulled, thanks.
 
-are available in the Git repository at:
+-- 
+Jens Axboe
 
-  git://git.infradead.org/nvme.git tags/nvme-5.12-2021-03-05
-
-for you to fetch changes up to d9f273b7585c380d7a10d4b3187ddc2d37f2740b:
-
-  nvmet: model_number must be immutable once set (2021-03-05 13:41:03 +0100)
-
-----------------------------------------------------------------
-nvme fixes for 5.12:
-
- - more device quirks (Julian Einwag, Zolt=E1n B=F6sz=F6rm=E9nyi, Pascal Te=
-rjan)
- - fix a hwmon error return (Daniel Wagner)
- - fix the keep alive timeout initialization (Martin George)
- - ensure the model_number can't be changed on a used subsystem
-   (Max Gurtovoy)
-
-----------------------------------------------------------------
-Daniel Wagner (1):
-      nvme-hwmon: Return error code when registration fails
-
-Julian Einwag (1):
-      nvme-pci: mark Seagate Nytro XM1440 as QUIRK_NO_NS_DESC_LIST.
-
-Martin George (1):
-      nvme-fabrics: fix kato initialization
-
-Max Gurtovoy (1):
-      nvmet: model_number must be immutable once set
-
-Pascal Terjan (1):
-      nvme-pci: add quirks for Lexar 256GB SSD
-
-Zolt=E1n B=F6sz=F6rm=E9nyi (1):
-      nvme-pci: mark Kingston SKC2000 as not supporting the deepest power s=
-tate
-
- drivers/nvme/host/fabrics.c     |  5 ++++-
- drivers/nvme/host/hwmon.c       |  1 +
- drivers/nvme/host/pci.c         |  8 ++++++-
- drivers/nvme/target/admin-cmd.c | 36 ++++++++++++++++++++---------
- drivers/nvme/target/configfs.c  | 50 +++++++++++++++++++------------------=
-----
- drivers/nvme/target/core.c      |  2 +-
- drivers/nvme/target/nvmet.h     |  7 +-----
- 7 files changed, 62 insertions(+), 47 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
