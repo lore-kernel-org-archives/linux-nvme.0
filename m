@@ -2,91 +2,66 @@ Return-Path: <SRS0=roYe=ID=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF0F9C433DB
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 16:13:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC3C7C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 17:03:49 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 40C2865004
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 16:13:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40C2865004
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	by mail.kernel.org (Postfix) with ESMTPS id 7267664F51
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 17:03:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7267664F51
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YcukMwa9FKDtFtSSpxEaKzAvdqTXPq3MEUkaLxpD1Vc=; b=DJqH8+3n5Saj8gaFrdu5NiSTa
-	XR2mOvUQ88dS5cdQwnbHnR6hqby++NwzKCr8HN2WIEuIHpH6/sHZKFXYCFnnq/MXSOifr+y+ItH5S
-	9TzFyi54NT3iRr0PXIbMlNq7ULNlNTy2EJ/yy3Dl2S+ZzDYeuLq+oCo9R+/29AlCk8ykr0xCF+xRA
-	mxnOodVDj9HG4pLASRzFm3gPE5BfKJUFDIYpQp/7foAqB/9RvdwbD/7R81zGvP3pRtJTHDr7t4uur
-	qesHNQQD2FGc8phFjS+FZIdofb/oX9nFpMtiIavZR3kYkJeuWDrlIdVtGHrZSHcG3JHQoEtyG/Lm0
-	c4ArqRaSw==;
+	 bh=8wcvpQZbx8aSECrt8npEoy6YNbwhapPFc9zijDdskPI=; b=OVeH+BhUVvAsHFoyUj1vnVkgD
+	wQavE3yGcGN8+yMCjzm6TmQK2GN/gD4dbkp06TXNaaO4QpXF9MO1CnlIOW+oaF80WgAa9GLqDNIBB
+	PQvDHACMutZVDKi1MHfDSTcvFX/UQ6VmRv5kpQDM+E+6vlArpoGJ7rKwvBT5lFm1TP6kOCSa+Ub6f
+	EMf+Exv15vg5K0dOlfHn6trgCBfi9zpAo+mPjqgPwWML21tEr9BcU1uqhRFvKwkBWTVXE8ny1xKC7
+	Ob8SbPqLNSoI0m3k4MloMC3OPBCFDkDDBskWVKCsg+mdBUnYYZvLFsMWIshfEY4wlgpCBWhvEGtnT
+	O8INVoLAA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lID5G-00FaAR-Vv; Fri, 05 Mar 2021 16:13:47 +0000
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132])
+	id 1lIDrS-00FiLg-6N; Fri, 05 Mar 2021 17:03:34 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lID58-00Fa80-5O
- for linux-nvme@lists.infradead.org; Fri, 05 Mar 2021 16:13:41 +0000
-Received: by mail-il1-x132.google.com with SMTP id p10so2460254ils.9
- for <linux-nvme@lists.infradead.org>; Fri, 05 Mar 2021 08:13:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6DWum0PkSFOC7EqnCDn0YxayPunMKftKntuZCF5jSJc=;
- b=sHStvXrtBm6j4SWxFCJpnJ+pVtAmQg1uacMFUfPAQteAAbaiBcpbANbT7TRRRxDPHy
- JUdTBvSZFhigNZCUH89PlBHI1cLYC5fsV2R5d2z/T8Z0Z9yiVCYarIAE3AqHM8+bGIqB
- 4z8CflWwuAFmyiRq16M4SO08/3yXfUv7I5YMvu80lhQ47ePg4psxwr2tcqbRsqjAyF1p
- jo4eMNnKc7rU6ZzBrrFe9E9NHCWvHx/GTrEKyqUR1uXFg8TynqdHQ6rvNLif8KSoK4gQ
- onVZN21d5Zlgr2uvxJLAdc7iLOG25r/0wYG6/oUfKEDZ4qs1fqnbFz7ZvbgEIniXGNj7
- OZLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6DWum0PkSFOC7EqnCDn0YxayPunMKftKntuZCF5jSJc=;
- b=PX364CXvlZiZiGWq6/IM34/WRE1BZO8WEdsj0zvh/xvIOPmMfkpgGjqTgtiQMvbf6p
- DOP8LhTJwbpcBu9pcu/FPlapmFwkGfkKAxIRvs0qdNoaySn1RVPpBqALFOJMQesLePhc
- bi0VQ5wFSI9SC7CZ4rS4hn1k2zqx2f/UPEOLXuqnl6Lvhf566nvdZJNQTNlKA/+S9PpU
- vPgaiIrO5AlU+YpOQz4QgdGYS1m4d6kAZqqK18RfH5AKM6Ug8EQukdB8rVRIOadPWQ4t
- lFgtuHpNySvLhcKaFx4j0BQTvSzkvsG8CYguyjq6DLTcqaYD65ETWFrCjXVwa7FmGdsp
- BKxQ==
-X-Gm-Message-State: AOAM533j1DH4+uIrVrWZsTVKjquwbfTeEcWib/gzktymKuV3LSlXc2eY
- PMSUjZ93cgKNqQ5T4x5Vaen9DSmkbgfRAQ==
-X-Google-Smtp-Source: ABdhPJztVmGl6jVH9oIl+8Ya5KaL8hRp1949lAmDKpwctA2ro7Y8mZ5278NfNDNTc9d08kfFDygcaQ==
-X-Received: by 2002:a05:6e02:1384:: with SMTP id
- d4mr9470392ilo.307.1614960816442; 
- Fri, 05 Mar 2021 08:13:36 -0800 (PST)
-Received: from [192.168.1.30] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id o19sm1519955ioh.47.2021.03.05.08.13.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 08:13:36 -0800 (PST)
-Subject: Re: [GIT PULL] nvme fixes for 5.12
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <YEJYFTnbec9jteOc@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <353e221d-3d17-63ae-3956-507ea7d46846@kernel.dk>
-Date: Fri, 5 Mar 2021 09:13:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1lIDrJ-00FiK5-N4
+ for linux-nvme@lists.infradead.org; Fri, 05 Mar 2021 17:03:28 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A4E106507C;
+ Fri,  5 Mar 2021 17:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614963804;
+ bh=0OnG4BzavkIkRsoSKPQtFcsTzHVmQDZ4N5dtwuYHgN0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ukML5YK/aJPrTlNjVOQYylt+jqBvZkOZ0jxxrISx4VZWHjPHZuvPM31wb+ta1uZcd
+ D9ZTgcaZeoyjy4PzgM4VCtjNahBzmuSvqcuPatjMLs7PyOQRvgDtz8ncBRyUU0Tc2j
+ B4H12FSgstGES6pojI+OkxaMdnlqnctSI8Vp5J6rQ6CQpOeZqh1Px2QimxVrmr+kQb
+ 0kuhCE9vhSORCR1BdO9SvfG/J1oh7R5oZGilD5wL1ehwusV60CRTBux99Ml5qIXC8N
+ HG4McsBRNnXIQ4YuHTC2xQjyNPCkKRDo3NoPjLv3WKOBCS+1T0dRHBcIBpm8w6Ex77
+ 5eQ2fZPdtJAiQ==
+Date: Sat, 6 Mar 2021 02:03:17 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de
+Subject: Re: [PATCH] nvme: fix warning in nvme_update_zone_info()
+Message-ID: <20210305170317.GA4512@redsun51.ssa.fujisawa.hgst.com>
+References: <20210303224717.51633-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <YEJYFTnbec9jteOc@infradead.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210303224717.51633-1-chaitanya.kulkarni@wdc.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210305_161340_011466_139B4A9E 
-X-CRM114-Status: UNSURE (   9.33  )
+X-CRM114-CacheID: sfid-20210305_170326_777946_159B491E 
+X-CRM114-Status: UNSURE (   4.76  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -104,14 +79,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/5/21 9:11 AM, Christoph Hellwig wrote:
-> git://git.infradead.org/nvme.git tags/nvme-5.12-2021-03-05
+Looks good.
 
-Pulled, thanks.
-
--- 
-Jens Axboe
-
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
 _______________________________________________
 Linux-nvme mailing list
