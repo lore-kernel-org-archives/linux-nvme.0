@@ -2,19 +2,19 @@ Return-Path: <SRS0=roYe=ID=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A221C433DB
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 20:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E58AC433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 20:59:26 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EB5C965079
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 20:51:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB5C965079
+	by mail.kernel.org (Postfix) with ESMTPS id 416F465079
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Mar 2021 20:59:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 416F465079
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,60 +23,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=QYkgdgbFlzgjr5meIeAd0cZiwEMe/OveNqmqMwbYkkg=; b=Ef92NmiFJ4n9qlaQL5N/EZ8mh
-	2x4klzzdMWDHVUb9BvNjRsVr35ccqoGhIxA6WGG0SJgCUERihCbHUMUis6dchg0XJ2O/vVnISzIsa
-	WmQuRcwPeNdGnuwjn6jiLqVHlQ3mWBL0sfMv0sZNFb7RfxcHi9gzA0uGkd5S8h9jhEBa+TGyO5u4X
-	bU0a5Gt9Fr4qLWh0pCnvUbDaZyWToaRT4tLWOSIcZpR35AgXTZNpO3VVex6naOHNdujVjtxha5qhk
-	coYxefEBVvg1PBZ7/Yw+r9PPwWgrsBgcqxz6rjVpWeJiO8mF3qZVbwODQfvhvP+zD+QYGK3Dr7rcv
-	wTpTSRQow==;
+	 bh=SP7oDaHLGHDKefnw8V1EfkqeQXqCVkhj2L3DPcxgdow=; b=g5fUTQ9bCIWftNHPeQy4sGLUk
+	ApL3usIOzfTHNNq90B2Drrgv3JkQzPj52Am50EhFsgtFptor2+6rUfDgXTd8RCt8eWA+IDeyJYO28
+	4dQGwMb47yiRvwJZx6WGPjzY/nXN5kL4uycUYJYHb0zQRTpEdT3t6Pqu0Josb915kf2pIMfbz4e4+
+	vQ/7GevOBrbIBx6UEF1IbpV/16yt+XGADFT2J+eIigO+aHG6hs0AZDlVtCJcjY1ROL4zkWaR9yun/
+	TD0G6jlMJsePmFyv7B9d+/YYq4pNLmtk5hb2dzLqNB3GW0l6bkk051HcjSa8UzWP65KQESdavcIKV
+	beZu/iFew==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lIHQ0-00GRxe-3w; Fri, 05 Mar 2021 20:51:28 +0000
-Received: from mail-ot1-f51.google.com ([209.85.210.51])
+	id 1lIHXF-00GTWP-45; Fri, 05 Mar 2021 20:58:57 +0000
+Received: from mail-oi1-f182.google.com ([209.85.167.182])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lIHPq-00GRug-Gu
- for linux-nvme@lists.infradead.org; Fri, 05 Mar 2021 20:51:23 +0000
-Received: by mail-ot1-f51.google.com with SMTP id h10so3137376otm.1
- for <linux-nvme@lists.infradead.org>; Fri, 05 Mar 2021 12:51:18 -0800 (PST)
+ id 1lIHWz-00GTSA-5d
+ for linux-nvme@lists.infradead.org; Fri, 05 Mar 2021 20:58:45 +0000
+Received: by mail-oi1-f182.google.com with SMTP id z126so3977286oiz.6
+ for <linux-nvme@lists.infradead.org>; Fri, 05 Mar 2021 12:58:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VlNZLGBbLmpCrNGrAQwLb9qYOfZ9xchB6d62W+oZJhA=;
- b=FUT/8KvOl1Adf0peyMnV2XqW5XfI4rh7XYd1XcH/xZuoZtT8AsHqh+USKoNIIy4lHX
- fnjRV8YUSWqWGxdjdmx7BdJvvCqiN25QkOpk4lEAtRF60d627DAPEw3DagxqVq11jLfU
- 3yvH73d9+8oiFNEmCtAt8YeB2aTLeeUTvRW1qy5M4HTFsSE44Oa7L3yPLQux/0/Uu+vQ
- 9fYo2MgFOy9i081RLWj07flZfr87me9BgG+waPmZt2WeN3g5Wx6B4AxblkQUmTOR+6rn
- J3OHoj9nKOAl0cEoNlKCTD5hMjn2AaJv1FCeUwjZdpzEVeTBG8Zisdxj4ljdLr8MfEAX
- nIgA==
-X-Gm-Message-State: AOAM533+1NDjktwzGeABZCstvy/Zpe3S+zqemUM9ectVCpyMBY5nKUx3
- bmz4KcxYk8PvtZCaImdpvJQJK805CTQ=
-X-Google-Smtp-Source: ABdhPJzGY1h2cyDCAyGECjKeFF1uTYHC6e8fr4CIo+jHsMNptVk+3+tUcD7ZYukW9DcwFH9o+9xbzw==
-X-Received: by 2002:a9d:694a:: with SMTP id p10mr6121991oto.319.1614977477096; 
- Fri, 05 Mar 2021 12:51:17 -0800 (PST)
+ bh=n/JXPbkENtG4m2r7B2ya8geWAQxEZg0gSnffsoHuBdQ=;
+ b=mmSfRZJ0JlRhu0Z9nwrIg3Zr4FlnBahUjxTdN2H3pDxHoKKQ8nZnkuSkShDAaRThBy
+ 1RtL5+eu/eBYQVKljc5lOQglaLIchuyFeJQmtvvXEjP5HMQQW0ilhpBqqGTZnEG/e86r
+ Tr7u8SE4K8iKNDZbRK/zLjwRdTm3S1uKQhu+6NrGAaToXmkdR6pwezNa6lFoNk18YetY
+ 7CLsaSLNsuMzK1JCuHXgGn3Cy6Fs4SwlNYp7Xujd9YiSYb8OTTFIU2OYv4wlMVvVO2xd
+ BzhkdPCzXs9ZV6Qqqcuf6BRUDL2meHbHB6pirMMVMdPDKeH/5JwGlMZzkUoAyAnPuXOy
+ Tslw==
+X-Gm-Message-State: AOAM531/ZH2eH10NZo8YSuTGaHJpIiyMPkSR3IOA4nHNKo6Ab3NY6W4y
+ MKQywfJslk8qJqUGN8L5MMo=
+X-Google-Smtp-Source: ABdhPJx4Z/OJzxTW7tZccyxtpWJJu1zMNpAL7peKE4K1hxtOUveu8h4+2pI7xrzxKGEA7rB3b75izA==
+X-Received: by 2002:aca:130e:: with SMTP id e14mr8723435oii.169.1614977919371; 
+ Fri, 05 Mar 2021 12:58:39 -0800 (PST)
 Received: from ?IPv6:2600:1700:65a0:78e0:e55e:67c6:e7ec:9?
  ([2600:1700:65a0:78e0:e55e:67c6:e7ec:9])
- by smtp.gmail.com with ESMTPSA id u8sm770466oot.24.2021.03.05.12.51.16
+ by smtp.gmail.com with ESMTPSA id i6sm303727oto.47.2021.03.05.12.58.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Mar 2021 12:51:16 -0800 (PST)
-Subject: Re: [PATCH 1/3] nvme-fabrics: only reserve a single tag
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>,
- linux-nvme@lists.infradead.org
-References: <20210303125304.1200789-1-hch@lst.de>
- <20210303125304.1200789-2-hch@lst.de>
+ Fri, 05 Mar 2021 12:58:38 -0800 (PST)
+Subject: Re: [PATCH] nvme-fabrics: fix crash for no IO queues
+To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de
+References: <20210304005543.8005-1-lengchao@huawei.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <49d65274-002c-237b-163e-c3d482644a80@grimberg.me>
-Date: Fri, 5 Mar 2021 12:51:15 -0800
+Message-ID: <020b9f27-459a-2b98-2e76-ebcc874c9c32@grimberg.me>
+Date: Fri, 5 Mar 2021 12:58:37 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210303125304.1200789-2-hch@lst.de>
+In-Reply-To: <20210304005543.8005-1-lengchao@huawei.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210305_205121_977424_A23E51CC 
-X-CRM114-Status: GOOD (  13.83  )
+X-CRM114-CacheID: sfid-20210305_205842_343009_DF5A92BC 
+X-CRM114-Status: GOOD (  24.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,28 +92,42 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> Fabrics drivers currently reserve two tags on the admin queue.  But
-> given that the connect command is only run on a freshly created queue
-> or after all commands have been force aborted we only need to reserve
-> a single tag.
+> A crash happens when set feature(NVME_FEAT_NUM_QUEUES) timeout in nvme
+> over rdma(roce) reconnection, the reason is use the queue which is not
+> alloced.
+> 
+> If queue is not live, should not allow queue request.
 
-Umm, I think this would be an issue for non-mpath fabrics devices...
+Can you describe exactly the scenario here? What is the state
+here? LIVE? or DELETING?
 
-When we teardown the controller, we iterate over all tags
-and cancel them, however for non-mpath devices these actually
-stick around until they exhaust the retrys counter (with the
-hope that the controller will reconnect again) unlike the mpath
-case where the requests are failed-over.
+> 
+> Signed-off-by: Chao Leng <lengchao@huawei.com>
+> ---
+>   drivers/nvme/host/fabrics.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+> index 733010d2eafd..2479744fc349 100644
+> --- a/drivers/nvme/host/fabrics.h
+> +++ b/drivers/nvme/host/fabrics.h
+> @@ -189,7 +189,7 @@ static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   {
+>   	if (likely(ctrl->state == NVME_CTRL_LIVE ||
+>   		   ctrl->state == NVME_CTRL_DELETING))
+> -		return true;
+> +		return queue_live;
+>   	return __nvmf_check_ready(ctrl, rq, queue_live);
+>   }
 
-Now if the admin queue is absolutely full during a reset, we won't
-have a keep-alive command.
+There were some issues in the past that made us allow submitting
+requests in DELETING state and introducing DELETING_NOIO. See
+patch ecca390e8056 ("nvme: fix deadlock in disconnect during scan_work 
+and/or ana_work")
 
-One possible solution is to make sure that
-nvme_decide_disposition to complete a request for admin
-commands. However note that this means that admin commands
-would fail immediately when the controller resets, which is
-a regression from the existing behavior and we may piss off
-users with that...
+The driver should be able to accept I/O in DELETING because the core
+changes the state to DELETING_NOIO _before_ it calls ->delete_ctrl so I
+don't understand how you get to this if the queue is not allocated...
 
 _______________________________________________
 Linux-nvme mailing list
