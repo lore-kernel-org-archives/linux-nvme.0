@@ -3,51 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A20AC433DB
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:37:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C269C433E6
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:37:11 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7CC2C65016
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:37:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CC2C65016
+	by mail.kernel.org (Postfix) with ESMTPS id 03E2E65074
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:37:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 03E2E65074
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=iKbKT97UAIvx1jYvdWE6N13criRgOtPd8f+ZBULqsJ4=; b=MUxjPy5ppgjcmVe/YR9wT1k6F
-	ovejiprBGJFVDuUVb/ZBC3+/qFtOgRLhWT9bHwDrfKExueNfzrD/Rpnwu5ssKlVsqOcwFUD0AF7hV
-	Y6RKHmHV2WVW3Av8JdnRJYDxU33oMwlXkHvsnkznAXDmo0KebNDTIOGV65mvvaAhPXsRs6Km6DKy5
-	73NOlqnOC72hBRMCN1OJpDiPzMEPBQ4DVF3ZuRMitqIDVk9vxfra2d9odeAO8Prjp9zt7PA6mrDGa
-	61tyx/A9wwJtbMH4jMHtUyrjLCL4BSKhnLErK+aNmbqBx2g+gVuG2GILETKtN6csTm42MCYWd8/yL
-	xObGFhEWA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=yDLkW19pEbD3/7MR1ip4hQeGsio9Uaq2OnbugHAGj7E=; b=o62dYAF3STXDXaQOQaR0vBF7Lp
+	vGWK0jogjnihCmo58+VdDFr9gpZp3/F2Hmg7ibmnfg8jeA4NpVc8O/8ev7vEBI7UI+eFvjpvcD3hg
+	n1xj0b+7wsHc1Q2JrrDAMrFtdpVHJ1h1m26yQKCEmqcwnppvDCNsfMPhwsn/5G+zWlJbZuQPk/Am9
+	Z9TfijntlUO9w1NTmvG70RaL8tbZPkcm3Ucohjde21Eysw8V8GFsf8KUMcPRnbgW4KyH+dzUU7vbh
+	wANZbl36FnjpPUVo21qwda/rwW7YeX0GzUJ82MpMe2Fl8IWSRCpyOSA3T6mWZlPJp0tpa/8Rpk1/C
+	vSyOKxDg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lIKw6-00HVVw-Kw; Sat, 06 Mar 2021 00:36:50 +0000
+	id 1lIKwD-00HVZF-Rk; Sat, 06 Mar 2021 00:36:57 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lIKvy-00HVRP-G2
+ id 1lIKvy-00HVRS-H4
  for linux-nvme@lists.infradead.org; Sat, 06 Mar 2021 00:36:45 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
  t=1614990999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V++eBuPax+iX8IgKWr9YSW56Mws71vdpp2NwY1jp1TE=;
- b=ZP+WsKcpS/uUb6QDOgd5lJT5Qy8wRhujXfSVokt+VT3aDF2JGl2WYFuYHiW9+1ppCWOaov
- 4M54XrkxJNiCH2yywdmxZRYeyd3NnOXGM5HV2oC1BLuON0s2iJtvI333DfgkndgJ3caFS2
- 9v1YMwBomlFt7OeIsjyu8CGOSA9xw88=
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=a+pl4zk1GAOv6jIfMA2Q/Kmn20s6pTGcOZ2LgQkdnCE=;
+ b=DrCar9S+MuueKC4OL7YWAdvCGXq+sVMHvCuo8zRLJ7iEQHe1Khr0/tBWqFRlCurlnrs30V
+ hX0p/+ksl69qWdT90EtYnFXk36fo6J8gUV4uhpvY5hxp8ditlbb7SUt8u7nvDSjyZsRJGp
+ OKsoSoz2UJyknMELky+x9n5iGpTjOCI=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9EFBCAE89;
+ by mx2.suse.de (Postfix) with ESMTP id 4F891AE1B;
  Sat,  6 Mar 2021 00:36:39 +0000 (UTC)
 From: mwilck@suse.com
 To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
@@ -55,17 +53,14 @@ To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
 Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  linux-nvme@lists.infradead.org, Enzo Matsumiya <ematsumiya@suse.de>,
  Martin Wilck <mwilck@suse.com>
-Subject: [PATCH 02/10] nvme-discover: assume device given on command line is
- persistent
-Date: Sat,  6 Mar 2021 01:36:16 +0100
-Message-Id: <20210306003624.21102-3-mwilck@suse.com>
+Subject: [PATCH 00/10] Some minor fixes/additions for nvme-cli
+Date: Sat,  6 Mar 2021 01:36:14 +0100
+Message-Id: <20210306003624.21102-1-mwilck@suse.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210306003624.21102-1-mwilck@suse.com>
-References: <20210306003624.21102-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210306_003643_970429_2694D8F2 
-X-CRM114-Status: GOOD (  15.77  )
+X-CRM114-CacheID: sfid-20210306_003643_947104_7A5A4DA5 
+X-CRM114-Status: GOOD (  14.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,86 +79,69 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
-After commit "nvme-discover: lookup existing persistent controllers",
-controllers without the "kato" sysfs attribute will never be used by
-do_discover(). This makes sense for controllers found while traversing
-sysfs in find_ctrl_with_connectargs(), but if the user passed a
-device explicitly, it should be used, even on older kernels that
-don't support the "kato" attribute.
+This series collects patches from my former submission "RFC: add "nvme
+monitor" subcommand" which aren't directly related to the monitor
+functionality, but required to make the monitor in its current form
+compile. A v2 of the monitor code is about to follow soon.
 
-Furthermore, make sure allocated memory in ctrl_matches_connectargs()
-is freed.
+The main part is the "generic logging functionality".
 
-Signed-off-by: Martin Wilck <mwilck@suse.com>
----
- fabrics.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+Changes wrt the RFC: add "nvme monitor" subcommand series: many.
 
-diff --git a/fabrics.c b/fabrics.c
-index 14899cc..dcee0c4 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -297,12 +297,14 @@ static int ctrl_instance(char *device)
-  * given.
-  * Return true/false based on whether it matches
-  */
--static bool ctrl_matches_connectargs(char *name, struct connect_args *args)
-+static bool ctrl_matches_connectargs(char *name, struct connect_args *args,
-+				     bool assume_persistent)
- {
- 	struct connect_args cargs;
- 	bool found = false;
- 	char *path, *addr;
- 	int ret;
-+	bool persistent = true;
- 
- 	ret = asprintf(&path, "%s/%s", SYS_NVME, name);
- 	if (ret < 0)
-@@ -331,17 +333,21 @@ static bool ctrl_matches_connectargs(char *name, struct connect_args *args)
- 		 * underneath us as they are owned by another program.
- 		 *
- 		 * The 'kato' attribute might not be present; assume a
--		 * non-persistent controller for these installations.
-+		 * non-persistent controller for these installations,
-+		 * unless assume_persistent is set.
- 		 */
- 		if (kato_str) {
- 			kato = strtoul(kato_str, &p, 0);
- 			if (p == kato_str)
- 				kato = 0;
--		}
--		if (kato == 0)
--			return found;
-+			free(kato_str);
-+			persistent = (kato != 0);
-+		} else if (!assume_persistent)
-+			persistent = false;
- 	}
--	if (!strcmp(cargs.subsysnqn, args->subsysnqn) &&
-+
-+	if (persistent &&
-+	    !strcmp(cargs.subsysnqn, args->subsysnqn) &&
- 	    !strcmp(cargs.transport, args->transport) &&
- 	    (!strcmp(cargs.traddr, args->traddr) ||
- 	     !strcmp(args->traddr, "none")) &&
-@@ -380,7 +386,7 @@ static char *find_ctrl_with_connectargs(struct connect_args *args)
- 	}
- 
- 	for (i = 0; i < n; i++) {
--		if (ctrl_matches_connectargs(devices[i]->d_name, args)) {
-+		if (ctrl_matches_connectargs(devices[i]->d_name, args, false)) {
- 			devname = strdup(devices[i]->d_name);
- 			if (devname == NULL)
- 				fprintf(stderr, "no memory for ctrl name %s\n",
-@@ -1372,7 +1378,7 @@ static int do_discover(char *argstr, bool connect, enum nvme_print_flags flags)
- 	if (!cargs)
- 		return -ENOMEM;
- 
--	if (!cfg.device || !ctrl_matches_connectargs(cfg.device, cargs))
-+	if (!cfg.device || !ctrl_matches_connectargs(cfg.device, cargs, true))
- 		cfg.device = find_ctrl_with_connectargs(cargs);
- 	free_connect_args(cargs);
- 
+ - rebased to current upstream code base e9d43dd ("[nvme-cli] Fix Max/Min 
+   User data erase counts displayed in 0xC2 Log Page"))
+ - renamed log() to msg() in order to prevent name clash with <math.h>
+ - put logging and cleanup files in "util/" subdirectory
+ - converted the bulk of the logging code from a macro into a function
+   (Hannes)
+ - added functionality to optionally log the PID (default off).
+ - added Hannes' patch he recently submitted via github
+   (https://github.com/linux-nvme/nvme-cli/pull/942), with two minor
+   fixes on top, rationale in the commit messages
+ - various additional fixes for memory handling
+
+Both cleanup and logging functions / macros could be used in more
+places with positive effects, but my focus is currently on preparing
+the monitor functionality.
+
+I've pushed this series https://github.com/linux-nvme/nvme-cli/pull/877,
+together with the follow-up monitor series.
+
+Regards
+Martin
+
+Hannes Reinecke (1):
+  nvme-discover: lookup existing persistent controllers
+
+Martin Wilck (9):
+  nvme-discover: assume device given on command line is persistent
+  do_discover: free cfg.device when resetting it
+  nvme-connect-all(1): fix documentation for --quiet/-S
+  nvme: add some simplifying macros for __attribute__((cleanup()))
+  nvme-cli: add generic logging functionality
+  nvme: convert some function arguments from "char *" to "const char *"
+  fabrics: use "const char *" in struct config
+  fabrics: fix some memory leaks
+  fabrics: fix invalid memory access in discover_from_conf_file()
+
+ Documentation/nvme-connect-all.1    |   8 +-
+ Documentation/nvme-connect-all.html |  10 +-
+ Documentation/nvme-connect-all.txt  |   4 +-
+ Makefile                            |   2 +-
+ fabrics.c                           | 223 +++++++++++++++++-----------
+ nvme-topology.c                     |   2 +-
+ nvme.c                              |   2 +-
+ nvme.h                              |   4 +-
+ util/cleanup.c                      |   4 +
+ util/cleanup.h                      |  18 +++
+ util/log.c                          |  90 +++++++++++
+ util/log.h                          |  34 +++++
+ 12 files changed, 298 insertions(+), 103 deletions(-)
+ create mode 100644 util/cleanup.c
+ create mode 100644 util/cleanup.h
+ create mode 100644 util/log.c
+ create mode 100644 util/log.h
+
 -- 
 2.29.2
 
