@@ -2,95 +2,91 @@ Return-Path: <SRS0=TRJs=IE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D98F0C433DB
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 19:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC5FEC433DB
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 19:26:29 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 85E9D650BC
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 19:17:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 85E9D650BC
+	by mail.kernel.org (Postfix) with ESMTPS id 3AA6464E0F
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 19:26:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AA6464E0F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZSxBajOjUe7wFzt/myBy/yeBejUJb+eZjJp55qvghm0=; b=jTsoztQS5UG10+tgv17BGFdNT
-	MwJxGHHckyVU1iGi8fJ/pn5M5+H8hda/n/DUsklEdv7NJxZJx72kGz2KQdGWK83ob2BRB2qt8clXw
-	KLC7mlhS5R3kelQXMPLbxdoMUNXPxxqgeO7IhEKjSScsa73MNjzjEVMdvbiT1tpYEfV8ExrKY1X8d
-	Ws9qzMa9naoN+pyQbw6GVd1cNorJ6HjPcTE3UU7Ib2VOwMOqxKnio3osV9ZOtd7UuJGBjWvddxyjg
-	y1J+1NT4K8txK7BbBXmYin4Ic8aD5369obmQ9dcUzkD26A3H7BEykNVqeBByvOn/Gr8wVepZKPg91
-	kkDmc+D0w==;
+	 bh=rPlPXeTExI9UgEe2z5eXor3COoJZEca+kcmiIqtYxh8=; b=GXOVFQ3yqOxQCYkyVgc1mOHt+
+	f8kOd9WxHa5KH/H4ImwAFP4vQ5OJXL0HwvV8FJys4HaFlJD1iRuhhS9gNzhgX85ONvXix+nElot8d
+	uiQWBicSIikcE3QmioM07urUMbjBF1zK1QSz8kjVKHhTf+1p87vuwP4mE83j7DI5RiRVU1TaYB40v
+	YufBS51v71vTnTjbV2VnKIeNco+kaWd5XzYm5QlU2Q4iBzF4/OgHhPPe8yZmVq6YeP+djXRSXqtTQ
+	Zfk/Da9Ip/SO468m1u5yuG/EPIl9SfLRMlkMCh81U0bEQ3TVYt+qRXoQQZeoKvaV/GMJFwJdBk/Q6
+	bsDSfywKw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lIcQS-004Mfc-H0; Sat, 06 Mar 2021 19:17:20 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1lIcZ6-004OkI-Gx; Sat, 06 Mar 2021 19:26:16 +0000
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lIcQN-004MeP-8c
- for linux-nvme@lists.infradead.org; Sat, 06 Mar 2021 19:17:17 +0000
-Received: by mail-pf1-x429.google.com with SMTP id j12so4381493pfj.12
- for <linux-nvme@lists.infradead.org>; Sat, 06 Mar 2021 11:17:14 -0800 (PST)
+ id 1lIcZ1-004Oif-RU
+ for linux-nvme@lists.infradead.org; Sat, 06 Mar 2021 19:26:13 +0000
+Received: by mail-pj1-x1035.google.com with SMTP id
+ nh23-20020a17090b3657b02900c0d5e235a8so972904pjb.0
+ for <linux-nvme@lists.infradead.org>; Sat, 06 Mar 2021 11:26:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kqUVrrtsPbleN7F/Llkq2TML2wXkwgbQu5ieD4zDw5I=;
- b=keqXB5iT8k6AtocE0mJPoCKvNBtvC39U+UEyvKJUea8HdX3CJrnEn+XrdqItn3/hWp
- VLqJJE3vzB1tCD6HCEawwiqcWzeeSTuQQc4ZN7SyWzcWQliGZqaFB3iATKgln7426kts
- pv2eEeOL7S4D6KWq9DIytpisykV2DgSH2k5BpPuzzZNy1vn0/nhbzwznQWEblYa/9i5S
- 69/taf87iCq5id2CrCFf2Sh2uwLwLBb43yzwybIbIyY2pIEw8Io3oo1DabS1AaSbAHaF
- 9elm03M5zJRTtNhiTtLLEBFXX/biG6hoPVRiptp0MJwpKXFDEvV7pAbBq1/poNiy/NS+
- yFJw==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=EkbGFzH2/VWLBUFV7zOsp5o1Zm73y/3SY23TVtZ6yuE=;
+ b=d/NmnOVsnf8/z3W39ogeD3VwaH2isTClILKrevM2D01dVvfZehbVofyT53lRDYqJzq
+ ng8d/gO/EOaaQBKF2WD9LO6fA5trsbFAthvWbm0HKhMTbesuLxZKxpE5dx3gCvW57rx7
+ r35wrGdSNvGp/TwQ5NORAPC3j9V7hhYCJkwCOKM1aEIOLDapiphVWtLPtfGlKVyRq7H8
+ /SdAnVtFoxAT5oOMQ+MdB7yoUTGt7PfszSsTmPUqLjCF8jxJ6kCww0gT18sr0MTRifoJ
+ QfKo0OdWvQ5q852jWcngw59ECuC1ij6PWSFi5YPvvjiy98YyaxOJRb9aXngEbPIVFN/U
+ 5zxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kqUVrrtsPbleN7F/Llkq2TML2wXkwgbQu5ieD4zDw5I=;
- b=FknB+Ur7k4yJu9LWB09OteZfquFx+LctlRZJGn+wq9qO+EMKrUQGQfbSgVlqg0S3tk
- 4vs8juz0PmAsLmeoRtefY9cnw7VJHsklzr+L/TYDL6UrCNpdTk1ZQptNAAX6FFzLFsr9
- +AcgrWLVXmB5tBMD+EZeQgLkZGdJThgRblp5Wd5AkJOf3RDYRgNqVXaVMlihcfnfGEhU
- TSp33eitL0hCv7yWf0YKuzU9ePiWtsCxTG5+sBv82iJzbrDb5muJCzUsfHY6KeAQ02qz
- DB6ITj6CZadgVqJdIvip2jSfkGi8//WZheTjHFjVNZBvNs200kl3j23To2TgztFOwGJj
- hmvw==
-X-Gm-Message-State: AOAM533Uq8cNE0p7UvbdmGFkXLZKU0+LEL7K4eczT735zvAMVowHjoB/
- ZodMKS56L22TPGlGiWkWhGrL/om+bRU=
-X-Google-Smtp-Source: ABdhPJzb6LDmMRX9DVhxK/UnjS5Yohz0W6Ee1nG/4c7p0cGovapMIMwGeh8kt2w09uNLsBSRHmVRFw==
-X-Received: by 2002:aa7:804b:0:b029:1ee:5df8:f414 with SMTP id
- y11-20020aa7804b0000b02901ee5df8f414mr14626633pfm.33.1615058233843; 
- Sat, 06 Mar 2021 11:17:13 -0800 (PST)
+ bh=EkbGFzH2/VWLBUFV7zOsp5o1Zm73y/3SY23TVtZ6yuE=;
+ b=j1Pku9wYdilRX66Qw3Naf/DYBNPDIkcV6DTT6a4xdM6+kUAowzMHaOwndTDAIXACqz
+ mVT2cW0blyf+tMR/S1NF3VRtTjiXuDa6nCyIsW/bHtB6/vSpWdoZHNvjKbMWuLJm/GoR
+ 3TRUGVBIaxa6XMXHXs+XUSe7MvxelGjh6VqqHuSiqGvOl995dG1kpncOjfZB9sEjcY9Y
+ puDMoD5Ss4UEnKZwh/DdPL+vo6KO2fM/nJk63Ywe0ytxM4+g3k7p0luz4DhPJME1sdmt
+ wjjqMvaPRzibl2aF5jKrVLH+fLLIeK3N/t0vpgck9cjhaI2MFTY47B+0MuzDxxOKrEqE
+ 0iuA==
+X-Gm-Message-State: AOAM531+SkM0ULyA/rLWs7vxr1PfJ2o31pmxmmtlYTT+d417b3BFEehV
+ W1yCUeobGcDAtvWo6s0AZLWj/oqqv1g=
+X-Google-Smtp-Source: ABdhPJykN4RqPdVuIVsFAB+vq8LgTMU2sxITIyBONTBy5QQa692e7avYDw1ovC6NmeFN9+ZDW8zd2Q==
+X-Received: by 2002:a17:90a:b392:: with SMTP id
+ e18mr16549220pjr.66.1615058770388; 
+ Sat, 06 Mar 2021 11:26:10 -0800 (PST)
 Received: from [10.230.185.151] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id mp1sm5472640pjb.48.2021.03.06.11.17.10
+ by smtp.gmail.com with ESMTPSA id s11sm6366959pfc.87.2021.03.06.11.26.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 Mar 2021 11:17:13 -0800 (PST)
-Subject: Re: [PATCH 4/4] nvme-fc: return NVME_SC_HOST_ABORTED_CMD when a
- command has been aborted
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>, Sagi Grimberg <sagi@grimberg.me>,
- Daniel Wagner <dwagner@suse.de>, James Smart <james.smart@broadcom.com>,
- linux-nvme@lists.infradead.org
-References: <20210226071728.106923-1-hare@suse.de>
- <20210226071728.106923-5-hare@suse.de>
+ Sat, 06 Mar 2021 11:26:10 -0800 (PST)
+Subject: Re: [PATCH] nvmet-fc: simplify and fix nvmet_fc_alloc_hostport
+To: amit.engel@dell.com, linux-nvme@lists.infradead.org,
+ james.smart@broadcom.com
+References: <20210304081215.21042-1-amit.engel@dell.com>
 From: James Smart <jsmart2021@gmail.com>
-Message-ID: <6b1258f0-ba79-9456-d96e-5fc6b86af3d7@gmail.com>
-Date: Sat, 6 Mar 2021 11:17:08 -0800
+Message-ID: <f2144d4e-247a-34ed-c428-eee8194f2400@gmail.com>
+Date: Sat, 6 Mar 2021 11:26:09 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210226071728.106923-5-hare@suse.de>
+In-Reply-To: <20210304081215.21042-1-amit.engel@dell.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210306_191715_715506_89EF4DEE 
-X-CRM114-Status: UNSURE (   9.85  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210306_192612_109031_D08DCC91 
+X-CRM114-Status: GOOD (  11.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,22 +103,27 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/25/2021 11:17 PM, Hannes Reinecke wrote:
-> When a command has been aborted we should return NVME_SC_HOST_ABORTED_CMD
-> to be consistent with the other transports.
+On 3/4/2021 12:12 AM, amit.engel@dell.com wrote:
+> From: Amit Engel <amit.engel@dell.com>
 > 
-> Cc: James Smart <james.smart@broadcom.com>
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> Reviewed-by: Daniel Wagner <dwagner@suse.de>
-> ---
->   drivers/nvme/host/fc.c | 2 +-
+> Alloc newhost only if no host has been found in host_list
+> Add a missing tgtport release reference
+> 
+> Signed-off-by: Amit Engel <amit.engel@dell.com>
 
-Reviewed-by: James Smart <jsmart2021@gmail.com>
+I don't see a reason for this change...   The whole point of allocating 
+first was to ensure you had memory if there was dynamic change of the 
+host_list while waiting for memory to be alloc'd. Also not nice to be 
+holding the lock while allocating.
 
-Looks good.
+It's very possible for there to be other requests for possibly the same 
+remote port as well as other remote ports on the hostport as LS requests 
+are receive and then posted as work items, allowing them to be run in 
+parallel.
+
+Is there a real issue to be resolved ?
 
 -- james
-
 
 
 _______________________________________________
