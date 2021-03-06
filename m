@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8C17C433DB
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:42:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 194DAC433E0
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:43:49 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 559D364F5F
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:42:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 559D364F5F
+	by mail.kernel.org (Postfix) with ESMTPS id 654FD64F52
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:43:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 654FD64F52
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,48 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=rlHDgx9rhvu3AtIR6FhSFWv6nyv6uWmLNenuXe5aDIw=; b=HGzm7GouQxl1zLeCl9+zRKTDt
-	dmaD8l+dSeLI/YFJwsemKB4CzjFeBPGcFQjylM/VsXeeSlUrZ/Jk5qhbXA9WvhZKYavIbXCRf9q0r
-	gwkMMzNt9ohVpo2RmNA325ZrWzDEHWlnOAyCYRvfqgXZBTFMxTI1Yg2UKFdQYaQRXBvf9Rks/INlE
-	PYkenfJAuvsXWBFi9IhVILNznW7V/5CDd8oJTK+NmxXo2DwR21MGMWOxgJCNGwWZxX3vGhIEr2zah
-	T+5c+KG2sgDJ4z+ZzsVXUNSiWYxOfLf00rE9s5OFU+XVZY6Mxnp2DP5oc70eZ53Isydmnu/p+RoAI
-	zmqj+CW/A==;
+	 bh=iEOJzvLaChG755WrTwzOHYBCQ2n+1CM0bIvIKZniaCU=; b=Q2rLRh/hVGDNudLFNfkIG+WRa
+	Luq971AegZevEcsg0nCCt9n2iAMeKAqMoNONBXFNczBcz6WK7NLwp1uFo/spkYqkYt6l2994P47tK
+	tMMnyVem0tOKAHs9MisywwcCAqAL5Ek8YEqfLNPEAAwSOvpcpMVnrZoeb1PPT/hE70pSP5nt9Qmxp
+	6mcodnXIdMzfXyNF0wGSooC/OE+qYN7Ai5aSMDOHlBefTK68THh84kuUlI5p17neKse88Yh+CPmtB
+	EU1fU35vSMxkLIa3Exe9bEUg+oKMdODQQPBFE5QBZ7WadUB+hV0/0BvPWc4tM3Cy+LahI1VHR9AJI
+	x71U0MB+Q==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lIL1h-00HXWf-M7; Sat, 06 Mar 2021 00:42:37 +0000
+	id 1lIL2W-00HXlk-V7; Sat, 06 Mar 2021 00:43:29 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lIKwb-00HViY-Lx
+ id 1lIKwZ-00HVg1-1G
  for linux-nvme@lists.infradead.org; Sat, 06 Mar 2021 00:37:24 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1614991038; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1614991037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BAuWOY0oUJRQ9Nqv7Ng9VaIc2T7/K4hq14a0KbI216o=;
- b=KWETOT/OAvKS5VRiMPInxifiMUBA5VLYp1lItsfkolAjcEUGPx7cj4NnT+Vwq15e1RSHel
- nRW052jGEcKeJsDwJtfkSu+CHILRBdbdyjIl/6mHK+I2ACUHoc7grazbNLHXT84hDpd9Ss
- uh9zkznva2pQFcGSJomIRhnwm6TiWno=
+ bh=wimcJgCYQ+VeeMjupvZ+yuw8AsE007OpMrEI8wfux6U=;
+ b=XS7ZYVsSww4ElzqagfmIyrf6/vABFIWMkbCwAhQMAfukFjiWs8nBvU0xq33J3PxXr5FDFs
+ 6fUIrgQRQ8WItWAbAutkv5tDdpqiTHFg0sdSzt2M4LTXImFN/sFoRd9BJpUh81D3UbBEMp
+ 8W6ToQ0FXPtOh5M9OQShp37BsapIhHE=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2A3E7AF32;
- Sat,  6 Mar 2021 00:37:18 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 77BF3AF24;
+ Sat,  6 Mar 2021 00:37:17 +0000 (UTC)
 From: mwilck@suse.com
 To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
  Keith Busch <kbusch@kernel.org>
 Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  linux-nvme@lists.infradead.org, Enzo Matsumiya <ematsumiya@suse.de>,
  Martin Wilck <mwilck@suse.com>
-Subject: [PATCH v2 08/16] monitor: add option --cleanup / -C
-Date: Sat,  6 Mar 2021 01:36:51 +0100
-Message-Id: <20210306003659.21207-9-mwilck@suse.com>
+Subject: [PATCH v2 06/16] monitor: monitor_discovery(): try to reuse existing
+ controllers
+Date: Sat,  6 Mar 2021 01:36:49 +0100
+Message-Id: <20210306003659.21207-7-mwilck@suse.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210306003659.21207-1-mwilck@suse.com>
 References: <20210306003659.21207-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210306_003723_126580_EC93F73A 
-X-CRM114-Status: GOOD (  13.23  )
+X-CRM114-CacheID: sfid-20210306_003719_592967_A4C072A8 
+X-CRM114-Status: GOOD (  13.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,128 +84,119 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
-With this option, "nvme monitor" will remove created discovery controllers
-after it exits. To avoid shutting down connections that were created
-independently, check existing connections on startup and track them with
-the discovery_ctrl_existed flag.
+We need to pass cfg.device to do_discovery() if we want to re-use the
+discovery controller device. Remember the instance number when
+handling an AEN, and try to reuse this instance if the discovery
+needs to be repeated.
 ---
- conn-db.c |  1 +
- conn-db.h |  1 +
- monitor.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 44 insertions(+)
+ monitor.c | 43 ++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 36 insertions(+), 7 deletions(-)
 
-diff --git a/conn-db.c b/conn-db.c
-index cfdc208..93eae4a 100644
---- a/conn-db.c
-+++ b/conn-db.c
-@@ -382,6 +382,7 @@ int conndb_init_from_sysfs(void)
- 			instance =ctrl_instance(devices[i]->d_name);
- 			if (instance >= 0) {
- 				ci->c.discovery_instance = instance;
-+				ci->c.discovery_ctrl_existed = 1;
- 				msg(LOG_DEBUG, "found discovery controller %s\n",
- 				    devices[i]->d_name);
- 			}
-diff --git a/conn-db.h b/conn-db.h
-index e2a5827..8f5b400 100644
---- a/conn-db.h
-+++ b/conn-db.h
-@@ -12,6 +12,7 @@ struct nvme_connection {
- 	int discovery_pending:1;
- 	int did_discovery:1;
- 	int successful_discovery:1;
-+	int discovery_ctrl_existed:1;
- 	union {
- 		pid_t discovery_task;
- 		int discovery_result;
 diff --git a/monitor.c b/monitor.c
-index b17fca0..e7e91f9 100644
+index d724f6f..f7517cb 100644
 --- a/monitor.c
 +++ b/monitor.c
-@@ -43,8 +43,10 @@
- 
- static struct monitor_config {
- 	bool autoconnect;
-+	bool keep_ctrls;
- } mon_cfg = {
- 	.autoconnect = true,
-+	.keep_ctrls = true,
- };
- 
- static struct dispatcher *mon_dsp;
-@@ -499,15 +501,50 @@ static int monitor_kill_discovery_task(struct nvme_connection *co,
- 	}
+@@ -204,12 +204,14 @@ static int monitor_get_fc_uev_props(struct udev_device *ud,
  }
  
-+static int monitor_remove_discovery_ctrl(struct nvme_connection *co,
-+					void *arg __attribute__((unused)))
-+{
-+	char syspath[PATH_MAX];
-+	int len;
-+	char *subsysnqn __cleanup__(cleanup_charp) = NULL;
-+
-+	if (co->discovery_instance == -1 || co->discovery_ctrl_existed)
-+		return CD_CB_OK;
-+
-+	len = snprintf(syspath, sizeof(syspath), SYS_NVME "/nvme%d",
-+		       co->discovery_instance);
-+	if (len < 0 || len >= sizeof(syspath))
-+		return CD_CB_ERR;
-+
-+	subsysnqn = nvme_get_ctrl_attr(syspath, "subsysnqn");
-+	if (subsysnqn && !strcmp(subsysnqn, NVME_DISC_SUBSYS_NAME)) {
-+		if (remove_ctrl(co->discovery_instance)) {
-+			msg(LOG_ERR,
-+			    "failed to remove discovery controller /dev/nvme%d: %m\n",
-+			    co->discovery_instance);
-+			return CD_CB_ERR;
-+		} else
-+			msg(LOG_INFO,
-+			    "removed discovery controller /dev/nvme%d\n",
-+			    co->discovery_instance);
-+	} else
-+		msg(LOG_WARNING,
-+		    "unexpected NQN %s on /dev/nvme%d, not removing controller\n",
-+		    subsysnqn ? subsysnqn : "(NULL)", co->discovery_instance);
-+	return CD_CB_OK;
-+}
-+
- static int monitor_parse_opts(const char *desc, int argc, char **argv)
+ static int monitor_discovery(const char *transport, const char *traddr,
+-			     const char *trsvcid, const char *host_traddr)
++			     const char *trsvcid, const char *host_traddr,
++			     const char *devname)
  {
- 	bool quiet = false;
- 	bool verbose = false;
- 	bool debug = false;
- 	bool noauto = false;
-+	bool cleanup = false;
- 	int ret;
- 	OPT_ARGS(opts) = {
- 		OPT_FLAG("no-connect",     'N', &noauto,              "dry run, do not autoconnect to discovered controllers"),
-+		OPT_FLAG("cleanup",        'C', &cleanup,                     "remove created discovery controllers on exit"),
- 		OPT_LIST("hostnqn",        'q', &fabrics_cfg.hostnqn,         "user-defined hostnqn (if default not used)"),
- 		OPT_LIST("hostid",         'I', &fabrics_cfg.hostid,          "user-defined hostid (if default not used)"),
- 		OPT_INT("keep-alive-tmo",  'k', &fabrics_cfg.keep_alive_tmo,  "keep alive timeout period in seconds"),
-@@ -540,6 +577,8 @@ static int monitor_parse_opts(const char *desc, int argc, char **argv)
- 		log_level = LOG_DEBUG;
- 	if (noauto)
- 		mon_cfg.autoconnect = false;
-+	if (cleanup)
-+		mon_cfg.keep_ctrls = false;
+ 	char argstr[BUF_SIZE];
+ 	pid_t pid;
+ 	int rc, db_rc;
+ 	struct nvme_connection *co = NULL;
++	char *device = NULL;
  
- 	return ret;
- }
-@@ -604,9 +643,12 @@ int aen_monitor(const char *desc, int argc, char **argv)
- 		goto out;
+ 	db_rc = conndb_add(transport, traddr, trsvcid, host_traddr, &co);
+ 	if (db_rc != 0 && db_rc != -EEXIST)
+@@ -230,7 +232,15 @@ static int monitor_discovery(const char *transport, const char *traddr,
+ 		co->discovery_pending = 0;
+ 		co->status = CS_DISC_RUNNING;
+ 		co->discovery_task = pid;
++		if (devname) {
++			int instance = ctrl_instance(devname);
+ 
++			if (instance < 0) {
++				msg(LOG_ERR, "unexpected devname: %s\n",
++				    devname);
++			} else
++				co->discovery_instance = instance;
++		}
+ 		return 0;
  	}
  
-+	conndb_init_from_sysfs();
- 	ret = event_loop(mon_dsp, &wait_mask, handle_epoll_err);
- 
- 	conndb_for_each(monitor_kill_discovery_task, NULL);
-+	if (mon_cfg.autoconnect && !mon_cfg.keep_ctrls)
-+		conndb_for_each(monitor_remove_discovery_ctrl, NULL);
- 	conndb_free();
- out:
+@@ -238,12 +248,29 @@ static int monitor_discovery(const char *transport, const char *traddr,
  	free_dispatcher(mon_dsp);
+ 	conndb_free();
+ 
+-	msg(LOG_NOTICE, "starting discovery\n");
++	conn_msg(LOG_NOTICE, co, "starting discovery in state %s\n",
++		 conn_status_str(co->status));
++
++	/*
++	 * Try to re-use existing controller. do_discovery() will check
++	 * if it matches the connection parameters.
++	 * fabrics_cfg.device must be allocated on the heap!
++	 */
++	if (devname)
++		device = strdup(devname);
++	else if (co->discovery_instance >= 0 &&
++		 asprintf(&device, "nvme%d", co->discovery_instance) == -1)
++		device = NULL;
++
++	if (device)
++		msg(LOG_INFO, "using discovery controller %s\n", device);
++
+ 	fabrics_cfg.nqn = NVME_DISC_SUBSYS_NAME;
+ 	fabrics_cfg.transport = transport;
+ 	fabrics_cfg.traddr = traddr;
+-	fabrics_cfg.trsvcid = trsvcid;
+-	fabrics_cfg.host_traddr = host_traddr;
++	fabrics_cfg.trsvcid = trsvcid && *trsvcid ? trsvcid : NULL;
++	fabrics_cfg.host_traddr = host_traddr && *host_traddr ? host_traddr : NULL;
++	fabrics_cfg.device = device;
+ 	/* Without the following, the kernel returns EINVAL */
+ 	fabrics_cfg.tos = -1;
+ 	fabrics_cfg.persistent = true;
+@@ -252,6 +279,7 @@ static int monitor_discovery(const char *transport, const char *traddr,
+ 	msg(LOG_DEBUG, "%s\n", argstr);
+ 	rc = do_discover(argstr, mon_cfg.autoconnect, NORMAL);
+ 
++	free(device);
+ 	exit(-rc);
+ 	/* not reached */
+ 	return rc;
+@@ -270,7 +298,7 @@ static void monitor_handle_fc_uev(struct udev_device *ud)
+ 				     host_traddr, sizeof(host_traddr)))
+ 		return;
+ 
+-	monitor_discovery("fc", traddr, NULL, host_traddr);
++	monitor_discovery("fc", traddr, NULL, host_traddr, NULL);
+ }
+ 
+ static int monitor_get_nvme_uev_props(struct udev_device *ud,
+@@ -338,7 +366,8 @@ static void monitor_handle_nvme_uev(struct udev_device *ud)
+ 		return;
+ 
+ 	monitor_discovery(transport, traddr,
+-			  strcmp(trsvcid, "none") ? trsvcid : NULL, host_traddr);
++			  strcmp(trsvcid, "none") ? trsvcid : NULL, host_traddr,
++			  udev_device_get_sysname(ud));
+ }
+ 
+ static void monitor_handle_udevice(struct udev_device *ud)
+@@ -433,7 +462,7 @@ static int handle_epoll_err(int errcode)
+ 		if (co->discovery_pending) {
+ 			msg(LOG_NOTICE, "new discovery pending - restarting\n");
+ 			monitor_discovery(co->transport, co->traddr,
+-					  co->trsvcid, co->host_traddr);
++					  co->trsvcid, co->host_traddr, NULL);
+ 		}
+ 	};
+ 
 -- 
 2.29.2
 
