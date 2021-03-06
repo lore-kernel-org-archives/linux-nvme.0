@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CCEBC433DB
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:50:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E4A6C433DB
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:50:53 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9B3146508C
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:49:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B3146508C
+	by mail.kernel.org (Postfix) with ESMTPS id ABD4065068
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 00:50:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ABD4065068
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,49 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=RjgGddGbcQU6ZAWthEzEvEE0b5I5tkJshzGY27xJWCU=; b=Sr8qZu1cGhage3f8yFJsmCEK8
-	kFqXHhUXtWbZ8P11tAZ6msQFHUsjOMehy5/MF1ebx1QoLRkowBWNVsGJ1gG+l3zzlhndU4BA+6K26
-	4dM/JUEjjxRTaFi7eeeQRnazSG+dz1RQzX4WhxJuOduHoR8ch5OWpkE0uqjGr75oKqmX3ybzhQCx/
-	MIoWYdpXFK4wKm3JjW2YtLhRR5M3beqJTOOBIg8TxvTmK51lDi/K7BBzUDrOevp5ovXnD2rEkONeM
-	LNVC1S5JPVmW1teNe3sdBz30fpjvRrGZNvwUQHZ5WegHcdgRuKs3TEAG1US1JUw8Le3vXMUJGiMy2
-	2KTPeyNiA==;
+	 bh=yvNR0ViFSTD2MHMkfL+J3bzcFGahpXBW1S16d5rmbAk=; b=IqyagV1qaE9A6bG3gEt/6ve6L
+	qJjLdZaIEmu1mAI8vez5Hq5yV3TU+u6ClUB0L0ZVUCDjX5qy0VdQOQO8n2Kt8mjGoV9eb5JBS7hml
+	iDoUqpHUws+sLMmCuNdB1WG1YZe+UPxEuQKqwph2u/8nQUcdJ0NXIdXXdu/ozvCrN2t9aKILHMtVH
+	bivnRQHgnP/Nv8gG5HMPit/H+XwyiTXGMqthV4C+pzZh4egS79kowfWrS5foWmtHdhkyiRS/ApLmE
+	KzHUrSYX4ziU2vZAVgN4EjYV83O0QMLkf3nBx+7HrJgcIN/6SYDlA5oQtPCaYBSDVEvfn9WbrmNm3
+	bMMa0Xsew==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lIL8a-00HZuo-4E; Sat, 06 Mar 2021 00:49:44 +0000
+	id 1lIL9V-00HaBe-KD; Sat, 06 Mar 2021 00:50:41 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lIKwf-00HVkK-Mv
+ id 1lIKwd-00HVjZ-Mb
  for linux-nvme@lists.infradead.org; Sat, 06 Mar 2021 00:37:29 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1614991040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1614991038; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hXF81V40o79K3bSwL2urSMHnDPlcWpYtBw//B4abpVQ=;
- b=s8bW/MnL5SRlXYe5SSAhoHU3Aha/6g8LUrO2qJjuXf/gFbr1kJuAidcmayGJHmAIJYmlg9
- cI2xLaLSc5Wi4wQKEzb9h8+oJYgX8hKOj4DiHsA09zooR4Murj9Hz1YcrAlcR9lQANNVYz
- HstlRKlM2MIhJfxfOKgYNIH5HX/8wvs=
+ bh=5bTvIdYPfjqoFUFDVKiXJrCOoD8HAin+UQslpg4zr6I=;
+ b=JTo9k+00pn5BWt/MgKALIFXG0k6MKb4ST/SuHnU0+VZ8qkugUrJwj1+zPBCve8KKWTnObP
+ tuC8yd1Tc76w8hc1OXKyRNJqfLIAGMMTGv/BmBpJC/ePG4cdPYDAH/qILQQtHkVq7r9rFq
+ FTYiO9NfYte9ctcnbbsVPPdTQiC2ty0=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 48427AF55;
- Sat,  6 Mar 2021 00:37:20 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 80D18AF33;
+ Sat,  6 Mar 2021 00:37:18 +0000 (UTC)
 From: mwilck@suse.com
 To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
  Keith Busch <kbusch@kernel.org>
 Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  linux-nvme@lists.infradead.org, Enzo Matsumiya <ematsumiya@suse.de>,
  Martin Wilck <mwilck@suse.com>
-Subject: [PATCH v2 14/16] completions: add completions for nvme monitor
-Date: Sat,  6 Mar 2021 01:36:57 +0100
-Message-Id: <20210306003659.21207-15-mwilck@suse.com>
+Subject: [PATCH v2 09/16] monitor: handling of add/remove uevents for nvme
+ controllers
+Date: Sat,  6 Mar 2021 01:36:52 +0100
+Message-Id: <20210306003659.21207-10-mwilck@suse.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210306003659.21207-1-mwilck@suse.com>
 References: <20210306003659.21207-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210306_003726_994063_124B4CD7 
-X-CRM114-Status: UNSURE (   8.09  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210306_003726_093401_7EF5BD9B 
+X-CRM114-Status: GOOD (  13.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,35 +84,76 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
-Add some completions for the monitor command.
----
- completions/bash-nvme-completion.sh | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On add, we'd like to detect the creation of a discovery controller for a given
+connection. More often than not, that doesn't work, because the controller
+is still in "connecting" state when the uevent arrives, and reading subsysnqn
+yields "(efault)".
 
-diff --git a/completions/bash-nvme-completion.sh b/completions/bash-nvme-completion.sh
-index 7ab4226..f142981 100644
---- a/completions/bash-nvme-completion.sh
-+++ b/completions/bash-nvme-completion.sh
-@@ -12,7 +12,7 @@ _cmds="list id-ctrl id-ns list-ns id-iocs nvm-id-ctrl create-ns delete-ns \
- 	write-uncor copy reset subsystem-reset show-regs discover \
- 	connect-all connect disconnect version help \
- 	intel lnvm memblaze list-subsys endurance-event-agg-log \
--	lba-status-log"
-+	lba-status-log monitor"
+This would need to be fixed by waiting for the connection to complete,
+but doing this properly is currently out of scope. It's not really a big
+problem, because without --persistent, the discovery controller will
+be removed anyway, and with --persistent, we'll notice the discovery
+controller as soon as it actually receives an AEN and generates an uevent.
+---
+ monitor.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/monitor.c b/monitor.c
+index e7e91f9..43d3084 100644
+--- a/monitor.c
++++ b/monitor.c
+@@ -159,6 +159,36 @@ static int child_reset_signals(void)
+ 	return -err;
+ }
  
- nvme_list_opts () {
-         local opts=""
-@@ -242,6 +242,10 @@ nvme_list_opts () {
- 		"disconnect")
- 		opts+=" --nqn -n --device -d"
- 			;;
-+		"monitor")
-+		opts+=" --no-connect -N --cleanup -C \
-+			--hostnqn= -q --verbose -v --timestamps -t"
-+			;;
- 		"version")
- 		opts+=""
- 			;;
++static void monitor_handle_nvme_add(struct udev_device *ud)
++{
++	const char *syspath = udev_device_get_syspath(ud);
++	char *subsysnqn __cleanup__(cleanup_charp) = NULL;
++	char *state __cleanup__(cleanup_charp) = NULL;
++
++	if (!syspath)
++		return;
++	subsysnqn = nvme_get_ctrl_attr(syspath, "subsysnqn");
++	state = nvme_get_ctrl_attr(syspath, "state");
++	msg(LOG_DEBUG, "add %s => %s [%s]\n", syspath, subsysnqn, state);
++}
++
++static void monitor_handle_nvme_remove(struct udev_device *ud)
++{
++	const char *sysname = udev_device_get_sysname(ud);
++	struct nvme_connection *co;
++
++	if (!sysname)
++		return;
++
++	co = conndb_find_by_ctrl(sysname);
++	if (co) {
++		msg(LOG_DEBUG, "%s: connection discovery controller removed\n",
++		    sysname);
++		co->discovery_instance = -1;
++	}
++	return;
++}
++
+ static int monitor_get_fc_uev_props(struct udev_device *ud,
+ 				    char *traddr, size_t tra_sz,
+ 				    char *host_traddr, size_t htra_sz)
+@@ -358,6 +388,14 @@ static void monitor_handle_nvme_uev(struct udev_device *ud)
+ 	char traddr[NVMF_TRADDR_SIZE], host_traddr[NVMF_TRADDR_SIZE];
+ 	char trsvcid[NVMF_TRSVCID_SIZE], transport[5];
+ 
++	if (!strcmp(udev_device_get_action(ud), "remove")) {
++		monitor_handle_nvme_remove(ud);
++		return;
++	}
++	if (!strcmp(udev_device_get_action(ud), "add")) {
++		monitor_handle_nvme_add(ud);
++		return;
++	}
+ 	if (strcmp(udev_device_get_action(ud), "change"))
+ 		return;
+ 
 -- 
 2.29.2
 
