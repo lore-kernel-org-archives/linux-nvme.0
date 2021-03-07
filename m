@@ -1,87 +1,72 @@
-Return-Path: <SRS0=TRJs=IE=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=8cAR=IF=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBDDEC433E0
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 21:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69AD6C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:12 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 65B87650BB
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Mar 2021 21:17:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 65B87650BB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0CE4E65116
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CE4E65116
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=mHDnWi1c6EtOrIbGmmdZScEv7sH5tMK+nx5qrKr+jjw=; b=PeZ1+A2wK1lQFsa88IFYBF496F
-	CwoZvBp0WkxoUyMqS3bkt2eSdO1AftrpgMy3WW5GN+CPns7BZazWBA7IEmshhjuRqHGvCrMwED+GF
-	OjsZW889Dh/gKgDtjglB5YubVnxPsce4Iuf88af5Vot2SVv97dtnH0Ane5w/VI58YlEqmf+D6NRJ8
-	3AQWNElXFDZ4HZLX3qAzDvKsyymA9xAi1nu61Rp0E5w6TjXkXRiDeQ+AZZZy+gkFeSZby9Yq9X6Su
-	kaByZ3nnmUmnOvr4NguH9Eg2pbVSx5kn4nROGnBW7vGy9O3sKv6hnRucKyj73PIUyYIl/Fn4Tiaq1
-	Kv/fFf8A==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=2GbilnFtlQWcc9e7wYJIu7ak2qRqHXJq/fn+YhzDJLo=; b=l1KBSpncwUVcnhRF1Rfl/hWym
+	GTQy3EoNy1N7bBnYitfyQcAN36j7yiSQO1ftMkAtbqYoUJmae3jSfltBE99GWxgEDWard+39qBjPu
+	YssoQmUVzkl4bxMC9Sko1iIf0HknwgLBd7DVowNYfejVNFL2rO4jDNHM0qJUa0mvvEKkn1pGaE9p+
+	MPentPgMVnJcBIRak50gw8YSIZAx9DMG749i1PB+bRbc1ZCYHzObDfEr+xbI8VXL6hZJdrHKpcYHW
+	H7MIou2Tl/3NDALeAzTColgnUHydfKDeXrgzSKbVFRMHqfYnlQfYKewwFsc4MCPPbDnK28g4IjmnS
+	E+h4R7eNg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lIeIb-0050pS-44; Sat, 06 Mar 2021 21:17:21 +0000
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+	id 1lItv2-00AJ5C-3l; Sun, 07 Mar 2021 13:58:05 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lIeIT-0050mu-7O
- for linux-nvme@lists.infradead.org; Sat, 06 Mar 2021 21:17:15 +0000
-Received: by mail-pl1-x62d.google.com with SMTP id a24so3075498plm.11
- for <linux-nvme@lists.infradead.org>; Sat, 06 Mar 2021 13:17:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rqpud1SFsFWm5tJtvYOt91rESzkjIUZuEwhsXZuiL2k=;
- b=cFRHp4GZvPkaf32JaVhyKF4FcOzwKX7QSR3qSSY6Taextb/iZn5Ru6nOQ4qmm1rzqz
- OVXWAt3quHrU3vWp+tQqT13gcfkF5kJEOP1sf0u8343N7osxXBRsVj1umBLVABgUgOvW
- SsCB+UltB1ELYNgPJDEQwBjbuYnOd8QwWKmiI+H82SoUE3IOGUjN/Z4AMXAT9YxlPwuv
- 1p9wylTYC1w5/sh2YpFbV8FX1s8837kkVOMMQZCEA3dKwqbkJPx2BF78Vc6r43BPR1gK
- QezwYxOJRVUXvkDGM5ng8+yf2bv3XwSJaWauLc3TlkTy/tnMn5Hc+CM8PxKfUfQvFGev
- L0cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rqpud1SFsFWm5tJtvYOt91rESzkjIUZuEwhsXZuiL2k=;
- b=eVNdH9thy1KywpfBdA/RpP6A1RoFscQyZoIGIKmtEnqNuNPKIiSY9ihIVWkPVMC05u
- 63XT7EC5Q67x2MrrUYUJYh055X6mfy75CMqUnR/X2ww5flzfG1aRCV3TO/vatldgk8fW
- XpdEHwfzbtzjZ1o28eeO31apqb/4xb8jV/o7FOHK1pUT7okiQJUWMqziGs1MOtbRwSO/
- FfHKg644HawqZBNdx2sHYNsP3TI9gpFu8FfRASl/7b40C0mBLafU9xBRFHvOWyt/Tqbn
- Un94HzXskuPVA5lP7qe5yw7yrezhGLgGO5Q8d7CYpsJgPOHQVs/6vIy3njRKNYB9Y1YN
- yphA==
-X-Gm-Message-State: AOAM531YEo1WcUdtVVH1Qnnjn0anIU5hHfH60j8MSjY8ygQm0iXTgZEp
- 2KIiF0fBySz3I6KoWgG0A1Az87YbrJs=
-X-Google-Smtp-Source: ABdhPJwdsZxqpYd5tYFwhtmSjCoAl0AsAsxSuvt0qQW1GJhGbRomedna6qHCLTui41mToKdSxzcB8w==
-X-Received: by 2002:a17:90a:2e06:: with SMTP id
- q6mr13610439pjd.222.1615065429776; 
- Sat, 06 Mar 2021 13:17:09 -0800 (PST)
-Received: from localhost.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id i22sm6282926pjz.56.2021.03.06.13.17.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Mar 2021 13:17:09 -0800 (PST)
-From: James Smart <jsmart2021@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: emilne@redhat.com, James Smart <jsmart2021@gmail.com>,
- stable@vger.kernel.org, Nigel Kirkland <nkirkland2304@gmail.com>
-Subject: [PATCH] nvme-fc: fix racing controller reset and create association
-Date: Sat,  6 Mar 2021 13:16:58 -0800
-Message-Id: <20210306211658.67604-1-jsmart2021@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ id 1lItux-00AJ26-Ax
+ for linux-nvme@lists.infradead.org; Sun, 07 Mar 2021 13:58:01 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9044E65109;
+ Sun,  7 Mar 2021 13:57:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615125476;
+ bh=/xjGsQhzH3lUrbwmUWpibj2e91FMNh5T8knos8eg0H4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=KkD511zpujz5C7dqRao1K2RxxBK3f1Zplc9wwb97U4rIaSq2TLWVmvZQ7Rdgy4dpr
+ d2CDaeZwrHBeBOJWd681bPgPnT6mzio0l3TItWEuh/mim/7S9xLbE1UqPclgfTWsgs
+ k/7fE8Pc6qcvS8cRPFXSFAZ2LKXrkkxMwmvRTxHhA+J23BEbglQlRoSd2ceCrCME8S
+ 4x/42MbRgqINFB56cW8qD54rPpi4IIP/LZF9mLKYAnov7qTHC7qOvKRfIbKw0bTZXQ
+ vn4Rq3l6V1YlzW3pHydqlTBZM0YLfsAmL+lSCuTlO+c0wxnrkCB2lX+fCLR0QPPTjH
+ wgI2kR0qlp4TQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Julian Einwag <jeinwag-nvme@marcapo.com>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.11 08/12] nvme-pci: mark Seagate Nytro XM1440 as
+ QUIRK_NO_NS_DESC_LIST.
+Date: Sun,  7 Mar 2021 08:57:42 -0500
+Message-Id: <20210307135746.967418-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210307135746.967418-1-sashal@kernel.org>
+References: <20210307135746.967418-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210306_211713_378591_3EE383CA 
-X-CRM114-Status: GOOD (  12.64  )
+X-CRM114-CacheID: sfid-20210307_135759_612332_BFC14072 
+X-CRM114-Status: GOOD (  11.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,41 +83,51 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Recent patch to prevent calling __nvme_fc_abort_outstanding_ios in
-interrupt context results in a possible race condition. A controller
-reset results in errored io completions, which schedules error
-work. The change of error work to a work element allows it to fire
-after the ctrl state transition tion to NVME_CTRL_CONNECTING, causing
-any outstanding io (used to initialize the controller) to fail and
-cause problems for connect_work.
+From: Julian Einwag <jeinwag-nvme@marcapo.com>
 
-Add a state check to only schedule error work if not in the RESETTING
-state.
+[ Upstream commit 5e112d3fb89703a4981ded60561b5647db3693bf ]
 
-Fixes: 19fce0470f05 ("nvme-fc: avoid calling _nvme_fc_abort_outstanding_ios from interrupt context")
-Cc: <stable@vger.kernel.org> # v5.10+
+The kernel fails to fully detect these SSDs, only the character devices
+are present:
 
-Signed-off-by: Nigel Kirkland <nkirkland2304@gmail.com>
-Signed-off-by: James Smart <jsmart2021@gmail.com>
+[   10.785605] nvme nvme0: pci function 0000:04:00.0
+[   10.876787] nvme nvme1: pci function 0000:81:00.0
+[   13.198614] nvme nvme0: missing or invalid SUBNQN field.
+[   13.198658] nvme nvme1: missing or invalid SUBNQN field.
+[   13.206896] nvme nvme0: Shutdown timeout set to 20 seconds
+[   13.215035] nvme nvme1: Shutdown timeout set to 20 seconds
+[   13.225407] nvme nvme0: 16/0/0 default/read/poll queues
+[   13.233602] nvme nvme1: 16/0/0 default/read/poll queues
+[   13.239627] nvme nvme0: Identify Descriptors failed (8194)
+[   13.246315] nvme nvme1: Identify Descriptors failed (8194)
+
+Adding the NVME_QUIRK_NO_NS_DESC_LIST fixes this problem.
+
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=205679
+Signed-off-by: Julian Einwag <jeinwag-nvme@marcapo.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 20dadd86e981..0f92bd12123e 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2055,7 +2055,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 		nvme_fc_complete_rq(rq);
- 
- check_error:
--	if (terminate_assoc)
-+	if (terminate_assoc && ctrl->ctrl.state != NVME_CTRL_RESETTING)
- 		queue_work(nvme_reset_wq, &ctrl->ioerr_work);
- }
- 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6bad4d4dcdf0..7a38d764b486 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3230,7 +3230,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_DEVICE(0x126f, 0x2263),	/* Silicon Motion unidentified */
+ 		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST, },
+ 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
+-		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
++		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY |
++				NVME_QUIRK_NO_NS_DESC_LIST, },
+ 	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
+ 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
+ 	{ PCI_DEVICE(0x1c58, 0x0023),	/* WDC SN200 adapter */
 -- 
-2.26.2
+2.30.1
 
 
 _______________________________________________
