@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69AD6C433E0
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65347C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:27 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0CE4E65116
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CE4E65116
+	by mail.kernel.org (Postfix) with ESMTPS id 024ED65111
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 024ED65111
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,41 +23,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2GbilnFtlQWcc9e7wYJIu7ak2qRqHXJq/fn+YhzDJLo=; b=l1KBSpncwUVcnhRF1Rfl/hWym
-	GTQy3EoNy1N7bBnYitfyQcAN36j7yiSQO1ftMkAtbqYoUJmae3jSfltBE99GWxgEDWard+39qBjPu
-	YssoQmUVzkl4bxMC9Sko1iIf0HknwgLBd7DVowNYfejVNFL2rO4jDNHM0qJUa0mvvEKkn1pGaE9p+
-	MPentPgMVnJcBIRak50gw8YSIZAx9DMG749i1PB+bRbc1ZCYHzObDfEr+xbI8VXL6hZJdrHKpcYHW
-	H7MIou2Tl/3NDALeAzTColgnUHydfKDeXrgzSKbVFRMHqfYnlQfYKewwFsc4MCPPbDnK28g4IjmnS
-	E+h4R7eNg==;
+	 bh=WogdRWgpAFyEm6hIx2vVaq1FD0VJCP1V0206SghGJYk=; b=npybky83ua/+LWVfZ3oxULzP6
+	fa3mw1dY1vW7UmlF6Z1ZKEXnihzR/mXdMCTm1plyeTNnG8Y52XE9gM0BTK6o9/TiW3aAERWg3sF2G
+	759aS8FH6zwVUHptKJGvsWXmg5nFsXKsiL9GVo2RZH+NJEyMTBRBCqOMY88Bc7HdunDU8ThMXggzK
+	kQswDreFWZfgYDBj11ShlGIBVYhM1/K5vLgIbutpzOebqLOaacgB5fSdILhwPTfEnq2FFasHmKqyg
+	tx7KX+o4YthM+fdvCCNVxV7o/R3N5uvbNPmEzuLyr37xbVanrREbxJVwQLf5fCsK6DLdE4C+lnLeZ
+	TW7lHga9g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lItv2-00AJ5C-3l; Sun, 07 Mar 2021 13:58:05 +0000
+	id 1lItvA-00AJ8m-Vz; Sun, 07 Mar 2021 13:58:13 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lItux-00AJ26-Ax
+ id 1lItux-00AJ2g-Nn
  for linux-nvme@lists.infradead.org; Sun, 07 Mar 2021 13:58:01 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9044E65109;
- Sun,  7 Mar 2021 13:57:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ECEDB6510A;
+ Sun,  7 Mar 2021 13:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615125476;
- bh=/xjGsQhzH3lUrbwmUWpibj2e91FMNh5T8knos8eg0H4=;
+ s=k20201202; t=1615125478;
+ bh=Noy7VcIB02OQkZj4tP6uPONYLse8hIx5KNQ+rhvWrVA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KkD511zpujz5C7dqRao1K2RxxBK3f1Zplc9wwb97U4rIaSq2TLWVmvZQ7Rdgy4dpr
- d2CDaeZwrHBeBOJWd681bPgPnT6mzio0l3TItWEuh/mim/7S9xLbE1UqPclgfTWsgs
- k/7fE8Pc6qcvS8cRPFXSFAZ2LKXrkkxMwmvRTxHhA+J23BEbglQlRoSd2ceCrCME8S
- 4x/42MbRgqINFB56cW8qD54rPpi4IIP/LZF9mLKYAnov7qTHC7qOvKRfIbKw0bTZXQ
- vn4Rq3l6V1YlzW3pHydqlTBZM0YLfsAmL+lSCuTlO+c0wxnrkCB2lX+fCLR0QPPTjH
- wgI2kR0qlp4TQ==
+ b=Sv2qE/3/KB4iLF4e90n08KFatix/IveOmXOk3rnD+1onZyVO8wUglbj4QWvvOfTau
+ LBz8nQp1UKVEEBaN372IFBFADJk8Wb4hWavP7qFt6zfpmMEFFdNhuuRJJ4Azluhikl
+ Px/Ee3Is6UFeVBXT5uzCHRww3TlKq11WZtd8bEuXCXLQp/JMxMH6/Hc7vdIhtBY23Z
+ fSvsossWCuKWwM5F2qPT2gmV0SlBI0D7yN3TFKlRWmsoPzQyyqdWZh4CKsAC37n1md
+ jgdJ/5p3ps79BxFaSCo/WScCwS+lVmL4j/IOZThoPMygp92X0UbAqhO4qYTaiFMmn9
+ LMre/VE22Y9fA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Julian Einwag <jeinwag-nvme@marcapo.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, Sasha Levin <sashal@kernel.org>,
- linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.11 08/12] nvme-pci: mark Seagate Nytro XM1440 as
- QUIRK_NO_NS_DESC_LIST.
-Date: Sun,  7 Mar 2021 08:57:42 -0500
-Message-Id: <20210307135746.967418-8-sashal@kernel.org>
+Cc: Pascal Terjan <pterjan@google.com>, Christoph Hellwig <hch@lst.de>,
+ Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.11 10/12] nvme-pci: add quirks for Lexar 256GB SSD
+Date: Sun,  7 Mar 2021 08:57:44 -0500
+Message-Id: <20210307135746.967418-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210307135746.967418-1-sashal@kernel.org>
 References: <20210307135746.967418-1-sashal@kernel.org>
@@ -65,8 +63,9 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210307_135759_612332_BFC14072 
-X-CRM114-Status: GOOD (  11.30  )
+X-CRM114-CacheID: sfid-20210307_135800_107886_725AAAA0 
+X-CRM114-Status: UNSURE (   9.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,49 +82,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Julian Einwag <jeinwag-nvme@marcapo.com>
+From: Pascal Terjan <pterjan@google.com>
 
-[ Upstream commit 5e112d3fb89703a4981ded60561b5647db3693bf ]
+[ Upstream commit 6e6a6828c517fb6819479bf5187df5f39084eb9e ]
 
-The kernel fails to fully detect these SSDs, only the character devices
-are present:
+Add the NVME_QUIRK_NO_NS_DESC_LIST and NVME_QUIRK_IGNORE_DEV_SUBNQN
+quirks for this buggy device.
 
-[   10.785605] nvme nvme0: pci function 0000:04:00.0
-[   10.876787] nvme nvme1: pci function 0000:81:00.0
-[   13.198614] nvme nvme0: missing or invalid SUBNQN field.
-[   13.198658] nvme nvme1: missing or invalid SUBNQN field.
-[   13.206896] nvme nvme0: Shutdown timeout set to 20 seconds
-[   13.215035] nvme nvme1: Shutdown timeout set to 20 seconds
-[   13.225407] nvme nvme0: 16/0/0 default/read/poll queues
-[   13.233602] nvme nvme1: 16/0/0 default/read/poll queues
-[   13.239627] nvme nvme0: Identify Descriptors failed (8194)
-[   13.246315] nvme nvme1: Identify Descriptors failed (8194)
+Reported and tested in https://bugs.mageia.org/show_bug.cgi?id=28417
 
-Adding the NVME_QUIRK_NO_NS_DESC_LIST fixes this problem.
-
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=205679
-Signed-off-by: Julian Einwag <jeinwag-nvme@marcapo.com>
+Signed-off-by: Pascal Terjan <pterjan@google.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6bad4d4dcdf0..7a38d764b486 100644
+index 14c5b52400ef..806a5d071ef6 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3230,7 +3230,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(0x126f, 0x2263),	/* Silicon Motion unidentified */
- 		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST, },
- 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
--		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-+		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY |
-+				NVME_QUIRK_NO_NS_DESC_LIST, },
- 	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x1c58, 0x0023),	/* WDC SN200 adapter */
+@@ -3245,6 +3245,9 @@ static const struct pci_device_id nvme_id_table[] = {
+ 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_DEVICE(0x1987, 0x5016),	/* Phison E16 */
+ 		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
++	{ PCI_DEVICE(0x1b4b, 0x1092),	/* Lexar 256 GB SSD */
++		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST |
++				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_DEVICE(0x1d1d, 0x1f1f),	/* LighNVM qemu device */
+ 		.driver_data = NVME_QUIRK_LIGHTNVM, },
+ 	{ PCI_DEVICE(0x1d1d, 0x2807),	/* CNEX WL */
 -- 
 2.30.1
 
