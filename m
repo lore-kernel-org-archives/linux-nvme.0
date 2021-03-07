@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65347C433E0
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E6EDC433E0
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:36 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 024ED65111
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 024ED65111
+	by mail.kernel.org (Postfix) with ESMTPS id E196B65104
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 13:58:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E196B65104
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,39 +23,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=WogdRWgpAFyEm6hIx2vVaq1FD0VJCP1V0206SghGJYk=; b=npybky83ua/+LWVfZ3oxULzP6
-	fa3mw1dY1vW7UmlF6Z1ZKEXnihzR/mXdMCTm1plyeTNnG8Y52XE9gM0BTK6o9/TiW3aAERWg3sF2G
-	759aS8FH6zwVUHptKJGvsWXmg5nFsXKsiL9GVo2RZH+NJEyMTBRBCqOMY88Bc7HdunDU8ThMXggzK
-	kQswDreFWZfgYDBj11ShlGIBVYhM1/K5vLgIbutpzOebqLOaacgB5fSdILhwPTfEnq2FFasHmKqyg
-	tx7KX+o4YthM+fdvCCNVxV7o/R3N5uvbNPmEzuLyr37xbVanrREbxJVwQLf5fCsK6DLdE4C+lnLeZ
-	TW7lHga9g==;
+	 bh=kw4GzdeYon3viFiLjoPyF7adrubU95q41IrkJIv8LmQ=; b=PyUdqXrRxY32T2mBPanH+cGG6
+	wNGk6znMr4kMtcKc6Kr/SBliECdwyPzaF767voRaYINY1zM+YJMJeNF7wQht7Oxb3kOBetEMo1pnF
+	0GoQ9bmbFeyDlVPRApjs6DnVIEGzh/J4EmC/5ZGXDFADftH77cgSkef8zIjd66OuIQKYp43tb8cTP
+	gJPyfUDq4xfBChGZL98ps5TX1Tj8o7AQFHmFY2O3eghrmLWJ7Sj6/42FhU3txLjK0xHCYKH3ragnp
+	Qc1JhEEnLnhwF9CEJ14fA2/WQPchC1p59IVXHsq6ozExdoS9r/OWGWYTwREmJ58Hin837OOoMKCHE
+	dk/VL2LFw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lItvA-00AJ8m-Vz; Sun, 07 Mar 2021 13:58:13 +0000
+	id 1lItvI-00AJB6-Ky; Sun, 07 Mar 2021 13:58:21 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lItux-00AJ2g-Nn
- for linux-nvme@lists.infradead.org; Sun, 07 Mar 2021 13:58:01 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ECEDB6510A;
- Sun,  7 Mar 2021 13:57:57 +0000 (UTC)
+ id 1lItuy-00AJ2J-4j
+ for linux-nvme@lists.infradead.org; Sun, 07 Mar 2021 13:58:02 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BCD8564EE6;
+ Sun,  7 Mar 2021 13:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615125478;
- bh=Noy7VcIB02OQkZj4tP6uPONYLse8hIx5KNQ+rhvWrVA=;
+ s=k20201202; t=1615125477;
+ bh=1ES4PPvD+5KQp4HDC3M1PufT+RVzP3FwrXVx+11QKjk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Sv2qE/3/KB4iLF4e90n08KFatix/IveOmXOk3rnD+1onZyVO8wUglbj4QWvvOfTau
- LBz8nQp1UKVEEBaN372IFBFADJk8Wb4hWavP7qFt6zfpmMEFFdNhuuRJJ4Azluhikl
- Px/Ee3Is6UFeVBXT5uzCHRww3TlKq11WZtd8bEuXCXLQp/JMxMH6/Hc7vdIhtBY23Z
- fSvsossWCuKWwM5F2qPT2gmV0SlBI0D7yN3TFKlRWmsoPzQyyqdWZh4CKsAC37n1md
- jgdJ/5p3ps79BxFaSCo/WScCwS+lVmL4j/IOZThoPMygp92X0UbAqhO4qYTaiFMmn9
- LMre/VE22Y9fA==
+ b=eJR8wUIFb2tSVjuUhmZU6S8RpYDd+F+/lS2mK5fVjZkREYzDNv9cef0wPVHVKnGJ2
+ mEA7V5SshkQByBGIozzECbY1aFXHNGeNwyHuZdWOSTQRjawNwuAfd9y/Dk5ZhZt7e7
+ 5hI/EtJo+dcBiUZ8y2EpFIDdo9nvtCMG+E5fFEkElCh0WtOYZDHOppHnBCQRQGQMfs
+ 08dkj5vYIqyY7wrnEkkY2hvvNcujVYyWtpiVFGeBS79bn/vnHsHkMYeNi/OPXaRUdI
+ Imjysumzpm1e3t7AM+sUE3mHvg7nMNknE01O8fJL/9/TjDodksoNKdR9VgJLxkBmMx
+ Jlqos+5EzJyyw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Pascal Terjan <pterjan@google.com>, Christoph Hellwig <hch@lst.de>,
- Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.11 10/12] nvme-pci: add quirks for Lexar 256GB SSD
-Date: Sun,  7 Mar 2021 08:57:44 -0500
-Message-Id: <20210307135746.967418-10-sashal@kernel.org>
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>, 
+ Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.11 09/12] nvme-pci: mark Kingston SKC2000 as not
+ supporting the deepest power state
+Date: Sun,  7 Mar 2021 08:57:43 -0500
+Message-Id: <20210307135746.967418-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210307135746.967418-1-sashal@kernel.org>
 References: <20210307135746.967418-1-sashal@kernel.org>
@@ -63,9 +65,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210307_135800_107886_725AAAA0 
-X-CRM114-Status: UNSURE (   9.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210307_135800_490915_A25197C8 
+X-CRM114-Status: GOOD (  11.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,46 +78,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Pascal Terjan <pterjan@google.com>
-
-[ Upstream commit 6e6a6828c517fb6819479bf5187df5f39084eb9e ]
-
-Add the NVME_QUIRK_NO_NS_DESC_LIST and NVME_QUIRK_IGNORE_DEV_SUBNQN
-quirks for this buggy device.
-
-Reported and tested in https://bugs.mageia.org/show_bug.cgi?id=28417
-
-Signed-off-by: Pascal Terjan <pterjan@google.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/pci.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 14c5b52400ef..806a5d071ef6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3245,6 +3245,9 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x1987, 0x5016),	/* Phison E16 */
- 		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-+	{ PCI_DEVICE(0x1b4b, 0x1092),	/* Lexar 256 GB SSD */
-+		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST |
-+				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x1d1d, 0x1f1f),	/* LighNVM qemu device */
- 		.driver_data = NVME_QUIRK_LIGHTNVM, },
- 	{ PCI_DEVICE(0x1d1d, 0x2807),	/* CNEX WL */
--- 
-2.30.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+RnJvbTogWm9sdMOhbiBCw7ZzesO2cm3DqW55aSA8emJvc3pvckBnbWFpbC5jb20+CgpbIFVwc3Ry
+ZWFtIGNvbW1pdCBkYzIyYzFjMDU4YjVjNGZlOTY3YTIwNTg5ZTM2ZjAyOWVlNDJhNzA2IF0KCk15
+IDJUQiBTS0MyMDAwIHNob3dlZCB0aGUgZXhhY3Qgc2FtZSBzeW1wdG9tcyB0aGF0IHdlcmUgcHJv
+dmlkZWQKaW4gNTM4ZTRhOGM1NyAoIm52bWUtcGNpOiBhdm9pZCB0aGUgZGVlcGVzdCBzbGVlcCBz
+dGF0ZSBvbgpLaW5nc3RvbiBBMjAwMCBTU0RzIiksIGkuZS4gYSBjb21wbGV0ZSBOVk1FIGxvY2t1
+cCB0aGF0IG5lZWRlZApjb2xkIGJvb3QgdG8gZ2V0IGl0IGJhY2suCgpBY2NvcmRpbmcgdG8gc29t
+ZSBzb3VyY2VzLCB0aGUgQTIwMDAgaXMgc2ltcGx5IGEgcmViYWRnZWQKU0tDMjAwMCB3aXRoIGEg
+c2xpZ2h0bHkgb3B0aW1pemVkIGZpcm13YXJlLgoKQWRkaW5nIHRoZSBTS0MyMDAwIFBDSSBJRCB0
+byB0aGUgcXVpcmsgbGlzdCB3aXRoIHRoZSBzYW1lIHdvcmthcm91bmQKYXMgdGhlIEEyMDAwIG1h
+ZGUgbXkgbGFwdG9wIHN1cnZpdmUgYSA1IGhvdXJzIGxvbmcgWW9jdG8gYm9vdHN0cmFwCmJ1aWxk
+ZmVzdCB3aGljaCByZWxpYWJseSB0cmlnZ2VyZWQgdGhlIFNTRCBsb2NrdXAgcHJldmlvdXNseS4K
+ClNpZ25lZC1vZmYtYnk6IFpvbHTDoW4gQsO2c3rDtnJtw6lueWkgPHpib3N6b3JAZ21haWwuY29t
+PgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KU2lnbmVkLW9m
+Zi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvbnZtZS9o
+b3N0L3BjaS5jIHwgMiArKwogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L3BjaS5jIGIvZHJpdmVycy9udm1lL2hvc3QvcGNpLmMK
+aW5kZXggN2EzOGQ3NjRiNDg2Li4xNGM1YjUyNDAwZWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZt
+ZS9ob3N0L3BjaS5jCisrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L3BjaS5jCkBAIC0zMjYyLDYgKzMy
+NjIsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgbnZtZV9pZF90YWJsZVtd
+ID0gewogCQkuZHJpdmVyX2RhdGEgPSBOVk1FX1FVSVJLX0RJU0FCTEVfV1JJVEVfWkVST0VTLCB9
+LAogCXsgUENJX0RFVklDRSgweDFkOTcsIDB4MjI2MyksICAgLyogU1BDQyAqLwogCQkuZHJpdmVy
+X2RhdGEgPSBOVk1FX1FVSVJLX0RJU0FCTEVfV1JJVEVfWkVST0VTLCB9LAorCXsgUENJX0RFVklD
+RSgweDI2NDYsIDB4MjI2MiksICAgLyogS0lOR1NUT04gU0tDMjAwMCBOVk1lIFNTRCAqLworCQku
+ZHJpdmVyX2RhdGEgPSBOVk1FX1FVSVJLX05PX0RFRVBFU1RfUFMsIH0sCiAJeyBQQ0lfREVWSUNF
+KDB4MjY0NiwgMHgyMjYzKSwgICAvKiBLSU5HU1RPTiBBMjAwMCBOVk1lIFNTRCAgKi8KIAkJLmRy
+aXZlcl9kYXRhID0gTlZNRV9RVUlSS19OT19ERUVQRVNUX1BTLCB9LAogCXsgUENJX0RFVklDRShQ
+Q0lfVkVORE9SX0lEX0FQUExFLCAweDIwMDEpLAotLSAKMi4zMC4xCgoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QK
+TGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
+L21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
