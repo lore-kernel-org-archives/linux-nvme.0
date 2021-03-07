@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE316C433DB
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 14:01:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA20AC433DB
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 14:01:29 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8C9A9650F5
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 14:01:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C9A9650F5
+	by mail.kernel.org (Postfix) with ESMTPS id 38E99650F5
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Mar 2021 14:01:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 38E99650F5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,48 +23,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=udOR2RrBBxmsplPtvH5gsNXKZ9qHmD98arupDuPbMS8=; b=eGxJYGQdAR0Dff3EjuO//izec
-	YRb5mirmo0YoWtLylOZZ76xhPJk83UzCwOIRn0TWioJJ+ghVNwZ2uwAgrO3mqOhvMk7kEJgKVMp3V
-	k5K1d13NbGLF/VknfjFbIx4NLGg0lxlKowcbgVlwj8xG6XAHXniEycLEypo5sPCoZQWCjw8PcaV8p
-	k+l0i64SubS4X400UaeyTdDjk7OFj3ZbGaIfwWuz++QvZZ+unbDskNcqt1osaM+IX1OCTg4f5XsID
-	OewSAin131YqWWYhShiiS2yay1g/ObP6oIMmZsb9GMZyZaduBxuv62ioa4527rxj17B3/p+P92pfY
-	RLUXT2nbA==;
+	 bh=8n2XHsObwJy6oyPv7txk+cTpiQ9TqhMrmyXfLTf0A/s=; b=ZJeFwISWZ2oC9TzI4kqkUCuxJ
+	PdSxIXhXeTuoppuv+J0Am9hg+FQV2KrWADEZgIFGxG7IcsjpmhZbnuyaLAWtW49kMz6BIXImjHDZK
+	wbw+UKUqRhK7jYw34CnHBUetmppZ3XuET11MqFjbatkcqmradpDuwVtwgeJ3XOtGtPRIEkjIMRnM7
+	3EmYzl3lJhAGUZASv1IeG665hWtcd2AGjRoDK6G+6XTUPc2Y/GoXkoXTpf1p5BuSg7i7Phg1lEYyI
+	n3HDFu7nM9f1cgBw8NIWG5cxmtLUhSn9bakg5xM8tziLvKmMqN3KtPvtmv0pHow/ZuhvtlqTtPnU7
+	6q4TlJeLA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lItxh-00AJvL-Ko; Sun, 07 Mar 2021 14:00:49 +0000
+	id 1lIty9-00AK3M-In; Sun, 07 Mar 2021 14:01:17 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lItvH-00AJA8-6r
- for linux-nvme@lists.infradead.org; Sun, 07 Mar 2021 13:58:22 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 59B8E65106;
- Sun,  7 Mar 2021 13:58:17 +0000 (UTC)
+ id 1lItvL-00AJC4-R1
+ for linux-nvme@lists.infradead.org; Sun, 07 Mar 2021 13:58:25 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B1A3165101;
+ Sun,  7 Mar 2021 13:58:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615125498;
- bh=vuL1DU8JbHxwvGF0GtLVy4mJVmrXO2RAiUprga/b63s=;
+ s=k20201202; t=1615125502;
+ bh=jaUmMwmVYCRnp9svEsc7ZpSLfgL1jERqWvO9zwQYwuw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WbQ2v++bWMp126PbqVpX7Pps0xCMmLve0Mz9Lw3Ql2L/fYgfcTX32brVivWztxi4O
- rUbrOWryBPBlVJfVhttrsDNiPDmEQu5bcBNkHiTeZOhIJPtw3vTKmrkRGL5SwliJ3X
- 6UEQOVyao6dBu9n42jSvkx/cpo59yv993UUydnyL3peyN6JTB62fDbMwG7bdg82YbW
- GL8pjP7vn2m3Rbgl5XLQ0Ud3ZnZ8dGrKsiqcSYnkaggYxCMIFdFAx3H2GfFTkQdjlg
- rQYy2iZ9WYzqTM7EQz0j4uMUySe7EwFN1GSIEU49oqjPUS9q0ybi5Vy4OXW7Z8CczD
- h+M4slCMJQPnA==
+ b=JsZLcvZsCh0Zhwgp11aeF5Pe00GnmEwtA+YlaV30YTcx2QPMmJegGv854Y32qkywV
+ ylcMI0Qsn3rYS87+P3mgsMjXv1G14/ro/scRJKCWrc1AaKa69B98LCHfeYqrWAC6Ep
+ QFcJXg7/pm107lmpzaEX1wy9X4B+IVW7XEhc+oWCLg2XCj+o94Xww1zDQmEHzKnCAW
+ gwj0MJg+wPge4YOOHmXyf1UxyJZQc8npGNM7szcXc8iMbWL5RLwC10g2ObQmFvpU9h
+ 2rZqEjUzMLZh7ms/ahlzUXADp0ZmVdDKbD4i3Sv9qRz8yqoRHkx8Gwzr8GWCGX63M9
+ tDOUs+8xnZY4g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Martin George <marting@netapp.com>, Christoph Hellwig <hch@lst.de>,
  Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 5/5] nvme-fabrics: fix kato initialization
-Date: Sun,  7 Mar 2021 08:58:11 -0500
-Message-Id: <20210307135812.967702-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 3/3] nvme-fabrics: fix kato initialization
+Date: Sun,  7 Mar 2021 08:58:18 -0500
+Message-Id: <20210307135818.967800-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210307135812.967702-1-sashal@kernel.org>
-References: <20210307135812.967702-1-sashal@kernel.org>
+In-Reply-To: <20210307135818.967800-1-sashal@kernel.org>
+References: <20210307135818.967800-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210307_135819_515331_741D924B 
-X-CRM114-Status: GOOD (  12.44  )
+X-CRM114-CacheID: sfid-20210307_135824_183826_6EF7E37F 
+X-CRM114-Status: GOOD (  12.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,21 +106,21 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 3bb71f177dfd..8a2c5587def9 100644
+index 05dd46f98441..e76137a02636 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -632,7 +632,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+@@ -623,7 +623,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
  	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
  	opts->nr_io_queues = num_online_cpus();
  	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
 -	opts->kato = NVME_DEFAULT_KATO;
 +	opts->kato = 0;
  	opts->duplicate_connect = false;
- 	opts->hdr_digest = false;
- 	opts->data_digest = false;
-@@ -883,6 +883,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		opts->nr_write_queues = 0;
- 		opts->nr_poll_queues = 0;
+ 
+ 	options = o = kstrdup(buf, GFP_KERNEL);
+@@ -828,6 +828,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		opts->kato = 0;
+ 		opts->nr_io_queues = 0;
  		opts->duplicate_connect = true;
 +	} else {
 +		if (!opts->kato)
