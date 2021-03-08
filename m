@@ -2,63 +2,82 @@ Return-Path: <SRS0=2ZV3=IG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D601C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Mar 2021 13:56:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40D89C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Mar 2021 16:32:52 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 818E2651D1
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Mar 2021 13:56:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 818E2651D1
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id E48F765241
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Mar 2021 16:32:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E48F765241
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hiKyLqqsVGrilva8WjAGOxZmUCiXYr6IiLHVqiRExf0=; b=H0NscFo5bmnzHft+JspRnmeTA
-	1fWwR05nv9R+LhdD3lbMNq/buDx48Q/8ciSCdOT7FYBBcwqaQqHYPGskdLW3nOl23ny9p8GC9dXxk
-	RTB+LJQgM1OMoaFRvuP016HJT7EHpdWEkn8Fl+RKeOfIljh3+hoa1IiyDXD0YAT6AyBGzuHE/ZgzT
-	dB+ypB4kagyKpvfF0BHBrqDC599fIjk1SXtAn2yHG6M8mJdrwg3nJZdOHddoTUo0lfN4+d+QzsP1z
-	WSWEYRqfmHwySDVBHUqEBPmqtpHFhBV3AjlX6IKOiRNG6G3aIooLYv5d88c7LEQZmCfjbh/fOApVa
-	DhfbunTfw==;
+	 bh=dtiIzy+9kc5MY5Qk54moohocjiahdx2hku1751Xg9F4=; b=llp0BCKdI8ib8W3fti0M2a3k8
+	BY1SxueUtr/hnX3gcyu9ADgkYf0Sb2cW7F/Gwn44zd4AzhMdAm3IsvrCv+wCNdmCIxsrQ9Qj4x0Pv
+	65Mfd7grtlUqk3RDys0B4oxXj2XIcvo92Lro0Y5Zfc2c9yhZZ0mPWXeeQqcp9bEgbd5HfchgbNxHX
+	XpyN4/ivydpJmcpCpX+63KGwy31XLSg/CqtlempBB3+ozmyNAxDCT7toSFSgIrw5J7cH7JIxGcK8A
+	OVCv78Enf8Z+O6sHhEFPpwUdUyJq/OBkCTdlLUY0526U5jFelFyBI0+2wwOC4QSwY5xxkBFvzhwaF
+	Pi3rB2W0g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lJGMa-0001tS-4h; Mon, 08 Mar 2021 13:56:01 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1lJIo9-0013Ux-Ls; Mon, 08 Mar 2021 16:32:37 +0000
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lJGLC-000118-C8
- for linux-nvme@lists.infradead.org; Mon, 08 Mar 2021 13:54:39 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A7C76AD3B;
- Mon,  8 Mar 2021 13:54:33 +0000 (UTC)
-Subject: Re: [PATCH 2/3] nvme: sanitize KATO setting
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>, Sagi Grimberg <sagi@grimberg.me>,
- Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org,
- Chao Leng <lengchao@huawei.com>
-References: <20210302092644.80701-1-hare@suse.de>
- <20210302092644.80701-3-hare@suse.de>
- <c2fb8d9d-6dca-6666-d7a5-ad3f43c815aa@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <a23fa0a4-eb55-c141-c842-ff0536899ed3@suse.de>
-Date: Mon, 8 Mar 2021 14:54:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ id 1lJIo5-0013S1-HW
+ for linux-nvme@lists.infradead.org; Mon, 08 Mar 2021 16:32:35 +0000
+Received: by mail-wr1-x42c.google.com with SMTP id f12so12108024wrx.8
+ for <linux-nvme@lists.infradead.org>; Mon, 08 Mar 2021 08:32:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZhOIRRujtFql++R7kmG02ewhcSqkxodqDPwoZ1eINpo=;
+ b=s7wwq7JPPm2U1+kZoiOap2OUsbwEZfRdvx0TrHnwyLQyMSZ5uHl5lEuLvJ+BHtLMt+
+ 10ZoFBK0PutMHQZ5G3D32MZDKWAf7OXnot/y6G7ywuGYwzJ17lF0xdlJrMjJ2zy1bNF3
+ NGgSg/VKMPE0iBnhkB4ViUDxna67TjydDcYH4Dd9a+BImWf9f7IpaBEsAYRT38BTDzUa
+ cXwfBTr5rvtiL52eyUMSTdo8kVKje69qLiaZ80jA8RKr+9RbrhIDnMEuPJoN67oI+yo3
+ KBbfo2J47bTBmB3rtu/ZYxTxEZjrb2XfOtEGgznjZ2qdl9OlDGpRoUXv/pAQZ/6V2prG
+ eNqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZhOIRRujtFql++R7kmG02ewhcSqkxodqDPwoZ1eINpo=;
+ b=rZJ0lGaPlOdJF6dDzoU9gJH2xSUGBEA3O561e6D5kP5OgCN3qCYf3WXDk6Wke5Cjkp
+ Nc0L77iFNIbpobhpiVnD8pWQQsAAARRyo401mxmWDq7a3pzf1v2QkBRPr/6CyGK9EJ6E
+ it9oiuSkQAJxh+uUqIo/mxbtw52dl0bAC9e/IrCJws9DFjZI/4Np8ab9kRKCydcVMI98
+ fCG13h50mqvf9eQk0pG5Nc5G82MP+VlVUWYnEUxQTvH2oNiylZv4GBm44kIf51cHrf1Q
+ furcY0R7Ba5v718mvmKhOG5lJRzA5et0PbZQ0KRk4EMzsBuo1e/NN9gGVBiDdyKluyUq
+ WJ7Q==
+X-Gm-Message-State: AOAM533QE3j072U9VF674vy6tNgcGU1eJNL3uOqfgbmqd/bzuIDI/eOl
+ IXMCn5aZZcZy6ja24LWZDko2jHpRXhBnJK+yBtg=
+X-Google-Smtp-Source: ABdhPJzUX5jh+8XN3AYCtdSJbFzW4c6ZYr1TPWIt4/x+IRTr/PSoT9pHIlJUxXmRsuDJpf1wcqDs0A2p/fLPe4njtcY=
+X-Received: by 2002:a5d:5906:: with SMTP id v6mr23932781wrd.137.1615221152420; 
+ Mon, 08 Mar 2021 08:32:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <c2fb8d9d-6dca-6666-d7a5-ad3f43c815aa@nvidia.com>
-Content-Language: en-US
+References: <20210308104226.165814-1-niklas.cassel@wdc.com>
+In-Reply-To: <20210308104226.165814-1-niklas.cassel@wdc.com>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Mon, 8 Mar 2021 22:02:05 +0530
+Message-ID: <CA+1E3rLY_FrjhXSFr4_V0OEiv6uFnD4bvY-XLyi9O4C3n_0CGA@mail.gmail.com>
+Subject: Re: [PATCH] Revert "nvme: cleanup zone information initialization"
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210308_135435_130208_9037D1B4 
-X-CRM114-Status: GOOD (  19.49  )
+X-CRM114-CacheID: sfid-20210308_163233_783232_1E1AB378 
+X-CRM114-Status: GOOD (  10.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,84 +89,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMy84LzIxIDI6MTEgUE0sIE1heCBHdXJ0b3ZveSB3cm90ZToKPiAKPiBPbiAzLzIvMjAyMSAx
-MToyNiBBTSwgSGFubmVzIFJlaW5lY2tlIHdyb3RlOgo+PiBBY2NvcmRpbmcgdG8gdGhlIE5WTWUg
-YmFzZSBzcGVjIHRoZSBLQVRPIGNvbW1hbmRzIHNob3VsZCBiZSBzZW50Cj4+IGF0IGhhbGYgb2Yg
-dGhlIEtBVE8gaW50ZXJ2YWwsIHRvIHByb3Blcmx5IGFjY291bnQgZm9yIHJvdW5kLXRyaXAKPj4g
-dGltZXMuCj4+IEFzIHdlIG5vdyB3aWxsIG9ubHkgZXZlciBzZW5kIG9uZSBLQVRPIGNvbW1hbmQg
-cGVyIGNvbm5lY3Rpb24gd2UKPj4gY2FuIGVhc2lseSB1c2UgdGhlIHJlY29tbWVuZGVkIHZhbHVl
-cy4KPj4gVGhpcyBhbHNvIGZpeGVzIGEgcG90ZW50aWFsIGlzc3VlIHdoZXJlIHRoZSByZXF1ZXN0
-IHRpbWVvdXQgZm9yCj4+IHRoZSBLQVRPIGNvbW1hbmQgZG9lcyBub3QgbWF0Y2ggdGhlIHZhbHVl
-IGluIHRoZSBjb25uZWN0IGNvbW1hbmQsCj4+IHdoaWNoIG1pZ2h0IGJlIGNhdXNpbmcgc3B1cmlv
-dXMgY29ubmVjdGlvbiBkcm9wcyBmcm9tIHRoZSB0YXJnZXQuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6
-IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgo+PiAtLS0KPj4gwqAgZHJpdmVycy9udm1l
-L2hvc3QvY29yZS5jwqDCoMKgIHwgOSArKysrKystLS0KPj4gwqAgZHJpdmVycy9udm1lL2hvc3Qv
-ZmFicmljcy5jIHwgMiArLQo+PiDCoCBkcml2ZXJzL252bWUvaG9zdC9udm1lLmjCoMKgwqAgfCA5
-ICsrKysrKysrLQo+PiDCoCAzIGZpbGVzIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyksIDUgZGVs
-ZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9k
-cml2ZXJzL252bWUvaG9zdC9jb3JlLmMKPj4gaW5kZXggZjg5MGIzMTA0OTllLi42ZDA5NmQ0MWE4
-MmYgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwo+PiArKysgYi9kcml2
-ZXJzL252bWUvaG9zdC9jb3JlLmMKPj4gQEAgLTEyMjMsNyArMTIyMyw4IEBAIHN0YXRpYyB2b2lk
-IG52bWVfa2VlcF9hbGl2ZV9lbmRfaW8oc3RydWN0Cj4+IHJlcXVlc3QgKnJxLCBibGtfc3RhdHVz
-X3Qgc3RhdHVzKQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgc3RhcnRrYSA9IHRydWU7Cj4+IMKgwqDC
-oMKgwqAgc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmY3RybC0+bG9jaywgZmxhZ3MpOwo+PiDCoMKg
-wqDCoMKgIGlmIChzdGFydGthKQo+PiAtwqDCoMKgwqDCoMKgwqAgcXVldWVfZGVsYXllZF93b3Jr
-KG52bWVfd3EsICZjdHJsLT5rYV93b3JrLCBjdHJsLT5rYXRvICogSFopOwo+PiArwqDCoMKgwqDC
-oMKgwqAgcXVldWVfZGVsYXllZF93b3JrKG52bWVfd3EsICZjdHJsLT5rYV93b3JrLAo+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5WTUVfS0FUT19ERUxBWShjdHJsLT5r
-YXRvKSAqIEhaKTsKPj4gwqAgfQo+PiDCoCDCoCBzdGF0aWMgaW50IG52bWVfa2VlcF9hbGl2ZShz
-dHJ1Y3QgbnZtZV9jdHJsICpjdHJsKQo+PiBAQCAtMTI1OCw3ICsxMjU5LDggQEAgc3RhdGljIHZv
-aWQgbnZtZV9rZWVwX2FsaXZlX3dvcmsoc3RydWN0Cj4+IHdvcmtfc3RydWN0ICp3b3JrKQo+PiDC
-oMKgwqDCoMKgwqDCoMKgwqAgZGV2X2RiZyhjdHJsLT5kZXZpY2UsCj4+IMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgICJyZXNjaGVkdWxlIHRyYWZmaWMgYmFzZWQga2VlcC1hbGl2ZSB0aW1lclxu
-Iik7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBjdHJsLT5jb21wX3NlZW4gPSBmYWxzZTsKPj4gLcKg
-wqDCoMKgwqDCoMKgIHF1ZXVlX2RlbGF5ZWRfd29yayhudm1lX3dxLCAmY3RybC0+a2Ffd29yaywg
-Y3RybC0+a2F0byAqIEhaKTsKPj4gK8KgwqDCoMKgwqDCoMKgIHF1ZXVlX2RlbGF5ZWRfd29yayhu
-dm1lX3dxLCAmY3RybC0+a2Ffd29yaywKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBOVk1FX0tBVE9fREVMQVkoY3RybC0+a2F0bykgKiBIWik7Cj4+IMKgwqDCoMKgwqDC
-oMKgwqDCoCByZXR1cm47Cj4+IMKgwqDCoMKgwqAgfQo+PiDCoCBAQCAtMTI3NSw3ICsxMjc3LDgg
-QEAgc3RhdGljIHZvaWQgbnZtZV9zdGFydF9rZWVwX2FsaXZlKHN0cnVjdAo+PiBudm1lX2N0cmwg
-KmN0cmwpCj4+IMKgwqDCoMKgwqAgaWYgKHVubGlrZWx5KGN0cmwtPmthdG8gPT0gMCkpCj4+IMKg
-wqDCoMKgwqDCoMKgwqDCoCByZXR1cm47Cj4+IMKgIC3CoMKgwqAgcXVldWVfZGVsYXllZF93b3Jr
-KG52bWVfd3EsICZjdHJsLT5rYV93b3JrLCBjdHJsLT5rYXRvICogSFopOwo+PiArwqDCoMKgIHF1
-ZXVlX2RlbGF5ZWRfd29yayhudm1lX3dxLCAmY3RybC0+a2Ffd29yaywKPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgTlZNRV9LQVRPX0RFTEFZKGN0cmwtPmthdG8pICogSFopOwo+PiDC
-oCB9Cj4+IMKgIMKgIHZvaWQgbnZtZV9zdG9wX2tlZXBfYWxpdmUoc3RydWN0IG52bWVfY3RybCAq
-Y3RybCkKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYyBiL2RyaXZl
-cnMvbnZtZS9ob3N0L2ZhYnJpY3MuYwo+PiBpbmRleCA1ZGZkODA2ZmMyZDIuLmRiYTMyZTM5YWZi
-ZiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jCj4+ICsrKyBiL2Ry
-aXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYwo+PiBAQCAtMzgyLDcgKzM4Miw3IEBAIGludCBudm1m
-X2Nvbm5lY3RfYWRtaW5fcXVldWUoc3RydWN0IG52bWVfY3RybCAqY3RybCkKPj4gwqDCoMKgwqDC
-oMKgICogYW5kIGFkZCBhIGdyYWNlIHBlcmlvZCBmb3IgY29udHJvbGxlciBrYXRvIGVuZm9yY2Vt
-ZW50Cj4+IMKgwqDCoMKgwqDCoCAqLwo+PiDCoMKgwqDCoMKgIGNtZC5jb25uZWN0LmthdG8gPSBj
-dHJsLT5rYXRvID8KPj4gLcKgwqDCoMKgwqDCoMKgIGNwdV90b19sZTMyKChjdHJsLT5rYXRvICsg
-TlZNRV9LQVRPX0dSQUNFKSAqIDEwMDApIDogMDsKPj4gK8KgwqDCoMKgwqDCoMKgIGNwdV90b19s
-ZTMyKGN0cmwtPmthdG8gKiAxMDAwKSA6IDA7Cj4+IMKgIMKgwqDCoMKgwqAgaWYgKGN0cmwtPm9w
-dHMtPmRpc2FibGVfc3FmbG93KQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgY21kLmNvbm5lY3QuY2F0
-dHIgfD0gTlZNRV9DT05ORUNUX0RJU0FCTEVfU1FGTE9XOwo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9udm1lL2hvc3QvbnZtZS5oIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oCj4+IGluZGV4IDIz
-NzExZjZiN2QxMy4uOTEyODMwMzg5OTk3IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL252bWUvaG9z
-dC9udm1lLmgKPj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oCj4+IEBAIC0yNyw3ICsy
-NywxNCBAQCBleHRlcm4gdW5zaWduZWQgaW50IGFkbWluX3RpbWVvdXQ7Cj4+IMKgICNkZWZpbmUg
-TlZNRV9BRE1JTl9USU1FT1VUwqDCoMKgIChhZG1pbl90aW1lb3V0ICogSFopCj4+IMKgIMKgICNk
-ZWZpbmUgTlZNRV9ERUZBVUxUX0tBVE/CoMKgwqAgNQo+PiAtI2RlZmluZSBOVk1FX0tBVE9fR1JB
-Q0XCoMKgwqDCoMKgwqDCoCAxMAo+PiArCj4+ICsvKgo+PiArICogVGhlIHJlY29tbWVuZGVkIGZy
-ZXF1ZW5jeSBmb3IgS0FUTyBjb21tYW5kcwo+PiArICogYWNjb3JkaW5nIHRvIE5WTWUgMS40IHNl
-Y3Rpb24gNy4xMi4xOgo+PiArICogVGhlIGhvc3Qgc2hvdWxkIHNlbmQgS2VlcCBBbGl2ZSBjb21t
-YW5kcyBhdCBoYWxmIG9mIHRoZQo+PiArICogS2VlcCBBbGl2ZSBUaW1lb3V0IGFjY291bnRpbmcg
-Zm9yIHRyYW5zcG9ydCByb3VuZHRyaXAgdGltZXMgWy4uXS4KPj4gKyAqLwo+PiArI2RlZmluZSBO
-Vk1FX0tBVE9fREVMQVkoaynCoMKgwqAgKChrKSA+PiAxKQo+IAo+IHdoYXQgd2lsbCBoYXBwZW4g
-aW4gY2FzZSBrID09IDEgPwo+IAo+IApIby1odW0uIEdvb2QgcG9pbnQuCldpbGwgZml4IGl0IHVw
-LgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlCQkgICAgICAgICAgIEtl
-cm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUJCQkgICAgICAgICAgICAgICAgICAr
-NDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgsIE1h
-eGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdG
-OiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5m
-cmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
-bnV4LW52bWUK
+On Mon, Mar 8, 2021 at 4:21 PM Niklas Cassel <Niklas.Cassel@wdc.com> wrote:
+>
+> From: Niklas Cassel <niklas.cassel@wdc.com>
+>
+> This reverts commit 73d90386b559d6f4c3c5db5e6bb1b68aae8fd3e7.
+>
+> Commit 73d90386b559 ("nvme: cleanup zone information initialization")
+> introduced the following warning at boot:
+> WARNING: CPU: 0 PID: 7 at block/blk-settings.c:252 blk_queue_max_zone_append_sectors+0x7d/0x90
+>
+> The warning is the result of chunk_sectors being 0.
+
+This looks same as what Chaitanya posted the fix for -
+https://lore.kernel.org/linux-nvme/20210303224717.51633-1-chaitanya.kulkarni@wdc.com/
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
