@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25B0CC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Mar 2021 10:30:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CA0FC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Mar 2021 10:30:27 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C51866521D
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Mar 2021 10:30:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C51866521D
+	by mail.kernel.org (Postfix) with ESMTPS id 9253C6525D
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Mar 2021 10:30:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9253C6525D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,51 +23,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=M6XpCxSGsbATDqfAo8mzfkV0ukkO4lYoY0QtN19iMkU=; b=UusFLDRLJISWpMpD2AWFxfJmQ
-	/KyEHJzowSh1QOzIcRRRo38l1RvTwAaYoi3RXp6Xi01/vKzeH8jiUZExvm3YbPaLfreO5gqchOVNA
-	LtLz4x9lYa7qTZzajBxvTBTqGIBX2muSANEnyj3pDuQMs0lVVH0p5MQwBx/hWp7giILnqER+yyzu6
-	0D6Vkig0NVcNbbVC86pKP1lftBnhsvqIHvtON6V/xAgNcyxUqMPG3l2ttCTlhxQfbnms/n2kmsZY5
-	5S8+mqn1vN+afwwHjbDQ4Mu4p4cKvZeR+ABZu8LLS8iO5+TpzGesXx2HynWCznHXOiOwUoiCi6NYZ
-	AtY8zWllw==;
+	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=fblcaYMftS0NqKNN4mvy3DZMI
+	b+mIWr6++a1qHOIFug+jxUVAJF5J5qbh7JeCAGKa5AeWHEEmZGMLqEIq089RWfGF8PY2rJkBGqWTS
+	bpNiHLDYunrLCABMZXwR0NyfAxJd6D2fLRY3svJ4s2NwnmHGLpfsAqJcDBG7VGopEzmh2n8sOfoAy
+	TKVo8BQUD5sQNvnpM/CPnLGzoPy0KLHHcZb9BMNRDem9FHFHK7Vx/2SaSmL5HJ4eBzrPy9o8KoQx1
+	MzFY9gHputHHMMD0Bx9oYRyvN7YwPVy5qd4Z0xku/w2JsdVmyIVyue8YDEOtaYUWYqeEg5ma2VoXp
+	yySaR08dA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lJZct-004DTA-Rn; Tue, 09 Mar 2021 10:30:07 +0000
+	id 1lJZd3-004DTy-Jr; Tue, 09 Mar 2021 10:30:17 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lJZcn-004DRt-8m
- for linux-nvme@desiato.infradead.org; Tue, 09 Mar 2021 10:30:01 +0000
+ id 1lJZcp-004DRt-1U
+ for linux-nvme@desiato.infradead.org; Tue, 09 Mar 2021 10:30:03 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
  References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=TI5JtNlIj41ghFjUI6AbYuHOozcJ3rlR/cZvgNSuVRU=; b=NqrWy8NxtbOD4r1GwoBxlyaB8+
- Ea8OJC7vElOlOOtj9TQvdv1vmncpXm7k/n0dyexu+VwDWklz5Z2B9ZRpsiNxs9f5UUUiTCYXtA9ij
- pizyivhq/N8dUihcWd+/+PnXvQIyHiiln3zRRQmHfTP38tHudeMl3e7lQnum826Yl3WpFDlkIYahI
- u3UcjgIm1fD7HhLZH+xCE7pVI56vhLZ7uH892K5MHnIaSWFOmd64Lum4HhWdIoErJJCsLO6nS/0Hz
- gntlWMJ04i5YsekzFhR0FnnGSMBpVs+EVCr11eRn6BsDRCdL3sh9o01Po9B1ZWkIwtgIK+iH/dK7Z
- A0ttiHbg==;
+ bh=JfcaAWiL9MX/KzgqZFMd5GxaGaNC7KsyrSBFfXwwLXo=; b=UG1qJCiY6w395LakKj4YnYSy1q
+ zoQkR9c5JupceQJ+XEG8ZIo6qOYKppgcWpcWigmDxepVv5xF8rOnA7jwF3iscVBbuzY/aNcC/+NQe
+ e8aTGe0u1nUtYBb472jPpqmUOD5F321I5XWXqjeu40KeVCdz9lbuv5D7dNgzrq1sj+rOPIuZY1+z3
+ 2cTmlw7cbkNnBt+iZDxkiPaHj3ANP6Hu3bjSq2oQ6KWY1uxohW3sWPahit6lZvDmibY+y1l1DYHDN
+ 4DtsokEazvEV+BxdSKnrbUE2LCPgQfMPi2F9GwDTg0T4mmAupNXyKmmP33qL0+xhKW9uTm6om8g3T
+ ePWXjJog==;
 Received: from verein.lst.de ([213.95.11.211])
  by casper.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lJZHI-000QZS-QB
- for linux-nvme@lists.infradead.org; Tue, 09 Mar 2021 10:08:17 +0000
+ id 1lJZGo-000QY9-SO
+ for linux-nvme@lists.infradead.org; Tue, 09 Mar 2021 10:07:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id E010468B02; Tue,  9 Mar 2021 11:07:47 +0100 (CET)
-Date: Tue, 9 Mar 2021 11:07:47 +0100
+ id 57E2E68C4E; Tue,  9 Mar 2021 11:07:17 +0100 (CET)
+Date: Tue, 9 Mar 2021 11:07:16 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
- james.smart@broadcom.com, sagi@grimberg.me
-Subject: Re: [PATCH V2 4/8] nvme-core: use likely in nvme_init_request()
-Message-ID: <20210309100747.GA7372@lst.de>
-References: <20210301020611.18669-1-chaitanya.kulkarni@wdc.com>
- <20210301020611.18669-5-chaitanya.kulkarni@wdc.com>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH] nvme-multipath: use nvme_ctrl_use_ana helper to check ANA
+Message-ID: <20210309100716.GB7310@lst.de>
+References: <20210225105744.69579-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210301020611.18669-5-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20210225105744.69579-1-minwoo.im.dev@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210309_100805_501973_4F7E92FA 
-X-CRM114-Status: UNSURE (   5.43  )
+X-CRM114-CacheID: sfid-20210309_100719_678717_19B80034 
+X-CRM114-Status: UNSURE (   5.48  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -85,8 +85,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-How is a likely for a trivial variable assignment ever going to make
-a difference?
+Thanks,
+
+applied to nvme-5.13.
 
 _______________________________________________
 Linux-nvme mailing list
