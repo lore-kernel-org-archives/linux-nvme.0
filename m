@@ -1,64 +1,86 @@
-Return-Path: <SRS0=tknV=IJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=WLLZ=IK=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8A9C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E8FCC433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 00:00:15 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 21D3B64F8D
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:37:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 21D3B64F8D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0A67764F19
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 00:00:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0A67764F19
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zLz/o1OJR1kTWDFUzyE0qm357x0qpUez6WSHHLgoHhs=; b=lPuyFSTbDUK8Sj
-	2ND9iExCWy103B2bJGNEm4Qw43iSuSX3Pfuu9ZuMSSkQjYvLI4SYn9m9Rm/XRZhJ8nq2Z67+NAkRY
-	ALdzjc55nu8RJD1AOzO4rnJuN8C8dm+87UVmYjvBjlyiZGvS0YzUTxJOlnFpVxvCEju2E6+ugCPR5
-	VoLhYK0nQdgoIocveS3S0S7T/VQGgwkQV7xGngifIg64zYwb8dlKaHWia1k6/NlTyQmSTieE6Ujee
-	h9YCYptsE3GFmHgqQ2fjOjoSO0ZFMU5hjv4SaFq2iR5INuv4YyLQJwkdiMQ3pewEPLOnTTX0eEas0
-	PKrGPb8Wv3vG7fz3npdg==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=uYMA7FQJF293mBdK3sO9JZtnP0BEOuRNMIQyI3hEcFY=; b=SbNPWLxoq2fvKHIPP1cpxzc3k
+	oxL5Br0k2b5TZyqnCxZx/mLAdr3zp1eNIB7H8VJ7ZIQejdY/Oxv0sybGmRQst/AM1EGmBttjkjjqp
+	7y/d8utE8ORLH44KDTE09fv8TcyasF5bu/LRXe9ZMSrJr/tOlkfaTU/8e13WeHYWdULu+0g8SarJe
+	bqU1sFnqxC8g0pGPYKVgClRbaRTergYO6BHCKzIFLnlOnWwd38jQCXRhfEFVdFiKuf4TnONv+Ycoj
+	Y2ghspwxqeNib9nFlB/lroDT8aUX68zKrBiEWN1IrGU41ysYxygjZFpxuhpfBui0IMh7vOJzzqDCX
+	v3k4nqD0w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKUsA-00AFZH-Bp; Thu, 11 Mar 2021 23:37:42 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1lKVDd-00AIEF-Vt; Thu, 11 Mar 2021 23:59:54 +0000
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKUmv-00AEhx-Lx
- for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 23:32:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Cc:To:From:content-disposition;
- bh=p6LSuxLxIXhW56xVX60ERoOIubTQKg0kFsUTFXBJO+A=; b=KvuTM+MB3gjvIolcULjFn23dNB
- 3UTcV/MdnfIXaNhLXS0a6rZH29zcNJFPH69erQKmEMF5Us9dBYKvKT+cwUnXcVVfkHmoSfRX8WPai
- K8M6TbmudsvF4nPi214vAODKBReiwl70HbEUINS//9CLpBrmWytPjko8FzX0jH0oKXnKz6JIpHCnG
- MDZ3uAQYYiD3i8bG4wDYOe1PrAaOL2kYOIuUOoONKVRQOznvCE2vkBlTujANvlJn5HAvzkEV7v7EY
- DAdA+NzNmhMoK6wFXyvdDV9raMZtrodSamhEKKTgZxJGwGLXqT+iYTFkagT3nR+ql1sjAqryz+oId
- 4O7xEzbA==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmZ-0003er-Rv; Thu, 11 Mar 2021 16:32:15 -0700
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
- (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmV-00024M-T0; Thu, 11 Mar 2021 16:31:51 -0700
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ id 1lKVDX-00AICY-00
+ for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 23:59:48 +0000
+Received: by mail-qt1-x833.google.com with SMTP id j7so2558236qtx.5
+ for <linux-nvme@lists.infradead.org>; Thu, 11 Mar 2021 15:59:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=9rzGlCXRuAYzD4FxF8/kX8t+sLM/xQ6RjW+kfB9MHUI=;
+ b=Sht35sRAWhjUnG/vlACxlUdN1NXxZ2hn78xSNsQrOQiOnK1nALUmlUGHUAK1T+DYhZ
+ MX3lwQI/UxwTrkQv8d3kMYROr1PLyoiqVafUPMi7P056ufFmL/tRZlvShlZxbmxqDyNW
+ NLKw5iBy24OxHbW+DCJ1DQJfzdSe8iTc3c8sHbtF9tFwbdZcos5KLgrKfPlUhIrDUvII
+ vIew7klGAO8Wn/28Da6K3YhKEWpKl3Z8yXO4c0K2hvWjTBIXhDYwZP0hefzSiur217jB
+ Lo+rOwqj5lF4a/tIzhlWfi67C2vz4vtRgSFudHgU/4CmiKi4zEw8bQzulGoxFckdnomp
+ ZbNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9rzGlCXRuAYzD4FxF8/kX8t+sLM/xQ6RjW+kfB9MHUI=;
+ b=hPIpa/tpw/LK+N2ByVWmk3GhuXv/DRrbXTzARaWuKTfN3E4bKvO2M6UZ0VNilzkYe5
+ g2nQxpHuAzAYEA8dGzb5o7mNmlX0jJIgaECK+TKrcZhjsiswhkYRRjq44AenI8iZr7JY
+ nUB7fSLQfcvnO4Tu7AJnuZLNwllpcVzbMQFwWsxp/rvmaetd1ZwwZ2WdNt4QYsjIx8dA
+ PmiEns8AIgu+Or62Pquoz9GpIznPebdrAaQZlmyNbwPAI+tfGTqS0OEMkdvIf7axZ8DW
+ tpr+gdPz6YWusjd8pyHOKCVTbGco5uwp2ip6h36ZUYoeaTUDxVnrNY7IeK5DllSDf1T4
+ V0XQ==
+X-Gm-Message-State: AOAM530dR6adiOcbxPpLS5FrJe3TLNKXGfboXZKrl8hYAd0NDmtxzj78
+ BLArmf5V8i4QU7vEOAXrMs5XyA==
+X-Google-Smtp-Source: ABdhPJxiCSaM0aAia7Gh2ystvnvxFkgXLtQu1szm+rOtvCsRMIOPRh5BDiwH0XxEbvHajGL8eIa3Yg==
+X-Received: by 2002:aed:20cd:: with SMTP id 71mr9996620qtb.346.1615507185328; 
+ Thu, 11 Mar 2021 15:59:45 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.115.133])
+ by smtp.gmail.com with ESMTPSA id z89sm2953405qtd.5.2021.03.11.15.59.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Mar 2021 15:59:44 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1lKVDT-00BbRW-RG; Thu, 11 Mar 2021 19:59:43 -0400
+Date: Thu, 11 Mar 2021 19:59:43 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
  Ira Weiny <iweiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
  Don Dutile <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
@@ -66,31 +88,18 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Minturn Dave B <dave.b.minturn@intel.com>,
  Jason Ekstrand <jason@jlekstrand.net>,
  Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>,
- Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 11 Mar 2021 16:31:31 -0700
-Message-Id: <20210311233142.7900-2-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210311233142.7900-1-logang@deltatee.com>
+ Xiong Jianxin <jianxin.xiong@intel.com>
+Subject: Re: [RFC PATCH v2 11/11] nvme-pci: Convert to using dma_map_sg for
+ p2pdma pages
+Message-ID: <20210311235943.GB2710221@ziepe.ca>
 References: <20210311233142.7900-1-logang@deltatee.com>
+ <20210311233142.7900-12-logang@deltatee.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
- jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com,
- ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch,
- jason@jlekstrand.net, dave.hansen@linux.intel.com, dan.j.williams@intel.com,
- iweiny@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
- jianxin.xiong@intel.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH v2 01/11] PCI/P2PDMA: Pass gfp_mask flags to
- upstream_bridge_distance_warn()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <20210311233142.7900-12-logang@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210311_233220_065948_01893E4F 
-X-CRM114-Status: GOOD (  16.16  )
+X-CRM114-CacheID: sfid-20210311_235947_147014_3978DFE1 
+X-CRM114-Status: GOOD (  15.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,78 +116,37 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In order to call this function from a dma_map function, it must not sleep.
-The only reason it does sleep so to allocate the seqbuf to print
-which devices are within the ACS path.
+On Thu, Mar 11, 2021 at 04:31:41PM -0700, Logan Gunthorpe wrote:
+> Convert to using dma_[un]map_sg() for PCI p2pdma pages.
+> 
+> This should be equivalent, though support will be somewhat less
+> (only dma-direct and dma-iommu are currently supported).
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>  drivers/nvme/host/pci.c | 27 +++++++--------------------
+>  1 file changed, 7 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 7d40c6a9e58e..89ca5acf7a62 100644
+> +++ b/drivers/nvme/host/pci.c
+> @@ -577,17 +577,6 @@ static void nvme_free_sgls(struct nvme_dev *dev, struct request *req)
+>  
+>  }
+>  
+> -static void nvme_unmap_sg(struct nvme_dev *dev, struct request *req)
+> -{
+> -	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> -
+> -	if (is_pci_p2pdma_page(sg_page(iod->sg)))
+> -		pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
+> -				    rq_dma_dir(req));
+> -	else
+> -		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
+> -}
 
-Switch the kmalloc call to use a passed in gfp_mask  and don't print that
-message if the buffer fails to be allocated.
+Can the two other places with this code pattern be changed too?
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- drivers/pci/p2pdma.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 196382630363..bd89437faf06 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -267,7 +267,7 @@ static int pci_bridge_has_acs_redir(struct pci_dev *pdev)
- 
- static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
- {
--	if (!buf)
-+	if (!buf || !buf->buffer)
- 		return;
- 
- 	seq_buf_printf(buf, "%s;", pci_name(pdev));
-@@ -495,25 +495,26 @@ upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
- 
- static enum pci_p2pdma_map_type
- upstream_bridge_distance_warn(struct pci_dev *provider, struct pci_dev *client,
--			      int *dist)
-+			      int *dist, gfp_t gfp_mask)
- {
- 	struct seq_buf acs_list;
- 	bool acs_redirects;
- 	int ret;
- 
--	seq_buf_init(&acs_list, kmalloc(PAGE_SIZE, GFP_KERNEL), PAGE_SIZE);
--	if (!acs_list.buffer)
--		return -ENOMEM;
-+	seq_buf_init(&acs_list, kmalloc(PAGE_SIZE, gfp_mask), PAGE_SIZE);
- 
- 	ret = upstream_bridge_distance(provider, client, dist, &acs_redirects,
- 				       &acs_list);
- 	if (acs_redirects) {
- 		pci_warn(client, "ACS redirect is set between the client and provider (%s)\n",
- 			 pci_name(provider));
--		/* Drop final semicolon */
--		acs_list.buffer[acs_list.len-1] = 0;
--		pci_warn(client, "to disable ACS redirect for this path, add the kernel parameter: pci=disable_acs_redir=%s\n",
--			 acs_list.buffer);
-+
-+		if (acs_list.buffer) {
-+			/* Drop final semicolon */
-+			acs_list.buffer[acs_list.len - 1] = 0;
-+			pci_warn(client, "to disable ACS redirect for this path, add the kernel parameter: pci=disable_acs_redir=%s\n",
-+				 acs_list.buffer);
-+		}
- 	}
- 
- 	if (ret == PCI_P2PDMA_MAP_NOT_SUPPORTED) {
-@@ -566,7 +567,7 @@ int pci_p2pdma_distance_many(struct pci_dev *provider, struct device **clients,
- 
- 		if (verbose)
- 			ret = upstream_bridge_distance_warn(provider,
--					pci_client, &distance);
-+					pci_client, &distance, GFP_KERNEL);
- 		else
- 			ret = upstream_bridge_distance(provider, pci_client,
- 						       &distance, NULL, NULL);
--- 
-2.20.1
-
+Jason
 
 _______________________________________________
 Linux-nvme mailing list
