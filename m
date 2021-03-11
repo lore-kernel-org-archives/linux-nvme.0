@@ -2,58 +2,62 @@ Return-Path: <SRS0=tknV=IJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2925DC433E6
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 10:38:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 360B0C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 10:47:34 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9216D64FC0
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 10:38:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9216D64FC0
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 57CF064FC1
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 10:47:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 57CF064FC1
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=MNXhZRS9dx7dibHoooeMv/ew+LWQuVRVt5cmsLmbeRQ=; b=DJFRwTZAWzBCFhLBUyOkDJgcR
-	6Hf3RCwFNe7NR0fSdrfXKAsF2fraccuQ5kf3ruljfEv+q+wLHIddilmuvslx4DvralJ2/38yYgzdJ
-	xsXmFRiYHkqkQoMcJovdSIJe6jnDBnxM6RnO4sqw3LvLZeXRhj21+lr2xJojEcq01y0B4//FBuSiE
-	RxqmgzbDCdQkL4RaPTc7VPJ7n2UzGDXXHx9NGfm1zTRZWYAdIb3fjc4EHYPziUMOsYWyEiFGsaW7u
-	+oWeOGvYZS8Jwvpexp4RrRjpgreLVErNXlNFtCSCFRB6fVQW7VuArQjLfPM69DUddg4ORnYcHOpIn
-	sWeFTtTrA==;
+	 bh=qf4IE/AshKJa93c0fNN8vcUoo0ayW4Q4dDUaQCOyTTA=; b=Q4ZrvIlcip1wudYPC7kWHxvAs
+	prDQYkTla+rbyDmWvi4ptPBDEqCtVDqFYMzu+9U4W1byH+HT5s06/QnFgBLaRKxf9iIzXZ/zgWqjm
+	jp//pl3iGd3av3BFHg0mgu62S+fNKP+5T/SyqQzwoqI32KmJ5JqAfyyhzPdKB0riLupxbbfSBPwkl
+	g3daVJGEXC+MJvVrIX733OVRsmHtjaOblKWeuRKJsik5JVELMP8a6CzSnUycAcI6AwA50HjJlymhX
+	kYa5jYCQkeewvGvpMs19U9Mv95v8BUiBMiUFS0Fg8sMDzRAIA4OMxKRL97yh2E/1kZ/1R773P018E
+	VH5X6B4yw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKIhR-008qPR-H2; Thu, 11 Mar 2021 10:37:49 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1lKIqe-008s9Q-1D; Thu, 11 Mar 2021 10:47:20 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKIh8-008qMw-Sv
- for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 10:37:34 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AF91BAB8C;
- Thu, 11 Mar 2021 10:37:29 +0000 (UTC)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 1/2] nvme: sanitize KATO setting
-Date: Thu, 11 Mar 2021 11:37:26 +0100
-Message-Id: <20210311103727.47381-2-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210311103727.47381-1-hare@suse.de>
-References: <20210311103727.47381-1-hare@suse.de>
+ id 1lKIqZ-008s8u-H5
+ for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 10:47:17 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 037A468B05; Thu, 11 Mar 2021 11:47:13 +0100 (CET)
+Date: Thu, 11 Mar 2021 11:47:12 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+ Dmitry Monakhov <dmtrmonakhov@yandex-team.ru>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Chaitanya.Kulkarni@wdc.com
+Subject: Re: [PATCH 1/1] nvme-pci: add the DISABLE_WRITE_ZEROES quirk for a
+ Samsung PM1725a
+Message-ID: <20210311104712.GA16218@lst.de>
+References: <1615377076-3251-1-git-send-email-dmtrmonakhov@yandex-team.ru>
+ <20210310132156.GA12145@lst.de> <20210310134110.GA13063@lst.de>
+ <20210310200030.GA3377333@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210310200030.GA3377333@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210311_103731_101295_A2F43287 
-X-CRM114-Status: GOOD (  14.46  )
+X-CRM114-CacheID: sfid-20210311_104715_676234_474910FA 
+X-CRM114-Status: GOOD (  18.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,106 +74,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-According to the NVMe base spec the KATO commands should be sent
-at half of the KATO interval, to properly account for round-trip
-times.
-As we now will only ever send one KATO command per connection we
-can easily use the recommended values.
-This also fixes a potential issue where the request timeout for
-the KATO command does not match the value in the connect command,
-which might be causing spurious connection drops from the target.
+On Wed, Mar 10, 2021 at 12:00:30PM -0800, Keith Busch wrote:
+> On Wed, Mar 10, 2021 at 02:41:10PM +0100, Christoph Hellwig wrote:
+> > On Wed, Mar 10, 2021 at 02:21:56PM +0100, Christoph Hellwig wrote:
+> > > Can you try this patch instead?
+> > > 
+> > > http://lists.infradead.org/pipermail/linux-nvme/2021-February/023183.html
+> > 
+> > Actually, please try the patch below instead, it looks like our existing
+> > logic messes up the units:
+> 
+> This seems like a good opportunity to incorporate TP4040 for non-MDTS
+> command limits. I sent a proposal here
+> 
+>   http://lists.infradead.org/pipermail/linux-nvme/2021-March/023522.html
+> 
+> And it defaults to your suggestion if the controller doesn't implement
+> the capability.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/core.c    |  6 +++---
- drivers/nvme/host/fabrics.c |  4 +---
- drivers/nvme/host/nvme.h    | 16 +++++++++++++++-
- 3 files changed, 19 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 82ad5eef9d0c..b56903982b27 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1223,7 +1223,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 		startka = true;
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 	if (startka)
--		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-+		nvme_queue_keep_alive_work(ctrl);
- }
- 
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
-@@ -1253,7 +1253,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 		dev_dbg(ctrl->device,
- 			"reschedule traffic based keep-alive timer\n");
- 		ctrl->comp_seen = false;
--		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-+		nvme_queue_keep_alive_work(ctrl);
- 		return;
- 	}
- 
-@@ -1270,7 +1270,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
- 	if (unlikely(ctrl->kato == 0))
- 		return;
- 
--	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
-+	nvme_queue_keep_alive_work(ctrl);
- }
- 
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 604ab0e5a2ad..13c2747e3d00 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -379,10 +379,8 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 
- 	/*
- 	 * Set keep-alive timeout in seconds granularity (ms * 1000)
--	 * and add a grace period for controller kato enforcement
- 	 */
--	cmd.connect.kato = ctrl->kato ?
--		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000) : 0;
-+	cmd.connect.kato = cpu_to_le32(ctrl->kato * 1000);
- 
- 	if (ctrl->opts->disable_sqflow)
- 		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 07b34175c6ce..cc74b9f8d5ff 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -27,7 +27,15 @@ extern unsigned int admin_timeout;
- #define NVME_ADMIN_TIMEOUT	(admin_timeout * HZ)
- 
- #define NVME_DEFAULT_KATO	5
--#define NVME_KATO_GRACE		10
-+
-+/*
-+ * Recommended frequency for KATO commands
-+ *
-+ * NVMe 1.4 section 7.12.1 states:
-+ * The host should send Keep Alive commands at half of the
-+ * Keep Alive Timeout accounting for transport roundtrip times [..].
-+ */
-+#define NVME_KATO_DELAY(k)	(((k) > 1)?(k) >> 1:(k))
- 
- #ifdef CONFIG_ARCH_NO_SG_CHAIN
- #define  NVME_INLINE_SG_CNT  0
-@@ -583,6 +591,12 @@ static inline bool nvme_is_aen_req(u16 qid, __u16 command_id)
- 	return !qid && command_id >= NVME_AQ_BLK_MQ_DEPTH;
- }
- 
-+static inline void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
-+{
-+	queue_delayed_work(nvme_wq, &ctrl->ka_work,
-+			   NVME_KATO_DELAY(ctrl->kato * HZ));
-+}
-+
- void nvme_complete_rq(struct request *req);
- blk_status_t nvme_host_path_error(struct request *req);
- bool nvme_cancel_request(struct request *req, void *data, bool reserved);
--- 
-2.29.2
-
+I think TP4040 is good and useful, but I defintively want the pure
+fix get in first.
 
 _______________________________________________
 Linux-nvme mailing list
