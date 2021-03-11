@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 029C5C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:35:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ECCAC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:35:48 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9B2C164F8F
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:35:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B2C164F8F
+	by mail.kernel.org (Postfix) with ESMTPS id E223D64F8F
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:35:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E223D64F8F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ombMRxjguYIKJRd3w9Ml9+gT3SVl619vwkQb6geoKFs=; b=Ucgg5s2be89RfS
-	m8VUJlmAWwIGRhgiuOGBfYEsgVkVe4Dn57EMliOVU+/bEIdcjnv+FJg6i8/HYTjEIbdiAKDmaC8n2
-	sK9DGsuU9AEJritVKRRDZuYuBfNMai+r4QKXQBJxi/v1iHEibqMB/wDiZuUfoW8YcRVdtsFoZ20pr
-	QGTGaupZ+r4QpLsCEIzLzz+AW2muTNtKb1zB7E5tcPPD5eYo6C+3szYQQWTXoKQ8SLg3/guUJy5xL
-	zj+OFFUPIq/T/QbaH4vsgxi6HPM+5RgfHgOZ9VAUwXvzT9VFquE2TTzSQJtL7ZCyH/I7eqBmVhOiA
-	fbTG6HFiaX8hMx496nvg==;
+	List-Owner; bh=bVLvREXZW2LG8aHmlCrIW+S9agFwtSRvGR/r0mytP2M=; b=BoBMf9ZQ/BB3/H
+	GGQxh5SZ5Qq6OtUc7jkPDpzQvKtrEQbMD7pf0k5h6QemFdy3ktPZhZu7HQTk6ZUPS10R1M0H8T6jy
+	sst89ygW3QbmI59FpAONtje4Lr+rn2FGBneYBJJJZE3zcfyqaLy3EdsRGQOipIAoVNFkI947w/dlm
+	SEWruOeTjnaeevIU9WTncqkJwizuf234xsJNmAUH3GA9g0ad4jMMNWJttfyT0/nYVjjmNKvhnM6My
+	chNnpL85l/EJuoQb0H16Ndy25riauVNCmW2H/8TOp2naLLnM2G1hF2sPeY56go3lZ0yWrVM2O1yHg
+	5D9dQQ/h6ASBrmnYeEeA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKUpa-00AF8X-Jo; Thu, 11 Mar 2021 23:35:02 +0000
+	id 1lKUq3-00AFDc-E9; Thu, 11 Mar 2021 23:35:31 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKUmr-00AEgi-Fa
- for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 23:32:16 +0000
+ id 1lKUmu-00AEhw-Dy
+ for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 23:32:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=5m+PzWqUWnOR3YxadyZCg0MfweU6UruMUlqYZWYNYZM=; b=HV/kvTIN+l3Mjh5BJT+0f0JjD8
- P6NqH+K5UqG4RHUSkRXS55CWxhlfN8E2lcAnezcnbPCxPgqjSDCeptqojK/JrP65f6TtoiSv+NLzp
- i6CTfLrDVHkXIL8Jm++pnpKOzRx64R6plr4lmBgo2J86KWpIa5RUob7/lMB/i+2tMsw3mKATtPvU7
- k5xJoWpB3bmKp16E0VOC+RoakdJYP+xRQUbJZopKLN8frZh+KI0iyApQnWSi0ByDGcKuFpu1/qnh7
- 5Pa7/Ot9X9cYqQbjRcHQ+GxkViOGRZhbHsZ8W+7xZ3B0JN6TLomzW1Z4Z5QoUjYegFZVnsHaWnImv
- uJfSt0Bw==;
+ bh=SoJ7QXcdMSNUWNuLgYtfThq+6IS5T78F0fYqiwZNrwI=; b=QIMuZxlg4vewqu/4hC9UxXtgJ0
+ o3uE3b2Nt1fxjOPIpxtlRszTvMXmqezV8xlxuXlUdnBrVDqJJ6ywk6oHVWuB7N6QbwUyvrauZn5tR
+ Czn6BJRJ54+4CiKJjqMB+AUUc+4SV8kD13q7+6L1bQgUZdOQyNhmHLnvU4UEMOFa6d0AYVSr/r3OH
+ zm7L3fx3qibd57BVLO4u82KL7qds64KW2ceFG8fqLRl4U00vjfuFApPj+bO2wDyf+RKaYb9lcqf4j
+ pRS9wveW5+nbQBmQ6dRKJKhwWNECTH0VurPYT1q2Ew+itwn4+g7k33ZjhZ+4NnAfSBX9PK8DH1wrT
+ H9so8qRw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmp-0003ev-A4; Thu, 11 Mar 2021 16:32:12 -0700
+ id 1lKUms-0003ev-BW; Thu, 11 Mar 2021 16:32:15 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmW-00024b-Hp; Thu, 11 Mar 2021 16:31:52 -0700
+ id 1lKUmW-00024Y-E1; Thu, 11 Mar 2021 16:31:52 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -68,8 +68,8 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Dave Hansen <dave.hansen@linux.intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 11 Mar 2021 16:31:36 -0700
-Message-Id: <20210311233142.7900-7-logang@deltatee.com>
+Date: Thu, 11 Mar 2021 16:31:35 -0700
+Message-Id: <20210311233142.7900-6-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210311233142.7900-1-logang@deltatee.com>
 References: <20210311233142.7900-1-logang@deltatee.com>
@@ -84,13 +84,13 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  iweiny@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
  jianxin.xiong@intel.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH v2 06/11] dma-direct: Support PCI P2PDMA pages in
- dma-direct map_sg
+Subject: [RFC PATCH v2 05/11] lib/scatterlist: Add flag for indicating P2PDMA
+ segments in an SGL
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210311_233213_829491_90875AE3 
-X-CRM114-Status: GOOD (  19.82  )
+X-CRM114-CacheID: sfid-20210311_233216_607724_07CD28EB 
+X-CRM114-Status: GOOD (  23.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,131 +102,83 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add PCI P2PDMA support for dma_direct_map_sg() so that it can map
-PCI P2PDMA pages directly without a hack in the callers. This allows
-for heterogeneous SGLs that contain both P2PDMA and regular pages.
-
-SGL segments that contain PCI bus addresses are marked with
-sg_mark_pci_p2pdma() and are ignored when unmapped.
-
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- kernel/dma/direct.c  | 35 ++++++++++++++++++++++++++++++++---
- kernel/dma/mapping.c | 13 ++++++++++---
- 2 files changed, 42 insertions(+), 6 deletions(-)
-
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index 002268262c9a..f326d32062dd 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -13,6 +13,7 @@
- #include <linux/vmalloc.h>
- #include <linux/set_memory.h>
- #include <linux/slab.h>
-+#include <linux/pci-p2pdma.h>
- #include "direct.h"
- 
- /*
-@@ -387,19 +388,47 @@ void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
- 	struct scatterlist *sg;
- 	int i;
- 
--	for_each_sg(sgl, sg, nents, i)
-+	for_each_sg(sgl, sg, nents, i) {
-+		if (sg_is_pci_p2pdma(sg))
-+			continue;
-+
- 		dma_direct_unmap_page(dev, sg->dma_address, sg_dma_len(sg), dir,
- 			     attrs);
-+	}
- }
- #endif
- 
- int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
- 		enum dma_data_direction dir, unsigned long attrs)
- {
--	int i;
-+	struct dev_pagemap *pgmap = NULL;
-+	int i, map = -1, ret = 0;
- 	struct scatterlist *sg;
-+	u64 bus_off;
- 
- 	for_each_sg(sgl, sg, nents, i) {
-+		if (is_pci_p2pdma_page(sg_page(sg))) {
-+			if (sg_page(sg)->pgmap != pgmap) {
-+				pgmap = sg_page(sg)->pgmap;
-+				map = pci_p2pdma_dma_map_type(dev, pgmap);
-+				bus_off = pci_p2pdma_bus_offset(sg_page(sg));
-+			}
-+
-+			if (map < 0) {
-+				sg->dma_address = DMA_MAPPING_ERROR;
-+				ret = -EREMOTEIO;
-+				goto out_unmap;
-+			}
-+
-+			if (map) {
-+				sg->dma_address = sg_phys(sg) + sg->offset -
-+					bus_off;
-+				sg_dma_len(sg) = sg->length;
-+				sg_mark_pci_p2pdma(sg);
-+				continue;
-+			}
-+		}
-+
- 		sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
- 				sg->offset, sg->length, dir, attrs);
- 		if (sg->dma_address == DMA_MAPPING_ERROR)
-@@ -411,7 +440,7 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
- 
- out_unmap:
- 	dma_direct_unmap_sg(dev, sgl, i, dir, attrs | DMA_ATTR_SKIP_CPU_SYNC);
--	return 0;
-+	return ret;
- }
- 
- dma_addr_t dma_direct_map_resource(struct device *dev, phys_addr_t paddr,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index b6a633679933..adc1a83950be 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -178,8 +178,15 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
- EXPORT_SYMBOL(dma_unmap_page_attrs);
- 
- /*
-- * dma_maps_sg_attrs returns 0 on error and > 0 on success.
-- * It should never return a value < 0.
-+ * dma_maps_sg_attrs returns 0 on any resource error and > 0 on success.
-+ *
-+ * If 0 is returned, the mapping can be retried and will succeed once
-+ * sufficient resources are available.
-+ *
-+ * If there are P2PDMA pages in the scatterlist then this function may
-+ * return -EREMOTEIO to indicate that the pages are not mappable by the
-+ * device. In this case, an error should be returned for the IO as it
-+ * will never be successfully retried.
-  */
- int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
- 		enum dma_data_direction dir, unsigned long attrs)
-@@ -197,7 +204,7 @@ int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
- 		ents = dma_direct_map_sg(dev, sg, nents, dir, attrs);
- 	else
- 		ents = ops->map_sg(dev, sg, nents, dir, attrs);
--	BUG_ON(ents < 0);
-+
- 	debug_dma_map_sg(dev, sg, nents, ents, dir);
- 
- 	return ents;
--- 
-2.20.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+TWFrZSB1c2Ugb2YgdGhlIHRoaXJkIGZyZWUgTFNCIGluIHNjYXR0ZXJsaXN0J3MgcGFnZV9saW5r
+IG9uIDY0Yml0IHN5c3RlbXMuCgpUaGUgZXh0cmEgYml0IHdpbGwgYmUgdXNlZCBieSBkbWFfW3Vu
+XW1hcF9zZygpIHRvIGRldGVybWluZSB3aGVuIGEKZ2l2ZW4gU0dMIHNlZ21lbnRzIGRtYV9hZGRy
+ZXNzIHBvaW50cyB0byBhIFBDSSBidXMgYWRkcmVzcy4KZG1hX3VubWFwX3NnKCkgd2lsbCBuZWVk
+IHRvIHBlcmZvcm0gZGlmZmVyZW50IGNsZWFudXAgd2hlbiB0aGlzIGlzIHRoZQpjYXNlLgoKVXNp
+bmcgdGhpcyBiaXQgcmVxdWlyZXMgYWRkaW5nIGFuIGFkZGl0aW9uYWwgZGVwZW5kZW5jeSBvbiBD
+T05GSUdfNjRCSVQgdG8KQ09ORklHX1BDSV9QMlBETUEuIFRoaXMgc2hvdWxkIGJlIGFjY2VwdGFi
+bGUgYXMgdGhlIG1ham9yaXR5IG9mIFAyUERNQQp1c2UgY2FzZXMgYXJlIHJlc3RyaWN0ZWQgdG8g
+bmV3ZXIgcm9vdCBjb21wbGV4ZXMgYW5kIHJvdWdobHkgcmVxdWlyZSB0aGUKZXh0cmEgYWRkcmVz
+cyBzcGFjZSBmb3IgbWVtb3J5IEJBUnMgdXNlZCBpbiB0aGUgdHJhbnNhY3Rpb25zLgoKU2lnbmVk
+LW9mZi1ieTogTG9nYW4gR3VudGhvcnBlIDxsb2dhbmdAZGVsdGF0ZWUuY29tPgotLS0KIGRyaXZl
+cnMvcGNpL0tjb25maWcgICAgICAgICB8ICAyICstCiBpbmNsdWRlL2xpbnV4L3NjYXR0ZXJsaXN0
+LmggfCA0OSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tCiAyIGZpbGVzIGNo
+YW5nZWQsIDQ2IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9wY2kvS2NvbmZpZyBiL2RyaXZlcnMvcGNpL0tjb25maWcKaW5kZXggMGM0NzNkNzVlNjI1
+Li45MGI0YmRkYjMzMDAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGNpL0tjb25maWcKKysrIGIvZHJp
+dmVycy9wY2kvS2NvbmZpZwpAQCAtMTYzLDcgKzE2Myw3IEBAIGNvbmZpZyBQQ0lfUEFTSUQKIAog
+Y29uZmlnIFBDSV9QMlBETUEKIAlib29sICJQQ0kgcGVlci10by1wZWVyIHRyYW5zZmVyIHN1cHBv
+cnQiCi0JZGVwZW5kcyBvbiBaT05FX0RFVklDRQorCWRlcGVuZHMgb24gWk9ORV9ERVZJQ0UgJiYg
+NjRCSVQKIAlzZWxlY3QgR0VORVJJQ19BTExPQ0FUT1IKIAloZWxwCiAJICBFbmFibGXRlSBkcml2
+ZXJzIHRvIGRvIFBDSSBwZWVyLXRvLXBlZXIgdHJhbnNhY3Rpb25zIHRvIGFuZCBmcm9tCmRpZmYg
+LS1naXQgYS9pbmNsdWRlL2xpbnV4L3NjYXR0ZXJsaXN0LmggYi9pbmNsdWRlL2xpbnV4L3NjYXR0
+ZXJsaXN0LmgKaW5kZXggNmY3MDU3MmIyOTM4Li41NTI1ZDNlYmYzNmYgMTAwNjQ0Ci0tLSBhL2lu
+Y2x1ZGUvbGludXgvc2NhdHRlcmxpc3QuaAorKysgYi9pbmNsdWRlL2xpbnV4L3NjYXR0ZXJsaXN0
+LmgKQEAgLTU4LDYgKzU4LDIxIEBAIHN0cnVjdCBzZ190YWJsZSB7CiAjZGVmaW5lIFNHX0NIQUlO
+CTB4MDFVTAogI2RlZmluZSBTR19FTkQJCTB4MDJVTAogCisvKgorICogYml0IDIgaXMgdGhlIHRo
+aXJkIGZyZWUgYml0IGluIHRoZSBwYWdlX2xpbmsgb24gNjRiaXQgc3lzdGVtcyB3aGljaAorICog
+aXMgdXNlZCBieSBkbWFfdW5tYXBfc2coKSB0byBkZXRlcm1pbmUgaWYgdGhlIGRtYV9hZGRyZXNz
+IGlzIGEgUENJCisgKiBidXMgYWRkcmVzcyB3aGVuIGRvaW5nIFAyUERNQS4KKyAqIE5vdGU6IENP
+TkZJR19QQ0lfUDJQRE1BIGRlcGVuZHMgb24gQ09ORklHXzY0QklUIGJlY2F1c2Ugb2YgdGhpcy4K
+KyAqLworCisjaWZkZWYgQ09ORklHX1BDSV9QMlBETUEKKyNkZWZpbmUgU0dfUENJX1AyUERNQQkw
+eDA0VUwKKyNlbHNlCisjZGVmaW5lIFNHX1BDSV9QMlBETUEJMHgwMFVMCisjZW5kaWYKKworI2Rl
+ZmluZSBTR19QQUdFX0xJTktfTUFTSyAoU0dfQ0hBSU4gfCBTR19FTkQgfCBTR19QQ0lfUDJQRE1B
+KQorCiAvKgogICogV2Ugb3ZlcmxvYWQgdGhlIExTQiBvZiB0aGUgcGFnZSBwb2ludGVyIHRvIGlu
+ZGljYXRlIHdoZXRoZXIgaXQncwogICogYSB2YWxpZCBzZyBlbnRyeSwgb3Igd2hldGhlciBpdCBw
+b2ludHMgdG8gdGhlIHN0YXJ0IG9mIGEgbmV3IHNjYXR0ZXJsaXN0LgpAQCAtNjUsOCArODAsOSBA
+QCBzdHJ1Y3Qgc2dfdGFibGUgewogICovCiAjZGVmaW5lIHNnX2lzX2NoYWluKHNnKQkJKChzZykt
+PnBhZ2VfbGluayAmIFNHX0NIQUlOKQogI2RlZmluZSBzZ19pc19sYXN0KHNnKQkJKChzZyktPnBh
+Z2VfbGluayAmIFNHX0VORCkKKyNkZWZpbmUgc2dfaXNfcGNpX3AycGRtYShzZykJKChzZyktPnBh
+Z2VfbGluayAmIFNHX1BDSV9QMlBETUEpCiAjZGVmaW5lIHNnX2NoYWluX3B0cihzZykJXAotCSgo
+c3RydWN0IHNjYXR0ZXJsaXN0ICopICgoc2cpLT5wYWdlX2xpbmsgJiB+KFNHX0NIQUlOIHwgU0df
+RU5EKSkpCisJKChzdHJ1Y3Qgc2NhdHRlcmxpc3QgKikgKChzZyktPnBhZ2VfbGluayAmIH5TR19Q
+QUdFX0xJTktfTUFTSykpCiAKIC8qKgogICogc2dfYXNzaWduX3BhZ2UgLSBBc3NpZ24gYSBnaXZl
+biBwYWdlIHRvIGFuIFNHIGVudHJ5CkBAIC04MCwxMyArOTYsMTMgQEAgc3RydWN0IHNnX3RhYmxl
+IHsKICAqKi8KIHN0YXRpYyBpbmxpbmUgdm9pZCBzZ19hc3NpZ25fcGFnZShzdHJ1Y3Qgc2NhdHRl
+cmxpc3QgKnNnLCBzdHJ1Y3QgcGFnZSAqcGFnZSkKIHsKLQl1bnNpZ25lZCBsb25nIHBhZ2VfbGlu
+ayA9IHNnLT5wYWdlX2xpbmsgJiAoU0dfQ0hBSU4gfCBTR19FTkQpOworCXVuc2lnbmVkIGxvbmcg
+cGFnZV9saW5rID0gc2ctPnBhZ2VfbGluayAmIFNHX1BBR0VfTElOS19NQVNLOwogCiAJLyoKIAkg
+KiBJbiBvcmRlciBmb3IgdGhlIGxvdyBiaXQgc3RlYWxpbmcgYXBwcm9hY2ggdG8gd29yaywgcGFn
+ZXMKIAkgKiBtdXN0IGJlIGFsaWduZWQgYXQgYSAzMi1iaXQgYm91bmRhcnkgYXMgYSBtaW5pbXVt
+LgogCSAqLwotCUJVR19PTigodW5zaWduZWQgbG9uZykgcGFnZSAmIChTR19DSEFJTiB8IFNHX0VO
+RCkpOworCUJVR19PTigodW5zaWduZWQgbG9uZykgcGFnZSAmIFNHX1BBR0VfTElOS19NQVNLKTsK
+ICNpZmRlZiBDT05GSUdfREVCVUdfU0cKIAlCVUdfT04oc2dfaXNfY2hhaW4oc2cpKTsKICNlbmRp
+ZgpAQCAtMTIwLDcgKzEzNiw3IEBAIHN0YXRpYyBpbmxpbmUgc3RydWN0IHBhZ2UgKnNnX3BhZ2Uo
+c3RydWN0IHNjYXR0ZXJsaXN0ICpzZykKICNpZmRlZiBDT05GSUdfREVCVUdfU0cKIAlCVUdfT04o
+c2dfaXNfY2hhaW4oc2cpKTsKICNlbmRpZgotCXJldHVybiAoc3RydWN0IHBhZ2UgKikoKHNnKS0+
+cGFnZV9saW5rICYgfihTR19DSEFJTiB8IFNHX0VORCkpOworCXJldHVybiAoc3RydWN0IHBhZ2Ug
+KikoKHNnKS0+cGFnZV9saW5rICYgflNHX1BBR0VfTElOS19NQVNLKTsKIH0KIAogLyoqCkBAIC0y
+MjIsNiArMjM4LDMxIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBzZ191bm1hcmtfZW5kKHN0cnVjdCBz
+Y2F0dGVybGlzdCAqc2cpCiAJc2ctPnBhZ2VfbGluayAmPSB+U0dfRU5EOwogfQogCisvKioKKyAq
+IHNnX21hcmtfcGNpX3AycGRtYSAtIE1hcmsgdGhlIHNjYXR0ZXJsaXN0IGVudHJ5IGZvciBQQ0kg
+cDJwZG1hCisgKiBAc2c6CQkgU0cgZW50cnlTY2F0dGVybGlzdAorICoKKyAqIERlc2NyaXB0aW9u
+OgorICogICBNYXJrcyB0aGUgcGFzc2VkIGluIHNnIGVudHJ5IHRvIGluZGljYXRlIHRoYXQgdGhl
+IGRtYV9hZGRyZXNzIGlzCisgKiAgIGEgUENJIGJ1cyBhZGRyZXNzLgorICoqLworc3RhdGljIGlu
+bGluZSB2b2lkIHNnX21hcmtfcGNpX3AycGRtYShzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnKQorewor
+CXNnLT5wYWdlX2xpbmsgfD0gU0dfUENJX1AyUERNQTsKK30KKworLyoqCisgKiBzZ191bm1hcmtf
+cGNpX3AycGRtYSAtIFVubWFyayB0aGUgc2NhdHRlcmxpc3QgZW50cnkgZm9yIFBDSSBwMnBkbWEK
+KyAqIEBzZzoJCSBTRyBlbnRyeVNjYXR0ZXJsaXN0CisgKgorICogRGVzY3JpcHRpb246CisgKiAg
+IENsZWFycyB0aGUgUENJIFAyUERNQSBtYXJrCisgKiovCitzdGF0aWMgaW5saW5lIHZvaWQgc2df
+dW5tYXJrX3BjaV9wMnBkbWEoc3RydWN0IHNjYXR0ZXJsaXN0ICpzZykKK3sKKwlzZy0+cGFnZV9s
+aW5rICY9IH5TR19QQ0lfUDJQRE1BOworfQorCiAvKioKICAqIHNnX3BoeXMgLSBSZXR1cm4gcGh5
+c2ljYWwgYWRkcmVzcyBvZiBhbiBzZyBlbnRyeQogICogQHNnOgkgICAgIFNHIGVudHJ5Ci0tIAoy
+LjIwLjEKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpM
+aW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0
+cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
