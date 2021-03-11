@@ -3,55 +3,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6D6C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:36:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B51CEC433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:37:12 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5405664F8F
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:36:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5405664F8F
+	by mail.kernel.org (Postfix) with ESMTPS id 1230664F8F
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:37:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1230664F8F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1buaUx+GxeOtlRxRABExT9FZ1zYBXse9RafxDXAcXeo=; b=T2adi5VoqYosim
-	79HbNZtCYxhuvvg6Mkh/CyCaOIF+oJbw5r7Go6aeq5nS+81CMp5s+7g/IOcooyydLjYC22iY3s8OO
-	YXWpW6dbAnr1Qa6YwG0sLy8w9Bnh7LvOSnGopUqz/lCJ/diHQupPk9FkKx8uRewnFPnOFLpqt0VHd
-	3zHe6q8mOTJuQz6VnrI/wNOxZBa0iphTO1QLmuU6CFGtzOBntGFijj28Aotseznqm8+oFXCgUFfmm
-	9xe6S0Kff5WPXTjl4Z96MtnKd9QrANlGJurDH05lMuEGBN1SUMDJ4/3BsMBRdnuCTCD97XwRNKx5p
-	rCFDbLDdMR1qVRYBEBZA==;
+	List-Unsubscribe:List-Id:Subject:MIME-Version:Message-Id:Date:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZxZKQphzQVqf54BCuyekZuY+rXwjj41zmghfJEGYsew=; b=QEMYf/jUDVNu3g7FpKiWWwd1yS
+	ONbr9aiY86O1YkN3U4Qgk0Dhz0y64KZvc7SC60oQaI4kHC+qwKMXt0b3EiSX1BdeSvTkOfxmvqNHw
+	0moTWvpKbQZ3ssSYkLbvVS94bXZmSCXtlWWjGraPLZkD0WDEhoY3B0C9X7qk27uWhuZ0gHvlZqXnS
+	ZKjP79KBR6hhIFVSFfA2pqZ3zIMS6Z/5u4Zp5BytZaWgVHkwOrka07EU+W5AMG42ps/l3jsguy0kw
+	EqsYZUADCXovnLpSBqU1qUwxQcDK+2UjE3sZgOGVXvoKVd4A+ozj63m0GHzIi+C4eKW3VhDsa6UnJ
+	PAnkcM6A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKUqx-00AFNI-DL; Thu, 11 Mar 2021 23:36:27 +0000
+	id 1lKUrV-00AFTw-R7; Thu, 11 Mar 2021 23:37:02 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKUmv-00AEhy-TP
- for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 23:32:22 +0000
+ id 1lKUmv-00AEi0-U3
+ for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 23:32:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Cc:To:From:content-disposition;
- bh=MTA2+M7vdLJxXxHYOK9U0k000IpPFkzl7XK6463+pFs=; b=FjJsKZ5LGW1FuIX+RDt4/0qpAp
- r2njv0oqYGqnhACdOut9mLWzC3ph6VGi+mM46gPp3XJoEYVdLJ+xFYFmdHFHmt3/n1ZJqq87nD+iv
- Re3mXFmoTD/PaEMAP4OsIFIkv1AB1OWVvx0hawBBsD+D/ZQotC7n7uA+1GSghCHFxmR9LL4H1XW8Q
- zvkIOQ1dewff1FGyOJXlLGEhjWgS5Bdf1w+Hjt/MnIZDP5t3o8OdgEn7vfrPocavrhMZOtqMvNoDn
- hj7CZv/guhyfLxb4HrGY+Kit8fwIbqYUz+WfycmHxVYSqMOw9C13RWshnkVth/atpXnCWFLnCYKn5
- lde1K09w==;
+ d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
+ :references:content-disposition:in-reply-to;
+ bh=kE7unqHb96tgCLiqAy7oTQD9QBaPCBADwUUVoF85ezA=; b=NgonvtaxHynX26gURA+2WbVFF7
+ EdmjT2rJo+H+u9pFbAy9IsACHfULVpJDenz/wZp/uIJ7n11VpJ4PmS3Bye0OakNE8a74IZjm9kiZr
+ HmCO0vtzmtENVocWjr8J6ARILinTKOBgkFxrQ2/zoJCo5nIyXNy4Bnqyn7uw0M3TDFbsPJBGNThgo
+ y9SPPR7K0JweAHZs5X2Ib7iIZBz6T/pQNeEPzLNj+SbWX0fVWQ2YUJ0etkvfvadDo6kE5IIEVbp8y
+ R1+iSUFNpi7MQb8lTFwrflPLEtzmvEAkRYK/jnMRPh29G2joRkm0gvJhU1WPsT4owdgClS4/omxu5
+ 9EE77grw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmZ-0003es-Rw; Thu, 11 Mar 2021 16:32:15 -0700
+ id 1lKUmZ-0003eq-Rw; Thu, 11 Mar 2021 16:32:15 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmW-00024P-1b; Thu, 11 Mar 2021 16:31:52 -0700
+ id 1lKUmV-00024K-OI; Thu, 11 Mar 2021 16:31:51 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -68,11 +68,9 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Dave Hansen <dave.hansen@linux.intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 11 Mar 2021 16:31:32 -0700
-Message-Id: <20210311233142.7900-3-logang@deltatee.com>
+Date: Thu, 11 Mar 2021 16:31:30 -0700
+Message-Id: <20210311233142.7900-1-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210311233142.7900-1-logang@deltatee.com>
-References: <20210311233142.7900-1-logang@deltatee.com>
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -84,12 +82,12 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  iweiny@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
  jianxin.xiong@intel.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH v2 02/11] PCI/P2PDMA: Avoid pci_get_slot() which sleeps
+Subject: [RFC PATCH v2 00/11] Add support to dma_map_sg for P2PDMA
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210311_233220_013778_FE4BA3CD 
-X-CRM114-Status: GOOD (  17.09  )
+X-CRM114-CacheID: sfid-20210311_233220_020363_6CE75768 
+X-CRM114-Status: GOOD (  18.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,45 +104,86 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In order to use upstream_bridge_distance_warn() from a dma_map function,
-it must not sleep. However, pci_get_slot() takes the pci_bus_sem so it
-might sleep.
+Hi,
 
-In order to avoid this, try to get the host bridge's device from
-bus->self, and if that is not set just get the first element in the
-list. It should be impossible for the host bridges device to go away
-while references are held on child devices, so the first element
-should not change and this should be safe.
+This is a rework of the first half of my RFC for doing P2PDMA in userspace
+with O_DIRECT[1].
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- drivers/pci/p2pdma.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+The largest issue with that series was the gross way of flagging P2PDMA
+SGL segments. This RFC proposes a different approach, (suggested by
+Dan Williams[2]) which uses the third bit in the page_link field of the
+SGL.
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index bd89437faf06..2135fe69bb07 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -311,11 +311,15 @@ static const struct pci_p2pdma_whitelist_entry {
- static bool __host_bridge_whitelist(struct pci_host_bridge *host,
- 				    bool same_host_bridge)
- {
--	struct pci_dev *root = pci_get_slot(host->bus, PCI_DEVFN(0, 0));
- 	const struct pci_p2pdma_whitelist_entry *entry;
-+	struct pci_dev *root = host->bus->self;
- 	unsigned short vendor, device;
- 
- 	if (!root)
-+		root = list_first_entry_or_null(&host->bus->devices,
-+						struct pci_dev, bus_list);
-+
-+	if (!root || root->devfn)
- 		return false;
- 
- 	vendor = root->vendor;
--- 
+This approach is a lot less hacky but comes at the cost of adding a
+CONFIG_64BIT dependency to CONFIG_PCI_P2PDMA and using up the last
+scarce bit in the page_link. For our purposes, a 64BIT restriction is
+acceptable but it's not clear if this is ok for all usecases hoping
+to make use of P2PDMA.
+
+Matthew Wilcox has already suggested (off-list) that this is the wrong
+approach, preferring a new dma mapping operation and an SGL replacement. I
+don't disagree that something along those lines would be a better long
+term solution, but it involves overcoming a lot of challenges to get
+there. Creating a new mapping operation still means adding support to more
+than 25 dma_map_ops implementations (many of which are on obscure
+architectures) or creating a redundant path to fallback with dma_map_sg()
+for every driver that uses the new operation. This RFC is an approach
+that doesn't require overcoming these blocks.
+
+Any alternative ideas or feedback is welcome.
+
+These patches are based on v5.12-rc2 and a git branch is available here:
+
+  https://github.com/sbates130272/linux-p2pmem/  p2pdma_dma_map_ops_rfc
+
+A branch with the patches from the previous RFC that add userspace
+O_DIRECT support is available at the same URL with the name
+"p2pdma_dma_map_ops_rfc+user" (however, none of the issues with those
+extra patches from the feedback of the last posting have been fixed).
+
+Thanks,
+
+Logan
+
+[1] https://lore.kernel.org/linux-block/20201106170036.18713-1-logang@deltatee.com/
+[2] https://lore.kernel.org/linux-block/CAPcyv4ifGcrdOtUt8qr7pmFhmecGHqGVre9G0RorGczCGVECQQ@mail.gmail.com/
+
+--
+
+Logan Gunthorpe (11):
+  PCI/P2PDMA: Pass gfp_mask flags to upstream_bridge_distance_warn()
+  PCI/P2PDMA: Avoid pci_get_slot() which sleeps
+  PCI/P2PDMA: Attempt to set map_type if it has not been set
+  PCI/P2PDMA: Introduce pci_p2pdma_should_map_bus() and
+    pci_p2pdma_bus_offset()
+  lib/scatterlist: Add flag for indicating P2PDMA segments in an SGL
+  dma-direct: Support PCI P2PDMA pages in dma-direct map_sg
+  dma-mapping: Add flags to dma_map_ops to indicate PCI P2PDMA support
+  iommu/dma: Support PCI P2PDMA pages in dma-iommu map_sg
+  block: Add BLK_STS_P2PDMA
+  nvme-pci: Check DMA ops when indicating support for PCI P2PDMA
+  nvme-pci: Convert to using dma_map_sg for p2pdma pages
+
+ block/blk-core.c            |  2 +
+ drivers/iommu/dma-iommu.c   | 63 +++++++++++++++++++++-----
+ drivers/nvme/host/core.c    |  3 +-
+ drivers/nvme/host/nvme.h    |  2 +-
+ drivers/nvme/host/pci.c     | 38 +++++++---------
+ drivers/pci/Kconfig         |  2 +-
+ drivers/pci/p2pdma.c        | 89 +++++++++++++++++++++++++++++++------
+ include/linux/blk_types.h   |  7 +++
+ include/linux/dma-map-ops.h |  3 ++
+ include/linux/dma-mapping.h |  5 +++
+ include/linux/pci-p2pdma.h  | 11 +++++
+ include/linux/scatterlist.h | 49 ++++++++++++++++++--
+ kernel/dma/direct.c         | 35 +++++++++++++--
+ kernel/dma/mapping.c        | 21 +++++++--
+ 14 files changed, 271 insertions(+), 59 deletions(-)
+
+
+base-commit: a38fd8748464831584a19438cbb3082b5a2dab15
+--
 2.20.1
-
 
 _______________________________________________
 Linux-nvme mailing list
