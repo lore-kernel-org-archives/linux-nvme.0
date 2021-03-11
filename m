@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 246FAC433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 10:51:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E776C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 10:55:55 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9B2A464FC1
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 10:51:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B2A464FC1
+	by mail.kernel.org (Postfix) with ESMTPS id 835E764EFD
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 10:55:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 835E764EFD
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,38 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/rxW8oc6RBpUO6lpG70oHkIJC92L++lK3qEGfzoJClc=; b=lMtYt6NSRQNlk8QFsUKyqgfB0
-	+/Bxr1Ibn4abhe3PWkrd8NPvT8kWP8lmbz0ggp1prHIdt11kFbE7o97RPC4Fwh2hchwkbsYfXcy1D
-	DN6iXgCLrsj2gjoUATPtT1WKNQoTGcXICcxih+qHq/3c1NIamZ61519KpHm+CIFsoO2tEMGA3CUb7
-	AhflVtBTHvA0mt+6x/srAumXO8zYTpIJbYkisieYq2HjiDPFWF1GXZihNpopns6EpHv0SAgXRbgtY
-	4u4PgRpBw6vzXmscOqEjLPyg4fibRgyFy/VDdNMSuRTX7l5GJUTbxKAIBVPUuAkhFzFaS08iW7dzl
-	Y9ezoFm9g==;
+	 bh=FS2juT455uKF8eDaNqRUYF7yUi9Ww//RLjkHluz0YJE=; b=dtVTxjvgayssNHnXx8cwEMIwM
+	UVJzxs/ghghla6YKKxPqyqLnbv8R2LySBnQkjFOdGYGNLVPHMJEnqMgbB/vFEpgiJME3FEaszO8x6
+	aRQnfJCPnP8wHWuWVsU/hLpjkqvq19MtsBkkdixogCWGJbk5eSdT3BieN9XzaOnrUXn9uG1Ztluo3
+	7opO5gln5lLDZpnSN+hCQpZ1MmpO8GepBEuoz2Umna6ymlbzANt6Xv3SsMagdBtsNUwdWbMkzdBH9
+	BgGaRUYy1tulP7pMsYDc914DfrtmGOy25gZrwDx7pDntQslS8866ULKSLA6TVsTMLRabgXnTLr3AQ
+	QMpi0Dytg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKIue-008sjL-TY; Thu, 11 Mar 2021 10:51:28 +0000
+	id 1lKIyh-008tJo-TX; Thu, 11 Mar 2021 10:55:39 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKIuZ-008si6-QI
- for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 10:51:25 +0000
+ id 1lKIyb-008tJ3-Tx
+ for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 10:55:35 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id DFDD868BEB; Thu, 11 Mar 2021 11:51:22 +0100 (CET)
-Date: Thu, 11 Mar 2021 11:51:22 +0100
+ id 5CF0A68B05; Thu, 11 Mar 2021 11:55:32 +0100 (CET)
+Date: Thu, 11 Mar 2021 11:55:32 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
-Cc: hch@lst.de, sagi@grimberg.me, chaitanya.kulkarni@wdc.com,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme/rdma: Fix a use after free in
- nvmet_rdma_write_data_done
-Message-ID: <20210311105122.GB16485@lst.de>
-References: <20210311054413.8731-1-lyl2019@mail.ustc.edu.cn>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/2] nvme: sanitize KATO setting
+Message-ID: <20210311105532.GA16515@lst.de>
+References: <20210311103727.47381-1-hare@suse.de>
+ <20210311103727.47381-2-hare@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210311054413.8731-1-lyl2019@mail.ustc.edu.cn>
+In-Reply-To: <20210311103727.47381-2-hare@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210311_105123_966864_D4B60F25 
-X-CRM114-Status: UNSURE (   8.73  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210311_105534_092091_F4B857BA 
+X-CRM114-Status: GOOD (  13.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,9 +70,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+> +/*
+> + * Recommended frequency for KATO commands
+> + *
+> + * NVMe 1.4 section 7.12.1 states:
+> + * The host should send Keep Alive commands at half of the
+> + * Keep Alive Timeout accounting for transport roundtrip times [..].
+> + */
+> +#define NVME_KATO_DELAY(k)	(((k) > 1)?(k) >> 1:(k))
 
-applied to nvme-5.12.
+This should have been an inline if added at all, and use proper
+formatting, as well as avoiding the shift obsfucation.
+
+I think the best is to just move this into the only caller, where
+we also know that ctrl->kato can't be 0 due to the check in
+nvme_start_keep_alive:
+
+/*
+ * Recommended frequency for KATO commands per  NVMe 1.4 section 7.12.1:
+ *
+ *     The host should send Keep Alive commands at half of the
+ *     Keep Alive Timeout accounting for transport roundtrip times [..].
+*/
+static inline void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
+{
+	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ / 2);
+}
+
+Also please keep this helper inside of core.c.
 
 _______________________________________________
 Linux-nvme mailing list
