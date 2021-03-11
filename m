@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 946F6C433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:33:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8C33C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:34:10 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EADE064F93
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:33:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EADE064F93
+	by mail.kernel.org (Postfix) with ESMTPS id 1636864F7B
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Mar 2021 23:34:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1636864F7B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uvCitLXTgpzzXcqhCStCvWq7MNroeuclSsZESdqbRoE=; b=ZP/fwH3IQ/dAWR
-	ya1+wVqDF+41LlR3ebi3ERpOZLSPS0bwP8HxZAcvtCdcl7QzTAUHDSUBZjjQHwcQV/Xs/LFxKotrM
-	ToEWihFN9IWnx30Mjt+tK34DCOUi48zp5ZH9+hmcwyGCP9GlzjjRfJagBtzkTA9nJa6hVmB+jIK6o
-	XzLKRwiKlnsT15A4nDwH9nxtBkgrutOwkG1qb6g+iGjYL1e76EnVsi8bFgpXzTdd73DNcnNy1O9ho
-	c+ZtCh5jtgTSgwn7eTZFF2GoGxawufLARUu4xgabGmku9+lMTpmt9jaGiw9RItZni597/sQt7PlCZ
-	Om5Z3WT2qKSa3ICadCYA==;
+	List-Owner; bh=8mVc+uzRmSo1kGkaFvSwEtGNmvV8/JoKU/OZyTuOzec=; b=FblhfplhPVRtQB
+	Ct+VQZVqb5SR/YjtX49ockRA1H6YaSwdQ7bbchQFiwvahfpmuIyvClEpR8ekoL2sWdmw7m+Zk3a4a
+	R1/TWMSP7a20nZxmQRu28icxDlqjK+NXlna12noVgbK6You7ukl63ulFHgYJcyp5nBqEmI6Sjv/KK
+	+bRXKO3d05lNBr1dSsItwfgpMpf4nN4nwJ+lWrqWGd6VQLr1P/RxFJlljbhzZV39O8+I3qB1YPIKq
+	fHNhSCMMQfv5WTAUKlKNUPuNcfY2LQADX3W5xTMmsGdtXtIBAuXsQcqA0Pl43Fy5nTv3RT544xrCz
+	jfQkuk3FEmih0Nwb+QOA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKUo0-00AEwq-VE; Thu, 11 Mar 2021 23:33:25 +0000
+	id 1lKUob-00AF0i-Ko; Thu, 11 Mar 2021 23:34:01 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKUml-00AEeg-DT
- for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 23:32:10 +0000
+ id 1lKUmo-00AEfh-Et
+ for linux-nvme@lists.infradead.org; Thu, 11 Mar 2021 23:32:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=C2zq0RJZ8ThW76MS1rjASAKoSeACRy/BMOxwbAjwe44=; b=YPe2kj6qoSd9nU97o+42pKhQUP
- y2qAxVsNW2xg08F86j2k6fHSw0JIOBKt4vGOF1xJyulq1SMyEeFb60M/SBtozVsp6vNvoHttPK4Jw
- stSan4zrYF1Ii9fS92AnH6ab6+Zlti52V3HTZJq0iugJ7W0LlXxqsLKRqo/DgqwooMi3LeDt4gNY6
- ufhUPy2A4fkCCcIY2K9L34KNFFSsp5ihRrCUTfpxCmBgTFAYdWT9zTcpAmR2+wb0ShSoEurwgjYDD
- X4yJDBXX6ammjq8UJF9nT3cxQtZ2UcZO6QhW8YJEIwejEaDqTvIAYlKrAR0740Gv2opckyqN6QAbg
- quJBdmpg==;
+ bh=KOMMXadwrYwZEB6tWYvcMS2uWikbMkq234oR8x5l6uU=; b=NOigEiKa5QVhqkJx08sL74oozH
+ IZ3CiU8+eeNi0GWrmCuxBvytyQml8bVvak4gI55pcE2jXr1VSHIoSsjrWGiFBqneKdlc/tREjEfQK
+ vpBhsUQYflR8mj4rh+OgbyUcpWwHvWJro43CV02zDTEMELz51KCyW4YJ1HEQ5aT++Wx4fWd0e2UIz
+ 1Fdm889jVbolaeVeZCD1GDvmPKyUJzpB3kfWPtbn3sTqKbzNUDsxzF+bTniILfxZ6v1Lj6Izgqeej
+ bn38QX113rFGYQkNk83OpSUc66XivY5TKSYhkyr9Yr5OB+kx3ZkOj25E4nbNn9vcglbG8mk4sRFr+
+ 74XDjSSA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmi-0003ev-Lc; Thu, 11 Mar 2021 16:32:06 -0700
+ id 1lKUmm-0003ev-8M; Thu, 11 Mar 2021 16:32:09 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lKUmW-00024h-SB; Thu, 11 Mar 2021 16:31:52 -0700
+ id 1lKUmW-00024e-Lc; Thu, 11 Mar 2021 16:31:52 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -68,8 +68,8 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Dave Hansen <dave.hansen@linux.intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 11 Mar 2021 16:31:38 -0700
-Message-Id: <20210311233142.7900-9-logang@deltatee.com>
+Date: Thu, 11 Mar 2021 16:31:37 -0700
+Message-Id: <20210311233142.7900-8-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210311233142.7900-1-logang@deltatee.com>
 References: <20210311233142.7900-1-logang@deltatee.com>
@@ -84,13 +84,13 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  iweiny@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
  jianxin.xiong@intel.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH v2 08/11] iommu/dma: Support PCI P2PDMA pages in dma-iommu
- map_sg
+Subject: [RFC PATCH v2 07/11] dma-mapping: Add flags to dma_map_ops to
+ indicate PCI P2PDMA support
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210311_233208_871090_A88C3636 
-X-CRM114-Status: GOOD (  23.30  )
+X-CRM114-CacheID: sfid-20210311_233210_893266_4DF01348 
+X-CRM114-Status: GOOD (  13.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,171 +107,74 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a PCI P2PDMA page is seen, set the IOVA length of the segment
-to zero so that it is not mapped into the IOVA. Then, in finalise_sg(),
-apply the appropriate bus address to the segment. The IOVA is not
-created if the scatterlist only consists of P2PDMA pages.
+Add a flags member to the dma_map_ops structure with one flag to
+indicate support for PCI P2PDMA.
 
-Similar to dma-direct, the sg_mark_pci_p2pdma() flag is used to
-indicate bus address segments. On unmap, P2PDMA segments are skipped
-over when determining the start and end IOVA addresses.
-
-With this change, the flags variable in the dma_map_ops is
-set to DMA_F_PCI_P2PDMA_SUPPORTED to indicate support for
-P2PDMA pages.
+Also, add a helper to check if a device supports PCI P2PDMA.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/iommu/dma-iommu.c | 63 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 53 insertions(+), 10 deletions(-)
+ include/linux/dma-map-ops.h | 3 +++
+ include/linux/dma-mapping.h | 5 +++++
+ kernel/dma/mapping.c        | 8 ++++++++
+ 3 files changed, 16 insertions(+)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index af765c813cc8..c0821e9051a9 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -20,6 +20,7 @@
- #include <linux/mm.h>
- #include <linux/mutex.h>
- #include <linux/pci.h>
-+#include <linux/pci-p2pdma.h>
- #include <linux/swiotlb.h>
- #include <linux/scatterlist.h>
- #include <linux/vmalloc.h>
-@@ -846,7 +847,7 @@ static void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
-  * segment's start address to avoid concatenating across one.
-  */
- static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
--		dma_addr_t dma_addr)
-+		dma_addr_t dma_addr, unsigned long attrs)
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 51872e736e7b..481892822104 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -12,6 +12,9 @@
+ struct cma;
+ 
+ struct dma_map_ops {
++	unsigned int flags;
++#define DMA_F_PCI_P2PDMA_SUPPORTED     (1 << 0)
++
+ 	void *(*alloc)(struct device *dev, size_t size,
+ 			dma_addr_t *dma_handle, gfp_t gfp,
+ 			unsigned long attrs);
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 2a984cb4d1e0..a6bced004de8 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -138,6 +138,7 @@ int dma_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
+ 		unsigned long attrs);
+ bool dma_can_mmap(struct device *dev);
+ int dma_supported(struct device *dev, u64 mask);
++int dma_pci_p2pdma_supported(struct device *dev);
+ int dma_set_mask(struct device *dev, u64 mask);
+ int dma_set_coherent_mask(struct device *dev, u64 mask);
+ u64 dma_get_required_mask(struct device *dev);
+@@ -233,6 +234,10 @@ static inline int dma_supported(struct device *dev, u64 mask)
  {
- 	struct scatterlist *s, *cur = sg;
- 	unsigned long seg_mask = dma_get_seg_boundary(dev);
-@@ -864,6 +865,20 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
- 		sg_dma_address(s) = DMA_MAPPING_ERROR;
- 		sg_dma_len(s) = 0;
- 
-+		if (is_pci_p2pdma_page(sg_page(s)) && !s_iova_len) {
-+			if (i > 0)
-+				cur = sg_next(cur);
-+
-+			sg_dma_address(cur) = sg_phys(s) + s->offset -
-+				pci_p2pdma_bus_offset(sg_page(s));
-+			sg_dma_len(cur) = s->length;
-+			sg_mark_pci_p2pdma(cur);
-+
-+			count++;
-+			cur_len = 0;
-+			continue;
-+		}
-+
- 		/*
- 		 * Now fill in the real DMA data. If...
- 		 * - there is a valid output segment to append to
-@@ -960,11 +975,12 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
- 	struct iova_domain *iovad = &cookie->iovad;
- 	struct scatterlist *s, *prev = NULL;
-+	struct dev_pagemap *pgmap = NULL;
- 	int prot = dma_info_to_prot(dir, dev_is_dma_coherent(dev), attrs);
- 	dma_addr_t iova;
- 	size_t iova_len = 0;
- 	unsigned long mask = dma_get_seg_boundary(dev);
--	int i;
-+	int i, map = -1, ret = 0;
- 
- 	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
- 	    iommu_deferred_attach(dev, domain))
-@@ -993,6 +1009,23 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 		s_length = iova_align(iovad, s_length + s_iova_off);
- 		s->length = s_length;
- 
-+		if (is_pci_p2pdma_page(sg_page(s))) {
-+			if (sg_page(s)->pgmap != pgmap) {
-+				pgmap = sg_page(s)->pgmap;
-+				map = pci_p2pdma_dma_map_type(dev, pgmap);
-+			}
-+
-+			if (map < 0) {
-+				ret = -EREMOTEIO;
-+				goto out_restore_sg;
-+			}
-+
-+			if (map) {
-+				s->length = 0;
-+				continue;
-+			}
-+		}
-+
- 		/*
- 		 * Due to the alignment of our single IOVA allocation, we can
- 		 * depend on these assumptions about the segment boundary mask:
-@@ -1015,6 +1048,9 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 		prev = s;
- 	}
- 
-+	if (!iova_len)
-+		return __finalise_sg(dev, sg, nents, 0, attrs);
-+
- 	iova = iommu_dma_alloc_iova(domain, iova_len, dma_get_mask(dev), dev);
- 	if (!iova)
- 		goto out_restore_sg;
-@@ -1026,19 +1062,19 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
- 	if (iommu_map_sg_atomic(domain, iova, sg, nents, prot) < iova_len)
- 		goto out_free_iova;
- 
--	return __finalise_sg(dev, sg, nents, iova);
-+	return __finalise_sg(dev, sg, nents, iova, attrs);
- 
- out_free_iova:
- 	iommu_dma_free_iova(cookie, iova, iova_len, NULL);
- out_restore_sg:
- 	__invalidate_sg(sg, nents);
--	return 0;
-+	return ret;
+ 	return 0;
  }
- 
- static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
- 		int nents, enum dma_data_direction dir, unsigned long attrs)
++static inline int dma_pci_p2pdma_supported(struct device *dev)
++{
++	return 0;
++}
+ static inline int dma_set_mask(struct device *dev, u64 mask)
  {
--	dma_addr_t start, end;
-+	dma_addr_t end, start = DMA_MAPPING_ERROR;
- 	struct scatterlist *tmp;
- 	int i;
- 
-@@ -1054,14 +1090,20 @@ static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
- 	 * The scatterlist segments are mapped into a single
- 	 * contiguous IOVA allocation, so this is incredibly easy.
- 	 */
--	start = sg_dma_address(sg);
--	for_each_sg(sg_next(sg), tmp, nents - 1, i) {
-+	for_each_sg(sg, tmp, nents, i) {
-+		if (sg_is_pci_p2pdma(tmp))
-+			continue;
- 		if (sg_dma_len(tmp) == 0)
- 			break;
--		sg = tmp;
-+
-+		if (start == DMA_MAPPING_ERROR)
-+			start = sg_dma_address(tmp);
-+
-+		end = sg_dma_address(tmp) + sg_dma_len(tmp);
- 	}
--	end = sg_dma_address(sg) + sg_dma_len(sg);
--	__iommu_dma_unmap(dev, start, end - start);
-+
-+	if (start != DMA_MAPPING_ERROR)
-+		__iommu_dma_unmap(dev, start, end - start);
+ 	return -EIO;
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index adc1a83950be..cc1b97deb74d 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -540,6 +540,14 @@ int dma_supported(struct device *dev, u64 mask)
  }
+ EXPORT_SYMBOL(dma_supported);
  
- static dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
-@@ -1254,6 +1296,7 @@ static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
- }
- 
- static const struct dma_map_ops iommu_dma_ops = {
-+	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
- 	.alloc			= iommu_dma_alloc,
- 	.free			= iommu_dma_free,
- 	.alloc_pages		= dma_common_alloc_pages,
++int dma_pci_p2pdma_supported(struct device *dev)
++{
++	const struct dma_map_ops *ops = get_dma_ops(dev);
++
++	return !ops || ops->flags & DMA_F_PCI_P2PDMA_SUPPORTED;
++}
++EXPORT_SYMBOL(dma_pci_p2pdma_supported);
++
+ #ifdef CONFIG_ARCH_HAS_DMA_SET_MASK
+ void arch_dma_set_mask(struct device *dev, u64 mask);
+ #else
 -- 
 2.20.1
 
