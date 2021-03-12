@@ -2,89 +2,74 @@ Return-Path: <SRS0=WLLZ=IK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E98ADC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 15:38:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60438C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 15:52:11 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 919BF64FAD
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 15:38:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 919BF64FAD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 145C564FFA
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 15:52:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 145C564FFA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Content-ID:Content-Description:Resent-Date:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=wBpkdsmsCMaQHIwirHsBq4tXM2UFiG2MhtXGhXwwd0o=; b=nJnNRYEpkdlrN+YHoyEPp/76S
-	ZuLTDW5tn5lBPyZzDcF8Xz/DoGc+tXfxpxDbHO7JbXUtV+YtwKCfdDi30OlxFcZohBlFUOfRKk/xM
-	iyFoWsv822GeShFXyCBxFEZq7cDzNfzl4CVviNKT5dyJLh5LoCcW+9hMSdL+ns5ULD5fosFvdcCdJ
-	CIHQ3QsC00oZHgN4rDfAuyFyNw35pXJU2qnPvZhhZ9hujk4k/mid3cJNd9/TlSIR/Ap9Tzv45WFnp
-	d+lG/5oKhPTsFVC/gy3RBmwv6n7yCsVd1I95yNk/XOt28aYspsrpgjLyO94IG690r9gEOuVjCjaiW
-	1XRB69ulA==;
+	 bh=1auCUaWCeCBjRXSfYgtXexURhuHZcTkm3OPVngHVooc=; b=NIQDrS4u2UgHtRdRJRpxlLzSm
+	K6MAgsmLXY1Gu23cmD9HdP122t6E3hbHFB+LrT+QHjGkKslrQWaoyjwZUNJYZs5Cc1cg1FV3vwGg1
+	DQDtw7l8xAMdrOKO0FOilWXyFNjDll6ybY71VLm4dXZI+WQszLDyDlpneNKrl5iXe9G5kz9AoL8x8
+	ShMBWFOaY30DoTLYLRQveXtADCiybOqg3zAA+bn5214tiuW+6mm4BWO6qmNJXIRiPlFYddSUgvwMT
+	ZnDmodHIzGXdYE6/60tf/CErAfRhtwLU2wLZp6yaO6otkmWpSVUkX0u2tZD4vcEu+Vmc5XAddtS9v
+	ZPq2Eqa2A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKjs0-00Bp9L-5Z; Fri, 12 Mar 2021 15:38:32 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
- by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKjow-00BoV2-7Z
- for linux-nvme@lists.infradead.org; Fri, 12 Mar 2021 15:35:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1615563318;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MPa7/awt4jb3ysTKGRVIL64VuNjuOp4uMYuG5tFGB30=;
- b=Uy4mjn4l8YunpE7QQZCy7C3jPzs7IynN6cR42PeouKqzsrK0RRT3Sx/d3xQHxckETz8bPJ
- ffdiJaXl9DBfw7tqKPp3Ym4J/ms29E51Kk+arWjxOGkUebk/N7rPhdw0/0bPDal9Ak2f0E
- CmBIdpTdpHFTCjXYTlHdJmz2VuZ/yWU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-Zzd8FTKzPBCs_Y7_sG8NIA-1; Fri, 12 Mar 2021 10:35:16 -0500
-X-MC-Unique: Zzd8FTKzPBCs_Y7_sG8NIA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F6C5100C667;
- Fri, 12 Mar 2021 15:35:15 +0000 (UTC)
-Received: from [10.3.112.115] (ovpn-112-115.phx2.redhat.com [10.3.112.115])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C53425C1C5;
- Fri, 12 Mar 2021 15:35:14 +0000 (UTC)
-Subject: Re: libnvme questions
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Keith Busch <kbusch@kernel.org>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Tomas Bzatek <tbzatek@redhat.com>
-References: <245fc813-9441-56d8-47e2-4417fc1f87e7@redhat.com>
- <20210310204844.GC3377333@dhcp-10-100-145-180.wdc.com>
- <BYAPR04MB49654A2227C054ACC903E2ED86909@BYAPR04MB4965.namprd04.prod.outlook.com>
-From: Tony Asleson <tasleson@redhat.com>
-Organization: Red Hat
-Message-ID: <7e866844-4848-3ef6-cba2-c704a8db74b9@redhat.com>
-Date: Fri, 12 Mar 2021 09:35:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+	id 1lKk52-00Bs9M-7F; Fri, 12 Mar 2021 15:52:00 +0000
+Received: from foss.arm.com ([217.140.110.172])
+ by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
+ id 1lKk4u-00Bs7w-3W
+ for linux-nvme@lists.infradead.org; Fri, 12 Mar 2021 15:51:55 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 79DA01FB;
+ Fri, 12 Mar 2021 07:51:47 -0800 (PST)
+Received: from [10.57.52.136] (unknown [10.57.52.136])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 38D593F7D7;
+ Fri, 12 Mar 2021 07:51:43 -0800 (PST)
+Subject: Re: [RFC PATCH v2 00/11] Add support to dma_map_sg for P2PDMA
+To: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Cc: Minturn Dave B <dave.b.minturn@intel.com>,
+ John Hubbard <jhubbard@nvidia.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Ira Weiny <iweiny@intel.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dan Williams <dan.j.williams@intel.com>, Stephen Bates
+ <sbates@raithlin.com>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Xiong Jianxin <jianxin.xiong@intel.com>
+References: <20210311233142.7900-1-logang@deltatee.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <6b9be188-1ec7-527c-ae47-3f5b4e153758@arm.com>
+Date: Fri, 12 Mar 2021 15:51:37 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <BYAPR04MB49654A2227C054ACC903E2ED86909@BYAPR04MB4965.namprd04.prod.outlook.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=tasleson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+In-Reply-To: <20210311233142.7900-1-logang@deltatee.com>
+Content-Language: en-GB
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210312_153522_480983_CB8D6F11 
-X-CRM114-Status: GOOD (  14.54  )
+X-CRM114-CacheID: sfid-20210312_155152_454280_D84D3396 
+X-CRM114-Status: GOOD (  36.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,35 +81,115 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: tasleson@redhat.com
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/10/21 10:43 PM, Chaitanya Kulkarni wrote:
-> Keith,
+On 2021-03-11 23:31, Logan Gunthorpe wrote:
+> Hi,
 > 
-> On 3/10/21 12:56, Keith Busch wrote:
->>> 3. Any plans on adding functionality for NVMe management interfaces to
->>> the library, e.g. NVMe Enclosures?
->> Will be happen to incorporate any features that are in-spec.
->>
+> This is a rework of the first half of my RFC for doing P2PDMA in userspace
+> with O_DIRECT[1].
 > 
-> Adding MI support is good idea ? I think it will bloat the basic
-> functionality.
+> The largest issue with that series was the gross way of flagging P2PDMA
+> SGL segments. This RFC proposes a different approach, (suggested by
+> Dan Williams[2]) which uses the third bit in the page_link field of the
+> SGL.
 > 
-> Can we consider adding MI plug-in for it ?
+> This approach is a lot less hacky but comes at the cost of adding a
+> CONFIG_64BIT dependency to CONFIG_PCI_P2PDMA and using up the last
+> scarce bit in the page_link. For our purposes, a 64BIT restriction is
+> acceptable but it's not clear if this is ok for all usecases hoping
+> to make use of P2PDMA.
 > 
+> Matthew Wilcox has already suggested (off-list) that this is the wrong
+> approach, preferring a new dma mapping operation and an SGL replacement. I
+> don't disagree that something along those lines would be a better long
+> term solution, but it involves overcoming a lot of challenges to get
+> there. Creating a new mapping operation still means adding support to more
+> than 25 dma_map_ops implementations (many of which are on obscure
+> architectures) or creating a redundant path to fallback with dma_map_sg()
+> for every driver that uses the new operation. This RFC is an approach
+> that doesn't require overcoming these blocks.
 
-IMHO having standards based functionality only in the cli as a plugin
-diminishes the value of the library.  If a developer is required to fork
-& exec the cli for some functionality, just do it for all.
+I don't really follow that argument - you're only adding support to two 
+implementations with the awkward flag, so why would using a dedicated 
+operation instead be any different? Whatever callers need to do if 
+dma_pci_p2pdma_supported() says no, they could equally do if 
+dma_map_p2p_sg() (or whatever) returns -ENXIO, no?
 
-If the size of libnvme is a concern, MI could be built into a separate
-library from the same source tree that leverages the base libnvme
-library, to allow selective install & use.
+We don't try to multiplex .map_resource through .map_page, so there 
+doesn't seem to be any good reason to force that complexity on .map_sg 
+either. And having a distinct API from the outset should make it a lot 
+easier to transition to better "list of P2P memory regions" data 
+structures in future without rewriting the whole world. As it is, there 
+are potential benefits in a P2P interface which can define its own 
+behaviour - for instance if threw out the notion of segment merging it 
+could save a load of bother by just maintaining the direct correlation 
+between pages and DMA addresses.
 
+Robin.
+
+> Any alternative ideas or feedback is welcome.
+> 
+> These patches are based on v5.12-rc2 and a git branch is available here:
+> 
+>    https://github.com/sbates130272/linux-p2pmem/  p2pdma_dma_map_ops_rfc
+> 
+> A branch with the patches from the previous RFC that add userspace
+> O_DIRECT support is available at the same URL with the name
+> "p2pdma_dma_map_ops_rfc+user" (however, none of the issues with those
+> extra patches from the feedback of the last posting have been fixed).
+> 
+> Thanks,
+> 
+> Logan
+> 
+> [1] https://lore.kernel.org/linux-block/20201106170036.18713-1-logang@deltatee.com/
+> [2] https://lore.kernel.org/linux-block/CAPcyv4ifGcrdOtUt8qr7pmFhmecGHqGVre9G0RorGczCGVECQQ@mail.gmail.com/
+> 
+> --
+> 
+> Logan Gunthorpe (11):
+>    PCI/P2PDMA: Pass gfp_mask flags to upstream_bridge_distance_warn()
+>    PCI/P2PDMA: Avoid pci_get_slot() which sleeps
+>    PCI/P2PDMA: Attempt to set map_type if it has not been set
+>    PCI/P2PDMA: Introduce pci_p2pdma_should_map_bus() and
+>      pci_p2pdma_bus_offset()
+>    lib/scatterlist: Add flag for indicating P2PDMA segments in an SGL
+>    dma-direct: Support PCI P2PDMA pages in dma-direct map_sg
+>    dma-mapping: Add flags to dma_map_ops to indicate PCI P2PDMA support
+>    iommu/dma: Support PCI P2PDMA pages in dma-iommu map_sg
+>    block: Add BLK_STS_P2PDMA
+>    nvme-pci: Check DMA ops when indicating support for PCI P2PDMA
+>    nvme-pci: Convert to using dma_map_sg for p2pdma pages
+> 
+>   block/blk-core.c            |  2 +
+>   drivers/iommu/dma-iommu.c   | 63 +++++++++++++++++++++-----
+>   drivers/nvme/host/core.c    |  3 +-
+>   drivers/nvme/host/nvme.h    |  2 +-
+>   drivers/nvme/host/pci.c     | 38 +++++++---------
+>   drivers/pci/Kconfig         |  2 +-
+>   drivers/pci/p2pdma.c        | 89 +++++++++++++++++++++++++++++++------
+>   include/linux/blk_types.h   |  7 +++
+>   include/linux/dma-map-ops.h |  3 ++
+>   include/linux/dma-mapping.h |  5 +++
+>   include/linux/pci-p2pdma.h  | 11 +++++
+>   include/linux/scatterlist.h | 49 ++++++++++++++++++--
+>   kernel/dma/direct.c         | 35 +++++++++++++--
+>   kernel/dma/mapping.c        | 21 +++++++--
+>   14 files changed, 271 insertions(+), 59 deletions(-)
+> 
+> 
+> base-commit: a38fd8748464831584a19438cbb3082b5a2dab15
+> --
+> 2.20.1
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> 
 
 _______________________________________________
 Linux-nvme mailing list
