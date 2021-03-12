@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E45C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 15:52:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9999C433E6
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 15:53:30 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1FD7D64FFB
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 15:52:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1FD7D64FFB
+	by mail.kernel.org (Postfix) with ESMTPS id 5B10164FF3
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 15:53:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B10164FF3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,27 +24,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=q4SQMzVK/q2C3C4kC1bwmQu/VQj27rJ7zjkwx/mLfEM=; b=nvk4VlR54FTCq7Jleav87vLfa
-	RigYBwQ42JX0CIvawHLtupiz+nWnWnSrmH1CwHmPA53NT74JMsT9lsCeRhzvoyJQN5fAxuudwarw4
-	dL277fqtZuO0hfvPaL8+OmYr57E8Nv9+7qcPVox0BB3/zBo3u+enN90JymzC4MidOSjmCTTTQ4LVH
-	ezx6N+2PCjsOq3VIKQDS3/6mlG7Y1fk0lp7VdLUWlLt7xj/Yauvc+2VzYjO16cIwjfsyGwJcIJCqd
-	Nri9srcW4sIvxDEpyHXuDUrNSWJfYnEqEIettM5+FfyNRz1Hn/pYZELv7EWT8iVKF6At7SVr02ViB
-	fznwjOGnQ==;
+	 bh=NPkFuRfkGTmvAYZmoisgB7T/7s2xJ6Cm90wshaU5nfM=; b=Ni6Z+G9C9RdS3D2PMRSNuCDYj
+	//nTWBbCj0mUwL5yaXEIddV0c2lnRjlizKzanHm+ENUAmm/0o3LhXUtV4L2S48sOpFaS+Cibxxxf4
+	vbjZOk6FowR1xUC5xlpzUmyji5sURCNizq0dwHe8tLPXkUw5kCLeTyQCQusGQZL3U7U0E7zZ4lrtv
+	1yMXoCTcskuF6rhJFoy5KqiRwKRFXlv3F0sZiKqJbMUsKCX5uhuSBHghJuf3PDuoC/dhJevWSCo5n
+	wOAFtAds08eejioHHwKMAwyb+wjfVoFG9eqeTibKoYYzrVZL9eO5t6xObWMReB/qj8WyvBk0M0b5t
+	myg9dAxYw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKk5H-00BsC5-5m; Fri, 12 Mar 2021 15:52:15 +0000
+	id 1lKk6J-00BsOh-OY; Fri, 12 Mar 2021 15:53:19 +0000
 Received: from foss.arm.com ([217.140.110.172])
  by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lKk5B-00BsAi-3q
- for linux-nvme@lists.infradead.org; Fri, 12 Mar 2021 15:52:11 +0000
+ id 1lKk6C-00BsN1-UF
+ for linux-nvme@lists.infradead.org; Fri, 12 Mar 2021 15:53:15 +0000
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8D0211B3;
- Fri, 12 Mar 2021 07:52:07 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B81B1063;
+ Fri, 12 Mar 2021 07:53:07 -0800 (PST)
 Received: from [10.57.52.136] (unknown [10.57.52.136])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9DA3A3F7D7;
- Fri, 12 Mar 2021 07:52:04 -0800 (PST)
-Subject: Re: [RFC PATCH v2 06/11] dma-direct: Support PCI P2PDMA pages in
- dma-direct map_sg
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 314293F7D7;
+ Fri, 12 Mar 2021 07:53:03 -0800 (PST)
+Subject: Re: [RFC PATCH v2 08/11] iommu/dma: Support PCI P2PDMA pages in
+ dma-iommu map_sg
 To: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -60,18 +60,18 @@ Cc: Minturn Dave B <dave.b.minturn@intel.com>,
  <sbates@raithlin.com>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
  Christoph Hellwig <hch@lst.de>, Xiong Jianxin <jianxin.xiong@intel.com>
 References: <20210311233142.7900-1-logang@deltatee.com>
- <20210311233142.7900-7-logang@deltatee.com>
+ <20210311233142.7900-9-logang@deltatee.com>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <215e1472-5294-d20a-a43a-ff6dfe8cd66e@arm.com>
-Date: Fri, 12 Mar 2021 15:52:02 +0000
+Message-ID: <accd4187-7a9d-a8fc-f216-98ec24e3411a@arm.com>
+Date: Fri, 12 Mar 2021 15:52:57 +0000
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210311233142.7900-7-logang@deltatee.com>
+In-Reply-To: <20210311233142.7900-9-logang@deltatee.com>
 Content-Language: en-GB
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210312_155209_804417_27858108 
-X-CRM114-Status: GOOD (  27.39  )
+X-CRM114-CacheID: sfid-20210312_155313_994795_AD3A2534 
+X-CRM114-Status: GOOD (  35.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,135 +89,201 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2021-03-11 23:31, Logan Gunthorpe wrote:
-> Add PCI P2PDMA support for dma_direct_map_sg() so that it can map
-> PCI P2PDMA pages directly without a hack in the callers. This allows
-> for heterogeneous SGLs that contain both P2PDMA and regular pages.
+> When a PCI P2PDMA page is seen, set the IOVA length of the segment
+> to zero so that it is not mapped into the IOVA. Then, in finalise_sg(),
+> apply the appropriate bus address to the segment. The IOVA is not
+> created if the scatterlist only consists of P2PDMA pages.
+
+This misled me at first, but I see the implementation does actually 
+appear to accomodate the case of working ACS where P2P *would* still 
+need to be mapped at the IOMMU.
+
+> Similar to dma-direct, the sg_mark_pci_p2pdma() flag is used to
+> indicate bus address segments. On unmap, P2PDMA segments are skipped
+> over when determining the start and end IOVA addresses.
 > 
-> SGL segments that contain PCI bus addresses are marked with
-> sg_mark_pci_p2pdma() and are ignored when unmapped.
+> With this change, the flags variable in the dma_map_ops is
+> set to DMA_F_PCI_P2PDMA_SUPPORTED to indicate support for
+> P2PDMA pages.
 > 
 > Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 > ---
->   kernel/dma/direct.c  | 35 ++++++++++++++++++++++++++++++++---
->   kernel/dma/mapping.c | 13 ++++++++++---
->   2 files changed, 42 insertions(+), 6 deletions(-)
+>   drivers/iommu/dma-iommu.c | 63 ++++++++++++++++++++++++++++++++-------
+>   1 file changed, 53 insertions(+), 10 deletions(-)
 > 
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 002268262c9a..f326d32062dd 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -13,6 +13,7 @@
->   #include <linux/vmalloc.h>
->   #include <linux/set_memory.h>
->   #include <linux/slab.h>
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index af765c813cc8..c0821e9051a9 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -20,6 +20,7 @@
+>   #include <linux/mm.h>
+>   #include <linux/mutex.h>
+>   #include <linux/pci.h>
 > +#include <linux/pci-p2pdma.h>
->   #include "direct.h"
->   
->   /*
-> @@ -387,19 +388,47 @@ void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
->   	struct scatterlist *sg;
->   	int i;
->   
-> -	for_each_sg(sgl, sg, nents, i)
-> +	for_each_sg(sgl, sg, nents, i) {
-> +		if (sg_is_pci_p2pdma(sg))
-> +			continue;
-> +
->   		dma_direct_unmap_page(dev, sg->dma_address, sg_dma_len(sg), dir,
->   			     attrs);
-> +	}
->   }
->   #endif
->   
->   int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
->   		enum dma_data_direction dir, unsigned long attrs)
+>   #include <linux/swiotlb.h>
+>   #include <linux/scatterlist.h>
+>   #include <linux/vmalloc.h>
+> @@ -846,7 +847,7 @@ static void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
+>    * segment's start address to avoid concatenating across one.
+>    */
+>   static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
+> -		dma_addr_t dma_addr)
+> +		dma_addr_t dma_addr, unsigned long attrs)
 >   {
-> -	int i;
-> +	struct dev_pagemap *pgmap = NULL;
-> +	int i, map = -1, ret = 0;
->   	struct scatterlist *sg;
-> +	u64 bus_off;
+>   	struct scatterlist *s, *cur = sg;
+>   	unsigned long seg_mask = dma_get_seg_boundary(dev);
+> @@ -864,6 +865,20 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
+>   		sg_dma_address(s) = DMA_MAPPING_ERROR;
+>   		sg_dma_len(s) = 0;
 >   
->   	for_each_sg(sgl, sg, nents, i) {
-> +		if (is_pci_p2pdma_page(sg_page(sg))) {
-> +			if (sg_page(sg)->pgmap != pgmap) {
-> +				pgmap = sg_page(sg)->pgmap;
+> +		if (is_pci_p2pdma_page(sg_page(s)) && !s_iova_len) {
+> +			if (i > 0)
+> +				cur = sg_next(cur);
+> +
+> +			sg_dma_address(cur) = sg_phys(s) + s->offset -
+
+Are you sure about that? ;)
+
+> +				pci_p2pdma_bus_offset(sg_page(s));
+
+Can the bus offset make P2P addresses overlap with regions of mem space 
+that we might use for regular IOVA allocation? That would be very bad...
+
+> +			sg_dma_len(cur) = s->length;
+> +			sg_mark_pci_p2pdma(cur);
+> +
+> +			count++;
+> +			cur_len = 0;
+> +			continue;
+> +		}
+> +
+>   		/*
+>   		 * Now fill in the real DMA data. If...
+>   		 * - there is a valid output segment to append to
+> @@ -960,11 +975,12 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+>   	struct iova_domain *iovad = &cookie->iovad;
+>   	struct scatterlist *s, *prev = NULL;
+> +	struct dev_pagemap *pgmap = NULL;
+>   	int prot = dma_info_to_prot(dir, dev_is_dma_coherent(dev), attrs);
+>   	dma_addr_t iova;
+>   	size_t iova_len = 0;
+>   	unsigned long mask = dma_get_seg_boundary(dev);
+> -	int i;
+> +	int i, map = -1, ret = 0;
+>   
+>   	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
+>   	    iommu_deferred_attach(dev, domain))
+> @@ -993,6 +1009,23 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   		s_length = iova_align(iovad, s_length + s_iova_off);
+>   		s->length = s_length;
+>   
+> +		if (is_pci_p2pdma_page(sg_page(s))) {
+> +			if (sg_page(s)->pgmap != pgmap) {
+> +				pgmap = sg_page(s)->pgmap;
 > +				map = pci_p2pdma_dma_map_type(dev, pgmap);
-> +				bus_off = pci_p2pdma_bus_offset(sg_page(sg));
 > +			}
 > +
 > +			if (map < 0) {
-> +				sg->dma_address = DMA_MAPPING_ERROR;
+
+It rather feels like it should be the job of whoever creates the list in 
+the first place not to put unusable pages in it, especially since the 
+p2pdma_map_type looks to be a fairly coarse-grained and static thing. 
+The DMA API isn't responsible for validating normal memory pages, so 
+what makes P2P special?
+
 > +				ret = -EREMOTEIO;
-> +				goto out_unmap;
+> +				goto out_restore_sg;
 > +			}
 > +
 > +			if (map) {
-> +				sg->dma_address = sg_phys(sg) + sg->offset -
-> +					bus_off;
-> +				sg_dma_len(sg) = sg->length;
-> +				sg_mark_pci_p2pdma(sg);
+> +				s->length = 0;
+
+I'm not really thrilled about the idea of passing zero-length segments 
+to iommu_map_sg(). Yes, it happens to trick the concatenation logic in 
+the current implementation into doing what you want, but it feels fragile.
+
 > +				continue;
 > +			}
 > +		}
 > +
->   		sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
->   				sg->offset, sg->length, dir, attrs);
->   		if (sg->dma_address == DMA_MAPPING_ERROR)
-> @@ -411,7 +440,7 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+>   		/*
+>   		 * Due to the alignment of our single IOVA allocation, we can
+>   		 * depend on these assumptions about the segment boundary mask:
+> @@ -1015,6 +1048,9 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   		prev = s;
+>   	}
 >   
->   out_unmap:
->   	dma_direct_unmap_sg(dev, sgl, i, dir, attrs | DMA_ATTR_SKIP_CPU_SYNC);
+> +	if (!iova_len)
+> +		return __finalise_sg(dev, sg, nents, 0, attrs);
+> +
+>   	iova = iommu_dma_alloc_iova(domain, iova_len, dma_get_mask(dev), dev);
+>   	if (!iova)
+>   		goto out_restore_sg;
+> @@ -1026,19 +1062,19 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>   	if (iommu_map_sg_atomic(domain, iova, sg, nents, prot) < iova_len)
+>   		goto out_free_iova;
+>   
+> -	return __finalise_sg(dev, sg, nents, iova);
+> +	return __finalise_sg(dev, sg, nents, iova, attrs);
+>   
+>   out_free_iova:
+>   	iommu_dma_free_iova(cookie, iova, iova_len, NULL);
+>   out_restore_sg:
+>   	__invalidate_sg(sg, nents);
 > -	return 0;
 > +	return ret;
 >   }
 >   
->   dma_addr_t dma_direct_map_resource(struct device *dev, phys_addr_t paddr,
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index b6a633679933..adc1a83950be 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -178,8 +178,15 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
->   EXPORT_SYMBOL(dma_unmap_page_attrs);
+>   static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
+>   		int nents, enum dma_data_direction dir, unsigned long attrs)
+>   {
+> -	dma_addr_t start, end;
+> +	dma_addr_t end, start = DMA_MAPPING_ERROR;
+>   	struct scatterlist *tmp;
+>   	int i;
 >   
->   /*
-> - * dma_maps_sg_attrs returns 0 on error and > 0 on success.
-> - * It should never return a value < 0.
-> + * dma_maps_sg_attrs returns 0 on any resource error and > 0 on success.
-> + *
-> + * If 0 is returned, the mapping can be retried and will succeed once
-> + * sufficient resources are available.
+> @@ -1054,14 +1090,20 @@ static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
+>   	 * The scatterlist segments are mapped into a single
+>   	 * contiguous IOVA allocation, so this is incredibly easy.
+>   	 */
+> -	start = sg_dma_address(sg);
+> -	for_each_sg(sg_next(sg), tmp, nents - 1, i) {
+> +	for_each_sg(sg, tmp, nents, i) {
+> +		if (sg_is_pci_p2pdma(tmp))
 
-That's not a guarantee we can uphold. Retrying forever in the vain hope 
-that a device might evolve some extra address bits, or a bounce buffer 
-might magically grow big enough for a gigantic mapping, isn't 
-necessarily the best idea.
-
-> + *
-> + * If there are P2PDMA pages in the scatterlist then this function may
-> + * return -EREMOTEIO to indicate that the pages are not mappable by the
-> + * device. In this case, an error should be returned for the IO as it
-> + * will never be successfully retried.
->    */
->   int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
->   		enum dma_data_direction dir, unsigned long attrs)
-> @@ -197,7 +204,7 @@ int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
->   		ents = dma_direct_map_sg(dev, sg, nents, dir, attrs);
->   	else
->   		ents = ops->map_sg(dev, sg, nents, dir, attrs);
-> -	BUG_ON(ents < 0);
-> +
-
-This scares me - I hesitate to imagine the amount of driver/subsystem 
-code out there that will see nonzero and merrily set off iterating a 
-negative number of segments, if we open the floodgates of allowing 
-implementations to return error codes here.
+Since the flag is associated with the DMA address which will no longer 
+be valid, shouldn't it be cleared? The circumstances in which leaving it 
+around could cause a problem are tenuous, but definitely possible.
 
 Robin.
 
->   	debug_dma_map_sg(dev, sg, nents, ents, dir);
+> +			continue;
+>   		if (sg_dma_len(tmp) == 0)
+>   			break;
+> -		sg = tmp;
+> +
+> +		if (start == DMA_MAPPING_ERROR)
+> +			start = sg_dma_address(tmp);
+> +
+> +		end = sg_dma_address(tmp) + sg_dma_len(tmp);
+>   	}
+> -	end = sg_dma_address(sg) + sg_dma_len(sg);
+> -	__iommu_dma_unmap(dev, start, end - start);
+> +
+> +	if (start != DMA_MAPPING_ERROR)
+> +		__iommu_dma_unmap(dev, start, end - start);
+>   }
 >   
->   	return ents;
+>   static dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
+> @@ -1254,6 +1296,7 @@ static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
+>   }
+>   
+>   static const struct dma_map_ops iommu_dma_ops = {
+> +	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
+>   	.alloc			= iommu_dma_alloc,
+>   	.free			= iommu_dma_free,
+>   	.alloc_pages		= dma_common_alloc_pages,
 > 
 
 _______________________________________________
