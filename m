@@ -1,96 +1,83 @@
-Return-Path: <SRS0=WLLZ=IK=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=bb4v=IL=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 422F4C433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 21:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22AB4C433E0
+	for <linux-nvme@archiver.kernel.org>; Sat, 13 Mar 2021 01:39:26 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D267C64F23
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Mar 2021 21:39:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D267C64F23
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id 75D6764F19
+	for <linux-nvme@archiver.kernel.org>; Sat, 13 Mar 2021 01:39:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75D6764F19
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=rUbv3r/aFJAnGULBn+t67x80hTT5m+VmL6yDJnVBdv4=; b=GKaisaSLsBTTCEKRuiqNbHNer
-	Sb3KqcAx+6/djL+TiMG1rccH92Z4pacGupnyJTx1XkweVEdNNGk0Xqx8OKjhB9aNkxKfCsqNs8zmS
-	5GpzecXdJePr5l4FzpjfjZHhjNvUBaFcsFW8Cexd7b3FTbede/Oe1xAU9oJCUYuwEY/8AgxdWLNVe
-	KOc45tKUhj3hFQcK/Ujaz3A18STlOnaurwWAOALFyRgEAwOt+IO+KmrF/0ZU2CKAG9XsQWnKU57pn
-	hE+2ul/6gFkDfMlmkwpMyf1Owp1ITF5ecLzawhhoK4fiUDMg8BwOBUiIYvyp1uuNHWe/rwyyCjmnZ
-	OzyPN9a0Q==;
+	 bh=0HaxSaf0IK8PQng6z9HX5JFSjkOgpeyX9zL1czYp4OA=; b=cffmrAkhkJYd9leQLHeaUfpui
+	u2uJJDnfa+hJJoO2EJ/AlMBJtPAet9Nzvdy3qRA4ZBdacLd9A+qPR4mL2a5C/w4p/i1C9TFm2CXEb
+	e8E303vx3fprZtjTpGvtjGx2K8H74HpKetNxBJhzJL+sWtL0dU/ffpSnj51sNhmuMO/HRNo2Zg9MK
+	HvR/E8NGjjf91aChJ+rIduQSYbJ+4ir8TyIL2b0WIojIb9nZwaeJ3zaReZFaWQdxMfuO5mIIjkG+r
+	konT/Ya6QpeyvIkPZwzNBdndol3TdsBMRfR8eoIi3SXiB7skO5lofPODJPn9G2lrQkUsHKwuwj31q
+	Bd5uphC/A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKpUe-00CSqO-HV; Fri, 12 Mar 2021 21:38:51 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1lKtFK-00Cfzz-HL; Sat, 13 Mar 2021 01:39:14 +0000
+Received: from mga03.intel.com ([134.134.136.65])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKpTQ-00CSlp-8U
- for linux-nvme@lists.infradead.org; Fri, 12 Mar 2021 21:37:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=T7mzuRgHR5zyL13fGxYATb0PibzAkq1gophY5Qi93V0=; b=NljsSHJkFlQ2oulW4psgZdRBZa
- qgoQiY/5e6LFm23c9qIwGHKx59Rdscll0uQCdBksaP8keL4Gv+qXd6SpMzWE3c2KTPN+Yt7TkjfMD
- VKufm9iYy9S1kM3gq5EoA8X0Iwwk+BXaeKR2DtsJwSiGP5M99l11j01GzfuA1WhYodeMJwR9eULLx
- qMCAqJ61hDuiWk9NoL/OXxGIsON+G05ZxyItH2tyiPiUwdHuiVQZbuD3Gw6w7iSs3CxWor/qKRJ+N
- iHGSbxHK1EBS+HEejQDjnyuIn1A2bZ90d2L7GIQDkwb8bf9pWbOv+q1TJdhTOcLW3uuY5x0278s54
- XVUZIIjg==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1lKpT0-0003Fl-Vh; Fri, 12 Mar 2021 14:37:07 -0700
-To: Bjorn Helgaas <helgaas@kernel.org>
+ id 1lKtFD-00Cfyy-QN
+ for linux-nvme@lists.infradead.org; Sat, 13 Mar 2021 01:39:12 +0000
+IronPort-SDR: KvRSNyq0OpyaGF8LVlSzDeb41FqkbJVDqaQaQVxh5n4ukS7obPr2E+uQPAXf2ma+AmRaWPeG8E
+ 7S35UjTlkO2Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="188954915"
+X-IronPort-AV: E=Sophos;i="5.81,245,1610438400"; d="scan'208";a="188954915"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2021 17:38:57 -0800
+IronPort-SDR: WX0p9R69J0SqVVtAjuI1NyCDa3GoAa0N7h3vw3KXR0KEY1AUvz5NjcbA4fhWSGyck6WC+6RtZ6
+ ly3N0e+cpIbQ==
+X-IronPort-AV: E=Sophos;i="5.81,245,1610438400"; d="scan'208";a="404606308"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2021 17:38:56 -0800
+Date: Fri, 12 Mar 2021 17:38:56 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
- Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Ira Weiny <iweiny@intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+ Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Ira Weiny <iweiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
+ Don Dutile <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
  Minturn Dave B <dave.b.minturn@intel.com>,
  Jason Ekstrand <jason@jlekstrand.net>,
  Dave Hansen <dave.hansen@linux.intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>
-References: <20210312205707.GA2288658@bjorn-Precision-5520>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <c252253e-5000-5d96-1ac8-90835c1a4eb0@deltatee.com>
-Date: Fri, 12 Mar 2021 14:37:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Subject: Re: [RFC PATCH v2 04/11] PCI/P2PDMA: Introduce
+ pci_p2pdma_should_map_bus() and pci_p2pdma_bus_offset()
+Message-ID: <20210313013856.GA3402637@iweiny-DESK2.sc.intel.com>
+References: <20210311233142.7900-1-logang@deltatee.com>
+ <20210311233142.7900-5-logang@deltatee.com>
 MIME-Version: 1.0
-In-Reply-To: <20210312205707.GA2288658@bjorn-Precision-5520>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
- jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
- daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
- jhubbard@nvidia.com, iweiny@intel.com, christian.koenig@amd.com, jgg@ziepe.ca,
- dan.j.williams@intel.com, hch@lst.de, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- helgaas@kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH v2 02/11] PCI/P2PDMA: Avoid pci_get_slot() which sleeps
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <20210311233142.7900-5-logang@deltatee.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210312_213736_261606_291E591B 
-X-CRM114-Status: GOOD (  32.09  )
+X-CRM114-CacheID: sfid-20210313_013910_616960_7B1D6D89 
+X-CRM114-Status: GOOD (  16.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,75 +94,48 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2021-03-12 1:57 p.m., Bjorn Helgaas wrote:
-> On Thu, Mar 11, 2021 at 04:31:32PM -0700, Logan Gunthorpe wrote:
->> In order to use upstream_bridge_distance_warn() from a dma_map function,
->> it must not sleep. However, pci_get_slot() takes the pci_bus_sem so it
->> might sleep.
->>
->> In order to avoid this, try to get the host bridge's device from
->> bus->self, and if that is not set just get the first element in the
->> list. It should be impossible for the host bridges device to go away
->> while references are held on child devices, so the first element
->> should not change and this should be safe.
->>
->> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
->> ---
->>  drivers/pci/p2pdma.c | 6 +++++-
->>  1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> index bd89437faf06..2135fe69bb07 100644
->> --- a/drivers/pci/p2pdma.c
->> +++ b/drivers/pci/p2pdma.c
->> @@ -311,11 +311,15 @@ static const struct pci_p2pdma_whitelist_entry {
->>  static bool __host_bridge_whitelist(struct pci_host_bridge *host,
->>  				    bool same_host_bridge)
->>  {
->> -	struct pci_dev *root = pci_get_slot(host->bus, PCI_DEVFN(0, 0));
->>  	const struct pci_p2pdma_whitelist_entry *entry;
->> +	struct pci_dev *root = host->bus->self;
->>  	unsigned short vendor, device;
->>  
->>  	if (!root)
->> +		root = list_first_entry_or_null(&host->bus->devices,
->> +						struct pci_dev, bus_list);
+On Thu, Mar 11, 2021 at 04:31:34PM -0700, Logan Gunthorpe wrote:
+> Introduce pci_p2pdma_should_map_bus() which is meant to be called by
+> DMA map functions to determine how to map a given p2pdma page.
 > 
-> Replacing one ugliness (assuming there is a pci_dev for the host
-> bridge, and that it is at 00.0) with another (still assuming a pci_dev
-> and that it is host->bus->self or the first entry).  I can't suggest
-> anything better, but maybe a little comment in the code would help
-> future readers.
-
-Yeah, I struggled to find a solution here; this was the best I could
-come up with. I'd love it if someone had a better idea. I can add a
-comment for future iterations.
-
-> I wish we had a real way to discover this property without the
-> whitelist, at least for future devices.  Was there ever any interest
-> in a _DSM or similar interface for this?
-
-I'd also like to get rid of the whitelist, but I have no idea how or who
-would have to lead a fight to get the hardware to self describe in way
-that we could use.
-
-> I *am* very glad to remove a pci_get_slot() usage.
+> pci_p2pdma_bus_offset() is also added to allow callers to get the bus
+> offset if they need to map the bus address.
 > 
->> +
->> +	if (!root || root->devfn)
->>  		return false;
->>  
->>  	vendor = root->vendor;
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> ---
+>  drivers/pci/p2pdma.c       | 50 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/pci-p2pdma.h | 11 +++++++++
+>  2 files changed, 61 insertions(+)
 > 
-> Don't you need to also remove the "pci_dev_put(root)" a few lines
-> below?
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 7f6836732bce..66d16b7eb668 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -912,6 +912,56 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+>  }
+>  EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
+>  
+> +/**
+> + * pci_p2pdma_bus_offset - returns the bus offset for a given page
+> + * @page: page to get the offset for
+> + *
+> + * Must be passed a PCI p2pdma page.
+> + */
+> +u64 pci_p2pdma_bus_offset(struct page *page)
+> +{
+> +	struct pci_p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(page->pgmap);
+> +
+> +	WARN_ON(!is_pci_p2pdma_page(page));
 
-Yes, right. Good catch!
+Shouldn't this check be before the to_p2p_pgmap() call?  And I've been told not
+to introduce WARN_ON's.  Should this be?
 
-Logan
+	if (!is_pci_p2pdma_page(page))
+		return -1;
 
+???
+
+Ira
 
 _______________________________________________
 Linux-nvme mailing list
