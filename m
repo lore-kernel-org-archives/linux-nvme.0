@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1D2BC433DB
-	for <linux-nvme@archiver.kernel.org>; Sat, 13 Mar 2021 02:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9937FC433E0
+	for <linux-nvme@archiver.kernel.org>; Sat, 13 Mar 2021 02:37:40 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 11D1364F83
-	for <linux-nvme@archiver.kernel.org>; Sat, 13 Mar 2021 02:33:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 11D1364F83
+	by mail.kernel.org (Postfix) with ESMTPS id 0ABE764F48
+	for <linux-nvme@archiver.kernel.org>; Sat, 13 Mar 2021 02:37:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0ABE764F48
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,33 +23,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=x9I1HEoi37dLY/3FRy/OVXw3amapccsDE3ZxPnXjNSU=; b=OF/lVPjNdML61uR/V5pJ7ZcNG
-	OPwmRl8PG1235JCOHUJb5ZVHABkiUoR6LhTSekRms3Uo4lPQeC6vMSd3p6F09qQ1Xjmd9rKkuEWwB
-	iWXs1U2UBgorE0QDI1+wHHNPHF8Q21MnT4vYE/27qAR7y6ikX44R7Q1BvEL3nCBAQbr7MgfSJhoQY
-	NE2YCmKF5ERtzATtOkAu8YXeMJsWDVGQk+KQkPwpDlHNwW8GczdX8PZ68PZDHyEwZ3CX8pk7Vbqci
-	P73YhrsPeyX76BzTL3MlkGqgl2BjtHGQfD0/kqsC5JwN6dWE5Cg2+2Dzncoy7JFG9nKmvNwdXLkaX
-	8jeMhCwdw==;
+	 bh=IF/SWiWmNkqBYuPHmK/5p7Eaw05HQtJ2vd20GzDQOxk=; b=mjOsBzHpwdUAj1B6Np/a1AkR9
+	XQ4l3JjTARjsB9U3whuNn1tsoTK7GqhFXDNy99TbnTVmRhSfbNHN6Nnt505jI9PxWzyOeyMoia7y/
+	CjLkBuq3FtbcZgN3TufF6OIKnCX1Z6G+ftaUVXFThoUfFX3O9wZ5OKUQzoYT7WX78rNSSRYliezio
+	196lDcJI2O1AjbtGo9aKWqU9pJwC59Blz50RJ8Kb8GxswQe+fAJ/24Q79JCeLYVlkXNEkcsQOFcNX
+	syU4YGCKZjuh8OJuU9n30ZRwapWcjr8jGfS552zUev+9d2qulMnS1wo1X2yWwdd6C97uGcgj8/iW2
+	znb5QgwUw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lKu5i-00Cid5-Me; Sat, 13 Mar 2021 02:33:22 +0000
-Received: from mga09.intel.com ([134.134.136.24])
+	id 1lKu9b-00Cir6-TW; Sat, 13 Mar 2021 02:37:24 +0000
+Received: from mga17.intel.com ([192.55.52.151])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lKu4s-00CiaO-K4
- for linux-nvme@lists.infradead.org; Sat, 13 Mar 2021 02:33:18 +0000
-IronPort-SDR: IO+kk6f0kNAFEWKNTUoJsyxwuYOPggBRHqjjhp/VnnAngByZuH5J+XdaSqTuqK83+Cje2c7sdH
- 9UuM9zqw+wgA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="189008479"
-X-IronPort-AV: E=Sophos;i="5.81,245,1610438400"; d="scan'208";a="189008479"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2021 18:32:20 -0800
-IronPort-SDR: BWPKoNFrC0CbvFbvqC7bofsQvJCNTBhJDT+7AoC9cufX1+KLu6FM5vOz8SA4xWlBa1sCU5vqVL
- Ls62JjUfG9ug==
-X-IronPort-AV: E=Sophos;i="5.81,245,1610438400"; d="scan'208";a="448805796"
+ id 1lKu9E-00Ciop-OY
+ for linux-nvme@lists.infradead.org; Sat, 13 Mar 2021 02:37:18 +0000
+IronPort-SDR: Aeas+zGX/44QAm+KzJ4G2AAQoSsYeSI9UXJ8DE4MdDU9/PhTezFp2+NjUz4fZBOABioceLqoAn
+ jFwmmNhC4GWg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="168831374"
+X-IronPort-AV: E=Sophos;i="5.81,245,1610438400"; d="scan'208";a="168831374"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2021 18:36:58 -0800
+IronPort-SDR: vWH9MrQPUopS4cxXwdJS5su75dKHztdNXjGGlH9ufjynLLu86PmrmvGK6dqQ7nNaiN1giHbb0p
+ Ed7tLl9U/OgQ==
+X-IronPort-AV: E=Sophos;i="5.81,245,1610438400"; d="scan'208";a="404614708"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Mar 2021 18:32:20 -0800
-Date: Fri, 12 Mar 2021 18:32:20 -0800
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Mar 2021 18:36:57 -0800
+Date: Fri, 12 Mar 2021 18:36:57 -0800
 From: Ira Weiny <ira.weiny@intel.com>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -66,18 +66,19 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Jason Ekstrand <jason@jlekstrand.net>,
  Dave Hansen <dave.hansen@linux.intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>
-Subject: Re: [RFC PATCH v2 04/11] PCI/P2PDMA: Introduce
- pci_p2pdma_should_map_bus() and pci_p2pdma_bus_offset()
-Message-ID: <20210313023220.GB3402637@iweiny-DESK2.sc.intel.com>
+Subject: Re: [RFC PATCH v2 07/11] dma-mapping: Add flags to dma_map_ops to
+ indicate PCI P2PDMA support
+Message-ID: <20210313023657.GC3402637@iweiny-DESK2.sc.intel.com>
 References: <20210311233142.7900-1-logang@deltatee.com>
- <20210311233142.7900-5-logang@deltatee.com>
+ <20210311233142.7900-8-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210311233142.7900-5-logang@deltatee.com>
+In-Reply-To: <20210311233142.7900-8-logang@deltatee.com>
 User-Agent: Mutt/1.11.1 (2018-12-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210313_023309_142504_22744B83 
-X-CRM114-Status: GOOD (  18.59  )
+X-CRM114-CacheID: sfid-20210313_023716_983991_3BE4A675 
+X-CRM114-Status: UNSURE (   6.24  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,54 +95,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 11, 2021 at 04:31:34PM -0700, Logan Gunthorpe wrote:
-> Introduce pci_p2pdma_should_map_bus() which is meant to be called by
-            ^^^^^^^^^^^^^^^^^^^^^^^^^
-	    pci_p2pdma_dma_map_type() ???
+On Thu, Mar 11, 2021 at 04:31:37PM -0700, Logan Gunthorpe wrote:
+ 
+> +int dma_pci_p2pdma_supported(struct device *dev)
+   ^^^
+  bool?
 
-FWIW I find this name confusing with pci_p2pdma_map_type() and looking at the
-implementation I'm not clear why pci_p2pdma_dma_map_type() needs to exist?
-
-Ira
-
-[snip]
-
-> +
-> +/**
-> + * pci_p2pdma_dma_map_type - determine if a DMA mapping should use the
-> + *	bus address, be mapped normally or fail
-> + * @dev: device doing the DMA request
-> + * @pgmap: dev_pagemap structure for the mapping
-> + *
-> + * Returns:
-> + *    1 - if the page should be mapped with a bus address,
-> + *    0 - if the page should be mapped normally through an IOMMU mapping or
-> + *        physical address; or
-> + *   -1 - if the device should not map the pages and an error should be
-> + *        returned
-> + */
-> +int pci_p2pdma_dma_map_type(struct device *dev, struct dev_pagemap *pgmap)
 > +{
-> +	struct pci_p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(pgmap);
-> +	struct pci_dev *client;
+> +	const struct dma_map_ops *ops = get_dma_ops(dev);
 > +
-> +	if (!dev_is_pci(dev))
-> +		return -1;
-> +
-> +	client = to_pci_dev(dev);
-> +
-> +	switch (pci_p2pdma_map_type(p2p_pgmap->provider, client)) {
-> +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> +		return 0;
-> +	case PCI_P2PDMA_MAP_BUS_ADDR:
-> +		return 1;
-> +	default:
-> +		return -1;
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(pci_p2pdma_dma_map_type);
+> +	return !ops || ops->flags & DMA_F_PCI_P2PDMA_SUPPORTED;
 
-I guess the main point here is to export this to the DMA layer?
+Is this logic correct?  I would have expected.
+
+	return (ops && ops->flags & DMA_F_PCI_P2PDMA_SUPPORTED);
 
 Ira
 
