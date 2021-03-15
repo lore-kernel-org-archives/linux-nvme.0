@@ -2,83 +2,77 @@ Return-Path: <SRS0=15CP=IN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81177C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 21:50:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9BFC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 22:29:39 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1DC5B64F07
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 21:50:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1DC5B64F07
+	by mail.kernel.org (Postfix) with ESMTPS id C29F164E33
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 22:29:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C29F164E33
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=R8B9+SoSTp1wXBoFsOREz5Khi++pDCDZ6yXtCJiNf+I=; b=GSxEJq0Eu5zeqsmw9sw1zwahh
-	GPmvVj8sulEwK+m6vd8uz4AWH/ZMwsoicTEzqQYogpluLIcLqrHiU2/Sv73+DSCoKFGDVwZNKBpnw
-	K2ASyL+LFrh/B4hAeiuA4cd5z3o5UjN6XE/Kjy7o3Lh/PZPgDxepnQRADs1iUrcYZA1B1XMTNLW38
-	GpiNoR3H7RBlOnj2Z7NGCV6UXoSOdOP0GvCsg8WP59bf9SfXd3zsrTHsq+QZx8vvwDQy7jfo3Dc9O
-	ddkPI8BnE4sD1Cn5bjMsyHUYcEBgMItk8g1D5rCzkwu7nPFZCY1piZLcB/7VRaEV/0FrSh9XVAkfc
-	gUwLriRNQ==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=gEHtnGXGSgR1IM1NzJ8dLzULcrPkeOnFfhXq3zGg9WI=; b=Ua5rN6VVo2Ba5y
+	F9V6R/d6MQcTl2jRkGjuhYWATUgfCJcsEbJJ+3lO55sEct6BGqMw+fVu5n3uPIUTdC8iM+DhymeRO
+	g62rGUuWRaxor9j9qhUALL8W0ivKveMmhGRsQjyQC74CTom/IIBxkpTGH0XVJLgGpJpydD+a3O2pL
+	jQLisHPmrTm1ao6iWanV1RBlZhSS8a0QYRglgdwO2LAReMWXoB8Dp60/Xv1UIiUa+S4jxaw3IT8Z2
+	zvr5i8Aedjrbu0fi5zSZLg6KSwWxCeUYpHyDLOIA3r4CGrxsl9bMnOFmdaQLJeTG7OpUX7zmHEpJG
+	lzKqPJkP+qonVNOOqhYQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLv6c-00Gygy-78; Mon, 15 Mar 2021 21:50:30 +0000
-Received: from mail-pf1-f179.google.com ([209.85.210.179])
+	id 1lLvhr-00H1tS-SQ; Mon, 15 Mar 2021 22:29:08 +0000
+Received: from mail-pj1-f47.google.com ([209.85.216.47])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLv6V-00Gyfh-Nu
- for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 21:50:26 +0000
-Received: by mail-pf1-f179.google.com with SMTP id 16so7454655pfn.5
- for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 14:50:23 -0700 (PDT)
+ id 1lLvgE-00H1oa-F5
+ for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 22:27:29 +0000
+Received: by mail-pj1-f47.google.com with SMTP id
+ x7-20020a17090a2b07b02900c0ea793940so314195pjc.2
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 15:27:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ro1OXbkYhme2PpwbaGCsUiyN0X+Wy/g+dn02rSvbP2s=;
- b=KA7XgT+ZwWqg7syxvy4q7kt5ijreemtJZ1mLMZfAAP/SkLiCVDROKm3GF4lLhhWBye
- CETDW4xUL/AywBZ7NWmnieo9e/m6WuDczlB8MZKfkyZ+Q7wCvU3w9r2MEXtM9a3fwT4X
- QAQRp6Mdx4H7QrI1qrLXrNoR+sgq2VXoN5b3Fmce7oKylUgMh2hBZY94ObUnVlQdHnhJ
- BjSGlDJB2QDUrtYsPgZ+gw6vvZsqCESRMJJIGA5+VQ0I10q+m0NXyRYkX5piBFfW/rsq
- wmnA0E6F9JPpAMybKhuxkxyBWB8QmYnQoJBiw//WZ7t6TIHvUOHVMUur3enADX1CsBNt
- gxug==
-X-Gm-Message-State: AOAM5300xyBupKDv7DH5YJD+3NxXODRbC67p7jqz4hi6G9CxfS9ynJDa
- CkzbbMvrPIwRFJeW/6Ki0bb4JUJCQZA=
-X-Google-Smtp-Source: ABdhPJxePv2V4MoYu8GbNHnQPYh57ab8OEWhDUifpke44Voio48tglwgPM80Ehs38D+BpxQKoKdlTQ==
-X-Received: by 2002:a63:1350:: with SMTP id 16mr956171pgt.85.1615845022126;
- Mon, 15 Mar 2021 14:50:22 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:4faf:1598:b15b:7e86?
+ bh=QCiGnSH2yhtMS19IH+upNboQfOR/8mDv5GXy2I0LZN8=;
+ b=SHaSdqYrwMJ63SwsMv2s752322PH4TYK3xN+TLq9Nyu7R8Mk4/DjPjwua/O8fsG0X6
+ qKoKXSGqKe4BpH6ndOo7aW8dfksfksfq6KhYORrsi+MM+E+b6Uj8gHM4vIwcZJmdn8b+
+ Kj6ESMiiKF9gChbG+RRMCYgWc5Z8iV4l9HpWOQk0+YPx19FSx+1PCn6Mzxp8hZx4XUD1
+ +IxN5Yp0HwYtSAl+fVUP28E0kWLvf8Be0m2d26m+Za9z5BCwJHbyOyxEPXn8q2oqR3Nr
+ L1OX0XXiJcbVDCbZFdJI6STypkSe0aZ23Hqf0f3RfwGsnwDGn01i7piZ7ANd34esLyS9
+ aOvA==
+X-Gm-Message-State: AOAM530b/hwdQxt+E6orLPIHT4BXzqwNlk/OG8XSbY+q5fJOm+u0lPiL
+ p6K7jOY90wI4foIC2XtpHP6E/usSfGE=
+X-Google-Smtp-Source: ABdhPJzyDmJqgu6eYgjOlsUA2E9e95MhUWcmZfxpbNO12HiKkHSRPDR0vsTSaVkaX88VsCRb9g+TMw==
+X-Received: by 2002:a17:90b:3716:: with SMTP id
+ mg22mr1299889pjb.157.1615847235900; 
+ Mon, 15 Mar 2021 15:27:15 -0700 (PDT)
+Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
  ([2601:647:4802:9070:4faf:1598:b15b:7e86])
- by smtp.gmail.com with ESMTPSA id d5sm577414pjo.12.2021.03.15.14.50.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 14:50:21 -0700 (PDT)
-Subject: Re: [PATCH 1/1] nvmet: do not allow model_number exceed 40 bytes
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- "ngottlieb@nvidia.com" <ngottlieb@nvidia.com>,
- "mgurtovoy@nvidia.com" <mgurtovoy@nvidia.com>, "hch@lst.de" <hch@lst.de>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20210315145611.155972-1-ngottlieb@nvidia.com>
- <BYAPR04MB49657B5E84CDE72510A5AB77866C9@BYAPR04MB4965.namprd04.prod.outlook.com>
+ by smtp.gmail.com with ESMTPSA id r16sm14614526pfq.211.2021.03.15.15.27.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Mar 2021 15:27:15 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <4a4a2b20-af9c-0474-a5b6-734158dafcb7@grimberg.me>
-Date: Mon, 15 Mar 2021 14:50:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: [PATCH 0/3 rfc] Fix nvme-tcp and nvme-rdma controller reset hangs
+Date: Mon, 15 Mar 2021 15:27:11 -0700
+Message-Id: <20210315222714.378417-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR04MB49657B5E84CDE72510A5AB77866C9@BYAPR04MB4965.namprd04.prod.outlook.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210315_215023_880378_CCD1485B 
-X-CRM114-Status: GOOD (  15.83  )
+X-CRM114-CacheID: sfid-20210315_222727_893516_977B33D5 
+X-CRM114-Status: GOOD (  14.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,29 +84,84 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The below patches caused a regression in a multipath setup:
+Fixes: 9f98772ba307 ("nvme-rdma: fix controller reset hang during traffic")
+Fixes: 2875b0aecabe ("nvme-tcp: fix controller reset hang during traffic")
 
->> According to the NVM specifications, the model number size should be
->> 40 bytes (bytes 63:24 of the Identify Controller data structure).
->> Therefore, any attempt to store a value into model_number which
->> exceeds 40 bytes should return an error.
->>
->> Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
->> Signed-off-by: Noam Gottlieb <ngottlieb@nvidia.com>
-> 
-> The patch looks good to me, but is this patch not intended for 5.13 ?
-> 
-> Since for 5.13 we have nvmet_subsys_attr_model_store_locked(), this
-> patch uses nvmet_subsys_attr_model_store().
-> 
-> Is this a fix for 5.12-rc  ?
+These patches on their own are correct because they fixed a controller reset
+regression.
 
-I think this patch can wait for 5.13 for sure, maybe needs a Fixes
-tag to help it get back to stable...
+When we reset/teardown a controller, we must freeze and quiesce the namespaces
+request queues to make sure that we safely stop inflight I/O submissions.
+Freeze is mandatory because if our hctx map changed between reconnects,
+blk_mq_update_nr_hw_queues will immediately attempt to freeze the queue, and
+if it still has pending submissions (that are still quiesced) it will hang.
+This is what the above patches fixed.
+
+However, by freezing the namespaces request queues, and only unfreezing them
+when we successfully reconnect, inflight submissions that are running
+concurrently can now block grabbing the nshead srcu until either we successfully
+reconnect or ctrl_loss_tmo expired (or the user explicitly disconnected).
+
+This caused a deadlock [1] when a different controller (different path on the
+same subsystem) became live (i.e. optimized/non-optimized). This is because
+nvme_mpath_set_live needs to synchronize the nshead srcu before requeueing I/O
+in order to make sure that current_path is visible to future (re)submisions.
+However the srcu lock is taken by a blocked submission on a frozen request
+queue, and we have a deadlock.
+
+For multipath, we obviously cannot allow that as we want to failover I/O asap.
+However for non-mpath, we do not want to fail I/O (at least until controller
+FASTFAIL expires, and that is disabled by default btw).
+
+This creates a non-symmetric behavior of how the driver should behave in the
+presence or absence of multipath.
+
+[1]:
+Workqueue: nvme-wq nvme_tcp_reconnect_ctrl_work [nvme_tcp]
+Call Trace:
+ __schedule+0x293/0x730
+ schedule+0x33/0xa0
+ schedule_timeout+0x1d3/0x2f0
+ wait_for_completion+0xba/0x140
+ __synchronize_srcu.part.21+0x91/0xc0
+ synchronize_srcu_expedited+0x27/0x30
+ synchronize_srcu+0xce/0xe0
+ nvme_mpath_set_live+0x64/0x130 [nvme_core]
+ nvme_update_ns_ana_state+0x2c/0x30 [nvme_core]
+ nvme_update_ana_state+0xcd/0xe0 [nvme_core]
+ nvme_parse_ana_log+0xa1/0x180 [nvme_core]
+ nvme_read_ana_log+0x76/0x100 [nvme_core]
+ nvme_mpath_init+0x122/0x180 [nvme_core]
+ nvme_init_identify+0x80e/0xe20 [nvme_core]
+ nvme_tcp_setup_ctrl+0x359/0x660 [nvme_tcp]
+ nvme_tcp_reconnect_ctrl_work+0x24/0x70 [nvme_tcp]
+
+
+In order to fix this, we recognize the different behavior a driver needs to take
+in error recovery scenarios for mpath and non-mpath scenarios and expose this
+awareness with a new helper nvme_ctrl_is_mpath and use that to know what needs
+to be done.
+
+Sagi Grimberg (3):
+  nvme: introduce nvme_ctrl_is_mpath helper
+  nvme-tcp: fix possible hang when trying to set a live path during I/O
+  nvme-rdma: fix possible hang when trying to set a live path during I/O
+
+ drivers/nvme/host/multipath.c |  5 +++--
+ drivers/nvme/host/nvme.h      | 15 +++++++++++++++
+ drivers/nvme/host/rdma.c      | 29 +++++++++++++++++------------
+ drivers/nvme/host/tcp.c       | 30 +++++++++++++++++-------------
+ 4 files changed, 52 insertions(+), 27 deletions(-)
+
+-- 
+2.27.0
+
 
 _______________________________________________
 Linux-nvme mailing list
