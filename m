@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 651F7C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:24:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2B07C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:27:41 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B999464E98
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:24:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B999464E98
+	by mail.kernel.org (Postfix) with ESMTPS id 8F20A64EB3
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:27:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F20A64EB3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,60 +23,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6qJ9WtoiGABA4926aRFerWefXY+sjiiAxK7toNtJHFU=; b=NoNcDv0HbbdBHYW/I9bjbNTtK
-	h/NFQaIjz6ETAvknROjhc90Ap15+KCafveN3tgaMgYRZirSgu/2kz+luPg0f78F3+sEEWJsFsxqDG
-	ABl4bPZWa/Il6WZK9On9OvANmVM726zkwCvA93wtTYKVWUjpTLMx+UReP+aNoo3vxEUY536LQHFZ1
-	drxGLuWXx1R0zDII54C4IFqlIkY48RnzKsG541YwAobTRRRhW9ELTivCc3DIefwlZZt9LRveXWbJj
-	TBo9y3to+rTwqqXhn+GcI1GPEGskOFTshx7m0jIueilHnEUGQQjSq9YQOqhRvtH63xjB1s/HpTU3C
-	2Vj9uFbmA==;
+	 bh=OU9j1z0CzkSrrQcaOWcf4e9GWKdlKPPlY3eC/nVnREQ=; b=dC6xrlVmiOyO/kzHuJ+PKu6dJ
+	HvZEAvv9YeKRBSkUiJAYSn4jHHcwlKNfCHnTr28LBU6ft7KiwDo8SOdKvhxXH/CJiQ/cNC2GxvJaO
+	2DRwLXpBnyR2rJtQbNLlc6uLHDACeMGyJwnWF9va3MUE3h2R3q1za95FTemUOR6KBQ/1uo0KTld8l
+	SNseJgP2RL4f80wE7UAoEw+imihXAfXcbK3nGssLXfYqfNDp8oQq9gKLoGQwMe+DUd1MTrRIJS8n9
+	Nya3dLoORRWfkS26sI5g7lOvPdheU3JQ2Cqzvu//ML0IcIyef/AdtjctlgjR2V7vblFeotQeZ64Z1
+	7esPnSevg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLqwZ-00GVCM-Tg; Mon, 15 Mar 2021 17:23:52 +0000
-Received: from mail-pg1-f175.google.com ([209.85.215.175])
+	id 1lLr01-00GVfu-5q; Mon, 15 Mar 2021 17:27:25 +0000
+Received: from mail-pj1-f45.google.com ([209.85.216.45])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLqwA-00GV7a-SG
- for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:23:31 +0000
-Received: by mail-pg1-f175.google.com with SMTP id o10so20863667pgg.4
- for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 10:23:26 -0700 (PDT)
+ id 1lLqzu-00GVea-Md
+ for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:27:21 +0000
+Received: by mail-pj1-f45.google.com with SMTP id w8so9171404pjf.4
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 10:27:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SOr19HkQ4aJtmIr0qnJna24DA1eVceSzpc1P0bsMciE=;
- b=STOLMBTe0VYymLNsO0PG+B+GOtL3l9LNsxn+qXG+25aFkCbUmlSoE25Tno/7nbg29h
- 5o4e38nmzK4GGQHpkN0goH/4JXUO8yz+0UjsEQ6OYUBTPOXmw5FkS8wUQhUFrhAWnmai
- GUPMMFah77gRod7tmLqDF9nfWLrHPcDfk8d1ILV5jVspEH8mIFNcHqnmyWaxy/8GLk/k
- d/REvtvCfynrINWYWviofnNEKc8NTbP03CZIomUW/DKf17lgFqlAlBlcXDqvwyBZfsRP
- nKr6RkIvpZOpavAWffK9O9RXCtWgFhdMiSAEzdGmT2yRB9wXAH2c3i+lmKNfnwGxozaA
- RSBA==
-X-Gm-Message-State: AOAM530XGt/M+haXVsYFy/YeCJaoByQXqrV2+0LFWiz8nWAjsEbLUjqd
- StbN+Wx8lm5lmIWHA7vjKO4BXxcMpkw=
-X-Google-Smtp-Source: ABdhPJyRALazZX7cGSBw5fOnTu58AGZe51HdCRmgCiyKM9z1wXKsLg8C1YQ+y6a8txLlVl9HWjujkw==
-X-Received: by 2002:a62:7bc4:0:b029:1f1:58ea:4010 with SMTP id
- w187-20020a627bc40000b02901f158ea4010mr11477131pfc.70.1615829004747; 
- Mon, 15 Mar 2021 10:23:24 -0700 (PDT)
+ bh=Rug3gWvP3xmcq+KnfyNYKhL+F8EeyoCbsh5qJeAjdTc=;
+ b=GCyvTL87lE1mphJKI3htyLTVb5Ru3ELH/be0w2QO9ZtgPlnp1Vh8AosnKJsContHcd
+ spDODgsxv7qf/CTad7na7OaiHCp0K50/opluCINjh0m4kU+NT5uQdloq3LaSp3Db5D0Q
+ eVvkiEtUYuCWsQ8SetKTtPt1meoROJKle6c8jJzQmeEgHLTHaMZng3RIiONyRxG/A/z3
+ T8Edu/bwgaTi9CIHNoDArYitoN3AZsXrixPkGKerRmynITIbjPT8BOESlS0Jlpb1eVIH
+ 1B1UIs1ieMQ5haNa23440e1W15FjGMUvDv6uVPRArdVYToMdKUaYAdOe2JkZQ74ngYG5
+ nuBQ==
+X-Gm-Message-State: AOAM533Ik0l6OMWYiKgRcBYoHesLB2ZR786gPRAp1zKMk+1l13DqSfEN
+ +B/UV2e9F62J0T/g8Pp/G6nAfDuxxoU=
+X-Google-Smtp-Source: ABdhPJwBrMs3Pc7ktSUXv90nWm5KiIZePu9r3GVCIrSY/nX6TafxpDgoBizpyWWrMkVWr0LbWVSkYQ==
+X-Received: by 2002:a17:902:7407:b029:e4:9645:fdf6 with SMTP id
+ g7-20020a1709027407b02900e49645fdf6mr13041297pll.19.1615829236672; 
+ Mon, 15 Mar 2021 10:27:16 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:4faf:1598:b15b:7e86?
  ([2601:647:4802:9070:4faf:1598:b15b:7e86])
- by smtp.gmail.com with ESMTPSA id s62sm14583972pfb.148.2021.03.15.10.23.23
+ by smtp.gmail.com with ESMTPSA id b23sm13232666pfo.164.2021.03.15.10.27.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 10:23:24 -0700 (PDT)
-Subject: Re: [PATCH 1/2] nvme: sanitize KATO setting
-To: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>
+ Mon, 15 Mar 2021 10:27:16 -0700 (PDT)
+Subject: Re: [PATCH] nvme: Do not detach nshead when a namespace is removed
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
-References: <20210311103727.47381-1-hare@suse.de>
- <20210311103727.47381-2-hare@suse.de> <20210311105532.GA16515@lst.de>
+References: <20210311155454.7845-1-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <e42ca9f8-5a46-81f6-065d-a188bc18d899@grimberg.me>
-Date: Mon, 15 Mar 2021 10:23:23 -0700
+Message-ID: <3cefc08c-6d47-b137-e646-cec87bf8dfe9@grimberg.me>
+Date: Mon, 15 Mar 2021 10:27:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210311105532.GA16515@lst.de>
+In-Reply-To: <20210311155454.7845-1-hare@suse.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210315_172328_186871_7BEABB90 
-X-CRM114-Status: GOOD (  17.88  )
+X-CRM114-CacheID: sfid-20210315_172718_888899_FD91DC1C 
+X-CRM114-Status: GOOD (  20.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,38 +93,37 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+> 'struct nshead' and 'struct ns' have different lifetimes; the nshead
+> can (and occasionally will) stay around even if no namespaces are
+> connected, as it will only be finally removed once the last
+> opener is gone.
+> Once the system enters this state it becomes very hard to recover,
+> as the only way to remove a namespace is to disconnect the controller,
+> but the nshead is precisely _not_ related to a controller. This leads
+> to the very annoying behaviour that a subsequent 'nvme connect' call
+> will establish a _different_ nshead, _and_ the previous nshead will
+> stay around:
+> 
+>> nvme list
+> /dev/nvme0n1     9329c4c4af01db2c     Linux \
+>      1          17.18  GB /  17.18  GB      4 KiB +  0 B   5.3.18-4
+>> nvme disconnect -d /dev/nvme0
+>> nvme list
+> /dev/nvme0n1                                \
+>      -1          0.00   B /   0.00   B      1   B +  0 B   n1
+>> nvme connect
+>> nvme list
+> /dev/nvme0n1     9329c4c4af01db2c     Linux \
+>      -1          0.00   B /   0.00   B      1   B +  0 B   5.3.18-4
+> /dev/nvme0n2     9329c4c4af01db2c     Linux \
+>      1          17.18  GB /  17.18  GB      4 KiB +  0 B   5.3.18-4
+> 
+> This patch fixes the situation by only removing the nshead from the
+> internal lists once it's being finally removed.
 
-On 3/11/21 2:55 AM, Christoph Hellwig wrote:
->> +/*
->> + * Recommended frequency for KATO commands
->> + *
->> + * NVMe 1.4 section 7.12.1 states:
->> + * The host should send Keep Alive commands at half of the
->> + * Keep Alive Timeout accounting for transport roundtrip times [..].
->> + */
->> +#define NVME_KATO_DELAY(k)	(((k) > 1)?(k) >> 1:(k))
-> 
-> This should have been an inline if added at all, and use proper
-> formatting, as well as avoiding the shift obsfucation.
-> 
-> I think the best is to just move this into the only caller, where
-> we also know that ctrl->kato can't be 0 due to the check in
-> nvme_start_keep_alive:
-> 
-> /*
->   * Recommended frequency for KATO commands per  NVMe 1.4 section 7.12.1:
->   *
->   *     The host should send Keep Alive commands at half of the
->   *     Keep Alive Timeout accounting for transport roundtrip times [..].
-> */
-> static inline void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
-> {
-> 	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ / 2);
-> }
-> 
-> Also please keep this helper inside of core.c.
-
-Agreed.
+I'd say that we should remove the nshead exactly when the last
+lower ns was removed? Why should it still occupy sysfs and ida
+resources if it is going away soon?
 
 _______________________________________________
 Linux-nvme mailing list
