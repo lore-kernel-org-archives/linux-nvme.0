@@ -6,14 +6,14 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A24C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 03:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A557C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 04:15:14 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E27564DCE
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 03:55:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E27564DCE
+	by mail.kernel.org (Postfix) with ESMTPS id 8007464E64
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 04:15:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8007464E64
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,138 +22,139 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=V7AB5uxs+bq3/SPoGmV9iuwVYYgv9ohMxkmIMxtAMsI=; b=NyCwK7ImsaVj6Lo2oBr91ePJE
-	N+BNEwsqdtuQx/LO1iRwRdMbwlp9sAdC8JZUmrT5oM14F3TrfvxmudgDKniKXbBO4OkAVDc8jftlg
-	7p/sDzoFbPDweD6bc/gZXf4rlanddCJh4squmhzI7RH6kjpGdDrVsIl2ZyKB0KwukgpfXlr6ckQ44
-	fgLtknubaPpaoUsKqL/3+OT92vlQAfpB6bRs5G1LsHXRdZpph6XvGBJDJUuliTq0vEQNLw6NzcGXx
-	x/DGfriLCxAsAcmbNlpyMrQJoUOgPRQdKb9DHiATEjANmMcIsOYUecNJ4JDstG4dQ3T7AIWIZlyoP
-	c8ef0HUiQ==;
+	 bh=ZW9zT51OKl2DfJRxkqhhpB7Oh5pR8iSez3gkroWNUgA=; b=nt54KO+8Al20BssaGkM4kD+og
+	aL8pZLBn8TlqF6W5xBwhF8zouGWV7Oo8YUE6h5XB50hcE4SIMGRLiyL6zPTzQSSdC+a9n2JYM/V9u
+	hi5kBT4L5l0obgduvOEdB2HBhascuqP71u5N1tcYNeISyo6VXP366KbG5Rs/GBdYN2nIl75ZRIhLg
+	ERhx1UwGuNQnbpjTLxacdneItzlEh35GJkUzqI4JMY1euM9nNJ5GkDYH7Imcek6FPeTqrY0Zf5zV4
+	ZGiJhEW8JYB1XEyksVvXoPEBnSnN6aZAUkNrx3w1o25sYMN6qgFwtMxVu7BgVLKCu4K5MPDtVRMBz
+	YGC8xjSXg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLeJd-00Eq0e-CF; Mon, 15 Mar 2021 03:54:49 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1lLecs-00Er1d-8w; Mon, 15 Mar 2021 04:14:49 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLeJT-00Epzn-Sh
- for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 03:54:46 +0000
+ id 1lLeYN-00Eqsl-02
+ for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 04:10:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1615780480; x=1647316480;
+ t=1615781404; x=1647317404;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=C07mR7Urn6Vhkn8bpH4iXZpY+SFCn5oucxEqqVemaHo=;
- b=oU7EuIJMAKBnSa/3PzToizyWimwrLb/lO4z5m/vGqAFP5zLZswUfjrPD
- gJcPGIWXOHh0bRQpJhtbjNMzVXVcXEKZtVmxZJR8wZAGLEmN6QptjRT2V
- SYjp/xOw5aRra+HfzWS8ikn/yXpqSGrjlb2R+sBq70iGKPASwYgYfojsw
- LpvVksngC/QohMPB8L8o5be+vObPrc7xoI71VDEu0WlhhBv1hzoGIa1V9
- gvh0v+s12xaqPgxyeA7JbqtsgLm18euaqMuvAM9N+VnQc8EURfLDnkeul
- NBn9RUMVsCqg/T+wkdC3jd2uIRe3H81EXP8uyryhZ4TBSNCKRCGXLHd9A g==;
-IronPort-SDR: RrFiUnxdn650/YsL+sZASRAF7lp3Jfeb3tvOXsM/RYs3+dxmXSJGQvxqu3Eosm5+mHttHCdA5w
- QVn2mjb7iyJNCK66DfXMKC0M9MTXaccEmPgMSumdFQY15Zg4HOC9129a35/RGjoujs47ZIC5ba
- ieWiV8TlMWB+Y879WzAhf75GDEjRPO5nPdoVzTCQWLtzqrCWPFUiS6LwVwR+EW8AEd/bbTJ/kI
- Z/o4qGvlJnnkSIHQ/pJpuy7P7Hzdy6PULTRgxJglrkfjYGCWdRtpBO2ERpxvkU+nqU2/hpMkRj
- YhQ=
-X-IronPort-AV: E=Sophos;i="5.81,249,1610380800"; d="scan'208";a="163282781"
-Received: from mail-co1nam11lp2176.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.176])
- by ob1.hgst.iphmx.com with ESMTP; 15 Mar 2021 11:54:33 +0800
+ bh=wEp2y1ScKs9JCFSG8VPuhJpZfMqhdAZnvmzN997uojQ=;
+ b=h9A44kpvhWQRJ5BxtpdNT0Zi8/OTUlootIELAZRQZ40GAycjevRCbAAD
+ G7RS0VK7S8Vn82p2pVX+B9q8/dmNxSukrhydV6nLvg0kInmFwLTcmb3Nl
+ 8TaYg3OwZuuw5XiikkQapG7LXUCgxEYYAr/IKVa4hoOGO4rslcFpmYbLf
+ 8B7+amnAqEaBdS83VPAlU/njcQU5a4t3eAJv0r8PylRlSsmY0UswDNmLj
+ DTZUi3fMl13+RpIHE8Dx51uCqH6C4/vETV7IKMpchltvlTwQkCIUFG8D5
+ FR5RW1yVTVoEMnuUWTo/F6yzwirTPeHFfU9FIYQ9WIunUTaNU1ZhUqaQS g==;
+IronPort-SDR: I73TZ3XwtMlUncnEGhibGKyDGsoR0gimVJ0YgoRbJCMb8hNO0QAT0S3I7gY3297zkbBDcrB4hX
+ /bU6Tybj1UPIukDHjppqLzl/SU0J7SIo6/ri+7LUjKdUfEVjUqzmMOQxqINrzFRySN9Ec7aH9H
+ trgzO3tcs9BDmbV7CTLSA4NQeYh0jn0+foLMqzuJsbWt2OmJaeO9NY2yOHTTEzQ7lx9hfiyxZT
+ URkuUTffnbfxIdaaboscCk3Lk/fScQ2jbqFsVWbAkEK290BI4IS1843vxn7WWykrDE0bhFEWLr
+ edQ=
+X-IronPort-AV: E=Sophos;i="5.81,249,1610380800"; d="scan'208";a="266510689"
+Received: from mail-dm6nam11lp2177.outbound.protection.outlook.com (HELO
+ NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.177])
+ by ob1.hgst.iphmx.com with ESMTP; 15 Mar 2021 12:10:17 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TImPCuAsrppYxBIoWTuu16l20G53njk2SG/FyqxvuG1RWgLavF2472+B3ilDb2wYZX08OzvO+VI2+fi0Ix5+QyZpGiOpkHSeDZEPaEHeAcLQG7UjB4WlAbFdLxq5CdY8skwGampG5xPuiWk6AE7772TcJ73DIagfYz3SumDILBPGTPPdyWPG6Y6XkjfJKYxaXmuBvJx7rODdXB2N62tDwE317AFKQxxP4bXkpoDtJdKniT4fw8HHA8sHSuZuBdmntdElkX878IidAWhoFvTT/pZSlb8Dq8BY8GTNq4GtN/75Fa981hl78fz/6B3ikkFii2YLbpztgCgL9yLOy6SZOA==
+ b=Ihmm9sUIGqL1hukEJ7s3jsJO54S3kJUAootOE4t5K+jjE788Wgjc/9QzApi1UKja8knZbxGyLNY3YwcjF2pEuPrxdC8VygBRzOKAi9R3zlRywfCcG7oLIYOHwyKoWCu1hMGWkxSnF9e9fNTQvFnvnACRjne0rQNPw6+crYJs+BWO/mrYyadCyUVPRNCWkD3l81s4bTz874AAptNIGXmCg1hAFs6l5TQNje6PGOo1syvrQ/N9L+MkRGO4b31Ykzt+laLk3tZl/CHRRMFvUAveUOO1oKgWgDuoItDqp07hhWG61SS6ZrdYMC5ppsHwFsXgcg/Xx0Xf2ONochTEIdnYyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jZLiWKuBq1MFcLyBR5WCMtEJ4ahlkbUWyI8v14dURzA=;
- b=GGwv0LF/qT9Y+cCudjseDr4nGn+KqozzMfN02nnhEcapqqIvs4f2LjDc7IEuWIJZSqlV24gtMN7vl96CTjrRIfbbisiFDek7v+QuW+pnDhMrAEi6iFgwNqrkALkzdAV+JkH7XvLBq8ARZZPHHsW3B57RYUpRMxVH3xaZdHnPfe4db6Ltxow/FOWN6eCHu86KCiSx1bd3MzNwQkbP+lwI7j1cRDZfmh0XP4FW7pbHI/p4uVDjRxCcqbflr0KT+9m5L1Xo+0csen4b1dFxKd/q9DWSFMIX89EfCUeHx7Gdu+WLm4x34Xjxf2ceQRPZ8XgU+L6p8IQ4lbQ34jpT7EkkrQ==
+ bh=ieqPshS8jlUH7YZqR8nYlPyKrUYD0Dl+QcEDj2dR6vs=;
+ b=WDNSdtkxTv+Hjxgwsh+QspiOuggOExxxcEe+c+HBflVCxzd/lvI+zHzApY7oaVb9TDqF26rJuhsT0kLMHXezNPCJBnpJCH2uynhbKY9Dtvya7hoVVlpU6Q6LCykQFQsOUJJUcgX5Cfyd7f+k6vazOX2w/3XeEsNkSewpZgYDVV86pkj5z9qlXOwTM95PHubAESCN3hSrx/MNp5t6VP1aKQYBKNfX1gmfFEvwc7eMycLRWtGmAc3NZXzDUOUQnnnpcewvj4d7MLg7UAzTpc19JXddVRU9g4cQ+5MuAdkrjWqnOMbwbGAZ42ZxtoSX2VSkNnNhJ16w0IFUyDi8L2Vhhw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jZLiWKuBq1MFcLyBR5WCMtEJ4ahlkbUWyI8v14dURzA=;
- b=Scu3IIihgBmibgr5B7ekpDyA04lRwmdUmFKFlCiyOsvyqtRLWSScxIGxCkXE0BE5GotCHNqZ5VQIoP45b8isx0V1Yr27lk0Hev7ZQFh7x+VEwmbXf3XNaSQwC8OunfUuJ+QJoCUvbzTF0ZMms/2Tlgc83dvXPQ46O0ddLMua43c=
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BYAPR04MB5525.namprd04.prod.outlook.com (2603:10b6:a03:f1::11)
+ bh=ieqPshS8jlUH7YZqR8nYlPyKrUYD0Dl+QcEDj2dR6vs=;
+ b=KZZrQQis3dcKkzu8MloLgXKKSTX3aK2aCwgMDs5nMAM7BsmljoKsbdgh4M3gJxvkFo9xH2mP0231gFkzSRgr7EgZtjYZCuwQNvG+jdbPLDHk+jxtT4XXESG2XRjSF8bj/ko/xwG/IRzCR95BCMqCe1ijYf1/CFJwAE10ftQJtiI=
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com (2603:10b6:208:1ca::23)
+ by MN2PR04MB6413.namprd04.prod.outlook.com (2603:10b6:208:1a5::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Mon, 15 Mar
- 2021 03:54:30 +0000
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::c897:a1f8:197a:706b]) by BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::c897:a1f8:197a:706b%5]) with mapi id 15.20.3933.032; Mon, 15 Mar 2021
- 03:54:29 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Damien Le Moal <Damien.LeMoal@wdc.com>, "hch@lst.de" <hch@lst.de>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Mon, 15 Mar
+ 2021 04:09:54 +0000
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::e9c5:588:89e:6887]) by BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::e9c5:588:89e:6887%3]) with mapi id 15.20.3933.032; Mon, 15 Mar 2021
+ 04:09:54 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, "hch@lst.de" <hch@lst.de>
 CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  "kbusch@kernel.org" <kbusch@kernel.org>, "sagi@grimberg.me"
  <sagi@grimberg.me>
 Subject: Re: [PATCH V12 2/3] nvmet: add ZBD over ZNS backend support
 Thread-Topic: [PATCH V12 2/3] nvmet: add ZBD over ZNS backend support
-Thread-Index: AQHXFkZtzlyRTj6MdkG4iVwqsOEFzw==
-Date: Mon, 15 Mar 2021 03:54:29 +0000
-Message-ID: <BYAPR04MB496561F5A30C4200976B718E866C9@BYAPR04MB4965.namprd04.prod.outlook.com>
+Thread-Index: AQHXFkZtVLB3m5Kiw0yrvZIx/W7awA==
+Date: Mon, 15 Mar 2021 04:09:54 +0000
+Message-ID: <BL0PR04MB65148249836C08C94D2A4A15E76C9@BL0PR04MB6514.namprd04.prod.outlook.com>
 References: <20210311071530.18680-1-chaitanya.kulkarni@wdc.com>
  <20210311071530.18680-3-chaitanya.kulkarni@wdc.com>
  <BL0PR04MB6514B749F68EB412FEC032DDE76F9@BL0PR04MB6514.namprd04.prod.outlook.com>
  <BYAPR04MB49657E04A5017F5C31D4EFE1866F9@BYAPR04MB4965.namprd04.prod.outlook.com>
  <BL0PR04MB6514F4EC40A62AB4763560E8E76F9@BL0PR04MB6514.namprd04.prod.outlook.com>
+ <BYAPR04MB496561F5A30C4200976B718E866C9@BYAPR04MB4965.namprd04.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: wdc.com; dkim=none (message not signed)
  header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
+x-originating-ip: [129.253.182.61]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: e5823900-6ec6-4bf4-6062-08d8e7660926
-x-ms-traffictypediagnostic: BYAPR04MB5525:
+x-ms-office365-filtering-correlation-id: d8e67b03-09ba-4211-9c9b-08d8e7683018
+x-ms-traffictypediagnostic: MN2PR04MB6413:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR04MB5525EA344DE735D3800B7621866C9@BYAPR04MB5525.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <MN2PR04MB641307B99F7C5CEE4B45F853E76C9@MN2PR04MB6413.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
 x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CPgRHCumM9XwC7zdYzL6iFO72RzD8xO+6A43j3pG0WSspW0yQcvztnZ1lhUoWlHiUNR6O1BooaQC6GQTnfJko5JKZ2EFDqcSgftWPqkBI1HJw0/cMfK7kuvBcoS33kjLxr3af6/dhgxrDa/m+1vrsZ2EpRjILxH1RFVB33JzD2e9ei+yNSwEYt4ecu9j6M1RU/6fvbZJwu9GDoAiFPtkJ6ONnIP02RDSt0pOtIr8ILOgeUDQH4ADsURLbHTzs4IDvOobQ8fuHQSZO66MUoSi+h/ibr+boTKye6wKxouEFdPunOy9OdGhaQJkvf2NmyFA49MTnW4utFa164zdY83lYK+v9g15/ZBYOU9IiAZoOmsKtm9idggVSP0aOwBq8pOdToOVN9Hc4h1+qTEXwJFErbZjHEbN0GxBInrhW5uIDAbovX/9P9zYrs5nyaq344+SwHERRoWFItMhiAaTzSaOlGcXzNtdGuvS7aZuctGbMTtS6/dYHaqZW3WbdbHbIRuxV6Kfwb0FLFPFeVWjUG88CZIedZt3EPExPlA3I5AhZcyS6eCrxljtfwwb4GBExV9M
+x-microsoft-antispam-message-info: k3TjdVPkbK0ex0MH8ht9/rzpJeT7AwCcf2urUleGJkMp7cSFyAUGg+V4m+ftS8hDbvqaLlxw/Jsd7DMc/AwAByU13Gg1S6nZFKWllPWNgARmLyvJl8DevORxYUI565VhpnKbvpL+fH1zB4wckIIdunJMFmGFV5jh1hB39IgUiaaZdvkZepPd3g8GLAbENVKEKqpYPnYjbPm5/WA4DFzWOIFbryJ469vsjOe0ZnPFqHHgxwOybitSa/JeAtxAewjnegrJbYJM6vjstePM+apoh3hn+5fL0raEYbQYJgFbe6A0vQu2a6ZqLbHwf7wI0KZlXCsUFLeJyfyMgQo8o/ulBh2RALFaI7FYLg6U4GwgpOHUyJp20YISrMQ8aPDXApvtP4A4mYChNII/mIxBjWVmqB39CbuiL3ea3x2fZT5n1lfRG9TYxvQ/XSpgDi1/DHbPi5dtXmvam2AVqIGr3RB4fQBxG6oC7Cfod6Ud208b0DSmp7TfO7EeZRJ9tzYW3Ooic/t0PNN0tNdmb0TgvSNk9qYgAiqFZBqi7JAWVsXSK0KvqUwk5xUdeGN/3tqDqkH8
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(39860400002)(396003)(376002)(136003)(55016002)(7696005)(26005)(33656002)(4326008)(66946007)(2906002)(110136005)(9686003)(186003)(71200400001)(66556008)(8676002)(478600001)(86362001)(6506007)(83380400001)(66476007)(66446008)(53546011)(8936002)(54906003)(5660300002)(316002)(64756008)(76116006)(52536014);
+ IPV:NLI; SFV:NSPM; H:BL0PR04MB6514.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(136003)(346002)(396003)(39840400004)(186003)(91956017)(52536014)(66476007)(478600001)(64756008)(53546011)(66556008)(7696005)(66446008)(6506007)(26005)(33656002)(8936002)(110136005)(8676002)(2906002)(4326008)(54906003)(83380400001)(71200400001)(5660300002)(66946007)(9686003)(86362001)(76116006)(316002)(55016002);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?5SJxYXrDGM9MJxHd9LAxZm7LvgcrucJzOlti966W7P+5x4YOP2Zs1mqbwFQj?=
- =?us-ascii?Q?5EtITLOoFElclALCkEAQFtwX/+/Hww2K7XO60BwQRYIxdGa+Pfw064olg+Fn?=
- =?us-ascii?Q?FDW0/EGlhIM4dtPaPvaZIx/7Hp9KdLRv5mVQleNmh08Tu/8EyBFbFgtpRVMC?=
- =?us-ascii?Q?EMIrlen1/N90jaVvSX+FZSpnHAcdO+BCY/M8zl+rNXoFuewxbg5yEEZGuw8P?=
- =?us-ascii?Q?deHDh2hjyXx3+kGTiUZdY5t012vaWt0eJ+sl4UCA2kcvWB67g0Ophpkdsy6E?=
- =?us-ascii?Q?54JMSRQcVnaW/Ic2f8muNFaixOSqdh50glzL3MOPNDflh/CCtacQ2VB+9sxs?=
- =?us-ascii?Q?i0vNMDyDUuO23aAeeaI/WEJUW9rdnLU34k870VC1XIYrDGTk+6Pd/WjxzMZf?=
- =?us-ascii?Q?jCUSuOAWV69HbbYtK7nF6U6Jmm3KBGKBBgfGyDCUxvBVKCNSJuxkvDdDK3Om?=
- =?us-ascii?Q?f1KTA6LHTPFkJlY5VgvfrViu++VK6gwWdM81o+semJRiD3q+DkxmEoIaR4w1?=
- =?us-ascii?Q?F3ihVWkcBj2b6odmw9I5H/4fi/+3tLEsQw2PPAdT8ItTe7fJO5Uo9fjJlRcA?=
- =?us-ascii?Q?qEwTcohckUEcZN5dBH8m12IM5DeAAwsBzsIn3XoaU+XqQtfjRDlOLgG9MYiR?=
- =?us-ascii?Q?ZBktCj1qd1N0AriPAM9mG7hAJkbRw9cK1oIs1EUOjVKy1YygmXFT4b/CbDs8?=
- =?us-ascii?Q?UeV37KGxwkfprmaXD2/P0YfmZ+R1SUNsGEHvsM3owMNBm+Nvya3ZzndJ69xI?=
- =?us-ascii?Q?TqQvOSRGwxCHRqZ9l5WkgBLgldK+XWNt/mw1mjpKBdmynCvdeh3LK3bAkv8t?=
- =?us-ascii?Q?oO3+KEoqsIFdHdXWlORrI4DeO+QQexUDFhYf3y1Krid4Z2ZInsKBi46SNitI?=
- =?us-ascii?Q?gA88X7T9bxq5u9HQj6RQ692BOKH0lEnWBVQdEzG8qTr9u09u2J4TS4rXImVB?=
- =?us-ascii?Q?vQpaGI/9eN2iwAKhUkMFoFD+zghn7Opg6/fMBdlc4p9kITRHjlKgO2nP+Jhc?=
- =?us-ascii?Q?vBiut6ohVsg8LAvdoVpdQx1E02PW+89Q97ublw/1CypxtQ9YvFSoezj+c4mf?=
- =?us-ascii?Q?et0YFvU0ThRIQ7xrlU7FhPBC0A9Tr7yfQEop0ePDbou3KqL88nlU/6r/I8uR?=
- =?us-ascii?Q?KPQruyXPT5R5HoxLab1Mv9khJSAebCKkE2BzGE3SNndcPl5N6TQh1vfWq2I0?=
- =?us-ascii?Q?dUv+1lSAriytlPLgPSOw/9+RfCgfFg+x03wOubbx1vPNRx8yn4wHCPFiSwNt?=
- =?us-ascii?Q?5S0ZMiv6agui61nPCe06TNj5wZb9Y3Wc9UJhu7t6xHYPw/n5TSLrfHaSgrTH?=
- =?us-ascii?Q?mN291xGmE/g5y1WoiWSEBUU3?=
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?UlYFOZBYUpzIEuWW4gv7v34fRbo7Qg6pHn6aSQ8L5VMfR2v9mI7mosilIPCV?=
+ =?us-ascii?Q?tYeP/v2qXP+ctrz+QPIUH3Y/PfYSiP/vL9Il/Zz8nto9z2X07P/xxLznTDFZ?=
+ =?us-ascii?Q?1TbDQXG0htENjy/Nhdg9sFP2VVB1mFUG+Dbz1LD9IzwAbW7jkgNFwrwKRw6Q?=
+ =?us-ascii?Q?7967QBdp1F1A1If85HkN0fCSOrDQm4lHUGDtFu26IGpA+t1fB54DXciIY3EX?=
+ =?us-ascii?Q?aTzvNCMeXVTUYagpdEVMuXR3LP/Q0RWDLBMy98NC6nXizR75K59DMg34M6kS?=
+ =?us-ascii?Q?xKPFORpVDxbPeIe/iAAokP3842J0rSoXqSCJa6hkO84OTvuYYHlAUeS6rE4D?=
+ =?us-ascii?Q?ThsUREgcDJpEBVvvlKo1IiEs6M1WCWmVAIxUwYDvT8bEBdfGlj3yFqXEvfe9?=
+ =?us-ascii?Q?D2EvmIhfUAc/0ioL7av+EERjYbKjlUtAuymt8PUFTtmf1yVpMUr9kpcE42FF?=
+ =?us-ascii?Q?ngxcHlglOhHx3EZk+JvBwsIAOHLevp6kVfwJcS9tzhYxNUXcdBGdjWGAy/hN?=
+ =?us-ascii?Q?ju4XjSIl+iM4n+1mL3driPpcfowAM+f15N2OYWh/nEvjFMv1WZ+YREheBTWR?=
+ =?us-ascii?Q?Ux+US/HRfL/w+IvJnl+dGZ/ddEziDVeyCMB7k/yXJ1dCKSm7ZxMZlziGleHQ?=
+ =?us-ascii?Q?lo94eR9m5uu/ftSCHTyt9SD7TcYB3YaJ/E6/G9wWkslKVX390wIupCDtd/+2?=
+ =?us-ascii?Q?TS9CtQ2XjDuXVjGddc6Klw2yRyjDyHjYPBageh97aVnolmIOQwiGK8122Fai?=
+ =?us-ascii?Q?H2PhVMoxZtbSTaZpV0lralDPugxnbtaHq/GI6azja0zI31fcFHkXH+80j9tK?=
+ =?us-ascii?Q?ofPmUjQBTSlojN4KZKhntRDUFAWyeqsD2uegDLQPR0fxN5uTNiG0AX3uWjl/?=
+ =?us-ascii?Q?GwHjEiRyLnscbhIyvHLofgT67N0tYVK7OM3HTh0esVekUFPU6zgqAFnxtKbS?=
+ =?us-ascii?Q?4gjFFMa2PyiaEtyTCd2PK49xEja4xuDvvipW3cKXiIagLbMobOv2X+6JSEGb?=
+ =?us-ascii?Q?Y4w9kPf7fPCee6G9tf7jxwFnGwxF8cRZFyflTWnbSXGihy7MWQLeQtIp8sV7?=
+ =?us-ascii?Q?TAUhOVj9+DBiLj2FW55A1HdOz2jEccN8mypxA6Xt5dnS09vkzEV6GOK4Csgu?=
+ =?us-ascii?Q?5FEisjCTgUaYLH4+t3CxQkEtX0XKvec2kbJlZqTEGP/JT2pLRrxgNmTUMm/a?=
+ =?us-ascii?Q?7LM9VJdL2UfzayA1tqC7+CaxqUzLORCZcxtoH1GNPeCrQ990CTxZE96a80zd?=
+ =?us-ascii?Q?4sFqPsVTRS8V5Gnc6aV33yBnFNXz3vyzOjPSBNQm8SUtVHHA/QntPfnM+S3T?=
+ =?us-ascii?Q?WMIPnM8uqdHyZ3aQ8zQ2iHkW2c9Un1MH2DYHeCwvzRgYJg=3D=3D?=
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5823900-6ec6-4bf4-6062-08d8e7660926
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2021 03:54:29.6695 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6514.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8e67b03-09ba-4211-9c9b-08d8e7683018
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2021 04:09:54.1364 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zlOcnuYZhbbdnCRvyWT/aWSfW1+W5cKCoGzWNhRThZg6qDCwZR3JsrziWTcpgfNxmU5RbM6kuIUowFtVoWRIIYlKAsRQtv+NOxA2c0fQIdE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5525
+X-MS-Exchange-CrossTenant-userprincipalname: cVIKQUAmeSSzqUW3pTfFoGuo7IBVoB/lCyyF5LVaRxt11v30dWC0obmf1f+Vyh92/IZbrFhyZqYtcjtFEUjFHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6413
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210315_035443_449248_A985508D 
-X-CRM114-Status: GOOD (  27.22  )
+X-CRM114-CacheID: sfid-20210315_041051_760212_D1D471B2 
+X-CRM114-Status: GOOD (  29.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -170,140 +171,153 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph/Damien,
+On 2021/03/15 12:54, Chaitanya Kulkarni wrote:
+> Christoph/Damien,
+> 
+> On 3/11/21 23:26, Damien Le Moal wrote:
+>>>>> +void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req)
+>>>>> +{
+>>>>> +	sector_t sect = nvmet_lba_to_sect(req->ns, req->cmd->zmr.slba);
+>>>>> +	u32 bufsize = (le32_to_cpu(req->cmd->zmr.numd) + 1) << 2;
+>>>>> +	struct nvmet_report_zone_data data = { .ns = req->ns };
+>>>>> +	unsigned int nr_zones;
+>>>>> +	int reported_zones;
+>>>>> +	u16 status;
+>>>>> +
+>>>>> +	status = nvmet_bdev_zns_checks(req);
+>>>>> +	if (status)
+>>>>> +		goto out;
+>>>>> +
+>>>>> +	data.rz = __vmalloc(bufsize, GFP_KERNEL | __GFP_NORETRY | __GFP_ZERO);
+>>>>> +	if (!data.rz) {
+>>>>> +		status = NVME_SC_INTERNAL;
+>>>>> +		goto out;
+>>>>> +	}
+>>>>> +
+>>>>> +	nr_zones = (bufsize - sizeof(struct nvme_zone_report)) /
+>>>>> +			sizeof(struct nvme_zone_descriptor);
+>>>>> +	if (!nr_zones) {
+>>>>> +		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+>>>>> +		goto out_free_report_zones;
+>>>>> +	}
+>>>>> +
+>>>>> +	reported_zones = blkdev_report_zones(req->ns->bdev, sect, nr_zones,
+>>>>> +					     nvmet_bdev_report_zone_cb, &data);
+>>>>> +	if (reported_zones < 0) {
+>>>>> +		status = NVME_SC_INTERNAL;
+>>>>> +		goto out_free_report_zones;
+>>>>> +	}
+>>>> There is a problem here: the code as is ignores the request reporting option
+>>>> field which can lead to an invalid zone report being returned. I think you need
+>>>> to modify nvmet_bdev_report_zone_cb() to look at the reporting option field
+>>>> passed by the initiator and filter the zone report since blkdev_report_zones()
+>>>> does not handle that argument.
+>>> The reporting options are set by the host statistically in
+>>> nvme_ns_report_zones()
+>>> arefrom:-  nvme_ns_report_zones()
+>>>          c.zmr.zra = NVME_ZRA_ZONE_REPORT;
+>>>          c.zmr.zrasf = NVME_ZRASF_ZONE_REPORT_ALL;
+>>>          c.zmr.pr = NVME_REPORT_ZONE_PARTIAL;
+>>>
+>>> All the above values are validated in the nvmet_bdev_zns_checks() helper
+>>> called from nvmet_bdev_execute_zone_mgmt_recv() before we allocate the
+>>> report zone buffer.
+>>>
+>>> 1. c.zmr.zra indicates the action which Reports zone descriptor entries
+>>>    through the Report Zones data structure.
+>>>
+>>>    We validate this value is been set to NVME_ZRA_ZONE_REPORT in the
+>>>    nvmet_bdev_zns_chceks(). We are calling report zone after checking
+>>>    zone receive action it NVME_ZRA_ZONE_REPORT so not filtering is needed
+>>>    in the nvmet_bdev_report_zone_cb().
+>>>
+>>> 2. c.zmr.zrasf indicates the action specific field which is set to
+>>>    NVME_ZRASF_ZONE_REPORT_ALL.
+>>>
+>>>    We validate this value is been set to NVME_ZRASF_ZONE_REPORT_ALL in the
+>>>    nvmet_bdev_zns_chceks(). Since host wants all the zones we don't need to
+>>>    filter any zone states in the nvmet_bdev_report_zone_cb().
+>>>
+>>> 3. c.zmr.pr is set to NVME_REPORT_ZONE_PARTIAL which value = 1 i.e value in
+>>>    the Report Zone data structure Number of Zones field indicates the
+>>> number of
+>>>    fully transferred zone descriptors in the data buffer, which we set from
+>>>    return value of the blkdev_report_zones() :-
+>>>   
+>>>
+>>>    reported_zones = blkdev_report_zones(req->ns->bdev, sect, nr_zones,
+>>> 					     nvmet_bdev_report_zone_cb, &data);
+>>> <snip>   data.rz->nr_zones = cpu_to_le64(reported_zones);
+>>>
+>>>    So no filtering is needed in nvmet_bdev_report_zone_cb() for c.zmr.pr.
+>>>
+>>> Can you please explain what filtering is missing in the current code ?
+>>>
+>>> Maybe I'm looking into an old spec.
+>> report zones command has the reporting options (ro) field (bits 15:08 of dword
+>> 13) where the user can specify the following values:
+>>
+>> Value Description
+>> 0h List all zones.
+>> 1h List the zones in the ZSE:Empty state.
+>> 2h List the zones in the ZSIO:Implicitly Opened state.
+>> 3h List the zones in the ZSEO:Explicitly Opened state.
+>> 4h List the zones in the ZSC:Closed state.
+>> 5h List the zones in the ZSF:Full state.
+>> 6h List the zones in the ZSRO:Read Only state.
+>> 7h List the zones in the ZSO:Offline state.
+>>
+>> to filter the zone report based on zone condition. blkdev_report_zones() will
+>> always to a "list all zones", that is, ro == 0h.
+>>
+>> But on the initiator side, if the client issue a report zones command through an
+>> ioctl (passthrough/direct access not suing the block layer BLKREPORTZONES
+>> ioctl), it may specify a different value for the ro field. Processing that
+>> command using blkdev_report_zones() like you are doing here without any
+>> additional filtering will give an incorrect report. Filtering based on the user
+>> specified ro field needs to be added in nvmet_bdev_report_zone_cb().
+>>
+>> The current code here is fine of the initiator/client side uses the block layer
+>> and execute all report zones through blkdev_report_zones(). But things will
+>> break if the client starts doing passthrough commands using nvme ioctl. No ?
+>>
+> 
+> Regarding the passthru commands support following are the non technical
+> issues
+> I ran into, it will be great to get some feedback before we proceed :-
+> 
+> 1. We don't support any passthru commands for the generic NVMeOF target
+> backends
+>    (file/bdev) for that we have a dedicated passthru target. ZBD backend
+> is a
+>    generic one, so do we really want to add support for user's NVMe
+> passthru
+>    commands ?
 
-On 3/11/21 23:26, Damien Le Moal wrote:
->>>> +void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req)
->>>> +{
->>>> +	sector_t sect = nvmet_lba_to_sect(req->ns, req->cmd->zmr.slba);
->>>> +	u32 bufsize = (le32_to_cpu(req->cmd->zmr.numd) + 1) << 2;
->>>> +	struct nvmet_report_zone_data data = { .ns = req->ns };
->>>> +	unsigned int nr_zones;
->>>> +	int reported_zones;
->>>> +	u16 status;
->>>> +
->>>> +	status = nvmet_bdev_zns_checks(req);
->>>> +	if (status)
->>>> +		goto out;
->>>> +
->>>> +	data.rz = __vmalloc(bufsize, GFP_KERNEL | __GFP_NORETRY | __GFP_ZERO);
->>>> +	if (!data.rz) {
->>>> +		status = NVME_SC_INTERNAL;
->>>> +		goto out;
->>>> +	}
->>>> +
->>>> +	nr_zones = (bufsize - sizeof(struct nvme_zone_report)) /
->>>> +			sizeof(struct nvme_zone_descriptor);
->>>> +	if (!nr_zones) {
->>>> +		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
->>>> +		goto out_free_report_zones;
->>>> +	}
->>>> +
->>>> +	reported_zones = blkdev_report_zones(req->ns->bdev, sect, nr_zones,
->>>> +					     nvmet_bdev_report_zone_cb, &data);
->>>> +	if (reported_zones < 0) {
->>>> +		status = NVME_SC_INTERNAL;
->>>> +		goto out_free_report_zones;
->>>> +	}
->>> There is a problem here: the code as is ignores the request reporting option
->>> field which can lead to an invalid zone report being returned. I think you need
->>> to modify nvmet_bdev_report_zone_cb() to look at the reporting option field
->>> passed by the initiator and filter the zone report since blkdev_report_zones()
->>> does not handle that argument.
->> The reporting options are set by the host statistically in
->> nvme_ns_report_zones()
->> arefrom:-  nvme_ns_report_zones()
->>          c.zmr.zra = NVME_ZRA_ZONE_REPORT;
->>          c.zmr.zrasf = NVME_ZRASF_ZONE_REPORT_ALL;
->>          c.zmr.pr = NVME_REPORT_ZONE_PARTIAL;
->>
->> All the above values are validated in the nvmet_bdev_zns_checks() helper
->> called from nvmet_bdev_execute_zone_mgmt_recv() before we allocate the
->> report zone buffer.
->>
->> 1. c.zmr.zra indicates the action which Reports zone descriptor entries
->>    through the Report Zones data structure.
->>
->>    We validate this value is been set to NVME_ZRA_ZONE_REPORT in the
->>    nvmet_bdev_zns_chceks(). We are calling report zone after checking
->>    zone receive action it NVME_ZRA_ZONE_REPORT so not filtering is needed
->>    in the nvmet_bdev_report_zone_cb().
->>
->> 2. c.zmr.zrasf indicates the action specific field which is set to
->>    NVME_ZRASF_ZONE_REPORT_ALL.
->>
->>    We validate this value is been set to NVME_ZRASF_ZONE_REPORT_ALL in the
->>    nvmet_bdev_zns_chceks(). Since host wants all the zones we don't need to
->>    filter any zone states in the nvmet_bdev_report_zone_cb().
->>
->> 3. c.zmr.pr is set to NVME_REPORT_ZONE_PARTIAL which value = 1 i.e value in
->>    the Report Zone data structure Number of Zones field indicates the
->> number of
->>    fully transferred zone descriptors in the data buffer, which we set from
->>    return value of the blkdev_report_zones() :-
->>   
->>
->>    reported_zones = blkdev_report_zones(req->ns->bdev, sect, nr_zones,
->> 					     nvmet_bdev_report_zone_cb, &data);
->> <snip>   data.rz->nr_zones = cpu_to_le64(reported_zones);
->>
->>    So no filtering is needed in nvmet_bdev_report_zone_cb() for c.zmr.pr.
->>
->> Can you please explain what filtering is missing in the current code ?
->>
->> Maybe I'm looking into an old spec.
-> report zones command has the reporting options (ro) field (bits 15:08 of dword
-> 13) where the user can specify the following values:
->
-> Value Description
-> 0h List all zones.
-> 1h List the zones in the ZSE:Empty state.
-> 2h List the zones in the ZSIO:Implicitly Opened state.
-> 3h List the zones in the ZSEO:Explicitly Opened state.
-> 4h List the zones in the ZSC:Closed state.
-> 5h List the zones in the ZSF:Full state.
-> 6h List the zones in the ZSRO:Read Only state.
-> 7h List the zones in the ZSO:Offline state.
->
-> to filter the zone report based on zone condition. blkdev_report_zones() will
-> always to a "list all zones", that is, ro == 0h.
->
-> But on the initiator side, if the client issue a report zones command through an
-> ioctl (passthrough/direct access not suing the block layer BLKREPORTZONES
-> ioctl), it may specify a different value for the ro field. Processing that
-> command using blkdev_report_zones() like you are doing here without any
-> additional filtering will give an incorrect report. Filtering based on the user
-> specified ro field needs to be added in nvmet_bdev_report_zone_cb().
->
-> The current code here is fine of the initiator/client side uses the block layer
-> and execute all report zones through blkdev_report_zones(). But things will
-> break if the client starts doing passthrough commands using nvme ioctl. No ?
->
+If it is not supported then fine, no filtering is needed. But you should add a
+check on the report zones command received by the target to make sure that the
+reporting option field is "report all", and fail the command if any other
+reporting option is set since it cannot be honored.
 
-Regarding the passthru commands support following are the non technical
-issues
-I ran into, it will be great to get some feedback before we proceed :-
+> 
+> 2. In past we've decided that for NVMeOF target non I/O commands should
+> be handled
+>    in the userspace applications to keep the target light.
+> 
+> I couldn't come up with justification :(.
+> 
+> There are other features that we may have to implement apart from filtering
+> if we want to support NVMe passthru commands e.g. Set Zone Descriptor
+> Extension,
+> Changed Zone List, AEN Zone Descriptor Changed Notices (Log Identifier
+> BFh) etc.
+> (these are just placeholder examples, please do not take it literally).
+> 
 
-1. We don't support any passthru commands for the generic NVMeOF target
-backends
-   (file/bdev) for that we have a dedicated passthru target. ZBD backend
-is a
-   generic one, so do we really want to add support for user's NVMe
-passthru
-   commands ?
 
-2. In past we've decided that for NVMeOF target non I/O commands should
-be handled
-   in the userspace applications to keep the target light.
-
-I couldn't come up with justification :(.
-
-There are other features that we may have to implement apart from filtering
-if we want to support NVMe passthru commands e.g. Set Zone Descriptor
-Extension,
-Changed Zone List, AEN Zone Descriptor Changed Notices (Log Identifier
-BFh) etc.
-(these are just placeholder examples, please do not take it literally).
+-- 
+Damien Le Moal
+Western Digital Research
 
 _______________________________________________
 Linux-nvme mailing list
