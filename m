@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93696C433E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:13:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE52BC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:13:46 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1311964EFC
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:13:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1311964EFC
+	by mail.kernel.org (Postfix) with ESMTPS id 7B41564DDE
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:13:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B41564DDE
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,60 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=iorRNIUUNZTk/JE3iSKERcUyt
-	xq84fXMigJpVrBQbP96mhZdNxemwYv9jWm0LM+VmiIksXkUTsV+l8DOHb2HE9ni7qx5KLVo/ChOy1
-	ruqPl5igNyY57WtysSFbtKJfn8I3sCGiwvBTUpkinIhEPaCE6eRec3UPVuiobYJb4T88hcSPwJQkl
-	0XhOapPy/LJm504wkjRi8Dl7YJ0ShEInobf4csyShpZ09jajxtee6PmP5hDgEjXMSdqFomq4uGSMY
-	jlc9LZ0Qb2Na2/K0nnnBX7kaSY1Y9Mcv8ZgevuIZI6ZXh0NoYl6HSPLARknW8SqBbwPqAwRm7mI0o
-	NDPlgzlvA==;
+	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=J1rbkgFnxj15NG7vdHlW0eA0a
+	7ebwOFKZQS0yAI+si3ZCdFebOOBl+fJh+dazrpbCbJ2NNrBFj1m8Js4hnkw9oZIm7j3ki5yzqWzt5
+	DKM1wVgsJ1KUR1AeIqIJH7rvIaqP3fFehK73AHHFZafv7IjOP7eTM/Njo2keylDqKMvrFWH7yXeJ6
+	BR9mUHuIZG5uBq/kv9Qx748Q/aijxbW1IE8fVPB31/SosB+mw6ebYrcGCnKGmnRsluDAIX/w1+O6R
+	9PaupQQkTRzk3Hqxt3WKZf06YE7Um+P+CqPN0HXJ8tL7bdO49Rw3CfnNqIR7NqW3JLUIMWwsPOm5T
+	liXmPtMiA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLqmH-00GTdl-8K; Mon, 15 Mar 2021 17:13:13 +0000
-Received: from mail-pg1-f179.google.com ([209.85.215.179])
+	id 1lLqmb-00GTgk-IV; Mon, 15 Mar 2021 17:13:33 +0000
+Received: from mail-pj1-f51.google.com ([209.85.216.51])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLqmA-00GTcX-Dq
- for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:13:08 +0000
-Received: by mail-pg1-f179.google.com with SMTP id n9so19875828pgi.7
- for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 10:13:06 -0700 (PDT)
+ id 1lLqmH-00GTdu-W9
+ for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:13:16 +0000
+Received: by mail-pj1-f51.google.com with SMTP id bt4so9154110pjb.5
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 10:13:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=lz1MfpylUse7g3ao5XKBimHekzxVbJdJsX7dowEHr2GPIaT11haBI8Y1URH9Zbo82f
- heOj/T631FclxPrSkEBIIBJSmlx429aJOFsyrnMnUNzbsocpRuXMNQKz2lhUsoAV1l92
- IJ+CeYKpI6t2W09EonS4Kl0ByabaG4bK5or/gZNbC2RuqBBhazrbQaJZZbV2D4rsxfXn
- C54qY88hyAG9VCUFuBktZfiNL8CUi/+LA2Q+9FT8frZ1CAr1RbkSDAOUbIwm2tuPQvM+
- wr3ovbzNmJlYZ+Cs+SNm17EPr65niyc0M2/GNCKJQIEZZSYUGoojEuzXFiEj2+q0DgTN
- nD9A==
-X-Gm-Message-State: AOAM530kQ+ExLANBlgr+Eif38pg54DuutKWf66QFpWL5dVI24r3GSJkd
- pYe/c3VSFuFBGdjlaBur9dl2+alSQjQ=
-X-Google-Smtp-Source: ABdhPJx5URdf0slWq/JMi44aJ+hMLXh2pgWGtIBBdSZ8p6adarroFRBPQE52LLKqo9VzuC197k0EVw==
-X-Received: by 2002:a63:8f5d:: with SMTP id r29mr102571pgn.353.1615828384651; 
- Mon, 15 Mar 2021 10:13:04 -0700 (PDT)
+ b=mMtwEdVgjg+VyhFIo2iU+mqXUDhSsmH+PO+Mg55ldhDIP1nBy+kixlJkU5Fn+wxfkp
+ 0bSZWTh8TgGUdKsKGytOJYKripIf5pgZtHIvd6LSot++wtSLZTm3vGZq5NZDoLt1jtRf
+ HITHS6rDqcK0HXPV87ttqcgdjTcahSc82uuXqyDU49JIDWHjIngJ/kYVe6pwCGhxvOAD
+ qbnr94uatWScIMnd7hrwbGJGpPXZQ46cpPTNWm0isuHRePvTKQ4/35xQrj3ekG3n6Oit
+ FEromAPnA/fAyPzvEaxwaLlumZXSJOinRbtykhXHKniaOH20G6wHSuKTJeGtH7ESjeSw
+ oYVA==
+X-Gm-Message-State: AOAM533gZykdHtW+uF4B8lPqxtX+kLtB/hT9i2P32ITGLeD++EGxo93Q
+ sdxlQj0+ittt5pZG0elhxU7djWKl0bA=
+X-Google-Smtp-Source: ABdhPJw6VagDO0jbFR4AHcvm/PEuWh2smJOkBUtnQQWgztJTyl7IHU4IF/V+S6WaS/VXuMRd7po21w==
+X-Received: by 2002:a17:902:b942:b029:e4:87be:be8c with SMTP id
+ h2-20020a170902b942b02900e487bebe8cmr12181438pls.81.1615828392293; 
+ Mon, 15 Mar 2021 10:13:12 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:4faf:1598:b15b:7e86?
  ([2601:647:4802:9070:4faf:1598:b15b:7e86])
- by smtp.gmail.com with ESMTPSA id fa21sm201736pjb.25.2021.03.15.10.13.03
+ by smtp.gmail.com with ESMTPSA id n24sm14189958pgl.27.2021.03.15.10.13.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 10:13:04 -0700 (PDT)
-Subject: Re: [PATCH 2/3] nvme: merge nvme_keep_alive into nvme_keep_alive_work
+ Mon, 15 Mar 2021 10:13:11 -0700 (PDT)
+Subject: Re: [PATCH 3/3] nvme: allocate the keep alive request using
+ BLK_MQ_REQ_NOWAIT
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>,
  linux-nvme@lists.infradead.org
 References: <20210303125304.1200789-1-hch@lst.de>
- <20210303125304.1200789-3-hch@lst.de>
+ <20210303125304.1200789-4-hch@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <5aaf8c51-d67a-531d-f2d7-9711f1a36edc@grimberg.me>
-Date: Mon, 15 Mar 2021 10:13:03 -0700
+Message-ID: <3bf6c428-4b2f-5999-1aec-e8d14512bad5@grimberg.me>
+Date: Mon, 15 Mar 2021 10:13:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210303125304.1200789-3-hch@lst.de>
+In-Reply-To: <20210303125304.1200789-4-hch@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210315_171306_696574_3CC3A729 
-X-CRM114-Status: UNSURE (   9.59  )
+X-CRM114-CacheID: sfid-20210315_171314_439249_1AA40B7F 
+X-CRM114-Status: UNSURE (   9.82  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
