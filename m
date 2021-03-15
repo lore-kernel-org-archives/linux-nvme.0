@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A4D2C433E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:42:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FA6DC433E6
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:43:33 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E29E464E41
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:42:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E29E464E41
+	by mail.kernel.org (Postfix) with ESMTPS id A7CF664E41
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:43:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7CF664E41
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,63 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=D/u/y+i1qMwFcGAwqVWKU03XGPRlghvL0Pt8Wlm3AjQ=; b=K5Jd4vvq23jrg0Pib34C2SekM
-	tcU7vb4aENSr6lzFMRh1jm5i8TCdwO6ZLsTe5yZdIQ4LSuOVIpQtZm0X4BkNnEV8+Yrewwc1TMj1M
-	OxkRdPhuNLKU/2eUe2WsAxqzijHL0wPtrs1xryj2mVe+pCXHFGkQi2oST1E2LUmNtfd0lxgJO4M4M
-	JTle3nBc0VJhOxf6Jd+60eIwGjWuh2U4RUWC+cEw/FFj9WVreThEHz6JLMa5I3i1bqYKb4anGXlpd
-	rrAfLgp3/p90F1Xx//hid+9S5C3X/tKHQ/954Mfnj1/JzHl90K0PsjLK2NXEGuqBZMQfyMeISs1ax
-	g+MLgWMnA==;
+	 bh=p0kZGZWF1ULzi4ZQZDbUl8PS23ZxRcmJngeewk/Vpwk=; b=mM8PHhuSV3dKnXue6q9S0A6XP
+	mssTedGIliuCg/cJ03r8kgALOkCHK+J+0vYlzmjIIphmIsjpztRwfnpwKLpihG/iuPz//CjL83mxX
+	oUTWLqWJkB2Qz+U/V26u4gB0LoesJsvs2+JL7Hk1Bmz2afmZCQohIB4cgKVmbcdJwzD4GQy5tsrn9
+	l6qzfHAYM07xpVh/jcnmEg5Vh4R5eZPUVLWEcye9ri4jplRXhoTpEEoohVKw2YS737ui0VQSWKjxv
+	2xZ8gZ9jb19U4Js1w9d74vl87Q5R7SRgYMsu7nnW0Hl/GeJpNFgJ6HSxSWBYZUfUWH2zeMItnHgmd
+	O7+MiizXA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLrEG-00GZ3k-E5; Mon, 15 Mar 2021 17:42:08 +0000
-Received: from mail-pl1-f169.google.com ([209.85.214.169])
+	id 1lLrFL-00GZTL-Fq; Mon, 15 Mar 2021 17:43:15 +0000
+Received: from mail-pf1-f180.google.com ([209.85.210.180])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLrBA-00GXnv-LW
- for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:39:03 +0000
-Received: by mail-pl1-f169.google.com with SMTP id 30so11104824ple.4
- for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 10:38:56 -0700 (PDT)
+ id 1lLrE1-00GYve-S7
+ for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:42:05 +0000
+Received: by mail-pf1-f180.google.com with SMTP id t85so7028898pfc.13
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 10:41:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gHyzcvVBnAqA4Cp3d4kUgXNKcT5Rl6hrHw6+nxNIupE=;
- b=dQMEb1kRIeS0acYgyKT23NmJNykqob/4iofXvYfufzQqZPNTK/Fh/0JvVxNuUT6DXX
- s/YtLqUOvbHYI8TZTjVAyFHFm/rjIVOAa6VDBwhiMB2T1U3Qs/h1pC3DupeO6VmDmgal
- oU6RXnA93IyD/9Hy2QGHzXDhK6vPgz0Jjnj6lifCh4PS1c7WuDsegwgAhe21jD5FYhnQ
- Aq3zcWJ6Bb1Mg3RIyEXxQ2zmHULTXPVfgC6fF0M7dnsLAcASc0CPFCOxcyody7bU/kxD
- Ew1f8yT7tKeJWkiPxAy9MqcMv2L3mL6HaW1JJqaS3G+Vv2A3d14j9SNk2+nEQd9Cd+5u
- E8pg==
-X-Gm-Message-State: AOAM5327ihTdqPnrTysBH2b7EBsJlsKXv0vwfe9nOYI+LLBqLHMpUY1E
- 759IlW718/8AsQws3oewChHeYpE2FVQ=
-X-Google-Smtp-Source: ABdhPJz++GUvSh4Xe4HIX4eccC23XSIdHx3nfQPeN8SoAZDdH3WHtNyKlnZHCTlsgDb16YaZRkl+uw==
-X-Received: by 2002:a17:90a:ba05:: with SMTP id
- s5mr206946pjr.194.1615829935213; 
- Mon, 15 Mar 2021 10:38:55 -0700 (PDT)
+ bh=jmtYxGEgepq52hPjBfjc1hZxxn+bkt5L8xy22ODIyow=;
+ b=PjgjYwAf6vas+1btc9mkAG7YNvYN6GmO8BpB7/XsNJYwjLDg23cdBruKwMuJEoNnLJ
+ pwgdN5Z2HYtxinWn5Iuk4VMLMUZqPV3CBR4pd1JqXCNA+F7PmsOI28DCIJYjSbqIPwBE
+ QTcygH4gkhDUXk3vAGsUsBLz9/5Pk1YVk0WMGTODL8PBdDgxQKq7SbUDbLMWSdQMOURL
+ zjDyW6G3NIa5OPmDo5/cljxUKb9o8mA4w1ZB83dp2KvJV13fyyx7uGhkYbaHSGPXEq+e
+ Jter+/QcMQ8DkAMlVmOd7kuKJvKco06aVxsSpQvI8ylbXm6ZSESDcOcG6ccYw2EpGeaj
+ bRtQ==
+X-Gm-Message-State: AOAM530XCiMsHQit6uxRC4cGtQx9Psksobk2uN++yEmt90nDO6PlQHwP
+ kRaAEUGd7APrJ6u5dCCFTXo=
+X-Google-Smtp-Source: ABdhPJwTz7oyoUd6Quf75mWwFBhfDF7e8ye6VkT2xcA86QA1HGoiucFHdFyF+ypPjyTBYK2DCctdyA==
+X-Received: by 2002:a65:6209:: with SMTP id d9mr252158pgv.206.1615830112627;
+ Mon, 15 Mar 2021 10:41:52 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:4faf:1598:b15b:7e86?
  ([2601:647:4802:9070:4faf:1598:b15b:7e86])
- by smtp.gmail.com with ESMTPSA id fv9sm261791pjb.23.2021.03.15.10.38.53
+ by smtp.gmail.com with ESMTPSA id q19sm9938202pff.91.2021.03.15.10.41.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Mar 2021 10:38:54 -0700 (PDT)
-Subject: Re: [PATCH 01/10] nvme-discover: lookup existing persistent
- controllers
+ Mon, 15 Mar 2021 10:41:52 -0700 (PDT)
+Subject: Re: [PATCH 02/10] nvme-discover: assume device given on command line
+ is persistent
 To: mwilck@suse.com, Hannes Reinecke <hare@suse.de>,
  Keith Busch <kbusch@kernel.org>
 Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  linux-nvme@lists.infradead.org, Enzo Matsumiya <ematsumiya@suse.de>
 References: <20210306003624.21102-1-mwilck@suse.com>
- <20210306003624.21102-2-mwilck@suse.com>
+ <20210306003624.21102-3-mwilck@suse.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <b7f98f09-c21d-579d-c925-5b511796c7f5@grimberg.me>
-Date: Mon, 15 Mar 2021 10:38:53 -0700
+Message-ID: <31587366-3fd9-4126-73bb-38419b72cfbe@grimberg.me>
+Date: Mon, 15 Mar 2021 10:41:50 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210306003624.21102-2-mwilck@suse.com>
+In-Reply-To: <20210306003624.21102-3-mwilck@suse.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210315_173857_043014_E85ABB05 
-X-CRM114-Status: GOOD (  12.25  )
+X-CRM114-CacheID: sfid-20210315_174154_882498_C4C03109 
+X-CRM114-Status: GOOD (  13.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,18 +96,19 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> From: Hannes Reinecke <hare@suse.de>
+> From: Martin Wilck <mwilck@suse.com>
 > 
-> If persistent controller connections are present they should be
-> preferred even if no --device option is given on the commandline.
-> To avoid selecting a temporary non-persistent controller the
-> 'kato' attribute is checked; any controller which does not have
-> this attribute or for which the attribute is '0' will be skipped.
+> After commit "nvme-discover: lookup existing persistent controllers",
+> controllers without the "kato" sysfs attribute will never be used by
+> do_discover(). This makes sense for controllers found while traversing
+> sysfs in find_ctrl_with_connectargs(), but if the user passed a
+> device explicitly, it should be used, even on older kernels that
+> don't support the "kato" attribute.
+> 
+> Furthermore, make sure allocated memory in ctrl_matches_connectargs()
+> is freed.
 
-Why?
-
-You also need a fallback in case kato is not exposed in prior
-kernels.
+This is getting slightly convoluted... what is the motivation again?
 
 _______________________________________________
 Linux-nvme mailing list
