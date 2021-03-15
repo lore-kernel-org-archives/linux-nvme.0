@@ -7,91 +7,76 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E75EC433DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 16:33:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 730E5C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:09:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4494664F2A
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 16:33:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4494664F2A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id F018661494
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:09:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F018661494
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=iDgOLn9WvAJf4HVBs28o9Zib2Mniku2U4/FJ2OeWsnY=; b=TVIVWwW70DK1U4ileqEIM70cU
-	v74r22pPYkGGS7iJkGDqZL4J+qWXEQrmNhsxGrApB3Oup2bSi5EjSYuXdcquHMJB8NWBbuC6ZG0pA
-	bqw81kHzHdt9KnwLpcoJiy1/gBHM06gOD3e59kzsdZrxxjHcpmFONKqgyiDUj+fItj7tRGmeOecho
-	w6mTre+A/nXVFxZZmQtPyASJ8QaJUyEhCy6/hp89aTofYDTsUZGCWkD+gmqIom6mGXI/jASYY0QC/
-	xuUeAmmdMqnm0jIhe7M3W6BBXu9powu0+cPLCyrD8tncYo/87YtGnaevtrLj8fxVCxOFy4QOkpjmP
-	etf8LA4TQ==;
+	 bh=PDWt7HTA8ieBol/lW8zJ6a9YMeLZcioh3conM8w1vmM=; b=K9hh/XfzEzkciQLgq4I2OP8eO
+	0PV3nFlTAYlSRYoxBKO3hoZq/93rKa/Hwxpv9Nazvq0k4flehSYfb9OahYsp6J8rpUNwwl6fYQP3f
+	MZhHI6jRpZXHtdfFJnCBwgEGhtdX+sDkUG+vGbr88PabkdED92bD61Lc8oU6ibAe3ZIvvzUuspzdp
+	wXQDZwqp+P0tDAfaStwP8lAMU5+IyF/qSR6TMa8fUYiWVu2rU3KAvxISWmdZgPj2fzzA7uWip9wFq
+	AQcBHIJY2q/8w2VSt9QuIjq+YHb/FsQHV8r3iV9MiYurHfE5Mei0zI1/P6JcKavMn4VCWE3FI27vP
+	VQ1dsN/dg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLq9p-00GMaS-O2; Mon, 15 Mar 2021 16:33:29 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1lLqiQ-00GStP-5C; Mon, 15 Mar 2021 17:09:14 +0000
+Received: from mail-pg1-f173.google.com ([209.85.215.173])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLq9l-00GMZ2-OY
- for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 16:33:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=25tvzr6LDKuaRWZ7Kq1InXgjrQLBkOCY64hHowQXZig=; b=jd/7txTKwBaK4XM4L4pEdPfaXK
- j77z2FSuQPygPyzOaNtQeB/WuPI0mEHeLQ5XoVaOvM0peJGMT0rSFK7QLdYPovQdiR6d9crYwP30V
- U3qzhU7lI4cnhPY5eLbFwsQgHc3dgrwJ+5RCrXGFRhWPpVYBx20B8JOfELVsToLgjg+JhMv9AAQoV
- QXi+qBm+8NQLJ8YR2We0YcMp4QAshPbXnXH9nMM7W7FgIHCSgDMML5rQNraVpwyWQFm6LURTNIcjG
- M4ZrRp9VjFELAy3KrIPg5y1v+lSFYwe8hnogW0iDZtEp5btt8nr/QzFZs11lfwZQdVaCWefOipyWS
- LCYU1tFQ==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1lLq9a-0000OV-Kj; Mon, 15 Mar 2021 10:33:15 -0600
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
- Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Ira Weiny <iweiny@intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>
-References: <20210311233142.7900-1-logang@deltatee.com>
- <20210311233142.7900-8-logang@deltatee.com>
- <20210313023657.GC3402637@iweiny-DESK2.sc.intel.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <e9a6689a-3cb7-aa30-33e7-b27015754b73@deltatee.com>
-Date: Mon, 15 Mar 2021 10:33:13 -0600
+ id 1lLqiH-00GSqu-Fk
+ for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:09:09 +0000
+Received: by mail-pg1-f173.google.com with SMTP id 205so3852528pgh.9
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 10:09:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EBls5YWDLbGVxadDWyRyp/hrNgBPjG/DfY5JldYkz2k=;
+ b=Cu87DaogQtC+hW7CYzqehtT9BE2gVt4eesdNkt1dIzJkf1HnT6pY/txYbktvTa4cL4
+ aSwU4aXagCarcOkqEhqYC0mzWhv/yQdp24YnDQV4MxUGp4Ejgc8QYpC0eptw4pAfuF66
+ vcUEZxQkqSC6R3TvWB7BbCuPAHtfRTALcQXtVBvvnz43ycJ44z2drqh7NSHovObDoHgb
+ woS0xb1CjNAptDfKFGcnBweFSJdCNDqNLRcRlhc9iTU+RSST+cR3FZtvMhZlqpqW5TVJ
+ +kKjPJgV274V4myWM/H7jL3rYpv6u4KqqqreQ1sGWQ4H3wZNveMR5iZ30pXbZASYdx3t
+ QeMQ==
+X-Gm-Message-State: AOAM5308rsI4+3WZr/9TrOR/jpuobeNuVA2qttR75jn7yfqpchmV0Ho+
+ b4cUelFucgA/SFtiN3b0G0U=
+X-Google-Smtp-Source: ABdhPJwxajnwPrRrAVsm5gx2DrJFeVTqzkrvEm2OI/0tt+89CoM/Yyiu7j9ZOaE8zGh/gafZeXfqlQ==
+X-Received: by 2002:a63:48a:: with SMTP id 132mr119198pge.366.1615828140586;
+ Mon, 15 Mar 2021 10:09:00 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:4faf:1598:b15b:7e86?
+ ([2601:647:4802:9070:4faf:1598:b15b:7e86])
+ by smtp.gmail.com with ESMTPSA id j35sm14663758pgj.45.2021.03.15.10.08.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 10:09:00 -0700 (PDT)
+Subject: Re: [PATCH] nvme-fabrics: fix crash for no IO queues
+To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de
+References: <20210304005543.8005-1-lengchao@huawei.com>
+ <020b9f27-459a-2b98-2e76-ebcc874c9c32@grimberg.me>
+ <78c5e9f9-f5b8-b8e5-1c36-3a5803d4b047@huawei.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <45d16780-79a0-c2e2-8e90-246dae0b3e23@grimberg.me>
+Date: Mon, 15 Mar 2021 10:08:58 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210313023657.GC3402637@iweiny-DESK2.sc.intel.com>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
- jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
- daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
- jhubbard@nvidia.com, iweiny@intel.com, christian.koenig@amd.com, jgg@ziepe.ca,
- dan.j.williams@intel.com, hch@lst.de, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- ira.weiny@intel.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH v2 07/11] dma-mapping: Add flags to dma_map_ops to
- indicate PCI P2PDMA support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+In-Reply-To: <78c5e9f9-f5b8-b8e5-1c36-3a5803d4b047@huawei.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210315_163326_172007_A4C8A0D7 
-X-CRM114-Status: GOOD (  12.69  )
+X-CRM114-CacheID: sfid-20210315_170906_137590_DA3885FF 
+X-CRM114-Status: GOOD (  16.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,37 +88,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+>>> A crash happens when set feature(NVME_FEAT_NUM_QUEUES) timeout in nvme
+>>> over rdma(roce) reconnection, the reason is use the queue which is not
+>>> alloced.
+>>>
+>>> If queue is not live, should not allow queue request.
+>>
+>> Can you describe exactly the scenario here? What is the state
+>> here? LIVE? or DELETING?
+> If seting feature(NVME_FEAT_NUM_QUEUES) failed due to time out or
+> the target return 0 io queues, nvme_set_queue_count will return 0,
+> and then reconnection will continue and success. The state of controller
+> is LIVE. The request will continue to deliver by call ->queue_rq(),
+> and then crash happens.
 
-On 2021-03-12 7:36 p.m., Ira Weiny wrote:
-> On Thu, Mar 11, 2021 at 04:31:37PM -0700, Logan Gunthorpe wrote:
->  
->> +int dma_pci_p2pdma_supported(struct device *dev)
->    ^^^
->   bool?
+Thinking about this again, we should absolutely fail the reconnection
+when we are unable to set any I/O queues, it is just wrong to
+keep this controller alive...
 
-Sure.
-
-> 
->> +{
->> +	const struct dma_map_ops *ops = get_dma_ops(dev);
->> +
->> +	return !ops || ops->flags & DMA_F_PCI_P2PDMA_SUPPORTED;
-> 
-> Is this logic correct?  I would have expected.
-> 
-> 	return (ops && ops->flags & DMA_F_PCI_P2PDMA_SUPPORTED);
-
-
-If ops is NULL then the operations in kernel/dma/direct.c are used and
-support is added to those in patch 6. So it is correct as written.
-
-Logan
+This should be fixed for both rdma and tcp.
 
 _______________________________________________
 Linux-nvme mailing list
