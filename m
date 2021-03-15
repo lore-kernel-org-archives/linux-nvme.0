@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E35C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 21:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A7ABC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 21:08:39 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A50164E99
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 21:05:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A50164E99
+	by mail.kernel.org (Postfix) with ESMTPS id F0E9164F0F
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 21:08:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0E9164F0F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,55 +23,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
 	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=dBP/sNGr42fii+OroQJy3J/93m/v1Y9HWo2ZtJiiTtw=; b=Ut5EJxtnjkL1nm
-	v1cvy0US0sLi26GaMDTt3lX+epFq9XOpEqDf2b+CjO/30ryQNltXCP5URZ5jUeq1gYdL5LSfzVUTU
-	tlKTo+iT1KRsgUJpAYVgfqlkQau0OwuBDv3KVC1OflxlcPcf8YeQlqn9QyW/rpcGavswAVRniiFLj
-	mf/qDG56E/cVz+lVCQB5OppVp3NYivllgDgy7u9NwXyYNygM7XLQHcO4q8V1iY+kr7b0NrPCl8/Kb
-	beg4lLtJnklS0ySXmht1Fr1PeBi7/VMLgmQR3NMzNfYANVtxX/qaPCRAwXH171OJWRAZTIzfDbmFE
-	iqCAjw9LSGWZvbpFU7Qg==;
+	List-Owner; bh=6pedXlNiGrhvFqV7RBKtsahjobCJR/56s9orYKCP2Mo=; b=YfhNx086IEKVkV
+	K/hrKZJYKcnphj7N6Epj0wWW1HU7+Qqty+IKZfnTU4BGhnM9FduY2Ng+94lh4RpllhzPiAM7fLwbT
+	ta0godp69h7aIZFSgMKqlYN1kyE3GEQpIkRlZ7gRDhHRtq13i3UePFPyyCyo7xkaO2FZDIPbhVtnd
+	YYwqIqi0T8fzueH62VhUwYW/XMPkJvnUzNJUTVTQrmm/5A2CuThjEwJ6b42tkJmxgNCFu/ZY+NQFM
+	d8668wjT9FziQ3I3GRa24WPWe4dK1IhfDgNw9PK0FVKekFz43pqZdvNVxcqvPJBzwvVpSfp9y5ckZ
+	YmPDvZeEXkT3frju0L2w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLuOR-00Gtfp-4M; Mon, 15 Mar 2021 21:04:51 +0000
-Received: from mail-pg1-f179.google.com ([209.85.215.179])
+	id 1lLuRn-00Gu5E-Tp; Mon, 15 Mar 2021 21:08:20 +0000
+Received: from mail-pj1-f43.google.com ([209.85.216.43])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLuO8-00Gtdp-JV
- for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 21:04:36 +0000
-Received: by mail-pg1-f179.google.com with SMTP id o10so21208481pgg.4
- for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 14:04:31 -0700 (PDT)
+ id 1lLuRi-00Gu4l-Gj
+ for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 21:08:16 +0000
+Received: by mail-pj1-f43.google.com with SMTP id t18so9475502pjs.3
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 14:08:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=VEvqSAm6uRb4FT1LiZ8J1hU4sU9kcchMcdH0/hqc8LE=;
- b=Vb/2+uY7rXz7niNGj2fFII0bOcxqq5Y2IxVBak3hMel6MEE6B8kcBA0zZybglrmukK
- k9eJlOzJF9YCq70tUt5KQQXavzR6PO88QCHbfsbaxVywPdFVME11z3mCcZ90QZE0etuF
- B215SVPDjCE11ODc9sVOqp6necBN0hp+5p5X+/xQd77IT0F8MwU5LltQPauIbaLHuuPL
- gtQblUP7f7I5H1SvVeCklTNhSTU76RJ/ux3wN4PD2lYqqK5P6OqrLFj3IEkV0kuNt05H
- jNY7POWxLXQYOBA4aPQY8VN0l4jVxFVPh+3twufHayzrXyDp6xfUEIaf0I21dzrb1lkU
- zAQg==
-X-Gm-Message-State: AOAM5332iuaW8GZHUOQ2PjJM/LcnJIL3uD5EA2/VeVMhwPzB9miMjVM0
- NVlJDnToACZisU0D3q8VhPq2NWqt43w=
-X-Google-Smtp-Source: ABdhPJzCnISMrmoPDJLklK5zACahK0fr/PWjAesaoIdCsHyDIdE3M0H7FnMkNheQlgvnaH4Dh13N2g==
-X-Received: by 2002:a63:5b52:: with SMTP id l18mr882591pgm.304.1615842269989; 
- Mon, 15 Mar 2021 14:04:29 -0700 (PDT)
+ bh=SMuGJerBz0cDq2LmVN0R03xw+Z+L8ejyitj2QTMbtMI=;
+ b=qucnZOQn1vS7AHgq7FqrquJtTtMoAK7A6rbwQIxFOztXi6+5T06m66Prsy0QO48FbP
+ 5v/oSzwumK/iEd3WcrU1KSrSj2Ki0buba0XR8OrvcEOLGfxWdH6QYg2/ybFR2kwJX3df
+ 7a9gabDFfe+9AyNFTLHciWbH+p33MaTos3/GXb1GAnbEPqQ5XqbePLRYGhr/6w/46Blw
+ QmgvexW/6Qll4kX0hAQiOoZEjqSp9bY/DVuFa2ZWXER6u2XW0LACqpCP3qd3MBimv250
+ PcwIqTEuw9M/ZwXPJ4ko/HAoQIQORf1Bacf1V93xIe4gGuvPL8vocnALtorPPnE/o8bp
+ sxSA==
+X-Gm-Message-State: AOAM530pz9EOFyvVp7TjS5LK7tYnjqfr1TgStJ4T45QI0LkrqRePWLmE
+ gmXNG2KD6SOkuGjV/OZg9oqV23Nm660=
+X-Google-Smtp-Source: ABdhPJzzQk1VTSIE22LZSXmF5edKTb7hPxnD6u3vSnaEUml672FPF76SgWMeDoP3nBru8j/64xyFqA==
+X-Received: by 2002:a17:902:a707:b029:e6:52fd:a14d with SMTP id
+ w7-20020a170902a707b02900e652fda14dmr14055960plq.34.1615842492848; 
+ Mon, 15 Mar 2021 14:08:12 -0700 (PDT)
 Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
  ([2601:647:4802:9070:4faf:1598:b15b:7e86])
- by smtp.gmail.com with ESMTPSA id fs9sm511042pjb.40.2021.03.15.14.04.28
+ by smtp.gmail.com with ESMTPSA id 11sm4781552pfn.146.2021.03.15.14.08.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Mar 2021 14:04:29 -0700 (PDT)
+ Mon, 15 Mar 2021 14:08:12 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Chao Leng <lengchao@huawei.com>
-Subject: [PATCH 1/2] nvme-tcp: Fix possible hang when failing to set io queues
-Date: Mon, 15 Mar 2021 14:04:26 -0700
-Message-Id: <20210315210427.357584-1-sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: [PATCH] nvme-tcp: Fix a NULL deref when receiving a 0-length r2t PDU
+Date: Mon, 15 Mar 2021 14:08:11 -0700
+Message-Id: <20210315210811.359217-1-sagi@grimberg.me>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210315_210434_898217_A68CB43B 
-X-CRM114-Status: GOOD (  13.41  )
+X-CRM114-CacheID: sfid-20210315_210814_992847_6E6EC86F 
+X-CRM114-Status: GOOD (  11.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,37 +88,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We only setup io queues for nvme controllers, and it makes
-absolutely no sense to allow a controller (re)connect without
-any I/O queues. If we happen to fail setting the queue count
-for any reason, we should not allow this to be a successful
-reconnect as I/O has no chance in going through. Instead
-just fail and schedule another reconnect.
+When the controller sends us a 0-length r2t PDU we should not attempt
+to try to set up a h2cdata PDU but rather conclude that this is a buggy
+controller (forward progress is not possible) and simply fail it
+immediately.
 
 Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+Reported-by: Belanger, Martin <Martin.Belanger@dell.com>
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/nvme/host/tcp.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 5274cc5800f9..31e4e59f0866 100644
+index 18749090b926..850816b8b077 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -1752,8 +1752,11 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- 		return ret;
+@@ -568,6 +568,13 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
+ 	req->pdu_len = le32_to_cpu(pdu->r2t_length);
+ 	req->pdu_sent = 0;
  
- 	ctrl->queue_count = nr_io_queues + 1;
--	if (ctrl->queue_count < 2)
--		return 0;
-+	if (ctrl->queue_count < 2) {
-+		dev_err(ctrl->device,
-+			"unable to set any I/O queues\n");
-+		return -ENOMEM;
++	if (unlikely(!req->pdu_len)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"req %d r2t len is %u, probably a bug...\n",
++			rq->tag, req->pdu_len);
++		return -EPROTO;
 +	}
- 
- 	dev_info(ctrl->device,
- 		"creating %d I/O queues.\n", nr_io_queues);
++
+ 	if (unlikely(req->data_sent + req->pdu_len > req->data_len)) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"req %d r2t len %u exceeded data len %u (%zu sent)\n",
 -- 
 2.27.0
 
