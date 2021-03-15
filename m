@@ -2,70 +2,86 @@ Return-Path: <SRS0=15CP=IN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB50C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF70C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:44:53 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 54FD064E27
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:44:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54FD064E27
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
+	by mail.kernel.org (Postfix) with ESMTPS id F00F364E27
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Mar 2021 17:44:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F00F364E27
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:Cc:To:From:
-	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=uDM216FykP1LLcG9w27fH11Q1iqd9xmqXVRmKjxfA94=; b=lJLso6po4/RfpAHRK9ZySFTCv
-	sMnOA3zVirV80KkJsevjqmGiusTszBMkl4Fu4DcWbQwJF0czsUvSw4ikIaMwDrSk+uyF2u8OZXSzI
-	l0Q7YaDrOjTRwipABFOomJ8czKw19H0mbmCauxwonBbt2AIMaahhu+Y6X26o5p3ShMVg0qy50DSw6
-	G181K7r+Ymso3NE6H9Vv6DLhf3zFb9KgtCFC+2L7po9QWA4g6z4IQ2MMFi6lnGFfOGESenKMFUptV
-	MdrUAT2KbJU79FKhnr8rWzc/gz9Lv3X5cKXhBytMmtYEIu1qvwo3PSWhG6AkAQ3UaNW9YF/l96e1E
-	urtQpvSGQ==;
+	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=QyCmihlOUiemPGhV7OY1v/1gY
+	i1aOSW0l/m39OCeEd3sXvAsKuqDdWvUpTL1f22Dlqu91mdSRpy4uKeIjal/h5o7x4Rlbi8K/pHE2D
+	7EoDocl8dt2ADv9FQ58vK202CERbQCCgrVPgytSkHDmGW9HjKlaRFl2n7SvG11MJy6DBFuL3Ut0Zj
+	PUvmobvdJeih32UIbuii77StgyOVB+MUvxn4znD7STsjzEvYIlgQ1sxqwn3BMHzksrM7nX5+YxOmL
+	57JGnnZj6SpmA/VW9W6P/o0rVGzkAXTmbDWbhticb+cDAHc1QTmzHCQ6HmQUrfsQ76yVHHBLcOW47
+	CqfMSavrA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLrG5-00GZhJ-UH; Mon, 15 Mar 2021 17:44:02 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1lLrGf-00GZrw-JO; Mon, 15 Mar 2021 17:44:37 +0000
+Received: from mail-pj1-f43.google.com ([209.85.216.43])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLrFW-00GZVz-CT
- for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:43:29 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1615830203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qOmyqqNlncmFIQZ1lnmYKLcXfnYbqjUl1VeBLe6ss+U=;
- b=EyweMNbnQYeQKdGRS8J7aNUKNCtAqfqPGChz4vBCRmhlyNPsRly1ycQ5Rk4kfAAtKvrTsI
- uLQ9igrlQvO4pHblHsWv8lFhfTOVm7ce9fGCTXun2BFdqA3vLNSpFpOGn07MztJrb6Q0rt
- ZWrL8QR2vQAQJ/GMST54EYf/0A6OiW8=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B2A86AE3D;
- Mon, 15 Mar 2021 17:43:23 +0000 (UTC)
-Message-ID: <ec36e8e054c5a6b59e67f780be7aa4d88a518194.camel@suse.com>
-Subject: Re: [PATCH 01/10] nvme-discover: lookup existing persistent
- controllers
-From: Martin Wilck <mwilck@suse.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, Keith
- Busch <kbusch@kernel.org>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, 
+ id 1lLrGI-00GZlx-SI
+ for linux-nvme@lists.infradead.org; Mon, 15 Mar 2021 17:44:19 +0000
+Received: by mail-pj1-f43.google.com with SMTP id
+ a22-20020a17090aa516b02900c1215e9b33so14798716pjq.5
+ for <linux-nvme@lists.infradead.org>; Mon, 15 Mar 2021 10:44:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+ b=CvW73519qvXWMsc+vEtXTFSzJN6PbPV574O9ek6Bdhex4mHmLZzjIRdIwWUvyU2SpC
+ B/OKLzYrulsC4GwOleWWpOTKOsHi6yLP1XOAFORkAeT4qu/LiIzC+L70oG9tqHTsg8Dl
+ iv5dksITzUJgHJglcKTvfYHCTILVZZIK+wVYYSCZPRrCFExbbi3xd6NS1d9ZShzWNDgh
+ Zxlr6Q/O330Kt4Q+t1QcoSCfrzvhwMGxk2jNfAYk58trLFkDaeb0jr3CV/nyCPZzkQ1F
+ BMXeONKTqUyqfAEBs3j2ztPHCs7xw2VMQURSSbEXWrLNKjc4cTtGNJEuFHGHnLGJUdVb
+ oLtw==
+X-Gm-Message-State: AOAM530imsBuVV+pYl3pDNC6ojBx9tu1+eWB67KkwfUxziGk1u7ulUt2
+ xzI9xcowogySm8XU4x1Uk+I=
+X-Google-Smtp-Source: ABdhPJw134f6JQ2OJ/XlfEXmPViFe2rf4Kt9sD6IZ38ACU6eIulq29sk6sw2Yhw3eIft0viOlRJ+qQ==
+X-Received: by 2002:a17:90a:a603:: with SMTP id
+ c3mr199853pjq.107.1615830253313; 
+ Mon, 15 Mar 2021 10:44:13 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:4faf:1598:b15b:7e86?
+ ([2601:647:4802:9070:4faf:1598:b15b:7e86])
+ by smtp.gmail.com with ESMTPSA id m21sm14187896pff.61.2021.03.15.10.44.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Mar 2021 10:44:12 -0700 (PDT)
+Subject: Re: [PATCH 04/10] nvme-connect-all(1): fix documentation for
+ --quiet/-S
+To: mwilck@suse.com, Hannes Reinecke <hare@suse.de>,
+ Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  linux-nvme@lists.infradead.org, Enzo Matsumiya <ematsumiya@suse.de>
-Date: Mon, 15 Mar 2021 18:43:22 +0100
-In-Reply-To: <b7f98f09-c21d-579d-c925-5b511796c7f5@grimberg.me>
 References: <20210306003624.21102-1-mwilck@suse.com>
- <20210306003624.21102-2-mwilck@suse.com>
- <b7f98f09-c21d-579d-c925-5b511796c7f5@grimberg.me>
-User-Agent: Evolution 3.38.4 
+ <20210306003624.21102-5-mwilck@suse.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <452da4c2-b57e-41fc-9221-def3d2a26dae@grimberg.me>
+Date: Mon, 15 Mar 2021 10:44:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210306003624.21102-5-mwilck@suse.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210315_174326_778610_9754C4C8 
-X-CRM114-Status: GOOD (  12.99  )
+X-CRM114-CacheID: sfid-20210315_174416_420132_B05FB9D2 
+X-CRM114-Status: UNSURE (   8.43  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,37 +93,12 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 2021-03-15 at 10:38 -0700, Sagi Grimberg wrote:
-> 
-> > From: Hannes Reinecke <hare@suse.de>
-> > 
-> > If persistent controller connections are present they should be
-> > preferred even if no --device option is given on the commandline.
-> > To avoid selecting a temporary non-persistent controller the
-> > 'kato' attribute is checked; any controller which does not have
-> > this attribute or for which the attribute is '0' will be skipped.
-> 
-> Why?
-
-The idea is that an existing non-persistent controller is likely
-controller by another process, and could be disconnected any time.
-
-> 
-> You also need a fallback in case kato is not exposed in prior
-> kernels.
-> 
-
-Agreed. That's handled in patch 02/10. I didn't want to modify Hannes'
-patch directly.
-
-Martin
-
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
 _______________________________________________
 Linux-nvme mailing list
