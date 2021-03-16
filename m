@@ -2,127 +2,175 @@ Return-Path: <SRS0=15Zf=IO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0AC9C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 08:36:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B84BFC433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 08:57:51 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8960A65001
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 08:36:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8960A65001
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2B21F65002
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 08:57:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2B21F65002
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=Dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ySSVNAF1UqGeJHyWOWi+AsRic7qr5+YuR5aeWVEhl0M=; b=E2nR0WdWychP8Jl1P1I48z/gl
-	D2X5AOdSl7/y2cqfNWB3lIJA/7xuvFJeonicnluOloxYn1i7G8Cecrw9QTDlmOvSx11lRikLQgqQA
-	gH3vxMbKeai+zYO2iVrbbF9bfVmkMz3VjjLxTAUU/osBZyNzSWm6COJo1CiyOdbdhli8iU7QnTi0F
-	U9ZUPKUrYpsd+Uwr6+vxuHNiZxDm2gheGk0HKWKkERIvnicc6+BjsYEA8yyWGm+g8GB43GBhXj6Uu
-	K8hAMoiYtSpAymdS5fkLv3fvbOOswi5y+5OWBoDxZLk+elakPvUKWOtsXHwnYMhJJvFq0Tp09uXwW
-	hRKG4oAiw==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=VzVSeoiR3gOr2ByZW7s+Q66jiSwAs+Hu+fk5oRvJLrI=; b=EShyOwlfInEOEktzqUMvQ1exF3
+	hNgVMa5IGVvvQ0v7IJsba+WrIj0cSND0Q2HlcCrmVXER5HRtlKG64+1TTn8nib0Y9S7BJg+UQ5laF
+	+DfmXSZ+ezZa+jg25fPtHqVaLtMRE8Ae2aeuTru2HtRUeAWWTxn+1iUlzaMkiwpm8FkhJ4M80f1j6
+	sQQU/J9aRjYB/hRTXtCAqF4HbvegPJwxoARvZiFwRj/0ogpiORrP+INx53Ow8d98YexZ3bsRpXdwi
+	YcTVLu516Iafm7rqgGLAyjoDx09EUXuQbxYm7GabNFN8K9xYtKBSMMgoJyDfgigP6U/2S4JjNeMj6
+	nmG7LzXA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lM5BJ-00093a-Lw; Tue, 16 Mar 2021 08:36:01 +0000
-Received: from mail-dm6nam10on2085.outbound.protection.outlook.com
- ([40.107.93.85] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1lM5W9-000B5W-Sl; Tue, 16 Mar 2021 08:57:33 +0000
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lM5BE-00092t-QJ
- for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 08:35:58 +0000
+ id 1lM5W2-000B2Z-6H
+ for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 08:57:29 +0000
+Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
+ by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12G8q6Ad025836; Tue, 16 Mar 2021 04:57:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=smtpout1; bh=/SA/GUlxFevZB964g0wuWlYfeOfa8EtUBzbSCqOCrCI=;
+ b=k8fYMovEidLf0hq3TfjHKR7jB/L9oG6XsSSH2JCUcvpAxsW9bSWIoWKx0K+SXTVLdmKt
+ pomje0oD+DISDkrLQFWJ+aKr/sfShhDJIEFPMng+tgW0I/zLqSFL89KiY4F+zXEXXZ2W
+ gRqu62feEI9Qq2ppVittrmyapo5gcCwMYMGkIz3Dn/CJYOd25gNjyOGCLnTp3nBV8UdR
+ /WvQEtWD6YbrEGdNeKZjdnJ43HYb3m4NEaSlHH8u21PCt9tjM6Muh+2eEG9Qk6QjiMlK
+ yeJCbqcBAdeRR6Sr+aMFC42++u5K7Dbcxoq6T8gDA688OqlzYorZk89SUlI2EV8fo8L6 AA== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
+ [67.231.157.37])
+ by mx0b-00154904.pphosted.com with ESMTP id 378qbx7wu0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 16 Mar 2021 04:57:11 -0400
+Received: from pps.filterd (m0144102.ppops.net [127.0.0.1])
+ by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12G8sbYV160385; Tue, 16 Mar 2021 04:57:11 -0400
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+ by mx0b-00154901.pphosted.com with ESMTP id 378rj0n8bv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 16 Mar 2021 04:57:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XNXCfP5AvGJqhfZc8sd3rP9wuK+LtyUNosTjBYdSz0aKPuZ3kU4ChrVrvZ/Dc2UMOXT9Y9TVDklB7kB3aTlmsjVk09cAFPVtFwzjuV2IpK0h/vMSKqlga7qXhg6QbGFczvtu4xIAgabfEQzM8rDrfHdBmaY1TI7ZKZOD2cOuPpQ0Fhzz7+1UQx5mIEHsvitKJn92Fx+5hs1AI+oKBUUqmfP1+l8zA47Hqnp4h4uPSauFKsp/jRfy+G2VgmfK/KrpNg1IdLdCa9qHfygN//te89W+W3aXFyj7vXhYrxD3ssaW9MTYAWd5Cg8MEV8sFqH+BhaJphNlTZL45UvtGm/low==
+ b=W6iibSo1KnJs3uwgG7b15OI96cNF0lZDRLGZ6AsYRWcmKgW/IXj2xv0aTOoTD9HIBD8218uizzz9QX1rcaRXlEZqKQ+hKMLVTqa78ePDYGepo4O9MUN1oLbFkTsHFQrzEV0xlyGCPxLoxPuOxG9+lsn+ek9+FyInXuHskqPHevzsM5lZUVHDMdBI6R6e/aVLzjd0Thumq48F8oh48kCcE8sxecF1ZnCr4odY0m5ObyFHCIMK0a7OYe2DMd8ciZi4DJbE38Ss4Dql/4NJmvJY7CvTo5pHBPWajSdWEH82/jXBEkcFbGGvYxR/CvUNDkr8U0cS1Fya5bqsJXFPiak6BQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fiZxCr2AVj2j6UHm9W3R3FlePgYaGRyV/D/boev1dgo=;
- b=B14VZltPxsi5lh3uO6zO2TC4aqZK4Ar5BweWE/PE6L8dNZ8n/yQ1PWTCJLXhDbCbnHjSKxqJZDmyHrsJ80hE2aSRBnJkkaIWvtUXPiHPocR7pT/zhQZDkSwkhXizhsBHcF9/afi18g1FB2D2bXK/XaRqrUInCDJFYbl7+S74J547hZbvialOPlnq7Az797WnIxQvG3IFAtuUTDxNkyLDtK70Oxs98xWS7sUKDPrNFX9ydzyLpJe07TfB3uEZNSQ13fU1ofkXLT4PWSHWQESc8D3sfi+P+Nedv5OvXFcQHy9TTOKs/zwbLm035zVJjIbarIMfwKFoSd/OPo2/qo5n6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=grimberg.me smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fiZxCr2AVj2j6UHm9W3R3FlePgYaGRyV/D/boev1dgo=;
- b=C2L1eIx7BLOtXVf/6cVIbOGVS+jUptxKUWfp6DTyLElxOuoCmCrE0Rj7NXsmdFnaFGOIPeUNXu9Vw3DYEq2BQO+XfGk770SqTNDZJjkcvZJC0sl8UD98ZsJJDD6n3ZsTGf90A+gE2mbLUIXLm5Gb7yTNOq82gLx++b2NhjKZsGb8jdzTV04E0XblZSCL/BOvpV2f/1r46mbwVbmM8Ia1FaN3CmRE4lyg66nY1Whp6x+5YqoGq0U4E1JHQCDoAPQ+p/6p3ZFNtgQl/N6gqiMTgoJMmtux82tLob3MLb7MQpZ+v3HajU496gpuNb4Gfo9G4ZdDQjjDDMuMqD3aeU90eg==
-Received: from BN6PR1701CA0010.namprd17.prod.outlook.com
- (2603:10b6:405:15::20) by DM6PR12MB3708.namprd12.prod.outlook.com
- (2603:10b6:5:1c5::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Tue, 16 Mar
- 2021 08:35:50 +0000
-Received: from BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:15:cafe::3a) by BN6PR1701CA0010.outlook.office365.com
- (2603:10b6:405:15::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32 via Frontend
- Transport; Tue, 16 Mar 2021 08:35:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; grimberg.me; dkim=none (message not signed)
- header.d=none;grimberg.me; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT054.mail.protection.outlook.com (10.13.177.102) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3933.31 via Frontend Transport; Tue, 16 Mar 2021 08:35:50 +0000
-Received: from [172.27.13.197] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 16 Mar
- 2021 08:35:47 +0000
-Subject: Re: [PATCH 1/1] nvmet: do not allow model_number exceed 40 bytes
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-CC: Sagi Grimberg <sagi@grimberg.me>, "ngottlieb@nvidia.com"
- <ngottlieb@nvidia.com>, "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org"
- <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-References: <20210315145611.155972-1-ngottlieb@nvidia.com>
- <BYAPR04MB49657B5E84CDE72510A5AB77866C9@BYAPR04MB4965.namprd04.prod.outlook.com>
- <4a4a2b20-af9c-0474-a5b6-734158dafcb7@grimberg.me>
- <BYAPR04MB496523CA274146559560AFF1866B9@BYAPR04MB4965.namprd04.prod.outlook.com>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-Message-ID: <0b645d22-4787-e4c6-6872-c840ac7ed39f@nvidia.com>
-Date: Tue, 16 Mar 2021 10:35:37 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <BYAPR04MB496523CA274146559560AFF1866B9@BYAPR04MB4965.namprd04.prod.outlook.com>
+ bh=/SA/GUlxFevZB964g0wuWlYfeOfa8EtUBzbSCqOCrCI=;
+ b=KH40KH2sraUTnPW35CDC4qBXv2dyLcgkWCLl8iICUqsEU26FS+ffhpfFN3+8jzjRx1tV1GRqkXIXTpK2iEBnC55k/lAfrV0bF9d3yMd2bUZAAA0HBJM0CAuq5xig37AIwyZhKmPkHJ909n45p2Lqtyfmo2HgKyekxhm+xkhgIbbtPcQExeALs+u6EquWwSKIGJml8DhUGJpVQinvFRnwQgHSUMNNgpvG/wJyt6E8gZrwZIWiHXDPYrpiGkYXITHqeA5p+aZJ5YEz0/H7rE1UJ7Ff3A3eikEFfzh6vCGHhRkPabLllbKratBjp22sLC4TV9j7W/9mkbDQHBolIcSkYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+Received: from BL0PR1901MB2020.namprd19.prod.outlook.com
+ (2603:10b6:207:38::12) by BL0PR1901MB4675.namprd19.prod.outlook.com
+ (2603:10b6:207:1d::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Tue, 16 Mar
+ 2021 08:57:09 +0000
+Received: from BL0PR1901MB2020.namprd19.prod.outlook.com
+ ([fe80::60b0:a3ae:37b2:2e25]) by BL0PR1901MB2020.namprd19.prod.outlook.com
+ ([fe80::60b0:a3ae:37b2:2e25%7]) with mapi id 15.20.3933.032; Tue, 16 Mar 2021
+ 08:57:09 +0000
+From: "Engel, Amit" <Amit.Engel@Dell.com>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Sagi
+ Grimberg <sagi@grimberg.me>
+CC: "Anner, Ran" <Ran.Anner@dell.com>
+Subject: nvmet_set_error ignores error_loc NVMET_NO_ERROR_LOC 
+Thread-Topic: nvmet_set_error ignores error_loc NVMET_NO_ERROR_LOC 
+Thread-Index: AdcaQlC1JQMsBcUcQtuIzJaPGyvIQA==
+Date: Tue, 16 Mar 2021 08:57:08 +0000
+Message-ID: <BL0PR1901MB20202EA160DFA04E828A3719EE6B9@BL0PR1901MB2020.namprd19.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 00a7c964-447a-4957-6e31-08d8e8568103
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3708:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3708525C329AE59BC6D80EFDDE6B9@DM6PR12MB3708.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mHhemkGiyDCGHzlzZzKWW0Gi9pWH/7IhlIxKib3LZmwNxlVGqa+LcdqQEdYQ6Lr2kpeLMyOgsQpdYlxXR5GsNz/W7az+1wFmrlHG3li430GyZA1fwJReVgncxRA/ZqNkRxYlQNEzLC7Ta1um/+eUObL29so3Nk4Mb5TJw1Uy+pDK9Yr3ODF5Zws297OGvrrKunWdhy/7+EvDTNqP+WQ5lpPpNwREx4EY3+S7WWR3svDZangRERjpc9DHlc+NzcFys9DiLsFgF3U+J53EOtEcwVdSVEZLOd5lw3R1p4bpk+ucyIu3XHghacuRvJub7MxP5g9qRscNpUkmjZBcVlALi9Pk99ycipTvgf3QzDAPlmp0Fk47+GF5WSihN0z1Tk3DqtlgWY3Ud7p7cKIvXPyfkFWS2vNFUI//ZAO5fGV/bgiw96LzZn1CNgsWZiOKZRwwR1X3bvyyQ9UzPWWZa/russmflmfcwRR7b4xLNQXSIoRJooyppJfeUyOHoVMwj12wjvXu3edhd7KULA4xd74UFPlg9CMkU4oJGL+2w9fXcVoP0oOFnlT/RHEz0I5ekRGZRcfga0XndUdMIu+/FNYYEIoZz6nd9Ixh/FT1dTQ2XeZ2olD1m96GtAcUSsbiLimQ5/0k5fQmBOdYWR++07oFEGzRN0+g3hSVq2x5zY89c6wWe2moyirrXkNWeEUXH0dzY1HgFleOy4T0AkHNEL/BfBR6ugytgQgzrCEuwzGxtUQ=
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(396003)(136003)(39860400002)(346002)(376002)(36840700001)(46966006)(31686004)(86362001)(478600001)(8676002)(2616005)(70586007)(36756003)(36906005)(7636003)(83380400001)(426003)(356005)(316002)(34020700004)(336012)(6666004)(5660300002)(8936002)(26005)(4326008)(186003)(16526019)(2906002)(53546011)(47076005)(36860700001)(6916009)(31696002)(82310400003)(54906003)(82740400003)(70206006)(16576012)(43740500002);
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Amit.Engel@emc.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2021-03-16T08:57:03.9124066Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=3f0ffe8d-cca2-4584-9452-70559b289207;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+authentication-results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=none action=none
+ header.from=Dell.com;
+x-originating-ip: [94.230.83.173]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a9dc072d-6fab-416e-5a69-08d8e8597b3f
+x-ms-traffictypediagnostic: BL0PR1901MB4675:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BL0PR1901MB467581041908E1656359998CEE6B9@BL0PR1901MB4675.namprd19.prod.outlook.com>
+x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bghWSYijhjxerdxNi/qSWIPOlpMFyjTimImWEwl17sbdD/6of/7Btic+1UrcA5T26XoSvJga6B6MfBFuJUxgJuCqXsNTOCux8Gn5f3+w8QAV5z0sj8leuTWWnUrGqBgmSQQAP4wzPB9Dp54vFwf1L/VYtAze7bCiM01dMIBsJl3UBC3L3A2JPxNaappnNGfBPiAhL4M+VFUb3iRThRHsjfKtRR189LgNIqo5NhvtQYumHbEzHM/Wz8r/mAseZEYwOERXcZu5o8sJZ8PubdFFOjLLVzwjqW9mS3R23M9t1vtCMEoCo7V3N+6nRSgk2iqzM6KEAPomm+bH1TNAZv7Lb91ES5urZimjRV1gWFuJpanElNTE3WusIIPgwXk9nbX4v7TcdlTPXKW+Tqk7rnTO8KsL/RWAVD9ngLgVxQ3GZIIQe5DWPrTrz1547C9+p9WszvYrYYPFgEjngNogSLXgm8Fc2029YsGNr6ocbbNDlOMA13glxUfh2xqq7b3iiaBbKS8Y2bQdxl6gFmuXASPgZbIP6BrDOW1POGzkrSGwYX1nRL319Hk9NLHoQahzdrgM
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR1901MB2020.namprd19.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(52536014)(66556008)(55016002)(5660300002)(66946007)(66446008)(6506007)(33656002)(7696005)(71200400001)(76116006)(4744005)(478600001)(66476007)(8676002)(9686003)(8936002)(2906002)(786003)(26005)(186003)(86362001)(316002)(110136005)(64756008)(4326008)(107886003)(4743002);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2021 08:35:50.0633 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00a7c964-447a-4957-6e31-08d8e8568103
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3708
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?/gDRNxDdsPzKK7kSn7/38hMbslkWwB3KOGwhWG3N7keN0qIWMn3X1R/haI86?=
+ =?us-ascii?Q?HIp+rXxTaVDbbjVq6eR9bX+lUVQ+z23+RTfnjSeAEfHnpd3tpiJmDrEUfa5I?=
+ =?us-ascii?Q?ZMhmpEaNQ8zzgcjWiD/BF+dzo702Gtbc50RIEWNNu71b7Qahdcqqx+1bkTEO?=
+ =?us-ascii?Q?uQ00/9Zmy2Qo76cjcTXk8+bM6H1Oa1BOc9NmSyeSgQjmU9lb7NY2GQ6S2UGc?=
+ =?us-ascii?Q?veEvdjjK+LAVM5po0yzeEUwd9juD60nH8TzNEHal7cXebarKfGxkgSHJygXK?=
+ =?us-ascii?Q?bRTyo0RuqqYiSBiWzWZPGkR4bXHVb8ahSeBL4HgeSI9m5IDNanUr9T/1o2bS?=
+ =?us-ascii?Q?DXI3mQHL6yN6uNs/FQFAT1NAY3e4CqXzEM9Q12CFAnoZJ2+yYv2z6xRuRfp9?=
+ =?us-ascii?Q?8/AjtsMk1FjZjAMzto+bGi7fQXchf3h6orZLlz1W8a+7FgOl6ff1EcCdZ4wt?=
+ =?us-ascii?Q?l/pf30/hjsFFqaLfHjkYSm8LM/6v01+4C7Vnhe4PXfOsVMJ59RksehAa6K/S?=
+ =?us-ascii?Q?wguR1S+vdFDb3tXYSkVvr4i1AUL/yl8MmmGf3QQ8KZlBvzs5k28b3wZRl6Gq?=
+ =?us-ascii?Q?b+F/wNv+dC3C+ZAxikPkHhFNv0YVirUqj3uK0MJwBALuDWmmAyaLqdZRDZWb?=
+ =?us-ascii?Q?Qx/Rdrn3hqEvMRTWBI+QkD5oQqAxosNQG6+HCivJY++gT5isX4JNbvbT/80K?=
+ =?us-ascii?Q?oME9Qq/CgXNU+JzQbVmC9REqrFOlP7kTtUtW+wGO+njIVhj9NXEJvw5oNDXy?=
+ =?us-ascii?Q?iQBRZraVhjggO0XLfuyGUpctcX5SoQnjoLO+Q0AiIhkG9feea+jCEMViDTK4?=
+ =?us-ascii?Q?3Vi0yA12vpjpZwUJoVxa9p6/KJp0txEpF2WK6fivMMrCvB8AGqN/7bUUHB+g?=
+ =?us-ascii?Q?AA0ukZz1TZxaTiuExdh4w9yjWn7oKJuB40HDNl6TW3vikebpr8BbUQAGdwk/?=
+ =?us-ascii?Q?Nn0d4ugnK0GksvZK6H078mfO5o+VdlC5zGx4WsyYoUfVAvKZDyPf5JXHt67f?=
+ =?us-ascii?Q?UtfTvOIQvVZScVs0sBM0bwMU1nu/nYGORQKna5RA9a4385For1L73hcBFbry?=
+ =?us-ascii?Q?Eki2068WvuhQDBBn5m1POCozEKc+vhsXhRgdL90V0C3YvJriSqU9m8yP0NOT?=
+ =?us-ascii?Q?slBmPJT0r+gE8aE8wdmMt3tat7JMNMqUcAdLX2KyCDjNxmHzupMT+D5fK8kF?=
+ =?us-ascii?Q?Jv1KajO05X/ZNNSq1S9qMoULnrVpbILWOjOW2dDHohrOJ0leiO6RUp8OsEG2?=
+ =?us-ascii?Q?pPz4gLqo12NvwIrG+mkk5/Ty8ktY8J1fHhPn+paTiWYoDHgklJ9UjJJdXQ6y?=
+ =?us-ascii?Q?pvKXkRsNHsU8EEekQWxzBywC?=
+MIME-Version: 1.0
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR1901MB2020.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9dc072d-6fab-416e-5a69-08d8e8597b3f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2021 08:57:08.9358 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HIRJC/P9UTr/FhuMltlEX5V1Bbc8KbKNzJ/SvwH6ffaqdy2KyEAONeD3mz36eke7LwmadWYGW1XuE2tG0n+B8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR1901MB4675
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-16_03:2021-03-15,
+ 2021-03-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ impostorscore=0 clxscore=1015 suspectscore=0 mlxlogscore=677 bulkscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103160062
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxlogscore=792
+ phishscore=0 bulkscore=0 adultscore=0 spamscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103160061
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210316_083556_997531_49189371 
-X-CRM114-Status: GOOD (  12.92  )
+X-CRM114-CacheID: sfid-20210316_085726_863006_5368E48C 
+X-CRM114-Status: GOOD (  12.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,42 +182,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hello,
+A question regarding Get Log Page - Error Information lid 01h:
+According to nvme spec 1.4,  bytes 15:14 refer to 'Parameter Error Location'
+"If the error is not specific to a particular command, then this field shall be set to FFFFh"
 
-On 3/16/2021 5:40 AM, Chaitanya Kulkarni wrote:
-> Max,
->
-> On 3/15/21 14:50, Sagi Grimberg wrote:
->>>> According to the NVM specifications, the model number size should be
->>>> 40 bytes (bytes 63:24 of the Identify Controller data structure).
->>>> Therefore, any attempt to store a value into model_number which
->>>> exceeds 40 bytes should return an error.
->>>>
->>>> Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
->>>> Signed-off-by: Noam Gottlieb <ngottlieb@nvidia.com>
->>> The patch looks good to me, but is this patch not intended for 5.13 ?
->>>
->>> Since for 5.13 we have nvmet_subsys_attr_model_store_locked(), this
->>> patch uses nvmet_subsys_attr_model_store().
->>>
->>> Is this a fix for 5.12-rc  ?
->> I think this patch can wait for 5.13 for sure, maybe needs a Fixes
->> tag to help it get back to stable...
->>
-> That's what I thought, can you please respin unless there is a reason for
-> this to be in 5.12 ?
+In the current implementation, nvmet_req_init initializes req->error_loc to NVMET_NO_ERROR_LOC (((u16)-1))
+Then nvmet_set_error has this condition:
 
-The function nvmet_subsys_attr_model_store_locked also exist in 5.12 and 
-this patch applies on it.
+if (!ctrl || req->error_loc == NVMET_NO_ERROR_LOC)
+	return;
 
-I'm not sure it can't go to 5.12 but no problem we can re-spin it for 5.13.
+means that the error log will not contain errors that don't specify error_loc
+is that expected ? 
+don't we expect that param_error_location log page field will be set to FFFFh in case there is no other valid req->error_loc ?
 
-I guess for Fixes tag we can use commit "013b7ebe5a0d70e nvmet: make 
-ctrl model configurable" , right ?
+Thanks,
+Amit Engel
+ 
+
+
 
 
 _______________________________________________
