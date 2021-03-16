@@ -2,19 +2,20 @@ Return-Path: <SRS0=15Zf=IO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,
+	DATE_IN_FUTURE_06_12,DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDD8C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 03:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E714C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 04:12:49 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5458964F91
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 03:53:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5458964F91
+	by mail.kernel.org (Postfix) with ESMTPS id 366EA650DE
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 04:12:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 366EA650DE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,43 +24,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=XgG0rNm/emDr66NfXqH4XY+/XQamDzDQGOpE6ogJvGI=; b=IR210oER/DIc6b+HhW/pUDIAoC
-	SUkfjX431d7G/Our+KbocXygBnoWeXs2URBcDXmt7BuqmZ6Ax8XB7b0e60tjBO2RG9afX1skgIUhY
-	EiDpqD/ye0b8w1S8d3s7RFzi2AQU/xHXqASlgVS9cRMP7SQwJsPYac/LQL3xkcZChbBt7uS0M7u0q
-	Z8w7Jv+oTsSFoV9q0kPagNJjQwa6oohHqDqexXF2y56UAxMxISoj3vbWvkv/3K1FOTZwTyWZasYJG
-	UMn5dMAtpqhYIe57aVVjFrSXcW83nPUw/X1B1He7N7E4Vn4ac+TqZ+G3kYS1QHCWfjw55KPVx3NhZ
-	h5sHM4gw==;
+	bh=XgG0rNm/emDr66NfXqH4XY+/XQamDzDQGOpE6ogJvGI=; b=UkhW5NM+oybH6RiVrkEvizBVyg
+	WQyx3jKUAi9d/2CZZpCr3p/jVBjTuu4wJkqE46f0wlXE4D3P4JahgFltPY0MuNlcLOuAvhHpMluwC
+	8QbIFnV6pu4yJg6ni+CPqLsRI6897cArId/1q1+uhlINS8sIKFaRaTINQkO3B3i7+DC7f2qNmN3vG
+	OKcOa26lJliAAX7BMBBjXel8XMmrfl1AuQ6pgnV1k6sokCQZVr9P8ONePKaBOnxEweKJaubRa0j9j
+	tRuOWhSqLFTd24h5xzVYUgq5ftGqMhFqOrEtXoobH/N6wpw/LXOsVxAtj+B2CmEbPRBYXKY+TiFK+
+	pd/nArfw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lM0m3-00HMId-Bc; Tue, 16 Mar 2021 03:53:39 +0000
-Received: from mga11.intel.com ([192.55.52.93])
+	id 1lM14O-00HNSZ-Ox; Tue, 16 Mar 2021 04:12:36 +0000
+Received: from mga17.intel.com ([192.55.52.151])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lM0lx-00HMHe-Rq
- for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 03:53:36 +0000
-IronPort-SDR: 7uTNCAuTz19jOY7XTtwqiI/pFomaxNLq63I03pufyH4eo/fxe+6syBsqgvPLgoAMSv9ZMXahKh
- Vljgtln1sMfA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="185834479"
-X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; d="scan'208";a="185834479"
+ id 1lM14I-00HNRR-6q
+ for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 04:12:33 +0000
+IronPort-SDR: QLX9N9r9kkYXWPmJLwGP+g5/4gsHax1IGmivSeHd/hRMgiUvABpBaic5erwn+K7LPKHOuKsy/v
+ 1lYqgrdxMHbA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="169111531"
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; d="scan'208";a="169111531"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2021 20:53:30 -0700
-IronPort-SDR: kcXxWuQQ8so1p5SmkgqHIifq9eWqHPK+I8b0UR6DGzJu8O+xTzM8Dud3W76j6jwpBiWbMTf6e5
- SkxPCLBsKlVg==
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2021 21:12:25 -0700
+IronPort-SDR: RTILn4w76eHbNR7/buv8dUtse7FnWlgEphXlUnXCHf2/yIoYPfy55B54hZJ0ZXIkXWJ9SwCub1
+ Mm/DMPKF16Lg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; d="scan'208";a="601681409"
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; d="scan'208";a="601684994"
 Received: from ceph01.sh.intel.com ([10.239.81.165])
- by fmsmga006.fm.intel.com with ESMTP; 15 Mar 2021 20:53:29 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 15 Mar 2021 21:12:24 -0700
 From: Zheng Wu <wu.zheng@intel.com>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, Wu Zheng <wu.zheng@intel.com>,
  Ye Jinhe <jinhe.ye@intel.com>
 Subject: [PATCH] nvme-pci: add another device ID with stripe quirk
-Date: Mon, 15 Mar 2021 23:22:18 -0400
-Message-Id: <1615864938-6757-1-git-send-email-wu.zheng@intel.com>
+Date: Tue, 16 Mar 2021 12:12:05 -0400
+Message-Id: <1615911125-7947-1-git-send-email-wu.zheng@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210316_035334_749010_72D084A9 
-X-CRM114-Status: GOOD (  10.24  )
+X-CRM114-CacheID: sfid-20210316_041230_756477_F75354D8 
+X-CRM114-Status: UNSURE (   8.94  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
