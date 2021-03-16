@@ -2,127 +2,122 @@ Return-Path: <SRS0=15Zf=IO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B01FC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 14:03:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FBA6C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 14:30:05 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0161164F70
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 14:03:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0161164F70
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	by mail.kernel.org (Postfix) with ESMTPS id B9B836504A
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 14:30:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9B836504A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:MIME-Version:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=avGvgTaYBq+QjEOs0ogIA3TfGXda+eE9myQesHyBlJ0=; b=ktsyhXGlOFhTd7R9a/dFBoyOL
-	DlM6taqnjmIoSzTGE1C0o8yjETpYd8GYreg/8PCgaKqm8NAEYjKAinCCYGF1dkKuFdyzXKxsWlpxT
-	Xp1wkBA4ovRREo/FoV20F8Gzj1J590Gr6+KWEaJ9YEx+3aXcW2DckzE1IQMloerVy88cZjCch1b2f
-	bA7txNWE1yi+9GelNnyxOV0d+67yH4RgVSlQXy6BhqDYtA0Yv3xzltl3bdBRkXLNJpeAUm/obpYDV
-	HT3WGqq+rWQa14XATUiNcIIVf9KCBAUcLu9moU3cGBOYm+qBwuXoFLHcuv6MotBz4/SgrvpY3MRus
-	4HgQ/3x/w==;
+	 bh=2eQ0B0+PpBCZf2z+LdDj6wZZB8OvtP8pZPqqYbbIAPc=; b=Ikr29dP59P1SfNY+cYbzJY6Cx
+	JQ29DfH5EfXOVcdM61o0ExxJlsyn8Rc3VAm+kMppnRC14sbexaent5hJouzTEPEpSutecJPnNt7rP
+	N3q3zpAGZLRXdEwq65ppEDpiQdO6YmDzk/J4EFAphgHLs2xlzWRMPXj8UcAy+8jwXBeao48r61Ney
+	rsOP1EaLlbO3TOLv2Q/LVGztKO3N2LCtvfXLo/CpQSDAB+srXCc0dRmnYz6Ryc9bolOd9021i8UQd
+	5jaoINSpBW6IFhC5vXR3KdJbuFfOg5ph0WEXbm8TXLQp9JMIgcxSFtOM40WtPf0VvJVm3E1gFB7C8
+	IqjHKD1Cg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMAII-000th0-Fs; Tue, 16 Mar 2021 14:03:34 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1lMAhi-000xBL-IQ; Tue, 16 Mar 2021 14:29:50 +0000
+Received: from mail-co1nam11on2073.outbound.protection.outlook.com
+ ([40.107.220.73] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMAHV-000tcF-7D
- for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 14:02:47 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20210316140242epoutp014782f1a0a0bcf45661c3a553ac976eae~s14vtiWAk2827728277epoutp01a
- for <linux-nvme@lists.infradead.org>; Tue, 16 Mar 2021 14:02:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20210316140242epoutp014782f1a0a0bcf45661c3a553ac976eae~s14vtiWAk2827728277epoutp01a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1615903362;
- bh=akeDu1dcbf20zA+acxip5drXbMvBeQYjrWKxp7SkhRQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JfEMGRrHM30g8TYE1VHCqp4kzSGNoOZTkwIk+6RlhasiGIhmgRyvfEDSt9s4dBc2j
- bduEx0dM3jixsgsn0PTvZMhjviwkh5lIebnU+OrVY4THTPsA+IahfwppI+880bsF2A
- WF7LIBqHpKiQLVolxnOS/0n6av20bUy3fu8Ysbuo=
-Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTP id
- 20210316140241epcas5p12a8acf27b164b7ed9529e41f11b33562~s14uho-FN2091120911epcas5p1P;
- Tue, 16 Mar 2021 14:02:41 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 43.B5.15682.08AB0506; Tue, 16 Mar 2021 23:02:40 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20210316140240epcas5p3e71bfe2afecd728c5af60056f21cc9b7~s14uHR0NL0795407954epcas5p3C;
- Tue, 16 Mar 2021 14:02:40 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210316140240epsmtrp2ac5e06e0b9b7f1a5776e0c375ca85a7b~s14uGXBQf3156531565epsmtrp2I;
- Tue, 16 Mar 2021 14:02:40 +0000 (GMT)
-X-AuditID: b6c32a49-8d5ff70000013d42-29-6050ba808565
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 03.93.13470.08AB0506; Tue, 16 Mar 2021 23:02:40 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210316140238epsmtip2cfe56ce2cc2373dffe29819f94ed2068~s14sTuTbB1114911149epsmtip2e;
- Tue, 16 Mar 2021 14:02:38 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, chaitanya.kulkarni@wdc.com
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- anuj20.g@samsung.com, javier.gonz@samsung.com, nj.shetty@samsung.com,
- selvakuma.s1@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [RFC PATCH v3 3/3] nvme: wire up support for async passthrough
-Date: Tue, 16 Mar 2021 19:31:26 +0530
-Message-Id: <20210316140126.24900-4-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210316140126.24900-1-joshi.k@samsung.com>
+ id 1lMAha-000xA8-25
+ for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 14:29:45 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RWlKWCvxn33aKn5rGgLVp24l5zk/7er/ErupDA8relJ6sUO3rJB5ysfe0KYxJ+ih38tv71/nMfRMBZrvzmAm4S0FAArmtROiyTWyZokf74LEP0VtjmddQQ4XzlphhU+J0Sk3oq0WErGuf39gBz+O6E3EtVASSruhkcpgb3YTkW64afOWqWtSeiGSkLbYS8voms4CGGB5pddfs96YZLfNEGXNWYM7eZ6iMc1gSt8dEAZ3JtSsXRSuuYU3F/EzxVIQnkk+0tarSw2nvfgzsHvlEDgCmgNBcT5Sx4yYdTknuh4SDGrbIB1UPTuj8eaiVRDlSLCoggj4jcdXa54lqNe4mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ykCXfeo2GBqJ+B7m9+55cz8Odu6NDkAZynU6HELsQmo=;
+ b=I+ooqu7jpGUQ3OjGCWDBsdlpveUTAQ7sqF6crbyFeytW5hunS9CNhnFJSXMiysVVWyFfThMXbShfPFuYN3eF/S+nbx4IB2JQ7rM5IGr+SRD+yB5PXSva67aCd9VAu76j4ZytL6JSUa0m8fPvVB4nobjn18IE+nvRQ0Ikz6uh123Ubu7EgXywA7lo3/DgAeNn6xKIdV6s5heRKg+m0OnmUDwA4jFhTd0zu2np2OqgA2hFCXB2s5a06bgqPO8YbTadDmFHCb31eZcj6joFuQ23YveIrsfM49o7npgQ30zkgM7SKGjbQPFCHgUUwMC1FCQv/y7SfCzD0ktCOo2wa3d1ZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=wdc.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ykCXfeo2GBqJ+B7m9+55cz8Odu6NDkAZynU6HELsQmo=;
+ b=gGvd50OQFjHz1ksMEHP7JO2ZP9ubR+d9p1dMVCtGqbwb24kBkyNUbeSWoKQ9HHtn65xWJfAZRV+0uA76ooRUtWb1TmBD8T84XLDQtZ5YNleRXOE1NIzvpftoI1YMeOsONVfukJTuFGanRPjDMWB9qrDCRv/MF1Qx6+bY4EhXVqnJldiG28rYhIXgGNcdCN561rJ8MDEWtVshav0mm1GM23oQQiDLqIMBismqgy3/Kv/kwvK2VhDPKLCnKmJGwkYKM+Mg41WUNdOTjjCng73nQHArOPak/sw4RM3eUaVQjoIFpZXzHNZvwE9t4UZOXnV2lMqB1N7ZfGe9yFQZu8YjLg==
+Received: from BN7PR02CA0032.namprd02.prod.outlook.com (2603:10b6:408:20::45)
+ by DM6PR12MB2634.namprd12.prod.outlook.com (2603:10b6:5:49::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.26; Tue, 16 Mar
+ 2021 14:29:37 +0000
+Received: from BN8NAM11FT003.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:20:cafe::96) by BN7PR02CA0032.outlook.office365.com
+ (2603:10b6:408:20::45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32 via Frontend
+ Transport; Tue, 16 Mar 2021 14:29:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT003.mail.protection.outlook.com (10.13.177.90) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3933.31 via Frontend Transport; Tue, 16 Mar 2021 14:29:37 +0000
+Received: from [172.27.13.197] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 16 Mar
+ 2021 14:29:35 +0000
+Subject: Re: [PATCH] nvme: fix Write Zeroes limitations
+To: Christoph Hellwig <hch@lst.de>, <keith.busch@wdc.com>, <sagi@grimberg.me>
+CC: <linux-nvme@lists.infradead.org>
+References: <20210315093438.66082-1-hch@lst.de>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+Message-ID: <854ece5e-4c1a-4f41-0c26-32948b21eb6b@nvidia.com>
+Date: Tue, 16 Mar 2021 16:29:32 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBKsWRmVeSWpSXmKPExsWy7bCmpm7DroAEg7d7LSyaJvxltlh9t5/N
- Ytbt1ywWK1cfZbJ413qOxeLxnc/sFkf/v2WzmHToGqPF/GVP2S22/Z7PbHFlyiJmi9c/TrI5
- 8HhcPlvqsWlVJ5vH5iX1HrtvNrB59G1ZxejxeZOcR/uBbqYA9igum5TUnMyy1CJ9uwSujK6L
- u1kLtgZWvHlxlq2B8YtTFyMnh4SAicTUq3/Zuhi5OIQEdjNKtO3byQLhfGKUuPXoBJTzjVFi
- detmNpiWOVMms0Mk9jJKLJm1ixnC+cwocXf+FKAMBwebgKbEhcmlIA0iAgESuw5+ZgKxmQWO
- Mko8WlkNYgsLuEv0TT4JNpRFQFWiaQHINg4OXgELib8XSiF2yUvMvPSdHcTmFLCU2Le3B6yc
- V0BQ4uTMJywQI+UlmrfOBjtBQmAmh8TfXY8ZIZpdJKZe2AxlC0u8Or6FHcKWkvj8bi/UM8US
- v+4chWruYJS43jCTBSJhL3Fxz18mkIOYgX5Zv0sfYhmfRO/vJ2BhCQFeiY42IYhqRYl7k56y
- QtjiEg9nLGGFKPGQeLRFBhI6PYwSPe2rGCcwys9C8sIsJC/MQli2gJF5FaNkakFxbnpqsWmB
- YV5quV5xYm5xaV66XnJ+7iZGcGLS8tzBePfBB71DjEwcjIcYJTiYlUR4TfMCEoR4UxIrq1KL
- 8uOLSnNSiw8xSnOwKInz7jB4EC8kkJ5YkpqdmlqQWgSTZeLglGpgElj82LPp7wnhON+UTbOn
- zgmb4Su97NjK2fdXi+3UtNDfubt0w5z2BpfrS58dL1ZzecbPbzHtBmdiwa2lH79XnFq9dvFy
- PbV/jtrac8R+hR7aFVWv2Htp812+mqn7vRUm7hPxnczwfJHA8pdCylUSpiJN5tL3ZnccWppl
- n7VhhxdH46emlSdXuN29Hbzt7WvPs0pvy744vcr05M+oNc2XsQhw9zqy+WuR0cUlV5YHz51n
- lu/gWHvjYgjvhdnhvY7bN3nKOuxf4aorayPy9ttjvtNCdU7uF7eeLPeYxcyzZeWf7RF2yZnt
- WU/7Hvis9r71XfKCcHxW/mIp6YTWhdvVPnKVLLmonDvzvEP2uk2Zr5RYijMSDbWYi4oTAcDV
- N++7AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrOLMWRmVeSWpSXmKPExsWy7bCSvG7DroAEg/YmcYumCX+ZLVbf7Wez
- mHX7NYvFytVHmSzetZ5jsXh85zO7xdH/b9ksJh26xmgxf9lTdottv+czW1yZsojZ4vWPk2wO
- PB6Xz5Z6bFrVyeaxeUm9x+6bDWwefVtWMXp83iTn0X6gmymAPYrLJiU1J7MstUjfLoEro+vi
- btaCrYEVb16cZWtg/OLUxcjJISFgIjFnymT2LkYuDiGB3YwSdz/+YodIiEs0X/sBZQtLrPz3
- HKroI6PEx/NtzF2MHBxsApoSFyaXgtSICIRIdM3bxgRSwyxwllFi+eN2RpCEsIC7RN/kk2wg
- NouAqkTTghMsIL28AhYSfy+UQsyXl5h56TvYLk4BS4l9e3vAyoWASqafvARm8woISpyc+YQF
- xGYGqm/eOpt5AqPALCSpWUhSCxiZVjFKphYU56bnFhsWGOallusVJ+YWl+al6yXn525iBMeF
- luYOxu2rPugdYmTiYDzEKMHBrCTCa5oXkCDEm5JYWZValB9fVJqTWnyIUZqDRUmc90LXyXgh
- gfTEktTs1NSC1CKYLBMHp1QDkw3rq+xKq0WZFTfmbk/1kJ3/fOb2Sy5XrZM/fGj9rd5uX/DY
- WyDi0ybXWeum/DLX0C52uBMu2ap3XJ61X6v4gMzjIxdF8lKXTi1ZmVkhcF9fucfOI1qLrzFG
- TmzSj3Z9h2OKNW8Y/she0c+LPpztnO55l7G6Qqt3SsxGd6kwzhn3lCarstQfec3wIkno9DbD
- FX7TpudJiG4tnFPP32BbvFlyd+wGvcu/9h9+uenDvc8ekd7udga3tsqUGoZsPBQuYmb/Veap
- g9GF7uAMruDZTty5xbrv/0awKLxO3Xq14C/bSpegbBfdlHCBnps906fsnKMzb9emM+nMG2d/
- 7+cIsGtJOLio/+6Mnc/ZNm9VYinOSDTUYi4qTgQAENB5ZvoCAAA=
-X-CMS-MailID: 20210316140240epcas5p3e71bfe2afecd728c5af60056f21cc9b7
-X-Msg-Generator: CA
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210316140240epcas5p3e71bfe2afecd728c5af60056f21cc9b7
-References: <20210316140126.24900-1-joshi.k@samsung.com>
- <CGME20210316140240epcas5p3e71bfe2afecd728c5af60056f21cc9b7@epcas5p3.samsung.com>
+In-Reply-To: <20210315093438.66082-1-hch@lst.de>
+Content-Language: en-US
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a1a7d476-977a-4a02-4bed-08d8e887eda5
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2634:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB2634F17C5C67C999710A1FC1DE6B9@DM6PR12MB2634.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dYUj2CiQ29xBJ+xl16pLhsNjVJReXf28pExWebxmR8tJjPLP21pjDQtDBwd2Gh5r4l2CgXXksabbqbxxNO99oxG8uB+m7NDtJltYa+ascetbgqDaBFuHKAkIlC1gnAXWE8vGjEiNZp9AivL/Mq95/zepgt/z/EpAZ6GCZNxPwS/5Onu5m4WMgXrVqt1hVJQ1CcUChIYrayLtJrV9VxYV6Tc4K0I1G7tP8dY6PhLQsbE4SGTcGPCsFwabonzCIMGFLQFW7rOXcIYBD6N9vVzcQybTOXnME0zDdyIMWRB3DGrR5kR7akyAbAGTq7NwGLD/rQ9EOErnI4qN85vKPMQiHsAu7igVQbS0zxnqgpSDX8SG10lyVR2irmIOIwI/iEhXh/MD1uWcfoVSCdPJ2IqM52vOqvDT2DqVMIwiFoGoBZ99YMV/QyDA23dIxpPVxlXdNfbbwY654699/xBL0iKCwYdwQM099ZkpGzUjXwpIPcMMEkJUN8LyPTXoTL7fCLKb9HSs5jd/x6jo2jOXN/0M6caSNVBHHexmBTnDk+ZtSmAMVnweBER3myT4lP/g1uLqHpdK0djufkuMa0pR9yLVMWiBDjYLzCN69++r34taooBEY7tvHBwTVnfkuQdsdsVOuEgcsZBu2gf8BW+1mT9vvH+RBg5w9jEdnaJsiIwE0Iyc6y4m9W6RyCun3kRHvRYoLcpbk1unEXZly/3GiCPl3A==
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(376002)(136003)(346002)(46966006)(36840700001)(2616005)(186003)(110136005)(336012)(70586007)(36756003)(82310400003)(7636003)(53546011)(6666004)(478600001)(70206006)(26005)(356005)(426003)(5660300002)(86362001)(36860700001)(2906002)(47076005)(36906005)(8936002)(34020700004)(31696002)(4744005)(82740400003)(316002)(4326008)(16576012)(83380400001)(8676002)(16526019)(31686004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2021 14:29:37.6518 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1a7d476-977a-4a02-4bed-08d8e887eda5
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT003.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2634
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210316_140245_890768_413A1808 
-X-CRM114-Status: GOOD (  30.20  )
+X-CRM114-CacheID: sfid-20210316_142942_585926_8FAA2042 
+X-CRM114-Status: UNSURE (   8.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,331 +129,22 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce handler for mq_ops->uring_cmd(), implementing async
-passthrough on block-device.
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- drivers/nvme/host/core.c | 180 ++++++++++++++++++++++++++++++++++-----
- drivers/nvme/host/nvme.h |   3 +
- drivers/nvme/host/pci.c  |   1 +
- 3 files changed, 162 insertions(+), 22 deletions(-)
+On 3/15/2021 11:34 AM, Christoph Hellwig wrote:
+> We voluntarily limit the Write Zeroes sizes to the MDTS value provided by
+> the hardware, but currently get the units wrong, so fix that.
+>
+> Fixes: 6e02318eaea5 ("nvme: add support for the Write Zeroes command")
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 46c1bb7a89f0..c4f0e54fe9a5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1053,6 +1053,88 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
- 	return ERR_PTR(ret);
- }
- 
-+/*
-+ * Convert integer values from ioctl structures to user pointers, silently
-+ * ignoring the upper bits in the compat case to match behaviour of 32-bit
-+ * kernels.
-+ */
-+static void __user *nvme_to_user_ptr(uintptr_t ptrval)
-+{
-+	if (in_compat_syscall())
-+		ptrval = (compat_uptr_t)ptrval;
-+	return (void __user *)ptrval;
-+}
-+/*
-+ * This is carved within the block_uring_cmd, to avoid dynamic allocation.
-+ * Care should be taken not to grow this beyond what is available.
-+ */
-+struct uring_cmd_data {
-+	union {
-+		struct bio *bio;
-+		u64 result; /* nvme cmd result */
-+	};
-+	void *meta; /* kernel-resident buffer */
-+	int status; /* nvme cmd status */
-+};
-+
-+inline u64 *ucmd_data_addr(struct io_uring_cmd *ioucmd)
-+{
-+	return &(((struct block_uring_cmd *)&ioucmd->pdu)->unused[0]);
-+}
-+
-+void ioucmd_task_cb(struct io_uring_cmd *ioucmd)
-+{
-+	struct uring_cmd_data *ucd;
-+	struct nvme_passthru_cmd __user *ptcmd;
-+	struct block_uring_cmd *bcmd;
-+
-+	bcmd = (struct block_uring_cmd *) &ioucmd->pdu;
-+	ptcmd = (void __user *) bcmd->addr;
-+	ucd = (struct uring_cmd_data *) ucmd_data_addr(ioucmd);
-+
-+	/* handle meta update */
-+	if (ucd->meta) {
-+		void __user *umeta = nvme_to_user_ptr(ptcmd->metadata);
-+
-+		if (!ucd->status)
-+			if (copy_to_user(umeta, ucd->meta, ptcmd->metadata_len))
-+				ucd->status = -EFAULT;
-+		kfree(ucd->meta);
-+	}
-+	/* handle result update */
-+	if (put_user(ucd->result, (u32 __user *)&ptcmd->result))
-+		ucd->status = -EFAULT;
-+	io_uring_cmd_done(ioucmd, ucd->status);
-+}
-+
-+void nvme_end_async_pt(struct request *req, blk_status_t err)
-+{
-+	struct io_uring_cmd *ioucmd;
-+	struct uring_cmd_data *ucd;
-+	struct bio *bio;
-+	int ret;
-+
-+	ioucmd = req->end_io_data;
-+	ucd = (struct uring_cmd_data *) ucmd_data_addr(ioucmd);
-+	/* extract bio before reusing the same field for status */
-+	bio = ucd->bio;
-+
-+	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-+		ucd->status = -EINTR;
-+	else
-+		ucd->status = nvme_req(req)->status;
-+	ucd->result = le64_to_cpu(nvme_req(req)->result.u64);
-+
-+	/* this takes care of setting up task-work */
-+	ret = uring_cmd_complete_in_task(ioucmd, ioucmd_task_cb);
-+	if (ret < 0)
-+		kfree(ucd->meta);
-+
-+	/* unmap pages, free bio, nvme command and request */
-+	blk_rq_unmap_user(bio);
-+	blk_mq_free_request(req);
-+}
-+
- static u32 nvme_known_admin_effects(u8 opcode)
- {
- 	switch (opcode) {
-@@ -1140,10 +1222,27 @@ void nvme_execute_passthru_rq(struct request *rq)
- }
- EXPORT_SYMBOL_NS_GPL(nvme_execute_passthru_rq, NVME_TARGET_PASSTHRU);
- 
-+static void nvme_setup_uring_cmd_data(struct request *rq,
-+		struct io_uring_cmd *ioucmd, void *meta, bool write)
-+{
-+	struct uring_cmd_data *ucd;
-+
-+	ucd = (struct uring_cmd_data *) ucmd_data_addr(ioucmd);
-+	/* to free bio on completion, as req->bio will be null at that time */
-+	ucd->bio = rq->bio;
-+	/* meta update is required only for read requests */
-+	if (meta && !write)
-+		ucd->meta = meta;
-+	else
-+		ucd->meta = NULL;
-+	rq->end_io_data = ioucmd;
-+}
-+
- static int nvme_submit_user_cmd(struct request_queue *q,
- 		struct nvme_command *cmd, void __user *ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
--		u32 meta_seed, u64 *result, unsigned timeout)
-+		u32 meta_seed, u64 *result, unsigned int timeout,
-+		struct io_uring_cmd *ioucmd)
- {
- 	bool write = nvme_is_write(cmd);
- 	struct nvme_ns *ns = q->queuedata;
-@@ -1179,6 +1278,20 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 			req->cmd_flags |= REQ_INTEGRITY;
- 		}
- 	}
-+	if (ioucmd) { /* async handling */
-+		u32 effects;
-+
-+		effects = nvme_command_effects(ns->ctrl, ns, cmd->common.opcode);
-+		/* filter commands with non-zero effects, keep it simple for now*/
-+		if (effects) {
-+			ret = -EOPNOTSUPP;
-+			goto out_unmap;
-+		}
-+		nvme_setup_uring_cmd_data(req, ioucmd, meta, write);
-+		blk_execute_rq_nowait(ns ? ns->disk : NULL, req, 0,
-+					nvme_end_async_pt);
-+		return 0;
-+	}
- 
- 	nvme_execute_passthru_rq(req);
- 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-@@ -1544,18 +1657,6 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
- 	queue_work(nvme_wq, &ctrl->async_event_work);
- }
- 
--/*
-- * Convert integer values from ioctl structures to user pointers, silently
-- * ignoring the upper bits in the compat case to match behaviour of 32-bit
-- * kernels.
-- */
--static void __user *nvme_to_user_ptr(uintptr_t ptrval)
--{
--	if (in_compat_syscall())
--		ptrval = (compat_uptr_t)ptrval;
--	return (void __user *)ptrval;
--}
--
- static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- {
- 	struct nvme_user_io io;
-@@ -1616,11 +1717,13 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 
- 	return nvme_submit_user_cmd(ns->queue, &c,
- 			nvme_to_user_ptr(io.addr), length,
--			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
-+			metadata, meta_len, lower_32_bits(io.slba), NULL, 0,
-+			NULL);
- }
- 
- static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
--			struct nvme_passthru_cmd __user *ucmd)
-+			struct nvme_passthru_cmd __user *ucmd,
-+			struct io_uring_cmd *ioucmd)
- {
- 	struct nvme_passthru_cmd cmd;
- 	struct nvme_command c;
-@@ -1654,9 +1757,9 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
--			0, &result, timeout);
-+			0, &result, timeout, ioucmd);
- 
--	if (status >= 0) {
-+	if (!ioucmd && status >= 0) {
- 		if (put_user(result, &ucmd->result))
- 			return -EFAULT;
- 	}
-@@ -1698,7 +1801,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
--			0, &cmd.result, timeout);
-+			0, &cmd.result, timeout, NULL);
- 
- 	if (status >= 0) {
- 		if (put_user(cmd.result, &ucmd->result))
-@@ -1760,7 +1863,7 @@ static int nvme_handle_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		ret = nvme_user_cmd(ctrl, NULL, argp);
-+		ret = nvme_user_cmd(ctrl, NULL, argp, NULL);
- 		break;
- 	case NVME_IOCTL_ADMIN64_CMD:
- 		ret = nvme_user_cmd64(ctrl, NULL, argp);
-@@ -1799,7 +1902,7 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		ret = ns->head->ns_id;
- 		break;
- 	case NVME_IOCTL_IO_CMD:
--		ret = nvme_user_cmd(ns->ctrl, ns, argp);
-+		ret = nvme_user_cmd(ns->ctrl, ns, argp, NULL);
- 		break;
- 	case NVME_IOCTL_SUBMIT_IO:
- 		ret = nvme_submit_io(ns, argp);
-@@ -1818,6 +1921,39 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	return ret;
- }
- 
-+int nvme_uring_cmd(struct request_queue *q, struct io_uring_cmd *ioucmd,
-+		enum io_uring_cmd_flags flags)
-+{
-+	struct nvme_ns_head *head = NULL;
-+	struct block_device *bdev = I_BDEV(ioucmd->file->f_mapping->host);
-+	struct block_uring_cmd *bcmd = (struct block_uring_cmd *)&ioucmd->pdu;
-+	struct nvme_ns *ns;
-+	int srcu_idx, ret;
-+	void __user *argp = (void __user *) bcmd->addr;
-+
-+	BUILD_BUG_ON(sizeof(struct uring_cmd_data) >
-+			sizeof(struct block_uring_cmd) -
-+			offsetof(struct block_uring_cmd, unused));
-+
-+	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
-+	if (unlikely(!ns))
-+		return -EWOULDBLOCK;
-+
-+	switch (bcmd->ioctl_cmd) {
-+	case NVME_IOCTL_IO_CMD:
-+		ret = nvme_user_cmd(ns->ctrl, ns, argp, ioucmd);
-+		break;
-+	default:
-+		ret = -ENOTTY;
-+	}
-+
-+	if (ret >= 0)
-+		ret = -EIOCBQUEUED;
-+	nvme_put_ns_from_disk(head, srcu_idx);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(nvme_uring_cmd);
-+
- #ifdef CONFIG_COMPAT
- struct nvme_user_io32 {
- 	__u8	opcode;
-@@ -3309,7 +3445,7 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp)
- 	kref_get(&ns->kref);
- 	up_read(&ctrl->namespaces_rwsem);
- 
--	ret = nvme_user_cmd(ctrl, ns, argp);
-+	ret = nvme_user_cmd(ctrl, ns, argp, NULL);
- 	nvme_put_ns(ns);
- 	return ret;
- 
-@@ -3326,7 +3462,7 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(ctrl, NULL, argp);
-+		return nvme_user_cmd(ctrl, NULL, argp, NULL);
- 	case NVME_IOCTL_ADMIN64_CMD:
- 		return nvme_user_cmd64(ctrl, NULL, argp);
- 	case NVME_IOCTL_IO_CMD:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 0254aa611dfa..f3daee4a4848 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -19,6 +19,7 @@
- #include <linux/t10-pi.h>
- 
- #include <trace/events/block.h>
-+#include <linux/io_uring.h>
- 
- extern unsigned int nvme_io_timeout;
- #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
-@@ -620,6 +621,8 @@ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
- void nvme_start_freeze(struct nvme_ctrl *ctrl);
- 
- #define NVME_QID_ANY -1
-+int nvme_uring_cmd(struct request_queue *q, struct io_uring_cmd *ucmd,
-+		enum io_uring_cmd_flags flags);
- struct request *nvme_alloc_request(struct request_queue *q,
- 		struct nvme_command *cmd, blk_mq_req_flags_t flags);
- void nvme_cleanup_cmd(struct request *req);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7b6632c00ffd..6c84dc964259 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1629,6 +1629,7 @@ static const struct blk_mq_ops nvme_mq_ops = {
- 	.map_queues	= nvme_pci_map_queues,
- 	.timeout	= nvme_timeout,
- 	.poll		= nvme_poll,
-+	.uring_cmd	= nvme_uring_cmd,
- };
- 
- static void nvme_dev_remove_admin(struct nvme_dev *dev)
--- 
-2.25.1
+Looks good,
+
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 
 
 _______________________________________________
