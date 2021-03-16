@@ -2,72 +2,69 @@ Return-Path: <SRS0=15Zf=IO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F318C433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 01:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B34C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 02:02:53 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2C3A864F6E
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 01:34:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2C3A864F6E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1658B65010
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 02:02:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1658B65010
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=kVRD2E4sEYpAda6oQE6FGDIU46IHiVkNO/cJGQsP9XA=; b=N7K3cbmik+gyf0VxP85UPYXy6
-	kaGi0VBYHb3b9NvFRw46rvz1ppuHhgLY8VOZU1AvtCiybFyk0yk7aeV9akAtXwSARXCJKBVaS9I4d
-	Hg5WuV4DtmHfXeSUtsoGOlO5g/NRfBIW9eg0vyrkE7tU1fZim5TCfMd7dmbOfNl4u81GNWcu36yCR
-	o7stuJQAbWpGM1Pbbt8EnsSunEEwnyZk/vphYlNcSUDQOK4HI31sA0vm6NAJonrDjmATr5AwEXWYg
-	+IWsQf8PsPHzpBcDipZXGAySkCrFdFIrxlFqKUc1410HLqouGcaRwMGn4ve/Ft0WMwLGNiMt/706g
-	8ZeqE6Tag==;
+	 bh=rTNvbE1GusfeBoB8pLGvo39BsCZOA701aGkq5+Xrc60=; b=Nh7aZEQ6V/nJdFq2HfqrWBk0L
+	Mto45ZiG+0jHiyKwP/psL4wtYY+cNyggEbuIz4I6aFMJ537P0CtUNENgyST/xeiKU/U+AclHHnluh
+	Kh+8/wUOT3uJr9bJqLFrZ/s2M1XeXkMSyIEgA/wUrvZ50Sa8s4Bit7QjplBB6Ht93SU0yb5DUYhVl
+	7yNwbS88bo7rqAs0JLF5JGYShkt5WaZefoxrlRvpN6d/U3WHuRNozEwzYKndQ90lMGuxO0foGsnDX
+	TNL4RHTvgu1ctwS4gf2LUiUQtvnil+2ZecDXog9QEyJ7er5ojKAF6wPQDMbuonh694Zy+8c9W2+Bb
+	TSkUvTlwg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lLybQ-00HC5R-5F; Tue, 16 Mar 2021 01:34:32 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1lLz2b-00HDIm-NN; Tue, 16 Mar 2021 02:02:37 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lLybJ-00HC4q-HG
- for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 01:34:28 +0000
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Dzwjg6V7xzWLy3;
- Tue, 16 Mar 2021 09:31:19 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Tue, 16 Mar 2021 09:33:59 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Tue, 16
- Mar 2021 09:33:58 +0800
-Subject: Re: [PATCH 2/2] nvme-rdma: Fix possible hang when failing to set io
- queues
-To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, "Chaitanya
- Kulkarni" <Chaitanya.Kulkarni@wdc.com>
-References: <20210315210427.357584-1-sagi@grimberg.me>
- <20210315210427.357584-2-sagi@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <269b5028-9ef1-7f56-1334-d89f52d86d0d@huawei.com>
-Date: Tue, 16 Mar 2021 09:33:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ id 1lLz2X-00HDIN-0u
+ for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 02:02:35 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6595065011;
+ Tue, 16 Mar 2021 02:02:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615860151;
+ bh=GvwPPgTZ/iZQU1OT7FZPptb3NYUP6SAgZm0hzBa4gVc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CRKMmkhRwXcwE0eueEIukRHFtZ2+tL0P4ZX+DNwvKFsQLvhB7MSIuqWSo9VjS4iVh
+ /j2nsetHmZRFNUgXzmGktjgmBbh8ywQ9ymOmNd9H+I7YU3RmNBVloukiBGUKrGqDOO
+ qI4cyeeJMWa1XKDKHjzsZ+GhwSzGjUFAMLPlDsR1I8ErTS0u6Y8H5AqgHB8lxiw/Xg
+ V62S/hvxh+nq94Y+asoLNcfxXKIEIjFDr+d0UZ/kEU9mJ/dG8fj0WF2poBsh46b48C
+ ODjIDG489qhhdBIYmQR94pKRxBSY3+t6H83dzHbeSpzJbfUMVs+xsjFxxk7uCjtgnQ
+ SSHX6fC7+CFug==
+Date: Mon, 15 Mar 2021 20:02:29 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Chao Leng <lengchao@huawei.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ axboe@fb.com, hch@lst.de
+Subject: Re: [PATCH] nvme-fabrics: fix crash for no IO queues
+Message-ID: <20210316020229.GA35099@C02WT3WMHTD6>
+References: <20210304005543.8005-1-lengchao@huawei.com>
+ <020b9f27-459a-2b98-2e76-ebcc874c9c32@grimberg.me>
+ <78c5e9f9-f5b8-b8e5-1c36-3a5803d4b047@huawei.com>
+ <45d16780-79a0-c2e2-8e90-246dae0b3e23@grimberg.me>
+ <aac125ec-561a-002d-7054-782ee450067e@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210315210427.357584-2-sagi@grimberg.me>
-Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme717-chm.china.huawei.com (10.1.199.113) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <aac125ec-561a-002d-7054-782ee450067e@huawei.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210316_013426_466432_E07B0289 
-X-CRM114-Status: GOOD (  18.00  )
+X-CRM114-CacheID: sfid-20210316_020233_396077_75A4797C 
+X-CRM114-Status: GOOD (  24.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,47 +76,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Chao Leng <lengchao@huawei.com>
+On Tue, Mar 16, 2021 at 09:23:21AM +0800, Chao Leng wrote:
+> 
+> 
+> On 2021/3/16 1:08, Sagi Grimberg wrote:
+> > 
+> > > > > A crash happens when set feature(NVME_FEAT_NUM_QUEUES) timeout in nvme
+> > > > > over rdma(roce) reconnection, the reason is use the queue which is not
+> > > > > alloced.
+> > > > > 
+> > > > > If queue is not live, should not allow queue request.
+> > > > 
+> > > > Can you describe exactly the scenario here? What is the state
+> > > > here? LIVE? or DELETING?
+> > > If seting feature(NVME_FEAT_NUM_QUEUES) failed due to time out or
+> > > the target return 0 io queues, nvme_set_queue_count will return 0,
+> > > and then reconnection will continue and success. The state of controller
+> > > is LIVE. The request will continue to deliver by call ->queue_rq(),
+> > > and then crash happens.
+> > 
+> > Thinking about this again, we should absolutely fail the reconnection
+> > when we are unable to set any I/O queues, it is just wrong to
+> > keep this controller alive...
+> Keith think keeping the controller alive for diagnose is better.
+> This is the patch which failed the connection.
+> https://lore.kernel.org/linux-nvme/20210223072602.3196-1-lengchao@huawei.com/
+> 
+> Now we have 2 choice:
+> 1.failed the connection when unable to set any I/O queues.
+> 2.do not allow queue request when queue is not live.
 
-On 2021/3/16 5:04, Sagi Grimberg wrote:
-> We only setup io queues for nvme controllers, and it makes
-> absolutely no sense to allow a controller (re)connect without
-> any I/O queues. If we happen to fail setting the queue count
-> for any reason, we should not allow this to be a successful
-> reconnect as I/O has no chance in going through. Instead
-> just fail and schedule another reconnect.
-> 
-> Reported-by: Chao Leng <lengchao@huawei.com>
-> Fixes: 711023071960 ("nvme-rdma: add a NVMe over Fabrics RDMA host driver")
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
->   drivers/nvme/host/rdma.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 53ac4d7442ba..eb093ea5ffa1 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -736,8 +736,11 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
->   		return ret;
->   
->   	ctrl->ctrl.queue_count = nr_io_queues + 1;
-> -	if (ctrl->ctrl.queue_count < 2)
-> -		return 0;
-> +	if (ctrl->ctrl.queue_count < 2) {
-> +		dev_err(ctrl->ctrl.device,
-> +			"unable to set any I/O queues\n");
-> +		return -ENOMEM;
-> +	}
->   
->   	dev_info(ctrl->ctrl.device,
->   		"creating %d I/O queues.\n", nr_io_queues);
-> 
+Okay, so there are different views on how to handles this. I personally find
+in-band administration for a misbehaving device is a good thing to have, but I
+won't 'nak' if the consensus from the people using this is for the other way.
+ 
+> From a service continuity perspective, I think it is better that failed
+> the connection when unable to set any I/O queues.
+> Diagnose is less important, I prefer service continuity, because if failed
+> the reconnection and then try new reconnection, it is possible to recover.
 
 _______________________________________________
 Linux-nvme mailing list
