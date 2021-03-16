@@ -2,93 +2,64 @@ Return-Path: <SRS0=15Zf=IO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2F0C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 16:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BA95C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 17:08:59 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1762D64FEA
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 16:03:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1762D64FEA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id 247866511E
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Mar 2021 17:08:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 247866511E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3Yi2PmDa5bIqjDKr4wIuNv9fBFJnfnpyFDB3DUkXur0=; b=q7MjDDl/xrCfYBpU2hYpDp93Q
-	70VHtgUtqzd05wyXKN8IQvM72aBuN49ClEb7hc2nZ4xt95Dir568bVHan4ezn5KoVWgbJH41vCPO7
-	CUfBC6NkpDHUvx8PVsDnL3v/KXMhd4PJB4jcAQAXzfjAgaBH4Izw4mA7UOv/L/lgcBH1hadMKOZJL
-	tiInKXQWKwIELd80kXRNcEc39Y4+xiY7Wk5kogkF5Erv7EvFTwqQbqL2AzEaOmyc3Pl4J+QSNg8Gb
-	cM2fmoGT/37zCpP9aN/2ExwA2tnDY9oWuQTVnVKlPa5c5k7Ko/pJ72QBkIKvosL9EDMUJTrhn9e4o
-	UfkUysVMg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bwPeUGbW4Y6d1eLwjpRbderoB5MCvW/NUNQK0gPM9n0=; b=kRVy17B5IwMUmoeK2F+mJwt0VV
+	uD+qCGAWHDZULLmp7yXKgMe1K9HpQ84B1KnrBTFDQRDMchjgURzV20vt2mCPJX5XIh48iG/MeU7tK
+	m0HojqAYKBWcYwp0aRpVtBva5C/W25E8IbwrJVqDb/8F5xENQcNN+HRjcR7UjPHG2ca6bfpRFIlc+
+	++8WXuwaIxGh5TN1jFLcKBGIIbrrS4u1yGCxtm75ereMDk56W4/v1ZxYYP2IrZn5g9M7oId4rcHkU
+	5T8GecZgLzhwtpSMhAlWIF0QZV5M67tUWPEJ1N4GlLE2gdQsXbzMJuBStMvB4z/KSwbfSjs+Hxhqe
+	7HPo/uWg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMC9n-001BFf-HV; Tue, 16 Mar 2021 16:02:55 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1lMDBV-001MEq-G7; Tue, 16 Mar 2021 17:08:45 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMC9e-001BDm-PZ
- for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 16:02:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=vqqIJKKtZ0Pg96LQ/1Z1q/KlFFpVkNAe+8aEWrs/hj4=; b=aLfuYJGuyB5Vf3NXBbVi7orqFM
- EDGLeXMnQdoQH9BV1vcMoXyuK9z93wWuPACR4VyTKSTtxBcCGLJv06fHAktuwiezT1YitAoW6wR1X
- HvT8pZhWTDbPTx4/Yx8zliILh8pVR2V/Q/NfhhuJH6rkKu0rh+ZWSfM71udHN10RroyIwvdLBmi/x
- JowULXwT9MOdkxVUpQ3witDiL5FZ4SD+ANuLnpzEKngB+XqRkzhMd/UwHnEqGWuGSt5KcVGSR2qz2
- Hoa0CJ4Ud/gwHBkjHMtsgrO77SVKESL0pH0xqOtjxAQukb1UQXUpq3zW9dr/Uu471yKxzBc7lV11d
- 3TDfQv2Q==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1lMC9R-0001Oz-Na; Tue, 16 Mar 2021 10:02:34 -0600
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Ira Weiny <iweiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
- Don Dutile <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>
-References: <20210311233142.7900-1-logang@deltatee.com>
- <20210311233142.7900-10-logang@deltatee.com> <20210316080051.GD15949@lst.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <52a9e6e3-fc00-495a-69bb-26ff0b22775a@deltatee.com>
-Date: Tue, 16 Mar 2021 10:02:33 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ id 1lMD9S-001LBx-Gv
+ for linux-nvme@lists.infradead.org; Tue, 16 Mar 2021 17:06:45 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 555B96510F;
+ Tue, 16 Mar 2021 17:06:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1615914394;
+ bh=A+82x4kZC1deXVVj/Cs6+2RJ13fDjJ/DopvtUpyI2oM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=sg2iRxUfXPs3XYILfi4T5H14pzfPOSBjvr17mC/+dma668Df6ICt96xvCkrRbeSlE
+ 9Zeo6mWZtrc8RV+H/r5W1zJaKe3KE/olNViSCrS2CCWhn0Xgc3PfQINmECNVJqvIfC
+ t0zwf2DTkGXC4mQCs1xhATK9cLh49ZpCQRRzMLi117Xngt28rrOYHpskr/T5BCZ7WV
+ CKhknzN6iYZgPEt6ApnqbdXM6FDFvNgLZ+z4l/02UFNfTRU6UQyyp2132I52/YuYAJ
+ AVhGQYVUTshDTikPjdotxmleXOpM51d6uhZ0Ksr/T0D4xN8GZd3dBToGio+Xf00pZ+
+ omEoiIidokB4w==
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
+ Kanchan Joshi <joshi.k@samsung.com>
+Cc: Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 1/2] nvme-pci: allocate nvme_command within driver pdu
+Date: Tue, 16 Mar 2021 10:06:31 -0700
+Message-Id: <20210316170632.4161183-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-In-Reply-To: <20210316080051.GD15949@lst.de>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
- jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
- daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
- jhubbard@nvidia.com, iweiny@intel.com, christian.koenig@amd.com, jgg@ziepe.ca,
- dan.j.williams@intel.com, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, hch@lst.de
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH v2 09/11] block: Add BLK_STS_P2PDMA
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210316_160247_060620_1ED5FAF1 
-X-CRM114-Status: GOOD (  15.29  )
+X-CRM114-CacheID: sfid-20210316_170638_838773_F063A261 
+X-CRM114-Status: GOOD (  10.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,26 +76,68 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+All the nvme transport drivers had allocated the nvme command within the
+driver's pdu except for pci. Align pci with everyone else and replace
+the stack variable with the pdu command.
 
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/pci.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-On 2021-03-16 2:00 a.m., Christoph Hellwig wrote:
-> On Thu, Mar 11, 2021 at 04:31:39PM -0700, Logan Gunthorpe wrote:
->> Create a specific error code for when P2PDMA pages are passed to a block
->> devices that cannot map them (due to no IOMMU support or ACS protections).
->>
->> This makes request errors in these cases more informative of as to what
->> caused the error.
-> 
-> I really don't think we should bother with a specific error code here,
-> we don't add a new status for every single possible logic error in the
-> caller.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ecd11b1febf8..1a0912146c74 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -224,6 +224,7 @@ struct nvme_queue {
+  */
+ struct nvme_iod {
+ 	struct nvme_request req;
++	struct nvme_command cmd;
+ 	struct nvme_queue *nvmeq;
+ 	bool use_sgl;
+ 	int aborted;
+@@ -917,7 +918,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct nvme_dev *dev = nvmeq->dev;
+ 	struct request *req = bd->rq;
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	struct nvme_command cmnd;
++	struct nvme_command *cmnd = &iod->cmd;
+ 	blk_status_t ret;
+ 
+ 	iod->aborted = 0;
+@@ -931,24 +932,24 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
+ 		return BLK_STS_IOERR;
+ 
+-	ret = nvme_setup_cmd(ns, req, &cmnd);
++	ret = nvme_setup_cmd(ns, req, cmnd);
+ 	if (ret)
+ 		return ret;
+ 
+ 	if (blk_rq_nr_phys_segments(req)) {
+-		ret = nvme_map_data(dev, req, &cmnd);
++		ret = nvme_map_data(dev, req, cmnd);
+ 		if (ret)
+ 			goto out_free_cmd;
+ 	}
+ 
+ 	if (blk_integrity_rq(req)) {
+-		ret = nvme_map_metadata(dev, req, &cmnd);
++		ret = nvme_map_metadata(dev, req, cmnd);
+ 		if (ret)
+ 			goto out_unmap_data;
+ 	}
+ 
+ 	blk_mq_start_request(req);
+-	nvme_submit_cmd(nvmeq, &cmnd, bd->last);
++	nvme_submit_cmd(nvmeq, cmnd, bd->last);
+ 	return BLK_STS_OK;
+ out_unmap_data:
+ 	nvme_unmap_data(dev, req);
+-- 
+2.25.4
 
-I originally had BLK_STS_IOERR but those errors suggested to people that
-the hardware had failed on the request when in fact it was a user error.
-I'll try BLK_STS_TARGET unless there's any objection or someone thinks
-another error code would make more sense.
-
-Logan
 
 _______________________________________________
 Linux-nvme mailing list
