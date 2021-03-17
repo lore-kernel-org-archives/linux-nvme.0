@@ -2,175 +2,65 @@ Return-Path: <SRS0=uaVC=IP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D63C4C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 21:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DA9C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 21:26:51 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 14FD464DAE
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 21:24:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 14FD464DAE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id AE4BA64DAE
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 21:26:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE4BA64DAE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Ig49AiVsnZKMQTnigJetfQkejRWmii8eidfwrW8mWII=; b=lSqcLV+8258lENFaVdN6PmR0R
-	a8x2zQoNulqqEdoqpHWXkPJuP3ba/C6ktq//r3N/YYKiXeMEsf9Nj3PUY/W858qOg5BkqMmILJjiL
-	nxUt1pPkinMEZyxp/puRS4yrLyvGE7HEpPt5RzB9KHPh6TJNiuLvFjTqWFSFOJHVP1zA8vnqusKx8
-	Q0WL57YvCtDRyPEji5B0NOXankWf1Jshbi2veGlIP1Vb6H1Nj36F0SwX6seJ64besNiSfcQPx2YBl
-	x01/meOLb55emCPdzCIIJRcNKVJU4tKuiwCoSg13YYL5i8ngwSSxbj0PbM+Ewq/M2SK2Ij84IIJJz
-	vKVidgomA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0Iuefqxf8Ifp+ffeZuv6xiB+fnZXsJZGDvUvNRZnFHg=; b=kmKOFUjHJaO9PuI4uG3afbkhl/
+	K5kUAphsCPd4FduOLG+kFZV9XdRIEMe2tpOaK4G4GF3wZRqhq93k91XJlM/BnLuxMmbFfeQURSI5e
+	EMYYMw2Y0Ch9NgXI2BQYyXLpMnUyB704alweDu8cljOZ+4aLZRIkJSWxXagep7rkPv1k/RtLOUTpU
+	TdPOSJxLnxbEuItLahkXSO1BI/ej08DKPrXVqCOijaaps8qljDbJV8emLAWOeLeSTZdbKtPaqTcu+
+	2IA1L+Lu+8K4HJTb3eVpXKDNEQRU/d2Ng2E4mi/cu1gM3rRR1vThqIH7kSDByA/gBy8FH2PUsi/+H
+	qbQtShYg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMdeD-003wBr-KE; Wed, 17 Mar 2021 21:24:10 +0000
-Received: from aserp2120.oracle.com ([141.146.126.78])
+	id 1lMdgM-003wLm-41; Wed, 17 Mar 2021 21:26:22 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMde5-003wAp-HM
- for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 21:24:05 +0000
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12HLFib2015583;
- Wed, 17 Mar 2021 21:23:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=4daOYo6R4LlYRUeaditlM+Hf54Yy3aqy3ob5Udr6Lk8=;
- b=Kw8EED/paPHMhrfR4FE4p8n8dba0o6skrQLBKud7QxJScZboUx5biMm1VcOSpp5UIOA0
- bwP9Tl5jnHwl9JZpYVn4RwOYiErMl5/bs65MXhXAPR8w22uLq/lK25Y6mnZBiTzfYWBE
- /mGdJ7mGupE97Sq3MKHyoE+nI08r5Z15DnZfmTr6n+1cDq2bSUe38lWhGVV3iz4i6BlD
- NKdEvoT1dhXKtmbSZjlJ7oPtfBgAzatVQqeRFqr+KuxAkm4xaD1ZmFCVs80B1HK1OsET
- t4GTM48ywF+QcAkgLNkfqrZ5d7rCKlvH1CAVJnVQecTUl4lCmRX0MxEMIYmcDSSd58nx 5w== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 378nbmdka0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Mar 2021 21:23:47 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12HLA157123341;
- Wed, 17 Mar 2021 21:23:47 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
- by userp3030.oracle.com with ESMTP id 3797b21gmp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Mar 2021 21:23:46 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Okpz0UxSTSluv++Aci+UEpb4KNlfhIt3DKzcqZECmJdow6Zty1caGLK/ut/zV14tjX76F1o6Gy6t3GMrL972whs83frIAI61y4EbCNPW90m8ZTHnXOhOuFiDA+cCZZSBy8Mbtm4T/2nyVRP79FKmyUPiowK2ALo7w9FR7X42uA8ZBHUK1ZEKq9keM1PvqxEh7kVSQekH2yKnUzgxM7PmV+hYrOX5U49BdfOhEUlM4czNbeAcLriUgG/0SizSWPHhgAUJO8fu318fhBvrFyLbf4yCZdOXkUaxkJfZl5MgGlz9q/yiKWEMe2h8fjm4gbo0KTXVtOIGaKoHkEgW8fDOGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4daOYo6R4LlYRUeaditlM+Hf54Yy3aqy3ob5Udr6Lk8=;
- b=grB1Yvz+Lfk3uiRzFZRed1iyxeAiw1Pj4/OpG6US59xp7dTzj8GpX5gKc6uLrEXcTa0/sZbrOicpwNjcORpkJib1/uneb1k9HWU7t2oLoj0ZYDYcRyO7DcqCQnuWZvxU298ljlgLrcNlunaR0VgvenpoJ+kTvhkMKNcL9OzMbZA/Urm/cU+gtkTLX8L/umNMQcR58A7MVGhJn0Fv3mePk6klupHTT5KPs9B7+Ha8of/THa0RK0rvCIgznJCZwjUQu1nygSlVeOocK4BAMpJ8mNjhJTPUoXb4z4v6hSauejxv6azf17GbCuPjakYmDdTmJMSGyBdVDyAmnZLhj4Gpig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4daOYo6R4LlYRUeaditlM+Hf54Yy3aqy3ob5Udr6Lk8=;
- b=gNBT4Cq3gv+aTrkCy39vIRadWP2a068LxojjihTFC/OrCPWFGmpZ7mbn9AoTSzUzibRhLnboAlI1+5Ryet050fmeutrGQITfL5Fk+QrMajP0ujI33JkHQXFftoy5dOnLOSHi6d7e9HREQFrcJp30DVdpx5siBLfnUibXaovvtVo=
-Received: from SN6PR10MB2943.namprd10.prod.outlook.com (2603:10b6:805:d4::19)
- by SN6PR10MB2717.namprd10.prod.outlook.com (2603:10b6:805:46::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Wed, 17 Mar
- 2021 21:23:45 +0000
-Received: from SN6PR10MB2943.namprd10.prod.outlook.com
- ([fe80::20c7:193:d737:7ab1]) by SN6PR10MB2943.namprd10.prod.outlook.com
- ([fe80::20c7:193:d737:7ab1%4]) with mapi id 15.20.3933.032; Wed, 17 Mar 2021
- 21:23:44 +0000
-From: Himanshu Madhani <himanshu.madhani@oracle.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: "keith.busch@wdc.com" <keith.busch@wdc.com>, "sagi@grimberg.me"
- <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] nvme: fix Write Zeroes limitations
-Thread-Topic: [PATCH] nvme: fix Write Zeroes limitations
-Thread-Index: AQHXGX+yX5XJp+M0hk+cDX554GJZhKqItJuA
-Date: Wed, 17 Mar 2021 21:23:43 +0000
-Message-ID: <5A1E087E-ECEA-4451-AB48-44DEA50B229B@oracle.com>
-References: <20210315093438.66082-1-hch@lst.de>
-In-Reply-To: <20210315093438.66082-1-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3608.120.23.2.4)
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=oracle.com;
-x-originating-ip: [70.114.128.235]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4f47d14a-3ac9-42ef-9328-08d8e98af1cf
-x-ms-traffictypediagnostic: SN6PR10MB2717:
-x-microsoft-antispam-prvs: <SN6PR10MB27174BA2BB1A90997D48CC9AE66A9@SN6PR10MB2717.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6OqZoCESGqVcE9QsUx2qsYuaXmANJzHQLhwzyQ3q0q3r/WioUuQzyLzZQkJzm/jpFZbUizAl7o9LPe08tOuDFyFXhZWHqQ7yJNAYz34LGtujeNnm9b0DmesSHFz8avg7PJQhAJGZHtUVy6LuI23u0h+FUyOMhqpJVw+tvrYAhlxztqXQLDNJ/jErMoOa8XJLtWfTcyUzwfPPmNxiORElNjjM/5wFWehbXLcgHklg0MbxlJbEw76HK7Kr58e0W9+2LnNUe7f9NIUkPt6mUqEDVgVCoe7PsCpRK1XSFaP6/A3AZRKJCVnMmgXhugHS45ph7lljx5FC5jMLCG0jQWTru+iek6jdBzltFW6wAzol6NVECbjnLusdEtOtAoi+8gUsOQFd+yNOx0kJ/3XDoJTj5cz5Ik4sHNMeIzfdhM3e3ALfP1Tep3XKFy5vBmILWVKWstlUw19uSNpWuBC7F62E/7c8dsGy+HUACFK33cvK0DSAJzCAG0FC60qxrIqD0rwbO9KfRH0YY/6kq9Wk3JIsnmhxtuj24GmiZLaBwpRi/s2yoBxE4RHmN1aP5EFqGqBXhT0KkFaGbHYhcaTm+5bqrKUxVEiTL8b1fKeCJoOboMVGMSb1BR2f3qhGJpxsfxDX3sDMvqDqpDbUcIN2gNuZLD0wQQtIQzZqcKKJYE5aAQgX2jNkxHJB4u5vdHdok67B
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR10MB2943.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(396003)(346002)(366004)(136003)(376002)(2906002)(53546011)(2616005)(4326008)(6512007)(316002)(5660300002)(36756003)(478600001)(186003)(54906003)(966005)(83380400001)(66556008)(71200400001)(66946007)(6486002)(33656002)(8676002)(8936002)(44832011)(64756008)(6506007)(66446008)(26005)(76116006)(6916009)(66476007)(86362001)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?eVGd+//pvZk/KTFSuVOx8MGwE83gd3KGeEce05aTo6/quDbWYNEusRIIoCXA?=
- =?us-ascii?Q?lQX97SkCaFFB6gj++Lg13TnDHq7lTrlEezghpvFntPW9mRk0H3CSQx3CPqaM?=
- =?us-ascii?Q?4GS32nrUrpK6xASJyFtEhHmiuyj4ne4aAHFl6itt3EDvzdrbAit6D0e2jSRb?=
- =?us-ascii?Q?Tur1gBvd5XPZwUemRJ+kFjDPHhQGWUOgK5IrUvxOdOYXZ6ENIINPqPjnx5tN?=
- =?us-ascii?Q?Bg0FpLP6PGsmRmeos2bNl4H9BNOma3/3wUmEuP/MAqTJEczkfiu5u2ihOvT2?=
- =?us-ascii?Q?8ms7zFV5I4C2Xk60rIh+9mrNvH6BdWkO4FlR2J+ilH++2QRAygd1F4qDEshG?=
- =?us-ascii?Q?DFYD76Pb/lONhiB5nNd4BgdwnPB1Zc7QLYNAJMfgDCWxtxdxkNaEQTWvKKAB?=
- =?us-ascii?Q?Oe0IOdLvCi4QwSsXXsyd8LBUb8npwkcE89mzQrE1copGESOzTdP9YT9NFxxx?=
- =?us-ascii?Q?p7Vy1NW0UbGe1dS4E74zAg+z6O+8RFSLv3d/wWV6KvrYPixtYdPQHXA7OwaD?=
- =?us-ascii?Q?0l0bq1c2FEJAkbNQZBrddh3psXfoL/vod0MoQhzsrifW3xeJKiFUU5TSNBy+?=
- =?us-ascii?Q?ym56K5izTBeb+/0UrKVUaTDeqeeDX7Le4I4wDd73hFUyS0SCLxd4VsxPL/mC?=
- =?us-ascii?Q?62lnnhkcbfZBaLA+kJjqKJlHD1BzfL5rYidHDvpTMxtuKCzuzIpEOcaRKD6y?=
- =?us-ascii?Q?SspjxLNCugq0iZXKzRhoQi2SBxvIY0IM4MuDZDE/fFmArSvdb6q/vX9I54F9?=
- =?us-ascii?Q?ErtlgGDYgw4K+3TypjoKmoYKPqezJ4o5be9tVEWJ0q6QhsilFXhbOWK/omz6?=
- =?us-ascii?Q?v1WIYAB4Fk6pxkqM/8J28hDj+/PZLcItXuMXBD4fvJcSR2OwsoeKgvdRQdVR?=
- =?us-ascii?Q?5/lstcNylOw1PthG+mmmFk7B0YXvYaF3BMalPr2OOgrNkPWhcLCpDIQ525kG?=
- =?us-ascii?Q?18/owWQSPJ2YgMLZil5lkjksqNZ2E3cd3BBt5KUfo51aFzjnr5/QVFkjk6bP?=
- =?us-ascii?Q?TIUwRqlNWUeGA1pJY/6u/Q1/leAY76XDGfUsojHgFU/ArOgLm221/lHA9W59?=
- =?us-ascii?Q?AWfvQGP/hy3ifFdX3huYU4nTbvSAtHu3oK4lWc6WSv1Yu2q0tVHQaItNf74H?=
- =?us-ascii?Q?0Eank60LLV0EzsqwFLvowEmxZ7zb7mDBvnONNUzEmtfBaAkiasTjy+B8Unqt?=
- =?us-ascii?Q?xsVJ9a41rtZExXNIbx3Kz9XMZKf/twPBR47+rPBOUUQZtK1OljZ4k8B/MxUm?=
- =?us-ascii?Q?E8IdVq/6vgAELAY9x+2eay4swC9c3xwyiDFNb1ONzNlZnOeBgwpyg+Q/EqGV?=
- =?us-ascii?Q?iS/8oFC9SL9KQSA2bV/b4k3aRZqaJmbqDHPrK5LMs6f8Bg=3D=3D?=
-x-ms-exchange-transport-forked: True
-Content-ID: <62DAAFE9E5F01B4F8C38667EC10C2935@namprd10.prod.outlook.com>
+ id 1lMdgB-003wKs-Ec
+ for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 21:26:13 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3519464DAE;
+ Wed, 17 Mar 2021 21:26:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616016369;
+ bh=YeVmZpNeJSQOo42BaoxLRcIZV85StMS7s55qPL3gHcA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=KraSsOFAdDXlqj9a9D+sssoPFf8gCkWlUiyszes9gSN4By/nKS3D9FNP9GryPxHMr
+ N/GqW7k59ZUjgj3LxqOyH2cwbH3m+fQVSRkqCrl3pHYnpMtlhzn/ruA7usWwJv3yL0
+ 6rDOWaIdw/o8g1gfgYWkyNDnaXj2q/qivtFkW7NlqyJCTBCn1Cepn7xsHNU9+PRY8P
+ jSJk3YwmHP24xMlWSTgUmwd+oNcNw7ESBx3dPOOcmNP91yBRPdHt1aXZpqPvXnyNxP
+ BU4h+31KqoT27L+y/vQP75wqz9wwqD2ItSSqIJ8YWl3864d4k/iydZwJjL/R6SEv+5
+ f93F0EmHQop8g==
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv2] nvme: implement non-mdts command limits
+Date: Wed, 17 Mar 2021 14:26:06 -0700
+Message-Id: <20210317212606.110919-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2943.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f47d14a-3ac9-42ef-9328-08d8e98af1cf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2021 21:23:44.4126 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hGlmM5bRcCtwfF2kPF51jXxuYg15ODbMb9EuLL3yy6+i9eaZ8Rfm3ClgdJhUcF7ymfs6hq8P9gc7ksobMOML9A+Do/DpI4RZzJRMupdkMcI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR10MB2717
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9926
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0 bulkscore=0
- malwarescore=0 adultscore=0 mlxscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103170150
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9926
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- impostorscore=0
- malwarescore=0 adultscore=0 mlxscore=0 clxscore=1011 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103170150
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210317_212402_954039_BD4B6DE6 
-X-CRM114-Status: GOOD (  32.81  )
+X-CRM114-CacheID: sfid-20210317_212612_132075_1524E525 
+X-CRM114-Status: GOOD (  20.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -187,89 +77,217 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Commands that access LBA contents without a data transfer between the
+host historically have not had a spec defined upper limit. The driver
+set the queue constraints for such commands to the max data transfer
+size just to be safe, but this artificial constraint frequently limits
+devices below their capabilities.
 
+The NVMe Workgroup ratified TP4040 defines how a controller may
+advertise their non-MDTS limits. Use these if provided, and default
+to the current constraints if not. Since the Dataset Management command
+limits are defined in logical blocks, but without a namespace to tell us
+the logical block size, the code defaults to the safe 512b size.
 
-> On Mar 15, 2021, at 4:34 AM, Christoph Hellwig <hch@lst.de> wrote:
-> 
-> We voluntarily limit the Write Zeroes sizes to the MDTS value provided by
-> the hardware, but currently get the units wrong, so fix that.
-> 
-> Fixes: 6e02318eaea5 ("nvme: add support for the Write Zeroes command")
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
-> drivers/nvme/host/core.c | 36 ++++++++++++------------------------
-> 1 file changed, 12 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 82ad5eef9d0c30..1bd18d7f53b316 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1964,30 +1964,18 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
-> 		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
-> }
-> 
-> -static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
-> +/*
-> + * Even though NVMe spec explicitly states that MDTS is not applicable to the
-> + * write-zeroes, we are cautious and limit the size to the controllers
-> + * max_hw_sectors value, which is based on the MDTS field and possibly other
-> + * limiting factors.
-> + */
-> +static void nvme_config_write_zeroes(struct request_queue *q,
-> +		struct nvme_ctrl *ctrl)
-> {
-> -	u64 max_blocks;
-> -
-> -	if (!(ns->ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) ||
-> -	    (ns->ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
-> -		return;
-> -	/*
-> -	 * Even though NVMe spec explicitly states that MDTS is not
-> -	 * applicable to the write-zeroes:- "The restriction does not apply to
-> -	 * commands that do not transfer data between the host and the
-> -	 * controller (e.g., Write Uncorrectable ro Write Zeroes command).".
-> -	 * In order to be more cautious use controller's max_hw_sectors value
-> -	 * to configure the maximum sectors for the write-zeroes which is
-> -	 * configured based on the controller's MDTS field in the
-> -	 * nvme_init_identify() if available.
-> -	 */
-> -	if (ns->ctrl->max_hw_sectors == UINT_MAX)
-> -		max_blocks = (u64)USHRT_MAX + 1;
-> -	else
-> -		max_blocks = ns->ctrl->max_hw_sectors + 1;
-> -
-> -	blk_queue_max_write_zeroes_sectors(disk->queue,
-> -					   nvme_lba_to_sect(ns, max_blocks));
-> +	if ((ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) &&
-> +	    !(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
-> +		blk_queue_max_write_zeroes_sectors(q, ctrl->max_hw_sectors);
-> }
-> 
-> static bool nvme_ns_ids_valid(struct nvme_ns_ids *ids)
-> @@ -2159,7 +2147,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
-> 	set_capacity_and_notify(disk, capacity);
-> 
-> 	nvme_config_discard(disk, ns);
-> -	nvme_config_write_zeroes(disk, ns);
-> +	nvme_config_write_zeroes(disk->queue, ns->ctrl);
-> 
-> 	set_disk_ro(disk, (id->nsattr & NVME_NS_ATTR_RO) ||
-> 		test_bit(NVME_NS_FORCE_RO, &ns->flags));
-> -- 
-> 2.30.1
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+v1->v2:
 
-Looks Good. 
+  Merge up with nvme-1.3
 
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+  Fixed function name nvme_mps_size_to_sectors() (used to say bytes).
 
---
-Himanshu Madhani	 Oracle Linux Engineering
+  Reuse the nvme_mps_size_to_sectors() function for max_hw_sectors
+  calculation.
+
+ drivers/nvme/host/core.c | 87 ++++++++++++++++++++++++++++++++--------
+ drivers/nvme/host/nvme.h |  3 ++
+ include/linux/nvme.h     | 10 +++++
+ 3 files changed, 84 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index bb15882c0fd1..edf19bbb904f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1926,7 +1926,7 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 	struct request_queue *queue = disk->queue;
+ 	u32 size = queue_logical_block_size(queue);
+ 
+-	if (!(ctrl->oncs & NVME_CTRL_ONCS_DSM)) {
++	if (ctrl->max_discard_sectors == 0) {
+ 		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, queue);
+ 		return;
+ 	}
+@@ -1944,25 +1944,17 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 	if (blk_queue_flag_test_and_set(QUEUE_FLAG_DISCARD, queue))
+ 		return;
+ 
+-	blk_queue_max_discard_sectors(queue, UINT_MAX);
+-	blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
++	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
++	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
+ 
+ 	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
+ 		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
+ }
+ 
+-/*
+- * Even though NVMe spec explicitly states that MDTS is not applicable to the
+- * write-zeroes, we are cautious and limit the size to the controllers
+- * max_hw_sectors value, which is based on the MDTS field and possibly other
+- * limiting factors.
+- */
+ static void nvme_config_write_zeroes(struct request_queue *q,
+ 		struct nvme_ctrl *ctrl)
+ {
+-	if ((ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) &&
+-	    !(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
+-		blk_queue_max_write_zeroes_sectors(q, ctrl->max_hw_sectors);
++	blk_queue_max_write_zeroes_sectors(q, ctrl->max_zeroes_sectors);
+ }
+ 
+ static bool nvme_ns_ids_valid(struct nvme_ns_ids *ids)
+@@ -3038,14 +3030,72 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 	return 0;
+ }
+ 
++static inline u32 nvme_mps_size_to_sectors(struct nvme_ctrl *ctrl, u8 size)
++{
++	int page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
++
++	return 1 << (size + page_shift - 9);
++}
++
++static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
++{
++	struct nvme_command c = { };
++	struct nvme_id_ctrl_nvm *id;
++	int ret;
++
++	if (!(ctrl->oncs & NVME_CTRL_ONCS_DSM)) {
++		ctrl->max_discard_sectors = 0;
++		ctrl->max_discard_segments = 0;
++	} else {
++		ctrl->max_discard_sectors = UINT_MAX;
++		ctrl->max_discard_segments = NVME_DSM_MAX_RANGES;
++	}
++
++	/*
++	 * Even though NVMe spec explicitly states that MDTS is not applicable
++	 * to the write-zeroes, we are cautious and limit the size to the
++	 * controllers max_hw_sectors value, which is based on the MDTS field
++	 * and possibly other limiting factors.
++	 */
++	if (!(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES) &&
++	    (ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES))
++		ctrl->max_zeroes_sectors = ctrl->max_hw_sectors;
++	else
++		ctrl->max_zeroes_sectors = 0;
++
++	if (ctrl->vs < NVME_VS(1, 2, 0))
++		return 0;
++
++	id = kzalloc(sizeof(*id), GFP_KERNEL);
++	if (!id)
++		return 0;
++
++	c.identify.opcode = nvme_admin_identify;
++	c.identify.cns = NVME_ID_CNS_CS_CTRL;
++	c.identify.csi = NVME_CSI_NVM;
++
++	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
++	if (ret)
++		goto free_data;
++
++	if (id->dmrl)
++		ctrl->max_discard_segments = id->dmrl;
++	if (id->dmrsl)
++		ctrl->max_discard_sectors = le32_to_cpu(id->dmrsl);
++	if (id->wzsl)
++		ctrl->max_zeroes_sectors = nvme_mps_size_to_sectors(ctrl, id->wzsl);
++
++free_data:
++	kfree(id);
++	return ret;
++}
++
+ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_id_ctrl *id;
+-	int ret, page_shift;
+ 	u32 max_hw_sectors;
+ 	bool prev_apst_enabled;
+-
+-	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
++	int ret;
+ 
+ 	ret = nvme_identify_ctrl(ctrl, &id);
+ 	if (ret) {
+@@ -3102,7 +3152,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	atomic_set(&ctrl->abort_limit, id->acl + 1);
+ 	ctrl->vwc = id->vwc;
+ 	if (id->mdts)
+-		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
++		max_hw_sectors = nvme_mps_size_to_sectors(ctrl, id->mdts);
+ 	else
+ 		max_hw_sectors = UINT_MAX;
+ 	ctrl->max_hw_sectors =
+@@ -3213,6 +3263,10 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = nvme_init_non_mdts_limits(ctrl);
++	if (ret < 0)
++		return ret;
++
+ 	ret = nvme_configure_apst(ctrl);
+ 	if (ret < 0)
+ 		return ret;
+@@ -4743,6 +4797,7 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != NVME_IDENTIFY_DATA_SIZE);
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ns_zns) != NVME_IDENTIFY_DATA_SIZE);
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl_zns) != NVME_IDENTIFY_DATA_SIZE);
++	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl_nvm) != NVME_IDENTIFY_DATA_SIZE);
+ 	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
+ 	BUILD_BUG_ON(sizeof(struct nvme_dbbuf) != 64);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b0863c59fac4..815c032a190e 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -276,6 +276,9 @@ struct nvme_ctrl {
+ 	u32 max_hw_sectors;
+ 	u32 max_segments;
+ 	u32 max_integrity_segments;
++	u32 max_discard_sectors;
++	u32 max_discard_segments;
++	u32 max_zeroes_sectors;
+ #ifdef CONFIG_BLK_DEV_ZONED
+ 	u32 max_zone_append;
+ #endif
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b08787cd0881..edcbd60b88b9 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -405,6 +405,16 @@ struct nvme_id_ctrl_zns {
+ 	__u8	rsvd1[4095];
+ };
+ 
++struct nvme_id_ctrl_nvm {
++	__u8	vsl;
++	__u8	wzsl;
++	__u8	wusl;
++	__u8	dmrl;
++	__le32	dmrsl;
++	__le64	dmsl;
++	__u8	rsvd16[4080];
++};
++
+ enum {
+ 	NVME_ID_CNS_NS			= 0x00,
+ 	NVME_ID_CNS_CTRL		= 0x01,
+-- 
+2.25.4
 
 
 _______________________________________________
