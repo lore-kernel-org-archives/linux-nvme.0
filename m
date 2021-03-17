@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2456C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 01:02:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B0FC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 01:03:24 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5C6A264F97
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 01:02:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C6A264F97
+	by mail.kernel.org (Postfix) with ESMTPS id 3ABE264F97
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 01:03:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3ABE264F97
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,40 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=wYrq77giIf4I9gC5fDAPFvRKLhSDmy6xjAurUPQOjyU=; b=CSLR3oBTXCjRuu/mlvqqJyZ2R
-	cyYSctGDsWAarZ3/lYpSE4Z2fONWo4Dg6uwRAKyXl2dwDr5kcKQTl4VYcg258iUhh44K0D9I15cAZ
-	hhPZKrqtKzf80620aY0JhnRikkFj4hMZO8HseJI+IFeggqsggkUflSH5mrMkhitvirsDPYVPF41GI
-	wnFSn848E1UKrmOZCoEbW6ZxadO/EP0GGFe0djCGx25C6BRZN5PDO0lDKYPv3vyML+hEBMW4xcdVu
-	zva+Rf+Cv8zHB/mzslE4HBVPDfAB/x1DjcwhA6MBvsTDUfZT3VivQHXLZWHD1c/zSAJuASurIYCI1
-	9omdPRo7Q==;
+	 bh=YfEHlsnxMXfPHQGvG+S02lgoB479yvghapR2PI+4+S0=; b=Ej1x03wQ5K56SpUHSsK45y6Ty
+	4fxDOGALj6vJfeQNvqldN1NzsibFTUIZg1Stw5Db9VqCJgKMtabgqp5uCPQFizgekvsFa1higLutM
+	n28PbHlJeORVmJ5wmvmT3+0r5hAXtohBtxrTa7WWSkFvsl6+j5O+dTDzkcSXxZKDzVnyDgafHEMdu
+	FaFvxBhTmyaS0F4ggqs8tWuTuNCyR+EjKydCMtYZ7eE3gGO0dEpcav+tFFVvdA4gIIkMb97cWFaJa
+	han/q+cqUCBA8qLlsmxA+ps85Jjm4kmnHnftZBvuEs1g8sZHYME3EdXoSSYrCRa9IYyTbs17E9rCq
+	7oA3Cngzw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMKa1-0028t9-Ne; Wed, 17 Mar 2021 01:02:34 +0000
+	id 1lMKaY-00291t-L7; Wed, 17 Mar 2021 01:03:06 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMKVX-0027JA-7c
+ id 1lMKVU-0027HJ-GH
  for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 00:57:59 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 799D664FA8;
- Wed, 17 Mar 2021 00:57:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1106164FBC;
+ Wed, 17 Mar 2021 00:57:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615942673;
- bh=aozgTVH3HTG6JxHeF/viQWKnhix4qY/2AgcsbmddK/g=;
+ s=k20201202; t=1615942670;
+ bh=yFRTegtSzKBQvthZpm4ZsW52ysmmsTXaRrKe02Y/fdM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q4HJg7iW3pV+MJeviHUGd9RXP2IXoXlvSkhBuaU7fnVaebIiwE/IJi/KXKswU3779
- F+BDAfhs3cjTxC+eRryE89XKcu4BolEmo0JG5EIyG4udY46sB+6YKI3ro4LIt/lTvS
- CxVCtqOnvTe8VEUiQDe5xJ2Wgohcz0xyqx9PN3ld4S90I6P4n3NRg2VVajbExuSenz
- ZBGSym99daVnqGl/FZ08/DHKDrqOeNJGzqNb5VLJHBf6zYCXc2O3Lb6VMzjPCdrGJf
- cQCo3Coov9zo6MMSedUwQq6s4hagRY155XKHOPfFgMySsGLFmoomiJkpiYQNt6eKZ/
- qIPIgaVMHKq0A==
+ b=kTdbgv5/b9+NT8PhPjAJ/YFELDSZtmL1dDltz9sRrmcGEyFA7mjR0VFu6KfnVbATF
+ W0kkhPT9sRWt6TwwrcCH7HHnenOKKZIdXTa8PEqdVXU8iIme+aVqSVr9sb6WoAPYHW
+ SR69+FBWWelCEmFVIpXZdj/I6QOIXk5Qt4dKPWcAce1N52bcV0HrTK37JpXtujmEZF
+ 8V0gvrnNhpBHFiqDONhN6+vfbBO25dQE71RYOXLmg65/nuqU2G9hg3RpVocVzFgqSF
+ yfCNj44OvS5Yrlk4gFXwx/D6F+bjdW3rqC2sJTD7Wz490aLiNqG4UgX9XicvtwFxoe
+ Pqo/DLoFZtiqg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Lv Yunlong <lyl2019@mail.ustc.edu.cn>, Christoph Hellwig <hch@lst.de>,
- Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 48/54] nvme-rdma: Fix a use after free in
- nvmet_rdma_write_data_done
-Date: Tue, 16 Mar 2021 20:56:47 -0400
-Message-Id: <20210317005654.724862-48-sashal@kernel.org>
+Cc: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <jsmart2021@gmail.com>, Daniel Wagner <dwagner@suse.de>,
+ Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 46/54] nvme-fc: return NVME_SC_HOST_ABORTED_CMD
+ when a command has been aborted
+Date: Tue, 16 Mar 2021 20:56:45 -0400
+Message-Id: <20210317005654.724862-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210317005654.724862-1-sashal@kernel.org>
 References: <20210317005654.724862-1-sashal@kernel.org>
@@ -64,9 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210317_005755_885193_711A8B8E 
-X-CRM114-Status: UNSURE (   9.14  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210317_005753_278354_FD3110C2 
+X-CRM114-Status: GOOD (  10.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,38 +84,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+From: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit abec6561fc4e0fbb19591a0b35676d8c783b5493 ]
+[ Upstream commit ae3afe6308b43bbf49953101d4ba2c1c481133a8 ]
 
-In nvmet_rdma_write_data_done, rsp is recoverd by wc->wr_cqe and freed by
-nvmet_rdma_release_rsp(). But after that, pr_info() used the freed
-chunk's member object and could leak the freed chunk address with
-wc->wr_cqe by computing the offset.
+When a command has been aborted we should return NVME_SC_HOST_ABORTED_CMD
+to be consistent with the other transports.
 
-Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: James Smart <jsmart2021@gmail.com>
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/rdma.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 06b6b742bb21..6c1f3ab7649c 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -802,9 +802,8 @@ static void nvmet_rdma_write_data_done(struct ib_cq *cq, struct ib_wc *wc)
- 		nvmet_req_uninit(&rsp->req);
- 		nvmet_rdma_release_rsp(rsp);
- 		if (wc->status != IB_WC_WR_FLUSH_ERR) {
--			pr_info("RDMA WRITE for CQE 0x%p failed with status %s (%d).\n",
--				wc->wr_cqe, ib_wc_status_msg(wc->status),
--				wc->status);
-+			pr_info("RDMA WRITE for CQE failed with status %s (%d).\n",
-+				ib_wc_status_msg(wc->status), wc->status);
- 			nvmet_rdma_error_comp(queue);
- 		}
- 		return;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index a107032da3c2..8bc0bd4bd7ab 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1956,7 +1956,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
+ 
+ 	if (opstate == FCPOP_STATE_ABORTED)
+-		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
++		status = cpu_to_le16(NVME_SC_HOST_ABORTED_CMD << 1);
+ 	else if (freq->status) {
+ 		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
+ 		dev_info(ctrl->ctrl.device,
 -- 
 2.30.1
 
