@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 676B3C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 21:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E236C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 21:41:45 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA26264F01
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 21:29:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA26264F01
+	by mail.kernel.org (Postfix) with ESMTPS id C222264E64
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 21:41:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C222264E64
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,153 +23,155 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZGElGzFfyQH30BJ19eGVufhsMqdPqjwKOETIdmPN6PE=; b=aWygNeMEBFOk9rPMBhxDuW9dN
-	cgZ3lfd5emKpHEeTcIH888MlF2ZeB6XETHR/i3TfpiNLw5e6cbKprPtkwNHl3OjPgi1wZHd+X0oS1
-	540LSiH0Uk9SBFcc0CnY2OSnwnBfLZ2ZuiTnKS3YDLimCZYrniYzJ9E7NUXzHsS+ZojEdZFV+FGbl
-	AX60f5NaLfLtHNiYNoFz7r9QId83lK8GvCxKcEofJoMdXIpwBdsZ3N2SMmcI/3va4l4iRkcxSBapx
-	bOQk9fv8S60r/IWSbCHGs84oORozo0GMjwDm7KQ4F/szP9nYwkoogZ4fAb4eiFGoArqGMW03W8oiA
-	Zdn3OT8DQ==;
+	 bh=LWLr+jlkuhs+TLlZkbyQ0rdx4YQa0EjC5V4fAGzOwhE=; b=VjDkjveq97mUt2uM39SlvsRDD
+	TvDLSV6Yvz5eZWHxBrfZm4gErRUOudUpzQpMyjjCPvijkIQX3IF+cM+BXjvKik+uZvTKpHAt6u81L
+	bhESujoLr3KZhhRErW/KJQFZItjmS96YXIpcx7NyCpVBT0lMJDdsp5+3P0kIhqesdPxbYBG5guJ7B
+	n+EUUaqWKcT+YpwawZ5oX6LEPiS0B7kq8tV4QbpLIB7KV1bBj7AIpRQZ5779wMo2Y5XeAitWF9z4t
+	DUBSuIQXaFOGGg9ccdk+dBnE/z6nsEhpCgGJ4OMQOdgkDzVJjevqLeOPZeJCgAVjf0iUkUadx+vQr
+	ZK/01CeSQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMdid-003waf-De; Wed, 17 Mar 2021 21:28:43 +0000
-Received: from userp2130.oracle.com ([156.151.31.86])
+	id 1lMduZ-003xJo-Bp; Wed, 17 Mar 2021 21:41:08 +0000
+Received: from aserp2130.oracle.com ([141.146.126.79])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMdiX-003wZa-3c
- for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 21:28:40 +0000
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12HLOdeV116014;
- Wed, 17 Mar 2021 21:28:33 GMT
+ id 1lMdtN-003xFT-Aw
+ for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 21:39:55 +0000
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12HLO1mJ110365;
+ Wed, 17 Mar 2021 21:39:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-id : content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=CF0UKegZuSmdGKLmaRGHe8R0FlVmzPONPYOSCJIus/8=;
- b=arRpdkZIB5iKtDOZovWaNHWj1X8YMvDW6anfzteBAgO1e2HD/LwByjlkFO3+XQBjHKye
- C4eAlAf6ywv0K2Ie1Yf13SuT0a/cwXB/L4z9VbzZlxdiC10TXRT/ecWdzOar6UY9lWJR
- mHimEhBCMT3EXpe26TNJDvatkCu0WaXdZzv5LiHbEybf7e+biNFY9dI85EqB3XpHAYlJ
- cfVJBIqVbP6GEBQnt/i3LhSOMdnjRGUH3wnzYgr/cZvzzd9D3rEd1lQMzTgABJtfUDAQ
- n1TCMp9di8eaNfpWGV95zRaerzXKwLD9Xnhn5AXtP+ckNV62LANOY0Hdx1JbINYrlpu9 jA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 37a4ekthhc-1
+ bh=f/F7SORh/LHUCU6t5Xg0/K1+E2XUJuRnhCBVAXwobP8=;
+ b=PUMxXXUo1mwNa51Xri1zAX2K59u1Dk02D07HSLitnIfglOKM4VbEgn8fmf+9+ino0I6T
+ FGs/yOgtomk2e19SiUcBg9xxZS6lMJWCaibcD60RdvPa/c9ssEDabli4/CPQheG4ONx9
+ vyQrSHXJBh/zAeoBJyjS+uxAfdv+Eq5r+yAVsc2vogUODxhMlUGCo80YMZ3qGhYykD/J
+ sxv2gTHQK80m9jAtDHPKO5EM6xqHtGbSfoPtJgabEfZzCUnBqO8DLRz2yNPp9kQZuunB
+ OFqTcs8RnGvqSdCrrevgSqEcvoid0EaxfdZXCsmV20A2K6IxxJ4+SoU1uovemF6yl9qi mg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 378jwbnput-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Mar 2021 21:28:32 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12HLOkYY014695;
- Wed, 17 Mar 2021 21:28:32 GMT
-Received: from nam04-sn1-obe.outbound.protection.outlook.com
- (mail-sn1nam04lp2052.outbound.protection.outlook.com [104.47.44.52])
- by aserp3030.oracle.com with ESMTP id 3796yvbmnb-1
+ Wed, 17 Mar 2021 21:39:42 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12HLPsqV053851;
+ Wed, 17 Mar 2021 21:39:41 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+ by aserp3020.oracle.com with ESMTP id 3797a33yqf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Mar 2021 21:28:32 +0000
+ Wed, 17 Mar 2021 21:39:41 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mFZDkG7P+ng2BZrc6lOBMWsgb43Z0MxqhbSv/xP+bgDAbeZe8Ff0ANEXI/FziZXuQ8rri+lFr02T+Wla9RVZtBTRkponSIbmGHDH+y6SRbcfZvDWb1t2pGC2gUk/S77xC/A+ejyvLKpRNuwaHi0ArSK8yNMI9pPO3yf2RixKJ3HWdg/Z+m6VOy9ryHrXXWRIEEUq6l8arig7DqXflMh/oef5g/f22OvZ1zksmhZzU3kJ4h9Ftt27IrHYZMeaDmro5bNj8a4Eb+TMb5eO8yMxvD4O0V3WciEAP1LPyihkvXw4DuDruP+ADdKIcS3W163dv/VHNd214DaReDeyrNivFQ==
+ b=lkvQ8VeeFCGSiezQzcBfXQwy8e0BftyjNACnl/6PY31xjJE6RALYXHUXsjlJkN0gbHjCLWdLdidBG2bdPc5QAwt9PkIhHppCTIEvhKJ81+O/maWA8uhItz3dsFwyyR6KBMaHlqs/0ZiAbGsdyEWsF4Y0rXqftnibddFvWQYhKG63l4cZMjtWQKVKLdylGGNQO5HcgiW/Onw9JBITGhg+RdeMFf9AvTR72UGdSsB4+N2k5A3szgp/6op6dNmjMT0rBQrxyxTOxw/O3np3exRz4MdWXoaryGyDXyrDeICSd/GBDdJ0VpjGcOczCV/KR3nERLPLCi3XBHSjGXGCgJG+Og==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CF0UKegZuSmdGKLmaRGHe8R0FlVmzPONPYOSCJIus/8=;
- b=EBh1+O6zk4po2ModzY1ofZt1HZJlycYO6kUwDZ17dehCdpB0XgLr1JoaG3baiBcGgV1lYWeBmL9wTm41zwdt4fYgHKnFpLe2CcZPnT+p1VnQ25LZd5pJoRXQ9Yanvij6jlqvgtUbMObf1GDjj4lVTz0g6BHb7VQzHwvjgkRF/ICdPHYpwAbGniNGK+yYCxJgFQcwFNxnjiTorbFe3nAEwux/HYOswi4gWG7B3JS6eUUEbLkynRuPdy8QeKttwVDbEihJWncN48wSth16bbgZ/xIHJOyoC3e2sT9dQSIOiEvvyHWZXx5dOkceMktVSYw8YLNN7npntQCN7EBMioKmYw==
+ bh=f/F7SORh/LHUCU6t5Xg0/K1+E2XUJuRnhCBVAXwobP8=;
+ b=KKtWRoqBuIqQwhlsM/oHpLgvLnhGez3MQKHtxrwVH3OpyvAo9PtM7M2qZ7G6qVF7Rca61lGl4nzjLSVQtDOF+DOqN/ftHCZ05aswUxKroH2kr4ESM5V7uKvNVwt35+91/Jsd3s2xaQ0UzjAbqibH8GReUsLmjmFV8c9rhb/lZbEHbzZ9xkSRkTz4wVorN4GANzjS/8NPpPRmz3K2ne8g67RolN4zWT4jDu0bzZmmU72fO2LDw6tCPMpmTvf7NpBfjJBGA+ZUJ6cKqmTLGlR8iqHfsIb27N5jQDUong1JFvB4UjD6+j+4FAZHrT6mWaBjK9DJLb4yMPJFe1bzs6ixfA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CF0UKegZuSmdGKLmaRGHe8R0FlVmzPONPYOSCJIus/8=;
- b=gmD7mq2gnHP2NTCi4lGz+y6l/vaxLEs0aPrLgWkz1NJiHtbgrtbfX1LudcQN7JKlxhW95nkp/LlUuskri5ed0s3bu0MAcPDdPHHtw+5m3pdRPY1fhntlflS5A9XUVNynJNHaRhwe1548ITrAAAqwidsegHWUMpyAvqIHfFbBOPA=
+ bh=f/F7SORh/LHUCU6t5Xg0/K1+E2XUJuRnhCBVAXwobP8=;
+ b=fMx2nbvR4Xcmxdyy9djUGOhLnVrBnnYaELCaVcHsaa6Tc8CAw/FPrm18OzSZaqAPUprHA7EeovqYOLyj1A83UTqZXl4yXajwQZUva7BYmv43bQESSYleG/wSHZH5bkTJuLZkV/Wu01ADRsT6YSrNsJulIoLYamMDI3KHg0my63A=
 Received: from SN6PR10MB2943.namprd10.prod.outlook.com (2603:10b6:805:d4::19)
- by SA2PR10MB4556.namprd10.prod.outlook.com (2603:10b6:806:119::8)
+ by SA2PR10MB4665.namprd10.prod.outlook.com (2603:10b6:806:fb::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Wed, 17 Mar
- 2021 21:28:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Wed, 17 Mar
+ 2021 21:39:39 +0000
 Received: from SN6PR10MB2943.namprd10.prod.outlook.com
  ([fe80::20c7:193:d737:7ab1]) by SN6PR10MB2943.namprd10.prod.outlook.com
  ([fe80::20c7:193:d737:7ab1%4]) with mapi id 15.20.3933.032; Wed, 17 Mar 2021
- 21:28:30 +0000
+ 21:39:39 +0000
 From: Himanshu Madhani <himanshu.madhani@oracle.com>
-To: "amit.engel@dell.com" <amit.engel@dell.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "jsmart2021@gmail.com" <jsmart2021@gmail.com>
-Subject: Re: [PATCH] nvmet-fc: simplify nvmet_fc_alloc_hostport
-Thread-Topic: [PATCH] nvmet-fc: simplify nvmet_fc_alloc_hostport
-Thread-Index: AQHXGjCbopw47+MAMk6u5hNmxS/ay6qItJEA
-Date: Wed, 17 Mar 2021 21:28:30 +0000
-Message-ID: <EC219DA2-0CCB-42EE-95B6-CEBE9D332551@oracle.com>
-References: <20210316064345.25713-1-amit.engel@dell.com>
-In-Reply-To: <20210316064345.25713-1-amit.engel@dell.com>
+To: Keith Busch <kbusch@kernel.org>
+CC: "joshi.k@samsung.com" <joshi.k@samsung.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCHv2 1/2] nvme-pci: allocate nvme_command within driver pdu
+Thread-Topic: [PATCHv2 1/2] nvme-pci: allocate nvme_command within driver pdu
+Thread-Index: AQHXG3DJNH+0IlGaDkGpC1jJzDN7YKqItS0A
+Date: Wed, 17 Mar 2021 21:39:39 +0000
+Message-ID: <3E3552A0-3932-4EE4-A30F-E1296503CC2E@oracle.com>
+References: <20210317203703.17391-1-kbusch@kernel.org>
+ <20210317203703.17391-2-kbusch@kernel.org>
+In-Reply-To: <20210317203703.17391-2-kbusch@kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-mailer: Apple Mail (2.3608.120.23.2.4)
-authentication-results: dell.com; dkim=none (message not signed)
- header.d=none;dell.com; dmarc=none action=none header.from=oracle.com;
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=oracle.com;
 x-originating-ip: [70.114.128.235]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c81579cf-8921-400d-3bd8-08d8e98b9c33
-x-ms-traffictypediagnostic: SA2PR10MB4556:
-x-microsoft-antispam-prvs: <SA2PR10MB45562AAE4F40CF69D9C9507FE66A9@SA2PR10MB4556.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-office365-filtering-correlation-id: 0a59324d-f35d-40c1-49e4-08d8e98d2b06
+x-ms-traffictypediagnostic: SA2PR10MB4665:
+x-microsoft-antispam-prvs: <SA2PR10MB4665EBE07332F30AA23C7835E66A9@SA2PR10MB4665.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cC74QyOdygajZ53xZN41HkEgFc4lFCxdRrv1eoKxKHCUztRYggCh21nGnoY+rGODfTK/E+cxSkgvOR1MrGDUl/Vg3ZwlAzdt8Tligssh9ekiXgGWEkJ99gwqwuDU34z+ofWsCATe6O74C/oCNgeNtD0QtFT+QIkBuxH0XHhKLV8Hrb8sDS3Cu3Vqw479rAy/B2qgUB0tkdc+L3R1wOkXlK1xMskwDhFlPl4qhqJUdFAZXlamoRtswVmG7D7pULOrv71dBaJShJcoSFqQ3tPFY3Jr7IJehfjXOA4p9OAikHqAU2j1kxZFzhaV1dOw15hJ9ysqx31igSn/UC+7wRbm6wSH1/XAbhDVYqvBv4k+c+eHE7T0sc7qgQ0vhIVTBLgqkRmRoZyOQ6TVw/oXw084FGIbi6dnJd7swubsKUt8bWh+ch72NUthvR/LvviQGvQHTDUPnTkxMQS+dy7/4i+slxj46XFNIx88RnNS2VY/Q6DCdPAC0179uStqix5ae4vW1nYXXpJtTok2otRZPqx+hBic6bD9Fx3nEO+K3ONKxph0jUqpLX+wlKa0iW9xRH+NwqxO/lLbAYRZNyqxp7SfBwoWLZ7G48lD1KrrHdBuZ8Q5QrMDeFlwreNN+CFgCXGnv7Nu87asKYUstQJjOvh03/0azhx8YYps6c/bT3zjLUvvYZGBJ1H96o5eQGx2CU1SSwdIucHeFPrTJ+oq0Dtouw==
+x-microsoft-antispam-message-info: rnjRCObg5x3TCWRH51ds4MpYGVVnrbWxbAdeZ+efcXxpVOdyByPZXdXF56uj84lxhlU4ABJnR10ju7qqWmYuQFJye//3MocIJpzLpFsaomc2URW7TewXCjix2e1HDZhiGfyUmc6sEm3kCozRVv7zcTy901uJV+qWTzgRQ8EEOwYWG4bEn1DBS9k6kSfjyd+76rqetvUAmldTdaXmgMYSvZzwemZPVojXztKWiaZXRPcq74kQVL+Mm9FJnwqxE2YqqMriSUX0cjHd7WKC3v5bIp9ALanWTbcxbaaTO94Le30h6xVjtIJnT5xDxBgxYTOR3Des/nbJJT8i2nobbRdkwRhzDKjago0pPHp4ZJjRMLqBB0TiYHKqvWIsPtwY9Jxouiv33tPOjmilii8i/ZD/dskmEJ7IYis+snphDP6yzlD3tD5678I83OxNwQAxSO9pqxFGY0beFdwDWD8HZTzJbR8juFifYAaakDapJhkN64dw33a6XeJFao7qy+SX1S+Wsh/rhQpetv42OwrvO2CncH4xsbr3Q0cK6052m6exUo+KsHfBmMNfLWzWTdLV7h8BBBRdyouSKucRnxJ8NZSIJ26aOE4jrE/n+udAteieRttK1wNuhm0oCGTUZiUL+mKc8XfNy1Xw7Pe8aGf1r4ZD0P40G0tRdvs12Gxcy5fqqvrUTFrMswijotkbNZ1s/slh
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR10MB2943.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(346002)(396003)(136003)(366004)(39860400002)(6486002)(6916009)(8676002)(66446008)(54906003)(71200400001)(36756003)(44832011)(186003)(66476007)(8936002)(4326008)(64756008)(316002)(66556008)(478600001)(5660300002)(966005)(76116006)(2616005)(26005)(66946007)(33656002)(83380400001)(86362001)(53546011)(2906002)(6506007)(6512007)(45980500001);
+ SFS:(396003)(376002)(346002)(366004)(136003)(39860400002)(83380400001)(36756003)(2616005)(186003)(33656002)(8936002)(54906003)(6486002)(2906002)(44832011)(966005)(6916009)(53546011)(6506007)(66556008)(478600001)(66946007)(66476007)(64756008)(66446008)(71200400001)(4326008)(86362001)(8676002)(316002)(76116006)(6512007)(5660300002)(26005)(45980500001);
  DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?CP6MTt6nobcH8+DMO+sQoLAqo0LA9wi6m+PWl9oMnni90jZhT5QR6UMUJk/k?=
- =?us-ascii?Q?c7CJqQcEepWOr+DhN+fVXZctiYt2OoPXdfSyXAbEP/qR3nVKsOocIvNAYAss?=
- =?us-ascii?Q?/7I6yabNiobLyEnV038ZnSFwr3HnHiQcT521pe3BPX27jXYmpLaFWLgGB0AG?=
- =?us-ascii?Q?x3cHIXy6bQcCwJ+en4a1sOPNL4hf5BtV3MwIPRqjhI6LhjTRo3Cx5+fjALFE?=
- =?us-ascii?Q?9inv/eE5KjCO5bH3bJ0avUYXarnnDdYJHgN+CDOkplzjO/VBExSwK1C0yI1c?=
- =?us-ascii?Q?By/U6LMYu48SPHAOLk32VHjGCbb4BBcdtbXagcT4XxwVBb0+ylF4gfzmSQCp?=
- =?us-ascii?Q?Z9sfkVX97GexRiU9EcIalUYF/1mlFrAg1nJnaFz74m78FPYbqfIaZrek5bO7?=
- =?us-ascii?Q?Q0hdP7lNgfyDJzgtxKCGRco4xQF6ICyKyy7McqSq7kHps28HmwgpaLyzaUOP?=
- =?us-ascii?Q?rgOp7d5HcLubWSAkLQcnwD6K64RCqFuEW7qc4HjSJ0GCB1ABluSLvFagW1TV?=
- =?us-ascii?Q?jlmY9JG1GP1uj3nxie1ZpjYLc4chWnUBXl4xZLBr3pbfw+Xbm+KEK+qYEtsO?=
- =?us-ascii?Q?UjbVK1dFEu3KwmzSo4fSvp5HJk18pxjdfquHj43ShfL4Ye1gj/hGkSmuJwsw?=
- =?us-ascii?Q?gBILqyBG8ovmeGZNLkI5icpzY9KqI6OAOVgBqvcZgiVEDuMC+TO3owEi2nxO?=
- =?us-ascii?Q?dIwPVwo73Al8S2Ev/JVZ2VPhib3e5rn2/1lV6AQuNMdhetOXGKjrAPpjFrhm?=
- =?us-ascii?Q?T968lY59yBE88keAfodRj6laigaJYcd/rPSHLAS4Qyyk/lNtzySVhlZH5syH?=
- =?us-ascii?Q?xhS+XXa70euXvHsrYT5ayVkK/2pgIlQVJ7suXgpX840C66i53uhG63tQUdwj?=
- =?us-ascii?Q?pgrHdggaIgM6alkXzavV/2BTEo/e1qcl494hn4Qrk3hOtCZVx+VCi4ND4HtU?=
- =?us-ascii?Q?aEFnKA+07p5nrCJcBRE+YU+sTYw+oxCJtZVeO0JtpE3IGZtiMhncjUmODbKd?=
- =?us-ascii?Q?p54JFOLv8Qi4CJywmlBnAyVge5D07F8dTmojmf30SpuOp+XIBUgCI9SevO8s?=
- =?us-ascii?Q?lNegmtyxZMBOpTpsKBMb3QD+ukFM6CFfQ0FMGcag4HlA5u1nYkC/AtfEjpcV?=
- =?us-ascii?Q?VL+NlIw+o4mO1O6lhN88idtliJvIGlRGK1aSEHfdO1WoS45YxQKpld6uXwtU?=
- =?us-ascii?Q?CUsD/2ujv2gmyZ00FnV5Q85wDshQuPi8WlR3QOmt5VQDTYSCG3Y2j4OQ7fYl?=
- =?us-ascii?Q?LwbySJoxbHkoXkjJ9sTgpJRzixI0Dac1qHG95HyhyEhYTr0eerjloKr7LaUR?=
- =?us-ascii?Q?rkxNAgFkRHtLHHeC5FkmjGDa6yJJv6fHrZ0j8Rols4udgw=3D=3D?=
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?jJScXKL68RFJVshk/BQ+iqZEGatmGOIDiQNJL82AL2UPDGM/v6qWRpMes2B9?=
+ =?us-ascii?Q?JtCtLwyb8pknJvHrliYhLiiV4Qdkqk1VhoU0Y+zBugFDON6PYm1LLzrM6o1A?=
+ =?us-ascii?Q?yYih0ELsS1wsZsC42HJwKyEnyyPj5bkxdLpv7hq7OL5t7Gr1eQCu16zcbP3t?=
+ =?us-ascii?Q?IIWiQh1px5SSdj9BLzN3snkpdsAKCWw7Zv1Pl27RGkHQKwf9EBIeQZgwcgmM?=
+ =?us-ascii?Q?yf3FxluzFanRS7dLb4tGd6yuzI4Aw4R5eKBgFv6UDrHzed5hSPM9tHnvr/UB?=
+ =?us-ascii?Q?WKV2tfJNrst94nNdu/5hSq9PE5Gd9MBw/vsgTMj1wK5S1irKTnrk6xmLSDgS?=
+ =?us-ascii?Q?gbgRp9g8nSg0ZJlkn2ABkz+aY3CuSOAfd/JpXmGL1+K7PqQGZzOxZh1IXgpT?=
+ =?us-ascii?Q?OK/ud5yzeAUEnRzYN4kv493k0GxbVEjlg+LNRPAsP83jWJ6ajHDuv26mmJyk?=
+ =?us-ascii?Q?27iv5zOUvtuxKH3Z8oFcP5OcZq8u2r6Jh426ZtS4rkVGzL9eqAagiltPkbTO?=
+ =?us-ascii?Q?fNDaMigkLWEtjkQw2189SgY92gHm1ylvpdb4mjUROdLP3RAuCZqqxVqXYtv9?=
+ =?us-ascii?Q?EAPT/Ibg4vDdAXTPQRaELrRZxYoUR0CLCYUmmV+LxeZXF5E+06/cgPHeys5n?=
+ =?us-ascii?Q?E7hCd/F85icmNbWIQt3IwOrNfDJAf7NqQqUED6i7B+LVCfmX+sdpIfDKvdOT?=
+ =?us-ascii?Q?UJR6MiQD7mVdSEKXeDxCZPUkHscg7rz3BFj+lWCSXEyfft190wiwlIRftTI5?=
+ =?us-ascii?Q?mlK/TNWdb/dZNtff6BXUcWMG2Dqj9P2FWXz1zK761eG44GAheIasZeiMom7H?=
+ =?us-ascii?Q?wJR5mEfx7JYNy8XCDbHKPnFwcicQBbJ8Fipqfi6iB/Rs2F1LtMfcijtT9icT?=
+ =?us-ascii?Q?Ldz4MUr304hnuYBUZMsEsuiGJR7+2j7WE7G4n6+r5p54wBMn+3E4I/WgltH8?=
+ =?us-ascii?Q?qyLu+26GReEMuP+cQH5A4MGbuBNCLVGkEAYxtnuaSu4UHihrc6n2KP+iTpIK?=
+ =?us-ascii?Q?rHQT9jGii14zaJwzDZ66M2lCfLWOzESpEsu6i1Ej1hZ2FKjk4J9O9fdVmlr4?=
+ =?us-ascii?Q?2IIQKuGWuSON9JWkPR4a+glUKQxYHkJ4NAQzerWuG7Cl6QsxTwGsFnjBMyFL?=
+ =?us-ascii?Q?je5FOw6LLSi+8rrrpxjv+eHrQpwLatIV7c4TSRWEnj+qAHvve3RvxvwlvUhP?=
+ =?us-ascii?Q?crQW6y7bExwv37BQaWjR/0GDIFN/+/uUwr8R1yX6JBV5tN2/cqa+u8A8wyM1?=
+ =?us-ascii?Q?s8ETK5cTimWiQjtEFtP6Nj9TUYjTPoDHbcU1SPnPqI7R/nuSlP9MB7ahW5TH?=
+ =?us-ascii?Q?OMnLySF0TPcBGtjk9ioJ5N+iHi1xa7fkHrm1JQqtrpJu8g=3D=3D?=
 x-ms-exchange-transport-forked: True
-Content-ID: <241307178DEF7149A4723C36EDC4839D@namprd10.prod.outlook.com>
+Content-ID: <90AE7C34EBB7A84B9BE9DE86FF083691@namprd10.prod.outlook.com>
 MIME-Version: 1.0
 X-OriginatorOrg: oracle.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2943.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c81579cf-8921-400d-3bd8-08d8e98b9c33
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2021 21:28:30.2384 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a59324d-f35d-40c1-49e4-08d8e98d2b06
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2021 21:39:39.3278 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DooczaCHkCwYPHD+FqOEbClAO2FzmuDahNPzPhb3Li6s7DsIa2yV5VQzdEEIK/UyCtjLAj/vcln5mqECny1v/UhMx4VchB3AVAaTH3BmwjM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4556
+X-MS-Exchange-CrossTenant-userprincipalname: MNK4V1fRReFeb/4Tl6pBBvTyR1YQ7yE8tpvfbmEN6/ELxWgOsOgqT1rv8v4xW1eOQpmhuekTTOX2CATzM3yhEz1mAu4Cr/3Qr/1bMM7dtAs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4665
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9926
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- malwarescore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 phishscore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2103170151
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9926
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- malwarescore=0 bulkscore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0
- priorityscore=1501 adultscore=0 phishscore=0 suspectscore=0 clxscore=1011
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxlogscore=999
+ spamscore=0 mlxscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1011 adultscore=0 phishscore=0 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2103170151
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210317_212838_770511_636778BA 
-X-CRM114-Status: GOOD (  31.12  )
+X-CRM114-CacheID: sfid-20210317_213953_556425_5A513B12 
+X-CRM114-Status: GOOD (  26.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -188,136 +190,72 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-> On Mar 16, 2021, at 1:43 AM, amit.engel@dell.com wrote:
+> On Mar 17, 2021, at 3:37 PM, Keith Busch <kbusch@kernel.org> wrote:
 > 
-> From: Amit Engel <amit.engel@dell.com>
+> Except for pci, all the nvme transport drivers allocate a command within
+> the driver's pdu. Align pci with everyone else by allocating the nvme
+> command within pci's pdu and replace the .queue_rq() stack variable with
+> this.
 > 
-> Once a host is already created,
-> avoid allocate additional hostports that will be thrown away.
-> add an helper function to handle host search.
-> 
-> Signed-off-by: Amit Engel <amit.engel@dell.com>
-> Signed-off-by: James Smart <jsmart2021@gmail.com>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
 > ---
-> drivers/nvme/target/fc.c | 76 ++++++++++++++++++++++++----------------
-> 1 file changed, 45 insertions(+), 31 deletions(-)
+> drivers/nvme/host/pci.c | 11 ++++++-----
+> 1 file changed, 6 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index d375745fc4ed..4762f298e579 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -1020,61 +1020,75 @@ nvmet_fc_free_hostport(struct nvmet_fc_hostport *hostport)
-> 	nvmet_fc_hostport_put(hostport);
-> }
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index ecd11b1febf8..1a0912146c74 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -224,6 +224,7 @@ struct nvme_queue {
+>  */
+> struct nvme_iod {
+> 	struct nvme_request req;
+> +	struct nvme_command cmd;
+> 	struct nvme_queue *nvmeq;
+> 	bool use_sgl;
+> 	int aborted;
+> @@ -917,7 +918,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+> 	struct nvme_dev *dev = nvmeq->dev;
+> 	struct request *req = bd->rq;
+> 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> -	struct nvme_command cmnd;
+> +	struct nvme_command *cmnd = &iod->cmd;
+> 	blk_status_t ret;
 > 
-> +static struct nvmet_fc_hostport *
-> +nvmet_fc_match_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
-> +{
-> +	struct nvmet_fc_hostport *host;
-> +
-> +	/* tgtport->lock is held by caller */
-> +
-> +	list_for_each_entry(host, &tgtport->host_list, host_list) {
-> +		if (host->hosthandle == hosthandle && !host->invalid) {
-> +			if (nvmet_fc_hostport_get(host))
-> +				return (host);
-> +		}
-> +	}
-> +
-> +	return (NULL);
-> +}
-> +
-> static struct nvmet_fc_hostport *
-> nvmet_fc_alloc_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
-> {
-> -	struct nvmet_fc_hostport *newhost, *host, *match = NULL;
-> +	struct nvmet_fc_hostport *newhost, *match = NULL;
-> 	unsigned long flags;
+> 	iod->aborted = 0;
+> @@ -931,24 +932,24 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+> 	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
+> 		return BLK_STS_IOERR;
 > 
-> 	/* if LLDD not implemented, leave as NULL */
-> 	if (!hosthandle)
-> 		return NULL;
+> -	ret = nvme_setup_cmd(ns, req, &cmnd);
+> +	ret = nvme_setup_cmd(ns, req, cmnd);
+> 	if (ret)
+> 		return ret;
 > 
-> -	/* take reference for what will be the newly allocated hostport */
-> +	/* take reference for what will be the newly allocated hostport if
-> +	 * we end up using a new allocation
-> +	 */
-
-Small nit.. Please fix the comment formatting for multi-line 
-
-> 	if (!nvmet_fc_tgtport_get(tgtport))
-> 		return ERR_PTR(-EINVAL);
-> 
-> +	spin_lock_irqsave(&tgtport->lock, flags);
-> +	match = nvmet_fc_match_hostport(tgtport, hosthandle);
-> +	spin_unlock_irqrestore(&tgtport->lock, flags);
-> +
-> +	if (match) {
-> +		/* no new allocation - release reference */
-> +		nvmet_fc_tgtport_put(tgtport);
-> +		return match;
-> +	}
-> +
-> 	newhost = kzalloc(sizeof(*newhost), GFP_KERNEL);
-> 	if (!newhost) {
-> -		spin_lock_irqsave(&tgtport->lock, flags);
-> -		list_for_each_entry(host, &tgtport->host_list, host_list) {
-> -			if (host->hosthandle == hosthandle && !host->invalid) {
-> -				if (nvmet_fc_hostport_get(host)) {
-> -					match = host;
-> -					break;
-> -				}
-> -			}
-> -		}
-> -		spin_unlock_irqrestore(&tgtport->lock, flags);
-> -		/* no allocation - release reference */
-> +		/* no new allocation - release reference */
-> 		nvmet_fc_tgtport_put(tgtport);
-> -		return (match) ? match : ERR_PTR(-ENOMEM);
-> +		return ERR_PTR(-ENOMEM);
+> 	if (blk_rq_nr_phys_segments(req)) {
+> -		ret = nvme_map_data(dev, req, &cmnd);
+> +		ret = nvme_map_data(dev, req, cmnd);
+> 		if (ret)
+> 			goto out_free_cmd;
 > 	}
 > 
-> -	newhost->tgtport = tgtport;
-> -	newhost->hosthandle = hosthandle;
-> -	INIT_LIST_HEAD(&newhost->host_list);
-> -	kref_init(&newhost->ref);
-> -
-> 	spin_lock_irqsave(&tgtport->lock, flags);
-> -	list_for_each_entry(host, &tgtport->host_list, host_list) {
-> -		if (host->hosthandle == hosthandle && !host->invalid) {
-> -			if (nvmet_fc_hostport_get(host)) {
-> -				match = host;
-> -				break;
-> -			}
-> -		}
-> -	}
-> +	match = nvmet_fc_match_hostport(tgtport, hosthandle);
-> 	if (match) {
-> +		/* new allocation not needed */
-> 		kfree(newhost);
-> -		newhost = NULL;
-> -		/* releasing allocation - release reference */
-> +		newhost = match;
-> +		/* no new allocation - release reference */
-> 		nvmet_fc_tgtport_put(tgtport);
-> -	} else
-> +	} else {
-> +		newhost->tgtport = tgtport;
-> +		newhost->hosthandle = hosthandle;
-> +		INIT_LIST_HEAD(&newhost->host_list);
-> +		kref_init(&newhost->ref);
-> +
-> 		list_add_tail(&newhost->host_list, &tgtport->host_list);
-> +	}
-> 	spin_unlock_irqrestore(&tgtport->lock, flags);
+> 	if (blk_integrity_rq(req)) {
+> -		ret = nvme_map_metadata(dev, req, &cmnd);
+> +		ret = nvme_map_metadata(dev, req, cmnd);
+> 		if (ret)
+> 			goto out_unmap_data;
+> 	}
 > 
-> -	return (match) ? match : newhost;
-> +	return newhost;
-> }
-> 
-> static void
+> 	blk_mq_start_request(req);
+> -	nvme_submit_cmd(nvmeq, &cmnd, bd->last);
+> +	nvme_submit_cmd(nvmeq, cmnd, bd->last);
+> 	return BLK_STS_OK;
+> out_unmap_data:
+> 	nvme_unmap_data(dev, req);
 > -- 
-> 2.18.2
+> 2.25.4
 > 
 > 
 > _______________________________________________
@@ -325,7 +263,7 @@ Small nit.. Please fix the comment formatting for multi-line
 > Linux-nvme@lists.infradead.org
 > http://lists.infradead.org/mailman/listinfo/linux-nvme
 
-code looks good.
+Looks Good
 
 Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 
