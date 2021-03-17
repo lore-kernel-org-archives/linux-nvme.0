@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D3B5C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 00:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41942C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 00:57:52 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B339C64F8F
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 00:57:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B339C64F8F
+	by mail.kernel.org (Postfix) with ESMTPS id C296664FA8
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 00:57:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C296664FA8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,42 +23,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mnhHvKlI+vfxAVEjGILObm9Qg7G9+31tW2NnCkmrEAY=; b=D2z6o1lDM4yrmKyFqMYWascYi
-	ff0A10dUfOTap5hQ6kqdOdRMMfPZfMzj21GgJUikoNsUk7DK5OyDtWRqoidZxwL1237Z19SbwtJd4
-	Hh/CRlInglzz5UpIJXjV1c2K5mDApvxaIfVpUvnRzEmNLbkZmuc5wzI1DW+YpULbN0QGK9t2onUhz
-	B2sjj4kmoUBKF/qi1LWutmcMBbkHNdJIv1XeIO3cGB147yidXN4jEnnU0uiHQANlESxOWc3wnmP0w
-	qlxjva8xKXrnasRjxz2EeW6/OzqKSFXEDgxQyQxIEPhKmSIbBpx/yKbW2F32pJBZMULT0SvLZfB0+
-	qbt1DdZ6Q==;
+	 bh=dnE/8/9XvdbklIlJa98Z9/v2VrbR2njx/GAW5hYQX28=; b=m8FRRLGNhUS7P1IFNSCLOfkK8
+	dqS4yZrqzINndm8/lDqrMb4whxnOuLXJLfXlOc0f9SuP/HpVERe7f1DVKgaUi3qhHqRO1/C8e8Py5
+	4Zz76qwCX7YzbETQL09oPFbxLQ4JAghQbMpcPujlQtCINcd6Q73iR9lZzWK3avSg/4dGzriaFhPdT
+	1oe889H8KBTyx0pWn2HqroJX2U3CyvfLoDj8RtuUmP/UGlLhUEmKT7aSFLYNF4br10mn4YiWRVY9r
+	iOVVmZf3jCq0Xg3LHsgPMkMLzMXHqV+kNz0w8q1EAFZ+Tt2lyWWFYTj7ixiOFW25T3JnmcAf4RmEo
+	9yTVgxJJg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMKV2-00271Q-VP; Wed, 17 Mar 2021 00:57:25 +0000
+	id 1lMKVN-00277q-C5; Wed, 17 Mar 2021 00:57:45 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMKUM-0026ft-Af
- for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 00:56:45 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FF8864F97;
- Wed, 17 Mar 2021 00:56:40 +0000 (UTC)
+ id 1lMKUN-0026gR-Ex
+ for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 00:56:47 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94F0664FB2;
+ Wed, 17 Mar 2021 00:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615942601;
- bh=TB2G9h7TKrUOwzjOSiCb3bkl/tAilWqLR6IHXUsml1k=;
+ s=k20201202; t=1615942602;
+ bh=6yxJo0m1SHli94yQhjg+gVBOREYv0JUFfyEY2W+/Ru4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IIkYLtzgMRWu1iiJmg6LfuEt69i8zxNX+EMdXNRS79G+WfJscl6iX+WSTz/6O1/Kv
- 4yln8ulw6lntUZiLdeCMIUEG8rwfjC53oq3IuWyr532TX6FIM9PNn2SxKbffYpChH7
- 6Sq2MpwoVr5oNf2gsrrsbLXERKexp1S+osnhth+JUyZgfyUVzqiEfaEtJMM0ZOLXDB
- kyRPbWa9iPmaV+M3xODrKZADeQa8upw5XlK5wwcfZIClcZmBQiV6hmKf1Q8xnQcKFG
- bWF2EX/GBpmw8SlqsmhJqSpgMWZi4GQlPF+vH1I6kWfuBbMmBrapZLX/M5xQEO665c
- zDyVi5a6LHNgg==
+ b=CClVIC/FsGE2+K7sLqXEmIhUGmc5geru/40g5aeUVkSwbxTWxxsxrAQWyCZIZdPra
+ 8ZyNNj8+RyKvqNq84yxxXr60ZFa6pK0PwiGK24uKlA8MU3HONUZ1MebOacbojVGrrp
+ YPjf1igGw5B0MwW+pSYPSo1oJV9l6Zimaq3tMVL7ePBX8eWBGrRmhnynaAShOHnPx/
+ +JbBD3C708caqkJnj7qJ/HdJbr8AFFjLscOLfIeCyAfTj9yQtkcTopAaWOOaVju6gq
+ ry9wV0jCVLdn+uOmVuCocWhWczrbTVY/XZprud2MA57Ve3T71ODzXFZp3XIfheJX7o
+ kx9Hc00gr0DIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
- James Smart <jsmart2021@gmail.com>, Daniel Wagner <dwagner@suse.de>,
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
  linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.11 52/61] nvme-fc: return NVME_SC_HOST_ABORTED_CMD
- when a command has been aborted
-Date: Tue, 16 Mar 2021 20:55:26 -0400
-Message-Id: <20210317005536.724046-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 53/61] nvme-core: check ctrl css before setting
+ up zns
+Date: Tue, 16 Mar 2021 20:55:27 -0400
+Message-Id: <20210317005536.724046-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210317005536.724046-1-sashal@kernel.org>
 References: <20210317005536.724046-1-sashal@kernel.org>
@@ -66,8 +65,9 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210317_005643_375807_3302562B 
-X-CRM114-Status: GOOD (  10.39  )
+X-CRM114-CacheID: sfid-20210317_005645_635602_12762BE9 
+X-CRM114-Status: UNSURE (   8.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,36 +84,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-[ Upstream commit ae3afe6308b43bbf49953101d4ba2c1c481133a8 ]
+[ Upstream commit 0ec84df4953bd42c6583a555773f1d4996a061eb ]
 
-When a command has been aborted we should return NVME_SC_HOST_ABORTED_CMD
-to be consistent with the other transports.
+Ensure multiple Command Sets are supported before starting to setup a
+ZNS namespace.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: James Smart <jsmart2021@gmail.com>
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+[hch: move the check around a bit]
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index cd2d28139d97..f737fc9aa5dd 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1956,7 +1956,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
- 
- 	if (opstate == FCPOP_STATE_ABORTED)
--		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-+		status = cpu_to_le16(NVME_SC_HOST_ABORTED_CMD << 1);
- 	else if (freq->status) {
- 		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
- 		dev_info(ctrl->ctrl.device,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 28bfe5bbf769..e5cc92a6a16d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4081,6 +4081,12 @@ static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 				nsid);
+ 			break;
+ 		}
++		if (!nvme_multi_css(ctrl)) {
++			dev_warn(ctrl->device,
++				"command set not reported for nsid: %d\n",
++				ns->head->ns_id);
++			break;
++		}
+ 		nvme_alloc_ns(ctrl, nsid, &ids);
+ 		break;
+ 	default:
 -- 
 2.30.1
 
