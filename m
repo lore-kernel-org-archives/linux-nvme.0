@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9381C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 22:11:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAC1C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 22:11:22 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DABFF64E89
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 22:11:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DABFF64E89
+	by mail.kernel.org (Postfix) with ESMTPS id 3405564F18
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 22:11:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3405564F18
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,67 +23,67 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SSMbQwIP/sS9rHPCnPM/GoCc6j6XHNPoCvV7V5MYs3Q=; b=Ols70Q1ZIvE8uX3kXnDGadMh2
-	m7ymPwnwcjb71Tm1VAUwRHbHCu0tuXw+GehVvpmvtQ2dIJkmTQLcUaw84UmOhVXGM6AY5zQ9NGGP+
-	DVRL0lr80KzwM+voPabMbqlhemzeMe4NlZKztXBE/Ek20lexOpeJ7CE3qVbULTbv/LTSgY6AxpeP/
-	1LjNkUdAefIwbWNHYtSG5aqwstLAfOyKlxM+lDC3Nx0wTL6AshBGYSJkTkTeGFr9OpFOEtRj3qh6m
-	vbHDgscbAPo/bUAMqlPBsn7FfR857Tg7givS7Vvd8Uc1E1jIF5X/vorEQvJkysf+v80mfk1s48KVj
-	ABUu/NkLg==;
+	 bh=qkRHL1ukxLHVXpJaHBdtH6eqMTdaip4vPvXFWob1OuY=; b=mKtxt6Ofw/THn2pWFI57bw6g0
+	ka4HVEeDII0kFxuItwemCH9r79hWpsvnN9C3z/+s+fqx6Ti/R268MEdFoYaz+U0w06H8Ew4POgfS5
+	hJKwZTdB5dcuNClBpmitjKHKYE7u6i+iadGJPDCWBaqnyzld9JgTm40U0gdibzfaz+ZOjXV9xapW1
+	NThU53xJYQ6NG8777TlY62FOO93H3Y3WNkuPG6UTtQwbusyz0shJGtZs2evP1IkMnFeO8g4vSLP65
+	vYpTwU2Mkgr0bVyTImxcb8NShntICwEB9BPVdEIZ/rb9kWFUGeqKQOWILVUMYw55p2mbPlm7q+Z97
+	JBUHWHfTg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMeNM-00405K-R7; Wed, 17 Mar 2021 22:10:49 +0000
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f])
+	id 1lMeNb-00406n-KC; Wed, 17 Mar 2021 22:11:03 +0000
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMeN8-00401q-7w
- for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 22:10:36 +0000
-Received: by mail-il1-x12f.google.com with SMTP id l5so3025140ilv.9
- for <linux-nvme@lists.infradead.org>; Wed, 17 Mar 2021 15:10:33 -0700 (PDT)
+ id 1lMeN9-00402K-RD
+ for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 22:10:37 +0000
+Received: by mail-il1-x12c.google.com with SMTP id r8so3022913ilo.8
+ for <linux-nvme@lists.infradead.org>; Wed, 17 Mar 2021 15:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=kernel-dk.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RExH8A+arcnU9wtWrDJl/UX/i0oSrlS6iszY7ly2uwA=;
- b=RNz9sBybG1lRJUkz3FXFMx8fiUjVoWFRC1nTLCzTPvBPKmbEKOxByeSsfgtNZzcfon
- 1ay/hB1LyK/TwEJEQ/9eJEo4MqY3GEqt+fn204sPJngzB43oKf4ttXE1oUGkIyPzwNfS
- XJQ+hnxB7FJYV75ryxgqsTn9ruRyEDZ+0v8V31lOJPvUV7e5HUpKWfQOMfST3b8zC9v5
- HDSymiXiaECir/WHl17cVciQOoDldafqx/6o02y2SSKSQU4T/myUWo9zCZ5XXElnGjiT
- suDBoYczRgt1jZZaMtZ24WWX0oC5HROPvkGHbicC8aGxnZY6e7rzO75Ut+cxhKqObCl9
- EdGg==
+ bh=KXdzUFLUCDHdfDsIznvuoA0uu3nl8FyVDRpspxY/atM=;
+ b=bavdqq7XIp3pvZBn+YGZ+l1AbkOZRJEEntcltWtut2UyLeOPfi0w6q2ExCTse7hO7I
+ Uf7ga26zRUjvYYX+BKtNT8xq5mF0zsZHKlip48MKpUGDOtwhj4Q9ZBzVNJoR/EJA9Wqo
+ GUW+UyN3tr4Rkbx5cJ6f5+WaLnBxPKRo1LPNSSj9Ml1BkGJ+bfMduCPR2tnW87pQSr34
+ pBjCkxsOu2AOGvWI//vVKLG8tEVRToSmtJ1yyZaivic+CPLWK14h9gsmpjPfwq9EwXd/
+ 9lCRMR3oRJyP5ZPibUzsUHHlvN8jnHi/2RosIcQfZKIbjLAwZyA/5grxUCM0fpzBmBBF
+ p62g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RExH8A+arcnU9wtWrDJl/UX/i0oSrlS6iszY7ly2uwA=;
- b=p2Wg/Dy1xWyFXRd4FSqEbLeuuFYzdGswKjcfmJFw16BbrxDRyxL/Tp0ok/zJtGgmv3
- R+9oxb8Z7Oky2Fgushc/ANJtrv9XKA4Pme/NHUoDj4qZWkm0Ayc2ED7cbiDlSTwJoXZA
- Cq9dAypGdy8Xux3Uzc4BNbgvd0OaQwuxZa736LnbP8VyRNvUgIwSGmpF8DOBfg98Bq95
- GxV17s2CBlLA+br9YMCesFsmtmGFCvj0OdnEAQVDHIJx1Z7OOJVigHelU1zMYIlG/Rkk
- eE8VdbRAeTiG6JxRKH+mq/rnANXnC3zZeq+oWm/kCSmFsFah0TdY+WGkRSg7FpUKnnx+
- bINg==
-X-Gm-Message-State: AOAM532fr6Kf4xPm96qh6u3Cbhf7978IqXDjVdw8UW55bYM34OQ2qBM5
- YvHppT6fmA0hZrHAwp4zvrKnqg==
-X-Google-Smtp-Source: ABdhPJz1c0U+eXPv3Hepxz7eU+sunp/vDvsEqafuTssJLTWmQuFyJxmpb0XTc5Q3n2477+PCQjobZQ==
-X-Received: by 2002:a92:c607:: with SMTP id p7mr3165678ilm.70.1616019033066;
- Wed, 17 Mar 2021 15:10:33 -0700 (PDT)
+ bh=KXdzUFLUCDHdfDsIznvuoA0uu3nl8FyVDRpspxY/atM=;
+ b=Kuqbi1aJs/jMtd3ZHxc58SSYciuhKORd+BZM44vjOAM2nJy9mVjZU0PHaCpNjxWVAd
+ ad7gk54nW9QoSAf76L/9IP1vw9/M19bwBWWFkWtQW1Pd+tag+5xnF6frxioikBkCBjmL
+ k/du+nQevp8F6hKfecdBjAznJLnZdTems0bCaGSRkDj+Nnp37QpbxTeq10auSDOLEf4a
+ JMMoY+DVeL/DVZzDntN6GRuUlIZiiy+Yhyi0dfbR1KVFywqXp7dzctDXJwW5+LBOqQqy
+ c8oF1Xdu9D+UHLnSSfH9Pn5LgnYGHj5a6ygTuHnBailE28rDxt5TYuf5UXyxAYO0oxvF
+ GhNw==
+X-Gm-Message-State: AOAM533US211zifC028TzNbQ6WPc37bsEVbEK/CjcKbiwCCBJHzF+CdS
+ Eo5+rpXe/ls7FFN7YlBTYv1kmQ==
+X-Google-Smtp-Source: ABdhPJxVzW0VPqqNQcW5cqznbA86x9///BL+YHxNMkwD/g26zMUYALWyNB/jFbw5bvCzR2mMn2fDEQ==
+X-Received: by 2002:a92:6f0b:: with SMTP id k11mr9346052ilc.53.1616019034619; 
+ Wed, 17 Mar 2021 15:10:34 -0700 (PDT)
 Received: from p1.localdomain ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id r3sm160700ilq.42.2021.03.17.15.10.32
+ by smtp.gmail.com with ESMTPSA id r3sm160700ilq.42.2021.03.17.15.10.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Mar 2021 15:10:32 -0700 (PDT)
+ Wed, 17 Mar 2021 15:10:34 -0700 (PDT)
 From: Jens Axboe <axboe@kernel.dk>
 To: io-uring@vger.kernel.org
 Cc: joshi.k@samsung.com, hch@lst.de, kbusch@kernel.org,
  linux-nvme@lists.infradead.org, metze@samba.org,
  Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 1/8] io_uring: split up io_uring_sqe into hdr + main
-Date: Wed, 17 Mar 2021 16:10:20 -0600
-Message-Id: <20210317221027.366780-2-axboe@kernel.dk>
+Subject: [PATCH 3/8] fs: add file_operations->uring_cmd()
+Date: Wed, 17 Mar 2021 16:10:22 -0600
+Message-Id: <20210317221027.366780-4-axboe@kernel.dk>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210317221027.366780-1-axboe@kernel.dk>
 References: <20210317221027.366780-1-axboe@kernel.dk>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210317_221034_395292_1E37ED90 
-X-CRM114-Status: GOOD (  18.12  )
+X-CRM114-CacheID: sfid-20210317_221036_020238_1869810D 
+X-CRM114-Status: GOOD (  11.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,329 +100,60 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In preparation for overlaying passthrough commands on the io_uring_sqe
-struct, split out the header part as we'll be reusing that for the
-new format as well.
-
-No functional changes in this patch.
+This is a file private handler, similar to ioctls but hopefully a lot
+more sane and useful.
 
 Signed-off-by: Jens Axboe <axboe@kernel.dk>
 ---
- fs/io_uring.c                 | 73 ++++++++++++++++++-----------------
- include/uapi/linux/io_uring.h | 11 ++++++
- 2 files changed, 48 insertions(+), 36 deletions(-)
+ fs/io_uring.c      |  5 -----
+ include/linux/fs.h | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/fs/io_uring.c b/fs/io_uring.c
-index 5538568f24e9..416e47832468 100644
+index a4699b066172..fecf10e0625f 100644
 --- a/fs/io_uring.c
 +++ b/fs/io_uring.c
-@@ -2722,7 +2722,7 @@ static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- 	if ((kiocb->ki_flags & IOCB_NOWAIT) || (file->f_flags & O_NONBLOCK))
- 		req->flags |= REQ_F_NOWAIT;
+@@ -188,11 +188,6 @@ struct io_rings {
+ 	struct io_uring_cqe	cqes[] ____cacheline_aligned_in_smp;
+ };
  
--	ioprio = READ_ONCE(sqe->ioprio);
-+	ioprio = READ_ONCE(sqe->hdr.ioprio);
- 	if (ioprio) {
- 		ret = ioprio_check_cap(ioprio);
- 		if (ret)
-@@ -3467,7 +3467,7 @@ static int io_renameat_prep(struct io_kiocb *req,
- 	if (unlikely(req->flags & REQ_F_FIXED_FILE))
- 		return -EBADF;
+-enum io_uring_cmd_flags {
+-	IO_URING_F_NONBLOCK		= 1,
+-	IO_URING_F_COMPLETE_DEFER	= 2,
+-};
+-
+ struct io_mapped_ubuf {
+ 	u64		ubuf;
+ 	size_t		len;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index ec8f3ddf4a6a..009abc668987 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1884,6 +1884,15 @@ struct dir_context {
+ #define REMAP_FILE_ADVISORY		(REMAP_FILE_CAN_SHORTEN)
  
--	ren->old_dfd = READ_ONCE(sqe->fd);
-+	ren->old_dfd = READ_ONCE(sqe->hdr.fd);
- 	oldf = u64_to_user_ptr(READ_ONCE(sqe->addr));
- 	newf = u64_to_user_ptr(READ_ONCE(sqe->addr2));
- 	ren->new_dfd = READ_ONCE(sqe->len);
-@@ -3514,7 +3514,7 @@ static int io_unlinkat_prep(struct io_kiocb *req,
- 	if (unlikely(req->flags & REQ_F_FIXED_FILE))
- 		return -EBADF;
- 
--	un->dfd = READ_ONCE(sqe->fd);
-+	un->dfd = READ_ONCE(sqe->hdr.fd);
- 
- 	un->flags = READ_ONCE(sqe->unlink_flags);
- 	if (un->flags & ~AT_REMOVEDIR)
-@@ -3555,7 +3555,7 @@ static int io_shutdown_prep(struct io_kiocb *req,
- #if defined(CONFIG_NET)
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->off || sqe->addr || sqe->rw_flags ||
-+	if (sqe->hdr.ioprio || sqe->off || sqe->addr || sqe->rw_flags ||
- 	    sqe->buf_index)
- 		return -EINVAL;
- 
-@@ -3711,7 +3711,7 @@ static int io_fsync_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- 
- 	if (unlikely(ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (unlikely(sqe->addr || sqe->ioprio || sqe->buf_index))
-+	if (unlikely(sqe->addr || sqe->hdr.ioprio || sqe->buf_index))
- 		return -EINVAL;
- 
- 	req->sync.flags = READ_ONCE(sqe->fsync_flags);
-@@ -3744,7 +3744,7 @@ static int io_fsync(struct io_kiocb *req, unsigned int issue_flags)
- static int io_fallocate_prep(struct io_kiocb *req,
- 			     const struct io_uring_sqe *sqe)
- {
--	if (sqe->ioprio || sqe->buf_index || sqe->rw_flags)
-+	if (sqe->hdr.ioprio || sqe->buf_index || sqe->rw_flags)
- 		return -EINVAL;
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
-@@ -3775,7 +3775,7 @@ static int __io_openat_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe
- 	const char __user *fname;
- 	int ret;
- 
--	if (unlikely(sqe->ioprio || sqe->buf_index))
-+	if (unlikely(sqe->hdr.ioprio || sqe->buf_index))
- 		return -EINVAL;
- 	if (unlikely(req->flags & REQ_F_FIXED_FILE))
- 		return -EBADF;
-@@ -3784,7 +3784,7 @@ static int __io_openat_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe
- 	if (!(req->open.how.flags & O_PATH) && force_o_largefile())
- 		req->open.how.flags |= O_LARGEFILE;
- 
--	req->open.dfd = READ_ONCE(sqe->fd);
-+	req->open.dfd = READ_ONCE(sqe->hdr.fd);
- 	fname = u64_to_user_ptr(READ_ONCE(sqe->addr));
- 	req->open.filename = getname(fname);
- 	if (IS_ERR(req->open.filename)) {
-@@ -3900,10 +3900,10 @@ static int io_remove_buffers_prep(struct io_kiocb *req,
- 	struct io_provide_buf *p = &req->pbuf;
- 	u64 tmp;
- 
--	if (sqe->ioprio || sqe->rw_flags || sqe->addr || sqe->len || sqe->off)
-+	if (sqe->hdr.ioprio || sqe->rw_flags || sqe->addr || sqe->len || sqe->off)
- 		return -EINVAL;
- 
--	tmp = READ_ONCE(sqe->fd);
-+	tmp = READ_ONCE(sqe->hdr.fd);
- 	if (!tmp || tmp > USHRT_MAX)
- 		return -EINVAL;
- 
-@@ -3970,10 +3970,10 @@ static int io_provide_buffers_prep(struct io_kiocb *req,
- 	struct io_provide_buf *p = &req->pbuf;
- 	u64 tmp;
- 
--	if (sqe->ioprio || sqe->rw_flags)
-+	if (sqe->hdr.ioprio || sqe->rw_flags)
- 		return -EINVAL;
- 
--	tmp = READ_ONCE(sqe->fd);
-+	tmp = READ_ONCE(sqe->hdr.fd);
- 	if (!tmp || tmp > USHRT_MAX)
- 		return -E2BIG;
- 	p->nbufs = tmp;
-@@ -4050,12 +4050,12 @@ static int io_epoll_ctl_prep(struct io_kiocb *req,
- 			     const struct io_uring_sqe *sqe)
- {
- #if defined(CONFIG_EPOLL)
--	if (sqe->ioprio || sqe->buf_index)
-+	if (sqe->hdr.ioprio || sqe->buf_index)
- 		return -EINVAL;
- 	if (unlikely(req->ctx->flags & (IORING_SETUP_IOPOLL | IORING_SETUP_SQPOLL)))
- 		return -EINVAL;
- 
--	req->epoll.epfd = READ_ONCE(sqe->fd);
-+	req->epoll.epfd = READ_ONCE(sqe->hdr.fd);
- 	req->epoll.op = READ_ONCE(sqe->len);
- 	req->epoll.fd = READ_ONCE(sqe->off);
- 
-@@ -4096,7 +4096,7 @@ static int io_epoll_ctl(struct io_kiocb *req, unsigned int issue_flags)
- static int io_madvise_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- {
- #if defined(CONFIG_ADVISE_SYSCALLS) && defined(CONFIG_MMU)
--	if (sqe->ioprio || sqe->buf_index || sqe->off)
-+	if (sqe->hdr.ioprio || sqe->buf_index || sqe->off)
- 		return -EINVAL;
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
-@@ -4131,7 +4131,7 @@ static int io_madvise(struct io_kiocb *req, unsigned int issue_flags)
- 
- static int io_fadvise_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- {
--	if (sqe->ioprio || sqe->buf_index || sqe->addr)
-+	if (sqe->hdr.ioprio || sqe->buf_index || sqe->addr)
- 		return -EINVAL;
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
-@@ -4169,12 +4169,12 @@ static int io_statx_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- {
- 	if (unlikely(req->ctx->flags & (IORING_SETUP_IOPOLL | IORING_SETUP_SQPOLL)))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->buf_index)
-+	if (sqe->hdr.ioprio || sqe->buf_index)
- 		return -EINVAL;
- 	if (req->flags & REQ_F_FIXED_FILE)
- 		return -EBADF;
- 
--	req->statx.dfd = READ_ONCE(sqe->fd);
-+	req->statx.dfd = READ_ONCE(sqe->hdr.fd);
- 	req->statx.mask = READ_ONCE(sqe->len);
- 	req->statx.filename = u64_to_user_ptr(READ_ONCE(sqe->addr));
- 	req->statx.buffer = u64_to_user_ptr(READ_ONCE(sqe->addr2));
-@@ -4208,13 +4208,13 @@ static int io_close_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- {
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->off || sqe->addr || sqe->len ||
-+	if (sqe->hdr.ioprio || sqe->off || sqe->addr || sqe->len ||
- 	    sqe->rw_flags || sqe->buf_index)
- 		return -EINVAL;
- 	if (req->flags & REQ_F_FIXED_FILE)
- 		return -EBADF;
- 
--	req->close.fd = READ_ONCE(sqe->fd);
-+	req->close.fd = READ_ONCE(sqe->hdr.fd);
- 	return 0;
- }
- 
-@@ -4277,7 +4277,7 @@ static int io_sfr_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- 
- 	if (unlikely(ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (unlikely(sqe->addr || sqe->ioprio || sqe->buf_index))
-+	if (unlikely(sqe->addr || sqe->hdr.ioprio || sqe->buf_index))
- 		return -EINVAL;
- 
- 	req->sync.off = READ_ONCE(sqe->off);
-@@ -4698,7 +4698,7 @@ static int io_accept_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- 
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->len || sqe->buf_index)
-+	if (sqe->hdr.ioprio || sqe->len || sqe->buf_index)
- 		return -EINVAL;
- 
- 	accept->addr = u64_to_user_ptr(READ_ONCE(sqe->addr));
-@@ -4746,7 +4746,7 @@ static int io_connect_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- 
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->len || sqe->buf_index || sqe->rw_flags)
-+	if (sqe->hdr.ioprio || sqe->len || sqe->buf_index || sqe->rw_flags)
- 		return -EINVAL;
- 
- 	conn->addr = u64_to_user_ptr(READ_ONCE(sqe->addr));
-@@ -5290,7 +5290,7 @@ static int io_poll_remove_prep(struct io_kiocb *req,
- {
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->off || sqe->len || sqe->buf_index ||
-+	if (sqe->hdr.ioprio || sqe->off || sqe->len || sqe->buf_index ||
- 	    sqe->poll_events)
- 		return -EINVAL;
- 
-@@ -5341,7 +5341,7 @@ static int io_poll_add_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe
- 
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (sqe->addr || sqe->ioprio || sqe->off || sqe->len || sqe->buf_index)
-+	if (sqe->addr || sqe->hdr.ioprio || sqe->off || sqe->len || sqe->buf_index)
- 		return -EINVAL;
- 
- 	events = READ_ONCE(sqe->poll32_events);
-@@ -5466,7 +5466,7 @@ static int io_timeout_remove_prep(struct io_kiocb *req,
- 		return -EINVAL;
- 	if (unlikely(req->flags & (REQ_F_FIXED_FILE | REQ_F_BUFFER_SELECT)))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->buf_index || sqe->len)
-+	if (sqe->hdr.ioprio || sqe->buf_index || sqe->len)
- 		return -EINVAL;
- 
- 	tr->addr = READ_ONCE(sqe->addr);
-@@ -5525,7 +5525,7 @@ static int io_timeout_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe,
- 
- 	if (unlikely(req->ctx->flags & IORING_SETUP_IOPOLL))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->buf_index || sqe->len != 1)
-+	if (sqe->hdr.ioprio || sqe->buf_index || sqe->len != 1)
- 		return -EINVAL;
- 	if (off && is_timeout_link)
- 		return -EINVAL;
-@@ -5677,7 +5677,7 @@ static int io_async_cancel_prep(struct io_kiocb *req,
- 		return -EINVAL;
- 	if (unlikely(req->flags & (REQ_F_FIXED_FILE | REQ_F_BUFFER_SELECT)))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->off || sqe->len || sqe->cancel_flags)
-+	if (sqe->hdr.ioprio || sqe->off || sqe->len || sqe->cancel_flags)
- 		return -EINVAL;
- 
- 	req->cancel.addr = READ_ONCE(sqe->addr);
-@@ -5738,7 +5738,7 @@ static int io_rsrc_update_prep(struct io_kiocb *req,
- 		return -EINVAL;
- 	if (unlikely(req->flags & (REQ_F_FIXED_FILE | REQ_F_BUFFER_SELECT)))
- 		return -EINVAL;
--	if (sqe->ioprio || sqe->rw_flags)
-+	if (sqe->hdr.ioprio || sqe->rw_flags)
- 		return -EINVAL;
- 
- 	req->rsrc_update.offset = READ_ONCE(sqe->off);
-@@ -6390,9 +6390,9 @@ static int io_init_req(struct io_ring_ctx *ctx, struct io_kiocb *req,
- 	unsigned int sqe_flags;
- 	int personality, ret = 0;
- 
--	req->opcode = READ_ONCE(sqe->opcode);
-+	req->opcode = READ_ONCE(sqe->hdr.opcode);
- 	/* same numerical values with corresponding REQ_F_*, safe to copy */
--	req->flags = sqe_flags = READ_ONCE(sqe->flags);
-+	req->flags = sqe_flags = READ_ONCE(sqe->hdr.flags);
- 	req->user_data = READ_ONCE(sqe->user_data);
- 	req->async_data = NULL;
- 	req->file = NULL;
-@@ -6445,7 +6445,8 @@ static int io_init_req(struct io_ring_ctx *ctx, struct io_kiocb *req,
- 	if (io_op_defs[req->opcode].needs_file) {
- 		bool fixed = req->flags & REQ_F_FIXED_FILE;
- 
--		req->file = io_file_get(state, req, READ_ONCE(sqe->fd), fixed);
-+		req->file = io_file_get(state, req, READ_ONCE(sqe->hdr.fd),
-+					fixed);
- 		if (unlikely(!req->file))
- 			ret = -EBADF;
- 	}
-@@ -9914,10 +9915,10 @@ static int __init io_uring_init(void)
- #define BUILD_BUG_SQE_ELEM(eoffset, etype, ename) \
- 	__BUILD_BUG_VERIFY_ELEMENT(struct io_uring_sqe, eoffset, etype, ename)
- 	BUILD_BUG_ON(sizeof(struct io_uring_sqe) != 64);
--	BUILD_BUG_SQE_ELEM(0,  __u8,   opcode);
--	BUILD_BUG_SQE_ELEM(1,  __u8,   flags);
--	BUILD_BUG_SQE_ELEM(2,  __u16,  ioprio);
--	BUILD_BUG_SQE_ELEM(4,  __s32,  fd);
-+	BUILD_BUG_SQE_ELEM(0,  __u8,   hdr.opcode);
-+	BUILD_BUG_SQE_ELEM(1,  __u8,   hdr.flags);
-+	BUILD_BUG_SQE_ELEM(2,  __u16,  hdr.ioprio);
-+	BUILD_BUG_SQE_ELEM(4,  __s32,  hdr.fd);
- 	BUILD_BUG_SQE_ELEM(8,  __u64,  off);
- 	BUILD_BUG_SQE_ELEM(8,  __u64,  addr2);
- 	BUILD_BUG_SQE_ELEM(16, __u64,  addr);
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 2514eb6b1cf2..5609474ccd9f 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -14,11 +14,22 @@
- /*
-  * IO submission data structure (Submission Queue Entry)
-  */
-+struct io_uring_sqe_hdr {
-+	__u8	opcode;		/* type of operation for this sqe */
-+	__u8	flags;		/* IOSQE_ flags */
-+	__u16	ioprio;		/* ioprio for the request */
-+	__s32	fd;		/* file descriptor to do IO on */
-+};
+ struct iov_iter;
++struct io_uring_cmd;
 +
- struct io_uring_sqe {
-+#ifdef __KERNEL__
-+	struct io_uring_sqe_hdr	hdr;
-+#else
- 	__u8	opcode;		/* type of operation for this sqe */
- 	__u8	flags;		/* IOSQE_ flags */
- 	__u16	ioprio;		/* ioprio for the request */
- 	__s32	fd;		/* file descriptor to do IO on */
-+#endif
- 	union {
- 		__u64	off;	/* offset into file */
- 		__u64	addr2;
++/*
++ * f_op->uring_cmd() issue flags
++ */
++enum io_uring_cmd_flags {
++	IO_URING_F_NONBLOCK		= 1,
++	IO_URING_F_COMPLETE_DEFER	= 2,
++};
+ 
+ struct file_operations {
+ 	struct module *owner;
+@@ -1925,6 +1934,8 @@ struct file_operations {
+ 				   struct file *file_out, loff_t pos_out,
+ 				   loff_t len, unsigned int remap_flags);
+ 	int (*fadvise)(struct file *, loff_t, loff_t, int);
++
++	int (*uring_cmd)(struct io_uring_cmd *, enum io_uring_cmd_flags);
+ } __randomize_layout;
+ 
+ struct inode_operations {
 -- 
 2.31.0
 
