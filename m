@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBAF1C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 00:57:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D3B5C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 00:57:30 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7852364F9F
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 00:57:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7852364F9F
+	by mail.kernel.org (Postfix) with ESMTPS id B339C64F8F
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 00:57:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B339C64F8F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,42 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7Hk010yCtpTR090sPvQx/HUvDmHMy9/F7gzwRTTI/4k=; b=PXyrSo7bUcKaGq19q2bAUzNim
-	hKxlzs/0U98hH7cR2/wnYB7ibgaN6/xiK6niW/EFasX198/v5PnGSP1D5CPoMP9D8LC1KaUuenwUM
-	hBU0OmBQ0x4EK7+SgO1CrbUq72OaP/oVQG5pYsrZdQPuNYcpRxaTzRDYFf7ykHwHmfRdXEG3+5XzL
-	HWQfD4cEhHoDuX0shMXV0psCt/fHVyrggWfQbMuuusT2vZqITdfYQNgrP8gUSXn3KkBLnIxTs2TFB
-	Kz0swv7kRSdZrg5D8iKJFJzDc20c9wszc9xYv2jOs4iVNAtAtu8R3uzP1ODsShyJgu2HkRBxWnJh6
-	e5ITN3uuA==;
+	 bh=mnhHvKlI+vfxAVEjGILObm9Qg7G9+31tW2NnCkmrEAY=; b=D2z6o1lDM4yrmKyFqMYWascYi
+	ff0A10dUfOTap5hQ6kqdOdRMMfPZfMzj21GgJUikoNsUk7DK5OyDtWRqoidZxwL1237Z19SbwtJd4
+	Hh/CRlInglzz5UpIJXjV1c2K5mDApvxaIfVpUvnRzEmNLbkZmuc5wzI1DW+YpULbN0QGK9t2onUhz
+	B2sjj4kmoUBKF/qi1LWutmcMBbkHNdJIv1XeIO3cGB147yidXN4jEnnU0uiHQANlESxOWc3wnmP0w
+	qlxjva8xKXrnasRjxz2EeW6/OzqKSFXEDgxQyQxIEPhKmSIbBpx/yKbW2F32pJBZMULT0SvLZfB0+
+	qbt1DdZ6Q==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMKUp-0026vw-Uj; Wed, 17 Mar 2021 00:57:12 +0000
+	id 1lMKV2-00271Q-VP; Wed, 17 Mar 2021 00:57:25 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMKUL-0026fL-3v
- for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 00:56:43 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C54A064FB1;
- Wed, 17 Mar 2021 00:56:38 +0000 (UTC)
+ id 1lMKUM-0026ft-Af
+ for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 00:56:45 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FF8864F97;
+ Wed, 17 Mar 2021 00:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1615942599;
- bh=i7nnm8jlMD5cyaAei6bZYW7HxQe2ObppYJZxeKOl+kM=;
+ s=k20201202; t=1615942601;
+ bh=TB2G9h7TKrUOwzjOSiCb3bkl/tAilWqLR6IHXUsml1k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IDeR6VjZBKwrpaMFuTfX6D2DX8UEaVHhC8ic1kDXBB+xigl2XahLnAFKaJatOpJbP
- FxKLB1yBP2NixkDZ6s9Xjut42qy3jXoyi+LQGVrEqOq8Q72ADAFEF7F4YvDopfEywD
- 9/uxie6PUZtVdZPJ8AMPcGyNVPo7gjVQJRjrKZQOey+HNScsoN+/n0xZfRt78R4m11
- 3Yn5bAt2DulRg/F3c2NH6eHGBWjR+Yvz2jSTBjyiZS+7EMFSeAfx1c1EHAbNWkWeVD
- Ku1vxleebhOjvGxOiWcIv0oe+fi2sRISa8JMRiiKl/ijbxr6zc0NqBHe/Kcc6wqMVi
- uOb7Nmu1a5Ikw==
+ b=IIkYLtzgMRWu1iiJmg6LfuEt69i8zxNX+EMdXNRS79G+WfJscl6iX+WSTz/6O1/Kv
+ 4yln8ulw6lntUZiLdeCMIUEG8rwfjC53oq3IuWyr532TX6FIM9PNn2SxKbffYpChH7
+ 6Sq2MpwoVr5oNf2gsrrsbLXERKexp1S+osnhth+JUyZgfyUVzqiEfaEtJMM0ZOLXDB
+ kyRPbWa9iPmaV+M3xODrKZADeQa8upw5XlK5wwcfZIClcZmBQiV6hmKf1Q8xnQcKFG
+ bWF2EX/GBpmw8SlqsmhJqSpgMWZi4GQlPF+vH1I6kWfuBbMmBrapZLX/M5xQEO665c
+ zDyVi5a6LHNgg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, James Smart <jsmart2021@gmail.com>,
- Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>,
- Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.11 51/61] nvme-fc: set NVME_REQ_CANCELLED in
- nvme_fc_terminate_exchange()
-Date: Tue, 16 Mar 2021 20:55:25 -0400
-Message-Id: <20210317005536.724046-51-sashal@kernel.org>
+Cc: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <jsmart2021@gmail.com>, Daniel Wagner <dwagner@suse.de>,
+ Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.11 52/61] nvme-fc: return NVME_SC_HOST_ABORTED_CMD
+ when a command has been aborted
+Date: Tue, 16 Mar 2021 20:55:26 -0400
+Message-Id: <20210317005536.724046-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210317005536.724046-1-sashal@kernel.org>
 References: <20210317005536.724046-1-sashal@kernel.org>
@@ -66,9 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210317_005641_614575_4AA57FF6 
-X-CRM114-Status: UNSURE (   9.01  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210317_005643_375807_3302562B 
+X-CRM114-Status: GOOD (  10.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,35 +86,34 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit 3c7aafbc8d3d4d90430dfa126847a796c3e4ecfc ]
+[ Upstream commit ae3afe6308b43bbf49953101d4ba2c1c481133a8 ]
 
-nvme_fc_terminate_exchange() is being called when exchanges are
-being deleted, and as such we should be setting the NVME_REQ_CANCELLED
-flag to have identical behaviour on all transports.
+When a command has been aborted we should return NVME_SC_HOST_ABORTED_CMD
+to be consistent with the other transports.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Reviewed-by: James Smart <jsmart2021@gmail.com>
 Reviewed-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/fc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 5f36cfa8136c..cd2d28139d97 100644
+index cd2d28139d97..f737fc9aa5dd 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -2443,6 +2443,7 @@ nvme_fc_terminate_exchange(struct request *req, void *data, bool reserved)
- 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
- 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(req);
+@@ -1956,7 +1956,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
  
-+	op->nreq.flags |= NVME_REQ_CANCELLED;
- 	__nvme_fc_abort_op(ctrl, op);
- 	return true;
- }
+ 	if (opstate == FCPOP_STATE_ABORTED)
+-		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
++		status = cpu_to_le16(NVME_SC_HOST_ABORTED_CMD << 1);
+ 	else if (freq->status) {
+ 		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
+ 		dev_info(ctrl->ctrl.device,
 -- 
 2.30.1
 
