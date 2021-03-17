@@ -2,64 +2,96 @@ Return-Path: <SRS0=uaVC=IP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 233F0C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 20:50:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EAFEC433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 20:51:11 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9057664E90
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 20:50:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9057664E90
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id DC12E64E74
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 20:51:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC12E64E74
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=nZZmoNQkqxul3k6julKAjP3lfyw2l/WqyNT5C0/J/Wk=; b=MQ9c2zQgcBCFczLp3owXeL6+6l
-	K4w4ODQEwV7DwfC7pQcgNYzMrbr4HRhxaZZ5odZkQL4yg0v1NY0X/WGPcUbJYrRW8pu8yoEpz258+
-	1vcKj23zK86kmqRRxGB8pSBXsh7pD6gKmLp1yh1mn2M0cfq7y2cGK3qpf5reuOZ16uy4k9KMjH5Sc
-	XYK7g1H0cmeJVsiudRK9LQ1lmwNMItb7FtmZ8MeipbAKuTL1QoZ0dli85IVDQNPa0DBxzeamaFhWE
-	qlLYAXJcrBA6Cc3TT4EDxBVSSV5p8oV1s1baQV5F+KDk2795R6oBBXPukSsHuUQIgT8WwzJ3qLEdt
-	Sa9DOBYQ==;
+	:Content-Type:MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FhWnB+WBywcpjWhNC1raz2tgH4mOIDbSqUxvgsvcw7A=; b=PHW+bjg6EKtwvS/0HibhQGecin
+	/91NhJHCTXX8Ebf0Q2CAtxbR2/4t/8TVdlIApMQjmkTjcnFji47FpqErPbLGT8gjeWk43gw2YzyMN
+	POYtjG2u6r/aWA1QarIOuYOznGtoU2ual1xACy5r09dlD6l18yM2VTEBONf0OLqE1R6+PxLt9NCSp
+	V/R3qCa2T6LLfiKwA6HMDq8nQ7p0aATNF9sIhaKrfhdgYBsrVxGCs3UgVujp1eGnr0rtETNlT8Zl2
+	Of8hTZIwmai4gcDKP/kPV26LH1iSWpa+S+TB7qPRNKpJiVWeEFcip4ffTF6BzAXtaJqP3/qemuX6I
+	8IanCB+w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMd6I-003smO-B4; Wed, 17 Mar 2021 20:49:10 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lMd85-003svY-Gi; Wed, 17 Mar 2021 20:50:57 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMcuh-003sFg-Pr
- for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 20:37:19 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AB79464F30;
- Wed, 17 Mar 2021 20:37:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616013426;
- bh=qMg01JgFQNYZtJK3Iul98MAMjV7RIn4JaX2Hq+psLtY=;
- h=From:To:Cc:Subject:Date:From;
- b=T7J7n6S0R/s+yyCyvAf/w0sGocZ4FmflIvbWU17pxaAm05Y1EI2BRqV9gAs1OaJoR
- qhfEEdgP7c3j5jcZDJPWEUWVnGGjwEMarcpVvn/ooapoQDtA+wD2NXrW+kNtxg81js
- e7qsZcVw3AnhHE/0bqdOCDv3a869QPoHEssdDWXchf2AOy+/rBJhfKIQwFPbKL3UJ3
- LccyKH7qvL1auGgNBwmFgk3MYI9g9Ij1Rd4QOM2DZb+h2CbHCX5U0LDvdEVwg5gBJF
- 3/UG6dnQkAu/t84JEic1SyjSBgZOYjCo6DByXSCd3UUW3ZVWMdzYru8kMjFzVSbrPa
- itrBgj+Sr1U4g==
-From: Keith Busch <kbusch@kernel.org>
-To: joshi.k@samsung.com, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2 0/2] nvme driver pdu enhancements for passthrough
-Date: Wed, 17 Mar 2021 13:37:01 -0700
-Message-Id: <20210317203703.17391-1-kbusch@kernel.org>
-X-Mailer: git-send-email 2.25.4
-MIME-Version: 1.0
+ id 1lMd44-003sdq-DN
+ for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 20:47:25 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12HKfWer051963;
+ Wed, 17 Mar 2021 20:46:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=0hGGj+51lCaVzOO04HCqUaxBVL6ejCH7M5xLNc2arXY=;
+ b=ykSoNDqRx2rmTFkuKJr72rPwbGzWIIY7yGN5PHi1fGUh0T2y7v0vJoOA4zEowxLhhBCX
+ ZEnRyT1BbWDVx1TJbUXANpTz0EI3WVp6P08LbI0rF7gqLshRPkNuBJXKSgVBoc2Iaj4n
+ woJ+sI71jxCKDBzo4Wzw7PmcLOB8/cDynoSlPIWwN1wK9vUA5p1gsI0Liowoyf4OklKL
+ /zUDbXjoBHHtrAqN3WlfUCYNbb6sqrVALHvhicpM9NP36uC0fSIQAtaOSe3SDdOYG5ay
+ g97tmBwwAgKhGEB7FNN03Hy0/vvNwPyv115AbfFkfSV85mOs6bQR9QBljCsPCrfTUtlf rA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 37a4ektebk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 Mar 2021 20:46:33 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12HKekul077058;
+ Wed, 17 Mar 2021 20:46:31 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 3796yvahky-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 Mar 2021 20:46:30 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12HKkNFe001225;
+ Wed, 17 Mar 2021 20:46:23 GMT
+Received: from localhost.us.oracle.com (/10.147.27.236)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 17 Mar 2021 13:46:23 -0700
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-nvme@lists.infradead.org
+Cc: alan.adamson@oracle.com, kbusch@kernel.org, axboe@fb.com, hch@lst.de,
+ sagi@grimberg.me
+Subject: [PATCH 0/1] nvme: Export CSTS register via sysfs
+Date: Wed, 17 Mar 2021 16:46:14 -0400
+Message-Id: <20210317204615.13971-1-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.18.4
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9926
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ malwarescore=0 spamscore=0
+ bulkscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103170145
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9926
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ malwarescore=0 bulkscore=0
+ impostorscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0
+ priorityscore=1501 adultscore=0 phishscore=0 suspectscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103170145
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210317_203718_417154_B6C04740 
-X-CRM114-Status: UNSURE (   6.27  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210317_204723_866847_EDFD1898 
+X-CRM114-Status: GOOD (  11.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,35 +103,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-v1->v2:
+This patch exports the NVMe Controller CSTS register via sysfs.  This
+feature can be used by userland executables that accessed CSTS and
+possibly other registers by mapping them into user space.  Since this ability
+may not always available, exporting certain registers via sysfs provides
+a safe/read-only way to access registers from outside the kernel.
 
-  Improved change logs, added reviews.
+Testing:
 
-  Retain clearing SGL in passthrough commands (hch)
+# Controller in the RDY state
+# cat /sys/devices/pci0000:00/0000:00:04.0/nvme/nvme0/csts
+1
 
-  Added a comment explaining why REQ_OP_DRV_IN/OUT is a no-op for
-  nvme_setup_cmd()
+# Controller in the FAILED state
+# cat /sys/devices/pci0000:00/0000:00:04.0/nvme/nvme0/csts
+2
 
-Keith Busch (2):
-  nvme-pci: allocate nvme_command within driver pdu
-  nvme: use driver pdu command for passthrough
+# A virtualized csts register can be accessed for fabric devices 
+# cat /sys/devices/virtual/nvme-fabrics/ctl/nvme1/csts
+1
 
- drivers/nvme/host/core.c   | 23 ++++++++++-------------
- drivers/nvme/host/fc.c     |  5 ++---
- drivers/nvme/host/nvme.h   |  3 +--
- drivers/nvme/host/pci.c    | 12 +++++++-----
- drivers/nvme/host/rdma.c   |  5 +++--
- drivers/nvme/host/tcp.c    |  5 ++++-
- drivers/nvme/target/loop.c |  4 +++-
- 7 files changed, 30 insertions(+), 27 deletions(-)
+Alan Adamson (1):
+  Export CSTS register via sysfs
+
+ drivers/nvme/host/core.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 -- 
-2.25.4
+2.18.4
 
 
 _______________________________________________
