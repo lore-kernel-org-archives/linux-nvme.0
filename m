@@ -3,18 +3,18 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83810C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 06:46:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A44C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 06:47:33 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B5B7664F9F
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 06:46:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5B7664F9F
+	by mail.kernel.org (Postfix) with ESMTPS id 9A49D64F96
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Mar 2021 06:47:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A49D64F96
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ICUaSkSnPxsdOBDZhCGnbQ09R4/8mV7szi0Nqw2Kb9s=; b=Tymo80JwtIDKmX/UOdTr4/ieg
-	C2ycw3BhldG37WqFb/lQV+4T8srWUh+snTLbz2/wVLGDeRARg9rmNCrnQKhuqm28lQD1rBrblbAZt
-	YCKF9PhPg2vsULIjk452OINvHohLHFRY7000sufq1/E9yF2cvYNhjUIhxM1majRF0BOhmqWGvIYt8
-	8b3Z7cuo688O8/IqofhNho9zxxVaZFgbJmqpbri/9Oi/MulRJL8cPelDQkeducUxv3Vzoh5vp1pg4
-	ZMh8FyaHsStImgE/XcDpiDuN2cfap5gpu+mmM8qVgxcvUo0puy+z69R4Pdgf5S8+SUmlmo+CvMITK
-	JkaYheHOg==;
+	 bh=44IWjIwiTOqgiicaOibs/fEjP1F7cKsDLj9rh/Gtxpo=; b=gwZuzXL077N2yVeRQsXMxVut+
+	1zr0wZpvagKEwe4g9/wboAq2j2rpgzUCaASkal5oXyIXNi7atFwMCpVXmL58RDYr0Vg6jEGDlopJW
+	bjMLdsTi8AqfVwQ9fKuhEqFYWDdM0oNqekd0zuAJLEgRFw9xatTZcYqxUeIa1rznKKBbMwOf3xPqM
+	UJNAp7cg4QDmWRJKjhy3yjvxXq11cTRjfOQgXpKO2S7XUMjNi/jNNOqgzZG0wv5rtChUlrE3DU50G
+	bRggP95w62ET/OAJ3IAqsnV9zHdrpgGJQegzqWu4JfVGD5CCr/8UUzwDb532cE3eQoJan3iKzTNHv
+	7NpPr43xg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMPwc-002aMz-3a; Wed, 17 Mar 2021 06:46:14 +0000
+	id 1lMPxY-002aRX-Un; Wed, 17 Mar 2021 06:47:13 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMPwU-002aLV-F5
- for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 06:46:08 +0000
+ id 1lMPxV-002aR0-Gm
+ for linux-nvme@lists.infradead.org; Wed, 17 Mar 2021 06:47:11 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id E964F68BEB; Wed, 17 Mar 2021 07:46:00 +0100 (CET)
-Date: Wed, 17 Mar 2021 07:46:00 +0100
+ id CDACA68BEB; Wed, 17 Mar 2021 07:47:06 +0100 (CET)
+Date: Wed, 17 Mar 2021 07:47:06 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
 Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
  Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH 1/2] nvme-pci: allocate nvme_command within driver pdu
-Message-ID: <20210317064600.GA14498@lst.de>
+Subject: Re: [PATCH 2/2] nvme: use driver pdu command for passthrough
+Message-ID: <20210317064706.GB14498@lst.de>
 References: <20210316170632.4161183-1-kbusch@kernel.org>
+ <20210316170632.4161183-2-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210316170632.4161183-1-kbusch@kernel.org>
+In-Reply-To: <20210316170632.4161183-2-kbusch@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210317_064606_645572_890F9413 
-X-CRM114-Status: GOOD (  11.24  )
+X-CRM114-CacheID: sfid-20210317_064709_707451_04C6DC24 
+X-CRM114-Status: GOOD (  12.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,16 +70,22 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 16, 2021 at 10:06:31AM -0700, Keith Busch wrote:
-> All the nvme transport drivers had allocated the nvme command within the
-> driver's pdu except for pci. Align pci with everyone else and replace
-> the stack variable with the pdu command.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
+On Tue, Mar 16, 2021 at 10:06:32AM -0700, Keith Busch wrote:
+> @@ -724,14 +727,6 @@ static void nvme_assign_write_stream(struct nvme_ctrl *ctrl,
+>  		req->q->write_hints[streamid] += blk_rq_bytes(req) >> 9;
+>  }
+>  
+> -static inline void nvme_setup_passthrough(struct request *req,
+> -		struct nvme_command *cmd)
+> -{
+> -	memcpy(cmd, nvme_req(req)->cmd, sizeof(*cmd));
+> -	/* passthru commands should let the driver set the SGL flags */
+> -	cmd->common.flags &= ~NVME_CMD_SGL_ALL;
+> -}
 
-Looks good,
+I think we need to keep the sanitization of common.flags here.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+The rest looks good.
 
 _______________________________________________
 Linux-nvme mailing list
