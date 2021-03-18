@@ -2,19 +2,19 @@ Return-Path: <SRS0=ZogQ=IQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E3CC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:38:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 849C9C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:43:19 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1E94864E31
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:38:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E94864E31
+	by mail.kernel.org (Postfix) with ESMTPS id 1C40564EE7
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:43:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C40564EE7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,37 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SMdTwBYQWK6Xj+XBbgILSYcnP7LqBkwQJxPYKiT8yJE=; b=RvmQ1J/2Yn+NqB/9chAh445VR
-	/7VHjG4aabPfkw7ZYIjvRI5hl4sTOOyFmytFIYGaoMSKzCfZ+XzKuVPtwIytRArVDztKktV3jrlE+
-	OoOM8yWFBd6Vpn9ag/P/8RgFgK7pRPbR78TZpRZQEaJqGhvN9gPOdKq6SzbLk+4GudnfvBBxLcr74
-	YAJoQnNCWDsDDu2ErVI2+prbjZl3qk48p2Q3kaRFSsmiyurs/swLvsOZEWKsGvSVxmaj/uJMT5iZI
-	OGHhc6/EHJ77K434Pnt+7cJW39Vs9TIzo8YUaRKtkJ+rp9FiRrDbNhzKEONA+14t2rOBKhHreP4NV
-	4Y/UOk4PA==;
+	 bh=wfztZl82iwA8fAaR7X3/2wGCtbUn5LNupYAXqJsMREE=; b=ogNthoFyU3jy5jHN5482Ob24r
+	SdpjEbpEkHEKS4Da5SbTCtBubvIy4DCHszJbWLJKjKom/u7OMJIvelJsPxUjzrsjN+qWLjx4i89nG
+	eOLHZ9e2PB2TJ3sEFbLCInh+bn8+xK+M1g0Y3zjqvrWpItDHclu1M7iQkQyvYlVIyHvAzRoRwMlpT
+	nn02R/I9s+Ecgp5Pa1dm1BuQ3IE4osQ8W2JLLlF1cCPfmiMsCDQcjCIgz7LOILHdk7urze7MEUy2+
+	bqNrsDyYt+SNKezBY67YUKDREgaOoy4spi/67u9ZqW+Neq8o99HqUAB9n05e1Uv5W3rWPNatZOBAq
+	A1WVn331g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMlMl-004XLn-92; Thu, 18 Mar 2021 05:38:40 +0000
+	id 1lMlR2-004XgQ-0C; Thu, 18 Mar 2021 05:43:05 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMlMg-004XLC-E1
- for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 05:38:36 +0000
+ id 1lMlQu-004XfB-DF
+ for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 05:42:58 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 721C268C65; Thu, 18 Mar 2021 06:38:32 +0100 (CET)
-Date: Thu, 18 Mar 2021 06:38:32 +0100
+ id CEB1068C7B; Thu, 18 Mar 2021 06:42:54 +0100 (CET)
+Date: Thu, 18 Mar 2021 06:42:54 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: io-uring@vger.kernel.org, joshi.k@samsung.com, hch@lst.de,
  kbusch@kernel.org, linux-nvme@lists.infradead.org, metze@samba.org
-Subject: Re: [PATCH 3/8] fs: add file_operations->uring_cmd()
-Message-ID: <20210318053832.GB28063@lst.de>
+Subject: Re: [PATCH 4/8] io_uring: add support for IORING_OP_URING_CMD
+Message-ID: <20210318054254.GC28063@lst.de>
 References: <20210317221027.366780-1-axboe@kernel.dk>
- <20210317221027.366780-4-axboe@kernel.dk>
+ <20210317221027.366780-5-axboe@kernel.dk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210317221027.366780-4-axboe@kernel.dk>
+In-Reply-To: <20210317221027.366780-5-axboe@kernel.dk>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210318_053834_735229_87644989 
-X-CRM114-Status: GOOD (  18.21  )
+X-CRM114-CacheID: sfid-20210318_054256_774873_B55AB2DA 
+X-CRM114-Status: GOOD (  23.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,46 +70,67 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 17, 2021 at 04:10:22PM -0600, Jens Axboe wrote:
-> This is a file private handler, similar to ioctls but hopefully a lot
-> more sane and useful.
-
-I really hate defining the interface in terms of io_uring.  This really
-is nothing but an async ioctl.
-
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index ec8f3ddf4a6a..009abc668987 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -1884,6 +1884,15 @@ struct dir_context {
->  #define REMAP_FILE_ADVISORY		(REMAP_FILE_CAN_SHORTEN)
->  
->  struct iov_iter;
-> +struct io_uring_cmd;
-> +
+On Wed, Mar 17, 2021 at 04:10:23PM -0600, Jens Axboe wrote:
 > +/*
-> + * f_op->uring_cmd() issue flags
+> + * Called by consumers of io_uring_cmd, if they originally returned
+> + * -EIOCBQUEUED upon receiving the command.
 > + */
-> +enum io_uring_cmd_flags {
-> +	IO_URING_F_NONBLOCK		= 1,
-> +	IO_URING_F_COMPLETE_DEFER	= 2,
+> +void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret)
+> +{
+> +	struct io_kiocb *req = container_of(cmd, struct io_kiocb, uring_cmd);
+> +
+> +	if (ret < 0)
+> +		req_set_fail_links(req);
+> +	io_req_complete(req, ret);
+> +}
+> +EXPORT_SYMBOL(io_uring_cmd_done);
+
+This really should be EXPORT_SYMBOL_GPL. But more importantly I'm not
+sure it is an all that useful interface.  All useful non-trivial ioctls
+tend to access user memory, so something that queues up work in the task
+context like in Joshis patch should really be part of the documented
+interface.
+
+> +
+> +static int io_uring_cmd_prep(struct io_kiocb *req,
+> +			     const struct io_uring_sqe *sqe)
+> +{
+> +	const struct io_uring_cmd_sqe *csqe = (const void *) sqe;
+
+We really should not need this casting.  The struct io_uring_sqe
+usage in io_uring.c needs to be replaced with a union or some other
+properly type safe way to handle this.
+
+> +	ret = file->f_op->uring_cmd(&req->uring_cmd, issue_flags);
+> +	/* queued async, consumer will call io_uring_cmd_done() when complete */
+> +	if (ret == -EIOCBQUEUED)
+> +		return 0;
+> +	io_uring_cmd_done(&req->uring_cmd, ret);
+> +	return 0;
+
+This can be simplified to:
+
+	if (ret != -EIOCBQUEUED)
+		io_uring_cmd_done(&req->uring_cmd, ret);
+	return 0;
+
+
+> +/*
+> + * Note that the first member here must be a struct file, as the
+> + * io_uring command layout depends on that.
+> + */
+> +struct io_uring_cmd {
+> +	struct file	*file;
+> +	__u16		op;
+> +	__u16		unused;
+> +	__u32		len;
+> +	__u64		pdu[5];	/* 40 bytes available inline for free use */
 > +};
 
-I'm a little worried about exposing a complete io_uring specific
-concept like IO_URING_F_COMPLETE_DEFER to random drivers.  This
-needs to be better encapsulated.
-
->  struct file_operations {
->  	struct module *owner;
-> @@ -1925,6 +1934,8 @@ struct file_operations {
->  				   struct file *file_out, loff_t pos_out,
->  				   loff_t len, unsigned int remap_flags);
->  	int (*fadvise)(struct file *, loff_t, loff_t, int);
-> +
-> +	int (*uring_cmd)(struct io_uring_cmd *, enum io_uring_cmd_flags);
-
-As of this patch io_uring_cmd is still a private structure.  In general
-I'm not sure this patch makes much sense on its own either.
+I am a little worried about exposting this internal structure to random
+drivers.  OTOH we need something that eventually allows a container_of
+to io_kiocb for the completion, so I can't think of anything better
+at the moment either.
 
 _______________________________________________
 Linux-nvme mailing list
