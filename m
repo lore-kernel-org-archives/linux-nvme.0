@@ -2,92 +2,94 @@ Return-Path: <SRS0=ZogQ=IQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98B67C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 07:48:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6E7C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 08:29:22 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D10464E33
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 07:48:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D10464E33
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 769C264F33
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 08:29:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 769C264F33
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=RXSg2RX+vGMaeOKSXcS7kEBu5ZxfE46wVfpTliNAZ3o=; b=QesYBad6dgyTw9xKg8LNGW/Y+
-	UhCx8eFQcWLE4YJddodEpLboS3bhRgjQcl7mLw91GeI55reykLBXRwWD1Tv9u2xYTJW4XCdUdbZ/z
-	uqDvGSWFgAhLz7pb3GU1syDFXH+MshCkZm3b9LPUMxEL/5dY1/Z6jLKLNhbSfZiXiToMNryajaEvy
-	/lxlOdhG8cwwTdjY4OcpoR4nUUY/Q0FY9SlpOXjyyCC4NchqJIfkExV4VdwYr3Pza45On7nResSXL
-	NTbkWHNGmOnA6J18pkoMB7+MxXXV9yNzOKxty7CuvoYO8WqhetNcTYeQsrT/guFh+p+kwnkYkCBXT
-	hBBLAmKPQ==;
+	:Content-Type:MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=/eTqx159SjzeKpoGoGM3Q232NYLN1JEtsthOwSuMRrY=; b=mfxLAVe5HBoQ+nSHbYRMSqxCzo
+	bNpG7cIKIiARArJtB55KOrkcZWt0zo2qm8u7Hyp06uCSGg7Z7EhdoPcaVlCpdzN8jt0XIjKJgX3HZ
+	PxXc68DldH221ikzbZheoXP75rOsskg0xvD0IohbBFt5vPIFx5X+p5+lGMtI0KsI/N83F2VMpG85b
+	kbpAY/WuRF3e0vHKYCGpJ6O5GhOh/X2M8ofbKFUttL+6MMClKIvNTYuWZShFNFPHLfgEeKPsvqd1U
+	Y8j+sg/ZWNuNwnglOq70USwjrg8P9renjh/+WoIU98pyQeHJK2LqNu12MjZhOECmhr0shGwrOzEwK
+	N/o5ZqcA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMnOO-004hMS-H2; Thu, 18 Mar 2021 07:48:28 +0000
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+	id 1lMo1e-004nVb-Q7; Thu, 18 Mar 2021 08:29:03 +0000
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMnOG-004hLN-N1
- for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 07:48:22 +0000
-Received: by mail-wm1-x32d.google.com with SMTP id
- z6-20020a1c4c060000b029010f13694ba2so2712629wmf.5
- for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 00:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TG7YlWDsVFQll45rVCenXqdxqCRGUryVl0R9Q9CGIEE=;
- b=tS4qDC4ZQ5pPfJwDVXyCedaUhR1HKjXliuwPA0dgHMkQLPhlwuS05d0cuzyF6HWIzn
- i8DdBxUH9KhTLpoy4ytcBKlpwDK980x7Y7gVLNRiI6sOwsG0tFhOQbu7Jx78byt8MbJq
- zL4I2G7tUSWglNejAZ4WHP0k76AMuxlODA8o6AALsBByodxG/jNxMsxohpp0WafR2u5W
- 4/eYyKuboT9Uj3x4yiXO/BVWbxIMB2vxvQuTsax5q07XHS5H8ufa0fytEFdw8+i3nivi
- 5BK2dUj9ia6dRm+5XTpSxwoZO0c5+q/OD/IgYrY76KZeaHSrtLrU7r0hVLNPef9SVQu6
- uhMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TG7YlWDsVFQll45rVCenXqdxqCRGUryVl0R9Q9CGIEE=;
- b=LpLW0XpGha3QQi2zYgD8YNWIVH7mSFX8UggcpL6D6Vvku9GRzdbXtpA/blT1ubFkit
- Pa80HEUX+9RDxcA52imjLnrl1zqWBZKp/ofgICkmwR0BpEeqiLbM17e6UoOh+UxWtVIF
- ylfSzUJxYKtSyVMn1prGOxdGvgXgeYNBZkNLzG6/PYWwBS5KOKeAZo+yTaBl4yJZoPXy
- XCCAcCuJF/jYjkFjRhQ6xJvxJH2GoSFAzEE+vED5jDLmmCBMthxbPB4Joev62FmetRkJ
- 3hqvSG4WdnnRvKMvTD4uG2F2qxdx8eYdKSq1InLaWjtQk1gVaLRLh4+mqBUoDngRqTBG
- 2plw==
-X-Gm-Message-State: AOAM532Ta9UnAN5N/UlWHIM1sND4H1tAgjQBBkZ1hRxf0OV9lwXQl/D6
- 0oaRG7MhgLl5fT8enD0qqLfaT9Y2aqk++nl788s=
-X-Google-Smtp-Source: ABdhPJzfXm9JgoR6BcOdccwdmN0b1PPTp0RUszAvhDYTkb4OcnL/bD1xb+yTieB+Uugq6/qgpIs6q9S9Nba9ta5I31Y=
-X-Received: by 2002:a05:600c:4fc2:: with SMTP id
- o2mr2220575wmq.25.1616053699300; 
- Thu, 18 Mar 2021 00:48:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20210316140229epcas5p23d68a4c9694bbf7759b5901115a4309b@epcas5p2.samsung.com>
- <20210316140126.24900-1-joshi.k@samsung.com>
- <b5476c77-813a-6416-d317-38e8537b83cb@kernel.dk>
- <CA+1E3rLOOaggA0p5wr5ndTWx42zjebCeEm5XzfOq7QcH6oP=wA@mail.gmail.com>
- <63a127c2-e2ed-ad5f-a6d3-8d56e3e95380@kernel.dk>
-In-Reply-To: <63a127c2-e2ed-ad5f-a6d3-8d56e3e95380@kernel.dk>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Thu, 18 Mar 2021 13:17:52 +0530
-Message-ID: <CA+1E3r+_rNmDBgL2cabxboG4GDaRx=XRt=SiNPt3hnvOuTYd5A@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 0/3] Async nvme passthrough over io_uring
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, 
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, anuj20.g@samsung.com, 
- Javier Gonzalez <javier.gonz@samsung.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, 
- Selvakumar S <selvakuma.s1@samsung.com>
+ id 1lMo1Q-004nQ2-Rl
+ for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 08:28:59 +0000
+Received: from pps.filterd (m0170391.ppops.net [127.0.0.1])
+ by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12I8S8fI005685
+ for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 04:28:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : cc : subject : date : message-id; s=smtpout1;
+ bh=jKkXWW6bPzQEXgRE2iHaulCAXKP+Vl9/YiYxVhF0Uzc=;
+ b=X4KMhhU7CAFICI7Nw3hX5Y3Aton7PHe0+5rckkzt8bg4pl6f5ifdllqppMK1tSXOlg2D
+ gYHjtVDGpjyzHMgpLQIs1HgkRPcjzTSu/OG0nbuKbd5jdQ8HEzq+hdH9yTE+sLc6Fkf3
+ aJYuRn+EDlc33CrlgsTPo1W3F8AvJc5Ehu4hKWhid3lg45Qd2lehSxiM90mtcahajrbC
+ wuCi+MsLQ6lQAQW7EQazlKaLLZNkwAXqrisoXY/1a9HoBH2hj70G0QbDBkAocL/iv06U
+ 8XKhwv+4kqZ3HDWQzj23C0qVKSylC6WDkueAUuFtIVlR5IYXDnLbe0xetuxnWPe0Fwxa 5A== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
+ [67.231.149.39])
+ by mx0a-00154904.pphosted.com with ESMTP id 378se20hsc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 04:28:40 -0400
+Received: from pps.filterd (m0133268.ppops.net [127.0.0.1])
+ by mx0a-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12I8PuuJ068636
+ for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 04:28:40 -0400
+Received: from esaploutdur05.us.dell.com ([128.221.233.10])
+ by mx0a-00154901.pphosted.com with ESMTP id 379bw4e166-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 04:28:40 -0400
+X-PREM-Routing: D-Outbound
+X-LoopCount0: from 10.55.224.98
+Received: from vd-idand.xiolab.lab.emc.com (HELO vd-grupie.xiolab.lab.emc.com)
+ ([10.55.224.98])
+ by esaploutdur05.us.dell.com with ESMTP; 18 Mar 2021 03:28:38 -0500
+From: elad.grupi@dell.com
+To: sagi@grimberg.me, linux-nvme@lists.infradead.org
+Cc: Elad Grupi <elad.grupi@dell.com>
+Subject: [PATCH] nvmet-tcp: fix a segmentation fault during io parsing error
+Date: Thu, 18 Mar 2021 10:28:34 +0200
+Message-Id: <20210318082834.16093-1-elad.grupi@dell.com>
+X-Mailer: git-send-email 2.18.2
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-18_02:2021-03-17,
+ 2021-03-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ malwarescore=0 impostorscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103180063
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 phishscore=0
+ suspectscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103180063
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210318_074820_933257_716628C7 
-X-CRM114-Status: GOOD (  22.56  )
+X-CRM114-CacheID: sfid-20210318_082849_548905_559A19A7 
+X-CRM114-Status: GOOD (  20.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,49 +101,69 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 18, 2021 at 7:28 AM Jens Axboe <axboe@kernel.dk> wrote:
->
-> On 3/17/21 3:31 AM, Kanchan Joshi wrote:
-> > On Tue, Mar 16, 2021 at 9:31 PM Jens Axboe <axboe@kernel.dk> wrote:
-> >>
-> >> On 3/16/21 8:01 AM, Kanchan Joshi wrote:
-> >>> This series adds async passthrough capability for nvme block-dev over
-> >>> iouring_cmd. The patches are on top of Jens uring-cmd branch:
-> >>> https://git.kernel.dk/cgit/linux-block/log/?h=io_uring-fops.v3
-> >>>
-> >>> Application is expected to allocate passthrough command structure, set
-> >>> it up traditionally, and pass its address via "block_uring_cmd->addr".
-> >>> On completion, CQE is posted with completion-status after any ioctl
-> >>> specific buffer/field update.
-> >>
-> >> Do you have a test app? I'd be curious to try and add support for this
-> >> to t/io_uring from fio just to run some perf numbers.
-> >
-> > Yes Jens. Need to do a couple of things to make it public, will post it today.
+From: Elad Grupi <elad.grupi@dell.com>
 
-Please see if this is accessible to you -
-https://github.com/joshkan/fio/commit/6c18653bc87015213a18c23d56518d4daf21b191
+In case there is an io that contains inline data and it goes to
+parsing error flow, command response will free command and iov
+before clearing the data on the socket buffer.
+This will delay the command response until receive flow is completed.
 
-I run it on nvme device with the extra option "-uring_cmd=1". And pit
-passthru read/write against regular uring read/write.
-While write perf looks fine, I notice higher-qd reads going tad-bit
-low which is puzzling.
-But I need to test more to see if this is about my test-env (including
-the added test-code) itself.
+Signed-off-by: Elad Grupi <elad.grupi@dell.com>
+---
+ drivers/nvme/target/tcp.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-It will be great if you could, at some point in future, have a look at
-this test or spin off what you already had in mind.
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index d658c6e8263a..2b5d0c9c4e38 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -702,6 +702,17 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
+ 			return 0;
+ 	}
+ 
++	if (unlikely((cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
++			nvmet_tcp_has_data_in(cmd) &&
++			nvmet_tcp_has_inline_data(cmd))) {
++		/*
++		 * wait for inline data before processing the response
++		 * so the iov will not be freed
++		 */
++		queue->snd_cmd = NULL;
++		goto done_send;
++	}
++
+ 	if (cmd->state == NVMET_TCP_SEND_DATA_PDU) {
+ 		ret = nvmet_try_send_data_pdu(cmd);
+ 		if (ret <= 0)
+@@ -1107,7 +1118,9 @@ static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
+ 	if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
+ 	    cmd->rbytes_done == cmd->req.transfer_len) {
+ 		cmd->req.execute(&cmd->req);
+-	}
++	} else if ((cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
++			cmd->rbytes_done == cmd->req.transfer_len)
++		nvmet_tcp_queue_response(&cmd->req);
+ 
+ 	nvmet_prepare_receive_pdu(queue);
+ 	return 0;
+@@ -1147,6 +1160,8 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
+ 	if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
+ 	    cmd->rbytes_done == cmd->req.transfer_len)
+ 		cmd->req.execute(&cmd->req);
++	else if ((cmd->flags & NVMET_TCP_F_INIT_FAILED))
++		nvmet_tcp_queue_response(&cmd->req);
+ 	ret = 0;
+ out:
+ 	nvmet_prepare_receive_pdu(queue);
+-- 
+2.18.2
 
-> Sounds good! I commented on 1/3, I think it can be simplified and
-> cleaned up quite a bit, which is great. Then let's base it on top of v4
-> that I posted, let me know if you run into any issues with that.
-
-Yes, will move to V4,  thanks!
 
 _______________________________________________
 Linux-nvme mailing list
