@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B94ADC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:26:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E8CFC433E6
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:28:41 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3852861580
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:26:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3852861580
+	by mail.kernel.org (Postfix) with ESMTPS id C407B61580
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:28:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C407B61580
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,70 +24,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=5RsZXA+2q7MAC2dckUXGu+OwINzolTpDiLgXs1SUzyw=; b=hwAF43AgXqPmUYM4+41EUDuKW
-	u6NBHwWfcoT65kf7OnMDueTzYMLj+lw6R7ErlLOHun9e6+jTylW3vc93+DkSFtb42fXZxXQzN1xZn
-	/jcFOqwu59yb2kqguSI6eo59u7WE/jEiHRDmvxNeg28Ce2Acd2bS3JEL3R3lNS5kpcHMfn5fgVID2
-	yX13aEjvzFabeYAHlToPT6kwbQOmbvw0XUfOu0PAX7I84ef2TiJHZceJxNFbs/vHAhFS+nUe1k3qU
-	C1vNn7EYUGNFUU1+fK6+btQLO1Iq6bkMg4rZBNnPI3Slm6HgWlJukQ0jbL9vwHFGmnHrPk+32sWYG
-	Gk7jfYZLg==;
+	 bh=qfDpsAXNX/kxsMsEW0RkDWpe51LnozMcsOJsQuyYszk=; b=nMUShhsOpWt9nlrhGnlZLNZzx
+	xb6bKUhwG36dbU96FORKWS/IwyTM5970o6v7pxiYqgljaAFxVkBtYAbwrb9ClEkL90fhJKFEyl/JO
+	kBbVOfRsKuYR2+xtfkUsht/nfKUx1SLkDIYyahuot6vYCSuSA5jVvcoBYo+GEi/d4BYl7+GRiMtFt
+	PDq9VmRk3vA6QcSM5DdoWtElu4NmdYNVaJ37k9DiA/CGqwoLuDYnn9ijdsRMyCpCTUZgMaZ4mBVQL
+	MK1MF6srQCEN13Gtejng1lBlZf1sSMR9UPBjAlgQzYkyRbhJu/LHOCRwjLX0cAdLuAgq5iSUr2sgT
+	jJ5WhHTgg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMlB1-004WR1-Eo; Thu, 18 Mar 2021 05:26:31 +0000
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+	id 1lMlCf-004WdM-AS; Thu, 18 Mar 2021 05:28:13 +0000
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMlAt-004WQO-Dx
- for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 05:26:26 +0000
-Received: by mail-wm1-x329.google.com with SMTP id
- b2-20020a7bc2420000b029010be1081172so2575555wmj.1
- for <linux-nvme@lists.infradead.org>; Wed, 17 Mar 2021 22:26:23 -0700 (PDT)
+ id 1lMlCY-004WcW-T2
+ for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 05:28:10 +0000
+Received: by mail-wr1-x434.google.com with SMTP id k8so4130027wrc.3
+ for <linux-nvme@lists.infradead.org>; Wed, 17 Mar 2021 22:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oNLbqwtqC3zQTJ/OunvctMSzZaiWtNoR0TFwEeoJSpo=;
- b=oa9tShNI5vZqssznIckIOzQaPQgzUGStIWx4OShHbI6IBoZWRk6GZXcqztfIhprHPI
- S5INjlDDp95w3XgfMVmeGaxw+B33+Wp3C8WeDRKP7hiJ/9zrnOz6WrqaHZkILC6mtOxF
- ZbON5EAcVbXJVqtfWdUqOl0624Mf4T4VjduIBP9u59fJ6RFfyatsp5xreItpkmoE6kvL
- JS/stEz4rv4h1g8FcwrkPl2rDIpbrie7qORukBGfB29kuCVXqcx+Mv+Ggq4SIB4a3HXG
- MaP4ylkS/IRwmSqpECyScW9mBfEbdzl6frU9p2bZ/kjDO/yo+eOcs80zVnz1Pt8SdyBf
- AQVw==
+ :cc; bh=Rfx+TchQAmKI6FsJkuxScKmEX+0zqfYSOjwSIEbxyH0=;
+ b=mkluLKXAAsBCsl0mWPxxtIYUbFTNQK2ody1+IiBTEqRJwE8yI6s3G7xLe2/9KtnRzj
+ s+S0IumTC3VYHEvuOroigQhUG4w3BHUxapXGhVhONx54WinXdkNYjvJUz9OWCXG/NZ9s
+ Fxpn4W60J6MWKOddru69M3vo/jyA7mDvUONTCqkMOkhC3DdOwU6//2pC76nlI7gZCO61
+ W+rUGRg9nsxWiOnZelYKmE+N4wnCX5pCTtpLeqR0ac7dS2jgzNdAVqWTLYViu6FZhvJV
+ IcavfBZOKhbq87DBYwzUiTw/y1TJgLt+z7Nr78p59lFWb7PmnBvqJqEOW7xdJckA2flo
+ OIIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=oNLbqwtqC3zQTJ/OunvctMSzZaiWtNoR0TFwEeoJSpo=;
- b=NoBM9Tp2JZLjcennALdPfJ+Gg8gt1OTmwklie3oTdSwvbaKHw2Y3iAc3RiCcVAP34/
- DcAa8TL7N9hpN70MSPNjdyqpGtK34vEphEcAr3HMNEDfOW95WEbmJ7lu4NNWCV6mIA6u
- pQxX1HS81OMd3jbMXmMpj4US1BWGMYdyoyFdCd+ItRhTgSwbKdgzCRdEGjYSJlH2p15O
- kti4pexU5naVLwST+Amtj7kaqZJLTjv3o6sD8jm7KCYIh6m4pt0U/mt/TviiBT70dSFX
- 0CUJydL9mmjrOKljJqBQE1QXpFzwu+sLJN70j7lfFUYDFNmt/mV9w9+acytwL9ZN+kBK
- x91A==
-X-Gm-Message-State: AOAM532uI6YfQiDfq1wUBCkuywe9v6To+qYrM7SvEEJOElzgqbTLu5jZ
- IoybY7Mw7fiXbqz+TVUczKyNjJ1PigVNQyz4uvQ48k2fMDK6RQ==
-X-Google-Smtp-Source: ABdhPJxV1V4bXjN4izL69vXbsFRYLHmYRPSUsIuA1v676FfcQY4GFpi/hyQIRFZY3MCrzAdaDtDsCR0Zyu8sNsmejVA=
-X-Received: by 2002:a05:600c:1913:: with SMTP id
- j19mr1772482wmq.155.1616045182634; 
- Wed, 17 Mar 2021 22:26:22 -0700 (PDT)
+ bh=Rfx+TchQAmKI6FsJkuxScKmEX+0zqfYSOjwSIEbxyH0=;
+ b=UVK+G7U/f78K/JAXVReHwuhkILf+j6gtg4d730dsdznKM72ic5XBC2SGlGrV5g1SMZ
+ XAnUWjSQX+WQga3qFDv00BoUxUIJRkNGWoUq2+z8tEil1tmj2VyCZ+hU+bV2ohztVe6u
+ X6VRfzHkiM2rRFG0wBLQ2595wJmCXNhTVTX/Y5012sRBRUlogXZBgYCTRmkf+MjgCnck
+ ZhwPIW7MDvEU5vVQG1nAgeRoyP+9Q0YGvvAms4+YXboT6VO+D/4VP6jMtNI156RYG9zy
+ QuzREm/DRAOSGtXWTNY7l5UdZvNxXWzEi/D9/eQYnfL1V+kNj+QTRKHJHJxGRAP+F2cu
+ mUcA==
+X-Gm-Message-State: AOAM531o3QiV+4qQ05jTu5d2eZBGg3BXh7GwPc8TvKfOA8W3OGoKi9y/
+ 836C41BMWHND3nWdMZHXXGa9iDw7qEWTjv1WOlebT5Q4iqs=
+X-Google-Smtp-Source: ABdhPJxWIGF1N2Sd/4pWO866zVddFJ+Hqceiki+UEQbGp6ua8pcbLwAvKncozCoPDa/getqV1n3tDqRf8rflh/e47vs=
+X-Received: by 2002:a05:6000:2c8:: with SMTP id
+ o8mr7690771wry.407.1616045283436; 
+ Wed, 17 Mar 2021 22:28:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210316140126.24900-1-joshi.k@samsung.com>
- <CGME20210316140233epcas5p372405e7cb302c61dba5e1094fa796513@epcas5p3.samsung.com>
- <20210316140126.24900-2-joshi.k@samsung.com>
- <05a91368-1ba8-8583-d2ab-8db70b92df76@kernel.dk>
-In-Reply-To: <05a91368-1ba8-8583-d2ab-8db70b92df76@kernel.dk>
+References: <20210317203703.17391-1-kbusch@kernel.org>
+ <20210317203703.17391-2-kbusch@kernel.org>
+In-Reply-To: <20210317203703.17391-2-kbusch@kernel.org>
 From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Thu, 18 Mar 2021 10:55:55 +0530
-Message-ID: <CA+1E3r+Mt7KKeFeYf7WY3CoKwnkXT-jE2EgJSTE6zaAfJX0dzQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/3] io_uring: add helper for uring_cmd completion
- in submitter-task
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, 
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, anuj20.g@samsung.com, 
- Javier Gonzalez <javier.gonz@samsung.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, 
- Selvakumar S <selvakuma.s1@samsung.com>
+Date: Thu, 18 Mar 2021 10:57:36 +0530
+Message-ID: <CA+1E3rLNEUhUy1FkcPedo_DohjhGKZ=U+4M4J8W3pY1m7nwb6w@mail.gmail.com>
+Subject: Re: [PATCHv2 1/2] nvme-pci: allocate nvme_command within driver pdu
+To: Keith Busch <kbusch@kernel.org>
+Cc: KANCHAN JOSHI <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210318_052623_664937_5F627F28 
-X-CRM114-Status: GOOD (  37.14  )
+X-CRM114-CacheID: sfid-20210318_052808_993543_6AA986C2 
+X-CRM114-Status: GOOD (  21.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,137 +95,84 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 18, 2021 at 7:31 AM Jens Axboe <axboe@kernel.dk> wrote:
+On Thu, Mar 18, 2021 at 2:32 AM Keith Busch <kbusch@kernel.org> wrote:
 >
-> On 3/16/21 8:01 AM, Kanchan Joshi wrote:
-> > Completion of a uring_cmd ioctl may involve referencing certain
-> > ioctl-specific fields, requiring original subitter context.
-> > Introduce 'uring_cmd_complete_in_task' that driver can use for this
-> > purpose. The API facilitates task-work infra, while driver gets to
-> > implement cmd-specific handling in a callback.
-> >
-> > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> > ---
-> >  fs/io_uring.c            | 36 ++++++++++++++++++++++++++++++++----
-> >  include/linux/io_uring.h |  8 ++++++++
-> >  2 files changed, 40 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/fs/io_uring.c b/fs/io_uring.c
-> > index 583f8fd735d8..ca459ea9cb83 100644
-> > --- a/fs/io_uring.c
-> > +++ b/fs/io_uring.c
-> > @@ -772,9 +772,12 @@ struct io_kiocb {
-> >               /* use only after cleaning per-op data, see io_clean_op() */
-> >               struct io_completion    compl;
-> >       };
-> > -
-> > -     /* opcode allocated if it needs to store data for async defer */
-> > -     void                            *async_data;
-> > +     union {
-> > +             /* opcode allocated if it needs to store data for async defer */
-> > +             void                            *async_data;
-> > +             /* used for uring-cmd, when driver needs to update in task */
-> > +             void (*driver_cb)(struct io_uring_cmd *cmd);
-> > +     };
+> Except for pci, all the nvme transport drivers allocate a command within
+> the driver's pdu. Align pci with everyone else by allocating the nvme
+> command within pci's pdu and replace the .queue_rq() stack variable with
+> this.
 >
-> I don't like this at all, it's very possible that we'd need async
-> data for passthrough commands as well in certain cases. And what it
-> gets to that point, we'll have no other recourse than to un-unionize
-> this and pay the cost. It also means we end up with:
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  drivers/nvme/host/pci.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 >
-> > @@ -1716,7 +1719,7 @@ static void io_dismantle_req(struct io_kiocb *req)
-> >  {
-> >       io_clean_op(req);
-> >
-> > -     if (req->async_data)
-> > +     if (io_op_defs[req->opcode].async_size && req->async_data)
-> >               kfree(req->async_data);
-> >       if (req->file)
-> >               io_put_file(req, req->file, (req->flags & REQ_F_FIXED_FILE));
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index ecd11b1febf8..1a0912146c74 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -224,6 +224,7 @@ struct nvme_queue {
+>   */
+>  struct nvme_iod {
+>         struct nvme_request req;
+> +       struct nvme_command cmd;
+>         struct nvme_queue *nvmeq;
+>         bool use_sgl;
+>         int aborted;
+> @@ -917,7 +918,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+>         struct nvme_dev *dev = nvmeq->dev;
+>         struct request *req = bd->rq;
+>         struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> -       struct nvme_command cmnd;
+> +       struct nvme_command *cmnd = &iod->cmd;
+>         blk_status_t ret;
 >
-> which are also very fragile.
-
-I did not want to have it this way....but faced troubles with the more
-natural way of doing this. Please see below.
-
-> We already have the task work, just have the driver init and/or call a
-> helper to get it run from task context with the callback it desires?
+>         iod->aborted = 0;
+> @@ -931,24 +932,24 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+>         if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
+>                 return BLK_STS_IOERR;
 >
-> If you look at this:
+> -       ret = nvme_setup_cmd(ns, req, &cmnd);
+> +       ret = nvme_setup_cmd(ns, req, cmnd);
+>         if (ret)
+>                 return ret;
 >
-> > @@ -2032,6 +2035,31 @@ static void io_req_task_submit(struct callback_head *cb)
-> >       __io_req_task_submit(req);
-> >  }
-> >
-> > +static void uring_cmd_work(struct callback_head *cb)
-> > +{
-> > +     struct io_kiocb *req = container_of(cb, struct io_kiocb, task_work);
-> > +     struct io_uring_cmd *cmd = &req->uring_cmd;
-> > +
-> > +     req->driver_cb(cmd);
-> > +}
-> > +int uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
-> > +                     void (*driver_cb)(struct io_uring_cmd *))
-> > +{
-> > +     int ret;
-> > +     struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
-> > +
-> > +     req->driver_cb = driver_cb;
-> > +     req->task_work.func = uring_cmd_work;
-> > +     ret = io_req_task_work_add(req);
-> > +     if (unlikely(ret)) {
-> > +             req->result = -ECANCELED;
-> > +             percpu_ref_get(&req->ctx->refs);
-> > +             io_req_task_work_add_fallback(req, io_req_task_cancel);
-> > +     }
-> > +     return ret;
-> > +}
-> > +EXPORT_SYMBOL(uring_cmd_complete_in_task);
->
-> Then you're basically jumping through hoops to get that callback.
-> Why don't you just have:
->
-> io_uring_schedule_task(struct io_uring_cmd *cmd, task_work_func_t cb)
-> {
->         struct io_kiocb *req = container_of(cmd, struct io_kiocb, uring_cmd);
->         int ret;
->
->         req->task_work.func = cb;
->         ret = io_req_task_work_add(req);
->         if (unlikely(ret)) {
->                 req->result = -ECANCELED;
->                 io_req_task_work_add_fallback(req, io_req_task_cancel);
+>         if (blk_rq_nr_phys_segments(req)) {
+> -               ret = nvme_map_data(dev, req, &cmnd);
+> +               ret = nvme_map_data(dev, req, cmnd);
+>                 if (ret)
+>                         goto out_free_cmd;
 >         }
->         return ret;
-> }
 >
-> ?
-I started with that, but the problem was implementing the driver callback .
-The callbacks receive only one argument which is "struct callback_head
-*", and the driver needs to extract "io_uring_cmd *" out of it.
-This part -
-+static void uring_cmd_work(struct callback_head *cb)
-+{
-+     struct io_kiocb *req = container_of(cb, struct io_kiocb, task_work);
-+     struct io_uring_cmd *cmd = &req->uring_cmd;
+>         if (blk_integrity_rq(req)) {
+> -               ret = nvme_map_metadata(dev, req, &cmnd);
+> +               ret = nvme_map_metadata(dev, req, cmnd);
+>                 if (ret)
+>                         goto out_unmap_data;
+>         }
+>
+>         blk_mq_start_request(req);
+> -       nvme_submit_cmd(nvmeq, &cmnd, bd->last);
+> +       nvme_submit_cmd(nvmeq, cmnd, bd->last);
+>         return BLK_STS_OK;
+>  out_unmap_data:
+>         nvme_unmap_data(dev, req);
+> --
+> 2.25.4
+>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
 
-If the callback has to move to the driver (nvme), the driver needs
-visibility to "struct io_kiocb" which is uring-local.
-Do you see a better way to handle this?
-I also thought about keeping the driver_cb inside the unused part of
-uring_cmd (instead of union with req->async_data), but it had two
-problems - 1. uring needs to peek inside driver-part of uring_cmd to
-invoke this callback
-2. losing precious space  (I am using that space to avoid per-command
-dynamic-allocation in driver)
-
-> Also, please export any symbol with _GPL. I don't want non-GPL drivers
-> using this infrastructure.
-
-Got it.
+LGTM.
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
 
--- 
+--
 Kanchan
 
 _______________________________________________
