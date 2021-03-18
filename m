@@ -2,19 +2,19 @@ Return-Path: <SRS0=ZogQ=IQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21600C433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 01:58:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 392A2C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 01:59:25 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D74CB64E98
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 01:58:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D74CB64E98
+	by mail.kernel.org (Postfix) with ESMTPS id 7E35C64E4D
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 01:59:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E35C64E4D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,75 +23,78 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hnd1VnO4RyRtq4l4GJ35mr1Ji5ewhyed3zkBJwIziKA=; b=fczmbpHQUaVmv0VyYh79ytAGO
-	cGN7eXSKveV1nuUUI+G/zgz6Sqi6F4PC8jFEuLae2KGzI/SLBnYIhsuZuORJ+ka0RnA0PEgcNQDi+
-	6KWAJkRKXR+uvUGSgoBKt59+oomVFBAY+L9sJ1Gf856bHqX9kngt/S/a3fng1reloAM5XzbumNxHl
-	0hDly+G9JIdgrey62I/rEKr2QSezlLiFbXnKEWgawftSrM9HZBFxVgtCxTMCGn0pPugMQ1CJA+s+3
-	4INFbzmipO1WLmyXhA6N5O+O7DshReb7nnVQu+wkptHF3oEu1deF0LWSiOhtmw4KXv+igkwBX57w+
-	ki8wa2ZHA==;
+	 bh=JF/s/GvAWMp+evtCTbmw5mcz6ZKTT2flp93L9loVJ1Q=; b=CVTc34pBw/zLxXfg7Ms5efTuX
+	Rc2zyXGwrA1GmnfmPM+gKeK9X82jsFEpdzt/kB6/eOLGXeFgDbfbAmlpqn+VpdPIhbKzSRapKbZgd
+	zy1Ivn8tlsXi0qTZTb7cCHRcPZuewDMoay2TH/Ig3HoIPtkl+XUCd6/HjhzX23PEXbOOso1H7fdgI
+	d3Yf9lC3B/MshxH/agS/wJPHE3UAjS3qH7Itn3HE8qWUVphSp1p7YAaRU6ZL7VkvIo4mz/GyDtMJi
+	UHlt526o51u40xHcTdQGUxzRJ/ONLqfsKPWPUe0tO9ryWeEWVrPUMvV6XbAoeAtxWMSl8RM8Ia7JZ
+	ZOUtxOgWw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMhvE-004GSj-8u; Thu, 18 Mar 2021 01:58:00 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1lMhw6-004GYd-8u; Thu, 18 Mar 2021 01:58:54 +0000
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMhv1-004GQd-Po
- for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 01:57:54 +0000
-Received: by mail-pf1-x429.google.com with SMTP id c204so2390463pfc.4
- for <linux-nvme@lists.infradead.org>; Wed, 17 Mar 2021 18:57:47 -0700 (PDT)
+ id 1lMhw1-004GXT-3t
+ for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 01:58:51 +0000
+Received: by mail-pl1-x632.google.com with SMTP id h20so484472plr.4
+ for <linux-nvme@lists.infradead.org>; Wed, 17 Mar 2021 18:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=kernel-dk.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/AblZbqG1zvhUU4AtoW11+9MHGqRD3cJF+pFxBcZ/J4=;
- b=q/ov1maYChXBxVyui08P8Y90pRBvikFIfN+RGHIIAhB4VM7OTakFDPmwOQSlWh+ZYp
- qMbrFbo0DXj1M+gJ8+iEAnR7Chywnq6e+FYSF1A743SH4l9z0O/WhzcpI1fdohdiI/u5
- H2S8Xy6j60oh/VAEdxAwt5dd9YK4R9VnvPqtww8KlaiIrJVJPgPscP+FeYEC1FVbjEj+
- dQ5NRXkXem1qQszQVds9QbO40CnTbfS/0HKaTFNQ9NyTytYri12yjER/tSXmxCABGpyK
- F0dnfW4JIRchAF1u8cpui5iXphCbwXZ1ztNPoPyjpsR1S2tA7eB1ZEelyBq2NnDPFlZQ
- AjTA==
+ bh=23hDjiDr6dOC6qpQTBiXHAkrBttU7LaznfUpSLfV5mE=;
+ b=j/YvT6mWycCXCDGME/+oXrSDLQ5unOMr3ChK1dfLau26ExbG3SQMJmBSkMHQM9oLQP
+ N017A52YqvgtolsiEfjmL/LYqzNJGXkI9HKqc7yqVmXW8chU3jFvJKDhC3lItHH6Mo3x
+ oO4m5qV5rA0UmjA204xfj3k7Xao33W4kD4ZzWZ0AijL8m0E+CwiW6tMD6laA6+RZUbmd
+ nQbY3x9l4kPvfbbkO75akOZu3/pWx5ORAK0CI4DoMS6DFMzgIDYMji/EOLfIGFoeRsX7
+ KU7wMklpOnLPkq2iGMFmk22rgRFwtk7yLrrpsoWYaNKLn6uKOU+YUC3y7vkfUQjuNkTe
+ w9VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/AblZbqG1zvhUU4AtoW11+9MHGqRD3cJF+pFxBcZ/J4=;
- b=L6jxQhYfJ4Gxfyk8UjD4SIA8C+8r3nKJMAeJIKq/jRN01RktQm2L7C/eaiB50d4TmO
- UUHpnUlZ1Fiuj0KCXRWVc+uoDCFNhXEuqEf7LdrdKUkiCjtCr0CH7SqNjWxr61nlwz6K
- pomy2++L5mU4qKm1mJ30eaDzaGq41XjR+QOy2r5wkV5bRZub2tOK4eFdyj1/NqzjEKxa
- y/Z3BdyiOhkBmaUd8RImKbaqATBXqkwfZBu4OYw29QxfB3IP5pwdP3ht1Ih8Tv10l4gb
- eUFh9VnnKmq1ElqiIGhzWiD+K67ERRFCFvAJSyeDccIB3vq2GpMD+PmU80MB4cNS2AuH
- g6ew==
-X-Gm-Message-State: AOAM531GP66XTBmyVxuSafWRCxjtMf3k4ZEF5uBviRiU5wKWYoeLQiUy
- OchKaz42mEtpAj7tPgUF/IMHsw==
-X-Google-Smtp-Source: ABdhPJxZSYlz4Wxp13k7Kza1gBmiA3e3SuqHF6nx0sejGX3ol1ARi9dTZqDJ7opVJ6EzOwt+314Hjg==
-X-Received: by 2002:a05:6a00:a83:b029:1ed:55fc:e22a with SMTP id
- b3-20020a056a000a83b02901ed55fce22amr1728155pfl.45.1616032666076; 
- Wed, 17 Mar 2021 18:57:46 -0700 (PDT)
+ bh=23hDjiDr6dOC6qpQTBiXHAkrBttU7LaznfUpSLfV5mE=;
+ b=SUsTjcmRpMuahCj66Uw2e+KTbSa5peapJsl/e4HTdoGStq61WEgQFYE8Yj2hL667HD
+ T7nQdEZ0JQeGg3Y2nykdQEXGnH3gfh57mpAyqUTnu2BLYpfv7yXVKuUa4F9SLrGCrxX5
+ jCrVea1RauJGzUr4rRjY2UvpRSwLWR9BMqc3jxgzF1XmhoA9wvQ5wAfibLstqyW7eo+F
+ pLWER/vsZ120T/HO8gXjMM1RmfCZ+Yg48i9nVymX8NCX0hZIpTCO8EL2ADgXICkdRyfw
+ ecYbAaIg4gYYDStziHNKTBv33xo6//B7TPy9Bpi3h/JNHx014IAM9wiDbL5MnUFlYnRj
+ 6k/w==
+X-Gm-Message-State: AOAM5305E9ka43jA6toAoy8bKaEPOjTMU0cWZZrMMF6sFgsF6qqU/cF2
+ q8sCMtnnBA4fi2xgO8/cEn26SQ==
+X-Google-Smtp-Source: ABdhPJx8r1dmMYTB0XGagKLwOwWeb2T4iBlofj2quYfLLc0ruDUVcIQHHBPcdrKrf72BTXv2VPvAOg==
+X-Received: by 2002:a17:902:70c5:b029:e6:cba1:5d94 with SMTP id
+ l5-20020a17090270c5b02900e6cba15d94mr4444301plt.84.1616032726909; 
+ Wed, 17 Mar 2021 18:58:46 -0700 (PDT)
 Received: from [192.168.1.134] ([66.219.217.173])
- by smtp.gmail.com with ESMTPSA id k128sm325953pfd.137.2021.03.17.18.57.44
+ by smtp.gmail.com with ESMTPSA id w188sm324224pfw.177.2021.03.17.18.58.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Mar 2021 18:57:45 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 1/3] io_uring: add helper for uring_cmd completion
- in submitter-task
-To: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de, kbusch@kernel.org,
- chaitanya.kulkarni@wdc.com
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- anuj20.g@samsung.com, javier.gonz@samsung.com, nj.shetty@samsung.com,
- selvakuma.s1@samsung.com
-References: <20210316140126.24900-1-joshi.k@samsung.com>
- <CGME20210316140233epcas5p372405e7cb302c61dba5e1094fa796513@epcas5p3.samsung.com>
- <20210316140126.24900-2-joshi.k@samsung.com>
+ Wed, 17 Mar 2021 18:58:46 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 0/3] Async nvme passthrough over io_uring
+To: Kanchan Joshi <joshiiitr@gmail.com>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, anuj20.g@samsung.com,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>,
+ Selvakumar S <selvakuma.s1@samsung.com>
+References: <CGME20210316140229epcas5p23d68a4c9694bbf7759b5901115a4309b@epcas5p2.samsung.com>
+ <20210316140126.24900-1-joshi.k@samsung.com>
+ <b5476c77-813a-6416-d317-38e8537b83cb@kernel.dk>
+ <CA+1E3rLOOaggA0p5wr5ndTWx42zjebCeEm5XzfOq7QcH6oP=wA@mail.gmail.com>
 From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <05a91368-1ba8-8583-d2ab-8db70b92df76@kernel.dk>
-Date: Wed, 17 Mar 2021 19:57:44 -0600
+Message-ID: <63a127c2-e2ed-ad5f-a6d3-8d56e3e95380@kernel.dk>
+Date: Wed, 17 Mar 2021 19:58:45 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210316140126.24900-2-joshi.k@samsung.com>
+In-Reply-To: <CA+1E3rLOOaggA0p5wr5ndTWx42zjebCeEm5XzfOq7QcH6oP=wA@mail.gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210318_015752_796162_47929627 
-X-CRM114-Status: GOOD (  27.99  )
+X-CRM114-CacheID: sfid-20210318_015849_382911_310695AB 
+X-CRM114-Status: GOOD (  17.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,109 +111,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/16/21 8:01 AM, Kanchan Joshi wrote:
-> Completion of a uring_cmd ioctl may involve referencing certain
-> ioctl-specific fields, requiring original subitter context.
-> Introduce 'uring_cmd_complete_in_task' that driver can use for this
-> purpose. The API facilitates task-work infra, while driver gets to
-> implement cmd-specific handling in a callback.
+On 3/17/21 3:31 AM, Kanchan Joshi wrote:
+> On Tue, Mar 16, 2021 at 9:31 PM Jens Axboe <axboe@kernel.dk> wrote:
+>>
+>> On 3/16/21 8:01 AM, Kanchan Joshi wrote:
+>>> This series adds async passthrough capability for nvme block-dev over
+>>> iouring_cmd. The patches are on top of Jens uring-cmd branch:
+>>> https://git.kernel.dk/cgit/linux-block/log/?h=io_uring-fops.v3
+>>>
+>>> Application is expected to allocate passthrough command structure, set
+>>> it up traditionally, and pass its address via "block_uring_cmd->addr".
+>>> On completion, CQE is posted with completion-status after any ioctl
+>>> specific buffer/field update.
+>>
+>> Do you have a test app? I'd be curious to try and add support for this
+>> to t/io_uring from fio just to run some perf numbers.
 > 
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> ---
->  fs/io_uring.c            | 36 ++++++++++++++++++++++++++++++++----
->  include/linux/io_uring.h |  8 ++++++++
->  2 files changed, 40 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/io_uring.c b/fs/io_uring.c
-> index 583f8fd735d8..ca459ea9cb83 100644
-> --- a/fs/io_uring.c
-> +++ b/fs/io_uring.c
-> @@ -772,9 +772,12 @@ struct io_kiocb {
->  		/* use only after cleaning per-op data, see io_clean_op() */
->  		struct io_completion	compl;
->  	};
-> -
-> -	/* opcode allocated if it needs to store data for async defer */
-> -	void				*async_data;
-> +	union {
-> +		/* opcode allocated if it needs to store data for async defer */
-> +		void				*async_data;
-> +		/* used for uring-cmd, when driver needs to update in task */
-> +		void (*driver_cb)(struct io_uring_cmd *cmd);
-> +	};
+> Yes Jens. Need to do a couple of things to make it public, will post it today.
 
-I don't like this at all, it's very possible that we'd need async
-data for passthrough commands as well in certain cases. And what it
-gets to that point, we'll have no other recourse than to un-unionize
-this and pay the cost. It also means we end up with:
-
-> @@ -1716,7 +1719,7 @@ static void io_dismantle_req(struct io_kiocb *req)
->  {
->  	io_clean_op(req);
->  
-> -	if (req->async_data)
-> +	if (io_op_defs[req->opcode].async_size && req->async_data)
->  		kfree(req->async_data);
->  	if (req->file)
->  		io_put_file(req, req->file, (req->flags & REQ_F_FIXED_FILE));
-
-which are also very fragile.
-
-We already have the task work, just have the driver init and/or call a
-helper to get it run from task context with the callback it desires?
-
-If you look at this:
-
-> @@ -2032,6 +2035,31 @@ static void io_req_task_submit(struct callback_head *cb)
->  	__io_req_task_submit(req);
->  }
->  
-> +static void uring_cmd_work(struct callback_head *cb)
-> +{
-> +	struct io_kiocb *req = container_of(cb, struct io_kiocb, task_work);
-> +	struct io_uring_cmd *cmd = &req->uring_cmd;
-> +
-> +	req->driver_cb(cmd);
-> +}
-> +int uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
-> +			void (*driver_cb)(struct io_uring_cmd *))
-> +{
-> +	int ret;
-> +	struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
-> +
-> +	req->driver_cb = driver_cb;
-> +	req->task_work.func = uring_cmd_work;
-> +	ret = io_req_task_work_add(req);
-> +	if (unlikely(ret)) {
-> +		req->result = -ECANCELED;
-> +		percpu_ref_get(&req->ctx->refs);
-> +		io_req_task_work_add_fallback(req, io_req_task_cancel);
-> +	}
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(uring_cmd_complete_in_task);
-
-Then you're basically jumping through hoops to get that callback.
-Why don't you just have:
-
-io_uring_schedule_task(struct io_uring_cmd *cmd, task_work_func_t cb)
-{
-	struct io_kiocb *req = container_of(cmd, struct io_kiocb, uring_cmd);
-	int ret;
-
-	req->task_work.func = cb;
-	ret = io_req_task_work_add(req);
-	if (unlikely(ret)) {
-		req->result = -ECANCELED;
-		io_req_task_work_add_fallback(req, io_req_task_cancel);
-	}
-	return ret;
-}
-
-?
-
-Also, please export any symbol with _GPL. I don't want non-GPL drivers
-using this infrastructure.
+Sounds good! I commented on 1/3, I think it can be simplified and
+cleaned up quite a bit, which is great. Then let's base it on top of v4
+that I posted, let me know if you run into any issues with that.
 
 -- 
 Jens Axboe
