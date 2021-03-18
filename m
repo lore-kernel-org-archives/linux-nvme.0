@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6074DC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8ED5C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:19:06 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CE2DF64E42
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:18:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE2DF64E42
+	by mail.kernel.org (Postfix) with ESMTPS id 466B464E42
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 05:19:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 466B464E42
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=GIOCJdt2ihepaukOWSodFWxTR
-	02rDuusUesrIsGYxVmVP+sKmX3Wvev3eN0GaOOb8lousnV/r1dAauan359VBC0xtbtsHBFOZOzk52
-	BrIPNwEarWx8arfMhhOrttjunEDiAuGQ4YcXs+dfeSfd03C1P4YPyK3ZRj3DE5SVROYF4Naj+xoMS
-	oDY1JPE6B6Z1MMGm5EmJ3IYVNI2K0GqYKq6By2Jc1W6+7bSQa4DBdD6Bh/AbMHrdRFd+l1Bo2aBJg
-	SpI6/KAkGxyH2Wxo/c28937tB0x+Uo+hrJ/QCTpAr64//LgpX0cCowBSsffnQ7QzwOk3dhWwU0sZs
-	jE4uXvC8w==;
+	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=oAjRZ1bQRui2XU8/qE8NJbqA+
+	JLxUKouH5n7Gz0dSRc098hVIr87UiB2yGq266TAyaa3CRaTnK4lx7f5imwMl5BARXTcM+x7BICYH/
+	MSYQI7U79zNHpMfK9EfP9NzRUzfifvij1Fh+oNjVFjbnC/hFMvD8X9lpGIZlIrzn7LDSe3Pg/iYid
+	NP1D4CgE4xZp2Yrk4qH74VLNkPvy4KTfjpJdVbUMThUGwaE/4zPk/HUdu7+ScArt6Lfya797lfN7/
+	FZtvFiin1BXAjnVlN3TOW4+7Uhj45BYiGG/AKSQR+f4J/uRyvpJZ+VUDYaPd+5VSfCRXOncfpZlrM
+	5c/c/lCEw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMl3V-004Vs7-OZ; Thu, 18 Mar 2021 05:18:45 +0000
+	id 1lMl3g-004VtF-10; Thu, 18 Mar 2021 05:18:56 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMl3J-004Vqm-5j
- for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 05:18:35 +0000
+ id 1lMl3P-004VrU-Il
+ for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 05:18:41 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 476AB68C65; Thu, 18 Mar 2021 06:18:32 +0100 (CET)
-Date: Thu, 18 Mar 2021 06:18:32 +0100
+ id A469B68C4E; Thu, 18 Mar 2021 06:18:38 +0100 (CET)
+Date: Thu, 18 Mar 2021 06:18:38 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH] nvme: warn of unhandled effects only once
-Message-ID: <20210318051832.GC27813@lst.de>
-References: <20210317203341.17315-1-kbusch@kernel.org>
+Cc: joshi.k@samsung.com, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCHv2 0/2] nvme driver pdu enhancements for passthrough
+Message-ID: <20210318051838.GD27813@lst.de>
+References: <20210317203703.17391-1-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210317203341.17315-1-kbusch@kernel.org>
+In-Reply-To: <20210317203703.17391-1-kbusch@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210318_051833_675284_E540A5AD 
-X-CRM114-Status: UNSURE (   7.88  )
+X-CRM114-CacheID: sfid-20210318_051839_864054_DFA41777 
+X-CRM114-Status: UNSURE (   8.60  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
