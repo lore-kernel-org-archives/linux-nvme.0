@@ -2,20 +2,20 @@ Return-Path: <SRS0=ZogQ=IQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0235C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 04:41:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0428C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 04:43:26 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 530A664F2A
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 04:41:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 530A664F2A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 27C0064F40
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 04:43:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27C0064F40
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,43 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/rxW8oc6RBpUO6lpG70oHkIJC92L++lK3qEGfzoJClc=; b=hGK6DYaQ784jRQCYmariKljEs
-	s6P9jK/cnqJy+A2GN/zmd5PEg5tw97Eev0Tc4ew4KkO/nPsfCTqMarPbDAmlEbOwWC5mtTTffza6Y
-	PmN2/BkkoItSJbj6kdCAyx6N4oSPw+E1OftITanMt9Rn5XT7RSZ20+O7M2Y6gumqzVinZ72BkPlat
-	CHbHY5kXxXUcTM3j4d3f7cs2QuMrOpQT3AvS9TJGoJS+PN7FEJdJ82KHc57+wQL7or97htDNA8NFd
-	j68A3QDIxpLQsAfMyzFbcQle22R8cgW4bqFPVL/aMXJ6UsOfao46gOSzCsXAt7yVQZpBna8rQljLP
-	iKRpkpXiw==;
+	 bh=9eJZ0v2/1ISe31LyBHryazU8qQkhxKvTHj00hZ1bMfA=; b=loAIy8nNvwcb66uXtMpnBQX7W
+	/XnCX0Cl65abPxehqBi+IJZmqgFN1MAwmJNb+6HZHSKW3L5FjyRZv6v1WzEjAGvU/n5cH4/BIPxua
+	ksZCTj2gLGUdqBc7sT4HEwWMEf2G2GAtDvsHf7MNXW6BlMFoAAR9E29XwbJIbdu8MxxpzbL3f4zQL
+	347FrBi2UfuY40o6JxKRzNkC63RTd6/ApkzuxTNII+6ltJUkDi3lmykna9qO76eSQ88cWtKNBn2nB
+	NANOpDj16pqB+cVLUhfiyzLuPlT19wynWTeGHZn0U2NrK83PJewq31vWqtQafWUxdMLY0fJYmD0L8
+	ecsyFGj3A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMkT6-004QMi-Ud; Thu, 18 Mar 2021 04:41:09 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lMkUq-004QhQ-8d; Thu, 18 Mar 2021 04:43:00 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMkSU-004QDy-Ll
- for linux-nvme@desiato.infradead.org; Thu, 18 Mar 2021 04:40:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=mj8eBj+VT4BL6egNSJRqQr4Kz1rqAxuIWsFt0M1Ifrk=; b=r6LPHkAClaG+RvjaPpAJD2/wtJ
- G/XGe/YRASkUHTX7RggQNxBYWPC1SPfCaVdS6jOVRIQnT84o2q2VOqBGyTr0nVVRdpF7bq3RAkjsn
- eWT8KKyz8A2PMAxcjxVyELfSTMS5ac8ZauC1elYqeyoDDZGWzpQ/G67zoNYInRy9ZYYEvM+xiMnl5
- 5ayJ2SS1OdwqQLSjAJRrVrcyQ+3+Wrt+UUpvBn/y7KSZW4UW/VolsYp9SmjhgzJyjQQ+mvRw43Ku4
- 3nVsk+FFAzbq7c71BeMB+am0Fa745azYzKNZCMPg9rqcXwezTv4Sj/Qw+Rt0XQE42g2GG1/i4Xe8i
- WdXEnwcg==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lMkRv-002Y2V-N1; Thu, 18 Mar 2021 04:40:03 +0000
-Date: Thu, 18 Mar 2021 04:39:55 +0000
-From: Christoph Hellwig <hch@infradead.org>
-To: elad.grupi@dell.com
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvmet-tcp: fix kmap leak when data digest in use
-Message-ID: <20210318043955.GA607481@infradead.org>
-References: <20210316154425.16434-1-elad.grupi@dell.com>
+ id 1lMkUi-004Qeo-K8
+ for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 04:42:53 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 5853668C4E; Thu, 18 Mar 2021 05:42:46 +0100 (CET)
+Date: Thu, 18 Mar 2021 05:42:45 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCHv2] nvme: implement non-mdts command limits
+Message-ID: <20210318044245.GC26988@lst.de>
+References: <20210317212606.110919-1-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210316154425.16434-1-elad.grupi@dell.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210317212606.110919-1-kbusch@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210318_044251_242473_A82A2211 
+X-CRM114-Status: GOOD (  14.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,9 +68,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+>  static void nvme_config_write_zeroes(struct request_queue *q,
+>  		struct nvme_ctrl *ctrl)
+>  {
+> +	blk_queue_max_write_zeroes_sectors(q, ctrl->max_zeroes_sectors);
 
-applied to nvme-5.12.
+I think at this point we can kill nvme_config_write_zeroes :)
+
+> +static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_command c = { };
+> +	struct nvme_id_ctrl_nvm *id;
+> +	int ret;
+> +
+> +	if (!(ctrl->oncs & NVME_CTRL_ONCS_DSM)) {
+> +		ctrl->max_discard_sectors = 0;
+> +		ctrl->max_discard_segments = 0;
+> +	} else {
+> +		ctrl->max_discard_sectors = UINT_MAX;
+> +		ctrl->max_discard_segments = NVME_DSM_MAX_RANGES;
+> +	}
+
+Can you switch the polarity here, that is avoid the pointless
+negation in the if?
+
+> +	if (ctrl->vs < NVME_VS(1, 2, 0))
+> +		return 0;
+
+This check doesn't make much sense to me, as new TPs can always apply
+to older spec versions as well.  Instead this probably should be a
+nvme_ctrl_limited_cns() check.
 
 _______________________________________________
 Linux-nvme mailing list
