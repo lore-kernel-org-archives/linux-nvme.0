@@ -2,94 +2,90 @@ Return-Path: <SRS0=ZogQ=IQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D19C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 12:57:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1349FC433E9
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 13:09:53 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 50C9264EE2
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 12:57:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 50C9264EE2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	by mail.kernel.org (Postfix) with ESMTPS id C121964EED
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 13:09:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C121964EED
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=PKhKBUstotW7KYpPEVIA81ZAk7TvZcqo1FfcWDKs3hs=; b=ihrYHJ1xMiE5TI6+HfZpG3tXUt
-	FjfzaU8ympePZBRidRwFk19AuuWwKBTY7G5N8xFY4K/E1bElqlbdnekqpjferXXJz466rTa71lRGl
-	VlPtiCKr47Zprd1X4uWXbAXP2CkCXpEbiMsqNOzX1qAjjVQXCLq0gPvAmt5/5XJSjsIijJZnochdc
-	CKse4rlkO16+AcGapAs8qg3fPO/JsaE17DNn8xvcpayrxGqJQVmAmXD/qQ6oTmcrfZy65S3+jzkMZ
-	7vFQ92P5OFhGwm78W6BdEBdWm4muJhug3TgIHBBFfcENP0/PuIiUMXLQY2uwEG4r3AAm8g6jNzC3G
-	buFa768w==;
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=cCJfz88z4b0Tf4kfqHd3fMlqm0D7npZDJ+3YSGKVSHI=; b=X12I7V5atgx8CXRBLTx5o7DYm
+	/rljCFc1CLD/NaITlbOjakgVjs9y8Y1XSJoGEM0/AQ+jCCaBbRKfWQORySamMibgNlUPrj+75Ykwh
+	Ys/WjZ+h+dMuoI9L2K2y5DovX6/nQv/vGpENsiaR5feVvgtXU2HuHWlvynPLwdI3+FNFKc5JwgcJB
+	ep9raJyuMH2Fb8XanAOlfo9s/Jb314FqcnMFRPOhik63DUNVR6nKa78WCs80z4suhD4QsDwVwd3G6
+	gtOh/nokFdRz7OYwBLTKOi07r/WouNE6U+357jVKEv2tx/dBqJKeirwJWXFygCqM3gfKGQToKubPQ
+	mIvyGXc6Q==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMsDW-005HR9-3p; Thu, 18 Mar 2021 12:57:34 +0000
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
+	id 1lMsP9-005K6J-9Q; Thu, 18 Mar 2021 13:09:35 +0000
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMsBS-005H2N-FW
- for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 12:57:30 +0000
-Received: from pps.filterd (m0170392.ppops.net [127.0.0.1])
- by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12ICmTIW006550
- for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 08:55:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=uBW2M+37MvYr+8X3rZhGDg4PCzCkuvFH7Xk/N95VjMY=;
- b=ubCMEXc34jvwOcGxvTsnkX//Sskylv56eUCTqnDZ92xcY+RsyWMnQqwR+G4kD4IFri1A
- QxypmAKQwJg7Qmerucxf/5nhwnIxZUVwkc+n4Yjlmb2NR0Y/mtIwm5djdfMRM6bNGVk9
- Rtbjf5ELS76xmCfnPzkkHp+zjjtwzKccAi3RL/DeHc6sHfrDdTRhxAs6zQrY6aJZw99f
- KeoxYIOn9Oz/7Ax2tIpbGedSHAROpL+g1kyIpYpzRDVEDHZkUIL4sECZI3fsAzW0iWNq
- 2pQmtXUyMHcuQUdjugN8ae1slNjySvPXFnNVqsEJDMTI4GoUbUTbm/bOwjUfQjWbkfkR Sw== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
- [67.231.157.37])
- by mx0a-00154904.pphosted.com with ESMTP id 37aurfh5yc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 08:55:23 -0400
-Received: from pps.filterd (m0144104.ppops.net [127.0.0.1])
- by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12ICp7mC068389
- for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 08:55:23 -0400
-Received: from esaploutdur03.us.dell.com ([128.221.233.10])
- by mx0b-00154901.pphosted.com with ESMTP id 379bmv1u1y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 08:55:22 -0400
-X-PREM-Routing: D-Outbound
-X-LoopCount0: from 10.55.224.98
-Received: from vd-idand.xiolab.lab.emc.com (HELO vd-grupie.xiolab.lab.emc.com)
- ([10.55.224.98])
- by esaploutdur03.us.dell.com with ESMTP; 18 Mar 2021 07:55:21 -0500
-From: elad.grupi@dell.com
-To: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Cc: Elad Grupi <elad.grupi@dell.com>
-Subject: [PATCH] nvmet-tcp: fix a segmentation fault during io parsing error
-Date: Thu, 18 Mar 2021 14:55:18 +0200
-Message-Id: <20210318125518.27121-1-elad.grupi@dell.com>
-X-Mailer: git-send-email 2.18.2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-18_07:2021-03-17,
- 2021-03-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 adultscore=0
- impostorscore=0 mlxlogscore=999 bulkscore=0 spamscore=0 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103180096
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 bulkscore=0
- phishscore=0 suspectscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103180096
+ id 1lMsNt-005JYl-FY
+ for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 13:08:23 +0000
+Received: by mail-pg1-x533.google.com with SMTP id u19so1394568pgh.10
+ for <linux-nvme@lists.infradead.org>; Thu, 18 Mar 2021 06:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=y2o9ANfuMs3TrmcdxsV7oOkUp5tOtdtkkLZgkfIPJPc=;
+ b=EO6/my8kQyqe4dQPPixFhiW7qY0CVU1s281nLJ0q86tRmwwpqJup47xLMFEuOINOpo
+ bLr3jeU7UMgV1WxMXyLECzRGQhIAfWAPyXQCwCTSeyDYT7XhuowoNzrOT7JOVSXAmHni
+ Ow7MI7eEciLJ0WUsAeuSVb2pexVXCaz4fVERTuPmLexCF8jTV+cD3kQ5o8nKmd9zC0qy
+ 4z3A1Q+K0Pvtlfp9vvM1rB2I2QR1IZ9K6LYJa8cJCBmhJsZE+JoT9dOLmij5axQv4A1A
+ VW8SZdQa4p+5iW+YqRtgZNSC7mHnQLOWjNgaGwCK8y+UUHu6U02/fV76Ydfwej/MpNCn
+ rCdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=y2o9ANfuMs3TrmcdxsV7oOkUp5tOtdtkkLZgkfIPJPc=;
+ b=Mc4I2RGEHNeD7FL89ytT1so+/ewpXVFW4oOU06vCm9TaLRSQl/qNMBloLRe6gXP29g
+ kIDsAjHYe4+4lLcIeKMQgHYlayngJQIXXxhgKJLlHB5Zzf36sTZatY0xQmoiZLNJLU+V
+ AVv24gIG0JcuDizMSullXKapTypZ0MzXFh9YgN+gyByFRSVlMTXtJXLf7OuhgGXFOwez
+ MJ78ZXMNkKL9mpVdiNLfvooW2FlQgg+B+7HrrUghNezJTdXIl12VTTtDqvqStpihnxJM
+ c9BEdeQ698Q6TbEqMoNTUy/ZzLWSi0ppizxtEC6qKi/CvURjpbTdhkVZxJJsnyqCnNXq
+ yH2Q==
+X-Gm-Message-State: AOAM533aRKWuMdo17ooBUNf8w3LNItKrmLdFLDCHb6erjIO1A58J/4LP
+ 5PngJ0ppEC1vAxHLuSIpnYU=
+X-Google-Smtp-Source: ABdhPJyQpcAGLloxv8bLNLjgkn6aL4/vPxNrjzpk5jlzXx+TGP4/vRQ+U8wlRaOAsdFuF3nib6SUnw==
+X-Received: by 2002:a62:3706:0:b029:211:3d70:a55a with SMTP id
+ e6-20020a6237060000b02902113d70a55amr1428475pfa.16.1616072896132; 
+ Thu, 18 Mar 2021 06:08:16 -0700 (PDT)
+Received: from houpudeMacBook-Pro.local.net ([61.120.150.74])
+ by smtp.gmail.com with ESMTPSA id z27sm2433106pff.111.2021.03.18.06.08.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 18 Mar 2021 06:08:15 -0700 (PDT)
+From: Hou Pu <houpu.main@gmail.com>
+To: elad.grupi@dell.com
+Cc: linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	houpu.main@gmail.com
+Subject: RE: [PATCH] nvmet-tcp: fix a segmentation fault during io parsing
+ error
+Date: Thu, 18 Mar 2021 21:08:04 +0800
+Message-Id: <20210318130804.78329-1-houpu.main@gmail.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20210318082834.16093-1-elad.grupi@dell.com>
+References: <20210318082834.16093-1-elad.grupi@dell.com>
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210318_125727_599935_87CA5491 
-X-CRM114-Status: GOOD (  20.69  )
+X-CRM114-CacheID: sfid-20210318_130818_677016_7AF182A2 
+X-CRM114-Status: UNSURE (   6.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,70 +97,18 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Elad Grupi <elad.grupi@dell.com>
+I would like to verify this fix with latest 5.4 stable and upstream kernel.
+Will tell you the result later.
 
-In case there is an io that contains inline data and it goes to
-parsing error flow, command response will free command and iov
-before clearing the data on the socket buffer.
-This will delay the command response until receive flow is completed.
+Thanks,
+Hou
 
-Fixes: 872d26a391da ("nvmet-tcp: add NVMe over TCP target driver")
-Signed-off-by: Elad Grupi <elad.grupi@dell.com>
----
- drivers/nvme/target/tcp.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 70cc507d1565..5650293acaec 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -702,6 +702,17 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
- 			return 0;
- 	}
- 
-+	if (unlikely((cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
-+			nvmet_tcp_has_data_in(cmd) &&
-+			nvmet_tcp_has_inline_data(cmd))) {
-+		/*
-+		 * wait for inline data before processing the response
-+		 * so the iov will not be freed
-+		 */
-+		queue->snd_cmd = NULL;
-+		goto done_send;
-+	}
-+
- 	if (cmd->state == NVMET_TCP_SEND_DATA_PDU) {
- 		ret = nvmet_try_send_data_pdu(cmd);
- 		if (ret <= 0)
-@@ -1106,7 +1117,9 @@ static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
- 	if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
- 	    cmd->rbytes_done == cmd->req.transfer_len) {
- 		cmd->req.execute(&cmd->req);
--	}
-+	} else if ((cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
-+			cmd->rbytes_done == cmd->req.transfer_len)
-+		nvmet_tcp_queue_response(&cmd->req);
- 
- 	nvmet_prepare_receive_pdu(queue);
- 	return 0;
-@@ -1146,6 +1159,8 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
- 	if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
- 	    cmd->rbytes_done == cmd->req.transfer_len)
- 		cmd->req.execute(&cmd->req);
-+	else if ((cmd->flags & NVMET_TCP_F_INIT_FAILED))
-+		nvmet_tcp_queue_response(&cmd->req);
- 	ret = 0;
- out:
- 	nvmet_prepare_receive_pdu(queue);
--- 
-2.18.2
-
+[...]
 
 _______________________________________________
 Linux-nvme mailing list
