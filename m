@@ -2,20 +2,20 @@ Return-Path: <SRS0=ZogQ=IQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B17C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 04:40:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0235C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 04:41:24 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EB84064F24
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 04:40:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB84064F24
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 530A664F2A
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Mar 2021 04:41:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 530A664F2A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,36 +23,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=dwlM+l7TaxbBvVmcljvggHB5bSUZhyKzKv/fdCKqRoQ=; b=essHcO1P4vtCK6kVp6lYw/VrG
-	rny/ysgZgjEu9oQe9mqRMQffnwf4YE0eZTD7HkvMTIlvkuVf0VE62fJajFBO7/oP/HuhkFshzAw2X
-	hY9xcsUakT3/hjViNyuO+ex7APNnzM20LXsTtLM/KpQNHMZzpTfrA7b5v2MDYXchar6gUrsdsWcLr
-	G4lvlBAFjfpXuAuYYCmfUvasY6TCB+yLrTK8e4fPEQw8hwRtbVdS1wlgfwaJ+b4+xukxlVoQ5ouFE
-	kEJ3q3hUCNS90ZqKga0b4etl3EVs+4XHY++xNnUqrKwEDYFsXHiSf5RTkxIq4karrGWaBggSV2/+2
-	wIeId4G9A==;
+	 bh=/rxW8oc6RBpUO6lpG70oHkIJC92L++lK3qEGfzoJClc=; b=hGK6DYaQ784jRQCYmariKljEs
+	s6P9jK/cnqJy+A2GN/zmd5PEg5tw97Eev0Tc4ew4KkO/nPsfCTqMarPbDAmlEbOwWC5mtTTffza6Y
+	PmN2/BkkoItSJbj6kdCAyx6N4oSPw+E1OftITanMt9Rn5XT7RSZ20+O7M2Y6gumqzVinZ72BkPlat
+	CHbHY5kXxXUcTM3j4d3f7cs2QuMrOpQT3AvS9TJGoJS+PN7FEJdJ82KHc57+wQL7or97htDNA8NFd
+	j68A3QDIxpLQsAfMyzFbcQle22R8cgW4bqFPVL/aMXJ6UsOfao46gOSzCsXAt7yVQZpBna8rQljLP
+	iKRpkpXiw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lMkS0-004Q6l-Vj; Thu, 18 Mar 2021 04:40:06 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1lMkT6-004QMi-Ud; Thu, 18 Mar 2021 04:41:09 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lMkQY-004Pwj-Ck
- for linux-nvme@lists.infradead.org; Thu, 18 Mar 2021 04:38:39 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id F387368C65; Thu, 18 Mar 2021 05:38:28 +0100 (CET)
-Date: Thu, 18 Mar 2021 05:38:28 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com,
- hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH 0/1] nvme: Export CSTS register via sysfs
-Message-ID: <20210318043828.GB26988@lst.de>
-References: <20210317204615.13971-1-alan.adamson@oracle.com>
+ id 1lMkSU-004QDy-Ll
+ for linux-nvme@desiato.infradead.org; Thu, 18 Mar 2021 04:40:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=mj8eBj+VT4BL6egNSJRqQr4Kz1rqAxuIWsFt0M1Ifrk=; b=r6LPHkAClaG+RvjaPpAJD2/wtJ
+ G/XGe/YRASkUHTX7RggQNxBYWPC1SPfCaVdS6jOVRIQnT84o2q2VOqBGyTr0nVVRdpF7bq3RAkjsn
+ eWT8KKyz8A2PMAxcjxVyELfSTMS5ac8ZauC1elYqeyoDDZGWzpQ/G67zoNYInRy9ZYYEvM+xiMnl5
+ 5ayJ2SS1OdwqQLSjAJRrVrcyQ+3+Wrt+UUpvBn/y7KSZW4UW/VolsYp9SmjhgzJyjQQ+mvRw43Ku4
+ 3nVsk+FFAzbq7c71BeMB+am0Fa745azYzKNZCMPg9rqcXwezTv4Sj/Qw+Rt0XQE42g2GG1/i4Xe8i
+ WdXEnwcg==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1lMkRv-002Y2V-N1; Thu, 18 Mar 2021 04:40:03 +0000
+Date: Thu, 18 Mar 2021 04:39:55 +0000
+From: Christoph Hellwig <hch@infradead.org>
+To: elad.grupi@dell.com
+Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvmet-tcp: fix kmap leak when data digest in use
+Message-ID: <20210318043955.GA607481@infradead.org>
+References: <20210316154425.16434-1-elad.grupi@dell.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210317204615.13971-1-alan.adamson@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210318_043838_294827_EB4FA7E6 
-X-CRM114-Status: GOOD (  12.45  )
+In-Reply-To: <20210316154425.16434-1-elad.grupi@dell.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,15 +76,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 17, 2021 at 04:46:14PM -0400, Alan Adamson wrote:
-> This patch exports the NVMe Controller CSTS register via sysfs.  This
-> feature can be used by userland executables that accessed CSTS and
-> possibly other registers by mapping them into user space.  Since this ability
-> may not always available, exporting certain registers via sysfs provides
-> a safe/read-only way to access registers from outside the kernel.
+Thanks,
 
-So what is this application doings with it?  Should we just have a
-ready attribute instead of exporting a raw register encoding?
+applied to nvme-5.12.
 
 _______________________________________________
 Linux-nvme mailing list
