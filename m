@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA6B6C433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 13:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C584BC433DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 14:06:01 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 36E9F64EEE
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 13:37:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36E9F64EEE
+	by mail.kernel.org (Postfix) with ESMTPS id 396D764EF6
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 14:06:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 396D764EF6
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,39 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=IAkUNhG7CLjPTvqNdEPDYV6F8vY5RUCeGggcK30SxF0=; b=Gx+GgG1AqhxCRPtay3mcPEP1+
-	Vq/CZZkCobd3/07pWcd0C4Q7ADG0f3E7qR1uw5I2TUW8i/Fqul2c/Vz+bUi/2kVrq84BEZIjIfpmt
-	KtentVuXQDKsxGJlg0IyvHX/YoYW4zErkG/aRv2MnHmtrXgR4UMRPcK+hDvFd5MwRRG7fjBc11uP9
-	kwZkHNwhJ3wtzlpK6yyZOCN17/no8CxXV2of2RGyX+PdO2kRPzILMTujz4yF3XV5sA4LXfWAZUAk9
-	g5EiGrrkOAtjWeBGp15gn4hMYe+mbg07fiAikIan6GEmRYqDWe8TB9bKsZy+4gGZezulkq1IaGHXu
-	+FVl4i/nw==;
+	 bh=uc6VUz9GZlpTIAfjyWx4vuULgttNehpSaUcVyhDgPU0=; b=d1ONmUDDSGSB4XrklI3sEWXLw
+	6GqnpXnMSxKvPa/zAqomploABwIdmI+2etMR9kVOm/IVuDCBdhDtQR4VgMM7XQV7LTbcPfdThAc/J
+	+2+sQ3dhweapRCbqFlNkZE8tqnTKWfZWD/oM9CkwEHD8i4Kif++8vYPQbfMtfzRSXBE3JWkBdr8sk
+	SzKrYA+LGXckti+HreGSgKFgHUWC6qmO+hESmcJBI6iTw11CfS1g8YlASygwF1z1afBHIWuNM4csp
+	DNQ8CewM0+plf/6pt9bX+aBEDQvs3EEdA2oQZOFYmxnRqRBS0zBk5C0tZZtVOD69PxdS23lLDMLs4
+	a+8sms57Q==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lNFJl-007UNG-9v; Fri, 19 Mar 2021 13:37:33 +0000
+	id 1lNFkw-007W3m-Up; Fri, 19 Mar 2021 14:05:39 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lNFJh-007UMk-Ge
- for linux-nvme@lists.infradead.org; Fri, 19 Mar 2021 13:37:31 +0000
+ id 1lNFkt-007W3K-0u
+ for linux-nvme@lists.infradead.org; Fri, 19 Mar 2021 14:05:36 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 3427268C4E; Fri, 19 Mar 2021 14:29:11 +0100 (CET)
-Date: Fri, 19 Mar 2021 14:29:10 +0100
+ id 5518568BFE; Fri, 19 Mar 2021 15:05:32 +0100 (CET)
+Date: Fri, 19 Mar 2021 15:05:32 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@lst.de>, io-uring@vger.kernel.org,
- joshi.k@samsung.com, kbusch@kernel.org,
- linux-nvme@lists.infradead.org, metze@samba.org
-Subject: Re: [PATCH 1/8] io_uring: split up io_uring_sqe into hdr + main
-Message-ID: <20210319132910.GA4249@lst.de>
-References: <20210317221027.366780-1-axboe@kernel.dk>
- <20210317221027.366780-2-axboe@kernel.dk> <20210318053454.GA28063@lst.de>
- <04ffff78-4a34-0848-4131-8b3cfd9a24f7@kernel.dk>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH 0/3 rfc] Fix nvme-tcp and nvme-rdma controller reset hangs
+Message-ID: <20210319140532.GA7019@lst.de>
+References: <59f7a030-ea33-5c31-3c18-197c5a12e982@grimberg.me>
+ <17b15849-f0f3-af61-113f-0eb717e96f0f@huawei.com>
+ <20210317065910.GC14498@lst.de>
+ <2e391aae-58c7-b8f7-1a9e-d7ad5bb3f8f3@huawei.com>
+ <6c085430-cc10-a2fd-56ee-a360109c940a@grimberg.me>
+ <55142c25-9a70-08a0-d46a-cad21da59d19@huawei.com>
+ <7b7d5223-ddaf-eb88-f112-02834f8c8f93@grimberg.me>
+ <20210318191613.GB31675@redsun51.ssa.fujisawa.hgst.com>
+ <be15cc68-2129-286e-55b3-a2c23f8c93fd@grimberg.me>
+ <20210318215256.GC31675@redsun51.ssa.fujisawa.hgst.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <04ffff78-4a34-0848-4131-8b3cfd9a24f7@kernel.dk>
+In-Reply-To: <20210318215256.GC31675@redsun51.ssa.fujisawa.hgst.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210319_133729_621859_592A474C 
-X-CRM114-Status: GOOD (  29.01  )
+X-CRM114-CacheID: sfid-20210319_140535_200718_8FCD0F91 
+X-CRM114-Status: GOOD (  18.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,54 +79,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 18, 2021 at 12:40:25PM -0600, Jens Axboe wrote:
-> > and use that for all new commands going forward while marking the
-> > old ones as legacy.
-> > 
-> > io_uring_cmd_sqe would then be:
-> > 
-> > struct io_uring_cmd_sqe {
-> >         struct io_uring_sqe_hdr	hdr;
-> > 	__u33			ioc;
-> > 	__u32 			len;
-> > 	__u8			data[40];
-> > };
-> > 
-> > for example.  Note the 32-bit opcode just like ioctl to avoid
-> > getting into too much trouble due to collisions.
-> 
-> I was debating that with myself too, it's essentially making
-> the existing io_uring_sqe into io_uring_sqe_v1 and then making a new
-> v2 one. That would impact _all_ commands, and we'd need some trickery
-> to have newly compiled stuff use v2 and have existing applications
-> continue to work with the v1 format. That's very different from having
-> a single (or new) opcodes use a v2 format, effectively.
+On Fri, Mar 19, 2021 at 06:52:56AM +0900, Keith Busch wrote:
+> Having submit_bio() return the enter status was where I was going with
+> this, but the recursive handling makes this more complicated than I
+> initially thought.
 
-I only proposed it for all new commands because we have so many
-existing ones.
+Note that the recursion handling is not really required for
+nvme-multipath.  I have some plans to actually kill it off entirely
+for blk-mq submissions, which needs work on the bounce buffering
+and bio splitting code, but should not be too hard.
 
-> Looking into the feasibility of this. But if that is done, there are
-> other things that need to be factored in, as I'm not at all interested
-> in having a v3 down the line as well. And I'd need to be able to do this
-> seamlessly, both from an application point of view, and a performance
-> point of view (no stupid conversions inline).
-> 
-> Things that come up when something like this is on the table
-> 
-> - Should flags be extended? We're almost out... It hasn't been an
->   issue so far, but seems a bit silly to go v2 and not at least leave
->   a bit of room there. But obviously comes at a cost of losing eg 8
->   bits somewhere else.
-> 
-> - Is u8 enough for the opcode? Again, we're nowhere near the limits
->   here, but eventually multiplexing might be necessary.
-> 
-> That's just off the top of my head, probably other things to consider
-> too.
+> If you use the NOWAIT flag today with a freezing queue, the IO will end
+> with BLK_STS_AGAIN and punt retry handling to the application. I'm
+> guessing you don't want that to happen, so a little more is required for
+> this idea.
 
-At some point there isn't much left of the common space if we
-extend all that, but yeah.
+We really should not use NOWAIT but a flag that only escapes the
+freeze protection.  I think REQ_FAILFAST_DRIVER should probably be changed
+to trigger that, but even if not we could add a new flag.
 
+> Since it's an error path, perhaps a block operations callback is okay?
+> Something like this compile tested patch?
+
+We really should not need an indirection.  And more importantly I don't
+think the consuming driver cares, it really is the submitting one.
 
 _______________________________________________
 Linux-nvme mailing list
