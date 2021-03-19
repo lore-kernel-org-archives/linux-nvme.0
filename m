@@ -3,70 +3,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAEFC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 11:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADF84C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 12:44:28 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DCA3664F69
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 11:20:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCA3664F69
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=samba.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1588564E60
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 12:44:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1588564E60
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:Subject:
-	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fhcSp9zHFt1TvPuGkysM3NqFeqycuFIlNqzQyCds/WQ=; b=C+MX7OFtMQzIxjr5WKBHn+eSE
-	U4CICijytnRZ3rmc5ZC68S4mgIGOSrrOnhs1lLchsmD7qV6qfYKRZMwRivkqUUMNtbLA6t0yKoDA/
-	VSylh8GPvEHDRoCjhne74u4I2BH3OJHkJfvkzyh1BokX4MU6MxYy61GVkkSA2JRQgWSRyNri8plu4
-	1G44lVqhN8mKVf+tuasMEtSe+EYe0fkWvCzV7ynn35jmYfzxwOu4kB7AP9PzlzJPyTsjDEEVpGLBi
-	5sDGfe8WtmUw6+6sV2OAgVe803MBoOURAvRa26ctLRD2N4O/u+sBM1V7YP0Oj/IgGbD0FVFcDTp0N
-	LuQH6njVw==;
+	 bh=ocw90KspNXLtBz0pfxyd3n7Fb4IK5WCt5fBt0H8hh10=; b=KTjLH7X+aElpKkZUUytXwLvPN
+	VbmSzOS1czwCRv9htrNPE7UOqVevNzf3be3+wlMPJYny5dtZCS0UyHQ/k/Pu15TWRBVdrf4RXlna5
+	ylzD6dNY52UMpnWUsTJm4c1cvTWEc6RakQIYkqa8JFHr3oRrYG8eEGRRIlPZnmS9vRyfVplxJwwwG
+	tZwwN15KZrOlAQBdCFZGDG+PfTdckJ/UJ5uu187IMKFXxF2hjD4E5K7qeN4sM/U7tT/5OOnheeXag
+	SZQp64mb5vHt5m/8eBDnptqJ3kOKmRUufm93FMgqZBGAL0GCkyYqWSG7rjeA2mWNI4jXRdFLbnL12
+	GlNKqzorg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lNDAz-007JwI-Vr; Fri, 19 Mar 2021 11:20:22 +0000
-Received: from hr2.samba.org ([2a01:4f8:192:486::2:0])
+	id 1lNETX-007Pve-MW; Fri, 19 Mar 2021 12:43:35 +0000
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lNDAt-007Jse-0e
- for linux-nvme@lists.infradead.org; Fri, 19 Mar 2021 11:20:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org; 
- s=42; h=Date:Message-ID:From:Cc:To;
- bh=Lzr/N/+iyNlyil+T7dqZ5scxU+ivRXShyGSjn8XoivA=; b=D2TL8zIJbiPAK4OfqP/ZGZUewL
- wudLdkMRDDxmlfEulTy8QkPFGkNvch98ao5pQbw8TYy2795GsPc9CqDInmN1Z5zB3RNldS/kj6t/A
- SI30kcdPM53btr5cX3nx7oa+F/7dpiCBY4A6nm4XjkfGm2RoU3DxSyoyM0OvF+QUMPjHjSXK8Z0eK
- SojnRmrQXJGot7HR5BLAjvs/YGpNMGn3J9gAyx0f+lJhMTVK4YG5MY/hq7uG+eC7KJ6pQBvGUjVWF
- QDAtXdaOHW73lwzBaGhn4OooOzshyYNNlqCEc/oxW6fD3tFytaj4+69dQjqfqPxCzp9x/7UEFLA1w
- Zc+rwJIqmVpbZ4i4Ar3Cs0zQMDJjwd2pqyFBJnKiyoutkQAhdQL39FIUmwyKiDRWGd9RDhnHb10IC
- NdxnIPaDWwWV57xMLr2pIl9t2/nFri2NcKQ2o6AvJprI9ILBvxaOYhUWkf7gD54zqLGZ9EJgZyeBQ
- /UZya9Ymo6ekzHvrptUwmJEU;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
- by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim) id 1lNDAj-0001iz-I5; Fri, 19 Mar 2021 11:20:05 +0000
-To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
-Cc: io-uring@vger.kernel.org, joshi.k@samsung.com, kbusch@kernel.org,
- linux-nvme@lists.infradead.org
-References: <20210317221027.366780-1-axboe@kernel.dk>
- <20210317221027.366780-2-axboe@kernel.dk> <20210318053454.GA28063@lst.de>
- <04ffff78-4a34-0848-4131-8b3cfd9a24f7@kernel.dk>
-From: Stefan Metzmacher <metze@samba.org>
-Subject: Re: [PATCH 1/8] io_uring: split up io_uring_sqe into hdr + main
-Message-ID: <02f5e194-ddd7-539f-9a6b-886ddf5c1144@samba.org>
-Date: Fri, 19 Mar 2021 12:20:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ id 1lNERX-007Pro-BX
+ for linux-nvme@lists.infradead.org; Fri, 19 Mar 2021 12:43:33 +0000
+Received: by mail-pf1-x432.google.com with SMTP id l123so5814644pfl.8
+ for <linux-nvme@lists.infradead.org>; Fri, 19 Mar 2021 05:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=w0ZdVyANdr56S6dEpKoAB7XUWp8JxF+HTfgSoDwJ4L8=;
+ b=amOvbcp2TUnXsfdboUSaCAK4AZ6DR+WkrKflVSmVnI6sYUkUw/l3nhiEEK/QL+TgN5
+ q52JfZxcqHv2TV+Ez7IYIXKSO/3WQY2E/YilLo1J598SGBB6CE2mESV73ihvfSDHTfv6
+ LqbxDjU6mOqCEMcHnxucftBEJGICQUxOrMLzs56hcUEeqL9DpojnwUlLrcMsoE7J1cpO
+ RHku4Fol3sTWORgNOFMZoEGdchjGP4EaoHMlEVCitqibB5m6gTWtxP8Al2ETdmQK5aaZ
+ o5Nyuq3g9y1Wbx1KgUataYMVv0qfhiFiW+48z9622b6JzmuGoC3GGWaIEmx3HcyhTdda
+ HltA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=w0ZdVyANdr56S6dEpKoAB7XUWp8JxF+HTfgSoDwJ4L8=;
+ b=KYdszCTawEfcIdCNSJBbS0Xt7x1Jd/dARGlRLOi/7wW61NA7P1R2OPpe6HTumq+8lO
+ RRrNa/mbTSpyitOC1e+RI0gnfQ3UVCg8eWDQRISw78zgNpoRuTWar1Uh7cyZSSH54UW4
+ XrSuo9PpqqPrHjRNUyb8r54VglJPNN0AjOH3jSGYK8+QOc2xFTHpKe+EZFRafUC5zYNL
+ YxdM8mMySj5TlJwfsEO8OxIoHMLG5njHqRF1aNANoJRvzPifoodlNrtVdJNUHxseDAW3
+ M6FfS9uQxsTt8j4ExsWlIHCjNe748IMqOp4CmiVBlIeKanCELPg8y/eQy3DEpixg6yaG
+ R7MA==
+X-Gm-Message-State: AOAM532KyvyyLM2nz4F8ipSpGaUvJdWYA7JSZfwHLUcPy0rSJTopa88n
+ L6MK9nIymrd3nhfHtRzzNCow7ItLemziQQ==
+X-Google-Smtp-Source: ABdhPJyHL+YkVkYDx5KBjTg47GdKiJEL7Ww3FNf3BBSpPxNBuU6T4GK5er6jHfIy+PvhhT9/jS8ivw==
+X-Received: by 2002:a65:5bc6:: with SMTP id o6mr10956190pgr.127.1616157689633; 
+ Fri, 19 Mar 2021 05:41:29 -0700 (PDT)
+Received: from [192.168.1.134] ([66.219.217.173])
+ by smtp.gmail.com with ESMTPSA id 143sm5722651pfx.144.2021.03.19.05.41.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Mar 2021 05:41:29 -0700 (PDT)
+Subject: Re: [GIT PULL] nvme fixes for 5.12
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <YFRPRP/WLS/5FCSc@infradead.org>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <91e2de6d-b6a7-b3a4-8997-b43d58076017@kernel.dk>
+Date: Fri, 19 Mar 2021 06:41:27 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <04ffff78-4a34-0848-4131-8b3cfd9a24f7@kernel.dk>
+In-Reply-To: <YFRPRP/WLS/5FCSc@infradead.org>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210319_112015_299449_3D11AFD6 
-X-CRM114-Status: GOOD (  43.15  )
+X-CRM114-CacheID: sfid-20210319_124331_743035_53AC6DB6 
+X-CRM114-Status: UNSURE (   9.29  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,217 +103,14 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 3/19/21 1:14 AM, Christoph Hellwig wrote:
+> git://git.infradead.org/nvme.git tags/nvme-5.12-20210319
 
-Am 18.03.21 um 19:40 schrieb Jens Axboe:
-> On 3/17/21 11:34 PM, Christoph Hellwig wrote:
->>> @@ -14,11 +14,22 @@
->>>  /*
->>>   * IO submission data structure (Submission Queue Entry)
->>>   */
->>> +struct io_uring_sqe_hdr {
->>> +	__u8	opcode;		/* type of operation for this sqe */
->>> +	__u8	flags;		/* IOSQE_ flags */
->>> +	__u16	ioprio;		/* ioprio for the request */
->>> +	__s32	fd;		/* file descriptor to do IO on */
->>> +};
->>> +
->>>  struct io_uring_sqe {
->>> +#ifdef __KERNEL__
->>> +	struct io_uring_sqe_hdr	hdr;
->>> +#else
->>>  	__u8	opcode;		/* type of operation for this sqe */
->>>  	__u8	flags;		/* IOSQE_ flags */
->>>  	__u16	ioprio;		/* ioprio for the request */
->>>  	__s32	fd;		/* file descriptor to do IO on */
->>> +#endif
->>>  	union {
->>>  		__u64	off;	/* offset into file */
->>>  		__u64	addr2;
->>
->> Please don't do that ifdef __KERNEL__ mess.  We never guaranteed
->> userspace API compatbility, just ABI compatibility.
-> 
-> Right, but I'm the one that has to deal with the fallout. For the
-> in-kernel one I can skip the __KERNEL__ part, and the layout is the
-> same anyway.
-> 
->> But we really do have a biger problem here, and that is ioprio is
->> a field that is specific to the read and write commands and thus
->> should not be in the generic header.  On the other hand the
->> personality is.
->>
->> So I'm not sure trying to retrofit this even makes all that much sense.
->>
->> Maybe we should just define io_uring_sqe_hdr the way it makes
->> sense:
->>
->> struct io_uring_sqe_hdr {
->> 	__u8	opcode;	
->> 	__u8	flags;
->> 	__u16	personality;
->> 	__s32	fd;
->> 	__u64	user_data;
->> };
->>
->> and use that for all new commands going forward while marking the
->> old ones as legacy.
->>
->> io_uring_cmd_sqe would then be:
->>
->> struct io_uring_cmd_sqe {
->>         struct io_uring_sqe_hdr	hdr;
->> 	__u33			ioc;
->> 	__u32 			len;
->> 	__u8			data[40];
->> };
->>
->> for example.  Note the 32-bit opcode just like ioctl to avoid
->> getting into too much trouble due to collisions.
-> 
-> I was debating that with myself too, it's essentially making
-> the existing io_uring_sqe into io_uring_sqe_v1 and then making a new
-> v2 one. That would impact _all_ commands, and we'd need some trickery
-> to have newly compiled stuff use v2 and have existing applications
-> continue to work with the v1 format. That's very different from having
-> a single (or new) opcodes use a v2 format, effectively.
+Pulled, thanks.
 
-I think we should use v0 and v1.
+-- 
+Jens Axboe
 
-I think io_init_req and io_prep_req could be merged into an io_init_prep_req()
-which could then do:
-
-switch (ctx->sqe_version)
-case 0:
-      return io_init_prep_req_v0();
-case 1:
-      return io_init_prep_req_v1();
-default:
-      return -EINVAL;
-
-The kernel would return IORING_FEAT_SQE_V1
-and set ctx->sqe_version = 1 if IORING_SETUP_SQE_V1 was passed from
-the caller.
-
-liburing whould then need to pass struct io_uring *ring to
-io_uring_prep_*(), io_uring_sqe_set_flags() and io_uring_sqe_set_data().
-in order to use struct io_uring->sq.sqe_version to alter the behavior.
-(I think we should also have a io_uring_sqe_set_personality() helper).
-
-static inline void io_uring_prep_nop(struct io_uring *ring, struct io_uring_sqe *sqe)
-{
-	struct io_uring_sqe_common *nop = &sqe->common;
-	if (ring->sq.sqe_version == 0)
-        	io_uring_prep_rw_v0(IORING_OP_NOP, sqe, -1, NULL, 0, 0);
-	else
-		*nop = (struct io_uring_sqe_common) {
-			.hdr = {
-				.opcode = IORING_OP_NOP,
-			},
-		};
-}
-
-For new features the prep functions would return a pointer to
-the specific structure (see also below).
-
-static inline struct io_uring_sqe_file_cmd *
-io_uring_prep_file_cmd(struct io_uring *ring, struct io_uring_sqe *sqe, int fd, uint32_t cmd_opcode)
-{
-	struct io_uring_sqe_file_cmd *file_cmd = &sqe->file_cmd;
-
-	*file_cmd = (struct io_uring_sqe_file_cmd) {
-		.hdr = {
-			.opcode = IORING_OP_FILE_CMD,
-		},
-		.fd = fd,
-		.cmd_opcode = cmd_opcode,
-	}
-
-	return file_cmd;
-}
-
-The application could then also check for a n
-In order to test v1 it should have a way to skip IORING_FEAT_SQE_V2
-and all existing tests could have a helper function to toggle that
-based on an environment variable, so that make runtests could run
-each test in both modes.
-
-> Looking into the feasibility of this. But if that is done, there are
-> other things that need to be factored in, as I'm not at all interested
-> in having a v3 down the line as well. And I'd need to be able to do this
-> seamlessly, both from an application point of view, and a performance
-> point of view (no stupid conversions inline).
-
-
-> Things that come up when something like this is on the table
-> 
-> - Should flags be extended? We're almost out... It hasn't been an
->   issue so far, but seems a bit silly to go v2 and not at least leave
->   a bit of room there. But obviously comes at a cost of losing eg 8
->   bits somewhere else.
-> 
-> - Is u8 enough for the opcode? Again, we're nowhere near the limits
->   here, but eventually multiplexing might be necessary.
-> 
-> That's just off the top of my head, probably other things to consider
-> too.
-
-What about using something like this:
-
-struct io_uring_sqe_hdr {
- 	__u64	user_data;
- 	__u16	personality;
- 	__u16	opcode;
-        __u32   flags;
-};
-
-I moved __s32 fd out of it as not all commands need it and some need more than
-one. So I guess it's easier to have them in the per opcode structure.
-and the io_file_get() should better be done in the per opcode prep_vX function.
-
-struct io_uring_sqe_common {
-	struct io_uring_sqe_hdr hdr;
-	__u8 __reserved[48];
-};
-
-struct io_uring_sqe_rw_common {
-	struct io_uring_sqe_hdr hdr;
-	__s32 fd;        /* file descriptor to do IO on */
-	__u32 len;       /* buffer size or number of iovecs */
-	__u64 off;       /* offset into file */
-	__u64 addr;      /* pointer to buffer or iovecs */
-	__kernel_rwf_t   rw_flags;
-	__u16 ioprio;    /* ioprio for the request */
-	__u16 buf_index; /* index into fixed buffers, if used */
-	__u8 __reserved[16];
-};
-
-struct io_uring_sqe_file_cmd {
-	struct io_uring_sqe_hdr	hdr;
-	__s32 fd;           /* file descriptor to do IO on */
-	__u32 cmd_opcode;   /* file specific command */
- 	__u8  cmd_data[40]; /* command spefic data */
-};
-
-struct io_uring_sqe {
-	union {
-		struct io_uring_sqe_common common;
-		struct io_uring_sqe_common nop;
-		struct io_uring_sqe_rw_common readv;
-		struct io_uring_sqe_rw_common writev;
-		struct io_uring_sqe_rw_common read_fixed;
-		struct io_uring_sqe_rw_common write_fixed;
-		struct io_uring_sqe_file_cmd file_cmd;
-        };
-};
-
-Each _opcode_prep() function would then check hdr.flags for unsupported flags
-and __reserved for zeros. Instead of having a global io_op_defs[] array
-the _opcode_prep() function would have a static const definition for the opcode
-and lease req->op_def (which would be const struct io_op_def *op_def);
-
-Does that sound useful in anyway?
-
-metze
 
 _______________________________________________
 Linux-nvme mailing list
