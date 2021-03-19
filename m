@@ -2,20 +2,19 @@ Return-Path: <SRS0=D92Q=IR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 884A3C433C1
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 17:28:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E983C433C1
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 17:30:34 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B29046191C
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 17:28:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B29046191C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id E669F6197A
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 17:30:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E669F6197A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,46 +22,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6rgYyf3OUM3xm7/BxeBuDLA5loYRAmzU2ykAQI6AyPQ=; b=WvAGYLlC4IuXwV3q8U5V7k09+
-	UhtRs7EhYK/As73jGVq4aa8oSAadiTkrV0p+IBQNeV6TCD+3bXMuUwiyDYQyqTpRJn+uhWVRC9uRK
-	bVhPnN6PZPCNjx3Kcjvb2rBxyKmNwxjMaY7R0GwOhAieuGdABFfGLLHpPhFJs8/zR3tjQrpz0bwjn
-	LteabnjpFGoSCAdztCcAYZMe+xwHokKm+BUCRzJcntDTYK4Kl2Wwv6F0gDIXtkh9G8AsYCMWdU8ek
-	0SwegiTucuc+wDctp7xNZCUpmrRhQnZJb09d86yDRMQhV3QzsbQ2roGMCEq7CPRZO1IHec+jpFSKt
-	anlz5i4mQ==;
+	 bh=SvrJzkK6SAEsY6eupLk4yzToq58q77tKjuP9F2wQVMY=; b=QcQzS8ST3UFttb1HLeZmvV7qK
+	Ne7p+cyef2h8WjMLUbEb1WARLOcJpHrRi7Z66ZXJtsplj+jzDlBrAc1i7FqiuBv9zIirWwJaY8AqW
+	bO3PxsvKpsJHaM/mdbzN+7mtgOw06TQpMAuFgxF1eeX6zKOyh80R7eTwBdOOgT7f5uUO2MaCeLJzO
+	gM8efqiyh7KZ2h+y7qwAtfMMGKYqTRkUqTsjR/u7kTxWLXCSO+9wwBOXgOd6GIjtJwQvK7pQjpfH9
+	Y2ROKoxwLKi6I8n8QGUIhL2wbtyvNS5u0zmbaBxGQDoh6nTBCOttPFdkk33ClCf6s+Z/rGElhAKWK
+	HA2XxgCbQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lNIvG-007qP6-IC; Fri, 19 Mar 2021 17:28:30 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1lNIx4-007qbR-GA; Fri, 19 Mar 2021 17:30:22 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lNIv9-007qNv-4G
- for linux-nvme@lists.infradead.org; Fri, 19 Mar 2021 17:28:27 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id E2F8568BFE; Fri, 19 Mar 2021 18:28:17 +0100 (CET)
-Date: Fri, 19 Mar 2021 18:28:17 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH 0/3 rfc] Fix nvme-tcp and nvme-rdma controller reset hangs
-Message-ID: <20210319172817.GA23660@lst.de>
-References: <17b15849-f0f3-af61-113f-0eb717e96f0f@huawei.com>
- <20210317065910.GC14498@lst.de>
- <2e391aae-58c7-b8f7-1a9e-d7ad5bb3f8f3@huawei.com>
- <6c085430-cc10-a2fd-56ee-a360109c940a@grimberg.me>
- <55142c25-9a70-08a0-d46a-cad21da59d19@huawei.com>
- <7b7d5223-ddaf-eb88-f112-02834f8c8f93@grimberg.me>
- <20210318191613.GB31675@redsun51.ssa.fujisawa.hgst.com>
- <be15cc68-2129-286e-55b3-a2c23f8c93fd@grimberg.me>
- <20210318215256.GC31675@redsun51.ssa.fujisawa.hgst.com>
- <20210319140532.GA7019@lst.de>
+ id 1lNIx1-007qaj-53
+ for linux-nvme@lists.infradead.org; Fri, 19 Mar 2021 17:30:21 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D4656191C;
+ Fri, 19 Mar 2021 17:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616175016;
+ bh=xDKw2+GLytwOPQR820i4G4E0SGEccFBdpK0AjCLbH3I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=COGyDQyLKpX3K5Hi+8ipdXCX7TaWWkl1U1ozllr4xPPvS8Dzwd9ANq4bM3zTvNgKs
+ bGRR/s+1/K/HQzwvK9Xp5pIH1XFUWiMzcloyuEuNikAD+WhX6ILydvUb6cFHFezQjN
+ W9evtCwMKLk6L3s/704rmG5ZWwhDxEc2gvQZuoo7v7MywaaASyIaInDZxRBulUtto3
+ Zu9nS/H/DjlJI02TLGUVvbre3b9kHMlweLKhhsUQWN4Wq07eLjJeiKZKgqitWKKAQc
+ 22wWHTYvdLceZNpaY//Tw0eR1dplu6Gqsr88Ugur298d19QIPSde2PywPMcKYzrOUa
+ cSSMQgcSMJCnA==
+Date: Sat, 20 Mar 2021 02:30:09 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Alan Adamson <alan.adamson@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "axboe@fb.com" <axboe@fb.com>, "sagi@grimberg.me" <sagi@grimberg.me>
+Subject: Re: [PATCH 0/1] nvme: Export CSTS register via sysfs
+Message-ID: <20210319173009.GA4198@redsun51.ssa.fujisawa.hgst.com>
+References: <20210317204615.13971-1-alan.adamson@oracle.com>
+ <20210318043828.GB26988@lst.de>
+ <0D18CE6C-4390-4040-98A6-14204DE33253@oracle.com>
+ <20210318165213.GA31675@redsun51.ssa.fujisawa.hgst.com>
+ <0D017D65-3D7C-4165-B25B-21E6A6FFDED5@oracle.com>
+ <20210318194653.GA2690@dhcp-10-100-145-180.wdc.com>
+ <20210319065158.GA11263@lst.de>
+ <20210319152208.GA3794@redsun51.ssa.fujisawa.hgst.com>
+ <20210319153008.GA14280@lst.de>
+ <49CFFA55-5A71-4C0D-8816-11EB88087AAA@oracle.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210319140532.GA7019@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <49CFFA55-5A71-4C0D-8816-11EB88087AAA@oracle.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210319_172825_284752_872A50FB 
-X-CRM114-Status: GOOD (  17.18  )
+X-CRM114-CacheID: sfid-20210319_173019_460043_6CE995D5 
+X-CRM114-Status: GOOD (  18.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,126 +83,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-What about something like this?
-
-diff --git a/block/blk-core.c b/block/blk-core.c
-index fc60ff20849738..4344f3c9058282 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -792,7 +792,7 @@ static inline blk_status_t blk_check_zone_append(struct request_queue *q,
- 	return BLK_STS_OK;
- }
- 
--static noinline_for_stack bool submit_bio_checks(struct bio *bio)
-+noinline_for_stack bool submit_bio_checks(struct bio *bio)
- {
- 	struct block_device *bdev = bio->bi_bdev;
- 	struct request_queue *q = bdev->bd_disk->queue;
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index d4d7c1caa43966..4ff85692843b49 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -2286,6 +2286,43 @@ blk_qc_t blk_mq_submit_bio(struct bio *bio)
- 	return BLK_QC_T_NONE;
- }
- 
-+/**
-+ * blk_mq_submit_bio_direct - hand a bio directly to the driver for I/O
-+ * @bio:  The bio describing the location in memory and on the device.
-+ *
-+ * This function behaves similar to submit_bio_noacct(), but does never waits
-+ * for the queue to be unfreozen, instead it return false and lets the caller
-+ * deal with the fallout.  It also does not protect against recursion and thus
-+ * must only be used if the called driver is known to be blk-mq based.
-+ */
-+bool blk_mq_submit_bio_direct(struct bio *bio, blk_qc_t *qc)
-+{
-+	struct gendisk *disk = bio->bi_bdev->bd_disk;
-+	struct request_queue *q = disk->queue;
-+
-+	if (WARN_ON_ONCE(!current->bio_list) ||
-+	    WARN_ON_ONCE(disk->fops->submit_bio)) {
-+		bio_io_error(bio);
-+		goto fail;
-+	}
-+	if (!submit_bio_checks(bio))
-+		goto fail;
-+
-+	if (unlikely(blk_queue_enter(q, BLK_MQ_REQ_NOWAIT)))
-+		return false;
-+	if (!blk_crypto_bio_prep(&bio))
-+		goto fail_queue_exit;
-+	*qc = blk_mq_submit_bio(bio);
-+	return true;
-+
-+fail_queue_exit:
-+	blk_queue_exit(disk->queue);
-+fail:
-+	*qc = BLK_QC_T_NONE;
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_submit_bio_direct);
-+
- void blk_mq_free_rqs(struct blk_mq_tag_set *set, struct blk_mq_tags *tags,
- 		     unsigned int hctx_idx)
- {
-diff --git a/block/blk.h b/block/blk.h
-index 3b53e44b967e4e..c4c66b2a9ffb19 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -221,6 +221,7 @@ ssize_t part_timeout_show(struct device *, struct device_attribute *, char *);
- ssize_t part_timeout_store(struct device *, struct device_attribute *,
- 				const char *, size_t);
- 
-+bool submit_bio_checks(struct bio *bio);
- void __blk_queue_split(struct bio **bio, unsigned int *nr_segs);
- int ll_back_merge_fn(struct request *req, struct bio *bio,
- 		unsigned int nr_segs);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index a1d476e1ac020f..92adebfaf86fd1 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -309,6 +309,7 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
- 	 */
- 	blk_queue_split(&bio);
- 
-+retry:
- 	srcu_idx = srcu_read_lock(&head->srcu);
- 	ns = nvme_find_path(head);
- 	if (likely(ns)) {
-@@ -316,7 +317,12 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
- 		bio->bi_opf |= REQ_NVME_MPATH;
- 		trace_block_bio_remap(bio, disk_devt(ns->head->disk),
- 				      bio->bi_iter.bi_sector);
--		ret = submit_bio_noacct(bio);
-+
-+		if (!blk_mq_submit_bio_direct(bio, &ret)) {
-+			nvme_mpath_clear_current_path(ns);
-+			srcu_read_unlock(&head->srcu, srcu_idx);
-+			goto retry;
-+		}
- 	} else if (nvme_available_path(head)) {
- 		dev_warn_ratelimited(dev, "no usable path - requeuing I/O\n");
- 
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 2c473c9b899089..6804f397106ada 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -615,6 +615,7 @@ static inline void blk_rq_bio_prep(struct request *rq, struct bio *bio,
- }
- 
- blk_qc_t blk_mq_submit_bio(struct bio *bio);
-+bool blk_mq_submit_bio_direct(struct bio *bio, blk_qc_t *qc);
- void blk_mq_hctx_set_fq_lock_class(struct blk_mq_hw_ctx *hctx,
- 		struct lock_class_key *key);
- 
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gRnJpLCBNYXIgMTksIDIwMjEgYXQgMDU6MjE6MjJQTSArMDAwMCwgQWxhbiBBZGFtc29uIHdy
+b3RlOgo+IAo+IAo+ID4gT24gTWFyIDE5LCAyMDIxLCBhdCA4OjMwIEFNLCBDaHJpc3RvcGggSGVs
+bHdpZyA8aGNoQGxzdC5kZT4gd3JvdGU6Cj4gPiAKPiA+IE9uIFNhdCwgTWFyIDIwLCAyMDIxIGF0
+IDEyOjIyOjA4QU0gKzA5MDAsIEtlaXRoIEJ1c2NoIHdyb3RlOgo+ID4+PiBJIHRoaW5rIHRoaXMg
+aXMgYSBob3JyaWJsZSBpZGVhLiAgVXNlcnNwYWNlIGhhcyBubyBidXNpbmVzcyB0b3VjaGluZwo+
+ID4+PiByZWdpc3RlcnMgZXZlbiByZWFkLW9ubHkuICBNTUlPIHJlYWRzIGNhbiBoYXZlIHNpZGUg
+ZWZmZWN0cyBhcyB3ZWxsLAo+ID4+PiBpbnRlbnRpb25hbCBvciB1bmludGVudGlvbmFsLCBhbmQg
+d2UgYWxzbyBvcGVuIHVwIGEgd2hvbGUgY2FuIG9mIHdvcm1zCj4gPj4+IG9mIG1pc21hdGNoZWQg
+bWVtb3J5IGF0dHJpYnV0ZXMuCj4gPj4gCj4gPj4gSSB3YXMgdGhpbmtpbmcgdGhlIGRyaXZlciB3
+b3VsZG4ndCBvcHQtaW4gaWYgdGhlcmUgd2VyZSByZWFkIHNpZGUKPiA+PiBlZmZlY3RzLCBidXQg
+eWVhaCwgaXQncyB0b28gZnJhZ2lsZS4gSSB3aXRoZHJhdyB0aGUgc3VnZ2VzdGlvbi4KPiA+IAo+
+ID4gSSdkIHN0aWxsIGxpa2UgdG8gdW5kZXJzdGFuZCB3aGF0IHZhbHVlcyBpbiBDU1RTIEFsYW4g
+Y2FyZXMgYWJvdXQuICBJCj4gPiBkb24ndCB0aGluayBqdXN0IGR1bXBpbmcgYSByZWdpc3RlciB3
+aXRoIHNvbWV3aGF0IGF3a3dhcmQgZW5jb2RpbmdzCj4gPiBpcyBhIGdvb2QgaWRlYS4KPiAKPiBQ
+cmltYXJpbHkgUmVhZHkgYW5kIEZhaWxlZC4gSeKAmW0gcmVhY2hpbmcgb3V0IHRvIHRoZSByZXF1
+ZXN0aW5nIHRlYW0gdG8gc2VlIGlmIHRoZSDigJlzdGF0ZeKAmSBhdHRyaWJ1dGUgaXMgc3VmZmlj
+aWVudC4KPiAKPiBCYWNrIHRvIG52bWUtY2xpIHNob3ctcmVncywgZG8gd2UganVzdCBleHBlY3Qg
+dGhpcyB0byBhbHdheXMgZmFpbCBub3cgb3VyIHNob3VsZCB3ZSBiZSByZXR1cm5pbmcgZ29vZAo+
+IHZhbHVlcz8KCkZvciBQQ0llLCB0aGF0IHNoZWxsIGNvbW1hbmQgcmV0dXJucyBnb29kIHZhbHVl
+cyBvbmx5IGlmIHRoZSBrZXJuZWwKd2Fzbid0IGNvbXBpbGVkIHdpdGggQ09ORklHX0lPX1NUUklD
+VF9ERVZNRU0uIElmIHRoZSBrZXJuZWwgd2FzIGNvbXBpbGVkCndpdGggdGhhdCBvcHRpb24gKG1v
+c3QgYXJlKSwgdXNlciBzcGFjZSB3aWxsIG5vdCBiZSBhYmxlIHRvIGFjY2VzcyB0aGUKdmFsdWVz
+LgoKRmFicmljcyBzaG91bGQgYWx3YXlzIHdvcmssIHRob3VnaCwgYmVjYXVzZSB3ZSByZXRyaWV2
+ZSBDU1RTIHRocm91Z2ggYW4KYWRtaW4gY29tbWFuZCByYXRoZXIgdGhhbiBtZW1vcnkgbWFwcGVk
+IElPLgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGlu
+dXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
+Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
