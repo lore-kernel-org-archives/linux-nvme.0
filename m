@@ -2,20 +2,19 @@ Return-Path: <SRS0=D92Q=IR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C584BC433DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 14:06:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4783C433C1
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 15:22:45 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 396D764EF6
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 14:06:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 396D764EF6
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 3A1FA6192B
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Mar 2021 15:22:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A1FA6192B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,46 +22,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=uc6VUz9GZlpTIAfjyWx4vuULgttNehpSaUcVyhDgPU0=; b=d1ONmUDDSGSB4XrklI3sEWXLw
-	6GqnpXnMSxKvPa/zAqomploABwIdmI+2etMR9kVOm/IVuDCBdhDtQR4VgMM7XQV7LTbcPfdThAc/J
-	+2+sQ3dhweapRCbqFlNkZE8tqnTKWfZWD/oM9CkwEHD8i4Kif++8vYPQbfMtfzRSXBE3JWkBdr8sk
-	SzKrYA+LGXckti+HreGSgKFgHUWC6qmO+hESmcJBI6iTw11CfS1g8YlASygwF1z1afBHIWuNM4csp
-	DNQ8CewM0+plf/6pt9bX+aBEDQvs3EEdA2oQZOFYmxnRqRBS0zBk5C0tZZtVOD69PxdS23lLDMLs4
-	a+8sms57Q==;
+	 bh=bX+NgPRpC/3pO1Qqg8zkYfqPlxDHZQChw/PUaM6lBUM=; b=dCroIN/Jy4GjvzxzHMtdFXqZ8
+	T8Gh1s6+mL6b1uazMZp+U83X1wbwtAAlslzXIFcJw6YDLYeAuPtEtjG0O6VxkouWZaeeqfqFg7qLv
+	hEFmHdONOI+hVrBinBmTsUyE3QCwZMVzapH34SjgvWnQ8qvnJUn389Ngih8NnfezOETR4kslGBwlH
+	PlDA3mVOTBVb/Z1wFp1VAaNkEEPcgx0og+Om8uDl0K5Z5CqjEUYZhUkJDUQTEhHLwIEjXch2zdoLR
+	nd+mGLVpyvknEpK9e/K8HieX8qebblXqcpXutFdAZLHpA/j211ACa34AED4NbriFMAP1DmCwA1rTJ
+	JWophuKNQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lNFkw-007W3m-Up; Fri, 19 Mar 2021 14:05:39 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1lNGxO-007chh-6f; Fri, 19 Mar 2021 15:22:34 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lNFkt-007W3K-0u
- for linux-nvme@lists.infradead.org; Fri, 19 Mar 2021 14:05:36 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 5518568BFE; Fri, 19 Mar 2021 15:05:32 +0100 (CET)
-Date: Fri, 19 Mar 2021 15:05:32 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH 0/3 rfc] Fix nvme-tcp and nvme-rdma controller reset hangs
-Message-ID: <20210319140532.GA7019@lst.de>
-References: <59f7a030-ea33-5c31-3c18-197c5a12e982@grimberg.me>
- <17b15849-f0f3-af61-113f-0eb717e96f0f@huawei.com>
- <20210317065910.GC14498@lst.de>
- <2e391aae-58c7-b8f7-1a9e-d7ad5bb3f8f3@huawei.com>
- <6c085430-cc10-a2fd-56ee-a360109c940a@grimberg.me>
- <55142c25-9a70-08a0-d46a-cad21da59d19@huawei.com>
- <7b7d5223-ddaf-eb88-f112-02834f8c8f93@grimberg.me>
- <20210318191613.GB31675@redsun51.ssa.fujisawa.hgst.com>
- <be15cc68-2129-286e-55b3-a2c23f8c93fd@grimberg.me>
- <20210318215256.GC31675@redsun51.ssa.fujisawa.hgst.com>
+ id 1lNGx6-007cfh-QS
+ for linux-nvme@lists.infradead.org; Fri, 19 Mar 2021 15:22:18 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B16826192C;
+ Fri, 19 Mar 2021 15:22:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616167335;
+ bh=l6HGEjH6jciETuilMvnxDi+rDwTUxFqhLutPzh8goqA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ojvo4t+GZx/i8Bufdlpl7xDvDOrVCadTCqwqijlbbQeKAR5wW/4/XGxWwZ23oBJ3Y
+ BcSwFVFBSMzM8W6Vrzuzz/ECULFFTWg0XCslHL+Xtw1sgzK9FfMf5ByGK7XrL2sjUy
+ sxOtolMn+UspYxjlDw+t9CGHetEjXhjjkLCaarwHTHox6Vn4fReeELr/w+ahnleWt5
+ DBGSu/dt7FHLYbZhNR7aB1gsCOtakzREE8ioVBfQd/5FOeVlo+wZe6xZ3A8yB2i0Ad
+ FGIpSqCep3Z2GaADnw6erC7fimT8jZso85XjuctPyUiWl04ct/u7zjdTN2MdKYvCdl
+ ATOvuC8uB5Xcw==
+Date: Sat, 20 Mar 2021 00:22:08 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Alan Adamson <alan.adamson@oracle.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "axboe@fb.com" <axboe@fb.com>, "sagi@grimberg.me" <sagi@grimberg.me>
+Subject: Re: [PATCH 0/1] nvme: Export CSTS register via sysfs
+Message-ID: <20210319152208.GA3794@redsun51.ssa.fujisawa.hgst.com>
+References: <20210317204615.13971-1-alan.adamson@oracle.com>
+ <20210318043828.GB26988@lst.de>
+ <0D18CE6C-4390-4040-98A6-14204DE33253@oracle.com>
+ <20210318165213.GA31675@redsun51.ssa.fujisawa.hgst.com>
+ <0D017D65-3D7C-4165-B25B-21E6A6FFDED5@oracle.com>
+ <20210318194653.GA2690@dhcp-10-100-145-180.wdc.com>
+ <20210319065158.GA11263@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210318215256.GC31675@redsun51.ssa.fujisawa.hgst.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20210319065158.GA11263@lst.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210319_140535_200718_8FCD0F91 
-X-CRM114-Status: GOOD (  18.06  )
+X-CRM114-CacheID: sfid-20210319_152217_039554_239FD80A 
+X-CRM114-Status: GOOD (  16.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,30 +85,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 19, 2021 at 06:52:56AM +0900, Keith Busch wrote:
-> Having submit_bio() return the enter status was where I was going with
-> this, but the recursive handling makes this more complicated than I
-> initially thought.
+On Fri, Mar 19, 2021 at 07:51:58AM +0100, Christoph Hellwig wrote:
+> On Thu, Mar 18, 2021 at 12:46:53PM -0700, Keith Busch wrote:
+> > I don't think it should require user space modifications. Just mmap the
+> > current resource as-is but let the driver allow read-only in the
+> > precense of CONFIG_IO_STRICT_DEVMEM. The below is a rough idea of what I
+> > had in mind (compile tested only, and a proper solution should restrict
+> > access to a specific address range)
+> 
+> I think this is a horrible idea.  Userspace has no business touching
+> registers even read-only.  MMIO reads can have side effects as well,
+> intentional or unintentional, and we also open up a whole can of worms
+> of mismatched memory attributes.
 
-Note that the recursion handling is not really required for
-nvme-multipath.  I have some plans to actually kill it off entirely
-for blk-mq submissions, which needs work on the bounce buffering
-and bio splitting code, but should not be too hard.
-
-> If you use the NOWAIT flag today with a freezing queue, the IO will end
-> with BLK_STS_AGAIN and punt retry handling to the application. I'm
-> guessing you don't want that to happen, so a little more is required for
-> this idea.
-
-We really should not use NOWAIT but a flag that only escapes the
-freeze protection.  I think REQ_FAILFAST_DRIVER should probably be changed
-to trigger that, but even if not we could add a new flag.
-
-> Since it's an error path, perhaps a block operations callback is okay?
-> Something like this compile tested patch?
-
-We really should not need an indirection.  And more importantly I don't
-think the consuming driver cares, it really is the submitting one.
+I was thinking the driver wouldn't opt-in if there were read side
+effects, but yeah, it's too fragile. I withdraw the suggestion.
 
 _______________________________________________
 Linux-nvme mailing list
