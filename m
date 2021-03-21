@@ -2,90 +2,80 @@ Return-Path: <SRS0=79y3=IT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE69C433DB
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Mar 2021 06:49:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 961A3C433DB
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 Mar 2021 07:08:03 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 92F826192A
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Mar 2021 06:49:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92F826192A
+	by mail.kernel.org (Postfix) with ESMTPS id F39936192D
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 Mar 2021 07:08:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F39936192D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Rv3N6WjvVONR7F14Vh4dAJ/wssTXbpLuCYTwDh1TAxg=; b=eC0HN8h84h673y6rhhLRFPtyT
-	KEkNXxx1olEFW7BZo6Blj6gNi2LtwL1/SUQGSse0YYO8W1IUIOBGuTJ+VOS7ohZF4wWWkrnhxdq2H
-	0YgvvaZp6ZyFaXUu5OMcasULZrW3sjdoGVhB64qUWc3mU7MVpeiaEI5Ow5AfrjQx9tFNXSA8QOFtX
-	cZ1eYOljOW876a2wMgcMWrEuVLQsV1vEDWUHQ/FyU4TZwyLU5InS7+1UiJ9NyeDzHmZTxcCPXDjC2
-	uf9qr0WjTDLmTRVTucqI3ld9E2sY7dhRBp8ap0uyrJZTa9922PNyFmajh+6/aPn496BGhQj3225sW
-	lHsL1KGAw==;
+	 bh=z6Pj4zpa6YlUkQHJgflx9aF8xWtTXxKGRijAWBdvGSs=; b=amDEB3CA3d7FE61WtmjeQrouL
+	2xaeDC4Zk7TCXecyjJllPwQC0nYDFYhpMa6xI/ArdnqzMmmsOhHMuHoj5EpvWw/ekg20+hJwQIs4k
+	2tMMA4tAnbc8UKvskVTYPeCQB0iTkrHWp9rWiyhIX48BQO96TESz1tLththe1NBblQMC27dTwCjD+
+	dr5EEcI6MTLej4xAlcHFRLvBGmRhypmRc+irmQ/nnY+gl1t3I23KIR1CzY6mQKnsVeJvXJlGSVy8t
+	rsv0g0mdL9RoijwOyjISUy4yJRPIaRox6y6ycfN19WkJKIkfZzVkv2jicqJpX0REeVtBN+pGPQjaI
+	3QMkRmiKA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lNruC-009fzt-4P; Sun, 21 Mar 2021 06:49:44 +0000
-Received: from mail-pf1-f176.google.com ([209.85.210.176])
+	id 1lNsBe-009hKK-6c; Sun, 21 Mar 2021 07:07:46 +0000
+Received: from mail-pf1-f178.google.com ([209.85.210.178])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lNru8-009fzT-H2
- for linux-nvme@lists.infradead.org; Sun, 21 Mar 2021 06:49:42 +0000
-Received: by mail-pf1-f176.google.com with SMTP id l3so8809720pfc.7
- for <linux-nvme@lists.infradead.org>; Sat, 20 Mar 2021 23:49:39 -0700 (PDT)
+ id 1lNsBZ-009hJq-6U
+ for linux-nvme@lists.infradead.org; Sun, 21 Mar 2021 07:07:43 +0000
+Received: by mail-pf1-f178.google.com with SMTP id h3so8815372pfr.12
+ for <linux-nvme@lists.infradead.org>; Sun, 21 Mar 2021 00:07:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YyKMSZaeNDlRJG/9EIb78YwkeTXo428/Ph6XRi4+e4c=;
- b=bpInCarCyA8emgtlz/3qBj2n5qBJZTBSi/srA2xXrmp1CdX+jHIzIH2hTt85WpH6nX
- Y9X0IEhlPmTCSLBvRev5osTD3yYUaf7yeQPZNCXT/M0l9sepCO7LYCou3eGKB12H0nLp
- fpLLt7HMPG/NPV7R42ux7CcJ/WdB+Q5+3uxigNLUJCMLFKr69MAtdPiFtPtqNrSuNg+M
- 6KuP0fC73wqVulOpec6M/LgqxLUU1JmrrppKoJUDaybma74PxPt7S8Ip6LcGs9UidOyv
- Wp3dpifE0C+/LCVv8UcDyXV9AkWt9145l+zpJRq2qwZciS6ttU2QIcQ0PBpTJi5M5UdA
- OlVw==
-X-Gm-Message-State: AOAM531ouIefsAG0JF8Pag3jIFnn6sit8wYP3QlLrjVIgJCLmf9PaWw4
- WFvcL1dTFEb/Vblni35wSro=
-X-Google-Smtp-Source: ABdhPJzHIaFA282KzhDTqotR5VhvKKy8dSYYe251aR2kERgomRGrQZXreIPiswV+cwvhxDbsIzJy2Q==
-X-Received: by 2002:a65:538f:: with SMTP id x15mr18184596pgq.429.1616309378141; 
- Sat, 20 Mar 2021 23:49:38 -0700 (PDT)
+ bh=LU/mKr279SXxXilzaERq1vxgcoaamhFrv6RA4iJzv5k=;
+ b=rTOgm+qsU87pxBs8wI84ywSfNoZR8d4TxipOxob4E4oP0JzGDIJC5Azvc06isp9GBr
+ RWyGMULkBJjbgEjyqCwUhDczqDmJixS4RMGn7GYbCKm/zKRaMPAAzMBTYsaka5Q+08k2
+ DL4yuiGPUsjFmLCVreNerd0HWgDTjqtno3TTupOzN3PXjlRGpVQhM1vKmdAHATMEWme8
+ dBG7l3hi7tmAx2MCa6p/r3aT9NDCP0U4h44gd7IIG2DcXicMsx5WQJEMF7UdOrUpQNRy
+ GnHsRBkCZLc0jQYN8HZZ4vaGj6AlK8XGCm6prrgl0rywVW8oQbUbo5pCgETnh9rRn1Lt
+ JQPg==
+X-Gm-Message-State: AOAM530hx7uixdGEbkKDQct3ovyt4NXkrCZIz0pFNC7QRjAtIjar7UgK
+ gOvi9X+IrXLt9KK6Q8HKk8QcB75NjVk=
+X-Google-Smtp-Source: ABdhPJye25FdsE8Uo+6BcPY4aF9GN0iDMO0HadcnbKfbR8OBUKLGQIakCTycC/ltATT8wZSVH/3OIw==
+X-Received: by 2002:a63:ee04:: with SMTP id e4mr18171773pgi.446.1616310459631; 
+ Sun, 21 Mar 2021 00:07:39 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:b1ab:c8be:b97:f20c?
  ([2601:647:4802:9070:b1ab:c8be:b97:f20c])
- by smtp.gmail.com with ESMTPSA id ft22sm9598655pjb.8.2021.03.20.23.49.36
+ by smtp.gmail.com with ESMTPSA id 15sm10007614pfx.167.2021.03.21.00.07.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Mar 2021 23:49:37 -0700 (PDT)
-Subject: Re: [PATCH 0/3 rfc] Fix nvme-tcp and nvme-rdma controller reset hangs
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>,
- linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-References: <2e391aae-58c7-b8f7-1a9e-d7ad5bb3f8f3@huawei.com>
- <6c085430-cc10-a2fd-56ee-a360109c940a@grimberg.me>
- <55142c25-9a70-08a0-d46a-cad21da59d19@huawei.com>
- <7b7d5223-ddaf-eb88-f112-02834f8c8f93@grimberg.me>
- <20210318191613.GB31675@redsun51.ssa.fujisawa.hgst.com>
- <be15cc68-2129-286e-55b3-a2c23f8c93fd@grimberg.me>
- <20210318215256.GC31675@redsun51.ssa.fujisawa.hgst.com>
- <20210319140532.GA7019@lst.de> <20210319172817.GA23660@lst.de>
- <ac05c7cc-3613-ec8c-a718-6f3e74710b42@grimberg.me>
- <20210320061123.GA20852@lst.de>
+ Sun, 21 Mar 2021 00:07:39 -0700 (PDT)
+Subject: Re: [bug report] WARNING: inconsistent lock state observed with
+ blktests nvme-tcp/003
+To: Yi Zhang <yi.zhang@redhat.com>, linux-nvme@lists.infradead.org
+References: <1378655048.19877042.1616170706639.JavaMail.zimbra@redhat.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <6c83c0c6-0f00-0163-40f3-0ce2b2b2cc32@grimberg.me>
-Date: Sat, 20 Mar 2021 23:49:35 -0700
+Message-ID: <f1d1cda8-e2ec-800d-89ef-a3690262f21a@grimberg.me>
+Date: Sun, 21 Mar 2021 00:07:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210320061123.GA20852@lst.de>
+In-Reply-To: <1378655048.19877042.1616170706639.JavaMail.zimbra@redhat.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210321_064940_869687_6C003EA8 
-X-CRM114-Status: GOOD (  16.28  )
+X-CRM114-CacheID: sfid-20210321_070741_685240_37BC7A0A 
+X-CRM114-Status: UNSURE (   9.43  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,44 +92,14 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Thanks for reporting Yi,
 
->>> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
->>> index a1d476e1ac020f..92adebfaf86fd1 100644
->>> --- a/drivers/nvme/host/multipath.c
->>> +++ b/drivers/nvme/host/multipath.c
->>> @@ -309,6 +309,7 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
->>>    	 */
->>>    	blk_queue_split(&bio);
->>>    +retry:
->>>    	srcu_idx = srcu_read_lock(&head->srcu);
->>>    	ns = nvme_find_path(head);
->>>    	if (likely(ns)) {
->>> @@ -316,7 +317,12 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
->>>    		bio->bi_opf |= REQ_NVME_MPATH;
->>>    		trace_block_bio_remap(bio, disk_devt(ns->head->disk),
->>>    				      bio->bi_iter.bi_sector);
->>> -		ret = submit_bio_noacct(bio);
->>> +
->>> +		if (!blk_mq_submit_bio_direct(bio, &ret)) {
->>> +			nvme_mpath_clear_current_path(ns);
->>> +			srcu_read_unlock(&head->srcu, srcu_idx);
->>
->> Its a bit unusual to see mutation of a data protected by srcu while
->> under the srcu_read_lock, can that be problematic somehow?
-> 
-> Hmm.  I don't think head->srcu is intended to protect the current path.
-> We also call nvme_mpath_clear_current_path from nvme_complete_rq or
-> nvme_ns_remove, which has no locking at all.  The srcu protection is
-> for head->list, but leaks into the current path due to the __rcu
-> annotations.
+I think I understand what is going on here.. blktests are
+special in the sense that they run nvme-tcp and nvmet-tcp
+on the same system, and since they have causal relationships
+it makes sense how this can trigger.
 
-OK, care to send a formal patch that I can give a test drive?
-
-Also, given that this issue has gone back to stable 5.4 and 5.10 we will
-need to take care of those too. We should make sure to annotate the
-fixes tags in this patch and probably also understand how we can create
-a version of this to apply cleanly (for sure there are some extra
-dependencies).
+Let me submit a couple of patches for this one...
 
 _______________________________________________
 Linux-nvme mailing list
