@@ -2,92 +2,66 @@ Return-Path: <SRS0=yO6k=IU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82399C433DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Mar 2021 04:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08134C433C1
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Mar 2021 06:34:53 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D3A7E61967
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Mar 2021 04:07:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D3A7E61967
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id ACB0561937
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Mar 2021 06:34:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ACB0561937
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=5KugKdKsnHT1vCfHzbf3T2zDDxGjp3DuR19xdIXx8Rc=; b=SS8CQBTqv4lpMbHEW71RuHlN2
-	XwCuZfEwjtcdxyxFx6RixbDHSPNESgYELQK2IuRF/NuKzZjXR2m4HnBcA9iVU91854IJwaCXOP2GX
-	qees3MY2OtG+coYmXUM/m9OGlvR3SiHiUEtX7i5FpeT3FCCUlVKKqREjXk/mdj2twfyBhX23mmRhV
-	HfzRpX1NEA3gQPlxVSg66owr0LT3U1yb/OVCbSc8FHlKW2QeEJvGbhSItlXDyt+CpkpMDWPCZggjo
-	2zLq+/cXZ89ibxegEE7yEZA56F+qqtG91PlkL6f4bYInrdSjAMd6MxpsEmlXwqoCsBCuXwEpmwKn6
-	maFPbQWbQ==;
+	 bh=sifN8mPS9JNu4dBseurX0axFSC7ZzufJK/s9Ud9D+tI=; b=aLmRY/b7MN3MwwsNlKaPuNZOE
+	sRJzf7JGQh2dyBD5QyoFIFRlT32NVCLoLC2HQZwevhyXCA0aXexgKwfHiabAeLibPAuRxk/05oR0y
+	DbFq2UMYYsGsgTGulB0Iw58ynxvPM093tZ7XArvIrWjrvusZQQsdKXilMFih9MTu5R+1RelfplKd9
+	tPc++PrRvjG8lgf2dJEFeeqvlOi3GKTrd7APaoOZtfbxpdio3lVcHSlLpMKUQqzudRQx1y3knYpEO
+	zo/jzZ674K/J5cz1s6TuMCMYZur9ujFj54qoeyiosuMRvEiu6lxPgiI3HhgqtlAl0cYOnSPne6gJX
+	DBoLWImnw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lOBqD-00AqCu-Hu; Mon, 22 Mar 2021 04:06:57 +0000
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+	id 1lOE96-00B1qH-Cf; Mon, 22 Mar 2021 06:34:36 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lOBps-00AqCO-Q9
- for linux-nvme@lists.infradead.org; Mon, 22 Mar 2021 04:06:39 +0000
-Received: by mail-pf1-x42e.google.com with SMTP id x26so10055133pfn.0
- for <linux-nvme@lists.infradead.org>; Sun, 21 Mar 2021 21:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=/KDln5nCx45EZhxjkBuevwUjo/3k5OL1V00//1PfGsI=;
- b=PvczID2CYVhzuiPRFGd3Rb5BHSu2dmHQz6bu4NfKFUnB3jeM7Yo13Rok080+ezLOGB
- NhD4sRy+VplctWgyENncU8HfF8+x3osGkTJ66r0q3UDsoBMD4jgBT2FqcBeL37LDCKVy
- iwq+h2UrYUNT1mD0OZ4lsuwVRAh4WTkKfkwRXK7OSjxBah+Gr+tOQ7RuQCwm5mmJQq3w
- zy050enBj8CmHrvTh33+yaPpzFrtj3a+W5GABSFMFtMC8+troXCfYkyUIiiMNG8rbNli
- 7kx4epHvNxijRO3VOllSzIJ46dSRyDBO8tiPpr3lS1nJLYsgaBIpkgQ7B7rDb8Qf8DlO
- NdNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=/KDln5nCx45EZhxjkBuevwUjo/3k5OL1V00//1PfGsI=;
- b=suxfBfRZ158HXEcA005+JYAXzVWuDBu8RArJO3/ilMxHjAjZuGlTOq8zw2evETXGUO
- CRbH1d3K3xOSYLUaYMN2H7PAVaPseA2itnPj4Jx36+k/NHwUKIpiRmLe1Huj8ewZwblM
- 9ct3+EPrZ3IB3y0LTRCWTyU5ovLOadmFZRtp6hYIj8uMYVnkEo4HIEsoYMTcJywIfY6m
- a1a11qj4Yq3NdcwN+7mw8mg0t5RGxA/pVtrJ1XS94kk0DBl9D3TdHkrVCXkPz2ScUKSS
- c5S+A+NKuIQp0Do3QPL1QDMzI4AH/vQxggnPHyHjPb04oe6g+EAoPVdkNPm/Dvym1zRL
- ncYw==
-X-Gm-Message-State: AOAM533IoswYjjXRYcXR6V23ZYHXezUtlfDLP3SJ6QtvbualxXIFAKJ8
- gYUOrGbPa7f1bKPf+89WGs8smuMCGVcNbA==
-X-Google-Smtp-Source: ABdhPJxr5eLF2XgTOTC4bUTt7iOEtJEhwNXd/4WCT+9GImQfVhrjlsxz3Gmq1POgIdD4DMCHO0PcXQ==
-X-Received: by 2002:a63:e1b:: with SMTP id d27mr21059219pgl.135.1616385993998; 
- Sun, 21 Mar 2021 21:06:33 -0700 (PDT)
-Received: from houpudeMacBook-Pro.local ([61.120.150.74])
- by smtp.gmail.com with ESMTPSA id l190sm11925761pfl.73.2021.03.21.21.06.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Mar 2021 21:06:33 -0700 (PDT)
-Subject: Re: [PATCH] nvmet-tcp: fix a segmentation fault during io parsing
- error
-To: "Grupi, Elad" <Elad.Grupi@dell.com>, "sagi@grimberg.me" <sagi@grimberg.me>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20210318125518.27121-1-elad.grupi@dell.com>
- <20210319035257.96267-1-houpu.main@gmail.com>
- <DM6PR19MB4011CB40F6635EEC2AEF86EFEF689@DM6PR19MB4011.namprd19.prod.outlook.com>
-From: Hou Pu <houpu.main@gmail.com>
-Message-ID: <c7801b53-70e5-6687-a077-01a5dcf97bf6@gmail.com>
-Date: Mon, 22 Mar 2021 12:06:30 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
+ id 1lOE8w-00B1oV-EM
+ for linux-nvme@lists.infradead.org; Mon, 22 Mar 2021 06:34:28 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id B6B9067373; Mon, 22 Mar 2021 07:34:20 +0100 (CET)
+Date: Mon, 22 Mar 2021 07:34:20 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH 0/3 rfc] Fix nvme-tcp and nvme-rdma controller reset hangs
+Message-ID: <20210322063420.GB2325@lst.de>
+References: <55142c25-9a70-08a0-d46a-cad21da59d19@huawei.com>
+ <7b7d5223-ddaf-eb88-f112-02834f8c8f93@grimberg.me>
+ <20210318191613.GB31675@redsun51.ssa.fujisawa.hgst.com>
+ <be15cc68-2129-286e-55b3-a2c23f8c93fd@grimberg.me>
+ <20210318215256.GC31675@redsun51.ssa.fujisawa.hgst.com>
+ <20210319140532.GA7019@lst.de> <20210319172817.GA23660@lst.de>
+ <ac05c7cc-3613-ec8c-a718-6f3e74710b42@grimberg.me>
+ <20210320061123.GA20852@lst.de>
+ <6c83c0c6-0f00-0163-40f3-0ce2b2b2cc32@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <DM6PR19MB4011CB40F6635EEC2AEF86EFEF689@DM6PR19MB4011.namprd19.prod.outlook.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <6c83c0c6-0f00-0163-40f3-0ce2b2b2cc32@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210322_040637_221682_784BD007 
-X-CRM114-Status: GOOD (  25.52  )
+X-CRM114-CacheID: sfid-20210322_063426_964479_6AAE98F1 
+X-CRM114-Status: GOOD (  14.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,92 +73,21 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Sat, Mar 20, 2021 at 11:49:35PM -0700, Sagi Grimberg wrote:
+>> Hmm.  I don't think head->srcu is intended to protect the current path.
+>> We also call nvme_mpath_clear_current_path from nvme_complete_rq or
+>> nvme_ns_remove, which has no locking at all.  The srcu protection is
+>> for head->list, but leaks into the current path due to the __rcu
+>> annotations.
+>
+> OK, care to send a formal patch that I can give a test drive?
 
-On 2021/3/20 1:26 AM, Grupi, Elad wrote:
-> Right, I see.
->
-> But when calling nvmet_tcp_queue_response, the flag for NVMET_TCP_F_INIT_FAILED is not yet set.
-> The flag is being set only after nvmet_req_init returns in nvmet_tcp_handle_req_failure.
-Hmm, that's true.
-> It is possible to block in nvmet_tcp_queue_response any command that has unattended inline data, will that work for you?
-
-It's OK with me.
-
-
-Thnaks,
-
-Hou
-
-
->
-> Thanks,
-> Elad
->
-> -----Original Message-----
-> From: Hou Pu <houpu.main@gmail.com>
-> Sent: Friday, 19 March 2021 5:53
-> To: Grupi, Elad
-> Cc: linux-nvme@lists.infradead.org; sagi@grimberg.me; houpu.main@gmail.com
-> Subject: RE: [PATCH] nvmet-tcp: fix a segmentation fault during io parsing error
->
->
-> [EXTERNAL EMAIL]
->
->> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->> index 70cc507d1565..5650293acaec 100644
->> --- a/drivers/nvme/target/tcp.c
->> +++ b/drivers/nvme/target/tcp.c
->> @@ -702,6 +702,17 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
->>   			return 0;
->>   	}
->>   
->> +	if (unlikely((cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
->> +			nvmet_tcp_has_data_in(cmd) &&
->> +			nvmet_tcp_has_inline_data(cmd))) {
->> +		/*
->> +		 * wait for inline data before processing the response
->> +		 * so the iov will not be freed
->> +		 */
->> +		queue->snd_cmd = NULL;
->> +		goto done_send;
->> +	}
->> +
-> Hi Elad,
-> Although this works, I think Sagi would prefer not adding this to the response queue in nvmet_tcp_queue_response().
->
->
->>   	if (cmd->state == NVMET_TCP_SEND_DATA_PDU) {
->>   		ret = nvmet_try_send_data_pdu(cmd);
->>   		if (ret <= 0)
->> @@ -1106,7 +1117,9 @@ static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
->>   	if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
->>   	    cmd->rbytes_done == cmd->req.transfer_len) {
->>   		cmd->req.execute(&cmd->req);
->> -	}
->> +	} else if ((cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
->> +			cmd->rbytes_done == cmd->req.transfer_len)
->> +		nvmet_tcp_queue_response(&cmd->req);
->>   
->>   	nvmet_prepare_receive_pdu(queue);
->>   	return 0;
->> @@ -1146,6 +1159,8 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
->>   	if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED) &&
->>   	    cmd->rbytes_done == cmd->req.transfer_len)
->>   		cmd->req.execute(&cmd->req);
->> +	else if ((cmd->flags & NVMET_TCP_F_INIT_FAILED))
->> +		nvmet_tcp_queue_response(&cmd->req);
->   
-> Here we also need to check cmd->rbytes_done == cmd->req.transfer_len as we could get multiple data pdu.
->
-> (BTW, did you forget to add [PATCH v2] to the subject line?)
->
-> Thanks,
-> Hou
+I'll write a changelog.  But as-is this should be testable.
 
 _______________________________________________
 Linux-nvme mailing list
