@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F396C433C1
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Mar 2021 15:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 952D8C433DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Mar 2021 15:31:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0116761931
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Mar 2021 15:31:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0116761931
+	by mail.kernel.org (Postfix) with ESMTPS id 263AF61984
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Mar 2021 15:31:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 263AF61984
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,48 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=m9fBpb+ohdq6cBho8BBpD8ESSbPpdSzTE6sB5mY9Y2U=; b=kT8v0nqOTHj8fR2kxZmyh8ICf
-	zIITnTfXvub38lhVluONslItIUJFRWNjLGR43wDWFlQOZmnbfjJer00RBDoO25iH2AXiNJv0wpuYQ
-	MWkG0lHsaOkoY/udAKGHiPembnTM//kCBOuu1eaasD41cjZXPCydPU+nFkg1vfFTlL6qG1FUz787M
-	R/BXzLPbaWGViBA0ScwAm++fc6DiQXJhs/m8dZfzmTLHVbygS6t6DX2XfKclg/sXyLFrc5xBj4pH+
-	zXMFZerPUtNRJtqipVb0mri2gu4rnsSXRTNWputhtfWciid8Ff0ASs3CTKFT3snWGhIfciGD3bM+H
-	ogylbZAGw==;
+	 bh=Rm9eqlup4ZFOKvraKOJuzN7i1r/8uxxh0UnSpV8oQxo=; b=hoCdN25J0UkZs7+OU3D0PiFR/
+	rDcqT8Muni8t4BN5muPzhdj6eJbkri/Ck+fGA7zkEpzBMZ3b5BUxjDu+nJMjltplNiZbJzitbHLvx
+	oUIeLNr5ti+8XuNzwMrL4tfifi6wYLQGQ2nujf4mu4LQjMZgxUwR/dmkXvp9HkegTShIZfRFqNWLd
+	ZuMhCHvFed7LkEtahvDuvyQeeH9mbJv7BXepoYf+4hI0+gwH/JPbhgCvry5+gUlUB5Gbgwxm0EC5Q
+	Q3iZkTSF0dr4aCF/+53kQgmQpoqV+FyhQV+xwvu3A8SAOpXViMtDj0CAWX+Lqyqu5j2iH3RWU+PHk
+	zbjKwxKHQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lOMVl-00BttK-OR; Mon, 22 Mar 2021 15:30:33 +0000
+	id 1lOMWM-00Btvw-GE; Mon, 22 Mar 2021 15:31:10 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lOMVe-00Btsf-6V
- for linux-nvme@lists.infradead.org; Mon, 22 Mar 2021 15:30:28 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0135161931;
- Mon, 22 Mar 2021 15:30:19 +0000 (UTC)
+ id 1lOMWH-00BtvD-JX
+ for linux-nvme@lists.infradead.org; Mon, 22 Mar 2021 15:31:08 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5526861984;
+ Mon, 22 Mar 2021 15:31:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1616427020;
- bh=2dO3ApbwwimsIPO8Z+7xEFYSB59RRiJapAD647NFm9c=;
+ s=k20201202; t=1616427064;
+ bh=zK5KKi4ATr3SmNmxLp2wyzhdt5icF3UWhPn8KlBQl/s=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Y7nYBh4GIXFvqrjoc4b0g9IswpzGsGE7BN01C1PxUwu/KMUa+tXhlRuRpUQcN69ho
- DHh3exXkwUBwVkxOUvMx/13IbO1FvrX1m1GyOXzBxmJrl+hDgsDwQdAQ45UxXn2GQV
- Mfnpd/v/rm46CRsKdudvzn6+0eZIqaOvGLkYKMUtJbqj+X35cceUA1PNUI4/Ar0BBB
- alqsrkBKxg6E1dyC61v1pQq56L+SK3di1EfeBjCEIWAjf0M4LPBAIm++u5hSaOm8wj
- HWBsu/95odYKCgqeb45AGOXjXWpR1EIy6VACtzqa32ErQ7NX6R4EKOGutcU5YPgAaX
- 2lLO/VZw/VojA==
-Date: Tue, 23 Mar 2021 00:30:13 +0900
+ b=DqJJnLrGTbKUp5bBsjDtKRY8LZtCMl+gjyDUCDvSH92FowEtQTQeRqWkDl+xNNuKF
+ 35qmMs/1A0BYa9MZ5yiXeJCp+d/Dk0LvGcDlF9nLML9mUhEQfQilN6/6LB1o5dEPpV
+ hQKuXFJHEWSXfNzT5JbNzL+Xw0x0zrhsKtuBVViOdm8jKXLYiWK4orhsjmHajlCBVy
+ pXr4jzV9/iO5MGGgyLQCFFA010gqghiLgBGV5HKFWTOeeAL1behlRN+jmlvi+jX47U
+ ADKWzeoLZc/CVJveUccAWtA3Z5q49PjuL4VRpdJeVhr5YeY5jheZXARV46fH2lYP5i
+ 3AYaJTzz+08TA==
+Date: Tue, 23 Mar 2021 00:31:01 +0900
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
  Chao Leng <lengchao@huawei.com>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/2] blk-mq: add a blk_mq_submit_bio_direct API
-Message-ID: <20210322153013.GA17311@redsun51.ssa.fujisawa.hgst.com>
+Subject: Re: [PATCH 2/2] nvme-multipath: don't block on blk_queue_enter of
+ the underlying device
+Message-ID: <20210322153101.GB17311@redsun51.ssa.fujisawa.hgst.com>
 References: <20210322073726.788347-1-hch@lst.de>
- <20210322073726.788347-2-hch@lst.de>
+ <20210322073726.788347-3-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210322073726.788347-2-hch@lst.de>
+In-Reply-To: <20210322073726.788347-3-hch@lst.de>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210322_153026_980256_196ADFC2 
-X-CRM114-Status: GOOD (  11.83  )
+X-CRM114-CacheID: sfid-20210322_153107_184924_4BD3F25A 
+X-CRM114-Status: GOOD (  17.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,21 +82,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good. Just a couple minor typo's in the commit message.
+On Mon, Mar 22, 2021 at 08:37:26AM +0100, Christoph Hellwig wrote:
+> When we reset/teardown a controller, we must freeze and quiesce the
+> namespaces request queues to make sure that we safely stop inflight I/O
+> submissions. Freeze is mandatory because if our hctx map changed between
+> reconnects, blk_mq_update_nr_hw_queues will immediately attempt to freeze
+> the queue, and if it still has pending submissions (that are still
+> quiesced) it will hang.
+> 
+> However, by freezing the namespaces request queues, and only unfreezing
+> them when we successfully reconnect, inflight submissions that are
+> running concurrently can now block grabbing the nshead srcu until either
+> we successfully reconnect or ctrl_loss_tmo expired (or the user
+> explicitly disconnected).
+> 
+> This caused a deadlock when a different controller (different path on the
+> same subsystem) became live (i.e. optimized/non-optimized). This is
+> because nvme_mpath_set_live needs to synchronize the nshead srcu before
+> requeueing I/O in order to make sure that current_path is visible to
+> future (re-)submisions. However the srcu lock is taken by a blocked
+> submission on a frozen request queue, and we have a deadlock.
+> 
+> In order to fix this use the blk_mq_submit_bio_direct API to submit the
+> bio to the low-level driver, which does not block on the queue free
+> but instead allows nvme-multipath to pick another path or queue up the
+> bio.
+
+Looks good.
 
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-
-On Mon, Mar 22, 2021 at 08:37:25AM +0100, Christoph Hellwig wrote:
-> This adds (back) and API for simple stacking drivers to submit a bio to
-
-                   an API
-
-> blk-mq queue.  The prime aim is to avoid blocking on the queue freeze
-> percpu ref, as a multipath driver really does not want to get blocked
-> on that when an underlying device is undergoing error recovery.  It also
-> happens to optimize away the small overhead of the curren->bio_list based
-
-                                                     current->bio_list
 
 _______________________________________________
 Linux-nvme mailing list
