@@ -2,20 +2,19 @@ Return-Path: <SRS0=jrCY=IV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 903CBC433DB
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Mar 2021 16:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D999C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Mar 2021 16:24:37 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 016E6619B8
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Mar 2021 16:20:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 016E6619B8
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id B7AE561477
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Mar 2021 16:24:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7AE561477
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,45 +22,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=WG/dHiEu5v5ltStq9menq5NtGMwygR02sjxwYuxE9T0=; b=pIXW7IL6zLyM2I2u/xn6EPHZX
-	vekzSsb8HBkB8mh8VVVXBzcHKYjOV5pP6D/PF6GSQDFt2PLMcKjtfVsa8nFiKvtdQ9c7FomrQgnN3
-	GTrGhytZOzPNvCfQZlhr78Qquv3DeUe2oPFdRC8JQWtjmW3/mHqSabOYphzEnlfnXP7bAGTt84gj8
-	ojwwwH5YYysKwdmVrP0txhDdCTOe2biq8psy2Z1gm6/UaiITlaVvWZUZVCHWS5U3cye3Nt60LVysw
-	YXxJoaSSU82DLkxodXzyp5dp81s84LEVX0unBu9pNYqCVBD4Ur1HjBqGpNEbzoFuhDz/CYivw49of
-	NZcNSFNbg==;
+	 bh=1P+c3sgYWirwntnDhXf0h7Wehv/RZGdE7BiZ0AxLALM=; b=ALKDa9MMFrSa8qnYHsh0DYgpO
+	ZIWPmcbTVVEGcOm7s5x6GBCY1SWdqf7gvinICEkkb7/GbDZDhg9glw/qs8KPijzvA8bCnWbB2g62Y
+	OlPdKNYIrj7ejuzYB8pW0OKLjAXMrEz/7FLICrpqpUEgHbJyDSXJ6VDFwZQ0CXOoOIHXuz4MY5VOe
+	MO0jAh/tZ2WQACyaPxlN9WYydCcNSTK0zTSRSR9DcB/CElDTCwuWKjke9Sn/dQp02F39j3d2yR4wP
+	bFN3ATYNMyiG3Gp5HLHmbhurGR4Q/ePbL+mEqE0As4h2eEtwiYdb3IDz4s2P780pJjygKH4s7p8we
+	RmUoCL7lg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lOjkx-00FIca-Ea; Tue, 23 Mar 2021 16:19:47 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1lOjpJ-00FJLv-8D; Tue, 23 Mar 2021 16:24:17 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lOjks-00FIbw-5D
- for linux-nvme@lists.infradead.org; Tue, 23 Mar 2021 16:19:45 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 3E7E768B02; Tue, 23 Mar 2021 17:19:40 +0100 (CET)
-Date: Tue, 23 Mar 2021 17:19:39 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
- Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- Chao Leng <lengchao@huawei.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 2/2] nvme-multipath: don't block on blk_queue_enter of
- the underlying device
-Message-ID: <20210323161939.GC13402@lst.de>
-References: <20210322073726.788347-1-hch@lst.de>
- <20210322073726.788347-3-hch@lst.de>
- <34e574dc-5e80-4afe-b858-71e6ff5014d6@grimberg.me>
- <c064b296-c25c-3731-cbbd-f99ab93e6bd2@suse.de>
- <608f8198-8c0d-b59c-180b-51666840382d@grimberg.me>
- <250dc97d-8781-1655-02ca-5171b0bd6e24@suse.de>
- <20210323145330.GB21687@redsun51.ssa.fujisawa.hgst.com>
+ id 1lOjpG-00FJLI-BY
+ for linux-nvme@desiato.infradead.org; Tue, 23 Mar 2021 16:24:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=31JwxxJE8z9YVDK0kLLWKu7TtX9toDfV99qQyfOCmqU=; b=icvcOrhBn9tVtQIxL4rKPNpbEL
+ 1jq/7kbDQWzuvbW62aNcpUbR4jx+YyY/9UaCHJw46XnUsDwlYLOMHZl0TTeOMb+TcS94fgd4uIdK5
+ iwbXRQvXKmb5NTmmy/zQy6k2q4KEkCXV5NjL9owQn7Q+B81Jdz/8glxAb3nfHUKM+DHkyV4plerKB
+ OIBoc+6mf7g5HhWxKKUvR10yPi2uXb2uZbLZU+8G6WqRiD1yDb5YFrTxzHgKLeuHhuKvmxsem1Q6E
+ +kmefeD2BEKVVEG4byFaUQ+cF5nbiFzUL2Ko69JcVa9uP3+/yZRO9YsrtyaWv1hQIvsFCUHo2zu/2
+ M3ch2Rdg==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1lOjoP-00AGw1-MQ; Tue, 23 Mar 2021 16:23:46 +0000
+Date: Tue, 23 Mar 2021 16:23:21 +0000
+From: Christoph Hellwig <hch@infradead.org>
+To: pngliu@hotmail.com
+Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org,
+ Peng Liu <liupeng17@lenovo.com>
+Subject: Re: [PATCH] nvme: fix APST error for power latency tolerance
+Message-ID: <20210323162321.GA2446196@infradead.org>
+References: <OSYP286MB0181647E6B1C99AF64C0803DC6649@OSYP286MB0181.JPNP286.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210323145330.GB21687@redsun51.ssa.fujisawa.hgst.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210323_161942_334330_7ECC5968 
-X-CRM114-Status: GOOD (  14.50  )
+In-Reply-To: <OSYP286MB0181647E6B1C99AF64C0803DC6649@OSYP286MB0181.JPNP286.PROD.OUTLOOK.COM>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,21 +76,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 23, 2021 at 11:53:30PM +0900, Keith Busch wrote:
-> Failover might be overkill. We can run out of tags in a perfectly normal
-> situation, and simply waiting may be the best option, or even scheduling
-> on a different CPU may be sufficient to get a viable tag  rather than
-> selecting a different path.
+On Tue, Mar 23, 2021 at 03:31:33PM +0800, pngliu@hotmail.com wrote:
+> From: Peng Liu <liupeng17@lenovo.com>
+> 
+> Clear apsta so that nvme_configure_apst() does not execute
+> nvme_set_features(), which will fail because admin_q is either not set up
+> yet or no longer available at the time of nvme_uninit_ctrl() being called,
+> and this leads to the error message "nvme nvme0: failed to set APST feature
+> (-19)".
+> 
+> Fixes: 510a405d945b("nvme: fix memory leak for power latency tolerance")
 
-Indeed.  Then again IFF there are multiple optimized paths picking one
-could also be a way to make progress.
-
-> Does it make sense to just abort all allocated tags during a reset and
-> let the original bio requeue for multipath IO?
-
-Well, this would again hard code multipath information into the lower
-levels.  But then again we could at least do it so that we check for
-the REQ_NVME_MPATH to make it clear what is going on.
+How did you get into this situation?  For PCIe nvme_uninit_ctrl is
+only called at the end of ->remove and ->delete_ctrl, so how do we end
+up in nvme_configure_apst after that?
 
 _______________________________________________
 Linux-nvme mailing list
