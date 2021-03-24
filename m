@@ -2,163 +2,65 @@ Return-Path: <SRS0=XXBd=IW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F52C433DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 18:35:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D63CC433C1
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 23:18:40 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 424AF619E8
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 18:35:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 424AF619E8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amd.com
+	by mail.kernel.org (Postfix) with ESMTPS id F3A7761A14
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 23:18:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F3A7761A14
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SADfCE6xYzynHSufK4MEXmHz6tXBHP+Ly0PuS5gDs8k=; b=NglBwcO2BUOefNQ5TfZ2lwa7d
-	rOIzt6JxLWg06crzuUCR4pPJKp/X0JNHPmjLslZ61P1R7nO1jrQ/opi/8fDZd3DIXHy6s3KNDapFx
-	gnbeubJkowd5LPAwFYHi6kvz1uGR0nulOd6ML4UqMTyJ1DZJfEr6WhONaftC2OH8IKmsNjLScOcWw
-	L5AzwxelbxFRORh3bJVK5iCxvA5YbPu5SAma9CsX7vQBKPmwoSQdNykWnSELkSDofqMezRAVyeppi
-	wJY13UCO2NUmJAoabLOArfTlh3vOhKVCSnWsMiLa3pV3CUO5qKeNtG7KKxN0Nufvh/20pzlMQ4gX9
-	mucuM0x7g==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2ZP14LbOceye+cfIrF/d4muO3XXHSmLtuBn9LgrXYAg=; b=h/mA6TYdCxLE569hj+7q+/92TR
+	Tl/KeP3xvfUjk8YnfoVpMO3Fakn5oCQlKD6oRUysQj5PcbCmj/66jRcShF4FJyXwXnk3Nbv0jusBR
+	Pvc9kXrfVebDVaBfLUvJeZsSR5Vucrm1g3U0Qtv0YBEs7oBu+AQ/X/ICNidNOKTIp4zljkBuk5Np1
+	rwcnHQCbwWO/rNnFr0kIMJ2z4lpVLafa6c/A9Se9b0Io9oZw5wZwaQ1XhGu9ZEbr7INYr+r1OWPAJ
+	dcZLACfUDiyMoRexa17hUVMMmhWVhF7WJ/oRTsQhCnpcMBfLqSKNHMlPp06QXjJk2FOD0cpNcdui1
+	Ye5Us/fA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lP8La-0003l6-CF; Wed, 24 Mar 2021 18:35:14 +0000
-Received: from mail-bn8nam12on2069.outbound.protection.outlook.com
- ([40.107.237.69] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1lPClZ-000LHv-IG; Wed, 24 Mar 2021 23:18:21 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lP8LT-0003ke-W7
- for linux-nvme@lists.infradead.org; Wed, 24 Mar 2021 18:35:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZX54vxZGumbQAiFIKJbHHFaNPsvTSFuUZ+6iN5ky5radqoreBEWt/pQZBAeNgb8WN7iKlqk68fIoj0jzzMyK0SyBorGF5HK/rJ3nUOo4hJgjnG3f87LQJvspbDpgmq4bH3w3MfZ2D579FvSagNRCKeHBAw9oiMIcfbwG70tVeb8jJAa//6wm/CjP8FwRkHtHWyfQq0kZvpxr+P2dtkSpnE6VcZuW9lVxBXEjf0yiXfZas7Imrch/JDFbixbd9ZIPosOv0o40MRbrKN7LffGg7f60yltoTDQJ982/+rZtiQtjWyqzx7I1XFnQFBaMXG2/yjuTghetYKPTowwe9aUh0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xv24XVEZj5zgBJAjtDKWfORzBUazvN9OQAkcsUrROfM=;
- b=h2kuAKATNyaaPfLVurukPosNu4Gg1+YSSj3sDbk0/ehcfDV69VF9Ak/otydUI6lotFDu9vZ5p5n+Zb02MKFVU1E3lSRollhjlcgQJTy8y6hiN8mYzoQ42eNwgN7ZeLStPAnrdH8zwIuesY/qUUNRHb4di/XwBmXZhRyTMl1pBGRK9m4XyT4P7zfeP+vSIeHC3F483w+X4aFf+X2ovmXqwSC930p3dfLEYz4p+MGBK6Ycj0rL4SZ34Uznh0ljms5Yx5zzbkt6jnGMlSELV5QDfqmljOvCBqV1XOsSwBFfnW64lTWhd3wOvXY/X6kNZFYQCujv2FON0dWYmrB4sjB79Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xv24XVEZj5zgBJAjtDKWfORzBUazvN9OQAkcsUrROfM=;
- b=bNyTP8qGd0N1tXvMCQUkhm92eUYhWuEYogpTK3tPzIwxuzvfy00pl8RkldcmnV5CQYGrt6U8+yY1uSJNY7JQJjXYebyENb/caBooOH29Ba0WcBobSk9zCMIwu8xV04AF5HOV0CLtywG8ebDuhfBKlTd5cx4D4ACCctJtdkEYN00=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4359.namprd12.prod.outlook.com (2603:10b6:208:265::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.24; Wed, 24 Mar
- 2021 18:35:00 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3955.027; Wed, 24 Mar 2021
- 18:35:00 +0000
-Subject: Re: [RFC PATCH v2 04/11] PCI/P2PDMA: Introduce
- pci_p2pdma_should_map_bus() and pci_p2pdma_bus_offset()
-To: Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>
-Cc: Ira Weiny <ira.weiny@intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
- Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
- Ira Weiny <iweiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
- Don Dutile <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>
-References: <20210311233142.7900-1-logang@deltatee.com>
- <20210311233142.7900-5-logang@deltatee.com>
- <20210313013856.GA3402637@iweiny-DESK2.sc.intel.com>
- <7509243d-b605-953b-6941-72876a60d527@deltatee.com>
- <20210324172157.GH2710221@ziepe.ca>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <044e4f2b-6cb9-7740-622c-ec807bb1a79b@amd.com>
-Date: Wed, 24 Mar 2021 19:34:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <20210324172157.GH2710221@ziepe.ca>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:d95a:1638:1804:512a]
-X-ClientProxiedBy: AM8P189CA0026.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::31) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ id 1lPClP-000LGE-Jo
+ for linux-nvme@lists.infradead.org; Wed, 24 Mar 2021 23:18:17 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 93D8061A14;
+ Wed, 24 Mar 2021 23:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1616627886;
+ bh=1V2bckFepfLEILbbgvmhNG7pAMaewRrH9lCefmqlM/M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=prjN5m5nHbAfgp3Ga+MEab7aAWCZ3JNF80OnHUvh6hZaQDQRmT3NUguk6QeMEuSWt
+ F9mOc29xPTd/HFAE2Iy8vG/UUzqa5LeHN26DVvJUjjlmqLYyRM6JrUf9tGAG7c3aVl
+ bnnX8Wx5s+sYtnHw2kxsNxLKaMCumTmZ6y5rB7ASlq552/dgT+eGp7CzM3YF2FuX2n
+ 1ReYRhCTvYcVls1f09lckXh/0F/0//FkceAHCVG3x2buA3kNGHwOkzefS5gFjnX3Tu
+ m2X35JZv6pk98nC2kLhy1z5lQNr/SBQsbhRrkByngW5ytV2I42w8DpCzlD+f6u5WOJ
+ yNtRBQljQY//A==
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv3] nvme: implement non-mdts command limits
+Date: Wed, 24 Mar 2021 16:18:05 -0700
+Message-Id: <20210324231805.1232062-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:d95a:1638:1804:512a]
- (2a02:908:1252:fb60:d95a:1638:1804:512a) by
- AM8P189CA0026.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.25 via Frontend Transport; Wed, 24 Mar 2021 18:34:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 956acbf3-f8c5-45c7-3cf9-08d8eef3881c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4359:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4359DC73AB710331CF466E1083639@MN2PR12MB4359.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U2K2FZNlZ1D/p5/DAB6NBA11nGEx2xQlRaiEsS1ZgVvk+Nz50se7AzUz+dJWioNZ7ARte9Epl4owXdqVWZy7obenu6vJ/NoCc4H+iCsf7dc860D80EpOkUwCl8a7aMXbzuMpnJCKEsn0hzxbak873qjXZyobk/AzPhWSQudrqUphBLeTEpHw+zSxQEhihD+kGYEPL0frUm9BBGT8ePBWLsOYGNpfNwqM0cyBXdR5AHAbI4b2O4is6XFa+vMh1ZjoR59yYnSs5v+2VyTLEmJit1anCuFhvg/hK9zEDKHUdH3FSuxTva4QSyG+3ygWuSphInhXN9WeVBk3M0DO5veM9SxanE22qpLRS/LVu1PZ8tSmpY60c8/rUTfVVGpgwWeb+wjnC1aHgHYWwf+kGxCiIwRqnObc3otaMicDgBpcbz2Ui6qrrZmTldqj7EUS0cO3b5s6IiZhtc3fO19KSCyeN8sW2XZqb0YWWk2m156R7YQhoH2whEMUuoe3IbEXu1KrmldGbm4nAx8EFw9XtilNV5HxBzQ+M1NQWjGr3nOpGr+zoXM/TdQbGH+D3AFI5LLgXMNqTa7TiUDiYOkQU1poLZ7rc4PSpVzc7wiw9YgpRQEZNL3g1Yt4SDjHYiKhQKrsCco1hy5/PDU2/tNQPCUewa39v0UZasiY8kjpuvWHFuLiQQTvJ+rOx2PCJIDsAAnYnjuIlfn3nUp8tZBVR+o6tNgO9gsHEQnOIHLgdmcEteo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(376002)(346002)(136003)(39860400002)(36756003)(66946007)(7416002)(83380400001)(66556008)(2906002)(4744005)(478600001)(38100700001)(16526019)(186003)(66476007)(6666004)(4326008)(31696002)(2616005)(110136005)(5660300002)(54906003)(6486002)(31686004)(8936002)(8676002)(52116002)(316002)(86362001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VmJJb1NKQXd0WjhpS2ZDV3E3NUwxdyswaDgzc0NwVjRGM24wUnB1YVAvVVhZ?=
- =?utf-8?B?anF0OGYyMi9LN1FFRVE3L0c4bDJaNHk4SXB1YUs0eEoxWVN0VzFyU3BiejZV?=
- =?utf-8?B?WWNpekQzakpjdDY1d0RrY1RBRGExZE5SY1d1V3E3aFA5S3lOZUZvbXFsa21U?=
- =?utf-8?B?YjNWSUJWWmxaTjdkckZ5OEkwc0h0Mk0rd0NlWWl1QnRQdTE2KzdQa0p1N082?=
- =?utf-8?B?Z3IzWVRlN0dKendBYjF1S2VNWjB3ZDFpVHRjWkhXenNtOExkOUU1YkNuOEtm?=
- =?utf-8?B?bytlYzNMZDV4TjcwNEdqM0RmekIwOWxKWDcvcnVIcjU3ZVZOajlXZHdwekJB?=
- =?utf-8?B?WTBTbGJldXcwZkRzWnVVQjNZNjlBQXd4bUFuRmZJYk11bEtIWHNuaDBiYXJT?=
- =?utf-8?B?UVNVNUZKcFFaK0VQdXBLbXRMU2l4S0lURVNlNjNpTG5melhodm1BS0sxcEp0?=
- =?utf-8?B?ZkxqMlpkd1JDQkQyNE9Rci9HditNK1NqV09uNzNJS1BMS3dIbjJPS2dmelRD?=
- =?utf-8?B?blhHMjFYMVU4YUsxZU9QUGp0eWhsdmpvRUZmZzhqTVVOaWZ6bWZzUS9tajZK?=
- =?utf-8?B?M1p6M1U5ZFRXMFg3dnpVSG9kZmVBNDN4bEw4YVJNSS8xVk5sWVRUd0lCK2Qw?=
- =?utf-8?B?OVk5QVlVTStOUmtDZkhaSmozb3AxZTR6eEV5RHF4N2hlNnhrelMvQTc0THVo?=
- =?utf-8?B?R0pxN3h0bCtYbGtsY2dzSjk3QzlmSVJaZUw2eW9vNlJWZXREcWxEUkdFcjB0?=
- =?utf-8?B?ZHFMV2F0b1UwNjNhTFpxR2FxeEkxVnowNkM0dFZvU0UvUnR0d0cxb0V4OFBV?=
- =?utf-8?B?d2lVdkxUKy81akNRTGtLSVEzTXJ2R2NVbmUwUzVqSkxVRUF5NHVoZ29FUU8r?=
- =?utf-8?B?S1dpL2FnWkFINlF2ckpaSytHTWMxL1BZc0MxZ2d3NUE5aGNWdzNCenR0a3Nz?=
- =?utf-8?B?QWwvdkF3MzFsZlZSVHVNTTV3VFdOYlJteGRKOUc5cjJ6STJQMGxWbzhZbUJ0?=
- =?utf-8?B?ZW9HMTlMbEJZQ1BJYkkya0krSmRINFFSWklZS1gzZkVUY0VvQjc3YUNLZ2JB?=
- =?utf-8?B?eFliM1h2N3lPaHNWT3NKa0U1dnE3ZG1sVUxEWEZjd3QrMXJXS3RZMENTQjBD?=
- =?utf-8?B?Qi9NVGZEVjM4MlVGWTRsS0dvNWVteXlsQUpuS0Y3UC83ZDFtSTVwYzEwYllx?=
- =?utf-8?B?d3BpYnJHenNhcjdZbGxLOTQxMmFOcWw1SGlqK2ltUDVsTmRZYWMrWExLTGMv?=
- =?utf-8?B?ZW8yNTFYVTlZN0wwaGpNcUhSallIMkNicm5GcDYxZ1lmVGoxenczajRUdWd3?=
- =?utf-8?B?dVB4Uk5sRytlaGpiZjlXR1EzQmk0d2hsQlEycHNpZys2clF6WTRMV3BkRGJK?=
- =?utf-8?B?ci9OZWRiVkhkLzBremxPSENwMm9SRUZ6bUZyQzFpcmo5bDdEc1lCTGlvYStT?=
- =?utf-8?B?SVhOUHBBL1NoRDJnM0RJZkw1d2VFL2JjOGdzcWN6L2owaUhJNGVoVHJ2ZkR4?=
- =?utf-8?B?T0c5T2JKTUhiVm0rRFJwdjlBM3RYSXhmQkNHTzJjb0J6VmtPQ2Q0Ri9wbzVT?=
- =?utf-8?B?UFJEeGZCenROMHk3V2RXa1JGSTJLb0krY293N01Yb0c2S3ZrVEhSb2U0Q3B6?=
- =?utf-8?B?S1ZzeE1FL0pPQVhFRnBoMjdESFV3RWg0UVJOTWNRdG40Q01wUG9CaDVLeGcx?=
- =?utf-8?B?U0pmcFZERGJVdmYzQnc1L1VPbTkwdVlCdm5lQjVibGFraEVsdHUyak5DMFZ1?=
- =?utf-8?B?U2t5Y04xVmdpS0F1ME15MEU5RVZMdXpHQnFUeEg4OWtJZWtiWlB1ckhCZnph?=
- =?utf-8?B?TnRJeXN3aGxlbHhpVUhUMkh6TjlRMmxPSm9Za1Z1Qlcxa1ArUkNJV3hUVUh4?=
- =?utf-8?Q?cG/TVAERThKyp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 956acbf3-f8c5-45c7-3cf9-08d8eef3881c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2021 18:35:00.7527 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hI/P6No2K8NHXggpk9GeLrl3VyfgTusrSIgF2Xao7Fq5ZYEphqG46m2Co8rN+jE4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4359
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210324_183508_238130_0D9F902C 
-X-CRM114-Status: GOOD (  18.30  )
+X-CRM114-CacheID: sfid-20210324_231815_398622_089413D5 
+X-CRM114-Status: GOOD (  23.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -170,37 +72,249 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Am 24.03.21 um 18:21 schrieb Jason Gunthorpe:
-> On Mon, Mar 15, 2021 at 10:27:08AM -0600, Logan Gunthorpe wrote:
->
->> In this case the WARN_ON is just to guard against misuse of the
->> function. It should never happen unless a developer changes the code in
->> a way that is incorrect. So I think that's the correct use of WARN_ON.
->> Though I might change it to WARN and return, that seems safer.
-> Right, WARN_ON and return is the right pattern for an assertion that
-> must never happen:
->
->    if (WARN_ON(foo))
->        return -1
->
-> Linus wants assertions like this to be able to recover. People runing
-> the 'panic on warn' mode want the kernel to stop if it detects an
-> internal malfunction.
+Commands that access LBA contents without a data transfer between the
+host historically have not had a spec defined upper limit. The driver
+set the queue constraints for such commands to the max data transfer
+size just to be safe, but this artificial constraint frequently limits
+devices below their capabilities.
 
-The only justification I can see for a "panic on warn" is to prevent 
-further data loss or warn early about a crash.
+The NVMe Workgroup ratified TP4040 defines how a controller may
+advertise their non-MDTS limits. Use these if provided and default to
+the current constraints if not. Since the Dataset Management command
+limits are defined in logical blocks, but without a namespace to tell us
+the logical block size, the code defaults to the safe 512b size.
 
-We only use a BUG_ON() when the alternative would be to corrupt something.
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+v2->v3:
 
-Christian.
+  Remove the nvm_config_write_zeroes helper (hch)
 
->
-> Jason
+  For clarity, don't use inverted oncs logic (hch)
+
+  Replace nvme revision check with nvme_ctrl_limited_cns (hch)
+
+  Rebased patch for nvme-5.13: the previous version was based on a local
+  conflict-resolved 5.12+5.13 branch, so that version wouldn't have
+  successfully applied to either upstream branch.
+
+ drivers/nvme/host/core.c | 107 ++++++++++++++++++++++++++-------------
+ drivers/nvme/host/nvme.h |   3 ++
+ include/linux/nvme.h     |  10 ++++
+ 3 files changed, 86 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 40215a0246e4e..15ee470c1b8c6 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1936,7 +1936,7 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 	struct request_queue *queue = disk->queue;
+ 	u32 size = queue_logical_block_size(queue);
+ 
+-	if (!(ctrl->oncs & NVME_CTRL_ONCS_DSM)) {
++	if (ctrl->max_discard_sectors == 0) {
+ 		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, queue);
+ 		return;
+ 	}
+@@ -1954,39 +1954,13 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 	if (blk_queue_flag_test_and_set(QUEUE_FLAG_DISCARD, queue))
+ 		return;
+ 
+-	blk_queue_max_discard_sectors(queue, UINT_MAX);
+-	blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
++	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
++	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
+ 
+ 	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
+ 		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
+ }
+ 
+-static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
+-{
+-	u64 max_blocks;
+-
+-	if (!(ns->ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) ||
+-	    (ns->ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
+-		return;
+-	/*
+-	 * Even though NVMe spec explicitly states that MDTS is not
+-	 * applicable to the write-zeroes:- "The restriction does not apply to
+-	 * commands that do not transfer data between the host and the
+-	 * controller (e.g., Write Uncorrectable ro Write Zeroes command).".
+-	 * In order to be more cautious use controller's max_hw_sectors value
+-	 * to configure the maximum sectors for the write-zeroes which is
+-	 * configured based on the controller's MDTS field in the
+-	 * nvme_init_ctrl_finish() if available.
+-	 */
+-	if (ns->ctrl->max_hw_sectors == UINT_MAX)
+-		max_blocks = (u64)USHRT_MAX + 1;
+-	else
+-		max_blocks = ns->ctrl->max_hw_sectors + 1;
+-
+-	blk_queue_max_write_zeroes_sectors(disk->queue,
+-					   nvme_lba_to_sect(ns, max_blocks));
+-}
+-
+ static bool nvme_ns_ids_valid(struct nvme_ns_ids *ids)
+ {
+ 	return !uuid_is_null(&ids->uuid) ||
+@@ -2156,7 +2130,8 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	set_capacity_and_notify(disk, capacity);
+ 
+ 	nvme_config_discard(disk, ns);
+-	nvme_config_write_zeroes(disk, ns);
++	blk_queue_max_write_zeroes_sectors(disk->queue,
++					   ns->ctrl->max_zeroes_sectors);
+ 
+ 	set_disk_ro(disk, (id->nsattr & NVME_NS_ATTR_RO) ||
+ 		test_bit(NVME_NS_FORCE_RO, &ns->flags));
+@@ -3060,14 +3035,73 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 	return 0;
+ }
+ 
++static inline u32 nvme_mps_size_to_sectors(struct nvme_ctrl *ctrl, u8 size)
++{
++	int page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
++
++	return 1 << (size + page_shift - 9);
++}
++
++static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
++{
++	struct nvme_command c = { };
++	struct nvme_id_ctrl_nvm *id;
++	int ret;
++
++	if (ctrl->oncs & NVME_CTRL_ONCS_DSM) {
++		ctrl->max_discard_sectors = UINT_MAX;
++		ctrl->max_discard_segments = NVME_DSM_MAX_RANGES;
++	} else {
++		ctrl->max_discard_sectors = 0;
++		ctrl->max_discard_segments = 0;
++	}
++
++	/*
++	 * Even though NVMe spec explicitly states that MDTS is not applicable
++	 * to the write-zeroes, we are cautious and limit the size to the
++	 * controllers max_hw_sectors value, which is based on the MDTS field
++	 * and possibly other limiting factors.
++	 */
++	if (!(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES) &&
++	    (ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES))
++		ctrl->max_zeroes_sectors = ctrl->max_hw_sectors;
++	else
++		ctrl->max_zeroes_sectors = 0;
++
++	if (nvme_ctrl_limited_cns(ctrl))
++		return 0;
++
++	id = kzalloc(sizeof(*id), GFP_KERNEL);
++	if (!id)
++		return 0;
++
++	c.identify.opcode = nvme_admin_identify;
++	c.identify.cns = NVME_ID_CNS_CS_CTRL;
++	c.identify.csi = NVME_CSI_NVM;
++
++	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
++	if (ret)
++		goto free_data;
++
++	if (id->dmrl)
++		ctrl->max_discard_segments = id->dmrl;
++	if (id->dmrsl)
++		ctrl->max_discard_sectors = le32_to_cpu(id->dmrsl);
++	if (id->wzsl)
++		ctrl->max_zeroes_sectors = nvme_mps_size_to_sectors(ctrl,
++								    id->wzsl);
++
++free_data:
++	kfree(id);
++	return ret;
++}
++
+ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_id_ctrl *id;
+-	int ret, page_shift;
+ 	u32 max_hw_sectors;
+ 	bool prev_apst_enabled;
+-
+-	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
++	int ret;
+ 
+ 	ret = nvme_identify_ctrl(ctrl, &id);
+ 	if (ret) {
+@@ -3124,7 +3158,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	atomic_set(&ctrl->abort_limit, id->acl + 1);
+ 	ctrl->vwc = id->vwc;
+ 	if (id->mdts)
+-		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
++		max_hw_sectors = nvme_mps_size_to_sectors(ctrl, id->mdts);
+ 	else
+ 		max_hw_sectors = UINT_MAX;
+ 	ctrl->max_hw_sectors =
+@@ -3235,6 +3269,10 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = nvme_init_non_mdts_limits(ctrl);
++	if (ret < 0)
++		return ret;
++
+ 	ret = nvme_configure_apst(ctrl);
+ 	if (ret < 0)
+ 		return ret;
+@@ -4765,6 +4803,7 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != NVME_IDENTIFY_DATA_SIZE);
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ns_zns) != NVME_IDENTIFY_DATA_SIZE);
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl_zns) != NVME_IDENTIFY_DATA_SIZE);
++	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl_nvm) != NVME_IDENTIFY_DATA_SIZE);
+ 	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
+ 	BUILD_BUG_ON(sizeof(struct nvme_dbbuf) != 64);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b0863c59fac46..815c032a190ef 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -276,6 +276,9 @@ struct nvme_ctrl {
+ 	u32 max_hw_sectors;
+ 	u32 max_segments;
+ 	u32 max_integrity_segments;
++	u32 max_discard_sectors;
++	u32 max_discard_segments;
++	u32 max_zeroes_sectors;
+ #ifdef CONFIG_BLK_DEV_ZONED
+ 	u32 max_zone_append;
+ #endif
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b08787cd08812..edcbd60b88b98 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -405,6 +405,16 @@ struct nvme_id_ctrl_zns {
+ 	__u8	rsvd1[4095];
+ };
+ 
++struct nvme_id_ctrl_nvm {
++	__u8	vsl;
++	__u8	wzsl;
++	__u8	wusl;
++	__u8	dmrl;
++	__le32	dmrsl;
++	__le64	dmsl;
++	__u8	rsvd16[4080];
++};
++
+ enum {
+ 	NVME_ID_CNS_NS			= 0x00,
+ 	NVME_ID_CNS_CTRL		= 0x01,
+-- 
+2.25.4
 
 
 _______________________________________________
