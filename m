@@ -2,162 +2,105 @@ Return-Path: <SRS0=XXBd=IW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE2CC433E1
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 12:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB3AC433C1
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 17:22:46 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9506961A09
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 12:30:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9506961A09
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id DFF00619FC
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 17:22:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DFF00619FC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=TTfu1iVGbL+lGvleTg781tRNLj5cIHNcCiVfH44s22w=; b=q4VmhPESvTztTf1UMlO8ud3F9
-	aQdLOLay87YDAOb4wJ7+/WB8TpJ2Yjq9VAUeX9y7n68QFJ5D7x1ZOIpstpAO2EHNJ411WWZkMhGPw
-	2uoLqqkMw1HOhZP9J9dzt3hp/G0147SYcx/nodGyl+8589TXdLkMw0+MIvRCMTa18VsZfnfYSFJjy
-	vv9gRRnF4MXYWU0on9HrN20vVZUmxZOdluh6H4MQKa6OJE4bd/5S1upZUobDSeoLA8elu3oL4+D1T
-	tD5Ur91M4/DWAgvjDPWgLbsAeab0UmGPAQegehAwz/05m/tQekB64nwR29heX+ZOI3I12jOPXi4e8
-	OE/HNb3jg==;
+	 bh=O31oZvQFQ97EcDh7SQfAK0nsckkOnQ9tz6/7VwvVlns=; b=puPVreU5mlxmlrBcOBfDNUfjs
+	JfqpwuDiQp30BrXXZawAJi6i5xlVPrNCflRf4WcUwXlDPZtYJ0hsoRVaQvk8/N9x1jpfr9WJ3IISV
+	AACYjo4l1FNm5NAlPX6IEWw0VGjMlJk/GQnzlnbgxxoiOq0BnLI2UeKJOkp/Bgw6J/WrpgBcxMf96
+	0ATZp8QG6GpuEkKZqJ/qYFLeQxRxBnM1YDzUx791n0vJHjOnDOMH3HOJGEb6ejbFmqQUunQuFduyH
+	hjjGVd9UxHT0weW7piYAcZvUk28Bq9B/6xnWXoYkIOQyVhd91/+dSdS0mC63Vx7kVOpyUYchT00mQ
+	O2zmp28Bg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lP2dx-00H5pz-25; Wed, 24 Mar 2021 12:29:49 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1lP7Cp-00HVYX-Me; Wed, 24 Mar 2021 17:22:07 +0000
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lP2do-00H5nT-9b
- for linux-nvme@lists.infradead.org; Wed, 24 Mar 2021 12:29:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1616588980; x=1648124980;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=p+Yv2bejqJWDDq2E5UtILekJsMPzTQVeV1cI6Z0Obc8=;
- b=J3l/YBBq/qNsm/PCFAmFc5PyqJt0/Jo2+TMQRgs+dG4apEqBgEFUyrtI
- fA8pgHbhc+9eARzeE4+TkyKoMEdgoW4gFE/W6LNp3bKJ6/Rvc3klafd2Z
- V2UrvdTOANJom9UZhlfhSJId1PpH3NYYpcVgmCMBvZCXlZgIlLK3fqnlT
- XlxXnApeznIRfyZ7ykEIZTIoeUsmU/z6/WJIEAsyWTKysP2y9B/IkWCRU
- jy5DTUVCkgB421GnC7vNh+zuIUWoh+Unyi2iJC5wq2mahSejniwr+txXm
- 2W0y78N/w8b2c2MZjQSidlv88QZ2OkvhxTt6dPUc28uLIleJu3xJKczbY g==;
-IronPort-SDR: SdzcflUZzGUi5fnNSeOiP6II+oDGZDS0slKNlCVLbIXkxw+/gQKMczQVSsLm7e5v0lXYJTG9GO
- 3fOa5LFprlJdTDHkEW8CayVrdTkjgofGGY/Id6W7Fdwg8edFn5bKwvRLKGghVxRXnzXnHANL0o
- rLhHg6TRBiZDlw2b7dpktxPIhKX1/ub+0f7eJaHFByP18UrYSGkU2eXaymjZ96tLZ2EkKBpVV+
- FIhYr5nZ+Th4/aIhEACRj0zO1U0tV1WaVFraYdEWUdnyJ7Rzl/qRpgpN+ZwaCPEHIePC8a5hT+
- o1o=
-X-IronPort-AV: E=Sophos;i="5.81,274,1610380800"; d="scan'208";a="162841594"
-Received: from mail-mw2nam08lp2173.outbound.protection.outlook.com (HELO
- NAM04-MW2-obe.outbound.protection.outlook.com) ([104.47.73.173])
- by ob1.hgst.iphmx.com with ESMTP; 24 Mar 2021 20:29:34 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y7j2metj+TX+2ew1xZpGyMJXu+qdttWU5HnMK9vn6thFySZykHijzcD5dH97IZDbfzfxBOoZQob84VQME2QrC5ggC7aUHlok/twdCgJSsSlth7KhHi9y/JU2mCn+26aKzXHPfD/T7RUaJqg5yrDLvT3usatf8IcI/SLc6HY9/c/S/BorigBLqZs/pRoN7BAfq4XT1BOZ1ghHGPwQ19+uM7s1PJct7kEOboD+Vl/EY9MWavF87jQFoXWonSHwmBhuHhrCsYotmbHl6ad3+6Bb9MuB917Mr0mycr8Dcy20aYERBtCHERCB+opsd5eYlvcNUhqF1/XvUncjxLGPGYBigQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VJhJsCQjbEXs6ks24zDERPb9Qpzq0WKT/b236DxY3+Q=;
- b=dVMTjoryyi6Z2j2Bb5kYYi74hxEUvqNlppGhXUz3STLRgSueRAzTjmD5gJslWBGef6giwT9gQCy+UwgbPu1kPxGDVpjRWzJqlcrBIB97JfzQ4o6TCvpkoP9wvDCEqvjGJqCa5pOwj1BQUTiP+hd3wPMcNqoNCI+j932mVXjg5JVDWn5GmlHUJKzVEtEhPZDMync8ZtD6uXfqcVYBiXTmmpTgIxWYWScPpujYsGKhjw8GPu2DEFwFdRmzEAQyYABZ0BNyDqtjIq+JPywXuUDE66LslXyzF+ngZMtLyjl2E5IqIaBBfjCBU5q3SVikdztDrmwsR+b5r+SwW/NaklhaUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VJhJsCQjbEXs6ks24zDERPb9Qpzq0WKT/b236DxY3+Q=;
- b=QJTlfNdgcAx7zb2aUURUIVt35yPcBrx7PwwNi63051tMyBvqlRRWyNsh8AW/O8D5B22lh31bKeL4txRvc+ORAoH4XbhrKRDdY42wsrkpxMPkv2FRTp5EvPSkc1HU3LGpv7vLeHvkr6zj70kStquKULTzSvCeNp9ff6+S59+VR4Q=
-Received: from DM5PR04MB0684.namprd04.prod.outlook.com (2603:10b6:3:f3::20) by
- DM5PR04MB1210.namprd04.prod.outlook.com (2603:10b6:3:a3::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18; Wed, 24 Mar 2021 12:29:33 +0000
-Received: from DM5PR04MB0684.namprd04.prod.outlook.com
- ([fe80::f0ed:1983:98c8:3046]) by DM5PR04MB0684.namprd04.prod.outlook.com
- ([fe80::f0ed:1983:98c8:3046%12]) with mapi id 15.20.3955.027; Wed, 24 Mar
- 2021 12:29:33 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: "javier@javigon.com" <javier@javigon.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "minwoo.im.dev@gmail.com"
- <minwoo.im.dev@gmail.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
- =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier.gonz@samsung.com>, "hch@lst.de"
- <hch@lst.de>
-Subject: Re: [PATCH V6 1/2] nvme: enable char device per namespace
-Thread-Topic: [PATCH V6 1/2] nvme: enable char device per namespace
-Thread-Index: AQHXIKlX58TcqiDl90OEMALlWkZSkg==
-Date: Wed, 24 Mar 2021 12:29:32 +0000
-Message-ID: <YFswq8pgzg9y00GO@x1-carbon.lan>
-References: <20210301192452.16770-1-javier.gonz@samsung.com>
- <20210301192452.16770-2-javier.gonz@samsung.com>
-In-Reply-To: <20210301192452.16770-2-javier.gonz@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: javigon.com; dkim=none (message not signed)
- header.d=none;javigon.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [85.226.244.4]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: fd2648b2-361b-40b8-6193-08d8eec07a99
-x-ms-traffictypediagnostic: DM5PR04MB1210:
-x-microsoft-antispam-prvs: <DM5PR04MB12100EA557D793204434D114F2639@DM5PR04MB1210.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EUdrT6kJhjU001sWKnRzAZiMAm5UeSsX0rlzYBqDEYIPYLjLracQb5uZfjfF9irkowgj1S3AJfZzDS9oKcqI12pt9StkbBq/mo1x++2A3sRouaimMPnYn2CuYhKiygrjMSJPkayJz4JD6bzdu6hMKoV/2vKg71bCjgb4kE9p2DzTTlT/RTKMhb/3T0Vup12q5PMxKpaLAIArSY8ot3dqn8ye7zcfKcMe/9q3RqvNpYRFePcYq3YKuAYv12nwiWKoHXUt8zRdAaF8yHuktXESIkNjPp8dZmTvhF/4b1RWkPlY65osP9esek1eG3AoqiVCRMTH2Gy5U47QGFV/8Y5VlmQ+TbQqDnCKi5IrLnuO3jvANsFaC7Fc7Ztc57s5DkE4WxvLBkr1a2Y5WfJvk3c8j0MmxU8zngzy4wBUuBtt3LwTP+vwd/ITU7NhIWCUkkyqje7nUpNMFHcB9if7bFvpEW8/piMom2yNz+KvMdvkp3Z+zV+SHHqOUXa33RxQVt7DfUlTayPE9I00cMvQFjncS/KtR8F4bveWDAFfVefdcTk3qkCZ1L98yCW00xB/XY8lsAbV7AabzgI4lNKYd35DlNbNuuWrxHCQ4Z643ZfxkkxGoCRyqrQa8CS+2uWKteaOKEk17dVXfSUiw+4k902ZURE8U2F47vAE5nJG9chz7YYk9JRyNlHdoV5c3czDZJ/Cf3qxJebJPg5fbTQ0lSKAcInxhkb9ShySRqETwruZdoCc/gVR3zDFOBgUwTYsWdMK
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR04MB0684.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(6506007)(83380400001)(66574015)(54906003)(9686003)(8936002)(4326008)(36756003)(316002)(6916009)(86362001)(71200400001)(26005)(5660300002)(91956017)(186003)(478600001)(66556008)(6512007)(66446008)(66476007)(66946007)(76116006)(6486002)(38100700001)(64756008)(2906002)(966005)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?+Dav/ppOeIqQZDqVBujDPcMc58WbgheabMUCSC60c2BB5EbHseRfuQNDaF?=
- =?iso-8859-1?Q?ap/3tDW2xD9xvVEHsHlfW//nzLUc2aVQ3eRB0xpVkR56cRNUj29ErOvtG4?=
- =?iso-8859-1?Q?RJa61iXlUJspUbj3EPbw17jOQ6+xpgHmQL8guTBc0AoWJc2F3Z2W8XMpsz?=
- =?iso-8859-1?Q?UDEgY2yjG5+4jM74o6VC2ISo7GUdMZg3mo168KN3I9fasBTtdA+ZIguGuM?=
- =?iso-8859-1?Q?RiyMqOfKaur4l6N5Nf2gas/Nftb53g007ZeSrfZUFJ9aZN7YHsoOWCrjaC?=
- =?iso-8859-1?Q?HwqNcppzjCzi9kQy/ydhQaq9hA3F1u8HN//qKAhgaTePxxhUQ1KIlmn5b5?=
- =?iso-8859-1?Q?GzBbhTLNsJTyll0FbF4nke9QgGcXHdET8viwzaCRRQG8PTYYBc8e2vGV5e?=
- =?iso-8859-1?Q?4v5cZovXKTIzFzem+6fI0is7woCkfxOwUCu1FGVF2N0ugB4DY2BfoYGjgS?=
- =?iso-8859-1?Q?WOOEJneg/IWft/qFK6PLUSZAT6BCtbF1MrgEQMBZ5kQHyVYaUtgizoAgus?=
- =?iso-8859-1?Q?trVqP9IkvRCed5CFB4CZXLFpBf7cr1+Oyd0mDJEcJNSu3B3cCgK+3PHTu+?=
- =?iso-8859-1?Q?HhS+DMSbs8xJerolgc+mp7s5o5pmiUS2kSXT917yMqNDlIujJmpuYHssjs?=
- =?iso-8859-1?Q?+S4EreRQY62y44Vjqa+dGJUqGyOif5YNE3Cx7WNhhZ+7JOph9sPhqiCumA?=
- =?iso-8859-1?Q?AEXPbVhSP36Eo9we8sCd99qZy679SdBEP01xPLi94kIOT17KesBdXEhQvW?=
- =?iso-8859-1?Q?jnaGDTt6nDSgJFRB9cjULbHxweBb0Q4ndKpIPnZ4KWPnwseKxAGme571MK?=
- =?iso-8859-1?Q?mDz1cSdeqOycfe/nz346cKpM0GUsnW403t8JipDllaF8U3dgVzksBkbr55?=
- =?iso-8859-1?Q?0oatVSlr7BfT6eFp/Qhog5G/SOo4oZ+poKx0xjfAptGInM2CmRxg5SA/A0?=
- =?iso-8859-1?Q?WQRVE4YHfrya4poxapCfFV1A/F+irlmqRLne+4Qms0BeB+tlSS+TQC9JRM?=
- =?iso-8859-1?Q?S78cmqcQUFQ449H40kUn9pRRju3wS7SctDJeHZx6O8VYoiArlWb0Bv0hVz?=
- =?iso-8859-1?Q?bPOqfYU2gKVk89Tq4vQ0MYNe/q6r4L+GfBuSCsY2ziGZTe0BGZ0ngnXFhc?=
- =?iso-8859-1?Q?49er3PUOtIuNzB/hIG2DxQzutzyU2ujPx4+m7FRkWTr2yBQriCv7IvoyiK?=
- =?iso-8859-1?Q?H5uDhm3qFSYjkShcmKVoGn4C7Z00HXQ2vAt3KpYasPj0Bc6piK+jzULnXJ?=
- =?iso-8859-1?Q?OpAX4uU3PQ5qtGFYTr4Zx2zMHR9a1jGhlIaSG9v+1AB7xiHUNZop4asnZW?=
- =?iso-8859-1?Q?LoGB49YniCBAvf6r9oXFRRuCMgPgwZBDpQIugfbYT+swa2qlx8e2pTmKqd?=
- =?iso-8859-1?Q?5G6pWFeocU?=
-x-ms-exchange-transport-forked: True
-Content-ID: <1FF09A8302B70A40AE6894F728CDDB33@namprd04.prod.outlook.com>
+ id 1lP7Ck-00HVX9-1E
+ for linux-nvme@lists.infradead.org; Wed, 24 Mar 2021 17:22:04 +0000
+Received: by mail-qt1-x82e.google.com with SMTP id j7so18123504qtx.5
+ for <linux-nvme@lists.infradead.org>; Wed, 24 Mar 2021 10:22:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=SrdP9ZidSNfCaSucoColh3TxPDb0AtWOwMrzkk0oHMo=;
+ b=VqmHlOv5pk7Z6wF8FHX+TfDJjfjh921rYi4eN41NcDt/fq0DBDJOU7rhGSKU6ufyTm
+ xgryyJiAucS8WZzz2ViVbQUPuCpXfg7uEEhpPzzprqcXGMGkBwD6G1BUvjJVBTwjUNRd
+ pCXxJXPAOu8fNVQE1dmK+28ONbnNOcRwtDtStbIduQNJhqkB9Esrou8G0LfcvJrhW4fe
+ ULycH1dWEtxvx55GhkyZoQPGnapSxw7VUycFCKDpkG8+3sa5snIG53zjQV6wfo7BiGMJ
+ HJ9PrsuAPOJka52Tqjh77gZ/r2aV/d7R2K1zypTuv24H1EMPdKj6/CNzp7+bL0NdEvhW
+ NVQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=SrdP9ZidSNfCaSucoColh3TxPDb0AtWOwMrzkk0oHMo=;
+ b=EutjfQkvAPs/Si/qOt1uh3LQucqfNGWy3EQQYqi7stwG5/DRD7lTf4SDEjcfcftnlk
+ ES/RGM4HzLHnd94dx9lLKHlDpn6V+wq9OdjyjTTJ89lQT1VowNRDJxKdUb5Iq+BLoY6G
+ D226GWABXaln4xED6ZHGr0goLnPycIUOnUxVgvsg94/dYRMum40nEdkQ5Wrcu0Kwm4Lv
+ /BR/AWjAvk/tZY74AfTHocCviyl/FQobEDoJgXTsUC4lS7FrZ/IL/l8EcUZvqxoX4gSb
+ c+k74v0sU+NXnVIVb0KqaPKzK2yx0yMK/EYWqX8y1nvhkRUDOAaWJa4HUssPwov7FIc/
+ 66FA==
+X-Gm-Message-State: AOAM532HZ6zxUrCB20uiiqqxiwwKbz3ZgjHzHCytQktbNOyZg1Hpv8cB
+ ZAPv5tDAAbVCTeHizDkmhVzOAQ==
+X-Google-Smtp-Source: ABdhPJyneQA4gaMEWYTu19JnLqKtUSbn29vkpMblQHBkTJsjZw2ELWdLSZfb1xoPTIiUK6qAC7wT3Q==
+X-Received: by 2002:ac8:4d02:: with SMTP id w2mr3864955qtv.126.1616606519694; 
+ Wed, 24 Mar 2021 10:21:59 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+ by smtp.gmail.com with ESMTPSA id q125sm2144133qkf.68.2021.03.24.10.21.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Mar 2021 10:21:59 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1lP7Cf-0025Yq-Vy; Wed, 24 Mar 2021 14:21:58 -0300
+Date: Wed, 24 Mar 2021 14:21:57 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: Ira Weiny <ira.weiny@intel.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org,
+ Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Ira Weiny <iweiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
+ Don Dutile <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>
+Subject: Re: [RFC PATCH v2 04/11] PCI/P2PDMA: Introduce
+ pci_p2pdma_should_map_bus() and pci_p2pdma_bus_offset()
+Message-ID: <20210324172157.GH2710221@ziepe.ca>
+References: <20210311233142.7900-1-logang@deltatee.com>
+ <20210311233142.7900-5-logang@deltatee.com>
+ <20210313013856.GA3402637@iweiny-DESK2.sc.intel.com>
+ <7509243d-b605-953b-6941-72876a60d527@deltatee.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR04MB0684.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd2648b2-361b-40b8-6193-08d8eec07a99
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2021 12:29:32.9179 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tM/HVrJK8qTb3kk+FTZmkHQk7fkY2XJ9EpyQI+dc/sE7E8sg87P+hKfNcyToBAhHrkWQhABAxiFkl3bqeGeXHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR04MB1210
+Content-Disposition: inline
+In-Reply-To: <7509243d-b605-953b-6941-72876a60d527@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210324_122941_187863_6C5FE75B 
-X-CRM114-Status: GOOD (  24.76  )
+X-CRM114-CacheID: sfid-20210324_172202_742569_B188B60F 
+X-CRM114-Status: GOOD (  12.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -169,89 +112,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 01, 2021 at 08:24:51PM +0100, javier@javigon.com wrote:
-> From: Javier Gonz=E1lez <javier.gonz@samsung.com>
-> =
+On Mon, Mar 15, 2021 at 10:27:08AM -0600, Logan Gunthorpe wrote:
 
-> Create a char device per NVMe namespace. This char device is always
-> initialized, independently of whether the features implemented by the
-> device are supported by the kernel. User-space can therefore always
-> issue IOCTLs to the NVMe driver using the char device.
-> =
+> In this case the WARN_ON is just to guard against misuse of the
+> function. It should never happen unless a developer changes the code in
+> a way that is incorrect. So I think that's the correct use of WARN_ON.
+> Though I might change it to WARN and return, that seems safer.
 
-> The char device is presented as /dev/nvme-generic-XcYnZ. This naming
-> scheme follows the convention of the hidden device (nvmeXcYnZ). Support
-> for multipath will follow.
-> =
+Right, WARN_ON and return is the right pattern for an assertion that
+must never happen:
 
+  if (WARN_ON(foo))
+      return -1
 
-Hello all,
+Linus wants assertions like this to be able to recover. People runing
+the 'panic on warn' mode want the kernel to stop if it detects an
+internal malfunction.
 
-Looking at the discussion that led up to the current design:
-https://lore.kernel.org/linux-block/20201102185851.GA21349@lst.de/
+Jason
 
-Keith initially suggested:
-
-a) Set up the existing controller character device with a generic
-   disk-less request_queue to the IO queues accepting IO commands to
-   arbitrary NSIDs.
-
-However Christoph replied:
-
-The problem with a) is that it can't be used to give users or groups
-access to just one namespaces, so it causes a real access control
-nightmare.
-
-c) Each namespace gets its own character device, period.
-
-
-
-However, testing this patch series out:
-
-crw------- 1 root root 249,   0 Mar 24 11:32 /dev/nvme-generic-0c0n1
-crw------- 1 root root 249,   1 Mar 24 11:32 /dev/nvme-generic-0c0n2
-crw------- 1 root root 250,   0 Mar 24 11:32 /dev/nvme0
-brw-rw---- 1 root disk 259,   1 Mar 24 11:32 /dev/nvme0n2
-
-NSID1 has been rejected (because of ZNS ZOC, which kernel does not support).
-
-However, if I use the new char device for NSID1, but specify NSID2 to nvme-=
-cli:
-
-sudo nvme write-zeroes -s 0 -c 0 --namespace-id=3D2 /dev/nvme-generic-0c0n1
-
-I was still allowed to write to NSID2:
-
-sudo nvme zns report-zones -d 1 /dev/nvme0n2
-SLBA: 0x0        WP: 0x1        Cap: 0x3e000    State: IMP_OPENED   Type: S=
-EQWRITE_REQ   Attrs: 0x0
-
-Should this really be allowed?
-
-I was under the impression that Christoph's argument for implementing per
-namespace char devices, was that you should be able to do access control.
-Doesn't that mean that for the new char devices, we need to reject ioctls
-that specify a nvme_passthru_cmd.nsid !=3D the NSID that the char device
-represents?
-
-
-Although, this is not really something new, as we already have the same
-behavior when it comes ioctls and the block devices. Perhaps we want to
-add the same verification there?
-
-Regardless if we want to add a verification for block devices or not,
-it just seemed to me that the whole argument for introducing new char
-devices was to allow access control per namespace, which doesn't seem
-to have been taken into account, but perhaps I'm missing something.
-
-
-Kind regards,
-Niklas
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
