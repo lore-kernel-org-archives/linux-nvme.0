@@ -2,158 +2,163 @@ Return-Path: <SRS0=XXBd=IW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D634C433C1
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 17:48:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F52C433DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 18:35:41 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DC9E961A1D
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 17:48:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC9E961A1D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 424AF619E8
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Mar 2021 18:35:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 424AF619E8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amd.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=H65NYxLvT20hIPoD2Tb2BHrBCH0G+do+6afXtnLKQik=; b=JP6ULYmqzBPgvdxZTqMkhztWE/
-	rtnLhTZeR+AK8YtUe7hmVhQbN0Jgz6ijyRM2hH6ejcHvvk97AwuYWjQYGe5n4/1Bn4Op/FPSpeGbq
-	p1qx5pLlJqBtyq61PjnMs1DSR9bZP/G4RQk9VuL9J0lPFmRf54kisHJoBRcinHeFD/qY/218XiAp4
-	BQa5Ffpti4DNiV4pw6T/UgU7XlooW92j0czieLtvISVy7GIL2e/BnmAllnlrDDGH4R9lskIKw5spa
-	q0EEFX2IflEpK0f5Wl6oSoEJ/zMhMZHkGvxQKBQWmpQj6QsIQevxwXsQ6/yAX+gvVBeI/DEuOMQ4L
-	/qe3uEig==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=SADfCE6xYzynHSufK4MEXmHz6tXBHP+Ly0PuS5gDs8k=; b=NglBwcO2BUOefNQ5TfZ2lwa7d
+	rOIzt6JxLWg06crzuUCR4pPJKp/X0JNHPmjLslZ61P1R7nO1jrQ/opi/8fDZd3DIXHy6s3KNDapFx
+	gnbeubJkowd5LPAwFYHi6kvz1uGR0nulOd6ML4UqMTyJ1DZJfEr6WhONaftC2OH8IKmsNjLScOcWw
+	L5AzwxelbxFRORh3bJVK5iCxvA5YbPu5SAma9CsX7vQBKPmwoSQdNykWnSELkSDofqMezRAVyeppi
+	wJY13UCO2NUmJAoabLOArfTlh3vOhKVCSnWsMiLa3pV3CUO5qKeNtG7KKxN0Nufvh/20pzlMQ4gX9
+	mucuM0x7g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lP7bs-00HaSS-Gy; Wed, 24 Mar 2021 17:48:00 +0000
-Received: from mga14.intel.com ([192.55.52.115])
+	id 1lP8La-0003l6-CF; Wed, 24 Mar 2021 18:35:14 +0000
+Received: from mail-bn8nam12on2069.outbound.protection.outlook.com
+ ([40.107.237.69] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lP7bm-00HaRE-Pj
- for linux-nvme@lists.infradead.org; Wed, 24 Mar 2021 17:47:57 +0000
-IronPort-SDR: ZkCPbHFqyO9O430HPxdMoNlJbidE4lk85+moZ5wcj2MouHgETnu/mcXU08rb8Teo5TOSfUvPCL
- xQd4cpLnR/NA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="190177382"
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="190177382"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2021 10:47:52 -0700
-IronPort-SDR: y+0fxYKBGDgSkKCUL1TYy1J4L5we/j0ee0+fcXkbirocmeIR1FmUiquBCWZRHPp28aeeKwK8sX
- J2wlOVVWeDkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; d="scan'208";a="415591340"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga008.jf.intel.com with ESMTP; 24 Mar 2021 10:47:52 -0700
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 24 Mar 2021 10:47:51 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Wed, 24 Mar 2021 10:47:51 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Wed, 24 Mar 2021 10:47:51 -0700
+ id 1lP8LT-0003ke-W7
+ for linux-nvme@lists.infradead.org; Wed, 24 Mar 2021 18:35:11 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=baFCnuXGmH5+vkQMAq2YQqIapGeIfFMh24q+PLnMUXHeNSWhz2vgWLxgMLIIGq22l7k+x4jabp3UuD1IGOhz7iv7/u/uxVaWj9Gc8YZkiYSRyLFBKlkk++E4n4aXvlxAcS2V1qL2ouZxVWFrZR0Dit/H5WAwHNujtDq3NLBKAUSlDuCssYl2KNNgzWwjl2UMdDzj2cMWT+vS2Gt8Tpq0bC7sFuQkKkK69QiIHUt5HxlEZG5PtDIYaUz4v2dKtYWtWsUoW2MiZJ3Uso2RcAtRDYVgcXLzqAxBMxMotmI8/5OI+cmrMxutV3PcWUDHv/0fW2HECatiEVbGuc+rFZeayA==
+ b=ZX54vxZGumbQAiFIKJbHHFaNPsvTSFuUZ+6iN5ky5radqoreBEWt/pQZBAeNgb8WN7iKlqk68fIoj0jzzMyK0SyBorGF5HK/rJ3nUOo4hJgjnG3f87LQJvspbDpgmq4bH3w3MfZ2D579FvSagNRCKeHBAw9oiMIcfbwG70tVeb8jJAa//6wm/CjP8FwRkHtHWyfQq0kZvpxr+P2dtkSpnE6VcZuW9lVxBXEjf0yiXfZas7Imrch/JDFbixbd9ZIPosOv0o40MRbrKN7LffGg7f60yltoTDQJ982/+rZtiQtjWyqzx7I1XFnQFBaMXG2/yjuTghetYKPTowwe9aUh0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cg+lwv81mEQzArfsKu3Fvzcfyuw5sva57O6X7l1h/VE=;
- b=WpzBk9kmDIeFXTaxOa8bKyH/NG310mV+FWrEmtZ48yrEr016b3Al9J+4X5r9AXMmOghGxIFQ0Gd51hovDKFld68NTuUqiBERcb+Yp5KSUoCwjg9f1/Y51ZPwUOuQTM1hiQ4cXakIz6miZavZv7eyQ+MgytbXdf/wjaqH7DwVi4TKZ2VBzZtZuVUkwiuM8/0vbybMYVTfoFN737OZlIHLb52ja+xH39vm+j0mzkb/ADlSU/aoFR5pinljWFQfOGDqCqRcWJthXlaeQNha890MD8ZP2pn1Z7bIN7sreLTHDKlk+6WtcB/AL9tto+ArVdzg91eRQzn30sWiwa7jJ6Xhtg==
+ bh=Xv24XVEZj5zgBJAjtDKWfORzBUazvN9OQAkcsUrROfM=;
+ b=h2kuAKATNyaaPfLVurukPosNu4Gg1+YSSj3sDbk0/ehcfDV69VF9Ak/otydUI6lotFDu9vZ5p5n+Zb02MKFVU1E3lSRollhjlcgQJTy8y6hiN8mYzoQ42eNwgN7ZeLStPAnrdH8zwIuesY/qUUNRHb4di/XwBmXZhRyTMl1pBGRK9m4XyT4P7zfeP+vSIeHC3F483w+X4aFf+X2ovmXqwSC930p3dfLEYz4p+MGBK6Ycj0rL4SZ34Uznh0ljms5Yx5zzbkt6jnGMlSELV5QDfqmljOvCBqV1XOsSwBFfnW64lTWhd3wOvXY/X6kNZFYQCujv2FON0dWYmrB4sjB79Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cg+lwv81mEQzArfsKu3Fvzcfyuw5sva57O6X7l1h/VE=;
- b=nvmkoqGtVMIk8G+jFG+NhZ8/gKeJEtQ4XddFVNpvMT8qs57KX2rF3VuzgCnPW7i52ve4QPOJL3z2cyu+6+P4EtKCdBtVow/dG7k0iKuDN9f0SAWNvAqvmYYXSqVBoy6bWzyKSVX2RcTQ+Bp97zmXvURQ5/fnBw+BfkAdGg/602Q=
-Received: from BYAPR11MB2869.namprd11.prod.outlook.com (2603:10b6:a02:c0::15)
- by SJ0PR11MB4861.namprd11.prod.outlook.com (2603:10b6:a03:2ac::9)
+ bh=Xv24XVEZj5zgBJAjtDKWfORzBUazvN9OQAkcsUrROfM=;
+ b=bNyTP8qGd0N1tXvMCQUkhm92eUYhWuEYogpTK3tPzIwxuzvfy00pl8RkldcmnV5CQYGrt6U8+yY1uSJNY7JQJjXYebyENb/caBooOH29Ba0WcBobSk9zCMIwu8xV04AF5HOV0CLtywG8ebDuhfBKlTd5cx4D4ACCctJtdkEYN00=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4359.namprd12.prod.outlook.com (2603:10b6:208:265::24)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26; Wed, 24 Mar
- 2021 17:47:50 +0000
-Received: from BYAPR11MB2869.namprd11.prod.outlook.com
- ([fe80::9446:b8f4:d289:b20e]) by BYAPR11MB2869.namprd11.prod.outlook.com
- ([fe80::9446:b8f4:d289:b20e%6]) with mapi id 15.20.3955.027; Wed, 24 Mar 2021
- 17:47:50 +0000
-From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-CC: Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH V4] nvmet-tcp: enable optional queue idle period tracking
-Thread-Topic: [PATCH V4] nvmet-tcp: enable optional queue idle period tracking
-Thread-Index: Adcg1TmFWjeJRQgETzu27iRdPzrB4A==
-Date: Wed, 24 Mar 2021 17:47:50 +0000
-Message-ID: <BYAPR11MB2869734125E692608AE1A4A5E5639@BYAPR11MB2869.namprd11.prod.outlook.com>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.24; Wed, 24 Mar
+ 2021 18:35:00 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3955.027; Wed, 24 Mar 2021
+ 18:35:00 +0000
+Subject: Re: [RFC PATCH v2 04/11] PCI/P2PDMA: Introduce
+ pci_p2pdma_should_map_bus() and pci_p2pdma_bus_offset()
+To: Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>
+Cc: Ira Weiny <ira.weiny@intel.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
+ Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
+ Ira Weiny <iweiny@intel.com>, John Hubbard <jhubbard@nvidia.com>,
+ Don Dutile <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>
+References: <20210311233142.7900-1-logang@deltatee.com>
+ <20210311233142.7900-5-logang@deltatee.com>
+ <20210313013856.GA3402637@iweiny-DESK2.sc.intel.com>
+ <7509243d-b605-953b-6941-72876a60d527@deltatee.com>
+ <20210324172157.GH2710221@ziepe.ca>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <044e4f2b-6cb9-7740-622c-ec807bb1a79b@amd.com>
+Date: Wed, 24 Mar 2021 19:34:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <20210324172157.GH2710221@ziepe.ca>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=none action=none
- header.from=intel.com;
-x-originating-ip: [67.171.162.119]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 43ec715b-d619-4ba6-edde-08d8eeecf1a3
-x-ms-traffictypediagnostic: SJ0PR11MB4861:
-x-microsoft-antispam-prvs: <SJ0PR11MB4861B36C57E67D7B036C5BC1E5639@SJ0PR11MB4861.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: y7MPDIsNaIfNwNhpcKzXCT17IdO11XTw4goeK0rz2ygv3eq3riFL/z3ALej3kBRo0pyofk+7P8oZupPnGeB5B1sVi1f32QClShYutrMTYBJkt74N2cdY+Dar9of+Cai37oHy8thx7Xz3HaDU3a/eM/np0LAj0wJdOODz14RInqEFQnIT0815gwTGsqMb6sSe7CHmtRumd94HS/iBtDUZqhGReil82O0TqAgc6NKyUdrIC2Ca+tfmLhGL221f+hd8wUtt95wH6/f6HNXnbeR+PSy2O/2Ozxa2a4gZzpBx/OCxxKxR05z87pgZq6jVyivr2HboD8ZgW+oPw3PRxBmGoUqTSAnJw8KfjYpv3KpnuTmCvkbqwULFbchDzOb4IbbOHP0mrq5M0fZZ2X9DimjPuZzRXpd+1fwhpwuGtmuq8hJ6A6IeCurph1t6OzmFQ205JFca21matUeWjl/arrOpvUN/OYz7SjjzGCr7gK7JASnFVjZFWUSGWZn1Dc9YOrFEjJqX490RsBKU9wHivoRdm8H6HcOltln1SClyF0x9OuKhWxVbdHCX1BWmjIhsn5rWgdpsGgkCcY3GYWkKIaBCG/T1Rm4/gf10Q5YBObIQU5JUQn5vJnbvzu8SGj1qltI++A0sI5iCX0IN4+6R3e+xCRWjCVrj2vXIITcVEjpBMXw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2869.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(136003)(346002)(376002)(396003)(366004)(8676002)(26005)(33656002)(478600001)(83380400001)(8936002)(6506007)(186003)(52536014)(4326008)(71200400001)(66446008)(64756008)(66556008)(66476007)(66946007)(2906002)(6916009)(7696005)(38100700001)(76116006)(9686003)(5660300002)(86362001)(55016002)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?UaDYdWtnLgfJXNWxQ49CNR25xmiqVv/ZoM68Lm8LRiSBtENgGQR+90zL4UNA?=
- =?us-ascii?Q?QW1mSYa2ndyUB9n9qzEeL0UjZ01xizT0qdCzKhOOgS5Wi1a40UZB3OlQDwi+?=
- =?us-ascii?Q?uDxzox8LQFxkGTthPDTshabMQjjth7X+yy6Sio/8NtXH/hfayA6aOrj0Frr6?=
- =?us-ascii?Q?+LH7q3TmS/z8CsIu9u6XfLDqfvJmR6dIOj2IM/oVUndFHqQgVz4w1BBDRUIa?=
- =?us-ascii?Q?BvNjuGGfE+aemsWHCB9pYxfsIsonouGKxSvlKqMdPYfJ4E78oHAdjLwgNQ1x?=
- =?us-ascii?Q?V79I5SdEXEa6Z26fI8iHRuwSpqI3ZRYMdszyms2ZSgOW4mybnLzUW0f8IZ1m?=
- =?us-ascii?Q?Lbj6yF7bS32xoV4AIyUCG4xn1IFCsU5yoP19dctfA7eMtbeR70wcGJaMqaKt?=
- =?us-ascii?Q?79a9VLDlHCM5wozEdTiw3YO9Epuv8Op3VFWe32diuDl50QNpmEM9oO+VbX3M?=
- =?us-ascii?Q?2rUDq0fPmLEqDYIVP6dEo9sTVL4ZRSClss/CjyjtL1XaU5J8bcKx3gL5hlqV?=
- =?us-ascii?Q?bRusSyhSSvVhlm69WoSOa5qnHd15XOljPI9/9hhQtPLPwQscgRpC3v1F4KZa?=
- =?us-ascii?Q?Qd4nBT+n8Q5aeQazEZEaM+ETQtZgSSi9AfkUwkbO28irqrVW5jhrZ+hVlkcd?=
- =?us-ascii?Q?qQqUB59PDB9CngMNg2RKkQc4PTevk1jfGD4gaXCn1tW/wimuJqFlm/G/fIvP?=
- =?us-ascii?Q?OKU2X1q5JNauxNp+onZz4uU3JtAk9f8t35s1GhlIlQJVTNbTQNH6kCgM4aeK?=
- =?us-ascii?Q?sblDNP/HVjfS/7RozWhKgkVBkn8IUMRR/td10RQkE9w8Gq+O5pXW80BmXeaw?=
- =?us-ascii?Q?zTAJ5eO0yrrbmltXso8TFxsobuRqLLW1P07Cfd4luGI/BPFRK489bkBX24E3?=
- =?us-ascii?Q?WBXKjhH0P03qXvkIZpZ0DIOS8mtrMiOcsMQAzX72ARbRRfSKRgTdbeq3dHJZ?=
- =?us-ascii?Q?zzKgjDnnIM+KORQj9vJ00fu1JS30TSArkqKq3yc9JXqvFhEY3V3zPq0Xj6Ic?=
- =?us-ascii?Q?p0fXfh1msHX4I0WpD+oTN8NKFUpi94OAGZvILKF8AwfgEynYggOAvx1VqjjA?=
- =?us-ascii?Q?EGmJQUlZzycGXvN7/DCrGKXujv6vv7V3yMz1qYVe45WfoyNNzzkUrJuCJUz+?=
- =?us-ascii?Q?a04xJySIT/J4whBAQGMAEX2XL0dLrr3BLzV+nDXJUZExOHZ43wu83QCU8u68?=
- =?us-ascii?Q?kGfqHtIDRm8efTjMmJpNDqE04I5x36EA1O2InBmdx//Q0v83/XKAjxTZTJX/?=
- =?us-ascii?Q?LZ3U+HrMNNHc1yeiSdEBDsC+QO0bHWK++XtIPgtknqrBcGrPiM4CQY1JooX6?=
- =?us-ascii?Q?6dUs4IXBw95Mu7pXqqZ7gsDU?=
-x-ms-exchange-transport-forked: True
+X-Originating-IP: [2a02:908:1252:fb60:d95a:1638:1804:512a]
+X-ClientProxiedBy: AM8P189CA0026.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:218::31) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:d95a:1638:1804:512a]
+ (2a02:908:1252:fb60:d95a:1638:1804:512a) by
+ AM8P189CA0026.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.25 via Frontend Transport; Wed, 24 Mar 2021 18:34:57 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 956acbf3-f8c5-45c7-3cf9-08d8eef3881c
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4359:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4359DC73AB710331CF466E1083639@MN2PR12MB4359.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U2K2FZNlZ1D/p5/DAB6NBA11nGEx2xQlRaiEsS1ZgVvk+Nz50se7AzUz+dJWioNZ7ARte9Epl4owXdqVWZy7obenu6vJ/NoCc4H+iCsf7dc860D80EpOkUwCl8a7aMXbzuMpnJCKEsn0hzxbak873qjXZyobk/AzPhWSQudrqUphBLeTEpHw+zSxQEhihD+kGYEPL0frUm9BBGT8ePBWLsOYGNpfNwqM0cyBXdR5AHAbI4b2O4is6XFa+vMh1ZjoR59yYnSs5v+2VyTLEmJit1anCuFhvg/hK9zEDKHUdH3FSuxTva4QSyG+3ygWuSphInhXN9WeVBk3M0DO5veM9SxanE22qpLRS/LVu1PZ8tSmpY60c8/rUTfVVGpgwWeb+wjnC1aHgHYWwf+kGxCiIwRqnObc3otaMicDgBpcbz2Ui6qrrZmTldqj7EUS0cO3b5s6IiZhtc3fO19KSCyeN8sW2XZqb0YWWk2m156R7YQhoH2whEMUuoe3IbEXu1KrmldGbm4nAx8EFw9XtilNV5HxBzQ+M1NQWjGr3nOpGr+zoXM/TdQbGH+D3AFI5LLgXMNqTa7TiUDiYOkQU1poLZ7rc4PSpVzc7wiw9YgpRQEZNL3g1Yt4SDjHYiKhQKrsCco1hy5/PDU2/tNQPCUewa39v0UZasiY8kjpuvWHFuLiQQTvJ+rOx2PCJIDsAAnYnjuIlfn3nUp8tZBVR+o6tNgO9gsHEQnOIHLgdmcEteo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(376002)(346002)(136003)(39860400002)(36756003)(66946007)(7416002)(83380400001)(66556008)(2906002)(4744005)(478600001)(38100700001)(16526019)(186003)(66476007)(6666004)(4326008)(31696002)(2616005)(110136005)(5660300002)(54906003)(6486002)(31686004)(8936002)(8676002)(52116002)(316002)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VmJJb1NKQXd0WjhpS2ZDV3E3NUwxdyswaDgzc0NwVjRGM24wUnB1YVAvVVhZ?=
+ =?utf-8?B?anF0OGYyMi9LN1FFRVE3L0c4bDJaNHk4SXB1YUs0eEoxWVN0VzFyU3BiejZV?=
+ =?utf-8?B?WWNpekQzakpjdDY1d0RrY1RBRGExZE5SY1d1V3E3aFA5S3lOZUZvbXFsa21U?=
+ =?utf-8?B?YjNWSUJWWmxaTjdkckZ5OEkwc0h0Mk0rd0NlWWl1QnRQdTE2KzdQa0p1N082?=
+ =?utf-8?B?Z3IzWVRlN0dKendBYjF1S2VNWjB3ZDFpVHRjWkhXenNtOExkOUU1YkNuOEtm?=
+ =?utf-8?B?bytlYzNMZDV4TjcwNEdqM0RmekIwOWxKWDcvcnVIcjU3ZVZOajlXZHdwekJB?=
+ =?utf-8?B?WTBTbGJldXcwZkRzWnVVQjNZNjlBQXd4bUFuRmZJYk11bEtIWHNuaDBiYXJT?=
+ =?utf-8?B?UVNVNUZKcFFaK0VQdXBLbXRMU2l4S0lURVNlNjNpTG5melhodm1BS0sxcEp0?=
+ =?utf-8?B?ZkxqMlpkd1JDQkQyNE9Rci9HditNK1NqV09uNzNJS1BMS3dIbjJPS2dmelRD?=
+ =?utf-8?B?blhHMjFYMVU4YUsxZU9QUGp0eWhsdmpvRUZmZzhqTVVOaWZ6bWZzUS9tajZK?=
+ =?utf-8?B?M1p6M1U5ZFRXMFg3dnpVSG9kZmVBNDN4bEw4YVJNSS8xVk5sWVRUd0lCK2Qw?=
+ =?utf-8?B?OVk5QVlVTStOUmtDZkhaSmozb3AxZTR6eEV5RHF4N2hlNnhrelMvQTc0THVo?=
+ =?utf-8?B?R0pxN3h0bCtYbGtsY2dzSjk3QzlmSVJaZUw2eW9vNlJWZXREcWxEUkdFcjB0?=
+ =?utf-8?B?ZHFMV2F0b1UwNjNhTFpxR2FxeEkxVnowNkM0dFZvU0UvUnR0d0cxb0V4OFBV?=
+ =?utf-8?B?d2lVdkxUKy81akNRTGtLSVEzTXJ2R2NVbmUwUzVqSkxVRUF5NHVoZ29FUU8r?=
+ =?utf-8?B?S1dpL2FnWkFINlF2ckpaSytHTWMxL1BZc0MxZ2d3NUE5aGNWdzNCenR0a3Nz?=
+ =?utf-8?B?QWwvdkF3MzFsZlZSVHVNTTV3VFdOYlJteGRKOUc5cjJ6STJQMGxWbzhZbUJ0?=
+ =?utf-8?B?ZW9HMTlMbEJZQ1BJYkkya0krSmRINFFSWklZS1gzZkVUY0VvQjc3YUNLZ2JB?=
+ =?utf-8?B?eFliM1h2N3lPaHNWT3NKa0U1dnE3ZG1sVUxEWEZjd3QrMXJXS3RZMENTQjBD?=
+ =?utf-8?B?Qi9NVGZEVjM4MlVGWTRsS0dvNWVteXlsQUpuS0Y3UC83ZDFtSTVwYzEwYllx?=
+ =?utf-8?B?d3BpYnJHenNhcjdZbGxLOTQxMmFOcWw1SGlqK2ltUDVsTmRZYWMrWExLTGMv?=
+ =?utf-8?B?ZW8yNTFYVTlZN0wwaGpNcUhSallIMkNicm5GcDYxZ1lmVGoxenczajRUdWd3?=
+ =?utf-8?B?dVB4Uk5sRytlaGpiZjlXR1EzQmk0d2hsQlEycHNpZys2clF6WTRMV3BkRGJK?=
+ =?utf-8?B?ci9OZWRiVkhkLzBremxPSENwMm9SRUZ6bUZyQzFpcmo5bDdEc1lCTGlvYStT?=
+ =?utf-8?B?SVhOUHBBL1NoRDJnM0RJZkw1d2VFL2JjOGdzcWN6L2owaUhJNGVoVHJ2ZkR4?=
+ =?utf-8?B?T0c5T2JKTUhiVm0rRFJwdjlBM3RYSXhmQkNHTzJjb0J6VmtPQ2Q0Ri9wbzVT?=
+ =?utf-8?B?UFJEeGZCenROMHk3V2RXa1JGSTJLb0krY293N01Yb0c2S3ZrVEhSb2U0Q3B6?=
+ =?utf-8?B?S1ZzeE1FL0pPQVhFRnBoMjdESFV3RWg0UVJOTWNRdG40Q01wUG9CaDVLeGcx?=
+ =?utf-8?B?U0pmcFZERGJVdmYzQnc1L1VPbTkwdVlCdm5lQjVibGFraEVsdHUyak5DMFZ1?=
+ =?utf-8?B?U2t5Y04xVmdpS0F1ME15MEU5RVZMdXpHQnFUeEg4OWtJZWtiWlB1ckhCZnph?=
+ =?utf-8?B?TnRJeXN3aGxlbHhpVUhUMkh6TjlRMmxPSm9Za1Z1Qlcxa1ArUkNJV3hUVUh4?=
+ =?utf-8?Q?cG/TVAERThKyp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 956acbf3-f8c5-45c7-3cf9-08d8eef3881c
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2869.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43ec715b-d619-4ba6-edde-08d8eeecf1a3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2021 17:47:50.5700 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pu0+bqwjKgMucdn8N1UhU1SVANb2gsTzSrY4pCe7+hfcJaG7TZYD0Sev4nlqMZDryVXZCaF42oMx1uMLiCXAO/BJ4LwdpvLLWSDVlNuavG4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4861
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2021 18:35:00.7527 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hI/P6No2K8NHXggpk9GeLrl3VyfgTusrSIgF2Xao7Fq5ZYEphqG46m2Co8rN+jE4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4359
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210324_174755_341258_142F70E9 
-X-CRM114-Status: GOOD (  24.68  )
+X-CRM114-CacheID: sfid-20210324_183508_238130_0D9F902C 
+X-CRM114-Status: GOOD (  18.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,148 +170,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet-tcp: enable optional queue idle period tracking
+Am 24.03.21 um 18:21 schrieb Jason Gunthorpe:
+> On Mon, Mar 15, 2021 at 10:27:08AM -0600, Logan Gunthorpe wrote:
+>
+>> In this case the WARN_ON is just to guard against misuse of the
+>> function. It should never happen unless a developer changes the code in
+>> a way that is incorrect. So I think that's the correct use of WARN_ON.
+>> Though I might change it to WARN and return, that seems safer.
+> Right, WARN_ON and return is the right pattern for an assertion that
+> must never happen:
+>
+>    if (WARN_ON(foo))
+>        return -1
+>
+> Linus wants assertions like this to be able to recover. People runing
+> the 'panic on warn' mode want the kernel to stop if it detects an
+> internal malfunction.
 
-Add 'idle_poll_period_usecs' option used by io_work() to support
-network devices enabled with advanced interrupt moderation
-supporting a relaxed interrupt model. It was discovered that
-such a NIC used on the target was unable to support initiator
-connection establishment, caused by the existing io_work()
-flow that immediately exits after a loop with no activity and
-does not re-queue itself.
+The only justification I can see for a "panic on warn" is to prevent 
+further data loss or warn early about a crash.
 
-With this new option a queue is assigned a period of time
-that no activity must occur in order to become 'idle'.  Until
-the queue is idle the work item is requeued.
+We only use a BUG_ON() when the alternative would be to corrupt something.
 
-The new module option is defined as changeable making it
-flexible for testing purposes.
+Christian.
 
-The pre-existing legacy behavior is preserved when no module option
-for idle_poll_period_usecs is specified.
+>
+> Jason
 
-Signed-off-by: Mark Wunderlich <mark.wunderlich@intel.com>
----
-Changes from V3:
- - remove unnecessary added io_work() function variable 'requeue'.
- - instead of checking and clearing poll limits inside new function
-   nvmet_tcp_check_queue_deadline, just make call to arm the poll
-   limits before call to queue io_work during queue creation. The
-   poll limits must be armed before any invocation of io_work() that
-   is not as a result of an activity posting or interrupt, else the
-   worker will prematurely exit.
----
-Changes from V2:
- - pull the tracking code out of io_work() and into two support
-   functions.
- - simplify io_work with single test made after process loop to
-   determine if optional idle tracking is active or not.
- - the base logic of idle tracking used a condition to re-queue
-   worker remains the same.
----
-Changes from V1:
- - remove the accounting of time only spent within io_work() that
-   was deducted from the assigned idle deadline time period.  This
-   simplification improvement just requires the selection of a
-   sufficient optional time period that will catch any non-idle
-   activity to keep a queue active.
- - testing was performed with a NIC using standard HW interrupt mode, with
-   and without the new module option enabled.  No measurable performance
-   drop was seen when the patch wsa applied and the new option specified
-   or not.  A side effect of a standard NIC using the new option
-   will reduce the context switch rate.  We measured a drop from roughly
-   90K to less than 300 (for 32 active connections).
- - For a NIC using a passive advanced interrupt moderation policy, it was
-   then successfully able to achieve and maintain active connections with
-   the target.
----
- drivers/nvme/target/tcp.c |   39 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index dc1f0f647189..c44b34f0d46c 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -29,6 +29,16 @@ static int so_priority;
- module_param(so_priority, int, 0644);
- MODULE_PARM_DESC(so_priority, "nvmet tcp socket optimize priority");
- 
-+/* Define a time period (in usecs) that io_work() shall sample an activated
-+ * queue before determining it to be idle.  This optional module behavior
-+ * can enable NIC solutions that support socket optimized packet processing
-+ * using advanced interrupt moderation techniques.
-+ */
-+static int idle_poll_period_usecs;
-+module_param(idle_poll_period_usecs, int, 0644);
-+MODULE_PARM_DESC(idle_poll_period_usecs,
-+		"nvmet tcp io_work poll till idle time period in usecs");
-+
- #define NVMET_TCP_RECV_BUDGET		8
- #define NVMET_TCP_SEND_BUDGET		8
- #define NVMET_TCP_IO_WORK_BUDGET	64
-@@ -119,6 +129,9 @@ struct nvmet_tcp_queue {
- 	struct ahash_request	*snd_hash;
- 	struct ahash_request	*rcv_hash;
- 
-+	unsigned long		poll_start;
-+	unsigned long		poll_end;
-+
- 	spinlock_t		state_lock;
- 	enum nvmet_tcp_queue_state state;
- 
-@@ -1198,6 +1211,25 @@ static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
- 	spin_unlock(&queue->state_lock);
- }
- 
-+static inline void nvmet_tcp_arm_queue_deadline(struct nvmet_tcp_queue *queue)
-+{
-+	queue->poll_start = jiffies;
-+	queue->poll_end = queue->poll_start +
-+			usecs_to_jiffies(idle_poll_period_usecs);
-+}
-+
-+static bool nvmet_tcp_check_queue_deadline(struct nvmet_tcp_queue *queue,
-+		int ops)
-+{
-+	if (!idle_poll_period_usecs)
-+		return false;
-+
-+	if (ops)
-+		nvmet_tcp_arm_queue_deadline(queue);
-+
-+	return time_in_range(jiffies, queue->poll_start, queue->poll_end);
-+}
-+
- static void nvmet_tcp_io_work(struct work_struct *w)
- {
- 	struct nvmet_tcp_queue *queue =
-@@ -1223,9 +1255,10 @@ static void nvmet_tcp_io_work(struct work_struct *w)
- 	} while (pending && ops < NVMET_TCP_IO_WORK_BUDGET);
- 
- 	/*
--	 * We exahusted our budget, requeue our selves
-+	 * Requeue the worker if idle deadline period is in progress or any
-+	 * ops activity was recorded during the do-while loop above.
- 	 */
--	if (pending)
-+	if (nvmet_tcp_check_queue_deadline(queue, ops) || pending)
- 		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
- }
- 
-@@ -1525,6 +1558,8 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	if (ret)
- 		goto out_destroy_sq;
- 
-+	if (idle_poll_period_usecs)
-+		nvmet_tcp_arm_queue_deadline(queue);
- 	queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
- 
- 	return 0;
 
 _______________________________________________
 Linux-nvme mailing list
