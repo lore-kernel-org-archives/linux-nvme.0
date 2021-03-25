@@ -2,20 +2,20 @@ Return-Path: <SRS0=zNYX=IX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B34DC433DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Mar 2021 02:10:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D28B0C433DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Mar 2021 06:50:57 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1D291619B1
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Mar 2021 02:10:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1D291619B1
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 42E5561A12
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Mar 2021 06:50:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 42E5561A12
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,75 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1KSNd+Cb2IHTWcw6OKW5zwcGBZuJofs6XyLIKO+K/6Q=; b=VV75hgZothJeHBZmWd3TdUmLh
-	qOs6xpJYkllvROBU2m6xKC6s+fnGr15PqTWNq3OZT/IbemdVry3DvGiwK6S2Oy8mrPdw9XvSu5FUO
-	QpQHHo/TC5fSR/pIdfsblFeXTPWSVLd1t2V9hpgg3hLf87Lli+LH82UI8tETTw7s2k3gRbyhUgdKB
-	gR6+PxWd6amScMnxd9+ZfbKI88dNrJceB8Acu66VpPpMQpTbZASBs2XDc9pYCLQhYmQEgScV387d9
-	HSQkVg+RTmUbQq2d5ggVR1Jc2Gw0IKDaA2Qlgh3NKqBJt4aCTMdFSRV3p6Cf4ks2320qWbZhOcOj3
-	sFWJmqmNQ==;
+	 bh=zYuijmaLe7QTzAqHlsqaWSi1ONw/xP685GR+OyBxEKU=; b=OQgCj/agXrNLV0TUSOw2WZs5t
+	8s2sOaqKMY8FPQKEqM2kU/gpDYAvzSKhnw6MbMoeuOADrBWz6VSqThi6gS8ep58bXsndDJoQqeemO
+	Ez1hzbH1IatrSBxUiSKnnzsHx4tdYmb15gGDvkxXm63+vnEMj8ENn4JCC5kaRPm1hplqZdTza5hAE
+	C0v1hf3xTbtflyEg6z3ZeTClFuMkDVn0FYgWkumv+Lir8DsJ3wSEJFfa/GpjYwwCw/7iryPiKmiyN
+	dhTpSFIR8H0l4wm4RBA2Gvx8nXb2Q4qDXzf/VhBC592qUthCClRnCitBHClttw0pWmXtDFqihzxrc
+	SgaqOpVhw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lPFRl-000TqS-62; Thu, 25 Mar 2021 02:10:05 +0000
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+	id 1lPJpE-000gvM-VW; Thu, 25 Mar 2021 06:50:37 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lPFRd-000Tpj-U3
- for linux-nvme@lists.infradead.org; Thu, 25 Mar 2021 02:10:00 +0000
-Received: by mail-pg1-x531.google.com with SMTP id m7so260034pgj.8
- for <linux-nvme@lists.infradead.org>; Wed, 24 Mar 2021 19:09:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=GnPkrUWVHgQAkE7X9Q+gS1Rm0hw8IZfxa51KQLQaH2w=;
- b=APFhGsnvbabBnyPJKGOX/84vrQW9EE5xS06+iv5qV4t5nvQXqDViUjmAOjrVJiQj2J
- Cwk+AkMAfN0PR8vAIY4ARrwsy01cSc8001Z/eiEnv4CMGx1Sle1hJjyRaI5MwvmcdUV+
- jwb7leeD0C8/Dncxzlsp3Qip4Xy8WCg9HhV5axzjsXIFNNB4xxz0AYT4sI6EUrK95bKy
- FUnkX3OT5sJJBF0Uaz23lAJeBGJ1hD5XM+icNGNHkdOR8RHuOtovNLF3Veas4WXp2QNv
- HMQTB85iKg+HFOq4gS2TQCnMWMAG9ebH2mUWblX3DMNFJdLP/T/HOxkoReTfwUpKQVH8
- /97w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=GnPkrUWVHgQAkE7X9Q+gS1Rm0hw8IZfxa51KQLQaH2w=;
- b=gzgOsTho735okLkPaJ5L/QXttm2BO8GyP29vEFDJ5vAT9kU0kenzXJG8Ws4OmpjrpW
- jWaY1zK8tAqQwAYs1O0BaCiSGPXkUcYxc7sD5nnBmBOjD6BpjF0otg9kO2z7o5SSpVu6
- fwycYf8pl3wpGkPkAtyHjoQ6lnw2guOLf1fsch0du985q12YKCoPQJI8qRN8jJ6UoM66
- mZ+WKfSsqTcqZlATO5bDD+QKYKNJr6tLBv9kX7fTZ/mhRzEXd0C8A03k1by+yYQDg2rF
- HqNjmTIADIL85FGiXbtIBNPFyitI1yYxRrWxZgXaVccm+VD5lpYGHgCu3hXjK1/LFoGt
- vXPg==
-X-Gm-Message-State: AOAM533Yf8xThejFA2xzxpcYLc97cI4dIaMCa/A1W2D1DbSSWGR3GdO+
- 2bX1US3kZikC8WxtADJT50A=
-X-Google-Smtp-Source: ABdhPJxU2KB058XE51CYUcSMipnPvf0Qk5VzTZS8EsUwLZjX4qc3Y6n8xujrzD2lZFufpuw3Huu37w==
-X-Received: by 2002:a17:902:d4cc:b029:e4:9cd9:f189 with SMTP id
- o12-20020a170902d4ccb02900e49cd9f189mr6587626plg.53.1616638194758; 
- Wed, 24 Mar 2021 19:09:54 -0700 (PDT)
-Received: from localhost ([58.127.46.74])
- by smtp.gmail.com with ESMTPSA id i8sm3706537pjl.32.2021.03.24.19.09.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Mar 2021 19:09:54 -0700 (PDT)
-Date: Thu, 25 Mar 2021 11:09:51 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Niklas Cassel <Niklas.Cassel@wdc.com>
-Cc: "javier@javigon.com" <javier@javigon.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>,
- "hch@lst.de" <hch@lst.de>
-Subject: Re: [PATCH V6 1/2] nvme: enable char device per namespace
-Message-ID: <20210325020951.GA2105@localhost>
-References: <20210301192452.16770-1-javier.gonz@samsung.com>
- <20210301192452.16770-2-javier.gonz@samsung.com>
- <YFswq8pgzg9y00GO@x1-carbon.lan>
+ id 1lPJp9-000guq-SR
+ for linux-nvme@lists.infradead.org; Thu, 25 Mar 2021 06:50:34 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 5F7BC68B05; Thu, 25 Mar 2021 07:50:28 +0100 (CET)
+Date: Thu, 25 Mar 2021 07:50:28 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCHv3] nvme: implement non-mdts command limits
+Message-ID: <20210325065028.GA25678@lst.de>
+References: <20210324231805.1232062-1-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YFswq8pgzg9y00GO@x1-carbon.lan>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20210324231805.1232062-1-kbusch@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210325_020958_076189_F2FB3C87 
-X-CRM114-Status: GOOD (  35.64  )
+X-CRM114-CacheID: sfid-20210325_065032_167372_D42E9BAD 
+X-CRM114-Status: GOOD (  36.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,68 +63,136 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMjEtMDMtMjQgMTI6Mjk6MzIsIE5pa2xhcyBDYXNzZWwgd3JvdGU6Cj4gT24gTW9uLCBNYXIg
-MDEsIDIwMjEgYXQgMDg6MjQ6NTFQTSArMDEwMCwgamF2aWVyQGphdmlnb24uY29tIHdyb3RlOgo+
-ID4gRnJvbTogSmF2aWVyIEdvbnrDoWxleiA8amF2aWVyLmdvbnpAc2Ftc3VuZy5jb20+Cj4gPiAK
-PiA+IENyZWF0ZSBhIGNoYXIgZGV2aWNlIHBlciBOVk1lIG5hbWVzcGFjZS4gVGhpcyBjaGFyIGRl
-dmljZSBpcyBhbHdheXMKPiA+IGluaXRpYWxpemVkLCBpbmRlcGVuZGVudGx5IG9mIHdoZXRoZXIg
-dGhlIGZlYXR1cmVzIGltcGxlbWVudGVkIGJ5IHRoZQo+ID4gZGV2aWNlIGFyZSBzdXBwb3J0ZWQg
-YnkgdGhlIGtlcm5lbC4gVXNlci1zcGFjZSBjYW4gdGhlcmVmb3JlIGFsd2F5cwo+ID4gaXNzdWUg
-SU9DVExzIHRvIHRoZSBOVk1lIGRyaXZlciB1c2luZyB0aGUgY2hhciBkZXZpY2UuCj4gPiAKPiA+
-IFRoZSBjaGFyIGRldmljZSBpcyBwcmVzZW50ZWQgYXMgL2Rldi9udm1lLWdlbmVyaWMtWGNZblou
-IFRoaXMgbmFtaW5nCj4gPiBzY2hlbWUgZm9sbG93cyB0aGUgY29udmVudGlvbiBvZiB0aGUgaGlk
-ZGVuIGRldmljZSAobnZtZVhjWW5aKS4gU3VwcG9ydAo+ID4gZm9yIG11bHRpcGF0aCB3aWxsIGZv
-bGxvdy4KPiA+IAo+IAo+IEhlbGxvIGFsbCwKPiAKPiBMb29raW5nIGF0IHRoZSBkaXNjdXNzaW9u
-IHRoYXQgbGVkIHVwIHRvIHRoZSBjdXJyZW50IGRlc2lnbjoKPiBodHRwczovL2xvcmUua2VybmVs
-Lm9yZy9saW51eC1ibG9jay8yMDIwMTEwMjE4NTg1MS5HQTIxMzQ5QGxzdC5kZS8KPiAKPiBLZWl0
-aCBpbml0aWFsbHkgc3VnZ2VzdGVkOgo+IAo+IGEpIFNldCB1cCB0aGUgZXhpc3RpbmcgY29udHJv
-bGxlciBjaGFyYWN0ZXIgZGV2aWNlIHdpdGggYSBnZW5lcmljCj4gICAgZGlzay1sZXNzIHJlcXVl
-c3RfcXVldWUgdG8gdGhlIElPIHF1ZXVlcyBhY2NlcHRpbmcgSU8gY29tbWFuZHMgdG8KPiAgICBh
-cmJpdHJhcnkgTlNJRHMuCj4gCj4gSG93ZXZlciBDaHJpc3RvcGggcmVwbGllZDoKPiAKPiBUaGUg
-cHJvYmxlbSB3aXRoIGEpIGlzIHRoYXQgaXQgY2FuJ3QgYmUgdXNlZCB0byBnaXZlIHVzZXJzIG9y
-IGdyb3Vwcwo+IGFjY2VzcyB0byBqdXN0IG9uZSBuYW1lc3BhY2VzLCBzbyBpdCBjYXVzZXMgYSBy
-ZWFsIGFjY2VzcyBjb250cm9sCj4gbmlnaHRtYXJlLgo+IAo+IGMpIEVhY2ggbmFtZXNwYWNlIGdl
-dHMgaXRzIG93biBjaGFyYWN0ZXIgZGV2aWNlLCBwZXJpb2QuCgpUaGFua3MgZm9yIHN1bW1hcml6
-aW5nIHRoaXMgdXAhCgo+IEhvd2V2ZXIsIHRlc3RpbmcgdGhpcyBwYXRjaCBzZXJpZXMgb3V0Ogo+
-IAo+IGNydy0tLS0tLS0gMSByb290IHJvb3QgMjQ5LCAgIDAgTWFyIDI0IDExOjMyIC9kZXYvbnZt
-ZS1nZW5lcmljLTBjMG4xCj4gY3J3LS0tLS0tLSAxIHJvb3Qgcm9vdCAyNDksICAgMSBNYXIgMjQg
-MTE6MzIgL2Rldi9udm1lLWdlbmVyaWMtMGMwbjIKPiBjcnctLS0tLS0tIDEgcm9vdCByb290IDI1
-MCwgICAwIE1hciAyNCAxMTozMiAvZGV2L252bWUwCj4gYnJ3LXJ3LS0tLSAxIHJvb3QgZGlzayAy
-NTksICAgMSBNYXIgMjQgMTE6MzIgL2Rldi9udm1lMG4yCj4gCj4gTlNJRDEgaGFzIGJlZW4gcmVq
-ZWN0ZWQgKGJlY2F1c2Ugb2YgWk5TIFpPQywgd2hpY2gga2VybmVsIGRvZXMgbm90IHN1cHBvcnQp
-Lgo+IAo+IEhvd2V2ZXIsIGlmIEkgdXNlIHRoZSBuZXcgY2hhciBkZXZpY2UgZm9yIE5TSUQxLCBi
-dXQgc3BlY2lmeSBOU0lEMiB0byBudm1lLWNsaToKPiAKPiBzdWRvIG52bWUgd3JpdGUtemVyb2Vz
-IC1zIDAgLWMgMCAtLW5hbWVzcGFjZS1pZD0yIC9kZXYvbnZtZS1nZW5lcmljLTBjMG4xCj4gCj4g
-SSB3YXMgc3RpbGwgYWxsb3dlZCB0byB3cml0ZSB0byBOU0lEMjoKPiAKPiBzdWRvIG52bWUgem5z
-IHJlcG9ydC16b25lcyAtZCAxIC9kZXYvbnZtZTBuMgo+IFNMQkE6IDB4MCAgICAgICAgV1A6IDB4
-MSAgICAgICAgQ2FwOiAweDNlMDAwICAgIFN0YXRlOiBJTVBfT1BFTkVEICAgVHlwZTogU0VRV1JJ
-VEVfUkVRICAgQXR0cnM6IDB4MAo+IAo+IFNob3VsZCB0aGlzIHJlYWxseSBiZSBhbGxvd2VkPwoK
-SSB0aGluayB0aGlzIHNob3VsZCBub3QgYmUgYWxsb3dlZCBhdCBhbGwuICBUaGFua3MgZm9yIHRo
-ZSB0ZXN0aW5nIQoKPiAKPiBJIHdhcyB1bmRlciB0aGUgaW1wcmVzc2lvbiB0aGF0IENocmlzdG9w
-aCdzIGFyZ3VtZW50IGZvciBpbXBsZW1lbnRpbmcgcGVyCj4gbmFtZXNwYWNlIGNoYXIgZGV2aWNl
-cywgd2FzIHRoYXQgeW91IHNob3VsZCBiZSBhYmxlIHRvIGRvIGFjY2VzcyBjb250cm9sLgo+IERv
-ZXNuJ3QgdGhhdCBtZWFuIHRoYXQgZm9yIHRoZSBuZXcgY2hhciBkZXZpY2VzLCB3ZSBuZWVkIHRv
-IHJlamVjdCBpb2N0bHMKPiB0aGF0IHNwZWNpZnkgYSBudm1lX3Bhc3N0aHJ1X2NtZC5uc2lkICE9
-IHRoZSBOU0lEIHRoYXQgdGhlIGNoYXIgZGV2aWNlCj4gcmVwcmVzZW50cz8KPiAKPiAKPiBBbHRo
-b3VnaCwgdGhpcyBpcyBub3QgcmVhbGx5IHNvbWV0aGluZyBuZXcsIGFzIHdlIGFscmVhZHkgaGF2
-ZSB0aGUgc2FtZQo+IGJlaGF2aW9yIHdoZW4gaXQgY29tZXMgaW9jdGxzIGFuZCB0aGUgYmxvY2sg
-ZGV2aWNlcy4gUGVyaGFwcyB3ZSB3YW50IHRvCj4gYWRkIHRoZSBzYW1lIHZlcmlmaWNhdGlvbiB0
-aGVyZT8KCkkgdGhpbmsgdGhlcmUgc2hvdWxkIGJlIHZlcmlmaWNhdGlvbnMuCgo+IAo+IFJlZ2Fy
-ZGxlc3MgaWYgd2Ugd2FudCB0byBhZGQgYSB2ZXJpZmljYXRpb24gZm9yIGJsb2NrIGRldmljZXMg
-b3Igbm90LAo+IGl0IGp1c3Qgc2VlbWVkIHRvIG1lIHRoYXQgdGhlIHdob2xlIGFyZ3VtZW50IGZv
-ciBpbnRyb2R1Y2luZyBuZXcgY2hhcgo+IGRldmljZXMgd2FzIHRvIGFsbG93IGFjY2VzcyBjb250
-cm9sIHBlciBuYW1lc3BhY2UsIHdoaWNoIGRvZXNuJ3Qgc2VlbQo+IHRvIGhhdmUgYmVlbiB0YWtl
-biBpbnRvIGFjY291bnQsIGJ1dCBwZXJoYXBzIEknbSBtaXNzaW5nIHNvbWV0aGluZy4KCkFueSBv
-dGhlciBwb2ludHMgdGhhdCB5b3UgdGhpbmsgaXQncyBub3QgYmVlbiB0YWtlbiBhY2NvdW50PyAg
-SSB0aGluayBpdApzaG91bGQgbWFwIHRvIHByZXZpb3VzIGJsa2RldiBvcGVyYXRpb25zLCBidXQg
-d2l0aCBzb21lIHZlcmZpY2F0aW9ucwp0aGVyZS4gIEl0IHdvdWxkIGJlIGdyZWF0IGlmIHlvdSBj
-YW4gc2hhcmUgYW55IG90aGVyIHBvaW50cyBzdXBwb3NlZCB0bwpiZSBzdXBwb3J0ZWQgaGVyZSA6
-KQoKPiBLaW5kIHJlZ2FyZHMsCj4gTmlrbGFzCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxp
-c3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9saW51eC1udm1lCg==
+On Wed, Mar 24, 2021 at 04:18:05PM -0700, Keith Busch wrote:
+> Commands that access LBA contents without a data transfer between the
+> host historically have not had a spec defined upper limit. The driver
+> set the queue constraints for such commands to the max data transfer
+> size just to be safe, but this artificial constraint frequently limits
+> devices below their capabilities.
+> 
+> The NVMe Workgroup ratified TP4040 defines how a controller may
+> advertise their non-MDTS limits. Use these if provided and default to
+> the current constraints if not. Since the Dataset Management command
+> limits are defined in logical blocks, but without a namespace to tell us
+> the logical block size, the code defaults to the safe 512b size.
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+> v2->v3:
+> 
+>   Remove the nvm_config_write_zeroes helper (hch)
+> 
+>   For clarity, don't use inverted oncs logic (hch)
+> 
+>   Replace nvme revision check with nvme_ctrl_limited_cns (hch)
+> 
+>   Rebased patch for nvme-5.13: the previous version was based on a local
+>   conflict-resolved 5.12+5.13 branch, so that version wouldn't have
+>   successfully applied to either upstream branch.
+> 
+>  drivers/nvme/host/core.c | 107 ++++++++++++++++++++++++++-------------
+>  drivers/nvme/host/nvme.h |   3 ++
+>  include/linux/nvme.h     |  10 ++++
+>  3 files changed, 86 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 40215a0246e4e..15ee470c1b8c6 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1936,7 +1936,7 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+>  	struct request_queue *queue = disk->queue;
+>  	u32 size = queue_logical_block_size(queue);
+>  
+> -	if (!(ctrl->oncs & NVME_CTRL_ONCS_DSM)) {
+> +	if (ctrl->max_discard_sectors == 0) {
+>  		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, queue);
+>  		return;
+>  	}
+> @@ -1954,39 +1954,13 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+>  	if (blk_queue_flag_test_and_set(QUEUE_FLAG_DISCARD, queue))
+>  		return;
+>  
+> -	blk_queue_max_discard_sectors(queue, UINT_MAX);
+> -	blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
+> +	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
+> +	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
+>  
+>  	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
+>  		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
+>  }
+>  
+> -static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
+> -{
+> -	u64 max_blocks;
+> -
+> -	if (!(ns->ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) ||
+> -	    (ns->ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
+> -		return;
+> -	/*
+> -	 * Even though NVMe spec explicitly states that MDTS is not
+> -	 * applicable to the write-zeroes:- "The restriction does not apply to
+> -	 * commands that do not transfer data between the host and the
+> -	 * controller (e.g., Write Uncorrectable ro Write Zeroes command).".
+> -	 * In order to be more cautious use controller's max_hw_sectors value
+> -	 * to configure the maximum sectors for the write-zeroes which is
+> -	 * configured based on the controller's MDTS field in the
+> -	 * nvme_init_ctrl_finish() if available.
+> -	 */
+> -	if (ns->ctrl->max_hw_sectors == UINT_MAX)
+> -		max_blocks = (u64)USHRT_MAX + 1;
+> -	else
+> -		max_blocks = ns->ctrl->max_hw_sectors + 1;
+> -
+> -	blk_queue_max_write_zeroes_sectors(disk->queue,
+> -					   nvme_lba_to_sect(ns, max_blocks));
+> -}
+> -
+>  static bool nvme_ns_ids_valid(struct nvme_ns_ids *ids)
+>  {
+>  	return !uuid_is_null(&ids->uuid) ||
+> @@ -2156,7 +2130,8 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>  	set_capacity_and_notify(disk, capacity);
+>  
+>  	nvme_config_discard(disk, ns);
+> -	nvme_config_write_zeroes(disk, ns);
+> +	blk_queue_max_write_zeroes_sectors(disk->queue,
+> +					   ns->ctrl->max_zeroes_sectors);
+>  
+>  	set_disk_ro(disk, (id->nsattr & NVME_NS_ATTR_RO) ||
+>  		test_bit(NVME_NS_FORCE_RO, &ns->flags));
+> @@ -3060,14 +3035,73 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+>  	return 0;
+>  }
+>  
+> +static inline u32 nvme_mps_size_to_sectors(struct nvme_ctrl *ctrl, u8 size)
+> +{
+> +	int page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
+> +
+> +	return 1 << (size + page_shift - 9);
+
+A little nitpick we can fix when applying if needed:  MPS already
+is the memory page size, so the size here seems redundant.
+
+> +	/*
+> +	 * Even though NVMe spec explicitly states that MDTS is not applicable
+> +	 * to the write-zeroes, we are cautious and limit the size to the
+> +	 * controllers max_hw_sectors value, which is based on the MDTS field
+> +	 * and possibly other limiting factors.
+> +	 */
+> +	if (!(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES) &&
+> +	    (ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES))
+
+I would place the oncs check befoe the quirks check as it flows a lot
+more logical.
+
+But all the actual logic looks fine to me.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
