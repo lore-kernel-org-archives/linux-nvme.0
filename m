@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8E74C433C1
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Mar 2021 16:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD2B8C433C1
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Mar 2021 16:02:42 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 80C72619C0
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Mar 2021 16:01:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 80C72619C0
+	by mail.kernel.org (Postfix) with ESMTPS id 58FA8619C0
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Mar 2021 16:02:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 58FA8619C0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,49 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vfdTJOHL8SdE+/o01+vlIb/eqiOcKxIeIRaMqWD2COQ=; b=En8G5VBIzXExHS9TLo3R6y72/
-	wJRief8BuD4wvKFqVkSOOJCILjwcvnPUp1kWP9jUCAXG+46Y3mbcc7UNxgV9KOUQeSdslmrF8A6lt
-	2bRsTqwsiropbSHDBN9wwmGBsFHokQq4b7+Beh1C2T48v1Y5BIQ1hfbBn5Nm2CqxMlFg7NDWlNXwp
-	GHX+mObAy5NXczDMXoKIbiiTBIMFOuG/8vg9HHW5MFJIjMIMUtO0U3fquOCs+GcW/ZfD3oPeMle8y
-	6y5bHnDj448PGe02R4lVTOw8esy8UN9PTP/RXtT8aNTq0Yh4/L2he6XTaq9q6FlKosdQzNNyUBm4v
-	0B0CiinSg==;
+	 bh=tKNMV8Gu5nM0mRw/e2YMTHMH523pE6AXF+vHddli10A=; b=H2fUwyotFC/ivlWQMEk7a9kZA
+	2kaqJSIvk0t2S0w1auS4nlavEKdRRPCnl1Fn9XqbSYwQwjXrUbXMxbn2lLhugf6uiQS4lnRhVcC+j
+	HsywyoOTPWbGFoaA01+/ULwYPVJVzWDm30aYiXkK1OsKr38wqsKv/bYuQ+/L5tIRuQcJfOW5U/oWF
+	dI1VH5YM8ibRGipcPcGLVxSE0Tsg8lpaWsMJaYiQqd5hhD7MxsyIALtd1BJmvZ+F9tdgERQIuOilx
+	xQuIt1kkik7S9yFdxcV1OLS1kNkk7iK7x68sswjMJIOlfrEbVwwWqnoKTQm9wbzvff2g1kstLAiDI
+	r/Jo5Dp4Q==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lRGoF-004HsK-7f; Tue, 30 Mar 2021 16:01:39 +0000
+	id 1lRGp3-004Hzg-Ul; Tue, 30 Mar 2021 16:02:31 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lRGlo-004HSW-8y
- for linux-nvme@lists.infradead.org; Tue, 30 Mar 2021 15:59:11 +0000
+ id 1lRGlr-004HTd-Sq
+ for linux-nvme@lists.infradead.org; Tue, 30 Mar 2021 15:59:13 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
  t=1617119943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cZeVI3t1tAPjtr48+sN+EjEX3SLruS4MT7bBiPNY3+o=;
- b=E+6e2Rb5/U/0Ub9/6PbhUfwKioh5UuaaIW49VFuchkTe/lWsykxNMAICRwPA2KD0ixykXE
- nu2VahgrLSymHKX5Z9WNXxd6nGKeMAAynkeqxubvM6xHIFp0K21ZPSMEuTOmeg7I4NeUdV
- tZ0zqQkQJqWiP3GfmhddZaYcEmpyYis=
+ bh=Ebeux6Mg6qVraTtf7EGyZBEvCvQvYfALbmgxgVxVZPU=;
+ b=L3opCmlK10R4OINb70DaNLcGnJSTWbveD52n42/mGZjwIfvJG2sQekG8VHZ+l2FxuNH8MM
+ YA+uKc/vDCsgTjLNchUYlf5ELSx4xxlZeeHLdkOTdN8HmJyPI+d6hRbRBGbcuBjOf/e7qD
+ nhnVmDXHPWH6+7h18jYSnYhWlah3Eio=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 24463B320;
+ by mx2.suse.de (Postfix) with ESMTP id 6A207B32A;
  Tue, 30 Mar 2021 15:59:03 +0000 (UTC)
 From: mwilck@suse.com
 To: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  Hannes Reinecke <hare@suse.de>
 Cc: linux-nvme@lists.infradead.org, Enzo Matsumiya <ematsumiya@suse.de>,
- Martin Wilck <mwilck@suse.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH v2 8/9] fabrics: fix some memory leaks
-Date: Tue, 30 Mar 2021 17:57:10 +0200
-Message-Id: <20210330155711.8436-9-mwilck@suse.com>
+ Martin Wilck <mwilck@suse.com>
+Subject: [PATCH v2 9/9] fabrics: fix invalid memory access in
+ discover_from_conf_file()
+Date: Tue, 30 Mar 2021 17:57:11 +0200
+Message-Id: <20210330155711.8436-10-mwilck@suse.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210330155711.8436-1-mwilck@suse.com>
 References: <20210330155711.8436-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210330_165908_609741_5F23D649 
-X-CRM114-Status: GOOD (  13.33  )
+X-CRM114-CacheID: sfid-20210330_165912_194336_A166E004 
+X-CRM114-Status: GOOD (  10.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,118 +84,42 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
-None of these are critical for "nvme discover" or "nvme connect-all".
-Still, silencing valgrind's error messages by fixing them gives some
-peace of mind, and a longer-running program like the forthcomint
-nvme monitor, leak checks are more important.
+argconfig_parse() assigns pointers in cfg to point to memory allocated
+in all_args. If this memory is freed, these pointers become dangling.
+This is particularly dangerous if discovery.conf contains empty lines,
+comment lines, or invalid lines.
 
-Use the previously introduced cleanup macros for this purpose.
+Fix it by setting all transport parameter to NULL after processing each
+line, and not proceeding if the basic parameters aren't set.
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Martin Wilck <mwilck@suse.com>
 ---
- fabrics.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ fabrics.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/fabrics.c b/fabrics.c
-index 9a694bd..f9e5dc6 100644
+index f9e5dc6..c9324bb 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -49,6 +49,7 @@
+@@ -1506,6 +1506,9 @@ static int discover_from_conf_file(const char *desc, char *argstr,
+ 		if (err)
+ 			goto free_and_continue;
  
- #include "common.h"
- #include "util/log.h"
-+#include "util/cleanup.h"
- 
- #ifdef HAVE_SYSTEMD
- #include <systemd/sd-id128.h>
-@@ -308,7 +309,7 @@ static bool ctrl_matches_connectargs(const char *name, struct connect_args *args
- {
- 	struct connect_args cargs;
- 	bool found = false;
--	char *path, *addr;
-+	char *path = NULL, *addr;
- 	int ret;
- 	bool persistent = true;
- 
-@@ -366,6 +367,8 @@ static bool ctrl_matches_connectargs(const char *name, struct connect_args *args
- 	free(cargs.traddr);
- 	free(cargs.trsvcid);
- 	free(cargs.host_traddr);
-+	free(addr);
-+	free(path);
- 
- 	return found;
- }
-@@ -422,13 +425,18 @@ static struct connect_args *extract_connect_args(char *argstr)
- 	return cargs;
- }
- 
--static void free_connect_args(struct connect_args *cargs)
-+static void destruct_connect_args(struct connect_args *cargs)
- {
- 	free(cargs->subsysnqn);
- 	free(cargs->transport);
- 	free(cargs->traddr);
- 	free(cargs->trsvcid);
- 	free(cargs->host_traddr);
-+}
++		if (!cfg.transport || !cfg.traddr)
++			goto free_and_continue;
 +
-+static void free_connect_args(struct connect_args *cargs)
-+{
-+	destruct_connect_args(cargs);
- 	free(cargs);
- }
- 
-@@ -1283,7 +1291,7 @@ retry:
- 
- static bool cargs_match_found(struct nvmf_disc_rsp_page_entry *entry)
- {
--	struct connect_args cargs = {};
-+	struct connect_args cargs __cleanup__(destruct_connect_args) = { NULL, };
- 	struct connect_args *c = tracked_ctrls;
- 
- 	cargs.traddr = strdup(entry->traddr);
-@@ -1369,9 +1377,11 @@ static void nvmf_get_host_identifiers(int ctrl_instance)
- 	cfg.hostid = nvme_get_ctrl_attr(path, "hostid");
- }
- 
-+static DEFINE_CLEANUP_FUNC(cleanup_log, struct nvmf_disc_rsp_page_hdr *, free);
-+
- static int do_discover(char *argstr, bool connect, enum nvme_print_flags flags)
- {
--	struct nvmf_disc_rsp_page_hdr *log = NULL;
-+	struct nvmf_disc_rsp_page_hdr *log __cleanup__(cleanup_log) = NULL;
- 	char *dev_name;
- 	int instance, numrec = 0, ret, err;
- 	int status = 0;
-@@ -1455,7 +1465,7 @@ static int discover_from_conf_file(const char *desc, char *argstr,
- 		const struct argconfig_commandline_options *opts, bool connect)
- {
- 	FILE *f;
--	char line[256], *ptr, *args, **argv;
-+	char line[256], *ptr, *all_args, *args, **argv;
- 	int argc, err, ret = 0;
- 
- 	f = fopen(PATH_NVMF_DISC, "r");
-@@ -1477,6 +1487,7 @@ static int discover_from_conf_file(const char *desc, char *argstr,
- 			ret = -ENOMEM;
- 			goto out;
- 		}
-+		all_args = args;
- 
- 		argv = calloc(MAX_DISC_ARGS, BUF_SIZE);
- 		if (!argv) {
-@@ -1520,7 +1531,7 @@ static int discover_from_conf_file(const char *desc, char *argstr,
- 			ret = err;
- 
+ 		err = flags = validate_output_format(cfg.output_format);
+ 		if (err < 0)
+ 			goto free_and_continue;
+@@ -1533,6 +1536,8 @@ static int discover_from_conf_file(const char *desc, char *argstr,
  free_and_continue:
--		free(args);
-+		free(all_args);
+ 		free(all_args);
  		free(argv);
++		cfg.transport = cfg.traddr = cfg.trsvcid =
++			cfg.host_traddr = NULL;
  	}
  
+ out:
 -- 
 2.30.1
 
