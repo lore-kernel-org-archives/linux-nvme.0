@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E85BC433C1
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Mar 2021 15:59:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B9A9C433DB
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Mar 2021 16:00:05 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E8E4B60241
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Mar 2021 15:59:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E8E4B60241
+	by mail.kernel.org (Postfix) with ESMTPS id C30FA619C5
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Mar 2021 16:00:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C30FA619C5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,31 +23,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ep4nWQlDJKXqZUr45WJa6PV6trSXncfK/d/z3YkDBkc=; b=lH7oOBze9MkCxwaA2DKuNy5Lz
-	w/Pezmg/jhJBnydoZi6jg/N+rs89Z2EE82WU/jnD+vXaDh6E+ycUj1e2r0XnHTPGV0cVXBz0zM0RZ
-	+biDTjCrALV3brrFt+mwpXERt3IFF403xVnk6ODaaJ89/hiqUwVRP2wkeA5HREgk/47tKhiome4H/
-	0LIViUu6Ar6PVp6f1TMLDTRKF/izrAqvCQyFXDGypn1Uxe8IY9AvdiNOMQncDRe1r9AMEBpEon3Hg
-	VjS51+kBnC/xVk+hRDPXTS/eKZvX2KgxjVnDXNPj1Z1VOnAR1bjaN8+p9nqhZdYMJ1MA3yB6yGDd1
-	HAzi1fHVQ==;
+	 bh=XjXql9vIvdYi4EsW1yo3n92xG1gkygUhYOmMhoBtdrg=; b=qbi/FnFvjVyBKsVE6K4Z0j7T3
+	YWk7sIgdHsfXYvTbpq3O/Gsf3rE9h9rmhXX0PI65+VHHsiLuA1K5rcL6TWzA6POt0eYPw5CTmtR4u
+	yeBL2B6QSHljicCianQSbBMFm/vELxcVIztfEetUq+CPQ0Q8VEKxcUJpPyihEXAEcRc22oot+oopk
+	N1ghe3BZEsSeKaMlOufwyxcQK3Xz8trAoYrrYg2n98T793OziJThYCt9nqy0nulLUFEVUpNYZ48X4
+	yYZ2yK6h9jxmMtRW+W7iVYeckXjoHZsy98zKIlPfPks3kx/7g3HNliqTWFP5M2SyeCQmbAblqbX34
+	/hh1bRQtA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lRGmQ-004HZB-IW; Tue, 30 Mar 2021 15:59:46 +0000
+	id 1lRGmb-004Hae-Pb; Tue, 30 Mar 2021 15:59:57 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lRGln-004HSQ-US
- for linux-nvme@lists.infradead.org; Tue, 30 Mar 2021 15:59:09 +0000
+ id 1lRGln-004HSP-UF
+ for linux-nvme@lists.infradead.org; Tue, 30 Mar 2021 15:59:11 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
  t=1617119942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5gfS+imYrLgxEq/JwP0ixEKn9uZY+xHavmpo4I/kXCU=;
- b=J3OwS4La8PTOHxlmYSPICrseSaRvTTgaMtM5NhWk4bCIKZI8zZVuKcduDt07ckWp16k4GO
- Op7BtmjTP4LE2Zu+D8PVdOdzfJEjGdmN2r0f9ID+ce10tnWPIDj5/xRQn2k0kbgQ6R1R2u
- rPuTyPrnHmmVolW6KhVz89yxu0ANjEQ=
+ bh=fMbvSpavghn2Zv0lgN/a2M1P246IBQbodHDeK4g87uY=;
+ b=ujHYIRb7vzCjrcW38srKajWpbUztdTuhEBu7tdVNc0fZluYfh0Zm5WRACWYFnZufvQPvAA
+ uTSauSWolZTTxJUjJnnKfkt8P4o9zyemCcXJI96ng+6BOF4n6jE6u5wRfGie/E2Vixkb66
+ tul9YIECkb8ds67sw/3wseMpmcsEU8E=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7EED3B1D5;
+ by mx2.suse.de (Postfix) with ESMTP id 3044FB1C3;
  Tue, 30 Mar 2021 15:59:02 +0000 (UTC)
 From: mwilck@suse.com
 To: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
@@ -56,17 +56,16 @@ To: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 Cc: linux-nvme@lists.infradead.org, Enzo Matsumiya <ematsumiya@suse.de>,
  Martin Wilck <mwilck@suse.com>,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH v2 6/9] nvme: convert some function arguments from "char *" to
- "const char *"
-Date: Tue, 30 Mar 2021 17:57:08 +0200
-Message-Id: <20210330155711.8436-7-mwilck@suse.com>
+Subject: [PATCH v2 5/9] nvme-cli: add generic logging functionality
+Date: Tue, 30 Mar 2021 17:57:07 +0200
+Message-Id: <20210330155711.8436-6-mwilck@suse.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210330155711.8436-1-mwilck@suse.com>
 References: <20210330155711.8436-1-mwilck@suse.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210330_165908_208680_9D1ED9BC 
-X-CRM114-Status: GOOD (  13.65  )
+X-CRM114-CacheID: sfid-20210330_165908_234354_AD1C5E49 
+X-CRM114-Status: GOOD (  27.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,153 +84,540 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Wilck <mwilck@suse.com>
 
-Make some function arguments "const char *" where possible. This
-is generally desirable and allows passing string constants to these
-function.
+Add a msg() macro that allows more flexible customization of logging
+both at build time and at run time. Allow several log levels, using
+the well-known standard sylog levels. Also optionally allow printing
+of log timestamps.
+
+Put '#define LOG_FUNCNAME' before '#include "util/log.h"' to enable printing
+the name of the calling function before the log message.
+
+Use this functionality in the fabrics code for now, wherever fprintf(stderr, ...)
+had been used.
+
+No functional change except changing the output channel of 554db7d ("print
+device name when creating a persistent device") from stdout to stderr.
 
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Martin Wilck <mwilck@suse.com>
 ---
- fabrics.c       | 25 +++++++++++++++----------
- nvme-topology.c |  2 +-
- nvme.c          |  2 +-
- nvme.h          |  4 ++--
- 4 files changed, 19 insertions(+), 14 deletions(-)
+ Makefile   |  3 +-
+ fabrics.c  | 85 ++++++++++++++++++++++++++++-----------------------
+ util/log.c | 90 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ util/log.h | 34 +++++++++++++++++++++
+ 4 files changed, 172 insertions(+), 40 deletions(-)
+ create mode 100644 util/log.c
+ create mode 100644 util/log.h
 
+diff --git a/Makefile b/Makefile
+index 3412e5d..0eaedb6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -62,7 +62,8 @@ OBJS := nvme-print.o nvme-ioctl.o nvme-rpmb.o \
+ 	nvme-lightnvm.o fabrics.o nvme-models.o plugin.o \
+ 	nvme-status.o nvme-filters.o nvme-topology.o
+ 
+-UTIL_OBJS := util/argconfig.o util/suffix.o util/json.o util/parser.o util/cleanup.o
++UTIL_OBJS := util/argconfig.o util/suffix.o util/json.o util/parser.o \
++	util/cleanup.o util/log.o
+ 
+ PLUGIN_OBJS :=					\
+ 	plugins/intel/intel-nvme.o		\
 diff --git a/fabrics.c b/fabrics.c
-index 1aa1507..4a5c2f9 100644
+index 49331cd..1aa1507 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -234,7 +234,7 @@ static int do_discover(char *argstr, bool connect, enum nvme_print_flags flags);
-  * If field found, return string containing field value. If field
-  * not found, return an empty string.
-  */
--static char *parse_conn_arg(char *conargs, const char delim, const char *field)
-+static char *parse_conn_arg(const char *conargs, const char delim, const char *field)
- {
- 	char *s, *e;
- 	size_t cnt;
-@@ -278,17 +278,22 @@ empty_field:
- 	return strdup("\0");
- }
+@@ -32,6 +32,8 @@
+ #include <libgen.h>
+ #include <sys/stat.h>
+ #include <stddef.h>
++#include <syslog.h>
++#include <time.h>
  
--static int ctrl_instance(char *device)
-+static int ctrl_instance(const char *device)
- {
- 	char d[64];
-+	const char *p;
- 	int ret, instance;
+ #include <sys/types.h>
+ #include <arpa/inet.h>
+@@ -46,6 +48,7 @@
+ #include "util/argconfig.h"
  
--	device = basename(device);
--	ret = sscanf(device, "nvme%d", &instance);
-+	p = strrchr(device, '/');
-+	if (p == NULL)
-+		p = device;
-+	else
-+		p++;
-+	ret = sscanf(p, "nvme%d", &instance);
- 	if (ret <= 0)
- 		return -EINVAL;
- 	if (snprintf(d, sizeof(d), "nvme%d", instance) <= 0 ||
--	    strcmp(device, d))
-+	    strcmp(p, d))
- 		return -EINVAL;
- 	return instance;
- }
-@@ -299,7 +304,7 @@ static int ctrl_instance(char *device)
-  * given.
-  * Return true/false based on whether it matches
-  */
--static bool ctrl_matches_connectargs(char *name, struct connect_args *args)
-+static bool ctrl_matches_connectargs(const char *name, struct connect_args *args)
- {
- 	struct connect_args cargs;
- 	bool found = false;
-@@ -924,7 +929,7 @@ add_int_argument(char **argstr, int *max_len, char *arg_str, int arg,
- }
+ #include "common.h"
++#include "util/log.h"
  
- static int
--add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
-+add_argument(char **argstr, int *max_len, char *arg_str, const char *arg)
- {
+ #ifdef HAVE_SYSTEMD
+ #include <systemd/sd-id128.h>
+@@ -86,7 +89,6 @@ static struct config {
+ 	int  hdr_digest;
+ 	int  data_digest;
+ 	bool persistent;
+-	bool quiet;
+ 	bool matching_only;
+ 	char *output_format;
+ } cfg = {
+@@ -378,7 +380,7 @@ static char *find_ctrl_with_connectargs(struct connect_args *args)
+ 
+ 	n = scandir(SYS_NVME, &devices, scan_ctrls_filter, alphasort);
+ 	if (n < 0) {
+-		fprintf(stderr, "no NVMe controller(s) detected.\n");
++		msg(LOG_ERR, "no NVMe controller(s) detected.\n");
+ 		return NULL;
+ 	}
+ 
+@@ -386,7 +388,7 @@ static char *find_ctrl_with_connectargs(struct connect_args *args)
+ 		if (ctrl_matches_connectargs(devices[i]->d_name, args)) {
+ 			devname = strdup(devices[i]->d_name);
+ 			if (devname == NULL)
+-				fprintf(stderr, "no memory for ctrl name %s\n",
++				msg(LOG_ERR, "no memory for ctrl name %s\n",
+ 						devices[i]->d_name);
+ 			goto cleanup_devices;
+ 		}
+@@ -448,7 +450,7 @@ static int add_ctrl(const char *argstr)
+ 
+ 	fd = open(PATH_NVME_FABRICS, O_RDWR);
+ 	if (fd < 0) {
+-		fprintf(stderr, "Failed to open %s: %s\n",
++		msg(LOG_ERR, "Failed to open %s: %s\n",
+ 			 PATH_NVME_FABRICS, strerror(errno));
+ 		ret = -errno;
+ 		goto out;
+@@ -456,8 +458,8 @@ static int add_ctrl(const char *argstr)
+ 
+ 	ret = write(fd, argstr, len);
+ 	if (ret != len) {
+-		if (errno != EALREADY || !cfg.quiet)
+-			fprintf(stderr, "Failed to write to %s: %s\n",
++		if (errno != EALREADY)
++			msg(LOG_NOTICE, "Failed to write to %s: %s\n",
+ 				 PATH_NVME_FABRICS, strerror(errno));
+ 		ret = -errno;
+ 		goto out_close;
+@@ -465,7 +467,7 @@ static int add_ctrl(const char *argstr)
+ 
+ 	len = read(fd, buf, BUF_SIZE);
+ 	if (len < 0) {
+-		fprintf(stderr, "Failed to read from %s: %s\n",
++		msg(LOG_ERR, "Failed to read from %s: %s\n",
+ 			 PATH_NVME_FABRICS, strerror(errno));
+ 		ret = -errno;
+ 		goto out_close;
+@@ -492,7 +494,7 @@ static int add_ctrl(const char *argstr)
+ 	}
+ 
+ out_fail:
+-	fprintf(stderr, "Failed to parse ctrl info for \"%s\"\n", argstr);
++	msg(LOG_ERR, "Failed to parse ctrl info for \"%s\"\n", argstr);
+ 	ret = -EINVAL;
+ out_close:
+ 	close(fd);
+@@ -507,7 +509,7 @@ static int remove_ctrl_by_path(char *sysfs_path)
+ 	fd = open(sysfs_path, O_WRONLY);
+ 	if (fd < 0) {
+ 		ret = -errno;
+-		fprintf(stderr, "Failed to open %s: %s\n", sysfs_path,
++		msg(LOG_ERR, "Failed to open %s: %s\n", sysfs_path,
+ 				strerror(errno));
+ 		goto out;
+ 	}
+@@ -561,7 +563,7 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
+ 	fd = open(dev_path, O_RDWR);
+ 	if (fd < 0) {
+ 		error = -errno;
+-		fprintf(stderr, "Failed to open %s: %s\n",
++		msg(LOG_ERR, "Failed to open %s: %s\n",
+ 				dev_path, strerror(errno));
+ 		goto out;
+ 	}
+@@ -786,7 +788,7 @@ static void save_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 
+ 	fd = open(cfg.raw, O_CREAT|O_RDWR|O_TRUNC, S_IRUSR|S_IWUSR);
+ 	if (fd < 0) {
+-		fprintf(stderr, "failed to open %s: %s\n",
++		msg(LOG_ERR, "failed to open %s: %s\n",
+ 			cfg.raw, strerror(errno));
+ 		return;
+ 	}
+@@ -795,7 +797,7 @@ static void save_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 			numrec * sizeof(struct nvmf_disc_rsp_page_entry);
+ 	ret = write(fd, log, len);
+ 	if (ret < 0)
+-		fprintf(stderr, "failed to write to %s: %s\n",
++		msg(LOG_ERR, "failed to write to %s: %s\n",
+ 			cfg.raw, strerror(errno));
+ 	else
+ 		printf("Discovery log is saved to %s\n", cfg.raw);
+@@ -942,13 +944,13 @@ static int build_options(char *argstr, int max_len, bool discover)
  	int len;
  
-@@ -1675,7 +1680,7 @@ static int scan_sys_nvme_filter(const struct dirent *d)
- /*
-  * Returns 1 if disconnect occurred, 0 otherwise.
-  */
--static int disconnect_subsys(char *nqn, char *ctrl)
-+static int disconnect_subsys(const char *nqn, char *ctrl)
- {
- 	char *sysfs_nqn_path = NULL, *sysfs_del_path = NULL;
- 	char subsysnqn[NVMF_NQN_SIZE] = {};
-@@ -1713,7 +1718,7 @@ static int disconnect_subsys(char *nqn, char *ctrl)
- /*
-  * Returns the number of controllers successfully disconnected.
-  */
--static int disconnect_by_nqn(char *nqn)
-+static int disconnect_by_nqn(const char *nqn)
- {
- 	struct dirent **devices = NULL;
- 	int i, n, ret = 0;
-@@ -1735,7 +1740,7 @@ static int disconnect_by_nqn(char *nqn)
- 	return ret;
- }
- 
--static int disconnect_by_device(char *device)
-+static int disconnect_by_device(const char *device)
- {
- 	int instance;
- 
-diff --git a/nvme-topology.c b/nvme-topology.c
-index 63e433d..c2c9b38 100644
---- a/nvme-topology.c
-+++ b/nvme-topology.c
-@@ -46,7 +46,7 @@ close_fd:
- 	return subsysnqn;
- }
- 
--char *nvme_get_ctrl_attr(char *path, const char *attr)
-+char *nvme_get_ctrl_attr(const char *path, const char *attr)
- {
- 	char *attrpath, *value;
- 	ssize_t ret;
-diff --git a/nvme.c b/nvme.c
-index 8751ffd..bf18366 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -209,7 +209,7 @@ int parse_and_open(int argc, char **argv, const char *desc,
- 	return ret;
- }
- 
--enum nvme_print_flags validate_output_format(char *format)
-+enum nvme_print_flags validate_output_format(const char *format)
- {
- 	if (!format)
+ 	if (!cfg.transport) {
+-		fprintf(stderr, "need a transport (-t) argument\n");
++		msg(LOG_ERR, "need a transport (-t) argument\n");
  		return -EINVAL;
-diff --git a/nvme.h b/nvme.h
-index 8501754..1293d4d 100644
---- a/nvme.h
-+++ b/nvme.h
-@@ -91,7 +91,7 @@ int parse_and_open(int argc, char **argv, const char *desc,
- extern const char *devicename;
- extern const char *output_format;
+ 	}
  
--enum nvme_print_flags validate_output_format(char *format);
-+enum nvme_print_flags validate_output_format(const char *format);
- int __id_ctrl(int argc, char **argv, struct command *cmd,
- 	struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root));
- char *nvme_char_from_block(char *block);
-@@ -109,7 +109,7 @@ int scan_subsystems(struct nvme_topology *t, const char *subsysnqn,
- 		    __u32 ns_instance, int nsid, char *dev_dir);
- void free_topology(struct nvme_topology *t);
- char *get_nvme_subsnqn(char *path);
--char *nvme_get_ctrl_attr(char *path, const char *attr);
-+char *nvme_get_ctrl_attr(const char *path, const char *attr);
+ 	if (strncmp(cfg.transport, "loop", 4)) {
+ 		if (!cfg.traddr) {
+-			fprintf(stderr, "need a address (-a) argument\n");
++			msg(LOG_ERR, "need a address (-a) argument\n");
+ 			return -EINVAL;
+ 		}
+ 	}
+@@ -1042,7 +1044,7 @@ static int hostname2traddr(struct config *cfg)
  
- void *nvme_alloc(size_t len, bool *huge);
- void nvme_free(void *p, bool huge);
+ 	ret = getaddrinfo(cfg->traddr, NULL, &hints, &host_info);
+ 	if (ret) {
+-		fprintf(stderr, "failed to resolve host %s info\n", cfg->traddr);
++		msg(LOG_ERR, "failed to resolve host %s info\n", cfg->traddr);
+ 		return ret;
+ 	}
+ 
+@@ -1058,14 +1060,14 @@ static int hostname2traddr(struct config *cfg)
+ 			addrstr, NVMF_TRADDR_SIZE);
+ 		break;
+ 	default:
+-		fprintf(stderr, "unrecognized address family (%d) %s\n",
++		msg(LOG_ERR, "unrecognized address family (%d) %s\n",
+ 			host_info->ai_family, cfg->traddr);
+ 		ret = -EINVAL;
+ 		goto free_addrinfo;
+ 	}
+ 
+ 	if (!p) {
+-		fprintf(stderr, "failed to get traddr for %s\n", cfg->traddr);
++		msg(LOG_ERR, "failed to get traddr for %s\n", cfg->traddr);
+ 		ret = -errno;
+ 		goto free_addrinfo;
+ 	}
+@@ -1093,7 +1095,7 @@ retry:
+ 	case NVME_NQN_NVME:
+ 		break;
+ 	default:
+-		fprintf(stderr, "skipping unsupported subtype %d\n",
++		msg(LOG_ERR, "skipping unsupported subtype %d\n",
+ 			 e->subtype);
+ 		return -EINVAL;
+ 	}
+@@ -1182,7 +1184,7 @@ retry:
+ 
+ 	transport = trtype_str(e->trtype);
+ 	if (!strcmp(transport, "unrecognized")) {
+-		fprintf(stderr, "skipping unsupported transport %d\n",
++		msg(LOG_ERR, "skipping unsupported transport %d\n",
+ 				 e->trtype);
+ 		return -EINVAL;
+ 	}
+@@ -1228,7 +1230,7 @@ retry:
+ 			p += len;
+ 			break;
+ 		default:
+-			fprintf(stderr, "skipping unsupported adrfam\n");
++			msg(LOG_ERR, "skipping unsupported adrfam\n");
+ 			return -EINVAL;
+ 		}
+ 		break;
+@@ -1243,7 +1245,7 @@ retry:
+ 			p += len;
+ 			break;
+ 		default:
+-			fprintf(stderr, "skipping unsupported adrfam\n");
++			msg(LOG_ERR, "skipping unsupported adrfam\n");
+ 			return -EINVAL;
+ 		}
+ 		break;
+@@ -1334,9 +1336,7 @@ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 		if (instance == -EALREADY) {
+ 			const char *traddr = log->entries[i].traddr;
+ 
+-			if (!cfg.quiet)
+-				fprintf(stderr,
+-					"traddr=%.*s is already connected\n",
++			msg(LOG_NOTICE, "traddr=%.*s is already connected\n",
+ 					space_strip_len(NVMF_TRADDR_SIZE,
+ 							traddr),
+ 					traddr);
+@@ -1398,7 +1398,7 @@ static int do_discover(char *argstr, bool connect, enum nvme_print_flags flags)
+ 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
+ 	free(dev_name);
+ 	if (cfg.persistent)
+-		printf("Persistent device: nvme%d\n", instance);
++		msg(LOG_NOTICE, "Persistent device: nvme%d\n", instance);
+ 	if (!cfg.device && !cfg.persistent) {
+ 		err = remove_ctrl(instance);
+ 		if (err)
+@@ -1417,12 +1417,12 @@ static int do_discover(char *argstr, bool connect, enum nvme_print_flags flags)
+ 			print_discovery_log(log, numrec);
+ 		break;
+ 	case DISC_GET_NUMRECS:
+-		fprintf(stderr,
++		msg(LOG_ERR,
+ 			"Get number of discovery log entries failed.\n");
+ 		ret = status;
+ 		break;
+ 	case DISC_GET_LOG:
+-		fprintf(stderr, "Get discovery log entries failed.\n");
++		msg(LOG_ERR, "Get discovery log entries failed.\n");
+ 		ret = status;
+ 		break;
+ 	case DISC_NO_LOG:
+@@ -1434,12 +1434,12 @@ static int do_discover(char *argstr, bool connect, enum nvme_print_flags flags)
+ 		ret = -EAGAIN;
+ 		break;
+ 	case DISC_NOT_EQUAL:
+-		fprintf(stderr,
++		msg(LOG_ERR,
+ 		"Numrec values of last two get discovery log page not equal\n");
+ 		ret = -EBADSLT;
+ 		break;
+ 	default:
+-		fprintf(stderr, "Get discovery log page failed: %d\n", ret);
++		msg(LOG_ERR, "Get discovery log page failed: %d\n", ret);
+ 		break;
+ 	}
+ 
+@@ -1455,7 +1455,7 @@ static int discover_from_conf_file(const char *desc, char *argstr,
+ 
+ 	f = fopen(PATH_NVMF_DISC, "r");
+ 	if (f == NULL) {
+-		fprintf(stderr, "No discover params given and no %s\n",
++		msg(LOG_ERR, "No discover params given and no %s\n",
+ 			PATH_NVMF_DISC);
+ 		return -EINVAL;
+ 	}
+@@ -1468,14 +1468,14 @@ static int discover_from_conf_file(const char *desc, char *argstr,
+ 
+ 		args = strdup(line);
+ 		if (!args) {
+-			fprintf(stderr, "failed to strdup args\n");
++			msg(LOG_ERR, "failed to strdup args\n");
+ 			ret = -ENOMEM;
+ 			goto out;
+ 		}
+ 
+ 		argv = calloc(MAX_DISC_ARGS, BUF_SIZE);
+ 		if (!argv) {
+-			perror("failed to allocate argv vector\n");
++			msg(LOG_ERR, "failed to allocate argv vector: %m\n");
+ 			free(args);
+ 			ret = -ENOMEM;
+ 			goto out;
+@@ -1529,6 +1529,7 @@ int fabrics_discover(const char *desc, int argc, char **argv, bool connect)
+ 	char argstr[BUF_SIZE];
+ 	int ret;
+ 	enum nvme_print_flags flags;
++	bool quiet = false;
+ 
+ 	OPT_ARGS(opts) = {
+ 		OPT_LIST("transport",      't', &cfg.transport,       "transport type"),
+@@ -1550,7 +1551,7 @@ int fabrics_discover(const char *desc, int argc, char **argv, bool connect)
+ 		OPT_INT("nr-poll-queues",  'P', &cfg.nr_poll_queues,  "number of poll queues to use (default 0)"),
+ 		OPT_INT("queue-size",      'Q', &cfg.queue_size,      "number of io queue elements to use (default 128)"),
+ 		OPT_FLAG("persistent",     'p', &cfg.persistent,      "persistent discovery connection"),
+-		OPT_FLAG("quiet",          'S', &cfg.quiet,           "suppress already connected errors"),
++		OPT_FLAG("quiet",          'S', &quiet,               "suppress already connected errors"),
+ 		OPT_FLAG("matching",       'm', &cfg.matching_only,   "connect only records matching the traddr"),
+ 		OPT_FMT("output-format",   'o', &cfg.output_format,   output_format),
+ 		OPT_END()
+@@ -1572,6 +1573,12 @@ int fabrics_discover(const char *desc, int argc, char **argv, bool connect)
+ 		}
+ 	}
+ 
++	if (quiet)
++		log_level = LOG_WARNING;
++
++	if (cfg.device && !strcmp(cfg.device, "none"))
++		cfg.device = NULL;
++
+ 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
+ 
+ 	if (!cfg.transport && !cfg.traddr) {
+@@ -1643,7 +1650,7 @@ int fabrics_connect(const char *desc, int argc, char **argv)
+ 		goto out;
+ 
+ 	if (!cfg.nqn) {
+-		fprintf(stderr, "need a -n argument\n");
++		msg(LOG_ERR, "need a -n argument\n");
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
+@@ -1681,7 +1688,7 @@ static int disconnect_subsys(char *nqn, char *ctrl)
+ 
+ 	fd = open(sysfs_nqn_path, O_RDONLY);
+ 	if (fd < 0) {
+-		fprintf(stderr, "Failed to open %s: %s\n",
++		msg(LOG_ERR, "Failed to open %s: %s\n",
+ 				sysfs_nqn_path, strerror(errno));
+ 		goto free;
+ 	}
+@@ -1755,7 +1762,7 @@ int fabrics_disconnect(const char *desc, int argc, char **argv)
+ 		goto out;
+ 
+ 	if (!cfg.nqn && !cfg.device) {
+-		fprintf(stderr, "need a -n or -d argument\n");
++		msg(LOG_ERR, "need a -n or -d argument\n");
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
+@@ -1763,7 +1770,7 @@ int fabrics_disconnect(const char *desc, int argc, char **argv)
+ 	if (cfg.nqn) {
+ 		ret = disconnect_by_nqn(cfg.nqn);
+ 		if (ret < 0)
+-			fprintf(stderr, "Failed to disconnect by NQN: %s\n",
++			msg(LOG_ERR, "Failed to disconnect by NQN: %s\n",
+ 				cfg.nqn);
+ 		else {
+ 			printf("NQN:%s disconnected %d controller(s)\n", cfg.nqn, ret);
+@@ -1774,7 +1781,7 @@ int fabrics_disconnect(const char *desc, int argc, char **argv)
+ 	if (cfg.device) {
+ 		ret = disconnect_by_device(cfg.device);
+ 		if (ret)
+-			fprintf(stderr,
++			msg(LOG_ERR,
+ 				"Failed to disconnect by device name: %s\n",
+ 				cfg.device);
+ 	}
+@@ -1798,7 +1805,7 @@ int fabrics_disconnect_all(const char *desc, int argc, char **argv)
+ 
+ 	err = scan_subsystems(&t, NULL, 0, 0, NULL);
+ 	if (err) {
+-		fprintf(stderr, "Failed to scan namespaces\n");
++		msg(LOG_ERR, "Failed to scan namespaces\n");
+ 		goto out;
+ 	}
+ 
+diff --git a/util/log.c b/util/log.c
+new file mode 100644
+index 0000000..4a22354
+--- /dev/null
++++ b/util/log.c
+@@ -0,0 +1,90 @@
++/*
++ * Copyright (C) 2021 SUSE LLC
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License version
++ * 2 as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ *
++ * This file implements basic logging functionality.
++ */
++
++#include <sys/types.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <stdarg.h>
++#include <stdbool.h>
++#include <syslog.h>
++#include <unistd.h>
++#include <time.h>
++#define LOG_FUNCNAME 1
++#include "log.h"
++#include "cleanup.h"
++
++#ifndef LOG_CLOCK
++#define LOG_CLOCK CLOCK_MONOTONIC
++#endif
++
++int log_level = DEFAULT_LOGLEVEL;
++bool log_timestamp;
++bool log_pid;
++
++void __attribute__((format(printf, 3, 4)))
++__msg(int lvl, const char *func, const char *format, ...)
++{
++	va_list ap;
++	char pidbuf[16];
++	char timebuf[32];
++	static const char *const formats[] = {
++		"%s%s%s",
++		"%s%s%s: ",
++		"%s<%s>%s ",
++		"%s<%s> %s: ",
++		"[%s] %s%s ",
++		"[%s]%s %s: ",
++		"[%s] <%s>%s ",
++		"[%s] <%s> %s: ",
++	};
++	char *header __cleanup__(cleanup_charp) = NULL;
++	char *message __cleanup__(cleanup_charp) = NULL;
++	int idx;
++
++	if (lvl > log_level)
++		return;
++
++	if (log_timestamp) {
++		struct timespec now;
++
++		clock_gettime(LOG_CLOCK, &now);
++		snprintf(timebuf, sizeof(timebuf), "%6ld.%06ld",
++			 (long)now.tv_sec, now.tv_nsec / 1000);
++	} else
++		*timebuf = '\0';
++
++	if (log_pid)
++		snprintf(pidbuf, sizeof(pidbuf), "%ld", (long)getpid());
++	else
++		*pidbuf = '\0';
++
++	idx = ((log_timestamp ? 1 : 0) << 2) |
++		((log_pid ? 1 : 0) << 1) | (func ? 1 : 0);
++
++	if (asprintf(&header, formats[idx], timebuf, pidbuf, func ? func : "")
++	    == -1)
++		header = NULL;
++
++	va_start(ap, format);
++	if (vasprintf(&message, format, ap) == -1)
++		message = NULL;
++	va_end(ap);
++
++	fprintf(stderr, "%s%s", header ? header : "<error>",
++		message ? message : "<error>");
++
++}
+diff --git a/util/log.h b/util/log.h
+new file mode 100644
+index 0000000..15107a5
+--- /dev/null
++++ b/util/log.h
+@@ -0,0 +1,34 @@
++/*
++ * Copyright (c) 2021 Martin Wilck, SUSE LLC
++ * SPDX-License-Identifier: LGPL-2.1-or-newer
++ */
++#ifndef _LOG_H
++#define _LOG_H
++
++#ifndef MAX_LOGLEVEL
++#  define MAX_LOGLEVEL LOG_DEBUG
++#endif
++#ifndef DEFAULT_LOGLEVEL
++#  define DEFAULT_LOGLEVEL LOG_NOTICE
++#endif
++
++#if (LOG_FUNCNAME == 1)
++#define _log_func __func__
++#else
++#define _log_func NULL
++#endif
++
++extern int log_level;
++extern bool log_timestamp;
++extern bool log_pid;
++
++void __attribute__((format(printf, 3, 4)))
++__msg(int lvl, const char *func, const char *format, ...);
++
++#define msg(lvl, format, ...)						\
++	do {								\
++		if ((lvl) <= MAX_LOGLEVEL)				\
++			__msg(lvl, _log_func, format, ##__VA_ARGS__);	\
++	} while (0)
++
++#endif /* _LOG_H */
 -- 
 2.30.1
 
