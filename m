@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D588C433ED
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Mar 2021 20:34:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA86C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Mar 2021 20:47:42 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7D66860200
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Mar 2021 20:34:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D66860200
+	by mail.kernel.org (Postfix) with ESMTPS id 6CB0761059
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Mar 2021 20:47:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CB0761059
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,137 +23,138 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=KhpqQPPCFqGEgr7nMW0hQ9Q4Esxk4Teslko0NKcvXL0=; b=oXExsocAMMvNvnNMdiywnBdnI
-	j5SylmzWTeYBw4ktbqUOG+EZ+OxOw5krBKb+brKTh8P2MfPdWyyaia1VVun6AzB3fXm4Z9bq9yG1U
-	i76FzL/LfVXLvjnC/F0mLNIUCjA2ilSyPCI8vnuqWX+D+OU3F39wKSuQ73xo/7pbX9jFujC50hvRH
-	lv6OeMoilMlDYSNpS7m3MfDDib1XU/xXkFkIqLfnWzohl+YPMwrmEZtH2EAUt9+cOi1pLIn2WifN1
-	hR5F9ff9rD9+otOJyqqVUODd6Fg1CPmIcN9iZlwYhbR8YxTl5GivFKdIpsxl1LJRRzrp/9gRkg+lE
-	9ZiqWjksg==;
+	 bh=oRuQ1qBlLSc5fy1Sasw5KVdoD1ppIEYzDxomHBiUXrs=; b=Ih5vRCBcyteLp6DvXmQq1vGJs
+	6czZQOe+CLwPzKXoHsM8zmiQZNOEcJIqhewH0eKCLcg7P8nMnAAFLOZ3l0WBJgdVVUgXkja6LosgQ
+	qo7cKfG3Gyki2YsfDGQrY9oUdOLyijM090+RI1EgrD4a8IVqV97Ck3uUAeqhNIh3X7JFX1lo1oSjd
+	UtcEQw6lPDb/ALTzeQPBIuqZoRXi0NrPzIFaw46CsIBOhpb46m75TRqHPBjnYf1DDxIfZjzvFpfAc
+	KFNrzCDhIPqRgCrM41qAvCV0ri3RrNXbClQ87R/qNUf8Kw5q0/Dvz9G6GPtUvhznrmVxYBhd+O1ph
+	0IBmk7NWw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lRhY3-007VkF-JB; Wed, 31 Mar 2021 20:34:43 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1lRhkM-007YJB-6W; Wed, 31 Mar 2021 20:47:26 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lRhXx-007VjC-Fo
- for linux-nvme@lists.infradead.org; Wed, 31 Mar 2021 20:34:40 +0000
+ id 1lRhk4-007Y9x-7M
+ for linux-nvme@lists.infradead.org; Wed, 31 Mar 2021 20:47:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1617222877; x=1648758877;
+ t=1617223628; x=1648759628;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=zEnzIZb6eGLG3Go484pM/SKOrs2zQ3PMZaAU/7QR21A=;
- b=UvLR4Ob+0gUVzNNNnr9tm5TGZZPQB/ESlVIaoBWxqwuydzKtZSlzscDd
- KoPN0DWwXvNAL0qMWoy9QdJYalyQLL8omK5Ldll1eufYzQ1Lb/YREWGyF
- eFiVimHGMV1BeWjpSJahiZi44RUPXaQbAD8TdGVm+AVHewznp9WBo0HFo
- F6X2BlfS+oHvmEEtlC8pOuLOk3R3rYPL/kJcl3HMfFAIHusjl91cKb9R5
- YQqaTFakKnIghpyZM5RuAIz/yjW5TDM+l/+SAMZNcypbmCff+W3OM1T9O
- fUr2Y8zi309R3dqDa8v0O8Aehouqn/PX23v+Lp3Sru/zLV/3YY82H3Aw9 w==;
-IronPort-SDR: Y8LpZ8I2sdQh9lNRVNPkkQRbkQgUxVT4EMM38WivqJZT1SGW7AE00AC42OHUKQrPq6te1btKk1
- sRrgCNqdzI//zintKJLLwtbEkTa3mATDZSB/jWLBRUV5EtroKax2CDMRDnbweRMVC+4w6Gq/or
- r8Un5CrKR/efdvDARzgY+mvRA9/8ZIssLuDqYIeehBiVH2XkslRNIq59i3UtvQSy+bp8UQ+WoF
- d76x6HlHwzudVMA+n5alcZ4ngSmA1TZeGgtStZ+ye2mZIjdgk8GydE3CXbJwJofz1uraGwEm3R
- KdU=
-X-IronPort-AV: E=Sophos;i="5.81,293,1610380800"; d="scan'208";a="163487209"
-Received: from mail-bn7nam10lp2105.outbound.protection.outlook.com (HELO
- NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.105])
- by ob1.hgst.iphmx.com with ESMTP; 01 Apr 2021 04:34:32 +0800
+ bh=aV13zUcf2lK7m+20d+8+rcOM0YuCKdeygEkYcAbTyEE=;
+ b=gQXl2xkqAzF274vI+IO/37OQnmb4/hWepCV5gLiQY7D6mdm5mPe8vVx3
+ CsCAY+54GrTfFr/SwuAPU47MHECP82vUXNkxYhqGOKRCcWiiMHr3Aun8E
+ bUxv9bRDiBTxz78U7O+943W5y3K1f3yaA8EeKCxwVVTG9Vc084GM2PZEz
+ 8IHMQWGMaiRt0B7a1T34TGdC+bpjmet5QdY8Zd+ZcpqxMY/DOUa18008D
+ dc6gbRf3QYhm5T2T68Vt9l6rAGjYVy89wXOa5b9bH0+WNZojmkC8Vyg3G
+ iYJAxppNUlDzYx/OZdUmpikBW/GCjMO28LC/zcCkmbJ7iukBs8eBvFiUN Q==;
+IronPort-SDR: cgk54e9yr7DI6UXRkrARM9GneH8H6ihyJEahxWLsJdZSNhs6SGfdZrP0DFDXKBOoIRfGJ+Zmvl
+ jbQUJ12fqh2l9+JHxK+BdfhxryT2DzbZJiKUOXFersEUKTMGqeeEIGV1LMjcAoVN7snk/0ILjj
+ WKsNXQuccQ7iK3n6pXIT47xBn0wIPbiogYKbF7un86ikUH1ZsDmOD0Ow1UQU87sgpK/jDVQUqG
+ 6SVfxA+ycJmNGImD3d7p3q/efSf2b6xXsTptXEx7Mr7Ojh+5ntLlpkF4K92G3SdYK3KBp61DP7
+ LSY=
+X-IronPort-AV: E=Sophos;i="5.81,293,1610380800"; d="scan'208";a="167968262"
+Received: from mail-cys01nam02lp2050.outbound.protection.outlook.com (HELO
+ NAM02-CY1-obe.outbound.protection.outlook.com) ([104.47.37.50])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Apr 2021 04:47:02 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RtN1HjBc6K2HgtqyC5gEqY450MPArKSefQ4b7NjYS6PrnWOPZE8vhxyzo5ga/fgonc33Q+G4EADmcPspCCszJm89cvSioLWvrSOk9cTjUTSvsZC2xoj2kzZfST9qwNds0mrYx7STJPtOb0gTWMB0OWnCUvm+Le/El/HFKmkFUAcR5dZtpQXvB+/MtcN0A7CpcKM8+f5HB+w8DnfnwuISKAW664kg8/KSOg32qRMFBPXqmQzn9fO0eaJSEnww6vnzIKm3++KnvU9JjLGljbrfg6wyUm9QxxymqFifZh7ushKxLy045BVQHBPpkaQhtYCuYG/13PSxqJqd/iM1e2vosQ==
+ b=H20Jxmqwe1xNR3gbG4BW7ymDNu8OBOk0W52HXcvbmu796Tl7xiGABzJCU40Ei+9Fdj2arvx9xufW5kbGSfQYdayjBQCRh/Ll6stsWLQsnPh+3suuNeCaInzLhJ/q0Hw+ruRBVnLrLQ/PtCGSGwiJS/Ok9Ycx0VnnlQz5xeCQjEAl7gdMKbcNoFRgKC5rjzvo/r6RqYPVvBPa3TeFNNlqkVKFqAnU7lptEX9Cd7hK5fVooJuRS7S8rJTJ8uw2xRM/UccMWJFsIY86rMG/zT7zEpANpCU2oKDEE35VqPf2cZllYCUGERZ5LE72a+VtbznGPAu3mIsYM8/4iaxCTus+iQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=il3wUKTWuVxo+94hIrdRlLD9hTIWfB1/DhkNhQUIybI=;
- b=YexQ67GFh82LjiSpb+iGTPEXPgoVWesaY+AoPCd859DOO3LCN+U9EIAqJf/GlBtka2bW70zQrlkgMIxIdTCqpdtNdVvYd0g9k2OCG1oQyCcifzG1/+sYwK3FeA5/Fv41LJtm8YqVH9y3Z1GT/xGX/gUneEkhSorJY5zTl5PgSD093rNYe4f3kcVejZiIkncBvdwbkrW6Q+85fYEdi2j6mKwzaZHJqaxIhu6PZx/VzMMNakWOsGBJ0QfWibRKT3jUnD5WdP0RelViaotIB3K/0onp+fMCS2QZWNB+l/cnukN8CtCTrJJoXsd/KnTt4oqAMHupTUhMyL/wN4Xyfkc48g==
+ bh=b5J8nonM6cvyQ7okFyXtDCcO6F1jJ44RlPBzv72NCUo=;
+ b=Xg1WjsjbZvKL8W1EzwgMu4lv0kL0T5wLEqkCQI2LgMSNBy6ayjABiAv8UhNG+zOxkkNC5CirSlYPSGMt1CyqwoH8Y6ec7H2DjFsYmhhB4T1FYST+A6UKHjeM2KrcnSyc5r0N6t095HcwsGzhaKGzVhArYlqCh839tLY2gLsDWR6cIg8FnQmblFxm/eY9Lq2U/b5VneN4bgeZvzs//whe/S8o+MbbvrY57z+JhYovjaWsilYlRmsICXomcv65doWC4bV9PQS4xE5liLhyBqzDUYiryI5RfRAJ9Z5qFwUsDMRU/ECb05QZbmZKpuWhuXBnWtcGN2QGxIwykBJSY7/Qyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=il3wUKTWuVxo+94hIrdRlLD9hTIWfB1/DhkNhQUIybI=;
- b=LLxNxOIEwt3S4/5txs7EjMzEmyP+9k8OWVlFbnmNppLzqMfZrW0YEFOb7xe0uQI8yG6zB8C1eMEkauq0xfUwIMENMPADuZt20SgwBQ8quxfRNHk/1ibXJwUuBZwdSnvi82MC1wE9y4ydQAisv7TmlDPPwofc6DBdxARxiJT15c8=
+ bh=b5J8nonM6cvyQ7okFyXtDCcO6F1jJ44RlPBzv72NCUo=;
+ b=syOXfEUkK2Jo+j8z6yv/ZirbEosmfmRCTxCTs8a0OjwFpTZLLJXLGakdFvVMq8Ap+R8sx4oQhgFfp8VxgJHE9iSVkQXWkFvzAeC0lkeVLSymszW/QF+NlEejNn8iVIowHKN3sz1Afl8uRYqTTD5ndCo8TuWpfT0cTyoOmsG165o=
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BYAPR04MB5592.namprd04.prod.outlook.com (2603:10b6:a03:10a::13)
+ by BYAPR04MB3960.namprd04.prod.outlook.com (2603:10b6:a02:ac::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.30; Wed, 31 Mar
- 2021 20:34:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.27; Wed, 31 Mar
+ 2021 20:47:00 +0000
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::c897:a1f8:197a:706b]) by BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::c897:a1f8:197a:706b%5]) with mapi id 15.20.3977.033; Wed, 31 Mar 2021
- 20:34:31 +0000
+ 20:47:00 +0000
 From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Keith Busch
- <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig
- <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke
- <hare@suse.de>, Chao Leng <lengchao@huawei.com>, Victor Gladkov
- <Victor.Gladkov@kioxia.com>
-Subject: Re: [PATCH] nvme: Export fast_io_fail_tmo to sysfs
-Thread-Topic: [PATCH] nvme: Export fast_io_fail_tmo to sysfs
-Thread-Index: AQHXJi+J720hbwseC0WZ8xLPt2l/cg==
-Date: Wed, 31 Mar 2021 20:34:31 +0000
-Message-ID: <BYAPR04MB49658F0DDA22B253F98C6F3A867C9@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20210331131228.131118-1-dwagner@suse.de>
+To: Prike Liang <Prike.Liang@amd.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "kbusch@kernel.org" <kbusch@kernel.org>,
+ "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me"
+ <sagi@grimberg.me>
+CC: "Shyam-sundar.S-k@amd.com" <Shyam-sundar.S-k@amd.com>,
+ "Alexander.Deucher@amd.com" <Alexander.Deucher@amd.com>
+Subject: Re: [PATCH v2] nvme: put some AMD PCIE downstream NVME device to
+ simple suspend/resume path
+Thread-Topic: [PATCH v2] nvme: put some AMD PCIE downstream NVME device to
+ simple suspend/resume path
+Thread-Index: AQHXJiw4YhwKlHNl7kWS39G6IJDNjQ==
+Date: Wed, 31 Mar 2021 20:47:00 +0000
+Message-ID: <BYAPR04MB4965506223DD3DE08DA3CC22867C9@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <1617194885-459-1-git-send-email-Prike.Liang@amd.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=none action=none header.from=wdc.com;
+authentication-results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=wdc.com;
 x-originating-ip: [199.255.45.62]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b2cfa361-350e-42bd-d201-08d8f48463c3
-x-ms-traffictypediagnostic: BYAPR04MB5592:
-x-microsoft-antispam-prvs: <BYAPR04MB5592B04995074271CA69061F867C9@BYAPR04MB5592.namprd04.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 83606ec1-4588-4d05-0a00-08d8f48621e8
+x-ms-traffictypediagnostic: BYAPR04MB3960:
+x-microsoft-antispam-prvs: <BYAPR04MB3960DF587BB4421ABE8E7D6D867C9@BYAPR04MB3960.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
 x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RNDlETMWGRDaqTL3WuufCFZLeqGMDRNq7ldJ7p2E29tHikksHliwXgb0+XW1jDRuf+ofbFdsVBB6BlmnBXLmDiylgfJoi67/5+LCyq8P0+45y3KLNO14LfuZ6H3c0EZB6XeMGBApGkiLxmROW/ngO4fVoMYFH4ep3+i0UUS3k6LBx7B6vrAxlw2TCHVXiDsTcxDBjFsMzwqZMqNRm+5DZaaOfkdA1EpOUsSIdLkDP2ncX7sMGAnDYRzk9g5rbny2FROEoiULycYKp+jb3sHosFKVS3b7moYWEFibKkDA73Rg/8ztp8aVZymNfz/ni4TzQ7m5WZKtDHf532uGOukuKQ6YGXSJHYcgCIFHzQDi7+3nJ7eRf0kWc1hurLZItxRgO+r1jEsk+q0klCG5PvRIeFdhsE5sHlnHUeU4bQnuK5fruGMN7I/QBkXxuzuPwI0Q7D8CjKzF598/nZwkXoDVRnPitQkypXMvFwbkkQxQHUDHtNlha+Au2jMjpc6znaXYk2X/JPr0EH9pYhdSSnBYrp1laCvevPxny1TkjEr7jGRgyk+j3xtPgSfu2eiiEujpYufEc9QyWZPfpXCNN9ks5gFyBBteC/E2n/MDNTeFBuXqL+GB5EUGP4Y3zf20+i77kTYI2kMW5WAZK89zBMGivglndMaOSmFmd8XM359JWG4=
+x-microsoft-antispam-message-info: q0vP3KWBBFykbHNUU+lqczwNnZ0s7rCP8IMu9ATxEdAq3CM3XoV0cSsw4Pq4x2/LfnZ2Ghb4/NlLZH+etey4mivl72rUJLniFAuv3q3JTDlsmUn0TVbYxdWEy2WHccWplL1iQ/w/UgrBj9F6zVBtR8QOZFDlMB48Npr7oSoNKxU7TZUOuYYK7w/6XSAQP36UebqhpEa+sHeYk0EueROmwPph9ETMl70Gu9WSqdzBQ23Cot4UCZ6VHa2ogq8fJQmtIdOPaPzky3qe+WLExEMfBoZit5VNn/9myMwrsUeG6MhxgREAKh+3Je88xVb1yZJCbL/QO/uel8OmoDOTwN6LD/XzTMXQbdb9/303K2iNONdPDiE60cYb49PIwy0M92jNmPascmIZcYZphxRIT6HX1N2fQHgGni1I4MSCmPV/zrLIioAgQW95xIatxFPTvXtNgQT5moq36CrWT6a537afjkUmzP3JvgxAAvIF/OcjRCvU4Erf6TaEdL1SV3ls2+n79wkEWYzUGqk8tPOOTZOjpSrpHwil/dP0ahUr+50gz6/mQP8NqgBXD7L/Y2OmsDSVkyzgTWJzTro3D2PpoG8rWzqV8Jb/+clAsXWwmqkZemSU1uKzUseAo9l6RmN2UqYI8693gGMhxu+3JPEiKHbkcwVAOkMpN+5WMUvtwXHZUNk=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(376002)(39860400002)(136003)(346002)(6506007)(8936002)(9686003)(71200400001)(7696005)(186003)(7416002)(76116006)(478600001)(86362001)(83380400001)(4326008)(55016002)(53546011)(2906002)(26005)(52536014)(66946007)(66446008)(64756008)(66476007)(66556008)(6916009)(33656002)(316002)(38100700001)(54906003)(8676002)(5660300002);
+ SFS:(4636009)(346002)(136003)(366004)(396003)(39860400002)(376002)(4326008)(186003)(86362001)(8676002)(8936002)(478600001)(91956017)(7696005)(66446008)(64756008)(66556008)(66946007)(66476007)(54906003)(52536014)(316002)(15650500001)(110136005)(76116006)(26005)(9686003)(71200400001)(55016002)(6506007)(38100700001)(33656002)(2906002)(5660300002)(83380400001);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?h32wM/FXQ4E8Pku8Utx7jsD01NcYR3EZ0ErQVSxFOAnnhwW7Ztva18aoV3SI?=
- =?us-ascii?Q?RyhRx8lZZ9kAK8fZzCNRbZpZ0Ld4QHiTgHT2S9tVwuf5HELgFNSTsuH9N0Gb?=
- =?us-ascii?Q?0a3slXfuOcldMEv9ZXEOF61CLlMojVPpDV2gMn5Gdn1rw2U+rqO25B2ru0U2?=
- =?us-ascii?Q?pK9q8koBBHRzotQi3R0Gc3cvS9jT0LIaDHiAp6SQudqfrLDpHulexUYg1HLx?=
- =?us-ascii?Q?giYVWWiSbidpbfbbaDcUr5x1qxZ8cb4WcyrezpAGKLPxKIiZf6kooTv+0B7W?=
- =?us-ascii?Q?UiX9BwHnnz9HGBPK4g1LC1nIn1QaLQhUrneDuObIhMT71fxqThuscb1eZxkU?=
- =?us-ascii?Q?W0MO4N9g54ld16i3xma1xERmSuRauwnvSkC1BrCElqtTNxCrN1czWzrSijJa?=
- =?us-ascii?Q?cuAU4dJQXtjkGrleVJcHDSU64H8ZFbvH4UVcYXHzIfXFIoPCEjvRnYQqHzEN?=
- =?us-ascii?Q?jwf2+v0qbJhbFwHtAyN6A/MM1McNkLGPI0zkjwY7mmnD7Xh1ZR58jXCqAg1p?=
- =?us-ascii?Q?6hn5lSOXgWPJCgKXI3k++92uGrtliXoK+3FuO2Tts5hagil4LDWidkguMpEd?=
- =?us-ascii?Q?y+EC/r1Dn9jUzkp4AcjEebG6P92n0/li99skrbIoes6qkAzEVHwNh5XzL3KR?=
- =?us-ascii?Q?3wkuRF6mcdeXrC4LUQ8TjijKun2G64I2gYN6f0fydz1TABNxuPQq0hKVjBTH?=
- =?us-ascii?Q?/i9qak0cMDUYEK98qWQSXFe7uJHOSGGgWchMrOpZ6PvLxdHSiJSOUu/Kxdan?=
- =?us-ascii?Q?RplIb3mlpkCCF2GgmAu7gjhpiTS/RG5pSOEoc7hPAcRfTX7TPt4VrdFRilqJ?=
- =?us-ascii?Q?bN/q5SZnThI38xasxOLH6Hd4x5em6XF5aCjkw9PqU1hxyZbeRwmVPn+gjVrr?=
- =?us-ascii?Q?9nNCr3l0PANJzswUTRVXSl5hB0LeLyjXZMjReA6Bi2pn5J/vCSaAZfl6a96x?=
- =?us-ascii?Q?P/g8Qr10IaPeLzwVIboQeHPgOUbkgjIqkdIt+jSGhh0J0EW55UvPUBrE6J0O?=
- =?us-ascii?Q?Zad35sp/xvpNiY//d3toT532ZBl1jYk0LOKEyqg/8x9WAD8MqKA2TPkAOGaw?=
- =?us-ascii?Q?VSEOO1VBrLv6/6w/S15dNS9A6yX5BwQAhKEaafD2tQp+DaHFzY7O4jSY+HAS?=
- =?us-ascii?Q?8icr5vAAcr5EGB9kt8eGEc3RtuCSlATDwntfW8eweKvbDksNTVKNyP/8dyTF?=
- =?us-ascii?Q?jMGrZERWdgdk7kycgpI5Gi9LZaBM5NqTicRR8S+5+ssj9il87JIX3ix9tr7q?=
- =?us-ascii?Q?bNtJmDDbt4+t4visip4pimhB+1E7A2+OmQd+ff9+nu+iweuCqM4l0F5EErGT?=
- =?us-ascii?Q?HORoJxJPk3EyCSMGk7IEa40AMMtXqFM1xb0zWcm5D//KRg=3D=3D?=
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?e48rCHwAEioV9GE7VfASHUZgJjb4aA5fYuLknHBgcNXk23w/LacqowEfxKcf?=
+ =?us-ascii?Q?CAxRDmU2E71V/y83Pq0TdV7K9ie5chbwfefeRpd9QusXVA5ID8E8tUkHNDi/?=
+ =?us-ascii?Q?Oxi134yUzIBJGOPKluwtcpTKCDkCTnRCCGNazUh+plJFxSbVrbjm57/mC94D?=
+ =?us-ascii?Q?55eoT+6ZpzibOTFCL8d7S9qq+qjOzB3hEfzD68RYu1tdNcH1imwgQNhugICL?=
+ =?us-ascii?Q?iD1740I6KtxypnOwIqmHUmFGFOCqlGJDZsy2gDz0UDUgUv8/+HAcYUh1u1Gb?=
+ =?us-ascii?Q?Fn7Sx3Js8tyKBQTBHMXoW8a2aMwj71G4prv6yqkcp9/au2IGCCv/4cJjtINA?=
+ =?us-ascii?Q?4pSC7BYC3yElVmc2RY7U66y5fsc5iZMDIydZAGjRXdQexpuA7P5RYlVIZUCQ?=
+ =?us-ascii?Q?ejVuREcMNxXY5idjiqcVo21wbwney8D/MONjYHK9One4CoQKHa6k7mSx5pmN?=
+ =?us-ascii?Q?ps2q0ehwmDx8WGMPWCQg8y2RirAVhj3kXSJssYQ0TLc6+5Uma0YNe/QBTrCP?=
+ =?us-ascii?Q?GT87N7C3FmVsojUD/ZOOfrjGG7tqC5e+X5FTP6cGW4ZK9edE8Ro4JLtHgbt5?=
+ =?us-ascii?Q?l6JjybdFJJ3NdBozuuWWu27lfRAn7Hkq0Lprf78yBAUuubaqgdxK8V0CnzIv?=
+ =?us-ascii?Q?tDfFz8ws2spbL2LNDQGoTyx4uj1RuFXkNWf9Q17Vb+QRp4PQ+QoznWuunuhE?=
+ =?us-ascii?Q?1qMIEWNLJz856U6mh0LG9REh36yvtJ0z3wRPtSTvBNC8gLCJyyl2YIC01T27?=
+ =?us-ascii?Q?ia+ZKaJVmQJytdPkx0PfOay2bXdGDQrZLfxGj7CGcpoKhQ6N17PGkwjXThEe?=
+ =?us-ascii?Q?uWTScPFIv7S1/0vtSNcAvNSdAHKH2k0eH2phVEQFT2d77V7X231gHyOLY9AO?=
+ =?us-ascii?Q?NsUJzIeIbYGJa54/l4BeO6t6cHVHGLhRFh7gm5scfSom4e6VDa5fZnyQDa+P?=
+ =?us-ascii?Q?PrqEiDvCKbhV7mKXiM9PY7psvZv7M4YjEw9s/XpYZqZcgRgPiHmSM9H4fzX+?=
+ =?us-ascii?Q?O3ybgeQKvot+NrZld03Y1Hp06Xyrj2pz5fwkR4SBQaoZHdBsgocjvxf0AWU1?=
+ =?us-ascii?Q?OxFDYrDIjWW2dyGWOwshAttJETKr0N8O8YhvquGtBNP0weEE7ut6I3En81XV?=
+ =?us-ascii?Q?+uyS5nIIsuM1tTNqBFamrzRM1Zbmb7L1mo2VEFowpFNmtBhuUoAdBRK7uutt?=
+ =?us-ascii?Q?wvSS4qErK2bZqnzWKOR049FmPNAwcXGPiNI4/N5KPYhd9wVwn/upIvyCVa5P?=
+ =?us-ascii?Q?SEH4l7Ons+TngsyHmBHAe5d3kW+pEkRh3yOPls5XchCLTG88NDKDmtxcrJ3P?=
+ =?us-ascii?Q?G/3AcL2tGcFyVTm/MFBkBIP3xIuKvB0ra1nUQuzENAkBAw=3D=3D?=
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2cfa361-350e-42bd-d201-08d8f48463c3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2021 20:34:31.8613 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83606ec1-4588-4d05-0a00-08d8f48621e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2021 20:47:00.3295 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rvDeFEbKzle6qGUJyH8kb/1eWlG7KoSUjATR4A0pgsbJytiVvLPCksLUxDj5mPDtRrjz7O8+lgQJFk9gowy8HAEhTnYL9PToQRbnsII1Ugc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5592
+X-MS-Exchange-CrossTenant-userprincipalname: ODOEVLJLdASRW4O7LH+2oh7FxWsqoBl9dGcGEcsg5CF+/lqAjnim9TDsrR6lP5RK4bsCUZspHtLkm5RMsvVgrY6zMGXRs9pevnTeuJnD+l4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3960
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210331_213438_080816_B7082CA0 
-X-CRM114-Status: GOOD (  22.91  )
+X-CRM114-CacheID: sfid-20210331_214709_096581_AF4CCB0B 
+X-CRM114-Status: GOOD (  19.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -170,106 +171,86 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Daniel,
+> try do the NVME shutdown save and restore in the BIOS and still need PCIe
+> power seting to resume from RTD3 for s2idle.
 
-On 3/31/21 06:12, Daniel Wagner wrote:
-> Commit 8c4dfea97f15 ("nvme-fabrics: reject I/O to offline device")
-> introduced fast_io_fail_tmo but didn't export the value to sysfs. That
-> means the value is hard coded during compile time. Export the timeout
-> value to user space via sysfs to allow runtime configuration.
->
-> Cc: Victor Gladkov <Victor.Gladkov@kioxia.com>
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+s/seting/setting/ ? idk.
+
+> Signed-off-by: Prike Liang <Prike.Liang@amd.com>
 > ---
+> Changes in v2:
+>  Fix the patch format and check chip root complex DID instead of PCIe RP
+>   to avoid the storage device plugged in internal PCIe RP by USB adaptor.
+> ---
+>  drivers/nvme/host/pci.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 >
-> This patch is against nvme-5.13
->
-> BTW, checkpatch complains with
->
->   WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred. Consider using octal permissions '0644'.
-
-For now keep the current style.
-
->
-> Is this something we want to adapt to?
->
->  drivers/nvme/host/core.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 40215a0246e4..c8de0e37c7d9 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3696,6 +3696,36 @@ static ssize_t nvme_ctrl_reconnect_delay_store(struct device *dev,
->  static DEVICE_ATTR(reconnect_delay, S_IRUGO | S_IWUSR,
->  	nvme_ctrl_reconnect_delay_show, nvme_ctrl_reconnect_delay_store);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 6bad4d4..1952da1 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -42,6 +42,9 @@
+>  #define NVME_MAX_KB_SZ	4096
+>  #define NVME_MAX_SEGS	127
 >  
-> +static ssize_t nvme_ctrl_fast_io_fail_tmo_show(struct device *dev,
-> +		struct device_attribute *attr, char *buf)
-> +{
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+> +#define AMD_PCIE_ID_CZN 0x1630
+> +#define AMD_PCIE_ID_RN AMD_PCIE_ID_CZN
 > +
-> +	if (ctrl->opts->fast_io_fail_tmo == -1)
-> +		return sprintf(buf, "off\n");
-> +	return sprintf(buf, "%d\n", ctrl->opts->fast_io_fail_tmo);
-
-do we need snprintf() for 2nd ?
-
-> +}
-> +
-> +static ssize_t nvme_ctrl_fast_io_fail_tmo_store(struct device *dev,
-> +		struct device_attribute *attr, const char *buf, size_t count)
-> +{
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> +	struct nvmf_ctrl_options *opts = ctrl->opts;
-> +	int fast_io_fail_tmo, err;
-> +
-> +	err = kstrtoint(buf, 10, &fast_io_fail_tmo);
-> +	if (err)
-> +		return -EINVAL;
-> +
-
-since you are returning an error, you can remove next else if, this also
-removes the extra line after above return. Something like this on the top
-of yours totally untested :-
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c8de0e37c7d9..afa0a6790b52 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3717,7 +3717,7 @@ static ssize_t
-nvme_ctrl_fast_io_fail_tmo_store(struct device *dev,
-        if (err)
-                return -EINVAL;
- 
--       else if (fast_io_fail_tmo < 0)
-+       if (fast_io_fail_tmo < 0)
-                opts->fast_io_fail_tmo = -1;
-        else
-                opts->fast_io_fail_tmo = fast_io_fail_tmo;
-
-> +	else if (fast_io_fail_tmo < 0)
-> +		opts->fast_io_fail_tmo = -1;
-> +	else
-> +		opts->fast_io_fail_tmo = fast_io_fail_tmo;
-> +	return count;
-> +}
-> +static DEVICE_ATTR(fast_io_fail_tmo, S_IRUGO | S_IWUSR,
-> +	nvme_ctrl_fast_io_fail_tmo_show, nvme_ctrl_fast_io_fail_tmo_store);
-> +
->  static struct attribute *nvme_dev_attrs[] = {
->  	&dev_attr_reset_controller.attr,
->  	&dev_attr_rescan_controller.attr,
-> @@ -3715,6 +3745,7 @@ static struct attribute *nvme_dev_attrs[] = {
->  	&dev_attr_hostid.attr,
->  	&dev_attr_ctrl_loss_tmo.attr,
->  	&dev_attr_reconnect_delay.attr,
-> +	&dev_attr_fast_io_fail_tmo.attr,
->  	NULL
->  };
+>  static int use_threaded_interrupts;
+>  module_param(use_threaded_interrupts, int, 0);
 >  
-> -- 2.29.2
+> @@ -70,6 +73,12 @@ static unsigned int io_queue_depth = 1024;
+>  module_param_cb(io_queue_depth, &io_queue_depth_ops, &io_queue_depth, 0644);
+>  MODULE_PARM_DESC(io_queue_depth, "set io queue depth, should >= 2");
+>  
+> +static const struct pci_device_id pcie_ids[] = {
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_PCIE_ID_RN) },
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_PCIE_ID_CZN) },
+> +	{ }
+> +};
+> +
 
+why new global pci_device_id array is needed ?
+
+>  static int io_queue_count_set(const char *val, const struct kernel_param *kp)
+>  {
+>  	unsigned int n;
+> @@ -2832,6 +2841,7 @@ static bool nvme_acpi_storage_d3(struct pci_dev *dev)
+>  {
+>  	struct acpi_device *adev;
+>  	struct pci_dev *root;
+> +	struct pci_dev *rdev;
+>  	acpi_handle handle;
+>  	acpi_status status;
+>  	u8 val;
+> @@ -2845,6 +2855,15 @@ static bool nvme_acpi_storage_d3(struct pci_dev *dev)
+>  	if (!root)
+>  		return false;
+>  
+> +	rdev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(0, 0));
+> +	if (rdev && pci_match_id(pcie_ids, rdev)) {
+> +	/* Detect NVME device which pluged in the Renoir PCIE root port
+> +	 * then force use quick suspend/resume path for handling the NVME
+> +	 * timeout during s2idle resume.
+> +	 */
+
+The comment should something like this :-
+
+              if (rdev && pci_match_id(pcie_ids, rdev)) {
+
+		/* 
+		 * Detect NVMe device which pluged in the Renoir PCIe root port
+		 * then force use quick suspend/resume path for handling the NVMe
+		 * timeout during s2idle resume.
+		 */return NVME_QUIRK_SIMPLE_SUSPEND;
+
+          }
+> +		return NVME_QUIRK_SIMPLE_SUSPEND;
+> +	}
+> +
+>  	adev = ACPI_COMPANION(&root->dev);
+>  	if (!adev)
+>  		return false;
 
 
 _______________________________________________
