@@ -2,88 +2,68 @@ Return-Path: <SRS0=yFSL=I5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5484C433E3
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Mar 2021 06:54:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 648BFC433C1
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Mar 2021 07:12:22 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5B4B6619CF
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Mar 2021 06:54:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B4B6619CF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id BA42E619DA
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Mar 2021 07:12:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA42E619DA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MK6EHaUdwdkox1KXAldxD/UPGAi1dgfhh6NOBa210Q4=; b=mQB5eoYBy+KM3h5k8df/zzT3dx
-	ocePYrxof3aaJdop8f1S+PZj2ErKIEeAZOv96GHS8fv83p6aAYEIfO31MtJaJ/22tYEhe62KQUel5
-	c8at8PiEwCWTbdQIRY70NF40XEYQOLnqHurqYh/0pzv7RTrCpi4YlZHEiPL9EsPz1E2YbkONdYSje
-	oihunPxlKpE2NGmQTjJdQsu8HLy+qkz5w4Y3N9sK5JwWTblICvulnaZcHl0NlS0GLjw9DZEFqnrI1
-	pWLcsIELHlFlMxiv2vEaW0VwbKyhjzl1FORfle+6te0XctPhIU2V445WHUxvZr0W3VKGQVjnruC20
-	0rlNCYig==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:Subject:
+	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=pfEVjYpKlV7DsJnaCiisxTBTZoxuzYTE9z7Vi6vjwrs=; b=TQaL9d79jb2DBhOpMrRa9r4yd
+	o8WFUD8awgaCGblAjWLCUgrYajsPmRRkvC/HjASMI1EOiOV7EQqOXLsICHaV0IcZ0Natv+IogWg3U
+	b/xkyCeOLlAawdgy146aF4jFg+1yz1/mL3p9isyDzhdwLuXaXZrp8PKvmVntN2jZioM2SMoaVFaia
+	ugA4absJ6jW5uWXiiYpWao0k1VAdbXfmZJh6Q2/NI/yZWgHpTz2KzuTlCqJc5mS8iX74M7JsyuEsu
+	eOa6INcPdyGu2d9zty1AcHPEhIex/XxWIpFlgjZL99JkDzk3xvCq1UUXD2bod+fJyR4+faSEmZQP/
+	qGaCahD0w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lRUkM-005i0L-0y; Wed, 31 Mar 2021 06:54:34 +0000
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+	id 1lRV1L-005kJS-0T; Wed, 31 Mar 2021 07:12:07 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lRUil-005har-Sk
- for linux-nvme@lists.infradead.org; Wed, 31 Mar 2021 06:52:58 +0000
-Received: by mail-pg1-x52f.google.com with SMTP id f10so13488766pgl.9
- for <linux-nvme@lists.infradead.org>; Tue, 30 Mar 2021 23:52:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qfGDkfFMVyS8kERpIWhUG9SrhUeKfEuQtbhAVDL/FYc=;
- b=msSy3prM/THK4ZNzBLe5kBTjD0rpBhDT2QttnjBMwDpJkWzIz87var2lvIPKOtnfbs
- CGxEPUs+seSu5a+o1tbGmGnqI7wSPW9aQ+PhsVUdVetCjlYzCzLiTWoqdY/Qgj691lro
- Dn2iaQl+7ao54dNEg6qyDb8Ab3dJbRA+jvIMao8/JsJjHW6dHM9f4HsaTU9bHqBJDLAL
- 3vP91KMVmOgP5qimGM4pD/lTrKMM4x6Jg1iDwUc5obRoBTdfek6pySRNI1KtLsfknRTD
- TZQwZoKA8XjeGGJHHM66OdzAutmp4kgyd9gBnQ7lA9JNtOMexWM9D4Lp2KQtBQs3QZ7o
- HAxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qfGDkfFMVyS8kERpIWhUG9SrhUeKfEuQtbhAVDL/FYc=;
- b=pCVanUuWgiCt90vwZPYT11iKfKW0AEHTaI+MUchZB5EEYUwTV3Qn5moRbXUQLTAzzg
- lfroJKV22VIbL75zmZ5kiP20P2KSGM/aqjrjWcXU903M9NFYbUt1UC+aVedqJrBi8aiX
- xRw9MqQ3tFEz9zeizQEi3t0w9qANsDl+VbpVUx9x6kbBUXwY3o20ZXWrhYTaQK49yeRv
- O4h2O5q8jPbz6wGDvdI8GxgrA6CUAPGOauHl75Pmcjc2AoyjRQ5cashXiBXUieEP9XHq
- Qh1H/bOYiai2/hp6+ykYbSA9OeacsVSpsj2gXbwetMK9nryrXiPShZf253sQk6/qflXZ
- 25RA==
-X-Gm-Message-State: AOAM533GI1yhAnDfc2Y35+/VDA1dchxFkT1B2PAAHojEymQ3XjAqqrSg
- Nc0K1nM774xkGGSVqiJBxkQ=
-X-Google-Smtp-Source: ABdhPJw0vXK01CAGDAQ1tVnscuA7JM8aVH96Gkc2XcmBqEGUbI4KljueFN0Yf1sVRv9l+qvLO3Kdag==
-X-Received: by 2002:aa7:824c:0:b029:21d:7b2d:174a with SMTP id
- e12-20020aa7824c0000b029021d7b2d174amr1612402pfn.51.1617173574083; 
- Tue, 30 Mar 2021 23:52:54 -0700 (PDT)
-Received: from houpudeMacBook-Pro.local.net ([61.120.150.74])
- by smtp.gmail.com with ESMTPSA id l10sm984180pfc.125.2021.03.30.23.52.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 30 Mar 2021 23:52:53 -0700 (PDT)
-From: Hou Pu <houpu.main@gmail.com>
-To: sagi@grimberg.me,
-	hch@lst.de,
-	chaitanya.kulkarni@wdc.com
-Cc: linux-nvme@lists.infradead.org,
-	houpu.main@gmail.com
-Subject: [PATCH v2] nvmet: return proper error code from discovery ctrl
-Date: Wed, 31 Mar 2021 14:52:39 +0800
-Message-Id: <20210331065239.45337-1-houpu.main@gmail.com>
-X-Mailer: git-send-email 2.24.0
+ id 1lRV1G-005kJ3-6I
+ for linux-nvme@lists.infradead.org; Wed, 31 Mar 2021 07:12:04 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 7CC63AFFA;
+ Wed, 31 Mar 2021 07:12:00 +0000 (UTC)
+To: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
+Cc: "Ewan D. Milne" <emilne@redhat.com>, Daniel Wagner <dwagner@suse.de>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>
+References: <20210301175601.116405-1-dwagner@suse.de>
+ <6b51a989-5551-e243-abda-5872411ec3ff@grimberg.me>
+ <20210311094345.ogm2lxqfuszktuhp@beryllium.lan>
+ <70af5b02-10c1-ab0b-1dfc-5906216871b4@grimberg.me>
+ <2fc7a320c86f75507584453dd2fbd744de5c170d.camel@redhat.com>
+ <ed3ccac0-79ed-fe10-89eb-d403820b4c6a@grimberg.me>
+ <20210330232813.GA1935968@dhcp-10-100-145-180.wdc.com>
+From: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH v2] nvme-tcp: Check if request has started before
+ processing it
+Message-ID: <e4bee13c-647a-55ff-2017-27ccfc314973@suse.de>
+Date: Wed, 31 Mar 2021 09:11:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210330232813.GA1935968@dhcp-10-100-145-180.wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210331_075256_425745_305F025B 
-X-CRM114-Status: GOOD (  11.11  )
+X-CRM114-CacheID: sfid-20210331_081202_472672_87875812 
+X-CRM114-Status: GOOD (  25.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,61 +75,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Return NVME_SC_INVALID_FIELD from discovery controller like normal
-controller when executing identify or get log page command.
-
-Signed-off-by: Hou Pu <houpu.main@gmail.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-
----
-v2:
-* Drop patch 2/2 from the series which is already fixed for 5.13.
-* Modify commit message suggested by Chaitanya.
-* Add "Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>".
-
----
- drivers/nvme/target/discovery.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 682854e0e079..4845d12e374a 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -178,12 +178,14 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
- 	if (req->cmd->get_log_page.lid != NVME_LOG_DISC) {
- 		req->error_loc =
- 			offsetof(struct nvme_get_log_page_command, lid);
--		status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
-+		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto out;
- 	}
- 
- 	/* Spec requires dword aligned offsets */
- 	if (offset & 0x3) {
-+		req->error_loc =
-+			offsetof(struct nvme_get_log_page_command, lpo);
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto out;
- 	}
-@@ -250,7 +252,7 @@ static void nvmet_execute_disc_identify(struct nvmet_req *req)
- 
- 	if (req->cmd->identify.cns != NVME_ID_CNS_CTRL) {
- 		req->error_loc = offsetof(struct nvme_identify, cns);
--		status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
-+		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto out;
- 	}
- 
--- 
-2.28.0
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMy8zMS8yMSAxOjI4IEFNLCBLZWl0aCBCdXNjaCB3cm90ZToKPiBPbiBUdWUsIE1hciAzMCwg
+MjAyMSBhdCAxMDozNDoyNUFNIC0wNzAwLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+Pgo+Pj4+IEl0
+IGlzLCBidXQgaW4gdGhpcyBzaXR1YXRpb24sIHRoZSBjb250cm9sbGVyIGlzIHNlbmRpbmcgYSBz
+ZWNvbmQKPj4+PiBjb21wbGV0aW9uIHRoYXQgcmVzdWx0cyBpbiBhIHVzZS1hZnRlci1mcmVlLCB3
+aGljaCBtYWtlcyB0aGUKPj4+PiB0cmFuc3BvcnQgaXJyZWxldmFudC4gVW5sZXNzIHRoZXJlIGlz
+IHNvbWUgb3RoZXIgZmxvdyAod2hpY2ggaXMKPj4+PiB1bmNsZWFyCj4+Pj4gdG8gbWUpIHRoYXQg
+Y2F1c2VzIHRoaXMgd2hpY2ggaXMgYSBidWcgdGhhdCBuZWVkcyB0byBiZSBmaXhlZCByYXRoZXIK
+Pj4+PiB0aGFuIGhpZGRlbiB3aXRoIGEgc2FmZWd1YXJkLgo+Pj4+Cj4+Pgo+Pj4gVGhlIGtlcm5l
+bCBzaG91bGQgbm90IGNyYXNoIHJlZ2FyZGxlc3Mgb2YgYW55IG5ldHdvcmsgdHJhZmZpYyB0aGF0
+IGlzCj4+PiBzZW50IHRvIHRoZSBzeXN0ZW0uICBJdCBzaG91bGQgbm90IGJlIHBvc3NpYmxlIHRv
+IGVpdGhlciBpbnRlbnRpb25hbGx5Cj4+PiBvZiBtaXN0YWtlbmx5IGNvbnRydWN0IHBhY2tldHMg
+dGhhdCB3aWxsIGRlbnkgc2VydmljZSBpbiB0aGlzIHdheS4KPj4KPj4gVGhpcyBpcyBub3Qgc3Bl
+Y2lmaWMgdG8gbnZtZS10Y3AuIEkgY2FuIGJ1aWxkIGFuIHJkbWEgb3IgcGNpIGNvbnRyb2xsZXIK
+Pj4gdGhhdCBjYW4gdHJpZ2dlciB0aGUgc2FtZSBjcmFzaC4uLiBJIHNhdyBhIHNpbWlsYXIgcGF0
+Y2ggZnJvbSBIYW5uZXMKPj4gaW1wbGVtZW50ZWQgaW4gdGhlIHNjc2kgbGV2ZWwsIGFuZCBub3Qg
+dGhlIGluZGl2aWR1YWwgc2NzaSB0cmFuc3BvcnRzLi4KPiAKPiBJZiBzY3NpIHdhbnRzIHRoaXMg
+dG9vLCB0aGlzIGNvdWxkIGJlIG1hZGUgZ2VuZXJpYyBhdCB0aGUgYmxrLW1xIGxldmVsLgo+IFdl
+IGp1c3QgbmVlZCB0byBtYWtlIHNvbWV0aGluZyBsaWtlIGJsa19tcV90YWdfdG9fcnEoKSwgYnV0
+IHJldHVybiBOVUxMCj4gaWYgdGhlIHJlcXVlc3QgaXNuJ3Qgc3RhcnRlZC4KPiAgCj4+IEkgd291
+bGQgYWxzbyBtZW50aW9uLCB0aGF0IGEgY3Jhc2ggaXMgbm90IGV2ZW4gdGhlIHNjYXJpZXN0IGlz
+c3VlIHRoYXQKPj4gd2UgY2FuIHNlZSBoZXJlLCBiZWNhdXNlIGlmIHRoZSByZXF1ZXN0IGhhcHBl
+bmVkIHRvIGJlIHJldXNlZCB3ZSBhcmUKPj4gaW4gdGhlIHNpbGVudCBkYXRhIGNvcnJ1cHRpb24g
+cmVhbG0uLi4KPiAKPiBJZiB0aGlzIGRvZXMgaGFwcGVuLCBJIHRoaW5rIHdlIGhhdmUgdG8gY29t
+ZSB1cCB3aXRoIHNvbWUgd2F5IHRvCj4gbWl0aWdhdGUgaXQuIFdlJ3JlIG5vdCB1dGlsaXppbmcg
+dGhlIGZ1bGwgMTYgYml0cyBvZiB0aGUgY29tbWFuZF9pZCwgc28KPiBtYXliZSB3ZSBjYW4gYXBw
+ZW5kIHNvbWV0aGluZyBsaWtlIGEgZ2VuZXJhdGlvbiBzZXF1ZW5jZSBudW1iZXIgdGhhdCBjYW4K
+PiBiZSBjaGVja2VkIGZvciB2YWxpZGl0eS4KPiAKLi4uIHdoaWNoIHdpbGwgYmUgbmVhciBpbXBv
+c3NpYmxlLgpXZSBjYW4gcHJvdGVjdCBhZ2FpbnN0IGNyYXNoaW5nIG9uIGludmFsaWQgZnJhbWVz
+LgpXZSBjYW4gX25vdF8gcHJvdGVjdCBhZ2FpbnN0IG1hbGljaW91c2x5IGNyYWZ0ZWQgcGFja2V0
+cyByZWZlcmVuY2luZyBhbnkKcmFuZG9tIF9leGlzdGluZ18gdGFnOyB0aGF0J3Mgd2hhdCBUTFMg
+aXMgZm9yLgoKV2hhdCB3ZSBjYW4gZG8sIHRob3VnaCwgaXMgY2hlY2tpbmcgdGhlICdzdGF0ZScg
+ZmllbGQgaW4gdGhlIHRjcApyZXF1ZXN0LCBhbmQgb25seSBhbGxvdyBjb21wbGV0aW9ucyBmb3Ig
+Y29tbWFuZHMgd2hpY2ggYXJlIGluIGEgc3RhdGUKYWxsb3dpbmcgZm9yIGNvbXBsZXRpb25zLgoK
+TGV0J3Mgc2VlIGlmIEkgY2FuIHdoaXAgdXAgYSBwYXRjaC4KCkNoZWVycywKCkhhbm5lcwotLSAK
+RHIuIEhhbm5lcyBSZWluZWNrZQkJICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QK
+aGFyZUBzdXNlLmRlCQkJICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
+bmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHRjogRmVsaXggSW1lbmTDtnJmZmVyCgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1l
+IG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3Rz
+LmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
