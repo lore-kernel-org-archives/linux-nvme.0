@@ -2,67 +2,81 @@ Return-Path: <SRS0=sXsN=I6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62720C433ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 16:17:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30700C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 16:28:34 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF82861379
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 16:17:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF82861379
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id CC64761286
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 16:28:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC64761286
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=aoro3cYuzmCzZLwk3kC/6he7jlR3jWJv7pTE3SMQQcE=; b=MSOd6SlL7Daj027q4oXUoIsnM
-	YcU1mqN9huHNs4K6Pzgn0uaX8rkpFFxYIP0mVS9SdT6PwkA4IquR472xt1xxY6u//9O8B8t8o6+Pz
-	Tz7UFi+Ih4kAkvgJFvHiyW40UI6RiR2bG0/SalZxtGXhNjOlAniMQsYQ02ncxNh62IzODLiD0X0Y0
-	Vn0kOlzRebn8QDmOrjVrdNAn+vXKfo4VNJeJFtqVSOiz3dN9EL8N87dZRxABPgBdseJEAziy6lN/T
-	ePxln7ZRWl9Uqr5WG4ojbLNlzvLIj4QlDAdA+vSweC8kuIu17wIcnwxTGO99QO9xQG+IgFalFgdfE
-	Aw9OvHLTw==;
+	 bh=jqmDriZOaqUqC4GHF1e528+xKwR8oohUqELV8CvFG2Y=; b=VtY75AS/YZWE3P0YshC65l1na
+	f/Hnt/+PYJfzcVxRM/gzeweTOG6HzDxhy/tW307p0+aHCnGzRfH3OOP/l6QhTv6NufGWMNVclosS5
+	SWD5YEIIlLh5ceor6optnCCaz72jSQuLlLkpJ/EJY6Ds2i8pmoapH+UWf8gHMwTlWlF8UAHUOzMEM
+	CluvVanW9gBiF3dfv+B9NuY7+LYEw+xSzTVcbr7f2bxcdqMppeAfKYP4Tc+KceGSlEUzCP0Romdzc
+	JNO0BYZpyERd1DQFt09K1b38wsTE7mvKNz8PeTb3VC87FjV3ndR9wYpdrUu6UQR7FQQtuwTarnW5L
+	OzbyUj4jw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lS00B-00ADyY-O4; Thu, 01 Apr 2021 16:16:59 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lS0BB-00AIe7-Fj; Thu, 01 Apr 2021 16:28:21 +0000
+Received: from mail-pl1-f179.google.com ([209.85.214.179])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lRzey-00A6ba-21
- for linux-nvme@lists.infradead.org; Thu, 01 Apr 2021 15:55:42 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D0CEB61247;
- Thu,  1 Apr 2021 15:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617292502;
- bh=aNAJWUhXH4hx5rx7fkJuy28Cr/cjSeb2elAeGbPkHCw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Kf0c0bWHlu9QsTUrnnhG5mnXJlKpIAQ/GE6N2MnP8r1fNv76vRKs8Yvx/b+KXEzne
- LkWXch2Wyt9aspmHS/dnVemlxkv0EA6EZOAH/2d6LBVg+Zx8Py2d9lt7U4OYIzRPZ/
- h7BKPtaHBFkRlzCaCjKg0qrS+9xhC31WanRMPOF4V3BawmTY7lWJvufcRfoGI8Cq3Z
- PWVXjCK+CJ3rcTRjKNKXpkyPA0BZFWAn2+lsIqzET5UgEr3NllmiguLClTMxLpd5FN
- fCUONKFpTyJ3i9/hMPcB0jNhCgKA6ewaEENd6GJPYawLjR5DrHk0rWVuGehyP58KQP
- dIATC3ARQPDiQ==
-Date: Fri, 2 Apr 2021 00:54:56 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] nvme: Fix handling of large MDTS values
-Message-ID: <20210401155456.GA31698@redsun51.ssa.fujisawa.hgst.com>
-References: <20210401035952.7249-1-bvanassche@acm.org>
+ id 1lRztN-00AAmm-6I
+ for linux-nvme@lists.infradead.org; Thu, 01 Apr 2021 16:10:00 +0000
+Received: by mail-pl1-f179.google.com with SMTP id l1so1238398plg.12
+ for <linux-nvme@lists.infradead.org>; Thu, 01 Apr 2021 09:09:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=epmYWQszktmNWpmvCF02u/oX9+R7qBG5q5IzevycwUU=;
+ b=YkMLXLY0OeT9pOO3IU5reNY1z7CNIJU4bCdQJs3V8CAKtgl1HPwy/EAigh+o+BOtAV
+ r2feqXd5Kv8tfDZc1OwHgnbwbr3cv9AcuZdlh55EVcfbk3E25Vtcn+hl4hH7F+KQ6VHk
+ p2n3tzABH2ZOoL4IntXwNLDxpx2FxLOYOw/LAWTJUjqeSK//wxTCawO3r3kRlvQJdVUH
+ 2L7s9KfE5dY+lID4AxSfrUzuOKbMcD2fI1OUhbwxQ9cZBov1t6zKOjoCnL0kp3dE6qGo
+ lZKQHdnSpvXv9Fj/+f2xekbr/eK4HFgTBqIi7sK+ot1QGUGBX7KRzSwMxVHx0m5BBxex
+ /hhw==
+X-Gm-Message-State: AOAM5314X1AANwg7dqIpPI2bgYbiTwPHJTU8Ye1XhxZJkpOzOJuTc9m3
+ uUzaVBhDDwjjYnT8CoOmNan/2JshBK0=
+X-Google-Smtp-Source: ABdhPJx9twYkl6mYH9lwKgQrmOJlb9W6TqYDpvxn94pLnfoGNrRJl7nTR06pdi4ER9UJZJm57xE7sA==
+X-Received: by 2002:a17:902:d4c2:b029:e7:32bd:6b77 with SMTP id
+ o2-20020a170902d4c2b02900e732bd6b77mr8518017plg.45.1617293394855; 
+ Thu, 01 Apr 2021 09:09:54 -0700 (PDT)
+Received: from [192.168.51.110] (c-73-241-217-19.hsd1.ca.comcast.net.
+ [73.241.217.19])
+ by smtp.gmail.com with ESMTPSA id i22sm5921657pgj.90.2021.04.01.09.09.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Apr 2021 09:09:54 -0700 (PDT)
+Subject: Re: Recursive locking complaint with nvme-5.13 branch
+To: Christoph Hellwig <hch@infradead.org>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <f8288fe3-d8d2-5cfe-6aef-410bcd6e6231@acm.org>
+ <20210401153722.GA1501960@infradead.org>
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <2d76014e-1e78-0ea9-e661-e441334f7897@acm.org>
+Date: Thu, 1 Apr 2021 09:09:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210401035952.7249-1-bvanassche@acm.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20210401153722.GA1501960@infradead.org>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210401_165505_031834_54F0ECEA 
-X-CRM114-Status: GOOD (  15.42  )
+X-CRM114-CacheID: sfid-20210401_170957_711392_01F7C3E2 
+X-CRM114-Status: GOOD (  17.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,51 +88,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 31, 2021 at 08:59:52PM -0700, Bart Van Assche wrote:
-> Instead of triggering an integer overflow and undefined behavior if MDTS is
-> large, set max_hw_sectors to UINT_MAX.
->
-> Signed-off-by: Bart Van Assche <bvanassche@acm.org>
-> ---
+On 4/1/21 8:37 AM, Christoph Hellwig wrote:
+> On Wed, Mar 31, 2021 at 09:03:36PM -0700, Bart Van Assche wrote:
+>> If I boot a VM with the nvme-5.13 branch (commit 24e238c92186
+>> ("nvme: warn of unhandled effects only once")) then the complaint
+>> shown below is reported. Is this a known issue?
 > 
-> Changes compared to v1: removed a dev_err() call.
-> 
->  drivers/nvme/host/core.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 40215a0246e4..25bc28e8845f 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3123,10 +3123,11 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
->  
->  	atomic_set(&ctrl->abort_limit, id->acl + 1);
->  	ctrl->vwc = id->vwc;
-> -	if (id->mdts)
-> -		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
-> -	else
-> +	max_hw_sectors = UINT_MAX;
-> +	if (id->mdts && check_shl_overflow(1U, id->mdts + page_shift - 9,
-> +					   &max_hw_sectors)) {
->  		max_hw_sectors = UINT_MAX;
-> +	}
+> This looks like someone is trying to open a nvme device as the backing
+> device for pktcdvd?  In that case this is a different bd_mutex.  But
+> I'm really curious why systemd would do that.
 
-The condition can be rearranged so that max_hw_sectors is set to
-UINT_MAX just once:
+Hi Christoph,
 
-	if (!id->mdts || check_shl_overflow(1U, id->mdts + page_shift - 9,
-					    &max_hw_sectors)) {
-  		max_hw_sectors = UINT_MAX;
-	}
+This call trace was reported during boot. The configuration of the VM 
+that reported this call trace is as follows:
+- Boot from a virtio disk.
+- One SATA CD-ROM.
+- One SATA disk.
+- One IDE disk.
+- One SCSI disk.
+- No NVMe controller since virt-manager does not support NVMe 
+controllers as far as I know.
 
->  	ctrl->max_hw_sectors =
->  		min_not_zero(ctrl->max_hw_sectors, max_hw_sectors);
->  
+I reported this call trace to the linux-nvme mailing list instead of 
+linux-block since I haven't seen this call trace yet with Jens' for-next 
+branch.
+
+Please let me know if you need more information.
+
+Bart.
 
 _______________________________________________
 Linux-nvme mailing list
