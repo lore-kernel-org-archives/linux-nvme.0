@@ -2,86 +2,78 @@ Return-Path: <SRS0=sXsN=I6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39CA9C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 02:19:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E1BC433ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 04:00:34 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBBA961029
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 02:19:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBBA961029
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id DFF1961008
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 04:00:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DFF1961008
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Subject:In-Reply-To:Message-ID:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
-	 bh=BsYEM+3brOd2tKBfCHLFWZHXx+BepFyq326Pm38rq1I=; b=dF398Hijy3fYw4fbLwfm0NgQN
-	WO+j2JCcBuFpmQmgZpwWQp62ez5LKExUrf5WkD6OGZ22HtNZlS8iM0s1HsYLMRBrhrlrr6zN2H7pz
-	6sX29h9S6j8TgAQycBhmIGK97ezmKCpBball6MCFDOar6zV083iWjEldF1VQzhYx1MZ16CiabLKbE
-	aCAhipyNw2IpyB11Z/97jcA+Gi4TC9CedgxsHuFJ8wuJkjt+d2cVqFoT8qFZQdfbu8O3BsMbe9XP4
-	hSL0IBwvjy3JHAlfh7iMVgjCX2u7oA8g68j4/kXL3HKnihMANInnDPJVa4gq8S555p43zm7Jf+ICN
-	clIDdESpA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=oo41qB/peRKGnRQ30lntAe4f+Q1FSiz2kcqRECTcws8=; b=PoQ8+2W+1plCofxO34wEQucCdV
+	IX4Sy3rEFK/RGcEECXYYAljLyR2kVejf5uPZQknTYFrTivmO40XF3siHugB7eEaJj2D02W6CUjarZ
+	ypOOdxHHSgd+rJwnsCTr0mkUkmI7CAdNss+MjTxxsQripzyk0r2KUgR1y1YmDQXRTOoPz92lYiF1b
+	Q0uvVQCpkhOJ8pmAn+Xj3lpqt1qyml0YjKxO+ZVAoT6e4McCZ0JU9RYKOvkB4AOfbRSGP3U6sA+p5
+	LCU3ezRXHXN+2RW02Tft663lyh9DnobSlMJMqltGPoT6RkECAa8zDHFyFGdXGvrZgh1PRtXwQgG/i
+	0omkmMAw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lRmvS-008GIx-88; Thu, 01 Apr 2021 02:19:14 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1lRoV9-008NLf-3o; Thu, 01 Apr 2021 04:00:11 +0000
+Received: from mail-pj1-f54.google.com ([209.85.216.54])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lRmvN-008GI5-2J
- for linux-nvme@lists.infradead.org; Thu, 01 Apr 2021 02:19:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617243541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to; 
- bh=uGHycMZOsGzCQrxJb24nQYOzqF03RJshIL6JzhAKhdM=;
- b=b58I4YwRg0NCv9QGDsPWF4Ti4HYqQDLBcykJWRJRUJbd86cI5o0+NvNo+103/6L3A74hbL
- WNlKzIXDsbBopAJiev23O3NOcIc4FEJXSRGKAAOrChDuoql4KKvRl2J4ABUCKlMSq0SNDK
- qOcfaR28tixWtZmdw1evXQ6nfXf8Gv0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-k64kZnFdMWuCTy9GWO1vXQ-1; Wed, 31 Mar 2021 22:18:56 -0400
-X-MC-Unique: k64kZnFdMWuCTy9GWO1vXQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4507817476;
- Thu,  1 Apr 2021 02:18:55 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D1DF5D72F;
- Thu,  1 Apr 2021 02:18:55 +0000 (UTC)
-Received: from zmail25.collab.prod.int.phx2.redhat.com
- (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 929A21809C81;
- Thu,  1 Apr 2021 02:18:55 +0000 (UTC)
-Date: Wed, 31 Mar 2021 22:18:55 -0400 (EDT)
-From: Yi Zhang <yi.zhang@redhat.com>
-To: linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: Bart Van Assche <bvanassche@acm.org>
-Message-ID: <76827202.1204697.1617243535445.JavaMail.zimbra@redhat.com>
-In-Reply-To: <437391804.1204407.1617243001994.JavaMail.zimbra@redhat.com>
-Subject: [bug report]kernel NULL pointer at siw_tx_hdt+0x128/0x978 [siw]
- with blktests nvmeof-mp/002
+ id 1lRoUz-008NJY-Kd
+ for linux-nvme@lists.infradead.org; Thu, 01 Apr 2021 04:00:03 +0000
+Received: by mail-pj1-f54.google.com with SMTP id
+ kk2-20020a17090b4a02b02900c777aa746fso282246pjb.3
+ for <linux-nvme@lists.infradead.org>; Wed, 31 Mar 2021 21:00:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CM1JIXx0R1MzT5DxxHKvDG0Xic1hHBz3dcnm4AGL9+8=;
+ b=HIrVxTzne5cwst/7cVwwY23IMLVgA8h1I7yFz3ONK1OSwdWB5A1QKz/sP3KGYFXoqL
+ p0fIEVDt94C3ty9tXQWBjhdlrmqnsUuYG8gnO+0rgSP3d8Srj3N30Kgpqp3Ng7KwJjMV
+ WP5BalNhotMsDCwQdzHsc2w/OBrV+Wd/fV+zNZB6IS40bhK1IobepxQ5f2oIJZQU3jIo
+ s6l8flsOKgcWP3e5IK4CC/3R8Nca/qH4/LveMlrLArO0WCAKVxCqXRgeJQpdYTYYKc7D
+ J1c414j+qj+1DlZyCNNpuB0cgkVqmgCik3TA5bmnwRXuXdqTP9DmGur/RJl0SL6daKi1
+ yI+A==
+X-Gm-Message-State: AOAM530MythND8XvGw1ABqItWEPmpfra3GKSam+AJJwAN9aEy7qEJ//V
+ o59KF94j17fXs4VdWVGPcr0=
+X-Google-Smtp-Source: ABdhPJwaf1YHzql/JgUeu8hWTyX1lo2qi22ZVbATd9g4MvJ2NfImqyVYQYHdChPFHnf3E+BYg5T++Q==
+X-Received: by 2002:a17:90a:5898:: with SMTP id
+ j24mr6814804pji.103.1617249599301; 
+ Wed, 31 Mar 2021 20:59:59 -0700 (PDT)
+Received: from asus.hsd1.ca.comcast.net
+ ([2601:647:4000:d7:be87:d7bf:6a65:f00d])
+ by smtp.gmail.com with ESMTPSA id q19sm3694981pff.91.2021.03.31.20.59.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Mar 2021 20:59:58 -0700 (PDT)
+From: Bart Van Assche <bvanassche@acm.org>
+To: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Bart Van Assche <bvanassche@acm.org>
+Subject: [PATCH v2] nvme: Fix handling of large MDTS values
+Date: Wed, 31 Mar 2021 20:59:52 -0700
+Message-Id: <20210401035952.7249-1-bvanassche@acm.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Originating-IP: [10.68.5.41, 10.4.195.8]
-Thread-Topic: kernel NULL pointer at siw_tx_hdt+0x128/0x978 [siw] with
- blktests nvmeof-mp/002
-Thread-Index: PwQEC1IPu98voOrcu4/ruwbv3S2gwQ==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Bad-Reply: In-Reply-To but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210401_031909_236705_0C911B13 
-X-CRM114-Status: UNSURE (   7.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210401_050001_874803_8479A4D1 
+X-CRM114-Status: GOOD (  11.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,98 +90,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello
+Instead of triggering an integer overflow and undefined behavior if MDTS is
+large, set max_hw_sectors to UINT_MAX.
 
-I reproduced this issue with blktests nvmeof-mp/002 on 5.12.0-rc5 aarch64, pls help check it and let me know if you need any testing for it, thanks. 
+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+---
 
-[18381.922840] run blktests nvmeof-mp/002 at 2021-03-31 20:42:40
-[18382.123208] null_blk: module loaded
-[18382.345093] SoftiWARP attached
-[18382.507549] nvmet: adding nsid 1 to subsystem nvme-test
-[18382.536043] iwpm_register_pid: Unable to send a nlmsg (client = 2)
-[18382.542985] nvmet_rdma: enabling port 1 (10.19.241.109:7777)
-[18382.703578] nvmet: creating controller 1 for subsystem nvme-test for NQN nqn.2014-08.org.nvmexpress:uuid:a6ba6b82-f083-4df3-9ee2-cd3f635a8418.
-[18382.717201] nvme nvme0: creating 32 I/O queues.
-[18382.751581] nvme nvme0: mapped 32/0/0 default/read/poll queues.
-[18382.768935] nvme nvme0: new ctrl: NQN "nvme-test", addr 10.19.241.109:7777
-[18382.811275] device-mapper: multipath service-time: version 0.3.0 loaded
-[18383.611572] EXT4-fs (dm-3): mounted filesystem without journal. Opts: (null). Quota mode: none.
-[18383.620343] ext4 filesystem being mounted at /root/blktests/results/tmpdir.nvmeof-mp.002.pnM/mnt0 supports timestamps until 2038 (0x7fffffff)
-[18411.156005] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
-[18411.156046] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
-[18411.164790] Mem abort info:
-[18411.173564] Mem abort info:
-[18411.173565]   ESR = 0x96000006
-[18411.173567]   EC = 0x25: DABT (current EL), IL = 32 bits
-[18411.173569]   SET = 0, FnV = 0
-[18411.176349]   ESR = 0x96000006
-[18411.179129]   EA = 0, S1PTW = 0
-[18411.182170]   EC = 0x25: DABT (current EL), IL = 32 bits
-[18411.187473] Data abort info:
-[18411.190513]   SET = 0, FnV = 0
-[18411.193558]   ISV = 0, ISS = 0x00000006
-[18411.196685]   EA = 0, S1PTW = 0
-[18411.201982]   CM = 0, WnR = 0
-[18411.204853] Data abort info:
-[18411.207893] user pgtable: 64k pages, 42-bit VAs, pgdp=00000009c33b0000
-[18411.211714]   ISV = 0, ISS = 0x00000006
-[18411.214846] [0000000000000030] pgd=0000000000000000
-[18411.217800]   CM = 0, WnR = 0
-[18411.220666] , p4d=0000000000000000
-[18411.227184] user pgtable: 64k pages, 42-bit VAs, pgdp=00000009c33b0000
-[18411.231005] , pud=0000000000000000
-[18411.235873] [0000000000000030] pgd=0000000000000000
-[18411.238826] , pmd=0000000000000000
-[18411.242214] , p4d=0000000000000000
-[18411.248733] 
-[18411.252120] , pud=0000000000000000
-[18411.256990] Internal error: Oops: 96000006 [#1] SMP
-[18411.260376] , pmd=0000000000000000
-[18411.263764] Modules linked in: ext4 mbcache jbd2 dm_service_time nvme_rdma
-[18411.265247] 
-[18411.268634]  nvme_fabrics nvme nvmet_rdma nvmet siw null_blk dm_multipath nvme_core rfkill rpcrdma sunrpc rdma_ucm ib_srpt ib_isert iscsi_target_mod ib_umad target_core_mod vfat fat ib_iser ib_ipoib libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm mlx4_ib ib_uverbs ib_core acpi_ipmi crct10dif_ce ghash_ce ipmi_ssif sha1_ce sbsa_gwdt ipmi_devintf ipmi_msghandler xgene_hwmon ip_tables xfs libcrc32c mlx4_en sr_mod cdrom sg ast drm_vram_helper drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm_ttm_helper ttm drm mlx4_core igb sha2_ce sha256_arm64 i2c_designware_platform ahci_platform i2c_algo_bit i2c_designware_core gpio_dwapb libahci_platform i2c_xgene_slimpro uas usb_storage dm_mirror dm_region_hash dm_log dm_mod [last unloaded: nvme_core]
-[18411.351792] CPU: 13 PID: 19581 Comm: siw_tx/13 Not tainted 5.12.0-rc5 #1
-[18411.368293] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
-[18411.374287] pc : siw_tx_hdt+0x128/0x978 [siw]
-[18411.378641] lr : siw_qp_sq_process+0xc4/0xa80 [siw]
-[18411.383512] sp : fffffe001acafa90
-[18411.386813] x29: fffffe001acafa90 x28: fffffc083f9a4238 
-[18411.392114] x27: 0000000000000003 x26: 000000000000ef70 
-[18411.397414] x25: 0000000000000003 x24: 0000000000000000 
-[18411.402714] x23: 0000000000000000 x22: 0000000000000000 
-[18411.408014] x21: fffffc083f9a4270 x20: fffffc083f9a41c8 
-[18411.413313] x19: 0000000000000000 x18: 0000000000000000 
-[18411.418612] x17: 0000000000000000 x16: 0000000000000000 
-[18411.423912] x15: 0000000000000000 x14: 0000000000000000 
-[18411.429211] x13: b6f8a80000001000 x12: fffffc093fe37000 
-[18411.434511] x11: b6f8a80000000040 x10: 0000000000000001 
-[18411.439810] x9 : 0000000000000000 x8 : 0000000000000000 
-[18411.445110] x7 : 0000000000000014 x6 : 000000000000ffc8 
-[18411.450409] x5 : fffffc083f9a4238 x4 : fffffe001acafc40 
-[18411.455709] x3 : 0000000000000020 x2 : fffffc083f9a4238 
-[18411.461009] x1 : fffffc083f9a4248 x0 : 0000000000000000 
-[18411.466309] Call trace:
-[18411.468743]  siw_tx_hdt+0x128/0x978 [siw]
-[18411.472746]  siw_qp_sq_process+0xc4/0xa80 [siw]
-[18411.477270]  siw_sq_resume+0x48/0x168 [siw]
-[18411.481446]  siw_run_sq+0xc8/0x290 [siw]
-[18411.485362]  kthread+0x114/0x118
-[18411.488580]  ret_from_fork+0x10/0x18
-[18411.492146] Code: 370800c1 f9403fe1 8b214c41 f9403c37 (f9401ae1) 
-[18411.498237] ---[ end trace 67f55110d28671a3 ]---
-[18411.502842] Kernel panic - not syncing: Oops: Fatal exception
-[18411.508580] SMP: stopping secondary CPUs
-[18412.537491] SMP: failed to stop secondary CPUs 11,13
-[18412.542445] Kernel Offset: disabled
-[18412.545920] CPU features: 0x00240002,61802008
-[18412.550264] Memory Limit: none
-[18412.553311] ---[ end Kernel panic - not syncing: Oops: Fatal exception ]---
+Changes compared to v1: removed a dev_err() call.
 
+ drivers/nvme/host/core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Best Regards,
-  Yi Zhang
-
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 40215a0246e4..25bc28e8845f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3123,10 +3123,11 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 
+ 	atomic_set(&ctrl->abort_limit, id->acl + 1);
+ 	ctrl->vwc = id->vwc;
+-	if (id->mdts)
+-		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
+-	else
++	max_hw_sectors = UINT_MAX;
++	if (id->mdts && check_shl_overflow(1U, id->mdts + page_shift - 9,
++					   &max_hw_sectors)) {
+ 		max_hw_sectors = UINT_MAX;
++	}
+ 	ctrl->max_hw_sectors =
+ 		min_not_zero(ctrl->max_hw_sectors, max_hw_sectors);
+ 
 
 _______________________________________________
 Linux-nvme mailing list
