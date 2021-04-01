@@ -2,20 +2,20 @@ Return-Path: <SRS0=sXsN=I6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0707FC433B4
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 15:45:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62720C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 16:17:24 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 801C961357
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 15:45:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 801C961357
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id DF82861379
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Apr 2021 16:17:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF82861379
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,43 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=oHWW0VYkOFO/QCfR8Yx+8xy0sEdjpt/AI1KRTcysfpc=; b=XboHYPjFRH6ITKuwnX7f3or0O
-	N85tNK8R/ZCp5fP31lM6FLZ6I14Oi6MHzq/xN9OVtZ1ww48Om9S9A2YRQ8Ub8tCniwkfaGBRdnMgf
-	5Kry+MoonYwt4kRJiTQGtMoyU5eezf8UsM+NO122EMQNc5fjX6ABRYo57CYyKwOFL4/GhQthJDtrk
-	XtGFfkweh/7o55b2138F9PjJL+VcVvyNwQzdrkASy3iqt2V5mYyuVPViVmyvM2XOR5q1M4sismiwY
-	ZEJCoze6EGDvCqZkOnMGWMu0BSQhNHiZQ++lP5wydyku0oN4mtM4Gnz8aVpGcutr4R9ZlfkOMIVdd
-	q+VfJpufQ==;
+	 bh=aoro3cYuzmCzZLwk3kC/6he7jlR3jWJv7pTE3SMQQcE=; b=MSOd6SlL7Daj027q4oXUoIsnM
+	YcU1mqN9huHNs4K6Pzgn0uaX8rkpFFxYIP0mVS9SdT6PwkA4IquR472xt1xxY6u//9O8B8t8o6+Pz
+	Tz7UFi+Ih4kAkvgJFvHiyW40UI6RiR2bG0/SalZxtGXhNjOlAniMQsYQ02ncxNh62IzODLiD0X0Y0
+	Vn0kOlzRebn8QDmOrjVrdNAn+vXKfo4VNJeJFtqVSOiz3dN9EL8N87dZRxABPgBdseJEAziy6lN/T
+	ePxln7ZRWl9Uqr5WG4ojbLNlzvLIj4QlDAdA+vSweC8kuIu17wIcnwxTGO99QO9xQG+IgFalFgdfE
+	Aw9OvHLTw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lRzVm-00A4CU-JR; Thu, 01 Apr 2021 15:45:34 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lS00B-00ADyY-O4; Thu, 01 Apr 2021 16:16:59 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lRzNx-00A2aM-V7
- for linux-nvme@desiato.infradead.org; Thu, 01 Apr 2021 15:37:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=dixihDL6ibe+7m8OfDvLwmvcjHuMaT2gR6fH6rC17jA=; b=q4kWrv1pgW/bzW0Yj8XW8QOKCa
- LRKdU2DYj250qP6NJYAbx33HMF4ueDOpG/2vvzunmELifWmjnrmywpthUWACkXTJdSZLBooEhOqik
- bt9tTc/Xqjw/EjXx4azzuJs3Ws08+yCvWqls4hugWqgfMnMA3g+txCdd3MHYtBkYkyGA0h5GhIVKd
- G329hQe7JMxzCR/a1w0X162SqCMRYOFdh1aXwn82SDc3JMOnDpyOMK+CBVdIQOSE+c3YJDSq8IRTU
- Hjp7Cu+vokSIdSz954O7VyJ5nm8JOXqP1A7NMeKpKRfai9XQm8ESEmTPU4LbdipDh67ilpWcaJrI0
- DcPMIgzA==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lRzNq-006InR-7e; Thu, 01 Apr 2021 15:37:23 +0000
-Date: Thu, 1 Apr 2021 16:37:22 +0100
-From: Christoph Hellwig <hch@infradead.org>
+ id 1lRzey-00A6ba-21
+ for linux-nvme@lists.infradead.org; Thu, 01 Apr 2021 15:55:42 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D0CEB61247;
+ Thu,  1 Apr 2021 15:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617292502;
+ bh=aNAJWUhXH4hx5rx7fkJuy28Cr/cjSeb2elAeGbPkHCw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Kf0c0bWHlu9QsTUrnnhG5mnXJlKpIAQ/GE6N2MnP8r1fNv76vRKs8Yvx/b+KXEzne
+ LkWXch2Wyt9aspmHS/dnVemlxkv0EA6EZOAH/2d6LBVg+Zx8Py2d9lt7U4OYIzRPZ/
+ h7BKPtaHBFkRlzCaCjKg0qrS+9xhC31WanRMPOF4V3BawmTY7lWJvufcRfoGI8Cq3Z
+ PWVXjCK+CJ3rcTRjKNKXpkyPA0BZFWAn2+lsIqzET5UgEr3NllmiguLClTMxLpd5FN
+ fCUONKFpTyJ3i9/hMPcB0jNhCgKA6ewaEENd6GJPYawLjR5DrHk0rWVuGehyP58KQP
+ dIATC3ARQPDiQ==
+Date: Fri, 2 Apr 2021 00:54:56 +0900
+From: Keith Busch <kbusch@kernel.org>
 To: Bart Van Assche <bvanassche@acm.org>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: Recursive locking complaint with nvme-5.13 branch
-Message-ID: <20210401153722.GA1501960@infradead.org>
-References: <f8288fe3-d8d2-5cfe-6aef-410bcd6e6231@acm.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme: Fix handling of large MDTS values
+Message-ID: <20210401155456.GA31698@redsun51.ssa.fujisawa.hgst.com>
+References: <20210401035952.7249-1-bvanassche@acm.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f8288fe3-d8d2-5cfe-6aef-410bcd6e6231@acm.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210401035952.7249-1-bvanassche@acm.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210401_165505_031834_54F0ECEA 
+X-CRM114-Status: GOOD (  15.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,117 +79,46 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 31, 2021 at 09:03:36PM -0700, Bart Van Assche wrote:
-> Hi,
+On Wed, Mar 31, 2021 at 08:59:52PM -0700, Bart Van Assche wrote:
+> Instead of triggering an integer overflow and undefined behavior if MDTS is
+> large, set max_hw_sectors to UINT_MAX.
+>
+> Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+> ---
 > 
-> If I boot a VM with the nvme-5.13 branch (commit 24e238c92186
-> ("nvme: warn of unhandled effects only once")) then the complaint
-> shown below is reported. Is this a known issue?
+> Changes compared to v1: removed a dev_err() call.
+> 
+>  drivers/nvme/host/core.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 40215a0246e4..25bc28e8845f 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3123,10 +3123,11 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  
+>  	atomic_set(&ctrl->abort_limit, id->acl + 1);
+>  	ctrl->vwc = id->vwc;
+> -	if (id->mdts)
+> -		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
+> -	else
+> +	max_hw_sectors = UINT_MAX;
+> +	if (id->mdts && check_shl_overflow(1U, id->mdts + page_shift - 9,
+> +					   &max_hw_sectors)) {
+>  		max_hw_sectors = UINT_MAX;
+> +	}
 
-This looks like someone is trying to open a nvme device as the backing
-device for pktcdvd?  In that case this is a different bd_mutex.  But
-I'm really curious why systemd would do that.
+The condition can be rearranged so that max_hw_sectors is set to
+UINT_MAX just once:
 
-> 
-> Thanks,
-> 
-> Bart.
-> 
-> 
-> ============================================
-> WARNING: possible recursive locking detected
-> 5.12.0-rc3-dbg+ #6 Not tainted
-> --------------------------------------------
-> systemd-udevd/299 is trying to acquire lock:
-> ffff88811b1e80a0 (&bdev->bd_mutex){+.+.}-{3:3}, at: blkdev_get_by_dev+0x85/0x350
-> 
-> but task is already holding lock:
-> ffff8881134100a0 (&bdev->bd_mutex){+.+.}-{3:3}, at: blkdev_get_by_dev+0x1a9/0x350
-> 
-> other info that might help us debug this:
->  Possible unsafe locking scenario:
-> 
->        CPU0
->        ----
->   lock(&bdev->bd_mutex);
->   lock(&bdev->bd_mutex);
-> 
->  *** DEADLOCK ***
-> 
->  May be due to missing lock nesting notation
-> 
-> 3 locks held by systemd-udevd/299:
->  #0: ffff8881134100a0 (&bdev->bd_mutex){+.+.}-{3:3}, at: blkdev_get_by_dev+0x1a9/0x350
->  #1: ffffffffa10269c8 (pktcdvd_mutex){+.+.}-{3:3}, at: pkt_open+0x22/0x15a [pktcdvd]
->  #2: ffffffffa1025788 (&ctl_mutex#2){+.+.}-{3:3}, at: pkt_open+0x30/0x15a [pktcdvd]
-> 
-> stack backtrace:
-> CPU: 6 PID: 299 Comm: systemd-udevd Not tainted 5.12.0-rc3-dbg+ #6
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a-rebuilt.opensuse.org 04/01/2014
-> Call Trace:
->  show_stack+0x52/0x58
->  dump_stack+0x9d/0xcf
->  print_deadlock_bug.cold+0x131/0x136
->  validate_chain+0x6d3/0xc70
->  ? check_prev_add+0x11d0/0x11d0
->  __lock_acquire+0x500/0x920
->  ? start_flush_work+0x375/0x510
->  ? __this_cpu_preempt_check+0x13/0x20
->  lock_acquire.part.0+0x117/0x210
->  ? blkdev_get_by_dev+0x85/0x350
->  ? rcu_read_unlock+0x50/0x50
->  ? __this_cpu_preempt_check+0x13/0x20
->  ? lock_is_held_type+0xdb/0x130
->  lock_acquire+0x9b/0x1a0
->  ? blkdev_get_by_dev+0x85/0x350
->  __mutex_lock+0x117/0xb60
->  ? blkdev_get_by_dev+0x85/0x350
->  ? blkdev_get_by_dev+0x85/0x350
->  ? mutex_lock_io_nested+0xa70/0xa70
->  ? __kasan_check_write+0x14/0x20
->  ? __mutex_unlock_slowpath+0xa7/0x290
->  ? __ww_mutex_check_kill+0x160/0x160
->  ? trace_hardirqs_on+0x2b/0x130
->  ? mutex_unlock+0x12/0x20
->  ? disk_block_events+0x92/0xc0
->  mutex_lock_nested+0x1b/0x20
->  blkdev_get_by_dev+0x85/0x350
->  ? __mutex_lock+0x49c/0xb60
->  pkt_open_dev+0x7f/0x370 [pktcdvd]
->  ? pkt_open_write+0x120/0x120 [pktcdvd]
->  ? __ww_mutex_check_kill+0x160/0x160
->  pkt_open+0xfd/0x15a [pktcdvd]
->  __blkdev_get+0xa3/0x450
->  blkdev_get_by_dev+0x1b4/0x350
->  ? __kasan_check_read+0x11/0x20
->  blkdev_open+0xa4/0x120
->  do_dentry_open+0x27d/0x690
->  ? blkdev_get_by_dev+0x350/0x350
->  vfs_open+0x58/0x60
->  do_open+0x316/0x4a0
->  path_openat+0x1b8/0x260
->  ? do_tmpfile+0x160/0x160
->  ? __this_cpu_preempt_check+0x13/0x20
->  do_filp_open+0x12d/0x240
->  ? may_open_dev+0x60/0x60
->  ? __kasan_check_read+0x11/0x20
->  ? do_raw_spin_unlock+0x98/0xf0
->  ? preempt_count_sub+0x18/0xc0
->  ? _raw_spin_unlock+0x2d/0x50
->  do_sys_openat2+0xe9/0x260
->  ? build_open_flags+0x2a0/0x2a0
->  __x64_sys_openat+0xd3/0x130
->  ? __ia32_sys_open+0x110/0x110
->  ? __secure_computing+0x74/0x140
->  ? syscall_trace_enter.constprop.0+0x71/0x230
->  do_syscall_64+0x32/0x80
->  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
----end quoted text---
+	if (!id->mdts || check_shl_overflow(1U, id->mdts + page_shift - 9,
+					    &max_hw_sectors)) {
+  		max_hw_sectors = UINT_MAX;
+	}
+
+>  	ctrl->max_hw_sectors =
+>  		min_not_zero(ctrl->max_hw_sectors, max_hw_sectors);
+>  
 
 _______________________________________________
 Linux-nvme mailing list
