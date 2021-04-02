@@ -2,19 +2,20 @@ Return-Path: <SRS0=ZbIm=I7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A526C433ED
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Apr 2021 16:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA88C433B4
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Apr 2021 16:43:36 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D5A1061008
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Apr 2021 16:32:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D5A1061008
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id F0FE3610A0
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Apr 2021 16:43:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0FE3610A0
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -22,44 +23,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=kmG6S7ikPkC1lHidXc+EEqLNA
-	dSYq9RSLUtd/g8aOjhkfw+gfxNduoLdLZdvISOKPA8jh6sUCxILtuCABq77SSmfEJzVA+WrJDIdgJ
-	40c7y8JNworg1E5gU1ZE5w/sZW1l/KeXQi+dVWA5lE6+A9Phxfabw03YuUqxVEhsu1+Rhz3xeZUAq
-	35RpjoPEZ8L9EtTeVmF6SO71djtb+WUurIeGHj00Jpoo1BPRVw50N+6FSSmc9u5EGEGNJIW/cFpdA
-	yMrE/AP5xmml2Y/cT4av6ev7bK2Rjs2jy/5hvGRy/HLxYAySS+39fgs66cVHD91tjfXA13LNrfY7p
-	eqt+R/dRg==;
+	 bh=xguEvk+Tmt1EDqTy8/Py1W3/cyI0tEh6WvwCs4/FZKs=; b=lSGW9Igs8MZJHRAbNWooYk84P
+	XpfgcMdYzHohaOrUqySHAIBV+F+kmxFUHGKgEkMTJN9dNATnTicoyPB4OhZr9UJGvweS1LESKq37D
+	rnNM2w84KINjBPZlzUqDbTxi1pqmRoxFf2AmwxkFG/v2Nckye2DAA3XiJoMHb8nS7p6xFTklAjzye
+	WzYa9xIol1nra8Jic8OhDbhv0JHFgx7RKusyrRs8cdSaMh/0eJz6so0tSK6P2FJUIKPoyny/j0QwE
+	d9PQyyYpSb78UPEk6Lbsijf6qaOFsH3LQ7t3HnX/+IhxHBXB9HVfUvji2R9njutW7/Ol++ANONf0c
+	vzi9fVhSA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lSMit-00DOW1-8K; Fri, 02 Apr 2021 16:32:39 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lSMtJ-00DPrQ-1J; Fri, 02 Apr 2021 16:43:25 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lSMis-00DOVw-8l
- for linux-nvme@desiato.infradead.org; Fri, 02 Apr 2021 16:32:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=JfcaAWiL9MX/KzgqZFMd5GxaGaNC7KsyrSBFfXwwLXo=; b=n+RLzaW9oKsqxQKT8ZKfBwuOLV
- dXuUqZZEcjE0VdW6FNgH48TsjRHItzOFTDtMHvFdOh+00AezW//ZP6KsQMPiboQwJYU039PBGbKIM
- z/mwK7tSRuMHNMtcC74HRPOXCIfXJ/slesQ2VZkkM2qIMCF8dR6gkwhM6+LFlv4N7W7syxflI6aTf
- uvykUj6mXeVvmq92jKMrV5t1OeUleRibrP77Pney7aNOpk/2QUyU1CHzZ9QxydOb//E96lDAU9OnA
- TSOWWXVzp/wS67mSC/5FwANJcGc8zhUNmYJUzBhUmYXEVVJjhE6RpsXbqt46dbNg19bxTvFJyyGwj
- 1belJWVA==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lSMik-007s1i-MR; Fri, 02 Apr 2021 16:32:32 +0000
-Date: Fri, 2 Apr 2021 17:32:30 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: "Wunderlich, Mark" <mark.wunderlich@intel.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH V5] nvmet-tcp: enable optional queue idle period tracking
-Message-ID: <20210402163230.GA1875925@infradead.org>
-References: <BYAPR11MB28695D512EFF1D501BF407F2E57C9@BYAPR11MB2869.namprd11.prod.outlook.com>
+ id 1lSMtF-00DPqu-Sz
+ for linux-nvme@lists.infradead.org; Fri, 02 Apr 2021 16:43:23 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id B1B3C68BEB; Fri,  2 Apr 2021 18:43:18 +0200 (CEST)
+Date: Fri, 2 Apr 2021 18:43:18 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ "minwoo.im.dev@gmail.com" <minwoo.im.dev@gmail.com>,
+ "javier@javigon.com" <javier@javigon.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] nvme: disallow passthru cmd from targeting a nsid
+ != nsid of the block dev
+Message-ID: <20210402164318.GA21840@lst.de>
+References: <20210326194749.396599-1-Niklas.Cassel@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <BYAPR11MB28695D512EFF1D501BF407F2E57C9@BYAPR11MB2869.namprd11.prod.outlook.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210326194749.396599-1-Niklas.Cassel@wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210402_174322_066096_F131B2E2 
+X-CRM114-Status: GOOD (  17.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,14 +69,85 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
+On Fri, Mar 26, 2021 at 07:48:00PM +0000, Niklas Cassel wrote:
+> From: Niklas Cassel <niklas.cassel@wdc.com>
+> =
 
-applied to nvme-5.13.
+> When a passthru command targets a specific namespace, the ns parameter to
+> nvme_user_cmd()/nvme_user_cmd64() is set. However, there is currently no
+> validation that the nsid specified in the passthru command targets the
+> namespace/nsid represented by the block device that the ioctl was
+> performed on.
+> =
+
+> Add a check that validates that the nsid in the passthru command matches
+> that of the supplied namespace.
+
+git-am doesn't seem to like this patch:
+
+pplying: nvme: disallow passthru cmd from targeting a nsid !=3D nsid of the=
+ block
+dev
+error: invalid mode on line 2: 100644<br>
+--- a/drivers/nvme/host/core.c<br>
++++ b/drivers/nvme/host/core.c<br>
+@@ -1599,6 +1599,12 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, str=
+uct
+nvme_ns *ns,<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return -EFAULT;<br>
+=A0 =A0 =A0 =A0 if (cmd.flags)<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return -EINVAL;<br>
++=A0 =A0 =A0 =A0if (ns &amp;&amp; cmd.nsid !=3D ns-&gt;head-&gt;ns_id) {<br>
++=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0dev_err(ctrl-&gt;device,<br>
++=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0&quot;%s: nsid (%u) in cmd =
+does not match nsid (%u) of
+namespace\n&quot;,<br>
++=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0current-&gt;comm, cmd.nsid,=
+ ns-&gt;head-&gt;ns_id);<br>
++=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0return -EINVAL;<br>
++=A0 =A0 =A0 =A0}<br>
+<br>
+=A0 =A0 =A0 =A0 memset(&amp;c, 0, sizeof(c));<br>
+=A0 =A0 =A0 =A0 c.common.opcode =3D cmd.opcode;<br>
+@@ -1643,6 +1649,12 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl,
+struct nvme_ns *ns,<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return -EFAULT;<br>
+=A0 =A0 =A0 =A0 if (cmd.flags)<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return -EINVAL;<br>
++=A0 =A0 =A0 =A0if (ns &amp;&amp; cmd.nsid !=3D ns-&gt;head-&gt;ns_id) {<br>
++=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0dev_err(ctrl-&gt;device,<br>
++=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0&quot;%s: nsid (%u) in cmd =
+does not match nsid (%u) of
+namespace\n&quot;,<br>
++=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0current-&gt;comm, cmd.nsid,=
+ ns-&gt;head-&gt;ns_id);<br>
++=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0return -EINVAL;<br>
++=A0 =A0 =A0 =A0}<br>
+<br>
+=A0 =A0 =A0 =A0 memset(&amp;c, 0, sizeof(c));<br>
+=A0 =A0 =A0 =A0 c.common.opcode =3D cmd.opcode;<br></blockquote></div></div=
+><div
+dir=3D"auto"><br style=3D"font-family:sans-serif;font-size:12.8px"><span
+style=3D"font-family:sans-serif;font-size:12.8px">Looks good.</span></div><=
+div
+dir=3D"auto"><span style=3D"font-family:sans-serif;font-size:12.8px">Review=
+ed-by:
+Kanchan Joshi &lt;joshi.k</span><a href=3D"mailto:javier@javigon.com"
+style=3D"text-decoration-line:none;color:rgb(66,133,244);font-family:sans-s=
+erif;font-size:12.8px">@samsung.com</a><span
+style=3D"font-family:sans-serif;font-size:12.8px">&gt;</span><br></div><div
+dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockq=
+uote
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc
+solid;padding-left:1ex"></blockquote></div></div></div>
+
+
+
 
 _______________________________________________
 Linux-nvme mailing list
