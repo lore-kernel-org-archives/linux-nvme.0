@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BD2CC433B4
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Apr 2021 16:50:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2931C433B4
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Apr 2021 16:51:05 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E817B6113D
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Apr 2021 16:50:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E817B6113D
+	by mail.kernel.org (Postfix) with ESMTPS id 28C096113E
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Apr 2021 16:51:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28C096113E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,39 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=Lwu8zbSK2HuMMLgg4ux/h9U6k
-	faz8Yas+knljmsP46w7tnuzeIbR8UrlEF5hD7+ZyYd3W2FBOG5u900r1Wm2W/yj/YhwdJtXlpZXqS
-	14JoWQF1W6wiyTKR5FiCWbUy4iE83KLbexDaK6cQAhvXy5KzrZjo50oEix8sfGZzTvM/p4s720BCf
-	lxmIxhLDJddzg2nmequvzYvV79P1iEydmCIB4EP2rZFjrfQAnp1SCtsH/TY8AUFO3muX5pJ3vbONr
-	YvxbAJYhdjqLEyXSVZZDoFSUin++ayPcuhNRf9bC5PH2OEI6aZR+TQkA3n+hQj70XDlGaMldTl7/M
-	zLxE7sc+g==;
+	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=LfIfjJBqh6CZx8OP4gNW27wGF
+	I8JqD6sQhZ8aVua5q5fBrAfOc7m6fZZaoejb7tZSnfvwqEFYZmVSzV87qpcR3DNew8FKI47aQ5J2I
+	Oso6pim14VMUiLW/GN0VgqyjfE8jEaOwzEwai6bYy2dwf8JkFSYjCKzwCRRSJQa02GTd1x66y/7CY
+	MU52aVYy/mtYZZ/Qxz7VC14XZGyxdpU0/qnm34053zVIehzlCC9X4HFgekrWgsxnt8oYffzoeTZNr
+	q0II0wwLV53Q1nAEf5V9ybNPI0TpPAteIS6Ir/p+3i+0ndL79QVXwgfQ02vkODirnGCd4LBYTcljd
+	3bvAZgiOA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lSN03-00DR71-7U; Fri, 02 Apr 2021 16:50:23 +0000
+	id 1lSN0E-00DR9L-2D; Fri, 02 Apr 2021 16:50:34 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lSMzz-00DR5I-HZ
- for linux-nvme@lists.infradead.org; Fri, 02 Apr 2021 16:50:21 +0000
+ id 1lSN07-00DR7f-Rv
+ for linux-nvme@lists.infradead.org; Fri, 02 Apr 2021 16:50:29 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 4A4A968C65; Fri,  2 Apr 2021 18:50:18 +0200 (CEST)
-Date: Fri, 2 Apr 2021 18:50:18 +0200
+ id B608768BFE; Fri,  2 Apr 2021 18:50:26 +0200 (CEST)
+Date: Fri, 2 Apr 2021 18:50:26 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Hannes Reinecke <hare@suse.de>, Chao Leng <lengchao@huawei.com>
-Subject: Re: [PATCH v2 0/3] Export fast_io_fail_tmo to sysfs
-Message-ID: <20210402165018.GF22030@lst.de>
-References: <20210401095412.84254-1-dwagner@suse.de>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3] nvme: Fix handling of large MDTS values
+Message-ID: <20210402165026.GG22030@lst.de>
+References: <20210402013907.10131-1-bvanassche@acm.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210401095412.84254-1-dwagner@suse.de>
+In-Reply-To: <20210402013907.10131-1-bvanassche@acm.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210402_175019_811427_B4182E97 
-X-CRM114-Status: UNSURE (   9.41  )
+X-CRM114-CacheID: sfid-20210402_175028_109222_FDF1F52F 
+X-CRM114-Status: UNSURE (   8.48  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
