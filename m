@@ -2,69 +2,64 @@ Return-Path: <SRS0=UR7E=JA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3661C433ED
-	for <linux-nvme@archiver.kernel.org>; Sat,  3 Apr 2021 05:31:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 058F5C433B4
+	for <linux-nvme@archiver.kernel.org>; Sat,  3 Apr 2021 06:10:53 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5F4D5611EE
-	for <linux-nvme@archiver.kernel.org>; Sat,  3 Apr 2021 05:31:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F4D5611EE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 57C606120A
+	for <linux-nvme@archiver.kernel.org>; Sat,  3 Apr 2021 06:10:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 57C606120A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=OTKx2oqQ/6xg/cTNjBXsipBj2JJzH9MoXrjzNbFNfe0=; b=Ui80AcMUWCh9X6RTyEecTxND2X
-	sxJECbGVgcsyvR6IPOM1AjwKPP1C8eI87d3NL0sJKuTC3Vkv5mqyP7GRkcS45J4rUWpKlmn+V5Bcy
-	2fSYGyX7876qgtKmg7woKT2AfRCJ70UJhry+wfx2Cr1tEclHyPT2TPGjLDt5ORE8HmXinn1dyGs/Z
-	T6L80nDXg3yxldLtjl4mhQxBu9qcAgESGnPxbT7kV6sI+KjVdD0R05N9hzGmpIBLa24RtxaT4ZJeR
-	NcXMxOgEhuFOeQrOY43CYVBAXe3Tj7QUbqfCu2Smhr/1daGbP75Tvj/7Rc3Ewknn/Wru93aRZe3Fc
-	rAerjF6A==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Beg1HbFD7yxsdv8DnoqxZjz+03JgX+pOiEQHADnzY2o=; b=WgvlJS0w00aPJsJV71UdnWiuO
+	xfRGMgvEhU0xKG66qKzF4hNjhkDUwmKiba3c1TUGq3uMVL0j12T8l4c9IW0f6Emwb7SC5nNuRX7nY
+	U2WZhv5z77kZcW2B1RLo7nmKUepTFrHKNN0TQW5yQAfd/sJbuZ3EOp1PnN4YqpYfS+tivRhT5Ppg6
+	DDk8PSKGJjTN5VIwRs+q3xToPnRZHo6sedhsh0wape21JU6+ILHoth2G0osIcsvnhC2oglva34FXt
+	CTJ7x+rg0CJL7r2zNPrNO8TGx3NVabql+QjLOXKd8RVFgbgoOAjMYeoO7qgd5j2wNJMD9Br7QvMtQ
+	wowkQJVIQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lSYsT-00EJmX-80; Sat, 03 Apr 2021 05:31:21 +0000
-Received: from mga14.intel.com ([192.55.52.115])
+	id 1lSZUa-00ELJ8-SQ; Sat, 03 Apr 2021 06:10:44 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lSYsN-00EJlc-3v
- for linux-nvme@lists.infradead.org; Sat, 03 Apr 2021 05:31:17 +0000
-IronPort-SDR: 9UhMdQR2/F7oMOksJJF4uwFYCsV1AyHtgm7jrRWRFTA+fomhUXBBZXeyvKZQK7b5NEXuJmliwu
- ZVTeMFcnd+Zg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9942"; a="192065865"
-X-IronPort-AV: E=Sophos;i="5.81,301,1610438400"; d="scan'208";a="192065865"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2021 22:31:02 -0700
-IronPort-SDR: xGt1L/gE0RQdWysI5+GkNKucHLDmUN4fsCWHiceIj/BpAYdWMSLjB4LIHaxXZM7KN72Xk/LJ/I
- 76ueOqK9CDqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,301,1610438400"; d="scan'208";a="385463846"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 02 Apr 2021 22:31:01 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1lSYs8-0007YG-JU; Sat, 03 Apr 2021 05:31:00 +0000
-Date: Sat, 03 Apr 2021 13:30:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.13] BUILD SUCCESS
- b7fa291a1ded087053d0e3b10878657bc39aa8f7
-Message-ID: <6067fd92.Rkxrg3SjS0kXjxk6%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1lSZUW-00ELIX-Oz
+ for linux-nvme@lists.infradead.org; Sat, 03 Apr 2021 06:10:42 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 05DBF6120A;
+ Sat,  3 Apr 2021 06:10:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1617430236;
+ bh=LyjJ30TVeTf/HFNxs8PCWYYFIPWpoaUvJ50Oqbh1lNY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kDCc0GNar/b7x94TboxXAobz4xaKO0rEWJA7pky/MWdvg1747vnt4jjdfx5hbKv/G
+ r3T8/FEU1UI8Nyj95B5WBBBGv/iFbglbct4hCtER9cbVZ8jzJUnsOOluuqbRu5BJjW
+ 3y4PTEgxw8hFMqYwVQT6maHZ3gPSSqUOTL0XgLVE=
+Date: Sat, 3 Apr 2021 08:10:33 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: stable@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH stable/5.4..5.8] nvme-mpath: replace direct_make_request
+ with generic_make_request
+Message-ID: <YGgG2TAA9TNqM9S6@kroah.com>
+References: <20210402200841.347696-1-sagi@grimberg.me>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210402200841.347696-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210403_063115_926612_C497E581 
-X-CRM114-Status: UNSURE (   5.41  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210403_071041_042477_AD2C84B1 
+X-CRM114-Status: GOOD (  22.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,101 +76,47 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.13
-branch HEAD: b7fa291a1ded087053d0e3b10878657bc39aa8f7  nvme: fix handling of large MDTS values
+On Fri, Apr 02, 2021 at 01:08:41PM -0700, Sagi Grimberg wrote:
+> The below patches caused a regression in a multipath setup:
+> Fixes: 9f98772ba307 ("nvme-rdma: fix controller reset hang during traffic")
+> Fixes: 2875b0aecabe ("nvme-tcp: fix controller reset hang during traffic")
+> 
+> These patches on their own are correct because they fixed a controller reset
+> regression.
+> 
+> When we reset/teardown a controller, we must freeze and quiesce the namespaces
+> request queues to make sure that we safely stop inflight I/O submissions.
+> Freeze is mandatory because if our hctx map changed between reconnects,
+> blk_mq_update_nr_hw_queues will immediately attempt to freeze the queue, and
+> if it still has pending submissions (that are still quiesced) it will hang.
+> This is what the above patches fixed.
+> 
+> However, by freezing the namespaces request queues, and only unfreezing them
+> when we successfully reconnect, inflight submissions that are running
+> concurrently can now block grabbing the nshead srcu until either we successfully
+> reconnect or ctrl_loss_tmo expired (or the user explicitly disconnected).
+> 
+> This caused a deadlock [1] when a different controller (different path on the
+> same subsystem) became live (i.e. optimized/non-optimized). This is because
+> nvme_mpath_set_live needs to synchronize the nshead srcu before requeueing I/O
+> in order to make sure that current_path is visible to future (re)submisions.
+> However the srcu lock is taken by a blocked submission on a frozen request
+> queue, and we have a deadlock.
+> 
+> In recent kernels (v5.9+) direct_make_request was replaced by submit_bio_noacct
+> which does not have this issue because it bio_list will be active when
+> nvme-mpath calls submit_bio_noacct on the bottom device (because it was
+> populated when submit_bio was triggered on it.
+> 
+> Hence, we need to fix all the kernels that were before submit_bio_noacct was
+> introduced.
 
-elapsed time: 720m
+Why can we not just add submit_bio_noacct to the 5.4 kernel to correct
+this?  What commit id is that?
 
-configs tested: 77
-configs skipped: 2
+thanks,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-sh                             sh03_defconfig
-powerpc                          g5_defconfig
-powerpc                      katmai_defconfig
-arm                        mini2440_defconfig
-sh                            migor_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a014-20210402
-i386                 randconfig-a016-20210402
-i386                 randconfig-a011-20210402
-i386                 randconfig-a012-20210402
-i386                 randconfig-a013-20210402
-i386                 randconfig-a015-20210402
-x86_64               randconfig-a004-20210402
-x86_64               randconfig-a005-20210402
-x86_64               randconfig-a003-20210402
-x86_64               randconfig-a001-20210402
-x86_64               randconfig-a002-20210402
-x86_64               randconfig-a006-20210402
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a014-20210402
-x86_64               randconfig-a015-20210402
-x86_64               randconfig-a011-20210402
-x86_64               randconfig-a013-20210402
-x86_64               randconfig-a012-20210402
-x86_64               randconfig-a016-20210402
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+greg k-h
 
 _______________________________________________
 Linux-nvme mailing list
