@@ -6,104 +6,154 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D214BC433ED
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Apr 2021 07:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F6ABC433ED
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Apr 2021 09:03:32 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F40B56138B
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Apr 2021 07:20:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F40B56138B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=zurich.ibm.com
+	by mail.kernel.org (Postfix) with ESMTPS id 86DD9610E8
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Apr 2021 09:03:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86DD9610E8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:Message-Id:References:MIME-Version:Date:Cc:
-	To:From:In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XaC5Y3x0E8xE/xI5EPCgY9/ma1Al02fV/ngLy/zsZUc=; b=KQzvvt3B3qF4CxK7kpyhK3d2e
-	9fkfKm5jbQawDJah3o8xu3JdbTNsxQVbZvC47gZ2i36JRLYiQxVnwH59PvRF8CTzM7NCzN5VcaOdi
-	Fp96a6Kin1476rNrBmPf/u+ALAq8t3BgYmmPX8ngXhbOwtWiHlol12QuCPzKnP4U7/cXSHSXGqM13
-	86L8buJSZi4RQSIQdRTp0ef1fRA24H6CesGDe/7UIuuqj7GuQ62BJIIU/POxWIavUob1XWP1ytkpR
-	Bk5fkhl3hGghxWVD4ZvTkad/jJxr+NJLaV0zsWDp/cWtezauuo5LJ+mqAksBbSYzttfNWVuV1+yr5
-	IvgOcl9pA==;
+	 bh=DvMfmUJWP5acEv+it0RFWTt1wNFqPrW9J4DiPoOhCEo=; b=AGundrn7N50vC30dkxPEKP8ML
+	l/TU6hTDjekudwtgxWuZ3bRdZ1qUQCTpfSp3ncLdSlq1jBYwNF3Av1rKVAeNq6kAQgdEb9MuFKasS
+	rjwqBzPcnnnsRTeMBL+aSoiV0Drbp+iI7K6ReStkytMOFmp02h3/AtvrLoUyEIFgIxGw5mhQnMjCc
+	BuF2gilvNF5Q2QWbLInfI+77viLw5cOsSjCUoedcTdVi2fAG7FFbMHMGfw8wwA/1uIBHU+rCnBKgi
+	hzLTRMy6Howad5rG9z4jqIJHE/FuEvlmyDs5rTuFupZgG8r63L8fxaEq6vYDXnatjJ0Q849om3mPP
+	snJvsJpzQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lTg0E-001kfA-9B; Tue, 06 Apr 2021 07:19:58 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1lThcH-001wPf-2p; Tue, 06 Apr 2021 09:03:21 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lTg09-001kcw-Td
- for linux-nvme@lists.infradead.org; Tue, 06 Apr 2021 07:19:56 +0000
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 136734Mo005685
- for <linux-nvme@lists.infradead.org>; Tue, 6 Apr 2021 03:19:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=in-reply-to : from : to
- : cc : date : mime-version : references : content-transfer-encoding :
- content-type : message-id : subject; s=pp1;
- bh=v7nKUkl58WVMlKA+Qf6vqYDS78QHwm/ZlF8BqPGiIF8=;
- b=iHYrjbXFU6w6Tvg0uyyPFeYmjoKWRRluXtVUZeP7tkV6mqZRYrm9W2mthL9A1KYq/mAE
- YJLbyopyLLPHGSthanNvAWr8zFTLC4wz1X2MPKrPtT0NcacsuuWFtlqzcuZ6eeVaTEs3
- L5Wotu9kK8Cn2QpBhsOWT8t9cEVm1D3JMI6HUzsScHuVqh/5RmQ3B+i9jD2M+jtoN2Ko
- kmfLXlAt3++Pf8niWN0pJJLUXj1CPOO9zGl+qEhsNiONGzQueJeG1tEQ8f1exUvS0pYR
- Ey8xmgGURQUSX7DqMuSBAgnjow+DY0QFkNM0yEPsBRaIgttl3condfKenQGYRZFF3KMt QQ== 
-Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com
- [158.85.210.109])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37q5kxj7en-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Tue, 06 Apr 2021 03:19:47 -0400
-Received: from localhost
- by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
- for <linux-nvme@lists.infradead.org> from <BMT@zurich.ibm.com>;
- Tue, 6 Apr 2021 07:19:46 -0000
-Received: from us1b3-smtp04.a3dr.sjc01.isc4sb.com (10.122.203.161)
- by smtp.notes.na.collabserv.com (10.122.47.48) with
- smtp.notes.na.collabserv.com ESMTP; Tue, 6 Apr 2021 07:19:44 -0000
-Received: from us1b3-mail162.a3dr.sjc03.isc4sb.com ([10.160.174.187])
- by us1b3-smtp04.a3dr.sjc01.isc4sb.com
- with ESMTP id 2021040607194407-116620 ;
- Tue, 6 Apr 2021 07:19:44 +0000 
-In-Reply-To: <76827202.1204697.1617243535445.JavaMail.zimbra@redhat.com>
-From: "Bernard Metzler" <BMT@zurich.ibm.com>
-To: "Yi Zhang" <yi.zhang@redhat.com>
-Cc: "linux-rdma" <linux-rdma@vger.kernel.org>, "linux-nvme"
- <linux-nvme@lists.infradead.org>, "Bart Van Assche" <bvanassche@acm.org>
-Date: Tue, 6 Apr 2021 07:19:44 +0000
+ id 1lThcB-001wNe-1e
+ for linux-nvme@lists.infradead.org; Tue, 06 Apr 2021 09:03:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1617699811; x=1649235811;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=qJUK0EvcEpa2S9psZoWdPWPqLGKoCICO+nMHZKo6ESk=;
+ b=BoWdcYtld+Z8DGtA1TKC/oH7/F4I0j22lZ0N4bFq4EriKL8QjQ134/OV
+ uYZxtCJwBHT60OZWbZNiBmLQK+PD4doEYdK174mRH/Jfc84j/jzqGWv0B
+ grtDarJVFmWZoEgIVQt5qGYijlNr2pJFDd7th9AF3ubdEctOsrMSMlpvL
+ dj8x0r35/wNYA6+YtPosHlsQ71x6MWTl4waabytBnwP+8RhCQtbIHV1q1
+ mcUCiUAM+FDHkofOjaH6g1L5DJYd6/aOq6LDg8Zcp7rSOif7fRWmtYffl
+ Yscij32oUW3LPKBN/swcTriT01xnmNvrdyuGlIsLNWymLKDODpj6jXK3w g==;
+IronPort-SDR: xjyC1rgFa3BbgCS76TpM0wNG2y6m5OkMLhe85iKRmzb4utLfCG2QOe2ox+mnjyKf666WI5nV8N
+ QdZjAWxAwzgoqyXsA0INKiiBzqR7stWjYU9bWDraeFdoqY09kVSOFWp55PkvGesAkhIQ36hdxC
+ B51lIrYFOv4F1RI0GI6Pp/7KTnkYLl1e9zOolIuGF9K7bPuznAtwtk7RCZxNMDAQAk8rJW6JEX
+ RMmTIDhXPCtQebgok15ZN+gYI7t71hTHSaa512BqCzrC4Sohg1Az8aHVkp/vDIBAyIBltBZFJZ
+ fTI=
+X-IronPort-AV: E=Sophos;i="5.81,308,1610380800"; d="scan'208";a="268294366"
+Received: from mail-mw2nam12lp2049.outbound.protection.outlook.com (HELO
+ NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.49])
+ by ob1.hgst.iphmx.com with ESMTP; 06 Apr 2021 17:01:27 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=khk0bR7N4nneHiEpWjA2xBTdE5i4nnWAPL6OUfgxuOasAk1JNzPa0kkDKz6Of7Vk1yLo+9+hpNe92TRqwNWkvJ3jvuaaXOAxZurQ6RYktWoyTCp8uHjLfK3HOQAx6GSqaJO1DX5dRtEYuGGjdrQr8w4McAq7zU8zq5iXnGauHAnc8QGwrebt08KEozv5cMHUmBnpGTRx/MGJjLmmEi23vbkpCvfTcx/CxolW1KxWJfSpSYmoHA8xBJso4aW+Qw9T0+Ba2s2aUsHGSxtmQx1gI2tQYJDXOd6PIsiDTNB7aJSauhPeTZ//5H+Vop8vPm6xEB/hnNOipRWeYl4QSmpNWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iO+pY7S8vNBBy9c7vfnZssWzpaiBpWzof/+/gVEaEVw=;
+ b=iRxP7Pbt5Zlx92hXZM7pgFmXLKqqFtASe4aggV1o1DYAOOG2f3bHpmsHtWlZlhyDZgUSuezZ85VYMPFCCodGJdelkKafjBQGo2N8ugdwBI5ufgtskyw/G3JIrNolgY9AJqRlgHisELWTLyK+Cxl5Th+GWhMS6uBxVs4RmtwgrcGo4DNkyxuJ0ul9yWjypl/+icno/D4JxgkL2jr/Emnwy8tt6EUK5YuzzS6/5kGVuCKC5Dsmwxt6lK9U01YYzIn8Uzd25euPRY3tpKNmxyr+HSQsRqhjJ9GV7onRnOy3gxnJYZfFykyWO0yaIfGXUQVO6hjuAOrbc/dcaE1EMjB05g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iO+pY7S8vNBBy9c7vfnZssWzpaiBpWzof/+/gVEaEVw=;
+ b=OgpEyJV/lfLpxPnGxHpYlx+ZcWveou/GwfvgT659IaLWmJvid4NGlN1J+88bNrz4X9po0z7qklr+S6/wuo1adXBd3ouKdnzfNw65KueFS76eK5v6pNmAHR2bSdzy3+0HhxS+hlvpUIEx1RIx2F0KcBcHqbO50DHuWt0UWkQ+0YY=
+Received: from CY4PR04MB0678.namprd04.prod.outlook.com (2603:10b6:903:e2::7)
+ by CY4PR04MB0457.namprd04.prod.outlook.com (2603:10b6:903:bd::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.32; Tue, 6 Apr
+ 2021 09:01:41 +0000
+Received: from CY4PR04MB0678.namprd04.prod.outlook.com
+ ([fe80::642f:22c6:66fc:24f2]) by CY4PR04MB0678.namprd04.prod.outlook.com
+ ([fe80::642f:22c6:66fc:24f2%7]) with mapi id 15.20.3999.032; Tue, 6 Apr 2021
+ 09:01:41 +0000
+From: Niklas Cassel <Niklas.Cassel@wdc.com>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith
+ Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig
+ <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Kanchan Joshi
+ <joshiiitr@gmail.com>, =?iso-8859-1?Q?Javier_Gonz=E1lez?=
+ <javier.gonz@samsung.com>
+Subject: Re: [PATCH V2 0/1] nvme: introduce generic per-namespace chardev
+Thread-Topic: [PATCH V2 0/1] nvme: introduce generic per-namespace chardev
+Thread-Index: AQHXKsN1pjvW+Y7eAUiYEfo71YOF9Q==
+Date: Tue, 6 Apr 2021 09:01:41 +0000
+Message-ID: <YGwjc8rliXhvccPp@x1-carbon.lan>
+References: <20210406064841.103393-1-minwoo.im.dev@gmail.com>
+In-Reply-To: <20210406064841.103393-1-minwoo.im.dev@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [85.226.244.4]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 22774ffa-c25c-4f38-1d2c-08d8f8da9880
+x-ms-traffictypediagnostic: CY4PR04MB0457:
+x-microsoft-antispam-prvs: <CY4PR04MB0457D7F65778092F8BC8BCA9F2769@CY4PR04MB0457.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: R0ZWlpg4GWiwVsTWybGjIwtxRjYn2vixDobQqlEt1d29wxP0xjX1q7HxvKxnVmNzr99t6ihR6/Puu7kgQNoD0FxaeD6j8SK1okiVGZdogqk3dPZ4en/QBLfxnm1W8dRtDUdm5GaWVcVbJ9wn0/UT918MJZdLPWcu8mhzyFIMTYxHAUVlkh8OM4VTC+yQrnwVB1sbXeZux1YLejLr+qVieSoVi9XY9cm+O7cn6Wzj3Xl/LBjlkEMyLiYIiJlLGAIBqvsds8yKHKd1WSy6/XZLWngjdL9sbsUU/7YhrUfcSuHk5fOxB5xCEVN9AQvyHjL6EUQZXTrDQlS1hZlEdxpjv4brgrGSlPxbcCMDOZJGulhJIrW33S4qllvhuMAgwXo9o7CPfkkW+ccnC2fNJXAwjqkfR2QOrfvn85kPPj1KdYKN63x8LcmAv4Gd28kXJKpJx9Vo6NodG4hYFBtAXKrc5w2Tmw/ZMHtpUjAVxhpHkZhfjX9AtTbjYh1KxvRjBXLWVjjth11TAuLcm/Ai3g5gHgjTUzVgxPb0wnjkwkuwMOboMJqIgbGVGwkF3F5IS7Qn0TwnP5u7bLbRFo5ginQ2kFYkvrIrpwiuob8vDlgZJEa5a7cMdUppUKbW93BQDCMT/+KbyxV3PALjN07hi0q9G9SIeQ1QsWqG9d9PFEVrFc29H2gVAfL9/F+DmOxRYiL5
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR04MB0678.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(346002)(376002)(39860400002)(136003)(83380400001)(186003)(2906002)(6916009)(6506007)(38100700001)(316002)(26005)(4326008)(36756003)(66446008)(478600001)(8676002)(86362001)(6512007)(66946007)(71200400001)(66476007)(76116006)(91956017)(8936002)(54906003)(6486002)(66556008)(5660300002)(9686003)(64756008)(41533002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?Q11jNrKOTwSDlWtCc/qDC3R+qQ02U6j9QlfLd/UVPxDt1M9DRFXY6Ao9el?=
+ =?iso-8859-1?Q?U3iStK50cGGJSTzd3VP5oenT5J81wCebtjD6LlmaaABm7NdBFo04PVuPjC?=
+ =?iso-8859-1?Q?EV6aB0wzngFP1AZUCG5k+o+V/CqDGm0hEP2wI4xY/Nk1LkHXSlg4gWind0?=
+ =?iso-8859-1?Q?2T32wnvNWwyUEaLUmujt26Av6TkGVNN25UvRKQCfDu5VWeFi2fEEjZyQZc?=
+ =?iso-8859-1?Q?GF4M0KBjULLA7irzmn1EE0Lt0k1GtI1SLdnL0ki7iTCfszx/dzIi6CiSOM?=
+ =?iso-8859-1?Q?hzCqx7QVcwBj6t4r3zqnhKLKxi24JLpdl/xl11gtk85npWbzSSonX4clvE?=
+ =?iso-8859-1?Q?+zX1wzs8wXDjRd4jEtJ0VwfkHdegeCiJ9eOLPzfyI+Tjfc7vBaazFtyXGE?=
+ =?iso-8859-1?Q?+2OUSZfN6jXxFmkWpUxH7lKlhQhw1YKo45cwCJ+599BCj4Yajl4PVy+Jcr?=
+ =?iso-8859-1?Q?P8ZjSyfnuFzYra+p1FNAEH7qvwk7OkkU2rkDecQDFTlb7wnvBniXijcO7a?=
+ =?iso-8859-1?Q?oYopihhV0rwqt9y5tKfyxOZroTAzhFg0TIe1Y39UNV5xj3xFwOZ/HHhA/b?=
+ =?iso-8859-1?Q?I5TDMf6ScWj/wYXYKA8h5XMNJPRdNVEDG34w4AFv/Yd9v0jWcG8Jo5zuAe?=
+ =?iso-8859-1?Q?1H2nMqmjRcLX/2xjb2KPSjGWJHoKuoTLD/3sZiyrYuU46aHqAn8DUbga61?=
+ =?iso-8859-1?Q?SwozaeXfuqfb83nMPs2d7l1+twcBw1zFyIG8RC2Wo/FMU5+XZ82k442pL5?=
+ =?iso-8859-1?Q?QthwlA7FPpVCAZHupIOQ8dLVeUmdhpw7ClE0s7BZaLCMdaBAEbLgQdLvS6?=
+ =?iso-8859-1?Q?HCGeOqGVw9StwfL5xfc1XEYja7a/djgE96gWcwG1dDTp322YetUhBfVOG/?=
+ =?iso-8859-1?Q?BGx7at3twLQf6TMMfU7znRD+BeZ3VFLYqemrZMwiVRvraV7wLPf8OZ+qjM?=
+ =?iso-8859-1?Q?qR8s4K/tN86Ekv8zziUKOG/rM90B+oXg2OX6CYn/K5HirQQCH6T2bafD3i?=
+ =?iso-8859-1?Q?IN4SkHpe1h12rbXoN74lgNk2Lw9geGyq2fl1lbVFWB61OgkLSMwufJxncg?=
+ =?iso-8859-1?Q?p1LLg1I7nwctN3zcH1auW0DwCkUw1ugFiTNF/2VaK6ACZCMHUrM29G7W7W?=
+ =?iso-8859-1?Q?rHm+Cjf/S4lermbeiB22UiqXM1Y4QplhDPgofoLSSj+yEpkZGO8sowntUm?=
+ =?iso-8859-1?Q?I7+GqnSTKlq7e6WpcrCoIkiNh4g8lYhnmAkd33pHTp0yAiybQZu4LNtvag?=
+ =?iso-8859-1?Q?2IddZorvllmulbnPrrjINldicI4U2EWW9OvN6/3b9WtlpMJOHGxC0+s7Kq?=
+ =?iso-8859-1?Q?y6YyVqo+Pk0HMTqNb5+H0gEs0tGlqgqZ7XXY0jq+SaGRZ3A73ITbdcBTdb?=
+ =?iso-8859-1?Q?KnxauzQWpx?=
+x-ms-exchange-transport-forked: True
+Content-ID: <6FDBDAE934F6EF499012ED35D29656C6@namprd04.prod.outlook.com>
 MIME-Version: 1.0
-Sensitivity: 
-Importance: Normal
-X-Priority: 3 (Normal)
-References: <76827202.1204697.1617243535445.JavaMail.zimbra@redhat.com>
-X-Mailer: IBM iNotes ($HaikuForm 1054.1) | IBM Domino Build
- SCN1812108_20180501T0841_FP130 January 13, 2021 at 14:04
-X-KeepSent: 8D491BC4:3759DF6F-002586AF:002836E5;
- type=4; name=$KeepSent
-X-LLNOutbound: False
-X-Disclaimed: 44351
-X-TNEFEvaluated: 1
-x-cbid: 21040607-1429-0000-0000-000003A6853E
-X-IBM-SpamModules-Scores: BY=0.019777; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
- SC=0; ST=0; TS=0; UL=0; ISC=; MB=0.000435
-X-IBM-SpamModules-Versions: BY=3.00014940; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000296; SDB=6.01526390; UDB=6.00825164; IPR=6.01308223; 
- MB=3.00036522; MTD=3.00000008; XFM=3.00000015; UTC=2021-04-06 07:19:45
-X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
-X-IBM-AV-VERSION: SAVI=2021-03-22 13:55:12 - 6.00012377
-x-cbparentid: 21040607-1430-0000-0000-00003A128783
-Message-Id: <OF8D491BC4.3759DF6F-ON002586AF.002836E5-002586AF.00284286@notes.na.collabserv.com>
-X-Proofpoint-ORIG-GUID: qDx5KI7nVgjoiCuvQLgE1GgaJJtDS-YO
-X-Proofpoint-GUID: qDx5KI7nVgjoiCuvQLgE1GgaJJtDS-YO
-Subject: Re: [bug report]kernel NULL pointer at siw_tx_hdt+0x128/0x978 [siw]
- with blktests nvmeof-mp/002
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-04-06_01:2021-04-01,
- 2021-04-06 signatures=0
-X-Proofpoint-Spam-Reason: orgsafe
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB0678.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22774ffa-c25c-4f38-1d2c-08d8f8da9880
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Apr 2021 09:01:41.7077 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uOm8lK+wFzzJXLSQdN+5lDHbkNfkSuHp2W0+sCAe8K6TpEjiZORQBDTRu1cFW9dXoVCzU/MxIqzBBrLaOhCPcQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0457
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210406_081954_273631_5B7E5072 
-X-CRM114-Status: GOOD (  13.18  )
+X-CRM114-CacheID: sfid-20210406_100315_830227_8F93ADA4 
+X-CRM114-Status: GOOD (  27.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,139 +170,70 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
------"Yi Zhang" <yi.zhang@redhat.com> wrote: -----
+On Tue, Apr 06, 2021 at 03:48:40PM +0900, Minwoo Im wrote:
+> Hello,
+> 
+> This is the second patch series to support generic ns character device
+> to expose per-namespace instance to the userspace.  This version fixed
+> code mis-ordered reported by Kanchan.
+> 
+> This patch introduces per-namespace character device to I/O in case that
+> blkdev is not initialized properly.  Userspace applications are able to
+> I/O to the generic namespace chardev even there's no blkdev properly
+> initialized.  Because we don't allow nvme controller device to I/O with
+> a specified nsid, this generic device will provide a way to I/O.
+> 
+> This patch is derived from Javier's patch series [1].  Javier and I have
+> re-coded this series again and it starts with new version tag.  Changes
+> from the previous series are:
+> 
+>   - Update naming convention for the chardev exactly the same with the
+>     blkdev:
+>         /dev/nvme-generic-XcYnZ  to  /dev/nvme-generic-XnY
 
->To: linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org
->From: "Yi Zhang" <yi.zhang@redhat.com>
->Date: 04/01/2021 04:20AM
->Cc: "Bart Van Assche" <bvanassche@acm.org>
->Subject: [EXTERNAL] [bug report]kernel NULL pointer at
->siw_tx_hdt+0x128/0x978 [siw] with blktests nvmeof-mp/002
->
->Hello
->
->I reproduced this issue with blktests nvmeof-mp/002 on 5.12.0-rc5
->aarch64, pls help check it and let me know if you need any testing
->for it, thanks. 
->
->[18381.922840] run blktests nvmeof-mp/002 at 2021-03-31 20:42:40
->[18382.123208] null_blk: module loaded
->[18382.345093] SoftiWARP attached
->[18382.507549] nvmet: adding nsid 1 to subsystem nvme-test
->[18382.536043] iwpm_register_pid: Unable to send a nlmsg (client = 2)
->[18382.542985] nvmet_rdma: enabling port 1 (10.19.241.109:7777)
->[18382.703578] nvmet: creating controller 1 for subsystem nvme-test
->for NQN
->nqn.2014-08.org.nvmexpress:uuid:a6ba6b82-f083-4df3-9ee2-cd3f635a8418.
->[18382.717201] nvme nvme0: creating 32 I/O queues.
->[18382.751581] nvme nvme0: mapped 32/0/0 default/read/poll queues.
->[18382.768935] nvme nvme0: new ctrl: NQN "nvme-test", addr
->10.19.241.109:7777
->[18382.811275] device-mapper: multipath service-time: version 0.3.0
->loaded
->[18383.611572] EXT4-fs (dm-3): mounted filesystem without journal.
->Opts: (null). Quota mode: none.
->[18383.620343] ext4 filesystem being mounted at
->/root/blktests/results/tmpdir.nvmeof-mp.002.pnM/mnt0 supports
->timestamps until 2038 (0x7fffffff)
->[18411.156005] Unable to handle kernel NULL pointer dereference at
->virtual address 0000000000000030
->[18411.156046] Unable to handle kernel NULL pointer dereference at
->virtual address 0000000000000030
->[18411.164790] Mem abort info:
->[18411.173564] Mem abort info:
->[18411.173565]   ESR = 0x96000006
->[18411.173567]   EC = 0x25: DABT (current EL), IL = 32 bits
->[18411.173569]   SET = 0, FnV = 0
->[18411.176349]   ESR = 0x96000006
->[18411.179129]   EA = 0, S1PTW = 0
->[18411.182170]   EC = 0x25: DABT (current EL), IL = 32 bits
->[18411.187473] Data abort info:
->[18411.190513]   SET = 0, FnV = 0
->[18411.193558]   ISV = 0, ISS = 0x00000006
->[18411.196685]   EA = 0, S1PTW = 0
->[18411.201982]   CM = 0, WnR = 0
->[18411.204853] Data abort info:
->[18411.207893] user pgtable: 64k pages, 42-bit VAs,
->pgdp=00000009c33b0000
->[18411.211714]   ISV = 0, ISS = 0x00000006
->[18411.214846] [0000000000000030] pgd=0000000000000000
->[18411.217800]   CM = 0, WnR = 0
->[18411.220666] , p4d=0000000000000000
->[18411.227184] user pgtable: 64k pages, 42-bit VAs,
->pgdp=00000009c33b0000
->[18411.231005] , pud=0000000000000000
->[18411.235873] [0000000000000030] pgd=0000000000000000
->[18411.238826] , pmd=0000000000000000
->[18411.242214] , p4d=0000000000000000
->[18411.248733] 
->[18411.252120] , pud=0000000000000000
->[18411.256990] Internal error: Oops: 96000006 [#1] SMP
->[18411.260376] , pmd=0000000000000000
->[18411.263764] Modules linked in: ext4 mbcache jbd2 dm_service_time
->nvme_rdma
->[18411.265247] 
->[18411.268634]  nvme_fabrics nvme nvmet_rdma nvmet siw null_blk
->dm_multipath nvme_core rfkill rpcrdma sunrpc rdma_ucm ib_srpt
->ib_isert iscsi_target_mod ib_umad target_core_mod vfat fat ib_iser
->ib_ipoib libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm mlx4_ib
->ib_uverbs ib_core acpi_ipmi crct10dif_ce ghash_ce ipmi_ssif sha1_ce
->sbsa_gwdt ipmi_devintf ipmi_msghandler xgene_hwmon ip_tables xfs
->libcrc32c mlx4_en sr_mod cdrom sg ast drm_vram_helper drm_kms_helper
->syscopyarea sysfillrect sysimgblt fb_sys_fops drm_ttm_helper ttm drm
->mlx4_core igb sha2_ce sha256_arm64 i2c_designware_platform
->ahci_platform i2c_algo_bit i2c_designware_core gpio_dwapb
->libahci_platform i2c_xgene_slimpro uas usb_storage dm_mirror
->dm_region_hash dm_log dm_mod [last unloaded: nvme_core]
->[18411.351792] CPU: 13 PID: 19581 Comm: siw_tx/13 Not tainted
->5.12.0-rc5 #1
->[18411.368293] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
->[18411.374287] pc : siw_tx_hdt+0x128/0x978 [siw]
->[18411.378641] lr : siw_qp_sq_process+0xc4/0xa80 [siw]
->[18411.383512] sp : fffffe001acafa90
->[18411.386813] x29: fffffe001acafa90 x28: fffffc083f9a4238 
->[18411.392114] x27: 0000000000000003 x26: 000000000000ef70 
->[18411.397414] x25: 0000000000000003 x24: 0000000000000000 
->[18411.402714] x23: 0000000000000000 x22: 0000000000000000 
->[18411.408014] x21: fffffc083f9a4270 x20: fffffc083f9a41c8 
->[18411.413313] x19: 0000000000000000 x18: 0000000000000000 
->[18411.418612] x17: 0000000000000000 x16: 0000000000000000 
->[18411.423912] x15: 0000000000000000 x14: 0000000000000000 
->[18411.429211] x13: b6f8a80000001000 x12: fffffc093fe37000 
->[18411.434511] x11: b6f8a80000000040 x10: 0000000000000001 
->[18411.439810] x9 : 0000000000000000 x8 : 0000000000000000 
->[18411.445110] x7 : 0000000000000014 x6 : 000000000000ffc8 
->[18411.450409] x5 : fffffc083f9a4238 x4 : fffffe001acafc40 
->[18411.455709] x3 : 0000000000000020 x2 : fffffc083f9a4238 
->[18411.461009] x1 : fffffc083f9a4248 x0 : 0000000000000000 
->[18411.466309] Call trace:
->[18411.468743]  siw_tx_hdt+0x128/0x978 [siw]
->[18411.472746]  siw_qp_sq_process+0xc4/0xa80 [siw]
->[18411.477270]  siw_sq_resume+0x48/0x168 [siw]
->[18411.481446]  siw_run_sq+0xc8/0x290 [siw]
->[18411.485362]  kthread+0x114/0x118
->[18411.488580]  ret_from_fork+0x10/0x18
->[18411.492146] Code: 370800c1 f9403fe1 8b214c41 f9403c37 (f9401ae1) 
->[18411.498237] ---[ end trace 67f55110d28671a3 ]---
->[18411.502842] Kernel panic - not syncing: Oops: Fatal exception
->[18411.508580] SMP: stopping secondary CPUs
->[18412.537491] SMP: failed to stop secondary CPUs 11,13
->[18412.542445] Kernel Offset: disabled
->[18412.545920] CPU features: 0x00240002,61802008
->[18412.550264] Memory Limit: none
->[18412.553311] ---[ end Kernel panic - not syncing: Oops: Fatal
->exception ]---
->
->
->Best Regards,
->  Yi Zhang
->
-Looks like an siw issue. I will dig into it. Sorry for the late reply.
+Hello Minwoo,
 
-Many thanks,
-Bernard.
+The current proposal puts these new per-ns char devs in directly in
+/dev/ (I assume since Christoph didn't like the /dev/nvme/ subdir idea.
+Keith seemed to like the subdir idea, since he had suggested the same.)
+
+For the absolute majority of cases, the namespace will not be rejected,
+so the user will be able to use the per-ns block dev to perform IOCTLs.
+
+For the small minority of cases, Linux might reject the ns, so no block
+dev will be created.
+
+I'm slightly worried that adding all these new per-ns char devs, in the
+same directory as the regular per-ns block devs, will lead to confusion
+from regular Linux users.
+
+Imagine the potential confusion about what device the user should use
+with e.g. fdisk, mkfs, mount, in fstab, what to specify in fstab, etc.
+
+I think that there is value in reducing the confusion for regular users.
 
 
+
+I don't know the best way of reducing this potential confusion, but here
+are some suggestions (suggestions are mutually exclusive):
+
+1) Put the new per-ns char devs in a directory different from where
+the regular per-ns block devs are located.
+
+2) Only create the new per-ns char dev for namespaces that were rejected.
+
+3) There is already a new module parameter for this, default it to false.
+
+4) Introduce a sysfs /sys/class/nvme/nvme0/export_unsupported_namespace
+that you can echo the nsid to, if you want to create the new per-ns char
+dev for a certain ns.
+
+
+I'm certain that someone can come up with an even better suggestion.
+
+
+Kind regards,
+Niklas
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
