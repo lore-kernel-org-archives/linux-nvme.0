@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FD2C433ED
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 06:09:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 839CBC433ED
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 06:10:42 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 49041613A9
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 06:09:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 49041613A9
+	by mail.kernel.org (Postfix) with ESMTPS id 0D5B560FE9
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 06:10:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D5B560FE9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,48 +24,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:Cc:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XcjKUj0gYhlEuTZPwl3fMJ7zz24JoRT5+xoMhMJSQao=; b=XSCdW6LrwW4FnYdffD0b9GqPOU
-	h2WSKFQBGVY956w4lBA2WI9U5Oo1yXwQuuuly0irs3XlLHIsiwwFdZ+s3pzbyx1JigL9v2FYriUp8
-	to8sPyEO8x4fP9cfSo7P/evEuH4cCRgWWGzDISKOV6eIVn/twTIl42BJkU4MJgs6XlKhN5HOtNpTD
-	fAfcTdbHxSdhrih/9G6u46B89zE00irAzWlkq5pcJIzgD0T+rntEhQV2e1lBsyg6WLfK479kvAcTE
-	l3kma4XLJwrY+OSuZqgqkhDtWvKBc2ACxUhwZLvfR3l82AcPPEx3/FV8l1RH50pCzPO1QSA2kYOZx
-	BeWeExLg==;
+	bh=SYgduVY3kzfObplg3Ovf0DkuYXRB7SN7GtebwHX3lN4=; b=jhMRwlOb6x7AI8MKYO80VurAqJ
+	RR/xd0It30Lke87xlvp+4Rda/MXVLFZKtWLT2aTsP8lapO5g3Cv0HgNEfsROL++sQCau89qFHJBpD
+	Y/cjLlHGt4nJtN1yq0+IdwT6EimjuCfiatw8YovBSBmCIz4o6N1A4mWM+iNuWjlYsGsHXzvyilfcv
+	rXLxir3fZKK8KdxE6OP82k1GBps/hAsCKj4yDS0Tyl8B8qfogpupSUSQt7VxhbLnpLg2bcpEkwcsC
+	jJmzjUvffc3bjIBl/JK8lEsJbNpHioRk70Mj0FrEG4nqWBsMYZ6GGSqF1wt4J3XJ8hOY5JM+wJ/XC
+	N2HnNaRw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lU1Nm-004BQU-Er; Wed, 07 Apr 2021 06:09:42 +0000
-Received: from saphodev.broadcom.com ([192.19.232.172]
- helo=relay.smtp-ext.broadcom.com)
+	id 1lU1OT-004BWL-HU; Wed, 07 Apr 2021 06:10:25 +0000
+Received: from relay.smtp-ext.broadcom.com ([192.19.232.172])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lU1Ly-004BAm-SH
- for linux-nvme@lists.infradead.org; Wed, 07 Apr 2021 06:08:00 +0000
+ id 1lU1Ly-004BAl-SJ
+ for linux-nvme@lists.infradead.org; Wed, 07 Apr 2021 06:08:01 +0000
 Received: from localhost.localdomain (unknown [10.157.2.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by relay.smtp-ext.broadcom.com (Postfix) with ESMTPS id A98AF24323;
- Tue,  6 Apr 2021 22:59:21 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com A98AF24323
+ by relay.smtp-ext.broadcom.com (Postfix) with ESMTPS id 906502259D;
+ Tue,  6 Apr 2021 22:59:16 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 906502259D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
- s=dkimrelay; t=1617775163;
- bh=2YgMQ5KOWA01f4QClAwpTk6e0Fkj9IafQ49xlySuTDE=;
+ s=dkimrelay; t=1617775158;
+ bh=4C5IS2e0KQPiF5oEYpi3DaAz2UMy5ixyX4Vr0W/oL/4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WVn02tlfCDqpLvAWDsMgT/CzomWDS7TRq+SUFeT3XTQO3hASVThQK+eGhzi+m/Dbs
- rwUpX5cbLIqXYzt5c2DJbeKpPU3fk2VryknXAtAO/fv+NvVl9szg7hwBcjSbtR64cz
- S2Je9LzYw1b+aH6tq580pbNjOQfynXs1Wgbb1Lu8=
+ b=OrfrIzzisZrut1qBneaVn4lxhZlNUC6Gh4l4hNZy7HMV9SqgmUc0vXQjQ2PlwjEo6
+ hYinsaEkoIr3i+V/sWDahLdd78Tl99GHMsXInC+m8yNjkLd3tzcuGWM5luNMywWMZm
+ 72nZQJwadZ/OnvZ7u9Bt4Idjy6FROR+bWg4kyhgE=
 From: Muneendra <muneendra.kumar@broadcom.com>
 To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org, hare@suse.de
 Cc: jsmart2021@gmail.com, emilne@redhat.com, mkumar@redhat.com,
  Gaurav Srivastava <gaurav.srivastava@broadcom.com>
-Subject: [PATCH v9 10/13] lpfc: vmid: Appends the vmid in the wqe before
- sending
-Date: Wed,  7 Apr 2021 04:36:34 +0530
-Message-Id: <1617750397-26466-11-git-send-email-muneendra.kumar@broadcom.com>
+Subject: [PATCH v9 08/13] lpfc: vmid: Functions to manage vmids
+Date: Wed,  7 Apr 2021 04:36:32 +0530
+Message-Id: <1617750397-26466-9-git-send-email-muneendra.kumar@broadcom.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1617750397-26466-1-git-send-email-muneendra.kumar@broadcom.com>
 References: <1617750397-26466-1-git-send-email-muneendra.kumar@broadcom.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210407_070752_888922_08F30E5D 
-X-CRM114-Status: GOOD (  13.65  )
+X-CRM114-CacheID: sfid-20210407_070752_876661_9ACCA910 
+X-CRM114-Status: GOOD (  22.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,29 +83,28 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
 
-This patch adds the vmid in wqe before sending out the request.
-The type of vmid depends on the configured type and is checked before
-being appended.
+This patch contains the routines to save, retrieve and remove the vmids
+from the data structure. A hash table is used to save the vmids and
+the corresponding UUIDs associated with the application/VMs.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Gaurav Srivastava  <gaurav.srivastava@broadcom.com>
 Signed-off-by: James Smart <jsmart2021@gmail.com>
 
 ---
 v9:
-No change
+Added changes for implementing kernel based hashtable
 
 v8:
-Modified the log messages
+Added correct return value and error codes
 
 v7:
 No change
 
 v6:
-No change
+Added Forward declarations and functions to static
 
 v5:
-Modified the comments
+Changed Return code to non-numeric/Symbol
 
 v4:
 No change
@@ -118,95 +115,152 @@ No change
 v2:
 Ported the patch on top of 5.10/scsi-queue
 ---
- drivers/scsi/lpfc/lpfc_sli.c | 54 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ drivers/scsi/lpfc/lpfc_scsi.c | 118 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 118 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index 3f212555f3ac..22296ed691f6 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -9764,6 +9764,8 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 				*pcmd == ELS_CMD_RSCN_XMT ||
- 				*pcmd == ELS_CMD_FDISC ||
- 				*pcmd == ELS_CMD_LOGO ||
-+				*pcmd == ELS_CMD_QFPA ||
-+				*pcmd == ELS_CMD_UVEM ||
- 				*pcmd == ELS_CMD_PLOGI)) {
- 				bf_set(els_req64_sp, &wqe->els_req, 1);
- 				bf_set(els_req64_sid, &wqe->els_req,
-@@ -9895,6 +9897,24 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 			ptr = &wqe->words[22];
- 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
- 		}
+diff --git a/drivers/scsi/lpfc/lpfc_scsi.c b/drivers/scsi/lpfc/lpfc_scsi.c
+index 0868cb38d5b0..f81178464436 100644
+--- a/drivers/scsi/lpfc/lpfc_scsi.c
++++ b/drivers/scsi/lpfc/lpfc_scsi.c
+@@ -28,6 +28,7 @@
+ #include <asm/unaligned.h>
+ #include <linux/t10-pi.h>
+ #include <linux/crc-t10dif.h>
++#include <linux/blk-cgroup.h>
+ #include <net/checksum.h>
+ 
+ #include <scsi/scsi.h>
+@@ -86,6 +87,14 @@ static void
+ lpfc_release_scsi_buf_s3(struct lpfc_hba *phba, struct lpfc_io_buf *psb);
+ static int
+ lpfc_prot_group_type(struct lpfc_hba *phba, struct scsi_cmnd *sc);
++static void
++lpfc_put_vmid_in_hashtable(struct lpfc_vport *vport, u32 hash,
++			   struct lpfc_vmid *vmp);
++static void lpfc_vmid_update_entry(struct lpfc_vport *vport, struct scsi_cmnd
++				   *cmd, struct lpfc_vmid *vmp,
++				   union lpfc_vmid_io_tag *tag);
++static void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport,
++				    struct lpfc_vmid *vmid);
+ 
+ static inline unsigned
+ lpfc_cmd_blksize(struct scsi_cmnd *sc)
+@@ -5145,6 +5154,115 @@ void lpfc_poll_timeout(struct timer_list *t)
+ 	}
+ }
+ 
++/*
++ * lpfc_get_vmid_from_hastable - search the UUID in the hash table
++ * @vport: The virtual port for which this call is being executed.
++ * @hash: calculated hash value
++ * @buf: uuid associated with the VE
++ * Returns the vmid entry associated with the UUID
++ * Make sure to acquire the appropriate lock before invoking this routine.
++ */
++struct lpfc_vmid *lpfc_get_vmid_from_hastable(struct lpfc_vport *vport,
++					      u32 hash, u8 *buf)
++{
++	struct lpfc_vmid *vmp;
 +
-+		/* add the VMID tags as per switch response */
-+		if (iocbq->iocb_flag & LPFC_IO_VMID) {
-+			union lpfc_wqe128 *wqe128;
++	hash_for_each_possible(vport->hash_table, vmp, hnode, hash) {
++		if (memcmp(&vmp->host_vmid[0], buf, 16) == 0)
++			return vmp;
++	}
++	return NULL;
++}
 +
-+			if (phba->pport->vmid_priority_tagging) {
-+				bf_set(wqe_ccpe, &wqe->fcp_iwrite.wqe_com, 1);
-+				bf_set(wqe_ccp, &wqe->fcp_iwrite.wqe_com,
-+				       (iocbq->vmid_tag.cs_ctl_vmid));
-+				/* Bit 0 must be 0 */
-+			} else {
-+				wqe128 = (union lpfc_wqe128 *)wqe;
-+				bf_set(wqe_appid, &wqe->fcp_iwrite.wqe_com, 1);
-+				bf_set(wqe_wqes, &wqe128->fcp_iwrite.wqe_com,
-+				       1);
-+				wqe128->words[31] = iocbq->vmid_tag.app_id;
-+			}
-+		}
- 		break;
- 	case CMD_FCP_IREAD64_CR:
- 		/* word3 iocb=iotag wqe=payload_offset_len */
-@@ -9959,6 +9979,23 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 			ptr = &wqe->words[22];
- 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
- 		}
++/*
++ * lpfc_put_vmid_from_hastable - put the VMID in the hash table
++ * @vport: The virtual port for which this call is being executed.
++ * @hash - calculated hash value
++ * @vmp: Pointer to a VMID entry representing a VM sending IO
++ *
++ * This routine will insert the newly acquired vmid entity in the hash table.
++ * Make sure to acquire the appropriate lock before invoking this routine.
++ */
++static void
++lpfc_put_vmid_in_hashtable(struct lpfc_vport *vport, u32 hash,
++			   struct lpfc_vmid *vmp)
++{
++	hash_add(vport->hash_table, &vmp->hnode, hash);
++}
 +
-+		/* add the VMID tags as per switch response */
-+		if (iocbq->iocb_flag & LPFC_IO_VMID) {
-+			union lpfc_wqe128 *wqe128;
++/*
++ * lpfc_vmid_hash_fn - creates a hash value of the UUID
++ * @vmid: uuid associated with the VE
++ * @len: length of the vmid string
++ * Returns the calculated hash value
++ */
++int lpfc_vmid_hash_fn(const char *vmid, int len)
++{
++	int c;
++	int hash = 0;
 +
-+			if (phba->pport->vmid_priority_tagging) {
-+				bf_set(wqe_ccpe, &wqe->fcp_iread.wqe_com, 1);
-+				bf_set(wqe_ccp, &wqe->fcp_iread.wqe_com,
-+				       (iocbq->vmid_tag.cs_ctl_vmid));
-+				/* Bit 0 must be 0 */
-+			} else {
-+				wqe128 = (union lpfc_wqe128 *)wqe;
-+				bf_set(wqe_appid, &wqe->fcp_iread.wqe_com, 1);
-+				bf_set(wqe_wqes, &wqe128->fcp_iread.wqe_com, 1);
-+				wqe128->words[31] = iocbq->vmid_tag.app_id;
-+			}
-+		}
- 		break;
- 	case CMD_FCP_ICMND64_CR:
- 		/* word3 iocb=iotag wqe=payload_offset_len */
-@@ -10016,6 +10053,23 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 			ptr = &wqe->words[22];
- 			memcpy(ptr, fcp_cmnd, sizeof(struct fcp_cmnd));
- 		}
++	if (len == 0)
++		return 0;
++	while (len--) {
++		c = *vmid++;
++		if (c >= 'A' && c <= 'Z')
++			c += 'a' - 'A';
 +
-+		/* add the VMID tags as per switch response */
-+		if (iocbq->iocb_flag & LPFC_IO_VMID) {
-+			union lpfc_wqe128 *wqe128;
++		hash = (hash + (c << LPFC_VMID_HASH_SHIFT) +
++			(c >> LPFC_VMID_HASH_SHIFT)) * 19;
++	}
 +
-+			if (phba->pport->vmid_priority_tagging) {
-+				bf_set(wqe_ccpe, &wqe->fcp_icmd.wqe_com, 1);
-+				bf_set(wqe_ccp, &wqe->fcp_icmd.wqe_com,
-+				       (iocbq->vmid_tag.cs_ctl_vmid));
-+				/* Bit 0 must be 0 */
-+			} else {
-+				wqe128 = (union lpfc_wqe128 *)wqe;
-+				bf_set(wqe_appid, &wqe->fcp_icmd.wqe_com, 1);
-+				bf_set(wqe_wqes, &wqe128->fcp_icmd.wqe_com, 1);
-+				wqe128->words[31] = iocbq->vmid_tag.app_id;
-+			}
-+		}
- 		break;
- 	case CMD_GEN_REQUEST64_CR:
- 		/* For this command calculate the xmit length of the
++	return hash & LPFC_VMID_HASH_MASK;
++}
++
++/*
++ * lpfc_vmid_update_entry - update the vmid entry in the hash table
++ * @vport: The virtual port for which this call is being executed.
++ * @cmd: address of scsi cmmd descriptor
++ * @vmp: Pointer to a VMID entry representing a VM sending IO
++ * @tag: VMID tag
++ */
++static void lpfc_vmid_update_entry(struct lpfc_vport *vport, struct scsi_cmnd
++				   *cmd, struct lpfc_vmid *vmp,
++				   union lpfc_vmid_io_tag *tag)
++{
++	u64 *lta;
++
++	if (vport->vmid_priority_tagging)
++		tag->cs_ctl_vmid = vmp->un.cs_ctl_vmid;
++	else
++		tag->app_id = vmp->un.app_id;
++
++	if (cmd->sc_data_direction == DMA_TO_DEVICE)
++		vmp->io_wr_cnt++;
++	else
++		vmp->io_rd_cnt++;
++
++	/* update the last access timestamp in the table */
++	lta = per_cpu_ptr(vmp->last_io_time, raw_smp_processor_id());
++	*lta = jiffies;
++}
++
++static void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport,
++				    struct lpfc_vmid *vmid)
++{
++	u32 hash;
++	struct lpfc_vmid *pvmid;
++
++	if (vport->port_type == LPFC_PHYSICAL_PORT) {
++		vmid->un.cs_ctl_vmid = lpfc_vmid_get_cs_ctl(vport);
++	} else {
++		hash = lpfc_vmid_hash_fn(vmid->host_vmid, vmid->vmid_len);
++		pvmid =
++		    lpfc_get_vmid_from_hastable(vport->phba->pport, hash,
++						vmid->host_vmid);
++		if (pvmid)
++			vmid->un.cs_ctl_vmid = pvmid->un.cs_ctl_vmid;
++		else
++			vmid->un.cs_ctl_vmid = lpfc_vmid_get_cs_ctl(vport);
++	}
++}
++
+ /**
+  * lpfc_queuecommand - scsi_host_template queuecommand entry point
+  * @shost: kernel scsi host pointer.
 -- 
 2.26.2
 
