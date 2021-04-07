@@ -2,68 +2,161 @@ Return-Path: <SRS0=pbEM=JE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4659DC433ED
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 06:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01779C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 07:42:23 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D4769613C2
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 06:13:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D4769613C2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7C5B561019
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 07:42:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C5B561019
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:Cc:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=goRp7s0GA5vQkWEbLmfgpihyDDG+BuknlOpHlz9oZ20=; b=ouPdzgkQ9m7+wc6dF6HzU23Sxm
-	mZX2RsLpQipuHBnkBA3uUguB5nom1tMnS5RSyEJL16oPixM3bZdyLRmkoMs4Zrg59K4Ehg++CMvp2
-	uqDcwe9GWs90Zu7cI2nX9bm+fpWBthL/Ciu83UUMC6/9c7fAspfnZzKFeElHQw/GQE7mkCV56vzdU
-	Opvc8g+n0iID7wPTJ8iorN/lNyFqdeIrCT0Qx4UqRzytze6PLOhivdsGKq/f6RjE/eKWmtfrUmcYZ
-	P4Cu3WYSUgijZgGrn9yDuG05wCTaowv3qr+O4Lr7su9gDTVuBX/zczH2eZoOo0U5yeQWbfLJrmqHM
-	Lh3k9eWQ==;
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=PCEpguH2Gu5gyaNjZ+O5jnCdZTmUFMIKy+XdEoE4QAY=; b=ebDiXGa9maywcWaaecu2NHO16
+	JYFC4z9VXXUHSwIAdsC1xy/MAhG+wz4BZjG7F+wO4HZDSDUR3a7ewcqY62UkrsGjqQR1VOIXNIL/I
+	jEbBQHRthdAtXFWkEeAmWxhUd49xsPvOtutMuKhSZpE9a2TpzzA5gY8aswv9Bs/5g7E0vDZT3e2G7
+	OX110p0/CkXvGWCgNUap1t3lozS1FXRp/TnDmjeW5mINMxPx3wlgbDRFJQkJv2U7Tl9WNzmDrQYTg
+	8yAUgOvJ6Z+KOsm106XiFwCcWPujPo5MUKTQV4B1JPIodyfjXuleVuZYWAsPmsm85JfiQ/vu+VgGb
+	xf3octZbg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lU1RX-004Byc-EL; Wed, 07 Apr 2021 06:13:37 +0000
-Received: from relay.smtp-ext.broadcom.com ([192.19.232.172])
+	id 1lU2p8-004Pz5-5u; Wed, 07 Apr 2021 07:42:02 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lU1M5-004BCr-Sq
- for linux-nvme@lists.infradead.org; Wed, 07 Apr 2021 06:08:05 +0000
-Received: from localhost.localdomain (unknown [10.157.2.20])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by relay.smtp-ext.broadcom.com (Postfix) with ESMTPS id 8CDC624339;
- Tue,  6 Apr 2021 22:59:29 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 8CDC624339
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
- s=dkimrelay; t=1617775171;
- bh=tAno8q6DrbTklX1azQNtWPl5L0sbUTJ84B6e2LjtXOg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=syLNyCgZmlD2ZhhuuHZTdWi4ucM2rlg5zxbP9XZ43PFXy0O4KyHktRl1ZbZdgCvO8
- 9mFAHIjMAnZQ/FueHXvBuUTSY+iMyyZhHX+5OAH7Tak9Xx1+ltn3ACSTVlzyl9G2/E
- tuIvLXsHMjqcv7kg6v3H0S/fj4I40dD7ctakPi9w=
-From: Muneendra <muneendra.kumar@broadcom.com>
-To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
- linux-nvme@lists.infradead.org, hare@suse.de
-Cc: jsmart2021@gmail.com, emilne@redhat.com, mkumar@redhat.com,
- Gaurav Srivastava <gaurav.srivastava@broadcom.com>
-Subject: [PATCH v9 13/13] lpfc: vmid: Introducing vmid in io path.
-Date: Wed,  7 Apr 2021 04:36:37 +0530
-Message-Id: <1617750397-26466-14-git-send-email-muneendra.kumar@broadcom.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1617750397-26466-1-git-send-email-muneendra.kumar@broadcom.com>
-References: <1617750397-26466-1-git-send-email-muneendra.kumar@broadcom.com>
+ id 1lU2jm-004NwW-KF
+ for linux-nvme@lists.infradead.org; Wed, 07 Apr 2021 07:36:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1617780990; x=1649316990;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=JTyrapqZBdd5QQDzLDJluVyjNHdyjz1NbUNUzzWvDdI=;
+ b=NwtHmG/Vmey2OB9kMPDiBJp+uoMUYpzBM7L28iRmzJGiQYB0xNZ6QpJq
+ IbKXlvwX7Y9qSGVkvkHcyVp5CK8Md8lnp1xsDTTB6hJXKmARFwgkTN/qa
+ RX7/zSbng3CmQY/4654s6deFGxtOrcSErDCCUlhJtI5QMT/dJ6KPzYqq1
+ ZcVhqFDCAqLa8zH2fcTfjVgWSXvYdzL5jO5ZqwpRzM+aKIiQRZSEgaR5A
+ dksN82RPw1u9X3G54METidPTkJl2vZJyP5TJCLoAecJbOtVvZWylbURmq
+ lBtq5LK/d+sCCXBjmFVcGAcP3PZNPoO0q5qi04XkddQbfUVsDaMVS9sEC A==;
+IronPort-SDR: jO5b8WPSVfHr08pM53FnusVM0E9/uDtHxxf3BAvMlRy7ovlImJoKb7TjKJGnj+VLYG2g2beRvO
+ p9+3B4nAhe5XQ+h0UdMGGTKq6vwtTD5hgPMA8gE4M9wrNOactLjwAsCWwd5orJfwc4mvlsmNvQ
+ Ov/h7Km46tEDHvS+e5MM6Ny/qNIXpkKEja9zILWHaUU6VsbfQCW0DB6PyRfcy9c2Ht8XnfdHxG
+ nO1SaWpCxUN7jL48LPYuAo1xPfrq6aFS769dcHJdJmNcJXfvGRfJplS80Yh07mymQ6Jt9DNbrw
+ lZ4=
+X-IronPort-AV: E=Sophos;i="5.82,201,1613404800"; d="scan'208";a="168534069"
+Received: from mail-bn8nam12lp2169.outbound.protection.outlook.com (HELO
+ NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.169])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Apr 2021 15:36:23 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=honAZf455zS14Cm7njL45W1z1Kel/2EAMBY7rSyWbwOAw2CsDqtRNuJ7jDmuA7U4esMetkWtRUtbz0fQy5Qgle7BOGMwB0tq3AMZVWnvs017toKYN41Wfm5NisRm5lH8+O+FEEMRrI8SHcH8uKs4wLMEcqT4RUofDVvtI25Bo1U8ES3Tm3vWaoyBuOpXYEYV57LuxwWPzsBhlkHEOGyDJzOlSPna+MeoQyPB0c4jCXV/qwHAW68mxv7Z92toCFsh5MIT2QusG9GvbdBfeKIpy/gPHX2/Vs3X7nnNym+8L/wOEG423DMVfRUGAlWVfbDYlaOv8Lqorgi+0j30Mt935g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZUzk4iNN6Q+Gm955FDy4hzdm6bWxp87DuCyBqQXevdc=;
+ b=HyZb1SuyKlumE+gfwuHKXlws1X/nONGCibSbUw2MwUDtvekRXtjkhWXJCCzxp+n23lrdy0mcj44dYY655FiNWX30vTOCdgO2DJ1UgXJCzjhuSNoWRRoz8k8rQ24nL5L4pDXvfKuZDiqJ7ukhEe9gEUe08X+1nocutNx7MxLHjzDhKQzpRGLZ2vfVbva/6qtRZ8kUiq7mURtCv04Lhu0dwe5SPzsB5ErWm1+AIKHhvpXKkmuSIwfPxK+FnosFRsN8HhuYtAN6cfhtX/dnjf8n0y5O+T2inBuyr7RGY8UZn1z8lpWDc+mk5V/6ayb/0S9yULn/uoOtDTog2YJdjLkYbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZUzk4iNN6Q+Gm955FDy4hzdm6bWxp87DuCyBqQXevdc=;
+ b=gJU+6F2qdXMJtAJQVbrlFx8zIQeY40EHs6dxEXumvpvaeAnzfNQVSWHVX5m5nztdtN1ZVujuf3Mn1YrsHc7PkUMLlIy0g7dEJ2QWwI2X/Q+7vxTWZuPt4xiXJqqBz6vLAIdWS0+QPU/mAnOXE5Fmsg5z2EmvVKXKiWIXr0obC1A=
+Received: from DM5PR04MB0684.namprd04.prod.outlook.com (2603:10b6:3:f3::20) by
+ DM6PR04MB4124.namprd04.prod.outlook.com (2603:10b6:5:95::27) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3999.29; Wed, 7 Apr 2021 07:36:22 +0000
+Received: from DM5PR04MB0684.namprd04.prod.outlook.com
+ ([fe80::9842:455e:f0d:a1bf]) by DM5PR04MB0684.namprd04.prod.outlook.com
+ ([fe80::9842:455e:f0d:a1bf%11]) with mapi id 15.20.4020.016; Wed, 7 Apr 2021
+ 07:36:22 +0000
+From: Niklas Cassel <Niklas.Cassel@wdc.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: Minwoo Im <minwoo.im.dev@gmail.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe
+ <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>, Kanchan Joshi
+ <joshiiitr@gmail.com>, =?iso-8859-1?Q?Javier_Gonz=E1lez?=
+ <javier.gonz@samsung.com>
+Subject: Re: [PATCH V2 0/1] nvme: introduce generic per-namespace chardev
+Thread-Topic: [PATCH V2 0/1] nvme: introduce generic per-namespace chardev
+Thread-Index: AQHXKsN1pjvW+Y7eAUiYEfo71YOF9aqnfeiAgAAXigCAARZvgA==
+Date: Wed, 7 Apr 2021 07:36:22 +0000
+Message-ID: <YG1g9bMYRjS3uCXs@x1-carbon.lan>
+References: <20210406064841.103393-1-minwoo.im.dev@gmail.com>
+ <YGwjc8rliXhvccPp@x1-carbon.lan> <20210406133533.GC2594@localhost>
+ <20210406145948.GB7790@lst.de>
+In-Reply-To: <20210406145948.GB7790@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [85.226.244.4]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cd56aea2-5033-463d-1b0b-08d8f997d790
+x-ms-traffictypediagnostic: DM6PR04MB4124:
+x-microsoft-antispam-prvs: <DM6PR04MB41243EBD5ECE37C19A2F573CF2759@DM6PR04MB4124.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bUEUKoD8roULlISQ+hEm5Eu9AqW++65T9KhlGO1G1fHKuDY60Ot3O02wQ6Q2S3cDij7cYFUpKdyX20Q13Y/4N1tb0GZzXVL/D8VUMkPeJ3Mijc7SJKdwaDtngRQD1AWlhgmA8lLdkmm9PLdch6rWZMPXQ8jbkEvzHdt0xyO5J+DUW22o+DHPre0lmdU9b8Y8Kcg+auQONn2Z6ikbPFnO8+wWQa4iRBXBEGFJlbWKRx/ZlDfbOPb2T8hMpcmZ/tAe8705IxBYa85yXAaZc+AwLqfgZO9YAv4H6gNzXT5LkPrg88wIPjDw8AP3ZA/nL0oKCoazySC5usNv1UxynYXLEcSz855LftUogzl89ga56QAq6i8HZa1wghHRrboSanz1b6H89vWt3y0W2andFaUYPomqAP/k7yH7rlUbUVpDBRhT4s/rcAbZcYAU52AYliZEyrmL1MYTgDBXeOEluG+8+HHZgUC5b+7CnFDmwkPRb0tzZxAGLYD07Hdbf3HGYThPecXYGaO1yc7FC3MObleVEKY2bl5A/bTbrAVHM+PnsHNXgSWxgz+lN11cetLtaTp6/HcvpdUG06V1BFvyX/n35kEjTuUaMZjCjNuMuOpw9Eh8iQAUkg4PkW1Gb4mkZuYgscgmhasmY7eG/reH0xhbKelWkjX4evIMGaL+fTH/EBPm+fYKmT948N46x1m1VPMD
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR04MB0684.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(396003)(376002)(346002)(136003)(8936002)(4326008)(6512007)(86362001)(38100700001)(6486002)(8676002)(64756008)(66446008)(9686003)(6916009)(2906002)(83380400001)(66556008)(76116006)(91956017)(5660300002)(316002)(54906003)(478600001)(36756003)(71200400001)(6506007)(186003)(26005)(66946007)(66476007)(41533002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?RSnRsFqADnjFXCjnyR/MIV7cx5xdL1Ni2ifKfQJwMtSjgXnTNTwP3ZwtvX?=
+ =?iso-8859-1?Q?6cGgpdzaEj7w7lSJMxUPb4EBobp2N9Op1LFoqZVLcjc+TKgyeOufIqURT4?=
+ =?iso-8859-1?Q?B/AclKdduufuVHWOGnRn6miBOEJHWdDPz9s+dWPc7/mnUs480WVNPm7gni?=
+ =?iso-8859-1?Q?NKukG58TaaCpGnn5EiFUDrcU0tT++t1bYiT2LqiOmmAbqBEbKDdJ6MPE70?=
+ =?iso-8859-1?Q?Qz+Pd6DoScjKYrnrNXDZBE3ohVtoDKs3PeE9vu3pWbqj4ZYkAvgenpczPV?=
+ =?iso-8859-1?Q?F4jSlsrXnkNj32c2ips7ZQjjMpzshD/DOeoGa+hfBB4Ro/iOs2JOmBEJtm?=
+ =?iso-8859-1?Q?xiaZrjULbXoBpN0xXXoi+MD6FlULvqC8MF1M1Hgv1Tw7HK6lacMi/DF15L?=
+ =?iso-8859-1?Q?Bx9Q+dip6BByZKuN7tuzruP9sZ3V/I5El+uuabhXwF3lMhLpzJDNRQCcHN?=
+ =?iso-8859-1?Q?Bs8YeIX7+Bp+bCft+vujON9hAJwpW81K+RuJDCMPcQdkOH5Dgv5Mtq4dn1?=
+ =?iso-8859-1?Q?y8vL4OJLScJJiC1GEVVA4w0/LqiBDCKjrQJ+afjIrCiYivBkDEpL2XoIhx?=
+ =?iso-8859-1?Q?kihb5vmzwVBltjQ1U557quJ3vM/Qv3sF+zo3/Qk86/M1wpSdTWWouO2Lcd?=
+ =?iso-8859-1?Q?tF7xmOc2TXhTvIWeiu1yOeqETUhLyB36lY/coR5W4IViexTHmkNo37KOTe?=
+ =?iso-8859-1?Q?q497jDaxL7527n3H/42uv+Jti+Y4fBdzdmdyYEd6u8b9pduHkiW+5l0SUU?=
+ =?iso-8859-1?Q?av/PxtIby+ELONts9uvqiQpRRH9+OWjPTlbk8Yk7Y/4CerchSxfpcgRx0G?=
+ =?iso-8859-1?Q?17SYTHke1VIhdYMhBKjf1mJuD8TxWHwakMy9UfO+shKOvGHjrRMRMRa/zj?=
+ =?iso-8859-1?Q?9kHzWjYfrXEfpu4zcmlHN0fZvZVCfeJmQ7Mx2EmvPKF7EZlKWo3xYChPbW?=
+ =?iso-8859-1?Q?xwKDex5Z0iJ6aV3kG+pZhlx5P9veH66sTTLXxzyKgjvaZqoch8q66gAKAs?=
+ =?iso-8859-1?Q?/RoY1Aicw39dynxEQYHSVbiYcKfd02Zgot4IXnQJ2ZKpqpfZZ0mJTFr1Q1?=
+ =?iso-8859-1?Q?BCx92xUsd5CLVXH/w8YDFaJn1IGnnfBLGqwV89KARmau3NWY+LdZvrmASF?=
+ =?iso-8859-1?Q?tFE2K2TL5RGQPEx4TDPzGMFPfVBmX/Py2qqlCc9a5T/iEkiXETtri84ibp?=
+ =?iso-8859-1?Q?CHqFu138YQU89TuE65zukgaQ9aQarRnv4A1WVlQuLC4Kk7sZlSEnxkGkRo?=
+ =?iso-8859-1?Q?8jVeYsw7fIRqj8P5fwJpgpRGGSoXwMNzGnPeKjKyFHq3H2/UDdwXipjfbV?=
+ =?iso-8859-1?Q?RK+POA2808B/Y93UlGI7YxYIF1kZ1msi3GCK98Z390NRuRuFutW+QQwIXE?=
+ =?iso-8859-1?Q?zJ6zlzdlX/?=
+x-ms-exchange-transport-forked: True
+Content-ID: <267F5721C5138B428D612AA1DF71E774@namprd04.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR04MB0684.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd56aea2-5033-463d-1b0b-08d8f997d790
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2021 07:36:22.2239 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hJqSADUtgkyF4l25RvkiAneiFkWSI7VjyVEdhFmrYpSEWICah//EQUHv5XPnlsf4KnIO4dMQrpDBPV9ulmm8Ug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB4124
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210407_070759_730339_33E71E33 
-X-CRM114-Status: GOOD (  26.94  )
+X-CRM114-CacheID: sfid-20210407_083632_269460_00C9AC1C 
+X-CRM114-Status: GOOD (  19.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,250 +168,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
+On Tue, Apr 06, 2021 at 04:59:48PM +0200, Christoph Hellwig wrote:
+> On Tue, Apr 06, 2021 at 10:35:33PM +0900, Minwoo Im wrote:
+> > > with e.g. fdisk, mkfs, mount, in fstab, what to specify in fstab, etc.
+> > > 
+> > > I think that there is value in reducing the confusion for regular users.
+> > 
+> > Agreed on this point.  We might have thousands of namespaces and it
+> > might be making confusions to users.
+> 
+> How does this create a confusion that it doesn't for the existing NVMe
+> block devices and the SCSI disk and generic devices?
 
-The patch introduces the vmid in the io path. It checks if the vmid is
-enabled and if io belongs to a vm or not and acts accordingly. Other
-supporing APIs are also included in the patch.
+The SCSI generic devices are named /dev/sgX while the SCSI block devices
+are named /dev/sd*, so the names are more distinct compared to /dev/nvme*
+and /dev/nvme-generic-*.
 
-Signed-off-by: Gaurav Srivastava  <gaurav.srivastava@broadcom.com>
-Signed-off-by: James Smart <jsmart2021@gmail.com>
+A "regular" Linux user who writes /dev/sd<tab> will not see the SCSI
+generic devices, but with the current proposal, if he writes
+/dev/nvme<tab>, he will see the NVMe generic devices.
 
----
-v9:
-Added changes related to locking and new hashtable implementation
-
-v8:
-Added proper error codes
-updated logic while handling vmid
-
-v7:
-No change
-
-v6:
-No change
-
-v5:
-No change
-
-v4:
-No change
-
-v3:
-Replaced blkcg_get_app_identifier with blkcg_get_fc_appid
-
-v2:
-Ported the patch on top of 5.10/scsi-queue
-Added a fix for issuing QFPA command which was not included in the
-last submit
----
- drivers/scsi/lpfc/lpfc_scsi.c | 169 ++++++++++++++++++++++++++++++++++
- 1 file changed, 169 insertions(+)
-
-diff --git a/drivers/scsi/lpfc/lpfc_scsi.c b/drivers/scsi/lpfc/lpfc_scsi.c
-index f81178464436..3267c5858238 100644
---- a/drivers/scsi/lpfc/lpfc_scsi.c
-+++ b/drivers/scsi/lpfc/lpfc_scsi.c
-@@ -5263,6 +5263,155 @@ static void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport,
- 	}
- }
- 
-+/*
-+ * lpfc_vmid_get_appid- get the vmid associated with the uuid
-+ * @vport: The virtual port for which this call is being executed.
-+ * @uuid: uuid associated with the VE
-+ * @cmd: address of scsi cmmd descriptor
-+ * @tag: VMID tag
-+ * Returns status of the function
-+ */
-+static int lpfc_vmid_get_appid(struct lpfc_vport *vport, char *uuid, struct
-+			       scsi_cmnd * cmd, union lpfc_vmid_io_tag *tag)
-+{
-+	struct lpfc_vmid *vmp = NULL;
-+	int hash, len, rc, i;
-+	u8 pending = 0;
-+
-+	/* check if QFPA is complete */
-+	if (lpfc_vmid_is_type_priority_tag(vport) && !(vport->vmid_flag &
-+	      LPFC_VMID_QFPA_CMPL)) {
-+		vport->work_port_events |= WORKER_CHECK_VMID_ISSUE_QFPA;
-+		return -EAGAIN;
-+	}
-+
-+	/* search if the uuid has already been mapped to the vmid */
-+	len = strlen(uuid);
-+	hash = lpfc_vmid_hash_fn(uuid, len);
-+
-+	/* search for the VMID in the table */
-+	read_lock(&vport->vmid_lock);
-+	vmp = lpfc_get_vmid_from_hastable(vport, hash, uuid);
-+
-+	/* if found, check if its already registered  */
-+	if (vmp  && vmp->flag & LPFC_VMID_REGISTERED) {
-+		read_unlock(&vport->vmid_lock);
-+		lpfc_vmid_update_entry(vport, cmd, vmp, tag);
-+		rc = 0;
-+	} else if (vmp && (vmp->flag & LPFC_VMID_REQ_REGISTER ||
-+			   vmp->flag & LPFC_VMID_DE_REGISTER)) {
-+		/* else if register or dereg request has already been sent */
-+		/* Hence vmid tag will not be added for this IO */
-+		read_unlock(&vport->vmid_lock);
-+		rc = -EBUSY;
-+	} else {
-+		/* The vmid was not found in the hashtable. At this point, */
-+		/* drop the read lock first before proceeding further */
-+		read_unlock(&vport->vmid_lock);
-+		/* start the process to obtain one as per the */
-+		/* type of the vmid indicated */
-+		write_lock(&vport->vmid_lock);
-+		vmp = lpfc_get_vmid_from_hastable(vport, hash, uuid);
-+
-+		/* while the read lock was released, in case the entry was */
-+		/* added by other context or is in process of being added */
-+		if (vmp && vmp->flag & LPFC_VMID_REGISTERED) {
-+			lpfc_vmid_update_entry(vport, cmd, vmp, tag);
-+			write_unlock(&vport->vmid_lock);
-+			return 0;
-+		} else if (vmp && vmp->flag & LPFC_VMID_REQ_REGISTER) {
-+			write_unlock(&vport->vmid_lock);
-+			return -EBUSY;
-+		}
-+
-+		/* else search and allocate a free slot in the hash table */
-+		if (vport->cur_vmid_cnt < vport->max_vmid) {
-+			for (i = 0; i < vport->max_vmid; ++i) {
-+				vmp = vport->vmid + i;
-+				if (vmp->flag == LPFC_VMID_SLOT_FREE) {
-+					vmp = vport->vmid + i;
-+					break;
-+				}
-+			}
-+		} else {
-+			write_unlock(&vport->vmid_lock);
-+			return -ENOMEM;
-+		}
-+
-+		if (vmp && (vmp->flag == LPFC_VMID_SLOT_FREE)) {
-+			/* Add the vmid and register  */
-+			lpfc_put_vmid_in_hashtable(vport, hash, vmp);
-+			vmp->vmid_len = len;
-+			memcpy(vmp->host_vmid, uuid, vmp->vmid_len);
-+			vmp->io_rd_cnt = 0;
-+			vmp->io_wr_cnt = 0;
-+			vmp->flag = LPFC_VMID_SLOT_USED;
-+
-+			vmp->delete_inactive =
-+			    vport->vmid_inactivity_timeout ? 1 : 0;
-+
-+			/* if type priority tag, get next available vmid */
-+			if (lpfc_vmid_is_type_priority_tag(vport))
-+				lpfc_vmid_assign_cs_ctl(vport, vmp);
-+
-+			/* allocate the per cpu variable for holding */
-+			/* the last access time stamp only if vmid is enabled */
-+			if (!vmp->last_io_time)
-+				vmp->last_io_time =
-+				    __alloc_percpu(sizeof(u64),
-+						   __alignof__(struct
-+							       lpfc_vmid));
-+
-+			/* registration pending */
-+			pending = 1;
-+		} else {
-+			rc = -ENOMEM;
-+		}
-+		write_unlock(&vport->vmid_lock);
-+
-+		/* complete transaction with switch */
-+		if (pending) {
-+			if (lpfc_vmid_is_type_priority_tag(vport))
-+				rc = lpfc_vmid_uvem(vport, vmp, true);
-+			else
-+				rc = lpfc_vmid_cmd(vport,
-+						   SLI_CTAS_RAPP_IDENT,
-+						   vmp);
-+			if (!rc) {
-+				write_lock(&vport->vmid_lock);
-+				vport->cur_vmid_cnt++;
-+				vmp->flag |= LPFC_VMID_REQ_REGISTER;
-+				write_unlock(&vport->vmid_lock);
-+			}
-+		}
-+
-+		/* finally, enable the idle timer once */
-+		if (!(vport->phba->pport->vmid_flag & LPFC_VMID_TIMER_ENBLD)) {
-+			mod_timer(&vport->phba->inactive_vmid_poll,
-+				  jiffies +
-+				  msecs_to_jiffies(1000 * LPFC_VMID_TIMER));
-+			vport->phba->pport->vmid_flag |= LPFC_VMID_TIMER_ENBLD;
-+		}
-+	}
-+	return rc;
-+}
-+
-+/*
-+ * lpfc_is_command_vm_io - get the uuid from blk cgroup
-+ * @cmd:Pointer to scsi_cmnd data structure
-+ * Returns uuid if present if not null
-+ */
-+static char *lpfc_is_command_vm_io(struct scsi_cmnd *cmd)
-+{
-+	char *uuid = NULL;
-+
-+	if (cmd->request) {
-+		if (cmd->request->bio)
-+			uuid = blkcg_get_fc_appid(cmd->request->bio);
-+	}
-+	return uuid;
-+}
-+
- /**
-  * lpfc_queuecommand - scsi_host_template queuecommand entry point
-  * @shost: kernel scsi host pointer.
-@@ -5288,6 +5437,7 @@ lpfc_queuecommand(struct Scsi_Host *shost, struct scsi_cmnd *cmnd)
- 	int err, idx;
- #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
- 	uint64_t start = 0L;
-+	u8 *uuid = NULL;
- 
- 	if (phba->ktime_on)
- 		start = ktime_get_ns();
-@@ -5415,6 +5565,25 @@ lpfc_queuecommand(struct Scsi_Host *shost, struct scsi_cmnd *cmnd)
- 	}
- 
- 
-+	/* check the necessary and sufficient condition to support VMID */
-+	if (lpfc_is_vmid_enabled(phba) &&
-+	    (ndlp->vmid_support ||
-+	     phba->pport->vmid_priority_tagging ==
-+	     LPFC_VMID_PRIO_TAG_ALL_TARGETS)) {
-+		/* is the IO generated by a VM, get the associated virtual */
-+		/* entity id */
-+		uuid = lpfc_is_command_vm_io(cmnd);
-+
-+		if (uuid) {
-+			err = lpfc_vmid_get_appid(vport, uuid, cmnd,
-+				(union lpfc_vmid_io_tag *)
-+					&lpfc_cmd->cur_iocbq.vmid_tag);
-+			if (!err)
-+				lpfc_cmd->cur_iocbq.iocb_flag |= LPFC_IO_VMID;
-+		}
-+	}
-+
-+	atomic_inc(&ndlp->cmd_pending);
- #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
- 	if (unlikely(phba->hdwqstat_on & LPFC_CHECK_SCSI_IO))
- 		this_cpu_inc(phba->sli4_hba.c_stat->xmt_io);
--- 
-2.26.2
+I just had a gut feeling that this could cause confusion in the future.
+However, I trust your experience and judgement more than my gut feeling.
 
 
+Kind regards,
+Niklas
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
