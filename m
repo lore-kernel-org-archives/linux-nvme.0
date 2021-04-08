@@ -6,14 +6,14 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63456C433ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 21:15:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 251C8C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 22:07:06 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B1AEF610E6
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 21:15:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B1AEF610E6
+	by mail.kernel.org (Postfix) with ESMTPS id 4B91D610A3
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 22:07:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B91D610A3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,134 +22,134 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=k9HUju3EbKerpmCETmVGVxe7SEPQuWGqLs8YtyMrYnM=; b=TqMqgMTlDHP8IWQsHgtrNjIXR
-	Od61UmHd9r+w1eQ6Zo4ZaQAH1mwBLV2AOaJzPfwrmio/JpB2EEaicqu2GieSl9akUEAH9IpKExL/G
-	wgurWZQaMuvsY/ExoQdvV+1KAogtX1MqLGRWU6FVLXsIt5C5Tt0YVHNDSeX78lynXY64KzJgF/qLO
-	R1nYX8NkRXKzO78vgra30F2CGYaGTNsB1a2TzUM6f7zKZkYWHNRrOxaxjBhvkNk/+aJY3RWopzleQ
-	3l7Ln0BBJqri+pNcd5wOACrT9ORmQ6svZ9glqLVZvrnfBFKlf18PW82vjNBtPwdAEijXP9KDjczF1
-	f1JIxIpEQ==;
+	 bh=7G9EvN6Kc898TJPsY6JlBYIjLOWpU0hbf3zHSOE7Xe4=; b=YAsMzRMEkkzY/BhJW1S8J2Pbc
+	XFCgm51DVSTIpblU7Ad50ye+CyY0+z9JbzOdL3j/IcAAylPCMKYNeZiAykD1zgZdysh9UBTiCuXY0
+	4/fCGnYoolYZ8rsc5aGZNVITTUKJ2YYD2/zZDUMA5zjqGhB8pYnJWE3gcpl15Ul/1Ps6Y1dDyTvA7
+	ntQ3apE2EfMUDh03ZghjmW2r3Whpu+gc7FbH8GBwWkKA4O9dWPCynD01Wn4jCAsYFixOBYmtE+fPI
+	LuD8zY/uJZ1jUhM+592gFmpHZfMyQ+7xt+q9JG0vilz/rxL4E84dkaTyhh5uyIGWSyyLxF7Tenwh4
+	wrm+ZGXfg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUbz3-009HFh-UI; Thu, 08 Apr 2021 21:14:38 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1lUcnP-009LgZ-9X; Thu, 08 Apr 2021 22:06:39 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUbyx-009HFI-VU
- for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 21:14:34 +0000
+ id 1lUcnJ-009LfP-6f
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 22:06:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1617916471; x=1649452471;
+ t=1617919593; x=1649455593;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=nbA3z4xTfCccciOCyyAkGHXidYEll2Mrb7myT0RqCRs=;
- b=OTUa1zpv16mYXpaQqpRCyeKNYb3vexRMnZzAnrrIF4Eo9qwCr2e9vWGX
- Dz2jOkhgSb7FvLuyIhNbeLnD10lmIukDiVJI37e3rVUFKLC/hpHuWpN2L
- 5uj7UA/ixrVzBMHv2GfAcwJJRmcYIuZfzWyo1lOKzP7zudaFSc4omqy9P
- Ibhyprfv2FvHizvw+Z8eWhJ9Tvkg/StOVUkeL/4subyFLBScZy87Onpyu
- P4UPwIyrnFztVIkqb9o8lB1hELggAT78qVCxj5N21X4HtucU0as4CNlcs
- POVUxAamGqTiGD+132K9zY50tQwrp3hLK6n0pPwdNdivLiHXk9urnL6+l Q==;
-IronPort-SDR: zVRwUuAPjQUh9FIb3SmLOWJ8KyY1NJyqlELAQpQhCMWdThZLiKbmqPLins7yFEThoXfhmkV5in
- /0mbr4Oxj2tADRRu2r7dOrgbYBgEdlNlgW8tebCR5DsuZUECaGEEepGKN0XcRDL5Ut4HkthZHN
- dKfQfYmpORmmJgFMlm4AbWXVCfrLTBWAdgKw2PhX9ca2xFLz03H99hZwSfUiiK+KLYMFDbIbDe
- R3ZEpjTryTyd3s3+ApGpRK0yuTLFQ3bZH7F/ArBK4vXhXKJ4vQ4203marKczBQA5UtcWltiTiu
- CKo=
-X-IronPort-AV: E=Sophos;i="5.82,207,1613404800"; d="scan'208";a="275098125"
-Received: from mail-bn8nam11lp2168.outbound.protection.outlook.com (HELO
- NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.168])
- by ob1.hgst.iphmx.com with ESMTP; 09 Apr 2021 05:14:25 +0800
+ bh=NFO/NSh8dIWpJQfgee9rOvDn3bORrVIjuN48YRzj4MA=;
+ b=FsoVQlBQzFcru/qwvjdpcYqwXLr/qi6kFoIztIh+WicVbYZGl7EWCqpK
+ XDbV6jW6aEu2CX4Wcone18iDIEuhCq1w/uibRE+Xb07EYUSVCHKn8Awgz
+ fdegLciY+16Uy1ZktUUD5HHv+eEJXaBQsO/tcxNBrTEZJqX6HHwlELPmX
+ 5ddWE79npPn0oAYfAcXLmwAesm/xS6u1MgfQ9FmpzOYM/8gmr7sB4uEoT
+ 3Ypr7RKYGSktKrtPrs1vn8cRauv+iCBbVpAdlGs6rrZelffXMSgLaP8Zz
+ O0L3jNtWgUtnHOBMEu4ob+/qJy96Qm0EVxQD+adc/kkhFztOkNBtVW2VB g==;
+IronPort-SDR: dvkXtSQZyJ4rfXWjrI4/DpliE3hVDiSA62au0YmsXLReb0czWz/Mj1G56rtGfmISuZiG9OlmRp
+ 1Z3a96DKx3qibbh37boLuMLARQ3gxpDe/NCo2K8WJaLPFqBGZ+H5uPxzgNHfkWft7hy7O/25o5
+ Xmf1TbDGbhqIT68Tf9BW++hzXikdPhhlhDnYBfzJgmruepLScyZEbCQrDPctN5SvqQ8ZkB71AY
+ OXn0aP6stLSmT/vzRdoW9XQyjiRPJ+eQjpsGP+LvcV263OHPEg06IYhKdAe3Nx3qybm8R65HUg
+ c9g=
+X-IronPort-AV: E=Sophos;i="5.82,207,1613404800"; d="scan'208";a="164238178"
+Received: from mail-bn8nam12lp2173.outbound.protection.outlook.com (HELO
+ NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.173])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Apr 2021 06:06:17 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DDdQiTRLZw/DI/4NXD69TbAFMUsdilljsdnlk9uQHuYat6i9lF9E1RH2vdczZ8DJn9JbfoD4wcpGvYaIsD7R9EsYXQ9x/6SvbySBd/JQLzihaais+pw1jxUrehsGMOBLH5hKHJMCpkaHlcB37YAanPpEWhnCCjcnWVW6LXnH13a4BdASrfZdZaW6p1BmwddJbK8XxH81E6CGuCPDFmw0rvLrsJolOjFnjKhXnVWqzlfExZcNGj+oApICxLCkmvVlbJgkx7iUty0/72ceLI2HG4nP61LjKi+Cwa5ldDelKD7q2sdOpJ4opeWtx+9oFkOJ6jK20LML7CvtHwPZ91UZog==
+ b=cAGC4xxvhiwV17+5yLVD2DOalQBIYTC4AATUHIo5HKR5HMqVVKXntyUT9ZpjfCMKL08xx6nVmDpAi3BO4oB2PTIZCezYJHZ8zAW1ZpXLuBpOkFI7LJ2+LLCYYzJ/t8lrfAftzOkCoGp5f/b91JOw+B1ObE2LyBt9Z8wdwLOM9J+mt90Cv6Ky1/DlEmQ78H4orj/UprdR0whi5nTUifJYLI2pbTXx+jc2PtL25OW8pPe8TwMOCtqbTPR/5MZF+CaIQcWV2QE4S6HKS6WCevrNTWehQUOijECs/z/CB5RQi+r/DHoGCCrnCr7RmhVA57Co3qCcmtMfgC4nx2cdm4r++w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M3FGJ+/tbOBbY+HP09p7BZ2bSSu2WiQlG/THT5LL764=;
- b=CMuDJQN1kqgyAJZW5+xVc1AbW8Ixwrgx0K8p7zPi77Uuw34BWSmNrEkbfgcjZI8szO1saIOR5/7Bln48rtPCCOEp3q4lHA8IgzwEsHZe6M/74igt2vjC3zMtx3A5WJM50Z7uGRdIO2EaQ7RkSUcnJv75u3QKKu11beXgO3RG5+nonT9UR2NPRvRzNIURqHfNYHhZAr2O7SNj4af4l1PTl+lwXWaeERNbsWZpXBDOBMusbQ/V0/nncBiNrHsfakqD/zjIf7AAlwjBZ49A7Y3T/70Is4GOtCmDveC3kja50JNmYODRotDHSrP1kzPgDjMHaApeJX+2lXJvHQnqvsCbIw==
+ bh=y+FfCuMbIP2EoCULMe0wSBqTIX/YhPFAH41PfwYrpy4=;
+ b=iF3DHGk4IFqB8lgQfse6k2jKOOHtQLRa8FGvGatZBlno4sKO9lshRG4N12MUYBwbPz4qrPqc5XA/y7tn3XKGUeqXq1wRIf3u67HtTjSD11HQE5p8WX6yDAomP+F8aRleNIWQLPobkJPm6TnvTa9R35zFynuhioskJerNIb8Yjwjl20idqK9XMMI1iouk/THIKRdyQG03h3yD35ISWC0dS58blinkbSePiuxDXo/LZVSpe4J0Ds7e6yrvpPzk35s1VKGx4ZI7GN2Y7U1TYf5MsQZDn4qtx1tPS7NaAQ/ePqXdbjn0uc/5ExPuHjha/rXr+R3swzTm1BtuV9VLUElOYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M3FGJ+/tbOBbY+HP09p7BZ2bSSu2WiQlG/THT5LL764=;
- b=EFUteARxC3vtgpZ+E+tL1Vt9iBKReDFFZZcY/v+xG3E/yVVF+cU/udbpoHS/6LgGT+UzudRZf8a1oQMGQxqgLaXPP+N67pajZ3QkDfCprySoFLhdc6JURsr0xK7miZPB0jcoTk8CxqokZgWV37uI72altR98I5tQLCAFbuij83s=
+ bh=y+FfCuMbIP2EoCULMe0wSBqTIX/YhPFAH41PfwYrpy4=;
+ b=yN3Ug2du2GZhj3BIEBlUCBKLbz9897kHj8355Cf8Uw3iy8E0HKe7B1oi2NY9yNtDgQOab23Pcvi8PLPjoKwTTSKKZqOOU9EVAQ/2a3vAsqo5n8VrqzYwFqmzGXrFt89Og/T2BfGDy9OTUBhkq8xuvWkIrPTIqE2u/9sNxEcWDCo=
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
  by BY5PR04MB6803.namprd04.prod.outlook.com (2603:10b6:a03:21a::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16; Thu, 8 Apr
- 2021 21:14:24 +0000
+ 2021 22:06:16 +0000
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::c897:a1f8:197a:706b]) by BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::c897:a1f8:197a:706b%5]) with mapi id 15.20.4020.018; Thu, 8 Apr 2021
- 21:14:24 +0000
+ 22:06:16 +0000
 From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Damien
- Le Moal <Damien.LeMoal@wdc.com>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "hch@lst.de" <hch@lst.de>
 Subject: Re: [PATCH V13 2/4] nvmet: add ZBD over ZNS backend support
 Thread-Topic: [PATCH V13 2/4] nvmet: add ZBD over ZNS backend support
 Thread-Index: AQHXLAw04l3W0N5us06JCpRfHcvipQ==
-Date: Thu, 8 Apr 2021 21:14:24 +0000
-Message-ID: <BYAPR04MB496576AC2F66933D9509A22286749@BYAPR04MB4965.namprd04.prod.outlook.com>
+Date: Thu, 8 Apr 2021 22:06:15 +0000
+Message-ID: <BYAPR04MB4965EF4797C51B1896D2640486749@BYAPR04MB4965.namprd04.prod.outlook.com>
 References: <20210408001427.20501-1-chaitanya.kulkarni@wdc.com>
  <20210408001427.20501-3-chaitanya.kulkarni@wdc.com>
- <20210408072337.GB24502@lst.de>
+ <BL0PR04MB6514CAFA7FDA65E10B1DCE11E7749@BL0PR04MB6514.namprd04.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
+authentication-results: wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
 x-originating-ip: [199.255.45.62]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0f352e77-cebf-407c-d904-08d8fad34924
+x-ms-office365-filtering-correlation-id: 55f463c9-3ed1-46c3-f893-08d8fada87c5
 x-ms-traffictypediagnostic: BY5PR04MB6803:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR04MB6803CD40184A711F9E09A12C86749@BY5PR04MB6803.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <BY5PR04MB6803B28EFC2958AF495B2F5786749@BY5PR04MB6803.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:3173;
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DtaxS121AcLXoA/tl5WGdrvgdEe78lCydRBFUqc/oWd3J5yj5MjEHkloruztd2ecSLMKR3gzmq9k+oiDYooHWG3vHn0NXoc1UMDQgkVHUMovD338IBJOn2OoyWmpbGXI2R5eU7O2TyOlVdT0XokTxNmxm2nQdPi/XTFp3di5N6eTNyuXpOoUmy2jAuZOIeYy3HaceDXQ+h5umMb6E4hhvPrH5WqtsP38tu1+DBXDr++3/4PH/nhX9M/sPgc0QtlpKUpAkYuyGxbVRbXZFp/ViopwxA6sWpclmi3aJkgyad2IKRRbuBdZReDKk2CcylrgNuoyOjxOA6BXxe0nZVS7ZF44vriuFBpVMEqfc56BD0yt998jv4MvMjhkx+JiGvut9uLuwI47z6oKt5fE7FTW727Y4XJlmr6dagZsvwpxONHdxoRvWRJRW9Fg1Kr2CoLaZ235/tJ8hk6nAbJFSK48YUG174LYLVtoOrJS8l2Qb/RJQIh/DMoKTd6NFnKMRT5N+QkG5gPS+ZCupUu6eTEDjvbi7CVVxY8TS58fMLgPDTXUXoQIxtFmaLf1Kf+R4WJEtLS42Lw00+2XLlM6/o+TrBFeBTlpHmOgob2UopNsqhL1j8qKG/qUndJomcepZP5anwBvgTxV1rLvZmmD6xH6BVGqTehPceonQYZW7qY1RfI=
+x-microsoft-antispam-message-info: gd+lJ5XtyPBcm6dvPcJmdHVR5OPvcvqWdHaA5g67KpdfWPCf9gUj/x3nmjWWioowQXpQ64ina8w1bsBzE4zyppNtNFuG6q7xfssKOUkXum8YEqaJsZ7/gRV9na+CNDwnalBWjv/4ShbkNYAt5puwpSWCfZKyyAk5W34f0Oc/CqDp6XeXDDI9NZrB6dI5aOxvPMNkMhMhku5/9+cWRvCizmTt/4KDUu78+qbERf1aW1r8C0BaXP6gUIjAejKU87dORSXgRbvT9WPyIjUZYfj4bp//jBz+vSocEopBa44fL9gPjQj2Lqk1gkEboTKxWUPR4kSDG2omvxUqjgvNWue9K2zWSxQT0NIk39mBfdKvDPIWENsFEzIhw1gz5ug2rxy1a3JL/68+b9s5k/Z50nglj0vd8N7P7gDuqoT4F5pAlC71vlJCiXzjS50LbysIW6Amhl2blwdWZTu7rapGXyJzwbxfffa3apIMIQX+bI535USna3C0gg2cjuMxaWWASy9QvlCMV0Gy+MvmhYukRqKm+M92kn/6FDPm3EZ9e1VtaKdEpmotAdrSVLX8E1np5/cjh08UVfj5p67Sw6uoT09GBfiq+lId6zV5qNwN4WjbwWo6KffW/vN0W+H9xkJl5OjRscMcWr3+LYs/iq/gjedYoA==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39860400002)(366004)(346002)(376002)(396003)(86362001)(9686003)(33656002)(478600001)(186003)(71200400001)(2906002)(7696005)(6916009)(83380400001)(316002)(52536014)(38100700001)(8676002)(8936002)(26005)(6506007)(53546011)(4326008)(66476007)(66556008)(91956017)(54906003)(5660300002)(66446008)(55016002)(64756008)(76116006)(66946007);
+ SFS:(4636009)(39860400002)(396003)(366004)(136003)(346002)(376002)(66476007)(66556008)(91956017)(4326008)(8936002)(26005)(6506007)(53546011)(64756008)(55016002)(66946007)(6636002)(54906003)(5660300002)(66446008)(76116006)(2906002)(7696005)(83380400001)(9686003)(33656002)(86362001)(71200400001)(6862004)(478600001)(186003)(30864003)(8676002)(52536014)(316002)(38100700001)(579004);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?/ip3pl8JibSwPZG3WfUDNRNwfl6SIq8fEjHGmLvK3PzU8PgU7cT5sDrk37E8?=
- =?us-ascii?Q?zkfH1Qv5qiono+ONrQI+kuIKnm7pPN778xbpn011H0x0EDuDjlhdjeNEcMUw?=
- =?us-ascii?Q?Bwg97PQn733Rvl4/zadOEZRJBsP1tOf6xyOImHwBVMhTZsVIi7y+oqc5RqDM?=
- =?us-ascii?Q?qDeOjd7CBTbr2jqrcBcwvm6JVfuKiVdJiipxwQ1iAbpVUlR5LQEBANRjK7t2?=
- =?us-ascii?Q?CheQS44xbM1mgk4xo3oNHb5BaXTtutpNFXv9Bv+4iWVVM1I5BoTHTh5P7q51?=
- =?us-ascii?Q?Qohk/DEb/k5k6lejhNgZjnYmOjem/wdm3RtoU+UOAYcDe5EiLfNvT35sqhWY?=
- =?us-ascii?Q?nhMYlKpwp1a/icweVY/wi9cFuvxiJGtA67iKXPfFCznnntBM7YDPTz4vFq4b?=
- =?us-ascii?Q?HmXOysqH0XldLrLGZ0GnkIQS8QaTpDUJtEB93MclJC4r8LkBZhquyk4OuPyq?=
- =?us-ascii?Q?W5d6gCyVXyxIdlp6sEtxW+W1SB2T2M+txuwLWQP7iUrUpZwhrBCGkL+VFLx7?=
- =?us-ascii?Q?gFaMr71UKLSaN5ywOu4erxc1w10c1uzKLkiMPhu3A05L4Jb3htG5455vxuft?=
- =?us-ascii?Q?Z12Hgi01m8UzPp0LmNgowsz6IGEfipWio5bkf0DQIJwwGvaic+M9oI6+mSTW?=
- =?us-ascii?Q?duyItJ/Iw/aT8Ml573lr3yvM0HJSfn3Zd07uujOZFcgirOC+zeGEGuWB2m2R?=
- =?us-ascii?Q?KvnSWZrS698gMXdfB8ip7zp/Cl5OJFI5YGgaXx1B6kUcToZqVAOGr7WSa903?=
- =?us-ascii?Q?RsfEsH/rdW6VvXFFwhwEljutuAeNo/Mlierj+vUoBB9FxA1x1Sn7RfxfhYv2?=
- =?us-ascii?Q?uSff/8JJ03g9dOfn3axqjmH5zksEhoxGWz31auBGWi2cVBGjWruUyfRy8BJE?=
- =?us-ascii?Q?V0UmIOb/ZUWIEWZkw/6amnBdv/nnY71xVS5KkaeeWORXFd7uqG6LawP0yvbv?=
- =?us-ascii?Q?1ST73KkigzkMMuNwiqQ4eA/5sCkh6Mx1FT6bD5revXCAQdR5UdGpACRfit2U?=
- =?us-ascii?Q?1juaoTwrpL5lO3eYkyzqAiMci3LdKDgbbqi2BO3DL20fReMHs6oPGqwbWd/E?=
- =?us-ascii?Q?KhiUUFiVggK9x8Z9VOYhPK+e+b+riwJrlZdu1bjVWwgTlJZmQwrVh5+qPWP6?=
- =?us-ascii?Q?CYLdDEh4nrhKHg2SWnFfFFvmJqHroJwgSNX/sjeiROnizovcwLtsXg5KnWwy?=
- =?us-ascii?Q?xiN3QYosb7v1IoMxRDubgSdE6eK9L+x8iXEaspZ+y/myVxTPLHg9H4nF/2UF?=
- =?us-ascii?Q?czGkVXbibZkCGCcOhllWuAPoXU5R7hYN+zcmObXuVL3E6hIgs+ZjKmGmyh1l?=
- =?us-ascii?Q?O1TrNPcDkEqB/U6hH067XNee?=
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?0aaDdBO40Mtb3cw5wOtTP0NTXqCnb/EFfPsFCWfX8cYsxO3XiinmBAbzVsGz?=
+ =?us-ascii?Q?HbgS6HVPCWc5X1rhAnzGCrEGWE4HDxSrpAmzzXhXO7Ps6KN9yl7SC94Dr2ro?=
+ =?us-ascii?Q?tezEHGedhitmWCQG/bPvd+3WNWQdxZMeOW9KHyg6QNgTpv9J3yRElF223jLJ?=
+ =?us-ascii?Q?VzQvqdUV7qBvJux+iARNpve0qLhdrspWKCFxf0NP8/u/dCOJEA1yAdhacewX?=
+ =?us-ascii?Q?wLnBMwtWJ5wB7L0MHSNg96lBhekaHMfTr/A0KaXKh2bdNDxiKy384b/gl5++?=
+ =?us-ascii?Q?XFRpRPkLuB8SAyYdmlR++t4XNpeHSF1WplzQ+9d53DROW5z0wdJIbDmw7uFs?=
+ =?us-ascii?Q?SkVjfwER3vEfsPjy7vWBUnRvfE6I1gjuNGhvr7E6/0zNkPaKu6DUPumZxSHV?=
+ =?us-ascii?Q?KEs7Aay00f8QGJ1JyD17b/DqCqZ6cUb2W29lk4VQ6Xsouk9/lJ8nk+BMPsAI?=
+ =?us-ascii?Q?t9KztNZyNsc3uFvrg+NjTMeuCBhJC35xuE+/UJrxsignJDaJzvtHNtj6gMym?=
+ =?us-ascii?Q?z/0A0F+22QJ6QWBndFE5p51cCCDAoFlwE4XcaA40R2Ienp959Rx2SJwoJyt0?=
+ =?us-ascii?Q?9AIE3EYYTeKhdRLcg2e5vRwnIxQU2Wbh8JtzCaUtQ3CUUg5BxBzqP5zNCzzk?=
+ =?us-ascii?Q?q0uQvvYRwEUPLNGgrxU8mwvrzJcNf1+Kt7u50stYscLoMahIwSnz1IT5UD9q?=
+ =?us-ascii?Q?EObfdt4ivZ6cqRjieEI5qHRanSmC75/+0OexmZ0Zdmzuls4XPpMGfPZcHef5?=
+ =?us-ascii?Q?F+htpbN63euzAEJi/zSU/y+TYvny2Zg/Cdcs71svpQfS/UUP98WV6HNR0Ve4?=
+ =?us-ascii?Q?lPxkRA9IojlJupZLgnp192nYnbhRfQg+QKnzk133e6zW8XGuVFqduNLH1spH?=
+ =?us-ascii?Q?2hV8Jfqb4MVcLXpzqUPUN4bmbFxHQyPZsqAihxnyqvRE8ZsqVftctyI56wAW?=
+ =?us-ascii?Q?FwpclYvQ9JpwK+NeT8i1injtYlAYzYu3NLutToPNPnLdpYrVeaNFYtOypGMC?=
+ =?us-ascii?Q?9m30ihaQzvF7EWbNbdqx9HeBdEj8VQiz508B3obBwN1XKpmjyzCxX9UHb2/6?=
+ =?us-ascii?Q?k1DyiTNsxAg+wc5ei/SFWJ4lB+WYfnW77Z08F53NXZ6K7r7oGMw8ALNTLc8w?=
+ =?us-ascii?Q?VEY8SbUfZxJqDFjnf/wnwvl+o1q8KUVKxYtcwOd/P5fzpbsKBqW8C0pmXeKF?=
+ =?us-ascii?Q?FiiEIe7jhCiS8CueynuOul+vkeAZ6zLG052rCSXj9hk/MqY2+bnCCsYp2Ir8?=
+ =?us-ascii?Q?t/0DIllkUpV6XOQVRdzHfC1p7R5QQQbVwTwuV2UmJCeyWLgZYWGbZP3Zom1R?=
+ =?us-ascii?Q?4EYUk9f5nvv1c+WsRPAg3zjP?=
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f352e77-cebf-407c-d904-08d8fad34924
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2021 21:14:24.3161 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55f463c9-3ed1-46c3-f893-08d8fada87c5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2021 22:06:15.8319 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AEavRvnVZWBw6HU2/qdUaBYvHIyBXsjM6EJoVAjYWJynKGbLv2HLPfU8O+0Ul3QbCZjxM3D+O6XOZUW4QSvNLLKNGEIN4ksl7UXV9h73T98=
+X-MS-Exchange-CrossTenant-userprincipalname: lmgfiVxIGTwJsaz+1EkZufZh2bwnSUJq4GdN7VbjTZzRxhI3xi7N0VTaXHFCMLMo721dKL+NAt72Q8de6IJQd/GjxgxGQXvo1whHgWF/9D4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6803
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210408_221432_831839_B36177C2 
-X-CRM114-Status: GOOD (  12.11  )
+X-CRM114-CacheID: sfid-20210408_230634_058418_CEE642A0 
+X-CRM114-Status: GOOD (  22.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -166,7 +166,14 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/8/21 00:24, Christoph Hellwig wrote:
+On 4/8/21 01:01, Damien Le Moal wrote:
+>> +struct nvmet_report_zone_data {
+>> +	struct nvme_zone_report *rz;
+>> +	struct nvmet_ns *ns;
+>> +	u64 nr_zones;
+>> +	u8 zrasf;
+>> +};
+>> +
 >> +static int nvmet_bdev_report_zone_cb(struct blk_zone *z, unsigned i, void *d)
 >> +{
 >> +	struct nvmet_report_zone_data *rz = d;
@@ -181,6 +188,10 @@ On 4/8/21 00:24, Christoph Hellwig wrote:
 >> +		[BLK_ZONE_COND_FULL]	 = NVME_ZRASF_ZONE_STATE_FULL,
 >> +		[BLK_ZONE_COND_OFFLINE]	 = NVME_ZRASF_ZONE_STATE_OFFLINE,
 >> +	};
+> This creates a sparse array bigger than it needs to be. If you reverse here and
+> use the ZRASF values as indexes (blk_zrasf_to_zcond[]), the array will shrink
+> and not be sparse, then... See below...
+>
 >> +
 >> +	if (rz->zrasf == NVME_ZRASF_ZONE_REPORT_ALL)
 >> +		goto record_zone;
@@ -196,13 +207,497 @@ On 4/8/21 00:24, Christoph Hellwig wrote:
 >> +	/* filter zone by condition */
 >> +	if (blk_zcond_to_nvme_zstate[z->cond] != rz->zrasf)
 >> +		return 0;
+> ...since zrasf is already validated, all of the above becomes:
+>
+> 	/* filter zones by condition */
+> 	if (rz->zrasf != NVME_ZRASF_ZONE_REPORT_ALL &&
+> 	    z->cond != blk_zrasf_to_zcond[rz->zrasf])
+> 		return 0;
+
+Since you are okay with this will make this change, except the array
+name should be:- nvme_zrasf_to_blk_zcond.
+
 >> +
 >> +record_zone:
-> While not bad per se I ind the structure a little odd.  I'd move the
-> checks into a level of indentation instead.
->
+> This label can go away too.
 
-Can you please elaborate on this ?
+Yes.
+
+>
+>> +
+>> +	entries[rz->nr_zones].zcap = nvmet_sect_to_lba(ns, z->capacity);
+>> +	entries[rz->nr_zones].zslba = nvmet_sect_to_lba(ns, z->start);
+>> +	entries[rz->nr_zones].wp = nvmet_sect_to_lba(ns, z->wp);
+>> +	entries[rz->nr_zones].za = z->reset ? 1 << 2 : 0;
+>> +	entries[rz->nr_zones].zs = z->cond << 4;
+>> +	entries[rz->nr_zones].zt = z->type;
+>> +
+>> +	rz->nr_zones++;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +unsigned long nvmet_req_nr_zones_from_slba(struct nvmet_req *req)
+
+[...]
+
+>> +void nvmet_bdev_execute_zone_mgmt_send(struct nvmet_req *req)
+>> +{
+>> +	sector_t sect = nvmet_lba_to_sect(req->ns, req->cmd->zms.slba);
+>> +	u16 status = NVME_SC_SUCCESS;
+>> +	u8 zsa = req->cmd->zms.zsa;
+>> +	sector_t nr_sects;
+>> +	enum req_opf op;
+>> +	int ret;
+>> +	const unsigned int zsa_to_op[] = {
+>> +		[NVME_ZONE_OPEN]	= REQ_OP_ZONE_OPEN,
+>> +		[NVME_ZONE_CLOSE]	= REQ_OP_ZONE_CLOSE,
+>> +		[NVME_ZONE_FINISH]	= REQ_OP_ZONE_FINISH,
+>> +		[NVME_ZONE_RESET]	= REQ_OP_ZONE_RESET,
+>> +	};
+>> +
+>> +	if (zsa > ARRAY_SIZE(zsa_to_op)) {
+>> +		status = NVME_SC_INVALID_FIELD;
+>> +		goto out;
+>> +	}
+>> +
+>> +	op = zsa_to_op[zsa];
+>> +
+>> +	if (req->cmd->zms.select_all) {
+>> +		sect = 0;
+>> +		nr_sects = get_capacity(req->ns->bdev->bd_disk);
+>> +	} else {
+>> +		sect = nvmet_lba_to_sect(req->ns, req->cmd->zms.slba);
+>> +		nr_sects = bdev_zone_sectors(req->ns->bdev);
+>> +	}
+>> +
+>> +	ret = blkdev_zone_mgmt(req->ns->bdev, op, sect, nr_sects, GFP_KERNEL);
+>> +	if (ret)
+>> +		status = NVME_SC_INTERNAL;
+> This one is a little odd with regard to the ALL bit. In the block layer, only
+> zone reset all is supported, which mean that the above will not do
+> open/close/finish all. Only reset all will work. Open/close/finish all need to
+> be emulated here: do a full report zone and based on the zone condition and op,
+> call blkdev_zone_mgmt() for each zone that need a operation. Ideally,
+> blkdev_zone_mgmt() should be called in the report cb, but I am not sure if that
+> cannot create some context problems...
+
+Please see the explanation at the end [1].
+
+>> +out:
+>> +	nvmet_req_complete(req, status);
+>> +}
+>> +
+>> +static void nvmet_bdev_zone_append_bio_done(struct bio *bio)
+>> +{
+>> +	struct nvmet_req *req = bio->bi_private;
+>> +
+>> +	req->cqe->result.u64 = nvmet_sect_to_lba(req->ns,
+>> +						 bio->bi_iter.bi_sector);
+> You should do this only if status is success, no ?
+
+I'll add a BLK_STS_OK check before the assignment.
+
+>> +	nvmet_req_complete(req, blk_to_nvme_status(req, bio->bi_status));
+>> +	if (bio != &req->b.inline_bio)
+>> +		bio_put(bio);
+>> +}
+>> +
+>> +void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+>> +{
+>> +	sector_t sect = nvmet_lba_to_sect(req->ns, req->cmd->rw.slba);
+>> +	u16 status = NVME_SC_SUCCESS;
+>> +	unsigned int total_len = 0;
+>> +	struct scatterlist *sg;
+>> +	int ret = 0, sg_cnt;
+>> +	struct bio *bio;
+>> +
+>> +	/* Request is completed on len mismatch in nvmet_check_transter_len() */
+>> +	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
+>> +		return;
+>> +
+>> +	if (!req->sg_cnt) {
+>> +		nvmet_req_complete(req, 0);
+> isn't this an error ? (not entirely sure)
+
+if transfer len matches the rw len and it is zero we cannot send any data
+so just complete the command.
+
+>
+>> +		return;
+>> +	}
+>> +
+>> +	if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN) {
+>> +		bio = &req->b.inline_bio;
+>> +		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
+>>
+
+[1] Zone Mgmt send emulation with all bit comment :-
+
+I ran the test where all the zones are set to the EMPTY right after creating
+a controller on the host (initiator), see [A]. With the passthru command
+with
+all bit set, I was able to change the state of all the zones, see [B].
+
+So I did not understand your comment about how all bit is failing to
+change the
+state of all zones with passthru commnd ?
+
+
+A. All zones are empty.
+
+# nvme zns report-zones /dev/nvme1n1
+nr_zones: 32
+SLBA: 0x0     WP: 0x0     Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x4000  WP: 0x4000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x8000  WP: 0x8000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0xc000  WP: 0xc000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x10000 WP: 0x10000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x14000 WP: 0x14000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x18000 WP: 0x18000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x1c000 WP: 0x1c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x20000 WP: 0x20000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x24000 WP: 0x24000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x28000 WP: 0x28000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x2c000 WP: 0x2c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x30000 WP: 0x30000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x34000 WP: 0x34000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x38000 WP: 0x38000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x3c000 WP: 0x3c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x40000 WP: 0x40000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x44000 WP: 0x44000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x48000 WP: 0x48000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x4c000 WP: 0x4c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x50000 WP: 0x50000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x54000 WP: 0x54000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x58000 WP: 0x58000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x5c000 WP: 0x5c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x60000 WP: 0x60000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x64000 WP: 0x64000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x68000 WP: 0x68000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x6c000 WP: 0x6c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x70000 WP: 0x70000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x74000 WP: 0x74000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x78000 WP: 0x78000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x7c000 WP: 0x7c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+
+B. Now we send the passthru command with all bit set  for
+    zsa values RESET 0x04, OPEN 0x03, CLOSE 0x01, FINISH 0x02
+    in the same oder as above. All the zones state are changed.
+
+# for zsa in 4 3 1 2 ; do
+>nvme zns zone-mgmt-send /dev/nvme1n1 -a -zsa=0x${zsa}
+>nvme zns report-zones /dev/nvme1n1
+>done
+
++ nvme zns zone-mgmt-send /dev/nvme1n1 -a -zsa=0x4
+zone-mgmt-send: Success, action:4 zone:0 all:1 nsid:1
++ nvme zns report-zones /dev/nvme1n1
+nr_zones: 32
+SLBA: 0x0     WP: 0x0     Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x4000  WP: 0x4000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x8000  WP: 0x8000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0xc000  WP: 0xc000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x10000 WP: 0x10000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x14000 WP: 0x14000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x18000 WP: 0x18000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x1c000 WP: 0x1c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x20000 WP: 0x20000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x24000 WP: 0x24000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x28000 WP: 0x28000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x2c000 WP: 0x2c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x30000 WP: 0x30000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x34000 WP: 0x34000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x38000 WP: 0x38000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x3c000 WP: 0x3c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x40000 WP: 0x40000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x44000 WP: 0x44000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x48000 WP: 0x48000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x4c000 WP: 0x4c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x50000 WP: 0x50000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x54000 WP: 0x54000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x58000 WP: 0x58000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x5c000 WP: 0x5c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x60000 WP: 0x60000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x64000 WP: 0x64000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x68000 WP: 0x68000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x6c000 WP: 0x6c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x70000 WP: 0x70000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x74000 WP: 0x74000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x78000 WP: 0x78000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x7c000 WP: 0x7c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
++ for i in 4 3 1 2
++ nvme zns zone-mgmt-send /dev/nvme1n1 -a -zsa=0x3
+zone-mgmt-send: Success, action:3 zone:0 all:1 nsid:1
++ nvme zns report-zones /dev/nvme1n1
+nr_zones: 32
+SLBA: 0x0     WP: 0x0     Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x4000  WP: 0x4000  Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x8000  WP: 0x8000  Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0xc000  WP: 0xc000  Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x10000 WP: 0x10000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x14000 WP: 0x14000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x18000 WP: 0x18000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x1c000 WP: 0x1c000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x20000 WP: 0x20000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x24000 WP: 0x24000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x28000 WP: 0x28000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x2c000 WP: 0x2c000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x30000 WP: 0x30000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x34000 WP: 0x34000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x38000 WP: 0x38000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x3c000 WP: 0x3c000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x40000 WP: 0x40000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x44000 WP: 0x44000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x48000 WP: 0x48000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x4c000 WP: 0x4c000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x50000 WP: 0x50000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x54000 WP: 0x54000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x58000 WP: 0x58000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x5c000 WP: 0x5c000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x60000 WP: 0x60000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x64000 WP: 0x64000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x68000 WP: 0x68000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x6c000 WP: 0x6c000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x70000 WP: 0x70000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x74000 WP: 0x74000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x78000 WP: 0x78000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
+SLBA: 0x7c000 WP: 0x7c000 Cap: 0x4000 State: EXP_OPENED Type:
+SEQWRITE_REQ Attrs: 0x0
++ for i in 4 3 1 2
++ nvme zns zone-mgmt-send /dev/nvme1n1 -a -zsa=0x1
+zone-mgmt-send: Success, action:1 zone:0 all:1 nsid:1
++ nvme zns report-zones /dev/nvme1n1
+nr_zones: 32
+SLBA: 0x0     WP: 0x0     Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x4000  WP: 0x4000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x8000  WP: 0x8000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0xc000  WP: 0xc000  Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x10000 WP: 0x10000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x14000 WP: 0x14000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x18000 WP: 0x18000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x1c000 WP: 0x1c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x20000 WP: 0x20000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x24000 WP: 0x24000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x28000 WP: 0x28000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x2c000 WP: 0x2c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x30000 WP: 0x30000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x34000 WP: 0x34000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x38000 WP: 0x38000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x3c000 WP: 0x3c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x40000 WP: 0x40000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x44000 WP: 0x44000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x48000 WP: 0x48000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x4c000 WP: 0x4c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x50000 WP: 0x50000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x54000 WP: 0x54000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x58000 WP: 0x58000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x5c000 WP: 0x5c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x60000 WP: 0x60000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x64000 WP: 0x64000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x68000 WP: 0x68000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x6c000 WP: 0x6c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x70000 WP: 0x70000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x74000 WP: 0x74000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x78000 WP: 0x78000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x7c000 WP: 0x7c000 Cap: 0x4000 State: EMPTY Type: SEQWRITE_REQ
+Attrs: 0x0
++ for i in 4 3 1 2
++ nvme zns zone-mgmt-send /dev/nvme1n1 -a -zsa=0x2
+zone-mgmt-send: Success, action:2 zone:0 all:1 nsid:1
++ nvme zns report-zones /dev/nvme1n1
+nr_zones: 32
+SLBA: 0x0     WP: 0x4000  Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0                       
+SLBA: 0x4000  WP: 0x8000  Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x8000  WP: 0xc000  Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0xc000  WP: 0x10000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x10000 WP: 0x14000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x14000 WP: 0x18000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x18000 WP: 0x1c000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x1c000 WP: 0x20000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x20000 WP: 0x24000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x24000 WP: 0x28000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x28000 WP: 0x2c000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x2c000 WP: 0x30000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x30000 WP: 0x34000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x34000 WP: 0x38000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x38000 WP: 0x3c000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x3c000 WP: 0x40000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x40000 WP: 0x44000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x44000 WP: 0x48000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x48000 WP: 0x4c000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x4c000 WP: 0x50000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x50000 WP: 0x54000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x54000 WP: 0x58000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x58000 WP: 0x5c000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x5c000 WP: 0x60000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x60000 WP: 0x64000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x64000 WP: 0x68000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x68000 WP: 0x6c000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x6c000 WP: 0x70000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x70000 WP: 0x74000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x74000 WP: 0x78000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x78000 WP: 0x7c000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
+SLBA: 0x7c000 WP: 0x80000 Cap: 0x4000 State: FULL Type: SEQWRITE_REQ
+Attrs: 0x0
++ set +x
 
 
 
