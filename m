@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B90FC433ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 17:05:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE988C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 17:06:24 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 20B95608FC
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 17:05:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 20B95608FC
+	by mail.kernel.org (Postfix) with ESMTPS id 8E22D61008
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 17:06:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E22D61008
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Q7honwo7YCIdNwndXsfLs1abSZhyX5gzmOj8/Ky2Dy0=; b=QmIQk0XOZBDdi1
-	VVZxKD37WI9TlATchFsTeyo0lOEaTCnvpF0kfm81SjcpRqszSNcN9gjYw8PunMn137oVC0fXhJfJW
-	X5WofiID7I4HwZ+XftZbNYM5vWyO+yQhYOH3mQGXWhFBWw2BGTHvVbJJvPrmvilnLZYObu7q0Pi0p
-	dM9Y+jW7yyz37uZ4M/uileakCV1EPuYLTvWFn8xfYHTHd77LJtHyrHkFkUU07dInznHT4LIRM47nl
-	5m3ERA/vl5QEq3likKSgGOp9K5JytWeB8Gf2FbEkgYYU7H3VFKTRPRnsER0VkHua84XAm/r7hMXxh
-	TI5kUm5ilqStT/Q151Dg==;
+	List-Owner; bh=n+lkL5sCft6lUyD2S6Z1BOgd0PPOt0JnZcZDfBZ4mLs=; b=XJrthVqMMVb6ZM
+	SskWJ7xtyyYa4fsWCCqRyzOVFToopPdMitMtN67MSrAcfxTBCgd8edvb9wxbgRb49MtQ8eQ6g1RYf
+	/6/Dr2mleaZkfvOwCShMhmMLVlo+phoMcNXgJDHxv+OywHrkYFF7y6FXd5e5vxkSVx26MocNoolZY
+	sigpKST2wYSuf7tCpDyuH2ymfpjiz86dKsRBlRjxFtEWnMVotDA5BJT6sZJEEwf02aLZgjncQ2d7I
+	vRIQsxQKrmagV3eCPQbi15PxzGGn3UDuNnVlNDyrRmskwiyJwRkirNeFMPQCzkl4GU20g8KZFl9Kk
+	fVFNr8LV6mdgEwpxx0PA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUY5a-008jRy-Bw; Thu, 08 Apr 2021 17:05:06 +0000
+	id 1lUY6Q-008jaR-AH; Thu, 08 Apr 2021 17:05:58 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUY2G-008igF-23
+ id 1lUY2G-008igG-1x
  for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 17:01:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=e4nFtZ9eIzk7XhQ6GfieUVA4TNHz6gGxAh+sM5UV0Tk=; b=rfqvnGA7loT9D1lWVvySKX1+Bb
- 23abxioysy1FlGsfI3ksw76VWNTic/FiwWVZWmF2oWnTDECpc9x6Jp5fGK2MSfqfE5MsMK/Ms4Gq4
- XW2B4im7HKMg1gqracq7RRl6stSRtWmB8n5h2rG+XfSluanlzzz+DFUgbdLDMRo8jyHWlnD/T/zWv
- Gl5ocL65JqrBkOYVpvPC+OuCDq/fNBv2BLqU/S5QJovuoOSHi8Ds2MpGbPBXxCMVzRCBR1hZv7eoT
- tP+ydDzvXF/TbmUYRTGPgqceKI/ydQDZh7saGeh7L8FZyJQje2UH0nZ+tmDxAaYTv5r30y/IBszrl
- fi+2rCgQ==;
+ bh=Jsen3Rk7WnWhMAW7aoLvus8u5s3n5eBOCfCKJv0hWQo=; b=qvxda6axIz8iA8AMPtdNklE76m
+ GR8YP4YR9/RRaTdPJfLWDb0urlIIVK6VTxuOVAVTYQFQwz4lKX8JHDefmOzKb5z0icaB84Q+HH3JV
+ t5p3f7Y5Lr4uReAXB1WFNJ5wHPqj66/Q8cyntUPjQyEjT+c2ebXIJskU4tRElmkB0X2XY00frTPFu
+ X6AMPwKwCM+aLIXOHd95sij9iijvF22EUWmy8zy1yPSQB+ilW+B+PIPbK3po4TzF8c8InN3OF4GYJ
+ ACob0AUY1H1L3qihEp4hGJESZM7rXYBZzsK2BXUoroRf5qNYKml2fp9CD4W2K/25bykpV7MszQLm9
+ hbDrH1Pg==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lUY2B-0002Lk-0b; Thu, 08 Apr 2021 11:01:38 -0600
+ id 1lUY29-0002Lm-HW; Thu, 08 Apr 2021 11:01:38 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lUY26-0002JI-Jy; Thu, 08 Apr 2021 11:01:30 -0600
+ id 1lUY26-0002JO-Tz; Thu, 08 Apr 2021 11:01:30 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -69,8 +69,8 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
  Robin Murphy <robin.murphy@arm.com>, Logan Gunthorpe <logang@deltatee.com>
-Date: Thu,  8 Apr 2021 11:01:19 -0600
-Message-Id: <20210408170123.8788-13-logang@deltatee.com>
+Date: Thu,  8 Apr 2021 11:01:21 -0600
+Message-Id: <20210408170123.8788-15-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210408170123.8788-1-logang@deltatee.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
@@ -86,13 +86,12 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH 12/16] nvme-pci: Check DMA ops when indicating support for PCI
- P2PDMA
+Subject: [PATCH 14/16] nvme-rdma: Ensure dma support when using p2pdma
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210408_180140_199372_0CC1B8B0 
-X-CRM114-Status: GOOD (  14.22  )
+X-CRM114-CacheID: sfid-20210408_180140_278167_B0EE5213 
+X-CRM114-Status: GOOD (  11.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,82 +108,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce a supports_pci_p2pdma() operation in nvme_ctrl_ops to
-replace the fixed NVME_F_PCI_P2PDMA flag such that the dma_map_ops
-flags can be checked for PCI P2PDMA support.
+Ensure the dma operations support p2pdma before using the RDMA
+device for P2PDMA. This allows switching the RDMA driver from
+pci_p2pdma_map_sg() to dma_map_sg_p2pdma().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/nvme/host/core.c |  3 ++-
- drivers/nvme/host/nvme.h |  2 +-
- drivers/nvme/host/pci.c  | 11 +++++++++--
- 3 files changed, 12 insertions(+), 4 deletions(-)
+ drivers/nvme/target/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0896e21642be..223419454516 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3907,7 +3907,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, ns->queue);
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 6c1f3ab7649c..3ec7e77e5416 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -414,7 +414,8 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+ 	if (ib_dma_mapping_error(ndev->device, r->send_sge.addr))
+ 		goto out_free_rsp;
  
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
--	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
-+	if (ctrl->ops->supports_pci_p2pdma &&
-+	    ctrl->ops->supports_pci_p2pdma(ctrl))
- 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
- 
- 	ns->queue->queuedata = ns;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 07b34175c6ce..9c04df982d2c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -473,7 +473,6 @@ struct nvme_ctrl_ops {
- 	unsigned int flags;
- #define NVME_F_FABRICS			(1 << 0)
- #define NVME_F_METADATA_SUPPORTED	(1 << 1)
--#define NVME_F_PCI_P2PDMA		(1 << 2)
- 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
-@@ -481,6 +480,7 @@ struct nvme_ctrl_ops {
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
- 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
-+	bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
- };
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7249ae74f71f..14f092973792 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2759,17 +2759,24 @@ static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- 	return snprintf(buf, size, "%s\n", dev_name(&pdev->dev));
- }
- 
-+static bool nvme_pci_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_dev *dev = to_nvme_dev(ctrl);
-+
-+	return dma_pci_p2pdma_supported(dev->dev);
-+}
-+
- static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.name			= "pcie",
- 	.module			= THIS_MODULE,
--	.flags			= NVME_F_METADATA_SUPPORTED |
--				  NVME_F_PCI_P2PDMA,
-+	.flags			= NVME_F_METADATA_SUPPORTED,
- 	.reg_read32		= nvme_pci_reg_read32,
- 	.reg_write32		= nvme_pci_reg_write32,
- 	.reg_read64		= nvme_pci_reg_read64,
- 	.free_ctrl		= nvme_pci_free_ctrl,
- 	.submit_async_event	= nvme_pci_submit_async_event,
- 	.get_address		= nvme_pci_get_address,
-+	.supports_pci_p2pdma	= nvme_pci_supports_pci_p2pdma,
- };
- 
- static int nvme_dev_map(struct nvme_dev *dev)
+-	if (!ib_uses_virt_dma(ndev->device))
++	if (!ib_uses_virt_dma(ndev->device) &&
++	    dma_pci_p2pdma_supported(&ndev->device->dev))
+ 		r->req.p2p_client = &ndev->device->dev;
+ 	r->send_sge.length = sizeof(*r->req.cqe);
+ 	r->send_sge.lkey = ndev->pd->local_dma_lkey;
 -- 
 2.20.1
 
