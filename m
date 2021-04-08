@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDBB2C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B01C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:22:44 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9F34161159
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:22:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F34161159
+	by mail.kernel.org (Postfix) with ESMTPS id 7B0206115B
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:22:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B0206115B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,40 +23,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=f/Tod+XAOgju4MmAU2xmc9c8z3aBcU4HFMwxtel5YsA=; b=EBHmDjFMWHBWveoZHbh/mZQi4
-	RB2osEpoQsvCbinUedLxRWblK/rpoB+yM64Vvgnx38rJTrSh/BbbseWI1PoJFwmgxvGBtNcXBgVoo
-	rlNOYO9+IptDdvKKDGnJZDMRkAIBAspPZkp8OgqJGv0KQ7qlAmm+LJW5jfVXvpDPXkqmHSjKmVn8p
-	YzD5JhDSzyKyP6QIeeN8jE8iISVjSOnJYxEaO1EGBxHKgW06e9gB2VRTscJPH8AlTNgVCxnc7CEqo
-	hGbsMmH3piuhstmMMxmW6EfkgmZgMnK5D9TmE9oJ3g5Chk9JAmk+2efx9QgB9EHK6h7lF0Myc+7Qx
-	gSMVcL5sw==;
+	 bh=Yj4J5acB+e9VKKCv93wBw/qyjFmh0LXsBuMOQLMsS1U=; b=Kpf8SJfCFUGs5L2aKUvmxmStw
+	4yYgEHzT7I8TK3kEwTjW5PbHfd6iYAs/kILSJPP9FtFvZefJ/UJ31wbrT/McE7bNCAHkgeqNdOAH5
+	d6yoL3uSNNMruMVg7julJavRS3SY4icDaEpOUgOzQ0uyZaalR2dheKysfNey0uo/GsagzwEUs5PII
+	b1gkt0XQguZszBKqNq5JkCmGpc9OoR4kukVtcHFyymHnreydp++/qEs9C4ZeItgNfWbSli2xvazD5
+	C6Qzr5J4SDJjuqgJ23G9e+2p0K5ln/0/TmTfB8klGrTVTQUoY2k2R0xpo53f6Fo6kME2ifoBn/AOH
+	VYwRzrn0g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUTfo-007xsG-63; Thu, 08 Apr 2021 12:22:12 +0000
+	id 1lUTgF-007y4A-Sq; Thu, 08 Apr 2021 12:22:40 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUTdn-007xNh-29
- for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 12:20:07 +0000
+ id 1lUTdp-007xOP-Or
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 12:20:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=H0JzaUwTUMWBivFN9pCtdWyvldYlXmoQglbkP0ysPl0=; b=MJhNuhMxjg7Z2BY/HbKPsFvCWq
- bdCiCrGH0ytDMEhQwCklNjBUuEAM0Kt+3Ax+y36awpIF5elM9WwHi7u9GCX9ek0yj1vr0NzTxzJMU
- E9ylPplmisI7zN5k57pXhufAkp/DkQ329woUR6oiXfTvE4sB+hcTus86qYAh1g2uKKvQm/I3VQ4HY
- LvkNTaDlq9N35f1uiZ4Ls3sjisdxEPnfaIsigVf3JV07HWL3qta9sYmwo0TeXaCGvR6f72UHrMYuX
- 4kk0N+X1KUCkhLC0mwhP3HeX7t+SILwKMTdcKkWAOZVgCsvPOxaevdMB1AiupvDiRlknYBo9eFLoB
- cbkltKOA==;
+ bh=rqC98FL1jzNYoY21G/T1XMqt2URkhNUwUWiaG85IfBw=; b=2wJyJooxHEwu4tH8ANVTYvBDwc
+ P/Iws2sQr65TJTV8qA4HzBorvMdLf1Sdm9Yr0rdUN/m3Qh4ntDykT96LGyireoHl9loYCq4/Rxtmo
+ wi28SOycD5Sqvc0Giu29vX5b1wrdvbubqPOIYkt2kEgFUIyTC30U4hwyPzdMpTh/RXv0v5SR0xVcg
+ 3/5c8FyJfrXjZE8fO978Hzxdo3/8qVStXgddo1BfiqYZ5l4ArMiOnXkZWs/dOsCeiMK/HSEuDXWPc
+ twlmdz5qyC55Omlv7XGM4AjLLMTyBQJU82JL5AJVfCzJI2K6x+0cgEZdRXi5n0hy1n8qzfHmfeK8i
+ kJt7PJwg==;
 Received: from [2001:4bb8:188:4907:196e:5227:9015:fba2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lUTdj-00HAUD-4A; Thu, 08 Apr 2021 12:20:03 +0000
+ id 1lUTdl-00HAUL-OW; Thu, 08 Apr 2021 12:20:06 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
  Sagi Grimberg <sagi@grimberg.me>
 Cc: Kanchan Joshi <joshiiitr@gmail.com>,
  Javier Gonz??lez <javier.gonz@samsung.com>, linux-nvme@lists.infradead.org
-Subject: [PATCH 10/13] nvme: move nvme_ns_head_ops to multipath.c
-Date: Thu,  8 Apr 2021 14:08:39 +0200
-Message-Id: <20210408120842.1450092-11-hch@lst.de>
+Subject: [PATCH 11/13] nvme: factor out nvme_ns_open and nvme_ns_release
+ helpers
+Date: Thu,  8 Apr 2021 14:08:40 +0200
+Message-Id: <20210408120842.1450092-12-hch@lst.de>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210408120842.1450092-1-hch@lst.de>
 References: <20210408120842.1450092-1-hch@lst.de>
@@ -79,165 +80,54 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the multipath block_device_operations to multipath.c, where they
-belong.
+These will be reused for the per-namespace character devices.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c      | 31 ++++---------------------------
- drivers/nvme/host/multipath.c | 25 ++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h      |  5 ++++-
- 3 files changed, 32 insertions(+), 29 deletions(-)
+ drivers/nvme/host/core.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9637f2e5e9232c..0072df1dfd54c7 100644
+index 0072df1dfd54c7..7ebe0225e01412 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -549,12 +549,12 @@ static void nvme_free_ns_head(struct kref *ref)
- 	kfree(head);
+@@ -1483,9 +1483,8 @@ void nvme_put_ns_from_disk(struct nvme_ns_head *head, int idx)
+ 		srcu_read_unlock(&head->srcu, idx);
  }
  
--static bool nvme_tryget_ns_head(struct nvme_ns_head *head)
-+bool nvme_tryget_ns_head(struct nvme_ns_head *head)
+-static int nvme_open(struct block_device *bdev, fmode_t mode)
++static int nvme_ns_open(struct nvme_ns *ns)
  {
- 	return kref_get_unless_zero(&head->ref);
+-	struct nvme_ns *ns = bdev->bd_disk->private_data;
+ 
+ 	/* should never be called due to GENHD_FL_HIDDEN */
+ 	if (WARN_ON_ONCE(nvme_ns_head_multipath(ns->head)))
+@@ -1503,14 +1502,23 @@ static int nvme_open(struct block_device *bdev, fmode_t mode)
+ 	return -ENXIO;
  }
  
--static void nvme_put_ns_head(struct nvme_ns_head *head)
-+void nvme_put_ns_head(struct nvme_ns_head *head)
+-static void nvme_release(struct gendisk *disk, fmode_t mode)
++static void nvme_ns_release(struct nvme_ns *ns)
  {
- 	kref_put(&head->ref, nvme_free_ns_head);
- }
-@@ -1511,7 +1511,7 @@ static void nvme_release(struct gendisk *disk, fmode_t mode)
+-	struct nvme_ns *ns = disk->private_data;
+ 
+ 	module_put(ns->ctrl->ops->module);
  	nvme_put_ns(ns);
  }
  
--static int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
-+int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
++static int nvme_open(struct block_device *bdev, fmode_t mode)
++{
++	return nvme_ns_open(bdev->bd_disk->private_data);
++}
++
++static void nvme_release(struct gendisk *disk, fmode_t mode)
++{
++	nvme_ns_release(disk->private_data);
++}
++
+ int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
  {
  	/* some standard values */
- 	geo->heads = 1 << 6;
-@@ -1937,7 +1937,7 @@ static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type
- 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
- }
- 
--static const struct pr_ops nvme_pr_ops = {
-+const struct pr_ops nvme_pr_ops = {
- 	.pr_register	= nvme_pr_register,
- 	.pr_reserve	= nvme_pr_reserve,
- 	.pr_release	= nvme_pr_release,
-@@ -1978,18 +1978,6 @@ static const struct block_device_operations nvme_bdev_ops = {
- };
- 
- #ifdef CONFIG_NVME_MULTIPATH
--static int nvme_ns_head_open(struct block_device *bdev, fmode_t mode)
--{
--	if (!nvme_tryget_ns_head(bdev->bd_disk->private_data))
--		return -ENXIO;
--	return 0;
--}
--
--static void nvme_ns_head_release(struct gendisk *disk, fmode_t mode)
--{
--	nvme_put_ns_head(disk->private_data);
--}
--
- struct nvme_ctrl *nvme_find_get_live_ctrl(struct nvme_subsystem *subsys)
- {
- 	struct nvme_ctrl *ctrl;
-@@ -2009,17 +1997,6 @@ struct nvme_ctrl *nvme_find_get_live_ctrl(struct nvme_subsystem *subsys)
- 	mutex_unlock(&nvme_subsystems_lock);
- 	return ctrl;
- }
--
--const struct block_device_operations nvme_ns_head_ops = {
--	.owner		= THIS_MODULE,
--	.submit_bio	= nvme_ns_head_submit_bio,
--	.open		= nvme_ns_head_open,
--	.release	= nvme_ns_head_release,
--	.ioctl		= nvme_ns_head_ioctl,
--	.getgeo		= nvme_getgeo,
--	.report_zones	= nvme_report_zones,
--	.pr_ops		= &nvme_pr_ops,
--};
- #endif /* CONFIG_NVME_MULTIPATH */
- 
- static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 0f42b7e94ce3f3..2bbc1685799d44 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -294,7 +294,7 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- 	return false;
- }
- 
--blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
-+static blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
- {
- 	struct nvme_ns_head *head = bio->bi_bdev->bd_disk->private_data;
- 	struct device *dev = disk_to_dev(head->disk);
-@@ -334,6 +334,29 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
- 	return ret;
- }
- 
-+static int nvme_ns_head_open(struct block_device *bdev, fmode_t mode)
-+{
-+	if (!nvme_tryget_ns_head(bdev->bd_disk->private_data))
-+		return -ENXIO;
-+	return 0;
-+}
-+
-+static void nvme_ns_head_release(struct gendisk *disk, fmode_t mode)
-+{
-+	nvme_put_ns_head(disk->private_data);
-+}
-+
-+const struct block_device_operations nvme_ns_head_ops = {
-+	.owner		= THIS_MODULE,
-+	.submit_bio	= nvme_ns_head_submit_bio,
-+	.open		= nvme_ns_head_open,
-+	.release	= nvme_ns_head_release,
-+	.ioctl		= nvme_ns_head_ioctl,
-+	.getgeo		= nvme_getgeo,
-+	.report_zones	= nvme_report_zones,
-+	.pr_ops		= &nvme_pr_ops,
-+};
-+
- static void nvme_requeue_work(struct work_struct *work)
- {
- 	struct nvme_ns_head *head =
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d41c9ceeafa1b8..c6102ce83bb405 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -656,6 +656,8 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, u8 csi,
- struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk,
- 		struct nvme_ns_head **head, int *srcu_idx);
- void nvme_put_ns_from_disk(struct nvme_ns_head *head, int idx);
-+bool nvme_tryget_ns_head(struct nvme_ns_head *head);
-+void nvme_put_ns_head(struct nvme_ns_head *head);
- struct nvme_ctrl *nvme_find_get_live_ctrl(struct nvme_subsystem *subsys);
- int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg);
-@@ -663,8 +665,10 @@ int nvme_ns_head_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg);
- long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 		unsigned long arg);
-+int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo);
- 
- extern const struct attribute_group *nvme_ns_id_attr_groups[];
-+extern const struct pr_ops nvme_pr_ops;
- extern const struct block_device_operations nvme_ns_head_ops;
- 
- #ifdef CONFIG_NVME_MULTIPATH
-@@ -688,7 +692,6 @@ void nvme_mpath_stop(struct nvme_ctrl *ctrl);
- bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
- void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
- struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
--blk_qc_t nvme_ns_head_submit_bio(struct bio *bio);
- 
- static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
- {
 -- 
 2.30.1
 
