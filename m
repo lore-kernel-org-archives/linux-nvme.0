@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8708C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 07:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 625DDC433B4
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 07:27:02 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5C284610F8
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 07:24:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C284610F8
+	by mail.kernel.org (Postfix) with ESMTPS id E1FF6610F8
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 07:27:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E1FF6610F8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=l+EmCaeD/qMBknHkuHDbW0Llo/C6fZg+JFOQgRZADLE=; b=TEd7nT+eSP8lCTsD1FwGEdJ+C
-	S55x9KmoXgdS9FX0SJZF85afjsAi2wymX8JfNpw4U6K/QDQ5uI2bG8ekpKyC7nwXsqGcOIBD5rtVS
-	AUUlhUQclbN239m3U1erCI9czhg6YMZjhxBgoyr729Er57jZ82pGNCHhdbn5d9/FULwEgI5e4FMm6
-	4gChKi5uqLDW0Zqpr3MS/L7BTpx8CDz7KdcRfHc0G2Z7sqO+XmiewpUEfyUQFhMEWdM7/iXx25krN
-	NEVz4ORE6nggPcUb/Okql449w5UoA1DKHW7vYwcxJYeqTxu0bNBa0mNb6s82xg9JZHyVwwpfSlhKR
-	vRQYvNNCw==;
+	 bh=wwS2m0AUdVDJU1HXPpjep9U1rnzyKqCByGJM2RBBtoE=; b=OGGqFR5smCO4KFRp0Nm3FhPmT
+	t633XC6ZS4TNiO+cPknu9F0ERRIbG9UQi3K70gfIn+vpvrAwVMqQPT54kTB524hRJDBr1eeZukcQk
+	wBaTiBitKqM02wf6DcyZmNR/TWa9I9eSCvAUdMmge7dfkYOY3Z2we5OfWrjLv5b6evS3c9cxJuvHZ
+	ZP+f1tZy6V0tWzpUNcqjWSDG+1Cs4nNiNHmT5ed1igcOvxFCVgKWP2I7vTX/YHDt/CXO5JgffsYQs
+	ZjLWWUu5v5Fg/+y39p7wHQ4mDKVT5VJQiL1pNfHNobxxfeoTybN3yTIAaip+JVq86ulHrsP1nbDca
+	Esxoa0iEw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUP1t-007Cv6-9q; Thu, 08 Apr 2021 07:24:41 +0000
+	id 1lUP3w-007DP3-KL; Thu, 08 Apr 2021 07:26:48 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUP1p-007Ctp-AD
- for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 07:24:39 +0000
+ id 1lUP3s-007DO7-6t
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 07:26:46 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 6707468B05; Thu,  8 Apr 2021 09:24:36 +0200 (CEST)
-Date: Thu, 8 Apr 2021 09:24:36 +0200
+ id F328968B05; Thu,  8 Apr 2021 09:26:41 +0200 (CEST)
+Date: Thu, 8 Apr 2021 09:26:41 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, damien.lemoal@wdc.com
-Subject: Re: [PATCH V13 4/4] nvmet: add req cns error complete helper
-Message-ID: <20210408072436.GC24502@lst.de>
-References: <20210408001427.20501-1-chaitanya.kulkarni@wdc.com>
- <20210408001427.20501-5-chaitanya.kulkarni@wdc.com>
+To: Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Kanchan Joshi <joshiiitr@gmail.com>
+Subject: Re: [PATCH V2 1/1] nvme: introduce generic per-namespace chardev
+Message-ID: <20210408072641.GA24793@lst.de>
+References: <20210407131527.GA15142@lst.de> <20210407141128.GB2805@localhost>
+ <20210407142152.GA20466@lst.de> <20210407153536.GA8667@localhost>
+ <20210407154730.GC8667@localhost> <20210407164818.GA31878@lst.de>
+ <20210407170905.GB9994@localhost>
+ <CGME20210407171407eucas1p2e8bf869cecf13d6810d797515afff126@eucas1p2.samsung.com>
+ <20210407171400.GA32592@lst.de>
+ <20210408071128.pps76zydao3oufqn@mpHalley.localdomain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210408001427.20501-5-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20210408071128.pps76zydao3oufqn@mpHalley.localdomain>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210408_082437_647993_2BF28993 
-X-CRM114-Status: GOOD (  12.69  )
+X-CRM114-CacheID: sfid-20210408_082644_427131_27DC3A12 
+X-CRM114-Status: GOOD (  11.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,22 +72,18 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 07, 2021 at 05:14:27PM -0700, Chaitanya Kulkarni wrote:
-> We report error and complete the request when identify cns value
-> is not handled in nvmet_execute_identify(),
-> nvmet_execute_identify_cns_cs_ctrl(), and
-> nvmet_execute_identify_cns_cs_ns().
-> 
-> Add a helper nvmet_req_cns_error_compplete() to remove the duplicate
-> code from all the above three functions.
+On Thu, Apr 08, 2021 at 09:11:28AM +0200, Javier Gonz=E1lez wrote:
+> This would be useful for devices with metadata that is not supported by
+> the block layer, i.e., nvme_configure_metadata().
 
-Please do this from the beginning instead of fixing up the just
-introduced code.
+You mean in nvme_update_disk_info?  It would be the right thing to do,
+but back in the day the maintainers opted for the zero capacity
+block device hack.  At least we now have the char device as well.
 
 _______________________________________________
 Linux-nvme mailing list
