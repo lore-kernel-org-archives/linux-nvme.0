@@ -1,72 +1,90 @@
-Return-Path: <SRS0=pbEM=JE=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=WFi/=JF=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E19EC433ED
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 23:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0033BC43462
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 00:15:30 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E58FF61260
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Apr 2021 23:37:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E58FF61260
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 839D561178
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 00:15:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 839D561178
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6zK22md40uOtYWOsUBZfHgF8ZUippYhcuXLGuEsGrTk=; b=K+8VCKBtRZEkgmQRtGGj+/ZYa
-	NIApOzGg1Mod0TPqTfHZv+4JbIzaZHdZF5d4HfP7PlvBpZDat3rtRjvljspIQVowoKf92QtVETxLl
-	lW7t1Ap88WgIYP4dAivV7lrqjtTre2ErmxUuhSQR7AqLvb6iGzQlaYCjbzoYkqBemmytuLP3POTDI
-	E/rAR2zgmQNVjQEHbX61Zbc6IlG7M0WVQEqobJJ7z/tbOQMvaPdzQCaOhLMBn3FP3CVDVSYMbR1HH
-	9qAx1y7RKjglDE3T+WaFP8BhgDMgzIGBcEVKTCjfNY4tX+BveAbyFDwUk0yPnkQ0dQcr8Q/ukg2zQ
-	gpsc30fbA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vRvoNiW9hbotfunCEUPmGzHkmc17ZLZmwDpKDoSId4k=; b=HaC0Fcy6jkVf5pq1iR/5/Alr1l
+	TBeSbHIklKOhHJMS77fNlJLJ5dfjZ7U5PUZN0phPndnFb6oxx/NrEz5FgUR1OQy/ivRSWvwK4xV7l
+	aZ0S+lAGE42eAtp5q1ElH17fLB+OJfHDa13lP4ng5qny+Udk9CUOwsW6+x1E7vrgLfWzm2bXpOdIT
+	M8T8ZGyfsHdWnOjH9VcWvcQm+V6mD7hH2Javm7Is7ZHy4TjypFAYFgE6I7flm77rXIXTgSddMus/5
+	N11L0OKhdh6GYQgaN5JNmvbi5FvHC+ORMaqcY5o4ln2gPbwKfMSbAS42Euw0LTYSAenrLE9+asM8/
+	Tih9RlOQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUHjX-006Iz6-6X; Wed, 07 Apr 2021 23:37:15 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lUIKH-006L1i-0k; Thu, 08 Apr 2021 00:15:13 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUHjT-006Iym-01
- for linux-nvme@lists.infradead.org; Wed, 07 Apr 2021 23:37:12 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5F00661242;
- Wed,  7 Apr 2021 23:37:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617838629;
- bh=CWCWPEeJScKlRD0mDnjomkiBY1E1hPeHqQ+rM1tMgKk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Dmsju92uZbEJbFsToJXM9XWXIlEZN8I/Y/47FqtfwarDsymD7dHA+cQsMkwozUE8l
- H1TmafsFNTHHDiZJfOMoi8PJkluOlnBSK2EGBek1HdCnyM9ZvdL6rznGEE98mr/0vw
- wel8JtMIyIRHZQxg8hxFvk88rqoU2M3pcLbvX7G4+iaZvx+He8bjiY3rHvbu28uaVP
- Bp6nWYcYu5BPGG6dQogb+0EMx7+wLN5aSUPqPLZD1AlFgMKTN6eSo+fZAj+whTnBCc
- QIyusgii6aZA2o87+B1k21kBkj+CUJMfAR0M5YfHKMuxQ27ujIkJ2ddqk8+Q94eSq7
- QtebfJY2rWarA==
-Date: Thu, 8 Apr 2021 08:37:06 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
-Cc: Chaitanya.Kulkarni@wdc.com, linux-nvme@lists.infradead.org,
- tasleson@redhat.com, tbzatek@redhat.com, prakash.v@samsung.com,
- d.palani@samsung.com, javier.gonz@samsung.com, k.jensen@samsung.com,
- mohit.kap@samsung.com, krish.reddy@samsung.com
-Subject: Re: libnvme questions
-Message-ID: <20210407233706.GB32309@redsun51.ssa.fujisawa.hgst.com>
-References: <20210312161824.GA3953@redsun51.ssa.fujisawa.hgst.com>
- <CGME20210407123854epcas5p48217db953741a57d651a8a8bf240ee23@epcas5p4.samsung.com>
- <20210407123806.23253-1-p.kalghatgi@samsung.com>
+ id 1lUIK0-006Kyp-9u
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 00:14:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1617840897; x=1649376897;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MeSjzdB0/rKaYo9fgrSta10sGl/SzvSev2ZZoBDXa9A=;
+ b=M95VgEYzwv+l22wfxB86U4eYQe8wA4dcisCGcFk+5djE73rMhFXYY5cy
+ Noww6FOfof2Ed0BlotyUTgax9LlWm85nQBWdzfb03/kA6I+qvC/Km8jKJ
+ FBnMjhifn+WMbisutpdm61jfRKQNQXQITF78vYqX1vh7ZIsX2+2xxZF0d
+ 9Jf9Cz/TwlrYnfpa7cp5423PYGnrNbtxmc3+ltIn/t8rnJClk10HarHjt
+ LOt3tncCmckWbHSBUl0+BA5xSP/eoofVq2ORLcYubbSQdxaEg+X/77317
+ lj2rqLsU1vCfhmkaTo1r6WrwNHzdvaXZ6ZfBQT3LoiYLRwhe2Lc1ar/ns Q==;
+IronPort-SDR: bmhHBYay+Lz9qxImY78xTd/oZlzHbjOQ4OzO0H7gRq47P/CnYTqTrfGNFAs7Idzs0ATresTuvh
+ GkMq2qzjmPYnE2pVP+trEFU+U4X0yuqwNQ68iCjrpo2TbmnN7lFDaGhzixhN4mE6Iz1UZ7DxpR
+ MK3L8pnYFMlInY0ij1Q9lNPplH7sUCfhP4Vf9TbZ5h/WHzXdRnTfcr0KjhOZc7A5ZEuzp+kZfK
+ ItizcPpNWqZBF55sDta/UZ6TvkZcsSqroWgEvz3nng9CiPZ9ieuvWrPvdIlPNaa6slynEl55FK
+ 96o=
+X-IronPort-AV: E=Sophos;i="5.82,204,1613404800"; d="scan'208";a="165042871"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Apr 2021 08:14:43 +0800
+IronPort-SDR: aRNoGg3ZJY8VWWJ3EManaSGtrjvciDQ5iCbMxpnZ20XR3v1yUDE3CLcSoaQmpksoNQze60RYqp
+ +0ePpfhlBsMYXEl7uV8u4v5eTUXFfWRUd03JtE02M/q9Ap/B/g91i+/GMfXyvBlUOiD3RVK9mk
+ +nHTwYb7yOyzt762dGJxg9olwV+oSTrvHOwodyHkWKwIILaHPdOo1uVugUUnex0aqG5vn8Bp1g
+ w4Tt6w/FzRifRjCwNoaD6ErrVeCpnRSje4Kpz++OnQeRHb5XDENMvdH0QD23aRH+V4E9Ab0mpm
+ RV5TggYpWcAxAa2HcnbmgvcZ
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2021 16:55:50 -0700
+IronPort-SDR: Wvfhf1IVgjTm/eOMAPK2sAAezHvzZBmieue3CDuE5CPAnaK7mwTsv/8SRh4nHR3vM7lH3iN+Uw
+ AAFadlm2K96Bp37hMsX5+R914ZjAqi8IrGGQh9r4+1s7OYZE5SdncIFMNpWeiVcZSPkUQAli1Y
+ SpZ7Iljc8aTeU/MN0KWqqSw2g+dhrueFTIGzXXWS4X8EO4+/BWl8E0cTAHoe0s0sbaQgEfwPOR
+ y4Pdr35yz6h0otag5Dam4TlvD7UXHhcpr/ITEIgFKrsTWERtG0m57W/I24GVvNiyDDvLgE+QDz
+ q8U=
+WDCIronportException: Internal
+Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Apr 2021 17:14:32 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, damien.lemoal@wdc.com,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V13 0/4] nvmet: add ZBD backend support
+Date: Wed,  7 Apr 2021 17:14:23 -0700
+Message-Id: <20210408001427.20501-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1.dirty
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210407123806.23253-1-p.kalghatgi@samsung.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210408_003711_252997_5A41F08E 
-X-CRM114-Status: UNSURE (   7.18  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210408_011456_763588_303B2594 
+X-CRM114-Status: GOOD (  27.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,11 +101,222 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 07, 2021 at 06:08:06PM +0530, Padmakar Kalghatgi wrote:
-> Since most of the companies who develop SSDs, use MI(sideband) channel, we think this will be a good enhancement to the existing functionality which the nvme-cli provides.
+Hi,
 
-Can we even use this from a Linux host? I thought the sideband channel
-was typically connected to the baseboard management controller.
+NVMeOF Host is capable of handling the NVMe Protocol based Zoned Block
+Devices (ZBD) in the Zoned Namespaces (ZNS) mode with the passthru
+backend. There is no support for a generic block device backend to
+handle the ZBDs which are not NVMe protocol compliant.
+
+This adds support to export the ZBDs (which are not NVMe drives) to host
+from the target via NVMeOF using the host side ZNS interface.
+
+Note: This patch-series is based on nvme-5.13.
+
+-ck
+
+Changes since V12:-
+
+1. Remove the comment :-
+  /* bdev_is_zoned() is stubbed out of CONFIG_BLK_DEV_ZONED */
+2. Update copyright header.
+3. Use folliwng expression in nvmet_zasl(). 
+   return ilog2(zone_append_sects >> (NVMET_MPSMIN_SHIFT - 9));
+4. Add comment in nvmet_bdev_zns_enable().
+5. Add zone filtering and partial bit handling.
+6. Use if else pattern in nvmet_bdev_execute_zone_mgmt_send().
+7. Make zone append async. 
+8. Add a comment for nvmet_check_transfer_len().
+9. Add a helper nvmet_req_cns_error_compplete() to remove the duplicate
+   code.
+
+Changes from V11:-
+
+1. Use bdev_logical_block_size() in nvmet_bdev_zns_enable().
+2. Return error if nr_zones calculation ends up having value 0.
+4. Drop the comment patch from this series :-
+   nvme: add comments to nvme_zns_alloc_report_buffer
+
+Changes from V10:-
+
+1.  Move CONFIG_BLK_DEV_ZONED check into the caller of
+    nvmet_set_csi_zns_effects().
+2.  Move ZNS related csi code from csi patch to its own ZNS backend
+    patch.
+3.  For ZNS command effects logs set default command effects with 
+    nvmet_set_csi_nvm_effects() along with nvmet_set_csi_zns_effects().
+4.  Use goto for failure case in the nvmet_set_csi_zns_effects().
+5.  Return directly from swicth in nvmet_execute_identify_desclist_csi().
+6.  Merge Patch 2nd/3rd into one patch and move ZNS related code
+    into its own :-
+     [PATCH V10 2/8] nvmet: add NVM Command Set Identifier support
+     [PATCH V10 3/8] nvmet: add command set supported ctrl cap
+    Merged into new patch minux ZNS calls :-
+     [PATCH V11 1/4] nvmet: add NVM Command Set Identifier support
+7.  Move req->cmd->identify.csi == NVME_CSI_ZNS checks in to respective
+    caller in nvmet_execute_identify().
+8.  Update error log page in nvmet_bdev_zns_checks().
+9.  Remove the terney expression nvmet_zns_update_zasl().
+10. Drop following patches:-
+     [PATCH V10 1/8] nvmet: trim args for nvmet_copy_ns_identifier()
+     [PATCH V10 6/8] nvme-core: check ctrl css before setting up zns
+     [PATCH V10 7/8] nvme-core: add a helper to print css related error
+
+Changes from V9:-
+
+1.  Use bio_add_zone_append_page() for REQ_OP_ZONE_APPEND.
+2.  Add a separate prep patch to reduce the arguments for
+    nvmet_copy_ns_identifier().
+3.  Add a separate patch for nvmet CSI support.
+4.  Add a separate patch for nvmet CSS support.
+5.  Move nvmet_cc_css_check() to multi-css supported patch.
+6.  Return error in csi cmd effects helper when !CONFIG_BLK_DEV_ZONED.
+7.  Return error in id desc list helper when !CONFIG_BLK_DEV_ZONED.
+8.  Remove goto and return from nvmet_bdev_zns_checks().
+9.  Move nr_zones calculations near call to blkdev_report_zones() in
+    nvmet_bdev_execute_zone_mgmt_recv().
+10. Split command effects logs into respective CSI helpers.
+11. Don't use the local variables to pass NVME_CSI_XXX values, instead
+    use req->ns->csi, also move this from ZBD support patch to nvmet
+    CSI support.
+12. Fix the bug that is chekcing cns value instead of csi in identify.
+13. bdev_is_zoned() is stubbed out the CONFIG_BLK_DEV_ZONED, so remove
+    the check for CONFIG_BLK_DEV_ZONED before calling bdev_is_zoned().
+14  Drop following patches :-
+    [PATCH V9 1/9] block: export bio_add_hw_pages().
+    [PATCH V9 5/9] nvmet: add bio get helper.
+    [PATCH V9 6/9] nvmet: add bio init helper.
+    [PATCH V9 8/9] nvmet: add common I/O length check helper.
+    [PATCH V9 9/9] nvmet: call nvmet_bio_done() for zone append.
+15. Add a patch to check for ctrl bits to make sure ctrl supports the
+    multi css on the host side when setting up Zoned Namespace.
+17. Add a documentation patch for the host side when calculating the
+    buffer size allocation size for the report zones.
+16. Rebase and retest 5.12-rc1.
+
+Changes from V8:-
+
+1. Rebase and retest on latest nvme-5.11.
+2. Export ctrl->cap csi support only if CONFIG_BLK_DEV_ZONE is set.
+3. Add a fix to admin ns-desc list handler for handling default csi.
+
+Changes from V7:-
+
+1. Just like what block layer provides an API for bio_init(), provide
+   nvmet_bio_init() such that we move bio initialization code for
+   nvme-read-write commands from bdev and zns backend into the centralize
+   helper. 
+2. With bdev/zns/file now we have three backends that are checking for
+   req->sg_cnt and calling nvmet_check_transfer_len() before we process
+   nvme-read-write commands. Move this duplicate code from three
+   backeneds into the helper.
+3. Export and use nvmet_bio_done() callback in
+   nvmet_execute_zone_append() instead of the open coding the function.
+   This also avoids code duplication for bio & request completion with
+   error log page update.
+4. Add zonefs tests log for dm linear device created on the top of SMR HDD
+   exported with NVMeOF ZNS backend with the help of nvme-loop.
+
+Changes from V6:-
+
+1. Instead of calling report zones to find conventional zones in the 
+   loop use the loop inside LLD blkdev_report_zones()->LLD_report_zones,
+   that also simplifies the report zone callback.
+2. Fix the bug in nvmet_bdev_has_conv_zones().
+3. Remove conditional operators in the nvmet_bdev_execute_zone_append().
+
+Changes from V5:-
+
+1.  Use bio->bi_iter.bi_sector for result of the REQ_OP_ZONE_APPEND
+    command.
+2.  Add endianness to the helper nvmet_sect_to_lba().
+3.  Make bufsize u32 in zone mgmt recv command handler.
+4.  Add __GFP_ZERO for report zone data buffer to return clean buffer.
+
+Changes from V4:-
+
+1.  Don't use bio_iov_iter_get_pages() instead add a patch to export
+    bio_add_hw_page() and call it directly for zone append.
+2.  Add inline vector optimization for append bio.
+3.  Update the commit logs for the patches.
+4.  Remove ZNS related identify data structures, use individual members.
+5.  Add a comment for macro NVMET_MPSMIN_SHIFT.
+6.  Remove nvmet_bdev() helper.
+7.  Move the command set identifier code into common code.
+8.  Use IS_ENABLED() and move helpers fomr zns.c into common code.
+9.  Add a patch to support Command Set identifiers.
+10. Open code nvmet_bdev_validate_zns_zones().
+11. Remove the per namespace min zasl calculation and don't allow
+    namespaces with zasl value > the first ns zasl value.
+12. Move the stubs into the header file.
+13. Add lba to/from sector conversion helpers and update the
+    io-cmd-bdev.c to avoid the code duplication.
+14. Add everything into one patch for zns command handlers and 
+    respective calls from the target code.
+15. Remove the trim ns-desclist admin callback patch from this series.
+16. Add bio get and put helpers patches to reduce the duplicate code in
+    generic bdev, passthru, and generic zns backend.
+
+Changes from V3:-
+
+1.  Get rid of the bio_max_zasl check.
+2.  Remove extra lines.
+3.  Remove the block layer api export patch.
+4.  Remove the bvec check in the bio_iov_iter_get_pages() for
+    REQ_OP_ZONE_APPEND so that we can reuse the code.
+
+Changes from V2:-
+
+1.  Move conventional zone bitmap check into 
+    nvmet_bdev_validate_zns_zones(). 
+2.  Don't use report zones call to check the runt zone.
+3.  Trim nvmet_zasl() helper.
+4.  Fix typo in the nvmet_zns_update_zasl().
+5.  Remove the comment and fix the mdts calculation in
+    nvmet_execute_identify_cns_cs_ctrl().
+6.  Use u64 for bufsize in nvmet_bdev_execute_zone_mgmt_recv().
+7.  Remove nvmet_zones_to_desc_size() and fix the nr_zones
+    calculation.
+8.  Remove the op variable in nvmet_bdev_execute_zone_append().
+9.  Fix the nr_zones calculation nvmet_bdev_execute_zone_mgmt_recv().
+10. Update cover letter subject.
+
+Changes from V1:-
+
+1.  Remove the nvmet-$(CONFIG_BLK_DEV_ZONED) += zns.o.
+2.  Mark helpers inline.
+3.  Fix typos in the comments and update the comments.
+4.  Get rid of the curly brackets.
+5.  Don't allow drives with last smaller zones.
+6.  Calculate the zasl as a function of ax_zone_append_sectors,
+    bio_max_pages so we don't have to split the bio.
+7.  Add global subsys->zasl and update the zasl when new namespace
+    is enabled.
+8.  Rmove the loop in the nvmet_bdev_execute_zone_mgmt_recv() and
+    move functionality in to the report zone callback.
+9.  Add goto for default case in nvmet_bdev_execute_zone_mgmt_send().
+10. Allocate the zones buffer with zones size instead of bdev nr_zones.
+
+Chaitanya Kulkarni (4):
+  nvmet: add NVM Command Set Identifier support
+  nvmet: add ZBD over ZNS backend support
+  nvmet: add nvmet_req_bio put helper for backends
+  nvmet: add req cns error complete helper
+
+ drivers/nvme/target/Makefile      |   1 +
+ drivers/nvme/target/admin-cmd.c   |  79 ++++-
+ drivers/nvme/target/core.c        |  16 +-
+ drivers/nvme/target/io-cmd-bdev.c |  38 ++-
+ drivers/nvme/target/nvmet.h       |  57 ++++
+ drivers/nvme/target/passthru.c    |   3 +-
+ drivers/nvme/target/zns.c         | 475 ++++++++++++++++++++++++++++++
+ include/linux/nvme.h              |   8 +
+ 8 files changed, 651 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/nvme/target/zns.c
+
+-- 
+2.22.1
+
 
 _______________________________________________
 Linux-nvme mailing list
