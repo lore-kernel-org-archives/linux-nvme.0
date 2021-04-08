@@ -2,19 +2,18 @@ Return-Path: <SRS0=WFi/=JF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B73EC433ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 22:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C128C433B4
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 22:44:10 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C86C5610F7
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 22:43:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C86C5610F7
+	by mail.kernel.org (Postfix) with ESMTPS id E068C610F8
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 22:44:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E068C610F8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,49 +22,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=dypuhSg0q2Jn1anF9/DpdBmzpK4LdhzMHTiCM11EFoA=; b=I9ESaqCY0HLpDhbDCbAnbeR2Q
-	fZLf3z2g3yibQzrgh0UhAZLEiaz+FkoGlSPKZXbOZzmAyblWLLxBMg5/Hthl6CBO6AXU+WyesoOwS
-	ghyUcVr2pwyO31wuYA7rbYYouNJswof9FVBrQQGJBrUETOWLMffE37mGzcQR3srmNts/7lInYari0
-	o+OpQ6FP7ERglwryFmsF6AI23k6nOxaC0S/RdGMM/zaZUMVFYlvjWBVVZpFlfCCh/SgIFVMCjsdzw
-	JDYQRNQvNk0Td7h5Ei3CIYozOG9a8BksSAguLGUakTynwC3IV8j0ooXUUA4m9KtzEoPg7uL2kgTQ1
-	XKSwvnxQA==;
+	 bh=k9xmzU2bbDW7orj+Uj7V4aBDteTizGEuRj4KzxxHDAE=; b=efl1J1g7WqIjCJJU7OQirf8EQ
+	iDIU1Z05YPP3SP2YHmu2+0mS9fCdSwPqzpR8dwDbOtYompuHq0H/4RZtadlZB/A+IVwQ5v/q3ojy2
+	aqVPXRsuuc3fWw3ewDFS+ErPimQ3K+ot9p5vpHMZ489La5fzyE38zoVx3MG2ohgnoeumBDP7Lv64P
+	dzks5q2f1xH+Y/k6Dpf2atv/L+z9F6HhgjA2FDab8US43GCD7CHvxyA6upFHueDj14x5PKzg74cCy
+	mWgpquZY1IWyRKLB4L6N+Oc43b2HjxaT1SINmzEcBxsy2hzNdf1OlSxVgHKQzx88sJlDobPcgcZxm
+	afWLvlXDw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUdMn-009OUO-AY; Thu, 08 Apr 2021 22:43:13 +0000
+	id 1lUdNU-009OZf-UC; Thu, 08 Apr 2021 22:43:57 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUdMj-009OTh-Jt
- for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 22:43:11 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 50D23610F7;
- Thu,  8 Apr 2021 22:43:05 +0000 (UTC)
+ id 1lUdNP-009OZE-1a
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 22:43:52 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 07F93610C7;
+ Thu,  8 Apr 2021 22:43:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1617921786;
- bh=ZWOQpdZTQBtm1FjtHQ+10DHRuP67cKdQJjPX8vYkBu4=;
+ s=k20201202; t=1617921829;
+ bh=XkAv8Y1juhyUTlp+5FrKN8XWYycoc0S8qKE6fxebRew=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gxIwBhZD88sMwGmHQSES/RqN+BotIxzXPl8QzEn/izYm23BOZ6TBRtuGmzciDIkhr
- Vqjwr4bdx65xIap6p6aWeAadxy1E7/7eSkbD6NEpt28Dg0DiFnTlJEgpJQrimTMt/o
- CsfqEqUP2LoseFj/aXU3q9xRYAWpjMJxkng2NwMgjlzKLdu11cn3HvdS/SscOjpsXV
- kVzRBxhw60on4I6BuTcUtSEqWoiMVM/Iaz52S7imaYk12d0rGSQDgIK0er/1cqaMZo
- w+xD9aiygvqodhw3CvnScMyDtqqum4emm491VAvKjOWuMUttyAhuiz68YGLlBCS4n0
- JK9YWIX96Zs+Q==
-Date: Fri, 9 Apr 2021 07:42:59 +0900
+ b=gJm/KjOYXqKYMKWq7FmOjrRlrn0iGDjs2DHkp5vRqrPNLQxHEKOVM/E8ksIp8YCMI
+ 2ANVKt9ATzoO5e+jwsfeZzmDsKCrYCDgqH3JGnY33AtuQP7wEK//t7hbt5JqrdOpL1
+ oce7g+fq7h4tAHKWLLNs9jXqMEbqO3D6LmBxJp+F2fEb2dgt0SqzHMuD59Q4d8S1t2
+ u/p0cYBvt4ODpQvEjJw+Tyg0W9BDDG2RnN1IZVvGZe5UPkpGyDJi/Cz0j2h1tb+a5D
+ S5DdzOsNupVOGfyL0Hi/8qFzarr+GlMu81A3i3P/MAT/k2LhT/6T8yTyFJqtncGpWi
+ tfelmdFBpW8UA==
+Date: Fri, 9 Apr 2021 07:43:47 +0900
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Minwoo Im <minwoo.im.dev@gmail.com>, Sagi Grimberg <sagi@grimberg.me>,
  Kanchan Joshi <joshiiitr@gmail.com>,
  Javier Gonz??lez <javier.gonz@samsung.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 12/13] nvme: let namespace probing continue for
- unsupported features
-Message-ID: <20210408224259.GA28814@redsun51.ssa.fujisawa.hgst.com>
+Subject: Re: nvme ioctl refactor and generic per-namespace char device
+Message-ID: <20210408224347.GB28814@redsun51.ssa.fujisawa.hgst.com>
 References: <20210408120842.1450092-1-hch@lst.de>
- <20210408120842.1450092-13-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210408120842.1450092-13-hch@lst.de>
+In-Reply-To: <20210408120842.1450092-1-hch@lst.de>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210408_234309_914764_A3F266FB 
-X-CRM114-Status: GOOD (  20.01  )
+X-CRM114-CacheID: sfid-20210408_234351_271837_927BC924 
+X-CRM114-Status: UNSURE (   9.33  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,73 +80,17 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 08, 2021 at 02:08:41PM +0200, Christoph Hellwig wrote:
-> Instead of failing to scan the namespace entirely when unsupported
-> features are detected, just mark the gendisk hidden but allow other
-> access like the upcoming per-namespace character device.
-
-This part looks fine for what it is, but I thought we were going even
-further by allocating a namespace for the generic char device even if
-its Command Set Indicator was unsupported by the kernel.
- 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/nvme/host/core.c | 11 ++++++++++-
->  drivers/nvme/host/zns.c  |  4 ++--
->  2 files changed, 12 insertions(+), 3 deletions(-)
+On Thu, Apr 08, 2021 at 02:08:29PM +0200, Christoph Hellwig wrote:
+> Hi all,
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 7ebe0225e01412..eba676b260b820 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1832,7 +1832,7 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
->  	if (blk_queue_is_zoned(ns->queue)) {
->  		ret = nvme_revalidate_zones(ns);
->  		if (ret && !nvme_first_scan(ns->disk))
-> -			return ret;
-> +			goto out;
->  	}
->  
->  	if (nvme_ns_head_multipath(ns->head)) {
-> @@ -1847,6 +1847,15 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
->  
->  out_unfreeze:
->  	blk_mq_unfreeze_queue(ns->disk->queue);
-> +out:
-> +	/*
-> +	 * If probing fails due an unsupported feature, hide the block device,
-> +	 * but still allow other access.
-> +	 */
-> +	if (ret == -ENODEV) {
-> +		ns->disk->flags |= GENHD_FL_HIDDEN;
-> +		ret = 0;
-> +	}
->  	return ret;
->  }
->  
-> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-> index bc2f344f0ae018..475dd45c3db49b 100644
-> --- a/drivers/nvme/host/zns.c
-> +++ b/drivers/nvme/host/zns.c
-> @@ -96,7 +96,7 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
->  		dev_warn(ns->ctrl->device,
->  			"zone operations:%x not supported for namespace:%u\n",
->  			le16_to_cpu(id->zoc), ns->head->ns_id);
-> -		status = -EINVAL;
-> +		status = -ENODEV;
->  		goto free_data;
->  	}
->  
-> @@ -105,7 +105,7 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
->  		dev_warn(ns->ctrl->device,
->  			"invalid zone size:%llu for namespace:%u\n",
->  			ns->zsze, ns->head->ns_id);
-> -		status = -EINVAL;
-> +		status = -ENODEV;
->  		goto free_data;
->  	}
->  
-> -- 
+> this series picks up the generic per-namespace character device
+> from Minwoo and Javier with a few small fixed, but rebases them on
+> an ioctl refactoring I had pending, which cleans up a lot of the
+> lower level code.
+
+Patches 1-12 look good.
+
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
 _______________________________________________
 Linux-nvme mailing list
