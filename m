@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3341C433ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 17:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A3FAC433B4
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 17:03:34 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 92C5B61008
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 17:03:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92C5B61008
+	by mail.kernel.org (Postfix) with ESMTPS id 327D6610CB
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 17:03:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 327D6610CB
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QoxDXhUL51VOtxnB0/4IMiBG2cBTnv5oeVpH4Zx9Zrk=; b=U59M4EQ70zZku2
-	8DIwxnp7n7/dw/M34rXavBG7kMJMl8ZQ2fJ6NMTFE0+ew7sb3KJ9K32vQKxQKoKtmCX9/cpf3yn9j
-	AmTirUtBToG8j+nFZ/oiS22iaR/WoIONZJy9bDJsYU/Llt9Xwhvez5PZ9qnN4rUf5RLnpalbteUpm
-	tENFfeMd9giq4oDRHF5vlemTsPRkbdIfSF5E27UHN1INQ7UfB0rkR+02NQygsUr+ycO1p6WJXQVv1
-	WNgi3zw23Pw4wc4ff8801asBcMhTkLChLfvGps0KhCiDgEtjGQbPmEP2O6/gz2c4d0LLion2ap1+I
-	jb85u8G3DqysIPHmBuvw==;
+	List-Owner; bh=+bKCw6uUg7wNSluLvXkjidWjFoteLkpvAlChSYSkxwM=; b=WXG51OlnxXApmF
+	gK1qsYxcThy5fUQtD4cdqU88is+K7aRNmFQW5R9It6+H4lQQ3Cui8X3qMzzmpsA3V2LUWxOC1+gaE
+	TIKOqMqyWn70J9bpP45F/1vdH7Jpz6a+DmLQFcUj7f2r99TqULHF1KGR/HIyja7vP7BpnkGq1y7ka
+	IuhIHYCOILxYZenKSYc7m6JNXvpkroIAfozoQgBmIaV4k+HpdUzuEHGgIp8uOyL77inFSUYQEWr7z
+	PHXQFpKF/nZFLBLkV4vbFGdr2NlSFmsNaMbP+pt2VPGLL0Zwa6jTLZTED1HliSqv4sdMDzX1+ZrCl
+	5N13wJHD9c44ZUDy1WRw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUY3Z-008j3u-3b; Thu, 08 Apr 2021 17:03:01 +0000
+	id 1lUY41-008j9q-UG; Thu, 08 Apr 2021 17:03:30 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUY2B-008idc-Uk
- for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 17:01:39 +0000
+ id 1lUY2C-008ief-WC
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 17:01:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=SVnj1+oSzpqKVO2sKwUH12TGDWlucr8BFIiDjxJcbS8=; b=K5LYomURiCDPVY97WcsROKl/wc
- 7ZfgWDaaI+F8nr9JH7B9zmwtL+7bsX+nMblgI6lSd3IdUMyFZ0kbUO9v3YnhmJhBtWbby/pBKU9Tr
- 9lf1hKXKzR9Rh4oYbLKmMtxfmlhE2wR/CZl0auq8Kbc+2oTSLIGl/au06Ag38x7kku6oicrr4jO6s
- mynGCsIT/gDkzmeNVeVm9nsZPhTsfIsJZpNY0JMudxGzTBr2YbmtHnZxkEc84xMt9RrHEoEv7OkcF
- 9syz9dChXZfwaM+7lJ5MtAHMy18a9KkyefSvBq18GqKVAzEXFO9DFr8r/EY1Z8+/CeezeprfqAPqu
- 9hessKJQ==;
+ bh=bUsL3A+dCEfQr6IIxez1VQdWw73GOeskoig0YKnj72Q=; b=Bu3hr0GZFBUK4DwLverIv9EfSg
+ co5FqA2AtRTLZUR0vTT+JeHem+nhlTcgOcx9UcZdfQypYLZ0ea+aBxsjyomKj9uhGO+G1csDiBZhd
+ irYDp+sfOdy7GJo2ZRIFILIgcucZs+QqqQWHexGdLXWiLNxRuwRDaZREoYVTA/GFRTdUmFPzzwkGd
+ Dy8w1QBR4EB0oVhqFAUCm0/Mh+3zMa6oNFPUshpt0mfGi1RGshHjLBm0TINsDCnfc4kApERakaf7V
+ gzDHFgYMBJRwSN8dDygCmrXgoT0WtEy1HRMNCmP6t4OxYgeV+o/SuMXVQNzk+DLTfCK44NvkvUyYj
+ dPSQGT2w==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lUY29-0002Ln-II; Thu, 08 Apr 2021 11:01:34 -0600
+ id 1lUY2A-0002Ll-7S; Thu, 08 Apr 2021 11:01:35 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lUY27-0002JR-2X; Thu, 08 Apr 2021 11:01:31 -0600
+ id 1lUY27-0002JU-79; Thu, 08 Apr 2021 11:01:31 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -69,8 +69,8 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
  Robin Murphy <robin.murphy@arm.com>, Logan Gunthorpe <logang@deltatee.com>
-Date: Thu,  8 Apr 2021 11:01:22 -0600
-Message-Id: <20210408170123.8788-16-logang@deltatee.com>
+Date: Thu,  8 Apr 2021 11:01:23 -0600
+Message-Id: <20210408170123.8788-17-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210408170123.8788-1-logang@deltatee.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
@@ -86,12 +86,12 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH 15/16] RDMA/rw: use dma_map_sg_p2pdma()
+Subject: [PATCH 16/16] PCI/P2PDMA: Remove pci_p2pdma_[un]map_sg()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210408_180136_281026_1F5E5FBA 
-X-CRM114-Status: GOOD (  16.84  )
+X-CRM114-CacheID: sfid-20210408_180137_363974_FC0E02FF 
+X-CRM114-Status: GOOD (  13.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,176 +108,144 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Drop the use of pci_p2pdma_map_sg() in favour of dma_map_sg_p2pdma().
-
-The new interface allows mapping scatterlists that mix both regular
-and P2PDMA pages and will verify that the dma device can communicate
-with the device the pages are on.
+This interface is superseded by the new dma_map_sg_p2pdma() interface
+which supports heterogeneous scatterlists. There are no longer
+any users, so remove it.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/infiniband/core/rw.c | 50 ++++++++++--------------------------
- include/rdma/ib_verbs.h      | 32 +++++++++++++++++++++++
- 2 files changed, 46 insertions(+), 36 deletions(-)
+ drivers/pci/p2pdma.c       | 67 --------------------------------------
+ include/linux/pci-p2pdma.h | 27 ---------------
+ 2 files changed, 94 deletions(-)
 
-diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
-index 31156e22d3e7..0c6213d9b044 100644
---- a/drivers/infiniband/core/rw.c
-+++ b/drivers/infiniband/core/rw.c
-@@ -273,26 +273,6 @@ static int rdma_rw_init_single_wr(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	return 1;
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 44ad7664e875..2f2adcccfa11 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -856,73 +856,6 @@ enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 					     GFP_ATOMIC);
  }
  
--static void rdma_rw_unmap_sg(struct ib_device *dev, struct scatterlist *sg,
--			     u32 sg_cnt, enum dma_data_direction dir)
+-static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
+-		struct device *dev, struct scatterlist *sg, int nents)
 -{
--	if (is_pci_p2pdma_page(sg_page(sg)))
--		pci_p2pdma_unmap_sg(dev->dma_device, sg, sg_cnt, dir);
--	else
--		ib_dma_unmap_sg(dev, sg, sg_cnt, dir);
--}
+-	struct scatterlist *s;
+-	int i;
 -
--static int rdma_rw_map_sg(struct ib_device *dev, struct scatterlist *sg,
--			  u32 sg_cnt, enum dma_data_direction dir)
--{
--	if (is_pci_p2pdma_page(sg_page(sg))) {
--		if (WARN_ON_ONCE(ib_uses_virt_dma(dev)))
--			return 0;
--		return pci_p2pdma_map_sg(dev->dma_device, sg, sg_cnt, dir);
+-	for_each_sg(sg, s, nents, i) {
+-		s->dma_address = sg_phys(s) - p2p_pgmap->bus_offset;
+-		sg_dma_len(s) = s->length;
 -	}
--	return ib_dma_map_sg(dev, sg, sg_cnt, dir);
+-
+-	return nents;
 -}
 -
+-/**
+- * pci_p2pdma_map_sg_attrs - map a PCI peer-to-peer scatterlist for DMA
+- * @dev: device doing the DMA request
+- * @sg: scatter list to map
+- * @nents: elements in the scatterlist
+- * @dir: DMA direction
+- * @attrs: DMA attributes passed to dma_map_sg() (if called)
+- *
+- * Scatterlists mapped with this function should be unmapped using
+- * pci_p2pdma_unmap_sg_attrs().
+- *
+- * Returns the number of SG entries mapped or 0 on error.
+- */
+-int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	struct pci_p2pdma_pagemap *p2p_pgmap =
+-		to_p2p_pgmap(sg_page(sg)->pgmap);
+-
+-	switch (pci_p2pdma_map_type(sg_page(sg)->pgmap, dev,
+-				    __DMA_ATTR_PCI_P2PDMA)) {
+-	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+-		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
+-	case PCI_P2PDMA_MAP_BUS_ADDR:
+-		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
+-	default:
+-		return 0;
+-	}
+-}
+-EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+-
+-/**
+- * pci_p2pdma_unmap_sg_attrs - unmap a PCI peer-to-peer scatterlist that was
+- *	mapped with pci_p2pdma_map_sg()
+- * @dev: device doing the DMA request
+- * @sg: scatter list to map
+- * @nents: number of elements returned by pci_p2pdma_map_sg()
+- * @dir: DMA direction
+- * @attrs: DMA attributes passed to dma_unmap_sg() (if called)
+- */
+-void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
+-{
+-	enum pci_p2pdma_map_type map_type;
+-
+-	map_type = pci_p2pdma_map_type(sg_page(sg)->pgmap, dev,
+-				       __DMA_ATTR_PCI_P2PDMA);
+-
+-	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE)
+-		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
+-}
+-EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
+-
  /**
-  * rdma_rw_ctx_init - initialize a RDMA READ/WRITE context
-  * @ctx:	context to initialize
-@@ -315,9 +295,9 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- 	struct ib_device *dev = qp->pd->device;
- 	int ret;
- 
--	ret = rdma_rw_map_sg(dev, sg, sg_cnt, dir);
--	if (!ret)
--		return -ENOMEM;
-+	ret = ib_dma_map_sg_p2pdma(dev, sg, sg_cnt, dir);
-+	if (ret < 0)
-+		return ret;
- 	sg_cnt = ret;
- 
- 	/*
-@@ -354,7 +334,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- 	return ret;
- 
- out_unmap_sg:
--	rdma_rw_unmap_sg(dev, sg, sg_cnt, dir);
-+	ib_dma_unmap_sg(dev, sg, sg_cnt, dir);
- 	return ret;
+  * pci_p2pdma_map_segment - map an sg segment determining the mapping type
+  * @state: State structure that should be declared on the stack outside of
+diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
+index 49e7679403cf..2ec9c75fa097 100644
+--- a/include/linux/pci-p2pdma.h
++++ b/include/linux/pci-p2pdma.h
+@@ -45,10 +45,6 @@ void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
+ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
+ enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 		struct device *dev, unsigned long dma_attrs);
+-int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs);
+-void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs);
+ int pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state,
+ 		struct device *dev, struct scatterlist *sg,
+ 		unsigned long dma_attrs);
+@@ -109,17 +105,6 @@ static inline enum pci_p2pdma_map_type pci_p2pdma_map_type(
+ {
+ 	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
  }
- EXPORT_SYMBOL(rdma_rw_ctx_init);
-@@ -394,17 +374,15 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 		return -EINVAL;
- 	}
- 
--	ret = rdma_rw_map_sg(dev, sg, sg_cnt, dir);
--	if (!ret)
--		return -ENOMEM;
-+	ret = ib_dma_map_sg_p2pdma(dev, sg, sg_cnt, dir);
-+	if (ret < 0)
-+		return ret;
- 	sg_cnt = ret;
- 
- 	if (prot_sg_cnt) {
--		ret = rdma_rw_map_sg(dev, prot_sg, prot_sg_cnt, dir);
--		if (!ret) {
--			ret = -ENOMEM;
-+		ret = ib_dma_map_sg_p2pdma(dev, prot_sg, prot_sg_cnt, dir);
-+		if (ret < 0)
- 			goto out_unmap_sg;
--		}
- 		prot_sg_cnt = ret;
- 	}
- 
-@@ -469,9 +447,9 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	kfree(ctx->reg);
- out_unmap_prot_sg:
- 	if (prot_sg_cnt)
--		rdma_rw_unmap_sg(dev, prot_sg, prot_sg_cnt, dir);
-+		ib_dma_unmap_sg(dev, prot_sg, prot_sg_cnt, dir);
- out_unmap_sg:
--	rdma_rw_unmap_sg(dev, sg, sg_cnt, dir);
-+	ib_dma_unmap_sg(dev, sg, sg_cnt, dir);
- 	return ret;
- }
- EXPORT_SYMBOL(rdma_rw_ctx_signature_init);
-@@ -603,7 +581,7 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- 		break;
- 	}
- 
--	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
-+	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
- }
- EXPORT_SYMBOL(rdma_rw_ctx_destroy);
- 
-@@ -631,8 +609,8 @@ void rdma_rw_ctx_destroy_signature(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	kfree(ctx->reg);
- 
- 	if (prot_sg_cnt)
--		rdma_rw_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
--	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
-+		ib_dma_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
-+	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
- }
- EXPORT_SYMBOL(rdma_rw_ctx_destroy_signature);
- 
-diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-index ca28fca5736b..a541ed1702f5 100644
---- a/include/rdma/ib_verbs.h
-+++ b/include/rdma/ib_verbs.h
-@@ -4028,6 +4028,17 @@ static inline int ib_dma_map_sg_attrs(struct ib_device *dev,
- 				dma_attrs);
+-static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
+-		struct scatterlist *sg, int nents, enum dma_data_direction dir,
+-		unsigned long attrs)
+-{
+-	return 0;
+-}
+-static inline void pci_p2pdma_unmap_sg_attrs(struct device *dev,
+-		struct scatterlist *sg, int nents, enum dma_data_direction dir,
+-		unsigned long attrs)
+-{
+-}
+ static inline int pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state,
+ 		struct device *dev, struct scatterlist *sg,
+ 		unsigned long dma_attrs)
+@@ -155,16 +140,4 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
+ 	return pci_p2pmem_find_many(&client, 1);
  }
  
-+static inline int ib_dma_map_sg_p2pdma_attrs(struct ib_device *dev,
-+					     struct scatterlist *sg, int nents,
-+					     enum dma_data_direction direction,
-+					     unsigned long dma_attrs)
-+{
-+	if (ib_uses_virt_dma(dev))
-+		return ib_dma_virt_map_sg(dev, sg, nents);
-+	return dma_map_sg_p2pdma_attrs(dev->dma_device, sg, nents, direction,
-+				       dma_attrs);
-+}
-+
- static inline void ib_dma_unmap_sg_attrs(struct ib_device *dev,
- 					 struct scatterlist *sg, int nents,
- 					 enum dma_data_direction direction,
-@@ -4052,6 +4063,27 @@ static inline int ib_dma_map_sg(struct ib_device *dev,
- 	return ib_dma_map_sg_attrs(dev, sg, nents, direction, 0);
- }
- 
-+/**
-+ * ib_dma_map_sg_p2pdma - Map a scatter/gather list to DMA addresses
-+ * @dev: The device for which the DMA addresses are to be created
-+ * @sg: The array of scatter/gather entries
-+ * @nents: The number of scatter/gather entries
-+ * @direction: The direction of the DMA
-+ *
-+ * Map an scatter/gather list that might contain P2PDMA pages.
-+ * Unlike ib_dma_map_sg() it will return either a negative errno or
-+ * a positive value indicating the number of dma segments. See
-+ * dma_map_sg_p2pdma_attrs() for details.
-+ *
-+ * The resulting list should be unmapped with ib_dma_unmap_sg().
-+ */
-+static inline int ib_dma_map_sg_p2pdma(struct ib_device *dev,
-+				       struct scatterlist *sg, int nents,
-+				       enum dma_data_direction direction)
-+{
-+	return ib_dma_map_sg_p2pdma_attrs(dev, sg, nents, direction, 0);
-+}
-+
- /**
-  * ib_dma_unmap_sg - Unmap a scatter/gather list of DMA addresses
-  * @dev: The device for which the DMA addresses were created
+-static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
+-				    int nents, enum dma_data_direction dir)
+-{
+-	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
+-}
+-
+-static inline void pci_p2pdma_unmap_sg(struct device *dev,
+-		struct scatterlist *sg, int nents, enum dma_data_direction dir)
+-{
+-	pci_p2pdma_unmap_sg_attrs(dev, sg, nents, dir, 0);
+-}
+-
+ #endif /* _LINUX_PCI_P2P_H */
 -- 
 2.20.1
 
