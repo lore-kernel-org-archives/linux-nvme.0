@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 948ECC433B4
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 08:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EAE4C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 08:16:51 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0254D6115B
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 08:01:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0254D6115B
+	by mail.kernel.org (Postfix) with ESMTPS id EB6976113D
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 08:16:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB6976113D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,64 +23,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=AZ0OSbDN7WETexWca2/W3Ynfko+y2rL6bg3Ox2lO8zc=; b=kpHBvOSFMMzrQPi8KTGEWXoO0
-	zbfctQ4L8ko5HesONRtR7wMtHoDPvtBRfKzb34qpm/c1hsChjgpfOx95l/UVNwMV3gSf8QFO7cVCX
-	KaMOmLdmybrZJi7UYmh3kuEGCKmQVKSfDaNPsTBo3b6jRsJ56Dy/ino06FFQfXV18A2tc/2iR9pFj
-	cdG27+EqxJGuOx5ZQcYLtiVddcgehLT1bc6jSXwj+NLcpzWbpTxTUH4rhrOTHcWnCF9EJNOcUfCrN
-	KdRV4Wja+sZIl9DfPvTnb2/SKaJ1bOmVtlkFKZyKmhi3pfT37j+u6bRMaYqcj7oJjEsoVsM+WP8p+
-	7sr9u913g==;
+	 bh=e42fRJrxqeaLWAmDW8akPnJOUMHgfkiOOZ5IKocV89s=; b=iPHKx7kjTbRv4G6g6yPplC2Jz
+	Eczn63Urjf4KyKXg/Bq7oGqhLuXJVLfgsGoFGPlNJbVnaWiO4FGVx9nBnIJOJ32qOoakE4R+bKP4y
+	245W508JKcszQ9r/IJL8VQR0bRWGPLsm4+ZOGL6yyyaz4iePmIRlTSBaE4/88ZSDoAM5e3OQlbtAN
+	LXNpHjxdRePHJlidxD6ArO3lhpceiYFqikZHrdAzDnCjJCNBBo8fUk941QBGTYauV9LtZPHYPOyg8
+	Aq+F5ip1W8Tb3A6qeFaH5EptNp17CFiiLRjALDlOOnb7PqISfc3uwfSEs4VOdrKaDZ0lFXgjlwZeQ
+	sFEMHLcKg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUPbb-007IOy-OY; Thu, 08 Apr 2021 08:01:35 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1lUPq6-007Jrp-C9; Thu, 08 Apr 2021 08:16:34 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUPbU-007IMf-Nt
- for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 08:01:33 +0000
+ id 1lUPpz-007Jqv-UA
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 08:16:31 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1617868888; x=1649404888;
+ t=1617869787; x=1649405787;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=Ruh/X8iQEDVmqzgkSl2Z68In6UNbD2kjoOgb3rjmbuw=;
- b=HisOC3ZdouW1HC3Ej9bKTv7oCScRJexUeO6w8RRsKUhkWEp7ThIVKOao
- B8NsmyfmnGmi88HVpmU+rfq3qFnZbmZtiIcu+WEWRiNGp388qA7GoEshb
- FV2DG28p2RqRcY9ovbhDmMtg+ICiDnfoE2l/q79S/SF0n1mduhHll8B9P
- rZHJOFZyDmGl9bqnf/ivOf+Xn9HSvzg3JsxnnA7Nr5mEkLvsPddVQLhQR
- Oqkrg5IDDaPLSss3daU9dHW8Qv/hy42jEWofnxI0hN6y126azeWW+pmLr
- QjySYJ1fduiSPgW9ZIRpeTtwYPm5LYsfN4U193f9vZTT1E9ae89u9qvwu g==;
-IronPort-SDR: 6PgPDEki3WiVHm7mijcGU/Z5TOCv9cZHriCqYuxIS8ZMulc3DFT8Q5BTTlHuEEj1q6Iq7I6RHD
- GvyIqJKlZbC9lA+sZwFM9uLmRSxUaRayz870sjaoR9T6oRQiVrP/M+tukkPhtSXOh8pQRvX/A8
- oRLTgn9MOj0my+ZrvDe42dYZ4bZJbDCoT4oNe3yzB05B2BBbdp4xBmj0WBR2QgGBj4Ww0hptZ5
- 6q/jsze2CDxrxhI0OeYDlpNt6E/aG2orLgGmGIoQaeuRD6KO9klVtft6SlTDCKpxfigmkwfZAX
- KZk=
-X-IronPort-AV: E=Sophos;i="5.82,205,1613404800"; d="scan'208";a="275029477"
-Received: from mail-bn8nam11lp2174.outbound.protection.outlook.com (HELO
- NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.174])
- by ob1.hgst.iphmx.com with ESMTP; 08 Apr 2021 16:01:22 +0800
+ bh=/9rPOWROimxgdI2gyM8SSSnJP5XGf1jJLDMHquWO6ns=;
+ b=GWLbirnMC2HhWUgETxWnu8Lq5ynO/M4xM/+BQ8kPwz75ER/Kc/QH6NeD
+ Dx72EAStNApTQf+Ph4DjemwYIlVJeus9rqwsNwNEY3yKchFNG1+7bv3CM
+ Kji2rQcI+KKXFqLRat5wogosu5JQ42VoxoOUA3uk7rVFT8u+BELnfENTA
+ podRbJpfWlI4FTbppmyJWKwLlaSgOr1FFimlHiXgcttMbSrXL7Y7mM1UY
+ 33MPe3qZ+5/j9LmiHJ3irRH6STDYAih/tuNQITCSH66VfgZoFV26jhPR/
+ rz0yU00aI4hLyhtFId159bfmbwWokJwUFLK9+rMvS3W2LETd0mU0XzIzy Q==;
+IronPort-SDR: vMNEtP1F0ob8EsDhRBPiwh9WDH0P8tK9K5/rjl2YiORaInbwdncVxoVMOiAvaCvf/vQfqKvSCx
+ xXuBDGrQnrH/qhnj2KYif+JX+qgI8pyM9ij5v9TYybFyfP66YX3IClWY+PLaxnpnxv2ZLHEAFX
+ UtGHUrzRb4wCb+1MbwUr2zW7l19GA7lmt79qfMnJqE8F7nh4P9Rci0H5LehdgjZR3T0UuDABuu
+ pJpUNS8YSRJQjELXwLe39yc6mxHJS9g889b3qS9Rr/NvbXovR68Phqe6t/vCKauDWwU5yIqlie
+ GH4=
+X-IronPort-AV: E=Sophos;i="5.82,205,1613404800"; d="scan'208";a="163901399"
+Received: from mail-mw2nam10lp2101.outbound.protection.outlook.com (HELO
+ NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.101])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Apr 2021 16:16:00 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OKEHzrf1vB2D9pxZRZdytUOPmrxHq445bC1RMiQzgf1I5KFQKk8YlsCyMVwGhNxvb5mD3Ix41xjsVpuyoK6XUJFrK37aF+2J+sdZ09f41OoQp9e3NHzGecW2BHf3T39YDjQzDMerQ82kcrUdKNdooimAFNlGvDAx/NO9imIAvmGs/SzwgGSk92tTnS7tRAtL64Hb5rkftuB49MghUbYiYVAYdHo6uU/XwChIJCYi0kKrqUhTTM9+sUo8tzoR3Wa+vuFPTg1lLnz2GCzgj/jtKICwjTtKWEVRgBcXARAHjeLSrJnP4/sK7sNxZgtUJBUZ2FgX775H8Sf7DtNHFkZ0CQ==
+ b=ITrsSQFvyRLDnpJhsTCf1DKUvy9r5Eg6w2AcqnFe7YnVT3FJ69p0BaQpmmcau/W4rXKGZI45uoFQtipyTC+584Vn9t4dMHUbOnhMpUH1Bf7+MQYUqnxRqrdM7ou6SmwHXhuWU9pBZV+YhNpNBE04bOmrAgZiTPiFEGLi+0pvMwvC4l4ie+HZw2xq1BZi1qUgQbCpwkCtUiBd8bCx9umh/i+t9y0SwQePp0qd65hwnhKkpY/QBy7+6LLOhJ6++QTZ/+iWFVKj2mlwvdpJbPqN8jz/3sRlEVxEJEGi75en8dxYqqxZiB0tr89K/0r45i2GXoihCbD22zaf6GEq2FqLWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M2LM89tpfBVrrLAvNCas2azKkJjEZHNRAHtenya6J7U=;
- b=GvSe5BIZUMRSr4z6+VkCBcp9nVdS9LlBgIwkR+fZEaB70MjAs+B/xnc2zenEpr8w1mL2APCOW8FPsxaZXaFAxsa6e0VFxog3bBTreo7dnZOJt/388DcpmTBxs7D32+kS+nuiplK192bwRq30do1F7Q58H2F4p1zRI3XTDq05bhrNrWiTXQo9KoaMafuERcne77odhisJ/yrZZW2Nm7qwFc+YloOIAd1SyCk6XxLf/VeT+i88Ibyl9LZ0aaw1Gxw26AamOOgCNHJHhQYvrqbfxEdPd5+8SnfvMk4vp5LyWBWtKGcrc1uyxZpmS/jqJBZNB1mI4fFPHYEtn6nQnvtQ+Q==
+ bh=0Gkf151qgf9uJMDuEA7qSQqmIXEGr8NEIU8zwcGpHho=;
+ b=Mth5TjbXIQ0jf4mVepKo4SBtm7EFk4XE+FSxt5oxY6wnL05k466fjklg6G2PYLetajV96XutQuCIoK+PBNVqu7u1d4vHZKW1caHK4o8Bryi6i9SPu6hXT4YhTxciKjdDZBYrthBHKNDvRnVTwFfQCsZ9J6QxCG/PsrotpuwUHQBRd4P1pW25TTM0gdf9wp3ix7nIQI4s2B15mcbeYbWg5L73fXEOXkeF8LTF53k2Y2cp/iF154/uHS43d6VA3V5WcJMJ3lWKVdpQmkqZvs2SnM0YeXF5Ul8DHB1ITI+xVDBnK6bu1FmNRmlKGqTFiW0iFS38ecbl5cpmPs1YZqJiHw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M2LM89tpfBVrrLAvNCas2azKkJjEZHNRAHtenya6J7U=;
- b=SBj9MVO/JVdHtCcmUCUROuhd1HAl807YQ7bZ1YZp5QHMQMXQ90J54bEA98YP3UU6oJBCIcqSZ55zZJn6FmQIOZHkM9i6xft/WT9dwYUM501MkdMpUByBD1UZ6fTEwqqi5ZO/qNq4tER9i9nT8OmVbZgSDxBCYQbeqgmi5A2RXjs=
+ bh=0Gkf151qgf9uJMDuEA7qSQqmIXEGr8NEIU8zwcGpHho=;
+ b=cfzN9zaWH4KLkwBUR7kUPP9vR6pAJ+YG6uMP5azMnJpa7LGWZdif8M4UTPAdLxt8FYK/U5IMoXVcj8J91GDI+MKE4r1+ntWy3+UR3u7dvS6IWRFaYPDErRMp2hkL5ZOhNcTkUqXfQH63XbZh4vnvEzxviBFhe+9ZWSsvrYj3WjA=
 Received: from BL0PR04MB6514.namprd04.prod.outlook.com (2603:10b6:208:1ca::23)
- by BL0PR04MB5060.namprd04.prod.outlook.com (2603:10b6:208:5a::28)
+ by MN2PR04MB6976.namprd04.prod.outlook.com (2603:10b6:208:1e7::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Thu, 8 Apr
- 2021 08:01:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28; Thu, 8 Apr
+ 2021 08:15:43 +0000
 Received: from BL0PR04MB6514.namprd04.prod.outlook.com
  ([fe80::e9c5:588:89e:6887]) by BL0PR04MB6514.namprd04.prod.outlook.com
  ([fe80::e9c5:588:89e:6887%3]) with mapi id 15.20.3999.032; Thu, 8 Apr 2021
- 08:01:20 +0000
+ 08:15:43 +0000
 From: Damien Le Moal <Damien.LeMoal@wdc.com>
 To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
@@ -88,8 +88,8 @@ CC: "hch@lst.de" <hch@lst.de>
 Subject: Re: [PATCH V13 2/4] nvmet: add ZBD over ZNS backend support
 Thread-Topic: [PATCH V13 2/4] nvmet: add ZBD over ZNS backend support
 Thread-Index: AQHXLAw0YQqn+n3DOkSGqRqPJyQbqA==
-Date: Thu, 8 Apr 2021 08:01:20 +0000
-Message-ID: <BL0PR04MB6514CAFA7FDA65E10B1DCE11E7749@BL0PR04MB6514.namprd04.prod.outlook.com>
+Date: Thu, 8 Apr 2021 08:15:43 +0000
+Message-ID: <BL0PR04MB65148D879FDD952E244B2481E7749@BL0PR04MB6514.namprd04.prod.outlook.com>
 References: <20210408001427.20501-1-chaitanya.kulkarni@wdc.com>
  <20210408001427.20501-3-chaitanya.kulkarni@wdc.com>
 Accept-Language: en-US
@@ -100,58 +100,58 @@ authentication-results: wdc.com; dkim=none (message not signed)
  header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
 x-originating-ip: [2400:2411:43c0:6000:5eb:da03:d474:9abc]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bc680472-5597-4402-010d-08d8fa647f1a
-x-ms-traffictypediagnostic: BL0PR04MB5060:
+x-ms-office365-filtering-correlation-id: 9414e4a0-8dcc-468f-4254-08d8fa668173
+x-ms-traffictypediagnostic: MN2PR04MB6976:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BL0PR04MB50609218CC78C8FD0A504460E7749@BL0PR04MB5060.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <MN2PR04MB6976000D3C918FC06DE54B0FE7749@MN2PR04MB6976.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
 x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5phH3bweOWjSGFN24M/74tLce44Tux+8DJHjs/wvS6MMheBkmM8jFfWfH1yIlYug8p/yNlMJxgV9LP03stvPhCdgj4O3HYgIt9yfaf7V0raDh1CPSZ0SzmlBUe1k9v2kvi5zfx4NXdbykflynNzdsfc+jPNfVuohtL1GCr4lPc7t9gBRIvmVVCzmSELTBlvOKx1YBpR1aHnWmQfON00s/DOsCyIXnYeAKkoFNqc5zI+oRDUCKO5RgBQZRK+mfSvaK6ckhqUvophmmVof3dXcOch//wf+86YOJApdEosQhaLMeSM6kzE7yZMoPcJgE/Vyo02Ztnj+A1gdl5RijSdoD+Ecvqc2/9+fqnGhFfW5TX8n6Zc9nc461hZL5vc615mf1Bhc8zK7t8WVTNUGokWl6p6Ghq6PL28M9W/kzr1z7bQcM1PGolkp244zcz9HKIFBfFW0gY9FBBc5Uu7onBRb8STpx2yBIH+9Kh87TiIasV2klV/fUMrlDC5ZnHFt8iMu7OcuAOTq9MNZFwz6rTFMXSMmq+Mr86b8idgceIBcCwH/8Y1dY146K+PNF2RcRovSxZtE6D1pRPTIJH30Lo0fu4oP5Ve9DcSh3RM/MRwb+jRTog63oUU71wj6pqUOAisw6Bv2J3+ADSMBCwOIn6Ti0xTYjsJX6B9IH0cJxyYqz6k=
+x-microsoft-antispam-message-info: X0oXEtiL3TkI5sQeWNMJnmRwuRHzgvUknywtJME4bSglJ0BTX0qqoRVdyOWCM63qVyql/hNSczs4h77NDeIAx0iFxmEIroBiTpeYPHsjGkzQJebM5CYGdHwBO6U2i/VEKLcGhkCpOasFJYT1DZ9aEgcHJBaZ4rY3nQOTqymurq2YoECUfetgxurXP32GtnEyWdvrDWHzMPcTHzkDcW/JAZjzFtKIw+xy9dMvj0NNqR5QqQuT6ceNHg0StYR27WdJRRmMYbWNkD80+tFvkL+h5d37goBiDhIJhFCpL33fex0my381vwNEhG4q5+sjgkTqBS6jB0etADVt5diB/QE036NrpEXrod9IlPnaUCWU0NkPEpI77+rKDeITBgPHbdcpJdIwlBeLpQQ5iSi0/rkDMaSrZNMgKev9OizE20z4mVarwn72yNTH6dDBIkgX9/+t6KNBL5OEHt+gGHxEps0eZLshoXb1u3Qb47yRV7xNlBd7xqSlgc2S2IIlzSvsnV25ozm7r54f04KpVRoVwyVWRpgGASyygjBoGj281jRCcKtvoruXq0L3ynNFRkZJEKolSfCRuXpO4kmFO/EOldD5f/0HjcH+Dg2Ig+L+2VocqNiQmz5uSpp5hFtff2rJTg4/EKQFd7xLt/7uUOlDGydwL4r5FoLUj+Q55Q/+/GyBYf4=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR04MB6514.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(66446008)(186003)(66556008)(5660300002)(64756008)(66476007)(66946007)(30864003)(52536014)(76116006)(91956017)(110136005)(7696005)(53546011)(6506007)(316002)(33656002)(4326008)(83380400001)(8936002)(478600001)(8676002)(38100700001)(55016002)(9686003)(86362001)(2906002)(71200400001)(579004);
+ SFS:(4636009)(366004)(396003)(136003)(376002)(346002)(39860400002)(7696005)(8676002)(30864003)(9686003)(71200400001)(55016002)(2906002)(52536014)(33656002)(110136005)(4326008)(66946007)(8936002)(64756008)(5660300002)(83380400001)(53546011)(186003)(66446008)(6506007)(38100700001)(478600001)(76116006)(66476007)(91956017)(66556008)(86362001)(316002)(579004);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?Windows-1252?Q?Ex1KjIJsLNbCfQvIHNDJSx6ot4j3WjPA6JrJoXR+4s66IHKlP/Fg2+mu?=
- =?Windows-1252?Q?dcvv+fTISQDJI13Nj4Gdev7bMfJbmq/SWC7IU/FC50w8kFWIhS6vTEJP?=
- =?Windows-1252?Q?6uss6eu6Jd7hLPg4Sz2ALw3L7m4ZZneiMg9lPWtpacXpW1HPunJ/UWnM?=
- =?Windows-1252?Q?otikOnklH72kBo8I7xBXsPFrMzueDn8xAJeNLZp0jlny/xJ8SdIBQahU?=
- =?Windows-1252?Q?5Wx599rEhVa98gbd3QbPZws+hLw/tGb3MDo5tRHfs9QM3L1gEmA6gHOW?=
- =?Windows-1252?Q?d6dYOiU+J8K8ZXRgS1l+aLB0AxJ13+5HllxYxlqnfxBBt4+9XVZny5d8?=
- =?Windows-1252?Q?DzZjuunZWZatlAYap12YeVOnl3zgIMzoY+RqllZgFKmpKTCPe6SfZ8Wg?=
- =?Windows-1252?Q?kGJ2n8SSx63NT90dUT80l2xVfgptjGW1v95Mqmtce+hoj2h4sY/8XGdC?=
- =?Windows-1252?Q?R2hiGKTSC6kh2JY00j1suVEyUVMQJP9Q1VQ6PcZrSeBjtjCmS59VpC4L?=
- =?Windows-1252?Q?WjADLYGmEBgixJYIGX555aH9EaY06o3tLyRJxroQ1NFR9uAW6ebFvKi5?=
- =?Windows-1252?Q?bCMxQnIrk4OcQLLZW/KBE5BvXHP9epdTSncjbO/pC4m5qj+Dhet+gr83?=
- =?Windows-1252?Q?rjVy95Yk0o16lQ2nFzgHH54Uulo5MVv58q6pdbM7gYmUf1yayTjqTfId?=
- =?Windows-1252?Q?ElFt1xydaSF5PbcT0TcN8a3J7JTB0z8/KDwZ6nv58iLGNEzHjkqPgT+i?=
- =?Windows-1252?Q?4of0H9W7uQHypJh/NO55F8DMDIlByMvinAlIny7G/nxrkiYbN4GtuLwL?=
- =?Windows-1252?Q?243lqIXkGftc32ZKxn+Wcbs/AXwfwErbo3TV0F+V4tB/lktxuNoRFIwU?=
- =?Windows-1252?Q?d0os6N4zpAHrP/t+nueLLx11mCOBRCv65bLZVRD5DndozvNcV7jupTmo?=
- =?Windows-1252?Q?Mxb20OiCXip4aDWrUcFpMn7icky1xT3HZWPhgJKii9ASMuvWpZllXah9?=
- =?Windows-1252?Q?xODx1SaG3kjKMMDXI+XrheBQIZ7uIfX55sXp90/4AFT3Up9G1KUgDrNr?=
- =?Windows-1252?Q?EyVwlQ0gCdeXtu8pM/tv6PRfFHir5k5fKesbQDLiz01sMpL8aoVJefLS?=
- =?Windows-1252?Q?F0AUG3eaRrBjoyF5fWQrNkRtiejYbenSJZzVdxu/2q8Ac7MP17QnrcPQ?=
- =?Windows-1252?Q?cL3Pt8lCuueaOSJDjxnzyFGE30wnauxO/kA8/p8vzBqoXydDkylDWv7+?=
- =?Windows-1252?Q?WHw22fsxA7l6yCztoik9RVrt4BVCQ2F5N93NRTIGz2zz++Vw945fdio+?=
- =?Windows-1252?Q?rz+X2DZQNh8F7IAL4zemOlPaHsmB4IxUwa80kjKkn4fNpn0GPk2iWSWR?=
- =?Windows-1252?Q?vVu7w8UCd2PNZRnnEr8fWHgx6AFn73F8Rf/An2B5EdZzNYtKnzmaVHYj?=
- =?Windows-1252?Q?G8aRrjEH0AkHZDrdXprDRbDqgnmOf43ZstLIKR6otxyBV46Bvh5jA/HT?=
- =?Windows-1252?Q?gjOhWrQDU+pFuco8qWEKC0uvhvyK1g=3D=3D?=
+x-ms-exchange-antispam-messagedata: =?Windows-1252?Q?coAPI/ETR+KgMDZx6vdY6psQgWotm8OCVvz7kI1LWXhfudzxQuoIUiHT?=
+ =?Windows-1252?Q?N5+h7Vw1R03zLrLvhN64BatxlBoH2pyvzD03qss/3HNch+PJnoCnxXqS?=
+ =?Windows-1252?Q?0CBs1TOaaxQp2i8u7eu+YugqhJJFZLl9eEFLr4K7A3TLknu4FLixvLXz?=
+ =?Windows-1252?Q?7ulQr3JIgw4h76agGDpY62sjaN+9zdSEoWMwMU9/6xFMTiCtnfGlyLl9?=
+ =?Windows-1252?Q?4aXy88mxTyKiTDovAcemsdRtBru5H6/QhOebc3t+z0XhtZB6nvEAOOAK?=
+ =?Windows-1252?Q?lK3FLjVetriJP3p7ptEKEl6dW8IwshB/bsFA03I+Zo/QiWZDvG7GgHrd?=
+ =?Windows-1252?Q?rTwuY7G/BCWh68YhzccJkVUiUQGAPIKsr+Wq2Q8JY6VGIHlxve7nSory?=
+ =?Windows-1252?Q?vW8UeenHRlRawsq8Q285iPwxd6WVQ7EaCJ8GFCgxsV7ZtbcQSJLSXY9g?=
+ =?Windows-1252?Q?hBUPaTzU5/Wm78t44YFhH3MuW78gLUh8wAV6GmJJ/qeUEOHhr4Dxwxvc?=
+ =?Windows-1252?Q?u+nv0Ow7elwey/+hqGWZHo+fJ2+t9pLrXj+jHecH/Wsp3CkTNVNEJ+JY?=
+ =?Windows-1252?Q?m0dSIOHZwMbewY5bSkjbyH9ipN5wQKe9scPqjS8iorxznCwHI3Wt1oJr?=
+ =?Windows-1252?Q?S8O/5DfN3RtetlpPG3wRXqU71CKaS2IJ47FVFI3MjH/DWDtvX3FxFuLH?=
+ =?Windows-1252?Q?1IS/Bw29AxLPY5yiCDWg2FrY7kbPqUtmKOIH6jZb48K4ySHqZqXONEcs?=
+ =?Windows-1252?Q?DpglOhmMXk9QgtSs4ejUE7Y/Lh8sOknBom6J0nCdlv9ca7klg6kbmGcS?=
+ =?Windows-1252?Q?bnSqMlb6ugNfbSq3NN/xi2m0ID1+49qvAa7g8YeRsrJOq4TUCAi0+jX2?=
+ =?Windows-1252?Q?jrb9tJRdcdYwjYoTZtEm6UTkATlE9dIVRt+W/fj0aY42DId3szVY4yqS?=
+ =?Windows-1252?Q?I7KlwOwiJ/uZhFvtHZGpOl+RPdE63aVurod3ezMiHvze/yjAYxde0sV0?=
+ =?Windows-1252?Q?PwJZxZgCc08v0782beca1Lx2e58MiEdVtOMuJck+KIpqBHxTerYr8Dkv?=
+ =?Windows-1252?Q?v8OqcI2BviROaD62TTBl5z7VsvqF55VV/FNkqJBOgfkNJqkVhrKX0MOx?=
+ =?Windows-1252?Q?URe04JT0xQ89KYLuIvtPznusMGVDQ2OEHLtucpL+YxXQyBxRcOznwXjg?=
+ =?Windows-1252?Q?grejxJHXaClJo69wjvMelP0UiTocfuXpK9G27nCVKyewvV3wVlsy1w+W?=
+ =?Windows-1252?Q?oJojLJpXb7v6SphT0B6RkBcdwqJVaEaTSfiYjHfXbOmRnLQtnCJzzXjZ?=
+ =?Windows-1252?Q?JSwhq9PsMwZxaMUtLUMhn3whrHR4iFDHKAEuP7cuWTJ7QBHgah6Y9afG?=
+ =?Windows-1252?Q?TJiWQM7bNwCVjq5vq7BD8+K6gR3Atnx2JtUiphtU3Vr0YivU0sz63SpS?=
+ =?Windows-1252?Q?59qNG9umWFEWv+ygqEup8O2TnbFgCAcdbEPKS6frE0HMLWHdJPcEOWoF?=
+ =?Windows-1252?Q?FgabPJ+6yw3zMjevoRqTQWxqOFvZuw=3D=3D?=
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6514.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc680472-5597-4402-010d-08d8fa647f1a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2021 08:01:20.7725 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9414e4a0-8dcc-468f-4254-08d8fa668173
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2021 08:15:43.7093 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KtpE0A2t/xk53HfatcMt8wjF/C5MxkKPURX19ifNGfCKz63PSz4iHQkDy2n1hejtZ/kQY1kfx5XcAJ+QegHQNg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR04MB5060
+X-MS-Exchange-CrossTenant-userprincipalname: KhCwvXp0spBwextR5C/Fg5Ja5dUrEw7gUhKCFunGd53/KHovSInTPE6WtnhppJ3tefCr4Yy9wkSYBPOgt7LOYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6976
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210408_090129_525679_AFFD068D 
+X-CRM114-CacheID: sfid-20210408_091628_919867_3F074299 
 X-CRM114-Status: GOOD (  20.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -679,13 +679,6 @@ d *d)
 > +		[BLK_ZONE_COND_FULL]	 =3D NVME_ZRASF_ZONE_STATE_FULL,
 > +		[BLK_ZONE_COND_OFFLINE]	 =3D NVME_ZRASF_ZONE_STATE_OFFLINE,
 > +	};
-
-This creates a sparse array bigger than it needs to be. If you reverse here=
- and
-use the ZRASF values as indexes (blk_zrasf_to_zcond[]), the array will shri=
-nk
-and not be sparse, then... See below...
-
 > +
 > +	if (rz->zrasf =3D=3D NVME_ZRASF_ZONE_REPORT_ALL)
 > +		goto record_zone;
@@ -701,19 +694,8 @@ and not be sparse, then... See below...
 > +	/* filter zone by condition */
 > +	if (blk_zcond_to_nvme_zstate[z->cond] !=3D rz->zrasf)
 > +		return 0;
-
-...since zrasf is already validated, all of the above becomes:
-
-	/* filter zones by condition */
-	if (rz->zrasf !=3D NVME_ZRASF_ZONE_REPORT_ALL &&
-	    z->cond !=3D blk_zrasf_to_zcond[rz->zrasf])
-		return 0;
-
 > +
 > +record_zone:
-
-This label can go away too.
-
 > +
 > +	entries[rz->nr_zones].zcap =3D nvmet_sect_to_lba(ns, z->capacity);
 > +	entries[rz->nr_zones].zslba =3D nvmet_sect_to_lba(ns, z->start);
@@ -788,6 +770,22 @@ ze)
 > +		status =3D NVME_SC_INTERNAL;
 > +		goto out;
 > +	}
+
+Forgot: for slba =3D=3D 0, this will allocate a buffer for all zones of the=
+ backend.
+If that backend is an SMR drive with high capcity, we are talking about mul=
+ti-MB
+buffer here (e.g. 20TB drive has over 75000 zones x 64B -> 4.8 MB). A nasty=
+ host
+sending lots of full report zones will end up consuming a lot of memory on =
+the
+target. So it may be better to cap busize to something resonable (say the
+backend max_sectors) and do the report in a loop here. That will complicate=
+ a
+little the code but not by much since the buffer filling is done in the cb =
+and
+that one does not need to change because of the loop.
+
 > +
 > +	reported_zones =3D blkdev_report_zones(req->ns->bdev, sect,
 > +					     req_slba_nr_zones,
@@ -865,19 +863,6 @@ ze)
 > +	ret =3D blkdev_zone_mgmt(req->ns->bdev, op, sect, nr_sects, GFP_KERNEL);
 > +	if (ret)
 > +		status =3D NVME_SC_INTERNAL;
-
-This one is a little odd with regard to the ALL bit. In the block layer, on=
-ly
-zone reset all is supported, which mean that the above will not do
-open/close/finish all. Only reset all will work. Open/close/finish all need=
- to
-be emulated here: do a full report zone and based on the zone condition and=
- op,
-call blkdev_zone_mgmt() for each zone that need a operation. Ideally,
-blkdev_zone_mgmt() should be called in the report cb, but I am not sure if =
-that
-cannot create some context problems...
-
 > +out:
 > +	nvmet_req_complete(req, status);
 > +}
@@ -888,9 +873,6 @@ cannot create some context problems...
 > +
 > +	req->cqe->result.u64 =3D nvmet_sect_to_lba(req->ns,
 > +						 bio->bi_iter.bi_sector);
-
-You should do this only if status is success, no ?
-
 > +	nvmet_req_complete(req, blk_to_nvme_status(req, bio->bi_status));
 > +	if (bio !=3D &req->b.inline_bio)
 > +		bio_put(bio);
@@ -911,9 +893,6 @@ You should do this only if status is success, no ?
 > +
 > +	if (!req->sg_cnt) {
 > +		nvmet_req_complete(req, 0);
-
-isn't this an error ? (not entirely sure)
-
 > +		return;
 > +	}
 > +
