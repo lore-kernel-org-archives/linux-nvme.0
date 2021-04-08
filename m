@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F59C433ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E37C433B4
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:15:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D5861610F8
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:13:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D5861610F8
+	by mail.kernel.org (Postfix) with ESMTPS id 74C7461159
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:15:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 74C7461159
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,41 +23,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ADZczbgwS5ZgmM6S/VaqLzYq6FWeLqMVZsIRXd0+154=; b=idMziwdu59BSyiKKq+C6XnJXE
-	X+ml9WOqoKtjpYCyh5UCfrfTjHl1Yt7A8xtBSyJYRhLCl1QxIEq+/lMPucD//Gv88uwLP75LA2beY
-	mb4F1V9fkYt+0xFiSfZUBKDk+0lhIu0qHCsP41YeeB52AYvfIwa4kck7tAtx6SdG7WWgNkTBia2dF
-	eUHyfOtSPX1RaRfz4NW2QASdOvhqLt4sRzMbPKeDm2ZwNWU18vviTXu4iNzWv9uWhYvRtmy8vdR9Y
-	P/jc1wYqXl7+TkgzoQ9eQoGjVTumSZPzF8Z9VoDxBjexk9YUFqKqFOSOfHcaUEgK4jaGeEJbihd3i
-	LDvqgZfgQ==;
+	 bh=8OmKzdn2mSyF9Q725wuQYSVSr6t8PgDsxVMuvRQpwBE=; b=LrZqWbQBc3mqUaUY2LwF84G5k
+	y9TrVIENIaYagodvMx5Fjv6tAUKATB9fL661ERIcnUq6hBQHH1wq7waxUg6ZWdhB3UpxgoniwLbKM
+	OQRlwdu/Bu93PqhIP+52YMWBV0uZeiwhGa7VWDHEZOig44S8HRQlaRfK+Hm5legx5do8dE6sWcARN
+	MuCZVgxuiq9pTiawMcJEDJLdpGiyrnZv92TzO4wVEw8qSVZx4EY1HwivaxKISogJMEiNmnGOIoqrZ
+	om/4b6bxLL2p0E1VvDX3xdNOT7o3d1JFTg/WKYed0o6ST8q3XV2pJeYfxmlMJkteOwWeOtu5ymVgY
+	DS5KPBu5A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUTX8-007wBw-S6; Thu, 08 Apr 2021 12:13:15 +0000
+	id 1lUTZH-007wYG-6Q; Thu, 08 Apr 2021 12:15:27 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUTX5-007wBT-T4
- for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 12:13:13 +0000
+ id 1lUTZE-007wXi-Lo
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 12:15:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=eTmeJo+bD82bsoBpLwhOlM0tdsOvS+4Dgx457hGzCzM=; b=UuyjrZccEPpxSAWz0YQ1yvN4ri
- 0dVGzxWrmBr0OjdRg7lTW7TEhZUrFq2IyHCgcT5E6eBbFub6hYmwkZhLWbbYK5BIdyEOBa2WIeKEA
- 01gWDqya/m7rPVmIUhAqoNky772iQHu8tirbelaP5/QyUxiufdV45lTnziYjBcxxlx8lbm/J/PCq8
- Pk5Cgut5C12VvAnJ/OHskDvSf+evyoq59ZzL1wEzudColZQyfr6WJmpEnSNgnV86uyll4sR3jgyGL
- FCdP1k3cSVd8Yrdd2cXL/tw4ZSg6JJPYUXxRt81rLJfX7ieMFr3I3pMNNVkRExN3WW6ihANjPytYP
- 4/m8kckw==;
+ bh=jbwvogdPlVNfuOZ+QOVPvQFHzTRdluoAD2acq6ngYeM=; b=N8+elow9+YYzqmdbdSRQS58ucE
+ 6cB3Pka1rQF0ItyH/Paz99SEbZW1cC8NX0am8kWc99UBq3CKrBTSZqWdzGWtOh9kFRHStKLOCfWAK
+ oUOVsXtiZmCWDpHcsgZos6zOMN2hga2Zo7vi5EKH2wn827909rkiXxU5tcHLJXL0kojeYMFXB5t4j
+ G2btNBekWg1eV12jpIx+hJQOq/Bv0G4Q5cT70eidLHs3Y3zR2si6f0LSFeToAbmjPSazvywX1aU0B
+ j5OEfTjCr3+boNqT1ncYcp+47Buw3NvcNQC15RWURpT5PE24PLMgbGLBPFNDUjn8KnM0rjwr14mfd
+ QtIfgDhw==;
 Received: from 213-225-2-171.nat.highway.a1.net ([213.225.2.171]
  helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lUTX1-00HAC1-J5; Thu, 08 Apr 2021 12:13:08 +0000
+ id 1lUTZA-00HAIk-MI; Thu, 08 Apr 2021 12:15:21 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
  Sagi Grimberg <sagi@grimberg.me>
 Cc: Kanchan Joshi <joshiiitr@gmail.com>,
  Javier Gonz??lez <javier.gonz@samsung.com>, linux-nvme@lists.infradead.org
-Subject: [PATCH 01/13] nvme: add a nvme_ns_head_multipath helper
-Date: Thu,  8 Apr 2021 14:08:30 +0200
-Message-Id: <20210408120842.1450092-2-hch@lst.de>
+Subject: [PATCH 02/13] nvme: cleanup setting the disk name
+Date: Thu,  8 Apr 2021 14:08:31 +0200
+Message-Id: <20210408120842.1450092-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210408120842.1450092-1-hch@lst.de>
 References: <20210408120842.1450092-1-hch@lst.de>
@@ -80,81 +80,136 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Minwoo Im <minwoo.im.dev@gmail.com>
+Return false from nvme_set_disk_name and let the caller set the
+non-multipath name instead of duplicating the naming information in two
+places.  Also remove the pointless local variables for the disk name
+and flags and the not needed ctrl argument.
 
-Move the multipath gendisk out of #ifdef CONFIG_NVME_MULTIPATH and add
-a new nvme_ns_head_multipath that uses it to check if a ns_head has
-a multipath device associated with it.
-
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-[hch: added the IS_ENABLED, converted a few existing users]
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 8 ++------
- drivers/nvme/host/nvme.h | 7 ++++++-
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ drivers/nvme/host/core.c      | 17 +++++++++++------
+ drivers/nvme/host/multipath.c | 24 ++++++++++++------------
+ drivers/nvme/host/nvme.h      | 14 ++++----------
+ 3 files changed, 27 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 314705da2c1076..4d13bca83cfefa 100644
+index 4d13bca83cfefa..8c60ddc47b546d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1873,11 +1873,9 @@ static int nvme_open(struct block_device *bdev, fmode_t mode)
- {
- 	struct nvme_ns *ns = bdev->bd_disk->private_data;
+@@ -3998,8 +3998,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+ 	struct nvme_ns *ns;
+ 	struct gendisk *disk;
+ 	struct nvme_id_ns *id;
+-	char disk_name[DISK_NAME_LEN];
+-	int node = ctrl->numa_node, flags = GENHD_FL_EXT_DEVT;
++	int node = ctrl->numa_node;
  
--#ifdef CONFIG_NVME_MULTIPATH
- 	/* should never be called due to GENHD_FL_HIDDEN */
--	if (WARN_ON_ONCE(ns->head->disk))
-+	if (WARN_ON_ONCE(nvme_ns_head_multipath(ns->head)))
- 		goto fail;
--#endif
- 	if (!kref_get_unless_zero(&ns->kref))
- 		goto fail;
- 	if (!try_module_get(ns->ctrl->ops->module))
-@@ -2215,8 +2213,7 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
- 			return ret;
+ 	if (nvme_identify_ns(ctrl, nsid, ids, &id))
+ 		return;
+@@ -4025,7 +4024,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+ 
+ 	if (nvme_init_ns_head(ns, nsid, ids, id->nmic & NVME_NS_NMIC_SHARED))
+ 		goto out_free_queue;
+-	nvme_set_disk_name(disk_name, ns, ctrl, &flags);
+ 
+ 	disk = alloc_disk_node(0, node);
+ 	if (!disk)
+@@ -4034,15 +4032,22 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+ 	disk->fops = &nvme_bdev_ops;
+ 	disk->private_data = ns;
+ 	disk->queue = ns->queue;
+-	disk->flags = flags;
+-	memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
++	disk->flags = GENHD_FL_EXT_DEVT;
++	/*
++	 * Without the multipath code enabled, multiple controller per
++	 * subsystems are visible as devices and thus we cannot use the
++	 * subsystem instance.
++	 */
++	if (!nvme_mpath_set_disk_name(ns, disk->disk_name, &disk->flags))
++		sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance,
++			ns->head->instance);
+ 	ns->disk = disk;
+ 
+ 	if (nvme_update_ns_info(ns, id))
+ 		goto out_put_disk;
+ 
+ 	if ((ctrl->quirks & NVME_QUIRK_LIGHTNVM) && id->vs[0] == 0x1) {
+-		if (nvme_nvm_register(ns, disk_name, node)) {
++		if (nvme_nvm_register(ns, disk->disk_name, node)) {
+ 			dev_warn(ctrl->device, "LightNVM init failure\n");
+ 			goto out_put_disk;
+ 		}
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f2d0ce0f4d3811..0f42b7e94ce3f3 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -50,19 +50,19 @@ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
+  * and those that have a single controller and use the controller node
+  * directly.
+  */
+-void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+-			struct nvme_ctrl *ctrl, int *flags)
+-{
+-	if (!multipath) {
+-		sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
+-	} else if (ns->head->disk) {
+-		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
+-				ctrl->instance, ns->head->instance);
+-		*flags = GENHD_FL_HIDDEN;
+-	} else {
+-		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
+-				ns->head->instance);
++bool nvme_mpath_set_disk_name(struct nvme_ns *ns, char *disk_name, int *flags)
++{
++	if (!multipath)
++		return false;
++	if (!ns->head->disk) {
++		sprintf(disk_name, "nvme%dn%d", ns->ctrl->subsys->instance,
++			ns->head->instance);
++		return true;
  	}
++	sprintf(disk_name, "nvme%dc%dn%d", ns->ctrl->subsys->instance,
++		ns->ctrl->instance, ns->head->instance);
++	*flags = GENHD_FL_HIDDEN;
++	return true;
+ }
  
--#ifdef CONFIG_NVME_MULTIPATH
--	if (ns->head->disk) {
-+	if (nvme_ns_head_multipath(ns->head)) {
- 		blk_mq_freeze_queue(ns->head->disk->queue);
- 		nvme_update_disk_info(ns->head->disk, ns, id);
- 		blk_stack_limits(&ns->head->disk->queue->limits,
-@@ -2224,7 +2221,6 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
- 		blk_queue_update_readahead(ns->head->disk->queue);
- 		blk_mq_unfreeze_queue(ns->head->disk->queue);
- 	}
--#endif
- 	return 0;
- 
- out_unfreeze:
+ void nvme_failover_req(struct request *req)
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 815c032a190eff..67ff5d41e7d03b 100644
+index 67ff5d41e7d03b..2ef0a355fbb4ae 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -413,8 +413,8 @@ struct nvme_ns_head {
- 	bool			shared;
- 	int			instance;
- 	struct nvme_effects_log *effects;
--#ifdef CONFIG_NVME_MULTIPATH
- 	struct gendisk		*disk;
-+#ifdef CONFIG_NVME_MULTIPATH
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
- 	struct work_struct	requeue_work;
-@@ -425,6 +425,11 @@ struct nvme_ns_head {
- #endif
- };
- 
-+static inline bool nvme_ns_head_multipath(struct nvme_ns_head *head)
-+{
-+	return IS_ENABLED(CONFIG_NVME_MULTIPATH) && head->disk;
-+}
-+
- enum nvme_ns_features {
- 	NVME_NS_EXT_LBAS = 1 << 0, /* support extended LBA format */
- 	NVME_NS_METADATA_SUPPORTED = 1 << 1, /* support getting generated md */
+@@ -668,8 +668,7 @@ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ void nvme_mpath_unfreeze(struct nvme_subsystem *subsys);
+ void nvme_mpath_wait_freeze(struct nvme_subsystem *subsys);
+ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys);
+-void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+-			struct nvme_ctrl *ctrl, int *flags);
++bool nvme_mpath_set_disk_name(struct nvme_ns *ns, char *disk_name, int *flags);
+ void nvme_failover_req(struct request *req);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
+@@ -708,16 +707,11 @@ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ {
+ 	return false;
+ }
+-/*
+- * Without the multipath code enabled, multiple controller per subsystems are
+- * visible as devices and thus we cannot use the subsystem instance.
+- */
+-static inline void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+-				      struct nvme_ctrl *ctrl, int *flags)
++static inline bool nvme_mpath_set_disk_name(struct nvme_ns *ns, char *disk_name,
++		int *flags)
+ {
+-	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
++	return false;
+ }
+-
+ static inline void nvme_failover_req(struct request *req)
+ {
+ }
 -- 
 2.30.1
 
