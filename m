@@ -2,71 +2,66 @@ Return-Path: <SRS0=WFi/=JF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B52CC433ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CE09C43460
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:11:14 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C081E61041
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:10:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C081E61041
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 80736610D0
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Apr 2021 12:11:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 80736610D0
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0EEBbNnO+hnGraEATcaODn+nbtnEWEztamjPLP5P+/8=; b=LIAFggtjZYovPsw/+Ku1dA8TG
-	AcNMpTV9aPyHADsnOMvPcXMMKag9pQn53AmrxxODBjV5qQ0q1XLKvy16BXbVVcwcbpz0Qixjb3jQz
-	EaxIUo73vAENaqVIMZ4OvoefyYPOf2weVQO1J8i/xe4H5IU65ZEwYCkWFRqlW7QyAl4JYkEYYPQFK
-	AcD2PRuyaztiDgBMq4WEvHDt6UhQpb+5N2qe1FyM+2HWbLbXVkTLqlEnSPHx9Obo4iJ/AUvivDLLy
-	4bJbE8nr7JOgeohMh3f/JhTKkdPM+BKb/UdyW8FRHkO/bTwPUUhItO67VOB9bZCychCowIngG16AC
-	KjaeIZkGg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=41D3QUvwaQwAQy3A3fxDFAMX1hYOw03Kouxl9otI0EI=; b=pGeeIeseK4DYDVCld7DUDpNQcN
+	ZChOONOVmiwGacHMK1DPHZMWxXyIwhEhpL6yt7kKDkR3w7L/KEyLJCpICbKDnuV7Bh1ZvkmnvYv0H
+	QxB3d7/UV33AsybrugdX3yjF1ONLgdHLBHQDz4Ww9OsXROchO4IoBYvDt8fZMaD7PrmU4krRJYhAR
+	Vdr6pNTe6+9q+jG+jlGx5gneGpwmyimF9fkSoCrh93QK76q2OXiblEa1iIIlktYMZyDrqQ0Vbcri5
+	KA5ymZj3s4TwfbOW8sQemQSqUNL9vgBgNA3d/6xrTxWpbGaKPAY/JcBVtcmmqZVnAPdkth2Wx00Zd
+	CxarZGwA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUTUF-007vwO-8q; Thu, 08 Apr 2021 12:10:15 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lUTV6-007vzv-Ll; Thu, 08 Apr 2021 12:11:08 +0000
+Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUTUA-007vw6-NH
- for linux-nvme@desiato.infradead.org; Thu, 08 Apr 2021 12:10:12 +0000
+ id 1lUTV5-007vzi-53
+ for linux-nvme@lists.infradead.org; Thu, 08 Apr 2021 12:11:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=OD+3GSqXwax+Y4U+W9lPocQs5LatoYnLqBRmd80f694=; b=UKg97Wwjyok0HfuAs5czQ0q0Ve
- 55nXsH233yrM2XUnQK2uWC6BH+avsWLVafY/9xpDCSwH+Y8uzBO6tQYYPWok5GA/lj0Cn0+GL3XxH
- dlGdM6ucd9qpWplrdDVJODidxd4kqzVnoa23j7Jef6WMPbYljnlMCol7eq/OfnVAXBrVFoeXWMn+e
- prN+EhOC/6/57RK5tpYdF0pFSS5369qpNfv5qBzZq8fB5CqxBHwDQK8zfFwR0gO+a4jZ7YaszCX9g
- tJ/TkIj6JnI5CquEHBU5oNwHaqt/XHuTgSFep28UrvGeZ9+Un91iWrHcdHHk8VJArvojT7Aikd0Qm
- /Vj+FUAQ==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lUTTt-00G8ZG-Un; Thu, 08 Apr 2021 12:09:58 +0000
-Date: Thu, 8 Apr 2021 13:09:53 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- Chaitanya.Kulkarni@wdc.com, linux-nvme@lists.infradead.org,
- tasleson@redhat.com, tbzatek@redhat.com, prakash.v@samsung.com,
- d.palani@samsung.com, javier.gonz@samsung.com, k.jensen@samsung.com,
- mohit.kap@samsung.com, krish.reddy@samsung.com
-Subject: Re: libnvme questions
-Message-ID: <20210408120953.GA3842993@infradead.org>
-References: <20210312161824.GA3953@redsun51.ssa.fujisawa.hgst.com>
- <CGME20210407123854epcas5p48217db953741a57d651a8a8bf240ee23@epcas5p4.samsung.com>
- <20210407123806.23253-1-p.kalghatgi@samsung.com>
- <20210407233706.GB32309@redsun51.ssa.fujisawa.hgst.com>
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=Qb4yGfhDdlmxcGniNt8/AIO3sVWU1ULrZ8JaEeAOsTI=; b=WnAZny/MiStz6qfeN9bMy0f4+y
+ l51jtsys+RlJXV0yf1ghmPem0YT9IYAH0lnjjo8DKzjPyvhTHq9cp1TXQqxcD7xxolzxo7sQivRqm
+ W/UM8VNOJ04NyF+00S2cT6xZdDrEXUt6H9Ze3GHjLOxdL4f1G4tf3Eeh04IbdYXunXi4N3MObAqD0
+ fXMxtcwpgONNAJOmiDNZyjyb5OUxd0ngUt5kGhK6xTTZzPtqFWlCEpXs9EwSBiIjKiYA+3qEFvYWE
+ 6K6/bSzfNx3Ps9YvoaKP3eis12pIwv2XaujVspaLVfmdro3CIDC/dXGnP0yw9yGrlV0KZsYAZ8Jih
+ F7AjG8+w==;
+Received: from 213-225-2-171.nat.highway.a1.net ([213.225.2.171]
+ helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1lUTUt-00HA4Z-8G; Thu, 08 Apr 2021 12:10:55 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Kanchan Joshi <joshiiitr@gmail.com>,
+ Javier Gonz??lez <javier.gonz@samsung.com>, linux-nvme@lists.infradead.org
+Subject: nvme ioctl refactor and generic per-namespace char device
+Date: Thu,  8 Apr 2021 14:08:29 +0200
+Message-Id: <20210408120842.1450092-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210407233706.GB32309@redsun51.ssa.fujisawa.hgst.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,14 +78,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 08, 2021 at 08:37:06AM +0900, Keith Busch wrote:
-> On Wed, Apr 07, 2021 at 06:08:06PM +0530, Padmakar Kalghatgi wrote:
-> > Since most of the companies who develop SSDs, use MI(sideband) channel, we think this will be a good enhancement to the existing functionality which the nvme-cli provides.
-> 
-> Can we even use this from a Linux host? I thought the sideband channel
-> was typically connected to the baseboard management controller.
+Hi all,
 
-... which typically run Linux these days :)
+this series picks up the generic per-namespace character device
+from Minwoo and Javier with a few small fixed, but rebases them on
+an ioctl refactoring I had pending, which cleans up a lot of the
+lower level code.
 
 _______________________________________________
 Linux-nvme mailing list
