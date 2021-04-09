@@ -2,99 +2,102 @@ Return-Path: <SRS0=kA4j=JG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACA1CC433B4
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Apr 2021 18:05:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C74FC43461
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Apr 2021 18:14:14 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4A2C56115C
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Apr 2021 18:05:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A2C56115C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id D29A161181
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Apr 2021 18:14:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D29A161181
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=flawful.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=dBIFK2VYOXhdit4wZ+QmPNKRbZUnG/888Zjfg6c+XCc=; b=NFOucH4BrQsxiMQ5MT26erDlh
-	JObe/JF/gTxHNfGbo+E3hsFBAiI+1sUaWWmUQbAuknDJfmWQXeK9Kz1LGczHDxFjvAL2GmKkZnjuE
-	kgOzh0thLsg8MBJg4BrmCnSyBYP66Wib9HOpXH90/eTaBcQPr0rpbohedTGrEcSfS0BMGN6B4eRV/
-	YHeXM9+hmRAYnsAlwEn7nLk4S/Zc3IPp4faiBqACbBuItAoM4TfkGBOVBeYIvMcR9MwmA4XyCpIpg
-	Wf1cwAvKY0x5g4eqnR45UOisF7kOLGgZGL+1T05/kFU63z1bSTpBftCEZZNHMtiBL0WZX0cssE0zK
-	v2pSq7CWQ==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PkQwEob1QvHVcrr+Ajh80HgY3aiO9h7sbM2i9CYObJc=; b=kY+hO9jRy7q/LwOKgos1joNk6+
+	GVlXbmlNlBRq4lojQYV65zc1AM2NQ01RFB1Nhd4cQf+roZQOLnVjZsawnD5tEPsY7nfoP36eqzDmR
+	Ks6UmKNTba89qNZOO/WLEGEmvNk6WbvhwBPYmkcGGZGVQ/Qt6kfHsyAus0+ra1Cd63Iep/FqPpo4h
+	crquNPdKXnRuozkoNrF+a9l5dfIxYReX0WY3UfM96bgGlXi9aPX4T9+Z+447U+aQjR7OH71rQ1goW
+	IdVGl3GV+BY3NjiSDMzzTtnxqS11MrtgxoaBxRZwJfrjiStM2yXrElSbz9gWlY0eBQVHU6qSIWJTK
+	DAuOzBuQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lUvUz-001GXN-N1; Fri, 09 Apr 2021 18:04:53 +0000
+	id 1lUvdu-001IB7-C5; Fri, 09 Apr 2021 18:14:06 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUvUv-001GWi-R3
- for linux-nvme@desiato.infradead.org; Fri, 09 Apr 2021 18:04:50 +0000
+ id 1lUvdp-001I6r-EM
+ for linux-nvme@desiato.infradead.org; Fri, 09 Apr 2021 18:14:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=q7AXkSlN8BW9ksXpUrDp+oOu0qDGjvaeNrBUSNg5ioc=; b=zp5xQ4uzNX3/BLQBMy8VL/JYg8
- YJ+PZ+gYJ4CWMT9jN0/Iet0XmXe/gBwr6apZqjeDNW2SnjG4Aw8fK+0YtO8daLBx+TclZPNVqbtsc
- paz/PRWBdtwL7ouOFr7hHbsqlpOEMWy74TGC0ilJa5mOvXU8ZUCHpsMqgKsjg2tLGW/E9NAc88YKU
- Itcgd7ITZ3Ol2q2e+033dL2g75Q/zbIAby5sIy4QtBD/eBtxqADc3v38+oFAtmQE+SvKtzkQkAs2f
- xozHVAzAxgDMHHJGdcaX2BEbHyyIAoyOAc+iwXDISJnTrxNbh5dkXWD9fynJQCICFb0QrMeWd6A5g
- nYnTRCZQ==;
-Received: from mail-pg1-f178.google.com ([209.85.215.178])
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=d9+NVrEhCD/F0hqwPtTi0LWkrNwo6qZA/Ms9P1Fu/dE=; b=v8BvKTPTb79IVNf/MCKXu2QKvL
+ ArUT/1kYn+u/PqK0gEGFsQX0LEetcXHwn4B+DdkWb61Waw5oX+IFMVOzAquJ1NoCXJvBvdVaUBsgv
+ z6htw0nGCTxVlbmkJM+nQEjlT7naaPaXeNiF7B/x+ASN6D1nYbdo7djGwDqaEYfCmDSkdTRYTycSx
+ QsCPwGscAlZmOka1G4C+QJgwmnoIk0lzTbdKjz8ZGHGOAHftoaq25BkLpku2OuGvpRQgdgU8lHWjH
+ UOWurjq+Wa3zhK+dpvQypQZSOaT9LBwkDbycZ8RILnAlZ7vlmPNYnBfQ2CA3YCaWzX4DiU0a7ljGY
+ WIETjSCw==;
+Received: from pio-pvt-msa2.bahnhof.se ([79.136.2.41])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lUvUs-004iBI-Vc
- for linux-nvme@lists.infradead.org; Fri, 09 Apr 2021 18:04:48 +0000
-Received: by mail-pg1-f178.google.com with SMTP id t140so4488211pgb.13
- for <linux-nvme@lists.infradead.org>; Fri, 09 Apr 2021 11:04:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q7AXkSlN8BW9ksXpUrDp+oOu0qDGjvaeNrBUSNg5ioc=;
- b=FP8TEcFFjsjfi0QG2uvXx8cIdHl8ZnJIOT7mRMMG+nYNDN+VEHjExjzeKnctBARksX
- yXJ7SdnQcMgJTCwnJniojNWWG3ZuYlZMdb1JGecvZQTHYszF8pHeiYleulOqAU5vqPur
- JaTM03QI/roIYuR0HzF/Vi5UHdZHLqVL8RW0KlLedW8WU754TjZjeIIi7Ie0yBFuZc28
- g9diwYuMxVk4CKkLMdtoEJAzS8STIeGQjNaXkI3riiaGElUJ8UFYE3P6QdU33HJSVM82
- qt/EljilPUzIHFybw0NvD3RS8PrcavFLe8phjz4z0kOIcyBeoEelvRxCM8HlJHlu/Mlf
- DPzA==
-X-Gm-Message-State: AOAM530JX1nkgygSBrS/bKQuKNXoAmhzj7sSXwABNs41e4cejwqnwBIi
- 5HMZcsCpy14BH0WVyAefzvI=
-X-Google-Smtp-Source: ABdhPJwESo9rWUOsJbteDr41MNvDUW6zFgoLf4IBuh6uVHDzlw4fWfLB1+uzuMaV4ySpQdBhHL05lQ==
-X-Received: by 2002:aa7:9561:0:b029:246:9133:f9ef with SMTP id
- x1-20020aa795610000b02902469133f9efmr4680242pfq.54.1617991485587; 
- Fri, 09 Apr 2021 11:04:45 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:95dd:20b7:6d40:bdc3?
- ([2601:647:4802:9070:95dd:20b7:6d40:bdc3])
- by smtp.gmail.com with ESMTPSA id y17sm3010394pfl.10.2021.04.09.11.04.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Apr 2021 11:04:45 -0700 (PDT)
-Subject: Re: nvme tcp receive errors
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-References: <20210331161825.GC23886@redsun51.ssa.fujisawa.hgst.com>
- <0976ff40-751e-cb95-429a-04ffa229ebf0@grimberg.me>
- <20210331204958.GD23886@redsun51.ssa.fujisawa.hgst.com>
- <20210402171141.GA1944994@dhcp-10-100-145-180.wdc.com>
- <53a11feb-bc49-d384-3b7b-481a0dfc70e6@grimberg.me>
- <20210405143702.GA20598@redsun51.ssa.fujisawa.hgst.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <300c9e90-9bd6-abc8-c67a-fa92e119e4a7@grimberg.me>
-Date: Fri, 9 Apr 2021 11:04:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ id 1lUvdk-004ieI-Lm
+ for linux-nvme@lists.infradead.org; Fri, 09 Apr 2021 18:14:00 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 7AE903F455
+ for <linux-nvme@lists.infradead.org>; Fri,  9 Apr 2021 20:13:36 +0200 (CEST)
+Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=flawful.org header.i=@flawful.org header.b=pwrfuTEn; 
+ dkim=pass (1024-bit key) header.d=flawful.org header.i=@flawful.org
+ header.b=vWJAMXWS; dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GRz0bf6nzOGT for <linux-nvme@lists.infradead.org>;
+ Fri,  9 Apr 2021 20:13:35 +0200 (CEST)
+Received: by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id ABF5E3F451
+ for <linux-nvme@lists.infradead.org>; Fri,  9 Apr 2021 20:13:35 +0200 (CEST)
+Received: by flawful.org (Postfix, from userid 112)
+ id D10591065; Fri,  9 Apr 2021 20:13:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flawful.org; s=mail;
+ t=1617992027; bh=d9+NVrEhCD/F0hqwPtTi0LWkrNwo6qZA/Ms9P1Fu/dE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pwrfuTEniK87v6V5CD65BIbUv2zYpCcTKg6ZuoY+BdyZTFynIczUQNXkSoCyDER24
+ 9c+deaekvu50j27ilrOKVsc/TuNbB1xqWZTzylBo21MYwHD3A2gUeT4vbKMoB9y1GM
+ IU8eLt7fNvKOE6FnRVcI0xmodZZxB7/wbQPmYkCs=
+Received: from x1-carbon.lan (OpenWrt.lan [192.168.1.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by flawful.org (Postfix) with ESMTPSA id D2C50902;
+ Fri,  9 Apr 2021 20:13:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flawful.org; s=mail;
+ t=1617992012; bh=d9+NVrEhCD/F0hqwPtTi0LWkrNwo6qZA/Ms9P1Fu/dE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=vWJAMXWS8k0oAnUQExQned5Wptkii57LjTBKwvRlPAMI1YVsn4yfgyBm47hLLqzP9
+ wLJ0HZr2lszjuHIFj1jAnpMXThqG/jRDy6bmp9yJ3YiSUpE5vfzrF6ScmWL8LJpzNo
+ aQiEAESB4hYsIK/qOu8ZTT2iAsk2wbCNPfkOEN+k=
+From: Niklas Cassel <nks@flawful.org>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: Niklas Cassel <niklas.cassel@wdc.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-pci: don't simple map sgl when sgls are disabled
+Date: Fri,  9 Apr 2021 20:12:55 +0200
+Message-Id: <20210409181255.101847-1-nks@flawful.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210405143702.GA20598@redsun51.ssa.fujisawa.hgst.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210409_110447_048931_59B7F39B 
-X-CRM114-Status: GOOD (  20.67  )
+X-CRM114-CacheID: sfid-20210409_111357_063777_83237647 
+X-CRM114-Status: GOOD (  14.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,60 +109,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
->>>> Thanks for the reply.
->>>>
->>>> This was observed on the recent 5.12-rc4, so it has all the latest tcp
->>>> fixes. I'll check with reverting 0dc9edaf80ea and see if that makes a
->>>> difference. It is currently reproducible, though it can take over an
->>>> hour right now.
->>>
->>> After reverting 0dc9edaf80ea, we are observing a kernel panic (below).
->>
->> Ah, that's probably because WRITE_ZEROS are not set with RQF_SPECIAL..
->> This patch is actually needed.
->>
->>
->>> We'll try adding it back, plust adding your debug patch.
->>
->> Yes, that would give us more info about what is the state the
->> request is in when getting these errors
-> 
-> We have recreated with your debug patch:
-> 
->    nvme nvme4: queue 6 no space in request 0x1 no space cmd_state 3
-> 
-> State 3 corresponds to the "NVME_TCP_CMD_DATA_DONE".
-> 
-> The summary from the test that I received:
-> 
->    We have an Ethernet trace for this failure. I filtered the trace for the
->    connection that maps to "queue 6 of nvme4" and tracked the state of the IO
->    command with Command ID 0x1 ("Tag 0x1"). The sequence for this command per
->    the Ethernet trace is:
-> 
->     1. The target receives this Command in an Ethernet frame that has  9 Command
->        capsules and a partial H2CDATA PDU. The Command with ID 0x1 is a Read
->        operation for 16K IO size
->     2. The target sends 11 frames of C2HDATA PDU's each with 1416 bytes and one
->        C2HDATA PDU with 832 bytes to complete the 16K transfer. LAS flag is set
->        in the last PDU.
+According to the module parameter description for sgl_threshold,
+a value of 0 means that SGLs are disabled.
 
-Are the c2hdata pdus have data_length of 1416? and the last has 
-data_length = 832?
+If SGLs are disabled, we should respect that, even for the case
+where the request is made up of a single physical segment.
 
-1416 * 11 + 832 = 16408 > 16384
+Fixes: 297910571f08 ("nvme-pci: optimize mapping single segment requests using SGLs")
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Can you share for each of the c2hdata PDUs what is:
-- hlen
-- plen
-- data_length
-- data_offset
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d47bb18b976a..b06e685d1250 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -854,7 +854,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 				return nvme_setup_prp_simple(dev, req,
+ 							     &cmnd->rw, &bv);
+ 
+-			if (iod->nvmeq->qid &&
++			if (iod->nvmeq->qid && sgl_threshold &&
+ 			    dev->ctrl.sgls & ((1 << 0) | (1 << 1)))
+ 				return nvme_setup_sgl_simple(dev, req,
+ 							     &cmnd->rw, &bv);
+-- 
+2.30.2
+
 
 _______________________________________________
 Linux-nvme mailing list
