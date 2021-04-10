@@ -2,20 +2,20 @@ Return-Path: <SRS0=Ubpo=JH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FB0C433B4
-	for <linux-nvme@archiver.kernel.org>; Sat, 10 Apr 2021 06:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBE1C433ED
+	for <linux-nvme@archiver.kernel.org>; Sat, 10 Apr 2021 06:47:01 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 94BED610E5
-	for <linux-nvme@archiver.kernel.org>; Sat, 10 Apr 2021 06:46:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94BED610E5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id DF3086113A
+	for <linux-nvme@archiver.kernel.org>; Sat, 10 Apr 2021 06:47:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF3086113A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,44 +23,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/pyOw1zAdS+fWzL0v3XEFCzWEPt+xaBoP+tKuIrn5NY=; b=XfYEK3KQqlXbK5pOaj+4IG94U
-	Ms9vIangJ0au512Bj2NFkq/9tKZ89i91NesAZpTOof5V+Gsbh52RzmKvYAuFYeLz1jyq6Xahjh45O
-	pMpC+UrzftV3c7C8RKaSpb/AlePcC6CVeYZywhCHRgiSe5amt6nnss/69Ar9oLD4S7lpKP1QIF/Ef
-	73NG1HX/gtv8cCfmpIstp/Z1hGROc6TmU/FAZpD8W0nMenEsFr87rgCBcw/5a6l9fCJiK3xTRsBBx
-	GzZrLvmZZGg0qv4FcIkdIF6/JOnmK75pMUlgO3zcycUvn9+qnnQmWeq/OZqJ8ijs8I+w+MYF+MB+H
-	uASMYhhSg==;
+	 bh=E+Sx8fPbc/GJkI5hjonm9J1diju1bwryvJdBQYigaus=; b=iwXPM5hurS6UPbkNNR7sG0+Gc
+	ywkOxvUeH4Ckg8k60zfGtA/juegUFT4jc4KjqMBhAfB5bS3hkYR++SyLPzMC/Ch+BUo5PKcPILitw
+	nJ9Ir4kn91Pyaz8UpfxGBJSK6XHkDH9DxFsN2m53MyBbHcXNLF2q98KPDbm3Rj1LPsENzFNTJ3nwz
+	XGMIBH+tDbbzL6A9PnhwZFLyGmf1rGKkmA1NmVO+IRY4ctNjwFQ6lfCEVfvluiKGAGJh4iua9OGtY
+	EFVsIDTG8SUlQkhsyxIXeLpaGIXbSUkKo/l3KVvZbTi4PMoRBm01uQyN3YmyzVnSJoDsuA9Il7whf
+	7j0CP+s4g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lV7Nf-002JI3-6Z; Sat, 10 Apr 2021 06:46:07 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lV7OI-002JLq-UM; Sat, 10 Apr 2021 06:46:47 +0000
+Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lV7Na-002JHs-QV
- for linux-nvme@desiato.infradead.org; Sat, 10 Apr 2021 06:46:03 +0000
+ id 1lV7OE-002JL3-5g
+ for linux-nvme@desiato.infradead.org; Sat, 10 Apr 2021 06:46:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=IYxLqntJ6IBQVBac4HSatDtD/Mu0aZ6VoImzcG8iIpU=; b=Bn+JHn5cWzOWM7oBFHsv7rRIrt
- e0gdzRwQKUT5Z6yFIukyr4/Aho8ZL8oFHvJGLs3jD4f8uL3X3JfNyPJ65FHe4KjrVvCxI4wGwSDWF
- IxvxZUE+jVKQ8Qpy4/Km5QIYmePf5dA9VF+SpPjkVCMm5aFiDbLywez1qob0ABIPE0vE018Xp3EN+
- tAPVxq1Ipw68cxvo6mqfA2iGJHq5LF1hlKIomXtrWpXyViXdikzuSLTzWVWG5nywNszHmLq6mz3bq
- 37EnvROn+KPPy1o5FcpwOZ4eTjgdLLcTulr3caJ92pcmBH0lunjjpPD8gPfc0bn3BZer18GiJtbg9
- a3l2e6/A==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lV7NU-001Pza-Ly; Sat, 10 Apr 2021 06:45:57 +0000
-Date: Sat, 10 Apr 2021 07:45:56 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: amit.engel@dell.com
-Cc: linux-nvme@lists.infradead.org, james.smart@broadcom.com,
- Chaitanya.Kulkarni@wdc.com, James Smart <jsmart2021@gmail.com>
-Subject: Re: [PATCH] nvmet-fc: simplify nvmet_fc_alloc_hostport
-Message-ID: <20210410064556.GB335861@infradead.org>
-References: <20210322195717.13094-1-amit.engel@dell.com>
+ bh=+A+6DsRuYg8NWSm4nE5tQkziAqhPtQ0snkyJLsJoF78=; b=wamMRNQ9B4+ki/nh4tEMB/FNre
+ ltn+a5LuRXkE2WcGtWgOPboVwpgWof8dPa/Kfu2WTHa1RReTgLbhzqWYzzeGRgJM2ynnTQ1VHwkHR
+ nGKSfmPgodZT/FkWjViBUpbnOwcir5oSsoqEF6Ebc/k6f9Pstzu376n6PBc5s3svaxx4oDQ/5T03q
+ CrB5lvE3nzV6Zd0h1Me9OZ1++hobbl4yFi3Xw43FSfmyWw+wLs2KIQs5DuefH1GuRCtwoclG4ZRMV
+ 2oGTwPIzYd4feGKIJeUZpk6D1UDeNokpAagbRsFDeaFcy97Mg/cC4uvS1e0Zyg0P9z8MwYCR1K+mD
+ yENSZ4vg==;
+Received: from verein.lst.de ([213.95.11.211])
+ by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lV7OB-004xih-9O
+ for linux-nvme@lists.infradead.org; Sat, 10 Apr 2021 06:46:40 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id A87F567373; Sat, 10 Apr 2021 08:46:30 +0200 (CEST)
+Date: Sat, 10 Apr 2021 08:46:30 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Kanchan Joshi <joshiiitr@gmail.com>,
+ Javier Gonz??lez <javier.gonz@samsung.com>, linux-nvme@lists.infradead.org
+Subject: Re: nvme ioctl refactor and generic per-namespace char device
+Message-ID: <20210410064630.GA15893@lst.de>
+References: <20210408120842.1450092-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210322195717.13094-1-amit.engel@dell.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210408120842.1450092-1-hch@lst.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210409_234639_511647_8DFDD918 
+X-CRM114-Status: GOOD (  12.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,17 +84,15 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 22, 2021 at 09:57:17PM +0200, amit.engel@dell.com wrote:
-> From: Amit Engel <amit.engel@dell.com>
+On Thu, Apr 08, 2021 at 02:08:29PM +0200, Christoph Hellwig wrote:
+> Hi all,
 > 
-> Once a host is already created,
-> avoid allocate additional hostports that will be thrown away.
-> add an helper function to handle host search.
-> 
-> Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-> Signed-off-by: James Smart <jsmart2021@gmail.com>
+> this series picks up the generic per-namespace character device
+> from Minwoo and Javier with a few small fixed, but rebases them on
+> an ioctl refactoring I had pending, which cleans up a lot of the
+> lower level code.
 
-Is this really a signoff from James or a review?
+I've pulled patches into nvme-5.13, and I'll resend patch 13.
 
 _______________________________________________
 Linux-nvme mailing list
