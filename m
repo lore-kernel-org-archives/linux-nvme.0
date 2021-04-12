@@ -1,169 +1,182 @@
-Return-Path: <SRS0=56zt=JI=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=ND0+=JJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32414C433B4
-	for <linux-nvme@archiver.kernel.org>; Sun, 11 Apr 2021 22:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D813C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 00:25:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 990F160201
-	for <linux-nvme@archiver.kernel.org>; Sun, 11 Apr 2021 22:05:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 990F160201
+	by mail.kernel.org (Postfix) with ESMTPS id E0AC161206
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 00:25:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E0AC161206
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=gdSQ54zKApUgqgeCxiFKcXnHOQrfyGXo/lO8kv20DAo=; b=LF3yQW/9wLuRdm+l4znOxs3Mu
-	3rw44JOkjtyhuuGw9nfD5cKCDsz9gdZmNXAjWurYZ49Ry+ZFm8TPXSisW4gy+7pHJdawI+5OmksaR
-	PoiqeRwZMYPKlAXnu2ZoNatWlnSc2kQussSjE97EAVjEvnEE4/22d4LRK8uPJ75PLZaIC9WXonYVm
-	S41dDHMMP3slLsp78TaL8zmyDya1+PTERpEmvhvRM/R9X2qZoBINAOJA/MF6a4LR4noJ7OOGKwvSO
-	rR4MdYvJh4Q2R0J24a/rz4MOqgYmbPGuPWAKoAWykRPCrmIknEg5qDh4jMZSV8y+MhTewORvcHRhz
-	Nq1rOHcGw==;
+	 bh=rUpZLTeMknH15Ly6JUpBF0PMTWzUVe+kwXcT3sk9a8c=; b=a/F1S0NDdh/JCwZYXiWO9JAUe
+	DF/EKjIo4vuoA15a90tWXGzwoPY4UdMGgQyKdFanBUkTc+td1TDvbqlTvXXsWvuHXPXYhQC1s/ciW
+	4tXAvWo8+U9npVkdnsU0vBEgbeR06U3tDlZis+9f7fSmeqUMsemV2pGwMwaRqrNsPcHwm9r18XxjD
+	CpIRKZec2itgGfX1LzQADJv/9mXmsWpduZctZokhA4CTyzpeaBVkl/tJ4uXrNwj8N5j9mU0zPV34t
+	F7syKKVF2okPWKPp4bDgtmruAdcss7Vff9hqfMVU53sICjitF2adVC3jXQG9iO2jFd+GFh8oLDGHE
+	kCCEoIEGw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lViD1-005Bnr-Id; Sun, 11 Apr 2021 22:05:36 +0000
+	id 1lVkO4-005LhB-3f; Mon, 12 Apr 2021 00:25:08 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lViCq-005Bn1-HU
- for linux-nvme@desiato.infradead.org; Sun, 11 Apr 2021 22:05:27 +0000
+ id 1lVkO0-005Lh4-QW
+ for linux-nvme@desiato.infradead.org; Mon, 12 Apr 2021 00:25:05 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:To:
- From:Sender:Reply-To:Cc:Content-ID:Content-Description:In-Reply-To;
- bh=ZRBIUL8HYBBgY7dPDg/KJS2cRtT0FGIj10umftuEewY=; b=BAhTDkPdPO9nVNh5Y07KPRa9h1
- 4bniVxXj9vslkrFfCD67AOGrANb/EjQIYIfa1vhpkTfDkti0NOKXL6pbmVsT1vsk93Z+ZP0aTHFco
- TmSz+uTmaikeXI3PDtE/2pGlnZQ7ReIhmoxNtsHU3rSnnr2Le7aD8WfDPAnTCv+gS4+jj1jwnxCxN
- l/mi3TulMrvVoRlQ7L3z1g9/mU2EbEgm/S4ok2WNZ3Zv0kjXjsgagO7d3wMCWBqBry9rWXiobQOQa
- QMX0Szmk/8qJpyEc8AfovD3q8ASVkCPWHl80PSKEK45D/NlP7Nyzk2jYlYFygcbPLa/gzYLjaPLX1
- VtDfj0jw==;
+ Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
+ To:From:Sender:Reply-To:Content-ID:Content-Description:In-Reply-To;
+ bh=JkIK2VIEnDJZ3GNb0B027KqAStnV3i5L/AiXnbaywbo=; b=13erwosvqNKc4HiQPT2Cygeh1T
+ w3GhRgh3dmdRx4nXNLZilnSo72i9G03kPtpsTwSrZIwVo9OvdEzxGIFqaqOLuCWCgcLI+nDTj+pBn
+ pX7doefVAPQvYb4IcCQ8kB6uYyGo02LQbeuQLFmP03jhPl+alZkNRUKAMgIyxQp7EBHvNP8Pv+qOF
+ fN/d4ajnMWstOB6egWE++mWg9qkTAbVkfrPutZpfrc+sE8aNDXA3e9MzRMFW+2SfNBxnbIpMzo7t2
+ 1srsPSN9ITOkFs/w61bBaZUgbEHoZcaghEY2cJttFBoesQ2/vivMHA5T4Mhk3FklunU3Pxb5XtE5R
+ T+DTqKcA==;
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lViCo-005lMm-1x
- for linux-nvme@lists.infradead.org; Sun, 11 Apr 2021 22:05:23 +0000
+ id 1lVkNx-005oBg-Ic
+ for linux-nvme@lists.infradead.org; Mon, 12 Apr 2021 00:25:03 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1618178722; x=1649714722;
- h=from:to:subject:date:message-id:references:
+ t=1618187101; x=1649723101;
+ h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=rnVmc8owu+rNlHBsdQC/w7FhGvXZL4cKvpWuS9Rx6FQ=;
- b=ahOjBtLt117bKfqf6fh0ezThHPapvaz3b7euZEh7Qi1LIlLwHl8mGzST
- Pt+oE9W8Be9ILWO/CSGbWJmMlnYcF6t9WTIRaPzDaexWdSSuvpb6XBx0x
- 0RQPLXpmWyZS4TlsdU+yF3NAlXVWI2LIaf4TVo7WcFsUu/dXAmrDv7wo0
- mfXjONMKNcR0nTfEm9/8nptPlQ4LJJ+BmKEXPfVCi8fVEefXG453jGL5n
- aL7HehcBRLWktriUPk/WCrpwSONMVvgtutB41VHL7FPBTXBQmMj6cbjeL
- gP0f498xqxTyA80DF/+kNYvqv8iEnWxKbuvww0fwAPORG5FrjUVTmcQVD w==;
-IronPort-SDR: WoepM2uLszjMI3IRpNZ+O6y0O6+cCwn2rC5AFw8SJqLsAxSs5hb+uKAikRH3stB0xKyyOpvoX7
- 43uOHYQhMzKZg5bR3zbmhpgCtWy2UlsKKYChnYyEAGrckGDnjvP0GtTWRSQX7nm7WDJHwNLaCV
- izlyKXiwjRmP8wYNqFtMkZ3dK+BzrN5iggXQHLRQB29gU/+64TjuRCXquC1ntqFXJHqn2JCydT
- 4aTRaUz1ToYsQJfzvMcCXSlvdJ5+T2LbyVYFwMlZazEzH8U2debeSuZaO3P1J4HzqtJisolGUI
- a88=
-X-IronPort-AV: E=Sophos;i="5.82,214,1613404800"; d="scan'208";a="165268441"
-Received: from mail-dm6nam12lp2174.outbound.protection.outlook.com (HELO
- NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.174])
- by ob1.hgst.iphmx.com with ESMTP; 12 Apr 2021 06:05:21 +0800
+ bh=QktRStDHXTZ2JVtSw3lo74M5RcMQaguQwZ3kBFEkTSA=;
+ b=a1x5ayfs6LvqUQ+WHeV++XuKx+uXONkizhDoWwzO+sAQ9JOH3hnvyYzQ
+ 2TVyqBpOrueAtfE/PKRp8bX1gVBUSbZCenokorjjTvsQ1GmRnY2gx0TXC
+ vMs8WqqRHaRTVSxflJyLggtbX+iCEc8+RgkNm3LunqQeWGUWlqKuqKCBX
+ +6qOTT6whrp/GSUbi21cdRR06jAmfvGuI7Aa/E7h6iRhyk8yqbLN709bH
+ OSUotPzShK/bgvCE2yGdTRQHDN1nBSqQaFM2zqehZH052SmnbCipdh1jP
+ y4Jut/L+mu2ARxUYkDwkeUD3d3TBgNNrrSmKKV2ad+Dfgeoo1D79uLkh/ Q==;
+IronPort-SDR: MoB0AcKdAkU1M9NU1RhB1BrRSxuYQpkuD0xqLCdDmAaHOBp4oHwjD83yvp8HiFrAlugug2NPJm
+ QIXtD0T7/d/6Hp8DD7TIpOfe88oA5CJMTTn8oc1i/8vpRg4L5EKXjlqabrKl38Nf60tSuNlRr2
+ ym6TJOjWUFOABZwJ1u9fgXF+L4xgSV5b4BR04EoS8KQJbeJrjmntRQ6Q3ohhVTfaskZJNGE9Ch
+ LWxcFNAtjercruMhQZaU8ocKKqMDcWgP+TmHyu1eyqhaVue3DWzEiuZDnLprBu/l8Gznhuh8HY
+ UvI=
+X-IronPort-AV: E=Sophos;i="5.82,214,1613404800"; d="scan'208";a="165273425"
+Received: from mail-mw2nam10lp2105.outbound.protection.outlook.com (HELO
+ NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.105])
+ by ob1.hgst.iphmx.com with ESMTP; 12 Apr 2021 08:24:58 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JmimJv0NIRHdD8M6llFfY2orzE/SQCQgrir2H5xxAkue7BM4Pa2nTZMlDOZ1qAjhxKIK8UHEPtd/IRAiRXVzbgfWb7VUqyGgMOCpJey5LC8HZTsuzk/i0rsctb/ZN383y5+WWMTotlpzBei2lA/pL/2vHm4JT8jo1H14OgDdiV9AcBSQSC9EY1gZFFxSrjGEhx7+/X00L2ERJ0P1neDgRiG3bRZCQmBzvlydu4FmqZFuNamVqE83JR31Fw8Dip0UENKYWC1E4UFDYRLATjBCogiHU/I9YPb9XDJF9KW/b8oyepxEq/Hxth0/T0QXX9je3neuMhpTlcfQRkE3Ob1QAQ==
+ b=AI2CM/MY7rXEydcUqXwO+AeinRgxrTUHb1kWJxU1p+J6SRUQssddEo2quFUtbOfj3DR9c5r3vbEcq1RnSa22WRlVIAWJ4L9oM8chcH0ci8UmnuGo936FR9YmS1eCQEtIRI60ztEXpGrIOYTCaMoS4qp8FqpVLjgvw8IjqvUVk0Mxpoo0I8xDUeIwGvX5Q/P7FIss5PpVn8pUdF3Acw/q5GzCxaonz1SbCVqsYnki/C51t1K+UZkhrFlne3g2J0+jOhwLeWVLuv1taGa0WQLHODcl16q6dO4fcYBqI9xzzuxAhQmQr/cCNURhTQHQxvMprsWDJ1lghadDysPDzpMJjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZRBIUL8HYBBgY7dPDg/KJS2cRtT0FGIj10umftuEewY=;
- b=g1FNpAfKE0k+K67cVIPVH9/FaYcK1ABMvsFp+SruOZ6w5GORRSKpf9h5czv83So8i4DuNqEPqpNfdSz2oa1R0BIbvh9SczeLSyHvky/qtw7RPJmltbSeTmTWExoT6jrwF6guSfEtH8LZxvgU9Jqd9+aKEJbBqJOh0il25wzsnYIgt4BhhKyY9X++HY3snBg/F7/rdU4+eeBMxwOgeaNK4wGgAjfVS/RJSUsSdMFVqjStohEEzt3Lp6Fvl1lcRIujv9LtHFdbhkXO7/J2tVCEoqa/4KARFyU2v2U5l3IDVNl2QaJ09QgcPVIJEoz4415F3alBLNZlFqHDoyJ4ZoNElA==
+ bh=JkIK2VIEnDJZ3GNb0B027KqAStnV3i5L/AiXnbaywbo=;
+ b=mxrgtMl6jqEDQfRH5arYZq2ANNltflf/ehTB2TF/aGTZ+OZ34vzcem+OyKCmo+xUq6zSA5FV4h73YVDHPcxucNwk2ZlC1yalGwaJBvVsVQa0Jo7N0f9Ny3jz4vLox0rLJIAgMGZ+Y6iogA4MUcUpFIlhn1AGBP3onjapCJMkzD3GLc+cCwI1t+oF8uvcKL2rie03ExW1Tw0xDxT1idGGDHKnlKz8Zyx77SoG8bUznCLGJslf+ZSpAqhwCumvW08L8b2VU1IaSDzl9VjYikku/x7jucqr40h62iQMgLMJIp3P4rKbpUFTMYg73/sb9dJFVtx4lMw0B4BTbT9q3luRSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZRBIUL8HYBBgY7dPDg/KJS2cRtT0FGIj10umftuEewY=;
- b=dlNMiczCnhNH55CJayHE9BVjbLPsXwxHp6FKtKIW1/l4vjkZvBmKowSlzeadkk9M1H03Cn5bBcgHDeCq1ggi7O0EP0VGFLlC4qeNSD+bBqcqRHKV9OqcRdylFhm17HSvP4Dbx5vlPCgy1Fnu3gXmHyI6PtF4B571ZpKULwzDoBk=
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by SJ0PR04MB7262.namprd04.prod.outlook.com (2603:10b6:a03:292::10)
+ bh=JkIK2VIEnDJZ3GNb0B027KqAStnV3i5L/AiXnbaywbo=;
+ b=bJfG2ezKotkhq/optX4rKvhyhsfjJnfSqU+33+g5VOQTCuFB5gLsGFw3stGsoj7m26UKxbbJrFR7U1D3S7nvwKCQXobM7t2TszbWPAn0OX/JfNalEOWzlaueVdG+qUoEiilKQmdQUuz4Z59r07qTcLbyBNuCMGHjbnehjmEXoBc=
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com (2603:10b6:208:1ca::23)
+ by BL0PR04MB6546.namprd04.prod.outlook.com (2603:10b6:208:1c2::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21; Sun, 11 Apr
- 2021 22:05:18 +0000
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::c897:a1f8:197a:706b]) by BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::c897:a1f8:197a:706b%5]) with mapi id 15.20.4020.018; Sun, 11 Apr 2021
- 22:05:17 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: "amit.engel@dell.com" <amit.engel@dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] nvmet: do not ignore error_location FFFFh
- (NVMET_NO_ERROR_LOC) on nvmet_set_error
-Thread-Topic: [PATCH] nvmet: do not ignore error_location FFFFh
- (NVMET_NO_ERROR_LOC) on nvmet_set_error
-Thread-Index: AQHXLqzNlz18p4VjL0GH+D6C8JD+hQ==
-Date: Sun, 11 Apr 2021 22:05:17 +0000
-Message-ID: <BYAPR04MB4965E8355D001DBEF7FBC5AD86719@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20210411081831.15100-1-amit.engel@dell.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21; Mon, 12 Apr
+ 2021 00:24:56 +0000
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::8557:ab07:8b6b:da78]) by BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::8557:ab07:8b6b:da78%3]) with mapi id 15.20.4020.022; Mon, 12 Apr 2021
+ 00:24:56 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: Selva Jove <selvajove@gmail.com>
+CC: SelvaKumar S <selvakuma.s1@samsung.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "kbusch@kernel.org" <kbusch@kernel.org>, 
+ "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "snitzer@redhat.com" <snitzer@redhat.com>, "joshiiitr@gmail.com"
+ <joshiiitr@gmail.com>, "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>, "javier.gonz@samsung.com"
+ <javier.gonz@samsung.com>, "kch@kernel.org" <kch@kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [RFC PATCH v5 2/4] block: add simple copy support
+Thread-Topic: [RFC PATCH v5 2/4] block: add simple copy support
+Thread-Index: AQHXByxWhY0q9dGq/EW9B8B+rRJ+Hw==
+Date: Mon, 12 Apr 2021 00:24:56 +0000
+Message-ID: <BL0PR04MB6514B34000467FABFD6BF385E7709@BL0PR04MB6514.namprd04.prod.outlook.com>
+References: <20210219124517.79359-1-selvakuma.s1@samsung.com>
+ <CGME20210219124603epcas5p33add0f2c1781b2a4d71bf30c9e1ac647@epcas5p3.samsung.com>
+ <20210219124517.79359-3-selvakuma.s1@samsung.com>
+ <BL0PR04MB6514EA91680D33A5890ECE16E7839@BL0PR04MB6514.namprd04.prod.outlook.com>
+ <CAHqX9vb6GgaU9QdTQaq3=dGuoNCuWorLrGCF8gC5LEdFBESFcA@mail.gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: dell.com; dkim=none (message not signed)
- header.d=none;dell.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2400:2411:43c0:6000:1134:9421:2151:4ee3]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f6cd7848-85a9-4f08-c9b3-08d8fd35e465
-x-ms-traffictypediagnostic: SJ0PR04MB7262:
-x-microsoft-antispam-prvs: <SJ0PR04MB7262BA40B8F267759BF2252F86719@SJ0PR04MB7262.namprd04.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: cb7d7f6b-48de-4f67-4e77-08d8fd496655
+x-ms-traffictypediagnostic: BL0PR04MB6546:
+x-microsoft-antispam-prvs: <BL0PR04MB6546F1721CC6CB32123BED96E7709@BL0PR04MB6546.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:1443;
+x-ms-oob-tlc-oobclassifiers: OLM:923;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fnDFiliUzw+NNuxpFgzcGGTybEjsm5QIk5QHAvDxCZJZtpfvSYfdTpEi5yMgRzbynq7ywWfsaBvFLtPvnVO0M48Drko3neD7Xd0teFlRnDnt9XYjvD/bGHMo4ddMaMk9IUA5h3yDprClDU+JxUR78z22hdJP+wAZ8SlLN8VbMFLi/qZx0qBufR5NhDIKJCGmBDbT5sONAMVZzXMGhrUo+q3T/vXm6WGRX2h8CQeaCQncn3B+kuTmK5rESpoeX6BGlxVDsTE9fAdJVIqq+Sd5u/B1QvWPb0F29jU/NUWholHeZitPvS8TCuYXbOENRDDAYsZTfknLK4QCzMPtXuy3fZfHwdKsAVYFhDz7e/QocEsS37+6C3E8UloGuZsRfHAmtAd7XjjABbfdQAbc01zxXCPK4J4AC5oGoLyw2jtoKsGgRveq07e4TOG61YHUnA2S/cO7J/EgOEVtDyoRJ/VbL8/OIcB4/7giEDdCdCLDuoY92JAUu61Nhknv22smYNnr7L2rvhK9/Ghvjxx/IJnm+dy3HOW9M52ulA/EMyPip+cbe+dSyA1B1ydFooFnFy+kOeuicdI0M1UErWQrSRmP76fT1KGRXnyqE+tOx4msw94=
+x-microsoft-antispam-message-info: E1EnMG0d2IPKRSfPon7FvRAiK+E4Ted8XbRe1NZP4wgBjWnnfoxy63tFuIAnYl42I73Ncx6pFt21qjyVGgWyeBj7kn5MnmMJ7Xk3KNMebEZaYwjL0JrlHJEuUVmOOXclXiZmW7TktUnZa1uLppxdUChzSJ+14C9nydKBztjAooDdeiCpjai9UlyuyQlxTlL9P02oc1X/r1BwOAjdEXMLFdIkzlUJKSjTmTDSFGEGUndssjZZ3RkycdCvZ6JAqDUiNRFFdgV+XWfHaBXSFMSTk8awypxiwp2F7/4Fn9wv34t++NQY6HJcgZGARRjuBhCbpudLDBk/7w2N9YsO0lfNeGwL0Q/8SjWRhSVTLRXIHgC9h1JqPuh3R9kHpAciwh32zvZvi1Ko90eBmm5+R/1XZztSnyZaxe20fjFPN+XfXQTaJ4rBFfeIDGzmdpctPs1npC8KFnurKbmy1Pvd0a/O03SDypF8afKNUUAyhoCCHojIzyGwicsCTiojlkDtkaN7iVRj9IvZ4skyyULX7LCtXq14+xKdMLGWLe83z7LH9SDUd8FVrELr+MQX2mwmcd0xOfJ61YNockXGGaYN18inYibr3z92bpLHAVSw8oDdwOXUt1C8ydXHwqjY/4/JijjJEfJwxIwli+HrUMAc7DYCnM31Mtet0937cyStRJdx59maxyv2d3LlG66iR1wZ/OQD
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(366004)(136003)(396003)(346002)(186003)(478600001)(26005)(2906002)(316002)(53546011)(8936002)(38100700002)(9686003)(55016002)(83380400001)(86362001)(8676002)(66476007)(64756008)(66556008)(52536014)(66946007)(4744005)(7696005)(76116006)(5660300002)(66446008)(110136005)(6506007)(71200400001)(33656002);
+ IPV:NLI; SFV:NSPM; H:BL0PR04MB6514.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(346002)(39860400002)(376002)(366004)(966005)(66446008)(76116006)(52536014)(66556008)(5660300002)(91956017)(64756008)(66476007)(66946007)(53546011)(8936002)(316002)(186003)(71200400001)(7416002)(8676002)(6506007)(83380400001)(54906003)(38100700002)(86362001)(4326008)(55016002)(2906002)(9686003)(7696005)(33656002)(478600001)(6916009);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?yAEFqSwGzPFfWCu8JF0gowI67C6ZEavASnv/9Gge1XLqAhQrNnOZPgDinJq8?=
- =?us-ascii?Q?6ZegdiXHlTDiltmsNejGcmFiP3JfUudiBFdBzIiXmFdogJZfq9FRj5NDHRD+?=
- =?us-ascii?Q?BScSW8dXsYQFXtTLAyL55ugwKn0+Fa6jkpfqMm3CW+Ub7mSiY7bruVm2zY/O?=
- =?us-ascii?Q?Z00jZ79mfLZVIVNVGPCCobWeRjzeia5n4KKjXc4ofA+eCTIJrFlZYbDRthof?=
- =?us-ascii?Q?3T0ZJSVusrx32LWSNMfjax8b6wdkSFtOWpRdRr+Rb76TElZxiphfqU0Rzn8r?=
- =?us-ascii?Q?ktW6Y/ZgaRYqXGrEKG3sjsydc70rTsrdViB+anStuIrN8sP4lBZW/5q54a2S?=
- =?us-ascii?Q?ffk5lAkHh6QO5efZMamUi/pDblT5OC2ARK8UhkH3q/xxqfV4ycEG+ce3fK/Q?=
- =?us-ascii?Q?Mo6yoyOjqb24of2Nm6YATE8gqQLL/XZ37yfhQBhCHrfwl/aBMvwZuUyB3UnC?=
- =?us-ascii?Q?WMasflP2Nr41fyTi89z9FmISqyCxoHdVaNWebse/qjFGGf4lK0P1b4X2dJrc?=
- =?us-ascii?Q?pMidbTwrCdsFQpezmX+LPv5DWNzII3Toj829GUaKfn9XhosqUDb24cD7T+6+?=
- =?us-ascii?Q?S+Ji+cwwdne5VKE8UfumykOQQSnpLjxb7wjMHCDzyIu0RoMi/bTAkEPBI1sO?=
- =?us-ascii?Q?M1hU65Jv9IXawm/dRMMizm/3+NVyxMUFEsWRIug1iNm04c8vvxWTM0kwb/E3?=
- =?us-ascii?Q?6mIQXYEeohC09QMdiVERGVLCEV9xUo8f4MeNe8yV+3PaiZbT5DKaqL5Q55i1?=
- =?us-ascii?Q?j0a2I62x0LHJbI6oHubrVKFMP/YeAGdfJokvDsB7sM137j6EcDHSPuMK2bsz?=
- =?us-ascii?Q?favrXLntMI84s459IUgtXmcUZKmKcykAMw8oSP4Ibw/a2p2t3dVZVaAfDFxh?=
- =?us-ascii?Q?qzHwRpfs05x3PrjX8ESHW+Yug0kobE7OhYsZ47OjsAORxmHxx1ee9uEoAszT?=
- =?us-ascii?Q?+qXIKA6e3NFrlQ9B0w2dN4wePj0BW8e874ttx5ehSYhQKFjwaXHL/YkVQYNU?=
- =?us-ascii?Q?9cOO7Ij9FmTjZipXY1p9AxSSOca7NfiRrj965yGM+7h6NZIGehH+jUtPCU04?=
- =?us-ascii?Q?s0NnyN+XlWnkKG7xJyhaMJMjKNoS1vb0aG332BFApjLS2ZQVsXs9rblOzRVj?=
- =?us-ascii?Q?6mCXrvXNhqtslh/8IcYvYE54qIv+y5lScKrZM29v4AMKJIHcu3He9t9F15Pr?=
- =?us-ascii?Q?5B2sETqRKtcQYSF/PA6SVfEvOhDBglZFeG/S28fBp6Z2UHLF+Ss3FBW7/7+L?=
- =?us-ascii?Q?i1i+3ii1bP2BCVA/0Mrz6X25ssNKzGKRBsbpinXiJTKzMPCmDWlq1CZCmTCw?=
- =?us-ascii?Q?t8fFJp56qilO9sddo38Zt9jF?=
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?cg5e4KiF9MF0naCX6i/ThYaTi/PMz9Nq4Qp+fUbtzlypI3Q8u+PAL/NnlsFX?=
+ =?us-ascii?Q?+X0dJ/9bWGNMkRQ6dyN7/wSlrR0sMjNDHcFDo7oeGu+RB6WaS9BgocUKA1V3?=
+ =?us-ascii?Q?2OkA8ROEcyqfOEWh4qziV7m01RMmRhnJa+pBBspl1Y8oZ4YLBkDdaEK2ucEL?=
+ =?us-ascii?Q?PDvZ2f2u73hSZ9csAIPLOV4BPuu/wC9PH+Kg/+L2P+8B2RsRqNT3oFmdL5QH?=
+ =?us-ascii?Q?0x/S3kCNAK+H9uW8nAIkJHhq5jhlQaFu6uwVoY3ckP9QwtnMA0SBlQYPqOjJ?=
+ =?us-ascii?Q?Oin/EIphZQAmSNJ/1sFfZBqGR8vQX9zVI8wnVVfx3OZESuDo7W2ZCnU7gL8y?=
+ =?us-ascii?Q?sDd11UhW9WXF0E4bu4s0NGJFJyXl6x7Vo729LGC071+5NICm5nA5cyBb4oWN?=
+ =?us-ascii?Q?5nPFKjHme25f1OuDQ407cGLWCOLwt8t6zREFHg2f8qIjbDOMFe9dfFSNgaBQ?=
+ =?us-ascii?Q?lVkLrbamKiZo9FI8cMhMYTgMx4uqgiXz2qWw3fSEBWoQAYzx466F15Wops5t?=
+ =?us-ascii?Q?5pkf5ixjfKiBJlSdlY6ifEuExNYFQ05qyn+g+q1QOwK1othIcf6N/sXuQ/kc?=
+ =?us-ascii?Q?xuz0pzrsiHX0/LBgth9hW2oACTDPOr7ouZ0MSL+ihDPFI8xqCqWySEuCyplt?=
+ =?us-ascii?Q?KoXsRotdZ8teK9uoH/Assx/2ojVPxSpn89qXxKDfc6mI3f6bLqiTf7sUpwTQ?=
+ =?us-ascii?Q?oL3hdnGXjoJIWXEvNdeY0y60N5VKgaw1TYORhBhWoUsqCLFd1g51QjwY5bHu?=
+ =?us-ascii?Q?0rXeVr0+9yymxh6hoYw20CCgwFd11+xWWULzb7F1OakJEAQNfe+jI/TzkWmp?=
+ =?us-ascii?Q?c2tZB0Nyh6rYYrHxfu8TH+muU4qxEmXs3w1l06v0gJYMTFi3Qd25Nu9CfSUQ?=
+ =?us-ascii?Q?KrjqyKbk/Hdk2BuHXHBzjUQbiGWubM2KH2MFtAWk8J+bDFh2ac+6OdAjTQPB?=
+ =?us-ascii?Q?cJ5JafZs6pIOpb3MtrK2aORhk+F3+Yql8iFcCiuE8GcHy8wma4/RssF+jLXw?=
+ =?us-ascii?Q?O6vgxfm1DrGoW8tBIaRdMnOuqIg5h8NOLIfhyVgfwRqwxMWzaJBoPYZuLqmH?=
+ =?us-ascii?Q?67QOadByky1KerItYCpUJkAOcAdlbC2RPxQk0sclVdyuNmo9S561ga6ba5IU?=
+ =?us-ascii?Q?1jvhuQYvbPnqK21G+TNM0kU6pBWhwzIVTQwKK5vrN024PBntK6Bo8T/u1Bul?=
+ =?us-ascii?Q?NvEpoqKAzVxWr0R4NUL8l8cY7QpB/9FKKJOkYGRkSGYrwBGEzUj0nNibNaao?=
+ =?us-ascii?Q?ml0ODX55izkND40PqK0ZuQfz33t4YSvJRvSqJqyXx4oe59yQ6xEejXUNR0Lx?=
+ =?us-ascii?Q?8DPIfT2X5QQRZo+QX80ak+9lTe6u2lSB5Pd6DosJ4Sbqxa3jnzW7QJ7dzGr7?=
+ =?us-ascii?Q?DjtTrox0wZ1xUanWqY4weJalD/6urHNVCLdzvt6cQ5TPFfiMYA=3D=3D?=
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6cd7848-85a9-4f08-c9b3-08d8fd35e465
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2021 22:05:17.7456 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6514.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb7d7f6b-48de-4f67-4e77-08d8fd496655
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2021 00:24:56.3345 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7fAjQrRnvUbfLDeKXd/OsLQaytYCuIZj2cy4wwCJnPwyHIdBi/CcLWxCIO5Lc1wQs9GLLkpqs4tDhzNCxLOSkSna56Y5FZfbCocCkMKn8aw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7262
+X-MS-Exchange-CrossTenant-userprincipalname: oa66vKcD59q7C168B7+dNoSz1+UahsJaSgObpMgDTUTxV5ujbzS1mgHyik5e5dfQG1h8C8SEIdr2M52qsMObRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR04MB6546
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210411_150522_189619_424B1D9D 
-X-CRM114-Status: GOOD (  13.43  )
+X-CRM114-CacheID: sfid-20210411_172501_752144_CD24CA45 
+X-CRM114-Status: GOOD (  24.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,28 +193,101 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/11/21 01:29, amit.engel@dell.com wrote:
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index f4cc32674edd..2506f8de2e8b 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -689,8 +689,10 @@ static u16 nvmet_write_protect_flush_sync(struct nvmet_req *req)
->  	else
->  		status = nvmet_bdev_flush(req);
->  
-> -	if (status)
-> +	if (status) {
->  		pr_err("write protect flush failed nsid: %u\n", req->ns->nsid);
-> +		req->error_loc = offsetof(struct nvme_common_command, cdw11);
-> +	}
->  	return status;
->  }
->  
+On 2021/04/07 20:33, Selva Jove wrote:
+> Initially I started moving the dm-kcopyd interface to the block layer
+> as a generic interface.
+> Once I dig deeper in dm-kcopyd code, I figured that dm-kcopyd is
+> tightly coupled with dm_io()
+> 
+> To move dm-kcopyd to block layer, it would also require dm_io code to
+> be moved to block layer.
+> It would cause havoc in dm layer, as it is the backbone of the
+> dm-layer and needs complete
+> rewriting of dm-layer. Do you see any other way of doing this without
+> having to move dm_io code
+> or to have redundant code ?
 
-Do you have an application level use case to recording the internal errors
-for target ?
+Right. Missed that. So reusing dm-kcopyd and making it a common interface will
+take some more efforts. OK, then. For the first round of commits, let's forget
+about this. But I still think that your emulation could be a lot better than a
+loop doing blocking writes after blocking reads.
+
+[...]
+>>> +int blkdev_issue_copy(struct block_device *src_bdev, int nr_srcs,
+>>> +             struct range_entry *src_rlist, struct block_device *dest_bdev,
+>>> +             sector_t dest, gfp_t gfp_mask, int flags)
+>>> +{
+>>> +     struct request_queue *q = bdev_get_queue(src_bdev);
+>>> +     struct request_queue *dest_q = bdev_get_queue(dest_bdev);
+>>> +     struct blk_copy_payload *payload;
+>>> +     sector_t bs_mask, copy_size;
+>>> +     int ret;
+>>> +
+>>> +     ret = blk_prepare_payload(src_bdev, nr_srcs, src_rlist, gfp_mask,
+>>> +                     &payload, &copy_size);
+>>> +     if (ret)
+>>> +             return ret;
+>>> +
+>>> +     bs_mask = (bdev_logical_block_size(dest_bdev) >> 9) - 1;
+>>> +     if (dest & bs_mask) {
+>>> +             return -EINVAL;
+>>> +             goto out;
+>>> +     }
+>>> +
+>>> +     if (q == dest_q && q->limits.copy_offload) {
+>>> +             ret = blk_copy_offload(src_bdev, payload, dest, gfp_mask);
+>>> +             if (ret)
+>>> +                     goto out;
+>>> +     } else if (flags & BLKDEV_COPY_NOEMULATION) {
+>>
+>> Why ? whoever calls blkdev_issue_copy() wants a copy to be done. Why would that
+>> user say "Fail on me if the device does not support copy" ??? This is a weird
+>> interface in my opinion.
+>>
+> 
+> BLKDEV_COPY_NOEMULATION flag was introduced to allow blkdev_issue_copy() callers
+> to use their native copying method instead of the emulated copy that I
+> added. This way we
+> ensure that dm uses the hw-assisted copy and if that is not present,
+> it falls back to existing
+> copy method.
+> 
+> The other users who don't have their native emulation can use this
+> emulated-copy implementation.
+
+I do not understand. Emulation or not should be entirely driven by the device
+reporting support for simple copy (or not). It does not matter which component
+is issuing the simple copy call: an FS to a real device, and FS to a DM device
+or a DM target driver. If the underlying device reported support for simple
+copy, use that. Otherwise, emulate with read/write. What am I missing here ?
+
+[...]
+>>> @@ -565,6 +569,12 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+>>>       if (b->chunk_sectors)
+>>>               t->chunk_sectors = gcd(t->chunk_sectors, b->chunk_sectors);
+>>>
+>>> +     /* simple copy not supported in stacked devices */
+>>> +     t->copy_offload = 0;
+>>> +     t->max_copy_sectors = 0;
+>>> +     t->max_copy_range_sectors = 0;
+>>> +     t->max_copy_nr_ranges = 0;
+>>
+>> You do not need this. Limits not explicitely initialized are 0 already.
+>> But I do not see why you can't support copy on stacked devices. That should be
+>> feasible taking the min() for each of the above limit.
+>>
+> 
+> Disabling stacked device support was feedback from v2.
+> 
+> https://patchwork.kernel.org/project/linux-block/patch/20201204094659.12732-2-selvakuma.s1@samsung.com/
+
+Right. But the initialization to 0 is still not needed. The fields are already
+initialized to 0.
 
 
+-- 
+Damien Le Moal
+Western Digital Research
 
 _______________________________________________
 Linux-nvme mailing list
