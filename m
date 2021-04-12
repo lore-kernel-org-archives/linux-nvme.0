@@ -2,103 +2,152 @@ Return-Path: <SRS0=ND0+=JJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0E5C43460
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 11:21:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21589C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 11:53:29 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8E3CC61289
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 11:21:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E3CC61289
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=owltronix.com
+	by mail.kernel.org (Postfix) with ESMTPS id 971E76102A
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 11:53:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 971E76102A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Message-ID:
+	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=vOSRFqPO3/kIGXB2PgaiYcSg2oV4T3WXM9LUuwYFn7U=; b=BgVVT9allLpdSo3UMTC8mr2Q8
-	psLW9l58uCV0pHdAumI3Uw7zMdX/Osr5HVaHUadaVLIN61IcyQ051XfmToTaocEzdVOjez6hARKmN
-	CnINfb0A4RyF4CtAxfXX0r7z2sTPlELlB2wgXzNM8iU2e6ey2UmxXIHbS+oU4uM0TXpHtDAPclYV9
-	ppUgFQ7BLW7N8l3tRP1dnJ445UdJ9LPX7mlrmwTZ363N3QN30w8drwkcZi5phov08LtMPW049iYJe
-	v6SWXSAVO5fw0pMkwIwXcSh8bKHiQIGh0x10Gs5xbZBvF+vLp4mQcs6jU56VNnzRAMeZKReO1BxSQ
-	n1Ig6e4SA==;
+	 bh=lh3J/zl9H+YzMhX8BVBws3rPvXloFn58ejp96CtOWT0=; b=edpD1PB6FKnoS1o4an/bQyQu8
+	PuUmoyYOU9m5UCIb69eWzZCYoFC+frAqxOaIFVixKnegs8ijOhmF84i83gqYDq61Q6dJXhI0oDY9W
+	xEP0v5uWnD91094bOzR6QunCspA9lZcht0v17VC72Ij8OIUS2IBkOvDwtqmPtdX5Du4hO9yhtM2d6
+	XfRhZD/1NFovH288prNXi6qZpFzALof8p27JpIYSegABhjktGR73kbWV45R99k48mYuLIfcpYgv1I
+	Th0JnOSIv9ZSPVQD5mS/MZXzLNuAfIGgchHzztCUZjlvHFpvgnxRHe1DyhCDGnfwmA+Akm95xVx09
+	0vDRjBz9w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lVucj-006Wug-9G; Mon, 12 Apr 2021 11:20:57 +0000
+	id 1lVv7u-006bzz-3g; Mon, 12 Apr 2021 11:53:10 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lVucC-006WXh-Vi
- for linux-nvme@desiato.infradead.org; Mon, 12 Apr 2021 11:20:25 +0000
+ id 1lVv7o-006byu-Lx
+ for linux-nvme@desiato.infradead.org; Mon, 12 Apr 2021 11:53:05 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
- MIME-Version:Sender:Reply-To:Content-ID:Content-Description;
- bh=5YvfV6E8Wx2noDcxwD+O7Hq1kDhVwR0r8Nu0UCq0ACg=; b=ac+ADHl+g/rKPEqGgqIYJKAfzl
- yH8bnH+zUfqSamV46l2hH+Ex6Tv254oKVeQInIrucAcsJ+xhr9UTQ3OH0EnbOm49PnOw+n9VYZKHK
- QXMnNmvXnFT6mDHS3p7l3SiMUrkLexKnNMoXdp6REsJzU0q5I3SkpMsLjlTMHco8utiPfY1hVgTs7
- GYqM2Zo6B+SRUCDVNDoQ/OI5wLcLq6v5bgtduC7uKpDYNSlKcTp96jIei0jX4J9OrrP5K5WvwAvJ0
- xCvVWwRqD4uI5SQrr9v8vRjoo65bCN88OXnFWeXBvnYYsGBUE//VclcP7OxfpLrncnZ5blhbPztz7
- gYJ/eEYg==;
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ d=infradead.org; s=bombadil.20210309; h=References:In-Reply-To:Content-Type:
+ MIME-Version:Message-ID:Subject:CC:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=FGDi3a4Op76WiG2S8K9BXB233AGh1TJV5f62zYg3WIs=; b=dJMWXm/JPTZq1jTAgmJwGdWGWD
+ RqXxsQXm8TXOYb55QGQ57H0Spn3a6L7o3tzbymg9q/eE1mf010i2NjkkJdV6LNuD/z2w64MXLqCbJ
+ ic43H/4cLzVOQyn11A/KwX8wWPACQwQCrvsBA6F9gyrnXJcF7uawr2KnvoNab3t1cSbfuLgQRK1LH
+ ylqYFN0MiXniP/K4TuYSLb1lQUS7EZzQi6VYA0p9S/323akUITfHwKB7AWEkiJpAKAB9u+5f9XbSl
+ RU17CC5hHUMmnHpzkXYIEcCyIs9AiwkXyMWGEI8yrud/09hSr0f2bpodV70NfPe9G1T4Yw3mvPBlJ
+ 3wIqjXEA==;
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lVucA-006AQA-9N
- for linux-nvme@lists.infradead.org; Mon, 12 Apr 2021 11:20:23 +0000
-Received: by mail-ej1-x634.google.com with SMTP id u17so19644234ejk.2
- for <linux-nvme@lists.infradead.org>; Mon, 12 Apr 2021 04:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=owltronix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5YvfV6E8Wx2noDcxwD+O7Hq1kDhVwR0r8Nu0UCq0ACg=;
- b=Gt34rsHWZ/A/px8rFTuSWwvvUS2D4NxnzfJeTJAfyzmlzvkVIWqBCLZbtip5ArrlJC
- HvRxhNf4ZkhUwXPlWlvwoDC1y7QI7OEF2H+9BmlRmAiHimvn819u1EzyXzq1NS+1n+DA
- 98K43d0vzZPeqwij+phwk/6LB6GpAMiaoGN1w+iVxkGbOA0K1jXS1owe9K7FwOoGSK3p
- Cw/mDTux5f8rV1dKo7dvQi68hhc8qJUXyZoQ/uaahzMQ8I5cqWZy5oxBN82pYST/mgq5
- QRbzBO7GPVTBJpwTugh/DPoFr66Snfissvk5biLFpd7mBJfGxYE+9S0OaA8mCkBPkm9x
- HvsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5YvfV6E8Wx2noDcxwD+O7Hq1kDhVwR0r8Nu0UCq0ACg=;
- b=TnJvmjpmX35tPXfd43aB4xW2uXBlh5nJGPevUBAXe9E+T3eSyA2F4ZcrJ2AO0qTVVo
- /Hle9RFUfeS5EwWcH/ipypeZ//npdJiqiMWzjAmD1h+wNKHMMAF5/ELb/Dd/m1qpQWte
- Nt0Yw3HZ1OucJQSGXfz/NYCW0iCjOjfBaUkiY3mJyYDL35qExHuqcwKsHGwdTjnaZcHJ
- ULXiZLxHNkICQqAUL62wOc+iVU55NLI/N2x+nZc6VvAUrdpg70brbvCVGzyJLnQTUkZp
- Cw6FAx6bgjuxXvlwjvPEOTU4PmSZRiCbFyHtmLGpKnq7EFz26U7nAN5ISaxrGhaNfMLA
- SOlg==
-X-Gm-Message-State: AOAM530WsAe9dvKhi0W06wdu9YqnzsmH3C30tF1i+Ogn8h15S3T+Jz7V
- /ma4wiFW0aPRTLqgIWSwKvXIUsWKRIRbf0xwmbxeuw==
-X-Google-Smtp-Source: ABdhPJy7+4R9+HiXT6JKGBoZfxRJ6PWlUoocdBengEkuRthOHwy8HX9XdN5XIzRS1SIGL+VyHWMV5OZRYVa7TGAefoE=
-X-Received: by 2002:a17:907:d1b:: with SMTP id
- gn27mr26535092ejc.227.1618226418509; 
- Mon, 12 Apr 2021 04:20:18 -0700 (PDT)
+ id 1lVv7j-006CA2-E1
+ for linux-nvme@lists.infradead.org; Mon, 12 Apr 2021 11:53:03 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210412115250euoutp0148d72e4d8a8d222e6dddd5827a964fec~1GiESO4tS0455204552euoutp01Z
+ for <linux-nvme@lists.infradead.org>; Mon, 12 Apr 2021 11:52:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20210412115250euoutp0148d72e4d8a8d222e6dddd5827a964fec~1GiESO4tS0455204552euoutp01Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1618228370;
+ bh=FGDi3a4Op76WiG2S8K9BXB233AGh1TJV5f62zYg3WIs=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=i3BYN2E4g/TFmEoKTLGy3UyyvfeUvy/k1pPsBb8dzHK7EzPCFb2PI3lDh8294aTO1
+ fQmAJW+0D1yeOa0UxyG8dXvBn2JdnEmal38EtCfTse78aCLgHfLBQ0oX7ZJ9wA+l6H
+ dq+xEq6YCcYqhREEUulYUZZN4lBO1T5shZ5ZWYxE=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210412115249eucas1p2b4a1ac8fd8a0f86e36cca8e0c8ece1d6~1GiDgZ36x1245712457eucas1p2l;
+ Mon, 12 Apr 2021 11:52:49 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 33.73.09439.19434706; Mon, 12
+ Apr 2021 12:52:49 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210412115249eucas1p22423a69545fc83ecaea46ffa1e1c8386~1GiC8Ky490722007220eucas1p29;
+ Mon, 12 Apr 2021 11:52:49 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210412115248eusmtrp27691be911986b23798e76354c9b5ee8a~1GiC7b-sO2016620166eusmtrp2C;
+ Mon, 12 Apr 2021 11:52:48 +0000 (GMT)
+X-AuditID: cbfec7f5-c1bff700000024df-c9-607434918055
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id EE.8D.08696.09434706; Mon, 12
+ Apr 2021 12:52:48 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210412115248eusmtip2812bf0ccee86cc279be698f76f15260a~1GiCvvRGg2217122171eusmtip2e;
+ Mon, 12 Apr 2021 11:52:48 +0000 (GMT)
+Received: from localhost (106.210.248.142) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 12 Apr 2021 12:52:48 +0100
+Date: Mon, 12 Apr 2021 13:52:46 +0200
+From: Javier Gonz??lez <javier.gonz@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Kanchan Joshi <joshiiitr@gmail.com>,
+ <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH 13/13] nvme: introduce generic per-namespace chardev
+Message-ID: <20210412115246.ocqdoejpfiswajqu@mpHalley.localdomain>
 MIME-Version: 1.0
-References: <20210412081257.2585860-1-hch@lst.de>
- <52ecf402-1361-e5a5-8c58-30d846d33541@lightnvm.io>
- <766257ca-4dd7-e20b-aa79-6ac3984567d4@lightnvm.io>
- <20210412094938.afyxzspcohw63zup@mpHalley.localdomain>
- <3bf88f25-d06d-5b95-7eff-dfb8f78bc389@lightnvm.io>
-In-Reply-To: <3bf88f25-d06d-5b95-7eff-dfb8f78bc389@lightnvm.io>
-From: Hans Holmberg <hans.ml.holmberg@owltronix.com>
-Date: Mon, 12 Apr 2021 13:20:07 +0200
-Message-ID: <CANr-nt0YpZ0CuREDu613LM7yBK_qgPfwg-bNU-T=2me5GJT=Gw@mail.gmail.com>
-Subject: Re: [PATCH] lightnvm: deprecated OCSSD support and schedule it for
- removal in Linux 5.15
-To: =?UTF-8?Q?Matias_Bj=C3=B8rling?= <mb@lightnvm.io>
-Cc: =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <20210412074455.GA3653@lst.de>
+X-Originating-IP: [106.210.248.142]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTYRjG+c45bsfV5DjL3rQypjO6LVOh04UsNZ2goDDogqVTT1rpis3r
+ IjS7kBqmFqyOlZmmNq3IWm2ZYhOzcqHZTaMLpUWs5jSLStTyeOjy3+99n/fhex74SFxS5ORB
+ 7lCnMxq1KlUqEBE37v7sWloamB7vt7/fk75Y347RXfY2jC6zPEN0Rc17IT1aMI2+/MlBrBMo
+ zOwroaLr9VVC0WgoECiuVecqmvryBNFOW0RrkpjUHZmMZtnaeFHK+MdG4R6ra/b3l1aUhwpd
+ CpEzCVQg6J86hIVIREqoOgTNNVeEnCChviIwdG/khREEXd/sTn8clU01GC/UIigunxD8vaoy
+ DBH8YETQ3tCOcxaCkkFNWdUUCyg/+MyyGMczKCm8tz1EnAHnDN2tYwJOcKMUYM+rQhyLqWC4
+ YDlO8OwK908NTDFOrYKCofzJTOQke0LtBMmhM7UYDjr2cgiUN9Tqo/jQ++DSXetUTaBeklB8
+ bAzjhVDo6THhPLuBreO6kOc58MtcgfGGAwisDU9wfjiKYKysDvEvrIZiaypvWA/Pbz8g+LUL
+ 9Npd+ZQuUHZDj/NrMRw5LOGvfcGUb0QlyJv9rxf7Xy/2X69zCDegWUyGNi2Z0QaomSy5VpWm
+ zVAnyxN3pzWiyf/SOdHxzYTqbMNyC8JIZEFA4tIZ4oQcbbxEnKTK0TGa3XGajFRGa0GeJCGd
+ Jb5lbIiTUMmqdGYXw+xhNH9UjHT2yMP85Yaz+3eWP3bPTJ7XWbfdS2eWtcvCB47nHJGFLOzb
+ Ryv9RSKbKMjTMfjDNwj8Bm7FxBgeKSubc92/62pfRyr7xlvemnvl04tjT0R7fWYTjfeyTMNs
+ eHi280cP/6MhLaGGbkd/c8Cbueq4HtGGmfElXx742HWR8ndbm4wRqs60qJ06FDZ/TnXwiqCR
+ 0RY01Nt6R6fvd094vOombOo9HVsU1kDRKStppX52gE9SUsRDaun0yvrB/MjzKW2B+pGScL9t
+ peUfhB/Ip9ctocos90NUepgXpmPzb28OabVlLrj2vMDcj34g/5Nkm2moKFd22GeJ9cmZaLOl
+ Y9qhyBdKKaFNUS1fhGu0qt9H6a7engMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsVy+t/xe7oTTEoSDCb2W1qsXH2UyeL828NM
+ FpMOXWO0mL/sKbvFr05ui3Wv37M4sHnsnHWX3eP8vY0sHptWdbJ5bF5S77H7ZgNbAGuUnk1R
+ fmlJqkJGfnGJrVK0oYWRnqGlhZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsbfF5vYC84I
+ Vny/c4axgbGLr4uRk0NCwERi4e5lTF2MXBxCAksZJZbfOcsGkZCR+HTlIzuELSzx51oXG0TR
+ R0aJGTN/sEI4WxklJq07wwhSxSKgKrFs0mJmEJtNwEDizaxZTCC2iICSxNNXZxlBGphBGtof
+ rQJbISzgIfG2YTFYM6+Ak8TSQ5NZIKb+Y5I4tLqZBSIhKHFy5hMwm1nAQmLm/PNADRxAtrTE
+ 8n8cICangLZEy/tqEFNCQFli+XRfiKNrJV7d3804gVF4FpI5s5DMmYUwZwEj8ypGkdTS4tz0
+ 3GIjveLE3OLSvHS95PzcTYzAONt27OeWHYwrX33UO8TIxMF4iFGCg1lJhDepsjhBiDclsbIq
+ tSg/vqg0J7X4EKMpMCQmMkuJJucDIz2vJN7QzMDU0MTM0sDU0sxYSZzX5MiaeCGB9MSS1OzU
+ 1ILUIpg+Jg5OqQamDRuVLBwV7q3m3/BUvGnjfG4TL4tHRwpiwmUvHSrsnv1HNWnR3Ic3nu2+
+ IFmRwMZdzlX4btLHN4f2BT3tTdhVen5p5M/Ya+Ht8d6sPJxFqTNFBB+YVi9LufZAKkh5Xfer
+ hOkN13f+P21Wqs+S/LF8ydLKW2GSKr+3sIW/fvqgpuDETtVCuV8Tnk6UFH4revFea9r5Jc5V
+ E06fCuhTubO+6Y/Rvs3O+SaZt+8sOe3sNTssqqTloXakfNTU3CVvLylEOS79tSxXs+Gts8wH
+ /Y5tYau2iMzJYWbde/14vfDdUp52Ga6zjL8Wvl8zdUl4t3nyw7LFj1/O7NitoLxLZJ1dn+bh
+ Lf1cHMeELu22nWoYpMRSnJFoqMVcVJwIALNVybY8AwAA
+X-CMS-MailID: 20210412115249eucas1p22423a69545fc83ecaea46ffa1e1c8386
+X-Msg-Generator: CA
+X-RootMTR: 20210412074505eucas1p25b22f056d13499848000c89579304556
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210412074505eucas1p25b22f056d13499848000c89579304556
+References: <20210408120842.1450092-1-hch@lst.de>
+ <20210408120842.1450092-14-hch@lst.de> <20210409072901.GA2085@localhost>
+ <20210409075415.GA6991@lst.de> <20210409080214.GB2085@localhost>
+ <20210409095205.GA15931@lst.de> <20210409112401.GF2085@localhost>
+ <CGME20210412074505eucas1p25b22f056d13499848000c89579304556@eucas1p2.samsung.com>
+ <20210412074455.GA3653@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210412_042022_353124_061C6EAA 
-X-CRM114-Status: GOOD (  26.66  )
+X-CRM114-CacheID: sfid-20210412_045300_001412_2FE143AA 
+X-CRM114-Status: GOOD (  16.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,62 +159,61 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gTW9uLCBBcHIgMTIsIDIwMjEgYXQgMTI6MjAgUE0gTWF0aWFzIEJqw7hybGluZyA8bWJAbGln
-aHRudm0uaW8+IHdyb3RlOgo+Cj4gT24gMTIvMDQvMjAyMSAxMS40OSwgSmF2aWVyIEdvbnrDoWxl
-eiB3cm90ZToKPiA+IE9uIDEyLjA0LjIwMjEgMTE6MjYsIE1hdGlhcyBCasO4cmxpbmcgd3JvdGU6
-Cj4gPj4gT24gMTIvMDQvMjAyMSAxMS4yMSwgTWF0aWFzIEJqw7hybGluZyB3cm90ZToKPiA+Pj4g
-T24gMTIvMDQvMjAyMSAxMC4xMiwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gPj4+PiBMaWdo
-dG52bSB3YXMgYW4gaW5ub3ZhdGl2ZSBpZGVhIHRvIGV4cG9zZSBtb3JlIGxvdy1sZXZlbCBjb250
-cm9sCj4gPj4+PiBvdmVyIFNTRHMuCj4gPj4+PiBCdXQgaXQgZmFpbGVkIHRvIGdldCBwcm9wZXJs
-eSBzdGFuZGFyZGl6ZWQgYW5kIHJlbWFpbnMgYQo+ID4+Pj4gbm9uLXN0YW5kYXJpemVkCj4gPj4+
-PiBleHRlbnNpb24gdG8gTlZNZSB0aGF0IHJlcXVpcmVzIHZlbmRvciBzcGVjaWZpYyBxdWlya3Mg
-Zm9yIGEgZmV3Cj4gPj4+PiBub3cgbW9zdGx5Cj4gPj4+PiBvYnNvbGV0ZSBTU0QgZGV2aWNlcy4g
-IFRoZSBzdGFuZGFyZGl6ZWQgWk5TIGNvbW1hbmQgc2V0IGZvciBOVk1lCj4gPj4+PiBoYXMgdGFr
-ZQo+ID4+Pj4gb3ZlciBhIGxvdCBvZiB0aGUgYXBwcm9hY2hlcyBhbmQgYWxsb3dzIGZvciBmdWxs
-eSBzdGFuZGFyZGl6ZWQKPiA+Pj4+IG9wZXJhdGlvbi4KPiA+Pj4+Cj4gPj4+PiBSZW1vdmUgdGhl
-IExpbnV4IGNvZGUgdG8gc3VwcG9ydCBvcGVuIGNoYW5uZWwgU1NEcyBhcyB0aGUgZmV3Cj4gPj4+
-PiBwcm9kdWN0aW9uCj4gPj4+PiBkZXBsb3ltZW50cyBvZiB0aGUgYWJvdmUgbWVudGlvbmVkIFNT
-RHMgYXJlIHVzaW5nIHVzZXJzcGFjZSBkcml2ZXIKPiA+Pj4+IHN0YWNrcwo+ID4+Pj4gaW5zdGVh
-ZCBvZiB0aGUgZmFpcmx5IGxpbWl0ZWQgTGludXggc3VwcG9ydC4KPiA+Pj4+Cj4gPj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPiA+Pj4+IC0tLQo+ID4+
-Pj4gICBkcml2ZXJzL2xpZ2h0bnZtL0tjb25maWcgfCA0ICsrKy0KPiA+Pj4+ICAgZHJpdmVycy9s
-aWdodG52bS9jb3JlLmMgIHwgMiArKwo+ID4+Pj4gICAyIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0
-aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4+Pj4KPiA+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2xpZ2h0bnZtL0tjb25maWcgYi9kcml2ZXJzL2xpZ2h0bnZtL0tjb25maWcKPiA+Pj4+IGluZGV4
-IDRjMmNlMjEwYzEyMzdkLi4wNGNhYTBmMmQ0NDVjNyAxMDA2NDQKPiA+Pj4+IC0tLSBhL2RyaXZl
-cnMvbGlnaHRudm0vS2NvbmZpZwo+ID4+Pj4gKysrIGIvZHJpdmVycy9saWdodG52bS9LY29uZmln
-Cj4gPj4+PiBAQCAtNCw3ICs0LDcgQEAKPiA+Pj4+ICAgIwo+ID4+Pj4gICAgIG1lbnVjb25maWcg
-TlZNCj4gPj4+PiAtICAgIGJvb2wgIk9wZW4tQ2hhbm5lbCBTU0QgdGFyZ2V0IHN1cHBvcnQiCj4g
-Pj4+PiArICAgIGJvb2wgIk9wZW4tQ2hhbm5lbCBTU0QgdGFyZ2V0IHN1cHBvcnQgKERFUFJFQ0FU
-RUQpIgo+ID4+Pj4gICAgICAgZGVwZW5kcyBvbiBCTE9DSwo+ID4+Pj4gICAgICAgaGVscAo+ID4+
-Pj4gICAgICAgICBTYXkgWSBoZXJlIHRvIGdldCB0byBlbmFibGUgT3Blbi1jaGFubmVsIFNTRHMu
-Cj4gPj4+PiBAQCAtMTUsNiArMTUsOCBAQCBtZW51Y29uZmlnIE5WTQo+ID4+Pj4gICAgICAgICBJ
-ZiB5b3Ugc2F5IE4sIGFsbCBvcHRpb25zIGluIHRoaXMgc3VibWVudSB3aWxsIGJlIHNraXBwZWQK
-PiA+Pj4+IGFuZCBkaXNhYmxlZAo+ID4+Pj4gICAgICAgICBvbmx5IGRvIHRoaXMgaWYgeW91IGtu
-b3cgd2hhdCB5b3UgYXJlIGRvaW5nLgo+ID4+Pj4gICArICAgICAgVGhpcyBjb2RlIGlzIGRlcHJl
-Y2F0ZWQgYW5kIHdpbGwgYmUgcmVtb3ZlZCBpbiBMaW51eCA1LjE1Lgo+ID4+Pj4gKwo+ID4+Pj4g
-ICBpZiBOVk0KPiA+Pj4+ICAgICBjb25maWcgTlZNX1BCTEsKPiA+Pj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2xpZ2h0bnZtL2NvcmUuYyBiL2RyaXZlcnMvbGlnaHRudm0vY29yZS5jCj4gPj4+PiBp
-bmRleCAyOGRkY2FhNTM1OGIxNC4uNDM5NGY0N2M4MTI5NmEgMTAwNjQ0Cj4gPj4+PiAtLS0gYS9k
-cml2ZXJzL2xpZ2h0bnZtL2NvcmUuYwo+ID4+Pj4gKysrIGIvZHJpdmVycy9saWdodG52bS9jb3Jl
-LmMKPiA+Pj4+IEBAIC0xMTc0LDYgKzExNzQsOCBAQCBpbnQgbnZtX3JlZ2lzdGVyKHN0cnVjdCBu
-dm1fZGV2ICpkZXYpCj4gPj4+PiAgIHsKPiA+Pj4+ICAgICAgIGludCByZXQsIGV4cF9wb29sX3Np
-emU7Cj4gPj4+PiAgICsgICAgcHJfd2Fybl9vbmNlKCJsaWdodG52bSBzdXBwb3J0IGlzIGRlcHJl
-Y2F0ZWQgYW5kIHdpbGwgYmUKPiA+Pj4+IHJlbW92ZWQgaW4gTGludXggNS4xNS5cbiIpOwo+ID4+
-Pj4gKwo+ID4+Pj4gICAgICAgaWYgKCFkZXYtPnEgfHwgIWRldi0+b3BzKSB7Cj4gPj4+PiAgICAg
-ICAgICAga3JlZl9wdXQoJmRldi0+cmVmLCBudm1fZnJlZSk7Cj4gPj4+PiAgICAgICAgICAgcmV0
-dXJuIC1FSU5WQUw7Cj4gPj4+Cj4gPj4+IFRoYW5rcywgQ2hyaXN0b3BoLgo+ID4+Pgo+ID4+PiBJ
-J2xsIHNlbmQgaXQgdG8gSmVucyB3aXRoIHRvZGF5J3MgbGlnaHRudm0gUFIuCj4gPj4KPiA+PiBK
-YXZpZXIsIGNhbiBJIGFkZCB5b3VyIHJldmlld2VkLWJ5Pwo+ID4+Cj4gPgo+ID4gWWVzLCBwbGVh
-c2UuCj4gPgo+ID4gSSdsbCBjcmFjayBhIGJlZXIgYW5kIGNoZWVyIG9uIGl0IHRvbmlnaHQuIEdv
-b2QgdGltZXMgOikKCkFsbCB0aG9zZSBwYXRjaGVzIGxvc3QgaW4gdGltZSwgbGlrZSB0ZWFycyBp
-biByYWluLi4KCkNoZWVycyB0byBldmVyeW9uZSBpbnZvbHZlZCEKCkhhbnMKCj4gPgo+ID4gSmF2
-aWVyCj4KPiBUaGFuayB5b3UuCj4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5m
-cmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
-bnV4LW52bWUK
+On 12.04.2021 09:44, Christoph Hellwig wrote:
+>On Fri, Apr 09, 2021 at 08:24:01PM +0900, Minwoo Im wrote:
+>> I think if we don't have a route to the live controller from the
+>> multipath node /dev/ng0n1, how does application figure out controller
+>> node to request admin commands like Identify Namespace before their
+>> own I/O ?
+>>
+>> We have sysfs, but it does not provide every information about the
+>> namespace.  Or is there any charming way to find out the live
+>> controller from a head node through sysfs or something that I missed
+>> here ? :)
+>
+>The devie links points to the subsystem, which then points to the
+>controllers:
+>
+>root@testvm:/sys/class/nvme-generic/ng0n1# ls -l device/
+>total 0
+>-r--r--r-- 1 root root 4096 Apr 12 07:43 firmware_rev
+>-rw-r--r-- 1 root root 4096 Apr 12 07:44 iopolicy
+>-r--r--r-- 1 root root 4096 Apr 12 07:43 model
+>drwxr-xr-x 3 root root    0 Apr 12 07:43 ng0n1
+>drwxr-xr-x 3 root root    0 Apr 12 07:43 ng0n2
+>lrwxrwxrwx 1 root root    0 Apr 12 07:44 nvme0 -> ../../nvme-fabrics/ctl/nvme0
+>drwxr-xr-x 9 root root    0 Apr 12 07:43 nvme0n1
+>drwxr-xr-x 9 root root    0 Apr 12 07:43 nvme0n2
+>lrwxrwxrwx 1 root root    0 Apr 12 07:44 nvme1 -> ../../nvme-fabrics/ctl/nvme1
+>drwxr-xr-x 2 root root    0 Apr 12 07:44 power
+>-r--r--r-- 1 root root 4096 Apr 12 07:43 serial
+>-r--r--r-- 1 root root 4096 Apr 12 07:44 subsysnqn
+>lrwxrwxrwx 1 root root    0 Apr 12 07:43 subsystem -> ../../../../class/nvme-subsystem
+>-rw-r--r-- 1 root root 4096 Apr 12 07:43 uevent
+>
+
+It seems like a limitation that we have to transverse sysfs to make an
+in-application enumeration to submit namespace-specific admin commands.
+
+Ideally, applications that are already using IOCTLs should be able to
+directly work with the char device. If this is not the case, I am afraid
+that the applicability will be limited.
+
+I understand that identifying the live controller in multipath is
+something that we need to improve. The question is that if this is a
+reasonable thing for you. If there is no fundamental limitation here, I
+think we can work the details of enabling namespace admin commands
+through and merge the same support for the block device and the char
+device.
+
+What do you think?
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
