@@ -6,15 +6,15 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02F72C433ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 12:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A0BCC433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 13:04:23 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9FB2661261
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 12:49:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FB2661261
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id C96AA61261
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 13:04:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C96AA61261
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -22,55 +22,88 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=IkiJGRVE2HXj+4x5salYukKnrZ24XAFj4Ofm74+hVfw=; b=LZggeOAeA6LIKo3GfkyQIw12t
-	3F4ynPdsj3IqGylwEKyycMyRq8A3viAlKpybb1UchAeG4xhoDONZpxhNSodLN92q7Rl7bt7FoF56Q
-	wv7aCNqqGIZshNgWaIko1fc42WHW0JwagXaYQqEE2npIpDXmZ14JzHRZ6J4qVAJX96Lp2HKg1Byt6
-	sQUHtHPQ9lh3+8LooPnF4xF10iW5tK21weBDJGTGBUorVamW7dPj/g8F7y98Rn6SMSQxQyhsPXM/q
-	xtzhBBybiYK+Hev4S4R9t2GZepz9suoLjCPmdxrYqEFS2GChGBqxtUW2JZbYVZTDE8Zj/MTQqMieP
-	UM54QEINg==;
+	 bh=3lOtwzy46rVM0G/tFQoGfQdJxKzNA+sBMgjROFLmNZo=; b=Lkq9ZWHSbw7Jjcon85R/hM92c
+	I2IXGqRl80J26sAt2qZ8mRdkWoyTzoX5wRbjRTYealZBSK9llS/sbtubVKr9NUsZaCIyHGCy+KrEc
+	M+BEJnyN7My5upBDYTY+BJRpfNQb5sCf0ZUD3vItjO0E1EKMcnZYGWh2kM9Ze06Ku63rYnnotH9CH
+	xz/NobI48vdxlSKWbIo3Mh0+s57jfWGuk9IFVN+Yrv9ZJfTBIaHud8+4BifPINAjK31xsDvPtBUl6
+	s/5jz0V+zNVN+axzzwE0Ud6z6GjiA7RUh28JUtoDspdZguJTd+44IyNn9lG27QkX9szAcYLX7IuSm
+	7QduWN9jw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lVw0F-006kWl-Mn; Mon, 12 Apr 2021 12:49:19 +0000
+	id 1lVwEc-006mWf-LU; Mon, 12 Apr 2021 13:04:10 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lVw0B-006kVB-BY
- for linux-nvme@desiato.infradead.org; Mon, 12 Apr 2021 12:49:15 +0000
+ id 1lVwEa-006mWO-Lj
+ for linux-nvme@desiato.infradead.org; Mon, 12 Apr 2021 13:04:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=jNhCF7zp5V3pFiYdRbx8dHBLoq+QNJgWFGUxmEU/54c=; b=zc51Nr+QoImeWTAX4v6qy3Yp9m
- meRVaPUnsDlMeOdQpCq60Iq80E2s0Zfnyg1a3lGjqYTmcY7FEdEG6ulh52L8XQ85Q5XUfj2zpB+I8
- PhpaV04chlgEY89f0wxEQbu9SLCD+XevssZovSq/2kHKDyNEi2o1QaYIlXn2Z3NyRgwsXe/ZeRuhH
- aPDhS6SoepX8Zc1bKW4glrq25CzuYA/7A8uqud1g5NZjCzIZW7DHtMWLqzQZeQ8jmgk55RRUlZYd7
- MbT/cwli2VNacqixBnxRTal8WSCsXVZeTYQlH1oWcjjb92b32YamEFHQkB6z/KbGGccWj0F9NB2Zq
- +vIw4LbQ==;
-Received: from mx2.suse.de ([195.135.220.15])
+ bh=7U26dWdmUbGOFoEw3WRLyC/HQG/gNKfhazVkTBVrkrg=; b=y5QSW5rOgYvt3JDNOgDVdxfNXd
+ nUamBT55REHpY1whibVLtIbeVbm63zg2N4Q7ZBObD9c+5TjsSc2auPdcEOfvHpW8Bn8AOInO+n0zc
+ wbk96F8RhSfwXmTtOosl8lsoxpXpxRzCbioB+q0/f2VuAt6B3rKmf4z48wh3y/mRnABVWmH6xiWHn
+ oGopCu2+o6SEcdovM/dK1ucnJggPAnWGpoimhjZvBxgZxtn/vs3zAdWPN5F3oG7LpItoYmivJZmjK
+ fHu322gMMxONs3lT+EHWzXZ1Akxx53ax2lxZNguja+LPVtW/22DsP0JuvD63mK+5RgATArFU4Fj0V
+ 7AoNe7xg==;
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lVw07-006Edl-PM
- for linux-nvme@lists.infradead.org; Mon, 12 Apr 2021 12:49:14 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 01970B0E5;
- Mon, 12 Apr 2021 12:49:10 +0000 (UTC)
-Date: Mon, 12 Apr 2021 14:49:09 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
+ id 1lVwEX-006FQJ-VT
+ for linux-nvme@lists.infradead.org; Mon, 12 Apr 2021 13:04:07 +0000
+Received: by mail-qk1-x72e.google.com with SMTP id b139so7770296qkc.10
+ for <linux-nvme@lists.infradead.org>; Mon, 12 Apr 2021 06:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=7U26dWdmUbGOFoEw3WRLyC/HQG/gNKfhazVkTBVrkrg=;
+ b=ck2b8FIh9doK+J+1zK8r2cGgpdvgLvmRcdTIla3+2T2K6FiOyQW8ljFFj5LhjjZgAb
+ qW1Xot4IgLY08JHjSgcGoEgk2q5z0SVjK5DUoixhjW9WeLkuGgKNd5BUL46cUapCcgh1
+ zlVnEBwuHOoaxppNcZgKw2FvjYUFFgMiKQ7/XkgNBusP+uMB0wIJ03OO4m/C0KCex2zE
+ EwHDRjW3fhJ1vA9WbgBsIfUVQpqwqlriJEvA1Y0hU16x+eFMESuQJr6qPRC2q4BNG/jL
+ ARclik07dgjcoqTQ+JS2IqjCm923+PofupkNQxC9/DVl6DnTOtkPCUaSPSmv5I47c9Go
+ 8ypg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7U26dWdmUbGOFoEw3WRLyC/HQG/gNKfhazVkTBVrkrg=;
+ b=fxtweVJtOKr37K9a0SJmETPNAOmQVDIpMeJGDyU4WJAzus9K86IKuugYyJzDBIVamZ
+ GR1V/0L+YSWCzltIk1ozlXoke7YSrNty3b100X91GQxkcuKKKS5DTeqlb9joD/D8+mEZ
+ pQcuFzPWMUYKxDg2hx0N8is1+84j03nPgQL8NQYOwTFKWn3nLcP0yfGq1RIoWINNGoHA
+ 9OXK2FaUKoMP7zn1rCcEYZOiBimDevssbSZjn6BDfLdjn0v87rWCTpp2+3Ee+cXkLA+F
+ E409FZYjbjN4SJBFkMKxIIc89pev4NLY88vU8q9ruxDryDeRrwgLL49RltXY/kAs4PUn
+ q0nQ==
+X-Gm-Message-State: AOAM533mzdw4DvQZIIf+Y+r9kAvKOZBQgHooZf6BUX4LgvQh90ZRxHn6
+ EZ8Msf3AGR12sskJtwtbyQORNA==
+X-Google-Smtp-Source: ABdhPJwnzUXg4Q5gETmh434aD1mgRTIrB1WpbMiSs+2qQLiq+om+Vm8iL6Soaslfx1hPhcLEu9UKwQ==
+X-Received: by 2002:a37:a1d3:: with SMTP id k202mr19967256qke.97.1618232644399; 
+ Mon, 12 Apr 2021 06:04:04 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.115.133])
+ by smtp.gmail.com with ESMTPSA id b198sm7828845qkg.10.2021.04.12.06.04.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 06:04:03 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1lVwEU-004azS-Sp; Mon, 12 Apr 2021 10:04:02 -0300
+Date: Mon, 12 Apr 2021 10:04:02 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Wagner <dwagner@suse.de>
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  Steve Wise <swise@opengridcomputing.com>,
  Leon Romanovsky <leon@kernel.org>, Potnuri Bharat Teja <bharat@chelsio.com>
 Subject: Re: [PATCH] nvme: Drop WQ_MEM_RECLAIM flag from core workqueues
-Message-ID: <20210412124909.olui5hfhceakt4u4@beryllium.lan>
+Message-ID: <20210412130402.GF227011@ziepe.ca>
 References: <20210412122330.5166-1-dwagner@suse.de>
  <20210412123149.GE227011@ziepe.ca>
+ <20210412124909.olui5hfhceakt4u4@beryllium.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210412123149.GE227011@ziepe.ca>
+In-Reply-To: <20210412124909.olui5hfhceakt4u4@beryllium.lan>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210412_054911_988239_69E38FB9 
-X-CRM114-Status: GOOD (  13.96  )
+X-CRM114-CacheID: sfid-20210412_060406_043404_91B5E98C 
+X-CRM114-Status: GOOD (  16.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,45 +120,52 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jason,
+On Mon, Apr 12, 2021 at 02:49:09PM +0200, Daniel Wagner wrote:
 
-On Mon, Apr 12, 2021 at 09:31:49AM -0300, Jason Gunthorpe wrote:
-> What does early init have to do with WQ_MEM_RECLAIM?
+> I've grepped through the code and didn't find anything which supports
+> the guarantee claim. Neither mm nor schedule seems to care about this
+> flag nor workqueue.c (except the early init bits). Or I must miss
+> something.
 
-40c17f75dfa9 ("workqueue: allow WQ_MEM_RECLAIM on early init workqueues")
+It is pretty complicated, but the WQ_MEM_RECLAIM preallocates a thread:
 
-    Workqueues can be created early during boot before workqueue subsystem
-    in fully online - work items are queued waiting for later full
-    initialization.  However, early init wasn't supported for
-    WQ_MEM_RECLAIM workqueues causing unnecessary annoyances for a subset
-    of users.  Expand early init support to include WQ_MEM_RECLAIM
-    workqueues.
+static int init_rescuer(struct workqueue_struct *wq)
+{
+	if (!(wq->flags & WQ_MEM_RECLAIM))
+		return 0;
 
-That's the connection between WQ_MEM_RECLAIM and early init.
+	rescuer = alloc_worker(NUMA_NO_NODE);
 
-> WQ_MEM_RECLIAM is required when any thread in a reclaim context goes
-> to sleep waiting for a WQ to complete. For instance by calling
-> flush_workqueue() or many other things.
-> 
-> The sleeping reclaim context must be guarenteed that the work can be
-> completed without the work, work queue machinery, or anything the work
-> has become interconnected with, recursing back into a reclaim.
-> 
-> IIRC the issue here was some destroy or flush work in some error
-> condition that happened to be under a reclaim context?
+This comment explains it:
 
-I understand what you are saying and I would totally agree with you but
-where is the code for this?
+ * Workqueue rescuer thread function.  There's one rescuer for each
+ * workqueue which has WQ_MEM_RECLAIM set.
+ *
+ * Regular work processing on a pool may block trying to create a new
+ * worker which uses GFP_KERNEL allocation which has slight chance of
+ * developing into deadlock if some works currently on the same queue
+ * need to be processed to satisfy the GFP_KERNEL allocation.  This is
+ * the problem rescuer solves.
+ *
+ * When such condition is possible, the pool summons rescuers of all
+ * workqueues which have works queued on the pool and let them process
+ * those works so that forward progress can be guaranteed.
+ *
+ * This should happen rarely.
 
-I've grepped through the code and didn't find anything which supports
-the guarantee claim. Neither mm nor schedule seems to care about this
-flag nor workqueue.c (except the early init bits). Or I must miss
-something.
+Basically the allocation of importance in the workqueue is assigning a
+worker, so pre-allocating a worker ensures the work can continue to
+progress without becoming dependent on allocations.
 
-Thanks,
-Daniel
+This is why work under the WQ_MEM_RECLAIM cannot recurse back into the
+allocator as it would get a rescurer thread stuck at a point when all
+other threads are already stuck.
 
+To remove WQ_MEM_RECLAIM you have to make assertions about the calling
+contexts and blocking contexts of the workqueue, not what the work
+itself is doing.
 
+Jason
 
 _______________________________________________
 Linux-nvme mailing list
