@@ -2,19 +2,20 @@ Return-Path: <SRS0=ND0+=JJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E775CC433ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 07:49:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9C5C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 07:49:17 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2767C6135B
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 07:49:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2767C6135B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id E28DA6135A
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 07:49:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E28DA6135A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -22,44 +23,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=WEUUBtCv1eHCDcH26WsYrL4TpORPTaRJAA/GaWXy7po=; b=cepBFnUtnPmMrrewOtN40OCQK
-	hsxFupNdHB/mOBXgf8GGFSqGszEs5yze0guhnUETe6KJfEKtEOvBsLB8qxEM0epeVM09bOZV3cvfz
-	ukuNHlYk7OXy9WY0222ldU0ZZAVla3+7Bq5DKllMLoTlC7UTkHjF1alAnu3YDt2dzuGOfpOjZI5Vm
-	0eiwjo8adH3VdSxVj1s9vutYbHymxHudhqpraR1oCh0xKNjbGNpwUA/hVqKzeQui3zIfkQiVgaoRj
-	HP4gmmYuXHoWjGzQvK3di+HR6MDifxUd+zIMyLmKYcdNmNubTD/3Mk6wDHDFjGTLBX4KaBJMPX6Fm
-	ERo5V+Oyw==;
+	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=g2McktI9d1nsoSDEjOug3gPsr
+	Q+J6WI9eftXbDla3QmU3mCY9Zcr9NJ+2HVACTN5cv9nJjZE7gUqrKfyCIEHp2riBZ95chr+WcHO71
+	C012KB+wgh1SMaSCnAtexeqPPZHPlgTb2EVZ01x1U540SGp9DTdK7ZyauiNkR870oJxcN0iPQj6EV
+	NtQeM7h4cuZbQnpWwU9APYHB7bgSmDM9WGTAq+sm2srXItgBTENDJjO9j7m6p7gN9uHkQjv2KxhWL
+	JrgBQ7eby1wxsSu+p/0L0S/cf+YymimmRzWo6woVkZ5KmtGWlVnQua8JV44HKRAPCjdHrqqvqSiPv
+	8JSj79dYw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lVrJQ-00619m-8N; Mon, 12 Apr 2021 07:48:48 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lVrJb-0061AW-JX; Mon, 12 Apr 2021 07:48:59 +0000
+Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lVrJC-00618p-Sf
- for linux-nvme@desiato.infradead.org; Mon, 12 Apr 2021 07:48:35 +0000
+ id 1lVrJN-00619c-JW
+ for linux-nvme@desiato.infradead.org; Mon, 12 Apr 2021 07:48:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=rFtat2jViATy5vdCIpEfo793dXLULAcOer/vj9JyrW0=; b=HAx1Ck0pkGclygrZ1sgSiL4sQM
- jQgOkBBBUs3oVZzc65D4sEYNWpCS3hmgN0XDPd5bAdmAUui/drhLlwD5gjhiMxgG+iA294rx8xFc5
- eI8sddG1Cy1nDxboYelq8sclwsLTtKj19RdNdZ11+9lGbVj7NXp6dzO+aEJYWdRBeYuZi5Df8e0kM
- 4yLY5Xsul26pvZvHUVP6UEHlW2UByTZ3fe3rZdcL5Zkp8T+em0IlvSRXq8Izk9FtaglNXKzdF4KQR
- Gc2a+bDMKV2HFHnO4e9UmYzpIUKbknZc6+qt5Y5Z7D7q8U6/y8VCQRXBxCQ/76ed3V3Hc43kawrxN
- gHl6DE1Q==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lVrIx-003x7y-IN; Mon, 12 Apr 2021 07:48:24 +0000
-Date: Mon, 12 Apr 2021 08:48:19 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: amit.engel@dell.com
-Cc: linux-nvme@lists.infradead.org, james.smart@broadcom.com,
- Chaitanya.Kulkarni@wdc.com, James Smart <jsmart2021@gmail.com>
-Subject: Re: [PATCH] nvmet-fc: simplify nvmet_fc_alloc_hostport
-Message-ID: <20210412074819.GA942225@infradead.org>
-References: <20210322195717.13094-1-amit.engel@dell.com>
+ bh=JfcaAWiL9MX/KzgqZFMd5GxaGaNC7KsyrSBFfXwwLXo=; b=xP0jPfQEsLCMgsPAIHfe1nDi/P
+ 5qSXvw8hUSg3r2biaSONRDKM+YMoJDyIC97+/EqUeDrNYri4VJS2yPgpv6Gpg8RF15bDsDZFnSRVu
+ PH6km+v657q6+6XaGB3xeoUYlZt4PskRp5lxb5c+BciP8KXnKtNc7LHQj/qotsIKfKT54iNZTfrax
+ C+TlbyWdD8JukPP0DRa7gQydv8zrgAy/pkXbogueI4RmhN6eX98LdsON3Lt57BvJkaNdgHdXFtf60
+ H5IHXH6BjiLL+QNGe7sA6AJM3N+1kIR5l+hpXJIdj76gerPvucyROdxJeOiIYSzVAOWAW8i8c3Qu/
+ WY5RFuow==;
+Received: from verein.lst.de ([213.95.11.211])
+ by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lVrJL-005wKn-7t
+ for linux-nvme@lists.infradead.org; Mon, 12 Apr 2021 07:48:44 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 56D3C68C7B; Mon, 12 Apr 2021 09:48:40 +0200 (CEST)
+Date: Mon, 12 Apr 2021 09:48:39 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Niklas Cassel <nks@flawful.org>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Niklas Cassel <niklas.cassel@wdc.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: don't simple map sgl when sgls are disabled
+Message-ID: <20210412074839.GB3898@lst.de>
+References: <20210409181255.101847-1-nks@flawful.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210322195717.13094-1-amit.engel@dell.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210409181255.101847-1-nks@flawful.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210412_004843_442375_CCB0949E 
+X-CRM114-Status: UNSURE (   8.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,7 +87,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, applied to nvme-5.13.
+Thanks,
+
+applied to nvme-5.13.
 
 _______________________________________________
 Linux-nvme mailing list
