@@ -1,101 +1,184 @@
-Return-Path: <SRS0=ND0+=JJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=BJyz=JK=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEEC6C433ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 23:47:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D004C433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 00:34:50 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 662CE61287
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Apr 2021 23:47:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 662CE61287
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=purestorage.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3AEB76109E
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 00:34:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AEB76109E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=H629c1CYQ9fTGCcv68BUMZLMAlRzkWH8RqkActb7EDc=; b=a+Fi+hSB8OBzSWY7x0Gn/FrWO8
-	Y0kbPA+zeA0t+zcWAG5XtC4djfzu1jg/5A3LQuo/t611TygpN/UQxlBaDlhZntGveSl9PirEuaMoc
-	xJ9hFa17jdXsIAJFteTF5TTXDaVaGvinUk5TgZoTykCcmWKIewVB6ydgl9fb9GxxLydjq3B679P63
-	Gk7qwaBK8/KhVDcH//13AwMdIPWh0STNpOm/ViDbluulciP1fOhhEIp4Ul5JmmuEUuUBxqIf+3CZN
-	5Whr+GAMiwhjZWAeVcfHO+EVBcUcG1INQZLiDVEbo6J7/ZxlOcoRsdAa+52lVaq66d3HrPZZzjxyZ
-	J0dd0fAw==;
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=W4GbZxEh78LmqrQn28ZwR/wms79s40C8Elf5+F6IobY=; b=QBcANfHzq/2fA5h5ctK8rIOqw
+	VKx8lCAvLFv90mpsbn3Ijkv7REo6/DudYFAjvo/W8HrUbCOAKyrDIGjtwKB1ouf3Vq0A9mrXHQxkh
+	oT+0HloyoZMvAOOkICVsKsxVKyK1ey7WjbTbG/8N+k5ESzzCXmMAAByV+rLSpb+O6feojkbBMbY+R
+	wrbcXBjDeT/h9crDG6OMOCxVhF7RFUFBRQVrXzkBoHZPvGl94rqikiRW/Rz649vfP/QCydluV7xvh
+	AmuTXfleddEdkSZNzPIa5wNmVO/iW8QCr6mM9o4Ntik6qENmr4n70EMWnmpqcwCi24XtYAhF6NPbh
+	oBPaaEQGg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lW6GL-007uS8-FF; Mon, 12 Apr 2021 23:46:37 +0000
+	id 1lW70W-007xWe-NM; Tue, 13 Apr 2021 00:34:20 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lW6G6-007uQY-He
- for linux-nvme@desiato.infradead.org; Mon, 12 Apr 2021 23:46:22 +0000
+ id 1lW70T-007xWX-Ce
+ for linux-nvme@desiato.infradead.org; Tue, 13 Apr 2021 00:34:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=sD5zWbzHocJWExoRtuQpTL3B9ica4gx00qs+VGRFMiI=; b=wkvxGu4XiVeiXeX/3CDfYhGS4U
- 8hJyBik6lU06VGjH/GfTTLkbHAXBgs7yCfJmPyYGbIW/1yimvudqZsm4T0XvcZw6XgMjo4OTSBdiF
- 3o3/CzOPyCaPUNsTL42Dg0ve2MmYD+XRyA3jUUXwB5K35hdkw6saRdg/PPAmYFxLjen2C0euZzvac
- 4QerV4gO8vA/qDnLoltnVlCwsMG/9iY5AknscYj5WAwNPR/ELo96agWbJx4FG5Q2b/wblRoV/WbUv
- BgQM01o+4y6Rr4yq/ff7rErAWCTYdHnEo2TBIMusl/xMGdIKYLvOCLNM4c5sSVRYNc1yxm/lLNpiv
- IEsaxrsw==;
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:
+ Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
+ To:From:Sender:Reply-To:Content-ID:Content-Description:In-Reply-To;
+ bh=S80LtorSaLgyC108G23FnB0+qRjn7WNduMq6AJkCWeA=; b=4dAzI/dWgdONP1/JOxTvGZHiYs
+ gSQ4oZcoBN7TZMaEpcpAd41qw6jx+tSj6uZPHEnxgMXohQ1pESLkxiYfW2N0p/sUij7AHlceEb+Mu
+ ct87/r2RhKk2/8ML0TPjjU144XmIXYnqrtwXus2F1MWZfUoGerwna+rHCPO/CTjcCtUuwd3FETtBd
+ DpVTotL85Yh9dKAFpxWHvQM/on2gVHCOSLuc2kwDaqheZyOTI0UMVeiUZgMe1ePXQ3b/qnwiEzAmD
+ FahtMMvLz0axJkNGHnionJMenOnuo6vkZ561dAM6+w6I8U72bB9k/tYFIwfFKrC4e1qyu9Zyiy3HI
+ AE0MSQ7g==;
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lW6G3-006dJ2-QO
- for linux-nvme@lists.infradead.org; Mon, 12 Apr 2021 23:46:21 +0000
-Received: by mail-pj1-x102d.google.com with SMTP id u11so3851563pjr.0
- for <linux-nvme@lists.infradead.org>; Mon, 12 Apr 2021 16:46:18 -0700 (PDT)
+ id 1lW70O-006eX7-0r
+ for linux-nvme@lists.infradead.org; Tue, 13 Apr 2021 00:34:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1618274074; x=1649810074;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=ppJ0QV4ifeegMZjg5N/chWVaZo2WgF76SOu/xSLIeuQ=;
+ b=FCtM/H/yWRVVHLN9faHuffweKXn3sP72PjXWyoAInDPae5OVDb/kz7qc
+ sGf2IwV8TxxUluAejMEm+QCZNSJhsSMjeTV9wgXybnjS/pJk/vIwmRLbX
+ dQF0guq5Noy+7qoP8ezbfRFCFpnRr2WZwvIEASFaVwsiXL3ijH7R/tdmY
+ l1kStuVUM+YOg0zrm8f47nH0HYDH7m96rrdpLAlDtbs6iO9Kc1Zroecrq
+ 8g/FsHO6XfZygTrCW7WrABlbzje7IDmPfeV12qnMmcawYWcgNrwi3I72y
+ lacDKkir3u2zMUpdDk9Txn+yjMgDVoxaQlbyi8b1GrT0ViXgzo/kyGLK0 A==;
+IronPort-SDR: GDIp98SwfKumKXNxqq5OzwBzt/FJxQpR05kNgoXfdxDjq+vS8KYsFSCP+9js0DRU209HOjX4y7
+ tgIS1d2xVQGuA6zekO9HqAdqEvp32pWP5jMOa9aBCCYyvXdRh6+mrZeGv9PzhpGegMb0n4vHol
+ ulhrppYhtiQ2i4KIBXtJfWN/kV+H0XYcJGszMaZn9UivRSOkGCV2i1Gmj0F19zfjtXcJxuXRaR
+ m9LCajiTIAZm8s5zmxp6JIlYIuuLMMVAJTsMwpudoVnptsUPNy9uwYoV4m16Z5PfCagzuzO3ao
+ q8s=
+X-IronPort-AV: E=Sophos;i="5.82,216,1613404800"; d="scan'208";a="268792245"
+Received: from mail-dm3nam07lp2047.outbound.protection.outlook.com (HELO
+ NAM02-DM3-obe.outbound.protection.outlook.com) ([104.47.56.47])
+ by ob1.hgst.iphmx.com with ESMTP; 13 Apr 2021 08:31:48 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TokSMyoy5DFnK9BqU+lEpa+06NISgULrIC12oNYNZ06qt71Uh7tL0NAvhSnYqptW8ZJY5Ilnz774+8TDkETus2F4e8DMKcrAu/3nDYiQAKxM2I4kzeoso56aaoZxnHTEG2oCKnNjFrJsDdtiPAUTItRwWezP/J7VzyyM8tCx+8Dmlw2bUUvMm4PMXF8XEl2zoG+o0L5rFPR37UEbEOSXu/TpK8yJAQqOgVrwhRZHjqbjhJBrYnssRCglSsJ2RPRGxoc1MpUT4rgbUFxnRCpdfvz24CQFnyb7ycM6y8ers8G1TLg1j1Scpcq2CS7jthxvXEtdSwzpRfHPZ29yOyZQWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S80LtorSaLgyC108G23FnB0+qRjn7WNduMq6AJkCWeA=;
+ b=YfhBaQhs/hvSQftc6CCfC59psaOU60RX+W4EWMgLDB50p3W4mp5YQPJiqJ1sa+aw1ZOX11UMdnKtfs3B/CKfiJKI9EvakCWmWtoTAgsPd3MQBabbJvlaw4Q/XWPBg2qZ95GyJgBC83ZSglk8cI+DmagJ78A8ljcU9g3PQuXu48688pct+O5bXk6vIssfn9iSf7xuzW4SD6x2BA3wu7e1hEPurILUyJWWf74xPcT9eizXeiV9uiUMlXCC0MqlkDAXD6Hwkw19s3Vwb4XwYUOm5Yu0C5wX6PSJ795vbNJOq+t1gSfBL3eNgJ02CXBb1BcWYVvHwSez9uiEjdToW9K4hg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=purestorage.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sD5zWbzHocJWExoRtuQpTL3B9ica4gx00qs+VGRFMiI=;
- b=VMHvUPwvk7oK7nGKmYN+OHtxd1KlvBFZyzbeO2VgE7cxXWvAvZ+T0UcIHQgfBQqoPV
- x8tJxsqW6YdM89jSyAMRhbOEtFYiqVi8ynRbc8B8eIyHkQMxKcWP/Vs2ah7FcZYiZE//
- E95t51jYq6CXAFaBb9DeFAEmnaPowZRi1jo8s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sD5zWbzHocJWExoRtuQpTL3B9ica4gx00qs+VGRFMiI=;
- b=FiECoaezQkCGMkQexoyAUrgsCCspjTVWjxbYYhUjicfin4yFmj3Z8xvGzxR8wKP604
- zp/F1QO53cdpg+vg4aXpkFqvg8x5ga8wRabA1Lsh9EUYSO7BCcs6vL4z7f5rZrtbQHmZ
- qvEKaO0zHjWTYhEL7POEYGf8gALtPSZCszzAwE0Q9ZtFT53CRCqaGipLFgFrTx14f2HW
- gZNmUFyAzfnM3ZJgovFW61vL2T7pWeQ82jKnFL9PDESaYYhFPhSioFW4rysTPEJnMzEw
- LIS5/xFyT3rYc+5HLjdpyNzqLgThywxpaMOMecJHSoEIkwX7DpGRA43qqsTCW5+ra59d
- p+Mw==
-X-Gm-Message-State: AOAM531Q4+NH5Bn1KgR4VoslVQ4Zp4nIpFxyqjGH11zO4uDALGBNZ7JX
- vIjjB6wGLj1j9Rsq8CsNuXFnKw==
-X-Google-Smtp-Source: ABdhPJxbsUNfW2zYkJ5U1gt9S92ThS4KRCfaG7hJxf1beXq2LhQ8Pbr1pnwOgOLyhcVNtuBT/v7nFQ==
-X-Received: by 2002:a17:90a:13c3:: with SMTP id
- s3mr1785359pjf.59.1618271178329; 
- Mon, 12 Apr 2021 16:46:18 -0700 (PDT)
-Received: from dev-yzhong.dev.purestorage.com ([192.30.188.252])
- by smtp.googlemail.com with ESMTPSA id m14sm10237182pfh.89.2021.04.12.16.46.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Apr 2021 16:46:17 -0700 (PDT)
-From: Yuanyuan Zhong <yzhong@purestorage.com>
-To: kbusch@kernel.org,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, cachen@purestorage.com,
- Yuanyuan Zhong <yzhong@purestorage.com>
-Subject: [PATCH] nvme-core: initialize status to NVME_SC_HOST_PATH_ERROR
-Date: Mon, 12 Apr 2021 17:45:43 -0600
-Message-Id: <20210412234543.19913-1-yzhong@purestorage.com>
-X-Mailer: git-send-email 2.31.1
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S80LtorSaLgyC108G23FnB0+qRjn7WNduMq6AJkCWeA=;
+ b=LN9gP+JRwUgZoJdOMlv3WxrPlE5LGZzxpJGJmRzOcKMD3WR3/Zy9IiAYaoogFKC5Bg6adMjbz3+2a2evn0gioYhcDDerFiMIMtmnAXQApA6ATjjIsZ9DhQ6bbgDqty1NvZLragVqsolKLv2fwqDSPAxowlxBlRnGvfIeWnsBgsE=
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com (2603:10b6:208:1ca::23)
+ by MN2PR04MB6416.namprd04.prod.outlook.com (2603:10b6:208:1a3::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Tue, 13 Apr
+ 2021 00:32:14 +0000
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::8557:ab07:8b6b:da78]) by BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::8557:ab07:8b6b:da78%3]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
+ 00:32:14 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: Selva Jove <selvajove@gmail.com>
+CC: SelvaKumar S <selvakuma.s1@samsung.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "kbusch@kernel.org" <kbusch@kernel.org>, 
+ "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "snitzer@redhat.com" <snitzer@redhat.com>, "joshiiitr@gmail.com"
+ <joshiiitr@gmail.com>, "nj.shetty@samsung.com" <nj.shetty@samsung.com>,
+ "joshi.k@samsung.com" <joshi.k@samsung.com>, "javier.gonz@samsung.com"
+ <javier.gonz@samsung.com>, "kch@kernel.org" <kch@kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [RFC PATCH v5 2/4] block: add simple copy support
+Thread-Topic: [RFC PATCH v5 2/4] block: add simple copy support
+Thread-Index: AQHXByxWhY0q9dGq/EW9B8B+rRJ+Hw==
+Date: Tue, 13 Apr 2021 00:32:14 +0000
+Message-ID: <BL0PR04MB65146169A9C7527280C15D4AE74F9@BL0PR04MB6514.namprd04.prod.outlook.com>
+References: <20210219124517.79359-1-selvakuma.s1@samsung.com>
+ <CGME20210219124603epcas5p33add0f2c1781b2a4d71bf30c9e1ac647@epcas5p3.samsung.com>
+ <20210219124517.79359-3-selvakuma.s1@samsung.com>
+ <BL0PR04MB6514EA91680D33A5890ECE16E7839@BL0PR04MB6514.namprd04.prod.outlook.com>
+ <CAHqX9vb6GgaU9QdTQaq3=dGuoNCuWorLrGCF8gC5LEdFBESFcA@mail.gmail.com>
+ <BL0PR04MB6514B34000467FABFD6BF385E7709@BL0PR04MB6514.namprd04.prod.outlook.com>
+ <CAHqX9vYvtOaVL4LG0gAGCMz+a8uha8czH==Dgg3eG+TWA+xeVQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2400:2411:43c0:6000:1134:9421:2151:4ee3]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 86b8edd7-995f-47f7-1b22-08d8fe1395e7
+x-ms-traffictypediagnostic: MN2PR04MB6416:
+x-microsoft-antispam-prvs: <MN2PR04MB6416FDF25A008AFDAEDBE0AAE74F9@MN2PR04MB6416.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:357;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IKohhaa6OzN/n+8G8XH8XUFePW2IUGfrEm92pjNN93Y5q/ASyJi+C/EocbwYzY7MODjX2qM5Om0Rka9iPgARfb3+I9gb83r0l4F2QNv10VT1ERIvWfIAGFihzl91wFlunJPaOPwgYfV6Jm7SQ4QhYGO7qIJwk3rsVVCwhB99RgjRz/BFY29mc3+zNNoeUSvVlfDVHFTa5rahEMilHjif82NqpmZaJMfXkNOurpQC0S0nOy7tqm+8GPEvHzGt9P4r09WS1BHbZSAyNQ7EpgX8NAMMNgDA1VxYzVHeuwSIUf+wkvJrpYIH5jrmKPRXRH/blFUoFhK8hs79dz0cC7CSp7dacp2cWRcWuXMtAWMhnLuuLbK+dEwSvhzrbxBZNdoquCdYG7XIFUZfwLq+HQXSpu7gQkUEA9eYUwP6b5+TY1miDGUsFEYP1SF5yLGXVlncxe66+y65xrdcalBubaP4MtRlBLMg0XnlsfiqqKNVNDRylTrAnzlNQBQvB1VfRjTTsaU4CPs7T88YLyGcFdVEok1qR0Fbj6EW0KiK7henLVrzvqXCisK5demaYVjVRSHelyqOv298jV7w3j4mxUcxWgLB1v/EEPzhs73J8/MebtM=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR04MB6514.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(366004)(396003)(136003)(376002)(55016002)(478600001)(5660300002)(38100700002)(9686003)(86362001)(66556008)(316002)(66946007)(6916009)(53546011)(66476007)(4326008)(76116006)(8936002)(64756008)(66446008)(71200400001)(33656002)(83380400001)(2906002)(7696005)(54906003)(186003)(52536014)(6506007)(8676002)(91956017)(7416002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?U77AZYKlIQq2UxIhbeODYn+c5wvBWysPzwE75cSgUqPOlD+R+MgkAafdGUUz?=
+ =?us-ascii?Q?mk7gUaT0b8x8NT0Gc1K9f27YihuI3r7e3uKYzPx/FxXt8RzspGKZPwFm4a5q?=
+ =?us-ascii?Q?ll8+dkvMm2qzTUyHExdhU0l+I0FDf8jCxB8uZIMtKxlugHffsDZaCHyQaLtz?=
+ =?us-ascii?Q?xkHcqGCWUZ/XzZH18gAgf0vRlggEoms90ifsa1Ati+fB1ALRGwbThbpKaIXG?=
+ =?us-ascii?Q?H0QT7mWXDLclVdU6Cv5XUtL5GW44UN9hSBuMlHtWOEZkN2m7E6P3XE2+zlS/?=
+ =?us-ascii?Q?kGbjVxFqhgZ0r4pqy7dNlCoz/HkR+dMrj9wzr4u2YrhuX7qsT8lDBoP5BCAv?=
+ =?us-ascii?Q?KxDRW3lfTucudjFOJ8naRWKC5CiwA/mqbyRgLRoWoJDBpsk0SgiHBYG4dSao?=
+ =?us-ascii?Q?Q+U5H7k/SEAzAqebf/uXP+Xosi4rQ1A+RT9JKjDIhDOkw0JA6MbJp2Vwyiym?=
+ =?us-ascii?Q?3sH7tZagk9vHeIZP1xJN0vT5p5xHJwuMlhijP0QaKEWD0JkZ9sQs0PpZ+n4K?=
+ =?us-ascii?Q?ic1+/ta1ueKUK7nGOKNS8VKS2zflhyOACqH9UK2rSka66S2SWT9/UTVgYOGD?=
+ =?us-ascii?Q?6VbN1R3hDUh6uiOV6+sXh+C3y5ppb/kJBAA9YYDsm97F4yqVQIGzTHw2QdVm?=
+ =?us-ascii?Q?mtt1GMLupxXikwiDcNwvZ9gGoGD69vHSH66n6vV9wBMhDIyoyYs7Zp70pu3g?=
+ =?us-ascii?Q?sblRjUgvZcn4VV1wiIpXWSH9TfM6X2QFgQQeYuAxPejHYaWXH2dcvOn/+DwF?=
+ =?us-ascii?Q?kWGYMLZvvF38C4zT56oLGcGGhc/FYesHwJ/V+W8gXglwUyxOg8T2Eq5n0tL5?=
+ =?us-ascii?Q?Inv19l3m7gFrZBTGR0enKiYkCk43HLQJBYerMaIMypzI8ivGaxqi9YR0Nakb?=
+ =?us-ascii?Q?5YFm41RML3d/GL9bTZnilYfBEHGREpUxb+g5mM0GvnjtRbOSQfiyrbHe/QrP?=
+ =?us-ascii?Q?uDRjIFcPW0qFJHF6Y97R8gN3F+3r3/yALItB7K9StfvdhBeoxBV/rUlrnT+k?=
+ =?us-ascii?Q?+eExMUcEmKMdmz9pcNkL3wBmlDKMXvNDAbnuT9Bx9UT+8Vg5KT62m7HR/3Ps?=
+ =?us-ascii?Q?6Nwc/4oRoWMHcMA43XPsnum9x4RScwwtOPmozlsN8fIG9UhzcEfGhYcjDmgu?=
+ =?us-ascii?Q?KClpoTWFB41jzNHmNjVTIb3/KoRuEG2/dzmoPeuPhsEe2MP+bAMf+GWP4Mec?=
+ =?us-ascii?Q?OU80NvCYPXpJoYb85HTmt1/yy8RQSWd9ACeVPYrsvunyF/pQj3Uvw+7FyUq7?=
+ =?us-ascii?Q?GdT1J1cGoLI/UkJM2AhGdi1bZ+c8LNHT8jk5tL9jSPHK/kyFGVCil/prfrBG?=
+ =?us-ascii?Q?G6UwBZKKzA8Wsvxr7JVYmPpSKNGB/ofOfrnz+eRdMAhLM0EaoophF10fb9N8?=
+ =?us-ascii?Q?FDd7FWKFfmUshgSVmyY3z0UDO9/EQRQuEo04VYi1Va+gPOa73Q=3D=3D?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6514.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86b8edd7-995f-47f7-1b22-08d8fe1395e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2021 00:32:14.4505 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: q45jY7heLab0BUCytM6USTe3hTqEd8yxrYCHY9+xsAtRp+etxiabX4DsjXyIq4Dk4FtwiNDlMFa8ed9fxwucjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6416
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210412_164619_959982_AFD9CEFC 
-X-CRM114-Status: GOOD (  10.34  )
+X-CRM114-CacheID: sfid-20210412_173412_187287_185BF89D 
+X-CRM114-Status: GOOD (  26.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,38 +195,110 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Block layer blk_end_sync_rq() silently drops blk_status_t error.
-When ->queue_rq returns error, nvme driver should set nvme status
-explicitly. Otherwise the passthrough command may take the stale
-status as result. A typical value zero will be interpreted as
-NVME_SC_SUCCESS, despite the dispatching error from ->queue_rq.
+On 2021/04/12 23:35, Selva Jove wrote:
+> On Mon, Apr 12, 2021 at 5:55 AM Damien Le Moal <Damien.LeMoal@wdc.com> wrote:
+>>
+>> On 2021/04/07 20:33, Selva Jove wrote:
+>>> Initially I started moving the dm-kcopyd interface to the block layer
+>>> as a generic interface.
+>>> Once I dig deeper in dm-kcopyd code, I figured that dm-kcopyd is
+>>> tightly coupled with dm_io()
+>>>
+>>> To move dm-kcopyd to block layer, it would also require dm_io code to
+>>> be moved to block layer.
+>>> It would cause havoc in dm layer, as it is the backbone of the
+>>> dm-layer and needs complete
+>>> rewriting of dm-layer. Do you see any other way of doing this without
+>>> having to move dm_io code
+>>> or to have redundant code ?
+>>
+>> Right. Missed that. So reusing dm-kcopyd and making it a common interface will
+>> take some more efforts. OK, then. For the first round of commits, let's forget
+>> about this. But I still think that your emulation could be a lot better than a
+>> loop doing blocking writes after blocking reads.
+>>
+> 
+> Current implementation issues read asynchronously and once all the reads are
+> completed, then the write is issued as whole to reduce the IO traffic
+> in the queue.
+> I agree that things can be better. Will explore another approach of
+> sending writes
+> immediately once reads are completed and with  plugging to increase the chances
+> of merging.
+> 
+>> [...]
+>>>>> +int blkdev_issue_copy(struct block_device *src_bdev, int nr_srcs,
+>>>>> +             struct range_entry *src_rlist, struct block_device *dest_bdev,
+>>>>> +             sector_t dest, gfp_t gfp_mask, int flags)
+>>>>> +{
+>>>>> +     struct request_queue *q = bdev_get_queue(src_bdev);
+>>>>> +     struct request_queue *dest_q = bdev_get_queue(dest_bdev);
+>>>>> +     struct blk_copy_payload *payload;
+>>>>> +     sector_t bs_mask, copy_size;
+>>>>> +     int ret;
+>>>>> +
+>>>>> +     ret = blk_prepare_payload(src_bdev, nr_srcs, src_rlist, gfp_mask,
+>>>>> +                     &payload, &copy_size);
+>>>>> +     if (ret)
+>>>>> +             return ret;
+>>>>> +
+>>>>> +     bs_mask = (bdev_logical_block_size(dest_bdev) >> 9) - 1;
+>>>>> +     if (dest & bs_mask) {
+>>>>> +             return -EINVAL;
+>>>>> +             goto out;
+>>>>> +     }
+>>>>> +
+>>>>> +     if (q == dest_q && q->limits.copy_offload) {
+>>>>> +             ret = blk_copy_offload(src_bdev, payload, dest, gfp_mask);
+>>>>> +             if (ret)
+>>>>> +                     goto out;
+>>>>> +     } else if (flags & BLKDEV_COPY_NOEMULATION) {
+>>>>
+>>>> Why ? whoever calls blkdev_issue_copy() wants a copy to be done. Why would that
+>>>> user say "Fail on me if the device does not support copy" ??? This is a weird
+>>>> interface in my opinion.
+>>>>
+>>>
+>>> BLKDEV_COPY_NOEMULATION flag was introduced to allow blkdev_issue_copy() callers
+>>> to use their native copying method instead of the emulated copy that I
+>>> added. This way we
+>>> ensure that dm uses the hw-assisted copy and if that is not present,
+>>> it falls back to existing
+>>> copy method.
+>>>
+>>> The other users who don't have their native emulation can use this
+>>> emulated-copy implementation.
+>>
+>> I do not understand. Emulation or not should be entirely driven by the device
+>> reporting support for simple copy (or not). It does not matter which component
+>> is issuing the simple copy call: an FS to a real device, and FS to a DM device
+>> or a DM target driver. If the underlying device reported support for simple
+>> copy, use that. Otherwise, emulate with read/write. What am I missing here ?
+>>
+> 
+> blkdev_issue_copy() api will generally complete the copy-operation,
+> either by using
+> offloaded-copy or by using emulated-copy. The caller of the api is not
+> required to
+> figure the type of support. However, it can opt out of emulated-copy
+> by specifying
+> the flag BLKDEV_NOEMULATION. This is helpful for the case when the
+> caller already
+> has got a sophisticated emulation (e.g. dm-kcopyd users).
 
-Instead of trying to fix it for every error return, this change
-initialize the status to NVME_SC_HOST_PATH_ERROR during
-nvme_alloc_request().
+This does not make any sense to me. If the user has already another mean of
+doing copies, then that user will not call blkdev_issue_copy(). So I really do
+not understand what the "opting out of emulated copy" would be useful for. That
+user can check the simple copy support glag in the device request queue and act
+accordingly: use its own block copy code when simple copy is not supported or
+use blkdev_issue_copy() when the device has simple copy. Adding that
+BLKDEV_COPY_NOEMULATION does not serve any purpose at all.
 
-Fixes: 27fa9bc54541 ("nvme: split nvme status from block req->errors")
-Signed-off-by: Yuanyuan Zhong <yzhong@purestorage.com>
-Signed-off-by: Casey Chen <cachen@purestorage.com>
----
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0896e21642be..f22323d02755 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -580,6 +580,7 @@ static inline void nvme_clear_nvme_request(struct request *req)
- 		nvme_req(req)->flags = 0;
- 		req->rq_flags |= RQF_DONTPREP;
- 	}
-+	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
- }
- 
- static inline unsigned int nvme_req_op(struct nvme_command *cmd)
+
 -- 
-2.31.1
-
+Damien Le Moal
+Western Digital Research
 
 _______________________________________________
 Linux-nvme mailing list
