@@ -2,92 +2,78 @@ Return-Path: <SRS0=BJyz=JK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8158C433ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 06:52:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA4AC433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 08:57:43 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 41FAC6128E
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 06:52:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 41FAC6128E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 63215613AE
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 08:57:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 63215613AE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=rL4VJLzH1RKCXbBXunF6KRKkRloE3pWzsCHEc7QNmOI=; b=Od1MPn4KzJxGfDVbpR1fFC3fJH
-	PJLAxqScv/3P2sFBbjGDVn4zDTinVWhjI+O2w8M6zHXPef9VWgIdA6yIXyq4uYZC2AmAZKdiV3Hii
-	uWobmoC5jBaxEIt0GAuimlhzArvYbPlucL7l7XPwKNkp34W2ToKfgG/T6d7P+DfGBO2rGrg1Z8O0H
-	hDwoFg/yiOXK/gDYDpETjPE18YT4EhUeYbwca3s1XHlWSj/lrw4FGC5KPUWnStAgyRoRqN1Sp3mTz
-	/VRW9XEOcOSaiBx35YoBjqVDmtfWn65wegccb0Q/2juuHPd3EG79k7gPSWxTJjP5E3pSJzzHilSAd
-	zyPlhRJw==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=NC9lNMvf2jBl1oEsvVhw03VIfwc5DGDV82s3kPHxUPw=; b=iTy47Zh8tu6kINncHHs63ZpWV
+	N+rj4AS5bgwNV1R1IKwepV8ZWTxrmvemhGcxnB9ChT9E1XWMygXNrblrmtSJPQ8mM/E0muPCdC/tw
+	Zrlay0ysb3DeFHL5HhKIbY2xCzC5J1RNpgW2wOX/2j69b+6W0ux6wYI5or/dSfE17gMlPeNJjJKeW
+	Bka9fZd1WWjjgRaPPV6N63VKBONNZwGPduilHOn2n+3Lf05mOzPeDwgSE80KtTelS7dRY4BomsF5h
+	FqQ2uzFzLibaX3phdkIRGx7UUDsMwmdb6pJnadnScM5ASiODhtNdjcElMcl8IWaEpvok68HvPF9bs
+	HBLH5cEAw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lWCu9-008R5E-F3; Tue, 13 Apr 2021 06:52:09 +0000
+	id 1lWEr2-008cB7-Pp; Tue, 13 Apr 2021 08:57:04 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWCu7-008R55-AH
- for linux-nvme@desiato.infradead.org; Tue, 13 Apr 2021 06:52:07 +0000
+ id 1lWEoE-008c2a-PY
+ for linux-nvme@desiato.infradead.org; Tue, 13 Apr 2021 08:54:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:
- Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
- Sender:Reply-To:Content-ID:Content-Description:In-Reply-To:References;
- bh=PKC8LejtA0DqTJYm6L2J64/mhAvGye2UKglBDVLmp74=; b=U6b55Jp570OZcdWErKpm7fdQRJ
- ZlcnRUCM9SqnRApGNEjbi09PYXBNmbQpRCxi0xxLTxPNNFeq0VybW1WY7Vcpp3uQYTz5JtBDkIOUA
- v9zZyGCci0hs1agbZg5NFDL+vFu1dXLb3QKdmzv0OIr80h4luQxzVccYR1FNRm7alvRMQf/avK2wO
- AXY9cqxA1vQq61RjKBCi9O7PE/XaWjWhrkSpURj/ZgR5LTytyhsurkoWDafzYw9vw7oLyNsSGoF8K
- mPQ7fiXnrTYGoFMLqCvh9OWsQMsfhXi1iJOEZP/uagQ8hdnqKsDiu9ak3q/gFF3VJuveCW4+U//7z
- VkLXPDYw==;
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=034zy4yCs8jtPYNP+O2gdDkfdotDPhtBPZSnBJ2RVX4=; b=kr4lMCYQn3IcD97nGCY3oqwrUv
+ Vk1R3NHiL7Kjl3Zo+fkzvXdibalIFffHkITaxlu+ihwPwKDLUfroo9SYsDUspeduvtGVFpvoGFBQ5
+ Rb+NbIxpOHZ1QRA68OCzYhakxlUYf8S5lRFuRLv3ZMWIMBe0VlsUiYKprn5MaR3R1S6W1NymYcQb5
+ rHnDzsHUfy+Z8bdjG5B4ESdTY/ocJFB3QQ24orxJvapG5zvN1gwlR1D0tC2RnVeN9FAW7GkQXUyA8
+ dmDeTRwO7ekXt3qRs8xoSU14VJ9s/q6him6aq4VTrcoX+nPCxeMy9PHmu21AEurCU0+T0OQChlnFw
+ /3v+1Cyw==;
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWCu4-006mOF-99
- for linux-nvme@lists.infradead.org; Tue, 13 Apr 2021 06:52:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618296721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PKC8LejtA0DqTJYm6L2J64/mhAvGye2UKglBDVLmp74=;
- b=X6F8LgNP+sG51td+bZ4L6er/v8ivcgcWjw+3ZKWyufCy9EFZfmgzcjLZ6uzteYS+TE1aod
- srr1Qsz/SF7dAb01Q/uoLEI8On0MH7RukbuYsy213yuelUvJ/TIX7ws2EYYevcqU3m1TjX
- 1UgBPG4Ea33Vy6XLwC8oHs4HbWgpU8g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-2Fy1E4oWPsyApXpu5j2PSQ-1; Tue, 13 Apr 2021 02:50:01 -0400
-X-MC-Unique: 2Fy1E4oWPsyApXpu5j2PSQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7937B814339;
- Tue, 13 Apr 2021 06:50:00 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.64.242.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 684B150DE3;
- Tue, 13 Apr 2021 06:49:58 +0000 (UTC)
-From: Gopal Tiwari <gtiwari@redhat.com>
-To: linux-nvme@lists.infradead.org,
-	kbusch@kernel.org
-Cc: gtiwari@redhat.com
-Subject: [PATCH] Fix NULL pointer deref in nvme_ctrl_fast_io_fail_tmo_show
-Date: Tue, 13 Apr 2021 12:19:53 +0530
-Message-Id: <20210413064953.541394-1-gtiwari@redhat.com>
+ id 1lWEoC-006qdF-6Y
+ for linux-nvme@lists.infradead.org; Tue, 13 Apr 2021 08:54:09 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 82D69AF0E;
+ Tue, 13 Apr 2021 08:54:05 +0000 (UTC)
+Date: Tue, 13 Apr 2021 10:54:04 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Steve Wise <swise@opengridcomputing.com>,
+ Leon Romanovsky <leon@kernel.org>, Potnuri Bharat Teja <bharat@chelsio.com>
+Subject: Re: [PATCH] nvme: Drop WQ_MEM_RECLAIM flag from core workqueues
+Message-ID: <20210413085404.tzam5lprtspwcek4@beryllium.lan>
+References: <20210412122330.5166-1-dwagner@suse.de>
+ <20210412123149.GE227011@ziepe.ca>
+ <20210412124909.olui5hfhceakt4u4@beryllium.lan>
+ <20210412130402.GF227011@ziepe.ca>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gtiwari@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20210412130402.GF227011@ziepe.ca>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210412_235204_441110_86EB9A39 
-X-CRM114-Status: GOOD (  12.63  )
+X-CRM114-CacheID: sfid-20210413_015408_404265_DA7DA55B 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,44 +90,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When accessing fast_io_fail_tmo from /sys hit kernel crash
+On Mon, Apr 12, 2021 at 10:04:02AM -0300, Jason Gunthorpe wrote:
+> Basically the allocation of importance in the workqueue is assigning a
+> worker, so pre-allocating a worker ensures the work can continue to
+> progress without becoming dependent on allocations.
 
- #7 [ffff9ddf82467d80] page_fault at ffffffff90e010fe
-    [exception RIP: nvme_ctrl_fast_io_fail_tmo_show+22]
-    RIP: ffffffffc0465116  RSP: ffff9ddf82467e38  RFLAGS: 00010286
-    RAX: 0000000000000000  RBX: ffffffffc0476260  RCX: ffff8b617fe94000
-    RDX: ffff8b617fe94000  RSI: ffffffffc0476260  RDI: ffff8b5e45a303a8
-    RBP: ffffffff912b7d30   R8: ffff8b5e45a303b8   R9: ffff8b618dae5900
-    R10: ffff8b617fe94000  R11: 0000000000000001  R12: 00000000ffffffff
-    R13: 0000000000000001  R14: ffff8b617f46ee00  R15: ffff8b60e9a56380
-    ORIG_RAX: ffffffffffffffff  CS: 0010  SS: 0018
- #8 [ffff9ddf82467e30] mutex_lock at ffffffff90d4a5ce
- #9 [ffff9ddf82467e50] sysfs_kf_seq_show at ffffffff907b0abb
+Ah okay, got it. I didn't really understood this part. So the
+WQ_MEM_RECLAIM is 'just' avoiding a new worker creation.
 
-Fixed by the checking opts for NULL.
+> This is why work under the WQ_MEM_RECLAIM cannot recurse back into the
+> allocator as it would get a rescurer thread stuck at a point when all
+> other threads are already stuck.
+>
+> To remove WQ_MEM_RECLAIM you have to make assertions about the calling
+> contexts and blocking contexts of the workqueue, not what the work
+> itself is doing.
 
-Fixes: 09fbed636382 (nvme: export fast_io_fail_tmo to sysfs)
-Signed-off-by: Gopal Tiwari <gtiwari@redhat.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmm, I am struggling with your last statement. If a worker does an
+allocation it might block. I understand this is something which a worker
+in a WQ_MEM_RECLAIM context is not allowed to do.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 314705da2c10..39b8fbe87adb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3752,7 +3752,7 @@ static ssize_t nvme_ctrl_fast_io_fail_tmo_show(struct device *dev,
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 
--	if (ctrl->opts->fast_io_fail_tmo == -1)
-+	if (!ctrl->opts || ctrl->opts->fast_io_fail_tmo == -1)
- 		return sysfs_emit(buf, "off\n");
- 	return sysfs_emit(buf, "%d\n", ctrl->opts->fast_io_fail_tmo);
- }
--- 
-2.26.2
+My aim is still to get rid of the warning triggered by the rdma
+code.
 
+Anyway, thanks for explaining.
 
 _______________________________________________
 Linux-nvme mailing list
