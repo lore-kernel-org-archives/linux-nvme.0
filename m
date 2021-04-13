@@ -7,74 +7,87 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C80BAC433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 10:11:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA45C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 10:21:23 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8C8D2613BA
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 10:11:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C8D2613BA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 776186024A
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Apr 2021 10:21:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 776186024A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=y1Se0lwwtdZzd0tT/hb3Zmq5Hwh3eeWq5LblYd+Q0qg=; b=p5Q7tfnhrRtsRIBK79jwJ4y+8
-	gftnCH1n8yw1adbD8l8op4x/OgYFy29sqXUHW+qZnKyJsyzOXHxIDKPhv+qyyYYBry5ceLclzaJy7
-	D4018235W0BwDX6W8GL+MGAfSQSFJjMPZXIS3XoAsEe64c6RNfuTzRAE1hVCmpDnOMOsnGmm1FgzA
-	uEwsbJ7RiuDg7NMTbOj/FI5Vp3A58lq83dyBiEUZ+VW1z2kTDEefHJFt/q5d2npLxOLY3QaYxZQJm
-	4LB1pk6ZG7truaDNNCwH4WUTYD8YzZ8MltofwtuJQVKrkMkygSoVPc6d7td5kJ6ntKsKpjbb8WBH/
-	g2LsMgMBA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=/ILv2WHgG95PCIqHk6k8SBkcbgo0qq7+eRJCUIiP830=; b=K7Mw0T5066Fq39w0+MgZv4aQQN
+	MGk+8cRxIeRgPylWgc7GvpgklIcVuPjchA9WpUQWmVYnytv4I8q5/9A3KNed2K+nL0xv4MfQMUBs7
+	2HvzSftP6+8co9QgaPBM7b2qS3Hf9kNklFN858cOtG1sYTPGM0Dd21jCI1EpnzFsekSfIXcDlfqh4
+	pKoz8D1fzTAaG72+t0syBtj5jzaynsFw9mww9R0v0IMEWE/eJEnP/pnp7CUmSs3j7SEtjr2aGXbyH
+	qV3/SjDnnKxSYSRTUWZkF+eljcHKBvt9oifbKSV7svdPHEDw0JCYxJxoWO3V5zQNRqZfjUIAELK3v
+	uTO0vWyg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lWG0r-008qUN-2W; Tue, 13 Apr 2021 10:11:17 +0000
+	id 1lWGAK-008rXg-2B; Tue, 13 Apr 2021 10:21:04 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWG0n-008qTd-9Q
- for linux-nvme@desiato.infradead.org; Tue, 13 Apr 2021 10:11:14 +0000
+ id 1lWGAF-008rWr-Nb
+ for linux-nvme@desiato.infradead.org; Tue, 13 Apr 2021 10:21:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=fl/1ZMD5qUl9dS99/bWbzPXDS8YstzPHeTCXNiOwIGs=; b=a3KjvYRKPasH0k8bEWwke6yKQt
- wGRG1wUJL0PnJpR+1xe80FmkFEew0DwCmKeNDzH5eByY6C03c2TN14xyiK7bWY+1xIIEJBO1TQMPn
- gPlTzQOKsb/T5PWU8vGFhvyhS/j0NqOZzKEw+Ve3kKhbcJg5U5wk7ld9kD2RUkAu3daaYedZEQG39
- 6zVDZ57yRhZnjWzF8mt19oAcfiuz6zPVa7xZgkwOgcQ91cuVvQPDS9jEKbhh+qpYmMcFjwAXaK7FL
- vjnqCTa8726WXZFIaVy9cphcZD+Fnn5O6Hf6Nq9CAx2AfMDHmftxJy5xe8PSx6zky6U0ne/6uAS3u
- 5I/4b/8A==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:
+ Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+ Sender:Reply-To:Content-ID:Content-Description:In-Reply-To:References;
+ bh=XE1bG7B/d1adTgTbstxVqrMzAhETXrUzXf2K7caOfpI=; b=XXaCD7zCHJeTboY6FImHGyp934
+ F1aztmd59E4pNBkCtzzktZd1IufkvRUT118l/y4VnMaNcIvpVjnteKE9LBF6yC7ZsoAhTt8UEo6WL
+ ypfW7xCMTdmSbKB0sRQywGwz8qJOGybYI/yn36bHo1WEQiDy3jWo8tvPuO7Tx69+IHdj9JYw3HlSN
+ okf4RMfHetNc2Z4JRewmd+6Y1TeizvYFDXmIELaWt4xHeC6H4hNz4aMe3bFvs/Nkdh5jqQcOymq4t
+ Ea6jty2SD+td8ydkFm/pvGVjywLGP9OWXbsWfcYrSWixKun0MYChC9N1RY1FBi/7qqWkAe57Upe/p
+ OTu+oj6w==;
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWG0k-006uvI-Fg
- for linux-nvme@lists.infradead.org; Tue, 13 Apr 2021 10:11:11 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 71BA4613B2;
- Tue, 13 Apr 2021 10:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1618308669;
- bh=/D/oYhNB0J0V0t5MY6qpxHqiR8LW5iJBR05naXme4xc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LnhjtBAmw/hUajpQgwxwyoNef5Rg/zWYFPdcE25qbmfEBHxP6nr3GxxTtRW2oN7wg
- xBx34SZ3722MvK1R6uSsIoB+0U5KTg2dUbdCTZYjrQdhdaS4JaN5nL0e/BYS1LTHIC
- ilHHpcTOgn6xbx5ASVJ83OlkrvOF5CL8tkUmJZVM=
-Date: Tue, 13 Apr 2021 12:11:07 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Prike Liang <Prike.Liang@amd.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org,
- Chaitanya.Kulkarni@wdc.com, stable@vger.kernel.org,
- Shyam-sundar.S-k@amd.com, Alexander.Deucher@amd.com
-Subject: Re: [PATCH] nvme: put some AMD PCIE downstream NVME device to simple
- suspend/resume path
-Message-ID: <YHVuOwc4KlF6Qvg7@kroah.com>
-References: <1618308289-12929-1-git-send-email-Prike.Liang@amd.com>
+ id 1lWGAC-006vHI-Tn
+ for linux-nvme@lists.infradead.org; Tue, 13 Apr 2021 10:20:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618309255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XE1bG7B/d1adTgTbstxVqrMzAhETXrUzXf2K7caOfpI=;
+ b=aY/XON7ZLCrFDSnuSy9jAuVrrC129ZX8pduABIECKWTh3lwkHMaq0o1m5fK1c4ykNjH9Mx
+ rWs3w6QwlhhdtBW3jqXfKmdshtVHHA1tZjLkYBG+c6XsQkslaNeSPFBYFo8MsWf8Q+KhFa
+ C+zW/z1LaHXzqauZfruieDAsI84WbtE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-dVcrnu_ZNMWjPyN1djybBw-1; Tue, 13 Apr 2021 06:20:51 -0400
+X-MC-Unique: dVcrnu_ZNMWjPyN1djybBw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3EBC87504E;
+ Tue, 13 Apr 2021 10:20:50 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.64.242.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7995F17A70;
+ Tue, 13 Apr 2021 10:20:49 +0000 (UTC)
+From: Gopal Tiwari <gtiwari@redhat.com>
+To: linux-nvme@lists.infradead.org,
+	kbusch@kernel.org
+Cc: gtiwari@redhat.com
+Subject: [PATCH] Fix NULL ptr deref in nvme_ctrl_fast_io_fail_tmo_store
+Date: Tue, 13 Apr 2021 15:50:46 +0530
+Message-Id: <20210413102046.544959-1-gtiwari@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1618308289-12929-1-git-send-email-Prike.Liang@amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gtiwari@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210413_031110_566554_57D15B05 
-X-CRM114-Status: GOOD (  18.58  )
+X-CRM114-CacheID: sfid-20210413_032057_052695_D8253F06 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,51 +104,52 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 13, 2021 at 06:04:49PM +0800, Prike Liang wrote:
-> The NVME device pluged in some AMD PCIE root port will resume timeout
-> from s2idle which caused by NVME power CFG lost in the SMU FW restore.
-> This issue can be workaround by using PCIe power set with simple
-> suspend/resume process path instead of APST. In the onwards ASIC will
-> try do the NVME shutdown save and restore in the BIOS and still need PCIe
-> power setting to resume from RTD3 for s2idle.
-> 
-> Signed-off-by: Prike Liang <Prike.Liang@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> Cc: <stable@vger.kernel.org> # 5.11+
-> ---
->  drivers/nvme/host/pci.c |  5 +++++
->  drivers/pci/quirks.c    | 10 ++++++++++
->  include/linux/pci.h     |  2 ++
->  3 files changed, 17 insertions(+)
+When trying to set fast_io_fail_tmo from /sys hit kernel crash
 
-Hi,
+[ 1749.892646] RIP: 0010:nvme_ctrl_fast_io_fail_tmo_store+0x55/0x80 [nvme_core]
+[ 1749.918344] RSP: 0018:ffffb52541d53e78 EFLAGS: 00010206
+[ 1749.923550] RAX: 000000000000001e RBX: 0000000000000003 RCX: 0000000000000000
+[ 1749.930653] RDX: 000000000000001e RSI: 000000000000000a RDI: ffff98e75e774d42
+[ 1749.937760] RBP: 0000000000000000 R08: 000000000000001e R09: 0000000000000002
+[ 1749.944862] R10: 000000000000000a R11: f000000000000000 R12: 0000000000000003
+[ 1749.951968] R13: fffffffffffffff2 R14: ffffb52541d53f08 R15: ffff98e74fc240e0
+[ 1749.959072] FS:  00007fc551327740(0000) GS:ffff98e79dc40000(0000) knlGS:000000
+00000000000
+[ 1749.967127] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1749.972852] CR2: 0000000000000064 CR3: 000000043f53c005 CR4: 00000000003706e0
+[ 1749.979956] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 1749.987062] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[66824.400512] IPv6: ADDRCONF(NETDEV_UP): wlp0s20f3: link is not ready
+[ 1749.996612]  kernfs_fop_write+0x116/0x190
+[ 1750.000610]  vfs_write+0xa5/0x1a0
+[ 1750.003918]  ksys_write+0x4f/0xb0
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Fixed by checking opts for NULL.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Fixes: 09fbed636382 (nvme: export fast_io_fail_tmo to sysfs)
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
+Signed-off-by: Gopal Tiwari <gtiwari@redhat.com>
+---
+ drivers/nvme/host/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 39b8fbe87adb..d26eddf2bde4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3764,6 +3764,9 @@ static ssize_t nvme_ctrl_fast_io_fail_tmo_store(struct device *dev,
+ 	struct nvmf_ctrl_options *opts = ctrl->opts;
+ 	int fast_io_fail_tmo, err;
+ 
++	if (!opts)
++		return -EINVAL;
++
+ 	err = kstrtoint(buf, 10, &fast_io_fail_tmo);
+ 	if (err)
+ 		return -EINVAL;
+-- 
+2.26.2
 
-thanks,
-
-greg k-h's patch email bot
 
 _______________________________________________
 Linux-nvme mailing list
