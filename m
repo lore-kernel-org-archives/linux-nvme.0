@@ -2,20 +2,20 @@ Return-Path: <SRS0=IcOG=JL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE92EC433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Apr 2021 05:34:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADDB0C433ED
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Apr 2021 06:08:45 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 99C5461244
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Apr 2021 05:34:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 99C5461244
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1BB5561166
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Apr 2021 06:08:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1BB5561166
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,58 +23,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0KO93Hbjg+WLl4zI8oDmIiLUqdwlqoLoosmbyO3w1Ro=; b=TGscuHGbE4UuAELSgUhyZxLFy
-	j6r03JGYcapf2uCUaIVJ/M1vUH7g/caYen7mJTnYmXeKpyXypUgvdpmkoP8oywr7RlbKM5SdHiSb1
-	ZiJa5Q3JX6qC5EPWGDY20rOc1YEfwLKQscwStWicRJpPIxrInZ8MDpBxeaxLXaHcRMXlPy3yjhCIi
-	Hen8tmliFBRBjNkhqb6MnXM+E3FNSaftQ23MKlsCOGf9UwaFiewuyLniebpyyM66dFeYoHcrpohWx
-	M7gRr/w9O8Q3N5KJcnczpO9Dk1yLE6eQcQ8XHexbUsPpaOc/UtAI7MNAiN+P3OcyZ4W9tb9LMGSCy
-	OkfHoqcQQ==;
+	 bh=vQlQ1CdY0FQlaGRt8mxPbKeIzuAgs3+h0g1ojKTMvag=; b=kLpX4Gy5fYQKAaBEkQlCGryv6
+	VCkWczMMnxnZlOnMW3dfJzKcHUeMyf/S20lW2ae0Fa/DyXtHWX18DFGIXEyipUtwusOtTup93h630
+	YULAPKI1HrBHGvkNoVTyzaI7X+U1n8SbCSW34iDSS6guowKWanOc0FWEt/lEW9rQjNdDia+uQ5VQC
+	yBXtVVV5yZl5dvr4Jx8R4FTtJLTfpSlpmYcy7lnoX60N+7hU+hxgxKMQNk8ji5fIaVxk2YbwJs07W
+	CJm12oORVd+xHvFyT92scoYZwksp1P7FgkdgiHSl5+8v+RtA7Mygq/9riqwugB1T148zReseWyRw8
+	QB0VLCY1w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lWYAc-00BXoV-Gx; Wed, 14 Apr 2021 05:34:35 +0000
+	id 1lWYhQ-00BccG-9k; Wed, 14 Apr 2021 06:08:28 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWYAH-00BXlG-U7
- for linux-nvme@desiato.infradead.org; Wed, 14 Apr 2021 05:34:14 +0000
+ id 1lWYhL-00Bcbo-Ue
+ for linux-nvme@desiato.infradead.org; Wed, 14 Apr 2021 06:08:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=3W5Wyxt59GnMWI2uhZpNojuXYxhz7SWzHjKUf43I7NI=; b=HxCFJ01vjWjXFsLL1OWyFvMHpR
- +KtZk80DQtH6bzE3pdTfMqjVbZj5PYapRs8jtvS3IPyq5AozMTm22g77E1FBhLWt2j5FDhOhwoVnP
- DILiNoucz2ocsdLeCKMMI1qK65R+a0tBeUo/j6FiPzmOQmGnrxAHwtOkwkbQh10yEdIblrFQkYNTo
- CmYV7++ey1aPV+xXwyFT1oBfbN7eYMTvrlG1/ooPmmSeJ9/AFlyqC3U3rGuvb8Tr3bDnCYTIgzNKb
- S0lQ45PGWUg+uebiDcEJ7x3nuPIHXbbSN8xVELI8lfv5MxiNS1iwpFbCLcfBDh5n8MswK1pu6YQvF
- GJEW9fSQ==;
-Received: from mail.kernel.org ([198.145.29.99])
+ bh=DLY+BPEaCUxsj8E74ndjgbAwoMQI+uEFhNFwsjmdQeA=; b=jNDrRK4h/V3RGM1eU2eiEdwP2g
+ vrytEtM++1hig17a4iqO8kDrBaVaKwKbwUBRHbF4IfZ1qTMtMJanh+nynQpvdo+7ZFelJvDcXyyy0
+ 0tE45vQpZwycpCEEW0GdVUyYwA5LFACoq4UI5u3XinSXKmJuiUmJWjqFCLEIzzxOpn/uusbuZFNuL
+ nFWWGQEQU/czkroSr91mNOi82dlVZo5/15SVshBZjkTTqr2i3tn5dmufi8F8HFqLGRP732hZqezho
+ KzV9g6Pw4Cv7h97r45lu6y3SE4gHedw8pLt1Q3Kaq9pZY2AHoopyF2JQyMPC9KkQ4avo4pcUt9B1n
+ 2/zO6HVw==;
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWYAF-007Uyy-Ff
- for linux-nvme@lists.infradead.org; Wed, 14 Apr 2021 05:34:12 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C66661244;
- Wed, 14 Apr 2021 05:34:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1618378450;
- bh=yfGHiPPoMi92sXuj46ELTK/wlCe18PL65yehcTi8xng=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jnm9GfiKZyeTLf10xt14iYqCD9O0SdUeCXGJwX7vjO9f7PHuc9bquhwOLCDfjH8Md
- RiZsoQykix2Yh+Z9ANiNQxVI3NEgty4R4UuRTDrG88v9Zz5mwDEJ1QrDVJJSYzikDa
- GGtSdJqbgZCjxQ3dsxRIH0KYQbUC2Kj141lgX5Jg=
-Date: Wed, 14 Apr 2021 07:34:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Prike Liang <Prike.Liang@amd.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org,
- Chaitanya.Kulkarni@wdc.com, hch@infradead.org,
- stable@vger.kernel.org, Shyam-sundar.S-k@amd.com, Alexander.Deucher@amd.com
-Subject: Re: [PATCH 2/2] nvme-pci: add AMD PCIe quirk for suspend/resume
-Message-ID: <YHZ+0M9OW7dpiBKC@kroah.com>
-References: <1618366694-14092-1-git-send-email-Prike.Liang@amd.com>
- <1618366694-14092-2-git-send-email-Prike.Liang@amd.com>
+ id 1lWYhJ-007W1v-4w
+ for linux-nvme@lists.infradead.org; Wed, 14 Apr 2021 06:08:22 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id A749B68AFE; Wed, 14 Apr 2021 08:08:12 +0200 (CEST)
+Date: Wed, 14 Apr 2021 08:08:12 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+ chaitanya.kulkarni@wdc.com, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/2] nvme: avoid memset for passthrough requests
+Message-ID: <20210414060812.GA24949@lst.de>
+References: <20210414051629.103383-1-joshi.k@samsung.com>
+ <CGME20210414051747epcas5p265826317a971aaa3337efb6472a9df7c@epcas5p2.samsung.com>
+ <20210414051629.103383-3-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1618366694-14092-2-git-send-email-Prike.Liang@amd.com>
+In-Reply-To: <20210414051629.103383-3-joshi.k@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210413_223411_572755_5F9F87C1 
-X-CRM114-Status: GOOD (  17.45  )
+X-CRM114-CacheID: sfid-20210413_230821_381226_A5BBB795 
+X-CRM114-Status: GOOD (  10.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,50 +85,13 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 14, 2021 at 10:18:14AM +0800, Prike Liang wrote:
-> The NVME device pluged in some AMD PCIE root port will resume timeout
-> from s2idle which caused by NVME power CFG lost in the SMU FW restore.
-> This issue can be workaround by using PCIe power set with simple
-> suspend/resume process path instead of APST. In the onwards ASIC will
-> try do the NVME shutdown save and restore in the BIOS and still need
-> PCIe power setting to resume from RTD3 for s2idle.
-> 
-> Update the nvme_acpi_storage_d3() _with previously added quirk.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> [ck: split patches for nvme and pcie]
-> Signed-off-by: Prike Liang <Prike.Liang@amd.com>
-> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> Cc: <stable@vger.kernel.org> # 5.11+
-> ---
->  drivers/nvme/host/pci.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 6bad4d4..dd46d9e 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2832,6 +2832,7 @@ static bool nvme_acpi_storage_d3(struct pci_dev *dev)
->  {
->  	struct acpi_device *adev;
->  	struct pci_dev *root;
-> +	struct pci_dev *rdev;
->  	acpi_handle handle;
->  	acpi_status status;
->  	u8 val;
-> @@ -2845,6 +2846,10 @@ static bool nvme_acpi_storage_d3(struct pci_dev *dev)
->  	if (!root)
->  		return false;
->  
-> +	rdev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(0, 0));
-> +	if (rdev->dev_flags & PCI_DEV_FLAGS_AMD_NVME_SIMPLE_SUSPEND)
-> +		return NVME_QUIRK_SIMPLE_SUSPEND;
-> +
+On Wed, Apr 14, 2021 at 10:46:29AM +0530, Kanchan Joshi wrote:
+> nvme_clear_nvme_request() clears the nvme_command, which is unncessary for
+> passthrough requests as nvme_command is overwritten immediately.
+> Change nvme_clear_nvme_request() so that double memset for passthrough
+> requests is avoided.
 
-You just leaked a reference count :(
-
-And what if rdev is NULL?
+Please just move the memset to the one caller that wants ->cmd zeroed.
 
 _______________________________________________
 Linux-nvme mailing list
