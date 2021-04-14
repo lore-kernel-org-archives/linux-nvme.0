@@ -2,152 +2,78 @@ Return-Path: <SRS0=IcOG=JL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9372EC433ED
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Apr 2021 08:19:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 305D9C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Apr 2021 08:41:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0B95960BBB
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Apr 2021 08:19:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B95960BBB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amd.com
+	by mail.kernel.org (Postfix) with ESMTPS id 97437613C0
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Apr 2021 08:41:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97437613C0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EWB4YHdjUJcUfquZZumwx+w6qj18IT+wO238q3Nu7v0=; b=Stb2lzHV34ehPDKM8i1pE3aEP
-	+nns5wHVBQvu4vv58SU6UUiEgSMfy8Wb1KJ4DxRG72RYiACBzClkGhGN+wHuXkS4MtrxWvdVDYnkL
-	0YQ2qpJ7xoDnycuobJlLMd95yYTM+c5s5r7Amhs83PftiR0daJc83W6FegHBlS680wiU2qDOxcdRt
-	dTZGRLJ20dcA6AMJKmj01S/JMrjmSXP0iJbfcIFEopbrHXxy6ut4Oa33gdV9O1P8Gqh7siPBlNFQS
-	zKevhMHsY4J2GLFbtUxBDqWBg14BHYSCwa9DRkqUBFHlNoLu1Oy+plWKKqEdeEs8rP9bmamfUP9x9
-	jrKtYuarg==;
+	 bh=aSveUulbH0UskVD61uj68PVgO2FPOO/20eLO+FPdAxk=; b=H8G6BJDbBiIA6ROz+Ysg3+xPp
+	NO4piLvtk+BJ9KhnHB0zhvstUYPhctBQdvKhwNMmnQxi9tTCT/e1hxHjad56ncFqyXUd4Wi90AHg7
+	3vjswggCbOICMT8HCRk97prK7SdtUUkHUhX/8KivbHMJF2UXSvvQfETdQp19tB7BtlZ1VoJvWeZJT
+	2N4PU9PynAW/0Wj6P/sAV6XWrwh5sTLXwxgoBWat/UtnBoT0owlxZYdcYsrRtxU84PZRAVTIyJpFQ
+	Y+f+av6JgnAVSqbryNjetSMVczNYq5ilq8GpcRlbed0s1n4RRZ2McgT3Dszzulr2SdqzUncbo0z0d
+	d/7dl7N6A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lWakK-00BxCV-BT; Wed, 14 Apr 2021 08:19:36 +0000
+	id 1lWb5D-00C1I0-QG; Wed, 14 Apr 2021 08:41:13 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWak2-00BxAu-Mz
- for linux-nvme@desiato.infradead.org; Wed, 14 Apr 2021 08:19:19 +0000
+ id 1lWb3n-00C0gU-PC
+ for linux-nvme@desiato.infradead.org; Wed, 14 Apr 2021 08:39:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:Content-Type:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=y//vnIUvlvvWm21fg5vX7QaGA4aXgJvdI0f2Nzq+ehw=; b=zRTzG9AKXK4oIj+u0qnq0a5r/9
- wHnnwoRlY5fBuWLutAO161SFz5D3UM4sas7+swKvzI85aMIJ9bTMJPUa8WAhRDghGXko5gZUjFrjI
- 4iWe8/Y+qwIilG4pwiZGyLG2ofYolQegIY6DwGS55lwjKZ+04MYnjSVEGtlwIvBpwqiUAlfyNsUC/
- zxgAXrF1Wrb9PXCwJr+bMgdkyTWBXnByVS62bTJ4NJYff6nUnPDQvI6tFteBuuCvxAoqA2g+HNgMD
- cvNy0QAYFEn7Gf/F446bZyE3+1VT2zSsuPOe+a8bBmSj4QpJc6nhxl/JBVjQ2PDvtN9/Y04w7kzU9
- /qQCTdeg==;
-Received: from mail-co1nam11on2062.outbound.protection.outlook.com
- ([40.107.220.62] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ bh=iRH6pJIu32mTMXY9a0gZ3GF2z2Z+9T+IFO5Kn2o6tIc=; b=lijbAY2mAS+43im2u17efKaGBB
+ kwYocqOF6gHr03i/qNU4ghCT6tbNzMdRClTROD9PIGAn8Pw/XA4bdn0/PRKwCajT0CpOo4SeMNaIj
+ bhk0yeVfRxZoKkGcwOAcYcKdOIBiEKj1w03BUWftbhe/fv3XSEaWG9z8GpEFeJdcd9Yase2MUaxUN
+ Wsblvgow6wFbrVh+iBKuE7HY2xpXWnDQGIshTKWzmgZSww4ItLiDXlwJzwhScbx5Xn/PeYJfkzJA0
+ DLtfTqg7Bq+1FzyI+Uic3Nluxh3bQM0mh0tp6BrhqbSJQgdCkAkBb3CVHL2Nyz6ykqyv4uaPRs4hM
+ eGoW6HLA==;
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWak0-007bbT-5K
- for linux-nvme@lists.infradead.org; Wed, 14 Apr 2021 08:19:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E4957qEXXukOQOlU6cOnJOTy9j1mQGNfiGPEmts9RyztgHup/ZMjLKwKz1r+05pFRdn5xob+r4tkaDLRCFQbb8Bb8WSg2wdyEXolVsDVE3RQ1VE1A1BxuWe8HTLMzMNsQcUdi0SssLV5wpN2mnvMABpTIOHMKo3TBNEOgjgRwBAn9oqPF/h6jfh2Tz7eE5uobQ8bsJSpcpncEoK3rtU/hcwrxCU80dJvdKX2rINiLyKRFQMIgjN7qnmXCmjOAImIxX2Zcx+zWPUlsQYnagLRwYrkcPgZ4VoO0AVZZ+PMlX0AoiQXYhUi9pv6mWUIUR9DzRxT8kjmQmiDOkeRwQqMhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y//vnIUvlvvWm21fg5vX7QaGA4aXgJvdI0f2Nzq+ehw=;
- b=LYqCYQSHQWQTIfMCGktO/ZL/34KbxHw9qfHuX1eTkCCqHPwYNis5tHa5kP3iyKrIptpuqpROwzlZJBg2r5r0AO/tytGgmrbpApvCVtChwrqRuk6xw1mV+7PwyaRccw1U/hiRzQj/TThFBfY2bi4iAL6tz5d8hhNWXZpspBxemEmX3hrybLUJgawlmBOTScoCXVl+kSAOMSlOBp1UUAr7Zh5dKMDG6lOFgUwhyUXc/+OeUF1Lt5SR2eXLY5cFWebgpKIQMMAeKv123n13jh1Ew0QVYmPJALEyP8jjdc3O0buY7OvNwnfOFZOe8UpVGw8j4HzjhPBdqGavHOchJ50/Xw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y//vnIUvlvvWm21fg5vX7QaGA4aXgJvdI0f2Nzq+ehw=;
- b=OUpSnNYmI2cMtsufvO7OjLTG9OETI8WnEN8DshTvsRVou7M7YEVk0vEMmXbOhOFHCj6zxlb1EWOeNToYivBoFR4cejgnPg9qiGbS6vw3wAsBIjIkvsrSoBz6VLr1zwh42STtd+ZtKJ32AZaqwvD0OfJ3Rszhe2YGHoB1AED/uN8=
-Authentication-Results: lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=none action=none
- header.from=amd.com;
-Received: from BYAPR12MB3238.namprd12.prod.outlook.com (2603:10b6:a03:13b::20)
- by BYAPR12MB3192.namprd12.prod.outlook.com (2603:10b6:a03:139::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.22; Wed, 14 Apr
- 2021 08:19:10 +0000
-Received: from BYAPR12MB3238.namprd12.prod.outlook.com
- ([fe80::5870:fcd6:b13a:c49c]) by BYAPR12MB3238.namprd12.prod.outlook.com
- ([fe80::5870:fcd6:b13a:c49c%5]) with mapi id 15.20.4020.023; Wed, 14 Apr 2021
- 08:19:10 +0000
-From: Prike Liang <Prike.Liang@amd.com>
-To: linux-nvme@lists.infradead.org, kbusch@kernel.org,
- Chaitanya.Kulkarni@wdc.com, gregkh@linuxfoundation.org, hch@infradead.org
-Cc: stable@vger.kernel.org, Shyam-sundar.S-k@amd.com,
- Alexander.Deucher@amd.com, Prike Liang <Prike.Liang@amd.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH 2/2] nvme-pci: add AMD PCIe quirk for suspend/resume
-Date: Wed, 14 Apr 2021 16:18:01 +0800
-Message-Id: <1618388281-15629-2-git-send-email-Prike.Liang@amd.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1618388281-15629-1-git-send-email-Prike.Liang@amd.com>
+ id 1lWb3l-007cQk-3d
+ for linux-nvme@lists.infradead.org; Wed, 14 Apr 2021 08:39:42 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A731613C0;
+ Wed, 14 Apr 2021 08:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1618389580;
+ bh=WMtLxo60w5WDzrUzRDusq2qVRFIKBXxizv1BbQ/sfAY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=f6eqSsVDq9ctfDPCbxq4fUW7D1NIUZNPXMUYWtGfY+1+Xc1V3WhUq1mASOkkfAHnh
+ 96TGjuWxhSmPUh3HSDZkoaMGqeox9SbTu9/Ug4sKxobQ3Sv4a8LAvJ42JoqlAasasJ
+ ESjlh04DAlI+AetAks/XYuQkQZ5DrPqwzb5UGXqM=
+Date: Wed, 14 Apr 2021 10:39:38 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Prike Liang <Prike.Liang@amd.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ Chaitanya.Kulkarni@wdc.com, hch@infradead.org,
+ stable@vger.kernel.org, Shyam-sundar.S-k@amd.com, Alexander.Deucher@amd.com
+Subject: Re: [PATCH 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+Message-ID: <YHaqSga3rUif10gu@kroah.com>
 References: <1618388281-15629-1-git-send-email-Prike.Liang@amd.com>
-X-Originating-IP: [180.167.199.189]
-X-ClientProxiedBy: HKAPR03CA0005.apcprd03.prod.outlook.com
- (2603:1096:203:c8::10) To BYAPR12MB3238.namprd12.prod.outlook.com
- (2603:10b6:a03:13b::20)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from prike.amd.com (180.167.199.189) by
- HKAPR03CA0005.apcprd03.prod.outlook.com (2603:1096:203:c8::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.4042.6 via Frontend Transport; Wed, 14 Apr 2021 08:18:59 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 288cc7d9-10c9-4000-ceaf-08d8ff1df67a
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3192:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR12MB31920D6B858DCDC095358F2BFB4E9@BYAPR12MB3192.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tZxaUDFfwUTnBK7qQuCvuGWlfHFmgiHjRFq56m2KsDMmXl8wXRsCvGdm3c+uGzVXo3sRTKOYk8KW4qklxGG2glAm6RKXC7MHtvZ7KZAmnecxMP19UWmHqHilZwF0LNe/H5sqSUNSkAnE1N2OV71TjAD+3h9yehSlhMD28Rjoc9OHRqJnmzI7W1RsohQn8SRa+1mGParRJsfMdSgoIYXDJz/o/GTm7REq4SifdbBwGDcRuMyKIfXb4LznOVofOSIOKKyV016cI3e7X4AhS92Vk2urfvxZ8zX/J9vhfR02bH+PdxvlwqFdfCb9aQhUtylTbFOMG+f2a6LUSfM29Ztw4iQg2QfL8rGrdhe8nlCSTS1ISUO7xn4W/8WMHLcckh45e3U2+h/JkEhhgsZ7FFrBPvky/IQ5RTkYjtMjNWNJ/ojmuoJkA0/0xlZxK3o2iPdyvBNW9LKhp4QD+vYTx+ndynXexn7HABbir2HDbGHGAao6+KY2i9dQoAGPjXuVY2vAJZdcbap7/G6AaIfTNa8kt1Yi/GFxYsbmHvGQub6f5uX/IRiyVr77C9C/k0xfNCicL8pWOYJM2l3qVFxbLt+JWd1q73KMBEBjdT7tksTu92rINyWDsi2WwGugMv19JvRjBhq5wuB1U07s/X7F3MLjVP0UpxmgcIlql9f8v7cQaco=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3238.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(396003)(366004)(39850400004)(83380400001)(8936002)(38350700002)(38100700002)(86362001)(6666004)(478600001)(316002)(5660300002)(8676002)(15650500001)(52116002)(66476007)(66556008)(26005)(66946007)(7696005)(6486002)(54906003)(36756003)(4326008)(186003)(16526019)(2906002)(956004)(2616005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?QOc4kLUQMlUzaa/3+gCQcg9w2bSrtbP9na9qPbd8rasSvtv0BP+j/9cVPEM+?=
- =?us-ascii?Q?mhIA//pLiVlnFBBTKvsk+rIVsGHmX/5eLXNAiuzn8prFBpotOEA8w7J+BaJH?=
- =?us-ascii?Q?g3iuVW0jmMAE1KfDSWHJUH03cUMYqEkQucMnRKa5hss6T2oiJM8fVnZ/80UV?=
- =?us-ascii?Q?Bh+sodXOgxyVaRNqZNfAg4n59FXD9dr1MwoWRIGlTMMPcj1XEgc9Z7+Lf2uK?=
- =?us-ascii?Q?fZe0prmpeQEulr+kSBKxHDbh5bObVwcuFLMkf9mi5gPjwbJiOlwymKrdVMyP?=
- =?us-ascii?Q?Bfevgv2Kkyvl7b2D/bTf41yQ+bPh6zqXdVo1GQK7J2vmSu+UQjnuxv/e8IZo?=
- =?us-ascii?Q?7qj3jaLX0Kox4gaHv7NDyNRG5Hq1UHBPqitWfQve9IGASuQ/gqtl/oLFCgFU?=
- =?us-ascii?Q?sAPK92De/fvmPVCy2JrFT80+FBlxlzxB/MpAjeBlN9l/U85qS6pblxC1+NOc?=
- =?us-ascii?Q?9L2zApvur2T1UcY+Dukld2tpowuMU70LVn+ChN01O97lujVJEdHTYEnRt7RF?=
- =?us-ascii?Q?Qxu07dg3lfda9IRwIA8KALrHQuXCq2sCif3U8aOGBGkfyf5S9bfR0meVh8bz?=
- =?us-ascii?Q?Nnmjc7WTxJRWXgg1oHQ/c6p/E8aQmB6I0BSuiEs/Qr+ytJTA9bTewOUqXmhM?=
- =?us-ascii?Q?sA/Bz9QOH2VBcX9EN/WfzGqC9CdfRf1YVZEj4dYEPlD6LmW7dFyjuDM4dxZM?=
- =?us-ascii?Q?EsL678IxXJI7MiVsR0HSnkVjRlgsJkvQ2CQfX9hJG71gDYGAKzFXAatQA6KL?=
- =?us-ascii?Q?chpz4UL1Jj62EfccWXAECofBOTqLciXQ3Pg6ld3vlWIcJRSdXmw9HN89pgxp?=
- =?us-ascii?Q?QSu2fXC8oVE33/0VFz+Gw3dm4XcpFu9/Imyf73I67l6e5C1O0boMZ1omcSyk?=
- =?us-ascii?Q?xc82PAaKzRs4KfyRZtYK0dwDTMYtnNkSLazlW5FffN1RvEQQORem2zGgrfK1?=
- =?us-ascii?Q?JVBdjq5T/fpQwGpWmeBRjWgIj5g8xA2F7NVUF06fqlMmBd/XBIKCuUJJJddA?=
- =?us-ascii?Q?2JYbvW8BDlHhcMc+Z0M+1nRlitXhgjAcPty9w9xQ8WlmBTWEbsrRSxiQ/bvi?=
- =?us-ascii?Q?sxJtYILRjWlfoVnRTSwSJYBFBvD5FNTWG6yp8ZOUhb0cRKnH+hBzO4qToC+c?=
- =?us-ascii?Q?0a6hB/jcqVyPzmNuu5n9CmwbF755Jm7WwZjQAKgKBXxu1epGCtw0ZPG6Jaj2?=
- =?us-ascii?Q?pNrzUZjXoVAHpU5hPsgo0bWm7l0PBzIF1vpn0yiKfDrXQsySZ0N0IUjJSgl4?=
- =?us-ascii?Q?PxVYh5rlh9CdQkwYVX/WkoZmO8csx3gwvJZlJo0hnqaDBQ7MrVsv8wJb8NHV?=
- =?us-ascii?Q?33AUvUz/Sj0SAJwRdaC/O4V7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 288cc7d9-10c9-4000-ceaf-08d8ff1df67a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3238.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2021 08:19:02.9231 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k8R3kgiYF/rDJMWElgTCwFH+oJXsHtBV2LVW9zligkUY3yQaMVvcOGJL7zFe07IJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3192
+Content-Disposition: inline
+In-Reply-To: <1618388281-15629-1-git-send-email-Prike.Liang@amd.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210414_011916_228568_4B33FB51 
-X-CRM114-Status: GOOD (  11.09  )
+X-CRM114-CacheID: sfid-20210414_013941_215142_6444BA90 
+X-CRM114-Status: GOOD (  27.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -164,53 +90,93 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVME device pluged in some AMD PCIE root port will resume timeout
-from s2idle which caused by NVME power CFG lost in the SMU FW restore.
-This issue can be workaround by using PCIe power set with simple
-suspend/resume process path instead of APST. In the onwards ASIC will
-try do the NVME shutdown save and restore in the BIOS and still need
-PCIe power setting to resume from RTD3 for s2idle.
+On Wed, Apr 14, 2021 at 04:18:00PM +0800, Prike Liang wrote:
+> The NVME device pluged in some AMD PCIE root port will resume timeout
+> from s2idle which caused by NVME power CFG lost in the SMU FW restore.
+> This issue can be workaround by using PCIe power set with simple
+> suspend/resume process path instead of APST. In the onwards ASIC will
+> try do the NVME shutdown save and restore in the BIOS and still need PCIe
+> power setting to resume from RTD3 for s2idle.
+> 
+> In this preparation patch add a PCIe quirk for the AMD.
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> [ck: split patches for nvme and pcie]
+> Signed-off-by: Prike Liang <Prike.Liang@amd.com>
+> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> 
+> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> Cc: <stable@vger.kernel.org> # 5.11+
+> ---
+>  drivers/pci/quirks.c | 10 ++++++++++
+>  include/linux/pci.h  |  2 ++
+>  2 files changed, 12 insertions(+)
+> 
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index 653660e3..f95c8b2 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -312,6 +312,16 @@ static void quirk_nopciamd(struct pci_dev *dev)
+>  }
+>  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD,	PCI_DEVICE_ID_AMD_8151_0,	quirk_nopciamd);
+>  
+> +static void quirk_amd_nvme_fixup(struct pci_dev *dev)
+> +{
+> +	struct pci_dev *rdev;
+> +
+> +	dev->dev_flags |= PCI_DEV_FLAGS_AMD_NVME_SIMPLE_SUSPEND;
+> +	pci_info(dev, "AMD simple suspend opt enabled\n");
+> +
+> +}
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD, 0x1630, quirk_amd_nvme_fixup);
+> +
+>  /* Triton requires workarounds to be used by the drivers */
+>  static void quirk_triton(struct pci_dev *dev)
+>  {
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 53f4904..a6e1b1b 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -227,6 +227,8 @@ enum pci_dev_flags {
+>  	PCI_DEV_FLAGS_NO_FLR_RESET = (__force pci_dev_flags_t) (1 << 10),
+>  	/* Don't use Relaxed Ordering for TLPs directed at this device */
+>  	PCI_DEV_FLAGS_NO_RELAXED_ORDERING = (__force pci_dev_flags_t) (1 << 11),
+> +	/* AMD simple suspend opt quirk */
+> +	PCI_DEV_FLAGS_AMD_NVME_SIMPLE_SUSPEND = (__force pci_dev_flags_t) (1 << 12),
+>  };
+>  
+>  enum pci_irq_reroute_variant {
+> -- 
+> 2.7.4
+> 
 
-Update the nvme_acpi_storage_d3() _with previously added quirk.
+Hi,
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-[ck: split patches for nvme and pcie]
-Signed-off-by: Prike Liang <Prike.Liang@amd.com>
-Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Cc: <stable@vger.kernel.org> # 5.11+
----
- drivers/nvme/host/pci.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6bad4d4..ce9f42b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2832,6 +2832,7 @@ static bool nvme_acpi_storage_d3(struct pci_dev *dev)
- {
- 	struct acpi_device *adev;
- 	struct pci_dev *root;
-+	struct pci_dev *rdev;
- 	acpi_handle handle;
- 	acpi_status status;
- 	u8 val;
-@@ -2845,6 +2846,12 @@ static bool nvme_acpi_storage_d3(struct pci_dev *dev)
- 	if (!root)
- 		return false;
- 
-+	rdev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(0, 0));
-+	if (rdev && (rdev->dev_flags & PCI_DEV_FLAGS_AMD_NVME_SIMPLE_SUSPEND)) {
-+		pci_dev_put(rdev);
-+		return true;
-+	}
-+
- 	adev = ACPI_COMPANION(&root->dev);
- 	if (!adev)
- 		return false;
--- 
-2.7.4
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
 
 _______________________________________________
 Linux-nvme mailing list
