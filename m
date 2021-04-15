@@ -2,18 +2,18 @@ Return-Path: <SRS0=SWCy=JM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A6C4C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 22:26:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7692BC433B4
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 22:58:47 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A19C6610FB
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 22:26:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A19C6610FB
+	by mail.kernel.org (Postfix) with ESMTPS id 3362D610FA
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 22:58:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3362D610FA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,66 +22,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4tRrTVL+sjKgNbfP/Zzp0P0J2Z061ZtvB52FMnMt6Tg=; b=JnwGUZn2F4NYM7K44++tiuoMW
-	DWOC4BZkl7Y+vjsz5FSOUrv+p5o1wyiB/cdhaTG2dPhkn4hQTW8q/FJUHhyn3Zq54PES1U4Yo1aXc
-	94zH6BrsTo23MNTg1itcWsbd901RmLnJ4OrG2KNxcRP4M6/fio5Yp5OpnbL526TuazjhABVwl0eWs
-	olOuPNRKLAl9xiDe5UxTqB9heOiQqsAUBfDbBSgeRxRu9WIPC2JYxW0AQ2OuVCFbg12j6RmDcB8JR
-	xkSsX9T4dQoKYRxwDvDjMd1QUF57ugV9siBPpb89Sl9yMVAxEx8nJy7ZTlmlwrr638ejyjWwSyCNL
-	onMUUqzqA==;
+	 bh=FYNgUdKVWYhC9NzmUk3chjaVstG7N13GfV58PT0EjXg=; b=fTsPRN42vnj2Nxu0gB/7dBZK2
+	zUYiyHQN1S/OMfiJuPZvQacrT0fB5eQGYuJOaDLdQUcPaml2bghZUognQ9fXjXVoVTt2JRiq6mWdg
+	+w+Pyb0UD80cwtunE7kIVIDCse5SAAXCJM4ZVkTot10+xVZNJ0rDOcvtiQlCR/JI6MdYOTxgBluCW
+	uDFfdvYGGl/fGGHATKAsmjLSSuNEEuZ1nDKnMvcciTEzr0XFOW3jy0Eh7SZjedmW9jbUOk6KG/+La
+	mFQJKkxX7laiwFp7DPuw2uLeqW5nZr6/PcxL+j9j1357hqJTIHSVdV5dq/s3GiDNdKLkhffmIIF19
+	fnoVykbSA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXAQs-00HWkP-6u; Thu, 15 Apr 2021 22:25:54 +0000
+	id 1lXAwP-00HayO-3v; Thu, 15 Apr 2021 22:58:31 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXAQo-00HWjk-Ev
- for linux-nvme@desiato.infradead.org; Thu, 15 Apr 2021 22:25:50 +0000
+ id 1lXAwN-00Haxt-0g
+ for linux-nvme@desiato.infradead.org; Thu, 15 Apr 2021 22:58:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=tWQYyJkg9d0pxVQu6IFMOnwG4boqxyuw5XxXs4CXjaY=; b=NcEnS8rDPoAICvNGieEowqq/+j
- 43KdR2bXwVRmjKwiw6se3cOU7FJ646Wi3fx/ZHWuUH1SHi9GiXWsGnYFo7llFk2wo6HeJ2IQG9kPi
- Gf5YEwp6nYiZKSFYEH7cubSKbnSmyTMyGsyP8P73679Qpv98VCTgltONMU6GQKAqHSeRoYeXHifJf
- 0AFD8SI0316g3qpuzWGhqG6hB0MxiGRIIKN9JKzuZOAmmTF0TTt2sjQ8Cj+XFZ9tA0cQXCTpKmXaq
- Zn6nUXl1TM7qSCP7YV6vk+PhNEj1tmrLKvN+TdRPbais6pixAzf+/6lvirOfP7O4XlktQncNF8EAN
- aC/aJqvw==;
+ bh=euur3iWmoX+WYrwVjIbjjQx73bKKaZVxhcKJ4oFEBKw=; b=Ht2cUU9jEEvGOaA64v1Q2p5Q2N
+ bWAvcZ5Mr0Ka6bttTh9p+UD1aRrIghnYg7SqqfUQQn/oismf+ggyEiSQjPvq88CQScMxq9oxb4RmM
+ PE2RLf96vxQJ+Xntp9+P9RgmlaAS1Y12c37G20RvP8U+9hck43mZD/dzum9J6fF3iIxU8OVad2bIa
+ HgoPTGBUdnNsHS+x0Wo5dirGhSLgrIkYiBwl383Rk3EU85zSjSNgKlLMtN45Dt2R9wdE1WzDbfi4/
+ IHMvfv1kEZsvSn7VXgInutnSVF6FALYnQhMctYHu01B53ZERY1cEYv5tTvRy2B8IwMd6lBFwACtr5
+ 8zul233A==;
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXAQl-008wRs-U6
- for linux-nvme@lists.infradead.org; Thu, 15 Apr 2021 22:25:49 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 73361610FB;
- Thu, 15 Apr 2021 22:25:46 +0000 (UTC)
+ id 1lXAwK-008xMV-Ip
+ for linux-nvme@lists.infradead.org; Thu, 15 Apr 2021 22:58:25 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E216610FA;
+ Thu, 15 Apr 2021 22:58:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618525547;
- bh=LhgPQdxtm2TuyLQmnpd+X9aucQm6TK194UjDevkccTI=;
+ s=k20201202; t=1618527503;
+ bh=YcFVD7TBPt/VtGm7ohne5szlkkkPTIHaamrgAN9MRRQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cb6CE8XsxzgtdZq3EJsrZpJJmJxJwW7YU473Oa2JydY2hWGj+iK19zD4y3PT2tDU9
- yTw9r7Z7z7aaP/4z3Xr9tvw6sXDu/gUGXKsGnoyEp8Wu7Nny/ldRFoybOZ6blfs/pc
- RaU3LcYKLw7xUD3qwTy6Orljl/fNQ8ytYJX2FZUzVq/LDsPwd1O9XfQ4RaKbKjXSZr
- my3Ygs+eyJlLQUGQz6IVF37+ciSL4n4j5p74fYDWSoXcBhGamtUjbxWxTitzMjGqzB
- mHZSasgzJbAR5JGUb8E66aTzRgV7dWYKOJ3sW+LVb4iU2nCH+oB5pthwmCmC0orDaR
- L/7H0BdoSM4vg==
-Date: Thu, 15 Apr 2021 15:25:44 -0700
+ b=iT9ZOdxnRT1VomaVgnPCyZ++ue4QuQ6pS4Pv/FuQFHfiIsfvgQsaCIlm17s6iaGh3
+ E22m3X6pKcS6O+IIgvnZyNSbjJ2n8ZG6t3VNbWzsirxF460FxzBnODKpHbxLlRHbxO
+ 2vUVdXckRWR8FQttYQwxGosCBE5RUwhasoZ+8pK/PTjnV47r4QLefU3JKoTlFeeL5D
+ 95HAZsp6v0Lac/plxc4pi8DYwAKrCOutgrEj5u/DAY48vCmFMIb5PI0Culf0MuLllM
+ DspBIPxMfKrd9DDAcV2vscThH0H6XAg3Fh8IkPJxaMxEd698h+heg4rED2QarvRowY
+ wDvaK/sTOhSeg==
+Date: Thu, 15 Apr 2021 15:58:20 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: "Liang, Prike" <Prike.Liang@amd.com>
-Cc: Christoph Hellwig <hch@infradead.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "Chaitanya.Kulkarni@wdc.com" <Chaitanya.Kulkarni@wdc.com>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v4 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
-Message-ID: <20210415222544.GA2760247@dhcp-10-100-145-180.wdc.com>
-References: <1618458725-17164-1-git-send-email-Prike.Liang@amd.com>
- <20210415082057.GA1973565@infradead.org>
- <BYAPR12MB3238E0366477A6CDE7AC9B94FB4D9@BYAPR12MB3238.namprd12.prod.outlook.com>
+To: Yuanyuan Zhong <yzhong@purestorage.com>
+Cc: Chaitanya.Kulkarni@wdc.com, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, Casey Chen <cachen@purestorage.com>
+Subject: Re: [PATCH v2] nvme-core: initialize status to NVME_SC_HOST_PATH_ERROR
+Message-ID: <20210415225820.GA2760266@dhcp-10-100-145-180.wdc.com>
+References: <BYAPR04MB49656BC34E2C7AA4E3324DF2864F9@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <20210414170833.24929-1-yzhong@purestorage.com>
+ <20210415193030.GA2452080@dhcp-10-100-145-180.wdc.com>
+ <20210415201726.GB2452080@dhcp-10-100-145-180.wdc.com>
+ <CA+AMecHdnFg73z8LkjTDzT-5y0dcApV9X-vJ9cDRMGBhkNrNtw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <BYAPR12MB3238E0366477A6CDE7AC9B94FB4D9@BYAPR12MB3238.namprd12.prod.outlook.com>
+In-Reply-To: <CA+AMecHdnFg73z8LkjTDzT-5y0dcApV9X-vJ9cDRMGBhkNrNtw@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210415_152548_032037_3C6C7F21 
-X-CRM114-Status: GOOD (  17.98  )
+X-CRM114-CacheID: sfid-20210415_155824_662363_2ECA40AB 
+X-CRM114-Status: GOOD (  18.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,92 +95,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 15, 2021 at 09:41:53AM +0000, Liang, Prike wrote:
-> > From: Christoph Hellwig <hch@infradead.org>
-> 
-> > I'd also much prefer if the flag is used on every pci_dev that is affected by the
-> > broken behavior rather than requiring another lookup in the driver.
-> Sorry can't get the meaning, could you give more detail how to implement this?
+On Thu, Apr 15, 2021 at 03:11:13PM -0700, Yuanyuan Zhong wrote:
+> > > It doesn't look like these types of errors are unique to nvme. Could we
+> > > not just have blk_execute_rq() return an error instead?
+> Looking at history of commit b7819b925918 ("block: remove the blk_execute_rq
+> return value") and commit be549d491154 ("scsi: core: set result when the
+> command cannot be dispatched"), it seems scsi code no longer have issue.
 
-The suggestion is child devices of the pci bus inherit the quirk so
-drivers don't need to look up the parent device that requires it.
+Those happened when 'struct request' carried an 'errors' field that a
+caller could check. The struct doesn't have that anymore.
 
-That makes sense for a couple reasons. For one, your hard-coded 0:0.0
-probably aligns to actual implementations, but I did't find a spec
-requirement that the host bridge occupy that BDf, so not having to look
-up a fixed location is more flexible.
+> > -extern void blk_execute_rq(struct gendisk *, struct request *, int);
+> > +extern int blk_execute_rq(struct gendisk *, struct request *, int);
+> Changing blk_execute_rq() prototype needs tree-wide callers update.
 
-If I understand the suggestion correctly, I think it's probably easier
-to thread the quirk through the pci_bus->bus_flags. Does the below
-(untested) make sense?
+Callers aren't relying on an error now, so I don't think this suggestion
+requires a tree-wide update. It might want an audit to see if existing
+callers are susceptible to the same bug you found with NVMe, but
+changing the return as suggested shouldn't introduce new issues.
 
----
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d47bb18b976a..022ff6cf202f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2834,6 +2834,9 @@ static bool nvme_acpi_storage_d3(struct pci_dev *dev)
- 	acpi_status status;
- 	u8 val;
+> While it could be a fix, I'd wait for maintainers to chime in.
+
+Yes, this does require concensus, but Linux is usually adaptable to
+changing kernal APIs when it makes sense. I *think* my suggestion makes
+sense, but I appreciate any feedback.
  
-+	if (dev->bus->bus_flags & PCI_BUS_FLAGS_DISABLE_ON_S2I)
-+		return true;
-+
- 	/*
- 	 * Look for _DSD property specifying that the storage device on the port
- 	 * must use D3 to support deep platform power savings during
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 953f15abc850..34ba691ec545 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -558,10 +558,13 @@ static struct pci_bus *pci_alloc_bus(struct pci_bus *parent)
- 	INIT_LIST_HEAD(&b->resources);
- 	b->max_bus_speed = PCI_SPEED_UNKNOWN;
- 	b->cur_bus_speed = PCI_SPEED_UNKNOWN;
-+	if (parent) {
- #ifdef CONFIG_PCI_DOMAINS_GENERIC
--	if (parent)
- 		b->domain_nr = parent->domain_nr;
- #endif
-+		if (parent->bus_flags & PCI_BUS_FLAGS_DISABLE_ON_S2I)
-+			b->bus_flags |= PCI_BUS_FLAGS_DISABLE_ON_S2I;
-+	}
- 	return b;
- }
- 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 653660e3ba9e..e8f74661138a 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -312,6 +312,14 @@ static void quirk_nopciamd(struct pci_dev *dev)
- }
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD,	PCI_DEVICE_ID_AMD_8151_0,	quirk_nopciamd);
- 
-+static void quirk_amd_s2i_fixup(struct pci_dev *dev)
-+{
-+	dev->bus->bus_flags |= PCI_BUS_FLAGS_DISABLE_ON_S2I;
-+	pci_info(dev, "AMD simple suspend opt enabled\n");
-+
-+}
-+DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_AMD, 0x1630, quirk_amd_s2i_fixup);
-+
- /* Triton requires workarounds to be used by the drivers */
- static void quirk_triton(struct pci_dev *dev)
- {
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 86c799c97b77..7072e2ec88a2 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -240,6 +240,8 @@ enum pci_bus_flags {
- 	PCI_BUS_FLAGS_NO_MMRBC	= (__force pci_bus_flags_t) 2,
- 	PCI_BUS_FLAGS_NO_AERSID	= (__force pci_bus_flags_t) 4,
- 	PCI_BUS_FLAGS_NO_EXTCFG	= (__force pci_bus_flags_t) 8,
-+	/* Driver must pci_disable_device() for suspend-to-idle */
-+	PCI_BUS_FLAGS_DISABLE_ON_S2I	= (__force pci_bus_flags_t) 16,
- };
- 
- /* Values from Link Status register, PCIe r3.1, sec 7.8.8 */
---
+> I don't quite like initializing the status for every nvme command. However for
+> such a long standing bug across multiple stable releases, I think it will be an
+> easy backport for stable-tree.
+
+Your proposal is easier for stable, however, the mainline fix doesn't
+necessarily need to consider that. We can always deal with a back-port
+if the mainline approach does not readily apply.
 
 _______________________________________________
 Linux-nvme mailing list
