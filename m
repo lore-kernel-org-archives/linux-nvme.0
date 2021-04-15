@@ -2,83 +2,104 @@ Return-Path: <SRS0=SWCy=JM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7692BC433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 22:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE98C433B4
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 23:05:45 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3362D610FA
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 22:58:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3362D610FA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id D26FC610FA
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 23:05:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D26FC610FA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=FYNgUdKVWYhC9NzmUk3chjaVstG7N13GfV58PT0EjXg=; b=fTsPRN42vnj2Nxu0gB/7dBZK2
-	zUYiyHQN1S/OMfiJuPZvQacrT0fB5eQGYuJOaDLdQUcPaml2bghZUognQ9fXjXVoVTt2JRiq6mWdg
-	+w+Pyb0UD80cwtunE7kIVIDCse5SAAXCJM4ZVkTot10+xVZNJ0rDOcvtiQlCR/JI6MdYOTxgBluCW
-	uDFfdvYGGl/fGGHATKAsmjLSSuNEEuZ1nDKnMvcciTEzr0XFOW3jy0Eh7SZjedmW9jbUOk6KG/+La
-	mFQJKkxX7laiwFp7DPuw2uLeqW5nZr6/PcxL+j9j1357hqJTIHSVdV5dq/s3GiDNdKLkhffmIIF19
-	fnoVykbSA==;
+	 bh=VsS52CnhWO3ypOlmyOjgTOhWeyEbkKR+g2t1fHEPxyk=; b=mXKCyqGDGuZXeCTevg5sRp7Nt
+	ptxKM+qBYghBHaDnxVRziifmkSY/XP78hnfJtfg/nzwrFS6j9I3juU6E8edltckYlica3dn01oTY6
+	Sw+vYTLZkGNNp9qmq2RG7dpQgtdFPTZSbgVihQFbq3Fykn1W81MlsVjlBixHI1HCoKGD3WGYEZzj3
+	MPNhT7PQpbPZdbH418Rg6QBX3SoKJQrDhrH0mEr1vu7CwcUlYJaRl+gN1XkPn49GTgG18LM7jT9DW
+	vcaEnP1OLc2bIMGLMrnQRx0MCmCg0ywkuvCV5tjt0Q3ljL1oACFDgZ809vXWTdMIgXe5VHvxVJTBm
+	4Dfm2XoFg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXAwP-00HayO-3v; Thu, 15 Apr 2021 22:58:31 +0000
+	id 1lXB3B-0000kl-Ob; Thu, 15 Apr 2021 23:05:29 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXAwN-00Haxt-0g
- for linux-nvme@desiato.infradead.org; Thu, 15 Apr 2021 22:58:27 +0000
+ id 1lXB37-0000kU-QP
+ for linux-nvme@desiato.infradead.org; Thu, 15 Apr 2021 23:05:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=euur3iWmoX+WYrwVjIbjjQx73bKKaZVxhcKJ4oFEBKw=; b=Ht2cUU9jEEvGOaA64v1Q2p5Q2N
- bWAvcZ5Mr0Ka6bttTh9p+UD1aRrIghnYg7SqqfUQQn/oismf+ggyEiSQjPvq88CQScMxq9oxb4RmM
- PE2RLf96vxQJ+Xntp9+P9RgmlaAS1Y12c37G20RvP8U+9hck43mZD/dzum9J6fF3iIxU8OVad2bIa
- HgoPTGBUdnNsHS+x0Wo5dirGhSLgrIkYiBwl383Rk3EU85zSjSNgKlLMtN45Dt2R9wdE1WzDbfi4/
- IHMvfv1kEZsvSn7VXgInutnSVF6FALYnQhMctYHu01B53ZERY1cEYv5tTvRy2B8IwMd6lBFwACtr5
- 8zul233A==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=s6EzovWDLBvCLWnUa7QMjsxg3jCJrROoQb9Db9C55tI=; b=uf2zJmgrBwOsovLK29ShK1Xnhv
+ 5kQAacD7Qw2E4O3LZMlylTjqmJPHIOiFWyRDspXM5RPjViWm2ftArZKEb2ym9cBYJikdwj04m11Ks
+ JnPaCRtDentbv1xZADLOhsFZErXtXA6+3zBYryMXfKJViFT06D9otYFBo36ZdXH2OD5b87SlCBqWI
+ 3jFnmwXiwIr+d5bk/3p47U6HcQK+9kizyqdpmGPpfclcQ5REZjX0ymhma0NjzKaafJnzXWrAcj3Ge
+ N5+t8HjMWUtWH7wlQlZw/k44HPBmQ2KcWnRz1jo/9dlB+bssf0EER9z+cyh5DVQRepKnQV2y1T7sI
+ UjaHvtrg==;
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXAwK-008xMV-Ip
- for linux-nvme@lists.infradead.org; Thu, 15 Apr 2021 22:58:25 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E216610FA;
- Thu, 15 Apr 2021 22:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618527503;
- bh=YcFVD7TBPt/VtGm7ohne5szlkkkPTIHaamrgAN9MRRQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iT9ZOdxnRT1VomaVgnPCyZ++ue4QuQ6pS4Pv/FuQFHfiIsfvgQsaCIlm17s6iaGh3
- E22m3X6pKcS6O+IIgvnZyNSbjJ2n8ZG6t3VNbWzsirxF460FxzBnODKpHbxLlRHbxO
- 2vUVdXckRWR8FQttYQwxGosCBE5RUwhasoZ+8pK/PTjnV47r4QLefU3JKoTlFeeL5D
- 95HAZsp6v0Lac/plxc4pi8DYwAKrCOutgrEj5u/DAY48vCmFMIb5PI0Culf0MuLllM
- DspBIPxMfKrd9DDAcV2vscThH0H6XAg3Fh8IkPJxaMxEd698h+heg4rED2QarvRowY
- wDvaK/sTOhSeg==
-Date: Thu, 15 Apr 2021 15:58:20 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Yuanyuan Zhong <yzhong@purestorage.com>
-Cc: Chaitanya.Kulkarni@wdc.com, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, Casey Chen <cachen@purestorage.com>
-Subject: Re: [PATCH v2] nvme-core: initialize status to NVME_SC_HOST_PATH_ERROR
-Message-ID: <20210415225820.GA2760266@dhcp-10-100-145-180.wdc.com>
-References: <BYAPR04MB49656BC34E2C7AA4E3324DF2864F9@BYAPR04MB4965.namprd04.prod.outlook.com>
- <20210414170833.24929-1-yzhong@purestorage.com>
- <20210415193030.GA2452080@dhcp-10-100-145-180.wdc.com>
- <20210415201726.GB2452080@dhcp-10-100-145-180.wdc.com>
- <CA+AMecHdnFg73z8LkjTDzT-5y0dcApV9X-vJ9cDRMGBhkNrNtw@mail.gmail.com>
+ id 1lXB35-008xW4-EO
+ for linux-nvme@lists.infradead.org; Thu, 15 Apr 2021 23:05:24 +0000
+Received: by mail-pg1-x52f.google.com with SMTP id j7so8524840pgi.3
+ for <linux-nvme@lists.infradead.org>; Thu, 15 Apr 2021 16:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=s6EzovWDLBvCLWnUa7QMjsxg3jCJrROoQb9Db9C55tI=;
+ b=qeFaiqRLmL6ONxfrdcbuwAMvTB7F4/l6hhqW2T7XyvMV7wBHZ53mTz9peoj3h+tcnh
+ xgJCzBqD52j1ELhBF+CO6nKI6T4IB90rogBMtB9DLZm2+7qPOmj1yoiJDWOFMQq5Yz2z
+ +75ONS8Tcwl1V9Ujm7YEd7YjK52pK4zE0eDceRfmLVnt0QYoCx4fmCMLMiZNGFusxffV
+ 6Moj98DhFf6qtkABQ6FeyMmRWslm1EVAz/X9fgTgxs0FgSEHQtfqj+DeIlMDAi/tLtow
+ 9pLKsvbzHz9/GV6DjyYC85PhZ+hpiG+QFcE5CWaTjVU1Ng3ZAmUQmMf8NHgAZWsJGcBI
+ 2AsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s6EzovWDLBvCLWnUa7QMjsxg3jCJrROoQb9Db9C55tI=;
+ b=Cdt4xL3oOpnAHTjJ6IcL1txQCKRzxBGQpKiE2ABEYFRMiR9fEl9HzstZ55I5Caq+BI
+ /kRPMeZlDmjtH8rdMr8VIIGFASCbtA+MMfYO0V4uj6x0avyYkMVze9Aa+jPZ+eAW5naP
+ H0Z26KKYmkjIBg/k3/6P1SCW+JpmKAW87CdgAIBMKbY5BvG+ODjlzDbzJh9sBUaqzq/b
+ Gr1BlBDuEhm2LQtL+hxH0bTVLN0NQfd19+SRfJX3NyOT4sfi1krayqjHlmcpasYp/Avf
+ iVBYBotbVhdv67YfSauRs36gBDWBv5ffhlpWPtSmYjvLHwL1v03QTbOo3zEV5pKbxQov
+ f09A==
+X-Gm-Message-State: AOAM531BDPP4jgzu0NyZ5dc0ZrGT7Ixe5mC/DwXT5MLgT910ueRK0QNn
+ caq3hVCgjt7wDJ5xUYFC9UQ=
+X-Google-Smtp-Source: ABdhPJyluH0lZxVqYizUqS/404T1bXMy03RYym8Tcf7g+bJn6KXxiaxXBIxOdO/ET7dJg/2MsS4dCg==
+X-Received: by 2002:a63:510f:: with SMTP id f15mr5496100pgb.390.1618527922054; 
+ Thu, 15 Apr 2021 16:05:22 -0700 (PDT)
+Received: from [10.230.185.151] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id nv7sm3320478pjb.18.2021.04.15.16.05.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Apr 2021 16:05:21 -0700 (PDT)
+Subject: Re: [PATCH 0/1] Add Host Transport Interface option (host-triface)
+To: Martin Belanger <nitram_67@hotmail.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ Martin Belanger <martin.belanger@dell.com>
+References: <BL0PR13MB429178ADAA0C3C8AA2AA05379C4D9@BL0PR13MB4291.namprd13.prod.outlook.com>
+From: James Smart <jsmart2021@gmail.com>
+Message-ID: <f693d139-2a3d-a780-9e15-9ab130cdab3f@gmail.com>
+Date: Thu, 15 Apr 2021 16:05:20 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CA+AMecHdnFg73z8LkjTDzT-5y0dcApV9X-vJ9cDRMGBhkNrNtw@mail.gmail.com>
+In-Reply-To: <BL0PR13MB429178ADAA0C3C8AA2AA05379C4D9@BL0PR13MB4291.namprd13.prod.outlook.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210415_155824_662363_2ECA40AB 
-X-CRM114-Status: GOOD (  18.04  )
+X-CRM114-CacheID: sfid-20210415_160523_514501_919DEA56 
+X-CRM114-Status: GOOD (  16.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,43 +111,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 15, 2021 at 03:11:13PM -0700, Yuanyuan Zhong wrote:
-> > > It doesn't look like these types of errors are unique to nvme. Could we
-> > > not just have blk_execute_rq() return an error instead?
-> Looking at history of commit b7819b925918 ("block: remove the blk_execute_rq
-> return value") and commit be549d491154 ("scsi: core: set result when the
-> command cannot be dispatched"), it seems scsi code no longer have issue.
+On 4/15/2021 12:28 PM, Martin Belanger wrote:
+> From: Martin Belanger <martin.belanger@dell.com>
+> 
+> In our application, we need a way to force TCP connections to go out a
+> specific interface instead of letting Linux select the interface based
+> on the routing tables. This patch adds the option 'host-triface' to allow
+> specifying the interface to use. Note that corresponding changes to the
+> nvme-cli utility will follow.
+> 
+> Martin Belanger (1):
+>    Add 'Transport Interface' (triface) option. This can be used to
+>      specify the IP interface to use for the connection. The driver uses
+>      that to set SO_BINDTODEVICE on the socket before connecting.
+> 
+>   drivers/nvme/host/core.c    |  5 +++++
+>   drivers/nvme/host/fabrics.c | 14 +++++++++++++
+>   drivers/nvme/host/fabrics.h |  6 +++++-
+>   drivers/nvme/host/tcp.c     | 41 ++++++++++++++++++++++++++++++++++---
+>   4 files changed, 62 insertions(+), 4 deletions(-)
+> 
 
-Those happened when 'struct request' carried an 'errors' field that a
-caller could check. The struct doesn't have that anymore.
+This wasn't able to be done via HOST_TRADDR ?
 
-> > -extern void blk_execute_rq(struct gendisk *, struct request *, int);
-> > +extern int blk_execute_rq(struct gendisk *, struct request *, int);
-> Changing blk_execute_rq() prototype needs tree-wide callers update.
+-- james
 
-Callers aren't relying on an error now, so I don't think this suggestion
-requires a tree-wide update. It might want an audit to see if existing
-callers are susceptible to the same bug you found with NVMe, but
-changing the return as suggested shouldn't introduce new issues.
-
-> While it could be a fix, I'd wait for maintainers to chime in.
-
-Yes, this does require concensus, but Linux is usually adaptable to
-changing kernal APIs when it makes sense. I *think* my suggestion makes
-sense, but I appreciate any feedback.
- 
-> I don't quite like initializing the status for every nvme command. However for
-> such a long standing bug across multiple stable releases, I think it will be an
-> easy backport for stable-tree.
-
-Your proposal is easier for stable, however, the mainline fix doesn't
-necessarily need to consider that. We can always deal with a back-port
-if the mainline approach does not readily apply.
 
 _______________________________________________
 Linux-nvme mailing list
