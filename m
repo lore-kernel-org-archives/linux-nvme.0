@@ -2,91 +2,95 @@ Return-Path: <SRS0=SWCy=JM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CD39C433ED
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 10:34:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1021BC433B4
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 10:34:40 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 64EA9613A9
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 10:34:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 64EA9613A9
+	by mail.kernel.org (Postfix) with ESMTPS id 8685A61152
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Apr 2021 10:34:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8685A61152
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=EAJ/S/RHU3BMbVFc38qwhROdEIQo0yFvd2COTplozDk=; b=PTP0a60vWNsMk+G8fm5yTw4eV0
-	gkwdaMtWhfixOZvzHPr/81kVIbKd3ANI6Q29cxunrRal29oqgCdS+i1OtueIHQJoHp2Jx+e6ai6lg
-	EIlLP6Fqg+BRFDtoBknbhdryfoW/4YGKVdXV7qNNtEOourSipfIbofyHwBAHNFixdenlGJhldG2zw
-	lHqjas2+kfflmeoGjgpDGJM+Ue8MbD5EgQFY83tkiNur2hdKXQdUCuCjMsDD4VZ5exqtBI5++9qiO
-	paJD10HAg2lmNYoDM10NomoDCTICzqL8Iodw3lhbfqQYbPNsNz6uX/fVmf0SW/AC4MoQySUFW8MJD
-	JOcakC2A==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=1vpZs4JyLf2aADJ0gmTVdT7NdtnoZCSDlfORBacQQns=; b=LmpC24M/Efpe/FKgogJvrxmA1
+	koX+ARP3I1gyo6/4gQwp8GF7+8ZgnkaRc/IVt0959s2izBZSduMXOVNbREgeWwlGC7BoY209mdplX
+	txA/xJ/PLHJGSemXcbc/XvbcwqN6Ra5aBh6SvuKKLwkuej7t8NCB0uUQC2wr1Jp87ijwlq4eBQWGq
+	5UmOma6XmVXvd43foKy4Fu41D9bH0pwkUUoYt1z/M4BcCp7mFGHXVc1tDeSYOlsC1AzZ994vnQPtW
+	F4aTKd4KKQVcxHrGF2CgqTM8bWBbBmoQTazwLhfqCv57X6LxSjsktHSN3vNqtp/5leKwQfxeCrcaq
+	5ng+Qa9vg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lWzK1-00Fk9r-Dh; Thu, 15 Apr 2021 10:34:06 +0000
+	id 1lWzKL-00FkCK-0J; Thu, 15 Apr 2021 10:34:25 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWzJy-00Fk9W-8s
- for linux-nvme@desiato.infradead.org; Thu, 15 Apr 2021 10:34:02 +0000
+ id 1lWzKA-00FkAk-Bp
+ for linux-nvme@desiato.infradead.org; Thu, 15 Apr 2021 10:34:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=8oJadmEi5UPqOKY+mBm7xcluSmXYdWzdSas+O68yeMc=; b=o9vBRQb+ABV8OU6kpOlUIigdPA
- VqY9VN4lkIeoG2R8TElDMEEKWQ/qWBei6v90XFnatEpYraYjwAfB/Xd+Eqid/h9C9qtn1KFwi3wFZ
- DPtyrx3G8IzcEgy7tZuUrZC3Ycj8LNMIuoClJVCJtRGmqRh5Cx2C7qwm++kEHRNcxvRjL/rXk9jxh
- 4+/9RBinnA/+Hlcr7mq3yLnjoxCBUGP0bstHlzSriXde8qKm7Bbbeckxiw1HgNkK6NKruho/xN4NQ
- XXQeY5KwTrahm80BVjmjoRdoxfAjdFB0v2OiXBbLbWW5R2olSOrmkEUppT7X0UhJg9sZuQ3YqRb5l
- t9Qdc2XQ==;
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=oi3Sd0OUrlMjtsLbv2z+fg1JsicP7YegqK4bHsIStuc=; b=B46zu6+NCe1gOl2jGG9eKnpeyx
+ 0kKLbQzqjpoeR3ZrDx8z6bw1CpkzlVA/6NyIV2gD8HRDnpyKnVOp979lN0NKF4aYWtKabLtKRjIsf
+ m0I6DbYnZIgEYvz+9lxF4I9yIhBmtSgHt6Yvy7vmGclypii6d0NWJQxBE5K7U3Ao6F01lJrffXyoy
+ m3Wsyoi0vfAdt0mFnl1tuctpaEtf5h8hAW2ZzX+M/pzYeOu8usIPFW4Vpn8ELEbhLKluF9QqUwRQ/
+ R0ZM1g63+Xwq6HyGQYLCemoiJ30fKZy3aaYi5Ph92mUBdtIc2aeOy/EwVdcFIP8+03MPyvW+4kjJL
+ qobtE60w==;
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lWzJv-008TxS-S5
- for linux-nvme@lists.infradead.org; Thu, 15 Apr 2021 10:34:01 +0000
+ id 1lWzK7-008Tye-Q6
+ for linux-nvme@lists.infradead.org; Thu, 15 Apr 2021 10:34:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618482837;
+ s=mimecast20190719; t=1618482850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=8oJadmEi5UPqOKY+mBm7xcluSmXYdWzdSas+O68yeMc=;
- b=O+zblz8Shtd659jcdm1KpHOu2K8we6glQemnTyghMSCDVikh0fdaV88EnUe8pOJ8J9O8T/
- xj69Ne6WYrKuX44mSpZFZf3UYieiuvvReZ8dwFDLLaN/KqTKZ5TLj5qL0UBEHgJhB4vPik
- 2vBo1WvtcKHw3dsCbD9Qb3paG5Sd3NE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oi3Sd0OUrlMjtsLbv2z+fg1JsicP7YegqK4bHsIStuc=;
+ b=f6/aQFQ+YAHroFkt0Oqy6M9XQVCczxqD47ElV2q8c2pam4A0FUIszH43VJf8nEwcqONTMd
+ QKzghNzYC8jaqP9BGgLxH708ZIrs7D4traC2smrooxQ0Z/qhp+Bt72cTlBogLjJFBj97I/
+ /gpeYQqxBLYwgK3YM6/vZE46ncQEL3k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-rAlZXVZ4Mmmj0OuotOxryw-1; Thu, 15 Apr 2021 06:33:56 -0400
-X-MC-Unique: rAlZXVZ4Mmmj0OuotOxryw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-560-5aR0btvYN7qUSfkf0icajg-1; Thu, 15 Apr 2021 06:34:08 -0400
+X-MC-Unique: 5aR0btvYN7qUSfkf0icajg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72A351006701;
- Thu, 15 Apr 2021 10:33:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BE4A6D582;
+ Thu, 15 Apr 2021 10:34:07 +0000 (UTC)
 Received: from localhost (ovpn-13-200.pek2.redhat.com [10.72.13.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE8835D9DC;
- Thu, 15 Apr 2021 10:33:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3101262462;
+ Thu, 15 Apr 2021 10:33:56 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: linux-block@vger.kernel.org, Jeffle Xu <jefflexu@linux.alibaba.com>,
  Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
  linux-raid@vger.kernel.org, Song Liu <song@kernel.org>,
- linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>
-Subject: [RFC PATCH 0/2] block: support to freeze bio based queue
-Date: Thu, 15 Apr 2021 18:33:08 +0800
-Message-Id: <20210415103310.1513841-1-ming.lei@redhat.com>
+ linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>,
+ Tejun Heo <tj@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Bart Van Assche <bvanassche@acm.org>
+Subject: [RFC PATCH 1/2] percpu_ref: add percpu_ref_tryget_many_live
+Date: Thu, 15 Apr 2021 18:33:09 +0800
+Message-Id: <20210415103310.1513841-2-ming.lei@redhat.com>
+In-Reply-To: <20210415103310.1513841-1-ming.lei@redhat.com>
+References: <20210415103310.1513841-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210415_033400_000890_A6B6D463 
-X-CRM114-Status: UNSURE (   9.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210415_033411_943242_8E700A2B 
+X-CRM114-Status: GOOD (  17.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,33 +107,81 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+Prepare for support freezing bio based request queues.
 
-For bio based request queue, the queue usage refcnt is only grabbed
-during submission, which isn't consistent with request base queue.
-
-Queue freezing has been used widely, and turns out it is very useful
-to quiesce queue activity.
-
-So try to support to freeze bio based queue by ->q_usage_counter.
-
-Any comment are welcome!
-
-
-Ming Lei (2):
-  percpu_ref: add percpu_ref_tryget_many_live
-  block: support to freeze bio based request queue
-
- block/bio.c                     | 12 ++++++++++--
- block/blk-core.c                | 23 +++++++++++++++++------
- drivers/nvme/host/core.c        | 16 ++++++++++++++++
- drivers/nvme/host/multipath.c   |  6 ++++++
- include/linux/blk-mq.h          |  2 ++
- include/linux/blk_types.h       |  1 +
- include/linux/blkdev.h          |  7 ++++++-
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Bart Van Assche <bvanassche@acm.org>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
  include/linux/percpu-refcount.h | 30 ++++++++++++++++++++++++++----
- 8 files changed, 84 insertions(+), 13 deletions(-)
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
+diff --git a/include/linux/percpu-refcount.h b/include/linux/percpu-refcount.h
+index 16c35a728b4c..9061c7e3113d 100644
+--- a/include/linux/percpu-refcount.h
++++ b/include/linux/percpu-refcount.h
+@@ -267,8 +267,9 @@ static inline bool percpu_ref_tryget(struct percpu_ref *ref)
+ }
+ 
+ /**
+- * percpu_ref_tryget_live - try to increment a live percpu refcount
++ * percpu_ref_tryget_many_live - try to increment a live percpu refcount
+  * @ref: percpu_ref to try-get
++ * @nr: number of references to get
+  *
+  * Increment a percpu refcount unless it has already been killed.  Returns
+  * %true on success; %false on failure.
+@@ -281,7 +282,8 @@ static inline bool percpu_ref_tryget(struct percpu_ref *ref)
+  *
+  * This function is safe to call as long as @ref is between init and exit.
+  */
+-static inline bool percpu_ref_tryget_live(struct percpu_ref *ref)
++static inline bool percpu_ref_tryget_many_live(struct percpu_ref *ref,
++					       unsigned long nr)
+ {
+ 	unsigned long __percpu *percpu_count;
+ 	bool ret = false;
+@@ -289,10 +291,10 @@ static inline bool percpu_ref_tryget_live(struct percpu_ref *ref)
+ 	rcu_read_lock();
+ 
+ 	if (__ref_is_percpu(ref, &percpu_count)) {
+-		this_cpu_inc(*percpu_count);
++		this_cpu_add(*percpu_count, nr);
+ 		ret = true;
+ 	} else if (!(ref->percpu_count_ptr & __PERCPU_REF_DEAD)) {
+-		ret = atomic_long_inc_not_zero(&ref->data->count);
++		ret = atomic_long_add_unless(&ref->data->count, nr, 0);
+ 	}
+ 
+ 	rcu_read_unlock();
+@@ -300,6 +302,26 @@ static inline bool percpu_ref_tryget_live(struct percpu_ref *ref)
+ 	return ret;
+ }
+ 
++/**
++ * percpu_ref_tryget_live - try to increment a live percpu refcount
++ * @ref: percpu_ref to try-get
++ *
++ * Increment a percpu refcount unless it has already been killed.  Returns
++ * %true on success; %false on failure.
++ *
++ * Completion of percpu_ref_kill() in itself doesn't guarantee that this
++ * function will fail.  For such guarantee, percpu_ref_kill_and_confirm()
++ * should be used.  After the confirm_kill callback is invoked, it's
++ * guaranteed that no new reference will be given out by
++ * percpu_ref_tryget_live().
++ *
++ * This function is safe to call as long as @ref is between init and exit.
++ */
++static inline bool percpu_ref_tryget_live(struct percpu_ref *ref)
++{
++	return percpu_ref_tryget_many_live(ref, 1);
++}
++
+ /**
+  * percpu_ref_put_many - decrement a percpu refcount
+  * @ref: percpu_ref to put
 -- 
 2.29.2
 
