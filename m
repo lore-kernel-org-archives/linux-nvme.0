@@ -2,71 +2,160 @@ Return-Path: <SRS0=jca5=JN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A948C433ED
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 06:25:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39515C43460
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 07:06:52 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 95766610F7
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 06:25:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95766610F7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 7CA806108E
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 07:06:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CA806108E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amd.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=FxlQDgC19wN6erLjK8YTcaJs2hQZ7CxRoaygNrTLKoE=; b=CMyrGH2DsL++MIQqEvgED8LVFa
-	gNdXBDOXkNtl2fgxaeP5GjcILOqC+LB8GHmZyz9wPaAd3/YGeZcat+ORTsgBuu7WIse0QpVtar7DQ
-	Xs/293M6bX31L9pSJVZCFEi4e7BWixDOKDOiHBuoMwa2XW4N5AZD6ukOHhVMAW/IZ2BwyT/l82lyU
-	1zi/YjFzIns6TZbHzXlcqU4FrsxwdcjbvIv/zbwYWPrvlQSZnOgaz0aKxCQ9v4SJxFw18Zgu9kJsy
-	Fw6q4bziSeBE87Cla7hFWbg0l61I1kYoHZL2zSxIZXotX+4cSl28a5OaJNUIL79KfIYJAxe1XPtif
-	OuS6XelQ==;
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
+	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=YtblFckW1I+p+RIhzh2ZOceL3+7pJeU94HqNmEhm3vE=; b=BD4zS9xTrZemxKuDMp5utpIX3
+	lsC09o6GTq331iPsCE0S7Cis+78K55MyU5VzAAaJbwlpng0g84FkLUnyTq1OYctaCsoW6UtOQImG1
+	+u+mwqTxcLCGa2FhhgavGgzByvwDgMG8VioV0e7TZg3w5Eba8Q0UHuamOKWu+jKn3ZGE6KagjX8iJ
+	k3aTJ6JYuyShcUjuHhuuF40aDiqJlzFU4tei90EFwvj+FwX/mZLu7lPNCDwbrDOcRZcjORsoP2fMZ
+	n5lgrmhy3/BwAPVnAEtIVOFFck4NHtAGJQUuRulRwR8KlHHVKl8bTPuunmjJ+7T6cjnlMTLJxYz10
+	o5mnPjeLg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXHuh-0011wd-TO; Fri, 16 Apr 2021 06:25:12 +0000
+	id 1lXIYe-0018Mh-MV; Fri, 16 Apr 2021 07:06:28 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXHtp-0011eM-2Y
- for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 06:24:20 +0000
+ id 1lXIJz-0016ek-8E
+ for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 06:51:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=YgUuE627ioTcilTra/Ap2aGSYKPiXwv1GtUqWnmLV0c=; b=YrnklJP6DdrT9GB72eF5QbOS+g
- mTHv/MEbs0S15Y4XkyJpNFSLC/ecmNqKxhC3TptRAQLoFcmXLK9gi3Ujgx24AdwsMex7gxag+FlmB
- MYVGtjX5urg8xNxgzWAS6hqv96lCyNdw/3OADp9t2Rt3yAi3k9EIvsK/QpYq1xGaPkkUTFKJhYVud
- mTWiDYRvacQ+hDvyFHo4I/JZOfEkQtH105tNUpCrejf9ZFpgh8GCNksrCI8PueOWopYzgynKEovii
- H0ICqzqzPbhfY1BGOnG6T77cjuR2cBE1GG1ILbvhLGtZ8ArBnWjXT8MucFT9epSlf5NMo54YEDWxL
- hLwTcTEw==;
-Received: from mx2.suse.de ([195.135.220.15])
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:
+ Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+ :Subject:CC:To:From:Sender:Reply-To:Content-ID:Content-Description;
+ bh=lQYdRPS/kb7P8we656IWo+F0jK6dx7buJhAe1gtvxV4=; b=RGK52/tNA9R0m/XTus1rMzNwu/
+ R+bGQDube7Ljr+yLSkAsuhMQomX48nK9/5Vqs6zN52mkRwUU8UY3UrqgE3GNY2cY1oXA+683oDUP8
+ gwdHmtLLzet4LfTiZIeEDvqCUus/kjYeZ1nFJFAmNfgFdxwl7vEUaFNlPxs0V8+8U8LQQ6FFwc7r3
+ 5wwzX0PeLJv/PK7go9PiJL5kyzDnVQWk/iwvYRSZS8lZ+LvbXtDqJISLdUrwUB419JSiJ1DEIun4m
+ FqVQZXmuV933RpjPdvFaD4P+oZ0TbCg7YYVz5yJKAxMqMnWjPDchoWK3Sgdt2df3cI7B/96xwNwas
+ 903WOWvA==;
+Received: from mail-mw2nam10on2078.outbound.protection.outlook.com
+ ([40.107.94.78] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXHtm-0097Cr-4S
- for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 06:24:15 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C19C3ABB1;
- Fri, 16 Apr 2021 06:24:12 +0000 (UTC)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Hannes Reinecke <hare@suse.de>, Daniel Wagner <daniel.wagner@suse.de>
-Subject: [PATCHv2] nvme-mpath: delete disk after last connection
-Date: Fri, 16 Apr 2021 08:24:11 +0200
-Message-Id: <20210416062411.47958-1-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
+ id 1lXIJv-00986Y-1W
+ for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 06:51:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nHL9PLen7eNifAnvTio1dXQg/9GWzrhg6DB9dQ3uwDSOECjxW66GpS9Grn61bYVIfpyqgBykEFDo7mPskAhXAvTL67zaTwSVJW9tdqPNc21steTmkxyasxGJ3isTPZBuBS8Zvw5XL1i1NjPsxd53ZxSwPffx4woW7q0Sop2wUiyjl5Zo+6IkcX8lAhdGkUtDbZneBZYKhgc/1icIkqbP6TBz8Dxr6TCO/w4nFhCwr/k0uCWLEDtow9duV1hHe5oV0ggBX3y3f4VixR5DnMokhCleMDVhzDG0QhukJ75EJAZ+bLOrErx23f0o9I2eeaSP0HUfGiRn1EUMiGr+GPRsUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lQYdRPS/kb7P8we656IWo+F0jK6dx7buJhAe1gtvxV4=;
+ b=BegN2qKvuUuyy6QwkjbIIY/MBkAvwoprrL4eZaubloWSHxpm/KQ11bjuCosT2IZP9OIlvLXvF1RVlhPk8v6a9qDAqhv3DvxD8EDFLOqE8oZuObmdnQgBp47ew6oDPAu8GXYFn1MvuzKdc4Cz52tDmtkDLNwp0OuRvMTRkGTAVdlE0y+sXqGss6H8Yv4j7+etSufS8eZFVVcRiCMgNg0XP/F2pvzV+DtZCDhuXy3f+cdgfZa9gn8qRsRATX7mBxM2qPQRuR+lWxNFc8y3e9KBQ/Lu0LYxlQRQP6a2+iqlrjNK4sozn1LjT0V719ErZVMEWCHD2a1xsx67MQvchIAlIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lQYdRPS/kb7P8we656IWo+F0jK6dx7buJhAe1gtvxV4=;
+ b=RCoLnWE3DJmGL2b5UKfNsbALeYSjy39+0lWFz4kZ7Wn3NOTwOAqur4lv8ijbJjzIBj1+EnWECFgeWrGUNL7SmVr2gJiyTro6lbZtJlO7v4b8HzgFyUP3z6lltORsxCEA9xW2alW8OUof0Gvqf8EW7Ofoc0P1fbDSj0aVEoT2WGs=
+Received: from BYAPR12MB3238.namprd12.prod.outlook.com (2603:10b6:a03:13b::20)
+ by BY5PR12MB3875.namprd12.prod.outlook.com (2603:10b6:a03:1ae::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21; Fri, 16 Apr
+ 2021 06:51:06 +0000
+Received: from BYAPR12MB3238.namprd12.prod.outlook.com
+ ([fe80::5870:fcd6:b13a:c49c]) by BYAPR12MB3238.namprd12.prod.outlook.com
+ ([fe80::5870:fcd6:b13a:c49c%5]) with mapi id 15.20.4042.018; Fri, 16 Apr 2021
+ 06:51:06 +0000
+From: "Liang, Prike" <Prike.Liang@amd.com>
+To: Keith Busch <kbusch@kernel.org>
+CC: Christoph Hellwig <hch@infradead.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "Chaitanya.Kulkarni@wdc.com"
+ <Chaitanya.Kulkarni@wdc.com>, "gregkh@linuxfoundation.org"
+ <gregkh@linuxfoundation.org>, "stable@vger.kernel.org"
+ <stable@vger.kernel.org>, "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>
+Subject: RE: [PATCH v4 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+Thread-Topic: [PATCH v4 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+Thread-Index: AQHXMarUZvDSGRepoEyCkC/coFRS7qq1PS+AgAALBBCAAOEEAIAAi+hA
+Date: Fri, 16 Apr 2021 06:51:06 +0000
+Message-ID: <BYAPR12MB3238528F1D91A921FF1201EAFB4C9@BYAPR12MB3238.namprd12.prod.outlook.com>
+References: <1618458725-17164-1-git-send-email-Prike.Liang@amd.com>
+ <20210415082057.GA1973565@infradead.org>
+ <BYAPR12MB3238E0366477A6CDE7AC9B94FB4D9@BYAPR12MB3238.namprd12.prod.outlook.com>
+ <20210415222544.GA2760247@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <20210415222544.GA2760247@dhcp-10-100-145-180.wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=49c085b7-60d1-40d1-9a57-65845413fdab;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2021-04-16T06:46:38Z;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [139.227.235.92]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a361e0bd-a9ce-491f-6eb5-08d900a40274
+x-ms-traffictypediagnostic: BY5PR12MB3875:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR12MB387531B8A00DA3BC2E6970D0FB4C9@BY5PR12MB3875.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZHY7P/9pgKZWZHPAiFX3kChMYb/J0Al7/kh4ADdvCB7bx30JB8LBNdAbBjPnWNpjfjFhWquk15/OU/bXno0JIX+FKH8ib8D+qpDssDPHx0RaadzhDfcNmU3a5UtOathuiYNjr+Vudo0Y7Ol156GFzhfpLrGJECfZBISte8SNF51zLziIXyuFG1ZquSApI7JUvPymc0pCufu/D1BIhBJa/np+svaGYOpYlZNQD/Ssb2cv01r3kUXknIHN+BmQVDsnAQ/Bww+rXjOPdg5gqya9C+KYO42WseK+hCoiqNTaB3XcC96XDPdbqDp7QhLSL5CQIywT1H/3ha2u2wuUmvbLoUOJcjfET3BT49pq4WpC2M5LPm6SdIdT6sWuJtmKx3+L1U2asw/swvKGXgWYAjtyMUV6h4Xn0ib04sC1cUnmVYvTOP9xrQJNSes1dgggSJHD4Qi4UzyGXhYp59B/2z256NVx3uxG1dv/nroUA5LCXqTF8EeavNeNIg4LwHolV5Vdr5OhqYl5Dnh7OaHvBOr6UoiUqOSXl2J2VMl8C2hAxpDkApGYw+eBIi7XL8+Ca7nQvDenfBuWNZSm4cTQ98RKM4lfHlMPNRNveAMYj9Qfk80=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3238.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(376002)(366004)(396003)(26005)(54906003)(4326008)(53546011)(66946007)(52536014)(478600001)(7696005)(6506007)(8936002)(122000001)(64756008)(66556008)(55016002)(66446008)(76116006)(66476007)(2906002)(38100700002)(6916009)(316002)(33656002)(83380400001)(71200400001)(5660300002)(9686003)(86362001)(8676002)(186003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?iYWXGMY8gpxLnyoUsK0wAJJK1GGfG1t534fxbIcyE82XhAoCuEVRJgBKX1Yx?=
+ =?us-ascii?Q?reiC8/I3IwCaEucBalTtjIM6dVIcGWcTENPKfISmd7yF/1snu4PP5TZ6MfOz?=
+ =?us-ascii?Q?GX5Y6puzP7YF2fNIMveHtvk0jKUmS+M/bglxP67qlGDEeoSlWt6WQcsF2v74?=
+ =?us-ascii?Q?8ty0UPgYc8HmHknHHxmgjCXW+tjARcPWd5Do7F7jHEZftCxx2DUFYQWy4+M0?=
+ =?us-ascii?Q?659zmgH7rXmWjBVzd4FGHoF9QdXKrLjf9l2g4njTbabTXH2ikLvRhFHbhrj+?=
+ =?us-ascii?Q?D7pjFM/0Dy3w4iu4Ka2nS0y2DW+kEqauliTXvXfnuXM3xyyHbbWxEBgquUjm?=
+ =?us-ascii?Q?wdZoS10MbukLt748E4IgsIxjxmLoETATnqbirycjGVhIF8nNcIPWpx1dAokz?=
+ =?us-ascii?Q?mwkyutj0+d42UkAziP4RDob1im5Zrp3js8EH/E1qQ3OS65dY1I/vB2bpzeX4?=
+ =?us-ascii?Q?59ZoH8gqnAyCX7PWgES/epq7Ys4zdIvwd+gHexBEWMpWmch9ZJu2+68qqAY/?=
+ =?us-ascii?Q?tRg+MzxCMHF9nJ5/l29gGbMgNSKqJcOLdPeBb0fH6aHRObOc/CbHMUjApfLt?=
+ =?us-ascii?Q?Kroy0Hx5cQv0hoC4OqXnjrqDJCLavbKuQh6CCyykKqJxF0DJrQlaMrOHaBfV?=
+ =?us-ascii?Q?WuEQsJD2i9/+H7sOrFaVafNquLa6FGoiZm89GF1XCZmlJGksOYoRDhYBmLo0?=
+ =?us-ascii?Q?8gGg1zUDtwfKX4TYH/pPewxUctqevIci8ycD01h+JcXK41LJnrqaxQYin6tN?=
+ =?us-ascii?Q?dkoMh+7zsffYsqAJyePkpxZfMGuZ1i/Y+22Y52GkuX9RKCUIpuhBuDYU/fQ9?=
+ =?us-ascii?Q?6W0WN/Z/J6ytUgU71n5RQjkPkuKB4h30Xr/MBcdgWGODt9Je/7h6HT55qYmm?=
+ =?us-ascii?Q?sVU2Ro4kz3+p2xdhHDQaU3B06DR6B+tPgUAQSnAKq9RVydXoR7YhunR76vSi?=
+ =?us-ascii?Q?HmowAdKuJ/50z8a6jgv6ui4U+j5YnsVLh+VTbpbhsA/7ZK6d9zfgeZ9i2C8U?=
+ =?us-ascii?Q?n5ykyQsUZhalPac79sIPpQWQi1UMc+M27wsJMqxY7I8Q8I9LU+S+rcZfOMto?=
+ =?us-ascii?Q?nwn/LQuOMDbtQnikT0dvWwJb3ryW2cpDAZ5FY88TO9joUJXckyqxxlGubLH7?=
+ =?us-ascii?Q?xupM6J7DELAu35+tORoGF3rjwXhRuUDp8isXAhpPpuA/XFelSAlLa4XByMlV?=
+ =?us-ascii?Q?QTs2MbcfSohlyeIhgcLdppmEqIJ266eT1mqbR6kUBO5FlsjLNvU84V30SqyR?=
+ =?us-ascii?Q?3RS8zeqwEYW7vr2qBNTsqcEV70X3Abitu9StQAlC1ASwS2qEcs8QQB/jEHCV?=
+ =?us-ascii?Q?CnIIjq72eKGCPKGkRLAjuUax?=
 MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3238.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a361e0bd-a9ce-491f-6eb5-08d900a40274
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2021 06:51:06.4487 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7sD2tx0FNfCmaVbeguRuQuWWw3F3wTFpLid9OUYK61flFAZp31fe5Rfsy5m/oNpA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3875
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210415_232414_488624_A80E632D 
-X-CRM114-Status: GOOD (  17.92  )
+X-CRM114-CacheID: sfid-20210415_235115_265409_F4959CC7 
+X-CRM114-Status: GOOD (  28.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,146 +172,108 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+[AMD Public Use]
 
-The multipath code currently deletes the disk only after all references
-to it are dropped rather than when the last path to that disk is lost.
-This has been reported to cause problems with some usage, like MD RAID.
-
-Delete the disk when the last path is gone. This is the same behavior we
-currently have with non-multipathed nvme devices.
-
-The following is just a simple example that demonstrates what is currently
-observed using a simple nvme loop back (loop setup file not shown):
-
- # nvmetcli restore loop.json
- [   31.156452] nvmet: adding nsid 1 to subsystem testnqn1
- [   31.159140] nvmet: adding nsid 1 to subsystem testnqn2
-
- # nvme connect -t loop -n testnqn1 -q hostnqn
- [   36.866302] nvmet: creating controller 1 for subsystem testnqn1 for NQN hostnqn.
- [   36.872926] nvme nvme3: new ctrl: "testnqn1"
-
- # nvme connect -t loop -n testnqn1 -q hostnqn
- [   38.227186] nvmet: creating controller 2 for subsystem testnqn1 for NQN hostnqn.
- [   38.234450] nvme nvme4: new ctrl: "testnqn1"
-
- # nvme connect -t loop -n testnqn2 -q hostnqn
- [   43.902761] nvmet: creating controller 3 for subsystem testnqn2 for NQN hostnqn.
- [   43.907401] nvme nvme5: new ctrl: "testnqn2"
-
- # nvme connect -t loop -n testnqn2 -q hostnqn
- [   44.627689] nvmet: creating controller 4 for subsystem testnqn2 for NQN hostnqn.
- [   44.641773] nvme nvme6: new ctrl: "testnqn2"
-
- # mdadm --create /dev/md0 --level=mirror --raid-devices=2 /dev/nvme3n1 /dev/nvme5n1
- [   53.497038] md/raid1:md0: active with 2 out of 2 mirrors
- [   53.501717] md0: detected capacity change from 0 to 66060288
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active raid1 nvme5n1[1] nvme3n1[0]
-       64512 blocks super 1.2 [2/2] [UU]
-
-Now delete all paths to one of the namespaces:
-
- # echo 1 > /sys/class/nvme/nvme3/delete_controller
- # echo 1 > /sys/class/nvme/nvme4/delete_controller
-
-We have no path, but mdstat says:
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active (auto-read-only) raid1 nvme5n1[1]
-       64512 blocks super 1.2 [2/1] [_U]
-
-And this is reported to cause a problem.
-
-With the proposed patch, the following messages appear:
-
- [  227.516807] md/raid1:md0: Disk failure on nvme3n1, disabling device.
- [  227.516807] md/raid1:md0: Operation continuing on 1 devices.
-
-And mdstat shows only the viable members:
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active (auto-read-only) raid1 nvme5n1[1]
-       64512 blocks super 1.2 [2/1] [_U]
-
-Reported-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Daniel Wagner <daniel.wagner@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/core.c      |  2 +-
- drivers/nvme/host/multipath.c |  1 -
- drivers/nvme/host/nvme.h      | 11 ++++++++++-
- 3 files changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 40f08e6325ef..e89ec2522ca6 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -542,7 +542,7 @@ static void nvme_free_ns_head(struct kref *ref)
- 	struct nvme_ns_head *head =
- 		container_of(ref, struct nvme_ns_head, ref);
- 
--	nvme_mpath_remove_disk(head);
-+	nvme_mpath_put_disk(head);
- 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
- 	cleanup_srcu_struct(&head->srcu);
- 	nvme_put_subsystem(head->subsys);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 68918ea1d3d0..86178cb220c9 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -729,7 +729,6 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- 		 */
- 		head->disk->queue = NULL;
- 	}
--	put_disk(head->disk);
- }
- 
- int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index c6102ce83bb4..4140789a3628 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -693,12 +693,18 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
- void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
- struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
- 
-+static inline void nvme_mpath_put_disk(struct nvme_ns_head *head)
-+{
-+	if (head->disk)
-+		put_disk(head->disk);
-+}
-+
- static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
- {
- 	struct nvme_ns_head *head = ns->head;
- 
- 	if (head->disk && list_empty(&head->list))
--		kblockd_schedule_work(&head->requeue_work);
-+		nvme_mpath_remove_disk(head);
- }
- 
- static inline void nvme_trace_bio_complete(struct request *req)
-@@ -738,6 +744,9 @@ static inline void nvme_mpath_add_disk(struct nvme_ns *ns,
- 		struct nvme_id_ns *id)
- {
- }
-+static inline void nvme_mpath_put_disk(struct nvme_ns_head *head)
-+{
-+}
- static inline void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- {
- }
--- 
-2.26.2
-
+> From: Keith Busch <kbusch@kernel.org>
+> Sent: Friday, April 16, 2021 6:26 AM
+> To: Liang, Prike <Prike.Liang@amd.com>
+> Cc: Christoph Hellwig <hch@infradead.org>; linux-nvme@lists.infradead.org;
+> Chaitanya.Kulkarni@wdc.com; gregkh@linuxfoundation.org;
+> stable@vger.kernel.org; Deucher, Alexander
+> <Alexander.Deucher@amd.com>; S-k, Shyam-sundar <Shyam-sundar.S-
+> k@amd.com>
+> Subject: Re: [PATCH v4 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+>
+> On Thu, Apr 15, 2021 at 09:41:53AM +0000, Liang, Prike wrote:
+> > > From: Christoph Hellwig <hch@infradead.org>
+> >
+> > > I'd also much prefer if the flag is used on every pci_dev that is
+> > > affected by the broken behavior rather than requiring another lookup in
+> the driver.
+> > Sorry can't get the meaning, could you give more detail how to implement
+> this?
+>
+> The suggestion is child devices of the pci bus inherit the quirk so drivers don't
+> need to look up the parent device that requires it.
+>
+> That makes sense for a couple reasons. For one, your hard-coded 0:0.0
+> probably aligns to actual implementations, but I did't find a spec requirement
+> that the host bridge occupy that BDf, so not having to look up a fixed location
+> is more flexible.
+>
+> If I understand the suggestion correctly, I think it's probably easier to thread
+> the quirk through the pci_bus->bus_flags. Does the below
+> (untested) make sense?
+>
+Thanks Busch for elaborate clarification. The PCIe RC bus flag can pass to NVMe device successfully and it works well for this case. I will update the patch accordingly.
+> ---
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c index
+> d47bb18b976a..022ff6cf202f 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2834,6 +2834,9 @@ static bool nvme_acpi_storage_d3(struct pci_dev
+> *dev)
+>  acpi_status status;
+>  u8 val;
+>
+> +if (dev->bus->bus_flags & PCI_BUS_FLAGS_DISABLE_ON_S2I)
+> +return true;
+> +
+>  /*
+>   * Look for _DSD property specifying that the storage device on the
+> port
+>   * must use D3 to support deep platform power savings during diff --
+> git a/drivers/pci/probe.c b/drivers/pci/probe.c index
+> 953f15abc850..34ba691ec545 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -558,10 +558,13 @@ static struct pci_bus *pci_alloc_bus(struct pci_bus
+> *parent)
+>  INIT_LIST_HEAD(&b->resources);
+>  b->max_bus_speed = PCI_SPEED_UNKNOWN;
+>  b->cur_bus_speed = PCI_SPEED_UNKNOWN;
+> +if (parent) {
+>  #ifdef CONFIG_PCI_DOMAINS_GENERIC
+> -if (parent)
+>  b->domain_nr = parent->domain_nr;
+>  #endif
+> +if (parent->bus_flags & PCI_BUS_FLAGS_DISABLE_ON_S2I)
+> +b->bus_flags |= PCI_BUS_FLAGS_DISABLE_ON_S2I;
+> +}
+>  return b;
+>  }
+>
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c index
+> 653660e3ba9e..e8f74661138a 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -312,6 +312,14 @@ static void quirk_nopciamd(struct pci_dev *dev)  }
+>  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD,
+> PCI_DEVICE_ID_AMD_8151_0,quirk_nopciamd);
+>
+> +static void quirk_amd_s2i_fixup(struct pci_dev *dev) {
+> +dev->bus->bus_flags |= PCI_BUS_FLAGS_DISABLE_ON_S2I;
+> +pci_info(dev, "AMD simple suspend opt enabled\n");
+> +
+> +}
+> +DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_AMD, 0x1630,
+> +quirk_amd_s2i_fixup);
+> +
+>  /* Triton requires workarounds to be used by the drivers */  static void
+> quirk_triton(struct pci_dev *dev)  { diff --git a/include/linux/pci.h
+> b/include/linux/pci.h index 86c799c97b77..7072e2ec88a2 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -240,6 +240,8 @@ enum pci_bus_flags {
+>  PCI_BUS_FLAGS_NO_MMRBC= (__force pci_bus_flags_t) 2,
+>  PCI_BUS_FLAGS_NO_AERSID= (__force pci_bus_flags_t) 4,
+>  PCI_BUS_FLAGS_NO_EXTCFG= (__force pci_bus_flags_t) 8,
+> +/* Driver must pci_disable_device() for suspend-to-idle */
+> +PCI_BUS_FLAGS_DISABLE_ON_S2I= (__force pci_bus_flags_t) 16,
+>  };
+>
+>  /* Values from Link Status register, PCIe r3.1, sec 7.8.8 */
+> --
 
 _______________________________________________
 Linux-nvme mailing list
