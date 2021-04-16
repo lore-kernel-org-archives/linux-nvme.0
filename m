@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB5CC433ED
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 23:54:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68FD7C433ED
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 23:54:19 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 585C461152
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 23:54:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 585C461152
+	by mail.kernel.org (Postfix) with ESMTPS id D753761166
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 23:54:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D753761166
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,80 +23,80 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:Cc:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YfjVv1xbKFl0rxlVCRxMujzq6JqXgx+PTyuyuUzMn9o=; b=CL1mR6SYiF4sV6iVzPWni6ravF
-	ipRROYHZ1Tg6XeGP9oi0I0GwLU4fKg/Kvx5qlZJrPRcaqhlmqk+pE53YuXXGNB+aw0oPiyLW6vzH9
-	9OqVUM5iA1F8mKXTxTX81DomJVGe6oaw/J3JqWQUSwmazPvC2znevOnGl8uAzQC7D6DGLL1V/RDTG
-	1ti7xr1NRHSpEkDapTU4mjpc8RDOBhXvRa/aWghv2K597FoYDfs8uTCQfjaojuE8rVO7gAaqBBT2q
-	mLAgOzQGVzifZkjI43Bq5ria5rfDYk0Du1oOpEU23BvjC0qWvxrHFb684TFI2mF3EkT6Hj8DeJq/F
-	rKZJ+E0g==;
+	bh=6GzZhAcCn+hCDCFNB15XqXxgl8h2kaaFokf0NLWzMxs=; b=MQKUPgtkj/9+jEC55unoNcnL0B
+	NXSiL4xD510Yie14s9jYUe94RBnIgBlDOv4BGt/DMSB3HP7XP3mn8HN5FWJyjYWWGmuzru94L0fe3
+	Cvnj5CoyStaak6lHW+E3v1PAfiZAWJC3G0dtSjhz4/ruex4/jHX6dRNzzo6cdzpkrDrMuD3XcBmAY
+	FzRQ6ucZkF6bAKh3YJ93f+9Z4TpnCOcwSq8Gm4s7qklF8kDCUJmpAFCITCMgcjSAYnGRUhCJPhctI
+	uz9TfxTCuRgZzFl4BzqBbFC4o9L6SdXXHuGjvEgJLWFX2q6mFyUvh1qfOmlJ/oCtfcQQNgFHjuSED
+	tbXeo87g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXYHa-003m5Y-H4; Fri, 16 Apr 2021 23:53:54 +0000
+	id 1lXYHl-003m6p-0W; Fri, 16 Apr 2021 23:54:05 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXYHK-003m41-OY
- for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 23:53:39 +0000
+ id 1lXYHL-003m4F-Kt
+ for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 23:53:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=References:In-Reply-To:Message-Id:
  Date:Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=TPYpDSq8Mf6GV23A4rg39jSHse9EX5i3mfgaOsbHzoU=; b=KSoxXXC0awC2LmvoWnHRG0FVA5
- QVAjtRVqxQCN87y0tRPGLdCA9wXBlV6SJi6eSf5EExXAt0xBNGYTx3ThaAFA+h5sAMTwymF7Mwyla
- kIqA/ljOoBkjnOauYVYaZ0gzxvhIhp3nvwXVJaD/foyilIFiDY9Z8HWmidjgg7HokZg4OvbmXc4dN
- bwdHvnkkpNRykQglxPiVd/zYYvxx03bwuXkPx0uDgTYYl97IkV7TQLcQ7NuLXRbNJgQjZ/Tq60Moj
- FQ+3LMwzSsursHiK341v8XipZEBuWMBM9A1X7aIFI4Fg+gyOBB4Gxj3R8WMPyjNEPJYeuUrNErL6n
- P1QBoXxQ==;
-Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34])
+ bh=6W4dFuQZFZDxrcjNEtMiTx3DGVpbYyuLvbl05NbuH68=; b=E5gZDIoqZWwgw1QfghlOTI2n9i
+ T2qoq+NFuuuximTxJWmgzsaOEC79LygQi/uVymGb9QeEjvAtLeo6IH4ou23aGFIuPHWdMz+Ld23aD
+ /gJqNRLlbcBDqHbwbZfyQqtu4kGt91C11Cg40m2O9IP1YjCwQVhk82/UJqLlSxg5T7xqar5165d7w
+ DB+FA1ooVCkXHr6juYWxc1s6rYyDPfR2Boj9f33kyE7e8CqQCmzTuQA08GqbrVvjtRudfeIBtVOIc
+ sRtXcYPKKzjIvsGbHCKdjONO9LA1uBcLfiYlEZprgwvK3/4vVtfDSgoOxRICl7F5vqVU2+UO9jBna
+ J0AnaDpw==;
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXYHH-009n0i-9m
- for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 23:53:37 +0000
-Received: by mail-qv1-xf34.google.com with SMTP id j3so14300477qvs.1
- for <linux-nvme@lists.infradead.org>; Fri, 16 Apr 2021 16:53:34 -0700 (PDT)
+ id 1lXYHH-009n0w-Sv
+ for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 23:53:38 +0000
+Received: by mail-qv1-xf33.google.com with SMTP id gv2so5000990qvb.8
+ for <linux-nvme@lists.infradead.org>; Fri, 16 Apr 2021 16:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=TPYpDSq8Mf6GV23A4rg39jSHse9EX5i3mfgaOsbHzoU=;
- b=ha/P7mAF80uD2DCWBuD7cEf0koTIbyLMQrHYlG+ZU/QEW4lsNqilMzcDUqE0lS19Vg
- zxbnXv/bKTtHtl5lR31XDYKi+AFVsKgP7z7Z8zAiKlRCsx9qfOv7IaI48Oj9OPXAE2Qd
- ZYR3wqRxDXNi6H9DIfnQwsYzSSW7Spg5gJeSg3jYJJIIMwZLEoohww7jq4Inve6K9JMp
- X9cwoqysjNxzBva5jaH+RKu7XgLa/pmkH4iL8Evwvc9mAsomBSqD28JL5Q+ljnAcrYpd
- a3G5nNNSGci4QPRiPPYZ0F5yGlSQHJH9X8ux9IHZLUqCOCqAOr2Ay+MP182+vsgWGkOf
- F+Gw==
+ bh=6W4dFuQZFZDxrcjNEtMiTx3DGVpbYyuLvbl05NbuH68=;
+ b=iCDnN0TcD52pcBDWvZyNoGF+BkPDWGIe5uDS4cKKGP9YY2a4hlr0Z4q4Y3d75SNPvL
+ ubKGKLnjxaJ2YsNM+A9O0JzXzsvM7k85bTCUQwKPPc/HeTPbd9b9tSizDy81e/yvakuy
+ 3lh2DUBiUsLxj6yn5qDz95ZMXw/WpAECviYxGuCdxgN8la/cJHygPOaYvYn0A+vbL0KT
+ iktznhNE3ErCMkc5uxGwSbVThavjgQ1gGIPSPycjmgkSQYTt/rkzL49pIeMQqPiFfPGy
+ NDSKmSC+SqwQhFE03WCCHB8LC1mz+nlZvidwljqPMMa5kUcJwRarhH/ifunqIPRiBv6K
+ gTsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=TPYpDSq8Mf6GV23A4rg39jSHse9EX5i3mfgaOsbHzoU=;
- b=UH+bAKwS430xRtI6PqvzvkGN02qb+luyqBGAo5ZSi69SbsyDKRx5hA+XrjxHWpCh9w
- yoGU6S9MLjeeRmfbh1UfuEIwUCscLBizZeLfT3sHcY9iW3x0tiMiHa7grtlKBKGBrhnw
- VWvgBSK3qtFreN1j+k+b89q53Ks8Ev5Uo47FNcdP5CPg5Sig3qq8TP8gxTeXLRER2RGx
- dw43JX1upKICaMWO0j+TE9/Eyu9R4bBVrFYKW/bSrfB+SVRJtntyL90aEeV6TL9Ir2cy
- Ct1akHZvEKnHY0nFIR8oFMJKoSoDOy4y2JrVrL4TF3Smk/cyO+tZLp2WpmSGrwP3t8/p
- XvDg==
-X-Gm-Message-State: AOAM532LelU5UPXGUm401/tiuB6l0hj7Cu+0SXr8aIgYr2RS5FJDatzV
- 85+injURX+02tgGYB90BvQM=
-X-Google-Smtp-Source: ABdhPJwbSaN8dqhGfKHuFj1wuJyFMhfU+pYxWICW3qhsOj3SwzeXkdQVt1y3wjQ6z92Mt6gOTZGp7w==
-X-Received: by 2002:a05:6214:1470:: with SMTP id
- c16mr11115642qvy.60.1618617212158; 
- Fri, 16 Apr 2021 16:53:32 -0700 (PDT)
+ bh=6W4dFuQZFZDxrcjNEtMiTx3DGVpbYyuLvbl05NbuH68=;
+ b=ZhtvO0zTZUEgB4SPsrIhhdPS5w14018UW5Kej+a+ZSKoVy4wOEKfuU5lLPUG6ZhL77
+ aCKQT3sI9VwdMnMvjIoCIpY5bkuBRY6oP6X7L2VHiqjmqorYhhWXB0eP7vKqL1PssS/a
+ qL5holNaBbJbv+6FcS7+V4yHrCxlLSJzlhq8G0S+Z3YFK8G9BzUcdwmoFiooFCF0Kkg1
+ gj0SQBjzGv3/pXuN5for4aA3LcPG+65ohsrFxjjH1YISG6ci/LbYiEgpFLSzSRUv8Qur
+ Mj3230NSeSjsMUl0JNKRQEMgUGv2DU9WGZs5d3YBAoZVFuMP7UBCiDJxgnIALaR84DuS
+ ZXhQ==
+X-Gm-Message-State: AOAM531J4COjpUkUjEk7SOjcSIHirl/MmHluwSOchGPq5itMUEfJsLb0
+ fXQitcpzm8Z7TEbRCbMyvhE=
+X-Google-Smtp-Source: ABdhPJwh6XHQ4W/sFJBzn//P5eE+pQK3iiAapSkSAHYWj127GoJpxUHJsFoe6ImvSyp0IpaHo7CJxA==
+X-Received: by 2002:a0c:b38b:: with SMTP id t11mr11025259qve.25.1618617214793; 
+ Fri, 16 Apr 2021 16:53:34 -0700 (PDT)
 Received: from localhost (pool-68-160-176-52.bstnma.fios.verizon.net.
  [68.160.176.52])
- by smtp.gmail.com with ESMTPSA id o23sm5037866qtp.55.2021.04.16.16.53.31
+ by smtp.gmail.com with ESMTPSA id l199sm768557qke.118.2021.04.16.16.53.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 16:53:31 -0700 (PDT)
+ Fri, 16 Apr 2021 16:53:34 -0700 (PDT)
 From: Mike Snitzer <snitzer@redhat.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org
-Subject: [PATCH v4 1/3] nvme: return BLK_STS_DO_NOT_RETRY if the DNR bit is set
-Date: Fri, 16 Apr 2021 19:53:27 -0400
-Message-Id: <20210416235329.49234-2-snitzer@redhat.com>
+Subject: [PATCH v4 3/3] nvme: decouple basic ANA log page re-read support from
+ native multipathing
+Date: Fri, 16 Apr 2021 19:53:29 -0400
+Message-Id: <20210416235329.49234-4-snitzer@redhat.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <20210416235329.49234-1-snitzer@redhat.com>
 References: <20210416235329.49234-1-snitzer@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210416_165335_346379_04AB87D2 
-X-CRM114-Status: GOOD (  17.95  )
+X-CRM114-CacheID: sfid-20210416_165335_953711_F349F9A6 
+X-CRM114-Status: GOOD (  18.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,65 +114,109 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If the DNR bit is set we should not retry the command.
+Whether or not ANA is present is a choice of the target implementation;
+the host (and whether it supports multipathing) has _zero_ influence on
+this. If the target declares a path as 'inaccessible' the path _is_
+inaccessible to the host. As such, ANA support should be functional
+even if native multipathing is not.
 
-We care about the retryable vs not retryable distinction at the block
-layer so propagate the equivalent of the DNR bit by introducing
-BLK_STS_DO_NOT_RETRY. Update blk_path_error() to _not_ retry if it
-is set.
+Introduce ability to always re-read ANA log page as required due to ANA
+error and make current ANA state available via sysfs -- even if native
+multipathing is disabled on the host (e.g. nvme_core.multipath=N).
+This is achieved by factoring out nvme_update_ana() and calling it in
+nvme_complete_rq() for all FAILOVER requests.
 
-This change runs with the suggestion made here:
-https://lore.kernel.org/linux-nvme/20190813170144.GA10269@lst.de/
+This affords userspace access to the current ANA state independent of
+which layer might be doing multipathing. This makes 'nvme list-subsys'
+show ANA state for all NVMe subsystems with multiple controllers. It
+also allows userspace multipath-tools to rely on the NVMe driver for
+ANA support while dm-multipath takes care of multipathing.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
+And as always, if embedded NVMe users do not want any performance
+overhead associated with ANA or native NVMe multipathing they can
+disable CONFIG_NVME_MULTIPATH.
+
 Signed-off-by: Mike Snitzer <snitzer@redhat.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/core.c  | 3 +++
- include/linux/blk_types.h | 8 ++++++++
- 2 files changed, 11 insertions(+)
+ drivers/nvme/host/core.c      |  2 ++
+ drivers/nvme/host/multipath.c | 16 +++++++++++-----
+ drivers/nvme/host/nvme.h      |  4 ++++
+ 3 files changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0896e21642be..540d6fd8ffef 100644
+index a12b10a1383c..83ca96292157 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -237,6 +237,9 @@ static void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
+@@ -340,6 +340,8 @@ static inline void nvme_end_req(struct request *req)
  
- static blk_status_t nvme_error_status(u16 status)
+ static inline void nvme_failup_req(struct request *req)
  {
-+	if (unlikely(status & NVME_SC_DNR))
-+		return BLK_STS_DO_NOT_RETRY;
++	nvme_update_ana(req);
 +
- 	switch (status & 0x7ff) {
- 	case NVME_SC_SUCCESS:
- 		return BLK_STS_OK;
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index db026b6ec15a..1ca724948c56 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -142,6 +142,13 @@ typedef u8 __bitwise blk_status_t;
-  */
- #define BLK_STS_ZONE_ACTIVE_RESOURCE	((__force blk_status_t)16)
+ 	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
+ 	nvme_end_req(req);
+ }
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index a1d476e1ac02..7d94250264aa 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -65,23 +65,29 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 	}
+ }
  
-+/*
-+ * BLK_STS_DO_NOT_RETRY is returned from the driver in the completion path
-+ * if the device returns a status indicating that if the same command is
-+ * re-submitted it is expected to fail.
-+ */
-+#define BLK_STS_DO_NOT_RETRY	((__force blk_status_t)17)
-+
- /**
-  * blk_path_error - returns true if error may be path related
-  * @error: status the request was completed with
-@@ -157,6 +164,7 @@ typedef u8 __bitwise blk_status_t;
- static inline bool blk_path_error(blk_status_t error)
+-void nvme_failover_req(struct request *req)
++void nvme_update_ana(struct request *req)
  {
- 	switch (error) {
-+	case BLK_STS_DO_NOT_RETRY:
- 	case BLK_STS_NOTSUPP:
- 	case BLK_STS_NOSPC:
- 	case BLK_STS_TARGET:
+ 	struct nvme_ns *ns = req->q->queuedata;
+ 	u16 status = nvme_req(req)->status & 0x7ff;
+-	unsigned long flags;
+-
+-	nvme_mpath_clear_current_path(ns);
+ 
+ 	/*
+ 	 * If we got back an ANA error, we know the controller is alive but not
+-	 * ready to serve this namespace.  Kick of a re-read of the ANA
++	 * ready to serve this namespace.  Kick off a re-read of the ANA
+ 	 * information page, and just try any other available path for now.
+ 	 */
+ 	if (nvme_is_ana_error(status) && ns->ctrl->ana_log_buf) {
+ 		set_bit(NVME_NS_ANA_PENDING, &ns->flags);
+ 		queue_work(nvme_wq, &ns->ctrl->ana_work);
+ 	}
++}
++
++void nvme_failover_req(struct request *req)
++{
++	struct nvme_ns *ns = req->q->queuedata;
++	unsigned long flags;
++
++	nvme_mpath_clear_current_path(ns);
++	nvme_update_ana(req);
+ 
+ 	spin_lock_irqsave(&ns->head->requeue_lock, flags);
+ 	blk_steal_bios(&ns->head->requeue_list, req);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 07b34175c6ce..4eed8536625c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -664,6 +664,7 @@ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys);
+ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 			struct nvme_ctrl *ctrl, int *flags);
+ void nvme_failover_req(struct request *req);
++void nvme_update_ana(struct request *req);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
+ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id);
+@@ -714,6 +715,9 @@ static inline void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ static inline void nvme_failover_req(struct request *req)
+ {
+ }
++static inline void nvme_update_ana(struct request *req)
++{
++}
+ static inline void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+ {
+ }
 -- 
 2.15.0
 
