@@ -2,97 +2,101 @@ Return-Path: <SRS0=jca5=JN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D722C433B4
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 01:29:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38A07C433ED
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 02:46:10 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9279F600EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 01:29:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9279F600EF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 6D4D16113B
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 02:46:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D4D16113B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=2MdbdTVvPZU/2r0PiwqdLyjgVtWBnAKxet5ejWJJzRg=; b=Dw2uiDqOjcQLKHH/aU7hYV4cg
-	G/+PdhHGfJftuF7OHi+YCsP4zsD/FmMusx2mfr5yJzKwMCo3K8Dfnlu1Gb/+fCH9BBkr1+W/9N2yC
-	FMhFFPYuPrcf4hEUQXIP8ORX0hBFdDZPMm9fAxSVDVxTvt8fN3YNfWqrWbYeLLzAbCQWkvSs5XbHH
-	0dFfv1JdwSMwrOSDGvSuK8GEvYlP5J3CrzVSHKHZl7HReXs8dlyBHNAIe9KGuqWQtHzcQLSYunBAF
-	wNWGDgCX0sc7G9Via/MLGDsH8pyip61TKNbRMIfkZNg+Qp4Y1yo6rco1BEHyuDC+ibqAoBaj2lzDN
-	xBmsihRAw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PM+3W5OEX/ZhwuEo9ZLbZlKqG6zbEean+gZIdBzmSCQ=; b=okT61PAU5+VgulzSixX3s66GIv
+	wqjjUr17vA7lgu8zDzLDAlWSF1iu2cMIHrdAbtmNEiD8pmIck95iKpkRT0s9U+RyLhYYtjn7qb+4i
+	Dj6ymkn/I6Ivro4bK4d3n538vzIm31feSLm2x0UKApqnBTrMWx9DQjbazIl34DzqyJRrAkFfiMjWY
+	SbDZecMZptyomUqG8iJo/AruTPH2a/Ie2cLpCcPtZ0cZ5rOUTKieQbJ3gMWdvCv4Xm0GKAhxR7aww
+	K4KwOlcWg12OF1Gp5RGB9Q1ndbzByinR54fh31zGymUNgi+SBTiBA5grLCjjp8laKryzu8Q6TzaTT
+	wfEVg3gw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXDHz-000NCf-7H; Fri, 16 Apr 2021 01:28:55 +0000
+	id 1lXEUP-000X7f-RN; Fri, 16 Apr 2021 02:45:50 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXDHu-000NCQ-2m
- for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 01:28:50 +0000
+ id 1lXEUM-000X79-6S
+ for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 02:45:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=q0cmPSdk62RM6Rohe8F7GfXinQJD6JbYRfgxZ7IYSgE=; b=Aih2HFO/CJ2htgLeTlnvCcMWg+
- Rb57Fm4/6+S9QuFnkTeDhk+nhSWwcnj+KUrWQ4uIIfuPM9gyElOL2m7rkEzxCkIjkZ3Xm6nupaYr0
- HOa/OdXVQlpWnTebRcNJOy26Et9YNtAoyjizajOATyS0CPC4hR9GVNVhL2F0pOiCZHc29Dn53EqCH
- sZc2LWamUzJUcHNg2rkk3o4f5vA1lgMJSi/4CIFHUHn0dRGhl1corb1oxKLGMNiF87OeXgM5ejk41
- EvUNcCJkRvJnMECY/MY0EYjMsWtrpXUW3c4MZfidJMD2MRYn8EwN+Gc+3LskrXOlw3d9AGWXG3cU5
- /Tjn7koA==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=DD5vGh/1XjgLhGheylu9wiZc96rmwzDph3yLuv/G1mg=; b=brmv+uXuj7uo4jn7IA/YS6A+Bf
+ kVSWdYrHVjDZieQ3L6ghqamm0HybGgOVOKgTb3xzWP7aBg/F19RUpCYwq28dJE37oTGs7yxBY2fM/
+ Cr6PV2vehD6XghWb3mAi3rxORfCpHHS3PlchW9+rwva3FaJGu/qg5V3RrkbRDQ5rLfoT9Sez/Ol9H
+ kp0e+yAaIaB0K5gxQujn6C0/h76POD7v3D6kQsgwGg2aQbW5LjCadjfnAfUrenACQ7Bk8vVo4YOWp
+ XyLKoHL9CqW1reYI3Sq2jbaj1KoUxn0Zbjfn8X5YtEfypdyc1KpMuruLhpXR3gw5Wt5cAAiuQabvL
+ THU3oTEQ==;
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXDHr-0091BQ-5G
- for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 01:28:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618536525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q0cmPSdk62RM6Rohe8F7GfXinQJD6JbYRfgxZ7IYSgE=;
- b=SJz79c4heZbclg5dDITOmIyA7SkyCzsmB3v8k7yxKN1EkPZWUKFKejif4S4mu2VPmKz2k9
- 42PmNKz/3sOJnBYaRTy+gNmL47VxWeuyXZ0szmTQp1LwDPmChSl0G4CFewNKi2+tp+1MZW
- HMXs+3r+212zdatuuD42q6wgZBPhxes=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-5I-xjjtWONmT-Z8kJwOWdw-1; Thu, 15 Apr 2021 21:28:41 -0400
-X-MC-Unique: 5I-xjjtWONmT-Z8kJwOWdw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45F9F1883520;
- Fri, 16 Apr 2021 01:28:40 +0000 (UTC)
-Received: from T590 (ovpn-12-36.pek2.redhat.com [10.72.12.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E718D59457;
- Fri, 16 Apr 2021 01:28:26 +0000 (UTC)
-Date: Fri, 16 Apr 2021 09:28:22 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
- Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, Song Liu <song@kernel.org>,
- dm-devel@redhat.com, Jeffle Xu <jefflexu@linux.alibaba.com>,
- Christoph Hellwig <hch@lst.de>
-Subject: Re: [dm-devel] [RFC PATCH 2/2] block: support to freeze bio based
- request queue
-Message-ID: <YHjoNg/Z7KQ+4+YX@T590>
-References: <20210415103310.1513841-1-ming.lei@redhat.com>
- <20210415103310.1513841-3-ming.lei@redhat.com>
- <af8f41f4-74e8-450d-fa63-6feb6b745222@acm.org>
+ id 1lXEUJ-0092Mj-HF
+ for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 02:45:44 +0000
+Received: by mail-pg1-x52a.google.com with SMTP id p12so18239613pgj.10
+ for <linux-nvme@lists.infradead.org>; Thu, 15 Apr 2021 19:45:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DD5vGh/1XjgLhGheylu9wiZc96rmwzDph3yLuv/G1mg=;
+ b=LFH4KgmnaxObOV/ET9vO3MVI72fv+in2HXoYYhsvUyYjRy8GXRtRvFbzdck1R3kclP
+ a2GkxFYCFFHol5FIQtHI2UIWvfK9VRDgUhNtEERyXLUvAiggFeqAnnhKEJwCTHvPPOlc
+ EFmkaBFphNXsDy/KiPVfPjANLlHoDonDh9uKSU3l19S0EBCfS+27JqEeJgqn1i06WJER
+ uqoKuN98jTzS1BKO74bPU5wlb4mUbW+c+NjUUj7w0YVIzWkuGVc6hSD/1TAryY9nWrgZ
+ eORd5KopuiQr6vYzQV9zD+gcdwEh7srxS6JZjk+/GrkxZSgGKAIm8RLsE1OeeJ4jA+qe
+ 5bnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DD5vGh/1XjgLhGheylu9wiZc96rmwzDph3yLuv/G1mg=;
+ b=gTdxVJj3GzdI297+mPs1hnkcDbpD7utq4hJKfS05XZtZz3AK2qX39b+eJBxec48WzH
+ Rvt6+XuGNUyILWJsCGMVjANI17mg7H/LCKaFHd62TfHR0TSkDgE/9NmWg77+zGIwHPl+
+ 34XwUkDPcSeG5fdwuxmp9pGbOipKxwRuglKTe/1drGNuDmDSt4M/kdv/Jn6YiPRl1yPH
+ KZtUQZnqxuGtw1Sh7++iowMQSKoWsxGrnmThRWufdl1PlX4XYiBM4ygZfrH3ewEVwfL2
+ K2QGAX0eNd6bPIY0NdNZmfDsoKgGQuHVvMYxFzPjAdGyHghx58LOWYXCj/4Wf2Issbl5
+ SW5A==
+X-Gm-Message-State: AOAM531mkkSvfCAQzNB5d3zuT2k/lkh9b8WwN3XZQ5lf/7gmcmHoDQMa
+ V7nKZZBDaerJA8VGzA2JRtg=
+X-Google-Smtp-Source: ABdhPJxw6P5ods6WAl90OwlML6iwHzhvZrMmBklU3vIY3VbbG9NWA6CG5T2ijH1cv3ZzjdpEGUptOA==
+X-Received: by 2002:a63:d009:: with SMTP id z9mr6209447pgf.16.1618541140057;
+ Thu, 15 Apr 2021 19:45:40 -0700 (PDT)
+Received: from houpudeMacBook-Pro.local.net ([61.120.150.70])
+ by smtp.gmail.com with ESMTPSA id x26sm3230267pfm.134.2021.04.15.19.45.37
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 15 Apr 2021 19:45:39 -0700 (PDT)
+From: Hou Pu <houpu.main@gmail.com>
+To: sagi@grimberg.me,
+	hch@lst.de,
+	chaitanya.kulkarni@wdc.com
+Cc: linux-nvme@lists.infradead.org,
+	houpu.main@gmail.com
+Subject: [PATCH v2] nvmet: avoid queuing keep-alive timer if it is disabled
+Date: Fri, 16 Apr 2021 10:45:21 +0800
+Message-Id: <20210416024521.19661-1-houpu.main@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <af8f41f4-74e8-450d-fa63-6feb6b745222@acm.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210415_182847_295336_CDEFE21E 
-X-CRM114-Status: GOOD (  23.55  )
+X-CRM114-CacheID: sfid-20210415_194543_606824_812AC73C 
+X-CRM114-Status: GOOD (  12.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,62 +113,58 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 15, 2021 at 01:16:42PM -0700, Bart Van Assche wrote:
-> On 4/15/21 3:33 AM, Ming Lei wrote:
-> > 1) grab two queue usage refcount for blk-mq before submitting blk-mq
-> > bio, one is for bio, anther is for request;
->                        ^^^^^^
->                        another?
-> 
-> > diff --git a/block/blk-core.c b/block/blk-core.c
-> > index 09f774e7413d..f71e4b433030 100644
-> > --- a/block/blk-core.c
-> > +++ b/block/blk-core.c
-> > @@ -431,12 +431,13 @@ EXPORT_SYMBOL(blk_cleanup_queue);
-> >  int blk_queue_enter(struct request_queue *q, blk_mq_req_flags_t flags)
-> >  {
-> >  	const bool pm = flags & BLK_MQ_REQ_PM;
-> > +	const unsigned int nr = (flags & BLK_MQ_REQ_DOUBLE_REF) ? 2 : 1;
-> 
-> Please leave out the parentheses from around the condition in the above
-> and in other ternary expressions. The ternary operator has a very low
-> precedence so adding parentheses around the condition in a ternary
-> operator is almost never necessary.
-> 
-> > @@ -480,8 +481,18 @@ static inline int bio_queue_enter(struct bio *bio)
-> >  	struct request_queue *q = bio->bi_bdev->bd_disk->queue;
-> >  	bool nowait = bio->bi_opf & REQ_NOWAIT;
-> >  	int ret;
-> > +	blk_mq_req_flags_t flags = nowait ? BLK_MQ_REQ_NOWAIT : 0;
-> > +	bool reffed = bio_flagged(bio, BIO_QUEUE_REFFED);
-> >  
-> > -	ret = blk_queue_enter(q, nowait ? BLK_MQ_REQ_NOWAIT : 0);
-> > +	if (!reffed)
-> > +		bio_set_flag(bio, BIO_QUEUE_REFFED);
-> > +
-> > +	/*
-> > +	 * Grab two queue references for blk-mq, one is for bio, and
-> > +	 * another is for blk-mq request.
-> > +	 */
-> > +	ret = blk_queue_enter(q, q->mq_ops && !reffed ?
-> > +			(flags | BLK_MQ_REQ_DOUBLE_REF) : flags);
-> 
-> Consider rewriting the above code as follows to make it easier to read:
-> 
-> 	if (q->mq_ops && !reffed)
-> 		flags |= BLK_MQ_REQ_DOUBLE_REF;
-> 	ret = blk_queue_enter(q, flags);
-> 
-> Please also expand the comment above this code. The comment only
-> explains the reffed == false case but not the reffed == true case. I
-> assume that the reffed == true case applies to stacked bio-based drivers?
+Issue following command:
+nvme set-feature -f 0xf -v 0 /dev/nvme1n1 # disable keep-alive timer
+nvme admin-passthru -o 0x18 /dev/nvme1n1  # send keep-alive command
+will make keep-alive timer fired and thus delete the controller like
+below:
 
-'reffed == true' means we have got one queue usage count already for
-this bio, so only need to grab one usage count for blk-mq request.
+[247459.907635] nvmet: ctrl 1 keep-alive timer (0 seconds) expired!
+[247459.930294] nvmet: ctrl 1 fatal error occurred!
 
+Avoid this by not queuing delayed keep-alive if it is disabled when
+keep-alive command is received from the admin queue.
 
-Thanks,
-Ming
+Signed-off-by: Hou Pu <houpu.main@gmail.com>
+Tested-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+v2:
+Simplify code suggested by Chaitanya Kulkarni.
+Add Tested-by Tested-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/admin-cmd.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index f4cc32674edd..d2a26ff3f7b3 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -919,15 +919,21 @@ void nvmet_execute_async_event(struct nvmet_req *req)
+ void nvmet_execute_keep_alive(struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	u16 status = 0;
+ 
+ 	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 
++	if (!ctrl->kato) {
++		status = NVME_SC_KA_TIMEOUT_INVALID;
++		goto out;
++	}
++
+ 	pr_debug("ctrl %d update keep-alive timer for %d secs\n",
+ 		ctrl->cntlid, ctrl->kato);
+-
+ 	mod_delayed_work(system_wq, &ctrl->ka_work, ctrl->kato * HZ);
+-	nvmet_req_complete(req, 0);
++out:
++	nvmet_req_complete(req, status);
+ }
+ 
+ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+-- 
+2.28.0
 
 
 _______________________________________________
