@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98D2AC433ED
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 11:47:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F85C433B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 11:48:40 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5DDDA61057
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 11:47:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5DDDA61057
+	by mail.kernel.org (Postfix) with ESMTPS id 9D43661057
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 11:48:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D43661057
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,52 +23,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CLkJJz6MqzZAM/caW7LMTWJWfY0BXYVdG73b8D81LDs=; b=hldMptq+OC9DdmzVs18YPPv7l
-	myjJQiQrBG4YdDvdaEr/ypz7lpasAOwaofFUcrPHn4SLPaKUMHz35s1kmJGGRxkDjue/vG+596pfW
-	PPhRmRVqsXdsY/OsRHaQ4/z4ln/MKR+54hU52IYS6agyKvvSdJgBIZGNI6H2XYwRPXFIZdyd38W78
-	AmkgXutTU0YWeKHjEcAozKkYvI1lU2924O35Tco002Bfv8O3nfo9XYhv7naim0U3jQ9BflQiAv2MY
-	B0GYkQXbzg1WzmG+vHAC7MhNzYHv6DoXsu9rfGecHy32imYRIF0Gu+NXxluWrD8PzBaugp3MsOWfS
-	B+hYzA++Q==;
+	 bh=Xzsk+EcCfpdBXPv8Gi63diamkH6xiEgS/yzIDw4dWXk=; b=ZW52sB5qxpGWCT61Bs6b7Rnm4
+	rQ8KgliwkDY6LYHPOiSnT4OpXxwkkoIakr/kWLqOkdaQxDno0wZpl77o9e8S7t5kYmJnvDV/dKZsJ
+	vo+F8xNOl4DEibY9Cly8KdxBmUIxoNZHQPOWoNJQB9dZePwT86Cpa6o3zldGWlGk9pd466kLrOiC2
+	Zb4wxnHA30zk/6eTZwnLkkAjkLx9YjecO6LDZzM9gaxFo3FyjvW88DC/T/m6aVTiiaOkGEWXwHgGW
+	64zyW5uBGZTcgUb1gRfwxb6wHtx5FHnHneCK2ckHxJ1FWd29qLHZk6CxdWQHc9UOrHy6+EqziYkmW
+	cpZxoq82w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXMwE-001yU4-86; Fri, 16 Apr 2021 11:47:06 +0000
+	id 1lXMwP-001yVs-8J; Fri, 16 Apr 2021 11:47:17 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXMve-001yNG-OX
+ id 1lXMvf-001yNH-32
  for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 11:46:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=3wJ6HgBrEh1mxbKxdB/u1JQtHoOIaE1VMA6VpPF2TqM=; b=c7wIx0kJlYJFYx4dPro7MIGwXN
- hIldLmXLqT47dxGi/jBHEZl8Uqa51iU36HgX7iSwbgclyj9SXYSeTCMTR6l7Oxgk3VIPukJMRge9P
- 5EYzpZdsF+n1nbQiHJcpYY/31FdKyk+dw9kOvTQ2d0Pu+2WqvVRKE9h6f+wkxm+rOEHh1M7Z+z97S
- uEKyix9HfBg5m+k1d0ugRpLcM2yspEOBba6656LIiPRTPSoJqz/qt+ZYnRO9mlLbTcf+Y1ZY5CrSs
- 3MkIZzhVdVsqMlVdFXchsXjkG3RR7KLLiZ52alCP/qPq3GkGKJ6Rz1AdrQveyZhIS3GwPUVQ8da+b
- AHXKU1cA==;
+ bh=PjUz+a4ic/EtYrlRA7e3gt0ZwtuKqKnQoSeqKX4fEBo=; b=D2iA0YhxYktlu2u0vpIbY0wAq3
+ 1f43DT53IDXXbU1AFpqPH2N63xX/vJ+d802GJGyX0IBiFVVL81/AEQNK35CSkujHccTB6xBTIXFwl
+ XpwOEDPGTGSDG+XFZ5fdYrMQjGv7CC4W0w43eDopZaPoN4tKf+SeTFayGbiY141Iw5ij6BvDiBfBr
+ 3LCDdjew0AV1ksbfVNgPWyXsnxPREBfVznBZgII8ihhGgGeF66NN5XFT8xICAqlLBwKsRcwxKf/bj
+ rrKO+QGM4sRfKPIn9pMyBVCIJUzcTO+9pyPus5PxgXO8DQL9d5pH85TRa0pxloKX8mpFCZ0dE8KVB
+ wEKruh0w==;
 Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXMvb-009KRn-8y
- for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 11:46:28 +0000
+ id 1lXMvb-009KRm-90
+ for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 11:46:29 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B938CB02A;
+ by mx2.suse.de (Postfix) with ESMTP id B7457AE5C;
  Fri, 16 Apr 2021 11:46:25 +0000 (UTC)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 2/2] nvme: add 'kato' sysfs attribute
-Date: Fri, 16 Apr 2021 13:46:21 +0200
-Message-Id: <20210416114621.129736-3-hare@suse.de>
+Subject: [PATCH 1/2] nvme: sanitize KATO setting
+Date: Fri, 16 Apr 2021 13:46:20 +0200
+Message-Id: <20210416114621.129736-2-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210416114621.129736-1-hare@suse.de>
 References: <20210416114621.129736-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210416_044627_503129_9CFC279A 
-X-CRM114-Status: UNSURE (   9.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210416_044627_630154_A76CD960 
+X-CRM114-Status: GOOD (  14.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,37 +84,100 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a 'kato' controller sysfs attribute to display the current
-keep-alive timeout value (if any). This allows userspace to identify
-persistent discovery controllers, as these will have a non-zero
-KATO value.
+According to the NVMe base spec the KATO commands should be sent
+at half of the KATO interval, to properly account for round-trip
+times.
+As we now will only ever send one KATO command per connection we
+can easily use the recommended values.
+This also fixes a potential issue where the request timeout for
+the KATO command does not match the value in the connect command,
+which might be causing spurious connection drops from the target.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/host/core.c    | 18 +++++++++++++++---
+ drivers/nvme/host/fabrics.c |  4 +---
+ drivers/nvme/host/nvme.h    |  1 -
+ 3 files changed, 16 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f58e196d5b4b..67f0607055e8 100644
+index 40f08e6325ef..f58e196d5b4b 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3173,6 +3173,7 @@ nvme_show_int_function(cntlid);
- nvme_show_int_function(numa_node);
- nvme_show_int_function(queue_count);
- nvme_show_int_function(sqsize);
-+nvme_show_int_function(kato);
+@@ -1109,6 +1109,18 @@ void nvme_execute_passthru_rq(struct request *rq)
+ }
+ EXPORT_SYMBOL_NS_GPL(nvme_execute_passthru_rq, NVME_TARGET_PASSTHRU);
  
- static ssize_t nvme_sysfs_delete(struct device *dev,
- 				struct device_attribute *attr, const char *buf,
-@@ -3370,6 +3371,7 @@ static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_ctrl_loss_tmo.attr,
- 	&dev_attr_reconnect_delay.attr,
- 	&dev_attr_fast_io_fail_tmo.attr,
-+	&dev_attr_kato.attr,
- 	NULL
- };
++/*
++ * Recommended frequency for KATO commands per NVMe 1.4 section 7.12.1:
++ *
++ * The host should send Keep Alive commands at half of the
++ * Keep Alive Timeout accounting for transport roundtrip times [..].
++ */
++static inline void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
++{
++	queue_delayed_work(nvme_wq, &ctrl->ka_work,
++			   ctrl->kato * HZ / 2);
++}
++
+ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ {
+ 	struct nvme_ctrl *ctrl = rq->end_io_data;
+@@ -1131,7 +1143,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ 		startka = true;
+ 	spin_unlock_irqrestore(&ctrl->lock, flags);
+ 	if (startka)
+-		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
++		nvme_queue_keep_alive_work(ctrl);
+ }
  
+ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
+@@ -1161,7 +1173,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
+ 		dev_dbg(ctrl->device,
+ 			"reschedule traffic based keep-alive timer\n");
+ 		ctrl->comp_seen = false;
+-		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
++		nvme_queue_keep_alive_work(ctrl);
+ 		return;
+ 	}
+ 
+@@ -1178,7 +1190,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	if (unlikely(ctrl->kato == 0))
+ 		return;
+ 
+-	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
++	nvme_queue_keep_alive_work(ctrl);
+ }
+ 
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 604ab0e5a2ad..13c2747e3d00 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -379,10 +379,8 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 
+ 	/*
+ 	 * Set keep-alive timeout in seconds granularity (ms * 1000)
+-	 * and add a grace period for controller kato enforcement
+ 	 */
+-	cmd.connect.kato = ctrl->kato ?
+-		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000) : 0;
++	cmd.connect.kato = cpu_to_le32(ctrl->kato * 1000);
+ 
+ 	if (ctrl->opts->disable_sqflow)
+ 		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index c6102ce83bb4..49276186d5bd 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -27,7 +27,6 @@ extern unsigned int admin_timeout;
+ #define NVME_ADMIN_TIMEOUT	(admin_timeout * HZ)
+ 
+ #define NVME_DEFAULT_KATO	5
+-#define NVME_KATO_GRACE		10
+ 
+ #ifdef CONFIG_ARCH_NO_SG_CHAIN
+ #define  NVME_INLINE_SG_CNT  0
 -- 
 2.29.2
 
