@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A56DC433ED
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 14:54:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17923C433ED
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 15:03:31 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C871A61166
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 14:54:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C871A61166
+	by mail.kernel.org (Postfix) with ESMTPS id 8C79B611C2
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 15:03:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C79B611C2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,75 +23,75 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=latChqbYGboAtsrGTVrJbmVVh1myml44Rgkzu0uSRFE=; b=eMqwnxssdJhKbTMtIwl4oSMyi
-	UCWRvv73OVnBEmDKEBEaXl4IB1uEVLqzeyEKivLeAqaWI2LzRPByJWz3hkN8SPI7HUmq4So4o4pSq
-	eMmGnGbvo4qLcKHvT8LAmGU7mnc+vuMrIU40khkgu/uRC9JXY/SqCk6da1wIhW8vBUa3+Jo8uvK1H
-	Ra54meTlDWVXahHeO++1BpU3m/+jo9ojoa2tDQo0EJlQCZLqWufXj1EukY0O7AHYS00DPkf1ea+vb
-	52BaT1OTWL9SuXtcGF3VGwB5zvGrS7tdDnnkHW6A8GjofHoLL46MrCBXE09T00vt4zXxYuIw+BuYa
-	77UTVwnQA==;
+	 bh=yF5LmMjJdFhOG5/GIrMNGV7IKNrs8eCpwSSNehr193s=; b=hOuR30J7DIszX5/uuVHBaw+Dw
+	rktfKFhHwQi2IFSw1P+qL6xej2JaWcq92dyU3+rmh1oYccZkxzfXSRWvAid7TX56cQTMWoWrFTkHX
+	KcjzJvCn31BgcFlCEaMqPzz032wjoTe4a/0HNTOIYRj/z9VAWW24MXxWKpkHuZLWk+fZlOfkw+ZCO
+	HzWdJiDzBVYnBYsQZ8/zve6ELWDg8FiK8iyDliSXlAKtNU52tKajizWiH6+vTn1GvDx+qOGd115tC
+	f/Uk1hmDgkWGTvP0St6HoNyGmS7atUT/fTvPGFn/q36pCnc7jGO0znaB2SrXyEGRJGSyF4b7qC3C3
+	2i/bVP1uQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXPr5-002W72-Fe; Fri, 16 Apr 2021 14:53:59 +0000
+	id 1lXQ0A-002Xs8-To; Fri, 16 Apr 2021 15:03:23 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXPr2-002W65-HZ
- for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 14:53:57 +0000
+ id 1lXQ03-002XrF-Id
+ for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 15:03:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=EpMX9YVvuW9vjoyNtTGCOLzykDR5ZQD680fLHRs3kog=; b=Dz5cF9axScBhPPbV5vBcmp55kq
- GwZeiU1nahvym8tkLYP72hmX0uHnpsnryYU4vgqVdN8iWtfWRLxdSIRvaqwuYkGCytCQlP1/yvDLC
- Rzv8e/mueIVzshqB83a3NJOxk6ilDrH1KY2K9+DfxV38qPLgTcVClErqPNgfJfvREyj9CjVuTDvYa
- eeU1T0OKmox7puA+yUhaM70HM67hWPYTXGOmGUDubd728Ued/Kou0vUhppf9fuc6kPnhq9O1yCNL9
- 5wJMZ946kK1RNSKhFARtoDoCkVpwDiWN9/Tt22mcy11E8ONmgSlCzXhsUYHQzOL7EPEpD21bxfCh8
- aTQTS7rw==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ bh=nAwLTTBiOSaO2ampe3YpvQbW2lPPm7lXf6s0XEc69Ps=; b=p3awlABgEQzNIB/RmDJcFH21wz
+ LJCnOl3VZXgtRuqgGPibTbB9AJ1pdPIL3hqoaW+Xc8s0iIw9MVcjW4Mc/IyBNuT01X04vqazvcGk4
+ DDSUluyzjZomdhw63strEOTcXbJlkIPJWbOoO6tVZ0YvZQQBbXOWnFDCtlVPFdGTAqm0X60iT5F0h
+ FqCH1hpDyl2iPhI4n7jnFCdxEvVKK9k18Ywa9rxU/6mjXbzMkxX0B/gko1FGbP2uhiuEkA0W+HI+L
+ jGsaOZfMyr3f8tgU+hzTjq+Wra6ZQYBQOlcYKFm4TDrfWhMRdXIiOE+hZYg1z671CG3rGIfQkU4Ns
+ VZLZBcKQ==;
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXPqv-009Tae-TH
- for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 14:53:55 +0000
+ id 1lXPzx-009U7T-Sa
+ for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 15:03:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618584828;
+ s=mimecast20190719; t=1618585388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EpMX9YVvuW9vjoyNtTGCOLzykDR5ZQD680fLHRs3kog=;
- b=HF2+eDooc6OOLCP0v2N6TahZDru9V/3EaMDHZ6UsHjm0JoFR+RKmfGqXdko2h9ciBdY0+C
- ZvqBm2hrbki76e1MxvX3NLZv4as5fGrC1QHQCrN1I2UWib/aZbjUXDMWJCWgWVDNa/ana6
- UhW+dSwo8iet5RqPKe/hW//LWqBuOYo=
+ bh=nAwLTTBiOSaO2ampe3YpvQbW2lPPm7lXf6s0XEc69Ps=;
+ b=GNxQ8dare3R8fn2W9hkKeEZ26atdaJ5eZZc43MyR94arj+zAQgEwDRDfSAj5YBMkuqQDrU
+ V+GXwZkg+C9qakhkFzUGRWw/8nFJuXt3R2ovKrDf/yQycF9BITklK96XR7Co4qJRPe1/OF
+ tew7G/pVr8iu4+5k0JHa1hy/6W7RdWM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-EFLytdQcMEa8zICGLZ5Wcw-1; Fri, 16 Apr 2021 10:53:45 -0400
-X-MC-Unique: EFLytdQcMEa8zICGLZ5Wcw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-507-9JhHFIbOOhSvfnHJan341w-1; Fri, 16 Apr 2021 11:03:07 -0400
+X-MC-Unique: 9JhHFIbOOhSvfnHJan341w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB3C1501E1;
- Fri, 16 Apr 2021 14:53:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4F2A106BBE9;
+ Fri, 16 Apr 2021 15:03:05 +0000 (UTC)
 Received: from localhost (unknown [10.18.25.174])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 274AE5D9C0;
- Fri, 16 Apr 2021 14:53:41 +0000 (UTC)
-Date: Fri, 16 Apr 2021 10:53:40 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C784A5D751;
+ Fri, 16 Apr 2021 15:03:01 +0000 (UTC)
+Date: Fri, 16 Apr 2021 11:03:01 -0400
 From: Mike Snitzer <snitzer@redhat.com>
 To: Hannes Reinecke <hare@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  dm-devel@redhat.com, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Chao Leng <lengchao@huawei.com>
-Subject: Re: [PATCH v2 2/4] nvme: allow local retry for requests with
- REQ_FAILFAST_TRANSPORT set
-Message-ID: <20210416145340.GB16047@redhat.com>
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2 3/4] nvme: introduce FAILUP handling for
+ REQ_FAILFAST_TRANSPORT
+Message-ID: <20210416150301.GC16047@redhat.com>
 References: <20210415231530.95464-1-snitzer@redhat.com>
- <20210415231530.95464-3-snitzer@redhat.com>
- <da184561-2c97-5807-5c5b-9cc6593693c6@suse.de>
+ <20210415231530.95464-4-snitzer@redhat.com>
+ <6185100e-89e6-0a7f-8901-9ce86fe8f1ac@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <da184561-2c97-5807-5c5b-9cc6593693c6@suse.de>
+In-Reply-To: <6185100e-89e6-0a7f-8901-9ce86fe8f1ac@suse.de>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210416_075350_040274_F5B0CD8B 
-X-CRM114-Status: GOOD (  32.55  )
+X-CRM114-CacheID: sfid-20210416_080310_073690_50353CB9 
+X-CRM114-Status: GOOD (  34.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,77 +108,143 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 16 2021 at 10:01am -0400,
+On Fri, Apr 16 2021 at 10:07am -0400,
 Hannes Reinecke <hare@suse.de> wrote:
 
 > On 4/16/21 1:15 AM, Mike Snitzer wrote:
-> > From: Chao Leng <lengchao@huawei.com>
+> > If REQ_FAILFAST_TRANSPORT is set it means the driver should not retry
+> > IO that completed with transport errors. REQ_FAILFAST_TRANSPORT is
+> > set by multipathing software (e.g. dm-multipath) before it issues IO.
 > > 
-> > REQ_FAILFAST_TRANSPORT was designed for SCSI, because the SCSI protocol
-> > does not define the local retry mechanism. SCSI implements a fuzzy
-> > local retry mechanism, so REQ_FAILFAST_TRANSPORT is needed to allow
-> > higher-level multipathing software to perform failover/retry.
+> > Update NVMe to allow failover of requests marked with either
+> > REQ_NVME_MPATH or REQ_FAILFAST_TRANSPORT. This allows such requests
+> > to be given a disposition of either FAILOVER or FAILUP respectively.
+> > FAILUP handling ensures a retryable error is returned up from NVMe.
 > > 
-> > NVMe is different with SCSI about this. It defines a local retry
-> > mechanism and path error codes, so NVMe should retry local for non
-> > path error. If path related error, whether to retry and how to retry
-> > is still determined by higher-level multipathing's failover.
+> > Introduce nvme_failup_req() for use in nvme_complete_rq() if
+> > nvme_decide_disposition() returns FAILUP. nvme_failup_req() ensures
+> > the request is completed with a retryable IO error when appropriate.
+> > __nvme_end_req() was factored out for use by both nvme_end_req() and
+> > nvme_failup_req().
 > > 
-> > Unlike SCSI, NVMe shouldn't prevent retry if REQ_FAILFAST_TRANSPORT
-> > because NVMe's local retry is needed -- as is NVMe specific logic to
-> > categorize whether an error is path related.
-> > 
-> > In this way, the mechanism of NVMe multipath or other multipath are
-> > now equivalent. The mechanism is: non path related error will be
-> > retried locally, path related error is handled by multipath.
-> > 
-> > Signed-off-by: Chao Leng <lengchao@huawei.com>
-> > [snitzer: edited header for grammar and clarity, also added code comment]
 > > Signed-off-by: Mike Snitzer <snitzer@redhat.com>
 > > ---
-> >  drivers/nvme/host/core.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >  drivers/nvme/host/core.c | 31 ++++++++++++++++++++++++++-----
+> >  1 file changed, 26 insertions(+), 5 deletions(-)
 > > 
 > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 540d6fd8ffef..4134cf3c7e48 100644
+> > index 4134cf3c7e48..10375197dd53 100644
 > > --- a/drivers/nvme/host/core.c
 > > +++ b/drivers/nvme/host/core.c
-> > @@ -306,7 +306,14 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
-> >  	if (likely(nvme_req(req)->status == 0))
-> >  		return COMPLETE;
+> > @@ -299,6 +299,7 @@ enum nvme_disposition {
+> >  	COMPLETE,
+> >  	RETRY,
+> >  	FAILOVER,
+> > +	FAILUP,
+> >  };
 > >  
-> > -	if (blk_noretry_request(req) ||
-> > +	/*
-> > +	 * REQ_FAILFAST_TRANSPORT is set by upper layer software that
-> > +	 * handles multipathing. Unlike SCSI, NVMe's error handling was
-> > +	 * specifically designed to handle local retry for non-path errors.
-> > +	 * As such, allow NVMe's local retry mechanism to be used for
-> > +	 * requests marked with REQ_FAILFAST_TRANSPORT.
-> > +	 */
-> > +	if ((req->cmd_flags & (REQ_FAILFAST_DEV | REQ_FAILFAST_DRIVER)) ||
-> >  	    (nvme_req(req)->status & NVME_SC_DNR) ||
+> >  static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+> > @@ -318,10 +319,11 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
 > >  	    nvme_req(req)->retries >= nvme_max_retries)
 > >  		return COMPLETE;
+> >  
+> > -	if (req->cmd_flags & REQ_NVME_MPATH) {
+> > +	if (req->cmd_flags & (REQ_NVME_MPATH | REQ_FAILFAST_TRANSPORT)) {
+> >  		if (nvme_is_path_error(nvme_req(req)->status) ||
+> >  		    blk_queue_dying(req->q))
+> > -			return FAILOVER;
+> > +			return (req->cmd_flags & REQ_NVME_MPATH) ?
+> > +				FAILOVER : FAILUP;
+> >  	} else {
+> >  		if (blk_queue_dying(req->q))
+> >  			return COMPLETE;
+> > @@ -330,10 +332,8 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+> >  	return RETRY;
+> >  }
+> >  
+> > -static inline void nvme_end_req(struct request *req)
+> > +static inline void __nvme_end_req(struct request *req, blk_status_t status)
+> >  {
+> > -	blk_status_t status = nvme_error_status(nvme_req(req)->status);
+> > -
+> >  	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+> >  	    req_op(req) == REQ_OP_ZONE_APPEND)
+> >  		req->__sector = nvme_lba_to_sect(req->q->queuedata,
+> > @@ -343,6 +343,24 @@ static inline void nvme_end_req(struct request *req)
+> >  	blk_mq_end_request(req, status);
+> >  }
+> >  
+> > +static inline void nvme_end_req(struct request *req)
+> > +{
+> > +	__nvme_end_req(req, nvme_error_status(nvme_req(req)->status));
+> > +}
+> > +
+> > +static void nvme_failup_req(struct request *req)
+> > +{
+> > +	blk_status_t status = nvme_error_status(nvme_req(req)->status);
+> > +
+> > +	if (WARN_ON_ONCE(!blk_path_error(status))) {
+> > +		pr_debug("Request meant for failover but blk_status_t (errno=%d) was not retryable.\n",
+> > +			 blk_status_to_errno(status));
+> > +		status = BLK_STS_IOERR;
+> > +	}
+> > +
+> > +	__nvme_end_req(req, status);
+> > +}
+> > +
+> >  void nvme_complete_rq(struct request *req)
+> >  {
+> >  	trace_nvme_complete_rq(req);
+> > @@ -361,6 +379,9 @@ void nvme_complete_rq(struct request *req)
+> >  	case FAILOVER:
+> >  		nvme_failover_req(req);
+> >  		return;
+> > +	case FAILUP:
+> > +		nvme_failup_req(req);
+> > +		return;
+> >  	}
+> >  }
+> >  EXPORT_SYMBOL_GPL(nvme_complete_rq);
 > > 
-> Huh?
 > 
-> #define blk_noretry_request(rq) \
->         ((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
->                              REQ_FAILFAST_DRIVER))
+> Hmm. Quite convoluted, methinks.
+
+Maybe you didn't read the header or patch?
+
+I'm cool with critical review when it is clear the reviewer fully
+understands the patch but... ;)
+
+> Shouldn't this achieve the same thing?
 > 
-> making the only _actual_ change in your patch _not_ evaluating the
-> REQ_FAILFAST_DRIVER, which incidentally is only used by the NVMe core.
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e89ec2522ca6..8c36a2196b66 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -303,8 +303,10 @@ static inline enum nvme_disposition
+> nvme_decide_disposition(struct request *req)
+>         if (likely(nvme_req(req)->status == 0))
+>                 return COMPLETE;
+> 
+> -       if (blk_noretry_request(req) ||
+> -           (nvme_req(req)->status & NVME_SC_DNR) ||
+> +       if (blk_noretry_request(req))
+> +               nvme_req(req)->status |= NVME_SC_DNR;
+> +
+> +       if ((nvme_req(req)->status & NVME_SC_DNR) ||
+>             nvme_req(req)->retries >= nvme_max_retries)
+>                 return COMPLETE;
 
-No, not sure how you got there. I'd have thought the 5 references to
-"REQ_FAILFAST_TRANSPORT" would've been sufficient ;)
+Definitely won't achieve the same. And especially not with patch 1/4
+("nvme: return BLK_STS_DO_NOT_RETRY if the DNR bit is set") that you
+gave your Reviewed-by to earlier.
 
-This patch makes it so requests marked with REQ_FAILFAST_TRANSPORT are
-allowed to use NVMe's local retry (that is required for non-transport
-errors).
+Instead of "FAILUP", I thought about using "FAILUP_AND_OVER" to convey
+that this is a variant of failover.  Meaning it takes the same patch as
+nvme "FAILOVER" until the very end; where it does REQ_FAILFAST_TRANSPORT
+specific work detailed in nvme_failup_req().
 
-> So what is it you're trying to solve?
-
-What the patch header, code and code comment detail.
+And then patch 4/4 makes further use of nvme_failup_req() by adding a
+call to the factored out nvme_update_ana().
 
 Mike
 
