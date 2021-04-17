@@ -1,102 +1,94 @@
-Return-Path: <SRS0=jca5=JN=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=qGt+=JO=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A3CBC433ED
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 23:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE808C433B4
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Apr 2021 00:02:38 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8021361166
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Apr 2021 23:54:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8021361166
+	by mail.kernel.org (Postfix) with ESMTPS id 678D86115B
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Apr 2021 00:02:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 678D86115B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:Cc:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rr3Ns/zJLJeUlF4RV6ZxuHPudvWaqf9Eo0W3XiR2+cg=; b=ZH3ufdx9hE1vUqo7FMC59xn1Yv
-	0zq/jupve68pFcFub6vdHqHNAcQzPsUj2sDb3Afra7567zTPvLuS0TgipfIESj0JqzeZrB9tVJp9C
-	/ugLwk8sVKSG/Dve+HCW2vwd2jHe7xnIXBGbO1NxLYaGwzhyn8CjE2lJiyW+XW5uTxQKURLFLXAwG
-	QZwEKlTJ120tedOQdhGFq3OEKRyLjjpOT2s0XmzhSbp79EZfE025c081QjYfKWg3p8JTXy24JjHmX
-	wrHdO9V7F+7jepWpZfXNhwc0pFNap2qX66/3EkAep9PcemFbOlnHVE+9W9EVuP3EzeglIUnOhH7ZW
-	CkldnHeg==;
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Zqp5ddHdNOqO2aWUAdKId2+2xUvLRHJjQKgcJlO4fIk=; b=c+RlvqGJkPyA+Hx9lw5F/J28q
+	UCLGKZQBiDh6DL0Zh8NiKB3kbHIQ0Mq0ywcZSpk0fk5wPsdQNfn4h8AMXH2Lwtou0zC+NJTuP58S6
+	2NeY1OH139JVVrD/TV8FF1ghyTslifVK16LDuYCf+/6xFyAPREVTyvo//XZUa9MqV851hEJigGVfV
+	M67Aym4XZKrjm7RRn/CAUQrkeJWfOD8GSrLTp+0JR5M2FQ+1QxRknIBWZJMBqR/Zq49t6OGvwGoqj
+	0Be36SrfoAoPlo8ro5cjFfToesIgklGvJqsWzTeToYLwJ0RBACl+JpnRXBo2BgvlfYl7JO3pro4jE
+	MosUtkGfA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXYHv-003m7n-B1; Fri, 16 Apr 2021 23:54:15 +0000
+	id 1lXYPl-003nee-KF; Sat, 17 Apr 2021 00:02:21 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXYHL-003m4D-CL
- for linux-nvme@desiato.infradead.org; Fri, 16 Apr 2021 23:53:40 +0000
+ id 1lXYPi-003neC-Lj
+ for linux-nvme@desiato.infradead.org; Sat, 17 Apr 2021 00:02:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=References:In-Reply-To:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=a1nvUyKb7Km0hekKdxHGyN60tpfHzRrsEqFGAZI+ni4=; b=WfrUHippFtp0RuKKuL3XVz3uTh
- 5SJV51Pesg0VTSc//mMYnqLu1kVkiD8bp97K/2w8QG5/FGZ/eDJGQQVx+myqjVWvvjBl1xmFZFf3h
- yIG3yZaRT/wxqa/J47sQwa5hIyznCy4U/fbxAk+sRP0+NE1NkgOIFC9UBNnN2m9z6piqbX2yFm8p+
- T7jUzOT6GlrwColg2SHrthzdpJIm7GQvKkPLcscKvR0H4NRxeHIsplOzrMxg3PC3hGCVEu5hd/mnZ
- OU6R/hwqcmA4Iydv4Kpzeol3kTNKo6mYhUCboOJ54gF+1NlLxJRf+Llk5eTjPvnff/KbHd3OQkuc+
- PfCU8ogw==;
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832])
+ bh=E28myxiZn1blaS13N56nvXLMFnB30qTzlnI725pXZWY=; b=q8iqCt0r2O/wrGNzOeHevJk/MT
+ cph70m7R6OlPjS4jyMFY3SPZNFUi4CScTHUI9z6adbd5eSLyABk99idh0H0qqt6Jaqy/CTdKeG8gU
+ O4/9Y0eSHYhfK7W9P5zbqv+SKh4VwZBxeeQG6R4J+wUKs3Hp2F0s2+nZtW3L2lJNNID6LMhQ3fw0w
+ Q7cb4WGl8KfcD0xFf92OAkwMV24QRyg0Y7mrwg8kdA99x/ePf6z8M7Qw7C+FcTGuPTIBHzvz7xRUv
+ VH+vXV9VkfuVfrskeAQYxV8XBBZrTgRIoKWzlpqgislDB0ZSS3lTjttI/WPXfDZea90vCilUZnz2w
+ xD5o2cEA==;
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXYHG-009n0g-Je
- for linux-nvme@lists.infradead.org; Fri, 16 Apr 2021 23:53:38 +0000
-Received: by mail-qt1-x832.google.com with SMTP id d6so3796687qtx.13
- for <linux-nvme@lists.infradead.org>; Fri, 16 Apr 2021 16:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=a1nvUyKb7Km0hekKdxHGyN60tpfHzRrsEqFGAZI+ni4=;
- b=BdMJCnbct5KBJPP5KqyCcBSekxteAlGsUyEUCoGq/aas7H8lj1zNY/JEg1Dr1ksZ+f
- Tihi06XP8wDuWWI4N01bDBKOwW6/3yYFyIfyZwb3kCCZmtq3Y04pS/wgFVkLb+kpdlke
- KHtZ7wzFAHPhexb0v4g6UHVVyAallv45CkVa1a7BeT7iPBek05P/JGiwUxWyqUkJdDFf
- 7pdnQbVFf9eRE546Tcw4okY6RSuEaQbDRcx+J9t75+DjKYZmS6Ea9a6RZXoqHxPC/dPC
- HQ95CTmz03mie15e/yUsmUkFLWqvQz7jkjlAF8szQudy4vVy/sL8gc3P5MQh4Jwi0C3d
- wtJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=a1nvUyKb7Km0hekKdxHGyN60tpfHzRrsEqFGAZI+ni4=;
- b=ARXPsKP0ox69ACY7YWEdUmBjAQrufoyqB1noJyDz24Tc3gGBb/KfWXEzDNi2uP+LUO
- MIw8OYU58gnuJba+EDB4Ws4x00GwwQsFRQXp+7bqzMS50ULN7iDiG2mVCGXECp/2Oo2L
- as7JOjOCVcInNFCIZT5U9N9V0No1ug6rvtqaoV+Dd/xt00IQVqTEywOvtBbyjyaLNx0g
- DuUGKaCYEPVfCTz2PVVNLSf6SWLXRtU0dpLlc8Vt3ROTilzEOjqUr4/5xjkXKEDBeplY
- 6wrtMr27bu1QK2UHQ7b7EcUle5dyRtBMsFpjFp/0qqERZ+6RKU+eh8OBOIVqQntqtuu/
- jyNQ==
-X-Gm-Message-State: AOAM533FTn+uan4/yWFGl1ksQhCQmfsW1C8ssx9kPRgbRWqh2LGYBM/t
- TiVFZ5M4M1O276J5IRT1ImA=
-X-Google-Smtp-Source: ABdhPJxYYCrNVTkBMHh7ujpabmWkrGvRS/5k9AOlVSsGCZug6eBYSy3tgv0ntn47DVL2D4MVf0kk9A==
-X-Received: by 2002:ac8:6b46:: with SMTP id x6mr1598672qts.150.1618617213544; 
- Fri, 16 Apr 2021 16:53:33 -0700 (PDT)
-Received: from localhost (pool-68-160-176-52.bstnma.fios.verizon.net.
- [68.160.176.52])
- by smtp.gmail.com with ESMTPSA id a66sm1377452qkc.74.2021.04.16.16.53.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 16:53:33 -0700 (PDT)
+ id 1lXYPd-009nPx-2g
+ for linux-nvme@lists.infradead.org; Sat, 17 Apr 2021 00:02:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618617730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E28myxiZn1blaS13N56nvXLMFnB30qTzlnI725pXZWY=;
+ b=IvgZdxjzKtAvPNMxTY7Vve+UrPFzh+/g0nRbfTvfHe5RLw+JSNrRoFyG9fOfGiZL6xJYXu
+ mkbDjEdwrrBrjJlP091FM8QcDYzXeVmGQr1d4doC1s7lxUx1ZP9vSBXtqfNYeoAr7mfEwq
+ G+aYRMAY+/hHicYdsq9RwV7sfwObpwc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-AUTfOdcqOSWRan_r0QW4Ww-1; Fri, 16 Apr 2021 20:02:08 -0400
+X-MC-Unique: AUTfOdcqOSWRan_r0QW4Ww-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6D5A10054F6;
+ Sat, 17 Apr 2021 00:02:07 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7D4C5D6D3;
+ Sat, 17 Apr 2021 00:02:03 +0000 (UTC)
+Date: Fri, 16 Apr 2021 20:02:03 -0400
 From: Mike Snitzer <snitzer@redhat.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org
-Subject: [PATCH v4 2/3] nvme: allow local retry and proper failover for
- REQ_FAILFAST_TRANSPORT
-Date: Fri, 16 Apr 2021 19:53:28 -0400
-Message-Id: <20210416235329.49234-3-snitzer@redhat.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20210416235329.49234-1-snitzer@redhat.com>
+Subject: Re: [PATCH v4 0/4] nvme: improve error handling and ana_state to
+ work well with dm-multipath
+Message-ID: <20210417000203.GA22241@redhat.com>
 References: <20210416235329.49234-1-snitzer@redhat.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210416235329.49234-1-snitzer@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210416_165334_666649_CAB31E44 
-X-CRM114-Status: GOOD (  13.92  )
+X-CRM114-CacheID: sfid-20210416_170213_222792_23BB9DA8 
+X-CRM114-Status: GOOD (  28.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,38 +100,62 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-REQ_FAILFAST_TRANSPORT is set by upper layer software that handles
-multipathing. Unlike SCSI, NVMe's error handling was specifically
-designed to handle local retry for non-path errors. As such, allow
-NVMe's local retry mechanism to be used for requests marked with
-REQ_FAILFAST_TRANSPORT.
+On Fri, Apr 16 2021 at  7:53pm -0400,
+Mike Snitzer <snitzer@redhat.com> wrote:
 
-In this way, the mechanism of NVMe multipath or other multipath are
-now equivalent. The mechanism is: non path related error will be
-retried locally, path related error is handled by multipath.
+> Hi,
+> 
+> This patchset reflects changes needed to make NVMe error handling and
+> ANA state updates work well with dm-multipath (which always sets
+> REQ_FAILFAST_TRANSPORT).
+> 
+> RHEL8 has been carrying an older ~5.9 based version of this patchset
+> (since RHEL8.3, August 2020).
+> 
+> RHEL9 is coming, would really prefer that these changes land upstream
+> rather than carry them within RHEL.
+> 
+> All review/feedback welcome.
+> 
+> Thanks,
+> Mike
+> 
+> v3 -> v4, less is more:
+> - folded REQ_FAILFAST_TRANSPORT local retry and FAILUP patches
+> - simplified nvme_failup_req(), removes needless blk_path_error() et al
+> - removed comment block in nvme_decide_disposition()
+> 
+> v2 -> v3:
+> - Added Reviewed-by tags to BLK_STS_DO_NOT_RETRY patch.
+> - Eliminated __nvme_end_req() and added code comment to
+>   nvme_failup_req() in FAILUP handling patch.
+> 
+> Mike Snitzer (3):
+>   nvme: return BLK_STS_DO_NOT_RETRY if the DNR bit is set
+>   nvme: allow local retry and proper failover for REQ_FAILFAST_TRANSPORT
+>   nvme: decouple basic ANA log page re-read support from native
+>     multipathing
+> 
+>  drivers/nvme/host/core.c      | 22 +++++++++++++++++++---
+>  drivers/nvme/host/multipath.c | 16 +++++++++++-----
+>  drivers/nvme/host/nvme.h      |  4 ++++
+>  include/linux/blk_types.h     |  8 ++++++++
+>  4 files changed, 42 insertions(+), 8 deletions(-)
 
-Also, introduce FAILUP handling for REQ_FAILFAST_TRANSPORT. Update
-NVMe to allow failover of requests marked with either REQ_NVME_MPATH
-or REQ_FAILFAST_TRANSPORT. This allows such requests to be given a
-disposition of either FAILOVER or FAILUP respectively.
+Sorry for all the noise, but I had a cut-and-paste issue with this cover
+letter; should've said "[PATCH v4 0/4] ..."
 
-nvme_complete_rq() is updated to call nvme_failup_req() if
-nvme_decide_disposition() returns FAILUP. nvme_failup_req() ensures
-the request is completed with a retryable path error.
-
-Signed-off-by: Mike Snitzer <snitzer@redhat.com>
----
- drivers/nvme/host/core.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+While I'm replying, I _think_ there is consensus that patch 1 is
+worthwile and acceptable. Here is a combined diff of patches 2+3 to
+illustrate just how minimalist these proposed changes are:
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 540d6fd8ffef..a12b10a1383c 100644
+index 540d6fd8ffef..83ca96292157 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
 @@ -299,6 +299,7 @@ enum nvme_disposition {
@@ -170,12 +186,14 @@ index 540d6fd8ffef..a12b10a1383c 100644
  	} else {
  		if (blk_queue_dying(req->q))
  			return COMPLETE;
-@@ -336,6 +338,12 @@ static inline void nvme_end_req(struct request *req)
+@@ -336,6 +338,14 @@ static inline void nvme_end_req(struct request *req)
  	blk_mq_end_request(req, status);
  }
  
 +static inline void nvme_failup_req(struct request *req)
 +{
++	nvme_update_ana(req);
++
 +	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
 +	nvme_end_req(req);
 +}
@@ -183,7 +201,7 @@ index 540d6fd8ffef..a12b10a1383c 100644
  void nvme_complete_rq(struct request *req)
  {
  	trace_nvme_complete_rq(req);
-@@ -354,6 +362,9 @@ void nvme_complete_rq(struct request *req)
+@@ -354,6 +364,9 @@ void nvme_complete_rq(struct request *req)
  	case FAILOVER:
  		nvme_failover_req(req);
  		return;
@@ -193,8 +211,67 @@ index 540d6fd8ffef..a12b10a1383c 100644
  	}
  }
  EXPORT_SYMBOL_GPL(nvme_complete_rq);
--- 
-2.15.0
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index a1d476e1ac02..7d94250264aa 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -65,23 +65,29 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 	}
+ }
+ 
+-void nvme_failover_req(struct request *req)
++void nvme_update_ana(struct request *req)
+ {
+ 	struct nvme_ns *ns = req->q->queuedata;
+ 	u16 status = nvme_req(req)->status & 0x7ff;
+-	unsigned long flags;
+-
+-	nvme_mpath_clear_current_path(ns);
+ 
+ 	/*
+ 	 * If we got back an ANA error, we know the controller is alive but not
+-	 * ready to serve this namespace.  Kick of a re-read of the ANA
++	 * ready to serve this namespace.  Kick off a re-read of the ANA
+ 	 * information page, and just try any other available path for now.
+ 	 */
+ 	if (nvme_is_ana_error(status) && ns->ctrl->ana_log_buf) {
+ 		set_bit(NVME_NS_ANA_PENDING, &ns->flags);
+ 		queue_work(nvme_wq, &ns->ctrl->ana_work);
+ 	}
++}
++
++void nvme_failover_req(struct request *req)
++{
++	struct nvme_ns *ns = req->q->queuedata;
++	unsigned long flags;
++
++	nvme_mpath_clear_current_path(ns);
++	nvme_update_ana(req);
+ 
+ 	spin_lock_irqsave(&ns->head->requeue_lock, flags);
+ 	blk_steal_bios(&ns->head->requeue_list, req);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 07b34175c6ce..4eed8536625c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -664,6 +664,7 @@ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys);
+ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 			struct nvme_ctrl *ctrl, int *flags);
+ void nvme_failover_req(struct request *req);
++void nvme_update_ana(struct request *req);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
+ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id);
+@@ -714,6 +715,9 @@ static inline void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ static inline void nvme_failover_req(struct request *req)
+ {
+ }
++static inline void nvme_update_ana(struct request *req)
++{
++}
+ static inline void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+ {
+ }
 
 
 _______________________________________________
