@@ -2,171 +2,114 @@ Return-Path: <SRS0=3bHd=JP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86431C433ED
-	for <linux-nvme@archiver.kernel.org>; Sun, 18 Apr 2021 04:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73934C433ED
+	for <linux-nvme@archiver.kernel.org>; Sun, 18 Apr 2021 11:01:24 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C1E4F61352
-	for <linux-nvme@archiver.kernel.org>; Sun, 18 Apr 2021 04:17:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1E4F61352
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id EA112610EA
+	for <linux-nvme@archiver.kernel.org>; Sun, 18 Apr 2021 11:01:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA112610EA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=QRepetk4KHPOYJFqO0owvqqRSLfwC48RWtJ6mRru3/M=; b=Yj9l3NptB+x/34SNwbnJe6V5Z
-	zPJ9Qcp9gmQgEYIXAb8TvJfQpu0Z27n64usu/f3p4w9TCcH6gli+DI27izGztvDk8lMsmOw+KYT42
-	lRwUJ+Bl+bEu4/7ehaZ7ifq/rdOjXjlReqAfnVJXd2+S2AbXJJ2V96dSM034gcHw+wmbKqLbdMVkc
-	wRHrwVnGmsEMLfQCmscyyNZ45mzSr8u7SuFb47kNz/9tKYvlXXxQUoxmhLhPj82Zyon1WLwnWegFZ
-	tqgTM0JWoCxjI4hd84PPJp8sSTpcVe8bGu8BaTu9vXcYgPd3lxn51LjyGEVvnpUt2kKySmjNTtoAi
-	YfFk5yhTw==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=N/r12EAYZgqg4pVW9H8d8cjpBdt3hayGvizdgGYBR3M=; b=nL6mmwwym2OSc0RVUt7vnkOCU
+	ks4+bNdojLjEJah9fWtSHWkertLCqSagbJgFwNUKRZM5+f3wWwr7Jqzy0NukacgeylSjItZ3aadrK
+	Ju2GYunJPAFz+fuuWdl70OOwzbT7wtlK/qpcE6ynNcbbNSRX5Z/FHyB+YbrAJTJWFszxp3+LPHGNF
+	lO9UgjkiwNQ2SiMdgczoP4mb6jXWs+DpzVooAfKC8FtaVpmH6GLvscptlFzgMSs3QRg2K+WQn59Sx
+	sc8r3SeIjYsXzemfuq8TlvUFOpSKRpezXY88dLKLtg21dZvyTtG6I1cc+ep6IXkicz70yzm1YyMGN
+	NRJVRN1kw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lXyry-0075q4-LH; Sun, 18 Apr 2021 04:17:14 +0000
+	id 1lY5Am-007lIr-Tb; Sun, 18 Apr 2021 11:01:04 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXyrv-0075pJ-UB
- for linux-nvme@desiato.infradead.org; Sun, 18 Apr 2021 04:17:12 +0000
+ id 1lY5Ac-007lI9-0h
+ for linux-nvme@desiato.infradead.org; Sun, 18 Apr 2021 11:00:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
- To:From:Sender:Reply-To:Content-ID:Content-Description:In-Reply-To;
- bh=IcJ7QyyTjnMfs1zY3byoGhcpSrzK7W+Uw2YgC4/ja1k=; b=rX+t0PH1CMrB/244MLUSkEEHcj
- OwHeojfjAoDuMQapC40OSzju8A8vtc9LKRYTAywmNpXhgjyZIzdcmf5L46lD5Bv5Fzx67NZm3UVKq
- 3ZtM3vdgsvoF6KQpNV4TzQgxnVKWk9jwApbBklQrnInlWm183pYeYqf8uA8UURPNoiKGa3LXQY4h+
- oZkHVfclbAreAu18yRv2boHUk2T45/2hrgwv76GMk9p3YlvPo8VTNViwBPhFgfd0U8cMjz0rrW/nU
- zFEChklsIKQTAnTn6jfN6XftjnR6iMdZlSw2gACiZvWpdRBu97caFi/OuGIU4DtLBLJsNsDgSKXyN
- k8woMXXQ==;
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=Nh9WJCxwR1DpCbcRT0OIzlvOZU7PRUVa+7r5RlG2MsQ=; b=L4yB/WmB86W5yrq7UBIVpltT04
+ S0ROzA2eHSyJh/AQEIhLMxGV53WvlSza7jLImAIq+whlwFP8oAX4ikvv3yOhAyT+YZrzVQuYKz9Q5
+ qXS/cdYhhpOaZcrlrBINaoJgYjOM5CcLJ4jrLVIczWE0TnzzgBZ3MDQ2nuKP2QJtio2db3rnXWIew
+ 9lGqy5O5kpbeyQHw35MIJK0DCL4DoGPrKa0aBqlF6UT/72snCERL0CQQT5KVhcF1LhewxdAkumRxh
+ owIRM4YzIoS/kLatoERU+i7Be3ZWcooAGbQ0bIYGWY4bG9gvbMjY39VLuM0272yioPLj2Ko9n/2jp
+ OnYMclgQ==;
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lXyrq-00AITV-Ur
- for linux-nvme@lists.infradead.org; Sun, 18 Apr 2021 04:17:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1618719429; x=1650255429;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=IcJ7QyyTjnMfs1zY3byoGhcpSrzK7W+Uw2YgC4/ja1k=;
- b=R83PKShQ8VSo4q6dJWZM2EsRBwgSWHuIJEAi4Pd/p7FUPrnDKiQ9ieYc
- DcOQGE9qdmv0XbPM0FiNjNUuzNoCdCq73BFlx64CNLL1ysF21y5aBoTgX
- twGxQN4Ex/VrG4O1yu3jw3q9eeqD6NHFWnMnYp7hUyVfI8HzE/RAliDgF
- 1HDd1S1svy8LktprzOJZdWsYynm37AopnI8KwKMxU6IcrLY3cZC/IRG7s
- CUFfM71l/N2xXHlNsrIVscmheC95FNsRGfSyPb9EaqH+sksJ1iaTyR/Yu
- jSy+lV1u7FK8xw54lKxD6k32K0InzSKBS0GFWJ1WMJMCeHqPb+6gr5gmX g==;
-IronPort-SDR: fQZ88z3tyd++AAOowb/vYCSHndAHflTGqTz3sa3QlzB9eY/pcZ6NkRVQ905uvTAKPZCOkI3LrY
- MqYrNEU42x72mTyZLulUBWsIs83we68LHVkwsp10tgA87EhSUxB2Yizue4ir2r7HYVUzAF3wRU
- KRbdJXqDoKYjBWUfGVQpV31k3Tmjo8B61SKA8HNMQIL3TB+jVOHsELuTWJIZuyuz4lGa70OPm6
- JkWmqLISFN2QEeOc8zeq6Oie7R/UdnvdWNhU2ovfb25McftCSTNILXC9s1AgAGJ8E6LcCRuYuE
- RUw=
-X-IronPort-AV: E=Sophos;i="5.82,231,1613404800"; d="scan'208";a="269253507"
-Received: from mail-co1nam11lp2171.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.171])
- by ob1.hgst.iphmx.com with ESMTP; 18 Apr 2021 12:17:06 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FuYBTbEy8VvflwGlOotEzYcCqjW+b/32quhSz5i+CSQDFbfH7evT3fI0CrKw6aoIBTke4ys1K9+wv1xr1s1XxFVOX9lbRLpxN76evKE0WZIBARnaTwxqkO2M2hE9ENrFW1DCk+DWU506O5+D6d/jUyUxNiZFLcvE9UJeufXrMuQF2CenFQ/gG6O5dpjgi5vuu7Yuk2eZ3Lv0nCK30Y5pGwIU+llJYR50kX+fs6wZJq8B7c2XrmrhNK7EfogtTOhKjJ43HSdHJJBvB8QlzLY9HyNlUB2ulnzpj0tvWqrgp8d76cHr30ADJcdQTpfardiXW1eqUhJw00LpqeMLaGjB1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IcJ7QyyTjnMfs1zY3byoGhcpSrzK7W+Uw2YgC4/ja1k=;
- b=lWNRxtNjCugAIJFwptN9xR1rCiVbh7IWW3Pg5A8q7O173STvFV4mOtPqBGfP9uAL6fIge9uWsIw0VqhnmH3pII+d0f8Q0l0yrgNFFNVWLTLb/1Aq6D+9qDojg+TWlj8c5nyGujGk5CEm5tJuBRO6alPXyo5x1W9QxFoQw8Ga0lkfHrY6SluiGtqPtFDjDAvrXgqbrRjUGU2yPEy2NXfQ18yJ9sTqOJ19wIrXtMX6CO0ufm2bZe2RmogYXJ+oW/uSn3lsdFzsS+Y1rR2qLPwSqIC8aT0To9tsjw1NCAfcyRTQwmyEwzrczNf97d6lLmpXgXrxwTCNorvqhZ2YIXSG3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IcJ7QyyTjnMfs1zY3byoGhcpSrzK7W+Uw2YgC4/ja1k=;
- b=bqOOazOlGps305aJBuyvMO9SukEhjH/UX8bRCpIyU2CT3lfzo7wOGI5vyiIT6QWI5ALYnjUvmn1Pyb5c3jfHyu1xg6PMulDCrFXnFBRzfP/LWecW16BOkTP6ZvGBSvJfHutBrjbVdMti8+EjrAAy8bdjVpbI5FPZJtIp9kpnw8Q=
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BYAPR04MB5432.namprd04.prod.outlook.com (2603:10b6:a03:d0::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Sun, 18 Apr
- 2021 04:17:02 +0000
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::c897:a1f8:197a:706b]) by BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::c897:a1f8:197a:706b%5]) with mapi id 15.20.4042.019; Sun, 18 Apr 2021
- 04:17:02 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "hch@lst.de" <hch@lst.de>, "axboe@kernel.dk" <axboe@kernel.dk>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-CC: Yuanyuan Zhong <yzhong@purestorage.com>
-Subject: Re: [PATCH 2/2] nvme: use return value from blk_execute_rq()
-Thread-Topic: [PATCH 2/2] nvme: use return value from blk_execute_rq()
-Thread-Index: AQHXMuEi2EYT+Eyr1kS9R63Bgvvp9Q==
-Date: Sun, 18 Apr 2021 04:17:02 +0000
-Message-ID: <BYAPR04MB4965DCAEDDDB22F3BC37F09B864A9@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20210416165353.3088547-1-kbusch@kernel.org>
- <20210416165353.3088547-2-kbusch@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 65266de9-643e-488a-1084-08d90220d17c
-x-ms-traffictypediagnostic: BYAPR04MB5432:
-x-microsoft-antispam-prvs: <BYAPR04MB5432FA25F55FD26710C2EDE8864A9@BYAPR04MB5432.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:2803;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rZiAQlgPygUrwMRjICoOLVjuZevPK/WoerNUMV1GeqgaHgFT7QH0td9xHom4Gamd5BII30/qtJeDSFyyAwFlQHNd2Jx7eMqIXiOBaLshlJmXKw8IBEFW6wD01w263gP/jnoOI7CiYdZyEzkSkQbxiR82VeoXy3CwF1cXe3TFiVIyBLTXGXEUG2Qdk8/fZlXKtcbgN5XHw0tdrsakrIkoePJuLt/1tjGGbMsbnwJX17tCseZM5IQrxT06j00D69Nd1dL9yuhGXw1hDb40QbrR26yMvNsAIfiszV8K72v8Y6uGngI+vFzmpOpJmqFm/0e45ROQNgCoCF/ZNjWlzynm/6LZYwdX0gaQruAcGs51uKI0V0IYGTY7HscHj7F41OlwoRMzzPF74jSMLVEUd8Pwm2mmO7R/tuDbAP/GTqC9filn6hFlto9MykFzvKTg3YfzlZZurvzQfMzwKF+sufpVF776LS6Sqe5aXVMRan2CM0AraFlP9l6V4OvsrlIbFSpICv+LroFsEqbHoFWUOL6jq5Eh9X1XropJ4dyFFku97PmLXx1K4IQKT9+lb7Z+fa7zAQDRCHEXQw6pkHioip1FhcnI/cWlthR8G6MRFBXyrLw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(346002)(396003)(366004)(39860400002)(8676002)(4744005)(76116006)(66556008)(66946007)(71200400001)(64756008)(8936002)(4326008)(66476007)(66446008)(26005)(186003)(478600001)(83380400001)(5660300002)(33656002)(9686003)(55016002)(7696005)(110136005)(6506007)(2906002)(316002)(38100700002)(52536014)(86362001)(122000001)(53546011);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?XlTOizD1wTpj3T9l1LZ6s57lag4m+0gr59YCHDFCDJB6CDobrZX6QHAhCD28?=
- =?us-ascii?Q?y3tO/pr4ceb5DeDbd38ffaDg8y51AYXargd040fXJ/SRVPPWoFQgcjWPTBgJ?=
- =?us-ascii?Q?lpAwcjbP8pAejmgLAit0YiMq1tYebuyPpfwVb+LdmDzePeuNBm+i7v+PnGt2?=
- =?us-ascii?Q?jNpblI4bz+wSsB2MA9/3fHNzSjBhfDV4wfCYLd5PLwAsigJv0JQj38s7Q9Ek?=
- =?us-ascii?Q?XRr5QIp7EZ42Y1MKcOAvUhLffQAYT51BMoqfL3REufDlURHhLFcuRRcC5Jn5?=
- =?us-ascii?Q?XW2MnW67Tf1XVN4CH02JC8Ft81rXbeSqJWsHr+yhmz15DGtwmWaKK3wSegJW?=
- =?us-ascii?Q?G02E0pG2u9CvPQlHjH6WIZUYF5nzkETsRlF9pmrvQJO8ZRLtujKAN7NNdRf8?=
- =?us-ascii?Q?cgTFlFj72QKEik+KT1gzPfq5jozcRjXu/JTBU7GIUaO3NgHm58zje7F4m5iy?=
- =?us-ascii?Q?CmAZUt9cAe9nwLyyCI0G1EPGD/cJz3x7GFGDG+661pAiORGeotsAcPDoFn0h?=
- =?us-ascii?Q?Nds+EyEYWAR5Jkaz8Y016wpqtT5OVafy8GnvUJcKcLhooqkzFm06BzGvUSkw?=
- =?us-ascii?Q?0lUAnYyAyki0jivXIEoCdubLHquJWFYfTGFcX6UZCmCNaHZ3Qv30XepowJEu?=
- =?us-ascii?Q?BgojDO/G0c17CUbwKbx1imtIwvZgBkFBkP4yV8zh+eaC/vO9BuyjvRaQYGWq?=
- =?us-ascii?Q?1c+Jv6oGIqxN5Gbf5TuA7VLhhNFjCiek7Fx9JaQF+pHJqNhNsxEuOQUvIuH3?=
- =?us-ascii?Q?d6lp8F5nuCAWHRx3X4FjB5xuJVrVIzQ68kMFlNTYqXayUbPfYpO7+vZjfpug?=
- =?us-ascii?Q?7E1WOx7dz+Ow/2OFTm1yn1E1/M0y1RTviOkAaAFMyrWVBXuidJ6DLVaX8eah?=
- =?us-ascii?Q?T6nFE/HerVUdQCSQrdRm6t+TURKk5Fe7h0kYpBAiDjrWmmyBw7M0i4HPbBXR?=
- =?us-ascii?Q?Wnzsl3/ILXZI0e/t6RWc/mR1bhHnRqi0+m9NpdlNEidlMqgaQwTCTUuxu0Es?=
- =?us-ascii?Q?AIPddEA2uBSx7kbSEUwJl4IDLZj2SUaHRVs2+KVxuBs1zmdW4S7wB+2cHiG7?=
- =?us-ascii?Q?zlJCH7QFqxluKtsopb7irbMy/2cfMtNtRI3/+BxxAgvfjv0tXFqCEl40n8EZ?=
- =?us-ascii?Q?K8NtLh4ZnRT0uC12HTvwykXNotKiRKGAEK7yFQHB2p9oROk7aP44SxvQ4ftR?=
- =?us-ascii?Q?ANdBqZp085jWaPBhwuuKYe5TLEveri8/1de9USX3c8ciY7QfdVJ90y/G8Wbl?=
- =?us-ascii?Q?6QQr6y72e7mFRZi8YCSaMKBSI1HKlgKokGCTzdaF+wSjx7UiexayvQMkVW0Z?=
- =?us-ascii?Q?75IeuUGGRThlZ3uCH+pbq+XK?=
-x-ms-exchange-transport-forked: True
+ id 1lY5AV-00AOdR-4Z
+ for linux-nvme@lists.infradead.org; Sun, 18 Apr 2021 11:00:52 +0000
+Received: by mail-wm1-x32e.google.com with SMTP id
+ f195-20020a1c1fcc0000b029012eb88126d7so6548589wmf.3
+ for <linux-nvme@lists.infradead.org>; Sun, 18 Apr 2021 04:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Nh9WJCxwR1DpCbcRT0OIzlvOZU7PRUVa+7r5RlG2MsQ=;
+ b=VcWDtBpzUKSDug98WkOeJ+gWpgOre9IgmFeJGH69PkPWQoZ1cYTlnLIbAm8rmvOJbv
+ JvD5f/8Yp/t1UV6i25S1X/jdAOnqz3cE1nKLzcJDvWoXNNw4+cwG1liXYg5/FaCnQRf+
+ o3Eny7pNCtEeAgXG9CgtyMVifh97leh+F7HCXOw0jFmjPFNIkrp/DslUJvPDwcMBEedZ
+ OZ+PlRR2dO7iqCM+bWMZa7jIhLPyZzRzQojFrgf2zW9JCj34m8tX1qXB0swVSYBlBu8/
+ Qxjg6mGG1KMIgVigwTO58/mR5EhImlWV9kR9X0IhWw16TcmPMTGbqwsekoyevqNakS2a
+ LyWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Nh9WJCxwR1DpCbcRT0OIzlvOZU7PRUVa+7r5RlG2MsQ=;
+ b=N4nikdUuI0+Mw7OoROitr1duWurpivMeCSuD47ud0ACmUqu3vCi0Igkyz92nvVtqmR
+ oZSbEEN9bcLhO63tiKlNPolMx/uFUMneV14T4Y+taD1aDcf8PYSYxGmjgdqo//xS8+W6
+ bsc78MWSfdgG4ASFeHPb1wICh3QOSjRG4Aloh97tX6hDsMox1vvwoZx1RRpLu2AvYSEh
+ TGB7uOihJHRotS3CaWUPKkA1nSuJfguXPysFSilTuKO55MT9JJ4QXy6+mweSsYJ/v32F
+ gNdAjQnv19KcdlLUxmk5SCtJN7Ky73gdGq3k/bYH41jd1cGWaMCtxi1QNj/qEitF0S7u
+ r1TQ==
+X-Gm-Message-State: AOAM533FrtGFjqTyNAd7+aue8+Z+I/MrgFW55u4Sd/dT1GZ7zRQgg+xI
+ vJvJaelBXMmtLP2KRBYaFKc=
+X-Google-Smtp-Source: ABdhPJwDb1mK9GvRUOVsC90xq1/W8QWaLyEOjFeDNS8s3ouCdV7pSaNtrQ4tWRJ6Lon+YvpSdJwNPg==
+X-Received: by 2002:a05:600c:243:: with SMTP id
+ 3mr16444798wmj.58.1618743643841; 
+ Sun, 18 Apr 2021 04:00:43 -0700 (PDT)
+Received: from [192.168.8.100] (37-48-40-152.nat.epc.tmcz.cz. [37.48.40.152])
+ by smtp.gmail.com with ESMTPSA id
+ k11sm15374037wrx.88.2021.04.18.04.00.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 18 Apr 2021 04:00:43 -0700 (PDT)
+Subject: Re: [dm-devel] [PATCH v2 2/3] dm crypt: Fix zoned block device support
+To: Damien Le Moal <damien.lemoal@wdc.com>, dm-devel@redhat.com,
+ Mike Snitzer <snitzer@redhat.com>, linux-block@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, linux-scsi@vger.kernel.org,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-fsdevel@vger.kernel.org
+Cc: Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Ondrej Kozina <okozina@redhat.com>
+References: <20210417023323.852530-1-damien.lemoal@wdc.com>
+ <20210417023323.852530-3-damien.lemoal@wdc.com>
+From: Milan Broz <gmazyland@gmail.com>
+Message-ID: <a073953a-703e-937b-6000-73ad67fffc39@gmail.com>
+Date: Sun, 18 Apr 2021 13:00:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65266de9-643e-488a-1084-08d90220d17c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Apr 2021 04:17:02.4884 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Jyv7yEIZtBZUlt2swVe/Pd1vRUskwtuuxKIKm+4prq/nLGGUsMjKHvcERwYnAu9YtA+Pp+LppprqgdZhxXpu4g9AMYLNOg5C69b9AtDdvQQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5432
+In-Reply-To: <20210417023323.852530-3-damien.lemoal@wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210417_211707_084735_9C6B0CB8 
-X-CRM114-Status: UNSURE (   9.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210418_040047_230379_1CC09A7D 
+X-CRM114-Status: GOOD (  48.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -183,21 +126,185 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/16/21 09:54, Keith Busch wrote:
-> We don't have an nvme status to report if the driver's .queue_rq()
-> returns an error without dispatching the requested nvme command. Use the
-> return value from blk_execute_rq() so the caller may know their command
-> was not successful.
->
-> Reported-by: Yuanyuan Zhong <yzhong@purestorage.com>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
+On 17/04/2021 04:33, Damien Le Moal wrote:
+> Zone append BIOs (REQ_OP_ZONE_APPEND) always specify the start sector of
+> the zone to be written instead of the actual location sector to write.
+> The write location is determined by the device and returned to the host
+> upon completion of the operation. This interface, while simple and
+> efficient for writing into sequential zones of a zoned block device, is
+> incompatible with the use of sector values to calculate a cypher block
+> IV. All data written in a zone end up using the same IV values
+> corresponding to the first sectors of the zone, but read operation will
+> specify any sector within the zone, resulting in an IV mismatch between
+> encryption and decryption.
+> 
+> Using a single sector value (e.g. the zone start sector) for all read
+> and writes into a zone can solve this problem, but at the cost of
+> weakening the cypher chosen by the user.
+
+Reusing IV breaks the basic principle in disk encryption that block (sector)
+must not be decrypted to correct plaintext if it is relocated.
+(IOW, you must not use the same IV with the same key for another sector location.)
+
+Please note that dm-crypt allows being configured to use such insecure
+ciphers/IV to provide compatibility with older/foreign encryption systems only.
+
+That said, IV is not the only place in dm-crypt that depends
+on position (sector offset).
+
+Dm-crypt allows using AEAD (authenticated encryption).
+For now, it requires stacking over dm-integrity, but the idea was to use devices
+that can store per-sector metadata natively.
+
+In AEAD, offset (sector) is part of authenticated data (so decryption of relocated
+sector fails). For AEAD, we use random IV. So your patch is not complete.
+
+I think the proper solution would be to disable zone append for the dm-crypt
+target completely, just set a flag for the whole target.
+(Or somehow emulate that global sector offset).
+
+Please do not introduce such complexity as you tried in this patchset.
+I am sure this will backfire on us later.
+
+If you want to use encryption with zoned devices properly,
+it must be designed for it. FDE is not.
+
+In this case, probably btrfs fs encryption layer is the proper place that allows
+configuring different keys or tweak zones IV to allow block-based encryption.
+
+Allowing to stack over dm-crypt in the meantime is OK, but disable these
+incompatible zoning features completely, please.
+
+We often use online reencryption - which can switch arbitrary encryption
+parameters for active devices expecting sector offset is invariant.
+I am not sure if this can even work with zone append and provide expected security.
+
+Also, this brings the question if dm-integrity has the same issue...
+
+Thanks,
+Milan
 
 
-Looks good.
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-
-
+ Instead, to solve this
+> problem, explicitly disable support for zone append operations using
+> the zone_append_not_supported field of struct dm_target if the IV mode
+> used is sector-based, that is for all IVs modes except null and random.
+> 
+> The cypher flag CRYPT_IV_NO_SECTORS iis introduced to indicate that the
+> cypher does not use sector values. This flag is set in
+> crypt_ctr_ivmode() for the null and random IV modes and checked in
+> crypt_ctr() to set to true zone_append_not_supported if
+> CRYPT_IV_NO_SECTORS is not set for the chosen cypher.
+> 
+> Reported-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> Fixes: 8e225f04d2dd ("dm crypt: Enable zoned block device support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Damien Le Moal <damien.lemoal@wdc.com>
+> ---
+>  drivers/md/dm-crypt.c | 49 +++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 40 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
+> index b0ab080f2567..6ef35bb29ce5 100644
+> --- a/drivers/md/dm-crypt.c
+> +++ b/drivers/md/dm-crypt.c
+> @@ -137,6 +137,7 @@ enum cipher_flags {
+>  	CRYPT_MODE_INTEGRITY_AEAD,	/* Use authenticated mode for cipher */
+>  	CRYPT_IV_LARGE_SECTORS,		/* Calculate IV from sector_size, not 512B sectors */
+>  	CRYPT_ENCRYPT_PREPROCESS,	/* Must preprocess data for encryption (elephant) */
+> +	CRYPT_IV_ZONE_APPEND,		/* IV mode supports zone append operations */
+>  };
+>  
+>  /*
+> @@ -2750,9 +2751,10 @@ static int crypt_ctr_ivmode(struct dm_target *ti, const char *ivmode)
+>  	}
+>  
+>  	/* Choose ivmode, see comments at iv code. */
+> -	if (ivmode == NULL)
+> +	if (ivmode == NULL) {
+>  		cc->iv_gen_ops = NULL;
+> -	else if (strcmp(ivmode, "plain") == 0)
+> +		set_bit(CRYPT_IV_ZONE_APPEND, &cc->cipher_flags);
+> +	} else if (strcmp(ivmode, "plain") == 0)
+>  		cc->iv_gen_ops = &crypt_iv_plain_ops;
+>  	else if (strcmp(ivmode, "plain64") == 0)
+>  		cc->iv_gen_ops = &crypt_iv_plain64_ops;
+> @@ -2762,9 +2764,10 @@ static int crypt_ctr_ivmode(struct dm_target *ti, const char *ivmode)
+>  		cc->iv_gen_ops = &crypt_iv_essiv_ops;
+>  	else if (strcmp(ivmode, "benbi") == 0)
+>  		cc->iv_gen_ops = &crypt_iv_benbi_ops;
+> -	else if (strcmp(ivmode, "null") == 0)
+> +	else if (strcmp(ivmode, "null") == 0) {
+>  		cc->iv_gen_ops = &crypt_iv_null_ops;
+> -	else if (strcmp(ivmode, "eboiv") == 0)
+> +		set_bit(CRYPT_IV_ZONE_APPEND, &cc->cipher_flags);
+> +	} else if (strcmp(ivmode, "eboiv") == 0)
+>  		cc->iv_gen_ops = &crypt_iv_eboiv_ops;
+>  	else if (strcmp(ivmode, "elephant") == 0) {
+>  		cc->iv_gen_ops = &crypt_iv_elephant_ops;
+> @@ -2791,6 +2794,7 @@ static int crypt_ctr_ivmode(struct dm_target *ti, const char *ivmode)
+>  		cc->key_extra_size = cc->iv_size + TCW_WHITENING_SIZE;
+>  	} else if (strcmp(ivmode, "random") == 0) {
+>  		cc->iv_gen_ops = &crypt_iv_random_ops;
+> +		set_bit(CRYPT_IV_ZONE_APPEND, &cc->cipher_flags);
+>  		/* Need storage space in integrity fields. */
+>  		cc->integrity_iv_size = cc->iv_size;
+>  	} else {
+> @@ -3281,14 +3285,32 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+>  	}
+>  	cc->start = tmpll;
+>  
+> -	/*
+> -	 * For zoned block devices, we need to preserve the issuer write
+> -	 * ordering. To do so, disable write workqueues and force inline
+> -	 * encryption completion.
+> -	 */
+>  	if (bdev_is_zoned(cc->dev->bdev)) {
+> +		/*
+> +		 * For zoned block devices, we need to preserve the issuer write
+> +		 * ordering. To do so, disable write workqueues and force inline
+> +		 * encryption completion.
+> +		 */
+>  		set_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags);
+>  		set_bit(DM_CRYPT_WRITE_INLINE, &cc->flags);
+> +
+> +		/*
+> +		 * All zone append writes to a zone of a zoned block device will
+> +		 * have the same BIO sector (the start of the zone). When the
+> +		 * cypher IV mode uses sector values, all data targeting a
+> +		 * zone will be encrypted using the first sector numbers of the
+> +		 * zone. This will not result in write errors but will
+> +		 * cause most reads to fail as reads will use the sector values
+> +		 * for the actual data locations, resulting in IV mismatch.
+> +		 * To avoid this problem, allow zone append operations only when
+> +		 * the selected IV mode indicated that zone append operations
+> +		 * are supported, that is, IV modes that do not use sector
+> +		 * values (null and random IVs).
+> +		 */
+> +		if (!test_bit(CRYPT_IV_ZONE_APPEND, &cc->cipher_flags)) {
+> +			DMWARN("Zone append is not supported with the selected IV mode");
+> +			ti->zone_append_not_supported = true;
+> +		}
+>  	}
+>  
+>  	if (crypt_integrity_aead(cc) || cc->integrity_iv_size) {
+> @@ -3356,6 +3378,15 @@ static int crypt_map(struct dm_target *ti, struct bio *bio)
+>  	struct dm_crypt_io *io;
+>  	struct crypt_config *cc = ti->private;
+>  
+> +	/*
+> +	 * For zoned targets, we should not see any zone append operation if
+> +	 * the cypher IV mode selected does not support them. In the unlikely
+> +	 * case we do see one such operation, warn and fail the request.
+> +	 */
+> +	if (WARN_ON_ONCE(bio_op(bio) == REQ_OP_ZONE_APPEND &&
+> +			 !test_bit(CRYPT_IV_ZONE_APPEND, &cc->cipher_flags)))
+> +		return DM_MAPIO_KILL;
+> +
+>  	/*
+>  	 * If bio is REQ_PREFLUSH or REQ_OP_DISCARD, just bypass crypt queues.
+>  	 * - for REQ_PREFLUSH device-mapper core ensures that no IO is in-flight
+> 
 
 
 _______________________________________________
