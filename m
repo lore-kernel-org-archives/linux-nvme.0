@@ -2,86 +2,127 @@ Return-Path: <SRS0=/SuC=JR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45FDCC433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 17:17:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87072C433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 17:29:07 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 83D76613B8
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 17:17:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 83D76613B8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id BB021613CD
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 17:29:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BB021613CD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XuUHn1eoL+2a/FvDrhph4bEN4R3HoUx+cmM9zVTg9Y0=; b=J+9ktUc/jCCdAXOgxpM6MXLqP
-	0gQVQE984WcH+BLQkOA5Dmvms3JQCBweLsFj3okhJo8dVlMo+kKqTebQ0GCd8V/rMZv7u/N8IOMlL
-	4Y2PbR3XzfJ2Orj4srsmumo2qWESv1ziHDAITPUNbSWPOltk3bCRfpAtUqgoxO9/o8jB8E/fL35sT
-	oPdXcd4YABJYAmTHqeN4nYP/d6LmeEchBW6ANdqAXSxRIbiVWwKh5AwjJjh4rhabUqwdY2LXXXMES
-	Hvp2z3fOZK474xo6+7c/6kEEK0wQis6gbzYR/Qcnmddrx5DzeaV1/X3ogl69DDPBo6tMy4NloYJhi
-	okHGJ7Gzg==;
+	 bh=WwQPYjvPVBxt8QTFE9wMhFAR64OmQC5ac7u47vjX0Tg=; b=LnqD57NV6ZWC0lFCJOidgL97h
+	Hxw13njnvnNkyGorei0eCNJv3azWDzXFqmO67Hp4avwz+Grn1lS98PZXYXRg2Tj1PzYDcznWv6zBy
+	0ezxqEuqyjBHP8TVEFwRQsZb1VLO6ACKO5k7XkjeRlAV81iZEtxQ6DdZmA2KvGitvrz9WZAnl+FbR
+	m4UDjs28olVOBHfDhkX8IJgIvHhVx79R7u+pWhuTfu5nxzsQnRFEj6bC52T3C9hNDImn4NSfSDjNr
+	ysIpyKzuXfL+nF8kCElfCy7cC0XoGPQl9SGUj/Cn3GBQVnHBz+Sy4tTFC+wpYP+hTZHa5nKv3tjYU
+	mCa0SaBfA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lYtz9-00CgyD-5F; Tue, 20 Apr 2021 17:16:27 +0000
+	id 1lYuBE-00CjhN-0U; Tue, 20 Apr 2021 17:28:56 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYtz5-00Cgy2-Q9
- for linux-nvme@desiato.infradead.org; Tue, 20 Apr 2021 17:16:23 +0000
+ id 1lYu9d-00Ciyj-FY
+ for linux-nvme@desiato.infradead.org; Tue, 20 Apr 2021 17:27:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=CvKdHU7Mr8gQT95zHZreOI/kn5sJaSfeVa5RleyCcSM=; b=Kugt4/NN3LX+bviutza4rmJIPR
- 1JXKg3qAJOTnJiF77oDAfzEyIzkSlQUiW1NUE0AscEhhBY0uBzC9BRlFrZFNeNhC9DJjnKuJZmqA+
- gU8so7zwNSwWQSaOOaQgx6eE1agnIWPbWQIxlStB4GyytEKqC8XbkGVz1rNiyQbjt3cJ5aBldLgpC
- wlbgJbX1toQmmrAE7G0MkVwxfEPM6feo3qoUAymXyaFygeL5Tcqu2n65fU8aSbcJlN4+MegEuT+tT
- oKTJjU3hQpd5fS5/BEkN0dIlFY9jyzBOdH5AiyH9w+DOfhDMeBzyZ+0hdvgMvvqvmLFROJ14FQDXk
- M0ZoBffw==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:
+ Content-Transfer-Encoding:Sender:In-Reply-To:Content-Type:References:
+ Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+ bh=NY2KldLCtsHoNDxJgDC9hiC6/yo7XL1wPRpur5BsyfU=; b=v1UpwDcm3PB/KMUTiTPJEjIt0
+ cdKJGHS4KyXyvkwKlA5hSTzPWhYcbADB2HRS+AwyL/cMgG2HxY2Hbi6kZn22QhKmY/pYs3daKFO/Z
+ uXeUC+tTjxoW6XW8MsINcvTT2KzksQTRF5YfFasJ/NVHqYdfLChr0mjX+9WvrKqpOyXCvQMUBLQcs
+ SbGGl8u6DPefKqCnUiShTIUYMpP99kzjxvgKEqjVg/T03xPPUkMAtyYCYjm9B9greS+9WHrtwsBJ9
+ lNhuu6MEVWbcZecV7t7S91xt078m0AUvr2D7CK/tzgyb8BBx+YWS9znF6enK7hTdentc/acivXGYU
+ NH4BJ4fUA==;
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYtz3-00CIzv-2J
- for linux-nvme@lists.infradead.org; Tue, 20 Apr 2021 17:16:22 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CBB1D613AF;
- Tue, 20 Apr 2021 17:16:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618938979;
- bh=5fn1i17qB5yDnbqftyGyHHPPkhw3DjoFLrIDE2B1uy8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hj1hByWZYv4A9d5tdim/rUACuQhQDV/FZxwvirvkg/AXx+4WSKAX2qU9MTy9iJeTJ
- 1FtUw64gUt2vlWygLEVmE2KWNaJuJ/m+iJSzi4bnIyREp9lb/kcIp+7l+SIvWsmNfE
- WQNU+zltlc5h40uRkz5A4iw9rEqO+YrFTQwtTGuVhD4sBTTRCX/B/CaIIcIe4Zex0l
- gkv2PmJjwu8EYvQO0XjhDK/Tvgo0rnNhQ8O2rd9JjbgdPm6XxujbnnJEUp/FEd9zXs
- sTJuYdYp3R/hURfEF6OjHZIHjgRKbh6f1I2P2KxnH3trzBKxsdQa1rjdfv/IEEjMz5
- eICljcBk6kpWA==
-Date: Wed, 21 Apr 2021 02:16:12 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
- Daniel Wagner <daniel.wagner@suse.de>
-Subject: Re: [PATCHv2] nvme-mpath: delete disk after last connection
-Message-ID: <20210420171612.GA18049@redsun51.ssa.fujisawa.hgst.com>
-References: <20210416062411.47958-1-hare@suse.de>
- <20210420080527.GA21651@lst.de>
- <b5dc2cdf-fcb0-8ffc-8ea9-c77d32561043@suse.de>
- <20210420141436.GA14300@redsun51.ssa.fujisawa.hgst.com>
- <20210420143906.GA19417@lst.de>
- <73f1a5df-7d40-41ce-e6c5-42fd9fd3a2f1@suse.de>
-MIME-Version: 1.0
+ id 1lYu9Y-00CJTF-20
+ for linux-nvme@lists.infradead.org; Tue, 20 Apr 2021 17:27:16 +0000
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13KH4p6D080198; Tue, 20 Apr 2021 13:27:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to : sender :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=NY2KldLCtsHoNDxJgDC9hiC6/yo7XL1wPRpur5BsyfU=;
+ b=r8emIWpvPVSmXpVyroOzLLAi/TKM6LAHOAtdPFum7Jz/nK0wvNh2jwA1xFhsfgAfdrVN
+ dBSNOVExlNfCddJqL1a7Ej7w41rnwHIpJAIYBQ6+4SEgkH8XICCos5n+u7IcXB3iquTm
+ vjkd6Ub+fdoGBZQ8uQZWRNZi7K+h33nQP3nn7fgJKddD8QwxbQ1TqzGyMayJMmiMprtU
+ aZ9WAxjlQewbftx1+liHLFi0Jligz9HfKXaj+cmXQqz3JIQUgxKCVaL1tMJUTPMeoSK+
+ YypV79LIdv3nKh3JqZS061yZtSWjcSIxUf9qgvTb1hOG6EuirEgch9lP6kiCkDcEpjZs Ww== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38217vms12-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Apr 2021 13:27:06 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13KHMMKB028037;
+ Tue, 20 Apr 2021 17:27:04 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03ams.nl.ibm.com with ESMTP id 37yqa8hums-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Apr 2021 17:27:04 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13KHR1hb21234066
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 20 Apr 2021 17:27:01 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B41464C05A;
+ Tue, 20 Apr 2021 17:27:01 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9E62A4C044;
+ Tue, 20 Apr 2021 17:27:01 +0000 (GMT)
+Received: from t480-pf1aa2c2.fritz.box (unknown [9.145.82.95])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue, 20 Apr 2021 17:27:01 +0000 (GMT)
+Received: from bblock by t480-pf1aa2c2.fritz.box with local (Exim 4.94)
+ (envelope-from <bblock@linux.ibm.com>)
+ id 1lYu9N-003Q9j-0p; Tue, 20 Apr 2021 19:27:01 +0200
+Date: Tue, 20 Apr 2021 19:27:00 +0200
+From: Benjamin Block <bblock@linux.ibm.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-scsi@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
+ Nilesh Javali <njavali@marvell.com>, Arun Easi <aeasi@marvell.com>
+Subject: Re: [RFC] qla2xxx: Add dev_loss_tmo kernel module options
+Message-ID: <YH8O5AaapQRg6Msq@t480-pf1aa2c2.linux.ibm.com>
+References: <20210419100014.47144-1-dwagner@suse.de>
 Content-Disposition: inline
-In-Reply-To: <73f1a5df-7d40-41ce-e6c5-42fd9fd3a2f1@suse.de>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20210419100014.47144-1-dwagner@suse.de>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: hkkQMQDjyt4Ag5VEfOHXQXOSTQT7j56M
+X-Proofpoint-GUID: hkkQMQDjyt4Ag5VEfOHXQXOSTQT7j56M
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-20_08:2021-04-20,
+ 2021-04-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 adultscore=0
+ suspectscore=0 impostorscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104200118
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210420_101621_231482_4DA4F35D 
-X-CRM114-Status: GOOD (  37.32  )
+X-CRM114-CacheID: sfid-20210420_102712_351892_CD0676FE 
+X-CRM114-Status: GOOD (  43.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,80 +134,156 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 20, 2021 at 07:02:32PM +0200, Hannes Reinecke wrote:
-> On 4/20/21 4:39 PM, Christoph Hellwig wrote:
-> > On Tue, Apr 20, 2021 at 11:14:36PM +0900, Keith Busch wrote:
-> > > On Tue, Apr 20, 2021 at 03:19:10PM +0200, Hannes Reinecke wrote:
-> > > > On 4/20/21 10:05 AM, Christoph Hellwig wrote:
-> > > > > On Fri, Apr 16, 2021 at 08:24:11AM +0200, Hannes Reinecke wrote:
-> > > > > > With the proposed patch, the following messages appear:
-> > > > > > 
-> > > > > >    [  227.516807] md/raid1:md0: Disk failure on nvme3n1, disabling device.
-> > > > > >    [  227.516807] md/raid1:md0: Operation continuing on 1 devices.
-> > > > > 
-> > > > > So how is this going to work for e.g. a case where the device
-> > > > > disappear due to resets or fabrics connection problems?  This now
-> > > > > directly teards down the device.
-> > > > > 
-> > > > Yes, that is correct; the nshead will be removed once the last path is
-> > > > _removed_.
-> > > 
-> > > The end result is also how non-multipath nvme behaves, so I think that's
-> > > what users have come to expect.
-> > 
-> > I'm not sure that is what users expect.  At least the SCSI multipath
-> > setups I've worked do not expect it and ensure the queue_if_no_path
-> > option is set.
-> > 
-> Yes, sure. And as I said, I'm happy to implement this option for NVMe, too.
-> But that is _not_ what this patch is about.
-> 
-> NVMe since day one has _removed_ the namespace if the controller goes away
-> (ie if you do a PCI hotplug). So customer rightly expects this behaviour to
-> continue.
-> 
-> And this is what the patch does; _aligning_ the behaviour from multipathed
-> to non-multipathed controllers when the last path is gone.
-> 
-> Non-multipathed (ie CMIC==0) controllers will remove the namespace once the
-> last _reference_ to that namespace drops (ie the PCI hotplug case).
-> Multipathed (ie CMIC!=0) controllers will remove the namespace once the last
-> _opener_ goes away.
-> The refcount is long gone by that time.
-> 
-> > > > But key point here is that once the system finds itself in that
-> > > > situation it's impossible to recover, as the refcounts are messed.
-> > > > Even a manual connect call with the same parameter will _not_ restore
-> > > > operation, but rather result in a new namespace.
-> > > 
-> > > I haven't looked at this yet, but is it really not possible to restore
-> > > the original namespace upon the reestablished connection?
-> > 
-> > It is possible, and in fact is what we do.
-> > 
-> It is _not_ once the namespace is mounted.
-> Or MD has claimed the device.
-> And the problem is that the refcount already _is_ zero, so we are already in
-> teardown. We're just waiting for the reference to the gendisk to drop.
-> Which is never will, as we would have to umount (or detach) the device for
-> that, but I/O is still pending which cannot be flushed, so that'll fail.
-> And if we try to connect the same namespace again, nvme_find_ns_head() will
-> not return the existing ns_head as the refcount is zero.
-> Causing a new ns_head to be created.
-> 
-> If you manage to get this working with the current code please show me from
-> the testcase in the description what we should have done differently.
+On Mon, Apr 19, 2021 at 12:00:14PM +0200, Daniel Wagner wrote:
+> Allow to set the default dev_loss_tmo value as kernel module option.
+> =
 
-I see what you mean. I think we can detangle this, but it's not as
-straight forward as I hoped.
+> Cc: Nilesh Javali <njavali@marvell.com>
+> Cc: Arun Easi <aeasi@marvell.com>
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+> Hi,
+> =
 
-As far as *this* patch goes, I think you and I are aligned on the
-behavior, and I still think it's good.
+> During array upgrade tests with NVMe/FC on systems equiped with QLogic
+> HBAs we faced the problem with the default setting of dev_loss_tmo.
+> =
+
+> When the default timeout hit after 60 seconds the file system went
+> into read only mode. The fix was to set the dev_loss_tmo to infinity
+> (note this patch can't handle this).
+> =
+
+> For lpfc devices we could use the sysfs interface under
+> fc_remote_ports which exposed the dev_loss_tmo for SCSI and NVMe
+> rports.
+> =
+
+> The QLogic only expose the rports via fc_remote_ports if SCSI is used.
+> There is the debugfs interface to set the dev_loss_tmo but this has
+> two issues. First, it's not watched by udevd hence no rules work. This
+> could be somehow worked around by setting it statically, but that is
+> really only an option for testing. Even if the debugfs interface is
+> used there is a bug in the code. In qla_nvme_register_remote() the
+> value 0 is assigned to dev_loss_tmo and the NVMe core will use it's
+> default value 60 (this code path is exercised if the rport droppes
+> twice).
+> =
+
+> Anyway, this patch is just to get the discussion going. Maybe the
+> driver could implement the fc_remote_port interface? Hannes was
+> pointing out it might make sense to think about an controller sysfs
+> API as there is already a host and the NVMe protocol is all about host
+> and controller.
+> =
+
+> Thanks,
+> Daniel
+> =
+
+>  drivers/scsi/qla2xxx/qla_attr.c | 4 ++--
+>  drivers/scsi/qla2xxx/qla_gbl.h  | 1 +
+>  drivers/scsi/qla2xxx/qla_nvme.c | 2 +-
+>  drivers/scsi/qla2xxx/qla_os.c   | 5 +++++
+>  4 files changed, 9 insertions(+), 3 deletions(-)
+> =
+
+> diff --git a/drivers/scsi/qla2xxx/qla_attr.c b/drivers/scsi/qla2xxx/qla_a=
+ttr.c
+> index 3aa9869f6fae..0d2386ba65c0 100644
+> --- a/drivers/scsi/qla2xxx/qla_attr.c
+> +++ b/drivers/scsi/qla2xxx/qla_attr.c
+> @@ -3036,7 +3036,7 @@ qla24xx_vport_create(struct fc_vport *fc_vport, boo=
+l disable)
+>  	}
+>  =
+
+>  	/* initialize attributes */
+> -	fc_host_dev_loss_tmo(vha->host) =3D ha->port_down_retry_count;
+> +	fc_host_dev_loss_tmo(vha->host) =3D ql2xdev_loss_tmo;
+>  	fc_host_node_name(vha->host) =3D wwn_to_u64(vha->node_name);
+>  	fc_host_port_name(vha->host) =3D wwn_to_u64(vha->port_name);
+>  	fc_host_supported_classes(vha->host) =3D
+> @@ -3260,7 +3260,7 @@ qla2x00_init_host_attr(scsi_qla_host_t *vha)
+>  	struct qla_hw_data *ha =3D vha->hw;
+>  	u32 speeds =3D FC_PORTSPEED_UNKNOWN;
+>  =
+
+> -	fc_host_dev_loss_tmo(vha->host) =3D ha->port_down_retry_count;
+> +	fc_host_dev_loss_tmo(vha->host) =3D ql2xdev_loss_tmo;
+>  	fc_host_node_name(vha->host) =3D wwn_to_u64(vha->node_name);
+>  	fc_host_port_name(vha->host) =3D wwn_to_u64(vha->port_name);
+>  	fc_host_supported_classes(vha->host) =3D ha->base_qpair->enable_class_2=
+ ?
+> diff --git a/drivers/scsi/qla2xxx/qla_gbl.h b/drivers/scsi/qla2xxx/qla_gb=
+l.h
+> index fae5cae6f0a8..0b9c24475711 100644
+> --- a/drivers/scsi/qla2xxx/qla_gbl.h
+> +++ b/drivers/scsi/qla2xxx/qla_gbl.h
+> @@ -178,6 +178,7 @@ extern int ql2xdifbundlinginternalbuffers;
+>  extern int ql2xfulldump_on_mpifail;
+>  extern int ql2xenforce_iocb_limit;
+>  extern int ql2xabts_wait_nvme;
+> +extern int ql2xdev_loss_tmo;
+>  =
+
+>  extern int qla2x00_loop_reset(scsi_qla_host_t *);
+>  extern void qla2x00_abort_all_cmds(scsi_qla_host_t *, int);
+> diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_n=
+vme.c
+> index 0cacb667a88b..cdc5b5075407 100644
+> --- a/drivers/scsi/qla2xxx/qla_nvme.c
+> +++ b/drivers/scsi/qla2xxx/qla_nvme.c
+> @@ -41,7 +41,7 @@ int qla_nvme_register_remote(struct scsi_qla_host *vha,=
+ struct fc_port *fcport)
+>  	req.port_name =3D wwn_to_u64(fcport->port_name);
+>  	req.node_name =3D wwn_to_u64(fcport->node_name);
+>  	req.port_role =3D 0;
+> -	req.dev_loss_tmo =3D 0;
+> +	req.dev_loss_tmo =3D ql2xdev_loss_tmo;
+>  =
+
+>  	if (fcport->nvme_prli_service_param & NVME_PRLI_SP_INITIATOR)
+>  		req.port_role =3D FC_PORT_ROLE_NVME_INITIATOR;
+> diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
+> index d74c32f84ef5..c686522ff64e 100644
+> --- a/drivers/scsi/qla2xxx/qla_os.c
+> +++ b/drivers/scsi/qla2xxx/qla_os.c
+> @@ -338,6 +338,11 @@ static void qla2x00_free_device(scsi_qla_host_t *);
+>  static int qla2xxx_map_queues(struct Scsi_Host *shost);
+>  static void qla2x00_destroy_deferred_work(struct qla_hw_data *);
+>  =
+
+> +int ql2xdev_loss_tmo =3D 60;
+> +module_param(ql2xdev_loss_tmo, int, 0444);
+> +MODULE_PARM_DESC(ql2xdev_loss_tmo,
+> +		"Time to wait for device to recover before reporting\n"
+> +		"an error. Default is 60 seconds\n");
+
+Wouldn't that be really really confusing, if you set essentially the
+same thing with two different knobs for one FC HBA? We already have
+a `dev_loss_tmo` kernel parameter - granted, only for scsi_transport_fc;
+but doesn't qla implement that as well?
+
+I don't really have any horses in this race here, but that sounds
+strange.
+
+
+-- =
+
+Best Regards, Benjamin Block  / Linux on IBM Z Kernel Development / IBM Sys=
+tems
+IBM Deutschland Research & Development GmbH    /    https://www.ibm.com/pri=
+vacy
+Vorsitz. AufsR.: Gregor Pillen         /        Gesch=E4ftsf=FChrung: Dirk =
+Wittkopp
+Sitz der Gesellschaft: B=F6blingen / Registergericht: AmtsG Stuttgart, HRB =
+243294
 
 _______________________________________________
 Linux-nvme mailing list
