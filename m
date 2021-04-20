@@ -2,170 +2,97 @@ Return-Path: <SRS0=/SuC=JR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC1CC433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 17:48:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C698C433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 18:15:02 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8ED3D613CD
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 17:47:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8ED3D613CD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9C1FC613C8
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 18:15:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C1FC613C8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=QvOKPWXix5T0trBO6sAqgoZZLoqW4xgeC7nU+m4o4IY=; b=feCTctwaoR8DTq+AlQXazvEE8
-	8y4v6q5mFeMZiocQF8URmbcGAn8H5c8lLr5RGYGaCHEF6IKt1TG5XzrciruuJGqkUKj8cOiuEMN8F
-	vH2fEvxGampZb7YA+nTrZ0aQELfbnw6bBNX3aY1QobGZ+wgbSEoEVrBbxR0QtrAlnqcDJNE/uhl0X
-	lc79NRaWJTdJkOmWzrUHNHHHMcZWFm6dDDN/kG8nlkvzm1ZeqO7wfoqB1YD2E32fFqsHZZFds46Wn
-	IpiAk6aQndPKF5ZY3EPsykzSjRrP8nSSpquDKMJiTLceAjQLozG3Dwi+mhvf2VItDMzNzuXUA3q3U
-	rWLUMib3A==;
+	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=xYMbYaYTWtLj+h6IWIbFdb7L42mYBXhllEnVwdhpsPM=; b=dmUy95lPcmRvWNQ8S/bsuzq42
+	8nAyAYYnY5PqFQXiqd6sO2ZB+RbY1GjLSM+zbR9244Smhe+/v37PfbxwQuNH3gCvJvE0TQv4jXfTK
+	rOrfPSYBD0r9xVj+ABR+n7Mr7GZTZdfJeaTWC593LlxMo+R85na6cYL0IhNlBCIOvaVOD17mI6jLN
+	cfRsLUcrX84FA3z/IinKqjVP9u5LajNop+rGOEZJhwArwgvUM05Q1ueN9Koe5oUptddhgqTlynoYk
+	QdRp4n8IaRzJuHZS/1bVGZPVjc0vdXbjuG0uEjPRWEIC+s3KyUHXZjMF656I8qp3jCtEffqATTLWy
+	kmdlfqekA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lYuT1-00Cmy7-Nd; Tue, 20 Apr 2021 17:47:20 +0000
+	id 1lYutK-00CoLu-EJ; Tue, 20 Apr 2021 18:14:30 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYuSz-00CmxZ-B0
- for linux-nvme@desiato.infradead.org; Tue, 20 Apr 2021 17:47:17 +0000
+ id 1lYutH-00CoLn-LD
+ for linux-nvme@desiato.infradead.org; Tue, 20 Apr 2021 18:14:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
- To:From:Sender:Reply-To:Content-ID:Content-Description:In-Reply-To;
- bh=G6f1qmuD+MUUNRbe3DPnuThnNjpytiXeVfSLa+Y31dY=; b=SorpOVwimCglQ71aQHutmr1E25
- YMFXFR/AQzAgsDNxdamb11f3LlzXicjZCWLRtNunKWmcQenK4m+k7qxE621i6uU3hm2G95NghQ1ya
- AkvnqFC67f+8KuqkRpmMxDVOlxqkvuwIEJiMV7OPR6j++nt/dEzW6To95tPV7y6/cDMLo13bdnyU/
- 1Wue6FDcG0Ce7wNzM2hi61BVrN7zNKf6sA7eHGE7wZSqCCzzWCeZH5QtiBhRVwk0KTBjw835k713F
- BTXALtdtQZK30e1prZMd+W6YCa/j3ST6r9t+dkiycKvx1RNcF8IPWh/AVBEuWqhXmM1itFyDGkZYG
- kmjeblzg==;
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
+ :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=BSbiQacIUh4j0t8bov52NXTJ8ysWrCxcQ9rKiHQ8gQA=; b=WmXjYg7yd9Hf2o6sPVQJKIXicX
+ mmy016cISQ9A+Fa4m7XzA9fTW4DmblA5YKpKevG9pynx+Zpxlb7CGJ2gNQgKpME1YYI/ZzevJbP8h
+ VfHSfESPhgzeqHjw/v+hUl3qq/aeL9SjEKlDGTcUmSQAS1+xI5sfT477KbAxOZBLo/wLjQkHjKJGa
+ VKqfWqOR8J6rIYj/mlNNIWlgET6x5vHl4SOd6a76p2cM719TnXLdypUMsvnz6yHxeOyhwtZ4kxLCn
+ rhM73Afn1OcqfmDpvkL15Vq5pDLIewdmlTGrGsFFeq7dMwcl5MsCZCBkQf5oMZ9QC6INI6FyvzMqC
+ 4hOApkrw==;
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYuSw-00CKKZ-O8
- for linux-nvme@lists.infradead.org; Tue, 20 Apr 2021 17:47:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1618940834; x=1650476834;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=DQ06a54ctrv4hhUCuGRuLKOvbluGn1Db6mZuo7G+TJQ=;
- b=Cb4toallCP3In4D8zeGznBZCqacs5/d8mOfMhUcTkeJY7xsaF6sc8LYT
- Ef+8lDn0XPRdOpkDqtdjJbeppJ+dO7YtQgm0r7+J1+aqjPDmSb0wcri51
- GwEZVDIogSJfKhRJ2I7IZvU09dl/XOoh+rP2Z+84cVJcxMBRHUOkc0A09
- As/Nc8xVg9n8QRzGS4W09BENx+gdODgJ7H1MWnsyiGNHfeJbeH24USX5v
- A9XNo281w1R9hKrTby0DxsIvu3fAZIu88hhAom+28+y9J6SEvLdANc7dd
- qYRrVjjva8UR2BrAAMKmoVyNzWjBPS3YQ2CzEuPNM9ARUQYExGiy5cBzz Q==;
-IronPort-SDR: sSJGvr41EB8XbWXuJtF0HO4iwdOOG+HUrS/6q9usFi72bT1W+jFQv+NtEG+/HKL8hMAZkw/hO8
- c7VUDtiKZM+tpcxmqfLmmZujCr6+0UloRrz0h71YTCzGL6UFqT5Aqm9QWnE2x6xKcQDHXZarQk
- PmP/0Jxm2/4I8lugwGNriHxUcBI71QYA11SboEZhY2VyJjV6q4fmKDylClecx21K0xa6LF0+Ne
- EBlQBK3JjbYFv86TowqlPvk9ge39TM+neOaT3uMt+xHzPC7qDvppwSyQf5JsCC2hwDXs6SpJNW
- fEk=
-X-IronPort-AV: E=Sophos;i="5.82,237,1613404800"; d="scan'208";a="170107819"
-Received: from mail-mw2nam12lp2043.outbound.protection.outlook.com (HELO
- NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.43])
- by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2021 01:47:12 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QsoKLZrXIwBL47wLF23hlEuejlmcW1FVK7jqOMWD0yNS+aC5NyI8veldXdWF7TDGn6Zt+kdlnhs3xVHXlFySxZQKcWx+aOQe6C8A0V26heFzAv79KkmRz1FKXKQ04s4CmUT87x6SdTC6XqLgiJE3+22YWALMGdo1HjFyrqYflZDK4/rgOE0pT2WAV+wgiUzsLgbyMWSCvm/3ZCH7uj1W7C7MbB7aEIli+WJ5WUbqbKcF/A2uptizSM+gjymOXRSLdEODGdJth5fYMIAV+WYa6V7NjLKghh+k+hbp7grO/5NiIu/K7dSmIT9n1+8vr4i4vwtPFjISQjZXq9UzJFAYHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G6f1qmuD+MUUNRbe3DPnuThnNjpytiXeVfSLa+Y31dY=;
- b=YJ1Q2Sf7fLhC+LznidY3CKJvejqMaLCHHrtSfA0pQ/3ZE4sWr0KSULQmTzGZQqPMQcY0gJLXuFidl/SmvIfmsPmwYZONVxoyI2zc5/6exIa1LvDAqE334qPZg1cUOBdv4KvrllEyd40jWJZgDfDhJD/TLPmIdozr0wjOUY5uSJ0MX6FtXEHoUKL8La7Q8FiTUzkaA7yZ/pC6JFMHhvpvkyFuM51dv9Molw0OOUoEbfyvvxmLXxLLlzRaOs5Gd1XQC8MRzj6X7uxKHHJaR+I4CwpcCd1HQTrYbwzrqhXqd1wyH6IYaVACd046eHYJP/oCs8S+DAROpJrPtqxWx9vbGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G6f1qmuD+MUUNRbe3DPnuThnNjpytiXeVfSLa+Y31dY=;
- b=dbI2ef1l5Lo0Mncav0tKikIZg9hgEQhyMp++KvQAx4u7zNgbjQmIOzm5OELLycWaE1W5k07h44Ve0CS7IRgaEuHy3ajcsxwfmQMnh6wBCAIwPYjRMhIF9scqjLYQRFK41zB7j2+iYgVKQF0cTMM4PIbJtjuJxoGWBO142cjnQQ8=
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BYAPR04MB5430.namprd04.prod.outlook.com (2603:10b6:a03:c7::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.18; Tue, 20 Apr
- 2021 17:47:10 +0000
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::c897:a1f8:197a:706b]) by BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::c897:a1f8:197a:706b%5]) with mapi id 15.20.4042.024; Tue, 20 Apr 2021
- 17:47:10 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
-CC: "oren@nvidia.com" <oren@nvidia.com>, "ngottlieb@nvidia.com"
- <ngottlieb@nvidia.com>
-Subject: Re: [PATCH 4/4] nvmet: make ver stable once connection established
-Thread-Topic: [PATCH 4/4] nvmet: make ver stable once connection established
-Thread-Index: AQHXNcTY3fiTtEHfWEG+MXP8IUoT4A==
-Date: Tue, 20 Apr 2021 17:47:10 +0000
-Message-ID: <BYAPR04MB496522B82F4480CADD4FF34286489@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20210420090903.595664-1-mgurtovoy@nvidia.com>
- <20210420090903.595664-4-mgurtovoy@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2526e12f-61c9-4168-9acd-08d9042452d7
-x-ms-traffictypediagnostic: BYAPR04MB5430:
-x-microsoft-antispam-prvs: <BYAPR04MB5430B2401BF8CBE95E1C417486489@BYAPR04MB5430.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EhnG+zTvvdEdxhhyHlimr84pKH5h0Osw+OMXPSxswMrNy2sjomwTRuqBRhmUDxlZxWrCNocuqL8MFLioRhAvS6MNtJgfbgYi3RT51tcF7aUzeiPbpt/FfYLj5E2O+iGHsAXSbwDYSjuVL1RHxkd8aG3cU0dmd4nOsz7KBFouq0Z+uxhBGReibp1xc21HNbTTTtgjpqn3JSg2MRQrt1W2etGlL4wOGPkn7ny7zpZyRa0XsAYS3KrcnIPfKIrc+Y0R1kayHqyl1j2kXTcKT6Pq9ifpR3hz9uRvKESHRl4NAFDHOGhftHkbdMNzqJF0Rib09a1COV1oY41W+UmHTz3+GUky+WaVLcxdEfQPNBv6ubw81OgqxDpWiQfTbxUhbf75M4kYvBWYNElP/y+F+wixes6HuZQtMVSxVyWj0eWwZu9trKfVFNkbjhlgdzjrjvnNx/mdLNVv535zdFYMVL47BmF1fyqON4VFn/6Wu4EU/7ZgWwJ8/rNxy+qTO8qDT3wl8DJeNJNuBteH+2u6zF0iaRiC4VKznI7ORaI9yBkia3lRRzEF82eWDohI0Msa87HKsTIDSH1LZnaz6/UtlsXQeAJy63+ockl1AJjKJ77SLmA=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(366004)(376002)(39860400002)(346002)(86362001)(55016002)(66556008)(66476007)(5660300002)(83380400001)(2906002)(4326008)(186003)(9686003)(26005)(8936002)(33656002)(478600001)(8676002)(52536014)(76116006)(54906003)(53546011)(38100700002)(6506007)(316002)(122000001)(110136005)(7696005)(66446008)(66946007)(71200400001)(64756008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?6h0aLVfjnQPjQjF18gEVkFgtfVHgUZ5eBTWU3TRP7+eN67dMIM5ln4j5otcI?=
- =?us-ascii?Q?w1sMQ8fMCC27GfMGPhwE8ZtEzoLjtg97WqeYX3ZnPR62Yi/I/oizlpA9NBqU?=
- =?us-ascii?Q?q0YRvBmaNqNVknYKBZ+JZKMWI+rabNWasGyZraivdkDCSDBpomVhAXxWx/c7?=
- =?us-ascii?Q?3FiwAS5pnIyili1eYMSh4nDN1dzwl+12MqC8cPN9/fU3hWpdf/gm+s59EjDx?=
- =?us-ascii?Q?8A95DLgzcwJOidp6ZNOfTdin/aVIrrP6GVW62hrMpW11sUcOCgltXfhsJGI5?=
- =?us-ascii?Q?L51P4yPSDIqfMXgB5fSZy+5g6BU6NUvahbBqYLf/juaTCX0AAQt9yGzG6z86?=
- =?us-ascii?Q?+cfCupVA/K01vW8a0n/kKod0oAT1XZnNHpDhuxATSnYHNuhhgXAyNhQrUJWd?=
- =?us-ascii?Q?tJREfk6HaWA/Td3yS+vf1ua+0krSDLbN9IdSPGpjIq1nvmPxOXGdjrVUHU/X?=
- =?us-ascii?Q?3gA9OKHr6RVOyC6zELU8AfNIa7ni+fIJZ6Hu3S2jUa+FQatW0rhFMhwNcXwD?=
- =?us-ascii?Q?jsRWvBLXlQk0uc5uH52/xoKTQ962Klt+HRxvAqd8Ig7Zl0GepEXqA+bZvJpY?=
- =?us-ascii?Q?Gd/NffZGH3z8qK56w9AC4TPa3E4tHNhbzOsqq0/5YFRjXoOCnW532cbdTORd?=
- =?us-ascii?Q?e3W85x78c7FOJ68VVp95VfVT0IkHBRAvTtR8sRyMeyKPS9P5N4+SllKN8NKj?=
- =?us-ascii?Q?fGTAfGz6y4M5Gfz5wQzoYgiriCnwTx//tIuVtLpjfmv7wNHMWcTq2ZzCwAAz?=
- =?us-ascii?Q?fOwWyPkQ9pUR7tV6W5fwWvMsl0Uryg8jAwzjclZlj8iWFi8171EqKVhbpxVx?=
- =?us-ascii?Q?Qx6eM8vYgQPmxvmY/TOHTNPlElaS+AaR2bm+4yaHMBaFKQbwixw2aD0T1+35?=
- =?us-ascii?Q?C79mmieoIg+il6eRTKs/+8MpzLE+e7gLLioGRL05Tp9ppTXh6d6EsbfpEb64?=
- =?us-ascii?Q?xpCSD3XLFtYe8P8mkJVA7n+e7dOjanTsOJn8WrNHEfKnI7BXVYg3H2lq7cYt?=
- =?us-ascii?Q?PEksW+Pwk4fbGVLh9f/VoUT9zvSRCol+mGLH1PwWV50+i10YWSZCxzX+ubQD?=
- =?us-ascii?Q?VuqSKPOr1u1nK2k/6TqO2UzXZ2D6t6G46VUisgac5ezjI2RMrcQWQjKujDy+?=
- =?us-ascii?Q?YPCPGz2/Ae5Tyf7aM5I2Az5A0F10cHzuumPcp0OFhuSS/15kv4Iju8ftalJY?=
- =?us-ascii?Q?lPWU3N/IBt/PtbaV1h2FiizbH6wAqAEPTqP8wjmR0Nu1byDK4EsDI+1r8me8?=
- =?us-ascii?Q?M+F0HmRyRXZkivste+bdtmITAjGls3rSMk3+p8iD5ZFmJofOusgpfJ2GPOKl?=
- =?us-ascii?Q?GzMsDYH03VZc9YUwydPpAAMq?=
-x-ms-exchange-transport-forked: True
+ id 1lYutB-00CL4v-Vu
+ for linux-nvme@lists.infradead.org; Tue, 20 Apr 2021 18:14:26 +0000
+Received: by mail-wm1-x32b.google.com with SMTP id
+ d200-20020a1c1dd10000b02901384767d4a5so4625967wmd.3
+ for <linux-nvme@lists.infradead.org>; Tue, 20 Apr 2021 11:14:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BSbiQacIUh4j0t8bov52NXTJ8ysWrCxcQ9rKiHQ8gQA=;
+ b=cOU3RmO554LQ3OPmkDQHge7iJtkFHUawDe6ZNhK/+5QhyMRkWRqcFulbpFAogxfAxa
+ a5vnOsS2nhSM7AxSITRCfXD6OiFtrcXfJ7S8exbC3+80gtN+16vKdpd4k3VQUmbusu1X
+ kJFIHfrgSTXeFE93tncj5QGcWXdEfitACql7t710bzTmC6DUs0EknkCkoQFffQUpI2Nq
+ azS0o9OPEqPA5kakb92pYFKB6xxUcnZVaGCxQmj9Fir7YDn+L0S9bcUOBh0ryQSd2Dpx
+ vlsimR+62mCbBeXGUfo6mJj+W9hIkwUMM4himKTIGeWYKfsZpPMjTEDPzze6lP+HPR57
+ ZplQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BSbiQacIUh4j0t8bov52NXTJ8ysWrCxcQ9rKiHQ8gQA=;
+ b=Et4SGMhU1QPulY7Lt7UYfW/eECJdSx/TWtlEZi86FGlbSuZBbTpXVeI2UPSozWcb/U
+ qHS9GR6iyP9nezJPHBOSBEoW7y6zWA/tcT8lCiwQYPBgA4r+uhJt2zcP/HIyNKlsvpBD
+ PqIW0j84WN7lp2jkBj459p3bMTdcX2FIFzbhNULjVcilY3KaWQI/mzGLl5gFad12DskZ
+ Z0Jgg8LMK9e6KMkflJjogi2iCTOfNFqQA4aTVkGUK0EATLsWk5xHJBkDsWZo08GsF5MB
+ c+/g5wvmR7ZLZUVQy3N52oCyXKOR9zIvhxOgisXgija/SZ1xN5b31bBv6bTuwnUtGted
+ eMsw==
+X-Gm-Message-State: AOAM531gl7bSmXM3EsD+ddY2ZoAMq3p5l4zdrhDY1PRx9jpUOJHW+HOp
+ hK+y2CX26Q+3IKGV2oyCqak/i6gXLhLGchNTQ7M=
+X-Google-Smtp-Source: ABdhPJyCJ8V6IK0KLzMzNUaJWHk4uYormPsKChUpmCYAPOTbK1gSGgFyfm3WrUP1L7AWC/sM3UEbNw0hrNDzqECTIoo=
+X-Received: by 2002:a7b:c394:: with SMTP id s20mr5861930wmj.4.1618942458716;
+ Tue, 20 Apr 2021 11:14:18 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2526e12f-61c9-4168-9acd-08d9042452d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2021 17:47:10.3422 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: S3yc77BMckl93dicarAl8C6gAcNlG0YbI/Vv7WCXgemNZpvrJoUBhDaI1fOZF1DKHIJq9TNJ2d5mV/ng5KCwyBDoFhUKeWkI7KWIAp98zTs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5430
+References: <20210420100746.2801722-1-hch@lst.de>
+ <20210420100746.2801722-2-hch@lst.de>
+In-Reply-To: <20210420100746.2801722-2-hch@lst.de>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Tue, 20 Apr 2021 23:43:51 +0530
+Message-ID: <CA+1E3rLB5C+zP1xduzwq2uwWgEWFxUt5x=hostq5YOgj_QBNbA@mail.gmail.com>
+Subject: Re: [PATCH] nvme: introduce generic per-namespace chardev
+To: Christoph Hellwig <hch@lst.de>
+Cc: Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>, 
+ Sagi Grimberg <sagi@grimberg.me>, "Javier Gonz??lez" <javier.gonz@samsung.com>,
+ linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210420_104714_821434_12EA9911 
-X-CRM114-Status: GOOD (  17.81  )
+X-CRM114-CacheID: sfid-20210420_111422_049938_C4A14F00 
+X-CRM114-Status: GOOD (  13.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -182,95 +109,23 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/20/21 02:09, Max Gurtovoy wrote:
-> From: Noam Gottlieb <ngottlieb@nvidia.com>
+On Tue, Apr 20, 2021 at 3:37 PM Christoph Hellwig <hch@lst.de> wrote:
 >
-> Once some host has connected to the nvmf target, make sure that the
-> version number is stable and cannot be changed.
+> From: Minwoo Im <minwoo.im.dev@gmail.com>
 >
-> Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-> Signed-off-by: Noam Gottlieb <ngottlieb@nvidia.com>
-> ---
->  drivers/nvme/target/configfs.c | 36 +++++++++++++++++++++++++++++-----
->  1 file changed, 31 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index 61a9a52da30d..2c7aebd4d529 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -1007,13 +1007,26 @@ static ssize_t nvmet_subsys_attr_version_show(struct config_item *item,
->  			NVME_MINOR(subsys->ver));
->  }
->  
-> -static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
-> -					       const char *page, size_t count)
-> +static ssize_t
-> +nvmet_subsys_attr_version_store_locked(struct nvmet_subsys *subsys,
-> +		const char *page, size_t count)
->  {
+> Userspace has not been allowed to I/O to device that's failed to
+> be initialized.  This patch introduces generic per-namespace character
+> device to allow userspace to I/O regardless the block device is there or
+> not.
 
-Seems like we lost the indentation in above line which was there previously.
+When an application uses this interface to issue passthrough IO, it
+needs to know the lba size (at least) to form the command correctly.
+But determining lba size would require an admin ioctl.
+Do you see there is a way to go about this issue?
 
-> -	struct nvmet_subsys *subsys = to_subsys(item);
->  	int major, minor, tertiary = 0;
->  	int ret;
->  
-> +	if (subsys->subsys_discovered) {
-> +		if (NVME_TERTIARY(subsys->ver))
-> +			pr_err("Can't set version number. %llu.%llu.%llu is already assigned\n",
-> +			       NVME_MAJOR(subsys->ver),
-> +			       NVME_MINOR(subsys->ver),
-> +			       NVME_TERTIARY(subsys->ver));
-> +		else
-> +			pr_err("Can't set version number. %llu.%llu is already assigned\n",
-> +			       NVME_MAJOR(subsys->ver),
-> +			       NVME_MINOR(subsys->ver));
-> +		return -EINVAL;
-> +	}
-> +
 
-Can you create a helper to for about error reporting so we can avoid
-extra long lines whenever itis possible something like :-
-
-        if (subsys->subsys_discovered)
-            return nvmet_subsys_discover_err(subsys);
-
->  	/* passthru subsystems use the underlying controller's version */
->  	if (nvmet_passthru_ctrl(subsys))
->  		return -EINVAL;
-> @@ -1022,12 +1035,25 @@ static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
->  	if (ret != 2 && ret != 3)
->  		return -EINVAL;
->  
-> -	down_write(&nvmet_config_sem);
->  	subsys->ver = NVME_VS(major, minor, tertiary);
-> -	up_write(&nvmet_config_sem);
->  
->  	return count;
->  }
-> +
-> +static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
-> +					       const char *page, size_t count)
-> +{
-> +	struct nvmet_subsys *subsys = to_subsys(item);
-> +	int ret;
-> +
-
-nit:- ret variable type should be ssize_t
-nvmet_subsys_attr_version_store_locke().
-
-> +	down_write(&nvmet_config_sem);
-> +	mutex_lock(&subsys->lock);
-> +	ret = nvmet_subsys_attr_version_store_locked(subsys, page, count);
-> +	mutex_unlock(&subsys->lock);
-> +	up_write(&nvmet_config_sem);
-> +
-> +	return ret;
-> +}
->  CONFIGFS_ATTR(nvmet_subsys_, attr_version);
->  
->  /* See Section 1.5 of NVMe 1.4 */
-
+-- 
+Joshi
 
 _______________________________________________
 Linux-nvme mailing list
