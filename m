@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D84C433ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 09:35:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D617C433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 09:38:01 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4A4BA61107
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 09:35:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A4BA61107
+	by mail.kernel.org (Postfix) with ESMTPS id E104461107
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 09:38:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E104461107
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,53 +23,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JM2UMrgOSX52HMDbe1/OB47cMDtiEMvE1CO5E1zuGvM=; b=MibqjQz566A198qgP1+LZv4/u
-	Lg9TwScQ3ck9IXmz3+dtAZM9jyMo8T7FBdRZBPZ6SAQn1i2IaS9klIQQgMnCjw/sbdQ8/5cpizzCM
-	pbtASeXkEfxCIhH8lB9m1RiJ4D3ihSxO4t31EQnjopZEE6y0UisOF41rI26PsDV16qWUzgYjR4ION
-	T+iaqgPlFoGJaLJO5+O4L/Xbmo6JA+yrhzevJJ4PRVKnho8DcnLWXIT3se8YjcN3vUEZI6fN+FbEs
-	LzsKJi/9NfcrVAeGvpvd1NQyEBXmSSFEfmDMG/JC5blJoKL2dqZJC9WZKQLU2bvVAsf5nubOH+r3P
-	ggdr/A/NA==;
+	 bh=pxopW+FVg5EVHTevSyNdtQqIXx/FRONQryajbkr9PNw=; b=cXPqXD+em6UHjZf21sIQnQ+mY
+	7sDVrAlBPQfiwuhSh91ikW14VBM4vw92MwTKd/GdtRrJHCT/DQDOGzXiCPD+oHqNUeFk8qE8FhGEk
+	klEoTqLPTRzIk7MbkhBzJhbjM4qzBrIuGPc5OSjKNyJ+weceGavuTw7Z/jsSUb6WJLk27jX15nN4Q
+	uFQ0VTj/5onCxMYuzGdR7M+93Qa8GICrVLcDSFpr0dT/aqzTgssEZyg+AeVle/cYWRNcJrouxqSRs
+	Yh7kSpudvgSq13LSDMGS45Re2y/fgRQUEJImydaYK5rFkfc+5daJ6TezzjpDDIWHbJFQtgi1u/4oV
+	quucVSkrg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lYmmb-00BmWe-Q9; Tue, 20 Apr 2021 09:35:02 +0000
+	id 1lYmox-00Bn2d-CB; Tue, 20 Apr 2021 09:37:27 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYmmY-00BmVs-IO
- for linux-nvme@desiato.infradead.org; Tue, 20 Apr 2021 09:34:58 +0000
+ id 1lYmov-00Bn2B-54
+ for linux-nvme@desiato.infradead.org; Tue, 20 Apr 2021 09:37:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=zqPHR4qoP/PPalQhYYIzxb/IJJ0tLTl2H4ZYmo7b9fU=; b=ncFFvhIWbVwoqDU9lx1uJNAlU4
- OS+I9saxu2M48gl5RtJOI1L1t0FLfPxdR1h45ubZIVLELQ1H5PvpSBgOBDUrwTqiRf/GEMyzkc5TY
- 95JstAA24LvUM9ixv2Yy1Nbe92D/679AAtXEUHJGtrDsJaqi/bnlFsCzyqLzaYIBS2rjDI+eKWaNL
- ZDkHxwYV98GFzF9KRXF+NsyihlapfOX7Gzok8SE03TWQsp0YkHs0c7e1QYVdd0hfWb7rKrhUJHsTr
- DahzVfUy9+xOFNVzvZ/ymY9HeR1chuoKMSOlCtN3QIkqlniWIUF02TofE7W0ouWtiHqfX7FvPXj30
- bSaMYfUw==;
+ bh=7fKP0vDBjQk4OnYDgzl2PodjNXUeNrujp40UPM+djkE=; b=4UgS2v06PlROulLZ0VaVA7auJe
+ NvKtSxwBhZJ5qyLFnHB64ub5NL2jX8FS55tDDR5qpcPsNYPgMIBDOX/ZVkGdbTIiCy2RKLNecooSj
+ 94IzmMIOmCKmEiBelIqcM8C8Y0Q/KykW2YufVXUdMQltJp9HLKF34SEaQtaCCTCBlb9p2q4GOMrqk
+ ZPaopaQknhw+zmvVSGcz7Y42i8dGdnrbjv3YoMuVKsq1oWqrkyVqdt7gjOa2DYtybdj6a4OJwkERr
+ wMAoD0946KkTtgkcTNQywFgi9WKrkSdlOk8looKB+hvOqlBO3rBOS/SwMhjQ17Q8s/UUBJ9KcF6Ct
+ cYa4JUDw==;
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYmmW-00BzFy-1m
- for linux-nvme@lists.infradead.org; Tue, 20 Apr 2021 09:34:57 +0000
+ id 1lYmos-00BzRC-MP
+ for linux-nvme@lists.infradead.org; Tue, 20 Apr 2021 09:37:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2574768C4E; Tue, 20 Apr 2021 11:34:54 +0200 (CEST)
-Date: Tue, 20 Apr 2021 11:34:53 +0200
+ id CC71A68C4E; Tue, 20 Apr 2021 11:37:20 +0200 (CEST)
+Date: Tue, 20 Apr 2021 11:37:20 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Mike Snitzer <snitzer@redhat.com>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  dm-devel@redhat.com, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v4 3/3] nvme: decouple basic ANA log page re-read
- support from native multipathing
-Message-ID: <20210420093453.GB28625@lst.de>
+Subject: Re: [PATCH v3 0/4] nvme: improve error handling and ana_state to
+ work well with dm-multipath
+Message-ID: <20210420093720.GA28874@lst.de>
 References: <20210416235329.49234-1-snitzer@redhat.com>
- <20210416235329.49234-4-snitzer@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210416235329.49234-4-snitzer@redhat.com>
+In-Reply-To: <20210416235329.49234-1-snitzer@redhat.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210420_023456_263499_6E28F2AC 
-X-CRM114-Status: GOOD (  12.39  )
+X-CRM114-CacheID: sfid-20210420_023722_894657_19874AE1 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,15 +85,15 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 16, 2021 at 07:53:29PM -0400, Mike Snitzer wrote:
-> Whether or not ANA is present is a choice of the target implementation;
-> the host (and whether it supports multipathing) has _zero_ influence on
-> this. If the target declares a path as 'inaccessible' the path _is_
-> inaccessible to the host. As such, ANA support should be functional
-> even if native multipathing is not.
+> RHEL9 is coming, would really prefer that these changes land upstream
+> rather than carry them within RHEL.
 
-NAK.  nvme-multipathing is the only supported option for subsystems with
-multiple controllers.
+We've told from the very beginning that dm-multipth on nvme is not
+a support configuration.  Red Hat decided to ignore that and live with the
+pain.  Your major version change is a chance to fix this up on the Red Hat
+side, not to resubmit bogus patches upstream.
+
+In other words: please get your house in order NOW.
 
 _______________________________________________
 Linux-nvme mailing list
