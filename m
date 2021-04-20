@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A28AC433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 14:18:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAA67C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 14:39:44 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 583E3613B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 14:18:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 583E3613B4
+	by mail.kernel.org (Postfix) with ESMTPS id 170996100A
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Apr 2021 14:39:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 170996100A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,74 +23,73 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JsltQKqqaPGL+igMAxhfvk+7jQXIrMctjEiu/8f8ZI4=; b=iGWeSj64+dLvq1mKBsca0k+4+
-	5KhcHveogOXL7tcJeYUb1cb9BUsWwS5kqN+bC2XDu+H84QhlYZgH9N5zI9JT9LJr7FDHsJBccyxtn
-	29Q8XpxrXSACvTL9DPOyWJwyRyrTtS8dE4bAXZE4p8sUqrdqTKXwQBDB068UmyYGKaBRox8LXMbyS
-	fMCkyDyADUJk72Mu7328GPv3ZqFB8o87KKJdNnJXdti6M3pQsCjvoAkaU/j6mWyY672KxHDSUuWIc
-	5xcAUMfHULhxw3mhTQrXC8uaFcEV39r3UcQSBbalLeyBt+KIPMhU0OtfPKExpF4cnXi9oZ4xlzHW5
-	rC/qOltUA==;
+	 bh=LCVnSbUYPkA8afHolpLP+HL7YPRf2nqdUiozuYW/8Uo=; b=Dozpe4hbqlBLLjaitSoe6JAI6
+	VA2Jzc9olqt2GB6Mh1cOt7LZErwH/Ok+MDaJBjfRRGaAJTxqv+tf/0YgwmqeTHwzvXjcIVkiB3se+
+	6UXeaqbo1mHo1L0WkrAdUpSlAxutGzRceDgIsf5Ngu3H5QIgXp9qm5eySaV8gnKNqXJXyGWQ3xrzL
+	iYe1W8oUkHRqzCBHsnFPyVkpj5SfLsl3pcpncAByJuOhBlfPeREthCur+gdr1CotdHcm8A4zzcmdt
+	i6VPD4tz5ScG8Ari3InZXQ9nEuCKjDuvSl8WcVlbp/5cvn8dh3JE6dpMvWhlsFUW5X3jNuqku+sjy
+	C55JzmEjQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lYrCG-00CJrL-VO; Tue, 20 Apr 2021 14:17:49 +0000
+	id 1lYrWy-00CMun-Ay; Tue, 20 Apr 2021 14:39:12 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYrCF-00CJqy-4d
- for linux-nvme@desiato.infradead.org; Tue, 20 Apr 2021 14:17:47 +0000
+ id 1lYrWw-00CMuf-TX
+ for linux-nvme@desiato.infradead.org; Tue, 20 Apr 2021 14:39:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=zMvyKj25gjB0oXytYH0t3C8VbQ+294kybBDKJCOZKyo=; b=qtIMrMQ6mNL8ushGijn3KqBPYo
- A+o0WFiorZL9jBgMp+X1gf306PMBENdzu3iZmr6a95x7kuggVXxexOSBW1rlHOl0yzbL91gGf0z81
- zKpYv1Jswd4L71b2yhUZYMVjgqXKblGlYXBK0U3dplhUCknAhIGi+72rSZ5XRImDF0nffX8UAkVHG
- HGS3YJ6p05eJBbT2W/NU0QVdup5joBd3snN4JzMJwNgy3LQ9ZX9vo2IhjbWW6vNFcPS1PUuxAnWqU
- kRsHVj7RMBDbncAN5sGsKCT1ao5BdZcsZXxD3o6ceOOv1fUVYtJBDoX8oDkuBOGJsTK9+P/HRc/sO
- TCj1v9Og==;
+ bh=T+yEmtDQxZnRobM2yTHXpbpllEHKIzCjW0+95zQCocs=; b=RAOLOWs+s1HHU8ao6rxuWrw6mz
+ YtQU9UGA7cX8lVaVXFQ3dctgMkM0BPGzG0uA7OcpS9Lh41uJcsK/rnguHUVTcmyGuZjsJ6Qc0X920
+ +69UFPzSszjOzCYF6QUZhKAOJGox2bgI6BkufaOkzDuePVROJQi6ao42WYIbOU8pB3YkAOPB81enw
+ b8gmp5BUV5Lt1QynFsYktHx7AtO6+bY93+UWvT8I5VCpgfCAOY8jeE9WeMlxZ43/fmitGmiFiSqHT
+ h9MMewNLRlLBMFssGYkCOSHSJQjV7VyaTjcx4/kPt5nXvjwgWjKQ+wXQ6yFWs0czSoUq4R0mvV/sl
+ ABHoK89w==;
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lYrC9-00CBaU-Gz
- for linux-nvme@lists.infradead.org; Tue, 20 Apr 2021 14:17:45 +0000
+ id 1lYrWr-00CCSL-Bg
+ for linux-nvme@lists.infradead.org; Tue, 20 Apr 2021 14:39:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618928260;
+ s=mimecast20190719; t=1618929542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zMvyKj25gjB0oXytYH0t3C8VbQ+294kybBDKJCOZKyo=;
- b=ivj/i+B9ncOuJffoENn3AP2ApXT8co+biWgScxXI+wiqYX3rO+w3R8/s9MTRVEBT080bZt
- 0y8VrClXaTes1HX1U4rfVn4cJ+AaDGL/DkX8Wfj/SrmRjx9szqiZV4ZB3N4OAHOzNgsX9Q
- pq5+qK0SSUQLH6IlZT9u2J9yKrnF3SA=
+ bh=T+yEmtDQxZnRobM2yTHXpbpllEHKIzCjW0+95zQCocs=;
+ b=hOa1IrSZI/kgG1K26nxhAWj6wDC9IYsRhOTmDqXGmrq1bnsFfBOP1/sK/OzzN/eNd3ec8E
+ ARIN34w4r5nmm2+ujO6Ptl5Wx9wKLgyHKy1eaELPR/7jSX/aKvdxssRF7kun1hTgLsQpjR
+ 8v/CeezPRPHB0xbzeSHoqXKRAJ7Ex/w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-SB2yQHMNNICkIdFP3lYE2w-1; Tue, 20 Apr 2021 10:17:36 -0400
-X-MC-Unique: SB2yQHMNNICkIdFP3lYE2w-1
+ us-mta-388-U5yStXyBOxa8G8siGMqhHw-1; Tue, 20 Apr 2021 10:38:59 -0400
+X-MC-Unique: U5yStXyBOxa8G8siGMqhHw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58C6E10CE782;
- Tue, 20 Apr 2021 14:17:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6FF08189C6;
+ Tue, 20 Apr 2021 14:38:56 +0000 (UTC)
 Received: from localhost (unknown [10.18.25.174])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 268A26061F;
- Tue, 20 Apr 2021 14:17:35 +0000 (UTC)
-Date: Tue, 20 Apr 2021 10:17:34 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AD2C60916;
+ Tue, 20 Apr 2021 14:38:53 +0000 (UTC)
+Date: Tue, 20 Apr 2021 10:38:52 -0400
 From: Mike Snitzer <snitzer@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, dm-devel@redhat.com,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v4 3/3] nvme: decouple basic ANA log page re-read support
- from native multipathing
-Message-ID: <20210420141734.GA14523@redhat.com>
+Subject: Re: [PATCH v3 0/4] nvme: improve error handling and ana_state to
+ work well with dm-multipath
+Message-ID: <20210420143852.GB14523@redhat.com>
 References: <20210416235329.49234-1-snitzer@redhat.com>
- <20210416235329.49234-4-snitzer@redhat.com>
- <20210420093453.GB28625@lst.de>
+ <20210420093720.GA28874@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210420093453.GB28625@lst.de>
+In-Reply-To: <20210420093720.GA28874@lst.de>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210420_071741_659077_F1787F90 
-X-CRM114-Status: GOOD (  16.80  )
+X-CRM114-CacheID: sfid-20210420_073905_492501_ED5547EF 
+X-CRM114-Status: GOOD (  19.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,34 +106,49 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 20 2021 at  5:34am -0400,
+On Tue, Apr 20 2021 at  5:37am -0400,
 Christoph Hellwig <hch@lst.de> wrote:
 
-> On Fri, Apr 16, 2021 at 07:53:29PM -0400, Mike Snitzer wrote:
-> > Whether or not ANA is present is a choice of the target implementation;
-> > the host (and whether it supports multipathing) has _zero_ influence on
-> > this. If the target declares a path as 'inaccessible' the path _is_
-> > inaccessible to the host. As such, ANA support should be functional
-> > even if native multipathing is not.
+> > RHEL9 is coming, would really prefer that these changes land upstream
+> > rather than carry them within RHEL.
+> 
+> We've told from the very beginning that dm-multipth on nvme is not
+> a support configuration.
 
-As you well know, ANA is decoupled from multipathing in the NVMe spec.
-This fix illustrates that the existing Linux NVMe ANA handling is too
-tightly coupled with native NVMe multipathing. Unfortunately, you've
-forced this as a means to impose your political position:
+You have some high quality revisionist history there. But other than
+pointing that out I'm not going to dwell on our past discussions on how
+NVMe multipathing would be.
 
-> NAK.  nvme-multipathing is the only supported option for subsystems with
-> multiple controllers.
+> Red Hat decided to ignore that and live with the pain.
 
-And while this is largely irrelevant to the technical review of my fix:
-native nvme-multipath may be the only supported option in your world. In
-mine that isn't true and never has been.
+Red Hat supports both native nvme-multipath _and_ DM-multipath on NVMe.
 
-Your political posturing doesn't replace technical justification. You
-don't have a compelling technical case to take the stance you do, yet
-you guard it like you do. Just a really stark inconsistency in your
-technical leadership that is repeatedly left unchecked by others.
+The only "pain" I've been living with is trying to get you to be
+impartial and allow others to provide Linux multipathing as they see
+fit.
 
-Alas.
+> Your major version change is a chance to fix this up on the Red Hat
+> side, not to resubmit bogus patches upstream.
+
+Please spare me the vapid and baseless assertion about patches you
+refuse to review technically without political motivation.
+
+> In other words: please get your house in order NOW.
+
+My simple 3 patch submission was an attempt to do so. Reality is the
+Linux NVMe maintainers need to get their collective house in order.
+
+Until sanity prevails these NVMe changes will be carried in RHEL. And if
+you go out of your way to cause trivial, or elaborate, conflicts now
+that you _know_ that changes that are being carried it will be handled
+without issue.
+
+Sad this is where we are but it is what it is.
+
+Linux is about choice that is founded upon need. Hostile action that
+unilaterally limits choice is antithetical to Linux and Open Source.
+
+Mike
 
 
 _______________________________________________
