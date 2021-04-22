@@ -2,64 +2,79 @@ Return-Path: <SRS0=aHbv=JT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB15C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 14:15:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE36C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 15:23:17 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D073260FDB
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 14:15:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D073260FDB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 09E1A6143B
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 15:23:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09E1A6143B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=oVlg8c28FGUqFpU+BL9t+ydsNOPUpS7etT5TJakAYWg=; b=Ce0wxtmnu8rDMwz6BEqcQD22gc
-	QgYj5duA3mSezbKnvu2w13CJ+c0YJAdllzMSc/KSY/gkX8pOrwwa5dWnFMOgBLT5fqMxVsNSdbVtB
-	jYdSV7RKIu7ZU4f5M8/mOEkD7DSIkl1mwYzsP8Tgo0YzkjTbB1KCTrfmjJn3rqLS+BwmkydSrYsdn
-	27ngZ/fd1ItlE+Z9kvFEeMRoAtHuJ4SgOkgglPoDkrkQISHBgoaSWmdPet2g16Xs3fesYcyE3lvvF
-	QobpyRxgZ1C1duMNq0pPRT69pwUdaoHagMjKsiOdTarP3i71MaDAxSJ445DijwD9nBlOIh7u0nfrF
-	a2pXqZ0Q==;
+	bh=qHKaccvHMghl1d2FMJ8q0kU6dyecDBMJ3WEDDg5A4RE=; b=JZLI52DpodAK2WLkeX1J9HNKSH
+	7qkDwRBpExZY84zz3paSmQX9zhjzouRzDt804OBwdRnJdhCaHl4mr+qzor38VO9fbmvfGzIASB+Yb
+	TMNOsdD5w5HArxA54KnfBuIjY1NOlNVdg4yPqyYLc+jlFmmkaMvDPCn08kuHpfs8/iSTtN0JnDpOZ
+	hmPoCQlPe9T/CUevDlHj7zoXvz4iusQLspz4Pt/pnUIDLDFMldey+5X8HIJiJefLmH8hyap2MkFYp
+	drC4UafJWx24j6l3jbrdcOSoMMMuD0lCd2GkQJ2l1FKPWM6t7pwWFaT98WEV/Hq9vWbybHWrFV7Wi
+	hyNoX1/w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lZa7D-00Grg2-Ku; Thu, 22 Apr 2021 14:15:35 +0000
+	id 1lZbA9-00GxR6-ER; Thu, 22 Apr 2021 15:22:41 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZa6v-00Grfq-2E
- for linux-nvme@desiato.infradead.org; Thu, 22 Apr 2021 14:15:17 +0000
+ id 1lZbA7-00GxQy-II
+ for linux-nvme@desiato.infradead.org; Thu, 22 Apr 2021 15:22:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=F8NMnIEX/BAYPz90VJgRLYD8ulo3eabExPoF+jKA5eE=; b=aafr7cBr2009wwNCr2QTcjdZDB
- Jxe0usenJjDaH/0eBYN4l4HqCM36YVJsVac7CvGPcRspXWqcNhR0fk1Ojeq81lL3+CAvIJaWbNWEq
- 2/gwGTfXtx8NzldEYNlcLaMrkk2T14ltQGz0FV1h5lhlf+gElrRVz68IMgUTQu5cuO4YI5Ujd3pkH
- OvVByvTcxqTE3WUBBQsSh3IqgtoAryHPG/4vWvy3rpZIbSycs+3ynCYUxKl2ezG7RcJz3ffE0tari
- yHqOaTQjLph0C59viL9ypSyiXVqFCZGZtVV+zoh41BVnejHX3kxZ9W0bAKlBEcAlSigqIM0NkzlTJ
- 0IoEWhFw==;
-Received: from [2001:4bb8:19b:f845:4eeb:727b:c6de:39f1] (helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lZa6t-00DkW0-1K; Thu, 22 Apr 2021 14:15:15 +0000
-Date: Thu, 22 Apr 2021 16:15:12 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: [GIT PULL] third round of nvme updates for Linux 5.13
-Message-ID: <YIGE8ORkKryOdxtE@infradead.org>
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=Xc9ITIpAxikR+GUg7bAuT3jfj3AI+RLBUo93xKdQWyQ=; b=frnRqU85TrTLePUn9joU21zSsu
+ LSSNL0fcL30JU+9nq4KDSQZv0IeOAMv+k0iDg6zewMJSfIcckASxKtFsWSAbZeQ/KLbGgI57uTFGy
+ BvYy11r6N+uww693PYTGSo6BqSH/42IQEbXhDVnyYCGV8flEu977p8D3LaXYes9DwLB0UmGBpblG6
+ LPsYndIvp4Q4oOD8Fbw0AaBg9iIKjO/WxthVzYw9CJU6Dq2jsPZ/UFXONmq5AjQ8UrKdhncbIy1Vx
+ p+3vHTSzq3nEfMfKX29S5RLgVVhdX5sET2ymlDzpUqAEoR0z7DTQzkhrUOB1UEsbPTQ/JSQ7mTsj9
+ 9LMR1k5Q==;
+Received: from mx2.suse.de ([195.135.220.15])
+ by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lZbA2-00Dn41-3I
+ for linux-nvme@lists.infradead.org; Thu, 22 Apr 2021 15:22:38 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1619104950; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Xc9ITIpAxikR+GUg7bAuT3jfj3AI+RLBUo93xKdQWyQ=;
+ b=Zac+ZzxOYoS3F3XUVCsuB2lmqeyjzDMZ7N24cEULTbt4CU0gZfZtpccFMn1lIenon5Yckk
+ M+7ZdkpGwuIxuT0etnx71ofSLJSaRwVVssObQACOZesqTnkoymGLYPZBfg227WQsdLoXyY
+ YfG53SkSa/67Xwlw0aK/te0zae8gv7w=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5545BB172;
+ Thu, 22 Apr 2021 15:22:30 +0000 (UTC)
+From: mwilck@suse.com
+To: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
+ linux-nvme@lists.infradead.org, Martin Wilck <mwilck@suse.com>
+Subject: [PATCH] nvme: rdma/tcp: call nvme_mpath_stop() from reconnect
+ workqueue
+Date: Thu, 22 Apr 2021 17:22:19 +0200
+Message-Id: <20210422152219.7067-1-mwilck@suse.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Disposition: inline
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210422_082234_458503_257F4753 
+X-CRM114-Status: GOOD (  16.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,45 +91,113 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit b777f4c47781df6b23e3f4df6fdb92d9aceac7bb:
+From: Martin Wilck <mwilck@suse.com>
 
-  ataflop: fix off by one in ataflop_probe() (2021-04-21 09:15:27 -0600)
+We have observed a few crashes run_timer_softirq(), where a broken
+timer_list struct belonging to an anatt_timer was encountered. The broken
+structures look like this, and we see actually multiple ones attached to
+the same timer base:
 
-are available in the Git repository at:
+crash> struct timer_list 0xffff92471bcfdc90
+struct timer_list {
+  entry = {
+    next = 0xdead000000000122,  // LIST_POISON2
+    pprev = 0x0
+  },
+  expires = 4296022933,
+  function = 0xffffffffc06de5e0 <nvme_anatt_timeout>,
+  flags = 20
+}
 
-  git://git.infradead.org/nvme.git tags/nvme-5.13-2021-04-22
+If such a timer is encountered in run_timer_softirq(), the kernel
+crashes. The test scenario was an I/O load test with lots of NVMe
+controllers, some of which were removed and re-added on the storage side.
 
-for you to fetch changes up to 2637baed78010eeaae274feb5b99ce90933fadfb:
+I think this may happen if the rdma recovery_work starts, in this call
+chain:
 
-  nvme: introduce generic per-namespace chardev (2021-04-22 07:25:17 +0200)
+nvme_rdma_error_recovery_work()
+  /* this stops all sorts of activity for the controller, but not
+     the multipath-related work queue and timer */
+  nvme_rdma_reconnect_or_remove(ctrl)
+    => kicks reconnect_work
 
-----------------------------------------------------------------
- - add support for a per-namespace character device (Minwoo Im)
- - various KATO fixes and cleanups (Hou Pu, Hannes Reinecke)
- - APST fix and cleanup
+work queue: reconnect_work
 
-----------------------------------------------------------------
-Christoph Hellwig (2):
-      nvme: do not try to reconfigure APST when the controller is not live
-      nvme: cleanup nvme_configure_apst
+nvme_rdma_reconnect_ctrl_work()
+  nvme_rdma_setup_ctrl()
+    nvme_rdma_configure_admin_queue()
+       nvme_init_identify()
+          nvme_mpath_init()
+	     # this sets some fields of the timer_list without taking a lock
+             timer_setup()
+             nvme_read_ana_log()
+	         mod_timer() or del_timer_sync()
 
-Hannes Reinecke (2):
-      nvme: sanitize KATO setting
-      nvme: add 'kato' sysfs attribute
+Similar for TCP. The idea for the patch is based on the observation that
+nvme_rdma_reset_ctrl_work() calls nvme_stop_ctrl()->nvme_mpath_stop(),
+whereas nvme_rdma_error_recovery_work() stops only the keepalive timer, but
+not the anatt timer.
 
-Hou Pu (1):
-      nvmet: avoid queuing keep-alive timer if it is disabled
+I admit that the root cause analysis isn't rock solid yet. In particular, I
+can't explain why we see LIST_POISON2 in the "next" pointer, which would
+indicate that the timer has been detached before; yet we find it linked to
+the timer base when the crash occurs.
 
-Minwoo Im (1):
-      nvme: introduce generic per-namespace chardev
+OTOH, the anatt_timer is only touched in nvme_mpath_init() (see above) and
+nvme_mpath_stop(), so the hypothesis that modifying active timers may cause
+the issue isn't totally out of sight. I suspect that the LIST_POISON2 may
+come to pass in multiple steps.
 
- drivers/nvme/host/core.c        | 258 +++++++++++++++++++++++++++-------------
- drivers/nvme/host/fabrics.c     |   4 +-
- drivers/nvme/host/ioctl.c       |  38 +++++-
- drivers/nvme/host/multipath.c   |  51 +++++++-
- drivers/nvme/host/nvme.h        |  14 ++-
- drivers/nvme/target/admin-cmd.c |  10 +-
- 6 files changed, 276 insertions(+), 99 deletions(-)
+If anyone has better ideas, please advise. The issue occurs very
+sporadically; verifying this by testing will be difficult.
+
+Signed-off-by: Martin Wilck <mwilck@suse.com>
+---
+ drivers/nvme/host/multipath.c | 1 +
+ drivers/nvme/host/rdma.c      | 1 +
+ drivers/nvme/host/tcp.c       | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index a1d476e1ac02..c63dd5dfa7ff 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -586,6 +586,7 @@ void nvme_mpath_stop(struct nvme_ctrl *ctrl)
+ 	del_timer_sync(&ctrl->anatt_timer);
+ 	cancel_work_sync(&ctrl->ana_work);
+ }
++EXPORT_SYMBOL_GPL(nvme_mpath_stop);
+ 
+ #define SUBSYS_ATTR_RW(_name, _mode, _show, _store)  \
+ 	struct device_attribute subsys_attr_##_name =	\
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index be905d4fdb47..062f3be0bb4f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1189,6 +1189,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+ 			struct nvme_rdma_ctrl, err_work);
+ 
++	nvme_mpath_stop(&ctrl->ctrl);
+ 	nvme_stop_keep_alive(&ctrl->ctrl);
+ 	nvme_rdma_teardown_io_queues(ctrl, false);
+ 	nvme_start_queues(&ctrl->ctrl);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index a0f00cb8f9f3..ac9212a2de59 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2054,6 +2054,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ 				struct nvme_tcp_ctrl, err_work);
+ 	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+ 
++	nvme_mpath_stop(ctrl);
+ 	nvme_stop_keep_alive(ctrl);
+ 	nvme_tcp_teardown_io_queues(ctrl, false);
+ 	/* unquiesce to fail fast pending requests */
+-- 
+2.31.1
+
 
 _______________________________________________
 Linux-nvme mailing list
