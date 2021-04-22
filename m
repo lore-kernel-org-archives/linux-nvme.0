@@ -2,82 +2,99 @@ Return-Path: <SRS0=aHbv=JT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2BBEC433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 06:10:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE0D7C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 07:08:14 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E5BDE61452
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 06:10:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5BDE61452
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 99C99613CB
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 07:08:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 99C99613CB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=abQrgHMpCyJoJAhFn3wby1WGpo0A5LXm0P1Uo1u0eos=; b=XBi0Z2Gxm4AeQD3jmFghB4wfYB
-	qbJadPF+GQmTjiUlrjWzb45605jVMyOEp/7X0st+KIuajoSkKztKch2y/W7fzYPrqHU2ycRT4hx/H
-	3bdXYIqVtlO4vLM1DO4jlGZ6PdmEMhPCmzqem3uy4KVH6V4gRvArMe8/cClEVrkF1rzoy562jnLp0
-	WTI5OSiAsyenRJLTfTmJXb5+OW1TdZLXIse1FvXfsG+6MObD6T5D/8Z9C8pPxVu64rEy3KtLzjW8V
-	1nbxFkpIA/U7kEXpEvK++ktFyS8qMxQ9WmOofUSChiku3Owg9/2k/RYre80BbDkdNGr3YWVybXTLp
-	1pWHsQ+A==;
+	bh=wLHywfSZzZ/TSITjeJBZgArc1Fpe/9MwAxWaDzYjY1g=; b=Sfp7B0ssbKQVS0Jh62/7WGv7OZ
+	NC6pTGeDnvLTqdOmpzLSekoaq7d9kDQFzDTwS4sVvxhC1Ex86z4DQM1gAdhphqa4L1BL4sYqJKjDW
+	zgJl99DZ/maymkXqDID1Qej/OdbdPrUA0M6zC/9GotvC7hqTYEwTwbfr/683f9qFuXCBDGio9ITE4
+	qzVxoDhwtKQIcO0OL2ue7W1XO4ZxDqpopmI9Qv4lk18MHFZwRq8wqGaNLbeaGMZ183AEz5DL4VqKC
+	dK1ioo7/S9fE3rESGfTLF2n5ypkMUvEoVHr5+upScLqMXF9net+29BbAlbpNr0fFC6iwbaVBlKDdj
+	kZ71zx1w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lZSXp-00Fxgm-3d; Thu, 22 Apr 2021 06:10:33 +0000
+	id 1lZTRE-00G6MU-Px; Thu, 22 Apr 2021 07:07:49 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZSXm-00Fxgh-GF
- for linux-nvme@desiato.infradead.org; Thu, 22 Apr 2021 06:10:30 +0000
+ id 1lZTRB-00G6M4-RG
+ for linux-nvme@desiato.infradead.org; Thu, 22 Apr 2021 07:07:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=ArCGp1IpIMNqgCWl5BlVcfopVrJobRpNXn9+f/zNk1Y=; b=lxHBwbmJoq94iXGKsovEmxwAEG
- B/kdSqxG+Nq4OM4lptqtHcNf7URyms4p9g9hcW7y4HDtJQpXOo9chfT9dv1Zq+rIYba1VYAI5Kqhe
- CQnFy4xkm3AyPY/Hb2q6j2oZ1o3Kf/thzYKxh6PqEcNmIYOQyMObDCo6sOIDn4awqyKhHCDg5wBdH
- aW+z7pGKzy25aCqweOYsK6IMTWnqKEbndoCpg6YEhbnbzmEbl6uRd0SsUT86ylCujRO5OYuK/VQNU
- JC/ZjfRVwougp8qtlepF93a20Gyf4sUzyudaF8FyMoScCSE39gFKKiXbVF8IPL/foU85TnQLA3M7w
- O6f2+j1g==;
-Received: from mga05.intel.com ([192.55.52.43])
+ bh=mpDyeS655fsYnTxsXCfjWFLGSwI0nGPOMF9FGc+WyvI=; b=jKeNq6oL9MEr01u+O92X5n2OC4
+ TdWpdaB4D30qCOXLojdajch+3ccLCHouHsdHldnvhEpP33znQZhRJYf1K2aM/FX86C8lARs7NvKMX
+ abAF2KTMoyhHhpqTp7d24ci7rjyfI272lMwmefJD55QzTo2TwU9Z9h27Gquu3bZ+LmjFM0HXg4cR5
+ uFxinRl2XuKL+EGwMd008zU7OFpyvu1vRUE7WS6P75ZB/W0sYlCLnbCpGFPt4d9bJXtQJh1wrLDgx
+ 058V8l/n492JpfuPWpZnWD1D5pLN82jckigbmVwYnZTsaPGPT1sRdlPa/EUW6nPNLxq8KI/mLArZa
+ vuWp1jNg==;
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZSXi-00DOs3-1p
- for linux-nvme@lists.infradead.org; Thu, 22 Apr 2021 06:10:27 +0000
-IronPort-SDR: WcnBY5V3/LuLypEuO5tce7/Wu9ugKjIcRJgkTCdka+h21UUIjv/5RhmA8iOwAVeaEWJVCZ21Xi
- lxW4fj2yho7g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="281162633"
-X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; d="scan'208";a="281162633"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2021 23:10:23 -0700
-IronPort-SDR: f68fS5Yf8ZYR5DSOg26ajiKK2g/2GqpuUwIAQRt8Zs1iLXzuNxPl+GgKlF4gBX00ZxAw4btT3P
- hWQe3ZXMfmIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; d="scan'208";a="455650876"
-Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 21 Apr 2021 23:10:22 -0700
-Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1lZSXd-00040l-9K; Thu, 22 Apr 2021 06:10:21 +0000
-Date: Thu, 22 Apr 2021 14:10:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.13] BUILD SUCCESS
- 93ca38f7e9be2a47fdb530aa6a8d091977942a7e
-Message-ID: <60811338.Kwbcy+gmtmkgBOV3%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1lZTR9-00DRBK-E5
+ for linux-nvme@lists.infradead.org; Thu, 22 Apr 2021 07:07:44 +0000
+Received: by mail-pf1-x432.google.com with SMTP id a12so31031275pfc.7
+ for <linux-nvme@lists.infradead.org>; Thu, 22 Apr 2021 00:07:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mpDyeS655fsYnTxsXCfjWFLGSwI0nGPOMF9FGc+WyvI=;
+ b=enrLRwwyXnNDr4EmUArclwWwKVeNmcPqzZIWrQ/p30Cv4L/M5az/yG6LB5uDIgLIZ4
+ 6fQVDDKB1FRxy1AhjjYIp6tgsTh9wLxmHRzLs52IaOydKDzP/HWFucxeSkvi/qwOoEfO
+ DGxdRH38ntSKlqdl3VI3OksyE4SODfdr3Piw+FHHkIiz8DGCI6XlNslQzeWMxQS8gi/q
+ G/qpwZdSGS2XJZ4HEWLxy4DEjgDFirw3M20MCom0HH1YLCVM7RkotWWrP9hK/MU6g/qO
+ JbPqEkcNGHPfraLcRIHTgQ5J1QlKEAKANmHcgsPr7Z9bQMCoouvE/XDqKY5yrmwYkeBd
+ vEZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mpDyeS655fsYnTxsXCfjWFLGSwI0nGPOMF9FGc+WyvI=;
+ b=XP4fYMdBkpEWIWNbe3VAIDfN7P223Oxevazr0c58Y94DaDj3Gdml5tbSOaZoeojynm
+ B9vBBU5/UoYNrD/IF/eoO+XCQygC+xfKBGwYCvle6LdqHgEV0XiyjaARYSQRs4PJ0aft
+ YbR9hDBG2P9p0BlgiZAH+d6TZ08OjLFXx1opCUH9p704RXIOUZNQRUCX9qMwLOFoPuhT
+ R4r+BTtLZjHlD1X5D11xnWbe9iDQl3y8inr9ERWGiV+OhTJTCO7wHtEiT4xtHlm0QYRo
+ QRpa4MAmiXKUX7ArqX8uT0w69z5iKbLI7j8FRWrAJWAOSqMK6vgzLfO6P7upWqxHtWkJ
+ XoFw==
+X-Gm-Message-State: AOAM530hdIOhzxxY/tdrRsrBT4yTBmft15nGu8F1j1Ts1Jp/CCz/MDJf
+ PB7l3G7XSUDxPKHjCqy+1OM+hP1ihQ1lNg==
+X-Google-Smtp-Source: ABdhPJxdHOB/GIqadN0vW2QYhJk/R0CyuNWnjJVngw8VaQMpmb1MYyBtsYyU2Mb+iKaOAPdfODPq3w==
+X-Received: by 2002:a63:3c1a:: with SMTP id j26mr2179999pga.292.1619075262448; 
+ Thu, 22 Apr 2021 00:07:42 -0700 (PDT)
+Received: from localhost.localdomain ([58.127.46.74])
+ by smtp.gmail.com with ESMTPSA id u17sm1174914pfm.113.2021.04.22.00.07.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Apr 2021 00:07:41 -0700 (PDT)
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: [PATCH 0/1] nvme: fix controller ioctl through ns_head
+Date: Thu, 22 Apr 2021 16:07:34 +0900
+Message-Id: <20210422070735.25855-1-minwoo.im.dev@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210421_231026_151841_C9F3D425 
-X-CRM114-Status: UNSURE (   7.19  )
+X-CRM114-CacheID: sfid-20210422_000743_494479_58622D23 
+X-CRM114-Status: UNSURE (   9.13  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,167 +112,24 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.13
-branch HEAD: 93ca38f7e9be2a47fdb530aa6a8d091977942a7e  nvme: introduce generic per-namespace chardev
+Hello,
 
-elapsed time: 725m
+This series is to fix controller ioctl though block device in the
+multipath case.  This series simply reverts the commit 3557a4409701
+("nvme: don't bother to look up a namespace for controller ioctls") to
+make it consider the namespace attachment with controllers in the
+subsystem.
 
-configs tested: 143
-configs skipped: 2
+Minwoo Im (1):
+  Revert "nvme: don't bother to look up a namespace for controller
+    ioctls"
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+ drivers/nvme/host/ioctl.c | 47 +++++++++++++++++++++------------------
+ 1 file changed, 25 insertions(+), 22 deletions(-)
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-i386                             allyesconfig
-arm                            lart_defconfig
-mips                malta_qemu_32r6_defconfig
-mips                          malta_defconfig
-sh                             shx3_defconfig
-arm                       netwinder_defconfig
-mips                        bcm63xx_defconfig
-xtensa                  nommu_kc705_defconfig
-arm                       omap2plus_defconfig
-arm                      tct_hammer_defconfig
-mips                           rs90_defconfig
-arm                      integrator_defconfig
-powerpc                 mpc836x_rdk_defconfig
-powerpc                      mgcoge_defconfig
-ia64                                defconfig
-powerpc                         wii_defconfig
-arm                  colibri_pxa270_defconfig
-openrisc                    or1ksim_defconfig
-powerpc                     asp8347_defconfig
-ia64                          tiger_defconfig
-mips                        nlm_xlr_defconfig
-mips                  decstation_64_defconfig
-m68k                          hp300_defconfig
-mips                           xway_defconfig
-powerpc                  storcenter_defconfig
-mips                           ci20_defconfig
-sparc                               defconfig
-arc                                 defconfig
-arm                         lpc32xx_defconfig
-arm                           h5000_defconfig
-powerpc                     tqm8548_defconfig
-powerpc                 canyonlands_defconfig
-sh                     magicpanelr2_defconfig
-arm                         cm_x300_defconfig
-arm                         bcm2835_defconfig
-arm                        keystone_defconfig
-ia64                         bigsur_defconfig
-sparc                            allyesconfig
-s390                          debug_defconfig
-x86_64                           alldefconfig
-m68k                         amcore_defconfig
-mips                       capcella_defconfig
-um                            kunit_defconfig
-arm                        oxnas_v6_defconfig
-arc                        vdk_hs38_defconfig
-arc                        nsim_700_defconfig
-mips                        maltaup_defconfig
-mips                        bcm47xx_defconfig
-powerpc                      ppc44x_defconfig
-powerpc                     tqm5200_defconfig
-powerpc               mpc834x_itxgp_defconfig
-mips                     loongson1b_defconfig
-mips                           jazz_defconfig
-arm                         s3c2410_defconfig
-powerpc                 mpc836x_mds_defconfig
-powerpc                       maple_defconfig
-sh                           se7206_defconfig
-sh                          sdk7786_defconfig
-powerpc                     ksi8560_defconfig
-arc                          axs103_defconfig
-i386                             alldefconfig
-powerpc                 xes_mpc85xx_defconfig
-arc                      axs103_smp_defconfig
-m68k                         apollo_defconfig
-sh                           sh2007_defconfig
-sh                           se7722_defconfig
-openrisc                         alldefconfig
-powerpc                      acadia_defconfig
-mips                            e55_defconfig
-sh                            migor_defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20210421
-x86_64               randconfig-a002-20210421
-x86_64               randconfig-a001-20210421
-x86_64               randconfig-a005-20210421
-x86_64               randconfig-a006-20210421
-x86_64               randconfig-a003-20210421
-i386                 randconfig-a005-20210421
-i386                 randconfig-a002-20210421
-i386                 randconfig-a001-20210421
-i386                 randconfig-a006-20210421
-i386                 randconfig-a004-20210421
-i386                 randconfig-a003-20210421
-i386                 randconfig-a012-20210421
-i386                 randconfig-a014-20210421
-i386                 randconfig-a011-20210421
-i386                 randconfig-a013-20210421
-i386                 randconfig-a015-20210421
-i386                 randconfig-a016-20210421
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+-- 
+2.27.0
 
-clang tested configs:
-x86_64               randconfig-a015-20210421
-x86_64               randconfig-a016-20210421
-x86_64               randconfig-a011-20210421
-x86_64               randconfig-a014-20210421
-x86_64               randconfig-a013-20210421
-x86_64               randconfig-a012-20210421
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
