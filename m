@@ -2,103 +2,142 @@ Return-Path: <SRS0=aHbv=JT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7929EC433ED
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 08:04:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF04C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 08:44:26 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C661561426
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 08:04:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C661561426
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 105CC61426
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 08:44:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 105CC61426
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=16bPNgHycBEZD+TF6hPgx/1LH3QohuqSsyaEDYd0KkA=; b=fpNV5cWyxCsqEfozdFzoVWw8f
-	d9/KWxmhI/TAuobyf0DHMZT3x3JOkpb5XnKNrvmcsGdsGA5F3uz2jadDPsFJOCQqaOP3gMPFKQmWf
-	zXMBGE5+wsT9eL2Sc1yPY53xQDOO7mtTTRh26oHzdFiD3VxIY9l10fVG+KVkr6ZLEaE1UNKC1I0uP
-	UzEvJO16Mco7aDyfLsjybMFm8AOuxkZhXusKHJlXEel2WC/t0Vga311AXi6tSVe/LVWhz2JhnIVC+
-	37EMv+iT79Uxvf7CTa//iIOcA+LM6XBNOORwHktYfVQfOcke1TO55IY/jfKYuitI0waA6WkV16jbB
-	YjljJYapg==;
+	 bh=Z7TxqX+HYZt+abpV9qtl22WEJiD+zOwSk6qRdRzaAIs=; b=aqV6rK7Z89cBinzD8NHrRbgBH
+	t91ARi4MHDWrQyeD6HGAg4Go4zju34lMsNh70MPFOG9nr1/XbJj7T3vROZMwF6ZssPb1r3ZkpaqVu
+	j+DeBIThLDV9Duw3dG+9vP+p0OZw+TMm0fnGvZ8IM77BniJrtGO8ZCT5Fm8UC1A3a8rDu9Q4t6G58
+	nZnJdDvaXuh8+oCdwA429ssDNc0NXDWycW7lyaWzU+t9u3tlRbE/5KJRSt1GTDxtZu4LOxct2rshd
+	iGxBDkZCA2GtNr1WPW8iLhlhRhBo0iLoEBulcVqvEaqcTkFadxFIM7SECOciQ4B14qW/eutetxjgV
+	It8CehJ+A==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lZUK6-00GCOo-L2; Thu, 22 Apr 2021 08:04:30 +0000
+	id 1lZUwM-00GIzx-Gf; Thu, 22 Apr 2021 08:44:02 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZUJu-00GCNW-Ph
- for linux-nvme@desiato.infradead.org; Thu, 22 Apr 2021 08:04:19 +0000
+ id 1lZUwG-00GIzZ-Qu
+ for linux-nvme@desiato.infradead.org; Thu, 22 Apr 2021 08:43:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=YWlC62c7DAz/I22X4+XvXG26Dc5RGWxSDd7vd4SoMS8=; b=zpPemaUPK/2wEocdFyBwaNM+nM
- m+kC2USRyXQL5lifqSSbRVJ7EoJ2G3kHaGHJaAPQZm5mVlm7dHGZA4kO8xuZp3yGDpQ+4EY+iAvOk
- 9kZOXzQY6pY6vJLZ48PenZe3f71P3GGJE1IK6uCtOpUreN3OdKiTT0sD54PkP2kEqthaxLf5qcVSF
- 3KkSBXWZHwv9DFznvE9ygt9R/eWt87GwE9bV6yDXggkCZqxiKGH1i+iUY6qqMxitP4ELMEp9YCEPj
- kx1WDxwzlkcGN6EVnmJQGLX+WCUVsFx2i403xwZRGNp8KE319p2pFwnv4qWlmh5/tZdviX0zmdKcS
- rzHhSMVw==;
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=smyCvpphMJeoYdVmm7geKN/TZBi1TPJOMtHfFB9Xj3U=; b=ulYy+IeKHJz7+fhIWaA4VycVRI
+ SMh2gzybkFWQYs8SVZ1JedOCc/vx56n58151+gERDHhnmxo3q/i5dsKgNF0aVloojRXz4SmBfKiwE
+ LIzS9L+YORheewrtWtildzQjX7X5qN4ptTDCAZq/QWJx57CF9J81k2syxGuDg2D43fk8FoCOjuy14
+ c5FoDeVbIXiu0rr4UYnplUIVHDxwRAUcjUdQkDWRh0Wv7Cg9/7FMaxGfNGSkESJHBQYUgWQTXZre9
+ 3lRJG0qfmAwoyJazXXSojc/2PNwPkG0u8mfLRiRYKg6UmVQaUsn6/KVDNvqy/nHjg6T6BaKYhcF6N
+ Vls7KBLQ==;
+Received: from mail-bn7nam10on2076.outbound.protection.outlook.com
+ ([40.107.92.76] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZUJs-00DTTy-2M
- for linux-nvme@lists.infradead.org; Thu, 22 Apr 2021 08:04:17 +0000
-Received: by mail-pl1-x635.google.com with SMTP id p16so19161705plf.12
- for <linux-nvme@lists.infradead.org>; Thu, 22 Apr 2021 01:04:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=YWlC62c7DAz/I22X4+XvXG26Dc5RGWxSDd7vd4SoMS8=;
- b=nECFGkUnuMA97cO4jFw6MkWT0VTZ+D++wHKToxONZChi9Szu0DRsAc+OXs8JNw4RTh
- HUBuC9wkFhKagZnlolDThR07Bl7gWSoMFTw806cO72Y4IO01F7LdR1rpo3YrbgMwv0Co
- KBq0oH1pgFRT7e6za0KODFWwtfpLo1CL5EOd8l2sK3+QK5RuI6p6MFcFarSjbiU8nMFU
- mnBSN26kWaPWgDEwiCIlzhWBZgggaM4LUSITIl7ReGySWIRIvgwEJYapvrdB2HMs5aZr
- MskzCQAUxcWldfh34Ge9sZ8oKaZndUTNOFMvIBLBBIiGZNyMTLs9HE3vOMwIaHSfoe6R
- luIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YWlC62c7DAz/I22X4+XvXG26Dc5RGWxSDd7vd4SoMS8=;
- b=Q3BjmxvhWPJJMaR0U3i7erd9w5l1PE1Zt/mz4O4h5gcVAATNxYdKErqApJ9+rnWA0R
- 1uVNsSDszmv4cs5CSuTXOCPsP0fZOIWFKEzzSqjq3zG5cplsvfSRohwWZ6OmObX7G6kP
- aDQ+5kkRJ1qD5crs32kPg7X+hVKQaZznug1Y7QsdXHyQ6iHJf6RzDujSIHc6GqyRmn3G
- 9Z8LScLR6G0ijrSntMl+k+nnchsbVa38fumT3L103D6xL13E6JmeT/zl5I22Z4UULSrp
- 0bGgruPMDNo/vGPy5FZvqi+2Wrcoj8ZeJezshDL4Mu0m3SYHDFcDM0cgymIP5fqMGhuy
- iWCg==
-X-Gm-Message-State: AOAM530oDHSpauVGbwAXu46KTKIIJc5RocUVbmRa7iH6lw5krcG0ghQJ
- VCWi6z1vR4bNo6M0wZIEXehQ1D3VdxNLBQ==
-X-Google-Smtp-Source: ABdhPJxTAoYimA8HjXLsvkFjs2ZYJPoSx1lU4cBtpyEFS9US/5JTn2qcLZTdqyIb3NfG5Y3aouZ3SA==
-X-Received: by 2002:a17:90a:f298:: with SMTP id
- fs24mr16309541pjb.176.1619078654717; 
- Thu, 22 Apr 2021 01:04:14 -0700 (PDT)
-Received: from localhost.localdomain ([58.127.46.74])
- by smtp.gmail.com with ESMTPSA id l35sm1447139pgm.10.2021.04.22.01.04.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 01:04:14 -0700 (PDT)
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: [PATCH V2 1/1] nvme: fix controller ioctl through ns_head
-Date: Thu, 22 Apr 2021 17:04:07 +0900
-Message-Id: <20210422080407.62999-2-minwoo.im.dev@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210422080407.62999-1-minwoo.im.dev@gmail.com>
-References: <20210422080407.62999-1-minwoo.im.dev@gmail.com>
+ id 1lZUwD-00DVt0-Vj
+ for linux-nvme@lists.infradead.org; Thu, 22 Apr 2021 08:43:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YZ4av80d3poqGxAN89FLgQiYhAhoQZTYkq+VTuASmVad76X26A1ltdIiLWHF7frcC1oaWd6w/tX6WGcaVoFEVxOjdiBV6rUEVfeglJUTFA3bp5uD2x0m9rhGfXWbBXdJkOhZFnnGXZRVKHwB53z4XW+nqFOx22ZQvGJ+51I+oBCZk6KJYJO7Ccij73fHzXtUDfNw8B4MDv2oPLvk41+AvLRVZlZAXV9sfQkeZojp/fivPkSZnReMQLyazkGmOx2sPhPNaNV78tASzIXeK0bl1Wc8W1qnGq22QalLSWVhuRmuJDOUyNFINKMLqr6WVO0bVCNTk7bmcjwir3NQzYzwiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=smyCvpphMJeoYdVmm7geKN/TZBi1TPJOMtHfFB9Xj3U=;
+ b=hriE6lLuA3JkhPCNWV0IAkG51WzalN0D3PsYtAKfaLcQO5neI089cImUh51l19xiGlRMqNeJl0pcybDapHBaYuGeBr/EqSiovLaKatDdZXwiNej8O2apf7win/c9APlY3kPo4cLe4UKcfOLQkl89d/Z3lRJlWBTf6FdZpNSbUOnTY7EKIpitncnTVS/qCOK1FNoPPb+4XHef21uZ1POpXo2QCeAcOQ1KSt2NLpBgFo2Q7aO7uRbYcE4pOILvUDIB/ahpU6dzLnTTF+kDboVLQZS2XxneBV6EJ01cDHr367uy9OwtrC3IT/lKBWAOuNx5tPEdLTOe6PutgN02SV+aGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=smyCvpphMJeoYdVmm7geKN/TZBi1TPJOMtHfFB9Xj3U=;
+ b=ox2lymR9I/guzZ0naoh2RIGqKgX7333nD+yMvUzxzhq9tcGACQV5PZCx2QVg01bvOakFfrs5srPonr26pWITA9UHvHmoPNqEUwB4R9b7FyO1Sk15+grzBR/IKJSFN5ye1U/f0gvajWJjpwdS8FcHCNOpT/WuaU5tRIkoJe0on0RxyJ2ip9Ze9Jj2xfYyvVWNpfM4XsmYZseMVSYn0Mql6Ax/4PHQxGlKHexUZEupgPU9hQzXA90PJ0BL0/uXeY3DURNdpqXn2ZckCYSu3YYeM1irdss3NDM4ubJSzewzQhflWA0SNDdBxYvT9CULfTYS7KS7tzvXY1cLx0usDlclSw==
+Received: from DM6PR10CA0033.namprd10.prod.outlook.com (2603:10b6:5:60::46) by
+ BN9PR12MB5147.namprd12.prod.outlook.com (2603:10b6:408:118::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Thu, 22 Apr
+ 2021 08:43:50 +0000
+Received: from DM6NAM11FT046.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:60:cafe::c) by DM6PR10CA0033.outlook.office365.com
+ (2603:10b6:5:60::46) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend
+ Transport; Thu, 22 Apr 2021 08:43:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=pass action=none
+ header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT046.mail.protection.outlook.com (10.13.172.121) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4065.21 via Frontend Transport; Thu, 22 Apr 2021 08:43:49 +0000
+Received: from [172.27.1.102] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 22 Apr
+ 2021 08:43:46 +0000
+Subject: Re: [PATCH 4/4] nvmet: make ver stable once connection established
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "kbusch@kernel.org"
+ <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
+CC: "oren@nvidia.com" <oren@nvidia.com>, "ngottlieb@nvidia.com"
+ <ngottlieb@nvidia.com>
+References: <20210420090903.595664-1-mgurtovoy@nvidia.com>
+ <20210420090903.595664-4-mgurtovoy@nvidia.com>
+ <BYAPR04MB496522B82F4480CADD4FF34286489@BYAPR04MB4965.namprd04.prod.outlook.com>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+Message-ID: <be2f8d6b-eb56-5efc-1853-5279329f733f@nvidia.com>
+Date: Thu, 22 Apr 2021 11:43:37 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
+In-Reply-To: <BYAPR04MB496522B82F4480CADD4FF34286489@BYAPR04MB4965.namprd04.prod.outlook.com>
+Content-Language: en-US
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 569857b0-e633-4116-8f6c-08d9056ac01d
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5147:
+X-Microsoft-Antispam-PRVS: <BN9PR12MB51477A6AFEC04B4326ED3BD9DE469@BN9PR12MB5147.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: R/CgV5xM/mbZOf+YyUL0nZOW1k285/Tg9t3M0BhEwJRbPq6bMeUSdDD4CplTqLbWfNZSqcb5oWipcrvYb53m3p0LAl4LvP7gmhVBC6zKskE/iIGX7I6RZc8LQb4T9uIqAV6HLjhVwY1CfB6E86MVcKW7stK7p+FtOnHBANbTiTlHO5G32wGhOu3Yk2b20avfIqQNtTBvHMKlbY92KigXujFSyxb1vjrkT6I3LDMNj8jFaPEhpOLZdSzPVYZeZq70dcUYMZeho/Ryv0ICfAgpN0oYSzI70wpSbDihFNUfdopAjqShIav3j+dRvgdz7n4DS24HQojrqkaUUdx6kOG3Uvvz7/m+FKkF60vJZmw3rsBEuXHKNqoMQ0e/D1UaeVs95zB16VdE0dLw7cj7VR+OH+0cUQJ8lA91xTG8s4rzRQF9Mwymb0gHSv7PVonsbB1FMSqmglynNdA96ArDBksdNo51uNw4coiYuEPGQjjpdzXUPuMFj/cfmTtWq7D8EZjTMskCJcBwrri0qvsf6TQWZbr2K7UXcZfcZwnj8COXvso5LfctoMT7sF84yEQFcnGY5ALlthPEiwv2hcIkY5mDG3HM9GndWS70U67rjIFwwqcakeLE91mlKlZ3ij1VCJbVdFjld/jkXBmGmPhAhXg5to1QlrTeHgLGNo1sX8KdDIxXFKqyDcTyPJ03pvyGZVaZ
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(136003)(396003)(376002)(46966006)(36840700001)(2616005)(36860700001)(426003)(6666004)(36756003)(186003)(356005)(54906003)(8936002)(82310400003)(336012)(31696002)(16526019)(47076005)(110136005)(478600001)(107886003)(8676002)(86362001)(316002)(26005)(53546011)(4326008)(70206006)(5660300002)(82740400003)(70586007)(7636003)(2906002)(83380400001)(36906005)(16576012)(31686004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 08:43:49.6331 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 569857b0-e633-4116-8f6c-08d9056ac01d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT046.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5147
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210422_010416_133648_81F1ED0E 
-X-CRM114-Status: GOOD (  21.94  )
+X-CRM114-CacheID: sfid-20210422_014354_082479_3BFB7F69 
+X-CRM114-Status: GOOD (  19.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,173 +149,118 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In multipath case, we should consider namespace attachment with
-controllers in a subsystem when we find out the live controller for the
-namespace.  This patch manually reverted the commit 3557a4409701
-("nvme: don't bother to look up a namespace for controller ioctls") with
-few more updates to nvme_ns_head_chr_ioctl which has been newly updated.
 
-Fixes: 3557a4409701 ("nvme: don't bother to look up a namespace for
-controller ioctls")
-Cc: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
----
- drivers/nvme/host/core.c  | 22 -------------
- drivers/nvme/host/ioctl.c | 65 ++++++++++++++++++++++++---------------
- drivers/nvme/host/nvme.h  |  1 -
- 3 files changed, 41 insertions(+), 47 deletions(-)
+On 4/20/2021 8:47 PM, Chaitanya Kulkarni wrote:
+> On 4/20/21 02:09, Max Gurtovoy wrote:
+>> From: Noam Gottlieb <ngottlieb@nvidia.com>
+>>
+>> Once some host has connected to the nvmf target, make sure that the
+>> version number is stable and cannot be changed.
+>>
+>> Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+>> Signed-off-by: Noam Gottlieb <ngottlieb@nvidia.com>
+>> ---
+>>   drivers/nvme/target/configfs.c | 36 +++++++++++++++++++++++++++++-----
+>>   1 file changed, 31 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+>> index 61a9a52da30d..2c7aebd4d529 100644
+>> --- a/drivers/nvme/target/configfs.c
+>> +++ b/drivers/nvme/target/configfs.c
+>> @@ -1007,13 +1007,26 @@ static ssize_t nvmet_subsys_attr_version_show(struct config_item *item,
+>>   			NVME_MINOR(subsys->ver));
+>>   }
+>>   
+>> -static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
+>> -					       const char *page, size_t count)
+>> +static ssize_t
+>> +nvmet_subsys_attr_version_store_locked(struct nvmet_subsys *subsys,
+>> +		const char *page, size_t count)
+>>   {
+> Seems like we lost the indentation in above line which was there previously.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2f45e8fcdd7c..f6db097ad776 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2009,28 +2009,6 @@ static const struct block_device_operations nvme_bdev_ops = {
- 	.pr_ops		= &nvme_pr_ops,
- };
- 
--#ifdef CONFIG_NVME_MULTIPATH
--struct nvme_ctrl *nvme_find_get_live_ctrl(struct nvme_subsystem *subsys)
--{
--	struct nvme_ctrl *ctrl;
--	int ret;
--
--	ret = mutex_lock_killable(&nvme_subsystems_lock);
--	if (ret)
--		return ERR_PTR(ret);
--	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
--		if (ctrl->state == NVME_CTRL_LIVE)
--			goto found;
--	}
--	mutex_unlock(&nvme_subsystems_lock);
--	return ERR_PTR(-EWOULDBLOCK);
--found:
--	nvme_get_ctrl(ctrl);
--	mutex_unlock(&nvme_subsystems_lock);
--	return ctrl;
--}
--#endif /* CONFIG_NVME_MULTIPATH */
--
- static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
- {
- 	unsigned long timeout =
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 502f8e4a2a1f..9557ead02de1 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -370,41 +370,45 @@ long nvme_ns_chr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- }
- 
- #ifdef CONFIG_NVME_MULTIPATH
--static int nvme_ns_head_ctrl_ioctl(struct nvme_ns_head *head,
--		unsigned int cmd, void __user *argp)
-+static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
-+		void __user *argp, struct nvme_ns_head *head, int srcu_idx)
- {
--	struct nvme_ctrl *ctrl = nvme_find_get_live_ctrl(head->subsys);
-+	struct nvme_ctrl *ctrl = ns->ctrl;
- 	int ret;
- 
--	if (IS_ERR(ctrl))
--		return PTR_ERR(ctrl);
--	ret = nvme_ctrl_ioctl(ctrl, cmd, argp);
--	nvme_put_ctrl(ctrl);
--	return ret;
--}
-+	nvme_get_ctrl(ns->ctrl);
-+	nvme_put_ns_from_disk(head, srcu_idx);
-+	ret = nvme_ctrl_ioctl(ns->ctrl, cmd, argp);
- 
--static int nvme_ns_head_ns_ioctl(struct nvme_ns_head *head,
--		unsigned int cmd, void __user *argp)
--{
--	int srcu_idx = srcu_read_lock(&head->srcu);
--	struct nvme_ns *ns = nvme_find_path(head);
--	int ret = -EWOULDBLOCK;
--
--	if (ns)
--		ret = nvme_ns_ioctl(ns, cmd, argp);
--	srcu_read_unlock(&head->srcu, srcu_idx);
-+	nvme_put_ctrl(ctrl);
- 	return ret;
- }
- 
- int nvme_ns_head_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg)
- {
--	struct nvme_ns_head *head = bdev->bd_disk->private_data;
-+	struct nvme_ns_head *head = NULL;
- 	void __user *argp = (void __user *)arg;
-+	struct nvme_ns *ns;
-+	int srcu_idx, ret;
-+
-+	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
-+	if (unlikely(!ns))
-+		return -EWOULDBLOCK;
- 
-+	/*
-+	 * Handle ioctls that apply to the controller instead of the namespace
-+	 * seperately and drop the ns SRCU reference early.  This avoids a
-+	 * deadlock when deleting namespaces using the passthrough interface.
-+	 */
- 	if (is_ctrl_ioctl(cmd))
--		return nvme_ns_head_ctrl_ioctl(head, cmd, argp);
--	return nvme_ns_head_ns_ioctl(head, cmd, argp);
-+		ret = nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx);
-+	else {
-+		ret = nvme_ns_ioctl(ns, cmd, argp);
-+		nvme_put_ns_from_disk(head, srcu_idx);
-+	}
-+
-+	return ret;
- }
- 
- long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
-@@ -414,10 +418,23 @@ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
- 	struct nvme_ns_head *head =
- 		container_of(cdev, struct nvme_ns_head, cdev);
- 	void __user *argp = (void __user *)arg;
-+	struct nvme_ns *ns;
-+	int srcu_idx, ret;
-+
-+	srcu_idx = srcu_read_lock(&head->srcu);
-+	ns = nvme_find_path(head);
-+	if (!ns) {
-+		srcu_read_unlock(&head->srcu, srcu_idx);
-+		return -EWOULDBLOCK;
-+	}
- 
- 	if (is_ctrl_ioctl(cmd))
--		return nvme_ns_head_ctrl_ioctl(head, cmd, argp);
--	return nvme_ns_head_ns_ioctl(head, cmd, argp);
-+		return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx);
-+
-+	ret = nvme_ns_ioctl(ns, cmd, argp);
-+	nvme_put_ns_from_disk(head, srcu_idx);
-+
-+	return ret;
- }
- #endif /* CONFIG_NVME_MULTIPATH */
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 773dde5b231d..c1e086a0bc3f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -664,7 +664,6 @@ struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk,
- void nvme_put_ns_from_disk(struct nvme_ns_head *head, int idx);
- bool nvme_tryget_ns_head(struct nvme_ns_head *head);
- void nvme_put_ns_head(struct nvme_ns_head *head);
--struct nvme_ctrl *nvme_find_get_live_ctrl(struct nvme_subsystem *subsys);
- int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
- 		const struct file_operations *fops, struct module *owner);
- void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device);
--- 
-2.27.0
+We added a new line since the line was > 80 chars.
 
+And we follow the conventions.
+
+
+>
+>> -	struct nvmet_subsys *subsys = to_subsys(item);
+>>   	int major, minor, tertiary = 0;
+>>   	int ret;
+>>   
+>> +	if (subsys->subsys_discovered) {
+>> +		if (NVME_TERTIARY(subsys->ver))
+>> +			pr_err("Can't set version number. %llu.%llu.%llu is already assigned\n",
+>> +			       NVME_MAJOR(subsys->ver),
+>> +			       NVME_MINOR(subsys->ver),
+>> +			       NVME_TERTIARY(subsys->ver));
+>> +		else
+>> +			pr_err("Can't set version number. %llu.%llu is already assigned\n",
+>> +			       NVME_MAJOR(subsys->ver),
+>> +			       NVME_MINOR(subsys->ver));
+>> +		return -EINVAL;
+>> +	}
+>> +
+> Can you create a helper to for about error reporting so we can avoid
+> extra long lines whenever itis possible something like :-
+>
+>          if (subsys->subsys_discovered)
+>              return nvmet_subsys_discover_err(subsys);
+
+We will create helper in the future in case this code will be re-used.
+
+There is no need to create it now.
+
+Long lines avoided by new lines.
+
+
+>
+>>   	/* passthru subsystems use the underlying controller's version */
+>>   	if (nvmet_passthru_ctrl(subsys))
+>>   		return -EINVAL;
+>> @@ -1022,12 +1035,25 @@ static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
+>>   	if (ret != 2 && ret != 3)
+>>   		return -EINVAL;
+>>   
+>> -	down_write(&nvmet_config_sem);
+>>   	subsys->ver = NVME_VS(major, minor, tertiary);
+>> -	up_write(&nvmet_config_sem);
+>>   
+>>   	return count;
+>>   }
+>> +
+>> +static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
+>> +					       const char *page, size_t count)
+>> +{
+>> +	struct nvmet_subsys *subsys = to_subsys(item);
+>> +	int ret;
+>> +
+> nit:- ret variable type should be ssize_t
+> nvmet_subsys_attr_version_store_locke().
+
+Ok. good catch.
+
+Thanks.
+
+
+>
+>> +	down_write(&nvmet_config_sem);
+>> +	mutex_lock(&subsys->lock);
+>> +	ret = nvmet_subsys_attr_version_store_locked(subsys, page, count);
+>> +	mutex_unlock(&subsys->lock);
+>> +	up_write(&nvmet_config_sem);
+>> +
+>> +	return ret;
+>> +}
+>>   CONFIGFS_ATTR(nvmet_subsys_, attr_version);
+>>   
+>>   /* See Section 1.5 of NVMe 1.4 */
 
 _______________________________________________
 Linux-nvme mailing list
