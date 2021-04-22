@@ -2,103 +2,105 @@ Return-Path: <SRS0=aHbv=JT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E77C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 07:08:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BBBBC433B4
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 07:10:52 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 87B496145A
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 07:08:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 87B496145A
+	by mail.kernel.org (Postfix) with ESMTPS id E678A613D8
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Apr 2021 07:10:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E678A613D8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Uj1T07sQ5aJLw0z4FxmO03dvNSMf0TLmUnHrc64d490=; b=kbLP2x78aTeYAHVUorwCNz4LY
-	XzoTAhXZsRuKbJars/+1ZOeCt++eLzdfRzLKgnGjDGPUqFNvo0JvYMbfDzhBq3dOAh4X1SpeEekhk
-	XcoXtTkRvLpmj8ELnh+5pDSdItla73qvJVAtqAsjJ0A80t+8TEfNULM0uevXwVxX0+wCrpwyER1SU
-	GVB8qpSzAweECq8V5p/hUiU8B/MZ5qZccxxNipI43AK4lAav0awYaq4WA1q8iVY3/S2qPzSU2M/uT
-	GFwOf5BwrreIXWz1IOzVZeGRkUvBiXzAgEkxyznS5U40vbRXQm0E+aQFNTEd/HKlWJlylFBJlBk1Y
-	tu1n5MRhw==;
+	 bh=PGnNv08eLbfOQuRghWjQcSW0x7hxuzFQWFOUpUtj/gM=; b=PwZEGn43iRgY6jlzGON0hidTW
+	wO2T4ySJvndHAbjZlpKELVTNeScoKbx8PRRUGuVX5xsHHw9q53f7OCE5bzcoNCAhfKSaZgsmjRPPe
+	koUJZMSvpFhZDWFyC3ZjrZVWLSARrKrUGicSRf3PUOdCIg3SI5NKDy5ScqIfXUxscZtKpFRJrQSNq
+	rjupReus24QAMSblTw5uh86HHgg107f6uSh2etmq+2MlP3DwGads/F7KSJwlM/0irHAAYg+mvtMTn
+	lB9NRJGL1kAjJBaCL+VyKiG65f8IwD7AfCcIPrQjPlqPUVjvRlccHNObVurkaxMt7jboPQCW7z3Ru
+	lFAMDxCnw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lZTRR-00G6Or-H3; Thu, 22 Apr 2021 07:08:01 +0000
+	id 1lZTTs-00G6en-0R; Thu, 22 Apr 2021 07:10:32 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZTRE-00G6MR-0x
- for linux-nvme@desiato.infradead.org; Thu, 22 Apr 2021 07:07:48 +0000
+ id 1lZTTp-00G6eP-NT
+ for linux-nvme@desiato.infradead.org; Thu, 22 Apr 2021 07:10:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=LlbTZOV5EtlntOlIhqLYYXDJH5qPZ0wxiHfU1CVeEFk=; b=PtMq+ME/VPmJi9PE2hmhsrRje3
- 8nsA9bx/z/zran5XsMWDzGWmaXtiKVu4e01owBUrFuTFraB3qJb20HhTmRCXz4s5cJNxXOvNFAaIG
- C+MvH1+KibjVvHUxrbu7OurjznEz4qemt5TFzVeYlpsk5h5+HsdyxxUd/jwoYjh/92owIh0FIqT0d
- 7Tfq45PnlUFve5uhE4q6zS94N75Xu+O6/SkhJRFvyStg7NhaRW20axj885saKrTAcpHHs+TS+RYwf
- kFbPWqAK9QGAtRVlx3dawYBIvhJrC2SwYUxxHfVzqLvJjKeC08cvzuOJfeUVWI/eWZchx0fYqSBFr
- wr2vWRrw==;
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=0fmBQ9f+8u490hdejAQ6HioXyU9m/fkZSzYVwegeG/U=; b=kWfuRgpv28TSQVhgXysG3Hvary
+ GK2CW07AAx8eAGsJMSUHC6H1A9Ol9KIGqcQauGAI6+EFJu23VyRrqG7T6Cgiotb/QeJr6qHCbA9XZ
+ lqNpF/LFaUiRZInmQUIIeYetFw2yDRf4/jx9UPPwr2BDZtuFJfP8U8QiZiCusIhD9Hss9Mm0851ZV
+ DvWVaf9cq9y3CEN3BSPZHcPjr9KeKnH+008eg2/9Cqp3fnRiJ9EFD4vlfR6i/S/tjkbgPnXdHUBvN
+ myMXm8SL4TizN+kyRkTZ3yty5ZU+JzqpUMO91xgsmtbxVjrv2mCyz+XNKdEDe1gBOH5f2bx91xa2q
+ Bl2h+M+g==;
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZTRB-00DRBg-Gj
- for linux-nvme@lists.infradead.org; Thu, 22 Apr 2021 07:07:46 +0000
-Received: by mail-pf1-x429.google.com with SMTP id h15so13346522pfv.2
- for <linux-nvme@lists.infradead.org>; Thu, 22 Apr 2021 00:07:45 -0700 (PDT)
+ id 1lZTTn-00DRMq-8u
+ for linux-nvme@lists.infradead.org; Thu, 22 Apr 2021 07:10:28 +0000
+Received: by mail-pf1-x434.google.com with SMTP id y62so7209459pfg.4
+ for <linux-nvme@lists.infradead.org>; Thu, 22 Apr 2021 00:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LlbTZOV5EtlntOlIhqLYYXDJH5qPZ0wxiHfU1CVeEFk=;
- b=t3cmWQCwzL4Ud/JKDtNNoGlCrZj1/iwPIwOQ1+5spPAD8VT1Xmn+h8wRqU9Xs8exRu
- rBdCsLVTq8odnd4WZnBh7045kTWP5nXkqA/pZSx1PG28YwJS2v8X73HXb2VEVJjHl+77
- TTujdR8WXRgBwS4ld4ueW3n0Jn7jwQbhh5i792mTsxOsoVgKA/psoQ4s7FM0quUzGxTa
- 9k4Zbo2Q9e4rKKsGkNcg4UUVC0nsw7sGpwoiaTxTDMSYeHqVsmrxFK/idAeJUJFy47/E
- t7TH52A32sygcOzRo0Zk4XB4DNZLFVQ0nxwu0J+kxoIocEBLerK3s8b1Y4OJC/9/6lza
- FmCw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=0fmBQ9f+8u490hdejAQ6HioXyU9m/fkZSzYVwegeG/U=;
+ b=M4x82gY/vwOURNa/+r2kcUDAUkhshGP7uQmTMki6fludus8rahss6jCgB1rhJ40bfv
+ r65gesboiVfGPD3LRYRGx3B3fSpkPSacF1xKgxbVlQ/FeQi+rUgc+IIkQZXcC3IjeqRm
+ RL/dh8PW5EJvrU3V0bJP/Fo9+Jx8LuwmGZKBZIaprOzLAUOT4ave/HgIhdk7RaVNJIoq
+ Jq0mq4/ehng3YBwLTQviZQHU1Ehm2ubg/j6yPhxTxrRO0ZSWdqxdfwV8qbB03E1t9EWI
+ M5QOo56qlco4ieVFHIRnOxhzY26tDvIiNmD4yFXzB4nIgf+xvHW/btWPpTwEHcf7OVpm
+ 3UzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LlbTZOV5EtlntOlIhqLYYXDJH5qPZ0wxiHfU1CVeEFk=;
- b=lIIhf9PALUpweuPatU42G3KIcvBdYG/9pflaqEMR9h4kEuHqOH0Wf4ewJNbO7WXkB6
- hVdHequJCsulvbe7OBESokOqJBGjJTNo17zbWlZ6ODpdKopblOfxLsw0JsS8gl1nKGm1
- h36m/neyBBPjLQBnhwHztJ/YLHhBKJAaEJKNDJmuRXSH5E/0d5hBAYyAkz7Vh21iCd1t
- NFU42N/uurKvUEmMwxPsG37+wWGDCn5PaH4IVi2VsNa2rjEbkMkhCindzk79hSMkkqXE
- /QTc9aIaZVRSCgZWKFsotlnXDRi3nuA58V+ZGS5uREQQj78YrhMjAOyyPvaTFY58STCe
- 0xyw==
-X-Gm-Message-State: AOAM533XTi6Oc+f5QZSxQNxc9dho4+5QV7tsoa19CVsQd+SN8HZDUkp+
- jksvcWil7Yi+bOdDQxyZ1ThB4Kaj2lwMeQ==
-X-Google-Smtp-Source: ABdhPJx9GmRsD20k9mGgBjCUNaTgVL2v//AMlVSucWGGv2HMXsZA7gQCV0jd4Ll8ZsFoeiKlzg3FJQ==
-X-Received: by 2002:a63:e515:: with SMTP id r21mr2106038pgh.412.1619075264525; 
- Thu, 22 Apr 2021 00:07:44 -0700 (PDT)
-Received: from localhost.localdomain ([58.127.46.74])
- by smtp.gmail.com with ESMTPSA id u17sm1174914pfm.113.2021.04.22.00.07.42
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=0fmBQ9f+8u490hdejAQ6HioXyU9m/fkZSzYVwegeG/U=;
+ b=JSDNnhbKNAlRuyQXFHE9m9D/qBKA+WF8yZguT/0x1TMDh3aeB3P0F57pXjfp4+4n10
+ L3bAHPOuj3SN3Rv50n4/xoFvOacOCLGYLoFoO7lloUbLF8Z9k9FX0+knXe0YAxS7Uw5F
+ iE0hi4VLUlXXVLZ/vxLl/zizyYHtF8ywbZmPzgMu8E6gD8N/2b2pdT9dUfFqnE0HLysQ
+ B23zQMJA2MOjchGtX+rzQbuHisE7noJX7XLltbWtOKCS6l6vLEjJtstopSosA8pF+VHh
+ jEhkC7lL5jweTSv4uwdL4rqPJiARhMjAq80+cdL237bjrQkfxRfOcnJUSdaw3Sci8X+s
+ upVw==
+X-Gm-Message-State: AOAM533U6dUN97MoEp9RlZfkacV5fePBkp2r6GVQbOzAtEYXZ/QpNF3Q
+ 7w3WkgvjN4AFGmCWzedUOMUfJw0Ki1sPMQ==
+X-Google-Smtp-Source: ABdhPJw/SN2CyNdrWYH2phh0pySp+iL8lrcaYKQYHZY7KNh2JqcbBFFYaJuP3Uq/ET0MDEPLy6eEgw==
+X-Received: by 2002:a62:868e:0:b029:265:e138:c010 with SMTP id
+ x136-20020a62868e0000b0290265e138c010mr2099963pfd.10.1619075425839; 
+ Thu, 22 Apr 2021 00:10:25 -0700 (PDT)
+Received: from localhost ([58.127.46.74])
+ by smtp.gmail.com with ESMTPSA id n16sm1162001pff.119.2021.04.22.00.10.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 00:07:44 -0700 (PDT)
+ Thu, 22 Apr 2021 00:10:25 -0700 (PDT)
+Date: Thu, 22 Apr 2021 16:10:23 +0900
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: linux-nvme@lists.infradead.org
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: [PATCH 1/1] Revert "nvme: don't bother to look up a namespace for
- controller ioctls"
-Date: Thu, 22 Apr 2021 16:07:35 +0900
-Message-Id: <20210422070735.25855-2-minwoo.im.dev@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210422070735.25855-1-minwoo.im.dev@gmail.com>
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 1/1] Revert "nvme: don't bother to look up a namespace
+ for controller ioctls"
+Message-ID: <20210422071023.GA26038@localhost>
 References: <20210422070735.25855-1-minwoo.im.dev@gmail.com>
+ <20210422070735.25855-2-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210422070735.25855-2-minwoo.im.dev@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210422_000745_573570_0FB4DBC6 
-X-CRM114-Status: GOOD (  17.24  )
+X-CRM114-CacheID: sfid-20210422_001027_334123_4E4E9E3E 
+X-CRM114-Status: GOOD (  11.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,91 +117,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This reverts commit 3557a4409701a132e8f86ad234ac8cf6e97b052e.
+On 21-04-22 16:07:35, Minwoo Im wrote:
+> This reverts commit 3557a4409701a132e8f86ad234ac8cf6e97b052e.
+> 
+> If we simply retrieve namespace from the given subsystem, controller to
+> be retrieved might not be the one which is really attached to the given
+> namespace.  We should consider the namespace attachment with controllers
+> in the subsystem, so this patch simply reverts the previous commit.
+> 
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
-If we simply retrieve namespace from the given subsystem, controller to
-be retrieved might not be the one which is really attached to the given
-namespace.  We should consider the namespace attachment with controllers
-in the subsystem, so this patch simply reverts the previous commit.
+Sorry, I missed the latest nvme-5.13 tree.  This will have conflicts
+with the commit 2637baed7801 ("nvme: introduce generic per-namespace
+chardev").
 
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
----
- drivers/nvme/host/ioctl.c | 47 +++++++++++++++++++++------------------
- 1 file changed, 25 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 8e05d65c9e93..9494e3d11e89 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -358,40 +358,43 @@ int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- }
- 
- #ifdef CONFIG_NVME_MULTIPATH
--static int nvme_ns_head_ctrl_ioctl(struct nvme_ns_head *head,
--		unsigned int cmd, void __user *argp)
-+static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
-+		void __user *argp, struct nvme_ns_head *head, int srcu_idx)
- {
--	struct nvme_ctrl *ctrl = nvme_find_get_live_ctrl(head->subsys);
-+	struct nvme_ctrl *ctrl = ns->ctrl;
- 	int ret;
- 
--	if (IS_ERR(ctrl))
--		return PTR_ERR(ctrl);
--	ret = nvme_ctrl_ioctl(ctrl, cmd, argp);
--	nvme_put_ctrl(ctrl);
--	return ret;
--}
-+	nvme_get_ctrl(ns->ctrl);
-+	nvme_put_ns_from_disk(head, srcu_idx);
-+	ret = nvme_ctrl_ioctl(ns->ctrl, cmd, argp);
- 
--static int nvme_ns_head_ns_ioctl(struct nvme_ns_head *head,
--		unsigned int cmd, void __user *argp)
--{
--	int srcu_idx = srcu_read_lock(&head->srcu);
--	struct nvme_ns *ns = nvme_find_path(head);
--	int ret = -EWOULDBLOCK;
--
--	if (ns)
--		ret = nvme_ns_ioctl(ns, cmd, argp);
--	srcu_read_unlock(&head->srcu, srcu_idx);
-+	nvme_put_ctrl(ctrl);
- 	return ret;
- }
- 
- int nvme_ns_head_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg)
- {
--	struct nvme_ns_head *head = bdev->bd_disk->private_data;
-+	struct nvme_ns_head *head = NULL;
-+	void __user *argp = (void __user *)arg;
-+	struct nvme_ns *ns;
-+	int srcu_idx, ret;
-+
-+	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
-+	if (unlikely(!ns))
-+		return -EWOULDBLOCK;
- 
-+	/*
-+	 * Handle ioctls that apply to the controller instead of the namespace
-+	 * seperately and drop the ns SRCU reference early.  This avoids a
-+	 * deadlock when deleting namespaces using the passthrough interface.
-+	 */
- 	if (is_ctrl_ioctl(cmd))
--		return nvme_ns_head_ctrl_ioctl(head, cmd, (void __user *)arg);
--	return nvme_ns_head_ns_ioctl(head, cmd, (void __user *)arg);
-+		return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx);
-+
-+	ret = nvme_ns_ioctl(ns, cmd, argp);
-+	nvme_put_ns_from_disk(head, srcu_idx);
-+	return ret;
- }
- #endif /* CONFIG_NVME_MULTIPATH */
- 
--- 
-2.27.0
-
+Please let me resend it.
 
 _______________________________________________
 Linux-nvme mailing list
