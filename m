@@ -2,86 +2,85 @@ Return-Path: <SRS0=/503=JU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDDCC433ED
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Apr 2021 08:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9C2C433B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Apr 2021 09:37:06 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3C4DC613C3
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Apr 2021 08:36:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C4DC613C3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id F39556144D
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Apr 2021 09:37:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F39556144D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:Cc:To:From:
+	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=HIv7rNBEJJO/lhIC1ysLNZxrks6BKNox+NuxQW/eBNY=; b=kPcrMm8FnNpNbOp++KU/4khSf
-	L4Trw1KE685pAp+ds5qDKm+70Eca1FCjSoFoGfgiaN8ny00iiP2Ty+svnBVCPEFab4CbYGrA2qKx9
-	/CZEn5X/ie99FPhYazwCAXxwzd54Zvlsiw98hzCqyE2CuoOH7h52X6RAp8FUIvBR2R5x+Kak50xnp
-	hgudGO68zpqDbOEQLkre+IwttHUZUpRuIldLlhmnDNjtwAX7TERf+yE5U24hb+hSTF/y7EPXWkupl
-	5pLp4vklkfsMvI2cPBn0if6kQFMf0PtvDKuc7mpa7D4Sg3CxEq34tOymiEi2btpLDdAjQ7fc2Gu3y
-	wxD6b01mQ==;
+	 bh=Js3QLg46z+WX/pELT1sTsEhoFCZeFZxHWLMvysSI7iQ=; b=CZUFEwPFYFxXz1uaLNf7W5OH9
+	DxAua8AF0H0XKR801cQQGOdfwFwSBVQrrcvy8/G7q7MIMOm21mQzP/lrPonLeIT43OLPcGbp6j9kK
+	7uwx///RVPGvXUX50BVesyPHZJyOV6YknZZ5NpApkxFi3EibC4CeikwD19CSmVYtdeliLOSztkExs
+	FhVYRG9zk3G9K7mYjZChYJzQm8o03+Smuno8Q5XvaeQ0qVCOhhpY7+SLkgaxr4Rc8qKzESX+huz99
+	HLGRCBL9/bLAEOV0xoc3d0U9DH+tQqNLOzOIZc6o7UXmCeTzMw/pkTBGOnugEZEsGISCs3fPOheyj
+	HtsY0pMdQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lZrHo-0014i8-Ki; Fri, 23 Apr 2021 08:35:40 +0000
+	id 1lZsEl-001BdO-2F; Fri, 23 Apr 2021 09:36:35 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZrHg-0014fh-Or
- for linux-nvme@desiato.infradead.org; Fri, 23 Apr 2021 08:35:32 +0000
+ id 1lZsBn-001BTL-J9
+ for linux-nvme@desiato.infradead.org; Fri, 23 Apr 2021 09:34:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=X51vUWFMlF5qutU3vBHIrwSlJgoMKwmZpGQWoXjLIIc=; b=omNIjyqnQaR7i72SzioHoUJGZc
- LW48UGIguQJhqDYcULDqjr+ESe1rvdfYImpXvDr534yyv5W42FMMVyIOptZ5B0QnknZ2/eYTUVj4w
- v2BW0BNgCk2npcnBpiCPAV2yZ6PCTjSKnCe7UeynmGo/asH/Z5BkHHXg5PIIQQrpvJArpKVj2KSCE
- 6JqzpkkrfaWWOzkIz3DIG+7yGl+HRbJHEaHor5KTbehbBjXc0hsXoeA0PtOqiTXcRmIrn6h5iXq9I
- 0QR7HCrZTWjvlw2WiLmo4nvF2wFD3tJiAwn0uUk6ychVnGs0BVQQbAD+NT5m/o3BuWkKVuwU7hWn+
- /mdGNLJA==;
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+ MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=FhcWkJNOytqtRu8SjegGwTKIkUQYX+yghzEb9UHjuJA=; b=WaLRtTlCx2lUnwXhjMTndhCsCp
+ mrjIun91zHlOKYDX15jeanO7yRh+GKlnm8AWy80R085YTR4/JPhJXuunktdk/F7cHD3gxwBQuPf0h
+ ROsJFBMZPxvao8S5NEnEuvkRUdK0AuUyV2qCsspFJOBefeWuKmgttiLA2BqLJHwMxTTdozGgWCnO7
+ U0MMd6QrQlEoFBISx24HlHDfj0EB4+p+sSlYUINc3SLK7/XHv9A3SWJQ2CkjwKJB0/40WqQzLyWJ4
+ gHl1Tk8Ic2qBE2t39NyXVr6fpLzyAOvHRYRUk3gc8ngXXIaXza1PhVwGal7oct6OX0zN0vffe8Dsb
+ qTcB3hBw==;
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lZrHd-00EGB4-LS
- for linux-nvme@lists.infradead.org; Fri, 23 Apr 2021 08:35:31 +0000
-Received: from DGGEML404-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FRSFs3TJfz5s11;
- Fri, 23 Apr 2021 16:32:17 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- DGGEML404-HUB.china.huawei.com (10.3.17.39) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Fri, 23 Apr 2021 16:35:19 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 23
- Apr 2021 16:35:19 +0800
+ id 1lZsBk-00EHyW-UU
+ for linux-nvme@lists.infradead.org; Fri, 23 Apr 2021 09:33:30 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1619170405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FhcWkJNOytqtRu8SjegGwTKIkUQYX+yghzEb9UHjuJA=;
+ b=iuyIePeIcOSSknfB48pJshAPZrdLKHHJRxDWcUixuu81wew8E8E2hatn3CM3FCK0F2pZ3X
+ xNfqhTCxlt18OZDZBJNa35Q2RMiByzBYfem9UrwTgSw9zfJIDkXdfzbjpq9GrNzyCjZYaS
+ 0GXgvbpJE20ahSwolbFJ9gMAAuclRbU=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 77679B020;
+ Fri, 23 Apr 2021 09:33:25 +0000 (UTC)
+Message-ID: <bf56cd86d579a9b3d669050345529aa056ec8bda.camel@suse.com>
 Subject: Re: [PATCH] nvme: rdma/tcp: call nvme_mpath_stop() from reconnect
  workqueue
-To: <mwilck@suse.com>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg
- <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-CC: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
- <linux-nvme@lists.infradead.org>
+From: Martin Wilck <mwilck@suse.com>
+To: Chao Leng <lengchao@huawei.com>, Keith Busch <kbusch@kernel.org>, Sagi
+ Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+Cc: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>, 
+ linux-nvme@lists.infradead.org
+Date: Fri, 23 Apr 2021 11:33:24 +0200
+In-Reply-To: <1c178648-8740-401b-86cb-ce65ffc7d7dc@huawei.com>
 References: <20210422152219.7067-1-mwilck@suse.com>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <1c178648-8740-401b-86cb-ce65ffc7d7dc@huawei.com>
-Date: Fri, 23 Apr 2021 16:35:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ <1c178648-8740-401b-86cb-ce65ffc7d7dc@huawei.com>
+User-Agent: Evolution 3.38.4 
 MIME-Version: 1.0
-In-Reply-To: <20210422152219.7067-1-mwilck@suse.com>
-Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210423_013530_101184_DFEFC291 
-X-CRM114-Status: GOOD (  27.72  )
+X-CRM114-CacheID: sfid-20210423_023329_162213_4E807EC1 
+X-CRM114-Status: UNSURE (   8.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,129 +92,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, 2021-04-23 at 16:35 +0800, Chao Leng wrote:
+> 
+> If ana_work is running, this may cause wait for long time, because
+> nvme_get_log may time out(default 60s). If work with multipathing,
+> it will cause fail over delay, service will pause long time.
+> It is not we expected.
+> We just need to do this before reconnecting, so move it until
+> calling nvme_rdma_reconnect_or_remove.
+> Like this:
+> ...
+
+Thanks, that makes sense. I'll look into it.
+
+Martin
 
 
-On 2021/4/22 23:22, mwilck@suse.com wrote:
-> From: Martin Wilck <mwilck@suse.com>
-> 
-> We have observed a few crashes run_timer_softirq(), where a broken
-> timer_list struct belonging to an anatt_timer was encountered. The broken
-> structures look like this, and we see actually multiple ones attached to
-> the same timer base:
-> 
-> crash> struct timer_list 0xffff92471bcfdc90
-> struct timer_list {
->    entry = {
->      next = 0xdead000000000122,  // LIST_POISON2
->      pprev = 0x0
->    },
->    expires = 4296022933,
->    function = 0xffffffffc06de5e0 <nvme_anatt_timeout>,
->    flags = 20
-> }
-> 
-> If such a timer is encountered in run_timer_softirq(), the kernel
-> crashes. The test scenario was an I/O load test with lots of NVMe
-> controllers, some of which were removed and re-added on the storage side.
-> 
-> I think this may happen if the rdma recovery_work starts, in this call
-> chain:
-> 
-> nvme_rdma_error_recovery_work()
->    /* this stops all sorts of activity for the controller, but not
->       the multipath-related work queue and timer */
->    nvme_rdma_reconnect_or_remove(ctrl)
->      => kicks reconnect_work
-> 
-> work queue: reconnect_work
-> 
-> nvme_rdma_reconnect_ctrl_work()
->    nvme_rdma_setup_ctrl()
->      nvme_rdma_configure_admin_queue()
->         nvme_init_identify()
->            nvme_mpath_init()
-> 	     # this sets some fields of the timer_list without taking a lock
->               timer_setup()
->               nvme_read_ana_log()
-> 	         mod_timer() or del_timer_sync()
-> 
-> Similar for TCP. The idea for the patch is based on the observation that
-> nvme_rdma_reset_ctrl_work() calls nvme_stop_ctrl()->nvme_mpath_stop(),
-> whereas nvme_rdma_error_recovery_work() stops only the keepalive timer, but
-> not the anatt timer.
-> 
-> I admit that the root cause analysis isn't rock solid yet. In particular, I
-> can't explain why we see LIST_POISON2 in the "next" pointer, which would
-> indicate that the timer has been detached before; yet we find it linked to
-> the timer base when the crash occurs.
-> 
-> OTOH, the anatt_timer is only touched in nvme_mpath_init() (see above) and
-> nvme_mpath_stop(), so the hypothesis that modifying active timers may cause
-> the issue isn't totally out of sight. I suspect that the LIST_POISON2 may
-> come to pass in multiple steps.
-> 
-> If anyone has better ideas, please advise. The issue occurs very
-> sporadically; verifying this by testing will be difficult.
-> 
-> Signed-off-by: Martin Wilck <mwilck@suse.com>
-> ---
->   drivers/nvme/host/multipath.c | 1 +
->   drivers/nvme/host/rdma.c      | 1 +
->   drivers/nvme/host/tcp.c       | 1 +
->   3 files changed, 3 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index a1d476e1ac02..c63dd5dfa7ff 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -586,6 +586,7 @@ void nvme_mpath_stop(struct nvme_ctrl *ctrl)
->   	del_timer_sync(&ctrl->anatt_timer);
->   	cancel_work_sync(&ctrl->ana_work);
->   }
-> +EXPORT_SYMBOL_GPL(nvme_mpath_stop);
->   
->   #define SUBSYS_ATTR_RW(_name, _mode, _show, _store)  \
->   	struct device_attribute subsys_attr_##_name =	\
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index be905d4fdb47..062f3be0bb4f 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1189,6 +1189,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
->   	struct nvme_rdma_ctrl *ctrl = container_of(work,
->   			struct nvme_rdma_ctrl, err_work);
->   
-> +	nvme_mpath_stop(&ctrl->ctrl);
-If ana_work is running, this may cause wait for long time, because
-nvme_get_log may time out(default 60s). If work with multipathing,
-it will cause fail over delay, service will pause long time.
-It is not we expected.
-We just need to do this before reconnecting, so move it until
-calling nvme_rdma_reconnect_or_remove.
-Like this:
-+	nvme_mpath_stop(ctrl);
-	nvme_rdma_reconnect_or_remove(ctrl);
-
->   	nvme_stop_keep_alive(&ctrl->ctrl);
->   	nvme_rdma_teardown_io_queues(ctrl, false);
->   	nvme_start_queues(&ctrl->ctrl);
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index a0f00cb8f9f3..ac9212a2de59 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -2054,6 +2054,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
->   				struct nvme_tcp_ctrl, err_work);
->   	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
->   
-> +	nvme_mpath_stop(ctrl);
->   	nvme_stop_keep_alive(ctrl);
->   	nvme_tcp_teardown_io_queues(ctrl, false);
->   	/* unquiesce to fail fast pending requests */
-> 
 
 _______________________________________________
 Linux-nvme mailing list
