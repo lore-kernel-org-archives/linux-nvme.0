@@ -1,82 +1,98 @@
-Return-Path: <SRS0=/503=JU=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=DKQ4=JV=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A3CC433B4
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Apr 2021 22:08:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C61C433ED
+	for <linux-nvme@archiver.kernel.org>; Sat, 24 Apr 2021 00:22:07 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 471D4613AB
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Apr 2021 22:08:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 471D4613AB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 05B0161261
+	for <linux-nvme@archiver.kernel.org>; Sat, 24 Apr 2021 00:22:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 05B0161261
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=WdLg2yKw+gtjF0E8eFYHJiSoTNMnTNPQ/FnbLYJAYDI=; b=ZIUKtHqEer7QlLvqkfla8FRyV
-	WzaAdMirL3XbBaRqh7q93VYA+csqeIhh2m9S97lIyrnf4CHuB9o5AXxC/trcFanQ7wCm5LM04sywD
-	p65cY15wP98wj9X0+oWN8JgO9cSXw33Zxcm2wvt2muE3KliH85D/gbjr0SJgTzvAP17umN45x0n//
-	kgj7/hd9eH6jCZVZWq0dq2yBm3A7n1sXB2mK+L6aOZuk0k/8zcVCZcBU94RimBx5id8c93lMfIo4f
-	5PPkfpWZYDfsgovncnTwCE69Qyp+/JpJCTJsrpaHKMhGShqJtmlkhDRwa+fX9985IyPHz8AMUN7hr
-	EojVS2e7A==;
+	 bh=ROGH5OZ9C90hWNeP8M4tFuerZBLCksdkDzfZvbFeP7Y=; b=ORTuGi9KS8sTd/JKsAtbwfXqW
+	GunY4FuB9QRnD7RWfo8+4AV81eufwKWs4twrn4ltcugr8cwmZlmhDa27SJcABJQKUhTJjMzpScfrf
+	jCcdOvpX3oRBkP3kDsHXWRuK3iLRvfywno9xeyZv88Zp9PDDPGYKmZopitHoMbODnSKSlG9UcE4Zd
+	o9IzZDTGi4RQllR8y9q02vHwPenBFvaTTtxFYfZiE8nP4ESnP8pITpokk0HWANUB9U1uIcbOCgfa1
+	0woF2xjbFzOWVOrQ9Rucv0lqdasdZuS++g+mVeWhedsULHCthXkMNnEl/530lc7rwxTGKIH2ZzNvi
+	XAQy4VXtQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1la3xq-002TSx-8w; Fri, 23 Apr 2021 22:07:54 +0000
+	id 1la639-002fG6-Fa; Sat, 24 Apr 2021 00:21:31 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1la3w8-002TE9-5d
- for linux-nvme@desiato.infradead.org; Fri, 23 Apr 2021 22:06:08 +0000
+ id 1la62r-002fAi-9T
+ for linux-nvme@desiato.infradead.org; Sat, 24 Apr 2021 00:21:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=JzOm2pigyeXX+E1pJNgyNqCqZi/qkvgAuu6SiXrDql0=; b=PvyvjjKA9uLdZNKdmmvwpYul0Z
- ZfYoCX+gyVPVyKCDUljEkTj39RL+pfDo32+nAdKprKn4muGD0jdzaFyianJynk92bCP6QOjot6naC
- KTJeSF8cMOTRGilR7Vau0SBm2KV0ZxUeaEF1JZ3dvc4gJbzQSPfVzianVlewRiJ5vienYrYS6GvwF
- 3imd0jzn/Bu9Z4J9AicfzXtUMR6Xd5zSfKI1xCVCeU1YbD8Ze/2Y7viQavIpB024v8q54d8hwOnS6
- V6bMltIRDGuzQRs2wdEGzKlWpuHtdd/SobEz6DUPQlsw2Q526UsmY8KB+8qjMkF7SEKgxpkzZ721K
- BFbhrFKA==;
-Received: from mail.kernel.org ([198.145.29.99])
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=FYUjE5U5DmAbXHy5qWCtaBVQ3/BeEgMoqcY+mRr3+oQ=; b=qeTNYRk9bgNtyVlv89CmN71Zzo
+ VFGXWZ/pHA1MXoMh26bl6ZL4EqOfgGbGSJLNL0Rm/IrWIcDUjAP/jzbMJUjkePJHqf+FLRwua46TF
+ QQVbDUe9r1ayOPboSXDrg01kmsQCB+FH5GJVycOf2f1xttr16srSSDjPv0ndhGMqw4aIO5yhJmklm
+ 08wW5OGgVH2b0fj3bCVUDBA7qnSlrUUw4V/SuNwZQo6kiN1Uu8lYhj1/3v7Kl44EhWUh0dFgvvcXx
+ dS+gVMptp/d0ZE4wSMzoMpD/nspbDsy2zmeUCOUCUjmSissMV9fKtV+CcWKqSu8m+XPXaxMKBE6t7
+ unuW0YZw==;
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1la3w5-00Ej8J-4m
- for linux-nvme@lists.infradead.org; Fri, 23 Apr 2021 22:06:07 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6639F61467;
- Fri, 23 Apr 2021 22:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619215565;
- bh=WC6okdkJnyksxo1ofAM6rL0O0NwmX0aGwFuZnSXTAUk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HdSfy/uIWAf1yIlih3WjihzORgyH4AwsLPzBK7QeJoK/uRkFwkygoWM/wgd9x+v3o
- 7xwuE8VHwYQikH4hzbJ6Dxov8sOqa1QrwYzH8tjBrKdchDKUp0k7W7UmhhXG4OOB3G
- 6zrnIF9qZG2viAmRd7u+mIWDZeHnRi5I0zhxlzpNlf2nyn4CEMfVnvu4GVR63RKY+4
- h/mAFMn1WwdnRblVKflA8oNqnVwqqpaWkpIAN3KGNMX7Oz2XZlp4JSoqhiRC1f8q3L
- +LBA5BRZuXd5Q/NZMrkcykUNEScGj8Bnro1/myHlT1nos92a2V/A/vJBkMD8WIbvqt
- pplYWL47nb/Kg==
-From: Keith Busch <kbusch@kernel.org>
-To: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- axboe@kernel.dk, linux-block@vger.kernel.org
-Cc: Yuanyuan Zhong <yzhong@purestorage.com>,
- Casey Chen <cachen@purestorage.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2 5/5] nvme: allow user passthrough commands to poll
-Date: Fri, 23 Apr 2021 15:05:58 -0700
-Message-Id: <20210423220558.40764-6-kbusch@kernel.org>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20210423220558.40764-1-kbusch@kernel.org>
-References: <20210423220558.40764-1-kbusch@kernel.org>
+ id 1la62o-00Emog-RT
+ for linux-nvme@lists.infradead.org; Sat, 24 Apr 2021 00:21:12 +0000
+Received: by mail-wm1-f43.google.com with SMTP id n127so15058887wmb.5
+ for <linux-nvme@lists.infradead.org>; Fri, 23 Apr 2021 17:21:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FYUjE5U5DmAbXHy5qWCtaBVQ3/BeEgMoqcY+mRr3+oQ=;
+ b=Dp31hM+7DbFzAjVsIJc5ZEQjhkGMzgCaOWX+I6iP7ogGp9+uIPWWmopIKdSFKmtUns
+ QP/P+AYbiPJebAPkqSKGVxanrjLHFyTaa6z7o1tMqNdybqWgpvDG21in0q5XVtdFj2O+
+ 0/W31iQGMtzJ2vGDA0nx95S4ed7pPZvjleT8fURCbLcVaWCKOGNiKKfK2Z+DRGuRewJX
+ 25g/NqfQSaoUEP5ifhEzZ7/XhM3so73xEM+aw9x1uKJ4/Mu9VXQM4CXSGZIZrW8Qoqf3
+ pgcdHa6smVycD3J3OViATrLRGtyu54rDnEpgRps512itBL12nnAYxnFizPIOX3XnUdxA
+ QTlQ==
+X-Gm-Message-State: AOAM5326U08bct6A+tYIiTsNmYdg+jD1db1vxsqct/TnSjvfEanPd1kk
+ AJBAaYuyN8VDFrJQ+2hV6cS7b4IMhEA=
+X-Google-Smtp-Source: ABdhPJxHbjcluDqXS3XSihmjVv6ZNQaM56Va+IKQK2GT6KI31tzCEjwkMZuVNByaBV/yCw8/bSDg8Q==
+X-Received: by 2002:a05:600c:3515:: with SMTP id
+ h21mr7894778wmq.67.1619223668286; 
+ Fri, 23 Apr 2021 17:21:08 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:42ed:4954:6c1c:e638?
+ ([2601:647:4802:9070:42ed:4954:6c1c:e638])
+ by smtp.gmail.com with ESMTPSA id c1sm10601432wrx.89.2021.04.23.17.21.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Apr 2021 17:21:07 -0700 (PDT)
+Subject: Re: [PATCH v2] nvme: rdma/tcp: call nvme_mpath_stop() from reconnect
+ workqueue
+To: mwilck@suse.com, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Chao Leng <lengchao@huawei.com>
+Cc: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
+ linux-nvme@lists.infradead.org
+References: <20210423133835.25479-1-mwilck@suse.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <37607acc-74a0-ea13-88a1-0197bf43fc2b@grimberg.me>
+Date: Fri, 23 Apr 2021 17:21:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
+In-Reply-To: <20210423133835.25479-1-mwilck@suse.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210423_150605_258726_E92DCE59 
-X-CRM114-Status: GOOD (  18.40  )
+X-CRM114-CacheID: sfid-20210423_172110_918942_CE9B6D1D 
+X-CRM114-Status: GOOD (  13.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,284 +104,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The block layer knows how to deal with polled requests. Let the NVMe
-driver use the previously reserved user "flags" fields to define an
-option to allocate the request from the polled hardware contexts. If
-polling is not enabled, then the block layer will automatically fallback
-to a non-polled request.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c        | 10 ++++++----
- drivers/nvme/host/ioctl.c       | 32 ++++++++++++++++++--------------
- drivers/nvme/host/lightnvm.c    |  4 ++--
- drivers/nvme/host/nvme.h        |  3 ++-
- drivers/nvme/host/pci.c         |  4 ++--
- drivers/nvme/target/passthru.c  |  2 +-
- include/uapi/linux/nvme_ioctl.h |  4 ++++
- 7 files changed, 35 insertions(+), 24 deletions(-)
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index be905d4fdb47..fc07a7b0dc1d 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1202,6 +1202,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+>   		return;
+>   	}
+>   
+> +	nvme_mpath_stop(&ctrl->ctrl);
+>   	nvme_rdma_reconnect_or_remove(ctrl);
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 62af5fe7a0ce..3af4d955405b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -610,11 +610,13 @@ static inline void nvme_init_request(struct request *req,
- }
- 
- struct request *nvme_alloc_request(struct request_queue *q,
--		struct nvme_command *cmd, blk_mq_req_flags_t flags)
-+		struct nvme_command *cmd, blk_mq_req_flags_t flags,
-+		unsigned rq_flags)
- {
-+	unsigned cmd_flags = nvme_req_op(cmd) | rq_flags;
- 	struct request *req;
- 
--	req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
-+	req = blk_mq_alloc_request(q, cmd_flags, flags);
- 	if (!IS_ERR(req))
- 		nvme_init_request(req, cmd);
- 	return req;
-@@ -957,7 +959,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 	int ret;
- 
- 	if (qid == NVME_QID_ANY)
--		req = nvme_alloc_request(q, cmd, flags);
-+		req = nvme_alloc_request(q, cmd, flags, 0);
- 	else
- 		req = nvme_alloc_request_qid(q, cmd, flags, qid);
- 	if (IS_ERR(req))
-@@ -1130,7 +1132,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	}
- 
- 	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd,
--				BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+				BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT, 0);
- 	if (IS_ERR(rq)) {
- 		/* allocation failure, reset the controller */
- 		dev_err(ctrl->device, "keep-alive failed: %ld\n", PTR_ERR(rq));
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 9cdd8bfebb80..79fc90f010b0 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -56,7 +56,7 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
- static int nvme_submit_user_cmd(struct request_queue *q,
- 		struct nvme_command *cmd, void __user *ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
--		u32 meta_seed, u64 *result, unsigned timeout)
-+		u32 meta_seed, u64 *result, unsigned timeout, unsigned rq_flags)
- {
- 	bool write = nvme_is_write(cmd);
- 	struct nvme_ns *ns = q->queuedata;
-@@ -66,7 +66,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	void *meta = NULL;
- 	int ret;
- 
--	req = nvme_alloc_request(q, cmd, 0);
-+	req = nvme_alloc_request(q, cmd, 0, rq_flags);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
-@@ -116,11 +116,12 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	struct nvme_command c;
- 	unsigned length, meta_len;
- 	void __user *metadata;
-+	unsigned rq_flags = 0;
- 
- 	if (copy_from_user(&io, uio, sizeof(io)))
- 		return -EFAULT;
--	if (io.flags)
--		return -EINVAL;
-+	if (io.flags & NVME_HIPRI)
-+		rq_flags |= REQ_HIPRI;
- 
- 	switch (io.opcode) {
- 	case nvme_cmd_write:
-@@ -158,7 +159,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 
- 	memset(&c, 0, sizeof(c));
- 	c.rw.opcode = io.opcode;
--	c.rw.flags = io.flags;
-+	c.rw.flags = 0;
- 	c.rw.nsid = cpu_to_le32(ns->head->ns_id);
- 	c.rw.slba = cpu_to_le64(io.slba);
- 	c.rw.length = cpu_to_le16(io.nblocks);
-@@ -170,7 +171,8 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 
- 	return nvme_submit_user_cmd(ns->queue, &c,
- 			nvme_to_user_ptr(io.addr), length,
--			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
-+			metadata, meta_len, lower_32_bits(io.slba), NULL, 0,
-+			rq_flags);
- }
- 
- static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-@@ -178,6 +180,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- {
- 	struct nvme_passthru_cmd cmd;
- 	struct nvme_command c;
-+	unsigned rq_flags = 0;
- 	unsigned timeout = 0;
- 	u64 result;
- 	int status;
-@@ -186,8 +189,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		return -EACCES;
- 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
- 		return -EFAULT;
--	if (cmd.flags)
--		return -EINVAL;
-+	if (cmd.flags & NVME_HIPRI)
-+		rq_flags |= REQ_HIPRI;
- 	if (ns && cmd.nsid != ns->head->ns_id) {
- 		dev_err(ctrl->device,
- 			"%s: nsid (%u) in cmd does not match nsid (%u) of namespace\n",
-@@ -197,7 +200,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = cmd.opcode;
--	c.common.flags = cmd.flags;
-+	c.common.flags = 0;
- 	c.common.nsid = cpu_to_le32(cmd.nsid);
- 	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
- 	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
-@@ -214,7 +217,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
--			0, &result, timeout);
-+			0, &result, timeout, rq_flags);
- 
- 	if (status >= 0) {
- 		if (put_user(result, &ucmd->result))
-@@ -229,6 +232,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- {
- 	struct nvme_passthru_cmd64 cmd;
- 	struct nvme_command c;
-+	unsigned rq_flags = 0;
- 	unsigned timeout = 0;
- 	int status;
- 
-@@ -236,8 +240,8 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		return -EACCES;
- 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
- 		return -EFAULT;
--	if (cmd.flags)
--		return -EINVAL;
-+	if (cmd.flags & NVME_HIPRI)
-+		rq_flags |= REQ_HIPRI;
- 	if (ns && cmd.nsid != ns->head->ns_id) {
- 		dev_err(ctrl->device,
- 			"%s: nsid (%u) in cmd does not match nsid (%u) of namespace\n",
-@@ -247,7 +251,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = cmd.opcode;
--	c.common.flags = cmd.flags;
-+	c.common.flags = 0;
- 	c.common.nsid = cpu_to_le32(cmd.nsid);
- 	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
- 	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
-@@ -264,7 +268,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
- 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
--			0, &cmd.result, timeout);
-+			0, &cmd.result, timeout, rq_flags);
- 
- 	if (status >= 0) {
- 		if (put_user(cmd.result, &ucmd->result))
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index e9d9ad47f70f..a7fff633cdee 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -653,7 +653,7 @@ static struct request *nvme_nvm_alloc_request(struct request_queue *q,
- 
- 	nvme_nvm_rqtocmd(rqd, ns, cmd);
- 
--	rq = nvme_alloc_request(q, (struct nvme_command *)cmd, 0);
-+	rq = nvme_alloc_request(q, (struct nvme_command *)cmd, 0, 0);
- 	if (IS_ERR(rq))
- 		return rq;
- 
-@@ -766,7 +766,7 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
- 	DECLARE_COMPLETION_ONSTACK(wait);
- 	int ret = 0;
- 
--	rq = nvme_alloc_request(q, (struct nvme_command *)vcmd, 0);
-+	rq = nvme_alloc_request(q, (struct nvme_command *)vcmd, 0, 0);
- 	if (IS_ERR(rq)) {
- 		ret = -ENOMEM;
- 		goto err_cmd;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 76a7ed0728b9..6005a61c7f4c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -629,7 +629,8 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl);
- 
- #define NVME_QID_ANY -1
- struct request *nvme_alloc_request(struct request_queue *q,
--		struct nvme_command *cmd, blk_mq_req_flags_t flags);
-+		struct nvme_command *cmd, blk_mq_req_flags_t flags,
-+		unsigned rq_flags);
- void nvme_cleanup_cmd(struct request *req);
- blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req);
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 09d4c5f99fc3..0400ac53964f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1344,7 +1344,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		 req->tag, nvmeq->qid);
- 
- 	abort_req = nvme_alloc_request(dev->ctrl.admin_q, &cmd,
--			BLK_MQ_REQ_NOWAIT);
-+			BLK_MQ_REQ_NOWAIT, 0);
- 	if (IS_ERR(abort_req)) {
- 		atomic_inc(&dev->ctrl.abort_limit);
- 		return BLK_EH_RESET_TIMER;
-@@ -2268,7 +2268,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 	cmd.delete_queue.opcode = opcode;
- 	cmd.delete_queue.qid = cpu_to_le16(nvmeq->qid);
- 
--	req = nvme_alloc_request(q, &cmd, BLK_MQ_REQ_NOWAIT);
-+	req = nvme_alloc_request(q, &cmd, BLK_MQ_REQ_NOWAIT, 0);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index d9a649d9903b..be7c6d50d23a 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -244,7 +244,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
- 		timeout = nvmet_req_subsys(req)->admin_timeout;
- 	}
- 
--	rq = nvme_alloc_request(q, req->cmd, 0);
-+	rq = nvme_alloc_request(q, req->cmd, 0, 0);
- 	if (IS_ERR(rq)) {
- 		status = NVME_SC_INTERNAL;
- 		goto out_put_ns;
-diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
-index d99b5a772698..683d33c37a96 100644
---- a/include/uapi/linux/nvme_ioctl.h
-+++ b/include/uapi/linux/nvme_ioctl.h
-@@ -9,6 +9,10 @@
- 
- #include <linux/types.h>
- 
-+enum nvme_io_flags {
-+	NVME_HIPRI	= 1 << 0, /* use polling queue if available */
-+};
-+
- struct nvme_user_io {
- 	__u8	opcode;
- 	__u8	flags;
--- 
-2.25.4
+Its pretty annoying to have to needlessly wait for the ana log page
+request to timeout... But this is also needed because we init ana_lock
+in nvme_mpath_init while it can be potentially taken in ana_work, which
+is a precipice for bad things...
+
+So...
+
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+And this needs to go to stable, don't see a definitive offending
+commit here, so maybe just CC stable and have the title be
+more discriptive that it fixes a possible list-poison?
+
+Something like:
+nvme: rdma/tcp: fix a possible list corruption when reconnect work is 
+racing with anatt timer
 
 
 _______________________________________________
