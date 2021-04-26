@@ -2,19 +2,19 @@ Return-Path: <SRS0=AvHe=JX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A71C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 06:25:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12BA1C433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 06:35:18 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 81E5D6113D
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 06:25:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81E5D6113D
+	by mail.kernel.org (Postfix) with ESMTPS id 4E2F761249
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 06:35:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E2F761249
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,78 +23,73 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=X3bGHZcS4ckHoDMUbmLcfNWFjpoVhQIx3dvrY+0y5Bo=; b=g2DfVOTrvgRmYjqBTmBoc2MWW
-	77RsJPpQ1gTV10dKjHqjWZ/gfRNwUnwd4ph3l6PBP6twF3/vTnUgi2M6ee4gE0QCCL5YZWU+IS9FY
-	2loaN/XMA5NxtwD49rq0rlfkR1JRj4W1GVl3id32XMPIQC78rO2L1PJbmXy7GKvFb8ddmqujBXK2Z
-	r4Eb5S+p4ZXAELFfG9WaNb+bWhIf8buL3gMGiyTly+jPx1m20kApXuk5hKj0EkcHSSno5oiLCCdij
-	6BjuwsWs8YeOb0l9CcsqXfaZpqXzxx6u+yRdXZXdY1gAIGyGmhYyVxQcY/ixmsiVOLQzA6Y5A5oTt
-	3YOFzGiUQ==;
+	 bh=wMmHmW6Api6ZA/op5NxmDwYZQ3n7smyb3amxIS0WRZs=; b=M4CA5jxE+OtAamMfxEc00bsdC
+	tQc1nKQCOFrouuxDNNNqvhA7uqGTEhcjC/xQpoQ028FEPbAMu762OxwgsRDgVuGgI/dmf8jC8LveM
+	6kk6J0G9F4vbkT+m+Pxu/PIfRDGdHN+qfWsmLSD5AQMn1yU7W7LY20jNmWJHGvdonXsuiJDNIjWec
+	NKvDVrJlss3t35bPwIyRnZfYOVubr8mhNnF00GtXdrw0dQrK7c46oAZ3Yyyk34sfmNIpb9boXjfUA
+	MVwbzsP4UfqHYoNh9xJJx7PfDPr7MPBGY4raWFSSMvp9QqI2SBDHugZxkUPR+UOi3d+1hUwU8LKkv
+	nKmiSFm5Q==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1laugI-0073LO-DQ; Mon, 26 Apr 2021 06:25:18 +0000
+	id 1laupk-0074Q3-OT; Mon, 26 Apr 2021 06:35:04 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1laugG-0073LA-G2
- for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 06:25:16 +0000
+ id 1laupj-0074PS-CM
+ for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 06:35:03 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=KsQ9Ev+W/YY1U8469HseTNaWg7XademXCNuYNtvXPuw=; b=1FR+XqgYAc4jV7woV8EDJobK5W
- rq1il4P9JRlHXfQtd3+iPWD0UUviAFOpHZVHOFmLAxlEPdVWvl9R6BDZDfdIiin5CiboR6JPMoXAb
- MsoiX9Gkfl16DV5fVK6ABHLTqeCNWNMKFxFP2ORYrl/Ew89rSBpiE83lMi7DxZs8MzPrT9o34TjDF
- eEHl9AJYs0HROkSEvbCeN2WOTd/PxQYvHayoDWhsIyBznzEKgZ0aDCVNJBQ3DXGF5cXbCzuR9BMJ9
- +9DoBtexfu2rJH09uBOfD4pEiXVr1dnK0eGsNT4A9rd7op5K6tdjj2z3cU/A4sM6kHqaexdlvzTVi
- lUfrnqoQ==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ bh=b0//KiwrXJCAQEbZh6v7UYUMFjngDAQ0xEhOxI4LuvE=; b=VA60Edd3jfy+brwLc8Q8U6sDdU
+ OEKeJR+i6u9GOCjS7fsbIPo9NcOpDeBetTDZ9cIOy6M8NmDQC6E7TwA9EmbD6+xp8S8JAZfvzEeTc
+ BhmBIkEVLcYdF585vKebHVZ6WsDlZ3oRI3QfBwNsEuVRcHL7+tSF31yUDoIyVlrL3/x2hFwOsI7Du
+ IYw0uZ60sIExnN9jAXeJTrSstlALmP9G4gWhk1JGvyN9HN7HskFuAlJA1XceRNSaeQ87ronICP55n
+ aKR1ug/b8ezoRAEdY7rldWdluCGmdoQU//Sd7lDXY/g4dbaR4FDWRoY3CGLWl/VBtYSe8WXjeduZE
+ 3bkrHcoA==;
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1laugC-00FlE3-PG
- for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 06:25:14 +0000
+ id 1laupf-00FlTb-A5
+ for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 06:35:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619418309;
+ s=mimecast20190719; t=1619418896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KsQ9Ev+W/YY1U8469HseTNaWg7XademXCNuYNtvXPuw=;
- b=cUJ4Brqwv7ERtkt1Ml4rpQa7MzUnp75f42nnHXhbkouguXJDhoXWN1MN/8QwjpLlMQFZ6Z
- f2iEVbulZ0lvLPdki2GsVvAObR7jIQ6taspdqsgEzTL4y8TxX4sCWn/SijUgE2LBoNcBKz
- RxbUVgSQs2xex8KbcpHHOwx+ALFfq04=
+ bh=b0//KiwrXJCAQEbZh6v7UYUMFjngDAQ0xEhOxI4LuvE=;
+ b=Sv4uy6K5bhPHAGGcl0bEI3JxtQb05JutoZ6KfR6+uXxWJQy3hwrVT+GxiVmzeYDuHpoqLH
+ r6cDXxTfBnrXKUBn0WjR04PVuo48OYVzotL5egxvSaJVjU6jP+u7kLIHW0wz2VNKXsz7fr
+ Slt5KsMBI6Dcgc7AvBPvpfT5GnKK0Es=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-PJJy0g5NOIi2DY46aq2myQ-1; Mon, 26 Apr 2021 02:25:05 -0400
-X-MC-Unique: PJJy0g5NOIi2DY46aq2myQ-1
+ us-mta-387-RMzoaL0fPCCLtl3TPtgv4Q-1; Mon, 26 Apr 2021 02:34:52 -0400
+X-MC-Unique: RMzoaL0fPCCLtl3TPtgv4Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC367107ACC7;
- Mon, 26 Apr 2021 06:25:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A63BC343AA;
+ Mon, 26 Apr 2021 06:34:50 +0000 (UTC)
 Received: from T590 (ovpn-13-194.pek2.redhat.com [10.72.13.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3973461F38;
- Mon, 26 Apr 2021 06:24:51 +0000 (UTC)
-Date: Mon, 26 Apr 2021 14:24:56 +0800
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6748D61F38;
+ Mon, 26 Apr 2021 06:34:43 +0000 (UTC)
+Date: Mon, 26 Apr 2021 14:34:48 +0800
 From: Ming Lei <ming.lei@redhat.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Christoph Hellwig <hch@lst.de>, Khazhy Kumykov <khazhy@google.com>,
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Hannes Reinecke <hare@suse.de>, John Garry <john.garry@huawei.com>,
- David Jeffery <djeffery@redhat.com>
-Subject: Re: [PATCH 6/8] block: drivers: complete request locally from
- blk_mq_tagset_busy_iter
-Message-ID: <YIZcuMkLV1+DKhLZ@T590>
-References: <20210425085753.2617424-1-ming.lei@redhat.com>
- <20210425085753.2617424-7-ming.lei@redhat.com>
- <bcdfc3a0-f5fa-dc06-8067-4349a133e531@acm.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
+ axboe@kernel.dk, linux-block@vger.kernel.org,
+ Yuanyuan Zhong <yzhong@purestorage.com>,
+ Casey Chen <cachen@purestorage.com>
+Subject: Re: [PATCHv2 1/5] block: support polling through blk_execute_rq
+Message-ID: <YIZfCBYvH1hm+QM4@T590>
+References: <20210423220558.40764-1-kbusch@kernel.org>
+ <20210423220558.40764-2-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <bcdfc3a0-f5fa-dc06-8067-4349a133e531@acm.org>
+In-Reply-To: <20210423220558.40764-2-kbusch@kernel.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210425_232512_956603_7B36B82B 
-X-CRM114-Status: GOOD (  19.96  )
+X-CRM114-CacheID: sfid-20210425_233459_444687_CAE3775F 
+X-CRM114-Status: GOOD (  19.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,38 +106,51 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Apr 25, 2021 at 08:02:10PM -0700, Bart Van Assche wrote:
-> On 4/25/21 1:57 AM, Ming Lei wrote:
-> > diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-> > index c289991ffaed..7cbaee282b6d 100644
-> > --- a/drivers/scsi/scsi_lib.c
-> > +++ b/drivers/scsi/scsi_lib.c
-> > @@ -1568,7 +1568,11 @@ static void scsi_mq_done(struct scsi_cmnd *cmd)
-> >  	if (unlikely(test_and_set_bit(SCMD_STATE_COMPLETE, &cmd->state)))
-> >  		return;
-> >  	trace_scsi_dispatch_cmd_done(cmd);
-> > -	blk_mq_complete_request(cmd->request);
-> > +
-> > +	if (unlikely(host_byte(cmd->result) != DID_OK))
-> > +		blk_mq_complete_request_locally(cmd->request);
-> > +	else
-> > +		blk_mq_complete_request(cmd->request);
-> >  }
+On Fri, Apr 23, 2021 at 03:05:54PM -0700, Keith Busch wrote:
+> Poll for completions if the request's hctx is a polling type.
 > 
-> This change is so tricky that it deserves a comment.
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  block/blk-exec.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 > 
-> An even better approach would be *not* to export
-> blk_mq_complete_request_locally() from the block layer to block drivers
-> and instead modify the block layer such that it completes a request on
-> the same CPU if request completion happens from inside the context of a
-> tag iteration function. That would save driver writers the trouble of
-> learning yet another block layer API.
+> diff --git a/block/blk-exec.c b/block/blk-exec.c
+> index beae70a0e5e5..b960ad187ba5 100644
+> --- a/block/blk-exec.c
+> +++ b/block/blk-exec.c
+> @@ -63,6 +63,11 @@ void blk_execute_rq_nowait(struct gendisk *bd_disk, struct request *rq,
+>  }
+>  EXPORT_SYMBOL_GPL(blk_execute_rq_nowait);
+>  
+> +static bool blk_rq_is_poll(struct request *rq)
+> +{
+> +	return rq->mq_hctx && rq->mq_hctx->type == HCTX_TYPE_POLL;
+> +}
+> +
+>  /**
+>   * blk_execute_rq - insert a request into queue for execution
+>   * @bd_disk:	matching gendisk
+> @@ -83,7 +88,12 @@ void blk_execute_rq(struct gendisk *bd_disk, struct request *rq, int at_head)
+>  
+>  	/* Prevent hang_check timer from firing at us during very long I/O */
+>  	hang_check = sysctl_hung_task_timeout_secs;
+> -	if (hang_check)
+> +	if (blk_rq_is_poll(rq)) {
+> +		do {
+> +			blk_poll(rq->q, request_to_qc_t(rq->mq_hctx, rq), true);
+> +			cond_resched();
+> +		} while (!completion_done(&wait));
+> +	} else if (hang_check)
+>  		while (!wait_for_completion_io_timeout(&wait, hang_check * (HZ/2)));
+>  	else
+>  		wait_for_completion_io(&wait);
+> -- 
+> 2.25.4
+> 
 
-Yeah, that is possible, and one request flag(eg. RQF_ITERATED) can be added.
-The flag is set before calling ->fn(), and evaluated in
-blk_mq_complete_request_remote().
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
 
-Thanks,
+-- 
 Ming
 
 
