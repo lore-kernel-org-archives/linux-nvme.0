@@ -2,87 +2,85 @@ Return-Path: <SRS0=AvHe=JX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9909EC433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 15:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C28DFC433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 16:27:58 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DC0F860FE5
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 15:32:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC0F860FE5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 352F9611C1
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 16:27:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 352F9611C1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:Cc:To:From:
+	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9IvZXvoPdUVFfKc/vk0fZBHNFGiW9uVPy6n84XQiH18=; b=RA1aqsbEwSuBEDRdYy5Th8UmZ
-	5cfzN/3uU/cZVmxfY2IP9lY2h6cB1f2OaUg+Y3ugVlWFMAS6DL1K1C0lAi7XElkAz4RASpaUa9LiV
-	Qe2+R0z8FXmzIBpSK7668JSZTDU6ViuEk561m5flHX9185GXbg9/XToZeL/rO8BNqPZloru7q3lc6
-	k6kTQIWZK/g+TPe5uArXorsM8DL2bH831IJQuXiDJBc555VPo9DJ+TYhnjzIvfHE09YTNHDs+eAJn
-	7MduBrxrt7J4Ea5AcGr+q+k4COiHXInouubkRWzYskilVt5iFjAB0FoaPmJJfNLmlxwhI5wEL8jKf
-	xHE2TBqqQ==;
+	 bh=C5cbfaS1sBr90DeHS6jGcbF7ociRXiWGbpEnE7fE4WA=; b=D0ZwUNtJqbRoLClEgp8ZNZ51R
+	JfFAtlbZLyYWGU556VowHIwzO0MLT7ZsPxs7fq4eUZ4nqpmdFKtxL9HTlfqy/t+OTiciBFfH7H4RS
+	E56jddyfuvp21UIywQIKfNM7hEyncBZIMWGI8VRZ2ubPoIy4gku7Qbb5jO/1i9c/lE39vcoaniLrt
+	PxHUsgLsORFvZ+E+qLKpJY+m2Yg5pdFExZDxlJtc8r7h6+7w+WQ2RWxuYZo0kC6AfArDORN6h7wBk
+	RCWsn5zvdxbmMJlNE0IbrCzRGz5AoAEaT8oSpArwzAmqXzsvHC5xoaEWYBMS20LW1w/Go6b+IBmk2
+	hfG0ytsyQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lb3DC-007yfn-VT; Mon, 26 Apr 2021 15:31:51 +0000
+	id 1lb45K-00857N-AJ; Mon, 26 Apr 2021 16:27:46 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lb3D9-007yfb-0g
- for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 15:31:47 +0000
+ id 1lb45G-00856y-Oo
+ for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 16:27:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=ADtBDe9XrW6aLRoA/+UVxr21FhB+eonvFjvVi2Tz6jY=; b=ivZDbzmvA7oy060vDAEZHTTKAv
- OXbFo9Q1xpoavrlK9evyQJqNVGkQH97nHYqx+V/1SKb2omuKehcs3lUIUw3d2/ws7LygBRiXHn7Wd
- pBHH0Xg0pl5cQLzkSfJnpjkA3SuDKXcN7la7yDgTyKJT2LtTIj4aYp8qcTEJwkXUGFMyWk7KR5vJ6
- fiF9+5khWdAKrLJbx0e4m5K4jpKqRVaKPIvYtXbOITRit+tfR3IDlicEw9GVZdM8ovxO1XPwFbQP2
- L8EvKuhJuvKA0KpDbepBWX6/HRNZQ9Tyl/uajC1o/O5PnT9aAJrspGmrH9CDPRy9TQ/vIsDCvMSti
- q9c1BZKw==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=YS6rGxbgzt47nKPxM57puqPoVOL4x7kpMwj4upVHCgc=; b=jgELv+fMR+OMLb08H+W5Uh/cMg
+ wltosOm+rdDETVaIZOFM5IObohTxM5YBUXhDOAhCdGWCfUmOzvLeSM4zDQwBr7+swLS3/st420VYE
+ iaYFZkY6wRBGYWk+zGzIP21VZ5gYaEgYma5cFnsPRKcxIPpCFWptDjs6fyqjSdkOHeauzg1+GZFw6
+ oo7vakj/RrnF3UT7hsd9XHOKQtG53pyLBOvBXHUnV5Jj03WCq0Sadk+hr0Hl34hUDdxewqjLLAebM
+ 9Wr4yKXbANc3z1Y3AAFlb4Ay2IcHd+7MVUSuZbc+Nv8E2XBUVgJ1vL7q0HPkb9GrBvpbafRslnUOP
+ JdUmSOwA==;
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lb3D6-00G35J-HS
- for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 15:31:45 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B02066112F;
- Mon, 26 Apr 2021 15:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619451104;
- bh=lqEmwzp+0H1LpedNpAHgdorvkzlXJHKyDX1+wpOsOTw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SM+A0xygT1RCPtKnA8j9fomRXK24DWB+iS3/PqANs1YP2sY6cUdRIqEs+LOf6SlWw
- 7ObTjgVZP0i4RE3MYvj9aSi+N1p188HiDAnFtsSCCVyiL20HHsbS7xt6DKaGDFm7ub
- 8jcv4lIbgCdjvTK+9EJ7S/rzlFO/JvU+M2PqLMLLogLi4DgrgOHRWSB1oLhVJsmqxZ
- lUfU/V4nyGkS1rk+Anr7vb0U2sq5rl5PFxKA5ilco0/GVlouRiJrRthc7rA4c+pDSk
- thJa4wWkUfPJqyoOFWoMlWPBHFixt4+3nkg4YP+C/Q/kxzy1O2SjdwVo9qb+RUVxyA
- lCV9NpiK9Yoqg==
-Date: Tue, 27 Apr 2021 00:31:37 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-Subject: Re: nvme tcp receive errors
-Message-ID: <20210426153137.GD12593@redsun51.ssa.fujisawa.hgst.com>
-References: <20210331161825.GC23886@redsun51.ssa.fujisawa.hgst.com>
- <0976ff40-751e-cb95-429a-04ffa229ebf0@grimberg.me>
- <20210331204958.GD23886@redsun51.ssa.fujisawa.hgst.com>
- <20210402171141.GA1944994@dhcp-10-100-145-180.wdc.com>
- <53a11feb-bc49-d384-3b7b-481a0dfc70e6@grimberg.me>
- <20210405143702.GA20598@redsun51.ssa.fujisawa.hgst.com>
- <300c9e90-9bd6-abc8-c67a-fa92e119e4a7@grimberg.me>
- <20210414002946.GA2448507@dhcp-10-100-145-180.wdc.com>
- <5bc917c8-4e4c-7bfa-7cfa-24858993a042@grimberg.me>
+ id 1lb45E-00G5aA-8C
+ for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 16:27:41 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1619454458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YS6rGxbgzt47nKPxM57puqPoVOL4x7kpMwj4upVHCgc=;
+ b=NsPI0csXVIME0yWjck0zoKV3VDAK0HLbTFPAbZtZ9S+DBFY4IrvTiNaPs5le5HW0TZtMz/
+ 5nCLshCL0XF1dohhSH/7xsjuh7SYgxlvBWQ/JBmNTMHTI8aNNVaxlf/Nx6WoiJcQXLcMfb
+ vdWBCmUdrDtPmMJiumN0t9gA8XBTYkQ=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 888A5ACFD;
+ Mon, 26 Apr 2021 16:27:38 +0000 (UTC)
+Message-ID: <2df7213105b42f08fdb021e084f277bb881fb230.camel@suse.com>
+Subject: Re: [PATCH v2] nvme: rdma/tcp: call nvme_mpath_stop() from
+ reconnect workqueue
+From: Martin Wilck <mwilck@suse.com>
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>, Hannes
+ Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
+ linux-nvme@lists.infradead.org
+Date: Mon, 26 Apr 2021 18:27:36 +0200
+In-Reply-To: <20210426145105.GA22120@lst.de>
+References: <20210423133835.25479-1-mwilck@suse.com>
+ <37607acc-74a0-ea13-88a1-0197bf43fc2b@grimberg.me>
+ <20210426145105.GA22120@lst.de>
+User-Agent: Evolution 3.38.4 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5bc917c8-4e4c-7bfa-7cfa-24858993a042@grimberg.me>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210426_083144_628524_C2CDF7B5 
-X-CRM114-Status: GOOD (  17.87  )
+X-CRM114-CacheID: sfid-20210426_092740_459275_6B3AB91D 
+X-CRM114-Status: GOOD (  18.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,55 +92,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-15"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 20, 2021 at 10:33:30PM -0700, Sagi Grimberg wrote:
-> There might be a hidden assumption here that may cause this if multiple
-> c2hdata pdus will come per request...
-> 
-> If that is the case, you can try the following (on top):
+On Mon, 2021-04-26 at 16:51 +0200, Christoph Hellwig wrote:
+> On Fri, Apr 23, 2021 at 05:21:03PM -0700, Sagi Grimberg wrote:
+> > =
 
-This patch is successful for clearing up the observed "no space" issues
-observed during read tests.
+> > > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> > > index be905d4fdb47..fc07a7b0dc1d 100644
+> > > --- a/drivers/nvme/host/rdma.c
+> > > +++ b/drivers/nvme/host/rdma.c
+> > > @@ -1202,6 +1202,7 @@ static void
+> > > nvme_rdma_error_recovery_work(struct work_struct *work)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return;
+> > > =A0=A0=A0=A0=A0=A0=A0=A0}
+> > > =A0 +=A0=A0=A0=A0=A0nvme_mpath_stop(&ctrl->ctrl);
+> > > =A0=A0=A0=A0=A0=A0=A0=A0nvme_rdma_reconnect_or_remove(ctrl);
+> > =
 
-There are still some issues with write tests that look a bit different.
-I'll get more details on that for you today, but it's probably okay if
-you want to make a formal patch for the receive data side.
+> > Its pretty annoying to have to needlessly wait for the ana log page
+> > request to timeout... But this is also needed because we init
+> > ana_lock
+> > in nvme_mpath_init while it can be potentially taken in ana_work,
+> > which
+> > is a precipice for bad things...
+> =
 
-> --
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index ff39d37e9793..aabec8e6810a 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -773,19 +773,20 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue
-> *queue, struct sk_buff *skb,
->                 req->data_recvd += recv_len;
->         }
-> 
-> -       if (!queue->data_remaining) {
-> +       if (!queue->data_remaining)
-> +               nvme_tcp_init_recv_ctx(queue);
-> +
-> +       if (req->data_recvd == req->data_len) {
->                 if (queue->data_digest) {
->                         nvme_tcp_ddgst_final(queue->rcv_hash,
-> &queue->exp_ddgst);
->                         queue->ddgst_remaining = NVME_TCP_DIGEST_LENGTH;
->                 } else {
-> -                       BUG_ON(req->data_recvd != req->data_len);
->                         req->cmd_state = NVME_TCP_CMD_DATA_DONE;
->                         if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
->                                 req->cmd_state = NVME_TCP_CMD_DONE;
->                                 nvme_tcp_end_request(rq, NVME_SC_SUCCESS);
->                                 queue->nr_cqe++;
->                         }
-> -                       nvme_tcp_init_recv_ctx(queue);
->                 }
->         }
-> --
+> I also really hate open coding this mpath detail in the transport
+> drivers.=A0 Didn't you at some point have a series to factor out more
+> common code from the whole reset and reconnect path?
+> =
+
+
+So ... resubmit and cc stable as Sagi suggested, or work out something
+else?
+
+Martin
+
+
 
 _______________________________________________
 Linux-nvme mailing list
