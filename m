@@ -2,85 +2,94 @@ Return-Path: <SRS0=AvHe=JX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C28DFC433ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 16:27:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAC6EC433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 17:10:45 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 352F9611C1
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 16:27:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 352F9611C1
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
+	by mail.kernel.org (Postfix) with ESMTPS id 082FA6101B
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 17:10:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 082FA6101B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=purestorage.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:Cc:To:From:
-	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=C5cbfaS1sBr90DeHS6jGcbF7ociRXiWGbpEnE7fE4WA=; b=D0ZwUNtJqbRoLClEgp8ZNZ51R
-	JfFAtlbZLyYWGU556VowHIwzO0MLT7ZsPxs7fq4eUZ4nqpmdFKtxL9HTlfqy/t+OTiciBFfH7H4RS
-	E56jddyfuvp21UIywQIKfNM7hEyncBZIMWGI8VRZ2ubPoIy4gku7Qbb5jO/1i9c/lE39vcoaniLrt
-	PxHUsgLsORFvZ+E+qLKpJY+m2Yg5pdFExZDxlJtc8r7h6+7w+WQ2RWxuYZo0kC6AfArDORN6h7wBk
-	RCWsn5zvdxbmMJlNE0IbrCzRGz5AoAEaT8oSpArwzAmqXzsvHC5xoaEWYBMS20LW1w/Go6b+IBmk2
-	hfG0ytsyQ==;
+	 bh=h5RCXx55VmrH7nb/YqQS5QahYIBqDccMjyJK3WlhfrA=; b=pQ4s8FIxjwNKNv5LzUPr5wE6E
+	mZKYchxGZPeRkluFyyPkeBGCr9SnGQJkXIgKG95ip1NxPvH927TT9IgwiMiLf8cAryvDYpEZ9nP00
+	2idZmoBQXNJR0UbvbyDDPE18qtdtVN1Daewke8TUEU/ndxBm56J/bhzwnbAeMUOPWe24mVO0pqDd9
+	0KLbwck/S5fLMv5GV52qRKPggoeclgj/GXD5t99XoOI3vTFEcHUrbiN3Z1wGRy8s1b0ssePBpac/L
+	WnZy6Ir/IhxoAVEB+sGSuv5/AmenimPVwECs3dxUWRHuhW/fzLf7AQwvWTJctBO7VlvvD4Y7ThHn0
+	ULARVn4Bw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lb45K-00857N-AJ; Mon, 26 Apr 2021 16:27:46 +0000
+	id 1lb4kd-0088nu-Q2; Mon, 26 Apr 2021 17:10:27 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lb45G-00856y-Oo
- for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 16:27:42 +0000
+ id 1lb4kb-0088nn-K3
+ for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 17:10:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=YS6rGxbgzt47nKPxM57puqPoVOL4x7kpMwj4upVHCgc=; b=jgELv+fMR+OMLb08H+W5Uh/cMg
- wltosOm+rdDETVaIZOFM5IObohTxM5YBUXhDOAhCdGWCfUmOzvLeSM4zDQwBr7+swLS3/st420VYE
- iaYFZkY6wRBGYWk+zGzIP21VZ5gYaEgYma5cFnsPRKcxIPpCFWptDjs6fyqjSdkOHeauzg1+GZFw6
- oo7vakj/RrnF3UT7hsd9XHOKQtG53pyLBOvBXHUnV5Jj03WCq0Sadk+hr0Hl34hUDdxewqjLLAebM
- 9Wr4yKXbANc3z1Y3AAFlb4Ay2IcHd+7MVUSuZbc+Nv8E2XBUVgJ1vL7q0HPkb9GrBvpbafRslnUOP
- JdUmSOwA==;
-Received: from mx2.suse.de ([195.135.220.15])
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
+ :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=eo5gmhYwD5sVKrcVF5GNYF0YYnYlBgHP6BRS3D74YoE=; b=lgqywr+jMn/Hohh22aPPM81cC7
+ MK67mtVyQHLfzCRsYYvtS8UTas007ilhSVCL9fz+pZK3HTibYuY71CnB+Dpm/z5PKAUHLhzfY6z5/
+ NLMQH00ykB9dOW00ehmoDVcPgom/jjOZSLOjY6QdBuh7LTFHQaFNk71wy3YiiBsaK6YCgSVo/QQr5
+ ZU2TGSz8ihnt968DhuSIyoEzaLhZRnzS0eh445hJxZxVFGznX86L0jQvN77VcgSKbtYz992D0F7gy
+ SJ4A1xex1QpnpcsB1gWakh6urz+t6C5rPRxsWAAL3kkaSOWsqx4ZYsI6D7PT5H7cYWkkiu3b5VcJi
+ 6RYXYzrQ==;
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lb45E-00G5aA-8C
- for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 16:27:41 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1619454458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YS6rGxbgzt47nKPxM57puqPoVOL4x7kpMwj4upVHCgc=;
- b=NsPI0csXVIME0yWjck0zoKV3VDAK0HLbTFPAbZtZ9S+DBFY4IrvTiNaPs5le5HW0TZtMz/
- 5nCLshCL0XF1dohhSH/7xsjuh7SYgxlvBWQ/JBmNTMHTI8aNNVaxlf/Nx6WoiJcQXLcMfb
- vdWBCmUdrDtPmMJiumN0t9gA8XBTYkQ=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 888A5ACFD;
- Mon, 26 Apr 2021 16:27:38 +0000 (UTC)
-Message-ID: <2df7213105b42f08fdb021e084f277bb881fb230.camel@suse.com>
-Subject: Re: [PATCH v2] nvme: rdma/tcp: call nvme_mpath_stop() from
- reconnect workqueue
-From: Martin Wilck <mwilck@suse.com>
-To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Chao Leng <lengchao@huawei.com>, Hannes
- Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
- linux-nvme@lists.infradead.org
-Date: Mon, 26 Apr 2021 18:27:36 +0200
-In-Reply-To: <20210426145105.GA22120@lst.de>
-References: <20210423133835.25479-1-mwilck@suse.com>
- <37607acc-74a0-ea13-88a1-0197bf43fc2b@grimberg.me>
- <20210426145105.GA22120@lst.de>
-User-Agent: Evolution 3.38.4 
+ id 1lb4kY-00G76r-BY
+ for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 17:10:24 +0000
+Received: by mail-oi1-x22f.google.com with SMTP id e25so27144717oii.2
+ for <linux-nvme@lists.infradead.org>; Mon, 26 Apr 2021 10:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=purestorage.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eo5gmhYwD5sVKrcVF5GNYF0YYnYlBgHP6BRS3D74YoE=;
+ b=GPw1xKitvwGmyWq/ZcCbFojhlg7PpjTPrNz9w8X//20S5tD3/S3DKwuFtKXp/IxohX
+ i0EYyHezVeSfUvGZDw48bgo/aZrqsMT5p/Ni9zAniIK/f6B7w4WDs8J36pjKVc8/9cG5
+ erC+wzD2S8mdRu9hl0Or2GLawn1iXM0Yker8Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eo5gmhYwD5sVKrcVF5GNYF0YYnYlBgHP6BRS3D74YoE=;
+ b=PzMdaLw7EPBrjn9Xk/FcnNSixVHMPtLQW6GWyIwwDAEAQ7zqffVZJ1yjyUYmJersua
+ ESNolrLj7ti27iuw5bPHQWAdpBJdHCRFQfOpaQPfZ6LicoHRd0XIxBp5i/1NDNkBMgIV
+ QUBM7Fk/FOwKWT0H8VLRkO4zVJB4AAmKlVeSSaWcvxE37CRlXoa8iailN1W383PfnXtt
+ KDskQl/X35yz7GIif0A3ApF+JkoGzRFAtHxd+JcKMyUZbEIk927/rr3bQolszUkvlb3o
+ k/vqLZ0pRbboQuxMhcXytlAe82NJiHCqMrztuUXTX5oOAj6fbTED/MZUC+cOG6SfcPyL
+ WWnA==
+X-Gm-Message-State: AOAM53273edGY0Z1Cy1z0qWvvs8lOcr2TzfrPkGLxM3qydd2Hdtyv4b5
+ y+j9z6B4XzJd+klBwsVbAjyikcUbwHrzholo0Y0MFdUEfdOkmg==
+X-Google-Smtp-Source: ABdhPJyKCnqjd8rFzzXlpg/8c39CgYoVfclNiK/pBOeWWt28b4Po8FC1FuVbU0zVrHhWpYEjIT3hHcBdqKdfxGRNCmo=
+X-Received: by 2002:aca:31cf:: with SMTP id x198mr45382oix.71.1619457019700;
+ Mon, 26 Apr 2021 10:10:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210423220558.40764-1-kbusch@kernel.org>
+ <20210423220558.40764-5-kbusch@kernel.org>
+In-Reply-To: <20210423220558.40764-5-kbusch@kernel.org>
+From: Yuanyuan Zhong <yzhong@purestorage.com>
+Date: Mon, 26 Apr 2021 10:10:09 -0700
+Message-ID: <CA+AMecF+n+xVk8HcQn12oiO=YMJM08aC0AG3iM_3h8SgNxURow@mail.gmail.com>
+Subject: Re: [PATCHv2 4/5] nvme: use return value from blk_execute_rq()
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, 
+ Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, linux-block@vger.kernel.org, 
+ Casey Chen <cachen@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210426_092740_459275_6B3AB91D 
-X-CRM114-Status: GOOD (  18.42  )
+X-CRM114-CacheID: sfid-20210426_101022_485461_0D0250BA 
+X-CRM114-Status: GOOD (  19.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,47 +101,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-15"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 2021-04-26 at 16:51 +0200, Christoph Hellwig wrote:
-> On Fri, Apr 23, 2021 at 05:21:03PM -0700, Sagi Grimberg wrote:
-> > =
+On Fri, Apr 23, 2021 at 3:06 PM Keith Busch <kbusch@kernel.org> wrote:
+>
+> We don't have an nvme status to report if the driver's .queue_rq()
+> returns an error without dispatching the requested nvme command. Use the
+> return value from blk_execute_rq() for all passthrough commands so the
+> caller may know their command was not successful.
+>
+> If the command is from the target passthrough interface and fails to
+> dispatch, synthesize the response back to the host as a internal target
+> error.
+>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  drivers/nvme/host/core.c       | 16 ++++++++++++----
+>  drivers/nvme/host/ioctl.c      |  6 +-----
+>  drivers/nvme/host/nvme.h       |  2 +-
+>  drivers/nvme/target/passthru.c |  8 ++++----
+>  4 files changed, 18 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 10bb8406e067..62af5fe7a0ce 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -972,12 +972,12 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>                         goto out;
+>         }
+>
+> -       blk_execute_rq(NULL, req, at_head);
+> +       ret = blk_execute_rq(NULL, req, at_head);
+>         if (result)
+>                 *result = nvme_req(req)->result;
+>         if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+>                 ret = -EINTR;
+> -       else
+> +       else if (nvme_req(req)->status)
 
-> > > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> > > index be905d4fdb47..fc07a7b0dc1d 100644
-> > > --- a/drivers/nvme/host/rdma.c
-> > > +++ b/drivers/nvme/host/rdma.c
-> > > @@ -1202,6 +1202,7 @@ static void
-> > > nvme_rdma_error_recovery_work(struct work_struct *work)
-> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0return;
-> > > =A0=A0=A0=A0=A0=A0=A0=A0}
-> > > =A0 +=A0=A0=A0=A0=A0nvme_mpath_stop(&ctrl->ctrl);
-> > > =A0=A0=A0=A0=A0=A0=A0=A0nvme_rdma_reconnect_or_remove(ctrl);
-> > =
-
-> > Its pretty annoying to have to needlessly wait for the ana log page
-> > request to timeout... But this is also needed because we init
-> > ana_lock
-> > in nvme_mpath_init while it can be potentially taken in ana_work,
-> > which
-> > is a precipice for bad things...
-> =
-
-> I also really hate open coding this mpath detail in the transport
-> drivers.=A0 Didn't you at some point have a series to factor out more
-> common code from the whole reset and reconnect path?
-> =
-
-
-So ... resubmit and cc stable as Sagi suggested, or work out something
-else?
-
-Martin
-
-
+Since nvme_req(req)->status is uninitialized for a command failed to dispatch,
+it's valid only if ret from blk_execute_rq() is 0.
 
 _______________________________________________
 Linux-nvme mailing list
