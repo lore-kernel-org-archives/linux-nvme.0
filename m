@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3AFC433ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 02:54:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F12C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 02:54:48 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9E53B611C0
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 02:54:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9E53B611C0
+	by mail.kernel.org (Postfix) with ESMTPS id C1B6A61009
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 02:54:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1B6A61009
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=synology.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,53 +23,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=37enyYX6dpnFVgRC62wrQbe8vEegBVvpafiI7mDKzj4=; b=Ie9SwcjkN64LOFbyhA+Fv0zkeB
-	pp6qfVEmDl0BjFRhohybgT50O2msbIneH1/Yg+xnafrQ02YNAmpl3ba/KokUvzBgijnbzYvfUcjIV
-	PDSpyN9SK4WVi4imimnc5Wp4uh7t5IHWdv5lPuqz/FJ7ItIcx3sz18X3Vcca+YRUK/S7T3wYAGFdn
-	VPvNcEEfHSOwfBGdbt83ZwNdlOrp/RHvkG6WO+TQqxerqoPULe6lFBHHVoU8MlHWdTUYzSMhjcGqs
-	dwB1mizQi/7LtKZjmnmwEaJBNW7hwyGBmU9GmzGpljySKVDhS9B+sHjE1ABug9gVoGHQw6YDRTKFU
-	0ARz/PNA==;
+	bh=INlL45ZANaynyNPhw4gV/jVlWuQWur1py/0wY+a5YCg=; b=DaQWyl3mMV+wXnv03nKJmjuU71
+	E4dAETUrK6Cn4YpsfGw9es4OWtl5AttgJMRay0Jx0Cajje8VZ7bEDd6sOHq/JPzy/jNI9lnMF1Y7J
+	ZUinbjTLmKudl/5g5ucDWm0hnwtZpD4qllJRED/lsajLY7K7Pg9uAWOMntFGSsck1AA5zTxmSXcz4
+	oORmiHGS3zahESP61CXEGOm3dQ2Jr8QFqkL/T1Ev7eREszi+0fRoV7eI0QaspdE606b8z5FtDzxm8
+	vvRyyPW1fLJ3DTUlXkLuQ1r4nEPIdLFosCz70JFwuw03a6/CXvUx9OqalJk4Mm8b4bJpPH8ywIes6
+	byeZvIcw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1larNS-006kww-HD; Mon, 26 Apr 2021 02:53:38 +0000
+	id 1larO4-006l1A-Mb; Mon, 26 Apr 2021 02:54:16 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1larNP-006kwd-Ck
- for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 02:53:35 +0000
+ id 1larO2-006l0v-2i
+ for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 02:54:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=qt1Eo85z84L6nxJyaSmTX89jX5n2j72mpmRgMuUVwh4=; b=BGdpQUSXTqltDE32HD0wtJ2t1m
- vJeXSZKGaMe8ladqg414a6sw2OJMJ8ssXibv/8m4EfjDCD6opRzp4atN5OKkBFW/EwNMvjqe8/JdW
- 86I4DcdQzN5Zm7YORhwyMsc8O1yLKEiPv6aoA/LwjGVVMRmx/7x3VSPs2ASTL0M817TIRuisQTsPw
- 4Y4a89C8P5K7er0nEI4DdHJ53iuGWDs78KE+T3CCnUxnXEMMu8CpQUwbrklhnSaoHWRzJbYPeGJAM
- XPxy/KFbMenxkq6fD/+tjeQLzVE59k/vJfClgskot9y/HjQWi/4Xn4aySBPKiGn5V1kSOrONkLy17
- po+1VBKw==;
+ bh=Jf/stU7opYltJVVdIfvvQNnXIFHklvQS7/OwgDu8umU=; b=Trcf3StmgHmm5oNwQMs4hqTlN7
+ g8uYGPfiWHPDw646U3zkSDpXfUVlp/vWT/hOwcxcGIIM/tXbUrsw1Bjf5lgFdNao9CYOzzN0zNAb7
+ RIs8YtQu71WY4ILpnTAVKmytc7oZYxla1NTG5rlcJaiB/a4OdhvN3XY+KrlSFUJ8Eb8HpnwsLaBS4
+ ZcQKnvTVZojysYjHR+BSWge4vXxDXxztuD31kz5yrDkaX4M6BTLqRzqCgRyrx50F/nFOx1VqSgSth
+ UeXgJ+1VRL4fn5zOFTHjnfgh4zTkuFVCtswcrSlrZyhbFNtR5wEM1TvP0qPSGxG6+FipVdv1bx92Q
+ J5KtGDpQ==;
 Received: from mail.synology.com ([211.23.38.101] helo=synology.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1larNL-00FhQB-2H
- for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 02:53:33 +0000
+ id 1larNz-00FhRc-63
+ for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 02:54:12 +0000
 Received: from localhost.localdomain (unknown [10.17.32.53])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by synology.com (Postfix) with ESMTPSA id 00A5DCE78097;
- Mon, 26 Apr 2021 10:53:15 +0800 (CST)
+ by synology.com (Postfix) with ESMTPSA id 1233BCE78097;
+ Mon, 26 Apr 2021 10:54:10 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synology.com; s=123;
- t=1619405595; bh=dVx9faadfusiKGT3NWzUGZglxAEAUfwUfk8yVdfbifU=;
+ t=1619405650; bh=wAjRTvLic0pVgluNJL65go6oMZha3oZzIeK8QANysC4=;
  h=From:To:Cc:Subject:Date;
- b=Jmua+9b+Hpz+1gZT+agm/MOTDfPOODRISpr4uhK5gAuE9OwX1ZbHUaG38KgRONMvO
- VBYKWfjzfcmTMekA5wPXeVw4UZZZOwJYp0YUgpoqVXyBseGkQmmoiW1CVouejXCkh7
- CyHNj80Lg0bRezn1YVQhhr0BWVhJgSP/NZK6UvLA=
+ b=HVU7dhS5eXLjgSVV4uJbEKQS+/OXWKYr+InX1Es01iDgQvIW8RxD9pzU9CqEcJiHf
+ C0cwGOZMGdrXplfIP81HQu6i0+Bo5M4GLlXzrI+e8AqhSzLstWIcQvqLX0QXp7IFKi
+ yfpmeTx6BNCbHtgf+cL4KaKmdr5iH7aYQZHNlK4U=
 From: taochiu <taochiu@synology.com>
 To: hch@lst.de, chaitanya.kulkarni@wdc.com, kbusch@kernel.org, axboe@fb.com,
  sagi@grimberg.me, james.smart@broadcom.com
 Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  Tao Chiu <taochiu@synology.com>, Cody Wong <codywong@synology.com>,
  Leon Chien <leonchien@synology.com>
-Subject: [PATCH v2 1/2] nvme-core: Move nvmf queue ready check routines to core
-Date: Mon, 26 Apr 2021 10:53:10 +0800
-Message-Id: <20210426025310.3005573-1-taochiu@synology.com>
+Subject: [PATCH v2 2/2] nvme-pci: fix controller reset hang when racing with
+ nvme_timeout
+Date: Mon, 26 Apr 2021 10:53:55 +0800
+Message-Id: <20210426025355.3005949-1-taochiu@synology.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 X-Synology-MCP-Status: no
@@ -77,8 +78,8 @@ X-Synology-Spam-Flag: no
 X-Synology-Spam-Status: score=0, required 6, WHITELIST_FROM_ADDRESS 0
 X-Synology-Virus-Status: no
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210425_195331_389622_AF00F3CB 
-X-CRM114-Status: GOOD (  23.57  )
+X-CRM114-CacheID: sfid-20210425_195411_497677_3E519C28 
+X-CRM114-Status: GOOD (  14.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,282 +98,70 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Tao Chiu <taochiu@synology.com>
 
-queue_rq() in pci only checks if the dispatched queue (nvmeq) is ready,
-e.g. not being suspended. Since nvme_alloc_admin_tags() in reset flow
-restarts the admin queue, users are able to submit admin commands to a
-controller before reset_work() completes. Commands submitted under this
-condition may interfere with commands that performs identify, IO queue
-setup in reset_work(), and may result in a hang described in the
-following patch.
+reset_work() in nvme-pci may hang forever in the following scenario:
+1) A reset caused by a command timeout occurs due to a controller being
+   temporarily irresponsive.
+2) nvme_reset_work() restarts admin queue at nvme_alloc_admin_tags(). At
+   the same time, a user-submitted admin command is queued and waiting
+   for completion. Then, reset_work() changes its state to CONNECTING,
+   and submits an identify command.
+3) However, the controller does still not respond to any command,
+   causing a timeout being fired at the user-submitted command.
+   Unfortunately, nvme_timeout() does not see the completion on cq, and
+   any timeout that takes place under CONNECTING state causes a
+   controller shutdown.
+4) Normally, the identify command in reset_work() would be canceled with
+   SC_HOST_ABORTED by nvme_dev_disable(), then reset_work can tear down
+   the controller accordingly. But the controller happens to return
+   online and respond the identify command before nvme_dev_disable()
+   should have been reaped it off.
+5) reset_work() continues to setup_io_queues() as it observes no error
+   in init_identify(). However, the admin queue has already been
+   quiesced in dev_disable(). Thus, any following commands would be
+   blocked forever in blk_execute_rq().
 
-As seen in the fabrics, user commands are prevented from being executed
-under inproper controller states. We may reuse this logic to maintain a
-clear admin queue during reset_work().
+This can be fixed by restricting usercmd commands when controller is not
+in a LIVE state in nvme_queue_rq(), as what has been done previously in
+fabrics.
+
+```
+nvme_reset_work():                     |
+    nvme_alloc_admin_tags()            |
+                                       | nvme_submit_user_cmd():
+    nvme_init_identify():              |     ...
+        __nvme_submit_sync_cmd():      |
+            ...                        |     ...
+---------------------------------------> nvme_timeout():
+(Controller starts reponding commands) |     nvme_dev_disable(, true):
+    nvme_setup_io_queues():            |
+        __nvme_submit_sync_cmd():      |
+            (hung in blk_execute_rq    |
+             since run_hw_queue sees   |
+             queue quiesced)           |
+
+```
 
 Signed-off-by: Tao Chiu <taochiu@synology.com>
 Signed-off-by: Cody Wong <codywong@synology.com>
 Reviewed-by: Leon Chien <leonchien@synology.com>
 ---
- drivers/nvme/host/core.c    | 60 +++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/fabrics.c | 57 -----------------------------------
- drivers/nvme/host/fabrics.h | 13 --------
- drivers/nvme/host/fc.c      |  4 +--
- drivers/nvme/host/nvme.h    | 15 ++++++++++
- drivers/nvme/host/rdma.c    |  4 +--
- drivers/nvme/host/tcp.c     |  4 +--
- drivers/nvme/target/loop.c  |  4 +--
- 8 files changed, 83 insertions(+), 78 deletions(-)
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 40f08e6325ef..4fe8919aae53 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -633,6 +633,66 @@ static struct request *nvme_alloc_request_qid(struct request_queue *q,
- 	return req;
- }
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 09d4c5f99fc3..a29b170701fc 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -933,6 +933,9 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
+ 		return BLK_STS_IOERR;
  
-+/*
-+ * For something we're not in a state to send to the device the default action
-+ * is to busy it and retry it after the controller state is recovered.  However,
-+ * if the controller is deleting or if anything is marked for failfast or
-+ * nvme multipath it is immediately failed.
-+ *
-+ * Note: commands used to initialize the controller will be marked for failfast.
-+ * Note: nvme cli/ioctl commands are marked for failfast.
-+ */
-+blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
-+		struct request *rq)
-+{
-+	if (ctrl->state != NVME_CTRL_DELETING_NOIO &&
-+	    ctrl->state != NVME_CTRL_DEAD &&
-+	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
-+	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
-+		return BLK_STS_RESOURCE;
-+	return nvme_host_path_error(rq);
-+}
-+EXPORT_SYMBOL_GPL(nvme_fail_nonready_command);
++	if (!nvme_check_ready(&dev->ctrl, req, true))
++		return nvme_fail_nonready_command(&dev->ctrl, req);
 +
-+bool __nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
-+		bool queue_live)
-+{
-+	struct nvme_request *req = nvme_req(rq);
-+
-+	/*
-+	 * currently we have a problem sending passthru commands
-+	 * on the admin_q if the controller is not LIVE because we can't
-+	 * make sure that they are going out after the admin connect,
-+	 * controller enable and/or other commands in the initialization
-+	 * sequence. until the controller will be LIVE, fail with
-+	 * BLK_STS_RESOURCE so that they will be rescheduled.
-+	 */
-+	if (rq->q == ctrl->admin_q && (req->flags & NVME_REQ_USERCMD))
-+		return false;
-+
-+	if (ctrl->ops->flags & NVME_F_FABRICS) {
-+		/*
-+		 * Only allow commands on a live queue, except for the connect
-+		 * command, which is require to set the queue live in the
-+		 * appropinquate states.
-+		 */
-+		switch (ctrl->state) {
-+		case NVME_CTRL_CONNECTING:
-+			if (blk_rq_is_passthrough(rq) && nvme_is_fabrics(req->cmd) &&
-+			    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
-+				return true;
-+			break;
-+		default:
-+			break;
-+		case NVME_CTRL_DEAD:
-+			return false;
-+		}
-+	}
-+
-+	return queue_live;
-+}
-+EXPORT_SYMBOL_GPL(__nvme_check_ready);
-+
- static int nvme_toggle_streams(struct nvme_ctrl *ctrl, bool enable)
- {
- 	struct nvme_command c;
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 604ab0e5a2ad..9e1b195d8b03 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -535,63 +535,6 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
- 	return NULL;
- }
- 
--/*
-- * For something we're not in a state to send to the device the default action
-- * is to busy it and retry it after the controller state is recovered.  However,
-- * if the controller is deleting or if anything is marked for failfast or
-- * nvme multipath it is immediately failed.
-- *
-- * Note: commands used to initialize the controller will be marked for failfast.
-- * Note: nvme cli/ioctl commands are marked for failfast.
-- */
--blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
--		struct request *rq)
--{
--	if (ctrl->state != NVME_CTRL_DELETING_NOIO &&
--	    ctrl->state != NVME_CTRL_DEAD &&
--	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
--	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
--		return BLK_STS_RESOURCE;
--	return nvme_host_path_error(rq);
--}
--EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
--
--bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
--		bool queue_live)
--{
--	struct nvme_request *req = nvme_req(rq);
--
--	/*
--	 * currently we have a problem sending passthru commands
--	 * on the admin_q if the controller is not LIVE because we can't
--	 * make sure that they are going out after the admin connect,
--	 * controller enable and/or other commands in the initialization
--	 * sequence. until the controller will be LIVE, fail with
--	 * BLK_STS_RESOURCE so that they will be rescheduled.
--	 */
--	if (rq->q == ctrl->admin_q && (req->flags & NVME_REQ_USERCMD))
--		return false;
--
--	/*
--	 * Only allow commands on a live queue, except for the connect command,
--	 * which is require to set the queue live in the appropinquate states.
--	 */
--	switch (ctrl->state) {
--	case NVME_CTRL_CONNECTING:
--		if (blk_rq_is_passthrough(rq) && nvme_is_fabrics(req->cmd) &&
--		    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
--			return true;
--		break;
--	default:
--		break;
--	case NVME_CTRL_DEAD:
--		return false;
--	}
--
--	return queue_live;
--}
--EXPORT_SYMBOL_GPL(__nvmf_check_ready);
--
- static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_TRANSPORT,		"transport=%s"		},
- 	{ NVMF_OPT_TRADDR,		"traddr=%s"		},
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 733010d2eafd..e450d9a5d788 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -177,20 +177,7 @@ void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
- void nvmf_free_options(struct nvmf_ctrl_options *opts);
- int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
- bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
--blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
--		struct request *rq);
--bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
--		bool queue_live);
- bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
- 		struct nvmf_ctrl_options *opts);
- 
--static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
--		bool queue_live)
--{
--	if (likely(ctrl->state == NVME_CTRL_LIVE ||
--		   ctrl->state == NVME_CTRL_DELETING))
--		return true;
--	return __nvmf_check_ready(ctrl, rq, queue_live);
--}
--
- #endif /* _NVME_FABRICS_H */
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 921b3315c2f1..ea8804c1c96e 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2766,8 +2766,8 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	blk_status_t ret;
- 
- 	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
--	    !nvmf_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
--		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, rq);
-+	    !nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
-+		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
- 
- 	ret = nvme_setup_cmd(ns, rq);
- 	if (ret)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index c6102ce83bb4..2b08e795bf54 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -632,6 +632,21 @@ struct request *nvme_alloc_request(struct request_queue *q,
- 		struct nvme_command *cmd, blk_mq_req_flags_t flags);
- void nvme_cleanup_cmd(struct request *req);
- blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req);
-+blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
-+		struct request *req);
-+bool __nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
-+		bool queue_live);
-+
-+static inline bool nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
-+		bool queue_live)
-+{
-+	if (likely(ctrl->state == NVME_CTRL_LIVE))
-+		return true;
-+	if (ctrl->ops->flags & NVME_F_FABRICS &&
-+	    ctrl->state == NVME_CTRL_DELETING)
-+		return true;
-+	return __nvme_check_ready(ctrl, rq, queue_live);
-+}
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buf, unsigned bufflen);
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index d6bc43e6c8a6..203b47a8ec92 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2047,8 +2047,8 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	WARN_ON_ONCE(rq->tag < 0);
- 
--	if (!nvmf_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
--		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, rq);
-+	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
-+		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
- 
- 	dev = queue->device->dev;
- 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 8e55d8bc0c50..6bd5b281c818 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2328,8 +2328,8 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
- 	blk_status_t ret;
- 
--	if (!nvmf_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
--		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, rq);
-+	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
-+		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
- 
- 	ret = nvme_tcp_setup_cmd_pdu(ns, rq);
- 	if (unlikely(ret))
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index b741854fc957..1b89a6bb819a 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -138,8 +138,8 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	bool queue_ready = test_bit(NVME_LOOP_Q_LIVE, &queue->flags);
- 	blk_status_t ret;
- 
--	if (!nvmf_check_ready(&queue->ctrl->ctrl, req, queue_ready))
--		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, req);
-+	if (!nvme_check_ready(&queue->ctrl->ctrl, req, queue_ready))
-+		return nvme_fail_nonready_command(&queue->ctrl->ctrl, req);
- 
  	ret = nvme_setup_cmd(ns, req);
  	if (ret)
+ 		return ret;
 -- 
 2.30.1
 
