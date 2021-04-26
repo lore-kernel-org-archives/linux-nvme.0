@@ -2,19 +2,18 @@ Return-Path: <SRS0=AvHe=JX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDBDAC433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 00:42:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC36FC433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 00:50:25 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3D06260FEE
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 00:42:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D06260FEE
+	by mail.kernel.org (Postfix) with ESMTPS id 28555611C9
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 00:50:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28555611C9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,56 +22,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=16YWSHOhU0jkNIrlgp13Mnsofk06K5/Q+fdXwizOkIA=; b=meEdweWHfzPds4C6vuZDht7g0
-	QO6HQGeFCQG7Qn9P9b++7PbdATzj25k/zSTuwRr/8K2C6dRSd/b4KWhcnCGvWmWEYAkXlwRERTVJf
-	XCZclx00pG8b2z1na72UQp6IlBX64Ln4MkV4KneS+5TWrrQEfOnuRMoX7kNUUVOseN8C5GUsjAK72
-	UVm9qm10EXbwfU85XeRV56z1omzUPjmCmQUJJB/TG2eY9V+e6htnq88tWC9pRLef/5Tl83NCRKsRc
-	NIELJ4sTeSC8mlyEIuGFBiOwNdL1oRrm3GzvP0BJGq7jyKWpzomLYhO8KNhgRIyN0UiCZpKxufGKv
-	Uy9lHepfg==;
+	 bh=mS6McWWPYnpswrl4fX+PkyxhC71J7tOaBsPRA8zC5lE=; b=L8rhcCv/Gdzh9f/1zlLe/Ijh5
+	s2i9DSqNB6tfR5GKUbceu/PKRcoaIv2SEPPSIR5Xi4svOsTScnLpy6by8M3ebHsDajSp/4rWuH24v
+	UlRgzuDgeT2nhjD9Q4kN91ySRVMoozM9KDGHL/P7gLPKblkOzltckENTXlw4UVTng35BQbBHehY5x
+	hSLdctI5a9OMRxxP/foT2jup3j7WSmEAohRKL4pZZv71Sd5zhq5XspIzIigdzUQx/pk0YUj8kDlfb
+	jS+H+3hALo9WIWBERIxd3IsbFze+mpfMz1IuOLDHklyF008PzGN4GiLaobaKS0s8yozO4dAQhDxfK
+	hq8LyYL5Q==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lapKG-006Y6V-Jx; Mon, 26 Apr 2021 00:42:12 +0000
+	id 1lapRr-006Z6n-Vi; Mon, 26 Apr 2021 00:50:04 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lapKA-006Y6F-GN
- for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 00:42:06 +0000
+ id 1lapRp-006Z6K-HH
+ for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 00:50:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=5ORXaELdusvpXv2pKAT8XVRpiy1Wq7qC5EdSGHfv2Oc=; b=TyQ/mazJZTzrhIVUdunTPE2snG
- NwK2yF+va0eYbehKnkd3hON1QEJ23ZGvDmR3J7cQMAnLnFabCit9fENEbvy/t1ExSWKr/3klYMICO
- JQymmp3vLcLY2f+UEKlzIaALJRqra6XHVMKKc2vXIaThiNI6Nhg+59PnKp2MTxqKtvZeOdcZSnkFp
- eoaa6D4De8CrxA9o0XmF/qM+QTOLxQ8Uxmf4gF1rLoGrK24cIR5V4UscS8BnitmTpceWp0yByb2Vq
- qcj0ckHp9vD3wX08SeJIgUNBMUvE5LOBg+k6oU8IMb3D/i1ppEPbYbJXjcekagLtNRHXd8aPbJ34j
- 0B6hcbvw==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ bh=dwxmnzj2l32bEs+ERvIucHwyR58dm5h6uygjcfXO8BY=; b=4BDinRYMPAzUFCOktXmObrd0Sd
+ tJ1Uu3gwK2kaRx9VfsYkg6EXaySs+4rb40ji+iPhg8WlJ9RbbMThdudAj3jn2Fu4CnDNva3jKCnlw
+ nEGUUt9Y70BvvghEzy9gN7S2yv84h/kuQpZWrBJSntbKBeKGS4wqOWhFmkUtUHsFnckQiZarUleco
+ yc19AvUs8btdxFd7O/DHqfdMRBiKDunnsvn6+QSL0iSlIimJMPizXKOSN/0v3TJbADRfOzzQn5Cl0
+ anYBMbJ+X9NSpb/tsSj/wnsSDkkv8fFl2fyGhaw8C4f7rBxQEzC17a0MeAnStNlRGqBB7ySGfndJJ
+ aCh7gjNA==;
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lapK7-00Ffdb-KC
- for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 00:42:04 +0000
+ id 1lapRm-00FfnZ-Ql
+ for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 00:50:00 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619397721;
+ s=mimecast20190719; t=1619398197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5ORXaELdusvpXv2pKAT8XVRpiy1Wq7qC5EdSGHfv2Oc=;
- b=fcdQjnTwxiSHH621VeoE0mMM84PE45dagzXCsl9YSaZ/mFBhLNterJZEJLstDSAEPow4H1
- yFPHSZ17dg2ntqjMwuyfCLLC689HsnQLuZxlH77Iy4cwp9jJOeJHexpV1/GRTN9uEfhTOD
- 533Sji0TMAGybODHxj2VXUfKxJFEJnk=
+ bh=dwxmnzj2l32bEs+ERvIucHwyR58dm5h6uygjcfXO8BY=;
+ b=LxVdelYXNS29RfxadqeYF9r3DBM/3dNtj6m2mFXgiBrVG14XaAyxLFmzop6Tp2tpHutQlT
+ hUTE9U4x/s55bL+M9FyXqGZEZQcsepUbHlu1fMFBXt0VcTGZ/+pa9Rp0fqYpUVXEaE+hAz
+ R9uHUDhxSbp/535Yu8FTQHJDyKjg9GI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-VF_MbtitMnWIXyVVMnhjDg-1; Sun, 25 Apr 2021 20:41:58 -0400
-X-MC-Unique: VF_MbtitMnWIXyVVMnhjDg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-455-kCWv3Sh2OC-q5JtJmqHiXA-1; Sun, 25 Apr 2021 20:49:54 -0400
+X-MC-Unique: kCWv3Sh2OC-q5JtJmqHiXA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD6E91006706;
- Mon, 26 Apr 2021 00:41:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5747343A5;
+ Mon, 26 Apr 2021 00:49:52 +0000 (UTC)
 Received: from T590 (ovpn-12-48.pek2.redhat.com [10.72.12.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C1A665D6BA;
- Mon, 26 Apr 2021 00:41:46 +0000 (UTC)
-Date: Mon, 26 Apr 2021 08:41:52 +0800
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AF7A5D9DC;
+ Mon, 26 Apr 2021 00:49:43 +0000 (UTC)
+Date: Mon, 26 Apr 2021 08:49:48 +0800
 From: Ming Lei <ming.lei@redhat.com>
 To: Bart Van Assche <bvanassche@acm.org>
 Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
@@ -82,19 +81,19 @@ Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
  Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
  Hannes Reinecke <hare@suse.de>, John Garry <john.garry@huawei.com>,
  David Jeffery <djeffery@redhat.com>
-Subject: Re: [PATCH 7/8] blk-mq: grab rq->refcount before calling ->fn in
- blk_mq_tagset_busy_iter
-Message-ID: <YIYMUP2ZKLJZ3KoT@T590>
+Subject: Re: [PATCH 8/8] blk-mq: clear stale request in tags->rq[] before
+ freeing one request pool
+Message-ID: <YIYOLHaidxc5fBH2@T590>
 References: <20210425085753.2617424-1-ming.lei@redhat.com>
- <20210425085753.2617424-8-ming.lei@redhat.com>
- <6c0b0af9-ca71-d143-b1cc-384adfca5438@acm.org>
+ <20210425085753.2617424-9-ming.lei@redhat.com>
+ <d3493eef-ff45-23a8-f12a-b7246ba9f3a2@acm.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <6c0b0af9-ca71-d143-b1cc-384adfca5438@acm.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <d3493eef-ff45-23a8-f12a-b7246ba9f3a2@acm.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210425_174203_761980_B8BBD149 
-X-CRM114-Status: GOOD (  26.89  )
+X-CRM114-CacheID: sfid-20210425_174958_963988_1776DAEF 
+X-CRM114-Status: GOOD (  14.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,74 +110,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Apr 25, 2021 at 11:55:22AM -0700, Bart Van Assche wrote:
+On Sun, Apr 25, 2021 at 01:42:59PM -0700, Bart Van Assche wrote:
 > On 4/25/21 1:57 AM, Ming Lei wrote:
-> > However, still one request UAF not covered: refcount_inc_not_zero() may
-> > read one freed request, and it will be handled in next patch.
+> > +	spin_lock_irqsave(&drv_tags->lock, flags);
+> > +	list_for_each_entry(page, &tags->page_list, lru) {
+> > +		unsigned long start = (unsigned long)page_address(page);
+> > +		unsigned long end = start + order_to_size(page->private);
+> > +		int i;
+> > +
+> > +		for (i = 0; i < set->queue_depth; i++) {
+> > +			struct request *rq = drv_tags->rqs[i];
+> > +			unsigned long rq_addr = (unsigned long)rq;
+> > +
+> > +			if (rq_addr >= start && rq_addr < end) {
+> > +				WARN_ON_ONCE(refcount_read(&rq->ref) != 0);
+> > +				cmpxchg(&drv_tags->rqs[i], rq, NULL);
+> > +			}
+> > +		}
+> > +	}
+> > +	spin_unlock_irqrestore(&drv_tags->lock, flags);
 > 
-> This means that patch "blk-mq: clear stale request in tags->rq[] before
-> freeing one request pool" should come before this patch.
+> Using cmpxchg() on set->tags[] is only safe if all other set->tags[]
+> accesses are changed into WRITE_ONCE() or READ_ONCE().
 
-It doesn't matter. This patch only can't avoid the UAF too, we need
-to grab req->ref to prevent queue from being frozen.
+Why?
 
-> 
-> > @@ -276,12 +277,15 @@ static bool bt_tags_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
-> >  		rq = tags->static_rqs[bitnr];
-> >  	else
-> >  		rq = tags->rqs[bitnr];
-> > -	if (!rq)
-> > +	if (!rq || !refcount_inc_not_zero(&rq->ref))
-> >  		return true;
-> >  	if ((iter_data->flags & BT_TAG_ITER_STARTED) &&
-> >  	    !blk_mq_request_started(rq))
-> > -		return true;
-> > -	return iter_data->fn(rq, iter_data->data, reserved);
-> > +		ret = true;
-> > +	else
-> > +		ret = iter_data->fn(rq, iter_data->data, reserved);
-> > +	blk_mq_put_rq_ref(rq);
-> > +	return ret;
-> >  }
-> 
-> Even if patches 7/8 and 8/8 would be reordered, the above code
-> introduces a new use-after-free, a use-after-free that is much worse
-> than the UAF in kernel v5.11. The following sequence can be triggered by
-> the above code:
-> * bt_tags_iter() reads tags->rqs[bitnr] and stores the request pointer
-> in the 'rq' variable.
-> * Request 'rq' completes, tags->rqs[bitnr] is cleared and the memory
-> that backs that request is freed.
-> * The memory that backs 'rq' is used for another purpose and the request
-> reference count becomes nonzero.
+Semantic of cmpxchg() is to modify value pointed by the address if its
+old value is same with passed 'rq'. That is exactly what we need.
 
-That means the 'rq' is re-allocated, and it becomes in-flight again.
-
-> * bt_tags_iter() increments the request reference count and thereby
-> corrupts memory.
-
-No, When refcount_inc_not_zero() succeeds in bt_tags_iter(), no one can
-free the request any more until ->fn() returns, why do you think memory
-corrupts? This pattern isn't different with timeout's usage, is it?
-
-If IO activity is allowed during iterating tagset requests, ->fn() and
-in-flight IO can always be run concurrently. That is caller's
-responsibility to handle the race. That is why you can see lots callers
-do quiesce queues before calling blk_mq_tagset_busy_iter(), but
-quiesce isn't required if ->fn() just READs request only.
-
-Your patch or current in-tree code has same 'problem' too, if you think
-it is a problem. Clearing ->rq[tag] or holding a lock before calling
-->fn() can not avoid such thing, can it?
-
-Finally it is a request walking in tagset wide, so it should be safe for
-->fn to iterate over request in this way. The thing is just that req->tag may
-become not same with 'bitnr' any more. We can handle it simply by checking
-if 'req->tag == bitnr' in bt_tags_iter() after the req->ref is grabbed,
-still not sure if it is absolutely necessary.
+writting 'void *' is always atomic. if someone has touched
+'->rqs[tag]', cmpxchg() won't modify the value.
 
 
-Thanks,
+
+Thanks, 
 Ming
 
 
