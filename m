@@ -2,18 +2,18 @@ Return-Path: <SRS0=AvHe=JX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25322C433ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 15:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67859C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 15:17:12 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B65866127A
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 15:16:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B65866127A
+	by mail.kernel.org (Postfix) with ESMTPS id 0844B61076
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Apr 2021 15:17:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0844B61076
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,63 +22,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=MSvmASNJQIvrlrrwRS5WcUoaQ5/3fHWwdeBBo7N8Stw=; b=ktkbFUoC5by3ASev9EaH50tt3
-	S+gixlSslU9pMUlDtlulOociUgAzWpJXYvoJM0cxc6cnLvTpx+1pOah41tWpLY2CicJ2o3GGKRGz6
-	a5BKpaSPOSaqntrJ9MeRtiaLc/HBQ75Um8GcvRSYgB/EEVSGbAW59gZ5tCkmfkkH4OCIMRUtKehab
-	G/yudBGrZ4EigegMOk2QlX4eJ/7p1VO29QexLCrl7i/EAKgBm3EMRKQnvd9abim6UGsb4VGJRH7de
-	siA1nyEijz6zZ9ud1zw6L0Y/hh/9+bsnL/2JkIVKCR+v6UDoMaoOF2mN2S8XqGPBRiL7KkdbOvi9M
-	QKrcbwnWw==;
+	 bh=vzzkVWTXI2wWeJ3KOalyZ5n+rQavXt2CWT8qBAdzVpI=; b=BYvm0ubV7FrqtDlL3VNDOHn0w
+	Qq8QUxB0STB/KmCFR4YXNnZxAiWrixGQbvV8tR4R053h0aZAoll33ofGFY/BQjYjMWs1R6NfnOjy4
+	vzepEFE03saXb2iGrsaV0WwSRMoOrURveYSDYqF7k6uRP+Rkqap3F+MpYSVt9XREfkMo5uX2tlkjl
+	rlJXZITt9HbicHvuFEAgqgdlC6lfHjl1sohMFWuB8MLEEcjG5ewBXUts8GxRqCqiL0K06jJ5DWqdz
+	NYe8XGtK2dodPxLFSOVzfHQAoXlkd4D4+uWjVtglMjuKIqvec3OL4h6JTNQOOfXMrDuhgVDkb0WFk
+	4XPtkiByQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lb2xe-007wZv-6b; Mon, 26 Apr 2021 15:15:46 +0000
+	id 1lb2yt-007wko-0T; Mon, 26 Apr 2021 15:17:03 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lb2xc-007wZm-Tg
- for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 15:15:45 +0000
+ id 1lb2yr-007wkc-7p
+ for linux-nvme@desiato.infradead.org; Mon, 26 Apr 2021 15:17:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=xEjo+0o+oUfDviPJHCpq5Amdiuu479DJ39vCTdivr/Y=; b=aTVnPW6yPR+N/KPub2/c22dbgJ
- EgYP4FKw6qZ+Q1DXZzbjgqDM0kwvMxAbkFoep7TNY7nMYYEsN8iyVFJA0kEOBDJzejvn+x42it3hE
- h9LsASLk3o7CIVlEEGAxW1VNFAtaBAOgp+18x1r2tjSpUzJ8FiEDgUdgLEL3zrkLBO/7J/NZwpNd3
- cs7pMFgd33AQr7Q9EDf6fL7/KH4DbCmDc/QwmWhHyMM4AnEnbVqN20+iYvf+tbZWgRns5TVpn0cnY
- Gff34cjeUzvEBWSijQPuz1Ab2+02HTFdtU+IOdvYHeclrYZMSFUScaWQFxNkxdR3CHVgTGaQgOZAl
- 7xqYHNwA==;
+ bh=H0FEDX8BF5wZWc89dLWYNPo5agjBN7zMdH5iD2q8URs=; b=rq2cVJlDby0P7i3mBkD/QC/er+
+ EZQOkYG3TDWDleNP8tFITs2/QmdDCL+N70pjfKfVuMAxPwz+uxPyJ0OyIy9OKscNBrqgisvv2Q59t
+ SZ6kPMJzq+oQazt1uS7RvL4Rg3Fy2rs9x4W/EG1pyOwGt1xPysaa7wKH6xKuZWjIBP2nMzFw16F00
+ PPp4vtpVj3gMdEd1xsxGS06joU3q50edI60mgjGzrZYQUT3e1viLcVUN/9FCYArsqe2TKekTQa8xW
+ MEC/n9FwFizIPX5/wgnUOXUdupzim6OZuWRKYevaLLoKEhyvr88ata2r4jdsNqUwK7K6dSgdQGQc1
+ 9JoJttgw==;
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lb2xa-00G2XR-H0
- for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 15:15:43 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0024D61178;
- Mon, 26 Apr 2021 15:15:39 +0000 (UTC)
+ id 1lb2yo-00G2aJ-Ok
+ for linux-nvme@lists.infradead.org; Mon, 26 Apr 2021 15:16:59 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1DD1461041;
+ Mon, 26 Apr 2021 15:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619450140;
- bh=TvfpsmgvZ2FA72prfYrnZr+UaAU/xsQv8DOrfXFrwVI=;
+ s=k20201202; t=1619450218;
+ bh=4Yn/mfaMho0PcS/JLVj/WsgPQuu9nCREYLZ2ygXW6O8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tK4M+enpvQz1JSFUzCh1M0CnaG7unwOhtVrd9dKAVaF0xAyc0lYwyaVRog4aTSrol
- 5ArkX4XPy5OXVB2s7J22o7KdULLYhzIqOkt4ZKRJ925XpvIvLGEZtqtykdR7WSjsk5
- yzhC21IFthMkU2yGpwc/LagALhJHSGnP3tjgbFFluvMMhM3GpZ7HSHOxdmvM1xWiCi
- EtNauQZiimsGJcd0RSZyGbAo04AWoTI0jpppx04XkeNceHB3nB21l/ZWjXM3aUoJhw
- gYIGZcuVMi9EvrJpfb8OjDQidtobz/PRay4y1nNtTlglsuRGem/SGZr+SY7XCwHO3O
- wmmIDQ6OF+fEQ==
-Date: Tue, 27 Apr 2021 00:15:37 +0900
+ b=VbVZTrTNhL09YE/4lCwX4x2zMYhd9XUyckYInILKLTgZvP/J6EtehWLcvi5dZbaRM
+ Pt04Ofq1bxFtAftxBbSIPhVrihewKtOQ05mgcoOfKJSJ0HvcGzNxK46J7IN8ztYNvt
+ ct9DIRntDt6hqiu1w0Ec5FsrPmdafONeA6TcaXjEMyj/LzrG30IMnBOBmpm8RmNFFd
+ cfTxMFEtGU9s/jkaLXgO2re2jrMXdPFQvFjpcH9nGojnl5/QMBct4jORXlc2ATn8DA
+ uE3EGAPZLVqn7VLSs6CGKsSmfWsbvxN/EbxCIKIjHn50yenGqRssEAcITkri+vXgXB
+ YOYTWgq1B9ZOg==
+Date: Tue, 27 Apr 2021 00:16:55 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, axboe@kernel.dk,
- linux-block@vger.kernel.org, Yuanyuan Zhong <yzhong@purestorage.com>,
- Casey Chen <cachen@purestorage.com>
-Subject: Re: [PATCHv2 5/5] nvme: allow user passthrough commands to poll
-Message-ID: <20210426151537.GB12593@redsun51.ssa.fujisawa.hgst.com>
-References: <20210423220558.40764-1-kbusch@kernel.org>
- <20210423220558.40764-6-kbusch@kernel.org>
- <20210426144316.GE20668@lst.de>
+To: taochiu <taochiu@synology.com>
+Cc: hch@lst.de, chaitanya.kulkarni@wdc.com, axboe@fb.com, sagi@grimberg.me,
+ james.smart@broadcom.com, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Cody Wong <codywong@synology.com>,
+ Leon Chien <leonchien@synology.com>
+Subject: Re: [PATCH v2 1/2] nvme-core: Move nvmf queue ready check routines
+ to core
+Message-ID: <20210426151655.GC12593@redsun51.ssa.fujisawa.hgst.com>
+References: <20210426025310.3005573-1-taochiu@synology.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210426144316.GE20668@lst.de>
+In-Reply-To: <20210426025310.3005573-1-taochiu@synology.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210426_081542_615564_06E2998F 
-X-CRM114-Status: GOOD (  14.60  )
+X-CRM114-CacheID: sfid-20210426_081658_847232_15289D97 
+X-CRM114-Status: GOOD (  11.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,22 +95,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 26, 2021 at 04:43:16PM +0200, Christoph Hellwig wrote:
-> On Fri, Apr 23, 2021 at 03:05:58PM -0700, Keith Busch wrote:
-> > The block layer knows how to deal with polled requests. Let the NVMe
-> > driver use the previously reserved user "flags" fields to define an
-> > option to allocate the request from the polled hardware contexts. If
-> > polling is not enabled, then the block layer will automatically fallback
-> > to a non-polled request.
+On Mon, Apr 26, 2021 at 10:53:10AM +0800, taochiu wrote:
+> From: Tao Chiu <taochiu@synology.com>
 > 
-> So this only support synchronous polling for a single command.  What
-> use case do we have for that?  I think io_uring based polling would
-> be much more useful once we support NVMe passthrough through that.
+> queue_rq() in pci only checks if the dispatched queue (nvmeq) is ready,
+> e.g. not being suspended. Since nvme_alloc_admin_tags() in reset flow
+> restarts the admin queue, users are able to submit admin commands to a
+> controller before reset_work() completes. Commands submitted under this
+> condition may interfere with commands that performs identify, IO queue
+> setup in reset_work(), and may result in a hang described in the
+> following patch.
+> 
+> As seen in the fabrics, user commands are prevented from being executed
+> under inproper controller states. We may reuse this logic to maintain a
+> clear admin queue during reset_work().
+> 
+> Signed-off-by: Tao Chiu <taochiu@synology.com>
+> Signed-off-by: Cody Wong <codywong@synology.com>
+> Reviewed-by: Leon Chien <leonchien@synology.com>
 
-There is no significant use case here. I just needed a simple way to
-test the polled exec from earlier in the series. It was simple enough so
-I included the patch here, but it's really not important compared to the
-preceeding patches.
+The series looks good.
+
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
 _______________________________________________
 Linux-nvme mailing list
