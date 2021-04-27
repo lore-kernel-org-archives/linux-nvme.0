@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F17C433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 22:50:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C73B9C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 22:56:25 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 772A860FF1
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 22:50:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 772A860FF1
+	by mail.kernel.org (Postfix) with ESMTPS id 1321F61090
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 22:56:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1321F61090
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
 	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DabWhbd0Cz8AilpTDHc03o1W+ktr6nbulvzAX6dqU28=; b=I4qU1pCDysmBz7Z9z1kFbMxmP
-	5UCC3R1ujtvlTh6QcOqMkzzHTrwAgIjs6/QCrKX5rYouWHUpMbN9D8yIMoPhEweFRaUs45rF9ifl2
-	vzY0iXY2LjjKCfqzTHyr0vlarNfahpcuDAFkjC8U3KLH/HWIjUriNVeGEgVgYhPpIUjPe1U8bhCxy
-	H0JIhQTdwCWUXT/MQ7/phOm881EBhI5LNObwrvX24MFei9Aapt5rTUJd95WcNBWMiAYsE6P2oVmBv
-	sclIxUmNxWoB3h7xffFoNRQW6tdKDZ9XYE8sQg9YydFukdYDdR/XKHt2KLAEUJ3KnsCw70nm3RS6X
-	+YUULqMhQ==;
+	 bh=OPaD1jZeUtEgrvWc9iE5t1nnHwRbPQtYw62Ej9ckaBQ=; b=d8L5OfuTWCml/dz7fzEzrqmWS
+	msNPYuxz1DPwE5fRw5T9f199px9jWlUQCIgQhqAEGW4nvkJJRxF4/fPUMJnN5koDjwHgFJCgEp8kM
+	HUktK+RkVclO8VikZ7D7OSS3kkzmRvR1wwXN216cGyeo78GxtezM+Qtq1JlatxPWTxXnEMMjih3kA
+	UyOoQJ45Ou2t/0gJSu1wjDIJXw+Q0DYaIQZH9Yy7Qd/AgCgcNeEF/6lz7PQFIK2KTmldp1yIsCXkD
+	9ResGDa+n5yy7nPTBod3omNnznSEY5YLI0wwMUlK1wqg7j/EY1x0k7vzhm6212O+jko0XGPIzxTt3
+	CCau/HCDw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbWXJ-002Mgk-IH; Tue, 27 Apr 2021 22:50:34 +0000
+	id 1lbWcn-002NTP-US; Tue, 27 Apr 2021 22:56:14 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbWXG-002Mge-TL
- for linux-nvme@desiato.infradead.org; Tue, 27 Apr 2021 22:50:31 +0000
+ id 1lbWck-002NTB-Lk
+ for linux-nvme@desiato.infradead.org; Tue, 27 Apr 2021 22:56:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
  Sender:Reply-To:Content-ID:Content-Description;
- bh=PBZp6uxAp8nlNU5Rm16hkR47Rwe8xrGWtpeD+dKWkk4=; b=uMhGY6bQKkAu8+YWpQflkRnCrV
- OmCdfyVJStwzdejsovLdRpmpAE/J8QF+cdlJX5jHZKfTgdFfxc3o25ZARI9X4APZeQ9KNj/1QiHsC
- HoaKk6d7fPVypKZ36BubGezZIU0esXZx6IXD0L0Mdo2Nm/+qbo/Fym+icRn8TYq2X7d2HccuHs13M
- pQ0lu+H9ODJYaIIhQaGpT2Plh9h9iSIh1xAXgg66uGzRAkI05Pz9l92ctntaWk9KIRWnF2yEOWNAZ
- 3P49I9PzRMCkoVgb6+RvT/oDq/+BMJ+6FlVf/ssGnATVbMlxoDHB4mZdFbPafFARXYiqGTUttu+cZ
- xf4jBTCg==;
+ bh=9cMqKeVqpV09cXzdKEdeF1wGWj3NSvz6cLLXzNXUCD8=; b=awe2FWxdMb9Oo2Fu9O61H+j9/Q
+ Eq4OA93S0TAcE+tLZ9xl00PqPZWUvDbxf6N7qBAS1FcYdy2HXD7rpC1HTzjcWxpQ/q7dKEqGuJ0gX
+ LzjhyeBMgVbRQLZO3HTu5MlnIQB8K1lWrjv5kOT602wr1KFaZF16s3AlSwvUEvskq4AFQE+fvYpD6
+ qPUTJMgbrH2w4LObUa4iBvQHuTe8qOwOCSrmoJMztHecPRMSoR00n6agC2u357u5DtaihT0ZvavU9
+ dpR7AimB1OSuAqjvFy3/ddCCemnn5k+ehzGRO4llFpycYoXpt8/c9gUkUWQAxe0c1BFmZKfXKFMnB
+ ayQ0vO3g==;
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbWXC-00H3tz-5O
- for linux-nvme@lists.infradead.org; Tue, 27 Apr 2021 22:50:29 +0000
+ id 1lbWch-00H4OU-TH
+ for linux-nvme@lists.infradead.org; Tue, 27 Apr 2021 22:56:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=PBZp6uxAp8nlNU5Rm16hkR47Rwe8xrGWtpeD+dKWkk4=; b=c2SnI7NAl3/gr4SFEOqWfEjO9J
- 1JGnC7Zf5KDX7iHl6Y4Xf/2xqN/Sf5EK4N3LedlbB9Fd00L3W9uy4hRpaf9AzRR6bhJRwlUH+3jQV
- JGHEoIAnzvnTbXFFloa9dmt/bebMlHu8p0eMd7ujtwQMFSXPtCaCZfLSEapIfvrwoLvjkcmHaak0S
- os4Ry++J+BA4Zjy4rlpJGfScH23wq+QuJ1EnvUrl/i2hoEb1GA+PElTtZrctT7avrcp051HeAQJHt
- MommdMIRXxQ8f7+NTw6YINNchc1V2k8mSpMibhQPjTbiWcdM3d674C2MzQOyDshqLUX3ERNg5eNxi
- Yzo0Jtug==;
+ bh=9cMqKeVqpV09cXzdKEdeF1wGWj3NSvz6cLLXzNXUCD8=; b=bZ0qGVskfkWJrx7xQzfuMkoJWn
+ uXsbXCfWUy5H+XPJj218MIPSekFTaV56i4dZC9FFheUYyXLbwiAPhK3Bq+k3tBDvz0B7hbOVfR/Pw
+ rU0TsIsdHTeMVZuRSJHe4unPK2tJx/470PpEKYmwqqNM5SMKswk4DlpwIILF3MrN0C47OMfdXi5S2
+ BmumlWMKxYppg3kVyzDdH2wUlAdUddF9ynHCOu6+qhXaeoKWzLwiJNa8Oc5YWsvB9LSQXNNpokW3c
+ /UfXKIphBb3KBrtAfzVBu1rR4lQSws2cuqBfu3uWRWvY4NniZl2lxAPi8Nr5LTxNRFv7wpixJqrf/
+ 2mQpmzmw==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1lbWWo-0002hR-Kh; Tue, 27 Apr 2021 16:50:04 -0600
+ id 1lbWcM-0002ln-Cs; Tue, 27 Apr 2021 16:55:47 -0600
 To: Jason Gunthorpe <jgg@ziepe.ca>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -79,14 +79,14 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
  <20210408170123.8788-6-logang@deltatee.com>
- <20210427192232.GO2047089@ziepe.ca>
+ <20210427193157.GQ2047089@ziepe.ca>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <74473159-b4d7-89c8-9dae-7e983b22ef2b@deltatee.com>
-Date: Tue, 27 Apr 2021 16:49:58 -0600
+Message-ID: <3c9ba6df-750a-3847-f1fc-8e41f533d1a2@deltatee.com>
+Date: Tue, 27 Apr 2021 16:55:45 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210427192232.GO2047089@ziepe.ca>
+In-Reply-To: <20210427193157.GQ2047089@ziepe.ca>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
@@ -102,8 +102,8 @@ Subject: Re: [PATCH 05/16] dma-mapping: Introduce dma_map_sg_p2pdma()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210427_155026_269981_9EDB19AA 
-X-CRM114-Status: GOOD (  22.02  )
+X-CRM114-CacheID: sfid-20210427_155607_957183_F385E03A 
+X-CRM114-Status: GOOD (  21.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,48 +122,47 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2021-04-27 1:22 p.m., Jason Gunthorpe wrote:
+On 2021-04-27 1:31 p.m., Jason Gunthorpe wrote:
 > On Thu, Apr 08, 2021 at 11:01:12AM -0600, Logan Gunthorpe wrote:
->> dma_map_sg() either returns a positive number indicating the number
->> of entries mapped or zero indicating that resources were not available
->> to create the mapping. When zero is returned, it is always safe to retry
->> the mapping later once resources have been freed.
->>
->> Once P2PDMA pages are mixed into the SGL there may be pages that may
->> never be successfully mapped with a given device because that device may
->> not actually be able to access those pages. Thus, multiple error
->> conditions will need to be distinguished to determine weather a retry
->> is safe.
->>
->> Introduce dma_map_sg_p2pdma[_attrs]() with a different calling
->> convention from dma_map_sg(). The function will return a positive
->> integer on success or a negative errno on failure.
->>
->> ENOMEM will be used to indicate a resource failure and EREMOTEIO to
->> indicate that a P2PDMA page is not mappable.
->>
->> The __DMA_ATTR_PCI_P2PDMA attribute is introduced to inform the lower
->> level implementations that P2PDMA pages are allowed and to warn if a
->> caller introduces them into the regular dma_map_sg() interface.
+>> +/*
+>> + * dma_maps_sg_attrs returns 0 on error and > 0 on success.
+>> + * It should never return a value < 0.
+>> + */
 > 
-> So this new API is all about being able to return an error code
-> because auditing the old API is basically terrifying?
-> 
-> OK, but why name everything new P2PDMA? It seems nicer to give this
-> some generic name and have some general program to gradually deprecate
-> normal non-error-capable dma_map_sg() ?
-> 
-> I think that will raise less questions when subsystem people see the
-> changes, as I was wondering why RW was being moved to use what looked
-> like a p2pdma only API.
-> 
-> dma_map_sg_or_err() would have been clearer
-> 
-> The flag is also clearer as to the purpose if it is named
-> __DMA_ATTR_ERROR_ALLOWED
+> Also it is weird a function that can't return 0 is returning an int type
 
-I'm not opposed to these names. I can use them for v2 if there are no
-other opinions.
+Yes, Christoph mentioned in the last series that this should probably
+change to an unsigned but I wasn't really sure if that change should be
+a part of the P2PDMA series.
+
+>> +int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
+>> +		enum dma_data_direction dir, unsigned long attrs)
+>> +{
+>> +	int ents;
+>> +
+>> +	ents = __dma_map_sg_attrs(dev, sg, nents, dir, attrs);
+>>  	BUG_ON(ents < 0);
+> 
+> if (WARN_ON(ents < 0))
+>      return 0;
+> 
+> instead of bug on?
+
+It was BUG_ON in the original code. So I felt I should leave it.
+
+> Also, I see only 8 users of this function. How about just fix them all
+> to support negative returns and use this as the p2p API instead of
+> adding new API?
+
+Well there might be 8 users of dma_map_sg_attrs() but there are a very
+large number of dma_map_sg(). Seems odd to me to single out the first as
+requiring these changes, but leave the latter.
+
+> Add the opposite logic flag, 'DMA_ATTRS_NO_ERROR' and pass it through
+> the other api entry callers that can't handle it?
+
+I'm not that opposed to this. But it will make this series a fair bit
+longer to change the 8 map_sg_attrs() usages.
 
 Logan
 
