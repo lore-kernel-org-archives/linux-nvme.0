@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD56CC433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 05:36:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC336C433ED
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 05:36:55 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2555B6103E
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 05:36:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2555B6103E
+	by mail.kernel.org (Postfix) with ESMTPS id 5B2646100A
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 05:36:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B2646100A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,61 +23,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:Message-Id:Date:Subject:Cc:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dCHfDDS1gQzhaEPKic+DVWDJxgIgA61CpCFAC5qVQ6M=; b=B0YlOGhGis4puTU7bVKzeltzs1
-	Qep2DWwK0R3zuwF/L15+yEaU9OgQruFlN5jlgGio1MVxfh9zCXpz+W4FpT9R0Qz1Hmgvllh5eT0Ck
-	mwhRcdO1SjOHQp785oH8p3V9dqwHiMFt0M73jAyV9P/MxcLQRC8ZDM6vD90CfkPU8ERaU3G0DyLdo
-	9J2wAoivl2YdEoIkPcbhbnjPbIE2K2RM301HRjMpICKYYEPkL6KSVMiH35Y7pVmZmN6weqb1e+fRs
-	evlR2BrH668QetYgy6ASDO4LSyMIEW93Bs6wthcCX9v9UO/TSrgpeJrNT1M+IebICAgsSMJzd7tz1
-	JSVRYuVA==;
+	bh=wf01SVo5fO8IchCvyFi9zSF74LqsQ9UPg9gU5Wd61tM=; b=XU4gQNGB6DATkTShX1a9FA4D5D
+	zezV/GTyliPPlG/bYQUu9iJnFUPK7GSw2W+HAP1DhRaSN4Zl3RKuKOir3qYs01hKES8dpcx81hw7A
+	E9sr7H0pAbaZZdJ5oVjBK/DDieAycx+LvcxT5HIoarLWed43zYQOwQA5TQWnsBskzgYO04u4Ga2ZU
+	5ocg2SEEROYu3lkUWT29eVf206385RsNd032Myc/OYatsVI5fUvjnoWI0xYg/ExNzPXqBmPjVYgvc
+	7SDLDgboVbAwrjWHLjvmSUbmtumGzMQSsJZ3Wb6PUgYp5ZXgEhqrucZenBvPz1qrS7fqLxlvbXftw
+	L1HUGy4g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbcrn-002pfy-9R; Wed, 28 Apr 2021 05:36:07 +0000
+	id 1lbcsR-002pls-3R; Wed, 28 Apr 2021 05:36:47 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbcrK-002pbq-64
- for linux-nvme@desiato.infradead.org; Wed, 28 Apr 2021 05:35:38 +0000
+ id 1lbcrL-002pcB-Uv
+ for linux-nvme@desiato.infradead.org; Wed, 28 Apr 2021 05:35:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=References:In-Reply-To:Message-Id:
  Date:Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=PMr4qszKwOC8k4plbXOufxds2ZYJlsmlV2hfFsD7NMs=; b=wu7lBod8JATmmDqHc1ECCk0EpO
- qfUx2IEhooajjT5tg3YAC0NpFiTBFzW5gNb9TER+ZGNzLnLcJqnIuRMsGmbgao8OfkU5ppVbgJvqp
- tAov61+u6DUnLrXlPQOqN3uLTFFOQj3fOuq4MxEoSs3ATk0wXlk5iwkAgn8Ai3qLhhu2x1YcUaygJ
- BactdhrHfJbSswE5pTOPA26vJN69NQB3esrk6AVsgna1SOJyipJhXj0fYY/lgAGHnCoRY2jDjdhYO
- Us+B+ae2iTwcoyCJxSIgPowN9rfgcZ5KUjbABVq4Nth/zpM5PBIUJIs8+uwG7wgzfEg5tq13b8oeD
- 8sSEGlCQ==;
+ bh=bNrw7kHmOyt6knyO7Hh6pimqVCsNBn3x4sz9hcpw7DE=; b=ytg97nODDSSEaEpmvsM9MbUD0Z
+ nleqd8DvTc4+NZpdrqhQ8A8bPSdJg1kKMKHBXFuTY8S5Y4a8DfNfXpJminkCB4ogg7IGsLuAUlA5U
+ KHciGavENe1jYvcll1DsRLA2T39hw8RcZoHp6VGOYBoW25FbrAZLJHOFluLJKl12UaRpzTkarLBJA
+ +nVCXnzmij5u1mX3bkKisgyqVLc5ExCpN6fMuhDlCE+yqCV0bc0vUbBQB2TpkSotFv1KHTT1Krfhl
+ P1YkUCjwkXkHC7pfw+tPPm6u15S7O7C9OBakK1ml2gQOL2TnFVO3hu4DSXl/VLJATN2ImDq/mIjRc
+ 9bdozflA==;
 Received: from saphodev.broadcom.com ([192.19.11.229]
  helo=relay.smtp-ext.broadcom.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbcrH-00HBgh-6w
- for linux-nvme@lists.infradead.org; Wed, 28 Apr 2021 05:35:36 +0000
+ id 1lbcrH-00HBgg-Kd
+ for linux-nvme@lists.infradead.org; Wed, 28 Apr 2021 05:35:38 +0000
 Received: from localhost.localdomain (unknown [10.157.2.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by relay.smtp-ext.broadcom.com (Postfix) with ESMTPS id 488F330E77;
- Tue, 27 Apr 2021 22:27:30 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 488F330E77
+ by relay.smtp-ext.broadcom.com (Postfix) with ESMTPS id 45660E927D;
+ Tue, 27 Apr 2021 22:27:14 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 45660E927D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
- s=dkimrelay; t=1619587652;
- bh=im7P3RH4dkVu8OSSeKv++WoZuS+aoAUFiOVCMcidLJ8=;
+ s=dkimrelay; t=1619587636;
+ bh=BsV9KqIXrVGA5Fhq+mKNOzUnqup1sAIVRln0rFmCyn4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LrVtLNqIKI2W97auBWHa0+ZzQhhRxJLlMnq0kmFfX2oEh28fPBpEeLT49erjJmPVW
- MOTPvnV/ugDACsKcEowmzNmsCXiHbvycI5kTGLFdmKBr/dYKcSRSshikjzMXK6anuI
- qGRKXt/yQEd0pqZ9jafJlcuq9tbVe5RPXiVmDZ70=
+ b=X0wqO6FDds38IBvcf/feJBu0LnJcfX1JOaQLHcGn4QpP4FTx/N1dAkN3wbwwaemOr
+ B2oMg9GqSjD48zzybTTRpAaVynGyvvPAD+NQyXN9gdmNocwtpA60UEwjXeBnXQitDA
+ dTmpFgqEhXwgCJQl0xfyLReiVUVz8FdkNB9awWRs=
 From: Muneendra <muneendra.kumar@broadcom.com>
 To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
  linux-nvme@lists.infradead.org, hare@suse.de
 Cc: jsmart2021@gmail.com, emilne@redhat.com, mkumar@redhat.com,
- Gaurav Srivastava <gaurav.srivastava@broadcom.com>
-Subject: [PATCH v10 08/13] lpfc: vmid: Functions to manage vmids
-Date: Wed, 28 Apr 2021 04:04:52 +0530
-Message-Id: <1619562897-14062-9-git-send-email-muneendra.kumar@broadcom.com>
+ Muneendra <muneendra.kumar@broadcom.com>
+Subject: [PATCH v10 02/13] blkcg: Added a app identifier support for blkcg
+Date: Wed, 28 Apr 2021 04:04:46 +0530
+Message-Id: <1619562897-14062-3-git-send-email-muneendra.kumar@broadcom.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1619562897-14062-1-git-send-email-muneendra.kumar@broadcom.com>
 References: <1619562897-14062-1-git-send-email-muneendra.kumar@broadcom.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210427_223535_520048_ABCD120E 
-X-CRM114-Status: GOOD (  22.49  )
+X-CRM114-CacheID: sfid-20210427_223535_929147_CAC7AE63 
+X-CRM114-Status: GOOD (  22.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,189 +95,197 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
+This Patch added a unique application identifier i.e
+fc_app_id  member in blkcg which allows identification of traffic
+sources at an individual cgroup based Applications
+(ex:virtual machine (VM))level in both host and
+fabric infrastructure.
 
-This patch contains the routines to save, retrieve and remove the vmids
-from the data structure. A hash table is used to save the vmids and
-the corresponding UUIDs associated with the application/VMs.
+Added a new function blkcg_get_fc_appid to
+grab the app identifier associated with a bio.
 
-Signed-off-by: Gaurav Srivastava  <gaurav.srivastava@broadcom.com>
-Signed-off-by: James Smart <jsmart2021@gmail.com>
+Added a new function blkcg_set_fc_appid to
+set the app identifier in a blkcgrp associated with cgroup id
+
+Added a new config BLK_CGROUP_FC_APPID and moved the changes
+under this config
+
+Merged the patch 16 of previous version in which we
+added a new config FC_APPID to select BLK_CGROUP_FC_APPID which Enable
+support to track FC io Traffic.
+
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Muneendra <muneendra.kumar@broadcom.com>
 
 ---
 v10:
-Fixed the Function name correction
-
-v9:
-Added changes for implementing kernel based hashtable
-
-v8:
-Added correct return value and error codes
-
-v7:
 No change
 
+v9:
+Merged patch16 of previosu version to this patch
+where we are using Kconfig settings
+
+v8:
+No change
+
+v7:
+Modified the Kconfig file
+
 v6:
-Added Forward declarations and functions to static
+Modified the Kconfig file as per standard specified
+in Documentation/process/coding-style.rst
 
 v5:
-Changed Return code to non-numeric/Symbol
+Renamed the arguments appropriatley
+Renamed APPID_LEN  to FC_APPID_LEN
+Moved the input validation at the begining of the function
+Modified the comments
 
 v4:
 No change
 
 v3:
-No change
+Renamed the functions and app_id to more specific
+
+Addressed the reference leaks in blkcg_set_app_identifier
+
+Added a new config BLK_CGROUP_FC_APPID and moved the changes
+under this config
+
+Added blkcg_get_fc_appid,blkcg_set_fc_appid as inline functions
 
 v2:
-Ported the patch on top of 5.10/scsi-queue
+renamed app_identifier to app_id
+removed the  sysfs interface blkio.app_identifie under
 ---
- drivers/scsi/lpfc/lpfc_scsi.c | 118 ++++++++++++++++++++++++++++++++++
- 1 file changed, 118 insertions(+)
+ block/Kconfig              |  9 ++++++
+ drivers/scsi/Kconfig       | 13 +++++++++
+ include/linux/blk-cgroup.h | 56 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 78 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_scsi.c b/drivers/scsi/lpfc/lpfc_scsi.c
-index 578d38de0f48..0b35cab90627 100644
---- a/drivers/scsi/lpfc/lpfc_scsi.c
-+++ b/drivers/scsi/lpfc/lpfc_scsi.c
-@@ -28,6 +28,7 @@
- #include <asm/unaligned.h>
- #include <linux/t10-pi.h>
- #include <linux/crc-t10dif.h>
-+#include <linux/blk-cgroup.h>
- #include <net/checksum.h>
+diff --git a/block/Kconfig b/block/Kconfig
+index a2297edfdde8..03886d105301 100644
+--- a/block/Kconfig
++++ b/block/Kconfig
+@@ -144,6 +144,15 @@ config BLK_CGROUP_IOLATENCY
  
- #include <scsi/scsi.h>
-@@ -86,6 +87,14 @@ static void
- lpfc_release_scsi_buf_s3(struct lpfc_hba *phba, struct lpfc_io_buf *psb);
- static int
- lpfc_prot_group_type(struct lpfc_hba *phba, struct scsi_cmnd *sc);
-+static void
-+lpfc_put_vmid_in_hashtable(struct lpfc_vport *vport, u32 hash,
-+			   struct lpfc_vmid *vmp);
-+static void lpfc_vmid_update_entry(struct lpfc_vport *vport, struct scsi_cmnd
-+				   *cmd, struct lpfc_vmid *vmp,
-+				   union lpfc_vmid_io_tag *tag);
-+static void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport,
-+				    struct lpfc_vmid *vmid);
+ 	Note, this is an experimental interface and could be changed someday.
  
- static inline unsigned
- lpfc_cmd_blksize(struct scsi_cmnd *sc)
-@@ -5145,6 +5154,115 @@ void lpfc_poll_timeout(struct timer_list *t)
- 	}
- }
- 
-+/*
-+ * lpfc_get_vmid_from_hashtable - search the UUID in the hash table
-+ * @vport: The virtual port for which this call is being executed.
-+ * @hash: calculated hash value
-+ * @buf: uuid associated with the VE
-+ * Returns the vmid entry associated with the UUID
-+ * Make sure to acquire the appropriate lock before invoking this routine.
-+ */
-+struct lpfc_vmid *lpfc_get_vmid_from_hashtable(struct lpfc_vport *vport,
-+					      u32 hash, u8 *buf)
-+{
-+	struct lpfc_vmid *vmp;
++config BLK_CGROUP_FC_APPID
++	bool "Enable support to track FC I/O Traffic across cgroup applications"
++	depends on BLK_CGROUP=y
++	help
++	  Enabling this option enables the support to track FC I/O traffic across
++	  cgroup applications. It enables the Fabric and the storage targets to
++	  identify, monitor, and handle FC traffic based on VM tags by inserting
++	  application specific identification into the FC frame.
 +
-+	hash_for_each_possible(vport->hash_table, vmp, hnode, hash) {
-+		if (memcmp(&vmp->host_vmid[0], buf, 16) == 0)
-+			return vmp;
+ config BLK_CGROUP_IOCOST
+ 	bool "Enable support for cost model based cgroup IO controller"
+ 	depends on BLK_CGROUP=y
+diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
+index 06b87c7f6bab..20aa1536a3ba 100644
+--- a/drivers/scsi/Kconfig
++++ b/drivers/scsi/Kconfig
+@@ -235,6 +235,19 @@ config SCSI_FC_ATTRS
+ 	  each attached FiberChannel device to sysfs, say Y.
+ 	  Otherwise, say N.
+ 
++config FC_APPID
++	bool "Enable support to track FC I/O Traffic"
++	depends on BLOCK && BLK_CGROUP
++	depends on SCSI
++	select BLK_CGROUP_FC_APPID
++	default y
++	help
++	  If you say Y here, it enables the support to track
++	  FC I/O traffic over fabric. It enables the Fabric and the
++	  storage targets to identify, monitor, and handle FC traffic
++	  based on VM tags by inserting application specific
++	  identification into the FC frame.
++
+ config SCSI_ISCSI_ATTRS
+ 	tristate "iSCSI Transport Attributes"
+ 	depends on SCSI && NET
+diff --git a/include/linux/blk-cgroup.h b/include/linux/blk-cgroup.h
+index b9f3c246c3c9..9204f8f8a932 100644
+--- a/include/linux/blk-cgroup.h
++++ b/include/linux/blk-cgroup.h
+@@ -30,6 +30,8 @@
+ 
+ /* Max limits for throttle policy */
+ #define THROTL_IOPS_MAX		UINT_MAX
++#define FC_APPID_LEN              129
++
+ 
+ #ifdef CONFIG_BLK_CGROUP
+ 
+@@ -55,6 +57,9 @@ struct blkcg {
+ 	struct blkcg_policy_data	*cpd[BLKCG_MAX_POLS];
+ 
+ 	struct list_head		all_blkcgs_node;
++#ifdef CONFIG_BLK_CGROUP_FC_APPID
++	char                            fc_app_id[FC_APPID_LEN];
++#endif
+ #ifdef CONFIG_CGROUP_WRITEBACK
+ 	struct list_head		cgwb_list;
+ #endif
+@@ -660,4 +665,55 @@ static inline void blk_cgroup_bio_start(struct bio *bio) { }
+ 
+ #endif	/* CONFIG_BLOCK */
+ #endif	/* CONFIG_BLK_CGROUP */
++
++#ifdef CONFIG_BLK_CGROUP_FC_APPID
++/*
++ * Sets the fc_app_id field associted to blkcg
++ * @app_id: application identifier
++ * @cgrp_id: cgroup id
++ * @app_id_len: size of application identifier
++ */
++static inline int blkcg_set_fc_appid(char *app_id, u64 cgrp_id, size_t app_id_len)
++{
++	struct cgroup *cgrp;
++	struct cgroup_subsys_state *css;
++	struct blkcg *blkcg;
++	int ret  = 0;
++
++	if (app_id_len > FC_APPID_LEN)
++		return -EINVAL;
++
++	cgrp = cgroup_get_from_id(cgrp_id);
++	if (!cgrp)
++		return -ENOENT;
++	css = cgroup_get_e_css(cgrp, &io_cgrp_subsys);
++	if (!css) {
++		ret = -ENOENT;
++		goto out_cgrp_put;
 +	}
++	blkcg = css_to_blkcg(css);
++	strlcpy(blkcg->fc_app_id, app_id, app_id_len);
++	css_put(css);
++out_cgrp_put:
++	cgroup_put(cgrp);
++	return ret;
++}
++
++/**
++ * blkcg_get_fc_appid - get the fc app identifier associated with a bio
++ * @bio: target bio
++ *
++ * On success it returns the fc_app_id on failure it returns NULL
++ */
++static inline char *blkcg_get_fc_appid(struct bio *bio)
++{
++	if (bio && bio->bi_blkg &&
++		(bio->bi_blkg->blkcg->fc_app_id[0] != '\0'))
++		return bio->bi_blkg->blkcg->fc_app_id;
 +	return NULL;
 +}
-+
-+/*
-+ * lpfc_put_vmid_in_hashtable - put the VMID in the hash table
-+ * @vport: The virtual port for which this call is being executed.
-+ * @hash - calculated hash value
-+ * @vmp: Pointer to a VMID entry representing a VM sending IO
-+ *
-+ * This routine will insert the newly acquired vmid entity in the hash table.
-+ * Make sure to acquire the appropriate lock before invoking this routine.
-+ */
-+static void
-+lpfc_put_vmid_in_hashtable(struct lpfc_vport *vport, u32 hash,
-+			   struct lpfc_vmid *vmp)
-+{
-+	hash_add(vport->hash_table, &vmp->hnode, hash);
-+}
-+
-+/*
-+ * lpfc_vmid_hash_fn - creates a hash value of the UUID
-+ * @vmid: uuid associated with the VE
-+ * @len: length of the vmid string
-+ * Returns the calculated hash value
-+ */
-+int lpfc_vmid_hash_fn(const char *vmid, int len)
-+{
-+	int c;
-+	int hash = 0;
-+
-+	if (len == 0)
-+		return 0;
-+	while (len--) {
-+		c = *vmid++;
-+		if (c >= 'A' && c <= 'Z')
-+			c += 'a' - 'A';
-+
-+		hash = (hash + (c << LPFC_VMID_HASH_SHIFT) +
-+			(c >> LPFC_VMID_HASH_SHIFT)) * 19;
-+	}
-+
-+	return hash & LPFC_VMID_HASH_MASK;
-+}
-+
-+/*
-+ * lpfc_vmid_update_entry - update the vmid entry in the hash table
-+ * @vport: The virtual port for which this call is being executed.
-+ * @cmd: address of scsi cmmd descriptor
-+ * @vmp: Pointer to a VMID entry representing a VM sending IO
-+ * @tag: VMID tag
-+ */
-+static void lpfc_vmid_update_entry(struct lpfc_vport *vport, struct scsi_cmnd
-+				   *cmd, struct lpfc_vmid *vmp,
-+				   union lpfc_vmid_io_tag *tag)
-+{
-+	u64 *lta;
-+
-+	if (vport->vmid_priority_tagging)
-+		tag->cs_ctl_vmid = vmp->un.cs_ctl_vmid;
-+	else
-+		tag->app_id = vmp->un.app_id;
-+
-+	if (cmd->sc_data_direction == DMA_TO_DEVICE)
-+		vmp->io_wr_cnt++;
-+	else
-+		vmp->io_rd_cnt++;
-+
-+	/* update the last access timestamp in the table */
-+	lta = per_cpu_ptr(vmp->last_io_time, raw_smp_processor_id());
-+	*lta = jiffies;
-+}
-+
-+static void lpfc_vmid_assign_cs_ctl(struct lpfc_vport *vport,
-+				    struct lpfc_vmid *vmid)
-+{
-+	u32 hash;
-+	struct lpfc_vmid *pvmid;
-+
-+	if (vport->port_type == LPFC_PHYSICAL_PORT) {
-+		vmid->un.cs_ctl_vmid = lpfc_vmid_get_cs_ctl(vport);
-+	} else {
-+		hash = lpfc_vmid_hash_fn(vmid->host_vmid, vmid->vmid_len);
-+		pvmid =
-+		    lpfc_get_vmid_from_hashtable(vport->phba->pport, hash,
-+						vmid->host_vmid);
-+		if (pvmid)
-+			vmid->un.cs_ctl_vmid = pvmid->un.cs_ctl_vmid;
-+		else
-+			vmid->un.cs_ctl_vmid = lpfc_vmid_get_cs_ctl(vport);
-+	}
-+}
-+
- /**
-  * lpfc_queuecommand - scsi_host_template queuecommand entry point
-  * @shost: kernel scsi host pointer.
++#else
++static inline int blkcg_set_fc_appid(char *buf, u64 id, size_t len) { return -EINVAL; }
++static inline char *blkcg_get_fc_appid(struct bio *bio) { return NULL; }
++#endif /*CONFIG_BLK_CGROUP_FC_APPID*/
+ #endif	/* _BLK_CGROUP_H */
 -- 
 2.26.2
 
