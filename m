@@ -2,194 +2,118 @@ Return-Path: <SRS0=pISK=JY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FORGED_HOTMAIL_RCVD2,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89471C433ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 12:03:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95855C433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 13:52:01 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ABFE060C3D
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 12:03:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ABFE060C3D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	by mail.kernel.org (Postfix) with ESMTPS id EAE8661001
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 13:52:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EAE8661001
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=hotmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6J5P0+iSrSlwJRgPEJfxb2uDu37OrSSusJqLaV81Dhc=; b=d/s49sEcdOVxka3qCTjn1UG3g
-	LpcjkiWkLW/Jb5RwrNz9p8pBj5LAFgfI7S/VbtIRLQT/vvG+cZMIAHEctzH175pa8ktne1aUyQyKf
-	F5h4PCbnmoHs1dbCQDSlOitMIithU47yfCZZ8sDv5QPXYtB/t0lsi9qycQRBTN389fPzZp3lEQUhA
-	JdvHoShAk8s4lfKiML1A6Pl27j8GD9M9zkhO8OwPnq5bCkqGYEBuawb2WXfifVwb+yCuh2mpVgvZf
-	JFYalvDGOhQ2u+LwuZalvtIeAhlxJantyEoSuxjtTYVQj6z9w+x/DPQpQzG0H3sllvFH62SjjkEmz
-	5hINJ5bWQ==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8bKnb9cD8jKOf1ftVZvngy6uYooZtmqyUWczdraJBJk=; b=LWMyKA1y+hWjtj9jy6Ge2C3pOR
+	NZx1ULhWerZ1l8KtOJibxYtHVOm+mmtYXIY7xQrksezi75NXw/Zow674PVzTub1mNcc2czdBiXBDV
+	uFSR1igI5skb71QJ4Xaw4O6H2+FpytVV3WBeP3Az3b8CyMlsEvnbPexsDHNNw1F/qscHncsTn0RgT
+	c9eZOsgbWptMSd7f4mPlkkwY9dtrjfk8LJaq6a6EaXw8ZBYuvbQKCjJrq3gmr9MPFA0WnfkrxcHDB
+	fSiih2tP9wIA3loZsrAadttUtLC/OgdnOzz8ZWs7Ez4636V5fKjtikNiS4iJQ0OtPSREmMI5jeOnf
+	CU6HHrVQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbMQt-001Zp1-Qx; Tue, 27 Apr 2021 12:03:16 +0000
+	id 1lbO7V-001ibb-TN; Tue, 27 Apr 2021 13:51:21 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbMQo-001ZoQ-UQ
- for linux-nvme@desiato.infradead.org; Tue, 27 Apr 2021 12:03:12 +0000
+ id 1lbO7T-001ibC-1l
+ for linux-nvme@desiato.infradead.org; Tue, 27 Apr 2021 13:51:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
- :Subject:CC:To:From:Sender:Reply-To:Content-ID:Content-Description;
- bh=uILVY6O7ZqUnFAehUPFYgbdDz9kz+GC3pYbf/He2wKk=; b=YpfG0F+9RRPEOPIlWpDzM2XS/r
- t6OpyLdjUFhKS/l78FvsEVfPZ93djMtN+O0Lj2PHvX0uMUBEIGefDqN7GNTOizFyN2W4mb9CzyJHE
- pv/X6u76xs+kXxF4Sp1KVDMKR2KCnTELUtE0U12/LV4rzLw3zrox4MfGcI9XlDstB702QzLt9H0sE
- F0nbKQRxOa7STfjH+YkopxVSr5CX3xmKbsjTmTUOnvUQcB84QmKRbQp3s9z3xQAHnhseTHtjDO1pI
- 2xWDc6G0+vyydbq1e/fVCMAai63zqtBq/J/vZo6WkLL4H9lKbO91KskTR/QaexPq7DuzDz1IKg2Nt
- /lIbwY+A==;
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+ d=infradead.org; s=bombadil.20210309; h=MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=XWGOlQt/o7pWpBiLL73GZ3qQq+4Qn0hZTgYl/MpKGh4=; b=yCCINXIoHV7p/fOopeXcgAS44M
+ lBB6tX1g+oPhpG3SXFTsSBsV8AWCXiG24Dc+3Nh0qcAuju1mjI6UPKzbIEYN+lXv7MfTyp3LN7IaB
+ BRLk1TH7QoGd5paW4boRn6fP4IW8CpVw28pwz1EgIm3b5sqswl7HlTpjMa/vP7HUTpQNalDVeoVOH
+ VbaA9isTlmvBB1Et8QVPwwY2c1wENXKA7kksYstOIWflyBnf1hn2j99GuaWrFJDVzScd4G+wuvg29
+ ZRYgJl0zvId+yyj5UrgRcTB17hcbNng+u0v5lgrwqiDyxqTNEJH2HKi4J+b1XP1xJSWbCJaEehR1M
+ ZbBSS0JA==;
+Received: from mail-oln040092009079.outbound.protection.outlook.com
+ ([40.92.9.79] helo=NAM04-BN3-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbMQj-00Ghx1-O3
- for linux-nvme@lists.infradead.org; Tue, 27 Apr 2021 12:03:08 +0000
-Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
- by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13RBwMgk027113; Tue, 27 Apr 2021 08:02:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=uILVY6O7ZqUnFAehUPFYgbdDz9kz+GC3pYbf/He2wKk=;
- b=Rh3UZpqoIaW1LND63HcLEzSr/jx0JuR89bUuT532RLrv0yLSS7jwUHBIBJtrvRt6HS3I
- Tf8hdbzpz/HtjLBHmC7/d/Dfbo4wL432ZV0WEnc18ue0U2aNVNOvDFQnIuy3yCLnidcP
- vJhxPUB0XPnuh9EedcwyHmUZHUO53d9BpqQAwu6yUMNUyOWkYxwz3RCyApG9OMZ5iRlJ
- 1DGqBxeBSSfVmk/XAAomVWmEsXtiyx5QEuYG4Wws3DHpqa/rbe6eZxDi587ZHcUQqoHG
- RQl8+Ef+GXIhnunipTc4MGXRh5tIjX17HDbkqGB+jHvY4Vq5ds0QfEQV/b+xpKoT0Jd+ lg== 
-Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com
- [67.231.157.37])
- by mx0b-00154904.pphosted.com with ESMTP id 38600bud09-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Apr 2021 08:02:49 -0400
-Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
- by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13RC03MV038571; Tue, 27 Apr 2021 08:02:49 -0400
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2175.outbound.protection.outlook.com [104.47.58.175])
- by mx0b-00154901.pphosted.com with ESMTP id 3863qnjqxa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 27 Apr 2021 08:02:49 -0400
+ id 1lbO7P-00Glz8-Qj
+ for linux-nvme@lists.infradead.org; Tue, 27 Apr 2021 13:51:17 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RLzy3YIJYBzavSG0n3s0XEgE2HybeOyd0bZGvH7Z0rt5K52yyujGdGniWbRET5U2tR3/fw248gJoJRWz30IyoFkTvJyZmsjslSfgYn8rxnLsBBOaYtEJ2Oc7WGcuVWqWIjvaywNgosLLe6FDWcVp1cEh/2z4KtIvlLDzzsOmqve/16g3tRYSJDevzvtZmz4QlcZivRIZ6yFMaXkOImh3eVLz0OVKH+Y2+6eUwDyT2JVZlArzujVBXsRa7/7/VdQS15xXDzZEJJAD4cJQmLx9xTr03lDGBYMg62C68OduoVSpZViHC/u8GcaV7Nt+akQKcKuPHEldWo1KkUy8FiiG0Q==
+ b=MDQWKv1h/4vlkWzWDftjmUp6A+ORMLc477P0WCZvH1MdbxR6QSLg2IX7cYvQcm5RjrhkgPY3YOGdd0JI77Ry8DF9PGn/MrNidXLctZmEmByz5n+StdtmRzs2OohXAbKuth5cKLI8gev33yYRYyCouBm+KXpz2+tzqVAFwFOjfloNgR7xgLqLqgJTap72KRe234NI+AnlXlx5wyASwSk6fDwJuuwGvq5e3ucgaBmR6ZR1mliaJ+EzTn9FTDe/VPZl2djcJirh03WLC6EbkInN9zcP0fMLvTIzezWHIxjxK0G5L68EBFyVwq4CAxasqYL4COBM7KnKq+6QS6YMRFrNwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uILVY6O7ZqUnFAehUPFYgbdDz9kz+GC3pYbf/He2wKk=;
- b=HoK/6jX3jSephmfxEBoO3I32TB6kiyO85ANxf6QYiQL91i9jeL3LV4PbZau7T+XtUzD1Lco6pl5djqR0YaozKNZpBrqmu1c99xp8JWygOqBwHPpapDbyZ/OpwwSM5YytbqE8VHuc+zUA/dBPr1wylxdLxc6BxPZLqC4xjwD7ltEX4Uz3gOGyVRJ6eyYdbpwMaXIsZ1lrqq5dGoRFWnFV4pBTUkjWWpfg89GEdiTF42NtIuVG8Hz21YwdqzIxyjV42CefQT0JIE8rHAlzrpozUIUuhyiyHDEL8o7D9OfzRtqcksk2j7vFMmOMqMBb63xVaG7j+/EmpjvVR9BidheMqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-Received: from SJ0PR19MB4544.namprd19.prod.outlook.com (2603:10b6:a03:281::7)
- by SJ0PR19MB4827.namprd19.prod.outlook.com (2603:10b6:a03:2cb::6)
+ bh=XWGOlQt/o7pWpBiLL73GZ3qQq+4Qn0hZTgYl/MpKGh4=;
+ b=GofdGwvo/IzqI295A3yKXSWTzJ/lk08Sx0fv8MslxzAl8SyE+IZ8OvSEVM0wV0j5a8GF23QgCyeM0T7NmRN15x5GZ4ua/w5p41+kV37DUJO5CTDbw3o/5ntAqdrlTd0yKO7eKA+FDyRBXGB2zYf1R9rtC/qVhgLOnBdy9xuHhJJ9uXxOn915WeohdrA1d7kdKx8j/DWJIVYN4bqIZQNNiEYEB1LZEhG8+uQtcZGVw5DR6zBSlUvlvLjpt1FLKgx1whUH5j+jMQFtv+HXUaV6qjG/XFCG1T+IlcUKZclGh4bJsEEoiM9laiyGATCV+0iV26s/etxFec440aNjOq11yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XWGOlQt/o7pWpBiLL73GZ3qQq+4Qn0hZTgYl/MpKGh4=;
+ b=Yk2wkHSqi2H2wQHO5EyR8ql8zSkuAS+79zPZQYLFnwYU86fHd4EXCCKYuKWtgeK6TkVgggJt43/LgjnoFlD+bg31Obh960ArVf+QWLMCS2kF1pLWfu8S0O0GYkljiktVbBMdXUjwz+lhwuao+FyoH0JIjFmBu9GgV/9g5Qm0I4qBvWKM17XO4runV/MIqGlw+P6dAPPMSagMPwPRBk5kEA8+MvrRCj/2l+ZWqo9eXXxtuPbwa5I7BFp9i+U/EGKfZMVmPf2tD6zx2pBrwzKTzahGvzguGd8CoOrkhNepCAMfFWYXlnygtNYhj0xKcmpRs7bhq2F3Kh7StFryz5znAg==
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
+ by MN2PR13MB3440.namprd13.prod.outlook.com (2603:10b6:208:165::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Tue, 27 Apr
- 2021 12:02:46 +0000
-Received: from SJ0PR19MB4544.namprd19.prod.outlook.com
- ([fe80::6d24:c151:2746:4ba6]) by SJ0PR19MB4544.namprd19.prod.outlook.com
- ([fe80::6d24:c151:2746:4ba6%2]) with mapi id 15.20.4087.025; Tue, 27 Apr 2021
- 12:02:46 +0000
-From: "Belanger, Martin" <Martin.Belanger@dell.com>
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, Martin Belanger
- <nitram_67@hotmail.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-CC: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
-Subject: Re: [PATCH 1/1] Generate uevent on namespace AENs
-Thread-Topic: [PATCH 1/1] Generate uevent on namespace AENs
-Thread-Index: AQHXOtrQJIxM4+p3wEqBbfroR30jnqrIRBFt
-Date: Tue, 27 Apr 2021 12:02:46 +0000
-Message-ID: <SJ0PR19MB45443BABE01370BAC883B32DF2419@SJ0PR19MB4544.namprd19.prod.outlook.com>
-References: <20210426202842.42096-1-nitram_67@hotmail.com>
- <BL0PR13MB42914E1160F96F3EEFE518009C429@BL0PR13MB4291.namprd13.prod.outlook.com>,
- <BYAPR04MB49656A4930E8A4367DFD9AC886419@BYAPR04MB4965.namprd04.prod.outlook.com>
-In-Reply-To: <BYAPR04MB49656A4930E8A4367DFD9AC886419@BYAPR04MB4965.namprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_Enabled=True;
- MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_SetDate=2021-04-27T12:02:45.899Z;
- MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_Name=Public;
- MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_ContentBits=0;
- MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_Method=Privileged; 
-authentication-results: wdc.com; dkim=none (message not signed)
- header.d=none;wdc.com; dmarc=none action=none header.from=Dell.com;
-x-originating-ip: [174.19.123.177]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d487eb07-e5b0-4a6f-e978-08d909745f0d
-x-ms-traffictypediagnostic: SJ0PR19MB4827:
-x-microsoft-antispam-prvs: <SJ0PR19MB4827C9A95E60F4F4E84DB361F2419@SJ0PR19MB4827.namprd19.prod.outlook.com>
-x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
-x-ms-oob-tlc-oobclassifiers: OLM:1443;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SdSZaBB9Y5TMbUNxJRBASuBJtCAmHp9fxzktwvQ14y4aeKNxhcX3/0z2qRxSUGz+AX0AIW+hQoFsmzpv/EJbkTi11li5E4qRYqCYtaOdUotxrns6eBTG8yMkfflbOHKA2uSnaZyVJ+z3Q8qlGDyjcfb0Ky5mlLQriwVsWuVe+sIQOuGuos57EeDcadgTaBRG+2/1HxmqwpSDNpOGmTR/v2ZLezanOZJuejpeGLnNy98J1loh92oy0AwZhkIvzCn7qoEOZf0X4pbtSiaeCC1/p8EMWOfT3gM6C/V+/sC7TJXrl3Er52BsNkY2JZu40XvhpJtzDGAhxnOpgyhSn5ZKKtyWiMM5pd1p0dmS5VmvvQFGtBW7drNk4yOLV/gGUcOJWvy/zhkNS1D3NT9zzL5iHkIvuk4Hbk77SZbII8lKWFnG42OXD1IO/9JMpqAhQgcPVNAr3H7jRMGWXbUxQVNsELvqMsx839M2eb4Js8ZNN68fI4MU+GgdyZyJJSq0cWF4Iy8lcLXlX//FpyABEUztDCjye8sXZiunwj/Mqk1llDPHZzJC1z6lZYw0/BBqpRpq4yJreqjvxinBwfpZpZqEvVT5kaGqOAcjT4fLvcrPp/o=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR19MB4544.namprd19.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(136003)(376002)(39860400002)(396003)(86362001)(4326008)(66476007)(66446008)(64756008)(76116006)(8936002)(38100700002)(91956017)(52536014)(66946007)(6506007)(66556008)(5660300002)(26005)(55016002)(2906002)(53546011)(4744005)(71200400001)(8676002)(478600001)(9686003)(110136005)(33656002)(316002)(7696005)(786003)(186003)(54906003)(122000001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?vBddFh2dilHbrEHSnWAHcNJscAgV1v2lxdZODrnGUiWM5t9kEqRSDBTQkdjd?=
- =?us-ascii?Q?INsS/YMJuyGLclp8+bSHBh2AAUr8q2LkLwSwHwouhwZK6QULLcyEoL2hfc1G?=
- =?us-ascii?Q?q0i586cuIzu9iedN25j0cyH5k8XRkNQeNrj2ErPknX7hmxdUrPTvBxmznkxK?=
- =?us-ascii?Q?ytP4ITpQKoWFRineGDyqAF9hDZsccNl8r2V5wgEreqh1rPkhGmMnmBJS/uDk?=
- =?us-ascii?Q?WRkNnudJHTRZplQwbn03ryJbuB6voY/vs11+gJDD86pDQy0NJrdsu3MJLkPp?=
- =?us-ascii?Q?f5/J2JXhnjbWWglixGB01znFOtwakoxYlsFBDYq5YEFxC4DA3taIcAtYrren?=
- =?us-ascii?Q?wAQD1KXJ9WT1Sy8aRg96hqW7DV44U8r0wvr84e5adZbNyGA4THlCtNR7Agr6?=
- =?us-ascii?Q?VknoG5c4IKAEvPg/Twwi3tVwwdBjULMTzTsOVYFAY3ctuYls0z2XB+5VxU1v?=
- =?us-ascii?Q?Yfuivuqqxin/9dD1qLs7ZH1SImVHZrJKdJJPURh/f3n2WVAkk1Rq7DUoe9bv?=
- =?us-ascii?Q?5fDOPHIciZ3glGj3a2L3Z0RRlTrgMm1grfycDl6KK1clSpwpVObz+8nng14U?=
- =?us-ascii?Q?mBe7y7jHOyZg9kl7/0MfbViDjYepP6BVgy6+4WgyIFYETsLbosq7IluoDkHb?=
- =?us-ascii?Q?hxob2fgrQHLWllGJE4DR78DZZLRGXXQLrImjGacRqjAZFvHNaMopK/wXkmmj?=
- =?us-ascii?Q?4FNcOPi/C0Nl4GPbls9v7SPvVx4lbYrp5akEK8q6EeGz4VqoCXTFOP4Uhryb?=
- =?us-ascii?Q?uVKcqGStmQr9FDFABDgZscI+tnkUy0G1GlGRgVRk+aWGR6doXcneHMmN/OSv?=
- =?us-ascii?Q?1O1syDLzLnT7xmeW8OYleeA/fjKIJpbrYvXDgBEZWRCnvFNDV+QX0571FkCk?=
- =?us-ascii?Q?YrL7YqAogptgB2Vc/HfavbxwGwLNAGHry1gTyQH6nkkdpY/mejnSg5wLEuvA?=
- =?us-ascii?Q?s35D5pGNPduT5k8ReYb/p7mWn8JDuuaxvunlTdaPoG55T6kEfMNt5K03NKHZ?=
- =?us-ascii?Q?ez6SGlZblaSJ+2P1yJ/SR0J5ftmiVdq7tL42M3KTXsijGt4sd4tAW8e2YhMy?=
- =?us-ascii?Q?yYvB7//U+SQvW25NL+cdOJLiPa76v1mqojKhti7CjAN5o/Vfn/gTbggE/pFx?=
- =?us-ascii?Q?y3/XQV8VOGc0Yn5yESn2pvku/5PJ+blw/b1l6Fd7xDlDG0cXWH1d5op1g1VK?=
- =?us-ascii?Q?1o028vDIIx0YfJt6xoElBwO90D8a4i9RseNogW3D7bypFITa+Hn+cgN2319k?=
- =?us-ascii?Q?VQReymP/4kxpZo1Rjad+g32IQauq+UYfhmQhvTYt6MSljnbL0SY47xotsAsO?=
- =?us-ascii?Q?zgxPYf5I+T3xMGiVavSKGzAN?=
-x-ms-exchange-transport-forked: True
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.22; Tue, 27 Apr
+ 2021 13:51:11 +0000
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::ad8e:90ea:1f15:2aeb]) by BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::ad8e:90ea:1f15:2aeb%6]) with mapi id 15.20.4087.026; Tue, 27 Apr 2021
+ 13:51:11 +0000
+From: Martin Belanger <nitram_67@hotmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ Martin Belanger <martin.belanger@dell.com>,
+ Martin Belanger <Martin_Belanger@dell.com>
+Subject: [PATCH 1/1] Generate uevent on namespace AENs
+Date: Tue, 27 Apr 2021 09:50:56 -0400
+Message-ID: <BL0PR13MB4291371B4FD44B93D187B2319C419@BL0PR13MB4291.namprd13.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [FSKUDndKpsTkd1cO8Y707hd7gV2xBauP]
+X-ClientProxiedBy: BL1PR13CA0244.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::9) To BL0PR13MB4291.namprd13.prod.outlook.com
+ (2603:10b6:208:8e::12)
+X-Microsoft-Original-Message-ID: <20210427135056.17833-1-nitram_67@hotmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (174.19.123.177) by
+ BL1PR13CA0244.namprd13.prod.outlook.com (2603:10b6:208:2ba::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4087.16 via Frontend Transport; Tue, 27 Apr 2021 13:51:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 23d1db99-a954-4931-8445-08d9098383c9
+X-MS-TrafficTypeDiagnostic: MN2PR13MB3440:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qtyZMzbMetYHCwDy4IO44sT9zQf3jCVPJeXN/7cEnFoU0pEvXsDg19Iyy48f/OgMVGacxvmT3u/XLaaK0nUqPb2FmYWMmSn9T82IYCxlaj6kTz71nnR52UfVYK5d+hKSFnRtTkhUqal1Qz1vU+8zghOlgCcdfpIvPrnfzKN2T/lVhKdJIGV/4vnBIVTM0tdD7hBfje+Rn5m0a4inzdA4XQefMrqLbzJHb4qsZNVMXM33uGINwYLmyN+d5KiC0tfzuxNb1Q5Z9W5kaUDR8IpUbhUYHsnvAkQX5qb5nnq+xO32gK3mXOenGqR29gMHq7qXsyre46WJ77YxmKR9m6ByNCyeT/8gMh0dRWK3pOicPRhmdiGR3OS8GWk5b+0Xk08cwh/+IQEHqdFq4Lk0yXDi6w==
+X-MS-Exchange-AntiSpam-MessageData: dt8oT6Xua12CSdwvWf07fcOGgK5SXkQgT802TYWwsxsNAnavgIb1iaB2qdDNntvsoY0hWNbwwRAUBIeJP0Tuawkj3BIvmLFvLokQBLFrXH2eibOdOhKbQIMfzekdT0vgPZOcK+sw4OqbGmZ4RrWQeQ==
+X-OriginatorOrg: sct-15-20-3174-8-msonline-outlook-32ef5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23d1db99-a954-4931-8445-08d9098383c9
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR13MB4291.namprd13.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR19MB4544.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d487eb07-e5b0-4a6f-e978-08d909745f0d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2021 12:02:46.3387 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 40JqjMnaxwAd99/4Fu+p/7KoSwmlA0sOWuVvjIzZRB4GgIP+R60HCGWya/kd55KGJ66gET41I4uY6pwNeFjqksf1CKz9G4cZ9EMx+XOCJ0g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB4827
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-27_06:2021-04-27,
- 2021-04-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=712 clxscore=1011
- phishscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 spamscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104270090
-X-Proofpoint-GUID: nlIHOdpfhGqBlmy_yW2Zi5gKv7NfBK22
-X-Proofpoint-ORIG-GUID: nlIHOdpfhGqBlmy_yW2Zi5gKv7NfBK22
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- suspectscore=0 bulkscore=0
- malwarescore=0 mlxlogscore=820 adultscore=0 phishscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104270090
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 13:51:11.4518 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB3440
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210427_050305_969801_BC0F654D 
-X-CRM114-Status: GOOD (  14.61  )
+X-CRM114-CacheID: sfid-20210427_065116_088489_0119CC0C 
+X-CRM114-Status: UNSURE (   9.86  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -206,30 +130,50 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Chaitanya,
+From: Martin Belanger <martin.belanger@dell.com>
 
-I'm sorry, but I'm not sure what you mean by "proper commit description". What is "improper" about the description I submitted.
+Generate uevent on NVMe Async Event Notifications for NS_CHANGED and ANA. Today
+the uevent handler is not capturing on NVME_AER_NOTICE_NS_CHANGED
+(Namespace Changed) and NVME_AER_NOTICE_ANA (Asymmetric Namespace Access).
 
-Thanks,
-Martin
-
-________________________________________
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Sent: Monday, April 26, 2021 22:34
-To: Martin Belanger; linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org; axboe@fb.com; hch@lst.de; sagi@grimberg.me; Belanger, Martin
-Subject: Re: [PATCH 1/1] Generate uevent on namespace AENs
+Signed-off-by: Martin Belanger <Martin_Belanger@dell.com>
 
 
-[EXTERNAL EMAIL]
+---
+ drivers/nvme/host/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On 4/26/21 13:41, Martin Belanger wrote:
-> From: Martin Belanger <martin.belanger@dell.com>
->
-> ---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2f45e8fcdd7c..bd37ddb172de 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1115,7 +1115,7 @@ EXPORT_SYMBOL_NS_GPL(nvme_execute_passthru_rq, NVME_TARGET_PASSTHRU);
 
-Please resend the patch with proper commit description.
-
+ /*
+  * Recommended frequency for KATO commands per NVMe 1.4 section 7.12.1:
+- *
++ *
+  *   The host should send Keep Alive commands at half of the Keep Alive Timeout
+  *   accounting for transport roundtrip times [..].
+  */
+@@ -4133,6 +4133,7 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ 	case NVME_AER_NOTICE_NS_CHANGED:
+ 		set_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events);
+ 		nvme_queue_scan(ctrl);
++		ctrl->aen_result = result;
+ 		break;
+ 	case NVME_AER_NOTICE_FW_ACT_STARTING:
+ 		/*
+@@ -4148,6 +4149,7 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ 		if (!ctrl->ana_log_buf)
+ 			break;
+ 		queue_work(nvme_wq, &ctrl->ana_work);
++		ctrl->aen_result = result;
+ 		break;
+ #endif
+ 	case NVME_AER_NOTICE_DISC_CHANGED:
+--
+2.25.1
 
 
 _______________________________________________
