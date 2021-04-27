@@ -2,19 +2,19 @@ Return-Path: <SRS0=pISK=JY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0599C433ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 22:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA213C433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 23:00:26 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 39F3F611ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 22:56:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 39F3F611ED
+	by mail.kernel.org (Postfix) with ESMTPS id 47557613F7
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Apr 2021 23:00:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 47557613F7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
 	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Uc0vt5TK+j8uD3b3MoXzoY7+Qog1o88ETkNRk9zcX4M=; b=ixg5YvFrQvNzs3BCtrQOJrSW0
-	SzMeGhnAjbg9WpThyqsHA1b+NEC8CnLYKB9TQo6YnzCluGMdc3/Rr2PxsBaY6ChibwF337MdzjW8H
-	mz90vEiXAx8h1t3U+WnagU56Aoe3qUgBhiSRaBkSE8MrNldC+Muh42NsNg83SoRo5Ik9fBOXpbIOI
-	bWB55LrcdXYICZVFE31BtkA546lU3Dc7J956nn+83N5BMAWowYCID7EuRY6z1pCpNQ+yuhkI9ocqW
-	IaOdHMTF0jy5Ia0miqsQLmRiPpy8rjCIVLoR0csKtVmS6rOWxDhvQmwtf3LdY0R9dA0f6gNCi2KfU
-	szQti38cA==;
+	 bh=457vUk3OPJmBJ9YxErVCuTR8nm7GxqeIc8FMquMP2CU=; b=BBEsebl0iIssRDf8LKxby8S6b
+	uRG11OHAMgxPsONsE7xqSCij8sG7lwwjyq9JaaEu3yFbFjMHyCwBNTqTUFSWw7ghDHumgEr1rfVxt
+	orXUxy9EFURJuGoi35eoMJzJKZIteKXVGUqjl/nGtMsF6yzzis+j7wZLWG8VzI3R2KorWwrzoMaF7
+	SV+V/yOsgCeS4jpFpWIdyNPgZfFPO5PfgqVcYtpTAWhphvwCO+2IbcYe5YMpiXOGK16hKepOMDqzH
+	1wiOTFmJs5zOjJ2Yi4Mo0s9E1wKx0NkqPIgj5EqLNeliI6HJDeYN9K0g1iLBmF1M8HTshpLPJbZE4
+	OTkWjBW1g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbWcz-002NUY-6S; Tue, 27 Apr 2021 22:56:25 +0000
+	id 1lbWgO-002Nyx-Hh; Tue, 27 Apr 2021 22:59:56 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbWcx-002NUJ-8V
- for linux-nvme@desiato.infradead.org; Tue, 27 Apr 2021 22:56:23 +0000
+ id 1lbWgJ-002NwN-N2
+ for linux-nvme@desiato.infradead.org; Tue, 27 Apr 2021 22:59:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
  Sender:Reply-To:Content-ID:Content-Description;
- bh=wchQRjaAM+wKsrfBxsOPGilEcofAMBFmBR5ncEuDJho=; b=p/iMkBQjrL0a6o6jR+gByombVv
- 3LAs2+TkDsnS8kJ7kvLhZhUpmCrqP2p5q1LjsHKSW+dRJmyov0YujbqXXeaMi3Re9j9lK+tnRcRFE
- wkcY+CSjnAoQ6wuxjrfhBbXySvjcdlv7m2Fs8siQdxWLzmPJXDwuwHho+1ppYXL8s/ApYiT3l+9/e
- qqNiuWT5zwEUEy93TYx8zAce+yOwwWi1vcK3h3+Q2n6XZz+dArCqySsEQFgNrefpE2exHFPHtkh/6
- yEBJrbJ4k/gsiZyQQgPwM4/gbwgNPbIXTesc6kHX6ah8dZKp/JT8pC9VnHMy1U4BwaF2VtP5YMwc8
- 58nfLfCg==;
+ bh=yfDJcXRXLcFqUpWKFnDEug6ObcuKDigbRQxLqk4fhDY=; b=MH9LPrvudUSSDHJhrbTU2n7SF6
+ tiTBH24jo4vlfXI66C9HlSIA4zihfxUz70EfZFifmt/B2UXBmntD0Cd4LYv2kZ/ATBCyVmwRdy9bc
+ woj42qNONCgdhtvOq4MgamslRPENrr/Iu/+DuPlATCfO+j2ddToM5Nzxtmvfk+lbFzo2LEvH+XWVn
+ hARbaVKNStN56TGV/vC+F8+F3cBysp5xo4RyfHJbSPBDoIWTk5Xhxdz2sgfDRfrK3QNtCAhd47OOS
+ svXZdJp+FVEnv7QWiJBh09/64ErkoIIUNZ9sK/nmgIIKbCMLXQsb6TIbAxRFVaoCNDrhskR3tne7d
+ IKU4+9Cg==;
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbWcu-00H4Qo-RJ
- for linux-nvme@lists.infradead.org; Tue, 27 Apr 2021 22:56:22 +0000
+ id 1lbWgH-00H4hx-5l
+ for linux-nvme@lists.infradead.org; Tue, 27 Apr 2021 22:59:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=wchQRjaAM+wKsrfBxsOPGilEcofAMBFmBR5ncEuDJho=; b=EZ9ht7CInMnHYcsaW5R8aYmMj8
- 09YKECmF6J1dtTcoVOL5n2vPnyFNuRfpmprAgXcM6moL4NCgJapVcFrAT1GmK88ZLOtBdgfU20kW0
- RY5WUjwcQBwsrdUL/HEpU3IS5o0FdSpggofru2z8+77w/Q3RnCRgS0wmH1jea1qn6LdToqi4OZ/4X
- rrypsgRTfhC4D/uJIb+BWvm1Uqf3s8+RISCE2/zVjkKMttAX0hK4dVgX2qSTi/K1a5II8R6cm3X27
- wVPZcln5l7w31LXIB1N6D4Cr8zR08kHA3166WgpMkT/o5LCOPvawHT2vKIJITGvqFOCPEE8VRwxVk
- JkwiHqmg==;
+ bh=yfDJcXRXLcFqUpWKFnDEug6ObcuKDigbRQxLqk4fhDY=; b=sbQMyumPhi9BO3PW7BbH7jx3Mv
+ vyQd71v56wBfsn24nwtkY+oIQgX3d3l1Ef2xR/D7FmPPejRkZzxHW3lZYylXqntM3wayVT8xUbSON
+ pRu0g92wUrYkY4mSSqIOYl5nF3ZdzT0niosmL6qBWRsJuD7/K/AvnuHQmjnHK7oloxX99WCDjqOI0
+ cg5+SNiz8HchO6MM165oba4v51OTzr/KDIokovNCY/DFWZ7sMQFW03g7hYFCoWTz3ocn/dosmVMEZ
+ sGBSFJDc2fGekrXGh7GNV2q3EeYZREtOFpzZ4vfUtHADST8VMXbeGXWLL0y5KZxGTJ2ejJzeaB2up
+ 1+e2wlfw==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1lbWcl-0002mT-O1; Tue, 27 Apr 2021 16:56:12 -0600
+ id 1lbWg7-0002nw-DI; Tue, 27 Apr 2021 16:59:40 -0600
 To: Jason Gunthorpe <jgg@ziepe.ca>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -78,15 +78,15 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
  Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-10-logang@deltatee.com>
- <20210427193351.GR2047089@ziepe.ca> <20210427194013.GS2047089@ziepe.ca>
+ <20210408170123.8788-12-logang@deltatee.com>
+ <20210427194337.GT2047089@ziepe.ca>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <9835b877-25ba-83f8-ed39-999cfc1ad415@deltatee.com>
-Date: Tue, 27 Apr 2021 16:56:11 -0600
+Message-ID: <4e2537b1-21f3-f726-07bb-91d086e6d124@deltatee.com>
+Date: Tue, 27 Apr 2021 16:59:38 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210427194013.GS2047089@ziepe.ca>
+In-Reply-To: <20210427194337.GT2047089@ziepe.ca>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
@@ -98,13 +98,13 @@ X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
  linux-mm@kvack.org, linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, jgg@ziepe.ca
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 09/16] dma-direct: Support PCI P2PDMA pages in dma-direct
+Subject: Re: [PATCH 11/16] iommu/dma: Support PCI P2PDMA pages in dma-iommu
  map_sg
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210427_155620_894985_DB4081B1 
-X-CRM114-Status: GOOD (  19.20  )
+X-CRM114-CacheID: sfid-20210427_155949_244927_2CAC90AB 
+X-CRM114-Status: GOOD (  14.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,50 +123,22 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2021-04-27 1:40 p.m., Jason Gunthorpe wrote:
-> On Tue, Apr 27, 2021 at 04:33:51PM -0300, Jason Gunthorpe wrote:
->> On Thu, Apr 08, 2021 at 11:01:16AM -0600, Logan Gunthorpe wrote:
->>> Add PCI P2PDMA support for dma_direct_map_sg() so that it can map
->>> PCI P2PDMA pages directly without a hack in the callers. This allows
->>> for heterogeneous SGLs that contain both P2PDMA and regular pages.
->>>
->>> SGL segments that contain PCI bus addresses are marked with
->>> sg_mark_pci_p2pdma() and are ignored when unmapped.
->>>
->>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
->>>  kernel/dma/direct.c | 25 ++++++++++++++++++++++---
->>>  1 file changed, 22 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
->>> index 002268262c9a..108dfb4ecbd5 100644
->>> +++ b/kernel/dma/direct.c
->>> @@ -13,6 +13,7 @@
->>>  #include <linux/vmalloc.h>
->>>  #include <linux/set_memory.h>
->>>  #include <linux/slab.h>
->>> +#include <linux/pci-p2pdma.h>
->>>  #include "direct.h"
->>>  
->>>  /*
->>> @@ -387,19 +388,37 @@ void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
->>>  	struct scatterlist *sg;
->>>  	int i;
->>>  
->>> -	for_each_sg(sgl, sg, nents, i)
->>> +	for_each_sg(sgl, sg, nents, i) {
->>> +		if (sg_is_pci_p2pdma(sg)) {
->>> +			sg_unmark_pci_p2pdma(sg);
->>
->> This doesn't seem nice, the DMA layer should only alter the DMA
->> portion of the SG, not the other portions. Is it necessary?
+On 2021-04-27 1:43 p.m., Jason Gunthorpe wrote:
+> On Thu, Apr 08, 2021 at 11:01:18AM -0600, Logan Gunthorpe wrote:
+>> When a PCI P2PDMA page is seen, set the IOVA length of the segment
+>> to zero so that it is not mapped into the IOVA. Then, in finalise_sg(),
+>> apply the appropriate bus address to the segment. The IOVA is not
+>> created if the scatterlist only consists of P2PDMA pages.
 > 
-> Oh, I got it completely wrong what this is for.
-> 
-> This should be named sg_dma_mark_pci_p2p() and similar for other
-> functions to make it clear it is part of the DMA side of the SG
-> interface (eg it is like sg_dma_address, sg_dma_len, etc)
+> I expect P2P to work with systems that use ATS, so we'd want to see
+> those systems have the IOMMU programmed with the bus address.
 
-Fair point. Yes, I'll rename this for the next version.
+Oh, the paragraph you quote isn't quite as clear as it could be. The bus
+address is only used in specific circumstances depending on how the
+P2PDMA core code figures the addresses should be mapped (see the
+documentation for (upstream_bridge_distance()). The P2PDMA code
+currently doesn't have any provisions for ATS (I haven't had access to
+any such hardware) but I'm sure it wouldn't be too hard to add.
 
 Logan
 
