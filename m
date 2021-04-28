@@ -6,109 +6,82 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DABFC433ED
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 06:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 798EDC433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 06:42:26 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6485161419
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 06:39:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6485161419
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id BFF6D600CC
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 06:42:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BFF6D600CC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:Cc:To:From:
+	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Ud3GePFttcwUTT7LNwuZEJtyWJRJLW3Cf9QYnT4MHlc=; b=hNkZjF88LB2I6MfpoXKY1IulH
-	0v0kle3uwGI4X+Easdt98LY++GxuGHYCalHSv/Ihanmmujfe/tSjyzDmlrlFSJcsjXZA3yjA0Wpyy
-	xJ1RXWK6UJqxKp9FXq/lA6cjJX2EtWM7D23RA7VigLuq4A3EUCIvK8ch5GkIRk9FDL51vYrFUxt8L
-	67hGV3mrDJ8umuw36iYr53H6zngBOGKWF0wHlkq6+zNTmw2sxOYfV+CyrJQOD8s5ndgLkT15jSpgL
-	rkvaoG+/B6Lo25WBSFC5fP5kPFu4h/cmh7M5nvNP3VwsaeYifTFe43Z0fiR2186OyRHNmQjSrGgeg
-	+FKxJXByA==;
+	 bh=kexOZRZNwoIH3N3m5bf0FlfIWRDaiiTRaZP5qtU+cSQ=; b=ONPiBDjCMc3uRsU0Fghni1sNd
+	7D1n4RiHWlQmPU33qQasQfPgEoS+YpK/F2T2i5WtlJP+6neJwN/uve59hOPtIdNkevlUk0sxr7MBz
+	c5pIBLe4j2qg7LXsR2OwI+hXJAX1KpHmq5z+vyvpixD9xZvV0iYK18lqMtULcgd1g5PpaBC9121Ql
+	a0xb0s9NlM0SuNghPcwsdmfzaZQGbdlAV3/px9XekyJDrvn/CZdJ5JQMCothhsmULk2iS7cmpEUpP
+	hWNJo4Dn2w3nFbzFfPU/Kjvnd7iOIgfyLYmCAaGneUA8b0SKHk18x5fa2Qih6y4fiQwuXnAE4IaJ8
+	/+EFKmM+w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbdrE-002wNP-Tp; Wed, 28 Apr 2021 06:39:37 +0000
+	id 1lbdtY-002wkZ-1l; Wed, 28 Apr 2021 06:42:02 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbdrA-002wLs-Os
- for linux-nvme@desiato.infradead.org; Wed, 28 Apr 2021 06:39:33 +0000
+ id 1lbdtU-002wkJ-Lq
+ for linux-nvme@desiato.infradead.org; Wed, 28 Apr 2021 06:41:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
- MIME-Version:Sender:Reply-To:Content-ID:Content-Description;
- bh=Mw29yMzqVHFx3JmMEZ3wEvw64Bi3lRDgayDcOCxCtDA=; b=2dUuqpZuAzv78QElp0eV3HQngV
- OEnwFAAeRzI02ANdRf6LhT+Z6YuZ+M+tEbK7uluXrk5Kh8pmUYRX/y1RX9vJYasUVhBKs7L1lvSH3
- Nidf3Q3UPPWI0GH3ZWwyqAWloXTvxgAi0lBNWCAvR8WFNmpArQGrAexAtoXWQSOZwUb59kwLUjO9R
- 6v3vzpOa2Zx63mtUyYwE9kzKTO8/D0sr+tI0rkAz9FM6aDaj2csLF4oUR2EhbF7Yh43iNOMbvlfQr
- mbujaHWGNjJDoNRCf8rJmwRt3sbGQx8aqJNL2o2/D9m7ZbjPs32Bi0UpEGXwQ1neK+2ijpUmkkyq2
- fM/Mcu/Q==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=F4FdOvCubsbTBu0KqUq1Ap6WR++r5iCZVkQWHkrgDOA=; b=TmRsD+/qBpxmu8BeBveFrMktR7
+ bjZYoNm3PAboavoLw1vmwQw4H4yPJMIZLWbzbZZTJUndbZ4aV6hETDZUokVNGx/LOJSJWlrAMoQJc
+ 6axYbnTY6caFi1esuikZ5UCH4KloZg7bWWohaXNm+QMLCg/Wse2Ia3JakDxMzrjwxSLU/8JcYdaXw
+ gNJjOwzxnaEXRy8mx5KBuwTpasbDuTL8EdaaqGGRMLGqK4L9mlOK/iA445ztE8e9SmXtaAWjJxrfX
+ 2P8DEcKkaBdKRwccF0paWXL30SW+157G5mVlG1UtMFswHlfDWfj4lVKuUU6lpkfSYyJho6w3Gi86i
+ oR+ad35w==;
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbdr8-00HDcE-AA
- for linux-nvme@lists.infradead.org; Wed, 28 Apr 2021 06:39:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619591967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ id 1lbdtR-00HDj0-P4
+ for linux-nvme@lists.infradead.org; Wed, 28 Apr 2021 06:41:55 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1619592112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mw29yMzqVHFx3JmMEZ3wEvw64Bi3lRDgayDcOCxCtDA=;
- b=WIqjtDjBPdTd4oy2ydNLA/FzsJy1ZStRwVAlL13HKAOY39b+WkJ7/FBPiU84PTW1yCcJN2
- +6sDVPy1fpdWUnR/lQqyPGgevyjTqd9JJHyN1iHLsChJShPO8sVOWqmVf8DKWX0ZZV5fKd
- TMlviy2EC/zcpPilELmvZe5ExX+8w7c=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-LCfUF-SNMhC79v-8w_x35w-1; Wed, 28 Apr 2021 02:39:24 -0400
-X-MC-Unique: LCfUF-SNMhC79v-8w_x35w-1
-Received: by mail-io1-f69.google.com with SMTP id
- w2-20020a5ed6020000b02903ee20b1d066so25903137iom.19
- for <linux-nvme@lists.infradead.org>; Tue, 27 Apr 2021 23:39:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Mw29yMzqVHFx3JmMEZ3wEvw64Bi3lRDgayDcOCxCtDA=;
- b=GVzCvZsGhqw6CGB8PqeRJG4dC/zcZiSiPg4RP5avHiFnMoP0BV6Q99qhLLFs0ewisR
- VfLJiMxc6pwM0Pr1LfH42KDZuSsnshJ6vSppiKX3OwX7Z00VKdF/veHOcWWTZ6Y9/8HS
- Jk3WwMQ805PG2CkCG/FPV/ENk1Xs1hjcuUjrto/U8DDL2B8/qN5wuISqj9Czaahxybsp
- jT038kmgWGrb7Azb4jruNLTri/SD0nw+D6m4L/cEd34Pj2Di631P2q85fjqw6l4qOjVa
- aoDt4rXgTBJgPMkg4/XmPepbxh7fgY/Z7n+5hSl++vqcUNgz1N9TUOv2wXaUSPvmv+x6
- SR2g==
-X-Gm-Message-State: AOAM533YgiF/vlGk/4Qw0HTFBzKHU/IOWZOSHvKZr3pGDSNind7ySwpe
- yyCTEUOnGKcTdXs3XlTUtNCt+Qahkwprt1TgLlKh7WAVdQ9cgzfCIzkUSYbJab8GqqHDzWWhVd5
- rCnC8T8QmxDxZHFzh1DOQTDeOODSVXfpfs7A0h0u4vx0=
-X-Received: by 2002:a92:da0f:: with SMTP id z15mr20353938ilm.226.1619591963404; 
- Tue, 27 Apr 2021 23:39:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTwGQQ3WEX3wX/F87PZ0G5dHvrgWDVMrJBcQZakolNKVRibOUCrbtBRYoImGE7DVkyhPITlkNklkcfy97s/cg=
-X-Received: by 2002:a92:da0f:: with SMTP id z15mr20353925ilm.226.1619591963154; 
- Tue, 27 Apr 2021 23:39:23 -0700 (PDT)
-MIME-Version: 1.0
+ bh=F4FdOvCubsbTBu0KqUq1Ap6WR++r5iCZVkQWHkrgDOA=;
+ b=UV+kK7XOCBtVHI03BLSjo05mgzHXeN3AyB+HoLxIYLQ7XS9hPW8Y8qgWhAaWdz+/Y/+k+I
+ RhbYYoITRNflKs8WuzdPxupwQes3MZh2NrVGSg/210J+1pNiNyJaO+4H8bnQw12bf8HkRb
+ BzQBYb3c5K8uB9B9H01j2t4YfNsHE7Q=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 45208B0B6;
+ Wed, 28 Apr 2021 06:41:52 +0000 (UTC)
+Message-ID: <cc1236b8edab5010ef214cd59753907604302109.camel@suse.com>
+Subject: Re: [PATCH v3] nvme: rdma/tcp: fix list corruption with anatt timer
+From: Martin Wilck <mwilck@suse.com>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Chao
+ Leng <lengchao@huawei.com>, Daniel Wagner <dwagner@suse.de>,
+ linux-nvme@lists.infradead.org,  stable@vger.kernel.org
+Date: Wed, 28 Apr 2021 08:41:51 +0200
+In-Reply-To: <8b61d0f8-f47f-8e03-5385-c48b0e7be187@suse.de>
 References: <20210427085246.13728-1-mwilck@suse.com>
  <0ff2dbc0-0182-f54d-b750-084feac53601@suse.de>
- <20210427162521.GA26528@lst.de> <f82b7f7c-ef12-27bb-1349-d23ea22e50a9@suse.de>
+ <20210427162521.GA26528@lst.de>
+ <f82b7f7c-ef12-27bb-1349-d23ea22e50a9@suse.de>
  <3a0b10f45ac75df3f744dd04ac874021488f42b1.camel@suse.com>
-In-Reply-To: <3a0b10f45ac75df3f744dd04ac874021488f42b1.camel@suse.com>
-From: Maurizio Lombardi <mlombard@redhat.com>
-Date: Wed, 28 Apr 2021 08:39:11 +0200
-Message-ID: <CAFL455=m_4tLZwbh1qRGPgE8ufBfKuq84zKkZmCntX56A17kog@mail.gmail.com>
-Subject: Re: [PATCH v3] nvme: rdma/tcp: fix list corruption with anatt timer
-To: Martin Wilck <mwilck@suse.com>
-Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, 
- Sagi Grimberg <sagi@grimberg.me>, Chao Leng <lengchao@huawei.com>,
- Daniel Wagner <dwagner@suse.de>, 
- linux-nvme@lists.infradead.org, stable@vger.kernel.org
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlombard@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ <8b61d0f8-f47f-8e03-5385-c48b0e7be187@suse.de>
+User-Agent: Evolution 3.38.4 
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210427_233930_471528_BD457441 
-X-CRM114-Status: UNSURE (   9.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210427_234153_995577_78DBB609 
+X-CRM114-Status: GOOD (  30.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,25 +93,73 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-w7p0IDI3LiA0LiAyMDIxIHYgMjI6MDIgb2Rlc8OtbGF0ZWwgTWFydGluIFdpbGNrIDxtd2lsY2tA
-c3VzZS5jb20+IG5hcHNhbDoKPiBUaGUgY29kZSBkb2Vzbid0IHVzZSBhZGRfdGltZXIoKSwgb25s
-eSBtb2RfdGltZXIoKSBhbmQKPiBkZWxfdGltZXJfc3luYygpLiBBbmQgd2UgZGlkbid0IG9ic2Vy
-dmUgYSBjcmFzaCB1cG9uIGFkZF90aW1lcigpLiBXaGF0Cj4gd2Ugb2JzZXJ2ZWQgd2FzIHRoYXQg
-YSB0aW1lciBoYWQgYmVlbiBlbnF1ZXVlZCBtdWx0aXBsZSB0aW1lcywgYW5kIHRoZQo+IGtlcm5l
-bCBjcmFzaGVzIGluIGV4cGlyZV90aW1lcnMoKS0+ZGV0YWNoX3RpbWVyKCksIHdoZW4gaXQgZW5j
-b3VudGVycwo+IGFuIGFscmVhZHkgZGV0YWNoZWQgZW50cnkgaW4gdGhlIHRpbWVyIGxpc3QuCgpI
-b3cgY2FuIGEgdGltZXIgZW5kIHVwIGVucXVldWVkIG11bHRpcGxlIHRpbWVzPwpJdCdzIHNhZmUg
-dG8gY2FsbCBtb2RfdGltZXIoKSBhZ2FpbnN0IGJvdGggYW4gYWN0aXZlIG9yIGFuIGluYWN0aXZl
-IHRpbWVyCmFuZCBtb2RfdGltZXIoKSBpcyB0aHJlYWQtc2FmZSBhbHNvLgoKSU1PIHRoZSBwcm9i
-bGVtIGlzIGR1ZSB0byB0aGUgZmFjdCB0aGF0IHRpbWVyX3NldHVwKCkgY291bGQgZW5kIHVwCmJl
-aW5nIGNhbGxlZCBhZ2FpbnN0CmFuIGFjdGl2ZSwgcGVuZGluZyB0aW1lci4KdGltZXJfc2V0dXAo
-KSBkb2Vzbid0IHRha2UgYW55IGxvY2sgYW5kIG1vZGlmaWVzIHRoZSBwcHJldiBwb2ludGVyIGFu
-ZAp0aGUgdGltZXIncyBmbGFncwoKTWF1cml6aW8KCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1l
-QGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9saW51eC1udm1lCg==
+On Wed, 2021-04-28 at 08:35 +0200, Hannes Reinecke wrote:
+> On 4/27/21 9:54 PM, Martin Wilck wrote:
+> > On Tue, 2021-04-27 at 20:05 +0200, Hannes Reinecke wrote:
+> > > On 4/27/21 6:25 PM, Christoph Hellwig wrote:
+> > > > On Tue, Apr 27, 2021 at 11:33:04AM +0200, Hannes Reinecke
+> > > > wrote:
+> > > > > As indicated in my previous mail, please change the
+> > > > > description.
+> > > > > We have
+> > > > > since established a actual reason (duplicate calls to
+> > > > > add_timer()), so
+> > > > > please list it here.
+> > > > 
+> > > > So what happens if the offending add_timer is changed to
+> > > > mod_timer?
+> > > > 
+> > > I guess that should be fine, as the boilerplate said it can act
+> > > as a safe version of add_timer.
+> > > 
+> > > But that would just solve the crash upon add_timer().
+> > 
+> > The code doesn't use add_timer(), only mod_timer() and
+> > del_timer_sync(). And we didn't observe a crash upon add_timer().
+> > What
+> > we observed was that a timer had been enqueued multiple times, and
+> > the
+> > kernel crashes in expire_timers()->detach_timer(), when it
+> > encounters
+> > an already detached entry in the timer list.
+> > 
+> nvme_mpath_init() doesn't use add_timer, but it uses timer_setup().
+
+Yes. The notion that this is wrong was the idea behind my patch.
+
+> And
+> calling that on an already pending timer is even worse :-)
+> 
+> And my point is that the anatt timer is not stopped at the end of
+> nvme_init_identify() if any of the calls to
+> 
+> nvme_configure_apst()
+> nvme_configure_timestamp()
+> nvme_configure_directives()
+> nvme_configure_acre()
+> 
+> returns with an error. If they do the controller is reset, causing
+> eg nvme_tcp_configure_admin_queue() to be called, which will be
+> calling timer_setup() with the original timer still running.
+> If the (original) timer triggers _after_ that time we have the crash.
+
+You are right. But afaics the problem doesn't have to originate in
+these 4 function calls. The same applies even after
+nvme_init_identify() has returned. Any error that would trigger the
+error recovery work after the anatt timer has started would have this
+effect.
+
+Regards,
+Martin
+
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
