@@ -2,179 +2,88 @@ Return-Path: <SRS0=oNUT=JZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A57C433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 15:45:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC1A2C433ED
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 15:59:16 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5D227608FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 15:45:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D227608FE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id 11508613C5
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Apr 2021 15:59:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 11508613C5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SiLh8SEsURhPvx77BJ1nqmLlGOiKwW3USLKuqlBjlBs=; b=iL827MsMAlOrntRZcBVh8hKPZ
-	N/vhZwozuRad+RiBaNcG3NFwqyindjoyX7v4nir9HILJPdn7OKizukXUnXSNmoc4FvXMQCRl2wyxW
-	NUXjCOrVxrwxKLBPxvlaF6VDM2Uv+uVWHB7A0RLK6/jzo0SrfRA7nFBdcqV5rpULU02/kOd+wDX/U
-	2AlGrsfOWPQbP3XcCkLVMZ5HPCfdT0tEFx0Nakz3zNMQcDOBFC2qCk5Ychwp5Q4qjLyq1FuKlvIoN
-	B/l8EXXKTzPQvy6j/Mjyb8LIu7gWu+ZZeAyYVg2dtBLPffA1h6A5mYK4ps8kLp9Gj22qS5dAeWuO0
-	0ZsCswHgQ==;
+	 bh=34hzdSJigZ9W1Rx1lfEum2Fj9sVmJEfKY/+u+LvPuYQ=; b=SdEv8Z6KZiSa0vfCCJ0Ip5UNu
+	COz087+meNREBhEs56aAqIeoSL47XCf43mqPggpH57iGNGyZQZJc6C/QoA8YJyo7+Kr3LpliIET2m
+	bgAwrts1PmzqDqKtFdOogdZH1x20F5uTaSOM4RCDbLLb+35AVfUdxsuMZ+GGDdi3o12rnCoPHbzNT
+	/TQ3GWO68CXR1gsqcxiyaWKZDgQMI38M+RpAtkslsuTOp+68lvWzGroE4RoKbtsLFbl7mb6y15NBU
+	WO3go0mi6HWYBxZUnAt861Qvd92QSXatuisupWBSzWNSplglFy7BLlPrSF3OwdUdncmj78j065pX3
+	QVL62RahA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbmNK-003mCt-1H; Wed, 28 Apr 2021 15:45:18 +0000
+	id 1lbmai-003nXe-Ra; Wed, 28 Apr 2021 15:59:08 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbmNG-003mCn-Rh
- for linux-nvme@desiato.infradead.org; Wed, 28 Apr 2021 15:45:15 +0000
+ id 1lbmaX-003nX5-Np
+ for linux-nvme@desiato.infradead.org; Wed, 28 Apr 2021 15:58:58 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
- :Subject:CC:To:From:Sender:Reply-To:Content-ID:Content-Description;
- bh=tuD4xyTTVEz1rZP5turkVC6Lhmwsyj8jq8dgK+hJ26w=; b=RqDGlzK7V3RaFe1y8Ms8UtgSMm
- Ql6ucrv3jHiEO8RnKIihlbvz4z8Hnyc2JjxUfVa6QgGn3uHJUB4JwdRWVe26FSYQepWnvxSMD5d/q
- rQz5Fe7rgllMTq++CWFxLjQna5A2YRA15NVcOlBDNG2Bnt/QFQZhOKv5xjhwEjRgqToZA9kAmpXqx
- rTEGe8aSX2d/TIcAib/YIAV7SV/yPEWwiW7E2NFbDc41i+rgvUX6FKb47/6KI3xkmTWwiJEaSLh8J
- KQKtopyVT4ILbQ6t7053gvXmy+KvbUoCm0IA2L0aKj8mTC0OydPYYdrP0VNHtdpMoGs2jSAitqz8P
- 2OiWC3ag==;
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=7QCrLsEA8AfmBCjkcWwYdU/qZ8s81ypMWPcMfkDAfo8=; b=nCjrDifWt8GVESGFrLPid74C+U
+ qNTtfXNMXvo9E9jh5vp2v1mm8xClFrKZkmWxrWbHASjIIMWYpjeo3VAEk8sqq8uDJbo74th5RVDxi
+ 8raj7N2lutcLd+WO+SELHS0v8T386yL8Pea6fgYmXDR7Lt51akHzA/LfF4Cp9ErSYrBocFUhc5Wn7
+ uyiDx2s9eA4nIHwwZ8QgGMnRS64vawuhAziwctrNJ9x7Wz+Al5R2ec396nEGnQG/fhFT9NRw7yezt
+ 2i8iX0yd6XMzBhd1il1TvBtCCJf7RJOfidelJGQrV1glKI3qgjfT3K78SIuPnE7ANLnxuXcB34Fiv
+ sm+rVMgw==;
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbmNB-00HaGv-UB
- for linux-nvme@lists.infradead.org; Wed, 28 Apr 2021 15:45:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1619624709; x=1651160709;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=tuD4xyTTVEz1rZP5turkVC6Lhmwsyj8jq8dgK+hJ26w=;
- b=YSevg8RYQeWgEq0Bf0ZznYW/fEmfVbJiPNYz2TvawBwP17o2XAb9gv3M
- CIqC8E8wlaJR3XE4fLdNn2j5uAr/ZWpU4CxhpqC4AqTLvRlWJUEhvH/Sk
- iDAu+vqwoNbjf1BSlbXxmCB96SzEXndmRfm5Oq7d3Vtr4qVBSJTOxzBer
- X8naXVTVva0yeVOzo7inOsiuyHtID18wHc2rcgjoFDA9OvteteN7F9jZF
- iihaaGEy9O21UwWztwuacHjVZzunF/okvkamK4RuMnv+ZklqGR0Da8iip
- EOxyqflkKZijysLSVzNzY22+9L0a/lX6SJ7e6I0NsX7rY/BkZen5X4i2E w==;
-IronPort-SDR: spHCR3Bw0gmpC1gZNYfbU2sRkcFANXd4Mz3ml7lZ8Tubcp5cTE2yfeI585WpaKEVVKF1byumVS
- WHQx38dQVmxDXgFfel/w2jAO9ACBCeb4puNzccpttTauIV4wN0FQCz9iI1MO+TLBNwK+TMUClK
- YWBY15YkfgdvOYo4ybAOPHTYVrNG4uHBoJ0cTif2gXVNhDN7yyM4K1Q3ZrdVZVmfF5DHLxXVm3
- hEwImCClbWp9M2ZalWafxHA+eX/lMdMD2K7zKCCxCKUmV5jHOoKBTWT72Cfr0MDDb1DvIjTkog
- cC0=
-X-IronPort-AV: E=Sophos;i="5.82,258,1613404800"; d="scan'208";a="277568471"
-Received: from mail-mw2nam12lp2047.outbound.protection.outlook.com (HELO
- NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.47])
- by ob1.hgst.iphmx.com with ESMTP; 28 Apr 2021 23:45:07 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RT/roWXz2ACopA0SXm42CZm7iqNKHcpHxT3+fzJxciNJ4QFvce4N7toOESa+vkzQqdKMSN46aAqqEET3sgtzUmKcWp+WLWDheCzcMN+zWO40tD+SmBc2BFizHW1Yd7jVxQwdupBARg1pzziibqwQ2cFNNh35XAf3f9tsdWX5BtPvffGsYJ4YOFCyUlniemiPIN90fJnF9M0Urs7Kx6Yoe7XZnoQeF7m/uiVeJFGkGumnyW7PqZ1sd1zthF2e0HbFB5IDOgPO8/FC9SExHnwjLtVpELKcp37tYMy/yBYVpTDa9NTZG96fAofA5MGeYlllm1HfQ21npLOqIvHAMwAf+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tuD4xyTTVEz1rZP5turkVC6Lhmwsyj8jq8dgK+hJ26w=;
- b=XmbuFyPQ1bcwyhbFRTBChenXeD9C6c5wq1+IUgjU05/O0E/2+nb1ePCFHkUat0+bloLptxmEkpRwsoCodyoenVgeDtG6nirHdMNc9F9y7O23nJAmjJqG4+tmhWGTzvJ/SUtm2gQSe8k+MAkKZruu6SKea/hYNrpnNaOL4HkZvIjyonSdew5EwnTr2ATBG9NblKszm6WUgeukBgEsPCFMpkIJbH81lyOtjSamkRN0Hi0wKtpex5FPIs6/2AVYqFCq999669b8VHWMsFQ41OiPCUIWzXgr9Wc/zsiU46xqfg4zQ3GxbB6+71435c3453LAD7X1f5FWcIhs7kcqbvKk0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tuD4xyTTVEz1rZP5turkVC6Lhmwsyj8jq8dgK+hJ26w=;
- b=frs/lcRYzYGRCXlOrL60BLsXGBEaXrKftEfqQhwMk7SDD63xOqKSIbdLixYwxBjj/xpFRUV8+H6zgKsFDYke+QrW8Ic34folB6uMwwlTKs3TeXqmg1cVl8vmLhZePwC8imT3sqCQdf3Kl6y24SGf0nWhzxm/JZMMUFqfXTzNzyM=
-Received: from BY5PR04MB7041.namprd04.prod.outlook.com (2603:10b6:a03:222::19)
- by BYAPR04MB5141.namprd04.prod.outlook.com (2603:10b6:a03:51::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.26; Wed, 28 Apr
- 2021 15:45:06 +0000
-Received: from BY5PR04MB7041.namprd04.prod.outlook.com
- ([fe80::5d1:dd35:f322:49b3]) by BY5PR04MB7041.namprd04.prod.outlook.com
- ([fe80::5d1:dd35:f322:49b3%8]) with mapi id 15.20.4087.025; Wed, 28 Apr 2021
- 15:45:06 +0000
-From: Alexey Bogoslavsky <Alexey.Bogoslavsky@wdc.com>
-To: Andy Lutomirski <luto@kernel.org>, "hch@lst.de" <hch@lst.de>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>
-Subject: RE: [PATCH 1/1] nvme: extend and modify the APST configuration
- algorithm
-Thread-Topic: [PATCH 1/1] nvme: extend and modify the APST configuration
- algorithm
-Thread-Index: Adc8C9ro5+f6h5TRSN2r8FB+X7i/AQAIChAAAAQ8W4AAAUbHsA==
-Date: Wed, 28 Apr 2021 15:45:06 +0000
-Message-ID: <BY5PR04MB704103E057C3DA97DB0597C28B409@BY5PR04MB7041.namprd04.prod.outlook.com>
-References: <BY5PR04MB704131DBB47254C9F1FF12B38B409@BY5PR04MB7041.namprd04.prod.outlook.com>
- <20210428124256.GB28566@lst.de>
- <CALCETrXSP8RR_xu3aVwGNL26KNZCkE6D6yztMpu_MPZUfkRCew@mail.gmail.com>
-In-Reply-To: <CALCETrXSP8RR_xu3aVwGNL26KNZCkE6D6yztMpu_MPZUfkRCew@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [87.68.183.147]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d07f902e-3546-48f4-ee79-08d90a5c98a5
-x-ms-traffictypediagnostic: BYAPR04MB5141:
-x-microsoft-antispam-prvs: <BYAPR04MB5141AD5C1DF37D7B1C8DD3E58B409@BYAPR04MB5141.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: n59bdbg3MnfY5v3Xnw3xlDHjJ2mM0/hnoG1I7C6wJubtNIr6dlfIhY/LtAjE7A/DADedYFPyz0EmR7jHgPq3V+QZXos/ffXD0xAH4QIUEsQafAP5CXhci3VgXJ+1I/gqQEUTShLr92i1V1Gfh+egRHAn1Vzh3nd5DwQooCSXOehKKcFcTnJ1UkIecGgFfZ4D5aWMHZdks3PcUF8lx9vklREmGUnDEBF6UY7WoPSl5j4RHTA5P5rzz9Fb821GbCnchKCuWviS0DGcfkaB3JgdaNRhIoffCFdSbOCJwN3B+3h0G9Zm/bhbOs5axp/jFJ4BMB3mGqpf9b1sBU3w0P9RC1/PMw+Ow5bySl2YzlyFBG6Dz9wBY+cXC9xgrMPcTgZ8CM1EJ/J4v7VNw49BWNcAjw96fZoP7ZG3NZkpYzZwkYrMN7kfulqGtALhSE0MCkqD5z48JADujepRcRXSV1lYEoLRY3yxmkzBLze1a7G4wQ04D1C9SXsI2vvmlbQ/KluKftTeXWnHFR+SGsZeXWIIC28DsmeSZI87QtmcGalpuV23wUhcZuQA6jVuXNGrPrQzVmONpeeGW8yEqlqdzSOUtOLwqSISQMg5b6Yj9wNCbdE=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB7041.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39860400002)(376002)(366004)(136003)(53546011)(186003)(2906002)(8676002)(66446008)(83380400001)(6506007)(66946007)(64756008)(66476007)(26005)(66556008)(478600001)(54906003)(38100700002)(55016002)(86362001)(5660300002)(9686003)(7696005)(33656002)(45080400002)(4326008)(71200400001)(8936002)(122000001)(110136005)(52536014)(316002)(76116006);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?NjI1NlVBSkM1Q0xLVURCb2IxSG9UL3FwVU0zckxLZ1RTanRnTSs0Q3FSTHFN?=
- =?utf-8?B?OWhMKzc4N0w5TktUUTVtK3RvTW9LNjN5YzZRL3drcDhRSWFZNStqRW1jK0FB?=
- =?utf-8?B?cVBobnZkUnMrdHVQS2ovUUFqUER2STdPVWV2akg1YVMwVk8wRkMxNDRPbi8r?=
- =?utf-8?B?cVVxUUR5aDVDZ3poVHZZUWVqKzlKeFZMemhZcEY0dklhK3I3QjlJaTlXRFdW?=
- =?utf-8?B?SGQ3akpwUlhEdzRocHBNVm43cTI5TjlPNThLMUtsUGpZRzFmYnpXSERKWHY2?=
- =?utf-8?B?TklMM0lPMzdZTVJhWWNNTzBEaWhhVlJlTzNsWHUyUExmZGxBVm93Vm4xQUIz?=
- =?utf-8?B?b1FaZFduQ3FIb2xYN0loQ1ZMVCsvV2xjbkEyYm1nSE9zdURkcXFJZHI1NFBh?=
- =?utf-8?B?amQwTjVxMmd3aERrSTZEOHVhQXFYL21sMitNT3BSYUxPbVc1SFA2Y05MTnpE?=
- =?utf-8?B?eFVCRUlkSUplOURSWHh6QStWUWo4YkNFMnVkTlZubWFaV2F2aC92ZkJXMDZ4?=
- =?utf-8?B?THNUcXhNM0diTWZpNFhWMWkrNC96cVp2WGczeE1IOWRFQlVNS1gxb0pGTlR3?=
- =?utf-8?B?L1dRN2s1a2xMK1NwMzN4M0NseldTd3NwQ2toU2xiN2tubSt4bG9VQ005UHdy?=
- =?utf-8?B?cVZKQVREOE96bHI3Y1VqeExFYjlrUFNXa2w3ZGl1TTVZdWM1LzFBRDRKTElo?=
- =?utf-8?B?UFVmc0Jkd1VkUzQrRk1JSE5wSEl0emdJTmJUS09KYkZZZmxCNHJUbDJmRE8x?=
- =?utf-8?B?V2MvMTRNYXhaZWpzZXBKSUlLeSsxSmVzTGNDdUFzVzZJa05VeVU0YTJJZzBX?=
- =?utf-8?B?dVBUVitPSmI5NDJlaklSWDNYcDlKdEo0eHlKd0V1UWg0QlNGTXVlbFpKTWJC?=
- =?utf-8?B?cHNTem0vNUx1V0VzalFRL3pLNm5aSk9FTGtoV1dkMmhGWGR4TDJtZFZtWWtz?=
- =?utf-8?B?OW9naDRxc3o4eWZ4cjRMaDZMSUtpcjcrVDAzdEZuWktESDE0WVFyRnB3cTE2?=
- =?utf-8?B?RUx4RytoMVNmbk9HWnpmdTNnaXZjUkpzcE0wa3NaTFNiVnhobnFocENXNkdS?=
- =?utf-8?B?d0FCR3hjSWkrMW9WUWsrTXNJNVIxeVdjdlphV3o4bTZLbmM4Z1BNcXJHT3VG?=
- =?utf-8?B?elhLU2xBVVA3b0g5SENkRFBpVzN4a2JiQ1UrMTdkRVZ4TkZQSURndXhkdlM1?=
- =?utf-8?B?MVk5bDFSSGNXUkIzVEMzVjAvTnNpaTc3ZGVGV210UDJVSFhoRmJvZFJhTkpB?=
- =?utf-8?B?K1B2SkFOTjdmMzNjV2IzbUl3aTY2OEl4MnM3SkRiV2FFMmUwSHI3Nzk3bHZC?=
- =?utf-8?B?YUFqRFEyOGFEV1REZFFDTS9yakRyTWdtZnRDK21PTkJ1eVhxY0tVMHdTVG9D?=
- =?utf-8?B?NVZtVE5vUE1oelBWUmpaM2I2QTJmQUpNQlhEZUsxQXRsblVTTkdWa0kzR0w2?=
- =?utf-8?B?OWZCV2RWQU5SNkRFYmZOeXZxejAxWFJaSXNjZXV6MXRSb1BtT1U2enJYeFVh?=
- =?utf-8?B?SmZjWHM3MU5Zb255UnRxNUFJOXp6Z09wMGhTR002VkQ3c1Y1Zy96RHNhUWx3?=
- =?utf-8?B?eWRVZE9JYWVrNHI3b1hMckxsczlQOTIxR1lDMEx3WUpsamMzd0pDWDk1Wm85?=
- =?utf-8?B?b01hVk1zTzFybEZVSjBMUldzRjZDQjVFc1FUMWlXajFmbVlOV2dBcEZ3ajNz?=
- =?utf-8?B?T3pLdjFxbjd1cVFlM29ybVYra1lnK05TWUpIbDRwRXJVdTFlS0lrT05OM1M4?=
- =?utf-8?Q?wyo7+sHDQIbai7FrDATrXv/c984BbXAOB2ZkIwS?=
-x-ms-exchange-transport-forked: True
+ id 1lbmaU-00006n-Qk
+ for linux-nvme@lists.infradead.org; Wed, 28 Apr 2021 15:58:56 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B2983613BF;
+ Wed, 28 Apr 2021 15:58:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619625534;
+ bh=mbdX094ICi96UjiXN+UMEt2+rZ+IgEQVVC2q8WvYroY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GVWApvJv4PgoeJNhllx+rMXhSgyVKXfJMKZDrSlFgptQdD3TJkIak64bV4+NjwQOD
+ zkiCFjcibParN3oj6+JwYI4RU5XzKn8oYHF9vn+YW3wzEzB0G4x9979I+XY+f3wEOo
+ YFmySaifqgdIkDN+ZR2dBCYYQRM4oAL4LtdNljBAgdT+fgfgq0FM4rq360sPXGlgqE
+ KyPi1G9FPJi/j1FgepFEM6Onu3tqhm/BPyvM6WXrejW38Hw0L79CtDRJNwxsqBdn5M
+ g776syxIJrFxCGvn97OcaajcVc8Ezgm+oStgntT9h0o5NUDhpEt23VsRpOLFVX/1jx
+ EItfTucUtv23g==
+Date: Thu, 29 Apr 2021 00:58:47 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de
+Subject: Re: nvme tcp receive errors
+Message-ID: <20210428155847.GA21854@redsun51.ssa.fujisawa.hgst.com>
+References: <20210331161825.GC23886@redsun51.ssa.fujisawa.hgst.com>
+ <0976ff40-751e-cb95-429a-04ffa229ebf0@grimberg.me>
+ <20210331204958.GD23886@redsun51.ssa.fujisawa.hgst.com>
+ <20210402171141.GA1944994@dhcp-10-100-145-180.wdc.com>
+ <53a11feb-bc49-d384-3b7b-481a0dfc70e6@grimberg.me>
+ <20210405143702.GA20598@redsun51.ssa.fujisawa.hgst.com>
+ <20210407195319.GA30623@redsun51.ssa.fujisawa.hgst.com>
+ <8d8c5c82-f1d3-5599-ae3e-5af5ff12eb9d@grimberg.me>
+ <20210427233956.GA631292@dhcp-10-100-145-180.wdc.com>
+ <549e4f57-5f6e-d5ed-db63-8f82e9a7490a@grimberg.me>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB7041.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d07f902e-3546-48f4-ee79-08d90a5c98a5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2021 15:45:06.2751 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xpxKEwNH3N+0SB7ZZmAaKXzGThMgNdKH+oWzPK0/mdEav42voUaO89Jsm8GRk9skROWt2RgABbjdNSmSf6WV4HppW+cBYTixgoAk774BXQM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5141
+Content-Disposition: inline
+In-Reply-To: <549e4f57-5f6e-d5ed-db63-8f82e9a7490a@grimberg.me>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210428_084510_893345_1B7980AA 
-X-CRM114-Status: GOOD (  34.94  )
+X-CRM114-CacheID: sfid-20210428_085854_970937_B9E133F0 
+X-CRM114-Status: GOOD (  43.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -191,78 +100,112 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 28, 2021 at 5:43 AM hch@lst.de <hch@lst.de> wrote:
->
-> Adding Andy who wrote the original APST code.
->
-> On Wed, Apr 28, 2021 at 09:27:36AM +0000, Alexey Bogoslavsky wrote:
-> > From: Alexey Bogoslavsky <Alexey.Bogoslavsky@wdc.com>
-> >
-> > The algorithm that was used until now for building the APST configuration
-> > table has been found to produce entries with excessively long ITPT
-> > (idle time prior to transition) for devices declaring relatively long
-> > entry and exit latencies for non-operational power states. This leads
-> > to unnecessary waste of power and, as a result, failure to pass
-> > mandatory power consumption tests on Chromebook platforms.
-> >
-> > The new algorithm is based on two predefined ITPT values and two
-> > predefined latency tolerances. Based on these values, as well as on
-> > exit and entry latencies reported by the device, the algorithm looks
-> > for up to 2 suitable non-operational power states to use as primary
-> > and secondary APST transition targets. The predefined values are
-> > supplied to the nvme driver as module parameters:
-> >
-> >  - apst_primary_timeout_ms (default: 100)
-> >  - apst_secondary_timeout_ms (default: 2000)
-> >  - apst_primary_latency_tol_us (default: 15000)
-> >  - apst_secondary_latency_tol_us (default: 100000)
-> >
-> > The algorithm echoes the approach used by Intel's and Microsoft's drivers
-> > on Windows. The specific default parameter values are also based on those
-> > drivers. Yet, this patch doesn't introduce the ability to dynamically
-> > regenerate the APST table in the event of switching the power source from
-> > AC to battery and back. Adding this functionality may be considered in the
-> > future. In the meantime, the timeouts and tolerances reflect a compromise
-> > between values used by Microsoft for AC and battery scenarios.
-> >
-> > In most NVMe devices the new algorithm causes them to implement a more
-> > aggressive power saving policy. While beneficial in most cases, this
-> > sometimes comes at the price of a higher IO processing latency in certain
-> > scenarios as well as at the price of a potential impact on the drive's
-> > endurance (due to more frequent context saving when entering deep non-
-> > operational states). So in order to provide a fallback for systems where
-> > these regressions cannot be tolerated, the patch allows to revert to
-> > the legacy behavior by setting either apst_primary_timeout_ms or
-> > apst_primary_latency_tol_us parameter to 0. Eventually (and possibly after
-> > fine tuning the default values of the module parameters) the legacy behavior
-> > can be removed.
+On Tue, Apr 27, 2021 at 04:55:43PM -0700, Sagi Grimberg wrote:
+> 
+> > > > > > > > This was observed on the recent 5.12-rc4, so it has all the latest tcp
+> > > > > > > > fixes. I'll check with reverting 0dc9edaf80ea and see if that makes a
+> > > > > > > > difference. It is currently reproducible, though it can take over an
+> > > > > > > > hour right now.
+> > > > > > > 
+> > > > > > > After reverting 0dc9edaf80ea, we are observing a kernel panic (below).
+> > > > > > 
+> > > > > > Ah, that's probably because WRITE_ZEROS are not set with RQF_SPECIAL..
+> > > > > > This patch is actually needed.
+> > > > > > 
+> > > > > > 
+> > > > > > > We'll try adding it back, plust adding your debug patch.
+> > > > > > 
+> > > > > > Yes, that would give us more info about what is the state the
+> > > > > > request is in when getting these errors
+> > > > > 
+> > > > > We have recreated with your debug patch:
+> > > > > 
+> > > > >     nvme nvme4: queue 6 no space in request 0x1 no space cmd_state 3
+> > > > > 
+> > > > > State 3 corresponds to the "NVME_TCP_CMD_DATA_DONE".
+> > > > > 
+> > > > > The summary from the test that I received:
+> > > > > 
+> > > > >     We have an Ethernet trace for this failure. I filtered the trace for the
+> > > > >     connection that maps to "queue 6 of nvme4" and tracked the state of the IO
+> > > > >     command with Command ID 0x1 ("Tag 0x1"). The sequence for this command per
+> > > > >     the Ethernet trace is:
+> > > > > 
+> > > > >      1. The target receives this Command in an Ethernet frame that has  9 Command
+> > > > >         capsules and a partial H2CDATA PDU. The Command with ID 0x1 is a Read
+> > > > >         operation for 16K IO size
+> > > > >      2. The target sends 11 frames of C2HDATA PDU's each with 1416 bytes and one
+> > > > >         C2HDATA PDU with 832 bytes to complete the 16K transfer. LAS flag is set
+> > > > >         in the last PDU.
+> > > > >      3. The target sends a Response for this Command.
+> > > > >      4. About 1.3 ms later, the Host logs this msg and closes the connection.
+> > > > > 
+> > > > > Please let us know if you need any additional information.
+> > > > 
+> > > > I'm not sure if this is just a different symptom of the same problem,
+> > > > but with the debug patch, we're occasionally hitting messages like:
+> > > > 
+> > > >     nvme nvme5: req 8 r2t len 16384 exceeded data len 16384 (8192 sent) cmd_state 2
+> > > 
+> > > According to this message, this means the host got an r2t for 16384
+> > > bytes after it already sent 8192 (which can only happen if it previously
+> > > got an r2t soliciting 8192 bytes or more that accumulate to that). Can
+> > > you share for each r2t pdus in this sequence:
+> > > r2t_length
+> > > r2t_offset
+> > 
+> > This one took a bit to go through. The traces all only have a single r2t
+> > pdu with 0 offset for the full length of the requested transfer. I had
+> > to add trace events to see what the heck the driver is thinking, and
+> > the result is even more confusing.
+> > 
+> > The kernel message error:
+> > 
+> >      nvme5: req 5 op 1 r2t len 16384 exceeded data len 16384 (4096 sent)
+> > 
+> > And all the new trace events for this request are:
+> > 
+> >      fio-25086   [011] ....  9630.542669: nvme_tcp_queue_rq: nvme5: qid=4 tag=5 op=1 data_len=16384
+> >      fio-25093   [007] ....  9630.542854: nvme_tcp_cmd_pdu: nvme5: qid=4 tag=5 op=1 page_offset=3664 send_len=72
+> >      <...>-22670 [003] ....  9630.544377: nvme_tcp_r2t: nvme5: qid=4 tag=5 op=1 r2t_len=16384 r2t_offset=0 data_sent=4096 data_len=16384
+> > 
+> > The fact "data_sent" is non-zero on the very first r2t makes no sense to me.
+> 
+> Yep, not supposed to happen... Like the traces though! very useful and
+> absolutely worth having.
+> 
+> > I so far can not find any sequence where that could happen.
+> 
+> The only way that data_sent can increment is either by getting an r2t
+> solicitation or by sending incapsule data.
+> 
+> What is the ioccsz the controller is exposing?
 
->  Can you give an example of the APST states and latencies on a device
->  for which this is useful?
+In capsule data is not supported by this target, so ioccsz is 4.
 
-Sure. Originally, we faced this problem with WD SN530 device that failed to pass
-Google's power consumption tests. The device reports the following latencies:
-PS3: entry: 3900, exit: 11000 (translates to 745ms ITPT)
-PS4: entry: 5000, exit: 39000 (translates to 2200ms ITPT)
+> in nvme_tcp_sned_cmd_pdu we have:
+> --
+>                 if (inline_data) {
+>                         req->state = NVME_TCP_SEND_DATA;
+>                         if (queue->data_digest)
+>                                 crypto_ahash_init(queue->snd_hash);
+>                 } else {
+>                         nvme_tcp_done_send_req(queue);
+>                 }
+> --
+> 
+> Where inline_data flag is:
+> 	bool inline_data = nvme_tcp_has_inline_data(req);
+> which essentially boils down to:
+> 	req->data_len <= queue->cmnd_capsule_len - sizeof(struct nvme_command);
+> 
+> I wonder how does the nvme command sgl look like? is it an offset
+> sgl?
 
-Then we started looking at other devices and found more with a similar problem,
-e.g. Crucial P5:
-PS3: entry: 10000, exit: 2500 (translates to 625ms ITPT)
-PS4: entry: 12000, exit: 35000 (translates to 2350ms ITPT)
+Just a single data block descriptor SGL. The target supports only 1 and
+reports that through ID_CTRL.MSDBD.
 
->  I'm not opposed to adjusting the algorithm, but I'd like to understand
->  what we're up against.  If Linux were the only game in town, I would
->  say that the approach in this patch is unfortunate because of the
->  arbitrary thresholds it introduces, but if it tracks Windows, then
->  we're probably okay.
->--Andy
-
-I agree. Using arbitrary numbers would be a very bad idea. But the numbers I'm
-suggesting are indeed based on the schemes used on Windows, so they have proved
-viable on a huge number of devices.
-
-Regards,
-Alexey
+What do you mean by "offset" SGL?
 
 _______________________________________________
 Linux-nvme mailing list
