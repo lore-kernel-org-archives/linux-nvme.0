@@ -2,105 +2,88 @@ Return-Path: <SRS0=qX5s=J2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D5D9C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Apr 2021 18:44:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F153C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Apr 2021 19:10:33 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 799996143E
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Apr 2021 18:44:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 799996143E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1CB996143E
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Apr 2021 19:10:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1CB996143E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=4qWHnVbCKEvbI6sq+driuzBpeBCPIMbFRyCLdvCcAPY=; b=qUUAI6i7Oo8qXus6sFJACgYMg
-	0h5+VJ2eg6kZdQ7mmV/2fjE21xPqTgSSISTNoICpIl5sEz0oC+FEUsJC0RgIAtgVBaMGNuPpGgzZb
-	vY6zR3pVC+raaks+1tTXuAHZ+3abj8zShvEaQAw8fTqAJ2AQVhCSsjHHxv1LNUb8UTtMGtw4Dvwgk
-	szBDTA60eJba4K+JuvsNOa3nt1j1app1WCZG4JSLrtGSuMW0kpWut9VdruBp3O9U8YpOuSeOLIZrQ
-	KDhwTg3g42faPjwG1Pr+ZgWXy+F5L4Q9z1wBAZwNbrKGe1uBIog05jkNZLymlUqGY1wTNnUh5y1kH
-	HLOL0u0uw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ktC8zM7kOcB/zl+SaIJ4+MZctMl4MINNGI6j0RiaIrc=; b=pgXIQfptSIvfS8vdtpcc7bT0tp
+	WJMzOeG9cIE0TSdjQFwBL1BUE28zxR9cyEv8z735m/5pXeIKKoencRJJQthEi8kFTRWUxACJcfcO+
+	dFW+kAMbb0TfmTscLkRDnaIs4jfL92B1xa3ITQDIohObMFmiZUGEDcJoTCt2aw4Fqvd2sn1QQs3fi
+	vjo3IjkpxRybAiiKlPMjvIjdhBvgsW7+kAPAiYn/cPE0qiHM4404uGpLQ5ZbF4Gl+VfIGD9uzWs2M
+	KtJoBGWZ6aA5EUizuW7XXPklyX/4NGpF2TlKMY1URRhQd8pUZPNIiRE09A8YFQF9xnfEGPXpLp32k
+	UBOmkzDg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lcBeM-006CgK-P1; Thu, 29 Apr 2021 18:44:34 +0000
+	id 1lcC32-006FKU-E4; Thu, 29 Apr 2021 19:10:04 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lcBe0-006Ccv-Hq
- for linux-nvme@desiato.infradead.org; Thu, 29 Apr 2021 18:44:12 +0000
+ id 1lcC2y-006FJC-9w
+ for linux-nvme@desiato.infradead.org; Thu, 29 Apr 2021 19:10:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=VE+TtUFdifW+hfUkuBs41Spk9+IpMLVysSSWe1llg6M=; b=gzd+fICIA5TklDVt1PMd+BrpN4
- 9UfyjFCuliViWv2mPjWbEmCTndl6gtZkjl5TF/APZln70H4WQ5V99X5IOF8Ycg4WNZBvH4dFcs5X5
- X6QANEL7u/zNqqW4BPPtMw7k3wBXVBUj/RQ2CSzLuXxYTekoWlThBwDEww8e5Aq9X9qXeO38m8B2B
- CpPgHG1UTJFJu5VChc53O5QxQzr8BVUS0SDuC1EUlqRp7MNDbpBVrpE7p2Tk1ZbkWtgKszJGQOwWA
- NnlicSy5yY7XX8knVY6kJAm97izTlsBPS8Q+Y221+mcQIGwU3FO4tHwQ1vKJgBBUUy26tEYd/7zCC
- EkwnaujA==;
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:Message-ID:
+ Date:Subject:CC:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=Dgc3UclaqRNJY4O6mcz0ctXB6sbZbx21WiUx0JTC1l8=; b=Cu5+uAAhIPy5qBqvmqr3WzsXaD
+ 0wC1IG9v2FmJZq/oJbiVrQ7OFcK2kc8TkApw4A6VF/pcTe0T6gNVxyR8Rc5oZjYJPasW5PRwfen6S
+ 4E8FEV2rFaOO7csmclE9xblrsK9i7gBhHfWcysKkWQjqPBEpLDpjOelQ//aVsc1pOhCK51fADN+L1
+ vXTobGPENw3qG+SWsIH8bogeRFlbYg+s7WPfP8VGLzw+R9m2t6BtX+Aske6GTnW6KKDTn3l2DMXSk
+ KoWU+VqeO+JladVNBNBZMNtUqNbmDtQ51Hy0EOfK4nwu3OJ2bxHJjLAP+C2fBZkz4PcGI7KWKMLuA
+ j1EirIog==;
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
+ helo=mx0b-0016f401.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lcBdy-000rJ2-24
- for linux-nvme@lists.infradead.org; Thu, 29 Apr 2021 18:44:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1619721848; x=1651257848;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=PvHKBryTRQAgyckeMoNBuQrcNJP0S5fvAloevgML65M=;
- b=EU0oM3CfQjC6p3hPEmq8xcnE/FjQKG/1g7OsI+TYCra8Nq+0DpGLRbfQ
- gzNutaE7sbu2YBIQ4r6NIwnyvn7abZk1UGzPxb/zz5xLKQR+vzuwg7Xox
- CU6G5vpSKh1j8lqXBPZBjxAsHVRUosiXd77keIi6AjUkN8vVAm52J47ab
- /Cpzw3DokGccrVMD19lDgygMG2jdW2/LAq/M2WmljBYw3/Q1cJGhvpkw2
- TmccCDCpL5ja3e4o4cYqyn7IXN2D4xGNOL8Py6yg5VUAN8vDOmyDFJLju
- 3iUUO5y8SI8QWcYTKDAm82SlQvawuJpi10JyP5qvchW9TRjdQIHuswEib g==;
-IronPort-SDR: x4G+utp6h1jp1FyojDQWESIcJe+gwOI65LEA9YUJVkfs6mGL8gqSdSSW6CWEfl5CdLOvyBePSA
- qQyS7KDJ5z56XO9fCbx64oHzRyFJoItHwX+4dhnanGJAKC532QqgeAOCi/iuUQVPrTkQkaE3wf
- HL++DlBoh6V0+sFu5uVqAY5HoSr0boYS+VeaNlXY0Ta8TXhrKOqXBb+a1ga7fjKXmCMw1tOOYI
- pEy7dFK8oK2IgQs5hFexKpU72BRmSnwvRbcd2O2CRbY+KiNGeXUJYAq940aTCZoyOSEAMHPJpI
- vcg=
-X-IronPort-AV: E=Sophos;i="5.82,260,1613404800"; d="scan'208";a="171236415"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 30 Apr 2021 02:44:08 +0800
-IronPort-SDR: 170q4VLpEE+esttqQ+FbmOIHmsuRyksShNaOGc2v6CSHcETwDYqvw/qqdtT4HShHMiXeuGqOhM
- v/Ul4ZKuHI0KbNbeg59R/bYlh2wTqhoaCsYOXYbqsE/pgfehhCFEvkbBdRlzm1hI+wO6P4DJYj
- 8rOOPFQzDYXM65fFX0BcLQENIgidekbsrKfXO64Wfnl694MfNuLYHn6M+qzLsneXqxts2lW1kp
- iC9SchSJg7taTu/nboTd5MD73JzRzTifTKSpzxQu6yp9eXDOJ/SZ6uWfCA0x37wOv9HB3d/rLT
- TPBhwPiLLuJHxvbqmR+almmM
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 11:22:58 -0700
-IronPort-SDR: rd7XSEDX7lgvmRALcxIfT/0cf33680x/LLuLDmyfw0U3OMErgzboK5f9N9NSkh1rlLRIAE2aAV
- z/5uF2LT9DcnkMPKG5wf80YmnQ0Z91JZUW7ccFu+05NMsZgVOefV0VJ5IJXIfBQwSs2viQx+xD
- kbf9CERut5cdc8ofD6J6gBKbjN64hnWSnDw0mJpET0KO0gR+A1U2sJz1Czo4UfP3QQzfMHcuOR
- lpT1jJ1527dR4VT0VVyxJYI0gCIBTep97nb6QHf3kkWmrIfORKWDGESAgbQeCwoWsRwpxeKjaH
- At4=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 29 Apr 2021 11:44:10 -0700
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de, sagi@grimberg.me,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH 2/2] nvmet: check sg_cnt for inline bio for passthru
-Date: Thu, 29 Apr 2021 11:43:57 -0700
-Message-Id: <20210429184357.9185-3-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1.dirty
-In-Reply-To: <20210429184357.9185-1-chaitanya.kulkarni@wdc.com>
-References: <20210429184357.9185-1-chaitanya.kulkarni@wdc.com>
+ id 1lcC2u-000sZj-OF
+ for linux-nvme@lists.infradead.org; Thu, 29 Apr 2021 19:09:58 +0000
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13TJ6GPd019581; Thu, 29 Apr 2021 12:09:38 -0700
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+ by mx0a-0016f401.pphosted.com with ESMTP id 387erumvwk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Thu, 29 Apr 2021 12:09:38 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 29 Apr 2021 12:09:36 -0700
+Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
+ DC5-EXCH01.marvell.com (10.69.176.38) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 29 Apr 2021 12:09:33 -0700
+From: Shai Malin <smalin@marvell.com>
+To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+ <sagi@grimberg.me>, <hch@lst.de>, <axboe@fb.com>, <kbusch@kernel.org>
+CC: =?UTF-8?q?David=20S=20=2E=20Miller=20davem=20=40=20davemloft=20=2E=20net=20=C2=A0--cc=3DJakub=20Kicinski?=
+ <kuba@kernel.org>,
+ <smalin@marvell.com>, <aelior@marvell.com>, <mkalderon@marvell.com>,
+ <okulkarni@marvell.com>, <pkushwaha@marvell.com>, <malin1024@gmail.com>
+Subject: [RFC PATCH v4 00/27] NVMeTCP Offload ULP and QEDN Device Driver
+Date: Thu, 29 Apr 2021 22:08:59 +0300
+Message-ID: <20210429190926.5086-1-smalin@marvell.com>
+X-Mailer: git-send-email 2.16.6
 MIME-Version: 1.0
+X-Proofpoint-GUID: 1u5n-3hPrxFaqC1GZ5R_MyJdHvH2j70g
+X-Proofpoint-ORIG-GUID: 1u5n-3hPrxFaqC1GZ5R_MyJdHvH2j70g
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-29_10:2021-04-28,
+ 2021-04-29 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210429_114410_128801_84BF5433 
-X-CRM114-Status: GOOD (  14.62  )
+X-CRM114-CacheID: sfid-20210429_120956_822747_C9A95697 
+X-CRM114-Status: GOOD (  25.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,57 +100,317 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When handling passthru commands, for inline bio allocation we only
-consider the transfer size. This works well when req->sg_cnt fits into
-the req->inline_bvec, but it will result in the early return from
-bio_add_hw_page() when req->sg_cnt > NVMET_MAX_INLINE_BVEC.
+With the goal of enabling a generic infrastructure that allows NVMe/TCP 
+offload devices like NICs to seamlessly plug into the NVMe-oF stack, this 
+patch series introduces the nvme-tcp-offload ULP host layer, which will 
+be a new transport type called "tcp-offload" and will serve as an 
+abstraction layer to work with vendor specific nvme-tcp offload drivers.
 
-Consider an I/O of size 32768 and first buffer is not aligned to the
-page boundary, then I/O is split in following manner :-
+NVMeTCP offload is a full offload of the NVMeTCP protocol, this includes 
+both the TCP level and the NVMeTCP level.
 
-[ 2206.256140] nvmet: sg->length 3440 sg->offset 656
-[ 2206.256144] nvmet: sg->length 4096 sg->offset 0
-[ 2206.256148] nvmet: sg->length 4096 sg->offset 0
-[ 2206.256152] nvmet: sg->length 4096 sg->offset 0
-[ 2206.256155] nvmet: sg->length 4096 sg->offset 0
-[ 2206.256159] nvmet: sg->length 4096 sg->offset 0
-[ 2206.256163] nvmet: sg->length 4096 sg->offset 0
-[ 2206.256166] nvmet: sg->length 4096 sg->offset 0
-[ 2206.256170] nvmet: sg->length 656 sg->offset 0
+The nvme-tcp-offload transport can co-exist with the existing tcp and 
+other transports. The tcp offload was designed so that stack changes are 
+kept to a bare minimum: only registering new transports. 
+All other APIs, ops etc. are identical to the regular tcp transport.
+Representing the TCP offload as a new transport allows clear and manageable
+differentiation between the connections which should use the offload path
+and those that are not offloaded (even on the same device).
 
-Now the req->transfer_size == NVMET_MAX_INLINE_DATA_LEN i.e. 32768, but
-the req->sg_cnt is (9) > NVMET_MAX_INLINE_BIOVEC which is (8).
-This will result in early return in the following code path :-
 
-nvmet_bdev_execute_rw()
-	bio_add_pc_page()
-		bio_add_hw_page()
-			if (bio_full(bio, len))
-				return 0;
+The nvme-tcp-offload layers and API compared to nvme-tcp and nvme-rdma:
 
-Add a check to consider req->sg_cnt when using inline bio.
+* NVMe layer: *
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/target/passthru.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+       [ nvme/nvme-fabrics/blk-mq ]
+             |
+        (nvme API and blk-mq API)
+             |
+             |			 
+* Vendor agnostic transport layer: *
 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 2798944899b7..d65d76129000 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -194,7 +194,8 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
- 	if (req->sg_cnt > BIO_MAX_VECS)
- 		return -EINVAL;
+      [ nvme-rdma ] [ nvme-tcp ] [ nvme-tcp-offload ]
+             |        |             |
+           (Verbs) 
+             |        |             |
+             |     (Socket)
+             |        |             |
+             |        |        (nvme-tcp-offload API)
+             |        |             |
+             |        |             |
+* Vendor Specific Driver: *
+
+             |        |             |
+           [ qedr ]       
+                      |             |
+                   [ qede ]
+                                    |
+                                  [ qedn ]
+
+
+Performance:
+============
+With this implementation on top of the Marvell qedn driver (using the
+Marvell FastLinQ NIC), we were able to demonstrate the following CPU 
+utilization improvement:
+
+On AMD EPYC 7402, 2.80GHz, 28 cores:
+- For 16K queued read IOs, 16jobs, 4qd (50Gbps line rate): 
+  Improved the CPU utilization from 15.1% with NVMeTCP SW to 4.7% with 
+  NVMeTCP offload.
+
+On Intel(R) Xeon(R) Gold 5122 CPU, 3.60GHz, 16 cores: 
+- For 512K queued read IOs, 16jobs, 4qd (25Gbps line rate): 
+  Improved the CPU utilization from 16.3% with NVMeTCP SW to 1.1% with 
+  NVMeTCP offload.
+
+In addition, we were able to demonstrate the following latency improvement:
+- For 200K read IOPS (16 jobs, 16 qd, with fio rate limiter):
+  Improved the average latency from 105 usec with NVMeTCP SW to 39 usec 
+  with NVMeTCP offload.
+  
+  Improved the 99.99 tail latency from 570 usec with NVMeTCP SW to 91 usec 
+  with NVMeTCP offload.
+
+The end-to-end offload latency was measured from fio while running against 
+back end of null device.
+
+
+Upstream plan:
+==============
+Following this RFC, the series will be sent in a modular way so that changes 
+in each part will not impact the previous part.
+
+- Part 1 (Patches 1-7):
+  The qed infrastructure, will be sent to 'netdev@vger.kernel.org'.
+
+- Part 2 (Patch 8-15): 
+  The nvme-tcp-offload patches, will be sent to 
+  'linux-nvme@lists.infradead.org'.
+
+- Part 3 (Packet 16-27):
+  The qedn patches, will be sent to 'linux-nvme@lists.infradead.org'.
  
--	if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN) {
-+	if (req->transfer_len <= NVMET_MAX_INLINE_DATA_LEN &&
-+	    req->sg_cnt <= NVMET_MAX_INLINE_BIOVEC) {
- 		bio = &req->p.inline_bio;
- 		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
- 	} else {
+
+Queue Initialization Design:
+============================
+The nvme-tcp-offload ULP module shall register with the existing 
+nvmf_transport_ops (.name = "tcp_offload"), nvme_ctrl_ops and blk_mq_ops.
+The nvme-tcp-offload vendor driver shall register to nvme-tcp-offload ULP
+with the following ops:
+- claim_dev() - in order to resolve the route to the target according to
+                the paired net_dev.
+- create_queue() - in order to create offloaded nvme-tcp queue.
+
+The nvme-tcp-offload ULP module shall manage all the controller level
+functionalities, call claim_dev and based on the return values shall call
+the relevant module create_queue in order to create the admin queue and
+the IO queues.
+
+
+IO-path Design:
+===============
+The nvme-tcp-offload shall work at the IO-level - the nvme-tcp-offload 
+ULP module shall pass the request (the IO) to the nvme-tcp-offload vendor
+driver and later, the nvme-tcp-offload vendor driver returns the request
+completion (the IO completion).
+No additional handling is needed in between; this design will reduce the
+CPU utilization as we will describe below.
+
+The nvme-tcp-offload vendor driver shall register to nvme-tcp-offload ULP
+with the following IO-path ops:
+- init_req()
+- send_req() - in order to pass the request to the handling of the
+               offload driver that shall pass it to the vendor specific device.
+- poll_queue()
+
+Once the IO completes, the nvme-tcp-offload vendor driver shall call 
+command.done() that will invoke the nvme-tcp-offload ULP layer to
+complete the request.
+
+
+TCP events:
+===========
+The Marvell FastLinQ NIC HW engine handle all the TCP re-transmissions
+and OOO events.
+
+
+Teardown and errors:
+====================
+In case of NVMeTCP queue error the nvme-tcp-offload vendor driver shall
+call the nvme_tcp_ofld_report_queue_err.
+The nvme-tcp-offload vendor driver shall register to nvme-tcp-offload ULP
+with the following teardown ops:
+- drain_queue()
+- destroy_queue()
+
+
+The Marvell FastLinQ NIC HW engine:
+====================================
+The Marvell NIC HW engine is capable of offloading the entire TCP/IP
+stack and managing up to 64K connections per PF, already implemented and 
+upstream use cases for this include iWARP (by the Marvell qedr driver) 
+and iSCSI (by the Marvell qedi driver).
+In addition, the Marvell NIC HW engine offloads the NVMeTCP queue layer
+and is able to manage the IO level also in case of TCP re-transmissions
+and OOO events.
+The HW engine enables direct data placement (including the data digest CRC
+calculation and validation) and direct data transmission (including data
+digest CRC calculation).
+
+
+The Marvell qedn driver:
+========================
+The new driver will be added under "drivers/nvme/hw" and will be enabled
+by the Kconfig "Marvell NVM Express over Fabrics TCP offload".
+As part of the qedn init, the driver will register as a pci device driver 
+and will work with the Marvell fastlinQ NIC.
+As part of the probe, the driver will register to the nvme_tcp_offload
+(ULP) and to the qed module (qed_nvmetcp_ops) - similar to other
+"qed_*_ops" which are used by the qede, qedr, qedf and qedi device
+drivers.
+  
+
+QEDN Future work:
+=================
+- Support extended HW resources.
+- Digest support.
+- Devlink support for device configuration and TCP offload configurations.
+- Statistics
+
+ 
+Long term future work:
+======================
+- The nvme-tcp-offload ULP target abstraction layer.
+- The Marvell nvme-tcp-offload "qednt" target driver.
+
+
+Changes since RFC v1:
+=====================
+- Fix nvme_tcp_ofld_ops return values.
+- Remove NVMF_TRTYPE_TCP_OFFLOAD.
+- Add nvme_tcp_ofld_poll() implementation.
+- Fix nvme_tcp_ofld_queue_rq() to check map_sg() and send_req() return
+  values.
+
+Changes since RFC v2:
+=====================
+- Add qedn - Marvell's NVMeTCP HW offload vendor driver init and probe
+  (patches 8-11).
+- Fixes in controller and queue level (patches 3-6).
+  
+Changes since RFC v3:
+=====================
+- Add the full implementation of the nvme-tcp-offload layer including the 
+  new ops: setup_ctrl(), release_ctrl(), commit_rqs() and new flows (ASYNC
+  and timeout).
+- Add nvme-tcp-offload device maximums: max_hw_sectors, max_segments.
+- Add nvme-tcp-offload layer design and optimization changes.
+- Add the qedn full implementation for the conn level, IO path and error 
+  handling.
+- Add qed support for the new AHP HW. 
+
+
+Arie Gershberg (3):
+  nvme-fabrics: Move NVMF_ALLOWED_OPTS and NVMF_REQUIRED_OPTS
+    definitions
+  nvme-tcp-offload: Add controller level implementation
+  nvme-tcp-offload: Add controller level error recovery implementation
+
+Dean Balandin (3):
+  nvme-tcp-offload: Add device scan implementation
+  nvme-tcp-offload: Add queue level implementation
+  nvme-tcp-offload: Add IO level implementation
+
+Nikolay Assa (2):
+  qed: Add IP services APIs support
+  qedn: Add qedn_claim_dev API support
+
+Omkar Kulkarni (1):
+  qed: Add qed-NVMeTCP personality
+
+Prabhakar Kushwaha (6):
+  qed: Add support of HW filter block
+  qedn: Add connection-level slowpath functionality
+  qedn: Add support of configuring HW filter block
+  qedn: Add support of Task and SGL
+  qedn: Add support of NVME ICReq & ICResp
+  qedn: Add support of ASYNC
+
+Shai Malin (12):
+  qed: Add NVMeTCP Offload PF Level FW and HW HSI
+  qed: Add NVMeTCP Offload Connection Level FW and HW HSI
+  qed: Add NVMeTCP Offload IO Level FW and HW HSI
+  qed: Add NVMeTCP Offload IO Level FW Initializations
+  nvme-tcp-offload: Add nvme-tcp-offload - NVMeTCP HW offload ULP
+  nvme-tcp-offload: Add Timeout and ASYNC Support
+  qedn: Add qedn - Marvell's NVMeTCP HW offload vendor driver
+  qedn: Add qedn probe
+  qedn: Add IRQ and fast-path resources initializations
+  qedn: Add IO level nvme_req and fw_cq workqueues
+  qedn: Add IO level fastpath functionality
+  qedn: Add Connection and IO level recovery flows
+
+ MAINTAINERS                                   |   10 +
+ drivers/net/ethernet/qlogic/Kconfig           |    3 +
+ drivers/net/ethernet/qlogic/qed/Makefile      |    5 +
+ drivers/net/ethernet/qlogic/qed/qed.h         |   16 +
+ drivers/net/ethernet/qlogic/qed/qed_cxt.c     |   32 +
+ drivers/net/ethernet/qlogic/qed/qed_cxt.h     |    1 +
+ drivers/net/ethernet/qlogic/qed/qed_dev.c     |  151 +-
+ drivers/net/ethernet/qlogic/qed/qed_hsi.h     |    4 +-
+ drivers/net/ethernet/qlogic/qed/qed_ll2.c     |   31 +-
+ drivers/net/ethernet/qlogic/qed/qed_mcp.c     |    3 +
+ drivers/net/ethernet/qlogic/qed/qed_mng_tlv.c |    3 +-
+ drivers/net/ethernet/qlogic/qed/qed_nvmetcp.c |  868 +++++++++++
+ drivers/net/ethernet/qlogic/qed/qed_nvmetcp.h |  114 ++
+ .../qlogic/qed/qed_nvmetcp_fw_funcs.c         |  372 +++++
+ .../qlogic/qed/qed_nvmetcp_fw_funcs.h         |   43 +
+ .../qlogic/qed/qed_nvmetcp_ip_services.c      |  239 +++
+ drivers/net/ethernet/qlogic/qed/qed_ooo.c     |    5 +-
+ drivers/net/ethernet/qlogic/qed/qed_sp.h      |    5 +
+ .../net/ethernet/qlogic/qed/qed_sp_commands.c |    1 +
+ drivers/nvme/Kconfig                          |    1 +
+ drivers/nvme/Makefile                         |    1 +
+ drivers/nvme/host/Kconfig                     |   16 +
+ drivers/nvme/host/Makefile                    |    3 +
+ drivers/nvme/host/fabrics.c                   |    7 -
+ drivers/nvme/host/fabrics.h                   |    7 +
+ drivers/nvme/host/tcp-offload.c               | 1330 +++++++++++++++++
+ drivers/nvme/host/tcp-offload.h               |  209 +++
+ drivers/nvme/hw/Kconfig                       |    9 +
+ drivers/nvme/hw/Makefile                      |    3 +
+ drivers/nvme/hw/qedn/Makefile                 |    4 +
+ drivers/nvme/hw/qedn/qedn.h                   |  435 ++++++
+ drivers/nvme/hw/qedn/qedn_conn.c              |  999 +++++++++++++
+ drivers/nvme/hw/qedn/qedn_main.c              | 1153 ++++++++++++++
+ drivers/nvme/hw/qedn/qedn_task.c              |  977 ++++++++++++
+ include/linux/qed/common_hsi.h                |    1 +
+ include/linux/qed/nvmetcp_common.h            |  616 ++++++++
+ include/linux/qed/qed_if.h                    |   22 +
+ include/linux/qed/qed_nvmetcp_if.h            |  244 +++
+ .../linux/qed/qed_nvmetcp_ip_services_if.h    |   29 +
+ 39 files changed, 7947 insertions(+), 25 deletions(-)
+ create mode 100644 drivers/net/ethernet/qlogic/qed/qed_nvmetcp.c
+ create mode 100644 drivers/net/ethernet/qlogic/qed/qed_nvmetcp.h
+ create mode 100644 drivers/net/ethernet/qlogic/qed/qed_nvmetcp_fw_funcs.c
+ create mode 100644 drivers/net/ethernet/qlogic/qed/qed_nvmetcp_fw_funcs.h
+ create mode 100644 drivers/net/ethernet/qlogic/qed/qed_nvmetcp_ip_services.c
+ create mode 100644 drivers/nvme/host/tcp-offload.c
+ create mode 100644 drivers/nvme/host/tcp-offload.h
+ create mode 100644 drivers/nvme/hw/Kconfig
+ create mode 100644 drivers/nvme/hw/Makefile
+ create mode 100644 drivers/nvme/hw/qedn/Makefile
+ create mode 100644 drivers/nvme/hw/qedn/qedn.h
+ create mode 100644 drivers/nvme/hw/qedn/qedn_conn.c
+ create mode 100644 drivers/nvme/hw/qedn/qedn_main.c
+ create mode 100644 drivers/nvme/hw/qedn/qedn_task.c
+ create mode 100644 include/linux/qed/nvmetcp_common.h
+ create mode 100644 include/linux/qed/qed_nvmetcp_if.h
+ create mode 100644 include/linux/qed/qed_nvmetcp_ip_services_if.h
+
 -- 
-2.22.1
+2.22.0
 
 
 _______________________________________________
