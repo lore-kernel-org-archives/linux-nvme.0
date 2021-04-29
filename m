@@ -2,170 +2,96 @@ Return-Path: <SRS0=qX5s=J2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDEAC433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Apr 2021 01:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51EA0C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Apr 2021 01:45:01 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 98FCD6143F
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Apr 2021 01:26:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98FCD6143F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id C1DA661455
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Apr 2021 01:45:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1DA661455
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=AGqqB5pSv1mqpbUvzk4f9Vm+tJNEwQdd7bcMo9neR7I=; b=DxN8BUh7Rlrl2RC5t/vAfXDsr
-	IxSwBRPpI+FdV5aAA1gNurRrT+gGy4enISqcQnGy/Ze28/enA0DfRfHOe8mi4bEuQtTEPsOzV5x+I
-	41vf9VAdkFg2Dcvmp7o1bsh29EfLHm9iYIjWfSJxX2zhLkGFM7/qXnRDfMmmdC+dBrNs2VSE+s7+9
-	LoXXf1J4BnuWwZN//X1d/LIAInI9LrrZY7jIxA4JLHWpVY1qfPZ01Kx5rwaVGG/IkD30MXAwky+9o
-	2zZIQ222aNzdu5pCp4iKy/FZeevdcc/iGUXDCEWkL5OOgpMXPMTdKEkU8udntXsh7VTIBW+AWNUe7
-	u332X7mUw==;
+	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:MIME-Version:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=lp4tyZzGZdDAvwCk7mG8Z3iHkhJ0zAm3w6+PO/v9QRE=; b=TSr1W/kVwwY+5fE4bCnLtBUyXi
+	2c05afuEkzvyiXX5bYLA1+s8L8c9Eh3nUHzTNpsiOJQCj5Y/3yTL6oast7Oue9oQNmk4RHNF1Cbkl
+	WWnAJmEUGj8VuXvVGekvYfDepP8uAKx9peGu7in9PEeM89p29urfj+W/WWFy3n7u/4l9Ky1Hzm+9w
+	ewvFGN6fxi+Rv2TEjfqbhGTDT1sFPA2uXCHXm1A7vsR2cljBnRsE6idv/sN4OiMGXnVlzebe87vHA
+	r3yd5ZbNJBKorl+ykcvo54yCTZ4AtY9FDk+7fjXgkRM5cBWfqDhwpnBEB5z3V3gXn+js1q4p2DMaE
+	3lFjB6Zw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbvRH-004cQs-5h; Thu, 29 Apr 2021 01:25:59 +0000
-Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
+	id 1lbvjT-004dvr-Lh; Thu, 29 Apr 2021 01:44:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbvQC-004cMZ-R1
- for linux-nvme@desiato.infradead.org; Thu, 29 Apr 2021 01:25:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
- To:From:Sender:Reply-To:Content-ID:Content-Description:In-Reply-To;
- bh=8PwprfGS2fIZiB8cJqEAuOxBhhmReRgBHggKOmn0mQc=; b=dCAuWTJC+R+eBLHgm2Dhj0VGXX
- YcfR4TP5jMnxQe6J8B5sxz0IQFaA24LX/o5+K5WHPiopEhzDjXA25EsNefl6r4eV2S+riOHJ6f2uW
- qCCZXg8Q4va6D/dZfgoWJo7C+J03GxIMn8ylUCXquvQ0+F05vost5uVD+jyR2GMKojYxgJecdEs34
- zUx+K2I5a2cZCuFlnUDmWCHQ1nclK3UYNMeQVZMs/5RG82C7ERkJffzArH4C3+nXOuYLxyy6jXZqb
- 7Q7F9VaERC8YrrHz90Y5ZmepxQhhWQzh2gkO93f9ieg6WIKJNUGduKmBIkDYmN5DxY+jkwMWDyqGW
- 5akZcL2g==;
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
- by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lbvQ9-000JFH-NT
- for linux-nvme@lists.infradead.org; Thu, 29 Apr 2021 01:24:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1619659490; x=1651195490;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=6wvyJcsrwhIoP89hKGYnxwtBINZQ6wd0/peFuh6l9tM=;
- b=iswF4ouDgElXBxMQNrA9u5+RqQavFRqKo3lXeUG2gNLNawIEcxcx8dwC
- 9hFI3gqSXLhVoWW469ngVXOx/zYbOAPpC5caFZK5aiwTN2UEgg/HEj8zA
- FnLvYIx7Jr3uhsRsWVn+MP37OZmdh/oo/1vzPnaHFrJjColvR9tN9APwq
- /tFkAqXz4xu+Rjue3P4k+DncHyLCubk/wxPqfG98kbgim7unh0FUaMdBK
- 1WTlO9hx5COx8Do9QvuuZsUI86mPdn5ov3jNICqNTHjBxE0jl7mmkvaJw
- RSgAcIrBLim3rPrR4eESQS0vINmr8UxGmeUgruiuT4T5BEeMCwSfffreI Q==;
-IronPort-SDR: nfiknSn5QMNfqFCo3AYVcxjOcz5mVzg2fJAvQB4hEVyYiq7lG4G+lNlgXeEOkHV81etvjzikwH
- 8SxSBEwen6mUKUnhI4Gkx6wX0e8+Eo1KACp68j93EJScmTmoq4HccvA+aAhaOpcoaV48fvDKUC
- QUVnVzBkf/DU40xzcx0ErSuGMR+DxiTb3YOhLvQ6Jwupx5nQXkj/3QjorN5WUosJ0WMORanU1K
- rHafL3Q2oAXzucIDZSKYJkWjNavBGX84Sh42ttyQMi3KHUzFpWBA0nk+RhTB/CPIzK+Lrgf2wz
- mG8=
-X-IronPort-AV: E=Sophos;i="5.82,258,1613404800"; d="scan'208";a="167150082"
-Received: from mail-dm6nam08lp2043.outbound.protection.outlook.com (HELO
- NAM04-DM6-obe.outbound.protection.outlook.com) ([104.47.73.43])
- by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2021 09:24:46 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dhs4RzovWFbuomDRxaj57ilqHOjTuG4LDxyFIRiDcZoM+nJpm6BigLkkjV+cGFxDYzZAOhCV68kURjk3IFgu/f9feVdtk751li6JQZEhHAd2sslEXW2ihp9k0K39Y400gTVZnMWYbWfrhoqOv9DOA5tPio7FlPrvSfLSMUNkgurr7/1S3AgUL5Nqb+2hDL//WkhaMB8nMFW6hCQhbwqoNtpWFYmJJWRDsx3Ii+FtSdZ4U3RBBb5CbIGYXVNVxJwmkPGGlqY//wzLFoHTfln3XMGqyY8lh5++SPbSYVNyxGXz9uHUC8QflAr/BPq/uJI+bjbhOH+LCX+ldHGbeFnU0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8PwprfGS2fIZiB8cJqEAuOxBhhmReRgBHggKOmn0mQc=;
- b=UopVFOn61OBrvm6hAC9yHZjgTkvqM25qLpELFNzGO0iJ4LCrrIQMN21F10k2sYxaj5LBwep36N9OSpy0ZdnQxS/h832Zs3rvmRe/qe6fhwEYk9j/1nxlucjRQz0fTqgwcEf1GBVeEQhu5Rm9JB0R0mFnCOhox5bG0uLOERv6d9/UUBnfB9aiPq9Co95xCf9+4sXpqnALCE66XA3YBKTKHwGplunj3FR0reKA5/mOR6bwiCFUSnYwGgSuT8kTdp2luOVAXkSrAF6AVR1pPvalsABlx9FNGQvMT/i3nrt3puIC3Ivigk5q3jfgD5/jTrtlGdYfRkvCDD863oodpgmSFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8PwprfGS2fIZiB8cJqEAuOxBhhmReRgBHggKOmn0mQc=;
- b=HVJzPbSUzMFJYDBCF0mk5jmwFioSB2QH5T0fc1dPoGAVS7REbLjRPSRWNJg5vuQxjAZCeIMW480mEXKYaRX549Y/ZGHbonxz6IbUo6UN2G5griiP9eI6rzn7sqf7QHGn55FnEba7vTbDZJrmOYJ5fUb74qmC5h8VO73Z8O8+ZJE=
-Received: from DM6PR04MB4972.namprd04.prod.outlook.com (2603:10b6:5:fc::10) by
- DM6PR04MB6698.namprd04.prod.outlook.com (2603:10b6:5:22a::23) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.26; Thu, 29 Apr 2021 01:24:42 +0000
-Received: from DM6PR04MB4972.namprd04.prod.outlook.com
- ([fe80::882c:527b:8a9e:8c01]) by DM6PR04MB4972.namprd04.prod.outlook.com
- ([fe80::882c:527b:8a9e:8c01%4]) with mapi id 15.20.4042.029; Thu, 29 Apr 2021
- 01:24:42 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Martin Belanger <nitram_67@hotmail.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>, Martin
- Belanger <martin.belanger@dell.com>, Martin Belanger
- <Martin_Belanger@dell.com>
-Subject: Re: [PATCH 1/1] nvme-fabrics: Generate uevent on namespace AENs
-Thread-Topic: [PATCH 1/1] nvme-fabrics: Generate uevent on namespace AENs
-Thread-Index: AQHXPG0XeEN+DoD31UWTKCt6MGrgfw==
-Date: Thu, 29 Apr 2021 01:24:42 +0000
-Message-ID: <DM6PR04MB4972E8D024E2B3C3CE8681FE865F9@DM6PR04MB4972.namprd04.prod.outlook.com>
-References: <BL0PR13MB429142FD8B9FCC57C2FE451D9C409@BL0PR13MB4291.namprd13.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: hotmail.com; dkim=none (message not signed)
- header.d=none;hotmail.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 94c7d378-ba80-4161-a3b3-08d90aad9106
-x-ms-traffictypediagnostic: DM6PR04MB6698:
-x-microsoft-antispam-prvs: <DM6PR04MB66989C7F426EC94DF4ED9554865F9@DM6PR04MB6698.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bsVZ424fQqs9M8DecbELWR4tH+tGWE9OxP3WGSv7HUNb3uEOMkGG6L2iMsULZVxkCbecQy11j+sGkF/7J/lj8FhqqhzYCMqj79ulWjqd8mBnD1o6hkrhBtedcZlKW+HWXbaq/s4lp5F9a/8AFB0wkAjVhDgNUJJbIhua9q5Fz1PaGfN4sUa4PwbMuzQYjMBK8Wgz42AnsVYkkRqmNLW3gv28G8Y0VWLimC8ezbQCj6Q16V79k/wOkKMwdhTngM2+ubFXwEYUQaDPHk1EYpjYmrH8MIcS+lQqqR1M5bylzs499BW5e1vpMXE2gY7hfDSYG44ZvvXDeiVvPxJzcaNDnI/cW86BvEOiv2kvkXpaGUJR1E98/rHwNyHhqb0LMNxxOUDPMleV2FEZDjL3aKskZWbWk1W+0oqEwUEmxcAW28e96lsCwCdK1l0mG0qRnyJ4o1H4Nj8VwRw7+d11SN772u1YeZaqs6eAau9P7zOeTxNIcEscB/lzmKACe0yNiJ+LdVBxOaXe0Trp7N+dTYV7qoCgkY5Upq5fielbXtMuTbigcTNlSBtEH8f8IkengUceVpVsY4saUuJYc9hYGe3+nuS0ISi0IbQWeTHq9LSY6SDmRcACpY3FfLY93s+22vS9Pokf1wjwEU4cIDORRge/yrJH25ZoD74iq2W+ziWmyxRkHiVhjQV1CZKj3A4DOE2i
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR04MB4972.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(376002)(136003)(346002)(39850400004)(186003)(478600001)(38100700002)(6916009)(83380400001)(966005)(26005)(4326008)(316002)(54906003)(122000001)(86362001)(55016002)(8936002)(66946007)(7696005)(6506007)(5660300002)(53546011)(76116006)(9686003)(2906002)(52536014)(64756008)(66556008)(91956017)(8676002)(66476007)(33656002)(71200400001)(66446008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?xFBCL7onXljau8boacLYm6n/E+iKoutouM8PLcdDWzq6NaiFwDRDNiszPOB4?=
- =?us-ascii?Q?reblJvhjVJixnYS8j0gc5DwskBYpkdcZBrY9hOrRthHKpFwr85NiSDNyGL6N?=
- =?us-ascii?Q?paJeuVVjAPEhzeZCr22W/4dpRdr+SEaEFwIaMIxsrgHcrq2QQHQV/XOsKnCP?=
- =?us-ascii?Q?jIQ0O6REMxVUCBk+Xv5k1zOGzc+HilWiT3rRsprKY+cUDlO7kjEC+mnsH7v+?=
- =?us-ascii?Q?9leol8nZ2M5g+AqpYPLoNP6I/oaz0CyDbFp/loXlWefN8cvwwo+GnAA0MOfM?=
- =?us-ascii?Q?qNfC4cnxycYWIlExqwK16iTLcjSWkdZAnVHn2z8nuks8Xgj0NppD6+CmGUAL?=
- =?us-ascii?Q?0sJIGagovxRACqwvLtmmtr+ISLnPvsbvm0Nx8v+ICvRpUWcejeZWo4dBAZ9O?=
- =?us-ascii?Q?m3YynBVeiMMRSsg7lVslnkLWHhClSwAWVWuTxk63/dZYyT5FyQROIjkhuCfA?=
- =?us-ascii?Q?Fx68puFGAYdhcvdkBocsn3QkIkKDvg3n35Z693U6Ek4XA8Xb5diuaWyBov+0?=
- =?us-ascii?Q?sP8UFahl/QmNqdUnPYFoFuVh5O/rDnQegQRKGMy+/ISLRAUXfeF0x9D5RGLU?=
- =?us-ascii?Q?ZfcKKK9lMg768Z0JJ0ctHjncoQZEhB69b9n7nWcGWpm1m6bIFDBjHGv5/2rD?=
- =?us-ascii?Q?JT1VHJEtHkDqkcdmhpi+fNrG0EzxkcWCv1XZjpfOX9ulNJmPDLpBQCYlPynN?=
- =?us-ascii?Q?9/j8VdKOMeJjx/wKFmIAjlGPgS/L54FOsLijvgeXunmX/U41S4mjd3p9jz4i?=
- =?us-ascii?Q?NcEGD2UTlUdeCjuHwXTVgcHEMNgDuK+KUQYDpp8UcHk3SZ7zGnANZonhVnFN?=
- =?us-ascii?Q?eJzqRTQvtrhqjJzR25o8r4uBGh7gD0Ph9q+sBdzY/AzhFVWCA00NFk/YA0JX?=
- =?us-ascii?Q?TRmbzOei9HTHWhxz8F5V0BBPl0IP4yVLIscrD44XPRs1w7x7dYKtzRzJTLof?=
- =?us-ascii?Q?WPp9uCucWbKDdYcX/V2042OP+suNCn82g8gV/fWCktXY0a89MASTdr1ef2Y6?=
- =?us-ascii?Q?TJxjMx/IZz8Es5nDwN+ywez8Brqh6LM6gzqfUPdBlDENKI+60HgjO/Uhe7DX?=
- =?us-ascii?Q?hUqeqnpGiS1Uc0m0MEkXiXnaFQ/1pQtuRhfAlyQPJSiZbMC0dmsrKzqMYVj0?=
- =?us-ascii?Q?Zzoz3gfUeFiosVsyNcp1PlYIUNCBxTzUSDuEtCV5vP6ScToC+UFSm99ERfkI?=
- =?us-ascii?Q?h68sjgLnc3gpe4ZeVVVBxzddacG+9vISNlABdHVJsbCyvy5wPRTirgTVWmTy?=
- =?us-ascii?Q?3h465EnJC+ajNgUw+J+jVsix06S10IIETW37ykQc4aeOH/ZeBF7Gop74+o/L?=
- =?us-ascii?Q?s/wLK3BIOcHVHtPgWAZcT9u1NrWW/Xz2w4/ICsFhQONbcw=3D=3D?=
-x-ms-exchange-transport-forked: True
+ id 1lbvjG-004dtV-GI
+ for linux-nvme@lists.infradead.org; Thu, 29 Apr 2021 01:44:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619660659;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=HEOLXiA1Zmaio92bpntVPVTT8CY9WaQ/k2Q4uX7fuqI=;
+ b=IdjRJxtCJqV/IwXKEnYxVn5izKo1TX9rXbjKqhb6HyRM51wskBJoXVJ5Bxw7pM3/x/ExgN
+ zWIghKB4lKPapCOrLK6AWXCrXXNzRYVnQ2Qzoef4K+UvorEU2NuJCjtL1zwtf1pMwJ1hJp
+ Y7Srj1BHCPE7uD/LrMcQFFjOxIcsNFo=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619660668;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=HEOLXiA1Zmaio92bpntVPVTT8CY9WaQ/k2Q4uX7fuqI=;
+ b=XddBE04fKq5eKJ5frcI0YsbC3MNes4J9b95J3F0slbjlk1o9KN/Y+XnWHR2Fyzpuw2G9Kv
+ 3Iv9a+Dmo9OzyQYp6Fy8Z1ebaQQaX+Htjhom9LWArrh9WZp1GIgBfv8eBaRWZQ66n7wOFJ
+ ZW0MU8zPybhiEKR6qJEuDC5Mg2DqHj4=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-W9RdoectOSaB2STHo-YAQA-1; Wed, 28 Apr 2021 21:44:17 -0400
+X-MC-Unique: W9RdoectOSaB2STHo-YAQA-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ u3-20020a2509430000b02904e7f1a30cffso44031486ybm.8
+ for <linux-nvme@lists.infradead.org>; Wed, 28 Apr 2021 18:44:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=HEOLXiA1Zmaio92bpntVPVTT8CY9WaQ/k2Q4uX7fuqI=;
+ b=TRi2jPMXWOiIt/ebKeRBBWdYAgZenrKDZi6DuVoJ6VLmSYzuOUqOkX6zREX5NVvE93
+ eiu7SeEzMk8cW1rsXfRz8BjIAeFAKDN7Gdnt16y78QYou3THwc/FzEOPzF5xIO5bPEqB
+ 3z/w21av3nqkLLxIU6BuZ93AVlnKhsbutBbD//skHNqpPKet2rIEDEUa/RKbfHBeCLeO
+ IMfovu3mi0ETllmkyL61EeP37Ggnvtt3S12neBfZ0UZ2nH7zofWo4ftyMnoGCvVPpne3
+ lFfGQNSxZj10MRBcX7l99a8Dlqxdc8yT19JewpVuemJmtEN0hl5As7LBBsbtPA7tTrNC
+ 5/kw==
+X-Gm-Message-State: AOAM531E/LtPZjYPofeKV6C+epuoCtJv9LTIqoFFNn4Zno5KqwFu/6Ys
+ L8trtC22qo+IXfNBUY/3U/VOzBDAHkcrYbjhdubCjbkPY2sFpkKExXjAd9GFKywJbTzXzdJ4P3/
+ GQEh2WG9vcr+qZh6fBUrLNSzGcE1mrU4WN3U0PP+xvaQ=
+X-Received: by 2002:a25:d650:: with SMTP id n77mr23114416ybg.133.1619660656903; 
+ Wed, 28 Apr 2021 18:44:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyvf9jIxnwLC3hGf1PvltkNNJqig4W3XKcpyRs8dFZQWOvvpaiy9NS3ncVAtSgt3EvJoJtpkskcV/b2ewyXGuQ=
+X-Received: by 2002:a25:d650:: with SMTP id n77mr23114398ybg.133.1619660656702; 
+ Wed, 28 Apr 2021 18:44:16 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB4972.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94c7d378-ba80-4161-a3b3-08d90aad9106
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2021 01:24:42.7527 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: d7hU16XdL3wJdlkWaI94rjcmApnw76A3SmGm6OSul9fyklR2NdoS82RqUoGh5MgQrbTO7Hj/Reuq3vkzt1VitWe9xtfHIWeL17uUZ/AnSE4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6698
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Thu, 29 Apr 2021 09:44:05 +0800
+Message-ID: <CAHj4cs9o9+CkkZk3JUrgr=-D+ExBYdzLFxwD2fJ+_NxkvGyD4Q@mail.gmail.com>
+Subject: [bug report]unhandled identify cns 6 on qid 0
+To: kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210428_182449_853865_F87AB63B 
-X-CRM114-Status: GOOD (  17.23  )
+X-CRM114-CacheID: sfid-20210429_024438_431220_282E2A00 
+X-CRM114-Status: UNSURE (   5.73  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -182,64 +108,55 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Also, subject line should start with "nvme:" and not "nvme-fabrics:"
-as this code belongs to nvme/host/core.c and not nvme/host/fabrics.c
+Hi Keith
+I found this error log during blktests[2] on linux-block/for-next, it
+was introduced with [1] and seems no handler for NVME_ID_CNS_CS_CTRL,
+could you help check it?
 
-On 4/28/21 13:28, Martin Belanger wrote:
-> From: Martin Belanger <martin.belanger@dell.com>
->
-> Generate uevent on NVMe Async Event Notifications for NS_CHANGED and ANA. Today
-> the uevent handler is not capturing on NVME_AER_NOTICE_NS_CHANGED
-> (Namespace Changed) and NVME_AER_NOTICE_ANA (Asymmetric Namespace Access).
->
-> Signed-off-by: Martin Belanger <Martin_Belanger@dell.com>
->
->
-> ---
->  drivers/nvme/host/core.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 2f45e8fcdd7c..bd37ddb172de 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1115,7 +1115,7 @@ EXPORT_SYMBOL_NS_GPL(nvme_execute_passthru_rq, NVME_TARGET_PASSTHRU);
->
->  /*
->   * Recommended frequency for KATO commands per NVMe 1.4 section 7.12.1:
-> - *
-> + *
+[1]
+commit 5befc7c26e5a98cd49789fb1beb52c62bd472dba
+Author: Keith Busch <kbusch@kernel.org>
+Date:   Wed Mar 24 16:18:05 2021 -0700
 
-Please don't add extra lines.
+    nvme: implement non-mdts command limits
 
->   *   The host should send Keep Alive commands at half of the Keep Alive Timeout
->   *   accounting for transport roundtrip times [..].
->   */
-> @@ -4133,6 +4133,7 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
->  	case NVME_AER_NOTICE_NS_CHANGED:
->  		set_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events);
->  		nvme_queue_scan(ctrl);
-> +		ctrl->aen_result = result;
->  		break;
->  	case NVME_AER_NOTICE_FW_ACT_STARTING:
->  		/*
-> @@ -4148,6 +4149,7 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
->  		if (!ctrl->ana_log_buf)
->  			break;
->  		queue_work(nvme_wq, &ctrl->ana_work);
-> +		ctrl->aen_result = result;
->  		break;
->  #endif
->  	case NVME_AER_NOTICE_DISC_CHANGED:
-> --
-> 2.25.1
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
->
+
++       c.identify.cns = NVME_ID_CNS_CS_CTRL;
+
+static void nvmet_execute_identify(struct nvmet_req *req)
+{
+        if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
+                return;
+
+        switch (req->cmd->identify.cns) {
+        case NVME_ID_CNS_NS:
+                return nvmet_execute_identify_ns(req);
+        case NVME_ID_CNS_CTRL:
+                return nvmet_execute_identify_ctrl(req);
+        case NVME_ID_CNS_NS_ACTIVE_LIST:
+                return nvmet_execute_identify_nslist(req);
+        case NVME_ID_CNS_NS_DESC_LIST:
+                return nvmet_execute_identify_desclist(req);
+        }
+
+        pr_err("unhandled identify cns %d on qid %d\n",
+               req->cmd->identify.cns, req->sq->qid);
+
+[2]
+#./check nvme/010
+[  493.632730] run blktests nvme/010 at 2021-04-28 04:19:28
+[  493.669330] loop0: detected capacity change from 0 to 2097152
+[  493.685798] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[  493.689397] nvmet: creating controller 1 for subsystem
+blktests-subsystem-1 for NQN
+nqn.2014-08.org.nvmexpress:uuid:48741e3a-3c7e-428b-877f-b78897ab0f61.
+[  493.689439] nvmet: unhandled identify cns 6 on qid 0
+[  493.694412] nvme nvme0: creating 32 I/O queues.
+[  493.695351] nvme nvme0: new ctrl: "blktests-subsystem-1"
+[  497.870910] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+
+Thanks
+Yi
 
 
 _______________________________________________
