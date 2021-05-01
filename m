@@ -2,71 +2,80 @@ Return-Path: <SRS0=FZGd=J4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C89D1C433B4
-	for <linux-nvme@archiver.kernel.org>; Sat,  1 May 2021 12:05:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF5FC433B4
+	for <linux-nvme@archiver.kernel.org>; Sat,  1 May 2021 12:19:15 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 27F9B613EA
-	for <linux-nvme@archiver.kernel.org>; Sat,  1 May 2021 12:05:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27F9B613EA
+	by mail.kernel.org (Postfix) with ESMTPS id 49D7861409
+	for <linux-nvme@archiver.kernel.org>; Sat,  1 May 2021 12:19:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 49D7861409
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=CIc3Y/eN6BD4+TH7h7yFhQt/UCx2ynUx1ENUJcAGmZc=; b=LJcVe6GXgZjwZYEjebK4o2T5dR
-	8p9CwrhLM1mZBBq79nlMzWjqS5k91FUcekmt2y3mSTGE6489T/zH5QDG+Rhx5GSi8WHpekoV3B8qo
-	/hXI6isiLH5t5Ao0XPUjnGgdqWMhSRoaE1XrcR8YeQngVMPNCVVKpC30rtTnI7nigjjpU5GXY++au
-	pSTN12sm8/NQB4wAaAp0FKRbU4YAxsLUGCh3EDQFCJsYNGPqP+ZZ0+2UFVVOx8KG/Xu7VZDM2lVWc
-	B+dIheUWXAArsXPBhmpWAlZ5ck2mf6XkzmNDc/mUP2VV6n5mEO3UbvHWYtQ6fOrmJ92lnr7A1X3fD
-	KBbVItiA==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=7ngWb3Lu0qjmgQu6U7MHjJAV84z44zwjM/HPIo1X8Ww=; b=oZIYKuF2GWWgTGO89dMePOZYm
+	E4QJ5cfgEBN+xwZ9fuXCNLt96m4Ux21cwye5sS0imARtknI+t0UB23TCCsqxNcis6v84v0km/rOVW
+	8D9DT0oM6afEBwQEDWvUsl75O3417YrJ4o3aYfWtmAw/TXoJvBLhbfKW0gBqbbgpy1NBtBTD4vqQS
+	oUaXOGkSGcy4SKqrLIfVewggVLSjLDVLOL/opZ5vCT5e6s3xU+SPI5Q/ufbROdGJGGsxC+RrSADDt
+	pacQ07i4UvJAsINNctwQBDgnIRvgiTJoXEo7ygJ7j08Ct0uxnsAF8Ijvo7qMkeY9TOUE7aoS3qWYb
+	ZPnp6BsEw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lcoMp-00A0Hc-8p; Sat, 01 May 2021 12:05:03 +0000
+	id 1lcoaI-00A1fM-JB; Sat, 01 May 2021 12:18:59 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lcoMl-00A0H7-PX
- for linux-nvme@desiato.infradead.org; Sat, 01 May 2021 12:04:59 +0000
+ id 1lcoaC-00A1e3-Ee
+ for linux-nvme@desiato.infradead.org; Sat, 01 May 2021 12:18:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=t22w5gesPaGn9NAwmLxPxW4s8sWYIGf4PGIGzRh2D60=; b=grz2MzGLB9FS4i4DEQqZmvHs3F
- h2bdLVZsUGkXbqcHsfJD6fwzYdR2/N+X2fFNo1e5c4FSaOvYCfYSFk4KzmJs3+WLD0JCCBrulh7pz
- 2hXFa5Xh1VZP8riStZJa6tZxq+zJ2vXvUbU53+nXUmqxpAogQjYqExfuaaYdxyx9xuuVBNI8+7PvR
- WQ5IbsnVZnuaLWICibmcBcoOEtYi/pIJOKwVmv8LUdXzh8PjAkZ7iiu54LsvuHsrQZP7NIOvbo/ah
- C1cJaueloM28GP4F08bgbgcdZm7L8/HOqgIDoeW89FE1LFktip9eMah4wqtrPAbNYNNraN2iFEwrF
- WJ1dnxKw==;
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=j96E2BBY3NwCBoIWCcw0T9QbMnI62ZtWS/vlWUBPxs8=; b=MiUruEUNwkrUcAjNXb0heR2um8
+ L1Pq7/EHn0D5z7yTIK79uWQzbMtE//i4WLOYYXU+8Ua2lbXNvJgpKxU4XvEbqW8eQkdBV25KlJ/bO
+ OKMaDaTkOfG0SAd+kBaoXTbOBeavZgYn5iVu8b0yHPPkq7iB3vNlUKbvhJ+ALB6dFCFjTiKRjELcX
+ 7iLQ20n8XQ0dFRroQTdin6yZpZEdyzOgRm4uX7HFhuITuqHMpc8fYM4csEXdCz0WBEx0QuxxXlEFt
+ jDVZcpUyEp1KX6pFtC1yraWQoj47Sx48V/PfJSM9REuyP52mU+Fn8Z0EuHtFNes9BmTG2h8d/uKMu
+ D2MWrFeA==;
 Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lcoMi-001yRf-M3
- for linux-nvme@lists.infradead.org; Sat, 01 May 2021 12:04:58 +0000
+ id 1lcoa9-001yz3-L0
+ for linux-nvme@lists.infradead.org; Sat, 01 May 2021 12:18:51 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5A1F3B062;
- Sat,  1 May 2021 12:04:55 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 487E9B29C;
+ Sat,  1 May 2021 12:18:47 +0000 (UTC)
+Subject: Re: [RFC PATCH v4 08/27] nvme-tcp-offload: Add nvme-tcp-offload -
+ NVMeTCP HW offload ULP
+To: Shai Malin <smalin@marvell.com>, netdev@vger.kernel.org,
+ linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de, axboe@fb.com,
+ kbusch@kernel.org
+Cc: "David S . Miller davem @ davemloft . net --cc=Jakub Kicinski"
+ <kuba@kernel.org>, aelior@marvell.com, mkalderon@marvell.com,
+ okulkarni@marvell.com, pkushwaha@marvell.com, malin1024@gmail.com,
+ Dean Balandin <dbalandin@marvell.com>
+References: <20210429190926.5086-1-smalin@marvell.com>
+ <20210429190926.5086-9-smalin@marvell.com>
 From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Hannes Reinecke <hare@suse.de>, Daniel Wagner <daniel.wagner@suse.de>
-Subject: [PATCHv3] nvme-mpath: delete disk after last connection
-Date: Sat,  1 May 2021 14:04:47 +0200
-Message-Id: <20210501120447.45478-1-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
+Message-ID: <7831d4ff-9e47-3c43-8725-95eb0bdd7107@suse.de>
+Date: Sat, 1 May 2021 14:18:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
+In-Reply-To: <20210429190926.5086-9-smalin@marvell.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210501_050457_033610_07E2311F 
-X-CRM114-Status: GOOD (  18.02  )
+X-CRM114-CacheID: sfid-20210501_051849_859123_3D74C2CA 
+X-CRM114-Status: GOOD (  20.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,153 +87,52 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
-
-The multipath code currently deletes the disk only after all references
-to it are dropped rather than when the last path to that disk is lost.
-This has been reported to cause problems with some usage, like MD RAID.
-
-Delete the disk when the last path is gone. This is the same behavior we
-currently have with non-multipathed nvme devices.
-
-The following is just a simple example that demonstrates what is currently
-observed using a simple nvme loop back (loop setup file not shown):
-
- # nvmetcli restore loop.json
- [   31.156452] nvmet: adding nsid 1 to subsystem testnqn1
- [   31.159140] nvmet: adding nsid 1 to subsystem testnqn2
-
- # nvme connect -t loop -n testnqn1 -q hostnqn
- [   36.866302] nvmet: creating controller 1 for subsystem testnqn1 for NQN hostnqn.
- [   36.872926] nvme nvme3: new ctrl: "testnqn1"
-
- # nvme connect -t loop -n testnqn1 -q hostnqn
- [   38.227186] nvmet: creating controller 2 for subsystem testnqn1 for NQN hostnqn.
- [   38.234450] nvme nvme4: new ctrl: "testnqn1"
-
- # nvme connect -t loop -n testnqn2 -q hostnqn
- [   43.902761] nvmet: creating controller 3 for subsystem testnqn2 for NQN hostnqn.
- [   43.907401] nvme nvme5: new ctrl: "testnqn2"
-
- # nvme connect -t loop -n testnqn2 -q hostnqn
- [   44.627689] nvmet: creating controller 4 for subsystem testnqn2 for NQN hostnqn.
- [   44.641773] nvme nvme6: new ctrl: "testnqn2"
-
- # mdadm --create /dev/md0 --level=mirror --raid-devices=2 /dev/nvme3n1 /dev/nvme5n1
- [   53.497038] md/raid1:md0: active with 2 out of 2 mirrors
- [   53.501717] md0: detected capacity change from 0 to 66060288
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active raid1 nvme5n1[1] nvme3n1[0]
-       64512 blocks super 1.2 [2/2] [UU]
-
-Now delete all paths to one of the namespaces:
-
- # echo 1 > /sys/class/nvme/nvme3/delete_controller
- # echo 1 > /sys/class/nvme/nvme4/delete_controller
-
-We have no path, but mdstat says:
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active raid1 nvme5n1[1] nvme3n1[0]
-       64512 blocks super 1.2 [2/2] [UU]
-
-And this is reported to cause a problem.
-
-With the proposed patch, the following messages appear:
-
- [  227.516807] md/raid1:md0: Disk failure on nvme3n1, disabling device.
- [  227.516807] md/raid1:md0: Operation continuing on 1 devices.
-
-And mdstat shows only the viable members:
-
- # cat /proc/mdstat
- Personalities : [raid1]
- md0 : active (auto-read-only) raid1 nvme5n1[1]
-       64512 blocks super 1.2 [2/1] [_U]
-
-Reported-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Daniel Wagner <daniel.wagner@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/core.c      |  2 +-
- drivers/nvme/host/multipath.c |  1 -
- drivers/nvme/host/nvme.h      | 11 ++++++++++-
- 3 files changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e6612971f4eb..6ccf0a8e7fba 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -546,7 +546,7 @@ static void nvme_free_ns_head(struct kref *ref)
- 	struct nvme_ns_head *head =
- 		container_of(ref, struct nvme_ns_head, ref);
- 
--	nvme_mpath_remove_disk(head);
-+	nvme_mpath_put_disk(head);
- 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
- 	cleanup_srcu_struct(&head->srcu);
- 	nvme_put_subsystem(head->subsys);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 0d0de3433f37..d92532f518e9 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -775,7 +775,6 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- 		 */
- 		head->disk->queue = NULL;
- 	}
--	put_disk(head->disk);
- }
- 
- int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 05f31a2c64bb..be92c3a685c0 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -719,12 +719,18 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
- void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
- struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
- 
-+static inline void nvme_mpath_put_disk(struct nvme_ns_head *head)
-+{
-+	if (head->disk)
-+		put_disk(head->disk);
-+}
-+
- static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
- {
- 	struct nvme_ns_head *head = ns->head;
- 
- 	if (head->disk && list_empty(&head->list))
--		kblockd_schedule_work(&head->requeue_work);
-+		nvme_mpath_remove_disk(head);
- }
- 
- static inline void nvme_trace_bio_complete(struct request *req)
-@@ -764,6 +770,9 @@ static inline void nvme_mpath_add_disk(struct nvme_ns *ns,
- 		struct nvme_id_ns *id)
- {
- }
-+static inline void nvme_mpath_put_disk(struct nvme_ns_head *head)
-+{
-+}
- static inline void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- {
- }
--- 
-2.26.2
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNC8yOS8yMSA5OjA5IFBNLCBTaGFpIE1hbGluIHdyb3RlOgo+IFRoaXMgcGF0Y2ggd2lsbCBw
+cmVzZW50IHRoZSBzdHJ1Y3R1cmUgZm9yIHRoZSBOVk1lVENQIG9mZmxvYWQgY29tbW9uCj4gbGF5
+ZXIgZHJpdmVyLiBUaGlzIG1vZHVsZSBpcyBhZGRlZCB1bmRlciAiZHJpdmVycy9udm1lL2hvc3Qv
+IiBhbmQgZnV0dXJlCj4gb2ZmbG9hZCBkcml2ZXJzIHdoaWNoIHdpbGwgcmVnaXN0ZXIgdG8gaXQg
+d2lsbCBiZSBwbGFjZWQgdW5kZXIKPiAiZHJpdmVycy9udm1lL2h3Ii4KPiBUaGlzIG5ldyBkcml2
+ZXIgd2lsbCBiZSBlbmFibGVkIGJ5IHRoZSBLY29uZmlnICJOVk0gRXhwcmVzcyBvdmVyIEZhYnJp
+Y3MKPiBUQ1Agb2ZmbG9hZCBjb21tbW9uIGxheWVyIi4KPiBJbiBvcmRlciB0byBzdXBwb3J0IHRo
+ZSBuZXcgdHJhbnNwb3J0IHR5cGUsIGZvciBob3N0IG1vZGUsIG5vIGNoYW5nZSBpcwo+IG5lZWRl
+ZC4KPiAKPiBFYWNoIG5ldyB2ZW5kb3Itc3BlY2lmaWMgb2ZmbG9hZCBkcml2ZXIgd2lsbCByZWdp
+c3RlciB0byB0aGlzIFVMUCBkdXJpbmcKPiBpdHMgcHJvYmUgZnVuY3Rpb24sIGJ5IGZpbGxpbmcg
+b3V0IHRoZSBudm1lX3RjcF9vZmxkX2Rldi0+b3BzIGFuZAo+IG52bWVfdGNwX29mbGRfZGV2LT5w
+cml2YXRlX2RhdGEgYW5kIGNhbGxpbmcgbnZtZV90Y3Bfb2ZsZF9yZWdpc3Rlcl9kZXYKPiB3aXRo
+IHRoZSBpbml0aWFsaXplZCBzdHJ1Y3QuCj4gCj4gVGhlIGludGVybmFsIGltcGxlbWVudGF0aW9u
+Ogo+IC0gdGNwLW9mZmxvYWQuaDoKPiAgICBJbmNsdWRlcyBhbGwgY29tbW9uIHN0cnVjdHMgYW5k
+IG9wcyB0byBiZSB1c2VkIGFuZCBzaGFyZWQgYnkgb2ZmbG9hZAo+ICAgIGRyaXZlcnMuCj4gCj4g
+LSB0Y3Atb2ZmbG9hZC5jOgo+ICAgIEluY2x1ZGVzIHRoZSBpbml0IGZ1bmN0aW9uIHdoaWNoIHJl
+Z2lzdGVycyBhcyBhIE5WTWYgdHJhbnNwb3J0IGp1c3QKPiAgICBsaWtlIGFueSBvdGhlciB0cmFu
+c3BvcnQuCj4gCj4gQWNrZWQtYnk6IElnb3IgUnVzc2tpa2ggPGlydXNza2lraEBtYXJ2ZWxsLmNv
+bT4KPiBTaWduZWQtb2ZmLWJ5OiBEZWFuIEJhbGFuZGluIDxkYmFsYW5kaW5AbWFydmVsbC5jb20+
+Cj4gU2lnbmVkLW9mZi1ieTogUHJhYmhha2FyIEt1c2h3YWhhIDxwa3VzaHdhaGFAbWFydmVsbC5j
+b20+Cj4gU2lnbmVkLW9mZi1ieTogT21rYXIgS3Vsa2FybmkgPG9rdWxrYXJuaUBtYXJ2ZWxsLmNv
+bT4KPiBTaWduZWQtb2ZmLWJ5OiBNaWNoYWwgS2FsZGVyb24gPG1rYWxkZXJvbkBtYXJ2ZWxsLmNv
+bT4KPiBTaWduZWQtb2ZmLWJ5OiBBcmllbCBFbGlvciA8YWVsaW9yQG1hcnZlbGwuY29tPgo+IFNp
+Z25lZC1vZmYtYnk6IFNoYWkgTWFsaW4gPHNtYWxpbkBtYXJ2ZWxsLmNvbT4KPiAtLS0KPiAgIGRy
+aXZlcnMvbnZtZS9ob3N0L0tjb25maWcgICAgICAgfCAgMTYgKysrCj4gICBkcml2ZXJzL252bWUv
+aG9zdC9NYWtlZmlsZSAgICAgIHwgICAzICsKPiAgIGRyaXZlcnMvbnZtZS9ob3N0L3RjcC1vZmZs
+b2FkLmMgfCAxMjYgKysrKysrKysrKysrKysrKysrKwo+ICAgZHJpdmVycy9udm1lL2hvc3QvdGNw
+LW9mZmxvYWQuaCB8IDIwNiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICAgNCBm
+aWxlcyBjaGFuZ2VkLCAzNTEgaW5zZXJ0aW9ucygrKQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMvbnZtZS9ob3N0L3RjcC1vZmZsb2FkLmMKPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2
+ZXJzL252bWUvaG9zdC90Y3Atb2ZmbG9hZC5oCj4gCkl0IHdpbGwgYmUgdHJpY2t5IHRvIHNlbGVj
+dCB0aGUgY29ycmVjdCB0cmFuc3BvcnQgZWcgd2hlbiB0cmF2ZXJzaW5nIHRoZSAKZGlzY292ZXJ5
+IGxvZyBwYWdlOyB0aGUgZGlzY292ZXJ5IGxvZyBwYWdlIG9ubHkga25vd3MgYWJvdXQgJ3RjcCcg
+KG5vdCAKJ3RjcF9vZmZsb2FkJyksIHNvIHRoZSBvZmZsb2FkIHdvbid0IGJlIHBpY2tlZCB1cC4K
+QnV0IHRoYXQgY2FuIHdlIHdvcmtlZCBvbiAvIGZpeGVkIGxhdGVyIG9uLCBhcyBpdCdzIGFyZ3Vh
+Ymx5IGEgcG9saWN5IApkZWNpc2lvbi4KClJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhh
+cmVAc3VzZS5kZT4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAg
+ICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1
+dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcg
+TsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWls
+aW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZy
+YWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
