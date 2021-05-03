@@ -2,71 +2,111 @@ Return-Path: <SRS0=U7R3=J6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA19CC433B4
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 17:03:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 905E4C433ED
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 17:04:38 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 85073610A5
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 17:03:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 85073610A5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id D8C8F6101A
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 17:04:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D8C8F6101A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zUldvYxWxPwk1cVbeaHHmQb8vfyCiHq/lUlctfTHd9A=; b=WKqCXFVI0hMfGB9qAoNsceBoSz
-	Zrm2BRebgfFHkekwCQEIjBs4CV5fKa4/eMxWWzTo2ajVAtH92AMiMjaETvtT9+KHf77SgM7exoWHT
-	h+r2kQWatuRtu1vhHz5jvSUndP7Z9etN/Pwy+179ay2XuojGV8cwHhQXzggV5gNAoFNSTFwfWdIk1
-	JDqR0+CRKTVTGfuOw5Z/1DjD/IVFxtu+LSXhkDK3ZEkJw9CEF+TFM7Q0q3Nrn1UhE19GXZ3ZgiC7M
-	Tcl6NwqqqZKEmgX2z1MCQVClFeyWazLlx5pZQX9D6cV3QR2pI+KDgKbOvIBuIy8Pg49IF8Ws0GDfV
-	6u55lflQ==;
+	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
+	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=PwEmJydyvWvDxRLnHc5OsWbMfuB09+lFMNi2M041y1c=; b=UGKZtJRCaXyyeJHi8qgTYOgob
+	54cLSVFE6AEl8hea7PEtncFc6aLMzq8RP2YxIPhbhaa6C+qo94VwGkJCC3V5X2olDXGBf4axsIR1i
+	UeFIvLl1EcMDzN0bOJ3F5hOGNYxYAUX91ePcM13VVbwlBKDx/gx62wGYi0BOhDNIpQCpisSud+jwM
+	OSXq/dDEwy5s7fqA+Q1RMhcZ/nXEIU7WQCCYTHODPJWDYOWXx1hCSgpTn7LQmZvPcJSzgClB2knHX
+	h9m4LIUWRhc/Fww9xoy2VZsCjYY2t01saB9GLZKGcOYuSoM6kqBPo6T+BKsllJGZiFl1waDHJpsIp
+	Kp3NMzmGw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldbyR-00ETOw-Gr; Mon, 03 May 2021 17:03:11 +0000
+	id 1ldbzn-00ETVy-M6; Mon, 03 May 2021 17:04:35 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldbyO-00ETOl-D6
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 17:03:08 +0000
+ id 1ldbzm-00ETVk-35
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 17:04:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=wnKp63tMxv5NCa394nlfchrvfj4rACvyYUkDqFZYGhE=; b=Q7TkO4s6cMuRDujDXTwGlbnqGJ
- gq+f4MyGCliScu1LrdHbCEUaTf34pGtq0I48XPGrEkab3nf5TbAK03anZIneHBDAehs3+7TE0fn+a
- ePtHwieSee6cKze7POv/jpq4QaT7jpdKuCS3PqDwekZeXv1p+5Q2+cZd06F7tXxZUA4gK6rJ+swV/
- YLZq4B6QMDwL9tA1eHAam1bpVWdluMxl4XWmoLPfhUD/9YELt8DuQkgdjLM519wzyiDmx0B+XgNZ5
- UJoW1G3i5tbRtH1h4jtctkNur9O0cM2KLHEKarYXNyNLvEyLPH4PCV8+KbudLkgJrJRuhzXmjMvzy
- w6Z3P5fQ==;
-Received: from mx2.suse.de ([195.135.220.15])
+ d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=XIo5o0eZ2ybUTNprcEF2/49WtyCaykR1qXGIExijWsM=; b=Zx5Z3JB+qS3dNXSeVw3jGL5MUQ
+ xlqT/xTAO19nvcUYunivOPzKa+t04fhDNH4kKNHqvCAbI2hLAyD1ruDPMbLlS9ZXYud7ZYElmtJzv
+ 4T1mmMVWDlPXk18Nzz0kQmefUDVHO2cXMMEqbLttMxWrvaVEmp70Ak6H7jntGbNKRRGJcbuCYjLdm
+ TkAHci8TugBBOp70HCg5DoI+STdKIicnXzVmoW1dxuGUJ4X6cgOEFBvoaJi+j0BiJD394FBa+z5oh
+ ZYa8TIMJ7s3tlja9jmZNvZUcn6OPGvf7RYanLh4SZZtVxjmRN5NHRfYxgRMsVvsW0wCMSF6wuZ192
+ kjFBEhEw==;
+Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldbyL-003Joj-PP
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 17:03:07 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 66064AF0F;
- Mon,  3 May 2021 17:03:04 +0000 (UTC)
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v2] nvme-multipath: Reset bdev to ns head when failover
-Date: Mon,  3 May 2021 19:03:03 +0200
-Message-Id: <20210503170303.10443-1-dwagner@suse.de>
-X-Mailer: git-send-email 2.29.2
+ id 1ldbzj-003JuK-KD
+ for linux-nvme@lists.infradead.org; Mon, 03 May 2021 17:04:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+ Message-ID:From:References:Cc:To:content-disposition;
+ bh=XIo5o0eZ2ybUTNprcEF2/49WtyCaykR1qXGIExijWsM=; b=A4opownLuMAvZjkxn/S5VlDlz4
+ qED8iUdb0jEoi6DzG3q5SA7kp8n+oxHLhbgsHmFUrOLUwQFlzg1FKL0fq5PkdsBhHJzqb0XviPegB
+ kKRHngxYkYJ0UpPyjCO0lOMylnMndCw8cb5iA/v+hS3jma7ltHNInla8vLysBcmccx983fL/js4MY
+ lPvFn13ECitpdcjFVe84V/mNNGwhgHPrgKLAxqbjwODcoPUPBoYb1uT61RMyXvJXAK4g98T3HsqhD
+ FQzLgskh7qEpkiRSBuYU5Blwu7PNIvF93A+JxrLASdf+M6KJe0wh6+dC6naKCDSvBhDzOiFHiKtCi
+ 3JIqatrw==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+ by ale.deltatee.com with esmtp (Exim 4.92)
+ (envelope-from <logang@deltatee.com>)
+ id 1ldbzZ-0004qY-4w; Mon, 03 May 2021 11:04:21 -0600
+To: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+ Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Don Dutile <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
+References: <20210408170123.8788-1-logang@deltatee.com>
+ <20210408170123.8788-10-logang@deltatee.com>
+ <37fa46c7-2c24-1808-16e9-e543f4601279@nvidia.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <8de928ab-2842-dac9-07ad-a098124f791f@deltatee.com>
+Date: Mon, 3 May 2021 11:04:18 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
+In-Reply-To: <37fa46c7-2c24-1808-16e9-e543f4601279@nvidia.com>
+Content-Language: en-CA
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
+ helgaas@kernel.org, jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
+ jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
+ daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
+ christian.koenig@amd.com, jgg@ziepe.ca, dan.j.williams@intel.com, hch@lst.de,
+ sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ jhubbard@nvidia.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH 09/16] dma-direct: Support PCI P2PDMA pages in dma-direct
+ map_sg
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_100305_991553_6CAE3A6D 
-X-CRM114-Status: GOOD (  11.16  )
+X-CRM114-CacheID: sfid-20210503_100431_675736_62FDA9AE 
+X-CRM114-Status: GOOD (  14.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,67 +123,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a request finally completes in end_io() after it has failed over,
-the bdev pointer can be stale and thus the system can crash. Set the
-bdev back to ns head, so the request is map to an active path when
-resubmitted.
+Oops missed a comment:
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
-v2:
- - commit header fix s/bi_disk/bdev/
- - new commit message (hopefully it's better English this time.)
- - dropped bdget_disk, use >disk->part0 directly as
-   suggested by hch
+On 2021-05-02 5:28 p.m., John Hubbard wrote:
+>>   int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+>>   		enum dma_data_direction dir, unsigned long attrs)
+>>   {
+>> -	int i;
+>> +	struct pci_p2pdma_map_state p2pdma_state = {};
+> 
+> Is it worth putting this stuff on the stack--is there a noticeable
+> performance improvement from caching the state? Because if it's
+> invisible, then simplicity is better. I suspect you're right, and that
+> it *is* worth it, but it's good to know for real.
 
-The patch is against nvme-5.13.
+I haven't measured it (it would be hard to measure), but I think it's
+fairly clear here. Without the state, xa_load() would need to be called
+on *every* page in an SGL that maps only P2PDMA memory from one device.
+With the state, it only needs to be called once. xa_load() is cheap, but
+it is not that cheap.
 
-[ 6552.155244] Call Trace:
-[ 6552.155251]  bio_endio+0x74/0x120
-[ 6552.155260]  nvme_ns_head_submit_bio+0x36f/0x3e0 [nvme_core]
-[ 6552.155266]  ? __switch_to_asm+0x34/0x70
-[ 6552.155269]  ? __switch_to_asm+0x40/0x70
-[ 6552.155271]  submit_bio_noacct+0x175/0x490
-[ 6552.155274]  ? __switch_to_asm+0x34/0x70
-[ 6552.155277]  ? __switch_to_asm+0x34/0x70
-[ 6552.155284]  ? nvme_requeue_work+0x5a/0x70 [nvme_core]
-[ 6552.155290]  nvme_requeue_work+0x5a/0x70 [nvme_core]
-[ 6552.155296]  process_one_work+0x1f4/0x3e0
-[ 6552.155299]  worker_thread+0x2d/0x3e0
-[ 6552.155302]  ? process_one_work+0x3e0/0x3e0
-[ 6552.155305]  kthread+0x10d/0x130
-[ 6552.155307]  ? kthread_park+0xa0/0xa0
-[ 6552.155311]  ret_from_fork+0x35/0x40
+There's essentially the same optimization in get_user_pages for
+ZONE_DEVICE pages. So, if it is necessary there, it should be necessary
+here.
 
-
- drivers/nvme/host/multipath.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 0d0de3433f37..0551796517e6 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -70,6 +70,7 @@ void nvme_failover_req(struct request *req)
- 	struct nvme_ns *ns = req->q->queuedata;
- 	u16 status = nvme_req(req)->status & 0x7ff;
- 	unsigned long flags;
-+	struct bio *bio;
- 
- 	nvme_mpath_clear_current_path(ns);
- 
-@@ -84,6 +85,8 @@ void nvme_failover_req(struct request *req)
- 	}
- 
- 	spin_lock_irqsave(&ns->head->requeue_lock, flags);
-+	for (bio = req->bio; bio; bio = bio->bi_next)
-+		bio_set_dev(bio, ns->head->disk->part0);
- 	blk_steal_bios(&ns->head->requeue_list, req);
- 	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
- 
--- 
-2.29.2
-
+Logan
 
 _______________________________________________
 Linux-nvme mailing list
