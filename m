@@ -2,19 +2,20 @@ Return-Path: <SRS0=U7R3=J6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4FFAC433B4
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 16:00:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBF2C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 16:09:09 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EC0FD610C8
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 16:00:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC0FD610C8
+	by mail.kernel.org (Postfix) with ESMTPS id BD61061185
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 16:09:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BD61061185
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +24,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
 	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=81xcWMguPaCDRrccqAhhoSy4ZVnmtq0upoJqHS0CKgw=; b=PQdfosPUfuQJ7OsAsdJv5FjWw
-	vwT93fog9k3YfIEiz1U8zVDSQKaXbD2pRkfJJpZt4K/ykaURHuF8Wp80OJvRLXRknAp0xqCJ4zz+I
-	K3o4e3k/BcWR3XwG1Dr7qfwxXqMo/vk1vrWE9j+h8DRYcqBHowVlSX9tQixRK8+WPHpdFNMiGQ7jw
-	ekH/245ipPiFo8/cwRLgmngQiphVJ1RClTE69BOYSBkbY/skllkI13t7V1arjlKD8UPZBFeTPzcI4
-	tV+j34JMmSP99oemaUN+yH0jdxnXv791Y4LEEA+q8P0x+7V2nR1G/FSTcGeXtEn8M4oHDYapd957I
-	c3KcNTLDA==;
+	 bh=z7ayqbBQQcIiBO4VpXGCRk1Vz30l2VRwCSy9135168Q=; b=NYZYQH9jCrwcWEkuGCWODjRwk
+	3kMhDBl1ChmsUstRM7I0TpT49qlfhVW4JU+bP1z/uMWPQ2kTJWtkjwCTKimXdi755VPzOaw+IwR/G
+	gX5d7HWn4x5EY9ffphWs28axDxGBCVvYlpG6QP500sNnRTLrtXjNO0zDbGkytCGVNoxSwVD4mfTM+
+	elsrixQH9noKeB6TQg4KLzYY2bXKdxV+SZL1M+GW6Ar524k64qUazIr/7t7gkRgJayfw7HN57/+wJ
+	5/7eg7mbhJ26szD1ilCY4EuKDJwvOuEWLrQCmapuEay3lUe51YzOz1V9s4VNbz9omXh5TIHyif6wD
+	CHwbFIKSA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldazI-00EJwc-Ni; Mon, 03 May 2021 16:00:00 +0000
+	id 1ldb7u-00EKx2-9x; Mon, 03 May 2021 16:08:54 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldaxL-00EJfX-Aq
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 15:57:59 +0000
+ id 1ldb7p-00EKwE-2U
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 16:08:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
  Sender:Reply-To:Content-ID:Content-Description;
- bh=GRATXEdDLtmHYm2zR9BEphk7UXJZV3Wtupp7N/wM0ac=; b=efrvKuNX/c2U/niA/rnZ1tNayU
- B6DB8nMOFU2FC4Q8hhzS1/h+hPJFrFSxJFhDK88/Ddz96JtUUGbCOvzBtrdvm0ZZcWf5KiRCBClI8
- 6Cq573sCLhqwNzmFSl7NnFp+NyHVmyinPVoe7nX7sJwZ4/LEErOiPyAwOdVtLba76NJeVIg/01eSr
- DAya70Wdur7wRR/WUMhOUYR7zAWNMYhHnSLlgMX8mcUKHJl+DgNqZrnZ7nPc88matiyFiplvQp7OV
- eoL9jDFmUyA8dxpmJ3KL4OG/90XlxKfaK05yezV2V8rBjFhVt7L1RdWprvMrObg1IG6g1UgwqRQSz
- GjnZk1kg==;
+ bh=5jxJ8b/HSUR/7BT5D5WyPEoFYv66JE4BKEKp4HTWf+Y=; b=ELGlr4ywcRDBzCO0GOCow59tV9
+ rlYuwXB2R/Lj6uPjhi/t2ku8BnerrBPbb8r1scR2nxqpTfY8QYST0SwTZrz/m6Jw/Ddat/0TjOFEJ
+ 0W0Ff22k8FuQupKW7lt7b+0hONoDBE2qx+dYoZ/CncOwt7yOQz0jnM6VosnuoxCg1vNMTYFdhQ24j
+ ISa3e/pGexND2l49yNyYEDd+S3Ky3TxcS/Kk1IO22ZIhMauBp3kFAcSoCF78+r/IFlf0/iYwed72x
+ 6ahFjEuamMHXjqp/CAyNQOVqwi4k3/Vce93lpUmuqgdarhYmagk60soinbXNxupEOabVwA2nB5N/L
+ V1JKWRVA==;
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldaxI-003D0O-Mq
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 15:57:58 +0000
+ id 1ldb7m-003E2I-5I
+ for linux-nvme@lists.infradead.org; Mon, 03 May 2021 16:08:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=GRATXEdDLtmHYm2zR9BEphk7UXJZV3Wtupp7N/wM0ac=; b=KNKJz1k9cORPoOeawf3gcXlCu5
- eI5GgEzgHHpsYGlQc305kr/f0HuWYO8UNczmVWxt1wCYcoLWokF5N2V6w0Tr7HbLBBwOhuaZYiBVJ
- RXbD1gckXcqlsUMeH9JobfBXeFE5SdNlofp70fCSoNaQ37ycRBY2AiN/N2MGbLxcVQsKPdjEDluEe
- xb+cwsUh7oSz+dRCBwiTM/nRSQ/P9EnqjLLnduy9HUZFFtdlvwQIiZwlOJ3I55O2xSohd2rV9g6Un
- JoFznbmJCUxco07ATLbqEg9Sb2LPcjgV4llvYQvj9+M1NAvWehU2wAYl3X5X+lgSipjOFaQhNM/X1
- iheL+1Kg==;
+ bh=5jxJ8b/HSUR/7BT5D5WyPEoFYv66JE4BKEKp4HTWf+Y=; b=XWOWwDZ6ZwrouJikaVp8dHiCsr
+ I115w+HLBGME9bYlcrjafcglo1GZw06C+Elx221Hmed7QE1HotLNe7+fjXntv4waAOS13LuqEUEIn
+ IW2dFINknX+ObrcY9YFIltZb/ozZzUEhKZ702sW1RXa0CfCJuy3VwVNPCow1cpShl+xJ8oX8jXLua
+ CqCj1z1wi2T5bZLWF7vRp+RhStCsdQ/r35mSNu80y/H+7gL/KgizhTJPZjwewDohxqwmmbcgGrZd9
+ r5urtV1BmH8V5hE2g/eDXD4Qmot0I0KTcAyTeTvQ6Z//Z9oet0bd7OsXbNybLVQ8NF0d8AtcoRbgL
+ tLRcrxtw==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1ldax0-0003G8-Dd; Mon, 03 May 2021 09:57:39 -0600
+ id 1ldb7b-0003hs-5l; Mon, 03 May 2021 10:08:36 -0600
 To: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -77,38 +78,35 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Jason Ekstrand <jason@jlekstrand.net>,
  Dave Hansen <dave.hansen@linux.intel.com>,
  Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
- Bjorn Helgaas <bhelgaas@google.com>
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-2-logang@deltatee.com>
- <d8ac4c84-1e69-d5d6-991a-7de87c569acc@nvidia.com>
+ <20210408170123.8788-3-logang@deltatee.com>
+ <d6220bff-83fc-6c03-76f7-32e9e00e40fd@nvidia.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <8ea5b5b3-e10f-121a-bd2a-07db83c6da01@deltatee.com>
-Date: Mon, 3 May 2021 09:57:35 -0600
+Message-ID: <d4091d87-7d9e-8cde-4e1c-01b877b6785f@deltatee.com>
+Date: Mon, 3 May 2021 10:08:34 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <d8ac4c84-1e69-d5d6-991a-7de87c569acc@nvidia.com>
+In-Reply-To: <d6220bff-83fc-6c03-76f7-32e9e00e40fd@nvidia.com>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: bhelgaas@google.com, robin.murphy@arm.com,
- ira.weiny@intel.com, helgaas@kernel.org, jianxin.xiong@intel.com,
- dave.hansen@linux.intel.com, jason@jlekstrand.net, dave.b.minturn@intel.com,
- andrzej.jakowski@intel.com, daniel.vetter@ffwll.ch, willy@infradead.org,
- ddutile@redhat.com, christian.koenig@amd.com, jgg@ziepe.ca,
- dan.j.williams@intel.com, hch@lst.de, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
+ helgaas@kernel.org, jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
+ jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
+ daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
+ christian.koenig@amd.com, jgg@ziepe.ca, dan.j.williams@intel.com, hch@lst.de,
+ sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
  linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jhubbard@nvidia.com
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 01/16] PCI/P2PDMA: Pass gfp_mask flags to
- upstream_bridge_distance_warn()
+Subject: Re: [PATCH 02/16] PCI/P2PDMA: Avoid pci_get_slot() which sleeps
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_085756_814112_B3E0F37F 
-X-CRM114-Status: GOOD (  23.82  )
+X-CRM114-CacheID: sfid-20210503_090846_257978_04BDE383 
+X-CRM114-Status: GOOD (  48.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,43 +125,127 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2021-05-01 9:58 p.m., John Hubbard wrote:
-> Another odd thing: this used to check for memory failure and just give
-> up, and now it doesn't. Yes, I realize that it all still works at the
-> moment, but this is quirky and we shouldn't stop here.
+On 2021-05-01 11:35 p.m., John Hubbard wrote:
+> On 4/8/21 10:01 AM, Logan Gunthorpe wrote:
+>> In order to use upstream_bridge_distance_warn() from a dma_map function,
+>> it must not sleep. However, pci_get_slot() takes the pci_bus_sem so it
+>> might sleep.
+>>
+>> In order to avoid this, try to get the host bridge's device from
+>> bus->self, and if that is not set, just get the first element in the
+>> device list. It should be impossible for the host bridge's device to
+>> go away while references are held on child devices, so the first element
+>> should not be able to change and, thus, this should be safe.
+>>
+>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>> ---
+>>   drivers/pci/p2pdma.c | 14 ++++++++++++--
+>>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+>> index bd89437faf06..473a08940fbc 100644
+>> --- a/drivers/pci/p2pdma.c
+>> +++ b/drivers/pci/p2pdma.c
+>> @@ -311,16 +311,26 @@ static const struct pci_p2pdma_whitelist_entry {
+>>   static bool __host_bridge_whitelist(struct pci_host_bridge *host,
+>>   				    bool same_host_bridge)
+>>   {
+>> -	struct pci_dev *root = pci_get_slot(host->bus, PCI_DEVFN(0, 0));
+>>   	const struct pci_p2pdma_whitelist_entry *entry;
+>> +	struct pci_dev *root = host->bus->self;
+>>   	unsigned short vendor, device;
+>>   
+>> +	/*
+>> +	 * This makes the assumption that the first device on the bus is the
+>> +	 * bridge itself and it has the devfn of 00.0. This assumption should
+>> +	 * hold for the devices in the white list above, and if there are cases
+>> +	 * where this isn't true they will have to be dealt with when such a
+>> +	 * case is added to the whitelist.
 > 
-> Instead, a cleaner approach would be to push the memory allocation
-> slightly higher up the call stack, out to the
-> pci_p2pdma_distance_many(). So pci_p2pdma_distance_many() should make
-> the kmalloc() call, and fail out if it can't get a page for the seq_buf
-> buffer. Then you don't have to do all this odd stuff.
+> Actually, it makes the assumption that the first device *in the list*
+> (the host->bus-devices list) is 00.0.  The previous code made the
+> assumption that you wrote.
 
-I don't really agree with this assessment. If kmalloc fails to
-initialize the seq_buf() (which should be very rare), the only thing
-that is lost is the one warning print that tells the user the command
-line parameter needed disable the ACS. Everything else works fine,
-nothing else can fail. I don't see the need to add extra complexity just
-so the code errors out in no-mem instead of just skipping the one,
-slightly more informative, warning line.
+The comment notes two assumptions (although the grammar is poor, which I
+will fix). Yes, the previous code made the second assumption, the new
+code makes both assumptions.
 
-Also, keep in mind the result of all these functions are cached so it
-only ever happens once. So for this to matter, the user would have to do
-their first transaction between two devices exactly at the time memory
-allocations would fail.
+> By the way, pre-existing code comment: pci_p2pdma_whitelist[] seems
+> really short. From a naive point of view, I'd expect that there must be
+> a lot more CPUs/chipsets that can do pci p2p, what do you think? I
+> wonder if we have to be so super strict, anyway. It just seems extremely
+> limited, and I suspect there will be some additions to the list as soon
+> as we start to use this.
 
+Yes, well unfortunately we have no other way to determine what host
+bridges can communicate with P2P. We settled on a whitelist when the
+series was first patch. Nobody likes that situation, but nobody has
+found anything better. We've been hoping standards bodies would give us
+a flag but I haven't heard anything about that. At least AMD has been
+able to guarantee us that all CPUs newer than Zen will support so that
+covers a large swath. It would be nice if we could say something similar
+for Intel.
 
-> Furthermore, the call sites can then decide for themselves which GFP
-> flags, GFP_ATOMIC or GFP_KERNEL or whatever they want for kmalloc().
+> OK, yes this avoids taking the pci_bus_sem, but it's kind of cheating.
+> Why is it OK to avoid taking any locks in order to retrieve the
+> first entry from the list, but in order to retrieve any other entry, you
+> have to aquire the pci_bus_sem, and get a reference as well? Something
+> is inconsistent there.
 > 
-> A related thing: this whole exercise would go better if there were a
-> preparatory patch or two that changed the return codes in this file to
-> something less crazy. There are too many functions that can fail, but
-> are treated as if they sort-of-mostly-would-never-fail, in the hopes of
-> using the return value directly for counting and such. This is badly
-> mistaken, and it leads developers to try to avoid returning -ENOMEM
-> (which is what we need here).
+> The new version here also no longer takes a reference on the device,
+> which is also cheating. But I'm guessing that the unstated assumption
+> here is that there is always at least one entry in the list. But if
+> that's true, then it's better to show clearly that assumption, instead
+> of hiding it in an implicit call that skips both locking and reference
+> counting.
 
-Hmm? Which functions can fail? and how?
+Because we hold a reference to a child device of the bus. So the host
+bus device can't go away until the child device has been released. An
+earlier version of the P2PDMA patchset had a lot more extraneous get
+device calls until someone else pointed this out.
+
+> You could add a new function, which is a cut-down version of pci_get_slot(),
+> like this, and call this from __host_bridge_whitelist():
+> 
+> /*
+>   * A special purpose variant of pci_get_slot() that doesn't take the pci_bus_sem
+>   * lock, and only looks for the 00.0 bus-device-function. Once the PCI bus is
+>   * up, it is safe to call this, because there will always be a top-level PCI
+>   * root device.
+>   *
+>   * Other assumptions: the root device is the first device in the list, and the
+>   * root device is numbered 00.0.
+>   */
+> struct pci_dev *pci_get_root_slot(struct pci_bus *bus)
+> {
+> 	struct pci_dev *root;
+> 	unsigned devfn = PCI_DEVFN(0, 0);
+> 
+> 	root = list_first_entry_or_null(&bus->devices, struct pci_dev,
+> 					bus_list);
+> 	if (root->devfn == devfn)
+> 		goto out;
+> 
+> 	root = NULL;
+>   out:
+> 	pci_dev_get(root);
+> 	return root;
+> }
+> EXPORT_SYMBOL(pci_get_root_slot);
+> 
+> ...I think that's a lot clearer to the reader, about what's going on here.
+
+Per above, I think the reference count is unnecessary. But I could wrap
+it in a static function for clarity. (There's no reason to export this
+function).
+
+> Note that I'm not really sure if it *is* safe, I would need to ask other
+> PCIe subsystem developers with more experience. But I don't think anyone
+> is trying to make p2pdma calls so early that PCIe buses are uninitialized.
+
+Yeah, it's impossible to make a p2pdma call before the PCIe bus is
+initialized. They have to have access to at least one PCI device before
+they can even attempt it.
 
 Logan
 
