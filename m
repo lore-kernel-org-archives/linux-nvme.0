@@ -2,74 +2,87 @@ Return-Path: <SRS0=U7R3=J6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E19AC433ED
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 13:34:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EED98C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 14:29:24 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9AB5561208
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 13:34:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AB5561208
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 4D19461139
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 14:29:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D19461139
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ughkoSjfu2nl4NJ01u062O/NcqCOx/MUPkUV7QCWNLE=; b=JvF1fbpK7OQU+Cq3r5+YE5w37
-	XluAlW2Y/eBEPJpi5Ow7uhF3xo/clHW98kHSt7qxAIkSHzntura3j6KjMKnUdrbJaqu8JlZ5+iqgW
-	57+D+jco3gMamvcUed19cgGM7ijsClSncOiy6zUQtbmNLuRIb0eJmBpIRIlQTSjjlPCxodD/ObaTW
-	kLAoyoULrHA8zbKOyPAOnG7rDSDYIfaE7YyOJUs7FjP12GA2wo29lsB6rCaY8OzESQZSMLIsHcPCO
-	7LiIYnUEZaiT1oldp5ZOCjGZiXyBUMJNcEFAme/v2VtJSXQZmN3GunL0pPi9MhxbT5N6GlnCSUHPy
-	x8GEic4hQ==;
+	 bh=wlVQ8dvuQEIlLJGpZKkQciD6ITqwgCSG49oUp0s+oU0=; b=cnPv4VvLv5b6NPWAHmFMJ//pr
+	hBKuBVPYkf6IRHt+8KqHUTx9Ek8DNn+LiRRh9fLvZ73OKyGdFbFDDR4FPK3015O70hz8BHHOF+kaJ
+	yIK8qVCbqcl+9ar93PSQuAypyIUX3403PelgEUIskQuqANMtHj7WzXlslQZHBDGwbfY0a+RXSvS7t
+	G5MvsGamdo7Lt+se9ene76CL7Kn5/v+0hcjL67aJqvtdQOkP5sc0Og3aaOuDyseFNZsEFDT9Xn4TW
+	X+xbuea20GY/MTtW+Ik3ubhLoq+98rJl8+2mdUJ9qKn89+alF6dX/9+CLbDeqzKmmUAMiCuJ0nSYP
+	2oRZob6qQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldYhn-00Dx5X-Ko; Mon, 03 May 2021 13:33:48 +0000
+	id 1ldZZD-00E3z2-Pd; Mon, 03 May 2021 14:28:59 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldYhi-00Dx5B-Gv
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 13:33:44 +0000
+ id 1ldZZA-00E3ye-1q
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 14:28:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=1vgsJKEFASSp/gtXc0RMDJGM+tcpU99iGiCsIt1JwME=; b=bY9hp5uNkq9hdN1ZXgtnOniqSt
- GfwGRRNysBEpzkq0meslOD1ulXtdYc+F+K/jOUdz/26Vr5PF3chfhUDJzWOgztKMLQDkxqKu60IOO
- UUUueQBV1Lv+dry5IgEqmdDZgm8C+PptOHxmt3XTVDQcQNWStPmvjStCFZytuvZwkQGOSn8WrXImx
- 26Pzydvsh5Wl6I+4WsmsC+JGuEVL9Kwptud6KVxCcZT9Bj+XjxMlKVk0uFnkSUA00nCVR8hG/BZlP
- 4sf60uGCEOM/a5lWWtWMCaBxO/9gJsfLpnBYI7IMXF2EqA0YJHv0q/F4bW2zruhtkKmw8SBYwnlQ3
- q9IMOeaw==;
-Received: from mx2.suse.de ([195.135.220.15])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+ :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=yALi/6dm5mCSxZXI0oOkkpbESIgxQU2SARqg/W3vQlQ=; b=Dj+YBSPyIddL/4DN1+eaKyaot8
+ PcZLJVyhiqzbAWFtGdM8INh31rJDR1cGdAE9yu6bca/MkdOGPcPp7pIylBK2w3isFc+Ww99Gw5MNA
+ Yp8Kb4wXOec1pJbXxDY3LESil3byXqD5XSw6m/ZcKXU/BfkpbWHqeSmGVpFfGcCz2kmcHKs0uihia
+ oKD1Rmgqr4rNjkX2vuH7X91WDU/JQrc3AoRuQJ+8ggUPBavZa04drs4ir/ACcHFGCO0zlVVV0Au2f
+ cKmjwh7Wae1kEeuw8UlysUPDL00WvWUb/Kw1hNV+JvlwHtq3BLXmFN8Pev32fkFLmJ0KyMYko+dVN
+ 6JZSEd7g==;
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldYhf-003613-Pi
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 13:33:41 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E04A9B118;
- Mon,  3 May 2021 13:33:32 +0000 (UTC)
-Subject: Re: [PATCH] nvme-multipath: Reset bi_disk to ns head when failover
-To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>
-References: <20210503125741.68117-1-dwagner@suse.de>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <7ab943e0-5ac4-d370-0a15-3108f689e478@suse.de>
-Date: Mon, 3 May 2021 15:33:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ id 1ldZZ7-0037qs-JT
+ for linux-nvme@lists.infradead.org; Mon, 03 May 2021 14:28:54 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C8BD061139;
+ Mon,  3 May 2021 14:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620052132;
+ bh=Mii7/eeaJog/lkDihMk5k9jP60cTsSe1F0pmm3rrgZQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=s2FneFZCSrbv1X25AZZubrKFHuL9JMWALbW6ZmdLKtOmCiz9bC38Ep2i9WObQcyK0
+ TmhcCt3jdA65bF6lepf6fhlsoOlx7XDVu48OqkgL/UQ+O5bLiFW+L1KLRGqhciQjXq
+ JdGJw8+TcWvcSAjDqDZLozvpeDYE+w73+LJ58ntXktmCJGhEGgleG7+OxAV/4lYkS1
+ 6ZQVWl5yWeabQpmBSsfgh877iA4FOXIISA0Glylk8Oh1ZUtegMQZWCwpvCqjLqpz4M
+ AnMUuWaNPxQ16/bVQ3vXtwS5bgEqaaCf4ZuwOMd/OvUwxA9WC+deZFKWuw33WQmFq/
+ dcCy25FfYkv1w==
+Date: Mon, 3 May 2021 07:28:48 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de
+Subject: Re: nvme tcp receive errors
+Message-ID: <20210503142848.GB910137@dhcp-10-100-145-180.wdc.com>
+References: <53a11feb-bc49-d384-3b7b-481a0dfc70e6@grimberg.me>
+ <20210405143702.GA20598@redsun51.ssa.fujisawa.hgst.com>
+ <300c9e90-9bd6-abc8-c67a-fa92e119e4a7@grimberg.me>
+ <20210414002946.GA2448507@dhcp-10-100-145-180.wdc.com>
+ <5bc917c8-4e4c-7bfa-7cfa-24858993a042@grimberg.me>
+ <20210426153137.GD12593@redsun51.ssa.fujisawa.hgst.com>
+ <f247f9e2-6724-0feb-b40c-08ada848d290@grimberg.me>
+ <20210427181236.GA631001@dhcp-10-100-145-180.wdc.com>
+ <686a7cdc-a9a8-3700-3805-90d07db39707@grimberg.me>
+ <d27ccec0-7b2c-790c-3192-96c6e2aeee0c@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <20210503125741.68117-1-dwagner@suse.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <d27ccec0-7b2c-790c-3192-96c6e2aeee0c@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_063339_999145_33EE694F 
-X-CRM114-Status: GOOD (  21.28  )
+X-CRM114-CacheID: sfid-20210503_072853_701119_5C626032 
+X-CRM114-Status: GOOD (  18.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,57 +94,83 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNS8zLzIxIDI6NTcgUE0sIERhbmllbCBXYWduZXIgd3JvdGU6Cj4gVGhlIHBhdGggY2FuIGJl
-IHN0YWxlIHdoZW4gd2UgZmFpbG92ZXIuIElmIHdlIGRvbid0IHJlc2V0IHRoZSBiZGV2IHRvCj4g
-dGhlIG5zIGhlYWQgYW5kIHRoZSBJL08gZmluYWxseSBjb21wbGV0ZXMgaW4gZW5kX2lvKCkgaXQg
-d2lsbCB0cmlnZ2Vycwo+IGEgY3Jhc2guIEJ5IHJlc2V0dGluZyB0aGUgdG8gbnMgaGVhZCBkaXNr
-IHNvIHRoYXQgdGhlIHN1Ym1pdCBwYXRoIGNhbgo+IG1hcCB0aGUgcmVxdWVzdCB0byBhbiBhY3Rp
-dmUgcGF0aC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgV2FnbmVyIDxkd2FnbmVyQHN1c2Uu
-ZGU+Cj4gLS0tCj4gCj4gVGhlIHBhdGNoIGlzIGFnYWluc3QgbnZtZS01LjEzLgo+IAo+IFsgNjU1
-Mi4xNTUyNDRdIENhbGwgVHJhY2U6Cj4gWyA2NTUyLjE1NTI1MV0gIGJpb19lbmRpbysweDc0LzB4
-MTIwCj4gWyA2NTUyLjE1NTI2MF0gIG52bWVfbnNfaGVhZF9zdWJtaXRfYmlvKzB4MzZmLzB4M2Uw
-IFtudm1lX2NvcmVdCj4gWyA2NTUyLjE1NTI2Nl0gID8gX19zd2l0Y2hfdG9fYXNtKzB4MzQvMHg3
-MAo+IFsgNjU1Mi4xNTUyNjldICA/IF9fc3dpdGNoX3RvX2FzbSsweDQwLzB4NzAKPiBbIDY1NTIu
-MTU1MjcxXSAgc3VibWl0X2Jpb19ub2FjY3QrMHgxNzUvMHg0OTAKPiBbIDY1NTIuMTU1Mjc0XSAg
-PyBfX3N3aXRjaF90b19hc20rMHgzNC8weDcwCj4gWyA2NTUyLjE1NTI3N10gID8gX19zd2l0Y2hf
-dG9fYXNtKzB4MzQvMHg3MAo+IFsgNjU1Mi4xNTUyODRdICA/IG52bWVfcmVxdWV1ZV93b3JrKzB4
-NWEvMHg3MCBbbnZtZV9jb3JlXQo+IFsgNjU1Mi4xNTUyOTBdICBudm1lX3JlcXVldWVfd29yaysw
-eDVhLzB4NzAgW252bWVfY29yZV0KPiBbIDY1NTIuMTU1Mjk2XSAgcHJvY2Vzc19vbmVfd29yaysw
-eDFmNC8weDNlMAo+IFsgNjU1Mi4xNTUyOTldICB3b3JrZXJfdGhyZWFkKzB4MmQvMHgzZTAKPiBb
-IDY1NTIuMTU1MzAyXSAgPyBwcm9jZXNzX29uZV93b3JrKzB4M2UwLzB4M2UwCj4gWyA2NTUyLjE1
-NTMwNV0gIGt0aHJlYWQrMHgxMGQvMHgxMzAKPiBbIDY1NTIuMTU1MzA3XSAgPyBrdGhyZWFkX3Bh
-cmsrMHhhMC8weGEwCj4gWyA2NTUyLjE1NTMxMV0gIHJldF9mcm9tX2ZvcmsrMHgzNS8weDQwCj4g
-Cj4gICBkcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYyB8IDYgKysrKysrCj4gICAxIGZpbGUg
-Y2hhbmdlZCwgNiBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9o
-b3N0L211bHRpcGF0aC5jIGIvZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMKPiBpbmRleCAw
-ZDBkZTM0MzNmMzcuLjBmYWYyNjdmYWE1OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL252bWUvaG9z
-dC9tdWx0aXBhdGguYwo+ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L211bHRpcGF0aC5jCj4gQEAg
-LTY5LDcgKzY5LDkgQEAgdm9pZCBudm1lX2ZhaWxvdmVyX3JlcShzdHJ1Y3QgcmVxdWVzdCAqcmVx
-KQo+ICAgewo+ICAgCXN0cnVjdCBudm1lX25zICpucyA9IHJlcS0+cS0+cXVldWVkYXRhOwo+ICAg
-CXUxNiBzdGF0dXMgPSBudm1lX3JlcShyZXEpLT5zdGF0dXMgJiAweDdmZjsKPiArCXN0cnVjdCBi
-bG9ja19kZXZpY2UgKmJkZXY7Cj4gICAJdW5zaWduZWQgbG9uZyBmbGFnczsKPiArCXN0cnVjdCBi
-aW8gKmJpbzsKPiAgIAo+ICAgCW52bWVfbXBhdGhfY2xlYXJfY3VycmVudF9wYXRoKG5zKTsKPiAg
-IAo+IEBAIC04Myw5ICs4NSwxMyBAQCB2b2lkIG52bWVfZmFpbG92ZXJfcmVxKHN0cnVjdCByZXF1
-ZXN0ICpyZXEpCj4gICAJCXF1ZXVlX3dvcmsobnZtZV93cSwgJm5zLT5jdHJsLT5hbmFfd29yayk7
-Cj4gICAJfQo+ICAgCj4gKwliZGV2ID0gYmRnZXRfZGlzayhucy0+aGVhZC0+ZGlzaywgMCk7Cj4g
-ICAJc3Bpbl9sb2NrX2lycXNhdmUoJm5zLT5oZWFkLT5yZXF1ZXVlX2xvY2ssIGZsYWdzKTsKPiAr
-CWZvciAoYmlvID0gcmVxLT5iaW87IGJpbzsgYmlvID0gYmlvLT5iaV9uZXh0KQo+ICsJCWJpb19z
-ZXRfZGV2KGJpbywgYmRldik7Cj4gICAJYmxrX3N0ZWFsX2Jpb3MoJm5zLT5oZWFkLT5yZXF1ZXVl
-X2xpc3QsIHJlcSk7Cj4gICAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmbnMtPmhlYWQtPnJlcXVl
-dWVfbG9jaywgZmxhZ3MpOwo+ICsJYmRwdXQoYmRldik7Cj4gICAKPiAgIAlibGtfbXFfZW5kX3Jl
-cXVlc3QocmVxLCAwKTsKPiAgIAlrYmxvY2tkX3NjaGVkdWxlX3dvcmsoJm5zLT5oZWFkLT5yZXF1
-ZXVlX3dvcmspOwo+IApNYXliZSBhIFdBUk5fT04oIWJkZXYpIGFmdGVyIGJkZ2V0X2Rpc2soKSwg
-YnV0IG90aGVyd2lzZToKClJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5k
-ZT4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgICAg
-ICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21i
-SCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJn
-KSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QK
-TGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
-L21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On Fri, Apr 30, 2021 at 04:42:14PM -0700, Sagi Grimberg wrote:
+> =
+
+> > You are exactly right, I think this should do the trick:
+> =
+
+> Hey Keith,
+> =
+
+> Did this resolve the issues?
+
+We're unfortunately still observing data digest issues even with this.
+Most of the testing has shifted to the r2t error, so I don't have any
+additional details on the data digest problem.
+
+On the r2t issue, I'm just waiting for the weekend test results to see
+what happened with running your most recent test suggestion.
+ =
+
+> > -- =
+
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> > index 8e55d8bc0c50..eb1feaacd11a 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -55,6 +55,7 @@ struct nvme_tcp_request {
+> >  =A0=A0=A0=A0=A0=A0=A0 /* send state */
+> >  =A0=A0=A0=A0=A0=A0=A0 size_t=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 offset;
+> >  =A0=A0=A0=A0=A0=A0=A0 size_t=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 data_sent;
+> > +=A0=A0=A0=A0=A0=A0 size_t=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 data_received;
+> >  =A0=A0=A0=A0=A0=A0=A0 enum nvme_tcp_send_state state;
+> >  =A0};
+> > =
+
+> > @@ -751,9 +752,12 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue
+> > *queue, struct sk_buff *skb,
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *len -=3D recv_len;
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *offset +=3D recv_len;
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 queue->data_remaining -=
+=3D recv_len;
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 req->data_received +=3D rec=
+v_len;
+> >  =A0=A0=A0=A0=A0=A0=A0 }
+> > =
+
+> >  =A0=A0=A0=A0=A0=A0=A0 if (!queue->data_remaining) {
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (req->data_received < re=
+q->data_len)
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret=
+urn 0;
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (queue->data_digest) {
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+nvme_tcp_ddgst_final(queue->rcv_hash,
+> > &queue->exp_ddgst);
+> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+queue->ddgst_remaining =3D NVME_TCP_DIGEST_LENGTH;
+> > @@ -2274,6 +2278,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct
+> > nvme_ns *ns,
+> >  =A0=A0=A0=A0=A0=A0=A0 req->state =3D NVME_TCP_SEND_CMD_PDU;
+> >  =A0=A0=A0=A0=A0=A0=A0 req->offset =3D 0;
+> >  =A0=A0=A0=A0=A0=A0=A0 req->data_sent =3D 0;
+> > +=A0=A0=A0=A0=A0=A0 req->data_received =3D 0;
+> >  =A0=A0=A0=A0=A0=A0=A0 req->pdu_len =3D 0;
+> >  =A0=A0=A0=A0=A0=A0=A0 req->pdu_sent =3D 0;
+> >  =A0=A0=A0=A0=A0=A0=A0 req->data_len =3D blk_rq_nr_phys_segments(rq) ?
+> > -- =
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
