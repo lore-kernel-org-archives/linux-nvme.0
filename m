@@ -2,19 +2,19 @@ Return-Path: <SRS0=U7R3=J6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 806C8C433ED
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 18:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C27B1C433ED
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 18:24:04 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DEE0D610A7
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 18:22:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DEE0D610A7
+	by mail.kernel.org (Postfix) with ESMTPS id DA30F6105A
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 18:24:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA30F6105A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,75 +23,75 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=qhHa8e/F1XF1SgS0NjTAaM22ofFTqFW0noOQjN5jTzM=; b=jUvD2JLIEStoCNTRGOX/4Fu0Z
-	6BIsz37UjHMzH0QhGAFwIaR9kVw1RpNjd8TQmKSTlBDn1zMKa5x5Ceg9hea5NjJ79dy5Ar6eno6m/
-	RvZgJTrGRT8Z9weVi6uoSbdzJjNNOw+HN+d4Pw0HYMYUJIMlv6PYehLLxk6kDkUpgHEysTctxCP0D
-	BAwCAe/ZSqjWfj8jNa5AdtQc8akETHw76bNvf9ABwBZ6jF3utElDr1UoaNtMRXwtbBSHxOmVT6y6H
-	ZOfwU8TaLYmyk5r2ow7+6G8cnq9DAZcFheJxm5huUx/YemR5A9R9sNVqpmY76CqSGiLE5tESfzcQx
-	aC+0/zndg==;
+	 bh=C9qaOTvt0T01Of6bSGaXHodkf/l5OSXFGB/AocUOW2o=; b=gLBfT76i6xflU25vVy3SQsB/K
+	l1indd9BtXRToSWr4NOA/yv9o5g214+C/4oAFS/ZbHhCsJ68gvmVB1KmtaRVo5XDQEZQDgv2x44qy
+	PSv6eIJ5vs+2ZaOUa+7E0uaQW25zuU7ecihuvtcKSaotVwzHDuzG0TsIxS2iA1X710eaXab+bsKJ3
+	wGwiKW3GQn8F0W2zovwzBGC4wdkKfDV5lJeAyQWKMplJuRtahcxBLdiTBcwuGHmsZNeyjdtnWCMeI
+	wOluL8cFBJPyxwNnwlgs3YhggOVAyc6Vrsaadzm1BDFR2IAR60nn1LLXngRT9dvbePwee5YExnkRZ
+	SzAf36bcg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lddDS-00EaoM-6g; Mon, 03 May 2021 18:22:46 +0000
+	id 1lddEb-00EauJ-Tk; Mon, 03 May 2021 18:23:58 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lddDO-00EaoA-QC
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 18:22:43 +0000
+ id 1lddEa-00Eatx-1q
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 18:23:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
  Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=Wh603q+IyN73ofGUEV/YQVGZO2H7r0W0NPpO0A2WQB0=; b=OWbnLylP7Vfcfn64Vqowwp+1MF
- AQ4KcXNyBlE+346BMxLLAAxEmGy/pDNyB6G28dT6dv4ieEn72QcE7g2niNbgCdekZxzzDBJeJWIAk
- 7vbVVbK++iYgRRNozjI852JIpPS0mueT8sa5bnfYe/hjN4jPf0Y2hH7ToBBkjqFGqJU0DaaGAZIx0
- ETtK/PGwn50u7KG6JEieILysG0i3O8+rUzZFnJ9NUYMkjUzIZcrMHwviJv964yIZCkDQfOKrbl0h3
- FZ0/QBRO6hpIB04cJ70tuisglQtFRpUX3VptEujshBBkqi2ET4dhQJnuq3D5PIl1kuvTPAr2a5ZwR
- RrN+zpZw==;
-Received: from mail-dm6nam10on2068.outbound.protection.outlook.com
- ([40.107.93.68] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ bh=pVx0ZtULOxre4CPTnCnobT4Mv5nknBt37whXM0h58gk=; b=VSYennZ5e0m5qoP0WSrJctnuPK
+ ueUEN774qNm1xCaAkCCQh6BWFl16yetRS/0NZ1FthZrEopUw3C6kUKv8mGgrbidQLgECgyhJ9dH8e
+ Ds7BQIadmeE0sazJr05xxxLlRXmGATTIrCofV+V/WvydC2TmtC9mAe0q8yQTipODXyOnGvpQSNsWc
+ 5WXLXK+wyJtbqzk4QUzvjmahzeCLWiGAQNtbt2ETSiGK0Gj7+sZfNFc94F5GM3+24wMZjdKAPgCkM
+ DH+JOrAEnVqN4NE1gIk6HDsTEKOMNnRRfXXBitNrl5ZI/Vu2+USJAxThBqGRME2f66CIl9o1xc6gf
+ jt+QtE0g==;
+Received: from mail-bn8nam12on2084.outbound.protection.outlook.com
+ ([40.107.237.84] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lddDM-003OHQ-2M
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 18:22:41 +0000
+ id 1lddEX-003OLT-Gw
+ for linux-nvme@lists.infradead.org; Mon, 03 May 2021 18:23:54 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SDo7SLVuz+HbwBFR8DpaSTasFWtbZpPyk+zZcLvUePujXtXsSasC49xBlyXkraQ3aK52yvjwGh4qit/QPWiK0PzfGO/JNZHqjdv3RwKVaqETdrs5oAYXiZ+J1T3mt24MYmngZfydCLtr2agESTqzGNTVjTQ9iAZzpkDo0XCxyENBUDlFxX6IRE2WiyJdHX83RxbISQ5R8XN3ZtsetnsUisLbMPA3C1R1J6/FYwSgLmprELJk5u3RIbUx38s5mex94KpcEaKUo3qh1OLgUMDsIgMnMpjrTc1rEDEWljgLRyrlyon1HRy2Go73zpvXx6TclvSs9AG5QDiE2xI9qhVeOA==
+ b=KNq8jsoZQrScr8p5uDj4NNejTZMAHjeMmeqyInOA9eo5b/tq870QhknNMvM89TsOnqgG1OfU5T4Ny4bTkibrkMecowp+tXcl+Q7recDbxm7sC5aiulR4IvTD13tusPvcoRN7tC2//iXmlZ4n1yGeWMt8rNkZZxQIG7uVCcj4/tL70Sn0BGLDMWpnh6G98KJyEAXp7xr9Ns0FSjRiv3UrvEdToyUPU9Ltx1W9NbgwhBiA2ntwRHLp1suq1BzpyJ6u2uVpt1MY8DtQvDJxQSX6/0KYt2gden62YkgLX9A6bgNvCemHwJw/xd6nAiiM9zAILoaPb5UjIAlGf4mpmEm+1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wh603q+IyN73ofGUEV/YQVGZO2H7r0W0NPpO0A2WQB0=;
- b=UumbdaHPDQvd21Z5IENd5rWlcjHPgWnrztJHv8SC+QuDlxpRsiDeB36LECeAIGCz0xmzwiWPnH/5F2NZ6Bdn0cV982surzCpMbLDCUNjblVWi3vPvpfRMz6D8HYVe5tfPEb24FcpN5QzaLGOJ6USQAFBvBO6dXfX1j10TqNwx2Zv+/DCkALFCcXchPRJ0+oe7fzVFCpZI4N1fUMXfcPDOxQnyoiuw0Eu6ttuiCEZ0z3C5hj9sqDnNqJVPaZym7IzdpCo3PWtYv4T5AZGM4ED2O2kmTP8u1lKtIRfo4rBQrdNDmFcyD/sjXAZnlC76EYpNj+MkKHWwao8DyQ8swosqQ==
+ bh=pVx0ZtULOxre4CPTnCnobT4Mv5nknBt37whXM0h58gk=;
+ b=nWMwxtYPEOLzi7o22yQ7MYykNV7NkTVKgAnW4I6tWkjKVKgAqE5Kc1b8yC4UK3w3qNh9fskeIMfgREheRbN8J3876S9xYxBGcN9v1nADymuFoAr+G3B1ITgGilPuer4hEu4X/ORDZZsi0gD6EgDtSgE0nOA4MIK4VwZVG5oAJMPGpqjrAZU39zLzQTPsVFUzCz6Hb1DixuXpzNSZLFrRrh6ipYBILZLE0mD/3+FK+xZ/lxgf1jSPLrtZazMQLVIizzk4in0qvltXlb0BN5mj0pRnFoNIXA0etTBp8ZJqxfPq3ysZ94OmbwaPixGg7cwiXMFeqhnuSaLlfLPh50s9JQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=raithlin.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
+ 216.228.112.34) smtp.rcpttodomain=lst.de smtp.mailfrom=nvidia.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=nvidia.com; dkim=none
+ (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wh603q+IyN73ofGUEV/YQVGZO2H7r0W0NPpO0A2WQB0=;
- b=X7prm8j0vltbdUm9AQdhqn6TpNPHPOTJy3uVSSHnzqDaSga9yDEEo10YPqCMNapGbZyqVfyeI+AmJqylSlPz6njJidVgYjl8Lis4VoZszLlCsp/EfRBujSwVnYymOhK05dAm3NeI2VwRCjUgj+TS2D2nuzeAywo6BKbdRXVyU2VmoERDQpAwJ8t6MFBsQkt1eSoylVCwp20Q0JrTI4x5DgI3svqMiU+LaVcEaKg7s0OZOWJMUN6SIRKQETJJOW2/hiCHcTwhW7FubL+vVOQaVwKBSn1HXXVVeFsiQbtNtSYa+lOKHu7k1hh7IdCkVOp3c3/3zfC2If+r3idqvpRNrQ==
-Received: from MW4PR03CA0041.namprd03.prod.outlook.com (2603:10b6:303:8e::16)
- by BN8PR12MB3282.namprd12.prod.outlook.com (2603:10b6:408:9e::27)
+ bh=pVx0ZtULOxre4CPTnCnobT4Mv5nknBt37whXM0h58gk=;
+ b=oWNfhDoG4gOUOX6shzvvqPqEREtAGDEVP5iF9JC0dt5yKjMlN6aeVZ10E2qCgUm/MBWoNUPAKA3s/H14msSn+YaYmRxg+JXatlqG6GN++cACt2r4wlJhNFGmdfPLw9QJ/2AVWN/C/id5AwTAFUaFmlNWpqTLTcInkhO0tpNmhd1+JZIdZlq7hZwd2gRfGsHFNkySmwiJl7a/FhdhJUVt13SowIIOoEsd1hQi5YAerlyYgGO+F0rd4wj9bqawZXS4fxs4z6wpivSm4SB1H5NmrKVUG6VPTM1Q4Vo9e64qmTcn1u7b9CeJeYg4lYMZPDU9I06OuSgxL0tLr3D6XX4rEw==
+Received: from MW3PR06CA0016.namprd06.prod.outlook.com (2603:10b6:303:2a::21)
+ by BYAPR12MB4774.namprd12.prod.outlook.com (2603:10b6:a03:10b::33)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.41; Mon, 3 May
- 2021 18:22:37 +0000
-Received: from CO1NAM11FT013.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8e:cafe::9f) by MW4PR03CA0041.outlook.office365.com
- (2603:10b6:303:8e::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.28 via Frontend
- Transport; Mon, 3 May 2021 18:22:36 +0000
+ 2021 18:23:47 +0000
+Received: from CO1NAM11FT055.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:2a:cafe::c2) by MW3PR06CA0016.outlook.office365.com
+ (2603:10b6:303:2a::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.32 via Frontend
+ Transport; Mon, 3 May 2021 18:23:46 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; raithlin.com; dkim=none (message not signed)
- header.d=none;raithlin.com; dmarc=pass action=none header.from=nvidia.com;
+ smtp.mailfrom=nvidia.com; lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.112.34 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.112.34; helo=mail.nvidia.com;
 Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT013.mail.protection.outlook.com (10.13.174.227) with Microsoft SMTP
+ CO1NAM11FT055.mail.protection.outlook.com (10.13.175.129) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4087.27 via Frontend Transport; Mon, 3 May 2021 18:22:36 +0000
+ 15.20.4087.27 via Frontend Transport; Mon, 3 May 2021 18:23:44 +0000
 Received: from [10.2.50.162] (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 3 May
- 2021 18:22:35 +0000
-Subject: Re: [PATCH 03/16] PCI/P2PDMA: Attempt to set map_type if it has not
- been set
+ 2021 18:23:43 +0000
+Subject: Re: [PATCH 01/16] PCI/P2PDMA: Pass gfp_mask flags to
+ upstream_bridge_distance_warn()
 To: Logan Gunthorpe <logang@deltatee.com>, <linux-kernel@vger.kernel.org>,
  <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
  <linux-pci@vger.kernel.org>, <linux-mm@kvack.org>,
@@ -104,48 +104,51 @@ CC: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>, Dan
  Minturn Dave B <dave.b.minturn@intel.com>, Jason Ekstrand
  <jason@jlekstrand.net>, Dave Hansen <dave.hansen@linux.intel.com>, Xiong
  Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>, Ira
- Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
+ Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>, Bjorn
+ Helgaas <bhelgaas@google.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-4-logang@deltatee.com>
- <3834be62-3d1b-fc98-d793-e7dcb0a74624@nvidia.com>
- <a1b6ffa9-7a9c-753f-6350-5ea26506cdc3@deltatee.com>
+ <20210408170123.8788-2-logang@deltatee.com>
+ <d8ac4c84-1e69-d5d6-991a-7de87c569acc@nvidia.com>
+ <8ea5b5b3-e10f-121a-bd2a-07db83c6da01@deltatee.com>
+ <3bced3a4-b826-46ab-3d98-d2dc6871bfe1@nvidia.com>
+ <8402ca0b-f147-fb99-bab4-71f047d2ba46@deltatee.com>
 From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <ec3b9d57-a1c3-601a-323e-718a2eeb50af@nvidia.com>
-Date: Mon, 3 May 2021 11:22:34 -0700
+Message-ID: <f8acf4ad-04a0-a31e-189d-5cf702d80f30@nvidia.com>
+Date: Mon, 3 May 2021 11:23:43 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <a1b6ffa9-7a9c-753f-6350-5ea26506cdc3@deltatee.com>
+In-Reply-To: <8402ca0b-f147-fb99-bab4-71f047d2ba46@deltatee.com>
 Content-Language: en-US
 X-Originating-IP: [172.20.145.6]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e38825af-e751-43d2-78ba-08d90e606d82
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3282:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB3282B19F208F53D6BC074CF9A85B9@BN8PR12MB3282.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
+X-MS-Office365-Filtering-Correlation-Id: a0a0f13b-b528-4961-aab6-08d90e609635
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4774:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB4774D44D8B4703A9034DDC2FA85B9@BYAPR12MB4774.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8uXTH+i9MS2FHcEEHX6Ch8ZrhI34sDhqQI9x0IBImJ5+lw8FtMlKIFn0L5bZdBmuUv7PYfw52yhk0FGJVAJNdXZsiOTbxhSIOoKqJb+XvWq9caD4YaJVMbxbfyGKz1miRj4fHMG42z2JqiwJ3Tvqk567yaj2muZxvueDQXghqAGbKNXepOi642WOlhRz3GLcDUgwq9Mn1sdZCmQmxw+VeLdAcJ9bHFjDGcxzDWDWSe6TllNKwfOyoi8o/Bsms+4mbsQCktEQ8o+oK0gaNXwrd1V2mt9SQ48B8xU/TGRwLyqM6rAT+w6+EkzNn6S/r1B6KFON7Z1rwzWdhiRTRgMmo5rgP8EZizsdwtQ+hDjYZk/MoQRrrzBrZXnaWO8FnNZWOatHwFk1WXT0aCmYmfW3Z/FR7Dg3ObeUPAbOhFYgCsz0oWK488uBGuwATgkC5dQtQRlHxHC4n7MGOtV9xgFY51W1OhYOXN4SPol78jaqS8uc6/tmAQpbT96fVZwzYfVCbkMmkNT4sP4YBk/3S99+SBw06vPr3YLdQT3Es93CpssL+ipIsUEOIDuq/BodzUTsdO/UzqlURSxNqSq2mU3hUY6OliKFYGAzV6dTKZeHcwInKAchqHK9xZ/a+OehifNCHFxJw4UHP0dbZvLmnLDhqbm69BfkyihqObsVXV2Eh8/Yc4yeYkXa1+ifGxJMRQiDrGEAujXkY2T/JtGlfz15qQ==
+X-Microsoft-Antispam-Message-Info: 6uXoxlnUQce3Wh9ZUG/XgjRJehieEWu0faVCBdA8n//L1fwWW0eKg0HweX3Bkjt2qiiiyP7JG+0W+eklWc1yPL41EuQw/Vf30XpNCKe9u7LClqOLrEeq828ZbUcH/CM4HA/lfJosKfonLzKoF115Jz83zsFHuArTmIlRyY7S1Pcon2JPPmqNdIDVxQoHeTTaPyEzZnphWdytoLOC9eB1+eH16AfK+XeQdo0QmxoQDMNTY0TUNxDBqTm6fs1R7DzSMZxjeaDW6FEQbaLxxtyyIH1vjq76tIKAYmQfZnIJy249NQuWs/w5WkHaDbpgBuK0v3DZzUkaSKP9lW5DAuSxOoaQ1QdbFXk7hZNgKbXDNkBOPcE/Hao4cs3CWJw7/z9pFienjSIYyaOBWqKgtnjRPlWL7YJ2fOQJ4wV6st3hoEGMsItkJ4s/qchDs4WypL7RU2DVJqpimJxkWjbwEenn5yyNpforTyHaMdDNhEYGKuhAw5owa1VT1iHIv1aPtua9a8SdrTqJk0Bjjrlh2YJZnjkqjnP6YpCgdhKELluWbqm/i/JkOo0Roo7gFZHrqJJhXEQM0okF3yKq6hgYx9aD+SQkSkdF6mbrf393VqoBw4JHxjebeLNn/YyNPX40cgLSj8idouQv2CpoUk/vw9h2fWbxF5Tv7T3C7BuuXxo8us2m+4TLluxSTpLQVQdwY8wpxKSBUdYA2aeFzarhIze0Wg==
 X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(136003)(346002)(376002)(46966006)(36840700001)(31686004)(2616005)(478600001)(426003)(8936002)(7636003)(36860700001)(53546011)(31696002)(336012)(7416002)(16526019)(54906003)(186003)(2906002)(5660300002)(8676002)(83380400001)(86362001)(110136005)(82310400003)(16576012)(316002)(4326008)(70206006)(356005)(70586007)(47076005)(26005)(36756003)(36906005)(82740400003)(2101003)(43740500002);
+ SFS:(4636009)(346002)(396003)(39860400002)(376002)(136003)(36840700001)(46966006)(36906005)(316002)(16576012)(110136005)(336012)(31696002)(47076005)(54906003)(36860700001)(82740400003)(426003)(7416002)(5660300002)(356005)(8936002)(83380400001)(4326008)(2616005)(26005)(31686004)(7636003)(82310400003)(186003)(16526019)(36756003)(53546011)(86362001)(70206006)(70586007)(478600001)(2906002)(8676002)(2101003)(43740500002);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2021 18:22:36.5193 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e38825af-e751-43d2-78ba-08d90e606d82
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2021 18:23:44.8255 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0a0f13b-b528-4961-aab6-08d90e609635
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT013.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT055.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3282
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB4774
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_112240_153941_D98ED8F2 
-X-CRM114-Status: GOOD (  28.34  )
+X-CRM114-CacheID: sfid-20210503_112353_586119_99729B6E 
+X-CRM114-Status: GOOD (  16.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -162,67 +165,30 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/3/21 9:17 AM, Logan Gunthorpe wrote:
->> Returning a "bridge distance" from a "get map type" routine is jarring,
->> and I think it is because of a pre-existing problem: the above function
->> is severely misnamed. Let's try renaming it (and the other one) to
->> approximately:
+On 5/3/21 11:20 AM, Logan Gunthorpe wrote:
+...
+>> That's the thing: memory failure should be exceedingly rare for this.
+>> Therefore, just fail out entirely (which I don't expect we'll likely
+>> ever see), instead of doing all this weird stuff to try to continue
+>> on if you cannot allocate a single page. If you are in that case, the
+>> system is not in a state that is going to run your dma p2p setup well
+>> anyway.
 >>
->>       upstream_bridge_map_type_warn()
->>       upstream_bridge_map_type()
+>> I think it's *less* complexity to allocate up front, fail early if
+>> allocation fails, and then not have to deal with these really odd
+>> quirks at the lower levels.
 >>
->> ...and that should fix that. Well, that, plus tweaking the kernel doc
->> comments, which are also confused. I think someone started off thinking
->> about distances through PCIe, but in the end, the routine boils down to
->> just a few situations that are not distances at all.
->>
->> Also, the above will read a little better if it is written like this:
->>
->> 	ret = xa_to_value(xa_load(&provider->p2pdma->map_types,
->> 				  map_types_idx(client)));
->>
->> 	if (ret == PCI_P2PDMA_MAP_UNKNOWN)
->> 		ret = upstream_bridge_map_type_warn(provider, client, NULL,
->> 						    GFP_ATOMIC);
->> 	
->> 	return ret;
->>
->>
->>>    }
 > 
-> I agree that some of this has evolved in a way that some of the names
-> are a bit odd now. Could definitely use a cleanup, but that's not really
-> part of this series. When I have some time I can look at doing a cleanup
-> series to help with some of this.
-
-I'm OK with doing cleanup later. I just tend to call it out when I see it.
-
-> 
->>>    static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
->>> @@ -877,7 +884,6 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
->>>    	case PCI_P2PDMA_MAP_BUS_ADDR:
->>>    		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
->>>    	default:
->>> -		WARN_ON_ONCE(1);
->>
->> Why? Or at least, why, in this patch? It looks like an accidental
->> leftover from something, seeing as how it is not directly related to the
->> patch, and is not mentioned at all.
-> 
-> Before this patch, it was required that users of P2PDMA call
-> pci_p2pdma_distance_many() in some form before calling
-> pci_p2pdma_map_sg(). So, by convention, a usable map type had to already
-> be in the cache. The warning was there to yell at anyone who wrote code
-> that violated that convention.
-> 
-> This patch removes that convention and allows users to map P2PDMA pages
-> sight unseen and if the mapping type isn't in the cache, then it will
-> determine the mapping type at dma mapping time. Thus, the warning can be
-> removed and the function can fail normally if the mapping is unsupported.
+> I don't see how it's all that weird. We're skipping a warning if we
+> can't allocate memory to calculate part of the message. It's really not
+> necessary. If the memory really can't be allocated then something else
+> will fail, but we really don't need to fail here because we couldn't
+> print a verbose warning message.
 > 
 
-Let's add some of those words to the commit description, perhaps, it's nice
-to have. Obviously a minor point though.
+Well, I really dislike the result we have in this particular patch, but
+I won't stand in the way of progress if that's how you really are going
+to do it.
 
 thanks,
 -- 
