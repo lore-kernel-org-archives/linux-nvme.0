@@ -2,20 +2,20 @@ Return-Path: <SRS0=U7R3=J6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB68C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 06:53:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 721D0C433ED
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 07:15:18 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B09B361244
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 06:53:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B09B361244
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id B69A5611C0
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 07:15:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B69A5611C0
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,61 +23,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=CNR1PRAvR98yisDSKQ2UUxQId8rVCd9NjnBsBOcGDX8=; b=oGHCLIGQU5mZzpH3Uue4aECoO
-	9iUEA29PX8dU+ozYYrISbaf0OhcGVDDycwRsk6RLBmuQfG5ITVjRbZLUCaY0bGgCoeTeK+6KiYdxG
-	rXhBs2FyKzcv+5nMb0HCkgwKYPAmzAEwTAQv5zcmCXC77Q28MS4dACQpooEtmPopy8kN2fxeIFW1E
-	Bt4PhKRj0NbRFj0frKAPPHei5vM9zDI5nGQ/ou+QfKU4swzmUw0OBfZJEnbcXwN14ErCtp8+c8Hhu
-	YlR0fCD8HKQKD3lpY59HXMpolrAKn84xHRrPMK0LvSt2dno7dHRpVvmDD1gt+dCBKLUI4IE5+cMZ1
-	MhRmLdSsA==;
+	 bh=G4ftmWgL7zOdk27++f64g1oi6E8bagSqOowegSdI9iM=; b=RasDdn9K1/JE4R2TSJnQ2QgXh
+	jk7p3uYU3KUXQX94DYSl5WnfS/8psnzabK8CBHUVAegf8AwbgrFiVGOIrVy6KUv3wJNx3lmm7b3Zn
+	AMkwwDv7xOhonfJDZGm7SuaiCM3J2sgz6Bvqk1ZzXccsUIU3umtX8Na8WkloeR7AWB1CTho+/Mnvq
+	VrORKumDBSpo3/PPfdH3A59fVaKmtJFz5nZjajAVGEuRx16Uqu/ARfKa3LQJ3K9SJ7kx/3pQMRmFK
+	0hDpUJNNIPGGnjyddV5uwYn/8FvcOwBYWrOdyLrLTK/nqfUMpVhr8XMtW/f3uzR520AoqCk2/T/4t
+	0xAFuUa/w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldSRu-00DK8U-Cf; Mon, 03 May 2021 06:52:58 +0000
-Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
+	id 1ldSn3-00DMGK-SX; Mon, 03 May 2021 07:14:49 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldSRk-00DK8B-76
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 06:52:48 +0000
+ id 1ldSn1-00DMGC-Sd
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 07:14:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=d+fHnJr96VIyT5hDcQKxJ21C7rYU+7WOKbcU5jdJE+E=; b=MGWrwm+9TJRF2EVqbIwLSGe3gS
- 82H7RBmmwd5CSWOFMM32xr+Le27y5uiSv6ujn57REI7Ft+S5NuGavIUXspjhuogBbX5Ys74//DXgJ
- uEWcnCCHkZko5qu/KcFpmkoZtNe+I4oKvQRhL019I5oQgtsPqitnfSUR69UIq6/jntQ65p6rzF50M
- n09STzTxT7Ra/DRDUa0C1ThwckDEcIJb1zigUSnnRWCAAWwqQP2PZLO6G3VrNW2jfQpgysxIPQ28y
- mpNRvceXtF0OhKWfs7jbWb5Dm2Zs2Uxj5x7fni312v1N996uzKMB3nLYFGReX1BmpK7U52WwOnT0q
- mVFC6ATQ==;
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldSRg-002sPg-Ta
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 06:52:46 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id AD7B467373; Mon,  3 May 2021 08:52:35 +0200 (CEST)
-Date: Mon, 3 May 2021 08:52:35 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: "Rao, Vinay" <Vinay.Rao@dell.com>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- "Belanger, Martin" <Martin.Belanger@dell.com>,
- "Hayes, Stuart" <Stuart.Hayes@dell.com>,
- "Tarikere, Madhu" <Madhu.Tarikere@dell.com>,
- Christoph Hellwig <hch@lst.de>, Martin Belanger <nitram_67@hotmail.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "axboe@fb.com" <axboe@fb.com>, "sagi@grimberg.me" <sagi@grimberg.me>
-Subject: Re: [PATCH 1/1] nvme-fabrics: Generate uevent on namespace AENs
-Message-ID: <20210503065235.GB32627@lst.de>
-References: <BL0PR13MB429142FD8B9FCC57C2FE451D9C409@BL0PR13MB4291.namprd13.prod.outlook.com>
- <20210429063056.GA2482@lst.de>
- <SJ0PR19MB454499BF2899EF772B1EA11CF25F9@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <BYAPR04MB4965BD2AE65469C96CBF1354865F9@BYAPR04MB4965.namprd04.prod.outlook.com>
- <BYAPR19MB29351987D7ABBA3F28791D978F5E9@BYAPR19MB2935.namprd19.prod.outlook.com>
- <20210430162104.GA907317@dhcp-10-100-145-180.wdc.com>
+ bh=r3+bWFuh6BpobiX0nzWuylFbflLXDf37EtMjaGp93GE=; b=TLNC+76DerQfr/NL+2m7X/GSER
+ uNvBpEDWThVt7XndOm7XxJHHjrELSCVyxrDDCIgHtY+U44JkKEk6s1/hX9mc0GO85CncaylbYfapK
+ PzncFH7m2X8m+rx4bGhLefPDykOQM35bXTwQh0AXYIhBS74AUF9okmR29HxdR+imqnFU5+NV0wJXb
+ dGYX6LzrgT67gSMyVQvtZid7xH5nv9H4w4WTkpWbV/aDxJ603s74JY3P52KKyMf5Gh1u7LlBmXtRy
+ YyrXFXEe54aCiIlMAtU0H+974rld9xfgr4oUGdPN/dh37bb3RLrb7bV8CZ3AMMIEHATJOOdls386r
+ Tu1bP3Jg==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1ldSmN-00EmJz-7Q; Mon, 03 May 2021 07:14:14 +0000
+Date: Mon, 3 May 2021 08:14:07 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Prike Liang <Prike.Liang@amd.com>, linux-nvme@lists.infradead.org,
+ Chaitanya.Kulkarni@wdc.com, gregkh@linuxfoundation.org,
+ hch@infradead.org, stable@vger.kernel.org, Alexander.Deucher@amd.com,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ linux-pci@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: Re: [PATCH v4 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+Message-ID: <20210503071407.GA3521294@infradead.org>
+References: <1618458725-17164-1-git-send-email-Prike.Liang@amd.com>
+ <20210430175049.GA664888@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210430162104.GA907317@dhcp-10-100-145-180.wdc.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210502_235245_131842_246EF2AA 
-X-CRM114-Status: GOOD (  20.20  )
+In-Reply-To: <20210430175049.GA664888@bjorn-Precision-5520>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,27 +81,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 30, 2021 at 09:21:04AM -0700, Keith Busch wrote:
-> On Fri, Apr 30, 2021 at 05:14:55AM +0000, Rao, Vinay wrote:
-> > + Madhu
-> > 
-> > Hi Chaitanya, 
-> > 
-> > Some of the AEN's like ANA state change and Name Space attribute change events are of interest outside the NVME driver. 
-> > 
-> > It would be good to consider these events to be propagated up to user space. I am not yet convinced on how propagating this above to user space is problematic.
+On Fri, Apr 30, 2021 at 12:50:49PM -0500, Bjorn Helgaas wrote:
+> This needs to be cc'd to linux-pci (I did it for you this time).
+
+I did ask for that before.
+
+> Sorry, I can't make any sense out of the commit log.  Is this a Root
+> Port defect or an NVMe device defect?
+
+It is a root port quirk, although it appears to be intentional as Intel
+is doing the same thing on some platforms.
+
+> Patch 2/2 only uses PCI_DEV_FLAGS_AMD_NVME_SIMPLE_SUSPEND in the nvme
+> driver, so AFAICT there is no reason for the PCI core to keep track of
+> the flag for you.
 > 
-> The namespace attribute change event pairs with the Changed Namespace
-> List log, and reading that log will change the result for a subsequent
-> reader. User space racing with the kernel on a log access when there are
-> read side effects creates non-deterministic behavior, and that is
-> problematic.
+> I see below that Christoph suggests it needs to be in the PCI core,
+> but the reason needs to be explained in the commit log.
 
-The only way I could think of making this work is by:
+As far as I can tell this has nothing to do with NVMe except for the
+fact that right now it mostly hits NVMe as the nvme drivers is one of
+the few drivers not always doing a full device shutdown when the
+system goes into the S3 power state.  But various x86 platforms now
+randomly power done the link in that case.
 
-forcing the RAE bit on for all log pages that the kernel cares about,
-and only delivering the uevent on controllers that actually do support
-the RAE bit (IIRC it got added in 1.3, but I'd have to check).
+> 
+> I have not acked this patch.  Please don't merge it before clearing
+> these things up.
+
+I would never merge PCI core changes that haven't been reviewd by the
+maintainer.
 
 _______________________________________________
 Linux-nvme mailing list
