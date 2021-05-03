@@ -2,18 +2,18 @@ Return-Path: <SRS0=U7R3=J6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EED98C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 14:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6442FC433B4
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 14:57:32 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D19461139
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 14:29:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D19461139
+	by mail.kernel.org (Postfix) with ESMTPS id 1C4C9611BF
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 14:57:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C4C9611BF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,67 +22,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=wlVQ8dvuQEIlLJGpZKkQciD6ITqwgCSG49oUp0s+oU0=; b=cnPv4VvLv5b6NPWAHmFMJ//pr
-	hBKuBVPYkf6IRHt+8KqHUTx9Ek8DNn+LiRRh9fLvZ73OKyGdFbFDDR4FPK3015O70hz8BHHOF+kaJ
-	yIK8qVCbqcl+9ar93PSQuAypyIUX3403PelgEUIskQuqANMtHj7WzXlslQZHBDGwbfY0a+RXSvS7t
-	G5MvsGamdo7Lt+se9ene76CL7Kn5/v+0hcjL67aJqvtdQOkP5sc0Og3aaOuDyseFNZsEFDT9Xn4TW
-	X+xbuea20GY/MTtW+Ik3ubhLoq+98rJl8+2mdUJ9qKn89+alF6dX/9+CLbDeqzKmmUAMiCuJ0nSYP
-	2oRZob6qQ==;
+	 bh=OB7GDDK55YdI3GfEs2yyU4zFZ79+bwaydiv/91fslPA=; b=d15H+trFk4rQChK+t7s5vSMJM
+	FoMuf/R4650HccEMS85jOR2y7Qsxc2pANuacUkzrfVAaB3kp8tlK3Oao/jjtmzLYt37b0Rolqvi7C
+	BDW1cFd4RAVR/1VVbpPg7HNZ2tMoHWGJt/dfoTFqBGtWm96z6otD0hNWp3WfVZM6J8wCGMLzzsm4z
+	cT6jbm7XC19FRL0ik/trpOnmwIcI5eHshLvceRipMkbE/XyzTCyfzescm24Ury34qLHrrK78MYPbM
+	Zc3KkvsTOiycT72quDdkmZAWuyJ27y/dJaEdM9xUBcG8pKlFbCVsh0xbTipwgaID7apGKfHBe9nEy
+	MVO439xgA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldZZD-00E3z2-Pd; Mon, 03 May 2021 14:28:59 +0000
+	id 1lda0f-00E8kM-9I; Mon, 03 May 2021 14:57:21 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldZZA-00E3ye-1q
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 14:28:56 +0000
+ id 1lda0S-00E8ia-9a
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 14:57:08 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
- :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=yALi/6dm5mCSxZXI0oOkkpbESIgxQU2SARqg/W3vQlQ=; b=Dj+YBSPyIddL/4DN1+eaKyaot8
- PcZLJVyhiqzbAWFtGdM8INh31rJDR1cGdAE9yu6bca/MkdOGPcPp7pIylBK2w3isFc+Ww99Gw5MNA
- Yp8Kb4wXOec1pJbXxDY3LESil3byXqD5XSw6m/ZcKXU/BfkpbWHqeSmGVpFfGcCz2kmcHKs0uihia
- oKD1Rmgqr4rNjkX2vuH7X91WDU/JQrc3AoRuQJ+8ggUPBavZa04drs4ir/ACcHFGCO0zlVVV0Au2f
- cKmjwh7Wae1kEeuw8UlysUPDL00WvWUb/Kw1hNV+JvlwHtq3BLXmFN8Pev32fkFLmJ0KyMYko+dVN
- 6JZSEd7g==;
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=bijCbrqi7N0ef71S/YWP2l5zAPN3wQpbHr1Ty+8pD2Y=; b=bQ0l3rSJuwuDl66KvRRvgYg7XZ
+ qkmJ1M8g6Mc8BBP3ZFyDjbS9hRXO3Znk78WkL4LL0zd+KjEuXuEXqhuS47CqmsUCUprT9uhClbBLX
+ JtSkoJ9VQFwNrZksumTSjX43FU5weCSK5Eoc2PEJwAGXdN3rTrXTousPceHwafC5N14t9sZ+wRJEp
+ VKpVwUvvdO559RsYocJX9K5ivid4/SbU3TjQNpVz+s/SjLJHjMYN+2KnmXMfLcs/mhhDFhJKtspuR
+ gJNNMNpn74VAq8SB1BkKn+iyem8i1oy2y+lab9iXo4nJbuslRjnHFVKJhtq6qL7EZnfEHsYYX6Hn8
+ rRXbvbNg==;
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldZZ7-0037qs-JT
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 14:28:54 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C8BD061139;
- Mon,  3 May 2021 14:28:51 +0000 (UTC)
+ id 1lda0P-0039Cx-Jy
+ for linux-nvme@lists.infradead.org; Mon, 03 May 2021 14:57:07 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4286361166;
+ Mon,  3 May 2021 14:57:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620052132;
- bh=Mii7/eeaJog/lkDihMk5k9jP60cTsSe1F0pmm3rrgZQ=;
+ s=k20201202; t=1620053825;
+ bh=p0BJIJlzuPFaUslj6JNmj+oFyieoiT8v0bTQp2hvdN0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s2FneFZCSrbv1X25AZZubrKFHuL9JMWALbW6ZmdLKtOmCiz9bC38Ep2i9WObQcyK0
- TmhcCt3jdA65bF6lepf6fhlsoOlx7XDVu48OqkgL/UQ+O5bLiFW+L1KLRGqhciQjXq
- JdGJw8+TcWvcSAjDqDZLozvpeDYE+w73+LJ58ntXktmCJGhEGgleG7+OxAV/4lYkS1
- 6ZQVWl5yWeabQpmBSsfgh877iA4FOXIISA0Glylk8Oh1ZUtegMQZWCwpvCqjLqpz4M
- AnMUuWaNPxQ16/bVQ3vXtwS5bgEqaaCf4ZuwOMd/OvUwxA9WC+deZFKWuw33WQmFq/
- dcCy25FfYkv1w==
-Date: Mon, 3 May 2021 07:28:48 -0700
+ b=L/UA0eyb+02UVZvNL8dDB23AVLWxGfiIjVubVS91qQzH6+tajahryxunpFMfhIbui
+ Acspei0n4phlFOCUnWGJw3q1INAIl4/P4IQWDhRo2J41PQdKqD+2apsUZL3GA4/XbV
+ IZWmL91YTlF9BdOD5TNihSEoqUZMhEWxlTR/FD99x+rKQakfFQpKDvkB6a0oijZV3m
+ 2RgDy1te17WFVO1HDGtnX29ULWu2truKh3T19Lo2iH/XxInRtNwr1cIUsCgTjDymNA
+ 8Xba/zT3COeJssiYrYXNII3loceZHWT1ptbZ/ztCbP6pLVdRGnsN/TFViHuu0ISRb+
+ ww02CEda5Nbpg==
+Date: Mon, 3 May 2021 07:57:02 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-Subject: Re: nvme tcp receive errors
-Message-ID: <20210503142848.GB910137@dhcp-10-100-145-180.wdc.com>
-References: <53a11feb-bc49-d384-3b7b-481a0dfc70e6@grimberg.me>
- <20210405143702.GA20598@redsun51.ssa.fujisawa.hgst.com>
- <300c9e90-9bd6-abc8-c67a-fa92e119e4a7@grimberg.me>
- <20210414002946.GA2448507@dhcp-10-100-145-180.wdc.com>
- <5bc917c8-4e4c-7bfa-7cfa-24858993a042@grimberg.me>
- <20210426153137.GD12593@redsun51.ssa.fujisawa.hgst.com>
- <f247f9e2-6724-0feb-b40c-08ada848d290@grimberg.me>
- <20210427181236.GA631001@dhcp-10-100-145-180.wdc.com>
- <686a7cdc-a9a8-3700-3805-90d07db39707@grimberg.me>
- <d27ccec0-7b2c-790c-3192-96c6e2aeee0c@grimberg.me>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Prike Liang <Prike.Liang@amd.com>,
+ linux-nvme@lists.infradead.org, Chaitanya.Kulkarni@wdc.com,
+ gregkh@linuxfoundation.org, stable@vger.kernel.org,
+ Alexander.Deucher@amd.com, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ linux-pci@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: Re: [PATCH v4 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+Message-ID: <20210503145702.GC910137@dhcp-10-100-145-180.wdc.com>
+References: <1618458725-17164-1-git-send-email-Prike.Liang@amd.com>
+ <20210430175049.GA664888@bjorn-Precision-5520>
+ <20210503071407.GA3521294@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <d27ccec0-7b2c-790c-3192-96c6e2aeee0c@grimberg.me>
+In-Reply-To: <20210503071407.GA3521294@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_072853_701119_5C626032 
-X-CRM114-Status: GOOD (  18.55  )
+X-CRM114-CacheID: sfid-20210503_075705_699275_F173DA24 
+X-CRM114-Status: GOOD (  17.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,81 +91,28 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 30, 2021 at 04:42:14PM -0700, Sagi Grimberg wrote:
-> =
+On Mon, May 03, 2021 at 08:14:07AM +0100, Christoph Hellwig wrote:
+> On Fri, Apr 30, 2021 at 12:50:49PM -0500, Bjorn Helgaas wrote:
+> > Patch 2/2 only uses PCI_DEV_FLAGS_AMD_NVME_SIMPLE_SUSPEND in the nvme
+> > driver, so AFAICT there is no reason for the PCI core to keep track of
+> > the flag for you.
+> > 
+> > I see below that Christoph suggests it needs to be in the PCI core,
+> > but the reason needs to be explained in the commit log.
+> 
+> As far as I can tell this has nothing to do with NVMe except for the
+> fact that right now it mostly hits NVMe as the nvme drivers is one of
+> the few drivers not always doing a full device shutdown when the
+> system goes into the S3 power state.  But various x86 platforms now
+> randomly power done the link in that case.
 
-> > You are exactly right, I think this should do the trick:
-> =
-
-> Hey Keith,
-> =
-
-> Did this resolve the issues?
-
-We're unfortunately still observing data digest issues even with this.
-Most of the testing has shifted to the r2t error, so I don't have any
-additional details on the data digest problem.
-
-On the r2t issue, I'm just waiting for the weekend test results to see
-what happened with running your most recent test suggestion.
- =
-
-> > -- =
-
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 8e55d8bc0c50..eb1feaacd11a 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -55,6 +55,7 @@ struct nvme_tcp_request {
-> >  =A0=A0=A0=A0=A0=A0=A0 /* send state */
-> >  =A0=A0=A0=A0=A0=A0=A0 size_t=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0 offset;
-> >  =A0=A0=A0=A0=A0=A0=A0 size_t=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0 data_sent;
-> > +=A0=A0=A0=A0=A0=A0 size_t=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 data_received;
-> >  =A0=A0=A0=A0=A0=A0=A0 enum nvme_tcp_send_state state;
-> >  =A0};
-> > =
-
-> > @@ -751,9 +752,12 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue
-> > *queue, struct sk_buff *skb,
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *len -=3D recv_len;
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *offset +=3D recv_len;
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 queue->data_remaining -=
-=3D recv_len;
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 req->data_received +=3D rec=
-v_len;
-> >  =A0=A0=A0=A0=A0=A0=A0 }
-> > =
-
-> >  =A0=A0=A0=A0=A0=A0=A0 if (!queue->data_remaining) {
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (req->data_received < re=
-q->data_len)
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret=
-urn 0;
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (queue->data_digest) {
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
-nvme_tcp_ddgst_final(queue->rcv_hash,
-> > &queue->exp_ddgst);
-> >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
-queue->ddgst_remaining =3D NVME_TCP_DIGEST_LENGTH;
-> > @@ -2274,6 +2278,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct
-> > nvme_ns *ns,
-> >  =A0=A0=A0=A0=A0=A0=A0 req->state =3D NVME_TCP_SEND_CMD_PDU;
-> >  =A0=A0=A0=A0=A0=A0=A0 req->offset =3D 0;
-> >  =A0=A0=A0=A0=A0=A0=A0 req->data_sent =3D 0;
-> > +=A0=A0=A0=A0=A0=A0 req->data_received =3D 0;
-> >  =A0=A0=A0=A0=A0=A0=A0 req->pdu_len =3D 0;
-> >  =A0=A0=A0=A0=A0=A0=A0 req->pdu_sent =3D 0;
-> >  =A0=A0=A0=A0=A0=A0=A0 req->data_len =3D blk_rq_nr_phys_segments(rq) ?
-> > -- =
-
+Right, and the v5 of this series uses a generic name for the PCI quirk
+without mentioning "NVME".
 
 _______________________________________________
 Linux-nvme mailing list
