@@ -2,19 +2,20 @@ Return-Path: <SRS0=U7R3=J6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9473AC433B4
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 17:06:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F743C43460
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 17:09:59 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E27C36023C
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 17:06:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E27C36023C
+	by mail.kernel.org (Postfix) with ESMTPS id B978061132
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 17:09:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B978061132
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +24,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
 	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EDNHgN5JDp6qq5Tc9+aHJKw8nhleAaeAGZdHwbUe0+c=; b=cJYriymR3keWNGyRz0TJ5lpAh
-	TZdlo72gBifjYGgNmaqMAUldGS+9YHXqnqHYc4j9slHEa8VpithI0ndfxJE9HY1H3dv/JtLiwdTsk
-	k4Qr2UdQRT0nY8pz6KQ+WOcsOsIEder3A4Z0pHUxFwZTaErChVCrcw1MbETyS3UY+e1Iv2wLVKNOU
-	aShyHbqtR5oANSVly78I48ltBK1wqcmGeThdJ9pox8liDm49f7ZMFEviceGkqvP68CvbxFnWngv/M
-	TbqgbYZzg21wLtdYlfa9gvv/HQzBV4+49iLyBBKnf+sv6j9pDNbD5/x25iPlDXbX8xa9LkDCH0c4q
-	BxwCEYo7g==;
+	 bh=ga1mCPP5GxNR5N9NhtqSxNe4bR8iFxpw3Fhn9igOuXw=; b=cbvIy6uYtQSD9Lcn2p2WmDRGk
+	Ucuq1xtMrxwhVENiCjI5jaM0Qt/nh8OYnIIAzEVGcf2mUuy4ykv3ZyaeONWEaRdp7zS+r0b0oDNv9
+	lAZG6O6YGuuBLGsM3oRtJ4PHofvJJe0W8noxsfgMhVgnX+ZD+5UN42QBr2/qnmBlvu94yBQi/O7N/
+	5Z6Phkpxxly36EbM7gAJvWHShhpS+96wpn0ZL3r629UwTnk/gaClbI03aiktIeIadX5RQX2Nd6qnN
+	HrL+U5U+NK8BUs1laL+zPiuS+beEEqLaWkpxNngowwxS0V9Fm64r3NW7pklqBVvgK7ERxVleHR2EI
+	PTcm6rlBQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldc22-00EThy-C4; Mon, 03 May 2021 17:06:54 +0000
+	id 1ldc4x-00ETwC-FO; Mon, 03 May 2021 17:09:55 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldc1x-00EThN-Rb
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 17:06:50 +0000
+ id 1ldc4r-00ETvn-NO
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 17:09:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
  Sender:Reply-To:Content-ID:Content-Description;
- bh=WB2BFEGNYO0DIiKQ7JhTxvJPDMwGp3muQhOssHP9UL0=; b=ktOKkrqtvABHYFcYoSRZ5na69x
- 6hXkiwtgQGJg4GyXQ+E5LiAHF46SlxoqKawcQlPbldh/svPpQ/DzwlNoRHqe+pR9rsloYaY3+h5s0
- u7SqVmkAhvyrpRXtJcOvtLxt26QR7VLIBiZe9QPK3Mpm05fMIS5NuQTGztBYuvnw4G40aQ6k3GLVI
- fDq0ZRQ2uo9n835RlD93ruGaSrAM2hl86z8qgLdrQ0+ykBHELAEzL0pLzWY4L4xF5LPh7E/rmLHhz
- QkQvfYWPPPQeNzb6MLMBEUkcPB3tIS1tdMac2LLIoqiKIaEqIfStXybc8l20zBIZ/L+lLOwGMsfdj
- SAvQhe+w==;
+ bh=sF55GqEiR/vAGKsTB6GxRt38Im6+dLa7cFcSyRRCVPY=; b=kFzOBgxn/ZMQVcSCS+gYVcqT8C
+ Tz9+rIrHF1K4PdqfQU0cVrBqqkU3N3RAPzRAG//12RlYw3I/EEq7JufhZ1/ON+f/tgn4z366KrQ7C
+ iH5kl8jtbdp+bVYNhdr4AqU3PsbETLjrdG9q2gfNQ4yHThWFLAjahcur/Y4OPisJLppE/RyNrLi3a
+ /dRsJ00qKC+94CrfUMcXPgd68EAvpKhbNOpYNzk8akDSCXQ2v6pp89mK7eLabp7MWC2pJBWcMgT4t
+ XJUpdAr2jDUCfIOe340TJ+onOrKxo3L0AFm6wZGJ3DeL8L6gkO56lHwsQniulxB3GpGcI/cjoLLCh
+ UjLv9ISw==;
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldc1v-003K30-73
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 17:06:48 +0000
+ id 1ldc4p-003KQo-0d
+ for linux-nvme@lists.infradead.org; Mon, 03 May 2021 17:09:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=WB2BFEGNYO0DIiKQ7JhTxvJPDMwGp3muQhOssHP9UL0=; b=dDTy/SRhXjKaPCQWTjtyGkzIXz
- L+5aXPYOXJFX/vzhqTUEvlHVk3nFr8UGmdqpKSDkYliw+ysfyGSOqaGrtbPwyRjFwob8n3y9wigi9
- Zl8BxPlH0yJ+PzbWpgvKPKQS98GCRTyXpn+eVtfXwsrPjQBPAPntrbhx6T5W+Kpxf5bZhnwUaPkAG
- ++hsd/+nGCa9jsMKPQjpg0vJf9dFGZPO2LJgKzlZ6TDWnRf4ACzVugXtJj31oEDdJPDVXsne85+3t
- NGcnOfrWi9lffb/ksw/nsFJghwSzqipzDuI1Q1PBz31x+/96qT0qbm4RHxKGSCMaEVx5Fu4d5LH/4
- SdHnJy+A==;
+ bh=sF55GqEiR/vAGKsTB6GxRt38Im6+dLa7cFcSyRRCVPY=; b=PPAJStAbdbFioncG1dF75qCU+v
+ JphXQ3TasGekmkY28Y2MzFXdxG5QkT47dRXuoZAjv1XmtflJyc0xQSN1SJ0IH/IfpTxhtbEZvkpES
+ XoLa55YoDqbSCc+7C3/zJowfmfhUSJPDLBddaVhPplT0a/o7g+Q0UWanpD5P9oDwYAoPlnURNJT/U
+ pOznyVDGTomzGZXWTLIwqMDc/sde4eiJclT7mEfqE3z/9d0Wq6vJVrdw1xb+C67SQRgtI12z9UtIW
+ x/eaYbEH8LFDHop0JKG/ustGY/6sHhLh307UM0U09MQ5UyR30dmPw58gEAMDgsZK/WY7OTyhZKJv+
+ fKlTUBWg==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1ldc1m-0004sS-74; Mon, 03 May 2021 11:06:39 -0600
+ id 1ldc4e-0004xo-VK; Mon, 03 May 2021 11:09:38 -0600
 To: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -79,16 +80,15 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
  Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-10-logang@deltatee.com>
- <37fa46c7-2c24-1808-16e9-e543f4601279@nvidia.com>
- <f2ac9584-6133-cd3d-e9a0-bff20adfb23e@nvidia.com>
+ <20210408170123.8788-11-logang@deltatee.com>
+ <85bd104b-2816-f803-44d4-d5623d4f81af@nvidia.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <f4c4d197-a0b8-2238-d6ea-af4c67e43da3@deltatee.com>
-Date: Mon, 3 May 2021 11:06:37 -0600
+Message-ID: <f522351e-e8cf-58e9-620d-f17dcdfbf151@deltatee.com>
+Date: Mon, 3 May 2021 11:09:36 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <f2ac9584-6133-cd3d-e9a0-bff20adfb23e@nvidia.com>
+In-Reply-To: <85bd104b-2816-f803-44d4-d5623d4f81af@nvidia.com>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
@@ -101,13 +101,13 @@ X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jhubbard@nvidia.com
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 09/16] dma-direct: Support PCI P2PDMA pages in dma-direct
- map_sg
+Subject: Re: [PATCH 10/16] dma-mapping: Add flags to dma_map_ops to indicate
+ PCI P2PDMA support
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_100647_265387_C8DF5F4A 
-X-CRM114-Status: GOOD (  15.64  )
+X-CRM114-CacheID: sfid-20210503_100947_071696_3976F876 
+X-CRM114-Status: GOOD (  26.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,40 +126,115 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2021-05-02 5:32 p.m., John Hubbard wrote:
-> On 5/2/21 4:28 PM, John Hubbard wrote:
->> On 4/8/21 10:01 AM, Logan Gunthorpe wrote:
-> ...
->>> @@ -387,19 +388,37 @@ void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
+On 2021-05-02 6:32 p.m., John Hubbard wrote:
+> On 4/8/21 10:01 AM, Logan Gunthorpe wrote:
+>> Add a flags member to the dma_map_ops structure with one flag to
+>> indicate support for PCI P2PDMA.
 >>
->> This routine now deserves a little bit of commenting, now that it is
->> doing less obvious things. How about something like this:
+>> Also, add a helper to check if a device supports PCI P2PDMA.
 >>
->> /*
->> * Unmaps pages, except for PCI_P2PDMA pages, which were never mapped in the
->> * first place. Instead of unmapping PCI_P2PDMA entries, simply remove the
->> * SG_PCI_P2PDMA mark
->> */
+>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>> ---
+>>   include/linux/dma-map-ops.h |  3 +++
+>>   include/linux/dma-mapping.h |  5 +++++
+>>   kernel/dma/mapping.c        | 18 ++++++++++++++++++
+>>   3 files changed, 26 insertions(+)
+>>
+>> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+>> index 51872e736e7b..481892822104 100644
+>> --- a/include/linux/dma-map-ops.h
+>> +++ b/include/linux/dma-map-ops.h
+>> @@ -12,6 +12,9 @@
+>>   struct cma;
+>>   
+>>   struct dma_map_ops {
+>> +	unsigned int flags;
+>> +#define DMA_F_PCI_P2PDMA_SUPPORTED     (1 << 0)
+>> +
 > 
-> I got that kind of wrong. They *were* mapped, but need to be left mostly
-> alone...maybe you can word it better. Here's my second draft:
+> Can we move this up and out of the struct member area, so that it looks
+> more like this:
 > 
 > /*
->   * Unmaps pages, except for PCI_P2PDMA pages, which should not be unmapped at
->   * this point. Instead of unmapping PCI_P2PDMA entries, simply remove the
->   * SG_PCI_P2PDMA mark.
+>   * Values for struct dma_map_ops.flags:
+>   *
+>   * DMA_F_PCI_P2PDMA_SUPPORTED: <documentation here...this is a good place to
+>   * explain exactly what this flag is for.>
 >   */
+> #define DMA_F_PCI_P2PDMA_SUPPORTED     (1 << 0)
 > 
-> ...am I getting close? :)
+> struct dma_map_ops {
+> 	unsigned int flags;
+> 
 
-I don't think your original comment was wrong per se. But I guess it
-depends on your definition of "mapped". In dma-direct the physical
-address is added to the SGL and, on some arches, the address has to be
-synced on unmap. With P2PDMA, the PCI bus address is sometimes added to
-the SGL and no sync is necessary at the end.
+Sure, I don't care that much. I was just following the style in nvme.h.
+
+>>   	void *(*alloc)(struct device *dev, size_t size,
+>>   			dma_addr_t *dma_handle, gfp_t gfp,
+>>   			unsigned long attrs);
+>> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+>> index 50b8f586cf59..c31980ecca62 100644
+>> --- a/include/linux/dma-mapping.h
+>> +++ b/include/linux/dma-mapping.h
+>> @@ -146,6 +146,7 @@ int dma_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
+>>   		unsigned long attrs);
+>>   bool dma_can_mmap(struct device *dev);
+>>   int dma_supported(struct device *dev, u64 mask);
+>> +bool dma_pci_p2pdma_supported(struct device *dev);
+>>   int dma_set_mask(struct device *dev, u64 mask);
+>>   int dma_set_coherent_mask(struct device *dev, u64 mask);
+>>   u64 dma_get_required_mask(struct device *dev);
+>> @@ -247,6 +248,10 @@ static inline int dma_supported(struct device *dev, u64 mask)
+>>   {
+>>   	return 0;
+>>   }
+>> +static inline bool dma_pci_p2pdma_supported(struct device *dev)
+>> +{
+>> +	return 0;
+> 
+> Should be:
+> 	
+> 	return false;
+
+Yup, will fix.
+
+>> +}
+>>   static inline int dma_set_mask(struct device *dev, u64 mask)
+>>   {
+>>   	return -EIO;
+>> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+>> index 923089c4267b..ce44a0fcc4e5 100644
+>> --- a/kernel/dma/mapping.c
+>> +++ b/kernel/dma/mapping.c
+>> @@ -573,6 +573,24 @@ int dma_supported(struct device *dev, u64 mask)
+>>   }
+>>   EXPORT_SYMBOL(dma_supported);
+>>   
+>> +bool dma_pci_p2pdma_supported(struct device *dev)
+>> +{
+>> +	const struct dma_map_ops *ops = get_dma_ops(dev);
+>> +
+>> +	/* if ops is not set, dma direct will be used which supports P2PDMA */
+>> +	if (!ops)
+>> +		return true;
+>> +
+>> +	/*
+>> +	 * Note: dma_ops_bypass is not checked here because P2PDMA should
+>> +	 * not be used with dma mapping ops that do not have support even
+>> +	 * if the specific device is bypassing them.
+>> +	 */
+>> +
+>> +	return ops->flags & DMA_F_PCI_P2PDMA_SUPPORTED;
+> 
+> Wow, rather unusual combination of things in order decide this. It feels
+> a bit over-complicated to have flags and ops and a bool function all
+> dealing with the same 1-bit answer, but there is no caller shown here,
+> so I'll have to come back to this after reviewing subsequent patches.
+
+Yeah, I originally had it much simpler, but it confused Ira and it was
+clear it had to be written more explicitly and commented better.
 
 Logan
-
 
 _______________________________________________
 Linux-nvme mailing list
