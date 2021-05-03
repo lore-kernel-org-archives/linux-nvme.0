@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBF2C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 16:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66951C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 16:19:12 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BD61061185
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 16:09:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BD61061185
+	by mail.kernel.org (Postfix) with ESMTPS id B039C61182
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 16:19:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B039C61182
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,46 +24,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
 	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=z7ayqbBQQcIiBO4VpXGCRk1Vz30l2VRwCSy9135168Q=; b=NYZYQH9jCrwcWEkuGCWODjRwk
-	3kMhDBl1ChmsUstRM7I0TpT49qlfhVW4JU+bP1z/uMWPQ2kTJWtkjwCTKimXdi755VPzOaw+IwR/G
-	gX5d7HWn4x5EY9ffphWs28axDxGBCVvYlpG6QP500sNnRTLrtXjNO0zDbGkytCGVNoxSwVD4mfTM+
-	elsrixQH9noKeB6TQg4KLzYY2bXKdxV+SZL1M+GW6Ar524k64qUazIr/7t7gkRgJayfw7HN57/+wJ
-	5/7eg7mbhJ26szD1ilCY4EuKDJwvOuEWLrQCmapuEay3lUe51YzOz1V9s4VNbz9omXh5TIHyif6wD
-	CHwbFIKSA==;
+	 bh=w+eEjCrjOSCAIiP0GNthz46OJwLoOP6wx33W2VSoOok=; b=WLA1DWAArSI61dG7+EmNpQzr/
+	rkmuKNSlMG/qvvV8CK+mssbS+tU2KM+zgkilxsbVw1nlIyJHEIp20yad+bHIpWbhEByrckkjrb0Tv
+	B+Dh5+wHUkwd909q3roOiCfuFnuV7cOW93vEVfWkGHGUB6dJ0AtLNbEzkfORGEHQ22AKtpC3p7vAW
+	4GUC8AyI1p+diZD7ZaQHmN9dH/tLjeqwPzLgzJgc1pBHsjGaDdpEbazgVBP6esIsgODgRQh44eWJ2
+	Lhmvn5wkkr0u7jQhqOCxTMH0HuHDIME4D5Ut00qTgBP+MPQAFHigO/Vm1GOG6SeO/j6lCTojPJdeB
+	4Vik32Kcg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldb7u-00EKx2-9x; Mon, 03 May 2021 16:08:54 +0000
+	id 1ldbGy-00EM8x-Tq; Mon, 03 May 2021 16:18:17 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldb7p-00EKwE-2U
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 16:08:49 +0000
+ id 1ldbGw-00EM8U-BT
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 16:18:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
  Sender:Reply-To:Content-ID:Content-Description;
- bh=5jxJ8b/HSUR/7BT5D5WyPEoFYv66JE4BKEKp4HTWf+Y=; b=ELGlr4ywcRDBzCO0GOCow59tV9
- rlYuwXB2R/Lj6uPjhi/t2ku8BnerrBPbb8r1scR2nxqpTfY8QYST0SwTZrz/m6Jw/Ddat/0TjOFEJ
- 0W0Ff22k8FuQupKW7lt7b+0hONoDBE2qx+dYoZ/CncOwt7yOQz0jnM6VosnuoxCg1vNMTYFdhQ24j
- ISa3e/pGexND2l49yNyYEDd+S3Ky3TxcS/Kk1IO22ZIhMauBp3kFAcSoCF78+r/IFlf0/iYwed72x
- 6ahFjEuamMHXjqp/CAyNQOVqwi4k3/Vce93lpUmuqgdarhYmagk60soinbXNxupEOabVwA2nB5N/L
- V1JKWRVA==;
+ bh=zpY/fJwiTYldq+5hs6TbypeBMb6zUV0s0vLmpskG04k=; b=tiyDHQ8qQ9Ld4eB6c7uAxpA1M9
+ DBdfUIdTc4a/7EEPtATbIbhe1XjISNZ5uygWRqjLKKe3PbgNsYoTIqIuB8VyyknIoiOPvgRmDrSyN
+ D10ykoZ4tPiZwqpWR+lPdIZFaHA0vdePV3Trvdsq84Cara/+S+DQXSRuJe1z5cVXmwJyCkB9oCdV7
+ sjK9Wr3fHJUJ4sjMKK3K0cqsjy1pv6XMhiv+khQI/pXYh3m0ywO0aET+Lypdc3orbPcXkeThz1hNK
+ AoQ3GLZk+ePVCoUx2hFtIyliHIA+zF8LaxCam4lqflu7PX/lpQfRUDIxfLSVnp9zFEg6z5X3KqwNI
+ GekAg5pg==;
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldb7m-003E2I-5I
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 16:08:47 +0000
+ id 1ldbGt-003Eeu-BQ
+ for linux-nvme@lists.infradead.org; Mon, 03 May 2021 16:18:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=5jxJ8b/HSUR/7BT5D5WyPEoFYv66JE4BKEKp4HTWf+Y=; b=XWOWwDZ6ZwrouJikaVp8dHiCsr
- I115w+HLBGME9bYlcrjafcglo1GZw06C+Elx221Hmed7QE1HotLNe7+fjXntv4waAOS13LuqEUEIn
- IW2dFINknX+ObrcY9YFIltZb/ozZzUEhKZ702sW1RXa0CfCJuy3VwVNPCow1cpShl+xJ8oX8jXLua
- CqCj1z1wi2T5bZLWF7vRp+RhStCsdQ/r35mSNu80y/H+7gL/KgizhTJPZjwewDohxqwmmbcgGrZd9
- r5urtV1BmH8V5hE2g/eDXD4Qmot0I0KTcAyTeTvQ6Z//Z9oet0bd7OsXbNybLVQ8NF0d8AtcoRbgL
- tLRcrxtw==;
+ bh=zpY/fJwiTYldq+5hs6TbypeBMb6zUV0s0vLmpskG04k=; b=pkb2zK8Il7Fl1zuBZC/q3SC3Cd
+ 7YpIyTbYD5ArSwja0Du1alZ6wxXknauDJa5gQefrBFpUDnb5HOkexw7Vnkiv3s80VnUfChHge2veP
+ HigvYe2Q7LL+u3rGq88FG8rmG6J+cAWOl1+elxhErP4yGqO9REkBLDd8rgrqpLw80fzMbyPuWAi+5
+ 1rjFUbXe713a32P7pH41AXYwStrIiwdQE+omBHfLG4g5rwhRF9hnAZ95Y9Q1ZUt19Fx+F8azFgmWH
+ 1OSUPXAs0XAPIEJz8onfLNZMct4ovyldMBLSDc0LXqamxhR5FvXNUijOApsUaUAwK/twIMxjDW+wU
+ 0A8CPAgg==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1ldb7b-0003hs-5l; Mon, 03 May 2021 10:08:36 -0600
+ id 1ldbGj-0003tB-97; Mon, 03 May 2021 10:18:02 -0600
 To: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -80,15 +80,15 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
  Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-3-logang@deltatee.com>
- <d6220bff-83fc-6c03-76f7-32e9e00e40fd@nvidia.com>
+ <20210408170123.8788-4-logang@deltatee.com>
+ <3834be62-3d1b-fc98-d793-e7dcb0a74624@nvidia.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <d4091d87-7d9e-8cde-4e1c-01b877b6785f@deltatee.com>
-Date: Mon, 3 May 2021 10:08:34 -0600
+Message-ID: <a1b6ffa9-7a9c-753f-6350-5ea26506cdc3@deltatee.com>
+Date: Mon, 3 May 2021 10:17:59 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <d6220bff-83fc-6c03-76f7-32e9e00e40fd@nvidia.com>
+In-Reply-To: <3834be62-3d1b-fc98-d793-e7dcb0a74624@nvidia.com>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
@@ -101,12 +101,13 @@ X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jhubbard@nvidia.com
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 02/16] PCI/P2PDMA: Avoid pci_get_slot() which sleeps
+Subject: Re: [PATCH 03/16] PCI/P2PDMA: Attempt to set map_type if it has not
+ been set
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_090846_257978_04BDE383 
-X-CRM114-Status: GOOD (  48.95  )
+X-CRM114-CacheID: sfid-20210503_091811_403065_DCA6D8B3 
+X-CRM114-Status: GOOD (  29.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,129 +126,99 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2021-05-01 11:35 p.m., John Hubbard wrote:
+On 2021-05-02 1:58 p.m., John Hubbard wrote:
 > On 4/8/21 10:01 AM, Logan Gunthorpe wrote:
->> In order to use upstream_bridge_distance_warn() from a dma_map function,
->> it must not sleep. However, pci_get_slot() takes the pci_bus_sem so it
->> might sleep.
+>> Attempt to find the mapping type for P2PDMA pages on the first
+>> DMA map attempt if it has not been done ahead of time.
 >>
->> In order to avoid this, try to get the host bridge's device from
->> bus->self, and if that is not set, just get the first element in the
->> device list. It should be impossible for the host bridge's device to
->> go away while references are held on child devices, so the first element
->> should not be able to change and, thus, this should be safe.
+>> Previously, the mapping type was expected to be calculated ahead of
+>> time, but if pages are to come from userspace then there's no
+>> way to ensure the path was checked ahead of time.
 >>
 >> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 >> ---
->>   drivers/pci/p2pdma.c | 14 ++++++++++++--
->>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>   drivers/pci/p2pdma.c | 12 +++++++++---
+>>   1 file changed, 9 insertions(+), 3 deletions(-)
 >>
 >> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> index bd89437faf06..473a08940fbc 100644
+>> index 473a08940fbc..2574a062a255 100644
 >> --- a/drivers/pci/p2pdma.c
 >> +++ b/drivers/pci/p2pdma.c
->> @@ -311,16 +311,26 @@ static const struct pci_p2pdma_whitelist_entry {
->>   static bool __host_bridge_whitelist(struct pci_host_bridge *host,
->>   				    bool same_host_bridge)
+>> @@ -825,11 +825,18 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+>>   static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct pci_dev *provider,
+>>   						    struct pci_dev *client)
 >>   {
->> -	struct pci_dev *root = pci_get_slot(host->bus, PCI_DEVFN(0, 0));
->>   	const struct pci_p2pdma_whitelist_entry *entry;
->> +	struct pci_dev *root = host->bus->self;
->>   	unsigned short vendor, device;
+>> +	enum pci_p2pdma_map_type ret;
+>> +
+>>   	if (!provider->p2pdma)
+>>   		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
 >>   
->> +	/*
->> +	 * This makes the assumption that the first device on the bus is the
->> +	 * bridge itself and it has the devfn of 00.0. This assumption should
->> +	 * hold for the devices in the white list above, and if there are cases
->> +	 * where this isn't true they will have to be dealt with when such a
->> +	 * case is added to the whitelist.
+>> -	return xa_to_value(xa_load(&provider->p2pdma->map_types,
+>> -				   map_types_idx(client)));
+>> +	ret = xa_to_value(xa_load(&provider->p2pdma->map_types,
+>> +				  map_types_idx(client)));
+>> +	if (ret != PCI_P2PDMA_MAP_UNKNOWN)
+>> +		return ret;
+>> +
+>> +	return upstream_bridge_distance_warn(provider, client, NULL,
+>> +					     GFP_ATOMIC);
 > 
-> Actually, it makes the assumption that the first device *in the list*
-> (the host->bus-devices list) is 00.0.  The previous code made the
-> assumption that you wrote.
-
-The comment notes two assumptions (although the grammar is poor, which I
-will fix). Yes, the previous code made the second assumption, the new
-code makes both assumptions.
-
-> By the way, pre-existing code comment: pci_p2pdma_whitelist[] seems
-> really short. From a naive point of view, I'd expect that there must be
-> a lot more CPUs/chipsets that can do pci p2p, what do you think? I
-> wonder if we have to be so super strict, anyway. It just seems extremely
-> limited, and I suspect there will be some additions to the list as soon
-> as we start to use this.
-
-Yes, well unfortunately we have no other way to determine what host
-bridges can communicate with P2P. We settled on a whitelist when the
-series was first patch. Nobody likes that situation, but nobody has
-found anything better. We've been hoping standards bodies would give us
-a flag but I haven't heard anything about that. At least AMD has been
-able to guarantee us that all CPUs newer than Zen will support so that
-covers a large swath. It would be nice if we could say something similar
-for Intel.
-
-> OK, yes this avoids taking the pci_bus_sem, but it's kind of cheating.
-> Why is it OK to avoid taking any locks in order to retrieve the
-> first entry from the list, but in order to retrieve any other entry, you
-> have to aquire the pci_bus_sem, and get a reference as well? Something
-> is inconsistent there.
+> Returning a "bridge distance" from a "get map type" routine is jarring,
+> and I think it is because of a pre-existing problem: the above function
+> is severely misnamed. Let's try renaming it (and the other one) to
+> approximately:
 > 
-> The new version here also no longer takes a reference on the device,
-> which is also cheating. But I'm guessing that the unstated assumption
-> here is that there is always at least one entry in the list. But if
-> that's true, then it's better to show clearly that assumption, instead
-> of hiding it in an implicit call that skips both locking and reference
-> counting.
-
-Because we hold a reference to a child device of the bus. So the host
-bus device can't go away until the child device has been released. An
-earlier version of the P2PDMA patchset had a lot more extraneous get
-device calls until someone else pointed this out.
-
-> You could add a new function, which is a cut-down version of pci_get_slot(),
-> like this, and call this from __host_bridge_whitelist():
+>      upstream_bridge_map_type_warn()
+>      upstream_bridge_map_type()
 > 
-> /*
->   * A special purpose variant of pci_get_slot() that doesn't take the pci_bus_sem
->   * lock, and only looks for the 00.0 bus-device-function. Once the PCI bus is
->   * up, it is safe to call this, because there will always be a top-level PCI
->   * root device.
->   *
->   * Other assumptions: the root device is the first device in the list, and the
->   * root device is numbered 00.0.
->   */
-> struct pci_dev *pci_get_root_slot(struct pci_bus *bus)
-> {
-> 	struct pci_dev *root;
-> 	unsigned devfn = PCI_DEVFN(0, 0);
+> ...and that should fix that. Well, that, plus tweaking the kernel doc
+> comments, which are also confused. I think someone started off thinking
+> about distances through PCIe, but in the end, the routine boils down to
+> just a few situations that are not distances at all.
 > 
-> 	root = list_first_entry_or_null(&bus->devices, struct pci_dev,
-> 					bus_list);
-> 	if (root->devfn == devfn)
-> 		goto out;
+> Also, the above will read a little better if it is written like this:
 > 
-> 	root = NULL;
->   out:
-> 	pci_dev_get(root);
-> 	return root;
-> }
-> EXPORT_SYMBOL(pci_get_root_slot);
+> 	ret = xa_to_value(xa_load(&provider->p2pdma->map_types,
+> 				  map_types_idx(client)));
 > 
-> ...I think that's a lot clearer to the reader, about what's going on here.
+> 	if (ret == PCI_P2PDMA_MAP_UNKNOWN)
+> 		ret = upstream_bridge_map_type_warn(provider, client, NULL,
+> 						    GFP_ATOMIC);
+> 	
+> 	return ret;
+> 
+> 
+>>   }
 
-Per above, I think the reference count is unnecessary. But I could wrap
-it in a static function for clarity. (There's no reason to export this
-function).
+I agree that some of this has evolved in a way that some of the names
+are a bit odd now. Could definitely use a cleanup, but that's not really
+part of this series. When I have some time I can look at doing a cleanup
+series to help with some of this.
 
-> Note that I'm not really sure if it *is* safe, I would need to ask other
-> PCIe subsystem developers with more experience. But I don't think anyone
-> is trying to make p2pdma calls so early that PCIe buses are uninitialized.
+>>   static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
+>> @@ -877,7 +884,6 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+>>   	case PCI_P2PDMA_MAP_BUS_ADDR:
+>>   		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
+>>   	default:
+>> -		WARN_ON_ONCE(1);
+> 
+> Why? Or at least, why, in this patch? It looks like an accidental
+> leftover from something, seeing as how it is not directly related to the
+> patch, and is not mentioned at all.
 
-Yeah, it's impossible to make a p2pdma call before the PCIe bus is
-initialized. They have to have access to at least one PCI device before
-they can even attempt it.
+Before this patch, it was required that users of P2PDMA call
+pci_p2pdma_distance_many() in some form before calling
+pci_p2pdma_map_sg(). So, by convention, a usable map type had to already
+be in the cache. The warning was there to yell at anyone who wrote code
+that violated that convention.
+
+This patch removes that convention and allows users to map P2PDMA pages
+sight unseen and if the mapping type isn't in the cache, then it will
+determine the mapping type at dma mapping time. Thus, the warning can be
+removed and the function can fail normally if the mapping is unsupported.
 
 Logan
+
 
 _______________________________________________
 Linux-nvme mailing list
