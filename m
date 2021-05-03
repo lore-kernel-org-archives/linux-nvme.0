@@ -7,144 +7,110 @@ X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A756C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 18:21:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A86C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 18:21:26 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C259561278
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 18:21:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C259561278
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 38822611AC
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 May 2021 18:21:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 38822611AC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
+	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=obzoL89CsZFKhWE+e0yWoVJA7UAzmBwb35beWLjFu8Y=; b=Ft8OwcuAu0bZGc/LW5Gf5PblK
-	1EP61lIoO/EgHWZYrI55sjqbz1shYNE9RGaSbR2A/MiwSik+gj4MC2+IUcHCwmwyrOM68wwdrdt43
-	u7uM53zQ/TjcQXL0xkDvbJWtGH7KQBdZbon7M5PYTgSGWnqJHjITVKDNBPuZI/pbqZHO8hECftEk9
-	pamF/Bu15Mc9lqfiD/+8d4g6BfWzgKvkC7nFrmnU9NschhX4ijVX6Ok54+Ls4kqX7km/btX0j3ubQ
-	agBqiXgBp3kqvbwJluqDF7+Lcu0bvvQRMO/yWTKCIadax2Dv3e7WPwpVUz98hoURcBw7AiAsp96jx
-	V8jd31S1Q==;
+	 bh=Yx0M5QhHCWZUY3F47x0S47s0YQRjOxfiA7pbIMQepHU=; b=SdJI7HuD4YYLVivSXHoJRKz5z
+	AceUS/g7HUkA8Jckli2mPptrS52pE5RO4pG/NYtdey2NoD1g+7E3oSQy+0PLAC8VvGaZRamlQ7I/p
+	NFL9mtz2C/okdojkmqOeEM/m0nOiSL8ane5V+K78LEcGlP7oxpM2NO9gUksbcBLJ3yAREy0W5nglz
+	GWXMayANsDaZ4GvoOvXBUk6x4ip3D1sCOoM35yWA+5OEL7TiyKA1fNNdsTuT3Iv0/jzqulq4d2enD
+	YN74YC+cpNJ//0s46/bxVg5FRsGZHnSBqUTe4ruFoLc1oDmiReGEKGozsH9eVxPkX3FcRF4WMywAo
+	jxvMee02w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lddBW-00EaeO-E3; Mon, 03 May 2021 18:20:46 +0000
+	id 1lddBp-00EagD-DD; Mon, 03 May 2021 18:21:05 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lddBS-00EaeG-LP
- for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 18:20:43 +0000
+ id 1lddBm-00Eaft-Uv
+ for linux-nvme@desiato.infradead.org; Mon, 03 May 2021 18:21:03 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=t9xqhPQxRINPKBEM2wIQ3yUt/apZa8lcpKVrgcDF22o=; b=VTMAhC1sJaJ9AsUAXrUubdljTS
- 7+C+tnAm79HWs0uEWVBazGrfxznuqj4jtwlfTcZFdLIUitTjXak0fI9V43xKOoV30bdMBcXk9Uj+p
- ZfU9ge/H9dlbItHecQkH2A8ywP3gVo/j9Z0cNjQdULIZIs75zTeO221EzYz9DEFi+/ePjaFjnZoEj
- 1eOp0Wemd16fBw1X6GFD476bWKaSY0sO9Ogp1GVLqeFiyS+hIK9UtzNhHq2Qw0cbapBum/SlSkkK4
- C1saTSFkjJBPeZ0koYioxPxg0xm5POFUvkdhiBiVEROQTNNQpj9V367QD+7e5kNJOvCg3WHXJ40Et
- Px0/MISQ==;
-Received: from mail-co1nam11on2073.outbound.protection.outlook.com
- ([40.107.220.73] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=btAG4Vr3f5GLEzhmHmHkox49Ultu4PcxMLcQ9c/IbGg=; b=EB3oCy1r2CEzQ43q3VpWrVPgfz
+ OOn+xxSe11jCojpu64RqIEO+JrkMbNudlR93Xy+FqAahlUntKNPkNTM3elWlwbBygMMz2SsiB6Hzc
+ dJi6ugWPe+osGRkXuus7N9OYDB7PSXvoT9jDF5C4D26N2YRMP4nYSyTwcMROetMbleCRel8wcd77d
+ Vl01UKi8e1DxL35oz5Wga5OMATKX4TT6FZaAmS71MusUP9ZOAfdn1WkoJUrF9/kP40vZHCd35/h9u
+ hDfHRW0TN6WRCsPnsUQ4/MBeG210GXeeVFwV2Hi3/80snTAZ2JncFBZCyKK8t6lxdzQRDQThMjUt1
+ kdRaaeug==;
+Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lddBP-003O44-QJ
- for linux-nvme@lists.infradead.org; Mon, 03 May 2021 18:20:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZF9nU+IugYIVFLlgtD28vBVXzUoN8dsHFrObRnGqM0fCMSPxyco6OzJ95xoerqmq0A1oX6Kyr7viPhY6Z3BtYX1lgcgoINLq5ArdnGGazB6TCKNpoRFXeZCVPiuz4LPNg7gLDgh0CjDyfEDomG6emzefERV0jDq+2C41hlB/GBRqsovSI1aIf7D1Zcyapjk85qDdwzmSm7BgtGj853aLreAH6ExTv4GRhByUhKAdbzP56NkfuAoLFeOiszF2EybIr0BzIbOi/t3jvMW0kvX2995ZDBQuCS0GGBCoY7VPj8GdSs+zQfRyetkWQ1KfGXT30FEA0vdaZFpdLbdZ2hbrKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t9xqhPQxRINPKBEM2wIQ3yUt/apZa8lcpKVrgcDF22o=;
- b=ivR5gnpFPDuaexspjhaJIVY+rSmqlcLKHJFJkMfRYZTcDa3IoX4zTRo9tPemaYzqFhsU2CCS6/RpN0wJrSWdK0b576RBaPnm9nIT8UEMEUtagKqCYA5XZ38PyQpB58iZqL1NGxVM+hf820dIfA+33AnhVTD37nil6dOXoD9MkMqb4sA29zli2aGZBFKY0GnQsa3v+hsJOvWOK11m49CezEcM8snDfhemFNGnOyMIqHiZkzADEw0fKuxRL6I+Jo1igQaRonVxBavpsenibouWiV3H2EeUpV7UUHgiql9u3ncvbooCs6T+JZlHCFWLszw626kBK2bVkljOTmQzZUcepQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=raithlin.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t9xqhPQxRINPKBEM2wIQ3yUt/apZa8lcpKVrgcDF22o=;
- b=P6gvU381ZpCZO1MVINQkrJruOoSMIHDqYBFmzb3zvFwNDx0ip46hRfeRwufAZ5VBGJUm91lonZby9BkR/c+VLaxtRz1yNe631O49OfYtdOqRhvV4fyylufsuiShpy1eYh76xuFYntG7E/amsfdP6kMnASnsY6voDMtlLciOxl9lJegAEjpnOzJtgY000+EKiFjj8qvvAgHL+ZG2wc6LTQarjpIo4o+3vmanCtPcKTiRw+MDhf2fKvg1fGUD2rPoiOQ63doxE7AJ3EyHc0vKHlkk2sS3rRYYtokckrxzTn4bP8lIUZTyHY5kNvjs2JjMVru67Z/ukb7fEQGksQTItPA==
-Received: from DM3PR12CA0135.namprd12.prod.outlook.com (2603:10b6:0:51::31) by
- BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.41; Mon, 3 May 2021 18:20:31 +0000
-Received: from DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:51:cafe::f6) by DM3PR12CA0135.outlook.office365.com
- (2603:10b6:0:51::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.27 via Frontend
- Transport; Mon, 3 May 2021 18:20:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; raithlin.com; dkim=none (message not signed)
- header.d=none;raithlin.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT044.mail.protection.outlook.com (10.13.173.185) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4087.27 via Frontend Transport; Mon, 3 May 2021 18:20:31 +0000
-Received: from [10.2.50.162] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 3 May
- 2021 18:20:30 +0000
-Subject: Re: [PATCH 02/16] PCI/P2PDMA: Avoid pci_get_slot() which sleeps
-To: Logan Gunthorpe <logang@deltatee.com>, <linux-kernel@vger.kernel.org>,
- <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <linux-mm@kvack.org>,
- <iommu@lists.linux-foundation.org>
-CC: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>, Dan
- Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Don Dutile
- <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>, Jason Ekstrand
- <jason@jlekstrand.net>, Dave Hansen <dave.hansen@linux.intel.com>, Xiong
- Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>, Ira
- Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
+ id 1lddBk-003O5b-9E
+ for linux-nvme@lists.infradead.org; Mon, 03 May 2021 18:21:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+ Message-ID:From:References:Cc:To:content-disposition;
+ bh=btAG4Vr3f5GLEzhmHmHkox49Ultu4PcxMLcQ9c/IbGg=; b=Kok6u9aTNQ/DTtp1uHx6mPrNjx
+ K8OjtI9P0WjkLvmrMoggQoeKvdKKIN8gAf//ZoorpRZxjiWc12WO+bWHaVjJOoXdbmJdZIAIUUL1x
+ Q6vPsiblyYvlCii5btWVUafaskZ5yfaz9cDn/nnSxzVz+4JYypdaPqNwwnVcKoWo4Sne+INjhTfrV
+ ZW3hhWBsn8zY0B97HLikca3VnzSWWlgwewCA8CA6MeLf174EE1h8BrpH8TB/RtRDj7O61YRad/Djs
+ j0PGayIK3T4fD/uzv3Z6XaDwcSoaqpjnxy6wGL2mD+pDdVcJztSQdxhWIFsh1Ipo3mp/N2GlM7zPU
+ EFmnDZ6w==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+ by ale.deltatee.com with esmtp (Exim 4.92)
+ (envelope-from <logang@deltatee.com>)
+ id 1lddBX-0000Z1-P0; Mon, 03 May 2021 12:20:49 -0600
+To: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+ Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Don Dutile <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Bjorn Helgaas <bhelgaas@google.com>
 References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-3-logang@deltatee.com>
- <d6220bff-83fc-6c03-76f7-32e9e00e40fd@nvidia.com>
- <d4091d87-7d9e-8cde-4e1c-01b877b6785f@deltatee.com>
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <b40529f9-03d8-ab61-4f4d-8f5bd8f860c9@nvidia.com>
-Date: Mon, 3 May 2021 11:20:30 -0700
+ <20210408170123.8788-2-logang@deltatee.com>
+ <d8ac4c84-1e69-d5d6-991a-7de87c569acc@nvidia.com>
+ <8ea5b5b3-e10f-121a-bd2a-07db83c6da01@deltatee.com>
+ <3bced3a4-b826-46ab-3d98-d2dc6871bfe1@nvidia.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <8402ca0b-f147-fb99-bab4-71f047d2ba46@deltatee.com>
+Date: Mon, 3 May 2021 12:20:38 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <d4091d87-7d9e-8cde-4e1c-01b877b6785f@deltatee.com>
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 79acc9a7-e96c-4828-413d-08d90e6022ed
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB3589AC00CA3BE922C965B720A85B9@BYAPR12MB3589.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +cZ24FGZKHLksu0NEJGiydLlzlEoVZyR+qQUcjxfwwo/R9FfmGCPQPEm04G3yQ5CtYS5jUNGFIQK4WjeuONpGPcNFR4DPPgOyoLPm3NXAFPBDDoWJ10Qe9eu6oxPyp04tvKXCxaYzNlEkqINrbk/j8rPubJ016SFdhphBck7/fKjij6aiakot0hOphAJOxN4AU8QtIZEs7X8rKG6EiG99xQyDczUSV9XS0cxL81vKoNkl4PgZOQmVHu9rtlnbIhMQWGTu7ZJSSM94l/iqhL7CuUobcmfn766DqxJxckvUiCP2mDsPQ3nzKsHb1Vs8/IRSMeyT3gFmNVHUtbj0JImpc9AJ7uOXq8JgMHSEVIEahdWHHgkml7FlnKVBQOoyoABo4M2kqJIwaDLl7hqzC83oIXGxil5uac6C34Frqgxpu3UYjp5MfC6T+iBV24fgCPRcrdxePXky72VO2942kLAnl7hWx0Np7h25ft5w5jkkvK1YbsQj2NYyCnlgcRa2NE2Ulyjj/6S4npXxsVK6hQ2vhh5tEiaf6/hAvP4/+3EqSsZ7zbk/9B/Axp0xpVW68ZKzJpqOQ7kHg9KqcnicA79Z8uW4o5gpm1Mf4VWuKQY8ikmu2ZvguMvDS/JCA898QTP5c9U88k4DYGrha6E9Ei464pm4Uvemv12/YyEaYKF/aGVezMUnU2Nwf9Ylyf7uKZDkNfusq1isAvlaAjj5n11zQ==
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(346002)(396003)(376002)(136003)(39860400002)(46966006)(36840700001)(110136005)(16526019)(16576012)(36906005)(5660300002)(70206006)(7416002)(186003)(426003)(86362001)(54906003)(70586007)(316002)(4326008)(2616005)(8676002)(336012)(53546011)(8936002)(26005)(36860700001)(356005)(47076005)(478600001)(31686004)(31696002)(2906002)(82740400003)(83380400001)(36756003)(7636003)(82310400003)(2101003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2021 18:20:31.4299 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79acc9a7-e96c-4828-413d-08d90e6022ed
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3589
+In-Reply-To: <3bced3a4-b826-46ab-3d98-d2dc6871bfe1@nvidia.com>
+Content-Language: en-CA
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: bhelgaas@google.com, robin.murphy@arm.com,
+ ira.weiny@intel.com, helgaas@kernel.org, jianxin.xiong@intel.com,
+ dave.hansen@linux.intel.com, jason@jlekstrand.net, dave.b.minturn@intel.com,
+ andrzej.jakowski@intel.com, daniel.vetter@ffwll.ch, willy@infradead.org,
+ ddutile@redhat.com, christian.koenig@amd.com, jgg@ziepe.ca,
+ dan.j.williams@intel.com, hch@lst.de, sbates@raithlin.com,
+ iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ jhubbard@nvidia.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH 01/16] PCI/P2PDMA: Pass gfp_mask flags to
+ upstream_bridge_distance_warn()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_112039_869055_713CB791 
-X-CRM114-Status: GOOD (  32.31  )
+X-CRM114-CacheID: sfid-20210503_112100_333035_06B12F3B 
+X-CRM114-Status: GOOD (  22.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,93 +122,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/3/21 9:08 AM, Logan Gunthorpe wrote:
-...
->> By the way, pre-existing code comment: pci_p2pdma_whitelist[] seems
->> really short. From a naive point of view, I'd expect that there must be
->> a lot more CPUs/chipsets that can do pci p2p, what do you think? I
->> wonder if we have to be so super strict, anyway. It just seems extremely
->> limited, and I suspect there will be some additions to the list as soon
->> as we start to use this.
-> 
-> Yes, well unfortunately we have no other way to determine what host
-> bridges can communicate with P2P. We settled on a whitelist when the
-> series was first patch. Nobody likes that situation, but nobody has
-> found anything better. We've been hoping standards bodies would give us
-> a flag but I haven't heard anything about that. At least AMD has been
-> able to guarantee us that all CPUs newer than Zen will support so that
-> covers a large swath. It would be nice if we could say something similar
-> for Intel.
-
-Thanks for explaining the situation!
-
-> 
->> OK, yes this avoids taking the pci_bus_sem, but it's kind of cheating.
->> Why is it OK to avoid taking any locks in order to retrieve the
->> first entry from the list, but in order to retrieve any other entry, you
->> have to aquire the pci_bus_sem, and get a reference as well? Something
->> is inconsistent there.
->>
->> The new version here also no longer takes a reference on the device,
->> which is also cheating. But I'm guessing that the unstated assumption
->> here is that there is always at least one entry in the list. But if
->> that's true, then it's better to show clearly that assumption, instead
->> of hiding it in an implicit call that skips both locking and reference
->> counting.
-> 
-> Because we hold a reference to a child device of the bus. So the host
-> bus device can't go away until the child device has been released. An
-> earlier version of the P2PDMA patchset had a lot more extraneous get
-> device calls until someone else pointed this out.
-> 
->> You could add a new function, which is a cut-down version of pci_get_slot(),
->> like this, and call this from __host_bridge_whitelist():
->>
->> /*
->>    * A special purpose variant of pci_get_slot() that doesn't take the pci_bus_sem
->>    * lock, and only looks for the 00.0 bus-device-function. Once the PCI bus is
->>    * up, it is safe to call this, because there will always be a top-level PCI
->>    * root device.
->>    *
->>    * Other assumptions: the root device is the first device in the list, and the
->>    * root device is numbered 00.0.
->>    */
->> struct pci_dev *pci_get_root_slot(struct pci_bus *bus)
->> {
->> 	struct pci_dev *root;
->> 	unsigned devfn = PCI_DEVFN(0, 0);
->>
->> 	root = list_first_entry_or_null(&bus->devices, struct pci_dev,
->> 					bus_list);
->> 	if (root->devfn == devfn)
->> 		goto out;
->>
->> 	root = NULL;
->>    out:
->> 	pci_dev_get(root);
->> 	return root;
->> }
->> EXPORT_SYMBOL(pci_get_root_slot);
->>
->> ...I think that's a lot clearer to the reader, about what's going on here.
-> 
-> Per above, I think the reference count is unnecessary. But I could wrap
-> it in a static function for clarity. (There's no reason to export this
-> function).
-> 
-
-Yes, please.
 
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+On 2021-05-03 12:17 p.m., John Hubbard wrote:
+> On 5/3/21 8:57 AM, Logan Gunthorpe wrote:
+>>
+>>
+>> On 2021-05-01 9:58 p.m., John Hubbard wrote:
+>>> Another odd thing: this used to check for memory failure and just give
+>>> up, and now it doesn't. Yes, I realize that it all still works at the
+>>> moment, but this is quirky and we shouldn't stop here.
+>>>
+>>> Instead, a cleaner approach would be to push the memory allocation
+>>> slightly higher up the call stack, out to the
+>>> pci_p2pdma_distance_many(). So pci_p2pdma_distance_many() should make
+>>> the kmalloc() call, and fail out if it can't get a page for the seq_buf
+>>> buffer. Then you don't have to do all this odd stuff.
+>>
+>> I don't really agree with this assessment. If kmalloc fails to
+>> initialize the seq_buf() (which should be very rare), the only thing
+>> that is lost is the one warning print that tells the user the command
+>> line parameter needed disable the ACS. Everything else works fine,
+>> nothing else can fail. I don't see the need to add extra complexity just
+>> so the code errors out in no-mem instead of just skipping the one,
+>> slightly more informative, warning line.
+> 
+> That's the thing: memory failure should be exceedingly rare for this.
+> Therefore, just fail out entirely (which I don't expect we'll likely
+> ever see), instead of doing all this weird stuff to try to continue
+> on if you cannot allocate a single page. If you are in that case, the
+> system is not in a state that is going to run your dma p2p setup well
+> anyway.
+> 
+> I think it's *less* complexity to allocate up front, fail early if
+> allocation fails, and then not have to deal with these really odd
+> quirks at the lower levels.
+>
+
+I don't see how it's all that weird. We're skipping a warning if we
+can't allocate memory to calculate part of the message. It's really not
+necessary. If the memory really can't be allocated then something else
+will fail, but we really don't need to fail here because we couldn't
+print a verbose warning message.
+
+Logan
 
 _______________________________________________
 Linux-nvme mailing list
