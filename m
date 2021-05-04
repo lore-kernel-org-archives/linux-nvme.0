@@ -2,74 +2,82 @@ Return-Path: <SRS0=iWk4=J7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD23C433B4
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 07:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 055BAC433ED
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 08:08:40 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EA27B613BC
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 07:53:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA27B613BC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id AF55861168
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 08:08:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF55861168
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:Cc:To:From:
+	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ooTwoRMcSZAPu7G9GVfjmVHeEmQPOxut0xraGx3IDF8=; b=gLAeyPE7IhQNZTlqzZ9P+6zvn
-	OjG/+8p2AFALCKqTzvdLu4XgxZqcyy2vuWmJnAm13uh64OvO3cbOOZO5nXoWH8TT4MKHN6ly0+KYh
-	hokjuWhQYD7XWZuGhhrb2tLrqRzU8cHiw+WOI3P6d3rRxUzTkTpDjVU7/24iQ5XHwdvalzhCawUQR
-	oR3IfQMMGDcwlzMylXtxpXA87mQQRJ5mqip/uRzR0vH1w/eA583hCHo6qWZds3jhwxmNlP+fLGX1S
-	3EsVnsGGnRGAlZVagJ907iTHCESuJEH91jsuEvWWDbKXV6wTwNaCcH804J0mAg0ZyPgPZLDrLNd6G
-	qbVvqdvnA==;
+	 bh=YU2gfk9bZbJs1T1gOck78wavRvZTGKTVeL57j1sxfYQ=; b=jNyomN+fIBGRKWV1OnIbB9DUB
+	lgozASqJoVNpDhfg+3+i7VLJzgO2FTQfhisKEyygtgt1jzt6bIOF5IX+BE4D/X3aKskferQ++g7Z4
+	UlCuh0tQyPIBLycE5dIFik2pHModl5NnuUO87SuV+nEni4uq3qyyQ9muQvUtGdryEVkJI6BH5C4Mq
+	B1orKmDFBW2rSwuNXwAXZ7RXoKgvCTNUETI/TWKQNllDVV/up1wTTCIn0E26XUXWTY7JWsaHZmTzX
+	96BHM4BIdKDeWhIO0okp/0jdWYzabOTPB8tXVTvZ9Fu/UkgY7Ewgek9dfdOUozl+Fo/oOVANrAbyo
+	J9n4RvlOw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldpre-00Ff0W-N8; Tue, 04 May 2021 07:53:06 +0000
+	id 1ldq6U-00Fh9M-6l; Tue, 04 May 2021 08:08:26 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldprc-00Ff0C-An
- for linux-nvme@desiato.infradead.org; Tue, 04 May 2021 07:53:04 +0000
+ id 1ldq6R-00Fh9D-O4
+ for linux-nvme@desiato.infradead.org; Tue, 04 May 2021 08:08:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=XWnI+SRs3mK1TsSSu6qwnaGs+TqhnuT5cVqLRf8KbSw=; b=qSqcyPBCBO/DO9zjDg/lP7zUP0
- HvobYOk4uagQgJkZYRXdXK3pxVEjotKMgbM9mOPYLlRKit24Ro5CyMC+wik3zvDyBCbmv5fVI3oFW
- sXKFTD2jcJa5PBlDS9Zd9/23jlbfXWHAwCgiLG1dtwAFOhXdoTvrjX0vcySe8T0rTqtJaazUKUI5G
- MaPWUURTUFwVkMdsAo/whkAB3PXCTT93JAOF014gkLjmi0UBuHfZPYyEbYwJfUHeYJZdmgL1h2xTZ
- dimhD+8e/iGovBQfSJde4slEfQMGKW4lkfMRYDXIygQM3g++UGxkA/yt6+QsbuohObiiuwXZ+M6Sp
- DCXQuUNA==;
-Received: from verein.lst.de ([213.95.11.211])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=7YLxD4201LgDHt76WCSlvgaGUhn0EbWLY1JsN+RF+qE=; b=qpoJ58Kd2xiUCxcK0MIyyVLCNq
+ nnS0yxpGNDFEIb2meZrLFnI/omVBf0PghLQtXd7Lq7nWD2G4rUpzjmAVcl4bN8vU1RgNPRvSvHLhx
+ nBDBbuqSJ+sFY1+4NLAg/aJBpqPJKDKGdVYTVGaY4YmHzV3U+jCCLlEHqx/duPLW53VZN88yJm34l
+ cDwLrvp87iJ7wO4IMtguhWuuJKqsgHEZUfd3MnS8j/0Y1XN6StNkiUUk5A18rB+gU+iOfc/nYY8LB
+ OImKaeTp7Go2i2r1rsQgl9AZA8/YdQCW5dzSafsqc4NbiRZzianZxtqx8WnkAvUTF/9F5fLcyWoml
+ 9oG22/yA==;
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ldprZ-003mbd-Hv
- for linux-nvme@lists.infradead.org; Tue, 04 May 2021 07:53:03 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 42C1568AFE; Tue,  4 May 2021 09:52:58 +0200 (CEST)
-Date: Tue, 4 May 2021 09:52:57 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: mwilck@suse.com
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Christoph Hellwig <hch@lst.de>, Chao Leng <lengchao@huawei.com>,
- Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
- linux-nvme@lists.infradead.org, stable@vger.kernel.org
+ id 1ldq6P-003n9t-79
+ for linux-nvme@lists.infradead.org; Tue, 04 May 2021 08:08:22 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1620115696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7YLxD4201LgDHt76WCSlvgaGUhn0EbWLY1JsN+RF+qE=;
+ b=WzESRdUbXbhqakrRxoTT0SfkiyVbjoCvrnlMo9UhEgBb3mYjFBOs1QnMxyNgXXQLbMcQpb
+ 17ESFnkWA87pr++MRcEoAUatkLeilEsqJU0u356DhfvqwDFU31DoGF9fo8TVtvn09OnRcA
+ IrbcqQM65gK7KqANW53zNzqSs2feNfM=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 9BCC5AECB;
+ Tue,  4 May 2021 08:08:16 +0000 (UTC)
+Message-ID: <976928a1a0ea430f48af8c20b6b3799e7e6791ec.camel@suse.com>
 Subject: Re: [PATCH v4] nvme: rdma/tcp: fix list corruption with anatt timer
-Message-ID: <20210504075257.GA17142@lst.de>
+From: Martin Wilck <mwilck@suse.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Chao
+ Leng <lengchao@huawei.com>, Hannes Reinecke <hare@suse.de>, Daniel Wagner
+ <dwagner@suse.de>,  linux-nvme@lists.infradead.org, stable@vger.kernel.org
+Date: Tue, 04 May 2021 10:08:14 +0200
+In-Reply-To: <20210504075257.GA17142@lst.de>
 References: <20210427093110.16461-1-mwilck@suse.com>
- <20210429122433.GA27567@lst.de>
+ <20210429122433.GA27567@lst.de> <20210504075257.GA17142@lst.de>
+User-Agent: Evolution 3.38.4 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210429122433.GA27567@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210504_005301_763600_82B4D439 
-X-CRM114-Status: GOOD (  19.12  )
+X-CRM114-CacheID: sfid-20210504_010821_456251_F91AEAEF 
+X-CRM114-Status: GOOD (  10.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,96 +94,23 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 29, 2021 at 02:24:33PM +0200, Christoph Hellwig wrote:
-> Martin,
-> 
-> can you give this patch a spin and check if this solves your issue?
+Hello Christoph,
 
-ping?
-
+On Tue, 2021-05-04 at 09:52 +0200, Christoph Hellwig wrote:
+> On Thu, Apr 29, 2021 at 02:24:33PM +0200, Christoph Hellwig wrote:
+> > Martin,
+> > 
+> > can you give this patch a spin and check if this solves your issue?
 > 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index 0d0de3433f37..68f4d9d0ce58 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -780,6 +780,8 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
->  
->  int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->  {
-> +	size_t max_transfer_size = ctrl->max_hw_sectors << SECTOR_SHIFT;
-> +	size_t ana_log_size;
->  	int error;
->  
->  	/* check if multipath is enabled and we have the capability */
-> @@ -787,47 +789,45 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->  	    !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
->  		return 0;
->  
-> +	if (!ctrl->identified) {
-> +		mutex_init(&ctrl->ana_lock);
-> +		timer_setup(&ctrl->anatt_timer, nvme_anatt_timeout, 0);
-> +		INIT_WORK(&ctrl->ana_work, nvme_ana_work);
-> +	}
-> +
->  	ctrl->anacap = id->anacap;
->  	ctrl->anatt = id->anatt;
->  	ctrl->nanagrpid = le32_to_cpu(id->nanagrpid);
->  	ctrl->anagrpmax = le32_to_cpu(id->anagrpmax);
->  
-> -	mutex_init(&ctrl->ana_lock);
-> -	timer_setup(&ctrl->anatt_timer, nvme_anatt_timeout, 0);
-> -	ctrl->ana_log_size = sizeof(struct nvme_ana_rsp_hdr) +
-> -		ctrl->nanagrpid * sizeof(struct nvme_ana_group_desc);
-> -	ctrl->ana_log_size += ctrl->max_namespaces * sizeof(__le32);
-> -
-> -	if (ctrl->ana_log_size > ctrl->max_hw_sectors << SECTOR_SHIFT) {
-> +	ana_log_size = sizeof(struct nvme_ana_rsp_hdr) +
-> +		ctrl->nanagrpid * sizeof(struct nvme_ana_group_desc) +
-> +		ctrl->max_namespaces * sizeof(__le32);
-> +	if (ana_log_size > max_transfer_size) {
->  		dev_err(ctrl->device,
-> -			"ANA log page size (%zd) larger than MDTS (%d).\n",
-> -			ctrl->ana_log_size,
-> -			ctrl->max_hw_sectors << SECTOR_SHIFT);
-> +			"ANA log page size (%zd) larger than MDTS (%zd).\n",
-> +			ana_log_size, max_transfer_size);
->  		dev_err(ctrl->device, "disabling ANA support.\n");
->  		return 0;
->  	}
->  
-> -	INIT_WORK(&ctrl->ana_work, nvme_ana_work);
-> -	kfree(ctrl->ana_log_buf);
-> -	ctrl->ana_log_buf = kmalloc(ctrl->ana_log_size, GFP_KERNEL);
-> -	if (!ctrl->ana_log_buf) {
-> -		error = -ENOMEM;
-> -		goto out;
-> +	if (ana_log_size > ctrl->ana_log_size) {
-> +		nvme_mpath_uninit(ctrl);
-> +		ctrl->ana_log_buf = kmalloc(ctrl->ana_log_size, GFP_KERNEL);
-> +		if (!ctrl->ana_log_buf)
-> +			return -ENOMEM;
-> +		ctrl->ana_log_size = ana_log_size;
->  	}
->  
->  	error = nvme_read_ana_log(ctrl);
->  	if (error)
-> -		goto out_free_ana_log_buf;
-> -	return 0;
-> -out_free_ana_log_buf:
-> -	kfree(ctrl->ana_log_buf);
-> -	ctrl->ana_log_buf = NULL;
-> -out:
-> +		nvme_mpath_uninit(ctrl);
->  	return error;
->  }
->  
->  void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
->  {
-> +	nvme_mpath_stop(ctrl);
->  	kfree(ctrl->ana_log_buf);
->  	ctrl->ana_log_buf = NULL;
->  }
----end quoted text---
+> ping?
+
+I've provided a test kernel with your patch to the SUSE partner in
+question, but it's hard to reproduce, the test will take time.
+
+Regards
+Martin
+
+
 
 _______________________________________________
 Linux-nvme mailing list
