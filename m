@@ -2,94 +2,83 @@ Return-Path: <SRS0=iWk4=J7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D11C433ED
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 20:02:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECC78C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 20:11:55 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AAA726115C
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 20:02:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AAA726115C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 6290C611AC
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 20:11:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6290C611AC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=sX4LkkAw1qc3DRda02j/HB+/VR8r040OSzp9eRWntaU=; b=U7yTu2UHHXQXHlwbC7B8ub+ov
-	rrllnNFrltgAf7LYOaba4ZPKHCEY40KeDOi/ml/rTD2gYjpwMgNuw6N/51kjC9HoWb2B7S6mLwgjQ
-	NKUZqG0MCMEubyEd5Tv452e51hhHU8IcM/P/nXZb4yHkkJ//gx6TPT2B5a9nrEI+7cp1LDOVx+/sB
-	c9DLS0R0mw6hO9B2Gfv9R3Cp8ADpYYBQV/JBHSQEykUhDKlEh2TNz+bsVSLrE/hRsTLiupPjNOY0S
-	VE5fAf5WzfgSDhh3bQpmBYhzmJgw0br+W2DdEysNFOEew7wKSRoX7+m5Yo7gvc93zVSvvsYYPY0my
-	K1wPbx/LA==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=lccb1NYiWlByP13y440PAcoBDIXfIx/gRnZbD9bFfy8=; b=MVolwm41vDFmmOBfAtpLvTFDdt
+	NPfcDO0WJXqNIg8vCtq2+i1knFr1BhXsii1Uo2ItFquur7Y9fV7f2rNnhKJ6UCArMQ/LsRiIzmSN/
+	DB0I8Cn5P8exjX3dqMfU9IJ2k5AgldkRvQgkFsaH3fVvukrRBygUdFel8719wTZhcpFxpMo9QqNWe
+	L5BFXMSICDlx0Lulrx6iLQ0lMQzLGip4TnnMtcTZY1nM5lqWfH7MSPGnz8g+1Mp0vfqC9qFSpbzjd
+	wGwJI/HbmAcV+DvlxOaoTYUZz/Wu4iB5DgPSqLDPlgWuj6+serhczigDzWqFz7t8iiQRfdrxG/RlV
+	hb38cU0g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1le1EX-00GySP-OA; Tue, 04 May 2021 20:01:29 +0000
+	id 1le1OK-00GzaQ-1K; Tue, 04 May 2021 20:11:36 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1le1EL-00GyPk-BH
- for linux-nvme@desiato.infradead.org; Tue, 04 May 2021 20:01:17 +0000
+ id 1le1OH-00Gza2-Dv
+ for linux-nvme@desiato.infradead.org; Tue, 04 May 2021 20:11:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=nn7XbIEuR1mPnrlEUhsb2sJwj/n5pr+hwTjxV+Dfv3c=; b=SoVzD5t0swok+ppddjPpTtnMDD
- fjpPKa+La+F2BeZdgbVWgqhf3MYkMlCD4wQEXUokOCxjigBr62Wtyr5zePSL2xU/8KtLnoxg8XNTW
- KnY4x/5SyjgspaFZipdEl4PWi/8dSmGmC/LsI98e2MXJM9+aftC4Fb6rEo/HJftj5wc/qUDigHaye
- p02UeDWgKSRlD/bHAfMhAsnJGvGIVjdNTrIPF9eoMmvG9jC89niMdUfjy+RZlyl0oIOCjfXwl++aE
- PFm0wsNOLqckljC4ocKlZr6GnfiLr4oePUm6//deq1SO57jmzVQ4ChmksgWG6GffIf2jRbXWZQhbw
- CxudwK2Q==;
-Received: from mail-pg1-f182.google.com ([209.85.215.182])
+ Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=R/UYI1Kk9efUsM9Cwd/jexEknFu703dg3kP27IRW5Fw=; b=fkjMO4gO3NC39Tgx0OrxJtK0DF
+ Z+4i+T2dosVhv6wsXZ44ZS1ReN8raEtYYSXKu07b5ZKE4viE35gfpbq8rSFDXbcFe45ZO3PltzOFx
+ HgpjS35yNEejES2Xq4EE+0quVUO622O95edX6UyNCYMQkulLK30SdZTlaudvpt8Y5pSUNUBWagKDA
+ k2824O5GNft87uJZ190B7moncfRMAo4eLqIGcFlXe7F2yjAQcBHHljHauoDKQjy8seGpk6MAfscLO
+ YHslutfvwxfi6HVq7MUJJhjBrydmDCImBd0N+CXt4WJwN8FtAXp2RmJje5Xt1g6MRDDmYv1cUDSol
+ DFl+LGNg==;
+Received: from mga02.intel.com ([134.134.136.20])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1le1EI-004Eft-VG
- for linux-nvme@lists.infradead.org; Tue, 04 May 2021 20:01:16 +0000
-Received: by mail-pg1-f182.google.com with SMTP id m124so3308387pgm.13
- for <linux-nvme@lists.infradead.org>; Tue, 04 May 2021 13:01:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nn7XbIEuR1mPnrlEUhsb2sJwj/n5pr+hwTjxV+Dfv3c=;
- b=ZLPdGyPYryEmNR+BswPIE6I9959+ZuLLQNRgCYnPWyP1PwLcSEHW3MGrz6ax/XDzlF
- vTKrJG3rOYv/R0dLAbb7pz1wc4EQt/Wy57T7+aK0fBMjdwW5JIY5tBm1+OCYFYc3vwEx
- MikJmXqayD2v4ALs8e++ASn8AwqGqIklpy7uDme2/mDF1WGvYrvfwZ27jZZumVMMchf2
- DggcYe17gkrwNvSCev8gHH89TrlbzEgYOU5ZDxjeJFnETEVnQ9YJS2xik3cHI0Y71p5T
- 5uqG63isqLvQf7WfbFL3PitIhN3zq2cCvWtRzG5KoklVlHOyGZlnwVEJKp74YLHtL4WL
- UgJQ==
-X-Gm-Message-State: AOAM532wDeGP8JhVGsADmRxT5/OkgntOKzIjatK0tN2LITfSl2wxf0NS
- XOCP6jX/dLe6UijvzJwYRxI=
-X-Google-Smtp-Source: ABdhPJzNeU7wZZkpRlN3tT3Pv1MAqriIUFZx0eiCMC8dXVTj5fHJOn2YQvB2ejmzPBym0r36FuLdrA==
-X-Received: by 2002:a65:5808:: with SMTP id g8mr24529756pgr.137.1620158471944; 
- Tue, 04 May 2021 13:01:11 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:dee:5152:2348:42c1?
- ([2601:647:4802:9070:dee:5152:2348:42c1])
- by smtp.gmail.com with ESMTPSA id 23sm13564617pfz.91.2021.05.04.13.01.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 May 2021 13:01:11 -0700 (PDT)
-Subject: Re: [PATCH 0/2] nvmet: consider req->sg_cnt for inline bio
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org
-Cc: hch@lst.de
-References: <20210429184357.9185-1-chaitanya.kulkarni@wdc.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <6cb7c286-1030-5343-ddab-5d2c7995828b@grimberg.me>
-Date: Tue, 4 May 2021 13:01:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ id 1le1OD-004F1r-VL
+ for linux-nvme@lists.infradead.org; Tue, 04 May 2021 20:11:31 +0000
+IronPort-SDR: HdPZYXCRsuSNRZBnX07T3bhP+qEQCWEWmK9aSTdquPiy0AkvXKXgHpLbuyiFXKtCtGJ+L7LaNr
+ cf7TqcN6QkLQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="185201934"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="185201934"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2021 13:11:28 -0700
+IronPort-SDR: DpKpy3c2NugpR1sbR6F0nqfGVDrySNilG+LM14f8XyeLqY3uuxod2mkYW6fw1+eJp867SizZwP
+ JSZ+aF5lxj5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; d="scan'208";a="531305882"
+Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 04 May 2021 13:11:26 -0700
+Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1le1OA-0009iw-7W; Tue, 04 May 2021 20:11:26 +0000
+Date: Wed, 05 May 2021 04:11:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.13] BUILD SUCCESS
+ 4a20342572f66c5b20a1ee680f5ac0a13703748f
+Message-ID: <6091aa5b.YA8LLq860LpcCVHl%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20210429184357.9185-1-chaitanya.kulkarni@wdc.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210504_130115_039292_DC67261C 
-X-CRM114-Status: GOOD (  13.33  )
+X-CRM114-CacheID: sfid-20210504_131130_097280_C93C9BD3 
+X-CRM114-Status: UNSURE (   8.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,24 +90,150 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+tree/branch: git://git.infradead.org/nvme.git nvme-5.13
+branch HEAD: 4a20342572f66c5b20a1ee680f5ac0a13703748f  nvmet: remove unsupported command noise
 
-> Hi,
-> 
-> While testing I came across the scenario where checking for the
-> transfer size is not enough for inline bios, this issue is not easily
-> reproducible with the test tools that I have.
-> 
-> This small patch-series adds an additional check so that we make sure
-> transfer size and the req->sg_cnt both fit in the inline bio for
-> bdev and passthru backend.
+elapsed time: 726m
 
-Looks good, though I'd re-title the patches as bug fixes so they
-will be picked to stable kernels.
+configs tested: 121
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+x86_64                           allyesconfig
+riscv                            allmodconfig
+i386                             allyesconfig
+riscv                            allyesconfig
+powerpc                     akebono_defconfig
+mips                        workpad_defconfig
+powerpc                     pseries_defconfig
+arm                          exynos_defconfig
+arm                  colibri_pxa270_defconfig
+powerpc                 mpc837x_rdb_defconfig
+arm                         at91_dt_defconfig
+arm                        vexpress_defconfig
+arm                        multi_v7_defconfig
+powerpc                 mpc836x_mds_defconfig
+mips                     cu1830-neo_defconfig
+sh                             sh03_defconfig
+nios2                            allyesconfig
+xtensa                    smp_lx200_defconfig
+sh                        dreamcast_defconfig
+arc                        nsimosci_defconfig
+sh                      rts7751r2d1_defconfig
+xtensa                         virt_defconfig
+powerpc                 xes_mpc85xx_defconfig
+m68k                       bvme6000_defconfig
+mips                      maltaaprp_defconfig
+arm                         hackkit_defconfig
+mips                         tb0219_defconfig
+arm                       imx_v6_v7_defconfig
+m68k                       m5249evb_defconfig
+arm                      pxa255-idp_defconfig
+xtensa                  cadence_csp_defconfig
+powerpc                     mpc5200_defconfig
+powerpc                 mpc8313_rdb_defconfig
+sparc64                             defconfig
+riscv             nommu_k210_sdcard_defconfig
+sh                  sh7785lcr_32bit_defconfig
+m68k                       m5475evb_defconfig
+sh                              ul2_defconfig
+openrisc                            defconfig
+arm                             rpc_defconfig
+parisc                generic-32bit_defconfig
+sh                          rsk7201_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a003-20210504
+i386                 randconfig-a006-20210504
+i386                 randconfig-a001-20210504
+i386                 randconfig-a005-20210504
+i386                 randconfig-a004-20210504
+i386                 randconfig-a002-20210504
+x86_64               randconfig-a014-20210504
+x86_64               randconfig-a015-20210504
+x86_64               randconfig-a012-20210504
+x86_64               randconfig-a013-20210504
+x86_64               randconfig-a011-20210504
+x86_64               randconfig-a016-20210504
+i386                 randconfig-a015-20210504
+i386                 randconfig-a013-20210504
+i386                 randconfig-a016-20210504
+i386                 randconfig-a014-20210504
+i386                 randconfig-a012-20210504
+i386                 randconfig-a011-20210504
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a014-20210503
+x86_64               randconfig-a015-20210503
+x86_64               randconfig-a012-20210503
+x86_64               randconfig-a011-20210503
+x86_64               randconfig-a013-20210503
+x86_64               randconfig-a016-20210503
+x86_64               randconfig-a001-20210504
+x86_64               randconfig-a003-20210504
+x86_64               randconfig-a005-20210504
+x86_64               randconfig-a002-20210504
+x86_64               randconfig-a006-20210504
+x86_64               randconfig-a004-20210504
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
