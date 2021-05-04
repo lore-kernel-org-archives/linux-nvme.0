@@ -4,148 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59AFFC433B4
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 00:27:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 307D3C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 07:42:32 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B8EBB611EE
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 00:27:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8EBB611EE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id E73CB6103E
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 May 2021 07:42:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E73CB6103E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ormq3smMHWg0PjzY0OMgLyElHARDyWzeoEH3dcswX3E=; b=VTAwQnkr31pvwaCSOcyp9d0PY
-	+A0vSajMB2rkhFv6hJd/w9LGBru5o8WaqZGOsKlon1/rQfkV86P/Im9G5UMnreE6ono17+lWiSUep
-	uirJfFFWdWbcYh1Yr2gbMI91gg+i74ZQmi5tK2X5EnQnQi5kkDMwGOTCrWgNf03CnCyQ2VYpC8eMA
-	HhEq9xPCCTBSRXGgOu4dTIzt034QCk35cEudmuwuR5X9HImWzH1V++vspYJz2v12LhAQ6gdw1WMvE
-	+972bIfRaDOAk+VlCNjxtlCwzKylF3e2Htc4mS3/t8DByFlnUL4XIymuxEeYUZbSbbnxcvFT7P+7d
-	4C5xDm83Q==;
+	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=qMTLKUdZu8PdWiY0wq6fK2xzu
+	enFgWn0fW1WcbifZ7+zxRjisaPPIKbj+PdfxtIpM07CJbxd5kQFtf+OLpZvQyiNZB0CctL4SuUvzm
+	jpFu/env9wH//6Fx1SbEY7qSa9fvvExaGORFW9+m1szfdqV1qJqXkSTbXHjRomiZ/05QA1aOYddxZ
+	7P/CySslU0Kbennp7KzJJ06nQtnfUfvr7R5PEJBJUNyR7pe5c/+Ub3/MbWcah8bbJX4WgDoDmFEzI
+	WYHzAsACM35O0w7MgHmzO/4hZMCFPYdA8KiSe8GRlF0wxibv4P7B4ZY/dJxH7ZB2NBdi++v5s7vUZ
+	o6OAywjGQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldiu3-00F7aP-7n; Tue, 04 May 2021 00:27:07 +0000
+	id 1ldph3-00FdFh-FA; Tue, 04 May 2021 07:42:09 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lditz-00F7aD-Vu
- for linux-nvme@desiato.infradead.org; Tue, 04 May 2021 00:27:04 +0000
+ id 1ldph1-00FdFL-8D
+ for linux-nvme@desiato.infradead.org; Tue, 04 May 2021 07:42:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=EGp8LDVwPEkeP1qX3UNu7KB3YNwPZhXxNhF/+jO7gkQ=; b=QzjDEv4mLdBgy837VAS7kc30sV
- 8FKTmwl3rXfP5kjz2pnIraQPSIHa8ga2YZSlBx6Kea4Hi8xUeFfjNHY3bmsa7mbvLZBiHwy7kDBJz
- HVPSM6ybygqiyZxn87xxfHQ3p1KTgQ1d1VxpgcYQkvyJgGrNB5i2SpMyFIWOsw1NoMS+ISNnxe32T
- 5Sl6tU2s5+q1bJZuNGunQfbxrephvJwPpP9dYd9Bh9Z2pUG79u/Gya5NsRc0hky6nIbDLAE0Zuzwj
- eaBS89ritmVntO1EZZMb4oNUDsj4dxzInM6sc3ENRgfE9e+pmZPj7dC23/CaGZYP7QMbIk3vo1HwE
- sFIkxz/w==;
-Received: from mail-bn8nam12on2077.outbound.protection.outlook.com
- ([40.107.237.77] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=JfcaAWiL9MX/KzgqZFMd5GxaGaNC7KsyrSBFfXwwLXo=; b=rEpmhzDqqMnYCYM07ao3+qoSdg
+ YMnGVffoCs5/dvnJXnOjsmvJDAxbTmNyhawdKgj9Zc+QbRmwBWY5tNnKZl1IyHaW5TYxce2iu6pAH
+ zxoj8No9qBHaspRVCEP6q6x9mldvnwswN9ElrbNv3f+VFfro7YBFz5rPma/KsEZniZ1tzMaF3csuQ
+ 7DEelmRMhr/w/GPEmAZkni6APRhGGBGSupJTmPTjyFeyH4jX7pVC93sin5++8Dm9r2UTGjGRqryyh
+ 2k3xQbpN8L7VnPZ/dZZoJNMWqJTEhqvM+aSran6/lYvgRIwsig19f75G1iw4/SpIggLuluq3uNSFc
+ sY1sNphw==;
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lditx-003a5T-9g
- for linux-nvme@lists.infradead.org; Tue, 04 May 2021 00:27:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Eju4+1uWY4+EECtMXWn1hUVIfmRxieGAYD1Xf9n8/onO3SoPVP2sNowmXs1UZ+4XNSDC3E7cnB50u65mDvUxXmx40RUbXDmN8TkkZhq1E4j3TWusOVxDxX4AlGTDDnTxxBX/3LJkFRIBSQyWupT5RN0ObvjKVPmiCTxzvDSvbcZ6Y0MyVfgg/7dScf2lIpGoSUEKB4QxfrJO2KcrztDGDDP5PkA080ivJwneUJpBAaL+zQ0Cdmpr+3CKWlRW8pNNDAPgFjvy+Cwa3N2xnFtq5FIotB8A3B9UF4yMendt/zMDiWxNX/eEPPYt3+gqU9NRgc/Il/Htdtt3jVbo17bLyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EGp8LDVwPEkeP1qX3UNu7KB3YNwPZhXxNhF/+jO7gkQ=;
- b=NREzPW0Vpcqpkz5yd/ovfj54t2GqM2X+ot3NMpIlN4FAW3QWW2LlWMAVLwKcc2goDBM17rM/AxvmK9HY0mMyQCN5IpAAZg1KHrSKEy7eS6G/PAXM8EHkmmSTRznb5Xe6uuF4hTm45If4AzSD/nbPOU8vfrytlx3/t1OfY0BOqDkByTJHNVC/myBueS1WwIvPlBbWmNxV3te0vua/ANMvY73xqQaXUB6SdFOff8xA0nIqMhc7Q97AscVOH1N5nl2iq9uM53V4g8zmxMYcYa4g5Ezc/vB4txyuCEb0S9IngQWXzJWNik1c1yfAIPcGPHBzpFcg7i2d6QKnSvoSBleQ8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=raithlin.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EGp8LDVwPEkeP1qX3UNu7KB3YNwPZhXxNhF/+jO7gkQ=;
- b=DVYY0JX+rUGwu6dQ9xBDWC5FjlqnR8JcUCjTbzwGtw/qv2fmlc71bWFr56wdugnCUwLx67hEiopmhgY/xjNcYt5WVIGjKNFG4FVqYr5nFfqX6julQ5H0kWjKZdvRGCl+JRGzot0Gjf+s8n0q+e16b+8Vgf5XKNx1uz4q/CJo5k4ZGasYD61sLA14+74XkxU2z4624UpzOuY2u/0gluoVyR7asW+pYw5Cd5Owa8SOQ4siMSchMVV3r8j/t83cVL/Onm4S+h/ChNpEpEwC6RVALxh1drVlM9m8BM2OZhNzpYsYMB4Mjibou7Hhg/F3ENdSciR7dRz8ugoEiqdJjHoyMw==
-Received: from DM5PR2001CA0001.namprd20.prod.outlook.com (2603:10b6:4:16::11)
- by CH2PR12MB3767.namprd12.prod.outlook.com (2603:10b6:610:26::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25; Tue, 4 May
- 2021 00:26:58 +0000
-Received: from DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:16:cafe::d1) by DM5PR2001CA0001.outlook.office365.com
- (2603:10b6:4:16::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.27 via Frontend
- Transport; Tue, 4 May 2021 00:26:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; raithlin.com; dkim=none (message not signed)
- header.d=none;raithlin.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT037.mail.protection.outlook.com (10.13.172.122) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4087.27 via Frontend Transport; Tue, 4 May 2021 00:26:58 +0000
-Received: from [10.2.50.162] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 4 May
- 2021 00:26:58 +0000
-Subject: Re: [PATCH 13/16] nvme-pci: Convert to using dma_map_sg_p2pdma for
- p2pdma pages
-To: Logan Gunthorpe <logang@deltatee.com>, <linux-kernel@vger.kernel.org>,
- <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <linux-mm@kvack.org>,
- <iommu@lists.linux-foundation.org>
-CC: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>, Dan
- Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Don Dutile
- <ddutile@redhat.com>, Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>, Jason Ekstrand
- <jason@jlekstrand.net>, Dave Hansen <dave.hansen@linux.intel.com>, Xiong
- Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>, Ira
- Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
-References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-14-logang@deltatee.com>
- <78a165e1-657b-c284-d31a-adc8c9ded55d@nvidia.com>
- <4ad9c1d9-ec2a-1fe1-c5d9-19d2053da912@deltatee.com>
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <92116e67-7388-aa31-cff3-71a7da82a731@nvidia.com>
-Date: Mon, 3 May 2021 17:26:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ id 1ldpgy-003m2d-Ar
+ for linux-nvme@lists.infradead.org; Tue, 04 May 2021 07:42:05 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id EEBE368AFE; Tue,  4 May 2021 09:41:53 +0200 (CEST)
+Date: Tue, 4 May 2021 09:41:53 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+ chaitanya.kulkarni@wdc.com, Yi Zhang <yi.zhang@redhat.com>
+Subject: Re: [PATCH] nvmet: remove unsupported command noise
+Message-ID: <20210504074153.GA16523@lst.de>
+References: <20210429042558.905404-1-kbusch@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <4ad9c1d9-ec2a-1fe1-c5d9-19d2053da912@deltatee.com>
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 167a9abe-a59e-4567-3a56-08d90e93544b
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3767:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB3767847B085E0E95A01296E8A85A9@CH2PR12MB3767.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DnY0Ti2ApVjbohXgjKZf5i9ILOPc+0mnQIOPLX7OyiYIsgFzlhqQhl1cwdvbDAOOvsXQCut18T+LdVLiSUt5tPi1GnEsHB3L0u0jwD9iggXp2yP7IoEGY1Kk7jbuSl+Jfkv8lO7ANV1THTMKFmD2XftwwK3+KnWcOgu4zAfRL+Be3p1/8a6cOE6tK7Te7rCaKC6a8OXFH7+pOLp7M3OaIiSWcVQcpMdTTw30gr2Td3gzjqNuh2hw4TmcSMEz6XcSHF9r5+IUk14A+HLaPWR1CaOY+xSRiD0UOytqJuVdIccgEqYeOCmbdBvi9SZEc/EBlG6kh0LmuSakQ+S/yS4AG33r1r94wwVWT1S0By3ewryo6kMDJyNKVbMQBdnAI7yyjJwdsie2gyHvJWJf5jeI3yWdPr8c/D/1G9jAGox7/XDSS7a7PlBvbwYYU01D8kaNAYiIkvtd4wtfDnC47VEe0Gn1OXcXwEAZIuictO3fYxyIHGalrH351UKayS9IBZJRWhPEmosjvwHJRuOvK8SzZ1RPqhwJ6gjL9HszYTW4vditsNkJGbc02cVh1l/a3pbmkKaP1hx2Y4qK0bqE0cewOmJREInXpR5SLYZ61Wc2/LIhOcWZChP6vWZTTWNjphZcsV5rTGQfpuSXcJbWoIQ+PJ7ffzcrXQPmVkPQ7aG5fJehVTbuF9+8Gr6fnX8eYUB5CXL3cAxuG9BGwpCyAKtIYA==
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(346002)(136003)(376002)(36840700001)(46966006)(53546011)(478600001)(16526019)(82740400003)(54906003)(186003)(36756003)(70586007)(36860700001)(36906005)(2616005)(4744005)(31686004)(356005)(70206006)(316002)(47076005)(82310400003)(336012)(426003)(2906002)(8936002)(31696002)(8676002)(7636003)(5660300002)(16576012)(110136005)(86362001)(4326008)(26005)(7416002)(43740500002)(2101003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2021 00:26:58.5694 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 167a9abe-a59e-4567-3a56-08d90e93544b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3767
+Content-Disposition: inline
+In-Reply-To: <20210429042558.905404-1-kbusch@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210503_172701_362457_A3F6FDEC 
-X-CRM114-Status: GOOD (  12.67  )
+X-CRM114-CacheID: sfid-20210504_004204_538222_50084366 
+X-CRM114-Status: UNSURE (   7.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,37 +79,14 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/3/21 10:19 AM, Logan Gunthorpe wrote:
-...
->>> +	nr_mapped = dma_map_sg_p2pdma_attrs(dev->dev, iod->sg, iod->nents,
->>> +				     rq_dma_dir(req), DMA_ATTR_NO_WARN);
->>> +	if (nr_mapped < 0) {
->>> +		if (nr_mapped != -ENOMEM)
->>> +			ret = BLK_STS_TARGET;
->>>    		goto out_free_sg;
->>> +	}
->>
->> But now the "nr_mapped == 0" case is no longer doing an early out_free_sg.
->> Is that OK?
-> 
-> dma_map_sg_p2pdma_attrs() never returns zero. It will return -ENOMEM in
-> the same situation and results in the same goto out_free_sg.
-> 
+Thanks,
 
-OK...that's true, it doesn't return zero. A comment or WARN or something
-might be nice, to show that the zero case hasn't been overlooked. It's
-true that the dma_map_sg_p2pdma_attrs() documentation sort of says
-that (although not quite out loud).
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+applied to nvme-5.13.
 
 _______________________________________________
 Linux-nvme mailing list
