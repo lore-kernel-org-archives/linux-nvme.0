@@ -2,103 +2,116 @@ Return-Path: <SRS0=YFbx=KA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA8DC433ED
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 May 2021 18:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9770C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 May 2021 18:33:42 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 95D1F611ED
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 May 2021 18:08:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95D1F611ED
+	by mail.kernel.org (Postfix) with ESMTPS id 15F6B613C4
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 May 2021 18:33:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15F6B613C4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6mLuUY+Q1IHbB/z0nHdq7qYeEQp/lJE48UKvR66oA4c=; b=Pgwr5m/qscCXSW6qGdIO0zJu5
-	YTJ2CijstG8HxnrCwi0w4CSnOq8nyY47W/ISBWAfb/WEHT07dX3WEBttFRssABxcOo6JOgXdf4swL
-	A7YzhJIwXTPtClgilyrQyFtiBcPVR+uVsZY5WykygOL/aI6pwmKe/6v84GaQx2uczX3JfrsiGkwsK
-	Y+9lNXiipGbSNWpY1Pj2JB1M+EIEnSEwn0CSLHHhz6FsJ09yUAUAqZvcV7Q0Aoi2dzWkwFwxI1hwv
-	/XLmE0dVyHeXjTb2T0fCSKWE0wtYAJk5GPmc+wI7fngInPachOzm6JczcSSQE7kNXT84X7zeYLrbd
-	zNwNqdhGw==;
+	 bh=XXfbMO7xTFUa8Z6NroFA4Qi7lHsY5bcdwdZgwsxtIt4=; b=crBVsM/BY5R0qJAZwJcz2/Aa0
+	T76WApo0lHdcI7ZgBkeacoOzhFKScQgd45HkXjYK0TgRE+BgCwDNhbjalBdGjs0zz7iEEo8YlboVo
+	dex59i6ts2sU7U9hpoD+ZM+S31JMtSIWi58IfJG0TqhHc+iBfFC235saPztabjnZXdqOw2ivdMAN+
+	ylFzSLD7LRTOOlRsUp6o/Zck9N3kY6ZSblWV+LIfGZbNRRRUBECHRWg0B/Zx0F2oTVexyM9UjTahF
+	nJC4SN1D4N0oJt2cQxUHXrKH/qzA+sfBH+5XqHIPRrct2mHwRhO6ZPPL9JBWUXJmGZq6sAlRpqRHF
+	dvIg2Tz5w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1leLwX-001zAf-6M; Wed, 05 May 2021 18:08:17 +0000
+	id 1leMKz-0022um-JT; Wed, 05 May 2021 18:33:33 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1leLwV-001zAM-3u
- for linux-nvme@desiato.infradead.org; Wed, 05 May 2021 18:08:15 +0000
+ id 1leMKw-0022uc-Hy
+ for linux-nvme@desiato.infradead.org; Wed, 05 May 2021 18:33:32 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
- MIME-Version:Sender:Reply-To:Content-ID:Content-Description;
- bh=OyHHxl0o1nlSGoKlMC7YvjTbD4roq+ar0grvpcjq3pc=; b=y2UNgFrgC2GtELmy6wJ1sahKzO
- NsZNrWp5RDK2K+Mu7WX8sFbe03xvYSOFNMsGjLJl5BN0nyuiENYBcGY2lTbo1s7qesYeffv1mN5jd
- uiSsVOeGoNECUka3bWJL6q+vpvDnARjefnzTd3K5afMFolyDBKtKC1skehriiD9FG4gi/AFrqD0Mw
- OAksR/ZIvarcRPZLI4qlPUccRqNQroV+QE6f6xp6UO1OIgQyJaGHBk56pF5146OSpUy1YLSyC/kZs
- EB5KR3kBxg14vnnai1KAELcxBc009Fu9rVdhpVpzbO0IkAZdrUaO0jbd7edXY915yK1NiZXa4jY4H
- j+wx6a+Q==;
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=T4CQSfuCafXBH+1+C/+R71xfaIwIqoiril5T3MNkRLA=; b=M+EtZ3Nc9jw/6/1nz286W3/bnh
+ jxZP+lkRbSehJy1gacv9lFMGR2JuUKw5aOvd8rJX5Hbff9iA0ECZkxnw/fiqBJTIzWKGVTBTHYiU0
+ cFXNL1oRxWvgfVGSAPYx7GBY6tv874pYuSexyKqhv9AuZGSJxpLnQjrYl/02WA/2ZeqnUFyvnGzQa
+ jwMJunYjUa6HgHm/Vns23p7h+Xu74x6xPYg8yx4VoGEZi1lq1LkncyDt/7DP6hjB3ILWOEkMdWUWi
+ OUBPELZgSxS2I7ozYeqmB6i4igOdynTnmwPeMxDH0lAjh9A229jFQs0ThczO421YbobLapPe2ro5/
+ qvMPOnag==;
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1leLwS-0057vT-Ie
- for linux-nvme@lists.infradead.org; Wed, 05 May 2021 18:08:13 +0000
-Received: by mail-ed1-x52c.google.com with SMTP id c22so3105967edn.7
- for <linux-nvme@lists.infradead.org>; Wed, 05 May 2021 11:08:12 -0700 (PDT)
+ id 1leMKs-0059K4-8C
+ for linux-nvme@lists.infradead.org; Wed, 05 May 2021 18:33:27 +0000
+Received: by mail-pj1-x102b.google.com with SMTP id
+ fa21-20020a17090af0d5b0290157eb6b590fso1349046pjb.5
+ for <linux-nvme@lists.infradead.org>; Wed, 05 May 2021 11:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OyHHxl0o1nlSGoKlMC7YvjTbD4roq+ar0grvpcjq3pc=;
- b=LvJNEcAzr0JD6rg5e0Mm3LWsqXXeG6sLPhjCD2Ty7sWfLEmqL9AZ/SsLWbOQ4Ttv/7
- X12liaUy5vg4AWK5DB7MEB8xemMfZqLodiW8gAIs4g+lYaXLjijexGn7r2/Oa/lyktad
- 0zufw1M2T9ircbE3sMAe3ehneOg8iVm4+kdZ29k7cEfuTrmBTHnC6Aebb9ecWoWEV2I2
- YTEHMiMWytRNZOzKGO6rRwzVXAnDetpVwYr10DFtTa0IMMbmzNg3F5i3evTmc0+h3Q/V
- X/XuJePgDqpoDwr5lJkDkHVBP4YBlB4a0AgYKhE2i64lWV2DD2CkG6MwU98cGMg9g2DG
- m2xA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=T4CQSfuCafXBH+1+C/+R71xfaIwIqoiril5T3MNkRLA=;
+ b=ARYsT5II8wC+29fQfB1PoR7kT7Qaz+XkejNccFI+qr83xCq3FsaWzw/VLBRnhYyyp4
+ 8nwaqIPbtRbZoPkYL2DNRrd5TieYsgAyfj7pAh9qm2HBwv+xtANbPOvE9I24fUSfIrDS
+ AXfnYOkkxmGJofT8Mdi2xRA6CjY1YJkYvjquFAqjulBgsRx7QMszKDHjCmxzJMsvFHhR
+ AvDGRaSSUJNXeoPWdAx+7x1v0GA+gFRDSTJ4ZijfkGnifzObe/I19AiGOCqJSB1mZp3i
+ A1SpOziXbuzeTIMkEJOPan+5U+d56zXrfCxhdjEFuzGiZeIvp00kH5dYg+s2goIvIL2v
+ YJqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OyHHxl0o1nlSGoKlMC7YvjTbD4roq+ar0grvpcjq3pc=;
- b=QZcbXHuwcvDa/rtHTreFX90imj1ufpdTOdlnQHGVM4U1JcYCdjYd7fTd46E3+h6Bg5
- bE32VXTWUlidF1YSk/El7DDD9dM8TASCy/Tu+89YEim4BzXH/Do+5snPWx47mtPrJ3Iv
- VAZeFtphp5RApikGngYmhZdrKlKrLoCZKM/gZJQoWuz+CesmxNp8DHH5qLIEvzizZpMq
- GQNyiNJszh03cS81aEjfisIxu3X3ZtPcrXJhCHhszX1Yf1eu4JspL+ekrerfgSzXKUQw
- naIrR+3SpgeEuJDIm7nOlElBAbGHUseWOE1I8rx42yt+svaXqWMKHmI+oQHvDWZWByzN
- vkIw==
-X-Gm-Message-State: AOAM530CFmsTK2/UG9IMPDE7oeo4UDt7CN0b688YbJHDE4m4SBFEpAG7
- 7vePzzFKvMqFo8N6OQ8rlFfU6f+IuijvfhKw5dA=
-X-Google-Smtp-Source: ABdhPJwNYbGv3u7Pqx1HkdhKedggZGzpUWGhLgMdWw5iKWKrRQUFA1cH/w16fWU1KvilaMmx3ilmaSrDMUwNGhinAuw=
-X-Received: by 2002:a05:6402:138f:: with SMTP id
- b15mr317279edv.121.1620238090990; 
- Wed, 05 May 2021 11:08:10 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=T4CQSfuCafXBH+1+C/+R71xfaIwIqoiril5T3MNkRLA=;
+ b=dlSVLIrSHchkJdqOglM00Pl8LK+K65ym3EKb6BkBB8R+CtCwWzok2YWdOg6JYySQdv
+ 6R8vfTrX5s7Ozd6JyCzkyyFw0oI5NUIT0yK4wBd/9Z7ha/0jybSyVQAAU//Hr1hM4JSN
+ N+QdL8U2XNkI7mOsWHBI5GyyweyinKtpP4ewsAr9UfGnEXz4O/tYhBnZZJ/4yBXdOp01
+ gnSooXydDoTLkDhODg38JP0kF1lUI6WhJ3KE2aBhY6iiGkso1F8gXm4L3f501jyxDFei
+ 8ofAhgtuD1rZheoP7uadEGxap/5SbpchKhrqSz06+bsYt6n0PsKvf53wxGd7pyiIgJrU
+ srLw==
+X-Gm-Message-State: AOAM532xQq6nRHB8kXxb8wzjgUlu1Nel5VZvC0xw8vYDtRkUnekBJKYY
+ 9rb4zssa9KmIHqtX3Zrm2ky9jeGE4Mw=
+X-Google-Smtp-Source: ABdhPJyb/lrTsU19US1lwp4oSjTSsaqzMzBogQs4GCFeunJKxCPVV4/+X16KG8/uU8LZMci161xBMQ==
+X-Received: by 2002:a17:90a:fe04:: with SMTP id
+ ck4mr35686639pjb.10.1620239604612; 
+ Wed, 05 May 2021 11:33:24 -0700 (PDT)
+Received: from [10.69.69.102] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id a7sm8549874pjm.0.2021.05.05.11.33.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 May 2021 11:33:24 -0700 (PDT)
+Subject: Re: [PATCH 1/1] Add 'Transport Interface' (triface) option. This can
+ be used to specify the IP interface to use for the connection. The
+ driver
+ uses that to set SO_BINDTODEVICE on the socket before connecting.
+To: "Belanger, Martin" <Martin.Belanger@dell.com>,
+ Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Martin Belanger <nitram_67@hotmail.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>
+References: <20210415192848.962891-1-nitram_67@hotmail.com>
+ <BL0PR13MB42917AC33BFFC7DB2440D1149C4D9@BL0PR13MB4291.namprd13.prod.outlook.com>
+ <b47456a5-69ae-1f33-30f0-aa25906668f2@grimberg.me>
+ <27a0071d-7c7b-ee5b-41a2-d5eb8de12928@suse.de>
+ <SJ0PR19MB45446577ACEA270069ADB738F2599@SJ0PR19MB4544.namprd19.prod.outlook.com>
+From: James Smart <jsmart2021@gmail.com>
+Message-ID: <577d471c-1564-4291-919d-f448a73e56ab@gmail.com>
+Date: Wed, 5 May 2021 11:33:23 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <20210429190926.5086-1-smalin@marvell.com>
- <20210429190926.5086-28-smalin@marvell.com>
- <156b840a-2ea2-0b3b-1bf6-7869838fccbe@suse.de>
-In-Reply-To: <156b840a-2ea2-0b3b-1bf6-7869838fccbe@suse.de>
-From: Shai Malin <malin1024@gmail.com>
-Date: Wed, 5 May 2021 21:08:00 +0300
-Message-ID: <CAKKgK4yN7kfRrEEaBdMM5xxqtpahGP3611Hq6NJR0gojKBHmgw@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 27/27] qedn: Add support of ASYNC
-To: Hannes Reinecke <hare@suse.de>
-Cc: Shai Malin <smalin@marvell.com>, netdev@vger.kernel.org,
- davem@davemloft.net, 
- kuba@kernel.org, linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de, 
- axboe@fb.com, kbusch@kernel.org, Ariel Elior <aelior@marvell.com>, 
- Michal Kalderon <mkalderon@marvell.com>, okulkarni@marvell.com,
- pkushwaha@marvell.com
+In-Reply-To: <SJ0PR19MB45446577ACEA270069ADB738F2599@SJ0PR19MB4544.namprd19.prod.outlook.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210505_110812_635385_43825CB6 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20210505_113326_324361_E127159D 
+X-CRM114-Status: GOOD (  23.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,35 +123,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNS8yLzIxIDI6NTkgUE0sIEhhbm5lcyBSZWluZWNrZSB3cm90ZToKPiBPbiA0LzI5LzIxIDk6
-MDkgUE0sIFNoYWkgTWFsaW4gd3JvdGU6Cj4gPiBGcm9tOiBQcmFiaGFrYXIgS3VzaHdhaGEgPHBr
-dXNod2FoYUBtYXJ2ZWxsLmNvbT4KPiA+Cj4gPiBUaGlzIHBhdGNoIGltcGxlbWVudCBBU1lOQyBy
-ZXF1ZXN0IGFuZCByZXNwb25zZSBldmVudCBub3RpZmljYXRpb24KPiA+IGhhbmRsaW5nIGF0IHFl
-ZG4gZHJpdmVyIGxldmVsLgo+ID4KPiA+IE5WTUUgT2ZsZCBsYXllcidzIEFTWU5DIHJlcXVlc3Qg
-aXMgdHJlYXRlZCBzaW1pbGFyIHRvIHJlYWQgd2l0aAo+ID4gZmFrZSBDQ0NJRC4gVGhpcyBDQ0NJ
-RCB1c2VkIHRvIHJvdXRlIEFTWU5DIG5vdGlmaWNhdGlvbiBiYWNrIHRvCj4gPiB0aGUgTlZNRSBv
-ZmxkIGxheWVyLgo+ID4KPiA+IEFja2VkLWJ5OiBJZ29yIFJ1c3NraWtoIDxpcnVzc2tpa2hAbWFy
-dmVsbC5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBQcmFiaGFrYXIgS3VzaHdhaGEgPHBrdXNod2Fo
-YUBtYXJ2ZWxsLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IE9ta2FyIEt1bGthcm5pIDxva3Vsa2Fy
-bmlAbWFydmVsbC5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBNaWNoYWwgS2FsZGVyb24gPG1rYWxk
-ZXJvbkBtYXJ2ZWxsLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IEFyaWVsIEVsaW9yIDxhZWxpb3JA
-bWFydmVsbC5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBTaGFpIE1hbGluIDxzbWFsaW5AbWFydmVs
-bC5jb20+Cj4gPiAtLS0KPiA+ICAgZHJpdmVycy9udm1lL2h3L3FlZG4vcWVkbi5oICAgICAgfCAg
-IDggKysKPiA+ICAgZHJpdmVycy9udm1lL2h3L3FlZG4vcWVkbl9tYWluLmMgfCAgIDEgKwo+ID4g
-ICBkcml2ZXJzL252bWUvaHcvcWVkbi9xZWRuX3Rhc2suYyB8IDE1NiArKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKy0tCj4gPiAgIDMgZmlsZXMgY2hhbmdlZCwgMTU2IGluc2VydGlvbnMoKyks
-IDkgZGVsZXRpb25zKC0pCj4gPgo+IFJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVA
-c3VzZS5kZT4KClRoYW5rcy4KCj4KPiBDaGVlcnMsCj4KPiBIYW5uZXMKPiAtLQo+IERyLiBIYW5u
-ZXMgUmVpbmVja2UgICAgICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0Cj4gaGFy
-ZUBzdXNlLmRlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgK
-PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
-bmJlcmcKPiBIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxp
-eCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFk
-Lm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52
-bWUK
+On 5/5/2021 7:31 AM, Belanger, Martin wrote:
+...
+>>>
+>>> Given that this was the original intent for host_traddr, why not have
+>>> host_traddr resolve the iface from the address and set sockopt
+>>> SO_BINDTODEVICE on it?
+>>>
+>> That was my question, too.
+>>
+>> I would vastly prefer to not have another option to deal with (as it raises the
+>> question whether to add it eg during 'nvme connect-all') And one could
+>> argue that this was the intention of _having_ the host_traddr argument in
+>> the first place ...
+>>
+>> Cheers,
+>>
+>> Hannes
+> 
+> Hi Sagi and Hannes,
+> 
+> Correct me if I'm wrong, but it sounds like host_traddr was primarily added for FC (at least it wasn't tested for TCP since it does not work in its current state). I'm not an expert on FC and maybe specifying an address is the right (and only) way to specify and interface for FC. For TCP, however, it's not advisable. Specifying an interface by its associated IP address is less intuitive than specifying the actual interface name and, in some cases, it simply won't work. That's because the association between interfaces and IP addresses is not predictable. IP addresses can be changed or can change by themselves over time (e.g. DHCP). 
+
+HOST_TRADDR exists only in linux and has no strict definition other than 
+what we define for it. I fully expect its value, just like TRADDR, will 
+be transport specific.
+
+For FC, we didn't want to use names based on driver instances, or on FC 
+link addresses, so we chose WWNs that were specific to a FC port to 
+identify it. The transport has the mechanisms to map the WWNs to a 
+nvme-supporting FC host port.
+
+Define whatever is necessary for rdma or TCP and what they put into 
+HOST_TRADDR.
+
+...
+> 
+> In conclusion, I believe that for TCP we need 2 options. One that can be used to specify an interface. And one that can be used to set the source address. And users should be allowed to use one or the other, or both, or none. Of course, the documentation for host_traddr will need some clarification. It should state that when used for TCP connection, this option only sets the source address. And the documentation for host_iface should say that this option only applies to TCP connections.
+
+I don't like seeing 2 options. I'd rather you stuck with a single option 
+and added formatting to the option so you could specify one or the other 
+or both (or none by not specifying the option).
+
+-- james
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
