@@ -2,85 +2,89 @@ Return-Path: <SRS0=D26X=KB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC85C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 May 2021 07:01:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E14A3C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 May 2021 07:09:12 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6346D610E9
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 May 2021 07:01:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6346D610E9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 4813C610A6
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 May 2021 07:09:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4813C610A6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:Subject:
-	References:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YS1n8lGoYcvTImQuY5Uxxz4tMG+GBA8zVAvFipP7UHc=; b=h0FrQzv6dXQ832r6xqczPPbeM
-	vR2b5mpwEx5FGESejbbs+AJt8BoSJmNR+dm3nDRiJV88isC/6wGYL4rzkRTRYec/InJSUrt7D8MeA
-	UlQIdkvV0WESbPIBDK69I+DmjwAIO/wjt4ZeMbtWBegoeZ5qQpIzV2fDH+C826g4X3LWUCvsrsYA8
-	yCt0FywnMGpL/qdKvROxjGWlbSFw69KHntFtUlRpiduxvJ8jLdtpX6jImOQuvq2HKkh49dqhKlKkX
-	dPFz3ThyRYssYoNARJC2p3Oi6T94C7muv9gFNw3WwYdod/bkzeBwc5+dwJub+CTXp0bK3THkyuz3s
-	iDPLUxFaA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=uXMcUptnx31NnL/0HmM9qy+gTDfhYTXU+mE/cMKpKgo=; b=qIfXILsEgc//OAc6+1MSlxPDp8
+	Weg6E9IwurXaNuETdTnuFq80vT1SvIw1JKWw//b/zUxWOr+2jO1oFuKR9QY3mghRFJhiYG/wWqjo+
+	3WkiQg/o2ZYssSxStXhmKuNgZAU/tN7nN1/ujA116TjJCktruCL0koDKon4LbuHd8YTm2BXQe0cuz
+	reqhMemuy0Piidd0YKTNv9le0EvWRKWEJNH5st1BPXvOrZIy6vDW0bZNzqnlMVlPA4pYq5s3qppBJ
+	tHspuQVOsqMUzvvGPAAa04H6/OdV0MWXHgdUYQPQEYCWUZt39saUK3y5n5+Il9g8/8p+7EtlslUvB
+	xSRVpuEg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1leY0C-003QbB-0i; Thu, 06 May 2021 07:00:52 +0000
+	id 1leY80-003RXg-Q2; Thu, 06 May 2021 07:08:56 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1leXzs-003QXl-QG
- for linux-nvme@desiato.infradead.org; Thu, 06 May 2021 07:00:33 +0000
+ id 1leY7v-003RXF-B9
+ for linux-nvme@desiato.infradead.org; Thu, 06 May 2021 07:08:52 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:Subject:References:Cc:
- To:From:Sender:Reply-To:Content-ID:Content-Description;
- bh=dO1y0jWmM0ylxXQOxT2+DcWV0fmdlXvqtnrRJi5+Mto=; b=nw8IkTXBIcQOQONRxzJOzVixlE
- YD5EHvCjv72rxm7pOJ8VFJiRjPdAGYSIaLWcf1thdtpNWbPeKdtXlnphls/OorK4uOWwVUrvC95fz
- lLC54l+SwGj1q+0hOSD6venKibf3IfN7+n4oyXqnAG2n43RjiRtrdNr02sqkYh4H12vK2em13BM0W
- Y9cbDQbdxLmXse3fvNkFIBKtKf1M59hdxDO4FV1KZJ8ZBEqEdc8FhMIrxmYN/aw8EiFj/UvUTAW21
- sQUtva0VeeblPmQUEWCC7KMh88tDxx2VKNMz7GIW7DEDStVknr6TIV/trqqA7ypNlhCBnMLL0pZrU
- VlhkXePg==;
-Received: from mx2.suse.de ([195.135.220.15])
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:Message-ID:
+ Date:Subject:CC:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=gEmIWtSWf4iB+SK4or2PbuqzDD6bZO76llfauLjXFCI=; b=OzrW+fJro33X9LhX4Zk9Wfixl0
+ dU1BXLLVMLhRXl9/ZGLNXc0mur19Pze5Hg3t1ehyieB7atClTJzcJ9SwPD7iQ9zF/9B4lgd/wG2ER
+ UH82P71qfWWmiglDZ1hyshyh8iRIQmR+O9MS3hLvEhTYWFA6NxGze8IYFSbcKTwUMggaUb8ZZDfhr
+ ulbZ+SGqYAeFG3cOC0q85fJR9p6pWZBW98ic46/OyAu3v8C7vDOLVthIousjmon8PKnUHOz9c7wPY
+ 8tCRd6emoCIwGCpODGAip8h9Ei/3MCX4RNH82H+qfkCrtlmT2dWBhlyfHyNNAvQvJeQBCGKLCLxTS
+ QXLu2/EQ==;
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
+ helo=mx0b-0016f401.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1leXzo-005eQm-KU
- for linux-nvme@lists.infradead.org; Thu, 06 May 2021 07:00:30 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 37C87B1EC;
- Thu,  6 May 2021 07:00:27 +0000 (UTC)
-From: Hannes Reinecke <hare@suse.de>
-To: "Belanger, Martin" <Martin.Belanger@dell.com>,
- Sagi Grimberg <sagi@grimberg.me>, Martin Belanger <nitram_67@hotmail.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>
-References: <20210415192848.962891-1-nitram_67@hotmail.com>
- <BL0PR13MB42917AC33BFFC7DB2440D1149C4D9@BL0PR13MB4291.namprd13.prod.outlook.com>
- <b47456a5-69ae-1f33-30f0-aa25906668f2@grimberg.me>
- <27a0071d-7c7b-ee5b-41a2-d5eb8de12928@suse.de>
- <SJ0PR19MB45446577ACEA270069ADB738F2599@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <dbb70739-e636-7f4c-7332-1fbc07332444@suse.de>
-Organization: SUSE Linux GmbH
-Subject: Re: [PATCH 1/1] Add 'Transport Interface' (triface) option. This can
- be used to specify the IP interface to use for the connection. The
- driver
- uses that to set SO_BINDTODEVICE on the socket before connecting.
-Message-ID: <07fa3404-ed37-052a-c2d7-0e21c119f5c5@suse.de>
-Date: Thu, 6 May 2021 09:00:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ id 1leY7r-005ehY-Ul
+ for linux-nvme@lists.infradead.org; Thu, 06 May 2021 07:08:49 +0000
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14675UZx027684; Thu, 6 May 2021 00:08:34 -0700
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+ by mx0a-0016f401.pphosted.com with ESMTP id 38c5bt934j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Thu, 06 May 2021 00:08:34 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 6 May 2021 00:08:32 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 6 May 2021 00:08:32 -0700
+Received: from lb-tlvb-michal.il.qlogic.org (unknown [10.5.220.215])
+ by maili.marvell.com (Postfix) with ESMTP id B2EA45B692B;
+ Thu,  6 May 2021 00:08:30 -0700 (PDT)
+From: Michal Kalderon <michal.kalderon@marvell.com>
+To: <mkalderon@marvell.com>, <aelior@marvell.com>, <hch@lst.de>,
+ <sagi@grimberg.me>, <yaminf@mellanox.com>
+CC: <linux-nvme@lists.infradead.org>, <linux-rdma@vger.kernel.org>, "Michal
+ Kalderon" <michal.kalderon@marvell.com>, Shai Malin <smalin@marvell.com>
+Subject: [PATCH] nvmet-rdma: Fix NULL deref when SEND is completed with error
+Date: Thu, 6 May 2021 10:08:19 +0300
+Message-ID: <20210506070819.12502-1-michal.kalderon@marvell.com>
+X-Mailer: git-send-email 2.14.5
 MIME-Version: 1.0
-In-Reply-To: <dbb70739-e636-7f4c-7332-1fbc07332444@suse.de>
-Content-Language: en-US
+X-Proofpoint-GUID: zzdJkBHZqKEE0GRPRniM4Q70hUxJqBLm
+X-Proofpoint-ORIG-GUID: zzdJkBHZqKEE0GRPRniM4Q70hUxJqBLm
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-06_05:2021-05-05,
+ 2021-05-06 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210506_000028_993619_61263C70 
-X-CRM114-Status: GOOD (  36.59  )
+X-CRM114-CacheID: sfid-20210506_000848_016321_374C3F3D 
+X-CRM114-Status: GOOD (  13.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,119 +96,83 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNS82LzIxIDg6MDUgQU0sIEhhbm5lcyBSZWluZWNrZSB3cm90ZToKPiBPbiA1LzUvMjEgNDoz
-MSBQTSwgQmVsYW5nZXIsIE1hcnRpbiB3cm90ZToKWyAuLiBdCj4+IDE6IGxvOiA8TE9PUEJBQ0ss
-VVAsTE9XRVJfVVA+IG10dSA2NTUzNiBxZGlzYyBub3F1ZXVlIHN0YXRlIFVOS05PV04KPj4gZ3Jv
-dXAgZGVmYXVsdCBxbGVuIDEwMDAKPj4gwqDCoMKgwqAgbGluay9sb29wYmFjayAwMDowMDowMDow
-MDowMDowMCBicmQgMDA6MDA6MDA6MDA6MDA6MDAKPj4gwqDCoMKgwqAgaW5ldCAxMDAuMC4wLjEw
-MC8yNCBzY29wZSBnbG9iYWwgbG8KPj4gwqDCoMKgwqDCoMKgwqAgdmFsaWRfbGZ0IGZvcmV2ZXIg
-cHJlZmVycmVkX2xmdCBmb3JldmVyCj4+IDI6IGVucDBzMzogPEJST0FEQ0FTVCxNVUxUSUNBU1Qs
-VVAsTE9XRVJfVVA+IG10dSAxNTAwIHFkaXNjIGZxX2NvZGVsCj4+IHN0YXRlIFVQIGdyb3VwIGRl
-ZmF1bHQgcWxlbiAxMDAwCj4+IMKgwqDCoMKgIGxpbmsvZXRoZXIgMDg6MDA6Mjc6MjE6NjU6ZWMg
-YnJkIGZmOmZmOmZmOmZmOmZmOmZmCj4+IMKgwqDCoMKgIGluZXQgMTAwLjAuMC4xMDAvMjQgc2Nv
-cGUgZ2xvYmFsIGVucDBzMwo+PiDCoMKgwqDCoMKgwqDCoCB2YWxpZF9sZnQgZm9yZXZlciBwcmVm
-ZXJyZWRfbGZ0IGZvcmV2ZXIKPj4gMzogZW5wMHM4OiA8QlJPQURDQVNULE1VTFRJQ0FTVCxVUCxM
-T1dFUl9VUD4gbXR1IDE1MDAgcWRpc2MgZnFfY29kZWwKPj4gc3RhdGUgVVAgZ3JvdXAgZGVmYXVs
-dCBxbGVuIDEwMDAKPj4gwqDCoMKgwqAgbGluay9ldGhlciAwODowMDoyNzo0Zjo5NTo1YyBicmQg
-ZmY6ZmY6ZmY6ZmY6ZmY6ZmYKPj4gwqDCoMKgwqAgaW5ldCAxMDAuMC4wLjEwMC8yNCBzY29wZSBn
-bG9iYWwgZW5wMHM4Cj4+IMKgwqDCoMKgwqDCoMKgIHZhbGlkX2xmdCBmb3JldmVyIHByZWZlcnJl
-ZF9sZnQgZm9yZXZlcgo+Pgo+PiBUaGUgYWJvdmUgaXMgYSBWTSB0aGF0IEkgY29uZmlndXJlZCB3
-aXRoIHRoZSBzYW1lIElQIGFkZHJlc3MKPj4gKDEwMC4wLjAuMTAwKSBvbiBhbGwgaW50ZXJmYWNl
-cy4gRG9pbmcgYSByZXZlcnNlCj4+IGxvb2t1cCB0byBpZGVudGlmeSB0aGUgdW5pcXVlIGludGVy
-ZmFjZSBhc3NvY2lhdGVkIHdpdGggMTAwLjAuMC4xMDAKPj4gd291bGQgc2ltcGx5IG5vdCB3b3Jr
-IGhlcmUuIEFuZCB0aGlzIGlzIHdoeQo+PiB0aGUgb3B0aW9uIGhvc3RfaWZhY2UgaXMgcmVxdWly
-ZWQuIEkgdW5kZXJzdGFuZCB0aGF0IHRoZSBhYm92ZSBjb25maWcKPj4gZG9lcyBub3QgcmVwcmVz
-ZW50IGEgc3RhbmRhcmQgaG9zdCBzeXN0ZW0sCj4+IGJ1dCBJJ20gdXNpbmcgdGhpcyB0byBwcm92
-ZSBhIHBvaW50OiAid2UgY2FuIG5ldmVyIGtub3cgaG93IGEgdXNlcgo+PiB3aWxsIGNvbmZpZ3Vy
-ZSB0aGVpciBzeXN0ZW0gYW5kIHRoZSBhYm92ZQo+PiBjb25maWd1cmF0aW9uIGlzIHBlcmZlY3Rs
-eSBmaW5lIGJ5IExpbnV4Ii4KPj4KPiAKPiAuLi4gYW5kIG1lc3NpbmcgdXAgYW55IHN3aXRjaCBN
-QUMgYWRkcmVzcyBjYWNoaW5nIHdoZW4gZG9pbmcgc28uIEkgZ3Vlc3MKPiB0aGUgbmV0d29yayBh
-ZG1pbiB3aWxsIGNvbWUgZG93biBoYXJkIG9uIHlvdSBpZiB5b3UgdHJ5IHRoYXQgb24gYQo+IHBy
-b2R1Y3Rpb24gc3lzdGVtLgo+IEFuZCBJIHNpbmNlcmVseSBxdWVzdGlvbiB3aGV0aGVyIHRoaXMg
-aXMgYSB2YWxpZCB1c2UtY2FzZTsgSSdtIGFscmVhZHkKPiBnZXR0aW5nIGdyaWVmIGZyb20gb3Vy
-IG5ldHdvcmsgYWRtaW5zIGlmIEkgZGFyZSB0byBwdXQgdHdvIG5ldHdvcmsKPiBpbnRlcmZhY2Vz
-IGZyb20gdGhlIHNhbWUgbWFjaGluZSBpbiB0aGUgc2FtZSBuZXR3b3JrLgo+IAo+PiBUaGUgY3Vy
-cmVudCBUQ1AgaW1wbGVtZW50YXRpb24gZm9yIGhvc3RfdHJhZGRyIHVzZXMKPj4gYmluZCgpLWJl
-Zm9yZS1jb25uZWN0KCkuIFRoaXMgaXMgYSBjb21tb24gY29uc3RydWN0IHRvIHNldCB0aGUKPj4g
-c291cmNlIElQIGFkZHJlc3Mgb24gdGhlIHNvY2tldCBiZWZvcmUgY29ubmVjdGluZy4gVGhpcyBo
-YXMgbm8gZWZmZWN0Cj4+IG9uIGhvdyBMaW51eCB3aWxsIHNlbGVjdCB0aGUgaW50ZXJmYWNlIGZv
-ciB0aGUKPj4gY29ubmVjdGlvbi4gVGhhdCdzIGJlY2F1c2UgTGludXggdXNlcyB0aGUgV2VhayBF
-bmQgU3lzdGVtIG1vZGVsIGFzCj4+IGRlc2NyaWJlZCBpbiBSRkMxMTIyIFsyXS4gU2V0dGluZyB0
-aGUgc291cmNlIGFkZHJlc3MKPj4gb24gYSBjb25uZWN0aW9uIGlzIGEgY29tbW9uIHJlcXVpcmVt
-ZW50IHRoYXQgbGludXgtbnZtZSBuZWVkcyB0bwo+PiBzdXBwb3J0LiBJbiBmYWN0LCBzcGVjaWZ5
-aW5nIHRoZSBTb3VyY2UgSVAgYWRkcmVzcwo+PiBpcyBhIG1hbmRhdG9yeSBGZWRHb3YgcmVxdWly
-ZW1lbnQgKGUuZy4gY29ubmVjdGlvbiB0byBhIFJBRElVUy9UQUNBQ1MrCj4+IHNlcnZlcikuIENv
-bnNpZGVyIHRoZSBmb2xsb3dpbmcgY29uZmlndXJhdGlvbi4KPj4KPj4gJCBpcCBhZGRyIGxpc3Qg
-ZGV2IGVucDBzOAo+PiAzOiBlbnAwczg6IDxCUk9BRENBU1QsTVVMVElDQVNULFVQLExPV0VSX1VQ
-PiBtdHUgMTUwMCBxZGlzYyBmcV9jb2RlbAo+PiBzdGF0ZSBVUCBncm91cCBkZWZhdWx0IHFsZW4g
-MTAwMAo+PiDCoMKgwqDCoCBsaW5rL2V0aGVyIDA4OjAwOjI3OjRmOjk1OjVjIGJyZCBmZjpmZjpm
-ZjpmZjpmZjpmZgo+PiDCoMKgwqDCoCBpbmV0IDE5Mi4xNjguNTYuMTAxLzI0IGJyZCAxOTIuMTY4
-LjU2LjI1NSBzY29wZSBnbG9iYWwgZHluYW1pYwo+PiBub3ByZWZpeHJvdXRlIGVucDBzOAo+PiDC
-oMKgwqDCoMKgwqDCoCB2YWxpZF9sZnQgNDI2c2VjIHByZWZlcnJlZF9sZnQgNDI2c2VjCj4+IMKg
-wqDCoMKgIGluZXQgMTkyLjE2OC41Ni4xMDIvMjQgc2NvcGUgZ2xvYmFsIHNlY29uZGFyeSBlbnAw
-czgKPj4gwqDCoMKgwqDCoMKgwqAgdmFsaWRfbGZ0IGZvcmV2ZXIgcHJlZmVycmVkX2xmdCBmb3Jl
-dmVyCj4+IMKgwqDCoMKgIGluZXQgMTkyLjE2OC41Ni4xMDMvMjQgc2NvcGUgZ2xvYmFsIHNlY29u
-ZGFyeSBlbnAwczgKPj4gwqDCoMKgwqDCoMKgwqAgdmFsaWRfbGZ0IGZvcmV2ZXIgcHJlZmVycmVk
-X2xmdCBmb3JldmVyCj4+IMKgwqDCoMKgIGluZXQgMTkyLjE2OC41Ni4xMDQvMjQgc2NvcGUgZ2xv
-YmFsIHNlY29uZGFyeSBlbnAwczgKPj4gwqDCoMKgwqDCoMKgwqAgdmFsaWRfbGZ0IGZvcmV2ZXIg
-cHJlZmVycmVkX2xmdCBmb3JldmVyCj4+Cj4+IEhlcmUgd2UgY2FuIHNlZSB0aGF0IHNldmVyYWwg
-YWRkcmVzc2VzIGFyZSBhc3NvY2lhdGVkIHdpdGggaW50ZXJmYWNlCj4+IGVucDBzOC4gQnkgZGVm
-YXVsdCwgTGludXggd2lsbCBzZWxlY3QgdGhlCj4+IGRlZmF1bHQgSVAgYWRkcmVzcywgMTkyLjE2
-OC41Ni4xMDEsIGFzIHRoZSBzb3VyY2UgYWRkcmVzcyB3aGVuCj4+IGNvbm5lY3Rpbmcgb3ZlciBp
-bnRlcmZhY2UgZW5wMHM4LiBTb21lIHVzZXJzLAo+PiBob3dldmVyLCB3YW50IHRoZSBhYmlsaXR5
-IHRvIHNwZWNpZnkgYSBkaWZmZXJlbnQgYWRkcmVzcyAoZS5nLiwKPj4gMTkyLjE2OC41Ni4xMDMp
-IHRvIGJlIHVzZWQgYXMgdGhlIHNvdXJjZSBhZGRyZXNzLgo+PiBUaGUgb3B0aW9uIGhvc3RfdHJh
-ZGRyIGNhbiBiZSB1c2VkIGFzLWlzIHRvIHBlcmZvcm0gdGhpcyBmdW5jdGlvbiAoSQo+PiB0ZXN0
-ZWQgaXQpLgo+Pgo+IAo+IE5vIGRpc2FncmVlbWVudCBoZXJlLgo+IAo+PiBJbiBjb25jbHVzaW9u
-LCBJIGJlbGlldmUgdGhhdCBmb3IgVENQIHdlIG5lZWQgMiBvcHRpb25zLiBPbmUgdGhhdCBjYW4K
-Pj4gYmUgdXNlZCB0byBzcGVjaWZ5IGFuIGludGVyZmFjZS4gQW5kIG9uZQo+PiB0aGF0IGNhbiBi
-ZSB1c2VkIHRvIHNldCB0aGUgc291cmNlIGFkZHJlc3MuIEFuZCB1c2VycyBzaG91bGQgYmUKPj4g
-YWxsb3dlZCB0byB1c2Ugb25lIG9yIHRoZSBvdGhlciwgb3IgYm90aCwgb3Igbm9uZS4KPj4gT2Yg
-Y291cnNlLCB0aGUgZG9jdW1lbnRhdGlvbiBmb3IgaG9zdF90cmFkZHIgd2lsbCBuZWVkIHNvbWUK
-Pj4gY2xhcmlmaWNhdGlvbi4gSXQgc2hvdWxkIHN0YXRlIHRoYXQgd2hlbiB1c2VkIGZvciBUQ1AK
-Pj4gY29ubmVjdGlvbiwgdGhpcyBvcHRpb24gb25seSBzZXRzIHRoZSBzb3VyY2UgYWRkcmVzcy4g
-QW5kIHRoZQo+PiBkb2N1bWVudGF0aW9uIGZvciBob3N0X2lmYWNlIHNob3VsZCBzYXkgdGhhdCB0
-aGlzCj4+IG9wdGlvbiBvbmx5IGFwcGxpZXMgdG8gVENQIGNvbm5lY3Rpb25zLgo+Pgo+IAo+IEkn
-bSB3aXRoIEphbWVzIFNtYXJ0IGhlcmUuIEkgZG8gZmFpbCB0byBzZWUgdGhlIG5lZWQgZm9yICdo
-b3N0X2lmYWNlJwo+IF93aXRob3V0XyAnaG9zdF90cmFkZHInOyBlc3BlY2lhbGx5IGZvciBJUHY2
-IHdoZXJlIHNldmVyYWwgYWRkcmVzc2VzIGFyZQo+IHN0YW5kYXJkIGp1c3Qgc3BlY2lmeWluZyAn
-aG9zdF9pZmFjZScgc2ltcGx5IGlzIG5vdCBlbm91Z2gsIGFuZCBvbmUgaGFzCj4gdG8gc3BlY2lm
-eSAnaG9zdF90cmFkZHInIGFkZGl0aW9uYWxseS4KPiAKPiBTbyAnaG9zdF9pZmFjZScgc2hvdWxk
-IGJlIGNvbnRpbmdlbnQgb24gJ2hvc3RfdHJhZGRyJywgbWVhbmluZyB3ZSBjYW4KPiBqdXN0IGV4
-cGFuZCB0aGUgc3ludGF4IG9mICdob3N0X3RyYWRkcicuCj4gT25lIGVhc3kgcG9zc2liaWxpdHkg
-d291bGQgYmUgdG8gYWRkICcsbm9iaW5kJyB0byB0aGUgaG9zdF90cmFkZHIgc3ludGF4Cj4gd2hp
-Y2ggd291bGQgaW5kaWNhdGUgdGhhdCB3ZSBzaG91bGQgX25vdF8gYmluZCB0byB0aGUgdW5kZXJs
-eWluZwo+IGludGVyZmFjZTsgSSBkbyB0aGluayB0aGF0IGJpbmRpbmcgdG8gdGhlIHJlc3BlY3Rp
-dmUgaW50ZXJmYWNlIHNob3VsZCBiZQo+IHRoZSBkZWZhdWx0Lgo+IApBLWhhLiBKdXN0IHNwb2tl
-IHRvIG91ciBuZXR3b3JrIGZvbGtzLCBhbmQgdGhleSBjbGFyaWZpZWQgdGhlIHVzYWdlIG9mCmJp
-bmRpbmcgdG8gYW4gSVAgYWRkcmVzcyB2cyBiaW5kaW5nIHRvIGEgbmV0d29yayBpbnRlcmZhY2Uu
-CkFwcGFyZW50bHksIGJpbmRpbmcgdG8gYSBzb3VyY2UgSVAgYWRkcmVzcyBkb2VzIGp1c3QgdGhh
-dCwgc2V0dGluZyB0aGUKc291cmNlIElQIGFkZHJlc3Mgb2YgdGhlIG91dGdvaW5nIHBhY2tldC4g
-VGhhdCBwYWNrZXQgd2lsbCBfc3RpbGxfIGJlCnN1YmplY3RlZCB0byB0aGUgbm9ybWFsIHJvdXRp
-bmcgdGFibGUsIGFzIHRoZSByb3V0aW5nIHRhYmxlIGlzIGp1c3QKaW5mbHVlbmNlZCBieSB0aGUg
-X2Rlc3RpbmF0aW9uXyBJUCBhZGRyZXNzLgpTbyBpZiB3ZSB3YW50IHRvIGhhdmUgaXQgcm91dGVk
-IHZpYSBhIHNwZWNpZmljIGludGVyZmFjZSAoYW5kIHRoZXJlYnkKaW5mbHVlbmNpbmcgdGhlIHJv
-dXRpbmcgdGFibGUpIHdlIG5lZWQgdG8gYmluZCBpdCB0byB0aGF0IGludGVyZmFjZS4KClRoZSBv
-bmx5IHZhbGlkIHNjZW5hcmlvIG91ciBuZXR3b3JrIGZvbGtzIGNvdWxkIGNvbWUgdXAgd2l0aCB3
-aGVyZSB3ZSBkbwpfbm90XyB3YW50IHRvIGJpbmQgdG8gYW4gaW50ZXJmYWNlIGlzIGZvciBhc3lt
-bWV0cmljIGZsb3dzLCBpZSBpbiBjYXNlcwp3aGVyZSB0aGUgb3V0Z29pbmcgZmxvdyBpcyByb3V0
-ZWQgdG8gb25lIGludGVyZmFjZSBhbmQgdGhlIGluY29taW5nIGZsb3cKaXMgYXJyaXZpbmcgb24g
-YW5vdGhlciBpbnRlcmZhY2UuIEJ1dCBldmVuIHRoZXkgYWRtaXR0ZWQgdGhhdCBpdCdzIG5vdCBh
-CmNvbW1vbiBzY2VuYXJpbywgYW5kIHByb2JhYmx5IHdpbGwgYmUga2lsbGVkIGJ5IGFudGktc3Bv
-b2Zpbmcgc29mdHdhcmUKcnVubmluZyBvbiB0aGUgY29yZSBzd2l0Y2hlcyAuLi4KCkJ1dCBpZiB3
-ZSB3YW50IHRvIHN1cHBvcnQgX3RoYXRfIHRoZW4gY2xlYXJseSBiaW5kaW5nIHRvIGEgc3BlY2lm
-aWMKaW50ZXJmYWNlIGRvZXNuJ3Qgd29yay4KClNvIEkgd291bGQgdm90ZSBmb3IgbWFraW5nIGJp
-bmRpbmcgdG8gdGhlIG5ldHdvcmsgaW50ZXJmYWNlIGhvbGRpbmcgdGhlCklQIGFkZHJlc3MgdGhl
-IGRlZmF1bHQsIGFuZCBhZGQgYW4gb3B0aW9uICcsbm9iaW5kJyB0byBob3N0X3RyYWRkciB0bwpz
-a2lwIGl0LgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlCQkgICAgICAg
-IEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUJCQkgICAgICAgICAgICAgICAr
-NDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgsIDkw
-NDA5IE7DvHJuYmVyZwpHRjogRi4gSW1lbmTDtnJmZmVyLCBIUkIgMzY4MDkgKEFHIE7DvHJuYmVy
-ZykKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4
-LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8v
-bGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+When running some traffic and taking down the link on peer, a
+retry counter exceeded error is received. This leads to
+nvmet_rdma_error_comp which tried accessing the cq_context to
+obtain the queue. The cq_context is no longer valid after the
+fix to use shared CQ mechanism and should be obtained similar
+to how it is obtained in other functions from the wc->qp.
+
+[ 905.786331] nvmet_rdma: SEND for CQE 0x00000000e3337f90 failed with status transport retry counter exceeded (12).
+[ 905.832048] BUG: unable to handle kernel NULL pointer dereference at 0000000000000048
+[ 905.839919] PGD 0 P4D 0
+[ 905.842464] Oops: 0000 1 SMP NOPTI
+[ 905.846144] CPU: 13 PID: 1557 Comm: kworker/13:1H Kdump: loaded Tainted: G OE --------- - - 4.18.0-304.el8.x86_64 #1
+[ 905.872135] RIP: 0010:nvmet_rdma_error_comp+0x5/0x1b [nvmet_rdma]
+[ 905.878259] Code: 19 4f c0 e8 89 b3 a5 f6 e9 5b e0 ff ff 0f b7 75 14 4c 89 ea 48 c7 c7 08 1a 4f c0 e8 71 b3 a5 f6 e9 4b e0 ff ff 0f 1f 44 00 00 <48> 8b 47 48 48 85 c0 74 08 48 89 c7 e9 98 bf 49 00 e9 c3 e3 ff ff
+[ 905.897135] RSP: 0018:ffffab601c45fe28 EFLAGS: 00010246
+[ 905.902387] RAX: 0000000000000065 RBX: ffff9e729ea2f800 RCX: 0000000000000000
+[ 905.909558] RDX: 0000000000000000 RSI: ffff9e72df9567c8 RDI: 0000000000000000
+[ 905.916731] RBP: ffff9e729ea2b400 R08: 000000000000074d R09: 0000000000000074
+[ 905.923903] R10: 0000000000000000 R11: ffffab601c45fcc0 R12: 0000000000000010
+[ 905.931074] R13: 0000000000000000 R14: 0000000000000010 R15: ffff9e729ea2f400
+[ 905.938247] FS: 0000000000000000(0000) GS:ffff9e72df940000(0000) knlGS:0000000000000000
+[ 905.938249] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 905.950067] nvmet_rdma: SEND for CQE 0x00000000c7356cca failed with status transport retry counter exceeded (12).
+[ 905.961855] CR2: 0000000000000048 CR3: 000000678d010004 CR4: 00000000007706e0
+[ 905.961855] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 905.961856] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 905.961857] PKRU: 55555554
+[ 906.010315] Call Trace:
+[ 906.012778] __ib_process_cq+0x89/0x170 [ib_core]
+[ 906.017509] ib_cq_poll_work+0x26/0x80 [ib_core]
+[ 906.022152] process_one_work+0x1a7/0x360
+[ 906.026182] ? create_worker+0x1a0/0x1a0
+[ 906.030123] worker_thread+0x30/0x390
+[ 906.033802] ? create_worker+0x1a0/0x1a0
+[ 906.037744] kthread+0x116/0x130
+[ 906.040988] ? kthread_flush_work_fn+0x10/0x10
+[ 906.045456] ret_from_fork+0x1f/0x40
+
+Fixes: ca0f1a8055be2 ("nvmet-rdma: use new shared CQ mechanism")
+Signed-off-by: Shai Malin <smalin@marvell.com>
+Signed-off-by: Michal Kalderon <michal.kalderon@marvell.com>
+---
+ drivers/nvme/target/rdma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 06b6b742bb21..6bd54942e300 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -700,7 +700,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+ 	struct nvmet_rdma_rsp *rsp =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
+-	struct nvmet_rdma_queue *queue = cq->cq_context;
++	struct nvmet_rdma_queue *queue = wc->qp->qp_context;
+ 
+ 	nvmet_rdma_release_rsp(rsp);
+ 
+@@ -786,7 +786,7 @@ static void nvmet_rdma_write_data_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+ 	struct nvmet_rdma_rsp *rsp =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, write_cqe);
+-	struct nvmet_rdma_queue *queue = cq->cq_context;
++	struct nvmet_rdma_queue *queue = wc->qp->qp_context;
+ 	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
+ 	u16 status;
+ 
+-- 
+2.20.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
