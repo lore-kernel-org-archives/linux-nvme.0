@@ -2,104 +2,93 @@ Return-Path: <SRS0=skSE=KC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EFFDC433ED
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 May 2021 17:20:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EE6BC433ED
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 May 2021 17:46:59 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 851CC6145E
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 May 2021 17:20:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 851CC6145E
+	by mail.kernel.org (Postfix) with ESMTPS id 8FA5061415
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 May 2021 17:46:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FA5061415
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=KUKj9U2qQW9O3KwP6PxyBLv4SJmnKY35DPA3r8VFuI8=; b=ehSxC8HwbUneZVNZVWEZ3jF7g
-	umG4BI0gpQnxMjwf5Ea54/oUN8YXz6kxWNO8++EOGZjiPtEtGHZvM+WocHkDi/s7jRlBjxdcALOu1
-	1i+84MAQ48rrYp4FS0pKN4sFiTnqoOz97gvRMyZ2xRj1dJngJBoPnSuQ8pmDM4tcbga0Xbat33B4e
-	/g3t9O5qRwaJsegWZrAs3TEtgSiHl3gNOcxl0s+7uMqwOFzmpj8N9XWLRjIssx4H0E3Yz3jSNuKWB
-	wKsYsAxbWQqWETdjE+zyyFQnqY0j78MUmONZTOX9RE5AEeyuGprHSg2ZQg+mMVGYfURD39rgkIQz8
-	cbtalsR6Q==;
+	 bh=jpvUqeBsfA//q8Rgu7nQuLqxPYiDk/IwMVUUrouVSjM=; b=ZhBHAnxP9K1NmtdIYPQPWCdWB
+	BRL4lRUI8KUKcb9PW5GWtEiB1IaQaYUKGIUwkIEjQN1dLfjSYwwK2kDSh6/jDZQWKYOUh6WSGr6Ct
+	XSpvHeiWOjaYqVxI65NOgjMKLn9Cs0V+dDa0kPoNO2UJYLjvJfcb2xzsfUVA5BbUUe/cEfwxOQkJm
+	xWlTg/7mJNtIB+AWD4EdTrWEix4dVxOJ7oX3fVHXraO52uw4YHY1tTLmGL7+pyl25xKL2Q88RY/vW
+	uDaBs+ntMBX58TmlBgh+RrJ+8H+hkIYk1UNhKMmMEb7aR/7ujZj7r19iknBhivvJRvBSysSdTjpfT
+	DAaVM3wzg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lf49M-007f0o-25; Fri, 07 May 2021 17:20:28 +0000
+	id 1lf4Yk-007iBx-HP; Fri, 07 May 2021 17:46:42 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lf49J-007f0V-Sc
- for linux-nvme@desiato.infradead.org; Fri, 07 May 2021 17:20:26 +0000
+ id 1lf4Yh-007iBp-AF
+ for linux-nvme@desiato.infradead.org; Fri, 07 May 2021 17:46:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=LC0GOsjnO2OwpHMUbo6mmVic2N2fIbRbpi52Vu8wkds=; b=zrD+NGEUCGuKbdCmvNqUwB96wJ
- yI1gp+JGWAncPuj9MYQCcsKK4CdXj7/SPfQ/bHuzMOPRhlvO+lrodiOusZpDVmy7yEsajz25GY0Kx
- nf+HQ8akiPGoMdCftBP2GV5cIa/EiO+iM/V8oUu3yqYu/FquBMVMh8P08i7Tszp2kcSr9Xo/+XrK7
- FMz38y4VHtaD/syBIXVlsWa4OZT+0WYtBgKLlulhJ1az3Zu/5kVK2pqK0c76bouFoe1FJaAfK1C7B
- c1AhpnbsX0+Oui0orX3976n2NdzDQhrFaJO5ryw1dCtE8wzoZhHyTxhdDqoJbqkZ+0p4uOiU2SvFG
- RAhpaffQ==;
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+ Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
+ bh=zD7Bdq9dUY+SmTtwMnbcHhYWkJRgSjitCMf0WPxakU4=; b=ZsPZ2fupScELwqS6kGUpn+uk7B
+ ZMD7/RZDajwumo6RFl/Q3da2NjFjOJcydIFYE/8W1VA/vLATYHVnqJuHaCZcBaBlV/wYL8RihpjKx
+ Zuhp+cUpMRDzNAdTknj7/h2UBLqOXOqG0hoCbbJjNfn3UjxCSd6qs1OtuGmTDbcZU5kpjOC9mzDV6
+ xGGVkQofRX61MADcvoLg8Z4sZA0Kt0rVkFjxdfIm36+5kDdGzPU4zQni+IvcaYJZf5rywTFjRMZfU
+ KptojWBIrZzSQZ2+8gELQZQsuC/DggwLH4YuTVevvJY9Up0t0eba3d8La2C+4jhQGZNG7C5FXPhlY
+ lWkx7KcA==;
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lf49H-0072FY-Eo
- for linux-nvme@lists.infradead.org; Fri, 07 May 2021 17:20:24 +0000
-Received: by mail-wm1-f46.google.com with SMTP id
- 4-20020a05600c26c4b0290146e1feccd8so5305213wmv.1
- for <linux-nvme@lists.infradead.org>; Fri, 07 May 2021 10:20:23 -0700 (PDT)
+ id 1lf4Yd-00739f-J7
+ for linux-nvme@lists.infradead.org; Fri, 07 May 2021 17:46:38 +0000
+Received: by mail-wm1-f43.google.com with SMTP id s82so5695981wmf.3
+ for <linux-nvme@lists.infradead.org>; Fri, 07 May 2021 10:46:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LC0GOsjnO2OwpHMUbo6mmVic2N2fIbRbpi52Vu8wkds=;
- b=sqA4kztZu4YiFL9LkDR1ERbM/PD4f39LMg/KsRkuSdOgTEq8FaYJqSd4WMqB4cfN2k
- U572AJhOkZnYhDwPXpIhl2CVG0psdIngckPVPaLhnDnzWnuIA90VkjabxFkIX2RQjYEa
- nINVLwReUxUOs2Bml84c0rxpluz9r6nUiF5CjHfrVE4A0BPCEj0F6emQSie72Nv3uO4P
- jj0IChsAoTO5Tfmvjm2esTvl3000N8tocnwfDPN/ZYsv0RyErUEsbRspBlqlwbovsXzj
- HfW29/BH1npfslAOOoa30tkhijIIwCan4Er7TzbeaOhd36DOsXqmdfjgFXc/jdQYKr3z
- ch5w==
-X-Gm-Message-State: AOAM532HeZB+evqxCG27GcTLqrkWSzNjODsjrC5+A9iY1cAxqKV65jhN
- d6+3RofnXghE3N48Q5oKCF3fuP0vwzA=
-X-Google-Smtp-Source: ABdhPJwX4ISPktcJkIII+XKrpq6kCKMxArzUT8H4uk2qyqSH1OCAL6Ra+wQfNwHO004hq740PZN5nQ==
-X-Received: by 2002:a1c:1f8d:: with SMTP id f135mr8338567wmf.109.1620408021951; 
- Fri, 07 May 2021 10:20:21 -0700 (PDT)
+ bh=zD7Bdq9dUY+SmTtwMnbcHhYWkJRgSjitCMf0WPxakU4=;
+ b=fAnOGuMmOCGTNJMHDbWP0zX/ijGsJ9IlpwjfVZB+boXxvsP6Jtow+yW7bSz6bMic2k
+ Agjj7bYoi5WKd5uzLyRx/+iuUN/t/xYPMLmgpjaGKRzfUp8rk5sN+hez8Vc8iGREck/N
+ xqs+pXMim3T0zvxGNkWhug8KkqPYINY4w9PL4dQGn/4ghtsdtxVGDrZ7/eS5x8hZwGOW
+ 1mdwlWWkVlXcfZM6FVWQpdNKn68I5GYXHNFm1ovOd+RzpZRiz3jETo0Ur/tXtGj3wcZR
+ jSMPTWuxoom4+nBX9szd1uX+FpYvhQ9vjnxNzNmRkL5AIOHUHDQf10cLwAeoSQWSpla+
+ Hs1w==
+X-Gm-Message-State: AOAM530YFtYF8yImQSJ2Ztj0D1emeiVkeZJOSxhtFBK/M67oT8GPJQBE
+ H33cYcLr2IImj1gN6/iJXHo=
+X-Google-Smtp-Source: ABdhPJw6QMAnkDzfedcUhCuo+dyf9ZrlG2VUCCE2ru/22lUaFb/CH/bBYZW2BDJKEUTqryD+EePBOg==
+X-Received: by 2002:a05:600c:4eca:: with SMTP id
+ g10mr15458549wmq.180.1620409593956; 
+ Fri, 07 May 2021 10:46:33 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:7945:4a4a:9424:5a3f?
  ([2601:647:4802:9070:7945:4a4a:9424:5a3f])
- by smtp.gmail.com with ESMTPSA id y15sm9079894wrh.8.2021.05.07.10.20.20
+ by smtp.gmail.com with ESMTPSA id u9sm7746233wmc.38.2021.05.07.10.46.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 May 2021 10:20:21 -0700 (PDT)
-Subject: Re: [PATCHv3] nvme-mpath: delete disk after last connection
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Daniel Wagner <daniel.wagner@suse.de>
-References: <20210501120447.45478-1-hare@suse.de>
- <20210504085457.GA21826@lst.de>
- <5e4df9ec-c66c-17cf-542f-bac71b490e62@suse.de>
- <d1ca6eab-1ec9-d6c7-ed8a-00d9110bf023@grimberg.me>
- <20210506074341.GC14615@lst.de>
- <96fbc678-a7e8-aaf3-5f15-8c866e683afe@suse.de>
- <d50ca6e6-5340-6f38-bc56-6f10b49d7801@grimberg.me>
- <20210506120855.GA1546@lst.de> <7cd891d9-6aa0-fd98-cbc5-1df2eabbe31d@suse.de>
- <20210507064656.GA24437@lst.de>
- <4fd33328-9060-6e95-dd26-ab013e44c07a@suse.de>
+ Fri, 07 May 2021 10:46:33 -0700 (PDT)
+Subject: Re: [PATCH] nvme-tcp: add command tracking trace events
+To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, hch@lst.de
+References: <20210507151150.1278374-1-kbusch@kernel.org>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <da9afc01-756b-2e09-b669-2f41cb85a177@grimberg.me>
-Date: Fri, 7 May 2021 10:20:17 -0700
+Message-ID: <e6c2c484-3429-b1bd-1fae-77c720fcacc5@grimberg.me>
+Date: Fri, 7 May 2021 10:46:30 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <4fd33328-9060-6e95-dd26-ab013e44c07a@suse.de>
+In-Reply-To: <20210507151150.1278374-1-kbusch@kernel.org>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210507_102023_515669_DB25C2D5 
-X-CRM114-Status: GOOD (  17.42  )
+X-CRM114-CacheID: sfid-20210507_104635_676366_31BF3F9E 
+X-CRM114-Status: GOOD (  30.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,26 +100,421 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cj4+PiBQQ0kgYW5kIGZhYnJpY3MgaGF2ZSBkaWZmZXJlbnQgZGVmYXVsdHM7IGZvciBQQ0kgdGhl
-IGRldmljZSBnb2VzIGF3YXkgaWYKPj4+IHRoZSBsYXN0IHBhdGggKGllIHRoZSBjb250cm9sbGVy
-KSBnb2VzIGF3YXksIGZvciBmYWJyaWNzIGl0IGRvZXNuJ3QgCj4+PiBpZiB0aGUKPj4+IGRldmlj
-ZSBpcyBtb3VudGVkLgo+Pgo+PiBFcnIsIG5vLsKgIEZvciBmYWJyaWNzIHdlIHJlY29ubmVjdCBh
-IHdoaWxlLCBidXQgb3RoZXJ3aXNlIHRoZSBiZWhhdmlvcgo+PiBpcyB0aGUgc2FtZSByaWdodCBu
-b3cuCj4+Cj4gTm8sIHRoYXQgaXMgbm90IHRoZSBjYXNlLgo+IAo+IFdoZW4gYSBQQ0kgbnZtZSBk
-ZXZpY2Ugd2l0aCBDTUlDPTAgaXMgcmVtb3ZlZCAodmlhIHBjaSBob3RwbHVnLCBzYXkpLCAKPiB0
-aGUgbnZtZSBkZXZpY2UgaXMgY29tcGxldGVseSByZW1vdmVkLCBpcnJlc3BlY3RpdmUgb24gd2hl
-dGhlciBpdCdzIAo+IG1vdW50ZWQgb3Igbm90Lgo+IFdoZW4gdGhlIF9zYW1lXyBQQ0kgZGV2aWNl
-IHdpdGggQ01JQz0xIGlzIHJlbW92ZWQsIHRoZSBudm1lIGRldmljZSAoaWUgCj4gdGhlIG5zbmhl
-YWQpIHdpbGwgX3N0YXlfIHdoZW4gbW91bnRlZCAoYXMgdGhlIHJlZmNvdW50IGlzIG5vdCB6ZXJv
-KS4KPiAKPiBUaGlzIGNhbiBiZSBlYXNpbHkgZGVtb25zdHJhdGVkIG9uIHFlbXU7IGp1c3Qgc2V0
-IHRoZSAnc3Vic3lzJyBwYXJhbWV0ZXIgCj4gZm9yIHRoZSBudm1lIGRldmljZS4KClBlcmhhcHMg
-d2UgbmVlZCB0byBmaXggdGhlIGlzc3VlIGFuZCBhbGxvdyB0aGUgZXhpc3RpbmcgYmVoYXZpb3Ig
-YnkKaGF2aW5nIGFuIGV4cGxpY2l0IHF1ZXVlX2lmX25vX3BhdGggYXJndW1lbnQuCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxp
-bmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJh
-ZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+
+> Debugging nvme-tcp issues can be difficult due to lack of visibility
+> into the driver's execution flow for any particular command. Add trace
+> events that detail the command cycle. Also add details to existing error
+> messages so they can more readily be matched up with those traces.
+> 
+> There is no functional change in this patch.
+
+Thanks!
+
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>   drivers/nvme/host/tcp.c       |  46 +++++---
+>   drivers/nvme/host/trace-tcp.h | 209 ++++++++++++++++++++++++++++++++++
+>   2 files changed, 240 insertions(+), 15 deletions(-)
+>   create mode 100644 drivers/nvme/host/trace-tcp.h
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 0222e23f5936..bbcf48f6345e 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -218,6 +218,9 @@ static inline size_t nvme_tcp_pdu_last_send(struct nvme_tcp_request *req,
+>   	return nvme_tcp_pdu_data_left(req) <= len;
+>   }
+>   
+> +#define CREATE_TRACE_POINTS
+> +#include "trace-tcp.h"
+> +
+>   static void nvme_tcp_init_iter(struct nvme_tcp_request *req,
+>   		unsigned int dir)
+>   {
+> @@ -525,6 +528,7 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
+>   
+>   	queue->data_remaining = le32_to_cpu(pdu->data_length);
+>   
+> +	trace_nvme_tcp_c2h(rq, pdu);
+>   	if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS &&
+>   	    unlikely(!(pdu->hdr.flags & NVME_TCP_F_DATA_LAST))) {
+>   		dev_err(queue->ctrl->ctrl.device,
+> @@ -567,10 +571,13 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
+>   	struct request *rq = blk_mq_rq_from_pdu(req);
+>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>   	u8 ddgst = nvme_tcp_ddgst_len(queue);
+> +	unsigned r2t_offset = le32_to_cpu(pdu->r2t_offset);
+>   
+>   	req->pdu_len = le32_to_cpu(pdu->r2t_length);
+>   	req->pdu_sent = 0;
+>   
+> +	trace_nvme_tcp_r2t(rq, req, r2t_offset);
+> +
+>   	if (unlikely(!req->pdu_len)) {
+>   		dev_err(queue->ctrl->ctrl.device,
+>   			"req %d r2t len is %u, probably a bug...\n",
+> @@ -580,17 +587,16 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
+>   
+>   	if (unlikely(req->data_sent + req->pdu_len > req->data_len)) {
+>   		dev_err(queue->ctrl->ctrl.device,
+> -			"req %d r2t len %u exceeded data len %u (%zu sent)\n",
+> -			rq->tag, req->pdu_len, req->data_len,
+> -			req->data_sent);
+> +			"req %d op %d r2t len %u exceeded data len %u (%zu sent) pdu offset %u\n",
+
+Better to log it "pdu r2t_offset".
+
+> +			rq->tag, req_op(rq), req->pdu_len, req->data_len,
+> +			req->data_sent, r2t_offset);
+>   		return -EPROTO;
+>   	}
+>   
+> -	if (unlikely(le32_to_cpu(pdu->r2t_offset) < req->data_sent)) {
+> +	if (unlikely(r2t_offset < req->data_sent)) {
+>   		dev_err(queue->ctrl->ctrl.device,
+>   			"req %d unexpected r2t offset %u (expected %zu)\n",
+> -			rq->tag, le32_to_cpu(pdu->r2t_offset),
+> -			req->data_sent);
+> +			rq->tag, r2t_offset, req->data_sent);
+>   		return -EPROTO;
+>   	}
+>   
+> @@ -714,6 +720,7 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+>   	}
+>   	req = blk_mq_rq_to_pdu(rq);
+>   
+> +	trace_nvme_tcp_recv_data(rq, queue, pdu, *offset, *len);
+
+This is the skb offset,len is that what you wanted to log?
+
+>   	while (true) {
+>   		int recv_len, ret;
+>   
+> @@ -730,8 +737,9 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+>   			 */
+>   			if (!req->curr_bio) {
+>   				dev_err(queue->ctrl->ctrl.device,
+> -					"queue %d no space in request %#x",
+> -					nvme_tcp_queue_id(queue), rq->tag);
+> +					"queue %d no space in request %#x data_remaining %lu",
+
+Better to log it "queue data remaining" because its the queue recv state
+machine and not the request.
+
+> +					nvme_tcp_queue_id(queue), rq->tag,
+> +					queue->data_remaining);
+>   				nvme_tcp_init_recv_ctx(queue);
+>   				return -EIO;
+>   			}
+> @@ -920,6 +928,7 @@ static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
+>   static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+>   {
+>   	struct nvme_tcp_queue *queue = req->queue;
+> +	struct request *rq = blk_mq_rq_from_pdu(req);
+>   
+>   	while (true) {
+>   		struct page *page = nvme_tcp_req_cur_page(req);
+> @@ -933,6 +942,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+>   		else
+>   			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+>   
+> +		trace_nvme_tcp_data(rq, req, offset, len, last);
+
+Maybe call the trace nvme_tcp_send_data?
+
+>   		if (sendpage_ok(page)) {
+>   			ret = kernel_sendpage(queue->sock, page, offset, len,
+>   					flags);
+> @@ -972,7 +982,8 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>   	int len = sizeof(*pdu) + hdgst - req->offset;
+>   	int flags = MSG_DONTWAIT;
+> -	int ret;
+> +	struct request *rq = blk_mq_rq_from_pdu(req);
+> +	int offset, ret;
+>   
+>   	if (inline_data || nvme_tcp_queue_more(queue))
+>   		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+> @@ -982,8 +993,10 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+>   	if (queue->hdr_digest && !req->offset)
+>   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+>   
+> -	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
+> -			offset_in_page(pdu) + req->offset, len,  flags);
+> +	offset = offset_in_page(pdu) + req->offset;
+> +	trace_nvme_tcp_cmd_pdu(rq, req, offset, len);
+> +	ret = kernel_sendpage(queue->sock, virt_to_page(pdu), offset,
+> +			len,  flags);
+>   	if (unlikely(ret <= 0))
+>   		return ret;
+>   
+> @@ -1009,14 +1022,16 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
+>   	struct nvme_tcp_data_pdu *pdu = req->pdu;
+>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>   	int len = sizeof(*pdu) - req->offset + hdgst;
+> -	int ret;
+> +	struct request *rq = blk_mq_rq_from_pdu(req);
+> +	int offset, ret;
+>   
+>   	if (queue->hdr_digest && !req->offset)
+>   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+
+I can add in the digest pieces as well.
+
+>   
+> -	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
+> -			offset_in_page(pdu) + req->offset, len,
+> -			MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
+> +	offset = offset_in_page(pdu) + req->offset;
+> +	trace_nvme_tcp_h2c_pdu(rq, req, offset, len);
+> +	ret = kernel_sendpage(queue->sock, virt_to_page(pdu), offset,
+> +			len, MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
+>   	if (unlikely(ret <= 0))
+>   		return ret;
+>   
+> @@ -2341,6 +2356,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+>   	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+>   		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
+>   
+> +	trace_nvme_tcp_queue_rq(rq);
+>   	ret = nvme_tcp_setup_cmd_pdu(ns, rq);
+>   	if (unlikely(ret))
+>   		return ret;
+> diff --git a/drivers/nvme/host/trace-tcp.h b/drivers/nvme/host/trace-tcp.h
+> new file mode 100644
+> index 000000000000..4c720c8d32c3
+> --- /dev/null
+> +++ b/drivers/nvme/host/trace-tcp.h
+> @@ -0,0 +1,209 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM nvme_tcp
+> +
+> +#if !defined(_TRACE_NVME_TCP_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_NVME_TCP_H
+> +
+> +#include <linux/nvme.h>
+> +#include <linux/tracepoint.h>
+> +#include <linux/trace_seq.h>
+> +
+> +#include "nvme.h"
+> +
+> +TRACE_EVENT(nvme_tcp_queue_rq,
+> +	TP_PROTO(struct request *rq),
+> +	TP_ARGS(rq),
+> +	TP_STRUCT__entry(
+> +		__field(unsigned, ctrl_id)
+> +		__field(unsigned, qid)
+> +		__field(unsigned, op)
+> +		__field(unsigned, tag)
+> +		__field(unsigned, len)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
+> +		__entry->qid = nvme_req_qid(rq);
+> +		__entry->op = req_op(rq);
+> +		__entry->tag = rq->tag;
+> +		__entry->len = blk_rq_payload_bytes(rq);
+> +	),
+> +	TP_printk("nvme%u: qid=%u tag=%x op=%x data_len=%u",
+> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
+> +		__entry->len
+> +	)
+> +);
+> +
+> +TRACE_EVENT(nvme_tcp_cmd_pdu,
+> +	TP_PROTO(struct request *rq, struct nvme_tcp_request *req, unsigned offset, unsigned len),
+> +	TP_ARGS(rq, req, offset, len),
+> +	TP_STRUCT__entry(
+> +		__field(unsigned, ctrl_id)
+> +		__field(unsigned, qid)
+> +		__field(unsigned, op)
+> +		__field(unsigned, tag)
+> +		__field(unsigned, page_offset)
+> +		__field(unsigned, len)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
+> +		__entry->qid = nvme_req_qid(rq);
+> +		__entry->op = req_op(rq);
+> +		__entry->tag = rq->tag;
+> +		__entry->page_offset = offset;
+> +		__entry->len = len;
+> +	),
+> +	TP_printk("nvme%u: qid=%u tag=%x op=%x page_offset=%u send_len=%u",
+> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
+> +		__entry->page_offset, __entry->len
+> +	)
+> +);
+> +
+> +TRACE_EVENT(nvme_tcp_h2c_pdu,
+> +	TP_PROTO(struct request *rq, struct nvme_tcp_request *req, unsigned offset, unsigned len),
+> +	TP_ARGS(rq, req, offset, len),
+> +	TP_STRUCT__entry(
+> +		__field(unsigned, ctrl_id)
+> +		__field(unsigned, qid)
+> +		__field(unsigned, op)
+> +		__field(unsigned, tag)
+> +		__field(unsigned, page_offset)
+> +		__field(unsigned, len)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
+> +		__entry->qid = nvme_req_qid(rq);
+> +		__entry->op = req_op(rq);
+> +		__entry->tag = rq->tag;
+> +		__entry->page_offset = offset;
+> +		__entry->len = len;
+> +	),
+> +	TP_printk("nvme%u: qid=%u tag=%x op=%x page_offset=%u send_len=%u",
+> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
+> +		__entry->page_offset, __entry->len
+> +	)
+> +);
+> +
+> +TRACE_EVENT(nvme_tcp_data,
+> +	TP_PROTO(struct request *rq, struct nvme_tcp_request *req, unsigned offset, unsigned len, bool last),
+> +	TP_ARGS(rq, req, offset, len, last),
+> +	TP_STRUCT__entry(
+> +		__field(unsigned, ctrl_id)
+> +		__field(unsigned, qid)
+> +		__field(unsigned, op)
+> +		__field(unsigned, tag)
+> +		__field(unsigned, page_offset)
+> +		__field(unsigned, len)
+> +		__field(unsigned, sent)
+> +		__field(bool, last)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
+> +		__entry->qid = nvme_req_qid(rq);
+> +		__entry->op = req_op(rq);
+> +		__entry->tag = rq->tag;
+> +		__entry->page_offset = offset;
+> +		__entry->len = len;
+> +		__entry->sent = req->pdu_sent;
+> +		__entry->last = last;
+> +	),
+> +	TP_printk("nvme%u: qid=%u tag=%x op=%x page_offset=%u send_len=%u pdu_sent=%u last=%u",
+> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
+> +		__entry->page_offset, __entry->len, __entry->sent, __entry->last
+> +	)
+> +);
+> +
+> +TRACE_EVENT(nvme_tcp_r2t,
+> +	TP_PROTO(struct request *rq, struct nvme_tcp_request *req, unsigned offset),
+> +	TP_ARGS(rq, req, offset),
+> +	TP_STRUCT__entry(
+> +		__field(unsigned, ctrl_id)
+> +		__field(unsigned, qid)
+> +		__field(unsigned, op)
+> +		__field(unsigned, tag)
+> +		__field(unsigned, len)
+> +		__field(unsigned, offset)
+> +		__field(unsigned, sent)
+> +		__field(unsigned, data_len)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
+> +		__entry->qid = nvme_req_qid(rq);
+> +		__entry->op = req_op(rq);
+> +		__entry->tag = rq->tag;
+> +		__entry->len = req->pdu_len;
+> +		__entry->offset = offset;
+> +		__entry->sent = req->data_sent;
+> +		__entry->data_len = req->data_len;
+> +	),
+> +	TP_printk("nvme%u: qid=%u tag=%x op=%x r2t_len=%u r2t_offset=%u data_sent=%u data_len=%u",
+> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
+> +		__entry->len, __entry->offset, __entry->sent, __entry->data_len
+> +	)
+
+What may be useful here (and probably for all incoming pdu types) is to
+also log the pdu header details.
+
+Something like: "... ch: type=%x flags=%x hlen=%u plen=%u"
+
+Thoughts?
+
+> +);
+> +
+> +TRACE_EVENT(nvme_tcp_c2h,
+> +	TP_PROTO(struct request *rq, struct nvme_tcp_data_pdu *pdu),
+> +	TP_ARGS(rq, pdu),
+> +	TP_STRUCT__entry(
+> +		__field(unsigned, ctrl_id)
+> +		__field(unsigned, qid)
+> +		__field(unsigned, op)
+> +		__field(unsigned, tag)
+> +		__field(unsigned, flags)
+> +		__field(unsigned, data_len)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
+> +		__entry->qid = nvme_req_qid(rq);
+> +		__entry->op = req_op(rq);
+> +		__entry->tag = rq->tag;
+> +		__entry->flags = pdu->hdr.flags;
+> +		__entry->data_len = le32_to_cpu(pdu->data_length);
+> +	),
+> +	TP_printk("nvme%u: qid=%u tag=%x op=%x data_len=%u flags=%#x",
+> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
+> +		__entry->data_len, __entry->flags
+> +	)
+
+I see you did capture the flags here...
+
+> +);
+> +
+> +TRACE_EVENT(nvme_tcp_recv_data,
+> +	TP_PROTO(struct request *rq, struct nvme_tcp_queue *queue, struct nvme_tcp_data_pdu *pdu, unsigned offset, unsigned len),
+> +	TP_ARGS(rq, queue, pdu, offset, len),
+> +	TP_STRUCT__entry(
+> +		__field(unsigned, ctrl_id)
+> +		__field(unsigned, qid)
+> +		__field(unsigned, op)
+> +		__field(unsigned, tag)
+> +		__field(unsigned, flags)
+> +		__field(unsigned, data_len)
+> +		__field(unsigned, offset)
+> +		__field(unsigned, data_remaining)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
+> +		__entry->qid = nvme_req_qid(rq);
+> +		__entry->op = req_op(rq);
+> +		__entry->tag = rq->tag;
+> +		__entry->flags = pdu->hdr.flags;
+> +		__entry->data_len = len;
+> +		__entry->offset = offset;
+> +		__entry->data_remaining = queue->data_remaining;
+> +	),
+> +	TP_printk("nvme%u: qid=%u tag=%x op=%x data_len=%u offset=%u flags=%#x data_remaining=%u",
+> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
+> +		__entry->data_len, __entry->offset, __entry->flags,
+> +		__entry->data_remaining
+> +	)
+> +);
+> +
+> +#endif /* _TRACE_NVME_TCP_H */
+> +
+> +#undef TRACE_INCLUDE_PATH
+> +#define TRACE_INCLUDE_PATH .
+> +#undef TRACE_INCLUDE_FILE
+> +#define TRACE_INCLUDE_FILE trace-tcp
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+> 
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
