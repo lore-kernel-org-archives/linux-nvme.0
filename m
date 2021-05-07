@@ -2,93 +2,106 @@ Return-Path: <SRS0=skSE=KC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EE6BC433ED
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 May 2021 17:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 509BCC433B4
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 May 2021 18:20:55 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8FA5061415
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 May 2021 17:46:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FA5061415
+	by mail.kernel.org (Postfix) with ESMTPS id 9AFB761430
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 May 2021 18:20:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AFB761430
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jpvUqeBsfA//q8Rgu7nQuLqxPYiDk/IwMVUUrouVSjM=; b=ZhBHAnxP9K1NmtdIYPQPWCdWB
-	BRL4lRUI8KUKcb9PW5GWtEiB1IaQaYUKGIUwkIEjQN1dLfjSYwwK2kDSh6/jDZQWKYOUh6WSGr6Ct
-	XSpvHeiWOjaYqVxI65NOgjMKLn9Cs0V+dDa0kPoNO2UJYLjvJfcb2xzsfUVA5BbUUe/cEfwxOQkJm
-	xWlTg/7mJNtIB+AWD4EdTrWEix4dVxOJ7oX3fVHXraO52uw4YHY1tTLmGL7+pyl25xKL2Q88RY/vW
-	uDaBs+ntMBX58TmlBgh+RrJ+8H+hkIYk1UNhKMmMEb7aR/7ujZj7r19iknBhivvJRvBSysSdTjpfT
-	DAaVM3wzg==;
+	 bh=dLw25KUT+5UK/nQP46hE/7tct016Ef/tt/DpdFvVb70=; b=fzYae8PuTlvWLYpqmCsg50TgS
+	GjF4AhN2WHsJ/OpxbftcKrr+8yDzzGlpRIsT8K5Mt6e87zMtFqHC6S2IVa8sea1YrNSvlkYTLt117
+	vyO97t379lArZUm3HTKczvf4ppwsmbZsSlrlQzI64kwbL6mtxrSx+YTHDE10ZSdZLBX7MSzsDTAiT
+	RVSfQKLcVCN87pzbNdzCBNfsca/EIOKMbzye0vgzL/+7P99ytk+EZzYueZIqFwEizci0dLLv13sp4
+	1W5abuAeLNtO7rfTS7ruY4D0HEsok1wB/e5yFRA+wkYXjMaVyLHVg7Tagc8WxbPGH9Xh0OM0PaT8Q
+	64iP9faMQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lf4Yk-007iBx-HP; Fri, 07 May 2021 17:46:42 +0000
+	id 1lf55d-007lq7-Op; Fri, 07 May 2021 18:20:41 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lf4Yh-007iBp-AF
- for linux-nvme@desiato.infradead.org; Fri, 07 May 2021 17:46:39 +0000
+ id 1lf55b-007lpy-MG
+ for linux-nvme@desiato.infradead.org; Fri, 07 May 2021 18:20:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
- Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
- bh=zD7Bdq9dUY+SmTtwMnbcHhYWkJRgSjitCMf0WPxakU4=; b=ZsPZ2fupScELwqS6kGUpn+uk7B
- ZMD7/RZDajwumo6RFl/Q3da2NjFjOJcydIFYE/8W1VA/vLATYHVnqJuHaCZcBaBlV/wYL8RihpjKx
- Zuhp+cUpMRDzNAdTknj7/h2UBLqOXOqG0hoCbbJjNfn3UjxCSd6qs1OtuGmTDbcZU5kpjOC9mzDV6
- xGGVkQofRX61MADcvoLg8Z4sZA0Kt0rVkFjxdfIm36+5kDdGzPU4zQni+IvcaYJZf5rywTFjRMZfU
- KptojWBIrZzSQZ2+8gELQZQsuC/DggwLH4YuTVevvJY9Up0t0eba3d8La2C+4jhQGZNG7C5FXPhlY
- lWkx7KcA==;
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=U7hWh2gBuzPjkof+USnHxfLdN9ODYaWj4OQQtvaXd7o=; b=qZO7OcMwi66MbGfmBfJbnDE76j
+ sp9VMRgNtLJ0X6PFhOGHDgC9iJh32ueQszn3RkpCKwmKhFDUlIHutE1th4XB076ye3vpwUOgM0+EJ
+ XI51kuRtUdPJjSXJ5rel0prNXQ/lPsympdwtvPTqUpmZMqgOOj0kLV3EqKZAhG+kybfzYjKBYnlVP
+ 56RB8M0BTNRJz+Ky/aMvSaAXWJfel6JsidJBRCUhsTIAkYO7CuERdi2Dzdl2MBUXetAm54hVrVaiY
+ 3nnTjhWzmMH1WtjAUKsQoSnh7oCO+D8RoZ8gmrlJ1N0fzzyqNBhx5t0YpWuEXDCAnhofK7MNJVKaA
+ RwZEPQ9Q==;
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lf4Yd-00739f-J7
- for linux-nvme@lists.infradead.org; Fri, 07 May 2021 17:46:38 +0000
-Received: by mail-wm1-f43.google.com with SMTP id s82so5695981wmf.3
- for <linux-nvme@lists.infradead.org>; Fri, 07 May 2021 10:46:35 -0700 (PDT)
+ id 1lf55X-0074a6-VX
+ for linux-nvme@lists.infradead.org; Fri, 07 May 2021 18:20:38 +0000
+Received: by mail-wr1-f49.google.com with SMTP id d11so10176632wrw.8
+ for <linux-nvme@lists.infradead.org>; Fri, 07 May 2021 11:20:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zD7Bdq9dUY+SmTtwMnbcHhYWkJRgSjitCMf0WPxakU4=;
- b=fAnOGuMmOCGTNJMHDbWP0zX/ijGsJ9IlpwjfVZB+boXxvsP6Jtow+yW7bSz6bMic2k
- Agjj7bYoi5WKd5uzLyRx/+iuUN/t/xYPMLmgpjaGKRzfUp8rk5sN+hez8Vc8iGREck/N
- xqs+pXMim3T0zvxGNkWhug8KkqPYINY4w9PL4dQGn/4ghtsdtxVGDrZ7/eS5x8hZwGOW
- 1mdwlWWkVlXcfZM6FVWQpdNKn68I5GYXHNFm1ovOd+RzpZRiz3jETo0Ur/tXtGj3wcZR
- jSMPTWuxoom4+nBX9szd1uX+FpYvhQ9vjnxNzNmRkL5AIOHUHDQf10cLwAeoSQWSpla+
- Hs1w==
-X-Gm-Message-State: AOAM530YFtYF8yImQSJ2Ztj0D1emeiVkeZJOSxhtFBK/M67oT8GPJQBE
- H33cYcLr2IImj1gN6/iJXHo=
-X-Google-Smtp-Source: ABdhPJw6QMAnkDzfedcUhCuo+dyf9ZrlG2VUCCE2ru/22lUaFb/CH/bBYZW2BDJKEUTqryD+EePBOg==
-X-Received: by 2002:a05:600c:4eca:: with SMTP id
- g10mr15458549wmq.180.1620409593956; 
- Fri, 07 May 2021 10:46:33 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:7945:4a4a:9424:5a3f?
- ([2601:647:4802:9070:7945:4a4a:9424:5a3f])
- by smtp.gmail.com with ESMTPSA id u9sm7746233wmc.38.2021.05.07.10.46.32
+ bh=U7hWh2gBuzPjkof+USnHxfLdN9ODYaWj4OQQtvaXd7o=;
+ b=WG5dYIPDV5EvedqGkuHoRS3AW8o/vXlxvGX/vPv/nCiW/CphEh+qJ5W563ffVwoC4K
+ NrL0zSeOnQzPT2wy5Iu6mIOUZL3o+hMgqkbh4WE6eWFCih4ObGsOZzS/zl6/ypk4Rb4k
+ JXf5GZfG6R766IrQGlf4i6ChQf+owG84cRPFpztaUB0fk02Dr2lCvAvTkWyMeCIsAi1Z
+ Q1sl2IPrvnuQrj2oLiCyNMX8pCDEOMBMiX5zELkplW0UgBlNTEphVObG2UyKurNIcCE6
+ R4L0NUA3tYvZHbbTl7OHSoeilikYNLERoxlF+e+CHRPt50kqWI8pg5IP8ubFQyvJjhmL
+ t/dw==
+X-Gm-Message-State: AOAM532UKG/iQT3aO7v3cqLYW7aKOrSM0CbMsualR3hwDtWJ3cYN8UrS
+ t8VSo4bLjXv5Z+IAH1zZnQM=
+X-Google-Smtp-Source: ABdhPJywu2WN5XAGqG5wBD3wA6Q8qy5jfDmwRFMsT+j3AtJ6IcF7RrLBDyfZDn7DVsxz9IJnbL7gIg==
+X-Received: by 2002:a5d:40c9:: with SMTP id b9mr13969834wrq.59.1620411634330; 
+ Fri, 07 May 2021 11:20:34 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:d07b:68ce:2d70:258f?
+ ([2601:647:4802:9070:d07b:68ce:2d70:258f])
+ by smtp.gmail.com with ESMTPSA id j10sm9257344wrt.32.2021.05.07.11.20.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 May 2021 10:46:33 -0700 (PDT)
-Subject: Re: [PATCH] nvme-tcp: add command tracking trace events
-To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, hch@lst.de
-References: <20210507151150.1278374-1-kbusch@kernel.org>
+ Fri, 07 May 2021 11:20:33 -0700 (PDT)
+Subject: Re: [PATCH 1/1] Add 'Transport Interface' (triface) option. This can
+ be used to specify the IP interface to use for the connection. The
+ driver
+ uses that to set SO_BINDTODEVICE on the socket before connecting.
+To: "Belanger, Martin" <Martin.Belanger@dell.com>,
+ Hannes Reinecke <hare@suse.de>, Martin Belanger <nitram_67@hotmail.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>
+References: <20210415192848.962891-1-nitram_67@hotmail.com>
+ <BL0PR13MB42917AC33BFFC7DB2440D1149C4D9@BL0PR13MB4291.namprd13.prod.outlook.com>
+ <b47456a5-69ae-1f33-30f0-aa25906668f2@grimberg.me>
+ <27a0071d-7c7b-ee5b-41a2-d5eb8de12928@suse.de>
+ <SJ0PR19MB45446577ACEA270069ADB738F2599@SJ0PR19MB4544.namprd19.prod.outlook.com>
+ <dbb70739-e636-7f4c-7332-1fbc07332444@suse.de>
+ <07fa3404-ed37-052a-c2d7-0e21c119f5c5@suse.de>
+ <SJ0PR19MB4544F01520BE86D205B41B23F2589@SJ0PR19MB4544.namprd19.prod.outlook.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <e6c2c484-3429-b1bd-1fae-77c720fcacc5@grimberg.me>
-Date: Fri, 7 May 2021 10:46:30 -0700
+Message-ID: <b511b6a0-392f-9845-8097-1f2173085ce0@grimberg.me>
+Date: Fri, 7 May 2021 11:20:29 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210507151150.1278374-1-kbusch@kernel.org>
+In-Reply-To: <SJ0PR19MB4544F01520BE86D205B41B23F2589@SJ0PR19MB4544.namprd19.prod.outlook.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210507_104635_676366_31BF3F9E 
-X-CRM114-Status: GOOD (  30.04  )
+X-CRM114-CacheID: sfid-20210507_112036_043064_704FF10C 
+X-CRM114-Status: GOOD (  39.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,421 +113,166 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> Debugging nvme-tcp issues can be difficult due to lack of visibility
-> into the driver's execution flow for any particular command. Add trace
-> events that detail the command cycle. Also add details to existing error
-> messages so they can more readily be matched up with those traces.
-> 
-> There is no functional change in this patch.
-
-Thanks!
-
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->   drivers/nvme/host/tcp.c       |  46 +++++---
->   drivers/nvme/host/trace-tcp.h | 209 ++++++++++++++++++++++++++++++++++
->   2 files changed, 240 insertions(+), 15 deletions(-)
->   create mode 100644 drivers/nvme/host/trace-tcp.h
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 0222e23f5936..bbcf48f6345e 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -218,6 +218,9 @@ static inline size_t nvme_tcp_pdu_last_send(struct nvme_tcp_request *req,
->   	return nvme_tcp_pdu_data_left(req) <= len;
->   }
->   
-> +#define CREATE_TRACE_POINTS
-> +#include "trace-tcp.h"
-> +
->   static void nvme_tcp_init_iter(struct nvme_tcp_request *req,
->   		unsigned int dir)
->   {
-> @@ -525,6 +528,7 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
->   
->   	queue->data_remaining = le32_to_cpu(pdu->data_length);
->   
-> +	trace_nvme_tcp_c2h(rq, pdu);
->   	if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS &&
->   	    unlikely(!(pdu->hdr.flags & NVME_TCP_F_DATA_LAST))) {
->   		dev_err(queue->ctrl->ctrl.device,
-> @@ -567,10 +571,13 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
->   	struct request *rq = blk_mq_rq_from_pdu(req);
->   	u8 hdgst = nvme_tcp_hdgst_len(queue);
->   	u8 ddgst = nvme_tcp_ddgst_len(queue);
-> +	unsigned r2t_offset = le32_to_cpu(pdu->r2t_offset);
->   
->   	req->pdu_len = le32_to_cpu(pdu->r2t_length);
->   	req->pdu_sent = 0;
->   
-> +	trace_nvme_tcp_r2t(rq, req, r2t_offset);
-> +
->   	if (unlikely(!req->pdu_len)) {
->   		dev_err(queue->ctrl->ctrl.device,
->   			"req %d r2t len is %u, probably a bug...\n",
-> @@ -580,17 +587,16 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
->   
->   	if (unlikely(req->data_sent + req->pdu_len > req->data_len)) {
->   		dev_err(queue->ctrl->ctrl.device,
-> -			"req %d r2t len %u exceeded data len %u (%zu sent)\n",
-> -			rq->tag, req->pdu_len, req->data_len,
-> -			req->data_sent);
-> +			"req %d op %d r2t len %u exceeded data len %u (%zu sent) pdu offset %u\n",
-
-Better to log it "pdu r2t_offset".
-
-> +			rq->tag, req_op(rq), req->pdu_len, req->data_len,
-> +			req->data_sent, r2t_offset);
->   		return -EPROTO;
->   	}
->   
-> -	if (unlikely(le32_to_cpu(pdu->r2t_offset) < req->data_sent)) {
-> +	if (unlikely(r2t_offset < req->data_sent)) {
->   		dev_err(queue->ctrl->ctrl.device,
->   			"req %d unexpected r2t offset %u (expected %zu)\n",
-> -			rq->tag, le32_to_cpu(pdu->r2t_offset),
-> -			req->data_sent);
-> +			rq->tag, r2t_offset, req->data_sent);
->   		return -EPROTO;
->   	}
->   
-> @@ -714,6 +720,7 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->   	}
->   	req = blk_mq_rq_to_pdu(rq);
->   
-> +	trace_nvme_tcp_recv_data(rq, queue, pdu, *offset, *len);
-
-This is the skb offset,len is that what you wanted to log?
-
->   	while (true) {
->   		int recv_len, ret;
->   
-> @@ -730,8 +737,9 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->   			 */
->   			if (!req->curr_bio) {
->   				dev_err(queue->ctrl->ctrl.device,
-> -					"queue %d no space in request %#x",
-> -					nvme_tcp_queue_id(queue), rq->tag);
-> +					"queue %d no space in request %#x data_remaining %lu",
-
-Better to log it "queue data remaining" because its the queue recv state
-machine and not the request.
-
-> +					nvme_tcp_queue_id(queue), rq->tag,
-> +					queue->data_remaining);
->   				nvme_tcp_init_recv_ctx(queue);
->   				return -EIO;
->   			}
-> @@ -920,6 +928,7 @@ static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
->   static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
->   {
->   	struct nvme_tcp_queue *queue = req->queue;
-> +	struct request *rq = blk_mq_rq_from_pdu(req);
->   
->   	while (true) {
->   		struct page *page = nvme_tcp_req_cur_page(req);
-> @@ -933,6 +942,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
->   		else
->   			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
->   
-> +		trace_nvme_tcp_data(rq, req, offset, len, last);
-
-Maybe call the trace nvme_tcp_send_data?
-
->   		if (sendpage_ok(page)) {
->   			ret = kernel_sendpage(queue->sock, page, offset, len,
->   					flags);
-> @@ -972,7 +982,8 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
->   	u8 hdgst = nvme_tcp_hdgst_len(queue);
->   	int len = sizeof(*pdu) + hdgst - req->offset;
->   	int flags = MSG_DONTWAIT;
-> -	int ret;
-> +	struct request *rq = blk_mq_rq_from_pdu(req);
-> +	int offset, ret;
->   
->   	if (inline_data || nvme_tcp_queue_more(queue))
->   		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-> @@ -982,8 +993,10 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
->   	if (queue->hdr_digest && !req->offset)
->   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
->   
-> -	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
-> -			offset_in_page(pdu) + req->offset, len,  flags);
-> +	offset = offset_in_page(pdu) + req->offset;
-> +	trace_nvme_tcp_cmd_pdu(rq, req, offset, len);
-> +	ret = kernel_sendpage(queue->sock, virt_to_page(pdu), offset,
-> +			len,  flags);
->   	if (unlikely(ret <= 0))
->   		return ret;
->   
-> @@ -1009,14 +1022,16 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
->   	struct nvme_tcp_data_pdu *pdu = req->pdu;
->   	u8 hdgst = nvme_tcp_hdgst_len(queue);
->   	int len = sizeof(*pdu) - req->offset + hdgst;
-> -	int ret;
-> +	struct request *rq = blk_mq_rq_from_pdu(req);
-> +	int offset, ret;
->   
->   	if (queue->hdr_digest && !req->offset)
->   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
-
-I can add in the digest pieces as well.
-
->   
-> -	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
-> -			offset_in_page(pdu) + req->offset, len,
-> -			MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-> +	offset = offset_in_page(pdu) + req->offset;
-> +	trace_nvme_tcp_h2c_pdu(rq, req, offset, len);
-> +	ret = kernel_sendpage(queue->sock, virt_to_page(pdu), offset,
-> +			len, MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
->   	if (unlikely(ret <= 0))
->   		return ret;
->   
-> @@ -2341,6 +2356,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
->   	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
->   		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
->   
-> +	trace_nvme_tcp_queue_rq(rq);
->   	ret = nvme_tcp_setup_cmd_pdu(ns, rq);
->   	if (unlikely(ret))
->   		return ret;
-> diff --git a/drivers/nvme/host/trace-tcp.h b/drivers/nvme/host/trace-tcp.h
-> new file mode 100644
-> index 000000000000..4c720c8d32c3
-> --- /dev/null
-> +++ b/drivers/nvme/host/trace-tcp.h
-> @@ -0,0 +1,209 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM nvme_tcp
-> +
-> +#if !defined(_TRACE_NVME_TCP_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_NVME_TCP_H
-> +
-> +#include <linux/nvme.h>
-> +#include <linux/tracepoint.h>
-> +#include <linux/trace_seq.h>
-> +
-> +#include "nvme.h"
-> +
-> +TRACE_EVENT(nvme_tcp_queue_rq,
-> +	TP_PROTO(struct request *rq),
-> +	TP_ARGS(rq),
-> +	TP_STRUCT__entry(
-> +		__field(unsigned, ctrl_id)
-> +		__field(unsigned, qid)
-> +		__field(unsigned, op)
-> +		__field(unsigned, tag)
-> +		__field(unsigned, len)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
-> +		__entry->qid = nvme_req_qid(rq);
-> +		__entry->op = req_op(rq);
-> +		__entry->tag = rq->tag;
-> +		__entry->len = blk_rq_payload_bytes(rq);
-> +	),
-> +	TP_printk("nvme%u: qid=%u tag=%x op=%x data_len=%u",
-> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
-> +		__entry->len
-> +	)
-> +);
-> +
-> +TRACE_EVENT(nvme_tcp_cmd_pdu,
-> +	TP_PROTO(struct request *rq, struct nvme_tcp_request *req, unsigned offset, unsigned len),
-> +	TP_ARGS(rq, req, offset, len),
-> +	TP_STRUCT__entry(
-> +		__field(unsigned, ctrl_id)
-> +		__field(unsigned, qid)
-> +		__field(unsigned, op)
-> +		__field(unsigned, tag)
-> +		__field(unsigned, page_offset)
-> +		__field(unsigned, len)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
-> +		__entry->qid = nvme_req_qid(rq);
-> +		__entry->op = req_op(rq);
-> +		__entry->tag = rq->tag;
-> +		__entry->page_offset = offset;
-> +		__entry->len = len;
-> +	),
-> +	TP_printk("nvme%u: qid=%u tag=%x op=%x page_offset=%u send_len=%u",
-> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
-> +		__entry->page_offset, __entry->len
-> +	)
-> +);
-> +
-> +TRACE_EVENT(nvme_tcp_h2c_pdu,
-> +	TP_PROTO(struct request *rq, struct nvme_tcp_request *req, unsigned offset, unsigned len),
-> +	TP_ARGS(rq, req, offset, len),
-> +	TP_STRUCT__entry(
-> +		__field(unsigned, ctrl_id)
-> +		__field(unsigned, qid)
-> +		__field(unsigned, op)
-> +		__field(unsigned, tag)
-> +		__field(unsigned, page_offset)
-> +		__field(unsigned, len)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
-> +		__entry->qid = nvme_req_qid(rq);
-> +		__entry->op = req_op(rq);
-> +		__entry->tag = rq->tag;
-> +		__entry->page_offset = offset;
-> +		__entry->len = len;
-> +	),
-> +	TP_printk("nvme%u: qid=%u tag=%x op=%x page_offset=%u send_len=%u",
-> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
-> +		__entry->page_offset, __entry->len
-> +	)
-> +);
-> +
-> +TRACE_EVENT(nvme_tcp_data,
-> +	TP_PROTO(struct request *rq, struct nvme_tcp_request *req, unsigned offset, unsigned len, bool last),
-> +	TP_ARGS(rq, req, offset, len, last),
-> +	TP_STRUCT__entry(
-> +		__field(unsigned, ctrl_id)
-> +		__field(unsigned, qid)
-> +		__field(unsigned, op)
-> +		__field(unsigned, tag)
-> +		__field(unsigned, page_offset)
-> +		__field(unsigned, len)
-> +		__field(unsigned, sent)
-> +		__field(bool, last)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
-> +		__entry->qid = nvme_req_qid(rq);
-> +		__entry->op = req_op(rq);
-> +		__entry->tag = rq->tag;
-> +		__entry->page_offset = offset;
-> +		__entry->len = len;
-> +		__entry->sent = req->pdu_sent;
-> +		__entry->last = last;
-> +	),
-> +	TP_printk("nvme%u: qid=%u tag=%x op=%x page_offset=%u send_len=%u pdu_sent=%u last=%u",
-> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
-> +		__entry->page_offset, __entry->len, __entry->sent, __entry->last
-> +	)
-> +);
-> +
-> +TRACE_EVENT(nvme_tcp_r2t,
-> +	TP_PROTO(struct request *rq, struct nvme_tcp_request *req, unsigned offset),
-> +	TP_ARGS(rq, req, offset),
-> +	TP_STRUCT__entry(
-> +		__field(unsigned, ctrl_id)
-> +		__field(unsigned, qid)
-> +		__field(unsigned, op)
-> +		__field(unsigned, tag)
-> +		__field(unsigned, len)
-> +		__field(unsigned, offset)
-> +		__field(unsigned, sent)
-> +		__field(unsigned, data_len)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
-> +		__entry->qid = nvme_req_qid(rq);
-> +		__entry->op = req_op(rq);
-> +		__entry->tag = rq->tag;
-> +		__entry->len = req->pdu_len;
-> +		__entry->offset = offset;
-> +		__entry->sent = req->data_sent;
-> +		__entry->data_len = req->data_len;
-> +	),
-> +	TP_printk("nvme%u: qid=%u tag=%x op=%x r2t_len=%u r2t_offset=%u data_sent=%u data_len=%u",
-> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
-> +		__entry->len, __entry->offset, __entry->sent, __entry->data_len
-> +	)
-
-What may be useful here (and probably for all incoming pdu types) is to
-also log the pdu header details.
-
-Something like: "... ch: type=%x flags=%x hlen=%u plen=%u"
-
-Thoughts?
-
-> +);
-> +
-> +TRACE_EVENT(nvme_tcp_c2h,
-> +	TP_PROTO(struct request *rq, struct nvme_tcp_data_pdu *pdu),
-> +	TP_ARGS(rq, pdu),
-> +	TP_STRUCT__entry(
-> +		__field(unsigned, ctrl_id)
-> +		__field(unsigned, qid)
-> +		__field(unsigned, op)
-> +		__field(unsigned, tag)
-> +		__field(unsigned, flags)
-> +		__field(unsigned, data_len)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
-> +		__entry->qid = nvme_req_qid(rq);
-> +		__entry->op = req_op(rq);
-> +		__entry->tag = rq->tag;
-> +		__entry->flags = pdu->hdr.flags;
-> +		__entry->data_len = le32_to_cpu(pdu->data_length);
-> +	),
-> +	TP_printk("nvme%u: qid=%u tag=%x op=%x data_len=%u flags=%#x",
-> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
-> +		__entry->data_len, __entry->flags
-> +	)
-
-I see you did capture the flags here...
-
-> +);
-> +
-> +TRACE_EVENT(nvme_tcp_recv_data,
-> +	TP_PROTO(struct request *rq, struct nvme_tcp_queue *queue, struct nvme_tcp_data_pdu *pdu, unsigned offset, unsigned len),
-> +	TP_ARGS(rq, queue, pdu, offset, len),
-> +	TP_STRUCT__entry(
-> +		__field(unsigned, ctrl_id)
-> +		__field(unsigned, qid)
-> +		__field(unsigned, op)
-> +		__field(unsigned, tag)
-> +		__field(unsigned, flags)
-> +		__field(unsigned, data_len)
-> +		__field(unsigned, offset)
-> +		__field(unsigned, data_remaining)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->ctrl_id = nvme_req(rq)->ctrl->instance;
-> +		__entry->qid = nvme_req_qid(rq);
-> +		__entry->op = req_op(rq);
-> +		__entry->tag = rq->tag;
-> +		__entry->flags = pdu->hdr.flags;
-> +		__entry->data_len = len;
-> +		__entry->offset = offset;
-> +		__entry->data_remaining = queue->data_remaining;
-> +	),
-> +	TP_printk("nvme%u: qid=%u tag=%x op=%x data_len=%u offset=%u flags=%#x data_remaining=%u",
-> +		__entry->ctrl_id, __entry->qid, __entry->tag, __entry->op,
-> +		__entry->data_len, __entry->offset, __entry->flags,
-> +		__entry->data_remaining
-> +	)
-> +);
-> +
-> +#endif /* _TRACE_NVME_TCP_H */
-> +
-> +#undef TRACE_INCLUDE_PATH
-> +#define TRACE_INCLUDE_PATH .
-> +#undef TRACE_INCLUDE_FILE
-> +#define TRACE_INCLUDE_FILE trace-tcp
-> +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
-> 
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiA1LzYvMjEgODo0NiBBTSwgQmVsYW5nZXIsIE1hcnRpbiB3cm90ZToKPj4gT24gNS82LzIx
+IDg6MDUgQU0sIEhhbm5lcyBSZWluZWNrZSB3cm90ZToKPj4+IE9uIDUvNS8yMSA0OjMxIFBNLCBC
+ZWxhbmdlciwgTWFydGluIHdyb3RlOgo+PiBbIC4uIF0KPj4+PiAxOiBsbzogPExPT1BCQUNLLFVQ
+LExPV0VSX1VQPiBtdHUgNjU1MzYgcWRpc2Mgbm9xdWV1ZSBzdGF0ZQo+PiBVTktOT1dOCj4+Pj4g
+Z3JvdXAgZGVmYXVsdCBxbGVuIDEwMDAKPj4+PiAgwqDCoMKgwqAgbGluay9sb29wYmFjayAwMDow
+MDowMDowMDowMDowMCBicmQgMDA6MDA6MDA6MDA6MDA6MDAKPj4+PiAgwqDCoMKgwqAgaW5ldCAx
+MDAuMC4wLjEwMC8yNCBzY29wZSBnbG9iYWwgbG8KPj4+PiAgwqDCoMKgwqDCoMKgwqAgdmFsaWRf
+bGZ0IGZvcmV2ZXIgcHJlZmVycmVkX2xmdCBmb3JldmVyCj4+Pj4gMjogZW5wMHMzOiA8QlJPQURD
+QVNULE1VTFRJQ0FTVCxVUCxMT1dFUl9VUD4gbXR1IDE1MDAgcWRpc2MKPj4gZnFfY29kZWwKPj4+
+PiBzdGF0ZSBVUCBncm91cCBkZWZhdWx0IHFsZW4gMTAwMAo+Pj4+ICDCoMKgwqDCoCBsaW5rL2V0
+aGVyIDA4OjAwOjI3OjIxOjY1OmVjIGJyZCBmZjpmZjpmZjpmZjpmZjpmZgo+Pj4+ICDCoMKgwqDC
+oCBpbmV0IDEwMC4wLjAuMTAwLzI0IHNjb3BlIGdsb2JhbCBlbnAwczMKPj4+PiAgwqDCoMKgwqDC
+oMKgwqAgdmFsaWRfbGZ0IGZvcmV2ZXIgcHJlZmVycmVkX2xmdCBmb3JldmVyCj4+Pj4gMzogZW5w
+MHM4OiA8QlJPQURDQVNULE1VTFRJQ0FTVCxVUCxMT1dFUl9VUD4gbXR1IDE1MDAgcWRpc2MKPj4g
+ZnFfY29kZWwKPj4+PiBzdGF0ZSBVUCBncm91cCBkZWZhdWx0IHFsZW4gMTAwMAo+Pj4+ICDCoMKg
+wqDCoCBsaW5rL2V0aGVyIDA4OjAwOjI3OjRmOjk1OjVjIGJyZCBmZjpmZjpmZjpmZjpmZjpmZgo+
+Pj4+ICDCoMKgwqDCoCBpbmV0IDEwMC4wLjAuMTAwLzI0IHNjb3BlIGdsb2JhbCBlbnAwczgKPj4+
+PiAgwqDCoMKgwqDCoMKgwqAgdmFsaWRfbGZ0IGZvcmV2ZXIgcHJlZmVycmVkX2xmdCBmb3JldmVy
+Cj4+Pj4KPj4+PiBUaGUgYWJvdmUgaXMgYSBWTSB0aGF0IEkgY29uZmlndXJlZCB3aXRoIHRoZSBz
+YW1lIElQIGFkZHJlc3MKPj4+PiAoMTAwLjAuMC4xMDApIG9uIGFsbCBpbnRlcmZhY2VzLiBEb2lu
+ZyBhIHJldmVyc2UgbG9va3VwIHRvIGlkZW50aWZ5Cj4+Pj4gdGhlIHVuaXF1ZSBpbnRlcmZhY2Ug
+YXNzb2NpYXRlZCB3aXRoIDEwMC4wLjAuMTAwIHdvdWxkIHNpbXBseSBub3QKPj4+PiB3b3JrIGhl
+cmUuIEFuZCB0aGlzIGlzIHdoeSB0aGUgb3B0aW9uIGhvc3RfaWZhY2UgaXMgcmVxdWlyZWQuIEkK
+Pj4+PiB1bmRlcnN0YW5kIHRoYXQgdGhlIGFib3ZlIGNvbmZpZyBkb2VzIG5vdCByZXByZXNlbnQg
+YSBzdGFuZGFyZCBob3N0Cj4+Pj4gc3lzdGVtLCBidXQgSSdtIHVzaW5nIHRoaXMgdG8gcHJvdmUg
+YSBwb2ludDogIndlIGNhbiBuZXZlciBrbm93IGhvdyBhCj4+Pj4gdXNlciB3aWxsIGNvbmZpZ3Vy
+ZSB0aGVpciBzeXN0ZW0gYW5kIHRoZSBhYm92ZSBjb25maWd1cmF0aW9uIGlzCj4+Pj4gcGVyZmVj
+dGx5IGZpbmUgYnkgTGludXgiLgo+Pj4+Cj4+Pgo+Pj4gLi4uIGFuZCBtZXNzaW5nIHVwIGFueSBz
+d2l0Y2ggTUFDIGFkZHJlc3MgY2FjaGluZyB3aGVuIGRvaW5nIHNvLiBJCj4+PiBndWVzcyB0aGUg
+bmV0d29yayBhZG1pbiB3aWxsIGNvbWUgZG93biBoYXJkIG9uIHlvdSBpZiB5b3UgdHJ5IHRoYXQg
+b24KPj4+IGEgcHJvZHVjdGlvbiBzeXN0ZW0uCj4+PiBBbmQgSSBzaW5jZXJlbHkgcXVlc3Rpb24g
+d2hldGhlciB0aGlzIGlzIGEgdmFsaWQgdXNlLWNhc2U7IEknbSBhbHJlYWR5Cj4+PiBnZXR0aW5n
+IGdyaWVmIGZyb20gb3VyIG5ldHdvcmsgYWRtaW5zIGlmIEkgZGFyZSB0byBwdXQgdHdvIG5ldHdv
+cmsKPj4+IGludGVyZmFjZXMgZnJvbSB0aGUgc2FtZSBtYWNoaW5lIGluIHRoZSBzYW1lIG5ldHdv
+cmsuCj4+Pgo+Pj4+IFRoZSBjdXJyZW50IFRDUCBpbXBsZW1lbnRhdGlvbiBmb3IgaG9zdF90cmFk
+ZHIgdXNlcwo+Pj4+IGJpbmQoKS1iZWZvcmUtY29ubmVjdCgpLiBUaGlzIGlzIGEgY29tbW9uIGNv
+bnN0cnVjdCB0byBzZXQgdGhlIHNvdXJjZQo+Pj4+IElQIGFkZHJlc3Mgb24gdGhlIHNvY2tldCBi
+ZWZvcmUgY29ubmVjdGluZy4gVGhpcyBoYXMgbm8gZWZmZWN0IG9uIGhvdwo+Pj4+IExpbnV4IHdp
+bGwgc2VsZWN0IHRoZSBpbnRlcmZhY2UgZm9yIHRoZSBjb25uZWN0aW9uLiBUaGF0J3MgYmVjYXVz
+ZQo+Pj4+IExpbnV4IHVzZXMgdGhlIFdlYWsgRW5kIFN5c3RlbSBtb2RlbCBhcyBkZXNjcmliZWQg
+aW4gUkZDMTEyMiBbMl0uCj4+Pj4gU2V0dGluZyB0aGUgc291cmNlIGFkZHJlc3Mgb24gYSBjb25u
+ZWN0aW9uIGlzIGEgY29tbW9uIHJlcXVpcmVtZW50Cj4+Pj4gdGhhdCBsaW51eC1udm1lIG5lZWRz
+IHRvIHN1cHBvcnQuIEluIGZhY3QsIHNwZWNpZnlpbmcgdGhlIFNvdXJjZSBJUAo+Pj4+IGFkZHJl
+c3MgaXMgYSBtYW5kYXRvcnkgRmVkR292IHJlcXVpcmVtZW50IChlLmcuIGNvbm5lY3Rpb24gdG8g
+YQo+Pj4+IFJBRElVUy9UQUNBQ1MrIHNlcnZlcikuIENvbnNpZGVyIHRoZSBmb2xsb3dpbmcgY29u
+ZmlndXJhdGlvbi4KPj4+Pgo+Pj4+ICQgaXAgYWRkciBsaXN0IGRldiBlbnAwczgKPj4+PiAzOiBl
+bnAwczg6IDxCUk9BRENBU1QsTVVMVElDQVNULFVQLExPV0VSX1VQPiBtdHUgMTUwMCBxZGlzYwo+
+PiBmcV9jb2RlbAo+Pj4+IHN0YXRlIFVQIGdyb3VwIGRlZmF1bHQgcWxlbiAxMDAwCj4+Pj4gIMKg
+wqDCoMKgIGxpbmsvZXRoZXIgMDg6MDA6Mjc6NGY6OTU6NWMgYnJkIGZmOmZmOmZmOmZmOmZmOmZm
+Cj4+Pj4gIMKgwqDCoMKgIGluZXQgMTkyLjE2OC41Ni4xMDEvMjQgYnJkIDE5Mi4xNjguNTYuMjU1
+IHNjb3BlIGdsb2JhbCBkeW5hbWljCj4+Pj4gbm9wcmVmaXhyb3V0ZSBlbnAwczgKPj4+PiAgwqDC
+oMKgwqDCoMKgwqAgdmFsaWRfbGZ0IDQyNnNlYyBwcmVmZXJyZWRfbGZ0IDQyNnNlYwo+Pj4+ICDC
+oMKgwqDCoCBpbmV0IDE5Mi4xNjguNTYuMTAyLzI0IHNjb3BlIGdsb2JhbCBzZWNvbmRhcnkgZW5w
+MHM4Cj4+Pj4gIMKgwqDCoMKgwqDCoMKgIHZhbGlkX2xmdCBmb3JldmVyIHByZWZlcnJlZF9sZnQg
+Zm9yZXZlcgo+Pj4+ICDCoMKgwqDCoCBpbmV0IDE5Mi4xNjguNTYuMTAzLzI0IHNjb3BlIGdsb2Jh
+bCBzZWNvbmRhcnkgZW5wMHM4Cj4+Pj4gIMKgwqDCoMKgwqDCoMKgIHZhbGlkX2xmdCBmb3JldmVy
+IHByZWZlcnJlZF9sZnQgZm9yZXZlcgo+Pj4+ICDCoMKgwqDCoCBpbmV0IDE5Mi4xNjguNTYuMTA0
+LzI0IHNjb3BlIGdsb2JhbCBzZWNvbmRhcnkgZW5wMHM4Cj4+Pj4gIMKgwqDCoMKgwqDCoMKgIHZh
+bGlkX2xmdCBmb3JldmVyIHByZWZlcnJlZF9sZnQgZm9yZXZlcgo+Pj4+Cj4+Pj4gSGVyZSB3ZSBj
+YW4gc2VlIHRoYXQgc2V2ZXJhbCBhZGRyZXNzZXMgYXJlIGFzc29jaWF0ZWQgd2l0aCBpbnRlcmZh
+Y2UKPj4+PiBlbnAwczguIEJ5IGRlZmF1bHQsIExpbnV4IHdpbGwgc2VsZWN0IHRoZSBkZWZhdWx0
+IElQIGFkZHJlc3MsCj4+Pj4gMTkyLjE2OC41Ni4xMDEsIGFzIHRoZSBzb3VyY2UgYWRkcmVzcyB3
+aGVuIGNvbm5lY3Rpbmcgb3ZlciBpbnRlcmZhY2UKPj4+PiBlbnAwczguIFNvbWUgdXNlcnMsIGhv
+d2V2ZXIsIHdhbnQgdGhlIGFiaWxpdHkgdG8gc3BlY2lmeSBhIGRpZmZlcmVudAo+Pj4+IGFkZHJl
+c3MgKGUuZy4sCj4+Pj4gMTkyLjE2OC41Ni4xMDMpIHRvIGJlIHVzZWQgYXMgdGhlIHNvdXJjZSBh
+ZGRyZXNzLgo+Pj4+IFRoZSBvcHRpb24gaG9zdF90cmFkZHIgY2FuIGJlIHVzZWQgYXMtaXMgdG8g
+cGVyZm9ybSB0aGlzIGZ1bmN0aW9uIChJCj4+Pj4gdGVzdGVkIGl0KS4KPj4+Pgo+Pj4KPj4+IE5v
+IGRpc2FncmVlbWVudCBoZXJlLgo+Pj4KPj4+PiBJbiBjb25jbHVzaW9uLCBJIGJlbGlldmUgdGhh
+dCBmb3IgVENQIHdlIG5lZWQgMiBvcHRpb25zLiBPbmUgdGhhdCBjYW4KPj4+PiBiZSB1c2VkIHRv
+IHNwZWNpZnkgYW4gaW50ZXJmYWNlLiBBbmQgb25lIHRoYXQgY2FuIGJlIHVzZWQgdG8gc2V0IHRo
+ZQo+Pj4+IHNvdXJjZSBhZGRyZXNzLiBBbmQgdXNlcnMgc2hvdWxkIGJlIGFsbG93ZWQgdG8gdXNl
+IG9uZSBvciB0aGUgb3RoZXIsCj4+Pj4gb3IgYm90aCwgb3Igbm9uZS4KPj4+PiBPZiBjb3Vyc2Us
+IHRoZSBkb2N1bWVudGF0aW9uIGZvciBob3N0X3RyYWRkciB3aWxsIG5lZWQgc29tZQo+Pj4+IGNs
+YXJpZmljYXRpb24uIEl0IHNob3VsZCBzdGF0ZSB0aGF0IHdoZW4gdXNlZCBmb3IgVENQIGNvbm5l
+Y3Rpb24sCj4+Pj4gdGhpcyBvcHRpb24gb25seSBzZXRzIHRoZSBzb3VyY2UgYWRkcmVzcy4gQW5k
+IHRoZSBkb2N1bWVudGF0aW9uIGZvcgo+Pj4+IGhvc3RfaWZhY2Ugc2hvdWxkIHNheSB0aGF0IHRo
+aXMgb3B0aW9uIG9ubHkgYXBwbGllcyB0byBUQ1AKPj4+PiBjb25uZWN0aW9ucy4KPj4+Pgo+Pj4K
+Pj4+IEknbSB3aXRoIEphbWVzIFNtYXJ0IGhlcmUuIEkgZG8gZmFpbCB0byBzZWUgdGhlIG5lZWQg
+Zm9yICdob3N0X2lmYWNlJwo+Pj4gX3dpdGhvdXRfICdob3N0X3RyYWRkcic7IGVzcGVjaWFsbHkg
+Zm9yIElQdjYgd2hlcmUgc2V2ZXJhbCBhZGRyZXNzZXMKPj4+IGFyZSBzdGFuZGFyZCBqdXN0IHNw
+ZWNpZnlpbmcgJ2hvc3RfaWZhY2UnIHNpbXBseSBpcyBub3QgZW5vdWdoLCBhbmQKPj4+IG9uZSBo
+YXMgdG8gc3BlY2lmeSAnaG9zdF90cmFkZHInIGFkZGl0aW9uYWxseS4KPj4+Cj4+PiBTbyAnaG9z
+dF9pZmFjZScgc2hvdWxkIGJlIGNvbnRpbmdlbnQgb24gJ2hvc3RfdHJhZGRyJywgbWVhbmluZyB3
+ZSBjYW4KPj4+IGp1c3QgZXhwYW5kIHRoZSBzeW50YXggb2YgJ2hvc3RfdHJhZGRyJy4KPj4+IE9u
+ZSBlYXN5IHBvc3NpYmlsaXR5IHdvdWxkIGJlIHRvIGFkZCAnLG5vYmluZCcgdG8gdGhlIGhvc3Rf
+dHJhZGRyCj4+PiBzeW50YXggd2hpY2ggd291bGQgaW5kaWNhdGUgdGhhdCB3ZSBzaG91bGQgX25v
+dF8gYmluZCB0byB0aGUKPj4+IHVuZGVybHlpbmcgaW50ZXJmYWNlOyBJIGRvIHRoaW5rIHRoYXQg
+YmluZGluZyB0byB0aGUgcmVzcGVjdGl2ZQo+Pj4gaW50ZXJmYWNlIHNob3VsZCBiZSB0aGUgZGVm
+YXVsdC4KPj4+Cj4+IEEtaGEuIEp1c3Qgc3Bva2UgdG8gb3VyIG5ldHdvcmsgZm9sa3MsIGFuZCB0
+aGV5IGNsYXJpZmllZCB0aGUgdXNhZ2Ugb2YgYmluZGluZwo+PiB0byBhbiBJUCBhZGRyZXNzIHZz
+IGJpbmRpbmcgdG8gYSBuZXR3b3JrIGludGVyZmFjZS4KPj4gQXBwYXJlbnRseSwgYmluZGluZyB0
+byBhIHNvdXJjZSBJUCBhZGRyZXNzIGRvZXMganVzdCB0aGF0LCBzZXR0aW5nIHRoZSBzb3VyY2UK
+Pj4gSVAgYWRkcmVzcyBvZiB0aGUgb3V0Z29pbmcgcGFja2V0LiBUaGF0IHBhY2tldCB3aWxsIF9z
+dGlsbF8gYmUgc3ViamVjdGVkIHRvIHRoZQo+PiBub3JtYWwgcm91dGluZyB0YWJsZSwgYXMgdGhl
+IHJvdXRpbmcgdGFibGUgaXMganVzdCBpbmZsdWVuY2VkIGJ5IHRoZQo+PiBfZGVzdGluYXRpb25f
+IElQIGFkZHJlc3MuCj4+IFNvIGlmIHdlIHdhbnQgdG8gaGF2ZSBpdCByb3V0ZWQgdmlhIGEgc3Bl
+Y2lmaWMgaW50ZXJmYWNlIChhbmQgdGhlcmVieQo+PiBpbmZsdWVuY2luZyB0aGUgcm91dGluZyB0
+YWJsZSkgd2UgbmVlZCB0byBiaW5kIGl0IHRvIHRoYXQgaW50ZXJmYWNlLgo+Pgo+PiBUaGUgb25s
+eSB2YWxpZCBzY2VuYXJpbyBvdXIgbmV0d29yayBmb2xrcyBjb3VsZCBjb21lIHVwIHdpdGggd2hl
+cmUgd2UgZG8KPj4gX25vdF8gd2FudCB0byBiaW5kIHRvIGFuIGludGVyZmFjZSBpcyBmb3IgYXN5
+bW1ldHJpYyBmbG93cywgaWUgaW4gY2FzZXMgd2hlcmUKPj4gdGhlIG91dGdvaW5nIGZsb3cgaXMg
+cm91dGVkIHRvIG9uZSBpbnRlcmZhY2UgYW5kIHRoZSBpbmNvbWluZyBmbG93IGlzIGFycml2aW5n
+Cj4+IG9uIGFub3RoZXIgaW50ZXJmYWNlLiBCdXQgZXZlbiB0aGV5IGFkbWl0dGVkIHRoYXQgaXQn
+cyBub3QgYSBjb21tb24KPj4gc2NlbmFyaW8sIGFuZCBwcm9iYWJseSB3aWxsIGJlIGtpbGxlZCBi
+eSBhbnRpLXNwb29maW5nIHNvZnR3YXJlIHJ1bm5pbmcgb24KPj4gdGhlIGNvcmUgc3dpdGNoZXMg
+Li4uCj4+Cj4+IEJ1dCBpZiB3ZSB3YW50IHRvIHN1cHBvcnQgX3RoYXRfIHRoZW4gY2xlYXJseSBi
+aW5kaW5nIHRvIGEgc3BlY2lmaWMgaW50ZXJmYWNlCj4+IGRvZXNuJ3Qgd29yay4KPj4KPj4gU28g
+SSB3b3VsZCB2b3RlIGZvciBtYWtpbmcgYmluZGluZyB0byB0aGUgbmV0d29yayBpbnRlcmZhY2Ug
+aG9sZGluZyB0aGUgSVAKPj4gYWRkcmVzcyB0aGUgZGVmYXVsdCwgYW5kIGFkZCBhbiBvcHRpb24g
+Jyxub2JpbmQnIHRvIGhvc3RfdHJhZGRyIHRvIHNraXAgaXQuCj4+Cj4+IENoZWVycywKPj4KPj4g
+SGFubmVzCj4+IC0tCj4+IERyLiBIYW5uZXMgUmVpbmVja2UJCSAgICAgICAgS2VybmVsIFN0b3Jh
+Z2UgQXJjaGl0ZWN0Cj4+IGhhcmVAc3VzZS5kZQkJCSAgICAgICAgICAgICAgICs0OSA5MTEgNzQw
+NTMgNjg4Cj4+IFNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSCwgOTA0MDkgTsO8
+cm5iZXJnCj4+IEdGOiBGLiBJbWVuZMO2cmZmZXIsIEhSQiAzNjgwOSAoQUcgTsO8cm5iZXJnKQo+
+IAo+IEhpIEhhbm5lcywKPiAKPiBJZiB0aGUgb25seSBjb25jZXJuIGhlcmUgaXMgdGhlIGFkZGl0
+aW9uIG9mIHlldCBhbm90aGVyIG9wdGlvbiAoLS1ob3N0LWlmYWNlKSwgdGhlbiBtYXkgSSBzdWdn
+ZXN0IGEgc2ltcGxlciBhcHByb2FjaC4gV2hhdCBJJ20gcHJvcG9zaW5nIGFkaGVyZXMgdG8gUkZD
+NDAwNyBbMV0sIHdoaWNoIGRlZmluZXMgYSB3YXkgdG8gc3BlY2lmeSBhbiBpbnRlcmZhY2UgYnkg
+dXNpbmcgdGhlICclJyBkZWxpbWl0ZXIgYmV0d2VlbiB0aGUgRGVzdGluYXRpb24gSVAgYWRkcmVz
+cyBhbmQgdGhlIEludGVyZmFjZS4gSW4gZmFjdCwgInBpbmciIHVzZXMgdGhpcyBhcHByb2FjaCBb
+Ml0uIFdpdGggcGluZywgb25lIGNhbiBmb3JjZSB0aGUgY29ubmVjdGlvbiB0byBnbyBhIHNwZWNp
+ZmljIGludGVyZmFjZSBsaWtlIHRoaXM6Cj4gCj4gcGluZyA8ZGVzdC1pcC1hZGRyPiU8aW50ZXJm
+YWNlPgoKUGluZyBvbmx5IHN1cHBvcnRzIHRoaXMgc3ludGF4IGZvciBJUHY2IG5vPwoKPiBFeHRl
+bmRpbmcgdGhpcyBhcHByb2FjaCB0byBudm1lLWNsaSB3ZSBhcnJpdmUgdG8gc29tZXRoaW5nIGxp
+a2UgdGhpczoKPiAKPiBudm1lIGRpc2NvdmVyIC0tdHJhZGRyIDEwMC42NC4yOS4yJWVucDBzOCAt
+LWhvc3QtdHJhZGRyIDE5Mi4xNjguNTYuMTAyIC4uLi4KCldlIGFscmVhZHkgc3VwcG9ydCB0aGlz
+IGZvciBJUHY2LCB3ZSBjYW4gZG8gdGhhdCBhbHNvIGZvciBJUHY0LCBidXQgdGhpcwpzeW50YXgg
+bWF5IG5vdCBiZSB0cml2aWFsbHkgZXhwZWN0ZWQgZm9yIGlwdjQ/Cgo+IFRoaXMgdGVsbHMgbnZt
+ZSB0byBjb25uZWN0IHRvIDEwMC42NC4yOS4yIG9uIGludGVyZmFjZSBlbnAwczguIFdlIG1ha2Ug
+bm8gY2hhbmdlIHRvIHRoZSAtLWhvc3QtdHJhZGRyIG9wdGlvbi4gSXQgY29udGludWVzIHRvIGJl
+IHVzZWQgdG8gc3BlY2lmeSB0aGUgU291cmNlIElQIGFkZHJlc3Mgb25seSAoZm9yIHRoZSByYXJl
+IGNhc2VzIHdoZXJlIHVzZXJzIHdhbnQgdG8gc3BlY2lmeSBhIFNvdXJjZSBBZGRyZXNzIG90aGVy
+IHRoYW4gdGhlIGRlZmF1bHQpLiBXaXRoIHRoaXMsIHRoZSBpbnRlcmZhY2UgaXMgc3BlY2lmaWVk
+IGJ5IG5hbWUgYW5kIG5vdCBieSBpdHMgYXNzb2NpYXRlZCBhZGRyZXNzLiBUaGlzIGlzIG5vdCBv
+bmx5IG1vcmUgaW50dWl0aXZlLCBidXQsIGFzIEkgc3RhdGVkIGJlZm9yZSwgZWxpbWluYXRlcyB0
+aGUgcHJvYmxlbSBjYXVzZWQgYnkgbWFwcGluZyB0aGUgc2FtZSBJUCBhZGRyZXNzIHRvIG11bHRp
+cGxlIGludGVyZmFjZXMgKG5vdCB0byBtZW50aW9uIHRoYXQgZG9pbmcgYSByZXZlcnNlIGxvb2t1
+cCBvbiBhbiBJUCBhZGRyZXNzIHRvIGZpbmQgdGhlIGludGVyZmFjZSBpcyBleHRyYSB3b3JrIHRo
+YXQgd2UgZG9u4oCZdCBuZWVkIHRvIGRvIGluIGtlcm5lbCBzcGFjZSkuCgpNYXliZSB3ZSBkbyBz
+b21ldGhpbmcgbGlrZSBwaW5nIC1JIGZvciBob3N0X3RyYWRkciwgZnJvbSBwaW5nIG1hbiBwYWdl
+czoKCi1JIGludGVyZmFjZQogICAgICAgICAgICBpbnRlcmZhY2UgaXMgZWl0aGVyIGFuIGFkZHJl
+c3MsIGFuIGludGVyZmFjZSBuYW1lIG9yIGEgVlJGIApuYW1lLiBJZiBpbnRlcmZhY2UgaXMgYW4g
+YWRkcmVzcywgaXQgc2V0cyBzb3VyY2UgYWRkcmVzcyB0byBzcGVjaWZpZWQgCmludGVyZmFjZSBh
+ZGRyZXNzLiBJZiBpbnRlcmZhY2UgaXMgYW4KICAgICAgICAgICAgaW50ZXJmYWNlIG5hbWUsIGl0
+IHNldHMgc291cmNlIGludGVyZmFjZSB0byBzcGVjaWZpZWQgCmludGVyZmFjZS4gSWYgaW50ZXJm
+YWNlIGlzIGEgVlJGIG5hbWUsIGVhY2ggcGFja2V0IGlzIHJvdXRlZCB1c2luZyB0aGUgCmNvcnJl
+c3BvbmRpbmcgcm91dGluZyB0YWJsZTsgaW4gdGhpcyBjYXNlLCB0aGUgLUkKICAgICAgICAgICAg
+b3B0aW9uIGNhbiBiZSByZXBlYXRlZCB0byBzcGVjaWZ5IGEgc291cmNlIGFkZHJlc3MuIE5PVEU6
+IApGb3IgSVB2Niwgd2hlbiBkb2luZyBwaW5nIHRvIGEgbGluay1sb2NhbCBzY29wZSBhZGRyZXNz
+LCBsaW5rIApzcGVjaWZpY2F0aW9uIChieSB0aGUgJyUnLW5vdGF0aW9uIGluIGRlc3RpbmF0aW9u
+LCBvcgogICAgICAgICAgICBieSB0aGlzIG9wdGlvbikgY2FuIGJlIHVzZWQgYnV0IGl0IGlzIG5v
+IGxvbmdlciByZXF1aXJlZC4KCgpXaXRob3V0IHRoZSByZXBldGl0aW9uIHRob3VnaCwgdW5sZXNz
+IHdlIG5lZWQgdG8gc3VwcG9ydCB0d28gaW50ZXJmYWNlcwp0aGF0IHNoYXJlIHRoZSBzYW1lIG11
+bHRpcGxlIGFkZHJlc3NlcyBpbiB0aGUgc2FtZSBzdWJuZXQsIHdoaWNoIHNvdW5kcwpjb21wbGV0
+ZWx5IGNyYXp5IHRvIG1lLi4uCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJh
+ZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51
+eC1udm1lCg==
