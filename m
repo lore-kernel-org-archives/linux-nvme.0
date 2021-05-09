@@ -2,110 +2,79 @@ Return-Path: <SRS0=EFt+=KE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44545C433B4
-	for <linux-nvme@archiver.kernel.org>; Sun,  9 May 2021 03:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F7EC433B4
+	for <linux-nvme@archiver.kernel.org>; Sun,  9 May 2021 08:44:40 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 85BBB61421
-	for <linux-nvme@archiver.kernel.org>; Sun,  9 May 2021 03:52:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 85BBB61421
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	by mail.kernel.org (Postfix) with ESMTPS id 721836128E
+	for <linux-nvme@archiver.kernel.org>; Sun,  9 May 2021 08:44:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 721836128E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=N4Vkk2pscehM0uiZ0gcnzI+BFTYPec2OqXDiPok/nh0=; b=DF3wY9C4ZKd5dNduKmWvBG5pX
-	Sa6jXEgV9dTgJV/RjT/9WgqinXuGDVzBtOJsiG2qmunGeMxvQ/cX+GXHrYc9Sl9DhsodiyScMC3Qt
-	VK9y6aFF8zuq0oxR/Odcwj8112HYuvfrpDBensLI/pl4g1YMgYkjjJGMMjlYeGjcgej8bbLhbH2v/
-	BeE4+FbTrkZnVb/qOQZQgnm3TKOjoSvahdyq/z+dZUo2yjylBmdcy8+7kH7WdXp+TddZLPjm/C+Fu
-	7ABHS4mUNs05Fk/6yHbGhUcIuj1zeFCb0rNUfJFx7KMoXA1vWDJu8ZISGDtcasBzp0DTGFajSQCBL
-	ctbCLPqyQ==;
+	 bh=rPxsGxy3N2eJFQkah/UW2YJ6k7m6XS/WanRSWP4hZpg=; b=P2Y918LIxIdKY3Kn4PKnEGiqL
+	BGlPVczyUz4TY30YvU6fQn5eelqt2eL0MHRdKDZxGvHFKWx4BtgCn2C7cyjcfnt/kBEI+oEuXaGKa
+	ruZdFPeP88p0VMSIxjrBMKEJGrSUa00kNb2d+ZkpGkcUDCWoOP5y6GGsALAa9SyydhrcGSwfIKP2H
+	IHhYZSQ+DCKTN6FEDFukmhOMgJKyMuJZTeAjD+cGzy7DryWvRnfYjkpeWK0nG4A503RGeGYqhPaQh
+	VsAM+DRme73oCqTvuwo7pfWKmWeVBQ5zfKlK/czH6bW+P/DgpNKNdlER1up8+1Q2JDQ6uN3jtmIi7
+	RPQCd9hHw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lfaTm-00AszJ-Kq; Sun, 09 May 2021 03:51:43 +0000
+	id 1lff31-00BIuo-Km; Sun, 09 May 2021 08:44:23 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lfaTk-00AsyX-H4
- for linux-nvme@desiato.infradead.org; Sun, 09 May 2021 03:51:40 +0000
+ id 1lff2z-00BIub-EO
+ for linux-nvme@desiato.infradead.org; Sun, 09 May 2021 08:44:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
- Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
- bh=wK5/7IU4o9YhDHFoicZcfLXLedUpMj2SAlDtfL68d0I=; b=AhorfcHTkC73kZY2mRddTGCpHh
- 1DE3i7t9I+N4HcGT9ltmhJNUULLCZLpKRhIxlTq2Kfn6EVK8vlpyh/p0ouwIqTRMj2fSg4m0BXJ7I
- o32L/pq0t36pkLqd+Ctkf4SmtN/BvT/T5vrpuCNdxIG/wppThKH5GcbSmrhaRR1v7plm4+XvyntpC
- a0/OiOvh+33K3vlymZt4dlKcKb+UY/E7CPizYRSxQW+OJFUhQU3JgkACja8BXFIqfuCOXzYaZed/2
- JnqhwSlLxV5uh05t7CiNHAs+98TX/9tndInKcuRWnDcpSEKhdQcBl7HSJwa4vmzBFh7SsnekfJHyw
- AahHxbbw==;
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=4wdcWjM0pBEfDwH+p7AsUNBkSfKFNDKvHYKz0MUg2wM=; b=tI+aAXBaQ0lzhFuboVmgCRJaxw
+ e45LoBqCuwdgyvK2dr4wMJevaKdfNQ0S3iPTp6sB+zTGv46kgOVMBAiBJb+IsRJaXkbvm1TPp9jpa
+ gQS3BTFfOeZl+4wFfztJSUfAx/jeH7J1niGAY400CdSX9AdDIQm1EkAdbHjyoTX1L8lrbIEAZ0Neo
+ 3AmpTd7GTj0IvZzFEVE1FP4++apTZ0gOuASgj/Nr0tURjvcsHDtVk4i23wqHGEhqRXmVnrX3ZgN7T
+ viLx/sb9Lh8nWh4KFt1+EpysWqIyGfqKg5t2Hett1nOT22Or0qh7M8KTwtoA/oKWFEhz95BfTL7XQ
+ aWTOl77w==;
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lfaTf-007pjN-Om
- for linux-nvme@lists.infradead.org; Sun, 09 May 2021 03:51:39 +0000
-Received: by mail-pg1-x532.google.com with SMTP id q15so6692736pgg.12
- for <linux-nvme@lists.infradead.org>; Sat, 08 May 2021 20:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=wK5/7IU4o9YhDHFoicZcfLXLedUpMj2SAlDtfL68d0I=;
- b=YUpn4sry2AzpIxDfiNijmM4iRtMGnH8b+1iis0Bdzql5346VfsKns8E+76D/iQgwI+
- OTiIacC2fI4kB+PnuIGUXwdHSriipYsxazKqj8y+7QKzz0LsGUAP0LQ4/jh2hthuprCd
- Z1zTattZJiNEeR4npGvLSKYWP6JiwbBlnX9hTBrqi153aQjghZl2hTFmm3/S6n8MhavY
- bcgAy6FGCwm1Dw/DoVtUmcVX5gzkfUN+jLKh5g1BJKhoPk5DbDe8oxY+xB5lec8YADai
- rqFd3aRo1jys3vkW+wM0/jJcuR26dzi3GpSEXLWMhWMx9Abtn4Sg0r7Cw7pkGtAhccO6
- Oujw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wK5/7IU4o9YhDHFoicZcfLXLedUpMj2SAlDtfL68d0I=;
- b=hGbV4eKvDr1hO8xCH5oDs6EbCOy6Ez3gRtX4Hn/6vVFp8RuFBxa417KrAZ4CVXuxgj
- B4Hc+OlTs6oFY8bemCvtH3FtURALnVL4skBt5iBAF98KkRh7CJqAH+xCOoBC7jgx966+
- /PFYpEUFAFlXbqdKoRB4a9MGVjThQjO4EcUk1yfSlICssTaJ6rqZPHJt8gHRDyA6Qz9X
- 7HWlKo3Nd/TncYm83c7379Web+twEDXvCAgH1xJ2tkxCL1dhdSVRtkD4xtwtYoFdOZH2
- cvC7o8z4EY2/KZCiYhBzHk/kz4r35Eg1R+hZnzumDdgEcyj50FwX59UnwBtWclaEsK9e
- WaiA==
-X-Gm-Message-State: AOAM531WN98DY/7O9SK18fuIptfY5L5m5yq8f6k2cfTUKRVy1ZIeeATm
- kKpIDMwtj8gMAehd6iraj5vjfw==
-X-Google-Smtp-Source: ABdhPJz2bYqb40v/5PySanPTXWCo+v5sANxFSuWgfuXlAqfRT48bHmD8zZcuwLyY9aZHX4I/7fKTkA==
-X-Received: by 2002:a63:a511:: with SMTP id n17mr18825904pgf.9.1620532293431; 
- Sat, 08 May 2021 20:51:33 -0700 (PDT)
-Received: from [192.168.4.41] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
- by smtp.gmail.com with ESMTPSA id
- ne20sm7834245pjb.52.2021.05.08.20.51.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 May 2021 20:51:32 -0700 (PDT)
-Subject: Re: regression: data corruption with ext4 on LUKS on nvme with
- torvalds master
-To: "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>, linux-kernel@vger.kernel.org,
- linux-ext4@vger.kernel.org, dm-crypt@saout.de,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Changheun Lee <nanich.lee@samsung.com>, bvanassche@acm.org,
- yi.zhang@redhat.com, ming.lei@redhat.com, bgoncalv@redhat.com, hch@lst.de,
- jaegeuk@kernel.org
-References: <1620493841.bxdq8r5haw.none@localhost>
- <1620526887.tg1zx7w5np.none@localhost>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <f0c90fc0-c239-df68-371d-a5c74c8f32eb@kernel.dk>
-Date: Sat, 8 May 2021 21:51:36 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1lff2w-007u7D-L1
+ for linux-nvme@lists.infradead.org; Sun, 09 May 2021 08:44:20 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BC023B03A;
+ Sun,  9 May 2021 08:44:14 +0000 (UTC)
+Subject: Re: [bug report] blktests nvme/022 lead kernel WARNING and NULL
+ pointer
+To: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>
+Cc: linux-nvme@lists.infradead.org, skt-results-master@redhat.com,
+ Bruno Goncalves <bgoncalv@redhat.com>
+References: <CAHj4cs-hAaHhWU4Kb4NrQ9Fvi7DiH95P=Q=7zK-inxpeZtztkw@mail.gmail.com>
+ <3243ab72-ffe3-e655-ef0a-d695885ce2c5@grimberg.me>
+ <CAHj4cs9uOHRgRe9PJ3_0A4NMo4T1q4XzCYG6UAV-V=RZ39i1iQ@mail.gmail.com>
+ <CAHj4cs-JawWOTNBnQ3OTeNXUb_zeH3-5MrPQWK0=1QPfEJ7ROA@mail.gmail.com>
+ <201a97a9-e42f-8d8e-3cc7-e5cf8ba816c2@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <423b7c5e-deb7-3547-6ca4-8f4476e9eb03@suse.de>
+Date: Sun, 9 May 2021 10:44:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-In-Reply-To: <1620526887.tg1zx7w5np.none@localhost>
+In-Reply-To: <201a97a9-e42f-8d8e-3cc7-e5cf8ba816c2@grimberg.me>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210508_205135_929588_20B0AC65 
-X-CRM114-Status: GOOD (  21.82  )
+X-CRM114-CacheID: sfid-20210509_014418_860555_FC37E40D 
+X-CRM114-Status: GOOD (  13.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,76 +86,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/8/21 8:29 PM, Alex Xu (Hello71) wrote:
-> Excerpts from Alex Xu (Hello71)'s message of May 8, 2021 1:54 pm:
->> Hi all,
->>
->> Using torvalds master, I recently encountered data corruption on my ext4 
->> volume on LUKS on NVMe. Specifically, during heavy writes, the system 
->> partially hangs; SysRq-W shows that processes are blocked in the kernel 
->> on I/O. After forcibly rebooting, chunks of files are replaced with 
->> other, unrelated data. I'm not sure exactly what the data is; some of it 
->> is unknown binary data, but in at least one case, a list of file paths 
->> was inserted into a file, indicating that the data is misdirected after 
->> encryption.
->>
->> This issue appears to affect files receiving writes in the temporal 
->> vicinity of the hang, but affects both new and old data: for example, my 
->> shell history file was corrupted up to many months before.
->>
->> The drive reports no SMART issues.
->>
->> I believe this is a regression in the kernel related to something merged 
->> in the last few days, as it consistently occurs with my most recent 
->> kernel versions, but disappears when reverting to an older kernel.
->>
->> I haven't investigated further, such as by bisecting. I hope this is 
->> sufficient information to give someone a lead on the issue, and if it is 
->> a bug, nail it down before anybody else loses data.
->>
->> Regards,
->> Alex.
->>
-> 
-> I found the following test to reproduce a hang, which I guess may be the 
-> cause:
-> 
-> host$ cd /tmp
-> host$ truncate -s 10G drive
-> host$ qemu-system-x86_64 -drive format=raw,file=drive,if=none,id=drive -device nvme,drive=drive,serial=1 [... more VM setup options]
-> guest$ cryptsetup luksFormat /dev/nvme0n1
-> [accept warning, use any password]
-> guest$ cryptsetup open /dev/nvme0n1
-> [enter password]
-> guest$ mkfs.ext4 /dev/mapper/test
-> [normal output...]
-> Creating journal (16384 blocks): [hangs forever]
-> 
-> I bisected this issue to:
-> 
-> cd2c7545ae1beac3b6aae033c7f31193b3255946 is the first bad commit
-> commit cd2c7545ae1beac3b6aae033c7f31193b3255946
-> Author: Changheun Lee <nanich.lee@samsung.com>
-> Date:   Mon May 3 18:52:03 2021 +0900
-> 
->     bio: limit bio max size
-> 
-> I didn't try reverting this commit or further reducing the test case. 
-> Let me know if you need my kernel config or other information.
-
-If you have time, please do test with that reverted. I'd be anxious to
-get this revert queued up for 5.13-rc1.
-
--- 
-Jens Axboe
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNS83LzIxIDk6NTAgUE0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4gCj4+PiBIaSBTYWdpCj4+
+Pgo+Pj4gQmlzZWN0IHNob3dzIGJlbGxvdyBjb21taXRzIHdhcyB0aGUgZmlyc3QgYmFkIGNvbW1p
+dC4KPj4+Cj4+PiBjb21taXQgYTcwYjgxYmQ0ZDlkMmQ2YzA1Y2ZlNmVmMmExMGJjY2MyZTA0MzU3
+YSAocmVmcy9iaXNlY3QvYmFkKQo+Pj4gQXV0aG9yOiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3Vz
+ZS5kZT4KPj4+IERhdGU6wqDCoCBGcmkgQXByIDE2IDEzOjQ2OjIwIDIwMjEgKzAyMDAKPj4+Cj4+
+PiDCoMKgwqDCoCBudm1lOiBzYW5pdGl6ZSBLQVRPIHNldHRpbmcKPj4+Cj4+Cj4+IEhpIFNhZ2kK
+Pj4gVGhpcyBpc3N1ZSBoYXMgYmVlbiBjb25zaXN0ZW50bHkgcmVwcm9kdWNlZCB3aXRoIGJsa3Rl
+c3RzIG9uIHJlY2VudAo+PiBsaW51eC1ibG9jay9mb3ItbmV4dCwgZG8geW91IGhhdmUgYSBjaGFu
+Y2UgdG8gY2hlY2sgaXQ/Cj4gCj4gSSBoYWQgbm90LCBIYW5uZXMgY2FuIHlvdSBoYXZlIGEgbG9v
+az8KPiAKQ2FuIHlvdSBjaGVjayBpZiB0aGlzIHBhdGNoIGhlbHBzPwoKZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvbnZtZS90YXJnZXQvbG9vcC5jIGIvZHJpdmVycy9udm1lL3RhcmdldC9sb29wLmMKaW5k
+ZXggNzRiM2IxNTBlMWE1Li5hNDhkODIxOWNmOTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS90
+YXJnZXQvbG9vcC5jCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvbG9vcC5jCkBAIC00NTgsNiAr
+NDU4LDkgQEAgc3RhdGljIHZvaWQgbnZtZV9sb29wX3Jlc2V0X2N0cmxfd29yayhzdHJ1Y3QgCndv
+cmtfc3RydWN0ICp3b3JrKQogICAgICAgICAgICAgICAgIGNvbnRhaW5lcl9vZih3b3JrLCBzdHJ1
+Y3QgbnZtZV9sb29wX2N0cmwsIGN0cmwucmVzZXRfd29yayk7CiAgICAgICAgIGludCByZXQ7Cgor
+ICAgICAgIC8qIHJlc2V0X3dvcmsgbWlnaHQgcnVuIGNvbmN1cnJlbnRseSB0byBkZWxldGVfd29y
+ayAqLworICAgICAgIGlmIChjdHJsLT5zdGF0ZSA9PSBOVk1FX0NUUkxfREVMRVRJTkcpCisgICAg
+ICAgICAgICAgICByZXR1cm47CiAgICAgICAgIG52bWVfc3RvcF9jdHJsKCZjdHJsLT5jdHJsKTsK
+ICAgICAgICAgbnZtZV9sb29wX3NodXRkb3duX2N0cmwoY3RybCk7CgoKQ2hlZXJzLAoKSGFubmVz
+Ci0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFy
+Y2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTEx
+IDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5
+MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJl
+cjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmlu
+ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
+aW51eC1udm1lCg==
