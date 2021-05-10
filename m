@@ -2,163 +2,80 @@ Return-Path: <SRS0=GcL3=KF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B501C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 May 2021 01:18:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5648DC433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 May 2021 06:24:43 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 690206112F
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 May 2021 01:18:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 690206112F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amd.com
+	by mail.kernel.org (Postfix) with ESMTPS id 91C42613E1
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 May 2021 06:24:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 91C42613E1
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=V0PT427s+pR6mAQZTpjrgCx7dtIzf5cMtM0DfylEjLE=; b=ZYr1X8tfhUfqr9xsd7oANi6Fo
-	sdfD4RLLJINGjtuSQSVH3toXyrqvPLwQhdlb5cuQuSXCGTMKmryM3lMInOpsiCjPICgRNpVWGN8wI
-	iu1MECrt6FXwKDPRM+0Itk6O+K+9/i+Fj+iaBMiiPtoDPOIEVPG5aJxcVQwgFE1+Rt+7oZyJ8UxQT
-	B/WmQFsxtmsx0ZK+uK1IwPoq/l3U0awSaDBB87TPzEHfmz0H2DIM0jrRVxOF4FrTpT2ZDo/ddyDh8
-	CZ87JMQetONhgPLIKD90WzI0tXqR6sWGUHQO0He7KAfeznjP8wVgv1JCCr289JpLMAJT6x1Z1oWxF
-	N3ApwnWMA==;
+	 bh=0muklu++MKHpZ2mi3NMwGtNc4SGpJtN593IBu2QsFeA=; b=WkedDD/2yYM1RYfRtF/ADxe8F
+	nvEG5eUh7TtPLEyXcQle+YxAxzoA4+yfwpk845wSwMo03UwDP9iUdrF8IIvQFQvsq9GhBvd5BtlPO
+	6Dsyv+PrxjuqhnFCQ6hKt8Sa4NJ29ttt92ULL1S11/B7X9rxbSQ9hhnhPHNsbX5VznGLBqb89yWux
+	L7T///I2QK68j0HfLI2HMbcxqlGNH+6zIcFo4Y9lJPIPnT/0Iyx/exnVBpGO4PEUuQis97kAhhOJN
+	oLAPtArW0dZnIyszS5BD8N6TwVaK+YU6cF/HcKpf9PJ2rNtfkeYr3rq+xmeJ3AFIHmEo2zmlmIG6q
+	EsvGZ0sLQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lfuYv-00ChAd-0c; Mon, 10 May 2021 01:18:21 +0000
+	id 1lfzL1-00DM5W-00; Mon, 10 May 2021 06:24:19 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lfuYp-00Ch6c-2k
- for linux-nvme@desiato.infradead.org; Mon, 10 May 2021 01:18:16 +0000
+ id 1lfzKk-00DM4t-RU
+ for linux-nvme@desiato.infradead.org; Mon, 10 May 2021 06:24:02 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
- :Subject:CC:To:From:Sender:Reply-To:Content-ID:Content-Description;
- bh=LlHl8/+3XPO4Ga971+9zE78sAb0YheuTZEBvrmtV+vA=; b=D3WWH6R/LJi9YwBJSNo6Yv6RHZ
- 1uCDHXP3ESI/imWI7GD7l3jW7yKbXJ//lmWibNE4007ty7LsmsK0ZCDooF/FFEKN9r4IypjOaZHnH
- R/aGPjJenc5L0IbKth+8Wf3/6PN5mQRZRNJjP4ZtB5leDtlF3tsBLdIqcOGSM0FYsbGBtB+CsQer2
- FBVcvJInOMr0BrFuWBnnbVZuZoC7atVv5MLfDpoE1/n/fMjsL9e0sneoysaUVwgtSa7KAy6wYOg3L
- CMEE61TM9LrPHRVxjXTwbn6FeDo4aF2zgLWxOdM0vC7gofUBVNt+0PmTkRXVSm87ak7WgbP0scBwO
- 9ID3KIGA==;
-Received: from mail-mw2nam12on2087.outbound.protection.outlook.com
- ([40.107.244.87] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=ee4fpLs6sa9IK9h1lMA6Nl8aTs27Sw/zRn7C8SVHu8g=; b=nIJXv2g+FzsyzHLwX5y//4O8GE
+ K3zsnzYUUU4CAfthucNrN03owARon+qCXzOY/rPcncbO0BsP/iDs9mqzZh87hCnupxnHTPqOotlkF
+ 5QM8i+Tq9Xfro0Zc/HCGEg9gDibCM1o3nmTtUybi7dyWcGcY6tJ/lWpvFkDjV0G0gVT2H6i0uSw5X
+ BvLG16LTU3HpqryeNlfJEeY3PRujV2IvCDIYBCpuKt8mFemfcPq55h1Z32eV9xCwRRe2xa58Y2a7e
+ jcR40r4lvM6pwAt+NSHL2qCf1+viIqtFACsRuIp9qYEDG1mJEd5Gl2s/CDrA7YNSimVFUoRwN83mf
+ uAEiN6Vw==;
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lfuYm-008BmE-2x
- for linux-nvme@lists.infradead.org; Mon, 10 May 2021 01:18:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dDTPQkZIcERnwrm5o6ItASzf1bFr6faUgQp1327mlqAYMOdQZaJuFpU3pU7EbiIl6tT15y/hXq0ZKJjFZwZTIdv8JhonfW2w79KYHs/s7VkifuQoPoSKrjccq3i7TfHzhN+4211pLy2Kgzle4PmXjAqVHV2TIwyp74C1nOBrYCwWDy5lnAWKnXawavf10BZbA8hj5MuJTmiTm1HN8i4vyodPUHKJPA195VO6ZOWnMI5pZCWW4BK5EuEq7NauUsI3dWXVVnjko9A9oCqwNa6N8++xfEX+QZbl4ys10mSMsfCRywbiuXf4ujplzPJOzU/zqNGqwM/bYa3p+rDGNSXKrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LlHl8/+3XPO4Ga971+9zE78sAb0YheuTZEBvrmtV+vA=;
- b=R+sizXVuaumX6YJ5RH4Kp5TMugmsI7+51/gSOMxSBNLx6Gsr9lL4wsmXPGGR4FIhnbarxMaVflbE+0TjssJC/yi8ZMM0yQu3uLcgBdB5MWcWUhy34yZNpCFmIlcIQpLC6Pmlxh/Obg33uiv405heNfGJcG76wKgoUNrACn/Xaueo60JxLMYDGOpSylawcj3kRloTeA+NtmD4yhqGo/KWYKHst2qFNlzp8iyw6Gm2/zKfHA5DFQji72Uf9/31tGKwDEMSlL1SAfsJb9cKybzE6QkWqmqIanhJH2MGu92AEp6k7Nx/VYpRm8KAE+WxkjMy0sPObg5wwnwoSIzagFYudQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LlHl8/+3XPO4Ga971+9zE78sAb0YheuTZEBvrmtV+vA=;
- b=uMvzZeWs1goU3a7Sgf4gHBQ6vZ+pPIQqLitAJw+HKLasjYqE7qE3T9Q7J3WdJfHoKqdvoenkAtaOnj+TmBrhqZ8p4+88gWQLGw5jTHivw/DK3P0y8epKQX3Cp9cOWcKZN7H1TgHax8x+yYponnmEK31xCTohiB5xgCidObDHCMw=
-Received: from BYAPR12MB3238.namprd12.prod.outlook.com (2603:10b6:a03:13b::20)
- by BYAPR12MB3126.namprd12.prod.outlook.com (2603:10b6:a03:df::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.30; Mon, 10 May
- 2021 01:18:02 +0000
-Received: from BYAPR12MB3238.namprd12.prod.outlook.com
- ([fe80::ac06:4fe4:c52f:bdd7]) by BYAPR12MB3238.namprd12.prod.outlook.com
- ([fe80::ac06:4fe4:c52f:bdd7%7]) with mapi id 15.20.4108.031; Mon, 10 May 2021
- 01:18:02 +0000
-From: "Liang, Prike" <Prike.Liang@amd.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "hch@infradead.org"
- <hch@infradead.org>, "Chaitanya.Kulkarni@wdc.com"
- <Chaitanya.Kulkarni@wdc.com>, "gregkh@linuxfoundation.org"
- <gregkh@linuxfoundation.org>, "linux-pci@vger.kernel.org"
- <linux-pci@vger.kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
-CC: "stable@vger.kernel.org" <stable@vger.kernel.org>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, "rjw@rjwysocki.net"
- <rjw@rjwysocki.net>
-Subject: RE: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
-Thread-Topic: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
-Thread-Index: AQHXNxWH1Fw7MhW0Jk+r7qWA/iB7larV2E7AgAYt8lA=
-Date: Mon, 10 May 2021 01:18:01 +0000
-Message-ID: <BYAPR12MB3238F57DD9B277403B24D0AEFB549@BYAPR12MB3238.namprd12.prod.outlook.com>
-References: <1619054346-4566-1-git-send-email-Prike.Liang@amd.com>
- <1619054346-4566-2-git-send-email-Prike.Liang@amd.com>
- <BYAPR12MB32380567348D5E7C7921C218FB589@BYAPR12MB3238.namprd12.prod.outlook.com>
-In-Reply-To: <BYAPR12MB32380567348D5E7C7921C218FB589@BYAPR12MB3238.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=0d4e7755-f8fa-42c9-9639-90b79b0773f0;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=0;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2021-05-06T02:55:20Z;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=none action=none
- header.from=amd.com;
-x-originating-ip: [139.227.235.92]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ea4e8cd3-eec2-483c-fe7a-08d9135174a9
-x-ms-traffictypediagnostic: BYAPR12MB3126:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB3126D395D11EF3C0738E2617FB549@BYAPR12MB3126.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:792;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XkLxqItutY3D8jCVLmLaNRM4f/gsVdVrkOOUcBMYbbuLQf2IFx7dNPHlSydz1UIcCeZPc4a4xOJEjeQwqC05UVb8BlIPyVxTMkWOi7IEcXG21IVma9Y8o4VUGYgqg02cfBAQSEyl6fT6joRJL7Ks9MovQuhuTjrHs5aXttzseIpFd9D2Amg4xN73Up7N+1bhm/axKNfoAOgfq3TH2hVkf7qvaoiaPAFt9eeDSK/VZi5+m1UryMr8TuYdfOcx/ktky/KGwZRYEYiXMGcgu7ZaQ7HevPIyxJ9TZd60iZ8fnmJTHIdTZ5DV4b+OnEqjtP0GeV8tbWeVZx+VrfFu+bOvsAl+O76g9VcG8lQsjeRBEGX56E5ptFc/5dbDf8nqQaMHUJBgpzZjdzlV9kMMj44vwrkLhmA/8ZUv2lsX3TTlaEm0ykWfXzprCLEfZQ+ohB+UA2wtkLjniqtO7d/gmYpQQcBZnFACJNzNNzDtOS3nTB9c8DIuvribyCGwxcUZ3Ns1wjYk8tsIdEZJ6ZVJfe1iLumNsamt0kqTb+iJeZ6X6ELsVLNN9kPb3tXVoiQZ4mgyxw3IlBQL2l5HolVHJuzpXfTDN6UOYH3Hoc6KcTavnFo=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3238.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(39860400002)(376002)(396003)(136003)(52536014)(110136005)(83380400001)(122000001)(66446008)(66476007)(186003)(64756008)(66556008)(7696005)(26005)(4326008)(478600001)(33656002)(38100700002)(55016002)(2906002)(76116006)(71200400001)(316002)(9686003)(8936002)(66946007)(54906003)(8676002)(86362001)(6506007)(53546011)(5660300002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?UrtnCt0HYRGgR9yVAUY2tthmo9ei964shADu8EFVCO9BlVWHKn7v4ciXf+cp?=
- =?us-ascii?Q?LQSeapBMC5WIPx0K6vDgyzyMGWsTKSF6k1UgQAqy8pZ+lElA6AFKFBiLCjov?=
- =?us-ascii?Q?HwG+g0lkUuO7JLgNmzj4POQMdcoKjucqHq/nGpnYy0tkcsK/b56UIXDqdZHa?=
- =?us-ascii?Q?/RRlwnVrs3+kLFxp6H6IYRu2CHPCjFJtAtn10bRgnWOE8xfkHDa3fR0a727o?=
- =?us-ascii?Q?/eENSlxhYpYpO52iYUs0ZdrUgB6fg1w0VkhQ8EE9+mi1BePPhBrFCMGI14Or?=
- =?us-ascii?Q?k2SB8hB5Ssnhym1KM4LGufRZvOiM6e0J7Y1CIqfcNiYi/93/jmfDwxU0t42V?=
- =?us-ascii?Q?UbUyfJWivHlmjigi8Kv2S5aVnK/BHX+wpuMwupHZT02OpR/H2ngm5igLJHGi?=
- =?us-ascii?Q?BHuV+boin6FfvxBQBjGhf6QOPLqVKN4KFjouOG5ooWMgFAlW9PkdJYWyBiW9?=
- =?us-ascii?Q?AcX8n6TR7Pmb10mJl4z/WEE+RQ545SLU+uvgEIHwQD19icQn1fsOZwVw4+gx?=
- =?us-ascii?Q?uAS6yHEzrkzoJVwhf8NZmLsccUPNonhrskkfI0t6UXQVZngTKrOzEZZrDk3Y?=
- =?us-ascii?Q?E2rvrMwlBIn1mitaLCicXSlx/ZHLbbO5NkvmGXlRoSRlw9qxueXSwBgn1mAS?=
- =?us-ascii?Q?DL/TuV29mPu8dryWTboTkj7LgW5RTVA18h9OMKWGtedmww0xb8EOdjOeLy4M?=
- =?us-ascii?Q?M8pFpIRHCPQ8/K+xNLnYAvz1WFDcku/nMBXBpd23jqPsESuVKNcq65BOh5Oy?=
- =?us-ascii?Q?QRlUHnyYqx1QE7v3ustANPQV37VNl8n/TjAD7uCyyE5cgrHZHSIltiwyrtXT?=
- =?us-ascii?Q?ickfn4jI/eyYm5UJ3HpS6WnUjCikddFkb4K0bxDyFU92omoxq8Ny/3P8l1QD?=
- =?us-ascii?Q?toZFuaaSUaH4cqqJNHlwP0bpl+2sM6CIvlPQpYjgLjBUPMea1C536v8d0QY8?=
- =?us-ascii?Q?aEdcEWjiqYWAhPlWxGLkMv7oB7jZyqvXXy3nL0u3VP9abq8/MYRcjf1XVEB4?=
- =?us-ascii?Q?IPtDKIaiqCOrB3/ggu3D/VXklNMAk97pcKbvGDTD3joHPEw2BJYZEvlemUBG?=
- =?us-ascii?Q?kB0WaodYgXV7L8LzAGnrZznwhrcrny0+rv3KtGWJFRP+bSku+uxx/OTp188o?=
- =?us-ascii?Q?cduSr1vmb7IC+kjpBiedTfQFkzqA/+YMNnzI6fnndUxpiMMxr1odlk1xIeB2?=
- =?us-ascii?Q?H+uydh3bS8/BYX+bMdHQWGsjQ+lpYk5z5TovyOFn5PDZO78fHdWa1eQ40H1Y?=
- =?us-ascii?Q?31H+tb6cRXw7k2fhtU4zkqwHt37j1VVzJI8P8o3h+TbkjETebqJLC7thXCAQ?=
- =?us-ascii?Q?gi05/YUNLxug16Y8fmcJE2X6?=
+ id 1lfzKg-008Kps-RC
+ for linux-nvme@lists.infradead.org; Mon, 10 May 2021 06:24:00 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 66C4867373; Mon, 10 May 2021 08:23:46 +0200 (CEST)
+Date: Mon, 10 May 2021 08:23:46 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
+ Keith Busch <kbusch@kernel.org>, Daniel Wagner <daniel.wagner@suse.de>
+Subject: Re: [PATCHv3] nvme-mpath: delete disk after last connection
+Message-ID: <20210510062346.GA30116@lst.de>
+References: <20210504085457.GA21826@lst.de>
+ <5e4df9ec-c66c-17cf-542f-bac71b490e62@suse.de>
+ <d1ca6eab-1ec9-d6c7-ed8a-00d9110bf023@grimberg.me>
+ <20210506074341.GC14615@lst.de>
+ <96fbc678-a7e8-aaf3-5f15-8c866e683afe@suse.de>
+ <d50ca6e6-5340-6f38-bc56-6f10b49d7801@grimberg.me>
+ <20210506120855.GA1546@lst.de> <7cd891d9-6aa0-fd98-cbc5-1df2eabbe31d@suse.de>
+ <20210507064656.GA24437@lst.de>
+ <4fd33328-9060-6e95-dd26-ab013e44c07a@suse.de>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3238.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea4e8cd3-eec2-483c-fe7a-08d9135174a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2021 01:18:01.8893 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ScNxjLB6kAAr1L+JNkhfofId3Qv3tcdUtHSqt6D+c86Hq5oy2WMdacp8SBTm+m5D
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3126
+Content-Disposition: inline
+In-Reply-To: <4fd33328-9060-6e95-dd26-ab013e44c07a@suse.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210509_181812_156299_E03D6BD9 
-X-CRM114-Status: GOOD (  31.73  )
+X-CRM114-CacheID: sfid-20210509_232359_073367_9E880B22 
+X-CRM114-Status: GOOD (  16.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -175,137 +92,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[AMD Public Use]
-
-Ping... Could I get some comments or RB on this latest series.
-
-
-Thanks,
-Prike
-> -----Original Message-----
-> From: Liang, Prike
-> Sent: Thursday, May 6, 2021 11:08 AM
-> To: linux-nvme@lists.infradead.org; kbusch@kernel.org; hch@infradead.org;
-> Chaitanya.Kulkarni@wdc.com; gregkh@linuxfoundation.org; linux-
-> pci@vger.kernel.org; Bjorn Helgaas <helgaas@kernel.org>
-> Cc: stable@vger.kernel.org; Deucher, Alexander
-> <Alexander.Deucher@amd.com>; S-k, Shyam-sundar <Shyam-sundar.S-
-> k@amd.com>; Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>;
-> rjw@rjwysocki.net
-> Subject: RE: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+On Fri, May 07, 2021 at 07:02:52PM +0200, Hannes Reinecke wrote:
+> On 5/7/21 8:46 AM, Christoph Hellwig wrote:
+>> On Thu, May 06, 2021 at 05:54:29PM +0200, Hannes Reinecke wrote:
+>>> PCI and fabrics have different defaults; for PCI the device goes away if
+>>> the last path (ie the controller) goes away, for fabrics it doesn't if the
+>>> device is mounted.
+>>
+>> Err, no.  For fabrics we reconnect a while, but otherwise the behavior
+>> is the same right now.
+>>
+> No, that is not the case.
 >
-> + linux-pci for further review.
->
-> Thanks,
-> > -----Original Message-----
-> > From: Liang, Prike <Prike.Liang@amd.com>
-> > Sent: Thursday, April 22, 2021 9:19 AM
-> > To: linux-nvme@lists.infradead.org; kbusch@kernel.org;
-> > hch@infradead.org; Chaitanya.Kulkarni@wdc.com;
-> > gregkh@linuxfoundation.org
-> > Cc: stable@vger.kernel.org; Deucher, Alexander
-> > <Alexander.Deucher@amd.com>; S-k, Shyam-sundar <Shyam-sundar.S-
-> > k@amd.com>; Liang, Prike <Prike.Liang@amd.com>; Chaitanya Kulkarni
-> > <chaitanya.kulkarni@wdc.com>
-> > Subject: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
-> >
-> > In the NVMe controller default suspend-resume seems only save/restore
-> > the NVMe link state by APST opt and the NVMe remains in D0 during this
-> time.
-> > Then the NVMe device will be shutdown by SMU firmware in the s2idle
-> > entry and then will lost the NVMe power context during s2idle
-> > resume.Finally, the NVMe command queue request will be processed
-> > abnormally and result in access timeout.This issue can be settled by
-> > using PCIe power set with simple suspend-resume process path instead of
-> APST get/set opt.
-> >
-> > In this patch prepare a PCIe RC bus flag to identify the platform
-> > whether need the quirk.
-> >
-> > Cc: <stable@vger.kernel.org> # 5.10+
-> > Signed-off-by: Prike Liang <Prike.Liang@amd.com>
-> > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> > [ck: split patches for nvme and pcie]
-> > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> > Suggested-by: Keith Busch <kbusch@kernel.org>
-> > Acked-by: Keith Busch <kbusch@kernel.org>
-> > ---
-> > Changes in v2:
-> > Fix the patch format and check chip root complex DID instead of PCIe
-> > RP to avoid the storage device plugged in internal PCIe RP by USB adaptor.
-> >
-> > Changes in v3:
-> > According to Christoph Hellwig do NVME PCIe related identify opt
-> > better in PCIe quirk driver rather than in NVME module.
-> >
-> > Changes in v4:
-> > Split the fix to PCIe and NVMe part and then call the pci_dev_put()
-> > put the device reference count and finally refine the commit info.
-> >
-> > Changes in v5:
-> > According to Christoph Hellwig and Keith Busch better use a
-> > passthrough
-> > device(bus) gloable flag to identify the NVMe shutdown opt rather than
-> > look up the device BDF.
-> > ---
-> >  drivers/pci/probe.c  | 5 ++++-
-> >  drivers/pci/quirks.c | 7 +++++++
-> >  include/linux/pci.h  | 2 ++
-> >  3 files changed, 13 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c index
-> > 953f15a..34ba691e 100644
-> > --- a/drivers/pci/probe.c
-> > +++ b/drivers/pci/probe.c
-> > @@ -558,10 +558,13 @@ static struct pci_bus *pci_alloc_bus(struct
-> > pci_bus
-> > *parent)
-> >     INIT_LIST_HEAD(&b->resources);
-> >     b->max_bus_speed = PCI_SPEED_UNKNOWN;
-> >     b->cur_bus_speed = PCI_SPEED_UNKNOWN;
-> > +   if (parent) {
-> >  #ifdef CONFIG_PCI_DOMAINS_GENERIC
-> > -   if (parent)
-> >             b->domain_nr = parent->domain_nr;
-> >  #endif
-> > +           if (parent->bus_flags & PCI_BUS_FLAGS_DISABLE_ON_S2I)
-> > +                   b->bus_flags |= PCI_BUS_FLAGS_DISABLE_ON_S2I;
-> > +   }
-> >     return b;
-> >  }
-> >
-> > diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c index
-> > 653660e3..7c4bb8e 100644
-> > --- a/drivers/pci/quirks.c
-> > +++ b/drivers/pci/quirks.c
-> > @@ -312,6 +312,13 @@ static void quirk_nopciamd(struct pci_dev *dev)
-> > }  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD,
-> >     PCI_DEVICE_ID_AMD_8151_0,       quirk_nopciamd);
-> >
-> > +static void quirk_amd_s2i_fixup(struct pci_dev *dev) {
-> > +   dev->bus->bus_flags |= PCI_BUS_FLAGS_DISABLE_ON_S2I;
-> > +   pci_info(dev, "AMD simple suspend opt enabled\n"); }
-> > +DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_AMD, 0x1630,
-> > +quirk_amd_s2i_fixup);
-> > +
-> >  /* Triton requires workarounds to be used by the drivers */  static
-> > void quirk_triton(struct pci_dev *dev)  { diff --git
-> > a/include/linux/pci.h b/include/linux/pci.h index 53f4904..dc65219
-> > 100644
-> > --- a/include/linux/pci.h
-> > +++ b/include/linux/pci.h
-> > @@ -240,6 +240,8 @@ enum pci_bus_flags {
-> >     PCI_BUS_FLAGS_NO_MMRBC  = (__force pci_bus_flags_t) 2,
-> >     PCI_BUS_FLAGS_NO_AERSID = (__force pci_bus_flags_t) 4,
-> >     PCI_BUS_FLAGS_NO_EXTCFG = (__force pci_bus_flags_t) 8,
-> > +   /* Driver must pci_disable_device() for suspend-to-idle */
-> > +   PCI_BUS_FLAGS_DISABLE_ON_S2I    = (__force pci_bus_flags_t) 16,
-> >  };
-> >
-> >  /* Values from Link Status register, PCIe r3.1, sec 7.8.8 */
-> > --
-> > 2.7.4
+> When a PCI nvme device with CMIC=0 is removed (via pci hotplug, say), the 
+> nvme device is completely removed, irrespective on whether it's mounted or 
+> not.
+> When the _same_ PCI device with CMIC=1 is removed, the nvme device (ie the 
+> nsnhead) will _stay_ when mounted (as the refcount is not zero).
 
+Yes.  But that has nothing to do with fabrics as you claimed above, but
+with the fact if the subsystem supports multiple controller (and thus
+shared namespaces) or not.
 
 _______________________________________________
 Linux-nvme mailing list
