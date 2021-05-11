@@ -2,87 +2,93 @@ Return-Path: <SRS0=LCWA=KG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD18FC433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 May 2021 11:09:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9293BC433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 May 2021 11:18:43 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 399CE6134F
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 May 2021 11:09:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 399CE6134F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id D97966192A
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 May 2021 11:18:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D97966192A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6T55SabSItyyn1pJlRThQTr1vVt2eDJag53vmReCX9k=; b=K/2LI8AIu4JVMTS3qZu6yzh7cP
-	TWf/05rxB1MsmQlhM8euG9RnX8A2Y1gz97GerWilLgPNYTMIbTfx6qumSME1CdmDYhnuPpr6cdIgb
-	L9lh726svh3xiTX1eJHFx1R0Sw1X05U0yR3St/SO89ZWcGghsgjVQFCnpLyKZPbrWCzWdIpim/Xwg
-	VGRGasltyAlSmYvirCP+v4eBj7wHqiu2DjIF3vcpsCSj4C2ksiS+020LNur7ghNwTMnxkNZ91Vycz
-	kDsd5h3scCkMW9XsCyUbj5DgiNQ0MY0yp+MVKhdNWN9g6LA/Z9ZCtlHJ+U+P8mjv2LRvc3X5ENxyH
-	smITdDJA==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=nrr26z7kUN3DCMg0ZZpU5IlVgr0z1bQ55uqOQ0IA2tg=; b=oFYmZ5slSvfd1UkMMbtmbdYTu
+	Bh/bOUe/il3snRV3DjXHp6ZfH+7POHF0d5zOwMbeEo9Io7fUW8LIitSjIwgJrr9AZTnk+Xcgf0d0g
+	H4xUoor89ssPBd8f3lmnycaPGkeAGsQ5YyueJ0K+tR3KNZBdbA4aR24NKQdO6NVxU/qL18h6xF2Wd
+	k1Kxj2kQKtesVX0+cFlM6Q/oYxizZf+3buhUeeHpVd4SlD6/QWuGxzfBARVkDnsxDa2aLBi/1EV9q
+	HDDtjrM7Sav7o0bEWZDom5z7Jb+y8rHrmBHpudQ65xIP67FZ8IRAXZw2/3uq6xmX/peKx3mcfEXjK
+	yKYigV0pw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgQG8-00H4ls-Bx; Tue, 11 May 2021 11:09:04 +0000
+	id 1lgQP1-00H6H3-Ca; Tue, 11 May 2021 11:18:15 +0000
 Received: from [2607:7c80:54:e::133] (helo=bombadil.infradead.org)
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgHQi-00G3rU-0i
- for linux-nvme@desiato.infradead.org; Tue, 11 May 2021 01:43:28 +0000
+ id 1lgIdm-00G9MZ-Cx
+ for linux-nvme@desiato.infradead.org; Tue, 11 May 2021 03:01:00 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=kxsyAmPjSUPIhEfZYf98p/rC07x4baj50rPXVJG/nvc=; b=02H5ln1NhhAufmTvVxTt1BLC9e
- HEQzjeqhuTDvTa6nPUPkn3O2JXDEHeCxyKKILKthReqMEs4faQkbMhm9I5mXGIuN5Zwq8zGuU6942
- qQor3RU3HcH9rapY6f4+XdfDJqL771Z1jOD/d1hFynzAz7YSAXOsscy/Abz5PSYN+WYHQ8VvEUrnU
- gs/0IjIGd3mzJiG3uhZBDZBQg8JL8fjCyyHEGdo0CZhWnYtmfoR56oWiTMvpu0CTJZp84NIzCF9VO
- P7MKVgaMPgHrxVnjs5zHT1woKWgxLyk152CTZ0Zt1yj2Ppam5MJIedBaGJmQVwZHxFfbM1a0xF0H6
- OjSqajhA==;
-Received: from mga14.intel.com ([192.55.52.115])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=w2zXoyKFVFZOKOeLCjd0THqCEufaJ0exHCwDWKSiLlU=; b=ImN3ptUnUALvEv19nU0rCm/c1V
+ XA1STXCcRB4mSEn4hrt5/A3ec2J7zl7mv9fl8Y9EHxPdUoaA6qoi5GlGDxk2CeUaJ7kwPS7/LQU1m
+ 8gFbL/2yJ027YCfOA5hxF1Ka73J99w74dDt7a9IXdz4TeKVofm9vBhiBaKQbkYirDJ4TMW1F7PavQ
+ MxBKVx7xBA6EOozz2WRG1eLmarAbsV6CZgCrfV3bpB0DBEtFLN6NiKwEiRu0r1w9skJtVInuMjL4v
+ qOQ/ey06Davrkt5QRk1Hxf26T6BLDtIHcevNPtA1BUpumSpD3BKMK17BGbMnJUTTrbgd5dV7HoAbR
+ v7e+nhGA==;
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgHQZ-009FAD-O3
- for linux-nvme@lists.infradead.org; Tue, 11 May 2021 01:43:17 +0000
-IronPort-SDR: IpxE+YkX0PzcRHv+Ub5lexqMDh16L8OpZ5oV6mLxMVydFaPRsclfLsZBRCEg0UMVzHBBJl2xWC
- F7wmC8ZeuwOQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199006741"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="199006741"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 18:43:09 -0700
-IronPort-SDR: mra3kCrTOxq3+zaP1YjjBtkVbhF0x1cK54jvz4NzCZb6SJfQkdEp9Zv6tDQOpg5t5GZo9R5FJS
- 5eTMCqwkyQMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="408585699"
-Received: from lkp-server01.sh.intel.com (HELO f375d57c4ed4) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 10 May 2021 18:43:07 -0700
-Received: from kbuild by f375d57c4ed4 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1lgHQR-0000Sd-9L; Tue, 11 May 2021 01:43:07 +0000
-Date: Tue, 11 May 2021 09:43:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.13] BUILD SUCCESS
- 2869ad623d7df02dbc280744b879ca6e23ad1fe4
-Message-ID: <6099e127.B8QkYz3p7FgYKmJ1%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1lgIdh-009Glh-QS
+ for linux-nvme@lists.infradead.org; Tue, 11 May 2021 03:00:55 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3232C61448;
+ Tue, 11 May 2021 03:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620702053;
+ bh=t7m/bt4IN50ODxxcB+23WX00yj+n/Z07UWXdh117wHE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vKcwNH06kKx+sGG6QMVqym6aY2oSSHb5iXVxLjx1TNS4bX7RcUrVzB1F6APC+jeMV
+ VmT+D45o7YdkhWIDnK+nZLB2Ys94NPhzj/JStPN8pLAa7k3p75z7BsF99dVVW5++jy
+ YV2ZCRVCN0fA1VuhbIDMfxdFmsHWadsvk9RZ0XgMGbNTmZO2MxAXIw1uPONxHFNQA0
+ VWXH44LW4E34qxsYWlm2JYHKoyy6Dn8wD7RLoJX0SLZbJ3dan5JyYopmReZTg7OXf9
+ ZZ8t2dZRH70fRpQru7Yk3tD9tj53t3IWPl5OU0fTDirvEw37nvGQj+G/K/KDH3FSOe
+ OBmxPIkSMMS8A==
+Date: Mon, 10 May 2021 20:00:51 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de
+Subject: Re: nvme tcp receive errors
+Message-ID: <20210511030051.GD1857448@dhcp-10-100-145-180.wdc.com>
+References: <bd69eafa-9f1d-4cdf-f1b5-8b71ffd78917@grimberg.me>
+ <20210503194404.GA910455@dhcp-10-100-145-180.wdc.com>
+ <ba05ff5a-b6bd-b6e4-a96b-fb9ee4e01f66@grimberg.me>
+ <20210504143633.GC910455@dhcp-10-100-145-180.wdc.com>
+ <76a715f5-6a37-8535-3fbe-1aa0f3a54dbc@grimberg.me>
+ <20210504191441.GA911866@dhcp-10-100-145-180.wdc.com>
+ <20210510180633.GB1857448@dhcp-10-100-145-180.wdc.com>
+ <6838b8da-7e05-a08d-b67f-1fe28b0d880b@grimberg.me>
+ <20210510183040.GC1857448@dhcp-10-100-145-180.wdc.com>
+ <9a6fed85-2f8b-8398-1e8b-cd44e6004f40@grimberg.me>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9a6fed85-2f8b-8398-1e8b-cd44e6004f40@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210510_184315_835130_56DC1305 
-X-CRM114-Status: UNSURE (   6.74  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210510_200053_896734_EF60EE91 
+X-CRM114-Status: GOOD (  20.44  )
+/bin/ln: failed to access
+ 'reaver_cache/texts/20210510_200053_896734_EF60EE91': No such file or
+ directory
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210510_184315_835130_56DC1305 
-X-CRM114-Status: UNSURE (   1.52  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210510_200053_896734_EF60EE91 
+X-CRM114-Status: GOOD (  16.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,204 +105,39 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.13
-branch HEAD: 2869ad623d7df02dbc280744b879ca6e23ad1fe4  nvme-multipath: fix double initialization of ANA state
+On Mon, May 10, 2021 at 02:07:47PM -0700, Sagi Grimberg wrote:
+> I may have a theory to this issue. I think that the problem is in
+> cases where we send commands with data to the controller and then in
+> nvme_tcp_send_data between the last successful kernel_sendpage
+> and before nvme_tcp_advance_req, the controller sends back a successful
+> completion.
+>
+> If that is the case, then the completion path could be triggered,
+> the tag would be reused, triggering a new .queue_rq, setting again
+> the req.iter with the new bio params (all is not taken by the
+> send_mutex) and then the send context would call nvme_tcp_advance_req
+> progressing the req.iter with the former sent bytes... And given that
+> the req.iter is used for reads/writes, it is possible that it can
+> explain both issues.
+> 
+> While this is not easy to trigger, there is nothing I think that
+> can prevent that. The driver used to have a single context that
+> would do both send and recv so this could not have happened, but
+> now that we added the .queue_rq send context, I guess this can
+> indeed confuse the driver.
 
-elapsed time: 727m
+Awesome, this is exactly the type of sequence I've been trying to
+capture, but couldn't quite get there. Now that you've described it,
+that flow can certainly explain the observations, including the
+corrupted debug trace event I was trying to add.
 
-configs tested: 180
-configs skipped: 2
+The sequence looks unlikely to happen, which agrees with the difficulty
+in reproducing it. I am betting right now that you got it, but a little
+surprised no one else is reporting a similar problem yet.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-riscv                            allmodconfig
-x86_64                           allyesconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-h8300                     edosk2674_defconfig
-sh                          landisk_defconfig
-powerpc                    mvme5100_defconfig
-powerpc                     sbc8548_defconfig
-mips                             allmodconfig
-mips                       rbtx49xx_defconfig
-arm                           spitz_defconfig
-h8300                            alldefconfig
-sh                          lboxre2_defconfig
-nds32                               defconfig
-m68k                                defconfig
-sh                          urquell_defconfig
-arm                         at91_dt_defconfig
-arc                         haps_hs_defconfig
-mips                       capcella_defconfig
-powerpc                      obs600_defconfig
-arm64                            alldefconfig
-powerpc                mpc7448_hpc2_defconfig
-arm                           tegra_defconfig
-arm                            mps2_defconfig
-powerpc                    sam440ep_defconfig
-arm                       aspeed_g4_defconfig
-sh                          polaris_defconfig
-powerpc                     tqm5200_defconfig
-arm                            xcep_defconfig
-powerpc                      ppc44x_defconfig
-mips                        workpad_defconfig
-arm                       aspeed_g5_defconfig
-arm                           u8500_defconfig
-arm                          iop32x_defconfig
-mips                          ath25_defconfig
-sh                           se7343_defconfig
-openrisc                    or1ksim_defconfig
-xtensa                  nommu_kc705_defconfig
-powerpc                      chrp32_defconfig
-nios2                            alldefconfig
-powerpc64                           defconfig
-mips                        omega2p_defconfig
-arm                         lpc32xx_defconfig
-sparc                       sparc32_defconfig
-mips                       lemote2f_defconfig
-powerpc                  mpc866_ads_defconfig
-arm                            lart_defconfig
-powerpc                    gamecube_defconfig
-arm                            dove_defconfig
-arm                        trizeps4_defconfig
-arm                       cns3420vb_defconfig
-m68k                          sun3x_defconfig
-arc                          axs101_defconfig
-sh                      rts7751r2d1_defconfig
-sh                   secureedge5410_defconfig
-powerpc                 mpc837x_mds_defconfig
-ia64                             allyesconfig
-arc                        vdk_hs38_defconfig
-csky                                defconfig
-mips                          ath79_defconfig
-mips                  cavium_octeon_defconfig
-ia64                             alldefconfig
-powerpc                    klondike_defconfig
-mips                          rm200_defconfig
-sh                              ul2_defconfig
-powerpc                      pmac32_defconfig
-powerpc                 mpc8272_ads_defconfig
-powerpc                          g5_defconfig
-arm                      footbridge_defconfig
-arm                       multi_v4t_defconfig
-sh                        sh7757lcr_defconfig
-mips                        nlm_xlp_defconfig
-nios2                               defconfig
-arm                         cm_x300_defconfig
-arm                       imx_v6_v7_defconfig
-sh                          rsk7269_defconfig
-powerpc                     skiroot_defconfig
-mips                         cobalt_defconfig
-arc                          axs103_defconfig
-mips                     loongson2k_defconfig
-sh                   sh7724_generic_defconfig
-arm                            hisi_defconfig
-mips                         tb0226_defconfig
-riscv                    nommu_k210_defconfig
-arm                         bcm2835_defconfig
-powerpc                       ebony_defconfig
-sh                          r7785rp_defconfig
-riscv                    nommu_virt_defconfig
-arm                       versatile_defconfig
-powerpc                 mpc834x_mds_defconfig
-sh                         microdev_defconfig
-mips                        maltaup_defconfig
-arm                        multi_v5_defconfig
-mips                           ci20_defconfig
-arm                          pxa3xx_defconfig
-sh                               j2_defconfig
-powerpc                   currituck_defconfig
-mips                            gpr_defconfig
-arm                          ixp4xx_defconfig
-arm                            mmp2_defconfig
-m68k                         amcore_defconfig
-powerpc                 canyonlands_defconfig
-mips                 decstation_r4k_defconfig
-sh                          rsk7201_defconfig
-riscv                            alldefconfig
-powerpc                     rainier_defconfig
-xtensa                       common_defconfig
-m68k                        stmark2_defconfig
-powerpc                    socrates_defconfig
-powerpc                     pseries_defconfig
-m68k                       m5275evb_defconfig
-powerpc                     tqm8540_defconfig
-powerpc                 mpc836x_mds_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a003-20210510
-x86_64               randconfig-a004-20210510
-x86_64               randconfig-a001-20210510
-x86_64               randconfig-a005-20210510
-x86_64               randconfig-a002-20210510
-x86_64               randconfig-a006-20210510
-i386                 randconfig-a003-20210510
-i386                 randconfig-a001-20210510
-i386                 randconfig-a005-20210510
-i386                 randconfig-a004-20210510
-i386                 randconfig-a002-20210510
-i386                 randconfig-a006-20210510
-i386                 randconfig-a016-20210510
-i386                 randconfig-a014-20210510
-i386                 randconfig-a011-20210510
-i386                 randconfig-a015-20210510
-i386                 randconfig-a012-20210510
-i386                 randconfig-a013-20210510
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a015-20210510
-x86_64               randconfig-a012-20210510
-x86_64               randconfig-a011-20210510
-x86_64               randconfig-a013-20210510
-x86_64               randconfig-a016-20210510
-x86_64               randconfig-a014-20210510
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Your option "1" looks like the best one, IMO. I've requested dropping
+all debug and test patches and using just this one on the current nvme
+baseline for the next test cycle.
 
 _______________________________________________
 Linux-nvme mailing list
