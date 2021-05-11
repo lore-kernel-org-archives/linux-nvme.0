@@ -2,111 +2,72 @@ Return-Path: <SRS0=LCWA=KG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C618C433ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 May 2021 16:37:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F7D5C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 May 2021 16:38:01 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77B6D613BE
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 May 2021 16:37:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77B6D613BE
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id A1DE5613BE
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 May 2021 16:38:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A1DE5613BE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fkjVyu+bz6ETUh7fcd7eDR4zv+uT04CkyiemF6oK1g8=; b=HaeVbD5FypMQDtam2ElHjV67l
-	hT0yvqcD3XEslxgEzVl+00TTOn7NGgVp3G19CK4LG/pLVOqx6N/jDynpU6DoYg2KP98/RqKv5HKQ/
-	AnmiNyLqVnDN0odCYIS09lsu/3zkxjZUwsBqkUeez0GLbBm6XQPnyAN/a8uh1ha11oUHuqnJTk+zF
-	fGsXBZbzzQrORJUfbh8UdGXVaDcH+5P0eDGNMUMoE+NOwRnOzhsjgQ5yJbXeV7t1Afq8csA9da4El
-	5oxXWIr3wX2pcLgJMavLGXMFQVPTJuFmPBdD0uy/QYQzX7xP9xx7hPJSs4BXwtYobC8izLApXpz2g
-	i1WKA6f4g==;
+	 bh=MRi6dWRX4UHitGPnPLC18YfrwgJ0mI5cRTXEibmZqVw=; b=Zeo3CSBNHTlGUdcpG9XWGyGi/
+	8VVsRI+CJH5UujeCx9aW7H60LrTWsAivHh6RB6PG7oNcaDBhPxb1kmvOriedEly0gDfdxykfdIhEf
+	4woCHqkZTl4OJ6A+J+UTVRvgw4LqcgxM0MQ/hYvCS3JW7j3vys92ZakCLcjcXBqijmze8rjeQOOB3
+	X6lPFonFZBUvvnf/+oHC0BHv5TI4/uZMsKJfIyXN0beyFi+8U0JkCdy9OEklWKBDmhsL1zUQJc3AU
+	0yj3QMYBU7Ja8w60S/3Dm3sy95vNIUpMEZQiG4khryNSeAK8wERxKvv+179DP47nW8ETXrvSj0oH3
+	7YDmXcO2g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgVNH-000lmi-QQ; Tue, 11 May 2021 16:36:47 +0000
+	id 1lgVOF-000lxB-Fg; Tue, 11 May 2021 16:37:48 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgV6H-000hx4-Cb
- for linux-nvme@desiato.infradead.org; Tue, 11 May 2021 16:19:13 +0000
+ id 1lgV6N-000hyM-FB
+ for linux-nvme@desiato.infradead.org; Tue, 11 May 2021 16:19:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=KRREYiID4nTLAcd30iCtMu5qS4tYGdizddy6etGFynA=; b=cK6l/I8qCfdtKPAskPWTEIojxE
- ItPgN1uPxJkspub4n616OqGrnnBxzfwY5NnqtUupDNuGL6guUlTW94VXBrrvZp9M4qtTNWEidbgt/
- pKs+J8E3T5qkHF3KIXwXsR7wFtAG0qJnJvDw5CMIlNVMtw+O+YVvXn35QXhiq2Mefcij9InDfKL74
- lrg7ZaPp5VSkSePcVdnEdu/Tab/CPMrB9N4FACc2bXaiRXmysXwQGKIS4wQw1yOKeMllPLdYdAerw
- WERzxxt2UZylldl5Rn/pljiW43iVNiY+wG0W9+F1PAy8WGmU1HtqbJNhzdC0h08jgnlIbmI6mtxUE
- WFGQMbJw==;
-Received: from ale.deltatee.com ([204.191.154.188])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=1LHfxgMDGjQZPG7jap4nWGdht3Mj6ep2eEqdlh5B7uo=; b=NUM6XeRPZmCsc5piKh4gpfcKVZ
+ oeYEHhQcixEgrixwDeB1qN0Ybb62bSgTRz2oB9iuEevEeE4or7ZFk9JODzuscNIllZmrk1WOqP6k2
+ h8Q78EXcqVqOEAaG1d0khb8iMguWBj8tIYJxl4VDTU6sYQHZMcSoUHqChkMRnQFBpok8AVXKtMOVN
+ ta2503+FZalpQHxrWPK6thdt3dTpwmdtWEnpMYrpZLSrkLeBTbxjR1/X7GpObWK7RxyUmIOwQyfgT
+ x0yyqL5ihb20m8v+rl6GuD1nQhR4y3II10mBKJrVzLLvxmdLT9elI3w1YfQ7zvIBXrprDB47OZE45
+ YAmuPbEQ==;
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgV6E-009ktx-P8
- for linux-nvme@lists.infradead.org; Tue, 11 May 2021 16:19:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=KRREYiID4nTLAcd30iCtMu5qS4tYGdizddy6etGFynA=; b=QX2vn+ZSnkNIea3oIqxWCrg9tp
- n1sCb9KHpJoIaRXdY0nYk+A55R5+bJzf7lAUrmRIP+9tYXPMAY9zVdmvTrY8Zi4CN+nP4mJCwlXNi
- 9EpP4/ubF7Zt56WkMmsltDxbS59EjBO3rKE9BgbNkI4JufYuR4lLRmoNsuerG4uBi5CFZyekeuaGh
- adS2eOEVb6LeYpnv785vjeHILX6oPibI9iYigpRsbyKCGjWpq95W7BYMUn3Ez26qYJDbXa8bQ4t+g
- 9GEhUUbscgDYfAy9KDF7uFUAETOgR5Z55BuzayN3e/GMBH3ziI+KwOOahICDS35fDS9iJbAZ4bRN1
- OGZR8Z+g==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1lgV65-0006go-Tm; Tue, 11 May 2021 10:19:02 -0600
-To: Don Dutile <ddutile@redhat.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
-References: <20210408170123.8788-1-logang@deltatee.com>
- <20210408170123.8788-11-logang@deltatee.com>
- <92704199-4cee-3811-3902-08ccf6cc1f5f@redhat.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <185f39c0-d71c-5d24-9d87-951a72c3532d@deltatee.com>
-Date: Tue, 11 May 2021 10:19:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ id 1lgV6K-009kuB-Al
+ for linux-nvme@lists.infradead.org; Tue, 11 May 2021 16:19:17 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 01EF867373; Tue, 11 May 2021 18:19:07 +0200 (CEST)
+Date: Tue, 11 May 2021 18:19:07 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCHv2] nvme: generate uevent once a multipath namespace is
+ operational again
+Message-ID: <20210511161907.GA17525@lst.de>
+References: <20210511080308.6734-1-hare@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <92704199-4cee-3811-3902-08ccf6cc1f5f@redhat.com>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
- helgaas@kernel.org, jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
- jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
- daniel.vetter@ffwll.ch, willy@infradead.org, jhubbard@nvidia.com,
- christian.koenig@amd.com, jgg@ziepe.ca, dan.j.williams@intel.com, hch@lst.de,
- sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- ddutile@redhat.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 10/16] dma-mapping: Add flags to dma_map_ops to indicate
- PCI P2PDMA support
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <20210511080308.6734-1-hare@suse.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210511_091910_825556_8E2189B9 
-X-CRM114-Status: GOOD (  19.55  )
+X-CRM114-CacheID: sfid-20210511_091916_539306_6BAB5498 
+X-CRM114-Status: GOOD (  11.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,49 +84,15 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, May 11, 2021 at 10:03:08AM +0200, Hannes Reinecke wrote:
+> In an all paths down scenario I/O will be requeued or aborted, so no
+> further I/O will be ongoing on this namespace.
+> This leaves upper layers like MD unable to determine if the namespace
+> becomes operational again after a successful controller reset.
+> This patch will send an uevent per multipathed namespace once the
+> underlying controller is LIVE, allowing MD to start resync.
 
-
-On 2021-05-11 10:06 a.m., Don Dutile wrote:
-> On 4/8/21 1:01 PM, Logan Gunthorpe wrote:
->> Add a flags member to the dma_map_ops structure with one flag to
->> indicate support for PCI P2PDMA.
->>
->> Also, add a helper to check if a device supports PCI P2PDMA.
->>
->> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
->> ---
->>   include/linux/dma-map-ops.h |  3 +++
->>   include/linux/dma-mapping.h |  5 +++++
->>   kernel/dma/mapping.c        | 18 ++++++++++++++++++
->>   3 files changed, 26 insertions(+)
->>
->> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
->> index 51872e736e7b..481892822104 100644
->> --- a/include/linux/dma-map-ops.h
->> +++ b/include/linux/dma-map-ops.h
->> @@ -12,6 +12,9 @@
->>   struct cma;
->>   
->>   struct dma_map_ops {
->> +	unsigned int flags;
->> +#define DMA_F_PCI_P2PDMA_SUPPORTED     (1 << 0)
->> +
-> I'm not a fan of in-line define's; if we're going to add a flags field to the dma-ops
-> -- and logically it'd be good to have p2pdma go through the dma-ops struct --
-> then let's move this up in front of the dma-ops description.
-
-Already changed for v2.
-
-> And now that the dma-ops struct is being 'opened' for p2pdma, should p2pdma ops be added
-> to this struct, so all this work can be mimic'd/reflected/leveraged/refactored for CXL, GenZ, etc. p2pdma in (the near?) future?
-
-v2 no longer has a specific op for p2pdma. We are now using
-dma_map_sgtable() which already has the error return we need.
-
-I think any work to support CXL, GenZ, etc will need to be done when
-they add their own support. I can't and shouldn't guess at their needs now.
-
-Logan
+Can you please also add a comment why we are sending the event?
 
 _______________________________________________
 Linux-nvme mailing list
