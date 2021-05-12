@@ -2,78 +2,68 @@ Return-Path: <SRS0=ZvdC=KH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA14C433ED
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E5F0C43600
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:16:24 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 956D660200
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:06:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 956D660200
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id CFE0861260
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:16:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CFE0861260
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JgV0wkhmu6ijEnLxuib6Q/Qvp6WeYqURMgAiTRxP+cM=; b=c/scWwV2iG1tzmiRC0iUKnIS5
-	ZvKeSuXu+5QwHzbLl4IVKjU6FNRYlJxyyUDcaEuuhYqeAMoh+RnJCIRuK9hTZmcFjOfNU2NMJ6/I5
-	HMWWYMPcDj+EeYqB09Jdc93u8LyZyeKT3Tle6vh4C1YifVzXnRuyYRTE8UNb6AAajzYIhdY6MGhgH
-	xcXAITCZDs/q0s4Mu7e1T3H9eUX3duphHaRczA4kK0HucLnfO3VNUOPBL/Z3y/waJ8G4lspiwZ8SY
-	uPpm1927y67ZhC8UvfzKMLswI2nv2T9jx5sOUx54dRZEspIq8jTB+YNrpDlbX5rzsXiIbhGm+lmgm
-	M/yUpl0mg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pYb7M/NrxO5wJYzEzV/Wr4jC65NbQAG6dFS0WeKzlcY=; b=O/20GaMMYPtdRXbR/oDniZmZ7u
+	MTwhkZXC4KXPkL082mBYnrlgAMj2eeo9US1WKHW7ax4vVu3mVDthSYfnzWA3hsUNbWo53sKsKlKQZ
+	BcVtYIdfI6lWvRMXbMyjGpEKvxaCEtTKf8SQD0P47cLeFt1/3K8/ze6cauX3+ANUDQ4cFSGTnZhw3
+	rJffEZ9nEkHrWkdluINyh16H9CEMftAztTB+wea2HbIU8J4CGEUcftybGrSuAzO8VAx9v2obHSga/
+	H+fHnJGck8E/HfceMy/t6l587MMXmhGLKb9AR+B+KMVoVkSB3Jfbtc3BUf6xo6HE1cwoZn9/828AB
+	k8VRVTDQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgoZ3-002qTM-7v; Wed, 12 May 2021 13:06:13 +0000
+	id 1lgoiP-002raZ-I1; Wed, 12 May 2021 13:15:53 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgoZ0-002qSz-Ns
- for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 13:06:10 +0000
+ id 1lgoiM-002raN-W8
+ for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 13:15:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=OCCYY2eT1EW13uz2XMdodNNpnr1AoTeYr6E2KAOsmY4=; b=sLUN5PCdGj62fcDw8r1fAjc93M
- li8G6aNAE3KX4SF+udocOsXuSOXeB2+/2qzmL525VYmiP/pfLnJm7CGBuMoY7rOsyDkA6whrfDEYH
- NUqamoP/PMl9bOFI7LNNFb30tpyrJBhIGPI7w3Kj+/zqgPXkVAl+SmXKmxQdJa9DhWNfOW3EQNsTQ
- 0lXwxvafk0o+3WrAClO2MFB+ctxnBXX67Gzp7G3szDDbL1f6oZYhoA7lhqfNLWV420tujb4mwcTo9
- t9RA30w/8b4WowbTj9xc2ZoIb7zUVrr8ktAV3oie+uDDDvmh7KeVCcutRS3jZeRuHvZUjkXfcBMFk
- EyKRHqCQ==;
-Received: from mx2.suse.de ([195.135.220.15])
- by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgoYy-00ANXj-22
- for linux-nvme@lists.infradead.org; Wed, 12 May 2021 13:06:09 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9BA9DB17B;
- Wed, 12 May 2021 13:06:06 +0000 (UTC)
-Subject: Re: [PATCHv2] nvme: generate uevent once a multipath namespace is
- operational again
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org
-References: <20210511080308.6734-1-hare@suse.de>
- <20210511161907.GA17525@lst.de>
- <7b01589e-3987-9573-ccd7-b599affed2a5@suse.de>
- <20210512062047.GA18271@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <acd874cc-12d2-bfdf-3f88-1fdf1a9cf832@suse.de>
-Date: Wed, 12 May 2021 15:06:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=1OCL/hRNShP+g+9KTCWxVijSB16WuFeB9C7Nlxg2oYA=; b=ClHGVYjhtaCjJViCCOY2Q3LX8h
+ ECzIdD0JW4nhG3NFaJWLQl8RghYQp3INYuWDjt2zmtIfhD06CyQIlMGVFjMedyZiTFTbsOyXv0woX
+ pXRzfKE7VBBd1OIOMqv0IrLqy56+Der1Dg4LWkya1ChyJwVi1Rv0fd6BktiqYOaTHuYEhZwgp52kI
+ tWzQubvVoen6aM7SDE/MMmXAyTAiTV/cwOOR9l8BU+40w+L0Ag1EuPwDmuSsP5LRbvh0bViZr3uyc
+ jQUbv05FjA73+JJ6nUZ7Wvxfw8pyf4ZU0Oa6Ip321+vG2bpUcvzMGm/11A6rSbacNP0Jq+XKpwihB
+ 0CwR6K+w==;
+Received: from [2001:4bb8:198:fbc8:1036:7ab9:f97a:adbc] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1lgoiJ-00AO1O-8l; Wed, 12 May 2021 13:15:47 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ "Vasudevan, Anil" <anil.vasudevan@intel.com>, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: switch block layer polling to a bio based model v3
+Date: Wed, 12 May 2021 15:15:30 +0200
+Message-Id: <20210512131545.495160-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210512062047.GA18271@lst.de>
-Content-Language: en-US
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210512_060608_261649_4A5DFA48 
-X-CRM114-Status: GOOD (  10.80  )
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,22 +75,102 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNS8xMi8yMSA4OjIwIEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBPbiBXZWQsIE1h
-eSAxMiwgMjAyMSBhdCAwNzoyNDo0NEFNICswMjAwLCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6Cj4+
-PiBDYW4geW91IHBsZWFzZSBhbHNvIGFkZCBhIGNvbW1lbnQgd2h5IHdlIGFyZSBzZW5kaW5nIHRo
-ZSBldmVudD8KPj4+Cj4+IFlvdSBtZWFuLCB3aHkgc2VuZGluZyBLT0JKX0NIQU5HRSBhbmQgbm90
-IEtPQkpfQUREPwo+IAo+IE1heWJlIHRoYXQgdG8sIGJ1dCBtb3N0IGltcG9ydGFudGx5IHdoeSB3
-ZSBhcmUgc2VuZGluZyBhbiBldmVudCBoZXJlLgo+IApBaC4gQSBjb21tZW50IGluIHRoZSBjb2Rl
-LCB5b3UgbWVhbi4KT2YgY291cnNlLCB3aWxsIGRvLgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4g
-SGFubmVzIFJlaW5lY2tlCQkgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJl
-QHN1c2UuZGUJCQkgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
-ZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdGOiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFp
-bGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5m
-cmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Hi all,
+
+This series clean up the block polling code a bit and changes the interface
+to poll for a specific bio instead of a request_queue and cookie pair.
+
+Polling for the bio itself leads to a few advantages:
+
+  - the cookie construction can made entirely private in blk-mq.c
+  - the caller does not need to remember the request_queue and cookie
+    separately and thus sidesteps their lifetime issues
+  - keeping the device and the cookie inside the bio allows to trivially
+    support polling BIOs remapping by stacking drivers
+  - a lot of code to propagate the cookie back up the submission path can
+    removed entirely
+
+The one major caveat is that this requires RCU freeing polled BIOs to make
+sure the bio that contains the polling information is still alive when
+io_uring tries to poll it through the iocb. For synchronous polling all the
+callers have a bio reference anyway, so this is not an issue.
+
+Git tree:
+
+   git://git.infradead.org/users/hch/block.git bio-poll
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/bio-poll
+
+Chances since v2:
+ - remove support for writing to the poll attribute
+ - better document the block_device life time assumptions in bio_poll
+ - only set QUEUE_FLAG_POLL on nvme-multipath queues where it makes sense
+
+Chances since v1:
+ - use SLAB_TYPESAFE_BY_RCU to only free the pages backing the bio
+   slabs bio RCU
+ - split the spin argument to bio_poll to avoid sleeping under RCU from
+   io_uring
+ - add support for polling nvme multipath devices
+
+Diffstat:
+ arch/m68k/emu/nfblock.c             |    3 
+ arch/xtensa/platforms/iss/simdisk.c |    3 
+ block/bio.c                         |    4 
+ block/blk-core.c                    |  122 ++++++++++++++++++-------
+ block/blk-merge.c                   |    2 
+ block/blk-mq-debugfs.c              |    2 
+ block/blk-mq.c                      |  173 ++++++++++++++----------------------
+ block/blk-mq.h                      |    6 -
+ block/blk-sysfs.c                   |   23 ----
+ drivers/block/brd.c                 |   12 +-
+ drivers/block/drbd/drbd_int.h       |    2 
+ drivers/block/drbd/drbd_req.c       |    3 
+ drivers/block/n64cart.c             |   12 +-
+ drivers/block/null_blk/main.c       |    3 
+ drivers/block/pktcdvd.c             |    7 -
+ drivers/block/ps3vram.c             |    6 -
+ drivers/block/rsxx/dev.c            |    7 -
+ drivers/block/zram/zram_drv.c       |   10 --
+ drivers/lightnvm/pblk-init.c        |    6 -
+ drivers/md/bcache/request.c         |   13 +-
+ drivers/md/bcache/request.h         |    4 
+ drivers/md/dm.c                     |   28 ++---
+ drivers/md/md.c                     |   10 --
+ drivers/nvdimm/blk.c                |    5 -
+ drivers/nvdimm/btt.c                |    5 -
+ drivers/nvdimm/pmem.c               |    3 
+ drivers/nvme/host/core.c            |    4 
+ drivers/nvme/host/multipath.c       |   17 ++-
+ drivers/s390/block/dcssblk.c        |    7 -
+ drivers/s390/block/xpram.c          |    5 -
+ fs/block_dev.c                      |   54 +++--------
+ fs/btrfs/inode.c                    |    8 -
+ fs/direct-io.c                      |   14 --
+ fs/ext4/file.c                      |    2 
+ fs/gfs2/file.c                      |    4 
+ fs/io_uring.c                       |   14 +-
+ fs/iomap/direct-io.c                |   56 ++++++-----
+ fs/xfs/xfs_file.c                   |    2 
+ fs/zonefs/super.c                   |    2 
+ include/linux/bio.h                 |    4 
+ include/linux/blk-mq.h              |   15 ---
+ include/linux/blk_types.h           |   34 +------
+ include/linux/blkdev.h              |   12 +-
+ include/linux/bvec.h                |    2 
+ include/linux/fs.h                  |    8 -
+ include/linux/iomap.h               |    3 
+ mm/page_io.c                        |   10 --
+ 47 files changed, 342 insertions(+), 409 deletions(-)
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
