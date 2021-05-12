@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6560C433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 18:04:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D0AC433ED
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 18:08:04 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 28F1861480
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 18:04:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28F1861480
+	by mail.kernel.org (Postfix) with ESMTPS id 9404261175
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 18:08:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9404261175
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,45 +23,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=MagdaVdNrfPZ6Ia9i4qVBd7J5w7dekmMY6lHkmf+ttY=; b=eMywQn+9rMIQ1rA0qrcuf+tzf
-	8MV2X+FWzftNXwI08f0ZAWDjT8I61yFini7N9q8CrnJM4iMW+FUDRqeJjydkGdn8o/j3NUi5/OBZG
-	6aMpnBxcFo/ZmFCSvVMNYyJzx/AU4nEAK5Mf0OKTrtDkeHnnEtjuC8a8VB9jUeF88zgK6Uqo2jEHl
-	Olb9aY7j1eaPb3IUSA+PE+yk8+5Fb0/ZsdZL07aAe7eT1407D2eQ9VRElx3ttB1odoh8g00W/Jyvb
-	GHN8dgpIm8k0+0SruCWlBuljBibVvU/ESIoXUOyHyj/9fDTyln/Lfo9bQU50X6be3UqQq48S2ByhC
-	LAZ1jgU4w==;
+	 bh=ic6LaPV5bsd2VHJrx2WX1Cav/vCJWRGic3sm4wCbdJw=; b=Mik6bYGAYNmK7giodqvWrnqHD
+	l4/K0jfb/+/5SYLezL3ixIy/LO+UQS5YdqYwuLGWZ41XLzrQHu7xRq/6rmuLGggrDmLh4pWOJtJkT
+	EEcR5fyaWOoChC+g1+eL7n5k42t3NwLTDrEBgDncZHQTo2ra3e13IE9P4MNtWrE5kxWu3aP/cRew9
+	VCq3pMe/DBUJj1CAiU9KhZRTAL3ZocKQfOme28rxTqthsV1dchsb2eRovkgOfCx6/EV733C0mmI8g
+	DGdnYNW6XgO0iT9I8txUw/fxMPO9NMRpRJoRsLGEJdI9q3UfV7HZg+lKNygNtXkSHQEEaieDUVEcI
+	IXDzL8/Jg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgtDL-003WPz-1H; Wed, 12 May 2021 18:04:07 +0000
+	id 1lgtH6-003XsE-Qg; Wed, 12 May 2021 18:08:00 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgtCC-003VrR-G9
- for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 18:02:56 +0000
+ id 1lgtDB-003WK0-2O
+ for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 18:03:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=Y30T8nPqcQOFGWwhgf6XzpUvI0WHZie1Yhj96+MhGsE=; b=De0Yv7380a5lwgFkNA/vBlgA8r
- ZfVXeMWmrkg66LMTpPHB95SbiPRTkxVk9r+oK6gTqE0DteVnHQYvl+h0Vwh4kc0YNsmF2Ntei3N1p
- bhdVjBIy7PxkIlfvOo/W5bv6N19G6LPLesmdgENoWFdd8Yr05ZcV0J7whcIMa9rSOCHmKfiJIKNMV
- c/RTeeVBLbLenoRA0k3A/7Rib5w2V07D+r5UIFLHwerVT7AQrxuEyhFna+i9UQjwNZf18LZ+RDui+
- wkzG/1X0qKC7GBZUoSyOGsp/nB3wVMEQzhoFAGja8NbqIG976jZxtCte6dKIEvocLIS6Tjx3og6TB
- Ibhs9Cpw==;
+ bh=rMoJObk65Twf24CDJj9qpvznS9CqhBaQ425/Ur+qHwU=; b=4b2nI+gcurM+UeV8sbg3o5l1So
+ ycrhZMRBWvvU1Ak4TnqDGtf8HrXUYPr6agX39I4I+gjla3udWQeRVMkD+fRzY2yXZqr5bFDJoiGgW
+ tf8mgTzPZs6PWz8crkK+JDFM24/LGqeOqvKEEhEyctq2w17J48Rdr0HpbV6uNS8xnos/r6eQ+1SPy
+ olFwe2FDTB3q7+gYzvYUspSvRnicBXFkiMj9eGq2/mK3BCKAu2D9cO/+DTKeggoB+oYlEMMvdiDb+
+ nmfgjyuYLf0n78HF/Rwh8suZvFfG9hVIujCjFq2RvzSs4jrGs5NvKgrpjtMK637Aacbl2FZ4TOWLd
+ Ld809YDw==;
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgtC9-00AftP-UO
- for linux-nvme@lists.infradead.org; Wed, 12 May 2021 18:02:55 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 65AEB6143C;
- Wed, 12 May 2021 18:02:52 +0000 (UTC)
+ id 1lgtD8-00Ag3W-Iv
+ for linux-nvme@lists.infradead.org; Wed, 12 May 2021 18:03:55 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 061536144F;
+ Wed, 12 May 2021 18:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620842573;
- bh=+IXOILcU2zmIP0zOiWzIOBTLsnPkTNvAChfh7lmrFIk=;
+ s=k20201202; t=1620842634;
+ bh=ExydBHKLCM14uH+9/3S7Ho+rlBl1hT/P/8vnkRGnzjk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=orc2ygmXH2cW33ldosbc460xMQZIvfSMztlCVDIhjpQWC23OGC+7Tg+3BjLM/pzLs
- GkrA/qvv7aZ2oiy79IP3ZywtPfLWCnnWJUm0qidlaNoqVt1fVTJkMeUNfweCUiL6eg
- kEkX55ok1c1cNM714uZKdxCoBeU0iuaiP9I0p9DZNvOQEXjFkPq4riy6QbWyjI+aRe
- 4QaTlNyfk/7rBUrySwlvIGAzLzrpu75qFJvR9I3yqBdzRW2gOKE0QN7PUSxfS2Y3/r
- e8EvW6KqMV0rzxI8sQQs99pymvdwUipFEhvXSCncFgqFjnwY8jmxPaOaX/Z6PU25aY
- oixoM9QrMnHpQ==
+ b=Ca0wqmLOMxuHuFwcZMWVUQ2gIjN9B//Dpr+TLqpAXKTqLCwn/YUUk3q7zJonLwCtF
+ GuIzlHT7hjOn89RqvGeM7yVzCB5cH8VlQmQhAntoI+XW+js2faH1rdeOL1JuTR0asZ
+ Byf9uUVoSkUY5xDWkci75O1nQ0e1Pd22YG1qxeDbMO8J8pakgemcepfw5JH3PexeHZ
+ enDCsb73goNEeGi6TP6qNDK1Zf7b7TXt4IRfY7v+gO4qH3JgwOEKJ/ZcLv+otdSAcK
+ T/uxqIaeuEtQ6iZk4ncHhs17HU5ZVhc4OY2O4S0pEP4gepyKxbsUMM3zkgAOEuV1Ah
+ HOxovGy2dv3Sw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -70,17 +70,17 @@ Cc: Keith Busch <kbusch@kernel.org>, Yi Zhang <yi.zhang@redhat.com>,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
  linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.11 28/35] nvmet: remove unsupported command noise
-Date: Wed, 12 May 2021 14:01:58 -0400
-Message-Id: <20210512180206.664536-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 27/34] nvmet: remove unsupported command noise
+Date: Wed, 12 May 2021 14:02:58 -0400
+Message-Id: <20210512180306.664925-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210512180206.664536-1-sashal@kernel.org>
-References: <20210512180206.664536-1-sashal@kernel.org>
+In-Reply-To: <20210512180306.664925-1-sashal@kernel.org>
+References: <20210512180306.664925-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210512_110254_039677_9CE5F07E 
+X-CRM114-CacheID: sfid-20210512_110354_681720_02F51EB8 
 X-CRM114-Status: GOOD (  10.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -118,7 +118,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 1827d8d8f3b0..2c547d195d55 100644
+index e20dea5c44f7..6a8274caa3bc 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
 @@ -313,7 +313,7 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
