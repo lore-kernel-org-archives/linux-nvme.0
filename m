@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B38C433ED
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 18:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6560C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 18:04:25 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BD8F861438
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 18:02:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BD8F861438
+	by mail.kernel.org (Postfix) with ESMTPS id 28F1861480
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 18:04:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28F1861480
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,45 +23,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=w7Bj4iKLlftYjp1ulUCElrWxGBvMV5NX4Gdkf8fJ8YQ=; b=dFWsFfCFfjeyq1g6be2vNAa0l
-	NUSrApr9R3mjhJCFnt6w8qpv5ehNah3gSIJktg62K3SAsCfNzVZKslZyRt1GaJsbLgvagLbVBVdA4
-	8XuVIF+UJgLb+HaVGN5uWTg4kpgMo21BsatazxFkVs8JlvLe3i9SL81ehfzS4SLk906BWRrBmbo7e
-	joid/Vv0YzWQyNkOtsGeA1dBLhryUKfxZHrTQugnljITL4Y4+adDujQxFNvoCgb3T2/WJt755nGT+
-	4Wxx+MfGfQjUuvH3Lwy9h+dbSrsVIHKmbo8xib2U6hyeSabGSPrsmMPLCRJ+4X1tStliAKk5ruWrb
-	nt7D9ipzQ==;
+	 bh=MagdaVdNrfPZ6Ia9i4qVBd7J5w7dekmMY6lHkmf+ttY=; b=eMywQn+9rMIQ1rA0qrcuf+tzf
+	8MV2X+FWzftNXwI08f0ZAWDjT8I61yFini7N9q8CrnJM4iMW+FUDRqeJjydkGdn8o/j3NUi5/OBZG
+	6aMpnBxcFo/ZmFCSvVMNYyJzx/AU4nEAK5Mf0OKTrtDkeHnnEtjuC8a8VB9jUeF88zgK6Uqo2jEHl
+	Olb9aY7j1eaPb3IUSA+PE+yk8+5Fb0/ZsdZL07aAe7eT1407D2eQ9VRElx3ttB1odoh8g00W/Jyvb
+	GHN8dgpIm8k0+0SruCWlBuljBibVvU/ESIoXUOyHyj/9fDTyln/Lfo9bQU50X6be3UqQq48S2ByhC
+	LAZ1jgU4w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgtBU-003Vbx-FG; Wed, 12 May 2021 18:02:12 +0000
+	id 1lgtDL-003WPz-1H; Wed, 12 May 2021 18:04:07 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgtBA-003VVp-AW
- for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 18:01:52 +0000
+ id 1lgtCC-003VrR-G9
+ for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 18:02:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=kl93x54BJskchK7KRDCFvbDVv+4JTpAnLAyyFjUhthg=; b=fyqfayyGccM2QOFn1VWWfhppcd
- 5VDiba9aVeCnEDxijaWwaAVsr/W5KUypvcntzsQVFclcqv1HTh7zgsB6FeSZF9rtDV4MHYSGyBA+W
- dyKHCrKD9UGPs7W1nSgNOlv1kTbX5k7zuoaTVQUifVl3qHoIgNtmP6DJPcRtdDhgB6POqWAe12BhT
- +Rv+NlSbyZgOHr6Bi4Q6qEll9SNv9guHiVf58dR/d7fiCQAwnKEoCNoGDo4EloOdsaUoPtpskQ3M+
- YKThi6YOGiRrqIAFfRfMCjJz7IbBvVLAUUR868wO5rHnQI4Tl4plxjM9kwl7Rpdta4GNz3aBckWHS
- EswCvlRw==;
+ bh=Y30T8nPqcQOFGWwhgf6XzpUvI0WHZie1Yhj96+MhGsE=; b=De0Yv7380a5lwgFkNA/vBlgA8r
+ ZfVXeMWmrkg66LMTpPHB95SbiPRTkxVk9r+oK6gTqE0DteVnHQYvl+h0Vwh4kc0YNsmF2Ntei3N1p
+ bhdVjBIy7PxkIlfvOo/W5bv6N19G6LPLesmdgENoWFdd8Yr05ZcV0J7whcIMa9rSOCHmKfiJIKNMV
+ c/RTeeVBLbLenoRA0k3A/7Rib5w2V07D+r5UIFLHwerVT7AQrxuEyhFna+i9UQjwNZf18LZ+RDui+
+ wkzG/1X0qKC7GBZUoSyOGsp/nB3wVMEQzhoFAGja8NbqIG976jZxtCte6dKIEvocLIS6Tjx3og6TB
+ Ibhs9Cpw==;
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgtB7-00AflW-Oc
- for linux-nvme@lists.infradead.org; Wed, 12 May 2021 18:01:51 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4522861104;
- Wed, 12 May 2021 18:01:48 +0000 (UTC)
+ id 1lgtC9-00AftP-UO
+ for linux-nvme@lists.infradead.org; Wed, 12 May 2021 18:02:55 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 65AEB6143C;
+ Wed, 12 May 2021 18:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1620842509;
- bh=E8rWj4FUdAPOc+cfOTS9ZRbI7XYBdEGIcCkTrL4YFCw=;
+ s=k20201202; t=1620842573;
+ bh=+IXOILcU2zmIP0zOiWzIOBTLsnPkTNvAChfh7lmrFIk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QWruANvdK47L4khFIVPn2AjokLb3ujLS6Q4B+VbuDisnvKD2QM+tuYe1XVdTMt9al
- 334BBErIeyMfXXoip30pJKnT4Q9D1q3ERPHaME1+5XRhp4XRM8KRG25lpEzg0eH1/F
- KmOq/1dl27URRPSRPnIWARvxjmVQ5HVVggUQhU+Z65UDGxB+y8hyPjPMUmPCMK+V3L
- /678DPoNyHzBWgfw3RSYZZNtdkvZppmfqJGCJm2IFNv8hJwLXtpXSvo7n2RqqF0U3f
- LzmCWUEv8sPnlmbuAi4rNOpl9yCZyr2RVbyaouvOeDJNIy+PB4/tJ67T83zrl2jUka
- lsETGLqL0nbag==
+ b=orc2ygmXH2cW33ldosbc460xMQZIvfSMztlCVDIhjpQWC23OGC+7Tg+3BjLM/pzLs
+ GkrA/qvv7aZ2oiy79IP3ZywtPfLWCnnWJUm0qidlaNoqVt1fVTJkMeUNfweCUiL6eg
+ kEkX55ok1c1cNM714uZKdxCoBeU0iuaiP9I0p9DZNvOQEXjFkPq4riy6QbWyjI+aRe
+ 4QaTlNyfk/7rBUrySwlvIGAzLzrpu75qFJvR9I3yqBdzRW2gOKE0QN7PUSxfS2Y3/r
+ e8EvW6KqMV0rzxI8sQQs99pymvdwUipFEhvXSCncFgqFjnwY8jmxPaOaX/Z6PU25aY
+ oixoM9QrMnHpQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -70,17 +70,17 @@ Cc: Keith Busch <kbusch@kernel.org>, Yi Zhang <yi.zhang@redhat.com>,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
  linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.12 30/37] nvmet: remove unsupported command noise
-Date: Wed, 12 May 2021 14:00:57 -0400
-Message-Id: <20210512180104.664121-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 28/35] nvmet: remove unsupported command noise
+Date: Wed, 12 May 2021 14:01:58 -0400
+Message-Id: <20210512180206.664536-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210512180104.664121-1-sashal@kernel.org>
-References: <20210512180104.664121-1-sashal@kernel.org>
+In-Reply-To: <20210512180206.664536-1-sashal@kernel.org>
+References: <20210512180206.664536-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210512_110149_861661_1608BBE3 
+X-CRM114-CacheID: sfid-20210512_110254_039677_9CE5F07E 
 X-CRM114-Status: GOOD (  10.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -118,10 +118,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index fe6b8aa90b53..2d68c86845ee 100644
+index 1827d8d8f3b0..2c547d195d55 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -307,7 +307,7 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
+@@ -313,7 +313,7 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
  	case NVME_LOG_ANA:
  		return nvmet_execute_get_log_page_ana(req);
  	}
@@ -130,7 +130,7 @@ index fe6b8aa90b53..2d68c86845ee 100644
  	       req->cmd->get_log_page.lid, req->sq->qid);
  	req->error_loc = offsetof(struct nvme_get_log_page_command, lid);
  	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
-@@ -659,7 +659,7 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+@@ -657,7 +657,7 @@ static void nvmet_execute_identify(struct nvmet_req *req)
  		return nvmet_execute_identify_desclist(req);
  	}
  
@@ -139,7 +139,7 @@ index fe6b8aa90b53..2d68c86845ee 100644
  	       req->cmd->identify.cns, req->sq->qid);
  	req->error_loc = offsetof(struct nvme_identify, cns);
  	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
-@@ -971,7 +971,7 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+@@ -972,7 +972,7 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
  		return 0;
  	}
  
