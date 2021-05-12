@@ -2,74 +2,72 @@ Return-Path: <SRS0=ZvdC=KH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA94BC433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 14:46:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C03B0C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 14:50:20 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4C269611AB
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 14:46:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C269611AB
+	by mail.kernel.org (Postfix) with ESMTPS id 1584D61001
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 14:50:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1584D61001
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=TYJkWIkguCbO/8YJ9Bsh2ldoUjPikey8tJS/SdtniDo=; b=eAUfnDIriNjPLY1bkCAWYt2c4
-	LtBtC+TtaxMn33Un9mQmYC7/uWcpediNdHiZIwpjJf+J5aOoerFxT7BJJMHtKd1jl+ysLunArjrZw
-	JUGO4HzFIPTOeAHuZ+uOX8++89VSsSy5pfFv+xPFlIT0PGn1P5Rstk7fdksMrWQIrtFCGEd9oqqq6
-	dj92DGoTuC92XaKZF6ZxgeS+W/VMiJc+vpGYC0J4pYVA2Qx0GatbHYr4+2xDBFyRveONMOEPk3iKt
-	hdaJomZwuQ/QYc8tZsD+7+52uBO5zjt0C98lyexJ8zDnZXQkfwYi1h+lfOjn4kK/ybMJSuqoenBhU
-	UyIQCb3uw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=IOs6tg/2wXcmr8qu4eFeaRHbSb2kuWfdjGA0FQjCMoY=; b=iv0cbVLjZPGTbDq2r/NWCUhBoF
+	208qoRSD56qc6X6SsfbjxEvCRi/fAzUp37VUWbzObsYL9DaDxSjBtthnlne5sLMYFI1DcNrRUama3
+	4NZtEhM1fi8xt5QaJ/9TJHkwP2xG1EtpTamj3uZqdEbk9kGEsfS1ZdHsp9DrKaSvxLAuBlJkPnoTv
+	Tbe7lrdC2py371rYUaPnRKmF+WYpT4JL4Axznrrpgn9OFIso1GBgqCdyjenO/YSNt2Rm9vAq7ShUs
+	qtRD/s0oHuhfaxIRqTEY69aoVSW3M7DfhcQn6hLn+6sv5Jm8k1P+Z5EVLu0BLLdQGPGt4WwveP5dM
+	epuaAcTg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgq8B-0034MR-4L; Wed, 12 May 2021 14:46:35 +0000
+	id 1lgqBi-0034r2-W7; Wed, 12 May 2021 14:50:15 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgq88-0034MH-Ke
- for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 14:46:32 +0000
+ id 1lgqBf-0034qm-Vz
+ for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 14:50:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=3F77IAs5+apPy1obkepjXLHS8ulxZczD5gRq2/zU/BM=; b=AupSSbiNIDOs2WuDapaaMWP9Za
- sPTk6kRUVl8VOcNivmAzT1o2etksdNTrlVh/3udXXULWQr7rt0bZbkxCmmq+cxadRtMW/4QGLxbmP
- cmayUqEhvN5mG+dL0LLhfb0xmKyCXzb3DqGa3C/fJmi3+tGSZJrJcJ6UlW+nJhp5KHfXlO43+ANOo
- jY1u+jTwxARtcr8f9pmbUnEwVdc6NijGK7LZx3FXq/QQ/pNhk1DiXEAFFBQu2Uaj49Gz+/dyYKqAr
- OUwKJYDgJiCM+IMMhC+FETIJT7/eLMQPJanXk5yNYhg8nBcxM4HKTibGDhLnq9NB0cCoLsMmU5xmj
- mUDAqHcg==;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=0XgVWqah7w6AlVmtfLt2ZhhoobwbaAAi86lMKqyBgrs=; b=XKEwg+h7aSVL+7Yin7DngDHO9s
+ JFoZapTcKe0jjdBMLcEgf5naUqGwRjrPFEQ/mzc9Tfnl8p/OdqQfBaQQ/A28KQzEjj6i6OQ5R4BvL
+ 0gujrKgvnatw7tdx79F+N7Nk7oztuP4qSX3Cuckp61+C8C9s+9YUUmigwBNQpC9j5TvcXhCUpH+6s
+ BPAHOWcPzzoarzb71k6JZoj98YT7lH2oQF7/9+13ISYakOKy3sYmZSmrS8eYpUvpCfj+JDQ/VYKvD
+ 24f2Eb1P9RS2j0jnjE8glSWjAR6c7d0MgkBUKlOAJb46lV+7ZLqI9q18x2q9e1PvoSDqCN36mjqdR
+ 63/OHkCg==;
 Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgq86-00ASXk-2z
- for linux-nvme@lists.infradead.org; Wed, 12 May 2021 14:46:31 +0000
+ id 1lgqBc-00ASkX-Rq
+ for linux-nvme@lists.infradead.org; Wed, 12 May 2021 14:50:10 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C326EAECB;
- Wed, 12 May 2021 14:46:28 +0000 (UTC)
-Date: Wed, 12 May 2021 16:46:28 +0200
+ by mx2.suse.de (Postfix) with ESMTP id 7D923B17B;
+ Wed, 12 May 2021 14:50:07 +0000 (UTC)
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Enzo Matsumiya <ematsumiya@suse.com>
-Subject: Re: [PATCH v2] nvmet: Reset ns->file when open fails
-Message-ID: <20210512144628.ofxf5rwjwytcjiip@beryllium.lan>
-References: <20210512144228.103396-1-dwagner@suse.de>
+ Daniel Wagner <dwagner@suse.de>, Enzo Matsumiya <ematsumiya@suse.com>
+Subject: [PATCH v3] nvmet: Reset ns->file when open fails
+Date: Wed, 12 May 2021 16:50:05 +0200
+Message-Id: <20210512145005.103653-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210512144228.103396-1-dwagner@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210512_074630_290184_65FEEDCB 
-X-CRM114-Status: UNSURE (   5.18  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210512_075009_217639_DD224FA0 
+X-CRM114-Status: GOOD (  15.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,7 +84,128 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Argh, obvious failed again....
+Reset the ns->file value to NULL also in the error case in
+nvmet_file_ns_enable().
+
+The ns->file variable points either to file object or contains the
+error code after the filp_open() call. This can lead to following
+problem:
+
+When the user first setups an invalid file backend and tries to enable
+the ns, it will fail. Then the user switches over to a bdev backend
+and enables successfully the ns. The first received I/O will crash the
+system because the IO backend is chosen based on the ns->file value:
+
+static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+{
+	[...]
+
+	if (req->ns->file)
+		return nvmet_file_parse_io_cmd(req);
+
+	return nvmet_bdev_parse_io_cmd(req);
+}
+
+Reported-by: Enzo Matsumiya <ematsumiya@suse.com>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+
+changes v3:
+  - removed the hunk from version 1 which I
+    copied over adding the changes notes...
+
+changes v2:
+  - fix types mixup
+    Reported-by: kernel test robot <lkp@intel.com
+
+We saw the backtrace with following (test) configuration:
+
+ nt00:/var/crash/2021-03-22-16:13 # nvmetcli ls /
+ o- / ......................................................................................................................... [...]
+   o- hosts ................................................................................................................... [...]
+   o- ports ................................................................................................................... [...]
+   | o- 1 .................................................. [trtype=tcp, traddr=192.168.0.134, trsvcid=4420, inline_data_size=16384]
+   |   o- ana_groups .......................................................................................................... [...]
+   |   | o- 1 ..................................................................................................... [state=optimized]
+   |   o- referrals ........................................................................................................... [...]
+   |   o- subsystems .......................................................................................................... [...]
+   |     o- nqn.2014-08.org.nvmexpress:NVMf:uuid:44e52e4f-791e-4d37-a718-ff010ba82e5c ......................................... [...]
+   o- subsystems .............................................................................................................. [...]
+     o- nqn.2014-08.org.nvmexpress:NVMf:uuid:44e52e4f-791e-4d37-a718-ff010ba82e5c  [version=1.3, allow_any=1, serial=6e91a39f356a26ee]
+       o- allowed_hosts ....................................................................................................... [...]
+       o- namespaces .......................................................................................................... [...]
+         o- 1 ...................................... [path=/dev/nvme0n1, uuid=1c681585-01ec-48db-b772-9d103c8d47a3, grpid=1, enabled]
+
+
+ nvmet: creating controller 2 for subsystem nqn.2014-08.org.nvmexpress:NVMf:uuid:44e52e4f-791e-4d37-a718-ff010ba82e5c for NQN nqn.2014-08.org.nvmexpress:uuid:9b9f4d56-59f6-cbf6-2e26-969777c12e5f.
+ BUG: kernel NULL pointer dereference, address: 0000000000000012
+ #PF: supervisor read access in kernel mode
+ #PF: error_code(0x0000) - not-present page
+ PGD 0 P4D 0
+ Oops: 0000 [#1] SMP PTI
+ CPU: 1 PID: 444 Comm: kworker/1:1H Kdump: loaded Tainted: G               X    5.3.18-24.52-default #1 SLE15-SP2
+ Hardware name: VMware, Inc. VMware7,1/440BX Desktop Reference Platform, BIOS VMW71.00V.15401161.B64.2001021853 01/02/2020
+ Workqueue: nvmet_tcp_wq nvmet_tcp_io_work [nvmet_tcp]
+ RIP: 0010:nvmet_file_submit_bvec+0x3f/0x130 [nvmet]
+ Code: 00 53 44 89 c5 48 89 fb 48 83 ec 30 48 8b 77 20 65 48 8b 04 25 28 00 00 00 48 89 44 24 28 31 c0 48 8b 07 48 8b 76 50 80 38 01 <48> 8b 76 28 0f 84 c6 00 00 00 4c 8b 6e 20 31 f6 49 89 c8 48 89 d1
+ RSP: 0018:ffffa111c0353c98 EFLAGS: 00010202
+ RAX: ffff8bf7069d7f30 RBX: ffff8bf706a00008 RCX: 0000000000001000
+ RDX: 0000000000000001 RSI: ffffffffffffffea RDI: ffff8bf706a00008
+ RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+ R10: 0000000000000000 R11: 0000000000000100 R12: ffff8bf706a000c0
+ R13: 0000000000000000 R14: 0000000000000000 R15: ffff8bf706a00008
+ FS:  0000000000000000(0000) GS:ffff8bf73fc80000(0000) knlGS:0000000000000000
+ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+ CR2: 0000000000000012 CR3: 000000012a394001 CR4: 00000000003606e0
+ Call Trace:
+  nvmet_file_execute_io+0x1ae/0x270 [nvmet]
+  nvmet_tcp_try_recv_pdu+0x364/0x710 [nvmet_tcp]
+  ? __switch_to_asm+0x40/0x70
+  ? __switch_to_asm+0x34/0x70
+  ? __switch_to_asm+0x40/0x70
+  ? __switch_to_asm+0x34/0x70
+  ? __switch_to_asm+0x40/0x70
+  ? __switch_to_asm+0x34/0x70
+  nvmet_tcp_io_work+0x6d/0xa90 [nvmet_tcp]
+  process_one_work+0x1f4/0x3e0
+  worker_thread+0x2d/0x3e0
+  ? process_one_work+0x3e0/0x3e0
+  kthread+0x10d/0x130
+  ? kthread_park+0xa0/0xa0
+  ret_from_fork+0x35/0x40
+ Modules linked in: nvme_fabrics nvmet_tcp nvmet configfs af_packet ip_set nfnetlink iscsi_ibft iscsi_boot_sysfs rfkill x_tables bpfilter vmw_vsock_vmci_transport vsock fuse nls_iso8859_1 nls_cp437 vfat fat intel_rapl_msr intel_rapl_common sb_edac crc32_pclmul ghash_clmulni_intel aesni_intel aes_x86_64 crypto_simd cryptd nvme glue_helper nvme_core joydev pcspkr vmw_balloon vmxnet3 button ac i2c_piix4 vmw_vmci btrfs libcrc32c xor hid_generic raid6_pq usbhid sr_mod cdrom sd_mod ata_generic vmwgfx drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops ttm ata_piix ehci_pci drm crc32c_intel uhci_hcd serio_raw ahci libahci ehci_hcd vmw_pvscsi usbcore libata sg dm_multipath dm_mod scsi_dh_rdac scsi_dh_emc scsi_dh_alua scsi_mod efivarfs [last unloaded: ip_tables]
+ Supported: Yes, External
+ CR2: 0000000000000012
+
+Enzo was not able reproduce it reliable so we can't really say if the
+patch fixes the crash he saw. But I figured ns->file should be set
+back to NULL.
+
+ drivers/nvme/target/io-cmd-file.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 715d4376c997..7fdbdc496597 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -49,9 +49,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 
+ 	ns->file = filp_open(ns->device_path, flags, 0);
+ 	if (IS_ERR(ns->file)) {
+-		pr_err("failed to open file %s: (%ld)\n",
+-				ns->device_path, PTR_ERR(ns->file));
+-		return PTR_ERR(ns->file);
++		ret = PTR_ERR(ns->file);
++		pr_err("failed to open file %s: (%d)\n",
++			ns->device_path, ret);
++		ns->file = NULL;
++		return ret;
+ 	}
+ 
+ 	ret = nvmet_file_ns_revalidate(ns);
+-- 
+2.29.2
+
 
 _______________________________________________
 Linux-nvme mailing list
