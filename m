@@ -2,74 +2,165 @@ Return-Path: <SRS0=ZvdC=KH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23AC9C433ED
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 06:21:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C31A5C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 07:14:21 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D612161433
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 06:21:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D612161433
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id F029B61289
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 07:14:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F029B61289
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Message-ID:
+	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=BlRX7Oh21eGSdWb5yhOq1Em7EOCS/vVEJ9NTFw2EAbA=; b=UL+tZN+mscGtmtzbMcxvS13DF
-	NfYddZldQLZaKpqlQpxU5yesh+hmgmxb2m2xqJtbpfMz6JFRAde1fRbN2ZhOP/TLrp16MvVe9kvQP
-	TbNG5rnWxfOisdN9pxCwsqmFaMC3fT56MSvzg/B+DjyHU7j12O2h5lxtOqDFjMHNMlpikO07YfDiz
-	NiCfRrsU12KjBgGrrGwZWn4kRUVAIr/8o7GHYO32m2YFlYtVg44JMm0YCS393afbW5/+UjenTyeSA
-	hUkZ+wUP5iKjW64bnhiZpgVnXWk2nex2BXMZwsrBFLf3eyVdrwOu2ADu3X/L4pZopifEZVdebd46g
-	mpPQZ4lAA==;
+	 bh=s6k3JxkLy06Ysyn5nmQrIr4gbDPcLWYRT6mRlFXrDr0=; b=EL8sqkAaElmTSptaKCkGO0jDS
+	Fz3bV7Dm/S1k2KXxqh3eDfww+8k23Fnvo5BXlQi06oV8gpRYOrJz39bwg7WlFKDaiIDUSVp0Fof+L
+	G2dvgYr/GMqTOpG44D5zKgvfLBiZl5Cn6EaLserhC/7bjDC08GDksBtYKu40Q8zyDSnNOhg0O8BTK
+	CuXFuxB0SmmhI0n0ocNcy/dSrJ/h3ZU3XR5skLO2vkPi4VZ3PGcS5g9KxesDBJQNRoC6DbOvPNmZl
+	M9EnPS6QXkZKd0riPMwYaC+TYiNemJWBKq0ZI9VOlVJSdUR2YIstghrNQjn4Xjb0W5eX7+3LXAFaA
+	PgX5+uTCA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgiEt-0028YX-65; Wed, 12 May 2021 06:20:59 +0000
+	id 1lgj3v-002DjS-P3; Wed, 12 May 2021 07:13:43 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgiEr-0028YM-GS
- for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 06:20:57 +0000
+ id 1lgj3r-002Dj2-QU
+ for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 07:13:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ d=infradead.org; s=bombadil.20210309; h=References:In-Reply-To:Content-Type:
+ MIME-Version:Message-ID:Subject:CC:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=NSQ3IVmhfUi893I151ACf/1/CmHwiI7wrcCwpwUziAY=; b=H8fLAZtp8Exc03U7jUs8pb+7gG
- E/40Y9JXs9EufbFOhbJo9DRpFWAV3Sl7E7bfe4xnjs+4pZKzW8Nhzwvhy/m+079JN6xVAnjudeBF8
- c01++8c6ZXEYGe3BSFBpNigKSk2AKeI4C93i04XrbSefoHLTVjFlq3GVe6EPmbDs2WjYGDFKOyLbF
- +qOluRm77yErdQrAXawN5D4GmYY/6T6R50PbriLbAXH2FvB2tmbKurqwV+mb2GPPcmDbhntcGlJrv
- OL/h6MrFeb+C0IZsHlVjqCpRPqqtczcXPNSCYdqZpBnJV38NCeEQHm3LcxH40N0qALhXNsf1lAbTg
- hKIS5rmQ==;
-Received: from verein.lst.de ([213.95.11.211])
+ bh=XHSTq8qz3TLNkv4AcbF3e3lonEYzTBY9sMof/cA8cPQ=; b=uidjdTPxEV+8JG6JeU/E98ouCO
+ oGzUq6En3Bgg6NCDqTEllS1+RlNtZ2g7ANizoCBLS4gCGCGXZjpaxLfHr1K7DIcwWHXUk2lSXP1jF
+ /Zv6+wnMXAJYbVefcSPnIJIk+3yIWz1ekYtTRl5zKOpCcox4766NNkdAuoo0vnWWgOV6fFfgmzCde
+ mVsh138WHB8KZq62cnCXvseSfRlRMwy4zFLnR3VTKq9DaimCLZOcY+RsnPG2vd8zjTmhkJ6yEpQav
+ q/5kDITQOUeBcLwSZg8DgPfy3eNR5hyTRAhiRX30NKPfIuX+vaf/9IItC4JM+H4On0YDsw8lurFNd
+ U6mHSecw==;
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgiEo-00A8x9-OM
- for linux-nvme@lists.infradead.org; Wed, 12 May 2021 06:20:56 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 63DCD67373; Wed, 12 May 2021 08:20:47 +0200 (CEST)
-Date: Wed, 12 May 2021 08:20:47 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCHv2] nvme: generate uevent once a multipath namespace is
- operational again
-Message-ID: <20210512062047.GA18271@lst.de>
-References: <20210511080308.6734-1-hare@suse.de>
- <20210511161907.GA17525@lst.de>
- <7b01589e-3987-9573-ccd7-b599affed2a5@suse.de>
+ id 1lgj3l-00AAe0-Gf
+ for linux-nvme@lists.infradead.org; Wed, 12 May 2021 07:13:37 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210512071322euoutp017933def3d79f91d779fd5958f721a18b~_QEn98RU_1060710607euoutp014
+ for <linux-nvme@lists.infradead.org>; Wed, 12 May 2021 07:13:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20210512071322euoutp017933def3d79f91d779fd5958f721a18b~_QEn98RU_1060710607euoutp014
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1620803602;
+ bh=XHSTq8qz3TLNkv4AcbF3e3lonEYzTBY9sMof/cA8cPQ=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=FMl6ELgZRDdpf3aOntPoZSABQAURhRNpoe84cFe36BILa5cKBQqYtx6QLqO6KuaIa
+ gecQTvN/idNRFZ1U9bvjStn9/i1E+KXM4a9YmYxfXXbKjHrStLfHgPm33ytkfvNyMH
+ AGY/w5cRt7Qe7/Z4Uztu9jL+TEk2UDp3jnM3iAQM=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210512071322eucas1p2657b4d5c249ba14c3dde7105655880b7~_QEnyFQt61142111421eucas1p2e;
+ Wed, 12 May 2021 07:13:22 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id D1.10.09452.2108B906; Wed, 12
+ May 2021 08:13:22 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210512071321eucas1p2ca2253e90449108b9f3e4689bf8e0512~_QEnPivnm0606706067eucas1p2K;
+ Wed, 12 May 2021 07:13:21 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210512071321eusmtrp1d154eb7dc28942d10f16f02fca921391~_QEnOm2R92087720877eusmtrp1Q;
+ Wed, 12 May 2021 07:13:21 +0000 (GMT)
+X-AuditID: cbfec7f2-a9fff700000024ec-d4-609b801274f9
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id C9.E5.08696.1108B906; Wed, 12
+ May 2021 08:13:21 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210512071321eusmtip1ddffca367e61938552a43c3235a4573d~_QEnCRiKp2705427054eusmtip1A;
+ Wed, 12 May 2021 07:13:21 +0000 (GMT)
+Received: from localhost (106.210.248.142) by CAMSVWEXC02.scsc.local
+ (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 12 May 2021 08:13:21 +0100
+Date: Wed, 12 May 2021 09:13:19 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "axboe@kernel.dk" <axboe@kernel.dk>, "msnitzer@redhat.com"
+ <msnitzer@redhat.com>, "bvanassche@acm.org" <bvanassche@acm.org>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "roland@purestorage.com" <roland@purestorage.com>, "mpatocka@redhat.com"
+ <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>, "kbusch@kernel.org"
+ <kbusch@kernel.org>, "rwheeler@redhat.com" <rwheeler@redhat.com>,
+ "hch@lst.de" <hch@lst.de>, "Frederick.Knight@netapp.com"
+ <Frederick.Knight@netapp.com>, "zach.brown@ni.com" <zach.brown@ni.com>,
+ "osandov@fb.com" <osandov@fb.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ SelvaKumar S <selvakuma.s1@samsung.com>
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Message-ID: <20210512071319.x4wtf5uaknypoxrx@mpHalley.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7b01589e-3987-9573-ccd7-b599affed2a5@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
+X-Originating-IP: [106.210.248.142]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOKsWRmVeSWpSXmKPExsWy7djPc7pCDbMTDM5v4rRYfbefzWLah5/M
+ FrNuv2ax2PtuNqvF403/mSz2LJrEZLFy9VEmi0mHrjFa7L2lbTF/2VN2i+7rO9gs9r3ey2yx
+ /Pg/JouJHVeZLM7N+sNmcfjeVRaL1X8sLFY+Y7J4tT/OQdjj8hVvj4nN79g9Lp8t9di0qpPN
+ Y/OSeo/JN5Yzeuy+2cDmMePTFzaP62e2M3l8fHqLxWPbw152j/f7rgKVna72+LxJzqP9QDdT
+ AH8Ul01Kak5mWWqRvl0CV8abld9YC15oVyxZvZu5gbFVtYuRk0NCwERi8a2DbF2MXBxCAisY
+ Jb5/ncYC4XxhlHg4eSoThPOZUWLpwZ9MMC19fX9ZIRLLGSX2fVzCDJIAq3p+JA0isZVRYtn0
+ L2AdLAKqEttWfmQFsdkE7CUuLbsF1iAiYCwx/+ZcNhCbWeAcu8SLZ5kgtrCAp8SODf1gvbwC
+ NhL9V9+zQNiCEidnPmGBqLeS6PzQBDSTA8iWllj+jwMkzCkQK3H03RNmkLCEgLLE8um+EDfX
+ SpzacgvsGQmBX5wSK9c3Qj3jIrHyQjeULSzx6vgWdghbRuL05B4WiIZmRokza64wQzg9jBJ/
+ Jq1ghNhgLdF3JgeiwVFi1ZVmVogwn8SNt4IQZ/JJTNo2HeoeXomONiGIajWJHU1bGScwKs9C
+ 8tgsJI/NQnhsASPzKkbx1NLi3PTUYsO81HK94sTc4tK8dL3k/NxNjMC0efrf8U87GOe++qh3
+ iJGJg/EQowQHs5IIr1jS7AQh3pTEyqrUovz4otKc1OJDjNIcLErivKtmr4kXEkhPLEnNTk0t
+ SC2CyTJxcEo1MInF++37xt0jtKFvwz2FQwyiE1lTU4IyUy++n/Ro38fMvR17rXaeufRU3j8t
+ tMdMc3qSy0VBmYldt2ZN7BedtyWi7NuptZb81/Y4fd8k9qY8tMN0h5in7qoVNd/+fBLhPXJj
+ bZhwXyyTXJetajL7S/m1JZp/HMOV9j1eJHQ4NIjpcMtTm8h3x3r1yy5GxFfG9Obr720TXefb
+ 5mD4h1n2j7ugSemyrY8ez9fZMqdk9infK8JntHXvzJzEpTN3oWtJy2JF0yah+kbH0gbOm5qz
+ J4fl7q7b5fj/xsWFb3UcpsZfWFF+PiPt6doMd3e1ebV1nPJnhfkWP9huI3R86j72u2HBSVvX
+ aG1gXe8iHus0X4mlOCPRUIu5qDgRAF+sxm4KBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsVy+t/xu7qCDbMTDPZfULBYfbefzWLah5/M
+ FrNuv2ax2PtuNqvF403/mSz2LJrEZLFy9VEmi0mHrjFa7L2lbTF/2VN2i+7rO9gs9r3ey2yx
+ /Pg/JouJHVeZLM7N+sNmcfjeVRaL1X8sLFY+Y7J4tT/OQdjj8hVvj4nN79g9Lp8t9di0qpPN
+ Y/OSeo/JN5Yzeuy+2cDmMePTFzaP62e2M3l8fHqLxWPbw152j/f7rgKVna72+LxJzqP9QDdT
+ AH+Unk1RfmlJqkJGfnGJrVK0oYWRnqGlhZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsab
+ ld9YC15oVyxZvZu5gbFVtYuRk0NCwESir+8vaxcjF4eQwFJGic4Jb9khEjISn658hLKFJf5c
+ 62KDKPrIKLG+bz47hLOVUWLVxgZWkCoWAVWJbSs/gtlsAvYSl5bdYgaxRQSMJebfnMsGYjML
+ nGOXePEsE8QWFvCU2LGhnwnE5hWwkei/+p4FxBYSiJHY9molK0RcUOLkzCcsEL0WEjPnn2fs
+ YuQAsqUllv/jAAlzCsRKHH33hBkkLCGgLLF8ui/EzbUSn/8+Y5zAKDwLyaBZSAbNQhi0gJF5
+ FaNIamlxbnpusZFecWJucWleul5yfu4mRmDy2Hbs55YdjCtffdQ7xMjEwXiIUYKDWUmEVyxp
+ doIQb0piZVVqUX58UWlOavEhRlNgQExklhJNzgemr7ySeEMzA1NDEzNLA1NLM2MlcV6TI2vi
+ hQTSE0tSs1NTC1KLYPqYODilGpj2VL8rSbarul7584upaoVbn07009zpxo7rVnN+kNdbt1nK
+ VkrqhNj6m4L7BDuCYtk7du8WZN211ML4xBvR6n/3DyicZ9vAEBMzT1bgbWPk2/0VizI2Gtpq
+ 96eaFH64JS6iUDeD1zYkZ39IyiHBLzUN+Q/v9GxYUsynZbjvqe421XmFq3XsQgx23Iz7Fb/6
+ eqfo/bdl2YbsxSt8nKoa8yW7W1R9pd6+3MMZ+Gkx95PkXvWDrLMbDnnmbIg6EfCQKS4gZun2
+ nFlcTHsvXt1s2/rw+o7Vq0QUQnRefrbXlf7eZ/OR6djhWTcM132dpiYXfcU/JPpj/qlXK5iV
+ 2Wy5c55I859cfZrx9IWdds4y85RYijMSDbWYi4oTAfITnzGnAwAA
+X-CMS-MailID: 20210512071321eucas1p2ca2253e90449108b9f3e4689bf8e0512
+X-Msg-Generator: CA
+X-RootMTR: 20210512071321eucas1p2ca2253e90449108b9f3e4689bf8e0512
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210512071321eucas1p2ca2253e90449108b9f3e4689bf8e0512
+References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <CGME20210512071321eucas1p2ca2253e90449108b9f3e4689bf8e0512@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210511_232054_966269_C22E3540 
-X-CRM114-Status: GOOD (  10.48  )
+X-CRM114-CacheID: sfid-20210512_001333_860377_98C62AB7 
+X-CRM114-Status: GOOD (  21.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,17 +172,145 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 12, 2021 at 07:24:44AM +0200, Hannes Reinecke wrote:
->> Can you please also add a comment why we are sending the event?
->>
-> You mean, why sending KOBJ_CHANGE and not KOBJ_ADD?
+On 11.05.2021 00:15, Chaitanya Kulkarni wrote:
+>Hi,
+>
+>* Background :-
+>-----------------------------------------------------------------------
+>
+>Copy offload is a feature that allows file-systems or storage devices
+>to be instructed to copy files/logical blocks without requiring
+>involvement of the local CPU.
+>
+>With reference to the RISC-V summit keynote [1] single threaded
+>performance is limiting due to Denard scaling and multi-threaded
+>performance is slowing down due Moore's law limitations. With the rise
+>of SNIA Computation Technical Storage Working Group (TWG) [2],
+>offloading computations to the device or over the fabrics is becoming
+>popular as there are several solutions available [2]. One of the common
+>operation which is popular in the kernel and is not merged yet is Copy
+>offload over the fabrics or on to the device.
+>
+>* Problem :-
+>-----------------------------------------------------------------------
+>
+>The original work which is done by Martin is present here [3]. The
+>latest work which is posted by Mikulas [4] is not merged yet. These two
+>approaches are totally different from each other. Several storage
+>vendors discourage mixing copy offload requests with regular READ/WRITE
+>I/O. Also, the fact that the operation fails if a copy request ever
+>needs to be split as it traverses the stack it has the unfortunate
+>side-effect of preventing copy offload from working in pretty much
+>every common deployment configuration out there.
+>
+>* Current state of the work :-
+>-----------------------------------------------------------------------
+>
+>With [3] being hard to handle arbitrary DM/MD stacking without
+>splitting the command in two, one for copying IN and one for copying
+>OUT. Which is then demonstrated by the [4] why [3] it is not a suitable
+>candidate. Also, with [4] there is an unresolved problem with the
+>two-command approach about how to handle changes to the DM layout
+>between an IN and OUT operations.
+>
+>* Why Linux Kernel Storage System needs Copy Offload support now ?
+>-----------------------------------------------------------------------
+>
+>With the rise of the SNIA Computational Storage TWG and solutions [2],
+>existing SCSI XCopy support in the protocol, recent advancement in the
+>Linux Kernel File System for Zoned devices (Zonefs [5]), Peer to Peer
+>DMA support in the Linux Kernel mainly for NVMe devices [7] and
+>eventually NVMe Devices and subsystem (NVMe PCIe/NVMeOF) will benefit
+>from Copy offload operation.
+>
+>With this background we have significant number of use-cases which are
+>strong candidates waiting for outstanding Linux Kernel Block Layer Copy
+>Offload support, so that Linux Kernel Storage subsystem can to address
+>previously mentioned problems [1] and allow efficient offloading of the
+>data related operations. (Such as move/copy etc.)
+>
+>For reference following is the list of the use-cases/candidates waiting
+>for Copy Offload support :-
+>
+>1. SCSI-attached storage arrays.
+>2. Stacking drivers supporting XCopy DM/MD.
+>3. Computational Storage solutions.
+>7. File systems :- Local, NFS and Zonefs.
+>4. Block devices :- Distributed, local, and Zoned devices.
+>5. Peer to Peer DMA support solutions.
+>6. Potentially NVMe subsystem both NVMe PCIe and NVMeOF.
+>
+>* What we will discuss in the proposed session ?
+>-----------------------------------------------------------------------
+>
+>I'd like to propose a session to go over this topic to understand :-
+>
+>1. What are the blockers for Copy Offload implementation ?
+>2. Discussion about having a file system interface.
+>3. Discussion about having right system call for user-space.
+>4. What is the right way to move this work forward ?
+>5. How can we help to contribute and move this work forward ?
+>
+>* Required Participants :-
+>-----------------------------------------------------------------------
+>
+>I'd like to invite file system, block layer, and device drivers
+>developers to:-
+>
+>1. Share their opinion on the topic.
+>2. Share their experience and any other issues with [4].
+>3. Uncover additional details that are missing from this proposal.
+>
+>Required attendees :-
+>
+>Martin K. Petersen
+>Jens Axboe
+>Christoph Hellwig
+>Bart Van Assche
+>Zach Brown
+>Roland Dreier
+>Ric Wheeler
+>Trond Myklebust
+>Mike Snitzer
+>Keith Busch
+>Sagi Grimberg
+>Hannes Reinecke
+>Frederick Knight
+>Mikulas Patocka
+>Keith Busch
+>
+>Regards,
+>Chaitanya
+>
+>[1]https://content.riscv.org/wp-content/uploads/2018/12/A-New-Golden-Age-for-Computer-Architecture-History-Challenges-and-Opportunities-David-Patterson-.pdf
+>[2] https://www.snia.org/computational
+>https://www.napatech.com/support/resources/solution-descriptions/napatech-smartnic-solution-for-hardware-offload/
+>      https://www.eideticom.com/products.html
+>https://www.xilinx.com/applications/data-center/computational-storage.html
+>[3] git://git.kernel.org/pub/scm/linux/kernel/git/mkp/linux.git xcopy
+>[4] https://www.spinics.net/lists/linux-block/msg00599.html
+>[5] https://lwn.net/Articles/793585/
+>[6] https://nvmexpress.org/new-nvmetm-specification-defines-zoned-
+>namespaces-zns-as-go-to-industry-technology/
+>[7] https://github.com/sbates130272/linux-p2pmem
+>[8] https://kernel.dk/io_uring.pdf
 
-Maybe that to, but most importantly why we are sending an event here.
+
+I would like to participate in this discussion too.
+
+Cc'in Selva and Kanchan, who have been posting several series for NVMe
+Simple Copy (SCC). Even though SCC is a very narrow use-case of
+copy-offload, it seems like a good start to start getting generic code
+in the block layer.
+
+Javier
+
+
 
 _______________________________________________
 Linux-nvme mailing list
