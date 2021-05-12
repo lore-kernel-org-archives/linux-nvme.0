@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CAACC433ED
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:18:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28293C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:20:06 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBE296112D
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:18:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBE296112D
+	by mail.kernel.org (Postfix) with ESMTPS id B2B916112D
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:20:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2B916112D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,32 +23,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=844rym5F42f+3NJ8EyC5zAU6wuBpgqFtMvliuLKPJNY=; b=IJiWtEm8zA2wKtoMRA1FgKiI9
-	U+M8XMrKf/6YKXyQlv+epZXlRRxVyONWNMM1GCtDM5Kxso4gaajxBN5vL8Mz61sIi2fo1Ry8kSIEo
-	czvyrrr55ynf5vu1/JG7v/MsljsjtxsCkosx50CJM6t0h+eQB4ND05DVfQxXm3Uva9in7LcX+tF/y
-	VOiyTFpxEiCBgqQACSQRMpUjff/fKllMXzr7E1aH06EBFvLr2nApXskrpg1YJgcVbNmFGCMLx8sDr
-	JJUbt4RX/ygDzm2be7VkB5I9U54djWAzc6P3OXiBbxXXcaSO2JUUxUgikcDlpb155tlpLoqNURNoT
-	W+p7Ea14A==;
+	 bh=IA4dHSttk8mhTS9W23M4EOqtqZfIhOXP4o6WmVlER+k=; b=iNkIxpjG8KFFprPHmSinp7a1W
+	pOfAddNhIZV2Kx9DZ0z6QEcuYwLP5Im2WG5YB5YEtqCB3GpKvfQ5OgtACzOG9LVOb5TBvlI7Ur2ha
+	XlPNWya/5c9Y08Z/8C5NQC8+huwOA/m6SJI/0HrW8ZrKT59XmpIm46uJldrMvww1aQTZZL2N2iJwl
+	1Tx8Tpqh6v9mZlKTncBBujOrcY22EwEiRsIOZ3NPpAn6I4AffS9ReAW+HDI1nx4Ux41mtOdinEzmc
+	9tzeBKwgENU/J++jG8SKQHHuyUQfsFs+zX2liZLy/SXCj0WcI5Bh2Ez8w+CsoQj9Tny1hh8A6NEMF
+	Ov58tGnpg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgolJ-002s9m-W0; Wed, 12 May 2021 13:18:54 +0000
+	id 1lgom7-002sIl-SB; Wed, 12 May 2021 13:19:44 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgoim-002rdT-MJ
- for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 13:16:16 +0000
+ id 1lgoip-002rdl-I9
+ for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 13:16:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=bco/Dc5NOlfO0gbeRuz1xmWQ5rDoBprwVddNApuJIrQ=; b=ZG/Y11TRYlBgwmkgGZJrWZ8dz5
- MdaGSEALUsAf7HHtOFkBuBcVeFoW3Wu7awQKILH4cOXDt1She7nubo/0wUXWtOqn//6Tx6Nu2GtPr
- Xpf+KtZvX0gUuVrfNDYTzqPyYgWr8OaUxqJI+P3VunqVfvRBVGq1JA/zmIMvGD/3Yu1JsLrFZrjat
- DW/DOKkKCp9OUzfAoUfzxdPBc8CT2G0WymUYIExxrBu6onr0FFy22Tgw6oC+PlTR+PesxzKy8ZSH5
- GZhGFnvs9jVNCXIHIXE/okvDEz9CLUN/GEUcFe8+4TPao778oQZCbl2PitW1Z+kf+9JwcY9IcBXDf
- 3DtpqJsQ==;
+ bh=Cip8QuGapJKK/MhB2XsoYdZA3zqeZUY0CVfq2URO9Xg=; b=I9bq6HHATiJjZhPNPHbuetFzEG
+ tRlh9gDciQmLIsfWsrtD4IqdtjdqZvyfR9/l8ycOajh0hsZgSJFwwbw93Ujrh57kzKiDRx7qznEe+
+ McjVaK7cTZfhY2g3GL2MzYcpfQVco0ZoDUgdc2i9/M0S0qT/3yuXzMLP+JxJkyXptE6iAngogIwEs
+ UsvCbNm9cTPSjlMpWhC+8r3kZu/zycKip9/ibXfJZbJCD6WhHUzYwBn4sbWuVXGceSOCklrJWe469
+ ErohXSD5afx47eKryjsNjGrfeza5pfAZO49t+j4xssN2Spr0/gsOlExTB1q1w/zNpmKvW/s64+zf4
+ 18HgtwZQ==;
 Received: from [2001:4bb8:198:fbc8:1036:7ab9:f97a:adbc] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lgoik-00AO4b-RS; Wed, 12 May 2021 13:16:15 +0000
+ id 1lgoin-00AO4l-Ky; Wed, 12 May 2021 13:16:18 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
@@ -56,10 +56,11 @@ Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
  Sagi Grimberg <sagi@grimberg.me>,
  "Wunderlich, Mark" <mark.wunderlich@intel.com>,
  "Vasudevan, Anil" <anil.vasudevan@intel.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: [PATCH 10/15] block: use SLAB_TYPESAFE_BY_RCU for the bio slab
-Date: Wed, 12 May 2021 15:15:40 +0200
-Message-Id: <20210512131545.495160-11-hch@lst.de>
+ linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 11/15] block: define 'struct bvec_iter' as packed
+Date: Wed, 12 May 2021 15:15:41 +0200
+Message-Id: <20210512131545.495160-12-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210512131545.495160-1-hch@lst.de>
 References: <20210512131545.495160-1-hch@lst.de>
@@ -82,30 +83,37 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This flags ensures that the pages will not be reused for non-bio
-allocations before the end of an RCU grace period.  With that we can
-safely use a RCU lookup for bio polling as long as we are fine with
-occasionally polling the wrong device.
+From: Ming Lei <ming.lei@redhat.com>
 
+'struct bvec_iter' is embedded into 'struct bio', define it as packed
+so that we can get one extra 4bytes for other uses without expanding
+bio.
+
+'struct bvec_iter' is often allocated on stack, so making it packed
+doesn't affect performance. Also I have run io_uring on both
+nvme/null_blk, and not observe performance effect in this way.
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/bio.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/linux/bvec.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index 44205dfb6b60..de5505d7018e 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -82,7 +82,8 @@ static struct bio_slab *create_bio_slab(unsigned int size)
+diff --git a/include/linux/bvec.h b/include/linux/bvec.h
+index ff832e698efb..a0c4f41dfc83 100644
+--- a/include/linux/bvec.h
++++ b/include/linux/bvec.h
+@@ -43,7 +43,7 @@ struct bvec_iter {
  
- 	snprintf(bslab->name, sizeof(bslab->name), "bio-%d", size);
- 	bslab->slab = kmem_cache_create(bslab->name, size,
--			ARCH_KMALLOC_MINALIGN, SLAB_HWCACHE_ALIGN, NULL);
-+			ARCH_KMALLOC_MINALIGN,
-+			SLAB_HWCACHE_ALIGN | SLAB_TYPESAFE_BY_RCU, NULL);
- 	if (!bslab->slab)
- 		goto fail_alloc_slab;
+ 	unsigned int            bi_bvec_done;	/* number of bytes completed in
+ 						   current bvec */
+-};
++} __packed;
  
+ struct bvec_iter_all {
+ 	struct bio_vec	bv;
 -- 
 2.30.2
 
