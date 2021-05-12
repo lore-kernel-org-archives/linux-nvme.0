@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B16C433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:16:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC5EC43600
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:16:59 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D5FAD613CA
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:16:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D5FAD613CA
+	by mail.kernel.org (Postfix) with ESMTPS id 8335D6112D
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 May 2021 13:16:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8335D6112D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,32 +23,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=jGf8VjTeVlGe7XqcLJ3BZNGsyX9MQ8wUKSzFqXOtffk=; b=rLM1Tw8YkPJGlYmLdnKJZH6q7
-	z8/MoOPILXSwD2AyyDSOIXJpP0unrLH66iuzcuM/ijA+LeyoX26GzaIl5UROplmFpfexmKXvVt9J3
-	FHv7OJEbtEYEy9AIFaqsIjlinLYTwcwTeEzGtLMCp4aygmQR9UDQ7CirHnNOomdPKOKD/zZlYpKJU
-	ZCSMaH8XUh41V5TzjkEJ2yADEMVUz7qeEgVn2jYn+cKTa4lNTFyYbTTAIEAd8DyaXJmdXlbqJSk1l
-	OgsaUb9dq1pkMICBfOI9t9KPcIRbnHEsFYQhpTRJ/K/hlaBSvIzjlwXPszyfpBznvx+b9+PWr/qgH
-	J6qNA8Hpg==;
+	 bh=brtU1PZ7GZjNH7WRVZBtmnVqOTJnY2EkOkfXqZv4yHg=; b=HmhCCfps+3J5GrN0AEP/Vqxrj
+	sQCMaGZpGCvenZLakMb42eZsPUCZpS1eTF/3Axhg3Srw+KsLnB1LuM+6Hqi7k2kG0oY2p96Can+F5
+	oMX9WVrYLr7kcElWPTlVz9x2VXfjVGe6gC3KBDNbxtplBeflgRL5mewkOd8gl/iJkRon+tbuBGm+h
+	v1fwCcGJEPa1xHJ8FkUIlmnP1cYuCtGPxRSR9o+PjBdCOf0xsvq1Gjz3pppBtNNMhWVX1XaRskzm9
+	6r5SzvtlAEWeJXNmUFkviUCBT+/xFk4y/eOBMDiSSwumxfhQrHcIznV6VUDh0rQDizyo1bK0XxBb1
+	/w0B5ztpA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lgoit-002reK-FF; Wed, 12 May 2021 13:16:23 +0000
+	id 1lgoj6-002rgV-7f; Wed, 12 May 2021 13:16:36 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lgoiU-002raq-3m
- for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 13:15:58 +0000
+ id 1lgoiW-002rb8-6p
+ for linux-nvme@desiato.infradead.org; Wed, 12 May 2021 13:16:00 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=ITcDnMcQEFSlEsP6OeKRIsg7UYiJLbM8pLCK5/AYNmI=; b=ilmrki/Qi7MB0JiGh4JaY+GbtD
- Wvl5thPN5GNtQT4n6fZ/vd1ZnlCChqXtapVZ1fzcXgokbddK+tGD3hS1OSM+o8Mmq06ixLFuxetlY
- tY/II5Iix77vw91F9tBajof90Tn5pBGtAYhrq9nfM6qTT+iWpdpGoaG6w+4zbB7RVMqHG90J2GNt3
- 8qfbOHWL9ni3GXhfJ78X1CHeU1v6Kq1Dp2Zcspl/giETn6hZqK7DdloZoGHT0gG+T9zWtJZ+5hdb2
- +G6jvmF6P7HseN5tWsXudOUGSqP0Qhj/n6mvHWCZKieNie8Os1gZoB5e5kAPsb0T7yuqtNJLK8EHn
- Y8+8FTpw==;
+ bh=3NRasvAJk/2IumrVSjqvjwNMNfQe7gR4L2NNKEmN28E=; b=xiciGPBB0X7upEVxij2f/rLkt5
+ vpMtOoB3CBp9qamjDy9frNy+A7oMOlDS2nFc2BGcbCIwgn+CfpM+qR04B5fQ8/QM7svg3cU2bka2S
+ jR2vY67Z9EV3wGBSxsoQo0dd7yw/B0Ql5V7WbOLxmcE107uQT/Th5zC1acb3Aw9XmCqeTCgA1S1SZ
+ va3kFqgHNjsU0wZtdNLIur055hFHpqQZ341yX8QBAMGucq+j8fuROVowwAPmzqW1dvRH1kK5kxkYw
+ /wtuEPdjP0BjwPo5oYGwpOo/BIbv/uxTF9KO1yorV6mVhaCrHgtxXhBVlkueZNPdXCI02iC6EpYA9
+ IR43fo5A==;
 Received: from [2001:4bb8:198:fbc8:1036:7ab9:f97a:adbc] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1lgoiO-00AO1o-Po; Wed, 12 May 2021 13:15:53 +0000
+ id 1lgoiU-00AO2J-A1; Wed, 12 May 2021 13:15:58 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
@@ -57,10 +57,9 @@ Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
  "Wunderlich, Mark" <mark.wunderlich@intel.com>,
  "Vasudevan, Anil" <anil.vasudevan@intel.com>, linux-block@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: [PATCH 02/15] block: don't try to poll multi-bio I/Os in
- __blkdev_direct_IO
-Date: Wed, 12 May 2021 15:15:32 +0200
-Message-Id: <20210512131545.495160-3-hch@lst.de>
+Subject: [PATCH 04/15] blk-mq: factor out a blk_qc_to_hctx helper
+Date: Wed, 12 May 2021 15:15:34 +0200
+Message-Id: <20210512131545.495160-5-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210512131545.495160-1-hch@lst.de>
 References: <20210512131545.495160-1-hch@lst.de>
@@ -83,84 +82,57 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If an iocb is split into multiple bios we can't poll for both.  So don't
-bother to even try to poll in that case.
+Add a helper to get the hctx from a request_queue and cookie, and fold
+the blk_qc_t_to_queue_num helper into it as no other callers are left.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/block_dev.c | 37 ++++++++++++++-----------------------
- 1 file changed, 14 insertions(+), 23 deletions(-)
+ block/blk-mq.c            | 8 +++++++-
+ include/linux/blk_types.h | 5 -----
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index b8abccd03e5d..0080a3b710b4 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -375,7 +375,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 	struct blk_plug plug;
- 	struct blkdev_dio *dio;
- 	struct bio *bio;
--	bool is_poll = (iocb->ki_flags & IOCB_HIPRI) != 0;
-+	bool is_poll = (iocb->ki_flags & IOCB_HIPRI), do_poll = false;
- 	bool is_read = (iov_iter_rw(iter) == READ), is_sync;
- 	loff_t pos = iocb->ki_pos;
- 	blk_qc_t qc = BLK_QC_T_NONE;
-@@ -437,22 +437,9 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 		pos += bio->bi_iter.bi_size;
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 466676bc2f0b..04e17d50fb02 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -63,6 +63,12 @@ static int blk_mq_poll_stats_bkt(const struct request *rq)
+ 	return bucket;
+ }
  
- 		nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS);
--		if (!nr_pages) {
--			bool polled = false;
--
--			if (iocb->ki_flags & IOCB_HIPRI) {
--				bio_set_polled(bio, iocb);
--				polled = true;
--			}
--
--			qc = submit_bio(bio);
--
--			if (polled)
--				WRITE_ONCE(iocb->ki_cookie, qc);
--			break;
--		}
--
--		if (!dio->multi_bio) {
-+		if (dio->multi_bio) {
-+			atomic_inc(&dio->ref);
-+		} else if (nr_pages) {
- 			/*
- 			 * AIO needs an extra reference to ensure the dio
- 			 * structure which is embedded into the first bio
-@@ -462,11 +449,16 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 				bio_get(bio);
- 			dio->multi_bio = true;
- 			atomic_set(&dio->ref, 2);
--		} else {
--			atomic_inc(&dio->ref);
-+		} else if (is_poll) {
-+			bio_set_polled(bio, iocb);
-+			do_poll = true;
-+		}
-+		qc = submit_bio(bio);
-+		if (!nr_pages) {
-+			if (do_poll)
-+				WRITE_ONCE(iocb->ki_cookie, qc);
-+			break;
- 		}
--
--		submit_bio(bio);
- 		bio = bio_alloc(GFP_KERNEL, nr_pages);
- 	}
++static inline struct blk_mq_hw_ctx *blk_qc_to_hctx(struct request_queue *q,
++		blk_qc_t qc)
++{
++	return q->queue_hw_ctx[(qc & ~BLK_QC_T_INTERNAL) >> BLK_QC_T_SHIFT];
++}
++
+ /*
+  * Check if any of the ctx, dispatch list or elevator
+  * have pending work in this hardware queue.
+@@ -3892,7 +3898,7 @@ int blk_poll(struct request_queue *q, blk_qc_t cookie, bool spin)
+ 	if (current->plug)
+ 		blk_flush_plug_list(current->plug, false);
  
-@@ -481,8 +473,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 		if (!READ_ONCE(dio->waiter))
- 			break;
+-	hctx = q->queue_hw_ctx[blk_qc_t_to_queue_num(cookie)];
++	hctx = blk_qc_to_hctx(q, cookie);
  
--		if (!(iocb->ki_flags & IOCB_HIPRI) ||
--		    !blk_poll(bdev_get_queue(bdev), qc, true))
-+		if (!do_poll || !blk_poll(bdev_get_queue(bdev), qc, true))
- 			blk_io_schedule();
- 	}
- 	__set_current_state(TASK_RUNNING);
+ 	/*
+ 	 * If we sleep, have the caller restart the poll loop to reset
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index db026b6ec15a..ed71a8d968f2 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -515,11 +515,6 @@ static inline bool blk_qc_t_valid(blk_qc_t cookie)
+ 	return cookie != BLK_QC_T_NONE;
+ }
+ 
+-static inline unsigned int blk_qc_t_to_queue_num(blk_qc_t cookie)
+-{
+-	return (cookie & ~BLK_QC_T_INTERNAL) >> BLK_QC_T_SHIFT;
+-}
+-
+ static inline unsigned int blk_qc_t_to_tag(blk_qc_t cookie)
+ {
+ 	return cookie & ((1u << BLK_QC_T_SHIFT) - 1);
 -- 
 2.30.2
 
