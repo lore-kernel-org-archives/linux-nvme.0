@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A015FC433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 22:58:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DBD2C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 23:02:14 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E64D861363
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 22:58:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E64D861363
+	by mail.kernel.org (Postfix) with ESMTPS id 7F79F61185
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 23:02:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F79F61185
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,49 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=g7/rWhxMtasNuBSRmvSd3mme3c6+rrOA7zpDZpaJt00=; b=OWRBbuBwebKXNV
-	BdBde0DwRTkrxPPTWAuDlpbt7NLjk6sq9WFw3VD3GAALFQ9zJFLYeHtbHY+lz77dfWSD671zTpvZ5
-	PpDNhUJB43/SslHXrMGx5shB2iV9DumuxfGvC8Eyva9jnbCqy/UqN+T+jlYkTwArXA/ozHekODTy8
-	d4dbni/giyo4VBbZTlnBfXwRnmVlzKswvpglJGGostzITqC9O82nzUjolZc5fsTKby3Tr2TD4xG28
-	DXeZjtTy79/zcvykfsQyS2SV/kaZL17LnJV61hza9kavj99VnOz413lx7betiwlCtXFy9TIkPbkCg
-	8Q9zQxnJ3EO2lKl2DslQ==;
+	List-Owner; bh=630K8EeA2leYiEGVL9X1L5IXTvlRjWxaXutdUpHWJZ4=; b=k4PlKsptL/a4jd
+	BzcV9NMUsKiWQFvx0YDeAfVuxHJyHZDPGb7hJQQHbhG2ljL+0dRfpfdOD2LH8diBzxQNW+x9DdIEe
+	EmNFQHG8Ww2DA3mFBEUjCDQGIdmV2S9a7z5Y/tLoynjNr2jMj1MCStrJWHcEUEkPg8OuowqEwhDVz
+	uaIgXoQLtTaKIE/fd8/DJe4K50A9KmHCK81CwSAQrEcLgmfmQHYpotZgfQUcz+tqWcoRBy5vSOZhc
+	S/aWg4/uEDfF2EBBEQhOG7YmNoviEfBWhReAgKBch6ZbetiM6DvbRll25TnDZf6j+7NeoRVZHyw0+
+	xQI4e1mWT/C5D3Lo3LMg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhKHa-006bzP-Vz; Thu, 13 May 2021 22:58:19 +0000
+	id 1lhKKp-006cK5-CW; Thu, 13 May 2021 23:01:39 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhJsb-006YeO-VI
- for linux-nvme@desiato.infradead.org; Thu, 13 May 2021 22:32:33 +0000
+ id 1lhJsc-006YeP-1X
+ for linux-nvme@desiato.infradead.org; Thu, 13 May 2021 22:32:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=EsB08albNdgd1m+Vu0wFCNN3RogAXBpqgU7kG1WJKUc=; b=V1SeC03Azx8i+vGOk471Ow7R21
- ISi/L0uJNihagmFndgcEOVmy4sVAkOLe+ZJjDYaQSkLvaqISbrXXdRlOgJb48u6yjaynE+Evi9EG5
- nCjzj5RbOS12sN/iLOmNC4cqqxSGn+bIIrE7Mq247nwX0buxBPXGB5XQ08Q4gWrCYYIf+klL19/VF
- DZpsPg9aS/fprweg5ZRDahe1JF4iK/Aqz4PLXo0k/9y/j+PNfhMgIojzdXK587tpV2chm+olk8ICc
- 0dH65EsAUex1vabmjXTpc8v9uTHzKxxk4k5rji2CCI0/FCt91HoMRo1ezb9tDxzg7bGNdMm7b+yy8
- WFEcpPJQ==;
+ bh=/1W3j2Rqe8fHNrWCW7Ouw3jhOc5qpB9v4K7ma+z5lU0=; b=YmkTWjL6ogfBDozkFxsJobZqxQ
+ hAamV2Zied+KTeuCU0PZ30ZzpS/VJhkzFDNZYM1bnjyg+yJBeRZta/YEjkO00lwwBpOohvOJOgA3U
+ EcA4z1mfkrpjkB7rn+tWZyVy74gsJQM5IryDArLKCC/Q071vjqXtBtmQPybx2H/oZdyshWX9Hq/K0
+ uPVOvKvK8AqCXcmT+Gdr6JQb2XqvoppdWbg1SLcszb7ouGMz3PDyON9Sk27zu19VeeDH3NHpqdc+c
+ 1HjvAPxwub2zTnzdZbmkaidxujUctj0mZK3OqJWYDXplluXvswhCPl/koWJ6gfbFbUPUE5gPyeIjy
+ 1Se7lJRA==;
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhJsZ-00BZGK-CX
+ id 1lhJsY-00BZFn-UX
  for linux-nvme@lists.infradead.org; Thu, 13 May 2021 22:32:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=EsB08albNdgd1m+Vu0wFCNN3RogAXBpqgU7kG1WJKUc=; b=MMW2sBdz8FXiBcsaD7ZZwAQohL
- V/EJGpz6FW2Q2x2IIk1Wy3bjt5Tg47SpPx18PTdixkoI2/qpo3q5qiyQUTsepKMQfnCW1vBhCLhdo
- LM0hj3nOamif60N9rVSxMWICzELWZSW6nwDXZck7yyjWSaRuHHw3lVH6msb6I+yDQEpWEnN6dgNi1
- iqEuA6Be5GyB2MTUZa3Xtg1vMw/WK0OBDUON3QASGtbRr83hjFTA4bWHfL74nYaAHltlV/p8dGTCz
- 0Ni4eJSosiU03NwmFq2cR4IaCzCy3lkVTbY//ssAVzm81P6gRQOZiMtWQmD62YNqrR1H3uYvJ7WRi
- 2kE4uQVA==;
+ bh=/1W3j2Rqe8fHNrWCW7Ouw3jhOc5qpB9v4K7ma+z5lU0=; b=Ys4pV10me/1xi7s30rq3o0HcrG
+ aB4TcV8fdKr8P9FqdAXnC+uJWH4g/DCkVcdltpeEHo7vrxZvLuyJYS04WujHSdisVJ9z+X8xfnm89
+ nPV6mTDTu7U4R3qCwPPWuVu3Ibr7lluZ+T65TQI2WIzDrri4qiOGtC+/i4ccdOwm9KM5BAwIiU6/M
+ HO3PD6J3YEYP3YgDsDigux3bvRjHMEc2WpNd6x16pgnoatpjC88tIxgg+sOCuGsGDFUGKq0GBVzIM
+ lBOyhE/5f/QD05itfMHhj7v6z9HN4yKV9i+A7RCLLLktp4zHRL+aH/LVbMAvpJTa1c8yLFs6KV/zf
+ GdvxmdxQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsY-0000nC-27; Thu, 13 May 2021 16:32:26 -0600
+ id 1lhJsX-0000nB-BA; Thu, 13 May 2021 16:32:26 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsG-0001Sn-Ih; Thu, 13 May 2021 16:32:08 -0600
+ id 1lhJsG-0001Sq-O9; Thu, 13 May 2021 16:32:08 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -83,8 +83,8 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
  Robin Murphy <robin.murphy@arm.com>, Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 13 May 2021 16:31:48 -0600
-Message-Id: <20210513223203.5542-8-logang@deltatee.com>
+Date: Thu, 13 May 2021 16:31:49 -0600
+Message-Id: <20210513223203.5542-9-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210513223203.5542-1-logang@deltatee.com>
 References: <20210513223203.5542-1-logang@deltatee.com>
@@ -100,13 +100,13 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2 07/22] PCI/P2PDMA: Refactor pci_p2pdma_map_type() to take
- pagemap and device
+Subject: [PATCH v2 08/22] dma-mapping: Allow map_sg() ops to return negative
+ error codes
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210513_153227_451903_5EDC9137 
-X-CRM114-Status: GOOD (  13.81  )
+X-CRM114-CacheID: sfid-20210513_153227_065285_AA11ADBD 
+X-CRM114-Status: GOOD (  23.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,79 +123,162 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All callers of pci_p2pdma_map_type() have a struct dev_pgmap and a
-struct device (of the client doing the DMA transfer). Thus move the
-conversion to struct pci_devs for the provider and client into this
-function.
+Allow dma_map_sgtable() to pass errors from the map_sg() ops. This
+will be required for returning appropriate error codes when mapping
+P2PDMA memory.
+
+Introduce __dma_map_sg_attrs() which will return the raw error code
+from the map_sg operation (whether it be negative or zero). Then add a
+dma_map_sg_attrs() wrapper to convert any negative errors to zero to
+satisfy the existing calling convention.
+
+dma_map_sgtable() will convert a zero error return for old map_sg() ops
+into a -EINVAL return and return any negative errors as reported.
+
+This allows map_sg implementations to start returning multiple
+negative error codes. Legacy map_sg implementations can continue
+to return zero until they are all converted.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/pci/p2pdma.c | 29 +++++++++++------------------
- 1 file changed, 11 insertions(+), 18 deletions(-)
+ include/linux/dma-map-ops.h |  8 ++++++--
+ include/linux/dma-mapping.h | 41 ++++++++++++++++++++++++++++++++-----
+ kernel/dma/mapping.c        | 13 +++++-------
+ 3 files changed, 47 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 4034ffa0eb06..6c2057cd3f37 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -844,14 +844,21 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 0d53a96a3d64..eaa969be8284 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -41,8 +41,12 @@ struct dma_map_ops {
+ 			size_t size, enum dma_data_direction dir,
+ 			unsigned long attrs);
+ 	/*
+-	 * map_sg returns 0 on error and a value > 0 on success.
+-	 * It should never return a value < 0.
++	 * map_sg should return a negative error code on error.
++	 * dma_map_sgtable() will return the error code returned and convert
++	 * a zero return (for legacy implementations) into -EINVAL.
++	 *
++	 * dma_map_sg() will always return zero on any negative or zero
++	 * return to satisfy its own calling convention.
+ 	 */
+ 	int (*map_sg)(struct device *dev, struct scatterlist *sg, int nents,
+ 			enum dma_data_direction dir, unsigned long attrs);
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 183e7103a66d..2b0ecf0aa4df 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -105,7 +105,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+ 		unsigned long attrs);
+ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+ 		enum dma_data_direction dir, unsigned long attrs);
+-int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
++int __dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
+ 		enum dma_data_direction dir, unsigned long attrs);
+ void dma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 				      int nents, enum dma_data_direction dir,
+@@ -164,7 +164,7 @@ static inline void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
  }
- EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
- 
--static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct pci_dev *provider,
--						    struct pci_dev *client)
-+static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
-+						    struct device *dev)
- {
-+	struct pci_dev *provider = to_p2p_pgmap(pgmap)->provider;
- 	enum pci_p2pdma_map_type ret;
-+	struct pci_dev *client;
- 
- 	if (!provider->p2pdma)
- 		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
- 
-+	if (!dev_is_pci(dev))
-+		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+
-+	client = to_pci_dev(dev);
-+
- 	ret = xa_to_value(xa_load(&provider->p2pdma->map_types,
- 				  map_types_idx(client)));
- 	if (ret == PCI_P2PDMA_MAP_UNKNOWN)
-@@ -892,14 +899,8 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- {
- 	struct pci_p2pdma_pagemap *p2p_pgmap =
- 		to_p2p_pgmap(sg_page(sg)->pgmap);
--	struct pci_dev *client;
--
--	if (WARN_ON_ONCE(!dev_is_pci(dev)))
--		return 0;
- 
--	client = to_pci_dev(dev);
--
--	switch (pci_p2pdma_map_type(p2p_pgmap->provider, client)) {
-+	switch (pci_p2pdma_map_type(sg_page(sg)->pgmap, dev)) {
- 	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
- 		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
- 	case PCI_P2PDMA_MAP_BUS_ADDR:
-@@ -922,17 +923,9 @@ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
- void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+-static inline int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
++static inline int __dma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
  		int nents, enum dma_data_direction dir, unsigned long attrs)
  {
--	struct pci_p2pdma_pagemap *p2p_pgmap =
--		to_p2p_pgmap(sg_page(sg)->pgmap);
- 	enum pci_p2pdma_map_type map_type;
--	struct pci_dev *client;
--
--	if (WARN_ON_ONCE(!dev_is_pci(dev)))
--		return;
--
--	client = to_pci_dev(dev);
+ 	return 0;
+@@ -343,6 +343,34 @@ static inline void dma_sync_single_range_for_device(struct device *dev,
+ 	return dma_sync_single_for_device(dev, addr + offset, size, dir);
+ }
  
--	map_type = pci_p2pdma_map_type(p2p_pgmap->provider, client);
-+	map_type = pci_p2pdma_map_type(sg_page(sg)->pgmap, dev);
++/**
++ * dma_map_sg_attrs - Map the given buffer for DMA
++ * @dev:	The device for which to perform the DMA operation
++ * @sg:	The sg_table object describing the buffer
++ * @dir:	DMA direction
++ * @attrs:	Optional DMA attributes for the map operation
++ *
++ * Maps a buffer described by a scatterlist passed in the sg argument with
++ * nents segments for the @dir DMA operation by the @dev device.
++ *
++ * Returns the number of mapped entries (which can be less than nents)
++ * on success. Zero is returned for any error.
++ *
++ * dma_unmap_sg_attrs() should be used to unmap the buffer with the
++ * original sg and original nents (not the value returned by this funciton).
++ */
++static inline int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
++		int nents, enum dma_data_direction dir, unsigned long attrs)
++{
++	int ret;
++
++	ret = __dma_map_sg_attrs(dev, sg, nents, dir, attrs);
++	if (ret < 0)
++		ret = 0;
++
++	return ret;
++}
++
+ /**
+  * dma_map_sgtable - Map the given buffer for DMA
+  * @dev:	The device for which to perform the DMA operation
+@@ -357,16 +385,19 @@ static inline void dma_sync_single_range_for_device(struct device *dev,
+  * ownership of the buffer back to the CPU domain before touching the
+  * buffer by the CPU.
+  *
+- * Returns 0 on success or -EINVAL on error during mapping the buffer.
++ * Returns 0 on success or a negative error code on error
+  */
+ static inline int dma_map_sgtable(struct device *dev, struct sg_table *sgt,
+ 		enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	int nents;
  
- 	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE)
- 		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
+-	nents = dma_map_sg_attrs(dev, sgt->sgl, sgt->orig_nents, dir, attrs);
+-	if (nents <= 0)
++	nents = __dma_map_sg_attrs(dev, sgt->sgl, sgt->orig_nents, dir, attrs);
++	if (nents == 0)
+ 		return -EINVAL;
++	else if (nents < 0)
++		return nents;
++
+ 	sgt->nents = nents;
+ 	return 0;
+ }
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index 2b06a809d0b9..700a2bb7cc9e 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -177,11 +177,7 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+ }
+ EXPORT_SYMBOL(dma_unmap_page_attrs);
+ 
+-/*
+- * dma_maps_sg_attrs returns 0 on error and > 0 on success.
+- * It should never return a value < 0.
+- */
+-int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
++int __dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
+ 		enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
+@@ -197,12 +193,13 @@ int dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
+ 		ents = dma_direct_map_sg(dev, sg, nents, dir, attrs);
+ 	else
+ 		ents = ops->map_sg(dev, sg, nents, dir, attrs);
+-	BUG_ON(ents < 0);
+-	debug_dma_map_sg(dev, sg, nents, ents, dir);
++
++	if (ents > 0)
++		debug_dma_map_sg(dev, sg, nents, ents, dir);
+ 
+ 	return ents;
+ }
+-EXPORT_SYMBOL(dma_map_sg_attrs);
++EXPORT_SYMBOL(__dma_map_sg_attrs);
+ 
+ void dma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 				      int nents, enum dma_data_direction dir,
 -- 
 2.20.1
 
