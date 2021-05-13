@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE4C9C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 22:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A015FC433B4
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 22:58:44 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3B18D613E6
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 22:55:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B18D613E6
+	by mail.kernel.org (Postfix) with ESMTPS id E64D861363
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 22:58:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E64D861363
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,49 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3m7rZl1lLnFwMxrc7FlQiX1RMfLrd/JNqi2lohiw3zc=; b=f1T2pdK1XEiRXB
-	ADZikR+qnyEDP7VqBxKSruPbyomiqmAiqzAUguy15IbogHJp7T2ZUoput8lNP8+GzYI0HYbl5eIHQ
-	KJfokOdTm9I7gJdPmtYCY+71gFd57yiI73D9/Bht/KSB/sgHlgXWmVgjJ6FaFYsZ6me2sJ1CHFz21
-	RUwZc5gQlLRCgp005YXWxz+t/izIpsKm3O147BWa/49LRnp3DGxxSf6tcUJv8IWas0YdtCEdouOJm
-	7PdxswwIQGNDgoNSfFprvHOpkWlwdNRKz+XiPquuSFlsJjtLzmaH6eg7XzweGI6K0vimIbTV0QT5z
-	KZFFNy6uIpOoDqvjuH7g==;
+	List-Owner; bh=g7/rWhxMtasNuBSRmvSd3mme3c6+rrOA7zpDZpaJt00=; b=OWRBbuBwebKXNV
+	BdBde0DwRTkrxPPTWAuDlpbt7NLjk6sq9WFw3VD3GAALFQ9zJFLYeHtbHY+lz77dfWSD671zTpvZ5
+	PpDNhUJB43/SslHXrMGx5shB2iV9DumuxfGvC8Eyva9jnbCqy/UqN+T+jlYkTwArXA/ozHekODTy8
+	d4dbni/giyo4VBbZTlnBfXwRnmVlzKswvpglJGGostzITqC9O82nzUjolZc5fsTKby3Tr2TD4xG28
+	DXeZjtTy79/zcvykfsQyS2SV/kaZL17LnJV61hza9kavj99VnOz413lx7betiwlCtXFy9TIkPbkCg
+	8Q9zQxnJ3EO2lKl2DslQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhKEk-006bd7-Qw; Thu, 13 May 2021 22:55:23 +0000
+	id 1lhKHa-006bzP-Vz; Thu, 13 May 2021 22:58:19 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhJsd-006YeY-8A
- for linux-nvme@desiato.infradead.org; Thu, 13 May 2021 22:32:34 +0000
+ id 1lhJsb-006YeO-VI
+ for linux-nvme@desiato.infradead.org; Thu, 13 May 2021 22:32:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=hPXhcihXAoH8RGaPYoi+qDN3LVubyQfJAgOHoQY58UM=; b=x+uEGuagQnSsHBogR6T6OPaH3W
- dIaXiBb9xFduOhdrD4HiAQGdQDP3rq2qyvcEDT1m1qGbqlLU3B9owvvervp7WdO7YRmx4YW+0s1F/
- xN43nIpYOfiJ1oRqlKTqIWNWuMQ0DefPx9WpvQgAixYB8uXOiscksVpLKuyoSkqykoH9g9dJ9Iczr
- xhiCPhc6DIZeSQ4gRqtc9uQ8sjxKnt11gLyyG933GR+txCyiWvN5h5E+a5+PTaHTLgbtEMelzjYFJ
- SMnCbJk06rujzaKY976OkwjxUfMgAKdtq0JxtlGXGyI5cE5H86cB3RhYm16Yn7hwlZXuFvJr7GtY0
- Xu252acA==;
+ bh=EsB08albNdgd1m+Vu0wFCNN3RogAXBpqgU7kG1WJKUc=; b=V1SeC03Azx8i+vGOk471Ow7R21
+ ISi/L0uJNihagmFndgcEOVmy4sVAkOLe+ZJjDYaQSkLvaqISbrXXdRlOgJb48u6yjaynE+Evi9EG5
+ nCjzj5RbOS12sN/iLOmNC4cqqxSGn+bIIrE7Mq247nwX0buxBPXGB5XQ08Q4gWrCYYIf+klL19/VF
+ DZpsPg9aS/fprweg5ZRDahe1JF4iK/Aqz4PLXo0k/9y/j+PNfhMgIojzdXK587tpV2chm+olk8ICc
+ 0dH65EsAUex1vabmjXTpc8v9uTHzKxxk4k5rji2CCI0/FCt91HoMRo1ezb9tDxzg7bGNdMm7b+yy8
+ WFEcpPJQ==;
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhJsa-00BZH9-Ga
- for linux-nvme@lists.infradead.org; Thu, 13 May 2021 22:32:30 +0000
+ id 1lhJsZ-00BZGK-CX
+ for linux-nvme@lists.infradead.org; Thu, 13 May 2021 22:32:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=hPXhcihXAoH8RGaPYoi+qDN3LVubyQfJAgOHoQY58UM=; b=AJLAGCyL3f4e5xzFbUQ1yVN3cU
- cfpilAC8VhbDKR/rU1qGZpfArLVz5bmlSiNDtkd9Rd8yH0+gfwKMVE80p9zm5420S5vX4IJvKZ6j/
- T2TwuNQpSwbVaD8vI4CePH2nNGQsM0SbEeTBtaU9GwmpHvDHRX3pug4qLd3rpAdbY5agFTV1UO9Iq
- 8xOs+p+PX8CFAJ8wtQnJ5SXl0GGWAh+NQiysec3JJ0JzBppU3VYYCchvsyhROMI4sovCFKTEL2biO
- 29H9YJoEh5bn7UTnpiUzssbA/UMM9v1OeaKmCk90ULINe+TO62pIjvtvLHXrnmcB2t2q+61rYbfzD
- 8MUkVIkw==;
+ bh=EsB08albNdgd1m+Vu0wFCNN3RogAXBpqgU7kG1WJKUc=; b=MMW2sBdz8FXiBcsaD7ZZwAQohL
+ V/EJGpz6FW2Q2x2IIk1Wy3bjt5Tg47SpPx18PTdixkoI2/qpo3q5qiyQUTsepKMQfnCW1vBhCLhdo
+ LM0hj3nOamif60N9rVSxMWICzELWZSW6nwDXZck7yyjWSaRuHHw3lVH6msb6I+yDQEpWEnN6dgNi1
+ iqEuA6Be5GyB2MTUZa3Xtg1vMw/WK0OBDUON3QASGtbRr83hjFTA4bWHfL74nYaAHltlV/p8dGTCz
+ 0Ni4eJSosiU03NwmFq2cR4IaCzCy3lkVTbY//ssAVzm81P6gRQOZiMtWQmD62YNqrR1H3uYvJ7WRi
+ 2kE4uQVA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsZ-0000nF-AO; Thu, 13 May 2021 16:32:27 -0600
+ id 1lhJsY-0000nC-27; Thu, 13 May 2021 16:32:26 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1lhJsG-0001Sh-AJ; Thu, 13 May 2021 16:32:08 -0600
+ id 1lhJsG-0001Sn-Ih; Thu, 13 May 2021 16:32:08 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -83,8 +83,8 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
  Robin Murphy <robin.murphy@arm.com>, Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 13 May 2021 16:31:46 -0600
-Message-Id: <20210513223203.5542-6-logang@deltatee.com>
+Date: Thu, 13 May 2021 16:31:48 -0600
+Message-Id: <20210513223203.5542-8-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210513223203.5542-1-logang@deltatee.com>
 References: <20210513223203.5542-1-logang@deltatee.com>
@@ -100,13 +100,13 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2 05/22] PCI/P2PDMA: Print a warning if the host bridge is
- not in the whitelist
+Subject: [PATCH v2 07/22] PCI/P2PDMA: Refactor pci_p2pdma_map_type() to take
+ pagemap and device
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210513_153228_571777_8225F580 
-X-CRM114-Status: GOOD (  13.80  )
+X-CRM114-CacheID: sfid-20210513_153227_451903_5EDC9137 
+X-CRM114-Status: GOOD (  13.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,71 +123,79 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If the host bridge is not in the whitelist print a warning in the
-calc_map_type_and_dist_warn() path detailing the vendor and device IDs
-that would need to be added to the whitelist.
+All callers of pci_p2pdma_map_type() have a struct dev_pgmap and a
+struct device (of the client doing the DMA transfer). Thus move the
+conversion to struct pci_devs for the provider and client into this
+function.
 
-Suggested-by: Don Dutile <ddutile@redhat.com>
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/pci/p2pdma.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ drivers/pci/p2pdma.c | 29 +++++++++++------------------
+ 1 file changed, 11 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 175da3a9c8fb..0e0b2218eacd 100644
+index 4034ffa0eb06..6c2057cd3f37 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -340,7 +340,7 @@ static struct pci_dev *pci_host_bridge_dev(struct pci_host_bridge *host)
+@@ -844,14 +844,21 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
  }
+ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
  
- static bool __host_bridge_whitelist(struct pci_host_bridge *host,
--				    bool same_host_bridge)
-+				    bool same_host_bridge, bool warn)
+-static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct pci_dev *provider,
+-						    struct pci_dev *client)
++static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
++						    struct device *dev)
  {
- 	struct pci_dev *root = pci_host_bridge_dev(host);
- 	const struct pci_p2pdma_whitelist_entry *entry;
-@@ -361,6 +361,10 @@ static bool __host_bridge_whitelist(struct pci_host_bridge *host,
- 		return true;
- 	}
++	struct pci_dev *provider = to_p2p_pgmap(pgmap)->provider;
+ 	enum pci_p2pdma_map_type ret;
++	struct pci_dev *client;
  
-+	if (warn)
-+		pci_warn(root, "Host bridge not in P2PDMA whitelist: %04x:%04x\n",
-+			 vendor, device);
+ 	if (!provider->p2pdma)
+ 		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
+ 
++	if (!dev_is_pci(dev))
++		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
 +
- 	return false;
- }
- 
-@@ -368,16 +372,17 @@ static bool __host_bridge_whitelist(struct pci_host_bridge *host,
-  * If we can't find a common upstream bridge take a look at the root
-  * complex and compare it to a whitelist of known good hardware.
-  */
--static bool host_bridge_whitelist(struct pci_dev *a, struct pci_dev *b)
-+static bool host_bridge_whitelist(struct pci_dev *a, struct pci_dev *b,
-+				  bool warn)
++	client = to_pci_dev(dev);
++
+ 	ret = xa_to_value(xa_load(&provider->p2pdma->map_types,
+ 				  map_types_idx(client)));
+ 	if (ret == PCI_P2PDMA_MAP_UNKNOWN)
+@@ -892,14 +899,8 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
  {
- 	struct pci_host_bridge *host_a = pci_find_host_bridge(a->bus);
- 	struct pci_host_bridge *host_b = pci_find_host_bridge(b->bus);
+ 	struct pci_p2pdma_pagemap *p2p_pgmap =
+ 		to_p2p_pgmap(sg_page(sg)->pgmap);
+-	struct pci_dev *client;
+-
+-	if (WARN_ON_ONCE(!dev_is_pci(dev)))
+-		return 0;
  
- 	if (host_a == host_b)
--		return __host_bridge_whitelist(host_a, true);
-+		return __host_bridge_whitelist(host_a, true, warn);
+-	client = to_pci_dev(dev);
+-
+-	switch (pci_p2pdma_map_type(p2p_pgmap->provider, client)) {
++	switch (pci_p2pdma_map_type(sg_page(sg)->pgmap, dev)) {
+ 	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+ 		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
+ 	case PCI_P2PDMA_MAP_BUS_ADDR:
+@@ -922,17 +923,9 @@ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 		int nents, enum dma_data_direction dir, unsigned long attrs)
+ {
+-	struct pci_p2pdma_pagemap *p2p_pgmap =
+-		to_p2p_pgmap(sg_page(sg)->pgmap);
+ 	enum pci_p2pdma_map_type map_type;
+-	struct pci_dev *client;
+-
+-	if (WARN_ON_ONCE(!dev_is_pci(dev)))
+-		return;
+-
+-	client = to_pci_dev(dev);
  
--	if (__host_bridge_whitelist(host_a, false) &&
--	    __host_bridge_whitelist(host_b, false))
-+	if (__host_bridge_whitelist(host_a, false, warn) &&
-+	    __host_bridge_whitelist(host_b, false, warn))
- 		return true;
+-	map_type = pci_p2pdma_map_type(p2p_pgmap->provider, client);
++	map_type = pci_p2pdma_map_type(sg_page(sg)->pgmap, dev);
  
- 	return false;
-@@ -513,7 +518,7 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
- 
- 	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE) {
- 		if (!cpu_supports_p2pdma() &&
--		    !host_bridge_whitelist(provider, client))
-+		    !host_bridge_whitelist(provider, client, acs_redirects))
- 			map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
- 	}
- 
+ 	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE)
+ 		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
 -- 
 2.20.1
 
