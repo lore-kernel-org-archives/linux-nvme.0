@@ -2,100 +2,64 @@ Return-Path: <SRS0=xhFb=KI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B923C433ED
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 16:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E14C433ED
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 17:04:15 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 04B1E61439
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 16:00:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04B1E61439
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
+	by mail.kernel.org (Postfix) with ESMTPS id 7C6E961443
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 May 2021 17:04:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C6E961443
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7E3i4ZojTnLn3gKEgOBB+NBSpK6BsCHooZOVzsuFSMk=; b=bfRRYgtorjUU5pwADtqBkEAdA
-	S1/2ssagx2Fzl0Ho3Xwicl8vFhFuOaqW6UCH44sg6fWLlVOlRzDOElle4glJX03nN5cvmn7bSVnXK
-	M6LHZzn3lod5OxwhcrGrrEAToIuIgXJsArEmQ0wObN76bi9To8JqTPavAxNwlOav3QJlkW8XMTk4b
-	lgvW+ABdzyCU/CT7xLUtGXWY7OVmd6c8x/XNBKjvCZnsGr32eEizf70fkvSNq/UL5501QygcP08Kd
-	YmGW78TABGkI1SzdPG2vKPq2f2PrFM3VCZqmpexplnpO5M61I4q6Lvrc5k83/pXUxciN+eSxPGR+A
-	6e0XPNyOg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=XSlHpERzSWbzUp0Yn3fTrJjLfjdOHkrMmOtoGqxvSFc=; b=BMgjSBu4Ph0RDtk0+//LB0hiX/
+	jh799w5V8PB0aKQpwfnmH6lH76+0ue4JBxRL75WPTNdJZJlAHZMkFO+hhhCDNypi28nFUXbpZdLK1
+	DdDJlyWDFa2XLuOeRyfsKh0ZO2D0aB7EWMc54niTWnNw1OHnadwugyMM2x7AX69ebpkS9Fh8VD5n+
+	pac4j5FSRVJoLtxPROeQ9NgVLipilEsH2VO4VcgZQJ+r2k4RB3/UfJVBKmQKmDHq80nnH7T+5DKFE
+	TbgC4ew2aQp2x7nl4NtY+7DjKTR1inZ8sJ7Cvxw38SepPqZZu5R20sXWecKIwQxpwNmnZkafrcUKw
+	9AIVnlGQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhDkF-005voS-Eg; Thu, 13 May 2021 15:59:27 +0000
+	id 1lhEkW-0062MG-1W; Thu, 13 May 2021 17:03:48 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhDkC-005vnB-1c
- for linux-nvme@desiato.infradead.org; Thu, 13 May 2021 15:59:24 +0000
+ id 1lhEkU-0062M4-1u
+ for linux-nvme@desiato.infradead.org; Thu, 13 May 2021 17:03:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=sC9rS2dsZghLNP4cQrgEl3m85yFLwm9XaohEby3pw50=; b=igqiRqW5uieQcpnueiGqZcHvkh
- /ODeF8zja3cZmWbrIoUtcRmD8ZW7b3vTiopBFOxtuEz7D1dSj9kEzzwxAqo7ICinR0PyKzyUnlRV8
- YdA5qdtaBhGpizOfc/dwwqkhHVEXnAtW+Rrc/fbLEr9g381o/A73xMF/FA8x6dlXRzup0BzbfU4ey
- off7T5MprN9XEF5kpqbEFN8pOlPlT3lir+NYeah2JTAv2JeDpwC4I3babSKwUTRIfZHviYhZvRIrK
- QdLdknfLkjLYWX6QhImw66aBxyE46BYOVINwXfdyobLinwWNqBreD/GArBraMIbc1CbKVKutB34ud
- zNrcRCZQ==;
-Received: from mail-pl1-f171.google.com ([209.85.214.171])
- by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhDk5-00BN5Y-LJ
- for linux-nvme@lists.infradead.org; Thu, 13 May 2021 15:59:22 +0000
-Received: by mail-pl1-f171.google.com with SMTP id 69so10006802plc.5
- for <linux-nvme@lists.infradead.org>; Thu, 13 May 2021 08:59:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sC9rS2dsZghLNP4cQrgEl3m85yFLwm9XaohEby3pw50=;
- b=j3R2+pAVnEEPj70a9PfgrRksK4CESN2U5AjyerNdT/BuyjGjjBsiSLJgk23VG8PJyd
- 7vUT0Ga7TS9rTXEjNHAelHXnv3ClM7rJgJbK+728cs3NSL0mM1+mpLwWGZR4HGh9lhCA
- 09sKwdOsPk9TNKf3LnO3guFumsrmFAb9y9x4Pfk+rQlg6JgFGpt+NhGeSghH69/ElUY9
- UG8SpB2ShbAmMs6xfu1XFf79SgIohveYHFqz+XruVu0zQFGOHtEQeqig3aDAGoQoAmNm
- 3S5YyGbQ4zBBYetqteN9lOP5lZeElJRfZyPzBNvCX1VhFHrC+WX75nQ/LNX5QpZGbHWI
- liXA==
-X-Gm-Message-State: AOAM531yCIEYANZpftr7d2PunPyHzCPqw1ZJCFcGOueULeQE7M4s0VJQ
- ZRlw5a2YGqtNY2KlKKKwkhU=
-X-Google-Smtp-Source: ABdhPJyKQvVPuce3z1l4PmtlSaJD2TKIxNY5wls14OzgkkacwtnJxux5VVxX2A9kPeGYMqj6U7DU/w==
-X-Received: by 2002:a17:902:7d8b:b029:ef:8306:6ae7 with SMTP id
- a11-20020a1709027d8bb02900ef83066ae7mr9036878plm.26.1620921553393; 
- Thu, 13 May 2021 08:59:13 -0700 (PDT)
-Received: from ?IPv6:2601:647:4000:d7:6dd7:5386:8c63:ccae?
- ([2601:647:4000:d7:6dd7:5386:8c63:ccae])
- by smtp.gmail.com with ESMTPSA id t4sm2410467pfq.165.2021.05.13.08.59.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 08:59:12 -0700 (PDT)
-Subject: Re: regression: data corruption with ext4 on LUKS on nvme with
- torvalds master
-To: Theodore Ts'o <tytso@mit.edu>, Changheun Lee <nanich.lee@samsung.com>
-Cc: alex_y_xu@yahoo.ca, axboe@kernel.dk, bgoncalv@redhat.com,
- dm-crypt@saout.de, hch@lst.de, jaegeuk@kernel.org,
- linux-block@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- ming.lei@redhat.com, yi.zhang@redhat.com
-References: <CGME20210513100034epcas1p4b23892cd77bde73c777eea6dc51c16a4@epcas1p4.samsung.com>
- <20210513094222.17635-1-nanich.lee@samsung.com> <YJ00g8oBZkduQXIe@mit.edu>
-From: Bart Van Assche <bvanassche@acm.org>
-Message-ID: <a01ab479-69e8-9395-7d24-9de1eec28aff@acm.org>
-Date: Thu, 13 May 2021 08:59:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=fiCWapO073jEA0FUhOiRuc4EhkynRDlHMqEG2raIyC4=; b=zqGQUb/zw4xOK/n5ziSLL5ZDYS
+ 4ggTWxZEvp57J1Ajy6OQaXn24aXWeBSH/XRSvEhStFKaJGl8BfcLkjQmELcnmRWwcqhW8c6DK1fLW
+ WEQi5bqUQw3vu5idBHVtNVC8+Ccf/jxjMQN2gwnwXdBbjNyPDopO4RoAYhExjv5h8mPKhXGl1hl0k
+ t/Q1TJWUuJ0bNPY5AxQslF7wvheu3UmpR2P0o8nm5/iafE4o7qoT4fgYB06oGeNXkvXXxG501e8zf
+ Soigj4ipNRK87pE87zzeISKB4VQYwjUixf7RrsJ4x0qqEa4oB+uDa8jqrbdzLGmaLUCzMt1XTd/Kg
+ cMRO8oHg==;
+Received: from [2001:4bb8:198:fbc8:26bf:3bb3:2a36:e078] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1lhEkR-00BPAu-EY; Thu, 13 May 2021 17:03:44 +0000
+Date: Thu, 13 May 2021 19:03:40 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 5.13
+Message-ID: <YJ1b7OeZpoR3j13K@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <YJ00g8oBZkduQXIe@mit.edu>
-Content-Language: en-US
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210513_085917_736384_E8F1D7C8 
-X-CRM114-Status: GOOD (  25.15  )
+Content-Disposition: inline
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,66 +76,61 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/13/21 7:15 AM, Theodore Ts'o wrote:
-> On Thu, May 13, 2021 at 06:42:22PM +0900, Changheun Lee wrote:
->>
->> Problem might be casued by exhausting of memory. And memory exhausting
->> would be caused by setting of small bio_max_size. Actually it was not
->> reproduced in my VM environment at first. But, I reproduced same problem
->> when bio_max_size is set with 8KB forced. Too many bio allocation would
->> be occurred by setting of 8KB bio_max_size.
-> 
-> Hmm... I'm not sure how to align your diagnosis with the symptoms in
-> the bug report.  If we were limited by memory, that should slow down
-> the I/O, but we should still be making forward progress, no?  And a
-> forced reboot should not result in data corruption, unless maybe there
-> was a missing check for a failed memory allocation, causing data to be
-> written to the wrong location, a missing error check leading to the
-> block or file system layer not noticing that a write had failed
-> (although again, memory exhaustion should not lead to failed writes;
-> it might slow us down, sure, but if writes are being failed, something
-> is Badly Going Wrong --- things like writes to the swap device or
-> writes by the page cleaner must succeed, or else Things Would Go Bad
-> In A Hurry).
+The following changes since commit efed9a3337e341bd0989161b97453b52567bc59d:
 
-After the LUKS data corruption issue was reported I decided to take a
-look at the dm-crypt code. In that code I found the following:
+  kyber: fix out of bounds access when preempted (2021-05-11 08:12:14 -0600)
 
-static void clone_init(struct dm_crypt_io *io, struct bio *clone)
-{
-	struct crypt_config *cc = io->cc;
+are available in the Git repository at:
 
-	clone->bi_private = io;
-	clone->bi_end_io  = crypt_endio;
-	bio_set_dev(clone, cc->dev->bdev);
-	clone->bi_opf	  = io->base_bio->bi_opf;
-}
-[ ... ]
-static struct bio *crypt_alloc_buffer(struct dm_crypt_io *io, unsigned size)
-{
-	[ ... ]
-	clone = bio_alloc_bioset(GFP_NOIO, nr_iovecs, &cc->bs);
-	[ ... ]
-	clone_init(io, clone);
-	[ ... ]
-	for (i = 0; i < nr_iovecs; i++) {
-		[ ... ]
-		bio_add_page(clone, page, len, 0);
+  git://git.infradead.org/nvme.git tags/nvme-5.13-2021-05-13
 
-		remaining_size -= len;
-	}
-	[ ... ]
-}
+for you to fetch changes up to e181811bd04d874fe48bbfa1165a82068b58144d:
 
-My interpretation is that crypt_alloc_buffer() allocates a bio,
-associates it with the underlying device and clones a bio. The input bio
-may have a size up to UINT_MAX while the new limit for the size of the
-cloned bio is max_sectors * 512. That causes bio_add_page() to fail if
-the input bio is larger than max_sectors * 512, hence the data
-corruption. Please note that this is a guess only and that I'm not
-familiar with the dm-crypt code.
+  nvmet: use new ana_log_size instead the old one (2021-05-13 16:33:32 +0200)
 
-Bart.
+----------------------------------------------------------------
+nvme fix for Linux 5.13
+
+ - correct the check for using the inline bio in nvmet
+   (Chaitanya Kulkarni)
+ - demote unsupported command warnings (Chaitanya Kulkarni)
+ - fix corruption due to double initializing ANA state (me, Hou Pu)
+ - reset ns->file when open fails (Daniel Wagner)
+ - fix a NULL deref when SEND is completed with error in nvmet-rdma
+   (Michal Kalderon)
+
+----------------------------------------------------------------
+Chaitanya Kulkarni (5):
+      nvmet: fix inline bio check for bdev-ns
+      nvmet: fix inline bio check for passthru
+      nvmet: demote discovery cmd parse err msg to debug
+      nvmet: use helper to remove the duplicate code
+      nvmet: demote fabrics cmd parse err msg to debug
+
+Christoph Hellwig (1):
+      nvme-multipath: fix double initialization of ANA state
+
+Daniel Wagner (1):
+      nvmet: seset ns->file when open fails
+
+Hou Pu (1):
+      nvmet: use new ana_log_size instead the old one
+
+Michal Kalderon (1):
+      nvmet-rdma: Fix NULL deref when SEND is completed with error
+
+ drivers/nvme/host/core.c          |  3 ++-
+ drivers/nvme/host/multipath.c     | 55 +++++++++++++++++++++------------------
+ drivers/nvme/host/nvme.h          |  8 ++++--
+ drivers/nvme/target/admin-cmd.c   |  7 ++---
+ drivers/nvme/target/discovery.c   |  2 +-
+ drivers/nvme/target/fabrics-cmd.c |  6 ++---
+ drivers/nvme/target/io-cmd-bdev.c |  2 +-
+ drivers/nvme/target/io-cmd-file.c |  8 +++---
+ drivers/nvme/target/nvmet.h       |  6 +++++
+ drivers/nvme/target/passthru.c    |  2 +-
+ drivers/nvme/target/rdma.c        |  4 +--
+ 11 files changed, 58 insertions(+), 45 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
