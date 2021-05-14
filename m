@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B04E1C433B4
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 16:16:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD23DC433B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 16:16:55 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 52CF461182
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 16:16:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 52CF461182
+	by mail.kernel.org (Postfix) with ESMTPS id 3D03D61182
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 16:16:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D03D61182
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
 	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Tz4LL9HrZyyXiu/pYQQpxw0e5apDNJDL6ee2lPa+PlE=; b=W+InaZHi7c2Jijqb8AzJsx7eS
-	W4LCMnTd9umwaRPyG8aqO34nOIlS53eRYTFPZWSJ7cn+SohJjhiANMufxorbjeWwkIchv65KDdWID
-	/XhmY5U36TzRibs3VHliey90gztG8Mm/gt6+JDmnSWCUJoxZDoq9Y2J2iG2Tp7hp5G0e8b6DM+SZW
-	OiNNoaEa35LsNOjDSkZjZaWh25iWV34kBcxGR+F1aUzcL0xUkDR9ywlujy7FQduArVe2xQmlsKhUB
-	gfGkc9gjbXqWKAHbiAHAZ5tc9En+8DFnXZH1nmlDFpGPB2ZlSzyO0YFzPUEiALUMverIQiIdO+gDn
-	CVSZZwzQA==;
+	 bh=bDCKshSs3dOE+HQO6XMZu7oyJDazLySBfJPYqTYkUOQ=; b=ItvnB8ruzCZ0lX6fBSWgSDf3x
+	DsfrQKfFbbsWpmBPETLqaW2LEhjC188VsGCYyLB8vgZ8KMZyEBj9woWwUEkgDqYS3DHPysmPvELqO
+	4AFtXpHHNrptz6STC5l84ZP6Bj34fY78kswCJR0rQwOtMldEBGDjsJgV1hC3DeqCFaws2z2d9owqO
+	GRJcbkb6bT3BBpBcvILTL2LkMJsBbZKhq2o8ohgh8vaD/O08+j7OwRZISn0rUNPvVjt+K0F2YHG00
+	pxJ/6ZXdFavQ14857pTs1Zj1+UuEq7m0ZeS4oS1NMFCX3Kv2ms0xSzTWNBEgmneIDENlBK+68++xC
+	hMr4AEkzg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhaUT-008SWT-Nh; Fri, 14 May 2021 16:16:42 +0000
+	id 1lhaU1-008SQ6-Vx; Fri, 14 May 2021 16:16:14 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhaUQ-008SVG-BJ
- for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 16:16:38 +0000
+ id 1lhaTm-008SPt-Ti
+ for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 16:15:58 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
  Sender:Reply-To:Content-ID:Content-Description;
- bh=/+y5cB9Q7a4Pvo8GJ697lhiF+rrko29gkIH4dIcvU3o=; b=0aD3KDFfYFraQ8uet1WhrGYnLP
- ov+2MzjToWGW02WmdgK5J8ZX6oigaxY0/8rjqKowFvWQHGFObQlI+8DdkgtEvAD/S69HNv0vMCTpt
- XZWCySSVuBBKX2p7CJPZQCeFCuIdhFAtxJ2i6F91MwUcF1n+FNdLzpsaJ3arcOBWNY9jsfUDQcwVu
- VBYv8ZOzJYZ6JjATXglFPcIg26o+XlqtyvBgTsX7La47Owm9NOTD1IZbYvLxzbXEAPL/i2FZt5xYd
- QCFgmgQZ+eKmMn38UUpjw3q74j9iz8rUk6wbV4iArHSXg5LtWXJCbsqCQba0HmaljdW0XHZYjQEU8
- BDkN6POA==;
+ bh=8mPdRqweUyDLPmZFuViN51lMyyF6RcsMDP/27vYhzgo=; b=yinyUEVPrGek7FMnmJNK1j0C5Y
+ uEIWuGdpcalGv5VRc7g6OYp2GjgfP9oPmpT4eRLdMgUgmLfU9niZHKflDdPFFm9j6fGxl6SzYWT7N
+ iNxDvL2GfyU7xZ1TRcZ2ZpRCXZrzZWDNLa71JBli5fcf0zEouH0GffXxncKy/jaN1aPD34fldxYMe
+ /hsX63V3FokW/jcXPigWQXxLbo55ry4MpY+DjOKag5Pg6PNYf/0EcQ9Fn1Tw8s5FUV8KoKMthF5/c
+ grZfcM69dvdtltgoe3czW9Sgo6k0uiGWXV22tkLCzPBQ6p05HBJqsZJfw6GtRIPqkDc2joMcUOu45
+ Q6xatkMg==;
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhaUO-00C6dI-0u
- for linux-nvme@lists.infradead.org; Fri, 14 May 2021 16:16:37 +0000
+ id 1lhaTk-00C6Yy-1O
+ for linux-nvme@lists.infradead.org; Fri, 14 May 2021 16:15:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=/+y5cB9Q7a4Pvo8GJ697lhiF+rrko29gkIH4dIcvU3o=; b=MmSRGhUuqxFDvX3OK+OEV4eVpd
- N/zgGKMQXAVlSEVeXQz+yWzkMeG0pfSpIiblq7NLJ0wupnrLMumK0rDjtFfd/FF0Q+C6GEtJn1SLL
- tmGX51BeuLVhgkyvD8B4j7MvaJBIzhzYyfu47Qf9jlfwBgAi4eGOADrfqJPFfdcwm4fLKHriYZkwB
- XWJGNXjx3vL7UZ0Gg4+cLIwWfdX2ukuUFEwI/isOFo7IfVxMrRMdibQR0bWuhrA1ObTZLbU/6JGtF
- NEtN+nFTqspeVtbQ/8atAXDLh7mQFhxOndy17QOrVYpfrcaQ2HCESVb57wBSg9r+wW/N8KqvIGTQ5
- +nUXCXXQ==;
+ bh=8mPdRqweUyDLPmZFuViN51lMyyF6RcsMDP/27vYhzgo=; b=U+OPhYGBE7d5nwlGLwZsALzoro
+ 3tgyDKF/0JnvDnEhiVty+7KLtudPXGsgdLrXK8kYa1UhRxLVYx5DTHvguR2b2SxqVbUGMOinTz5RG
+ MaiKBrvV+aFk8n5JKHIpqq0/+O13MOf6raVLj/ytmq6kFn5OoOGeKnMdZV7srdp5EypPDRzRNnvDt
+ Xcx+TrldLjB0CdBFWcHNA4i8QC6d1CT/44a9DZFyyrmkyCerhqDEyUgv2VGtTRFpKTv3RSlewLnZy
+ ZjgSDqhOMfyPwZfy59y4RAtucHTLNIX3hzhpPDgPTeL+UzDpvLPANK7ryKC925sZWizH3oNMMS0fQ
+ rpj+1uKw==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1lhaUE-00067v-2Z; Fri, 14 May 2021 10:16:26 -0600
+ id 1lhaTO-00065v-3k; Fri, 14 May 2021 10:15:35 -0600
 To: Christoph Hellwig <hch@lst.de>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -78,14 +78,14 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
  Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
 References: <20210513223203.5542-1-logang@deltatee.com>
- <20210513223203.5542-15-logang@deltatee.com> <20210514135331.GC4715@lst.de>
+ <20210513223203.5542-7-logang@deltatee.com> <20210514134900.GA4715@lst.de>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <9515a7c5-40a0-5411-a3b9-4216b25d63dc@deltatee.com>
-Date: Fri, 14 May 2021 10:16:25 -0600
+Message-ID: <e1407362-26fe-09db-0964-acfbb45c032c@deltatee.com>
+Date: Fri, 14 May 2021 10:15:28 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210514135331.GC4715@lst.de>
+In-Reply-To: <20210514134900.GA4715@lst.de>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
@@ -98,13 +98,13 @@ X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
  linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, hch@lst.de
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v2 14/22] PCI/P2PDMA: Introduce helpers for dma_map_sg
- implementations
+Subject: Re: [PATCH v2 06/22] PCI/P2PDMA: Attempt to set map_type if it has
+ not been set
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210514_091636_077030_8EB6F8EB 
-X-CRM114-Status: GOOD (  10.64  )
+X-CRM114-CacheID: sfid-20210514_091556_099786_04D2B14C 
+X-CRM114-Status: GOOD (  16.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,12 +123,30 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2021-05-14 7:53 a.m., Christoph Hellwig wrote:
-> I think helpers for the dma mapping implementation should probably
-> go into dma-map-ops.h so that the header for the public API doesn't get
-> polluted with them.
+On 2021-05-14 7:49 a.m., Christoph Hellwig wrote:
+> On Thu, May 13, 2021 at 04:31:47PM -0600, Logan Gunthorpe wrote:
+>> Attempt to find the mapping type for P2PDMA pages on the first
+>> DMA map attempt if it has not been done ahead of time.
+>>
+>> Previously, the mapping type was expected to be calculated ahead of
+>> time, but if pages are to come from userspace then there's no
+>> way to ensure the path was checked ahead of time.
+>>
+>> With this change it's no longer invalid to call pci_p2pdma_map_sg()
+>> before the mapping type is calculated so drop the WARN_ON when that
+>> is the case.
+> 
+> Why?
 
-Ok. Will do for v3.
+Before this change, the if the mapping type wasn't already calculated
+pci_p2pdma_map_sg() would just fail. This was fine for NVMe-of as it
+always called pci_p2pdma_distance() ahead of time which calculated the
+mapping type, stored it in the xarray and did not proceed if the two
+devices could not talk to each other.
+
+This patch makes it so if the mapping type is not already calculated at
+dma map time, it does the calculation. This means the dma map operation
+can fail if the two devices aren't able to talk to each other.
 
 Logan
 
