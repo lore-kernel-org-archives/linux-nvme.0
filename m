@@ -2,19 +2,19 @@ Return-Path: <SRS0=3vHZ=KJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F481C433B4
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 13:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 433B7C433B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 13:57:27 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D9F4D6145B
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 13:53:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D9F4D6145B
+	by mail.kernel.org (Postfix) with ESMTPS id BC2426101A
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 13:57:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC2426101A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Jl/AFtQ6QoyvnSN9Wd2w2L/6aUkz4x9jI/bmq0EWrfQ=; b=g3Ee2g55+2adyoKT/0lazk42n
-	96XeUNaQzMASZCTqiFXQ1TDmCrQIMhvkr4LIHgI/uMGZx1YE/ybxtDHtqPlQsbxAVwDecyo4vYhZ9
-	3asatqNQ5BlYzpnydMyRB8NC+dMhAktKZEbXuJDLJKf/WXzh9/gYLexVqioElBl8lfXEg1VV+DR9Q
-	Tcv9uApJVMlQvOeoVdl27gy0Ku7kyYiOV6U6cCZT84H9P7WBVbAiODxEEQTHtSlVoBc6btIMpxWaj
-	vcR9YhG2kqXU27D1R43P2Na+fX7m/v9Z7wGcjDWv5hf9/jhDmk7zZbTmEfixqB5c/xeueMhMhxFDv
-	MhJJ9KgAQ==;
+	 bh=W97gLDKOSxiq6NEh5Rf1/FugyDc+B7HN4stk81MIV3Y=; b=OsR0dzLcGnc/x1UrxIkuH2xnY
+	RLzEfJGiW1ovaSd0VauHwq1iQKRplI3k66+Xe3SPirNrUk8cIrU5BVRWkhoNaoHtR726wnABAlPr2
+	HoEswixVsomWNEfDp8yk24gu1xy7sI1X7M69a0HLGwyZhVYKUTi3Bbs6iYwTwoonVmJKzqxG9vGTW
+	Xa8P5S92Q2/scXFpP2zuGf314FDL/hWXJakQTh8xRybP8mL8hrQM1H+TXRE0leQxxhQ6LwT1pH8SA
+	6C5i2VIOljjv0AaHH1u6mI8J5E8moN/yxwbra59uIfHKtbStxsFehrWosUnAu7Moe2zXkRPcodWDS
+	7Yt6Ldozg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhYG4-008CoA-0I; Fri, 14 May 2021 13:53:40 +0000
+	id 1lhYJd-008DJF-Te; Fri, 14 May 2021 13:57:21 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhYG2-008Cnj-7a
- for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 13:53:38 +0000
+ id 1lhYJb-008DJ3-5e
+ for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 13:57:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=7Bd+0nGtuetuPqe2mF3AdObUg/oA+HUicayLCqFJ+fo=; b=T0GGyziVSuroJN4j+Mj4vVOjuo
- Lf6NLw7ldNajgRVOBK5Z8Cq7PYzovNMqdi0YF8LkkRhEAt2ymhIcAa7zwQQraGySUOFJeHxEwHd/p
- clgtg93SrzZd8utoBhhQvCXHgxRQOOcdRJ/No935E6PP+kNRNaOiQBgt0BhkzNPxBkjfIlNWnh9Dy
- 9nv6upzOlOJyduPGOqLNBjNp2UPt0ImV1en+s9amG+37AZYwj0c8ZtcBApeJhcTnL7HnT0iU4cvqZ
- CTTo6LTBXHo1x5UP7UG8BNxl0hEQ6tt4jCpm3jS2bDBJF66f8bS0XmEE1jVOWnrKsMUuAs+ngYJZJ
- BNcnCFSQ==;
+ bh=ycf+Ridpmezb3hp6yCOC46HUc2t/NrvYXBs20Gz2ILA=; b=cd9A/glMjz9JIhiKprgEJ/D4pJ
+ K3tc+5nJCJ2sMnBAqzhKwxi0pc07ufULPbrz3vEhl6PwX5LUXKqyBvghqeDzQpKev9W6G8E0bBTQv
+ hX1T6gBIl0X7cvXEnOUfxmGiXKX7BJBEU5ImKNdfAgXsIn7I4YZpABxlO8j1cNDaVuOBuN5fyWBLK
+ gPTon+c7/+K15vq0FtqCRRa2F1lFqra4v2Vo/SmadzRxK5ayijKE5E3QiP/mvjhemNCf5qLEzFcsk
+ jXuEMtWMSi6Ht5V931p/tRjlgyfPCSJjrWqd1aOxnaLU3pcDckaF6H9wtIlezcawOy74TLn5WIAoI
+ DinbfBLA==;
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhYFz-00C15o-Nw
- for linux-nvme@lists.infradead.org; Fri, 14 May 2021 13:53:36 +0000
+ id 1lhYJY-00C1F4-L7
+ for linux-nvme@lists.infradead.org; Fri, 14 May 2021 13:57:17 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 07B676736F; Fri, 14 May 2021 15:53:31 +0200 (CEST)
-Date: Fri, 14 May 2021 15:53:31 +0200
+ id 176846736F; Fri, 14 May 2021 15:57:13 +0200 (CEST)
+Date: Fri, 14 May 2021 15:57:12 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -71,19 +71,18 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 14/22] PCI/P2PDMA: Introduce helpers for dma_map_sg
- implementations
-Message-ID: <20210514135331.GC4715@lst.de>
+Subject: Re: [PATCH v2 15/22] dma-direct: Support PCI P2PDMA pages in
+ dma-direct map_sg
+Message-ID: <20210514135712.GD4715@lst.de>
 References: <20210513223203.5542-1-logang@deltatee.com>
- <20210513223203.5542-15-logang@deltatee.com>
+ <20210513223203.5542-16-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210513223203.5542-15-logang@deltatee.com>
+In-Reply-To: <20210513223203.5542-16-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210514_065335_933582_C1C778D3 
-X-CRM114-Status: UNSURE (   9.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210514_065716_852775_97A933C4 
+X-CRM114-Status: GOOD (  16.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,9 +99,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I think helpers for the dma mapping implementation should probably
-go into dma-map-ops.h so that the header for the public API doesn't get
-polluted with them.
+> +	for_each_sg(sgl, sg, nents, i) {
+> +		if (sg_is_dma_pci_p2pdma(sg)) {
+> +			sg_dma_unmark_pci_p2pdma(sg);
+> +		} else  {
+
+Double space here.  We also don't really need the curly braces to start
+with.
+
+> +	struct pci_p2pdma_map_state p2pdma_state = {};
+> +	enum pci_p2pdma_map_type map;
+>  	struct scatterlist *sg;
+> +	int i, ret;
+>  
+>  	for_each_sg(sgl, sg, nents, i) {
+> +		if (is_pci_p2pdma_page(sg_page(sg))) {
+> +			map = pci_p2pdma_map_segment(&p2pdma_state, dev, sg);
+> +			switch (map) {
+
+Why not just:
+
+			switch (pci_p2pdma_map_segment(&p2pdma_state, dev,
+					sg)) {
+
+(even better with a shorter name for p2pdma_state so that it all fits on
+a single line)?
+
+> +			case PCI_P2PDMA_MAP_BUS_ADDR:
+> +				continue;
+> +			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> +				/*
+> +				 * Mapping through host bridge should be
+> +				 * mapped normally, thus we do nothing
+> +				 * and continue below.
+> +				 */
+
+I have a bit of a hard time parsing this comment.
+
+> +		if (sg->dma_address == DMA_MAPPING_ERROR) {
+> +			ret = -EINVAL;
+>  			goto out_unmap;
+> +		}
+>  		sg_dma_len(sg) = sg->length;
+>  	}
+>  
+> @@ -411,7 +443,7 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+>  
+>  out_unmap:
+>  	dma_direct_unmap_sg(dev, sgl, i, dir, attrs | DMA_ATTR_SKIP_CPU_SYNC);
+> -	return -EINVAL;
+> +	return ret;
+
+Maybe just initialize ret to -EINVAL at declaration time to simplify this
+a bit?
 
 _______________________________________________
 Linux-nvme mailing list
