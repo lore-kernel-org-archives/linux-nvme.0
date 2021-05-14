@@ -2,64 +2,84 @@ Return-Path: <SRS0=3vHZ=KJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37992C433ED
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 17:49:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB60C433B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 20:04:37 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E841761451
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 17:49:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E841761451
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 379F2613C8
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 20:04:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 379F2613C8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References:In-Reply-To:
+	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZqKZSsMMmPYhd6iN5G4M7M5cpGZIbddHS3UzvIOuhWo=; b=gHP5ZNHI7BkG7uQrvdlNdtqgZ
-	WuYxA+nY9MI6R4zjc8t9sM1abPhRr/O2w6PG0Bf90T2Zs1ZLlZBwj3uk0jN/OOWAynqVm0U7fJ5oe
-	Gi2TNLsf/2Wga7GjGHWcVHZ2tRjij3ZaORRvw1TZwzQuxqy9CvbidObrYSPtq4botdQPiMVEcI/Hp
-	sIXfKGClllSZDvkeXB+naDUI1tOCLzYqLIeSkX0Btj3DrJJa9PB9XB4RagFQGpvazkxvkqUwoKYhc
-	xOmspDUUf1CO7hVpiiU578+SilD5MdedVqn49Mj3eNUA7u40vs60+DWy55jFMy3eB/pSefyofOC3j
-	VOArhEfwA==;
+	 bh=J6gPnWmHO3Uzw4xc14lpHpYLrzAdr22a5wX45/rRyfQ=; b=dyVFweY7vUfQfgpUsPHHMjKbf
+	GCulifytB+I8fS1Aa4X9uFGHlxgkVzTIu1egNBOChp/WzzYQGueafByCWbSHGQlQW0J3zC9AybCKR
+	oqMDL1dmDcQ6BUi+DkFnL26zJM8Uw65uJLZtt+s+8mUdVGZyLOjzx6IaT3kG0UqmqzkD4Estaf2vq
+	PqAGccva25BN2pQZfn72f2+LvCDwfRdkA77uTkwj8ruqczx5B0rL5B7J45BW9lBhU+vIfrijXAn/Q
+	mYoBQW/SELj24ZeeasKq/63PxsUxlFz0GUEiwfVic4/hzotWj0vgdMMHdio/wHPyqh64O7+ezuZMg
+	4zJ9lOuKw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhbvi-008cwA-RC; Fri, 14 May 2021 17:48:54 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1lhe2m-008trq-Mh; Fri, 14 May 2021 20:04:20 +0000
+Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhbvh-008cvw-0k
- for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 17:48:53 +0000
+ id 1lhe2k-008tri-Dy
+ for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 20:04:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:Message-ID:
+ Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=2pAe91SWzc/6riCJTnq7kqxW30iWZ5ZzX7m8q/+xTL0=; b=pxBgiq2xmX4brOJjhFnslcv0it
- MmKEA6uhuUypxWEc3UG6F1Wp650xb/5yQzn09Tqc9aJ4pnsXBpgk2zl5T/eiWto8mOykLDJ1lbnf1
- 6ZyM7o7qGX3h6fHDf5e2mcVTXr2BCpli8AJsT2vKKgaWdmw6EAZbo4LtKmdz5VmuJAeyJ/kdfOuj7
- 4b9SOEQPkp96VlcfvuqnozuLOQ3koM0kxl6BiARLyqvR/gq2ISejZm3FjS6N027kuaqQdSfAQSV72
- y2x/473TwS/oB+ykEC+G0nCJblIVfUMF9LU+lz/5Gn+n9u0pXX+cUIhlqb5WhazNmPjaYln0v3z4b
- eyqkiIBA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
- Linux)) id 1lhbvG-00AaXL-9i; Fri, 14 May 2021 17:48:31 +0000
-Date: Fri, 14 May 2021 18:48:26 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: lsf-pc@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [LSF/MM/BPF TOPIC] Memory folios
-Message-ID: <YJ636tQhuc9X7ZzR@casper.infradead.org>
-References: <YJlzwcADaxO/JHRE@casper.infradead.org>
+ bh=E9YNoc2u4aHJVAwRc8IfbePnnshaE6hk3km7pg3eMWE=; b=E2apzwRxbm9fU0QSCWSe6KQ4bw
+ i6KUMiWkEFINfjqFat6i8difIEc7tD6SNWI/jcvMtbEXq3g61WgmDs6bFMXDQATcKE7Z2QzD+eT15
+ pKkGlMlA3EEqmyWMSdUBr/K6lAgUQgStUFw0lQHA6ecJd3gLk66VFrBLlClQ3ZXzo4EfyMyoBpl6k
+ WZURXxNhB3DgERsMg2C8DrkvXrrRtgTKIWimsEykb1/QJkENTVx0/AgaB7IXVtBXRTz2OcBrqq3sv
+ 78cGmJUWMcWkyJYFUYcZ3hOoMPjg0oNV0kXgwumPR2SsNzqNrJ2vu34K3Et/GbGe28zc9gHgUhIGv
+ SzqfWMqg==;
+Received: from galois.linutronix.de ([193.142.43.55])
+ by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lhe2h-00CDvw-Pz
+ for linux-nvme@lists.infradead.org; Fri, 14 May 2021 20:04:17 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1621022652;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E9YNoc2u4aHJVAwRc8IfbePnnshaE6hk3km7pg3eMWE=;
+ b=pSoyUe5BgY9RPZs4kiNns56WDgqEeJKV43FsAYITJ0CFP27R8C5r+YwXsPjRed42XP0xWT
+ 13agdBDWMo/274PxHWpJOkhWFN8qVXaFRlpBzIpvhKId8vb/wX3h6ll5niVzL6rdpUJJlm
+ 1rH7UC83Dythl5B9j85Ah6FF+Gp4rZw1x1yCkEpxCmUbI+r8PyB6sHPeTNkbcYLxdng+Q6
+ U4x4B0dzVEHU7ttzztNkqa/mvQ6YXILf2sYBbbiazXiyyJcdvgs9h6ndsuDmQVXpLLHGU4
+ p27LSbVZUxW7X8K8nnpRmvbbH92cex7XN2scBjN8nLi750ih7HtIHRsAIwVeTw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1621022652;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E9YNoc2u4aHJVAwRc8IfbePnnshaE6hk3km7pg3eMWE=;
+ b=V3zHiKzMoWd1KNGnMRPJRdgO4tIZV26Y7W+thUxrvHwdUwTNI1l73bKhyvY807licquTcl
+ bq0U2uSNwuzqTBDw==
+To: Yiyuan guo <yguoaz@gmail.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: A possible divide by zero bug in alloc_nodes_vectors
+In-Reply-To: <CAM7=BFpye1oOmF_ddVxDLGZebQRgpRORxN3J4sWcSgkq_nnYyg@mail.gmail.com>
+References: <CAM7=BFpye1oOmF_ddVxDLGZebQRgpRORxN3J4sWcSgkq_nnYyg@mail.gmail.com>
+Date: Fri, 14 May 2021 22:04:12 +0200
+Message-ID: <87zgwx2ibn.ffs@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YJlzwcADaxO/JHRE@casper.infradead.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210514_130416_007167_66E1463A 
+X-CRM114-Status: GOOD (  10.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,70 +96,53 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 10, 2021 at 06:56:17PM +0100, Matthew Wilcox wrote:
-> I don't know exactly how much will be left to discuss about supporting
-> larger memory allocation units in the page cache by December.  In my
-> ideal world, all the patches I've submitted so far are accepted, I
-> persuade every filesystem maintainer to convert their own filesystem
-> and struct page is nothing but a bad memory by December.  In reality,
-> I'm just not that persuasive.
-> 
-> So, probably some kind of discussion will be worthwhile about
-> converting the remaining filesystems to use folios, when it's worth
-> having filesystems opt-in to multi-page folios, what we can do about
-> buffer-head based filesystems, and so on.
-> 
-> Hopefully we aren't still discussing whether folios are a good idea
-> or not by then.
+On Fri, May 14 2021 at 19:31, Yiyuan guo wrote:
 
-I got an email from Hannes today asking about memory folios as they
-pertain to the block layer, and I thought this would be a good chance
-to talk about them.  If you're not familiar with the term "folio",
-https://lore.kernel.org/lkml/20210505150628.111735-10-willy@infradead.org/
-is not a bad introduction.
+> In kernel/irq/affinity.c, the function alloc_nodes_vectors has the
+> following code:
+>
+> static void alloc_nodes_vectors(unsigned int numvecs,
+>                 cpumask_var_t *node_to_cpumask,
+>                 const struct cpumask *cpu_mask,
+>                 const nodemask_t nodemsk,
+>                 struct cpumask *nmsk,
+>                 struct node_vectors *node_vectors) {
+>     unsigned n, remaining_ncpus = 0;
+>     ...
+>     for_each_node_mask(n, nodemsk) {
+>         ...
+>         ncpus = cpumask_weight(nmsk);
+>
+>         if (!ncpus)
+>             continue;
+>         remaining_ncpus += ncpus;
+>         ...
+>     }
+>
+>     numvecs = min_t(unsigned, remaining_ncpus, numvecs);
+>     ...
+>     for (n = 0; n < nr_node_ids; n++) {
+>         ...
+>         WARN_ON_ONCE(numvecs == 0);
+>         ...
+>         nvectors = max_t(unsigned, 1,
+>                        numvecs * ncpus / remaining_ncpus);
+>     }
+> }
+>
+> The variable remaining_ncpus may remain 0 if cpumask_weight(nmsk)
+> keeps returning 0 in the for loop. However, remaining_ncpus is used as
+> a divisor, leading to a potential divide by zero problem.
 
-Thanks to the work done by Ming Lei in 2017, the block layer already
-supports multipage bvecs, so to a first order of approximation, I don't
-need anything from the block layer on down through the various storage
-layers.  Which is why I haven't been talking to anyone in storage!
+How so? It's guaranteed that there is at least ONE node which is not
+empty. So remaining_ncpus cannot be 0.
 
-It might change (slightly) the contents of bios.  For example,
-bvec[n]->bv_offset might now be larger than PAGE_SIZE.  Drivers should
-handle this OK, but probably haven't been audited to make sure they do.
-Mostly, it's simply that drivers will now see fewer, larger, segments
-in their bios.  Once a filesystem supports multipage folios, we will
-allocate order-N pages as part of readahead (and sufficiently large
-writes).  Dirtiness is tracked on a per-folio basis (not per page),
-so folios take trips around the LRU as a single unit and finally make
-it to being written back as a single unit.
+Thanks,
 
-Drivers still need to cope with sub-folio-sized reads and writes.
-O_DIRECT still exists and (eg) doing a sub-page, block-aligned write
-will not necessarily cause readaround to happen.  Filesystems may read
-and write their own metadata at whatever granularity and alignment they
-see fit.  But the vast majority of pagecache I/O will be folio-sized
-and folio-aligned.
+        tglx
 
-I do have two small patches which make it easier for the one
-filesystem that I've converted so far (iomap/xfs) to add folios to bios
-and get folios back out of bios:
 
-https://lore.kernel.org/lkml/20210505150628.111735-72-willy@infradead.org/
-https://lore.kernel.org/lkml/20210505150628.111735-73-willy@infradead.org/
 
-as well as a third patch that estimates how large a bio to allocate,
-given the current folio that it's working on:
-https://git.infradead.org/users/willy/pagecache.git/commitdiff/89541b126a59dc7319ad618767e2d880fcadd6c2
-
-It would be possible to make other changes in future.  For example, if
-we decide it'd be better, we could change bvecs from being (page, offset,
-length) to (folio, offset, length).  I don't know that it's worth doing;
-it would need to be evaluated on its merits.  Personally, I'd rather
-see us move to a (phys_addr, length) pair, but I'm a little busy at the
-moment.
-
-Hannes has some fun ideas about using the folio work to support larger
-sector sizes, and I think they're doable.
 
 _______________________________________________
 Linux-nvme mailing list
