@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B986AC433B4
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 13:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F481C433B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 13:53:45 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 82C6061132
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 13:51:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 82C6061132
+	by mail.kernel.org (Postfix) with ESMTPS id D9F4D6145B
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 13:53:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D9F4D6145B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=v+81l8jysO5E+wVNGUajyCLTnyhSPrrQHWzz1eYWZEY=; b=KC1+F4ct/FAJuRBUOYvHO8pJ7
-	OITxOErc+7HGS5/vdEwQWauwJt4LfhCEcRa7pe5F1Dhr4hQBHxXSetuuY8LDy21DktDdkNRWTUc0Q
-	A3g0TVroCSu8fxZjdWePaLLq19mW0g5KnArc6pbPJE4ceVS3TyKJywG8A2SZxsrOICZreTBCFpC/z
-	jqwbng6d4iXhOGMpY1P1rZqztzQ992SNbvuNB0Uemymfq2cbOvW99UkC1ZNTFSTr/0QobTVdrxWAB
-	nH5/IKhiNNGmlD7C93cg97Ig6mmg5PX7Dx2aA0YJMB8GDhm4PsGg36pZobALXDy6mJSynDrMi89Zk
-	xxUdQHgMg==;
+	 bh=Jl/AFtQ6QoyvnSN9Wd2w2L/6aUkz4x9jI/bmq0EWrfQ=; b=g3Ee2g55+2adyoKT/0lazk42n
+	96XeUNaQzMASZCTqiFXQ1TDmCrQIMhvkr4LIHgI/uMGZx1YE/ybxtDHtqPlQsbxAVwDecyo4vYhZ9
+	3asatqNQ5BlYzpnydMyRB8NC+dMhAktKZEbXuJDLJKf/WXzh9/gYLexVqioElBl8lfXEg1VV+DR9Q
+	Tcv9uApJVMlQvOeoVdl27gy0Ku7kyYiOV6U6cCZT84H9P7WBVbAiODxEEQTHtSlVoBc6btIMpxWaj
+	vcR9YhG2kqXU27D1R43P2Na+fX7m/v9Z7wGcjDWv5hf9/jhDmk7zZbTmEfixqB5c/xeueMhMhxFDv
+	MhJJ9KgAQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhYE2-008CXn-8B; Fri, 14 May 2021 13:51:34 +0000
+	id 1lhYG4-008CoA-0I; Fri, 14 May 2021 13:53:40 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhYE0-008CXX-5c
- for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 13:51:32 +0000
+ id 1lhYG2-008Cnj-7a
+ for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 13:53:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=hft/toSWDBmRgmUey65z0TkNis0F4nNkU44LMc/hi9c=; b=Mevb8rRc7M+BDQaEvkUEICsljN
- EkU2IXq+G6K007vuBW48cBuUHQ2RXI4NsnTV279iFmtgjdR5cX4BqBiN0JN7281849TU7wcAEar3A
- pEnJtUPaoyBBKtZDMdfkIXpPbuiIy84hSfHJM2mCCFLjhEecAXKtQvc29TNQORIrCcULt49+nnlAR
- 7q2kz7WEKMTnZm3KcfDyLkXYy2ijIstbyqNH+EgDsmLhYj3U32YZv4LM+oliEFAltWpvp32LwHl8o
- 0XqeAI+mGGJSRCn/HUWsZz8k35tftZXawagbeTbNFH2dL83dH1PJ+M6Q8kIJMFZOfj69RaVSN85KK
- +kmnd3vw==;
+ bh=7Bd+0nGtuetuPqe2mF3AdObUg/oA+HUicayLCqFJ+fo=; b=T0GGyziVSuroJN4j+Mj4vVOjuo
+ Lf6NLw7ldNajgRVOBK5Z8Cq7PYzovNMqdi0YF8LkkRhEAt2ymhIcAa7zwQQraGySUOFJeHxEwHd/p
+ clgtg93SrzZd8utoBhhQvCXHgxRQOOcdRJ/No935E6PP+kNRNaOiQBgt0BhkzNPxBkjfIlNWnh9Dy
+ 9nv6upzOlOJyduPGOqLNBjNp2UPt0ImV1en+s9amG+37AZYwj0c8ZtcBApeJhcTnL7HnT0iU4cvqZ
+ CTTo6LTBXHo1x5UP7UG8BNxl0hEQ6tt4jCpm3jS2bDBJF66f8bS0XmEE1jVOWnrKsMUuAs+ngYJZJ
+ BNcnCFSQ==;
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhYDx-00C10v-Mn
- for linux-nvme@lists.infradead.org; Fri, 14 May 2021 13:51:30 +0000
+ id 1lhYFz-00C15o-Nw
+ for linux-nvme@lists.infradead.org; Fri, 14 May 2021 13:53:36 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2C7076736F; Fri, 14 May 2021 15:51:26 +0200 (CEST)
-Date: Fri, 14 May 2021 15:51:26 +0200
+ id 07B676736F; Fri, 14 May 2021 15:53:31 +0200 (CEST)
+Date: Fri, 14 May 2021 15:53:31 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -71,18 +71,18 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Xiong Jianxin <jianxin.xiong@intel.com>,
  Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 08/22] dma-mapping: Allow map_sg() ops to return
- negative error codes
-Message-ID: <20210514135126.GB4715@lst.de>
+Subject: Re: [PATCH v2 14/22] PCI/P2PDMA: Introduce helpers for dma_map_sg
+ implementations
+Message-ID: <20210514135331.GC4715@lst.de>
 References: <20210513223203.5542-1-logang@deltatee.com>
- <20210513223203.5542-9-logang@deltatee.com>
+ <20210513223203.5542-15-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210513223203.5542-9-logang@deltatee.com>
+In-Reply-To: <20210513223203.5542-15-logang@deltatee.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210514_065129_896744_092935CD 
-X-CRM114-Status: UNSURE (   9.77  )
+X-CRM114-CacheID: sfid-20210514_065335_933582_C1C778D3 
+X-CRM114-Status: UNSURE (   9.92  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -100,12 +100,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +int __dma_map_sg_attrs(struct device *dev, struct scatterlist *sg, int nents,
->  		enum dma_data_direction dir, unsigned long attrs);
-
-I don't think it makes sense to expose this __dma_map_sg_attrs helper.
-Just keep it static and move the sgtable helper to kernel/dma/mapping.c
-as well.
+I think helpers for the dma mapping implementation should probably
+go into dma-map-ops.h so that the header for the public API doesn't get
+polluted with them.
 
 _______________________________________________
 Linux-nvme mailing list
