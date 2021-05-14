@@ -2,109 +2,88 @@ Return-Path: <SRS0=3vHZ=KJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F802C433ED
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 16:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C746C433ED
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 16:26:46 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 01929613F1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 16:18:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 01929613F1
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1B00F61206
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 May 2021 16:26:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B00F61206
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:Message-ID:
-	From:References:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+PHTh9eUXkYGXr8xa8XL7NLEqKD5q5gXg3gXcyxqR6s=; b=gwvZS2OP0wlsECQ2LSL9yGDn3
-	cPPGvhcbwCDPYc6nezy+A6oUqk17KDZhN640qvFFPW6vaZlsm8caRpjd1BxrvQldGFimuT20BlN/N
-	i23RtpJpdyw7xGh7DqERHOZnNc5tEBmg4X781JPmsNiqAdjneR4eeIYc8Zst/Yxc/FsBqvuXj8D6j
-	Jzj7ZpGMrTBfF17qilk2C2l2QWkHohuEW9hbuCbocVAHE+RfGplnN/8XBIFxe8GAOftV//zm2X3CR
-	yRhvu4FpAbGiUYTDz5wbWzxAjz1bBziImkUZni5aC8y+jxmwpkcC6livueREA7SzKl7ZgoM9Zg7bI
-	av+q7Uayg==;
+	 bh=S5V548VoYgDdLZrZzG5e4K1yyxjZE49bA1sZfqBJiNk=; b=POvLUU+D/7onEN4n78xsCCOHU
+	OApYuA2HS/ra/CDucDQ5ZpvUIjX5LAFXPVq7I2yGV+OyDiPbANB4x8hxEAnY3fMN4sI9g1M3GgK3N
+	/gzU6oP1Jsr+UW19M6+bSTFWSOT8eaUIuQZ5JnotF26QZm7wrXH2ZC6k1omLTC58Ac1VrWflQrp7s
+	pyEKa0JTU7vqqAlgpBAee6KNQq20cRy++ZZiEoR+6c1pearEuPMLdAnUv6Uijt+YY9wMItX5h56JK
+	oAYJy7dQCJUE1c0BTzDlJ1YLdBhaBrY2DRYSW5lFd54YJqqF3+UnSl/CcQt/cPUiCq0vOuXjYxa2D
+	cX5vBsKYQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lhaVm-008SrO-OP; Fri, 14 May 2021 16:18:02 +0000
+	id 1lhado-008UP3-8z; Fri, 14 May 2021 16:26:20 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhaVj-008SqU-TG
- for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 16:17:59 +0000
+ id 1lhadm-008UNy-1Y
+ for linux-nvme@desiato.infradead.org; Fri, 14 May 2021 16:26:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Subject:Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=UIw7EfWmD3A5GJzYN/3QOUOCIyHuFu16FWOPf7ANc9Y=; b=w9tcVGNoJWDBnoSd8+NqnXwOmG
- TfaFNRTnaFNJF4xu+Z/yQUVJcHgePHh14Y+ygFrtj3RUEq/S0aB1NoM2moxRkDUq3JnSNX2eXKhkQ
- uJj/xAF/ZUQ3bqWBkpB/AEnVd1/L+QH/7pAPUf/f5RBHxZv5WpagTbcIio1tZVJpjQ6joaen58Ufr
- ySsmD5jr+8sdX7TtbgPWcW0v72tDWi9aaQIcqUXLmvDOJq/NUE4KIHNxcL7GBafBq4sKJNri/9P4d
- /z41tDyNNZbzx63Rj/Ccq2cX+/O6pV3ZFQJJ0kjwpfaKxl/G1FuPgN1hN/8BDUWO8RrTRjiqAG74Q
- RNfp3tBQ==;
-Received: from ale.deltatee.com ([204.191.154.188])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=CTNespe6PPe/i44lMZgRLkW9j2gGSddth+ZiOh+Cd4A=; b=hvJ2nwGDrQidiASLSROp1YfdoY
+ mcctu+ZC1LXRd1Xozm1NrvXNVMFxGAjdaAbZTnGHSOHVaouuslWYww4ni0UX8AEHEPd6piNru9Ras
+ A1kMXMdlk+G2aawPbL6ZLE8slGzFMouxXdVz4BIVTrxfHSygFApQEDbTg6IiZFwIICF8DjkOOoOaU
+ 1tIrRcAJqSXB4tD1Ji5UPrwKZkcwfU/4iqHXpqTmb63gKvUA/e/PTgMObdBkgA3yE3CW+Y70NAfQk
+ DUxsQd8PONt0tOrKQCpf5OXftlLsEqiwtp2BxqX4K4E4ltHMJLMxK2L52i2i+tbdE8Sg4dOhqNSrL
+ TIRGN6kg==;
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lhaVh-00C6jr-Eq
- for linux-nvme@lists.infradead.org; Fri, 14 May 2021 16:17:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=UIw7EfWmD3A5GJzYN/3QOUOCIyHuFu16FWOPf7ANc9Y=; b=ifFUHGd+/63UwWC7Lc9/oor7EB
- 2xjO0Kj1AlFEpeDAwbOKeW8D81UORdDKkPxs7CF9lZHYha50YtQkAW8SwcBLPjO/SrcXyl30YTRho
- MbfBoG89yDCZm/Gp8aa++DAJcvdvSRYMC7EbFLh8FinG05Ku9EKpgWTM/v4BVl4jTXyWC3/LqjVgu
- bdtOV6sJX1hy0+oEpb6EvH7KJiIfkE8Gl1VaVjCNeplN1uBeqW+034RUscz+xQLCn+ISPdE0nf+rC
- ggxbKXYoIRATTWu1GzOpzi2ZHRBR0QVMYKgJfXEoeRUmTpW6t1lgOr2s3tTG29i7Rquf1zkW1OwXB
- T6ym8TIw==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1lhaVY-000693-Pi; Fri, 14 May 2021 10:17:49 -0600
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>
-References: <20210513223203.5542-1-logang@deltatee.com>
- <20210513223203.5542-16-logang@deltatee.com> <20210514135712.GD4715@lst.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <6615c351-9c28-3a74-8c43-4aeb7993fb98@deltatee.com>
-Date: Fri, 14 May 2021 10:17:48 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ id 1lhadj-00C7AH-Bj
+ for linux-nvme@lists.infradead.org; Fri, 14 May 2021 16:26:16 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 42950613F1;
+ Fri, 14 May 2021 16:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621009575;
+ bh=BmQjlO9W718wi8igXBtPXxdqosqGpUfGqz6z39ZK124=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Y98hyR4cMYKLTCUQNVrSCzmNI9ZVf0gmaoYwlQUp4e6NdRX+Po6JSRHrYoqot739E
+ OIJ3gpo+RadN2lv8ZgEeKdb0vuEMLL7fk0c4ywdYndOCt1mxXfC4N1idPM3dLQNagm
+ J1P6OWZS0F93bpKOShBHiZGEiwufHiEjf57wWg+zVMmxeWuQWqiuy7Fqa+PbTY7ys4
+ fDul0qPlHqtayyLCEEADZZXjaK9EGu54lPnyRDOD5inU76/TXNK3KpAL0RN6njDwwE
+ aSamaf4+CTuKNwhsVMtVmYwhzJGwT2hs7aPSrgIJmeDbuwpWk7w/nYkIUSOugHDoAH
+ +1+YMURMeQ+iA==
+Date: Fri, 14 May 2021 09:26:12 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ "Vasudevan, Anil" <anil.vasudevan@intel.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 12/15] block: switch polling to be bio based
+Message-ID: <20210514162612.GA2706199@dhcp-10-100-145-180.wdc.com>
+References: <20210512131545.495160-1-hch@lst.de>
+ <20210512131545.495160-13-hch@lst.de>
+ <45d66945-165c-ae48-69f4-75dc553b0386@grimberg.me>
+ <20210512221237.GA2270434@dhcp-10-100-145-180.wdc.com>
+ <20210514025026.GA2447336@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20210514135712.GD4715@lst.de>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: robin.murphy@arm.com, ira.weiny@intel.com,
- helgaas@kernel.org, jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
- jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
- daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
- jhubbard@nvidia.com, christian.koenig@amd.com, jgg@ziepe.ca,
- dan.j.williams@intel.com, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, hch@lst.de
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v2 15/22] dma-direct: Support PCI P2PDMA pages in
- dma-direct map_sg
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <20210514025026.GA2447336@dhcp-10-100-145-180.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210514_091757_505476_78BA6E21 
-X-CRM114-Status: GOOD (  18.79  )
+X-CRM114-CacheID: sfid-20210514_092615_461775_BB994259 
+X-CRM114-Status: GOOD (  36.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,67 +100,77 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, May 13, 2021 at 07:50:26PM -0700, Keith Busch wrote:
+> On Wed, May 12, 2021 at 03:12:37PM -0700, Keith Busch wrote:
+> > On Wed, May 12, 2021 at 03:03:40PM -0700, Sagi Grimberg wrote:
+> > > On 5/12/21 6:15 AM, Christoph Hellwig wrote:
+> > > > + *
+> > > > + * Note: the caller must either be the context that submitted @bio, or
+> > > > + * be in a RCU critical section to prevent freeing of @bio.
+> > > > + */
+> > > > +int bio_poll(struct bio *bio, unsigned int flags)
+> > > > +{
+> > > > +	struct request_queue *q = bio->bi_bdev->bd_disk->queue;
+> > > > +	blk_qc_t cookie = READ_ONCE(bio->bi_cookie);
+> > > > +
+> > > > +	if (cookie == BLK_QC_T_NONE ||
+> > > > +	    !test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
+> > > > +		return 0;
+> > > > +
+> > > > +	if (current->plug)
+> > > > +		blk_flush_plug_list(current->plug, false);
+> > > > +
+> > > > +	/* not yet implemented, so this should not happen */
+> > > > +	if (WARN_ON_ONCE(!queue_is_mq(q)))
+> > > 
+> > > What happens if the I/O wasn't (yet) queued to the bottom device
+> > > (i.e. no available path in nvme-mpath)?
+> > > 
+> > > In this case the disk would be the mpath device node (which is
+> > > not mq...)
+> > 
+> > The bi_cookie should remain BLK_QC_T_NONE in that case, so we wouldn't
+> > get to the warning. But if that does happen, it doesn't appear that
+> > anyone is going to wake up thread that needs to poll for this bio's
+> > completion when a path becomes available for dispatch. I think it would
+> > make sense for nvme-mpath to just clear the REQ_POLLED flag if it
+> > doesn't immediately have viable path.
+> 
+> It looks like there is a way to hit this warning. If you induce a path
+> error to create a failover, the nvme-mpath will reset the bio's bdev to
+> the mpath one, which is not MQ. I can occaisionally hit it with a fault
+> injection test.
 
+Oh, and it gets a bit worse. Using pvsync2 will block forever once this
+warning is hit, or if nvme-mpath had to requeue the IO for lack of a
+path. io_uring doesn't have that hang problem though.
 
-On 2021-05-14 7:57 a.m., Christoph Hellwig wrote:
->> +	for_each_sg(sgl, sg, nents, i) {
->> +		if (sg_is_dma_pci_p2pdma(sg)) {
->> +			sg_dma_unmark_pci_p2pdma(sg);
->> +		} else  {
-> 
-> Double space here.  We also don't really need the curly braces to start
-> with.
-> 
->> +	struct pci_p2pdma_map_state p2pdma_state = {};
->> +	enum pci_p2pdma_map_type map;
->>  	struct scatterlist *sg;
->> +	int i, ret;
->>  
->>  	for_each_sg(sgl, sg, nents, i) {
->> +		if (is_pci_p2pdma_page(sg_page(sg))) {
->> +			map = pci_p2pdma_map_segment(&p2pdma_state, dev, sg);
->> +			switch (map) {
-> 
-> Why not just:
-> 
-> 			switch (pci_p2pdma_map_segment(&p2pdma_state, dev,
-> 					sg)) {
-> 
-> (even better with a shorter name for p2pdma_state so that it all fits on
-> a single line)?
-> 
->> +			case PCI_P2PDMA_MAP_BUS_ADDR:
->> +				continue;
->> +			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
->> +				/*
->> +				 * Mapping through host bridge should be
->> +				 * mapped normally, thus we do nothing
->> +				 * and continue below.
->> +				 */
-> 
-> I have a bit of a hard time parsing this comment.
-> 
->> +		if (sg->dma_address == DMA_MAPPING_ERROR) {
->> +			ret = -EINVAL;
->>  			goto out_unmap;
->> +		}
->>  		sg_dma_len(sg) = sg->length;
->>  	}
->>  
->> @@ -411,7 +443,7 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
->>  
->>  out_unmap:
->>  	dma_direct_unmap_sg(dev, sgl, i, dir, attrs | DMA_ATTR_SKIP_CPU_SYNC);
->> -	return -EINVAL;
->> +	return ret;
-> 
-> Maybe just initialize ret to -EINVAL at declaration time to simplify this
-> a bit?
->
+Christoph, I think patch 15 needs something like this:
 
-All fair points, will fix in v3.
+---
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 7febdb57f690..d40a9331daf7 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -419,6 +419,11 @@ static void nvme_requeue_work(struct work_struct *work)
+ 		 * path.
+ 		 */
+ 		bio_set_dev(bio, head->disk->part0);
++
++		if (bio->bi_opf & REQ_POLLED) {
++			bio->bi_opf &= ~REQ_POLLED;
++			bio->bi_cookie = BLK_QC_T_NONE;
++		}
+ 		submit_bio_noacct(bio);
+ 	}
+ }
+--
 
-Logan
+This should fix the hang since requeued bio's will use an interrupt
+driven queue, but it doesn't fix the warning. The recent commit
+"nvme-multipath: reset bdev to ns head when failover" looks like it
+makes preventing the polling thread from using the non-MQ head disk
+not possible.
 
 _______________________________________________
 Linux-nvme mailing list
