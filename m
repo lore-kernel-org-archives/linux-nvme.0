@@ -2,85 +2,95 @@ Return-Path: <SRS0=YADc=KM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DA1C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 17:16:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A9DCC433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 17:49:50 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CA0DC60232
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 17:16:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CA0DC60232
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id A06F86108D
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 17:49:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A06F86108D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
-	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6g1WcSq5fjyRhjMxZ0E68A+B0mz+skM0wWxYKMDc7Yk=; b=l1L50ox/odcvWTTqRsnhBuN01
-	eBrkzBF6J7AHh4iNUdJ9iSu1Y+7+1B0IqQTDHE0nWdWm3efn1jHFbWBTy2c08em8BslJ6uK4LcKAV
-	IF1OoIUa8mQkh160rhLJGycdTN/1Coz7dqa2pon2wGgIGKtmCnysjAZrqh+u/NezQe2Pu0R+OFOCs
-	MPlfu8XblO4iD2D8mCLLXgtVHGtlaxHTbEG3P1mdiQnJvmHgmc3IxnyYgsAos+0pCdWbWNDnCSrqs
-	I8UPM6qLqdWeSlAsAbKj1Ky0rZOXIsew//wMaO3cEozk8eVOmRJeAtxjve4uHtNC4TmZNEX231ZB1
-	DL5etjhhQ==;
+	 bh=SxhuXYnyAuF/anB2AD+5YI/7Ef1wboCjc/0xSyID8KE=; b=ps+9SucwDwDhfvDOYT5lu44/p
+	GExIjYhzOR/NCgi9iZdNYXl/tqpJBVL6mdooaAcv3kgFCQbNtYxZwO5j3dvi9NP4xQCTQL2nrMcHA
+	GEllbrfJBhGD4qaxzARHr3OcHSRl/Z//n8aR/uOyaLGJZbqqZkvdHx0BRn3/7ZEs40NxaBQaNR2LW
+	W8YAVZ2qapzAJXwSth733fBt0QBIK/7Wq4q5QaKquo/i++N+mNr8PzYZzbmk7BPgBO/5x7tg/4IQM
+	AlSAHMisnBcL8EhlwGQxhmFpp+bU1PsCl2UtBAlm6dzGDGY8Ts9bu5G5ydWJTk6NFjNUUaVPvlB0E
+	tSLWCwJXA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ligqV-00Fc3q-Vm; Mon, 17 May 2021 17:16:00 +0000
+	id 1lihMx-00Fj53-9a; Mon, 17 May 2021 17:49:31 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ligpN-00Fbl5-1v
- for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 17:14:49 +0000
+ id 1lihMv-00Fj4o-2G
+ for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 17:49:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=priScSjTLVvBK7rA83Y37kSshwzUOURBJKzWMFTiGd0=; b=Ol0e/NFku4uF3amF7Xw9qOXOFK
- nVEzYr+Vq/LuGhPdh/rm5WlQgw7U3vfFkGhv9ZCLGlFSZGI5VrVgIO0gvORUghNYXllAgHlXJKPcT
- tkd25RFdi9gwdLHYb71mtt4nwxO6+kc9ES3yva2GVfsz/7adG+KYE9nP8GyLCDxTtQDOa8OoOWrBg
- quVUG22PEhspROSBkUu5d1/6Tk2NiufSX2px7ratMKNd5eesQh2ugx/2uVLtv6Q1zblZ+6T1D0KHO
- wPRaKKEv6eBtqj9Z4tBbmjov7oNXLN1RxIOLd74LY9EA8fW7GNAOnH9JkJu3Nd9TtrrVYwgF52PEP
- OQvNXyHw==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=Ve7qSM1tPYa7r31OMJsi5OnT6ng0pOsRz1ee+lBkju0=; b=hmFEyudpkJvvLIIPSIRaQp+umo
+ UqimMB6NFduwL0srWJVFa7WX7fxpfyrvislkkW76Tc2rbPZJlaVL6RlnbCyIf4rCc+DDYp2sKP9Rj
+ JYHWbLpkpzD1/OKkqBDavsD2MxEd4wRy6sV9axY60E0u75U0++1VoNAB7XWK37oUzDrqF+vZTU4gb
+ l6wGYITTrUKNuZajppqYoZHIcYYCyfJYkjxrtM44TVoxR2JTVQwLrPyWBnREnvnQwIPr68AHu9oVL
+ niV2i+IjprgwypPqefExsJgbBO4Qpeyaxg1DZuOr7JNsJ9b/252m7Go9iMcyYmhbYs65gfjLqGYPX
+ ShxPvqJA==;
+Received: from mail-pl1-f171.google.com ([209.85.214.171])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ligpK-00E0WC-F9
- for linux-nvme@lists.infradead.org; Mon, 17 May 2021 17:14:47 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8AAFB61285;
- Mon, 17 May 2021 17:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621271686;
- bh=gBtObo7/6QCuct1lI++nwYijYXvNSZxZRKnFoAxtAao=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kSQoNpEzzPp+Q0SofRiLXMc0x3ZPAL+arkcesSexgSMntO9Fna3V2SaJZPhTI6KBZ
- b2C7Kf9Rz3L248yMzoX5X0V8AxOJ1Zk/D/FDwcSaO0j0iiSQzSDfFpNDoZSFc13oSZ
- j3aXTQGyUvvHhMKe/AmYwiAq74AcbzYYvFGr0c+lOhh24gPyiRc8ZWM8DcIBO7CGan
- oS97aRCXaM+PuQO5X7B+uj5FrEhE6enVHqtCfYJJn6P+//Y174GtbS8PRdctB2RyHt
- mBoSpJPXee2IBfHZtXCJpcut0+v+3/zwdEQoqIhB2oFcLDDsrjqOJDq3z+QwLrju94
- CHIFZ1eiAKmJQ==
-Date: Mon, 17 May 2021 10:14:43 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshiiitr@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
- linux-block@vger.kernel.org, Yuanyuan Zhong <yzhong@purestorage.com>,
- Casey Chen <cachen@purestorage.com>
-Subject: Re: [PATCHv2 5/5] nvme: allow user passthrough commands to poll
-Message-ID: <20210517171443.GB2709391@dhcp-10-100-145-180.wdc.com>
-References: <20210423220558.40764-1-kbusch@kernel.org>
- <20210423220558.40764-6-kbusch@kernel.org>
- <20210426144316.GE20668@lst.de>
- <20210426151537.GB12593@redsun51.ssa.fujisawa.hgst.com>
- <CA+1E3rLD7Zx2iKtUoTBVc4VXBj2ohXFeXSw59umBZ3Q=QEA0xQ@mail.gmail.com>
+ id 1lihMp-00E1xx-60
+ for linux-nvme@lists.infradead.org; Mon, 17 May 2021 17:49:27 +0000
+Received: by mail-pl1-f171.google.com with SMTP id b21so3615721plz.0
+ for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 10:49:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ve7qSM1tPYa7r31OMJsi5OnT6ng0pOsRz1ee+lBkju0=;
+ b=SQPN80LIhltNgNalGaJutoGApkH2thmqO1ZDkmRGp1oGspuWLVE/vB1TNNBKaZYaVN
+ LiHmFImSsTFItJWXY83nqvMpT9M+f/eIzDV/BB6lEB48ssGsU4caW2rPKnlwcFo5nCJK
+ sV8+CEJ+O8DodgU8l0CvilTh4wwl5VlxQq4tAzV3MONkHm4M7FuIAaTkqftbbzzyY/al
+ ith7kbTgzXulbQv2XcNE39fWL3DTUfcrchEG4ed1LQUgL3NY3kn0GFDS/bMwEwtTZg2Y
+ 7jfo0bwYQSw13WA+uf/QfV1toC8arRf25V2CJ2r5ycY30zAgF8SDmoo/kfJJYq022+iQ
+ Xdtw==
+X-Gm-Message-State: AOAM532CJui8TrmqQbV7TwqxKdKnbo8HXv/qOlPSJHa5ke+hQCMotQ4K
+ btXYmWVY/XWLEWloohp3S4LazuEjAUg=
+X-Google-Smtp-Source: ABdhPJwsx2TC8SY2JSf+BlSomstIFMxjWzr1TASam1XjY8jijQOHpU3qpp76LYp0RvOXd/NfWltE4w==
+X-Received: by 2002:a17:902:d643:b029:ef:62cd:eeed with SMTP id
+ y3-20020a170902d643b02900ef62cdeeedmr1276786plh.42.1621273761216; 
+ Mon, 17 May 2021 10:49:21 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:e600:1f8f:de79:17f9?
+ ([2601:647:4802:9070:e600:1f8f:de79:17f9])
+ by smtp.gmail.com with ESMTPSA id z12sm3920943pfk.45.2021.05.17.10.49.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 May 2021 10:49:20 -0700 (PDT)
+Subject: Re: [PATCHv3] nvme: generate uevent once a multipath namespace is
+ operational again
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
+References: <20210517083215.105604-1-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <32bda760-9d71-c063-565e-e3a79b8c3135@grimberg.me>
+Date: Mon, 17 May 2021 10:49:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CA+1E3rLD7Zx2iKtUoTBVc4VXBj2ohXFeXSw59umBZ3Q=QEA0xQ@mail.gmail.com>
+In-Reply-To: <20210517083215.105604-1-hare@suse.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_101446_552624_35EF3C36 
-X-CRM114-Status: GOOD (  21.94  )
+X-CRM114-CacheID: sfid-20210517_104923_263181_1525DA8E 
+X-CRM114-Status: GOOD (  24.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,39 +102,98 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 17, 2021 at 10:25:21PM +0530, Kanchan Joshi wrote:
-> On Mon, Apr 26, 2021 at 8:46 PM Keith Busch <kbusch@kernel.org> wrote:
-> >
-> > On Mon, Apr 26, 2021 at 04:43:16PM +0200, Christoph Hellwig wrote:
-> > > On Fri, Apr 23, 2021 at 03:05:58PM -0700, Keith Busch wrote:
-> > > > The block layer knows how to deal with polled requests. Let the NVMe
-> > > > driver use the previously reserved user "flags" fields to define an
-> > > > option to allocate the request from the polled hardware contexts. If
-> > > > polling is not enabled, then the block layer will automatically fallback
-> > > > to a non-polled request.
-> > >
-> > > So this only support synchronous polling for a single command.  What
-> > > use case do we have for that?  I think io_uring based polling would
-> > > be much more useful once we support NVMe passthrough through that.
-> >
-> > There is no significant use case here. I just needed a simple way to
-> > test the polled exec from earlier in the series. It was simple enough so
-> > I included the patch here, but it's really not important compared to the
-> > preceeding patches.
-> 
-> It would be great to see this in at some point; helps in making
-> passthrough more useful.
-> I'll look into integrating this with async-passthrough.
 
-Right, async ioctl would really provide better justification for
-passthrough polling. I'll post a new version of this series this week to
-address the previously submitted feedback, but without this patch for
-now.
+> When fast_io_fail_tmo is set I/O will be aborted while recovery is
+> still ongoing. This causes MD to set the namespace to failed, and
+> no futher I/O will be submitted to that namespace.
+> 
+> However, once the recovery succeeds and the namespace becomes
+> operational again the NVMe subsystem doesn't send a notification,
+> so MD cannot automatically reinstate operation and requires
+> manual interaction.
+> 
+> This patch will send a KOBJ_CHANGE uevent per multipathed namespace
+> once the underlying controller transitions to LIVE, allowing an automatic
+> MD reassembly with these udev rules:
+> 
+> /etc/udev/rules.d/65-md-auto-re-add.rules:
+> SUBSYSTEM!="block", GOTO="md_end"
+> 
+> ACTION!="change", GOTO="md_end"
+> ENV{ID_FS_TYPE}!="linux_raid_member", GOTO="md_end"
+> PROGRAM="/sbin/md_raid_auto_readd.sh $devnode"
+> LABEL="md_end"
+> 
+> /sbin/md_raid_auto_readd.sh:
+> 
+> MDADM=/sbin/mdadm
+> DEVNAME=$1
+> 
+> export $(${MDADM} --examine --export ${DEVNAME})
+> 
+> if [ -z "${MD_UUID}" ]; then
+>      exit 1
+> fi
+> 
+> UUID_LINK=$(readlink /dev/disk/by-id/md-uuid-${MD_UUID})
+> MD_DEVNAME=${UUID_LINK##*/}
+> export $(${MDADM} --detail --export /dev/${MD_DEVNAME})
+> if [ -z "${MD_METADATA}" ] ; then
+>      exit 1
+> fi
+> if [ $(cat /sys/block/${MD_DEVNAME}/md/degraded) != 1 ]; then
+>      echo "${MD_DEVNAME}: array not degraded, nothing to do"
+>      exit 0
+> fi
+> MD_STATE=$(cat /sys/block/${MD_DEVNAME}/md/array_state)
+> if [ ${MD_STATE} != "clean" ] ; then
+>      echo "${MD_DEVNAME}: array state ${MD_STATE}, cannot re-add"
+>      exit 1
+> fi
+> MD_VARNAME="MD_DEVICE_dev_${DEVNAME##*/}_ROLE"
+> if [ ${!MD_VARNAME} = "spare" ] ; then
+>      ${MDADM} --manage /dev/${MD_DEVNAME} --re-add ${DEVNAME}
+> fi
+
+Is this auto-readd stuff going to util-linux?
+
+> 
+> Changes to v2:
+> - Add udev rules example to description
+> Changes to v1:
+> - use disk_uevent() as suggested by hch
+
+This belongs after the '---' separator..
+
+> 
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/host/multipath.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 0551796517e6..ecc99bd5f8ad 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -100,8 +100,11 @@ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+>   
+>   	down_read(&ctrl->namespaces_rwsem);
+>   	list_for_each_entry(ns, &ctrl->namespaces, list) {
+> -		if (ns->head->disk)
+> -			kblockd_schedule_work(&ns->head->requeue_work);
+> +		if (!ns->head->disk)
+> +			continue;
+> +		kblockd_schedule_work(&ns->head->requeue_work);
+> +		if (ctrl->state == NVME_CTRL_LIVE)
+> +			disk_uevent(ns->head->disk, KOBJ_CHANGE);
+>   	}
+
+I asked this on v1, is this only needed for mpath devices?
 
 _______________________________________________
 Linux-nvme mailing list
