@@ -2,19 +2,20 @@ Return-Path: <SRS0=YADc=KM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAE6C43460
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 16:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B90C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 16:44:46 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D7FA661285
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 16:40:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D7FA661285
+	by mail.kernel.org (Postfix) with ESMTPS id AA53661059
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 16:44:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AA53661059
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,87 +24,76 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
 	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=bEagYaKdbg52VW3mcxgsS1M9UaBc7ZOoAIcj1V+k8Rg=; b=Q1kye95uxyKo4I2/A/daC3tA5
-	MQahRP0mbwLIGp7yAJm2MdNSlHw3gdy1emPKdDV2Ia6ZMODCVKvldrsH7buztVp9R2/j6B+JdVwO7
-	u5K84+M7Dxezonyn/sVoq7angGWO0HKgaMkKxBdX2QmlCNaw8yR5JX/SkV2V8fARvXK5SgC8LIrBk
-	+t8v3yhamn4yQYtPsuNPSBUU+2Cz+WxXLvr5GCmw2p/Vd+0RYj9mO5ZFW9JDt10L749AHVFHV5d1p
-	MN/Cq4S/ENZpp9kC6aSsjNZPeEO/hshmJ3bGwWojRj/oTW7UycAr/4IU5oOHnPhMf4RGe4jYg9X5U
-	4zbl57yVg==;
+	 bh=DPumwl9keGCITdXPi7DDNpqQqDLENpJ9+yB5yAv4jHE=; b=SkF4G3VlWwAqVsXe0L6KhSggg
+	TSY3QLVabG1dJd2tjQECZw8g5EIQ3iV3NfrxVcSvMs1766McWwrfVo6DOeuDvab9jyQ+zzhqXGx68
+	XmyfCRThj1802wY0qwfg7rmJMhltP40AmsvziFgrP4hwg6vhfJVraCEe7ZB9I/m3iMLEjrRZvJgJc
+	uRoRwAARUxOSwVwf630Qry1oy48VSGzyxO/3BAPt1BT46xj4bExWLtGsnOh3mhG3d6ZmL9q08orvU
+	t6DPDrwl0ukmDbNEep+nAFVFZSiOhjM2L0UHJL1td6wlWSvcrRMnH1Hq8e5/05Asapev4aUKun/Q5
+	N4+CdxQvw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ligHs-00FY8K-BF; Mon, 17 May 2021 16:40:12 +0000
+	id 1ligLx-00FYfO-1z; Mon, 17 May 2021 16:44:25 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ligHk-00FY7w-Ic
- for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 16:40:04 +0000
+ id 1ligLu-00FYeh-Gp
+ for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 16:44:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
  :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=mJg/+7GYl1kUJvfa8nmmRMcNriQOvuN6MAq6Cn+ONao=; b=WpcNOx2ASmcR33TVeNGsd6DcNg
- Idp/vGCpNyUZnqYPJaF5NeDgEYnzCU/X7SFGd1Hg840PqoAk4eBxaSRTAeVLXrxiZ0gAXNVbosYlP
- KAkp3uzlF2RsDQSSJQHhrso981zssvuUBSmgDOuPPcQn5UBo/JdOUtILb2QTFSfZxAX6pdhCOQJyo
- fvL6hV97XgdDNDhV5rSHWvbCvC/CP2npDsUMviaZJ2uf+gOO/8prCqOZZ1MAaSCcv1hVM3wGHCJTf
- h6lAG9efb4nXYVtkO61z7owA2b2gOe1YFbdDAL0wjhe2+Vma+rRmvxyLb+xrkZX5tPqMe+Plwo7Dc
- +f0fo1jQ==;
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ bh=+VtV8nX+Uzjp9W9nmFCJu2nrfmzR8I0bnxqoUhqRYCQ=; b=YNlhaPq44hId731jipmsLN4gtD
+ v2aX2/jhep/CgLMSw5SJoy8xbtlkRqKLCIta03T8Y053vzpZIGYDPq6GCicD+vnzRhemKbn9ibY5F
+ cLgM8/gx/nLmslWcj9tNWoC8DKv1vXyJFtQ0DTW21IbYlsxn4qsCUWZDM310pGpJBZODRLMV0CpRz
+ 7JZWugyxR0jMLbpXkdq1Dgj76KrMLr+YEm1qBYZoBuOY+sdVRbMvkcuge9G+7YCKDI53pESScDrwt
+ ffNSRJQhyokNhpB9mplRjL0JJ+YP0g2F90NzHDRjFAe7o4tICcd/pVvy7sDomsB/plHaT8vFa39XW
+ 9MlkIJgA==;
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ligHi-00DzEw-2s
- for linux-nvme@lists.infradead.org; Mon, 17 May 2021 16:40:03 +0000
-Received: by mail-wm1-x333.google.com with SMTP id
- f75-20020a1c1f4e0000b0290171001e7329so3983246wmf.1
- for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 09:40:01 -0700 (PDT)
+ id 1ligLs-00DzUg-2R
+ for linux-nvme@lists.infradead.org; Mon, 17 May 2021 16:44:21 +0000
+Received: by mail-wr1-x42a.google.com with SMTP id r12so7146649wrp.1
+ for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 09:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mJg/+7GYl1kUJvfa8nmmRMcNriQOvuN6MAq6Cn+ONao=;
- b=QljiQ+uaASZtSxfuEI8hK1tI3a4Y6o+6ZIacfUmOJb0k0fVi7Sqo0U56LxQQ9n0D7H
- OxzEbcNqyB3z1vQNEnR5Zrv17/IW60UCKTt0DkFBfAkpNKRBn3/qqDDNQHQ+gKicApoK
- IEUakbF//Mlmww+fZRhyglLfSqybZ2w6kt78ttIvat3UjfCgjAdZre8u2bdxxvh7b7Oh
- 0OORdS0W6PfJcfoRcPXrwXLnXkv26W4BkQolDkROWbWxKCd0pVsI/yPSXNZS74FXWI36
- 09YJ3c55dOmix4700cyb4PhvAdUTQWISqO7u6Nx5VlJSOoo6z2UJd6lpY5WpnMFD8J+Y
- H+Tw==
+ :cc; bh=+VtV8nX+Uzjp9W9nmFCJu2nrfmzR8I0bnxqoUhqRYCQ=;
+ b=XCDef7VXfeqXqKqRbwsg7GLiUQSoUtfM70wDpmSftyUGC5VZLlm+DTZn6cjRNVLPZQ
+ G3jsMNHRUNtGB1J1naBe93gwijRQ2i5Kcp0kGtiFj8X2cAgDohcD591gEWVPyc2k+Qkm
+ 1oLPAJU6DpHgqQMdLOsYjRMbKF76Kvhle182Wsy+SDTAvrb0DGZmsfOzhE3M+DvE6Hrl
+ ClML2Ycta174wRcocZyE9py6Ngs4uuFWWQGYScTIBsqN0xQYnUC2Ie9fPs6sVf/FZBuI
+ hUeBJRj76vT6cLqNxPv1Y9zISHi6dH5INjV3SGLCU0UH6f/VsFY19KQPqUCxBVfJWehU
+ DCkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mJg/+7GYl1kUJvfa8nmmRMcNriQOvuN6MAq6Cn+ONao=;
- b=RiOfsMMR8FPPmzR0fNgjnr6FMwuDb7xXu3kNQPNnE7xYdatYMFv3RNzDLuQ0LSeWye
- Gy5FngQtCld0MqL9Uekm09nh/hmD6hZb3lXSJZ3zhCy+FgdUwPzGpjnek90xc216l9xl
- Ym5/n7L9D1UOPOxEXsNKbaTatOn2XhFg6QuVlWJFXihz5sxao91ObN/0fmhlxUPTBf6p
- 2z3mRakcHIHExsJVRdlpp+XQob89K5jzSInBg1h6alzINwtufqxS0DhM+FtcM4R5WJA7
- xKWQy1Hy/9R7Zh39jvL30wz8wfCjdj5O5eYL/eNbrdJQzaIwtxgqpC5IqkRECvoVMU+/
- I9AQ==
-X-Gm-Message-State: AOAM531GQ0QHup97ZrFHbjo2+3jv3O1PODIAoL/1Bd68KUOqmtzDSOQo
- LyAgWQvFzwZjPxQ9GwPxvQGtEd7cOn0d/9CIXSQ=
-X-Google-Smtp-Source: ABdhPJztcjSsj0J/JNFDHQf/JgaBAZUnQRFLtkWcpXIR+qh9ia6xfQrYTY+eZZzHSaCUmybr7ASuRfMEoFGty1cPlx0=
-X-Received: by 2002:a1c:a442:: with SMTP id n63mr510553wme.25.1621269600181;
- Mon, 17 May 2021 09:40:00 -0700 (PDT)
+ bh=+VtV8nX+Uzjp9W9nmFCJu2nrfmzR8I0bnxqoUhqRYCQ=;
+ b=fBqOM+TUZMBJljxSm20PxSc13ISwo5tFer4UZfTcvijhcdWbYdFi8eoLvvJdDGdCaL
+ VsXhvlySuB6pYMiF29k5HS/DQzJJS4Beh2KgxllC4Z1SS+53ryHaX2mk7Vnsp0jjFfkl
+ AhWLBAROErMzAXjK2rE+0iqlU34PEWpVOHOb9opGIxq/repGaaUx3yC9sTrb6aG4LOhN
+ oOLHiQm8D8/qB1wMx5T1CVS7kRxBIf9Lul/Oy2+B1bDtGkX2tNjQOb4uHy0GAe2KLEaG
+ oKfbnTbi46ksFZuc+GwsGVd1ki/OO19Y+mjF9AMzGNGNPTZjHz5c4NBb6FeB4rzS6ArH
+ uubA==
+X-Gm-Message-State: AOAM532o4dsanWtShS+QaKCcuke/zYD2kGR+xSrcDT66FIujOurBp1yy
+ /JLTxNrz4qaMQGHRqx937QSKk+0O47lqeNd1IAQ=
+X-Google-Smtp-Source: ABdhPJyDb61mqECC+gWc/B1MpMTWknlMBd7wXO1WQfHD5X73NOFTBrqoZSArpY6r+YDZ0TO3HXMxu+IYMPYs7fLn058=
+X-Received: by 2002:a5d:5508:: with SMTP id b8mr693279wrv.278.1621269858262;
+ Mon, 17 May 2021 09:44:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
-In-Reply-To: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <20210423220558.40764-1-kbusch@kernel.org>
+ <20210423220558.40764-2-kbusch@kernel.org>
+In-Reply-To: <20210423220558.40764-2-kbusch@kernel.org>
 From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Mon, 17 May 2021 22:09:32 +0530
-Message-ID: <CA+1E3rJO-HzZu5q+8ac1wxsnkGeST1epE8Ro00RNBAF340Dgeg@mail.gmail.com>
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
- "dm-devel@redhat.com" <dm-devel@redhat.com>, 
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- "axboe@kernel.dk" <axboe@kernel.dk>, 
- "msnitzer@redhat.com" <msnitzer@redhat.com>,
- "bvanassche@acm.org" <bvanassche@acm.org>, 
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>, 
- "roland@purestorage.com" <roland@purestorage.com>,
- "mpatocka@redhat.com" <mpatocka@redhat.com>, 
- "hare@suse.de" <hare@suse.de>, "kbusch@kernel.org" <kbusch@kernel.org>, 
- "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>, 
- "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
- "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>
+Date: Mon, 17 May 2021 22:13:50 +0530
+Message-ID: <CA+1E3r+3dDW0Hbc8MCsxAnwcpY=kWAqDLh0h9+j501VnKvgwqA@mail.gmail.com>
+Subject: Re: [PATCHv2 1/5] block: support polling through blk_execute_rq
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, 
+ Yuanyuan Zhong <yzhong@purestorage.com>, Casey Chen <cachen@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_094002_144183_9846D4AA 
-X-CRM114-Status: GOOD (  13.75  )
+X-CRM114-CacheID: sfid-20210517_094420_138326_294FD407 
+X-CRM114-Status: GOOD (  19.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,35 +110,51 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> * What we will discuss in the proposed session ?
-> -----------------------------------------------------------------------
+On Sat, Apr 24, 2021 at 3:37 AM Keith Busch <kbusch@kernel.org> wrote:
 >
-> I'd like to propose a session to go over this topic to understand :-
+> Poll for completions if the request's hctx is a polling type.
 >
-> 1. What are the blockers for Copy Offload implementation ?
-> 2. Discussion about having a file system interface.
-> 3. Discussion about having right system call for user-space.
-> 4. What is the right way to move this work forward ?
-> 5. How can we help to contribute and move this work forward ?
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  block/blk-exec.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 >
-> * Required Participants :-
-> -----------------------------------------------------------------------
+> diff --git a/block/blk-exec.c b/block/blk-exec.c
+> index beae70a0e5e5..b960ad187ba5 100644
+> --- a/block/blk-exec.c
+> +++ b/block/blk-exec.c
+> @@ -63,6 +63,11 @@ void blk_execute_rq_nowait(struct gendisk *bd_disk, struct request *rq,
+>  }
+>  EXPORT_SYMBOL_GPL(blk_execute_rq_nowait);
 >
-> I'd like to invite file system, block layer, and device drivers
-> developers to:-
+> +static bool blk_rq_is_poll(struct request *rq)
+> +{
+> +       return rq->mq_hctx && rq->mq_hctx->type == HCTX_TYPE_POLL;
+> +}
+> +
+>  /**
+>   * blk_execute_rq - insert a request into queue for execution
+>   * @bd_disk:   matching gendisk
+> @@ -83,7 +88,12 @@ void blk_execute_rq(struct gendisk *bd_disk, struct request *rq, int at_head)
 >
-> 1. Share their opinion on the topic.
-> 2. Share their experience and any other issues with [4].
-> 3. Uncover additional details that are missing from this proposal.
->
-I'd like to participate in discussion.
-Hopefully we can get consensus on some elements (or discover new
-issues) before Dec.
-An async-interface (via io_uring) would be good to be discussed while
-we are at it.
+>         /* Prevent hang_check timer from firing at us during very long I/O */
+>         hang_check = sysctl_hung_task_timeout_secs;
+> -       if (hang_check)
+> +       if (blk_rq_is_poll(rq)) {
+> +               do {
+> +                       blk_poll(rq->q, request_to_qc_t(rq->mq_hctx, rq), true);
+> +                       cond_resched();
+> +               } while (!completion_done(&wait));
+> +       } else if (hang_check)
+>                 while (!wait_for_completion_io_timeout(&wait, hang_check * (HZ/2)));
+>         else
+>                 wait_for_completion_io(&wait);
+> --
 
+Looks good.
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
--- 
+--
 Kanchan
 
 _______________________________________________
