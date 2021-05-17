@@ -7,94 +7,93 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47724C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 20:28:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CC7C433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 20:28:40 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A5C5D60FEB
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 20:28:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A5C5D60FEB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 1868260FEB
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 20:28:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1868260FEB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=y5NHQA6DD+PMtx2ZmnHhiBcTCYI7bhpUizAnjfmBAfY=; b=GaCZxNBmkALe9Cele6ncXNcEg
-	tztmOeeerGndggvlncA1dW5kYvRwowvfngw6zcFePL6RGj34p1RpzQLJXwc14Ly6XxuwPDnLBCcYW
-	DKevmnwXw9OMVWmVf2mtZgdKSgSoLkTIDYBxYdqYlxgbGUFwXm/JtLgnABZkjzWDUsjUPqUGp5TEn
-	ed051XJhB1OYvs094R0CN4mgL2VprZnezbU+CKBLaNbEvBiRF3N9eByUH+Yfji3pzQtmnbAfcTFaF
-	qBvVFNlruXJ5bkr8qkWt1KWHx3bmtVmVJ4F1LvcWQpm6T0Rxvr/f0hI+g0uIAjkryxRCMME4lKnCp
-	AVNH1H/Hg==;
+	 bh=8aXqz1a6mImD8Ni/P/1ca8Z40CJVbp0kEkqPa/U9f9c=; b=lSH1b93ec3xI6WnhsN/+/DQZt
+	rr06MCOIiBpRC9R7F3QTxsF2NtcXWHmd7Bv2p2Beq1i8kQH/OBHguxv6MSW9cTwuHe0dsGV/84CZO
+	WA4Xz3ZmtfgGpMUxtLvsXBCSzczF2Oc0VFpksasPYUTsu8ZN8QEAysnAtAOyvWZUihGaYwG22SZ/p
+	3xkfuFuzauLbHu3oKwtOXKb/4bFC3GTwcfJt+KoAcT07kArxEdLXzEVPp6oHYwXMnCSdmdJnwsiB/
+	izScca+64z6eifr9q8JlhMG5Tdu5lvbRV3cZR903WdOa5ySCYsv1Bs+N9ngbNT00P5/5KVCMVwMUa
+	Ma4btRW5g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lijq5-00G3ya-6T; Mon, 17 May 2021 20:27:45 +0000
+	id 1lijqj-00G44n-Ul; Mon, 17 May 2021 20:28:26 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lijpz-00G3xc-Vn
- for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 20:27:40 +0000
+ id 1lijqf-00G43j-Sw
+ for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 20:28:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
  Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=aq56l47CCWeditDhAhqJsMZ7PBrfqrcnzwZQ7R+jeOY=; b=Ev1OKOdH6DaVoCn+45thmtTgK9
- 5BI/QC1sd5627RON3QK6ciltBSmLTCrvkRue4dUfykliGin0e931xjRRaTY9u2dBKX49dVt7WtlgK
- VPQGCmTDwjrn9oeB4MdSyLT3V987W1lD5zRQjg8fKpYNuxUb2eEqbo5F68U2W9xHif8O912oFtD1R
- FKi6Ah9n4QSPw447PlJWzEHHNrCvP7wXVjqPhLMFjOk5Y2xRd8OhnhzSz/rc5UIqKfAoV00ozEEey
- 6DTpJ7DIR8am8/Q0vPm1lPt18UzIa0pXONj3aGJC5XnF00jdRqPtZ1iNLyYL7xt9cSf9cVxVfxRRp
- VONJuLmQ==;
-Received: from mail-pl1-f179.google.com ([209.85.214.179])
+ bh=b0qbHJ2ODyRuALZ6HtVbAxSiO6u+bTNln/QGhcAk0EM=; b=N2YrcAJkCsWOpu7tqGRJSbSXBr
+ lIDHkEMkv60UKm7NhM1cWOnztLzeHUiy214JguF+QZfndzBC2NTlx5vfYGbpAhynJVfnKFgB7XAKi
+ nHgg+ON7mLXxGVWxV1RQNIxm3K93SV/Tkcg+HzjHNJrRRd+7ncVeHZhKDiNWBSOds62mkQIOVGPjI
+ rDm8mFS4wlFCrMVIYZtxniO5MCJog0S5Sm8VHKp/auX82CSRyfHckCic1TEem16N99ApYVqbmgWF/
+ gTIx8sjRic9KCIQOOQCLjlx8rUPg3RVTX5s28aMMhGba9PBnWp4MySWxr3JNmUOPNc9QvzFaTy8Rd
+ fPKdCOXw==;
+Received: from mail-pg1-f179.google.com ([209.85.215.179])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lijpx-00E84T-6M
- for linux-nvme@lists.infradead.org; Mon, 17 May 2021 20:27:38 +0000
-Received: by mail-pl1-f179.google.com with SMTP id h7so3835906plt.1
- for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 13:27:36 -0700 (PDT)
+ id 1lijqd-00E85t-GG
+ for linux-nvme@lists.infradead.org; Mon, 17 May 2021 20:28:20 +0000
+Received: by mail-pg1-f179.google.com with SMTP id y32so5418209pga.11
+ for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 13:28:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=aq56l47CCWeditDhAhqJsMZ7PBrfqrcnzwZQ7R+jeOY=;
- b=MITEAOd1UHc23sbWT8x9iAVIwUu9W+FcMvGhA194UBjnXvCWkekFPqcfwApeLJHjoy
- SaZpILBDM9yfduH/w5l13R9iVpTR3hyPwDcOSxEpHXhyfIN6JSMr+GAxivqpuykdDLE/
- 4k2zncYpwJLXwGwcRzsyxKJtMiupNIy2IpjIqiU6zl4RexX2grBZKHKEWXyNOcFsOaVz
- MN1i49A2+B3Dq8eRzFM6XHYA6trhr1NzrQZK4+ETXrPno6etejDyMBb3rvBbDykfCmWd
- qCkmfFz7zzD5sX8aRNflgOJ9/vt/8Th/fhGhXORkl1KLeQJgRhOCcngLHyqC0rMOuE5/
- HW0Q==
-X-Gm-Message-State: AOAM531lMYujv2P0yPh36RPsA4AcqzwGSTBnAvYtv1urFOW23nL6nVZ/
- 6PuqNMZmScbIz5iKL6kL4cc=
-X-Google-Smtp-Source: ABdhPJylVBZ/WmxArceLRkutj1BzbL/hjhObCJ8A14me9b3Q13kCBrdrPvajDWrJNpL2uM13XL5xzg==
-X-Received: by 2002:a17:902:104:b029:ec:9fa6:c08 with SMTP id
- 4-20020a1709020104b02900ec9fa60c08mr322053plb.10.1621283255232; 
- Mon, 17 May 2021 13:27:35 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:e600:1f8f:de79:17f9?
- ([2601:647:4802:9070:e600:1f8f:de79:17f9])
- by smtp.gmail.com with ESMTPSA id f18sm11302238pjh.55.2021.05.17.13.27.34
+ bh=b0qbHJ2ODyRuALZ6HtVbAxSiO6u+bTNln/QGhcAk0EM=;
+ b=liIhcK77jg+ZyBEYUHwyD+Dv2zhOEEc45UNekh9UkHaYgUh3nYpuNp7e8P02x/dkKW
+ p0sa7eVYIj/5A+M0yWschW5yo1VGMCeyFZWF2ue9EfbkK+eWvH6lBaiZZDL5q7XmulAt
+ VMluZkcykN5l/vYza7B/2jiZJpY2Y2pcGJKaIuBeWfqYMEckfCgeeMqxjhHdWwESwQ17
+ ewcPY/Pd9TBl1oMJMP8lE51UyYe5AuKV3E7rm7PsdQa/bZN6h3uIyC5KdLoqtQKq3hm6
+ lUnlOj4qWbWqM+pR5pzWw5J3FNSIUtnKdEWGvlTtzhYqNmqS1MTQsowO0DQgxAz5rlvi
+ JffQ==
+X-Gm-Message-State: AOAM53084Qi3wRq/dpG93LGOGkluBxOD4J7RPYlprU0kSNZSMGfri6WC
+ 1apjepJJdJjX2pl2NBod3Us=
+X-Google-Smtp-Source: ABdhPJxJe2WT7EwbkT4B9DYHpkApFxcP3UX+LTpBhIOJD2B35oSQNboPKAigwyhOvn+r2919L9zM4A==
+X-Received: by 2002:a63:145e:: with SMTP id 30mr1311524pgu.174.1621283298648; 
+ Mon, 17 May 2021 13:28:18 -0700 (PDT)
+Received: from ?IPv6:2601:647:4000:d7:8224:c0d6:d9dd:57b3?
+ ([2601:647:4000:d7:8224:c0d6:d9dd:57b3])
+ by smtp.gmail.com with ESMTPSA id z22sm7549687pfa.157.2021.05.17.13.28.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 13:27:34 -0700 (PDT)
+ Mon, 17 May 2021 13:28:18 -0700 (PDT)
 Subject: Re: [PATCH 3/3] nvme: code command_id with a genctr for
  use-after-free validation
-To: Keith Busch <kbusch@kernel.org>, Bart Van Assche <bvanassche@acm.org>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Daniel Wagner <dwagner@suse.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, Daniel Wagner <dwagner@suse.de>
 References: <20210517175955.602725-1-sagi@grimberg.me>
  <20210517175955.602725-4-sagi@grimberg.me>
  <0bd3f659-9691-4f25-6d3b-bdd19546186c@acm.org>
  <20210517194613.GA2709569@dhcp-10-100-145-180.wdc.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <94cc18bf-e669-0253-263c-36cd9e9d2df9@grimberg.me>
-Date: Mon, 17 May 2021 13:27:33 -0700
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <64e3ad99-8435-22c0-bb11-cb9ad08eb52e@acm.org>
+Date: Mon, 17 May 2021 13:28:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
 In-Reply-To: <20210517194613.GA2709569@dhcp-10-100-145-180.wdc.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_132737_264518_84DE076E 
-X-CRM114-Status: GOOD (  20.94  )
+X-CRM114-CacheID: sfid-20210517_132819_573095_A4FC9263 
+X-CRM114-Status: GOOD (  13.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,41 +105,13 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> We cannot detect a (perhaps buggy) controller that is sending us
->>> a completion for a request that was already completed (for example
->>> sending a completion twice), this phenomenon was seen in the wild
->>> a few times.
->>>
->>> So to protect against this, we use the upper 4 msbits of the nvme sqe
->>> command_id to use as a 4-bit generation counter and verify it matches
->>> the existing request generation that is incrementing on every execution.
->>>
->>> The 16-bit command_id structure now is constructed by:
->>> | xxxx | xxxxxxxxxxxx |
->>>    gen    request tag
->>>
->>> This means that we are giving up some possible queue depth as 12 bits
->>> allow for a maximum queue depth of 4095 instead of 65536, however we
->>> never create such long queues anyways so no real harm done.
->>
->> Is a four bit generation counter sufficient? Shouldn't such a counter be
->> at least 32 bits to provide a reasonable protection against e.g.
->> duplicate packets generated by retry mechanisms in networking stacks?
-> 
-> It has to fit in the protocol's command identifier, and that's only 16
-> bits. Most of the bits for the tag, so the implementation uses the most
-> available. More could be better, but that would require a spec change.
-
-Yes, even if we can expand the genctr I don't think we should, we may
-want to leave some bits for potential future usages. No matter how
-many bits we allocate, we can't protect a 100% against everything here.
-
+On 5/17/21 12:46 PM, Keith Busch wrote:
+> On Mon, May 17, 2021 at 12:09:46PM -0700, Bart Van Assche wrote:
 >> Additionally, I do not agree with the statement "we never create such
 >> long queues anyways". I have already done this myself.
 > 
@@ -148,11 +119,13 @@ many bits we allocate, we can't protect a 100% against everything here.
 > have timeout problems with the current default 1k qdepth on some
 > devices.
 
-Well, if there is a use-case that requires queues that are deeper than
-4095 entries, we have no space in the command to protect against this...
+For testing FPGA or ASIC solutions that support offloading NVMe it is
+more convenient to use a single queue pair with a high queue depth than
+creating multiple queue pairs that each have a lower queue depth.
 
-I also find it surprising that there is a real benefit for such deep
-nvme queues...
+Bart.
+
+
 
 _______________________________________________
 Linux-nvme mailing list
