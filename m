@@ -1,104 +1,71 @@
-Return-Path: <SRS0=Quds=KL=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=YADc=KM=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4730EC433B4
-	for <linux-nvme@archiver.kernel.org>; Sun, 16 May 2021 18:02:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D24C433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 08:27:12 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97CF1600CD
-	for <linux-nvme@archiver.kernel.org>; Sun, 16 May 2021 18:02:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97CF1600CD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 880F261221
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 08:27:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 880F261221
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZicVh/r0uppKj1ZbOWwomOgM6fMhEfAZF9dnlF7qS48=; b=bDSAgk4o1DYuVrkfXRfnNJ9G3
-	nvOW7FJfNxwilZB9Fi9oEsTC77g5W6XgRnuSsBjmaFVBQsENmko2j7ju2f4Di2yK23YxUMu4n7NgU
-	n6cz1aIX++U08FL4xU+L5hqi1zrmeK2fZHOC8Ox62qpl9RnHvxs/28hj7pTxK+9Wti8mUc1QK2VJj
-	gqemE+QjhRi6/19ULeAeTZ4XbAUrv3BMuWNDykGpLxx802ZhXl+8nTW4MnWUjXH2ekJnWPKGDCqCV
-	T8ARbmGdcMTdJzU869hZsiEQMC9Ylq2HSMcEMJGsejlmriXTFUtl8eTIVS0HPxcHu5grUG059WvUF
-	4Ugt+gBDg==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=7rvoTJpGrZP5dm8Uo6/cew+7u6WVadsb88fkkOfYlss=; b=encPvsPUrhgOtFnGtkoO6v/9ro
+	OIH44tXaSU24Quf/0rAZBihBLnbrlmRWapXxynJzmpWXXC2XcyR6XN+jrGJ/+B8FJ+/zW6V6gTydg
+	Kev034O6e+GygUV1KvVdxufcfXYJckDTrq4fd1dH9zYA9ooC6q/8GuRJb8sMIBQiIvxUR1GGkFA7Z
+	dRRUuC23EYPrzeXqO1NUYsDOKYkiOANiWe3/0qAhDjInpCcvRIMlEICje/f9kZHkfKbhSlzD3WoMz
+	7jTTlREWfrJlYyGqyNLvc4vlnBJ0ufzGlych6DWTaDkZQy0XcUD4TMUM/YfegiSfnm8ejCUblMk99
+	jmX0cQAA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1liL5n-00ChtA-W5; Sun, 16 May 2021 18:02:20 +0000
+	id 1liYaX-00EESt-Eo; Mon, 17 May 2021 08:26:57 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liL5c-00Chsk-TE
- for linux-nvme@desiato.infradead.org; Sun, 16 May 2021 18:02:10 +0000
+ id 1liYNy-00EBk9-Pk
+ for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 08:13:58 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
- :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=v5QeMzC7egI7pjAS/w22YSUqGDibggEE9rbaYoIGpqU=; b=geBkLF5rkJ15cEsD6UQnNVcgOf
- DciiKdfdaHo8lEVTkdMMC8OyIM6VgL0xl6XDZ8MHRZCugnxy+9/6O3LKVpY4s4Z0BkP2qiTPnaz2Q
- 3FUmasQQoHGHZ+T1a57COpj5vy+Q0Wu2t2thNcMnbKLzDZvk2VyNAOVqV087rczaSazU7GFUpqyNV
- KRLmMXocvucDZkFGjAC5qQloiMkkmOG6kE8r9GavOfzMEsl0po8LkonyV1L0KKLkN9mpC5Tf3G91u
- YfU/RsFk8I3EtI34XjFCDbLCZjgOhfZWBBzoe0eK00maDyT2Ka+PTybd+3BcfoLH89HwIxn7Q4EuJ
- ScqevfTg==;
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=1w62x+OU+Uj9e/f5c+QNQppW/YigC7AeGD/xlHtQT2c=; b=LJgtaSl4U6lnKdeEctcf93KpTu
+ QJDMxtViz+Txl53o9eu1oxmVMOZn6oGQDQqEBNw2v6E8uVKi02ieGaXXnyKsqzLwhyafHLNQmLYiL
+ yI7MTLrDUOVpAl/U+SWZGGKXNJPpP8UbK11WvuLwdR42a/TGtUC5SHtT0Hfc+YNJDkTXMeMPO9UFI
+ ZI2MCrKXaAB3JyAJOe1DluaQ32XIvaMq1737aUCYyVQ9aXe7XXgHeNBD66t5f7vL/x0bshPdzY72H
+ 8VL4x8PD+LbDtUaVLcLT76xTfhEWOZbcBHEf8pJPc/sXqEkrRyTD7LeqYaaqYh25qglT/ZIR1tk1G
+ mnroNmQg==;
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liL5Z-00D6tU-TL
- for linux-nvme@lists.infradead.org; Sun, 16 May 2021 18:02:07 +0000
-Received: by mail-wm1-x32d.google.com with SMTP id
- b19-20020a05600c06d3b029014258a636e8so2272674wmn.2
- for <linux-nvme@lists.infradead.org>; Sun, 16 May 2021 11:02:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v5QeMzC7egI7pjAS/w22YSUqGDibggEE9rbaYoIGpqU=;
- b=jJ13KUi89rkNTv5tEp/or85ah2IUrc70DM23VD2NFuKqNXgbGkxRibfZ1yAv3qhGz+
- he7zfD+uCJJZqQtGUv8Jlrs+c6G1WzUzpODftpLvaiEGqEJCD+2TCQJqlRAHWUsRMVIq
- ZdaQVjzjaWmXSNhnya5mX2xStw+rRNkB8dMy/68hO9shWxp4ICdobyQh1325TaIb5CTI
- pJxNJIqSUnBWUW5YL7z2UHv4dJpUdMhezplO4j3Sn03+rdASCUUdJlsqvrzTFw+IbWeJ
- CSmboMAyYaBs5LwZiggmQnaVhdr8a92HVxaa4IzHaxJss7T1K0dIGvLwR1IVXaP2IoDV
- UhEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v5QeMzC7egI7pjAS/w22YSUqGDibggEE9rbaYoIGpqU=;
- b=dM5/PKV7IzEnfZQiukrJHrPXWevqm2MgJcUjz7VkAWddA12IHJAttcibZMKiOIxClw
- HMIctGDeR4mPajYL/zwSr4LiU4TtieUFs9na6uQ730KU4HBHuPgPlbU0oqnKMTL12piw
- fbRmfBLNNgvddHZUAY9QenpAO0DAyQ/yzuTF+eTmNQDSL/sHfI/Yh+7HghodICgL16Mj
- VVnJaMNaXTjK8zd8GJxZl9Uz8YarNketIkwHh/USJoOgSTDPPEh5VVNjXRvP0CDmZPSL
- YhjSef7hcJ3S4QyAOeGUxU/U4tZ1/AwVwTIMpDGQU7nf5XbSCQs+1Ht5lkk/gAT24lzo
- xmPQ==
-X-Gm-Message-State: AOAM530J+UIt3o9vJ2dHu6KIPoF8bb9MfekXX7VlnHII5d7laFzWxkdo
- sgaNx2xXApWMZYwn+pDd6JkGTwqFzBgiuJWPrKQ=
-X-Google-Smtp-Source: ABdhPJy/YKSh7Ymq0zYxR42sFCU6UUWGDIoSiLs09paq3ntNO3TKKfvRjNNb8S60ZlbPFETzHSzEp2EIVBGwPdhpQBI=
-X-Received: by 2002:a1c:a442:: with SMTP id n63mr12383114wme.25.1621188123406; 
- Sun, 16 May 2021 11:02:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210512131545.495160-1-hch@lst.de>
- <20210512131545.495160-3-hch@lst.de>
-In-Reply-To: <20210512131545.495160-3-hch@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Sun, 16 May 2021 23:31:35 +0530
-Message-ID: <CA+1E3r+8HrUymD-4Q06drqi_qV_L40OjgPCsw6C_Y6Gn_3FVSg@mail.gmail.com>
-Subject: Re: [PATCH 02/15] block: don't try to poll multi-bio I/Os in
- __blkdev_direct_IO
+ id 1liYNt-00DaEh-Lp
+ for linux-nvme@lists.infradead.org; Mon, 17 May 2021 08:13:57 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id A6FDFAF3E;
+ Mon, 17 May 2021 08:13:49 +0000 (UTC)
+From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
- Ming Lei <ming.lei@redhat.com>, Damien Le Moal <Damien.LeMoal@wdc.com>, 
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
- "Wunderlich, Mark" <mark.wunderlich@intel.com>, "Vasudevan,
- Anil" <anil.vasudevan@intel.com>, 
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvme: add 'iopolicy' module parameter
+Date: Mon, 17 May 2021 10:13:48 +0200
+Message-Id: <20210517081348.90645-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210516_110205_992701_4E4FBF54 
-X-CRM114-Status: GOOD (  21.91  )
+X-CRM114-CacheID: sfid-20210517_011353_876085_FB3F8D5D 
+X-CRM114-Status: GOOD (  12.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,82 +82,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 12, 2021 at 6:50 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> If an iocb is split into multiple bios we can't poll for both.  So don't
-> bother to even try to poll in that case.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/block_dev.c | 37 ++++++++++++++-----------------------
->  1 file changed, 14 insertions(+), 23 deletions(-)
->
-> diff --git a/fs/block_dev.c b/fs/block_dev.c
-> index b8abccd03e5d..0080a3b710b4 100644
-> --- a/fs/block_dev.c
-> +++ b/fs/block_dev.c
-> @@ -375,7 +375,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
->         struct blk_plug plug;
->         struct blkdev_dio *dio;
->         struct bio *bio;
-> -       bool is_poll = (iocb->ki_flags & IOCB_HIPRI) != 0;
-> +       bool is_poll = (iocb->ki_flags & IOCB_HIPRI), do_poll = false;
->         bool is_read = (iov_iter_rw(iter) == READ), is_sync;
->         loff_t pos = iocb->ki_pos;
->         blk_qc_t qc = BLK_QC_T_NONE;
-> @@ -437,22 +437,9 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
->                 pos += bio->bi_iter.bi_size;
->
->                 nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS);
-> -               if (!nr_pages) {
-> -                       bool polled = false;
-> -
-> -                       if (iocb->ki_flags & IOCB_HIPRI) {
-> -                               bio_set_polled(bio, iocb);
-> -                               polled = true;
-> -                       }
-> -
-> -                       qc = submit_bio(bio);
-> -
-> -                       if (polled)
-> -                               WRITE_ONCE(iocb->ki_cookie, qc);
-> -                       break;
-> -               }
-> -
-> -               if (!dio->multi_bio) {
-> +               if (dio->multi_bio) {
-> +                       atomic_inc(&dio->ref);
-> +               } else if (nr_pages) {
->                         /*
->                          * AIO needs an extra reference to ensure the dio
->                          * structure which is embedded into the first bio
-> @@ -462,11 +449,16 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
->                                 bio_get(bio);
->                         dio->multi_bio = true;
->                         atomic_set(&dio->ref, 2);
-> -               } else {
-> -                       atomic_inc(&dio->ref);
-> +               } else if (is_poll) {
-> +                       bio_set_polled(bio, iocb);
-> +                       do_poll = true;
-> +               }
-> +               qc = submit_bio(bio);
-> +               if (!nr_pages) {
-> +                       if (do_poll)
-> +                               WRITE_ONCE(iocb->ki_cookie, qc);
-> +                       break;
->                 }
-> -
-> -               submit_bio(bio);
->                 bio = bio_alloc(GFP_KERNEL, nr_pages);
->         }
+While the 'iopolicy' sysfs attribute can be set at runtime, most
+storage arrays prefer to use the 'round-robin' iopolicy to be
+used. So to avoid having to code a large udev rule detailing
+every single storage array add a module parameter 'iopolicy'
+to allow the admin to switch the default.
 
-dio->ref update goes amiss here.
-For multi-bio, if the original code sets it as N, this will set it as
-N+1, causing endless-wait for the caller.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/core.c      |  4 +---
+ drivers/nvme/host/multipath.c | 10 ++++++++++
+ drivers/nvme/host/nvme.h      |  4 ++++
+ 3 files changed, 15 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6a5386267c10..37740e11eef3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2608,9 +2608,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	subsys->vendor_id = le16_to_cpu(id->vid);
+ 	subsys->cmic = id->cmic;
+ 	subsys->awupf = le16_to_cpu(id->awupf);
+-#ifdef CONFIG_NVME_MULTIPATH
+-	subsys->iopolicy = NVME_IOPOLICY_NUMA;
+-#endif
++	nvme_mpath_default_iopolicy(subsys);
+ 
+ 	subsys->dev.class = nvme_subsys_class;
+ 	subsys->dev.release = nvme_release_subsystem;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index ecc99bd5f8ad..9a67ac8347c3 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -13,6 +13,16 @@ module_param(multipath, bool, 0444);
+ MODULE_PARM_DESC(multipath,
+ 	"turn on native support for multiple controllers per subsystem");
+ 
++static int iopolicy = NVME_IOPOLICY_NUMA;
++module_param(iopolicy, int, 0444);
++MODULE_PARM_DESC(iopolicy,
++	"Default multipath I/O policy; 0 - NUMA (default), 1 - Round-robin");
++
++void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
++{
++	subsys->iopolicy = iopolicy;
++}
++
+ void nvme_mpath_unfreeze(struct nvme_subsystem *subsys)
+ {
+ 	struct nvme_ns_head *h;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 05f31a2c64bb..0ff7f9d3373f 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -706,6 +706,7 @@ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ void nvme_mpath_unfreeze(struct nvme_subsystem *subsys);
+ void nvme_mpath_wait_freeze(struct nvme_subsystem *subsys);
+ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys);
++void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys);
+ bool nvme_mpath_set_disk_name(struct nvme_ns *ns, char *disk_name, int *flags);
+ void nvme_failover_req(struct request *req);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+@@ -803,6 +804,9 @@ static inline void nvme_mpath_wait_freeze(struct nvme_subsystem *subsys)
+ static inline void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
+ {
+ }
++static inline void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
++{
++}
+ #endif /* CONFIG_NVME_MULTIPATH */
+ 
+ int nvme_revalidate_zones(struct nvme_ns *ns);
 -- 
-Kanchan
+2.29.2
+
 
 _______________________________________________
 Linux-nvme mailing list
