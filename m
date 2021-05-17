@@ -2,87 +2,91 @@ Return-Path: <SRS0=YADc=KM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EBC7C433ED
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 20:50:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9285BC43460
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 21:08:19 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8740861185
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 20:50:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8740861185
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 0CFA8611CC
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 21:08:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CFA8611CC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=1bQiHSbFDCBrDjs2gOCPVfmgBeGXteHAYj6HyA7aF3o=; b=LyGp47CIly5vj71IB49a8P0ye
-	FVyALZaxLDTXNV0179P81LRrYDEDC+0cmi30UFCA2JhQQqiJXngF49fE3VqVegqkieUdfhhzWeOFm
-	R7qyxYjRdjricXOfC5yLQ++9B/9rU7jsAXiORhEMTloh8CmcCbBMi3ybgVmgkIYiyPeUfpcfmSoqX
-	IHn8l0QnM0D532tv5/Qqwe+Jh+XfYbxRLRZr3e+sYMrRD0BoIa8TSWLiPuzLTwaJtufkKke0IXDZL
-	mLJAhF/do+oD+bH8qBvVzUHLMOln89buLC4Fz0lCa5W0ZZmEjIO50unuc2zBZGW0o/R9uYm2tbPcG
-	g2Kmff9Ew==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rJHI66SnFnJckn7YPbGib6NXrvKxSHJ6IvTPr/XAO6g=; b=XkEF9O+fXSaGhdvC9J2+c+mnmz
+	CRjjyfMuNSX1+3xd2VHfZBTvACi3I13MmbX0cI+k8TdSjqs2eM9vYYHkFZB6iR5p2K2QEjgr2WMEy
+	kwRTDeciOH9BBHO4X2Dg/7vXqAYjA0xoJ2uj/BmlgLGOvezCnMfspUbrOXGpZpcvPKAHIDKPptQCZ
+	/mGg/zTjjeJc1UIvO63m19Eq/JQEfjwHbKf2bHX9cUWJfFqlE8dyIs7GYuimQdTk1g+sUbgh1BsB2
+	697xPUePLCXerH83GgAOD4ocPaU3RkrCmzDTxOYiJnIHLI/L6KxXR77Q/ClBvqZj857TerxaVnS2s
+	cQEf8d+w==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1likBP-00G93I-Jb; Mon, 17 May 2021 20:49:47 +0000
+	id 1likSw-00GAhV-Dm; Mon, 17 May 2021 21:07:54 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1likAf-00G8zJ-DP
- for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 20:49:01 +0000
+ id 1likSs-00GAh1-S6
+ for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 21:07:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=sXxEonpTdyskq7fiwLd/8g+pVyHsGiPS8Z3fH2sbyfg=; b=SM79ecQUkWJjFM3tpU2YyIRZpR
- VJfnkDS63jTdhiAXAPSIQWvNSHRqG0aESb9id37Kph3vfKj9Eo0fRXnPKsmdkbkASWpf+Rs5yyK9o
- D9TQ7wLlJcsJ5SHVWNxJxzgOaFkCgWexVnnV/E7JtVOAW8Ek3tT9SU+E7gD577wAuvr71TuXwVhww
- Skyj4xqqaMxI2zaVQ9jnj48XXi0u4Ylf+MHlERdiHxIQJe3x4Wi/wvYOGp6mX7yuJBJoIP8nVO6/S
- BKZ5qhj/It1s131DACf13w5+0aImlH4gyxD/9f5l+CJScXaWE6zxl7aajivVJIGNlICkEex2QSBZi
- WY/GR9RQ==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=kWY8XEOI7xeDzVBmhaOwyaafvzZW9hWvjL+x4k9S4Hw=; b=BgvW17ALaOZPR4t9TrV3XsQhWM
+ K4CYqkBNJkKYlqDN4g2zka0oBLppuvnlq0N39/5odUW2YSxxejYb0TYMwUSZAeOmq2CjKy9kKQy38
+ Xf8xfvxph60UJVklAZc5ujph4hZuV9QTzNnku/lCP6qZ737wmNriWgcDb7RdEOsQtrj20kL56v5+5
+ g/yjV+0w/YVCBEzfupAjXKdTOsH9pkAJrPt2qN2wTnWiHYpNx3DepolZV+XfJMDVINY84wmVjA2d1
+ beYkuvy/VYfjFbfTGxHFaH+CNbf6UFMLpW0IaODGL/lvCO2Kr9JYnjqeDEW5PhIYTTlZVRqiEZNJq
+ j0wou1ww==;
+Received: from mail-pj1-f51.google.com ([209.85.216.51])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1likAc-00E92s-Lg
- for linux-nvme@lists.infradead.org; Mon, 17 May 2021 20:49:00 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D7A6361185;
- Mon, 17 May 2021 20:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621284538;
- bh=R/3eP8KWUZo5L4j3wcJ39F/rv3HDG6wIeoyl/EFeiGE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BB+C9BkcYim0I3g6THS5ZPVfWHLlw2EcRaf54DhnnIaan6V2Hy3p9DnMNNjd2KD3a
- lo+d8lHVzFhh3QkVs9/A2MmVbKrFpmqAIXDc30Lgi19sXEh3TphNxcgTf6Z4o98unv
- ZEqwnLWbNBQoV7oz9BxSgvctZ03C/SsT9I6XOCpAVH5djLn68yfL22zNS7PniHzxy7
- OcfiSGLWLcJ5UUJx4gLPpAnnlFR3B9my6Rz+FkOTcTUz/Yw0KlbzFofaj2VrDNvd87
- XJEP0IfklTbH4JNlYGjxGmp9HJel9b1lWzSrSOZPTNfLR4/KmD2a6NIH9s0n5s+QNQ
- hK1UMfxShsZtg==
-Date: Mon, 17 May 2021 13:48:55 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-Subject: Re: nvme tcp receive errors
-Message-ID: <20210517204855.GB2709569@dhcp-10-100-145-180.wdc.com>
-References: <76a715f5-6a37-8535-3fbe-1aa0f3a54dbc@grimberg.me>
- <20210504191441.GA911866@dhcp-10-100-145-180.wdc.com>
- <20210510180633.GB1857448@dhcp-10-100-145-180.wdc.com>
- <6838b8da-7e05-a08d-b67f-1fe28b0d880b@grimberg.me>
- <20210510183040.GC1857448@dhcp-10-100-145-180.wdc.com>
- <9a6fed85-2f8b-8398-1e8b-cd44e6004f40@grimberg.me>
- <20210511030051.GD1857448@dhcp-10-100-145-180.wdc.com>
- <88879279-fff5-b26c-2c1c-52a700a1c40a@grimberg.me>
- <20210513154819.GB2272284@dhcp-10-100-145-180.wdc.com>
- <68ca75e3-2e0a-c0d6-c6cd-ab4d7467c0ad@grimberg.me>
+ id 1likSq-00E9UG-5A
+ for linux-nvme@lists.infradead.org; Mon, 17 May 2021 21:07:49 +0000
+Received: by mail-pj1-f51.google.com with SMTP id
+ j6-20020a17090adc86b02900cbfe6f2c96so356740pjv.1
+ for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 14:07:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kWY8XEOI7xeDzVBmhaOwyaafvzZW9hWvjL+x4k9S4Hw=;
+ b=pOYipG6aZAjRk4FtjpqVrVNp0QPsn0wmsmnvVhKcFpzNmr5Jn4/msQv86msD2e69TU
+ aOY3nLHwueQuQaw4IK1/FFPuyQoNEbi4zWLo1Vu+M9UqEe1kGzZx35MlBXWO4lTAKU1B
+ jRjylIg2jMcLFmzMtC922QMIrt/kI+CG6qQ3nxmE4y3vKw4XqQ2K1QMN7MLdCcSmTubx
+ KYmwJAoEju5IHnVXm4pVM2Mjup6coeN4ejGhaVSLd7t4GRA4vnsjed/H5CZaptOcyhjU
+ Xmjs+RpXo3LJr1xakeu4qv4A5PECt5BIiId0B/Yr4DwnwpKku/rUJoN8ODfUncGx6uvF
+ YmJQ==
+X-Gm-Message-State: AOAM532/WHNS0QvVd0xXBXOexCO2OByx2POK7Wc+cwubo34OhgvlZNSl
+ rj8ozcS125KynIHEC+DSWWgJ/TYg9Vc=
+X-Google-Smtp-Source: ABdhPJxbzRVilxt2XlGPL3F8bQq9Fc55HF94sqrfRs+88shI6Y8vXvGk7kQgSsG7iHJc/7i5fuyI5Q==
+X-Received: by 2002:a17:90a:5b06:: with SMTP id
+ o6mr1420991pji.125.1621285666951; 
+ Mon, 17 May 2021 14:07:46 -0700 (PDT)
+Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
+ ([2601:647:4802:9070:e600:1f8f:de79:17f9])
+ by smtp.gmail.com with ESMTPSA id c15sm10747769pfo.176.2021.05.17.14.07.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 14:07:46 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Narayan Ayalasomayajula <narayan.ayalasomayajula@wdc.com>
+Subject: [PATCH] nvme-tcp: Fix possible use-after-completion
+Date: Mon, 17 May 2021 14:07:45 -0700
+Message-Id: <20210517210745.634778-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <68ca75e3-2e0a-c0d6-c6cd-ab4d7467c0ad@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_134858_770966_D9552372 
-X-CRM114-Status: GOOD (  41.38  )
+X-CRM114-CacheID: sfid-20210517_140748_223303_25938BFF 
+X-CRM114-Status: GOOD (  19.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,68 +103,79 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 13, 2021 at 12:53:54PM -0700, Sagi Grimberg wrote:
-> On 5/13/21 8:48 AM, Keith Busch wrote:
-> > On Tue, May 11, 2021 at 10:17:09AM -0700, Sagi Grimberg wrote:
-> > > 
-> > > > > I may have a theory to this issue. I think that the problem is in
-> > > > > cases where we send commands with data to the controller and then in
-> > > > > nvme_tcp_send_data between the last successful kernel_sendpage
-> > > > > and before nvme_tcp_advance_req, the controller sends back a successful
-> > > > > completion.
-> > > > > 
-> > > > > If that is the case, then the completion path could be triggered,
-> > > > > the tag would be reused, triggering a new .queue_rq, setting again
-> > > > > the req.iter with the new bio params (all is not taken by the
-> > > > > send_mutex) and then the send context would call nvme_tcp_advance_req
-> > > > > progressing the req.iter with the former sent bytes... And given that
-> > > > > the req.iter is used for reads/writes, it is possible that it can
-> > > > > explain both issues.
-> > > > > 
-> > > > > While this is not easy to trigger, there is nothing I think that
-> > > > > can prevent that. The driver used to have a single context that
-> > > > > would do both send and recv so this could not have happened, but
-> > > > > now that we added the .queue_rq send context, I guess this can
-> > > > > indeed confuse the driver.
-> > > > 
-> > > > Awesome, this is exactly the type of sequence I've been trying to
-> > > > capture, but couldn't quite get there. Now that you've described it,
-> > > > that flow can certainly explain the observations, including the
-> > > > corrupted debug trace event I was trying to add.
-> > > > 
-> > > > The sequence looks unlikely to happen, which agrees with the difficulty
-> > > > in reproducing it. I am betting right now that you got it, but a little
-> > > > surprised no one else is reporting a similar problem yet.
-> > > 
-> > > We had at least one report from Potnuri that I think may have been
-> > > triggered by this, this ended up fixed (or rather worked-around
-> > > with 5c11f7d9f843).
-> > > 
-> > > > Your option "1" looks like the best one, IMO. I've requested dropping
-> > > > all debug and test patches and using just this one on the current nvme
-> > > > baseline for the next test cycle.
-> > > 
-> > > Cool, waiting to hear back...
-> > 
-> > This patch has been tested successfully on the initial workloads. There
-> > are several more that need to be validated, but each one runs for many
-> > hours, so it may be a couple more days before completed. Just wanted to
-> > leat you know: so far, so good.
-> 
-> Encouraging... I'll send a patch for that as soon as you give me the
-> final verdict. I'm assuming Narayan would be the reporter and the
-> tester?
+Commit db5ad6b7f8cd ("nvme-tcp: try to send request in queue_rq
+context") added a second context that may perform a network send.
+This means that now RX and TX are not serialized in nvme_tcp_io_work
+and can run concurrently.
 
-This tests successfully. There was one timeout issue observed in all the
-testing, but does not appear related to the reported problems here, or
-your fix, so I will start a new thread on that if I can get more
-information on it.
+While there is correct mutual exclusion in the TX path (where
+the send_mutex protect the queue socket send activity) RX activity,
+and more specifically request completion may run concurrently.
 
-You may use the following tags for the commit log:
+This means we must guarantee that any mutation of the request state
+related to its lifetime, bytes sent must not be accessed when a completion
+may have possibly arrived back (and processed).
+
+The race may trigger when a request completion arrives, processed
+_and_ reused as a fresh new request, exactly in the (relatively short)
+window between the last data payload sent and before the request iov_iter
+is advanced.
+
+Consider the following race:
+1. 16K write request is queued
+2. The nvme command and the data is sent to the controller (in-capsule
+   or solicited by r2t)
+3. After the last payload is sent but before the req.iter is advanced,
+   the controller sends back a completion.
+4. The completion is processed, the request is completed, and reused
+   to transfer a new request (write or read)
+5. The new request is queued, and the driver reset the request parameters
+   (nvme_tcp_setup_cmd_pdu).
+6. Now context in (2) resumes execution and advances the req.iter
+
+==> use-after-completion as this is already a new request.
+
+Fix this by making sure the request is not advanced after the last
+data payload send, knowing that a completion may have arrived already.
+
+An alternative solution would have been to delay the request completion
+or state change waiting for reference counting on the TX path, but besides
+adding atomic operations to the hot-path, it may present challenges in
+multi-stage R2T scenarios where a r2t handler needs to be deferred to
+an async execution.
 
 Reported-by: Narayan Ayalasomayajula <narayan.ayalasomayajula@wdc.com>
 Tested-by: Anil Mishra <anil.mishra@wdc.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
+Cc: stable@vger.kernel.org # v5.8+
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index e6bd74cabc6d..00284bbb3bed 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -930,7 +930,6 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 		if (ret <= 0)
+ 			return ret;
+ 
+-		nvme_tcp_advance_req(req, ret);
+ 		if (queue->data_digest)
+ 			nvme_tcp_ddgst_update(queue->snd_hash, page,
+ 					offset, ret);
+@@ -947,6 +946,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 			}
+ 			return 1;
+ 		}
++		nvme_tcp_advance_req(req, ret);
+ 	}
+ 	return -EAGAIN;
+ }
+-- 
+2.27.0
+
 
 _______________________________________________
 Linux-nvme mailing list
