@@ -2,85 +2,99 @@ Return-Path: <SRS0=YADc=KM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05704C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 16:49:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDB6C433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 16:56:13 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AB0AE611BF
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 16:49:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB0AE611BF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
+	by mail.kernel.org (Postfix) with ESMTPS id 81B2A610FA
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 16:56:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 81B2A610FA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:Cc:To:From:
-	Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=MjaBkM6emqeCZcDZdF6pa0GJL0Xcb2ddBHe+87jldqg=; b=GV6igjOIpGUV6eIHwVoak7bsI
-	9M4pgEuzaSwo5CPCV4YE3mlsiGMeRtkIDsBi8IHYY/wRlyqpu8PHS2Bv1wazRWZNAyK+imh3mhSW/
-	+GYqKkq1ofTHE7oaK8NlwICr5KsnCizRcHbBezIXQ3oodVDswthzNInLfMoX3i2OYI9hPTxsC4ZXi
-	UCZCBK+3Wfv/J0cTn8/TA00fMA25drvVpdWvvc0HOZweIKc+MPextf38NfB9S49oaxweZ8+KqYRjZ
-	lNJM/btXQSp+sVRy6DGlbfEYc7X+CN6AUyIhwcUV8AeCFf9G4+5Me0hma0InVIfFq492n4VK+lFh/
-	xtpCvfzgA==;
+	 bh=X147PMaKvcxAdxFamNuYs3zZUKMuK1XPxF3vk6+Qwrw=; b=ChSQnWS0G0t3lWZjQZ37WDUpc
+	9SDmsFwS/DUbxJ3kRfajv2/DRKLoHSNhypicWD1brTdqHe0+TaDKd6/9tJzGm2it1CtGxfnz1HqIT
+	fsfXQOOKz0QbJ7NZYlGOXCj3VquSuu4JIdtOv8hfZCwQXzvbGRiCSiGsvMYyu7/xo+CVLttSrO8if
+	4dBCGSRUzkvejhHwCemGTisQ/GDxgOtDSpaHwZvMlkfyPyMcBsFVDrtxHUL/UZpZJu8eO4jxfgvLE
+	ZIncEROuRQKxUMlItkusJtQwl5792LJWWucWzqWuw4OHITSD4IKKTOgjvIrcH0xbjnWhZd/UKt1w3
+	wtRmBij3g==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ligQX-00FZDz-3K; Mon, 17 May 2021 16:49:09 +0000
+	id 1ligX5-00FaF4-Vy; Mon, 17 May 2021 16:55:56 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ligQU-00FZDZ-8F
- for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 16:49:06 +0000
+ id 1ligX2-00FaEs-W6
+ for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 16:55:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=/0ewZPkfGYK3n/ezs5+hmPqNYrO1IrRzDwrPluHMyAk=; b=U96lZrk8JJRh/IL6MYHN0rwrHU
- BjkJ2h1ojno/+Fjy0MGK2DF6z4xEoo1fQJPp/+kfZSG4r1yF0NHRTmmU1BWy+7ApjZs/VFSMFAmFz
- CPPe0uOO5ZbR5zW7KJhhzMfdP3NKm03Ewbs9wzhBGgehmWjwY6F/lc1MzinPVKR6fRja0/26EhYpO
- feIm+hk7L+ctRfoDN6iOzdpGXCWUfyqeQCLjxgULOxka7eN3kz/xDLkLpwS3MkjI/GKQbadQ165OB
- l53gz52jY8eBO5aCl+YX40FbQ2bgZpud3JqHG46qp++dxdXwAjXyeKeD4I0Ay97jA4xaMMK4sc6Vq
- rOYhepHQ==;
-Received: from mx2.suse.de ([195.135.220.15])
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
+ :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=N0SbHsdelBsQBb8+A+ZjphqcSc7i/BnJ45oflQMUF2g=; b=Smg7fcIu/EpnYuD4sZBhqdQOyX
+ 13z1nuvPZhB+4od6lI9Xk2asEPnp2MujmAUjwKKD1QaOOVHulcVrIS9QlhD8ua2hnEIl00foCDrYL
+ PV3+PcwGZLpd8AqQWbdcjwWoODXJ4r0R8CNp5+cGptZfZpv8KeTybxVDxbABz3Fb73nido2Hns2D6
+ Jm3lBtDTAlg2zM03MTnvUcH8Sahndu3d4SSsY9/h+R8qJtcTgiUffCHs10M+7YvZEbvAellWJXrAY
+ 1K6KgVAY8weSghZ1+/E2oqfj2y8mBARJCGigqG4wxgySV+QN2Cu/w+NeVB4/Q2K4ULfi6KWI2JC4A
+ MVCTbsiQ==;
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ligQQ-00Dzfk-A3
- for linux-nvme@lists.infradead.org; Mon, 17 May 2021 16:49:05 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1621270141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/0ewZPkfGYK3n/ezs5+hmPqNYrO1IrRzDwrPluHMyAk=;
- b=e6kzZ4iuCx8l42ICVEU9zL9MOccTVWzBxacsl9fg2Mb242pjtKt5tSEj/TOthKnt7qeeuY
- vYy6dy4KRLAAMV2AINezMrI5zI+K8C75TfnZ32pQJtQSK0Lsc9rc4nyzL3OVKEK0Eg291u
- Rp/phxbt2ZTk5ox7k7wVP5OH6S3sLiY=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0550FAD05;
- Mon, 17 May 2021 16:49:01 +0000 (UTC)
-Message-ID: <8e1d9d30dfbfd9ec1694fe4c20c4347b86c393d1.camel@suse.com>
-Subject: Re: [PATCH] nvme-multipath: fix double initialization of ANA state
-From: Martin Wilck <mwilck@suse.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, Daniel Wagner <daniel.wagner@suse.com>, 
- kbusch@kernel.org, sagi@grimberg.me
-Date: Mon, 17 May 2021 18:49:00 +0200
-In-Reply-To: <e44553cbf49bc12c006f3295b0258cac1755e042.camel@suse.com>
-References: <20210506134823.2566853-1-hch@lst.de>
- <bc0a9cbf4567ee3ec96615fec56cd4899d5d496e.camel@suse.com>
- <23286bbda8b62afcb8bc0ce0d4deb655197cf8a7.camel@suse.com>
- <20210517124801.GA17259@lst.de>
- <e44553cbf49bc12c006f3295b0258cac1755e042.camel@suse.com>
-User-Agent: Evolution 3.38.4 
+ id 1ligX0-00DztZ-D5
+ for linux-nvme@lists.infradead.org; Mon, 17 May 2021 16:55:51 +0000
+Received: by mail-wr1-x42f.google.com with SMTP id n2so7239160wrm.0
+ for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 09:55:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=N0SbHsdelBsQBb8+A+ZjphqcSc7i/BnJ45oflQMUF2g=;
+ b=cAiNfAHMALBczXj0RaoSTyesPa47r8kBHAORdjBwyJ1BCeeCVZyYW7d582niuXUgU5
+ 2R56PvB3tN/JF3Y5lqG4VIf3S4mxYjsCR7DbNYAH1p9/pyXKvPlDHz8Ny4i6gCL7hblO
+ fsFJZ2mtSi3iH/X7bJLAsQwg/3MTJvNLMM7k9qXOePYSpTjaisPzwTvEX/z2QWxFUpXf
+ cBi2h1pP4xMfpG0boMl24ZzaQxbHq7/HdhOoaBCN0lI+61EiPtgA3Bq1qV6bLXogHydL
+ yt1cDSAaRCmb9prbaifMGFNEfl8r9tVQQGouxGtrCikP0bh4fSFJvhQa7A+xqbiPXop6
+ G9bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N0SbHsdelBsQBb8+A+ZjphqcSc7i/BnJ45oflQMUF2g=;
+ b=RaUJam+iLGDZvsXnyhH/fg2Q5recOoP5jnZ/o7p3/cW8fxe097jlKqfLiGQf52be86
+ OqAUaCaYYHsq60hYneV55LUHUGZWZYXjSq/I78LT7rQ2rl5fDFvfe32KJj+wMG8rD7Zp
+ hBipsoakl0ArHdTsJ20o0hfAWbXk8FEtKmkhm1BEgWBn34dFuPyrwbMUm8ahehQAdAPj
+ tXtGZdlWfZ1gxEQ1vLBC0uYOvwetPOUCGwycj8KYQ/zV2qgySsVmPAjHlMNzSjepTaOU
+ RUOxad2Zia+XYrQyUZKi+3S2wss19XAY1yULM3nMHyQJuC3XW8KAuUEv3aqtNAgbKYTk
+ TNJw==
+X-Gm-Message-State: AOAM532AsyV3tonUHL3PaZOBtAywe8FVG0NO5474z8IWqlZ+wSSXU7Kg
+ CaN11JX3sMzcQm+xlFlQsMWUN7hESRqJYvVvrXI=
+X-Google-Smtp-Source: ABdhPJyxVvzx2e2V5BKPlYe/kYKx+qAVx9p7s/eel32ljWLOXdUDyucQzb1RuI6CsT8aItREGEbjSOx8Kqo2HqnYPns=
+X-Received: by 2002:a5d:5508:: with SMTP id b8mr743886wrv.278.1621270548615;
+ Mon, 17 May 2021 09:55:48 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210423220558.40764-1-kbusch@kernel.org>
+ <20210423220558.40764-6-kbusch@kernel.org>
+ <20210426144316.GE20668@lst.de>
+ <20210426151537.GB12593@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <20210426151537.GB12593@redsun51.ssa.fujisawa.hgst.com>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Mon, 17 May 2021 22:25:21 +0530
+Message-ID: <CA+1E3rLD7Zx2iKtUoTBVc4VXBj2ohXFeXSw59umBZ3Q=QEA0xQ@mail.gmail.com>
+Subject: Re: [PATCHv2 5/5] nvme: allow user passthrough commands to poll
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, 
+ Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, 
+ Yuanyuan Zhong <yzhong@purestorage.com>, Casey Chen <cachen@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_094902_512500_DF49B547 
-X-CRM114-Status: GOOD (  24.37  )
+X-CRM114-CacheID: sfid-20210517_095550_461919_869BCD95 
+X-CRM114-Status: GOOD (  20.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,65 +106,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-15"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 2021-05-17 at 18:47 +0200, Martin Wilck wrote:
-> On Mon, 2021-05-17 at 14:48 +0200, Christoph Hellwig wrote:
-> > On Fri, May 14, 2021 at 11:08:25PM +0200, Martin Wilck wrote:
-> > > Hello Christoph,
-> > > =
+On Mon, Apr 26, 2021 at 8:46 PM Keith Busch <kbusch@kernel.org> wrote:
+>
+> On Mon, Apr 26, 2021 at 04:43:16PM +0200, Christoph Hellwig wrote:
+> > On Fri, Apr 23, 2021 at 03:05:58PM -0700, Keith Busch wrote:
+> > > The block layer knows how to deal with polled requests. Let the NVMe
+> > > driver use the previously reserved user "flags" fields to define an
+> > > option to allocate the request from the polled hardware contexts. If
+> > > polling is not enabled, then the block layer will automatically fallback
+> > > to a non-polled request.
+> >
+> > So this only support synchronous polling for a single command.  What
+> > use case do we have for that?  I think io_uring based polling would
+> > be much more useful once we support NVMe passthrough through that.
+>
+> There is no significant use case here. I just needed a simple way to
+> test the polled exec from earlier in the series. It was simple enough so
+> I included the patch here, but it's really not important compared to the
+> preceeding patches.
 
-> > > On Wed, 2021-05-12 at 16:53 +0200, Martin Wilck wrote:
-> > > > On Thu, 2021-05-06 at 15:48 +0200, Christoph Hellwig wrote:
-> > > > > nvme_init_identify and thus nvme_mpath_init can be called
-> > > > > multiple
-> > > > > times and thus must not overwrite potentially initialized or
-> > > > > in-use
-> > > > > fields.=A0 Split out a helper for the basic initialization when
-> > > > > the
-> > > > > controller is initialized and make sure the init_identify
-> > > > > path
-> > > > > does
-> > > > > not blindly change in-use data structures.
-> > > > > =
+It would be great to see this in at some point; helps in making
+passthrough more useful.
+I'll look into integrating this with async-passthrough.
 
-> > > > > Fixes: 0d0b660f214d ("nvme: add ANA support")
-> > > > > Reported-by: Martin Wilck <mwilck@suse.com>
-> > > > > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > > > =
-
-> > > > Thank you. I'll prepare another test kernel for our partner.
-> > > =
-
-> > > Our partner reported a crash during NVMe controller
-> > > initialization
-> > > with
-> > > the kernel I built with this patch applied. I'm still looking at
-> > > the
-> > > dump,=A0and it's not impossible that I made a mistake backporting
-> > > your
-> > > patch. But I thought I should inform you anyway.
-> > =
-
-> > It does look weird for sure.=A0 Did you backport
-> > "nvmet: use new ana_log_size instead the old one" as well?=A0 If not
-> > please
-> > pick it up.
-> =
-
-> I missed that one indeed, and it's the culprit.
-
-I wrote nonsense, sorry.=A0
-
-Applying "nvmet: use new ana_log_size instead the old one" fixed the
-issue for me.
-
-Martin
-
-
+-- 
+Kanchan
 
 _______________________________________________
 Linux-nvme mailing list
