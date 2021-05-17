@@ -2,20 +2,20 @@ Return-Path: <SRS0=YADc=KM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E8F9C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 14:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF74C433B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 15:26:21 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 284B6601FC
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 14:58:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 284B6601FC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 61E886100C
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 15:26:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61E886100C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,63 +23,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=oYnoG5GN51ZTQ1oRzIlkYbMgSVNRfm0w7nwX0pjf7vk=; b=ihc/eUlgnRLr2Y7Oe0lzxeMS2
-	kqGv2379grTnG3C5cpz6ChbxzK1/DBNQQj/I8XH7ywia9s59WLwWd6T1F9IPEmP6KJHBgcghLBZhO
-	rpKtvgH7NGtrXEBfBb+T2CiqexuGFfSJpWbE/CfG8BJ7/O4vdq90ULrqZ+6Db5oFFgJiUIVV5XwzD
-	sNtrhTor95oeSmWZSRnk54+IcxpMssjoZVuJdaTxTYg7y+3vYrbuysGz8GrxvshEVoUDVvkVhrRtt
-	3w6HXxP801y93DBClA7zU2OLJhn9PtWifwn4Fk7idbOdr5WRdNWcDlSS3WrIG0zAmGcb08JixVyen
-	uSGBU9Bhg==;
+	 bh=QRT/Soiv0a45k1A9AIaubhwJdUFYiiZnSv4WRh8urrU=; b=MqDaWsLjoSh0Cm7LtZGIZqdBR
+	UlYF18BipWBklKi8y5L4GrS7L5Qu+dgEDM306k2j/w2UvL2YtGU3E2rMUtiSGYxrHWJbFI1oIN0/a
+	Q2hD+ia5dvG9DyJAvT+HYfGySdKf5ir69sUGp4v2baZva7Lel86nzA/pBrqzbfHGNUp9Btndo7V3X
+	Xn3qNS5ItnOPcjQwQoK5sbUeF7rNw1/pttn3HzxKcMmiULos3DjH7oE5mEYUoVYBuowu0uPC2Swb3
+	cQQLmfKCS+3b3ZD9glXNwZ7o9KNb2qyK2x7Tg5cy6tZwjC1hYVEgzbEte2mzQ89tehFy4gMgKRlHk
+	5WerHn6VA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1liehG-00FKko-7L; Mon, 17 May 2021 14:58:18 +0000
+	id 1lif8G-00FOqC-B1; Mon, 17 May 2021 15:26:12 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liehB-00FKkS-6k
- for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 14:58:13 +0000
+ id 1lif8D-00FOpt-Dr
+ for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 15:26:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=TZ19gTcmPO4a3EZaIyWBcOYXBxCKYE7Cve2jyRg7ZgE=; b=oWvslvW8MXEUZeYvVIP+FphLpe
- aZeYG90bfRfRPXwy5EPk+QsxYn9IQACLx6GVz6K52Wh64Cacmowa6GnkS+xdf8V/vvnI57kvV5xl1
- RjKmRRa73U3G16tkyCPoEqBse6RI60xA5A8P/IrqyYHdFkRvokCszuis3zTPAmcSp07aHB8Pc2rdf
- bbtgovCWGp5eSFpQO1mT94DKRLopw/CDmsfqNCXf5vsa43phss+6TY34uao+sYNglvzMMs5IX0ky7
- lyR4Oget+P/ZXPDSqTcSXVlCb5KCcDOvPDKwZAObYN7zqrokr0adaManoaEI9WlV2N34Md8hhtoqr
- 90kBpdKQ==;
-Received: from mx2.suse.de ([195.135.220.15])
+ bh=SeLjjzxBdyNChsm0dLGm4/FKxdBEH6jqeEJZB/CL/zY=; b=n2P3kRBx7uR1cdp/VcUjzr77fS
+ 9aXRpo1mLjXHa2FL6YyaCK0qqc7ZYHPbwbkHL2t7zzUMUKTLue0yqTwT7CErMkuBskB2IgITVgn/2
+ Uoy9XiO0OU39D4lVq7V6o2IaDfsrtHf0op8tRZJRGvGDunfTvhtfDqf/fVnv+s5Y0KrRIoGRKDdK1
+ fLZxjFEvdXFbE6X+cFpJkA5rXBrRe5pdKevGSbedNOm6UYBeUl0kCoC/xC8J+7UD0p5utNkeyi765
+ G7/h4VXKQ0vv6eVlPC+OKuS8jdMEZAu3+aXs3mRbpMui32AurTYlX8Lu2nS0apw5sab/GS78tqKQD
+ iKmjkSog==;
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lieh7-00DtJa-8r
- for linux-nvme@lists.infradead.org; Mon, 17 May 2021 14:58:12 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F151FAEBB;
- Mon, 17 May 2021 14:58:05 +0000 (UTC)
-Date: Mon, 17 May 2021 16:58:05 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
- "Ewan D. Milne" <emilne@redhat.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2] nvme-tcp: Check if request has started before
- processing it
-Message-ID: <20210517145805.end32zjhqfjh6kga@beryllium.lan>
-References: <20210311094345.ogm2lxqfuszktuhp@beryllium.lan>
- <70af5b02-10c1-ab0b-1dfc-5906216871b4@grimberg.me>
- <2fc7a320c86f75507584453dd2fbd744de5c170d.camel@redhat.com>
- <ed3ccac0-79ed-fe10-89eb-d403820b4c6a@grimberg.me>
- <20210330232813.GA1935968@dhcp-10-100-145-180.wdc.com>
- <756aef10-e693-276f-82ac-514a2832b07f@grimberg.me>
- <492b8393-fc35-f58a-3768-94632a083c93@suse.de>
- <3156c563-94a4-4278-3835-b1f56f71869a@grimberg.me>
- <20210507204052.GA1485586@dhcp-10-100-145-180.wdc.com>
- <7a45dd7f-842b-4282-909b-082b501abcdc@grimberg.me>
+ id 1lif89-00Dv6v-Co
+ for linux-nvme@lists.infradead.org; Mon, 17 May 2021 15:26:08 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 069A36100C;
+ Mon, 17 May 2021 15:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621265164;
+ bh=S8wr+Z80MKPZsWbY69SYVz/dJCGN+A7Xu7sGznMK56w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cLH1Skj/cSRLC2tq41uXd4yaac7dRQx1uCfUfI8ACwIeh50G1oYrs6q+Yb83NBTfi
+ kA+LfLcdo5G/iIFinyh/Ff85khQC4srWwhjuh8dyF8KZRAfUkTDsN1ydWyzZMtXIUG
+ sJZGHhEA71MixdVU/EqAgFXM8zX1TNV924rXPeev5WlgU1c7E7YVumsL4VDqb1MLpU
+ LC4zwrhaeTF+UhVbxLVhGBEvPfRENuh+L26SVanM/Jq8iUbzAhzKC08ah9ohZDL1rC
+ 4cTkw4L/7g631YsET841aNKEtmERtF+7qsdzV+mqqv5GJt9+SHsKYyu0BKDW35zGWD
+ mj+bNprtjTkiQ==
+Date: Mon, 17 May 2021 08:26:01 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCHv4] nvme: allow to re-attach namespaces after all paths
+ are down
+Message-ID: <20210517152601.GA2709350@dhcp-10-100-145-180.wdc.com>
+References: <20210517081809.104813-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7a45dd7f-842b-4282-909b-082b501abcdc@grimberg.me>
+In-Reply-To: <20210517081809.104813-1-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_075809_482715_16CD0F88 
-X-CRM114-Status: GOOD (  16.86  )
+X-CRM114-CacheID: sfid-20210517_082605_478335_BC1D09FF 
+X-CRM114-Status: GOOD (  21.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,65 +93,65 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Sagi,
+On Mon, May 17, 2021 at 10:18:09AM +0200, Hannes Reinecke wrote:
+> We should only remove the ns head from the list of heads per
+> subsystem if the reference count drops to zero. Removing it
+> at the start of nvme_ns_remove() will prevent us from reattaching
+> the namespace to the correct ns head once a path becomes available
+> again.
 
-On Fri, May 07, 2021 at 04:22:30PM -0700, Sagi Grimberg wrote:
-> Yea, maybe something like this?
+This looks fine to me
 
-I did give this a spin with blktests (loopback device) and on real
-hardware (FC). Seems to do work fine. Just two things.
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
-> +/*
-> + * nvme command_id is constructed as such:
-> + * | xxxx | xxxxxxxxxxxx |
-> + *   gen    request tag
-> + */
-> +#define nvme_cid_install_genctr(gen)           ((gen & 0xf) << 12)
-> +#define nvme_genctr_from_cid(cid)              ((cid & 0xf000) >> 12)
-> +#define nvme_tag_from_cid(cid)                 (cid & 0xfff)
-> +
-> +static inline u16 nvme_cid(struct request *rq)
-> +{
-> +       return nvme_cid_install_genctr(nvme_req(rq)->genctr++) | rq->tag;
-> +}
+There are potential corner cases associated with namespace management
+that can cause problems here, but it would certainly be a user error
+that needs manual intervention anyway. I suspect those scenarios are
+very uncommon too, so I think we can deal with that later if it becomes
+a problem.
 
--       return nvme_cid_install_genctr(nvme_req(rq)->genctr++) | rq->tag;
-+       nvme_req(rq)->genctr = ++nvme_req(rq)->genctr & 0xf;
-+       return nvme_cid_install_genctr(nvme_req(rq)->genctr) | rq->tag;
-
-The first issue, it really needs prefix increment if you want to write
-it in one line. And it should store only the first 4 bits.
-nvme_find_rq() would complain with 0x0 != 0x10 after the first overflow.
-
-> +static inline struct request *nvme_find_rq(struct blk_mq_tags *tags,
-> +               u16 command_id)
-> +{
-> +       u8 genctr = nvme_genctr_from_cid(command_id);
-> +       u16 tag = nvme_tag_from_cid(command_id);
-> +       struct request *rq;
-> +
-> +       rq = blk_mq_tag_to_rq(tags, tag);
-> +       if (unlikely(!rq)) {
-> +               pr_err("could not locate request for tag %#x\n",
-> +                       tag);
-> +               return NULL;
-> +       }
-> +       if (unlikely(nvme_req(rq)->genctr != genctr)) {
-> +               dev_err(nvme_req(rq)->ctrl->device,
-> +                       "request %#x genctr mismatch (got %#x expected
-> %#x)\n",
-> +                       tag, nvme_req(rq)->genctr, genctr);
-
--                       tag, nvme_req(rq)->genctr, genctr);
-+                       tag, genctr, nvme_req(rq)->genctr);
-
-The arguments are in the wrong order. Got me a bit confused.
-
-Are you going to send out a proper patch? I'd like to move things
-forward and could offer to do some more testing if needed.
-
-Thanks,
-Daniel
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>  drivers/nvme/host/core.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 522c9b229f80..a60144a4054a 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -546,6 +546,9 @@ static void nvme_free_ns_head(struct kref *ref)
+>  	struct nvme_ns_head *head =
+>  		container_of(ref, struct nvme_ns_head, ref);
+>  
+> +	mutex_lock(&head->subsys->lock);
+> +	list_del_init(&head->entry);
+> +	mutex_unlock(&head->subsys->lock);
+>  	nvme_mpath_remove_disk(head);
+>  	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+>  	cleanup_srcu_struct(&head->srcu);
+> @@ -3605,7 +3608,11 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+>  		head->shared = is_shared;
+>  	} else {
+>  		ret = -EINVAL;
+> -		if (!is_shared || !head->shared) {
+> +		/*
+> +		 * If multipath is enabled we might hit an ns head with no
+> +		 * paths, but that doesn't indicate it's a shared namespace.
+> +		 */
+> +		if (!list_empty(&head->list) && (!is_shared || !head->shared)) {
+>  			dev_err(ctrl->device,
+>  				"Duplicate unshared namespace %d\n", nsid);
+>  			goto out_put_ns_head;
+> @@ -3764,8 +3771,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>  
+>  	mutex_lock(&ns->ctrl->subsys->lock);
+>  	list_del_rcu(&ns->siblings);
+> -	if (list_empty(&ns->head->list))
+> -		list_del_init(&ns->head->entry);
+>  	mutex_unlock(&ns->ctrl->subsys->lock);
+>  
+>  	synchronize_rcu(); /* guarantee not available in head->list */
+> -- 
 
 _______________________________________________
 Linux-nvme mailing list
