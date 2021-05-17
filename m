@@ -2,95 +2,88 @@ Return-Path: <SRS0=YADc=KM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78521C433B4
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 18:25:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34F98C433ED
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 18:27:04 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EABAB61004
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 18:25:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EABAB61004
+	by mail.kernel.org (Postfix) with ESMTPS id B2C2F611BF
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 May 2021 18:27:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B2C2F611BF
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6iErU+fSpkUwLqaRJoCIQwRrcu+bIeHvSiCJL6nYhu0=; b=ldbrQiBTpmIwo+IT2SJrgTqPJ
-	4xr+bTwXn9yCNoeKKD782Hayik7t086gTfQRHqbExKMZvRngGgFAj15S7YQsaiRqPTJrMsiwB0xUR
-	9J/eMCWKlW5yc/aoJyB2BzjHzGf1YSqwDdvg6O6xEO3yCtFCpShGyzWYaKTFNx9+VmqEMZ1/oAp56
-	GRFU5LfCTDf6/zRkSThLOm+0dF2ux4nsrjFsbzAOaOu8YQDKXlsFna4Uw3SgLKRTqnXTRwFHL1h3E
-	7S+QXKsm8QWIp5vDcc7yvyNJnPi0ZZubzt3xwzabBdWk7LDUKPLrt7ugtkD3K2Xh9lsejuCxhzaJc
-	yVhXABfGg==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=LJ22Z/LJFXZ7DTCn5fIsfG9+4s5OZhRF2YSn/WIqkjQ=; b=HAwMWcVoThmbGv
+	810DZdaeUsv93wZJZwjkkN4uJGkq59qw2go1pPfX82hily75XUu73iXyRQM58xw9Pvm10XZZZQhrq
+	nrGKPa/jPxqez+jiY/c81lI42chz3yaFaoX4FHMjFDhLaaAxai8fVR44HO5dqwHL+/IN9oxoGSWbV
+	2EZZRuTRGeE4gRgF36HvGIdL3L2rPl+NVvE/sXFM6h9aGTJ0lD9vPeYyukZoaq0x2Uc+D4dW9sxyy
+	bg3Md2EkuuWegSsHFfjOaKnYjNddKcja0OA4PLU+42axF+CR3KSHsWLTimrkaY/dQrl17i6fls7A9
+	nsO3/HohJ0fFjtQFPvgQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lihvU-00Fndm-8R; Mon, 17 May 2021 18:25:12 +0000
+	id 1lihwg-00Fo1u-Bm; Mon, 17 May 2021 18:26:27 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lihvR-00Fncs-5M
- for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 18:25:09 +0000
+ id 1lihwd-00Fo11-2x
+ for linux-nvme@desiato.infradead.org; Mon, 17 May 2021 18:26:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=ZJLVKyz91Gj3RHsSrgijXeGWJQh0M3Jb/4YKsN3Oy+I=; b=2wY3k7iYYNIzBnScLN+PizFwzm
- O6YvOXreYJjEKJk4FNGyegAJdl9xTSZTqhPN4wgEpl2UG7fSwBcutREX++Z+dcUKJAJb2+SfIzkLb
- CUDmE7TCIJUcdRvm/zIOGN7Z0lpGi5GJJBt8uQQW2YpyVOaxIeGkx4f4XKmhGcBYrJGgq7MQf+Co2
- piIeGGvCqETawaKf1lG2DxmW5WxjH6rxIS0t7fV7tqmLMWB6hZLBb+TfdCVGiOyUxetrSNhZFwX/y
- Xj/ar6g3hH1n4dn/jMmmTxOvfBtRIDJRX0PPoYaAR/h++CV2WUyB7VHXD71xjL/Y3Vz1LtrYWdT0h
- A3CwwtUw==;
-Received: from mail-pf1-f180.google.com ([209.85.210.180])
+ MIME-Version:Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=oKRJAhfZg3W2D0sQ03lFlH978XOSAvFor4xx/SnyfzM=; b=L7Yd3tk2SN4UsIz407z0TtQX7N
+ +flEDj0M5QlUAfGuEG+tAh+NNYfHWde9kGRWNmTTVSvL95TNmGg2Z/eInov9qvOEMViGcPW9Cvp8H
+ FTVxWocQMGtTeUkczKpnvUEKo2WW3AzBtSBoNAzICtpZW7w2H0Ii9JJGsRdHPG2pj7JaD72IQObaW
+ 7tM1FriRttyruh92jhUlCggJ2++7E3seCOsu48Ja5mcHUKavSKxtEUsrldlI0jowCMpp1FDfl6fj4
+ RJZ67mOQvmDg1CHi7AequBWz7pt0Q+6txdWl30PyC882rs+quWRXgsWk1+aCpuM12/I0bqFEdNhyM
+ tlgG/BNg==;
+Received: from mail-pl1-f173.google.com ([209.85.214.173])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lihvO-00E3bo-21
- for linux-nvme@lists.infradead.org; Mon, 17 May 2021 18:25:07 +0000
-Received: by mail-pf1-f180.google.com with SMTP id d78so4685320pfd.10
- for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 11:25:05 -0700 (PDT)
+ id 1lihwa-00E3di-8x
+ for linux-nvme@lists.infradead.org; Mon, 17 May 2021 18:26:21 +0000
+Received: by mail-pl1-f173.google.com with SMTP id b21so3673486plz.0
+ for <linux-nvme@lists.infradead.org>; Mon, 17 May 2021 11:26:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ZJLVKyz91Gj3RHsSrgijXeGWJQh0M3Jb/4YKsN3Oy+I=;
- b=fPmfNRSK02ImJhuuHLmoL4YnclZvImIzomT3nw2mNUt+8zk9SxWfJ4Etsu38zeF4A8
- 6wnApw2xGOyCEucCTkSmC7LD+xpCdWtLfM3riPjoMWjPklHcHbtrsT8W6YvR8D+TAAgy
- WYJ/ZlIwWMpIzbkkOR+Mu64T21s76DfyoTWphJBsUQA3oyknPqN5Gl9Pa5jSmZIB0mJQ
- DAnoYUgU0Gg0tahTESz0SxHTz5Dua4jmcE9/4LDGeKsOCugj1JCn8dDoXCCnI43OBuMY
- MAgWuoE33eKASeJ1uhnuSwqX6thEijNtLOssga6IWWzr0L+tIzSF67gb5u7l09pbZ5Ck
- BwXg==
-X-Gm-Message-State: AOAM530io87XV3J/0xHk+i9zmbfO6PNJMaDkC2CPRaDhEMgNgq54vhL6
- 4GCRIDQJ16SQ4ZgZNmetMEo=
-X-Google-Smtp-Source: ABdhPJwvANeOoxC/wt2ZO5Jkr6HdrLeF7Znu4JpW70VKoMgYD+GTyyucpU+cdtVHx2WuaSH4QnFWlQ==
-X-Received: by 2002:a63:ee12:: with SMTP id e18mr835320pgi.73.1621275905165;
- Mon, 17 May 2021 11:25:05 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:e600:1f8f:de79:17f9?
+ bh=oKRJAhfZg3W2D0sQ03lFlH978XOSAvFor4xx/SnyfzM=;
+ b=uOh47jl5hE3TtTYHfm/N1ws5K6JgPF5Y23/CeN4Km0h4Y3emUqN0WVEMMcppYU9VND
+ zD4VFPRkNJ5m/z4tN0qLEGZVkCnX5IGtg7Bevu+iz61n1n8iu53J0Jids5KcwTvD405e
+ kevxWkFQsPaB4zprP+jCp/uooLsL6+14WXOca/a3nik53w5V5FuyC3h/9QZtj9iUuCXg
+ /CXmep1nw5Z0faCsAzTApawxAOg5szVEYcq6Kpwy+daxTAuxw9m9h+zbpp1kU8dPY0nU
+ DILVxJhgTuN/KHvvhak5marHeh0rhXclUmzUN77qQAaHmNjo/NFwFnmcrUDUv1DYCeXb
+ tejA==
+X-Gm-Message-State: AOAM530nu7CsDP7U4xWZ47CMTt3wQlbwf1JfEcJGTydSH7LKbbHdnLsy
+ bHM+idCE8j1+rtrUpoLQog12RAPTFwE=
+X-Google-Smtp-Source: ABdhPJyLBf+rrCzWESEPy7eaRzOFk1cWHBoMMMoCWpjILUcM/ELCzrsWwn0Jj12DZ+w8e3ZeWqpAAw==
+X-Received: by 2002:a17:90a:6381:: with SMTP id f1mr484895pjj.30.1621275978948; 
+ Mon, 17 May 2021 11:26:18 -0700 (PDT)
+Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
  ([2601:647:4802:9070:e600:1f8f:de79:17f9])
- by smtp.gmail.com with ESMTPSA id w127sm10376697pfw.4.2021.05.17.11.25.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 11:25:04 -0700 (PDT)
-Subject: Re: [PATCHv6 1/1] nvme-tcp: Add option to set the physical interface
- to be used when connecting over TCP sockets.
-To: Martin Belanger <nitram_67@hotmail.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de,
- Martin Belanger <martin.belanger@dell.com>
-References: <BL0PR13MB4291A122DD3E31016AADB82A9C2D9@BL0PR13MB4291.namprd13.prod.outlook.com>
+ by smtp.gmail.com with ESMTPSA id c130sm10388118pfc.51.2021.05.17.11.26.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 May 2021 11:26:18 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <eba75cd2-5021-05c3-f1ca-bfb05432af2b@grimberg.me>
-Date: Mon, 17 May 2021 11:25:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] fabrics: add fast_io_fail_tmo option
+Date: Mon, 17 May 2021 11:26:16 -0700
+Message-Id: <20210517182616.607768-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <BL0PR13MB4291A122DD3E31016AADB82A9C2D9@BL0PR13MB4291.namprd13.prod.outlook.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_112506_143545_2AF3C318 
-X-CRM114-Status: GOOD (  34.53  )
+X-CRM114-CacheID: sfid-20210517_112620_340040_7B37B254 
+X-CRM114-Status: GOOD (  13.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,112 +95,87 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Option to fail fast I/O when connecting to a controller. It is useful
+to set a fast-fail timeout for nvme in case upper layer SW wants to
+detect unresponsive controllers early (e.g. mdraid).
 
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ fabrics.c | 12 ++++++++++++
+ fabrics.h |  1 +
+ 2 files changed, 13 insertions(+)
 
-On 5/17/21 11:16 AM, Martin Belanger wrote:
-> From: Martin Belanger <martin.belanger@dell.com>
-> 
-> Addressed Sagi's review from PATCHv5.
+diff --git a/fabrics.c b/fabrics.c
+index 242b03e4dc77..77eb8f4efc9b 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -69,6 +69,7 @@ const char *conarg_host_traddr = "host_traddr";
+ 
+ struct fabrics_config fabrics_cfg = {
+ 	.ctrl_loss_tmo = -1,
++	.fast_io_fail_tmo = -1,
+ 	.output_format = "normal",
+ };
+ 
+@@ -1004,6 +1005,8 @@ int build_options(char *argstr, int max_len, bool discover)
+ 	    (strncmp(fabrics_cfg.transport, "loop", 4) &&
+ 	     add_int_argument(&argstr, &max_len, "ctrl_loss_tmo",
+ 			      fabrics_cfg.ctrl_loss_tmo, true)) ||
++	    add_int_argument(&argstr, &max_len, "fast_io_fail_tmo",
++				fabrics_cfg.fast_io_fail_tmo, true) ||
+ 	    add_int_argument(&argstr, &max_len, "tos",
+ 				fabrics_cfg.tos, true) ||
+ 	    add_bool_argument(&argstr, &max_len, "duplicate_connect",
+@@ -1185,6 +1188,13 @@ retry:
+ 		p += len;
+ 	}
+ 
++	if (fabrics_cfg.fast_io_fail_tmo) {
++		len = sprintf(p, ",fast_io_fail_tmo=%d", fabrics_cfg.fast_io_fail_tmo);
++		if (len < 0)
++			return -EINVAL;
++		p += len;
++	}
++
+ 	if (fabrics_cfg.tos != -1) {
+ 		len = sprintf(p, ",tos=%d", fabrics_cfg.tos);
+ 		if (len < 0)
+@@ -1567,6 +1577,7 @@ int fabrics_discover(const char *desc, int argc, char **argv, bool connect)
+ 		OPT_INT("keep-alive-tmo",  'k', &fabrics_cfg.keep_alive_tmo,  "keep alive timeout period in seconds"),
+ 		OPT_INT("reconnect-delay", 'c', &fabrics_cfg.reconnect_delay, "reconnect timeout period in seconds"),
+ 		OPT_INT("ctrl-loss-tmo",   'l', &fabrics_cfg.ctrl_loss_tmo,   "controller loss timeout period in seconds"),
++		OPT_INT("fast_io_fail_tmo",'f',&fabrics_cfg.fast_io_fail_tmo, "fast I/O fail timeout (default off)"),
+ 		OPT_INT("tos",             'T', &fabrics_cfg.tos,             "type of service"),
+ 		OPT_FLAG("hdr_digest",     'g', &fabrics_cfg.hdr_digest,      "enable transport protocol header digest (TCP transport)"),
+ 		OPT_FLAG("data_digest",    'G', &fabrics_cfg.data_digest,     "enable transport protocol data digest (TCP transport)"),
+@@ -1650,6 +1661,7 @@ int fabrics_connect(const char *desc, int argc, char **argv)
+ 		OPT_INT("keep-alive-tmo",     'k', &fabrics_cfg.keep_alive_tmo,    "keep alive timeout period in seconds"),
+ 		OPT_INT("reconnect-delay",    'c', &fabrics_cfg.reconnect_delay,   "reconnect timeout period in seconds"),
+ 		OPT_INT("ctrl-loss-tmo",      'l', &fabrics_cfg.ctrl_loss_tmo,     "controller loss timeout period in seconds"),
++		OPT_INT("fast_io_fail_tmo",   'f', &fabrics_cfg.fast_io_fail_tmo,  "fast I/O fail timeout (default off)"),
+ 		OPT_INT("tos",                'T', &fabrics_cfg.tos,               "type of service"),
+ 		OPT_FLAG("duplicate-connect", 'D', &fabrics_cfg.duplicate_connect, "allow duplicate connections between same transport host and subsystem port"),
+ 		OPT_FLAG("disable-sqflow",    'd', &fabrics_cfg.disable_sqflow,    "disable controller sq flow control (default false)"),
+diff --git a/fabrics.h b/fabrics.h
+index 41e6a2d07b1f..b98f6b0d0904 100644
+--- a/fabrics.h
++++ b/fabrics.h
+@@ -29,6 +29,7 @@ struct fabrics_config {
+ 	int  keep_alive_tmo;
+ 	int  reconnect_delay;
+ 	int  ctrl_loss_tmo;
++	int  fast_io_fail_tmo;
+ 	int  tos;
+ 	const char *raw;
+ 	char *device;
+-- 
+2.27.0
 
-This commentary belongs after the '---' separator.
-
-> 
-> In our application, we need a way to force TCP connections to go out a
-> specific IP interface instead of letting Linux select the interface
-> based on the routing tables. This patch adds the option 'host-iface'
-> to allow specifying the interface to use. Note that corresponding
-> changes to the nvme-cli utility will follow.
-> 
-> When the option host-iface is specified, the driver uses the specified
-> interface to set the option SO_BINDTODEVICE on the TCP socket before
-> connecting.
-> 
-> This new option is needed in addtion to the existing host-traddr for
-> the following reasons:
-> 
-> Specifying an IP interface by its associated IP address is less
-> intuitive than specifying the actual interface name and, in some cases,
-> simply doesn't work. That's because the association between interfaces
-> and IP addresses is not predictable. IP addresses can be changed or can
-> change by themselves over time (e.g. DHCP). Interface names are
-> predictable [1] and will persist over time. Consider the following
-> configuration.
-> 
-> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state ...
->      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
->      inet 100.0.0.100/24 scope global lo
->         valid_lft forever preferred_lft forever
-> 2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc ...
->      link/ether 08:00:27:21:65:ec brd ff:ff:ff:ff:ff:ff
->      inet 100.0.0.100/24 scope global enp0s3
->         valid_lft forever preferred_lft forever
-> 3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc ...
->      link/ether 08:00:27:4f:95:5c brd ff:ff:ff:ff:ff:ff
->      inet 100.0.0.100/24 scope global enp0s8
->         valid_lft forever preferred_lft forever
-> 
-> The above is a VM that I configured with the same IP address
-> (100.0.0.100) on all interfaces. Doing a reverse lookup to identify the
-> unique interface associated with 100.0.0.100 does not work here. And
-> this is why the option host_iface is required. I understand that the
-> above config does not represent a standard host system, but I'm using
-> this to prove a point: "We can never know how users will configure
-> their systems". By te way, The above configuration is perfectly fine
-> by Linux.
-> 
-> The current TCP implementation for host_traddr performs a
-> bind()-before-connect(). This is a common construct to set the source
-> IP address on a TCP socket before connecting. This has no effect on how
-> Linux selects the interface for the connection. That's because Linux
-> uses the Weak End System model as described in RFC1122 [2]. On the other
-> hand, setting the Source IP Address has benefits and should be supported
-> by linux-nvme. In fact, setting the Source IP Address is a mandatory
-> FedGov requirement (e.g. connection to a RADIUS/TACACS+ server).
-> Consider the following configuration.
-> 
-> $ ip addr list dev enp0s8
-> 3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc ...
->      link/ether 08:00:27:4f:95:5c brd ff:ff:ff:ff:ff:ff
->      inet 192.168.56.101/24 brd 192.168.56.255 scope global enp0s8
->         valid_lft 426sec preferred_lft 426sec
->      inet 192.168.56.102/24 scope global secondary enp0s8
->         valid_lft forever preferred_lft forever
->      inet 192.168.56.103/24 scope global secondary enp0s8
->         valid_lft forever preferred_lft forever
->      inet 192.168.56.104/24 scope global secondary enp0s8
->         valid_lft forever preferred_lft forever
-> 
-> Here we can see that several addresses are associated with interface
-> enp0s8. By default, Linux always selects the default IP address,
-> 192.168.56.101, as the source address when connecting over interface
-> enp0s8. Some users, however, want the ability to specify a different
-> source address (e.g., 192.168.56.102, 192.168.56.103, ...). The option
-> host_traddr can be used as-is to perform this function.
-> 
-> In conclusion, I believe that we need 2 options for TCP connections.
-> One that can be used to specify an interface (host-iface). And one that
-> can be used to set the source address (host-traddr). Users should be
-> allowed to use one or the other, or both, or none. Of course, the
-> documentation for host_traddr will need some clarification. It should
-> state that when used for TCP connection, this option only sets the
-> source address. And the documentation for host_iface should say that
-> this option is only available for TCP connections.
-> 
-> References:
-> [1] https://www.freedesktop.org/wiki/Software/systemd/\
-> PredictableNetworkInterfaceNames/
-> [2] https://tools.ietf.org/html/rfc1122
-> 
-> Tested both IPv4 and IPv6 connections.
-
-Also this.
-
-Can you send the nvme-cli bits as well?
 
 _______________________________________________
 Linux-nvme mailing list
