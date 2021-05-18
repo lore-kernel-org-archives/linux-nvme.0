@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1796C433ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 06:49:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E0CC433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 06:57:24 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9EA02611BD
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 06:49:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EA02611BD
+	by mail.kernel.org (Postfix) with ESMTPS id 1D2A061007
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 06:57:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1D2A061007
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,50 +23,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=OyLCHJUhPpI1uy6uoQqFr41bFt8eA65h8MaY/itJRrs=; b=WcVFcgnIX4iJw4M8eK3CiX98l
-	4f9ngNoI/+pC0cMocjWQK4YFzhjQ2DbYgRix5ygLtzBvZ7b/wLX4YHGHcxn0MY42AiM4qm0QoK4bq
-	c9bPbgYD94ifNwOydIjSkTTFD4Aqf/VUgs5FcdW9XUBIZkziz55Sf3MKC7hznqQa0oqYtG6CnMS6M
-	2wrxaTscIk5z4jbiL2TGlzedtMd/wxxgNCuCFGtk7HazNTJo/UKMat4KNBDHNRvAzAjviyc88E7X5
-	GIPmvrHtKga77GlEoGXEgACEqOnsEF9wH98J57XEp/HfLKN/w6rl3xDXw7LmtTy7nzc01swf46t8s
-	nvNHhEx8w==;
+	 bh=YZEMQLpfXQ3OpcuFy4ZTyg7viRw57VQ2CUvCC0EHFsI=; b=e5stkFwM/q7tn8hSEaoKRPnbu
+	CRWZVx88cY+RkNu0SoWc0Qprws5dcw9PpOF/DQEaTyYPmm73b1rcB7vRds+bSdbchpuXMk5Qtj9kr
+	ADmZBfH/bD/MeELI8JgAHa6QQOq/1JxpTk7HTaUfVwibEm+GgzUsM4WYVFzoafyZ2TmoZhq1rle6c
+	+mTMI5SCBoD28P5YRZS65guFmXlkoGgyXqTZIG9hiqKRgo8sx0gWgR5+ZZq/xjoX9EIy9fJxhKB8e
+	7XDVqAcbAROVNJeCWPJElkb+2PSQpQJXygCVWweV7BFM2In2cHkO3OBdrt7Hr3yC93kLBQ/tBxpYA
+	IxUseEtsg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1litXq-00HCim-CY; Tue, 18 May 2021 06:49:34 +0000
+	id 1litfJ-00HE75-Ux; Tue, 18 May 2021 06:57:18 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1litXn-00HCiP-2a
- for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 06:49:31 +0000
+ id 1litfH-00HE6a-Fx
+ for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 06:57:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=qsHZRcLUP/cuKvr0RI615y1CVc5+iLl2Q45FWgrXbSA=; b=Ij5CtiKJJhuz3S3W8BzQZcEAI1
- cGhindopK4/BvcXhOsBLqV9HgeOEMtzO0jbveoiAZmgYNugMBOmn9cZTfWdG2JYGJKFOQfSSV6z6m
- VWwXgLOAjDmRgSkqLReZUyHc5HMHUDxEVi/fde/UbMWaCnJHixvhxucIAF1PWAkkfVUJ4Wie3H5P5
- esCgqgRk7vO9cbf6ks1WQhu0a9/hLFkkOHFGiDte5Bl3d3sSTypN57oEmiL88+G4EhxDACA3AUx+b
- qUlbME/mQmjyAbTv83gAlQP3CJXUWUSMXnTaVPAUJsHFoPHD0dYTbCC2N4n7TUKaSKAJ83E5GkNNS
- 22y/fM4g==;
+ bh=00M/ZL/+3uqIp6D76cEkm3Cr6FBkm/wxeZJzhFqfv3U=; b=IMXm0FIqsrXl+zp7jHZaHFue+w
+ fNFTYv1Y/bpuwVbBzHo9VpHaEdqI6fHyepIISMFD5WMhWcj5UsA7UlTz8OaDg+/S98k+h9CGO6mmN
+ VSU5B9gcz+qZ2oErBHzzDN2l1wyL2hdUuk8a3qsRDXpKcpWXMgem0j0JFVGp0rtQ+2XNnqILpPUwP
+ x36UDVG2l3ku1YNbl2PCO3r3MkWaMguAJDCufNrO492MnxMW4h/QdlLPEyw+386SbUjMqJV+E493Y
+ dQifProfnG6BkpiYjEqG5n+Nsq37KnwHGGcqfWmIioL+KlpnOMVXI2o2lV3MvnuYFpAEFw6tNm3H2
+ BXszfz6w==;
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1litXj-00ENWX-LV
- for linux-nvme@lists.infradead.org; Tue, 18 May 2021 06:49:29 +0000
+ id 1litfE-00ENsR-SV
+ for linux-nvme@lists.infradead.org; Tue, 18 May 2021 06:57:14 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 3EE1067373; Tue, 18 May 2021 08:49:18 +0200 (CEST)
-Date: Tue, 18 May 2021 08:49:17 +0200
+ id 3FF5467373; Tue, 18 May 2021 08:57:10 +0200 (CEST)
+Date: Tue, 18 May 2021 08:57:10 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
- sagi@grimberg.me
-Subject: Re: [PATCH 0/4] nvme: nidt and ns-desc related clanup
-Message-ID: <20210518064917.GA8093@lst.de>
-References: <20210518050557.14961-1-chaitanya.kulkarni@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCHv4] nvme: allow to re-attach namespaces after all paths
+ are down
+Message-ID: <20210518065710.GA8255@lst.de>
+References: <20210517081809.104813-1-hare@suse.de>
+ <20210517152601.GA2709350@dhcp-10-100-145-180.wdc.com>
+ <688618fa-a079-6d84-adf2-01ee36f95d76@suse.de>
+ <20210517154942.GA2709391@dhcp-10-100-145-180.wdc.com>
+ <4b32451c-2426-c86f-ebc6-9de74e0bbde6@grimberg.me>
+ <20210517180144.GC2709391@dhcp-10-100-145-180.wdc.com>
+ <21fc1351-51e2-2d66-d988-b07763a7ae5d@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210518050557.14961-1-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <21fc1351-51e2-2d66-d988-b07763a7ae5d@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_234927_875992_0C34D880 
-X-CRM114-Status: GOOD (  14.62  )
+X-CRM114-CacheID: sfid-20210517_235713_091868_6916D701 
+X-CRM114-Status: GOOD (  17.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,24 +91,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 17, 2021 at 10:05:53PM -0700, Chaitanya Kulkarni wrote:
-> Hi,
-> 
-> This is a small patch-series tries to minimize the number of the macro
-> identifiers. 
-> 
-> In the current code we maintain NVME_NIDT_XXX identifire values and the
-> their length NVME_NIDT_XXX_LEN separately which has 1:1 mapping. This
-> adds founr extra macros and open coding of such macros in the host and
-> the target.
-> 
-> With this open coding in future we will have to maintain one extra macro
-> representing length for each new NIDT identifire that we will add.
+On Mon, May 17, 2021 at 11:20:36AM -0700, Sagi Grimberg wrote:
+>
+>>> That is because we keep the device node around even though it doesn't
+>>> have any bottom devices. Which is what I think Hannes tried to fix
+>>> in an earlier patch.
+>>>
+>>> Also, if an NVM subsystem happens to recycle nsids, it will trigger
+>>> pretty surely. So I'm not sure this is an obscure case...
+>>
+>> I'm not very concerned because (1) deleting an in-use namespace is
+>> surely a user error, and (2) it currently doesn't work either, and no
+>> one's complained yet AFAIK.
+>
+> You're not wrong. It's just that one error (on ns X) can manifest in
+> other potentially completely different namespaces created. I guess
+> this kind of thing can happen when ns administration is done by
+> adminX (or scriptX) and the ns mounting is done by userY where what each
+> is doing is unknown to each other.
 
-I really don't see the point.  You remove one define per type, but
-need to create a mapping table entry.  This adds (slightly) more code
-and is less obvious.  Do you have any grand plans for which this is
-a preparation?
+We also check for the matching identifiers in nvme_init_ns_head, so
+we'll error out there.
 
 _______________________________________________
 Linux-nvme mailing list
