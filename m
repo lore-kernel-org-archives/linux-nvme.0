@@ -2,19 +2,19 @@ Return-Path: <SRS0=ZIaN=KN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E0CC433ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 06:57:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64723C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 06:59:21 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1D2A061007
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 06:57:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1D2A061007
+	by mail.kernel.org (Postfix) with ESMTPS id 2585461007
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 06:59:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2585461007
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,58 +23,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YZEMQLpfXQ3OpcuFy4ZTyg7viRw57VQ2CUvCC0EHFsI=; b=e5stkFwM/q7tn8hSEaoKRPnbu
-	CRWZVx88cY+RkNu0SoWc0Qprws5dcw9PpOF/DQEaTyYPmm73b1rcB7vRds+bSdbchpuXMk5Qtj9kr
-	ADmZBfH/bD/MeELI8JgAHa6QQOq/1JxpTk7HTaUfVwibEm+GgzUsM4WYVFzoafyZ2TmoZhq1rle6c
-	+mTMI5SCBoD28P5YRZS65guFmXlkoGgyXqTZIG9hiqKRgo8sx0gWgR5+ZZq/xjoX9EIy9fJxhKB8e
-	7XDVqAcbAROVNJeCWPJElkb+2PSQpQJXygCVWweV7BFM2In2cHkO3OBdrt7Hr3yC93kLBQ/tBxpYA
-	IxUseEtsg==;
+	 bh=JvkBg7w3TN+MNr3jKP/RDq1Poj5m9ineXzJeeZihkUs=; b=FkgicKSNdcMxjFc9TvxnIUVnG
+	jR4Vaj5rX6c3IuyttKvJEazk4qV4B3bT3bhG0gvMubUXJOksrv0mTVFGTpGE9JpiorhjUM03Iop4q
+	Hd0M2pkacWmH0ipCEJJwtoHGz1oMvQsoEplBZYt6MJxiaZPudqhUvItgQYnzI0xb+IBFrFAbqU0RD
+	ie1BdC4FeFji1audL9uFEziUSJ9XgUVKr0HxESdk8ODhHU7LK5GjunFrBcjtHFJoAcd/xgLnGwu5h
+	ndRIM4Yimwv5hewXcvmRr7lB6cZCdecur/viwzD7asmwM0tLwLT6jc/UVJDDlk1ACruB9+XphjQIR
+	EfAdwjMlA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1litfJ-00HE75-Ux; Tue, 18 May 2021 06:57:18 +0000
+	id 1lithE-00HESm-4r; Tue, 18 May 2021 06:59:16 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1litfH-00HE6a-Fx
- for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 06:57:15 +0000
+ id 1lithC-00HESP-U1
+ for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 06:59:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=00M/ZL/+3uqIp6D76cEkm3Cr6FBkm/wxeZJzhFqfv3U=; b=IMXm0FIqsrXl+zp7jHZaHFue+w
- fNFTYv1Y/bpuwVbBzHo9VpHaEdqI6fHyepIISMFD5WMhWcj5UsA7UlTz8OaDg+/S98k+h9CGO6mmN
- VSU5B9gcz+qZ2oErBHzzDN2l1wyL2hdUuk8a3qsRDXpKcpWXMgem0j0JFVGp0rtQ+2XNnqILpPUwP
- x36UDVG2l3ku1YNbl2PCO3r3MkWaMguAJDCufNrO492MnxMW4h/QdlLPEyw+386SbUjMqJV+E493Y
- dQifProfnG6BkpiYjEqG5n+Nsq37KnwHGGcqfWmIioL+KlpnOMVXI2o2lV3MvnuYFpAEFw6tNm3H2
- BXszfz6w==;
+ bh=O9lG4gm2dZQhWJkXr0yb7btcYljkPkkWp/1EuwvDpWM=; b=gTy7qXHRubgOUOc7b8cinkvqX+
+ cj7QxSFp7xeP1IAi39A+J6RwwirbwvxisJEUsLoWDGybsf4ZbS/Gus0FwIEvByxxYfsff7PCVK7Mf
+ NqRciP8ZyTMaqSibHz8fZ5iMnMWJfFc4XY4+EoiqUCPyzWlfnDDRgnQL+Pd/22+5xdsXCvAdvPavs
+ dQhjot5awCVsiuJTPA+v5Hae3oGXY4tAAaKFBi1ER7T7hELGb02zOQmRXJocH2Xw1coErY+V94wZU
+ qaI2FpIXhdU5HjxNZN1YmQf9pjWFniumIy176TZ0KGz3Exf911NwZkg/yoNEEWyUxesAqHRhkm5Td
+ 0OzpxWZQ==;
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1litfE-00ENsR-SV
- for linux-nvme@lists.infradead.org; Tue, 18 May 2021 06:57:14 +0000
+ id 1lithA-00EO0I-GU
+ for linux-nvme@lists.infradead.org; Tue, 18 May 2021 06:59:13 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 3FF5467373; Tue, 18 May 2021 08:57:10 +0200 (CEST)
-Date: Tue, 18 May 2021 08:57:10 +0200
+ id E5C6467373; Tue, 18 May 2021 08:59:09 +0200 (CEST)
+Date: Tue, 18 May 2021 08:59:09 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCHv4] nvme: allow to re-attach namespaces after all paths
- are down
-Message-ID: <20210518065710.GA8255@lst.de>
-References: <20210517081809.104813-1-hare@suse.de>
- <20210517152601.GA2709350@dhcp-10-100-145-180.wdc.com>
- <688618fa-a079-6d84-adf2-01ee36f95d76@suse.de>
- <20210517154942.GA2709391@dhcp-10-100-145-180.wdc.com>
- <4b32451c-2426-c86f-ebc6-9de74e0bbde6@grimberg.me>
- <20210517180144.GC2709391@dhcp-10-100-145-180.wdc.com>
- <21fc1351-51e2-2d66-d988-b07763a7ae5d@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH 1/3] nvme-tcp: don't check blk_mq_tag_to_rq when
+ receiving pdu data
+Message-ID: <20210518065909.GA8300@lst.de>
+References: <20210517175955.602725-1-sagi@grimberg.me>
+ <20210517175955.602725-2-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <21fc1351-51e2-2d66-d988-b07763a7ae5d@grimberg.me>
+In-Reply-To: <20210517175955.602725-2-sagi@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_235713_091868_6916D701 
-X-CRM114-Status: GOOD (  17.44  )
+X-CRM114-CacheID: sfid-20210517_235912_710543_F06B2305 
+X-CRM114-Status: GOOD (  13.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,27 +85,24 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 17, 2021 at 11:20:36AM -0700, Sagi Grimberg wrote:
->
->>> That is because we keep the device node around even though it doesn't
->>> have any bottom devices. Which is what I think Hannes tried to fix
->>> in an earlier patch.
->>>
->>> Also, if an NVM subsystem happens to recycle nsids, it will trigger
->>> pretty surely. So I'm not sure this is an obscure case...
->>
->> I'm not very concerned because (1) deleting an in-use namespace is
->> surely a user error, and (2) it currently doesn't work either, and no
->> one's complained yet AFAIK.
->
-> You're not wrong. It's just that one error (on ns X) can manifest in
-> other potentially completely different namespaces created. I guess
-> this kind of thing can happen when ns administration is done by
-> adminX (or scriptX) and the ns mounting is done by userY where what each
-> is doing is unknown to each other.
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -699,12 +699,6 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+>  	struct request *rq;
+>  
+>  	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+> -	if (!rq) {
+> -		dev_err(queue->ctrl->ctrl.device,
+> -			"queue %d tag %#x not found\n",
+> -			nvme_tcp_queue_id(queue), pdu->command_id);
+> -		return -ENOENT;
+> -	}
+>  	req = blk_mq_rq_to_pdu(rq);
 
-We also check for the matching identifiers in nvme_init_ns_head, so
-we'll error out there.
+We could simplify the initialization a bit now:
+
+	struct request *rq =
+		blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
 
 _______________________________________________
 Linux-nvme mailing list
