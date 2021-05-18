@@ -2,95 +2,81 @@ Return-Path: <SRS0=ZIaN=KN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F18C433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 13:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF8CC433ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 14:39:17 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 20B95610CD
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 13:25:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 20B95610CD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1C0E861006
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 14:39:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C0E861006
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:MIME-Version:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=OGbIfERtOngauZ+R6hLWOckqby1B/2I0JGLwv2sBpOM=; b=Vohz6/Sg9V2V9BGx2+clG90KOE
-	DnaKhRy0Uf8aFNQJDI2kefzRCtoJo6O/lCQ9YebZsRjzf2ZzxqIPEMXRKdPyUvV6Bww1dnuzk3TUL
-	YLhlVrWtPAR5HWHOwP+0DnU7qXevfa3spZqn9J/QxXzufCiYq+qUst7dxCxDjfYOfxhwVoMU7EYQF
-	Rc1gLXQMzKYmSmLfyeX1DYSZW/Ew3q1GKs2fYCbBQOBAdPMsw0yKuEGEUUqNLfcBdkG9FDvkCeVY7
-	FHyx2dse3pGbTC0yv/y+grlTmtmp8ung7E8+fy7vKpS/SJtgVMLL17DMMenClQhGM7t7et0m/wgN+
-	sUQwDDIw==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=GKdsMXi7qhElOQ/HezFkyGiUGb6PYaPK5YyfGbjPxkw=; b=d8GmoS6hJEsIK/7VJ9igOcpiS
+	VYP39d9znvtmKZdKpkygp0tOghx7rIqYsXrh2CpoYGtO4CCR9t7VmFKG9xmB1Wy+S6cHJG7Jl2Y38
+	dL3a811ADmMhb9Vz+3yUt+fggWXxTCxdgfaKeBAioaZLgAMXgwCtkl0BgjxMMNcaEQAe3RoGfNRcm
+	aZ6+4gKWDmbT3RK2J/xJStvxgVrqeT4XOwARVCksWkX+Ydlvn+PTBcipp5BbU+yLLxViGVT9gJpZL
+	FZGGgTkS762CKMV/CHmQgQ9FrwO0731exXxtmJrqzl60VVm66XVo6FiMdcdGU72NJzINye3moBIub
+	Xtg5069dw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lizi2-000s3v-RO; Tue, 18 May 2021 13:24:30 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1lj0ra-0014SR-Dr; Tue, 18 May 2021 14:38:26 +0000
+Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lizhg-000ryB-FX
- for linux-nvme@lists.infradead.org; Tue, 18 May 2021 13:24:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621344233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=6i6eXgSE1Cl7bPnzXaxdYmMGNwV6b4jIAQPk3FTqSyc=;
- b=RdBPLBpu9wBgHE1ieoQdGrQML4rKCN6DTv/8HdXS3AoHCogOnClY4CriYfD6cxMcO81EoB
- sy7zbO1a92D7dne+SfnpOD6ntYUeHawDyT3j6tDt7g+ivvLaF+gpCe7p+/rDbMKU7td6Ml
- vXK6xuhf8Zc3V4HCVJ3BfjtzMMcvHuA=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621344243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=6i6eXgSE1Cl7bPnzXaxdYmMGNwV6b4jIAQPk3FTqSyc=;
- b=jH7ZbOlbWFnzf74d6AENnlWCOwXy4dUoOqkH6exL6hDQ2Sr0Rj100NDwuE94fn9twrXxJb
- xMpFho88M9Bdh9+B5Qx6q+cTACnlfS86/u1KanJnVbsHN7iXn/CqUbUv5aChAYOo4eOE3i
- mAD77ieX2jEfu7m9WUTz6ornsXkiDTg=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-nghB9m6JOum9_RjiXvxSCQ-1; Tue, 18 May 2021 09:23:51 -0400
-X-MC-Unique: nghB9m6JOum9_RjiXvxSCQ-1
-Received: by mail-yb1-f199.google.com with SMTP id
- k186-20020a2524c30000b02905116c9c3759so3655838ybk.4
- for <linux-nvme@lists.infradead.org>; Tue, 18 May 2021 06:23:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=6i6eXgSE1Cl7bPnzXaxdYmMGNwV6b4jIAQPk3FTqSyc=;
- b=aq1/VWBokhQMzFbleoEKr9HiY/REDuCR11EHzT2ViyvdJk+p0BGywigpRz6ALyNIs+
- RNCSfkrpX0BtK3q2ycutB/jy8ZjcO/p170eGhvipDq8ktMbwbjlAAJIHtcx4Zyv3C3Fn
- /KhOe2ZBhIeYA3psyZ4Ftcy9PTeSMRStUHubiuZZY73S0tFVItb2upGtXny+iW/RJqUU
- xligJq+3S2zRDGPDansJMJlquRcG6NjgdAORsfuPch/wdARDQmO3UNXXao/mQeK8Jv/W
- svJAJygAtQ4FfOd0aJtXp5s+3HpCq3CATRxpudD6d7BBLHkiiNStJonMp/XO2CI4ogFG
- WeBw==
-X-Gm-Message-State: AOAM532o8sRVH1eMSvKP4qYvqFmADpU/yrGMc0lj6Ql07p53hIvCdEjd
- kNHrkunw9oqh+bfs5jgyPSeeKdh1aaWdIeI6zij9SgHvXAckP0i8vT7V69bPlYbZ/gKLT8pDUiu
- O/FITnWMwCrMffnMXnaXhFxSJr8Bs+SX87QHo7ksvpBU=
-X-Received: by 2002:a25:8402:: with SMTP id u2mr6794410ybk.89.1621344231051;
- Tue, 18 May 2021 06:23:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/Oei5EHcJLEaHDj69YFf4IO3h4WzdGaPTaUt20wn/Fz/8OKXsjDguUyoGouC93MdIVkdRphpf/Fa7ML87f8Q=
-X-Received: by 2002:a25:8402:: with SMTP id u2mr6794390ybk.89.1621344230864;
- Tue, 18 May 2021 06:23:50 -0700 (PDT)
+ id 1lj0rX-0014Rt-1Z
+ for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 14:38:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=XrAocr4bG6cLH2c2e81Es/x0nrAhiT3TYZt81kl+bOE=; b=16W7qc26UObHyFIQ9EIVL0tLxC
+ 8i0VHeZJt06B73wvzNwvcS8LJAOtX2HcYwODqud0pfyNZG4Msk3xo6xU8Z6IXWZaBDjs2fsmKBecJ
+ YfjTamiLqq6hLN9NgRw2/TFMLv2BIXImuL23euWH/EavdNwk4cDbWNV80NowwillPK5fyDGiLDFy2
+ ZSrCQCXnLLAZR2qybH+vSK/sMKh6lF8sprTMKe3MrlodoEK1F96HnYwHLnE62xgFzUBrbTfFAwqL8
+ 0spHm02cRYMHDfNP+ar3sak/VesAQKF8iZOa2xCBEynmi2LMP5awQwmqpIUEF28uQY1JLBbhyni+e
+ 48C8WeXw==;
+Received: from mail.kernel.org ([198.145.29.99])
+ by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1lj0rU-00Ejes-FA
+ for linux-nvme@lists.infradead.org; Tue, 18 May 2021 14:38:21 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 98CDC6124C;
+ Tue, 18 May 2021 14:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621348700;
+ bh=tonjLRl3Cv+4TlKSmwmXJv/OcpLkLBcg+zb3acV6pUc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eae1d5tpHS8u1ah57hPGfdcfzxbAU6pbvEcAgl5EpBsRK+4OOgR6S4Qu0ijRnzXEb
+ uesM9wIgy8E1iLdJot3ZbbSTrc3z97mbeA9aJ7faxQ8MZH2en79VKqLKJit016T+gY
+ Q8FD3KV8Uu/kp/wTiLxF9Xw2lUVcaIouA4VHNk39C2JHFdJwxRQlLGqcUM5CK4GrhK
+ Nsk4JUHl9GKe8OJlHcepYU5HCGeq1JUAv3pACz761faAX3hlJYHVyQLzzM+jxyQ6+s
+ ebOmOKpDZfFkdozFN/ZvmKjdpxiLgZduEaiG2jVmcHH2EPkTV9BhNHUtiWrNjHyqY7
+ E/62BdNNT0TJg==
+Date: Tue, 18 May 2021 07:38:17 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de
+Subject: Re: [RFC PATCH] nvme-tcp: rerun io_work if req_list is not empty
+Message-ID: <20210518143817.GD2709569@dhcp-10-100-145-180.wdc.com>
+References: <20210517223643.2934196-1-kbusch@kernel.org>
+ <2479237f-ed41-6de0-6ffc-bed66046b2c2@grimberg.me>
+ <20210518013804.GC2709569@dhcp-10-100-145-180.wdc.com>
+ <11e1733a-24d3-72c2-1ece-4f9d1a8fade1@grimberg.me>
 MIME-Version: 1.0
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Tue, 18 May 2021 21:23:39 +0800
-Message-ID: <CAHj4cs9MVLY+KkFXfmwPd5db69pVjAuD2g+yJ=oE14UddUmKKA@mail.gmail.com>
-Subject: [regression] nvme flush failed from v5.13-rc1
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <11e1733a-24d3-72c2-1ece-4f9d1a8fade1@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210518_142408_970955_A80BF7CC 
-X-CRM114-Status: UNSURE (   5.34  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210518_073820_547779_0BA6D6E6 
+X-CRM114-Status: GOOD (  25.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,36 +93,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi
-commit[3] add a check to validates nsid which will lead nvme flush
-cmd[1] failed as the cmd.nsid will use the default nsid:
-NVME_NSID_ALL[2], that finally lead validate failed, any suggestions
-to fix it?
+On Mon, May 17, 2021 at 08:02:41PM -0700, Sagi Grimberg wrote:
+> > nvme_tcp_send_all() breaks out of the loop if nvme_tcp_fetch_request()
+> > returns NULL. If that happens just before io_work calls
+> > nvme_tcp_handle_r2t() to enqueue the H2C request, nvme_tcp_send_all()
+> > will not see that request, but send_mutex is still held. We're counting
+> > on io_work to run again to handle sending the H2C data in that case.
+> > Unlikely as it sounds, if the same nvme_tcp_send_all() context is still
+> > holding the send_mutex when io_work gets back to trying to take it, how
+> > will the data get sent?
+> 
+> Yes you are correct, overlooked this race. I guess this is all coming
+> from having less queues than cores (where rx really competes with tx)
+> which is not as common as a non default.
+> 
+> This is enough to convince me that this is needed:
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
-[1]
-# nvme flush /dev/nvme0n1
-flush: Invalid argument
-# dmesg
-[  802.131609] nvme nvme0: nvme: nsid (4294967295) in cmd does not
-match nsid (1) of namespace
+Great! I thought the scenario seemed possible, but wasn't completely
+sure, so thank you for confirming.
 
-[2]
-        struct config cfg = {
-                .namespace_id = NVME_NSID_ALL,
-        };
+Christoph, can we pick this up for the next rc? For stable, we can add
 
-[3]
-commit c881a23fb6f7eb901155d25ba8dd1af0b8c7923b (HEAD, refs/bisect/bad)
-Author: Niklas Cassel <niklas.cassel@wdc.com>
-Date:   Fri Mar 26 19:48:00 2021 +0000
+Fixes: db5ad6b7f8cdd ("nvme-tcp: try to send request in queue_rq context")
+ 
+> > > Can we maybe try to catch if that is the case?
+> > 
+> > Do you have a better idea on how we can catch this? I think there was
+> > only one occurance of this sighting so far, and it looks like it took a
+> > long time to encounter it, but we will try again if you have a proposal.
+> 
+> We can continue to test with the patch and hunt for another occurance,
+> given the argument above, this patch is needed regardless...
 
-    nvme: disallow passthru cmd from targeting a nsid != nsid of the block dev
-
-
--- 
-Best Regards,
-  Yi Zhang
-
+Sounds good, we'll run with the patch and see what happens. If the tests
+are successful, I'm not sure if we can conclude this definitely fixes
+the timeout or if we just got lucky. If a timeout is observed, though, I
+will try to work in a debug patch.
 
 _______________________________________________
 Linux-nvme mailing list
