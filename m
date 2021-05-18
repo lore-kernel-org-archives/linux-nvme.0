@@ -2,18 +2,18 @@ Return-Path: <SRS0=ZIaN=KN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF8CC433ED
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 14:39:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 015C2C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 14:43:30 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C0E861006
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 14:39:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C0E861006
+	by mail.kernel.org (Postfix) with ESMTPS id C487F60FF2
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 14:43:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C487F60FF2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,61 +22,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=GKdsMXi7qhElOQ/HezFkyGiUGb6PYaPK5YyfGbjPxkw=; b=d8GmoS6hJEsIK/7VJ9igOcpiS
-	VYP39d9znvtmKZdKpkygp0tOghx7rIqYsXrh2CpoYGtO4CCR9t7VmFKG9xmB1Wy+S6cHJG7Jl2Y38
-	dL3a811ADmMhb9Vz+3yUt+fggWXxTCxdgfaKeBAioaZLgAMXgwCtkl0BgjxMMNcaEQAe3RoGfNRcm
-	aZ6+4gKWDmbT3RK2J/xJStvxgVrqeT4XOwARVCksWkX+Ydlvn+PTBcipp5BbU+yLLxViGVT9gJpZL
-	FZGGgTkS762CKMV/CHmQgQ9FrwO0731exXxtmJrqzl60VVm66XVo6FiMdcdGU72NJzINye3moBIub
-	Xtg5069dw==;
+	 bh=u0/vJzdxGtUcWzy7jlEnwnrM8Ylen1m92oMdmLn4EEY=; b=aICSyJKyVNm6NW2tsJe8WSiJo
+	JetPQoRbbKqCmuEeFSRB/m0ex6aN0pNxymu84jVjmOXvWfokaEIrCaQBdGhR1GfUayew1wh4YajMN
+	Al7kMAARGlsrS5UPB6NpvTNFbnZDfT0RbNwp+HT0oGt3WjTcXKpO92Xfr1Th951wc2AgrQ+rPKsOL
+	sqw4UTGvlxGHQSTeSi8TgKW/Q03PNqaamGrLMBULOfsdDum8aOri9HSjPFA8PWEeOuXlXN9JspiPW
+	tBzQGOWqqxH8Vl5n/98OKSMLYO9cwqWrSjkCSg9D6oXAHsD/nNboG3FYy3BUEN5C3HuK4KZfJgJIs
+	nEMxEi6OQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lj0ra-0014SR-Dr; Tue, 18 May 2021 14:38:26 +0000
+	id 1lj0w1-0015CG-7G; Tue, 18 May 2021 14:43:01 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lj0rX-0014Rt-1Z
- for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 14:38:23 +0000
+ id 1lj0vv-0015Ar-7h
+ for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 14:42:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=XrAocr4bG6cLH2c2e81Es/x0nrAhiT3TYZt81kl+bOE=; b=16W7qc26UObHyFIQ9EIVL0tLxC
- 8i0VHeZJt06B73wvzNwvcS8LJAOtX2HcYwODqud0pfyNZG4Msk3xo6xU8Z6IXWZaBDjs2fsmKBecJ
- YfjTamiLqq6hLN9NgRw2/TFMLv2BIXImuL23euWH/EavdNwk4cDbWNV80NowwillPK5fyDGiLDFy2
- ZSrCQCXnLLAZR2qybH+vSK/sMKh6lF8sprTMKe3MrlodoEK1F96HnYwHLnE62xgFzUBrbTfFAwqL8
- 0spHm02cRYMHDfNP+ar3sak/VesAQKF8iZOa2xCBEynmi2LMP5awQwmqpIUEF28uQY1JLBbhyni+e
- 48C8WeXw==;
+ bh=RoTiwuDu3i9ZorigKrbSLFMbe0Id6ST14ERBxjqIYVM=; b=iIleTAspbjILDC5zWlWkTcS4mY
+ IFfXR5oxHzOh19hN3Mo7uiHeGIoA9rF1zEl87i343tDnPKqmmjMsK5OzYED9iXUKK0iyhzkQaK03N
+ yEccrS+RoglSwxTR6sOexMELPVf5Vz9VOx7fH2XExEf6VxF7FEbu6ZDpiBHmzcSG2PQ5NiQeddUfE
+ j2a6AFaOUT490WSfaWsDj6EJB1yZm2KnmnAMzIe3J/atgRsRV7RquWgFsShDdx3L4IS4RmPMT5xP+
+ fS1+v1TY9OsZiFNwoUXVJYpXqpikEncD/Ip6PhghXaWRvAYjWIPT+p9y6LkQn4I0HislYE81fE+se
+ 6UaSzyiw==;
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lj0rU-00Ejes-FA
- for linux-nvme@lists.infradead.org; Tue, 18 May 2021 14:38:21 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 98CDC6124C;
- Tue, 18 May 2021 14:38:19 +0000 (UTC)
+ id 1lj0vs-00Ejtl-FN
+ for linux-nvme@lists.infradead.org; Tue, 18 May 2021 14:42:53 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DF43E611CC;
+ Tue, 18 May 2021 14:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621348700;
- bh=tonjLRl3Cv+4TlKSmwmXJv/OcpLkLBcg+zb3acV6pUc=;
+ s=k20201202; t=1621348972;
+ bh=pGgA+p2kwfvUlubImThqxDQEbbJvFzdv2X/p5L3+7cM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eae1d5tpHS8u1ah57hPGfdcfzxbAU6pbvEcAgl5EpBsRK+4OOgR6S4Qu0ijRnzXEb
- uesM9wIgy8E1iLdJot3ZbbSTrc3z97mbeA9aJ7faxQ8MZH2en79VKqLKJit016T+gY
- Q8FD3KV8Uu/kp/wTiLxF9Xw2lUVcaIouA4VHNk39C2JHFdJwxRQlLGqcUM5CK4GrhK
- Nsk4JUHl9GKe8OJlHcepYU5HCGeq1JUAv3pACz761faAX3hlJYHVyQLzzM+jxyQ6+s
- ebOmOKpDZfFkdozFN/ZvmKjdpxiLgZduEaiG2jVmcHH2EPkTV9BhNHUtiWrNjHyqY7
- E/62BdNNT0TJg==
-Date: Tue, 18 May 2021 07:38:17 -0700
+ b=fwDY64QGM8WEy2NzVGIzn4FC5sAWPFB49q/tfuSko7tg0CHAx10aWpB9nnI/DupZG
+ 3kCZmbILzQFmXhhFBWf1GBJR1v46/4g0IONyfJ4c+wPqnwe7pyCH9W2XOqhy00YMFb
+ gYOiWabvFiU7Iv96Iws0VwEwrzmHcVSPkcjA/EpMa/0mbHq/4uTMnXicu9uZH+UWCv
+ tsNa9beV154wavxCD4tC7BvYadXc5B6iCdqlAGVNC8wuMdeZd/K7Z7IQSi0tvC70TM
+ HVPoE0wKNVHiC88PU1ANig2zrC+fw4e/4OeIsU6lkQcqBxvfJxsbFuKiC7P48GhdBu
+ MpyxGf7c8t+kQ==
+Date: Tue, 18 May 2021 07:42:49 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-Subject: Re: [RFC PATCH] nvme-tcp: rerun io_work if req_list is not empty
-Message-ID: <20210518143817.GD2709569@dhcp-10-100-145-180.wdc.com>
-References: <20210517223643.2934196-1-kbusch@kernel.org>
- <2479237f-ed41-6de0-6ffc-bed66046b2c2@grimberg.me>
- <20210518013804.GC2709569@dhcp-10-100-145-180.wdc.com>
- <11e1733a-24d3-72c2-1ece-4f9d1a8fade1@grimberg.me>
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: [regression] nvme flush failed from v5.13-rc1
+Message-ID: <20210518144249.GE2709569@dhcp-10-100-145-180.wdc.com>
+References: <CAHj4cs9MVLY+KkFXfmwPd5db69pVjAuD2g+yJ=oE14UddUmKKA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <11e1733a-24d3-72c2-1ece-4f9d1a8fade1@grimberg.me>
+In-Reply-To: <CAHj4cs9MVLY+KkFXfmwPd5db69pVjAuD2g+yJ=oE14UddUmKKA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210518_073820_547779_0BA6D6E6 
-X-CRM114-Status: GOOD (  25.74  )
+X-CRM114-CacheID: sfid-20210518_074252_557329_E8A1AC33 
+X-CRM114-Status: GOOD (  10.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,43 +90,40 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 17, 2021 at 08:02:41PM -0700, Sagi Grimberg wrote:
-> > nvme_tcp_send_all() breaks out of the loop if nvme_tcp_fetch_request()
-> > returns NULL. If that happens just before io_work calls
-> > nvme_tcp_handle_r2t() to enqueue the H2C request, nvme_tcp_send_all()
-> > will not see that request, but send_mutex is still held. We're counting
-> > on io_work to run again to handle sending the H2C data in that case.
-> > Unlikely as it sounds, if the same nvme_tcp_send_all() context is still
-> > holding the send_mutex when io_work gets back to trying to take it, how
-> > will the data get sent?
+On Tue, May 18, 2021 at 09:23:39PM +0800, Yi Zhang wrote:
+> Hi
+> commit[3] add a check to validates nsid which will lead nvme flush
+> cmd[1] failed as the cmd.nsid will use the default nsid:
+> NVME_NSID_ALL[2], that finally lead validate failed, any suggestions
+> to fix it?
+
+Flush is the only IO command that accepts a broadcast NSID, but the
+kernel now prevents dispatching commands to anything but the NSID of the
+block device that you dispatched it. Perhaps the kernel can relax that
+requirement and accept "all namespaces" for IO commands (I'll look into
+that).
+
+I'll change nvme-cli to default to the block device's NSID, since that
+should always work.
+
+> [1]
+> # nvme flush /dev/nvme0n1
+> flush: Invalid argument
+> # dmesg
+> [  802.131609] nvme nvme0: nvme: nsid (4294967295) in cmd does not
+> match nsid (1) of namespace
 > 
-> Yes you are correct, overlooked this race. I guess this is all coming
-> from having less queues than cores (where rx really competes with tx)
-> which is not as common as a non default.
+> [2]
+>         struct config cfg = {
+>                 .namespace_id = NVME_NSID_ALL,
+>         };
 > 
-> This is enough to convince me that this is needed:
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-
-Great! I thought the scenario seemed possible, but wasn't completely
-sure, so thank you for confirming.
-
-Christoph, can we pick this up for the next rc? For stable, we can add
-
-Fixes: db5ad6b7f8cdd ("nvme-tcp: try to send request in queue_rq context")
- 
-> > > Can we maybe try to catch if that is the case?
-> > 
-> > Do you have a better idea on how we can catch this? I think there was
-> > only one occurance of this sighting so far, and it looks like it took a
-> > long time to encounter it, but we will try again if you have a proposal.
+> [3]
+> commit c881a23fb6f7eb901155d25ba8dd1af0b8c7923b (HEAD, refs/bisect/bad)
+> Author: Niklas Cassel <niklas.cassel@wdc.com>
+> Date:   Fri Mar 26 19:48:00 2021 +0000
 > 
-> We can continue to test with the patch and hunt for another occurance,
-> given the argument above, this patch is needed regardless...
-
-Sounds good, we'll run with the patch and see what happens. If the tests
-are successful, I'm not sure if we can conclude this definitely fixes
-the timeout or if we just got lucky. If a timeout is observed, though, I
-will try to work in a debug patch.
+>     nvme: disallow passthru cmd from targeting a nsid != nsid of the block dev
 
 _______________________________________________
 Linux-nvme mailing list
