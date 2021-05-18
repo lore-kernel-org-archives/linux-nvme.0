@@ -2,79 +2,136 @@ Return-Path: <SRS0=ZIaN=KN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCDEC433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 01:38:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA02C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 02:26:05 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2B5FC61378
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 01:38:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2B5FC61378
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id DDC86611BE
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 02:26:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDC86611BE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amd.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=E0iMzIUBsPRS3I3Gq48s9FyGkT+UvuPsNQnFG5PIiKs=; b=Y7rpbzAb2FNHm2vGdqhWWZd6r
-	1SFDpi8GMS6JkE51JbMy0hxA9xDJLJiJUC1J6dcJB+ikCnLK8U70th3zJcdj7Sa5AXOjvCbm2OlbS
-	AcPd73S5gwjPbGm+WEH50xr5zH32Mwi8ThWgs8XN8aHR9q5Z+EODQ6agLjKDMSnizK0B/XUjrTZXP
-	EBKCMnGIfqosjIZcYdTx+iY+fOxoFdghSTg20DFElpB2zsMKpGFXRUT8Cq4fQZxwoDdmRHFf/oxL0
-	s2OFKd/MBmS+oy/GHDiC2tzJRNKSmTeBvXAEsW4SqcrGzb6mZ/UeeBjheYD06/Dbvqj060m5T/5Pd
-	3g3vEDAVw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=qPA0p2LACXe1GxSaI8w2NB2UIhcTHSj2S4u7ffnLd6A=; b=Ho3a8qtF4jpqVQOxeGH6t2QYAf
+	CoO4IWePQqnqJGxGWrN+Wy2qP1Dt72eN3IBeyPecWs2tsM/6UYm57D1b75dydxfZSwc5CF2AXy6VI
+	jPUEMOGuGuTG5Jtywhw3YrDO9nRBO8GwYlkJj8mphURXD3dVTNPQyROHJI9ajGq9SGI16n1QNSgrQ
+	c7UpjJGmvLXLiK4Znqt6kbmJrtt8Sx41DSHAyz+Ypke8UlRvyNtADQimBU6sO9xfmCocBueU1y3TM
+	5kHJgJShZEiJbyhKNN3hnq6WNrjhN48KptA5C+uf0c2BTJUdLc+TSpAXrEBCPQmtW+u2axsOQyTyd
+	3qGXpvkQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1liogX-00Gfeg-Uo; Tue, 18 May 2021 01:38:14 +0000
+	id 1lipQD-00Gjpd-SQ; Tue, 18 May 2021 02:25:26 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liogT-00GfdM-Ii
- for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 01:38:09 +0000
+ id 1lipQA-00Gjp7-UD
+ for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 02:25:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=7Q3P1VwOYAft1YKCOygmE9ay1tXvn5SJhmP0fDliTiw=; b=aV6Tr2t4MJABABNDvwDLYm4CW1
- qqqmUUI1RWdhuxsqPSxvmh0GhII9nFrC6hPvQ/QCYQqAffbF0WAXBDkNLQcY4r3z+fhxxQg4kSR8t
- ecUfYctsDLX1AR6PcmWnqfR4HzF7ABK7sXmhDwulfX5UVwnq1m+3yOZu1cweUmsy31uYpaqqyLd5P
- jCU9GnOc2GB2SGP9hFJVhdUHj6j8P44w90JkRAY78+UZSYJnFoY+8JhzHNiTmqGYGiKU4RRDTL8eR
- 7jomtYrwfZ2XV8jFvzhmv/x3aRrh9nzTVAa++jmGxQ27IO6eZH4EHX5cL1noOt9b5SKtPHQrNuQ2Y
- JaZx5WAQ==;
-Received: from mail.kernel.org ([198.145.29.99])
+ d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:Message-ID:
+ Date:Subject:CC:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=9u/R+9fCwV6UYMJ2Q6MN/RpoFkfMaKjxceHzfGu6xaU=; b=qeOw59XE13GQMSpB84t827IlaM
+ pB1wfFFXtLN7fwKCKALkRT++z2GLOx/qZzTPrEv8ugEPEcl0RCIBnp4q7NK7qUS53yUsdl/tRzA+h
+ aOYVvQcoTi0eE/5kwCmfa9+B8sntsfEQhEIUPUHNG2ilQv5CdKMwLIGM4jRQt3ZCOinKXxmGtfhMW
+ ZKmek/TylDjo8oq3nu16rtCzP1JvpdZxX/mxAedxH3wT930WaMsCrs9RLYVtnVof3QLWvv0+1lSzM
+ G0a2nMJd6PmWSZCQbTncLy9ie5lTOrFvUC3VuFkkutimsNs+rwnAPKAyxOF1SgV6cpsVXfAcwz+9V
+ vezF8Cqg==;
+Received: from mail-dm6nam11on2076.outbound.protection.outlook.com
+ ([40.107.223.76] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1liogR-00EGBD-2h
- for linux-nvme@lists.infradead.org; Tue, 18 May 2021 01:38:08 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 686B5613AC;
- Tue, 18 May 2021 01:38:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621301886;
- bh=joR1kwBLRXEGNqh0XDIbR3tliaYR6etPUwpRY0RPFis=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Lst0WM3lGjqIevI0Z1soODuScyEUpRJV+mxfvlmCDDw7nPpywQiADuWRpvaDWtFj9
- 5lFGXEQHeAFpenNDTA5WUlHUPNPQeaxx8wAb+sr1OloezAL0vr+NcR86VH7AEHztNa
- UcHoeDdk8osJ7eofBghgU5UihGLFEX3dg7zzQzzcTjb0MQRzPY5hDNOEANVqT5YpF5
- eYdgpMnNDhXJye7dqrmP5xjP55BYjaQ+Bqn6hjuQx8zwAZtG6Ptaxs5zAv3zpQ+x9+
- kj2utOTYczJG5KV236qxp0RcPgQt/mFI0ze8n1slRlLEi0ntShPr2WX8CQzYuktoeS
- rXidZyKx2tHgg==
-Date: Mon, 17 May 2021 18:38:04 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-Subject: Re: [RFC PATCH] nvme-tcp: rerun io_work if req_list is not empty
-Message-ID: <20210518013804.GC2709569@dhcp-10-100-145-180.wdc.com>
-References: <20210517223643.2934196-1-kbusch@kernel.org>
- <2479237f-ed41-6de0-6ffc-bed66046b2c2@grimberg.me>
+ id 1lipQ8-00EGlQ-1F
+ for linux-nvme@lists.infradead.org; Tue, 18 May 2021 02:25:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ndMOxB8T4Z0a68Dc6ZAQLt0v7M26HFbm5Bxoyy4XQs5mK08VkST9xa2aJLxTk7K+/nI8deUHCzBbjM9cas4VbLiMZ+bP84fMmCOG8zjmMWprtnS1QjCKZ7Rv8Tbv5s8P5MMDXRFPG9qx98HNcOISH1ywkkVBnNTdAOg6awgBSids8zrUDaLr2iTLneOftAHQH1VsDWGYD1Jk+tZPwhtlVFaidN1hjP8oAeCp+UyuCc/bYPWYe87mQF7uK84DcUa47+fligPRmbqpR56Uf+0AC678XemUW9dKP2xJ7AmQQQTPnBgI9x9lgQiOg5AKQMKN2VK0BfPP8+USVxV+prFA7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9u/R+9fCwV6UYMJ2Q6MN/RpoFkfMaKjxceHzfGu6xaU=;
+ b=fMI/ep2sO9F7lYG+veUgQtMK3p6yLysDf4ZgJv4BjTZgfjZ9nJg1sEz0fyAf01LOfmUwyolxUAkcC00UL1Kc5RCCzlJzhY/H7z555M8tcOdGiExd9vVKZ24an7mkpcU0ufLNQ5ehkyZHwdTIhrXNWbHoxKKd3F7Nb7WYFo7Dl+1eSmGQxvsQXfAII63WUc4lVK4DcUHrBl6Er3As7m1cO1FF3e0Qeopjhr5w1pcLeSrpOKY3pBhum5BzlS7HcqNqbV6RL+znxopSX5medhSVtCf2wSJ0bFxgneHxFSlCR0xIQzfOmuL3zmfdRrgvlvtTh8EB0tGkqcg58rODOMwZkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=amd.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9u/R+9fCwV6UYMJ2Q6MN/RpoFkfMaKjxceHzfGu6xaU=;
+ b=FNI3qmKbDn8SMNjB7OKFK4r/A/DoKygwe5gDqIvfgIdNY/4y1/bXchzuHyUbJOl+RkrjMmtHXn2ne9aieTsKCB7h07ik7FJTGqRVLBclCpSMHkO7TzDHjVrAdcox8o302dausak3PEmDfMIjbl4JnHiO8IbBE3MeZGXX9Y5ezAw=
+Received: from DS7PR03CA0262.namprd03.prod.outlook.com (2603:10b6:5:3b3::27)
+ by BYAPR12MB2662.namprd12.prod.outlook.com (2603:10b6:a03:61::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Tue, 18 May
+ 2021 02:25:14 +0000
+Received: from DM6NAM11FT024.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b3:cafe::e7) by DS7PR03CA0262.outlook.office365.com
+ (2603:10b6:5:3b3::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
+ Transport; Tue, 18 May 2021 02:25:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT024.mail.protection.outlook.com (10.13.172.159) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4129.25 via Frontend Transport; Tue, 18 May 2021 02:25:13 +0000
+Received: from prike.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 17 May
+ 2021 21:25:10 -0500
+From: Prike Liang <Prike.Liang@amd.com>
+To: <helgaas@kernel.org>, <linux-pci@vger.kernel.org>, <kbusch@kernel.org>,
+ <axboe@fb.com>, <hch@lst.de>, <sagi@grimberg.me>,
+ <linux-nvme@lists.infradead.org>
+CC: <Alexander.Deucher@amd.com>, <stable@vger.kernel.org>,
+ <Shyam-sundar.S-k@amd.com>, Prike Liang <Prike.Liang@amd.com>
+Subject: [PATCH v5 0/2] nvme-pci: add AMD PCIe quirk for NVMe simple
+ suspend/resume
+Date: Tue, 18 May 2021 10:24:33 +0800
+Message-ID: <1621304675-17874-1-git-send-email-Prike.Liang@amd.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <2479237f-ed41-6de0-6ffc-bed66046b2c2@grimberg.me>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 329a0c94-e22f-4d80-5085-08d919a42b2e
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2662:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB2662C7C6632CEDFBB9CCC8BCFB2C9@BYAPR12MB2662.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2a2eCVsONubZKaAZXX6+92YomlU/xB7ypirlDjB8qzF0yns+0pACa362HY8lTzzz4hXRB/zkMeNTx40T0/jtal30jGIzBEEwZ5ijjnDBygADRM6ajopHA9rKTc/aegxXS6mi8NNX611uKLj1DTPjtoYTtaIag3ar/OAE49Z8RFZPiq1swtW0CDX+CYLd7bmcSYbcCu+KiWC0PYTQXQUjTdxEU3aKSqL/8hx1eEbMLOwKkkv6GjMWMSftLi9PVNYiy24dEdLbgahVtN1vx7sJlRC/yvSdxs8+uGdohI+ZBPCHwZMO1KxH0+uKu30baje+HlSiSBfeOio4d2jhiJ1gi2RAdQc4gvua2tyn0vYyACtPiXMyE+/P71hRLazUfb7BOSnW1wbjFrC0qr1gVU6qdYEmvh0xx4ToNMQcAb4G3hlJf009d/rrPGvxXDYOoxEFk3fBZLUkCsV+nlafdYinTwhqZL6/Yehf7hKWFPRmjIxtPFBcLcfY6IZzQbXgHyUzEVOwcFmFpFVUwGGKfqSvpcRszEgCP2v/FJ1taiKXnaAoYUkk4OvjXLMLGvfmjvo60iV5peRimagsZg8F274IcnoTa2hO7Oa3bKS3v9d5NynWbeGVWilfXa6YJtXF41hDbhSSUkepj6l9OTd9z3suAF1dIzFC4hnGij/snBu+A5wTX6pHcs1esA+eswuE7Qs8
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(376002)(136003)(346002)(46966006)(36840700001)(2616005)(356005)(2906002)(336012)(54906003)(316002)(83380400001)(4326008)(15650500001)(8936002)(86362001)(5660300002)(36860700001)(82740400003)(26005)(82310400003)(36756003)(7696005)(426003)(16526019)(186003)(478600001)(6666004)(70206006)(8676002)(70586007)(81166007)(110136005)(47076005)(4744005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2021 02:25:13.8392 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 329a0c94-e22f-4d80-5085-08d919a42b2e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT024.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2662
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_183807_160313_44183614 
-X-CRM114-Status: GOOD (  25.46  )
+X-CRM114-CacheID: sfid-20210517_192520_097147_12838A75 
+X-CRM114-Status: UNSURE (   9.63  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,45 +148,25 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 17, 2021 at 05:42:18PM -0700, Sagi Grimberg wrote:
-> > A possible race condition exists where the request to send data is
-> > enqueued from nvme_tcp_handle_r2t()'s will not be observed by
-> > nvme_tcp_send_all() if it happens to be running. The driver relies on
-> > io_work to send the enqueued request when it is runs again, but the
-> > concurrently running nvme_tcp_send_all() may not have released the
-> > send_mutex at that time. If no future commands are enqueued to re-kick
-> > the io_work, the request will timeout in the SEND_H2C state, resulting
-> > in a timeout error like:
-> > 
-> >    nvme nvme0: queue 1: timeout request 0x3 type 6
-> > 
-> > Ensure the io_work continues to run as long as the req_list is not
-> > empty.
-> 
-> There is a version of this patch that I personally suggested before,
-> however I couldn't explain why that should happen...
-> 
-> nvme_tcp_send_all tries to send everything it has queues, it means
-> should either be able to send everything, or it should see a full socket
-> buffer. But in case the socket buffer is full, there should be a
-> .write_space() sk callback triggering when the socket buffer evacuates
-> space... Maybe there is a chance that write_space triggered, started
-> execution, and that the send_mutex is still taken?
+Those patch series can handle NVMe can't suspend to D3 during s2idle
+entry on some AMD platform. In this case, can be settld by assigning and
+passing a PCIe bus flag to the armed device which need NVMe shutdown opt
+in s2idle suspend and then use PCIe power setting to put the NVMe device
+to D3.
 
-nvme_tcp_send_all() breaks out of the loop if nvme_tcp_fetch_request()
-returns NULL. If that happens just before io_work calls
-nvme_tcp_handle_r2t() to enqueue the H2C request, nvme_tcp_send_all()
-will not see that request, but send_mutex is still held. We're counting
-on io_work to run again to handle sending the H2C data in that case.
-Unlikely as it sounds, if the same nvme_tcp_send_all() context is still
-holding the send_mutex when io_work gets back to trying to take it, how
-will the data get sent?
+Prike Liang (2):
+  PCI: add AMD PCIe quirk for nvme shutdown opt
+  nvme-pci: add AMD PCIe quirk for simple suspend/resume
 
-> Can we maybe try to catch if that is the case?
+ drivers/nvme/host/pci.c | 2 ++
+ drivers/pci/probe.c     | 5 ++++-
+ drivers/pci/quirks.c    | 7 +++++++
+ include/linux/pci.h     | 2 ++
+ 4 files changed, 15 insertions(+), 1 deletion(-)
 
-Do you have a better idea on how we can catch this? I think there was
-only one occurance of this sighting so far, and it looks like it took a
-long time to encounter it, but we will try again if you have a proposal.
+-- 
+2.7.4
+
 
 _______________________________________________
 Linux-nvme mailing list
