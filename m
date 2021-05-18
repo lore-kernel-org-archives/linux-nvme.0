@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF755C433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 01:10:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC95C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 01:11:23 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B2F3613B5
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 01:10:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B2F3613B5
+	by mail.kernel.org (Postfix) with ESMTPS id 576DA613B5
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 01:11:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 576DA613B5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,63 +23,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=9wxPncMJbl+M+G+ZnjapsYWr9p3OQRiHEZdhLWw9fvI=; b=WzAQ+krTMg0E65bUALXn5S5KH
-	9KvgLuKS2GTo3g6oHsaC/4d84EioGNCc32695IpiIpOf1N8RNcNtxraKvRHCcvWWkRRm20oUR4cK7
-	Yx4ELBbu7AvFpAqAFZxSOYW1L16teL7PQsMnTBSPKRJMu2cEMhMqc0dVMn2YrqJz8dqXZcoKCjJk/
-	HCopC7oy37bmTLNfoVj/OsIV8F4UJUCQ6y557XKf3aqOW5qH/7VKaS8VctgwDjbFvMzL+lwMtxOmR
-	lLQd6FK+XZzpwoNzzVikdyNo+0je8tVBgEmt1lAnVYrCwVUx6IvDn/U9x0S8DwrW8nykbDFU5P2hK
-	acRtHvF/Q==;
+	 bh=flYPpQiOJhOtAfDnFtr/IaC6/A9w0wRgzJwCNZnTrXY=; b=HhnSQEQ7vX2npQmVQ6g3lvDyX
+	FXJq10gk2iFD69LGFnj9Z/GWWANqDMeEKx7BWr1iE7OuUkZdfDWZwORfAyzB/quA39AWbnoH7U/cA
+	3Kw2H15GURjvcviQ4MIaECEh0cBNjA6cHauMFlQ3hfUAriBnF+kUGEAc2mbgUxr7UhiYprwqeYkGL
+	Zs95+HjKAoW/CCMJf81yBfLIdkGg3B3tfbujpzZotQgeHbmPNdmAPJFlYNef9u1uTMHEqtiwvn2LQ
+	+Zu6y/eOtLgyNV9IljDjVnhw9QMWEqXqeSj+wMdXP4UdyMsyx11JpL+EU7zWGtulaEFRlvuLApdsb
+	hXUGBeVdQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1lioG4-00GasI-UT; Tue, 18 May 2021 01:10:53 +0000
+	id 1lioFc-00Gao6-TM; Tue, 18 May 2021 01:10:25 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lioFW-00Gamz-EO
- for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 01:10:18 +0000
+ id 1lioFI-00GalP-LH
+ for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 01:10:04 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=zo0Xv09zJto/buK6AQu5ZJ+9w58LBVLwprk4mNtl41c=; b=2TmM8tPYVcso6D7W4guCtcDORY
- miR4CLVSzG2I0coQMd5EAvEWeLJyaOetDNUPl+ESA55Uwz7t1sNMgjUvMMicnXXDO+0KmiOQCt/ay
- iqguGHmnpuP9hsEZXF+RQDX6s5c4ddHrup/vswuRTAWWy2eYUxfUelB5wsCd9Q5WFiQHpLLndrMdo
- CyKguYWEdi+mywpxDLVR/CC3gy4wh5ygymo5g1p8EFuEysTNsOErESzPeLymH2RWEseXFg+6JkPGI
- 8+4mW/LObg3hTWONyHVmF41vmjnONTXLF4tQUiRzBj+/nmIDdiSE0JsWvlv6wotF7GhKj5kWx24Lb
- uiL+c4Bw==;
+ bh=1eYLby+ika6Gyi94fKDhfoChY7muvtzZ6DWJaF1wfIQ=; b=M6/QPdcXsVhKz/CGPPAeHqu4iy
+ tckaL63es2JCC9jPUEHKeloHAaZrFA3J7BumFEsr8Acq5vM738pTXD1s9WSzMx+x8+CW7z+XtrMD/
+ wd2/El7n8ubopi5Tob2uuXB6BE4gJHJsNqittcy7hD6m2kSiktbJWRliYiEYN+KJLgxRejANe5q9j
+ liTdgvrm8srOqp1FECf7wqGeX3N8+qQycgfSPO/WlyQHyYPfRpmXMRKkrl75IoJGoIVD68O2yXD8/
+ XxmuCutLysPer4pgmYQ8deqwHY+Po5+JKyvQlGbdxnV/RRAiqBQOQxvIp+uzF/q7YzUDlIIM1YRb0
+ pTbOgVAg==;
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lioFO-00EFOO-NF
- for linux-nvme@lists.infradead.org; Tue, 18 May 2021 01:10:17 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F8DD613CE;
- Tue, 18 May 2021 01:10:09 +0000 (UTC)
+ id 1lioFG-00EFMm-1Y
+ for linux-nvme@lists.infradead.org; Tue, 18 May 2021 01:10:03 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0BF88613AC;
+ Tue, 18 May 2021 01:10:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1621300210;
- bh=wj0QOsfNOBtX701n2BDKmsB94m/zURdKlOYZuzfEqXs=;
+ s=k20201202; t=1621300201;
+ bh=3Tr08Y78fD2cRH+schCpVdrD0QHHKQyBNwEkv7fNgL8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CH557ljF79DrPWmJ1/0B841wSJjwrNkKqZS1m4/7e3bLQPys7sbQIuzBEAd6/d1XA
- DCw/JHgUNrmfjwxQZjIKHT9fru7yAAsGgKS+oWvb0j6JqLcSdjJYV3VAybP3kmDr8J
- 9Lpe3NtcK648ssB2dY2+jtWegg1mnVy4WdVHiHrG96ixYVId6AjFdcbW5x77ACxMFP
- b+nXL7a/Jkj/m2Oda069Kc+eG0eAAlS3RY2qkXsjU1Se7cn1NlITpPgptgaQANqrRc
- YWU8mgjxcCaJLq6qbxvLy6ThZXV206D6K/qF16w/LniW6HLQnkfdg1WqAwDmeXc9Ph
- HAeGwtJ6oPMyA==
+ b=G8DoWTOYT+bWi1dkNRexvPEJPTWLfX4CrkWdq0kh/vqh854aMI1gRNw7R2hxNp/6k
+ j5vbrWrkcrS+DQ4B3VgjOR/aHu7DgG9/QBHEVoJWrGCjRh658kshnjobTSJsf6rkZ0
+ bfBKI3neXbpD2e/8mqUdqUI1DOjLxAw7Fz0vziDqfFalI2IM+8ldUWIXAMGu0Q/AwM
+ 3evReK8SRve9RTo+kgorgC393G2l9ENHzjJnhGL5wV+4ArN72PYqdzX4++K8lzNrO0
+ UOrDjkl4vWxZpMPxWPX2MjF0x+1ZaMb9Px4fPVKlRs4PlW3WwEvSCVnv49FKChCcH9
+ +wgoiTkJPvZjQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Daniel Wagner <dwagner@suse.de>, Enzo Matsumiya <ematsumiya@suse.com>,
  Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
  linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.19 2/2] nvmet: seset ns->file when open fails
-Date: Mon, 17 May 2021 21:10:06 -0400
-Message-Id: <20210518011006.1486026-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 3/3] nvmet: seset ns->file when open fails
+Date: Mon, 17 May 2021 21:09:56 -0400
+Message-Id: <20210518010956.1485782-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210518011006.1486026-1-sashal@kernel.org>
-References: <20210518011006.1486026-1-sashal@kernel.org>
+In-Reply-To: <20210518010956.1485782-1-sashal@kernel.org>
+References: <20210518010956.1485782-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210517_181010_808273_24DA498F 
-X-CRM114-Status: GOOD (  12.96  )
+X-CRM114-CacheID: sfid-20210517_181002_109825_39C0A7C8 
+X-CRM114-Status: GOOD (  13.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,10 +131,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 39d972e2595f..ad6263cf7303 100644
+index 0abbefd9925e..b57599724448 100644
 --- a/drivers/nvme/target/io-cmd-file.c
 +++ b/drivers/nvme/target/io-cmd-file.c
-@@ -38,9 +38,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+@@ -49,9 +49,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
  
  	ns->file = filp_open(ns->device_path, flags, 0);
  	if (IS_ERR(ns->file)) {
@@ -148,7 +148,7 @@ index 39d972e2595f..ad6263cf7303 100644
 +		return ret;
  	}
  
- 	ret = vfs_getattr(&ns->file->f_path,
+ 	ret = nvmet_file_ns_revalidate(ns);
 -- 
 2.30.2
 
