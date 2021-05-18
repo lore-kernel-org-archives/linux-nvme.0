@@ -2,19 +2,19 @@ Return-Path: <SRS0=ZIaN=KN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8875C433B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 07:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED02C433B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 07:15:02 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 74927611BD
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 07:06:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 74927611BD
+	by mail.kernel.org (Postfix) with ESMTPS id C2AA561166
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 May 2021 07:15:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2AA561166
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,53 +23,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=WovdXS6QI0Pm6F6AIp1vbP6UWFa7ppLAL3MIeMw5IVk=; b=pmsgfFxaP4YAFj/9LFNMU+Idr
-	qGEf08bF+lvCjLwFxDrjlsp2LE9Nc14X9hfaFDxW9e3dirMCgToGb5LdcYIqCOXb3KBVgeYD0PLCo
-	9BUvA1W1w8M/ztHBeo0KSDcKfeOCcR5f8MjXISjfO9EbPkqGtSikQb5DK+Gdv6W2w4mJLTfOsOlNT
-	AsYG8EBHmNmYeBqDWtr325swwrnbaekzrZz9h1b2wVWtmmeJTNf492ULS2MtXXAbKE/8T4l2VS31k
-	mYCpiMDtQOacCBrduQFZvjEfrjy2gRKa4Egjbw1eVK+c/6kNHlv5ZZ+x4UuGoRmA2T6Jmewu7YzFN
-	aUk9O2dmA==;
+	 bh=RLGZFHXzvm7JuH1gVLAn4/MqjBJBmGxmSwoos3mx/1k=; b=Ty+cXwPN6IgO2drQNxf2n0tD6
+	QnQIdLQgpk2hA7blRT+JGMBpJYwOtw9BtZOTchxCs5vJ6jByiWBDiFVpBpR924uFecrHGc1nQZE/2
+	E60cIEDMces2kmTVAn5GDOpqTsPXEAOOIysYEsgybDURnSrbRZLOquYqeSym47ZKm3FzwoBohddN+
+	x3BMhRhgYNXcYCsU0RoVCnyX3QW4o0tJrKo0dTW6LXavxH8yZta3gLFZxYsi5Y0QXI9ibbSSG3h8U
+	ZAImuyfWhuCeP5Br8LBrTvPoEuW62gXnRFfPxvW+MQsh+lAv4iOB/JyjAp7VEb1NbWmpAzdjQSTrp
+	n8+u9AzPw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1litnc-00HFRK-Md; Tue, 18 May 2021 07:05:52 +0000
+	id 1litwB-00HGmK-Au; Tue, 18 May 2021 07:14:43 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1litnZ-00HFQu-P4
- for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 07:05:49 +0000
+ id 1litw7-00HGlA-SV
+ for linux-nvme@desiato.infradead.org; Tue, 18 May 2021 07:14:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
  :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Ry76OrNMe4lAs1Tht+t8+cwBWSsBvCH8liJ4DFV+y0I=; b=PDcuCMPm7c4O61MoqLk0I3BgGk
- tQIW7+QD5MDqUlDUUAAGHiLVZdCg/vydErKBHKS312GUeP90KPfVvZxTW83mWEj7M6VCFHIo6BYL0
- voxz6G5BJzv9vF6ukdMDwfSU5VYmxpLQcRbnLcHsd1/ebi2qsZsdPZrPmPsZ3jcrppbarQ9mRUVLt
- UYRP0lLPY4XYhH0v1A9kwbS1doGpz6I/22bbguOcErvZ8y0Cg2hgxYBLmbu11MJnCPEjS5e+Ec+0d
- ofDRPdkpEAySaJ+c2MSzJ5K+rUxEC0XYFWrTlNa23yahe+LiYnGFPFtLbmpxyWf7nCYomPDKfAt9T
- UX5zS8nw==;
+ bh=AyyyboSdxcwjXKPkYSVa7TRAc1iRiz5AGbFIF5JmJfA=; b=u3SBkRr/82s+40upl3jgkMsJHl
+ GXNYlLjYaxfof1p0FNIl0UgzOyoSln7hie4n7ITmFe/qowAGDPfqVFKzzfquiI123V/SeultBTXHy
+ 4xgNwavCzfwGkRebnjzwI4PBBUM+3DcKuE1rPvdeAsy+LStNAP/l/dZ1WumGOxPcTtsdw7qaSefZp
+ QK4ufuGyNvB6eeNUu8SuoAuHuTxrTLqOetXE5bdCEtd77vPBtymPUjKxFQMIvuqnayoMNGaHcTHtZ
+ buYcneRC2YMgmutJkv5QEk2G+kq/awu7JiWQR8fhtpU7cx7BxwIxqGbrFY/mWlMBOO5hcOVxDOE79
+ +wvEM+yg==;
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1litnX-00EOI2-5V
- for linux-nvme@lists.infradead.org; Tue, 18 May 2021 07:05:48 +0000
+ id 1litw5-00EOdj-Bd
+ for linux-nvme@lists.infradead.org; Tue, 18 May 2021 07:14:38 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id CDAAE67373; Tue, 18 May 2021 09:05:44 +0200 (CEST)
-Date: Tue, 18 May 2021 09:05:44 +0200
+ id 6379267373; Tue, 18 May 2021 09:14:34 +0200 (CEST)
+Date: Tue, 18 May 2021 09:14:34 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCHv3] nvme: generate uevent once a multipath namespace is
- operational again
-Message-ID: <20210518070544.GA8521@lst.de>
-References: <20210517083215.105604-1-hare@suse.de>
- <32bda760-9d71-c063-565e-e3a79b8c3135@grimberg.me>
- <2174fba2-9c43-b92c-ea73-da59cd91d3ca@suse.de>
+To: Prike Liang <Prike.Liang@amd.com>
+Cc: helgaas@kernel.org, linux-pci@vger.kernel.org, kbusch@kernel.org,
+ axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, Alexander.Deucher@amd.com,
+ stable@vger.kernel.org, Shyam-sundar.S-k@amd.com
+Subject: Re: [PATCH v5 0/2] nvme-pci: add AMD PCIe quirk for NVMe simple
+ suspend/resume
+Message-ID: <20210518071434.GA8635@lst.de>
+References: <1621304675-17874-1-git-send-email-Prike.Liang@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <2174fba2-9c43-b92c-ea73-da59cd91d3ca@suse.de>
+In-Reply-To: <1621304675-17874-1-git-send-email-Prike.Liang@amd.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210518_000547_372673_05692CA6 
-X-CRM114-Status: GOOD (  17.00  )
+X-CRM114-CacheID: sfid-20210518_001437_564302_4764E990 
+X-CRM114-Status: GOOD (  17.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,17 +86,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 18, 2021 at 08:59:09AM +0200, Hannes Reinecke wrote:
->> I asked this on v1, is this only needed for mpath devices?
->
-> Yes; we need to send the KOBJ_CHANGE event on the mpath device as it's not 
-> backed by hardware. The only non-multipathed devices I've seen so far are 
-> PCI devices where events are generated by the PCI device itself.
+This looks ok to me now.
 
-Which really goes back to my repeared request to add a comment to the
-code to document why we need this uevent.  It surely looks out of place
-and it seems Hannes can tell a story of why it is required.  I'd really
-like to see that story next to the call.
+As a note to the people in AMD who came up with this scheme:  having
+to shut down the controller every time s2i is entered not only generally
+uses more power than using power states, but also means every time
+s2i is entered the SSD needs to write to the media, which causes massive
+endurance shortfalls.
+
+On Tue, May 18, 2021 at 10:24:33AM +0800, Prike Liang wrote:
+> Those patch series can handle NVMe can't suspend to D3 during s2idle
+> entry on some AMD platform. In this case, can be settld by assigning and
+> passing a PCIe bus flag to the armed device which need NVMe shutdown opt
+> in s2idle suspend and then use PCIe power setting to put the NVMe device
+> to D3.
+> 
+> Prike Liang (2):
+>   PCI: add AMD PCIe quirk for nvme shutdown opt
+>   nvme-pci: add AMD PCIe quirk for simple suspend/resume
+> 
+>  drivers/nvme/host/pci.c | 2 ++
+>  drivers/pci/probe.c     | 5 ++++-
+>  drivers/pci/quirks.c    | 7 +++++++
+>  include/linux/pci.h     | 2 ++
+>  4 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> -- 
+> 2.7.4
+---end quoted text---
 
 _______________________________________________
 Linux-nvme mailing list
