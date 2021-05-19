@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC3AC433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 12:37:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F9AAC43461
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 12:38:46 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C8AA610A1
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 12:37:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C8AA610A1
+	by mail.kernel.org (Postfix) with ESMTPS id CEBF3610A1
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 12:38:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CEBF3610A1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=HFh6IJV4QmfUql26JU8mLFH2kS2Rusryi74C7xyxtcA=; b=TZRshQMQFWiGKiHXC8b4S5eFs
-	UD+yUY844DyvMCbnCJMzijO7kMuY0S+iKxA9UH/H3t16VCaKmQy+Bx95ObRar4pSd0h04TYaYN+SR
-	Z8ED+OenoI/3aKGnzz8Y57jeOCzGYPn8legsbjiNMEE5RwV59omYZ/KPxR3IK/p16Q6DdMd8mZrKe
-	dAhEMXVtBVGSj7/2VSfZpxqRsoYwP6IBdQ67KwdOcW2WPYO6ws9HcjtKUNIpv4j9OK1hhLZY6QHvt
-	H0WScSSlQotffPM0Hpz3PQLDjqGGN3By5GIKIq3SlOZxf2LuLtm0B2taNtBCsXUckoJ/pOCoZp9y8
-	yyPpUZCoA==;
+	 bh=g0zeDGc4vEZScnz0xMaSVwDD918MrwRP2UIUXiPa/a8=; b=N1ggA87UK9Pl7OvkY4oOt6jZN
+	s3sLwVzhLp+DIgruEBiuU3WG8qnR5mjVIt3kiMOQA7RJ5D3eFcXOX5sHiO4BYK171ALlxt+lTAfHt
+	xLRvndRBo83Lvy0ZdVNHp1i0u6nPmBvjlB1PUnH6i/TUaeA6MbNqh7Wf2wLXbMYACplsBTBJB4/S9
+	EAdCy06OwyA32R0rIok+dulPwcJ4OYzpvPFUq8Fx/OOJqPyzun0ctCwasEAHYOkwcZ0jBJ3g+wk+k
+	jJQhEhYa+kQgVHeZvsy8E8KQYUJ26N9WKOpSeJqr4m7Rx6F7mSp8r7t+9s1xfQ8whGEnLlHkMmyuJ
+	81FuIUXVg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ljLS0-003vnU-DI; Wed, 19 May 2021 12:37:24 +0000
-Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
- by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljKBX-003jK2-6X
- for linux-nvme@desiato.infradead.org; Wed, 19 May 2021 11:16:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=t/pHns0pT405QAm++cRdRVXBa303rDsfi2dtJ/lDq4Q=; b=EOb6WLBmJZjwOLBUIQClDFdF0v
- efwqOx0vbsssW7UXai8XSFH/mJhcVnUZSFg24JKFk8OkzuckEd1OYMTG5qgj8krHVfrhUtmRTWv34
- eo1FjfmMux8UmANEwggiP7N/uf+1uCuAnSjUnP2g4eFqoXVPkiZDg9La5cyiLU8e8IG463GqzR3TH
- L4BC6TWN1L/5GXuvgiO/Miw9JtGsJTllu3i4eFj/i7Ok5P0/qNLjKHktrZwAkrK/JwY9x4ytokFiz
- BVwOuroK1F4Kt+cH1JfeKZsKjAuNyOBWwrV8bzKIEQwQ8lcx9xcx4y0te9ukEafCTJpO8kkzXaUpq
- rsl9CYVA==;
+	id 1ljLSk-003vwG-JL; Wed, 19 May 2021 12:38:10 +0000
 Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
- by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljKBT-00FOVQ-Um
- for linux-nvme@lists.infradead.org; Wed, 19 May 2021 11:16:17 +0000
+ by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+ id 1ljKBh-003jNi-7s
+ for linux-nvme@lists.infradead.org; Wed, 19 May 2021 11:16:34 +0000
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
  by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14JBAiqe007767; Wed, 19 May 2021 04:16:09 -0700
+ 14JBAXdn007731; Wed, 19 May 2021 04:16:22 -0700
 Received: from dc5-exch02.marvell.com ([199.233.59.182])
- by mx0b-0016f401.pphosted.com with ESMTP id 38mqcwhy7y-1
+ by mx0b-0016f401.pphosted.com with ESMTP id 38mqcwhy8j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Wed, 19 May 2021 04:16:09 -0700
+ Wed, 19 May 2021 04:16:22 -0700
 Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
  (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 19 May 2021 04:16:07 -0700
+ Wed, 19 May 2021 04:16:20 -0700
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH01.marvell.com (10.69.176.38) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Wed, 19 May 2021 04:16:03 -0700
+ 15.0.1497.2 via Frontend Transport; Wed, 19 May 2021 04:16:17 -0700
 From: Shai Malin <smalin@marvell.com>
 To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
  <davem@davemloft.net>, <kuba@kernel.org>, <sagi@grimberg.me>,
  <hch@lst.de>, <axboe@fb.com>, <kbusch@kernel.org>
 CC: <aelior@marvell.com>, <mkalderon@marvell.com>, <okulkarni@marvell.com>,
  <pkushwaha@marvell.com>, <malin1024@gmail.com>, <smalin@marvell.com>
-Subject: [RFC PATCH v5 22/27] qedn: Add IO level qedn_send_req and fw_cq
- workqueue
-Date: Wed, 19 May 2021 14:13:35 +0300
-Message-ID: <20210519111340.20613-23-smalin@marvell.com>
+Subject: [RFC PATCH v5 25/27] qedn: Add IO level fastpath functionality
+Date: Wed, 19 May 2021 14:13:38 +0300
+Message-ID: <20210519111340.20613-26-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20210519111340.20613-1-smalin@marvell.com>
 References: <20210519111340.20613-1-smalin@marvell.com>
 MIME-Version: 1.0
-X-Proofpoint-GUID: G8l1LhtNmv73VjrPgjswTgKhDtWhCCz1
-X-Proofpoint-ORIG-GUID: G8l1LhtNmv73VjrPgjswTgKhDtWhCCz1
+X-Proofpoint-GUID: jY7359etcct1bMPrvgpSDzs466fBbbC9
+X-Proofpoint-ORIG-GUID: jY7359etcct1bMPrvgpSDzs466fBbbC9
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-05-19_04:2021-05-19,
  2021-05-19 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210519_041616_139765_62DA43FE 
-X-CRM114-Status: GOOD (  30.46  )
+X-CRM114-CacheID: sfid-20210519_121629_847830_9FF43762 
+X-CRM114-Status: GOOD (  23.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,14 +86,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch will present the IO level skeleton flows:
+This patch will present the IO level functionality of qedn
+nvme-tcp-offload host mode. The qedn_task_ctx structure is containing
+various params and state of the current IO, and is mapped 1x1 to the
+fw_task_ctx which is a HW and FW IO context.
+A qedn_task is mapped directly to its parent connection.
+For every new IO a qedn_task structure will be assigned and they will be
+linked for the entire IO's life span.
 
-- qedn_send_req(): process new requests, similar to nvme_tcp_queue_rq().
+The patch will include 2 flows:
+  1. Send new command to the FW:
+	 The flow is: nvme_tcp_ofld_queue_rq() which invokes qedn_send_req()
+	 which invokes qedn_queue_request() which will:
+         - Assign fw_task_ctx.
+	 - Prepare the Read/Write SG buffer.
+	 - Initialize the HW and FW context.
+	 - Pass the IO to the FW.
 
-- qedn_fw_cq_fp_wq():   process new FW completions, the flow starts from
-			the IRQ handler and for a single interrupt it will
-			process all the pending NVMeoF Completions under
-			polling mode.
+  2. Process the IO completion:
+     The flow is: qedn_irq_handler() which invokes qedn_fw_cq_fp_handler()
+	 which invokes qedn_io_work_cq() which will:
+	 - process the FW completion.
+	 - Return the fw_task_ctx to the task pool.
+	 - complete the nvme req.
 
 Acked-by: Igor Russkikh <irusskikh@marvell.com>
 Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
@@ -116,357 +116,373 @@ Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
 Signed-off-by: Ariel Elior <aelior@marvell.com>
 Signed-off-by: Shai Malin <smalin@marvell.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/hw/qedn/Makefile    |  2 +-
- drivers/nvme/hw/qedn/qedn.h      | 13 +++++
- drivers/nvme/hw/qedn/qedn_conn.c |  1 +
- drivers/nvme/hw/qedn/qedn_main.c | 93 ++++++++++++++++++++++++++++---
- drivers/nvme/hw/qedn/qedn_task.c | 95 ++++++++++++++++++++++++++++++++
- 5 files changed, 195 insertions(+), 9 deletions(-)
- create mode 100644 drivers/nvme/hw/qedn/qedn_task.c
+ drivers/nvme/hw/qedn/qedn.h      |   7 +-
+ drivers/nvme/hw/qedn/qedn_conn.c |   1 +
+ drivers/nvme/hw/qedn/qedn_main.c |   8 +
+ drivers/nvme/hw/qedn/qedn_task.c | 252 ++++++++++++++++++++++++++++++-
+ 4 files changed, 260 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/hw/qedn/Makefile b/drivers/nvme/hw/qedn/Makefile
-index ece84772d317..888d466fa5ed 100644
---- a/drivers/nvme/hw/qedn/Makefile
-+++ b/drivers/nvme/hw/qedn/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- obj-$(CONFIG_NVME_QEDN) += qedn.o
--qedn-y := qedn_main.o qedn_conn.o
-+qedn-y := qedn_main.o qedn_conn.o qedn_task.o
-\ No newline at end of file
 diff --git a/drivers/nvme/hw/qedn/qedn.h b/drivers/nvme/hw/qedn/qedn.h
-index 82261fa95f5d..18411c3a9596 100644
+index 083833839868..a7be866de6f6 100644
 --- a/drivers/nvme/hw/qedn/qedn.h
 +++ b/drivers/nvme/hw/qedn/qedn.h
-@@ -47,6 +47,8 @@
- #define QEDN_NON_ABORTIVE_TERMINATION 0
- #define QEDN_ABORTIVE_TERMINATION 1
- 
-+#define QEDN_FW_CQ_FP_WQ_WORKQUEUE "qedn_fw_cq_fp_wq"
-+
- /*
-  * TCP offload stack default configurations and defines.
-  * Future enhancements will allow controlling the configurable
-@@ -99,6 +101,7 @@ struct qedn_fp_queue {
- 	struct qedn_ctx	*qedn;
- 	struct qed_sb_info *sb_info;
- 	unsigned int cpu;
-+	struct work_struct fw_cq_fp_wq_entry;
- 	u16 sb_id;
- 	char irqname[QEDN_IRQ_NAME_LEN];
- };
-@@ -127,6 +130,7 @@ struct qedn_ctx {
- 	struct qedn_fp_queue *fp_q_arr;
- 	struct nvmetcp_glbl_queue_entry *fw_cq_array_virt;
- 	dma_addr_t fw_cq_array_phy; /* Physical address of fw_cq_array_virt */
-+	struct workqueue_struct *fw_cq_fp_wq;
+@@ -186,6 +186,10 @@ struct qedn_ctx {
+ 	struct qed_nvmetcp_tid	tasks;
  };
  
- struct qedn_endpoint {
-@@ -210,6 +214,11 @@ struct qedn_ctrl {
- 
- /* Connection level struct */
- struct qedn_conn_ctx {
-+	/* IO path */
-+	struct qedn_fp_queue *fp_q;
-+	unsigned int cpu;
-+	int qid;
++enum qedn_task_flags {
++	QEDN_TASK_USED_BY_FW,
++};
 +
+ struct qedn_task_ctx {
+ 	struct qedn_conn_ctx *qedn_conn;
  	struct qedn_ctx *qedn;
- 	struct nvme_tcp_ofld_queue *queue;
- 	struct nvme_tcp_ofld_ctrl *ctrl;
-@@ -268,5 +277,9 @@ int qedn_wait_for_conn_est(struct qedn_conn_ctx *conn_ctx);
- int qedn_set_con_state(struct qedn_conn_ctx *conn_ctx, enum qedn_conn_state new_state);
+@@ -371,7 +375,7 @@ int qedn_set_con_state(struct qedn_conn_ctx *conn_ctx, enum qedn_conn_state new_
  void qedn_terminate_connection(struct qedn_conn_ctx *conn_ctx);
  __be16 qedn_get_in_port(struct sockaddr_storage *sa);
-+inline int qedn_validate_cccid_in_range(struct qedn_conn_ctx *conn_ctx, u16 cccid);
-+void qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req *req);
-+void qedn_nvme_req_fp_wq_handler(struct work_struct *work);
-+void qedn_io_work_cq(struct qedn_ctx *qedn, struct nvmetcp_fw_cqe *cqe);
+ inline int qedn_validate_cccid_in_range(struct qedn_conn_ctx *conn_ctx, u16 cccid);
+-void qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req *req);
++int qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req *req);
+ void qedn_nvme_req_fp_wq_handler(struct work_struct *work);
+ void qedn_io_work_cq(struct qedn_ctx *qedn, struct nvmetcp_fw_cqe *cqe);
+ int qedn_alloc_tasks(struct qedn_conn_ctx *conn_ctx);
+@@ -382,6 +386,7 @@ void qedn_common_clear_fw_sgl(struct storage_sgl_task_params *sgl_task_params);
+ void qedn_return_active_tasks(struct qedn_conn_ctx *conn_ctx);
+ void qedn_destroy_free_tasks(struct qedn_fp_queue *fp_q,
+ 			     struct qedn_io_resources *io_resrc);
++void qedn_swap_bytes(u32 *p, int size);
+ void qedn_prep_icresp(struct qedn_conn_ctx *conn_ctx, struct nvmetcp_fw_cqe *cqe);
+ void qedn_ring_doorbell(struct qedn_conn_ctx *conn_ctx);
  
- #endif /* _QEDN_H_ */
 diff --git a/drivers/nvme/hw/qedn/qedn_conn.c b/drivers/nvme/hw/qedn/qedn_conn.c
-index ad90b09f9a67..a66f77b823b0 100644
+index df4f2a9b96bb..ed60ac0306d5 100644
 --- a/drivers/nvme/hw/qedn/qedn_conn.c
 +++ b/drivers/nvme/hw/qedn/qedn_conn.c
-@@ -404,6 +404,7 @@ static int qedn_prep_and_offload_queue(struct qedn_conn_ctx *conn_ctx)
- 	}
+@@ -507,6 +507,7 @@ static int qedn_send_icreq(struct qedn_conn_ctx *conn_ctx)
+ 	qed_ops->init_icreq_exchange(&task_params, &icreq, sgl_task_params,  NULL);
  
- 	set_bit(QEDN_CONN_RESRC_FW_SQ, &conn_ctx->resrc_state);
-+
- 	rc = qed_ops->acquire_conn(qedn->cdev,
- 				   &conn_ctx->conn_handle,
- 				   &conn_ctx->fw_cid,
+ 	qedn_set_con_state(conn_ctx, CONN_STATE_WAIT_FOR_IC_COMP);
++	set_bit(QEDN_TASK_USED_BY_FW, &qedn_task->flags);
+ 	atomic_inc(&conn_ctx->num_active_fw_tasks);
+ 
+ 	/* spin_lock - doorbell is accessed  both Rx flow and response flow */
 diff --git a/drivers/nvme/hw/qedn/qedn_main.c b/drivers/nvme/hw/qedn/qedn_main.c
-index 85126f488f9b..22f602349773 100644
+index e2c65c610997..c2721a771822 100644
 --- a/drivers/nvme/hw/qedn/qedn_main.c
 +++ b/drivers/nvme/hw/qedn/qedn_main.c
-@@ -243,6 +243,18 @@ static int qedn_release_ctrl(struct nvme_tcp_ofld_ctrl *ctrl)
- 	return 0;
+@@ -1020,6 +1020,14 @@ static int qedn_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	return __qedn_probe(pdev);
  }
  
-+static void qedn_set_ctrl_io_cpus(struct qedn_conn_ctx *conn_ctx, int qid)
++void qedn_swap_bytes(u32 *p, int size)
 +{
-+	struct qedn_ctx *qedn = conn_ctx->qedn;
-+	struct qedn_fp_queue *fp_q = NULL;
-+	int index;
++	int i;
 +
-+	index = qid ? (qid - 1) % qedn->num_fw_cqs : 0;
-+	fp_q = &qedn->fp_q_arr[index];
-+
-+	conn_ctx->cpu = fp_q->cpu;
++	for (i = 0; i < size; ++i, ++p)
++		*p = __swab32(*p);
 +}
 +
- static int qedn_create_queue(struct nvme_tcp_ofld_queue *queue, int qid, size_t q_size)
- {
- 	struct nvme_tcp_ofld_ctrl *ctrl = queue->ctrl;
-@@ -264,6 +276,7 @@ static int qedn_create_queue(struct nvme_tcp_ofld_queue *queue, int qid, size_t
- 	conn_ctx->queue = queue;
- 	conn_ctx->ctrl = ctrl;
- 	conn_ctx->sq_depth = q_size;
-+	qedn_set_ctrl_io_cpus(conn_ctx, qid);
- 
- 	init_waitqueue_head(&conn_ctx->conn_waitq);
- 	atomic_set(&conn_ctx->est_conn_indicator, 0);
-@@ -271,6 +284,8 @@ static int qedn_create_queue(struct nvme_tcp_ofld_queue *queue, int qid, size_t
- 
- 	spin_lock_init(&conn_ctx->conn_state_lock);
- 
-+	conn_ctx->qid = qid;
-+
- 	qedn_initialize_endpoint(&conn_ctx->ep, qedn->local_mac_addr,
- 				 &ctrl->conn_params);
- 
-@@ -361,14 +376,18 @@ static int qedn_init_req(struct nvme_tcp_ofld_req *req)
- 
- static void qedn_commit_rqs(struct nvme_tcp_ofld_queue *queue)
- {
--	/* Placeholder - queue work */
-+	/* Do nothing */
- }
- 
- static int qedn_send_req(struct nvme_tcp_ofld_req *req)
- {
--	/* Placeholder - qedn_send_req */
-+	struct qedn_conn_ctx *qedn_conn = (struct qedn_conn_ctx *)req->queue->private_data;
- 
--	return 0;
-+	/* Under the assumption that the cccid/tag will be in the range of 0 to sq_depth-1. */
-+	if (!req->async && qedn_validate_cccid_in_range(qedn_conn, req->rq->tag))
-+		return BLK_STS_NOTSUPP;
-+
-+	return qedn_queue_request(qedn_conn, req);
- }
- 
- static struct nvme_tcp_ofld_ops qedn_ofld_ops = {
-@@ -410,9 +429,59 @@ struct qedn_conn_ctx *qedn_get_conn_hash(struct qedn_ctx *qedn, u16 icid)
- }
- 
- /* Fastpath IRQ handler */
-+void qedn_fw_cq_fp_handler(struct qedn_fp_queue *fp_q)
-+{
-+	u16 sb_id, cq_prod_idx, cq_cons_idx;
-+	struct qedn_ctx *qedn = fp_q->qedn;
-+	struct nvmetcp_fw_cqe *cqe = NULL;
-+
-+	sb_id = fp_q->sb_id;
-+	qed_sb_update_sb_idx(fp_q->sb_info);
-+
-+	/* rmb - to prevent missing new cqes */
-+	rmb();
-+
-+	/* Read the latest cq_prod from the SB */
-+	cq_prod_idx = *fp_q->cq_prod;
-+	cq_cons_idx = qed_chain_get_cons_idx(&fp_q->cq_chain);
-+
-+	while (cq_cons_idx != cq_prod_idx) {
-+		cqe = qed_chain_consume(&fp_q->cq_chain);
-+		if (likely(cqe))
-+			qedn_io_work_cq(qedn, cqe);
-+		else
-+			pr_err("Failed consuming cqe\n");
-+
-+		cq_cons_idx = qed_chain_get_cons_idx(&fp_q->cq_chain);
-+
-+		/* Check if new completions were posted */
-+		if (unlikely(cq_prod_idx == cq_cons_idx)) {
-+			/* rmb - to prevent missing new cqes */
-+			rmb();
-+
-+			/* Update the latest cq_prod from the SB */
-+			cq_prod_idx = *fp_q->cq_prod;
-+		}
-+	}
-+}
-+
-+static void qedn_fw_cq_fq_wq_handler(struct work_struct *work)
-+{
-+	struct qedn_fp_queue *fp_q = container_of(work, struct qedn_fp_queue, fw_cq_fp_wq_entry);
-+
-+	qedn_fw_cq_fp_handler(fp_q);
-+	qed_sb_ack(fp_q->sb_info, IGU_INT_ENABLE, 1);
-+}
-+
- static irqreturn_t qedn_irq_handler(int irq, void *dev_id)
- {
--	/* Placeholder */
-+	struct qedn_fp_queue *fp_q = dev_id;
-+	struct qedn_ctx *qedn = fp_q->qedn;
-+
-+	fp_q->cpu = smp_processor_id();
-+
-+	qed_sb_ack(fp_q->sb_info, IGU_INT_DISABLE, 0);
-+	queue_work_on(fp_q->cpu, qedn->fw_cq_fp_wq, &fp_q->fw_cq_fp_wq_entry);
- 
- 	return IRQ_HANDLED;
- }
-@@ -546,6 +615,8 @@ static void qedn_free_function_queues(struct qedn_ctx *qedn)
- 	int i;
- 
- 	/* Free workqueues */
-+	destroy_workqueue(qedn->fw_cq_fp_wq);
-+	qedn->fw_cq_fp_wq = NULL;
- 
- 	/* Free the fast path queues*/
- 	for (i = 0; i < qedn->num_fw_cqs; i++) {
-@@ -613,7 +684,14 @@ static int qedn_alloc_function_queues(struct qedn_ctx *qedn)
- 	u64 cq_phy_addr;
- 	int i;
- 
--	/* Place holder - IO-path workqueues */
-+	qedn->fw_cq_fp_wq = alloc_workqueue(QEDN_FW_CQ_FP_WQ_WORKQUEUE,
-+					    WQ_HIGHPRI | WQ_MEM_RECLAIM, 0);
-+	if (!qedn->fw_cq_fp_wq) {
-+		rc = -ENODEV;
-+		pr_err("Unable to create fastpath FW CQ workqueue!\n");
-+
-+		return rc;
-+	}
- 
- 	qedn->fp_q_arr = kcalloc(qedn->num_fw_cqs,
- 				 sizeof(struct qedn_fp_queue), GFP_KERNEL);
-@@ -641,7 +719,7 @@ static int qedn_alloc_function_queues(struct qedn_ctx *qedn)
- 		chain_params.mode = QED_CHAIN_MODE_PBL,
- 		chain_params.cnt_type = QED_CHAIN_CNT_TYPE_U16,
- 		chain_params.num_elems = QEDN_FW_CQ_SIZE;
--		chain_params.elem_size = 64; /*Placeholder - sizeof(struct nvmetcp_fw_cqe)*/
-+		chain_params.elem_size = sizeof(struct nvmetcp_fw_cqe);
- 
- 		rc = qed_ops->common->chain_alloc(qedn->cdev,
- 						  &fp_q->cq_chain,
-@@ -670,8 +748,7 @@ static int qedn_alloc_function_queues(struct qedn_ctx *qedn)
- 		sb = fp_q->sb_info->sb_virt;
- 		fp_q->cq_prod = (u16 *)&sb->pi_array[QEDN_PROTO_CQ_PROD_IDX];
- 		fp_q->qedn = qedn;
--
--		/* Placeholder - Init IO-path workqueue */
-+		INIT_WORK(&fp_q->fw_cq_fp_wq_entry, qedn_fw_cq_fq_wq_handler);
- 
- 		/* Placeholder - Init IO-path resources */
- 	}
+ static struct pci_driver qedn_pci_driver = {
+ 	.name     = QEDN_MODULE_NAME,
+ 	.id_table = qedn_pci_tbl,
 diff --git a/drivers/nvme/hw/qedn/qedn_task.c b/drivers/nvme/hw/qedn/qedn_task.c
-new file mode 100644
-index 000000000000..56f0af855f6e
---- /dev/null
+index fa2a9a62f12c..44e5ea2a693a 100644
+--- a/drivers/nvme/hw/qedn/qedn_task.c
 +++ b/drivers/nvme/hw/qedn/qedn_task.c
-@@ -0,0 +1,95 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright 2021 Marvell. All rights reserved.
-+ */
+@@ -11,6 +11,8 @@
+ /* Driver includes */
+ #include "qedn.h"
+ 
++extern const struct qed_nvmetcp_ops *qed_ops;
 +
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ static bool qedn_sgl_has_small_mid_sge(struct nvmetcp_sge *sgl, u16 sge_count)
+ {
+ 	u16 sge_num;
+@@ -434,16 +436,173 @@ qedn_get_task_from_pool_insist(struct qedn_conn_ctx *conn_ctx, u16 cccid)
+ 	return qedn_task;
+ }
+ 
+-static bool qedn_process_req(struct qedn_conn_ctx *qedn_conn)
++int qedn_send_read_cmd(struct qedn_task_ctx *qedn_task, struct qedn_conn_ctx *conn_ctx)
++{
++	struct nvme_command *nvme_cmd = &qedn_task->req->nvme_cmd;
++	struct qedn_ctx *qedn = conn_ctx->qedn;
++	struct nvmetcp_task_params task_params;
++	struct nvme_tcp_cmd_pdu cmd_hdr;
++	struct nvmetcp_wqe *chain_sqe;
++	struct nvmetcp_wqe local_sqe;
++	u32 max_burst_length;
++	int rc;
 +
-+ /* Kernel includes */
-+#include <linux/kernel.h>
++	rc = qedn_init_sgl(qedn, qedn_task);
++	if (rc)
++		return rc;
 +
-+/* Driver includes */
-+#include "qedn.h"
++	task_params.opq.lo = cpu_to_le32(((u64)(qedn_task)) & 0xffffffff);
++	task_params.opq.hi = cpu_to_le32(((u64)(qedn_task)) >> 32);
 +
-+inline int qedn_validate_cccid_in_range(struct qedn_conn_ctx *conn_ctx, u16 cccid)
++	/* Initialize task params */
++	task_params.context = qedn_task->fw_task_ctx;
++	task_params.sqe = &local_sqe;
++	task_params.tx_io_size = 0;
++	task_params.rx_io_size = qedn_task->task_size;
++	task_params.conn_icid = (u16)conn_ctx->conn_handle;
++	task_params.itid = qedn_task->itid;
++	task_params.cq_rss_number = conn_ctx->default_cq;
++	task_params.send_write_incapsule = 0;
++
++	/* Initialize conn params */
++	max_burst_length = QEDN_MAX_IO_SIZE;
++
++	cmd_hdr.hdr.type = nvme_tcp_cmd;
++	cmd_hdr.hdr.flags = 0;
++	cmd_hdr.hdr.hlen = sizeof(cmd_hdr);
++	cmd_hdr.hdr.pdo = 0x0;
++	/* Swapping requirement will be removed in future FW versions */
++	cmd_hdr.hdr.plen = cpu_to_le32(__swab32(cmd_hdr.hdr.hlen));
++
++	qed_ops->init_read_io(&task_params, max_burst_length, &cmd_hdr,
++			      nvme_cmd, &qedn_task->sgl_task_params);
++
++	set_bit(QEDN_TASK_USED_BY_FW, &qedn_task->flags);
++	atomic_inc(&conn_ctx->num_active_fw_tasks);
++
++	spin_lock(&conn_ctx->ep.doorbell_lock);
++	chain_sqe = qed_chain_produce(&conn_ctx->ep.fw_sq_chain);
++	memcpy(chain_sqe, &local_sqe, sizeof(local_sqe));
++	qedn_ring_doorbell(conn_ctx);
++	spin_unlock(&conn_ctx->ep.doorbell_lock);
++
++	return 0;
++}
++
++int qedn_send_write_cmd(struct qedn_task_ctx *qedn_task, struct qedn_conn_ctx *conn_ctx)
+ {
+-	return true;
++	struct nvme_command *nvme_cmd = &qedn_task->req->nvme_cmd;
++	struct nvmetcp_task_params task_params;
++	struct qedn_ctx *qedn = conn_ctx->qedn;
++	struct nvme_tcp_cmd_pdu cmd_hdr;
++	u32 pdu_len = sizeof(cmd_hdr);
++	struct nvmetcp_wqe *chain_sqe;
++	struct nvmetcp_wqe local_sqe;
++	u8 send_write_incapsule;
++	u32 max_burst_length;
++	int rc;
++
++	if (qedn_task->task_size <= nvme_tcp_ofld_inline_data_size(conn_ctx->queue) &&
++	    qedn_task->task_size) {
++		send_write_incapsule = 1;
++		pdu_len += qedn_task->task_size;
++
++		/* Add digest length once supported */
++		cmd_hdr.hdr.pdo = sizeof(cmd_hdr);
++	} else {
++		send_write_incapsule = 0;
++
++		cmd_hdr.hdr.pdo = 0x0;
++	}
++
++	rc = qedn_init_sgl(qedn, qedn_task);
++	if (rc)
++		return rc;
++
++	task_params.host_cccid = cpu_to_le16(qedn_task->cccid);
++	task_params.opq.lo = cpu_to_le32(((u64)(qedn_task)) & 0xffffffff);
++	task_params.opq.hi = cpu_to_le32(((u64)(qedn_task)) >> 32);
++
++	/* Initialize task params */
++	task_params.context = qedn_task->fw_task_ctx;
++	task_params.sqe = &local_sqe;
++	task_params.tx_io_size = qedn_task->task_size;
++	task_params.rx_io_size = 0;
++	task_params.conn_icid = (u16)conn_ctx->conn_handle;
++	task_params.itid = qedn_task->itid;
++	task_params.cq_rss_number = conn_ctx->default_cq;
++	task_params.send_write_incapsule = send_write_incapsule;
++
++	/* Initialize conn params */
++	max_burst_length = QEDN_MAX_IO_SIZE;
++
++	cmd_hdr.hdr.type = nvme_tcp_cmd;
++	cmd_hdr.hdr.flags = 0;
++	cmd_hdr.hdr.hlen = sizeof(cmd_hdr);
++	/* Swapping requirement will be removed in future FW versions */
++	cmd_hdr.hdr.plen = cpu_to_le32(__swab32(pdu_len));
++
++	qed_ops->init_write_io(&task_params, max_burst_length, &cmd_hdr,
++			       nvme_cmd, &qedn_task->sgl_task_params);
++
++	set_bit(QEDN_TASK_USED_BY_FW, &qedn_task->flags);
++	atomic_inc(&conn_ctx->num_active_fw_tasks);
++
++	spin_lock(&conn_ctx->ep.doorbell_lock);
++	chain_sqe = qed_chain_produce(&conn_ctx->ep.fw_sq_chain);
++	memcpy(chain_sqe, &local_sqe, sizeof(local_sqe));
++	qedn_ring_doorbell(conn_ctx);
++	spin_unlock(&conn_ctx->ep.doorbell_lock);
++
++	return 0;
+ }
+ 
+-void qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req *req)
++int qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req *req)
+ {
+-	bool empty, res = false;
++	struct qedn_task_ctx *qedn_task;
++	struct request *rq;
++	int rc = 0;
++	u16 cccid;
++
++	rq = blk_mq_rq_from_pdu(req);
++
++	/* Placeholder - async */
++
++	cccid = rq->tag;
++	qedn_task = qedn_get_task_from_pool_insist(qedn_conn, cccid);
++	if (unlikely(!qedn_task)) {
++		pr_err("Not able to allocate task context resource\n");
++
++		return BLK_STS_NOTSUPP;
++	}
++
++	req->private_data = qedn_task;
++	qedn_task->req = req;
++
++	/* Placeholder - handle (req->async) */
++
++	/* Check if there are physical segments in request to determine the task size.
++	 * The logic of nvme_tcp_set_sg_null() will be implemented as part of
++	 * qedn_set_sg_host_data().
++	 */
++	qedn_task->task_size = blk_rq_nr_phys_segments(rq) ? blk_rq_payload_bytes(rq) : 0;
++	qedn_task->req_direction = rq_data_dir(rq);
++	if (qedn_task->req_direction == WRITE)
++		rc = qedn_send_write_cmd(qedn_task, qedn_conn);
++	else
++		rc = qedn_send_read_cmd(qedn_task, qedn_conn);
++
++	if (unlikely(rc)) {
++		pr_err("Read/Write command failure\n");
++
++		return BLK_STS_TRANSPORT;
++	}
+ 
+-	res = qedn_process_req(qedn_conn);
++	spin_lock(&qedn_conn->ep.doorbell_lock);
++	qedn_ring_doorbell(qedn_conn);
++	spin_unlock(&qedn_conn->ep.doorbell_lock);
++
++	return BLK_STS_OK;
+ }
+ 
+ struct qedn_task_ctx *qedn_cqe_get_active_task(struct nvmetcp_fw_cqe *cqe)
+@@ -454,8 +613,73 @@ struct qedn_task_ctx *qedn_cqe_get_active_task(struct nvmetcp_fw_cqe *cqe)
+ 					+ le32_to_cpu(p->lo)));
+ }
+ 
++static struct nvme_tcp_ofld_req *qedn_decouple_req_task(struct qedn_task_ctx *qedn_task)
++{
++	struct nvme_tcp_ofld_req *ulp_req = qedn_task->req;
++
++	qedn_task->req = NULL;
++	if (ulp_req)
++		ulp_req->private_data = NULL;
++
++	return ulp_req;
++}
++
++static inline int qedn_comp_valid_task(struct qedn_task_ctx *qedn_task,
++				       union nvme_result *result, __le16 status)
++{
++	struct qedn_conn_ctx *conn_ctx = qedn_task->qedn_conn;
++	struct nvme_tcp_ofld_req *req;
++
++	req = qedn_decouple_req_task(qedn_task);
++	qedn_return_task_to_pool(conn_ctx, qedn_task);
++	if (!req) {
++		pr_err("req not found\n");
++
++		return -EINVAL;
++	}
++
++	/* Call request done to complete the request */
++	if (req->done)
++		req->done(req, result, status);
++	else
++		pr_err("request done not Set !!!\n");
++
++	return 0;
++}
++
++int qedn_process_nvme_cqe(struct qedn_task_ctx *qedn_task, struct nvme_completion *cqe)
 +{
 +	int rc = 0;
 +
-+	if (unlikely(cccid >= conn_ctx->sq_depth)) {
-+		pr_err("cccid 0x%x out of range ( > sq depth)\n", cccid);
-+		rc = -EINVAL;
-+	}
++	/* CQE arrives swapped
++	 * Swapping requirement will be removed in future FW versions
++	 */
++	qedn_swap_bytes((u32 *)cqe, (sizeof(*cqe) / sizeof(u32)));
++
++	/* Placeholder - async */
++
++	rc = qedn_comp_valid_task(qedn_task, &cqe->result, cqe->status);
 +
 +	return rc;
 +}
 +
-+static bool qedn_process_req(struct qedn_conn_ctx *qedn_conn)
++int qedn_complete_c2h(struct qedn_task_ctx *qedn_task)
 +{
-+	return true;
++	int rc = 0;
++
++	__le16 status = cpu_to_le16(NVME_SC_SUCCESS << 1);
++	union nvme_result result = {};
++
++	rc = qedn_comp_valid_task(qedn_task, &result, status);
++
++	return rc;
 +}
 +
-+void qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req *req)
-+{
-+	bool empty, res = false;
+ void qedn_io_work_cq(struct qedn_ctx *qedn, struct nvmetcp_fw_cqe *cqe)
+ {
++	int rc = 0;
 +
-+	res = qedn_process_req(qedn_conn);
-+}
++	struct nvme_completion *nvme_cqe = NULL;
+ 	struct qedn_task_ctx *qedn_task = NULL;
+ 	struct qedn_conn_ctx *conn_ctx = NULL;
+ 	u16 itid;
+@@ -482,13 +706,27 @@ void qedn_io_work_cq(struct qedn_ctx *qedn, struct nvmetcp_fw_cqe *cqe)
+ 		case NVMETCP_TASK_TYPE_HOST_WRITE:
+ 		case NVMETCP_TASK_TYPE_HOST_READ:
+ 
+-			/* Placeholder - IO flow */
++			/* Verify data digest once supported */
+ 
++			nvme_cqe = (struct nvme_completion *)&cqe->cqe_data.nvme_cqe;
++			rc = qedn_process_nvme_cqe(qedn_task, nvme_cqe);
++			if (rc) {
++				pr_err("Read/Write completion error\n");
 +
-+struct qedn_task_ctx *qedn_cqe_get_active_task(struct nvmetcp_fw_cqe *cqe)
-+{
-+	struct regpair *p = &cqe->task_opaque;
++				return;
++			}
+ 			break;
+ 
+ 		case NVMETCP_TASK_TYPE_HOST_READ_NO_CQE:
+ 
+-			/* Placeholder - IO flow */
++			/* Verify data digest once supported */
 +
-+	return (struct qedn_task_ctx *)((((u64)(le32_to_cpu(p->hi)) << 32)
-+					+ le32_to_cpu(p->lo)));
-+}
++			rc = qedn_complete_c2h(qedn_task);
++			if (rc) {
++				pr_err("Controller To Host Data Transfer error error\n");
 +
-+void qedn_io_work_cq(struct qedn_ctx *qedn, struct nvmetcp_fw_cqe *cqe)
-+{
-+	struct qedn_task_ctx *qedn_task = NULL;
-+	struct qedn_conn_ctx *conn_ctx = NULL;
-+	u16 itid;
-+	u32 cid;
-+
-+	conn_ctx = qedn_get_conn_hash(qedn, le16_to_cpu(cqe->conn_id));
-+	if (unlikely(!conn_ctx)) {
-+		pr_err("CID 0x%x: Failed to fetch conn_ctx from hash\n",
-+		       le16_to_cpu(cqe->conn_id));
-+
-+		return;
-+	}
-+
-+	cid = conn_ctx->fw_cid;
-+	itid = le16_to_cpu(cqe->itid);
-+	qedn_task = qedn_cqe_get_active_task(cqe);
-+	if (unlikely(!qedn_task))
-+		return;
-+
-+	if (likely(cqe->cqe_type == NVMETCP_FW_CQE_TYPE_NORMAL)) {
-+		/* Placeholder - verify the connection was established */
-+
-+		switch (cqe->task_type) {
-+		case NVMETCP_TASK_TYPE_HOST_WRITE:
-+		case NVMETCP_TASK_TYPE_HOST_READ:
-+
-+			/* Placeholder - IO flow */
-+
-+			break;
-+
-+		case NVMETCP_TASK_TYPE_HOST_READ_NO_CQE:
-+
-+			/* Placeholder - IO flow */
-+
-+			break;
-+
-+		case NVMETCP_TASK_TYPE_INIT_CONN_REQUEST:
-+
-+			/* Placeholder - ICReq flow */
-+
-+			break;
-+		default:
-+			pr_info("Could not identify task type\n");
-+		}
-+	} else {
-+		/* Placeholder - Recovery flows */
-+	}
-+}
++				return;
++			}
+ 
+ 			break;
+ 
 -- 
 2.22.0
 
