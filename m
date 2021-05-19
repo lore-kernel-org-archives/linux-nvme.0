@@ -2,20 +2,20 @@ Return-Path: <SRS0=q7uG=KO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F14F3C433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 06:36:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C29C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 06:43:32 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B19EE610E9
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 06:36:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B19EE610E9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 62ACF61042
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 06:43:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62ACF61042
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
@@ -23,53 +23,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=07u8jzoInrhq1KQCsevWmS3RuvSnh9SOyNd7hxCGiHM=; b=n80oiGjSOInjp0rRA6XhHYMuX
-	8SUxfkJz8dZ+xeHxl2NFGyHg/vsE/uVvfg2C/BM8Qasg3fJJmloRkXz6IWaBSrauE6JX1t9gC0HAT
-	x+fK263+Cpd5GDiYEcUvgtREdcRxPf2DZmK1FTpT+Bw27IhtN9FYL8AWIw8IUFAKDv8aDC/wOEB+S
-	csHw3Ad6h3ug97tgUVG6/OwXZwkB54YOtD5shoVPsB62WC/RUUAGn+bvPLjUCsVUDDKEvrDLyK2MK
-	s9IlKU2mxJPjo64xOJR0XXYqx5BC/1D0/RwwibToc7rw/JaT9Xgk3xI0ol0DW+aJsS2fGIef91/h3
-	lCr2OLpKw==;
+	 bh=7xin8YcM8UXA1N0nCbD4BbyDBrLeWo+T/XKKPOETZ9c=; b=YqeL5WzyaP9cUFJJ4SstgwL76
+	IhzRWQDoWpZ7Rsh0efe+zQd10XmwTe/wwLD/V9J/zp5+0SFKES4yzhPZ9gqELag3Wlu3FPo3sOuAn
+	IGdZhYLFthf+EtU5bT7lEe0L3I8ltfDLUfbl/hEmwRml9NPmjT6W+da8VqxLvZm4zEnujwfYcA+UA
+	iMKsRa/xUKHvDju8RDUg3EIFV7D/DWWjpcDnvD2io7fp5/TckG1Zb9HmCHY1v7MQltZIKaYjNy/2e
+	lbDjHzCF1VqPT8Gr24U0U7zVnuXgh9ge2w4S0oyhhpvHVGDC/fEnSrubU5+6ZX2vVq8e8587ShFGf
+	GKnqC0ueA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ljFo9-0030Sy-Do; Wed, 19 May 2021 06:35:53 +0000
-Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
+	id 1ljFvF-0031mu-Qs; Wed, 19 May 2021 06:43:13 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljFnu-0030QR-RX
- for linux-nvme@desiato.infradead.org; Wed, 19 May 2021 06:35:41 +0000
+ id 1ljFvC-0031mV-S8
+ for linux-nvme@desiato.infradead.org; Wed, 19 May 2021 06:43:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=5+UQIRoYcUWlO31/m41QlF9o8ppkJRLZPv3rRTX8FvI=; b=4XuNHklzcVWlVzMB91Ac6gfKzJ
- U//g/TZzSV7oXTYrBI2hw5L6kujrv1/63fY8EkPbJ5HgqWjxFXURPTJxq2vMGP5d5+m3RHJNt9hAd
- Ctxl+9cv1TuA7sxWq8zBl3Xms4/joW///WUEKCR3iNpE02grZB+QE9anMX5LrTyRrRSUq5WdFcjd/
- IXxtreAcYQm62uhQ4k6O9w34BnkXVSHP9/B9o/ZQL7ghu2wFpSwPT2yWLdVBKayn1sSJYsulvyWAS
- AUFWpX/DLFz3pfxlfT82rFVdRJFE/M90bSJB73Xab6MsHrLrHrNeLLgs+83Nj9Q91ARtieR2XQ6Of
- c7jnWhVQ==;
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljFns-00FBQC-Eh
- for linux-nvme@lists.infradead.org; Wed, 19 May 2021 06:35:37 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 1FAF767373; Wed, 19 May 2021 08:35:34 +0200 (CEST)
-Date: Wed, 19 May 2021 08:35:33 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Wu Bo <wubo40@huawei.com>
-Cc: hch@lst.de, sagi@grimberg.me, chaitanya.kulkarni@wdc.com,
- kbusch@kernel.org, amit.engel@dell.com,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linfeilong@huawei.com
-Subject: Re: [PATCH 0/2] nvmet: Fix memory leak when create ctrl fails
-Message-ID: <20210519063533.GC30513@lst.de>
-References: <1621400470-593256-1-git-send-email-wubo40@huawei.com>
+ bh=JfcaAWiL9MX/KzgqZFMd5GxaGaNC7KsyrSBFfXwwLXo=; b=s6tpzZl/vCPHQm8bwEcudEJ99+
+ BCpIes9O4hr0XdndLBH8c8gp9XuHBzo1A8xlOcOXIkA4ML9K3/q3urUiW4O/UoeayXO5ENl3FGq7v
+ CGZKzy2bRMZy705+eMX5OE0SHPpsBo3iUkxefPfjGFxF8IwZVCXE/5ujMxZonQL8OfwLjKmzBO55g
+ 3tQAFsd28NBnoBJEKgyWBiMSfauCCarezvz5Cw6y3CL9Kzgf2C2F4wnq9hNZYJrm/CIw1aEuZVwu8
+ prL1Lkb+EK81d3kAyjNVoEM9q40mnm+ldmIGV5P3p7YuKAjx3VxSl3eFzb2jPcHBEix9uEJiJdLef
+ bhoIdT+w==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1ljFuD-00EhMY-7f; Wed, 19 May 2021 06:42:25 +0000
+Date: Wed, 19 May 2021 07:42:09 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: James Smart <jsmart2021@gmail.com>
+Cc: linux-nvme@lists.infradead.org, stable@vger.kernel.org
+Subject: Re: [PATCH] nvme-fc: clear q_live at beginning of association teardown
+Message-ID: <YKSzQeErB18H7/Z6@infradead.org>
+References: <20210511045635.12494-1-jsmart2021@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1621400470-593256-1-git-send-email-wubo40@huawei.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210518_233536_657893_DD8C7E11 
-X-CRM114-Status: UNSURE (   8.63  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <20210511045635.12494-1-jsmart2021@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,8 +78,7 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Thanks,
 
-applied to nvme-5.13 with slight tweaks to the commit messages and
-fixes tags.
+applied to nvme-5.13.
 
 _______________________________________________
 Linux-nvme mailing list
