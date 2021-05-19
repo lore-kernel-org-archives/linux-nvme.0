@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E15BC433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 19:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB2D9C433B4
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 19:32:07 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 937E861184
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 19:32:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 937E861184
+	by mail.kernel.org (Postfix) with ESMTPS id 1896F61184
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 19:32:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1896F61184
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,61 +23,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MCeeFMlmF6UY16XHoSVob7T+BtBlu8gdobVBZnoSE/g=; b=PDlpyenFcQkILp4xou9QulUqtx
-	v6Ia1OryELKdoFeFebSkhpgna/C8skSgECv2zxwvR6oQlab+UVjgUrzdADHcyFZ7o1k9K9jceVnzo
-	yinasfc1Q3rTmXGNUVD/c5Vtf2G41nX7E5Vh/nLwsKyGh8zdtpQ4/QGzuMsA7FIS3kzOyCa4l2oCp
-	Sp3XyLxmlbAJigTK0tzzOwy/4HUAzfte4CaaQHoT3sySVqQQVMT29+jCJ1Qs8vPrtPgA+kqjR6vjq
-	KG48+t2xvkmjvv51eqmYJYvNy3n0SXunXMug9yIUwu/hgBujGRs2fzaqKQFXjaWjUA7xvESIcPKj6
-	hWjaw8mw==;
+	bh=kP8PrV5STeoxLB1ib+PnNOHUGV0TzKq3ZWdGQ5wHSAM=; b=CH6qzsJI8sJExJit63ZUJtNLbp
+	Y2O1KQ5iWTKj0r18L2fxXR6uvpF47+uZ0hFIBc9MergEdtyaZrDtKyOnUrjAbJKa+lAQysqimIbIt
+	i1EDOW5ER5XtcJFlav60DGUeA8/0oQUbPx+trkOvPktIGqTev4QxoQUMCqGVPohwR/RPyNTrGYD+9
+	NrtyTtrHdojjtZxEXAv+4osP/NizwmIX0RGJ/NoCqyLfoPOsQ+v/FeRdRSrcY/JdFD9BzkNIOAGcH
+	qSkZAbC8dFylQUW3zR8x8x4Le3h9Qr89SDn2xhHuX8Te6XlrtkTDkZLhHDhqkf9p4Vcm2Y2I3EBDR
+	1ClCzelg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ljRuU-004tpZ-KA; Wed, 19 May 2021 19:31:14 +0000
+	id 1ljRuj-004ttm-H0; Wed, 19 May 2021 19:31:29 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljRp3-004sdh-4U
- for linux-nvme@desiato.infradead.org; Wed, 19 May 2021 19:25:37 +0000
+ id 1ljRp3-004sdk-FH
+ for linux-nvme@desiato.infradead.org; Wed, 19 May 2021 19:25:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=L2X4NScR8UfP5Z4qu6jjxVG5+3q6zO5XMdrSgBFknec=; b=S6WUaQahabYGqYWREJK10l2eDp
- uY6ZfmMygCc0vb6dZgA6rj6oAx27kgxR10FwfxHAlY6SOhBIukXSwSU8Auq6FyiTdoU7VByW+VV8Y
- OZ5X4pfkfpBN/9yWaQctFesU4jvbdj4umSo/iLR//UH1qlTth80RcydGhTJPAYbYCkZ6lyI3DdyKg
- hSSmnW1CIdXTy2c6HdXgHGTTcG0c5M+tBT1rxAKAy2rJ0g7KvZ9NZcWA9M3OnM9Gff0zfEH+ZYDGd
- hvAi8+ut0C5hyaDaoN82rvOGyo27B4Y+VITMkm62AZfHfGheDUEA/NWcezaePjiDBsK8vEMuqBmNP
- CF903A0w==;
-Received: from mga18.intel.com ([134.134.136.126])
+ bh=M2+sVS5CJ/A8DjEnVd0GKsbuNFrCXxIM2TmGW3kPvkU=; b=0nsbzzLVB0FQRnYnVa+ZXa2GCM
+ thNSwZ6IqjO/UmvvGa/2864VamyJ3lZYKryzR0YZMTV7A0xzIMJn3KOxiUhkd7Yspa28wJzF+Qtpm
+ 7SpzhSfDj7+lRhf+L07MiokS68KqUSRq+jMkzEQxEXM9NcYIkuudSF9p3TzLMk2SadLgJhpITzWyl
+ IW2XAIaxZmzDWUxPVTW24HHHKaN2WvCx4JzOaGGGBjHW9i8dOFjAcXHLBtl6jMFOyPy4h/ZhWNJwm
+ +HhBC3ET7FOFNgOti0lLrJF5cuKnNs3BbOPGmPm7HnUlh5inwbuJA4qjAuyP1SbinJNy90unxbW/1
+ OgxNHMtQ==;
+Received: from mga05.intel.com ([192.55.52.43])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljRoz-00Fjar-Kp
- for linux-nvme@lists.infradead.org; Wed, 19 May 2021 19:25:35 +0000
-IronPort-SDR: 9vV/7Ed2xd6DWA5duWhXQ90D9SLrzwOSsD+GDMFEop0LlpTz1PVHUwpK55yuyjx+cS9cuB47gm
- JgTJilqHLhlQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="188466928"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="188466928"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2021 12:25:30 -0700
-IronPort-SDR: JOOoaCfBbSva6sGhQLzVuJS6gGzLNYb0MgrRKbF8jt8qdgKlx3HxedOdolfpp+gL8A5X0bW3FX
- MZ5BZ8wwnTxA==
+ id 1ljRp0-00Fjb3-E7
+ for linux-nvme@lists.infradead.org; Wed, 19 May 2021 19:25:36 +0000
+IronPort-SDR: +l1Ai3pF4l/q6YMu8U/c4ybVl91hJFeQz9Ia99L1x7E1egPugYm3BgqGkAcV8ZydidhyqggZma
+ g4rnybXyyO2g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="286587975"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="286587975"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2021 12:25:33 -0700
+IronPort-SDR: ziQzI4SezrED2eNom9I9aV49khGG5tCGxwn00AQcH0eQyYhJel0rbQ7gdnK/D/33rxUFxZSh3Y
+ EajCcj1dOFbA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="394549548"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="461411102"
 Received: from lkp-server02.sh.intel.com (HELO 1b329be5b008) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 19 May 2021 12:25:29 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 19 May 2021 12:25:29 -0700
 Received: from kbuild by 1b329be5b008 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1ljRou-0000EA-T9; Wed, 19 May 2021 19:25:28 +0000
-Date: Thu, 20 May 2021 03:25:04 +0800
+ id 1ljRou-0000ED-Tq; Wed, 19 May 2021 19:25:28 +0000
+Date: Thu, 20 May 2021 03:25:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.14] BUILD SUCCESS
- 1c3aa9ad384db0f7e45fb6e1717b967f85e21bd8
-Message-ID: <60a56610.P7KBIZXpwEvfBETo%lkp@intel.com>
+Subject: [linux-nvme:nvme-5.13] BUILD SUCCESS
+ a7d139145a6640172516b193abf6d2398620aa14
+Message-ID: <60a56612.7e6Ro4nffZMtR6gP%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210519_122533_764557_D8CBE623 
-X-CRM114-Status: UNSURE (   8.77  )
+X-CRM114-CacheID: sfid-20210519_122534_526566_BC528A22 
+X-CRM114-Status: UNSURE (   7.57  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,12 +95,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.14
-branch HEAD: 1c3aa9ad384db0f7e45fb6e1717b967f85e21bd8  nvme: remove redundant initialization of variable ret
+tree/branch: git://git.infradead.org/nvme.git nvme-5.13
+branch HEAD: a7d139145a6640172516b193abf6d2398620aa14  nvme-fc: clear q_live at beginning of association teardown
 
 elapsed time: 720m
 
-configs tested: 200
+configs tested: 198
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -174,12 +174,10 @@ sh                           se7705_defconfig
 s390                             alldefconfig
 mips                         tb0226_defconfig
 m68k                          multi_defconfig
+powerpc                           allnoconfig
 arm                    vt8500_v6_v7_defconfig
 arm                       omap2plus_defconfig
 arm                             ezx_defconfig
-xtensa                         virt_defconfig
-xtensa                    xip_kc705_defconfig
-xtensa                  audio_kc705_defconfig
 powerpc                   bluestone_defconfig
 mips                         tb0219_defconfig
 mips                           xway_defconfig
@@ -204,11 +202,12 @@ m68k                         amcore_defconfig
 arm                          pxa168_defconfig
 arm                      integrator_defconfig
 powerpc                     mpc5200_defconfig
+xtensa                    xip_kc705_defconfig
 mips                         bigsur_defconfig
 m68k                             allyesconfig
-x86_64                           allyesconfig
 arm                          ep93xx_defconfig
 riscv             nommu_k210_sdcard_defconfig
+x86_64                           allyesconfig
 sh                ecovec24-romimage_defconfig
 arm                       cns3420vb_defconfig
 powerpc                      ppc6xx_defconfig
@@ -265,7 +264,6 @@ sparc                               defconfig
 mips                             allyesconfig
 mips                             allmodconfig
 powerpc                          allmodconfig
-powerpc                           allnoconfig
 i386                 randconfig-a003-20210519
 i386                 randconfig-a001-20210519
 i386                 randconfig-a005-20210519
