@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEBAC433B4
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 11:16:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E4DFC433ED
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 11:17:15 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3FD256135B
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 11:16:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3FD256135B
+	by mail.kernel.org (Postfix) with ESMTPS id 0FD296108B
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 May 2021 11:17:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0FD296108B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-ID:Date:
 	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lxkzJCz1CXpdg/OR2ATLyDqmRJgx9Jful47UQ/PD/ZE=; b=jXAxX1OHpDLCOYsuu2s/bOWGb
-	s3/rO1SLC0ooCX351ngzjQRqS4/8jm/UMkuA/QKF4EHnY/zFkOr1GRc/GExSZYVMH6sum1ECWwzU+
-	SX2QOVjI/6ZIsXMDRL2HU3M4P4mOvGSBBB1rAYs6HoNCeOXnRk9Syz0Pyiac1a2GYHaL8IqmZzKVH
-	2m/DXcS+0aBPeOYySo0MXBMSGC/uJjqITPkVmhO4j9FRwats4+T9VK4rRU5+abvuHiKOgig/+Q/ZS
-	1Ng6HPWDgmdQXNDW+fpKtpcQC1HbsH5/DMHFR4pzOiu9jme/ULk8WtuxNWHNUERlHQUU5CFBdxvCQ
-	eUbboAkXQ==;
+	 bh=dIWbffrHtn6eh/FBI5c16B4tkr7Hd36i/fLTkGuQidE=; b=Eu5TyFrWhpcFavu0JH1t4BQ8h
+	JGXipXHFXeAqCSfcAWEhAgSKmLI0GHUaintGtTN8iwwdjGltR7igQmw/WjOKCkSZesQjDTdrEvXKM
+	aybjMVtyUR4Q0/5K6lCEjF+pCOEghSMToUMqRLJMH9SD2oJW43vwfIGl1S6GdeSU1KRt5xdDR1YeD
+	RZmiMsTlqdDeYB1k52nQ2xjxcHk3zcUdDpLKceVk1/oe63LK2kbewu1GKHv8LgYq1BkpGpyypV4os
+	K+rS1VhNHUNgHnm3k8dJnxxulOnvNDsQ6SSNe9iT0ntGid+GHdYE5w9yLk5702j7AM+cyjTaVlryB
+	7+yXq4Arg==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ljKBS-003jIz-8o; Wed, 19 May 2021 11:16:14 +0000
+	id 1ljKC3-003jTR-5Z; Wed, 19 May 2021 11:16:51 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljKAN-003j4I-Nz
- for linux-nvme@desiato.infradead.org; Wed, 19 May 2021 11:15:08 +0000
+ id 1ljKAW-003j58-VB
+ for linux-nvme@desiato.infradead.org; Wed, 19 May 2021 11:15:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:References:
  In-Reply-To:Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=i4uc4QQaRbOZjfZKWaSThRCf2mqNBpWg+2CkyVXqU2Q=; b=hDp6D0DMirCTANhDM2tpo+pSeA
- ZMkgNw2rmVmeR08aG9KDXyKF2hqiv4+gK345Ie97lqc2GtSZqMOtGlrGLm9J2FMuMRWXQUykXkmyv
- SMNjznh7wzhOolHF51Z4b2vhFELZi/iepcCttTtnImBOLociwd60zfMZwuiRxaJwWnS8HbNagKFay
- rm1Mp6XZ7hhGLvBk1lmw2JM4LtFwV8TekwC3Ckqa6VkfHPuVVcWuz4FR0qd3BYtdr6mBgQb39XiVs
- +VtU+qXk4YlqZpJTxb8dfDJx62jr49JefHsCK8Y1VzceIawjUhuOF442jECBc+EX8aqoEgrHMzt0G
- 3fANcQog==;
+ bh=1n7LIUxgnBobqGMRFaUmyCXAMpCZtfKEoAJ9jDLQjEs=; b=KXlMb7F4m8yM4d7dq8eh3xWpt9
+ c0iFFd308xbqKQiE/Ebh0uAwcVJgNsF5uJIVW57Dq6dcuKE+iDsT9O10SRqECC6NsSZrL6Cb2kTyL
+ G4xsayDUl2EsJK5tNSv1DSGfzP5sgSp3UDYBdkMcuqqw+/uwXLA5w0oxWS/kkjF9UV0UvhVP5VsZt
+ Onq8srGhL+ku93csEuOjWy4Cws3iHBRG4X5Qq91sBxBS9lrx+300TctqWWqj5UgnFztQDSbs0xK0c
+ oawGqTSnMHIxluGUMZRp+4xMVL7tTxFReFm5cgoG1FE7neJnj1aXMzQ0sYATL8Hf4FZFWWlzy3gYF
+ CwOuwaHg==;
 Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljKAK-00FOOB-2C
- for linux-nvme@lists.infradead.org; Wed, 19 May 2021 11:15:06 +0000
+ id 1ljKAU-00FOOs-33
+ for linux-nvme@lists.infradead.org; Wed, 19 May 2021 11:15:15 +0000
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
  by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14JBBDJA008736; Wed, 19 May 2021 04:14:57 -0700
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
- by mx0b-0016f401.pphosted.com with ESMTP id 38mqcwhy3k-1
+ 14JBAXVQ007727; Wed, 19 May 2021 04:15:01 -0700
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+ by mx0b-0016f401.pphosted.com with ESMTP id 38mqcwhy46-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Wed, 19 May 2021 04:14:56 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 19 May 2021 04:14:54 -0700
+ Wed, 19 May 2021 04:15:01 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 19 May 2021 04:14:59 -0700
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH01.marvell.com (10.69.176.38) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Wed, 19 May 2021 04:14:51 -0700
+ 15.0.1497.2 via Frontend Transport; Wed, 19 May 2021 04:14:55 -0700
 From: Shai Malin <smalin@marvell.com>
 To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
  <davem@davemloft.net>, <kuba@kernel.org>, <sagi@grimberg.me>,
@@ -70,21 +70,21 @@ To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
 CC: <aelior@marvell.com>, <mkalderon@marvell.com>, <okulkarni@marvell.com>,
  <pkushwaha@marvell.com>, <malin1024@gmail.com>, <smalin@marvell.com>, "Dean
  Balandin" <dbalandin@marvell.com>
-Subject: [RFC PATCH v5 06/27] nvme-tcp-offload: Add queue level implementation
-Date: Wed, 19 May 2021 14:13:19 +0300
-Message-ID: <20210519111340.20613-7-smalin@marvell.com>
+Subject: [RFC PATCH v5 07/27] nvme-tcp-offload: Add IO level implementation
+Date: Wed, 19 May 2021 14:13:20 +0300
+Message-ID: <20210519111340.20613-8-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20210519111340.20613-1-smalin@marvell.com>
 References: <20210519111340.20613-1-smalin@marvell.com>
 MIME-Version: 1.0
-X-Proofpoint-GUID: tNc4t9dGiWBgVQoIjnjor81US_IXcKoo
-X-Proofpoint-ORIG-GUID: tNc4t9dGiWBgVQoIjnjor81US_IXcKoo
+X-Proofpoint-GUID: SDvauFUdxSRdR3O7H1z_LK7294E1l_HF
+X-Proofpoint-ORIG-GUID: SDvauFUdxSRdR3O7H1z_LK7294E1l_HF
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-05-19_04:2021-05-19,
  2021-05-19 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210519_041504_264341_DDAA501B 
-X-CRM114-Status: GOOD (  22.04  )
+X-CRM114-CacheID: sfid-20210519_041514_273607_313BAD0F 
+X-CRM114-Status: GOOD (  19.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,13 +103,27 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Dean Balandin <dbalandin@marvell.com>
 
-In this patch we implement queue level functionality.
-The implementation is similar to the nvme-tcp module, the main
-difference being that we call the vendor specific create_queue op which
-creates the TCP connection, and NVMeTPC connection including
-icreq+icresp negotiation.
-Once create_queue returns successfully, we can move on to the fabrics
-connect.
+In this patch, we present the IO level functionality.
+The nvme-tcp-offload shall work on the IO-level, meaning the
+nvme-tcp-offload ULP module shall pass the request to the nvme-tcp-offload
+vendor driver and shall expect for the request completion.
+No additional handling is needed in between, this design will reduce the
+CPU utilization as we will describe below.
+
+The nvme-tcp-offload vendor driver shall register to nvme-tcp-offload ULP
+with the following IO-path ops:
+ - init_req
+ - send_req - in order to pass the request to the handling of the offload
+   driver that shall pass it to the vendor specific device
+ - poll_queue
+
+The vendor driver will manage the context from which the request will be
+executed and the request aggregations.
+Once the IO completed, the nvme-tcp-offload vendor driver shall call
+command.done() that shall invoke the nvme-tcp-offload ULP layer for
+completing the request.
+
+This patch also contains initial definition of nvme_tcp_ofld_queue_rq().
 
 Acked-by: Igor Russkikh <irusskikh@marvell.com>
 Signed-off-by: Dean Balandin <dbalandin@marvell.com>
@@ -118,582 +132,155 @@ Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
 Signed-off-by: Ariel Elior <aelior@marvell.com>
 Signed-off-by: Shai Malin <smalin@marvell.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/tcp-offload.c | 424 ++++++++++++++++++++++++++++++--
- drivers/nvme/host/tcp-offload.h |   1 +
- 2 files changed, 399 insertions(+), 26 deletions(-)
+ drivers/nvme/host/tcp-offload.c | 96 ++++++++++++++++++++++++++++++---
+ 1 file changed, 88 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
-index 9eb4b03e0f3d..8ed7668d987a 100644
+index 8ed7668d987a..276b8475ac85 100644
 --- a/drivers/nvme/host/tcp-offload.c
 +++ b/drivers/nvme/host/tcp-offload.c
-@@ -22,6 +22,11 @@ static inline struct nvme_tcp_ofld_ctrl *to_tcp_ofld_ctrl(struct nvme_ctrl *nctr
- 	return container_of(nctrl, struct nvme_tcp_ofld_ctrl, nctrl);
- }
- 
-+static inline int nvme_tcp_ofld_qid(struct nvme_tcp_ofld_queue *queue)
-+{
-+	return queue - queue->ctrl->queues;
-+}
-+
- /**
-  * nvme_tcp_ofld_register_dev() - NVMeTCP Offload Library registration
-  * function.
-@@ -191,12 +196,94 @@ nvme_tcp_ofld_alloc_tagset(struct nvme_ctrl *nctrl, bool admin)
- 	return set;
- }
- 
-+static void __nvme_tcp_ofld_stop_queue(struct nvme_tcp_ofld_queue *queue)
-+{
-+	queue->dev->ops->drain_queue(queue);
-+	queue->dev->ops->destroy_queue(queue);
-+}
-+
-+static void nvme_tcp_ofld_stop_queue(struct nvme_ctrl *nctrl, int qid)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	struct nvme_tcp_ofld_queue *queue = &ctrl->queues[qid];
-+
-+	if (!test_and_clear_bit(NVME_TCP_OFLD_Q_LIVE, &queue->flags))
-+		return;
-+
-+	__nvme_tcp_ofld_stop_queue(queue);
-+}
-+
-+static void nvme_tcp_ofld_stop_io_queues(struct nvme_ctrl *ctrl)
-+{
-+	int i;
-+
-+	for (i = 1; i < ctrl->queue_count; i++)
-+		nvme_tcp_ofld_stop_queue(ctrl, i);
-+}
-+
-+static void nvme_tcp_ofld_free_queue(struct nvme_ctrl *nctrl, int qid)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	struct nvme_tcp_ofld_queue *queue = &ctrl->queues[qid];
-+
-+	if (!test_and_clear_bit(NVME_TCP_OFLD_Q_ALLOCATED, &queue->flags))
-+		return;
-+
-+	queue = &ctrl->queues[qid];
-+	queue->ctrl = NULL;
-+	queue->dev = NULL;
-+	queue->report_err = NULL;
-+}
-+
-+static void nvme_tcp_ofld_destroy_admin_queue(struct nvme_ctrl *nctrl, bool remove)
-+{
-+	nvme_tcp_ofld_stop_queue(nctrl, 0);
-+	if (remove) {
-+		blk_cleanup_queue(nctrl->admin_q);
-+		blk_cleanup_queue(nctrl->fabrics_q);
-+		blk_mq_free_tag_set(nctrl->admin_tagset);
-+	}
-+}
-+
-+static int nvme_tcp_ofld_start_queue(struct nvme_ctrl *nctrl, int qid)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	struct nvme_tcp_ofld_queue *queue = &ctrl->queues[qid];
-+	int rc;
-+
-+	queue = &ctrl->queues[qid];
-+	if (qid) {
-+		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
-+		rc = nvmf_connect_io_queue(nctrl, qid, false);
-+	} else {
-+		queue->cmnd_capsule_len = sizeof(struct nvme_command) + NVME_TCP_ADMIN_CCSZ;
-+		rc = nvmf_connect_admin_queue(nctrl);
-+	}
-+
-+	if (!rc) {
-+		set_bit(NVME_TCP_OFLD_Q_LIVE, &queue->flags);
-+	} else {
-+		if (test_bit(NVME_TCP_OFLD_Q_ALLOCATED, &queue->flags))
-+			__nvme_tcp_ofld_stop_queue(queue);
-+		dev_err(nctrl->device,
-+			"failed to connect queue: %d ret=%d\n", qid, rc);
-+	}
-+
-+	return rc;
-+}
-+
- static int nvme_tcp_ofld_configure_admin_queue(struct nvme_ctrl *nctrl,
- 					       bool new)
+@@ -127,7 +127,10 @@ void nvme_tcp_ofld_req_done(struct nvme_tcp_ofld_req *req,
+ 			    union nvme_result *result,
+ 			    __le16 status)
  {
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	struct nvme_tcp_ofld_queue *queue = &ctrl->queues[0];
- 	int rc;
- 
--	/* Placeholder - alloc_admin_queue */
-+	rc = ctrl->dev->ops->create_queue(queue, 0, NVME_AQ_DEPTH);
-+	if (rc)
-+		return rc;
+-	/* Placeholder - complete request with/without error */
++	struct request *rq = blk_mq_rq_from_pdu(req);
 +
-+	set_bit(NVME_TCP_OFLD_Q_ALLOCATED, &queue->flags);
- 	if (new) {
- 		nctrl->admin_tagset =
- 				nvme_tcp_ofld_alloc_tagset(nctrl, true);
-@@ -221,7 +308,9 @@ static int nvme_tcp_ofld_configure_admin_queue(struct nvme_ctrl *nctrl,
- 		}
- 	}
++	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), *result))
++		nvme_complete_rq(rq);
+ }
  
--	/* Placeholder - nvme_tcp_ofld_start_queue */
-+	rc = nvme_tcp_ofld_start_queue(nctrl, 0);
-+	if (rc)
-+		goto out_cleanup_queue;
+ struct nvme_tcp_ofld_dev *
+@@ -700,6 +703,34 @@ static void nvme_tcp_ofld_free_ctrl(struct nvme_ctrl *nctrl)
+ 	kfree(ctrl);
+ }
  
- 	rc = nvme_enable_ctrl(nctrl);
- 	if (rc)
-@@ -238,11 +327,12 @@ static int nvme_tcp_ofld_configure_admin_queue(struct nvme_ctrl *nctrl,
- out_quiesce_queue:
- 	blk_mq_quiesce_queue(nctrl->admin_q);
- 	blk_sync_queue(nctrl->admin_q);
++static void nvme_tcp_ofld_set_sg_null(struct nvme_command *c)
++{
++	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
++
++	sg->addr = 0;
++	sg->length = 0;
++	sg->type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) | NVME_SGL_FMT_TRANSPORT_A;
++}
++
++inline void nvme_tcp_ofld_set_sg_inline(struct nvme_tcp_ofld_queue *queue,
++					struct nvme_command *c, u32 data_len)
++{
++	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
++
++	sg->addr = cpu_to_le64(queue->ctrl->nctrl.icdoff);
++	sg->length = cpu_to_le32(data_len);
++	sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
++}
++
++void nvme_tcp_ofld_map_data(struct nvme_command *c, u32 data_len)
++{
++	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
++
++	sg->addr = 0;
++	sg->length = cpu_to_le32(data_len);
++	sg->type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) | NVME_SGL_FMT_TRANSPORT_A;
++}
++
+ static void nvme_tcp_ofld_submit_async_event(struct nvme_ctrl *arg)
+ {
+ 	/* Placeholder - submit_async_event */
+@@ -855,9 +886,12 @@ nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
+ {
+ 	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_tcp_ofld_ctrl *ctrl = set->driver_data;
++	int qid;
+ 
+-	/* Placeholder - init request */
 -
- out_stop_queue:
--	/* Placeholder - stop offload queue */
-+	nvme_tcp_ofld_stop_queue(nctrl, 0);
- 	nvme_cancel_admin_tagset(nctrl);
--
-+out_cleanup_queue:
-+	if (new)
-+		blk_cleanup_queue(nctrl->admin_q);
- out_cleanup_fabrics_q:
- 	if (new)
- 		blk_cleanup_queue(nctrl->fabrics_q);
-@@ -250,7 +340,136 @@ static int nvme_tcp_ofld_configure_admin_queue(struct nvme_ctrl *nctrl,
- 	if (new)
- 		blk_mq_free_tag_set(nctrl->admin_tagset);
- out_free_queue:
--	/* Placeholder - free admin queue */
-+	nvme_tcp_ofld_free_queue(nctrl, 0);
-+
-+	return rc;
-+}
-+
-+static unsigned int nvme_tcp_ofld_nr_io_queues(struct nvme_ctrl *nctrl)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	struct nvme_tcp_ofld_dev *dev = ctrl->dev;
-+	u32 hw_vectors = dev->num_hw_vectors;
-+	u32 nr_write_queues, nr_poll_queues;
-+	u32 nr_io_queues, nr_total_queues;
-+
-+	nr_io_queues = min3(nctrl->opts->nr_io_queues, num_online_cpus(),
-+			    hw_vectors);
-+	nr_write_queues = min3(nctrl->opts->nr_write_queues, num_online_cpus(),
-+			       hw_vectors);
-+	nr_poll_queues = min3(nctrl->opts->nr_poll_queues, num_online_cpus(),
-+			      hw_vectors);
-+
-+	nr_total_queues = nr_io_queues + nr_write_queues + nr_poll_queues;
-+
-+	return nr_total_queues;
-+}
-+
-+static void
-+nvme_tcp_ofld_set_io_queues(struct nvme_ctrl *nctrl, unsigned int nr_io_queues)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	struct nvmf_ctrl_options *opts = nctrl->opts;
-+
-+	if (opts->nr_write_queues && opts->nr_io_queues < nr_io_queues) {
-+		/*
-+		 * separate read/write queues
-+		 * hand out dedicated default queues only after we have
-+		 * sufficient read queues.
-+		 */
-+		ctrl->io_queues[HCTX_TYPE_READ] = opts->nr_io_queues;
-+		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_READ];
-+		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
-+			min(opts->nr_write_queues, nr_io_queues);
-+		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+	} else {
-+		/*
-+		 * shared read/write queues
-+		 * either no write queues were requested, or we don't have
-+		 * sufficient queue count to have dedicated default queues.
-+		 */
-+		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
-+			min(opts->nr_io_queues, nr_io_queues);
-+		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+	}
-+
-+	if (opts->nr_poll_queues && nr_io_queues) {
-+		/* map dedicated poll queues only if we have queues left */
-+		ctrl->io_queues[HCTX_TYPE_POLL] =
-+			min(opts->nr_poll_queues, nr_io_queues);
-+	}
-+}
-+
-+static void
-+nvme_tcp_ofld_terminate_io_queues(struct nvme_ctrl *nctrl, int start_from)
-+{
-+	int i;
-+
-+	/* Loop condition will stop before index 0 which is the admin queue */
-+	for (i = start_from; i >= 1; i--)
-+		nvme_tcp_ofld_stop_queue(nctrl, i);
-+}
-+
-+static int nvme_tcp_ofld_create_io_queues(struct nvme_ctrl *nctrl)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	int i, rc;
-+
-+	for (i = 1; i < nctrl->queue_count; i++) {
-+		rc = ctrl->dev->ops->create_queue(&ctrl->queues[i],
-+						  i, nctrl->sqsize + 1);
-+		if (rc)
-+			goto out_free_queues;
-+
-+		set_bit(NVME_TCP_OFLD_Q_ALLOCATED, &ctrl->queues[i].flags);
-+	}
-+
-+	return 0;
-+
-+out_free_queues:
-+	nvme_tcp_ofld_terminate_io_queues(nctrl, --i);
-+
-+	return rc;
-+}
-+
-+static int nvme_tcp_ofld_alloc_io_queues(struct nvme_ctrl *nctrl)
-+{
-+	unsigned int nr_io_queues;
-+	int rc;
-+
-+	nr_io_queues = nvme_tcp_ofld_nr_io_queues(nctrl);
-+	rc = nvme_set_queue_count(nctrl, &nr_io_queues);
-+	if (rc)
-+		return rc;
-+
-+	nctrl->queue_count = nr_io_queues + 1;
-+	if (nctrl->queue_count < 2) {
-+		dev_err(nctrl->device,
-+			"unable to set any I/O queues\n");
-+
-+		return -ENOMEM;
-+	}
-+
-+	dev_info(nctrl->device, "creating %d I/O queues.\n", nr_io_queues);
-+	nvme_tcp_ofld_set_io_queues(nctrl, nr_io_queues);
-+
-+	return nvme_tcp_ofld_create_io_queues(nctrl);
-+}
-+
-+static int nvme_tcp_ofld_start_io_queues(struct nvme_ctrl *nctrl)
-+{
-+	int i, rc = 0;
-+
-+	for (i = 1; i < nctrl->queue_count; i++) {
-+		rc = nvme_tcp_ofld_start_queue(nctrl, i);
-+		if (rc)
-+			goto terminate_queues;
-+	}
-+
-+	return 0;
-+
-+terminate_queues:
-+	nvme_tcp_ofld_terminate_io_queues(nctrl, --i);
++	qid = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
++	req->queue = &ctrl->queues[qid];
++	nvme_req(rq)->ctrl = &ctrl->nctrl;
++	nvme_req(rq)->cmd = &req->nvme_cmd;
+ 	req->done = nvme_tcp_ofld_req_done;
+ 	ctrl->dev->ops->init_req(req);
  
- 	return rc;
- }
-@@ -258,9 +477,10 @@ static int nvme_tcp_ofld_configure_admin_queue(struct nvme_ctrl *nctrl,
- static int
- nvme_tcp_ofld_configure_io_queues(struct nvme_ctrl *nctrl, bool new)
+@@ -872,16 +906,60 @@ EXPORT_SYMBOL_GPL(nvme_tcp_ofld_inline_data_size);
+ 
+ static void nvme_tcp_ofld_commit_rqs(struct blk_mq_hw_ctx *hctx)
  {
--	int rc;
-+	int rc = nvme_tcp_ofld_alloc_io_queues(nctrl);
- 
--	/* Placeholder - alloc_io_queues */
-+	if (rc)
-+		return rc;
- 
- 	if (new) {
- 		nctrl->tagset = nvme_tcp_ofld_alloc_tagset(nctrl, false);
-@@ -278,7 +498,9 @@ nvme_tcp_ofld_configure_io_queues(struct nvme_ctrl *nctrl, bool new)
- 		}
- 	}
- 
--	/* Placeholder - start_io_queues */
-+	rc = nvme_tcp_ofld_start_io_queues(nctrl);
-+	if (rc)
-+		goto out_cleanup_connect_q;
- 
- 	if (!new) {
- 		nvme_start_queues(nctrl);
-@@ -300,16 +522,16 @@ nvme_tcp_ofld_configure_io_queues(struct nvme_ctrl *nctrl, bool new)
- out_wait_freeze_timed_out:
- 	nvme_stop_queues(nctrl);
- 	nvme_sync_io_queues(nctrl);
--
--	/* Placeholder - Stop IO queues */
--
-+	nvme_tcp_ofld_stop_io_queues(nctrl);
-+out_cleanup_connect_q:
-+	nvme_cancel_tagset(nctrl);
- 	if (new)
- 		blk_cleanup_queue(nctrl->connect_q);
- out_free_tag_set:
- 	if (new)
- 		blk_mq_free_tag_set(nctrl->tagset);
- out_free_io_queues:
--	/* Placeholder - free_io_queues */
-+	nvme_tcp_ofld_terminate_io_queues(nctrl, nctrl->queue_count);
- 
- 	return rc;
- }
-@@ -336,6 +558,26 @@ static void nvme_tcp_ofld_reconnect_or_remove(struct nvme_ctrl *nctrl)
- 	}
+-	/* Call ops->commit_rqs */
++	struct nvme_tcp_ofld_queue *queue = hctx->driver_data;
++	struct nvme_tcp_ofld_dev *dev = queue->dev;
++	struct nvme_tcp_ofld_ops *ops = dev->ops;
++
++	ops->commit_rqs(queue);
  }
  
-+static int
-+nvme_tcp_ofld_init_admin_hctx(struct blk_mq_hw_ctx *hctx, void *data,
-+			      unsigned int hctx_idx)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = data;
-+
-+	hctx->driver_data = &ctrl->queues[0];
-+
-+	return 0;
-+}
-+
-+static void nvme_tcp_ofld_destroy_io_queues(struct nvme_ctrl *nctrl, bool remove)
-+{
-+	nvme_tcp_ofld_stop_io_queues(nctrl);
-+	if (remove) {
-+		blk_cleanup_queue(nctrl->connect_q);
-+		blk_mq_free_tag_set(nctrl->tagset);
-+	}
-+}
-+
- static int nvme_tcp_ofld_setup_ctrl(struct nvme_ctrl *nctrl, bool new)
- {
- 	struct nvmf_ctrl_options *opts = nctrl->opts;
-@@ -392,9 +634,19 @@ static int nvme_tcp_ofld_setup_ctrl(struct nvme_ctrl *nctrl, bool new)
- 	return 0;
- 
- destroy_io:
--	/* Placeholder - stop and destroy io queues*/
-+	if (nctrl->queue_count > 1) {
-+		nvme_stop_queues(nctrl);
-+		nvme_sync_io_queues(nctrl);
-+		nvme_tcp_ofld_stop_io_queues(nctrl);
-+		nvme_cancel_tagset(nctrl);
-+		nvme_tcp_ofld_destroy_io_queues(nctrl, new);
-+	}
- destroy_admin:
--	/* Placeholder - stop and destroy admin queue*/
-+	blk_mq_quiesce_queue(nctrl->admin_q);
-+	blk_sync_queue(nctrl->admin_q);
-+	nvme_tcp_ofld_stop_queue(nctrl, 0);
-+	nvme_cancel_admin_tagset(nctrl);
-+	nvme_tcp_ofld_destroy_admin_queue(nctrl, new);
- 
- 	return rc;
- }
-@@ -415,6 +667,18 @@ nvme_tcp_ofld_check_dev_opts(struct nvmf_ctrl_options *opts,
- 	return 0;
- }
- 
-+static void nvme_tcp_ofld_free_ctrl_queues(struct nvme_ctrl *nctrl)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-+	int i;
-+
-+	for (i = 0; i < nctrl->queue_count; ++i)
-+		nvme_tcp_ofld_free_queue(nctrl, i);
-+
-+	kfree(ctrl->queues);
-+	ctrl->queues = NULL;
-+}
-+
- static void nvme_tcp_ofld_free_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-@@ -424,6 +688,7 @@ static void nvme_tcp_ofld_free_ctrl(struct nvme_ctrl *nctrl)
- 		goto free_ctrl;
- 
- 	down_write(&nvme_tcp_ofld_ctrl_rwsem);
-+	nvme_tcp_ofld_free_ctrl_queues(nctrl);
- 	ctrl->dev->ops->release_ctrl(ctrl);
- 	list_del(&ctrl->list);
- 	up_write(&nvme_tcp_ofld_ctrl_rwsem);
-@@ -441,15 +706,37 @@ static void nvme_tcp_ofld_submit_async_event(struct nvme_ctrl *arg)
- }
- 
- static void
--nvme_tcp_ofld_teardown_admin_queue(struct nvme_ctrl *ctrl, bool remove)
-+nvme_tcp_ofld_teardown_admin_queue(struct nvme_ctrl *nctrl, bool remove)
- {
--	/* Placeholder - teardown_admin_queue */
-+	blk_mq_quiesce_queue(nctrl->admin_q);
-+	blk_sync_queue(nctrl->admin_q);
-+
-+	nvme_tcp_ofld_stop_queue(nctrl, 0);
-+	nvme_cancel_admin_tagset(nctrl);
-+
-+	if (remove)
-+		blk_mq_unquiesce_queue(nctrl->admin_q);
-+
-+	nvme_tcp_ofld_destroy_admin_queue(nctrl, remove);
- }
- 
- static void
- nvme_tcp_ofld_teardown_io_queues(struct nvme_ctrl *nctrl, bool remove)
- {
--	/* Placeholder - teardown_io_queues */
-+	if (nctrl->queue_count <= 1)
-+		return;
-+
-+	blk_mq_quiesce_queue(nctrl->admin_q);
-+	nvme_start_freeze(nctrl);
-+	nvme_stop_queues(nctrl);
-+	nvme_sync_io_queues(nctrl);
-+	nvme_tcp_ofld_stop_io_queues(nctrl);
-+	nvme_cancel_tagset(nctrl);
-+
-+	if (remove)
-+		nvme_start_queues(nctrl);
-+
-+	nvme_tcp_ofld_destroy_io_queues(nctrl, remove);
- }
- 
- static void nvme_tcp_ofld_reconnect_ctrl_work(struct work_struct *work)
-@@ -577,6 +864,17 @@ nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
- 	return 0;
- }
- 
-+inline size_t nvme_tcp_ofld_inline_data_size(struct nvme_tcp_ofld_queue *queue)
-+{
-+	return queue->cmnd_capsule_len - sizeof(struct nvme_command);
-+}
-+EXPORT_SYMBOL_GPL(nvme_tcp_ofld_inline_data_size);
-+
-+static void nvme_tcp_ofld_commit_rqs(struct blk_mq_hw_ctx *hctx)
-+{
-+	/* Call ops->commit_rqs */
-+}
-+
  static blk_status_t
  nvme_tcp_ofld_queue_rq(struct blk_mq_hw_ctx *hctx,
  		       const struct blk_mq_queue_data *bd)
-@@ -588,22 +886,96 @@ nvme_tcp_ofld_queue_rq(struct blk_mq_hw_ctx *hctx,
+ {
+-	/* Call nvme_setup_cmd(...) */
++	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(bd->rq);
++	struct nvme_tcp_ofld_queue *queue = hctx->driver_data;
++	struct nvme_tcp_ofld_ctrl *ctrl = queue->ctrl;
++	struct nvme_ns *ns = hctx->queue->queuedata;
++	struct nvme_tcp_ofld_dev *dev = queue->dev;
++	struct nvme_tcp_ofld_ops *ops = dev->ops;
++	struct nvme_command *nvme_cmd;
++	struct request *rq;
++	bool queue_ready;
++	u32 data_len;
++	int rc;
++
++	queue_ready = test_bit(NVME_TCP_OFLD_Q_LIVE, &queue->flags);
++
++	req->rq = bd->rq;
++	req->async = false;
++	rq = req->rq;
++
++	if (!nvme_check_ready(&ctrl->nctrl, req->rq, queue_ready))
++		return nvme_fail_nonready_command(&ctrl->nctrl, req->rq);
++
++	rc = nvme_setup_cmd(ns, req->rq);
++	if (unlikely(rc))
++		return rc;
+ 
+-	/* Call ops->send_req(...) */
++	blk_mq_start_request(req->rq);
++	req->last = bd->last;
++
++	nvme_cmd = &req->nvme_cmd;
++	nvme_cmd->common.flags |= NVME_CMD_SGL_METABUF;
++
++	data_len = blk_rq_nr_phys_segments(rq) ? blk_rq_payload_bytes(rq) : 0;
++	if (!data_len)
++		nvme_tcp_ofld_set_sg_null(&req->nvme_cmd);
++	else if ((rq_data_dir(rq) == WRITE) &&
++		 data_len <= nvme_tcp_ofld_inline_data_size(queue))
++		nvme_tcp_ofld_set_sg_inline(queue, nvme_cmd, data_len);
++	else
++		nvme_tcp_ofld_map_data(nvme_cmd, data_len);
++
++	rc = ops->send_req(req);
++	if (unlikely(rc))
++		return rc;
+ 
  	return BLK_STS_OK;
  }
+@@ -954,9 +1032,11 @@ static int nvme_tcp_ofld_map_queues(struct blk_mq_tag_set *set)
  
-+static void
-+nvme_tcp_ofld_exit_request(struct blk_mq_tag_set *set,
-+			   struct request *rq, unsigned int hctx_idx)
-+{
-+	/*
-+	 * Nothing is allocated in nvme_tcp_ofld_init_request,
-+	 * hence empty.
-+	 */
-+}
-+
-+static int
-+nvme_tcp_ofld_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
-+			unsigned int hctx_idx)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = data;
-+
-+	hctx->driver_data = &ctrl->queues[hctx_idx + 1];
-+
-+	return 0;
-+}
-+
-+static int nvme_tcp_ofld_map_queues(struct blk_mq_tag_set *set)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl = set->driver_data;
-+	struct nvmf_ctrl_options *opts = ctrl->nctrl.opts;
-+
-+	if (opts->nr_write_queues && ctrl->io_queues[HCTX_TYPE_READ]) {
-+		/* separate read/write queues */
-+		set->map[HCTX_TYPE_DEFAULT].nr_queues =
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+		set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
-+		set->map[HCTX_TYPE_READ].nr_queues =
-+			ctrl->io_queues[HCTX_TYPE_READ];
-+		set->map[HCTX_TYPE_READ].queue_offset =
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+	} else {
-+		/* shared read/write queues */
-+		set->map[HCTX_TYPE_DEFAULT].nr_queues =
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+		set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
-+		set->map[HCTX_TYPE_READ].nr_queues =
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+		set->map[HCTX_TYPE_READ].queue_offset = 0;
-+	}
-+	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
-+	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
-+
-+	if (opts->nr_poll_queues && ctrl->io_queues[HCTX_TYPE_POLL]) {
-+		/* map dedicated poll queues only if we have queues left */
-+		set->map[HCTX_TYPE_POLL].nr_queues =
-+				ctrl->io_queues[HCTX_TYPE_POLL];
-+		set->map[HCTX_TYPE_POLL].queue_offset =
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT] +
-+			ctrl->io_queues[HCTX_TYPE_READ];
-+		blk_mq_map_queues(&set->map[HCTX_TYPE_POLL]);
-+	}
-+
-+	dev_info(ctrl->nctrl.device,
-+		 "mapped %d/%d/%d default/read/poll queues.\n",
-+		 ctrl->io_queues[HCTX_TYPE_DEFAULT],
-+		 ctrl->io_queues[HCTX_TYPE_READ],
-+		 ctrl->io_queues[HCTX_TYPE_POLL]);
-+
-+	return 0;
-+}
-+
-+static int nvme_tcp_ofld_poll(struct blk_mq_hw_ctx *hctx)
-+{
-+	/* Placeholder - Implement polling mechanism */
-+
-+	return 0;
-+}
-+
+ static int nvme_tcp_ofld_poll(struct blk_mq_hw_ctx *hctx)
+ {
+-	/* Placeholder - Implement polling mechanism */
++	struct nvme_tcp_ofld_queue *queue = hctx->driver_data;
++	struct nvme_tcp_ofld_dev *dev = queue->dev;
++	struct nvme_tcp_ofld_ops *ops = dev->ops;
+ 
+-	return 0;
++	return ops->poll_queue(queue);
+ }
+ 
  static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
- 	.queue_rq	= nvme_tcp_ofld_queue_rq,
-+	.commit_rqs     = nvme_tcp_ofld_commit_rqs,
-+	.complete	= nvme_complete_rq,
- 	.init_request	= nvme_tcp_ofld_init_request,
--	/*
--	 * All additional ops will be also implemented and registered similar to
--	 * tcp.c
--	 */
-+	.exit_request	= nvme_tcp_ofld_exit_request,
-+	.init_hctx	= nvme_tcp_ofld_init_hctx,
-+	.map_queues	= nvme_tcp_ofld_map_queues,
-+	.poll		= nvme_tcp_ofld_poll,
- };
- 
- static struct blk_mq_ops nvme_tcp_ofld_admin_mq_ops = {
- 	.queue_rq	= nvme_tcp_ofld_queue_rq,
-+	.complete	= nvme_complete_rq,
- 	.init_request	= nvme_tcp_ofld_init_request,
--	/*
--	 * All additional ops will be also implemented and registered similar to
--	 * tcp.c
--	 */
-+	.exit_request	= nvme_tcp_ofld_exit_request,
-+	.init_hctx	= nvme_tcp_ofld_init_admin_hctx,
- };
- 
- static const struct nvme_ctrl_ops nvme_tcp_ofld_ctrl_ops = {
-diff --git a/drivers/nvme/host/tcp-offload.h b/drivers/nvme/host/tcp-offload.h
-index 2a931d05905d..2233d855aa10 100644
---- a/drivers/nvme/host/tcp-offload.h
-+++ b/drivers/nvme/host/tcp-offload.h
-@@ -211,3 +211,4 @@ struct nvme_tcp_ofld_ops {
- int nvme_tcp_ofld_register_dev(struct nvme_tcp_ofld_dev *dev);
- void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev);
- void nvme_tcp_ofld_error_recovery(struct nvme_ctrl *nctrl);
-+inline size_t nvme_tcp_ofld_inline_data_size(struct nvme_tcp_ofld_queue *queue);
 -- 
 2.22.0
 
