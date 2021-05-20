@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D63BC433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 05:45:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E33DC433B4
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 05:46:04 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 277E1610A2
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 05:45:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 277E1610A2
+	by mail.kernel.org (Postfix) with ESMTPS id BE9E0610A2
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 05:46:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BE9E0610A2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,40 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xZmxwZBM/LFkUQgGIJZzB1FTChmxJntks7i+dLcvAJA=; b=D6Cea6zWFVDmwQDzOzhvLdhrk
-	qb56DOJOy3LqBwE8xSzFY7C6So5WY2Sq0uUgWFrFF+RJOHxVzpuNdK6xbQ8nlqQSquO7+xzfYCRCV
-	MtfBP7R2Ocepy/yVogew7RxRHXZWa4VstTNGFPon08z5i7EM+o0IDgyaK9MECQ2xhdKfGtOSmJ8Bo
-	srAJsg6+1v8JajeWNFkIQ0ak9wk4tu0AgpXtTfL/2WIy4eWrCTWvdFAVUuZ/HUpgxzZYXyeroVteG
-	9GeYlp5xPv6U77en3ck47pDYtmPsnUlNEgApYIAcuWzZm/PggvFuBG9W9KYwPAbaLVIBbgNLaT/YK
-	dpG1RIoRw==;
+	 bh=ffdzDqOZxzpQl49KNG2wqQzw6Bhs901CWF+5KLVSXHk=; b=rK/NZaAp3EL41Kg8ZrlHCyrIR
+	BjDWubRF0eefYb+Hws3JkzEF0a/tevbaOeAWH6iUbcbzYbKiu/Kz+XrgTzgI+HXut9fPTgo8lQz61
+	vvxwtk/ezvpS7RRTl6uKatlyIiWdbY/1c5zcjmabCIe4okTLI+2PtVIiW60w21OpLPAKEKHSQPS4T
+	+kDmc6OzRcfiU2Oa5tsi5ytXjw8rQBxHcfGNzbiB1bN9i/OvbjoAGAl0iGWAeG1u69G2qB/Sj3xOv
+	amddkS3qdTAmvi3mQeqzJfKfKrH1ddOJ3xdvp42BCEuqlz6+R46rAcyG9hFdAf4+mWFjUdGQaMaZx
+	9A2gKJAig==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1ljbV5-005ynn-K3; Thu, 20 May 2021 05:45:39 +0000
+	id 1ljbVO-005yr9-EG; Thu, 20 May 2021 05:45:58 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljbUB-005ye8-Kn
- for linux-nvme@desiato.infradead.org; Thu, 20 May 2021 05:44:43 +0000
+ id 1ljbUE-005yfS-8b
+ for linux-nvme@desiato.infradead.org; Thu, 20 May 2021 05:44:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=OBWU1lWHiGcCjbOXnaVpI9clSefNW+ML0YG47lzNlKI=; b=MkM2jmjJVncwnD2mMh1QXLfpHJ
- AlQI1RarTwFVdpUesUG7THv+iOLLFIqd0jjkfNc77J3Mw8S9QY31L8wVeiVmPaXQz2OgHmoCLs8Jl
- 5ABfjhXIvmkkTDAXoqJobiwSCEFiVvdi4+yw2wTVjnxltHHn3RMTluPBzgThuA0Qc5J3+wvz8PzGS
- AGxH4jl29H9cH1Iakup8NLqY5BzepzcRR0aN2Mf99B9MSHh0p2saJyOK66vnjHLm0K5nUrqCzsNXJ
- XGiLmqkBdcGer0DoHQlS5J1AarmgXXvrLKTSJYX1Gt9+8cGRxIXxshN3PXKuvT1FT+mTgK8c9xDzy
- WNMl2smA==;
+ bh=JoSJkBaJXcaVfj+E189RxrmtRUy7VbYxWGCjKY9TSqc=; b=z7IFZFgb9wUvKchSnHYDLa8N/Q
+ PkEcns6nUvAuswOxwtKlyMemzlh0fcaMg+T4tyQj6KYG7tEbBO7N5mVHXCZoBNjngRE+cNva1JX6V
+ e9FPPLwRcnHq9PsarvloWnXWiv7onrJrUak8FAxK1daPNA5Pj2ii/29EtAyYUnQMjRSYRoKT+QzcI
+ a5Lv40U5WZArXBtOJqigM2Im2mP8cnj1/79Yex7PiYxac//RZDpkRO6oA0khRfm61nxzqr49YehB6
+ VW3ogdn720MMejTt0SHZSKowT5p8emxUzz/nf01uzoALvUq7/JqU0NMDfGi5lAZYB4BulOLIO6ZGU
+ diMrofjQ==;
 Received: from [2001:4bb8:180:5add:a633:7cce:5450:3d63] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
- id 1ljbUA-00FxMe-0D; Thu, 20 May 2021 05:44:42 +0000
+ id 1ljbUC-00FxMk-J1; Thu, 20 May 2021 05:44:45 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>
 Cc: Minwoo Im <minwoo.im.dev@gmail.com>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 5/7] nvme: move the CSI sanity check into nvme_ns_report_zones
-Date: Thu, 20 May 2021 07:44:24 +0200
-Message-Id: <20210520054426.567241-6-hch@lst.de>
+Subject: [PATCH 6/7] nvme: split nvme_report_zones
+Date: Thu, 20 May 2021 07:44:25 +0200
+Message-Id: <20210520054426.567241-7-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210520054426.567241-1-hch@lst.de>
 References: <20210520054426.567241-1-hch@lst.de>
@@ -79,41 +79,140 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the CSI check into nvme_ns_report_zones to clean up the code
-a little bit and prepare for further refactoring.
+Split multipath support out of nvme_report_zones into a separate helper
+and simplify the non-multipath version as a result.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/zns.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c      | 11 +++++++++++
+ drivers/nvme/host/multipath.c | 21 ++++++++++++++++++++-
+ drivers/nvme/host/nvme.h      |  7 ++-----
+ drivers/nvme/host/zns.c       | 20 ++------------------
+ 4 files changed, 35 insertions(+), 24 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e7441ccaa8db..309b7b3635f0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2073,6 +2073,17 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+ EXPORT_SYMBOL_GPL(nvme_sec_submit);
+ #endif /* CONFIG_BLK_SED_OPAL */
+ 
++#ifdef CONFIG_BLK_DEV_ZONED
++static int nvme_report_zones(struct gendisk *disk, sector_t sector,
++		unsigned int nr_zones, report_zones_cb cb, void *data)
++{
++	return nvme_ns_report_zones(disk->private_data, sector, nr_zones, cb,
++			data);
++}
++#else
++#define nvme_report_zones	NULL
++#endif /* CONFIG_BLK_DEV_ZONED */
++
+ static const struct block_device_operations nvme_bdev_ops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f81871c7128a..127a17b4c13d 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -349,6 +349,25 @@ static void nvme_ns_head_release(struct gendisk *disk, fmode_t mode)
+ 	nvme_put_ns_head(disk->private_data);
+ }
+ 
++#ifdef CONFIG_BLK_DEV_ZONED
++static int nvme_ns_head_report_zones(struct gendisk *disk, sector_t sector,
++		unsigned int nr_zones, report_zones_cb cb, void *data)
++{
++	struct nvme_ns_head *head = disk->private_data;
++	struct nvme_ns *ns;
++	int srcu_idx, ret = -EWOULDBLOCK;
++
++	srcu_idx = srcu_read_lock(&head->srcu);
++	ns = nvme_find_path(head);
++	if (ns)
++		ret = nvme_ns_report_zones(ns, sector, nr_zones, cb, data);
++	srcu_read_unlock(&head->srcu, srcu_idx);
++	return ret;
++}
++#else
++#define nvme_ns_head_report_zones	NULL
++#endif /* CONFIG_BLK_DEV_ZONED */
++
+ const struct block_device_operations nvme_ns_head_ops = {
+ 	.owner		= THIS_MODULE,
+ 	.submit_bio	= nvme_ns_head_submit_bio,
+@@ -356,7 +375,7 @@ const struct block_device_operations nvme_ns_head_ops = {
+ 	.release	= nvme_ns_head_release,
+ 	.ioctl		= nvme_ns_head_ioctl,
+ 	.getgeo		= nvme_getgeo,
+-	.report_zones	= nvme_report_zones,
++	.report_zones	= nvme_ns_head_report_zones,
+ 	.pr_ops		= &nvme_pr_ops,
+ };
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0015860ec12b..01f41b2bf915 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -810,17 +810,14 @@ static inline void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
+ #endif /* CONFIG_NVME_MULTIPATH */
+ 
+ int nvme_revalidate_zones(struct nvme_ns *ns);
++int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
++		unsigned int nr_zones, report_zones_cb cb, void *data);
+ #ifdef CONFIG_BLK_DEV_ZONED
+ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf);
+-int nvme_report_zones(struct gendisk *disk, sector_t sector,
+-		      unsigned int nr_zones, report_zones_cb cb, void *data);
+-
+ blk_status_t nvme_setup_zone_mgmt_send(struct nvme_ns *ns, struct request *req,
+ 				       struct nvme_command *cmnd,
+ 				       enum nvme_zone_mgmt_action action);
+ #else
+-#define nvme_report_zones NULL
+-
+ static inline blk_status_t nvme_setup_zone_mgmt_send(struct nvme_ns *ns,
+ 		struct request *req, struct nvme_command *cmnd,
+ 		enum nvme_zone_mgmt_action action)
 diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-index 475dd45c3db4..31e789ecd940 100644
+index 31e789ecd940..d95010481fce 100644
 --- a/drivers/nvme/host/zns.c
 +++ b/drivers/nvme/host/zns.c
-@@ -180,6 +180,9 @@ static int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
- 	unsigned int nz, i;
- 	size_t buflen;
+@@ -171,8 +171,8 @@ static int nvme_zone_parse_entry(struct nvme_ns *ns,
+ 	return cb(&zone, idx, data);
+ }
  
-+	if (ns->head->ids.csi != NVME_CSI_ZNS)
-+		return -EINVAL;
-+
- 	report = nvme_zns_alloc_report_buffer(ns, nr_zones, &buflen);
- 	if (!report)
- 		return -ENOMEM;
-@@ -237,11 +240,7 @@ int nvme_report_zones(struct gendisk *disk, sector_t sector,
- 	ns = nvme_get_ns_from_disk(disk, &head, &srcu_idx);
- 	if (unlikely(!ns))
- 		return -EWOULDBLOCK;
--
--	if (ns->head->ids.csi == NVME_CSI_ZNS)
--		ret = nvme_ns_report_zones(ns, sector, nr_zones, cb, data);
--	else
--		ret = -EINVAL;
-+	ret = nvme_ns_report_zones(ns, sector, nr_zones, cb, data);
- 	nvme_put_ns_from_disk(head, srcu_idx);
- 
+-static int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+-			unsigned int nr_zones, report_zones_cb cb, void *data)
++int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
++		unsigned int nr_zones, report_zones_cb cb, void *data)
+ {
+ 	struct nvme_zone_report *report;
+ 	struct nvme_command c = { };
+@@ -230,22 +230,6 @@ static int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
  	return ret;
+ }
+ 
+-int nvme_report_zones(struct gendisk *disk, sector_t sector,
+-		      unsigned int nr_zones, report_zones_cb cb, void *data)
+-{
+-	struct nvme_ns_head *head = NULL;
+-	struct nvme_ns *ns;
+-	int srcu_idx, ret;
+-
+-	ns = nvme_get_ns_from_disk(disk, &head, &srcu_idx);
+-	if (unlikely(!ns))
+-		return -EWOULDBLOCK;
+-	ret = nvme_ns_report_zones(ns, sector, nr_zones, cb, data);
+-	nvme_put_ns_from_disk(head, srcu_idx);
+-
+-	return ret;
+-}
+-
+ blk_status_t nvme_setup_zone_mgmt_send(struct nvme_ns *ns, struct request *req,
+ 		struct nvme_command *c, enum nvme_zone_mgmt_action action)
+ {
 -- 
 2.30.2
 
