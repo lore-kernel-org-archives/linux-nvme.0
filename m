@@ -2,100 +2,88 @@ Return-Path: <SRS0=7pRJ=KP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,FUZZY_PRICES,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1623DC433ED
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 18:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F0BC43460
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 19:02:10 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7899C61244
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 18:54:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7899C61244
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 238D861246
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 19:02:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 238D861246
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UyHNWLraQOjYXPl6KQhsp8Pd94xhYRTMjw7MwtzoyAw=; b=dia5K4irptROiMh4WI9i98XDOd
-	kjmZiiDcoSGr/697ppZ/tacYq0DTq01vPveitg97f24N0Twy//LoJ9nvw4KkvrnnDgwCDVzFG7TaA
-	EevoG4ZMkLLd6eU9SQv1mDpX4Bb4D46BWOi4yOnIgOjB0cdCWNdv/aPyD5MMMT77D4bSuprm2Fcyq
-	JEUwS39INdlFor80W9UDy/saQEVckh2Yr4ELjNvjdR5LO0sXCrEiCJd2HcYWwGMv8vmGzAnv469U0
-	R+C45Rd19kQc3fmgnBX3Wz5393eVSO477eRxMC+md3F1HF1kz7EwC7vb1K2E+Y0GGeZagTjxZoylS
-	ttUkygYA==;
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	bh=P/RkgThWIHFsuF1/bPju4rPkEpC15dRIGccE/JUCA3c=; b=aYmf31M1FbQRb+iRpElcCtPyLm
+	sUulmwPog4/KhW1QHG0GwNXrh354mE9Obev9AR7BUCLmDn0BhPNl5TnL3/HzZUQYw+SDFOf8aq1Mu
+	j19jmV/VWNtvuEO1qycuqX5BY2IWq7L/B5/GmZoxbNJ/hFg/YVXNygbvdubK/jYPPHfIIjfrDzYkl
+	iNevc1sWMEuwZgjwFiDRYOYPEx9tyENbFs92zxOhP8UjzeIEp8AZnAPrldW7k/G619p9KUnESp4/b
+	g7hhu+e07VeLuHmR6cHBqNoziyIShBPsfFtMWOVO+z3wUCJ3pc42HVusGs1zBjAFhXUV8Ko9UyKv2
+	IOQsYDVw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ljnoE-002N7D-32; Thu, 20 May 2021 18:54:14 +0000
+	id 1ljnv5-002OfG-HI; Thu, 20 May 2021 19:01:23 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ljno8-002N6N-Oe
- for linux-nvme@desiato.infradead.org; Thu, 20 May 2021 18:54:09 +0000
+ id 1ljnuq-002Od9-NZ
+ for linux-nvme@desiato.infradead.org; Thu, 20 May 2021 19:01:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=piD6/4rjkHQIojLZk7qptlpveJLxYPIPmbGvM2jTjUo=; b=5Fnn2jRneaWfVvRDvpPT/fquI6
- LE+IamfzltIsosxrI9TdzLWSe+24w8qvudU0EA6esVckmk7BBeFINY0iLjGk1oLSF5R+hTlSEl/6h
- TeVlm383zq9GhCuU/FcsA1CYZfgt9BBe8T1p3NqsHMs14R9GM2wRh2b8oq42OsCiIoU5N7ULu7VJX
- 9CBK2c0qFUYXA9XQOXS2HE0OOM4KeBwIaBduI66qXEDs5nRz9fC4dVa5FhAoiI5/C5QiEL5oOxHuJ
- qgIhLOHsdGw90qHHtQhPZy3Yl0V4ZnSEM/6KYpUGbl/M0J1nC5ihiyFEoEJ7MK8EYuszxUtRJz1+E
- hyoDk6MQ==;
-Received: from mail-pl1-f177.google.com ([209.85.214.177])
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+ :Content-ID:Content-Description:References;
+ bh=kgyenWMYnwJ5vLV7yHoHUAJQq5wg8ZP0T/hYansaltQ=; b=kPt2VYsQsSO+NlDPSouIQS72fD
+ lnJSn7RYZzkDTzCpaVr6+EEs1doXKPj3N1RuhbiTgixOuF2naeKwNwbjsxzwr7QDjIIK2kdLtUCuc
+ NO+L7M0ebIHUDDixaNDfsPAG6PDEljhgoONDOEOJXLedDUhQID0Ifjs95dlLOjnP2LlI1MXt0jYck
+ 9wqBH/8gj5fudQBTOmn18yjPiPhrKFzc3pGGhj37wvZXpXPYa/sHB/WRcelDHnTnMdmGpJS7X3y4P
+ fo/UtjXX228ysBO/yxMsTKXMc44RgSdBrsRICxXm8GeC3jjYSTsBunCyuTpKrZIn9FKnoJrUJo/kF
+ m/xPHAQA==;
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljno5-00GaXR-5Q
- for linux-nvme@lists.infradead.org; Thu, 20 May 2021 18:54:07 +0000
-Received: by mail-pl1-f177.google.com with SMTP id t21so9644954plo.2
- for <linux-nvme@lists.infradead.org>; Thu, 20 May 2021 11:54:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=piD6/4rjkHQIojLZk7qptlpveJLxYPIPmbGvM2jTjUo=;
- b=ojjvItNTnbrTAAz5TM+7Wik92dDMFPR2BIR4tCx9C6CWUxJozmFBTGnbnX6gTNT6SF
- EwO3ftKfgYU2HaQvdehSXfgaCLzzmHvAqYCLv7vS9HYFs8vaS/6zJGFkb4sKgKFTgfuN
- uItHZab/DhjkpRJS51nSQwZF2Gk8s5/RrcJICvg+PaZGjkT1xI7MjSIDNqe2p8W7Plda
- pBbe7GBBlRGVPIBegilXgSUFg/E2gwYDzouqYfnA8nKa9oi/P3jlcyb5qy0vGOKjBJCg
- luVXTuqw7uEZh32KOlsDrN5gNfRBCaEkSae9nh/0Y0A9oC4K4+MHNZqDCN8W2+fvtVuA
- KC4A==
-X-Gm-Message-State: AOAM532gNKxw9VJbxOzJ+6rNPmdQm7O697TIetyho7k+UsgUtqXnTxsM
- Oex2sndVSNdMEjHbSpZf1q0=
-X-Google-Smtp-Source: ABdhPJwo4A511HhMXsl/0m3Xg+kyDWS7xvbTUCPB570bZMMcc+PQP/Axp8IeNVGSvDfluk9Jz8urdQ==
-X-Received: by 2002:a17:902:8211:b029:ef:64c8:5bb2 with SMTP id
- x17-20020a1709028211b02900ef64c85bb2mr7663170pln.64.1621536842985; 
- Thu, 20 May 2021 11:54:02 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:1349:5b78:fe05:c9c1?
- ([2601:647:4802:9070:1349:5b78:fe05:c9c1])
- by smtp.gmail.com with ESMTPSA id r22sm2651226pgr.1.2021.05.20.11.54.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 May 2021 11:54:02 -0700 (PDT)
-Subject: Re: [PATCHv6 1/1] nvme-tcp: Add option to set the physical interface
- to be used when connecting over TCP sockets.
-To: "Belanger, Martin" <Martin.Belanger@dell.com>,
- Martin Belanger <nitram_67@hotmail.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>
-References: <BL0PR13MB4291A122DD3E31016AADB82A9C2D9@BL0PR13MB4291.namprd13.prod.outlook.com>
- <eba75cd2-5021-05c3-f1ca-bfb05432af2b@grimberg.me>
- <BLAPR19MB4531EBB359E0EA4CB80DD418F22A9@BLAPR19MB4531.namprd19.prod.outlook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <5ed4f43e-40c5-f4a0-f1ce-e85358781bcb@grimberg.me>
-Date: Thu, 20 May 2021 11:54:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ id 1ljnum-00GamZ-T5
+ for linux-nvme@lists.infradead.org; Thu, 20 May 2021 19:01:03 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3094B61244;
+ Thu, 20 May 2021 19:01:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1621537260;
+ bh=yU4tmH370WF7vPMonhLNK25hN7Hi1hgNe8EkTdWzIJQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=aQs7PEGAkeUTVgpKTGjJUEtnkqxVUSHjcx8gdb/fim2WclwNx5JEEPcRz1oqSdjC2
+ X/7vB2/O+slnp1hmnhCc8Zd3Lizf94dwZC8+TXuT16FFkMYcmfu3/Jif8vTFnpGHC+
+ J3vQITuFHnBctAl+3sowG3EkyOh1874UZ7zcwJu2gcAr2nWYtj/4fbxwtlHY2bnRWg
+ j1wlPSJYANQXZFDUgmGhaaP2ByzU+qYaCW7wd3AWEXm91XUVlY1jBVAt3qXvzM3Hvz
+ UrZToxwFnUa4sfoTnFRzlZfqh/DkYWvdqqQFQiUZkvf0R4cJk3grHsIm/IcInaDyTa
+ xTmf3jEjUj9Pg==
+Date: Thu, 20 May 2021 14:00:58 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Cc: "Liang, Prike" <Prike.Liang@amd.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
+Subject: Re: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+Message-ID: <20210520190058.GA347246@bjorn-Precision-5520>
 MIME-Version: 1.0
-In-Reply-To: <BLAPR19MB4531EBB359E0EA4CB80DD418F22A9@BLAPR19MB4531.namprd19.prod.outlook.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <MN2PR12MB4488F16CE50BFD4E1F453CFAF72A9@MN2PR12MB4488.namprd12.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210520_115405_242684_6F764742 
-X-CRM114-Status: GOOD (  26.84  )
+X-CRM114-CacheID: sfid-20210520_120101_020298_79B9A522 
+X-CRM114-Status: GOOD (  72.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,125 +95,311 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> Addressed Sagi's review from PATCHv5.
->>
->> This commentary belongs after the '---' separator.
->>
->>>
->>> In our application, we need a way to force TCP connections to go out a
->>> specific IP interface instead of letting Linux select the interface
->>> based on the routing tables. This patch adds the option 'host-iface'
->>> to allow specifying the interface to use. Note that corresponding
->>> changes to the nvme-cli utility will follow.
->>>
->>> When the option host-iface is specified, the driver uses the specified
->>> interface to set the option SO_BINDTODEVICE on the TCP socket before
->>> connecting.
->>>
->>> This new option is needed in addtion to the existing host-traddr for
->>> the following reasons:
->>>
->>> Specifying an IP interface by its associated IP address is less
->>> intuitive than specifying the actual interface name and, in some
->>> cases, simply doesn't work. That's because the association between
->>> interfaces and IP addresses is not predictable. IP addresses can be
->>> changed or can change by themselves over time (e.g. DHCP). Interface
->>> names are predictable [1] and will persist over time. Consider the
->>> following configuration.
->>>
->>> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state ...
->>>       link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
->>>       inet 100.0.0.100/24 scope global lo
->>>          valid_lft forever preferred_lft forever
->>> 2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc ...
->>>       link/ether 08:00:27:21:65:ec brd ff:ff:ff:ff:ff:ff
->>>       inet 100.0.0.100/24 scope global enp0s3
->>>          valid_lft forever preferred_lft forever
->>> 3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc ...
->>>       link/ether 08:00:27:4f:95:5c brd ff:ff:ff:ff:ff:ff
->>>       inet 100.0.0.100/24 scope global enp0s8
->>>          valid_lft forever preferred_lft forever
->>>
->>> The above is a VM that I configured with the same IP address
->>> (100.0.0.100) on all interfaces. Doing a reverse lookup to identify
->>> the unique interface associated with 100.0.0.100 does not work here.
->>> And this is why the option host_iface is required. I understand that
->>> the above config does not represent a standard host system, but I'm
->>> using this to prove a point: "We can never know how users will
->>> configure their systems". By te way, The above configuration is
->>> perfectly fine by Linux.
->>>
->>> The current TCP implementation for host_traddr performs a
->>> bind()-before-connect(). This is a common construct to set the source
->>> IP address on a TCP socket before connecting. This has no effect on
->>> how Linux selects the interface for the connection. That's because
->>> Linux uses the Weak End System model as described in RFC1122 [2]. On
->>> the other hand, setting the Source IP Address has benefits and should
->>> be supported by linux-nvme. In fact, setting the Source IP Address is
->>> a mandatory FedGov requirement (e.g. connection to a RADIUS/TACACS+
->> server).
->>> Consider the following configuration.
->>>
->>> $ ip addr list dev enp0s8
->>> 3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc ...
->>>       link/ether 08:00:27:4f:95:5c brd ff:ff:ff:ff:ff:ff
->>>       inet 192.168.56.101/24 brd 192.168.56.255 scope global enp0s8
->>>          valid_lft 426sec preferred_lft 426sec
->>>       inet 192.168.56.102/24 scope global secondary enp0s8
->>>          valid_lft forever preferred_lft forever
->>>       inet 192.168.56.103/24 scope global secondary enp0s8
->>>          valid_lft forever preferred_lft forever
->>>       inet 192.168.56.104/24 scope global secondary enp0s8
->>>          valid_lft forever preferred_lft forever
->>>
->>> Here we can see that several addresses are associated with interface
->>> enp0s8. By default, Linux always selects the default IP address,
->>> 192.168.56.101, as the source address when connecting over interface
->>> enp0s8. Some users, however, want the ability to specify a different
->>> source address (e.g., 192.168.56.102, 192.168.56.103, ...). The option
->>> host_traddr can be used as-is to perform this function.
->>>
->>> In conclusion, I believe that we need 2 options for TCP connections.
->>> One that can be used to specify an interface (host-iface). And one
->>> that can be used to set the source address (host-traddr). Users should
->>> be allowed to use one or the other, or both, or none. Of course, the
->>> documentation for host_traddr will need some clarification. It should
->>> state that when used for TCP connection, this option only sets the
->>> source address. And the documentation for host_iface should say that
->>> this option is only available for TCP connections.
->>>
->>> References:
->>> [1]
->>> https://urldefense.com/v3/__https://www.freedesktop.org/wiki/Software/
->>> systemd/*5C__;JQ!!LpKI!3qE5jJQA-REQkOr1c042U-
->> ghm28oHvTE48YZkHM5ugob8Sm
->>> IPPIHxwEm7iwkC9kZyA$ [freedesktop[.]org]
->>> PredictableNetworkInterfaceNames/ [2]
->>> https://urldefense.com/v3/__https://tools.ietf.org/html/rfc1122__;!!Lp
->>> KI!3qE5jJQA-REQkOr1c042U-
->> ghm28oHvTE48YZkHM5ugob8SmIPPIHxwEm7ixiy1Q97A$
->>> [tools[.]ietf[.]org]
->>>
->>> Tested both IPv4 and IPv6 connections.
->>
->> Also this.
->>
->> Can you send the nvme-cli bits as well?
+On Thu, May 20, 2021 at 05:40:54PM +0000, Deucher, Alexander wrote:
+> [AMD Public Use]
 > 
-> Hi Sagi,
+> > -----Original Message-----
+> > From: Bjorn Helgaas <helgaas@kernel.org>
+> > Sent: Thursday, May 20, 2021 12:59 PM
+> > To: Liang, Prike <Prike.Liang@amd.com>
+> > Cc: linux-pci@vger.kernel.org; kbusch@kernel.org; axboe@fb.com;
+> > hch@lst.de; sagi@grimberg.me; linux-nvme@lists.infradead.org; Deucher,
+> > Alexander <Alexander.Deucher@amd.com>; stable@vger.kernel.org; S-k,
+> > Shyam-sundar <Shyam-sundar.S-k@amd.com>; Chaitanya Kulkarni
+> > <chaitanya.kulkarni@wdc.com>; Rafael J. Wysocki <rjw@rjwysocki.net>;
+> > linux-pm@vger.kernel.org
+> > Subject: Re: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+> >
+> > On Thu, May 20, 2021 at 06:57:41AM +0000, Liang, Prike wrote:
+> > > > From: Bjorn Helgaas <helgaas@kernel.org>
+> > > > Sent: Thursday, May 20, 2021 5:34 AM
+> > > > To: Liang, Prike <Prike.Liang@amd.com>
+> > > > Cc: linux-pci@vger.kernel.org; kbusch@kernel.org; axboe@fb.com;
+> > > > hch@lst.de; sagi@grimberg.me; linux-nvme@lists.infradead.org;
+> > > > Deucher, Alexander <Alexander.Deucher@amd.com>;
+> > > > stable@vger.kernel.org; S-k, Shyam-sundar
+> > > > <Shyam-sundar.S-k@amd.com>; Chaitanya Kulkarni
+> > > > <chaitanya.kulkarni@wdc.com>; Rafael J. Wysocki <rjw@rjwysocki.net>;
+> > > > linux-pm@vger.kernel.org
+> > > > Subject: Re: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme
+> > > > shutdown opt
+> > > >
+> > > > [+cc Rafael (probably nothing of interest to you), linux-pm]
+> > > >
+> > > > On Tue, May 18, 2021 at 10:24:34AM +0800, Prike Liang wrote:
+> > > > > In the NVMe controller default suspend-resume seems only
+> > > > > save/restore the NVMe link state by APST opt and the NVMe remains
+> > > > > in D0 during this time.  Then the NVMe device will be shutdown by
+> > > > > SMU firmware in the s2idle entry and then will lost the NVMe power
+> > > > > context during s2idle resume.Finally, the NVMe command queue
+> > > > > request will be processed abnormally and result in access
+> > > > > timeout.This issue can be settled by using PCIe power set with
+> > > > > simple suspend-resume process path instead of APST get/set opt.
+> > > >
+> > > > I can't parse the paragraph above, sorry.  I'm sure this means
+> > > > something to NVMe developers, but since you're adding this to the
+> > > > PCI core, not the NVMe core, it needs to be intelligible to ordinary
+> > > > PCI folks.
+> > > >
+> > > [Prike]  I'm sorry to make confusion here. Those patches addressed a
+> > > s2idle resume broken problem that the NVMe driver's default
+> > > suspend-resume policy of using NVMe APST during suspend-to-idle
+> > > prevents the PCI root port from going to D3.
+> > >
+> > > > For example, since you only use this flag in the NVMe driver, you
+> > > > should explain why the PCI core needs to keep track of the flag for
+> > > > you.  Normally I would assume the driver could figure this out in
+> > > > its .probe() function.
+> > > >
+> > > [Prike] Yeah, we can assign the quirk flag in the .probe function or
+> > > add it in nvme_id_table and this also the primary solution we tried
+> > > out. However, that seems not possible to enumerate every uncertain
+> > > NVMe device then assign quirk flag to them. In this case, in order to
+> > > handle various NVMe device we can use the root complex device ID to
+> > > identify the question platform.
+> > >
+> > > > Quirks are usually used to work around a defect in a device.
+> > > > What's the defect in this case?  Ideally we can point to a section
+> > > > of the PCIe spec with a requirement that the device violates.
+> > >
+> > > [Prike] In this case the quirk is only used to identify the question
+> > > platform which requires the NVMe device go to D3 in the s2idle
+> > > suspend.
+> > >
+> > > > What does "opt" mean?
+> > > >
+> > > [Prike] I'm also not dedicate working on the NVMe driver, but from the
+> > > software perspective the APST opt is used for handling the power state
+> > > S&R without PCI interfering during s2idle legacy suspend-resume.
+> > >
+> > > > What is SMU firmware?  Why is it relevant?
+> > > >
+> > > [Prike] SMU firmware is a proprietary micro component which
+> > > responsible for device power management. Without the quirk flag, NVMe
+> > > device will not enter D3 during s2idle suspend then SMU firmware will
+> > > shut down the NVMe device, unfortunately since NVMe is a third-party
+> > > device the SMU firmware only restore NVMe root port power state during
+> > > s2ilde wake up process. Eventually, the NVMe device power state will
+> > > be lost when back to OS s2idle resume  and then result in NVMe command
+> > > request failed.
+> > >
+> > > > Is this a problem only with s2idle?  Why or why not?
+> > > >
+> > > [Prike] Yeah, this issue is only found in the s2idle scenario, and
+> > > that's because s2idle will check whether each device will enter its
+> > > own minimum power level defined in the LPI constrains table.
+> > >
+> > > > The quirk applies to [1022:1630].  An lspci I found on the web says
+> > > > this is a "00:00.0 Host bridge: AMD Renoir Root Complex"
+> > > > device.  So it looks like this will result in
+> > > > PCI_BUS_FLAGS_DISABLE_ON_S2I being set for every PCI bus in the
+> > > > entire system.  But the description talks about an issue
+> > > > specifically with NVMe.
+> > > >
+> > > > Is there a defect in this AMD PCIe controller that affects all
+> > > > devices?
+> > > >
+> > > [Prike] In this solution by checking root complex DID to identify the
+> > > question platform which need the quirk flag. So far, only NVMe device
+> > > need check this flag for special processing of NVMe s2idle suspend.
+> >
+> > We're really not getting anywhere.  The commit log needs to explain how this
+> > is related to PCI.  Apparently the issue is related to NVMe APST and NVMe
+> > device state being lost.  AFAICT, APST has to do with power states of the
+> > NVMe controller itself.  Those states are internal to NVMe and are not
+> > directly visible to the Root Port.
+> >
+> > Maybe there's a connection with ASPM or the Link state, or putting the
+> > device in D3cold, or ...?
+> >
+> > Ideally it would describe something about this AMD PCIe controller that
+> > doesn't work according to spec.
+> >
+> > It should say something about why this flag needs to apply to *all* devices
+> > below this controller, even though we currently only use it for NVMe.
 > 
-> Just checking if there anything else I can do to help with this patch?
+> It doesn't really have anything to do with PCI.  The PCI link is
+> just a proxy for specific AMD platforms.  It's platform firmware
+> behavior we are catering to.  This was originally posted as an nvme
+> quirk, but during the review it was recommended to move the quirk
+> into PCI because the quirk is not specific a particular NVMe device,
+> but rather a set of AMD platforms.  Lots of other platforms seems to
+> do similar things in the nvme driver based on ACPI or DMI flags,
+> etc.  On our hardware this nvme flag is required for all cezanne and
+> renoir platforms.
 
-I think just the change log fixes,
+If it has nothing to do with PCI, and you need to detect the platform,
+why not a DMI or similar quirk?
 
-Also you can add my:
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Here's the original nvme patch discussions:
+> http://lists.infradead.org/pipermail/linux-nvme/2021-March/023973.html
+> http://lists.infradead.org/pipermail/linux-nvme/2021-March/024017.html
+> http://lists.infradead.org/pipermail/linux-nvme/2021-April/024291.html
+
+These contain no additional information.  Certainly nothing that would
+explain why this should be a PCI quirk.
+
+> > > > > In this patch prepare a PCIe RC bus flag to identify the platform
+> > > > > whether need the quirk.
+> > > > >
+> > > > > Cc: <stable@vger.kernel.org> # 5.10+
+> > > > > Signed-off-by: Prike Liang <Prike.Liang@amd.com>
+> > > > > Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> > > > > [ck: split patches for nvme and pcie]
+> > > > > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> > > > > Suggested-by: Keith Busch <kbusch@kernel.org>
+> > > > > Acked-by: Keith Busch <kbusch@kernel.org>
+> > > > > ---
+> > > > > Changes in v2:
+> > > > > Fix the patch format and check chip root complex DID instead of
+> > > > > PCIe RP to avoid the storage device plugged in internal PCIe RP by USB
+> > adaptor.
+> > > > >
+> > > > > Changes in v3:
+> > > > > According to Christoph Hellwig do NVME PCIe related identify opt
+> > > > > better in PCIe quirk driver rather than in NVME module.
+> > > > >
+> > > > > Changes in v4:
+> > > > > Split the fix to PCIe and NVMe part and then call the
+> > > > > pci_dev_put() put the device reference count and finally refine the
+> > commit info.
+> > > > >
+> > > > > Changes in v5:
+> > > > > According to Christoph Hellwig and Keith Busch better use a
+> > > > > passthrough device(bus) gloable flag to identify the NVMe shutdown
+> > > > > opt rather than look up the device BDF.
+> >
+> > The changelog above bears little resemblance to reality.  I dug up all the
+> > previous postings, hoping there was a hint about why this is relevant to PCI,
+> > but I didn't find anything.  For the archives, here are the versions I found and
+> > notes about what really changed:
+> >
+> >   v1 2021-04-14  2:18
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.
+> > kernel.org%2Fr%2F1618366694-14092-1-git-send-email-
+> > Prike.Liang%40amd.com%2F&amp;data=04%7C01%7CAlexander.Deucher%4
+> > 0amd.com%7C7773f0f2af054b0ab45408d91bb08ad8%7C3dd8961fe4884e608e
+> > 11a82d994e183d%7C0%7C0%7C637571267348438733%7CUnknown%7CTWFp
+> > bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVC
+> > I6Mn0%3D%7C1000&amp;sdata=KFiTsmHEIbv9Qe7UI4yjKjXr1mWSusA2LYV
+> > M07GUGAY%3D&amp;reserved=0
+> >
+> >   v2 2021-04-14  6:19
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.
+> > kernel.org%2Fr%2F1618381200-14856-1-git-send-email-
+> > Prike.Liang%40amd.com%2F&amp;data=04%7C01%7CAlexander.Deucher%4
+> > 0amd.com%7C7773f0f2af054b0ab45408d91bb08ad8%7C3dd8961fe4884e608e
+> > 11a82d994e183d%7C0%7C0%7C637571267348438733%7CUnknown%7CTWFp
+> > bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVC
+> > I6Mn0%3D%7C1000&amp;sdata=I2rKN%2Bixmn2NcXcZ20seu9LQC%2BekwH
+> > azH9oqzym7eeE%3D&amp;reserved=0
+> >     (Not tagged as v2 in the posting.)
+> >     Check result of pci_get_domain_bus_and_slot() for NULL.
+> >
+> >   v3 2021-04-14  8:18
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.
+> > kernel.org%2Fr%2F1618388281-15629-1-git-send-email-
+> > Prike.Liang%40amd.com%2F&amp;data=04%7C01%7CAlexander.Deucher%4
+> > 0amd.com%7C7773f0f2af054b0ab45408d91bb08ad8%7C3dd8961fe4884e608e
+> > 11a82d994e183d%7C0%7C0%7C637571267348438733%7CUnknown%7CTWFp
+> > bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVC
+> > I6Mn0%3D%7C1000&amp;sdata=7T9VcWinB8XQTR4tVKMZ4WkCI5oGKBBuH
+> > n33wxIZzbI%3D&amp;reserved=0
+> >     (Not tagged as v3 in the posting.)
+> >     Drop reference acquired by pci_get_domain_bus_and_slot().
+> >     Return "true" (not NVME_QUIRK_SIMPLE_SUSPEND) from bool
+> >     nvme_acpi_storage_d3().
+> >
+> >   v4 2021-04-15  3:52
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.
+> > kernel.org%2Fr%2F1618458725-17164-1-git-send-email-
+> > Prike.Liang%40amd.com%2F&amp;data=04%7C01%7CAlexander.Deucher%4
+> > 0amd.com%7C7773f0f2af054b0ab45408d91bb08ad8%7C3dd8961fe4884e608e
+> > 11a82d994e183d%7C0%7C0%7C637571267348438733%7CUnknown%7CTWFp
+> > bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVC
+> > I6Mn0%3D%7C1000&amp;sdata=aTgZtIfWMeoWZ3HoHcjclrJPW8qknIsuoVaz
+> > hZnoDHo%3D&amp;reserved=0
+> >     Reorder Signed-off-by tags.
+> >     No code change at all.
+> >
+> >   v5 2021-04-16  6:54
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.
+> > kernel.org%2Fr%2F1618556075-24589-1-git-send-email-
+> > Prike.Liang%40amd.com%2F&amp;data=04%7C01%7CAlexander.Deucher%4
+> > 0amd.com%7C7773f0f2af054b0ab45408d91bb08ad8%7C3dd8961fe4884e608e
+> > 11a82d994e183d%7C0%7C0%7C637571267348438733%7CUnknown%7CTWFp
+> > bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVC
+> > I6Mn0%3D%7C1000&amp;sdata=5yzUyXfIDKxTE%2B%2FJy5fgOS9yCsU10uw
+> > n4CjGd2mLLc0%3D&amp;reserved=0
+> >     Move flag from pci_dev_flags to pci_bus_flags.
+> >     Rename flag to PCI_BUS_FLAGS_DISABLE_ON_S2I.
+> >     Inherit PCI_BUS_FLAGS_DISABLE_ON_S2I in all child buses of AMD
+> >     0x1630.
+> >     Check dev->bus->bus_flags instead of using
+> >     pci_get_domain_bus_and_slot().
+> >
+> > > > > ---
+> > > > >  drivers/pci/probe.c  | 5 ++++-
+> > > > >  drivers/pci/quirks.c | 7 +++++++
+> > > > >  include/linux/pci.h  | 2 ++
+> > > > >  3 files changed, 13 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c index
+> > > > > 953f15a..34ba691e 100644
+> > > > > --- a/drivers/pci/probe.c
+> > > > > +++ b/drivers/pci/probe.c
+> > > > > @@ -558,10 +558,13 @@ static struct pci_bus *pci_alloc_bus(struct
+> > > > pci_bus *parent)
+> > > > >     INIT_LIST_HEAD(&b->resources);
+> > > > >     b->max_bus_speed = PCI_SPEED_UNKNOWN;
+> > > > >     b->cur_bus_speed = PCI_SPEED_UNKNOWN;
+> > > > > +   if (parent) {
+> > > > >  #ifdef CONFIG_PCI_DOMAINS_GENERIC
+> > > > > -   if (parent)
+> > > > >             b->domain_nr = parent->domain_nr;  #endif
+> > > > > +           if (parent->bus_flags & PCI_BUS_FLAGS_DISABLE_ON_S2I)
+> > > > > +                   b->bus_flags |= PCI_BUS_FLAGS_DISABLE_ON_S2I;
+> > > > > +   }
+> > > > >     return b;
+> > > > >  }
+> > > > >
+> > > > > diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c index
+> > > > > 653660e3..7c4bb8e 100644
+> > > > > --- a/drivers/pci/quirks.c
+> > > > > +++ b/drivers/pci/quirks.c
+> > > > > @@ -312,6 +312,13 @@ static void quirk_nopciamd(struct pci_dev
+> > > > > *dev) }  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD,
+> > > >       PCI_DEVICE_ID_AMD_8151_0,       quirk_nopciamd);
+> > > > >
+> > > > > +static void quirk_amd_s2i_fixup(struct pci_dev *dev) {
+> > > > > +   dev->bus->bus_flags |= PCI_BUS_FLAGS_DISABLE_ON_S2I;
+> > > > > +   pci_info(dev, "AMD simple suspend opt enabled\n"); }
+> > > > > +DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_AMD, 0x1630,
+> > > > > +quirk_amd_s2i_fixup);
+> > > > > +
+> > > > >  /* Triton requires workarounds to be used by the drivers */
+> > > > > static void quirk_triton(struct pci_dev *dev)  { diff --git
+> > > > > a/include/linux/pci.h b/include/linux/pci.h index 53f4904..dc65219
+> > > > > 100644
+> > > > > --- a/include/linux/pci.h
+> > > > > +++ b/include/linux/pci.h
+> > > > > @@ -240,6 +240,8 @@ enum pci_bus_flags {
+> > > > >     PCI_BUS_FLAGS_NO_MMRBC  = (__force pci_bus_flags_t) 2,
+> > > > >     PCI_BUS_FLAGS_NO_AERSID = (__force pci_bus_flags_t) 4,
+> > > > >     PCI_BUS_FLAGS_NO_EXTCFG = (__force pci_bus_flags_t) 8,
+> > > > > +   /* Driver must pci_disable_device() for suspend-to-idle */
+> > > > > +   PCI_BUS_FLAGS_DISABLE_ON_S2I    = (__force pci_bus_flags_t) 16,
+> > > > >  };
+> > > > >
+> > > > >  /* Values from Link Status register, PCIe r3.1, sec 7.8.8 */
+> > > > > --
+> > > > > 2.7.4
+> > > > >
 
 _______________________________________________
 Linux-nvme mailing list
