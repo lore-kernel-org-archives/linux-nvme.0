@@ -2,105 +2,113 @@ Return-Path: <SRS0=b1+/=KT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF0DEC04FF3
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 19:44:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A27C04FF3
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 19:45:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7EAF16140A
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 19:44:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7EAF16140A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	by mail.kernel.org (Postfix) with ESMTPS id 87E656109F
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 19:45:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 87E656109F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=vdj/zRseahMVK/OWAyuFEBqExQ79b3EqnFwNjOPblwQ=; b=ZsrqW1+RwCI69T
-	jjbxmGvI+9KKiijS+VjzzLErLCckYTRXflgqRfMyElFgM25eJ1laeK3MDD1RWzjdK7O/6RBzw7UOQ
-	Jqp4EArS3twuGkQ029Ipdat5Q8rxy3Y/9FqvV1AM82BW1UohqyD/mUYDJGN0Hnz0CYv6gsCT0BKcM
-	yTrWLK3HvqiKDwPbCWl8MA4Wm/MZxOgr7Oy9Wn4e0Rlcvt+eGwA2S9reiyB2CEQfsyGi/fCWzVl9H
-	1W/JLQQ7enoVXD8C29NQo9IbEO6lDHmW8AmXp9sPlx0pJnDuIbOunEQWRq7DMmwAQKh4XY2qBC51q
-	H6Amw02Wafb9MnM9LFDA==;
+	List-Owner; bh=hsxNCYPvqyNzkwxCODJR3B1UIIXXzrlaaBVgPVh9CsY=; b=GwLhL9CY/72xOa
+	cKssp6xEbtj6eh2jVk89tglYxtAQGsHWIDoDAgXi+yKzQhscUbaSY+IVy2p/ZmSfsP6iczgp5txoy
+	LV3YfxYTaZqzRHPgT1BTSWMWdJeeY7Zm47psTgecIBit/47m6v/0ftRBVev/EPIO+s3lwe1XYR1NQ
+	0RBzpmOvse1wpVNGLg1itQ+4Nb1pyPURB6epcusvTxmDegR1GF85SueAfvHH9OwV53ALBMdMQkacv
+	ETwOBiw30uEPIuBANSJIttuESKz+DZOMGVTdrQgaASbHEyNxAAnKiDOY/leFKPpix9D1QtjVPHfAp
+	bvdzmek8zbXhpoAKGb6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1llGUa-001iyz-Ce; Mon, 24 May 2021 19:44:00 +0000
+	id 1llGVg-001jEF-Ek; Mon, 24 May 2021 19:45:08 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lk0fc-004S4D-MB
- for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 08:38:12 +0000
+ id 1lk8lZ-000RnV-VZ
+ for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 17:16:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:Cc:To:Subject:Message-ID
- :Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
+ d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=RVHzs0poOF+hVS1v1BAW6iRpurNI2FLCHK2qQooBQc8=; b=WE1YE1/bBlmboLG7v/Wkq8PHh0
- g0h8xT14rRSpF+bgtVoBMXJqzz5pHFYT9UDZGA6X171xLwo9JBo0DuivcPG/hqnMSLGaiGTqqEo0u
- 1NeYmxiXK9d42O4RlVPMaenN8tC2A1OPO9HBQTMknVFCkw/yoyajsAtHrFThpDxah8SmVzKWjln+B
- li514DacQqEdlACMFgaIetQSEVSJJP3iF5CxmzsW/ybJomBpjMA0ecHuxTQPqjahrHaA1z9+8Iuns
- o6xNQ3TBQcEbGSfys0UE4SlBvMTECed8G0kaT9P6UbGEyW+eaDJ/f+VkMRp/VZFqGDZD9a6n7AjdN
- 8J487vVQ==;
-Received: from mail-vk1-f172.google.com ([209.85.221.172])
+ bh=/6CTfoP+3YhIDA2Sa2Vg3MwIl/4IQc5OvLMHtpk2uwk=; b=z6r1sqT8rwLEzzenuMsHBkDjKp
+ Sto1uHT2bGbNoUkGbI9JibG/CfNbxUaIkkbMRNJYM8/vhvNERanZimxoiGp9XpxvtV4IqfunlTKo5
+ qLjrZBxE20meRFoIbDI2MjjjPIDHM10nLDEVAE/7Yh4tWZ39fWJBL9TuxvFbtlLmBzFD40iNVlgDd
+ j+XdXwQR/c+e6fsVHHjSKakYF0bZbFs1yqLaXlMwCBgmJEnQXwRUNwLCGsjc8P+tAN2P6YppcL1X2
+ WuKsrzfPIdUkbhbn1mEiIBLNNhZluqlpyoMjctToO3tRCq55l6jItFd03XGiRVBQ7CBLj55mMh4dO
+ jqlMAPdw==;
+Received: from mail-pl1-f171.google.com ([209.85.214.171])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lk0fa-00Gx6N-8R
- for linux-nvme@lists.infradead.org; Fri, 21 May 2021 08:38:11 +0000
-Received: by mail-vk1-f172.google.com with SMTP id m129so4124758vkh.9
- for <linux-nvme@lists.infradead.org>; Fri, 21 May 2021 01:38:08 -0700 (PDT)
+ id 1lk8lW-00HItC-WE
+ for linux-nvme@lists.infradead.org; Fri, 21 May 2021 17:16:52 +0000
+Received: by mail-pl1-f171.google.com with SMTP id s20so11318315plr.13
+ for <linux-nvme@lists.infradead.org>; Fri, 21 May 2021 10:16:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RVHzs0poOF+hVS1v1BAW6iRpurNI2FLCHK2qQooBQc8=;
- b=jUt9UuwizU7bJ6HM1OYg6Uqkf2cc/GU4SjYyWmeuVur2ZWP+cpuxsNhINd2mGtEu5w
- 9gcGU3tSniT5/WooLNsRwihB7xRRSoH3cmzdm369olNKVU2WZAk4UqJYW0QON03uKUvN
- 9E5GvhEIzkz8qBn3ztBVSzh1hLVjFPjmZWFhRB4jbdsq2ecsNBcSSh+gU8Zte/Jm+NbQ
- M3vNS4J+Xx0cZDofRuzK08qUQ8jJPNBlFXYfyZWp+QHePJpXEqwIYgS2L861sh1ZE/2e
- L9jgOyqNRF97nnhW/QwXvRpPZJiF+G7ypd3dQtxnE2Ugri4FkVauAeQ2teLP3XhBI4hx
- 1fUg==
-X-Gm-Message-State: AOAM530Gil6bmgu40FlfVsiQC6uhdzvEeaNwuQk74toDe2DBwRb9X7VL
- 48Sh/Ci5Q+NLuYJNYhl0n0XdSN3/ns80CH2ywDE=
-X-Google-Smtp-Source: ABdhPJzGTg0SxZhAyS6W3ANe8pj0R0i+6+zDbI/+BVCcJpHhTvw5AwmdUSLpxqeMfSWaogZWi2MJbcqhNDfvoXw93hU=
-X-Received: by 2002:a1f:2504:: with SMTP id l4mr9071521vkl.5.1621586288105;
- Fri, 21 May 2021 01:38:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210521055116.1053587-1-hch@lst.de>
- <20210521055116.1053587-20-hch@lst.de>
-In-Reply-To: <20210521055116.1053587-20-hch@lst.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 21 May 2021 10:37:56 +0200
-Message-ID: <CAMuHMdUReZCGwii_rJuOOag+jmn4E3yfH+=P3a=5bJDf8CJvrQ@mail.gmail.com>
-Subject: Re: [PATCH 19/26] nfblock: convert to blk_alloc_disk/blk_cleanup_disk
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/6CTfoP+3YhIDA2Sa2Vg3MwIl/4IQc5OvLMHtpk2uwk=;
+ b=TXCKCfk7ww+feOGgwxRlUhHQEEuBK4A5yzF+JdYZt+EBsKE+TeUnsOcXFQJYE7kT3e
+ NW0IA0MNUHSatMKoTSbTYLsCbPsRUh/r4ZWhihlvTYYthWoIM2uPAHNrv+huHQ0i/vK6
+ fHq8ien7Av0CBVIhHdt024eahV7q4UaAKE7UvV5UuRS2lB0WcnmZDtYLYWo/iXNzFX+u
+ iWI7oAhMmKy5kdEwFg3AbAoREm4k/nlIREW6uQn94HXha1rRmNm1FOUYjB8rhGTWdkIT
+ 9U/Ei904yEt6GJs0ZSIx1/NvHu+pPmBtNIuGgFW8t3hmUqXCoeoE1uO+W6mkuSCuiQd/
+ mUWQ==
+X-Gm-Message-State: AOAM530NQUWT80zujaEaQYdTNB7LlJxCaYMvfHKihbZCeGMjiZMrOSsg
+ PC9W/gEDyM3AsvPUNawu08I=
+X-Google-Smtp-Source: ABdhPJxtynqdEQ1F/D+2PqiHL9NmQC5jqLXgWhG+E7yzr8uLp59ObRLAPQ67LxwzZAhslkMqhOa4cA==
+X-Received: by 2002:a17:90a:590d:: with SMTP id
+ k13mr12082927pji.68.1621617409049; 
+ Fri, 21 May 2021 10:16:49 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+ by smtp.gmail.com with ESMTPSA id q24sm4964064pgb.19.2021.05.21.10.16.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 May 2021 10:16:47 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+ id 6461E423A3; Fri, 21 May 2021 17:16:46 +0000 (UTC)
+Date: Fri, 21 May 2021 17:16:46 +0000
+From: Luis Chamberlain <mcgrof@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Chris Zankel <chris@zankel.net>,
- Max Filippov <jcmvbkbc@gmail.com>, 
+Cc: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
  Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>, 
- Jim Paris <jim@jtan.com>, Joshua Morris <josh.h.morris@us.ibm.com>, 
- Philip Kelleher <pjk1939@linux.ibm.com>, Minchan Kim <minchan@kernel.org>, 
- Nitin Gupta <ngupta@vflare.org>, Matias Bjorling <mb@lightnvm.io>,
- Coly Li <colyli@suse.de>, 
- Mike Snitzer <snitzer@redhat.com>, Song Liu <song@kernel.org>, 
- Maxim Levitsky <maximlevitsky@gmail.com>, Alex Dubov <oakad@yahoo.com>, 
- Ulf Hansson <ulf.hansson@linaro.org>, Dan Williams <dan.j.williams@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-block@vger.kernel.org,
- dm-devel@redhat.com, linux-m68k <linux-m68k@lists.linux-m68k.org>, 
- "open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
- Lars Ellenberg <drbd-dev@lists.linbit.com>, 
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-bcache@vger.kernel.org, 
- linux-raid@vger.kernel.org, Linux MMC List <linux-mmc@vger.kernel.org>, 
- nvdimm@lists.linux.dev, linux-nvme@lists.infradead.org, 
- linux-s390 <linux-s390@vger.kernel.org>
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ Jim Paris <jim@jtan.com>, Joshua Morris <josh.h.morris@us.ibm.com>,
+ Philip Kelleher <pjk1939@linux.ibm.com>,
+ Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
+ Matias Bjorling <mb@lightnvm.io>, Coly Li <colyli@suse.de>,
+ Mike Snitzer <snitzer@redhat.com>, Song Liu <song@kernel.org>,
+ Maxim Levitsky <maximlevitsky@gmail.com>,
+ Alex Dubov <oakad@yahoo.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ linux-xtensa@linux-xtensa.org, linux-m68k@vger.kernel.org,
+ linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-s390@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-bcache@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, dm-devel@redhat.com,
+ drbd-dev@tron.linbit.com, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [dm-devel] [PATCH 01/26] block: refactor device number setup in
+ __device_add_disk
+Message-ID: <20210521171646.GA25017@42.do-not-panic.com>
+References: <20210521055116.1053587-1-hch@lst.de>
+ <20210521055116.1053587-2-hch@lst.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210521055116.1053587-2-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210521_013810_312986_10438834 
-X-CRM114-Status: GOOD (  18.80  )
+X-CRM114-CacheID: sfid-20210521_101651_056321_D86EC750 
+X-CRM114-Status: GOOD (  20.05  )
 X-Mailman-Approved-At: Mon, 24 May 2021 11:59:45 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -118,24 +126,62 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 21, 2021 at 7:52 AM Christoph Hellwig <hch@lst.de> wrote:
-> Convert the nfblock driver to use the blk_alloc_disk and blk_cleanup_disk
-> helpers to simplify gendisk and request_queue allocation.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Fri, May 21, 2021 at 07:50:51AM +0200, Christoph Hellwig wrote:
+> diff --git a/block/genhd.c b/block/genhd.c
+> index 39ca97b0edc6..2c00bc3261d9 100644
+> --- a/block/genhd.c
+> +++ b/block/genhd.c
+> @@ -335,52 +335,22 @@ static int blk_mangle_minor(int minor)
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+<-- snip -->
 
-Gr{oetje,eeting}s,
+> -int blk_alloc_devt(struct block_device *bdev, dev_t *devt)
+> +int blk_alloc_ext_minor(void)
+>  {
+> -	struct gendisk *disk = bdev->bd_disk;
+>  	int idx;
+>  
+> -	/* in consecutive minor range? */
+> -	if (bdev->bd_partno < disk->minors) {
+> -		*devt = MKDEV(disk->major, disk->first_minor + bdev->bd_partno);
+> -		return 0;
+> -	}
+> -
 
-                        Geert
+It is not obviously clear to me, why this was part of add_disk()
+path, and ...
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> diff --git a/block/partitions/core.c b/block/partitions/core.c
+> index dc60ecf46fe6..504297bdc8bf 100644
+> --- a/block/partitions/core.c
+> +++ b/block/partitions/core.c
+> @@ -379,9 +380,15 @@ static struct block_device *add_partition(struct gendisk *disk, int partno,
+>  	pdev->type = &part_type;
+>  	pdev->parent = ddev;
+>  
+> -	err = blk_alloc_devt(bdev, &devt);
+> -	if (err)
+> -		goto out_put;
+> +	/* in consecutive minor range? */
+> +	if (bdev->bd_partno < disk->minors) {
+> +		devt = MKDEV(disk->major, disk->first_minor + bdev->bd_partno);
+> +	} else {
+> +		err = blk_alloc_ext_minor();
+> +		if (err < 0)
+> +			goto out_put;
+> +		devt = MKDEV(BLOCK_EXT_MAJOR, err);
+> +	}
+>  	pdev->devt = devt;
+>  
+>  	/* delay uevent until 'holders' subdir is created */
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+... and why we only add this here now.
+
+Other than that, this looks like a super nice cleanup!
+
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+
+  Luis
 
 _______________________________________________
 Linux-nvme mailing list
