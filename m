@@ -7,178 +7,161 @@ X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21CA1C433B4
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 05:01:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A13DCC433B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 05:48:50 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7D0A661074
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 05:01:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D0A661074
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id D3AAC613B6
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 05:48:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D3AAC613B6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amd.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
 	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ufPc3DxLP64hPwLs/iYncu0QAQK9H8YIck5BkuDr4C0=; b=qH4LwKq7O0FVP6shU43cwRFXZi
-	MmWig/eXPwxwKjUmuBQGM2mc9o1xH/aqj9tlPUTHGDYdH3R9lfsFGg8qvsm5cJ7mgNEgMbMoNqwzY
-	Lq2peB0foZNJuEyYey4J3R/HE8/qPYcM9lIl7P1EEMV6W2r7YfCwc14kZZE5vPZeB3ZQ5UJpwcktl
-	wHdRbWc4d3To1Im2zvrAU7G5gKeW7724ZYjWwj6AlexX/RiNOkvsFDcUzm2+pfQg3qLyaClDsT9JD
-	gXTK3ueAF6lUnBUbOmHQ60BJYoyHrkxtjA9cGYqwq5QoIAonAFwMgzOyVbqZa5X6yV+6H7N2to7mR
-	EOY155oQ==;
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
+	Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6SJX7gr+eUA+llMkeB+DdC4YFSZxFn44c1UYHq7lMI0=; b=AmRyu5dL70Vi9+pyWA4e42Djx0
+	rYnv5gPPH34N7TxpMN84mCPomlM8giH2itxsOg74L+TjlNIfHP+lo3U/Vuw33om+pElynozVy+ayF
+	VOOgMB3K4sjlPZYBS8ObR5REAOw3NOAIgH2n7zN/PgzdE8TGk+uVbbrbqHSj6Kb29PMviwFhuxks4
+	YbKLiKqQt5RM/abA9nrMb3rw/dudj8pshC8mzUxU1Tj+gy/Sf/4adIy0DQLANYOJL1FJDmfBV0PH0
+	K6v2ER/Gqj/dzpY+Kc0Os+7LbaUpYKSd6Py8RVXgPypN7xu8V2yMfAUk3LBpo8sAdlkcSsNE6eAf9
+	jhrFUilw==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ljxHB-003p0K-Bz; Fri, 21 May 2021 05:00:45 +0000
+	id 1ljy12-003urs-18; Fri, 21 May 2021 05:48:08 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ljxH6-003p04-Nu
- for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 05:00:42 +0000
+ id 1ljy0y-003uok-Lg
+ for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 05:48:04 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:CC:
- To:From:Sender:Reply-To:Content-Description:In-Reply-To:References;
- bh=QaH92Sl201bZXT24dVyXMNyFYjnoqR4pOqs31qj6SRE=; b=dVGOldZmC2tdMIjLEssLaMqnLP
- 1QoUmumRnN9Y32DaDYHSPtjtBV7ymvRwyMdHJdQEhTdYiOa59qowwkbErLq7ZE/tjHGJpfAg/9iE2
- 86AnM6RBkGEUPDLhM/1k91Kew2EsU1z1hlb6ALSUPhdTs7DCvqRJuHs5B/JPIjS7MpUBiFRGd9FZZ
- EzhTNijoH5RQssGB2z35oJ6c9ngPMJeoXOmV1Ka6Hn+Ddcu6tHKz3cqtZCHCvLW5JPR4DhhR77RoK
- lZuTdPlINWNYXS7jTid81afw5tlBvVLJVi729wxpOVto1/0GqaC6bVe5f4yJJVSf66jfzC1G6eVSG
- vn3xMkHQ==;
-Received: from mga01.intel.com ([192.55.52.88])
+ Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+ :Subject:CC:To:From:Sender:Reply-To:Content-ID:Content-Description;
+ bh=8Ft+TuA5UToTPwq5mRL/NrJk8ux65JpCahXp0lTrEPE=; b=s+Ltz3fYycqTigT/UZUehucUEt
+ BTjF6w4NdBsCFZmwDzEMgRcz+G34nW48zodE6hx9DCmkaYNxaYz4x9qz7uYv+SU0dVYxPotLQsTUV
+ XzKjWeCaIyLj9FcG8mBe785PfibzCyhWxt1i39kfVROSc3UUWcgGHm1+rLB/NrmpRumZcUh0T3NlW
+ jmZVEdfrqnVzaNufePHG9pdp3k5zLEPjic3z0r31rCPbTgdh91n4RbAypAj3lvfOZ7zd2UJhop8dI
+ u8z/1kYjaZxAqVO4e+DbaA8+sZncNGLlCCPzb/YORTTzmtb4K+cun+lul+RkM3TxYWVu4cVD/CHuJ
+ 05Qjl0IQ==;
+Received: from mail-dm3nam07on2071.outbound.protection.outlook.com
+ ([40.107.95.71] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljxH3-00Goq8-Ci
- for linux-nvme@lists.infradead.org; Fri, 21 May 2021 05:00:38 +0000
-IronPort-SDR: cXYoixoY9rzGBhIla4LcTy8WoROvLm8fvE1WmYnBZ4hKbP8pzLiM9SRJElz3dRHUJ4xb4+ZWbq
- PDKYcuDBR5cw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9990"; a="222513662"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="222513662"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2021 22:00:33 -0700
-IronPort-SDR: DgtSuAZdFJ6aRxoFYMPgVGSvPadLs51GygIBa5QtP20YdjNaIQ/Vu7jW/JIJkkkOFFgXF2TXVU
- VPOgGkmmnS+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; d="scan'208";a="475531542"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga002.fm.intel.com with ESMTP; 20 May 2021 22:00:33 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 20 May 2021 22:00:32 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
- via Frontend Transport; Thu, 20 May 2021 22:00:32 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.4; Thu, 20 May 2021 22:00:31 -0700
+ id 1ljy0v-00GppX-O7
+ for linux-nvme@lists.infradead.org; Fri, 21 May 2021 05:48:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=coNATxs55I/utkWj4kqdV1tNKd0qS7EXcMg2vkUt88kEGeEe6ZCh5VxzEwtxurgjecHlbIJ5DPyOODbUmQj1kl5XrMRyWqWIbStAif2YpFqIL64TUPyc5yS58XN2eX/WEkyEQ2A3cnPn6cXXT90UB0LnXs6rvhnXqY3ILUdIzqEFydV1c0cVXKiwMEHNYjzBnFEVe6FyqSVpEaiz9pzvUVg48ecchFV2fOv+sYafvswKktcWfT9yiFfCWyp8yHsSRE+FDHrz1psmc5yb1lfgSJvyb4a+vm/Ey3+FUQZh9iOV3/AIM/t1pu17dCR1Z12+qxDJ9ZFpqOR117l1eE1cGg==
+ b=WX9Dezzdyf0m0CMQdvjuYVk/N4GSdd+MXsxR8/5lGr8PJOsBvlscVAD3fS059q5PTKDmOVG3uzIrHM8T+KQ2rakLQjFr/QJtI7JInWMwTMeERAprqjZZA1AFNVg6nEQhsYZPZrq4b4cF/Eca+gnzqtWKh+Ic/mO8uLZG85FY9Ds/snZcMLZotCNDaC3EUE4ziHYLw/VVHjWw+lR1Cvye3e4GlPhUEEISq2BZERe2cyzswQ3uRMFXmcU2naERIGcYsHTkFQ66THJYmsM9PdT5tB/USRrkeiQkeuuCHQLswnldj5TUggUVnJuGYkpHRUWpImtfMe1oYujhZgSTNi/nJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QaH92Sl201bZXT24dVyXMNyFYjnoqR4pOqs31qj6SRE=;
- b=FldyViUkO3jLql7PfZh6cmh92khPvAmcf+eotFuogDgE1gDS1CM8PyWORslmwfQ0V/ejxA7X9HexcVjv0pPCl7P6Brx4cCiKCEpmUwpfji7U2ggRVw871YorxQPF93ze63ins+zL68k65nroZCpMJLDTZYWZ9dMv0p5fo9nxQ0JefaZUOHZMTyyPdyXsiG4HqL4a/rCF6TRYQDwFmf/fRUsUAvCXyaRNNFGS/BQoZwsN+PPUI1kzgP/El+lcLQ4oMg4ZhCGBzrZ1zZH5MvIYEQpkexQCcXlI+l4RgWaWyxPxVytv5jTnriFJ5JpXmmS5f9Yt0n4af/AVPllLQsNBuQ==
+ bh=8Ft+TuA5UToTPwq5mRL/NrJk8ux65JpCahXp0lTrEPE=;
+ b=H/+afys9giKbmUp6nmV8Z97mXPqZgikt0UoqmGA2WzOdbEtTn7+KBPlA3ca52Enom7bkuAyDBil0TFw99oP3tNKhDaJhOu40fXGJLdMAqBhhHWHVYPKBWkT/ArfaI3PXMnVDzazagQnGrfsLVIujIC+Cjty/UhnBsCYsgAd7YPBrBCnqN+c7HVemOueO75aOF35ovieif209zL10B5rJZRWhoJIhgLnaEGxklGR5ILCdnVCwc6g3BOU81gz2IMpq31pGAUu9SJcxidn+exp12sjNZVSp/aRLa2X8bYs+EA3ko2PjIiRmDYdUI2vJuVj889pnRZ9Us1Lq67MdLm5qqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QaH92Sl201bZXT24dVyXMNyFYjnoqR4pOqs31qj6SRE=;
- b=nN7Ssk0JFPa9JxWfOKXgOBOEhKsz1M+x3DVlocfKvabfeewpcxyz7laVel5nhXmRRdCSR77oj05mjbcvcaqHPVoQSXIM6W3QONZngxOQdq76/quAgRhf4N7ngpDDUirTXJLK50eTYO8vGEK0orDw14rinOK9Ycf590Q0Cg56BOA=
-Received: from BYAPR11MB3448.namprd11.prod.outlook.com (2603:10b6:a03:76::21)
- by BYAPR11MB2534.namprd11.prod.outlook.com (2603:10b6:a02:c2::19)
+ bh=8Ft+TuA5UToTPwq5mRL/NrJk8ux65JpCahXp0lTrEPE=;
+ b=iIQyQmjuzTyN7z/2mi3cXcggSYCW59zZOQ0Q56xoG3ShKV7+oejzzg/jhy3KTFKwVFI+PELpzcxBe/W0cf252hkzae+ebNhrynNTiZFGIqfNYfT73Iar1cKVptAQXQggmZl5YUbkvnLkeVWn56PdaxNVxqrotm1roL6LGtUx2k8=
+Received: from BYAPR12MB3238.namprd12.prod.outlook.com (2603:10b6:a03:13b::20)
+ by BY5PR12MB3780.namprd12.prod.outlook.com (2603:10b6:a03:1a2::31)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Fri, 21 May
- 2021 05:00:29 +0000
-Received: from BYAPR11MB3448.namprd11.prod.outlook.com
- ([fe80::713c:a1f6:aae4:19fc]) by BYAPR11MB3448.namprd11.prod.outlook.com
- ([fe80::713c:a1f6:aae4:19fc%5]) with mapi id 15.20.4129.035; Fri, 21 May 2021
- 05:00:29 +0000
-From: "Verma, Vishal L" <vishal.l.verma@intel.com>
-To: "kbusch@kernel.org" <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-CC: "hch@lst.de" <hch@lst.de>, "Williams, Dan J" <dan.j.williams@intel.com>,
- "Schofield, Alison" <alison.schofield@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Weiny, Ira"
- <ira.weiny@intel.com>, "Widawsky, Ben" <ben.widawsky@intel.com>
-Subject: [BISECTED] nvme probe failure with v5.13-rc1
-Thread-Topic: [BISECTED] nvme probe failure with v5.13-rc1
-Thread-Index: AQHXTf44RymihtVr+UGY7aRawigtfA==
-Date: Fri, 21 May 2021 05:00:29 +0000
-Message-ID: <40071b11108987556d0473f9d968fe7dcd3f304a.camel@intel.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.25; Fri, 21 May
+ 2021 05:47:56 +0000
+Received: from BYAPR12MB3238.namprd12.prod.outlook.com
+ ([fe80::ac06:4fe4:c52f:bdd7]) by BYAPR12MB3238.namprd12.prod.outlook.com
+ ([fe80::ac06:4fe4:c52f:bdd7%7]) with mapi id 15.20.4150.025; Fri, 21 May 2021
+ 05:47:56 +0000
+From: "Liang, Prike" <Prike.Liang@amd.com>
+To: "Limonciello, Mario" <Mario.Limonciello@amd.com>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>, Keith Busch <kbusch@kernel.org>
+CC: Bjorn Helgaas <helgaas@kernel.org>, "linux-pci@vger.kernel.org"
+ <linux-pci@vger.kernel.org>, "axboe@fb.com" <axboe@fb.com>, "hch@lst.de"
+ <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>, "S-k, Shyam-sundar"
+ <Shyam-sundar.S-k@amd.com>, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, "linux-pm@vger.kernel.org"
+ <linux-pm@vger.kernel.org>
+Subject: RE: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+Thread-Topic: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+Thread-Index: AQHXS40NwJGcnl+fXEefhkrBDeVCF6rrVkGAgABQJnCAAPVMAIAAC8MAgAAGYICAAAdcgIAAIqgAgACaSwA=
+Date: Fri, 21 May 2021 05:47:56 +0000
+Message-ID: <BYAPR12MB323873A2C12C3B9A045A38DAFB299@BYAPR12MB3238.namprd12.prod.outlook.com>
+References: <BYAPR12MB3238055D4B08CC91D9ABFD39FB2A9@BYAPR12MB3238.namprd12.prod.outlook.com>
+ <20210520165848.GA324094@bjorn-Precision-5520>
+ <MN2PR12MB4488F16CE50BFD4E1F453CFAF72A9@MN2PR12MB4488.namprd12.prod.outlook.com>
+ <20210520180343.GA3783@C02WT3WMHTD6>
+ <MN2PR12MB4488F011F9B018C9B52A862CF72A9@MN2PR12MB4488.namprd12.prod.outlook.com>
+ <BYAPR12MB26934FF6403A77E9A0F15C1CE22A9@BYAPR12MB2693.namprd12.prod.outlook.com>
+In-Reply-To: <BYAPR12MB26934FF6403A77E9A0F15C1CE22A9@BYAPR12MB2693.namprd12.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.40.1 (3.40.1-1.fc34) 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [134.134.139.74]
+msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=13524a12-4f1f-48ad-a87a-d74984e9ad48;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP
+ 2.0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2021-05-21T05:46:29Z;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [139.226.130.87]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e6f54fdc-56ea-444a-ad6c-08d91c155b13
-x-ms-traffictypediagnostic: BYAPR11MB2534:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
+x-ms-office365-filtering-correlation-id: 2fb4e4ac-b49a-4bb6-23b3-08d91c1bfc07
+x-ms-traffictypediagnostic: BY5PR12MB3780:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR11MB2534C1BD0C8FD7C3699880A9C7299@BYAPR11MB2534.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3044;
+x-microsoft-antispam-prvs: <BY5PR12MB37802D271AD280B58FBDD54CFB299@BY5PR12MB3780.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Xm8zi8vkJyswfonMfD1dq0ItmODskJxK1VRVzJI/SR+afFjDVTPquXLT0CpxR7516RIoMQW3qC+1V+B6k/KLiyYQU4tf3NraUxQzLARN9x1GkLR+YDhjGwgxXP5XVwx1Dsyqw2ut9io+9Hfu0OhdlsrIOj0KcQPbI4TvW7Sb91m1diThNVBn9/sqPyBYi9tpRYMJScgEXGal0h4G49qMk8LS1U1yP8pTLOhiqb6GCK1NjHX6jQzbY+X/7JjDB1MshRmf5f/Ak6jZTfVsD8JrFwho2sm+hC+YhzR7xLBZG5hgJUGNRZ8W8mY5ljEZiWldr4fRSGkB99O/UbaOKCIzT7VQ4g17wpbO16nQot2Aqw9cfGg91hzlc23XGcCsGroimCIMyWT5wBDUB8Q5NxuQ23CTtVdMxWVCCJ1CG26TFzhMxm/aWkCVTzocpwibCvL07kieJATywlwvLUmcqdLiul1ol5Ro0hgHW2IorES7+3MDUeahALWbCkv8x4qJiojUfDo0mUwn8662jCjVbyn3J0LcWEzDauWbC0RSZoUIesvv4QZQvF2wBrIg3fbqYIfFUPRECFcofsCuL6CApUeHQGBkZaeBpNR/AJ5NgLqsWJU=
+x-microsoft-antispam-message-info: BkijLvdy0ZzzdiO8hb5KT/ov5lcO6suSENBEljaH2QxlXtAtWM8n9WVFzs4IhWNnQ2p3GoKVFayRDimX+j7r1mwZ4delXYNhtvVE+dJ122gNJug0nRWE5dcxvhd4WPoUYScfrnhmaL/lfQKa6DWuEGUOaD2SnJRzssX1ui8xkqd+is5/sYV7UfT9j5hKPm0Hv6lJiP9N1fC1dAVVNDjH8TE7Iy9X0yWkIu/7jsivH1RKHBwImvRNWsTcWT3mW0+tmx4lRhOdPDqWoVx8TOmzzdS00/7cw7RNfbqXYyF6a3lspFFKU2bDPDliSNkb2viWcknV9NFI8IfE+BteYLPkh2nXX04rdSF4bSb5XRyXal5yaaAbeIB6asWJMJEgQRpdO0hfQ3mpiPfhG8FCnMkMbVnl9tEKxHcW6LLDxnMQbcOmRa6jttFlvdwM8g4iOIniaqu1TbbqiQy9mkGmYVRlFUhhsKloX8l9osY9ZvwNZnjvEg7TFggn4cvu3II5eesKoZmQ8HwFqZiH7CgWWFzzm2uo/twYMrDXiYfUk/DEcFQe8+4l+rcBG5zgSJurmpSXu+LFozaPJ9NzTHICkIg/gD+YvB+yboTTJJseraibBpg=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB3448.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(396003)(366004)(376002)(136003)(346002)(6512007)(8936002)(66556008)(8676002)(26005)(6486002)(83380400001)(66946007)(36756003)(2906002)(66476007)(76116006)(64756008)(478600001)(4326008)(54906003)(71200400001)(5660300002)(316002)(2616005)(186003)(38100700002)(4744005)(86362001)(66446008)(110136005)(6506007)(122000001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?V0R6VTZWdk9uSXlVZDVkdkxvTERrU3UrR0pKbVJMTTFmM1cxb3Q3ZE16YjBD?=
- =?utf-8?B?NFZBMG9kV0w2VzU1NEdkeWdaK0swZTlVWnJoQzdraFV4L1JDRnNvZ3graEZR?=
- =?utf-8?B?bzdtMkJzT2NUaVhUcFpsajRXQUFFWWdEVnhKaFNOWlZtYmN2cnZPSFJoVWlE?=
- =?utf-8?B?SGxpdW5WWlVrQkR3L3EyaFVoWnoyVlVYN2MrNHdZL253T1h6UCtPYXk1RE9y?=
- =?utf-8?B?YWJRUERDcXZpeVFvcnlzWm9iaFpoMC8wRVJETUFuVjlsc0FGalFCUDY5MWJN?=
- =?utf-8?B?Mi9lbHFPS3pheHBZZ1ZSb25sbXZDNE5Mbm5pZ3JTSjJZQXMrZXVDTHBTcWRs?=
- =?utf-8?B?ZklPWlF5Rlo3d3RtS3I5TEEzYW1RVDhmdHg3ZFVlcDRJNmxBRW4xdGxDTlJQ?=
- =?utf-8?B?R3loY0J4VmxoeENNUWppd3g5L3BUU3JoMjNpMkNKYVNIQmxPdXVSeU1TV24x?=
- =?utf-8?B?Nkl3NytkRjJoTFF5OWczaWd6OW5WZU50citOemtHeXl5blRpY1d4UVMzRVJT?=
- =?utf-8?B?ZkY5R3VrR0pZaW9EazVUWlBpMTB2SXRZNXArOFk4eUdGcVErQ2lwSnlLVENa?=
- =?utf-8?B?MDB4K1ZJNEYrZlB0ZTVrdXE2Z21BVysxMzREVWtFMmpJZjdjMDI2ZVBWaVpy?=
- =?utf-8?B?QWNaZ21SUFFFREllVG9UT0xpcGhyaEtUZHp6eDg3MERjY1kxRDVPQXM2SlZs?=
- =?utf-8?B?akNHMUF5U29VV3o5TDFOVGNLaWV0alp6SFFYUHlqd1hFeGUra1d1ckNBMGx2?=
- =?utf-8?B?MzlzSWNvNEZBNG80NU1LRWRuQ2tHZllwZlZVcWtLN1ZRYVpNcTNJT0liSjIy?=
- =?utf-8?B?NmpYMEJncHdrMmpWK1FRV2gyb0ZzNDd4em1Xbm56YVF0amxWQ3k5OGFzdXRK?=
- =?utf-8?B?czJmREMvMUFmdisyalpjVThrZzhMcjNnUUdVelVJdmc2cThsOWczQ1l6WUdK?=
- =?utf-8?B?UVY0bGFYL3B0SHAwWGZSS0lXK2dlVEtFeHY4OGhPa29GM21rbEM0M1NVSTlw?=
- =?utf-8?B?RGxwdHRGZkVaeXRZTnJHeW4zM2YzaEVxTkxPdzh4Z3Y3Y08zdndnaW1JblRB?=
- =?utf-8?B?YmRJTG1KejhYVUJrTEM5YnBheHVSZ05hVnRLQlArQnBLYnNRdnJTYVk5c3BX?=
- =?utf-8?B?bUxaRm9Qd3RHYlVJYUZMbDgyOTNvY1RwK2JtaWpjaEZMUElQQXZ3ZkdnM0sz?=
- =?utf-8?B?ZzZWeWRCUmFhc2ZvU0FjSnFtbHlGbFpNYXZ0T25PaHJKLzVNM1hleThYdXZM?=
- =?utf-8?B?VDE2UytOMEhpYXZaSk9FWUkvclZTUnZYc3psL1YvVUN4YkZjcUMrbks0SzlL?=
- =?utf-8?B?ZG84VUlvT1JndFNRc2pKMFFyRVpOeGorK05SVE4wT1dSdE9sbWtOQXBSSjF2?=
- =?utf-8?B?YlA0YlJRV3AxWWtKamRJSjNjVS9NempuZ2thSXhUUHV2YnVUZTF4bEZjYnlC?=
- =?utf-8?B?Y1BYRCtVWW9rbkEwWFByS3NueEV0cklCT3lOMDFPcnB1VUkzY3VkU0RPcThD?=
- =?utf-8?B?RVRrc1FIcmIyaW1xYkQreXJNWGt6Qkt4cjYwVmhKaytTREVTRGhZbEpPRUZo?=
- =?utf-8?B?bVdBWjVmRFhjVDZvT01rVVhVdjBORWR4RDVpWFlFb1pPaTh2bDREYVRGS3A2?=
- =?utf-8?B?MUpIMUozS3VJOUhKWXlvVjBTZGpMU2VMT0Zma1RQbDZuNkdUSkpzaFRON2Nz?=
- =?utf-8?B?ekpGY1RjREU0N3RITnVYNUZyYjJlUFpGaGxMc3FoMENKVlRkOTN4cVlDT3py?=
- =?utf-8?B?NWZyVFArU1RHNEp5d3QyVlhCKzY4ZnpmSW1LNm95azRvUjBNaUpTRngwUXp5?=
- =?utf-8?B?VENEbEE1UHZUeDQvbkF1QT09?=
-Content-ID: <90B9244D948950418CBEE0B19E8CC3ED@namprd11.prod.outlook.com>
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3238.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(136003)(376002)(346002)(396003)(38100700002)(86362001)(5660300002)(83380400001)(2906002)(52536014)(33656002)(71200400001)(8936002)(110136005)(55016002)(478600001)(9686003)(6506007)(26005)(122000001)(53546011)(8676002)(66946007)(76116006)(66446008)(186003)(66476007)(66556008)(7696005)(316002)(7416002)(64756008)(4326008)(54906003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?NoF7qSfuXfhEvQ6KqxN2MkWJgfRKUXgFwGCdxL8AJK2008o0ksehHuisHbhj?=
+ =?us-ascii?Q?UEZ4AUMDJxU3BO9WqfynoChKtekJF+XXHkKfGtDZWbd0azCQprqo/4PM3m0v?=
+ =?us-ascii?Q?jnjJgFK6DvXo088snobBoA6OoeAZ/HfM7DAUsUBJKNCwGWk1dZrjLmcnwB6w?=
+ =?us-ascii?Q?hglvOXNTb8cAidBNh3tu3Wr6bLgRcJ2EfAV0uEF8JmFJUJCFkl32qjOBOZjo?=
+ =?us-ascii?Q?e6uwqAL9xOynrtly+L9V4fvbHWlswJaeVTubbo9SdN5prBY1HXbTeT0PFg3v?=
+ =?us-ascii?Q?Gct+F6iyr8r61Fu2VQAG5548DOj84/phquEVd0mXJMC2l37QNbSm0IOAuOZ1?=
+ =?us-ascii?Q?gTaxZe7op8HEePkknxcetmy+vhqtLQ7GShpdNINZv/yIXREtQtP3HM0sy/M8?=
+ =?us-ascii?Q?EIG4dajc1sxzTElFGvsB6bWL1IW6UeOedJg80CNfqRFmZZUEfuNx9VrfW2/L?=
+ =?us-ascii?Q?YW8152HhxC3sYL3CIc+Sfe3gM4HT6EYH1vBp+arRyUVIzkW/bjvx3Xo08R2g?=
+ =?us-ascii?Q?kmuwblmRA0LyyZXGPziriqj4sWS9XzZBgewzXN9VOkSfNfEVZLuOt42lbFWl?=
+ =?us-ascii?Q?qT6m3b9Lu3LKadQpZdwdO1/JX74v/x58gPKDn2rKtP6zZjtFS2prSfWy71hd?=
+ =?us-ascii?Q?F3uS6LvI9ZvHgAzb9cMl/Q2SAVXVgcgt1QGWuMsHZ6U9iQlW1QHCuMDebbGu?=
+ =?us-ascii?Q?Odtqc5QhLQbCTUpM2W4UHsmDZ/N+UNf5xBTVJNPsUSclLgn2bS2Dvv2cVHk1?=
+ =?us-ascii?Q?RClHeYhvLXHs3W2uv9HIOrW7r2MWaDhTauwuS0kmikX5kUUXtI2lF/bZ8l9h?=
+ =?us-ascii?Q?Ey89vyskapJT2Atuwy97Vpljutz1K51gmW/Mx3vClESgeAcxNbJeXgj1HOmd?=
+ =?us-ascii?Q?XyXkN458CPQMYa/BeaLMnlKFkW2zaabMCZpK7zvnecF5yctqDhWo2kYoacPl?=
+ =?us-ascii?Q?c0RJcJ5ywUWFRYEoFp/OOdjQcljRi/lgfIIFKlyUQgUB8qJo6DjmTGVs/t8R?=
+ =?us-ascii?Q?1yPYX4766e3Ay1anfFmlR6kdNnF1ewVEHhuW9NHGWVPcLCHXXJ45LrLXGXmb?=
+ =?us-ascii?Q?TpwEhICZjCMvTThcWH1P7xNhRuKNRGMba0ewbrpEGsecJXQICXk1e3EyXJHo?=
+ =?us-ascii?Q?fitWxLzBLynD8YvzhNkFdq04LgA/RU7jwLJ1TYlFJuSFy28c7JyTdJvx3UJl?=
+ =?us-ascii?Q?WwsvCcPaePeDpy1WX4lm6DJZR2fd5xYbXnMsdg75SYdtMMhSfeoewsfgMECU?=
+ =?us-ascii?Q?lLKMq0A4lM22dUsvD9JjmiWWOuBOeRPgOlZV17YME/TR70CODTr1w6T/BAZD?=
+ =?us-ascii?Q?vXIE7UcfoRnWhbg/PWoiZZBD?=
 MIME-Version: 1.0
+X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3448.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6f54fdc-56ea-444a-ad6c-08d91c155b13
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2021 05:00:29.6083 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3238.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fb4e4ac-b49a-4bb6-23b3-08d91c1bfc07
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2021 05:47:56.5568 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KhcMkW6AKQUzLbyDidzk153w2tGT2BFerjQIx/1l9SZa5EOltnYuYrIvgL6W9JB4gynZZj1bkIN5FabszjdNtLdIYJl0NkEwcUkyctDlMlk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2534
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-userprincipalname: G4B1vQ6hcHrJD9VgeijUlrlevJ8zYm9LDnEsOaBa7vf+vgL7mocG3mUPPwrDUIpv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3780
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210520_220037_470338_B4976803 
-X-CRM114-Status: GOOD (  12.34  )
+X-CRM114-CacheID: sfid-20210520_224801_816025_102845C6 
+X-CRM114-Status: GOOD (  32.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -195,30 +178,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+[Public]
 
-I ran into this failure to probe an nvme device in an emulator
-(simics). It looks like there is a ~60 second wait followed by a
-timeout and a failure to boot (the root device is an nvme disk) with
-these messages in the log:
+> -----Original Message-----
+> From: Limonciello, Mario <Mario.Limonciello@amd.com>
+> Sent: Friday, May 21, 2021 4:34 AM
+> To: Deucher, Alexander <Alexander.Deucher@amd.com>; Keith Busch
+> <kbusch@kernel.org>
+> Cc: Bjorn Helgaas <helgaas@kernel.org>; Liang, Prike
+> <Prike.Liang@amd.com>; linux-pci@vger.kernel.org; axboe@fb.com;
+> hch@lst.de; sagi@grimberg.me; linux-nvme@lists.infradead.org;
+> stable@vger.kernel.org; S-k, Shyam-sundar <Shyam-sundar.S-k@amd.com>;
+> Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>; Rafael J. Wysocki
+> <rjw@rjwysocki.net>; linux-pm@vger.kernel.org
+> Subject: RE: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme shutdown opt
+>
+> [AMD Public Use]
+>
+> > > -----Original Message-----
+> > > From: Keith Busch <kbusch@kernel.org>
+> > > Sent: Thursday, May 20, 2021 2:04 PM
+> > > To: Deucher, Alexander <Alexander.Deucher@amd.com>
+> > > Cc: Bjorn Helgaas <helgaas@kernel.org>; Liang, Prike
+> > > <Prike.Liang@amd.com>; linux-pci@vger.kernel.org; axboe@fb.com;
+> > > hch@lst.de; sagi@grimberg.me; linux-nvme@lists.infradead.org;
+> > > stable@vger.kernel.org; S-k, Shyam-sundar <Shyam-sundar.S-
+> > k@amd.com>;
+> > > Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>; Rafael J. Wysocki
+> > > <rjw@rjwysocki.net>; linux-pm@vger.kernel.org
+> > > Subject: Re: [PATCH v5 1/2] PCI: add AMD PCIe quirk for nvme
+> > > shutdown
+> > opt
+> > >
+> > > On Thu, May 20, 2021 at 05:40:54PM +0000, Deucher, Alexander wrote:
+> > > > It doesn't really have anything to do with PCI.  The PCI link is
+> > > > just a proxy for specific AMD platforms.  It's platform firmware
+> > > > behavior we are catering to.  This was originally posted as an
+> > > > nvme quirk, but during the review it was recommended to move the
+> > > > quirk into PCI because the quirk is not specific a particular NVMe
+> > > > device, but rather a set of AMD platforms.  Lots of other
+> > > > platforms seems to do similar things in the nvme driver based on
+> > > > ACPI or DMI flags, etc.  On our hardware this nvme flag is required for
+> all cezanne and renoir platforms.
+> > >
+> > > The quirk was initially presented as specific to the pci root. Does
+> > > it make more sense for nvme to recognize the limitation from
+> > > querying a different platform component instead of the pci bus?
+> >
+> > Maybe.  I'm not sure what the best way to tie this to a specific platform is.
+> > @Limonciello, Mario?
+> >
+>
+> I'll just remind folks that Prike mentioned this is a problem specific to the
+> Renoir and Cezanne ASICs.  These were the first ones that S2idle was used.
+> "Future" designs the problems that cause the need for this change should be
+> fixed.
+>
+> With that in mind, I can see the argument from Bjorn to not over-engineer it
+> and claim a PCI quirk that applies to all the downstream PCIe devices when
+> this is just needed for NVME devices.  The PCI device id selected (0x1630) is
+> the root complex associated specifically to these ASICs.
+>
+> Since these are mobile platforms that don't contain any way to connect other
+> external PCIe devices I think another way to safely do it could be an if #ifdef
+> CONFIG_X86 and then check if set for doing s2i and if so do a
+> x86_cpu_match() to the model and families matching the CPUs.
+>
+> To me this seems like a fine compromise given there is a precedent for
+> dmi_match on OEM platforms and enumerating "all" of the OEM platforms
+> that contain CZN/RN and enable S2I may be an exercise in futility.
 
-   [   67.174010] nvme nvme0: I/O 5 QID 0 timeout, disable controller
-   [   67.175793] nvme nvme0: Removing after probe failure status: -4
+Thanks for all proposal and will draft a new patch for this.
 
-I bisected this to:
-   5befc7c26e5a ("nvme: implement non-mdts command limits") 
 
-It's not immediately obvious to me what's causing the problem.
-Reverting the above commit fixes it. It is easily reproducible - I'd be
-happy to provide more info about the emulated device or test out
-patches or theories.
 
-It is of course possible that the emulated device is behaving in some
-non spec-compliant way, in which case I'd appreciate any help figuring
-out what that is.
-
-Thanks,
--Vishal
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
