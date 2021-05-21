@@ -1,98 +1,117 @@
-Return-Path: <SRS0=7pRJ=KP=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=oXoK=KQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99184C433B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 22:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 904FCC433ED
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 00:39:35 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0C5D36101B
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 May 2021 22:44:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C5D36101B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id CB1DD60C3E
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 00:39:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB1DD60C3E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding
+	:Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nMSCSvWjIU/xF55Z+Uon87AcfvSkiPMrspZMheaR6+Q=; b=EErleIVGosHzSUQwxe/hsIZfvA
-	wMjJC+kjuTZdv4nyAhsYofJfBJHEKp5rGrxCxoofkx/VpyNkweB/OKyvkhn9ywCI8RKY/MjHmc0fV
-	QpzStXnk4lARdjNxdhb2qRT/zSvvgTDyFLqiz+TYqm5Vc4ydDyDigue6R/dVFNd0uQXTc01PrG3VN
-	JHZs7gmviEs6yA+Tlp9n7mu3+u7Grt+kBVilt+rELC3myM9lIj7hSjOl9OiS4HZK3LrfJIq59ay7t
-	eBh13whCFtobHM/UlhbKW/zfwgH/KWeMj/nq1x35LPChuwsCrSt28SLryCQTeNfTPu3Lm6HJGY3JM
-	Zn6jVEDQ==;
+	bh=ldXfZLZxnmYxJ+6yDpPsKNbuR7PB4DUdOmodt6sWXmU=; b=qMBcyu0j/zkPFwyq+zfrgntv6L
+	66M1NYKbcSLo/57eGLG2gsuZgChhhuYxargDs50KEQOxISeRXtOWKCvMm4ul/3woLfBsmrZwaEBFm
+	KWIH75awers0Ufm9q0vhXXSQAZsqBUqDoBf/7tuZY/8a423riws7o8LNTYCxkl9gdm5eSeZkpSwg5
+	PwjylStoPZbaPLZs9x1857ilATVPf6CPBINks6LnVHMGnHGMX3oD/EwgDhRIBcXgFZO0JjUArdbOW
+	veV/ja4q7IXmlzH7XAFGsjlrMnfDhNyDlaBdJzzUC0Eo460O7Fl+17paD2gwZ9T0pYlovOl2EYdpP
+	iFyagfRQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ljrP0-002wjK-03; Thu, 20 May 2021 22:44:26 +0000
+	id 1ljtBq-0038Dr-VF; Fri, 21 May 2021 00:38:59 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ljrOw-002wiu-7W
- for linux-nvme@desiato.infradead.org; Thu, 20 May 2021 22:44:22 +0000
+ id 1ljtBm-0038B5-Q7
+ for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 00:38:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=XKePK6bU9zB8lkyfeItnApdHtEU+NdmiAionGlQioQ8=; b=Hz417soV7/WKiQlIon601Miyvx
- rGg4tbtoJyATO6E6yBdi4g+KPzfNTXQnPk745uaCtrE4Ufl8izlzLwuq1WXrNFR4Ab68CiNOj96cH
- z3WPexyMgULkgXa9H5hlaYgReNKILGY7Xx7bmTB0YAHQtLI8E5eM5AFvJaylfbtyE8UgUvYUi2GLs
- KBrjRiNKEB/Pm6v20wVMfVArPFRHwmX+XM8FuETD7sbczIb8AzUo5iXgpGzZ1vW7a9asGgVrflFXu
- JUlgao7qwzaOTjQ2uoXD0JLYtu8agoHVCa6a8HnCIT4rRIv7m/+DpZCcK9zISFxmfGBUDGpO9BbP+
- roTI66Mg==;
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+ Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+ MIME-Version:Sender:Reply-To:Content-ID:Content-Description;
+ bh=E+6BHO0qd7vtjHzsYJn+/xofpizOdrNRNiAn4fQyoiE=; b=ZYPASh64DeDzwv6kCZnfBczNTm
+ MX3Wm3p507DkYuoubASMncBMfeJlMJ4gRr26ZzirGUpgLdK5Ga0gByC66TpShaNDu2EY6wycVauRw
+ Qmf9lPjROe5QL04HxdGr9E+sbewllPyXVoZMgDCo9edpk7pxV5VeY12cpNZytxZGvuRLa+wHmOUlc
+ g/bKMJQWfMMO8ofua7XEebP0c+VO4XumgXyq/xBsKZzoWLGNqFfh8hebUPjoDqTYvk2h5DlnS24Qg
+ N8tkidVRTPkeZLQAIlJiNWqhAIbzxKFsuEHcwuq9v+dX73en0h7UoGEiESeDSJUL4JAkTK2StVcTP
+ gPwYrRRA==;
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ljrOt-00GhGn-Mq
- for linux-nvme@lists.infradead.org; Thu, 20 May 2021 22:44:21 +0000
-Received: by mail-wm1-f45.google.com with SMTP id
- z137-20020a1c7e8f0000b02901774f2a7dc4so5878823wmc.0
- for <linux-nvme@lists.infradead.org>; Thu, 20 May 2021 15:44:19 -0700 (PDT)
+ id 1ljtBi-00GjTo-W3
+ for linux-nvme@lists.infradead.org; Fri, 21 May 2021 00:38:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621557527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E+6BHO0qd7vtjHzsYJn+/xofpizOdrNRNiAn4fQyoiE=;
+ b=ERuQpbGe119tZYb7ZasyavM/0j3mb+CBzCqk7bo/r762/lrmESnYXPg3SRacWKQGgr3r+J
+ CTth4uHKkb00K5LLe9sqbiSnzwPkI7TYEMv9Rpd9KWPAZhTatiRkSrync0C4B/HULhyAsC
+ elu6imzwRJrHEdK0iclZuun/MfecjTM=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-579-iMMqp6DkMZuJGUiyTJdKfQ-1; Thu, 20 May 2021 20:38:46 -0400
+X-MC-Unique: iMMqp6DkMZuJGUiyTJdKfQ-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ p138-20020a2542900000b029051304a381d9so12570851yba.20
+ for <linux-nvme@lists.infradead.org>; Thu, 20 May 2021 17:38:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XKePK6bU9zB8lkyfeItnApdHtEU+NdmiAionGlQioQ8=;
- b=m/elzwYg6dYCuRb48WJ5kFcg7nbYQPYwUmm5tCi/7V3DXDBW99qmhwHDZCDlJG/jcz
- 4QZSC5I5xgTdP3nFSmS7Y2XVY71p9WOJPLctShfBt7dNL05eB23a7Zkq/BZ7MBFpuruf
- yYG1yOQDJMpw2xN0vBhWzrK6C/JmRgQuY9M1w2MDjjd3b7hjs3IQQYjFGf/zFbAonxM2
- zexqDqVNkGExeH0TEHFnuf+bcFrOkCLJt1pIhCKy4Y+RmRFQNm9K+121dEDS8hdwopy/
- lZlD4f++K5DEAR7uJ1gLJz8e6wWC9FSqf+EtLavd+BAeBay123ZOQX8yI56nH1xkeexI
- MiIg==
-X-Gm-Message-State: AOAM5308zWwCijFDAA2qA0WV4jOq6JDxdQzVHGtvSuZTXI+iwebcdq6+
- TA9bZ32y1s9aJ492kFXyjLCU8FCc6/Y=
-X-Google-Smtp-Source: ABdhPJzs1B6smKonfUKJDoDH+oFZV5SZgL363gSWtx9JL9qL22dZYT4LMS4PllI9gAwSsJV/V8c11w==
-X-Received: by 2002:a1c:5544:: with SMTP id j65mr5911819wmb.174.1621550658122; 
- Thu, 20 May 2021 15:44:18 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:1349:5b78:fe05:c9c1?
- ([2601:647:4802:9070:1349:5b78:fe05:c9c1])
- by smtp.gmail.com with ESMTPSA id f13sm5050672wrt.86.2021.05.20.15.44.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 May 2021 15:44:17 -0700 (PDT)
-Subject: Re: [PATCH 2/2] nvmet-tcp: fix connect error when setting
- param_inline_data_size to zero.
-To: Hou Pu <houpu.main@gmail.com>, hch@lst.de, chaitanya.kulkarni@wdc.com
-Cc: linux-nvme@lists.infradead.org, larrystevenwise@gmail.com,
- maxg@mellanox.com, elad.grupi@dell.com
-References: <20210520113046.27821-1-houpu.main@gmail.com>
- <20210520113046.27821-3-houpu.main@gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <417493d4-a78f-ea89-8536-0b391ef95f08@grimberg.me>
-Date: Thu, 20 May 2021 15:44:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E+6BHO0qd7vtjHzsYJn+/xofpizOdrNRNiAn4fQyoiE=;
+ b=ciIRJmrqmaprAfAbau4c01FOwhVNMM8Qzg6kse73RtCbleeZ/pdinpnqhX8IAdG1E0
+ HKTdTyD01faKpOcVDHrd5NUAUZsL+AaBDDVL9IBVMIi3lAZCsI3N2MGXGdbYPDjdhsUU
+ 1bFpTQaV5W0s4+bfrb9SvWhyUd8YSMlvUxx7M801R9PF1qDR6jhAyu7eV01wIZlMgOT6
+ /VCw8xPb+kPduEc22+OJD4WH1aSAaffdfdDRCeEUFPvQDumDF/5DiawJJxepP+MsuCTR
+ VKk2gFEUP5FQZINRCQHL9os+nDvC9tAwgzOlEg9iQw1TUAn3tuiTow+8glyD8Y8spX9P
+ mSsQ==
+X-Gm-Message-State: AOAM532LMySSpbOfqFYToKlJ2UPatoF1mNjEUHAf7VwrgtHC5ccipXf8
+ OgrRAsdD2gm6cYjap4qnIoaz3XEXe1FdHl7cdVqzrLys04AtM5UI4YKkRv7A3PncUD1dTRXlgSe
+ W+zJn/YKnDfebHmFr6vZavg+Na7PrOJR7SumopOdFhqs=
+X-Received: by 2002:a25:2009:: with SMTP id g9mr11019834ybg.198.1621557525569; 
+ Thu, 20 May 2021 17:38:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwht0EMox1Mrr8wTfduQVprH4yzlZ2HggVff3IsEdYP1lHnoL1+nOGnjDfLlrsWeL8r6QIupbfEUJEdycHEou0=
+X-Received: by 2002:a25:2009:: with SMTP id g9mr11019818ybg.198.1621557525373; 
+ Thu, 20 May 2021 17:38:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210520113046.27821-3-houpu.main@gmail.com>
-Content-Language: en-US
+References: <CAHj4cs-hAaHhWU4Kb4NrQ9Fvi7DiH95P=Q=7zK-inxpeZtztkw@mail.gmail.com>
+ <3243ab72-ffe3-e655-ef0a-d695885ce2c5@grimberg.me>
+ <CAHj4cs9uOHRgRe9PJ3_0A4NMo4T1q4XzCYG6UAV-V=RZ39i1iQ@mail.gmail.com>
+ <CAHj4cs-JawWOTNBnQ3OTeNXUb_zeH3-5MrPQWK0=1QPfEJ7ROA@mail.gmail.com>
+ <201a97a9-e42f-8d8e-3cc7-e5cf8ba816c2@grimberg.me>
+ <423b7c5e-deb7-3547-6ca4-8f4476e9eb03@suse.de>
+ <CAHj4cs-3sY=E643N89Gs46M0-KLivJP2WeXsB8bCftNq1kAe9g@mail.gmail.com>
+ <CAHj4cs_NVzgA8=gC9MKSakdDgBR4ghLQv6H8tw_BgxUUvA+Uew@mail.gmail.com>
+ <d0bd7905-9741-012f-ff7a-f211d8170088@suse.de>
+In-Reply-To: <d0bd7905-9741-012f-ff7a-f211d8170088@suse.de>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Fri, 21 May 2021 08:38:33 +0800
+Message-ID: <CAHj4cs8XEVdZKK1J0GHZxEzBkApOaO9T-uONGiimM-_qR8Kjaw@mail.gmail.com>
+Subject: Re: [bug report] blktests nvme/022 lead kernel WARNING and NULL
+ pointer
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+ skt-results-master@redhat.com, Bruno Goncalves <bgoncalv@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210520_154419_781278_E2556A6F 
-X-CRM114-Status: GOOD (  27.88  )
+X-CRM114-CacheID: sfid-20210520_173851_151097_4BF0AC67 
+X-CRM114-Status: GOOD (  17.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,77 +123,90 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> When setting inline_data_size to zero, connect failed. This could be
-> reproduced with following steps.
-> 
-> Controller side:
-> mkdir /sys/kernel/config/nvmet/ports/1
-> cd /sys/kernel/config/nvmet/ports/1
-> echo 0.0.0.0 > addr_traddr
-> echo 4421 > addr_trsvcid
-> echo ipv4 > addr_adrfam
-> echo tcp > addr_trtype
-> echo 0 > param_inline_data_size
-> ln -s /sys/kernel/config/nvmet/subsystems/mysub /sys/kernel/config/nvmet/ports/1/subsystems/mysub
-> 
-> Host side:
-> [  325.145323][  T203] nvme nvme1: Connect command failed, error wo/DNR bit: 22
-> [  325.159481][  T203] nvme nvme1: failed to connect queue: 0 ret=16406
-> Failed to write to /dev/nvme-fabrics: Input/output error
-> 
-> Kernel log from controller side is:
-> [  114.567411][   T56] nvmet_tcp: queue 0: failed to map data
-> [  114.568093][   T56] nvmet_tcp: unexpected pdu type 201
-> 
-> When admin-connect command comes with 1024 inline data size, in nvmet_tcp_map_data(),
-> this size is compared with cmd->req.port->inline_data_size (which is 0),
-> thus the command is responded with an error code. But admin-connect command
-> is always allowed to use no more than 8192 bytes according to the nvme over
-> fabrics specification.
-> 
-> The host side decides the inline data size when allocating the queue
-> according the queue number, the size of queue 0 is 8k and others is ioccsz*16.
-> The target side should do like this.
-> 
-> Fixes: 0d5ee2b2ab4f ("nvmet-rdma: support max(16KB, PAGE_SIZE) inline data")
-> Signed-off-by: Hou Pu <houpu.main@gmail.com>
-> ---
->   drivers/nvme/target/tcp.c | 24 +++++++++++++++++++++---
->   1 file changed, 21 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index d8aceef83284..83985ab8c3aa 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -167,6 +167,24 @@ static const struct nvmet_fabrics_ops nvmet_tcp_ops;
->   static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
->   static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
->   
-> +static inline int nvmet_tcp_inline_data_size(struct nvmet_tcp_cmd *cmd)
-> +{
-> +	struct nvmet_tcp_queue *queue = cmd->queue;
-> +	struct nvme_command *nvme_cmd = cmd->req.cmd;
-> +	int inline_data_size = NVME_TCP_ADMIN_CCSZ;
-> +	u16 qid = 0;
-> +
-> +	if (likely(queue->nvme_sq.ctrl)) {
-> +		/* The connect admin/io queue has been executed. */
-> +		qid = queue->nvme_sq.qid;
-> +		if (qid)
-> +			inline_data_size = cmd->req.port->inline_data_size;
-> +	} else if (nvme_cmd->connect.qid)
-> +		inline_data_size = cmd->req.port->inline_data_size;
-
-How can a connection to an I/O queue arrive without having the ctrl
-reference installed? Is this for the failure case?
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+PiA+Cj4gPiBXaGF0IGFib3V0IHRoaXM/CgpIaSBIYW5uZXMKV2l0aCB0aGlzIHBhdGNoLCBubyBX
+QVJOTklORy9OVUxMIHBvaW50ZXIgdGhpcyB0aW1lLCBidXQgc3RpbGwgaGF2ZQona2VlcC1hbGl2
+ZSB0aW1lciBleHBpcmVkJyBhbmQgcmVzZXQgZmFpbHVyZSBpc3N1ZSwgaGVyZSBpcyB0aGUgZnVs
+bApsb2c6CgojIC4vY2hlY2sgbnZtZS8wMjIKbnZtZS8wMjIgKHRlc3QgTlZNZSByZXNldCBjb21t
+YW5kIG9uIE5WTWVPRiBmaWxlLWJhY2tlZCBucykgIFtmYWlsZWRdCiAgICBydW50aW1lICAxMC42
+NDZzICAuLi4gIDExLjA4N3MKICAgIC0tLSB0ZXN0cy9udm1lLzAyMi5vdXQgMjAyMS0wNS0yMCAy
+MDoxNjozMS4zODQwNjg4MDcgLTA0MDAKICAgICsrKyAvcm9vdC9ibGt0ZXN0cy9yZXN1bHRzL25v
+ZGV2L252bWUvMDIyLm91dC5iYWQgMjAyMS0wNS0yMAoyMDoyNDoyNy44NzQyNTA0NjYgLTA0MDAK
+ICAgIEBAIC0xLDQgKzEsNSBAQAogICAgIFJ1bm5pbmcgbnZtZS8wMjIKICAgICA5MWZkYmEwZC1m
+ODdiLTRjMjUtYjgwZi1kYjdiZTE0MThiOWUKICAgICB1dWlkLjkxZmRiYTBkLWY4N2ItNGMyNS1i
+ODBmLWRiN2JlMTQxOGI5ZQogICAgK0VSUk9SOiByZXNldCBmYWlsZWQKICAgICBUZXN0IGNvbXBs
+ZXRlCiMgY2F0IHJlc3VsdHMvbm9kZXYvbnZtZS8wMjIuZnVsbApSZXNldDogTmV0d29yayBkcm9w
+cGVkIGNvbm5lY3Rpb24gb24gcmVzZXQKTlFOOmJsa3Rlc3RzLXN1YnN5c3RlbS0xIGRpc2Nvbm5l
+Y3RlZCAxIGNvbnRyb2xsZXIocykKClszNzM1My4wNjg0NDhdIHJ1biBibGt0ZXN0cyBudm1lLzAy
+MiBhdCAyMDIxLTA1LTIwIDIwOjI0OjE2ClszNzM1My4xNDYzMDFdIG52bWV0OiBhZGRpbmcgbnNp
+ZCAxIHRvIHN1YnN5c3RlbSBibGt0ZXN0cy1zdWJzeXN0ZW0tMQpbMzczNTMuMTYxNzY1XSBudm1l
+dDogY3JlYXRpbmcgY29udHJvbGxlciAxIGZvciBzdWJzeXN0ZW0KYmxrdGVzdHMtc3Vic3lzdGVt
+LTEgZm9yIE5RTgpucW4uMjAxNC0wOC5vcmcubnZtZXhwcmVzczp1dWlkOjZhNzBkMjIwLWJmZGUt
+MTAwMC0wM2NlLWVhNDBiODczMDkwNC4KWzM3MzUzLjE3NTc5Nl0gbnZtZSBudm1lMDogY3JlYXRp
+bmcgMTI4IEkvTyBxdWV1ZXMuClszNzM1My4xODk3MzRdIG52bWUgbnZtZTA6IG5ldyBjdHJsOiAi
+YmxrdGVzdHMtc3Vic3lzdGVtLTEiClszNzM1NC4yMTY2ODZdIG52bWUgbnZtZTA6IHJlc2V0dGlu
+ZyBjb250cm9sbGVyClszNzM2My4yNzA2MDddIG52bWV0OiBjdHJsIDEga2VlcC1hbGl2ZSB0aW1l
+ciAoNSBzZWNvbmRzKSBleHBpcmVkIQpbMzczNjMuMjc2NTIxXSBudm1ldDogY3RybCAxIGZhdGFs
+IGVycm9yIG9jY3VycmVkIQpbMzczNjMuMjgxMDU4XSBudm1lIG52bWUwOiBSZW1vdmluZyBjdHJs
+OiBOUU4gImJsa3Rlc3RzLXN1YnN5c3RlbS0xIgoKIyAuL2NoZWNrIG52bWUvMDIxCm52bWUvMDIx
+ICh0ZXN0IE5WTWUgbGlzdCBjb21tYW5kIG9uIE5WTWVPRiBmaWxlLWJhY2tlZCBucykgICBbcGFz
+c2VkXQogICAgcnVudGltZSAgMTAuOTU4cyAgLi4uICAxMS4zODJzCiMgZG1lc2cKWzM4MTQyLjg2
+Mjg4MV0gcnVuIGJsa3Rlc3RzIG52bWUvMDIxIGF0IDIwMjEtMDUtMjAgMjA6Mzc6MjYKWzM4MTQy
+Ljk0MTAzOF0gbnZtZXQ6IGFkZGluZyBuc2lkIDEgdG8gc3Vic3lzdGVtIGJsa3Rlc3RzLXN1YnN5
+c3RlbS0xClszODE0Mi45NTY2MjFdIG52bWV0OiBjcmVhdGluZyBjb250cm9sbGVyIDEgZm9yIHN1
+YnN5c3RlbQpibGt0ZXN0cy1zdWJzeXN0ZW0tMSBmb3IgTlFOCm5xbi4yMDE0LTA4Lm9yZy5udm1l
+eHByZXNzOnV1aWQ6NmE3MGQyMjAtYmZkZS0xMDAwLTAzY2UtZWE0MGI4NzMwOTA0LgpbMzgxNDIu
+OTcwNTI0XSBudm1lIG52bWUwOiBjcmVhdGluZyAxMjggSS9PIHF1ZXVlcy4KWzM4MTQyLjk4NDM1
+Nl0gbnZtZSBudm1lMDogbmV3IGN0cmw6ICJibGt0ZXN0cy1zdWJzeXN0ZW0tMSIKWzM4MTQ0LjAx
+NDYwMV0gbnZtZSBudm1lMDogUmVtb3ZpbmcgY3RybDogTlFOICJibGt0ZXN0cy1zdWJzeXN0ZW0t
+MSIKWzM4MTUzLjAzMDEwN10gbnZtZXQ6IGN0cmwgMSBrZWVwLWFsaXZlIHRpbWVyICg1IHNlY29u
+ZHMpIGV4cGlyZWQhClszODE1My4wMzYwMThdIG52bWV0OiBjdHJsIDEgZmF0YWwgZXJyb3Igb2Nj
+dXJyZWQhCgoKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvdGFyZ2V0L2xvb3AuYyBiL2Ry
+aXZlcnMvbnZtZS90YXJnZXQvbG9vcC5jCj4gaW5kZXggNzRiM2IxNTBlMWE1Li45ODM4YTdkMjdi
+YzEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9sb29wLmMKPiArKysgYi9kcml2
+ZXJzL252bWUvdGFyZ2V0L2xvb3AuYwo+IEBAIC0yNjMsNyArMjYzLDggQEAgc3RhdGljIGNvbnN0
+IHN0cnVjdCBibGtfbXFfb3BzCj4gbnZtZV9sb29wX2FkbWluX21xX29wcyA9IHsKPgo+ICAgc3Rh
+dGljIHZvaWQgbnZtZV9sb29wX2Rlc3Ryb3lfYWRtaW5fcXVldWUoc3RydWN0IG52bWVfbG9vcF9j
+dHJsICpjdHJsKQo+ICAgewo+IC0gICAgICAgY2xlYXJfYml0KE5WTUVfTE9PUF9RX0xJVkUsICZj
+dHJsLT5xdWV1ZXNbMF0uZmxhZ3MpOwo+ICsgICAgICAgaWYgKCF0ZXN0X2FuZF9jbGVhcl9iaXQo
+TlZNRV9MT09QX1FfTElWRSwgJmN0cmwtPnF1ZXVlc1swXS5mbGFncykpCj4gKyAgICAgICAgICAg
+ICAgIHJldHVybjsKPiAgICAgICAgICBudm1ldF9zcV9kZXN0cm95KCZjdHJsLT5xdWV1ZXNbMF0u
+bnZtZV9zcSk7Cj4gICAgICAgICAgYmxrX2NsZWFudXBfcXVldWUoY3RybC0+Y3RybC5hZG1pbl9x
+KTsKPiAgICAgICAgICBibGtfY2xlYW51cF9xdWV1ZShjdHJsLT5jdHJsLmZhYnJpY3NfcSk7Cj4g
+QEAgLTI5OSw2ICszMDAsNyBAQCBzdGF0aWMgdm9pZCBudm1lX2xvb3BfZGVzdHJveV9pb19xdWV1
+ZXMoc3RydWN0Cj4gbnZtZV9sb29wX2N0cmwgKmN0cmwpCj4gICAgICAgICAgICAgICAgICBjbGVh
+cl9iaXQoTlZNRV9MT09QX1FfTElWRSwgJmN0cmwtPnF1ZXVlc1tpXS5mbGFncyk7Cj4gICAgICAg
+ICAgICAgICAgICBudm1ldF9zcV9kZXN0cm95KCZjdHJsLT5xdWV1ZXNbaV0ubnZtZV9zcSk7Cj4g
+ICAgICAgICAgfQo+ICsgICAgICAgY3RybC0+Y3RybC5xdWV1ZV9jb3VudCA9IDE7Cj4gICB9Cj4K
+PiAgIHN0YXRpYyBpbnQgbnZtZV9sb29wX2luaXRfaW9fcXVldWVzKHN0cnVjdCBudm1lX2xvb3Bf
+Y3RybCAqY3RybCkKPiBAQCAtNDA1LDYgKzQwNyw3IEBAIHN0YXRpYyBpbnQgbnZtZV9sb29wX2Nv
+bmZpZ3VyZV9hZG1pbl9xdWV1ZShzdHJ1Y3QKPiBudm1lX2xvb3BfY3RybCAqY3RybCkKPiAgICAg
+ICAgICByZXR1cm4gMDsKPgo+ICAgb3V0X2NsZWFudXBfcXVldWU6Cj4gKyAgICAgICBjbGVhcl9i
+aXQoTlZNRV9MT09QX1FfTElWRSwgJmN0cmwtPnF1ZXVlc1swXS5mbGFncyk7Cj4gICAgICAgICAg
+YmxrX2NsZWFudXBfcXVldWUoY3RybC0+Y3RybC5hZG1pbl9xKTsKPiAgIG91dF9jbGVhbnVwX2Zh
+YnJpY3NfcToKPiAgICAgICAgICBibGtfY2xlYW51cF9xdWV1ZShjdHJsLT5jdHJsLmZhYnJpY3Nf
+cSk7Cj4gQEAgLTQ2Miw4ICs0NjUsMTAgQEAgc3RhdGljIHZvaWQgbnZtZV9sb29wX3Jlc2V0X2N0
+cmxfd29yayhzdHJ1Y3QKPiB3b3JrX3N0cnVjdCAqd29yaykKPiAgICAgICAgICBudm1lX2xvb3Bf
+c2h1dGRvd25fY3RybChjdHJsKTsKPgo+ICAgICAgICAgIGlmICghbnZtZV9jaGFuZ2VfY3RybF9z
+dGF0ZSgmY3RybC0+Y3RybCwgTlZNRV9DVFJMX0NPTk5FQ1RJTkcpKSB7Cj4gLSAgICAgICAgICAg
+ICAgIC8qIHN0YXRlIGNoYW5nZSBmYWlsdXJlIHNob3VsZCBuZXZlciBoYXBwZW4gKi8KPiAtICAg
+ICAgICAgICAgICAgV0FSTl9PTl9PTkNFKDEpOwo+ICsgICAgICAgICAgICAgICBpZiAoY3RybC0+
+Y3RybC5zdGF0ZSAhPSBOVk1FX0NUUkxfREVMRVRJTkcgJiYKPiArICAgICAgICAgICAgICAgICAg
+IGN0cmwtPmN0cmwuc3RhdGUgIT0gTlZNRV9DVFJMX0RFTEVUSU5HX05PSU8pCj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgLyogc3RhdGUgY2hhbmdlIGZhaWx1cmUgZm9yIG5vbi1kZWxldGVkIGN0
+cmw/ICovCj4gKyAgICAgICAgICAgICAgICAgICAgICAgV0FSTl9PTl9PTkNFKDEpOwo+ICAgICAg
+ICAgICAgICAgICAgcmV0dXJuOwo+ICAgICAgICAgIH0KPgo+Cj4gKEknbGwgYmUgc2VuZGluZyBv
+dXQgYSBmb3JtYWwgcGF0Y2hzZXQgb25jZSBpdCdzIGNvbmZpcm1lZCkuCj4KPiBDaGVlcnMsCj4K
+PiBIYW5uZXMKPiAtLQo+IERyLiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICAgICAgS2VybmVs
+IFN0b3JhZ2UgQXJjaGl0ZWN0Cj4gaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBN
+YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKPiBIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyks
+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKPgoKCi0tIApCZXN0IFJlZ2Fy
+ZHMsCiAgWWkgWmhhbmcKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVh
+ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1u
+dm1lCg==
