@@ -4,196 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1416C4707C
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 18:37:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C990FC04FF3
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 20:18:09 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 32A9661164
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 18:37:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32A9661164
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7A887613E1
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 20:18:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A887613E1
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=34GB8UBtePqZOsQ0O8QUBbKhZVk5VgInbWPy7sBcx4o=; b=ZVcg8gQBgePq5T0Rz8j/2vx3Bl
-	rSzHGZ+EHsaOI5N92LHcwOjvi8hUZolv14ZjFXSxhsGqpROtTQoCneLNNG0S6D3YGzU6xulq/qtL7
-	BBCW3xX+bZHCEQoHvfuiNM3Zq7m9cTl/bs3fJA7STVuRDArofC5SO7V5/uGJ+weAeD+/175QXBoim
-	KUB/BxnTnD0Aru+OX7XieX5KLCj90NY5nyhUTuLH+Qrf9+rqpPhv6sAWYH8XKbplT2aPJijy1or30
-	efC0fcAEjywr5XEENUHacs9IovYZ6Bo7f2HfpM0gL1Lc/v0vvmewcCd7a+PweC43n2Zktc/dHU7WS
-	uEnWgtpQ==;
+	bh=mQvwn4R0cx0Zm4+C4HuuzJjg4BRoB03orCeHKQUZ+5s=; b=oPpeWruFABPicOqe3h2oDycGbG
+	RlA2NrwQ7a5Bgi6Yq/28doVaJQFQP05A03Br9mJHDhZxmJwhBOPsVfHhVr71H4dsxWbqKLawaPKhC
+	S9pNd27utx9BpMkrYPyCXN7Iyaus0Y9MrQQ8ZxYEVr5zR7v9vsZYtw2QJMrQ0a3pivdB42Te9Xa2x
+	xAczTo0sAnJAcvBg1qoHyDJ4J8xdAzbr2RahR6P7e3ZRQ5sx0giDcqJAIMiYcyVyPIfpkiGRiFxzs
+	1JbjFNCybzMYrgJFDm0J4UF0/2jpRTdWTzOLp61ZlNr6usN7dqaulc4IGrJTrSCkMcqnciT1CSbN+
+	z04D+HyA==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lkA0x-000k9W-RF; Fri, 21 May 2021 18:36:52 +0000
+	id 1lkBaa-0010Im-0f; Fri, 21 May 2021 20:17:44 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lkA0u-000k8o-Id
- for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 18:36:49 +0000
+ id 1lkBaX-0010IL-2K
+ for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 20:17:41 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:In-Reply-To:Date:Message-ID:From:
- References:Cc:To:Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=5QUKedEDV9brlzK9MEOG6Bv8ZcfBjd89Ap52BrOBaRM=; b=RzFYBrfVPhCw7busPFASfz9Wdk
- 0WGuaOkTDOHo5pOOG32PFPic0YJAESbomZwRKN052GLvKYUW3vZrIfmwx72raYRq/8LanTpdkny5/
- qbxC/WDcHGQd/lj9hHZ9T3Dd7nzFA2Gkzm4DNik0qzBvKY1EjYvJwVbXArXBfXZ046bscp8ptM7BC
- SPWwMRdq5sDZYE4EIbp58qNeaUWU3/MdjUUaHLeCeHja+PQyAwZSrYZ8c2WCfoSQ2nbspAWRRKHMK
- p94AvXSdG4tqM9qd9Zy1TWvJjL6mYMHGdaOQ8SNK53B3MWMf/jWukiofvc3wfxRnK2T230oau7P4P
- loIV9vSg==;
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=izylh3x5eWU+SSVYhe6qhquo6gNaabEEd/H/fKITtiI=; b=FXGxaymDDp+u1AorumHp73MQP9
+ LUXihki7AVfXwP9xQ0PPk++RsAKjHkdlqkATnszi5eGWQgmttAHKA0fkZu4kc71oe/qSWN5HXNOxM
+ CkAnkxo6NQPLkSwtXDLU12+olQFv/m3QbcmnCMRMOt7Djj4NG5CEM/Nfo58525S0GVGpDK6NUy3U+
+ aIOPBsqxg3v1+h1AjbTfP4fCYohUP6K0Be5De8ZJhK/FxJxDi59L5rHeBNwXnrHKwlTylKhLhp1Zk
+ TjBliKyRNe0Vtd1iS4MZCdDA3BN6A+GmGPVVWKWQNPaivkgmM4Y3yTWaO6E0d7WT2cE1R868XPpZE
+ NxWIh3BQ==;
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lkA0r-00HMH4-GC
- for linux-nvme@lists.infradead.org; Fri, 21 May 2021 18:36:47 +0000
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14LIZx2l022129; Fri, 21 May 2021 18:36:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=5QUKedEDV9brlzK9MEOG6Bv8ZcfBjd89Ap52BrOBaRM=;
- b=b/p0tWCH+9vQZxFvntQIktFGdXkQ952//nG2VcwgRfVktNa9o2R/So5oSgvssOJh49iG
- E1fbJIihjRiQamV5E2QOezkElDvIJrFO1u1t7yzSsziQ37jg82o/3G+f0VW9HD4Fv/Ar
- bc2SYt7X5H0jrrHhu7kO/UCz7ckvc70NdZzVij/GXZ6jjnb8zQmcU2T4/Wn2XVnuT7Ak
- TslHdndsyrApX8Ou1af4NHDCC8J3RqOmnBoFQGu3wphQtMCqe6jWWVGVVYTRkvrygA4n
- MrpOx2lpJ6PyFq1bk1INQreSJLxgoFVYO907M93qWAXJMlLhSyiemgMAYbl0NxODsoqy IA== 
-Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 38n4uks0vc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 May 2021 18:36:38 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14LIab3f002260;
- Fri, 21 May 2021 18:36:37 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
- by userp3030.oracle.com with ESMTP id 38megntnyh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 May 2021 18:36:37 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aCZxKvmrx+Gie3JYerHypqcmW11134x+KMjgQT6svt8FzaSSbz4TFIjNZ+whx3+LfPFiGrID4e4Xc0uAxlH6VUfV06GqnkZ+6ISy1Kd2dvT3eQC2ode8FLxGC/g4uuh7XF8S8iaw5yN7Uq927EUSaDOV6de3j6Wi+KeNKq1H/mp2Slqvd9wmInJyLvS9CL3t9ewOO9O+dtHACfIiustKmL+iviS42EXV0tz93GdWW+wbAPqhqtKUNoY+SL5GWRUdO41SnCOCtbubvUKxwwvShNOZwss0UM3WZ5UkhuKpoYjNuWPN+kLExAIjeJB20tX+lo3bIZlmKAKhKRm5ell/XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5QUKedEDV9brlzK9MEOG6Bv8ZcfBjd89Ap52BrOBaRM=;
- b=KIaVfyQ63m7LiVy4D/GBZVwfkEr+GqbeswDT9bhDPIJEzlnSG0wNBfycdMssySSnxZctPxuv4FALAptrCM8BlZ5PTTuk1RmU1MTqWgqxKq7e7s7eJlwR0JwBiPSvgBvIYl8IW+5msageckjj6XBt1NQ5R2fbqGezLNWbTOqGUiBmyzNAopwIjM6LrEVFEdJrpASbM/CIxa79IEIz+Y3NBmBgbR+XEuLD48u3tjzJDjBbPhbDGwdVoowzUOk2xkKh6eNQH7AIw1D18OI1Z57WHngmnDvXgUSZDHyh7CNiuw09Nh5IsvTU2kRTtW9U9LFwM7tSDm1UVD3TyKmrU27Xcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5QUKedEDV9brlzK9MEOG6Bv8ZcfBjd89Ap52BrOBaRM=;
- b=SFhf6zYbWvgq5dUtV80/I/CD1VKhN4V4iDs2dvfJdzgrnCFoccba7chILStWv+p2K29eQS2pLr7UwuG4ev+460G+7Uhs3/8LpSUi2ZYtOqu8NgVGK6HaqutE5dZ09PJiPp2i6uQ0DpebQ1decScgyTsPX/UiaZelKvCbRx0n1p4=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
-Received: from SN6PR10MB2943.namprd10.prod.outlook.com (2603:10b6:805:d4::19)
- by SA2PR10MB4489.namprd10.prod.outlook.com (2603:10b6:806:11a::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Fri, 21 May
- 2021 18:36:30 +0000
-Received: from SN6PR10MB2943.namprd10.prod.outlook.com
- ([fe80::168:1a9:228:46f3]) by SN6PR10MB2943.namprd10.prod.outlook.com
- ([fe80::168:1a9:228:46f3%6]) with mapi id 15.20.4129.034; Fri, 21 May 2021
- 18:36:30 +0000
-Subject: Re: [RFC PATCH v5 08/27] nvme-tcp-offload: Add Timeout and ASYNC
- Support
-To: Shai Malin <smalin@marvell.com>, netdev@vger.kernel.org,
- linux-nvme@lists.infradead.org, davem@davemloft.net, kuba@kernel.org,
- sagi@grimberg.me, hch@lst.de, axboe@fb.com, kbusch@kernel.org
-Cc: aelior@marvell.com, mkalderon@marvell.com, okulkarni@marvell.com,
- pkushwaha@marvell.com, malin1024@gmail.com
-References: <20210519111340.20613-1-smalin@marvell.com>
- <20210519111340.20613-9-smalin@marvell.com>
-From: Himanshu Madhani <himanshu.madhani@oracle.com>
-Organization: Oracle
-Message-ID: <5daf1d33-300b-6aad-3b28-6c4030d4c674@oracle.com>
-Date: Fri, 21 May 2021 13:36:28 -0500
+ id 1lkBaU-00HP3G-Lb
+ for linux-nvme@lists.infradead.org; Fri, 21 May 2021 20:17:39 +0000
+Received: by mail-wm1-f45.google.com with SMTP id
+ n17-20020a7bc5d10000b0290169edfadac9so8073570wmk.1
+ for <linux-nvme@lists.infradead.org>; Fri, 21 May 2021 13:17:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=izylh3x5eWU+SSVYhe6qhquo6gNaabEEd/H/fKITtiI=;
+ b=pl0KfHiiZbu98KCpwRkAb05K2dHl9tsH2YXJKqdlzj//6xL2V6MjYKbqveoGROCdTz
+ Cf65Lv/gtLURXad4v+rRtbsU7fT96sJkzNwrWbnUNCCg94bXBnSx7pbNtGArMHHbNIEA
+ gARSJ/2FrbiI8p1jfJAUeDSiYMt6w9hSPUP6oUnfimyrD8oYB08t8l+PRTkQWE46+Bp8
+ Mj8hLqKcr8on6PhZzl5OAK1wiko7iHw5oXy1MWrOR8brDVeFQbzOhbYbJsfv+/MksEG8
+ EldIA7hJWzY8NGW+6q5OUP7A8zYHk6ARv9Ju3ncwHWrQi6n7cIJWLf4i4NKlUjddsLnG
+ 7GCg==
+X-Gm-Message-State: AOAM533ds4rV3miLP356MD4PVy9Us30vZKW7hrSvjnJUsvok6quRVk2T
+ QJSahf5GSxLjF6SsKN4tT0PjEH5Ka9Y=
+X-Google-Smtp-Source: ABdhPJxYcgwgPGdTBxRaJNmDkv+TIIKEzz4rgs00lbVyUeeoxMpdONRp7iEpfATiRNirYWTfKTzIuA==
+X-Received: by 2002:a1c:2456:: with SMTP id k83mr10301334wmk.87.1621628255829; 
+ Fri, 21 May 2021 13:17:35 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:66b2:1988:438b:4253?
+ ([2601:647:4802:9070:66b2:1988:438b:4253])
+ by smtp.gmail.com with ESMTPSA id m10sm3172489wrr.2.2021.05.21.13.17.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 May 2021 13:17:35 -0700 (PDT)
+Subject: Re: [PATCH] nvme/fc: Short-circuit reconnect retries
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>, James Smart
+ <james.smart@broadcom.com>, linux-nvme@lists.infradead.org
+References: <20210521082300.146648-1-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <4348b2a1-0861-0020-e873-0680812c4849@grimberg.me>
+Date: Fri, 21 May 2021 13:17:31 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-In-Reply-To: <20210519111340.20613-9-smalin@marvell.com>
-Content-Language: en-US
-X-Originating-IP: [70.114.128.235]
-X-ClientProxiedBy: SN4PR0201CA0027.namprd02.prod.outlook.com
- (2603:10b6:803:2e::13) To SN6PR10MB2943.namprd10.prod.outlook.com
- (2603:10b6:805:d4::19)
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.28] (70.114.128.235) by
- SN4PR0201CA0027.namprd02.prod.outlook.com (2603:10b6:803:2e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23 via Frontend
- Transport; Fri, 21 May 2021 18:36:29 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5e7d7ec6-e098-45dc-0390-08d91c8759cb
-X-MS-TrafficTypeDiagnostic: SA2PR10MB4489:
-X-Microsoft-Antispam-PRVS: <SA2PR10MB4489BDD392075F5C99A3E02CE6299@SA2PR10MB4489.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:215;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FlKYPiZ15+mWbAi9GsFIb+UOlosfKJGPTBNIvGTRZuw7oPmWGDcRxXn4yu6mJq8GA1ZAHOQ7R1e0S5ZK9EXK8hNJbLfG98sEWAqLVZYinn2aDrICOp+jw7DE4E+arZSdiMLx7kUpX3CeRCGqtlk4te3XPDqD+vk9mLeYFLdH8Jw/br7JQgf/QyGN/ySE9DN9YrYmOrS/Rwv1q1QpWMYSEIzLrWZc/RddLS1oRuzJbXUiDyk0ACrHZmXbkL98wY7Ep+XKOOzVBPpH3tmopteCianuHdDxvbWVFYwS2kpGatD9gEyKU8qvLQClEZRW88666hKveJAYtjWqmN4oJT2RW1pAp01ND6jF+eQ1F14TQO0riJGm25oduCv08YOOV+FcVHtq0LveE86Qw9RYStt1pyxlslyl9/7AzWUXTHKJRzUJ9vz0M3rdzBmvGJRAVqm3yzydJtF3F0/EGkc+w+a7atXOwe8vXIIa564W1CsxF/qHJa55DtI7x6CFoucDHwL5Ofi4wRnkg6/CAiHN9SpeyyJ+KtC3MKUf669s/G4nGM4ofbegIu56Tx+xI40+/zhXF+X3IFlasSpGK7oBUkuLkAnE5eaGFltuQg4z54aXIy7G/ERJx0s56ftSDVQPkcFygk+TR+gXlVeW1m0O8gMaaniYbtrO7QqXdX9ZAmfcurD3zbCmm1t6VeF5n0qD9JF/
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR10MB2943.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(396003)(346002)(376002)(366004)(39860400002)(26005)(2906002)(2616005)(956004)(4326008)(6486002)(7416002)(8936002)(16526019)(186003)(38100700002)(44832011)(66476007)(36916002)(478600001)(66946007)(83380400001)(16576012)(36756003)(31696002)(66556008)(86362001)(5660300002)(8676002)(31686004)(316002)(53546011)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bUdtRHZ6blU0YURsRUlEZFk4RUJiTFV0ZjlEa0pLV3I2Y3h0RlV6NHZwN2NW?=
- =?utf-8?B?cnhqLzhCMzJseU1xYnVlMmplTGlMaDh6OUZGbTVRYXl4WGMzQU4vRTk1Qjdt?=
- =?utf-8?B?UnRDeDBUazVVdnJ2Z09xNXJJQ21LQ29TUDE0ekRsQ3p6M01sdFVTOEdZUGI0?=
- =?utf-8?B?TUd6TlloWnZVbmpKRDg1UnVsMUZVZTVnRldLajR6emYwTGg0clA1UUt6ZFVR?=
- =?utf-8?B?T0RtQ09sckNSaUFNQlBxT05LbUd6Qmx6TGhIa0VnSXF0OGludklDWllzYWJ6?=
- =?utf-8?B?Ym9PTHlURDQ4a0JhMkdsVUo4YW1jK2FPN2lrVDBNdTRxQUVzekptWlhxdzI0?=
- =?utf-8?B?TTRQamkycWpaK2pVZUR6QlIrYU5Jemh0STJNNUhmSmNxUVJ4K3dybFNjT2tO?=
- =?utf-8?B?ZmZZNjhPTUpUenorbVY2ZGVLTmNNRi9QS242ZVN5elFtNXpZRW9JUTlYOEZn?=
- =?utf-8?B?QzhFd1NzODdkRDNGMUViTUFPeGUrQXpIU3FvZ2dydUJGT3N2YTQrRm02TlN6?=
- =?utf-8?B?bzZaMjB6Qnk5SjV0LzNwZE11R1c4WUs0NE9qQ2prTUMvRGZjcWVJc29HbU5t?=
- =?utf-8?B?eUU5eDZMcXZWUVpPc0FFUFNIZE92SG8rMmN6WE0weHRqSCtEZ0pmclpVZ1E4?=
- =?utf-8?B?cGRVbmRzeDFOd2hqY3VtV09leWZQcFQ4WWVMY2R0ZXF0b1EyaXZ5MG9MTklp?=
- =?utf-8?B?RWJldXJ0VWl6cit0RWxYSyszWjhnRnNrQisrbVhRWDRzMlZQSHpwUXJqdFE0?=
- =?utf-8?B?MHJxdklVVTh6eEZZY1Byek45Tlo1MVNlZE55Nkg5NDh6bkg5eCs3KzlzVWJ5?=
- =?utf-8?B?aXdLSEFQVWxBT2hWaFBNcGp2UFhMYmM3VHFoYytPaTdpVmJFQndERGRFM09k?=
- =?utf-8?B?dVpyWmhTdUV3b1FMQW80eFNSQy9ZSldwUEhTdHYwVXY5VFVKT3pEbVlaTkVx?=
- =?utf-8?B?K0RZNEtaU2cyMFpzQnhDWkc0QzZGRlR4UVo2TEFaUUNhSzk4dWVQNEFUeTNz?=
- =?utf-8?B?RjFuNlkyYUh0dTQ2QXFzRW5jYlJvZ0FKTkhMdjhqaXBmMHFPR0IwUnhyRmVZ?=
- =?utf-8?B?VzYycFNyTVRrNEFTaTIyWVZzVmdmZzVHZHRrem9oVHJmREJ6M3pUOUZnNWl0?=
- =?utf-8?B?dU9IN0RWUVdRUEN5RTZVWCtPanFSZzJuM1VHcTB4U2NMV3pMWkFyZlBGcmRt?=
- =?utf-8?B?cVZ1MEpiTHB2ajkzaHpBcHRTSUE4aXExL0IwaWtJeERoNkY5a1lVeG1RZmVM?=
- =?utf-8?B?NVNSSG0zaHlmZEt0NTdPRFY0TFduUmxMOGRKT1NQZG1LbnFZTmVrT2ZxWlRk?=
- =?utf-8?B?Tlpxc3J0T0liejJSVmF0eFVVcnNwc3NxK0dPeW16RFp4ekppV3lqWHZqcVB5?=
- =?utf-8?B?Nlp4ZEU1bHZ2eDNGRVNMcEJjZlVEcnA4dXVyNmhQLzcwM2VJUXdOVFkvRTZi?=
- =?utf-8?B?MVhMSjJoam5vbnNRRFV3Tlo1VXNLTUNxMXlTcFY4WDJDYVhkaUdsbkhmUVF1?=
- =?utf-8?B?b3doK2loK0IxMzRKeWVIN3NBME5JL0I0Z2dEb2c3VFJZRjdSTGRVTlJDam10?=
- =?utf-8?B?aXFGV2dZSUN6RXA0cG1yU2t3OGFxbytwa3JpdStXYTlqYkpqWWYrTkVPOHlR?=
- =?utf-8?B?RWtLOHBhUi9kZ05XNUx1ZjI3aGpCYm1WV3FsdjRHLzh0dEFBYVRBcHpmT0xH?=
- =?utf-8?B?c3FjZzJMSElRT2U4bkdqYXV5SFlTeTJQamhWYVdGVm5aMjFOMGlJajdrUjVX?=
- =?utf-8?Q?isBvKN1TdgUPciNbVG++e2F85X+S3szHKle1W9j?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e7d7ec6-e098-45dc-0390-08d91c8759cb
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2943.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 18:36:30.4074 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0dWsc4bQLkC9ojJAJ9A8phYWTTNdT1z7VcuYDol/vvfI6ITFMW+3vF864q67ou7M6VPGu796+DOeNo67gDJ4/K/2GmGHo5vrK/C1ggZq6Fw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4489
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9991
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- adultscore=0 malwarescore=0 bulkscore=0 mlxscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105210096
-X-Proofpoint-GUID: PZg3cSWZKrLI916Atd5Kf6u7If0rLGC6
-X-Proofpoint-ORIG-GUID: PZg3cSWZKrLI916Atd5Kf6u7If0rLGC6
+In-Reply-To: <20210521082300.146648-1-hare@suse.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210521_113645_698497_7FC80706 
-X-CRM114-Status: GOOD (  31.71  )
+X-CRM114-CacheID: sfid-20210521_131738_735105_53071956 
+X-CRM114-Status: GOOD (  12.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -211,167 +108,26 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+>   	if (recon && nvmf_should_reconnect(&ctrl->ctrl)) {
+> @@ -3286,12 +3290,17 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+>   
+>   		queue_delayed_work(nvme_wq, &ctrl->connect_work, recon_delay);
+>   	} else {
+> -		if (portptr->port_state == FC_OBJSTATE_ONLINE)
+> -			dev_warn(ctrl->ctrl.device,
+> -				"NVME-FC{%d}: Max reconnect attempts (%d) "
+> -				"reached.\n",
+> -				ctrl->cnum, ctrl->ctrl.nr_reconnects);
+> -		else
+> +		if (portptr->port_state == FC_OBJSTATE_ONLINE) {
+> +			if (status > 0 && (status & NVME_SC_DNR))
+> +				dev_warn(ctrl->ctrl.device,
+> +					 "NVME-FC{%d}: reconnect failure\n",
 
-On 5/19/21 6:13 AM, Shai Malin wrote:
-> In this patch, we present the nvme-tcp-offload timeout support
-> nvme_tcp_ofld_timeout() and ASYNC support
-> nvme_tcp_ofld_submit_async_event().
-> 
-> Acked-by: Igor Russkikh <irusskikh@marvell.com>
-> Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
-> Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
-> Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
-> Signed-off-by: Ariel Elior <aelior@marvell.com>
-> Signed-off-by: Shai Malin <smalin@marvell.com>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/tcp-offload.c | 85 ++++++++++++++++++++++++++++++++-
->   drivers/nvme/host/tcp-offload.h |  2 +
->   2 files changed, 86 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
-> index 276b8475ac85..01b4c43cdaa5 100644
-> --- a/drivers/nvme/host/tcp-offload.c
-> +++ b/drivers/nvme/host/tcp-offload.c
-> @@ -133,6 +133,26 @@ void nvme_tcp_ofld_req_done(struct nvme_tcp_ofld_req *req,
->   		nvme_complete_rq(rq);
->   }
->   
-> +/**
-> + * nvme_tcp_ofld_async_req_done() - NVMeTCP Offload request done callback
-> + * function for async request. Pointed to by nvme_tcp_ofld_req->done.
-> + * Handles both NVME_TCP_F_DATA_SUCCESS flag and NVMe CQ.
-> + * @req:	NVMeTCP offload request to complete.
-> + * @result:     The nvme_result.
-> + * @status:     The completion status.
-> + *
-> + * API function that allows the vendor specific offload driver to report request
-> + * completions to the common offload layer.
-> + */
-> +void nvme_tcp_ofld_async_req_done(struct nvme_tcp_ofld_req *req,
-> +				  union nvme_result *result, __le16 status)
-> +{
-> +	struct nvme_tcp_ofld_queue *queue = req->queue;
-> +	struct nvme_tcp_ofld_ctrl *ctrl = queue->ctrl;
-> +
-> +	nvme_complete_async_event(&ctrl->nctrl, status, result);
-> +}
-> +
->   struct nvme_tcp_ofld_dev *
->   nvme_tcp_ofld_lookup_dev(struct nvme_tcp_ofld_ctrl *ctrl)
->   {
-> @@ -733,7 +753,23 @@ void nvme_tcp_ofld_map_data(struct nvme_command *c, u32 data_len)
->   
->   static void nvme_tcp_ofld_submit_async_event(struct nvme_ctrl *arg)
->   {
-> -	/* Placeholder - submit_async_event */
-> +	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(arg);
-> +	struct nvme_tcp_ofld_queue *queue = &ctrl->queues[0];
-> +	struct nvme_tcp_ofld_dev *dev = queue->dev;
-> +	struct nvme_tcp_ofld_ops *ops = dev->ops;
-> +
-> +	ctrl->async_req.nvme_cmd.common.opcode = nvme_admin_async_event;
-> +	ctrl->async_req.nvme_cmd.common.command_id = NVME_AQ_BLK_MQ_DEPTH;
-> +	ctrl->async_req.nvme_cmd.common.flags |= NVME_CMD_SGL_METABUF;
-> +
-> +	nvme_tcp_ofld_set_sg_null(&ctrl->async_req.nvme_cmd);
-> +
-> +	ctrl->async_req.async = true;
-> +	ctrl->async_req.queue = queue;
-> +	ctrl->async_req.last = true;
-> +	ctrl->async_req.done = nvme_tcp_ofld_async_req_done;
-> +
-> +	ops->send_req(&ctrl->async_req);
->   }
->   
->   static void
-> @@ -1039,6 +1075,51 @@ static int nvme_tcp_ofld_poll(struct blk_mq_hw_ctx *hctx)
->   	return ops->poll_queue(queue);
->   }
->   
-> +static void nvme_tcp_ofld_complete_timed_out(struct request *rq)
-> +{
-> +	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
-> +	struct nvme_ctrl *nctrl = &req->queue->ctrl->nctrl;
-> +
-> +	nvme_tcp_ofld_stop_queue(nctrl, nvme_tcp_ofld_qid(req->queue));
-> +	if (blk_mq_request_started(rq) && !blk_mq_request_completed(rq)) {
-> +		nvme_req(rq)->status = NVME_SC_HOST_ABORTED_CMD;
-> +		blk_mq_complete_request(rq);
-> +	}
-> +}
-> +
-> +static enum blk_eh_timer_return nvme_tcp_ofld_timeout(struct request *rq, bool reserved)
-> +{
-> +	struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
-> +	struct nvme_tcp_ofld_ctrl *ctrl = req->queue->ctrl;
-> +
-> +	dev_warn(ctrl->nctrl.device,
-> +		 "queue %d: timeout request %#x type %d\n",
-> +		 nvme_tcp_ofld_qid(req->queue), rq->tag, req->nvme_cmd.common.opcode);
-> +
-> +	if (ctrl->nctrl.state != NVME_CTRL_LIVE) {
-> +		/*
-> +		 * If we are resetting, connecting or deleting we should
-> +		 * complete immediately because we may block controller
-> +		 * teardown or setup sequence
-> +		 * - ctrl disable/shutdown fabrics requests
-> +		 * - connect requests
-> +		 * - initialization admin requests
-> +		 * - I/O requests that entered after unquiescing and
-> +		 *   the controller stopped responding
-> +		 *
-> +		 * All other requests should be cancelled by the error
-> +		 * recovery work, so it's fine that we fail it here.
-> +		 */
-> +		nvme_tcp_ofld_complete_timed_out(rq);
-> +
-> +		return BLK_EH_DONE;
-> +	}
-> +
-> +	nvme_tcp_ofld_error_recovery(&ctrl->nctrl);
-> +
-> +	return BLK_EH_RESET_TIMER;
-> +}
-> +
->   static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
->   	.queue_rq	= nvme_tcp_ofld_queue_rq,
->   	.commit_rqs     = nvme_tcp_ofld_commit_rqs,
-> @@ -1046,6 +1127,7 @@ static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
->   	.init_request	= nvme_tcp_ofld_init_request,
->   	.exit_request	= nvme_tcp_ofld_exit_request,
->   	.init_hctx	= nvme_tcp_ofld_init_hctx,
-> +	.timeout	= nvme_tcp_ofld_timeout,
->   	.map_queues	= nvme_tcp_ofld_map_queues,
->   	.poll		= nvme_tcp_ofld_poll,
->   };
-> @@ -1056,6 +1138,7 @@ static struct blk_mq_ops nvme_tcp_ofld_admin_mq_ops = {
->   	.init_request	= nvme_tcp_ofld_init_request,
->   	.exit_request	= nvme_tcp_ofld_exit_request,
->   	.init_hctx	= nvme_tcp_ofld_init_admin_hctx,
-> +	.timeout	= nvme_tcp_ofld_timeout,
->   };
->   
->   static const struct nvme_ctrl_ops nvme_tcp_ofld_ctrl_ops = {
-> diff --git a/drivers/nvme/host/tcp-offload.h b/drivers/nvme/host/tcp-offload.h
-> index 2233d855aa10..f897b811c399 100644
-> --- a/drivers/nvme/host/tcp-offload.h
-> +++ b/drivers/nvme/host/tcp-offload.h
-> @@ -117,6 +117,8 @@ struct nvme_tcp_ofld_ctrl {
->   	/* Connectivity params */
->   	struct nvme_tcp_ofld_ctrl_con_params conn_params;
->   
-> +	struct nvme_tcp_ofld_req async_req;
-> +
->   	/* Vendor specific driver context */
->   	void *private_data;
->   };
-> 
+Maybe worth to print the status here?
 
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-
--- 
-Himanshu Madhani                                Oracle Linux Engineering
+Otherwise looks good,
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
 _______________________________________________
 Linux-nvme mailing list
