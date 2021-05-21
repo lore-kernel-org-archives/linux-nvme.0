@@ -2,198 +2,94 @@ Return-Path: <SRS0=oXoK=KQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C809C4707A
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 17:42:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31CD0C47076
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 18:01:06 +0000 (UTC)
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8597261353
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 17:42:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8597261353
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id A7D9F61004
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 May 2021 18:01:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7D9F61004
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=desiato.20200630; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NMM8oJSpCHQNK13+7TIjRgawj4wBV4Q0RIBeAKZkPVA=; b=bkgBAN5ZmTNlkZ9AGCXPnwTfZS
-	4/sjfa7hUg9a3cXdrqUYVvFryxl3KoUGgHVorQYO4dxKKlHZulMqXBC9xq7T2Udc/zobY5GUDCMfX
-	J2q0AuKpLSmeDAVxIIJsVAXAdYkdxFO5m2nDENApCdUMJ4TvzFv1RdNWq7ZUfjmlPr1LgwqNMc3Bi
-	Qmppc+hNjct8jBWFvJCllF6blf5oBWF/QyI7+9II0E+HCNQubHIMqanLSX8RKFN3sKoYzxoLSSWj0
-	tXRiYSn8PPQz8ympgHE0cm6t+M7jrscoWmp2RHxY8cGBW+P2TirRhIFIk9FKeTrwrp4UOCMqlFAtu
-	yTkuxQGA==;
+	bh=BqxR/rwJNNibFMAyMj5I/RRYsISkZ6mpyu0s7sunDYY=; b=ZmvNWRUH01X2NCjNYUIKFPQOBC
+	1AdwxeZcrnhwUtvVjS2zr1QYja+p/7qfv+pB7SwGx6HK2UHy6XYaKB63fl42h8YXLwiaHhAVFiHBb
+	VTPxkGhbwQvbScN/l3L2e/0yBvrTtcQbtcIsuutQ+6elikmYqbJzZwT3arGpE94UDHSTqhpRb8v60
+	jACKsL2S4ltnFilGht3hV63eXFsCKxSTFxqHKBbNo6vzLoGLiflkrpUlQzc7j+3N3c/Gkdfeki3uC
+	4qRORSluGgHYou8YfXLwECQYc7iot3ZgYrtvln4KuG4Pytd+D1AmU0yojiCUs6oFQAjB9Amy/ZV2H
+	kX80rewQ==;
 Received: from localhost ([::1] helo=desiato.infradead.org)
 	by desiato.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lk9AP-000ZBq-7C; Fri, 21 May 2021 17:42:33 +0000
+	id 1lk9SD-000eOC-KB; Fri, 21 May 2021 18:00:57 +0000
 Received: from bombadil.infradead.org ([2607:7c80:54:e::133])
  by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lk9AJ-000ZAW-AP
- for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 17:42:27 +0000
+ id 1lk9SA-000eNv-QA
+ for linux-nvme@desiato.infradead.org; Fri, 21 May 2021 18:00:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=MIME-Version:
- Content-Transfer-Encoding:Content-Type:In-Reply-To:Date:Message-ID:From:
- References:Cc:To:Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=oztnREE1GF8hBcqD7+KzTMdkr0gOV7m3r51yhwxrvyc=; b=qA9dtCLeGh5j5lIufhVCEimahU
- 10CR9yAmr6+sgcfiInOqnN+1xRhIMIMh8sATpqB0MFahhz/M6lBiNVRwj0gZzuo4BhOYIhGdtzD0/
- J/NJlbtJCClfHnjsKN6whCK+A8P14fXcMlJe2+aHH6ocOc5UeQjY5PeKQZC8CmqsOcBkwQOzMeWA8
- 1gHrHdOnt/IjCTU0U6NqxGRAp/QVv0TUruAv1Pf0ajNScG2lOrUXbvV5FwhCPKl++o00JcE2Um227
- N51G2mF5+x2iGfPBZlYCIYu3dvlDeIq3Prmmt24uKgdUYt/RAiCLvIpXafRU95qnyiRa1T1BlcQUb
- BA7FFXnw==;
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=K2OMHwJrFA1wNd3dbbnfZzfa7bj0/B6q6MDz93o2gys=; b=BFrqwJtp6qDfCwQT+fUptCy6Zi
+ 06+0WNJYJZfaZ/ZWyo+C2iB81NRxl5PLHd+N5ei3Cv/VPWoQLAUJNAC4OsnFYHA0w7yVaKPbVQjX/
+ CISdFAl5VTvWGtWFcG0Ollt4KokG4P31KKBRS8U2ExN8gLXHTh+hQHQ4ZZfL6M46IKwOG0+WQLxSx
+ WYzUjaOiwNR5t94qpXxvDAeoXzGt4Tgx1Og1ePV0lRpp3vVQXYe1Ze/GFuPSy1ptsl7PwFvtfncOh
+ EoN86QrDGsEGUkHKhhZGRGCf0mBvB94WV58WCqhC62jBiqJUfqPeXTpS80R9y3N588WBh6C7wwEnP
+ PmQKqadw==;
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1lk9AG-00HK11-6s
- for linux-nvme@lists.infradead.org; Fri, 21 May 2021 17:42:25 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14LHRMSG016412; Fri, 21 May 2021 17:42:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=oztnREE1GF8hBcqD7+KzTMdkr0gOV7m3r51yhwxrvyc=;
- b=i9SdLQd/XZBHfSONhvo/+lM0lZeKv6/T7i0q33fmjtJ7VQVxxB+urriiooC3epZml3Rb
- Gs4v5q1d9TlmgnKZtgT6aq4BycYz8KPgnbWKscUfd58hLKvg+RQApC08acDb0/mFqMDg
- cnW6FQCdVaQasLyBGTtgA2UZfxeS9QhOsHVqsaDSo8P6F0jgEhP/ztNMXdJLTaokzKxH
- vwd79EEgJbjPXI3eaGNcPypudu8rF9SKRGclhm6IT9edBGxEaSeXKcgK01Gs83IeEJaj
- o/1RKOOI1ij5BqOAuD33F+nvWvuyBk1pb//jmXiMA9A1ogt1ORKZOKBDvDxUlskGhq6Q JQ== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 38nhjfrpas-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 May 2021 17:42:18 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14LHdXh8072625;
- Fri, 21 May 2021 17:42:17 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
- by aserp3020.oracle.com with ESMTP id 38nry3dt7x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 May 2021 17:42:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fVLUDO6c7eiAwSdhj0WYLG/AlNzBVzXKRDeqIju+yRzGkrgh5YGz7cUBuVUVtgn28C7zXVhHOM5EsU5/BTkKvvVuJQCwPmcnm37pW6ImRDFM8Jk6i4mL+GLFrfajJBlQKq1/MkkPt0bPBdy6rgXsj/Z6sH8AcIz13+d+HYR7WNV1igogCjn108xCsgsJVYOTWWPBkq7MQSGsvEZfkKFBGRCh+ISsiMldGI5W+062oe5ByRhFRZU4MDkeAVUJVB+DNBvri4wj+wKK443mqAZmgii8r+oxTumKhzLMaalFsZ+CCpGAwOd7+9it2f7/DZr5XZKyXYmIQPUr6gOgmVcXvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oztnREE1GF8hBcqD7+KzTMdkr0gOV7m3r51yhwxrvyc=;
- b=VP7Wy60ZIA4fKx4ylZWPKuqQwwzel992NDz5DhXF1qEj9FfkUmNGZKNu559txqX5FxQe34y8WyGTCU2fxb8C/HVrHHJwLWcomp4cPPN5gCq5gs6mKalQK77YugxSPaWzPnfqjGUJLTGEirovMR77efDSSKcnxx1uGvZ3ebUdWoKpwYYUdXh23mg0aIzgMn5YjaTYeeH0bVZ3sgkZfFGe0UI9qgHIJjeRyWLsxIV9nbr1nyqxTMlbRcR+atxm5oXTrMcRvgvWgu9hNYMiDqtNsfn91N17xw+WP96IDXbS1McWH1Xycdbm+1cvWtUoRZrrGqKmSl+XWTTT/ZHNIO/zSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oztnREE1GF8hBcqD7+KzTMdkr0gOV7m3r51yhwxrvyc=;
- b=I1G8FEO7mnFxu16onPC1PNetq1v3JOWInPNTt1/xX9tuFFPCjOE+myvEpGXY/c6/pP1lE7cpLP7ERdN2rKu3xTs14z+MXfkxV3mTvoElfqM1QfZ02GA76eebVF7BvMfykg3P8lZJMWpGjldTT7jIRHvqHWAYbhdDhN/JUYwo11Y=
-Authentication-Results: marvell.com; dkim=none (message not signed)
- header.d=none;marvell.com; dmarc=none action=none header.from=oracle.com;
-Received: from SN6PR10MB2943.namprd10.prod.outlook.com (2603:10b6:805:d4::19)
- by SA2PR10MB4427.namprd10.prod.outlook.com (2603:10b6:806:114::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Fri, 21 May
- 2021 17:42:15 +0000
-Received: from SN6PR10MB2943.namprd10.prod.outlook.com
- ([fe80::168:1a9:228:46f3]) by SN6PR10MB2943.namprd10.prod.outlook.com
- ([fe80::168:1a9:228:46f3%6]) with mapi id 15.20.4129.034; Fri, 21 May 2021
- 17:42:15 +0000
-Subject: Re: [RFC PATCH v5 05/27] nvme-tcp-offload: Add controller level error
- recovery implementation
-To: Shai Malin <smalin@marvell.com>, netdev@vger.kernel.org,
- linux-nvme@lists.infradead.org, davem@davemloft.net, kuba@kernel.org,
- sagi@grimberg.me, hch@lst.de, axboe@fb.com, kbusch@kernel.org
-Cc: aelior@marvell.com, mkalderon@marvell.com, okulkarni@marvell.com,
- pkushwaha@marvell.com, malin1024@gmail.com,
- Arie Gershberg <agershberg@marvell.com>
-References: <20210519111340.20613-1-smalin@marvell.com>
- <20210519111340.20613-6-smalin@marvell.com>
-From: Himanshu Madhani <himanshu.madhani@oracle.com>
-Organization: Oracle
-Message-ID: <220e96a6-de82-4082-1d4e-2d95dcec5562@oracle.com>
-Date: Fri, 21 May 2021 12:42:13 -0500
+ id 1lk9S7-00HL3V-T8
+ for linux-nvme@lists.infradead.org; Fri, 21 May 2021 18:00:53 +0000
+Received: by mail-wr1-f52.google.com with SMTP id p7so18165054wru.10
+ for <linux-nvme@lists.infradead.org>; Fri, 21 May 2021 11:00:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=K2OMHwJrFA1wNd3dbbnfZzfa7bj0/B6q6MDz93o2gys=;
+ b=gl9HyPDmC+nZmcN9/AnnmKv6qg6FNLzH5g7JhnajN8y4+DoXzFcPq0nM2BlKTBptpR
+ la/IVARKsG6Zl+6FTrIhRCggmxMkr6VaPAchV1JGXDT4PLPvU11S/E//QVWVVjfM1G6U
+ wyOnIPsyH70wGGomTsOxzujxowPV/RiBWI+dYCY/WhXF/Z/A3U1J2WelXK68BlJQxGsU
+ /4gJTIb7MywOqHvSnC7eMfxJXFs4lQGhjdeldBj0P47rQbOPu0eq06PW1+unDpJ0F0tz
+ uvwkQ5gb4VNyJ3HukiSk2XRplKa/eodQkZ2w2MsF11L7unzNzaSMPP4LzlQwPML3/Oj9
+ lgDA==
+X-Gm-Message-State: AOAM533heX8mh4Wzprf0WDloDgxxC21q8RGibRLmBp6mPypFjW7knfTX
+ BZtncYU7KnDm/i7Hf3oH/vs=
+X-Google-Smtp-Source: ABdhPJwSsgONsBUKuWTQWzH+H/MLK3jNvF2rYJSDp1OM5I/f4uKleXyGGzvfG+qvaGKFxNu6PVlOzw==
+X-Received: by 2002:a5d:5404:: with SMTP id g4mr11078217wrv.286.1621620049533; 
+ Fri, 21 May 2021 11:00:49 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:66b2:1988:438b:4253?
+ ([2601:647:4802:9070:66b2:1988:438b:4253])
+ by smtp.gmail.com with ESMTPSA id u14sm238914wmc.41.2021.05.21.11.00.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 May 2021 11:00:49 -0700 (PDT)
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+To: Yi Zhang <yi.zhang@redhat.com>, linux-nvme@lists.infradead.org,
+ linux-rdma@vger.kernel.org
+Cc: maxg@mellanox.com
+References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
+Date: Fri, 21 May 2021 11:00:45 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-In-Reply-To: <20210519111340.20613-6-smalin@marvell.com>
-Content-Language: en-US
-X-Originating-IP: [70.114.128.235]
-X-ClientProxiedBy: SA9PR13CA0067.namprd13.prod.outlook.com
- (2603:10b6:806:23::12) To SN6PR10MB2943.namprd10.prod.outlook.com
- (2603:10b6:805:d4::19)
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.28] (70.114.128.235) by
- SA9PR13CA0067.namprd13.prod.outlook.com (2603:10b6:806:23::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4173.12 via Frontend Transport; Fri, 21 May 2021 17:42:14 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dd5783a9-32b8-4539-db87-08d91c7fc5c6
-X-MS-TrafficTypeDiagnostic: SA2PR10MB4427:
-X-Microsoft-Antispam-PRVS: <SA2PR10MB4427F3466FD718D7F3218B38E6299@SA2PR10MB4427.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fiptR+myFXb/cmrlmoIFLeOniEqHw013tmf8cP21MZj5afaJEQFxscifrRSJNEzQW57pTKEil0JNMy776dLPgZ48eabSjUqauAM7F/rrjtUTrw6/HmQKUvrE7R7TSV5GH7rL95th1Btz74L28Uz6T0hWMMOmOU9Y8TGpTPDBuJucg8AWiLSKF971QfHFeqRlajnXtwIvWQCvgpaQlAI5tY44nyrgm4Q3a62u7NRKNhgLMTZqUcqETEYZOFU1jDzUqpj8HciNn3lOu7dfq/Pwkq8TyixD2dowZ/gz4yq777hA7LWvpOZQKgGUdJODDibsOp50KscuR79OD3iXkX3vmwr1j3GSySLL0SW7x95GLlbmz0WtOkOtp8Wn+vmapn8j18jxSvzYU/aXZFK1GppJteitKuf/Ze96SWdI8AQyxoKXBA63cvgbE6ICgneKIyeeZcEabH6OQKrA45cmaMJ1jQkns1RQ3WQHlRKZNRLGADtls3LsinvBjzjDJgMk73KRNok2myyIscMns0uTeztJJzhX+gbpusxTUDrAZaFNAd/1O4YjvlSzDr/OsnAvUaQ6yDUdT1NLs7jEG6ecAQ3/IuSxHVNcgCfL7Vyz+UfREZsAexmVO507d8EeoUK/5OUqmd+y3q8Q2gHovagyo8bFSQ2DeAW5vNbyWbg5WSPu+O17Efg4E8oQYyRrgjrN7Pwj
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR10MB2943.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(396003)(346002)(376002)(39860400002)(366004)(4326008)(478600001)(66476007)(31686004)(5660300002)(66946007)(186003)(44832011)(16576012)(7416002)(6486002)(8936002)(16526019)(2906002)(2616005)(86362001)(83380400001)(36916002)(38100700002)(36756003)(26005)(8676002)(316002)(53546011)(31696002)(956004)(66556008)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bzgzZUgxOXk1b05CRGZ4d2JSeThCNW94UzhjeUE3Rlh0elhOZXhRRkFhWW0y?=
- =?utf-8?B?cFJhM09TK0gzSlZFdTlxUktMU0ZVUnE2MFZsaU03ejJ3MmcxSkN2UU96bTlJ?=
- =?utf-8?B?QVdsVUM0d1ZYNEVxd3FNSXVueTZiSnM4NHhVc2swRm9zUm5rQnNJQlB4SFI2?=
- =?utf-8?B?NzJmVlhsVlBKZXZJVC9XcGh2QjdVOUZNVlIzMm01bVpGWXVPL3J4d1UwK1lm?=
- =?utf-8?B?dk1hUisvdytQa2ZqQzdYd3BoOXdLcVA2OEQwV2c5aDdlcE9aMlk0U3dydFRw?=
- =?utf-8?B?cDU2L0ZjSEUvbk8rS2kvbE1ZNnJaaENOQkNIckhNVUFlemY2dTNaTU9iTzFi?=
- =?utf-8?B?OWhWY1dlKzlOa1I2S240eFNEMWtUT1BGMnJEVjlwdU9xM3pxaVgxSDh3YW81?=
- =?utf-8?B?czZJd1ZOWlpHSUpsRk9sTlpJVVpIWThDMDRxMkN1akd2MmFMY2J1dCtmR3Vh?=
- =?utf-8?B?UHhRWGZFWXFGL0V0TmhKSXJGbjEvd09LYVFJR0FVTlRvQW03di8xRXkyc0lo?=
- =?utf-8?B?dThMOWNQeXp0K0xRcThXZ1BhckNVaUJacGJNODBaV0JRS2FWaHJTS1VnbUdG?=
- =?utf-8?B?TVk1NmE1ZG5nQmJXcWc3MHBUZnJnMXZWaGhSUnhLZGgwKytPTVVtc0FoQVNt?=
- =?utf-8?B?U3VKODgxcVIwMzZ0R21xT1RvemNKMGpsM291cTNxa3JhYXo5dnRFY1hYdUV1?=
- =?utf-8?B?VG9PMTlVUWRjYmJKWFNWaVRYMmJqWXJBL1ZLMEZWcTNqYVBlaDY0UXRmRkF2?=
- =?utf-8?B?TlJ4TVBhSWNXMXpJYUw1blZxazczRzJQZUxlZFU3MmNuNS9zcFBncEZoRVVy?=
- =?utf-8?B?QXNOU1QvbXBBUnYzMm9MaXZNRXVHRE13a0dzVEowUUdwMmJ6NUMycTgxdFY0?=
- =?utf-8?B?SUdBNndQQk5ybnlqYXJ4akxXa2hKcHk2NXhjNTRWb2NxSGZmeG16eVlEVnZs?=
- =?utf-8?B?VFFyNi9Tb25kdVpabmdFYk55bVNtU3Y3R3dwejVFbkwzT1RoTjFsSW00K3Ra?=
- =?utf-8?B?bTNuVS9lbkwvWThMZ1dSQ1g1Ky8xYmRGL0FVK3J0OEt5MGlxZG9xUjNLOUFi?=
- =?utf-8?B?enFzRGh2SkpobCtDVllON0owM09PeVJpbThndUd4NjErblUvNVJzeGtkQ2RF?=
- =?utf-8?B?VVFSUks4dWVtL3VlQzhoYzREdHJ3WU9WODNnWDNhS2hhbGRUSHE2M3ZQY2w4?=
- =?utf-8?B?NnB1Nlp0UFFNMkdxQU1ZTXozZGlZLzdTZFFCS1Q4MWZGK3Q1Kzl0cGRTOW5X?=
- =?utf-8?B?ajBxWHVTNkJIWHJJTXA5VHgwWHhXRitwTGFrU2RrQTViaGlaTWd0WXVNZWhw?=
- =?utf-8?B?NTI5T2pHTllJVVV5Y0lqL2tGS2ljTE1JRUl1RDRIUkhVWm95RmlTTXlUVUt3?=
- =?utf-8?B?RDFXVHM1NTNIRFdmamlUMmc3d0hidjZRejc4ZVZzcmRoV0dYNE9XNlFZZ3VT?=
- =?utf-8?B?dlpvdjFFWjhVRTU0ZXRJYm9nMHZqKytNY1ljNEdCME5vT1JwK2tpajBOdUhk?=
- =?utf-8?B?OWtpc0NVSW4zU0JDc2h1czhzMUFOUnRpR3A1aEhqNUwvT0oxOWxucjZHYklH?=
- =?utf-8?B?YXFieDU5OGsyTmVOSFNkVUkxcDlQT2gzbmZyTXdjaURoNld1WHNsU3dpc1c2?=
- =?utf-8?B?RVR4MmtyalR2SWkxU1pKOENIRGp4WmhVWkVoa3plS0w1cnVrSERsdytmOUg4?=
- =?utf-8?B?eXNlMWVmMWlBNEFLVDRKRGNUaHNwekdPR3FVb2ZPMjdGTUxDWDhMVExoNk1x?=
- =?utf-8?Q?cbQI9GTubsArLiBYUpvFQARcgR2pDkQvaruadSj?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd5783a9-32b8-4539-db87-08d91c7fc5c6
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2943.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2021 17:42:15.6102 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GBHR+yL4Fc/3jCINPv50H+WgIgtT5M0wYfQl90JD6r+vAji+z6m0OwGRebKi9FAGldOqGNr+ahTU3C0LRCX/8Vd3F6g3GwO3vrOIvlh9szQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4427
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9991
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 mlxscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105210092
-X-Proofpoint-GUID: _alSkQsB-63QLPsM67J2fv8RJVrxNryW
-X-Proofpoint-ORIG-GUID: _alSkQsB-63QLPsM67J2fv8RJVrxNryW
+In-Reply-To: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210521_104224_356171_803C92B8 
-X-CRM114-Status: GOOD (  30.66  )
+X-CRM114-CacheID: sfid-20210521_110051_972265_0EFAC363 
+X-CRM114-Status: GOOD (  12.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -211,230 +107,43 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+> Hi
+> I found this issue on 5.13-rc2 with NVMe/IB environment, could anyone
+> help check it?
+> Thanks.
+> 
+> $ time echo 1 >/sys/block/nvme0n1/device/reset_controller
+> real 0m10.678s
+> user 0m0.000s
+> sys 0m0.000s
+> $ time echo 1 >/sys/block/nvme0n1/device/reset_controller
+> real 1m11.530s
+> user 0m0.000s
+> sys 0m0.000s
+> 
+> target:
+> $ dmesg | grep nvme
+> [  276.891454] nvmet: creating controller 1 for subsystem testnqn for
+> NQN nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4c10-8058-b7c04f383432.
+> [  287.374412] nvmet: ctrl 1 keep-alive timer (5 seconds) expired!
+> [  287.399317] nvmet: ctrl 1 fatal error occurred!
+> [  348.412672] nvmet: creating controller 1 for subsystem testnqn for
+> NQN nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4c10-8058-b7c04f383432.
+> 
+> client:
+> $ dmesg | grep nvme
+> [  281.704475] nvme nvme0: creating 40 I/O queues.
+> [  285.557759] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+> [  353.187809] nvme nvme0: I/O 8 QID 0 timeout
+> [  353.193100] nvme nvme0: Property Set error: 881, offset 0x14
+> [  353.226082] nvme nvme0: creating 40 I/O queues.
+> [  357.088266] nvme nvme0: mapped 40/0/0 default/read/poll queues.
 
-On 5/19/21 6:13 AM, Shai Malin wrote:
-> From: Arie Gershberg <agershberg@marvell.com>
-> 
-> In this patch, we implement controller level error handling and recovery.
-> Upon an error discovered by the ULP or reset controller initiated by the
-> nvme-core (using reset_ctrl workqueue), the ULP will initiate a controller
-> recovery which includes teardown and re-connect of all queues.
-> 
-> Acked-by: Igor Russkikh <irusskikh@marvell.com>
-> Signed-off-by: Arie Gershberg <agershberg@marvell.com>
-> Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
-> Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
-> Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
-> Signed-off-by: Ariel Elior <aelior@marvell.com>
-> Signed-off-by: Shai Malin <smalin@marvell.com>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/tcp-offload.c | 138 +++++++++++++++++++++++++++++++-
->   drivers/nvme/host/tcp-offload.h |   1 +
->   2 files changed, 137 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
-> index f7e0dc79bedd..9eb4b03e0f3d 100644
-> --- a/drivers/nvme/host/tcp-offload.c
-> +++ b/drivers/nvme/host/tcp-offload.c
-> @@ -74,6 +74,23 @@ void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev)
->   }
->   EXPORT_SYMBOL_GPL(nvme_tcp_ofld_unregister_dev);
->   
-> +/**
-> + * nvme_tcp_ofld_error_recovery() - NVMeTCP Offload library error recovery.
-> + * function.
-> + * @nctrl:	NVMe controller instance to change to resetting.
-> + *
-> + * API function that change the controller state to resseting.
-> + * Part of the overall controller reset sequence.
-> + */
-> +void nvme_tcp_ofld_error_recovery(struct nvme_ctrl *nctrl)
-> +{
-> +	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_RESETTING))
-> +		return;
-> +
-> +	queue_work(nvme_reset_wq, &to_tcp_ofld_ctrl(nctrl)->err_work);
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_tcp_ofld_error_recovery);
-> +
->   /**
->    * nvme_tcp_ofld_report_queue_err() - NVMeTCP Offload report error event
->    * callback function. Pointed to by nvme_tcp_ofld_queue->report_err.
-> @@ -84,7 +101,8 @@ EXPORT_SYMBOL_GPL(nvme_tcp_ofld_unregister_dev);
->    */
->   int nvme_tcp_ofld_report_queue_err(struct nvme_tcp_ofld_queue *queue)
->   {
-> -	/* Placeholder - invoke error recovery flow */
-> +	pr_err("nvme-tcp-offload queue error\n");
-> +	nvme_tcp_ofld_error_recovery(&queue->ctrl->nctrl);
->   
->   	return 0;
->   }
-> @@ -296,6 +314,28 @@ nvme_tcp_ofld_configure_io_queues(struct nvme_ctrl *nctrl, bool new)
->   	return rc;
->   }
->   
-> +static void nvme_tcp_ofld_reconnect_or_remove(struct nvme_ctrl *nctrl)
-> +{
-> +	/* If we are resetting/deleting then do nothing */
-> +	if (nctrl->state != NVME_CTRL_CONNECTING) {
-> +		WARN_ON_ONCE(nctrl->state == NVME_CTRL_NEW ||
-> +			     nctrl->state == NVME_CTRL_LIVE);
-> +
-> +		return;
-> +	}
-> +
-> +	if (nvmf_should_reconnect(nctrl)) {
-> +		dev_info(nctrl->device, "Reconnecting in %d seconds...\n",
-> +			 nctrl->opts->reconnect_delay);
-> +		queue_delayed_work(nvme_wq,
-> +				   &to_tcp_ofld_ctrl(nctrl)->connect_work,
-> +				   nctrl->opts->reconnect_delay * HZ);
-> +	} else {
-> +		dev_info(nctrl->device, "Removing controller...\n");
-> +		nvme_delete_ctrl(nctrl);
-> +	}
-> +}
-> +
->   static int nvme_tcp_ofld_setup_ctrl(struct nvme_ctrl *nctrl, bool new)
->   {
->   	struct nvmf_ctrl_options *opts = nctrl->opts;
-> @@ -412,10 +452,68 @@ nvme_tcp_ofld_teardown_io_queues(struct nvme_ctrl *nctrl, bool remove)
->   	/* Placeholder - teardown_io_queues */
->   }
->   
-> +static void nvme_tcp_ofld_reconnect_ctrl_work(struct work_struct *work)
-> +{
-> +	struct nvme_tcp_ofld_ctrl *ctrl =
-> +				container_of(to_delayed_work(work),
-> +					     struct nvme_tcp_ofld_ctrl,
-> +					     connect_work);
-> +	struct nvme_ctrl *nctrl = &ctrl->nctrl;
-> +
-> +	++nctrl->nr_reconnects;
-> +
-> +	if (ctrl->dev->ops->setup_ctrl(ctrl, false))
-> +		goto requeue;
-> +
-> +	if (nvme_tcp_ofld_setup_ctrl(nctrl, false))
-> +		goto release_and_requeue;
-> +
-> +	dev_info(nctrl->device, "Successfully reconnected (%d attempt)\n",
-> +		 nctrl->nr_reconnects);
-> +
-> +	nctrl->nr_reconnects = 0;
-> +
-> +	return;
-> +
-> +release_and_requeue:
-> +	ctrl->dev->ops->release_ctrl(ctrl);
-> +requeue:
-> +	dev_info(nctrl->device, "Failed reconnect attempt %d\n",
-> +		 nctrl->nr_reconnects);
-> +	nvme_tcp_ofld_reconnect_or_remove(nctrl);
-> +}
-> +
-> +static void nvme_tcp_ofld_error_recovery_work(struct work_struct *work)
-> +{
-> +	struct nvme_tcp_ofld_ctrl *ctrl =
-> +		container_of(work, struct nvme_tcp_ofld_ctrl, err_work);
-> +	struct nvme_ctrl *nctrl = &ctrl->nctrl;
-> +
-> +	nvme_stop_keep_alive(nctrl);
-> +	nvme_tcp_ofld_teardown_io_queues(nctrl, false);
-> +	/* unquiesce to fail fast pending requests */
-> +	nvme_start_queues(nctrl);
-> +	nvme_tcp_ofld_teardown_admin_queue(nctrl, false);
-> +	blk_mq_unquiesce_queue(nctrl->admin_q);
-> +
-> +	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_CONNECTING)) {
-> +		/* state change failure is ok if we started nctrl delete */
-> +		WARN_ON_ONCE(nctrl->state != NVME_CTRL_DELETING &&
-> +			     nctrl->state != NVME_CTRL_DELETING_NOIO);
-> +
-> +		return;
-> +	}
-> +
-> +	nvme_tcp_ofld_reconnect_or_remove(nctrl);
-> +}
-> +
->   static void
->   nvme_tcp_ofld_teardown_ctrl(struct nvme_ctrl *nctrl, bool shutdown)
->   {
-> -	/* Placeholder - err_work and connect_work */
-> +	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-> +
-> +	cancel_work_sync(&ctrl->err_work);
-> +	cancel_delayed_work_sync(&ctrl->connect_work);
->   	nvme_tcp_ofld_teardown_io_queues(nctrl, shutdown);
->   	blk_mq_quiesce_queue(nctrl->admin_q);
->   	if (shutdown)
-> @@ -430,6 +528,38 @@ static void nvme_tcp_ofld_delete_ctrl(struct nvme_ctrl *nctrl)
->   	nvme_tcp_ofld_teardown_ctrl(nctrl, true);
->   }
->   
-> +static void nvme_tcp_ofld_reset_ctrl_work(struct work_struct *work)
-> +{
-> +	struct nvme_ctrl *nctrl =
-> +		container_of(work, struct nvme_ctrl, reset_work);
-> +	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
-> +
-> +	nvme_stop_ctrl(nctrl);
-> +	nvme_tcp_ofld_teardown_ctrl(nctrl, false);
-> +
-> +	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_CONNECTING)) {
-> +		/* state change failure is ok if we started ctrl delete */
-> +		WARN_ON_ONCE(nctrl->state != NVME_CTRL_DELETING &&
-> +			     nctrl->state != NVME_CTRL_DELETING_NOIO);
-> +
-> +		return;
-> +	}
-> +
-> +	if (ctrl->dev->ops->setup_ctrl(ctrl, false))
-> +		goto out_fail;
-> +
-> +	if (nvme_tcp_ofld_setup_ctrl(nctrl, false))
-> +		goto release_ctrl;
-> +
-> +	return;
-> +
-> +release_ctrl:
-> +	ctrl->dev->ops->release_ctrl(ctrl);
-> +out_fail:
-> +	++nctrl->nr_reconnects;
-> +	nvme_tcp_ofld_reconnect_or_remove(nctrl);
-> +}
-> +
->   static int
->   nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
->   			   struct request *rq,
-> @@ -526,6 +656,10 @@ nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
->   			     opts->nr_poll_queues + 1;
->   	nctrl->sqsize = opts->queue_size - 1;
->   	nctrl->kato = opts->kato;
-> +	INIT_DELAYED_WORK(&ctrl->connect_work,
-> +			  nvme_tcp_ofld_reconnect_ctrl_work);
-> +	INIT_WORK(&ctrl->err_work, nvme_tcp_ofld_error_recovery_work);
-> +	INIT_WORK(&nctrl->reset_work, nvme_tcp_ofld_reset_ctrl_work);
->   	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
->   		opts->trsvcid =
->   			kstrdup(__stringify(NVME_TCP_DISC_PORT), GFP_KERNEL);
-> diff --git a/drivers/nvme/host/tcp-offload.h b/drivers/nvme/host/tcp-offload.h
-> index 949132ce2ed4..2a931d05905d 100644
-> --- a/drivers/nvme/host/tcp-offload.h
-> +++ b/drivers/nvme/host/tcp-offload.h
-> @@ -210,3 +210,4 @@ struct nvme_tcp_ofld_ops {
->   /* Exported functions for lower vendor specific offload drivers */
->   int nvme_tcp_ofld_register_dev(struct nvme_tcp_ofld_dev *dev);
->   void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev);
-> +void nvme_tcp_ofld_error_recovery(struct nvme_ctrl *nctrl);
-> 
+It appears that there is an admin timeout that is either triggered
+by the reset or unrelated.
 
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-
--- 
-Himanshu Madhani                                Oracle Linux Engineering
+Can you run nvme reset /dev/nvme0 instead so we can see the "resetting
+controller" print?
 
 _______________________________________________
 Linux-nvme mailing list
