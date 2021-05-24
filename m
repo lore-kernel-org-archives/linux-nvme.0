@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F0B4C04FF3
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 22:17:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63B34C04FF3
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 22:38:00 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED7076101B
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 22:17:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED7076101B
+	by mail.kernel.org (Postfix) with ESMTPS id EDAE5613EC
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 22:37:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDAE5613EC
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,24 +23,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=9rI2FgimGyLbGC1iy5L0omzC5pHXVgO6iuM8001+ups=; b=gMiZx6J5X6ftFp
-	6R6Lkvpf1CrphLQxl82AGE90m3pmOKzDadN6UqGmOFEKJPjyerMDQNFLNaa1GBV3/BzGogRGF1b0P
-	C+fGQldZetHvs4449ciNf6Hi0otXsFpeHchseT0ZlM7aeUgcIVVX1RaustR0jb/4NTGvxhD40PlEH
-	nhRFvBe7FhwSbJpAaDOLY8WMIrghY5gFw7S5op28vC79Z5m6PqulrOBJAWiOSruiDGQGB5LSoWmkG
-	01ajOhSKRpFjvO7ssTjl/Yw5eSQzQa2NEzZbTm3MWfqb8QxoMMt724X9sTDh84fe45OyEymwDyKXI
-	4RTY8lax0fMsDKhbipwg==;
+	List-Owner; bh=5tODVTRCEKvWzPsWhyO+gBv8MFrzz2+1ymh/x9x+oSk=; b=dwJ8coGAidvZzE
+	gdR+kXZ0HW4vFVcgpciRl8MnxiejioSSJ0YeYrNXGntJdgyt7syn8EyeZHdfL3VvK4WcgSs6nmIwD
+	N463a33qOUo+HERWlAJobiEzyCQuolS1PzzwUB9BDKT64C48gHejbjlQObY0bk49NYPFbTKNTvq6/
+	5JhfBZxwAnJbtnIAGyGiFazE92FNhsm/DRfqZRjxkKKiVz4B+UtEp+B41oIWFzXb2CF6Dup9GOxA1
+	HCL+WuTyAoQySIxxGSt+HiEZe9b+XrvNAqIzRfSePKSq9dM9CmgNyIXylTH6z7zRZiIMndzQqXUvb
+	E1rZFWuCFabEjtjbA5lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1llIsl-0025TL-MM; Mon, 24 May 2021 22:17:07 +0000
+	id 1llJCX-002A5Y-OC; Mon, 24 May 2021 22:37:33 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ll4wj-000k0h-8l
- for linux-nvme@lists.infradead.org; Mon, 24 May 2021 07:24:18 +0000
+ id 1ll4xP-000k2Z-20
+ for linux-nvme@lists.infradead.org; Mon, 24 May 2021 07:25:00 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id BD6A867373; Mon, 24 May 2021 09:24:13 +0200 (CEST)
-Date: Mon, 24 May 2021 09:24:13 +0200
+ id 08B3867373; Mon, 24 May 2021 09:24:57 +0200 (CEST)
+Date: Mon, 24 May 2021 09:24:56 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Luis Chamberlain <mcgrof@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
  Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -57,25 +57,24 @@ Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
  Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
- linux-xtensa@linux-xtensa.org, linux-m68k@vger.kernel.org,
- linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-s390@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-bcache@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, dm-devel@redhat.com,
- drbd-dev@tron.linbit.com, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [dm-devel] [PATCH 05/26] block: add blk_alloc_disk and
- blk_cleanup_disk APIs
-Message-ID: <20210524072413.GC23890@lst.de>
+ linux-m68k@lists.linux-m68k.org, linux-xtensa@linux-xtensa.org,
+ drbd-dev@lists.linbit.com, linuxppc-dev@lists.ozlabs.org,
+ linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-mmc@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org
+Subject: Re: [PATCH 06/26] brd: convert to blk_alloc_disk/blk_cleanup_disk
+Message-ID: <20210524072456.GD23890@lst.de>
 References: <20210521055116.1053587-1-hch@lst.de>
- <20210521055116.1053587-6-hch@lst.de>
- <20210521174407.GA25291@42.do-not-panic.com>
+ <20210521055116.1053587-7-hch@lst.de>
+ <83fc5cdc-53ed-0bd3-fbe8-93d0afd20771@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210521174407.GA25291@42.do-not-panic.com>
+In-Reply-To: <83fc5cdc-53ed-0bd3-fbe8-93d0afd20771@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210524_002417_481498_95749B26 
-X-CRM114-Status: GOOD (  13.71  )
+X-CRM114-CacheID: sfid-20210524_002459_269139_065C9129 
+X-CRM114-Status: GOOD (  14.41  )
 X-Mailman-Approved-At: Mon, 24 May 2021 11:59:45 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -93,17 +92,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 21, 2021 at 05:44:07PM +0000, Luis Chamberlain wrote:
-> Its not obvious to me why using this new API requires you then to
-> set minors explicitly to 1, and yet here underneath we see the minors
-> argument passed is 0.
-> 
-> Nor is it clear from the documentation.
+On Sun, May 23, 2021 at 09:58:48AM +0200, Hannes Reinecke wrote:
+>> +	/*
+>> +	 * This is so fdisk will align partitions on 4k, because of
+>> +	 * direct_access API needing 4k alignment, returning a PFN
+>> +	 * (This is only a problem on very small devices <= 4M,
+>> +	 *  otherwise fdisk will align on 1M. Regardless this call
+>> +	 *  is harmless)
+>> +	 */
+>> +	blk_queue_physical_block_size(disk->queue, PAGE_SIZE);
+>>   
+>
+> Maybe converting the comment to refer to 'PAGE_SIZE' instead of 4k while 
+> you're at it ...
 
-Basically for all new drivers no one should set minors at all, and the
-dynamic dev_t mechanism does all the work.  For converted old drivers
-minors is set manually instead of being passed an an argument that
-should be 0 for all new drivers.
+I really do not want to touch these kinds of unrelated things here.
 
 _______________________________________________
 Linux-nvme mailing list
