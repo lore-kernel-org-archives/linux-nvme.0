@@ -2,19 +2,19 @@ Return-Path: <SRS0=b1+/=KT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63B34C04FF3
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 22:38:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F219C2B9F7
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 23:02:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EDAE5613EC
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 22:37:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDAE5613EC
+	by mail.kernel.org (Postfix) with ESMTPS id CCDDD6138C
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 May 2021 23:02:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CCDDD6138C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,24 +23,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5tODVTRCEKvWzPsWhyO+gBv8MFrzz2+1ymh/x9x+oSk=; b=dwJ8coGAidvZzE
-	gdR+kXZ0HW4vFVcgpciRl8MnxiejioSSJ0YeYrNXGntJdgyt7syn8EyeZHdfL3VvK4WcgSs6nmIwD
-	N463a33qOUo+HERWlAJobiEzyCQuolS1PzzwUB9BDKT64C48gHejbjlQObY0bk49NYPFbTKNTvq6/
-	5JhfBZxwAnJbtnIAGyGiFazE92FNhsm/DRfqZRjxkKKiVz4B+UtEp+B41oIWFzXb2CF6Dup9GOxA1
-	HCL+WuTyAoQySIxxGSt+HiEZe9b+XrvNAqIzRfSePKSq9dM9CmgNyIXylTH6z7zRZiIMndzQqXUvb
-	E1rZFWuCFabEjtjbA5lw==;
+	List-Owner; bh=h6yERHPv07Ii2kdGM8qBy+CKKdVcvnnxYjJpLipusH0=; b=WV2qNvQSOs8fW6
+	wWA065QjNdBooCc77xf6eydiAtA0lXTzZ/YEb/CEUWBUm2nJhg3g92RGHVsUrH2R5bA9DN4EnuxPY
+	3FBByChHdGcHmBZKZxOup6Pu+A4wbUr5kZGTvfdihuI0qdfp8Ouuxw54Wis5siK5FQx0BpK5EWaJ/
+	TeApuw1Wd7ucoAzV/bz6kpEz72hAEsEBqkwexYwwgDsRkKPU7rFbvxkBZsTrUjy7vU+2ZzaQBj+k5
+	955V6U3/U3YTASfq/QGpPHhosEOjYt6uQtR9SbwaI9YT/5sFD4tsvgxx6YONXrd0qHyfpWLMZZzn9
+	JziJdw4zpPBWY2X+FZ4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94 #2 (Red Hat Linux))
-	id 1llJCX-002A5Y-OC; Mon, 24 May 2021 22:37:33 +0000
+	id 1llJa0-002Fyw-C5; Mon, 24 May 2021 23:01:48 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
- id 1ll4xP-000k2Z-20
- for linux-nvme@lists.infradead.org; Mon, 24 May 2021 07:25:00 +0000
+ id 1ll4sw-000jrz-JP
+ for linux-nvme@lists.infradead.org; Mon, 24 May 2021 07:20:24 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 08B3867373; Mon, 24 May 2021 09:24:57 +0200 (CEST)
-Date: Mon, 24 May 2021 09:24:56 +0200
+ id A686B67373; Mon, 24 May 2021 09:20:13 +0200 (CEST)
+Date: Mon, 24 May 2021 09:20:13 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
+To: Luis Chamberlain <mcgrof@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
  Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -57,24 +57,25 @@ Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
  Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
+ linux-xtensa@linux-xtensa.org, linux-m68k@vger.kernel.org,
+ linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-s390@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-bcache@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, dm-devel@redhat.com,
- linux-m68k@lists.linux-m68k.org, linux-xtensa@linux-xtensa.org,
- drbd-dev@lists.linbit.com, linuxppc-dev@lists.ozlabs.org,
- linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-mmc@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org
-Subject: Re: [PATCH 06/26] brd: convert to blk_alloc_disk/blk_cleanup_disk
-Message-ID: <20210524072456.GD23890@lst.de>
+ drbd-dev@tron.linbit.com, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [dm-devel] [PATCH 01/26] block: refactor device number setup
+ in __device_add_disk
+Message-ID: <20210524072013.GA23890@lst.de>
 References: <20210521055116.1053587-1-hch@lst.de>
- <20210521055116.1053587-7-hch@lst.de>
- <83fc5cdc-53ed-0bd3-fbe8-93d0afd20771@suse.de>
+ <20210521055116.1053587-2-hch@lst.de>
+ <20210521171646.GA25017@42.do-not-panic.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <83fc5cdc-53ed-0bd3-fbe8-93d0afd20771@suse.de>
+In-Reply-To: <20210521171646.GA25017@42.do-not-panic.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210524_002459_269139_065C9129 
-X-CRM114-Status: GOOD (  14.41  )
+X-CRM114-CacheID: sfid-20210524_002022_828101_AA1F215A 
+X-CRM114-Status: GOOD (  21.12  )
 X-Mailman-Approved-At: Mon, 24 May 2021 11:59:45 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -92,21 +93,45 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, May 23, 2021 at 09:58:48AM +0200, Hannes Reinecke wrote:
->> +	/*
->> +	 * This is so fdisk will align partitions on 4k, because of
->> +	 * direct_access API needing 4k alignment, returning a PFN
->> +	 * (This is only a problem on very small devices <= 4M,
->> +	 *  otherwise fdisk will align on 1M. Regardless this call
->> +	 *  is harmless)
->> +	 */
->> +	blk_queue_physical_block_size(disk->queue, PAGE_SIZE);
->>   
->
-> Maybe converting the comment to refer to 'PAGE_SIZE' instead of 4k while 
-> you're at it ...
+On Fri, May 21, 2021 at 05:16:46PM +0000, Luis Chamberlain wrote:
+> > -	/* in consecutive minor range? */
+> > -	if (bdev->bd_partno < disk->minors) {
+> > -		*devt = MKDEV(disk->major, disk->first_minor + bdev->bd_partno);
+> > -		return 0;
+> > -	}
+> > -
+> 
+> It is not obviously clear to me, why this was part of add_disk()
+> path, and ...
+> 
+> > diff --git a/block/partitions/core.c b/block/partitions/core.c
+> > index dc60ecf46fe6..504297bdc8bf 100644
+> > --- a/block/partitions/core.c
+> > +++ b/block/partitions/core.c
+> > @@ -379,9 +380,15 @@ static struct block_device *add_partition(struct gendisk *disk, int partno,
+> >  	pdev->type = &part_type;
+> >  	pdev->parent = ddev;
+> >  
+> > -	err = blk_alloc_devt(bdev, &devt);
+> > -	if (err)
+> > -		goto out_put;
+> > +	/* in consecutive minor range? */
+> > +	if (bdev->bd_partno < disk->minors) {
+> > +		devt = MKDEV(disk->major, disk->first_minor + bdev->bd_partno);
+> > +	} else {
+> > +		err = blk_alloc_ext_minor();
+> > +		if (err < 0)
+> > +			goto out_put;
+> > +		devt = MKDEV(BLOCK_EXT_MAJOR, err);
+> > +	}
+> >  	pdev->devt = devt;
+> >  
+> >  	/* delay uevent until 'holders' subdir is created */
+> 
+> ... and why we only add this here now.
 
-I really do not want to touch these kinds of unrelated things here.
+For the genhd minors == 0 (aka GENHD_FL_EXT_DEVT) implies having to
+allocate a dynamic dev_t, so it can be folded into another conditional.
 
 _______________________________________________
 Linux-nvme mailing list
