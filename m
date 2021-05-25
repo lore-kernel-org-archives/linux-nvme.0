@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DA9C4707F
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 20:30:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 116D1C47086
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 20:31:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08EDF61408
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 20:30:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08EDF61408
+	by mail.kernel.org (Postfix) with ESMTPS id B36D661408
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 20:31:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B36D661408
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,47 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ju3XgOKvYFzEcUoU2XXwkBhDbK0dpaed18GzEJKgDyc=; b=np6Mu8RLYBsHFI
-	EuigOv4e4l0uh8nuHJ1AUqkW0eoRwD6Qt0Vr9usufAOgUVMrk6EaPLKIg8h8NeKPX0XX85/TeECcS
-	WDB0qtml+XX+ss5ot9yBPfr/nWu0tCDOKcKjyFl+U0RjrhtTIp83tRnFIBk7AmqeasMkXCS4BixQL
-	fFiLH+6nOSuOvxLhlfqmxAJp4dgEbuXE5OhpDZWzxTopGKyV0bZQUJq6lZS/5ug6I9J/XYegQSK8a
-	AErM6+4/FUOXFAMGhI/KRWgspLcMZq879dUkncXtsd8ABU+Mh9ytjcC6V7coClneIQy7qTcWt0x4j
-	Mldn6iXKYLyRcSpXODUw==;
+	List-Owner; bh=I3ARuOzSj7kI6buS8kfUMev28w7yuz3PQpLM4Tr/E3k=; b=CVDnA8HVpyUg1I
+	h9NTsWPiMfP5EungXKHNxfJckEYvw0y+mzIgM2788nNF/y/CLKOxJhbNjefy4+M1aOz7vKFtIeZOv
+	2rT2dQKSkSTK9lWzHlDxigYwoSQreb/mPH0UhnXq2upFxpRdpaW8N6PvDjtVlu0vdZPKc/VXhDgTO
+	izONDazAMvq0lZ2n5iigc7J5fP5IcA9I6hsxxiBtgJXLFix23WrTpEVRDVHj+wOzV1jgiRNY9L+fb
+	hcWUA54WaDAF0Kvo6tKORswjIDIyo3DQZjrNKsl7znKYa4D20Ta8toFmwKa7cPEe/NfZeueVm4aqd
+	m1Fh4Qc5FHmnLuUlSrnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lldgr-00868w-St; Tue, 25 May 2021 20:30:13 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+	id 1lldiG-0086Zq-CP; Tue, 25 May 2021 20:31:40 +0000
+Received: from mga01.intel.com ([192.55.52.88])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lldgl-00866P-Bm
- for linux-nvme@lists.infradead.org; Tue, 25 May 2021 20:30:09 +0000
-IronPort-SDR: P7d8jkKPQOgarGb5AvwqGxt/I9enC4ubawJ3ibGBOaNosUeSKfeOawg1BJ5De7yQcRgd9tsUz+
- Pa/06zcg70ag==
-X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="181936230"
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="181936230"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ id 1lldgn-00866p-32
+ for linux-nvme@lists.infradead.org; Tue, 25 May 2021 20:30:11 +0000
+IronPort-SDR: Mq0eZhjdXJ/4WXphGuywQJhQRklb+039Jb5yP9uAcl1VfAbGoxv0n64ln/zduIpsD6hXXZeMVA
+ W8DSKDcO7nZg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="223472532"
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="223472532"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 May 2021 13:30:06 -0700
-IronPort-SDR: Mv+Ej12w2pKfTtz1Gyof9towZQnhxeJUx84HH8TF1nGj/XBDqZVouptXRhYN7+s9Yt/hLYgVfZ
- j/Pffad+8nng==
+IronPort-SDR: EECsGgNpD/Z/ewM8r+Fcm3AbQbbgVFdJp6YyM6idbnEJJEbct2ATD6mYiJ86P5bEsZMLAPAJ9t
+ lVca09nGOvAg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="443597016"
+X-IronPort-AV: E=Sophos;i="5.82,329,1613462400"; d="scan'208";a="546844535"
 Received: from lkp-server02.sh.intel.com (HELO 1ec8406c5392) ([10.239.97.151])
- by fmsmga008.fm.intel.com with ESMTP; 25 May 2021 13:30:05 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 25 May 2021 13:30:05 -0700
 Received: from kbuild by 1ec8406c5392 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1lldgi-0001nS-Gv; Tue, 25 May 2021 20:30:04 +0000
-Date: Wed, 26 May 2021 04:29:08 +0800
+ id 1lldgi-0001nU-HM; Tue, 25 May 2021 20:30:04 +0000
+Date: Wed, 26 May 2021 04:29:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.14] BUILD SUCCESS
- 67dbcdc3689a25249092be0c851848efbcc62f38
-Message-ID: <60ad5e14.haLQBITyyJ5x5fR0%lkp@intel.com>
+Subject: [linux-nvme:nvme-5.13] BUILD SUCCESS
+ 77094a0082f4d57f45fbcd9e79e4bc354408604f
+Message-ID: <60ad5e18.sN5eyS1U4OCzxPhL%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210525_133007_522017_7A035E34 
-X-CRM114-Status: UNSURE (   6.11  )
+X-CRM114-CacheID: sfid-20210525_133009_272701_23F81AD1 
+X-CRM114-Status: UNSURE (   9.26  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -81,12 +81,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.14
-branch HEAD: 67dbcdc3689a25249092be0c851848efbcc62f38  nvme: remove nvme_{get,put}_ns_from_disk
+tree/branch: git://git.infradead.org/nvme.git nvme-5.13
+branch HEAD: 77094a0082f4d57f45fbcd9e79e4bc354408604f  nvmet-tcp: fix inline data size comparison in nvmet_tcp_queue_response
 
 elapsed time: 727m
 
-configs tested: 246
+configs tested: 236
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -104,12 +104,6 @@ sh                          kfr2r09_defconfig
 powerpc                     rainier_defconfig
 mips                         mpc30x_defconfig
 um                               alldefconfig
-mips                      malta_kvm_defconfig
-arc                            hsdk_defconfig
-arm                        realview_defconfig
-powerpc                        cell_defconfig
-mips                       lemote2f_defconfig
-powerpc                        icon_defconfig
 mips                        qi_lb60_defconfig
 arm                            hisi_defconfig
 x86_64                              defconfig
@@ -125,6 +119,7 @@ xtensa                generic_kc705_defconfig
 powerpc                      ep88xc_defconfig
 sh                               j2_defconfig
 powerpc                 mpc834x_mds_defconfig
+mips                       lemote2f_defconfig
 riscv                            allmodconfig
 arm                         cm_x300_defconfig
 sh                   sh7724_generic_defconfig
@@ -156,13 +151,10 @@ arm                            lart_defconfig
 arc                         haps_hs_defconfig
 mips                          malta_defconfig
 mips                     decstation_defconfig
+mips                      malta_kvm_defconfig
 ia64                            zx1_defconfig
 h8300                            alldefconfig
 h8300                       h8s-sim_defconfig
-mips                           rs90_defconfig
-powerpc                      ppc6xx_defconfig
-mips                       bmips_be_defconfig
-arm                           tegra_defconfig
 arm                         axm55xx_defconfig
 powerpc                 mpc8540_ads_defconfig
 powerpc                    mvme5100_defconfig
@@ -203,11 +195,14 @@ xtensa                    xip_kc705_defconfig
 powerpc                     taishan_defconfig
 um                                allnoconfig
 sh                         ap325rxa_defconfig
+mips                       bmips_be_defconfig
 m68k                        m5307c3_defconfig
 ia64                          tiger_defconfig
 arm                        vexpress_defconfig
 arm                        spear6xx_defconfig
+arm                        realview_defconfig
 powerpc                  storcenter_defconfig
+arm                           tegra_defconfig
 arm                          pxa910_defconfig
 arc                     haps_hs_smp_defconfig
 arm                           stm32_defconfig
@@ -216,6 +211,7 @@ mips                      maltaaprp_defconfig
 powerpc                       maple_defconfig
 mips                        jmr3927_defconfig
 arm                           viper_defconfig
+powerpc                        icon_defconfig
 arm                         hackkit_defconfig
 mips                           mtx1_defconfig
 powerpc                 mpc8560_ads_defconfig
@@ -226,11 +222,6 @@ mips                         tb0219_defconfig
 mips                            ar7_defconfig
 m68k                       m5249evb_defconfig
 riscv                             allnoconfig
-powerpc                    ge_imp3a_defconfig
-sh                               alldefconfig
-mips                         tb0226_defconfig
-arm                          lpd270_defconfig
-sh                   rts7751r2dplus_defconfig
 arm                     davinci_all_defconfig
 powerpc                      mgcoge_defconfig
 nds32                             allnoconfig
@@ -242,9 +233,6 @@ mips                           jazz_defconfig
 arm                        keystone_defconfig
 arm                         orion5x_defconfig
 arc                        nsimosci_defconfig
-m68k                            q40_defconfig
-powerpc                    klondike_defconfig
-arm                     am200epdkit_defconfig
 sh                          rsk7203_defconfig
 parisc                generic-32bit_defconfig
 i386                                defconfig
@@ -265,9 +253,11 @@ mips                   sb1250_swarm_defconfig
 sh                           se7705_defconfig
 m68k                        mvme16x_defconfig
 arm                             rpc_defconfig
+arc                            hsdk_defconfig
 riscv             nommu_k210_sdcard_defconfig
 sparc                            allyesconfig
 ia64                                defconfig
+mips                           rs90_defconfig
 mips                       capcella_defconfig
 arm64                            alldefconfig
 sh                        edosk7705_defconfig
