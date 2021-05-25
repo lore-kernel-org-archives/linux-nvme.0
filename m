@@ -2,145 +2,111 @@ Return-Path: <SRS0=dfbP=KU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC832C47084
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 13:46:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5206C47084
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 13:54:34 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 95ACD61404
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 13:46:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95ACD61404
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amd.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7EC1061420
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 13:54:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7EC1061420
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ZlUzt4hFJXHb7Za9wEQZwTEXtz8kWQTJjpMOizTZKEc=; b=JSQOJDFY8cl0PO
-	9m0nx+5nRveqgAP2FlIZtzCFb3mokBDYONA7yibF9sPkMIDNmVg9136eznvxrnXITeiHvCo+aeUa9
-	bUlB6+GljhZRss+XCBnhf1PObIm8UJqLPEG1LfW8uix8JlS9bZbK3GDfvNrH3ZaiAvWhn0KSDJ66k
-	ezRFL26AxWy6Y9wBzsSUmGkvL02zNzWPyGEcv9KxRhTKEk/dyP5JeEHlvwVpcunWXIHzGMLQ+7lyv
-	5Q3aGx5EZkfACLPw+/azYG2SOdAaj2FCR/HXez9OjTyeyKOjvgG4+KHUZtmAFO6R6pJof0wq15/4C
-	w5hJ0Qt/+HGJmsJxYZCw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=HNhXXmnuBaQLFdZsvuvchjFsp7IqTmDrZmwJwYm7TFA=; b=AeDyCTEGoonyV+OhEA+Xpvgqvd
+	njcpmo39kJvuwG26QcrdS6yHyEpUJXgdUeBCiuNivIvR4c3FIEb18LG+FjiYuB/jfqfxNwZIfmY1P
+	aqxNW9I5jAJheOoo4Inu+0auywYpDKQv1H2BZ20aGOoD7VwaQC2bo4MHAW7aqzpE9CWpMWPq01D06
+	N1UXvoikD2hT0y3tuvi6p7KGhvflC4ETJ4lbCGhUn477ko71jSpxdE3ZpcEKloYz4+EgTrK17S19T
+	dDMGmiUScwtiGCE+zKZ41FHyImc/kaCgtCj6qFAPfFz3P8JrVF2lI4b7tWtzdzeqIlPpk1H5KNp6y
+	0iC8qmyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1llXOG-005Qfw-J0; Tue, 25 May 2021 13:46:36 +0000
-Received: from mail-bn8nam12on2047.outbound.protection.outlook.com
- ([40.107.237.47] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1llXVs-005Tr4-18; Tue, 25 May 2021 13:54:28 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1llXHX-005OC1-TW
- for linux-nvme@lists.infradead.org; Tue, 25 May 2021 13:39:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UkJF3mHU64q/24o5esc5p5qiLK0QujpBPyQunc7Hfg+H/Iz4MyggyGObAuYvYJc4TzH/5SyFpV6svXyzK9HXRkrRGcG4aTuUg/wbcM4FyQqTSA549Sx/WJuo0ju+nEY9wGm1huOpv2oqG01qmVBu28+20hZkDZHXHBnArgm4+NqEFojqo7ULP7N+QxiGXjfOMZHdPlwCTTu7wGkJBntndBjrRPN9In9xK6mFx1jro5XeKSUeU0pM7yU8mMB+HwNa6OZMXSGDFNaZMb+sQKk5ZDpdcBotXevHIMkHz4tluQjW/gYpLuSVvCyppsfQZh53rRlPt9Y88cxvy6LvJ7mDdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XEzTDfhOnDPiRKREcM8R6dwAqVlEYbvhBMoVj6Pi94w=;
- b=oCng3I+eQDK7Vu0YuRpBHRIXGLYmrmTgb65krbHINE4ovL9AIqvjUs8shLzI7CSZUjT/t86YTrxkgSv1cW7Q3PNG4TKcmBIYXovKZAzjfZe2BhL7VOG4o0CmTB46Qcje9Eoog2NnHflXikV8fYI/4YQuMJ+I0nV4Pwyv52fgn7GM3d7ewyvnu2jbCrbjEnzZSJQopQlbpYPKDLJ1YjGk/HptflbEiCQlyMe8ZxOnbC6xFBvGEiIaZiou1fheXG3u5aGmQdyHR7cL69NlSkLINv4vRuK0m411kQOAtt+vffOZOwpZ2UFfMp2cpxkERdTMa5JPasci0XI60cvdXzCWrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XEzTDfhOnDPiRKREcM8R6dwAqVlEYbvhBMoVj6Pi94w=;
- b=q1zGv8EvT4QA5LHAvZqSlemFrcHAVTrZ5IXW25LgIwCIdEO3NCemj0lW3mP46dijn0nxM3L1xxMsGr8IxRCb5y/0sJeKcpkN+bbvzwW2QsePdKtbtavkrwNWrBxJZd0ha9qvWHuc/fNCyGH1uz5OR2r2QJU+dMN1blv9up603ms=
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
- by MN2PR12MB4013.namprd12.prod.outlook.com (2603:10b6:208:163::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20; Tue, 25 May
- 2021 13:39:30 +0000
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::116c:b06f:9a20:ebf5]) by MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::116c:b06f:9a20:ebf5%4]) with mapi id 15.20.4150.027; Tue, 25 May 2021
- 13:39:30 +0000
-From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-To: Christoph Hellwig <hch@lst.de>, "Liang, Prike" <Prike.Liang@amd.com>, Hans
- de Goede <hdegoede@redhat.com>
-CC: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "S-k, Shyam-sundar"
- <Shyam-sundar.S-k@amd.com>, "Limonciello, Mario" <Mario.Limonciello@amd.com>
-Subject: RE: [PATCH] nvme-pci: set some AMD PCIe downstream storage device to
+ id 1llXVl-005ToC-Qu
+ for linux-nvme@lists.infradead.org; Tue, 25 May 2021 13:54:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621950860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rk9FpEdpHXhpgYxjwwEYJQVlfBBmpMhpP53RFf6eh4w=;
+ b=QKMZvFsKi5SL+ilFmUtWN5uBlcCZN6fLYzeDIJhJB3moLxdQTuzb0yyDDcgGDYR5Al2Wu8
+ s78WTQhNlObg/FFW58otbZCneVM1dXGJo8Zc66+yVIsNsHAqHPlf5mtADqiq3+kQvh7fA2
+ 3ZGUM46H8fHaumhr+8BzUbzLFEX76Y8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-LR7kz_3mPvu9xVhfVFPpQA-1; Tue, 25 May 2021 09:54:17 -0400
+X-MC-Unique: LR7kz_3mPvu9xVhfVFPpQA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ z6-20020a17090665c6b02903700252d1ccso8789549ejn.10
+ for <linux-nvme@lists.infradead.org>; Tue, 25 May 2021 06:54:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Rk9FpEdpHXhpgYxjwwEYJQVlfBBmpMhpP53RFf6eh4w=;
+ b=PxS0h0TQw60AKEwU4bZJRcnYhJmPoBKpvm81w8D/jTveCAr9Mi+hTTTHYdrPzy/F6I
+ H1VIN29R3jzsOEiwS/aGJahbfvyQXnb486dewXAtOpqoKdibZEqZFQRYSoNDfJf06lKP
+ aLw2DoPG+optyw8Nmt1rYgLDlrF34QOWITgjsP3TTxX0fVpRPu8G6xUpqL0RVHJJG/2i
+ hc1LnsuJRB5y0wlrhqWOiWHEIdwXsNUtGDU1lYxZb8Qc1TErbyTrZuFaFnQUJb//nFlM
+ 08J7DeQ7MyhXotGsV65pV0rVwrUjG5p0onIybXamT4cD2UhRvMMV1rGpzvyKQF2sj46/
+ YMYQ==
+X-Gm-Message-State: AOAM530chtI0DcYtfhw3sdmBvYv1B1+TzzoBtNX6Bn+f9YYxVK1R0Y0v
+ 48NpHHQ3KOJ0uaUGGUPIZzbJxH4imZC9b8JN088Rhb3XRmRhaxURBxdJixL7KUAvCjmj92FiU+a
+ mdsUi8e9qay1Ic8/BRIZZDFNSGUA=
+X-Received: by 2002:aa7:dc17:: with SMTP id b23mr31559726edu.359.1621950856737; 
+ Tue, 25 May 2021 06:54:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRp37bczvkiT/eefp5DnH2QqUHt9q0JK5Rcsz31thNWKnpW0GO6oMuri87gXc9A4MoCHjQMQ==
+X-Received: by 2002:aa7:dc17:: with SMTP id b23mr31559705edu.359.1621950856552; 
+ Tue, 25 May 2021 06:54:16 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+ by smtp.gmail.com with ESMTPSA id a19sm10698834edv.80.2021.05.25.06.54.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 May 2021 06:54:16 -0700 (PDT)
+Subject: Re: [PATCH] nvme-pci: set some AMD PCIe downstream storage device to
  D3 for s2idle
-Thread-Topic: [PATCH] nvme-pci: set some AMD PCIe downstream storage device to
- D3 for s2idle
-Thread-Index: AQHXURCjLivNyY/YxESi16LnrA/EWqrzujiAgAB4RtA=
-Date: Tue, 25 May 2021 13:39:29 +0000
-Message-ID: <MN2PR12MB4488679A3F04ECF3B8415975F7259@MN2PR12MB4488.namprd12.prod.outlook.com>
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ Christoph Hellwig <hch@lst.de>, "Liang, Prike" <Prike.Liang@amd.com>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>
 References: <1621910939-24831-1-git-send-email-Prike.Liang@amd.com>
  <20210525062119.GA12561@lst.de>
-In-Reply-To: <20210525062119.GA12561@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2021-05-25T13:39:25Z; 
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=28e4ae25-a473-472b-9980-c484bdecb03e;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=1
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [165.204.11.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 12fff3cd-dfa8-4c6d-9910-08d91f8285d8
-x-ms-traffictypediagnostic: MN2PR12MB4013:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR12MB40139CF5E001E02E6F376AF2F7259@MN2PR12MB4013.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:669;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9N2phVKBm+lyL4A/D3KOm3whW/IwMnNgbUhcif1Hu2BFeuWQ5Fe47QYuW0r8jDWPIo5prsy6kA9CV3rwgWC2w/2K0DlRfeI12wnnChOxpOUxR2rX8FdF8wKkLvd0BdNo/ZOBEFHoyi3FKzOjIps+OsXO4w/mryuwb2lEcljtbIoNKvKBHMn835TQUmjPcUU+gnbSuCAyWYbP5D7xH4BO6b4egaA/sy0LpZqD6n1zbPRv522rAqQuuiim1J7EJMFpeCkAHuioJGeWCxce5qFs+ly9aLI4mscpoLKVN6sZ+TxceKLZvv4sSppJdgoGD1apzsIcDachyNLkwaXrAsLrGORiyItwWY4PYOQZzhK6w38yIVDYipoXAMu5BvYLQMeUJEZvmZu4Bcvb26OEBes2djWrblkAApROEzo+Mefeqk/P4SVPyDk9wpjT2P5Q1RCTrkwpuulbQ2byqOdbsIeDVoegY/BTamv731UYrfHa+zWbsmjRhOv0SYm91QlRGeMgrCvY+cjqf2fKOtrdjySRlQiUhqQF7fCl8ChfiOPStAXHOdQkZOfE74D73DbxfoNJmmuJw8cmFQRghSmf8kbbHenKuJ+6I+x6/8RMej/6L4Y=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4488.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(366004)(26005)(6506007)(53546011)(478600001)(4326008)(186003)(2906002)(76116006)(110136005)(52536014)(54906003)(7696005)(5660300002)(9686003)(8936002)(83380400001)(38100700002)(122000001)(316002)(66556008)(33656002)(66476007)(8676002)(66446008)(64756008)(86362001)(66946007)(71200400001)(55016002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?NERX/aimt2SXBvOb44Hha4kcZ67Tv26DoVHjyFFxEduTj9rlimaU5ObG1EIi?=
- =?us-ascii?Q?m7qpAaw1CpwiJCjf422VaYmD6RrPZqkYSs5XAOefW55sHg5enbicewDCQSCv?=
- =?us-ascii?Q?LnevmpYcywEwWvxgDmYJzdtp5H8HEupyU+5fTk2ROlOv7+IzX4DpJtT02OVS?=
- =?us-ascii?Q?tTjJIkky29z+nZevgjtmfjqbvfCAM9sQIgq1sgKPmDvaFMp65Fh5OZUvdfxb?=
- =?us-ascii?Q?+vKQXFNYqSftT3+VJ64ZmJTuVNFh8fvqWXx5At9ZyvtAx/Owm4tavFaF3tan?=
- =?us-ascii?Q?kqFuwDaCvHSfIS0ZRQCMpDKRWS6J2fm5WSAPcUGEOvcDsvM2O66erumaeU0i?=
- =?us-ascii?Q?Io4ssj57N3lOyOTDWojtvfmz7ttSeF0a3QynGgbVstiKMh9nQZivh+inwG0h?=
- =?us-ascii?Q?c9ghQ2Kbd0h/BFJe8yUiUHVrey7aQK+khCS0vWeonCPVZBOxYwmSyafHxvdX?=
- =?us-ascii?Q?oLPWHp4zSiYkTfA5ieTsSRHSXlbju1N6s/lphe15CZbAvvaUt2+aJlgvM6YX?=
- =?us-ascii?Q?Dv6/a2034ad3hAdWxMR52SYIlX84nPOFOFtG7BrmTFdZsbYF+rpEFWL1W+cL?=
- =?us-ascii?Q?WP7ne0axsJ6TM3aF+N2TUQeYf1LJRKfJ5gbnfqKEkR9gk8EobtirP1Pm2z/q?=
- =?us-ascii?Q?dCecfvqGIf+LGQPUH11t0tWjbcZnaq65LtLThCMmp1SY7qynp1cemOWyehs5?=
- =?us-ascii?Q?vVj6+Vim1lJ0rtECKKFA+iWzFYMXA6cikLGbsSf8LTd2qEqDbVrJjpPyNWc4?=
- =?us-ascii?Q?O5AFIOgtz0Q2P8s0UI0Qb2qrEsfRdwQvyH1Ps46kGoClflR3KWuzq9WOMFrK?=
- =?us-ascii?Q?xC7S/9iNseCKrphvO+tKYuJTZN87gKzTJTFndJrZc4cAMq94MgWmG8mn7b57?=
- =?us-ascii?Q?7YOkBq4d/MUn/gK/kBa8KtRxVYT9ug4i3Fee9zH5puchsjmKc16CbwTrMXJk?=
- =?us-ascii?Q?0HT7ZtXoHX9ItXU4jt32FFDBYGBgy+IHqGdwI3TMWx/GEeZf2VVK5r11U0vS?=
- =?us-ascii?Q?vWkK6e8F49taU5TEJbxRHjHU7PjwuGvP0I7qgGZHq7k5M99usj3gia7aTh25?=
- =?us-ascii?Q?+uywGN5VRaJoQD211Llx/oqugBbeWRZYWCrDbWVJcWFVU8iMjTfuL/fKx7oY?=
- =?us-ascii?Q?t72FkrTA67ZKmmpLdpOWMl+RF/WDHVAWBSvyZjY1e7o+tW2uPfigO26gyY1v?=
- =?us-ascii?Q?QO73hX2SvYydLDZ3PH3v1PMibYn/AVXVK5LwSbgNio88+7PFMqBWWPwX+Lwe?=
- =?us-ascii?Q?sUfYl7b4g7ADZNfWIkM6TcSjMP92n0d6uidpY2NWaD8Ju/arxC5pelafsbNx?=
- =?us-ascii?Q?8tvQRmQisC9t1oDe2ve+KAhW?=
+ <MN2PR12MB4488679A3F04ECF3B8415975F7259@MN2PR12MB4488.namprd12.prod.outlook.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <cd94fd56-7ce2-e431-4a4d-6c42e5b7a9a5@redhat.com>
+Date: Tue, 25 May 2021 15:54:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4488.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12fff3cd-dfa8-4c6d-9910-08d91f8285d8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 May 2021 13:39:29.9020 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lEtmyj7A08UgDcTlmrMH9ki5/egWWE0U8ixG/KuD8tamhzolAHwxycAMMH+nofiURa7BK0S0bvrsOgCTCGrXKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4013
+In-Reply-To: <MN2PR12MB4488679A3F04ECF3B8415975F7259@MN2PR12MB4488.namprd12.prod.outlook.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210525_063940_122585_AD69962F 
-X-CRM114-Status: GOOD (  17.94  )
+X-CRM114-CacheID: sfid-20210525_065422_008356_EEA602CD 
+X-CRM114-Status: GOOD (  25.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,56 +123,100 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[AMD Public Use]
+Hi,
 
-> -----Original Message-----
-> From: Christoph Hellwig <hch@lst.de>
-> Sent: Tuesday, May 25, 2021 2:21 AM
-> To: Liang, Prike <Prike.Liang@amd.com>
-> Cc: kbusch@kernel.org; axboe@fb.com; hch@lst.de; sagi@grimberg.me;
-> linux-nvme@lists.infradead.org; Deucher, Alexander
-> <Alexander.Deucher@amd.com>; S-k, Shyam-sundar <Shyam-sundar.S-
-> k@amd.com>; Limonciello, Mario <Mario.Limonciello@amd.com>
-> Subject: Re: [PATCH] nvme-pci: set some AMD PCIe downstream storage
-> device to D3 for s2idle
+On 5/25/21 3:39 PM, Deucher, Alexander wrote:
+> [AMD Public Use]
 > 
-> On Tue, May 25, 2021 at 10:48:59AM +0800, Prike Liang wrote:
-> > +#ifdef CONFIG_X86
-> > +#include <asm/cpu_device_id.h>
-> > +#endif
-> >
-> >  #include "trace.h"
-> >  #include "nvme.h"
-> > @@ -2828,6 +2831,16 @@ static unsigned long
-> > check_vendor_combination_bug(struct pci_dev *pdev)  }
-> >
-> >  #ifdef CONFIG_ACPI
-> > +
-> > +#ifdef CONFIG_X86
-> > +static const struct x86_cpu_id storage_d3_cpu_ids[] = {
-> > +	X86_MATCH_VENDOR_FAM_MODEL(AMD, 25, 80, NULL),
-> /*Cezanne*/
-> > +	X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 96, NULL),
-> /*Renoir*/
-> > +	X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 104,
-> NULL),/*Lucienne*/
-> > +	{}
-> > +};
-> > +#endif
+>> -----Original Message-----
+>> From: Christoph Hellwig <hch@lst.de>
+>> Sent: Tuesday, May 25, 2021 2:21 AM
+>> To: Liang, Prike <Prike.Liang@amd.com>
+>> Cc: kbusch@kernel.org; axboe@fb.com; hch@lst.de; sagi@grimberg.me;
+>> linux-nvme@lists.infradead.org; Deucher, Alexander
+>> <Alexander.Deucher@amd.com>; S-k, Shyam-sundar <Shyam-sundar.S-
+>> k@amd.com>; Limonciello, Mario <Mario.Limonciello@amd.com>
+>> Subject: Re: [PATCH] nvme-pci: set some AMD PCIe downstream storage
+>> device to D3 for s2idle
+>>
+>> On Tue, May 25, 2021 at 10:48:59AM +0800, Prike Liang wrote:
+>>> +#ifdef CONFIG_X86
+>>> +#include <asm/cpu_device_id.h>
+>>> +#endif
+>>>
+>>>  #include "trace.h"
+>>>  #include "nvme.h"
+>>> @@ -2828,6 +2831,16 @@ static unsigned long
+>>> check_vendor_combination_bug(struct pci_dev *pdev)  }
+>>>
+>>>  #ifdef CONFIG_ACPI
+>>> +
+>>> +#ifdef CONFIG_X86
+>>> +static const struct x86_cpu_id storage_d3_cpu_ids[] = {
+>>> +	X86_MATCH_VENDOR_FAM_MODEL(AMD, 25, 80, NULL),
+>> /*Cezanne*/
+>>> +	X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 96, NULL),
+>> /*Renoir*/
+>>> +	X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 104,
+>> NULL),/*Lucienne*/
+>>> +	{}
+>>> +};
+>>> +#endif
+>>
+>> This is completely unacceptable.  The NVMe driver could not care less what
+>> CPU we on.  We need information from the PCI or power managment core
+>> on how broken the power management of the root port is, not this kind of
+>> crap in a low-level driver, with potentially many more needing the same kind
+>> of quirk in the future.
 > 
-> This is completely unacceptable.  The NVMe driver could not care less what
-> CPU we on.  We need information from the PCI or power managment core
-> on how broken the power management of the root port is, not this kind of
-> crap in a low-level driver, with potentially many more needing the same kind
-> of quirk in the future.
+> Hans,
+> 
+> Any ideas on how to handle this at that platform level?  We need to select the NVME_QUIRK_SIMPLE_SUSPEND flag on certain AMD platforms.  This is a platform firmware requirement.  It's not an NVME specific requirement, it's not a PCIe specific requirement, it's a platform specific requirement.  DMI matching doesn't really make sense because it affects all AMD platforms of a certain generation.
 
-Hans,
+Honestly I can understand that Christoph is a bit unhappy about this, but
+the nvme driver seems like the right place for this to me and it is
+already doing DMI based quirking for 1 specific Lenovo model, I don't
+see why that would be ok, but a CPU-id based check would not be ok.
 
-Any ideas on how to handle this at that platform level?  We need to select the NVME_QUIRK_SIMPLE_SUSPEND flag on certain AMD platforms.  This is a platform firmware requirement.  It's not an NVME specific requirement, it's not a PCIe specific requirement, it's a platform specific requirement.  DMI matching doesn't really make sense because it affects all AMD platforms of a certain generation.
+Both are ugly, yet both are unfortunately sometimes necessary.
 
-Thanks,
+Reading Christoph's reply a second time though, I believe that what
+Christoph is trying to say, that this seems to be related to some
+special suspend demands stemming from using the pci-e root ports
+from the CPU, if instead the NVME device where situated behind
+some pci-e switch, then the link to that switch would need to
+power-down for the CPU's deep-sleep demands to be met, so this
+really should be a (probably new?) flag on the pci-e parent of the
+NVME device and then the nvme/host/pci.c code would set the
+NVME_QUIRK_SIMPLE_SUSPEND flag based on the flag on its pci-e
+parent, rather then having the CPU-id check inside the nvme code.
 
-Alex
+IOW I believe what Christoph is suggesting is the following:
+
+1. Add some new flag (or some-such) to pci-e ports/links inside
+Linux to signal the requirement for the link to be turned off
+during suspend (or whatever the requirement actually is).
+
+2. Make the drivers/pci code set that flag on the pci-e root
+ports of the AMD CPUs which need this (based on the CPU-id as
+done in the original patch).
+
+3. Have the nvme/host/pci.c code would set the
+NVME_QUIRK_SIMPLE_SUSPEND flag based on the new pci-e port/link
+flag.
+
+Christoph have I understood correctly that this is more or less
+what you are asking for ?
+
+Note I don't know it this actually makes sense, because I don't
+know all the details here. I believe that AMD is in the best
+position to decide if this makes sense or not.
+
+Regards,
+
+Hans
+
+
 
 _______________________________________________
 Linux-nvme mailing list
