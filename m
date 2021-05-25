@@ -2,76 +2,88 @@ Return-Path: <SRS0=dfbP=KU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E60CEC2B9F8
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 16:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5974FC2B9F8
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 17:03:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A37F861408
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 16:22:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A37F861408
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id F185661408
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 May 2021 17:03:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F185661408
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=qp642uYDW0irHjM00XNTaR/O8dZuHIBwhWa2Jrjd9kc=; b=AQ1rFoGjOHAsRW
-	teC1ACV7BUSZkjwU0Iedpm6BDjORgiCuZqqw8u+dmBjAQv90gJk875TkMJBVHYRLfHpVm3eecJHpb
-	o5zUYUCIKFMgxXmAlg2K8OJNV9cmvQv3/4jgrmr+LGtQV6nLSIPfyygy1MHBTbyRoIVzt+6R1iPWk
-	hcxdpbNd39wPD/L36H7vUdY/gF636Gu98OY5WGF9tWfxeIP3WvqRbIfavgGUKgONXAqtDIF5csjwf
-	7ptRFgb01cFqy0dIP8F+gjLjxqd6V94Uds5Wn5d0fDOxRpkL5/Qh7bR7tkb52do4QN6k/H29eHm+C
-	VGlF3YNMSyiqx3cpvWMQ==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=KiQJvPQR5VbP3IuNeLzLgX2PJANwK6NI82GnnCjvmS8=; b=Ot8QEtwHrPyhcj
+	n2Y/H6jN6yDfm0uqi3ocpIU3RPMujPLbQzux/j+KwwMhDtTzg42hoQlu8AyqXMRP20wLvUoDfXn19
+	SLyNKPb9q5kg5AO1hYsnN7Ulc3Z/3zIXq4GzGDreragApBfJttJySQFTREXl0rUkMoaO/cdHs+LbS
+	6qhoAqNkGps6Kz6xZ4BxrERpd4TAAMPOxJ7Z3fkplKfRsAnlCQ9gTnh54kLzWUoT8ZBhn+RO1CZMs
+	+tZY4buhSp4u1yM3oprvnsgpV9bTSdeZKAFCO5H5IeOdpqClucA59aleYfUdOT4b1BplkN0Q9NRyL
+	80EQ1oPD7CFxjYxdxXQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1llZoh-006Nov-TM; Tue, 25 May 2021 16:22:04 +0000
-Received: from mail-pl1-f177.google.com ([209.85.214.177])
+	id 1llaSU-006gZ1-NI; Tue, 25 May 2021 17:03:10 +0000
+Received: from youngberry.canonical.com ([91.189.89.112])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1llZTB-006DGy-PR
- for linux-nvme@lists.infradead.org; Tue, 25 May 2021 15:59:51 +0000
-Received: by mail-pl1-f177.google.com with SMTP id u7so8008522plq.4
- for <linux-nvme@lists.infradead.org>; Tue, 25 May 2021 08:59:49 -0700 (PDT)
+ id 1llaFT-006ZxU-AY
+ for linux-nvme@lists.infradead.org; Tue, 25 May 2021 16:49:44 +0000
+Received: from mail-lf1-f70.google.com ([209.85.167.70])
+ by youngberry.canonical.com with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <kai.heng.feng@canonical.com>) id 1llaFP-0002aa-0y
+ for linux-nvme@lists.infradead.org; Tue, 25 May 2021 16:49:39 +0000
+Received: by mail-lf1-f70.google.com with SMTP id
+ i132-20020a19868a0000b029029da805524aso109352lfd.20
+ for <linux-nvme@lists.infradead.org>; Tue, 25 May 2021 09:49:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WcCm8z3GYXQMFTEEg55Tg3XehkEIVqYlJHNCXlbMklM=;
- b=rqGUtiW6/6ywSe41jKVbsIMRJNQ8eHMV7DVjbZXc47fPpMVWKCJ1HijTjq3DS3iHjj
- N5rYc6PhfBW+hE5bhSdkj+1tfv/67WLjz0pSU65JfwRPt33Efzda2UKjxNaSQOOCD+8R
- SabDJ8TfsT8F4d+VdjRzMbkFrBqGNKX+odRtjTQaVRR1FbdFBj7K94VYGaLHRvRdA/UI
- JtugRAr48Q6cVA8P93B2Uuub2QyhsRyFZ5iDye/qPnOKbsxQc3OOVSuyrB13Qs149PwJ
- 2B8GkK/MbTIyJUtL4pNN/YtxuYSz1a6ceia8tuWDpw4XQQfglN3qyxKnnXK+Iqaj7XOY
- ZDzA==
-X-Gm-Message-State: AOAM532MUh4FM04TwV2MVIYA2sAWNyxR2t6X8cTCAvQ6ZUHYrFEVIy39
- KSIs3J3S9RTFU88nEUPCKNwT/TOSJoI=
-X-Google-Smtp-Source: ABdhPJy8z+yrdK7PTXeogyWK4iv3zxD2+KFQWRQkoSkPMrDR7s/ewepdrS+u9RcdOQd3s7vPCcM9lA==
-X-Received: by 2002:a17:902:c112:b029:f0:d571:8fb0 with SMTP id
- 18-20020a170902c112b02900f0d5718fb0mr31410652pli.11.1621958388609; 
- Tue, 25 May 2021 08:59:48 -0700 (PDT)
-Received: from sagi-Latitude-7490.hsd1.ca.comcast.net
- ([2601:647:4802:9070:4f6:7b8c:d4a2:7714])
- by smtp.gmail.com with ESMTPSA id w11sm13721901pfc.79.2021.05.25.08.59.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 May 2021 08:59:48 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme: Have NVME_FABRICS select NVME_CORE instead of transport
- drivers
-Date: Tue, 25 May 2021 08:59:46 -0700
-Message-Id: <20210525155946.2249322-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YJaCYdrDxV6hFjr7P9dKxuwmpFAJtjJ9oxxDaSIJ6Go=;
+ b=FuZTQWbLhfjzSQ1PjjWIGYwDac/Z+vbEbU8QOntyME7KZ3fLChf7ZwbDYiL2eMqhBQ
+ 0N8MQ65nyJaVcZV+qHSVpvLcbpmjWoEIv2ID0VlzYA6irTJJdDzhtPTqy+3519R7Mi2m
+ jogwSPBP6yStSE8VUxZwXfO019qYKbI8jlx17Gfj4weF/3T52fVAk30dlSo1HsTMFbph
+ mScGkkQgi8anj6a6jyi54ZDMkwAiKrs6/kMvRrHgVdtraGdr6ivYhWmZyTeLrHJ+NwD2
+ S8/lfaFvd89sHN7Dg8Vs7+OiSisC99kHTe9I42RCbxOQt/LvqdL4ywD4NHRRuUsidAYr
+ wJ3A==
+X-Gm-Message-State: AOAM531QuIdLXWkmh3DnEB9ZkQCUeUHfZ+Asz/c7a8FB73BqEOXgKO1n
+ ja1V22rf9xGWzj/iYpG0zMPzGH87AAgkWj+hPb5mYkdBLth++48PMeuvOUP0UzajU9WQkQhoxVH
+ KR9Ucr4s5i1hIH7YrLH9QTLxxtHEv2yscFkr3eVFKzhNr8tUZWtSyt2z5IWav
+X-Received: by 2002:a05:6512:1153:: with SMTP id
+ m19mr8111641lfg.290.1621961378502; 
+ Tue, 25 May 2021 09:49:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJymQiimH+CbsO7SXttRtmgzlQND/9nKiElblzw2Wx5kB4zclyWI8q+1Em3tAhbyMgEgXsZlONs6r6p26Y0E4nY=
+X-Received: by 2002:a05:6512:1153:: with SMTP id
+ m19mr8111630lfg.290.1621961378269; 
+ Tue, 25 May 2021 09:49:38 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210520033315.490584-1-koba.ko@canonical.com>
+ <20210525074426.GA14916@lst.de>
+In-Reply-To: <20210525074426.GA14916@lst.de>
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Date: Wed, 26 May 2021 00:49:26 +0800
+Message-ID: <CAAd53p7Qw1d+P_SirjOT=6YLvap+OLGAgdeW7dyMUwbqdHHfyQ@mail.gmail.com>
+Subject: Re: [PATCH] nvme-pci: Avoid to go into d3cold if device can't use
+ npss.
+To: Christoph Hellwig <hch@lst.de>
+Cc: Koba Ko <koba.ko@canonical.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, 
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme <linux-nvme@lists.infradead.org>, 
+ LKML <linux-kernel@vger.kernel.org>,
+ Henrik Juul Hansen <hjhansen2020@gmail.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Linux PCI <linux-pci@vger.kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210525_085949_858334_E3B3CE4D 
-X-CRM114-Status: GOOD (  10.96  )
+X-CRM114-CacheID: sfid-20210525_094943_428623_461BD1D3 
+X-CRM114-Status: GOOD (  21.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,53 +100,54 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Transport drivers need both core and fabrics modules, instead of
-selecting both, have the selection transitive such that NVME_FABRICS
-selects NVME_CORE and transport drivers select NVME_FABRICS.
+On Tue, May 25, 2021 at 3:44 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Thu, May 20, 2021 at 11:33:15AM +0800, Koba Ko wrote:
+> > After resume, host can't change power state of the closed controller
+> > from D3cold to D0.
+>
+> Why?
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/Kconfig | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+IIUC it's a regression introduced by commit b97120b15ebd ("nvme-pci:
+use simple suspend when a HMB is enabled"). The affected NVMe is using
+HMB.
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index c0826b3c617c..b6b731db0353 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -33,12 +33,12 @@ config NVME_HWMON
- 	  in the system.
- 
- config NVME_FABRICS
-+	select NVME_CORE
- 	tristate
- 
- config NVME_RDMA
- 	tristate "NVM Express over Fabrics RDMA host driver"
- 	depends on INFINIBAND && INFINIBAND_ADDR_TRANS && BLOCK
--	select NVME_CORE
- 	select NVME_FABRICS
- 	select SG_POOL
- 	help
-@@ -55,7 +55,6 @@ config NVME_FC
- 	tristate "NVM Express over Fabrics FC host driver"
- 	depends on BLOCK
- 	depends on HAS_DMA
--	select NVME_CORE
- 	select NVME_FABRICS
- 	select SG_POOL
- 	help
-@@ -71,7 +70,6 @@ config NVME_FC
- config NVME_TCP
- 	tristate "NVM Express over Fabrics TCP host driver"
- 	depends on INET
--	select NVME_CORE
- 	select NVME_FABRICS
- 	select CRYPTO
- 	select CRYPTO_CRC32C
--- 
-2.27.0
+That commit intentionally put the device to D3hot instead of D0 on
+suspend, as the root port of the NVMe device has _PR3, the NVMe was
+put to D3cold as a result. I believe because the other OS doesn't put
+the NVMe to D3cold, so turning off the power resource is untested by
+the vendor.
 
+I think the proper fix would be reverting that commit, and
+teardown/setup DMA on suspend/resume for HMB NVMes.
+
+Kai-Heng
+
+>
+> > For these devices, just avoid to go deeper than d3hot.
+>
+> What are "these devices"?
+>
+> > @@ -2958,6 +2959,15 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> >
+> >       dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+> >
+> > +     if (pm_suspend_via_firmware() || !dev->ctrl.npss ||
+> > +         !pcie_aspm_enabled(pdev) ||
+> > +         dev->nr_host_mem_descs ||
+> > +         (dev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND)) {
+>
+> Before we start open coding this in even more places we really want a
+> little helper function for these checks, which should be accomodated with
+> the comment near the existing copy of the checks.
+>
+> > +             pdev->d3cold_allowed = false;
+> > +             pci_d3cold_disable(pdev);
+> > +             pm_runtime_resume(&pdev->dev);
+>
+> Why do we need to both set d3cold_allowed and call pci_d3cold_disable?
+>
+> What is the pm_runtime_resume doing here?
 
 _______________________________________________
 Linux-nvme mailing list
